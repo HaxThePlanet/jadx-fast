@@ -205,10 +205,10 @@ public class PrecomputedTextCompat implements Spannable {
     }
 
     public static androidx.core.text.PrecomputedTextCompat create(java.lang.CharSequence text, androidx.core.text.PrecomputedTextCompat.Params params) {
-        int i;
+        int i2;
         int paraStart;
         Integer valueOf;
-        int i2;
+        int i;
         int paraEnd;
         int intValue;
         Preconditions.checkNotNull(text);
@@ -220,7 +220,7 @@ public class PrecomputedTextCompat implements Spannable {
             return precomputedTextCompat;
         }
         ArrayList arrayList = new ArrayList();
-        i = 0;
+        i2 = 0;
         final int length = text.length();
         paraStart = 0;
         while (paraStart < length) {
@@ -228,16 +228,16 @@ public class PrecomputedTextCompat implements Spannable {
             if (paraEnd < 0) {
             } else {
             }
-            i = paraEnd;
-            arrayList.add(Integer.valueOf(i));
-            paraStart = i;
-            i = length;
+            i2 = paraEnd;
+            arrayList.add(Integer.valueOf(i2));
+            paraStart = i2;
+            i2 = length;
         }
         int[] iArr = new int[arrayList.size()];
-        i2 = 0;
-        while (i2 < arrayList.size()) {
-            iArr[i2] = (Integer)arrayList.get(i2).intValue();
-            i2++;
+        i = 0;
+        while (i < arrayList.size()) {
+            iArr[i] = (Integer)arrayList.get(i).intValue();
+            i++;
         }
         StaticLayout.Builder.obtain(text, 0, text.length(), params.getTextPaint(), Integer.MAX_VALUE).setBreakStrategy(params.getBreakStrategy()).setHyphenationFrequency(params.getHyphenationFrequency()).setTextDirection(params.getTextDirection()).build();
         PrecomputedTextCompat precomputedTextCompat2 = new PrecomputedTextCompat(text, params, iArr);

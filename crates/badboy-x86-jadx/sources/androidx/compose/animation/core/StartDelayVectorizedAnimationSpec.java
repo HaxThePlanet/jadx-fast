@@ -66,14 +66,14 @@ final class StartDelayVectorizedAnimationSpec<V extends androidx.compose.animati
     public V getVelocityFromNanos(long playTimeNanos, V initialValue, V targetValue, V initialVelocity) {
         androidx.compose.animation.core.VectorizedAnimationSpec vectorizedAnimationSpec;
         int i;
-        androidx.compose.animation.core.AnimationVector animationVector;
         androidx.compose.animation.core.AnimationVector animationVector2;
         androidx.compose.animation.core.AnimationVector animationVector3;
+        androidx.compose.animation.core.AnimationVector animationVector;
         androidx.compose.animation.core.AnimationVector obj10;
         if (Long.compare(playTimeNanos, startDelayNanos) < 0) {
-            animationVector = targetValue;
-            animationVector2 = initialVelocity;
-            animationVector3 = obj10;
+            animationVector2 = targetValue;
+            animationVector3 = initialVelocity;
+            animationVector = obj10;
         } else {
             obj10 = this.vectorizedAnimationSpec.getVelocityFromNanos(playTimeNanos - startDelayNanos2, obj3, targetValue, initialVelocity);
         }

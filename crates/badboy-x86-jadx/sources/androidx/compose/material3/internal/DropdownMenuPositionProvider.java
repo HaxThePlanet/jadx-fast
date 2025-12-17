@@ -114,16 +114,16 @@ public final class DropdownMenuPositionProvider implements PopupPositionProvider
         int lastIndex;
         androidx.compose.material3.internal.MenuPosition.Vertical bottomToWindowBottom;
         int y;
-        int width-impl;
-        int index2;
         int width-impl2;
+        int index;
+        int width-impl;
         int position-JVtK1S4;
         int verticalMargin;
         int i2;
         int i;
         int x;
         int verticalMargin2;
-        int index;
+        int index2;
         verticalMargin = 3;
         androidx.compose.material3.internal.MenuPosition.Horizontal[] arr = new MenuPosition.Horizontal[verticalMargin];
         i2 = 0;
@@ -135,10 +135,10 @@ public final class DropdownMenuPositionProvider implements PopupPositionProvider
         arr[i] = rightToWindowRight;
         final List list = listOf;
         x = 0;
-        index = position-95KtPRI;
-        while (index < list.size()) {
-            position-95KtPRI = (MenuPosition.Horizontal)list.get(index).position-95KtPRI(anchorBounds, windowSize, width-impl, IntSize.getWidth-impl(obj19));
-            index++;
+        index2 = position-95KtPRI;
+        while (index2 < list.size()) {
+            position-95KtPRI = (MenuPosition.Horizontal)list.get(index2).position-95KtPRI(anchorBounds, windowSize, width-impl2, IntSize.getWidth-impl(obj19));
+            index2++;
         }
         rightToWindowRight = anchorBounds;
         androidx.compose.material3.internal.MenuPosition.Vertical[] arr2 = new MenuPosition.Vertical[4];
@@ -149,12 +149,12 @@ public final class DropdownMenuPositionProvider implements PopupPositionProvider
         arr2[verticalMargin] = bottomToWindowBottom;
         List listOf2 = CollectionsKt.listOf(arr2);
         y = 0;
-        index2 = 0;
+        index = 0;
         int size = listOf2.size();
-        while (index2 < size) {
+        while (index < size) {
             i2 = windowSize;
-            position-JVtK1S4 = (MenuPosition.Vertical)listOf2.get(index2).position-JVtK1S4(anchorBounds, i2, i5);
-            index2++;
+            position-JVtK1S4 = (MenuPosition.Vertical)listOf2.get(index).position-JVtK1S4(anchorBounds, i2, i5);
+            index++;
         }
         i2 = windowSize;
         long l2 = IntOffsetKt.IntOffset(x, y);

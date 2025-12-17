@@ -182,11 +182,11 @@ public final class SnapshotKt {
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         Object previousGlobalSnapshot;
         androidx.collection.MutableScatterSet modified;
-        int i3;
+        int i;
         int it;
         Object lock;
-        int i;
         int i2;
+        int i5;
         AtomicInt pendingApplyObserverCount;
         Function1 function1;
         List list;
@@ -194,23 +194,23 @@ public final class SnapshotKt {
         int index$iv;
         int size;
         Object metadata;
-        Object obj3;
+        Object obj;
         int i$iv$iv;
         androidx.collection.MutableScatterSet set;
         long slot$iv$iv;
         androidx.collection.MutableScatterSet $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i4;
-        Object obj2;
-        int i5;
+        int i3;
+        Object obj3;
+        int $i$a$SyncSnapshotKt$advanceGlobalSnapshot$2;
         long l;
-        Object obj;
-        int i6;
-        int i7 = 0;
+        Object obj2;
+        int i4;
+        int i6 = 0;
         Intrinsics.checkNotNull(SnapshotKt.snapshotInitializer, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.GlobalSnapshot");
-        int i11 = 0;
-        i3 = 0;
-        lock = SnapshotKt.getLock();
+        int i10 = 0;
         i = 0;
+        lock = SnapshotKt.getLock();
+        i2 = 0;
         observers = 0;
         previousGlobalSnapshot = obj4;
         modified = modified$runtime_release;
@@ -220,34 +220,34 @@ public final class SnapshotKt {
             }
             it = 0;
             Object lock2 = SnapshotKt.getLock();
-            int i14 = 0;
+            int i13 = 0;
             $this$maskEmptyOrDeleted$iv$iv$iv = 0;
             SnapshotKt.checkAndOverwriteUnusedRecordsLocked();
             synchronized (lock2) {
-                i2 = modified;
+                i5 = modified;
                 list = 0;
                 size = 0;
                 metadata = index$iv.metadata;
                 length += -2;
-                if (0 <= obj3) {
+                if (0 <= obj) {
                 } else {
-                    i5 = $this$maskEmptyOrDeleted$iv$iv$iv;
-                    obj2 = previousGlobalSnapshot;
+                    $i$a$SyncSnapshotKt$advanceGlobalSnapshot$2 = $this$maskEmptyOrDeleted$iv$iv$iv;
+                    obj3 = previousGlobalSnapshot;
                     $this$maskEmptyOrDeleted$iv$iv$iv2 = modified;
-                    i4 = it;
+                    i3 = it;
                 }
                 $this$maskEmptyOrDeleted$iv$iv$iv = Unit.INSTANCE;
                 try {
                     return SnapshotKt.takeNewGlobalSnapshot((Snapshot)previousGlobalSnapshot, block);
-                    obj2 = obj1;
+                    obj3 = obj1;
                     $this$maskEmptyOrDeleted$iv$iv$iv2 = obj2;
-                    i4 = obj3;
+                    i3 = obj3;
                     throw th;
                     function1 = block;
-                    obj2 = obj1;
+                    obj3 = obj1;
                     $this$maskEmptyOrDeleted$iv$iv$iv2 = obj2;
                     function1 = block;
-                    obj2 = obj1;
+                    obj3 = obj1;
                 } catch (Throwable th) {
                 }
                 throw th;
@@ -261,7 +261,7 @@ public final class SnapshotKt {
             i$iv$iv = 0;
             (Function2)list.get(index$iv).invoke(ScatterSetWrapperKt.wrapIntoSet((ScatterSet)modified), previousGlobalSnapshot);
             index$iv++;
-            i2 = 1;
+            i5 = 1;
         }
         SnapshotKt.pendingApplyObserverCount.add(-1);
     }
@@ -272,41 +272,41 @@ public final class SnapshotKt {
 
     private static final void checkAndOverwriteUnusedRecordsLocked() {
         int currentUsed$iv;
-        int i$iv2;
         int i$iv;
-        int i;
+        int i$iv2;
+        int i2;
         WeakReference hashes$runtime_release2;
         int hashes$runtime_release;
-        int i2;
+        int i;
         boolean overwriteUnusedRecordsLocked;
         final androidx.compose.runtime.snapshots.SnapshotWeakSet extraStateObjects = SnapshotKt.extraStateObjects;
         final int i3 = 0;
         final int size$runtime_release = extraStateObjects.getSize$runtime_release();
         currentUsed$iv = 0;
-        i$iv2 = 0;
-        while (i$iv2 < size$runtime_release) {
-            hashes$runtime_release2 = extraStateObjects.getValues$runtime_release()[i$iv2];
+        i$iv = 0;
+        while (i$iv < size$runtime_release) {
+            hashes$runtime_release2 = extraStateObjects.getValues$runtime_release()[i$iv];
             if (hashes$runtime_release2 != null) {
             }
-            i2 = 0;
-            if (i != 0 && SnapshotKt.overwriteUnusedRecordsLocked((StateObject)i) && currentUsed$iv != i$iv2) {
+            i = 0;
+            if (i2 != 0 && SnapshotKt.overwriteUnusedRecordsLocked((StateObject)i2) && currentUsed$iv != i$iv) {
             }
-            i$iv2++;
-            i2 = 0;
-            if (SnapshotKt.overwriteUnusedRecordsLocked((StateObject)i)) {
+            i$iv++;
+            i = 0;
+            if (SnapshotKt.overwriteUnusedRecordsLocked((StateObject)i2)) {
             }
-            if (currentUsed$iv != i$iv2) {
+            if (currentUsed$iv != i$iv) {
             }
             currentUsed$iv++;
             extraStateObjects.getValues$runtime_release()[currentUsed$iv] = hashes$runtime_release2;
-            extraStateObjects.getHashes$runtime_release()[currentUsed$iv] = extraStateObjects.getHashes$runtime_release()[i$iv2];
-            i = hashes$runtime_release2.get();
+            extraStateObjects.getHashes$runtime_release()[currentUsed$iv] = extraStateObjects.getHashes$runtime_release()[i$iv];
+            i2 = hashes$runtime_release2.get();
         }
-        i$iv = currentUsed$iv;
-        while (i$iv < size$runtime_release) {
-            extraStateObjects.getValues$runtime_release()[i$iv] = 0;
-            extraStateObjects.getHashes$runtime_release()[i$iv] = 0;
-            i$iv++;
+        i$iv2 = currentUsed$iv;
+        while (i$iv2 < size$runtime_release) {
+            extraStateObjects.getValues$runtime_release()[i$iv2] = 0;
+            extraStateObjects.getHashes$runtime_release()[i$iv2] = 0;
+            i$iv2++;
         }
         if (currentUsed$iv != size$runtime_release) {
             extraStateObjects.setSize$runtime_release(currentUsed$iv);
@@ -315,9 +315,9 @@ public final class SnapshotKt {
 
     private static final androidx.compose.runtime.snapshots.Snapshot createTransparentSnapshotWithNoParentReadObserver(androidx.compose.runtime.snapshots.Snapshot previousSnapshot, Function1<Object, Unit> readObserver, boolean ownsPreviousSnapshot) {
         androidx.compose.runtime.snapshots.Snapshot transparentObserverSnapshot;
-        int i2;
-        int transparentObserverMutableSnapshot;
         int i;
+        int transparentObserverMutableSnapshot;
+        int i2;
         Function1 function1;
         int i3;
         int i4;
@@ -325,11 +325,11 @@ public final class SnapshotKt {
         if (!previousSnapshot instanceof MutableSnapshot) {
             if (previousSnapshot == null) {
                 if (previousSnapshot instanceof MutableSnapshot) {
-                    i2 = previousSnapshot;
+                    i = previousSnapshot;
                 } else {
-                    i2 = 0;
+                    i = 0;
                 }
-                transparentObserverMutableSnapshot = new TransparentObserverMutableSnapshot(i2, readObserver, 0, 0, ownsPreviousSnapshot);
+                transparentObserverMutableSnapshot = new TransparentObserverMutableSnapshot(i, readObserver, 0, 0, ownsPreviousSnapshot);
                 transparentObserverSnapshot = transparentObserverMutableSnapshot;
             } else {
                 transparentObserverSnapshot = new TransparentObserverSnapshot(previousSnapshot, readObserver, 0, ownsPreviousSnapshot);
@@ -355,26 +355,26 @@ public final class SnapshotKt {
 
     public static final <T extends androidx.compose.runtime.snapshots.StateRecord> T current(T r) {
         androidx.compose.runtime.snapshots.StateRecord readable;
-        Object invalid$runtime_release2;
+        Object invalid$runtime_release;
         int i;
         Throwable th;
         androidx.compose.runtime.snapshots.Snapshot current;
         int i2;
         androidx.compose.runtime.snapshots.StateRecord readable2;
-        androidx.compose.runtime.snapshots.SnapshotIdSet invalid$runtime_release;
+        androidx.compose.runtime.snapshots.SnapshotIdSet invalid$runtime_release2;
         androidx.compose.runtime.snapshots.Snapshot current2 = Snapshot.Companion.getCurrent();
         final int i3 = 0;
         if (SnapshotKt.readable(r, current2.getId(), current2.getInvalid$runtime_release()) == null) {
             int i4 = 0;
-            invalid$runtime_release2 = SnapshotKt.getLock();
+            invalid$runtime_release = SnapshotKt.getLock();
             i = 0;
             th = 0;
             current = Snapshot.Companion.getCurrent();
             i2 = 0;
             readable2 = SnapshotKt.readable(r, current.getId(), current.getInvalid$runtime_release());
-            synchronized (invalid$runtime_release2) {
+            synchronized (invalid$runtime_release) {
                 i4 = 0;
-                invalid$runtime_release2 = SnapshotKt.getLock();
+                invalid$runtime_release = SnapshotKt.getLock();
                 i = 0;
                 th = 0;
                 current = Snapshot.Companion.getCurrent();
@@ -533,10 +533,10 @@ public final class SnapshotKt {
 
     private static final Map<androidx.compose.runtime.snapshots.StateRecord, androidx.compose.runtime.snapshots.StateRecord> optimisticMerges(androidx.compose.runtime.snapshots.MutableSnapshot currentSnapshot, androidx.compose.runtime.snapshots.MutableSnapshot applyingSnapshot, androidx.compose.runtime.snapshots.SnapshotIdSet invalidSnapshots) {
         androidx.collection.MutableScatterSet first;
-        int id;
+        int id2;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         androidx.compose.runtime.snapshots.SnapshotIdSet set;
-        int start;
+        int start2;
         androidx.collection.MutableScatterSet readable;
         int mergeRecords;
         int i$iv$iv;
@@ -544,23 +544,23 @@ public final class SnapshotKt {
         androidx.collection.MutableScatterSet $this$maskEmptyOrDeleted$iv$iv$iv2;
         int result;
         int i7;
-        int i6;
-        int start2;
-        androidx.compose.runtime.snapshots.SnapshotIdSet id2;
+        int i;
+        int start;
+        androidx.compose.runtime.snapshots.SnapshotIdSet id;
         int start3;
         long l;
-        int i;
+        int i5;
         int i4;
         androidx.collection.MutableScatterSet modified;
-        int i5;
+        int i3;
         androidx.compose.runtime.snapshots.SnapshotIdSet previous;
         androidx.compose.runtime.snapshots.StateRecord stateRecord;
-        int i2;
+        int i8;
         androidx.compose.runtime.snapshots.StateRecord first2;
         int hashMap;
         HashMap map;
-        int i8;
-        int i3;
+        int i2;
+        int i6;
         first = applyingSnapshot.getModified$runtime_release();
         if (first == null) {
             return 0;
@@ -572,12 +572,12 @@ public final class SnapshotKt {
         if (0 <= i17) {
         } else {
             modified = first;
-            start2 = id;
+            start = id2;
             previous = set;
-            first = start;
+            first = start2;
             $this$maskEmptyOrDeleted$iv$iv$iv2 = readable;
-            i2 = mergeRecords;
-            result = start;
+            i8 = mergeRecords;
+            result = start2;
         }
         return (Map)result;
     }
@@ -644,32 +644,32 @@ public final class SnapshotKt {
         int overwriteRecord;
         int validRecord;
         int retainedRecords;
-        int i;
         int i2;
-        int snapshotId$runtime_release4;
+        int i;
+        int snapshotId$runtime_release3;
         androidx.compose.runtime.snapshots.StateRecord stateRecord;
         int snapshotId$runtime_release;
         int i3;
         androidx.compose.runtime.snapshots.StateRecord current$iv;
         androidx.compose.runtime.snapshots.StateRecord youngest$iv;
         int it;
-        int snapshotId$runtime_release3;
         int snapshotId$runtime_release2;
+        int snapshotId$runtime_release4;
         current = state.getFirstStateRecord();
         overwriteRecord = 0;
         validRecord = 0;
         int lowestOrDefault = SnapshotKt.pinningTable.lowestOrDefault(SnapshotKt.nextSnapshotId);
         retainedRecords = 0;
-        i = 0;
-        i2 = 1;
+        i2 = 0;
+        i = 1;
         while (current != null) {
-            snapshotId$runtime_release4 = current.getSnapshotId$runtime_release();
-            if (snapshotId$runtime_release4 != 0) {
+            snapshotId$runtime_release3 = current.getSnapshotId$runtime_release();
+            if (snapshotId$runtime_release3 != 0) {
             }
             current = current.getNext$runtime_release();
-            i = 0;
-            i2 = 1;
-            if (snapshotId$runtime_release4 < lowestOrDefault) {
+            i2 = 0;
+            i = 1;
+            if (snapshotId$runtime_release3 < lowestOrDefault) {
             } else {
             }
             retainedRecords++;
@@ -683,31 +683,31 @@ public final class SnapshotKt {
             validRecord = current;
             if (overwriteRecord == 0) {
             }
-            stateRecord.setSnapshotId$runtime_release(i);
+            stateRecord.setSnapshotId$runtime_release(i2);
             stateRecord.assign(overwriteRecord);
             snapshotId$runtime_release = state.getFirstStateRecord();
             i3 = 0;
             current$iv = snapshotId$runtime_release;
             youngest$iv = snapshotId$runtime_release;
             while (current$iv != null) {
-                snapshotId$runtime_release3 = 0;
+                snapshotId$runtime_release2 = 0;
                 if (current$iv.getSnapshotId$runtime_release() >= lowestOrDefault) {
                 } else {
                 }
-                it = i;
+                it = i2;
                 if (youngest$iv.getSnapshotId$runtime_release() < current$iv.getSnapshotId$runtime_release()) {
                 }
                 current$iv = current$iv.getNext$runtime_release();
                 youngest$iv = current$iv;
-                it = i2;
+                it = i;
             }
             current$iv = youngest$iv;
             overwriteRecord = current$iv;
-            snapshotId$runtime_release3 = 0;
+            snapshotId$runtime_release2 = 0;
             if (current$iv.getSnapshotId$runtime_release() >= lowestOrDefault) {
             } else {
             }
-            it = i;
+            it = i2;
             if (it != 0) {
             } else {
             }
@@ -715,15 +715,15 @@ public final class SnapshotKt {
             }
             current$iv = current$iv.getNext$runtime_release();
             youngest$iv = current$iv;
-            it = i2;
+            it = i;
             stateRecord = current;
             validRecord = current;
             retainedRecords++;
         }
-        if (retainedRecords > i2) {
-            i = i2;
+        if (retainedRecords > i) {
+            i2 = i;
         }
-        return i;
+        return i2;
     }
 
     private static final void processForUnusedRecordsLocked(androidx.compose.runtime.snapshots.StateObject state) {
@@ -741,8 +741,8 @@ public final class SnapshotKt {
     private static final <T extends androidx.compose.runtime.snapshots.StateRecord> T readable(T r, int id, androidx.compose.runtime.snapshots.SnapshotIdSet invalid) {
         androidx.compose.runtime.snapshots.StateRecord current;
         int candidate;
-        boolean snapshotId$runtime_release;
-        int snapshotId$runtime_release2;
+        boolean snapshotId$runtime_release2;
+        int snapshotId$runtime_release;
         current = r;
         candidate = 0;
         while (current != null) {
@@ -755,9 +755,9 @@ public final class SnapshotKt {
             if (candidate.getSnapshotId$runtime_release() < current.getSnapshotId$runtime_release()) {
             } else {
             }
-            snapshotId$runtime_release = candidate;
-            candidate = snapshotId$runtime_release;
-            snapshotId$runtime_release = current;
+            snapshotId$runtime_release2 = candidate;
+            candidate = snapshotId$runtime_release2;
+            snapshotId$runtime_release2 = current;
         }
         if (candidate != 0) {
             return candidate;
@@ -768,11 +768,11 @@ public final class SnapshotKt {
     public static final <T extends androidx.compose.runtime.snapshots.StateRecord> T readable(T $this$readable, androidx.compose.runtime.snapshots.StateObject state) {
         androidx.compose.runtime.snapshots.StateRecord $i$f$sync;
         Object invalid$runtime_release;
-        int i2;
-        Throwable th;
+        int i;
+        Throwable $i$a$SyncSnapshotKt$readable$1;
         androidx.compose.runtime.snapshots.Snapshot current;
         androidx.compose.runtime.snapshots.StateRecord readable;
-        int i;
+        int i2;
         androidx.compose.runtime.snapshots.SnapshotIdSet invalid$runtime_release2;
         androidx.compose.runtime.snapshots.Snapshot current2 = Snapshot.Companion.getCurrent();
         Function1 readObserver = current2.getReadObserver();
@@ -782,8 +782,8 @@ public final class SnapshotKt {
         if (SnapshotKt.readable($this$readable, current2.getId(), current2.getInvalid$runtime_release()) == null) {
             int i3 = 0;
             invalid$runtime_release = SnapshotKt.getLock();
-            i2 = 0;
-            th = 0;
+            i = 0;
+            $i$a$SyncSnapshotKt$readable$1 = 0;
             current = Snapshot.Companion.getCurrent();
             androidx.compose.runtime.snapshots.StateRecord firstStateRecord = state.getFirstStateRecord();
             Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type T of androidx.compose.runtime.snapshots.SnapshotKt.readable$lambda$9");
@@ -844,7 +844,7 @@ public final class SnapshotKt {
         SnapshotKt.currentGlobalSnapshot.set(globalSnapshot);
         previousGlobalSnapshot.dispose();
         SnapshotKt.openSnapshots = SnapshotKt.openSnapshots.set(nextSnapshotId);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SyncSnapshotKt$takeNewGlobalSnapshot$1 = Unit.INSTANCE;
         return block.invoke(SnapshotKt.openSnapshots.clear(previousGlobalSnapshot.getId()));
         synchronized (lock) {
             i = 0;
@@ -858,7 +858,7 @@ public final class SnapshotKt {
             SnapshotKt.currentGlobalSnapshot.set(globalSnapshot);
             previousGlobalSnapshot.dispose();
             SnapshotKt.openSnapshots = SnapshotKt.openSnapshots.set(nextSnapshotId);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SyncSnapshotKt$takeNewGlobalSnapshot$1 = Unit.INSTANCE;
             return block.invoke(SnapshotKt.openSnapshots.clear(previousGlobalSnapshot.getId()));
         }
     }

@@ -50,8 +50,8 @@ public final class Animatable<T, V extends androidx.compose.animation.core.Anima
     }
 
     public Animatable(T initialValue, androidx.compose.animation.core.TwoWayConverter<T, V> typeConverter, T visibilityThreshold, String label) {
-        boolean z;
         boolean z2;
+        boolean z;
         androidx.compose.animation.core.AnimationVector obj12;
         super();
         this.typeConverter = typeConverter;
@@ -168,8 +168,8 @@ public final class Animatable<T, V extends androidx.compose.animation.core.Anima
         int clamped;
         int i;
         float coerceIn;
-        float f2;
         float f;
+        float f2;
         if (Intrinsics.areEqual(this.lowerBoundVector, this.negativeInfinityBounds) && Intrinsics.areEqual(this.upperBoundVector, this.positiveInfinityBounds)) {
             if (Intrinsics.areEqual(this.upperBoundVector, this.positiveInfinityBounds)) {
                 return value;
@@ -179,13 +179,13 @@ public final class Animatable<T, V extends androidx.compose.animation.core.Anima
         clamped = 0;
         i = 0;
         while (i < (AnimationVector)invoke.getSize$animation_core_release()) {
-            if (Float.compare(f3, f2) >= 0) {
+            if (Float.compare(f3, f) >= 0) {
             } else {
             }
             clamped = 1;
             invoke.set$animation_core_release(i, RangesKt.coerceIn(invoke.get$animation_core_release(i), this.lowerBoundVector.get$animation_core_release(i), this.upperBoundVector.get$animation_core_release(i)));
             i++;
-            if (Float.compare(f5, f2) > 0) {
+            if (Float.compare(f5, f) > 0) {
             }
         }
         if (clamped != 0) {
@@ -319,45 +319,45 @@ public final class Animatable<T, V extends androidx.compose.animation.core.Anima
 
     public final void updateBounds(T lowerBound, T upperBound) {
         Object obj;
-        int i4;
+        int i2;
         boolean clampToBounds;
-        int i3;
+        int i4;
         int size$animation_core_release;
         Object negativeInfinityBounds;
         Object positiveInfinityBounds;
+        int i3;
         int i;
-        int i2;
-        String string;
+        String $i$a$CheckPreconditionAnimatable$updateBounds$1;
         StringBuilder append;
         String str;
         if (lowerBound != null) {
-            i3 = 0;
+            i4 = 0;
             if ((AnimationVector)this.typeConverter.getConvertToVector().invoke(lowerBound) == null) {
                 negativeInfinityBounds = this.negativeInfinityBounds;
             }
         } else {
         }
         if (upperBound != null) {
-            i3 = 0;
+            i4 = 0;
             if ((AnimationVector)this.typeConverter.getConvertToVector().invoke(upperBound) == null) {
                 positiveInfinityBounds = this.positiveInfinityBounds;
             }
         } else {
         }
-        i4 = 0;
-        while (i4 < negativeInfinityBounds.getSize$animation_core_release()) {
+        i2 = 0;
+        while (i2 < negativeInfinityBounds.getSize$animation_core_release()) {
             if (Float.compare(f, f2) <= 0) {
             } else {
             }
+            i3 = 0;
             i = 0;
-            i2 = 0;
-            if (i == 0) {
+            if (i3 == 0) {
             }
-            i4++;
+            i2++;
             int i5 = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder.append("Lower bound must be no greater than upper bound on *all* dimensions. The provided lower bound: ").append(negativeInfinityBounds).append(" is greater than upper bound ").append(positiveInfinityBounds).append(" on index ").append(i4).toString());
-            i = 1;
+            PreconditionsKt.throwIllegalStateException(stringBuilder.append("Lower bound must be no greater than upper bound on *all* dimensions. The provided lower bound: ").append(negativeInfinityBounds).append(" is greater than upper bound ").append(positiveInfinityBounds).append(" on index ").append(i2).toString());
+            i3 = 1;
         }
         this.lowerBoundVector = negativeInfinityBounds;
         this.upperBoundVector = positiveInfinityBounds;

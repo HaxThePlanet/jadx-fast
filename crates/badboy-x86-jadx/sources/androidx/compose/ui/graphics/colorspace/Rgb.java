@@ -130,27 +130,27 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
         }
 
         private final boolean contains(float[] p1, float[] p2) {
-            int i3;
-            int cmp2;
-            int cmp3;
-            int cmp;
             int i8;
-            float f;
-            float f2;
+            int cmp;
+            int cmp3;
+            int cmp2;
             int i2;
-            float i4;
+            float f2;
+            float f;
+            int i3;
+            float i;
+            int i4;
             int i7;
-            int i;
             int i6;
             int i5;
-            i3 = 0;
+            i8 = 0;
             int i18 = 1;
             int i23 = 2;
             int i37 = 3;
             int i48 = 4;
             int i54 = 5;
             float[] fArr = new float[6];
-            fArr[i3] = i9 -= i17;
+            fArr[i8] = i9 -= i17;
             fArr[i18] = i19 -= i22;
             fArr[i23] = i28 -= i36;
             fArr[i37] = i38 -= i47;
@@ -165,18 +165,18 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
                         } else {
                             if (Float.compare(cross5, i21) >= 0 && Float.compare(cross6, i21) >= 0) {
                                 if (Float.compare(cross6, i21) >= 0) {
-                                    i3 = i18;
+                                    i8 = i18;
                                 } else {
                                 }
                             } else {
                             }
                         }
-                        return i3;
+                        return i8;
                     }
                 }
-                return i3;
+                return i8;
             }
-            return i3;
+            return i8;
         }
 
         private final float cross(float ax, float ay, float bx, float by) {
@@ -184,8 +184,8 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
         }
 
         private final boolean isSrgb(float[] primaries, androidx.compose.ui.graphics.colorspace.WhitePoint whitePoint, androidx.compose.ui.graphics.colorspace.DoubleFunction OETF, androidx.compose.ui.graphics.colorspace.DoubleFunction EOTF, float min, float max, int id) {
-            int i;
             int i2;
+            int i;
             int x;
             long l;
             final int i3 = 1;
@@ -199,12 +199,12 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
             if (!ColorSpaceKt.compare(whitePoint, Illuminant.INSTANCE.getD65())) {
                 return i6;
             }
-            i = Float.compare(min, i4) == 0 ? i3 : i6;
-            if (i == 0) {
+            i2 = Float.compare(min, i4) == 0 ? i3 : i6;
+            if (i2 == 0) {
                 return i6;
             }
-            i2 = Float.compare(max, i5) == 0 ? i3 : i6;
-            if (i2 == 0) {
+            i = Float.compare(max, i5) == 0 ? i3 : i6;
+            if (i == 0) {
                 return i6;
             }
             androidx.compose.ui.graphics.colorspace.Rgb srgb = ColorSpaces.INSTANCE.getSrgb();
@@ -232,16 +232,16 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
         }
 
         private final float[] xyPrimaries(float[] primaries) {
-            int i6;
+            int i;
             float[] sum;
-            int i7;
             int i3;
             int i4;
             int i5;
             int i2;
-            int i;
-            i6 = 6;
-            final float[] fArr = new float[i6];
+            int i7;
+            int i6;
+            i = 6;
+            final float[] fArr = new float[i];
             if (primaries.length == 9) {
                 int i11 = 0;
                 int i25 = 1;
@@ -250,15 +250,15 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
                 fArr[i11] = i33 /= i21;
                 fArr[i25] = i12 /= i21;
                 int i14 = 3;
-                i5 = 4;
-                i2 = 5;
-                i27 += i;
-                fArr[i29] = sum2 /= i3;
-                fArr[i14] = i23 /= i3;
-                i7 = 7;
-                i16 += i4;
-                fArr[i5] = i8 /= i17;
-                fArr[i2] = i10 /= i17;
+                i2 = 4;
+                i7 = 5;
+                i27 += i6;
+                fArr[i29] = sum2 /= i4;
+                fArr[i14] = i23 /= i4;
+                i3 = 7;
+                i16 += i5;
+                fArr[i2] = i8 /= i17;
+                fArr[i7] = i10 /= i17;
                 sum = primaries;
             } else {
                 ArraysKt.copyInto$default(primaries, fArr, 0, 0, 6, 6, 0);
@@ -370,31 +370,31 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
     }
 
     public Rgb(String name, float[] primaries, androidx.compose.ui.graphics.colorspace.WhitePoint whitePoint, double gamma, float min, float max, int id) {
-        int i;
-        androidx.compose.ui.graphics.colorspace.DoubleFunction doubleIdentity2;
-        androidx.compose.ui.graphics.colorspace.DoubleFunction doubleIdentity;
         int i2;
+        androidx.compose.ui.graphics.colorspace.DoubleFunction doubleIdentity;
+        androidx.compose.ui.graphics.colorspace.DoubleFunction doubleIdentity2;
+        int i;
         androidx.compose.ui.graphics.colorspace.DoubleFunction num;
         androidx.compose.ui.graphics.colorspace.DoubleFunction externalSyntheticLambda9;
         final long l = gamma;
         long l2 = 4607182418800017408L;
         final int i4 = 0;
-        i = Double.compare(l, l2) == 0 ? i2 : i4;
-        if (i != 0) {
-            num = doubleIdentity2;
+        i2 = Double.compare(l, l2) == 0 ? i : i4;
+        if (i2 != 0) {
+            num = doubleIdentity;
         } else {
-            doubleIdentity2 = new Rgb$$ExternalSyntheticLambda8(l, obj2);
-            num = doubleIdentity2;
+            doubleIdentity = new Rgb$$ExternalSyntheticLambda8(l, obj2);
+            num = doubleIdentity;
         }
         if (Double.compare(l, l2) == 0) {
         } else {
-            i2 = i4;
+            i = i4;
         }
-        if (i2 != 0) {
-            externalSyntheticLambda9 = doubleIdentity;
+        if (i != 0) {
+            externalSyntheticLambda9 = doubleIdentity2;
         } else {
-            doubleIdentity = new Rgb$$ExternalSyntheticLambda9(l, obj2);
-            externalSyntheticLambda9 = doubleIdentity;
+            doubleIdentity2 = new Rgb$$ExternalSyntheticLambda9(l, obj2);
+            externalSyntheticLambda9 = doubleIdentity2;
         }
         TransferParameters transferParameters = new TransferParameters(l, obj2, 4607182418800017408L, obj4, 0, i4, 0, obj8, 0, obj10, 0, obj12, 0, obj14, 96, 0);
         super(name, primaries, whitePoint, 0, num, externalSyntheticLambda9, max, id, transferParameters, obj27);
@@ -405,22 +405,22 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
     }
 
     public Rgb(String name, float[] primaries, androidx.compose.ui.graphics.colorspace.WhitePoint whitePoint, androidx.compose.ui.graphics.colorspace.TransferParameters function, int id) {
-        int i2;
+        int i;
         Object externalSyntheticLambda1;
         int cmp;
-        Object externalSyntheticLambda22;
-        int i;
+        Object externalSyntheticLambda2;
+        int i2;
         double d;
         Object externalSyntheticLambda12;
-        Object externalSyntheticLambda2;
+        Object externalSyntheticLambda22;
         double d2;
         int i3 = 0;
-        i = 1;
+        i2 = 1;
         int i4 = 0;
-        i2 = Double.compare(d3, i3) == 0 ? i : i4;
-        if (i2 != 0) {
-            i2 = Double.compare(d, i3) == 0 ? i : i4;
-            if (i2 != 0) {
+        i = Double.compare(d3, i3) == 0 ? i2 : i4;
+        if (i != 0) {
+            i = Double.compare(d, i3) == 0 ? i2 : i4;
+            if (i != 0) {
                 externalSyntheticLambda1 = new Rgb$$ExternalSyntheticLambda12(function);
                 externalSyntheticLambda12 = externalSyntheticLambda1;
             } else {
@@ -429,22 +429,22 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
             }
         } else {
         }
-        cmp = Double.compare(d2, i3) == 0 ? i : i4;
+        cmp = Double.compare(d2, i3) == 0 ? i2 : i4;
         if (cmp != 0) {
             if (Double.compare(d2, i3) == 0) {
             } else {
-                i = i4;
+                i2 = i4;
             }
-            if (i != 0) {
-                externalSyntheticLambda22 = new Rgb$$ExternalSyntheticLambda2(function);
-                externalSyntheticLambda2 = externalSyntheticLambda22;
+            if (i2 != 0) {
+                externalSyntheticLambda2 = new Rgb$$ExternalSyntheticLambda2(function);
+                externalSyntheticLambda22 = externalSyntheticLambda2;
             } else {
-                externalSyntheticLambda22 = new Rgb$$ExternalSyntheticLambda3(function);
-                externalSyntheticLambda2 = externalSyntheticLambda22;
+                externalSyntheticLambda2 = new Rgb$$ExternalSyntheticLambda3(function);
+                externalSyntheticLambda22 = externalSyntheticLambda2;
             }
         } else {
         }
-        super(name, primaries, whitePoint, 0, externalSyntheticLambda12, externalSyntheticLambda2, 0, 1065353216, function, id);
+        super(name, primaries, whitePoint, 0, externalSyntheticLambda12, externalSyntheticLambda22, 0, 1065353216, function, id);
     }
 
     public Rgb(String name, float[] primaries, androidx.compose.ui.graphics.colorspace.WhitePoint whitePoint, Function1<? super Double, Double> oetf, Function1<? super Double, Double> eotf, float min, float max) {
@@ -590,8 +590,8 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
     public boolean equals(Object other) {
         boolean eotfOrig;
         int equal;
-        Class class;
         Class class2;
+        Class class;
         int i = 1;
         if (this == other) {
             return i;
@@ -766,37 +766,37 @@ public final class Rgb extends androidx.compose.ui.graphics.colorspace.ColorSpac
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public int hashCode() {
         androidx.compose.ui.graphics.colorspace.TransferParameters result;
-        int i;
-        int i4;
-        int floatToIntBits;
-        int floatToIntBits2;
-        androidx.compose.ui.graphics.colorspace.TransferParameters transferParameters;
         int i2;
+        int i;
+        int floatToIntBits2;
+        int floatToIntBits;
+        androidx.compose.ui.graphics.colorspace.TransferParameters transferParameters;
         int i3;
+        int i4;
         final int i15 = 0;
-        i3 = 0;
-        i4 = Float.compare(min, i15) == 0 ? i2 : i3;
-        if (i4 == 0) {
-            floatToIntBits = Float.floatToIntBits(this.min);
+        i4 = 0;
+        i = Float.compare(min, i15) == 0 ? i3 : i4;
+        if (i == 0) {
+            floatToIntBits2 = Float.floatToIntBits(this.min);
         } else {
-            floatToIntBits = i3;
+            floatToIntBits2 = i4;
         }
         if (Float.compare(max, i15) == 0) {
         } else {
-            i2 = i3;
+            i3 = i4;
         }
-        if (i2 == 0) {
-            floatToIntBits2 = Float.floatToIntBits(this.max);
+        if (i3 == 0) {
+            floatToIntBits = Float.floatToIntBits(this.max);
         } else {
-            floatToIntBits2 = i3;
+            floatToIntBits = i4;
         }
         if (this.transferParameters != null) {
-            i3 = this.transferParameters.hashCode();
+            i4 = this.transferParameters.hashCode();
         }
         if (this.transferParameters == null) {
             result6 += transferParameters;
         }
-        return i;
+        return i2;
     }
 
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace

@@ -79,96 +79,96 @@ public final class BorderModifierNode extends DelegatingNode {
     }
 
     private final DrawResult drawGenericBorder(CacheDrawScope $this$drawGenericBorder, Brush brush, Outline.Generic outline, boolean fillArea, float strokeWidth) {
-        int config2;
+        int config;
         androidx.compose.foundation.BorderCache borderCache;
         ImageBitmap targetImageBitmap$iv;
-        CanvasDrawScope canvasDrawScope6;
+        CanvasDrawScope canvasDrawScope;
         DrawResult onDrawWithContent;
         Ref.ObjectRef objectRef;
         Object obj;
         long l;
-        int i3;
+        int i16;
         androidx.compose.foundation.BorderModifierNode.drawGenericBorder.3 anon;
         ColorFilter colorFilter;
         Rect rect2;
         Object companion;
         DrawContext transform;
-        int i20;
+        int i4;
         ColorFilter.Companion prevCanvas$iv$iv;
         long $this$withTransform_u24lambda_u246$iv$iv;
         boolean equals-impl;
-        long left$iv;
+        long left$iv2;
         int top$iv;
-        Canvas targetCanvas$iv;
+        Canvas targetCanvas$iv2;
         int pathBounds;
         int box-impl;
         boolean equals-impl0;
-        int i21;
-        int i23;
+        int i9;
+        int i15;
         int prevCanvas$iv$iv2;
         long $this$drawGenericBorder_u24lambda_u244_u24lambda_u243_u24lambda_u242;
         int size-NH-jbRc;
         ImageBitmap imageBitmap;
         Canvas canvas;
-        androidx.compose.ui.unit.LayoutDirection targetCanvas$iv2;
-        Canvas config;
-        int i13;
-        int i17;
-        int i15;
+        androidx.compose.ui.unit.LayoutDirection targetCanvas$iv;
+        Canvas config2;
+        int i21;
+        int i22;
+        int i11;
         int i6;
-        int i18;
+        int i24;
         ColorFilter canvas2;
         int maskPath;
-        int i19;
-        int i7;
-        int i2;
-        int i8;
-        int i;
-        int i24;
         int i10;
-        CanvasDrawScope canvasDrawScope5;
-        CanvasDrawScope canvasDrawScope;
+        int i3;
+        int i17;
+        int i14;
         int i12;
+        int i8;
+        int i13;
+        CanvasDrawScope canvasDrawScope5;
+        CanvasDrawScope canvasDrawScope2;
+        int i25;
         CanvasDrawScope canvasDrawScope7;
-        int i5;
+        int i19;
         long l2;
-        int i22;
+        int i2;
         androidx.compose.ui.unit.LayoutDirection cacheImageBitmap;
         Rect rect;
         Canvas prevSize$iv$iv;
-        int i11;
-        ImageBitmap left$iv2;
+        int i23;
+        ImageBitmap left$iv;
         Ref.ObjectRef prevDensity$iv$iv;
         long prevLayoutDirection$iv$iv;
         CanvasDrawScope canvasDrawScope3;
-        int i4;
-        int i9;
-        CanvasDrawScope canvasDrawScope4;
-        int i25;
-        int i16;
-        int i14;
+        int i5;
+        int i18;
+        CanvasDrawScope canvasDrawScope6;
+        int i20;
+        int i7;
+        int i;
         DrawContext previousSize$iv$iv;
         androidx.compose.ui.unit.LayoutDirection layoutDirection;
         long l3;
-        CanvasDrawScope canvasDrawScope2;
+        CanvasDrawScope canvasDrawScope4;
         DrawContext context;
         long l4;
         obj = this;
-        i3 = $this$drawGenericBorder;
+        i16 = $this$drawGenericBorder;
         Brush brush2 = brush;
         if (fillArea) {
             BorderModifierNode.drawGenericBorder.1 anon2 = new BorderModifierNode.drawGenericBorder.1(outline, brush2);
-            onDrawWithContent = i3.onDrawWithContent((Function1)anon2);
-            i20 = i3;
+            onDrawWithContent = i16.onDrawWithContent((Function1)anon2);
+            i4 = i16;
         } else {
             Outline.Generic generic = outline;
             int i26 = 0;
             int i34 = 0;
             if (brush2 instanceof SolidColor) {
-                i13 = config2;
+                i21 = config;
                 canvas2 = colorFilter;
             } else {
-                i13 = config2;
+                i21 = config;
                 canvas2 = colorFilter;
             }
             Rect bounds = generic.getPath().getBounds();
@@ -187,15 +187,15 @@ public final class BorderModifierNode extends DelegatingNode {
             int difference-b3I0S0c = PathOperation.Companion.getDifference-b3I0S0c();
             path2.op-N5in7k0(path2, generic.getPath(), difference-b3I0S0c);
             Ref.ObjectRef objectRef2 = new Ref.ObjectRef();
-            i19 = IntSizeKt.IntSize((int)f, (int)f4);
+            i10 = IntSizeKt.IntSize((int)f, (int)f4);
             androidx.compose.foundation.BorderCache borderCache3 = obj.borderCache;
             Intrinsics.checkNotNull(borderCache3);
+            i14 = 0;
+            androidx.compose.foundation.BorderCache borderCache4 = i17;
+            i12 = i28;
             i8 = 0;
-            androidx.compose.foundation.BorderCache borderCache4 = i2;
-            i = i28;
-            i24 = 0;
             targetImageBitmap$iv = BorderCache.access$getImageBitmap$p(borderCache4);
-            targetCanvas$iv = BorderCache.access$getCanvas$p(borderCache4);
+            targetCanvas$iv2 = BorderCache.access$getCanvas$p(borderCache4);
             if (targetImageBitmap$iv != null) {
                 box-impl = ImageBitmapConfig.box-impl(targetImageBitmap$iv.getConfig-_sVssgQ());
             } else {
@@ -210,17 +210,17 @@ public final class BorderModifierNode extends DelegatingNode {
                 if (targetImageBitmap$iv != null) {
                     equals-impl = ImageBitmapConfig.box-impl(targetImageBitmap$iv.getConfig-_sVssgQ());
                 }
-                if (ImageBitmapConfig.equals-impl(i13, equals-impl)) {
+                if (ImageBitmapConfig.equals-impl(i21, equals-impl)) {
                     size-NH-jbRc = 1;
                 }
             } else {
             }
-            if (targetImageBitmap$iv != null && targetCanvas$iv != null && Float.compare(width-impl3, equals-impl0) <= 0 && Float.compare(height-impl3, equals-impl0) <= 0) {
-                if (targetCanvas$iv != null) {
+            if (targetImageBitmap$iv != null && targetCanvas$iv2 != null && Float.compare(width-impl3, equals-impl0) <= 0 && Float.compare(height-impl3, equals-impl0) <= 0) {
+                if (targetCanvas$iv2 != null) {
                     if (Float.compare(width-impl3, equals-impl0) <= 0) {
                         if (Float.compare(height-impl3, equals-impl0) <= 0) {
                             if (size-NH-jbRc == 0) {
-                                ImageBitmap imageBitmap3 = ImageBitmapKt.ImageBitmap-x__-hDU$default(IntSize.getWidth-impl(i19), IntSize.getHeight-impl(i19), i13, false, 0, 24, 0);
+                                ImageBitmap imageBitmap3 = ImageBitmapKt.ImageBitmap-x__-hDU$default(IntSize.getWidth-impl(i10), IntSize.getHeight-impl(i10), i21, false, 0, 24, 0);
                                 int i51 = 0;
                                 BorderCache.access$setImageBitmap$p(borderCache4, imageBitmap3);
                                 targetImageBitmap$iv = imageBitmap3;
@@ -228,10 +228,10 @@ public final class BorderModifierNode extends DelegatingNode {
                                 int i52 = 0;
                                 BorderCache.access$setCanvas$p(borderCache4, equals-impl);
                                 imageBitmap = targetImageBitmap$iv;
-                                canvas = targetCanvas$iv;
+                                canvas = targetCanvas$iv2;
                             } else {
                                 imageBitmap = targetImageBitmap$iv;
-                                canvas = targetCanvas$iv;
+                                canvas = targetCanvas$iv2;
                             }
                         } else {
                         }
@@ -242,40 +242,40 @@ public final class BorderModifierNode extends DelegatingNode {
             } else {
             }
             if (BorderCache.access$getCanvasDrawScope$p(borderCache4) == null) {
-                canvasDrawScope6 = new CanvasDrawScope();
-                targetCanvas$iv = 0;
-                BorderCache.access$setCanvasDrawScope$p(borderCache4, canvasDrawScope6);
+                canvasDrawScope = new CanvasDrawScope();
+                targetCanvas$iv2 = 0;
+                BorderCache.access$setCanvasDrawScope$p(borderCache4, canvasDrawScope);
             }
-            long size-ozmzZPI = IntSizeKt.toSize-ozmzZPI(i19);
+            long size-ozmzZPI = IntSizeKt.toSize-ozmzZPI(i10);
             androidx.compose.ui.unit.LayoutDirection layoutDirection4 = layoutDirection2;
-            i15 = i17;
+            i11 = i22;
             i6 = 0;
-            CanvasDrawScope.DrawParams drawParams = i15.getDrawParams();
-            i18 = borderCache4;
-            CanvasDrawScope.DrawParams drawParams2 = i15.getDrawParams();
+            CanvasDrawScope.DrawParams drawParams = i11.getDrawParams();
+            i24 = borderCache4;
+            CanvasDrawScope.DrawParams drawParams2 = i11.getDrawParams();
             int i53 = 0;
-            drawParams2.setDensity((Density)i);
+            drawParams2.setDensity((Density)i12);
             drawParams2.setLayoutDirection(layoutDirection4);
             drawParams2.setCanvas(canvas);
             drawParams2.setSize-uvyYCjk(size-ozmzZPI);
             canvas.save();
-            canvasDrawScope5 = i15;
-            i4 = 0;
-            DrawScope.drawRect-n-J9OG0$default((DrawScope)canvasDrawScope5, Color.Companion.getBlack-0d7_KjU(), obj31, 0, obj33, size-ozmzZPI, obj35, 0, 0, 0);
-            i12 = 0;
-            int i45 = -left;
-            canvasDrawScope7 = canvasDrawScope;
-            int i47 = i29;
+            canvasDrawScope5 = i11;
             i5 = 0;
+            DrawScope.drawRect-n-J9OG0$default((DrawScope)canvasDrawScope5, Color.Companion.getBlack-0d7_KjU(), obj31, 0, obj33, size-ozmzZPI, obj35, 0, 0, 0);
+            i25 = 0;
+            int i45 = -left;
+            canvasDrawScope7 = canvasDrawScope2;
+            int i47 = i29;
+            i19 = 0;
             canvasDrawScope7.getDrawContext().getTransform().translate(i45, i47);
             CanvasDrawScope pathBounds2 = canvasDrawScope7;
-            i22 = 0;
+            i2 = 0;
             Path path4 = outline.getPath();
             Stroke stroke = new Stroke(strokeWidth * f2, 0, 0, 0, 0, 30, 0);
             int prevCanvas$iv$iv3 = 0;
-            targetCanvas$iv2 = layoutDirection5;
-            i11 = i13;
-            left$iv2 = imageBitmap;
+            targetCanvas$iv = layoutDirection5;
+            i23 = i21;
+            left$iv = imageBitmap;
             cacheImageBitmap = layoutDirection4;
             DrawScope.drawPath-GBMwjPU$default(pathBounds2, path4, brush2, prevCanvas$iv$iv3, (DrawStyle)stroke, 0, 0, 52, 0);
             CanvasDrawScope canvasDrawScope8 = pathBounds2;
@@ -284,38 +284,38 @@ public final class BorderModifierNode extends DelegatingNode {
             i38 /= height-impl;
             canvasDrawScope3 = canvasDrawScope8;
             long center-F1C5BW0 = canvasDrawScope3.getCenter-F1C5BW0();
-            i9 = 0;
-            canvasDrawScope4 = canvasDrawScope3;
-            i25 = 0;
+            i18 = 0;
+            canvasDrawScope6 = canvasDrawScope3;
+            i20 = 0;
             DrawContext context4 = drawContext2;
-            i16 = 0;
+            i7 = 0;
             context4.getCanvas().save();
             int i49 = 0;
             context4.getTransform().scale-0AR0LA0(i36, i39, center-F1C5BW0);
             int i32 = 0;
-            i14 = i50;
+            i = i50;
             l3 = center-F1C5BW0;
             $this$withTransform_u24lambda_u246$iv$iv = 0;
             maskPath = i39;
             Path scaleY$iv = path7;
-            canvasDrawScope2 = canvasDrawScope8;
+            canvasDrawScope4 = canvasDrawScope8;
             previousSize$iv$iv = context;
-            DrawScope.drawPath-GBMwjPU$default(canvasDrawScope4, scaleY$iv, brush, 0, $this$withTransform_u24lambda_u246$iv$iv, 0, BlendMode.Companion.getClear-0nO6VwU(), 28, 0);
+            DrawScope.drawPath-GBMwjPU$default(canvasDrawScope6, scaleY$iv, brush, 0, $this$withTransform_u24lambda_u246$iv$iv, 0, BlendMode.Companion.getClear-0nO6VwU(), 28, 0);
             top$iv = scaleY$iv;
             previousSize$iv$iv.getCanvas().restore();
             previousSize$iv$iv.setSize-uvyYCjk(context4.getSize-NH-jbRc());
             canvasDrawScope7.getDrawContext().getTransform().translate(-i33, -prevCanvas$iv$iv2);
             canvas.restore();
-            CanvasDrawScope.DrawParams drawParams3 = i15.getDrawParams();
-            i3 = 0;
+            CanvasDrawScope.DrawParams drawParams3 = i11.getDrawParams();
+            i16 = 0;
             drawParams3.setDensity(drawParams.component1());
-            drawParams3.setLayoutDirection(targetCanvas$iv2);
+            drawParams3.setLayoutDirection(targetCanvas$iv);
             drawParams3.setCanvas(drawParams.component3());
             drawParams3.setSize-uvyYCjk(drawParams.component4-NH-jbRc());
-            left$iv2.prepareToDraw();
+            left$iv.prepareToDraw();
             Ref.ObjectRef objectRef4 = prevDensity$iv$iv;
-            objectRef4.element = left$iv2;
-            prevCanvas$iv$iv = i19;
+            objectRef4.element = left$iv;
+            prevCanvas$iv$iv = i10;
             anon = new BorderModifierNode.drawGenericBorder.3(bounds, objectRef4, prevCanvas$iv$iv, $this$withTransform_u24lambda_u246$iv$iv, canvas2);
             pathBounds = prevCanvas$iv$iv;
             onDrawWithContent = $this$drawGenericBorder.onDrawWithContent((Function1)anon);
@@ -325,19 +325,19 @@ public final class BorderModifierNode extends DelegatingNode {
 
     private final DrawResult drawRoundRectBorder-JqoCqck(CacheDrawScope $this$drawRoundRectBorder_u2dJqoCqck, Brush brush, Outline.Rounded outline, long topLeft, long borderSize, boolean fillArea, float strokeWidth) {
         DrawResult path;
-        boolean z;
         boolean z2;
+        boolean z;
         long onDrawWithContent;
         Brush brush2;
         int i2;
-        int i;
+        int i6;
         long borderCache;
         long topLeftCornerRadius-kKHJgLs;
-        int i4;
+        int i3;
         int i5;
         Stroke stroke;
-        int i6;
-        int i3;
+        int i;
+        int i4;
         final Object obj = this;
         final Object obj2 = $this$drawRoundRectBorder_u2dJqoCqck;
         if (RoundRectKt.isSimple(outline.getRoundRect())) {
@@ -348,7 +348,7 @@ public final class BorderModifierNode extends DelegatingNode {
             BorderModifierNode.drawRoundRectBorder.1 anon = new BorderModifierNode.drawRoundRectBorder.1(obj24, brush, topLeftCornerRadius-kKHJgLs, i11, i5, obj25, topLeft, topLeftCornerRadius-kKHJgLs, fillArea, i5, stroke);
             path = obj2.onDrawWithContent((Function1)anon);
             brush2 = brush;
-            z2 = obj24;
+            z = obj24;
         } else {
             if (obj.borderCache == null) {
                 borderCache = new BorderCache(0, 0, 0, 0, 15, 0);

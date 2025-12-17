@@ -43,9 +43,9 @@ public final class ListUtils_androidKt {
 
     public static final <T, R> List<R> fastZipWithNext(List<? extends T> $this$fastZipWithNext, Function2<? super T, ? super T, ? extends R> transform) {
         int size;
-        int i;
-        Object current;
         int i2;
+        Object current;
+        int i;
         Object obj;
         Object invoke;
         final int i3 = 0;
@@ -54,12 +54,12 @@ public final class ListUtils_androidKt {
             } else {
                 ArrayList arrayList = new ArrayList();
                 current = $this$fastZipWithNext.get(0);
-                i2 = 0;
-                while (i2 < CollectionsKt.getLastIndex($this$fastZipWithNext)) {
-                    obj = $this$fastZipWithNext.get(i2 + 1);
+                i = 0;
+                while (i < CollectionsKt.getLastIndex($this$fastZipWithNext)) {
+                    obj = $this$fastZipWithNext.get(i + 1);
                     (List)arrayList.add(transform.invoke(current, obj));
                     current = obj;
-                    i2++;
+                    i++;
                 }
             }
             return arrayList;

@@ -45,11 +45,11 @@ public final class UnsupportedComposeAnimation implements ComposeAnimation {
         }
     }
     static {
+        int i;
         int i2;
-        int i3;
         ComposeAnimationType composeAnimationType;
         boolean it;
-        int i;
+        int i3;
         String name;
         String str;
         UnsupportedComposeAnimation.Companion companion = new UnsupportedComposeAnimation.Companion(0);
@@ -57,12 +57,12 @@ public final class UnsupportedComposeAnimation implements ComposeAnimation {
         int i4 = 8;
         ComposeAnimationType[] values = ComposeAnimationType.values();
         int i6 = 0;
-        i3 = i2;
-        while (i3 < values.length) {
-            i = 0;
-            i3++;
+        i2 = i;
+        while (i2 < values.length) {
+            i3 = 0;
+            i2++;
         }
-        UnsupportedComposeAnimation.apiAvailable = i2;
+        UnsupportedComposeAnimation.apiAvailable = i;
     }
 
     private UnsupportedComposeAnimation(String label) {

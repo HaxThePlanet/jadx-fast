@@ -15,29 +15,29 @@ import kotlin.jvm.internal.Ref.FloatRef;
 @Metadata(d1 = "\u0000$\n\u0000\n\u0002\u0010\u0007\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0004\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0002\u001a*\u0010\u0000\u001a\u00020\u0001*\u00020\u00022\u0006\u0010\u0003\u001a\u00020\u00012\u000e\u0008\u0002\u0010\u0004\u001a\u0008\u0012\u0004\u0012\u00020\u00010\u0005H\u0086@¢\u0006\u0002\u0010\u0006\u001a\u001a\u0010\u0007\u001a\u00020\u0001*\u00020\u00022\u0006\u0010\u0003\u001a\u00020\u0001H\u0086@¢\u0006\u0002\u0010\u0008\u001a\u001c\u0010\t\u001a\u00020\n*\u00020\u00022\u0008\u0008\u0002\u0010\u000b\u001a\u00020\u000cH\u0086@¢\u0006\u0002\u0010\r¨\u0006\u000e", d2 = {"animateScrollBy", "", "Landroidx/compose/foundation/gestures/ScrollableState;", "value", "animationSpec", "Landroidx/compose/animation/core/AnimationSpec;", "(Landroidx/compose/foundation/gestures/ScrollableState;FLandroidx/compose/animation/core/AnimationSpec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "scrollBy", "(Landroidx/compose/foundation/gestures/ScrollableState;FLkotlin/coroutines/Continuation;)Ljava/lang/Object;", "stopScroll", "", "scrollPriority", "Landroidx/compose/foundation/MutatePriority;", "(Landroidx/compose/foundation/gestures/ScrollableState;Landroidx/compose/foundation/MutatePriority;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "foundation_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
 public final class ScrollExtensionsKt {
     public static final Object animateScrollBy(androidx.compose.foundation.gestures.ScrollableState scrollableState, float f2, AnimationSpec<Float> animationSpec3, Continuation<? super Float> continuation4) {
-        boolean anon;
-        int i;
+        boolean anon2;
+        int i4;
         androidx.compose.foundation.gestures.ScrollableState label;
         int i3;
-        androidx.compose.foundation.gestures.ScrollExtensionsKt.animateScrollBy.2 anon2;
-        int i4;
+        androidx.compose.foundation.gestures.ScrollExtensionsKt.animateScrollBy.2 anon;
+        int i;
         int i2;
         Object obj7;
         Object obj8;
         Object obj10;
-        anon = continuation4;
+        anon2 = continuation4;
         i3 = Integer.MIN_VALUE;
         if (continuation4 instanceof ScrollExtensionsKt.animateScrollBy.1 && label2 &= i3 != 0) {
-            anon = continuation4;
+            anon2 = continuation4;
             i3 = Integer.MIN_VALUE;
             if (label2 &= i3 != 0) {
-                anon.label = obj10 -= i3;
+                anon2.label = obj10 -= i3;
             } else {
-                anon = new ScrollExtensionsKt.animateScrollBy.1(continuation4);
+                anon2 = new ScrollExtensionsKt.animateScrollBy.1(continuation4);
             }
         } else {
         }
-        final androidx.compose.foundation.gestures.ScrollExtensionsKt.animateScrollBy.1 anon4 = anon;
+        final androidx.compose.foundation.gestures.ScrollExtensionsKt.animateScrollBy.1 anon4 = anon2;
         obj10 = anon4.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (label) {
@@ -72,29 +72,29 @@ public final class ScrollExtensionsKt {
     }
 
     public static final Object scrollBy(androidx.compose.foundation.gestures.ScrollableState scrollableState, float f2, Continuation<? super Float> continuation3) {
-        boolean anon;
-        int i4;
-        androidx.compose.foundation.gestures.ScrollableState label;
+        boolean anon2;
         int i2;
-        androidx.compose.foundation.gestures.ScrollExtensionsKt.scrollBy.2 anon2;
-        int i3;
+        androidx.compose.foundation.gestures.ScrollableState label;
         int i;
+        androidx.compose.foundation.gestures.ScrollExtensionsKt.scrollBy.2 anon;
+        int i3;
+        int i4;
         Object obj7;
         Object obj8;
         Object obj9;
-        anon = continuation3;
-        i2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof ScrollExtensionsKt.scrollBy.1 && label2 &= i2 != 0) {
-            anon = continuation3;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon.label = obj9 -= i2;
+        anon2 = continuation3;
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof ScrollExtensionsKt.scrollBy.1 && label2 &= i != 0) {
+            anon2 = continuation3;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon2.label = obj9 -= i;
             } else {
-                anon = new ScrollExtensionsKt.scrollBy.1(continuation3);
+                anon2 = new ScrollExtensionsKt.scrollBy.1(continuation3);
             }
         } else {
         }
-        final androidx.compose.foundation.gestures.ScrollExtensionsKt.scrollBy.1 anon4 = anon;
+        final androidx.compose.foundation.gestures.ScrollExtensionsKt.scrollBy.1 anon4 = anon2;
         obj9 = anon4.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (label) {

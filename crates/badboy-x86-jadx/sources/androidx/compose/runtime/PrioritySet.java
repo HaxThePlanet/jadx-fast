@@ -39,9 +39,9 @@ public final class PrioritySet {
         int intValue;
         int index;
         int i;
-        List list;
-        Integer intValue2;
         List list2;
+        Integer intValue2;
+        List list;
         Integer valueOf;
         if (!(Collection)this.list.isEmpty() && (Number)this.list.get(0).intValue() != value && (Number)this.list.get(size--).intValue() == value) {
             if ((Number)this.list.get(0).intValue() != value) {
@@ -53,13 +53,13 @@ public final class PrioritySet {
         this.list.add(Integer.valueOf(value));
         while (index > 0) {
             i3--;
-            intValue2 = (Number)this.list.get(list).intValue();
+            intValue2 = (Number)this.list.get(list2).intValue();
             if (value <= intValue2) {
                 break;
             } else {
             }
             this.list.set(index, Integer.valueOf(intValue2));
-            index = list;
+            index = list2;
         }
         this.list.set(index, Integer.valueOf(value));
     }
@@ -77,23 +77,23 @@ public final class PrioritySet {
     }
 
     public final int takeMax() {
-        int i4;
+        int i2;
         int index;
         boolean intValue2;
-        String size;
+        String $i$a$RuntimeCheckPrioritySet$takeMax$1;
+        int i4;
+        int intValue4;
         int i3;
-        int intValue3;
-        int i2;
         int intValue;
         int i;
-        int intValue4;
+        int intValue3;
         List valueOf2;
         Integer valueOf;
         final int i5 = 0;
         final int i6 = 1;
-        i4 = this.list.size() > 0 ? i6 : i5;
+        i2 = this.list.size() > 0 ? i6 : i5;
         index = 0;
-        if (i4 == 0) {
+        if (i2 == 0) {
             int i7 = 0;
             ComposerKt.composeImmediateRuntimeError("Set is empty");
         }
@@ -102,43 +102,43 @@ public final class PrioritySet {
             if ((Number)this.list.get(i5).intValue() == intValue5) {
             }
             this.list.set(i5, CollectionsKt.last(this.list));
-            this.list.remove(size3 -= i6);
+            this.list.remove(size2 -= i6);
             index = 0;
-            while (index < size4 >>>= i6) {
-                intValue3 = (Number)this.list.get(index).intValue();
+            while (index < size3 >>>= i6) {
+                intValue4 = (Number)this.list.get(index).intValue();
                 i10 -= i6;
-                intValue = (Number)this.list.get(i2).intValue();
+                intValue = (Number)this.list.get(i3).intValue();
                 i11 *= 2;
                 this.list.set(index, Integer.valueOf(intValue));
-                this.list.set(i2, Integer.valueOf(intValue3));
-                index = i2;
-                intValue4 = (Number)this.list.get(i).intValue();
-                this.list.set(index, Integer.valueOf(intValue4));
-                this.list.set(i, Integer.valueOf(intValue3));
+                this.list.set(i3, Integer.valueOf(intValue4));
+                index = i3;
+                intValue3 = (Number)this.list.get(i).intValue();
+                this.list.set(index, Integer.valueOf(intValue3));
+                this.list.set(i, Integer.valueOf(intValue4));
                 index = i;
             }
-            intValue3 = (Number)this.list.get(index).intValue();
+            intValue4 = (Number)this.list.get(index).intValue();
             i10 -= i6;
-            intValue = (Number)this.list.get(i2).intValue();
+            intValue = (Number)this.list.get(i3).intValue();
             i11 *= 2;
             if (i < this.list.size()) {
             } else {
             }
-            if (intValue > intValue3) {
+            if (intValue > intValue4) {
             } else {
             }
             this.list.set(index, Integer.valueOf(intValue));
-            this.list.set(i2, Integer.valueOf(intValue3));
-            index = i2;
-            intValue4 = (Number)this.list.get(i).intValue();
-            if (intValue4 > intValue) {
+            this.list.set(i3, Integer.valueOf(intValue4));
+            index = i3;
+            intValue3 = (Number)this.list.get(i).intValue();
+            if (intValue3 > intValue) {
             } else {
             }
-            if (intValue4 > intValue3) {
+            if (intValue3 > intValue4) {
             } else {
             }
-            this.list.set(index, Integer.valueOf(intValue4));
-            this.list.set(i, Integer.valueOf(intValue3));
+            this.list.set(index, Integer.valueOf(intValue3));
+            this.list.set(i, Integer.valueOf(intValue4));
             index = i;
         }
         return intValue5;
@@ -146,41 +146,41 @@ public final class PrioritySet {
 
     public final void validateHeap() {
         int index;
-        int i2;
-        int i3;
         int i;
         int i4;
+        int i3;
+        int i5;
         int intValue;
         int intValue2;
-        int i5;
+        int i2;
         String str;
         int size = this.list.size();
         index = 0;
         while (index < size / 2) {
-            i3 = 1;
+            i4 = 1;
             i9 *= 2;
-            i5 = 0;
-            if ((Number)this.list.get(index).intValue() >= (Number)this.list.get(i8 -= i3).intValue()) {
+            i2 = 0;
+            if ((Number)this.list.get(index).intValue() >= (Number)this.list.get(i8 -= i4).intValue()) {
             } else {
             }
-            intValue = i5;
+            intValue = i2;
             intValue2 = 0;
             str = "Check failed.";
             if (intValue == 0) {
             }
-            if (i < size) {
+            if (i3 < size) {
             }
-            i4 = 0;
-            if (i3 == 0) {
+            i5 = 0;
+            if (i4 == 0) {
             }
             index++;
             PreconditionsKt.throwIllegalStateException(str);
-            if ((Number)this.list.get(index).intValue() >= (Number)this.list.get(i).intValue()) {
+            if ((Number)this.list.get(index).intValue() >= (Number)this.list.get(i3).intValue()) {
             } else {
             }
-            i3 = i5;
+            i4 = i2;
             PreconditionsKt.throwIllegalStateException(str);
-            intValue = i3;
+            intValue = i4;
         }
     }
 }

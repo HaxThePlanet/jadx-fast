@@ -100,16 +100,16 @@ public final class SimpleArrayMap<K, V>  {
     }
 
     public boolean equals(Object other) {
-        int i2;
-        int i;
         int i3;
+        int i;
+        int i2;
         Object keyAt;
         Object valueAt;
         Object obj;
         boolean equal;
-        i2 = 1;
+        i3 = 1;
         if (this == other) {
-            return i2;
+            return i3;
         }
         final int i4 = 0;
         Object obj2 = other;
@@ -143,7 +143,7 @@ public final class SimpleArrayMap<K, V>  {
                 }
                 return i4;
                 i++;
-                return i2;
+                return i3;
                 Object obj3 = other;
                 if (other instanceof Map != null && this._size != (Map)obj3.size()) {
                 }
@@ -151,15 +151,15 @@ public final class SimpleArrayMap<K, V>  {
                 if (this._size != (Map)obj3.size()) {
                 }
                 return i4;
-                i3 = 0;
-                while (i3 < this._size) {
-                    keyAt = keyAt(i3);
-                    valueAt = valueAt(i3);
+                i2 = 0;
+                while (i2 < this._size) {
+                    keyAt = keyAt(i2);
+                    valueAt = valueAt(i2);
                     obj = (Map)obj3.get(keyAt);
-                    i3++;
+                    i2++;
                 }
-                keyAt = keyAt(i3);
-                valueAt = valueAt(i3);
+                keyAt = keyAt(i2);
+                valueAt = valueAt(i2);
                 obj = (Map)obj3.get(keyAt);
                 if (valueAt == null) {
                 } else {
@@ -174,8 +174,8 @@ public final class SimpleArrayMap<K, V>  {
                 } else {
                 }
                 return i4;
-                i3++;
-                return i2;
+                i2++;
+                return i3;
                 return i4;
             }
         }
@@ -211,24 +211,24 @@ public final class SimpleArrayMap<K, V>  {
 
     public int hashCode() {
         int result;
-        int i2;
+        int i;
         int v;
         Object obj;
         int i3;
-        int i;
+        int i2;
         result = 0;
-        i2 = 0;
+        i = 0;
         v = 1;
-        while (i2 < this._size) {
+        while (i < this._size) {
             obj = this.keyValues[v];
             if (obj != null) {
             } else {
             }
-            i = 0;
+            i2 = 0;
             result += i3;
-            i2++;
+            i++;
             v += 2;
-            i = obj.hashCode();
+            i2 = obj.hashCode();
         }
         return result;
     }
@@ -236,9 +236,9 @@ public final class SimpleArrayMap<K, V>  {
     protected final int indexOf(Object key, int hash) {
         int end;
         int equal;
-        int i;
-        int equal2;
         int i2;
+        int equal2;
+        int i;
         final int _size = this._size;
         if (_size == 0) {
             return -1;
@@ -255,9 +255,9 @@ public final class SimpleArrayMap<K, V>  {
         while (end < _size) {
             end++;
         }
-        i = binarySearchInternal + -1;
-        while (i >= 0) {
-            i--;
+        i2 = binarySearchInternal + -1;
+        while (i2 >= 0) {
+            i2--;
         }
         return ~end;
     }
@@ -274,10 +274,10 @@ public final class SimpleArrayMap<K, V>  {
 
     protected final int indexOfNull() {
         int end;
-        int i2;
+        int i3;
         int i;
         int i4;
-        int i3;
+        int i2;
         final int _size = this._size;
         if (_size == 0) {
             return -1;
@@ -337,8 +337,8 @@ public final class SimpleArrayMap<K, V>  {
         int length;
         int keyValues;
         String str;
-        int i2;
         int i;
+        int i2;
         final int _size = this._size;
         int i3 = 0;
         int i4 = 0;
@@ -453,59 +453,59 @@ public final class SimpleArrayMap<K, V>  {
 
     public final V removeAt(int index) {
         int _size;
-        int i;
-        int[] keyValues;
-        int keyValues2;
+        int i4;
+        int[] keyValues2;
+        int keyValues;
+        int keyValues4;
+        Object[] keyValues5;
         int keyValues3;
-        Object[] keyValues4;
-        int keyValues5;
+        int i;
         int i2;
         int i3;
-        int i4;
         _size = 1;
         int _size2 = this._size;
         if (_size2 <= _size) {
             clear();
             return this.keyValues[i5 += _size];
         } else {
-            i = _size2 + -1;
-            keyValues3 = 8;
-            if (hashes.length > keyValues3 && _size2 < length /= 3 && _size2 > keyValues3) {
+            i4 = _size2 + -1;
+            keyValues4 = 8;
+            if (hashes.length > keyValues4 && _size2 < length /= 3 && _size2 > keyValues4) {
                 if (_size2 < length /= 3) {
-                    if (_size2 > keyValues3) {
-                        keyValues3 = _size2 + keyValues2;
+                    if (_size2 > keyValues4) {
+                        keyValues4 = _size2 + keyValues;
                     }
-                    keyValues = this.hashes;
-                    keyValues4 = this.keyValues;
-                    this.hashes = new int[keyValues3];
-                    this.keyValues = new Object[keyValues3 << 1];
+                    keyValues2 = this.hashes;
+                    keyValues5 = this.keyValues;
+                    this.hashes = new int[keyValues4];
+                    this.keyValues = new Object[keyValues4 << 1];
                     if (_size2 != this._size) {
                     } else {
                         if (index > 0) {
-                            i2 = 0;
-                            ArraysKt.copyInto(keyValues, this.hashes, i2, i2, index);
-                            ArraysKt.copyInto(keyValues4, this.keyValues, i2, i2, index << 1);
+                            i = 0;
+                            ArraysKt.copyInto(keyValues2, this.hashes, i, i, index);
+                            ArraysKt.copyInto(keyValues5, this.keyValues, i, i, index << 1);
                         }
-                        if (index < i) {
-                            ArraysKt.copyInto(keyValues, this.hashes, index, index + 1, i + 1);
-                            ArraysKt.copyInto(keyValues4, this.keyValues, index << 1, i16 <<= _size, i4 << 1);
+                        if (index < i4) {
+                            ArraysKt.copyInto(keyValues2, this.hashes, index, index + 1, i4 + 1);
+                            ArraysKt.copyInto(keyValues5, this.keyValues, index << 1, i16 <<= _size, i3 << 1);
                         }
                         if (_size2 != this._size) {
                         } else {
-                            this._size = i;
+                            this._size = i4;
                         }
                     }
                     ConcurrentModificationException concurrentModificationException = new ConcurrentModificationException();
                     throw concurrentModificationException;
                 }
             }
-            if (index < i) {
-                ArraysKt.copyInto(this.hashes, this.hashes, index, index + 1, i + 1);
+            if (index < i4) {
+                ArraysKt.copyInto(this.hashes, this.hashes, index, index + 1, i4 + 1);
                 ArraysKt.copyInto(this.keyValues, this.keyValues, index << 1, i12 <<= _size, i14 <<= _size);
             }
-            keyValues4 = 0;
-            this.keyValues[i << 1] = keyValues4;
-            this.keyValues[i8 += _size] = keyValues4;
+            keyValues5 = 0;
+            this.keyValues[i4 << 1] = keyValues5;
+            this.keyValues[i8 += _size] = keyValues5;
         }
         ConcurrentModificationException concurrentModificationException2 = new ConcurrentModificationException();
         throw concurrentModificationException2;

@@ -50,8 +50,8 @@ public final class PointerEvent {
     private final int calculatePointerEventType-7fucELk() {
         int release-7fucELk;
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         boolean changedToDownIgnoreConsumed;
         final MotionEvent motionEvent$ui_release = getMotionEvent$ui_release();
@@ -84,7 +84,7 @@ public final class PointerEvent {
         final int i2 = 0;
         index$iv = 0;
         while (index$iv < changes.size()) {
-            obj = obj2;
+            obj2 = obj;
             i = 0;
             index$iv++;
         }
@@ -100,34 +100,34 @@ public final class PointerEvent {
         ArrayList arrayList;
         boolean pointerEventData2;
         androidx.compose.ui.input.pointer.InternalPointerEvent internalPointerEvent;
-        int list;
+        int list2;
         androidx.compose.ui.input.pointer.InternalPointerEvent internalPointerEvent2;
-        int i3;
+        int i;
         androidx.compose.ui.input.pointer.PointerEvent pointerEvent;
         int index$iv;
-        ArrayList list2;
+        ArrayList list3;
         int size;
         Object obj;
         Object obj2;
-        int i2;
-        ArrayList list3;
+        int i7;
+        ArrayList list;
         Object pointerInputEventData;
         long id-J3iCeTQ;
         long uptimeMillis;
-        long position-F1C5BW0;
         long position-F1C5BW02;
+        long position-F1C5BW0;
         boolean pressed;
         float pressure;
         int type-T8wyACA;
-        int i5;
         int i4;
+        int i8;
         int i9;
-        int i;
         int i6;
-        int i7;
+        int i5;
+        int i2;
         ArrayList pointerEventData;
         int $this$fastForEach$iv;
-        int i8;
+        int i3;
         final Object obj3 = this;
         final List list4 = changes;
         final Object obj4 = motionEvent;
@@ -139,35 +139,35 @@ public final class PointerEvent {
             } else {
                 LongSparseArray longSparseArray = new LongSparseArray(list4.size());
                 arrayList = new ArrayList(list4.size());
-                i3 = 0;
+                i = 0;
                 index$iv = 0;
                 while (index$iv < changes.size()) {
                     obj2 = obj;
-                    i2 = 0;
+                    i7 = 0;
                     longSparseArray.put((PointerInputChange)obj2.getId-J3iCeTQ(), pointerInputEventData);
                     pointerEventData2 = obj3.internalPointerEvent;
-                    i5 = 0;
+                    i4 = 0;
                     if (pointerEventData2 != null) {
                     } else {
                     }
-                    $this$fastForEach$iv = list;
-                    i8 = i3;
-                    pointerInputEventData = new PointerInputEventData(obj2.getId-J3iCeTQ(), obj15, obj2.getUptimeMillis(), obj17, obj2.getPosition-F1C5BW0(), obj19, obj2.getPosition-F1C5BW0(), obj21, obj2.getPressed(), obj2.getPressure(), obj2.getType-T8wyACA(), i5, 0, 0, obj28, 0, obj30, 1792, 0);
+                    $this$fastForEach$iv = list2;
+                    i3 = i;
+                    pointerInputEventData = new PointerInputEventData(obj2.getId-J3iCeTQ(), obj15, obj2.getUptimeMillis(), obj17, obj2.getPosition-F1C5BW0(), obj19, obj2.getPosition-F1C5BW0(), obj21, obj2.getPressed(), obj2.getPressure(), obj2.getType-T8wyACA(), i4, 0, 0, obj28, 0, obj30, 1792, 0);
                     (Collection)arrayList.add(pointerInputEventData);
                     index$iv++;
                     arrayList = pointerEventData;
-                    list = $this$fastForEach$iv;
-                    i3 = i8;
-                    $this$fastForEach$iv = list;
-                    i8 = i3;
-                    list = 1;
-                    if (pointerEventData2.activeHoverEvent-0FcD4WY(obj2.getId-J3iCeTQ()) == list) {
+                    list2 = $this$fastForEach$iv;
+                    i = i3;
+                    $this$fastForEach$iv = list2;
+                    i3 = i;
+                    list2 = 1;
+                    if (pointerEventData2.activeHoverEvent-0FcD4WY(obj2.getId-J3iCeTQ()) == list2) {
                     }
-                    i5 = list;
+                    i4 = list2;
                 }
-                $this$fastForEach$iv = list;
-                i8 = i3;
-                internalPointerEvent = new PointerInputEvent(obj4.getEventTime(), i3, (List)arrayList, obj4);
+                $this$fastForEach$iv = list2;
+                i3 = i;
+                internalPointerEvent = new PointerInputEvent(obj4.getEventTime(), i, (List)arrayList, obj4);
                 internalPointerEvent2 = new InternalPointerEvent(longSparseArray, internalPointerEvent);
                 pointerEvent = new PointerEvent(list4, internalPointerEvent2);
                 changesArray = pointerEvent;

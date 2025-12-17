@@ -40,35 +40,35 @@ public final class KotlinVersion implements Comparable<kotlin.KotlinVersion> {
     }
 
     private final int versionOf(int major, int minor, int patch) {
-        int i2;
         int i;
         int i3;
-        i2 = 256;
-        i = 1;
+        int i2;
+        i = 256;
+        i3 = 1;
         int i9 = 0;
-        if (major >= 0 && major < i2) {
-            i3 = major < i2 ? i : i9;
+        if (major >= 0 && major < i) {
+            i2 = major < i ? i3 : i9;
         } else {
         }
-        if (i3 != 0) {
-            if (minor >= 0 && minor < i2) {
-                i3 = minor < i2 ? i : i9;
+        if (i2 != 0) {
+            if (minor >= 0 && minor < i) {
+                i2 = minor < i ? i3 : i9;
             } else {
             }
-            if (i3 != 0) {
-                if (patch >= 0 && patch < i2) {
-                    i2 = patch < i2 ? i : i9;
+            if (i2 != 0) {
+                if (patch >= 0 && patch < i) {
+                    i = patch < i ? i3 : i9;
                 } else {
                 }
-                if (i2 != 0) {
+                if (i != 0) {
                 } else {
-                    i = i9;
+                    i3 = i9;
                 }
             } else {
             }
         } else {
         }
-        if (i == 0) {
+        if (i3 == 0) {
         } else {
             return i5 += patch;
         }

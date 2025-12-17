@@ -48,10 +48,10 @@ public final class ScrollCapture implements androidx.compose.ui.scrollcapture.Co
     }
 
     public final void onScrollCaptureSearch(View view, SemanticsOwner semanticsOwner, CoroutineContext coroutineContext, Consumer<ScrollCaptureTarget> targets) {
-        int i;
+        int i2;
         int $i$f$get;
         boolean empty;
-        int i2;
+        int i;
         int i3 = 0;
         int i6 = 0;
         int i9 = 0;
@@ -61,8 +61,8 @@ public final class ScrollCapture implements androidx.compose.ui.scrollcapture.Co
         ScrollCapture_androidKt.visitScrollCaptureCandidates$default(semanticsOwner.getUnmergedRootSemanticsNode(), i9, (Function1)anon, i7, 0);
         kotlin.jvm.functions.Function1[] arr = new Function1[i7];
         arr[i9] = ScrollCapture.onScrollCaptureSearch.2.INSTANCE;
-        i = 1;
-        arr[i] = ScrollCapture.onScrollCaptureSearch.3.INSTANCE;
+        i2 = 1;
+        arr[i2] = ScrollCapture.onScrollCaptureSearch.3.INSTANCE;
         mutableVector2.sortWith(ComparisonsKt.compareBy(arr));
         MutableVector mutableVector = mutableVector2;
         int i5 = 0;

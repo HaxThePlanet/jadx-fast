@@ -36,14 +36,14 @@ public final class AndroidCursorHandle_androidKt {
 
     public static final void CursorHandle-USBMPiE(OffsetProvider offsetProvider, Modifier modifier, long minTouchTargetSize, Composer $composer, int $changed, int i6) {
         int semantics$default;
-        int i7;
-        int changedInstance2;
+        int i8;
+        int changedInstance;
         int $dirty;
         long $dirty2;
-        boolean changedInstance;
+        boolean changedInstance2;
         int i2;
-        int i;
-        int i4;
+        int i7;
+        int i5;
         boolean traceInProgress;
         int defaultsInvalid;
         int companion;
@@ -53,9 +53,9 @@ public final class AndroidCursorHandle_androidKt {
         long unspecified-MYxV2XQ;
         int minTouchTargetSize2;
         int str;
+        int i4;
+        int i;
         int i3;
-        int i5;
-        int i8;
         Object empty;
         Object anon;
         long l;
@@ -72,11 +72,11 @@ public final class AndroidCursorHandle_androidKt {
         } else {
             if (i13 & 6 == 0) {
                 if (i13 & 8 == 0) {
-                    changedInstance = restartGroup.changed(obj);
+                    changedInstance2 = restartGroup.changed(obj);
                 } else {
-                    changedInstance = restartGroup.changedInstance(obj);
+                    changedInstance2 = restartGroup.changedInstance(obj);
                 }
-                i2 = changedInstance != null ? rememberComposableLambda : 2;
+                i2 = changedInstance2 ? rememberComposableLambda : 2;
                 $dirty |= i2;
             }
         }
@@ -84,17 +84,17 @@ public final class AndroidCursorHandle_androidKt {
             $dirty |= 48;
         } else {
             if (i13 & 48 == 0) {
-                i = restartGroup.changed(obj2) ? 32 : 16;
-                $dirty |= i;
+                i7 = restartGroup.changed(obj2) ? 32 : 16;
+                $dirty |= i7;
             }
         }
         if (i13 & 384 == 0) {
             if (obj24 & 4 == 0) {
-                i4 = restartGroup.changed(minTouchTargetSize) ? 256 : 128;
+                i5 = restartGroup.changed(minTouchTargetSize) ? 256 : 128;
             } else {
                 unspecified-MYxV2XQ = minTouchTargetSize;
             }
-            $dirty |= i4;
+            $dirty |= i5;
         } else {
             unspecified-MYxV2XQ = minTouchTargetSize;
         }
@@ -125,9 +125,9 @@ public final class AndroidCursorHandle_androidKt {
                 if ($dirty & 14 != rememberComposableLambda) {
                     if ($dirty & 8 != 0 && restartGroup.changedInstance(obj)) {
                         if (restartGroup.changedInstance(obj)) {
-                            i7 = i14;
+                            i8 = i14;
                         } else {
-                            i7 = i12;
+                            i8 = i12;
                         }
                     } else {
                     }
@@ -136,8 +136,8 @@ public final class AndroidCursorHandle_androidKt {
                 Composer composer = restartGroup;
                 int i16 = 0;
                 Object rememberedValue = composer.rememberedValue();
-                i8 = 0;
-                if (i7 == 0) {
+                i3 = 0;
+                if (i8 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new AndroidCursorHandle_androidKt.CursorHandle.finalModifier.1.1(obj);
@@ -170,15 +170,15 @@ public final class AndroidCursorHandle_androidKt {
     }
 
     private static final void DefaultCursorHandle(Modifier modifier, Composer $composer, int $changed, int i4) {
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int $dirty;
         int companion;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int skipping;
         int i;
         Object obj5;
-        traceInProgress2 = 694251107;
-        final Composer obj6 = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 694251107;
+        final Composer obj6 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj6, "C(DefaultCursorHandle)83@3117L79:AndroidCursorHandle.android.kt#423gt5");
         $dirty = $changed;
         companion = i4 & 1;
@@ -197,7 +197,7 @@ public final class AndroidCursorHandle_androidKt {
                     obj5 = companion;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.foundation.text.DefaultCursorHandle (AndroidCursorHandle.android.kt:82)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.foundation.text.DefaultCursorHandle (AndroidCursorHandle.android.kt:82)");
                 }
                 SpacerKt.Spacer(AndroidCursorHandle_androidKt.drawCursorHandle(SizeKt.size-VpY3zN4(obj5, AndroidCursorHandle_androidKt.CursorHandleWidth, AndroidCursorHandle_androidKt.CursorHandleHeight)), obj6, 0);
                 if (ComposerKt.isTraceInProgress()) {

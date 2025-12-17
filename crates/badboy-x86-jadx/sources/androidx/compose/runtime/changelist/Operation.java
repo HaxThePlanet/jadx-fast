@@ -121,15 +121,15 @@ public abstract class Operation {
         @Override // androidx.compose.runtime.changelist.Operation
         public String objectParamName-31yXWZQ(int parameter) {
             String objectParamName-31yXWZQ;
-            int i;
             int i2;
+            int i;
             Object obj = this;
-            i = 0;
+            i2 = 0;
             if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(0))) {
                 objectParamName-31yXWZQ = "anchor";
             } else {
                 Object obj2 = this;
-                i = 0;
+                i2 = 0;
                 if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(1))) {
                     objectParamName-31yXWZQ = "value";
                 } else {
@@ -191,15 +191,15 @@ public abstract class Operation {
         @Override // androidx.compose.runtime.changelist.Operation
         public String objectParamName-31yXWZQ(int parameter) {
             String objectParamName-31yXWZQ;
-            int i;
             int i2;
+            int i;
             Object obj = this;
-            i = 0;
+            i2 = 0;
             if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(0))) {
                 objectParamName-31yXWZQ = "changes";
             } else {
                 Object obj2 = this;
-                i = 0;
+                i2 = 0;
                 if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(1))) {
                     objectParamName-31yXWZQ = "effectiveNodeIndex";
                 } else {
@@ -227,10 +227,10 @@ public abstract class Operation {
         public void execute(androidx.compose.runtime.changelist.OperationArgContainer $this$execute, Applier<?> applier, SlotWriter slots, RememberManager rememberManager) {
             int index$iv;
             Object obj;
-            int i;
+            int i3;
             Object obj2;
             int i2;
-            int i3;
+            int i;
             Object obj3 = this;
             int i4 = 0;
             int element = (IntRef)$this$execute.getObject-31yXWZQ(Operation.ObjectParameter.constructor-impl(0)).getElement();
@@ -240,12 +240,12 @@ public abstract class Operation {
             int i8 = 0;
             index$iv = 0;
             while (index$iv < obj5.size()) {
-                i = index$iv;
+                i3 = index$iv;
                 obj2 = obj;
                 i2 = 0;
                 Intrinsics.checkNotNull(applier, "null cannot be cast to non-null type androidx.compose.runtime.Applier<kotlin.Any?>");
-                applier.insertBottomUp(element + i, obj2);
-                applier.insertTopDown(element + i, obj2);
+                applier.insertBottomUp(element + i3, obj2);
+                applier.insertTopDown(element + i3, obj2);
                 index$iv++;
             }
         }
@@ -265,15 +265,15 @@ public abstract class Operation {
         @Override // androidx.compose.runtime.changelist.Operation
         public String objectParamName-31yXWZQ(int parameter) {
             String objectParamName-31yXWZQ;
-            int i2;
             int i;
+            int i2;
             Object obj = this;
-            i2 = 0;
+            i = 0;
             if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(0))) {
                 objectParamName-31yXWZQ = "effectiveNodeIndex";
             } else {
                 Object obj2 = this;
-                i2 = 0;
+                i = 0;
                 if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(1))) {
                     objectParamName-31yXWZQ = "nodes";
                 } else {
@@ -350,25 +350,25 @@ public abstract class Operation {
         @Override // androidx.compose.runtime.changelist.Operation
         public String objectParamName-31yXWZQ(int parameter) {
             String objectParamName-31yXWZQ;
-            int i;
             int i2;
+            int i;
             Object obj = this;
-            i = 0;
+            i2 = 0;
             if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(0))) {
                 objectParamName-31yXWZQ = "resolvedState";
             } else {
                 Object obj2 = this;
-                i = 0;
+                i2 = 0;
                 if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(1))) {
                     objectParamName-31yXWZQ = "resolvedCompositionContext";
                 } else {
                     Object obj3 = this;
-                    i = 0;
+                    i2 = 0;
                     if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(2))) {
                         objectParamName-31yXWZQ = "from";
                     } else {
                         Object obj4 = this;
-                        i = 0;
+                        i2 = 0;
                         if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(3))) {
                             objectParamName-31yXWZQ = "to";
                         } else {
@@ -439,15 +439,15 @@ public abstract class Operation {
         @Override // androidx.compose.runtime.changelist.Operation
         public String objectParamName-31yXWZQ(int parameter) {
             String objectParamName-31yXWZQ;
-            int i2;
             int i;
+            int i2;
             Object obj = this;
-            i2 = 0;
+            i = 0;
             if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(0))) {
                 objectParamName-31yXWZQ = "effectiveNodeIndexOut";
             } else {
                 Object obj2 = this;
-                i2 = 0;
+                i = 0;
                 if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(1))) {
                     objectParamName-31yXWZQ = "anchor";
                 } else {
@@ -544,15 +544,15 @@ public abstract class Operation {
         @Override // androidx.compose.runtime.changelist.Operation
         public String objectParamName-31yXWZQ(int parameter) {
             String objectParamName-31yXWZQ;
-            int i2;
             int i;
+            int i2;
             Object obj = this;
-            i2 = 0;
+            i = 0;
             if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(0))) {
                 objectParamName-31yXWZQ = "anchor";
             } else {
                 Object obj2 = this;
-                i2 = 0;
+                i = 0;
                 if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(1))) {
                     objectParamName-31yXWZQ = "composition";
                 } else {
@@ -867,20 +867,20 @@ public abstract class Operation {
         @Override // androidx.compose.runtime.changelist.Operation
         public String objectParamName-31yXWZQ(int parameter) {
             String objectParamName-31yXWZQ;
-            int i2;
             int i;
+            int i2;
             Object obj = this;
-            i2 = 0;
+            i = 0;
             if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(0))) {
                 objectParamName-31yXWZQ = "anchor";
             } else {
                 Object obj2 = this;
-                i2 = 0;
+                i = 0;
                 if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(1))) {
                     objectParamName-31yXWZQ = "from";
                 } else {
                     Object obj3 = this;
-                    i2 = 0;
+                    i = 0;
                     if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(2))) {
                         objectParamName-31yXWZQ = "fixups";
                     } else {
@@ -1484,25 +1484,25 @@ public abstract class Operation {
         }
 
         public TestOperation(int ints, int objects, Function3<? super Applier<?>, ? super SlotWriter, ? super RememberManager, Unit> block) {
-            int i2;
-            int box-impl;
-            androidx.compose.runtime.changelist.Operation.IntParameter box-impl2;
             int i;
+            int box-impl2;
+            androidx.compose.runtime.changelist.Operation.IntParameter box-impl;
+            int i2;
             super(ints, objects, 0);
             this.block = block;
             ArrayList arrayList = new ArrayList(ints);
-            box-impl = i2;
-            while (box-impl < ints) {
-                i = 0;
-                arrayList.add(Operation.IntParameter.box-impl(Operation.IntParameter.constructor-impl(box-impl)));
-                box-impl++;
+            box-impl2 = i;
+            while (box-impl2 < ints) {
+                i2 = 0;
+                arrayList.add(Operation.IntParameter.box-impl(Operation.IntParameter.constructor-impl(box-impl2)));
+                box-impl2++;
             }
             this.intParams = (List)arrayList;
             ArrayList arrayList2 = new ArrayList(objects);
-            while (i2 < objects) {
-                box-impl2 = 0;
-                arrayList2.add(Operation.ObjectParameter.box-impl(Operation.ObjectParameter.constructor-impl(i2)));
-                i2++;
+            while (i < objects) {
+                box-impl = 0;
+                arrayList2.add(Operation.ObjectParameter.box-impl(Operation.ObjectParameter.constructor-impl(i)));
+                i++;
             }
             this.objParams = (List)arrayList2;
         }
@@ -1560,12 +1560,12 @@ public abstract class Operation {
         public void execute(androidx.compose.runtime.changelist.OperationArgContainer $this$execute, Applier<?> applier, SlotWriter slots, RememberManager rememberManager) {
             int slotIndex$iv;
             Object obj;
-            int i3;
             int i;
-            int i4;
-            androidx.compose.runtime.RememberObserver wrapped;
             int i2;
-            Object obj5;
+            int i3;
+            androidx.compose.runtime.RememberObserver wrapped;
+            int i4;
+            Object obj4;
             Object obj2 = this;
             int i5 = 0;
             int int-w8GmfQM = $this$execute.getInt-w8GmfQM(Operation.IntParameter.constructor-impl(0));
@@ -1576,19 +1576,19 @@ public abstract class Operation {
             slotIndex$iv = Math.max(writer.slotsStartIndex$runtime_release(parent), slotsEndIndex$runtime_release - int-w8GmfQM);
             while (slotIndex$iv < slotsEndIndex$runtime_release) {
                 obj = SlotWriter.access$getSlots$p(writer)[SlotWriter.access$dataIndexToDataAddress(writer, slotIndex$iv)];
-                i = 0;
+                i2 = 0;
                 if (obj instanceof RememberObserverHolder) {
                 } else {
                 }
-                obj5 = rememberManager;
+                obj4 = rememberManager;
                 if (obj instanceof RecomposeScopeImpl) {
                 }
                 slotIndex$iv++;
                 (RecomposeScopeImpl)obj.release();
-                i2 = -1;
-                rememberManager.forgetting((RememberObserverHolder)obj.getWrapped(), slotsSize - i3, i2, i2);
+                i4 = -1;
+                rememberManager.forgetting((RememberObserverHolder)obj.getWrapped(), slotsSize - i, i4, i4);
             }
-            Object obj6 = rememberManager;
+            Object obj5 = rememberManager;
             slots.trimTailSlots(int-w8GmfQM);
         }
 
@@ -1627,17 +1627,17 @@ public abstract class Operation {
         }
 
         public void execute(androidx.compose.runtime.changelist.OperationArgContainer $this$execute, Applier<?> applier, SlotWriter slots, RememberManager rememberManager) {
-            boolean wrapped;
             boolean wrapped2;
+            boolean wrapped;
             boolean i2;
             Anchor after;
             Object obj8;
-            int i3;
+            int i;
             int priority$iv;
             int endRelativeAfter$iv;
             boolean slotsSize;
             int slotsEndAllIndex$runtime_release;
-            int i;
+            int i3;
             Object obj;
             Object obj2 = $this$execute;
             final Object obj3 = slots;
@@ -1659,7 +1659,7 @@ public abstract class Operation {
             if (obj6 instanceof RememberObserverHolder) {
                 after = (RememberObserverHolder)obj6.getAfter();
                 obj8 = slots;
-                i3 = 0;
+                i = 0;
                 priority$iv = -1;
                 endRelativeAfter$iv = -1;
                 if (after != null && after.getValid()) {
@@ -1667,7 +1667,7 @@ public abstract class Operation {
                         endRelativeAfter$iv = slotsSize - slotsEndAllIndex$runtime_release;
                     }
                 }
-                i = 0;
+                i3 = 0;
                 obj4.forgetting((RememberObserverHolder)obj6.getWrapped(), slotsSize2 -= slotIndexOfGroupSlotIndex, priority$iv, endRelativeAfter$iv);
             } else {
                 if (obj6 instanceof RecomposeScopeImpl) {
@@ -1807,15 +1807,15 @@ public abstract class Operation {
         @Override // androidx.compose.runtime.changelist.Operation
         public String objectParamName-31yXWZQ(int parameter) {
             String objectParamName-31yXWZQ;
-            int i2;
             int i;
+            int i2;
             Object obj = this;
-            i2 = 0;
+            i = 0;
             if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(0))) {
                 objectParamName-31yXWZQ = "value";
             } else {
                 Object obj2 = this;
-                i2 = 0;
+                i = 0;
                 if (Operation.ObjectParameter.equals-impl0(parameter, Operation.ObjectParameter.constructor-impl(1))) {
                     objectParamName-31yXWZQ = "block";
                 } else {
@@ -1921,16 +1921,16 @@ public abstract class Operation {
         }
 
         public void execute(androidx.compose.runtime.changelist.OperationArgContainer $this$execute, Applier<?> applier, SlotWriter slots, RememberManager rememberManager) {
-            int i3;
             int i;
             int i2;
+            int i3;
             Object obj = this;
-            i3 = 0;
-            while (i < $this$execute.getInt-w8GmfQM(Operation.IntParameter.constructor-impl(0))) {
-                i3 = i;
-                i2 = 0;
+            i = 0;
+            while (i2 < $this$execute.getInt-w8GmfQM(Operation.IntParameter.constructor-impl(0))) {
+                i = i2;
+                i3 = 0;
                 applier.up();
-                i++;
+                i2++;
             }
         }
 

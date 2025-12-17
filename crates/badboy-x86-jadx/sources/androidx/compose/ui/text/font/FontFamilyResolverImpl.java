@@ -101,25 +101,25 @@ public final class FontFamilyResolverImpl implements androidx.compose.ui.text.fo
     }
 
     public Object preload(androidx.compose.ui.text.font.FontFamily fontFamily, Continuation<? super Unit> continuation2) {
-        Object obj;
+        Object obj2;
         Object result;
         boolean anon2;
-        int i;
+        int i4;
         androidx.compose.ui.text.font.FontFamilyResolverImpl fontFamilyResolverImpl;
-        Object l$1;
-        int i5;
+        Object _this;
+        int i3;
         Object l$0;
         int label;
         Object preload;
         androidx.compose.ui.text.font.PlatformFontLoader platformFontLoader;
         int i2;
         int index$iv$iv;
-        Object obj2;
-        Object obj3;
-        int i4;
-        ArrayList list;
         Object obj4;
-        int i3;
+        Object obj;
+        int i;
+        ArrayList list;
+        Object obj3;
+        int i5;
         androidx.compose.ui.text.font.TypefaceRequest typefaceRequest;
         androidx.compose.ui.text.font.FontFamily interceptFontFamily;
         androidx.compose.ui.text.font.FontWeight interceptFontWeight;
@@ -129,17 +129,17 @@ public final class FontFamilyResolverImpl implements androidx.compose.ui.text.fo
         int i6;
         androidx.compose.ui.text.font.FontFamilyResolverImpl.preload.1 anon;
         Object obj26;
-        obj = continuation2;
-        anon2 = obj;
-        i5 = Integer.MIN_VALUE;
-        if (obj instanceof FontFamilyResolverImpl.preload.1 && label3 &= i5 != 0) {
-            anon2 = obj;
-            i5 = Integer.MIN_VALUE;
-            if (label3 &= i5 != 0) {
-                anon2.label = label2 -= i5;
+        obj2 = continuation2;
+        anon2 = obj2;
+        i3 = Integer.MIN_VALUE;
+        if (obj2 instanceof FontFamilyResolverImpl.preload.1 && label3 &= i3 != 0) {
+            anon2 = obj2;
+            i3 = Integer.MIN_VALUE;
+            if (label3 &= i3 != 0) {
+                anon2.label = label2 -= i3;
                 fontFamilyResolverImpl = this;
             } else {
-                anon2 = new FontFamilyResolverImpl.preload.1(this, obj);
+                anon2 = new FontFamilyResolverImpl.preload.1(this, obj2);
             }
         } else {
         }
@@ -156,10 +156,10 @@ public final class FontFamilyResolverImpl implements androidx.compose.ui.text.fo
                 anon2.label = 1;
                 return cOROUTINE_SUSPENDED;
                 l$0 = obj5;
-                l$1 = label;
+                _this = label;
                 break;
             case 1:
-                l$1 = anon2.L$1;
+                _this = anon2.L$1;
                 l$0 = anon2.L$0;
                 ResultKt.throwOnFailure(result);
                 break;
@@ -169,16 +169,16 @@ public final class FontFamilyResolverImpl implements androidx.compose.ui.text.fo
                 IllegalStateException $result2 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw $result2;
         }
-        List fonts = (FontListFontFamily)l$1.getFonts();
+        List fonts = (FontListFontFamily)_this.getFonts();
         int i7 = 0;
         ArrayList arrayList = new ArrayList(fonts.size());
         int i8 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < fonts.size()) {
-            i4 = 0;
-            obj4 = obj3;
-            i3 = 0;
-            typefaceRequest = new TypefaceRequest(l$0.platformResolveInterceptor.interceptFontFamily(l$1), l$0.platformResolveInterceptor.interceptFontWeight((Font)obj4.getWeight()), l$0.platformResolveInterceptor.interceptFontStyle-T2F_aPo(obj4.getStyle-_-LCdwA()), FontSynthesis.Companion.getAll-GVVA2EU(), l$0.platformFontLoader.getCacheKey(), 0);
+            i = 0;
+            obj3 = obj;
+            i5 = 0;
+            typefaceRequest = new TypefaceRequest(l$0.platformResolveInterceptor.interceptFontFamily(_this), l$0.platformResolveInterceptor.interceptFontWeight((Font)obj3.getWeight()), l$0.platformResolveInterceptor.interceptFontStyle-T2F_aPo(obj3.getStyle-_-LCdwA()), FontSynthesis.Companion.getAll-GVVA2EU(), l$0.platformFontLoader.getCacheKey(), 0);
             (Collection)arrayList.add(typefaceRequest);
             index$iv$iv++;
             result = obj26;

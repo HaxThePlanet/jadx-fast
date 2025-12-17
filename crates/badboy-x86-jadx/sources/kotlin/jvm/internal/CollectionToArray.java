@@ -24,47 +24,47 @@ public final class CollectionToArray {
     @Deprecated(message = "This function will be made internal in a future release")
     @DeprecatedSinceKotlin(warningSince = "1.9")
     public static final Object[] toArray(Collection<?> collection) {
-        Object[] iter$iv;
-        Object[] size;
+        Object[] $i$a$ToArrayImplCollectionToArray$collectionToArray$12;
+        Object[] $i$a$ToArrayImplCollectionToArray$collectionToArray$1;
         boolean next;
         int newSize$iv2;
         int newSize$iv;
-        int i2;
+        int i;
         String str;
         int copyOf;
-        int i;
+        int i2;
         Object[] copyOf2;
         Intrinsics.checkNotNullParameter(collection, "collection");
         int i3 = 0;
-        final int size2 = collection.size();
-        if (size2 == 0) {
+        final int size = collection.size();
+        if (size == 0) {
             int i4 = 0;
-            iter$iv = CollectionToArray.EMPTY;
-            return iter$iv;
+            $i$a$ToArrayImplCollectionToArray$collectionToArray$12 = CollectionToArray.EMPTY;
+            return $i$a$ToArrayImplCollectionToArray$collectionToArray$12;
         } else {
             Iterator iterator = collection.iterator();
             if (!iterator.hasNext()) {
                 int i5 = 0;
-                iter$iv = size;
+                $i$a$ToArrayImplCollectionToArray$collectionToArray$12 = $i$a$ToArrayImplCollectionToArray$collectionToArray$1;
             } else {
                 int i7 = 0;
-                size = new Object[size2];
+                $i$a$ToArrayImplCollectionToArray$collectionToArray$1 = new Object[size];
                 newSize$iv2 = 0;
-                i2 = newSize$iv2 + 1;
-                size[newSize$iv2] = iterator.next();
+                i = newSize$iv2 + 1;
+                $i$a$ToArrayImplCollectionToArray$collectionToArray$1[newSize$iv2] = iterator.next();
                 str = "copyOf(...)";
-                while (i2 >= size.length) {
-                    copyOf = Arrays.copyOf(size, newSize$iv);
+                while (i >= $i$a$ToArrayImplCollectionToArray$collectionToArray$1.length) {
+                    copyOf = Arrays.copyOf($i$a$ToArrayImplCollectionToArray$collectionToArray$1, newSize$iv);
                     Intrinsics.checkNotNullExpressionValue(copyOf, str);
-                    size = copyOf;
-                    newSize$iv2 = i2;
-                    i2 = newSize$iv2 + 1;
-                    size[newSize$iv2] = iterator.next();
+                    $i$a$ToArrayImplCollectionToArray$collectionToArray$1 = copyOf;
+                    newSize$iv2 = i;
+                    i = newSize$iv2 + 1;
+                    $i$a$ToArrayImplCollectionToArray$collectionToArray$1[newSize$iv2] = iterator.next();
                     str = "copyOf(...)";
-                    newSize$iv2 = i2;
+                    newSize$iv2 = i;
                     newSize$iv = 2147483645;
                 }
-                iter$iv = size;
+                $i$a$ToArrayImplCollectionToArray$collectionToArray$12 = $i$a$ToArrayImplCollectionToArray$collectionToArray$1;
             }
         }
         OutOfMemoryError outOfMemoryError = new OutOfMemoryError();
@@ -74,13 +74,13 @@ public final class CollectionToArray {
     @Deprecated(message = "This function will be made internal in a future release")
     @DeprecatedSinceKotlin(warningSince = "1.9")
     public static final Object[] toArray(Collection<?> collection, Object[] a) {
-        int newSize$iv2;
         int newSize$iv;
+        int newSize$iv2;
         int next;
         Object[] copyOf;
         int iterator;
-        int length2;
         int length;
+        int length2;
         Object result$iv;
         String str;
         int copyOf2;
@@ -102,32 +102,32 @@ public final class CollectionToArray {
             } else {
                 iterator = collection.iterator();
                 if (!iterator.hasNext()) {
-                    length2 = 0;
+                    length = 0;
                     if (a.length > 0) {
                         a[next] = copyOf;
                     }
                 } else {
                     int i3 = size;
-                    length2 = 0;
+                    length = 0;
                     if (i3 <= a.length) {
                         result$iv = a;
                     } else {
                         Intrinsics.checkNotNull(Array.newInstance(a.getClass().getComponentType(), i3), "null cannot be cast to non-null type kotlin.Array<kotlin.Any?>");
                     }
-                    newSize$iv2 = 0;
-                    length2 = newSize$iv2 + 1;
-                    result$iv[newSize$iv2] = iterator.next();
+                    newSize$iv = 0;
+                    length = newSize$iv + 1;
+                    result$iv[newSize$iv] = iterator.next();
                     str = "copyOf(...)";
-                    while (length2 >= result$iv.length) {
-                        copyOf2 = Arrays.copyOf(result$iv, newSize$iv);
+                    while (length >= result$iv.length) {
+                        copyOf2 = Arrays.copyOf(result$iv, newSize$iv2);
                         Intrinsics.checkNotNullExpressionValue(copyOf2, str);
                         result$iv = copyOf2;
-                        newSize$iv2 = length2;
-                        length2 = newSize$iv2 + 1;
-                        result$iv[newSize$iv2] = iterator.next();
+                        newSize$iv = length;
+                        length = newSize$iv + 1;
+                        result$iv[newSize$iv] = iterator.next();
                         str = "copyOf(...)";
-                        newSize$iv2 = length2;
-                        newSize$iv = 2147483645;
+                        newSize$iv = length;
+                        newSize$iv2 = 2147483645;
                     }
                 }
             }
@@ -140,8 +140,8 @@ public final class CollectionToArray {
 
     private static final Object[] toArrayImpl(Collection<?> collection, Function0<Object[]> empty, Function1<? super Integer, Object[]> alloc, Function2<? super Object[], ? super Integer, Object[]> trim) {
         Object result;
-        int newSize2;
         int newSize;
+        int newSize2;
         int i;
         Object[] copyOf;
         String str;
@@ -155,18 +155,18 @@ public final class CollectionToArray {
             return (Object[])empty.invoke();
         }
         result = alloc.invoke(Integer.valueOf(size));
-        newSize2 = 0;
-        i = newSize2 + 1;
-        result[newSize2] = iterator.next();
+        newSize = 0;
+        i = newSize + 1;
+        result[newSize] = iterator.next();
         while (i >= result.length) {
-            copyOf = Arrays.copyOf(result, newSize);
+            copyOf = Arrays.copyOf(result, newSize2);
             Intrinsics.checkNotNullExpressionValue(copyOf, "copyOf(...)");
             result = copyOf;
-            newSize2 = i;
-            i = newSize2 + 1;
-            result[newSize2] = iterator.next();
-            newSize2 = i;
-            newSize = 2147483645;
+            newSize = i;
+            i = newSize + 1;
+            result[newSize] = iterator.next();
+            newSize = i;
+            newSize2 = 2147483645;
         }
         return result;
     }

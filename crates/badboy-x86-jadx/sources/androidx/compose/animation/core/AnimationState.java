@@ -40,17 +40,17 @@ public final class AnimationState<T, V extends androidx.compose.animation.core.A
     }
 
     public AnimationState(androidx.compose.animation.core.TwoWayConverter twoWayConverter, Object object2, androidx.compose.animation.core.AnimationVector animationVector3, long l4, long l5, boolean z6, int i7, DefaultConstructorMarker defaultConstructorMarker8) {
-        int i;
+        int i2;
         long l2;
         long l;
-        int i2;
+        int i;
         int obj12;
-        i = obj18 & 4 != 0 ? obj12 : animationVector3;
+        i2 = obj18 & 4 != 0 ? obj12 : animationVector3;
         long l3 = Long.MIN_VALUE;
         l2 = obj18 & 8 != 0 ? l3 : l4;
         l = obj18 & 16 != 0 ? l3 : z6;
-        i2 = obj18 & 32 != 0 ? obj12 : defaultConstructorMarker8;
-        super(twoWayConverter, object2, i, l2, obj5, l, obj7, i2);
+        i = obj18 & 32 != 0 ? obj12 : defaultConstructorMarker8;
+        super(twoWayConverter, object2, i2, l2, obj5, l, obj7, i);
     }
 
     @Override // androidx.compose.runtime.State

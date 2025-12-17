@@ -37,22 +37,22 @@ public final class NavigationBarItemDefaults {
 
     public final androidx.compose.material3.NavigationBarItemColors colors-69fazGs(long selectedIconColor, long selectedTextColor, long indicatorColor, long unselectedIconColor, long unselectedTextColor, long disabledIconColor, long disabledTextColor, Composer $composer, int $changed, int i10) {
         long unspecified-0d7_KjU7;
-        long unspecified-0d7_KjU3;
-        long unspecified-0d7_KjU5;
+        long unspecified-0d7_KjU6;
+        long unspecified-0d7_KjU4;
         int unspecified-0d7_KjU;
-        int unspecified-0d7_KjU6;
-        int unspecified-0d7_KjU4;
+        int unspecified-0d7_KjU3;
+        int unspecified-0d7_KjU5;
         int unspecified-0d7_KjU2;
         int traceInProgress;
         String str;
         int i;
         long l4;
-        long l6;
         long l2;
         long l5;
-        long l;
-        long l7;
         long l3;
+        long l7;
+        long l;
+        long l6;
         final Composer composer = obj34;
         int i2 = -1618564327;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(colors)P(3:c#ui.graphics.Color,4:c#ui.graphics.Color,2:c#ui.graphics.Color,5:c#ui.graphics.Color,6:c#ui.graphics.Color,0:c#ui.graphics.Color,1:c#ui.graphics.Color)336@14859L11:NavigationBar.kt#uh7d8r");
@@ -62,34 +62,34 @@ public final class NavigationBarItemDefaults {
             l4 = selectedIconColor;
         }
         if (obj36 & 2 != 0) {
-            l6 = unspecified-0d7_KjU3;
+            l2 = unspecified-0d7_KjU6;
         } else {
-            l6 = indicatorColor;
+            l2 = indicatorColor;
         }
         if (obj36 & 4 != 0) {
-            l2 = unspecified-0d7_KjU5;
+            l5 = unspecified-0d7_KjU4;
         } else {
-            l2 = unselectedTextColor;
+            l5 = unselectedTextColor;
         }
         if (obj36 & 8 != 0) {
-            l5 = unspecified-0d7_KjU;
+            l3 = unspecified-0d7_KjU;
         } else {
-            l5 = disabledTextColor;
+            l3 = disabledTextColor;
         }
         if (obj36 & 16 != 0) {
-            l = unspecified-0d7_KjU6;
+            l7 = unspecified-0d7_KjU3;
         } else {
-            l = $changed;
+            l7 = $changed;
         }
         if (obj36 & 32 != 0) {
-            l7 = unspecified-0d7_KjU4;
+            l = unspecified-0d7_KjU5;
         } else {
-            l7 = obj30;
+            l = obj30;
         }
         if (obj36 & 64 != 0) {
-            l3 = unspecified-0d7_KjU2;
+            l6 = unspecified-0d7_KjU2;
         } else {
-            l3 = obj32;
+            l6 = obj32;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj35, -1, "androidx.compose.material3.NavigationBarItemDefaults.colors (NavigationBar.kt:336)");
@@ -100,7 +100,7 @@ public final class NavigationBarItemDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultNavigationBarItemColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-4JmcsL4(l4, obj6, l6, obj8, l2, obj10, l5);
+        return this.getDefaultNavigationBarItemColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-4JmcsL4(l4, obj6, l2, obj8, l5, obj10, l3);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Use overload with disabledIconColor and disabledTextColor")
@@ -109,44 +109,44 @@ public final class NavigationBarItemDefaults {
         androidx.compose.material3.tokens.ColorSchemeKeyTokens activeLabelTextColor;
         androidx.compose.material3.tokens.ColorSchemeKeyTokens activeIndicatorColor;
         int inactiveIconColor;
-        int value;
+        int value2;
         boolean traceInProgress;
         int str;
-        long value2;
+        long value;
         int i;
-        long l;
         long l2;
-        long l3;
         long l4;
         long l5;
+        long l3;
+        long l;
         final Composer composer = obj33;
         int i2 = -213647161;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(colors)P(1:c#ui.graphics.Color,2:c#ui.graphics.Color,0:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color)372@16714L5,373@16797L5,374@16877L5,375@16959L5,376@17046L5:NavigationBar.kt#uh7d8r");
         str = 6;
         if (obj35 & 1 != 0) {
-            l = value2;
+            l2 = value;
         } else {
-            l = selectedIconColor;
+            l2 = selectedIconColor;
         }
         if (obj35 & 2 != 0) {
-            l2 = value2;
+            l4 = value;
         } else {
-            l2 = indicatorColor;
+            l4 = indicatorColor;
         }
         if (obj35 & 4 != 0) {
-            l3 = value2;
-        } else {
-            l3 = unselectedTextColor;
-        }
-        if (obj35 & 8 != 0) {
-            l4 = value2;
-        } else {
-            l4 = $changed;
-        }
-        if (obj35 & 16 != 0) {
             l5 = value;
         } else {
-            l5 = obj31;
+            l5 = unselectedTextColor;
+        }
+        if (obj35 & 8 != 0) {
+            l3 = value;
+        } else {
+            l3 = $changed;
+        }
+        if (obj35 & 16 != 0) {
+            l = value2;
+        } else {
+            l = obj31;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj34, -1, "androidx.compose.material3.NavigationBarItemDefaults.colors (NavigationBar.kt:378)");
@@ -159,7 +159,7 @@ public final class NavigationBarItemDefaults {
         final int obj25 = i5;
         final int obj26 = i6;
         final int i11 = 0;
-        NavigationBarItemColors navigationBarItemColors = new NavigationBarItemColors(l, obj8, l2, obj10, l3, obj12, l4, obj14, l5, obj16, Color.copy-wmQWz5c$default(l4, selectedTextColor, obj25, obj26, 0, i9, obj29), i9, Color.copy-wmQWz5c$default(l5, selectedTextColor, obj25, obj26, 0, i11, obj29), i11, 0);
+        NavigationBarItemColors navigationBarItemColors = new NavigationBarItemColors(l2, obj8, l4, obj10, l5, obj12, l3, obj14, l, obj16, Color.copy-wmQWz5c$default(l3, selectedTextColor, obj25, obj26, 0, i9, obj29), i9, Color.copy-wmQWz5c$default(l, selectedTextColor, obj25, obj26, 0, i11, obj29), i11, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -170,26 +170,26 @@ public final class NavigationBarItemDefaults {
     public final androidx.compose.material3.NavigationBarItemColors getDefaultNavigationBarItemColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultNavigationBarItemColors) {
         androidx.compose.material3.NavigationBarItemColors defaultNavigationBarItemColorsCached$material3_release;
         androidx.compose.material3.NavigationBarItemColors navigationBarItemColors;
-        int i4;
-        long token3;
-        long token4;
-        long token;
-        long token2;
-        long copy-wmQWz5c$default2;
-        long copy-wmQWz5c$default;
         int i6;
+        long token2;
+        long token4;
+        long token3;
+        long token;
+        long copy-wmQWz5c$default;
+        long copy-wmQWz5c$default2;
         int i8;
+        int i4;
         int i2;
+        int i3;
+        int i;
         int i5;
         int i7;
-        int i;
-        int i3;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultNavigationBarItemColors;
         if (colorScheme.getDefaultNavigationBarItemColorsCached$material3_release() == null) {
-            i6 = 0;
+            i8 = 0;
             i2 = 0;
-            navigationBarItemColors = new NavigationBarItemColors(ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getActiveIconColor()), obj4, ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getActiveLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getActiveIndicatorColor()), obj8, ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getInactiveIconColor()), obj10, ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getInactiveLabelTextColor()), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getInactiveIconColor()), obj14, 1052938076, i6, 0, i2, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getInactiveLabelTextColor()), i6, 1052938076, i2, 0, 0, 14), i6, 0);
-            i4 = 0;
+            navigationBarItemColors = new NavigationBarItemColors(ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getActiveIconColor()), obj4, ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getActiveLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getActiveIndicatorColor()), obj8, ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getInactiveIconColor()), obj10, ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getInactiveLabelTextColor()), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getInactiveIconColor()), obj14, 1052938076, i8, 0, i2, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, NavigationBarTokens.INSTANCE.getInactiveLabelTextColor()), i8, 1052938076, i2, 0, 0, 14), i8, 0);
+            i6 = 0;
             colorScheme.setDefaultNavigationBarItemColorsCached$material3_release(navigationBarItemColors);
         }
         return defaultNavigationBarItemColorsCached$material3_release;

@@ -36,8 +36,8 @@ public class AdaptedFunctionReference implements kotlin.jvm.internal.FunctionBas
     @Override // kotlin.jvm.internal.FunctionBase
     public boolean equals(Object o) {
         int i;
-        boolean isTopLevel;
-        String isTopLevel2;
+        boolean isTopLevel2;
+        String isTopLevel;
         if (this == o) {
             return 1;
         }
@@ -93,18 +93,18 @@ public class AdaptedFunctionReference implements kotlin.jvm.internal.FunctionBas
 
     @Override // kotlin.jvm.internal.FunctionBase
     public int hashCode() {
-        int i2;
         int i;
         int i3;
+        int i2;
         if (this.receiver != null) {
-            i2 = this.receiver.hashCode();
+            i = this.receiver.hashCode();
         } else {
-            i2 = i;
+            i = i3;
         }
         if (this.owner != null) {
-            i = this.owner.hashCode();
+            i3 = this.owner.hashCode();
         }
-        i3 = this.isTopLevel ? 1231 : 1237;
+        i2 = this.isTopLevel ? 1231 : 1237;
         return result3 += flags;
     }
 

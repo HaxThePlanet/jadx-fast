@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/fragment_program_lesson_0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:tag="binding_1"
+        android:layout_alignParentTop="true"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:navigationIcon="@drawable/ic_back_arrow_gray"
+        app:titleTextColor="@color/darkGray"
+        style="@style/dailyTrainingToolbarWithLayout"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:tag="binding_2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        <androidx.recyclerview.widget.RecyclerView
+            android:tag="binding_3"
+            android:background="@color/lightestGray"
+            android:paddingBottom="24dp"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

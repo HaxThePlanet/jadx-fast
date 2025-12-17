@@ -23,10 +23,9 @@ public abstract class FlowLayoutOverflow {
     public static enum OverflowType {
 
         Visible,
-        Visible,
-        Visible,
-        Visible,
-        Visible;
+        Clip,
+        ExpandIndicator,
+        ExpandOrCollapseIndicator;
         private static final androidx.compose.foundation.layout.FlowLayoutOverflow.OverflowType[] $values() {
             return /* result */;
         }
@@ -58,17 +57,17 @@ public abstract class FlowLayoutOverflow {
     }
 
     public FlowLayoutOverflow(androidx.compose.foundation.layout.FlowLayoutOverflow.OverflowType flowLayoutOverflow$OverflowType, int i2, int i3, Function1 function14, Function1 function15, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
-        int i4;
-        int i7;
-        int i5;
         int i;
+        int i4;
+        int i5;
+        int i7;
         final int i8 = 0;
-        i4 = i6 & 2 != 0 ? i8 : i2;
-        i7 = i6 & 4 != 0 ? i8 : i3;
+        i = i6 & 2 != 0 ? i8 : i2;
+        i4 = i6 & 4 != 0 ? i8 : i3;
         final int obj11 = 0;
         i5 = i6 & 8 != 0 ? obj11 : function14;
-        i = i6 & 16 != 0 ? obj11 : function15;
-        super(overflowType, i4, i7, i5, i, 0);
+        i7 = i6 & 16 != 0 ? obj11 : function15;
+        super(overflowType, i, i4, i5, i7, 0);
     }
 
     public FlowLayoutOverflow(androidx.compose.foundation.layout.FlowLayoutOverflow.OverflowType flowLayoutOverflow$OverflowType, int i2, int i3, Function1 function14, Function1 function15, DefaultConstructorMarker defaultConstructorMarker6) {
@@ -76,8 +75,8 @@ public abstract class FlowLayoutOverflow {
     }
 
     public final void addOverflowComposables$foundation_layout_release(androidx.compose.foundation.layout.FlowLayoutOverflowState state, List<Function2<Composer, Integer, Unit>> list) {
-        int i2;
         int i;
+        int $i$a$LetFlowLayoutOverflow$addOverflowComposables$collapseIndicator$1;
         int invoke2;
         int[] $EnumSwitchMapping$0;
         int invoke;
@@ -86,26 +85,26 @@ public abstract class FlowLayoutOverflow {
             invoke2 = 0;
             invoke = seeMoreGetter.invoke(state);
         } else {
-            invoke = i;
+            invoke = $i$a$LetFlowLayoutOverflow$addOverflowComposables$collapseIndicator$1;
         }
         Function1 collapseGetter = this.collapseGetter;
         if (collapseGetter != null) {
-            int i4 = 0;
-            i = invoke2;
+            int i3 = 0;
+            $i$a$LetFlowLayoutOverflow$addOverflowComposables$collapseIndicator$1 = invoke2;
         }
-        switch (i2) {
+        switch (i) {
             case 1:
-                i2 = invoke;
+                i = invoke;
                 $EnumSwitchMapping$0 = 0;
                 list.add(invoke);
                 break;
             case 2:
-                i2 = invoke;
+                i = invoke;
                 $EnumSwitchMapping$0 = 0;
                 list.add(invoke);
-                i2 = i;
+                i = $i$a$LetFlowLayoutOverflow$addOverflowComposables$collapseIndicator$1;
                 $EnumSwitchMapping$0 = 0;
-                list.add(i);
+                list.add($i$a$LetFlowLayoutOverflow$addOverflowComposables$collapseIndicator$1);
                 break;
             default:
         }

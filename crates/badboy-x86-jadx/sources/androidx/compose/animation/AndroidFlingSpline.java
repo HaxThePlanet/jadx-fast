@@ -105,21 +105,21 @@ public final class AndroidFlingSpline {
     }
 
     public final androidx.compose.animation.AndroidFlingSpline.FlingResult flingPosition(float time) {
-        int i;
+        int i3;
         float f2;
         int distanceCoef;
         int velocityCoef;
         int i2;
         float f;
         int i4;
-        int i3;
+        int i;
         float coerceIn = RangesKt.coerceIn(time, 0, 1065353216);
-        i = 100;
-        f2 = (float)i;
+        i3 = 100;
+        f2 = (float)i3;
         int i8 = (int)i7;
         distanceCoef = 1065353216;
         velocityCoef = 0;
-        if (i8 < i) {
+        if (i8 < i3) {
             f3 /= f2;
             f2 = AndroidFlingSpline.SplinePositions[i8];
             distanceCoef = f2 + i4;

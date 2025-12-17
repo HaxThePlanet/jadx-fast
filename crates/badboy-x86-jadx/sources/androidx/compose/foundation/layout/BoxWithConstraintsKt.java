@@ -21,18 +21,18 @@ public final class BoxWithConstraintsKt {
         Object modifier2;
         int $dirty;
         Object contentAlignment2;
-        Object obj;
-        boolean z2;
-        boolean traceInProgress;
-        int i2;
-        int i6;
-        int str;
         Object obj2;
-        int i;
-        int i8;
         boolean z;
+        boolean traceInProgress;
         int i4;
+        int i;
+        int str;
+        Object obj;
         int i5;
+        int i8;
+        boolean z2;
+        int i6;
+        int i2;
         Object rememberedValue;
         int i3;
         Object empty;
@@ -46,37 +46,37 @@ public final class BoxWithConstraintsKt {
         int i9 = i7 & 1;
         if (i9 != 0) {
             $dirty2 |= 6;
-            obj = modifier;
+            obj2 = modifier;
         } else {
             if (i15 & 6 == 0) {
-                i6 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i6;
+                i = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i;
             } else {
-                obj = modifier;
+                obj2 = modifier;
             }
         }
         str = i7 & 2;
         if (str != null) {
             $dirty2 |= 48;
-            obj2 = contentAlignment;
+            obj = contentAlignment;
         } else {
             if (i15 & 48 == 0) {
-                i = restartGroup.changed(contentAlignment) ? 32 : 16;
-                $dirty2 |= i;
+                i5 = restartGroup.changed(contentAlignment) ? 32 : 16;
+                $dirty2 |= i5;
             } else {
-                obj2 = contentAlignment;
+                obj = contentAlignment;
             }
         }
         i8 = i7 & 4;
         if (i8 != 0) {
             $dirty2 |= 384;
-            z = propagateMinConstraints;
+            z2 = propagateMinConstraints;
         } else {
             if (i15 & 384 == 0) {
-                i4 = restartGroup.changed(propagateMinConstraints) ? 256 : 128;
-                $dirty2 |= i4;
+                i6 = restartGroup.changed(propagateMinConstraints) ? 256 : 128;
+                $dirty2 |= i6;
             } else {
-                z = propagateMinConstraints;
+                z2 = propagateMinConstraints;
             }
         }
         rememberedValue = 2048;
@@ -84,8 +84,8 @@ public final class BoxWithConstraintsKt {
             $dirty2 |= 3072;
         } else {
             if (i15 & 3072 == 0) {
-                i5 = restartGroup.changedInstance(obj4) ? rememberedValue : 1024;
-                $dirty2 |= i5;
+                i2 = restartGroup.changedInstance(obj4) ? rememberedValue : 1024;
+                $dirty2 |= i2;
             }
         }
         int i18 = $dirty2;
@@ -94,32 +94,32 @@ public final class BoxWithConstraintsKt {
                 if (i9 != 0) {
                     modifier2 = Modifier.Companion;
                 } else {
-                    modifier2 = obj;
+                    modifier2 = obj2;
                 }
                 if (str != null) {
                     contentAlignment2 = Alignment.Companion.getTopStart();
                 } else {
-                    contentAlignment2 = obj2;
+                    contentAlignment2 = obj;
                 }
                 if (i8 != 0) {
-                    z = obj;
+                    z2 = obj2;
                 }
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(maybeCachedBoxMeasurePolicy, i18, -1, "androidx.compose.foundation.layout.BoxWithConstraints (BoxWithConstraints.kt:64)");
                 }
-                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(contentAlignment2, z);
+                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(contentAlignment2, z2);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2066127113, "CC(remember):BoxWithConstraints.kt#9igjgp");
                 str = 0;
-                i2 = i18 & 7168 == rememberedValue ? 1 : str;
-                obj2 = restartGroup;
+                i4 = i18 & 7168 == rememberedValue ? 1 : str;
+                obj = restartGroup;
                 i8 = 0;
-                rememberedValue = obj2.rememberedValue();
+                rememberedValue = obj.rememberedValue();
                 i3 = 0;
-                if (i2 |= changed2 == 0) {
+                if (i4 |= changed2 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new BoxWithConstraintsKt.BoxWithConstraints.1.1(maybeCachedBoxMeasurePolicy, obj4);
-                        obj2.updateRememberedValue((Function2)anon);
+                        obj.updateRememberedValue((Function2)anon);
                     } else {
                         anon = rememberedValue;
                     }
@@ -130,18 +130,18 @@ public final class BoxWithConstraintsKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                z2 = z;
+                z = z2;
             } else {
                 restartGroup.skipToGroupEnd();
-                modifier2 = obj;
-                contentAlignment2 = obj2;
-                z2 = z;
+                modifier2 = obj2;
+                contentAlignment2 = obj;
+                z = z2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            maybeCachedBoxMeasurePolicy = new BoxWithConstraintsKt.BoxWithConstraints.2(modifier2, contentAlignment2, z2, obj4, i15, i7);
+            maybeCachedBoxMeasurePolicy = new BoxWithConstraintsKt.BoxWithConstraints.2(modifier2, contentAlignment2, z, obj4, i15, i7);
             endRestartGroup.updateScope((Function2)maybeCachedBoxMeasurePolicy);
         }
     }

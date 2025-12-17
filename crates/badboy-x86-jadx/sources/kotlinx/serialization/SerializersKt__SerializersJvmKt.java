@@ -143,23 +143,23 @@ final class SerializersKt__SerializersJvmKt {
 
     private static final kotlinx.serialization.KSerializer<Object> serializerByJavaTypeImpl$SerializersKt__SerializersJvmKt(SerializersModule $this$serializerByJavaTypeImpl, Type type, boolean failOnMissingTypeArgSerializer) {
         kotlinx.serialization.KSerializer rootClass;
-        int i3;
+        int i2;
         Type[] objArr;
         boolean assignableFrom;
         Object serializerOrNull;
         int arrayList;
         Type[] actualTypeArguments;
-        int i6;
+        int i;
         ArrayList $i$f$map;
         Type[] arrayList2;
         int iterator;
-        int length2;
         int length;
-        int i4;
-        kotlinx.serialization.KSerializer it;
-        int i2;
-        int i;
+        int length2;
         int i5;
+        kotlinx.serialization.KSerializer it;
+        int i4;
+        int i6;
+        int i3;
         final SerializersModule serializersModule = $this$serializerByJavaTypeImpl;
         final Object obj = type;
         final boolean z = failOnMissingTypeArgSerializer;
@@ -178,78 +178,78 @@ final class SerializersKt__SerializersJvmKt {
                     Intrinsics.checkNotNull(actualTypeArguments);
                     if (z) {
                         objArr = actualTypeArguments;
-                        i6 = 0;
+                        i = 0;
                         $i$f$map = new ArrayList(objArr.length);
                         arrayList2 = objArr;
                         iterator = 0;
-                        length = arrayList;
-                        while (length < arrayList2.length) {
-                            Type type2 = i4;
-                            i2 = 0;
+                        length2 = arrayList;
+                        while (length2 < arrayList2.length) {
+                            Type type2 = i5;
+                            i4 = 0;
                             Intrinsics.checkNotNull(type2);
                             (Collection)$i$f$map.add(SerializersKt.serializer(serializersModule, type2));
-                            length++;
+                            length2++;
                         }
                     } else {
-                        i6 = actualTypeArguments;
+                        i = actualTypeArguments;
                         int i9 = 0;
-                        arrayList2 = new ArrayList(i6.length);
-                        iterator = i6;
-                        length2 = 0;
-                        i4 = arrayList;
-                        while (i4 < iterator.length) {
-                            i2 = it;
-                            i = 0;
-                            Intrinsics.checkNotNull(i2);
-                            serializerOrNull = SerializersKt.serializerOrNull(serializersModule, i2);
+                        arrayList2 = new ArrayList(i.length);
+                        iterator = i;
+                        length = 0;
+                        i5 = arrayList;
+                        while (i5 < iterator.length) {
+                            i4 = it;
+                            i6 = 0;
+                            Intrinsics.checkNotNull(i4);
+                            serializerOrNull = SerializersKt.serializerOrNull(serializersModule, i4);
                             (Collection)arrayList2.add(serializerOrNull);
-                            i4++;
+                            i5++;
                         }
                         $i$f$map = objArr;
                     }
                     serializerOrNull = "null cannot be cast to non-null type kotlinx.serialization.KSerializer<kotlin.Any>";
                     if (Set.class.isAssignableFrom((Class)rawType)) {
-                        i3 = BuiltinSerializersKt.SetSerializer((KSerializer)$i$f$map.get(arrayList));
-                        Intrinsics.checkNotNull(i3, serializerOrNull);
-                        rootClass = i3;
+                        i2 = BuiltinSerializersKt.SetSerializer((KSerializer)$i$f$map.get(arrayList));
+                        Intrinsics.checkNotNull(i2, serializerOrNull);
+                        rootClass = i2;
                     } else {
                         if (!List.class.isAssignableFrom(rawType)) {
                             if (Collection.class.isAssignableFrom(rawType)) {
-                                i3 = BuiltinSerializersKt.ListSerializer((KSerializer)$i$f$map.get(arrayList));
-                                Intrinsics.checkNotNull(i3, serializerOrNull);
-                                rootClass = i3;
+                                i2 = BuiltinSerializersKt.ListSerializer((KSerializer)$i$f$map.get(arrayList));
+                                Intrinsics.checkNotNull(i2, serializerOrNull);
+                                rootClass = i2;
                             } else {
-                                i6 = 1;
+                                i = 1;
                                 if (Map.class.isAssignableFrom(rawType)) {
-                                    i3 = BuiltinSerializersKt.MapSerializer((KSerializer)$i$f$map.get(arrayList), (KSerializer)$i$f$map.get(i6));
-                                    Intrinsics.checkNotNull(i3, serializerOrNull);
-                                    rootClass = i3;
+                                    i2 = BuiltinSerializersKt.MapSerializer((KSerializer)$i$f$map.get(arrayList), (KSerializer)$i$f$map.get(i));
+                                    Intrinsics.checkNotNull(i2, serializerOrNull);
+                                    rootClass = i2;
                                 } else {
                                     if (Map.Entry.class.isAssignableFrom(rawType)) {
-                                        i3 = BuiltinSerializersKt.MapEntrySerializer((KSerializer)$i$f$map.get(arrayList), (KSerializer)$i$f$map.get(i6));
-                                        Intrinsics.checkNotNull(i3, serializerOrNull);
-                                        rootClass = i3;
+                                        i2 = BuiltinSerializersKt.MapEntrySerializer((KSerializer)$i$f$map.get(arrayList), (KSerializer)$i$f$map.get(i));
+                                        Intrinsics.checkNotNull(i2, serializerOrNull);
+                                        rootClass = i2;
                                     } else {
                                         if (Pair.class.isAssignableFrom(rawType)) {
-                                            i3 = BuiltinSerializersKt.PairSerializer((KSerializer)$i$f$map.get(arrayList), (KSerializer)$i$f$map.get(i6));
-                                            Intrinsics.checkNotNull(i3, serializerOrNull);
-                                            rootClass = i3;
+                                            i2 = BuiltinSerializersKt.PairSerializer((KSerializer)$i$f$map.get(arrayList), (KSerializer)$i$f$map.get(i));
+                                            Intrinsics.checkNotNull(i2, serializerOrNull);
+                                            rootClass = i2;
                                         } else {
                                             if (Triple.class.isAssignableFrom(rawType)) {
-                                                i3 = BuiltinSerializersKt.TripleSerializer((KSerializer)$i$f$map.get(arrayList), (KSerializer)$i$f$map.get(i6), (KSerializer)$i$f$map.get(2));
-                                                Intrinsics.checkNotNull(i3, serializerOrNull);
-                                                rootClass = i3;
+                                                i2 = BuiltinSerializersKt.TripleSerializer((KSerializer)$i$f$map.get(arrayList), (KSerializer)$i$f$map.get(i), (KSerializer)$i$f$map.get(2));
+                                                Intrinsics.checkNotNull(i2, serializerOrNull);
+                                                rootClass = i2;
                                             } else {
-                                                i3 = $i$f$map;
+                                                i2 = $i$f$map;
                                                 serializerOrNull = 0;
-                                                arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)i3, 10));
+                                                arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)i2, 10));
                                                 arrayList2 = 0;
-                                                iterator = i3.iterator();
-                                                for (Object length2 : iterator) {
-                                                    length = length2;
-                                                    i4 = 0;
-                                                    Intrinsics.checkNotNull((KSerializer)length, "null cannot be cast to non-null type kotlinx.serialization.KSerializer<kotlin.Any?>");
-                                                    (Collection)arrayList.add(length);
+                                                iterator = i2.iterator();
+                                                for (Object length : iterator) {
+                                                    length2 = length;
+                                                    i5 = 0;
+                                                    Intrinsics.checkNotNull((KSerializer)length2, "null cannot be cast to non-null type kotlinx.serialization.KSerializer<kotlin.Any?>");
+                                                    (Collection)arrayList.add(length2);
                                                 }
                                                 rootClass = SerializersKt__SerializersJvmKt.reflectiveOrContextual$SerializersKt__SerializersJvmKt(serializersModule, rawType, (List)arrayList);
                                             }

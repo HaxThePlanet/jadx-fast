@@ -34,17 +34,17 @@ public final class DeleteSurroundingTextInCodePointsCommand implements androidx.
     @Override // androidx.compose.ui.text.input.EditCommand
     public void applyTo(androidx.compose.ui.text.input.EditingBuffer buffer) {
         int beforeLenInChars;
-        int i;
-        int i2;
         int i3;
+        int i2;
+        int i;
         char selectionStart$ui_text_release;
         int lengthAfterCursor;
         char selectionEnd$ui_text_release;
         boolean length$ui_text_release;
         boolean z;
         beforeLenInChars = 0;
-        i = 0;
-        while (i < this.lengthBeforeCursor) {
+        i3 = 0;
+        while (i3 < this.lengthBeforeCursor) {
             beforeLenInChars++;
             if (buffer.getSelectionStart$ui_text_release() <= beforeLenInChars) {
                 break;
@@ -52,12 +52,12 @@ public final class DeleteSurroundingTextInCodePointsCommand implements androidx.
             }
             if (EditCommandKt.access$isSurrogatePair(buffer.get$ui_text_release(i6--), buffer.get$ui_text_release(selectionStart$ui_text_release5 -= beforeLenInChars))) {
             }
-            i++;
+            i3++;
             beforeLenInChars++;
         }
         i2 = 0;
-        i3 = 0;
-        while (i3 < this.lengthAfterCursor) {
+        i = 0;
+        while (i < this.lengthAfterCursor) {
             i2++;
             if (selectionEnd$ui_text_release4 += i2 >= buffer.getLength$ui_text_release()) {
                 break;
@@ -65,7 +65,7 @@ public final class DeleteSurroundingTextInCodePointsCommand implements androidx.
             }
             if (EditCommandKt.access$isSurrogatePair(buffer.get$ui_text_release(i9--), buffer.get$ui_text_release(selectionEnd$ui_text_release6 += i2))) {
             }
-            i3++;
+            i++;
             i2++;
         }
         buffer.delete$ui_text_release(buffer.getSelectionEnd$ui_text_release(), selectionEnd$ui_text_release3 += i2);

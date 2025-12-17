@@ -45,53 +45,53 @@ public final class SuggestionChipDefaults {
     }
 
     public final androidx.compose.material3.ChipColors elevatedSuggestionChipColors-5tl4gsc(long containerColor, long labelColor, long iconContentColor, long disabledContainerColor, long disabledLabelColor, long disabledIconContentColor, Composer $composer, int $changed, int i9) {
-        long unspecified-0d7_KjU;
         long unspecified-0d7_KjU6;
-        long unspecified-0d7_KjU3;
-        int unspecified-0d7_KjU2;
+        long unspecified-0d7_KjU2;
+        long unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU;
+        int unspecified-0d7_KjU3;
         int unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU5;
         boolean traceInProgress;
         String str;
         int i;
-        long l4;
         long l5;
-        long l2;
-        long l6;
         long l3;
+        long l2;
         long l;
+        long l6;
+        long l4;
         final Composer composer = obj34;
         int i2 = 1269423125;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(elevatedSuggestionChipColors)P(0:c#ui.graphics.Color,5:c#ui.graphics.Color,4:c#ui.graphics.Color,1:c#ui.graphics.Color,3:c#ui.graphics.Color,2:c#ui.graphics.Color)1879@92652L11:Chip.kt#uh7d8r");
         if (obj36 & 1 != 0) {
-            l4 = unspecified-0d7_KjU;
-        } else {
-            l4 = containerColor;
-        }
-        if (obj36 & 2 != 0) {
             l5 = unspecified-0d7_KjU6;
         } else {
-            l5 = iconContentColor;
+            l5 = containerColor;
+        }
+        if (obj36 & 2 != 0) {
+            l3 = unspecified-0d7_KjU2;
+        } else {
+            l3 = iconContentColor;
         }
         if (obj36 & 4 != 0) {
-            l2 = unspecified-0d7_KjU3;
+            l2 = unspecified-0d7_KjU5;
         } else {
             l2 = disabledLabelColor;
         }
         if (obj36 & 8 != 0) {
-            l6 = unspecified-0d7_KjU2;
+            l = unspecified-0d7_KjU;
         } else {
-            l6 = $composer;
+            l = $composer;
         }
         if (obj36 & 16 != 0) {
-            l3 = unspecified-0d7_KjU4;
+            l6 = unspecified-0d7_KjU3;
         } else {
-            l3 = i9;
+            l6 = i9;
         }
         if (obj36 & 32 != 0) {
-            l = unspecified-0d7_KjU5;
+            l4 = unspecified-0d7_KjU4;
         } else {
-            l = obj32;
+            l4 = obj32;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj35, -1, "androidx.compose.material3.SuggestionChipDefaults.elevatedSuggestionChipColors (Chip.kt:1879)");
@@ -102,17 +102,17 @@ public final class SuggestionChipDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultElevatedSuggestionChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-FD3wquc(l4, obj6, l5, obj8, l2, obj10, Color.Companion.getUnspecified-0d7_KjU(), obj12);
+        return this.getDefaultElevatedSuggestionChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-FD3wquc(l5, obj6, l3, obj8, l2, obj10, Color.Companion.getUnspecified-0d7_KjU(), obj12);
     }
 
     public final androidx.compose.material3.ChipElevation elevatedSuggestionChipElevation-aqJV_2Y(float elevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         SuggestionChipTokens iNSTANCE;
         float f6;
-        float f5;
         float f2;
-        float f3;
         float f4;
+        float f3;
         float f;
+        float f5;
         float obj12;
         float obj13;
         float obj14;
@@ -125,14 +125,14 @@ public final class SuggestionChipDefaults {
             f6 = elevation;
         }
         if (i9 & 2 != 0) {
-            f5 = obj13;
+            f2 = obj13;
         } else {
-            f5 = pressedElevation;
+            f2 = pressedElevation;
         }
         if (i9 & 4 != 0) {
-            f2 = obj14;
+            f4 = obj14;
         } else {
-            f2 = focusedElevation;
+            f4 = focusedElevation;
         }
         if (i9 & 8 != 0) {
             f3 = obj12;
@@ -140,21 +140,21 @@ public final class SuggestionChipDefaults {
             f3 = hoveredElevation;
         }
         if (i9 & 16 != 0) {
-            f4 = obj12;
-        } else {
-            f4 = draggedElevation;
-        }
-        if (i9 & 32 != 0) {
             f = obj12;
         } else {
-            f = disabledElevation;
+            f = draggedElevation;
+        }
+        if (i9 & 32 != 0) {
+            f5 = obj12;
+        } else {
+            f5 = disabledElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.SuggestionChipDefaults.elevatedSuggestionChipElevation (Chip.kt:1932)");
         } else {
             obj14 = $changed;
         }
-        ChipElevation chipElevation = new ChipElevation(f6, f5, f2, f3, f4, f, 0);
+        ChipElevation chipElevation = new ChipElevation(f6, f2, f4, f3, f, f5, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -165,28 +165,28 @@ public final class SuggestionChipDefaults {
     public final androidx.compose.material3.ChipColors getDefaultElevatedSuggestionChipColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultElevatedSuggestionChipColors) {
         androidx.compose.material3.ChipColors defaultElevatedSuggestionChipColorsCached$material3_release;
         androidx.compose.material3.ChipColors chipColors;
-        int i4;
-        long token2;
-        long token;
-        long unspecified-0d7_KjU2;
-        long copy-wmQWz5c$default2;
-        long copy-wmQWz5c$default3;
-        int i8;
-        long copy-wmQWz5c$default;
-        int i3;
-        long unspecified-0d7_KjU;
-        int i6;
-        int i7;
-        int i5;
         int i2;
+        long token;
+        long token2;
+        long unspecified-0d7_KjU;
+        long copy-wmQWz5c$default3;
+        long copy-wmQWz5c$default2;
+        int i4;
+        long copy-wmQWz5c$default;
+        int i6;
+        long unspecified-0d7_KjU2;
+        int i7;
+        int i3;
         int i;
+        int i8;
+        int i5;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultElevatedSuggestionChipColors;
         if (colorScheme.getDefaultElevatedSuggestionChipColorsCached$material3_release() == null) {
-            i8 = 0;
-            i3 = 0;
-            i6 = 0;
-            chipColors = new ChipColors(ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getElevatedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getLeadingIconColor()), obj8, Color.Companion.getUnspecified-0d7_KjU(), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getElevatedDisabledContainerColor()), obj12, AssistChipTokens.INSTANCE.getElevatedDisabledContainerOpacity(), i8, 0, i3, 14), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getDisabledLabelTextColor()), i8, SuggestionChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i3, 0, i6, 14), i8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i3, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i6, 0, 0, 14), i3, Color.Companion.getUnspecified-0d7_KjU(), i6, 0);
             i4 = 0;
+            i6 = 0;
+            i7 = 0;
+            chipColors = new ChipColors(ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getElevatedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getLeadingIconColor()), obj8, Color.Companion.getUnspecified-0d7_KjU(), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getElevatedDisabledContainerColor()), obj12, AssistChipTokens.INSTANCE.getElevatedDisabledContainerOpacity(), i4, 0, i6, 14), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, SuggestionChipTokens.INSTANCE.getDisabledLabelTextColor()), i4, SuggestionChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i6, 0, i7, 14), i4, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i6, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i7, 0, 0, 14), i6, Color.Companion.getUnspecified-0d7_KjU(), i7, 0);
+            i2 = 0;
             colorScheme.setDefaultElevatedSuggestionChipColorsCached$material3_release(chipColors);
         }
         return defaultElevatedSuggestionChipColorsCached$material3_release;
@@ -223,29 +223,29 @@ public final class SuggestionChipDefaults {
         boolean traceInProgress;
         int str;
         long value;
-        int i5;
-        long l2;
+        int i;
         long l;
+        long l2;
         float flatDisabledOutlineOpacity;
         float f;
+        int i2;
+        int i5;
         int i4;
         int i7;
         int i3;
-        int i2;
-        int i;
         final Composer composer = i6;
         int i8 = 439283919;
         ComposerKt.sourceInformationMarkerStart(composer, i8, "C(suggestionChipBorder)P(0:c#ui.graphics.Color,2:c#ui.graphics.Color,1:c#ui.unit.Dp)1838@90873L5,1840@90975L5:Chip.kt#uh7d8r");
         str = 6;
         if (obj25 & 1 != 0) {
-            l2 = value;
+            l = value;
         } else {
-            l2 = borderColor;
+            l = borderColor;
         }
         if (obj25 & 2 != 0) {
-            l = copy-wmQWz5c$default;
+            l2 = copy-wmQWz5c$default;
         } else {
-            l = borderWidth;
+            l2 = borderWidth;
         }
         if (obj25 & 4 != 0) {
             f = flatOutlineWidth-D9Ej5fM;
@@ -255,9 +255,9 @@ public final class SuggestionChipDefaults {
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, obj24, -1, "androidx.compose.material3.SuggestionChipDefaults.suggestionChipBorder (Chip.kt:1845)");
         } else {
-            i5 = obj24;
+            i = obj24;
         }
-        ChipBorder chipBorder = new ChipBorder(l2, obj8, l, obj10, f, 0);
+        ChipBorder chipBorder = new ChipBorder(l, obj8, l2, obj10, f, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -274,11 +274,11 @@ public final class SuggestionChipDefaults {
         boolean traceInProgress;
         long l;
         float flatDisabledOutlineOpacity;
+        int i2;
         int i5;
         int i4;
-        int i6;
         int i;
-        int i2;
+        int i6;
         int i3;
         final Composer composer = i7;
         int i8 = -637354809;
@@ -302,7 +302,7 @@ public final class SuggestionChipDefaults {
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, obj22, -1, "androidx.compose.material3.SuggestionChipDefaults.suggestionChipBorder (Chip.kt:1818)");
         } else {
-            i4 = obj22;
+            i5 = obj22;
         }
         l = enabled ? borderColor2 : disabledBorderColor2;
         if (ComposerKt.isTraceInProgress()) {
@@ -329,52 +329,52 @@ public final class SuggestionChipDefaults {
 
     public final androidx.compose.material3.ChipColors suggestionChipColors-5tl4gsc(long containerColor, long labelColor, long iconContentColor, long disabledContainerColor, long disabledLabelColor, long disabledIconContentColor, Composer $composer, int $changed, int i9) {
         long unspecified-0d7_KjU4;
-        long unspecified-0d7_KjU5;
-        long unspecified-0d7_KjU2;
+        long unspecified-0d7_KjU;
+        long unspecified-0d7_KjU6;
+        int unspecified-0d7_KjU5;
         int unspecified-0d7_KjU3;
-        int unspecified-0d7_KjU6;
-        int unspecified-0d7_KjU;
+        int unspecified-0d7_KjU2;
         boolean traceInProgress;
         String str;
         int i;
-        long l3;
-        long l6;
         long l5;
+        long l6;
         long l;
-        long l4;
+        long l3;
         long l2;
+        long l4;
         final Composer composer = obj34;
         int i2 = 1882647883;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(suggestionChipColors)P(0:c#ui.graphics.Color,5:c#ui.graphics.Color,4:c#ui.graphics.Color,1:c#ui.graphics.Color,3:c#ui.graphics.Color,2:c#ui.graphics.Color)1761@87335L11:Chip.kt#uh7d8r");
         if (obj36 & 1 != 0) {
-            l3 = unspecified-0d7_KjU4;
+            l5 = unspecified-0d7_KjU4;
         } else {
-            l3 = containerColor;
+            l5 = containerColor;
         }
         if (obj36 & 2 != 0) {
-            l6 = unspecified-0d7_KjU5;
+            l6 = unspecified-0d7_KjU;
         } else {
             l6 = iconContentColor;
         }
         if (obj36 & 4 != 0) {
-            l5 = unspecified-0d7_KjU2;
+            l = unspecified-0d7_KjU6;
         } else {
-            l5 = disabledLabelColor;
+            l = disabledLabelColor;
         }
         if (obj36 & 8 != 0) {
-            l = unspecified-0d7_KjU3;
+            l3 = unspecified-0d7_KjU5;
         } else {
-            l = $composer;
+            l3 = $composer;
         }
         if (obj36 & 16 != 0) {
-            l4 = unspecified-0d7_KjU6;
+            l2 = unspecified-0d7_KjU3;
         } else {
-            l4 = i9;
+            l2 = i9;
         }
         if (obj36 & 32 != 0) {
-            l2 = unspecified-0d7_KjU;
+            l4 = unspecified-0d7_KjU2;
         } else {
-            l2 = obj32;
+            l4 = obj32;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj35, -1, "androidx.compose.material3.SuggestionChipDefaults.suggestionChipColors (Chip.kt:1761)");
@@ -385,17 +385,17 @@ public final class SuggestionChipDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return ChipKt.getDefaultSuggestionChipColors(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-FD3wquc(l3, obj6, l6, obj8, l5, obj10, Color.Companion.getUnspecified-0d7_KjU(), obj12);
+        return ChipKt.getDefaultSuggestionChipColors(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-FD3wquc(l5, obj6, l6, obj8, l, obj10, Color.Companion.getUnspecified-0d7_KjU(), obj12);
     }
 
     public final androidx.compose.material3.ChipElevation suggestionChipElevation-aqJV_2Y(float elevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         SuggestionChipTokens iNSTANCE;
-        float f;
-        float f3;
         float f4;
-        float f2;
-        float f5;
         float f6;
+        float f2;
+        float f3;
+        float f5;
+        float f;
         float obj12;
         float obj13;
         float obj14;
@@ -403,25 +403,25 @@ public final class SuggestionChipDefaults {
         final Composer composer = $composer;
         ComposerKt.sourceInformationMarkerStart(composer, i, "C(suggestionChipElevation)P(2:c#ui.unit.Dp,5:c#ui.unit.Dp,3:c#ui.unit.Dp,4:c#ui.unit.Dp,1:c#ui.unit.Dp,0:c#ui.unit.Dp):Chip.kt#uh7d8r");
         if (i9 & 1 != 0) {
-            f = obj12;
+            f4 = obj12;
         } else {
-            f = elevation;
+            f4 = elevation;
         }
-        f3 = i9 & 2 != 0 ? obj13 : pressedElevation;
-        f4 = i9 & 4 != 0 ? obj14 : focusedElevation;
-        f2 = i9 & 8 != 0 ? obj12 : hoveredElevation;
+        f6 = i9 & 2 != 0 ? obj13 : pressedElevation;
+        f2 = i9 & 4 != 0 ? obj14 : focusedElevation;
+        f3 = i9 & 8 != 0 ? obj12 : hoveredElevation;
         if (i9 & 16 != 0) {
             f5 = obj12;
         } else {
             f5 = draggedElevation;
         }
-        f6 = i9 & 32 != 0 ? obj12 : disabledElevation;
+        f = i9 & 32 != 0 ? obj12 : disabledElevation;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.SuggestionChipDefaults.suggestionChipElevation (Chip.kt:1792)");
         } else {
             obj14 = $changed;
         }
-        ChipElevation chipElevation = new ChipElevation(f, f3, f4, f2, f5, f6, 0);
+        ChipElevation chipElevation = new ChipElevation(f4, f6, f2, f3, f5, f, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

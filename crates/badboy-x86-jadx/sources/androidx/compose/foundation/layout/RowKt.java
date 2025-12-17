@@ -125,9 +125,9 @@ public final class RowKt {
         Object defaultRowMeasurePolicy;
         boolean equal;
         int changed2;
-        int i3;
-        boolean traceInProgress;
         int i;
+        boolean traceInProgress;
+        int i3;
         String str;
         Object rememberedValue;
         int changed;
@@ -152,7 +152,7 @@ public final class RowKt {
                 int i11 = 4;
                 if (i8 ^= 6 > i11) {
                     if (!$composer.changed(horizontalArrangement)) {
-                        i3 = $changed & 6 == i11 ? i10 : i;
+                        i = $changed & 6 == i11 ? i10 : i3;
                     } else {
                     }
                 } else {
@@ -161,7 +161,7 @@ public final class RowKt {
                 if (i12 ^= 48 > i13) {
                     if (!$composer.changed(verticalAlignment)) {
                         if ($changed & 48 == i13) {
-                            i = i10;
+                            i3 = i10;
                         }
                     } else {
                     }
@@ -171,7 +171,7 @@ public final class RowKt {
                 str = 0;
                 rememberedValue = traceInProgress.rememberedValue();
                 i2 = 0;
-                if (i3 |= i == 0) {
+                if (i |= i3 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         rowMeasurePolicy = new RowMeasurePolicy(horizontalArrangement, verticalAlignment);

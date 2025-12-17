@@ -31,8 +31,8 @@ public final class SubcomposeLayoutKt {
     public static final void SubcomposeLayout(Modifier modifier, Function2<? super androidx.compose.ui.layout.SubcomposeMeasureScope, ? super Constraints, ? extends androidx.compose.ui.layout.MeasureResult> measurePolicy, Composer $composer, int $changed, int i5) {
         int anon;
         int $i$f$cache;
-        int i2;
         int i4;
+        int i2;
         int skipping;
         Object obj;
         int i;
@@ -50,16 +50,16 @@ public final class SubcomposeLayoutKt {
             obj10 |= 6;
         } else {
             if ($changed & 6 == 0) {
-                i2 = restartGroup.changed(modifier) ? 4 : 2;
-                obj10 |= i2;
+                i4 = restartGroup.changed(modifier) ? 4 : 2;
+                obj10 |= i4;
             }
         }
         if (i5 & 2 != 0) {
             obj10 |= 48;
         } else {
             if ($changed & 48 == 0) {
-                i4 = restartGroup.changedInstance(measurePolicy) ? 32 : 16;
-                obj10 |= i4;
+                i2 = restartGroup.changedInstance(measurePolicy) ? 32 : 16;
+                obj10 |= i2;
             }
         }
         if (obj10 & 19 == 18) {
@@ -105,66 +105,66 @@ public final class SubcomposeLayoutKt {
     }
 
     public static final void SubcomposeLayout(androidx.compose.ui.layout.SubcomposeLayoutState state, Modifier modifier, Function2<? super androidx.compose.ui.layout.SubcomposeMeasureScope, ? super Constraints, ? extends androidx.compose.ui.layout.MeasureResult> measurePolicy, Composer $composer, int $changed, int i6) {
-        int traceInProgress2;
-        int i2;
-        int $dirty;
-        Object obj;
+        int traceInProgress;
+        int i;
         int $dirty2;
+        Object obj;
+        int $dirty;
         Object modifier3;
         Object valueOf;
         int i8;
         int currentCompositeKeyHash;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         Object rememberCompositionContext;
-        int i7;
+        int i4;
         int i9;
         int materializeModifier;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         Object constructor$ui_release;
-        int i3;
+        int i5;
         Object empty;
         Object constructor-impl;
-        int i;
-        int i5;
-        int i4;
+        int i2;
+        int i3;
+        int i7;
         Object modifier2;
         Composer obj22;
         final Object obj2 = state;
         valueOf = measurePolicy;
         final int i13 = $changed;
-        traceInProgress2 = -511989831;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -511989831;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(SubcomposeLayout)P(2,1)113@5266L23,114@5319L28,117@5475L487:SubcomposeLayout.kt#80mrfh");
-        $dirty = $changed;
+        $dirty2 = $changed;
         if (i6 & 1 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
         } else {
             if (i13 & 6 == 0) {
                 i8 = restartGroup.changedInstance(obj2) ? 4 : 2;
-                $dirty |= i8;
+                $dirty2 |= i8;
             }
         }
         currentCompositeKeyHash = i6 & 2;
         if (currentCompositeKeyHash != 0) {
-            $dirty |= 48;
+            $dirty2 |= 48;
             rememberCompositionContext = modifier;
         } else {
             if (i13 & 48 == 0) {
-                i7 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i7;
+                i4 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i4;
             } else {
                 rememberCompositionContext = modifier;
             }
         }
         if (i6 & 4 != 0) {
-            $dirty |= 384;
+            $dirty2 |= 384;
         } else {
             if (i13 & 384 == 0) {
                 i9 = restartGroup.changedInstance(valueOf) ? 256 : 128;
-                $dirty |= i9;
+                $dirty2 |= i9;
             }
         }
-        int i15 = $dirty;
+        int i15 = $dirty2;
         if (i15 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (currentCompositeKeyHash != 0) {
@@ -173,11 +173,11 @@ public final class SubcomposeLayoutKt {
                     modifier3 = rememberCompositionContext;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, i15, -1, "androidx.compose.ui.layout.SubcomposeLayout (SubcomposeLayout.kt:112)");
+                    ComposerKt.traceEventStart(traceInProgress, i15, -1, "androidx.compose.ui.layout.SubcomposeLayout (SubcomposeLayout.kt:112)");
                 }
                 int i10 = 0;
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i10);
-                i3 = 6;
+                i5 = 6;
                 empty = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1405779621, "CC(ReusableComposeNode):Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
@@ -190,15 +190,15 @@ public final class SubcomposeLayoutKt {
                     restartGroup.useNode();
                 }
                 constructor-impl = Updater.constructor-impl(restartGroup);
-                i = 0;
+                i2 = 0;
                 Updater.set-impl(constructor-impl, obj2, obj2.getSetRoot$ui_release());
                 Updater.set-impl(constructor-impl, ComposablesKt.rememberCompositionContext(restartGroup, i10), obj2.getSetCompositionContext$ui_release());
                 Updater.set-impl(constructor-impl, valueOf, obj2.getSetMeasurePolicy$ui_release());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, modifier3), ComposeUiNode.Companion.getSetModifier());
-                i5 = 0;
+                i3 = 0;
                 obj22 = constructor-impl;
-                i4 = 0;
+                i7 = 0;
                 if (!obj22.getInserting()) {
                     modifier2 = modifier3;
                     if (!Intrinsics.areEqual(obj22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
@@ -219,7 +219,7 @@ public final class SubcomposeLayoutKt {
                     modifier3 = restartGroup;
                     valueOf = 0;
                     constructor$ui_release = modifier3.rememberedValue();
-                    i3 = 0;
+                    i5 = 0;
                     if (!restartGroup.changedInstance(obj2)) {
                         if (constructor$ui_release == Composer.Companion.getEmpty()) {
                             empty = 0;
@@ -249,8 +249,8 @@ public final class SubcomposeLayoutKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new SubcomposeLayoutKt.SubcomposeLayout.5(obj2, obj, measurePolicy, i13, i6);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new SubcomposeLayoutKt.SubcomposeLayout.5(obj2, obj, measurePolicy, i13, i6);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 

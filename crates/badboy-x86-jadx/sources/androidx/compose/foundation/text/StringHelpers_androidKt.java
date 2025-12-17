@@ -9,22 +9,22 @@ import kotlin.Metadata;
 public final class StringHelpers_androidKt {
     public static final int findFollowingBreak(String $this$findFollowingBreak, int index) {
         Object emojiCompatIfLoaded;
-        int i2;
-        int intValue;
-        int i3;
         int i;
+        int intValue;
+        int i2;
+        int i3;
         emojiCompatIfLoaded = StringHelpers_androidKt.getEmojiCompatIfLoaded();
-        i2 = 0;
+        i = 0;
         if (emojiCompatIfLoaded != null) {
             emojiCompatIfLoaded = Integer.valueOf(emojiCompatIfLoaded.getEmojiEnd((CharSequence)$this$findFollowingBreak, index));
-            i3 = 0;
-            i = (Number)emojiCompatIfLoaded.intValue() == -1 ? 1 : 0;
-            if (i == 0) {
-                i2 = emojiCompatIfLoaded;
+            i2 = 0;
+            i3 = (Number)emojiCompatIfLoaded.intValue() == -1 ? 1 : 0;
+            if (i3 == 0) {
+                i = emojiCompatIfLoaded;
             }
         }
-        if (i2 != 0) {
-            return i2.intValue();
+        if (i != 0) {
+            return i.intValue();
         }
         BreakIterator characterInstance = BreakIterator.getCharacterInstance();
         characterInstance.setText($this$findFollowingBreak);
@@ -33,27 +33,27 @@ public final class StringHelpers_androidKt {
 
     public static final int findPrecedingBreak(String $this$findPrecedingBreak, int index) {
         Object emojiCompatIfLoaded;
-        int i;
+        int i4;
         int intValue;
         int i3;
-        int i4;
+        int i;
         int i2;
         emojiCompatIfLoaded = StringHelpers_androidKt.getEmojiCompatIfLoaded();
-        i = 0;
+        i4 = 0;
         emojiCompatIfLoaded = Integer.valueOf(emojiCompatIfLoaded.getEmojiStart((CharSequence)$this$findPrecedingBreak, Math.max(0, index + -1)));
         i3 = 0;
         if (emojiCompatIfLoaded != null && (Number)emojiCompatIfLoaded.intValue() == -1) {
             emojiCompatIfLoaded = Integer.valueOf(emojiCompatIfLoaded.getEmojiStart((CharSequence)$this$findPrecedingBreak, Math.max(0, index + -1)));
             i3 = 0;
             if ((Number)emojiCompatIfLoaded.intValue() == -1) {
-                i4 = 1;
+                i = 1;
             }
-            if (i4 == 0) {
-                i = emojiCompatIfLoaded;
+            if (i == 0) {
+                i4 = emojiCompatIfLoaded;
             }
         }
-        if (i != 0) {
-            return i.intValue();
+        if (i4 != 0) {
+            return i4.intValue();
         }
         BreakIterator characterInstance = BreakIterator.getCharacterInstance();
         characterInstance.setText($this$findPrecedingBreak);
@@ -64,18 +64,18 @@ public final class StringHelpers_androidKt {
         boolean configured;
         int i3;
         EmojiCompat emojiCompat;
-        int i2;
-        int loadState;
         int i;
+        int loadState;
+        int i2;
         i3 = 0;
         if (EmojiCompat.isConfigured()) {
             configured = EmojiCompat.get();
-            i2 = 0;
+            i = 0;
             if (configured.getLoadState() == 1) {
             } else {
-                i = 0;
+                i2 = 0;
             }
-            if (i != 0) {
+            if (i2 != 0) {
                 i3 = configured;
             }
         } else {

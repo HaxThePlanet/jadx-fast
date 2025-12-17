@@ -35,20 +35,20 @@ public final class CheckboxDefaults {
 
     public final androidx.compose.material3.CheckboxColors colors-5tl4gsc(long checkedColor, long uncheckedColor, long checkmarkColor, long disabledCheckedColor, long disabledUncheckedColor, long disabledIndeterminateColor, Composer $composer, int $changed, int i9) {
         long unspecified-0d7_KjU5;
-        long unspecified-0d7_KjU3;
         long unspecified-0d7_KjU6;
+        long unspecified-0d7_KjU2;
         int unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU2;
         int unspecified-0d7_KjU;
+        int unspecified-0d7_KjU3;
         boolean traceInProgress;
         String str;
         int i;
-        long l;
-        long l2;
-        long l3;
-        long l4;
-        long l5;
         long l6;
+        long l2;
+        long l;
+        long l5;
+        long l4;
+        long l3;
         final Composer composer = obj42;
         int i2 = -89536160;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(colors)P(0:c#ui.graphics.Color,5:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.graphics.Color,3:c#ui.graphics.Color)219@9500L11:Checkbox.kt#uh7d8r");
@@ -58,29 +58,29 @@ public final class CheckboxDefaults {
             l2 = checkedColor;
         }
         if (obj44 & 2 != 0) {
-            l5 = unspecified-0d7_KjU3;
+            l4 = unspecified-0d7_KjU6;
         } else {
-            l5 = checkmarkColor;
+            l4 = checkmarkColor;
         }
         if (obj44 & 4 != 0) {
-            l = unspecified-0d7_KjU6;
-        } else {
-            l = disabledUncheckedColor;
-        }
-        if (obj44 & 8 != 0) {
-            l3 = unspecified-0d7_KjU4;
-        } else {
-            l3 = $composer;
-        }
-        if (obj44 & 16 != 0) {
             l6 = unspecified-0d7_KjU2;
         } else {
-            l6 = i9;
+            l6 = disabledUncheckedColor;
+        }
+        if (obj44 & 8 != 0) {
+            l = unspecified-0d7_KjU4;
+        } else {
+            l = $composer;
+        }
+        if (obj44 & 16 != 0) {
+            l3 = unspecified-0d7_KjU;
+        } else {
+            l3 = i9;
         }
         if (obj44 & 32 != 0) {
-            l4 = unspecified-0d7_KjU;
+            l5 = unspecified-0d7_KjU3;
         } else {
-            l4 = obj40;
+            l5 = obj40;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj43, -1, "androidx.compose.material3.CheckboxDefaults.colors (Checkbox.kt:219)");
@@ -91,49 +91,49 @@ public final class CheckboxDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultCheckboxColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-2qZNXz8(l, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, l2, obj10, Color.Companion.getTransparent-0d7_KjU(), obj12, l3, obj14, Color.Companion.getTransparent-0d7_KjU(), obj16);
+        return this.getDefaultCheckboxColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-2qZNXz8(l6, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, l2, obj10, Color.Companion.getTransparent-0d7_KjU(), obj12, l, obj14, Color.Companion.getTransparent-0d7_KjU(), obj16);
     }
 
     public final androidx.compose.material3.CheckboxColors getDefaultCheckboxColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultCheckboxColors) {
         androidx.compose.material3.CheckboxColors defaultCheckboxColorsCached$material3_release;
         androidx.compose.material3.CheckboxColors checkboxColors;
-        int i14;
-        long transparent-0d7_KjU2;
-        long token;
-        long transparent-0d7_KjU3;
-        long copy-wmQWz5c$default5;
+        int i12;
         long transparent-0d7_KjU;
-        int i7;
-        long copy-wmQWz5c$default3;
-        int i2;
         long token3;
-        int i;
-        long token2;
-        int i9;
+        long transparent-0d7_KjU3;
         long copy-wmQWz5c$default2;
-        int i8;
+        long transparent-0d7_KjU2;
+        int i;
+        long copy-wmQWz5c$default3;
+        int i9;
+        long token;
+        int i6;
+        long token2;
+        int i3;
+        long copy-wmQWz5c$default5;
+        int i4;
         long copy-wmQWz5c$default4;
         int i5;
         long copy-wmQWz5c$default;
-        int i6;
-        int i3;
+        int i2;
         int i10;
-        int i11;
-        int i4;
-        int i12;
         int i13;
+        int i14;
+        int i11;
+        int i7;
+        int i8;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultCheckboxColors;
         if (colorScheme.getDefaultCheckboxColorsCached$material3_release() == null) {
-            i7 = 0;
-            i2 = 0;
-            i8 = 0;
             i = 0;
             i9 = 0;
-            i5 = 0;
+            i4 = 0;
             i6 = 0;
-            i10 = 0;
-            checkboxColors = new CheckboxColors(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedIconColor()), obj4, Color.Companion.getTransparent-0d7_KjU(), obj6, ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedContainerColor()), obj8, Color.Companion.getTransparent-0d7_KjU(), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedDisabledContainerColor()), obj12, 1052938076, i7, 0, i2, 14), obj12, Color.Companion.getTransparent-0d7_KjU(), i7, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedDisabledContainerColor()), i2, 1052938076, i, 0, i9, 14), i2, ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedContainerColor()), i, ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getUnselectedOutlineColor()), i9, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedDisabledContainerColor()), i8, 1052938076, i5, 0, i6, 14), i8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getUnselectedDisabledOutlineColor()), i5, 1052938076, i6, 0, i10, 14), i5, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedDisabledContainerColor()), i6, 1052938076, i10, 0, 0, 14), i6, 0);
-            i14 = 0;
+            i3 = 0;
+            i5 = 0;
+            i2 = 0;
+            i13 = 0;
+            checkboxColors = new CheckboxColors(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedIconColor()), obj4, Color.Companion.getTransparent-0d7_KjU(), obj6, ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedContainerColor()), obj8, Color.Companion.getTransparent-0d7_KjU(), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedDisabledContainerColor()), obj12, 1052938076, i, 0, i9, 14), obj12, Color.Companion.getTransparent-0d7_KjU(), i, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedDisabledContainerColor()), i9, 1052938076, i6, 0, i3, 14), i9, ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedContainerColor()), i6, ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getUnselectedOutlineColor()), i3, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedDisabledContainerColor()), i4, 1052938076, i5, 0, i2, 14), i4, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getUnselectedDisabledOutlineColor()), i5, 1052938076, i2, 0, i13, 14), i5, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, CheckboxTokens.INSTANCE.getSelectedDisabledContainerColor()), i2, 1052938076, i13, 0, 0, 14), i2, 0);
+            i12 = 0;
             colorScheme.setDefaultCheckboxColorsCached$material3_release(checkboxColors);
         }
         return defaultCheckboxColorsCached$material3_release;

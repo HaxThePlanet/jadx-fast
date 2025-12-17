@@ -59,16 +59,16 @@ public abstract class TrieNodeBaseIterator<K, V, T>  implements Iterator<T>, KMa
 
     @Override // java.util.Iterator
     public final boolean hasNextNode() {
-        int i;
         int i2;
+        int i;
         final int i3 = 0;
-        i = this.index >= this.dataSize ? i2 : i3;
-        CommonFunctionsKt.assert(i);
+        i2 = this.index >= this.dataSize ? i : i3;
+        CommonFunctionsKt.assert(i2);
         if (this.index < buffer.length) {
         } else {
-            i2 = i3;
+            i = i3;
         }
-        return i2;
+        return i;
     }
 
     @Override // java.util.Iterator

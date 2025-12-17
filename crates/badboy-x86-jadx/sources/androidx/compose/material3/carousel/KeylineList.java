@@ -49,14 +49,14 @@ public final class KeylineList implements List<androidx.compose.material3.carous
     }
 
     public KeylineList(List<androidx.compose.material3.carousel.Keyline> keylines) {
+        int index$iv2;
         int index$iv3;
         int index$iv;
-        int index$iv2;
         Iterator iterator;
         Iterator it;
-        Object next;
+        Object next3;
+        boolean next;
         boolean next2;
-        boolean next3;
         boolean next4;
         int nextIndex;
         boolean it2;
@@ -65,7 +65,7 @@ public final class KeylineList implements List<androidx.compose.material3.carous
         super();
         this.$$delegate_0 = keylines;
         int i2 = 0;
-        index$iv3 = 0;
+        index$iv2 = 0;
         Iterator iterator2 = (List)this.iterator();
         nextIndex = -1;
         while (iterator2.hasNext()) {
@@ -73,40 +73,40 @@ public final class KeylineList implements List<androidx.compose.material3.carous
             if ((Keyline)iterator2.next().isPivot()) {
                 break;
             }
-            index$iv3++;
+            index$iv2++;
             nextIndex = -1;
         }
         int index$iv4 = nextIndex;
         int i3 = 0;
-        index$iv = 0;
+        index$iv3 = 0;
         iterator = (List)this.iterator();
         while (iterator.hasNext()) {
             i = 0;
             if (!(Keyline)iterator.next().isAnchor()) {
                 break;
             }
-            index$iv++;
+            index$iv3++;
         }
         int index$iv5 = nextIndex;
         Object obj3 = this;
         int i4 = 0;
         ListIterator listIterator = obj3.listIterator((List)obj3.size());
         while (listIterator.hasPrevious()) {
-            next3 = false;
+            next2 = false;
             if (!(Keyline)listIterator.previous().isAnchor()) {
                 break;
             }
         }
         int i7 = nextIndex;
         int i5 = 0;
-        index$iv2 = 0;
+        index$iv = 0;
         it = (List)this.iterator();
         while (it.hasNext()) {
             i = 0;
             if ((Keyline)it.next().isFocal()) {
                 break;
             }
-            index$iv2++;
+            index$iv++;
         }
         int index$iv6 = nextIndex;
         Object obj5 = this;
@@ -182,8 +182,8 @@ public final class KeylineList implements List<androidx.compose.material3.carous
     @Override // java.util.List
     public boolean equals(Object other) {
         int index$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         int i;
         int i2;
         boolean equal;
@@ -275,31 +275,31 @@ public final class KeylineList implements List<androidx.compose.material3.carous
     public final androidx.compose.material3.carousel.Keyline getKeylineAfter(float unadjustedOffset) {
         Object last;
         int index$iv$iv;
+        Object obj2;
         Object obj;
+        int i;
         Object obj3;
         int i2;
-        Object obj2;
         int i3;
-        int i;
         final int i4 = 0;
         final Object obj4 = last;
         final int i5 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < obj4.size()) {
+            i = 0;
             i2 = 0;
-            i3 = 0;
             if (Float.compare(unadjustedOffset2, unadjustedOffset) >= 0) {
             } else {
             }
-            i = 0;
+            i3 = 0;
             index$iv$iv++;
-            i = 1;
+            i3 = 1;
         }
-        obj3 = 0;
-        if ((Keyline)obj3 == null) {
-            obj3 = last;
+        obj = 0;
+        if ((Keyline)obj == null) {
+            obj = last;
         }
-        return obj3;
+        return obj;
     }
 
     @Override // java.util.List

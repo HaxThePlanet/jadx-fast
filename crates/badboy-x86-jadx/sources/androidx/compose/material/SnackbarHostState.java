@@ -112,44 +112,44 @@ public final class SnackbarHostState {
 
     public final Object showSnackbar(String string, String string2, androidx.compose.material.SnackbarDuration snackbarDuration3, Continuation<? super androidx.compose.material.SnackbarResult> continuation4) {
         Object obj3;
-        int i4;
+        int i6;
         boolean anon4;
         Object $continuation;
-        int i7;
+        int i4;
         androidx.compose.material.SnackbarHostState snackbarHostState;
-        int i6;
-        int $i$f$withLock2;
+        int i;
+        int _this;
         Object cOROUTINE_SUSPENDED;
-        int i3;
-        Object $this$withLock_u24default$iv2;
-        int $this$withLock_u24default$iv;
-        Object owner$iv;
-        Object obj2;
+        int i5;
+        Object $this$withLock_u24default$iv;
+        int $this$withLock_u24default$iv2;
+        Object owner$iv2;
+        Object obj;
         Object l$4;
         int cancellableContinuationImpl;
-        Object owner$iv2;
+        Object owner$iv;
         int l$3;
-        Object obj;
+        Object obj2;
         int actionLabel;
         Object message;
         Object $i$f$withLock;
         Object lock;
         androidx.compose.material.SnackbarHostState.showSnackbar.1 anon2;
-        int i5;
-        androidx.compose.material.SnackbarHostState.showSnackbar.1 anon3;
-        int i;
-        Object obj7;
-        androidx.compose.material.SnackbarHostState.showSnackbar.1 anon;
         int i2;
+        androidx.compose.material.SnackbarHostState.showSnackbar.1 anon;
+        int i7;
+        Object obj7;
+        androidx.compose.material.SnackbarHostState.showSnackbar.1 anon3;
+        int i3;
         int obj19;
         obj3 = continuation4;
         anon4 = obj3;
-        i3 = Integer.MIN_VALUE;
-        if (obj3 instanceof SnackbarHostState.showSnackbar.1 && label2 &= i3 != 0) {
+        i5 = Integer.MIN_VALUE;
+        if (obj3 instanceof SnackbarHostState.showSnackbar.1 && label2 &= i5 != 0) {
             anon4 = obj3;
-            i3 = Integer.MIN_VALUE;
-            if (label2 &= i3 != 0) {
-                anon4.label = label -= i3;
+            i5 = Integer.MIN_VALUE;
+            if (label2 &= i5 != 0) {
+                anon4.label = label -= i5;
                 snackbarHostState = this;
             } else {
                 anon4 = new SnackbarHostState.showSnackbar.1(this, obj3);
@@ -164,46 +164,46 @@ public final class SnackbarHostState {
                 Object obj4 = this;
                 Object obj5 = string2;
                 Object obj6 = string;
-                owner$iv = obj4.mutex;
+                owner$iv2 = obj4.mutex;
                 int i13 = 0;
                 anon4.L$0 = obj4;
                 anon4.L$1 = obj6;
                 anon4.L$2 = obj5;
                 anon4.L$3 = snackbarDuration3;
-                anon4.L$4 = owner$iv;
+                anon4.L$4 = owner$iv2;
                 anon4.label = 1;
                 return cOROUTINE_SUSPENDED2;
-                owner$iv2 = obj4;
-                $i$f$withLock2 = i14;
+                owner$iv = obj4;
+                _this = i14;
                 $i$f$withLock = obj6;
                 message = obj5;
-                actionLabel = i2;
+                actionLabel = i3;
                 break;
             case 1:
-                $i$f$withLock2 = 0;
+                _this = 0;
                 l$3 = anon4.L$3;
                 ResultKt.throwOnFailure(result);
                 actionLabel = i8;
-                owner$iv = l$42;
-                owner$iv2 = l$0;
+                owner$iv2 = l$42;
+                owner$iv = l$0;
                 $i$f$withLock = l$12;
-                message = i2;
+                message = i3;
                 break;
             case 2:
+                i = 0;
+                $this$withLock_u24default$iv2 = 0;
                 i6 = 0;
-                $this$withLock_u24default$iv = 0;
-                i4 = 0;
                 Object l$5 = anon4.L$5;
                 l$4 = anon4.L$4;
                 Object l$32 = anon4.L$3;
                 Object l$2 = anon4.L$2;
                 Object l$1 = anon4.L$1;
-                owner$iv2 = anon4.L$0;
+                owner$iv = anon4.L$0;
                 ResultKt.throwOnFailure(result);
-                anon = anon4;
+                anon3 = anon4;
                 $continuation = result;
                 actionLabel = cancellableContinuationImpl;
-                owner$iv2.setCurrentSnackbarData(0);
+                owner$iv.setCurrentSnackbarData(0);
                 l$4.unlock(actionLabel);
                 return $continuation;
             default:
@@ -212,20 +212,20 @@ public final class SnackbarHostState {
                 throw illegalStateException;
         }
         anon2 = anon4;
-        anon4.L$0 = owner$iv2;
+        anon4.L$0 = owner$iv;
         anon4.L$1 = $i$f$withLock;
         anon4.L$2 = message;
         anon4.L$3 = l$3;
-        anon4.L$4 = owner$iv;
+        anon4.L$4 = owner$iv2;
         anon4.L$5 = anon2;
         anon4.label = 2;
-        i = 0;
-        anon = anon4;
+        i7 = 0;
+        anon3 = anon4;
         cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon2), 1);
         cancellableContinuationImpl.initCancellability();
         int i10 = 0;
-        SnackbarHostState.SnackbarDataImpl $i$f$withLock3 = new SnackbarHostState.SnackbarDataImpl($i$f$withLock, message, l$3, (CancellableContinuation)cancellableContinuationImpl);
-        SnackbarHostState.access$setCurrentSnackbarData(owner$iv2, (SnackbarData)$i$f$withLock3);
+        SnackbarHostState.SnackbarDataImpl $i$f$withLock2 = new SnackbarHostState.SnackbarDataImpl($i$f$withLock, message, l$3, (CancellableContinuation)cancellableContinuationImpl);
+        SnackbarHostState.access$setCurrentSnackbarData(owner$iv, (SnackbarData)$i$f$withLock2);
         $continuation = cancellableContinuationImpl.getResult();
         if ($continuation == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
             DebugProbesKt.probeCoroutineSuspended((Continuation)anon2);
@@ -233,9 +233,9 @@ public final class SnackbarHostState {
         if ($continuation == cOROUTINE_SUSPENDED2) {
             return cOROUTINE_SUSPENDED2;
         }
-        i6 = obj19;
-        l$4 = owner$iv;
-        $this$withLock_u24default$iv = lock;
-        i4 = i5;
+        i = obj19;
+        l$4 = owner$iv2;
+        $this$withLock_u24default$iv2 = lock;
+        i6 = i2;
     }
 }

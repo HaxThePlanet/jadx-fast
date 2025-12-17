@@ -39,219 +39,219 @@ public final class PathNodeKt {
     private static final char RelativeVerticalToKey = 'v';
     private static final char VerticalToKey = 'V';
     public static final void addPathNodes(char $this$addPathNodes, ArrayList<androidx.compose.ui.graphics.vector.PathNode> nodes, float[] args, int count) {
-        int i9;
-        int i4;
+        int i8;
+        int i2;
         androidx.compose.ui.graphics.vector.PathNode.Close iNSTANCE;
-        int i5;
-        int index$iv;
+        int i7;
         int index$iv3;
-        int index$iv2;
         int index$iv5;
+        int index$iv;
         int index$iv4;
+        int index$iv2;
         int i3;
         int relativeReflectiveQuadTo;
         androidx.compose.ui.graphics.vector.PathNode.RelativeLineTo relativeHorizontalTo;
         int arcTo;
         int relativeArcTo;
-        int i11;
-        int i2;
-        int i;
-        int i6;
-        int i7;
         int i10;
-        int i8;
+        int i4;
+        int i5;
+        int i6;
+        int i;
+        int i11;
+        int i9;
         final int i12 = $this$addPathNodes;
-        i9 = nodes;
+        i8 = nodes;
         final float[] fArr = args;
         final int i21 = count;
-        index$iv3 = 1;
+        index$iv5 = 1;
         if (i12 == 122) {
-            i4 = index$iv3;
+            i2 = index$iv5;
         } else {
         }
-        if (i4 != 0) {
-            i9.add(PathNode.Close.INSTANCE);
+        if (i2 != 0) {
+            i8.add(PathNode.Close.INSTANCE);
         } else {
             if (i12 == 109) {
-                PathNodeKt.pathRelativeMoveNodeFromArgs((List)i9, fArr, i21);
+                PathNodeKt.pathRelativeMoveNodeFromArgs((List)i8, fArr, i21);
             } else {
                 if (i12 == 77) {
-                    PathNodeKt.pathMoveNodeFromArgs((List)i9, fArr, i21);
+                    PathNodeKt.pathMoveNodeFromArgs((List)i8, fArr, i21);
                 } else {
-                    index$iv2 = 2;
+                    index$iv = 2;
                     if (i12 == 108) {
                         iNSTANCE = 0;
-                        index$iv3 = 0;
-                        while (index$iv3 <= i21 - index$iv2) {
-                            index$iv4 = index$iv3;
+                        index$iv5 = 0;
+                        while (index$iv5 <= i21 - index$iv) {
+                            index$iv2 = index$iv5;
                             i3 = args;
                             relativeReflectiveQuadTo = 0;
-                            relativeHorizontalTo = new PathNode.RelativeLineTo(i3[index$iv4], i3[index$iv4 + 1]);
-                            (List)i9.add((PathNode)relativeHorizontalTo);
-                            index$iv3 += index$iv2;
+                            relativeHorizontalTo = new PathNode.RelativeLineTo(i3[index$iv2], i3[index$iv2 + 1]);
+                            (List)i8.add((PathNode)relativeHorizontalTo);
+                            index$iv5 += index$iv;
                         }
                     } else {
                         if (i12 == 76) {
                             iNSTANCE = 2;
+                            index$iv3 = 0;
                             index$iv = 0;
-                            index$iv2 = 0;
-                            while (index$iv2 <= i21 - iNSTANCE) {
-                                index$iv4 = index$iv2;
+                            while (index$iv <= i21 - iNSTANCE) {
+                                index$iv2 = index$iv;
                                 i3 = args;
                                 relativeReflectiveQuadTo = 0;
-                                relativeHorizontalTo = new PathNode.LineTo(i3[index$iv4], i3[index$iv4 + 1]);
-                                (List)i9.add((PathNode)relativeHorizontalTo);
-                                index$iv2 += iNSTANCE;
+                                relativeHorizontalTo = new PathNode.LineTo(i3[index$iv2], i3[index$iv2 + 1]);
+                                (List)i8.add((PathNode)relativeHorizontalTo);
+                                index$iv += iNSTANCE;
                             }
                         } else {
                             if (i12 == 104) {
                                 iNSTANCE = 0;
-                                index$iv2 = 0;
-                                while (index$iv2 <= i21 - index$iv3) {
+                                index$iv = 0;
+                                while (index$iv <= i21 - index$iv5) {
                                     relativeReflectiveQuadTo = 0;
-                                    relativeHorizontalTo = new PathNode.RelativeHorizontalTo(args[index$iv2]);
-                                    (List)i9.add((PathNode)relativeHorizontalTo);
-                                    index$iv2 += index$iv3;
+                                    relativeHorizontalTo = new PathNode.RelativeHorizontalTo(args[index$iv]);
+                                    (List)i8.add((PathNode)relativeHorizontalTo);
+                                    index$iv += index$iv5;
                                 }
                             } else {
                                 if (i12 == 72) {
                                     iNSTANCE = 0;
-                                    index$iv2 = 0;
-                                    while (index$iv2 <= i21 - index$iv3) {
+                                    index$iv = 0;
+                                    while (index$iv <= i21 - index$iv5) {
                                         relativeReflectiveQuadTo = 0;
-                                        relativeHorizontalTo = new PathNode.HorizontalTo(args[index$iv2]);
-                                        (List)i9.add((PathNode)relativeHorizontalTo);
-                                        index$iv2 += index$iv3;
+                                        relativeHorizontalTo = new PathNode.HorizontalTo(args[index$iv]);
+                                        (List)i8.add((PathNode)relativeHorizontalTo);
+                                        index$iv += index$iv5;
                                     }
                                 } else {
                                     if (i12 == 118) {
                                         iNSTANCE = 0;
-                                        index$iv2 = 0;
-                                        while (index$iv2 <= i21 - index$iv3) {
+                                        index$iv = 0;
+                                        while (index$iv <= i21 - index$iv5) {
                                             relativeReflectiveQuadTo = 0;
-                                            relativeHorizontalTo = new PathNode.RelativeVerticalTo(args[index$iv2]);
-                                            (List)i9.add((PathNode)relativeHorizontalTo);
-                                            index$iv2 += index$iv3;
+                                            relativeHorizontalTo = new PathNode.RelativeVerticalTo(args[index$iv]);
+                                            (List)i8.add((PathNode)relativeHorizontalTo);
+                                            index$iv += index$iv5;
                                         }
                                     } else {
                                         if (i12 == 86) {
                                             iNSTANCE = 0;
-                                            index$iv2 = 0;
-                                            while (index$iv2 <= i21 - index$iv3) {
+                                            index$iv = 0;
+                                            while (index$iv <= i21 - index$iv5) {
                                                 relativeReflectiveQuadTo = 0;
-                                                relativeHorizontalTo = new PathNode.VerticalTo(args[index$iv2]);
-                                                (List)i9.add((PathNode)relativeHorizontalTo);
-                                                index$iv2 += index$iv3;
+                                                relativeHorizontalTo = new PathNode.VerticalTo(args[index$iv]);
+                                                (List)i8.add((PathNode)relativeHorizontalTo);
+                                                index$iv += index$iv5;
                                             }
                                         } else {
                                             if (i12 == 99) {
                                                 iNSTANCE = 6;
+                                                index$iv3 = 0;
                                                 index$iv = 0;
-                                                index$iv2 = 0;
-                                                while (index$iv2 <= i21 - iNSTANCE) {
-                                                    index$iv4 = index$iv2;
+                                                while (index$iv <= i21 - iNSTANCE) {
+                                                    index$iv2 = index$iv;
                                                     i3 = args;
                                                     relativeReflectiveQuadTo = 0;
-                                                    relativeHorizontalTo = new PathNode.RelativeCurveTo(i3[index$iv4], i3[index$iv4 + 1], i3[index$iv4 + 2], i3[index$iv4 + 3], i3[index$iv4 + 4], i3[index$iv4 + 5]);
-                                                    (List)i9.add((PathNode)relativeHorizontalTo);
-                                                    index$iv2 += iNSTANCE;
+                                                    relativeHorizontalTo = new PathNode.RelativeCurveTo(i3[index$iv2], i3[index$iv2 + 1], i3[index$iv2 + 2], i3[index$iv2 + 3], i3[index$iv2 + 4], i3[index$iv2 + 5]);
+                                                    (List)i8.add((PathNode)relativeHorizontalTo);
+                                                    index$iv += iNSTANCE;
                                                 }
                                             } else {
                                                 if (i12 == 67) {
                                                     iNSTANCE = 6;
+                                                    index$iv3 = 0;
                                                     index$iv = 0;
-                                                    index$iv2 = 0;
-                                                    while (index$iv2 <= i21 - iNSTANCE) {
-                                                        index$iv4 = index$iv2;
+                                                    while (index$iv <= i21 - iNSTANCE) {
+                                                        index$iv2 = index$iv;
                                                         i3 = args;
                                                         relativeReflectiveQuadTo = 0;
-                                                        relativeHorizontalTo = new PathNode.CurveTo(i3[index$iv4], i3[index$iv4 + 1], i3[index$iv4 + 2], i3[index$iv4 + 3], i3[index$iv4 + 4], i3[index$iv4 + 5]);
-                                                        (List)i9.add((PathNode)relativeHorizontalTo);
-                                                        index$iv2 += iNSTANCE;
+                                                        relativeHorizontalTo = new PathNode.CurveTo(i3[index$iv2], i3[index$iv2 + 1], i3[index$iv2 + 2], i3[index$iv2 + 3], i3[index$iv2 + 4], i3[index$iv2 + 5]);
+                                                        (List)i8.add((PathNode)relativeHorizontalTo);
+                                                        index$iv += iNSTANCE;
                                                     }
                                                 } else {
-                                                    index$iv5 = 4;
+                                                    index$iv4 = 4;
                                                     if (i12 == 115) {
                                                         iNSTANCE = 0;
-                                                        index$iv3 = 0;
-                                                        while (index$iv3 <= i21 - index$iv5) {
-                                                            index$iv4 = index$iv3;
+                                                        index$iv5 = 0;
+                                                        while (index$iv5 <= i21 - index$iv4) {
+                                                            index$iv2 = index$iv5;
                                                             i3 = args;
                                                             relativeReflectiveQuadTo = 0;
-                                                            relativeHorizontalTo = new PathNode.RelativeReflectiveCurveTo(i3[index$iv4], i3[index$iv4 + 1], i3[index$iv4 + 2], i3[index$iv4 + 3]);
-                                                            (List)i9.add((PathNode)relativeHorizontalTo);
-                                                            index$iv3 += index$iv5;
-                                                            i9 = nodes;
+                                                            relativeHorizontalTo = new PathNode.RelativeReflectiveCurveTo(i3[index$iv2], i3[index$iv2 + 1], i3[index$iv2 + 2], i3[index$iv2 + 3]);
+                                                            (List)i8.add((PathNode)relativeHorizontalTo);
+                                                            index$iv5 += index$iv4;
+                                                            i8 = nodes;
                                                         }
                                                     } else {
                                                         if (i12 == 83) {
-                                                            i9 = 0;
-                                                            index$iv = 0;
-                                                            while (index$iv <= i21 - index$iv5) {
-                                                                index$iv2 = index$iv;
-                                                                index$iv4 = args;
+                                                            i8 = 0;
+                                                            index$iv3 = 0;
+                                                            while (index$iv3 <= i21 - index$iv4) {
+                                                                index$iv = index$iv3;
+                                                                index$iv2 = args;
                                                                 i3 = 0;
-                                                                relativeReflectiveQuadTo = new PathNode.ReflectiveCurveTo(index$iv4[index$iv2], index$iv4[index$iv2 + 1], index$iv4[index$iv2 + 2], index$iv4[index$iv2 + 3]);
+                                                                relativeReflectiveQuadTo = new PathNode.ReflectiveCurveTo(index$iv2[index$iv], index$iv2[index$iv + 1], index$iv2[index$iv + 2], index$iv2[index$iv + 3]);
                                                                 (List)nodes.add((PathNode)relativeReflectiveQuadTo);
-                                                                index$iv += index$iv5;
+                                                                index$iv3 += index$iv4;
                                                             }
                                                         } else {
                                                             if (i12 == 113) {
-                                                                i9 = 0;
-                                                                index$iv = 0;
-                                                                while (index$iv <= i21 - index$iv5) {
-                                                                    index$iv2 = index$iv;
-                                                                    index$iv4 = args;
+                                                                i8 = 0;
+                                                                index$iv3 = 0;
+                                                                while (index$iv3 <= i21 - index$iv4) {
+                                                                    index$iv = index$iv3;
+                                                                    index$iv2 = args;
                                                                     i3 = 0;
-                                                                    relativeReflectiveQuadTo = new PathNode.RelativeQuadTo(index$iv4[index$iv2], index$iv4[index$iv2 + 1], index$iv4[index$iv2 + 2], index$iv4[index$iv2 + 3]);
+                                                                    relativeReflectiveQuadTo = new PathNode.RelativeQuadTo(index$iv2[index$iv], index$iv2[index$iv + 1], index$iv2[index$iv + 2], index$iv2[index$iv + 3]);
                                                                     (List)nodes.add((PathNode)relativeReflectiveQuadTo);
-                                                                    index$iv += index$iv5;
+                                                                    index$iv3 += index$iv4;
                                                                 }
                                                             } else {
                                                                 if (i12 == 81) {
-                                                                    i9 = 4;
+                                                                    i8 = 4;
                                                                     iNSTANCE = 0;
-                                                                    index$iv3 = 0;
-                                                                    while (index$iv3 <= i21 - i9) {
-                                                                        index$iv5 = index$iv3;
-                                                                        index$iv4 = args;
+                                                                    index$iv5 = 0;
+                                                                    while (index$iv5 <= i21 - i8) {
+                                                                        index$iv4 = index$iv5;
+                                                                        index$iv2 = args;
                                                                         i3 = 0;
-                                                                        relativeReflectiveQuadTo = new PathNode.QuadTo(index$iv4[index$iv5], index$iv4[index$iv5 + 1], index$iv4[index$iv5 + 2], index$iv4[index$iv5 + 3]);
+                                                                        relativeReflectiveQuadTo = new PathNode.QuadTo(index$iv2[index$iv4], index$iv2[index$iv4 + 1], index$iv2[index$iv4 + 2], index$iv2[index$iv4 + 3]);
                                                                         (List)nodes.add((PathNode)relativeReflectiveQuadTo);
-                                                                        index$iv3 += i9;
+                                                                        index$iv5 += i8;
                                                                     }
                                                                 } else {
                                                                     if (i12 == 116) {
-                                                                        i9 = 0;
-                                                                        index$iv = 0;
-                                                                        while (index$iv <= i21 - index$iv2) {
-                                                                            index$iv5 = index$iv;
-                                                                            index$iv4 = args;
+                                                                        i8 = 0;
+                                                                        index$iv3 = 0;
+                                                                        while (index$iv3 <= i21 - index$iv) {
+                                                                            index$iv4 = index$iv3;
+                                                                            index$iv2 = args;
                                                                             i3 = 0;
-                                                                            relativeReflectiveQuadTo = new PathNode.RelativeReflectiveQuadTo(index$iv4[index$iv5], index$iv4[index$iv5 + 1]);
+                                                                            relativeReflectiveQuadTo = new PathNode.RelativeReflectiveQuadTo(index$iv2[index$iv4], index$iv2[index$iv4 + 1]);
                                                                             (List)nodes.add((PathNode)relativeReflectiveQuadTo);
-                                                                            index$iv += index$iv2;
+                                                                            index$iv3 += index$iv;
                                                                         }
                                                                     } else {
                                                                         if (i12 == 84) {
-                                                                            i9 = 0;
-                                                                            index$iv = 0;
-                                                                            while (index$iv <= i21 - index$iv2) {
-                                                                                index$iv5 = index$iv;
-                                                                                index$iv4 = args;
+                                                                            i8 = 0;
+                                                                            index$iv3 = 0;
+                                                                            while (index$iv3 <= i21 - index$iv) {
+                                                                                index$iv4 = index$iv3;
+                                                                                index$iv2 = args;
                                                                                 i3 = 0;
-                                                                                relativeReflectiveQuadTo = new PathNode.ReflectiveQuadTo(index$iv4[index$iv5], index$iv4[index$iv5 + 1]);
+                                                                                relativeReflectiveQuadTo = new PathNode.ReflectiveQuadTo(index$iv2[index$iv4], index$iv2[index$iv4 + 1]);
                                                                                 (List)nodes.add((PathNode)relativeReflectiveQuadTo);
-                                                                                index$iv += index$iv2;
+                                                                                index$iv3 += index$iv;
                                                                             }
                                                                         } else {
                                                                             iNSTANCE = 0;
                                                                             if (i12 == 97) {
-                                                                                i9 = 7;
+                                                                                i8 = 7;
+                                                                                index$iv = 0;
                                                                                 index$iv2 = 0;
-                                                                                index$iv4 = 0;
-                                                                                while (index$iv4 <= i21 - i9) {
-                                                                                    relativeReflectiveQuadTo = index$iv4;
+                                                                                while (index$iv2 <= i21 - i8) {
+                                                                                    relativeReflectiveQuadTo = index$iv2;
                                                                                     relativeHorizontalTo = args;
                                                                                     arcTo = 0;
                                                                                     if (Float.compare(relativeHorizontalTo[relativeReflectiveQuadTo + 3], iNSTANCE) != 0) {
@@ -261,37 +261,37 @@ public final class PathNodeKt {
                                                                                     if (Float.compare(relativeHorizontalTo[relativeReflectiveQuadTo + 4], iNSTANCE) != 0) {
                                                                                     } else {
                                                                                     }
-                                                                                    i7 = 0;
-                                                                                    relativeArcTo = new PathNode.RelativeArcTo(relativeHorizontalTo[relativeReflectiveQuadTo], relativeHorizontalTo[relativeReflectiveQuadTo + 1], relativeHorizontalTo[relativeReflectiveQuadTo + 2], i6, i7, relativeHorizontalTo[relativeReflectiveQuadTo + 5], relativeHorizontalTo[relativeReflectiveQuadTo + 6]);
+                                                                                    i = 0;
+                                                                                    relativeArcTo = new PathNode.RelativeArcTo(relativeHorizontalTo[relativeReflectiveQuadTo], relativeHorizontalTo[relativeReflectiveQuadTo + 1], relativeHorizontalTo[relativeReflectiveQuadTo + 2], i6, i, relativeHorizontalTo[relativeReflectiveQuadTo + 5], relativeHorizontalTo[relativeReflectiveQuadTo + 6]);
                                                                                     (List)nodes.add((PathNode)relativeArcTo);
-                                                                                    index$iv4 += i9;
-                                                                                    i7 = index$iv3;
-                                                                                    i6 = index$iv3;
+                                                                                    index$iv2 += i8;
+                                                                                    i = index$iv5;
+                                                                                    i6 = index$iv5;
                                                                                 }
                                                                             } else {
                                                                                 if (i12 != 65) {
                                                                                 } else {
-                                                                                    i9 = 7;
-                                                                                    index$iv = 0;
-                                                                                    index$iv5 = 0;
-                                                                                    while (index$iv5 <= i21 - i9) {
-                                                                                        i3 = index$iv5;
+                                                                                    i8 = 7;
+                                                                                    index$iv3 = 0;
+                                                                                    index$iv4 = 0;
+                                                                                    while (index$iv4 <= i21 - i8) {
+                                                                                        i3 = index$iv4;
                                                                                         relativeReflectiveQuadTo = args;
                                                                                         relativeHorizontalTo = 0;
                                                                                         if (Float.compare(relativeReflectiveQuadTo[i3 + 3], iNSTANCE) != 0) {
                                                                                         } else {
                                                                                         }
-                                                                                        i = 0;
+                                                                                        i5 = 0;
                                                                                         if (Float.compare(relativeReflectiveQuadTo[i3 + 4], iNSTANCE) != 0) {
                                                                                         } else {
                                                                                         }
                                                                                         i6 = 0;
-                                                                                        arcTo = new PathNode.ArcTo(relativeReflectiveQuadTo[i3], relativeReflectiveQuadTo[i3 + 1], relativeReflectiveQuadTo[i3 + 2], i, i6, relativeReflectiveQuadTo[i3 + 5], relativeReflectiveQuadTo[i3 + 6]);
+                                                                                        arcTo = new PathNode.ArcTo(relativeReflectiveQuadTo[i3], relativeReflectiveQuadTo[i3 + 1], relativeReflectiveQuadTo[i3 + 2], i5, i6, relativeReflectiveQuadTo[i3 + 5], relativeReflectiveQuadTo[i3 + 6]);
                                                                                         (List)nodes.add((PathNode)arcTo);
-                                                                                        index$iv5 += i9;
-                                                                                        index$iv3 = 1;
+                                                                                        index$iv4 += i8;
+                                                                                        index$iv5 = 1;
                                                                                         i6 = 1;
-                                                                                        i = 1;
+                                                                                        i5 = 1;
                                                                                     }
                                                                                 }
                                                                             }
@@ -320,8 +320,8 @@ public final class PathNodeKt {
     private static final void pathMoveNodeFromArgs(List<androidx.compose.ui.graphics.vector.PathNode> nodes, float[] args, int count) {
         int index;
         int lineTo;
-        int i;
         int i2;
+        int i;
         final int i3 = count + -2;
         if (i3 >= 0) {
             PathNode.MoveTo moveTo = new PathNode.MoveTo(args[0], args[1]);

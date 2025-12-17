@@ -223,25 +223,25 @@ public final class LazyListMeasureResult implements androidx.compose.foundation.
     @Override // androidx.compose.foundation.lazy.LazyListLayoutInfo
     public final boolean tryToApplyScrollWithoutRemeasure(int delta, boolean updateAnimations) {
         boolean firstVisibleItem;
-        int i2;
         int i5;
-        int i3;
+        int i4;
+        int i;
         boolean nonScrollableItem;
         int deltaToFirstItemChange;
-        int i;
+        int i3;
         int index$iv;
         int size;
         Object obj;
         Object obj2;
-        int i4;
-        i2 = 0;
+        int i2;
+        i5 = 0;
         if (!this.remeasureNeeded && !getVisibleItemsInfo().isEmpty() && this.firstVisibleItem != null) {
             if (!getVisibleItemsInfo().isEmpty()) {
                 if (this.firstVisibleItem != null) {
                     firstVisibleItemScrollOffset2 -= delta;
-                    i3 = 1;
-                    if (i5 >= 0 && i5 < this.firstVisibleItem.getMainAxisSizeWithSpacings()) {
-                        firstVisibleItem = i5 < this.firstVisibleItem.getMainAxisSizeWithSpacings() ? i3 : i2;
+                    i = 1;
+                    if (i4 >= 0 && i4 < this.firstVisibleItem.getMainAxisSizeWithSpacings()) {
+                        firstVisibleItem = i4 < this.firstVisibleItem.getMainAxisSizeWithSpacings() ? i : i5;
                     } else {
                     }
                     if (firstVisibleItem == 0) {
@@ -252,37 +252,37 @@ public final class LazyListMeasureResult implements androidx.compose.foundation.
                             if ((LazyListMeasuredItem)last.getNonScrollableItem()) {
                             } else {
                                 if (delta < 0) {
-                                    deltaToFirstItemChange = Math.min(i7 -= viewportStartOffset2, i10 -= viewportEndOffset2) > -delta ? i3 : i2;
+                                    deltaToFirstItemChange = Math.min(i7 -= viewportStartOffset2, i10 -= viewportEndOffset2) > -delta ? i : i5;
                                 } else {
-                                    deltaToFirstItemChange = Math.min(viewportStartOffset -= offset3, viewportEndOffset -= offset4) > delta ? i3 : i2;
+                                    deltaToFirstItemChange = Math.min(viewportStartOffset -= offset3, viewportEndOffset -= offset4) > delta ? i : i5;
                                 }
                                 if (deltaToFirstItemChange != 0) {
                                     this.firstVisibleItemScrollOffset = firstVisibleItemScrollOffset -= delta;
                                     List visibleItemsInfo3 = getVisibleItemsInfo();
-                                    i = 0;
+                                    i3 = 0;
                                     index$iv = 0;
                                     while (index$iv < visibleItemsInfo3.size()) {
-                                        i4 = 0;
+                                        i2 = 0;
                                         (LazyListMeasuredItem)visibleItemsInfo3.get(index$iv).applyScrollDelta(delta, updateAnimations);
                                         index$iv++;
                                     }
                                     this.consumedScroll = (float)delta;
                                     if (!this.canScrollForward && delta > 0) {
                                         if (delta > 0) {
-                                            this.canScrollForward = i3;
+                                            this.canScrollForward = i;
                                         }
                                     }
-                                    i2 = i3;
+                                    i5 = i;
                                 } else {
                                 }
                             }
-                            return i2;
+                            return i5;
                         }
                     }
-                    return i2;
+                    return i5;
                 }
             }
         }
-        return i2;
+        return i5;
     }
 }

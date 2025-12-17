@@ -62,8 +62,8 @@ public final class RepeatableSpec<T>  implements androidx.compose.animation.core
     public boolean equals(Object other) {
         int repeatMode;
         int i;
-        int initialStartOffset;
-        long initialStartOffset2;
+        int initialStartOffset2;
+        long initialStartOffset;
         i = 0;
         if (other instanceof RepeatableSpec) {
             if (obj.iterations == this.iterations && Intrinsics.areEqual(obj2.animation, this.animation) && obj3.repeatMode == this.repeatMode && StartOffset.equals-impl0(obj4.initialStartOffset, obj3)) {

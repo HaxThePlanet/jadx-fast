@@ -264,8 +264,8 @@ public final class TrieNode<K, V>  {
 
     private final boolean elementsIdentityEquals(androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K, V> otherNode) {
         int i;
-        Object obj2;
         Object obj;
+        Object obj2;
         final int i2 = 1;
         if (this == otherNode) {
             return i2;
@@ -371,31 +371,31 @@ public final class TrieNode<K, V>  {
     }
 
     private final androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K, V> mutableCollisionPutAll(androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K, V> otherNode, DeltaCounter intersectionCounter, MutabilityOwnership owner) {
-        int i;
-        int i5;
-        int i4;
         int i3;
-        Object trieNode2;
+        int i;
+        int i6;
         int i2;
+        Object trieNode2;
+        int i7;
         int trieNode;
         int j;
-        int i6;
+        int i4;
         Object obj;
-        int i7;
+        int i5;
         int i8 = 1;
         final int i10 = 0;
-        i = this.nodeMap == null ? i8 : i10;
-        CommonFunctionsKt.assert(i);
-        i5 = this.dataMap == null ? i8 : i10;
-        CommonFunctionsKt.assert(i5);
-        i4 = otherNode.nodeMap == null ? i8 : i10;
-        CommonFunctionsKt.assert(i4);
-        i3 = otherNode.dataMap == null ? i8 : i10;
+        i3 = this.nodeMap == null ? i8 : i10;
         CommonFunctionsKt.assert(i3);
+        i = this.dataMap == null ? i8 : i10;
+        CommonFunctionsKt.assert(i);
+        i6 = otherNode.nodeMap == null ? i8 : i10;
+        CommonFunctionsKt.assert(i6);
+        i2 = otherNode.dataMap == null ? i8 : i10;
+        CommonFunctionsKt.assert(i2);
         Object[] copyOf = Arrays.copyOf(this.buffer, length += length2);
         String str = "copyOf(this, newSize)";
         Intrinsics.checkNotNullExpressionValue(copyOf, str);
-        i2 = buffer4.length;
+        i7 = buffer4.length;
         IntProgression step = RangesKt.step((IntProgression)RangesKt.until(i10, buffer5.length), 2);
         j = step.getFirst();
         final int last = step.getLast();
@@ -409,7 +409,7 @@ public final class TrieNode<K, V>  {
             }
         } else {
         }
-        int i9 = i2;
+        int i9 = i7;
         if (i9 == buffer6.length) {
             trieNode2 = this;
         } else {
@@ -528,24 +528,24 @@ public final class TrieNode<K, V>  {
 
     private final androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K, V> mutablePutAllFromOtherNodeCell(androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K, V> otherNode, int positionMask, int shift, DeltaCounter intersectionCounter, androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder<K, V> mutator) {
         boolean otherTargetNode;
-        int i3;
+        int i;
         int mutablePut;
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode targetNode;
-        int i7;
+        int i2;
         boolean key;
-        int i5;
-        int i;
+        int i3;
+        int i4;
         Object keyAtIndex2;
         Object valueAtKeyIndex;
-        int i2;
+        int i5;
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder ownership;
-        int entryKeyIndex$runtime_release;
         int entryKeyIndex$runtime_release2;
+        int entryKeyIndex$runtime_release;
         Object keyAtIndex;
         Object valueAtKeyIndex2;
-        int i4;
-        androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder map;
         int i6;
+        androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder map;
+        int i7;
         final Object obj = this;
         final Object obj2 = otherNode;
         final int i11 = positionMask;
@@ -564,8 +564,8 @@ public final class TrieNode<K, V>  {
                         mutablePut = keyAtIndex2.hashCode();
                     }
                     mutablePut = targetNode.mutablePut(mutablePut, keyAtIndex2, obj2.valueAtKeyIndex(otherTargetNode), shift + 5, ownership);
-                    i5 = mutablePut;
-                    i2 = 0;
+                    i3 = mutablePut;
+                    i5 = 0;
                     if (mutator.size() == ownership.size()) {
                         deltaCounter.setCount(count2++);
                     }
@@ -575,38 +575,38 @@ public final class TrieNode<K, V>  {
             }
         } else {
             if (otherNode.hasNodeAt(positionMask)) {
-                entryKeyIndex$runtime_release = obj2.nodeAtIndex$runtime_release(otherNode.nodeIndex$runtime_release(positionMask));
+                entryKeyIndex$runtime_release2 = obj2.nodeAtIndex$runtime_release(otherNode.nodeIndex$runtime_release(positionMask));
                 if (obj.hasEntryAt$runtime_release(i11)) {
                     otherTargetNode = obj.entryKeyIndex$runtime_release(i11);
                     keyAtIndex = obj.keyAtIndex(otherTargetNode);
                     if (keyAtIndex != null) {
-                        i7 = keyAtIndex.hashCode();
+                        i2 = keyAtIndex.hashCode();
                     } else {
-                        i7 = mutablePut;
+                        i2 = mutablePut;
                     }
-                    if (entryKeyIndex$runtime_release.containsKey(i7, keyAtIndex, shift + 5)) {
+                    if (entryKeyIndex$runtime_release2.containsKey(i2, keyAtIndex, shift + 5)) {
                         deltaCounter.setCount(count++);
-                        targetNode = entryKeyIndex$runtime_release;
+                        targetNode = entryKeyIndex$runtime_release2;
                     } else {
                         if (keyAtIndex != null) {
                             mutablePut = keyAtIndex.hashCode();
                         }
-                        targetNode = entryKeyIndex$runtime_release.mutablePut(mutablePut, keyAtIndex, obj.valueAtKeyIndex(otherTargetNode), shift + 5, mutator);
+                        targetNode = entryKeyIndex$runtime_release2.mutablePut(mutablePut, keyAtIndex, obj.valueAtKeyIndex(otherTargetNode), shift + 5, mutator);
                     }
                 } else {
                 }
             } else {
-                entryKeyIndex$runtime_release = obj.entryKeyIndex$runtime_release(i11);
-                mutablePut = obj.keyAtIndex(entryKeyIndex$runtime_release);
-                entryKeyIndex$runtime_release2 = otherNode.entryKeyIndex$runtime_release(positionMask);
-                keyAtIndex2 = obj2.keyAtIndex(entryKeyIndex$runtime_release2);
+                entryKeyIndex$runtime_release2 = obj.entryKeyIndex$runtime_release(i11);
+                mutablePut = obj.keyAtIndex(entryKeyIndex$runtime_release2);
+                entryKeyIndex$runtime_release = otherNode.entryKeyIndex$runtime_release(positionMask);
+                keyAtIndex2 = obj2.keyAtIndex(entryKeyIndex$runtime_release);
                 if (mutablePut != null) {
-                    i = mutablePut.hashCode();
+                    i4 = mutablePut.hashCode();
                 } else {
-                    i = i3;
+                    i4 = i;
                 }
                 if (keyAtIndex2 != null) {
-                    i3 = keyAtIndex2.hashCode();
+                    i = keyAtIndex2.hashCode();
                 }
                 targetNode = otherTargetNode;
             }
@@ -876,33 +876,33 @@ public final class TrieNode<K, V>  {
 
     public final androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K, V> mutablePutAll(androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K, V> otherNode, int shift, DeltaCounter intersectionCounter, androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder<K, V> mutator) {
         int newNodeMap;
-        int i9;
+        int i7;
         int dataMap;
+        int i2;
         int i;
-        int i3;
         int entryKeyIndex$runtime_release;
         Object obj;
-        int i8;
+        int i5;
         int newDataMap;
         Object trieNode;
-        int i4;
-        int mask$iv2;
-        int i7;
+        int i8;
+        int mask$iv3;
+        int i9;
         boolean entryAt$runtime_release;
         int str;
-        int mask$iv3;
+        int mask$iv;
         int newDataMap2;
         int lowestOneBit;
-        int index$iv;
-        int i6;
-        int lowestOneBit2;
-        int i5;
-        int mask$iv;
-        Object keyAtIndex;
         int index$iv2;
-        Object lowestOneBit3;
+        int i6;
+        int lowestOneBit3;
+        int i4;
+        int mask$iv2;
+        Object keyAtIndex;
+        int index$iv;
+        Object lowestOneBit2;
         boolean equal;
-        int i2;
+        int i3;
         int $this$forEachOneBit$iv;
         Object[] objArr;
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode mutablePutAllFromOtherNodeCell;
@@ -920,81 +920,81 @@ public final class TrieNode<K, V>  {
         int newNodeMap2 = nodeMap | nodeMap2;
         int i15 = 0;
         str = 0;
-        mask$iv3 = newNodeMap2;
+        mask$iv = newNodeMap2;
         newNodeMap = i24;
         newDataMap2 = newDataMap3;
         newDataMap = i25;
         while (newNodeMap != null) {
             lowestOneBit = Integer.lowestOneBit(newNodeMap);
             i6 = lowestOneBit;
-            i5 = 0;
+            i4 = 0;
             if (Intrinsics.areEqual(obj2.keyAtIndex(obj2.entryKeyIndex$runtime_release(i6)), map.keyAtIndex(map.entryKeyIndex$runtime_release(i6)))) {
             } else {
             }
-            mask$iv3 |= i6;
+            mask$iv |= i6;
             newDataMap++;
             newNodeMap ^= lowestOneBit;
             newDataMap2 |= i6;
         }
-        i7 = 1;
-        i9 = mask$iv3 & newDataMap2 == 0 ? i7 : 0;
+        i9 = 1;
+        i7 = mask$iv & newDataMap2 == 0 ? i9 : 0;
         int i16 = 0;
-        if (i9 == 0) {
+        if (i7 == 0) {
             PreconditionsKt.throwIllegalStateException("Check failed.");
         }
-        if (Intrinsics.areEqual(obj2.ownedBy, mutator.getOwnership()) && obj2.dataMap == newDataMap2 && obj2.nodeMap == mask$iv3) {
+        if (Intrinsics.areEqual(obj2.ownedBy, mutator.getOwnership()) && obj2.dataMap == newDataMap2 && obj2.nodeMap == mask$iv) {
             if (obj2.dataMap == newDataMap2) {
-                if (obj2.nodeMap == mask$iv3) {
+                if (obj2.nodeMap == mask$iv) {
                     trieNode = obj2;
                 } else {
-                    trieNode = new TrieNode(newDataMap2, mask$iv3, new Object[i12 += bitCount2]);
+                    trieNode = new TrieNode(newDataMap2, mask$iv, new Object[i12 += bitCount2]);
                 }
             } else {
             }
         } else {
         }
         Object obj3 = trieNode;
-        lowestOneBit2 = 0;
-        mask$iv = i;
-        index$iv2 = i4;
-        while (mask$iv != 0) {
-            lowestOneBit3 = Integer.lowestOneBit(mask$iv);
-            i2 = 0;
-            obj3.buffer[i17 - equal] = obj2.mutablePutAllFromOtherNodeCell(map, lowestOneBit3, i8, deltaCounter, mutator);
-            index$iv2++;
-            mask$iv ^= lowestOneBit3;
-            i8 = shift;
-        }
-        int i14 = 0;
-        mask$iv2 = i3;
-        index$iv = 0;
+        lowestOneBit3 = 0;
+        mask$iv2 = i2;
+        index$iv = i8;
         while (mask$iv2 != 0) {
             lowestOneBit2 = Integer.lowestOneBit(mask$iv2);
-            mask$iv = lowestOneBit2;
-            lowestOneBit3 = 0;
-            equal = index$iv2 * 2;
-            if (!map.hasEntryAt$runtime_release(mask$iv)) {
-            } else {
-            }
-            $this$forEachOneBit$iv = i3;
-            i2 = i7;
-            entryKeyIndex$runtime_release = map.entryKeyIndex$runtime_release(mask$iv);
-            obj3.buffer[equal] = map.keyAtIndex(entryKeyIndex$runtime_release);
-            obj3.buffer[equal + 1] = map.valueAtKeyIndex(entryKeyIndex$runtime_release);
-            if (obj2.hasEntryAt$runtime_release(mask$iv)) {
-            }
+            i3 = 0;
+            obj3.buffer[i17 - equal] = obj2.mutablePutAllFromOtherNodeCell(map, lowestOneBit2, i5, deltaCounter, mutator);
             index$iv++;
             mask$iv2 ^= lowestOneBit2;
-            i7 = i2;
-            i3 = $this$forEachOneBit$iv;
+            i5 = shift;
+        }
+        int i14 = 0;
+        mask$iv3 = i;
+        index$iv2 = 0;
+        while (mask$iv3 != 0) {
+            lowestOneBit3 = Integer.lowestOneBit(mask$iv3);
+            mask$iv2 = lowestOneBit3;
+            lowestOneBit2 = 0;
+            equal = index$iv * 2;
+            if (!map.hasEntryAt$runtime_release(mask$iv2)) {
+            } else {
+            }
+            $this$forEachOneBit$iv = i;
+            i3 = i9;
+            entryKeyIndex$runtime_release = map.entryKeyIndex$runtime_release(mask$iv2);
+            obj3.buffer[equal] = map.keyAtIndex(entryKeyIndex$runtime_release);
+            obj3.buffer[equal + 1] = map.valueAtKeyIndex(entryKeyIndex$runtime_release);
+            if (obj2.hasEntryAt$runtime_release(mask$iv2)) {
+            }
+            index$iv2++;
+            mask$iv3 ^= lowestOneBit3;
+            i9 = i3;
+            i = $this$forEachOneBit$iv;
             deltaCounter.setCount(count++);
-            i2 = i7;
-            entryAt$runtime_release = obj2.entryKeyIndex$runtime_release(mask$iv);
-            $this$forEachOneBit$iv = i3;
+            i3 = i9;
+            entryAt$runtime_release = obj2.entryKeyIndex$runtime_release(mask$iv2);
+            $this$forEachOneBit$iv = i;
             obj3.buffer[equal] = obj2.keyAtIndex(entryAt$runtime_release);
             obj3.buffer[equal + 1] = obj2.valueAtKeyIndex(entryAt$runtime_release);
         }
-        int $this$forEachOneBit$iv3 = i3;
+        int $this$forEachOneBit$iv3 = i;
         obj = obj2.elementsIdentityEquals(obj3) ? obj2 : elementsIdentityEquals2 ? map : obj3;
         return obj;
     }
@@ -1026,8 +1026,8 @@ public final class TrieNode<K, V>  {
 
     public final androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K, V> mutableRemove(int keyHash, K key, V value, int shift, androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder<K, V> mutator) {
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode map;
-        Object obj;
         Object obj2;
+        Object obj;
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode mutableCollisionRemove;
         boolean equal;
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder map2;

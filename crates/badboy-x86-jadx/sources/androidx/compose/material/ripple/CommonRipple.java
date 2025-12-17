@@ -32,11 +32,11 @@ public final class CommonRipple extends androidx.compose.material.ripple.Ripple 
         boolean traceInProgress;
         int i2;
         String str;
-        int i3;
-        boolean changed2;
-        Object obj;
         int i;
         boolean changed;
+        Object obj;
+        int i3;
+        boolean changed2;
         Object commonRippleIndicationInstance;
         boolean z;
         float f;
@@ -56,17 +56,17 @@ public final class CommonRipple extends androidx.compose.material.ripple.Ripple 
         int i12 = 4;
         if (i8 ^= 6 > i12) {
             if (!composer.changed(interactionSource)) {
-                i3 = i5 & 6 == i12 ? i11 : i2;
+                i = i5 & 6 == i12 ? i11 : i2;
             } else {
             }
         } else {
             obj2 = interactionSource;
         }
-        i = 196608;
+        i3 = 196608;
         int i17 = 131072;
-        if (i15 ^= i > i17) {
+        if (i15 ^= i3 > i17) {
             if (!composer.changed(this)) {
-                if (i &= i5 == i17) {
+                if (i3 &= i5 == i17) {
                     i2 = i11;
                 }
             } else {
@@ -78,9 +78,9 @@ public final class CommonRipple extends androidx.compose.material.ripple.Ripple 
         int i13 = 0;
         Object rememberedValue = composer2.rememberedValue();
         int i18 = 0;
-        if (i2 |= i3 == 0) {
+        if (i2 |= i == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                changed = 0;
+                changed2 = 0;
                 commonRippleIndicationInstance = new CommonRippleIndicationInstance(bounded, radius, color, rippleAlpha, 0);
                 composer2.updateRememberedValue(commonRippleIndicationInstance);
             } else {

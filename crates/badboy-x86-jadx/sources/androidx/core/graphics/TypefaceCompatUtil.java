@@ -96,8 +96,8 @@ public class TypefaceCompatUtil {
     }
 
     public static ByteBuffer mmap(Context context, CancellationSignal cancellationSignal, Uri uri) {
-        Throwable th;
         Throwable th3;
+        Throwable th;
         final ParcelFileDescriptor parcelFileDescriptor = fileDescriptor;
         if (parcelFileDescriptor == null && parcelFileDescriptor != null) {
             if (parcelFileDescriptor != null) {
@@ -113,17 +113,17 @@ public class TypefaceCompatUtil {
             try {
                 parcelFileDescriptor.close();
                 return fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, obj8);
-                th3 = th2;
-                th.close();
-                th3.addSuppressed(th2);
-                throw th3;
                 th = th2;
+                th3.close();
+                th.addSuppressed(th2);
+                throw th;
+                th3 = th2;
                 if (obj3 == null) {
                 } else {
                 }
                 obj3.close();
-                th.addSuppressed(th2);
-                throw th;
+                th3.addSuppressed(th2);
+                throw th3;
                 return obj2;
             } catch (Throwable th) {
             }

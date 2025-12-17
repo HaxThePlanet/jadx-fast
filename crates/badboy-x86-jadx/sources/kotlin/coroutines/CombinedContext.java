@@ -33,19 +33,19 @@ public final class CombinedContext implements kotlin.coroutines.CoroutineContext
 
         private final Object readResolve() {
             kotlin.coroutines.EmptyCoroutineContext accumulator$iv;
-            int i;
-            kotlin.coroutines.CoroutineContext context2;
-            kotlin.coroutines.CoroutineContext p0;
-            kotlin.coroutines.CoroutineContext context;
             int i2;
+            kotlin.coroutines.CoroutineContext context;
+            kotlin.coroutines.CoroutineContext p0;
+            kotlin.coroutines.CoroutineContext context2;
+            int i;
             final kotlin.coroutines.CoroutineContext[] elements = this.elements;
             final int i3 = 0;
             accumulator$iv = iNSTANCE;
-            i = 0;
-            while (i < elements.length) {
-                i2 = 0;
+            i2 = 0;
+            while (i2 < elements.length) {
+                i = 0;
                 accumulator$iv = p0;
-                i++;
+                i2++;
             }
             return accumulator$iv;
         }
@@ -116,8 +116,8 @@ public final class CombinedContext implements kotlin.coroutines.CoroutineContext
     @Override // kotlin.coroutines.CoroutineContext
     public boolean equals(Object other) {
         int i;
-        boolean size2;
-        int size;
+        boolean size;
+        int size2;
         if (this != other) {
             if (other instanceof CombinedContext != null && (CombinedContext)other.size() == size() && (CombinedContext)other.containsAll(this)) {
                 if ((CombinedContext)other.size() == size()) {

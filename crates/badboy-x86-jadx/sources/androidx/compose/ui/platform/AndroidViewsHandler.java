@@ -93,25 +93,25 @@ public final class AndroidViewsHandler extends ViewGroup {
     @Override // android.view.ViewGroup
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int i2;
-        int i;
-        int str2;
-        int next;
         int i3;
-        String str;
-        str2 = 0;
+        int $i$a$RequirePreconditionAndroidViewsHandler$onMeasure$2;
+        int next;
+        int i;
+        String $i$a$RequirePreconditionAndroidViewsHandler$onMeasure$1;
+        $i$a$RequirePreconditionAndroidViewsHandler$onMeasure$2 = 0;
         next = 1073741824;
-        i2 = View.MeasureSpec.getMode(widthMeasureSpec) == next ? i : str2;
-        i3 = 0;
+        i2 = View.MeasureSpec.getMode(widthMeasureSpec) == next ? i3 : $i$a$RequirePreconditionAndroidViewsHandler$onMeasure$2;
+        i = 0;
         if (i2 == 0) {
             int i7 = 0;
             InlineClassHelperKt.throwIllegalArgumentException("widthMeasureSpec should be EXACTLY");
         }
         if (View.MeasureSpec.getMode(heightMeasureSpec) == next) {
         } else {
-            i = str2;
+            i3 = $i$a$RequirePreconditionAndroidViewsHandler$onMeasure$2;
         }
         int i4 = 0;
-        if (i == 0) {
+        if (i3 == 0) {
             int i6 = 0;
             InlineClassHelperKt.throwIllegalArgumentException("heightMeasureSpec should be EXACTLY");
         }
@@ -119,30 +119,30 @@ public final class AndroidViewsHandler extends ViewGroup {
         int i5 = 0;
         Iterator iterator = (Iterable)this.holderToLayoutNode.keySet().iterator();
         for (Object next : iterator) {
-            str = null;
+            $i$a$RequirePreconditionAndroidViewsHandler$onMeasure$1 = null;
             (AndroidViewHolder)next.remeasure();
         }
     }
 
     @Override // android.view.ViewGroup
     public void requestLayout() {
-        int i2;
+        int i;
         View childAt;
         boolean layoutRequested;
         Object obj;
-        int i6;
         int i5;
-        int i;
+        int i2;
         int i3;
         int i4;
+        int i6;
         cleanupLayoutState((View)this);
-        i2 = 0;
-        while (i2 < getChildCount()) {
-            childAt = getChildAt(i2);
+        i = 0;
+        while (i < getChildCount()) {
+            childAt = getChildAt(i);
             obj = obj2;
             if (childAt.isLayoutRequested() && (LayoutNode)obj != null) {
             }
-            i2++;
+            i++;
             if ((LayoutNode)obj != null) {
             }
             LayoutNode.requestRemeasure$ui_release$default((LayoutNode)obj, false, false, false, 7, 0);

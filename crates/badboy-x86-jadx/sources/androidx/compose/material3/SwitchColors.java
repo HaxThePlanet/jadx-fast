@@ -108,207 +108,207 @@ public final class SwitchColors {
     }
 
     public final androidx.compose.material3.SwitchColors copy-Q_H9qLU(long checkedThumbColor, long checkedTrackColor, long checkedBorderColor, long checkedIconColor, long uncheckedThumbColor, long uncheckedTrackColor, long uncheckedBorderColor, long uncheckedIconColor, long disabledCheckedThumbColor, long disabledCheckedTrackColor, long disabledCheckedBorderColor, long disabledCheckedIconColor, long disabledUncheckedThumbColor, long disabledUncheckedTrackColor, long disabledUncheckedBorderColor, long disabledUncheckedIconColor) {
-        int $this$isSpecified$iv$iv12;
-        int $this$isSpecified$iv$iv14;
-        int $this$isSpecified$iv$iv5;
-        int $this$isSpecified$iv$iv13;
-        int $this$isSpecified$iv$iv7;
-        int $this$isSpecified$iv$iv8;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$2;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$3;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$4;
         int $this$isSpecified$iv$iv3;
-        int $this$isSpecified$iv$iv10;
+        int $this$isSpecified$iv$iv2;
         int $this$isSpecified$iv$iv6;
         int $this$isSpecified$iv$iv;
+        int $this$isSpecified$iv$iv7;
         int $this$isSpecified$iv$iv4;
-        int $this$isSpecified$iv$iv9;
-        int $this$isSpecified$iv$iv15;
-        int $this$isSpecified$iv$iv2;
-        int $this$isSpecified$iv$iv11;
-        int disabledUncheckedIconColor2;
-        int i;
-        long l14;
-        long l7;
-        long l13;
-        long l12;
-        long l4;
+        int $this$isSpecified$iv$iv5;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$12;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$13;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$14;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$15;
+        int $i$a$TakeOrElseDxMtmZcSwitchColors$copy$16;
+        int i3;
         long l5;
-        long l6;
+        long l2;
+        long l11;
+        long l12;
+        long l7;
+        long l8;
+        long l13;
         long l;
         long l10;
-        long l2;
-        long l3;
-        long l11;
         long l9;
-        long l8;
-        long i3;
+        long l4;
+        long l14;
+        long l3;
+        long l6;
         long i2;
+        long i;
         final Object obj = this;
         int i4 = checkedThumbColor;
         int i5 = 0;
         int i52 = 0;
         int i68 = 16;
-        i = 1;
+        i3 = 1;
         final int i69 = 0;
-        $this$isSpecified$iv$iv12 = Long.compare(i21, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv12 != 0) {
-            l14 = i4;
+        $i$a$TakeOrElseDxMtmZcSwitchColors$copy$1 = Long.compare(i21, i68) != 0 ? i3 : i69;
+        if ($i$a$TakeOrElseDxMtmZcSwitchColors$copy$1 != 0) {
+            l5 = i4;
         } else {
             int i51 = 0;
-            l14 = $this$isSpecified$iv$iv12;
+            l5 = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = checkedBorderColor;
         int i6 = 0;
         int i53 = 0;
-        $this$isSpecified$iv$iv14 = Long.compare(i22, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv14 != 0) {
-            l7 = $this$takeOrElse_u2dDxMtmZc$iv;
+        $i$a$TakeOrElseDxMtmZcSwitchColors$copy$2 = Long.compare(i22, i68) != 0 ? i3 : i69;
+        if ($i$a$TakeOrElseDxMtmZcSwitchColors$copy$2 != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i50 = 0;
-            l7 = $this$isSpecified$iv$iv14;
+            l2 = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = uncheckedThumbColor;
         int i7 = 0;
         int i54 = 0;
-        $this$isSpecified$iv$iv5 = Long.compare(i23, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv5 != 0) {
-            l13 = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $i$a$TakeOrElseDxMtmZcSwitchColors$copy$3 = Long.compare(i23, i68) != 0 ? i3 : i69;
+        if ($i$a$TakeOrElseDxMtmZcSwitchColors$copy$3 != 0) {
+            l11 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i49 = 0;
-            l13 = $this$isSpecified$iv$iv5;
+            l11 = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = uncheckedBorderColor;
         int i8 = 0;
         int i55 = 0;
-        $this$isSpecified$iv$iv13 = Long.compare(i24, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv13 != 0) {
+        $i$a$TakeOrElseDxMtmZcSwitchColors$copy$4 = Long.compare(i24, i68) != 0 ? i3 : i69;
+        if ($i$a$TakeOrElseDxMtmZcSwitchColors$copy$4 != 0) {
             l12 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i48 = 0;
-            l12 = $this$isSpecified$iv$iv13;
+            l12 = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv4 = disabledCheckedThumbColor;
         int i9 = 0;
         int i56 = 0;
-        $this$isSpecified$iv$iv7 = Long.compare(i25, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv7 != 0) {
-            l4 = $this$takeOrElse_u2dDxMtmZc$iv4;
+        $this$isSpecified$iv$iv3 = Long.compare(i25, i68) != 0 ? i3 : i69;
+        if ($this$isSpecified$iv$iv3 != 0) {
+            l7 = $this$takeOrElse_u2dDxMtmZc$iv4;
         } else {
             int i47 = 0;
-            l4 = $this$isSpecified$iv$iv7;
+            l7 = $this$isSpecified$iv$iv3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv5 = disabledCheckedBorderColor;
         int i10 = 0;
         int i57 = 0;
-        $this$isSpecified$iv$iv8 = Long.compare(i26, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv8 != 0) {
-            l5 = $this$takeOrElse_u2dDxMtmZc$iv5;
+        $this$isSpecified$iv$iv2 = Long.compare(i26, i68) != 0 ? i3 : i69;
+        if ($this$isSpecified$iv$iv2 != 0) {
+            l8 = $this$takeOrElse_u2dDxMtmZc$iv5;
         } else {
             int i46 = 0;
-            l5 = $this$isSpecified$iv$iv8;
+            l8 = $this$isSpecified$iv$iv2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv6 = disabledUncheckedThumbColor;
         int i11 = 0;
         int i58 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i27, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l6 = $this$takeOrElse_u2dDxMtmZc$iv6;
+        $this$isSpecified$iv$iv6 = Long.compare(i27, i68) != 0 ? i3 : i69;
+        if ($this$isSpecified$iv$iv6 != 0) {
+            l13 = $this$takeOrElse_u2dDxMtmZc$iv6;
         } else {
             int i45 = 0;
-            l6 = $this$isSpecified$iv$iv3;
+            l13 = $this$isSpecified$iv$iv6;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv7 = disabledUncheckedBorderColor;
         int i12 = 0;
         int i59 = 0;
-        $this$isSpecified$iv$iv10 = Long.compare(i28, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv10 != 0) {
+        $this$isSpecified$iv$iv = Long.compare(i28, i68) != 0 ? i3 : i69;
+        if ($this$isSpecified$iv$iv != 0) {
             l = $this$takeOrElse_u2dDxMtmZc$iv7;
         } else {
             int i44 = 0;
-            l = $this$isSpecified$iv$iv10;
+            l = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv8 = obj63;
         int i13 = 0;
         int i60 = 0;
-        $this$isSpecified$iv$iv6 = Long.compare(i29, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv6 != 0) {
+        $this$isSpecified$iv$iv7 = Long.compare(i29, i68) != 0 ? i3 : i69;
+        if ($this$isSpecified$iv$iv7 != 0) {
             l10 = $this$takeOrElse_u2dDxMtmZc$iv8;
         } else {
             int i43 = 0;
-            l10 = $this$isSpecified$iv$iv6;
+            l10 = $this$isSpecified$iv$iv7;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv9 = obj65;
         int i14 = 0;
         int i61 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i30, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv != 0) {
-            l2 = $this$takeOrElse_u2dDxMtmZc$iv9;
+        $this$isSpecified$iv$iv4 = Long.compare(i30, i68) != 0 ? i3 : i69;
+        if ($this$isSpecified$iv$iv4 != 0) {
+            l9 = $this$takeOrElse_u2dDxMtmZc$iv9;
         } else {
             int i42 = 0;
-            l2 = $this$isSpecified$iv$iv;
+            l9 = $this$isSpecified$iv$iv4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv10 = obj67;
         int i15 = 0;
         int i62 = 0;
-        $this$isSpecified$iv$iv4 = Long.compare(i31, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv4 != 0) {
-            l3 = $this$takeOrElse_u2dDxMtmZc$iv10;
+        $this$isSpecified$iv$iv5 = Long.compare(i31, i68) != 0 ? i3 : i69;
+        if ($this$isSpecified$iv$iv5 != 0) {
+            l4 = $this$takeOrElse_u2dDxMtmZc$iv10;
         } else {
             int i41 = 0;
-            l3 = $this$isSpecified$iv$iv4;
+            l4 = $this$isSpecified$iv$iv5;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv11 = obj69;
         int i16 = 0;
         int i63 = 0;
-        $this$isSpecified$iv$iv9 = Long.compare(i32, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv9 != 0) {
-            l11 = $this$takeOrElse_u2dDxMtmZc$iv11;
+        $i$a$TakeOrElseDxMtmZcSwitchColors$copy$12 = Long.compare(i32, i68) != 0 ? i3 : i69;
+        if ($i$a$TakeOrElseDxMtmZcSwitchColors$copy$12 != 0) {
+            l14 = $this$takeOrElse_u2dDxMtmZc$iv11;
         } else {
             int i40 = 0;
-            l11 = $this$isSpecified$iv$iv9;
+            l14 = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$12;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv12 = obj71;
         int i17 = 0;
         int i64 = 0;
-        $this$isSpecified$iv$iv15 = Long.compare(i33, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv15 != 0) {
-            l9 = $this$takeOrElse_u2dDxMtmZc$iv12;
+        $i$a$TakeOrElseDxMtmZcSwitchColors$copy$13 = Long.compare(i33, i68) != 0 ? i3 : i69;
+        if ($i$a$TakeOrElseDxMtmZcSwitchColors$copy$13 != 0) {
+            l3 = $this$takeOrElse_u2dDxMtmZc$iv12;
         } else {
             int i39 = 0;
-            l9 = $this$isSpecified$iv$iv15;
+            l3 = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$13;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv13 = obj73;
         int i18 = 0;
         int i65 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i34, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv2 != 0) {
-            l8 = $this$takeOrElse_u2dDxMtmZc$iv13;
+        $i$a$TakeOrElseDxMtmZcSwitchColors$copy$14 = Long.compare(i34, i68) != 0 ? i3 : i69;
+        if ($i$a$TakeOrElseDxMtmZcSwitchColors$copy$14 != 0) {
+            l6 = $this$takeOrElse_u2dDxMtmZc$iv13;
         } else {
             int i38 = 0;
-            l8 = $this$isSpecified$iv$iv2;
+            l6 = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$14;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv14 = obj75;
         int i19 = 0;
         int i66 = 0;
-        $this$isSpecified$iv$iv11 = Long.compare(i35, i68) != 0 ? i : i69;
-        if ($this$isSpecified$iv$iv11 != 0) {
-            i3 = $this$takeOrElse_u2dDxMtmZc$iv14;
+        $i$a$TakeOrElseDxMtmZcSwitchColors$copy$15 = Long.compare(i35, i68) != 0 ? i3 : i69;
+        if ($i$a$TakeOrElseDxMtmZcSwitchColors$copy$15 != 0) {
+            i2 = $this$takeOrElse_u2dDxMtmZc$iv14;
         } else {
             int i37 = 0;
-            i3 = $this$isSpecified$iv$iv11;
+            i2 = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$15;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv15 = obj77;
         int i20 = 0;
         int i67 = 0;
-        if (Long.compare(disabledUncheckedIconColor2, i68) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcSwitchColors$copy$16, i68) != 0) {
         } else {
-            i = i69;
+            i3 = i69;
         }
-        if (i != 0) {
-            i2 = $this$takeOrElse_u2dDxMtmZc$iv15;
+        if (i3 != 0) {
+            i = $this$takeOrElse_u2dDxMtmZc$iv15;
         } else {
             int i36 = 0;
-            i2 = disabledUncheckedIconColor2;
+            i = $i$a$TakeOrElseDxMtmZcSwitchColors$copy$16;
         }
-        SwitchColors switchColors = new SwitchColors(l14, obj14, l7, obj16, l13, obj18, l12, obj20, l4, obj22, l5, obj24, l6, obj26, l, obj28, l10, obj30, l2, obj32, l3, obj34, l11, obj36, l9, obj38, l8, obj40, i3, obj42, i2, obj44, 0);
+        SwitchColors switchColors = new SwitchColors(l5, obj14, l2, obj16, l11, obj18, l12, obj20, l7, obj22, l8, obj24, l13, obj26, l, obj28, l10, obj30, l9, obj32, l4, obj34, l14, obj36, l3, obj38, l6, obj40, i2, obj42, i, obj44, 0);
         return switchColors;
     }
 

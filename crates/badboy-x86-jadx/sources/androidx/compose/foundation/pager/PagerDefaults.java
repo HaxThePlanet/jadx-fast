@@ -30,21 +30,21 @@ public final class PagerDefaults {
     }
 
     public final TargetedFlingBehavior flingBehavior(androidx.compose.foundation.pager.PagerState state, androidx.compose.foundation.pager.PagerSnapDistance pagerSnapDistance, DecayAnimationSpec<Float> decayAnimationSpec, AnimationSpec<Float> snapAnimationSpec, float snapPositionalThreshold, Composer $composer, int $changed, int i8) {
-        int i2;
+        int i3;
         int cmp;
         androidx.compose.foundation.pager.PagerSnapDistance pagerSnapDistance2;
-        int i4;
+        int i5;
         DecayAnimationSpec decayAnimationSpec2;
         androidx.compose.animation.core.SpringSpec snapAnimationSpec2;
-        int i3;
+        int i;
         int snapPositionalThreshold2;
-        int i5;
+        int i4;
         boolean traceInProgress;
         int changed2;
-        int i;
+        int i2;
         String str;
         boolean changed;
-        Object snapFlingBehavior;
+        Object $i$a$CachePagerDefaults$flingBehavior$2;
         int empty;
         androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider snapLayoutInfoProvider;
         final Object obj = state;
@@ -52,9 +52,9 @@ public final class PagerDefaults {
         final int i6 = $changed;
         int i7 = 1559769181;
         ComposerKt.sourceInformationMarkerStart(composer, i7, "C(flingBehavior)P(4,1)295@16853L26,306@17415L7,307@17474L7,308@17497L1053:Pager.kt#g6yjnt");
-        i4 = 1;
+        i5 = 1;
         if (i8 & 2 != 0) {
-            pagerSnapDistance2 = PagerSnapDistance.Companion.atMost(i4);
+            pagerSnapDistance2 = PagerSnapDistance.Companion.atMost(i5);
         } else {
             pagerSnapDistance2 = pagerSnapDistance;
         }
@@ -66,7 +66,7 @@ public final class PagerDefaults {
         }
         int i17 = 0;
         if (i8 & 8 != 0) {
-            snapAnimationSpec2 = AnimationSpecKt.spring$default(i17, 1137180672, Float.valueOf((float)visibilityThreshold), i4, 0);
+            snapAnimationSpec2 = AnimationSpecKt.spring$default(i17, 1137180672, Float.valueOf((float)visibilityThreshold), i5, 0);
         } else {
             snapAnimationSpec2 = snapAnimationSpec;
         }
@@ -75,10 +75,10 @@ public final class PagerDefaults {
             ComposerKt.traceEventStart(i7, i6, -1, "androidx.compose.foundation.pager.PagerDefaults.flingBehavior (Pager.kt:301)");
         }
         if (Float.compare(i17, snapPositionalThreshold2) <= 0 && Float.compare(snapPositionalThreshold2, i9) <= 0) {
-            i2 = Float.compare(snapPositionalThreshold2, i9) <= 0 ? i4 : i15;
+            i3 = Float.compare(snapPositionalThreshold2, i9) <= 0 ? i5 : i15;
         } else {
         }
-        if (i2 == 0) {
+        if (i3 == 0) {
         } else {
             int i18 = 0;
             int i20 = 0;
@@ -95,7 +95,7 @@ public final class PagerDefaults {
             int i28 = 4;
             if (i23 ^= 6 > i28) {
                 if (!composer.changed(obj)) {
-                    i = i6 & 6 == i28 ? i4 : i15;
+                    i2 = i6 & 6 == i28 ? i5 : i15;
                 } else {
                 }
             } else {
@@ -105,7 +105,7 @@ public final class PagerDefaults {
                 if (!composer.changed(pagerSnapDistance2)) {
                     if (i6 & 48 == i30) {
                     } else {
-                        i4 = i15;
+                        i5 = i15;
                     }
                 } else {
                 }
@@ -121,7 +121,7 @@ public final class PagerDefaults {
                     PagerDefaults.flingBehavior.2.snapLayoutInfoProvider.1 anon = new PagerDefaults.flingBehavior.2.snapLayoutInfoProvider.1(obj, this_$iv2, snapPositionalThreshold2);
                     composer2.updateRememberedValue(SnapFlingBehaviorKt.snapFlingBehavior(PagerSnapLayoutInfoProviderKt.SnapLayoutInfoProvider(obj, pagerSnapDistance2, (Function3)anon), decayAnimationSpec2, snapAnimationSpec2));
                 } else {
-                    snapFlingBehavior = rememberedValue;
+                    $i$a$CachePagerDefaults$flingBehavior$2 = rememberedValue;
                 }
             } else {
             }
@@ -130,7 +130,7 @@ public final class PagerDefaults {
                 ComposerKt.traceEventEnd();
             }
             ComposerKt.sourceInformationMarkerEnd(composer);
-            return (TargetedFlingBehavior)snapFlingBehavior;
+            return (TargetedFlingBehavior)$i$a$CachePagerDefaults$flingBehavior$2;
         }
         int density = 0;
         StringBuilder stringBuilder = new StringBuilder();
@@ -139,12 +139,12 @@ public final class PagerDefaults {
     }
 
     public final NestedScrollConnection pageNestedScrollConnection(androidx.compose.foundation.pager.PagerState state, Orientation orientation, Composer $composer, int $changed) {
-        int changed2;
+        int changed;
         int i;
         boolean traceInProgress;
         int i2;
         String str;
-        int changed;
+        int changed2;
         Object empty;
         Object defaultPagerNestedScrollConnection;
         int i3 = 877583120;

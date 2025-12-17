@@ -34,8 +34,8 @@ public final class MutableFloatList extends androidx.collection.FloatList {
     @Override // androidx.collection.FloatList
     public final void add(int index, float element) {
         int i;
-        int _size3;
         int _size;
+        int _size3;
         int _size2;
         i = 0;
         int i3 = 1;
@@ -70,10 +70,10 @@ public final class MutableFloatList extends androidx.collection.FloatList {
 
     @Override // androidx.collection.FloatList
     public final boolean addAll(int index, androidx.collection.FloatList elements) {
-        int _size2;
-        int i;
         int _size;
+        int i;
         int _size3;
+        int _size2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         int i2 = 1;
         int i3 = 0;
@@ -104,20 +104,20 @@ public final class MutableFloatList extends androidx.collection.FloatList {
     public final boolean addAll(int index, float[] elements) {
         int _size;
         int _size2;
-        int i;
         int i2;
+        int i;
         int length;
         Intrinsics.checkNotNullParameter(elements, "elements");
         int i3 = 1;
         int i4 = 0;
         if (index >= 0 && index <= this._size) {
-            i = index <= this._size ? i3 : i4;
+            i2 = index <= this._size ? i3 : i4;
         } else {
         }
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
-            i2 = elements.length == 0 ? i3 : i4;
-            if (i2 != 0) {
+            i = elements.length == 0 ? i3 : i4;
+            if (i != 0) {
                 return i4;
             }
             ensureCapacity(_size4 += length);
@@ -197,15 +197,15 @@ public final class MutableFloatList extends androidx.collection.FloatList {
     @Override // androidx.collection.FloatList
     public final void minusAssign(float[] elements) {
         int i;
-        int i3;
-        int i4;
         int i2;
+        int i4;
+        int i3;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = elements;
         final int i5 = 0;
         i = 0;
         while (i < obj.length) {
-            i2 = 0;
+            i3 = 0;
             remove(obj[i]);
             i++;
         }
@@ -258,17 +258,17 @@ public final class MutableFloatList extends androidx.collection.FloatList {
 
     @Override // androidx.collection.FloatList
     public final boolean removeAll(float[] elements) {
-        int i3;
         int i;
         int i2;
+        int i3;
         Intrinsics.checkNotNullParameter(elements, "elements");
-        i3 = 0;
-        while (i3 < elements.length) {
-            remove(elements[i3]);
-            i3++;
+        i = 0;
+        while (i < elements.length) {
+            remove(elements[i]);
+            i++;
         }
-        i = this._size != this._size ? 1 : 0;
-        return i;
+        i2 = this._size != this._size ? 1 : 0;
+        return i2;
     }
 
     @Override // androidx.collection.FloatList
@@ -303,22 +303,22 @@ public final class MutableFloatList extends androidx.collection.FloatList {
     @Override // androidx.collection.FloatList
     public final void removeRange(int start, int end) {
         int i;
-        int content2;
         int content;
-        int _size2;
+        int content2;
         int _size;
-        content = 0;
+        int _size2;
+        content2 = 0;
         if (start >= 0 && start <= this._size) {
-            _size = start <= this._size ? i : content;
+            _size2 = start <= this._size ? i : content2;
         } else {
         }
         final String str4 = "Start (";
-        if (_size == 0) {
+        if (_size2 == 0) {
         } else {
             if (end >= 0 && end <= this._size) {
                 if (end <= this._size) {
                 } else {
-                    i = content;
+                    i = content2;
                 }
             } else {
             }
@@ -330,7 +330,7 @@ public final class MutableFloatList extends androidx.collection.FloatList {
                         if (end < this._size) {
                             ArraysKt.copyInto(this.content, this.content, start, end, this._size);
                         }
-                        this._size = _size3 -= content;
+                        this._size = _size3 -= content2;
                     }
                 }
                 StringBuilder stringBuilder2 = new StringBuilder();
@@ -347,78 +347,78 @@ public final class MutableFloatList extends androidx.collection.FloatList {
     public final boolean retainAll(androidx.collection.FloatList elements) {
         Object obj;
         int contains;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter(elements, "elements");
         contains = 0;
-        _size3 -= i2;
-        while (-1 < i) {
-            if (elements.contains(this.content[i]) == 0) {
+        _size3 -= i;
+        while (-1 < i2) {
+            if (elements.contains(this.content[i2]) == 0) {
             }
-            i--;
-            removeAt(i);
+            i2--;
+            removeAt(i2);
         }
         if (this._size != this._size) {
         } else {
-            i2 = 0;
+            i = 0;
         }
-        return i2;
+        return i;
     }
 
     @Override // androidx.collection.FloatList
     public final boolean retainAll(float[] elements) {
-        Object obj;
-        int i3;
-        int i5;
-        int i2;
-        float f;
         Object obj2;
         int i;
+        int i4;
+        int i5;
+        float f;
+        Object obj;
+        int i3;
         int index$iv;
         int length;
         Object it;
-        int i4;
+        int i2;
         int cmp;
         Intrinsics.checkNotNullParameter(elements, "elements");
-        i3 = 0;
-        i2 = 1;
-        _size3 -= i2;
-        obj = null;
-        while (-1 < i5) {
-            obj2 = elements;
-            i = 0;
+        i = 0;
+        i5 = 1;
+        _size3 -= i5;
+        obj2 = null;
+        while (-1 < i4) {
+            obj = elements;
+            i3 = 0;
             index$iv = 0;
-            while (index$iv < obj2.length) {
-                i4 = 0;
+            while (index$iv < obj.length) {
+                i2 = 0;
                 if (Float.compare(i6, f) == 0) {
                 } else {
                 }
-                it = obj;
+                it = obj2;
                 index$iv++;
-                it = i2;
+                it = i5;
             }
-            if (i3 < 0) {
+            if (i < 0) {
             }
-            i5--;
-            obj = null;
-            removeAt(i5);
-            i4 = 0;
+            i4--;
+            obj2 = null;
+            removeAt(i4);
+            i2 = 0;
             if (Float.compare(i6, f) == 0) {
             } else {
             }
-            it = obj;
+            it = obj2;
             if (it != null) {
             } else {
             }
             index$iv++;
-            i3 = index$iv;
-            it = i2;
+            i = index$iv;
+            it = i5;
         }
         if (this._size != this._size) {
         } else {
-            i2 = obj;
+            i5 = obj2;
         }
-        return i2;
+        return i5;
     }
 
     @Override // androidx.collection.FloatList

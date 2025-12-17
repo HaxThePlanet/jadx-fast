@@ -59,27 +59,27 @@ public final class RowColumnImplKt {
 
     private static final int intrinsicCrossAxisSize(List<? extends IntrinsicMeasurable> children, Function2<? super IntrinsicMeasurable, ? super Integer, Integer> mainAxisSize, Function2<? super IntrinsicMeasurable, ? super Integer, Integer> crossAxisSize, int mainAxisAvailable, int mainAxisSpacing) {
         int fixedSpace;
-        int i3;
-        int $this$fastRoundToInt$iv2;
-        int cmp;
-        int crossAxisMax;
         int i;
+        int $this$fastRoundToInt$iv2;
+        int cmp2;
+        int crossAxisMax;
+        int i2;
         Object obj5;
         int totalWeight;
-        int i2;
+        int i4;
         int round;
-        int index$iv;
         int index$iv2;
+        int index$iv;
         int intValue;
         int $this$fastRoundToInt$iv;
-        int i7;
-        Object obj;
+        int i3;
         Object obj2;
-        int i4;
+        Object obj;
+        int i7;
         float weight;
-        int i6;
-        int cmp2;
         int i5;
+        int cmp;
+        int i6;
         final Object obj3 = crossAxisSize;
         final int i8 = mainAxisAvailable;
         final int i9 = 0;
@@ -90,70 +90,70 @@ public final class RowColumnImplKt {
         fixedSpace = Math.min(i14 *= mainAxisSpacing, i8);
         crossAxisMax = 0;
         totalWeight = 0;
-        i2 = children;
+        i4 = children;
         round = 0;
-        index$iv = 0;
+        index$iv2 = 0;
         intValue = 0;
-        i7 = Integer.MAX_VALUE;
-        while (index$iv < i2.size()) {
-            obj2 = obj;
-            i4 = 0;
-            weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
+        i3 = Integer.MAX_VALUE;
+        while (index$iv2 < i4.size()) {
+            obj = obj2;
+            i7 = 0;
+            weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
             if (Float.compare(weight, intValue) == 0) {
             } else {
             }
-            i6 = i3;
-            if (i6 != 0) {
+            i5 = i;
+            if (i5 != 0) {
             } else {
             }
             obj5 = mainAxisSize;
             if (Float.compare(weight, intValue) > 0) {
             }
-            index$iv++;
-            i3 = 0;
-            i = 1;
+            index$iv2++;
+            i = 0;
+            i2 = 1;
             intValue = 0;
-            i7 = Integer.MAX_VALUE;
+            i3 = Integer.MAX_VALUE;
             totalWeight += weight;
-            if (i8 == i7) {
+            if (i8 == i3) {
             } else {
             }
             intValue = i8 - fixedSpace;
-            i7 = Math.min((Number)mainAxisSize.invoke(obj2, Integer.valueOf(i7)).intValue(), intValue);
-            fixedSpace += i7;
-            crossAxisMax = cmp;
-            intValue = i7;
-            i6 = i;
+            i3 = Math.min((Number)mainAxisSize.invoke(obj, Integer.valueOf(i3)).intValue(), intValue);
+            fixedSpace += i3;
+            crossAxisMax = cmp2;
+            intValue = i3;
+            i5 = i2;
         }
         Object obj4 = mainAxisSize;
-        cmp2 = Float.compare(totalWeight, intValue) == 0 ? 1 : 0;
-        if (cmp2 != 0) {
+        cmp = Float.compare(totalWeight, intValue) == 0 ? 1 : 0;
+        if (cmp != 0) {
             $this$fastRoundToInt$iv2 = 0;
         } else {
-            if (i8 == i7) {
-                $this$fastRoundToInt$iv2 = i7;
+            if (i8 == i3) {
+                $this$fastRoundToInt$iv2 = i3;
             } else {
-                i2 = 0;
+                i4 = 0;
                 $this$fastRoundToInt$iv2 = round;
             }
         }
         int i17 = children;
         int i18 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < i17.size()) {
-            obj2 = obj;
-            i4 = 0;
-            weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
+        index$iv = 0;
+        while (index$iv < i17.size()) {
+            obj = obj2;
+            i7 = 0;
+            weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
             if (Float.compare(weight, intValue) > 0) {
             }
-            index$iv2++;
+            index$iv++;
             intValue = 0;
-            if ($this$fastRoundToInt$iv2 != i7) {
+            if ($this$fastRoundToInt$iv2 != i3) {
             } else {
             }
-            $this$fastRoundToInt$iv = i7;
-            crossAxisMax = Math.max(crossAxisMax, (Number)obj3.invoke(obj2, Integer.valueOf($this$fastRoundToInt$iv)).intValue());
-            i5 = 0;
+            $this$fastRoundToInt$iv = i3;
+            crossAxisMax = Math.max(crossAxisMax, (Number)obj3.invoke(obj, Integer.valueOf($this$fastRoundToInt$iv)).intValue());
+            i6 = 0;
             $this$fastRoundToInt$iv = Math.round(f2 *= weight);
         }
         return crossAxisMax;
@@ -167,11 +167,11 @@ public final class RowColumnImplKt {
         int $this$fastRoundToInt$iv;
         Object obj;
         Object obj2;
-        int i;
+        int i2;
         float weight;
         int intValue;
         Object obj4;
-        int i2;
+        int i;
         int cmp;
         final int i3 = 0;
         int i4 = 0;
@@ -186,22 +186,22 @@ public final class RowColumnImplKt {
         index$iv = 0;
         while (index$iv < obj3.size()) {
             obj2 = obj;
-            i = 0;
+            i2 = 0;
             weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
             intValue = (Number)mainAxisSize.invoke(obj2, Integer.valueOf(crossAxisAvailable)).intValue();
-            i2 = 0;
-            if (Float.compare(weight, i2) == 0) {
+            i = 0;
+            if (Float.compare(weight, i) == 0) {
             } else {
             }
             $this$fastRoundToInt$iv = i4;
             if ($this$fastRoundToInt$iv != 0) {
             } else {
             }
-            if (Float.compare(weight, i2) > 0) {
+            if (Float.compare(weight, i) > 0) {
             }
             index$iv++;
             totalWeight += weight;
-            i2 = 0;
+            i = 0;
             weightUnitSpace = Math.max(weightUnitSpace, Math.round(f2 /= weight));
             fixedSpace += intValue;
         }

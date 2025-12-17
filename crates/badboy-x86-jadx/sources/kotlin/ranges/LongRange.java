@@ -114,17 +114,17 @@ public final class LongRange extends kotlin.ranges.LongProgression implements ko
 
     @Override // kotlin.ranges.LongProgression
     public int hashCode() {
-        int i3;
-        int i4;
         int i2;
+        int i4;
         int i;
+        int i3;
         if (isEmpty()) {
-            i3 = -1;
+            i2 = -1;
         } else {
-            i = 32;
-            i3 = (int)i7;
+            i3 = 32;
+            i2 = (int)i7;
         }
-        return i3;
+        return i2;
     }
 
     @Override // kotlin.ranges.LongProgression

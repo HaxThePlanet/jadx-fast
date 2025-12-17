@@ -305,16 +305,16 @@ public interface DrawScope extends Density {
         int defaultBlendMode-0nO6VwU;
         int zero-F1C5BW0;
         int offsetSize-PENXr5M;
-        int i;
+        int i5;
         androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
-        int i2;
+        int i3;
         Object obj;
         long l;
         long l2;
-        int i4;
+        int i;
         androidx.compose.ui.graphics.drawscope.Fill fill;
-        int i3;
-        int i5;
+        int i2;
+        int i4;
         int i6 = obj29;
         if (obj30 != null) {
         } else {
@@ -329,19 +329,19 @@ public interface DrawScope extends Density {
                 obj = drawScope;
                 l2 = f8;
             }
-            i4 = i6 & 64 != 0 ? i : colorFilter10;
+            i = i6 & 64 != 0 ? i5 : colorFilter10;
             if (i6 & 128 != 0) {
                 fill = iNSTANCE;
             } else {
                 fill = i11;
             }
-            i3 = i6 & 256 != 0 ? i2 : i12;
+            i2 = i6 & 256 != 0 ? i3 : i12;
             if (i6 &= 512 != 0) {
-                i5 = defaultBlendMode-0nO6VwU;
+                i4 = defaultBlendMode-0nO6VwU;
             } else {
-                i5 = object13;
+                i4 = object13;
             }
-            obj.drawArc-illE91I(brush2, f3, f4, z5, l, obj9, l2, obj11, i4, fill);
+            obj.drawArc-illE91I(brush2, f3, f4, z5, l, obj9, l2, obj11, i, fill);
         }
         UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawArc-illE91I");
         throw unsupportedOperationException;
@@ -351,16 +351,16 @@ public interface DrawScope extends Density {
         int defaultBlendMode-0nO6VwU;
         int zero-F1C5BW0;
         int offsetSize-PENXr5M;
-        int i5;
+        int i3;
         androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
-        int i2;
+        int i5;
         Object obj;
         long l;
         long l3;
-        int i3;
-        androidx.compose.ui.graphics.drawscope.Fill fill;
         int i4;
+        androidx.compose.ui.graphics.drawscope.Fill fill;
         int i;
+        int i2;
         int i6 = obj31;
         if (obj32 != null) {
         } else {
@@ -375,38 +375,38 @@ public interface DrawScope extends Density {
                 obj = drawScope;
                 l3 = drawStyle9;
             }
-            i3 = i6 & 64 != 0 ? i5 : i11;
+            i4 = i6 & 64 != 0 ? i3 : i11;
             if (i6 & 128 != 0) {
                 fill = iNSTANCE;
             } else {
                 fill = i12;
             }
-            i4 = i6 & 256 != 0 ? i2 : object13;
+            i = i6 & 256 != 0 ? i5 : object13;
             if (i6 &= 512 != 0) {
-                i = defaultBlendMode-0nO6VwU;
+                i2 = defaultBlendMode-0nO6VwU;
             } else {
-                i = obj30;
+                i2 = obj30;
             }
-            obj.drawArc-yD3GUKo(l2, obj5, f4, z5, l6, l, obj10, l3, obj12, i3);
+            obj.drawArc-yD3GUKo(l2, obj5, f4, z5, l6, l, obj10, l3, obj12, i4);
         }
         UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawArc-yD3GUKo");
         throw unsupportedOperationException;
     }
 
     public static void drawCircle-V9BoPsw$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, Brush brush2, float f3, long l4, float f5, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle6, ColorFilter colorFilter7, int i8, int i9, Object object10) {
-        int i2;
+        int i3;
         long l;
         long center-F1C5BW0;
         int i;
         androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
-        int i3;
+        int i2;
         int defaultBlendMode-0nO6VwU;
         if (obj17 != null) {
         } else {
             if (object10 & 2 != 0) {
                 minDimension-impl /= l;
             } else {
-                i2 = f3;
+                i3 = f3;
             }
             if (object10 & 4 != 0) {
                 center-F1C5BW0 = drawScope.getCenter-F1C5BW0();
@@ -419,13 +419,13 @@ public interface DrawScope extends Density {
             } else {
                 iNSTANCE = colorFilter7;
             }
-            i3 = object10 & 32 != 0 ? 0 : i8;
+            i2 = object10 & 32 != 0 ? 0 : i8;
             if (object10 & 64 != 0) {
                 defaultBlendMode-0nO6VwU = DrawScope.Companion.getDefaultBlendMode-0nO6VwU();
             } else {
                 defaultBlendMode-0nO6VwU = i9;
             }
-            drawScope.drawCircle-V9BoPsw(brush2, i2, center-F1C5BW0, colorFilter7, i, iNSTANCE, i3);
+            drawScope.drawCircle-V9BoPsw(brush2, i3, center-F1C5BW0, colorFilter7, i, iNSTANCE, i2);
         }
         UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawCircle-V9BoPsw");
         throw unsupportedOperationException;
@@ -435,10 +435,10 @@ public interface DrawScope extends Density {
         int center-F1C5BW0;
         int i;
         long l;
-        int i3;
-        androidx.compose.ui.graphics.drawscope.Fill fill;
-        int i4;
         int i2;
+        androidx.compose.ui.graphics.drawscope.Fill fill;
+        int i3;
+        int i4;
         int obj13;
         if (obj21 != null) {
         } else {
@@ -452,19 +452,19 @@ public interface DrawScope extends Density {
             } else {
                 l = f5;
             }
-            i3 = obj20 & 8 != 0 ? obj13 : colorFilter7;
+            i2 = obj20 & 8 != 0 ? obj13 : colorFilter7;
             if (obj20 & 16 != 0) {
                 fill = obj13;
             } else {
                 fill = i8;
             }
-            i4 = obj20 & 32 != 0 ? obj13 : i9;
+            i3 = obj20 & 32 != 0 ? obj13 : i9;
             if (obj20 & 64 != 0) {
-                i2 = obj13;
+                i4 = obj13;
             } else {
-                i2 = object10;
+                i4 = object10;
             }
-            drawScope.drawCircle-VaOC9Bg(l2, obj2, i, l, obj5, i3, fill);
+            drawScope.drawCircle-VaOC9Bg(l2, obj2, i, l, obj5, i2, fill);
         }
         UnsupportedOperationException obj10 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawCircle-VaOC9Bg");
         throw obj10;
@@ -472,64 +472,16 @@ public interface DrawScope extends Density {
 
     public static void drawImage-9jGpkUE$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, ImageBitmap imageBitmap2, long l3, long l4, long l5, long l6, float f7, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle8, ColorFilter colorFilter9, int i10, int i11, Object object12) {
         int defaultBlendMode-0nO6VwU;
-        long zero-nOcc-ac;
+        long zero-nOcc-ac2;
         long l;
         int height;
-        long zero-nOcc-ac2;
+        long zero-nOcc-ac;
         long l2;
-        int i;
-        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
         int i2;
+        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
+        int i;
         int i3 = obj26;
         if (obj27 != null) {
-        } else {
-            if (i3 & 2 != 0) {
-                zero-nOcc-ac = IntOffset.Companion.getZero-nOcc-ac();
-            } else {
-                zero-nOcc-ac = l3;
-            }
-            if (i3 & 4 != 0) {
-                l = IntSizeKt.IntSize(imageBitmap2.getWidth(), imageBitmap2.getHeight());
-            } else {
-                l = l5;
-            }
-            if (i3 & 8 != 0) {
-                zero-nOcc-ac2 = IntOffset.Companion.getZero-nOcc-ac();
-            } else {
-                zero-nOcc-ac2 = f7;
-            }
-            l2 = i3 & 16 != 0 ? l : colorFilter9;
-            i = i3 & 32 != 0 ? 1065353216 : i11;
-            if (i3 & 64 != 0) {
-                iNSTANCE = Fill.INSTANCE;
-            } else {
-                iNSTANCE = object12;
-            }
-            i2 = i3 & 128 != 0 ? 0 : obj24;
-            if (i3 &= 256 != 0) {
-                defaultBlendMode-0nO6VwU = DrawScope.Companion.getDefaultBlendMode-0nO6VwU();
-            } else {
-                defaultBlendMode-0nO6VwU = obj25;
-            }
-            drawScope.drawImage-9jGpkUE(imageBitmap2, zero-nOcc-ac, l6, l, drawStyle8, zero-nOcc-ac2, i10, l2, object12);
-        }
-        UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawImage-9jGpkUE");
-        throw unsupportedOperationException;
-    }
-
-    public static void drawImage-AZ2fEMs$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, ImageBitmap imageBitmap2, long l3, long l4, long l5, long l6, float f7, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle8, ColorFilter colorFilter9, int i10, int i11, int i12, Object object13) {
-        int defaultFilterQuality-f-v9h1I;
-        long zero-nOcc-ac2;
-        long l;
-        int height;
-        long zero-nOcc-ac;
-        long l2;
-        int i2;
-        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
-        int i;
-        int defaultBlendMode-0nO6VwU;
-        int i3 = obj28;
-        if (obj29 != null) {
         } else {
             if (i3 & 2 != 0) {
                 zero-nOcc-ac2 = IntOffset.Companion.getZero-nOcc-ac();
@@ -551,9 +503,57 @@ public interface DrawScope extends Density {
             if (i3 & 64 != 0) {
                 iNSTANCE = Fill.INSTANCE;
             } else {
+                iNSTANCE = object12;
+            }
+            i = i3 & 128 != 0 ? 0 : obj24;
+            if (i3 &= 256 != 0) {
+                defaultBlendMode-0nO6VwU = DrawScope.Companion.getDefaultBlendMode-0nO6VwU();
+            } else {
+                defaultBlendMode-0nO6VwU = obj25;
+            }
+            drawScope.drawImage-9jGpkUE(imageBitmap2, zero-nOcc-ac2, l6, l, drawStyle8, zero-nOcc-ac, i10, l2, object12);
+        }
+        UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawImage-9jGpkUE");
+        throw unsupportedOperationException;
+    }
+
+    public static void drawImage-AZ2fEMs$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, ImageBitmap imageBitmap2, long l3, long l4, long l5, long l6, float f7, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle8, ColorFilter colorFilter9, int i10, int i11, int i12, Object object13) {
+        int defaultFilterQuality-f-v9h1I;
+        long zero-nOcc-ac;
+        long l2;
+        int height;
+        long zero-nOcc-ac2;
+        long l;
+        int i;
+        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
+        int i2;
+        int defaultBlendMode-0nO6VwU;
+        int i3 = obj28;
+        if (obj29 != null) {
+        } else {
+            if (i3 & 2 != 0) {
+                zero-nOcc-ac = IntOffset.Companion.getZero-nOcc-ac();
+            } else {
+                zero-nOcc-ac = l3;
+            }
+            if (i3 & 4 != 0) {
+                l2 = IntSizeKt.IntSize(imageBitmap2.getWidth(), imageBitmap2.getHeight());
+            } else {
+                l2 = l5;
+            }
+            if (i3 & 8 != 0) {
+                zero-nOcc-ac2 = IntOffset.Companion.getZero-nOcc-ac();
+            } else {
+                zero-nOcc-ac2 = f7;
+            }
+            l = i3 & 16 != 0 ? l2 : colorFilter9;
+            i = i3 & 32 != 0 ? 1065353216 : i11;
+            if (i3 & 64 != 0) {
+                iNSTANCE = Fill.INSTANCE;
+            } else {
                 iNSTANCE = i12;
             }
-            i = i3 & 128 != 0 ? 0 : object13;
+            i2 = i3 & 128 != 0 ? 0 : object13;
             if (i3 & 256 != 0) {
                 defaultBlendMode-0nO6VwU = DrawScope.Companion.getDefaultBlendMode-0nO6VwU();
             } else {
@@ -564,7 +564,7 @@ public interface DrawScope extends Density {
             } else {
                 defaultFilterQuality-f-v9h1I = obj27;
             }
-            drawScope.drawImage-AZ2fEMs(imageBitmap2, zero-nOcc-ac2, l6, l, drawStyle8, zero-nOcc-ac, i10, l2, i12, i2);
+            drawScope.drawImage-AZ2fEMs(imageBitmap2, zero-nOcc-ac, l6, l2, drawStyle8, zero-nOcc-ac2, i10, l, i12, i);
         }
         UnsupportedOperationException obj13 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawImage-AZ2fEMs");
         throw obj13;
@@ -603,34 +603,34 @@ public interface DrawScope extends Density {
 
     public static void drawLine-1RTmtNc$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, Brush brush2, long l3, long l4, float f5, int i6, PathEffect pathEffect7, float f8, ColorFilter colorFilter9, int i10, int i11, Object object12) {
         int defaultBlendMode-0nO6VwU;
-        int i2;
-        int defaultCap-KaPHkGw;
-        int i9;
-        int i;
-        int i8;
-        int i3;
-        int i4;
-        int i5;
         int i7;
+        int defaultCap-KaPHkGw;
+        int i;
+        int i2;
+        int i9;
+        int i8;
+        int i4;
+        int i3;
+        int i5;
         int i12 = obj26;
         if (obj27 != null) {
         } else {
-            i = i12 & 8 != 0 ? i2 : pathEffect7;
+            i2 = i12 & 8 != 0 ? i7 : pathEffect7;
             if (i12 & 16 != 0) {
-                i8 = defaultCap-KaPHkGw;
+                i9 = defaultCap-KaPHkGw;
             } else {
-                i8 = f8;
+                i9 = f8;
             }
             int i15 = 0;
-            i3 = i12 & 32 != 0 ? i15 : colorFilter9;
-            i4 = i12 & 64 != 0 ? i9 : i10;
-            i5 = i12 & 128 != 0 ? i15 : i11;
+            i8 = i12 & 32 != 0 ? i15 : colorFilter9;
+            i4 = i12 & 64 != 0 ? i : i10;
+            i3 = i12 & 128 != 0 ? i15 : i11;
             if (i12 &= 256 != 0) {
-                i7 = defaultBlendMode-0nO6VwU;
+                i5 = defaultBlendMode-0nO6VwU;
             } else {
-                i7 = object12;
+                i5 = object12;
             }
-            drawScope.drawLine-1RTmtNc(brush2, l3, obj5, f5, obj7, i, i8, i3, i4);
+            drawScope.drawLine-1RTmtNc(brush2, l3, obj5, f5, obj7, i2, i9, i8, i4);
         }
         UnsupportedOperationException obj14 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawLine-1RTmtNc");
         throw obj14;
@@ -638,34 +638,34 @@ public interface DrawScope extends Density {
 
     public static void drawLine-NGM6Ib0$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, long l2, long l3, long l4, float f5, int i6, PathEffect pathEffect7, float f8, ColorFilter colorFilter9, int i10, int i11, Object object12) {
         int defaultBlendMode-0nO6VwU;
-        int i;
-        int defaultCap-KaPHkGw;
-        int i2;
-        int i9;
-        int i4;
-        int i5;
-        int i7;
         int i3;
+        int defaultCap-KaPHkGw;
+        int i7;
+        int i9;
         int i8;
+        int i;
+        int i5;
+        int i2;
+        int i4;
         int i12 = obj28;
         if (obj29 != null) {
         } else {
-            i9 = i12 & 8 != 0 ? i : f8;
+            i9 = i12 & 8 != 0 ? i3 : f8;
             if (i12 & 16 != 0) {
-                i4 = defaultCap-KaPHkGw;
+                i8 = defaultCap-KaPHkGw;
             } else {
-                i4 = colorFilter9;
+                i8 = colorFilter9;
             }
             int i15 = 0;
-            i5 = i12 & 32 != 0 ? i15 : i10;
-            i7 = i12 & 64 != 0 ? i2 : i11;
-            i3 = i12 & 128 != 0 ? i15 : object12;
+            i = i12 & 32 != 0 ? i15 : i10;
+            i5 = i12 & 64 != 0 ? i7 : i11;
+            i2 = i12 & 128 != 0 ? i15 : object12;
             if (i12 &= 256 != 0) {
-                i8 = defaultBlendMode-0nO6VwU;
+                i4 = defaultBlendMode-0nO6VwU;
             } else {
-                i8 = obj27;
+                i4 = obj27;
             }
-            drawScope.drawLine-NGM6Ib0(l2, obj4, l4, obj6, i6, obj8, i9, i4, i5);
+            drawScope.drawLine-NGM6Ib0(l2, obj4, l4, obj6, i6, obj8, i9, i8, i);
         }
         UnsupportedOperationException obj15 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawLine-NGM6Ib0");
         throw obj15;
@@ -674,9 +674,9 @@ public interface DrawScope extends Density {
     public static void drawOval-AsUm42w$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, Brush brush2, long l3, long l4, float f5, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle6, ColorFilter colorFilter7, int i8, int i9, Object object10) {
         long zero-F1C5BW0;
         long offsetSize-PENXr5M;
-        int i2;
-        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
         int i;
+        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
+        int i2;
         int defaultBlendMode-0nO6VwU;
         if (obj19 != null) {
         } else {
@@ -690,19 +690,19 @@ public interface DrawScope extends Density {
             } else {
                 offsetSize-PENXr5M = f5;
             }
-            i2 = obj18 & 8 != 0 ? 1065353216 : colorFilter7;
+            i = obj18 & 8 != 0 ? 1065353216 : colorFilter7;
             if (obj18 & 16 != 0) {
                 iNSTANCE = Fill.INSTANCE;
             } else {
                 iNSTANCE = i8;
             }
-            i = obj18 & 32 != 0 ? 0 : i9;
+            i2 = obj18 & 32 != 0 ? 0 : i9;
             if (obj18 & 64 != 0) {
                 defaultBlendMode-0nO6VwU = DrawScope.Companion.getDefaultBlendMode-0nO6VwU();
             } else {
                 defaultBlendMode-0nO6VwU = object10;
             }
-            drawScope.drawOval-AsUm42w(brush2, zero-F1C5BW0, drawStyle6, offsetSize-PENXr5M, i8, i2, iNSTANCE);
+            drawScope.drawOval-AsUm42w(brush2, zero-F1C5BW0, drawStyle6, offsetSize-PENXr5M, i8, i, iNSTANCE);
         }
         UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawOval-AsUm42w");
         throw unsupportedOperationException;
@@ -711,98 +711,98 @@ public interface DrawScope extends Density {
     public static void drawOval-n-J9OG0$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, long l2, long l3, long l4, float f5, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle6, ColorFilter colorFilter7, int i8, int i9, Object object10) {
         int zero-F1C5BW0;
         int offsetSize-PENXr5M;
-        int i3;
-        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
         int i2;
+        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
+        int i4;
         int defaultBlendMode-0nO6VwU;
-        long l5;
         long l;
+        long l5;
         int i;
         androidx.compose.ui.graphics.drawscope.Fill fill;
-        int i4;
+        int i3;
         int i5;
         if (obj25 != null) {
         } else {
             if (obj24 & 2 != 0) {
-                l5 = zero-F1C5BW0;
+                l = zero-F1C5BW0;
             } else {
-                l5 = l4;
+                l = l4;
             }
             if (obj24 & 4 != 0) {
-                l = offsetSize-PENXr5M;
+                l5 = offsetSize-PENXr5M;
             } else {
-                l = drawStyle6;
+                l5 = drawStyle6;
             }
-            i = obj24 & 8 != 0 ? i3 : i8;
+            i = obj24 & 8 != 0 ? i2 : i8;
             if (obj24 & 16 != 0) {
                 fill = iNSTANCE;
             } else {
                 fill = i9;
             }
-            i4 = obj24 & 32 != 0 ? i2 : object10;
+            i3 = obj24 & 32 != 0 ? i4 : object10;
             if (obj24 & 64 != 0) {
                 i5 = defaultBlendMode-0nO6VwU;
             } else {
                 i5 = obj23;
             }
-            drawScope.drawOval-n-J9OG0(l2, obj4, l5, obj6, l, obj8, i);
+            drawScope.drawOval-n-J9OG0(l2, obj4, l, obj6, l5, obj8, i);
         }
         UnsupportedOperationException obj13 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawOval-n-J9OG0");
         throw obj13;
     }
 
     public static void drawPath-GBMwjPU$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, Path path2, Brush brush3, float f4, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle5, ColorFilter colorFilter6, int i7, int i8, Object object9) {
-        int i3;
-        androidx.compose.ui.graphics.drawscope.Fill fill;
         int i;
+        androidx.compose.ui.graphics.drawscope.Fill fill;
         int i2;
+        int i3;
         int obj10;
         androidx.compose.ui.graphics.drawscope.Fill obj11;
         int obj12;
         int obj13;
         if (object9 != null) {
         } else {
-            i3 = i8 & 4 != 0 ? obj10 : f4;
+            i = i8 & 4 != 0 ? obj10 : f4;
             if (i8 & 8 != 0) {
                 fill = obj11;
             } else {
                 fill = drawStyle5;
             }
-            i = i8 & 16 != 0 ? obj12 : colorFilter6;
+            i2 = i8 & 16 != 0 ? obj12 : colorFilter6;
             if (i8 & 32 != 0) {
-                i2 = obj13;
+                i3 = obj13;
             } else {
-                i2 = i7;
+                i3 = i7;
             }
-            drawScope.drawPath-GBMwjPU(path2, brush3, i3, fill, i, i2);
+            drawScope.drawPath-GBMwjPU(path2, brush3, i, fill, i2, i3);
         }
         UnsupportedOperationException obj7 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawPath-GBMwjPU");
         throw obj7;
     }
 
     public static void drawPath-LG529CI$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, Path path2, long l3, float f4, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle5, ColorFilter colorFilter6, int i7, int i8, Object object9) {
-        int i3;
-        androidx.compose.ui.graphics.drawscope.Fill fill;
-        int i2;
         int i;
+        androidx.compose.ui.graphics.drawscope.Fill fill;
+        int i3;
+        int i2;
         int obj12;
         androidx.compose.ui.graphics.drawscope.Fill obj13;
         int obj14;
         if (obj17 != null) {
         } else {
-            i3 = object9 & 4 != 0 ? obj12 : drawStyle5;
+            i = object9 & 4 != 0 ? obj12 : drawStyle5;
             if (object9 & 8 != 0) {
                 fill = obj13;
             } else {
                 fill = colorFilter6;
             }
-            i2 = object9 & 16 != 0 ? obj14 : i7;
+            i3 = object9 & 16 != 0 ? obj14 : i7;
             if (object9 & 32 != 0) {
-                i = obj12;
+                i2 = obj12;
             } else {
-                i = i8;
+                i2 = i8;
             }
-            drawScope.drawPath-LG529CI(path2, l3, obj3, i3, fill, i2);
+            drawScope.drawPath-LG529CI(path2, l3, obj3, i, fill, i3);
         }
         UnsupportedOperationException obj8 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawPath-LG529CI");
         throw obj8;
@@ -810,34 +810,34 @@ public interface DrawScope extends Density {
 
     public static void drawPoints-F8ZwMP8$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, List list2, int i3, long l4, float f5, int i6, PathEffect pathEffect7, float f8, ColorFilter colorFilter9, int i10, int i11, Object object12) {
         int defaultBlendMode-0nO6VwU;
-        int i8;
-        int butt-KaPHkGw;
-        int i5;
         int i9;
-        int i7;
-        int i4;
-        int i12;
+        int butt-KaPHkGw;
         int i;
+        int i7;
+        int i12;
+        int i4;
+        int i5;
         int i2;
+        int i8;
         int i13 = object12;
         if (obj25 != null) {
         } else {
-            i9 = i13 & 8 != 0 ? i8 : i6;
+            i7 = i13 & 8 != 0 ? i9 : i6;
             if (i13 & 16 != 0) {
-                i7 = butt-KaPHkGw;
+                i12 = butt-KaPHkGw;
             } else {
-                i7 = pathEffect7;
+                i12 = pathEffect7;
             }
             int i16 = 0;
             i4 = i13 & 32 != 0 ? i16 : f8;
-            i12 = i13 & 64 != 0 ? i5 : colorFilter9;
-            i = i13 & 128 != 0 ? i16 : i10;
+            i5 = i13 & 64 != 0 ? i : colorFilter9;
+            i2 = i13 & 128 != 0 ? i16 : i10;
             if (i13 &= 256 != 0) {
-                i2 = defaultBlendMode-0nO6VwU;
+                i8 = defaultBlendMode-0nO6VwU;
             } else {
-                i2 = i11;
+                i8 = i11;
             }
-            drawScope.drawPoints-F8ZwMP8(list2, i3, l4, obj6, i9, i7, i4, i12, i);
+            drawScope.drawPoints-F8ZwMP8(list2, i3, l4, obj6, i7, i12, i4, i5, i2);
         }
         UnsupportedOperationException obj13 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawPoints-F8ZwMP8");
         throw obj13;
@@ -845,34 +845,34 @@ public interface DrawScope extends Density {
 
     public static void drawPoints-Gsft0Ws$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, List list2, int i3, Brush brush4, float f5, int i6, PathEffect pathEffect7, float f8, ColorFilter colorFilter9, int i10, int i11, Object object12) {
         int defaultBlendMode-0nO6VwU;
-        int i;
-        int butt-KaPHkGw;
-        int i2;
-        int i7;
-        int i5;
-        int i8;
-        int i12;
         int i9;
+        int butt-KaPHkGw;
+        int i5;
+        int i;
+        int i7;
         int i4;
+        int i12;
+        int i8;
+        int i2;
         int i13 = i11;
         if (object12 != null) {
         } else {
-            i7 = i13 & 8 != 0 ? i : f5;
+            i = i13 & 8 != 0 ? i9 : f5;
             if (i13 & 16 != 0) {
-                i5 = butt-KaPHkGw;
+                i7 = butt-KaPHkGw;
             } else {
-                i5 = i6;
+                i7 = i6;
             }
             int i16 = 0;
-            i8 = i13 & 32 != 0 ? i16 : pathEffect7;
-            i12 = i13 & 64 != 0 ? i2 : f8;
-            i9 = i13 & 128 != 0 ? i16 : colorFilter9;
+            i4 = i13 & 32 != 0 ? i16 : pathEffect7;
+            i12 = i13 & 64 != 0 ? i5 : f8;
+            i8 = i13 & 128 != 0 ? i16 : colorFilter9;
             if (i13 &= 256 != 0) {
-                i4 = defaultBlendMode-0nO6VwU;
+                i2 = defaultBlendMode-0nO6VwU;
             } else {
-                i4 = i10;
+                i2 = i10;
             }
-            drawScope.drawPoints-Gsft0Ws(list2, i3, brush4, i7, i5, i8, i12, i9, i4);
+            drawScope.drawPoints-Gsft0Ws(list2, i3, brush4, i, i7, i4, i12, i8, i2);
         }
         UnsupportedOperationException obj12 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawPoints-Gsft0Ws");
         throw obj12;
@@ -918,41 +918,41 @@ public interface DrawScope extends Density {
     public static void drawRect-n-J9OG0$default(androidx.compose.ui.graphics.drawscope.DrawScope drawScope, long l2, long l3, long l4, float f5, androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle6, ColorFilter colorFilter7, int i8, int i9, Object object10) {
         int zero-F1C5BW0;
         int offsetSize-PENXr5M;
-        int i;
-        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
-        int i2;
-        int defaultBlendMode-0nO6VwU;
-        long l;
-        long l5;
-        int i3;
-        androidx.compose.ui.graphics.drawscope.Fill fill;
-        int i4;
         int i5;
+        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
+        int i3;
+        int defaultBlendMode-0nO6VwU;
+        long l5;
+        long l;
+        int i2;
+        androidx.compose.ui.graphics.drawscope.Fill fill;
+        int i;
+        int i4;
         if (obj25 != null) {
         } else {
             if (obj24 & 2 != 0) {
-                l = zero-F1C5BW0;
+                l5 = zero-F1C5BW0;
             } else {
-                l = l4;
+                l5 = l4;
             }
             if (obj24 & 4 != 0) {
-                l5 = offsetSize-PENXr5M;
+                l = offsetSize-PENXr5M;
             } else {
-                l5 = drawStyle6;
+                l = drawStyle6;
             }
-            i3 = obj24 & 8 != 0 ? i : i8;
+            i2 = obj24 & 8 != 0 ? i5 : i8;
             if (obj24 & 16 != 0) {
                 fill = iNSTANCE;
             } else {
                 fill = i9;
             }
-            i4 = obj24 & 32 != 0 ? i2 : object10;
+            i = obj24 & 32 != 0 ? i3 : object10;
             if (obj24 & 64 != 0) {
-                i5 = defaultBlendMode-0nO6VwU;
+                i4 = defaultBlendMode-0nO6VwU;
             } else {
-                i5 = obj23;
+                i4 = obj23;
             }
-            drawScope.drawRect-n-J9OG0(l2, obj4, l, obj6, l5, obj8, i3);
+            drawScope.drawRect-n-J9OG0(l2, obj4, l5, obj6, l, obj8, i2);
         }
         UnsupportedOperationException obj13 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawRect-n-J9OG0");
         throw obj13;
@@ -963,9 +963,9 @@ public interface DrawScope extends Density {
         long zero-F1C5BW0;
         long offsetSize-PENXr5M;
         long zero-kKHJgLs;
-        int i;
-        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
         int i2;
+        androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
+        int i;
         int i3 = obj22;
         if (obj23 != null) {
         } else {
@@ -984,19 +984,19 @@ public interface DrawScope extends Density {
             } else {
                 zero-kKHJgLs = drawStyle7;
             }
-            i = i3 & 16 != 0 ? 1065353216 : i9;
+            i2 = i3 & 16 != 0 ? 1065353216 : i9;
             if (i3 & 32 != 0) {
                 iNSTANCE = Fill.INSTANCE;
             } else {
                 iNSTANCE = i10;
             }
-            i2 = i3 & 64 != 0 ? 0 : object11;
+            i = i3 & 64 != 0 ? 0 : object11;
             if (i3 &= 128 != 0) {
                 defaultBlendMode-0nO6VwU = DrawScope.Companion.getDefaultBlendMode-0nO6VwU();
             } else {
                 defaultBlendMode-0nO6VwU = obj21;
             }
-            drawScope.drawRoundRect-ZuiqVtQ(brush2, zero-F1C5BW0, f6, offsetSize-PENXr5M, colorFilter8, zero-kKHJgLs, i10, i);
+            drawScope.drawRoundRect-ZuiqVtQ(brush2, zero-F1C5BW0, f6, offsetSize-PENXr5M, colorFilter8, zero-kKHJgLs, i10, i2);
         }
         UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawRoundRect-ZuiqVtQ");
         throw unsupportedOperationException;
@@ -1008,16 +1008,16 @@ public interface DrawScope extends Density {
         int offsetSize-PENXr5M;
         int zero-kKHJgLs;
         androidx.compose.ui.graphics.drawscope.Fill iNSTANCE;
-        int i;
         int i3;
+        int i4;
         Object obj;
         long l7;
         long l;
         long l6;
         androidx.compose.ui.graphics.drawscope.Fill fill;
-        int i4;
-        int i5;
         int i2;
+        int i;
+        int i5;
         int i6 = obj29;
         if (obj30 != null) {
         } else {
@@ -1042,12 +1042,12 @@ public interface DrawScope extends Density {
             } else {
                 fill = i10;
             }
-            i4 = i6 & 32 != 0 ? i : object11;
-            i5 = i6 & 64 != 0 ? i3 : obj27;
+            i2 = i6 & 32 != 0 ? i3 : object11;
+            i = i6 & 64 != 0 ? i4 : obj27;
             if (i6 &= 128 != 0) {
-                i2 = defaultBlendMode-0nO6VwU;
+                i5 = defaultBlendMode-0nO6VwU;
             } else {
-                i2 = obj28;
+                i5 = obj28;
             }
             obj.drawRoundRect-u-Aw5IA(l2, obj5, l7, obj7, l, obj9, l6, obj11);
         }

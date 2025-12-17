@@ -57,8 +57,8 @@ public final class VelocityTrackerKt {
         boolean changedToDownIgnoreConsumed;
         long previousPointerPosition;
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         long minus-MK-Hz9U;
         long uptimeMillis;
@@ -75,11 +75,11 @@ public final class VelocityTrackerKt {
         index$iv = 0;
         final int size = historical.size();
         while (index$iv < size) {
-            obj = obj2;
+            obj2 = obj;
             i = 0;
-            previousPointerPosition = obj.getPosition-F1C5BW0();
+            previousPointerPosition = obj2.getPosition-F1C5BW0();
             obj3.setCurrentPointerPositionAccumulator-k-4lQ0M$ui_release(Offset.plus-MK-Hz9U(obj3.getCurrentPointerPositionAccumulator-F1C5BW0$ui_release(), obj13));
-            obj3.addPosition-Uv8p0NA(obj.getUptimeMillis(), obj13);
+            obj3.addPosition-Uv8p0NA(obj2.getUptimeMillis(), obj13);
             index$iv++;
         }
         obj3.setCurrentPointerPositionAccumulator-k-4lQ0M$ui_release(Offset.plus-MK-Hz9U(obj3.getCurrentPointerPositionAccumulator-F1C5BW0$ui_release(), size));
@@ -90,14 +90,14 @@ public final class VelocityTrackerKt {
         boolean changedToUpIgnoreConsumed;
         boolean changedToUpIgnoreConsumed2;
         int i;
-        long originalEventPosition-F1C5BW0$ui_release;
+        long originalEventPosition-F1C5BW0$ui_release2;
         int index$iv;
         int size;
         Object obj;
         Object obj2;
         int i2;
         long uptimeMillis;
-        long originalEventPosition-F1C5BW0$ui_release2;
+        long originalEventPosition-F1C5BW0$ui_release;
         if (PointerEventKt.changedToDownIgnoreConsumed(event)) {
             $this$addPointerInputChangeWithFix.resetTracking();
         }
@@ -113,8 +113,8 @@ public final class VelocityTrackerKt {
             }
             $this$addPointerInputChangeWithFix.addPosition-Uv8p0NA(event.getUptimeMillis(), 0);
         }
-        if (PointerEventKt.changedToUpIgnoreConsumed(event) && Long.compare(i3, originalEventPosition-F1C5BW0$ui_release) > 0) {
-            if (Long.compare(i3, originalEventPosition-F1C5BW0$ui_release) > 0) {
+        if (PointerEventKt.changedToUpIgnoreConsumed(event) && Long.compare(i3, originalEventPosition-F1C5BW0$ui_release2) > 0) {
+            if (Long.compare(i3, originalEventPosition-F1C5BW0$ui_release2) > 0) {
                 $this$addPointerInputChangeWithFix.resetTracking();
             }
         }
@@ -124,42 +124,42 @@ public final class VelocityTrackerKt {
     private static final float calculateImpulseVelocity(float[] dataPoints, float[] time, int sampleCount, boolean isDataDifferential) {
         int work;
         int nextTime;
-        int i3;
-        int i4;
         int i;
-        int i5;
-        int i6;
-        float f;
+        int i4;
         int i2;
+        int i6;
+        int i5;
+        float f;
+        int i3;
         double sqrt;
         work = 0;
         final int i7 = sampleCount + -1;
         nextTime = time[i7];
-        i3 = i7;
+        i = i7;
         i4 = 2;
-        while (i3 > 0) {
-            i = nextTime;
-            nextTime = time[i3 + -1];
-            if (Float.compare(i, nextTime) == 0) {
+        while (i > 0) {
+            i2 = nextTime;
+            nextTime = time[i + -1];
+            if (Float.compare(i2, nextTime) == 0) {
             } else {
             }
-            i5 = 0;
-            if (i5 != 0) {
+            i6 = 0;
+            if (i6 != 0) {
             } else {
             }
             if (isDataDifferential) {
             } else {
             }
-            i14 -= i6;
-            i6 = i5 / i17;
+            i14 -= i5;
+            i5 = i6 / i17;
             int i19 = 0;
-            if (i3 == i7) {
+            if (i == i7) {
             }
-            i3--;
+            i--;
             i4 = 2;
             work *= i4;
-            i5 = -i16;
-            i5 = 1;
+            i6 = -i16;
+            i6 = 1;
         }
         int i8 = 0;
         return signum *= f5;
@@ -168,12 +168,12 @@ public final class VelocityTrackerKt {
     private static final float dot(float[] $this$dot, float[] a) {
         int result;
         int i3;
-        int i;
         int i2;
+        int i;
         result = 0;
         i3 = 0;
         while (i3 < $this$dot.length) {
-            result += i;
+            result += i2;
             i3++;
         }
         return result;
@@ -211,26 +211,26 @@ public final class VelocityTrackerKt {
 
     public static final float[] polyFitLeastSquares(float[] x, float[] y, int sampleCount, int degree, float[] coefficients) {
         int str;
-        int i4;
-        int h2;
-        int j2;
-        int i2;
+        int i5;
+        int h3;
+        int j;
+        int i3;
         int row$iv;
         float[] fArr;
-        int i3;
+        int i4;
         float[][] fArr3;
         int c;
-        int h3;
-        int i5;
-        int $this$norm$iv;
         int h;
+        int i6;
+        int $this$norm$iv;
+        int h2;
         float[] fArr2;
-        int j;
+        int j2;
         int i7;
         float f;
         int h4;
+        int i2;
         int i;
-        int i6;
         final int i8 = sampleCount;
         final int i9 = degree;
         if (i9 < 1) {
@@ -239,9 +239,9 @@ public final class VelocityTrackerKt {
         if (i8 == 0) {
             InlineClassHelperKt.throwIllegalArgumentException("At least one point must be provided");
         }
-        i4 = i9 >= i8 ? i8 + -1 : i9;
+        i5 = i9 >= i8 ? i8 + -1 : i9;
         final int i10 = sampleCount;
-        final int i11 = i4 + 1;
+        final int i11 = i5 + 1;
         int i12 = 0;
         final float[][] fArr4 = new float[i11];
         int i14 = 0;
@@ -250,29 +250,29 @@ public final class VelocityTrackerKt {
             fArr4[row$iv] = new float[i10];
             row$iv++;
         }
-        h2 = 0;
-        while (h2 < i10) {
-            h3 = 0;
-            fArr4[0][h2] = 1065353216;
+        h3 = 0;
+        while (h3 < i10) {
+            h = 0;
+            fArr4[0][h3] = 1065353216;
             row$iv = 1;
             while (row$iv < i11) {
                 int i18 = 0;
-                h3 = 0;
-                fArr4[row$iv][h2] = row$iv2 *= $this$get$iv;
+                h = 0;
+                fArr4[row$iv][h3] = row$iv2 *= $this$get$iv;
                 row$iv++;
             }
-            h2++;
+            h3++;
             i18 = 0;
-            h3 = 0;
-            fArr4[row$iv][h2] = row$iv2 *= $this$get$iv;
+            h = 0;
+            fArr4[row$iv][h3] = row$iv2 *= $this$get$iv;
             row$iv++;
         }
         int h5 = 0;
         float[][] fArr5 = new float[i11];
-        i3 = i14;
-        while (i3 < i11) {
-            fArr5[i3] = new float[i10];
-            i3++;
+        i4 = i14;
+        while (i4 < i11) {
+            fArr5[i4] = new float[i10];
+            i4++;
         }
         int i13 = 0;
         float[][] fArr6 = new float[i11];
@@ -281,20 +281,20 @@ public final class VelocityTrackerKt {
             fArr6[c] = new float[i11];
             c++;
         }
-        j2 = 0;
-        while (j2 < i11) {
-            c = fArr5[j2];
-            ArraysKt.copyInto(fArr4[j2], c, i14, i14, i10);
-            i5 = 0;
-            while (i5 < j2) {
-                fArr2 = fArr5[i5];
+        j = 0;
+        while (j < i11) {
+            c = fArr5[j];
+            ArraysKt.copyInto(fArr4[j], c, i14, i14, i10);
+            i6 = 0;
+            while (i6 < j) {
+                fArr2 = fArr5[i6];
                 h4 = 0;
                 while (h4 < i10) {
-                    c[h4] = i23 -= i6;
+                    c[h4] = i23 -= i;
                     h4++;
                 }
-                i5++;
-                c[h4] = i23 -= i6;
+                i6++;
+                c[h4] = i23 -= i;
                 h4++;
             }
             int i19 = c;
@@ -305,56 +305,56 @@ public final class VelocityTrackerKt {
             } else {
             }
             $this$norm$iv = f;
-            h = 0;
-            while (h < i10) {
-                c[h] = i22 *= fArr2;
-                h++;
+            h2 = 0;
+            while (h2 < i10) {
+                c[h2] = i22 *= fArr2;
+                h2++;
             }
             i7 = 0;
             while (i7 < i11) {
-                if (i7 < j2) {
+                if (i7 < j) {
                 } else {
                 }
                 h4 = VelocityTrackerKt.dot(c, fArr4[i7]);
-                fArr6[j2][i7] = h4;
+                fArr6[j][i7] = h4;
                 i7++;
                 h4 = 0;
             }
-            j2++;
-            if (i7 < j2) {
+            j++;
+            if (i7 < j) {
             } else {
             }
             h4 = VelocityTrackerKt.dot(c, fArr4[i7]);
-            h3[i7] = h4;
+            h[i7] = h4;
             i7++;
             h4 = 0;
-            c[h] = i22 *= fArr2;
-            h++;
-            fArr2 = fArr5[i5];
+            c[h2] = i22 *= fArr2;
+            h2++;
+            fArr2 = fArr5[i6];
             h4 = 0;
             while (h4 < i10) {
-                c[h4] = i23 -= i6;
+                c[h4] = i23 -= i;
                 h4++;
             }
-            i5++;
-            c[h4] = i23 -= i6;
+            i6++;
+            c[h4] = i23 -= i;
             h4++;
         }
-        i2 = i11 + -1;
-        while (-1 < i2) {
-            c = VelocityTrackerKt.dot(fArr5[i2], y);
-            h3 = fArr6[i2];
-            i7 = i2 + 1;
+        i3 = i11 + -1;
+        while (-1 < i3) {
+            c = VelocityTrackerKt.dot(fArr5[i3], y);
+            h = fArr6[i3];
+            i7 = i3 + 1;
             if (i7 <= i11 + -1) {
             }
-            coefficients[i2] = c / j4;
-            i2--;
+            coefficients[i3] = c / j4;
+            i3--;
             c -= h4;
-            while (j != i7) {
-                j--;
+            while (j2 != i7) {
+                j2--;
                 c -= h4;
             }
-            j--;
+            j2--;
         }
         return coefficients;
     }

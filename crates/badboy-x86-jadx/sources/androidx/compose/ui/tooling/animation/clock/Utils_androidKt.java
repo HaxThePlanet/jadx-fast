@@ -140,19 +140,19 @@ public final class Utils_androidKt {
         TargetState parametersToValue$parseDp;
         boolean z;
         Object obj;
-        Size floatValue7;
-        Object floatValue;
-        float floatValue5;
+        Size floatValue3;
+        Object floatValue6;
+        float floatValue;
         Size box-impl;
-        Object floatValue8;
+        Object floatValue2;
         Object box-impl2;
-        float floatValue6;
-        float floatValue2;
-        float floatValue3;
+        float floatValue8;
+        float floatValue7;
         float floatValue4;
+        float floatValue5;
         int i3;
-        int i;
         int i2;
+        int i;
         final Object obj8 = currentValue;
         final Object obj9 = par1;
         final Object obj10 = par2;
@@ -176,120 +176,120 @@ public final class Utils_androidKt {
         if (obj9 instanceof List != null && obj10 instanceof List != null) {
             if (obj10 instanceof List != null) {
                 String str = "null cannot be cast to non-null type kotlin.Int";
-                floatValue = 1;
-                floatValue5 = 0;
+                floatValue6 = 1;
+                floatValue = 0;
                 if (obj8 instanceof IntSize) {
-                    Object obj34 = (List)obj9.get(floatValue5);
+                    Object obj34 = (List)obj9.get(floatValue);
                     Intrinsics.checkNotNull(obj34, str);
-                    Object obj46 = (List)obj9.get(floatValue);
+                    Object obj46 = (List)obj9.get(floatValue6);
                     Intrinsics.checkNotNull(obj46, str);
                     int intValue6 = (Integer)obj46.intValue();
-                    Object obj26 = (List)obj10.get(floatValue5);
+                    Object obj26 = (List)obj10.get(floatValue);
                     Intrinsics.checkNotNull(obj26, str);
-                    floatValue = (List)obj10.get(floatValue);
-                    Intrinsics.checkNotNull(floatValue, str);
-                    parametersToValue$parseDp = new TargetState(IntSize.box-impl(IntSizeKt.IntSize((Integer)obj34.intValue(), intValue6)), IntSize.box-impl(IntSizeKt.IntSize((Integer)obj26.intValue(), (Integer)floatValue.intValue())));
+                    floatValue6 = (List)obj10.get(floatValue6);
+                    Intrinsics.checkNotNull(floatValue6, str);
+                    parametersToValue$parseDp = new TargetState(IntSize.box-impl(IntSizeKt.IntSize((Integer)obj34.intValue(), intValue6)), IntSize.box-impl(IntSizeKt.IntSize((Integer)obj26.intValue(), (Integer)floatValue6.intValue())));
                     Intrinsics.checkNotNull(parametersToValue$parseDp, "null cannot be cast to non-null type androidx.compose.ui.tooling.animation.states.TargetState<T of androidx.compose.ui.tooling.animation.clock.Utils_androidKt.parseParametersToValue>");
                     return parametersToValue$parseDp;
                 } else {
                     if (obj8 instanceof IntOffset != null) {
-                        Object obj32 = (List)obj9.get(floatValue5);
+                        Object obj32 = (List)obj9.get(floatValue);
                         Intrinsics.checkNotNull(obj32, str);
-                        Object obj43 = (List)obj9.get(floatValue);
+                        Object obj43 = (List)obj9.get(floatValue6);
                         Intrinsics.checkNotNull(obj43, str);
                         int intValue5 = (Integer)obj43.intValue();
-                        Object obj25 = (List)obj10.get(floatValue5);
+                        Object obj25 = (List)obj10.get(floatValue);
                         Intrinsics.checkNotNull(obj25, str);
-                        floatValue = (List)obj10.get(floatValue);
-                        Intrinsics.checkNotNull(floatValue, str);
-                        parametersToValue$parseDp = new TargetState(IntOffset.box-impl(IntOffsetKt.IntOffset((Integer)obj32.intValue(), intValue5)), IntOffset.box-impl(IntOffsetKt.IntOffset((Integer)obj25.intValue(), (Integer)floatValue.intValue())));
+                        floatValue6 = (List)obj10.get(floatValue6);
+                        Intrinsics.checkNotNull(floatValue6, str);
+                        parametersToValue$parseDp = new TargetState(IntOffset.box-impl(IntOffsetKt.IntOffset((Integer)obj32.intValue(), intValue5)), IntOffset.box-impl(IntOffsetKt.IntOffset((Integer)obj25.intValue(), (Integer)floatValue6.intValue())));
                     } else {
                         String str2 = "null cannot be cast to non-null type kotlin.Float";
                         if (obj8 instanceof Size) {
-                            Object obj28 = (List)obj9.get(floatValue5);
+                            Object obj28 = (List)obj9.get(floatValue);
                             Intrinsics.checkNotNull(obj28, str2);
-                            Object obj36 = (List)obj9.get(floatValue);
+                            Object obj36 = (List)obj9.get(floatValue6);
                             Intrinsics.checkNotNull(obj36, str2);
                             float floatValue13 = (Float)obj36.floatValue();
-                            Object obj21 = (List)obj10.get(floatValue5);
+                            Object obj21 = (List)obj10.get(floatValue);
                             Intrinsics.checkNotNull(obj21, str2);
-                            floatValue = (List)obj10.get(floatValue);
-                            Intrinsics.checkNotNull(floatValue, str2);
-                            parametersToValue$parseDp = new TargetState(Size.box-impl(SizeKt.Size((Float)obj28.floatValue(), floatValue13)), Size.box-impl(SizeKt.Size((Float)obj21.floatValue(), (Float)floatValue.floatValue())));
+                            floatValue6 = (List)obj10.get(floatValue6);
+                            Intrinsics.checkNotNull(floatValue6, str2);
+                            parametersToValue$parseDp = new TargetState(Size.box-impl(SizeKt.Size((Float)obj28.floatValue(), floatValue13)), Size.box-impl(SizeKt.Size((Float)obj21.floatValue(), (Float)floatValue6.floatValue())));
                         } else {
                             if (obj8 instanceof Offset != null) {
-                                Object obj30 = (List)obj9.get(floatValue5);
+                                Object obj30 = (List)obj9.get(floatValue);
                                 Intrinsics.checkNotNull(obj30, str2);
-                                Object obj40 = (List)obj9.get(floatValue);
+                                Object obj40 = (List)obj9.get(floatValue6);
                                 Intrinsics.checkNotNull(obj40, str2);
                                 float floatValue14 = (Float)obj40.floatValue();
-                                Object obj24 = (List)obj10.get(floatValue5);
+                                Object obj24 = (List)obj10.get(floatValue);
                                 Intrinsics.checkNotNull(obj24, str2);
-                                floatValue = (List)obj10.get(floatValue);
-                                Intrinsics.checkNotNull(floatValue, str2);
-                                parametersToValue$parseDp = new TargetState(Offset.box-impl(OffsetKt.Offset((Float)obj30.floatValue(), floatValue14)), Offset.box-impl(OffsetKt.Offset((Float)obj24.floatValue(), (Float)floatValue.floatValue())));
+                                floatValue6 = (List)obj10.get(floatValue6);
+                                Intrinsics.checkNotNull(floatValue6, str2);
+                                parametersToValue$parseDp = new TargetState(Offset.box-impl(OffsetKt.Offset((Float)obj30.floatValue(), floatValue14)), Offset.box-impl(OffsetKt.Offset((Float)obj24.floatValue(), (Float)floatValue6.floatValue())));
                             } else {
                                 box-impl = 3;
-                                floatValue8 = 2;
+                                floatValue2 = 2;
                                 if (obj8 instanceof Rect) {
-                                    Object obj58 = (List)obj9.get(floatValue5);
+                                    Object obj58 = (List)obj9.get(floatValue);
                                     Intrinsics.checkNotNull(obj58, str2);
-                                    Object obj60 = (List)obj9.get(floatValue);
+                                    Object obj60 = (List)obj9.get(floatValue6);
                                     Intrinsics.checkNotNull(obj60, str2);
-                                    Object obj65 = (List)obj9.get(floatValue8);
+                                    Object obj65 = (List)obj9.get(floatValue2);
                                     Intrinsics.checkNotNull(obj65, str2);
                                     Object obj67 = (List)obj9.get(box-impl);
                                     Intrinsics.checkNotNull(obj67, str2);
                                     box-impl2 = new Rect((Float)obj58.floatValue(), (Float)obj60.floatValue(), (Float)obj65.floatValue(), (Float)obj67.floatValue());
-                                    Object obj23 = (List)obj10.get(floatValue5);
+                                    Object obj23 = (List)obj10.get(floatValue);
                                     Intrinsics.checkNotNull(obj23, str2);
-                                    Object obj20 = (List)obj10.get(floatValue);
+                                    Object obj20 = (List)obj10.get(floatValue6);
                                     Intrinsics.checkNotNull(obj20, str2);
-                                    Object obj38 = (List)obj10.get(floatValue8);
+                                    Object obj38 = (List)obj10.get(floatValue2);
                                     Intrinsics.checkNotNull(obj38, str2);
                                     box-impl = (List)obj10.get(box-impl);
                                     Intrinsics.checkNotNull(box-impl, str2);
-                                    floatValue6 = new Rect((Float)obj23.floatValue(), (Float)obj20.floatValue(), (Float)obj38.floatValue(), (Float)box-impl.floatValue());
-                                    parametersToValue$parseDp = new TargetState(box-impl2, floatValue6);
+                                    floatValue8 = new Rect((Float)obj23.floatValue(), (Float)obj20.floatValue(), (Float)obj38.floatValue(), (Float)box-impl.floatValue());
+                                    parametersToValue$parseDp = new TargetState(box-impl2, floatValue8);
                                 } else {
                                     if (obj8 instanceof Color) {
-                                        Object obj49 = (List)obj9.get(floatValue5);
+                                        Object obj49 = (List)obj9.get(floatValue);
                                         Intrinsics.checkNotNull(obj49, str2);
                                         float floatValue15 = (Float)obj49.floatValue();
-                                        Object obj51 = (List)obj9.get(floatValue);
+                                        Object obj51 = (List)obj9.get(floatValue6);
                                         Intrinsics.checkNotNull(obj51, str2);
-                                        Object obj53 = (List)obj9.get(floatValue8);
+                                        Object obj53 = (List)obj9.get(floatValue2);
                                         Intrinsics.checkNotNull(obj53, str2);
                                         Object obj55 = (List)obj9.get(box-impl);
                                         Intrinsics.checkNotNull(obj55, str2);
-                                        Object obj22 = (List)obj10.get(floatValue5);
+                                        Object obj22 = (List)obj10.get(floatValue);
                                         Intrinsics.checkNotNull(obj22, str2);
-                                        Object obj16 = (List)obj10.get(floatValue);
+                                        Object obj16 = (List)obj10.get(floatValue6);
                                         Intrinsics.checkNotNull(obj16, str2);
-                                        Object obj18 = (List)obj10.get(floatValue8);
+                                        Object obj18 = (List)obj10.get(floatValue2);
                                         Intrinsics.checkNotNull(obj18, str2);
-                                        floatValue = (List)obj10.get(box-impl);
-                                        Intrinsics.checkNotNull(floatValue, str2);
-                                        parametersToValue$parseDp = new TargetState(Color.box-impl(ColorKt.Color$default(floatValue15, (Float)obj51.floatValue(), (Float)obj53.floatValue(), (Float)obj55.floatValue(), 0, 16, 0)), Color.box-impl(ColorKt.Color$default((Float)obj22.floatValue(), (Float)obj16.floatValue(), (Float)obj18.floatValue(), (Float)floatValue.floatValue(), 0, 16, 0)));
+                                        floatValue6 = (List)obj10.get(box-impl);
+                                        Intrinsics.checkNotNull(floatValue6, str2);
+                                        parametersToValue$parseDp = new TargetState(Color.box-impl(ColorKt.Color$default(floatValue15, (Float)obj51.floatValue(), (Float)obj53.floatValue(), (Float)obj55.floatValue(), 0, 16, 0)), Color.box-impl(ColorKt.Color$default((Float)obj22.floatValue(), (Float)obj16.floatValue(), (Float)obj18.floatValue(), (Float)floatValue6.floatValue(), 0, 16, 0)));
                                     } else {
                                         if (obj8 instanceof Dp) {
-                                            Object obj7 = (List)obj9.get(floatValue5);
+                                            Object obj7 = (List)obj9.get(floatValue);
                                             Intrinsics.checkNotNull(obj7);
-                                            floatValue7 = (List)obj10.get(floatValue5);
-                                            Intrinsics.checkNotNull(floatValue7);
-                                            parametersToValue$parseDp = Utils_androidKt.parseParametersToValue$parseDp(obj8, obj7, floatValue7);
+                                            floatValue3 = (List)obj10.get(floatValue);
+                                            Intrinsics.checkNotNull(floatValue3);
+                                            parametersToValue$parseDp = Utils_androidKt.parseParametersToValue$parseDp(obj8, obj7, floatValue3);
                                         } else {
-                                            Object obj5 = (List)obj9.get(floatValue5);
+                                            Object obj5 = (List)obj9.get(floatValue);
                                             Intrinsics.checkNotNull(obj5);
-                                            obj = (List)obj10.get(floatValue5);
+                                            obj = (List)obj10.get(floatValue);
                                             Intrinsics.checkNotNull(obj);
-                                            if (Utils_androidKt.parseParametersToValue$parametersAreValid((List)obj9.get(floatValue5), (List)obj10.get(floatValue5)) && Utils_androidKt.parseParametersToValue$parametersHasTheSameType(obj8, obj5, obj)) {
-                                                obj5 = (List)obj9.get(floatValue5);
+                                            if (Utils_androidKt.parseParametersToValue$parametersAreValid((List)obj9.get(floatValue), (List)obj10.get(floatValue)) && Utils_androidKt.parseParametersToValue$parametersHasTheSameType(obj8, obj5, obj)) {
+                                                obj5 = (List)obj9.get(floatValue);
                                                 Intrinsics.checkNotNull(obj5);
-                                                obj = (List)obj10.get(floatValue5);
+                                                obj = (List)obj10.get(floatValue);
                                                 Intrinsics.checkNotNull(obj);
                                                 if (Utils_androidKt.parseParametersToValue$parametersHasTheSameType(obj8, obj5, obj)) {
-                                                    parametersToValue$parseDp = new TargetState((List)obj9.get(floatValue5), (List)obj10.get(floatValue5));
+                                                    parametersToValue$parseDp = new TargetState((List)obj9.get(floatValue), (List)obj10.get(floatValue));
                                                 }
                                             }
                                         }
@@ -377,9 +377,9 @@ public final class Utils_androidKt {
     }
 
     private static final boolean parseParametersToValue$parametersHasTheSameType(Object value, Object par1, Object par2) {
-        Class class;
-        int i;
         Class class2;
+        int i;
+        Class class;
         if (value.getClass() == par1.getClass() && value.getClass() == par2.getClass()) {
             i = value.getClass() == par2.getClass() ? 1 : 0;
         } else {
@@ -388,9 +388,9 @@ public final class Utils_androidKt {
     }
 
     private static final <T> TargetState<Dp> parseParametersToValue$parseDp(T $currentValue, Object par1, Object par2) {
-        Dp parametersToValue$getDp;
-        TargetState targetState;
         Dp parametersToValue$getDp2;
+        TargetState targetState;
+        Dp parametersToValue$getDp;
         if ($currentValue instanceof Dp) {
             if (par2 == null) {
             } else {
@@ -398,11 +398,11 @@ public final class Utils_androidKt {
                     if (par2 instanceof Dp) {
                         targetState = new TargetState(par1, par2);
                     } else {
-                        parametersToValue$getDp = Utils_androidKt.parseParametersToValue$getDp(par1);
-                        parametersToValue$getDp2 = Utils_androidKt.parseParametersToValue$getDp(par2);
-                        if (parametersToValue$getDp != null && parametersToValue$getDp2 != null) {
-                            if (parametersToValue$getDp2 != null) {
-                                targetState = new TargetState(parametersToValue$getDp, parametersToValue$getDp2);
+                        parametersToValue$getDp2 = Utils_androidKt.parseParametersToValue$getDp(par1);
+                        parametersToValue$getDp = Utils_androidKt.parseParametersToValue$getDp(par2);
+                        if (parametersToValue$getDp2 != null && parametersToValue$getDp != null) {
+                            if (parametersToValue$getDp != null) {
+                                targetState = new TargetState(parametersToValue$getDp2, parametersToValue$getDp);
                             } else {
                             }
                         } else {

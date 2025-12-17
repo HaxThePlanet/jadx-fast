@@ -40,15 +40,15 @@ final class DefaultLazyGridPrefetchStrategy implements androidx.compose.foundati
 
     @Override // androidx.compose.foundation.lazy.grid.LazyGridPrefetchStrategy
     public void onNestedPrefetch(NestedPrefetchScope $this$onNestedPrefetch, int firstVisibleItemIndex) {
-        int i3;
         int i4;
         int i;
+        int i3;
         int i2;
-        i3 = 0;
-        while (i3 < this.nestedPrefetchItemCount) {
-            i = 0;
-            $this$onNestedPrefetch.schedulePrefetch(firstVisibleItemIndex + i4);
-            i3++;
+        i4 = 0;
+        while (i4 < this.nestedPrefetchItemCount) {
+            i3 = 0;
+            $this$onNestedPrefetch.schedulePrefetch(firstVisibleItemIndex + i);
+            i4++;
         }
     }
 
@@ -56,83 +56,83 @@ final class DefaultLazyGridPrefetchStrategy implements androidx.compose.foundati
     public void onScroll(androidx.compose.foundation.lazy.grid.LazyGridPrefetchScope $this$onScroll, float delta, androidx.compose.foundation.lazy.grid.LazyGridLayoutInfo layoutInfo) {
         int empty;
         int first;
-        MutableVector currentLinePrefetchHandles2;
-        boolean currentLinePrefetchHandles3;
-        int i3;
+        MutableVector currentLinePrefetchHandles3;
+        boolean currentLinePrefetchHandles2;
+        int i4;
         int i;
         int totalItemsCount;
         Object obj3;
         Object scheduleLinePrefetch;
         int i$iv;
-        int column;
         int column2;
-        int i4;
+        int column;
+        int i3;
         Orientation vertical;
         Object currentLinePrefetchHandles;
         int i$iv3;
-        Object[] content2;
+        Object[] content;
         Object i$iv2;
-        int content;
+        int content2;
         Object obj;
         int i2;
         final Object obj2 = this;
         final int i5 = delta;
         if (!(Collection)layoutInfo.getVisibleItemsInfo().isEmpty()) {
-            i3 = 1;
-            empty = Float.compare(i5, i6) < 0 ? i3 : first;
+            i4 = 1;
+            empty = Float.compare(i5, i6) < 0 ? i4 : first;
             int i7 = 0;
             totalItemsCount = 0;
             if (empty != 0) {
                 scheduleLinePrefetch = CollectionsKt.last(layoutInfo.getVisibleItemsInfo());
                 i$iv = 0;
                 if (layoutInfo.getOrientation() == Orientation.Vertical) {
-                    column2 = (LazyGridItemInfo)scheduleLinePrefetch.getRow();
-                } else {
-                    column2 = scheduleLinePrefetch.getColumn();
-                }
-                column2 += i3;
-                index2 += i3;
-            } else {
-                scheduleLinePrefetch = CollectionsKt.first(layoutInfo.getVisibleItemsInfo());
-                i$iv = 0;
-                if (layoutInfo.getOrientation() == Orientation.Vertical) {
                     column = (LazyGridItemInfo)scheduleLinePrefetch.getRow();
                 } else {
                     column = scheduleLinePrefetch.getColumn();
                 }
-                column--;
-                index -= i3;
+                column += i4;
+                index2 += i4;
+            } else {
+                scheduleLinePrefetch = CollectionsKt.first(layoutInfo.getVisibleItemsInfo());
+                i$iv = 0;
+                if (layoutInfo.getOrientation() == Orientation.Vertical) {
+                    column2 = (LazyGridItemInfo)scheduleLinePrefetch.getRow();
+                } else {
+                    column2 = scheduleLinePrefetch.getColumn();
+                }
+                column2--;
+                index -= i4;
             }
             if (i >= 0 && i < layoutInfo.getTotalItemsCount()) {
                 if (i < layoutInfo.getTotalItemsCount()) {
-                    first = i3;
+                    first = i4;
                 }
             }
             if (first != 0) {
-                if (i4 != obj2.lineToPrefetch) {
-                    currentLinePrefetchHandles3 = obj2.currentLinePrefetchHandles;
+                if (i3 != obj2.lineToPrefetch) {
+                    currentLinePrefetchHandles2 = obj2.currentLinePrefetchHandles;
                     totalItemsCount = 0;
-                    scheduleLinePrefetch = currentLinePrefetchHandles3.getSize();
+                    scheduleLinePrefetch = currentLinePrefetchHandles2.getSize();
                     if (obj2.wasScrollingForward != empty && scheduleLinePrefetch > 0) {
-                        currentLinePrefetchHandles3 = obj2.currentLinePrefetchHandles;
+                        currentLinePrefetchHandles2 = obj2.currentLinePrefetchHandles;
                         totalItemsCount = 0;
-                        scheduleLinePrefetch = currentLinePrefetchHandles3.getSize();
+                        scheduleLinePrefetch = currentLinePrefetchHandles2.getSize();
                         if (scheduleLinePrefetch > 0) {
                             i$iv = 0;
                             i$iv3 = 0;
-                            (LazyLayoutPrefetchState.PrefetchHandle)currentLinePrefetchHandles3.getContent()[i$iv].cancel();
-                            while (i$iv += i3 >= scheduleLinePrefetch) {
+                            (LazyLayoutPrefetchState.PrefetchHandle)currentLinePrefetchHandles2.getContent()[i$iv].cancel();
+                            while (i$iv += i4 >= scheduleLinePrefetch) {
                                 i$iv3 = 0;
                                 (LazyLayoutPrefetchState.PrefetchHandle)vertical[i$iv].cancel();
                             }
                         }
                     }
                     obj2.wasScrollingForward = empty;
-                    obj2.lineToPrefetch = i4;
+                    obj2.lineToPrefetch = i3;
                     obj2.currentLinePrefetchHandles.clear();
-                    currentLinePrefetchHandles2 = obj2.currentLinePrefetchHandles;
+                    currentLinePrefetchHandles3 = obj2.currentLinePrefetchHandles;
                     i$iv = 0;
-                    currentLinePrefetchHandles2.addAll(currentLinePrefetchHandles2.getSize(), $this$onScroll.scheduleLinePrefetch(i4));
+                    currentLinePrefetchHandles3.addAll(currentLinePrefetchHandles3.getSize(), $this$onScroll.scheduleLinePrefetch(i3));
                 } else {
                     obj3 = $this$onScroll;
                 }
@@ -140,18 +140,18 @@ final class DefaultLazyGridPrefetchStrategy implements androidx.compose.foundati
                     first = CollectionsKt.last(layoutInfo.getVisibleItemsInfo());
                     currentLinePrefetchHandles = obj2.currentLinePrefetchHandles;
                     i$iv3 = 0;
-                    content2 = currentLinePrefetchHandles.getSize();
-                    if (Float.compare(f2, i$iv3) < 0 && content2 > 0) {
+                    content = currentLinePrefetchHandles.getSize();
+                    if (Float.compare(f2, i$iv3) < 0 && content > 0) {
                         currentLinePrefetchHandles = obj2.currentLinePrefetchHandles;
                         i$iv3 = 0;
-                        content2 = currentLinePrefetchHandles.getSize();
-                        if (content2 > 0) {
+                        content = currentLinePrefetchHandles.getSize();
+                        if (content > 0) {
                             i$iv2 = 0;
                             i2 = 0;
                             (LazyLayoutPrefetchState.PrefetchHandle)currentLinePrefetchHandles.getContent()[i$iv2].markAsUrgent();
-                            while (i$iv2 += i3 >= content2) {
+                            while (i$iv2 += i4 >= content) {
                                 i2 = 0;
-                                (LazyLayoutPrefetchState.PrefetchHandle)content[i$iv2].markAsUrgent();
+                                (LazyLayoutPrefetchState.PrefetchHandle)content2[i$iv2].markAsUrgent();
                             }
                         }
                     }
@@ -165,11 +165,11 @@ final class DefaultLazyGridPrefetchStrategy implements androidx.compose.foundati
                         currentLinePrefetchHandles = i$iv.getSize();
                         if (currentLinePrefetchHandles > 0) {
                             i$iv3 = 0;
-                            content = 0;
+                            content2 = 0;
                             (LazyLayoutPrefetchState.PrefetchHandle)i$iv.getContent()[i$iv3].markAsUrgent();
-                            while (i$iv3 += i3 >= currentLinePrefetchHandles) {
-                                content = 0;
-                                (LazyLayoutPrefetchState.PrefetchHandle)content2[i$iv3].markAsUrgent();
+                            while (i$iv3 += i4 >= currentLinePrefetchHandles) {
+                                content2 = 0;
+                                (LazyLayoutPrefetchState.PrefetchHandle)content[i$iv3].markAsUrgent();
                             }
                         }
                     }
@@ -186,7 +186,7 @@ final class DefaultLazyGridPrefetchStrategy implements androidx.compose.foundati
     public void onVisibleItemsUpdated(androidx.compose.foundation.lazy.grid.LazyGridPrefetchScope $this$onVisibleItemsUpdated, androidx.compose.foundation.lazy.grid.LazyGridLayoutInfo layoutInfo) {
         Object first;
         int this_$iv;
-        int i3;
+        int i;
         int size;
         int i2;
         int column;
@@ -194,9 +194,9 @@ final class DefaultLazyGridPrefetchStrategy implements androidx.compose.foundati
         Orientation i$iv;
         Object[] content;
         Object obj;
-        int i;
-        i3 = -1;
-        if (this.lineToPrefetch != i3 && !(Collection)layoutInfo.getVisibleItemsInfo().isEmpty()) {
+        int i3;
+        i = -1;
+        if (this.lineToPrefetch != i && !(Collection)layoutInfo.getVisibleItemsInfo().isEmpty()) {
             if (!(Collection)layoutInfo.getVisibleItemsInfo().isEmpty()) {
                 if (this.wasScrollingForward) {
                     first = CollectionsKt.last(layoutInfo.getVisibleItemsInfo());
@@ -217,21 +217,21 @@ final class DefaultLazyGridPrefetchStrategy implements androidx.compose.foundati
                     }
                     column2--;
                 }
-                this.lineToPrefetch = i3;
+                this.lineToPrefetch = i;
                 MutableVector currentLinePrefetchHandles = this.currentLinePrefetchHandles;
-                i3 = 0;
+                i = 0;
                 size = currentLinePrefetchHandles.getSize();
                 if (this.lineToPrefetch != i2 && size > 0) {
-                    this.lineToPrefetch = i3;
+                    this.lineToPrefetch = i;
                     currentLinePrefetchHandles = this.currentLinePrefetchHandles;
-                    i3 = 0;
+                    i = 0;
                     size = currentLinePrefetchHandles.getSize();
                     if (size > 0) {
                         i$iv = 0;
-                        i = 0;
+                        i3 = 0;
                         (LazyLayoutPrefetchState.PrefetchHandle)currentLinePrefetchHandles.getContent()[i$iv].cancel();
                         while (i$iv++ >= size) {
-                            i = 0;
+                            i3 = 0;
                             (LazyLayoutPrefetchState.PrefetchHandle)content[i$iv].cancel();
                         }
                     }

@@ -99,32 +99,32 @@ public final class PullToRefreshKt {
     }
 
     private static final void CircularArrowProgressIndicator-RPmYEkk(Function0<Float> progress, long color, Composer $composer, int $changed) {
-        int traceInProgress2;
+        int traceInProgress;
         Object path;
         int $dirty;
         Object $dirty2;
-        int empty2;
-        int i;
-        int i3;
+        int empty;
+        int i2;
+        int i8;
         boolean skipping;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int i9;
         int alphaState;
         int evenOdd-Rg-k1Os;
         int size-3ABfNKs;
-        int i5;
-        int i2;
+        int i7;
+        int i10;
         Composer composer;
-        int i8;
-        Object anon2;
+        int i3;
+        Object anon;
         int i6;
         Object rememberedValue;
-        Object empty;
-        Object derivedStateOf;
-        int i7;
-        Object anon;
+        Object empty2;
+        Object $i$a$CachePullToRefreshKt$CircularArrowProgressIndicator$targetAlpha$2;
+        int i;
+        Object anon2;
         Object obj;
-        int i10;
+        int i5;
         PathFillType.Companion companion2;
         int i4;
         Composer.Companion companion;
@@ -132,21 +132,21 @@ public final class PullToRefreshKt {
         final Object obj2 = progress;
         final long l = color;
         final int i16 = obj24;
-        traceInProgress2 = -569718810;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
+        traceInProgress = -569718810;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(CircularArrowProgressIndicator)P(1,0:c#ui.graphics.Color)562@20583L61,564@20745L76,565@20843L74,567@20982L98,571@21118L443,566@20922L639:PullToRefresh.kt#djiw08");
         if (i16 & 6 == 0) {
-            i = restartGroup.changedInstance(obj2) ? 4 : 2;
-            $dirty |= i;
+            i2 = restartGroup.changedInstance(obj2) ? 4 : 2;
+            $dirty |= i2;
         }
         if (i16 & 48 == 0) {
-            i3 = restartGroup.changed(l) ? 32 : 16;
-            $dirty |= i3;
+            i8 = restartGroup.changed(l) ? 32 : 16;
+            $dirty |= i8;
         }
         if ($dirty & 19 == 18) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.pulltorefresh.CircularArrowProgressIndicator (PullToRefresh.kt:561)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.pulltorefresh.CircularArrowProgressIndicator (PullToRefresh.kt:561)");
                 }
                 String str2 = "CC(remember):PullToRefresh.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1136642763, str2);
@@ -156,15 +156,15 @@ public final class PullToRefreshKt {
                 Object rememberedValue2 = composer2.rememberedValue();
                 int i29 = 0;
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                    empty = 0;
-                    anon = AndroidPath_androidKt.Path();
-                    i10 = 0;
-                    anon.setFillType-oQ8Xj4U(PathFillType.Companion.getEvenOdd-Rg-k1Os());
-                    composer2.updateRememberedValue(anon);
+                    empty2 = 0;
+                    anon2 = AndroidPath_androidKt.Path();
+                    i5 = 0;
+                    anon2.setFillType-oQ8Xj4U(PathFillType.Companion.getEvenOdd-Rg-k1Os());
+                    composer2.updateRememberedValue(anon2);
                 } else {
-                    anon = rememberedValue2;
+                    anon2 = rememberedValue2;
                 }
-                Object invalid$iv = anon;
+                Object invalid$iv = anon2;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1136647962, str2);
                 int i18 = 0;
@@ -174,28 +174,28 @@ public final class PullToRefreshKt {
                 int i30 = 0;
                 if (rememberedValue3 == Composer.Companion.getEmpty()) {
                     int i35 = 0;
-                    anon = new PullToRefreshKt.CircularArrowProgressIndicator.targetAlpha.2.1(obj2);
-                    composer3.updateRememberedValue(SnapshotStateKt.derivedStateOf((Function0)anon));
+                    anon2 = new PullToRefreshKt.CircularArrowProgressIndicator.targetAlpha.2.1(obj2);
+                    composer3.updateRememberedValue(SnapshotStateKt.derivedStateOf((Function0)anon2));
                 } else {
-                    derivedStateOf = rememberedValue3;
+                    $i$a$CachePullToRefreshKt$CircularArrowProgressIndicator$targetAlpha$2 = rememberedValue3;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 obj23 = $dirty;
                 $dirty2 = 32;
-                State animateFloatAsState = AnimateAsStateKt.animateFloatAsState(PullToRefreshKt.CircularArrowProgressIndicator_RPmYEkk$lambda$4((State)derivedStateOf), (AnimationSpec)PullToRefreshKt.AlphaTween, 0, 0, 0, restartGroup, 48, 28);
+                State animateFloatAsState = AnimateAsStateKt.animateFloatAsState(PullToRefreshKt.CircularArrowProgressIndicator_RPmYEkk$lambda$4((State)$i$a$CachePullToRefreshKt$CircularArrowProgressIndicator$targetAlpha$2), (AnimationSpec)PullToRefreshKt.AlphaTween, 0, 0, 0, restartGroup, 48, 28);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1136655568, str2);
-                i2 = obj23 & 14 == 4 ? 1 : 0;
+                i10 = obj23 & 14 == 4 ? 1 : 0;
                 Composer composer4 = restartGroup;
                 int i37 = 0;
                 Object rememberedValue4 = composer4.rememberedValue();
                 i4 = 0;
-                if (i2 == 0) {
+                if (i10 == 0) {
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
                         $dirty2 = 0;
-                        anon2 = new PullToRefreshKt.CircularArrowProgressIndicator.1.1(obj2);
-                        composer4.updateRememberedValue((Function1)anon2);
+                        anon = new PullToRefreshKt.CircularArrowProgressIndicator.1.1(obj2);
+                        composer4.updateRememberedValue((Function1)anon);
                     } else {
-                        anon2 = rememberedValue4;
+                        anon = rememberedValue4;
                     }
                 } else {
                 }
@@ -205,10 +205,10 @@ public final class PullToRefreshKt {
                 i9 = obj23 & 14 == 4 ? i13 : 0;
                 i6 = obj23 & 112 == 32 ? i13 : 0;
                 composer = restartGroup;
-                i8 = 0;
+                i3 = 0;
                 rememberedValue = composer.rememberedValue();
-                i7 = 0;
-                if (empty2 | changedInstance == null) {
+                i = 0;
+                if (empty | changedInstance == null) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         companion2 = 0;
                         alphaState = obj23;
@@ -223,7 +223,7 @@ public final class PullToRefreshKt {
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.size-3ABfNKs(SemanticsModifierKt.semantics((Modifier)Modifier.Companion, i13, (Function1)anon2), PullToRefreshKt.SpinnerSize), (Function1)path, restartGroup, 0);
+                CanvasKt.Canvas(SizeKt.size-3ABfNKs(SemanticsModifierKt.semantics((Modifier)Modifier.Companion, i13, (Function1)anon), PullToRefreshKt.SpinnerSize), (Function1)path, restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -248,78 +248,78 @@ public final class PullToRefreshKt {
     }
 
     public static final void PullToRefreshBox(boolean isRefreshing, Function0<Unit> onRefresh, Modifier modifier, androidx.compose.material3.pulltorefresh.PullToRefreshState state, Alignment contentAlignment, Function3<? super BoxScope, ? super Composer, ? super Integer, Unit> indicator, Function3<? super BoxScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i10) {
-        int traceInProgress2;
+        int traceInProgress;
         boolean valueOf;
         Function0 factory$iv$iv$iv;
         int $dirty2;
         Object $dirty;
-        int i12;
-        int i13;
-        Object obj5;
-        Object modifier3;
+        int i6;
+        int i9;
+        Object obj2;
+        Object modifier2;
         Integer pullToRefresh-Z4HSEVQ$default;
         Object rememberComposableLambda;
-        Object obj3;
-        boolean traceInProgress;
-        Composer composer3;
+        Object obj9;
+        boolean traceInProgress2;
+        Composer composer2;
         int valueOf2;
-        Object obj2;
+        Object obj5;
+        Object obj;
+        int i13;
+        Object str;
+        Object obj8;
+        int changed;
+        int i15;
         Object obj6;
         int i11;
-        Object str;
-        Object obj7;
-        int changed;
-        int i9;
-        Object obj8;
-        int i6;
-        Object obj;
+        Object obj3;
         int i3;
-        int i14;
-        Object obj9;
         int i7;
-        int i;
+        Object obj4;
+        int i2;
+        int i4;
         boolean skipping;
         boolean defaultsInvalid;
         int currentCompositionLocalMap;
-        int i5;
-        Object obj4;
-        Modifier modifier2;
-        Composer composer2;
         int i8;
-        int i2;
+        Object obj7;
+        Modifier modifier3;
+        Composer composer3;
+        int i;
+        int i12;
         Modifier modifier$iv;
-        int i4;
+        int i5;
         Composer composer;
-        int i15;
+        int i14;
         Object obj28;
         int obj29;
         int obj30;
         Object obj31;
         int obj33;
         valueOf = isRefreshing;
-        obj8 = content;
-        i6 = $changed;
-        traceInProgress2 = 1902956467;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        obj6 = content;
+        i11 = $changed;
+        traceInProgress = 1902956467;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(PullToRefreshBox)P(3,5,4,6,1,2)124@5580L28,126@5713L163,135@5931L199:PullToRefresh.kt#djiw08");
         $dirty2 = $changed;
         if (i10 & 1 != 0) {
             $dirty2 |= 6;
         } else {
-            if (i6 & 6 == 0) {
-                i12 = restartGroup.changed(valueOf) ? 4 : 2;
-                $dirty2 |= i12;
+            if (i11 & 6 == 0) {
+                i6 = restartGroup.changed(valueOf) ? 4 : 2;
+                $dirty2 |= i6;
             }
         }
         if (i10 & 2 != 0) {
             $dirty2 |= 48;
-            obj2 = onRefresh;
+            obj5 = onRefresh;
         } else {
-            if (i6 & 48 == 0) {
-                i13 = restartGroup.changedInstance(onRefresh) ? 32 : 16;
-                $dirty2 |= i13;
+            if (i11 & 48 == 0) {
+                i9 = restartGroup.changedInstance(onRefresh) ? 32 : 16;
+                $dirty2 |= i9;
             } else {
-                obj2 = onRefresh;
+                obj5 = onRefresh;
             }
         }
         int i31 = i10 & 4;
@@ -327,14 +327,14 @@ public final class PullToRefreshKt {
             $dirty2 |= 384;
             rememberComposableLambda = modifier;
         } else {
-            if (i6 & 384 == 0) {
-                i11 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i11;
+            if (i11 & 384 == 0) {
+                i13 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i13;
             } else {
                 rememberComposableLambda = modifier;
             }
         }
-        if (i6 & 3072 == 0) {
+        if (i11 & 3072 == 0) {
             if (i10 & 8 == 0) {
                 changed = restartGroup.changed(state) ? 2048 : 1024;
             } else {
@@ -344,64 +344,64 @@ public final class PullToRefreshKt {
         } else {
             str = state;
         }
-        i9 = i10 & 16;
-        if (i9 != 0) {
+        i15 = i10 & 16;
+        if (i15 != 0) {
             $dirty2 |= 24576;
-            obj = contentAlignment;
+            obj3 = contentAlignment;
         } else {
-            if (i6 & 24576 == 0) {
+            if (i11 & 24576 == 0) {
                 i3 = restartGroup.changed(contentAlignment) ? 16384 : 8192;
                 $dirty2 |= i3;
             } else {
-                obj = contentAlignment;
+                obj3 = contentAlignment;
             }
         }
         int i48 = i10 & 32;
         int i50 = 196608;
         if (i48 != 0) {
             $dirty2 |= i50;
-            obj9 = indicator;
+            obj4 = indicator;
         } else {
-            if (i50 &= i6 == 0) {
-                i7 = restartGroup.changedInstance(indicator) ? 131072 : 65536;
-                $dirty2 |= i7;
+            if (i50 &= i11 == 0) {
+                i2 = restartGroup.changedInstance(indicator) ? 131072 : 65536;
+                $dirty2 |= i2;
             } else {
-                obj9 = indicator;
+                obj4 = indicator;
             }
         }
         int i53 = 1572864;
         if (i10 & 64 != 0) {
             $dirty2 |= i53;
         } else {
-            if (i6 & i53 == 0) {
-                i = restartGroup.changedInstance(obj8) ? 1048576 : 524288;
-                $dirty2 |= i;
+            if (i11 & i53 == 0) {
+                i4 = restartGroup.changedInstance(obj6) ? 1048576 : 524288;
+                $dirty2 |= i4;
             }
         }
         if (i52 &= $dirty2 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                if (i6 & 1 != 0) {
+                if (i11 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i31 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = rememberComposableLambda;
+                            modifier2 = rememberComposableLambda;
                         }
                         if (i10 & 8 != 0) {
                             $dirty2 &= -7169;
                             str = rememberComposableLambda;
                         }
-                        if (i9 != 0) {
-                            obj = rememberComposableLambda;
+                        if (i15 != 0) {
+                            obj3 = rememberComposableLambda;
                         }
                         if (i48 != 0) {
                             PullToRefreshKt.PullToRefreshBox.1 anon = new PullToRefreshKt.PullToRefreshBox.1(str, valueOf);
-                            i14 = $dirty2;
-                            obj9 = rememberComposableLambda;
+                            i7 = $dirty2;
+                            obj4 = rememberComposableLambda;
                             $dirty = str;
                         } else {
-                            i14 = $dirty2;
+                            i7 = $dirty2;
                             $dirty = str;
                         }
                     } else {
@@ -409,18 +409,18 @@ public final class PullToRefreshKt {
                         if (i10 & 8 != 0) {
                             $dirty2 &= -7169;
                         }
-                        i14 = $dirty2;
-                        modifier3 = rememberComposableLambda;
+                        i7 = $dirty2;
+                        modifier2 = rememberComposableLambda;
                         $dirty = str;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, i14, -1, "androidx.compose.material3.pulltorefresh.PullToRefreshBox (PullToRefresh.kt:134)");
+                    ComposerKt.traceEventStart(traceInProgress, i7, -1, "androidx.compose.material3.pulltorefresh.PullToRefreshBox (PullToRefresh.kt:134)");
                 }
-                Object obj10 = modifier3;
-                pullToRefresh-Z4HSEVQ$default = PullToRefreshKt.pullToRefresh-Z4HSEVQ$default(obj10, valueOf, $dirty, false, 0, obj2, 12, 0);
+                Object obj10 = modifier2;
+                pullToRefresh-Z4HSEVQ$default = PullToRefreshKt.pullToRefresh-Z4HSEVQ$default(obj10, valueOf, $dirty, false, 0, obj5, 12, 0);
                 i17 &= 112;
                 valueOf2 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
@@ -429,7 +429,7 @@ public final class PullToRefreshKt {
                 obj29 = currentCompositeKeyHash;
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, pullToRefresh-Z4HSEVQ$default);
                 obj31 = constructor;
-                i5 = 0;
+                i8 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -444,38 +444,38 @@ public final class PullToRefreshKt {
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
                 int i56 = 0;
                 obj31 = factory$iv$iv$iv;
-                Updater.set-impl(constructor-impl, BoxKt.maybeCachedBoxMeasurePolicy(obj, false), ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, BoxKt.maybeCachedBoxMeasurePolicy(obj3, false), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i57 = 0;
-                Composer composer6 = constructor-impl;
+                Composer composer5 = constructor-impl;
                 int i58 = 0;
-                if (!composer6.getInserting()) {
+                if (!composer5.getInserting()) {
                     modifier$iv = pullToRefresh-Z4HSEVQ$default;
-                    i4 = valueOf2;
-                    if (!Intrinsics.areEqual(composer6.rememberedValue(), Integer.valueOf(obj29))) {
-                        composer6.updateRememberedValue(Integer.valueOf(obj29));
+                    i5 = valueOf2;
+                    if (!Intrinsics.areEqual(composer5.rememberedValue(), Integer.valueOf(obj29))) {
+                        composer5.updateRememberedValue(Integer.valueOf(obj29));
                         constructor-impl.apply(Integer.valueOf(obj29), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer6;
+                        composer2 = composer5;
                     }
                 } else {
                     modifier$iv = pullToRefresh-Z4HSEVQ$default;
-                    i4 = valueOf2;
+                    i5 = valueOf2;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer4 = restartGroup;
-                modifier2 = materializeModifier;
+                modifier3 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer4, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 BoxScopeInstance iNSTANCE = BoxScopeInstance.INSTANCE;
                 i38 |= 6;
-                i8 = 0;
-                i2 = i22;
-                i15 = i32;
-                Composer composer5 = composer2;
-                ComposerKt.sourceInformationMarkerStart(composer5, 1101976897, "C139@6095L9,140@6113L11:PullToRefresh.kt#djiw08");
-                obj8.invoke((BoxScope)iNSTANCE, composer5, Integer.valueOf(i23 |= i29));
-                obj9.invoke(iNSTANCE, composer5, Integer.valueOf(i25 |= $dirty2));
-                ComposerKt.sourceInformationMarkerEnd(composer5);
+                i = 0;
+                i12 = i22;
+                i14 = i32;
+                Composer $i$a$LayoutBoxKt$Box$1$iv = composer3;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, 1101976897, "C139@6095L9,140@6113L11:PullToRefresh.kt#djiw08");
+                obj6.invoke((BoxScope)iNSTANCE, $i$a$LayoutBoxKt$Box$1$iv, Integer.valueOf(i23 |= i29));
+                obj4.invoke(iNSTANCE, $i$a$LayoutBoxKt$Box$1$iv, Integer.valueOf(i25 |= $dirty2));
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer4);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -484,24 +484,24 @@ public final class PullToRefreshKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = obj28;
-                obj3 = obj4;
-                obj6 = obj;
-                obj7 = obj9;
+                obj2 = obj28;
+                obj9 = obj7;
+                obj = obj3;
+                obj8 = obj4;
             } else {
                 restartGroup.skipToGroupEnd();
-                i14 = $dirty2;
-                obj5 = rememberComposableLambda;
-                obj3 = str;
-                obj6 = obj;
-                obj7 = obj9;
+                i7 = $dirty2;
+                obj2 = rememberComposableLambda;
+                obj9 = str;
+                obj = obj3;
+                obj8 = obj4;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new PullToRefreshKt.PullToRefreshBox.3(isRefreshing, onRefresh, obj5, obj3, obj6, obj7, obj8, i6, i10);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new PullToRefreshKt.PullToRefreshBox.3(isRefreshing, onRefresh, obj2, obj9, obj, obj8, obj6, i11, i10);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 

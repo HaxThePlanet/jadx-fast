@@ -16,11 +16,11 @@ public final class TransferParameters {
     private final double gamma;
     public TransferParameters(double gamma, double a, double b, double c, double d, double e, double f) {
         boolean naN;
-        int cmp2;
-        int i2;
-        int cmp3;
-        double d2;
         int cmp;
+        int i2;
+        int cmp2;
+        double d2;
+        int cmp3;
         int i;
         long l;
         final Object obj = this;
@@ -67,8 +67,8 @@ public final class TransferParameters {
                                                 throw illegalArgumentException7;
                                             }
                                             if (Double.compare(d15, l) >= 0) {
-                                                cmp = Double.compare(d16, i3) == 0 ? 1 : i4;
-                                                if (cmp != 0) {
+                                                cmp3 = Double.compare(d16, i3) == 0 ? 1 : i4;
+                                                if (cmp3 != 0) {
                                                 } else {
                                                 }
                                                 IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("Parameter c is zero, the transfer function is constant");
@@ -118,31 +118,31 @@ public final class TransferParameters {
     }
 
     public TransferParameters(double d, double d2, double d3, double d4, double d5, double d6, double d7, int i8, DefaultConstructorMarker defaultConstructorMarker9) {
-        int i2;
         int i;
+        int i2;
         final int i5 = 0;
-        i2 = obj33 & 32 != 0 ? i5 : obj29;
-        i = obj33 & 64 != 0 ? i5 : obj31;
-        super(d, obj5, d3, obj7, d5, obj9, d7, obj11, defaultConstructorMarker9, obj13, i2, obj15, i, obj17);
+        i = obj33 & 32 != 0 ? i5 : obj29;
+        i2 = obj33 & 64 != 0 ? i5 : obj31;
+        super(d, obj5, d3, obj7, d5, obj9, d7, obj11, defaultConstructorMarker9, obj13, i, obj15, i2, obj17);
     }
 
     public static androidx.compose.ui.graphics.colorspace.TransferParameters copy$default(androidx.compose.ui.graphics.colorspace.TransferParameters transferParameters, double d2, double d3, double d4, double d5, double d6, double d7, double d8, int i9, Object object10) {
         double gamma;
-        double d10;
-        double d12;
-        double d9;
         double d11;
+        double d9;
+        double d12;
         double d;
+        double d10;
         int i;
         double obj28;
         gamma = obj29 & 1 != 0 ? transferParameters.gamma : d2;
-        d10 = obj29 & 2 != 0 ? transferParameters.a : d4;
-        d12 = obj29 & 4 != 0 ? transferParameters.b : d6;
-        d9 = obj29 & 8 != 0 ? transferParameters.c : d8;
-        d11 = obj29 & 16 != 0 ? transferParameters.d : object10;
-        d = obj29 & 32 != 0 ? transferParameters.e : obj25;
+        d11 = obj29 & 2 != 0 ? transferParameters.a : d4;
+        d9 = obj29 & 4 != 0 ? transferParameters.b : d6;
+        d12 = obj29 & 8 != 0 ? transferParameters.c : d8;
+        d = obj29 & 16 != 0 ? transferParameters.d : object10;
+        d10 = obj29 & 32 != 0 ? transferParameters.e : obj25;
         obj28 = obj29 & 64 != 0 ? i : obj27;
-        return transferParameters.copy(gamma, d4, d10, d6, d12, d8, d9);
+        return transferParameters.copy(gamma, d4, d11, d6, d9, d8, d12);
     }
 
     public final double component1() {

@@ -29,8 +29,8 @@ public final class GraphicsLayerKt {
         long bottomLeftCornerRadius-kKHJgLs;
         float height;
         Object $this$setOutline2;
-        long l;
         long l2;
+        long l;
         float x-impl;
         if (outline instanceof Outline.Rectangle) {
             bottomLeftCornerRadius-kKHJgLs = (Outline.Rectangle)outline.getRect().getTop();

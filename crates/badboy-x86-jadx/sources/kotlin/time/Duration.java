@@ -381,13 +381,13 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
         int cmp;
         long otherNanoRemainder;
         int i;
-        long l;
         long l2;
+        long l;
         final long l3 = DurationKt.access$nanosToMillis(obj12);
         final int i2 = otherNanos + l3;
         i = 0;
-        if (Long.compare(l4, i2) <= 0 && Long.compare(i2, l) < 0) {
-            if (Long.compare(i2, l) < 0) {
+        if (Long.compare(l4, i2) <= 0 && Long.compare(i2, l2) < 0) {
+            if (Long.compare(i2, l2) < 0) {
                 i = 1;
             }
         }
@@ -402,17 +402,17 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
     private static final void appendFractional-impl(long arg0, StringBuilder $this$appendFractional, int whole, int fractional, int fractionalSize, String unit, boolean isoZeroes) {
         String padStart;
         String str2;
-        int i7;
+        int i2;
         StringBuilder append;
         String str;
-        int i4;
         int i3;
+        int i4;
+        int i7;
         int i;
-        int i8;
         int i5;
         int i6;
         int it;
-        int i2;
+        int i8;
         whole.append(fractional);
         if (fractionalSize != 0) {
             whole.append('.');
@@ -420,25 +420,25 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
             padStart = StringsKt.padStart(String.valueOf(fractionalSize), unit, i10);
             String str4 = padStart;
             str = 0;
-            i = -1;
-            i8 = 1;
+            i7 = -1;
+            i = 1;
             i5 = 0;
-            if (length += i >= 0) {
+            if (length += i7 >= 0) {
             } else {
             }
-            i += i8;
+            i7 += i;
             str2 = "append(...)";
             int i11 = 3;
-            if (obj19 == null && i3 < i11) {
-                if (i3 < i11) {
-                    Intrinsics.checkNotNullExpressionValue(whole.append((CharSequence)padStart, i5, i3), str2);
+            if (obj19 == null && i4 < i11) {
+                if (i4 < i11) {
+                    Intrinsics.checkNotNullExpressionValue(whole.append((CharSequence)padStart, i5, i4), str2);
                 } else {
                     Intrinsics.checkNotNullExpressionValue(whole.append((CharSequence)padStart, i5, i13 *= i11), str2);
                 }
             } else {
             }
         } else {
-            i7 = unit;
+            i2 = unit;
         }
         whole.append(isoZeroes);
     }
@@ -456,9 +456,9 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
             if (i4 &= 1 == 0) {
             } else {
                 int i5 = 0;
-                int i9 = 0;
-                i6 -= i10;
-                i = Duration.isNegative-impl(arg0) ? -i7 : i7;
+                int i8 = 0;
+                $i$f$getUnitDiscriminatorImpl -= $i$f$getUnitDiscriminatorImpl2;
+                i = Duration.isNegative-impl(arg0) ? -i6 : i6;
             }
             return i;
         }
@@ -468,25 +468,25 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
     public static long constructor-impl(long rawValue) {
         boolean durationAssertionsEnabled;
         int cmp;
+        int i2;
         int i3;
         int i;
-        int i2;
         long value-impl;
-        long l;
         long l2;
-        i2 = 0;
+        long l;
+        i = 0;
         if (DurationJvmKt.getDurationAssertionsEnabled() && Duration.isInNanos-impl(rawValue)) {
-            i2 = 0;
+            i = 0;
             if (Duration.isInNanos-impl(rawValue)) {
                 value-impl = Duration.getValue-impl(rawValue);
-                if (Long.compare(l, value-impl) <= 0 && Long.compare(value-impl, l) < 0) {
-                    if (Long.compare(value-impl, l) < 0) {
+                if (Long.compare(l2, value-impl) <= 0 && Long.compare(value-impl, l2) < 0) {
+                    if (Long.compare(value-impl, l2) < 0) {
                     } else {
-                        i = i2;
+                        i3 = i;
                     }
                 } else {
                 }
-                if (i == 0) {
+                if (i3 == 0) {
                 } else {
                 }
                 StringBuilder stringBuilder3 = new StringBuilder();
@@ -494,21 +494,21 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
                 throw assertionError3;
             }
             long value-impl5 = Duration.getValue-impl(rawValue);
-            if (Long.compare(l2, value-impl5) <= 0 && Long.compare(value-impl5, l2) < 0) {
-                i3 = Long.compare(value-impl5, l2) < 0 ? i : i2;
+            if (Long.compare(l, value-impl5) <= 0 && Long.compare(value-impl5, l) < 0) {
+                i2 = Long.compare(value-impl5, l) < 0 ? i3 : i;
             } else {
             }
-            if (i3 == 0) {
+            if (i2 == 0) {
             } else {
                 value-impl = Duration.getValue-impl(rawValue);
-                if (Long.compare(l, value-impl) <= 0 && Long.compare(value-impl, l) < 0) {
-                    if (Long.compare(value-impl, l) < 0) {
+                if (Long.compare(l2, value-impl) <= 0 && Long.compare(value-impl, l2) < 0) {
+                    if (Long.compare(value-impl, l2) < 0) {
                     } else {
-                        i = i2;
+                        i3 = i;
                     }
                 } else {
                 }
-                if (i != 0) {
+                if (i3 != 0) {
                 } else {
                 }
                 StringBuilder stringBuilder = new StringBuilder();
@@ -806,7 +806,7 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
     private static final boolean isInMillis-impl(long arg0) {
         int i;
         int i2 = 0;
-        if (i4 & 1 == 1) {
+        if (i3 & 1 == 1) {
         } else {
             i = 0;
         }
@@ -817,7 +817,7 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
         int i;
         int i2 = 0;
         i = 1;
-        if (i4 & 1 == 0) {
+        if (i3 & 1 == 0) {
         } else {
             i = 0;
         }
@@ -857,16 +857,16 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
     public static final long plus-LRDsOJo(long arg0, long other) {
         int result;
         boolean finite-impl;
-        int i;
+        int $i$f$getUnitDiscriminatorImpl;
         long valuesMixedRanges-UwyO8pc;
-        int i2;
-        long value-impl3;
+        int i;
         long value-impl2;
+        long value-impl3;
         long value-impl;
         int obj7;
         if (Duration.isInfinite-impl(arg0) && !Duration.isFinite-impl(obj9)) {
             if (!Duration.isFinite-impl(obj9)) {
-                if (Long.compare(i6, i2) < 0) {
+                if (Long.compare(i4, i) < 0) {
                 } else {
                 }
                 IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Summing infinite durations of different signs yields an undefined result.");
@@ -877,27 +877,27 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
         if (Duration.isInfinite-impl(obj9)) {
             return obj9;
         }
-        int i3 = 0;
-        int i8 = 0;
-        int i9 = (int)obj9;
-        i = i9 & 1;
-        if (i7 & 1 == i) {
+        int i2 = 0;
+        int i6 = 0;
+        int i7 = (int)obj9;
+        $i$f$getUnitDiscriminatorImpl = i7 & 1;
+        if (i5 & 1 == $i$f$getUnitDiscriminatorImpl) {
             value-impl4 += value-impl5;
             if (Duration.isInNanos-impl(arg0)) {
-                valuesMixedRanges-UwyO8pc = DurationKt.access$durationOfNanosNormalized(i5);
+                valuesMixedRanges-UwyO8pc = DurationKt.access$durationOfNanosNormalized(i3);
                 result = arg0;
             } else {
-                valuesMixedRanges-UwyO8pc = DurationKt.access$durationOfMillisNormalized(i5);
+                valuesMixedRanges-UwyO8pc = DurationKt.access$durationOfMillisNormalized(i3);
                 result = arg0;
             }
         } else {
             if (Duration.isInMillis-impl(arg0)) {
-                i = arg0;
-                result = i;
+                $i$f$getUnitDiscriminatorImpl = arg0;
+                result = $i$f$getUnitDiscriminatorImpl;
                 valuesMixedRanges-UwyO8pc = obj7;
             } else {
                 result = arg0;
-                valuesMixedRanges-UwyO8pc = Duration.addValuesMixedRanges-UwyO8pc(result, i, Duration.getValue-impl(obj9));
+                valuesMixedRanges-UwyO8pc = Duration.addValuesMixedRanges-UwyO8pc(result, $i$f$getUnitDiscriminatorImpl, Duration.getValue-impl(obj9));
             }
         }
         return valuesMixedRanges-UwyO8pc;
@@ -920,13 +920,13 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
         int sign;
         long totalMillis;
         int cmp;
-        long l2;
-        long longRange;
         long l;
-        long l4;
+        long longRange;
+        long l2;
         long l3;
-        int i3;
+        long l4;
         int i2;
+        int i3;
         long value;
         int i;
         final int i4 = obj20;
@@ -949,25 +949,25 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
         coerceIn = Duration.getValue-impl(arg0);
         l5 *= coerceIn;
         if (Duration.isInNanos-impl(arg0)) {
-            l4 = 0;
-            if (Long.compare(i10, coerceIn) <= 0 && Long.compare(coerceIn, l3) < 0) {
-                if (Long.compare(coerceIn, l3) < 0) {
-                    l4 = 1;
+            l3 = 0;
+            if (Long.compare(i10, coerceIn) <= 0 && Long.compare(coerceIn, l4) < 0) {
+                if (Long.compare(coerceIn, l4) < 0) {
+                    l3 = 1;
                 }
             }
-            if (l4 != 0) {
+            if (l3 != 0) {
                 totalMillis = DurationKt.access$durationOfNanos(i6);
                 value = coerceIn;
             } else {
-                if (Long.compare(l4, coerceIn) == 0) {
+                if (Long.compare(l3, coerceIn) == 0) {
                     totalMillis = DurationKt.access$durationOfNanosNormalized(i6);
                     value = coerceIn;
                 } else {
-                    l4 = DurationKt.access$nanosToMillis(coerceIn);
-                    l11 *= l4;
-                    l8 *= i3;
-                    l7 += i2;
-                    if (Long.compare(i8, l4) == 0 && Long.compare(i9, i) >= 0) {
+                    l3 = DurationKt.access$nanosToMillis(coerceIn);
+                    l11 *= l3;
+                    l8 *= i2;
+                    l7 += i3;
+                    if (Long.compare(i8, l3) == 0 && Long.compare(i9, i) >= 0) {
                         if (Long.compare(i9, i) >= 0) {
                             value = coerceIn;
                             longRange = new LongRange(-4611686018427387903L, obj2, 4611686018427387903L, obj9);
@@ -1039,10 +1039,10 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
     public static final String toIsoString-impl(long arg0) {
         boolean negative-impl;
         long hours;
-        int i;
+        int i2;
         int append;
         int str;
-        int i2;
+        int i;
         long l;
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
@@ -1062,14 +1062,14 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
             hours = 9999999999999L;
         }
         str = 1;
-        i2 = 0;
-        i = Long.compare(hours, i3) != 0 ? str : i2;
-        final int i7 = i;
+        i = 0;
+        i2 = Long.compare(hours, i3) != 0 ? str : i;
+        final int i7 = i2;
         if (secondsComponent-impl == 0) {
             if (nanosecondsComponent-impl != 0) {
                 append = str;
             } else {
-                append = i2;
+                append = i;
             }
         } else {
         }
@@ -1078,7 +1078,7 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
             if (i8 != 0 && i7 != 0) {
                 if (i7 != 0) {
                 } else {
-                    str = i2;
+                    str = i;
                 }
             } else {
             }
@@ -1136,9 +1136,9 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
     }
 
     public static String toString-impl(long arg0) {
-        int hasDays;
         int hasDays2;
-        int components;
+        int hasDays;
+        int components2;
         String string;
         int i8;
         int hasSeconds2;
@@ -1149,25 +1149,25 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
         long str2;
         StringBuilder sb;
         int hours;
-        int minutes;
+        int minutes2;
         int nanoseconds2;
         StringBuilder append;
         int i4;
-        int i9;
-        int hours2;
         int i10;
-        long absoluteValue-UwyO8pc;
+        int hours2;
         int i2;
-        int secondsComponent-impl;
-        int i7;
+        long absoluteValue-UwyO8pc;
         int i6;
-        int i3;
+        int secondsComponent-impl;
+        int i5;
+        int i7;
+        int i9;
         int i;
         int hasDays3;
-        long minutes2;
-        int i5;
+        long minutes;
+        int i3;
         int nanoseconds;
-        int components2;
+        int components;
         int hasSeconds;
         int i11 = 0;
         if (Long.compare(arg0, i11) == 0) {
@@ -1182,40 +1182,40 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
                     negative-impl = Duration.isNegative-impl(arg0);
                     stringBuilder = new StringBuilder();
                     sb = stringBuilder;
-                    i10 = 0;
+                    i2 = 0;
                     if (negative-impl) {
                         sb.append('-');
                     }
                     absoluteValue-UwyO8pc = Duration.getAbsoluteValue-UwyO8pc(arg0);
-                    i2 = 0;
+                    i6 = 0;
                     days = Duration.getInWholeDays-impl(absoluteValue-UwyO8pc);
                     int hoursComponent-impl = Duration.getHoursComponent-impl(absoluteValue-UwyO8pc);
-                    minutes = Duration.getMinutesComponent-impl(absoluteValue-UwyO8pc);
+                    minutes2 = Duration.getMinutesComponent-impl(absoluteValue-UwyO8pc);
                     secondsComponent-impl = Duration.getSecondsComponent-impl(absoluteValue-UwyO8pc);
                     nanoseconds2 = Duration.getNanosecondsComponent-impl(absoluteValue-UwyO8pc);
-                    i7 = 0;
+                    i5 = 0;
                     i8 = 0;
-                    hasDays = Long.compare(days, i11) != 0 ? 1 : i8;
+                    hasDays2 = Long.compare(days, i11) != 0 ? 1 : i8;
                     i4 = hoursComponent-impl != 0 ? 1 : i8;
-                    i6 = i4;
-                    i9 = minutes != 0 ? 1 : i8;
-                    i3 = i9;
+                    i7 = i4;
+                    i10 = minutes2 != 0 ? 1 : i8;
+                    i9 = i10;
                     if (secondsComponent-impl == 0) {
                         if (nanoseconds2 != 0) {
                             i8 = 1;
                         }
                     } else {
                     }
-                    if (hasDays != 0) {
-                        hasDays3 = hasDays;
+                    if (hasDays2 != 0) {
+                        hasDays3 = hasDays2;
                         sb.append(days).append('d');
                         hours2++;
                     } else {
-                        hasDays3 = hasDays;
+                        hasDays3 = hasDays2;
                     }
-                    if (i6 == 0) {
+                    if (i7 == 0) {
                         if (hasDays3 != 0) {
-                            if (i3 == 0) {
+                            if (i9 == 0) {
                                 if (i8 != 0 && hours2 > 0) {
                                     if (hours2 > 0) {
                                         sb.append(' ');
@@ -1228,15 +1228,15 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
                         }
                     } else {
                     }
-                    if (i3 == 0) {
+                    if (i9 == 0) {
                         if (i8 != 0) {
-                            if (i6 == 0) {
+                            if (i7 == 0) {
                                 if (hasDays3 != 0 && hours2 > 0) {
                                     if (hours2 > 0) {
                                         sb.append(' ');
                                     }
-                                    sb.append(minutes).append('m');
-                                    hours2 = hasDays2;
+                                    sb.append(minutes2).append('m');
+                                    hours2 = hasDays;
                                 }
                             } else {
                             }
@@ -1248,67 +1248,67 @@ public final class Duration implements Comparable<kotlin.time.Duration> {
                         if (hours2 > 0) {
                             sb.append(' ');
                         }
-                        if (secondsComponent-impl == 0 && hasDays3 == 0 && i6 == 0) {
+                        if (secondsComponent-impl == 0 && hasDays3 == 0 && i7 == 0) {
                             if (hasDays3 == 0) {
-                                if (i6 == 0) {
-                                    if (i3 != 0) {
-                                        components2 = i12;
+                                if (i7 == 0) {
+                                    if (i9 != 0) {
+                                        components = i12;
                                         hasSeconds = i8;
-                                        minutes2 = days;
+                                        minutes = days;
                                         i = hoursComponent-impl;
-                                        nanoseconds = minutes;
-                                        components = nanoseconds2;
+                                        nanoseconds = minutes2;
+                                        components2 = nanoseconds2;
                                         hasSeconds2 = 1;
-                                        Duration.appendFractional-impl(arg0, obj5, sb, secondsComponent-impl, components, 9, "s");
+                                        Duration.appendFractional-impl(arg0, obj5, sb, secondsComponent-impl, components2, 9, "s");
                                     } else {
                                         append = 1000000;
                                         if (nanoseconds2 >= append) {
-                                            components2 = i12;
+                                            components = i12;
                                             hasSeconds = i8;
-                                            i = i5;
-                                            components = i19;
+                                            i = i3;
+                                            components2 = i19;
                                             hasSeconds2 = 1;
                                             nanoseconds = i18;
-                                            minutes2 = days;
+                                            minutes = days;
                                             Duration.appendFractional-impl(arg0, obj5, sb, nanoseconds2 / append, nanoseconds2 % append, 6, "ms");
                                             hours = secondsComponent-impl;
                                         } else {
-                                            components2 = i12;
+                                            components = i12;
                                             hasSeconds = i8;
-                                            minutes2 = days;
+                                            minutes = days;
                                             i = hoursComponent-impl;
-                                            nanoseconds = minutes;
-                                            components = nanoseconds2;
+                                            nanoseconds = minutes2;
+                                            components2 = nanoseconds2;
                                             hasSeconds2 = 1;
-                                            if (components >= 1000) {
-                                                Duration.appendFractional-impl(arg0, obj5, sb, components / 1000, components % 1000, 3, "us");
+                                            if (components2 >= 1000) {
+                                                Duration.appendFractional-impl(arg0, obj5, sb, components2 / 1000, components2 % 1000, 3, "us");
                                                 hours = secondsComponent-impl;
                                             } else {
-                                                sb.append(components).append("ns");
+                                                sb.append(components2).append("ns");
                                                 hours = secondsComponent-impl;
                                             }
                                         }
                                     }
                                 } else {
-                                    components2 = i12;
+                                    components = i12;
                                     hasSeconds = i8;
-                                    minutes2 = days;
+                                    minutes = days;
                                     i = hoursComponent-impl;
-                                    nanoseconds = minutes;
-                                    components = nanoseconds2;
+                                    nanoseconds = minutes2;
+                                    components2 = nanoseconds2;
                                     hasSeconds2 = 1;
                                 }
                             } else {
                             }
                         } else {
                         }
-                        hours2 = components2;
+                        hours2 = components;
                     } else {
                         hasSeconds = i8;
-                        minutes2 = days;
+                        minutes = days;
                         i = hoursComponent-impl;
-                        nanoseconds = minutes;
-                        components = nanoseconds2;
+                        nanoseconds = minutes2;
+                        components2 = nanoseconds2;
                         hours = secondsComponent-impl;
                         hasSeconds2 = 1;
                     }

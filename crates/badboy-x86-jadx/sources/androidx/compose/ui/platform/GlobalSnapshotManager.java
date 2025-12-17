@@ -34,21 +34,21 @@ public final class GlobalSnapshotManager {
     public final void ensureStarted() {
         boolean compareAndSet;
         int companion;
-        int anon2;
+        int anon;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i2;
-        int i4;
-        androidx.compose.ui.platform.GlobalSnapshotManager.ensureStarted.1 anon;
-        int i3;
         int i;
-        anon2 = 1;
-        if (GlobalSnapshotManager.started.compareAndSet(false, anon2)) {
+        int i2;
+        androidx.compose.ui.platform.GlobalSnapshotManager.ensureStarted.1 anon2;
+        int i4;
+        int i3;
+        anon = 1;
+        if (GlobalSnapshotManager.started.compareAndSet(false, anon)) {
             int i6 = 0;
-            compareAndSet = ChannelKt.Channel$default(anon2, i6, i6, 6, i6);
+            compareAndSet = ChannelKt.Channel$default(anon, i6, i6, 6, i6);
             GlobalSnapshotManager.ensureStarted.1 anon3 = new GlobalSnapshotManager.ensureStarted.1(compareAndSet, i6);
             BuildersKt.launch$default(CoroutineScopeKt.CoroutineScope(AndroidUiDispatcher.Companion.getMain()), 0, 0, (Function2)anon3, 3, 0);
-            anon2 = new GlobalSnapshotManager.ensureStarted.2(compareAndSet);
-            Snapshot.Companion.registerGlobalWriteObserver((Function1)anon2);
+            anon = new GlobalSnapshotManager.ensureStarted.2(compareAndSet);
+            Snapshot.Companion.registerGlobalWriteObserver((Function1)anon);
         }
     }
 }

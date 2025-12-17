@@ -81,33 +81,33 @@ public final class BitmapCompat {
         }
     }
     public static Bitmap createScaledBitmap(Bitmap srcBm, int dstW, int dstH, Rect srcRect, boolean scaleInLinearSpace) {
-        int canvas2;
-        int i8;
+        int canvas;
+        int i7;
         int linear;
         int i3;
-        Object canvas;
+        Object canvas2;
         int bottom;
         Bitmap src;
-        int height;
+        int height2;
         int width;
         int height3;
         int sx;
         int sy;
         int srcX2;
-        int dst3;
-        int i6;
-        int left;
-        Paint dst;
-        int srcY;
-        int srcY2;
+        int dst;
         int i2;
+        int left;
+        Paint dst3;
+        int srcY2;
+        int srcY;
+        int i9;
         int stepsX;
         int stepsY;
-        int height2;
+        int height;
         double d;
-        double sizeAtStep2;
+        double sizeAtStep;
         int sx2;
-        int sizeAtStep;
+        int sizeAtStep2;
         int srcX;
         int i10;
         int totalStepsY;
@@ -116,30 +116,30 @@ public final class BitmapCompat {
         int needFinalConversion;
         int allocW;
         Paint allocH;
-        int i9;
         int i;
+        int i6;
         boolean alreadyF16AndLinear;
-        int i7;
-        int i5;
         int i4;
+        int i8;
+        int i5;
         final Bitmap bitmap = srcBm;
-        canvas2 = dstW;
+        canvas = dstW;
         linear = dstH;
-        canvas = srcRect;
-        if (canvas2 <= 0) {
+        canvas2 = srcRect;
+        if (canvas <= 0) {
         } else {
             if (linear <= 0) {
             } else {
-                if (canvas != null) {
-                    if (canvas.isEmpty()) {
+                if (canvas2 != null) {
+                    if (canvas2.isEmpty()) {
                     } else {
-                        if (canvas.left < 0) {
+                        if (canvas2.left < 0) {
                         } else {
-                            if (canvas.right > bitmap.getWidth()) {
+                            if (canvas2.right > bitmap.getWidth()) {
                             } else {
-                                if (canvas.top < 0) {
+                                if (canvas2.top < 0) {
                                 } else {
-                                    if (canvas.bottom > bitmap.getHeight()) {
+                                    if (canvas2.bottom > bitmap.getHeight()) {
                                     } else {
                                     }
                                 }
@@ -151,24 +151,24 @@ public final class BitmapCompat {
                 }
                 Bitmap bitmap3 = srcBm;
                 src = BitmapCompat.Api27Impl.copyBitmapIfHardware(bitmap);
-                if (canvas != null) {
-                    width = canvas.width();
+                if (canvas2 != null) {
+                    width = canvas2.width();
                 } else {
                     width = bitmap.getWidth();
                 }
-                if (canvas != null) {
-                    height3 = canvas.height();
+                if (canvas2 != null) {
+                    height3 = canvas2.height();
                 } else {
                     height3 = bitmap.getHeight();
                 }
                 f /= f2;
                 f3 /= f5;
-                left = canvas != null ? canvas.left : 0;
-                srcY = canvas != null ? canvas.top : 0;
+                left = canvas2 != null ? canvas2.left : 0;
+                srcY2 = canvas2 != null ? canvas2.top : 0;
                 int i16 = 1;
-                if (left == 0 && srcY == 0 && canvas2 == bitmap.getWidth() && linear == bitmap.getHeight() && bitmap.isMutable() && bitmap == src) {
-                    if (srcY == 0) {
-                        if (canvas2 == bitmap.getWidth()) {
+                if (left == 0 && srcY2 == 0 && canvas == bitmap.getWidth() && linear == bitmap.getHeight() && bitmap.isMutable() && bitmap == src) {
+                    if (srcY2 == 0) {
+                        if (canvas == bitmap.getWidth()) {
                             if (linear == bitmap.getHeight()) {
                                 if (bitmap.isMutable()) {
                                     if (bitmap == src) {
@@ -183,9 +183,9 @@ public final class BitmapCompat {
                 Paint paint = new Paint(i16);
                 paint.setFilterBitmap(i16);
                 BitmapCompat.Api29Impl.setPaintBlendMode(paint);
-                if (width == canvas2 && height3 == linear) {
+                if (width == canvas && height3 == linear) {
                     if (height3 == linear) {
-                        Bitmap bitmap4 = Bitmap.createBitmap(canvas2, linear, src.getConfig());
+                        Bitmap bitmap4 = Bitmap.createBitmap(canvas, linear, src.getConfig());
                         Canvas canvas3 = new Canvas(bitmap4);
                         canvas3.drawBitmap(src, (float)i20, (float)i21, paint);
                         return bitmap4;
@@ -195,29 +195,29 @@ public final class BitmapCompat {
                 int i22 = 1065353216;
                 if (Float.compare(i12, i22) > 0) {
                     srcX = left;
-                    i6 = (int)ceil;
+                    i2 = (int)ceil;
                 } else {
                     srcX = left;
-                    i6 = (int)floor;
+                    i2 = (int)floor;
                 }
                 if (Float.compare(i13, i22) > 0) {
-                    dst = paint;
+                    dst3 = paint;
                     stepsY = (int)ceil2;
                 } else {
-                    dst = paint;
+                    dst3 = paint;
                     stepsY = (int)floor2;
                 }
-                int i19 = i6;
+                int i19 = i2;
                 int i24 = stepsY;
                 dst2 = 0;
                 needFinalConversion = 0;
                 if (scaleInLinearSpace) {
                     if (!BitmapCompat.Api27Impl.isAlreadyF16AndLinear(bitmap)) {
-                        if (i6 > 0) {
-                            sizeAtStep = BitmapCompat.sizeAtStep(width, canvas2, 1, i19);
+                        if (i2 > 0) {
+                            sizeAtStep2 = BitmapCompat.sizeAtStep(width, canvas, 1, i19);
                         } else {
                             i3 = 1;
-                            sizeAtStep = width;
+                            sizeAtStep2 = width;
                         }
                         if (stepsY > 0) {
                             sx2 = i12;
@@ -229,36 +229,36 @@ public final class BitmapCompat {
                         }
                         totalStepsY = i13;
                         int sy2 = i25;
-                        allocW = i6;
+                        allocW = i2;
                         int stepsX2 = i26;
                         Bitmap bitmapWithSourceColorspace = BitmapCompat.Api27Impl.createBitmapWithSourceColorspace(sy2, stepsX2, bitmap, i3);
-                        canvas = new Canvas(bitmapWithSourceColorspace);
-                        i9 = sy2;
+                        canvas2 = new Canvas(bitmapWithSourceColorspace);
+                        i = sy2;
                         int allocW2 = srcX;
                         srcX = stepsX2;
-                        i = allocW2;
-                        canvas.drawBitmap(src, (float)allocH3, (float)srcX3, dst);
+                        i6 = allocW2;
+                        canvas2.drawBitmap(src, (float)allocH3, (float)srcX3, dst3);
                         sy = 0;
-                        srcY = 0;
+                        srcY2 = 0;
                         dst2 = src;
-                        src = i6;
+                        src = i2;
                         needFinalConversion = 1;
                     } else {
                         sx2 = i12;
-                        allocW = i6;
-                        i = srcX;
+                        allocW = i2;
+                        i6 = srcX;
                         sx = i24;
                         totalStepsY = i13;
-                        sy = i;
+                        sy = i6;
                     }
                 } else {
                     sx2 = i12;
-                    allocW = i6;
-                    i = srcX;
+                    allocW = i2;
+                    i6 = srcX;
                     sx = i24;
                     totalStepsY = i13;
                 }
-                Rect rect = new Rect(sy, srcY, width, height3);
+                Rect rect = new Rect(sy, srcY2, width, height3);
                 Rect rect2 = new Rect();
                 int i23 = sy;
                 srcX2 = dst2;
@@ -271,60 +271,60 @@ public final class BitmapCompat {
                     if (allocW > 0) {
                     } else {
                     }
-                    dst2 = srcY;
-                    srcY2 = allocW;
+                    dst2 = srcY2;
+                    srcY = allocW;
                     if (stepsY < 0) {
                     } else {
                     }
                     if (stepsY > 0) {
                     }
-                    i9 = srcY2;
+                    i = srcY;
                     stepsX = 0;
-                    rect2.set(stepsX, stepsX, BitmapCompat.sizeAtStep(width, canvas2, srcY2, i19), BitmapCompat.sizeAtStep(height3, linear, stepsY, sx));
-                    if (i9 == 0 && stepsY == 0) {
+                    rect2.set(stepsX, stepsX, BitmapCompat.sizeAtStep(width, canvas, srcY, i19), BitmapCompat.sizeAtStep(height3, linear, stepsY, sx));
+                    if (i == 0 && stepsY == 0) {
                     } else {
                     }
                     i10 = stepsX;
-                    if (srcX2 != 0 && srcX2.getWidth() == canvas2 && srcX2.getHeight() == linear) {
+                    if (srcX2 != 0 && srcX2.getWidth() == canvas && srcX2.getHeight() == linear) {
                     } else {
                     }
-                    i2 = 0;
+                    i9 = 0;
                     if (srcX2 != 0 && srcX2 != bitmap) {
                     } else {
                     }
                     if (srcX2 != bitmap) {
                     }
                     alreadyF16AndLinear = needFinalConversion;
-                    i7 = srcX2;
-                    if (i9 > 0) {
+                    i4 = srcX2;
+                    if (i > 0) {
                     } else {
                     }
-                    dst3 = i9;
+                    dst = i;
                     if (stepsY > 0) {
                     } else {
                     }
-                    i8 = stepsY;
+                    i7 = stepsY;
                     if (scaleInLinearSpace && i10 == 0) {
                     } else {
                     }
-                    i5 = 0;
+                    i8 = 0;
                     srcX2 = linear;
                     Canvas allocH2 = new Canvas(srcX2);
-                    allocH2.drawBitmap(src, rect, rect2, dst);
+                    allocH2.drawBitmap(src, rect, rect2, dst3);
                     src = srcX2;
                     srcX2 = bitmap2;
                     rect.set(rect2);
-                    canvas2 = dstW;
+                    canvas = dstW;
                     linear = dstH;
-                    srcY = dst2;
+                    srcY2 = dst2;
                     d = d10;
-                    allocW = i9;
+                    allocW = i;
                     if (i10 == 0) {
                     } else {
                     }
-                    i5 = 1;
-                    i8 = alreadyF16AndLinear;
-                    dst3 = alreadyF16AndLinear;
+                    i8 = 1;
+                    i7 = alreadyF16AndLinear;
+                    dst = alreadyF16AndLinear;
                     if (srcX2 != 0) {
                     }
                     srcX2.recycle();
@@ -336,7 +336,7 @@ public final class BitmapCompat {
                     }
                     if (i10 != 0) {
                     }
-                    if (i2 != 0) {
+                    if (i9 != 0) {
                     } else {
                     }
                     if (needFinalConversion != 0 && srcX2 != bitmap && srcX2 != 0) {
@@ -344,23 +344,23 @@ public final class BitmapCompat {
                     if (BitmapCompat.Api27Impl.isAlreadyF16AndLinear(srcX2)) {
                     } else {
                     }
-                    if (srcX2.getWidth() == canvas2) {
+                    if (srcX2.getWidth() == canvas) {
                     } else {
                     }
                     if (srcX2.getHeight() == linear) {
                     } else {
                     }
-                    i2 = 1;
+                    i9 = 1;
                     if (stepsY == 0) {
                     } else {
                     }
                     i10 = 1;
                     stepsY--;
                     stepsY++;
-                    dst2 = srcY;
-                    srcY2 = allocW;
-                    dst2 = srcY;
-                    srcY2 = allocW;
+                    dst2 = srcY2;
+                    srcY = allocW;
+                    dst2 = srcY2;
+                    srcY = allocW;
                 }
                 if (srcX2 != bitmap && srcX2 != 0) {
                     if (srcX2 != 0) {

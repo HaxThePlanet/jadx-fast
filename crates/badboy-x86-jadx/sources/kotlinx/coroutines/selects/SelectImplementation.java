@@ -118,8 +118,8 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
         }
 
         public final boolean tryRegisterAsWaiter(kotlinx.coroutines.selects.SelectImplementation<R> select) {
-            boolean aSSERTIONS_ENABLED;
-            int aSSERTIONS_ENABLED2;
+            boolean $i$a$AssertSelectImplementation$ClauseData$tryRegisterAsWaiter$1;
+            int $i$a$AssertSelectImplementation$ClauseData$tryRegisterAsWaiter$2;
             int i;
             boolean z;
             kotlinx.coroutines.internal.Symbol symbol;
@@ -129,13 +129,13 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
                 int i3 = 0;
                 if (!SelectImplementation.access$getInRegistrationPhase(select)) {
                     if (SelectImplementation.access$isCancelled(select)) {
-                        aSSERTIONS_ENABLED = i4;
+                        $i$a$AssertSelectImplementation$ClauseData$tryRegisterAsWaiter$1 = i4;
                     } else {
-                        aSSERTIONS_ENABLED = i;
+                        $i$a$AssertSelectImplementation$ClauseData$tryRegisterAsWaiter$1 = i;
                     }
                 } else {
                 }
-                if (aSSERTIONS_ENABLED == 0) {
+                if ($i$a$AssertSelectImplementation$ClauseData$tryRegisterAsWaiter$1 == 0) {
                 } else {
                 }
                 AssertionError assertionError2 = new AssertionError();
@@ -143,8 +143,8 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
             }
             if (DebugKt.getASSERTIONS_ENABLED()) {
                 int i2 = 0;
-                aSSERTIONS_ENABLED2 = SelectImplementation.access$getInternalResult$p(select) == SelectKt.access$getNO_RESULT$p() ? i4 : i;
-                if (aSSERTIONS_ENABLED2 == 0) {
+                $i$a$AssertSelectImplementation$ClauseData$tryRegisterAsWaiter$2 = SelectImplementation.access$getInternalResult$p(select) == SelectKt.access$getNO_RESULT$p() ? i4 : i;
+                if ($i$a$AssertSelectImplementation$ClauseData$tryRegisterAsWaiter$2 == 0) {
                 } else {
                 }
                 AssertionError assertionError = new AssertionError();
@@ -245,7 +245,7 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
     }
 
     private final void cleanup(kotlinx.coroutines.selects.SelectImplementation.ClauseData<R> selectedClause) {
-        boolean aSSERTIONS_ENABLED;
+        boolean $i$a$AssertSelectImplementation$cleanup$1;
         Object obj;
         Object next;
         Object obj2;
@@ -276,7 +276,7 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
     }
 
     private final Object complete(Continuation<? super R> $completion) {
-        boolean aSSERTIONS_ENABLED;
+        boolean $i$a$AssertSelectImplementation$complete$2;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i = 0;
             if (!isSelected()) {
@@ -307,7 +307,7 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
         int i;
         int i2;
         Object l$0;
-        Object complete;
+        Object _this;
         Object waitUntilSelected;
         Object obj5;
         anon = continuation;
@@ -337,8 +337,8 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
                 break;
             case 2:
                 ResultKt.throwOnFailure(obj5);
-                complete = obj5;
-                return complete;
+                _this = obj5;
+                return _this;
             default:
                 obj5 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj5;
@@ -351,10 +351,10 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
     }
 
     private final kotlinx.coroutines.selects.SelectImplementation.ClauseData<R> findClause(Object clauseObject) {
-        int i3;
+        int i;
         Object next;
         Object obj;
-        int i;
+        int i3;
         int i2;
         final List clauses = this.clauses;
         if (clauses == null) {
@@ -363,7 +363,7 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
         Iterator iterator = (Iterable)clauses.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            i = 0;
+            i3 = 0;
             if (obj.clauseObject == clauseObject) {
             } else {
             }
@@ -374,9 +374,9 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
             }
             i2 = 1;
         }
-        if ((SelectImplementation.ClauseData)i3 == 0) {
+        if ((SelectImplementation.ClauseData)i == 0) {
         } else {
-            return (SelectImplementation.ClauseData)i3;
+            return (SelectImplementation.ClauseData)i;
         }
         StringBuilder stringBuilder = new StringBuilder();
         IllegalStateException illegalStateException = new IllegalStateException(stringBuilder.append("Clause with object ").append(clauseObject).append(" is not found").toString().toString());
@@ -514,21 +514,21 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
     }
 
     private final Object waitUntilSelected(Continuation<? super Unit> $completion) {
-        int $i$f$suspendCancellableCoroutine3;
+        int $i$f$suspendCancellableCoroutine2;
         Object obj2;
         int i;
         boolean z;
         Object onCancellationAction;
         kotlinx.coroutines.internal.Symbol symbol;
-        int i3;
+        int i2;
         Iterator iterator;
         boolean next;
         Object obj;
-        int i2;
+        int i3;
+        int $i$f$suspendCancellableCoroutine3;
         int $i$f$suspendCancellableCoroutine;
-        int $i$f$suspendCancellableCoroutine2;
         final Object obj3 = this;
-        $i$f$suspendCancellableCoroutine3 = 0;
+        $i$f$suspendCancellableCoroutine2 = 0;
         final int i4 = 0;
         CancellableContinuationImpl cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted($completion), 1);
         cancellableContinuationImpl.initCancellability();
@@ -539,30 +539,30 @@ public class SelectImplementation<R>  extends CancelHandler implements kotlinx.c
         obj2 = SelectImplementation.access$getState$FU$p().get(obj3);
         i = 0;
         while (obj2 == SelectKt.access$getSTATE_REG$p()) {
-            $i$f$suspendCancellableCoroutine = $i$f$suspendCancellableCoroutine3;
-            $i$f$suspendCancellableCoroutine3 = $i$f$suspendCancellableCoroutine;
+            $i$f$suspendCancellableCoroutine3 = $i$f$suspendCancellableCoroutine2;
+            $i$f$suspendCancellableCoroutine2 = $i$f$suspendCancellableCoroutine3;
             obj2 = field.get(obj3);
             i = 0;
             if (AbstractResolvableFuture.SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(SelectImplementation.access$getState$FU$p(), obj3, obj2, SelectKt.access$getSTATE_REG$p())) {
             } else {
             }
-            $i$f$suspendCancellableCoroutine = $i$f$suspendCancellableCoroutine3;
+            $i$f$suspendCancellableCoroutine3 = $i$f$suspendCancellableCoroutine2;
             Object obj5 = obj2;
             symbol = 0;
             iterator = (Iterable)obj2.iterator();
             for (Object next : iterator) {
-                i2 = 0;
+                i3 = 0;
                 SelectImplementation.access$reregisterClause(obj3, next);
-                $i$f$suspendCancellableCoroutine3 = $i$f$suspendCancellableCoroutine;
+                $i$f$suspendCancellableCoroutine2 = $i$f$suspendCancellableCoroutine3;
             }
-            $i$f$suspendCancellableCoroutine = $i$f$suspendCancellableCoroutine3;
-            i2 = 0;
+            $i$f$suspendCancellableCoroutine3 = $i$f$suspendCancellableCoroutine2;
+            i3 = 0;
             SelectImplementation.access$reregisterClause(obj3, iterator.next());
-            $i$f$suspendCancellableCoroutine3 = $i$f$suspendCancellableCoroutine;
+            $i$f$suspendCancellableCoroutine2 = $i$f$suspendCancellableCoroutine3;
         }
-        i3 = 0;
+        i2 = 0;
         cancellableContinuationImpl2.invokeOnCancellation((Function1)(CancelHandlerBase)obj3);
-        $i$f$suspendCancellableCoroutine2 = $i$f$suspendCancellableCoroutine3;
+        $i$f$suspendCancellableCoroutine = $i$f$suspendCancellableCoroutine2;
         Object result = cancellableContinuationImpl.getResult();
         if (result == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
             DebugProbesKt.probeCoroutineSuspended($completion);

@@ -53,14 +53,14 @@ public abstract class MapLikeSerializer<Key, Value, Collection, Builder extends 
     }
 
     protected final void readAll(CompositeDecoder decoder, Builder builder, int startIndex, int size) {
-        int i;
-        int index;
         int i2;
+        int index;
+        int i;
         Intrinsics.checkNotNullParameter(decoder, "decoder");
         Intrinsics.checkNotNullParameter(builder, "builder");
         int i3 = 0;
-        i = size >= 0 ? 1 : i3;
-        if (i == 0) {
+        i2 = size >= 0 ? 1 : i3;
+        if (i2 == 0) {
         } else {
             IntProgression step = RangesKt.step((IntProgression)RangesKt.until(i3, size * 2), 2);
             index = step.getFirst();
@@ -77,8 +77,8 @@ public abstract class MapLikeSerializer<Key, Value, Collection, Builder extends 
             }
         }
         int i4 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Size must be known in advance when using READ_ALL".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMapLikeSerializer$readAll$1 = new IllegalArgumentException("Size must be known in advance when using READ_ALL".toString());
+        throw $i$a$RequireMapLikeSerializer$readAll$1;
     }
 
     @Override // kotlinx.serialization.internal.AbstractCollectionSerializer
@@ -130,21 +130,21 @@ public abstract class MapLikeSerializer<Key, Value, Collection, Builder extends 
 
     public void serialize(Encoder encoder, Collection value) {
         Object k;
-        Object obj;
-        int collectionSize;
         Object obj2;
+        int collectionSize;
+        Object obj;
         int i3;
         Object next;
         Object value2;
-        int i;
         int i2;
+        int i;
         KSerializer keySerializer;
         k = this;
-        obj = value;
+        obj2 = value;
         Intrinsics.checkNotNullParameter(encoder, "encoder");
         final SerialDescriptor descriptor3 = k.getDescriptor();
         final int i4 = 0;
-        final CompositeEncoder beginCollection = encoder.beginCollection(descriptor3, k.collectionSize(obj));
+        final CompositeEncoder beginCollection = encoder.beginCollection(descriptor3, k.collectionSize(obj2));
         final CompositeEncoder compositeEncoder = beginCollection;
         final int i5 = 0;
         i3 = 0;
@@ -152,15 +152,15 @@ public abstract class MapLikeSerializer<Key, Value, Collection, Builder extends 
         final int i6 = 0;
         for (Object next : it) {
             Object obj4 = next;
-            i = 0;
+            i2 = 0;
             int size = i3 + 1;
             compositeEncoder.encodeSerializableElement(getDescriptor(), i3, (SerializationStrategy)getKeySerializer(), (Map.Entry)obj4.getKey());
             i3 = size + 1;
             compositeEncoder.encodeSerializableElement(getDescriptor(), size, (SerializationStrategy)getValueSerializer(), obj4.getValue());
             k = this;
-            obj2 = encoder;
-            obj = value;
-            collectionSize = i2;
+            obj = encoder;
+            obj2 = value;
+            collectionSize = i;
         }
         beginCollection.endStructure(descriptor3);
     }

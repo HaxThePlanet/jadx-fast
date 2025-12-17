@@ -19,42 +19,42 @@ public final class LazyLayoutPinnableItemKt {
     public static final void LazyLayoutPinnableItem(Object key, int index, androidx.compose.foundation.lazy.layout.LazyLayoutPinnedItemList pinnedItemList, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int invalid$iv;
         int $dirty;
-        int i4;
-        int i7;
-        int i6;
+        int i2;
         int i;
+        int i5;
+        int i3;
         int traceInProgress2;
         boolean traceInProgress;
         int str;
         Object key2;
-        int i2;
-        int i5;
+        int i4;
+        int i7;
         Object rememberedValue;
         Object obj2;
-        int i8;
+        int i6;
         Object obj;
         Object empty;
-        int i3;
+        int i8;
         Object lazyLayoutPinnableItem;
         Object anon;
         invalid$iv = -2079116560;
         final Composer obj13 = $composer.startRestartGroup(invalid$iv);
         ComposerKt.sourceInformation(obj13, "C(LazyLayoutPinnableItem)P(2,1,3)53@2119L77,55@2294L7,56@2337L43,56@2306L74,57@2385L103:LazyLayoutPinnableItem.kt#wow0x6");
         if ($changed & 6 == 0) {
-            i4 = obj13.changedInstance(key) ? 4 : 2;
-            $dirty |= i4;
+            i2 = obj13.changedInstance(key) ? 4 : 2;
+            $dirty |= i2;
         }
         if ($changed & 48 == 0) {
-            i7 = obj13.changed(index) ? 32 : 16;
-            $dirty |= i7;
+            i = obj13.changed(index) ? 32 : 16;
+            $dirty |= i;
         }
         if ($changed & 384 == 0) {
-            i6 = obj13.changedInstance(pinnedItemList) ? 256 : 128;
-            $dirty |= i6;
+            i5 = obj13.changedInstance(pinnedItemList) ? 256 : 128;
+            $dirty |= i5;
         }
         if ($changed & 3072 == 0) {
-            i = obj13.changedInstance(content) ? 2048 : 1024;
-            $dirty |= i;
+            i3 = obj13.changedInstance(content) ? 2048 : 1024;
+            $dirty |= i3;
         }
         if ($dirty & 1171 == 1170) {
             if (!obj13.getSkipping()) {
@@ -89,7 +89,7 @@ public final class LazyLayoutPinnableItemKt {
                 Composer composer2 = obj13;
                 int i15 = 0;
                 rememberedValue = composer2.rememberedValue();
-                i8 = 0;
+                i6 = 0;
                 if (!obj13.changed(invalid$iv)) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
@@ -102,7 +102,7 @@ public final class LazyLayoutPinnableItemKt {
                 }
                 ComposerKt.sourceInformationMarkerEnd(obj13);
                 EffectsKt.DisposableEffect(invalid$iv, (Function1)anon, obj13, 0);
-                CompositionLocalKt.CompositionLocalProvider(PinnableContainerKt.getLocalPinnableContainer().provides(invalid$iv), content, obj13, $stable |= i2);
+                CompositionLocalKt.CompositionLocalProvider(PinnableContainerKt.getLocalPinnableContainer().provides(invalid$iv), content, obj13, $stable |= i4);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -117,10 +117,10 @@ public final class LazyLayoutPinnableItemKt {
             endRestartGroup.updateScope((Function2)traceInProgress2);
         } else {
             key2 = key;
-            i5 = index;
+            i7 = index;
             obj2 = pinnedItemList;
             obj = content;
-            i3 = $changed;
+            i8 = $changed;
         }
     }
 }

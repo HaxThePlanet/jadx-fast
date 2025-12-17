@@ -94,30 +94,30 @@ public final class BitVector {
     }
 
     public final void set(int index, boolean value) {
+        int i3;
         int i;
-        int i2;
         long[] $this$set_u24lambda_u241;
-        int i4;
+        int i2;
         int copyOf;
         long[] lArr;
-        int i3;
+        int i4;
         int i10 = 1;
         if (index < 64) {
             int i6 = i10 << index;
             long first = this.first;
-            i = value != null ? first | i6 : first & i4;
-            this.first = i;
+            i3 = value != null ? first | i6 : first & i2;
+            this.first = i3;
         }
         if (index < 128) {
             int i8 = i10 << i7;
             long second = this.second;
-            i2 = value != null ? second | i8 : second & i4;
-            this.second = i2;
+            i = value != null ? second | i8 : second & i2;
+            this.second = i;
         }
         mask2 += -2;
         i10 <<= i12;
         if (this.others == null) {
-            i4 = 0;
+            i2 = 0;
             lArr = new long[i9 + 1];
             obj.others = lArr;
             $this$set_u24lambda_u241 = lArr;
@@ -128,8 +128,8 @@ public final class BitVector {
             this.others = copyOf;
         }
         long l = $this$set_u24lambda_u241[i9];
-        i3 = value != null ? l | i11 : i15 & l;
-        $this$set_u24lambda_u241[i9] = i3;
+        i4 = value != null ? l | i11 : i15 & l;
+        $this$set_u24lambda_u241[i9] = i4;
     }
 
     public final void setRange(int start, int end) {

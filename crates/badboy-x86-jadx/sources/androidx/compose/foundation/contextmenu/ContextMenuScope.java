@@ -48,33 +48,33 @@ public final class ContextMenuScope {
     }
 
     public final void Content$foundation_release(androidx.compose.foundation.contextmenu.ContextMenuColors colors, Composer $composer, int $changed) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
-        int i;
         int i3;
+        int i;
         int skipping;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int index$iv;
         int size;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i2;
         Integer valueOf;
-        traceInProgress = 1320309496;
-        final Composer obj11 = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = 1320309496;
+        final Composer obj11 = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(obj11, "C(Content)*234@8533L18:ContextMenuUi.android.kt#3xeu6s");
         if ($changed & 6 == 0) {
-            i = obj11.changed(colors) ? 4 : 2;
-            $dirty |= i;
+            i3 = obj11.changed(colors) ? 4 : 2;
+            $dirty |= i3;
         }
         if ($changed & 48 == 0) {
-            i3 = obj11.changed(this) ? 32 : 16;
-            $dirty |= i3;
+            i = obj11.changed(this) ? 32 : 16;
+            $dirty |= i;
         }
         if ($dirty & 19 == 18) {
             if (!obj11.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.foundation.contextmenu.ContextMenuScope.Content (ContextMenuUi.android.kt:233)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.foundation.contextmenu.ContextMenuScope.Content (ContextMenuUi.android.kt:233)");
                 }
                 SnapshotStateList composables = this.composables;
                 skipping = 0;

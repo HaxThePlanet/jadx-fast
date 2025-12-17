@@ -37,17 +37,17 @@ public final class TextLayoutStateKt {
 
     public static final long fromDecorationToTextLayout-Uv8p0NA(androidx.compose.foundation.text.input.internal.TextLayoutState $this$fromDecorationToTextLayout_u2dUv8p0NA, long offset) {
         long unbox-impl;
-        int i;
-        int box-impl;
         int i2;
+        int box-impl;
+        int i;
         long localPositionOf-R5De75A;
         boolean attached;
         LayoutCoordinates textLayoutNodeCoordinates = $this$fromDecorationToTextLayout_u2dUv8p0NA.getTextLayoutNodeCoordinates();
         if (textLayoutNodeCoordinates != null) {
-            i = 0;
+            i2 = 0;
             LayoutCoordinates decoratorNodeCoordinates = $this$fromDecorationToTextLayout_u2dUv8p0NA.getDecoratorNodeCoordinates();
             if (decoratorNodeCoordinates != null) {
-                i2 = 0;
+                i = 0;
                 if (textLayoutNodeCoordinates.isAttached() && decoratorNodeCoordinates.isAttached()) {
                     if (decoratorNodeCoordinates.isAttached()) {
                         localPositionOf-R5De75A = textLayoutNodeCoordinates.localPositionOf-R5De75A(decoratorNodeCoordinates, offset);
@@ -73,36 +73,36 @@ public final class TextLayoutStateKt {
     public static final long fromTextLayoutToCore-Uv8p0NA(androidx.compose.foundation.text.input.internal.TextLayoutState $this$fromTextLayoutToCore_u2dUv8p0NA, long offset) {
         LayoutCoordinates textLayoutNodeCoordinates;
         long unbox-impl;
-        boolean it2;
-        int box-impl;
-        LayoutCoordinates coreNodeCoordinates;
         boolean it;
+        int $i$a$TakeIfTextLayoutStateKt$fromTextLayoutToCore$1;
+        LayoutCoordinates coreNodeCoordinates;
+        boolean it2;
         int i;
         textLayoutNodeCoordinates = $this$fromTextLayoutToCore_u2dUv8p0NA.getTextLayoutNodeCoordinates();
         if (textLayoutNodeCoordinates != null) {
             int i2 = 0;
-            box-impl = 0;
+            $i$a$TakeIfTextLayoutStateKt$fromTextLayoutToCore$1 = 0;
             if (textLayoutNodeCoordinates.isAttached()) {
             } else {
-                textLayoutNodeCoordinates = box-impl;
+                textLayoutNodeCoordinates = $i$a$TakeIfTextLayoutStateKt$fromTextLayoutToCore$1;
             }
             if (textLayoutNodeCoordinates != 0) {
-                it2 = 0;
+                it = 0;
                 coreNodeCoordinates = $this$fromTextLayoutToCore_u2dUv8p0NA.getCoreNodeCoordinates();
                 if (coreNodeCoordinates != null) {
                     i = 0;
                     if (coreNodeCoordinates.isAttached()) {
                     } else {
-                        coreNodeCoordinates = box-impl;
+                        coreNodeCoordinates = $i$a$TakeIfTextLayoutStateKt$fromTextLayoutToCore$1;
                     }
                     if (coreNodeCoordinates != null) {
-                        box-impl = Offset.box-impl(coreNodeCoordinates.localPositionOf-R5De75A(textLayoutNodeCoordinates, offset));
+                        $i$a$TakeIfTextLayoutStateKt$fromTextLayoutToCore$1 = Offset.box-impl(coreNodeCoordinates.localPositionOf-R5De75A(textLayoutNodeCoordinates, offset));
                     } else {
                     }
                 } else {
                 }
-                if (box-impl != 0) {
-                    unbox-impl = box-impl.unbox-impl();
+                if ($i$a$TakeIfTextLayoutStateKt$fromTextLayoutToCore$1 != 0) {
+                    unbox-impl = $i$a$TakeIfTextLayoutStateKt$fromTextLayoutToCore$1.unbox-impl();
                 } else {
                     unbox-impl = offset;
                 }

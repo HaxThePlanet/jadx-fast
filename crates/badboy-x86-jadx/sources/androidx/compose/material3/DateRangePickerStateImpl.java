@@ -122,8 +122,8 @@ final class DateRangePickerStateImpl extends androidx.compose.material3.BaseDate
             }
             int i5 = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException(stringBuilder.append("The provided start date year (").append(utcTimeMillis.getYear()).append(str).append(getYearRange()).append(i2).toString().toString());
-            throw illegalArgumentException3;
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("The provided start date year (").append(utcTimeMillis.getYear()).append(str).append(getYearRange()).append(i2).toString().toString());
+            throw illegalArgumentException;
         }
         if (canonicalDate != null) {
             utcTimeMillis = canonicalDate;
@@ -133,8 +133,8 @@ final class DateRangePickerStateImpl extends androidx.compose.material3.BaseDate
             }
             int i6 = 0;
             StringBuilder stringBuilder2 = new StringBuilder();
-            IllegalArgumentException illegalArgumentException4 = new IllegalArgumentException(stringBuilder2.append("The provided end date year (").append(utcTimeMillis.getYear()).append(str).append(getYearRange()).append(i2).toString().toString());
-            throw illegalArgumentException4;
+            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(stringBuilder2.append("The provided end date year (").append(utcTimeMillis.getYear()).append(str).append(getYearRange()).append(i2).toString().toString());
+            throw illegalArgumentException2;
         }
         if (canonicalDate != null) {
             if (canonicalDate2 == null) {
@@ -144,12 +144,12 @@ final class DateRangePickerStateImpl extends androidx.compose.material3.BaseDate
                 } else {
                 }
                 int i4 = 0;
-                IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("The provided end date appears before the start date.".toString());
-                throw illegalArgumentException2;
+                IllegalArgumentException $i$a$RequireDateRangePickerStateImpl$setSelection$4 = new IllegalArgumentException("The provided end date appears before the start date.".toString());
+                throw $i$a$RequireDateRangePickerStateImpl$setSelection$4;
             }
             int i3 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("An end date was provided without a start date.".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireNotNullDateRangePickerStateImpl$setSelection$3 = new IllegalArgumentException("An end date was provided without a start date.".toString());
+            throw $i$a$RequireNotNullDateRangePickerStateImpl$setSelection$3;
         }
         this._selectedStartDate.setValue(canonicalDate2);
         this._selectedEndDate.setValue(canonicalDate);

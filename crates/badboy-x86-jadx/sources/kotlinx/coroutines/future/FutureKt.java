@@ -75,8 +75,8 @@ public final class FutureKt {
     }
 
     public static final <T> Object await(CompletionStage<T> $this$await, Continuation<? super T> $completion) {
-        Throwable th2;
         Throwable th;
+        Throwable th2;
         final CompletableFuture completableFuture = $this$await.toCompletableFuture();
         if (completableFuture.isDone()) {
             return completableFuture.get();

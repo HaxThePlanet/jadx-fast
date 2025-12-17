@@ -41,324 +41,324 @@ public final class TabRowKt {
     }
 
     public static final void PrimaryScrollableTabRow-qhFBPw4(int selectedTabIndex, Modifier modifier, ScrollState scrollState, long containerColor, long contentColor, float edgePadding, Function3<? super androidx.compose.material3.TabIndicatorScope, ? super Composer, ? super Integer, Unit> indicator, Function2<? super Composer, ? super Integer, Unit> divider, Function2<? super Composer, ? super Integer, Unit> tabs, Composer $composer, int $changed, int i12) {
-        int traceInProgress2;
+        int traceInProgress;
         Object endRestartGroup;
-        Object obj3;
-        Object obj7;
         Object obj2;
+        Object obj8;
+        Object obj6;
         int indicator4;
         int defaultsInvalid;
         int rememberScrollState;
         int scrollState2;
         int scrollableTabRowEdgeStartPadding-D9Ej5fM;
-        Object indicator3;
-        int $dirty2;
-        long $dirty;
-        Object containerColor3;
-        int i6;
+        Object indicator2;
+        int $dirty;
+        long $dirty2;
+        Object containerColor2;
+        int i3;
         int lambda-4$material3_release;
-        Object obj6;
-        Object obj8;
+        Object obj3;
+        Object obj4;
         long modifier2;
         long contentColor2;
-        int i10;
-        Object obj4;
+        int i14;
+        Object obj;
         int changed;
         long primaryContainerColor;
-        float containerColor2;
+        float containerColor3;
         long edgePadding2;
         Object obj5;
-        int changed3;
+        int changed2;
         long primaryContentColor;
         androidx.compose.runtime.internal.ComposableLambda contentColor3;
-        float indicator2;
-        Object obj;
+        float indicator3;
+        Object obj7;
         androidx.compose.runtime.internal.ComposableLambda divider2;
-        int changed2;
-        int i14;
-        boolean traceInProgress;
+        int changed3;
+        int i6;
+        boolean traceInProgress2;
         Function2 function2;
         Composer restartGroup;
         float str;
-        int i4;
-        int i9;
-        int i5;
-        int i13;
+        int i7;
+        int i8;
         int i;
-        int i2;
+        int i9;
+        int i10;
+        int i4;
         Composer composer;
         int i11;
-        int i8;
-        int i7;
-        int i3;
+        int i13;
+        int i5;
+        int i2;
         long l;
         int obj32;
-        traceInProgress2 = selectedTabIndex;
-        i4 = obj33;
-        i9 = obj34;
+        traceInProgress = selectedTabIndex;
+        i7 = obj33;
+        i8 = obj34;
         restartGroup = i12.startRestartGroup(-1763241113);
         ComposerKt.sourceInformation(restartGroup, "C(PrimaryScrollableTabRow)P(7,5,6,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3:c#ui.unit.Dp,4)357@18289L21,358@18355L21,359@18419L19,362@18589L198,371@18905L328:TabRow.kt#uh7d8r");
-        $dirty2 = obj33;
-        if (i9 & 1 != 0) {
-            $dirty2 |= 6;
+        $dirty = obj33;
+        if (i8 & 1 != 0) {
+            $dirty |= 6;
         } else {
-            if (i4 & 6 == 0) {
-                i6 = restartGroup.changed(traceInProgress2) ? 4 : 2;
-                $dirty2 |= i6;
+            if (i7 & 6 == 0) {
+                i3 = restartGroup.changed(traceInProgress) ? 4 : 2;
+                $dirty |= i3;
             }
         }
-        int i33 = i9 & 2;
+        int i33 = i8 & 2;
         if (i33 != 0) {
-            $dirty2 |= 48;
-            obj8 = modifier;
+            $dirty |= 48;
+            obj4 = modifier;
         } else {
-            if (i4 & 48 == 0) {
-                i10 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i10;
+            if (i7 & 48 == 0) {
+                i14 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i14;
             } else {
-                obj8 = modifier;
+                obj4 = modifier;
             }
         }
-        if (i4 & 384 == 0) {
-            if (i9 & 4 == 0) {
+        if (i7 & 384 == 0) {
+            if (i8 & 4 == 0) {
                 changed = restartGroup.changed(scrollState) ? 256 : 128;
             } else {
-                obj4 = scrollState;
+                obj = scrollState;
             }
-            $dirty2 |= changed;
+            $dirty |= changed;
         } else {
-            obj4 = scrollState;
+            obj = scrollState;
         }
-        if (i4 & 3072 == 0) {
-            if (i9 & 8 == 0) {
-                changed3 = restartGroup.changed(containerColor) ? 2048 : 1024;
+        if (i7 & 3072 == 0) {
+            if (i8 & 8 == 0) {
+                changed2 = restartGroup.changed(containerColor) ? 2048 : 1024;
             } else {
                 primaryContainerColor = containerColor;
             }
-            $dirty2 |= changed3;
+            $dirty |= changed2;
         } else {
             primaryContainerColor = containerColor;
         }
-        if (i4 & 24576 == 0) {
-            if (i9 & 16 == 0) {
-                changed2 = restartGroup.changed(edgePadding) ? 16384 : 8192;
+        if (i7 & 24576 == 0) {
+            if (i8 & 16 == 0) {
+                changed3 = restartGroup.changed(edgePadding) ? 16384 : 8192;
             } else {
                 primaryContentColor = edgePadding;
             }
-            $dirty2 |= changed2;
+            $dirty |= changed3;
         } else {
             primaryContentColor = edgePadding;
         }
-        i14 = i9 & 32;
+        i6 = i8 & 32;
         int i58 = 196608;
-        if (i14 != 0) {
-            $dirty2 |= i58;
+        if (i6 != 0) {
+            $dirty |= i58;
             str = divider;
         } else {
-            if (i58 &= i4 == 0) {
-                i5 = restartGroup.changed(divider) ? 131072 : 65536;
-                $dirty2 |= i5;
+            if (i58 &= i7 == 0) {
+                i = restartGroup.changed(divider) ? 131072 : 65536;
+                $dirty |= i;
             } else {
                 str = divider;
             }
         }
-        i13 = i9 & 64;
-        i2 = 1572864;
-        if (i13 != 0) {
-            $dirty2 |= i2;
-            obj3 = tabs;
+        i9 = i8 & 64;
+        i4 = 1572864;
+        if (i9 != 0) {
+            $dirty |= i4;
+            obj2 = tabs;
         } else {
-            if (i4 & i2 == 0) {
+            if (i7 & i4 == 0) {
                 i11 = restartGroup.changedInstance(tabs) ? 1048576 : 524288;
-                $dirty2 |= i11;
+                $dirty |= i11;
             } else {
-                obj3 = tabs;
+                obj2 = tabs;
             }
         }
-        int i25 = i9 & 128;
+        int i25 = i8 & 128;
         int i62 = 12582912;
         if (i25 != 0) {
-            $dirty2 |= i62;
-            i8 = i25;
-            obj7 = $composer;
+            $dirty |= i62;
+            i13 = i25;
+            obj8 = $composer;
         } else {
-            if (i4 & i62 == 0) {
-                i8 = i25;
-                i7 = restartGroup.changedInstance($composer) ? 8388608 : 4194304;
-                $dirty2 |= i7;
+            if (i7 & i62 == 0) {
+                i13 = i25;
+                i5 = restartGroup.changedInstance($composer) ? 8388608 : 4194304;
+                $dirty |= i5;
             } else {
-                i8 = i25;
-                obj7 = $composer;
+                i13 = i25;
+                obj8 = $composer;
             }
         }
-        i3 = 100663296;
-        if (i9 & 256 != 0) {
-            $dirty2 |= i3;
-            obj2 = $changed;
+        i2 = 100663296;
+        if (i8 & 256 != 0) {
+            $dirty |= i2;
+            obj6 = $changed;
         } else {
-            if (i4 & i3 == 0) {
-                i3 = restartGroup.changedInstance($changed) ? 67108864 : 33554432;
-                $dirty2 |= i3;
+            if (i7 & i2 == 0) {
+                i2 = restartGroup.changedInstance($changed) ? 67108864 : 33554432;
+                $dirty |= i2;
             } else {
-                obj2 = $changed;
+                obj6 = $changed;
             }
         }
-        if ($dirty2 & i64 == 38347922) {
+        if ($dirty & i64 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 lambda-4$material3_release = -57345;
-                if (i4 & 1 != 0) {
+                if (i7 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i33 != 0) {
-                            obj8 = defaultsInvalid;
+                            obj4 = defaultsInvalid;
                         }
-                        if (i9 & 4 != 0) {
+                        if (i8 & 4 != 0) {
                             int i28 = 0;
-                            $dirty2 &= -897;
-                            obj4 = rememberScrollState;
+                            $dirty &= -897;
+                            obj = rememberScrollState;
                         }
                         lambda-4$material3_release = 6;
-                        if (i9 & 8 != 0) {
+                        if (i8 & 8 != 0) {
                             primaryContainerColor = TabRowDefaults.INSTANCE.getPrimaryContainerColor(restartGroup, lambda-4$material3_release);
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
-                        if (i9 & 16 != 0) {
+                        if (i8 & 16 != 0) {
                             primaryContentColor = TabRowDefaults.INSTANCE.getPrimaryContentColor(restartGroup, lambda-4$material3_release);
-                            $dirty2 &= obj32;
+                            $dirty &= obj32;
                         }
-                        if (i14 != 0) {
+                        if (i6 != 0) {
                             str = scrollableTabRowEdgeStartPadding-D9Ej5fM;
                         }
-                        if (i13 != 0) {
-                            TabRowKt.PrimaryScrollableTabRow.1 anon = new TabRowKt.PrimaryScrollableTabRow.1(traceInProgress2);
-                            indicator3 = ComposableLambdaKt.rememberComposableLambda(1601820568, true, anon, restartGroup, 54);
+                        if (i9 != 0) {
+                            TabRowKt.PrimaryScrollableTabRow.1 anon = new TabRowKt.PrimaryScrollableTabRow.1(traceInProgress);
+                            indicator2 = ComposableLambdaKt.rememberComposableLambda(1601820568, true, anon, restartGroup, 54);
                         } else {
-                            indicator3 = tabs;
+                            indicator2 = tabs;
                         }
-                        if (i8 != 0) {
-                            i = $dirty2;
-                            contentColor3 = indicator3;
-                            obj = lambda-4$material3_release;
-                            indicator4 = obj8;
-                            $dirty = primaryContainerColor;
-                            containerColor2 = str;
-                            obj5 = obj4;
+                        if (i13 != 0) {
+                            i10 = $dirty;
+                            contentColor3 = indicator2;
+                            obj7 = lambda-4$material3_release;
+                            indicator4 = obj4;
+                            $dirty2 = primaryContainerColor;
+                            containerColor3 = str;
+                            obj5 = obj;
                             modifier2 = l;
                         } else {
-                            i = $dirty2;
-                            $dirty = primaryContainerColor;
-                            containerColor2 = str;
-                            obj5 = obj4;
-                            obj = $composer;
-                            contentColor3 = indicator3;
-                            indicator4 = obj8;
+                            i10 = $dirty;
+                            $dirty2 = primaryContainerColor;
+                            containerColor3 = str;
+                            obj5 = obj;
+                            obj7 = $composer;
+                            contentColor3 = indicator2;
+                            indicator4 = obj4;
                             modifier2 = l;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        if (i9 & 4 != 0) {
-                            $dirty2 &= -897;
+                        if (i8 & 4 != 0) {
+                            $dirty &= -897;
                         }
-                        if (i9 & 8 != 0) {
-                            $dirty2 &= -7169;
+                        if (i8 & 8 != 0) {
+                            $dirty &= -7169;
                         }
-                        if (i9 & 16 != 0) {
-                            i = i32;
-                            indicator4 = obj8;
-                            $dirty = primaryContainerColor;
-                            containerColor2 = str;
-                            obj5 = obj4;
+                        if (i8 & 16 != 0) {
+                            i10 = i32;
+                            indicator4 = obj4;
+                            $dirty2 = primaryContainerColor;
+                            containerColor3 = str;
+                            obj5 = obj;
                             modifier2 = primaryContentColor;
                             contentColor3 = tabs;
-                            obj = $composer;
+                            obj7 = $composer;
                         } else {
-                            i = $dirty2;
-                            indicator4 = obj8;
-                            $dirty = primaryContainerColor;
-                            containerColor2 = str;
-                            obj5 = obj4;
+                            i10 = $dirty;
+                            indicator4 = obj4;
+                            $dirty2 = primaryContainerColor;
+                            containerColor3 = str;
+                            obj5 = obj;
                             modifier2 = primaryContentColor;
                             contentColor3 = tabs;
-                            obj = $composer;
+                            obj7 = $composer;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-1763241113, i, -1, "androidx.compose.material3.PrimaryScrollableTabRow (TabRow.kt:370)");
+                    ComposerKt.traceEventStart(-1763241113, i10, -1, "androidx.compose.material3.PrimaryScrollableTabRow (TabRow.kt:370)");
                 }
-                TabRowKt.ScrollableTabRowImpl-sKfQg0A(selectedTabIndex, indicator4, $dirty, lambda-4$material3_release, modifier2, obj4, containerColor2, obj5, contentColor3, obj, $changed);
+                TabRowKt.ScrollableTabRowImpl-sKfQg0A(selectedTabIndex, indicator4, $dirty2, lambda-4$material3_release, modifier2, obj, containerColor3, obj5, contentColor3, obj7, $changed);
                 composer = restartGroup;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                function2 = obj;
+                function2 = obj7;
                 divider2 = contentColor3;
-                indicator2 = containerColor2;
-                containerColor3 = indicator4;
-                obj6 = obj5;
+                indicator3 = containerColor3;
+                containerColor2 = indicator4;
+                obj3 = obj5;
                 edgePadding2 = modifier2;
                 contentColor2 = l;
             } else {
                 restartGroup.skipToGroupEnd();
                 function2 = $composer;
-                i = $dirty2;
-                containerColor3 = obj8;
-                obj6 = obj4;
+                i10 = $dirty;
+                containerColor2 = obj4;
+                obj3 = obj;
                 contentColor2 = primaryContainerColor;
                 edgePadding2 = primaryContentColor;
                 composer = restartGroup;
-                indicator2 = str;
+                indicator3 = str;
                 divider2 = tabs;
             }
         } else {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new TabRowKt.PrimaryScrollableTabRow.2(selectedTabIndex, containerColor3, obj6, contentColor2, obj4, edgePadding2, obj5, indicator2, divider2, function2, $changed, i4, i9);
+            endRestartGroup = new TabRowKt.PrimaryScrollableTabRow.2(selectedTabIndex, containerColor2, obj3, contentColor2, obj, edgePadding2, obj5, indicator3, divider2, function2, $changed, i7, i8);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
 
     public static final void PrimaryTabRow-pAZo6Ak(int selectedTabIndex, Modifier modifier, long containerColor, long contentColor, Function3<? super androidx.compose.material3.TabIndicatorScope, ? super Composer, ? super Integer, Unit> indicator, Function2<? super Composer, ? super Integer, Unit> divider, Function2<? super Composer, ? super Integer, Unit> tabs, Composer $composer, int $changed, int i10) {
-        int traceInProgress;
+        int traceInProgress2;
         int defaultsInvalid;
         int iNSTANCE;
         int rememberComposableLambda;
-        int i7;
-        int i8;
-        boolean traceInProgress2;
+        int i;
+        int i2;
+        boolean traceInProgress;
         Object $composer2;
         int $dirty;
         long $dirty2;
         int i6;
         int str;
-        Object obj7;
+        Object obj5;
         long l;
-        int i2;
+        int i4;
         long primaryContainerColor;
-        Object obj4;
+        Object obj;
         int changed;
         long primaryContentColor;
         Object obj6;
-        int i12;
+        int i5;
         int changed2;
-        int i9;
-        Object obj5;
+        int i3;
+        Object obj2;
         long indicator2;
         int containerColor2;
-        int i;
-        Object obj2;
-        int i5;
+        int i12;
         Object obj3;
+        int i9;
+        Object obj7;
         int i11;
-        Object i3;
-        Object obj;
-        Composer composer2;
+        Object i7;
+        Object obj4;
         Composer composer;
-        int i4;
-        i8 = selectedTabIndex;
+        Composer composer2;
+        int i8;
+        i2 = selectedTabIndex;
         final int i39 = obj31;
         Composer restartGroup = i10.startRestartGroup(-1884787284);
         ComposerKt.sourceInformation(restartGroup, "C(PrimaryTabRow)P(5,4,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3)154@7555L21,155@7619L19,156@7698L189,165@8005L76:TabRow.kt#uh7d8r");
@@ -367,20 +367,20 @@ public final class TabRowKt {
             $dirty |= 6;
         } else {
             if (i39 & 6 == 0) {
-                i6 = restartGroup.changed(i8) ? 4 : 2;
+                i6 = restartGroup.changed(i2) ? 4 : 2;
                 $dirty |= i6;
             }
         }
         int i32 = obj32 & 2;
         if (i32 != 0) {
             $dirty |= 48;
-            obj7 = modifier;
+            obj5 = modifier;
         } else {
             if (i39 & 48 == 0) {
-                i2 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i2;
+                i4 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i4;
             } else {
-                obj7 = modifier;
+                obj5 = modifier;
             }
         }
         if (i39 & 384 == 0) {
@@ -403,50 +403,50 @@ public final class TabRowKt {
         } else {
             primaryContentColor = indicator;
         }
-        i9 = obj32 & 16;
-        if (i9 != 0) {
+        i3 = obj32 & 16;
+        if (i3 != 0) {
             $dirty |= 24576;
-            obj5 = tabs;
+            obj2 = tabs;
         } else {
             if (i39 & 24576 == 0) {
-                i = restartGroup.changedInstance(tabs) ? 16384 : 8192;
-                $dirty |= i;
+                i12 = restartGroup.changedInstance(tabs) ? 16384 : 8192;
+                $dirty |= i12;
             } else {
-                obj5 = tabs;
+                obj2 = tabs;
             }
         }
         int i41 = obj32 & 32;
         int i42 = 196608;
         if (i41 != 0) {
             $dirty |= i42;
-            obj2 = $composer;
+            obj3 = $composer;
         } else {
             if (i42 &= i39 == 0) {
-                i5 = restartGroup.changedInstance($composer) ? 131072 : 65536;
-                $dirty |= i5;
+                i9 = restartGroup.changedInstance($composer) ? 131072 : 65536;
+                $dirty |= i9;
             } else {
-                obj2 = $composer;
+                obj3 = $composer;
             }
         }
         i11 = 1572864;
         if (obj32 & 64 != 0) {
             $dirty |= i11;
-            obj3 = $changed;
+            obj7 = $changed;
         } else {
             if (i39 & i11 == 0) {
                 i11 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
                 $dirty |= i11;
             } else {
-                obj3 = $changed;
+                obj7 = $changed;
             }
         }
-        if ($dirty & i3 == 599186) {
+        if ($dirty & i7 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i39 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i32 != 0) {
-                            obj7 = defaultsInvalid;
+                            obj5 = defaultsInvalid;
                         }
                         str = 6;
                         if (obj32 & 4 != 0) {
@@ -457,24 +457,24 @@ public final class TabRowKt {
                             primaryContentColor = TabRowDefaults.INSTANCE.getPrimaryContentColor(restartGroup, str);
                             $dirty &= -7169;
                         }
-                        if (i9 != 0) {
-                            TabRowKt.PrimaryTabRow.1 anon = new TabRowKt.PrimaryTabRow.1(i8);
-                            obj5 = rememberComposableLambda;
+                        if (i3 != 0) {
+                            TabRowKt.PrimaryTabRow.1 anon = new TabRowKt.PrimaryTabRow.1(i2);
+                            obj2 = rememberComposableLambda;
                         }
                         if (i41 != 0) {
-                            obj = lambda-1$material3_release;
-                            i9 = obj7;
-                            obj2 = primaryContentColor;
+                            obj4 = lambda-1$material3_release;
                             i3 = obj5;
-                            i7 = -1884787284;
+                            obj3 = primaryContentColor;
+                            i7 = obj2;
+                            i = -1884787284;
                             indicator2 = primaryContainerColor;
                         } else {
-                            i9 = obj7;
                             i3 = obj5;
-                            obj = obj2;
-                            i7 = -1884787284;
+                            i7 = obj2;
+                            obj4 = obj3;
+                            i = -1884787284;
                             indicator2 = primaryContainerColor;
-                            obj2 = primaryContentColor;
+                            obj3 = primaryContentColor;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -483,53 +483,53 @@ public final class TabRowKt {
                         }
                         if (obj32 & 8 != 0) {
                             $dirty = i16;
-                            i9 = obj7;
                             i3 = obj5;
-                            obj = obj2;
-                            i7 = -1884787284;
+                            i7 = obj2;
+                            obj4 = obj3;
+                            i = -1884787284;
                             indicator2 = primaryContainerColor;
-                            obj2 = primaryContentColor;
+                            obj3 = primaryContentColor;
                         } else {
-                            i9 = obj7;
                             i3 = obj5;
-                            obj = obj2;
-                            i7 = -1884787284;
+                            i7 = obj2;
+                            obj4 = obj3;
+                            i = -1884787284;
                             indicator2 = primaryContainerColor;
-                            obj2 = primaryContentColor;
+                            obj3 = primaryContentColor;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i7, $dirty, -1, "androidx.compose.material3.PrimaryTabRow (TabRow.kt:164)");
+                    ComposerKt.traceEventStart(i, $dirty, -1, "androidx.compose.material3.PrimaryTabRow (TabRow.kt:164)");
                 }
-                TabRowKt.TabRowImpl-DTcfvLk(i9, indicator2, i41, obj2, obj3, i3, obj, $changed);
+                TabRowKt.TabRowImpl-DTcfvLk(i3, indicator2, i41, obj3, obj7, i7, obj4, $changed);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 containerColor2 = $dirty;
                 $dirty2 = l2;
-                $composer2 = i9;
-                l = obj2;
-                obj4 = i3;
-                obj6 = obj;
+                $composer2 = i3;
+                l = obj3;
+                obj = i7;
+                obj6 = obj4;
             } else {
                 restartGroup.skipToGroupEnd();
                 containerColor2 = $dirty;
                 $dirty2 = primaryContainerColor;
-                obj4 = obj9;
-                composer = restartGroup;
-                $composer2 = obj7;
+                obj = obj9;
+                composer2 = restartGroup;
+                $composer2 = obj5;
                 l = primaryContentColor;
-                obj6 = obj2;
+                obj6 = obj3;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TabRowKt.PrimaryTabRow.2(selectedTabIndex, $composer2, $dirty2, str, l, primaryContainerColor, obj4, obj6, $changed, i39, obj32);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new TabRowKt.PrimaryTabRow.2(selectedTabIndex, $composer2, $dirty2, str, l, primaryContainerColor, obj, obj6, $changed, i39, obj32);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -537,44 +537,44 @@ public final class TabRowKt {
         boolean traceInProgress;
         Object endRestartGroup;
         Object obj5;
-        Object obj4;
+        Object obj;
         Object skipping;
         int defaultsInvalid;
         int iNSTANCE;
         int rememberComposableLambda;
         int $dirty2;
         Object $dirty;
-        int i5;
+        int i;
         long l;
+        int i13;
+        Object obj2;
         int i12;
-        Object obj;
-        int i8;
         long primaryContainerColor;
         long containerColor2;
-        int changed2;
+        int changed;
         long primaryContentColor;
         float contentColor2;
         Object divider2;
-        Object obj2;
-        int changed;
+        Object obj3;
+        int changed2;
         Function2 function2;
-        int i13;
-        int i6;
+        int i3;
+        int i2;
         float rememberScrollState;
         boolean traceInProgress2;
         Composer restartGroup;
-        int i7;
-        int str;
-        Object obj3;
-        Composer composer;
-        int i9;
-        int i10;
-        int i2;
         int i4;
-        int i;
-        int i3;
+        int str;
+        Object obj4;
+        Composer composer;
+        int i7;
+        int i5;
+        int i8;
+        int i10;
+        int i6;
+        int i9;
         traceInProgress = selectedTabIndex;
-        i9 = obj30;
+        i7 = obj30;
         final int i54 = obj31;
         restartGroup = i11.startRestartGroup(-497821003);
         ComposerKt.sourceInformation(restartGroup, "C(ScrollableTabRow)P(6,5,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3:c#ui.unit.Dp,4)495@25349L21,496@25413L19,499@25596L164,516@26202L21,507@25878L351:TabRow.kt#uh7d8r");
@@ -582,51 +582,51 @@ public final class TabRowKt {
         if (i54 & 1 != 0) {
             $dirty2 |= 6;
         } else {
-            if (i9 & 6 == 0) {
-                i5 = restartGroup.changed(traceInProgress) ? 4 : 2;
-                $dirty2 |= i5;
+            if (i7 & 6 == 0) {
+                i = restartGroup.changed(traceInProgress) ? 4 : 2;
+                $dirty2 |= i;
             }
         }
         int i20 = i54 & 2;
         if (i20 != 0) {
             $dirty2 |= 48;
-            obj = modifier;
+            obj2 = modifier;
         } else {
-            if (i9 & 48 == 0) {
-                i8 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i8;
+            if (i7 & 48 == 0) {
+                i12 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i12;
             } else {
-                obj = modifier;
+                obj2 = modifier;
             }
         }
-        if (i9 & 384 == 0) {
+        if (i7 & 384 == 0) {
             if (i54 & 4 == 0) {
-                changed2 = restartGroup.changed(containerColor) ? 256 : 128;
+                changed = restartGroup.changed(containerColor) ? 256 : 128;
             } else {
                 primaryContainerColor = containerColor;
             }
-            $dirty2 |= changed2;
+            $dirty2 |= changed;
         } else {
             primaryContainerColor = containerColor;
         }
-        if (i9 & 3072 == 0) {
+        if (i7 & 3072 == 0) {
             if (i54 & 8 == 0) {
-                changed = restartGroup.changed(edgePadding) ? 2048 : 1024;
+                changed2 = restartGroup.changed(edgePadding) ? 2048 : 1024;
             } else {
                 primaryContentColor = edgePadding;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed2;
         } else {
             primaryContentColor = edgePadding;
         }
-        i6 = i54 & 16;
-        if (i6 != 0) {
+        i2 = i54 & 16;
+        if (i2 != 0) {
             $dirty2 |= 24576;
             rememberScrollState = divider;
         } else {
-            if (i9 & 24576 == 0) {
-                i7 = restartGroup.changed(divider) ? 16384 : 8192;
-                $dirty2 |= i7;
+            if (i7 & 24576 == 0) {
+                i4 = restartGroup.changed(divider) ? 16384 : 8192;
+                $dirty2 |= i4;
             } else {
                 rememberScrollState = divider;
             }
@@ -635,80 +635,80 @@ public final class TabRowKt {
         int i37 = 196608;
         if (str != null) {
             $dirty2 |= i37;
-            obj3 = tabs;
+            obj4 = tabs;
         } else {
-            if (i37 &= i9 == 0) {
-                i10 = restartGroup.changedInstance(tabs) ? 131072 : 65536;
-                $dirty2 |= i10;
+            if (i37 &= i7 == 0) {
+                i5 = restartGroup.changedInstance(tabs) ? 131072 : 65536;
+                $dirty2 |= i5;
             } else {
-                obj3 = tabs;
+                obj4 = tabs;
             }
         }
         int i55 = i54 & 64;
-        i4 = 1572864;
+        i10 = 1572864;
         if (i55 != 0) {
-            $dirty2 |= i4;
+            $dirty2 |= i10;
             obj5 = $composer;
         } else {
-            if (i9 & i4 == 0) {
-                i = restartGroup.changedInstance($composer) ? 1048576 : 524288;
-                $dirty2 |= i;
+            if (i7 & i10 == 0) {
+                i6 = restartGroup.changedInstance($composer) ? 1048576 : 524288;
+                $dirty2 |= i6;
             } else {
                 obj5 = $composer;
             }
         }
-        i3 = 12582912;
+        i9 = 12582912;
         if (i54 & 128 != 0) {
-            $dirty2 |= i3;
-            obj4 = $changed;
+            $dirty2 |= i9;
+            obj = $changed;
         } else {
-            if (i9 & i3 == 0) {
-                i3 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
-                $dirty2 |= i3;
+            if (i7 & i9 == 0) {
+                i9 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
+                $dirty2 |= i9;
             } else {
-                obj4 = $changed;
+                obj = $changed;
             }
         }
         if ($dirty2 & i58 == 4793490) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                if (i9 & 1 != 0) {
+                if (i7 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i20 != 0) {
-                            obj = defaultsInvalid;
+                            obj2 = defaultsInvalid;
                         }
-                        i12 = 6;
+                        i13 = 6;
                         if (i54 & 4 != 0) {
-                            primaryContainerColor = TabRowDefaults.INSTANCE.getPrimaryContainerColor(restartGroup, i12);
+                            primaryContainerColor = TabRowDefaults.INSTANCE.getPrimaryContainerColor(restartGroup, i13);
                             $dirty2 &= -897;
                         }
                         if (i54 & 8 != 0) {
-                            primaryContentColor = TabRowDefaults.INSTANCE.getPrimaryContentColor(restartGroup, i12);
+                            primaryContentColor = TabRowDefaults.INSTANCE.getPrimaryContentColor(restartGroup, i13);
                             $dirty2 &= -7169;
                         }
-                        if (i6 != 0) {
+                        if (i2 != 0) {
                             rememberScrollState = rememberComposableLambda;
                         }
                         if (str != null) {
                             TabRowKt.ScrollableTabRow.1 anon = new TabRowKt.ScrollableTabRow.1(traceInProgress);
-                            obj3 = rememberComposableLambda;
+                            obj4 = rememberComposableLambda;
                         }
                         if (i55 != 0) {
-                            i13 = $dirty2;
-                            $dirty = obj;
+                            i3 = $dirty2;
+                            $dirty = obj2;
                             l = primaryContainerColor;
                             containerColor2 = primaryContentColor;
                             contentColor2 = rememberScrollState;
-                            obj2 = lambda-6$material3_release;
-                            skipping = obj3;
+                            obj3 = lambda-6$material3_release;
+                            skipping = obj4;
                         } else {
-                            i13 = $dirty2;
-                            $dirty = obj;
+                            i3 = $dirty2;
+                            $dirty = obj2;
                             l = primaryContainerColor;
                             containerColor2 = primaryContentColor;
                             contentColor2 = rememberScrollState;
-                            skipping = obj3;
-                            obj2 = $composer;
+                            skipping = obj4;
+                            obj3 = $composer;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -716,54 +716,54 @@ public final class TabRowKt {
                             $dirty2 &= -897;
                         }
                         if (i54 & 8 != 0) {
-                            i13 = i19;
-                            $dirty = obj;
+                            i3 = i19;
+                            $dirty = obj2;
                             l = primaryContainerColor;
                             containerColor2 = primaryContentColor;
                             contentColor2 = rememberScrollState;
-                            skipping = obj3;
-                            obj2 = $composer;
+                            skipping = obj4;
+                            obj3 = $composer;
                         } else {
-                            i13 = $dirty2;
-                            $dirty = obj;
+                            i3 = $dirty2;
+                            $dirty = obj2;
                             l = primaryContainerColor;
                             containerColor2 = primaryContentColor;
                             contentColor2 = rememberScrollState;
-                            skipping = obj3;
-                            obj2 = $composer;
+                            skipping = obj4;
+                            obj3 = $composer;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-497821003, i13, -1, "androidx.compose.material3.ScrollableTabRow (TabRow.kt:506)");
+                    ComposerKt.traceEventStart(-497821003, i3, -1, "androidx.compose.material3.ScrollableTabRow (TabRow.kt:506)");
                 }
                 int i28 = 0;
-                i2 = i13;
-                TabRowKt.ScrollableTabRowWithSubcomposeImpl-qhFBPw4(traceInProgress, skipping, $dirty, l, obj, containerColor2, obj6, contentColor2, obj2, $changed, ScrollKt.rememberScrollState(i28, restartGroup, i28, 1), restartGroup);
+                i8 = i3;
+                TabRowKt.ScrollableTabRowWithSubcomposeImpl-qhFBPw4(traceInProgress, skipping, $dirty, l, obj2, containerColor2, obj6, contentColor2, obj3, $changed, ScrollKt.rememberScrollState(i28, restartGroup, i28, 1), restartGroup);
                 composer = restartGroup;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                function2 = obj2;
+                function2 = obj3;
                 divider2 = skipping;
             } else {
                 restartGroup.skipToGroupEnd();
                 function2 = $composer;
-                i2 = $dirty2;
-                $dirty = obj;
+                i8 = $dirty2;
+                $dirty = obj2;
                 l = primaryContainerColor;
                 containerColor2 = primaryContentColor;
                 contentColor2 = rememberScrollState;
-                divider2 = obj3;
+                divider2 = obj4;
                 composer = restartGroup;
             }
         } else {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new TabRowKt.ScrollableTabRow.2(selectedTabIndex, $dirty, l, obj, containerColor2, obj6, contentColor2, divider2, function2, $changed, i9, i54);
+            endRestartGroup = new TabRowKt.ScrollableTabRow.2(selectedTabIndex, $dirty, l, obj2, containerColor2, obj6, contentColor2, divider2, function2, $changed, i7, i54);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
@@ -772,106 +772,106 @@ public final class TabRowKt {
         boolean traceInProgress;
         boolean traceInProgress2;
         int restartGroup;
-        Object obj5;
-        int $dirty2;
-        int i;
-        int str;
-        int i12;
-        int i10;
-        long l2;
-        Function3 function3;
-        int i9;
-        long l;
-        Function2 function2;
-        int i14;
-        float f;
-        int i13;
-        int i5;
         Object obj2;
-        int i15;
-        Object obj3;
-        Object obj4;
         int $dirty;
         int i7;
-        Object obj;
+        int str;
         int i3;
-        int i8;
+        int i9;
         long l3;
-        int i2;
+        Function3 function3;
+        int i6;
+        long l;
+        Function2 function2;
+        int i13;
+        float f;
         int i16;
-        int i17;
+        int i4;
+        Object obj4;
+        int i8;
+        Object obj5;
+        Object obj;
+        int $dirty2;
+        int i10;
+        Object obj3;
+        int i14;
+        int i5;
+        long l2;
+        int i2;
         int i11;
+        int i12;
+        int i15;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i4;
-        int i6;
-        obj5 = modifier;
+        int i17;
+        int i;
+        obj2 = modifier;
         final int i33 = obj38;
         restartGroup = obj37.startRestartGroup(-1594140035);
         ComposerKt.sourceInformation(restartGroup, "C(ScrollableTabRowImpl)P(7,5,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3:c#ui.unit.Dp,6,4)709@32727L5081,699@32393L5415:TabRow.kt#uh7d8r");
         if (i33 & 6 == 0) {
-            i12 = restartGroup.changed(selectedTabIndex) ? 4 : 2;
-            $dirty2 |= i12;
+            i3 = restartGroup.changed(selectedTabIndex) ? 4 : 2;
+            $dirty |= i3;
         } else {
-            i = selectedTabIndex;
+            i7 = selectedTabIndex;
         }
         if (i33 & 48 == 0) {
-            i10 = restartGroup.changed(obj5) ? 32 : 16;
-            $dirty2 |= i10;
+            i9 = restartGroup.changed(obj2) ? 32 : 16;
+            $dirty |= i9;
         }
         if (i33 & 384 == 0) {
-            i9 = restartGroup.changed(containerColor) ? 256 : 128;
-            $dirty2 |= i9;
+            i6 = restartGroup.changed(containerColor) ? 256 : 128;
+            $dirty |= i6;
         } else {
-            l2 = containerColor;
+            l3 = containerColor;
         }
         if (i33 & 3072 == 0) {
-            i14 = restartGroup.changed(edgePadding) ? 2048 : 1024;
-            $dirty2 |= i14;
+            i13 = restartGroup.changed(edgePadding) ? 2048 : 1024;
+            $dirty |= i13;
         } else {
             l = edgePadding;
         }
         if (i33 & 24576 == 0) {
-            i13 = restartGroup.changed(indicator) ? 16384 : 8192;
-            $dirty2 |= i13;
+            i16 = restartGroup.changed(indicator) ? 16384 : 8192;
+            $dirty |= i16;
         } else {
             f = indicator;
         }
         if (i30 &= i33 == 0) {
-            i5 = restartGroup.changed(divider) ? 131072 : 65536;
-            $dirty2 |= i5;
+            i4 = restartGroup.changed(divider) ? 131072 : 65536;
+            $dirty |= i4;
         } else {
-            obj4 = divider;
+            obj = divider;
         }
         if (i31 &= i33 == 0) {
-            i15 = restartGroup.changedInstance(tabs) ? 1048576 : 524288;
-            $dirty2 |= i15;
+            i8 = restartGroup.changedInstance(tabs) ? 1048576 : 524288;
+            $dirty |= i8;
         } else {
-            obj2 = tabs;
+            obj4 = tabs;
         }
-        i17 = 12582912;
-        if (i33 & i17 == 0) {
-            i7 = restartGroup.changedInstance($composer) ? 8388608 : 4194304;
-            $dirty2 |= i7;
+        i12 = 12582912;
+        if (i33 & i12 == 0) {
+            i10 = restartGroup.changedInstance($composer) ? 8388608 : 4194304;
+            $dirty |= i10;
         } else {
-            obj3 = $composer;
+            obj5 = $composer;
         }
         if (i35 &= i33 == 0) {
-            i3 = restartGroup.changedInstance($changed) ? 67108864 : 33554432;
-            $dirty2 |= i3;
+            i14 = restartGroup.changedInstance($changed) ? 67108864 : 33554432;
+            $dirty |= i14;
         } else {
-            obj = $changed;
+            obj3 = $changed;
         }
-        if ($dirty2 & i8 == 38347922) {
+        if ($dirty & i5 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-1594140035, $dirty2, -1, "androidx.compose.material3.ScrollableTabRowImpl (TabRow.kt:698)");
+                    ComposerKt.traceEventStart(-1594140035, $dirty, -1, "androidx.compose.material3.ScrollableTabRowImpl (TabRow.kt:698)");
                 }
                 int i26 = 0;
                 i2 = selectedTabIndex;
-                i8 = $composer;
-                TabRowKt.ScrollableTabRowImpl.1 anon = new TabRowKt.ScrollableTabRowImpl.1(divider, $changed, i8, f, i2, obj2);
-                SurfaceKt.Surface-T9BRK9s(ClipKt.clipToBounds(SelectableGroupKt.selectableGroup(ScrollKt.horizontalScroll$default(SizeKt.wrapContentSize$default(SizeKt.fillMaxWidth$default(obj5, 0, 1, i26), Alignment.Companion.getCenterStart(), false, 2, i26), obj4, false, 0, false, 14, 0))), 0, containerColor, i8, l, i2, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(1556158104, true, anon, restartGroup, 54), restartGroup);
+                i5 = $composer;
+                TabRowKt.ScrollableTabRowImpl.1 anon = new TabRowKt.ScrollableTabRowImpl.1(divider, $changed, i5, f, i2, obj4);
+                SurfaceKt.Surface-T9BRK9s(ClipKt.clipToBounds(SelectableGroupKt.selectableGroup(ScrollKt.horizontalScroll$default(SizeKt.wrapContentSize$default(SizeKt.fillMaxWidth$default(obj2, 0, 1, i26), Alignment.Companion.getCenterStart(), false, 2, i26), obj, false, 0, false, 14, 0))), 0, containerColor, i5, l, i2, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(1556158104, true, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -883,17 +883,17 @@ public final class TabRowKt {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty = $dirty2;
-            traceInProgress = new TabRowKt.ScrollableTabRowImpl.2(selectedTabIndex, modifier, containerColor, i, edgePadding, l2, indicator, divider, tabs, $composer, $changed, i33);
+            $dirty2 = $dirty;
+            traceInProgress = new TabRowKt.ScrollableTabRowImpl.2(selectedTabIndex, modifier, containerColor, i7, edgePadding, l3, indicator, divider, tabs, $composer, $changed, i33);
             endRestartGroup.updateScope((Function2)traceInProgress);
         } else {
-            $dirty = $dirty2;
+            $dirty2 = $dirty;
         }
     }
 
     private static final void ScrollableTabRowWithSubcomposeImpl-qhFBPw4(int selectedTabIndex, Function3<? super List<androidx.compose.material3.TabPosition>, ? super Composer, ? super Integer, Unit> indicator, Modifier modifier, long containerColor, long contentColor, float edgePadding, Function2<? super Composer, ? super Integer, Unit> divider, Function2<? super Composer, ? super Integer, Unit> tabs, ScrollState scrollState, Composer $composer, int $changed, int i12) {
-        Object obj6;
-        Object obj3;
+        Object obj;
+        Object obj2;
         Object obj4;
         boolean traceInProgress;
         int defaultsInvalid;
@@ -901,48 +901,48 @@ public final class TabRowKt {
         int scrollableTabRowEdgeStartPadding-D9Ej5fM;
         float f;
         Composer restartGroup;
-        int $dirty2;
-        Object $dirty;
-        int i16;
-        Object $dirty3;
-        int i21;
-        int i22;
-        Object obj2;
-        long divider2;
-        int i4;
+        int $dirty;
+        Object $dirty2;
         int i20;
-        int i2;
+        Object $dirty3;
+        int i8;
+        int i13;
+        Object obj3;
+        long divider2;
+        int i10;
+        int i6;
+        int i22;
         Object obj5;
         long l;
         int modifier3;
-        int i15;
+        int i4;
         long primaryContainerColor;
         boolean traceInProgress2;
         float f3;
         String str;
         int changed;
         long primaryContentColor;
-        Object obj;
-        int i9;
+        Object obj6;
+        int i15;
         int changed2;
-        int i8;
+        int i9;
         float f2;
         int modifier2;
         Object edgePadding2;
-        int i10;
-        int i6;
-        int i5;
-        int i7;
-        int i;
-        int i11;
-        int i13;
-        int i17;
+        int i16;
         int i14;
+        int i5;
+        int i;
+        int i7;
+        int i2;
+        int i11;
+        int i17;
+        int i21;
         int i19;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i18;
         int i3;
+        int i18;
         Object obj29;
         ScrollState obj30;
         float obj31;
@@ -954,37 +954,37 @@ public final class TabRowKt {
         final int i54 = obj40;
         restartGroup = i12.startRestartGroup(-955409947);
         ComposerKt.sourceInformation(restartGroup, "C(ScrollableTabRowWithSubcomposeImpl)P(7,4,5,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3:c#ui.unit.Dp!1,8)1008@43780L21,1009@43844L19,1015@44165L3880,1015@44083L3962:TabRow.kt#uh7d8r");
-        $dirty2 = obj39;
+        $dirty = obj39;
         if (i54 & 1 != 0) {
-            $dirty2 |= 6;
-            i16 = selectedTabIndex;
+            $dirty |= 6;
+            i20 = selectedTabIndex;
         } else {
             if (i53 & 6 == 0) {
-                i22 = restartGroup.changed(selectedTabIndex) ? 4 : 2;
-                $dirty2 |= i22;
+                i13 = restartGroup.changed(selectedTabIndex) ? 4 : 2;
+                $dirty |= i13;
             } else {
-                i16 = selectedTabIndex;
+                i20 = selectedTabIndex;
             }
         }
         if (i54 & 2 != 0) {
-            $dirty2 |= 48;
-            obj2 = indicator;
+            $dirty |= 48;
+            obj3 = indicator;
         } else {
             if (i53 & 48 == 0) {
-                i4 = restartGroup.changedInstance(indicator) ? 32 : 16;
-                $dirty2 |= i4;
+                i10 = restartGroup.changedInstance(indicator) ? 32 : 16;
+                $dirty |= i10;
             } else {
-                obj2 = indicator;
+                obj3 = indicator;
             }
         }
-        i20 = i54 & 4;
-        if (i20 != 0) {
-            $dirty2 |= 384;
+        i6 = i54 & 4;
+        if (i6 != 0) {
+            $dirty |= 384;
             obj5 = modifier;
         } else {
             if (i53 & 384 == 0) {
-                i15 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i15;
+                i4 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i4;
             } else {
                 obj5 = modifier;
             }
@@ -995,7 +995,7 @@ public final class TabRowKt {
             } else {
                 primaryContainerColor = containerColor;
             }
-            $dirty2 |= changed;
+            $dirty |= changed;
         } else {
             primaryContainerColor = containerColor;
         }
@@ -1005,96 +1005,96 @@ public final class TabRowKt {
             } else {
                 primaryContentColor = edgePadding;
             }
-            $dirty2 |= changed2;
+            $dirty |= changed2;
         } else {
             primaryContentColor = edgePadding;
         }
-        i8 = i54 & 32;
+        i9 = i54 & 32;
         int i55 = 196608;
-        if (i8 != 0) {
-            $dirty2 |= i55;
+        if (i9 != 0) {
+            $dirty |= i55;
             f2 = tabs;
         } else {
             if (i55 &= i53 == 0) {
-                i10 = restartGroup.changed(tabs) ? 131072 : 65536;
-                $dirty2 |= i10;
+                i16 = restartGroup.changed(tabs) ? 131072 : 65536;
+                $dirty |= i16;
             } else {
                 f2 = tabs;
             }
         }
-        i6 = i54 & 64;
+        i14 = i54 & 64;
         i5 = 1572864;
-        if (i6 != 0) {
-            $dirty2 |= i5;
-            obj6 = scrollState;
+        if (i14 != 0) {
+            $dirty |= i5;
+            obj = scrollState;
         } else {
             if (i53 & i5 == 0) {
-                i7 = restartGroup.changedInstance(scrollState) ? 1048576 : 524288;
-                $dirty2 |= i7;
+                i = restartGroup.changedInstance(scrollState) ? 1048576 : 524288;
+                $dirty |= i;
             } else {
-                obj6 = scrollState;
+                obj = scrollState;
             }
         }
         int i57 = 12582912;
         if (i54 & 128 != 0) {
-            $dirty2 |= i57;
-            obj3 = $composer;
+            $dirty |= i57;
+            obj2 = $composer;
         } else {
             if (i53 & i57 == 0) {
-                i = restartGroup.changedInstance($composer) ? 8388608 : 4194304;
-                $dirty2 |= i;
+                i7 = restartGroup.changedInstance($composer) ? 8388608 : 4194304;
+                $dirty |= i7;
             } else {
-                obj3 = $composer;
+                obj2 = $composer;
             }
         }
-        i11 = 100663296;
+        i2 = 100663296;
         if (i54 & 256 != 0) {
-            $dirty2 |= i11;
+            $dirty |= i2;
             obj4 = $changed;
         } else {
-            if (i53 & i11 == 0) {
-                i11 = restartGroup.changed($changed) ? 67108864 : 33554432;
-                $dirty2 |= i11;
+            if (i53 & i2 == 0) {
+                i2 = restartGroup.changed($changed) ? 67108864 : 33554432;
+                $dirty |= i2;
             } else {
                 obj4 = $changed;
             }
         }
-        if ($dirty2 & i13 == 38347922) {
+        if ($dirty & i11 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i38 = -57345;
                 if (i53 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i20 != 0) {
+                        if (i6 != 0) {
                             obj5 = defaultsInvalid;
                         }
                         int i41 = 6;
                         if (i54 & 8 != 0) {
                             primaryContainerColor = TabRowDefaults.INSTANCE.getPrimaryContainerColor(restartGroup, i41);
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
                         if (i54 & 16 != 0) {
                             primaryContentColor = TabRowDefaults.INSTANCE.getPrimaryContentColor(restartGroup, i41);
-                            $dirty2 &= i38;
+                            $dirty &= i38;
                         }
-                        if (i8 != 0) {
+                        if (i9 != 0) {
                             f2 = scrollableTabRowEdgeStartPadding-D9Ej5fM;
                         }
-                        if (i6 != 0) {
-                            i21 = $dirty2;
-                            i13 = primaryContentColor;
-                            i2 = i57;
-                            $dirty = lambda-7$material3_release;
+                        if (i14 != 0) {
+                            i8 = $dirty;
+                            i11 = primaryContentColor;
+                            i22 = i57;
+                            $dirty2 = lambda-7$material3_release;
                             i5 = primaryContainerColor;
                             f = f2;
                             edgePadding2 = obj5;
                             modifier3 = -955409947;
                         } else {
-                            i21 = $dirty2;
-                            i13 = primaryContentColor;
+                            i8 = $dirty;
+                            i11 = primaryContentColor;
                             f = f2;
-                            i2 = i57;
-                            $dirty = scrollState;
+                            i22 = i57;
+                            $dirty2 = scrollState;
                             edgePadding2 = obj5;
                             i5 = primaryContainerColor;
                             modifier3 = -955409947;
@@ -1102,23 +1102,23 @@ public final class TabRowKt {
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i54 & 8 != 0) {
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
                         if (i54 & 16 != 0) {
-                            $dirty = scrollState;
-                            i21 = i30;
-                            i13 = primaryContentColor;
+                            $dirty2 = scrollState;
+                            i8 = i30;
+                            i11 = primaryContentColor;
                             f = f2;
-                            i2 = i57;
+                            i22 = i57;
                             edgePadding2 = obj5;
                             i5 = primaryContainerColor;
                             modifier3 = -955409947;
                         } else {
-                            i21 = $dirty2;
-                            i13 = primaryContentColor;
+                            i8 = $dirty;
+                            i11 = primaryContentColor;
                             f = f2;
-                            i2 = i57;
-                            $dirty = scrollState;
+                            i22 = i57;
+                            $dirty2 = scrollState;
                             edgePadding2 = obj5;
                             i5 = primaryContainerColor;
                             modifier3 = -955409947;
@@ -1128,22 +1128,22 @@ public final class TabRowKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(modifier3, i21, -1, "androidx.compose.material3.ScrollableTabRowWithSubcomposeImpl (TabRow.kt:1014)");
+                    ComposerKt.traceEventStart(modifier3, i8, -1, "androidx.compose.material3.ScrollableTabRowWithSubcomposeImpl (TabRow.kt:1014)");
                 }
                 obj31 = f;
-                obj33 = $dirty;
+                obj33 = $dirty2;
                 obj29 = anon2;
-                super($changed, obj31, $composer, obj33, obj2, selectedTabIndex);
-                SurfaceKt.Surface-T9BRK9s(edgePadding2, 0, i5, i57, i13, obj19, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-1572959552, true, obj29, restartGroup, 54), restartGroup);
+                super($changed, obj31, $composer, obj33, obj3, selectedTabIndex);
+                SurfaceKt.Surface-T9BRK9s(edgePadding2, 0, i5, i57, i11, obj19, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-1572959552, true, obj29, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                modifier2 = i21;
-                $dirty3 = i20;
-                f3 = $dirty2;
-                obj = function2;
+                modifier2 = i8;
+                $dirty3 = i6;
+                f3 = $dirty;
+                obj6 = function2;
                 divider2 = i5;
-                l = i13;
+                l = i11;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
@@ -1151,14 +1151,14 @@ public final class TabRowKt {
                 divider2 = primaryContainerColor;
                 l = primaryContentColor;
                 f3 = f2;
-                obj = scrollState;
-                modifier2 = $dirty2;
+                obj6 = scrollState;
+                modifier2 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TabRowKt.ScrollableTabRowWithSubcomposeImpl.2(selectedTabIndex, indicator, $dirty3, divider2, i20, l, primaryContainerColor, f3, obj, $composer, $changed, i53, i54);
+            traceInProgress = new TabRowKt.ScrollableTabRowWithSubcomposeImpl.2(selectedTabIndex, indicator, $dirty3, divider2, i6, l, primaryContainerColor, f3, obj6, $composer, $changed, i53, i54);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
@@ -1166,280 +1166,280 @@ public final class TabRowKt {
     public static final void SecondaryScrollableTabRow-qhFBPw4(int selectedTabIndex, Modifier modifier, ScrollState scrollState, long containerColor, long contentColor, float edgePadding, Function3<? super androidx.compose.material3.TabIndicatorScope, ? super Composer, ? super Integer, Unit> indicator, Function2<? super Composer, ? super Integer, Unit> divider, Function2<? super Composer, ? super Integer, Unit> tabs, Composer $composer, int $changed, int i12) {
         int traceInProgress;
         Object endRestartGroup;
+        Object obj5;
         Object obj8;
-        Object obj;
-        Object obj3;
-        int indicator3;
+        Object obj2;
+        int indicator2;
         int defaultsInvalid;
         int rememberScrollState;
         int scrollState2;
         int scrollableTabRowEdgeStartPadding-D9Ej5fM;
-        Object indicator4;
+        Object indicator3;
         int $dirty;
         long $dirty2;
         Object containerColor3;
-        int i9;
+        int i6;
         int lambda-5$material3_release;
-        Object obj2;
-        Object obj5;
+        Object obj6;
+        Object obj3;
         long modifier2;
         long contentColor3;
-        int i2;
-        Object obj7;
-        int changed;
+        int i;
+        Object obj;
+        int changed2;
         long secondaryContainerColor;
         float containerColor2;
         long edgePadding2;
-        Object obj6;
-        int changed2;
+        Object obj4;
+        int changed3;
         long secondaryContentColor;
         androidx.compose.runtime.internal.ComposableLambda contentColor2;
-        float indicator2;
-        Object obj4;
+        float indicator4;
+        Object obj7;
         androidx.compose.runtime.internal.ComposableLambda divider2;
-        int changed3;
-        int i3;
+        int changed;
+        int i9;
         boolean traceInProgress2;
         Function2 function2;
         Composer restartGroup;
         float str;
-        int i;
-        int i4;
-        int i13;
         int i5;
-        int i14;
-        int i6;
-        Composer composer;
+        int i2;
+        int i3;
         int i7;
-        int i8;
         int i10;
         int i11;
+        Composer composer;
+        int i13;
+        int i8;
+        int i4;
+        int i14;
         long l;
         int obj32;
         traceInProgress = selectedTabIndex;
-        i = obj33;
-        i4 = obj34;
+        i5 = obj33;
+        i2 = obj34;
         restartGroup = i12.startRestartGroup(1821940917);
         ComposerKt.sourceInformation(restartGroup, "C(SecondaryScrollableTabRow)P(7,5,6,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3:c#ui.unit.Dp,4)427@21884L21,428@21950L23,429@22016L21,432@22188L160,440@22466L327:TabRow.kt#uh7d8r");
         $dirty = obj33;
-        if (i4 & 1 != 0) {
+        if (i2 & 1 != 0) {
             $dirty |= 6;
         } else {
-            if (i & 6 == 0) {
-                i9 = restartGroup.changed(traceInProgress) ? 4 : 2;
-                $dirty |= i9;
+            if (i5 & 6 == 0) {
+                i6 = restartGroup.changed(traceInProgress) ? 4 : 2;
+                $dirty |= i6;
             }
         }
-        int i33 = i4 & 2;
+        int i33 = i2 & 2;
         if (i33 != 0) {
             $dirty |= 48;
-            obj5 = modifier;
+            obj3 = modifier;
         } else {
-            if (i & 48 == 0) {
-                i2 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i2;
+            if (i5 & 48 == 0) {
+                i = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i;
             } else {
-                obj5 = modifier;
+                obj3 = modifier;
             }
         }
-        if (i & 384 == 0) {
-            if (i4 & 4 == 0) {
-                changed = restartGroup.changed(scrollState) ? 256 : 128;
+        if (i5 & 384 == 0) {
+            if (i2 & 4 == 0) {
+                changed2 = restartGroup.changed(scrollState) ? 256 : 128;
             } else {
-                obj7 = scrollState;
-            }
-            $dirty |= changed;
-        } else {
-            obj7 = scrollState;
-        }
-        if (i & 3072 == 0) {
-            if (i4 & 8 == 0) {
-                changed2 = restartGroup.changed(containerColor) ? 2048 : 1024;
-            } else {
-                secondaryContainerColor = containerColor;
+                obj = scrollState;
             }
             $dirty |= changed2;
         } else {
-            secondaryContainerColor = containerColor;
+            obj = scrollState;
         }
-        if (i & 24576 == 0) {
-            if (i4 & 16 == 0) {
-                changed3 = restartGroup.changed(edgePadding) ? 16384 : 8192;
+        if (i5 & 3072 == 0) {
+            if (i2 & 8 == 0) {
+                changed3 = restartGroup.changed(containerColor) ? 2048 : 1024;
             } else {
-                secondaryContentColor = edgePadding;
+                secondaryContainerColor = containerColor;
             }
             $dirty |= changed3;
         } else {
+            secondaryContainerColor = containerColor;
+        }
+        if (i5 & 24576 == 0) {
+            if (i2 & 16 == 0) {
+                changed = restartGroup.changed(edgePadding) ? 16384 : 8192;
+            } else {
+                secondaryContentColor = edgePadding;
+            }
+            $dirty |= changed;
+        } else {
             secondaryContentColor = edgePadding;
         }
-        i3 = i4 & 32;
+        i9 = i2 & 32;
         int i58 = 196608;
-        if (i3 != 0) {
+        if (i9 != 0) {
             $dirty |= i58;
             str = divider;
         } else {
-            if (i58 &= i == 0) {
-                i13 = restartGroup.changed(divider) ? 131072 : 65536;
-                $dirty |= i13;
+            if (i58 &= i5 == 0) {
+                i3 = restartGroup.changed(divider) ? 131072 : 65536;
+                $dirty |= i3;
             } else {
                 str = divider;
             }
         }
-        i5 = i4 & 64;
-        i6 = 1572864;
-        if (i5 != 0) {
-            $dirty |= i6;
-            obj8 = tabs;
+        i7 = i2 & 64;
+        i11 = 1572864;
+        if (i7 != 0) {
+            $dirty |= i11;
+            obj5 = tabs;
         } else {
-            if (i & i6 == 0) {
-                i7 = restartGroup.changedInstance(tabs) ? 1048576 : 524288;
-                $dirty |= i7;
+            if (i5 & i11 == 0) {
+                i13 = restartGroup.changedInstance(tabs) ? 1048576 : 524288;
+                $dirty |= i13;
             } else {
-                obj8 = tabs;
+                obj5 = tabs;
             }
         }
-        int i25 = i4 & 128;
+        int i25 = i2 & 128;
         int i62 = 12582912;
         if (i25 != 0) {
             $dirty |= i62;
             i8 = i25;
-            obj = $composer;
+            obj8 = $composer;
         } else {
-            if (i & i62 == 0) {
+            if (i5 & i62 == 0) {
                 i8 = i25;
-                i10 = restartGroup.changedInstance($composer) ? 8388608 : 4194304;
-                $dirty |= i10;
+                i4 = restartGroup.changedInstance($composer) ? 8388608 : 4194304;
+                $dirty |= i4;
             } else {
                 i8 = i25;
-                obj = $composer;
+                obj8 = $composer;
             }
         }
-        i11 = 100663296;
-        if (i4 & 256 != 0) {
-            $dirty |= i11;
-            obj3 = $changed;
+        i14 = 100663296;
+        if (i2 & 256 != 0) {
+            $dirty |= i14;
+            obj2 = $changed;
         } else {
-            if (i & i11 == 0) {
-                i11 = restartGroup.changedInstance($changed) ? 67108864 : 33554432;
-                $dirty |= i11;
+            if (i5 & i14 == 0) {
+                i14 = restartGroup.changedInstance($changed) ? 67108864 : 33554432;
+                $dirty |= i14;
             } else {
-                obj3 = $changed;
+                obj2 = $changed;
             }
         }
         if ($dirty & i64 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 lambda-5$material3_release = -57345;
-                if (i & 1 != 0) {
+                if (i5 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i33 != 0) {
-                            obj5 = defaultsInvalid;
+                            obj3 = defaultsInvalid;
                         }
-                        if (i4 & 4 != 0) {
+                        if (i2 & 4 != 0) {
                             int i28 = 0;
                             $dirty &= -897;
-                            obj7 = rememberScrollState;
+                            obj = rememberScrollState;
                         }
                         lambda-5$material3_release = 6;
-                        if (i4 & 8 != 0) {
+                        if (i2 & 8 != 0) {
                             secondaryContainerColor = TabRowDefaults.INSTANCE.getSecondaryContainerColor(restartGroup, lambda-5$material3_release);
                             $dirty &= -7169;
                         }
-                        if (i4 & 16 != 0) {
+                        if (i2 & 16 != 0) {
                             secondaryContentColor = TabRowDefaults.INSTANCE.getSecondaryContentColor(restartGroup, lambda-5$material3_release);
                             $dirty &= obj32;
                         }
-                        if (i3 != 0) {
+                        if (i9 != 0) {
                             str = scrollableTabRowEdgeStartPadding-D9Ej5fM;
                         }
-                        if (i5 != 0) {
+                        if (i7 != 0) {
                             TabRowKt.SecondaryScrollableTabRow.1 anon = new TabRowKt.SecondaryScrollableTabRow.1(traceInProgress);
-                            indicator4 = ComposableLambdaKt.rememberComposableLambda(1535842470, true, anon, restartGroup, 54);
+                            indicator3 = ComposableLambdaKt.rememberComposableLambda(1535842470, true, anon, restartGroup, 54);
                         } else {
-                            indicator4 = tabs;
+                            indicator3 = tabs;
                         }
                         if (i8 != 0) {
-                            i14 = $dirty;
-                            contentColor2 = indicator4;
-                            obj4 = lambda-5$material3_release;
-                            indicator3 = obj5;
+                            i10 = $dirty;
+                            contentColor2 = indicator3;
+                            obj7 = lambda-5$material3_release;
+                            indicator2 = obj3;
                             $dirty2 = secondaryContainerColor;
                             containerColor2 = str;
-                            obj6 = obj7;
+                            obj4 = obj;
                             modifier2 = l;
                         } else {
-                            i14 = $dirty;
+                            i10 = $dirty;
                             $dirty2 = secondaryContainerColor;
                             containerColor2 = str;
-                            obj6 = obj7;
-                            obj4 = $composer;
-                            contentColor2 = indicator4;
-                            indicator3 = obj5;
+                            obj4 = obj;
+                            obj7 = $composer;
+                            contentColor2 = indicator3;
+                            indicator2 = obj3;
                             modifier2 = l;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        if (i4 & 4 != 0) {
+                        if (i2 & 4 != 0) {
                             $dirty &= -897;
                         }
-                        if (i4 & 8 != 0) {
+                        if (i2 & 8 != 0) {
                             $dirty &= -7169;
                         }
-                        if (i4 & 16 != 0) {
-                            i14 = i32;
-                            indicator3 = obj5;
+                        if (i2 & 16 != 0) {
+                            i10 = i32;
+                            indicator2 = obj3;
                             $dirty2 = secondaryContainerColor;
                             containerColor2 = str;
-                            obj6 = obj7;
+                            obj4 = obj;
                             modifier2 = secondaryContentColor;
                             contentColor2 = tabs;
-                            obj4 = $composer;
+                            obj7 = $composer;
                         } else {
-                            i14 = $dirty;
-                            indicator3 = obj5;
+                            i10 = $dirty;
+                            indicator2 = obj3;
                             $dirty2 = secondaryContainerColor;
                             containerColor2 = str;
-                            obj6 = obj7;
+                            obj4 = obj;
                             modifier2 = secondaryContentColor;
                             contentColor2 = tabs;
-                            obj4 = $composer;
+                            obj7 = $composer;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1821940917, i14, -1, "androidx.compose.material3.SecondaryScrollableTabRow (TabRow.kt:439)");
+                    ComposerKt.traceEventStart(1821940917, i10, -1, "androidx.compose.material3.SecondaryScrollableTabRow (TabRow.kt:439)");
                 }
-                TabRowKt.ScrollableTabRowImpl-sKfQg0A(selectedTabIndex, indicator3, $dirty2, lambda-5$material3_release, modifier2, obj7, containerColor2, obj6, contentColor2, obj4, $changed);
+                TabRowKt.ScrollableTabRowImpl-sKfQg0A(selectedTabIndex, indicator2, $dirty2, lambda-5$material3_release, modifier2, obj, containerColor2, obj4, contentColor2, obj7, $changed);
                 composer = restartGroup;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                function2 = obj4;
+                function2 = obj7;
                 divider2 = contentColor2;
-                indicator2 = containerColor2;
-                containerColor3 = indicator3;
-                obj2 = obj6;
+                indicator4 = containerColor2;
+                containerColor3 = indicator2;
+                obj6 = obj4;
                 edgePadding2 = modifier2;
                 contentColor3 = l;
             } else {
                 restartGroup.skipToGroupEnd();
                 function2 = $composer;
-                i14 = $dirty;
-                containerColor3 = obj5;
-                obj2 = obj7;
+                i10 = $dirty;
+                containerColor3 = obj3;
+                obj6 = obj;
                 contentColor3 = secondaryContainerColor;
                 edgePadding2 = secondaryContentColor;
                 composer = restartGroup;
-                indicator2 = str;
+                indicator4 = str;
                 divider2 = tabs;
             }
         } else {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new TabRowKt.SecondaryScrollableTabRow.2(selectedTabIndex, containerColor3, obj2, contentColor3, obj7, edgePadding2, obj6, indicator2, divider2, function2, $changed, i, i4);
+            endRestartGroup = new TabRowKt.SecondaryScrollableTabRow.2(selectedTabIndex, containerColor3, obj6, contentColor3, obj, edgePadding2, obj4, indicator4, divider2, function2, $changed, i5, i2);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
@@ -1449,39 +1449,39 @@ public final class TabRowKt {
         int defaultsInvalid;
         int iNSTANCE;
         int rememberComposableLambda;
-        int i5;
-        int i8;
+        int i7;
+        int i6;
         boolean traceInProgress;
         Object $composer2;
         int $dirty;
         long $dirty2;
         int i9;
         int str;
-        Object obj;
+        Object obj6;
         long l;
-        int i4;
+        int i;
         long secondaryContainerColor;
-        Object obj3;
+        Object obj2;
         int changed;
         long secondaryContentColor;
-        Object obj4;
-        int i6;
+        Object obj3;
+        int i3;
         int changed2;
-        int i7;
-        Object obj5;
+        int i4;
+        Object obj4;
         long indicator2;
         int containerColor2;
-        int i3;
-        Object obj2;
-        int i11;
-        Object obj6;
-        int i12;
-        Object i2;
+        int i8;
         Object obj7;
-        Composer composer2;
+        int i11;
+        Object obj;
+        int i2;
+        Object i5;
+        Object obj5;
         Composer composer;
-        int i;
-        i8 = selectedTabIndex;
+        Composer composer2;
+        int i12;
+        i6 = selectedTabIndex;
         final int i39 = obj31;
         Composer restartGroup = i10.startRestartGroup(-1909540706);
         ComposerKt.sourceInformation(restartGroup, "C(SecondaryTabRow)P(5,4,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3)208@10501L23,209@10567L21,211@10668L160,219@10946L76:TabRow.kt#uh7d8r");
@@ -1490,20 +1490,20 @@ public final class TabRowKt {
             $dirty |= 6;
         } else {
             if (i39 & 6 == 0) {
-                i9 = restartGroup.changed(i8) ? 4 : 2;
+                i9 = restartGroup.changed(i6) ? 4 : 2;
                 $dirty |= i9;
             }
         }
         int i32 = obj32 & 2;
         if (i32 != 0) {
             $dirty |= 48;
-            obj = modifier;
+            obj6 = modifier;
         } else {
             if (i39 & 48 == 0) {
-                i4 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i4;
+                i = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i;
             } else {
-                obj = modifier;
+                obj6 = modifier;
             }
         }
         if (i39 & 384 == 0) {
@@ -1526,50 +1526,50 @@ public final class TabRowKt {
         } else {
             secondaryContentColor = indicator;
         }
-        i7 = obj32 & 16;
-        if (i7 != 0) {
+        i4 = obj32 & 16;
+        if (i4 != 0) {
             $dirty |= 24576;
-            obj5 = tabs;
+            obj4 = tabs;
         } else {
             if (i39 & 24576 == 0) {
-                i3 = restartGroup.changedInstance(tabs) ? 16384 : 8192;
-                $dirty |= i3;
+                i8 = restartGroup.changedInstance(tabs) ? 16384 : 8192;
+                $dirty |= i8;
             } else {
-                obj5 = tabs;
+                obj4 = tabs;
             }
         }
         int i41 = obj32 & 32;
         int i42 = 196608;
         if (i41 != 0) {
             $dirty |= i42;
-            obj2 = $composer;
+            obj7 = $composer;
         } else {
             if (i42 &= i39 == 0) {
                 i11 = restartGroup.changedInstance($composer) ? 131072 : 65536;
                 $dirty |= i11;
             } else {
-                obj2 = $composer;
+                obj7 = $composer;
             }
         }
-        i12 = 1572864;
+        i2 = 1572864;
         if (obj32 & 64 != 0) {
-            $dirty |= i12;
-            obj6 = $changed;
+            $dirty |= i2;
+            obj = $changed;
         } else {
-            if (i39 & i12 == 0) {
-                i12 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
-                $dirty |= i12;
+            if (i39 & i2 == 0) {
+                i2 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
+                $dirty |= i2;
             } else {
-                obj6 = $changed;
+                obj = $changed;
             }
         }
-        if ($dirty & i2 == 599186) {
+        if ($dirty & i5 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i39 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i32 != 0) {
-                            obj = defaultsInvalid;
+                            obj6 = defaultsInvalid;
                         }
                         str = 6;
                         if (obj32 & 4 != 0) {
@@ -1580,24 +1580,24 @@ public final class TabRowKt {
                             secondaryContentColor = TabRowDefaults.INSTANCE.getSecondaryContentColor(restartGroup, str);
                             $dirty &= -7169;
                         }
-                        if (i7 != 0) {
-                            TabRowKt.SecondaryTabRow.1 anon = new TabRowKt.SecondaryTabRow.1(i8);
-                            obj5 = rememberComposableLambda;
+                        if (i4 != 0) {
+                            TabRowKt.SecondaryTabRow.1 anon = new TabRowKt.SecondaryTabRow.1(i6);
+                            obj4 = rememberComposableLambda;
                         }
                         if (i41 != 0) {
-                            obj7 = lambda-2$material3_release;
-                            i7 = obj;
-                            obj2 = secondaryContentColor;
-                            i2 = obj5;
-                            i5 = -1909540706;
+                            obj5 = lambda-2$material3_release;
+                            i4 = obj6;
+                            obj7 = secondaryContentColor;
+                            i5 = obj4;
+                            i7 = -1909540706;
                             indicator2 = secondaryContainerColor;
                         } else {
-                            i7 = obj;
-                            i2 = obj5;
-                            obj7 = obj2;
-                            i5 = -1909540706;
+                            i4 = obj6;
+                            i5 = obj4;
+                            obj5 = obj7;
+                            i7 = -1909540706;
                             indicator2 = secondaryContainerColor;
-                            obj2 = secondaryContentColor;
+                            obj7 = secondaryContentColor;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1606,114 +1606,114 @@ public final class TabRowKt {
                         }
                         if (obj32 & 8 != 0) {
                             $dirty = i16;
-                            i7 = obj;
-                            i2 = obj5;
-                            obj7 = obj2;
-                            i5 = -1909540706;
+                            i4 = obj6;
+                            i5 = obj4;
+                            obj5 = obj7;
+                            i7 = -1909540706;
                             indicator2 = secondaryContainerColor;
-                            obj2 = secondaryContentColor;
+                            obj7 = secondaryContentColor;
                         } else {
-                            i7 = obj;
-                            i2 = obj5;
-                            obj7 = obj2;
-                            i5 = -1909540706;
+                            i4 = obj6;
+                            i5 = obj4;
+                            obj5 = obj7;
+                            i7 = -1909540706;
                             indicator2 = secondaryContainerColor;
-                            obj2 = secondaryContentColor;
+                            obj7 = secondaryContentColor;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i5, $dirty, -1, "androidx.compose.material3.SecondaryTabRow (TabRow.kt:218)");
+                    ComposerKt.traceEventStart(i7, $dirty, -1, "androidx.compose.material3.SecondaryTabRow (TabRow.kt:218)");
                 }
-                TabRowKt.TabRowImpl-DTcfvLk(i7, indicator2, i41, obj2, obj6, i2, obj7, $changed);
+                TabRowKt.TabRowImpl-DTcfvLk(i4, indicator2, i41, obj7, obj, i5, obj5, $changed);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 containerColor2 = $dirty;
                 $dirty2 = l2;
-                $composer2 = i7;
-                l = obj2;
-                obj3 = i2;
-                obj4 = obj7;
+                $composer2 = i4;
+                l = obj7;
+                obj2 = i5;
+                obj3 = obj5;
             } else {
                 restartGroup.skipToGroupEnd();
                 containerColor2 = $dirty;
                 $dirty2 = secondaryContainerColor;
-                obj3 = obj9;
-                composer = restartGroup;
-                $composer2 = obj;
+                obj2 = obj9;
+                composer2 = restartGroup;
+                $composer2 = obj6;
                 l = secondaryContentColor;
-                obj4 = obj2;
+                obj3 = obj7;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new TabRowKt.SecondaryTabRow.2(selectedTabIndex, $composer2, $dirty2, str, l, secondaryContainerColor, obj3, obj4, $changed, i39, obj32);
+            traceInProgress2 = new TabRowKt.SecondaryTabRow.2(selectedTabIndex, $composer2, $dirty2, str, l, secondaryContainerColor, obj2, obj3, $changed, i39, obj32);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void TabRow-pAZo6Ak(int selectedTabIndex, Modifier modifier, long containerColor, long contentColor, Function3<? super List<androidx.compose.material3.TabPosition>, ? super Composer, ? super Integer, Unit> indicator, Function2<? super Composer, ? super Integer, Unit> divider, Function2<? super Composer, ? super Integer, Unit> tabs, Composer $composer, int $changed, int i10) {
-        int traceInProgress;
+        int traceInProgress2;
         int defaultsInvalid;
         int iNSTANCE;
         int rememberComposableLambda;
-        int i3;
-        int i7;
-        boolean traceInProgress2;
-        Object $composer2;
-        int $dirty2;
-        long $dirty;
         int i5;
+        int i;
+        boolean traceInProgress;
+        Object $composer2;
+        int $dirty;
+        long $dirty2;
+        int i4;
         int str;
         Object obj5;
         long l;
-        int i2;
+        int i8;
         long primaryContainerColor;
         Object obj3;
         int changed2;
         long primaryContentColor;
-        Object obj6;
-        int i4;
+        Object obj2;
+        int i9;
         int changed;
-        int i;
-        Object obj4;
+        int i6;
+        Object obj7;
         long indicator2;
         int containerColor2;
         int i12;
+        Object obj4;
+        int i11;
+        Object obj6;
+        int i2;
+        Object i3;
         Object obj;
-        int i9;
-        Object obj7;
-        int i6;
-        Object i8;
-        Object obj2;
         Composer composer;
         Composer composer2;
-        int i11;
-        i7 = selectedTabIndex;
+        int i7;
+        i = selectedTabIndex;
         final int i39 = obj31;
         Composer restartGroup = i10.startRestartGroup(-1199178586);
         ComposerKt.sourceInformation(restartGroup, "C(TabRow)P(5,4,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3)302@15283L21,303@15347L19,305@15459L246,315@15823L90:TabRow.kt#uh7d8r");
-        $dirty2 = obj31;
+        $dirty = obj31;
         if (obj32 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if (i39 & 6 == 0) {
-                i5 = restartGroup.changed(i7) ? 4 : 2;
-                $dirty2 |= i5;
+                i4 = restartGroup.changed(i) ? 4 : 2;
+                $dirty |= i4;
             }
         }
         int i32 = obj32 & 2;
         if (i32 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
             obj5 = modifier;
         } else {
             if (i39 & 48 == 0) {
-                i2 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i2;
+                i8 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i8;
             } else {
                 obj5 = modifier;
             }
@@ -1724,7 +1724,7 @@ public final class TabRowKt {
             } else {
                 primaryContainerColor = containerColor;
             }
-            $dirty2 |= changed2;
+            $dirty |= changed2;
         } else {
             primaryContainerColor = containerColor;
         }
@@ -1734,48 +1734,48 @@ public final class TabRowKt {
             } else {
                 primaryContentColor = indicator;
             }
-            $dirty2 |= changed;
+            $dirty |= changed;
         } else {
             primaryContentColor = indicator;
         }
-        i = obj32 & 16;
-        if (i != 0) {
-            $dirty2 |= 24576;
-            obj4 = tabs;
+        i6 = obj32 & 16;
+        if (i6 != 0) {
+            $dirty |= 24576;
+            obj7 = tabs;
         } else {
             if (i39 & 24576 == 0) {
                 i12 = restartGroup.changedInstance(tabs) ? 16384 : 8192;
-                $dirty2 |= i12;
+                $dirty |= i12;
             } else {
-                obj4 = tabs;
+                obj7 = tabs;
             }
         }
         int i41 = obj32 & 32;
         int i42 = 196608;
         if (i41 != 0) {
-            $dirty2 |= i42;
-            obj = $composer;
+            $dirty |= i42;
+            obj4 = $composer;
         } else {
             if (i42 &= i39 == 0) {
-                i9 = restartGroup.changedInstance($composer) ? 131072 : 65536;
-                $dirty2 |= i9;
+                i11 = restartGroup.changedInstance($composer) ? 131072 : 65536;
+                $dirty |= i11;
             } else {
-                obj = $composer;
+                obj4 = $composer;
             }
         }
-        i6 = 1572864;
+        i2 = 1572864;
         if (obj32 & 64 != 0) {
-            $dirty2 |= i6;
-            obj7 = $changed;
+            $dirty |= i2;
+            obj6 = $changed;
         } else {
-            if (i39 & i6 == 0) {
-                i6 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
-                $dirty2 |= i6;
+            if (i39 & i2 == 0) {
+                i2 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
+                $dirty |= i2;
             } else {
-                obj7 = $changed;
+                obj6 = $changed;
             }
         }
-        if ($dirty2 & i8 == 599186) {
+        if ($dirty & i3 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i39 & 1 != 0) {
@@ -1786,158 +1786,158 @@ public final class TabRowKt {
                         str = 6;
                         if (obj32 & 4 != 0) {
                             primaryContainerColor = TabRowDefaults.INSTANCE.getPrimaryContainerColor(restartGroup, str);
-                            $dirty2 &= -897;
+                            $dirty &= -897;
                         }
                         if (obj32 & 8 != 0) {
                             primaryContentColor = TabRowDefaults.INSTANCE.getPrimaryContentColor(restartGroup, str);
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
-                        if (i != 0) {
-                            TabRowKt.TabRow.1 anon = new TabRowKt.TabRow.1(i7);
-                            obj4 = rememberComposableLambda;
+                        if (i6 != 0) {
+                            TabRowKt.TabRow.1 anon = new TabRowKt.TabRow.1(i);
+                            obj7 = rememberComposableLambda;
                         }
                         if (i41 != 0) {
-                            obj2 = lambda-3$material3_release;
-                            i = obj5;
-                            obj = primaryContentColor;
-                            i8 = obj4;
-                            i3 = -1199178586;
+                            obj = lambda-3$material3_release;
+                            i6 = obj5;
+                            obj4 = primaryContentColor;
+                            i3 = obj7;
+                            i5 = -1199178586;
                             indicator2 = primaryContainerColor;
                         } else {
-                            i = obj5;
-                            i8 = obj4;
-                            obj2 = obj;
-                            i3 = -1199178586;
+                            i6 = obj5;
+                            i3 = obj7;
+                            obj = obj4;
+                            i5 = -1199178586;
                             indicator2 = primaryContainerColor;
-                            obj = primaryContentColor;
+                            obj4 = primaryContentColor;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj32 & 4 != 0) {
-                            $dirty2 &= -897;
+                            $dirty &= -897;
                         }
                         if (obj32 & 8 != 0) {
-                            $dirty2 = i16;
-                            i = obj5;
-                            i8 = obj4;
-                            obj2 = obj;
-                            i3 = -1199178586;
+                            $dirty = i16;
+                            i6 = obj5;
+                            i3 = obj7;
+                            obj = obj4;
+                            i5 = -1199178586;
                             indicator2 = primaryContainerColor;
-                            obj = primaryContentColor;
+                            obj4 = primaryContentColor;
                         } else {
-                            i = obj5;
-                            i8 = obj4;
-                            obj2 = obj;
-                            i3 = -1199178586;
+                            i6 = obj5;
+                            i3 = obj7;
+                            obj = obj4;
+                            i5 = -1199178586;
                             indicator2 = primaryContainerColor;
-                            obj = primaryContentColor;
+                            obj4 = primaryContentColor;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i3, $dirty2, -1, "androidx.compose.material3.TabRow (TabRow.kt:314)");
+                    ComposerKt.traceEventStart(i5, $dirty, -1, "androidx.compose.material3.TabRow (TabRow.kt:314)");
                 }
-                TabRowKt.TabRowWithSubcomposeImpl-DTcfvLk(i, indicator2, i41, obj, obj7, i8, obj2, $changed);
+                TabRowKt.TabRowWithSubcomposeImpl-DTcfvLk(i6, indicator2, i41, obj4, obj6, i3, obj, $changed);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                containerColor2 = $dirty2;
-                $dirty = l2;
-                $composer2 = i;
-                l = obj;
-                obj3 = i8;
-                obj6 = obj2;
+                containerColor2 = $dirty;
+                $dirty2 = l2;
+                $composer2 = i6;
+                l = obj4;
+                obj3 = i3;
+                obj2 = obj;
             } else {
                 restartGroup.skipToGroupEnd();
-                containerColor2 = $dirty2;
-                $dirty = primaryContainerColor;
+                containerColor2 = $dirty;
+                $dirty2 = primaryContainerColor;
                 obj3 = obj9;
                 composer2 = restartGroup;
                 $composer2 = obj5;
                 l = primaryContentColor;
-                obj6 = obj;
+                obj2 = obj4;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TabRowKt.TabRow.2(selectedTabIndex, $composer2, $dirty, str, l, primaryContainerColor, obj3, obj6, $changed, i39, obj32);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new TabRowKt.TabRow.2(selectedTabIndex, $composer2, $dirty2, str, l, primaryContainerColor, obj3, obj2, $changed, i39, obj32);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     private static final void TabRowImpl-DTcfvLk(Modifier modifier, long containerColor, long contentColor, Function3<? super androidx.compose.material3.TabIndicatorScope, ? super Composer, ? super Integer, Unit> indicator, Function2<? super Composer, ? super Integer, Unit> divider, Function2<? super Composer, ? super Integer, Unit> tabs, Composer $composer, int $changed) {
-        int traceInProgress;
+        int traceInProgress2;
         Object restartGroup;
         int $dirty2;
         Object obj;
-        int i12;
-        int i10;
-        int i8;
-        int i9;
-        int i2;
         int i3;
+        int i5;
+        int i4;
+        int i9;
+        int i7;
+        int i10;
         int skipping;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int str;
         Modifier selectableGroup;
-        int i5;
-        int $dirty;
-        long l2;
-        long l;
-        int i4;
         int i11;
+        int $dirty;
+        long l;
+        long l2;
         int i6;
+        int i12;
+        int i;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i7;
-        int i;
+        int i2;
+        int i8;
         final Object obj3 = tabs;
         final Object obj4 = $composer;
         final Object obj5 = $changed;
         final int i22 = obj32;
-        traceInProgress = 1757425411;
-        restartGroup = obj31.startRestartGroup(traceInProgress);
+        traceInProgress2 = 1757425411;
+        restartGroup = obj31.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(TabRowImpl)P(4,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3)575@27973L4041,571@27843L4171:TabRow.kt#uh7d8r");
         if (i22 & 6 == 0) {
-            i12 = restartGroup.changed(modifier) ? 4 : 2;
-            $dirty2 |= i12;
+            i3 = restartGroup.changed(modifier) ? 4 : 2;
+            $dirty2 |= i3;
         } else {
             obj = modifier;
         }
         if (i22 & 48 == 0) {
-            i10 = restartGroup.changed(containerColor) ? 32 : 16;
-            $dirty2 |= i10;
+            i5 = restartGroup.changed(containerColor) ? 32 : 16;
+            $dirty2 |= i5;
         } else {
-            l2 = containerColor;
+            l = containerColor;
         }
         if (i22 & 384 == 0) {
-            i8 = restartGroup.changed(indicator) ? 256 : 128;
-            $dirty2 |= i8;
+            i4 = restartGroup.changed(indicator) ? 256 : 128;
+            $dirty2 |= i4;
         } else {
-            l = indicator;
+            l2 = indicator;
         }
         if (i22 & 3072 == 0) {
             i9 = restartGroup.changedInstance(obj3) ? 2048 : 1024;
             $dirty2 |= i9;
         }
         if (i22 & 24576 == 0) {
-            i2 = restartGroup.changedInstance(obj4) ? 16384 : 8192;
-            $dirty2 |= i2;
+            i7 = restartGroup.changedInstance(obj4) ? 16384 : 8192;
+            $dirty2 |= i7;
         }
         if (i17 &= i22 == 0) {
-            i3 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
-            $dirty2 |= i3;
+            i10 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
+            $dirty2 |= i10;
         }
         if (i18 &= $dirty2 == 74898) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.TabRowImpl (TabRow.kt:570)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.TabRowImpl (TabRow.kt:570)");
                 }
                 TabRowKt.TabRowImpl.1 anon = new TabRowKt.TabRowImpl.1(obj5, obj4, obj3);
-                SurfaceKt.Surface-T9BRK9s(SelectableGroupKt.selectableGroup(obj), 0, l2, obj13, l, obj15, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-65106680, true, anon, restartGroup, 54), restartGroup);
+                SurfaceKt.Surface-T9BRK9s(SelectableGroupKt.selectableGroup(obj), 0, l, obj13, l2, obj15, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-65106680, true, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -1950,8 +1950,8 @@ public final class TabRowKt {
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
             $dirty = $dirty2;
-            traceInProgress = new TabRowKt.TabRowImpl.2(obj, containerColor, obj, indicator, str, obj3, obj4, obj5, i22);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new TabRowKt.TabRowImpl.2(obj, containerColor, obj, indicator, str, obj3, obj4, obj5, i22);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         } else {
             $dirty = $dirty2;
         }
@@ -1960,29 +1960,29 @@ public final class TabRowKt {
     private static final void TabRowWithSubcomposeImpl-DTcfvLk(Modifier modifier, long containerColor, long contentColor, Function3<? super List<androidx.compose.material3.TabPosition>, ? super Composer, ? super Integer, Unit> indicator, Function2<? super Composer, ? super Integer, Unit> divider, Function2<? super Composer, ? super Integer, Unit> tabs, Composer $composer, int $changed) {
         int traceInProgress2;
         Object restartGroup;
-        int $dirty;
+        int $dirty2;
         Object obj;
-        int i3;
-        int i;
-        int i9;
-        int i11;
-        int i12;
         int i7;
+        int i5;
+        int i10;
+        int i8;
+        int i2;
+        int i6;
         int skipping;
         boolean traceInProgress;
         int str;
         Modifier selectableGroup;
-        int i4;
-        int $dirty2;
+        int i12;
+        int $dirty;
         long l;
         long l2;
-        int i6;
-        int i5;
-        int i10;
+        int i3;
+        int i4;
+        int i9;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i2;
-        int i8;
+        int i11;
+        int i;
         final Object obj3 = tabs;
         final Object obj4 = $composer;
         final Object obj5 = $changed;
@@ -1991,39 +1991,39 @@ public final class TabRowKt {
         restartGroup = obj31.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(TabRowWithSubcomposeImpl)P(4,0:c#ui.graphics.Color,1:c#ui.graphics.Color,3)947@41323L2218,943@41193L2348:TabRow.kt#uh7d8r");
         if (i22 & 6 == 0) {
-            i3 = restartGroup.changed(modifier) ? 4 : 2;
-            $dirty |= i3;
+            i7 = restartGroup.changed(modifier) ? 4 : 2;
+            $dirty2 |= i7;
         } else {
             obj = modifier;
         }
         if (i22 & 48 == 0) {
-            i = restartGroup.changed(containerColor) ? 32 : 16;
-            $dirty |= i;
+            i5 = restartGroup.changed(containerColor) ? 32 : 16;
+            $dirty2 |= i5;
         } else {
             l = containerColor;
         }
         if (i22 & 384 == 0) {
-            i9 = restartGroup.changed(indicator) ? 256 : 128;
-            $dirty |= i9;
+            i10 = restartGroup.changed(indicator) ? 256 : 128;
+            $dirty2 |= i10;
         } else {
             l2 = indicator;
         }
         if (i22 & 3072 == 0) {
-            i11 = restartGroup.changedInstance(obj3) ? 2048 : 1024;
-            $dirty |= i11;
+            i8 = restartGroup.changedInstance(obj3) ? 2048 : 1024;
+            $dirty2 |= i8;
         }
         if (i22 & 24576 == 0) {
-            i12 = restartGroup.changedInstance(obj4) ? 16384 : 8192;
-            $dirty |= i12;
+            i2 = restartGroup.changedInstance(obj4) ? 16384 : 8192;
+            $dirty2 |= i2;
         }
         if (i17 &= i22 == 0) {
-            i7 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
-            $dirty |= i7;
+            i6 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
+            $dirty2 |= i6;
         }
-        if (i18 &= $dirty == 74898) {
+        if (i18 &= $dirty2 == 74898) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.TabRowWithSubcomposeImpl (TabRow.kt:942)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.TabRowWithSubcomposeImpl (TabRow.kt:942)");
                 }
                 TabRowKt.TabRowWithSubcomposeImpl.1 anon = new TabRowKt.TabRowWithSubcomposeImpl.1(obj5, obj4, obj3);
                 SurfaceKt.Surface-T9BRK9s(SelectableGroupKt.selectableGroup(obj), 0, l, obj13, l2, obj15, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-1617702432, true, anon, restartGroup, 54), restartGroup);
@@ -2038,11 +2038,11 @@ public final class TabRowKt {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty2 = $dirty;
+            $dirty = $dirty2;
             traceInProgress2 = new TabRowKt.TabRowWithSubcomposeImpl.2(obj, containerColor, obj, indicator, str, obj3, obj4, obj5, i22);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         } else {
-            $dirty2 = $dirty;
+            $dirty = $dirty2;
         }
     }
 

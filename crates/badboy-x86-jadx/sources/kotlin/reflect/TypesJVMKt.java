@@ -25,8 +25,8 @@ public final class TypesJVMKt {
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal3;
             int ordinal2;
+            int ordinal3;
             int[] iArr = new int[values.length];
             iArr[KVariance.IN.ordinal()] = 1;
             iArr[KVariance.INVARIANT.ordinal()] = 2;
@@ -114,11 +114,11 @@ public final class TypesJVMKt {
     }
 
     private static final Type createPossiblyInnerType(Class<?> jClass, List<kotlin.reflect.KTypeProjection> arguments) {
-        Object next;
-        Type p0;
         Object next2;
-        Object p03;
         Type p02;
+        Object next;
+        Object p0;
+        Type p03;
         int i;
         Class declaringClass = jClass.getDeclaringClass();
         int i2 = 10;
@@ -129,9 +129,9 @@ public final class TypesJVMKt {
             ArrayList list3 = arrayList;
             int i7 = 0;
             Iterator iterator = iterable.iterator();
-            for (Object next : iterator) {
-                next2 = 0;
-                (Collection)list3.add(TypesJVMKt.getJavaType((KTypeProjection)next));
+            for (Object next2 : iterator) {
+                next = 0;
+                (Collection)list3.add(TypesJVMKt.getJavaType((KTypeProjection)next2));
             }
             ParameterizedTypeImpl $this$map$iv = new ParameterizedTypeImpl(jClass, 0, (List)list3);
             return (Type)$this$map$iv;
@@ -143,9 +143,9 @@ public final class TypesJVMKt {
             ArrayList list2 = arrayList2;
             int i9 = 0;
             Iterator iterator2 = iterable2.iterator();
-            for (Object next2 : iterator2) {
-                p02 = 0;
-                (Collection)list2.add(TypesJVMKt.getJavaType((KTypeProjection)next2));
+            for (Object next : iterator2) {
+                p03 = 0;
+                (Collection)list2.add(TypesJVMKt.getJavaType((KTypeProjection)next));
             }
             ParameterizedTypeImpl $this$map$iv2 = new ParameterizedTypeImpl(jClass, (Type)declaringClass, (List)list2);
             return (Type)$this$map$iv2;
@@ -157,9 +157,9 @@ public final class TypesJVMKt {
         ArrayList list = arrayList3;
         int i10 = 0;
         Iterator iterator3 = subList2.iterator();
-        for (Object p03 : iterator3) {
+        for (Object p0 : iterator3) {
             i = 0;
-            (Collection)list.add(TypesJVMKt.getJavaType((KTypeProjection)p03));
+            (Collection)list.add(TypesJVMKt.getJavaType((KTypeProjection)p0));
         }
         ParameterizedTypeImpl $this$map$iv3 = new ParameterizedTypeImpl(jClass, TypesJVMKt.createPossiblyInnerType(declaringClass, arguments.subList(length, arguments.size())), (List)list);
         return (Type)$this$map$iv3;

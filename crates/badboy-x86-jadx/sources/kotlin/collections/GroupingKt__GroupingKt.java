@@ -73,15 +73,15 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
     public static final <T, K, M extends Map<? super K, Integer>> M eachCountTo(kotlin.collections.Grouping<T, ? extends K> $this$eachCountTo, M destination) {
         Object next;
         Object keyOf;
-        Object obj;
+        Object obj2;
         Integer valueOf;
         int key;
+        Object obj;
         Object obj3;
-        Object obj2;
-        int i;
+        int i2;
         int acc;
         Object num;
-        int i2;
+        int i;
         final Object obj4 = destination;
         Intrinsics.checkNotNullParameter($this$eachCountTo, "<this>");
         Intrinsics.checkNotNullParameter(obj4, "destination");
@@ -93,18 +93,18 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
         while (sourceIterator.hasNext()) {
             next = sourceIterator.next();
             keyOf = obj7.keyOf(next);
-            obj = obj4.get(keyOf);
-            if (obj == null && !obj4.containsKey(keyOf)) {
+            obj2 = obj4.get(keyOf);
+            if (obj2 == null && !obj4.containsKey(keyOf)) {
             } else {
             }
             key = i3;
-            obj3 = next;
-            i = 0;
+            obj = next;
+            i2 = 0;
             if (key != null) {
             } else {
             }
-            num = obj2;
-            i2 = 0;
+            num = obj3;
+            i = 0;
             obj4.put(keyOf, Integer.valueOf(intValue++));
             num = valueOf2;
             if (!obj4.containsKey(keyOf)) {
@@ -120,10 +120,10 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
         Object $i$f$fold;
         Object next;
         Object keyOf;
-        Object obj;
-        int key;
-        Object obj2;
         Object obj3;
+        int key;
+        Object obj;
+        Object obj2;
         int i;
         int i3;
         final Object obj4 = operation;
@@ -138,8 +138,8 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
         while (sourceIterator.hasNext()) {
             next = sourceIterator.next();
             keyOf = obj7.keyOf(next);
-            obj = (Map)linkedHashMap.get(keyOf);
-            if (obj == null && !linkedHashMap.containsKey(keyOf)) {
+            obj3 = (Map)linkedHashMap.get(keyOf);
+            if (obj3 == null && !linkedHashMap.containsKey(keyOf)) {
             } else {
             }
             key = 0;
@@ -147,7 +147,7 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
             if (key != null) {
             } else {
             }
-            $i$f$fold = obj2;
+            $i$f$fold = obj;
             linkedHashMap.put(keyOf, obj4.invoke($i$f$fold, next));
             i2 = i3;
             $i$f$fold = initialValue;
@@ -160,16 +160,16 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
     }
 
     public static final <T, K, R> Map<K, R> fold(kotlin.collections.Grouping<T, ? extends K> $this$fold, Function2<? super K, ? super T, ? extends R> initialValueSelector, Function3<? super K, ? super R, ? super T, ? extends R> operation) {
-        Object obj3;
-        Object obj4;
+        Object obj2;
+        Object obj;
         int i2;
         Object $i$f$fold2;
         Object next;
         Object keyOf;
         Object obj5;
         int key;
-        Object obj;
-        Object obj2;
+        Object obj4;
+        Object obj3;
         Object invoke;
         int i;
         int $i$f$fold;
@@ -191,7 +191,7 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
             } else {
             }
             key = 0;
-            obj2 = next;
+            obj3 = next;
             invoke = keyOf;
             i = 0;
             if (key != null) {
@@ -199,12 +199,12 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
             }
             $i$f$fold = i2;
             $i$f$fold2 = invoke;
-            obj4 = obj;
-            linkedHashMap.put(keyOf, obj6.invoke($i$f$fold2, obj4, obj2));
-            obj3 = initialValueSelector;
+            obj = obj4;
+            linkedHashMap.put(keyOf, obj6.invoke($i$f$fold2, obj, obj3));
+            obj2 = initialValueSelector;
             i2 = $i$f$fold;
             $i$f$fold = i2;
-            obj4 = invoke;
+            obj = invoke;
             if (!linkedHashMap.containsKey(keyOf)) {
             } else {
             }
@@ -216,11 +216,11 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
     public static final <T, K, R, M extends Map<? super K, R>> M foldTo(kotlin.collections.Grouping<T, ? extends K> $this$foldTo, M destination, R initialValue, Function2<? super R, ? super T, ? extends R> operation) {
         Object next;
         Object keyOf;
-        Object obj;
+        Object obj3;
         Object first;
         int i;
+        Object obj;
         Object obj2;
-        Object obj3;
         int i2;
         Object obj4;
         Intrinsics.checkNotNullParameter($this$foldTo, "<this>");
@@ -233,8 +233,8 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
         while (sourceIterator.hasNext()) {
             next = sourceIterator.next();
             keyOf = obj5.keyOf(next);
-            obj = destination.get(keyOf);
-            if (obj == null && !destination.containsKey(keyOf)) {
+            obj3 = destination.get(keyOf);
+            if (obj3 == null && !destination.containsKey(keyOf)) {
             } else {
             }
             i = 0;
@@ -242,7 +242,7 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
             if (i != 0) {
             } else {
             }
-            obj4 = obj3;
+            obj4 = obj2;
             destination.put(keyOf, operation.invoke(obj4, next));
             obj4 = initialValue;
             if (!destination.containsKey(keyOf)) {
@@ -254,15 +254,15 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
     }
 
     public static final <T, K, R, M extends Map<? super K, R>> M foldTo(kotlin.collections.Grouping<T, ? extends K> $this$foldTo, M destination, Function2<? super K, ? super T, ? extends R> initialValueSelector, Function3<? super K, ? super R, ? super T, ? extends R> operation) {
-        Object obj6;
+        Object obj4;
         Object obj3;
         Object next;
         Object keyOf;
-        Object obj;
+        Object obj2;
         int key;
         Object obj5;
-        Object obj2;
-        Object obj4;
+        Object obj;
+        Object obj6;
         int i;
         Object invoke;
         final Object obj7 = destination;
@@ -278,20 +278,20 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
         while (sourceIterator.hasNext()) {
             next = sourceIterator.next();
             keyOf = obj10.keyOf(next);
-            obj = obj7.get(keyOf);
-            if (obj == null && !obj7.containsKey(keyOf)) {
+            obj2 = obj7.get(keyOf);
+            if (obj2 == null && !obj7.containsKey(keyOf)) {
             } else {
             }
             key = 0;
             obj5 = keyOf;
-            obj2 = next;
+            obj = next;
             i = 0;
             if (key != null) {
             } else {
             }
-            obj3 = obj4;
-            obj7.put(keyOf, obj8.invoke(obj5, obj3, obj2));
-            obj6 = initialValueSelector;
+            obj3 = obj6;
+            obj7.put(keyOf, obj8.invoke(obj5, obj3, obj));
+            obj4 = initialValueSelector;
             obj3 = invoke;
             if (!obj7.containsKey(keyOf)) {
             } else {
@@ -304,9 +304,9 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
     public static final <S, T extends S, K> Map<K, S> reduce(kotlin.collections.Grouping<T, ? extends K> $this$reduce, Function3<? super K, ? super S, ? super T, ? extends S> operation) {
         Object next;
         Object keyOf;
-        Object obj2;
-        int key;
         Object obj3;
+        int key;
+        Object obj2;
         Object obj;
         Object e;
         int i;
@@ -323,8 +323,8 @@ class GroupingKt__GroupingKt extends kotlin.collections.GroupingKt__GroupingJVMK
         while (sourceIterator.hasNext()) {
             next = sourceIterator.next();
             keyOf = obj7.keyOf(next);
-            obj2 = (Map)linkedHashMap.get(keyOf);
-            if (obj2 == null && !linkedHashMap.containsKey(keyOf)) {
+            obj3 = (Map)linkedHashMap.get(keyOf);
+            if (obj3 == null && !linkedHashMap.containsKey(keyOf)) {
             } else {
             }
             key = 0;

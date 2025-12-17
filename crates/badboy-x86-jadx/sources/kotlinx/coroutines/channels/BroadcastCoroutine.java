@@ -29,15 +29,15 @@ class BroadcastCoroutine<E>  extends AbstractCoroutine<Unit> implements kotlinx.
 
     @Override // kotlinx.coroutines.AbstractCoroutine
     public final void cancel(CancellationException cause) {
-        int i3;
         int i;
         int i2;
+        int i3;
         JobCancellationException jobCancellationException;
         String str;
         Job job;
         if (cause == null) {
+            i = 0;
             i3 = 0;
-            i2 = 0;
             jobCancellationException = new JobCancellationException(JobSupport.access$cancellationExceptionMessage((JobSupport)this), 0, (Job)(JobSupport)this);
         } else {
             jobCancellationException = cause;

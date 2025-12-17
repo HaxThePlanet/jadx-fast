@@ -13,13 +13,13 @@ public final class AndroidPathIterator_androidKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
-            int ordinal2;
-            int ordinal6;
-            int ordinal7;
+            int ordinal4;
             int ordinal5;
             int ordinal3;
-            int ordinal4;
+            int ordinal6;
+            int ordinal7;
+            int ordinal;
+            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[PathSegment.Type.Move.ordinal()] = 1;
             iArr[PathSegment.Type.Line.ordinal()] = 2;

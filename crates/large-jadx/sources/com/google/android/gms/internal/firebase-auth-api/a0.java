@@ -1,0 +1,6 @@
+package com.google.android.gms.internal.firebase-auth-api;
+
+/* loaded from: classes2.dex */
+public interface a0 {
+    public abstract com.google.android.gms.internal.firebase-auth-api.y p();
+}

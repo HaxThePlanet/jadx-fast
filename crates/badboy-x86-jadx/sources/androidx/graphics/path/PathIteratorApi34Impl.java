@@ -34,20 +34,20 @@ public final class PathIteratorApi34Impl extends androidx.graphics.path.PathIter
     @Override // androidx.graphics.path.PathIteratorImpl
     public int calculateSize(boolean includeConvertedConics) {
         androidx.graphics.path.PathIterator.ConicEvaluation conicEvaluation;
-        int i5;
+        int i3;
         androidx.graphics.path.PathIterator.ConicEvaluation asQuadratics;
         int numVerbs;
         int next;
         androidx.graphics.path.ConicConverter conicConverter;
         int quadraticCount;
         float tolerance;
-        int i3;
-        int i2;
+        int i5;
         int i4;
         int i;
+        int i2;
         final int i6 = 0;
         if (includeConvertedConics && getConicEvaluation() == PathIterator.ConicEvaluation.AsQuadratics) {
-            i5 = getConicEvaluation() == PathIterator.ConicEvaluation.AsQuadratics ? 1 : i6;
+            i3 = getConicEvaluation() == PathIterator.ConicEvaluation.AsQuadratics ? 1 : i6;
         } else {
         }
         numVerbs = 0;
@@ -55,15 +55,15 @@ public final class PathIteratorApi34Impl extends androidx.graphics.path.PathIter
         Intrinsics.checkNotNullExpressionValue(pathIterator, "path.pathIterator");
         final float[] fArr = new float[8];
         while (pathIterator.hasNext()) {
-            if (pathIterator.next(fArr, i6) == 3 && i5 != 0) {
+            if (pathIterator.next(fArr, i6) == 3 && i3 != 0) {
             } else {
             }
             numVerbs++;
-            if (i5 != 0) {
+            if (i3 != 0) {
             } else {
             }
             conicConverter = this.conicConverter;
-            i = 0;
+            i2 = 0;
             ConicConverter.convert$default(conicConverter, fArr, fArr[6], getTolerance(), 0, 8, 0);
             numVerbs += quadraticCount;
         }

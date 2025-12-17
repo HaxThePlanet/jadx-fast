@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/layout_library_shortcut_0"
+    android:background="@drawable/ripple_effect_transparent_rectangle"
+    style="@style/LibraryShortcutLayout">
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/name"
+        android:tag="binding_1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_24"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <TextView
+        android:id="@+id/description"
+        android:tag="binding_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
+        app:layout_constraintEnd_toStartOf="@+id/icon_status"
+        app:layout_constraintStart_toEndOf="@+id/name"
+        app:layout_constraintTop_toTopOf="@+id/name"
+        style="@style/LibraryShortcutDescription"/>
+    <ImageView
+        android:id="@+id/icon_status"
+        android:layout_marginEnd="@dimen/margin_24"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:srcCompat="@drawable/ic_arrow_right_library"
+        style="@style/LessonStatusIcon"/>
+    <View
+        android:tag="binding_3"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="@+id/description"
+        style="@style/InsetDivider"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

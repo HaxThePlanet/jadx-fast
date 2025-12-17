@@ -178,16 +178,16 @@ public final class LazyLayoutItemAnimation {
     }
 
     public final void animateAppearance() {
-        int i4;
+        int i6;
         int disappearanceAnimationInProgress;
         int i2;
         Object obj;
         CoroutineScope coroutineScope;
-        int i5;
-        int i;
-        androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation.animateAppearance.1 anon;
         int i3;
-        int i6;
+        int i5;
+        androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation.animateAppearance.1 anon;
+        int i4;
+        int i;
         final GraphicsLayer layer = this.layer;
         final FiniteAnimationSpec fadeInSpec = this.fadeInSpec;
         if (!isAppearanceAnimationInProgress() && fadeInSpec != null) {
@@ -203,9 +203,9 @@ public final class LazyLayoutItemAnimation {
                         BuildersKt.launch$default(obj.coroutineScope, 0, 0, (Function2)disappearanceAnimationInProgress, 3, 0);
                     }
                 } else {
-                    i4 = 1;
-                    setAppearanceAnimationInProgress(i4);
-                    disappearanceAnimationInProgress2 ^= i4;
+                    i6 = 1;
+                    setAppearanceAnimationInProgress(i6);
+                    disappearanceAnimationInProgress2 ^= i6;
                     if (i7 != 0) {
                         layer.setAlpha(0);
                     }
@@ -248,15 +248,15 @@ public final class LazyLayoutItemAnimation {
     public final void cancelPlacementAnimation() {
         boolean placementAnimationInProgress;
         CoroutineScope coroutineScope;
+        int i;
         int i2;
-        int i4;
         androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation.cancelPlacementAnimation.1 anon;
         int i3;
-        int i;
+        int i4;
         if (isPlacementAnimationInProgress()) {
-            i2 = 0;
-            placementAnimationInProgress = new LazyLayoutItemAnimation.cancelPlacementAnimation.1(this, i2);
-            BuildersKt.launch$default(this.coroutineScope, i2, 0, (Function2)placementAnimationInProgress, 3, 0);
+            i = 0;
+            placementAnimationInProgress = new LazyLayoutItemAnimation.cancelPlacementAnimation.1(this, i);
+            BuildersKt.launch$default(this.coroutineScope, i, 0, (Function2)placementAnimationInProgress, 3, 0);
         }
     }
 
@@ -326,38 +326,38 @@ public final class LazyLayoutItemAnimation {
         boolean placementAnimationInProgress;
         boolean appearanceAnimationInProgress;
         boolean disappearanceAnimationInProgress;
-        int i4;
-        CoroutineScope graphicsContext;
         int i2;
+        CoroutineScope graphicsContext;
         int i3;
+        int i4;
         androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation.release.1 anon;
-        int i;
         int i5;
-        i4 = 0;
+        int i;
+        i2 = 0;
         final int i6 = 0;
         if (isPlacementAnimationInProgress()) {
-            setPlacementAnimationInProgress(i4);
+            setPlacementAnimationInProgress(i2);
             placementAnimationInProgress = new LazyLayoutItemAnimation.release.1(this, i6);
             BuildersKt.launch$default(this.coroutineScope, 0, 0, (Function2)placementAnimationInProgress, 3, 0);
         }
         if (isAppearanceAnimationInProgress()) {
-            setAppearanceAnimationInProgress(i4);
+            setAppearanceAnimationInProgress(i2);
             appearanceAnimationInProgress = new LazyLayoutItemAnimation.release.2(this, i6);
             BuildersKt.launch$default(this.coroutineScope, 0, 0, (Function2)appearanceAnimationInProgress, 3, 0);
         }
         if (isDisappearanceAnimationInProgress()) {
-            setDisappearanceAnimationInProgress(i4);
+            setDisappearanceAnimationInProgress(i2);
             disappearanceAnimationInProgress = new LazyLayoutItemAnimation.release.3(this, i6);
             BuildersKt.launch$default(this.coroutineScope, 0, 0, (Function2)disappearanceAnimationInProgress, 3, 0);
         }
-        this.isRunningMovingAwayAnimation = i4;
+        this.isRunningMovingAwayAnimation = i2;
         setPlacementDelta--gyyYBs(IntOffset.Companion.getZero-nOcc-ac());
         this.rawOffset = LazyLayoutItemAnimation.NotInitialized;
         GraphicsLayer layer = this.layer;
-        i4 = 0;
+        i2 = 0;
         graphicsContext = this.graphicsContext;
         if (layer != null && graphicsContext != null) {
-            i4 = 0;
+            i2 = 0;
             graphicsContext = this.graphicsContext;
             if (graphicsContext != null) {
                 graphicsContext.releaseGraphicsLayer(layer);

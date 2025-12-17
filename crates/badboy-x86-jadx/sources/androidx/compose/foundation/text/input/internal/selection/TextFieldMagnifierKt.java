@@ -43,7 +43,7 @@ public final class TextFieldMagnifierKt {
         long offset;
         int unspecified-k-4lQ0M;
         LayoutCoordinates textLayoutNodeCoordinates;
-        int i;
+        int i2;
         int start-impl;
         int[] $EnumSwitchMapping$0;
         boolean cmp;
@@ -51,7 +51,7 @@ public final class TextFieldMagnifierKt {
         long l;
         int width-impl;
         int it;
-        int i2;
+        int i;
         int centerY;
         long handleDragPosition-F1C5BW0 = selectionState.getHandleDragPosition-F1C5BW0();
         if (!OffsetKt.isUnspecified-k-4lQ0M(handleDragPosition-F1C5BW0)) {
@@ -64,11 +64,11 @@ public final class TextFieldMagnifierKt {
                 long selection-d9O1mEE = textFieldState.getVisualText().getSelection-d9O1mEE();
                 Handle draggingHandle = selectionState.getDraggingHandle();
                 if (draggingHandle == null) {
-                    i = -1;
+                    i2 = -1;
                 } else {
-                    i = TextFieldMagnifierKt.WhenMappings.$EnumSwitchMapping$0[draggingHandle.ordinal()];
+                    i2 = TextFieldMagnifierKt.WhenMappings.$EnumSwitchMapping$0[draggingHandle.ordinal()];
                 }
-                switch (i) {
+                switch (i2) {
                     case -1:
                         return Offset.Companion.getUnspecified-F1C5BW0();
                     case 0:
@@ -92,12 +92,12 @@ public final class TextFieldMagnifierKt {
                 long l2 = handleDragPosition-F1C5BW0;
                 float localDragPosition2 = magnifierSize;
                 if (!IntSize.equals-impl0(localDragPosition2, obj1)) {
-                    i2 = 2;
+                    i = 2;
                     if (Float.compare(f6, f) > 0) {
                         return Offset.Companion.getUnspecified-F1C5BW0();
                     }
                 } else {
-                    i2 = 2;
+                    i = 2;
                 }
                 float lineTop = layoutResult.getLineTop(lineForOffset);
                 visibleBounds = i7 + lineTop;
@@ -105,7 +105,7 @@ public final class TextFieldMagnifierKt {
                 final long l3 = selection-d9O1mEE;
                 textLayoutNodeCoordinates = textLayoutState.getTextLayoutNodeCoordinates();
                 if (textLayoutNodeCoordinates != null) {
-                    i2 = 0;
+                    i = 0;
                     if (textLayoutNodeCoordinates.isAttached()) {
                     } else {
                         textLayoutNodeCoordinates = 0;

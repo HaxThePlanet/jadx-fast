@@ -122,74 +122,74 @@ public final class ArcSpline {
         }
 
         private final void buildTable(float x1, float y1, float x2, float y2) {
-            int i2;
-            int i5;
             int i4;
             int i;
+            int i5;
+            int i2;
             int lx;
             int ly;
             int dist;
-            int i8;
+            int i3;
             int length;
+            float f3;
             float f;
             float f2;
-            float f3;
             double lut;
-            int i7;
+            int i8;
             double d;
             int i6;
             int a;
-            int i3;
+            int i7;
             final Object obj = this;
-            i2 = x2 - x1;
-            i = y1 - y2;
+            i4 = x2 - x1;
+            i2 = y1 - y2;
             lx = 0;
             ly = 0;
             dist = 0;
-            i8 = 0;
-            while (i8 < fArr2.length) {
+            i3 = 0;
+            while (i3 < fArr2.length) {
                 i17 /= d2;
-                f = (float)radians;
-                lut = i2 * f2;
-                i7 = i * f3;
-                if (i8 > 0) {
+                f3 = (float)radians;
+                lut = i4 * f;
+                i8 = i2 * f2;
+                if (i3 > 0) {
                 } else {
                 }
-                a = i2;
-                i3 = i;
+                a = i4;
+                i7 = i2;
                 lx = lut;
-                ly = i7;
-                i8++;
-                i2 = a;
-                i = i3;
-                a = i2;
-                i3 = i;
-                ArcSpline.Arc.Companion.access$getOurPercent(ArcSpline.Arc.Companion)[i8] = dist += f4;
+                ly = i8;
+                i3++;
+                i4 = a;
+                i2 = i7;
+                a = i4;
+                i7 = i2;
+                ArcSpline.Arc.Companion.access$getOurPercent(ArcSpline.Arc.Companion)[i3] = dist += f4;
             }
-            int a3 = i2;
-            int i23 = i;
+            int a3 = i4;
+            int i23 = i2;
             obj.arcDistance = dist;
-            i5 = 0;
-            while (i5 < fArr.length) {
-                i8 = ArcSpline.Arc.Companion.access$getOurPercent(ArcSpline.Arc.Companion);
-                i8[i5] = i12 /= dist;
-                i5++;
+            i = 0;
+            while (i < fArr.length) {
+                i3 = ArcSpline.Arc.Companion.access$getOurPercent(ArcSpline.Arc.Companion);
+                i3[i] = i12 /= dist;
+                i++;
             }
-            i4 = 0;
-            while (i4 < lut2.length) {
-                f2 = f5 / f6;
-                i8 = ArraysKt.binarySearch$default(ArcSpline.Arc.Companion.access$getOurPercent(ArcSpline.Arc.Companion), f2, 0, 0, 6, 0);
-                if (i8 >= 0) {
+            i5 = 0;
+            while (i5 < lut2.length) {
+                f = f5 / f6;
+                i3 = ArraysKt.binarySearch$default(ArcSpline.Arc.Companion.access$getOurPercent(ArcSpline.Arc.Companion), f, 0, 0, 6, 0);
+                if (i3 >= 0) {
                 } else {
                 }
-                if (i8 == -1) {
+                if (i3 == -1) {
                 } else {
                 }
                 i11 += -2;
-                obj.lut[i4] = i16 /= f10;
-                i4++;
-                obj.lut[i4] = 0;
-                obj.lut[i4] = f7 /= f3;
+                obj.lut[i5] = i16 /= f10;
+                i5++;
+                obj.lut[i5] = 0;
+                obj.lut[i5] = f7 /= f2;
             }
         }
 
@@ -283,20 +283,20 @@ public final class ArcSpline {
     public ArcSpline(int[] arcModes, float[] timePoints, float[][] y) {
         int mode;
         int last;
-        int i9;
-        androidx.compose.animation.core.ArcSpline.Arc[] arr;
-        int i7;
-        int i8;
-        androidx.compose.animation.core.ArcSpline.Arc arc;
-        int i5;
-        int i12;
-        int i4;
-        int i3;
-        int i13;
-        int i6;
         int i11;
-        int i10;
+        androidx.compose.animation.core.ArcSpline.Arc[] arr;
+        int i4;
         int i;
+        androidx.compose.animation.core.ArcSpline.Arc arc;
+        int i6;
+        int i10;
+        int i8;
+        int i12;
+        int i3;
+        int i9;
+        int i13;
+        int i7;
+        int i5;
         int i2;
         final Object obj2 = this;
         final int[] iArr = timePoints;
@@ -308,45 +308,45 @@ public final class ArcSpline {
         length2 -= i14;
         final androidx.compose.animation.core.ArcSpline.Arc[][] arr2 = new ArcSpline.Arc[i17];
         final int i18 = 0;
-        i9 = i18;
-        while (i9 < i17) {
+        i11 = i18;
+        while (i11 < i17) {
             int i20 = 2;
-            i5 = mode;
+            i6 = mode;
             i15 += i19;
             arr = new ArcSpline.Arc[i16];
-            i8 = i18;
-            while (i8 < i16) {
-                i10 = i8 * 2;
+            i = i18;
+            while (i < i16) {
+                i7 = i * 2;
                 int i22 = i21;
-                arc = new ArcSpline.Arc(i5, iArr[i9], iArr[i22], y[i9][i10], y[i9][i10 + 1], y[i22][i10], y[i22][i10 + 1]);
-                arr[i8] = arc;
-                i8++;
+                arc = new ArcSpline.Arc(i6, iArr[i11], iArr[i22], y[i11][i7], y[i11][i7 + 1], y[i22][i7], y[i22][i7 + 1]);
+                arr[i] = arc;
+                i++;
             }
-            arr2[i9] = arr;
-            i9++;
-            mode = i5;
-            i10 = i8 * 2;
+            arr2[i11] = arr;
+            i11++;
+            mode = i6;
+            i7 = i * 2;
             i22 = i21;
-            arc = new ArcSpline.Arc(i5, iArr[i9], iArr[i22], y[i9][i10], y[i9][i10 + 1], y[i22][i10], y[i22][i10 + 1]);
-            arr[i8] = arc;
-            i8++;
-            i5 = mode;
-            i5 = mode;
+            arc = new ArcSpline.Arc(i6, iArr[i11], iArr[i22], y[i11][i7], y[i11][i7 + 1], y[i22][i7], y[i22][i7 + 1]);
+            arr[i] = arc;
+            i++;
+            i6 = mode;
+            i6 = mode;
             if (last == i14) {
             } else {
             }
-            i7 = i14;
-            mode = i7;
+            i4 = i14;
+            mode = i4;
             last = mode;
-            i5 = mode;
-            i7 = i20;
+            i6 = mode;
+            i4 = i20;
             mode = 2;
             last = mode;
-            i5 = mode;
+            i6 = mode;
             mode = 1;
             last = mode;
-            i5 = mode;
-            i5 = mode;
+            i6 = mode;
+            i6 = mode;
         }
         obj2.arcs = arr2;
     }
@@ -357,17 +357,17 @@ public final class ArcSpline {
         int populated;
         float time1;
         int cmp2;
-        int i3;
-        int i;
         int i2;
+        int i3;
+        int i5;
         int k;
         int p;
-        int j;
-        int i4;
         int j2;
+        int i;
+        int j;
         int length;
         int linearY;
-        int i5;
+        int i4;
         t = time;
         int i7 = 0;
         if (this.isExtrapolate) {
@@ -383,56 +383,56 @@ public final class ArcSpline {
                         time1 = this.arcs[i7][i7].getTime1();
                     }
                     int i8 = t - time1;
-                    i2 = 0;
-                    j2 = 0;
-                    while (i2 < v.length) {
-                        if (this.arcs[p][j2].isLinear()) {
+                    i5 = 0;
+                    j = 0;
+                    while (i5 < v.length) {
+                        if (this.arcs[p][j].isLinear()) {
                         } else {
                         }
-                        this.arcs[p][j2].setPoint(time1);
-                        v[i2] = calcX2 += i13;
-                        v[i2 + 1] = calcY += i5;
-                        i2 += 2;
-                        j2++;
-                        v[i2] = linearX2 += i12;
-                        v[i2 + 1] = linearY2 += i5;
+                        this.arcs[p][j].setPoint(time1);
+                        v[i5] = calcX2 += i13;
+                        v[i5 + 1] = calcY += i4;
+                        i5 += 2;
+                        j++;
+                        v[i5] = linearX2 += i12;
+                        v[i5 + 1] = linearY2 += i4;
                     }
                 }
                 populated = 0;
-                i3 = 0;
-                while (i3 < arcs6.length) {
+                i2 = 0;
+                while (i2 < arcs6.length) {
                     k = 0;
-                    j = 0;
-                    while (j < v.length) {
+                    j2 = 0;
+                    while (j2 < v.length) {
                         if (Float.compare(t, time24) <= 0) {
                         }
-                        j += 2;
+                        j2 += 2;
                         k++;
-                        if (this.arcs[i3][k].isLinear()) {
+                        if (this.arcs[i2][k].isLinear()) {
                         } else {
                         }
-                        this.arcs[i3][k].setPoint(t);
-                        v[j] = this.arcs[i3][k].calcX();
-                        v[j + 1] = this.arcs[i3][k].calcY();
+                        this.arcs[i2][k].setPoint(t);
+                        v[j2] = this.arcs[i2][k].calcX();
+                        v[j2 + 1] = this.arcs[i2][k].calcY();
                         populated = 1;
-                        v[j] = this.arcs[i3][k].getLinearX(t);
-                        v[j + 1] = this.arcs[i3][k].getLinearY(t);
+                        v[j2] = this.arcs[i2][k].getLinearX(t);
+                        v[j2 + 1] = this.arcs[i2][k].getLinearY(t);
                         populated = 1;
                     }
-                    i3++;
+                    i2++;
                     if (Float.compare(t, time24) <= 0) {
                     }
-                    j += 2;
+                    j2 += 2;
                     k++;
-                    if (this.arcs[i3][k].isLinear()) {
+                    if (this.arcs[i2][k].isLinear()) {
                     } else {
                     }
-                    this.arcs[i3][k].setPoint(t);
-                    v[j] = this.arcs[i3][k].calcX();
-                    v[j + 1] = this.arcs[i3][k].calcY();
+                    this.arcs[i2][k].setPoint(t);
+                    v[j2] = this.arcs[i2][k].calcX();
+                    v[j2 + 1] = this.arcs[i2][k].calcY();
                     populated = 1;
-                    v[j] = this.arcs[i3][k].getLinearX(t);
-                    v[j + 1] = this.arcs[i3][k].getLinearY(t);
+                    v[j2] = this.arcs[i2][k].getLinearX(t);
+                    v[j2 + 1] = this.arcs[i2][k].getLinearY(t);
                     populated = 1;
                 }
             } else {
@@ -450,8 +450,8 @@ public final class ArcSpline {
         float t;
         androidx.compose.animation.core.ArcSpline.Arc cmp;
         int populated;
-        int i2;
         int i;
+        int i2;
         int j;
         int k;
         int length;
@@ -466,8 +466,8 @@ public final class ArcSpline {
             }
         }
         populated = 0;
-        i2 = 0;
-        while (i2 < arcs5.length) {
+        i = 0;
+        while (i < arcs5.length) {
             j = 0;
             k = 0;
             while (j < v.length) {
@@ -475,31 +475,31 @@ public final class ArcSpline {
                 }
                 j += 2;
                 k++;
-                if (this.arcs[i2][k].isLinear()) {
+                if (this.arcs[i][k].isLinear()) {
                 } else {
                 }
-                this.arcs[i2][k].setPoint(t);
-                v[j] = this.arcs[i2][k].calcDX();
-                v[j + 1] = this.arcs[i2][k].calcDY();
+                this.arcs[i][k].setPoint(t);
+                v[j] = this.arcs[i][k].calcDX();
+                v[j + 1] = this.arcs[i][k].calcDY();
                 populated = 1;
-                v[j] = this.arcs[i2][k].getLinearDX();
-                v[j + 1] = this.arcs[i2][k].getLinearDY();
+                v[j] = this.arcs[i][k].getLinearDX();
+                v[j + 1] = this.arcs[i][k].getLinearDY();
                 populated = 1;
             }
-            i2++;
+            i++;
             if (Float.compare(t, time22) <= 0) {
             }
             j += 2;
             k++;
-            if (this.arcs[i2][k].isLinear()) {
+            if (this.arcs[i][k].isLinear()) {
             } else {
             }
-            this.arcs[i2][k].setPoint(t);
-            v[j] = this.arcs[i2][k].calcDX();
-            v[j + 1] = this.arcs[i2][k].calcDY();
+            this.arcs[i][k].setPoint(t);
+            v[j] = this.arcs[i][k].calcDX();
+            v[j + 1] = this.arcs[i][k].calcDY();
             populated = 1;
-            v[j] = this.arcs[i2][k].getLinearDX();
-            v[j + 1] = this.arcs[i2][k].getLinearDY();
+            v[j] = this.arcs[i][k].getLinearDX();
+            v[j + 1] = this.arcs[i][k].getLinearDY();
             populated = 1;
         }
     }

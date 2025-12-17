@@ -173,19 +173,19 @@ public final class ViewInfo {
     }
 
     public int hashCode() {
-        int i2;
-        Object layoutInfo;
         int i;
+        Object layoutInfo;
+        int i2;
         if (this.location == null) {
-            i2 = i;
+            i = i2;
         } else {
-            i2 = this.location.hashCode();
+            i = this.location.hashCode();
         }
         if (this.layoutInfo == null) {
         } else {
-            i = this.layoutInfo.hashCode();
+            i2 = this.layoutInfo.hashCode();
         }
-        return i12 += i;
+        return i12 += i2;
     }
 
     public String toString() {

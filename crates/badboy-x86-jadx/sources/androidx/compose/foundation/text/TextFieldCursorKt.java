@@ -24,12 +24,12 @@ public final class TextFieldCursorKt {
 
     public static final Modifier cursor(Modifier $this$cursor, androidx.compose.foundation.text.LegacyTextFieldState state, TextFieldValue value, OffsetMapping offsetMapping, Brush cursorBrush, boolean enabled) {
         Modifier composed$default;
-        int i;
         int i2;
+        int i;
         if (enabled) {
             TextFieldCursorKt.cursor.1 anon = new TextFieldCursorKt.cursor.1(cursorBrush, state, value, offsetMapping);
-            i2 = 0;
-            composed$default = ComposedModifierKt.composed$default($this$cursor, i2, (Function3)anon, 1, i2);
+            i = 0;
+            composed$default = ComposedModifierKt.composed$default($this$cursor, i, (Function3)anon, 1, i);
         } else {
             composed$default = $this$cursor;
         }

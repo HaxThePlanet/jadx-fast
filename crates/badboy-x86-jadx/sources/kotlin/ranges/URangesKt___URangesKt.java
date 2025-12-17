@@ -411,13 +411,13 @@ class URangesKt___URangesKt {
 
     public static final kotlin.ranges.ULongProgression step(kotlin.ranges.ULongProgression $this$step, long step) {
         int cmp;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$step, "<this>");
         int i3 = 0;
-        i2 = Long.compare(step, i3) > 0 ? 1 : 0;
-        RangesKt.checkStepIsPositive(i2, (Number)Long.valueOf(step));
-        i = Long.compare(step2, i3) > 0 ? step : cmp;
+        i = Long.compare(step, i3) > 0 ? 1 : 0;
+        RangesKt.checkStepIsPositive(i, (Number)Long.valueOf(step));
+        i2 = Long.compare(step2, i3) > 0 ? step : cmp;
         return ULongProgression.Companion.fromClosedRange-7ftBX0g($this$step.getFirst-s-VKNKU(), obj6, $this$step.getLast-s-VKNKU());
     }
 

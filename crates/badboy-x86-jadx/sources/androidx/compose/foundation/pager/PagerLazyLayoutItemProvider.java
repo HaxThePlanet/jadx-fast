@@ -42,17 +42,17 @@ public final class PagerLazyLayoutItemProvider implements LazyLayoutItemProvider
     @Override // androidx.compose.foundation.lazy.layout.LazyLayoutItemProvider
     public void Item(int index, Object key, Composer $composer, int $changed) {
         int i3;
+        int i;
         int i2;
-        int i4;
-        int i6;
+        int i5;
         Object obj;
         int skipping;
         boolean traceInProgress;
-        int i;
+        int i4;
         int str;
         androidx.compose.foundation.lazy.layout.LazyLayoutPinnedItemList pinnedPages$foundation_release;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i5;
+        int i6;
         int obj8;
         Object obj9;
         int obj10;
@@ -60,16 +60,16 @@ public final class PagerLazyLayoutItemProvider implements LazyLayoutItemProvider
         final Composer restartGroup = $composer.startRestartGroup(i3);
         ComposerKt.sourceInformation(restartGroup, "C(Item)207@8683L155,207@8629L209:LazyLayoutPager.kt#g6yjnt");
         if ($changed & 6 == 0) {
-            i2 = restartGroup.changed(index) ? 4 : 2;
-            obj10 |= i2;
+            i = restartGroup.changed(index) ? 4 : 2;
+            obj10 |= i;
         }
         if ($changed & 48 == 0) {
-            i4 = restartGroup.changedInstance(key) ? 32 : 16;
-            obj10 |= i4;
+            i2 = restartGroup.changedInstance(key) ? 32 : 16;
+            obj10 |= i2;
         }
         if ($changed & 384 == 0) {
-            i6 = restartGroup.changed(this) ? 256 : 128;
-            obj10 |= i6;
+            i5 = restartGroup.changed(this) ? 256 : 128;
+            obj10 |= i5;
         }
         if (obj10 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
@@ -83,14 +83,14 @@ public final class PagerLazyLayoutItemProvider implements LazyLayoutItemProvider
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i = index;
+                i4 = index;
                 obj = key;
             }
         } else {
         }
         obj8 = restartGroup.endRestartGroup();
         if (obj8 != null) {
-            obj9 = new PagerLazyLayoutItemProvider.Item.2(this, i, obj, $changed);
+            obj9 = new PagerLazyLayoutItemProvider.Item.2(this, i4, obj, $changed);
             obj8.updateScope((Function2)obj9);
         }
     }

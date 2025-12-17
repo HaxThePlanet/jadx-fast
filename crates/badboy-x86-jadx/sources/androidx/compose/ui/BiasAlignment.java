@@ -36,12 +36,12 @@ public final class BiasAlignment implements androidx.compose.ui.Alignment {
 
         @Override // androidx.compose.ui.Alignment$Horizontal
         public int align(int size, int space, LayoutDirection layoutDirection) {
-            float bias2;
             float bias;
+            float bias2;
             if (layoutDirection == LayoutDirection.Ltr) {
-                bias2 = this.bias;
+                bias = this.bias;
             } else {
-                f2 *= bias;
+                f2 *= bias2;
             }
             final int i8 = 0;
             return Math.round(i6 *= i2);

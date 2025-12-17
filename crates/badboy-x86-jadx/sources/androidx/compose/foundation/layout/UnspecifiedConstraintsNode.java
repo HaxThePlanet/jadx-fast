@@ -80,9 +80,9 @@ final class UnspecifiedConstraintsNode extends Modifier.Node implements LayoutMo
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, Measurable measurable, long constraints) {
         boolean minWidth-impl2;
         int minWidth-impl;
-        int minHeight-impl2;
+        int minHeight-impl;
         int maxWidth-impl;
-        boolean minHeight-impl;
+        boolean minHeight-impl2;
         float unspecified-D9Ej5fM;
         int i = 0;
         if (!Dp.equals-impl0(this.minWidth, Dp.Companion.getUnspecified-D9Ej5fM()) && Constraints.getMinWidth-impl(constraints) == 0) {
@@ -95,13 +95,13 @@ final class UnspecifiedConstraintsNode extends Modifier.Node implements LayoutMo
         }
         if (!Dp.equals-impl0(this.minHeight, Dp.Companion.getUnspecified-D9Ej5fM()) && Constraints.getMinHeight-impl(constraints) == 0) {
             if (Constraints.getMinHeight-impl(constraints) == 0) {
-                minHeight-impl2 = RangesKt.coerceAtLeast(RangesKt.coerceAtMost($this$measure_u2d3p2s80s.roundToPx-0680j_4(this.minHeight), Constraints.getMaxHeight-impl(constraints)), i);
+                minHeight-impl = RangesKt.coerceAtLeast(RangesKt.coerceAtMost($this$measure_u2d3p2s80s.roundToPx-0680j_4(this.minHeight), Constraints.getMaxHeight-impl(constraints)), i);
             } else {
-                minHeight-impl2 = Constraints.getMinHeight-impl(constraints);
+                minHeight-impl = Constraints.getMinHeight-impl(constraints);
             }
         } else {
         }
-        Placeable measure-BRTryo0 = measurable.measure-BRTryo0(ConstraintsKt.Constraints(minWidth-impl, Constraints.getMaxWidth-impl(constraints), minHeight-impl2, Constraints.getMaxHeight-impl(constraints)));
+        Placeable measure-BRTryo0 = measurable.measure-BRTryo0(ConstraintsKt.Constraints(minWidth-impl, Constraints.getMaxWidth-impl(constraints), minHeight-impl, Constraints.getMaxHeight-impl(constraints)));
         UnspecifiedConstraintsNode.measure.1 anon = new UnspecifiedConstraintsNode.measure.1(measure-BRTryo0);
         return MeasureScope.layout$default($this$measure_u2d3p2s80s, measure-BRTryo0.getWidth(), measure-BRTryo0.getHeight(), 0, (Function1)anon, 4, 0);
     }

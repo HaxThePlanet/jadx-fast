@@ -147,31 +147,31 @@ public final class SegmentedButtonColors {
     }
 
     public final androidx.compose.material3.SegmentedButtonColors copy-2qZNXz8(long activeContainerColor, long activeContentColor, long activeBorderColor, long inactiveContainerColor, long inactiveContentColor, long inactiveBorderColor, long disabledActiveContainerColor, long disabledActiveContentColor, long disabledActiveBorderColor, long disabledInactiveContainerColor, long disabledInactiveContentColor, long disabledInactiveBorderColor) {
-        int $this$isSpecified$iv$iv7;
-        int $this$isSpecified$iv$iv8;
-        int $this$isSpecified$iv$iv6;
-        int $this$isSpecified$iv$iv5;
-        int $this$isSpecified$iv$iv2;
-        int $this$isSpecified$iv$iv3;
-        int $this$isSpecified$iv$iv;
-        int $this$isSpecified$iv$iv9;
-        int $this$isSpecified$iv$iv10;
-        int $this$isSpecified$iv$iv11;
+        int $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$2;
+        int $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$3;
+        int $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$4;
         int $this$isSpecified$iv$iv4;
-        long disabledInactiveBorderColor2;
+        int $this$isSpecified$iv$iv6;
+        int $this$isSpecified$iv$iv;
+        int $this$isSpecified$iv$iv3;
+        int $this$isSpecified$iv$iv2;
+        int $this$isSpecified$iv$iv7;
+        int $this$isSpecified$iv$iv5;
+        long $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$12;
         int i;
-        long l;
-        long l5;
-        long l2;
-        long l6;
-        long l7;
-        long l3;
-        long l11;
-        long l4;
-        long l12;
-        long l8;
         long l9;
+        long l7;
         long l10;
+        long l3;
+        long l8;
+        long l11;
+        long l;
+        long l2;
+        long l4;
+        long l6;
+        long l5;
+        long l12;
         final Object obj = this;
         int i2 = activeContainerColor;
         int i3 = 0;
@@ -179,127 +179,127 @@ public final class SegmentedButtonColors {
         int i50 = 16;
         i = 1;
         final int i51 = 0;
-        $this$isSpecified$iv$iv7 = Long.compare(i15, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv7 != 0) {
-            l = i2;
+        $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$1 = Long.compare(i15, i50) != 0 ? i : i51;
+        if ($i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$1 != 0) {
+            l9 = i2;
         } else {
             int i37 = 0;
-            l = $this$isSpecified$iv$iv7;
+            l9 = $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = activeBorderColor;
         int i4 = 0;
         int i39 = 0;
-        $this$isSpecified$iv$iv8 = Long.compare(i16, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv8 != 0) {
-            l5 = $this$takeOrElse_u2dDxMtmZc$iv;
+        $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$2 = Long.compare(i16, i50) != 0 ? i : i51;
+        if ($i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$2 != 0) {
+            l7 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i36 = 0;
-            l5 = $this$isSpecified$iv$iv8;
+            l7 = $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = inactiveContentColor;
         int i5 = 0;
         int i40 = 0;
-        $this$isSpecified$iv$iv6 = Long.compare(i17, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv6 != 0) {
-            l2 = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$3 = Long.compare(i17, i50) != 0 ? i : i51;
+        if ($i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$3 != 0) {
+            l10 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i35 = 0;
-            l2 = $this$isSpecified$iv$iv6;
+            l10 = $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = disabledActiveContainerColor;
         int i6 = 0;
         int i41 = 0;
-        $this$isSpecified$iv$iv5 = Long.compare(i18, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv5 != 0) {
-            l6 = $this$takeOrElse_u2dDxMtmZc$iv3;
+        $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$4 = Long.compare(i18, i50) != 0 ? i : i51;
+        if ($i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$4 != 0) {
+            l3 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i34 = 0;
-            l6 = $this$isSpecified$iv$iv5;
+            l3 = $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv4 = disabledActiveBorderColor;
         int i7 = 0;
         int i42 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i19, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv2 != 0) {
-            l7 = $this$takeOrElse_u2dDxMtmZc$iv4;
+        $this$isSpecified$iv$iv4 = Long.compare(i19, i50) != 0 ? i : i51;
+        if ($this$isSpecified$iv$iv4 != 0) {
+            l8 = $this$takeOrElse_u2dDxMtmZc$iv4;
         } else {
             int i33 = 0;
-            l7 = $this$isSpecified$iv$iv2;
+            l8 = $this$isSpecified$iv$iv4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv5 = disabledInactiveContentColor;
         int i8 = 0;
         int i43 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i20, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l3 = $this$takeOrElse_u2dDxMtmZc$iv5;
+        $this$isSpecified$iv$iv6 = Long.compare(i20, i50) != 0 ? i : i51;
+        if ($this$isSpecified$iv$iv6 != 0) {
+            l11 = $this$takeOrElse_u2dDxMtmZc$iv5;
         } else {
             int i32 = 0;
-            l3 = $this$isSpecified$iv$iv3;
+            l11 = $this$isSpecified$iv$iv6;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv6 = obj51;
         int i9 = 0;
         int i44 = 0;
         $this$isSpecified$iv$iv = Long.compare(i21, i50) != 0 ? i : i51;
         if ($this$isSpecified$iv$iv != 0) {
-            l11 = $this$takeOrElse_u2dDxMtmZc$iv6;
+            l = $this$takeOrElse_u2dDxMtmZc$iv6;
         } else {
             int i31 = 0;
-            l11 = $this$isSpecified$iv$iv;
+            l = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv7 = obj53;
         int i10 = 0;
         int i45 = 0;
-        $this$isSpecified$iv$iv9 = Long.compare(i22, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv9 != 0) {
-            l4 = $this$takeOrElse_u2dDxMtmZc$iv7;
+        $this$isSpecified$iv$iv3 = Long.compare(i22, i50) != 0 ? i : i51;
+        if ($this$isSpecified$iv$iv3 != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv7;
         } else {
             int i30 = 0;
-            l4 = $this$isSpecified$iv$iv9;
+            l2 = $this$isSpecified$iv$iv3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv8 = obj55;
         int i11 = 0;
         int i46 = 0;
-        $this$isSpecified$iv$iv10 = Long.compare(i23, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv10 != 0) {
-            l12 = $this$takeOrElse_u2dDxMtmZc$iv8;
+        $this$isSpecified$iv$iv2 = Long.compare(i23, i50) != 0 ? i : i51;
+        if ($this$isSpecified$iv$iv2 != 0) {
+            l4 = $this$takeOrElse_u2dDxMtmZc$iv8;
         } else {
             int i29 = 0;
-            l12 = $this$isSpecified$iv$iv10;
+            l4 = $this$isSpecified$iv$iv2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv9 = obj57;
         int i12 = 0;
         int i47 = 0;
-        $this$isSpecified$iv$iv11 = Long.compare(i24, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv11 != 0) {
-            l8 = $this$takeOrElse_u2dDxMtmZc$iv9;
+        $this$isSpecified$iv$iv7 = Long.compare(i24, i50) != 0 ? i : i51;
+        if ($this$isSpecified$iv$iv7 != 0) {
+            l6 = $this$takeOrElse_u2dDxMtmZc$iv9;
         } else {
             int i28 = 0;
-            l8 = $this$isSpecified$iv$iv11;
+            l6 = $this$isSpecified$iv$iv7;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv10 = obj59;
         int i13 = 0;
         int i48 = 0;
-        $this$isSpecified$iv$iv4 = Long.compare(i25, i50) != 0 ? i : i51;
-        if ($this$isSpecified$iv$iv4 != 0) {
-            l9 = $this$takeOrElse_u2dDxMtmZc$iv10;
+        $this$isSpecified$iv$iv5 = Long.compare(i25, i50) != 0 ? i : i51;
+        if ($this$isSpecified$iv$iv5 != 0) {
+            l5 = $this$takeOrElse_u2dDxMtmZc$iv10;
         } else {
             int i27 = 0;
-            l9 = $this$isSpecified$iv$iv4;
+            l5 = $this$isSpecified$iv$iv5;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv11 = obj61;
         int i14 = 0;
         int i49 = 0;
-        if (Long.compare(disabledInactiveBorderColor2, i50) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$12, i50) != 0) {
         } else {
             i = i51;
         }
         if (i != 0) {
-            l10 = $this$takeOrElse_u2dDxMtmZc$iv11;
+            l12 = $this$takeOrElse_u2dDxMtmZc$iv11;
         } else {
             int i26 = 0;
-            l10 = disabledInactiveBorderColor2;
+            l12 = $i$a$TakeOrElseDxMtmZcSegmentedButtonColors$copy$12;
         }
-        SegmentedButtonColors segmentedButtonColors = new SegmentedButtonColors(l, obj14, l5, obj16, l2, obj18, l6, obj20, l7, obj22, l3, obj24, l11, obj26, l4, obj28, l12, obj30, l8, obj32, l9, obj34, l10, obj36, 0);
+        SegmentedButtonColors segmentedButtonColors = new SegmentedButtonColors(l9, obj14, l7, obj16, l10, obj18, l3, obj20, l8, obj22, l11, obj24, l, obj26, l2, obj28, l4, obj30, l6, obj32, l5, obj34, l12, obj36, 0);
         return segmentedButtonColors;
     }
 

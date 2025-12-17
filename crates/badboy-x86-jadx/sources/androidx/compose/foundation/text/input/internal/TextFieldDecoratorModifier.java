@@ -190,17 +190,17 @@ public final class TextFieldDecoratorModifier extends ModifierNodeElement<androi
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i;
-        KeyboardActionHandler keyboardActionHandler;
         int i2;
+        KeyboardActionHandler keyboardActionHandler;
+        int i;
         if (this.filter == null) {
-            i = i2;
+            i2 = i;
         } else {
-            i = this.filter.hashCode();
+            i2 = this.filter.hashCode();
         }
         if (this.keyboardActionHandler == null) {
         } else {
-            i2 = this.keyboardActionHandler.hashCode();
+            i = this.keyboardActionHandler.hashCode();
         }
         return i20 += i28;
     }

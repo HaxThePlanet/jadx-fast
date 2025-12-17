@@ -27,40 +27,40 @@ public final class ConstraintsKt {
     private static final int MinNonFocusBits = 15;
     private static final int MinNonFocusMask = 32767;
     public static final long Constraints(int minWidth, int maxWidth, int minHeight, int maxHeight) {
-        int i2;
         int i;
+        int i2;
+        int $i$a$RequirePreconditionConstraintsKt$Constraints$3;
+        int append;
         int string;
-        int append2;
-        int string2;
-        String string3;
-        StringBuilder append;
+        String $i$a$RequirePreconditionConstraintsKt$Constraints$1;
+        StringBuilder append2;
         String str;
-        i2 = 1;
+        i = 1;
         int i3 = 0;
-        i = maxWidth >= minWidth ? i2 : i3;
+        i2 = maxWidth >= minWidth ? i : i3;
         int i6 = 0;
-        string2 = 41;
-        if (i == 0) {
+        string = 41;
+        if (i2 == 0) {
             int i7 = 0;
             StringBuilder stringBuilder2 = new StringBuilder();
-            InlineClassHelperKt.throwIllegalArgumentException(stringBuilder2.append("maxWidth(").append(maxWidth).append(") must be >= than minWidth(").append(minWidth).append(string2).toString());
+            InlineClassHelperKt.throwIllegalArgumentException(stringBuilder2.append("maxWidth(").append(maxWidth).append(") must be >= than minWidth(").append(minWidth).append(string).toString());
         }
-        string = maxHeight >= minHeight ? i2 : i3;
-        append2 = 0;
-        if (string == null) {
-            string3 = 0;
+        $i$a$RequirePreconditionConstraintsKt$Constraints$3 = maxHeight >= minHeight ? i : i3;
+        append = 0;
+        if ($i$a$RequirePreconditionConstraintsKt$Constraints$3 == 0) {
+            $i$a$RequirePreconditionConstraintsKt$Constraints$1 = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
-            InlineClassHelperKt.throwIllegalArgumentException(stringBuilder3.append("maxHeight(").append(maxHeight).append(") must be >= than minHeight(").append(minHeight).append(string2).toString());
+            InlineClassHelperKt.throwIllegalArgumentException(stringBuilder3.append("maxHeight(").append(maxHeight).append(") must be >= than minHeight(").append(minHeight).append(string).toString());
         }
         if (minWidth >= 0 && minHeight >= 0) {
             if (minHeight >= 0) {
             } else {
-                i2 = i3;
+                i = i3;
             }
         } else {
         }
         int i4 = 0;
-        if (i2 == 0) {
+        if (i == 0) {
             int i5 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             InlineClassHelperKt.throwIllegalArgumentException(stringBuilder.append("minWidth(").append(minWidth).append(") and minHeight(").append(minHeight).append(") must be >= 0").toString());
@@ -128,22 +128,22 @@ public final class ConstraintsKt {
     }
 
     public static final long createConstraints(int minWidth, int maxWidth, int minHeight, int maxHeight) {
-        int i2;
         int i3;
         int i;
+        int i2;
         int i4 = maxWidth;
         final int i9 = maxHeight;
         int i10 = Integer.MAX_VALUE;
-        i3 = i9 == i10 ? minHeight : i9;
-        i2 = i4 == i10 ? minWidth : i4;
-        final int bitsNeedForSizeUnchecked2 = ConstraintsKt.bitsNeedForSizeUnchecked(i2);
+        i = i9 == i10 ? minHeight : i9;
+        i3 = i4 == i10 ? minWidth : i4;
+        final int bitsNeedForSizeUnchecked2 = ConstraintsKt.bitsNeedForSizeUnchecked(i3);
         if (bitsNeedForSizeUnchecked2 + bitsNeedForSizeUnchecked > 31) {
-            ConstraintsKt.invalidConstraint(i2, i3);
+            ConstraintsKt.invalidConstraint(i3, i);
         }
         int i12 = i4 + 1;
         int i16 = i9 + 1;
         int i19 = 3;
-        i = 0;
+        i2 = 0;
         int i25 = 1;
         switch (bitsNeedForSizeUnchecked2) {
             case 13:
@@ -151,13 +151,13 @@ public final class ConstraintsKt {
             case 14:
                 break;
             case 15:
-                i = i25;
+                i2 = i25;
                 break;
             case 16:
-                i = 2;
+                i2 = 2;
                 break;
             default:
-                i = i19;
+                i2 = i19;
         }
         int i30 = 0;
         int i20 = 0;

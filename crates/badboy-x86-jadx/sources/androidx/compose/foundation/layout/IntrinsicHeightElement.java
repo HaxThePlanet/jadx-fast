@@ -36,8 +36,8 @@ final class IntrinsicHeightElement extends ModifierNodeElement<androidx.compose.
     public boolean equals(Object other) {
         int i;
         Object obj;
-        androidx.compose.foundation.layout.IntrinsicSize enforceIncoming;
         androidx.compose.foundation.layout.IntrinsicSize enforceIncoming2;
+        androidx.compose.foundation.layout.IntrinsicSize enforceIncoming;
         if (this == other) {
             return 1;
         }

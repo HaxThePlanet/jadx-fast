@@ -73,14 +73,14 @@ public abstract class LookaheadDelegate extends androidx.compose.ui.node.Lookahe
 
     private final void set_measureResult(MeasureResult result) {
         Unit it;
-        Map oldAlignmentLines;
+        Map oldAlignmentLines3;
+        int oldAlignmentLines;
         int oldAlignmentLines2;
-        int oldAlignmentLines3;
         long zero-YbymL2g;
         int height;
         if (result != null) {
             Object obj = result;
-            oldAlignmentLines3 = 0;
+            oldAlignmentLines2 = 0;
             height = obj.getHeight();
             setMeasuredSize-ozmzZPI(IntSizeKt.IntSize(obj.getWidth(), height));
             it = Unit.INSTANCE;
@@ -88,32 +88,32 @@ public abstract class LookaheadDelegate extends androidx.compose.ui.node.Lookahe
             it = 0;
         }
         if (it == null) {
-            oldAlignmentLines3 = 0;
+            oldAlignmentLines2 = 0;
             (LookaheadDelegate)this.setMeasuredSize-ozmzZPI(IntSize.Companion.getZero-YbymL2g());
         }
         if (!Intrinsics.areEqual(this._measureResult, result) && result != null) {
             if (result != null) {
-                oldAlignmentLines = this.oldAlignmentLines;
-                if (oldAlignmentLines != null) {
-                    if (oldAlignmentLines.isEmpty()) {
-                        oldAlignmentLines2 = 1;
+                oldAlignmentLines3 = this.oldAlignmentLines;
+                if (oldAlignmentLines3 != null) {
+                    if (oldAlignmentLines3.isEmpty()) {
+                        oldAlignmentLines = 1;
                     } else {
-                        oldAlignmentLines2 = 0;
+                        oldAlignmentLines = 0;
                     }
                 } else {
                 }
-                if (oldAlignmentLines2 != 0) {
+                if (oldAlignmentLines != 0) {
                     getAlignmentLinesOwner().getAlignmentLines().onAlignmentsChanged();
                     if (!result.getAlignmentLines().isEmpty() && !Intrinsics.areEqual(result.getAlignmentLines(), this.oldAlignmentLines) && this.oldAlignmentLines == null) {
                         if (!Intrinsics.areEqual(result.getAlignmentLines(), this.oldAlignmentLines)) {
                             getAlignmentLinesOwner().getAlignmentLines().onAlignmentsChanged();
                             if (this.oldAlignmentLines == null) {
-                                oldAlignmentLines2 = new LinkedHashMap();
+                                oldAlignmentLines = new LinkedHashMap();
                                 zero-YbymL2g = 0;
-                                this.oldAlignmentLines = (Map)oldAlignmentLines2;
+                                this.oldAlignmentLines = (Map)oldAlignmentLines;
                             }
-                            oldAlignmentLines2.clear();
-                            oldAlignmentLines2.putAll(result.getAlignmentLines());
+                            oldAlignmentLines.clear();
+                            oldAlignmentLines.putAll(result.getAlignmentLines());
                         }
                     }
                 } else {

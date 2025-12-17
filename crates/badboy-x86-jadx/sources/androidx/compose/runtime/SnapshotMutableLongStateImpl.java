@@ -55,14 +55,14 @@ public class SnapshotMutableLongStateImpl extends StateObjectImpl implements and
     public SnapshotMutableLongStateImpl(long value) {
         boolean longStateStateRecord;
         androidx.compose.runtime.SnapshotMutableLongStateImpl.LongStateStateRecord num;
-        int i;
         int i2;
+        int i;
         super();
         SnapshotMutableLongStateImpl.LongStateStateRecord longStateStateRecord2 = new SnapshotMutableLongStateImpl.LongStateStateRecord(value, obj9);
         final int i3 = 0;
         if (Snapshot.Companion.isInSnapshot()) {
             longStateStateRecord = new SnapshotMutableLongStateImpl.LongStateStateRecord(value, obj9);
-            i = 0;
+            i2 = 0;
             longStateStateRecord.setSnapshotId$runtime_release(1);
             longStateStateRecord2.setNext$runtime_release((StateRecord)longStateStateRecord);
         }
@@ -117,44 +117,44 @@ public class SnapshotMutableLongStateImpl extends StateObjectImpl implements and
     @Override // androidx.compose.runtime.snapshots.StateObjectImpl
     public void setLongValue(long value) {
         int next;
-        int i2;
-        Snapshot snapshot$iv;
-        int i3;
-        Object obj;
         int i;
+        Snapshot snapshot$iv;
+        int i2;
+        Object obj;
+        int i4;
         Throwable th;
         Unit $this$_set_longValue__u24lambda_u243_u24lambda_u242;
-        int i4;
+        int i3;
         final int i5 = 0;
         final StateRecord current = SnapshotKt.current((StateRecord)this.next);
         final int i6 = 0;
         if (Long.compare(value2, value) != 0) {
-            i2 = 0;
+            i = 0;
             int i7 = 0;
             Snapshot snapshot$iv2 = SnapshotKt.getSnapshotInitializer();
             int i8 = 0;
             Object lock = SnapshotKt.getLock();
-            i = 0;
+            i4 = 0;
             th = 0;
             snapshot$iv = current2;
-            i4 = 0;
+            i3 = 0;
             (SnapshotMutableLongStateImpl.LongStateStateRecord)SnapshotKt.overwritableRecord((StateRecord)this.next, (StateObject)this, snapshot$iv, (StateRecord)current).setValue(value);
             $this$_set_longValue__u24lambda_u243_u24lambda_u242 = Unit.INSTANCE;
-            i3 = 0;
+            i2 = 0;
             SnapshotKt.notifyWrite(snapshot$iv, (StateObject)this);
             synchronized (lock) {
-                i2 = 0;
+                i = 0;
                 i7 = 0;
                 snapshot$iv2 = SnapshotKt.getSnapshotInitializer();
                 i8 = 0;
                 lock = SnapshotKt.getLock();
-                i = 0;
+                i4 = 0;
                 th = 0;
                 snapshot$iv = current2;
-                i4 = 0;
+                i3 = 0;
                 (SnapshotMutableLongStateImpl.LongStateStateRecord)SnapshotKt.overwritableRecord((StateRecord)this.next, (StateObject)this, snapshot$iv, (StateRecord)current).setValue(value);
                 $this$_set_longValue__u24lambda_u243_u24lambda_u242 = Unit.INSTANCE;
-                i3 = 0;
+                i2 = 0;
                 SnapshotKt.notifyWrite(snapshot$iv, (StateObject)this);
             }
         }

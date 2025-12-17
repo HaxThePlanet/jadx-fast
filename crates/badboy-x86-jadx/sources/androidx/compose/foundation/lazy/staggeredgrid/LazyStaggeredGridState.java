@@ -182,30 +182,30 @@ public final class LazyStaggeredGridState implements ScrollableState {
 
     private final void cancelPrefetchIfVisibleItemsChanged(androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridLayoutInfo info) {
         int $this$forEach$iv;
-        int i3;
+        int i;
         int iterator;
         int prefetchBaseIndex;
-        int i;
         int i2;
+        int i3;
         final java.util.List visibleItemsInfo = info.getVisibleItemsInfo();
-        i3 = -1;
+        i = -1;
         prefetchBaseIndex = this.prefetchBaseIndex;
-        i = 0;
-        if (this.prefetchBaseIndex != i3 && !(Collection)visibleItemsInfo.isEmpty() && (LazyStaggeredGridItemInfo)CollectionsKt.first(visibleItemsInfo).getIndex() <= prefetchBaseIndex && prefetchBaseIndex <= (LazyStaggeredGridItemInfo)CollectionsKt.last(visibleItemsInfo).getIndex()) {
+        i2 = 0;
+        if (this.prefetchBaseIndex != i && !(Collection)visibleItemsInfo.isEmpty() && (LazyStaggeredGridItemInfo)CollectionsKt.first(visibleItemsInfo).getIndex() <= prefetchBaseIndex && prefetchBaseIndex <= (LazyStaggeredGridItemInfo)CollectionsKt.last(visibleItemsInfo).getIndex()) {
             if (!(Collection)visibleItemsInfo.isEmpty()) {
                 prefetchBaseIndex = this.prefetchBaseIndex;
-                i = 0;
+                i2 = 0;
                 if ((LazyStaggeredGridItemInfo)CollectionsKt.first(visibleItemsInfo).getIndex() <= prefetchBaseIndex) {
                     if (prefetchBaseIndex <= (LazyStaggeredGridItemInfo)CollectionsKt.last(visibleItemsInfo).getIndex()) {
-                        i = 1;
+                        i2 = 1;
                     }
                 }
-                if (i == 0) {
-                    this.prefetchBaseIndex = i3;
-                    i3 = 0;
+                if (i2 == 0) {
+                    this.prefetchBaseIndex = i;
+                    i = 0;
                     iterator = (Iterable)this.currentItemPrefetchHandles.values().iterator();
                     for (Object prefetchBaseIndex : iterator) {
-                        i2 = 0;
+                        i3 = 0;
                         (LazyLayoutPrefetchState.PrefetchHandle)prefetchBaseIndex.cancel();
                     }
                     this.currentItemPrefetchHandles.clear();
@@ -228,51 +228,51 @@ public final class LazyStaggeredGridState implements ScrollableState {
     }
 
     private final int[] fillNearestIndices(int itemIndex, int laneCount) {
+        int currentItemIndex2;
         int currentItemIndex;
-        int currentItemIndex3;
-        int i;
+        int i4;
         int i2;
         int lane;
         int lane2;
-        int i4;
+        int i;
         int i3;
-        int currentItemIndex2;
+        int currentItemIndex3;
         final int[] iArr = new int[laneCount];
         if ((LazyStaggeredGridMeasureResult)this.layoutInfoState.getValue().getSpanProvider().isFullSpan(itemIndex)) {
             ArraysKt.fill$default(iArr, itemIndex, 0, 0, 6, 0);
             return iArr;
         }
         if (/* condition */) {
-            final int i12 = i;
-            currentItemIndex2 = currentItemIndex;
+            final int i12 = i4;
+            currentItemIndex3 = currentItemIndex2;
             lane2 = i2;
-            currentItemIndex = -1;
-            while (currentItemIndex < lane2) {
-                iArr[lane2] = this.laneInfo.findPreviousItemIndex(currentItemIndex2, lane2);
-                if (iArr[lane2] == currentItemIndex) {
+            currentItemIndex2 = -1;
+            while (currentItemIndex2 < lane2) {
+                iArr[lane2] = this.laneInfo.findPreviousItemIndex(currentItemIndex3, lane2);
+                if (iArr[lane2] == currentItemIndex2) {
                     break;
                 } else {
                 }
-                currentItemIndex2 = iArr[lane2];
+                currentItemIndex3 = iArr[lane2];
                 lane2--;
-                currentItemIndex = -1;
+                currentItemIndex2 = -1;
             }
             iArr[i12] = itemIndex;
-            currentItemIndex3 = itemIndex;
+            currentItemIndex = itemIndex;
             lane = i12 + 1;
             while (lane < laneCount) {
-                iArr[lane] = this.laneInfo.findNextItemIndex(currentItemIndex3, lane);
-                currentItemIndex3 = iArr[lane];
+                iArr[lane] = this.laneInfo.findNextItemIndex(currentItemIndex, lane);
+                currentItemIndex = iArr[lane];
                 lane++;
             }
             return iArr;
         } else {
             if (lane3 >= 0) {
-                i = 1;
+                i4 = 1;
             }
-            if (i == 0) {
+            if (i4 == 0) {
             } else {
-                i = Math.min(lane3, laneCount);
+                i4 = Math.min(lane3, laneCount);
             }
         }
         int i8 = 0;
@@ -293,21 +293,21 @@ public final class LazyStaggeredGridState implements ScrollableState {
         int index;
         LinkedHashSet linkedHashSet;
         int targetIndex;
-        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridSlots slots2;
+        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridSlots slots;
         int length;
         int lane;
-        int i4;
+        int i3;
         boolean fullSpan;
         int previousItemIndex;
         int currentItemPrefetchHandles;
-        int i;
+        int i4;
         int start;
         Map currentItemPrefetchHandles2;
-        int i2;
+        int i;
         long fixedHeight-OenEA2s;
-        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridSlots slots;
+        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridSlots slots2;
         long l;
-        int i3;
+        int i2;
         final Object obj = this;
         if (obj.prefetchingEnabled && !(Collection)info.getVisibleItemsInfo().isEmpty()) {
             if (!(Collection)info.getVisibleItemsInfo().isEmpty()) {
@@ -325,11 +325,11 @@ public final class LazyStaggeredGridState implements ScrollableState {
                 length = sizes.length;
                 lane = 0;
                 while (lane < length) {
-                    i4 = targetIndex;
+                    i3 = targetIndex;
                     if (prefetchingEnabled != 0) {
                     } else {
                     }
-                    previousItemIndex = obj.laneInfo.findPreviousItemIndex(i4, lane);
+                    previousItemIndex = obj.laneInfo.findPreviousItemIndex(i3, lane);
                     targetIndex = previousItemIndex;
                     if (targetIndex >= 0 && targetIndex < info.getTotalItemsCount()) {
                     } else {
@@ -347,8 +347,8 @@ public final class LazyStaggeredGridState implements ScrollableState {
                     if (fullSpan) {
                     } else {
                     }
-                    i = schedulePrefetch-0kLqBqw;
-                    if (i == schedulePrefetch-0kLqBqw) {
+                    i4 = schedulePrefetch-0kLqBqw;
+                    if (i4 == schedulePrefetch-0kLqBqw) {
                     } else {
                     }
                     i7 -= schedulePrefetch-0kLqBqw;
@@ -357,27 +357,27 @@ public final class LazyStaggeredGridState implements ScrollableState {
                     } else {
                     }
                     fixedHeight-OenEA2s = Constraints.Companion.fixedHeight-OenEA2s(start);
-                    slots = slots2;
-                    i3 = length;
+                    slots2 = slots;
+                    i2 = length;
                     obj.currentItemPrefetchHandles.put(Integer.valueOf(targetIndex), obj.prefetchState.schedulePrefetch-0kLqBqw(targetIndex, fixedHeight-OenEA2s));
                     lane++;
-                    slots2 = slots;
-                    length = i3;
+                    slots = slots2;
+                    length = i2;
                     schedulePrefetch-0kLqBqw = 1;
                     fixedHeight-OenEA2s = Constraints.Companion.fixedWidth-OenEA2s(start);
-                    start = slots2.getSizes()[currentItemPrefetchHandles];
-                    i = length;
+                    start = slots.getSizes()[currentItemPrefetchHandles];
+                    i4 = length;
                     currentItemPrefetchHandles = 0;
-                    slots = slots2;
-                    i3 = length;
+                    slots2 = slots;
+                    i2 = length;
                     if (targetIndex < info.getTotalItemsCount()) {
                     } else {
                     }
                     fullSpan = schedulePrefetch-0kLqBqw;
-                    previousItemIndex = obj.laneInfo.findNextItemIndex(i4, lane);
+                    previousItemIndex = obj.laneInfo.findNextItemIndex(i3, lane);
                 }
-                slots = slots2;
-                i3 = length;
+                slots2 = slots;
+                i2 = length;
                 obj.clearLeftoverPrefetchHandles(linkedHashSet);
             }
         }
@@ -641,37 +641,37 @@ public final class LazyStaggeredGridState implements ScrollableState {
     public final void requestScrollToItem(int index, int scrollOffset) {
         boolean scrollInProgress;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i3;
         int i4;
-        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState.requestScrollToItem.1 anon;
-        int i;
         int i2;
+        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState.requestScrollToItem.1 anon;
+        int i3;
+        int i;
         if (isScrollInProgress()) {
-            i3 = 0;
-            scrollInProgress = new LazyStaggeredGridState.requestScrollToItem.1(this, i3);
-            BuildersKt.launch$default((LazyStaggeredGridMeasureResult)this.layoutInfoState.getValue().getCoroutineScope(), i3, 0, (Function2)scrollInProgress, 3, 0);
+            i4 = 0;
+            scrollInProgress = new LazyStaggeredGridState.requestScrollToItem.1(this, i4);
+            BuildersKt.launch$default((LazyStaggeredGridMeasureResult)this.layoutInfoState.getValue().getCoroutineScope(), i4, 0, (Function2)scrollInProgress, 3, 0);
         }
         snapToItemInternal$foundation_release(index, scrollOffset, false);
     }
 
     public Object scroll(MutatePriority mutatePriority, Function2<? super ScrollScope, ? super Continuation<? super Unit>, ? extends Object> function22, Continuation<? super Unit> continuation3) {
         boolean anon;
+        int i3;
         int i;
-        int i2;
         Object label;
         Object waitForFirstLayout;
-        int i3;
+        int i2;
         Object obj;
         Object obj7;
         Object obj8;
         Object obj9;
         anon = continuation3;
-        i2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof LazyStaggeredGridState.scroll.1 && label2 &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof LazyStaggeredGridState.scroll.1 && label2 &= i != 0) {
             anon = continuation3;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon.label = obj9 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon.label = obj9 -= i;
             } else {
                 anon = new LazyStaggeredGridState.scroll.1(this, continuation3);
             }
@@ -736,31 +736,31 @@ public final class LazyStaggeredGridState implements ScrollableState {
     @Override // androidx.compose.foundation.gestures.ScrollableState
     public final void snapToItemInternal$foundation_release(int index, int scrollOffset, boolean forceRemeasure) {
         int scrollOffset2;
-        int i2;
+        int i4;
         androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridScrollPosition scrollPosition;
         Object measurementScopeInvalidator;
         int i3;
         LazyLayoutItemAnimator itemAnimator;
         int x-impl;
-        int i4;
+        int i2;
         int length;
         int[] iArr;
         int i;
         if (this.scrollPosition.getIndex() == index) {
             if (this.scrollPosition.getScrollOffset() != scrollOffset) {
-                i2 = 1;
+                i4 = 1;
             } else {
-                i2 = i3;
+                i4 = i3;
             }
         } else {
         }
-        if (i2 != 0) {
+        if (i4 != 0) {
             this.itemAnimator.reset();
         }
         Object value = this.layoutInfoState.getValue();
         androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemInfo visibleItem = LazyStaggeredGridMeasureResultKt.findVisibleItem((LazyStaggeredGridLayoutInfo)(LazyStaggeredGridMeasureResult)value, index);
-        if (visibleItem != null && i2 != 0) {
-            if (i2 != 0) {
+        if (visibleItem != null && i4 != 0) {
+            if (i4 != 0) {
                 Orientation vertical = Orientation.Vertical;
                 if (value.getOrientation() == vertical) {
                     x-impl = IntOffset.getY-impl(visibleItem.getOffset-nOcc-ac());
@@ -770,7 +770,7 @@ public final class LazyStaggeredGridState implements ScrollableState {
                 length = firstVisibleItemScrollOffsets.length;
                 iArr = new int[length];
                 while (i3 < length) {
-                    iArr[i3] = i5 += i4;
+                    iArr[i3] = i5 += i2;
                     i3++;
                 }
                 this.scrollPosition.updateScrollOffset(iArr);

@@ -113,8 +113,8 @@ final class JobKt__JobKt {
     public static final void cancelChildren(CoroutineContext $this$cancelChildren, Throwable cause) {
         Object next;
         Object obj;
-        int i2;
         int i;
+        int i2;
         Throwable orCancellation$JobKt__JobKt;
         kotlin.coroutines.CoroutineContext.Element context = $this$cancelChildren.get((CoroutineContext.Key)Job.Key);
         if ((Job)context == null) {
@@ -123,34 +123,34 @@ final class JobKt__JobKt {
         final Iterator iterator = (Job)context.getChildren().iterator();
         while (iterator.hasNext()) {
             obj = next;
-            i2 = 0;
+            i = 0;
             if (obj instanceof JobSupport) {
             } else {
             }
-            i = 0;
-            if (i != 0) {
+            i2 = 0;
+            if (i2 != 0) {
             }
-            i.cancelInternal(JobKt__JobKt.orCancellation$JobKt__JobKt(cause, context));
-            i = obj;
+            i2.cancelInternal(JobKt__JobKt.orCancellation$JobKt__JobKt(cause, context));
+            i2 = obj;
         }
     }
 
     public static final void cancelChildren(CoroutineContext $this$cancelChildren, CancellationException cause) {
         Object children;
-        int i;
+        int i2;
         Iterator iterator;
         Object next;
         Object obj;
-        int i2;
+        int i;
         children = $this$cancelChildren.get((CoroutineContext.Key)Job.Key);
         children = (Job)children.getChildren();
         if (children != null && children != null) {
             children = children.getChildren();
             if (children != null) {
-                i = 0;
+                i2 = 0;
                 iterator = children.iterator();
                 for (Object next : iterator) {
-                    i2 = 0;
+                    i = 0;
                     (Job)next.cancel(cause);
                 }
             }

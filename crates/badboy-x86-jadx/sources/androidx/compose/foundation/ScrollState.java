@@ -89,10 +89,10 @@ public final class ScrollState implements ScrollableState {
 
     public static Object animateScrollTo$default(androidx.compose.foundation.ScrollState scrollState, int i2, AnimationSpec animationSpec3, Continuation continuation4, int i5, Object object6) {
         SpringSpec springSpec;
-        int i4;
         int i3;
-        int i6;
+        int i4;
         int i7;
+        int i6;
         int i;
         SpringSpec obj8;
         if (i5 &= 2 != 0) {
@@ -207,7 +207,7 @@ public final class ScrollState implements ScrollableState {
         if (getValue() > newMax) {
             setValue(newMax);
         }
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$WithoutReadObservationScrollState$maxValue$1 = Unit.INSTANCE;
         companion.restoreNonObservable(currentThreadSnapshot, companion.makeCurrentNonObservable(currentThreadSnapshot), readObserver);
     }
 

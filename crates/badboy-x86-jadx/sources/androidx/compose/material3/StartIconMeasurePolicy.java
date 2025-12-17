@@ -61,75 +61,75 @@ final class StartIconMeasurePolicy implements MeasurePolicy {
     }
 
     public int maxIntrinsicHeight(IntrinsicMeasureScope $this$maxIntrinsicHeight, List<? extends IntrinsicMeasurable> measurables, int width) {
-        int index$iv$iv2;
         int index$iv$iv;
-        String str;
+        int index$iv$iv2;
+        String str2;
         Object obj;
-        Object obj3;
-        int i3;
-        boolean it;
-        int i;
-        int i2;
         Object obj2;
+        int i2;
+        boolean it;
+        int i3;
+        int i;
+        Object obj3;
         Object layoutId;
         String layoutId2;
-        String str2;
+        String str;
         final int i4 = width;
         int i5 = 0;
         Object obj6 = obj4;
         int i7 = 0;
-        index$iv$iv2 = 0;
-        str = "Collection contains no element matching the predicate.";
-        while (index$iv$iv2 < obj6.size()) {
-            obj3 = obj;
-            i3 = 0;
+        index$iv$iv = 0;
+        str2 = "Collection contains no element matching the predicate.";
+        while (index$iv$iv < obj6.size()) {
+            obj2 = obj;
             i2 = 0;
-            if (Intrinsics.areEqual(TextFieldImplKt.getLayoutId((IntrinsicMeasurable)obj3), "icon")) {
+            i = 0;
+            if (Intrinsics.areEqual(TextFieldImplKt.getLayoutId((IntrinsicMeasurable)obj2), "icon")) {
                 break;
             } else {
             }
-            i = this;
-            obj2 = $this$maxIntrinsicHeight;
-            index$iv$iv2++;
-            str = "Collection contains no element matching the predicate.";
+            i3 = this;
+            obj3 = $this$maxIntrinsicHeight;
+            index$iv$iv++;
+            str2 = "Collection contains no element matching the predicate.";
         }
         int i14 = this;
         Object obj10 = $this$maxIntrinsicHeight;
-        NoSuchElementException $this$fastForEach$iv$iv = new NoSuchElementException(str);
+        NoSuchElementException $this$fastForEach$iv$iv = new NoSuchElementException(str2);
         throw $this$fastForEach$iv$iv;
     }
 
     public int maxIntrinsicWidth(IntrinsicMeasureScope $this$maxIntrinsicWidth, List<? extends IntrinsicMeasurable> measurables, int height) {
         int maxIntrinsicWidth;
-        int index$iv$iv2;
         int index$iv$iv;
+        int index$iv$iv2;
         String str;
-        Object obj2;
         Object obj;
-        int i2;
-        boolean it;
-        int i4;
-        int i;
-        Object layoutId2;
-        String layoutId;
+        Object obj2;
         int i3;
+        boolean it;
+        int i2;
+        int i4;
+        Object layoutId;
+        String layoutId2;
+        int i;
         final Object obj3 = this;
         final int i5 = height;
         int i7 = 0;
         Object obj6 = obj4;
         int i12 = 0;
-        index$iv$iv2 = 0;
+        index$iv$iv = 0;
         str = "Collection contains no element matching the predicate.";
-        while (index$iv$iv2 < obj6.size()) {
-            obj = obj2;
-            i2 = 0;
-            i = 0;
-            if (Intrinsics.areEqual(TextFieldImplKt.getLayoutId((IntrinsicMeasurable)obj), "icon")) {
+        while (index$iv$iv < obj6.size()) {
+            obj2 = obj;
+            i3 = 0;
+            i4 = 0;
+            if (Intrinsics.areEqual(TextFieldImplKt.getLayoutId((IntrinsicMeasurable)obj2), "icon")) {
                 break;
             } else {
             }
-            i4 = $this$maxIntrinsicWidth;
-            index$iv$iv2++;
+            i2 = $this$maxIntrinsicWidth;
+            index$iv$iv++;
             str = "Collection contains no element matching the predicate.";
         }
         int i18 = $this$maxIntrinsicWidth;
@@ -139,35 +139,35 @@ final class StartIconMeasurePolicy implements MeasurePolicy {
 
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, List<? extends Measurable> measurables, long constraints) {
         Object obj2;
-        int size;
         int size2;
+        int size;
+        int i6;
         int i15;
-        int i4;
         int labelPlaceable;
         int labelPlaceable2;
-        int i11;
-        Placeable animatedIndicatorWidth2;
+        int i;
+        Placeable animatedIndicatorWidth;
         int iconPlaceable;
-        int index$iv$iv;
         int index$iv$iv2;
+        int index$iv$iv;
         int index$iv$iv3;
         String str;
-        Object placeable2;
+        Object placeable;
         long l;
-        int i2;
-        int i6;
-        int i5;
-        Placeable animatedIndicatorWidth;
-        int i;
-        int i12;
         int i3;
+        int i5;
+        int i11;
+        Placeable animatedIndicatorWidth2;
+        int i9;
+        int i7;
+        int i4;
+        int i13;
+        int i10;
+        Placeable placeable2;
+        int i12;
         int i14;
         int i8;
-        Placeable placeable;
-        int i7;
-        int i10;
-        int i13;
-        int i9;
+        int i2;
         final Object obj = this;
         obj2 = $this$measure_u2d3p2s80s;
         final int i58 = 0;
@@ -176,23 +176,23 @@ final class StartIconMeasurePolicy implements MeasurePolicy {
         int i31 = 0;
         int i37 = 0;
         long l3 = offset-NN6Ew-U;
-        i11 = 0;
-        int i33 = i15;
+        i = 0;
+        int i33 = i6;
         int i38 = 0;
-        index$iv$iv = 0;
+        index$iv$iv2 = 0;
         str = "Collection contains no element matching the predicate.";
-        while (index$iv$iv < i33.size()) {
-            l = placeable2;
-            i2 = 0;
-            i = 0;
+        while (index$iv$iv2 < i33.size()) {
+            l = placeable;
+            i3 = 0;
+            i9 = 0;
             if (Intrinsics.areEqual(LayoutIdKt.getLayoutId((Measurable)l), "icon")) {
                 break;
             } else {
             }
-            index$iv$iv++;
+            index$iv$iv2++;
             obj2 = $this$measure_u2d3p2s80s;
-            i15 = i3;
-            i11 = i8;
+            i6 = i4;
+            i = i10;
             str = "Collection contains no element matching the predicate.";
         }
         NoSuchElementException noSuchElementException = new NoSuchElementException(str);

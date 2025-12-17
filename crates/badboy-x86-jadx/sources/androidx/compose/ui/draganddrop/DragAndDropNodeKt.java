@@ -59,12 +59,12 @@ public final class DragAndDropNodeKt {
         int i5 = 0;
         long positionInRoot = LayoutCoordinatesKt.positionInRoot(coordinates);
         int i3 = 0;
-        float x-impl2 = Offset.getX-impl(positionInRoot);
+        float $i$f$component1Impl = Offset.getX-impl(positionInRoot);
         int i7 = 0;
         float y-impl2 = Offset.getY-impl(positionInRoot);
         x-impl = Offset.getX-impl(position);
         final int i9 = 1;
-        if (Float.compare(x-impl2, x-impl) <= 0 && Float.compare(x-impl, i6) <= 0) {
+        if (Float.compare($i$f$component1Impl, x-impl) <= 0 && Float.compare(x-impl, i6) <= 0) {
             i2 = Float.compare(x-impl, i6) <= 0 ? i9 : i;
         } else {
         }

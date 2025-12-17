@@ -28,8 +28,8 @@ final class FocusableInteractionNode extends Modifier.Node {
         int i;
         FocusInteraction.Focus focusedInteraction;
         int i2;
-        FocusInteraction.Unfocus unfocus2;
         FocusInteraction.Unfocus unfocus;
+        FocusInteraction.Unfocus unfocus2;
         MutableInteractionSource interactionSource = this.interactionSource;
         i = 0;
         focusedInteraction = this.focusedInteraction;
@@ -38,8 +38,8 @@ final class FocusableInteractionNode extends Modifier.Node {
             focusedInteraction = this.focusedInteraction;
             if (focusedInteraction != null) {
                 i2 = 0;
-                unfocus2 = new FocusInteraction.Unfocus(focusedInteraction);
-                interactionSource.tryEmit((Interaction)unfocus2);
+                unfocus = new FocusInteraction.Unfocus(focusedInteraction);
+                interactionSource.tryEmit((Interaction)unfocus);
             }
         }
         this.focusedInteraction = 0;
@@ -47,23 +47,23 @@ final class FocusableInteractionNode extends Modifier.Node {
 
     private final void emitWithFallback(MutableInteractionSource $this$emitWithFallback, Interaction interaction) {
         int onCompletion;
-        int i;
-        androidx.compose.foundation.FocusableInteractionNode.emitWithFallback.handler.1 coroutineScope;
         int i4;
+        androidx.compose.foundation.FocusableInteractionNode.emitWithFallback.handler.1 coroutineScope;
+        int i3;
         int i5;
         androidx.compose.foundation.FocusableInteractionNode.emitWithFallback.1 anon;
-        int i3;
         int i2;
+        int i;
         if (isAttached()) {
             kotlin.coroutines.CoroutineContext.Element context = getCoroutineScope().getCoroutineContext().get((CoroutineContext.Key)Job.Key);
-            i = 0;
+            i4 = 0;
             if ((Job)context != null) {
                 coroutineScope = new FocusableInteractionNode.emitWithFallback.handler.1($this$emitWithFallback, interaction);
                 onCompletion = (Job)context.invokeOnCompletion((Function1)coroutineScope);
             } else {
-                onCompletion = i;
+                onCompletion = i4;
             }
-            FocusableInteractionNode.emitWithFallback.1 anon2 = new FocusableInteractionNode.emitWithFallback.1($this$emitWithFallback, interaction, onCompletion, i);
+            FocusableInteractionNode.emitWithFallback.1 anon2 = new FocusableInteractionNode.emitWithFallback.1($this$emitWithFallback, interaction, onCompletion, i4);
             BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)anon2, 3, 0);
         } else {
             $this$emitWithFallback.tryEmit(interaction);

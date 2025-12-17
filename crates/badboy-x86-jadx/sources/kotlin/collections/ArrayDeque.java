@@ -130,12 +130,12 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
         int empty;
         int newTail;
         int modified;
+        int index;
         int index2;
         int index3;
-        int index;
         int length;
-        Object booleanValue;
-        boolean booleanValue2;
+        Object booleanValue2;
+        boolean booleanValue;
         int i;
         final int i2 = 0;
         int i4 = 0;
@@ -148,41 +148,41 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
                 modified = 0;
                 final int i6 = 0;
                 if (this.head < positiveMod) {
-                    index = this.head;
-                    while (index < positiveMod) {
-                        length = this.elementData[index];
-                        if ((Boolean)predicate.invoke(length).booleanValue()) {
-                        } else {
-                        }
-                        modified = 1;
-                        index++;
-                        this.elementData[newTail] = length;
-                        newTail = booleanValue2;
-                    }
-                    ArraysKt.fill(this.elementData, i6, newTail, positiveMod);
-                } else {
-                    index2 = this.head;
-                    while (index2 < elementData2.length) {
-                        booleanValue = this.elementData[index2];
-                        this.elementData[index2] = i6;
-                        if ((Boolean)predicate.invoke(booleanValue).booleanValue()) {
-                        } else {
-                        }
-                        modified = 1;
-                        index2++;
-                        this.elementData[newTail] = booleanValue;
-                        newTail = i;
-                    }
-                    newTail = positiveMod(newTail);
-                    index3 = 0;
+                    index3 = this.head;
                     while (index3 < positiveMod) {
                         length = this.elementData[index3];
-                        this.elementData[index3] = i6;
                         if ((Boolean)predicate.invoke(length).booleanValue()) {
                         } else {
                         }
                         modified = 1;
                         index3++;
+                        this.elementData[newTail] = length;
+                        newTail = booleanValue;
+                    }
+                    ArraysKt.fill(this.elementData, i6, newTail, positiveMod);
+                } else {
+                    index = this.head;
+                    while (index < elementData2.length) {
+                        booleanValue2 = this.elementData[index];
+                        this.elementData[index] = i6;
+                        if ((Boolean)predicate.invoke(booleanValue2).booleanValue()) {
+                        } else {
+                        }
+                        modified = 1;
+                        index++;
+                        this.elementData[newTail] = booleanValue2;
+                        newTail = i;
+                    }
+                    newTail = positiveMod(newTail);
+                    index2 = 0;
+                    while (index2 < positiveMod) {
+                        length = this.elementData[index2];
+                        this.elementData[index2] = i6;
+                        if ((Boolean)predicate.invoke(length).booleanValue()) {
+                        } else {
+                        }
+                        modified = 1;
+                        index2++;
                         this.elementData[newTail] = length;
                         newTail = incremented(newTail);
                     }
@@ -252,11 +252,11 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
         int copyToIndex;
         int copyCount;
         int i3;
-        int i5;
-        Object[] elementData;
-        int i4;
         int i;
+        Object[] elementData;
         int i2;
+        int i5;
+        int i4;
         copyFromIndex = positiveMod(head += i7);
         copyToIndex = positiveMod(head2 += i9);
         copyCount = fromIndex;
@@ -273,30 +273,30 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
         int copyFromIndex;
         int copyToIndex;
         int copyCount;
-        int i;
-        int i2;
-        Object[] elementData;
         int i3;
+        int i;
+        Object[] elementData;
+        int i2;
         copyFromIndex = positiveMod(head += toIndex);
         copyToIndex = positiveMod(head2 += fromIndex);
         size -= toIndex;
         while (copyCount > 0) {
-            i = Math.min(copyCount, Math.min(length -= copyFromIndex, length2 -= copyToIndex));
-            ArraysKt.copyInto(this.elementData, this.elementData, copyToIndex, copyFromIndex, copyFromIndex + i);
-            copyFromIndex = positiveMod(copyFromIndex + i);
-            copyToIndex = positiveMod(copyToIndex + i);
-            copyCount -= i;
+            i3 = Math.min(copyCount, Math.min(length -= copyFromIndex, length2 -= copyToIndex));
+            ArraysKt.copyInto(this.elementData, this.elementData, copyToIndex, copyFromIndex, copyFromIndex + i3);
+            copyFromIndex = positiveMod(copyFromIndex + i3);
+            copyToIndex = positiveMod(copyToIndex + i3);
+            copyCount -= i3;
         }
     }
 
     public void add(int index, E element) {
         int positiveMod;
+        Object[] elementData3;
         Object[] elementData6;
-        Object[] elementData;
-        int elementData4;
-        Object[] elementData2;
-        int elementData3;
+        int elementData2;
+        Object[] elementData4;
         int elementData5;
+        int elementData;
         int i;
         int head;
         int length;
@@ -311,27 +311,27 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
         int i4 = 1;
         ensureCapacity(size2 += i4);
         int positiveMod2 = positiveMod(head2 += index);
-        elementData4 = 0;
+        elementData2 = 0;
         if (index < i5 >>= i4) {
             positiveMod = decremented(positiveMod2);
-            elementData2 = decremented(this.head);
+            elementData4 = decremented(this.head);
             if (positiveMod >= this.head) {
-                this.elementData[elementData2] = this.elementData[this.head];
+                this.elementData[elementData4] = this.elementData[this.head];
                 ArraysKt.copyInto(this.elementData, this.elementData, this.head, head8 += i4, positiveMod + 1);
             } else {
                 ArraysKt.copyInto(this.elementData, this.elementData, head7 -= i4, this.head, elementData20.length);
-                this.elementData[length4 -= i4] = this.elementData[elementData4];
-                ArraysKt.copyInto(this.elementData, this.elementData, elementData4, i4, positiveMod + 1);
+                this.elementData[length4 -= i4] = this.elementData[elementData2];
+                ArraysKt.copyInto(this.elementData, this.elementData, elementData2, i4, positiveMod + 1);
             }
             this.elementData[positiveMod] = element;
-            this.head = elementData2;
+            this.head = elementData4;
         } else {
             positiveMod = positiveMod(head3 += size6);
             if (positiveMod2 < positiveMod) {
                 ArraysKt.copyInto(this.elementData, this.elementData, positiveMod2 + 1, positiveMod2, positiveMod);
             } else {
-                ArraysKt.copyInto(this.elementData, this.elementData, i4, elementData4, positiveMod);
-                this.elementData[elementData4] = this.elementData[length2 -= i4];
+                ArraysKt.copyInto(this.elementData, this.elementData, i4, elementData2, positiveMod);
+                this.elementData[elementData2] = this.elementData[length2 -= i4];
                 ArraysKt.copyInto(this.elementData, this.elementData, positiveMod2 + 1, positiveMod2, length3 -= i4);
             }
             this.elementData[positiveMod2] = element;
@@ -345,20 +345,20 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
     }
 
     public boolean addAll(int index, Collection<? extends E> elements) {
-        Object[] elementData4;
-        int elementData2;
+        Object[] elementData2;
+        int elementData5;
         int shiftedHead;
         Object[] elementData;
-        int elementData3;
-        int elementData5;
         int elementData6;
-        int i2;
+        int elementData4;
+        int elementData3;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         AbstractList.Companion.checkPositionIndex$kotlin_stdlib(index, size());
-        elementData2 = 0;
+        elementData5 = 0;
         if (elements.isEmpty()) {
-            return elementData2;
+            return elementData5;
         }
         if (index == size()) {
             return addAll(elements);
@@ -377,20 +377,20 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
                 } else {
                     shiftedHead += length3;
                     length8 -= shiftedHead;
-                    if (elementData3 >= positiveMod2 - head5) {
+                    if (elementData6 >= positiveMod2 - head5) {
                         ArraysKt.copyInto(this.elementData, this.elementData, shiftedHead, this.head, positiveMod2);
                     } else {
-                        ArraysKt.copyInto(this.elementData, this.elementData, shiftedHead, this.head, head9 += elementData3);
-                        ArraysKt.copyInto(this.elementData, this.elementData, elementData2, head8 += elementData3, positiveMod2);
+                        ArraysKt.copyInto(this.elementData, this.elementData, shiftedHead, this.head, head9 += elementData6);
+                        ArraysKt.copyInto(this.elementData, this.elementData, elementData5, head8 += elementData6, positiveMod2);
                     }
                 }
             } else {
                 ArraysKt.copyInto(this.elementData, this.elementData, shiftedHead, this.head, elementData30.length);
                 if (size6 >= positiveMod2) {
-                    ArraysKt.copyInto(this.elementData, this.elementData, length10 -= size6, elementData2, positiveMod2);
+                    ArraysKt.copyInto(this.elementData, this.elementData, length10 -= size6, elementData5, positiveMod2);
                 } else {
-                    ArraysKt.copyInto(this.elementData, this.elementData, length11 -= size6, elementData2, size6);
-                    ArraysKt.copyInto(this.elementData, this.elementData, elementData2, size6, positiveMod2);
+                    ArraysKt.copyInto(this.elementData, this.elementData, length11 -= size6, elementData5, size6);
+                    ArraysKt.copyInto(this.elementData, this.elementData, elementData5, size6, positiveMod2);
                 }
             }
             this.head = shiftedHead;
@@ -405,16 +405,16 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
                         ArraysKt.copyInto(this.elementData, this.elementData, shiftedHead - length7, positiveMod2, positiveMod);
                     } else {
                         i11 -= length6;
-                        ArraysKt.copyInto(this.elementData, this.elementData, elementData2, positiveMod - elementData, positiveMod);
+                        ArraysKt.copyInto(this.elementData, this.elementData, elementData5, positiveMod - elementData, positiveMod);
                         ArraysKt.copyInto(this.elementData, this.elementData, shiftedHead, positiveMod2, positiveMod - elementData);
                     }
                 }
             } else {
-                ArraysKt.copyInto(this.elementData, this.elementData, size6, elementData2, positiveMod);
+                ArraysKt.copyInto(this.elementData, this.elementData, size6, elementData5, positiveMod);
                 if (shiftedHead >= elementData7.length) {
                     ArraysKt.copyInto(this.elementData, this.elementData, shiftedHead - length4, positiveMod2, elementData23.length);
                 } else {
-                    ArraysKt.copyInto(this.elementData, this.elementData, elementData2, length9 -= size6, elementData29.length);
+                    ArraysKt.copyInto(this.elementData, this.elementData, elementData5, length9 -= size6, elementData29.length);
                     ArraysKt.copyInto(this.elementData, this.elementData, shiftedHead, positiveMod2, length5 -= size6);
                 }
             }
@@ -560,24 +560,24 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
 
     @Override // kotlin.collections.AbstractMutableList
     public int lastIndexOf(Object element) {
-        int index2;
         int index;
-        boolean equal;
+        int index2;
         boolean equal2;
+        boolean equal;
         int positiveMod = positiveMod(head += size);
         int i2 = -1;
         if (this.head < positiveMod) {
-            equal = this.head;
-            if (equal <= positiveMod + -1) {
+            equal2 = this.head;
+            if (equal2 <= positiveMod + -1) {
             }
         } else {
             if (this.head > positiveMod) {
-                index2 = positiveMod + -1;
-                while (i2 < index2) {
-                    index2--;
+                index = positiveMod + -1;
+                while (i2 < index) {
+                    index--;
                 }
-                equal = this.head;
-                if (equal <= ArraysKt.getLastIndex(this.elementData)) {
+                equal2 = this.head;
+                if (equal2 <= ArraysKt.getLastIndex(this.elementData)) {
                 }
             }
         }
@@ -611,15 +611,15 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
         int newTail$iv;
         int head;
         int newTail$iv2;
-        int modified$iv;
         int modified$iv2;
+        int modified$iv;
         int index$iv2;
-        int index$iv3;
         int index$iv;
+        int index$iv3;
         int i;
         int length;
-        Object elementData;
         Object elementData2;
+        Object elementData;
         int contains;
         boolean contains2;
         int i2;
@@ -632,36 +632,36 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
             } else {
                 positiveMod = obj.positiveMod(head2 += size);
                 head = obj.head;
-                modified$iv2 = 0;
+                modified$iv = 0;
                 i = 0;
                 if (obj.head < positiveMod) {
-                    index$iv = obj.head;
-                    while (index$iv < positiveMod) {
-                        length = obj.elementData[index$iv];
-                        elementData2 = 0;
+                    index$iv3 = obj.head;
+                    while (index$iv3 < positiveMod) {
+                        length = obj.elementData[index$iv3];
+                        elementData = 0;
                         if (!elements.contains(length)) {
                         } else {
                         }
-                        modified$iv2 = 1;
-                        index$iv++;
+                        modified$iv = 1;
+                        index$iv3++;
                         obj.elementData[head] = length;
-                        head = elementData2;
+                        head = elementData;
                     }
                     ArraysKt.fill(obj.elementData, i, head, positiveMod);
-                    modified$iv = head;
+                    modified$iv2 = head;
                     newTail$iv = i2;
                 } else {
-                    index$iv3 = obj.head;
-                    while (index$iv3 < elementData4.length) {
-                        elementData = obj.elementData[index$iv3];
-                        obj.elementData[index$iv3] = i;
+                    index$iv = obj.head;
+                    while (index$iv < elementData4.length) {
+                        elementData2 = obj.elementData[index$iv];
+                        obj.elementData[index$iv] = i;
                         contains = 0;
-                        if (!elements.contains(elementData)) {
+                        if (!elements.contains(elementData2)) {
                         } else {
                         }
-                        modified$iv2 = 1;
-                        index$iv3++;
-                        obj.elementData[head] = elementData;
+                        modified$iv = 1;
+                        index$iv++;
+                        obj.elementData[head] = elementData2;
                         head = contains;
                     }
                     newTail$iv2 = obj.positiveMod(head);
@@ -669,21 +669,21 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
                     while (index$iv2 < positiveMod) {
                         length = obj.elementData[index$iv2];
                         obj.elementData[index$iv2] = i;
-                        elementData2 = 0;
+                        elementData = 0;
                         if (!elements.contains(length)) {
                         } else {
                         }
-                        modified$iv2 = 1;
+                        modified$iv = 1;
                         index$iv2++;
                         obj.elementData[newTail$iv2] = length;
                         newTail$iv2 = obj.incremented(newTail$iv2);
                     }
-                    modified$iv = newTail$iv2;
+                    modified$iv2 = newTail$iv2;
                     newTail$iv = i2;
                 }
                 if (newTail$iv != 0) {
                     obj.registerModification();
-                    obj.size = obj.negativeMod(modified$iv - head4);
+                    obj.size = obj.negativeMod(modified$iv2 - head4);
                 }
             }
         } else {
@@ -693,12 +693,12 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
 
     public E removeAt(int index) {
         int positiveMod;
-        Object[] elementData;
+        Object[] elementData5;
         int elementData3;
         Object[] elementData2;
-        Object[] elementData5;
-        Object[] elementData4;
         Object[] elementData6;
+        Object[] elementData4;
+        Object[] elementData;
         int i;
         int length;
         AbstractList.Companion.checkElementIndex$kotlin_stdlib(index, size());
@@ -814,86 +814,86 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
 
     public boolean retainAll(Collection<? extends Object> elements) {
         boolean positiveMod;
-        int newTail$iv;
-        int head;
         int newTail$iv2;
-        int modified$iv;
+        int head;
+        int newTail$iv;
         int modified$iv2;
+        int modified$iv;
         int index$iv;
         int index$iv2;
         int index$iv3;
-        int i3;
-        int length;
-        Object it2;
-        boolean it;
-        int i2;
         int i;
+        int length;
+        Object it;
+        boolean it2;
+        int i3;
+        int i2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = this;
         final int i4 = 0;
         if (!obj.isEmpty()) {
-            positiveMod = elementData.length == 0 ? 1 : newTail$iv;
+            positiveMod = elementData.length == 0 ? 1 : newTail$iv2;
             if (positiveMod != 0) {
             } else {
                 positiveMod = obj.positiveMod(head2 += size);
                 head = obj.head;
-                modified$iv2 = 0;
-                i3 = 0;
+                modified$iv = 0;
+                i = 0;
                 if (obj.head < positiveMod) {
                     index$iv3 = obj.head;
                     while (index$iv3 < positiveMod) {
                         length = obj.elementData[index$iv3];
-                        it = 0;
+                        it2 = 0;
                         if (elements.contains(length)) {
                         } else {
                         }
-                        modified$iv2 = 1;
+                        modified$iv = 1;
                         index$iv3++;
                         obj.elementData[head] = length;
-                        head = it;
+                        head = it2;
                     }
-                    ArraysKt.fill(obj.elementData, i3, head, positiveMod);
-                    modified$iv = head;
-                    newTail$iv = i;
+                    ArraysKt.fill(obj.elementData, i, head, positiveMod);
+                    modified$iv2 = head;
+                    newTail$iv2 = i2;
                 } else {
                     index$iv2 = obj.head;
                     while (index$iv2 < elementData2.length) {
-                        it2 = obj.elementData[index$iv2];
-                        obj.elementData[index$iv2] = i3;
-                        i2 = 0;
-                        if (elements.contains(it2)) {
+                        it = obj.elementData[index$iv2];
+                        obj.elementData[index$iv2] = i;
+                        i3 = 0;
+                        if (elements.contains(it)) {
                         } else {
                         }
-                        modified$iv2 = 1;
+                        modified$iv = 1;
                         index$iv2++;
-                        obj.elementData[head] = it2;
-                        head = i2;
+                        obj.elementData[head] = it;
+                        head = i3;
                     }
-                    newTail$iv2 = obj.positiveMod(head);
+                    newTail$iv = obj.positiveMod(head);
                     index$iv = 0;
                     while (index$iv < positiveMod) {
                         length = obj.elementData[index$iv];
-                        obj.elementData[index$iv] = i3;
-                        it = 0;
+                        obj.elementData[index$iv] = i;
+                        it2 = 0;
                         if (elements.contains(length)) {
                         } else {
                         }
-                        modified$iv2 = 1;
+                        modified$iv = 1;
                         index$iv++;
-                        obj.elementData[newTail$iv2] = length;
-                        newTail$iv2 = obj.incremented(newTail$iv2);
+                        obj.elementData[newTail$iv] = length;
+                        newTail$iv = obj.incremented(newTail$iv);
                     }
-                    modified$iv = newTail$iv2;
-                    newTail$iv = i;
+                    modified$iv2 = newTail$iv;
+                    newTail$iv2 = i2;
                 }
-                if (newTail$iv != 0) {
+                if (newTail$iv2 != 0) {
                     obj.registerModification();
-                    obj.size = obj.negativeMod(modified$iv - head4);
+                    obj.size = obj.negativeMod(modified$iv2 - head4);
                 }
             }
         } else {
         }
-        return newTail$iv;
+        return newTail$iv2;
     }
 
     public E set(int index, E element) {
@@ -927,8 +927,8 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
         Object[] arrayOfNulls;
         boolean elementData;
         int elementData2;
-        int head2;
         int head;
+        int head2;
         int i;
         int i2;
         Intrinsics.checkNotNullParameter(array, "array");
@@ -943,9 +943,9 @@ public final class ArrayDeque<E>  extends kotlin.collections.AbstractMutableList
             ArraysKt.copyInto$default(this.elementData, objArr, 0, this.head, positiveMod, 2, 0);
         } else {
             if (!(Collection)this.isEmpty()) {
-                head = 0;
-                ArraysKt.copyInto(this.elementData, objArr, head, this.head, elementData5.length);
-                ArraysKt.copyInto(this.elementData, objArr, length2 -= head2, head, positiveMod);
+                head2 = 0;
+                ArraysKt.copyInto(this.elementData, objArr, head2, this.head, elementData5.length);
+                ArraysKt.copyInto(this.elementData, objArr, length2 -= head, head2, positiveMod);
             }
         }
         return CollectionsKt.terminateCollectionToArray(size(), objArr);

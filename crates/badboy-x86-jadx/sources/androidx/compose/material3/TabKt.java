@@ -71,55 +71,55 @@ public final class TabKt {
     }
 
     public static final void LeadingIconTab-wqdebIU(boolean selected, Function0<Unit> onClick, Function2<? super Composer, ? super Integer, Unit> text, Function2<? super Composer, ? super Integer, Unit> icon, Modifier modifier, boolean enabled, long selectedContentColor, long unselectedContentColor, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i12) {
-        Object obj2;
+        Object obj;
         boolean skipping;
         Object endRestartGroup;
-        int i4;
+        int i5;
         boolean traceInProgress2;
         int defaultsInvalid;
         int localContentColor;
         Object rememberComposableLambda;
-        int $dirty2;
+        int $dirty;
         long $dirty4;
         int unbox-impl;
         boolean str2;
-        int i;
-        Object traceInProgress;
-        int i6;
-        Object obj4;
-        Object obj6;
-        int i9;
-        Object obj9;
-        boolean z;
         int i2;
+        Object traceInProgress;
+        int i7;
+        Object obj7;
+        Object obj9;
+        int i6;
+        Object obj5;
+        boolean z3;
+        int i11;
         long l3;
         long l4;
         int i8;
-        Object obj5;
+        Object obj8;
         int i3;
-        long l;
+        long l2;
         int str;
-        boolean z2;
-        int i7;
-        int i11;
+        boolean z;
+        int i10;
+        int i13;
+        int $dirty2;
         int $dirty3;
-        int $dirty;
-        int i5;
-        int changed;
-        boolean changed2;
+        int i9;
+        int changed2;
+        boolean changed;
         long unselectedContentColor2;
         Composer $composer2;
         int modifier2;
-        Object obj3;
-        boolean z3;
-        int i13;
-        int i10;
-        int rippleOrFallbackImplementation-9IZ8Weo;
+        Object obj6;
         boolean z4;
-        Object obj8;
-        Object obj7;
-        Object obj;
-        long l2;
+        int i;
+        int i4;
+        int rippleOrFallbackImplementation-9IZ8Weo;
+        boolean z2;
+        Object obj2;
+        Object obj3;
+        Object obj4;
+        long l;
         long obj29;
         int obj30;
         long obj31;
@@ -131,116 +131,116 @@ public final class TabKt {
         final int i50 = obj38;
         rememberComposableLambda = i12.startRestartGroup(-777316544);
         ComposerKt.sourceInformation(rememberComposableLambda, "C(LeadingIconTab)P(5,4,7,1,3!1,6:c#ui.graphics.Color,8:c#ui.graphics.Color)164@7036L7,171@7399L76,173@7551L950,173@7481L1020:Tab.kt#uh7d8r");
-        $dirty2 = obj37;
+        $dirty = obj37;
         if (i50 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
             str2 = selected;
         } else {
             if (i49 & 6 == 0) {
-                i = rememberComposableLambda.changed(selected) ? 4 : 2;
-                $dirty2 |= i;
+                i2 = rememberComposableLambda.changed(selected) ? 4 : 2;
+                $dirty |= i2;
             } else {
                 str2 = selected;
             }
         }
         if (i50 & 2 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
             traceInProgress = onClick;
         } else {
             if (i49 & 48 == 0) {
-                i6 = rememberComposableLambda.changedInstance(onClick) ? 32 : 16;
-                $dirty2 |= i6;
+                i7 = rememberComposableLambda.changedInstance(onClick) ? 32 : 16;
+                $dirty |= i7;
             } else {
                 traceInProgress = onClick;
             }
         }
         if (i50 & 4 != 0) {
-            $dirty2 |= 384;
-            obj4 = text;
+            $dirty |= 384;
+            obj7 = text;
         } else {
             if (i49 & 384 == 0) {
-                i9 = rememberComposableLambda.changedInstance(text) ? 256 : 128;
-                $dirty2 |= i9;
+                i6 = rememberComposableLambda.changedInstance(text) ? 256 : 128;
+                $dirty |= i6;
             } else {
-                obj4 = text;
+                obj7 = text;
             }
         }
         if (i50 & 8 != 0) {
-            $dirty2 |= 3072;
-            obj9 = icon;
+            $dirty |= 3072;
+            obj5 = icon;
         } else {
             if (i49 & 3072 == 0) {
-                i2 = rememberComposableLambda.changedInstance(icon) ? 2048 : 1024;
-                $dirty2 |= i2;
+                i11 = rememberComposableLambda.changedInstance(icon) ? 2048 : 1024;
+                $dirty |= i11;
             } else {
-                obj9 = icon;
+                obj5 = icon;
             }
         }
         i8 = i50 & 16;
         if (i8 != 0) {
-            $dirty2 |= 24576;
-            obj5 = modifier;
+            $dirty |= 24576;
+            obj8 = modifier;
         } else {
             if (i49 & 24576 == 0) {
                 i3 = rememberComposableLambda.changed(modifier) ? 16384 : 8192;
-                $dirty2 |= i3;
+                $dirty |= i3;
             } else {
-                obj5 = modifier;
+                obj8 = modifier;
             }
         }
         str = i50 & 32;
         int i44 = 196608;
         if (str != null) {
-            $dirty2 |= i44;
-            z2 = enabled;
+            $dirty |= i44;
+            z = enabled;
         } else {
             if (i44 &= i49 == 0) {
-                i7 = rememberComposableLambda.changed(enabled) ? 131072 : 65536;
-                $dirty2 |= i7;
+                i10 = rememberComposableLambda.changed(enabled) ? 131072 : 65536;
+                $dirty |= i10;
             } else {
-                z2 = enabled;
+                z = enabled;
             }
         }
         if (i46 &= i49 == 0) {
             if (i50 & 64 == 0) {
-                i11 = rememberComposableLambda.changed(selectedContentColor) ? 1048576 : 524288;
+                i13 = rememberComposableLambda.changed(selectedContentColor) ? 1048576 : 524288;
             } else {
                 unselectedContentColor2 = selectedContentColor;
             }
-            $dirty2 |= i11;
+            $dirty |= i13;
         } else {
             unselectedContentColor2 = selectedContentColor;
         }
         if (i47 &= i49 == 0) {
             if (i50 & 128 == 0) {
-                obj36 = $dirty2;
-                i5 = rememberComposableLambda.changed(interactionSource) ? 8388608 : 4194304;
+                obj36 = $dirty;
+                i9 = rememberComposableLambda.changed(interactionSource) ? 8388608 : 4194304;
             } else {
-                obj36 = $dirty2;
+                obj36 = $dirty;
                 $dirty4 = interactionSource;
             }
-            $dirty3 = obj36 | i5;
+            $dirty2 = obj36 | i9;
         } else {
             $dirty4 = interactionSource;
-            $dirty3 = obj36;
+            $dirty2 = obj36;
         }
         int i15 = i50 & 256;
         int i52 = 100663296;
         if (i15 != 0) {
-            $dirty3 |= i52;
-            i13 = i15;
-            obj2 = $changed;
+            $dirty2 |= i52;
+            i = i15;
+            obj = $changed;
         } else {
             if (i49 & i52 == 0) {
-                i13 = i15;
-                i10 = rememberComposableLambda.changed($changed) ? 67108864 : 33554432;
-                $dirty3 |= i10;
+                i = i15;
+                i4 = rememberComposableLambda.changed($changed) ? 67108864 : 33554432;
+                $dirty2 |= i4;
             } else {
-                i13 = i15;
-                obj2 = $changed;
+                i = i15;
+                obj = $changed;
             }
         }
-        if ($dirty3 & rippleOrFallbackImplementation-9IZ8Weo == 38347922) {
+        if ($dirty2 & rippleOrFallbackImplementation-9IZ8Weo == 38347922) {
             if (!rememberComposableLambda.getSkipping()) {
                 rememberComposableLambda.startDefaults();
                 int i21 = -29360129;
@@ -248,10 +248,10 @@ public final class TabKt {
                 if (i49 & 1 != 0) {
                     if (rememberComposableLambda.getDefaultsInvalid()) {
                         if (i8 != 0) {
-                            obj5 = defaultsInvalid;
+                            obj8 = defaultsInvalid;
                         }
                         if (str != null) {
-                            z2 = defaultsInvalid;
+                            z = defaultsInvalid;
                         }
                         if (i50 & 64 != 0) {
                             i8 = 6;
@@ -260,45 +260,45 @@ public final class TabKt {
                             ComposerKt.sourceInformationMarkerStart(rememberComposableLambda, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(rememberComposableLambda);
                             unbox-impl = (Color)rememberComposableLambda.consume((CompositionLocal)ContentColorKt.getLocalContentColor()).unbox-impl();
-                            $dirty3 &= rippleOrFallbackImplementation-9IZ8Weo;
+                            $dirty2 &= rippleOrFallbackImplementation-9IZ8Weo;
                         } else {
                             obj36 = i21;
                             unbox-impl = unselectedContentColor2;
                         }
                         if (i50 & 128 != 0) {
                             unselectedContentColor2 = unbox-impl;
-                            $dirty3 &= obj36;
+                            $dirty2 &= obj36;
                         } else {
                             unselectedContentColor2 = interactionSource;
                         }
-                        if (i13 != 0) {
-                            obj3 = obj5;
-                            l4 = l2;
-                            i13 = i4;
-                            z4 = z2;
+                        if (i != 0) {
+                            obj6 = obj8;
+                            l4 = l;
+                            i = i5;
+                            z2 = z;
                         } else {
-                            obj3 = obj5;
-                            l4 = l2;
-                            i13 = $changed;
-                            z4 = z2;
+                            obj6 = obj8;
+                            l4 = l;
+                            i = $changed;
+                            z2 = z;
                         }
                     } else {
                         rememberComposableLambda.skipToGroupEnd();
                         if (i50 & 64 != 0) {
-                            $dirty3 &= str2;
+                            $dirty2 &= str2;
                         }
                         if (i50 & 128 != 0) {
-                            i13 = $changed;
-                            $dirty3 = i4;
-                            z4 = z2;
+                            i = $changed;
+                            $dirty2 = i5;
+                            z2 = z;
                             unbox-impl = unselectedContentColor2;
-                            obj3 = obj5;
+                            obj6 = obj8;
                             l4 = interactionSource;
                         } else {
-                            i13 = $changed;
-                            z4 = z2;
+                            i = $changed;
+                            z2 = z;
                             unbox-impl = unselectedContentColor2;
-                            obj3 = obj5;
+                            obj6 = obj8;
                             l4 = interactionSource;
                         }
                     }
@@ -306,12 +306,12 @@ public final class TabKt {
                 }
                 rememberComposableLambda.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-777316544, $dirty3, -1, "androidx.compose.material3.LeadingIconTab (Tab.kt:167)");
+                    ComposerKt.traceEventStart(-777316544, $dirty2, -1, "androidx.compose.material3.LeadingIconTab (Tab.kt:167)");
                 }
                 obj33 = rememberComposableLambda;
                 obj30 = i51;
                 Composer composer = obj33;
-                TabKt.LeadingIconTab.1 anon = new TabKt.LeadingIconTab.1(obj3, selected, i13, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(true, obj30, unbox-impl, unselectedContentColor, obj33, i17 |= 6), z4, traceInProgress, obj9, obj4);
+                TabKt.LeadingIconTab.1 anon = new TabKt.LeadingIconTab.1(obj6, selected, i, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(true, obj30, unbox-impl, unselectedContentColor, obj33, i17 |= 6), z2, traceInProgress, obj5, obj7);
                 obj35 = composer;
                 obj31 = l4;
                 TabKt.TabTransition-Klgx-Pg(unbox-impl, obj30, obj31, unselectedContentColor, selected, (Function2)ComposableLambdaKt.rememberComposableLambda(-429037564, true, anon, composer, 54));
@@ -319,28 +319,28 @@ public final class TabKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                l = skipping;
+                l2 = skipping;
                 l3 = unbox-impl;
-                obj6 = obj3;
-                z = z4;
-                modifier2 = $dirty3;
-                $dirty = i13;
+                obj9 = obj6;
+                z3 = z2;
+                modifier2 = $dirty2;
+                $dirty3 = i;
             } else {
                 rememberComposableLambda.skipToGroupEnd();
-                obj6 = obj5;
-                z = z2;
+                obj9 = obj8;
+                z3 = z;
                 l3 = unselectedContentColor2;
-                l = interactionSource;
+                l2 = interactionSource;
                 $composer2 = rememberComposableLambda;
-                modifier2 = $dirty3;
-                $dirty = $changed;
+                modifier2 = $dirty2;
+                $dirty3 = $changed;
             }
         } else {
         }
         endRestartGroup = $composer2.endRestartGroup();
         if (endRestartGroup != null) {
             obj33 = $composer2;
-            endRestartGroup = new TabKt.LeadingIconTab.2(selected, onClick, text, icon, obj6, z, l3, obj5, l, z2, $dirty, i49, i50);
+            endRestartGroup = new TabKt.LeadingIconTab.2(selected, onClick, text, icon, obj9, z3, l3, obj8, l2, z, $dirty3, i49, i50);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         } else {
             obj33 = $composer2;
@@ -348,50 +348,50 @@ public final class TabKt {
     }
 
     public static final void Tab-bogVsAg(boolean selected, Function0<Unit> onClick, Modifier modifier, boolean enabled, long selectedContentColor, long unselectedContentColor, MutableInteractionSource interactionSource, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        Object i6;
+        Object i3;
         Object obj;
-        int $dirty;
+        int $dirty4;
         int defaultsInvalid;
         int unbox-impl;
         int $dirty2;
-        long $dirty4;
+        long $dirty;
         int $dirty3;
-        int i7;
-        Object obj3;
-        int i12;
-        Object unselectedContentColor2;
+        int i10;
+        Object obj2;
         int i;
+        Object unselectedContentColor2;
+        int i8;
         long l4;
-        Object i9;
+        Object i15;
         boolean z2;
-        boolean z3;
-        long l2;
-        int i5;
-        androidx.compose.runtime.internal.ComposableLambda i4;
-        int i15;
+        boolean z;
+        long l3;
+        int i16;
+        androidx.compose.runtime.internal.ComposableLambda i14;
+        int i12;
         long $composer2;
         boolean i2;
         boolean traceInProgress;
-        int i10;
+        int i6;
         long str;
         int i13;
-        int i8;
+        int i9;
         int changed;
         long l;
         Composer composer;
         int modifier2;
-        Object obj2;
+        Object obj3;
         int changed2;
-        boolean i18;
+        boolean i7;
+        int i4;
+        int i5;
         int i17;
-        int i3;
-        int i14;
         androidx.compose.foundation.Indication rippleOrFallbackImplementation-9IZ8Weo;
-        boolean z;
-        int i16;
+        boolean z3;
+        int i18;
         Function0 function0;
         Function3 function3;
-        long l3;
+        long l2;
         int obj25;
         int obj26;
         long obj27;
@@ -405,46 +405,46 @@ public final class TabKt {
         $dirty2 = obj34;
         if (i51 & 1 != 0) {
             $dirty2 |= 6;
-            z3 = selected;
+            z = selected;
         } else {
             if (i50 & 6 == 0) {
-                i7 = restartGroup.changed(selected) ? 4 : 2;
-                $dirty2 |= i7;
+                i10 = restartGroup.changed(selected) ? 4 : 2;
+                $dirty2 |= i10;
             } else {
-                z3 = selected;
+                z = selected;
             }
         }
         if (i51 & 2 != 0) {
             $dirty2 |= 48;
-            obj3 = onClick;
+            obj2 = onClick;
         } else {
             if (i50 & 48 == 0) {
-                i12 = restartGroup.changedInstance(onClick) ? 32 : 16;
-                $dirty2 |= i12;
+                i = restartGroup.changedInstance(onClick) ? 32 : 16;
+                $dirty2 |= i;
             } else {
-                obj3 = onClick;
+                obj2 = onClick;
             }
         }
-        i = i51 & 4;
-        if (i != 0) {
+        i8 = i51 & 4;
+        if (i8 != 0) {
             $dirty2 |= 384;
-            i9 = modifier;
+            i15 = modifier;
         } else {
             if (i50 & 384 == 0) {
-                i5 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i5;
+                i16 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i16;
             } else {
-                i9 = modifier;
+                i15 = modifier;
             }
         }
-        i4 = i51 & 8;
-        if (i4 != 0) {
+        i14 = i51 & 8;
+        if (i14 != 0) {
             $dirty2 |= 3072;
             i2 = enabled;
         } else {
             if (i50 & 3072 == 0) {
-                i10 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty2 |= i10;
+                i6 = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty2 |= i6;
             } else {
                 i2 = enabled;
             }
@@ -469,27 +469,27 @@ public final class TabKt {
         } else {
             l = interactionSource;
         }
-        i18 = i51 & 64;
-        i17 = 1572864;
-        if (i18 != 0) {
-            $dirty2 |= i17;
-            i6 = $composer;
+        i7 = i51 & 64;
+        i4 = 1572864;
+        if (i7 != 0) {
+            $dirty2 |= i4;
+            i3 = $composer;
         } else {
-            if (i50 & i17 == 0) {
-                i3 = restartGroup.changed($composer) ? 1048576 : 524288;
-                $dirty2 |= i3;
+            if (i50 & i4 == 0) {
+                i5 = restartGroup.changed($composer) ? 1048576 : 524288;
+                $dirty2 |= i5;
             } else {
-                i6 = $composer;
+                i3 = $composer;
             }
         }
-        i14 = 12582912;
+        i17 = 12582912;
         if (i51 & 128 != 0) {
-            $dirty2 |= i14;
+            $dirty2 |= i17;
             obj = $changed;
         } else {
-            if (i50 & i14 == 0) {
-                i14 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
-                $dirty2 |= i14;
+            if (i50 & i17 == 0) {
+                i17 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
+                $dirty2 |= i17;
             } else {
                 obj = $changed;
             }
@@ -502,270 +502,270 @@ public final class TabKt {
                 int i55 = -57345;
                 if (i50 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i != 0) {
-                            i9 = defaultsInvalid;
+                        if (i8 != 0) {
+                            i15 = defaultsInvalid;
                         }
-                        if (i4 != 0) {
+                        if (i14 != 0) {
                             i2 = defaultsInvalid;
                         }
                         if (i51 & 16 != 0) {
-                            i = 6;
-                            i4 = 0;
-                            i16 = i25;
+                            i8 = 6;
+                            i14 = 0;
+                            i18 = i25;
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
                             str = unbox-impl;
-                            $dirty3 = obj3;
+                            $dirty3 = obj2;
                         } else {
-                            i16 = i25;
+                            i18 = i25;
                             $dirty3 = obj33;
                         }
                         if (i51 & 32 != 0) {
-                            $dirty3 &= i16;
-                            l = obj3;
+                            $dirty3 &= i18;
+                            l = obj2;
                         }
-                        if (i18 != 0) {
-                            obj2 = i9;
-                            l4 = l3;
-                            i17 = i24;
-                            $dirty = $dirty3;
-                            z = i2;
-                            $dirty4 = str;
-                            i15 = -202735880;
+                        if (i7 != 0) {
+                            obj3 = i15;
+                            l4 = l2;
+                            i4 = i24;
+                            $dirty4 = $dirty3;
+                            z3 = i2;
+                            $dirty = str;
+                            i12 = -202735880;
                         } else {
-                            obj2 = i9;
-                            l4 = l3;
-                            i17 = $composer;
-                            $dirty = $dirty3;
-                            z = i2;
-                            $dirty4 = str;
-                            i15 = -202735880;
+                            obj3 = i15;
+                            l4 = l2;
+                            i4 = $composer;
+                            $dirty4 = $dirty3;
+                            z3 = i2;
+                            $dirty = str;
+                            i12 = -202735880;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        $dirty = i51 & 16 != 0 ? obj33 & i55 : obj33;
+                        $dirty4 = i51 & 16 != 0 ? obj33 & i55 : obj33;
                         if (i51 & 32 != 0) {
-                            $dirty &= i25;
+                            $dirty4 &= i25;
                         }
-                        obj2 = i9;
+                        obj3 = i15;
                         l4 = l5;
-                        i17 = $composer;
-                        z = i2;
-                        $dirty4 = str;
-                        i15 = -202735880;
+                        i4 = $composer;
+                        z3 = i2;
+                        $dirty = str;
+                        i12 = -202735880;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i15, $dirty, -1, "androidx.compose.material3.Tab (Tab.kt:242)");
+                    ComposerKt.traceEventStart(i12, $dirty4, -1, "androidx.compose.material3.Tab (Tab.kt:242)");
                 }
-                TabKt.Tab.3 anon = new TabKt.Tab.3(obj2, z3, i17, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(true, 0, $dirty4, unselectedContentColor, restartGroup, i37 |= 6), z, onClick, $changed);
-                TabKt.TabTransition-Klgx-Pg($dirty4, obj3, l4, i9, selected, (Function2)ComposableLambdaKt.rememberComposableLambda(-551896140, true, anon, restartGroup, 54));
+                TabKt.Tab.3 anon = new TabKt.Tab.3(obj3, z, i4, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(true, 0, $dirty, unselectedContentColor, restartGroup, i37 |= 6), z3, onClick, $changed);
+                TabKt.TabTransition-Klgx-Pg($dirty, obj2, l4, i15, selected, (Function2)ComposableLambdaKt.rememberComposableLambda(-551896140, true, anon, restartGroup, 54));
                 composer = restartGroup;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                l2 = $dirty4;
+                l3 = $dirty;
                 $composer2 = l4;
-                unselectedContentColor2 = obj2;
-                i13 = i17;
-                z2 = z;
-                modifier2 = $dirty;
+                unselectedContentColor2 = obj3;
+                i13 = i4;
+                z2 = z3;
+                modifier2 = $dirty4;
             } else {
                 restartGroup.skipToGroupEnd();
-                unselectedContentColor2 = i9;
+                unselectedContentColor2 = i15;
                 z2 = i2;
-                l2 = str;
+                l3 = str;
                 i13 = $composer;
                 modifier2 = obj33;
                 composer = restartGroup;
-                $composer2 = l3;
+                $composer2 = l2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty = new TabKt.Tab.4(selected, onClick, unselectedContentColor2, z2, l2, i4, $composer2, i2, i13, $changed, i50, i51);
-            endRestartGroup.updateScope((Function2)$dirty);
+            $dirty4 = new TabKt.Tab.4(selected, onClick, unselectedContentColor2, z2, l3, i14, $composer2, i2, i13, $changed, i50, i51);
+            endRestartGroup.updateScope((Function2)$dirty4);
         }
     }
 
     public static final void Tab-wqdebIU(boolean selected, Function0<Unit> onClick, Modifier modifier, boolean enabled, Function2<? super Composer, ? super Integer, Unit> text, Function2<? super Composer, ? super Integer, Unit> icon, long selectedContentColor, long unselectedContentColor, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i12) {
-        int i6;
-        Object obj2;
+        int i3;
+        Object obj5;
         boolean traceInProgress;
         int defaultsInvalid;
         int localContentColor;
         int i;
         int changed2;
         Composer restartGroup;
-        int $dirty3;
-        long $dirty4;
-        long l2;
-        int i13;
+        int $dirty;
+        long $dirty2;
+        long l4;
+        int i6;
         int unselectedContentColor2;
         boolean traceInProgress2;
-        int i4;
-        int i11;
-        Object obj;
+        int i21;
+        int i20;
+        Object obj7;
         int str;
         androidx.compose.runtime.internal.ComposableLambda it;
-        Object obj5;
+        Object obj;
         boolean z2;
-        int i9;
-        Object obj3;
-        int i7;
-        boolean rememberComposableLambda;
-        Object obj7;
-        int i5;
-        long l;
         int i14;
-        Object obj4;
-        int i10;
-        long l3;
-        int i19;
-        Object obj6;
-        int i20;
-        int $dirty;
-        int $dirty2;
-        int $dirty5;
-        boolean z;
-        int i17;
-        Object obj8;
-        int changed;
-        int i15;
-        int i21;
-        int i8;
+        Object obj2;
         int i16;
+        boolean rememberComposableLambda;
+        Object obj3;
+        int i17;
+        long l2;
+        int i15;
+        Object obj6;
+        int i2;
+        long l;
+        int i11;
+        Object obj8;
+        int i4;
+        int $dirty5;
+        int $dirty4;
+        int $dirty3;
+        boolean z;
+        int i18;
+        Object obj4;
+        int changed;
+        int i19;
+        int i5;
+        int i13;
+        int i8;
         int unbox-impl;
-        long l4;
-        int i3;
+        long l3;
+        int i7;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i2;
-        int i18;
+        int i9;
+        int i10;
         int obj38;
         final int i59 = obj39;
         final int i60 = obj40;
         restartGroup = i12.startRestartGroup(-350627181);
         ComposerKt.sourceInformation(restartGroup, "C(Tab)P(5,4,3!1,7!1,6:c#ui.graphics.Color,8:c#ui.graphics.Color)99@4483L7,121@5133L65,113@4964L234:Tab.kt#uh7d8r");
-        $dirty3 = obj39;
+        $dirty = obj39;
         if (i60 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty |= 6;
             z = selected;
         } else {
             if (i59 & 6 == 0) {
-                i4 = restartGroup.changed(selected) ? 4 : 2;
-                $dirty3 |= i4;
+                i21 = restartGroup.changed(selected) ? 4 : 2;
+                $dirty |= i21;
             } else {
                 z = selected;
             }
         }
         if (i60 & 2 != 0) {
-            $dirty3 |= 48;
-            obj8 = onClick;
+            $dirty |= 48;
+            obj4 = onClick;
         } else {
             if (i59 & 48 == 0) {
-                i11 = restartGroup.changedInstance(onClick) ? 32 : 16;
-                $dirty3 |= i11;
+                i20 = restartGroup.changedInstance(onClick) ? 32 : 16;
+                $dirty |= i20;
             } else {
-                obj8 = onClick;
+                obj4 = onClick;
             }
         }
         int i46 = i60 & 4;
         if (i46 != 0) {
-            $dirty3 |= 384;
-            obj5 = modifier;
+            $dirty |= 384;
+            obj = modifier;
         } else {
             if (i59 & 384 == 0) {
-                i9 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty3 |= i9;
+                i14 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i14;
             } else {
-                obj5 = modifier;
+                obj = modifier;
             }
         }
-        i7 = i60 & 8;
-        if (i7 != 0) {
-            $dirty3 |= 3072;
+        i16 = i60 & 8;
+        if (i16 != 0) {
+            $dirty |= 3072;
             rememberComposableLambda = enabled;
         } else {
             if (i59 & 3072 == 0) {
-                i5 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty3 |= i5;
+                i17 = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty |= i17;
             } else {
                 rememberComposableLambda = enabled;
             }
         }
-        i14 = i60 & 16;
-        if (i14 != 0) {
-            $dirty3 |= 24576;
-            obj4 = text;
+        i15 = i60 & 16;
+        if (i15 != 0) {
+            $dirty |= 24576;
+            obj6 = text;
         } else {
             if (i59 & 24576 == 0) {
-                i10 = restartGroup.changedInstance(text) ? 16384 : 8192;
-                $dirty3 |= i10;
+                i2 = restartGroup.changedInstance(text) ? 16384 : 8192;
+                $dirty |= i2;
             } else {
-                obj4 = text;
+                obj6 = text;
             }
         }
-        i19 = i60 & 32;
+        i11 = i60 & 32;
         int i54 = 196608;
-        if (i19 != 0) {
-            $dirty3 |= i54;
-            obj6 = icon;
+        if (i11 != 0) {
+            $dirty |= i54;
+            obj8 = icon;
         } else {
             if (i54 &= i59 == 0) {
-                i20 = restartGroup.changedInstance(icon) ? 131072 : 65536;
-                $dirty3 |= i20;
+                i4 = restartGroup.changedInstance(icon) ? 131072 : 65536;
+                $dirty |= i4;
             } else {
-                obj6 = icon;
+                obj8 = icon;
             }
         }
         if (i56 &= i59 == 0) {
             if (i60 & 64 == 0) {
-                $dirty5 = $dirty3;
+                $dirty3 = $dirty;
                 obj38 = i46;
                 changed = restartGroup.changed(selectedContentColor) ? 1048576 : 524288;
             } else {
-                $dirty5 = $dirty3;
+                $dirty3 = $dirty;
                 obj38 = i46;
-                $dirty4 = selectedContentColor;
+                $dirty2 = selectedContentColor;
             }
-            $dirty5 |= changed;
+            $dirty3 |= changed;
         } else {
-            $dirty = $dirty3;
+            $dirty5 = $dirty;
             obj38 = i46;
-            $dirty4 = selectedContentColor;
+            $dirty2 = selectedContentColor;
         }
-        i15 = 12582912;
-        if (i59 & i15 == 0) {
+        i19 = 12582912;
+        if (i59 & i19 == 0) {
             if (i60 & 128 == 0) {
-                i6 = restartGroup.changed(interactionSource) ? 8388608 : 4194304;
+                i3 = restartGroup.changed(interactionSource) ? 8388608 : 4194304;
             } else {
-                l2 = interactionSource;
+                l4 = interactionSource;
             }
-            $dirty |= i6;
+            $dirty5 |= i3;
         } else {
-            l2 = interactionSource;
+            l4 = interactionSource;
         }
         int i22 = i60 & 256;
         int i61 = 100663296;
         if (i22 != 0) {
-            $dirty |= i61;
-            i8 = i22;
-            obj2 = $changed;
+            $dirty5 |= i61;
+            i13 = i22;
+            obj5 = $changed;
         } else {
             if (i59 & i61 == 0) {
-                i8 = i22;
-                i16 = restartGroup.changed($changed) ? 67108864 : 33554432;
-                $dirty |= i16;
+                i13 = i22;
+                i8 = restartGroup.changed($changed) ? 67108864 : 33554432;
+                $dirty5 |= i8;
             } else {
-                i8 = i22;
-                obj2 = $changed;
+                i13 = i22;
+                obj5 = $changed;
             }
         }
-        if ($dirty & unbox-impl == 38347922) {
+        if ($dirty5 & unbox-impl == 38347922) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 unselectedContentColor2 = -29360129;
@@ -773,65 +773,65 @@ public final class TabKt {
                 if (i59 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (obj38 != null) {
-                            obj5 = defaultsInvalid;
+                            obj = defaultsInvalid;
                         }
-                        if (i7 != 0) {
+                        if (i16 != 0) {
                             rememberComposableLambda = defaultsInvalid;
                         }
-                        if (i14 != 0) {
-                            obj4 = defaultsInvalid;
-                        }
-                        if (i19 != 0) {
+                        if (i15 != 0) {
                             obj6 = defaultsInvalid;
                         }
+                        if (i11 != 0) {
+                            obj8 = defaultsInvalid;
+                        }
                         if (i60 & 64 != 0) {
-                            i7 = 6;
-                            i14 = 0;
+                            i16 = 6;
+                            i15 = 0;
                             obj38 = unselectedContentColor2;
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
                             unbox-impl = (Color)restartGroup.consume((CompositionLocal)ContentColorKt.getLocalContentColor()).unbox-impl();
-                            $dirty &= str;
+                            $dirty5 &= str;
                         } else {
                             obj38 = unselectedContentColor2;
                             unbox-impl = selectedContentColor;
                         }
                         if (i60 & 128 != 0) {
                             unselectedContentColor2 = unbox-impl;
-                            $dirty &= obj38;
+                            $dirty5 &= obj38;
                         } else {
                             unselectedContentColor2 = interactionSource;
                         }
-                        if (i8 != 0) {
-                            i3 = i24;
-                            i21 = rememberComposableLambda;
-                            i8 = unbox-impl;
+                        if (i13 != 0) {
+                            i7 = i24;
+                            i5 = rememberComposableLambda;
+                            i13 = unbox-impl;
                             i = -350627181;
-                            l4 = unselectedContentColor2;
+                            l3 = unselectedContentColor2;
                         } else {
-                            i3 = $changed;
-                            i21 = rememberComposableLambda;
-                            i8 = unbox-impl;
+                            i7 = $changed;
+                            i5 = rememberComposableLambda;
+                            i13 = unbox-impl;
                             i = -350627181;
-                            l4 = unselectedContentColor2;
+                            l3 = unselectedContentColor2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i60 & 64 != 0) {
-                            $dirty &= str;
+                            $dirty5 &= str;
                         }
                         if (i60 & 128 != 0) {
-                            i8 = selectedContentColor;
-                            l4 = interactionSource;
-                            i3 = $changed;
-                            $dirty = i27;
-                            i21 = rememberComposableLambda;
+                            i13 = selectedContentColor;
+                            l3 = interactionSource;
+                            i7 = $changed;
+                            $dirty5 = i27;
+                            i5 = rememberComposableLambda;
                             i = -350627181;
                         } else {
-                            i8 = selectedContentColor;
-                            l4 = interactionSource;
-                            i3 = $changed;
-                            i21 = rememberComposableLambda;
+                            i13 = selectedContentColor;
+                            l3 = interactionSource;
+                            i7 = $changed;
+                            i5 = rememberComposableLambda;
                             i = -350627181;
                         }
                     }
@@ -839,154 +839,154 @@ public final class TabKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i, $dirty, -1, "androidx.compose.material3.Tab (Tab.kt:102)");
+                    ComposerKt.traceEventStart(i, $dirty5, -1, "androidx.compose.material3.Tab (Tab.kt:102)");
                 }
                 restartGroup.startReplaceGroup(79583089);
                 ComposerKt.sourceInformation(restartGroup, "*105@4702L247");
                 int i29 = 54;
                 int i37 = 1;
-                if (obj4 == null) {
+                if (obj6 == null) {
                     it = 0;
                 } else {
-                    Object obj10 = obj4;
-                    i7 = 0;
-                    TabKt.Tab.styledText.1.1 anon2 = new TabKt.Tab.styledText.1.1(obj4);
+                    Object obj10 = obj6;
+                    i16 = 0;
+                    TabKt.Tab.styledText.1.1 anon2 = new TabKt.Tab.styledText.1.1(obj6);
                     it = rememberComposableLambda;
                 }
                 restartGroup.endReplaceGroup();
-                TabKt.Tab.1 anon = new TabKt.Tab.1(it, obj6);
-                i15 = obj5;
-                TabKt.Tab-bogVsAg(z, obj8, i15, i21, i8, unbox-impl, l4, obj21, i3, (Function3)ComposableLambdaKt.rememberComposableLambda(1540996038, i37, anon, restartGroup, i29), restartGroup);
+                TabKt.Tab.1 anon = new TabKt.Tab.1(it, obj8);
+                i19 = obj;
+                TabKt.Tab-bogVsAg(z, obj4, i19, i5, i13, unbox-impl, l3, obj21, i7, (Function3)ComposableLambdaKt.rememberComposableLambda(1540996038, i37, anon, restartGroup, i29), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj3 = obj4;
-                obj7 = obj6;
-                i17 = $dirty;
-                obj = i15;
-                z2 = i21;
-                l = i8;
-                l3 = l4;
-                $dirty2 = i3;
+                obj2 = obj6;
+                obj3 = obj8;
+                i18 = $dirty5;
+                obj7 = i19;
+                z2 = i5;
+                l2 = i13;
+                l = l3;
+                $dirty4 = i7;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
-                obj = obj5;
+                obj7 = obj;
                 z2 = rememberComposableLambda;
-                obj3 = obj4;
-                obj7 = obj6;
-                i17 = $dirty;
-                l = selectedContentColor;
-                l3 = interactionSource;
-                $dirty2 = $changed;
+                obj2 = obj6;
+                obj3 = obj8;
+                i18 = $dirty5;
+                l2 = selectedContentColor;
+                l = interactionSource;
+                $dirty4 = $changed;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TabKt.Tab.2(selected, onClick, obj, z2, obj3, obj7, l, obj4, l3, obj6, $dirty2, i59, i60);
+            traceInProgress = new TabKt.Tab.2(selected, onClick, obj7, z2, obj2, obj3, l2, obj6, l, obj8, $dirty4, i59, i60);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     private static final void TabBaselineLayout(Function2<? super Composer, ? super Integer, Unit> text, Function2<? super Composer, ? super Integer, Unit> icon, Composer $composer, int $changed) {
-        int traceInProgress;
-        int i2;
+        int traceInProgress2;
+        int i10;
         Object valueOf;
         Object $changed$iv;
         int $dirty;
-        Integer valueOf3;
-        Function0 factory$iv$iv$iv;
+        Integer valueOf2;
         Function0 factory$iv$iv$iv3;
-        int i15;
+        Function0 factory$iv$iv$iv;
+        int i16;
         int i7;
-        boolean materializeModifier3;
-        boolean traceInProgress2;
-        int i12;
-        int valueOf2;
+        boolean materializeModifier2;
+        boolean traceInProgress;
+        int i21;
+        int valueOf3;
         Composer composer3;
         int factory$iv$iv;
-        Composer composer7;
+        Composer composer2;
         int valueOf4;
         Integer maybeCachedBoxMeasurePolicy;
-        int str2;
-        int currentCompositionLocalMap2;
         int str;
-        Composer composer5;
-        Object currentCompositionLocalMap;
-        int materializeModifier2;
+        int currentCompositionLocalMap3;
+        int $i$a$LayoutBoxKt$Box$1$iv;
+        Composer composer;
+        Object currentCompositionLocalMap2;
+        int materializeModifier;
         androidx.compose.ui.layout.MeasurePolicy currentCompositeKeyHash2;
         Object anon;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap3;
-        Modifier materializeModifier;
-        int i3;
-        int i;
-        int i23;
-        int i11;
-        Composer composer4;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
+        Modifier materializeModifier3;
+        int i15;
+        int i6;
+        int i18;
+        int i20;
+        Composer composer7;
         int i25;
-        int i14;
-        Composer composer;
-        int i13;
+        int i;
+        Composer composer4;
+        int i19;
         Function0 factory$iv$iv2;
         int $dirty2;
-        int i16;
-        int i22;
-        int i9;
+        int i11;
+        int i23;
+        int i5;
         androidx.compose.ui.Modifier.Companion companion;
-        int i10;
         int i4;
-        int i8;
-        int i19;
+        int i17;
+        int i13;
+        int i3;
         int currentCompositeKeyHash;
         Object $composer2;
-        int i21;
+        int i9;
         Object obj;
         Function0 factory$iv$iv$iv2;
-        int i17;
-        int i5;
-        Composer composer6;
-        int i20;
-        int i6;
+        int i12;
+        int i14;
+        Composer composer5;
+        int i22;
+        int i8;
         int i24;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
         androidx.compose.runtime.CompositionLocalMap map;
-        Composer composer2;
-        int i18;
+        Composer composer6;
+        int i2;
         int obj52;
         final Object obj2 = text;
         final Object obj3 = icon;
         final int i26 = $changed;
-        traceInProgress = 514131524;
-        $changed$iv = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = 514131524;
+        $changed$iv = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation($changed$iv, "C(TabBaselineLayout)P(1)314@13233L2042,307@12989L2286:Tab.kt#uh7d8r");
         factory$iv$iv = 4;
         if (i26 & 6 == 0) {
-            i15 = $changed$iv.changedInstance(obj2) ? factory$iv$iv : 2;
-            $dirty |= i15;
+            i16 = $changed$iv.changedInstance(obj2) ? factory$iv$iv : 2;
+            $dirty |= i16;
         }
-        currentCompositionLocalMap2 = 32;
+        currentCompositionLocalMap3 = 32;
         if (i26 & 48 == 0) {
-            i7 = $changed$iv.changedInstance(obj3) ? currentCompositionLocalMap2 : 16;
+            i7 = $changed$iv.changedInstance(obj3) ? currentCompositionLocalMap3 : 16;
             $dirty |= i7;
         }
         if ($dirty & 19 == 18) {
             if (!$changed$iv.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.TabBaselineLayout (Tab.kt:306)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.TabBaselineLayout (Tab.kt:306)");
                 }
                 ComposerKt.sourceInformationMarkerStart($changed$iv, 370960155, "CC(remember):Tab.kt#9igjgp");
                 int i57 = 0;
-                i2 = $dirty & 14 == factory$iv$iv ? i12 : i57;
-                if ($dirty & 112 == currentCompositionLocalMap2) {
+                i10 = $dirty & 14 == factory$iv$iv ? i21 : i57;
+                if ($dirty & 112 == currentCompositionLocalMap3) {
                 } else {
-                    i12 = i57;
+                    i21 = i57;
                 }
                 Composer composer8 = $changed$iv;
                 int i50 = 0;
                 Object rememberedValue4 = composer8.rememberedValue();
                 int i63 = 0;
-                if (i2 |= i12 == 0) {
+                if (i10 |= i21 == 0) {
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
                         currentCompositeKeyHash2 = 0;
                         anon = new TabKt.TabBaselineLayout.2.1(obj2, obj3);
@@ -998,16 +998,16 @@ public final class TabKt {
                 }
                 ComposerKt.sourceInformationMarkerEnd($changed$iv);
                 int i30 = i57;
-                valueOf2 = 0;
-                currentCompositionLocalMap2 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
-                ComposerKt.sourceInformationMarkerStart($changed$iv, -1323940314, currentCompositionLocalMap2);
-                materializeModifier2 = Modifier.Companion;
+                valueOf3 = 0;
+                currentCompositionLocalMap3 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
+                ComposerKt.sourceInformationMarkerStart($changed$iv, -1323940314, currentCompositionLocalMap3);
+                materializeModifier = Modifier.Companion;
                 currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash($changed$iv, i57);
                 i59 |= 6;
                 Function0 function0 = constructor;
-                i3 = 0;
-                str2 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart($changed$iv, -692256719, str2);
+                i15 = 0;
+                str = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
+                ComposerKt.sourceInformationMarkerStart($changed$iv, -692256719, str);
                 if (!applier3 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
@@ -1018,18 +1018,18 @@ public final class TabKt {
                     factory$iv$iv = function0;
                     $changed$iv.useNode();
                 }
-                i = i30;
+                i6 = i30;
                 Composer constructor-impl = Updater.constructor-impl($changed$iv);
                 int i70 = 0;
-                composer = $changed$iv;
+                composer4 = $changed$iv;
                 Updater.set-impl(constructor-impl, (MeasurePolicy)anon, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, $changed$iv.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i14 = 0;
+                i = 0;
                 Composer composer10 = constructor-impl;
                 int i71 = 0;
                 if (!composer10.getInserting()) {
                     $dirty2 = $dirty;
-                    i16 = valueOf2;
+                    i11 = valueOf3;
                     if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
                         composer10.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
@@ -1038,38 +1038,38 @@ public final class TabKt {
                     }
                 } else {
                     $dirty2 = $dirty;
-                    i16 = valueOf2;
+                    i11 = valueOf3;
                 }
-                Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier($changed$iv, (Modifier)materializeModifier2), ComposeUiNode.Companion.getSetModifier());
-                $changed$iv = composer;
+                Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier($changed$iv, (Modifier)materializeModifier), ComposeUiNode.Companion.getSetModifier());
+                $changed$iv = composer4;
                 i25 = i32;
                 ComposerKt.sourceInformationMarkerStart($changed$iv, 1248753480, "C:Tab.kt#uh7d8r");
                 $changed$iv.startReplaceGroup(871566271);
                 ComposerKt.sourceInformation($changed$iv, "309@13038L85");
                 valueOf = "C73@3429L9:Box.kt#2w3rfo";
-                materializeModifier3 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
-                i13 = valueOf3;
+                materializeModifier2 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
+                i19 = valueOf2;
                 if (obj2 != null) {
                     factory$iv$iv2 = factory$iv$iv;
-                    i9 = str;
-                    companion = materializeModifier2;
-                    i10 = currentCompositeKeyHash2;
+                    i5 = $i$a$LayoutBoxKt$Box$1$iv;
+                    companion = materializeModifier;
+                    i4 = currentCompositeKeyHash2;
                     Modifier padding-VpY3zN4$default = PaddingKt.padding-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "text"), TabKt.HorizontalTextPadding, 0, 2, 0);
-                    ComposerKt.sourceInformationMarkerStart($changed$iv, 733328855, materializeModifier3);
+                    ComposerKt.sourceInformationMarkerStart($changed$iv, 733328855, materializeModifier2);
                     Alignment topStart2 = Alignment.Companion.getTopStart();
                     int i66 = 0;
-                    i11 = i53;
+                    i20 = i53;
                     maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart2, i66);
-                    i8 = 0;
-                    i19 = i60;
-                    ComposerKt.sourceInformationMarkerStart($changed$iv, -1323940314, currentCompositionLocalMap2);
+                    i13 = 0;
+                    i3 = i60;
+                    ComposerKt.sourceInformationMarkerStart($changed$iv, -1323940314, currentCompositionLocalMap3);
                     currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($changed$iv, 0);
-                    currentCompositionLocalMap = $changed$iv.getCurrentCompositionLocalMap();
+                    currentCompositionLocalMap2 = $changed$iv.getCurrentCompositionLocalMap();
                     $composer2 = topStart2;
                     obj = padding-VpY3zN4$default;
                     Function0 function03 = constructor3;
-                    i21 = 0;
-                    ComposerKt.sourceInformationMarkerStart($changed$iv, -692256719, str2);
+                    i9 = 0;
+                    ComposerKt.sourceInformationMarkerStart($changed$iv, -692256719, str);
                     if (!applier2 instanceof Applier) {
                         ComposablesKt.invalidApplier();
                     }
@@ -1077,43 +1077,43 @@ public final class TabKt {
                     if ($changed$iv.getInserting()) {
                         $changed$iv.createNode(function03);
                     } else {
-                        factory$iv$iv$iv3 = function03;
+                        factory$iv$iv$iv = function03;
                         $changed$iv.useNode();
                     }
-                    factory$iv$iv$iv2 = factory$iv$iv$iv3;
+                    factory$iv$iv$iv2 = factory$iv$iv$iv;
                     Composer constructor-impl2 = Updater.constructor-impl($changed$iv);
                     int i75 = 0;
-                    i20 = i66;
+                    i22 = i66;
                     Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                    Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    Updater.set-impl(constructor-impl2, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                     int i78 = 0;
                     Composer composer12 = constructor-impl2;
                     int i79 = 0;
                     if (!composer12.getInserting()) {
                         measurePolicy$iv = maybeCachedBoxMeasurePolicy;
-                        map = currentCompositionLocalMap;
+                        map = currentCompositionLocalMap2;
                         if (!Intrinsics.areEqual(composer12.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                             composer12.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                             constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer5 = composer12;
+                            composer = composer12;
                         }
                     } else {
                         measurePolicy$iv = maybeCachedBoxMeasurePolicy;
-                        map = currentCompositionLocalMap;
+                        map = currentCompositionLocalMap2;
                     }
                     Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier($changed$iv, padding-VpY3zN4$default), ComposeUiNode.Companion.getSetModifier());
                     Composer composer9 = $changed$iv;
                     ComposerKt.sourceInformationMarkerStart(composer9, -2146769399, valueOf);
                     currentCompositeKeyHash2 = BoxScopeInstance.INSTANCE;
                     i77 |= 6;
-                    i6 = 0;
+                    i8 = 0;
                     i24 = i45;
-                    i18 = i62;
-                    str = composer6;
-                    ComposerKt.sourceInformationMarkerStart(str, 719667646, "C309@13115L6:Tab.kt#uh7d8r");
-                    obj2.invoke(str, Integer.valueOf($dirty2 & 14));
-                    ComposerKt.sourceInformationMarkerEnd(str);
+                    i2 = i62;
+                    $i$a$LayoutBoxKt$Box$1$iv = composer5;
+                    ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, 719667646, "C309@13115L6:Tab.kt#uh7d8r");
+                    obj2.invoke($i$a$LayoutBoxKt$Box$1$iv, Integer.valueOf($dirty2 & 14));
+                    ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
                     ComposerKt.sourceInformationMarkerEnd(composer9);
                     $changed$iv.endNode();
                     ComposerKt.sourceInformationMarkerEnd($changed$iv);
@@ -1121,9 +1121,9 @@ public final class TabKt {
                     ComposerKt.sourceInformationMarkerEnd($changed$iv);
                 } else {
                     factory$iv$iv2 = factory$iv$iv;
-                    i9 = str;
-                    companion = materializeModifier2;
-                    i10 = currentCompositeKeyHash2;
+                    i5 = $i$a$LayoutBoxKt$Box$1$iv;
+                    companion = materializeModifier;
+                    i4 = currentCompositeKeyHash2;
                 }
                 $changed$iv.endReplaceGroup();
                 $changed$iv.startReplaceGroup(871570579);
@@ -1131,17 +1131,17 @@ public final class TabKt {
                 if (obj3 != null) {
                     Modifier layoutId = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "icon");
                     valueOf4 = 6;
-                    str = 0;
-                    ComposerKt.sourceInformationMarkerStart($changed$iv, 733328855, materializeModifier3);
+                    $i$a$LayoutBoxKt$Box$1$iv = 0;
+                    ComposerKt.sourceInformationMarkerStart($changed$iv, 733328855, materializeModifier2);
                     Alignment topStart = Alignment.Companion.getTopStart();
-                    i22 = 0;
-                    i4 = topStart;
-                    ComposerKt.sourceInformationMarkerStart($changed$iv, -1323940314, currentCompositionLocalMap2);
-                    obj52 = currentCompositeKeyHash3;
-                    i8 = layoutId;
-                    Function0 function02 = constructor2;
                     i23 = 0;
-                    ComposerKt.sourceInformationMarkerStart($changed$iv, -692256719, str2);
+                    i17 = topStart;
+                    ComposerKt.sourceInformationMarkerStart($changed$iv, -1323940314, currentCompositionLocalMap3);
+                    obj52 = currentCompositeKeyHash3;
+                    i13 = layoutId;
+                    Function0 function02 = constructor2;
+                    i18 = 0;
+                    ComposerKt.sourceInformationMarkerStart($changed$iv, -692256719, str);
                     if (!applier instanceof Applier) {
                         ComposablesKt.invalidApplier();
                     }
@@ -1149,7 +1149,7 @@ public final class TabKt {
                     if ($changed$iv.getInserting()) {
                         $changed$iv.createNode(function02);
                     } else {
-                        factory$iv$iv$iv = function02;
+                        factory$iv$iv$iv3 = function02;
                         $changed$iv.useNode();
                     }
                     Composer constructor-impl3 = Updater.constructor-impl($changed$iv);
@@ -1161,27 +1161,27 @@ public final class TabKt {
                     Composer composer11 = constructor-impl3;
                     int i74 = 0;
                     if (!composer11.getInserting()) {
-                        factory$iv$iv$iv2 = factory$iv$iv$iv;
-                        i17 = valueOf4;
+                        factory$iv$iv$iv2 = factory$iv$iv$iv3;
+                        i12 = valueOf4;
                         if (!Intrinsics.areEqual(composer11.rememberedValue(), Integer.valueOf(obj52))) {
                             composer11.updateRememberedValue(Integer.valueOf(obj52));
                             constructor-impl3.apply(Integer.valueOf(obj52), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer7 = composer11;
+                            composer2 = composer11;
                         }
                     } else {
-                        factory$iv$iv$iv2 = factory$iv$iv$iv;
-                        i17 = valueOf4;
+                        factory$iv$iv$iv2 = factory$iv$iv$iv3;
+                        i12 = valueOf4;
                     }
                     Updater.set-impl(constructor-impl3, ComposedModifierKt.materializeModifier($changed$iv, layoutId), ComposeUiNode.Companion.getSetModifier());
                     $dirty = $composer2;
                     factory$iv$iv = 0;
                     ComposerKt.sourceInformationMarkerStart($dirty, -2146769399, valueOf);
                     i56 |= 6;
-                    composer4 = $dirty;
-                    i14 = 0;
-                    i19 = iNSTANCE;
-                    i21 = i38;
+                    composer7 = $dirty;
+                    i = 0;
+                    i3 = iNSTANCE;
+                    i9 = i38;
                     ComposerKt.sourceInformationMarkerStart($dirty, 719758910, "C312@13207L6:Tab.kt#uh7d8r");
                     obj3.invoke($dirty, Integer.valueOf(i34 &= 14));
                     ComposerKt.sourceInformationMarkerEnd($dirty);
@@ -1195,20 +1195,20 @@ public final class TabKt {
                 }
                 $composer2.endReplaceGroup();
                 ComposerKt.sourceInformationMarkerEnd($composer2);
-                composer.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                ComposerKt.sourceInformationMarkerEnd(composer);
+                composer4.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 $changed$iv.skipToGroupEnd();
-                composer = $changed$iv;
+                composer4 = $changed$iv;
                 $dirty2 = $dirty;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer4.endRestartGroup();
         if (endRestartGroup != null) {
             $changed$iv = new TabKt.TabBaselineLayout.3(obj2, obj3, i26);
             endRestartGroup.updateScope((Function2)$changed$iv);
@@ -1217,44 +1217,44 @@ public final class TabKt {
 
     private static final void TabTransition-Klgx-Pg(long activeColor, long inactiveColor, boolean selected, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int transitionAnimation;
-        long l2;
+        long l4;
         int $dirty2;
-        long l5;
-        long l;
-        int i5;
-        int i6;
+        long l3;
+        long l2;
+        int i3;
+        int i11;
         boolean z2;
         Object invoke;
-        int $changed$iv$iv2;
+        int $changed$iv$iv;
         boolean changed;
         int i;
-        long l3;
-        int i9;
-        long l4;
+        long l5;
+        int i4;
+        long l;
         Color box-impl;
-        int i8;
-        int i2;
+        int i6;
+        int i7;
         boolean skipping;
         boolean traceInProgress5;
-        int i4;
-        boolean traceInProgress;
+        int i8;
+        boolean traceInProgress3;
         Object $i$f$cache;
         String str;
-        int i7;
-        int i11;
-        Transition transition2;
-        int i3;
+        int i9;
         int i10;
-        boolean traceInProgress4;
-        int $dirty;
         Transition transition;
+        int i2;
+        int i12;
+        boolean traceInProgress2;
+        int $dirty;
+        Transition transition2;
         androidx.compose.ui.graphics.colorspace.ColorSpace $composer2;
-        Object traceInProgress3;
+        Object traceInProgress4;
         boolean z;
         boolean invalid$iv$iv;
-        int i12;
-        int $changed$iv$iv;
-        boolean traceInProgress2;
+        int i5;
+        int $changed$iv$iv2;
+        boolean traceInProgress;
         final Object obj2 = $changed;
         final int i30 = obj35;
         transitionAnimation = 735731848;
@@ -1262,26 +1262,26 @@ public final class TabKt {
         ComposerKt.sourceInformation(restartGroup, "C(TabTransition)P(0:c#ui.graphics.Color,2:c#ui.graphics.Color,3)280@11898L26,282@11961L548,297@12514L77:Tab.kt#uh7d8r");
         i = 2;
         if (i30 & 6 == 0) {
-            i5 = restartGroup.changed(activeColor) ? 4 : i;
-            $dirty2 |= i5;
+            i3 = restartGroup.changed(activeColor) ? 4 : i;
+            $dirty2 |= i3;
         } else {
-            l3 = activeColor;
+            l5 = activeColor;
         }
         if (i30 & 48 == 0) {
-            i6 = restartGroup.changed(selected) ? 32 : 16;
-            $dirty2 |= i6;
+            i11 = restartGroup.changed(selected) ? 32 : 16;
+            $dirty2 |= i11;
         } else {
-            l4 = selected;
+            l = selected;
         }
         if (i30 & 384 == 0) {
-            i8 = restartGroup.changed($composer) ? 256 : 128;
-            $dirty2 |= i8;
+            i6 = restartGroup.changed($composer) ? 256 : 128;
+            $dirty2 |= i6;
         } else {
             z2 = $composer;
         }
         if (i30 & 3072 == 0) {
-            i2 = restartGroup.changedInstance(obj2) ? 2048 : 1024;
-            $dirty2 |= i2;
+            i7 = restartGroup.changedInstance(obj2) ? 2048 : 1024;
+            $dirty2 |= i7;
         }
         if ($dirty2 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
@@ -1290,16 +1290,16 @@ public final class TabKt {
                 }
                 Transition transition3 = TransitionKt.updateTransition(Boolean.valueOf(z2), 0, restartGroup, i32 &= 14, i);
                 androidx.compose.material3.TabKt.TabTransition.color.2 iNSTANCE = TabKt.TabTransition.color.2.INSTANCE;
-                i11 = 0;
-                transition2 = transition3;
-                i3 = 0;
+                i10 = 0;
+                transition = transition3;
+                i2 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1939694975, "CC(animateColor)P(2)68@3220L31,69@3287L70,73@3370L70:Transition.kt#xbi5r1");
                 Composer composer3 = restartGroup;
                 int i51 = 0;
                 composer3.startReplaceGroup(-1997025499);
                 String str5 = "C:Tab.kt#uh7d8r";
                 ComposerKt.sourceInformation(composer3, str5);
-                transition = transition3;
+                transition2 = transition3;
                 String transition4 = "androidx.compose.material3.TabTransition.<anonymous> (Tab.kt:295)";
                 if (ComposerKt.isTraceInProgress()) {
                     $dirty = $dirty2;
@@ -1307,12 +1307,12 @@ public final class TabKt {
                 } else {
                     $dirty = $dirty2;
                 }
-                l5 = (Boolean)transition2.getTargetState().booleanValue() ? l3 : l4;
+                l3 = (Boolean)transition.getTargetState().booleanValue() ? l5 : l;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 composer3.endReplaceGroup();
-                androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace-impl = Color.getColorSpace-impl(l5);
+                androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace-impl = Color.getColorSpace-impl(l3);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1918408083, "CC(remember):Transition.kt#9igjgp");
                 changed = restartGroup.changed(colorSpace-impl);
                 Composer composer = restartGroup;
@@ -1322,7 +1322,7 @@ public final class TabKt {
                 if (!changed) {
                     invalid$iv$iv = changed;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
-                        i12 = invalid$iv$iv2;
+                        i5 = invalid$iv$iv2;
                         composer.updateRememberedValue((TwoWayConverter)ColorVectorConverterKt.getVectorConverter(Color.Companion).invoke(colorSpace-impl));
                     } else {
                         invoke = rememberedValue;
@@ -1333,8 +1333,8 @@ public final class TabKt {
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i49 = 57344;
                 i25 |= i40;
-                l4 = transition2;
-                i10 = 0;
+                l = transition;
+                i12 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -142660079, "CC(animateValue)P(3,2)1883@77007L32,1884@77062L31,1885@77118L23,1887@77154L89:Transition.kt#pdpnli");
                 int i53 = 0;
                 Composer composer4 = composer5;
@@ -1343,12 +1343,12 @@ public final class TabKt {
                 composer4.startReplaceGroup(colorSpace$iv);
                 ComposerKt.sourceInformation(composer4, str5);
                 if (ComposerKt.isTraceInProgress()) {
-                    $changed$iv$iv = $changed$iv$iv2;
+                    $changed$iv$iv2 = $changed$iv$iv;
                     ComposerKt.traceEventStart(colorSpace$iv, i41 &= 112, -1, transition4);
                 } else {
-                    $changed$iv$iv = $changed$iv$iv2;
+                    $changed$iv$iv2 = $changed$iv$iv;
                 }
-                l = (Boolean)l4.getCurrentState().booleanValue() ? l3 : selected;
+                l2 = (Boolean)l.getCurrentState().booleanValue() ? l5 : selected;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -1361,14 +1361,14 @@ public final class TabKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(it, i26 &= 112, -1, transition4);
                 }
-                l2 = (Boolean)l4.getTargetState().booleanValue() ? l3 : selected;
+                l4 = (Boolean)l.getTargetState().booleanValue() ? l5 : selected;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 composer2.endReplaceGroup();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CompositionLocalKt.CompositionLocalProvider(ContentColorKt.getLocalContentColor().provides(Color.box-impl(TabKt.TabTransition_Klgx_Pg$lambda$2(TransitionKt.createTransitionAnimation(l4, Color.box-impl(l), Color.box-impl(l2), (FiniteAnimationSpec)(Function3)iNSTANCE.invoke(l4.getSegment(), restartGroup, Integer.valueOf(i15 &= 112)), (TwoWayConverter)invoke, "ColorAnimation", restartGroup, i14 | i20)))), obj2, restartGroup, $stable |= i);
+                CompositionLocalKt.CompositionLocalProvider(ContentColorKt.getLocalContentColor().provides(Color.box-impl(TabKt.TabTransition_Klgx_Pg$lambda$2(TransitionKt.createTransitionAnimation(l, Color.box-impl(l2), Color.box-impl(l4), (FiniteAnimationSpec)(Function3)iNSTANCE.invoke(l.getSegment(), restartGroup, Integer.valueOf(i15 &= 112)), (TwoWayConverter)invoke, "ColorAnimation", restartGroup, i14 | i20)))), obj2, restartGroup, $stable |= i);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -1380,7 +1380,7 @@ public final class TabKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            transitionAnimation = new TabKt.TabTransition.1(l3, z2, selected, l3, $composer, obj2, i30);
+            transitionAnimation = new TabKt.TabTransition.1(l5, z2, selected, l5, $composer, obj2, i30);
             endRestartGroup.updateScope((Function2)transitionAnimation);
         }
     }

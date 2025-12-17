@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="4dp">
+    <androidx.viewpager.widget.ViewPager
+        android:layout_gravity="0x50"
+        android:id="@+id/view_pager_challenge"
+        android:background="@color/white"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:overScrollMode="2"
+        android:paddingStart="24dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

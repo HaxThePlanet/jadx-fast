@@ -112,9 +112,9 @@ public final class AccessibilityIterators {
         @Override // androidx.compose.ui.platform.AccessibilityIterators$AbstractTextSegmentIterator
         public int[] following(int current) {
             int start;
+            BreakIterator impl3;
             BreakIterator impl2;
             BreakIterator impl;
-            BreakIterator impl3;
             String str;
             int i;
             int length = getText().length();
@@ -131,19 +131,19 @@ public final class AccessibilityIterators {
             str = "impl";
             while (this.impl == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                impl = i2;
+                impl2 = i2;
                 i = -1;
                 if (this.impl == null) {
                 }
                 str = "impl";
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                impl2 = i2;
+                impl3 = i2;
             }
             if (this.impl == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                impl3 = i2;
+                impl = i2;
             }
-            int following = impl3.following(start);
+            int following = impl.following(start);
             if (following == i) {
                 return i2;
             }
@@ -164,9 +164,9 @@ public final class AccessibilityIterators {
         @Override // androidx.compose.ui.platform.AccessibilityIterators$AbstractTextSegmentIterator
         public int[] preceding(int current) {
             int end;
+            BreakIterator impl2;
             BreakIterator impl3;
             BreakIterator impl;
-            BreakIterator impl2;
             String str;
             int i;
             int length = getText().length();
@@ -183,19 +183,19 @@ public final class AccessibilityIterators {
             str = "impl";
             while (this.impl == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                impl = i2;
+                impl3 = i2;
                 i = -1;
                 if (this.impl == null) {
                 }
                 str = "impl";
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                impl3 = i2;
+                impl2 = i2;
             }
             if (this.impl == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                impl2 = i2;
+                impl = i2;
             }
-            int preceding = impl2.preceding(end);
+            int preceding = impl.preceding(end);
             if (preceding == i) {
                 return i2;
             }
@@ -233,34 +233,34 @@ public final class AccessibilityIterators {
         }
 
         private final int getLineEdgeIndex(int lineNumber, ResolvedTextDirection direction) {
-            TextLayoutResult layoutResult3;
-            int lineStart;
-            TextLayoutResult i2;
             TextLayoutResult layoutResult;
+            int lineStart;
+            TextLayoutResult i;
             TextLayoutResult layoutResult2;
-            int i;
+            TextLayoutResult layoutResult3;
+            int i2;
             String str = "layoutResult";
-            i2 = 0;
+            i = 0;
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                layoutResult3 = i2;
+                layoutResult = i;
             }
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                layoutResult = i2;
+                layoutResult2 = i;
             }
-            if (direction != layoutResult.getParagraphDirection(layoutResult3.getLineStart(lineNumber))) {
-                layoutResult2 = this.layoutResult;
-                if (layoutResult2 == null) {
+            if (direction != layoutResult2.getParagraphDirection(layoutResult.getLineStart(lineNumber))) {
+                layoutResult3 = this.layoutResult;
+                if (layoutResult3 == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str);
                 } else {
-                    i2 = layoutResult2;
+                    i = layoutResult3;
                 }
-                lineStart = i2.getLineStart(lineNumber);
+                lineStart = i.getLineStart(lineNumber);
             } else {
                 if (this.layoutResult == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str);
-                    layoutResult2 = i2;
+                    layoutResult3 = i;
                 }
                 lineEnd$default--;
             }
@@ -270,8 +270,8 @@ public final class AccessibilityIterators {
         @Override // androidx.compose.ui.platform.AccessibilityIterators$AbstractTextSegmentIterator
         public int[] following(int current) {
             int currentLine;
-            TextLayoutResult layoutResult;
             TextLayoutResult layoutResult2;
+            TextLayoutResult layoutResult;
             int lineEdgeIndex;
             TextLayoutResult layoutResult3;
             int i = 0;
@@ -285,15 +285,15 @@ public final class AccessibilityIterators {
             if (current < 0) {
                 if (this.layoutResult == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str);
-                    layoutResult = i;
+                    layoutResult2 = i;
                 }
-                currentLine = layoutResult.getLineForOffset(0);
+                currentLine = layoutResult2.getLineForOffset(0);
             } else {
                 if (this.layoutResult == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str);
-                    layoutResult2 = i;
+                    layoutResult = i;
                 }
-                currentLine = layoutResult2.getLineForOffset(current);
+                currentLine = layoutResult.getLineForOffset(current);
                 if (getLineEdgeIndex(currentLine, AccessibilityIterators.LineTextSegmentIterator.DirectionStart) == current) {
                 } else {
                     currentLine = lineEdgeIndex;
@@ -391,34 +391,34 @@ public final class AccessibilityIterators {
         }
 
         private final int getLineEdgeIndex(int lineNumber, ResolvedTextDirection direction) {
-            TextLayoutResult layoutResult3;
+            TextLayoutResult layoutResult;
             int lineStart;
             TextLayoutResult i2;
-            TextLayoutResult layoutResult;
             TextLayoutResult layoutResult2;
+            TextLayoutResult layoutResult3;
             int i;
             String str = "layoutResult";
             i2 = 0;
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                layoutResult3 = i2;
+                layoutResult = i2;
             }
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                layoutResult = i2;
+                layoutResult2 = i2;
             }
-            if (direction != layoutResult.getParagraphDirection(layoutResult3.getLineStart(lineNumber))) {
-                layoutResult2 = this.layoutResult;
-                if (layoutResult2 == null) {
+            if (direction != layoutResult2.getParagraphDirection(layoutResult.getLineStart(lineNumber))) {
+                layoutResult3 = this.layoutResult;
+                if (layoutResult3 == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str);
                 } else {
-                    i2 = layoutResult2;
+                    i2 = layoutResult3;
                 }
                 lineStart = i2.getLineStart(lineNumber);
             } else {
                 if (this.layoutResult == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str);
-                    layoutResult2 = i2;
+                    layoutResult3 = i2;
                 }
                 lineEnd$default--;
             }
@@ -427,60 +427,60 @@ public final class AccessibilityIterators {
 
         @Override // androidx.compose.ui.platform.AccessibilityIterators$AbstractTextSegmentIterator
         public int[] following(int current) {
-            int i;
-            TextLayoutResult i2;
+            int i2;
+            TextLayoutResult i;
             SemanticsNode node;
-            TextLayoutResult layoutResult3;
-            TextLayoutResult layoutResult5;
-            TextLayoutResult layoutResult4;
             TextLayoutResult layoutResult2;
             TextLayoutResult layoutResult;
-            i2 = 0;
+            TextLayoutResult layoutResult5;
+            TextLayoutResult layoutResult4;
+            TextLayoutResult layoutResult3;
+            i = 0;
             if (getText().length() <= 0) {
-                return i2;
+                return i;
             }
             if (current >= getText().length()) {
-                return i2;
+                return i;
             }
             int i3 = 0;
             if (this.node == null) {
                 Intrinsics.throwUninitializedPropertyAccessException("node");
-                node = i2;
+                node = i;
             }
             int i4 = 0;
             int coerceAtLeast = RangesKt.coerceAtLeast(0, current);
             String str2 = "layoutResult";
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str2);
-                layoutResult3 = i2;
+                layoutResult2 = i;
             }
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str2);
-                layoutResult5 = i2;
+                layoutResult = i;
             }
             f += lineTop;
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str2);
-                layoutResult4 = i2;
+                layoutResult5 = i;
             }
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str2);
-                layoutResult2 = i2;
+                layoutResult4 = i;
             }
             if (Float.compare(i6, lineTop2) < 0) {
-                layoutResult = this.layoutResult;
-                if (layoutResult == null) {
+                layoutResult3 = this.layoutResult;
+                if (layoutResult3 == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str2);
                 } else {
-                    i2 = layoutResult;
+                    i = layoutResult3;
                 }
                 lineForVerticalPosition--;
             } else {
-                layoutResult = this.layoutResult;
-                if (layoutResult == null) {
+                layoutResult3 = this.layoutResult;
+                if (layoutResult3 == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str2);
                 } else {
-                    i2 = layoutResult;
+                    i = layoutResult3;
                 }
                 lineCount--;
             }
@@ -500,8 +500,8 @@ public final class AccessibilityIterators {
             int currentPageStartLine;
             SemanticsNode node;
             TextLayoutResult layoutResult;
-            TextLayoutResult layoutResult2;
             TextLayoutResult layoutResult3;
+            TextLayoutResult layoutResult2;
             i = 0;
             if (getText().length() <= 0) {
                 return i;
@@ -524,15 +524,15 @@ public final class AccessibilityIterators {
             int lineForOffset = layoutResult.getLineForOffset(coerceAtMost);
             if (this.layoutResult == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str2);
-                layoutResult2 = i;
+                layoutResult3 = i;
             }
             int i4 = lineTop - f;
             if (Float.compare(i4, i5) > 0) {
-                layoutResult3 = this.layoutResult;
-                if (layoutResult3 == null) {
+                layoutResult2 = this.layoutResult;
+                if (layoutResult2 == null) {
                     Intrinsics.throwUninitializedPropertyAccessException(str2);
                 } else {
-                    i = layoutResult3;
+                    i = layoutResult2;
                 }
                 currentPageStartLine = i.getLineForVerticalPosition(i4);
             } else {
@@ -575,36 +575,36 @@ public final class AccessibilityIterators {
 
         private final boolean isEndBoundary(int index) {
             int charAt;
-            int i2;
             int i;
-            i = 10;
-            if (index > 0 && getText().charAt(index + -1) != i) {
-                i = 10;
-                if (getText().charAt(index + -1) != i) {
+            int i2;
+            i2 = 10;
+            if (index > 0 && getText().charAt(index + -1) != i2) {
+                i2 = 10;
+                if (getText().charAt(index + -1) != i2) {
                     if (index != getText().length()) {
-                        i2 = getText().charAt(index) == i ? 1 : 0;
+                        i = getText().charAt(index) == i2 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
             } else {
             }
-            return i2;
+            return i;
         }
 
         private final boolean isStartBoundary(int index) {
             char charAt;
-            int i2;
             int i;
+            int i2;
             final int i3 = 10;
             if (getText().charAt(index) != i3) {
                 if (index != 0) {
-                    i2 = getText().charAt(index + -1) == i3 ? 1 : 0;
+                    i = getText().charAt(index + -1) == i3 ? 1 : 0;
                 } else {
                 }
             } else {
             }
-            return i2;
+            return i;
         }
 
         @Override // androidx.compose.ui.platform.AccessibilityIterators$AbstractTextSegmentIterator

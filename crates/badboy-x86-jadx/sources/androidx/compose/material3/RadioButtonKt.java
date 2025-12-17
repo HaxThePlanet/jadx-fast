@@ -41,26 +41,26 @@ public final class RadioButtonKt {
 
     public static final void RadioButton(boolean selected, Function0<Unit> onClick, Modifier modifier, boolean enabled, androidx.compose.material3.RadioButtonColors colors, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i9) {
         float arg0$iv;
-        Modifier companion;
+        Modifier companion2;
         Object selectableModifier;
         boolean traceInProgress;
         Modifier minimumInteractiveComponentSize;
         Modifier requiredSize-3ABfNKs;
-        Object obj3;
-        int $dirty4;
+        Object obj4;
+        int $dirty3;
         boolean $dirty2;
         Object $dirty;
-        int i3;
-        int i11;
-        Object modifier3;
-        boolean modifier2;
-        Object obj5;
-        int colors3;
-        Object colors4;
+        int i6;
+        int i4;
+        Object modifier2;
+        boolean modifier3;
         Object obj;
-        int i7;
-        int $dirty3;
-        Object obj4;
+        int colors2;
+        Object colors4;
+        Object obj3;
+        int i10;
+        int $dirty4;
+        Object obj5;
         boolean dotRadius;
         boolean traceInProgress2;
         float other$iv;
@@ -68,26 +68,26 @@ public final class RadioButtonKt {
         Object str;
         int constructor-impl;
         Object radioColor;
-        int colors2;
+        int colors3;
         int changed;
-        int i10;
+        int i11;
         Object obj2;
         int i;
-        int i5;
+        int i7;
         int skipping;
         int defaultsInvalid;
         int empty;
         int radioColor2;
-        androidx.compose.runtime.State i6;
+        androidx.compose.runtime.State i2;
         Object rememberedValue;
-        int i2;
-        androidx.compose.ui.Modifier.Companion companion2;
+        int i3;
+        androidx.compose.ui.Modifier.Companion companion;
         int radioButton-o7Vup1c;
-        androidx.compose.runtime.State state3;
         androidx.compose.runtime.State state;
-        androidx.compose.runtime.State state4;
         androidx.compose.runtime.State state2;
-        int i4;
+        androidx.compose.runtime.State state4;
+        androidx.compose.runtime.State state3;
+        int i5;
         androidx.compose.ui.Modifier.Companion obj26;
         int obj30;
         requiredSize-3ABfNKs = selected;
@@ -95,44 +95,44 @@ public final class RadioButtonKt {
         traceInProgress = 408580840;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(RadioButton)P(5,4,3,1)80@3770L8,84@3868L176,88@4073L29,119@5097L415,106@4679L833:RadioButton.kt#uh7d8r");
-        $dirty4 = $changed;
+        $dirty3 = $changed;
         rememberedValue = 2;
         if (i9 & 1 != 0) {
-            $dirty4 |= 6;
+            $dirty3 |= 6;
         } else {
             if (i22 & 6 == 0) {
-                i3 = restartGroup.changed(requiredSize-3ABfNKs) ? 4 : rememberedValue;
-                $dirty4 |= i3;
+                i6 = restartGroup.changed(requiredSize-3ABfNKs) ? 4 : rememberedValue;
+                $dirty3 |= i6;
             }
         }
         if (i9 & 2 != 0) {
-            $dirty4 |= 48;
+            $dirty3 |= 48;
         } else {
             if (i22 & 48 == 0) {
-                i11 = restartGroup.changedInstance(onClick) ? 32 : 16;
-                $dirty4 |= i11;
+                i4 = restartGroup.changedInstance(onClick) ? 32 : 16;
+                $dirty3 |= i4;
             }
         }
         int i16 = i9 & 4;
         if (i16 != 0) {
-            $dirty4 |= 384;
-            obj5 = modifier;
+            $dirty3 |= 384;
+            obj = modifier;
         } else {
             if (i22 & 384 == 0) {
-                i7 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty4 |= i7;
+                i10 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty3 |= i10;
             } else {
-                obj5 = modifier;
+                obj = modifier;
             }
         }
         int i20 = i9 & 8;
         if (i20 != 0) {
-            $dirty4 |= 3072;
+            $dirty3 |= 3072;
             dotRadius = enabled;
         } else {
             if (i22 & 3072 == 0) {
                 i8 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty4 |= i8;
+                $dirty3 |= i8;
             } else {
                 dotRadius = enabled;
             }
@@ -143,24 +143,24 @@ public final class RadioButtonKt {
             } else {
                 str = colors;
             }
-            $dirty4 |= changed;
+            $dirty3 |= changed;
         } else {
             str = colors;
         }
-        i10 = i9 & 32;
+        i11 = i9 & 32;
         int i40 = 196608;
-        if (i10 != 0) {
-            $dirty4 |= i40;
+        if (i11 != 0) {
+            $dirty3 |= i40;
             obj2 = interactionSource;
         } else {
             if (i40 &= i22 == 0) {
-                i5 = restartGroup.changed(interactionSource) ? 131072 : 65536;
-                $dirty4 |= i5;
+                i7 = restartGroup.changed(interactionSource) ? 131072 : 65536;
+                $dirty3 |= i7;
             } else {
                 obj2 = interactionSource;
             }
         }
-        if (i45 &= $dirty4 == 74898) {
+        if (i45 &= $dirty3 == 74898) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 obj30 = -57345;
@@ -168,44 +168,44 @@ public final class RadioButtonKt {
                 if (i22 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i16 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = obj5;
+                            modifier2 = obj;
                         }
                         if (i20 != 0) {
-                            dotRadius = obj5;
+                            dotRadius = obj;
                         }
                         if (i9 & 16 != 0) {
-                            $dirty4 &= obj30;
-                            str = colors3;
+                            $dirty3 &= obj30;
+                            str = colors2;
                         }
-                        if (i10 != 0) {
-                            $dirty3 = $dirty4;
-                            obj3 = i19;
+                        if (i11 != 0) {
+                            $dirty4 = $dirty3;
+                            obj4 = i19;
                             $dirty2 = dotRadius;
                             colors4 = str;
                         } else {
-                            $dirty3 = $dirty4;
+                            $dirty4 = $dirty3;
                             $dirty2 = dotRadius;
                             colors4 = str;
-                            obj3 = obj2;
+                            obj4 = obj2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i9 & 16 != 0) {
-                            $dirty4 &= obj30;
+                            $dirty3 &= obj30;
                         }
-                        $dirty3 = $dirty4;
-                        modifier3 = obj5;
+                        $dirty4 = $dirty3;
+                        modifier2 = obj;
                         $dirty2 = dotRadius;
                         colors4 = str;
-                        obj3 = obj2;
+                        obj4 = obj2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty3, -1, "androidx.compose.material3.RadioButton (RadioButton.kt:82)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty4, -1, "androidx.compose.material3.RadioButton (RadioButton.kt:82)");
                 }
                 if (requiredSize-3ABfNKs) {
                     constructor-impl = 0;
@@ -217,7 +217,7 @@ public final class RadioButtonKt {
                 int i28 = 0;
                 int i33 = 0;
                 int i52 = i50;
-                int i12 = i4;
+                int i12 = i5;
                 androidx.compose.runtime.State animateDpAsState-AjpBEmI = AnimateAsStateKt.animateDpAsState-AjpBEmI(other$iv, (AnimationSpec)AnimationSpecKt.tween$default(100, i28, i33, i49, i33), i33, 0, restartGroup, 48, 12);
                 androidx.compose.runtime.State radioColor$material3_release = colors4.radioColor$material3_release($dirty2, requiredSize-3ABfNKs, restartGroup, i31 |= i37);
                 restartGroup.startReplaceGroup(1327106656);
@@ -225,24 +225,24 @@ public final class RadioButtonKt {
                 if (onClick != null) {
                     int i48 = 0;
                     androidx.compose.runtime.State other$iv2 = animateDpAsState-AjpBEmI;
-                    state4 = state3;
-                    state2 = state;
+                    state4 = state;
+                    state3 = state2;
                     radioColor = colors4;
                     empty = i12;
-                    i10 = modifier3;
+                    i11 = modifier2;
                     i = i52;
-                    dotRadius = $dirty3;
-                    companion = SelectableKt.selectable-O2vRcR0((Modifier)Modifier.Companion, requiredSize-3ABfNKs, obj3, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, Dp.constructor-impl(stateLayerSize-D9Ej5fM / f3), 0, other$iv2, restartGroup, 54), $dirty2, Role.box-impl(Role.Companion.getRadioButton-o7Vup1c()), onClick);
+                    dotRadius = $dirty4;
+                    companion2 = SelectableKt.selectable-O2vRcR0((Modifier)Modifier.Companion, requiredSize-3ABfNKs, obj4, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, Dp.constructor-impl(stateLayerSize-D9Ej5fM / f3), 0, other$iv2, restartGroup, 54), $dirty2, Role.box-impl(Role.Companion.getRadioButton-o7Vup1c()), onClick);
                 } else {
                     empty = i12;
-                    i10 = modifier3;
+                    i11 = modifier2;
                     state4 = animateDpAsState-AjpBEmI;
-                    state2 = radioColor$material3_release;
+                    state3 = radioColor$material3_release;
                     i = i52;
-                    modifier2 = $dirty2;
+                    modifier3 = $dirty2;
                     radioColor = colors4;
-                    dotRadius = $dirty3;
-                    companion = Modifier.Companion;
+                    dotRadius = $dirty4;
+                    companion2 = Modifier.Companion;
                 }
                 restartGroup.endReplaceGroup();
                 if (onClick != null) {
@@ -251,46 +251,46 @@ public final class RadioButtonKt {
                     minimumInteractiveComponentSize = Modifier.Companion;
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1327137161, "CC(remember):RadioButton.kt#9igjgp");
-                i6 = state2;
+                i2 = state3;
                 obj2 = state4;
                 Composer composer = restartGroup;
                 int i21 = 0;
                 rememberedValue = composer.rememberedValue();
-                i2 = 0;
+                i3 = 0;
                 if (changed2 |= changed4 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        obj26 = companion;
-                        selectableModifier = new RadioButtonKt.RadioButton.1.1(i6, obj2);
+                        obj26 = companion2;
+                        selectableModifier = new RadioButtonKt.RadioButton.1.1(i2, obj2);
                         composer.updateRememberedValue((Function1)selectableModifier);
                     } else {
-                        obj26 = companion;
+                        obj26 = companion2;
                         selectableModifier = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.requiredSize-3ABfNKs(PaddingKt.padding-3ABfNKs(SizeKt.wrapContentSize$default(i10.then(minimumInteractiveComponentSize).then(companion), Alignment.Companion.getCenter(), empty, rememberedValue, i), RadioButtonKt.RadioButtonPadding), RadioButtonTokens.INSTANCE.getIconSize-D9Ej5fM()), (Function1)selectableModifier, restartGroup, 0);
+                CanvasKt.Canvas(SizeKt.requiredSize-3ABfNKs(PaddingKt.padding-3ABfNKs(SizeKt.wrapContentSize$default(i11.then(minimumInteractiveComponentSize).then(companion2), Alignment.Companion.getCenter(), empty, rememberedValue, i), RadioButtonKt.RadioButtonPadding), RadioButtonTokens.INSTANCE.getIconSize-D9Ej5fM()), (Function1)selectableModifier, restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj4 = obj3;
-                obj = radioColor;
-                $dirty = i10;
-                colors2 = dotRadius;
+                obj5 = obj4;
+                obj3 = radioColor;
+                $dirty = i11;
+                colors3 = dotRadius;
             } else {
                 restartGroup.skipToGroupEnd();
-                colors2 = $dirty4;
-                $dirty = obj5;
-                obj = obj6;
-                modifier2 = dotRadius;
-                obj4 = obj2;
+                colors3 = $dirty3;
+                $dirty = obj;
+                obj3 = obj6;
+                modifier3 = dotRadius;
+                obj5 = obj2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new RadioButtonKt.RadioButton.2(selected, onClick, $dirty, modifier2, obj, obj4, i22, i9);
+            traceInProgress = new RadioButtonKt.RadioButton.2(selected, onClick, $dirty, modifier3, obj3, obj5, i22, i9);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }

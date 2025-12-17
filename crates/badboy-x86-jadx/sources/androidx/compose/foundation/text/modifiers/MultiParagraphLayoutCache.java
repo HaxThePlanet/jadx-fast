@@ -66,26 +66,26 @@ public final class MultiParagraphLayoutCache {
     }
 
     public MultiParagraphLayoutCache(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, int i4, boolean z5, int i6, int i7, List list8, int i9, DefaultConstructorMarker defaultConstructorMarker10) {
-        int i2;
-        int clip-gIe3tQ8;
         int i11;
+        int clip-gIe3tQ8;
         int i8;
-        int i;
         int i10;
-        int i3;
         int i5;
+        int i3;
+        int i2;
+        int i;
         int i12 = i9;
         if (i12 & 8 != 0) {
-            i8 = clip-gIe3tQ8;
+            i10 = clip-gIe3tQ8;
         } else {
-            i8 = i4;
+            i10 = i4;
         }
         int i15 = 1;
-        i = i12 & 16 != 0 ? i15 : z5;
-        i10 = i12 & 32 != 0 ? i11 : i6;
-        i3 = i12 & 64 != 0 ? i15 : i7;
-        i5 = i12 &= 128 != 0 ? i2 : list8;
-        super(annotatedString, textStyle2, resolver3, i8, i, i10, i3, i5, 0);
+        i5 = i12 & 16 != 0 ? i15 : z5;
+        i3 = i12 & 32 != 0 ? i8 : i6;
+        i2 = i12 & 64 != 0 ? i15 : i7;
+        i = i12 &= 128 != 0 ? i11 : list8;
+        super(annotatedString, textStyle2, resolver3, i10, i5, i3, i2, i, 0);
     }
 
     public MultiParagraphLayoutCache(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, int i4, boolean z5, int i6, int i7, List list8, DefaultConstructorMarker defaultConstructorMarker9) {

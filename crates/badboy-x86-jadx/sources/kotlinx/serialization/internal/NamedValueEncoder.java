@@ -11,13 +11,13 @@ import kotlinx.serialization.descriptors.SerialDescriptor;
 public abstract class NamedValueEncoder extends kotlinx.serialization.internal.TaggedEncoder<String> {
     @Override // kotlinx.serialization.internal.TaggedEncoder
     protected String composeName(String parentName, String childName) {
-        int i;
-        Object string;
         int i2;
+        Object string;
+        int i;
         Intrinsics.checkNotNullParameter(parentName, "parentName");
         Intrinsics.checkNotNullParameter(childName, "childName");
-        i = (CharSequence)parentName.length() == 0 ? 1 : 0;
-        if (i != 0) {
+        i2 = (CharSequence)parentName.length() == 0 ? 1 : 0;
+        if (i2 != 0) {
             string = childName;
         } else {
             StringBuilder stringBuilder = new StringBuilder();

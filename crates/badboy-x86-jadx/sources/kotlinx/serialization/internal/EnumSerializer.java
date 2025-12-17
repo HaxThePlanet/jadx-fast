@@ -44,18 +44,18 @@ public final class EnumSerializer<T extends Enum<T>>  implements KSerializer<T> 
         int i;
         Enum obj;
         Enum obj2;
-        int i2;
+        int i3;
         kotlinx.serialization.internal.EnumDescriptor enumDescriptor;
         String name;
         int i4;
-        int i3;
+        int i2;
         EnumDescriptor enumDescriptor2 = new EnumDescriptor(serialName, values.length);
         Enum[] values2 = this.values;
         final int i5 = 0;
         final int i6 = 0;
         i = i6;
         while (i < values2.length) {
-            i2 = 0;
+            i3 = 0;
             PluginGeneratedSerialDescriptor.addElement$default((PluginGeneratedSerialDescriptor)enumDescriptor2, values2[i].name(), i6, 2, 0);
             i++;
         }

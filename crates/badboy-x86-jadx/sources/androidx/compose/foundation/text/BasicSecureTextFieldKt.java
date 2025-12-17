@@ -46,86 +46,86 @@ public final class BasicSecureTextFieldKt {
     }
 
     public static final void BasicSecureTextField-Jb9bMDk(TextFieldState state, Modifier modifier, boolean enabled, InputTransformation inputTransformation, TextStyle textStyle, androidx.compose.foundation.text.KeyboardOptions keyboardOptions, KeyboardActionHandler onKeyboardAction, Function2<? super Density, ? super Function0<TextLayoutResult>, Unit> onTextLayout, MutableInteractionSource interactionSource, Brush cursorBrush, TextFieldDecorator decorator, int textObfuscationMode, char textObfuscationCharacter, Composer $composer, int $changed, int $changed1, int i17) {
-        int i27;
+        int i24;
         char c;
         int skipping;
-        Object modifier3;
-        Composer modifier2;
+        Object modifier2;
+        Composer modifier3;
         int textObfuscationMode2;
         boolean enabled2;
         ScopeUpdateScope endRestartGroup;
-        Object i28;
-        Object obj2;
-        Object obj3;
-        Object obj;
-        int textObfuscationCharacter2;
-        Object it$iv3;
-        int codepointTransformation;
+        Object i15;
         Object obj7;
-        boolean $composer3;
-        int $dirty3;
-        Composer $this$cache$iv;
-        Object it$iv2;
-        Object $dirty;
-        int $dirty12;
+        Object obj5;
+        Object obj3;
+        int textObfuscationCharacter2;
         Object it$iv;
-        int i13;
+        int codepointTransformation;
+        Object obj6;
+        boolean $composer3;
+        int $dirty2;
+        Composer $this$cache$iv;
+        Object it$iv3;
+        Object $dirty3;
+        int $dirty12;
+        Object it$iv2;
+        int i9;
         Modifier focusChangeModifier;
-        Object $dirty13;
+        Object $dirty1;
         Object empty;
         Composer composer;
-        Object obj4;
+        Object obj;
         boolean z2;
         Object inputTransformation2;
-        int i16;
+        int i11;
         Object z;
         Object textStyle2;
-        int i3;
-        int i8;
+        int i28;
+        int i5;
         Object keyboardOptions2;
-        int i14;
-        Object obj6;
+        int i33;
+        Object obj4;
         int onKeyboardAction2;
         SolidColor solidColor;
-        Object obj5;
-        int i30;
+        Object obj2;
+        int i19;
         Object solidColor2;
         boolean traceInProgress;
+        int i21;
+        int i34;
+        int companion;
+        int i25;
         int i20;
-        int i7;
-        int companion3;
-        int i24;
-        int i4;
-        int i31;
+        int i23;
         androidx.compose.foundation.text.BasicSecureTextFieldKt.BasicSecureTextField.3 $composer2;
         int companion2;
-        TextFieldState i34;
+        TextFieldState i10;
         Composer composer2;
-        int i9;
-        Composer.Companion companion;
-        Modifier then;
-        int $dirty2;
-        int i18;
-        int i11;
-        int i32;
-        boolean i10;
-        int i33;
-        int i2;
-        int i25;
-        Object secureTextFieldController;
-        int i21;
-        int i6;
-        Object i26;
-        int i;
-        int i23;
-        int i5;
-        int i29;
         int i12;
-        int i15;
-        int i19;
-        int changedInstance;
+        Composer.Companion companion3;
+        Modifier then;
+        int $dirty;
+        int i31;
+        int i6;
+        int i16;
+        boolean i4;
+        int i8;
+        int i29;
+        int i;
+        Object secureTextFieldController;
+        int i2;
         int i22;
-        int $dirty1;
+        Object i14;
+        int i32;
+        int i13;
+        int i18;
+        int i26;
+        int i3;
+        int i7;
+        int i30;
+        int changedInstance;
+        int i27;
+        int $dirty13;
         ScopeUpdateScope scopeUpdateScope;
         boolean obj34;
         boolean obj36;
@@ -136,304 +136,304 @@ public final class BasicSecureTextFieldKt {
         int obj41;
         int obj46;
         Object obj8 = decorator;
-        final int i73 = $changed;
-        final int i74 = $changed1;
+        final int i72 = $changed;
+        final int i73 = $changed1;
         int i38 = i17;
         Composer restartGroup = $composer.startRestartGroup(1399310985);
         ComposerKt.sourceInformation(restartGroup, "C(BasicSecureTextField)P(9,6,2,3,12,5,7,8,4!2,11:c#foundation.text.input.TextObfuscationMode)131@7694L46,132@7777L60,133@7884L130,133@7842L172,144@8392L129,144@8353L168,150@8557L384,176@9335L825,176@9320L840:BasicSecureTextField.kt#423gt5");
-        $dirty3 = $changed;
+        $dirty2 = $changed;
         $dirty12 = $changed1;
         if (i38 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty2 |= 6;
             empty = state;
         } else {
-            if (i73 & 6 == 0) {
-                i8 = restartGroup.changed(state) ? 4 : 2;
-                $dirty3 |= i8;
+            if (i72 & 6 == 0) {
+                i5 = restartGroup.changed(state) ? 4 : 2;
+                $dirty2 |= i5;
             } else {
                 empty = state;
             }
         }
-        int i63 = i38 & 2;
-        if (i63 != 0) {
-            $dirty3 |= 48;
+        int i62 = i38 & 2;
+        if (i62 != 0) {
+            $dirty2 |= 48;
             solidColor2 = modifier;
         } else {
-            if (i73 & 48 == 0) {
-                i7 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty3 |= i7;
+            if (i72 & 48 == 0) {
+                i34 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i34;
             } else {
                 solidColor2 = modifier;
             }
         }
-        companion3 = i38 & 4;
-        i34 = 128;
-        if (companion3 != 0) {
-            $dirty3 |= 384;
+        companion = i38 & 4;
+        i10 = 128;
+        if (companion != 0) {
+            $dirty2 |= 384;
             z2 = enabled;
         } else {
-            if (i73 & 384 == 0) {
-                i9 = restartGroup.changed(enabled) ? i4 : i34;
-                $dirty3 |= i9;
+            if (i72 & 384 == 0) {
+                i12 = restartGroup.changed(enabled) ? i20 : i10;
+                $dirty2 |= i12;
             } else {
                 z2 = enabled;
             }
         }
         then = i38 & 8;
         if (then != 0) {
-            $dirty3 |= 3072;
+            $dirty2 |= 3072;
             z = inputTransformation;
         } else {
-            if (i73 & 3072 == 0) {
-                i32 = restartGroup.changed(inputTransformation) ? 2048 : 1024;
-                $dirty3 |= i32;
+            if (i72 & 3072 == 0) {
+                i16 = restartGroup.changed(inputTransformation) ? 2048 : 1024;
+                $dirty2 |= i16;
             } else {
                 z = inputTransformation;
             }
         }
-        i10 = i38 & 16;
-        if (i10 != 0) {
-            $dirty3 |= 24576;
-            obj6 = textStyle;
+        i4 = i38 & 16;
+        if (i4 != 0) {
+            $dirty2 |= 24576;
+            obj4 = textStyle;
         } else {
-            if (i73 & 24576 == 0) {
-                i25 = restartGroup.changed(textStyle) ? 16384 : 8192;
-                $dirty3 |= i25;
+            if (i72 & 24576 == 0) {
+                i = restartGroup.changed(textStyle) ? 16384 : 8192;
+                $dirty2 |= i;
             } else {
-                obj6 = textStyle;
+                obj4 = textStyle;
             }
         }
         secureTextFieldController = i38 & 32;
-        i21 = 196608;
+        i2 = 196608;
         if (secureTextFieldController != 0) {
-            $dirty3 |= i21;
-            obj5 = keyboardOptions;
+            $dirty2 |= i2;
+            obj2 = keyboardOptions;
         } else {
-            if (i73 & i21 == 0) {
-                i6 = restartGroup.changed(keyboardOptions) ? 131072 : 65536;
-                $dirty3 |= i6;
+            if (i72 & i2 == 0) {
+                i22 = restartGroup.changed(keyboardOptions) ? 131072 : 65536;
+                $dirty2 |= i22;
             } else {
-                obj5 = keyboardOptions;
+                obj2 = keyboardOptions;
             }
         }
-        i26 = i38 & 64;
-        i = 1572864;
-        if (i26 != 0) {
-            $dirty3 |= i;
-            i28 = onKeyboardAction;
+        i14 = i38 & 64;
+        i32 = 1572864;
+        if (i14 != 0) {
+            $dirty2 |= i32;
+            i15 = onKeyboardAction;
         } else {
-            if (i73 & i == 0) {
-                i23 = restartGroup.changed(onKeyboardAction) ? 1048576 : 524288;
-                $dirty3 |= i23;
+            if (i72 & i32 == 0) {
+                i13 = restartGroup.changed(onKeyboardAction) ? 1048576 : 524288;
+                $dirty2 |= i13;
             } else {
-                i28 = onKeyboardAction;
+                i15 = onKeyboardAction;
             }
         }
         int i40 = i38 & 128;
-        int i82 = 12582912;
+        int i81 = 12582912;
         if (i40 != 0) {
-            $dirty3 |= i82;
-            i5 = i40;
-            obj2 = onTextLayout;
+            $dirty2 |= i81;
+            i18 = i40;
+            obj7 = onTextLayout;
         } else {
-            if (i73 & i82 == 0) {
-                i5 = i40;
-                i29 = restartGroup.changedInstance(onTextLayout) ? 8388608 : 4194304;
-                $dirty3 |= i29;
+            if (i72 & i81 == 0) {
+                i18 = i40;
+                i26 = restartGroup.changedInstance(onTextLayout) ? 8388608 : 4194304;
+                $dirty2 |= i26;
             } else {
-                i5 = i40;
-                obj2 = onTextLayout;
+                i18 = i40;
+                obj7 = onTextLayout;
             }
         }
         int i41 = i38 & 256;
-        int i84 = 100663296;
+        int i83 = 100663296;
         if (i41 != 0) {
-            $dirty3 |= i84;
-            i12 = i41;
-            obj3 = interactionSource;
+            $dirty2 |= i83;
+            i3 = i41;
+            obj5 = interactionSource;
         } else {
-            if (i73 & i84 == 0) {
-                i12 = i41;
-                i15 = restartGroup.changed(interactionSource) ? 67108864 : 33554432;
-                $dirty3 |= i15;
+            if (i72 & i83 == 0) {
+                i3 = i41;
+                i7 = restartGroup.changed(interactionSource) ? 67108864 : 33554432;
+                $dirty2 |= i7;
             } else {
-                i12 = i41;
-                obj3 = interactionSource;
+                i3 = i41;
+                obj5 = interactionSource;
             }
         }
         int i42 = i38 & 512;
-        int i86 = 805306368;
+        int i85 = 805306368;
         if (i42 != 0) {
-            $dirty3 |= i86;
-            i19 = i42;
-            obj = cursorBrush;
+            $dirty2 |= i85;
+            i30 = i42;
+            obj3 = cursorBrush;
         } else {
-            if (i73 & i86 == 0) {
-                i19 = i42;
+            if (i72 & i85 == 0) {
+                i30 = i42;
                 changedInstance = restartGroup.changed(cursorBrush) ? 536870912 : 268435456;
-                $dirty3 |= changedInstance;
+                $dirty2 |= changedInstance;
             } else {
-                i19 = i42;
-                obj = cursorBrush;
+                i30 = i42;
+                obj3 = cursorBrush;
             }
         }
         int i43 = i38 & 1024;
         if (i43 != 0) {
             $dirty12 |= 6;
         } else {
-            if (i74 & 6 == 0) {
-                if (i74 & 8 == 0) {
+            if (i73 & 6 == 0) {
+                if (i73 & 8 == 0) {
                     changedInstance = restartGroup.changed(obj8);
                 } else {
                     changedInstance = restartGroup.changedInstance(obj8);
                 }
-                i18 = changedInstance != null ? 4 : 2;
-                $dirty12 |= i18;
+                i31 = changedInstance != null ? 4 : 2;
+                $dirty12 |= i31;
             }
         }
         int i35 = i38 & 2048;
         if (i35 != 0) {
             $dirty12 |= 48;
-            i11 = i35;
-            i27 = textObfuscationMode;
+            i6 = i35;
+            i24 = textObfuscationMode;
         } else {
-            if (i74 & 48 == 0) {
-                i11 = i35;
-                i33 = restartGroup.changed(textObfuscationMode) ? 32 : 16;
-                $dirty12 |= i33;
+            if (i73 & 48 == 0) {
+                i6 = i35;
+                i8 = restartGroup.changed(textObfuscationMode) ? 32 : 16;
+                $dirty12 |= i8;
             } else {
-                i11 = i35;
-                i27 = textObfuscationMode;
+                i6 = i35;
+                i24 = textObfuscationMode;
             }
         }
         int i36 = i38 & 4096;
         if (i36 != 0) {
             $dirty12 |= 384;
-            i2 = i36;
+            i29 = i36;
             c = textObfuscationCharacter;
         } else {
-            i2 = i36;
-            if (i74 & 384 == 0) {
+            i29 = i36;
+            if (i73 & 384 == 0) {
                 if (restartGroup.changed(textObfuscationCharacter)) {
                 } else {
-                    i4 = i34;
+                    i20 = i10;
                 }
-                $dirty12 |= i4;
+                $dirty12 |= i20;
             } else {
                 c = textObfuscationCharacter;
             }
         }
-        if ($dirty3 & $composer2 == 306783378 && $dirty12 & 147 == 146) {
+        if ($dirty2 & $composer2 == 306783378 && $dirty12 & 147 == 146) {
             if ($dirty12 & 147 == 146) {
                 if (!restartGroup.getSkipping()) {
-                    if (i63 != 0) {
-                        modifier3 = Modifier.Companion;
+                    if (i62 != 0) {
+                        modifier2 = Modifier.Companion;
                     } else {
-                        modifier3 = solidColor2;
+                        modifier2 = solidColor2;
                     }
-                    enabled2 = companion3 != 0 ? 1 : z2;
+                    enabled2 = companion != 0 ? 1 : z2;
                     inputTransformation2 = then != 0 ? 0 : z;
-                    if (i10 != 0) {
+                    if (i4 != 0) {
                         textStyle2 = TextStyle.Companion.getDefault();
                     } else {
-                        textStyle2 = obj6;
+                        textStyle2 = obj4;
                     }
                     if (secureTextFieldController != 0) {
                         keyboardOptions2 = KeyboardOptions.Companion.getSecureTextField$foundation_release();
                     } else {
-                        keyboardOptions2 = obj5;
+                        keyboardOptions2 = obj2;
                     }
-                    onKeyboardAction2 = i26 != 0 ? 0 : onKeyboardAction;
-                    i5 = i5 != 0 ? obj5 : onTextLayout;
-                    i12 = i12 != 0 ? obj5 : interactionSource;
-                    if (i19 != 0) {
+                    onKeyboardAction2 = i14 != 0 ? 0 : onKeyboardAction;
+                    i18 = i18 != 0 ? obj2 : onTextLayout;
+                    i3 = i3 != 0 ? obj2 : interactionSource;
+                    if (i30 != 0) {
                         obj34 = enabled2;
-                        i31 = i43;
+                        i23 = i43;
                         solidColor2 = new SolidColor(Color.Companion.getBlack-0d7_KjU(), i43, 0);
-                        i19 = enabled2;
+                        i30 = enabled2;
                     } else {
                         obj34 = enabled2;
-                        i31 = i43;
-                        i19 = cursorBrush;
+                        i23 = i43;
+                        i30 = cursorBrush;
                     }
-                    i22 = i31 != 0 ? enabled2 : decorator;
-                    if (i11 != 0) {
+                    i27 = i23 != 0 ? enabled2 : decorator;
+                    if (i6 != 0) {
                         textObfuscationMode2 = TextObfuscationMode.Companion.getRevealLastTyped-vTwcZD0();
                     } else {
                         textObfuscationMode2 = textObfuscationMode;
                     }
-                    textObfuscationCharacter2 = i2 != 0 ? 8226 : textObfuscationCharacter;
+                    textObfuscationCharacter2 = i29 != 0 ? 8226 : textObfuscationCharacter;
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(1399310985, $dirty3, $dirty12, "androidx.compose.foundation.text.BasicSecureTextField (BasicSecureTextField.kt:130)");
+                        ComposerKt.traceEventStart(1399310985, $dirty2, $dirty12, "androidx.compose.foundation.text.BasicSecureTextField (BasicSecureTextField.kt:130)");
                     }
-                    State rememberUpdatedState = SnapshotStateKt.rememberUpdatedState(Character.valueOf(textObfuscationCharacter2), restartGroup, i67 &= 14);
+                    State rememberUpdatedState = SnapshotStateKt.rememberUpdatedState(Character.valueOf(textObfuscationCharacter2), restartGroup, i66 &= 14);
                     String str2 = "CC(remember):BasicSecureTextField.kt#9igjgp";
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 120982059, str2);
-                    int i70 = 0;
+                    int i69 = 0;
                     obj36 = restartGroup;
-                    int i75 = 0;
-                    it$iv3 = obj36.rememberedValue();
-                    int i79 = 0;
-                    obj46 = $dirty3;
-                    if (it$iv3 == Composer.Companion.getEmpty()) {
+                    int i74 = 0;
+                    it$iv = obj36.rememberedValue();
+                    int i78 = 0;
+                    obj46 = $dirty2;
+                    if (it$iv == Composer.Companion.getEmpty()) {
                         int i44 = 0;
-                        obj38 = it$iv3;
-                        it$iv3 = new SecureTextFieldController(rememberUpdatedState);
-                        obj36.updateRememberedValue(it$iv3);
+                        obj38 = it$iv;
+                        it$iv = new SecureTextFieldController(rememberUpdatedState);
+                        obj36.updateRememberedValue(it$iv);
                     } else {
                         $this$cache$iv = obj36;
-                        obj38 = it$iv3;
+                        obj38 = it$iv;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 120985553, str2);
                     Composer composer4 = restartGroup;
-                    int i76 = 0;
-                    it$iv2 = composer4.rememberedValue();
-                    int i80 = 0;
-                    if (!restartGroup.changedInstance((SecureTextFieldController)it$iv3)) {
-                        $dirty1 = $dirty12;
-                        if (it$iv2 == Composer.Companion.getEmpty()) {
-                            obj38 = it$iv2;
+                    int i75 = 0;
+                    it$iv3 = composer4.rememberedValue();
+                    int i79 = 0;
+                    if (!restartGroup.changedInstance((SecureTextFieldController)it$iv)) {
+                        $dirty13 = $dirty12;
+                        if (it$iv3 == Composer.Companion.getEmpty()) {
+                            obj38 = it$iv3;
                             obj39 = $dirty14;
-                            it$iv2 = new BasicSecureTextFieldKt.BasicSecureTextField.1.1(it$iv3, 0);
-                            composer4.updateRememberedValue((Function2)it$iv2);
+                            it$iv3 = new BasicSecureTextFieldKt.BasicSecureTextField.1.1(it$iv, 0);
+                            composer4.updateRememberedValue((Function2)it$iv3);
                         } else {
-                            obj38 = it$iv2;
+                            obj38 = it$iv3;
                         }
                     } else {
-                        $dirty1 = $dirty12;
+                        $dirty13 = $dirty12;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    EffectsKt.LaunchedEffect(it$iv3, (Function2)it$iv2, restartGroup, 0);
+                    EffectsKt.LaunchedEffect(it$iv, (Function2)it$iv3, restartGroup, 0);
                     boolean equals-impl03 = TextObfuscationMode.equals-impl0(textObfuscationMode2, TextObfuscationMode.Companion.getRevealLastTyped-vTwcZD0());
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 121001808, str2);
                     obj38 = restartGroup;
-                    int i77 = 0;
-                    it$iv = obj38.rememberedValue();
+                    int i76 = 0;
+                    it$iv2 = obj38.rememberedValue();
                     companion2 = 0;
                     if (changed |= changedInstance3 == 0) {
-                        if (it$iv == Composer.Companion.getEmpty()) {
-                            obj40 = it$iv;
+                        if (it$iv2 == Composer.Companion.getEmpty()) {
+                            obj40 = it$iv2;
                             obj41 = i58;
-                            it$iv = new BasicSecureTextFieldKt.BasicSecureTextField.2.1(equals-impl03, it$iv3, 0);
-                            obj38.updateRememberedValue((Function2)it$iv);
+                            it$iv2 = new BasicSecureTextFieldKt.BasicSecureTextField.2.1(equals-impl03, it$iv, 0);
+                            obj38.updateRememberedValue((Function2)it$iv2);
                         } else {
                             composer = obj38;
-                            obj40 = it$iv;
+                            obj40 = it$iv2;
                         }
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     int i56 = 0;
-                    EffectsKt.LaunchedEffect(Boolean.valueOf(equals-impl03), (Function2)it$iv, restartGroup, i56);
+                    EffectsKt.LaunchedEffect(Boolean.valueOf(equals-impl03), (Function2)it$iv2, restartGroup, i56);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 121007343, str2);
-                    i13 = $dirty1 & 112 == 32 ? 1 : i56;
+                    i9 = $dirty13 & 112 == 32 ? 1 : i56;
                     Composer composer3 = restartGroup;
-                    int i72 = 0;
+                    int i71 = 0;
                     Object rememberedValue = composer3.rememberedValue();
-                    int i78 = 0;
-                    if (i13 == 0) {
-                        secureTextFieldController = it$iv3;
+                    int i77 = 0;
+                    if (i9 == 0) {
+                        secureTextFieldController = it$iv;
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             obj38 = secureTextFieldController2;
                             if (TextObfuscationMode.equals-impl0(textObfuscationMode2, TextObfuscationMode.Companion.getRevealLastTyped-vTwcZD0())) {
@@ -450,7 +450,7 @@ public final class BasicSecureTextFieldKt {
                             codepointTransformation = rememberedValue;
                         }
                     } else {
-                        secureTextFieldController = it$iv3;
+                        secureTextFieldController = it$iv;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     if (equals-impl03) {
@@ -458,60 +458,60 @@ public final class BasicSecureTextFieldKt {
                     } else {
                         focusChangeModifier = Modifier.Companion;
                     }
-                    i11 = obj34;
-                    i2 = inputTransformation2;
-                    i21 = textStyle2;
-                    i26 = keyboardOptions2;
-                    i = onKeyboardAction2;
-                    $composer2 = new BasicSecureTextFieldKt.BasicSecureTextField.3(state, SemanticsModifierKt.semantics(modifier3, true, (Function1)BasicSecureTextFieldKt.BasicSecureTextField.secureTextFieldModifier.1.INSTANCE).then(focusChangeModifier), i11, equals-impl03, i2, secureTextFieldController, i21, i26, i, i5, i12, i19, (CodepointTransformation)codepointTransformation, i22);
+                    i6 = obj34;
+                    i29 = inputTransformation2;
+                    i2 = textStyle2;
+                    i14 = keyboardOptions2;
+                    i32 = onKeyboardAction2;
+                    $composer2 = new BasicSecureTextFieldKt.BasicSecureTextField.3(state, SemanticsModifierKt.semantics(modifier2, true, (Function1)BasicSecureTextFieldKt.BasicSecureTextField.secureTextFieldModifier.1.INSTANCE).then(focusChangeModifier), i6, equals-impl03, i29, secureTextFieldController, i2, i14, i32, i18, i3, i30, (CodepointTransformation)codepointTransformation, i27);
                     BasicSecureTextFieldKt.DisableCutCopy((Function2)ComposableLambdaKt.rememberComposableLambda(2023988909, true, $composer2, restartGroup, 54), restartGroup, 6);
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    i24 = obj37;
-                    obj7 = modifier3;
-                    i20 = textObfuscationMode2;
-                    modifier2 = restartGroup;
-                    $composer3 = i11;
-                    $dirty = i2;
-                    $dirty13 = i21;
-                    obj4 = i26;
-                    i16 = i;
-                    i3 = i5;
-                    i14 = i12;
-                    solidColor = i19;
-                    i30 = i22;
+                    i25 = obj37;
+                    obj6 = modifier2;
+                    i21 = textObfuscationMode2;
+                    modifier3 = restartGroup;
+                    $composer3 = i6;
+                    $dirty3 = i29;
+                    $dirty1 = i2;
+                    obj = i14;
+                    i11 = i32;
+                    i28 = i18;
+                    i33 = i3;
+                    solidColor = i30;
+                    i19 = i27;
                 } else {
                     restartGroup.skipToGroupEnd();
-                    i14 = interactionSource;
-                    i24 = textObfuscationCharacter;
-                    modifier2 = restartGroup;
-                    obj46 = $dirty3;
-                    $dirty1 = $dirty12;
+                    i33 = interactionSource;
+                    i25 = textObfuscationCharacter;
+                    modifier3 = restartGroup;
+                    obj46 = $dirty2;
+                    $dirty13 = $dirty12;
                     $composer3 = z2;
-                    $dirty = z;
-                    $dirty13 = obj6;
-                    obj4 = obj5;
-                    obj7 = solidColor2;
-                    i16 = onKeyboardAction;
-                    i3 = onTextLayout;
+                    $dirty3 = z;
+                    $dirty1 = obj4;
+                    obj = obj2;
+                    obj6 = solidColor2;
+                    i11 = onKeyboardAction;
+                    i28 = onTextLayout;
                     solidColor = cursorBrush;
-                    i30 = decorator;
-                    i20 = textObfuscationMode;
+                    i19 = decorator;
+                    i21 = textObfuscationMode;
                 }
             } else {
             }
         } else {
         }
-        endRestartGroup = modifier2.endRestartGroup();
+        endRestartGroup = modifier3.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty2 = obj46;
+            $dirty = obj46;
             composer2 = composer5;
-            modifier2 = new BasicSecureTextFieldKt.BasicSecureTextField.4(state, obj7, $composer3, $dirty, $dirty13, obj4, i16, i3, i14, solidColor, i30, i20, i24, i73, i74, i17);
-            endRestartGroup.updateScope((Function2)modifier2);
+            modifier3 = new BasicSecureTextFieldKt.BasicSecureTextField.4(state, obj6, $composer3, $dirty3, $dirty1, obj, i11, i28, i33, solidColor, i19, i21, i25, i72, i73, i17);
+            endRestartGroup.updateScope((Function2)modifier3);
         } else {
-            $dirty2 = obj46;
-            composer2 = modifier2;
+            $dirty = obj46;
+            composer2 = modifier3;
         }
     }
 
@@ -522,13 +522,13 @@ public final class BasicSecureTextFieldKt {
     private static final void DisableCutCopy(Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int this_$iv;
         int $dirty;
-        int i2;
+        int i3;
         int invalid$iv;
         boolean traceInProgress;
         int traceInProgress2;
         androidx.compose.runtime.internal.ComposableLambda rememberComposableLambda;
-        int i3;
         int i;
+        int i2;
         Object empty;
         Object anon;
         this_$iv = -1085555050;
@@ -536,8 +536,8 @@ public final class BasicSecureTextFieldKt {
         ComposerKt.sourceInformation(obj10, "C(DisableCutCopy)311@13911L7,312@13949L680,331@14706L361,331@14634L433:BasicSecureTextField.kt#423gt5");
         traceInProgress2 = 2;
         if ($changed & 6 == 0) {
-            i2 = obj10.changedInstance(content) ? 4 : traceInProgress2;
-            $dirty |= i2;
+            i3 = obj10.changedInstance(content) ? 4 : traceInProgress2;
+            $dirty |= i3;
         }
         if ($dirty & 3 == traceInProgress2) {
             if (!obj10.getSkipping()) {

@@ -54,36 +54,36 @@ public class ProtectionLayout extends FrameLayout {
     private void addProtectionView(Context context, int index, androidx.core.view.insets.Protection protection) {
         int width;
         int height;
-        int i;
         int i2;
+        int i;
         final androidx.core.view.insets.Protection.Attributes attributes = protection.getAttributes();
         switch (side) {
             case 1:
                 width = attributes.getWidth();
                 height = -1;
-                i = 3;
+                i2 = 3;
                 break;
             case 2:
                 width = -1;
                 height = attributes.getHeight();
-                i = 48;
+                i2 = 48;
                 break;
             case 4:
                 width = attributes.getWidth();
                 height = -1;
-                i = 5;
+                i2 = 5;
                 break;
             case 8:
                 width = -1;
                 height = attributes.getHeight();
-                i = 80;
+                i2 = 80;
                 break;
             default:
                 StringBuilder stringBuilder = new StringBuilder();
                 IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Unexpected side: ").append(protection.getSide()).toString());
                 throw illegalArgumentException;
         }
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height, i);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height, i2);
         final Insets margin = attributes.getMargin();
         layoutParams.leftMargin = margin.left;
         layoutParams.topMargin = margin.top;
@@ -94,8 +94,8 @@ public class ProtectionLayout extends FrameLayout {
         view.setTranslationX(attributes.getTranslationX());
         view.setTranslationY(attributes.getTranslationY());
         view.setAlpha(attributes.getAlpha());
-        i2 = attributes.isVisible() ? 0 : 4;
-        view.setVisibility(i2);
+        i = attributes.isVisible() ? 0 : 4;
+        view.setVisibility(i);
         view.setBackground(attributes.getDrawable());
         ProtectionLayout.1 anon = new ProtectionLayout.1(this, layoutParams, view);
         attributes.setCallback(anon);
@@ -103,18 +103,18 @@ public class ProtectionLayout extends FrameLayout {
     }
 
     private void addProtectionViews() {
-        int i2;
+        int i;
         androidx.core.view.insets.Protection protection;
         Context context;
-        int i;
+        int i2;
         if (this.mProtections.isEmpty()) {
         }
         ProtectionGroup protectionGroup = new ProtectionGroup(getOrInstallSystemBarStateMonitor(), this.mProtections);
         this.mGroup = protectionGroup;
-        i2 = 0;
-        while (i2 < this.mGroup.size()) {
-            addProtectionView(getContext(), i2 + childCount, this.mGroup.getProtection(i2));
-            i2++;
+        i = 0;
+        while (i < this.mGroup.size()) {
+            addProtectionView(getContext(), i + childCount, this.mGroup.getProtection(i));
+            i++;
         }
     }
 
@@ -142,22 +142,22 @@ public class ProtectionLayout extends FrameLayout {
     }
 
     private void removeProtectionViews() {
-        androidx.core.view.insets.ProtectionGroup i2;
-        int i3;
+        androidx.core.view.insets.ProtectionGroup i;
+        int i2;
         int size;
-        int i;
+        int i3;
         androidx.core.view.insets.Protection.Attributes attributes;
         if (this.mGroup != null) {
             removeViews(childCount -= size2, this.mGroup.size());
+            i2 = 0;
             i3 = 0;
-            i = 0;
-            while (i3 < this.mGroup.size()) {
-                this.mGroup.getProtection(i3).getAttributes().setCallback(i);
-                i3++;
-                i = 0;
+            while (i2 < this.mGroup.size()) {
+                this.mGroup.getProtection(i2).getAttributes().setCallback(i3);
+                i2++;
+                i3 = 0;
             }
             this.mGroup.dispose();
-            this.mGroup = i;
+            this.mGroup = i3;
         }
     }
 

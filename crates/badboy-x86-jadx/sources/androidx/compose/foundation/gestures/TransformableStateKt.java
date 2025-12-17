@@ -39,11 +39,11 @@ public final class TransformableStateKt {
 
     public static Object animatePanBy-ubNVwUQ$default(androidx.compose.foundation.gestures.TransformableState transformableState, long l2, AnimationSpec animationSpec3, Continuation continuation4, int i5, Object object6) {
         SpringSpec springSpec;
-        int i;
-        int i4;
-        int i2;
         int i3;
+        int i2;
         int i6;
+        int i4;
+        int i;
         SpringSpec obj9;
         if (object6 &= 2 != 0) {
             springSpec = new SpringSpec(0, 1128792064, 0, 5, 0);
@@ -64,10 +64,10 @@ public final class TransformableStateKt {
 
     public static Object animateRotateBy$default(androidx.compose.foundation.gestures.TransformableState transformableState, float f2, AnimationSpec animationSpec3, Continuation continuation4, int i5, Object object6) {
         SpringSpec springSpec;
-        int i3;
-        int i;
         int i4;
         int i6;
+        int i3;
+        int i;
         int i2;
         SpringSpec obj8;
         if (i5 &= 2 != 0) {
@@ -100,11 +100,11 @@ public final class TransformableStateKt {
 
     public static Object animateZoomBy$default(androidx.compose.foundation.gestures.TransformableState transformableState, float f2, AnimationSpec animationSpec3, Continuation continuation4, int i5, Object object6) {
         SpringSpec springSpec;
-        int i3;
         int i4;
-        int i;
+        int i3;
         int i6;
         int i2;
+        int i;
         SpringSpec obj8;
         if (i5 &= 2 != 0) {
             springSpec = new SpringSpec(0, 1128792064, 0, 5, 0);
@@ -125,7 +125,7 @@ public final class TransformableStateKt {
     public static final androidx.compose.foundation.gestures.TransformableState rememberTransformableState(Function3<? super Float, ? super Offset, ? super Float, Unit> onTransformation, Composer $composer, int $changed) {
         boolean traceInProgress;
         String str;
-        Object transformableState;
+        Object $i$a$CacheTransformableStateKt$rememberTransformableState$1;
         androidx.compose.foundation.gestures.TransformableStateKt.rememberTransformableState.1.1 anon;
         int i = 1681419281;
         ComposerKt.sourceInformationMarkerStart($composer, i, "C(rememberTransformableState)117@5191L38,118@5241L80:TransformableState.kt#8bwon0");
@@ -143,14 +143,14 @@ public final class TransformableStateKt {
             anon = new TransformableStateKt.rememberTransformableState.1.1(SnapshotStateKt.rememberUpdatedState(onTransformation, $composer, $changed & 14));
             composer.updateRememberedValue(TransformableStateKt.TransformableState((Function3)anon));
         } else {
-            transformableState = rememberedValue;
+            $i$a$CacheTransformableStateKt$rememberTransformableState$1 = rememberedValue;
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (TransformableState)transformableState;
+        return (TransformableState)$i$a$CacheTransformableStateKt$rememberTransformableState$1;
     }
 
     public static final Object rotateBy(androidx.compose.foundation.gestures.TransformableState $this$rotateBy, float degrees, Continuation<? super Unit> $completion) {

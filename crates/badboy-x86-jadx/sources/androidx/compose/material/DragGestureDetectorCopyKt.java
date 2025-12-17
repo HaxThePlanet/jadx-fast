@@ -40,215 +40,215 @@ public final class DragGestureDetectorCopyKt {
     }
 
     public static final Object awaitHorizontalPointerSlopOrCancellation-gDDlDlE(AwaitPointerEventScope awaitPointerEventScope, long l2, int i3, Function2<? super PointerInputChange, ? super Float, Unit> function24, Continuation<? super PointerInputChange> continuation5) {
-        Object obj;
+        Object obj4;
         Object $result;
         boolean anon;
-        Object $continuation2;
-        int i6;
         Object $continuation;
-        int i7;
-        Object $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv;
-        int onPointerSlopReached;
+        int i;
+        Object $continuation2;
+        int i4;
+        Object $i$f$awaitPointerSlopOrCancellationPn7EDYM;
+        int onPointerSlopReached2;
         Object totalPositionChange$iv;
         int touchSlop$iv;
         long touchSlop$iv2;
         float pointer$iv;
-        int $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv2;
-        Ref.LongRef onPointerSlopReached2;
+        int $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv;
+        Ref.LongRef onPointerSlopReached;
         int changes;
-        int i4;
-        int i;
+        int i6;
+        int i2;
         int index$iv$iv$iv;
         int it$iv;
-        Object obj4;
+        Object obj;
         Object obj3;
         int i5;
         Object obj2;
-        int i2;
+        int i7;
         androidx.compose.material.DragGestureDetectorCopyKt.awaitHorizontalPointerSlopOrCancellation.1 f;
         Object obj22;
         Object obj23;
         Object obj24;
-        obj = obj27;
-        anon = obj;
-        i7 = Integer.MIN_VALUE;
-        if (obj instanceof DragGestureDetectorCopyKt.awaitHorizontalPointerSlopOrCancellation.1 && label2 &= i7 != 0) {
-            anon = obj;
-            i7 = Integer.MIN_VALUE;
-            if (label2 &= i7 != 0) {
-                anon.label = label -= i7;
+        obj4 = obj27;
+        anon = obj4;
+        i4 = Integer.MIN_VALUE;
+        if (obj4 instanceof DragGestureDetectorCopyKt.awaitHorizontalPointerSlopOrCancellation.1 && label2 &= i4 != 0) {
+            anon = obj4;
+            i4 = Integer.MIN_VALUE;
+            if (label2 &= i4 != 0) {
+                anon.label = label -= i4;
             } else {
-                anon = new DragGestureDetectorCopyKt.awaitHorizontalPointerSlopOrCancellation.1(obj);
+                anon = new DragGestureDetectorCopyKt.awaitHorizontalPointerSlopOrCancellation.1(obj4);
             }
         } else {
         }
         $result = anon.result;
-        onPointerSlopReached = 0;
+        onPointerSlopReached2 = 0;
         switch (label3) {
             case 0:
                 ResultKt.throwOnFailure($result);
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = awaitPointerEventScope;
+                $i$f$awaitPointerSlopOrCancellationPn7EDYM = awaitPointerEventScope;
                 totalPositionChange$iv = continuation5;
                 touchSlop$iv = l2;
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv2 = 0;
-                pointer$iv = DragGestureDetectorCopyKt.pointerSlop-E8SPZFQ($this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv.getViewConfiguration(), function24);
-                onPointerSlopReached2 = new Ref.LongRef();
-                onPointerSlopReached2.element = touchSlop$iv;
+                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = 0;
+                pointer$iv = DragGestureDetectorCopyKt.pointerSlop-E8SPZFQ($i$f$awaitPointerSlopOrCancellationPn7EDYM.getViewConfiguration(), function24);
+                onPointerSlopReached = new Ref.LongRef();
+                onPointerSlopReached.element = touchSlop$iv;
                 touchSlop$iv = 0;
-                return onPointerSlopReached;
+                return onPointerSlopReached2;
             case 1:
                 pointer$iv = anon.L$1;
                 ResultKt.throwOnFailure($result);
-                onPointerSlopReached2 = l$2;
+                onPointerSlopReached = l$2;
                 touchSlop$iv2 = f$02;
                 touchSlop$iv = f$12;
                 totalPositionChange$iv = l$0;
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv2 = i14;
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = $continuation;
-                $continuation = anon;
-                $continuation2 = $result;
+                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = $i$f$awaitPointerSlopOrCancellationPn7EDYM2;
+                $i$f$awaitPointerSlopOrCancellationPn7EDYM = $continuation2;
+                $continuation2 = anon;
+                $continuation = $result;
                 changes = (PointerEvent)$result.getChanges();
-                i = 0;
+                i2 = 0;
                 index$iv$iv$iv = 0;
                 i5 = 0;
-                i2 = 0;
+                i7 = 0;
                 index$iv$iv$iv++;
-                onPointerSlopReached = 0;
+                onPointerSlopReached2 = 0;
                 totalPositionChange$iv = obj22;
-                $continuation2 = obj23;
+                $continuation = obj23;
                 $result = obj24;
                 obj24 = $result;
-                obj23 = $continuation2;
+                obj23 = $continuation;
                 obj22 = totalPositionChange$iv;
                 obj3 = 0;
                 Intrinsics.checkNotNull(obj3);
                 Object obj5 = obj3;
                 $result = obj23;
-                anon = $continuation;
-                onPointerSlopReached = 0;
+                anon = $continuation2;
+                onPointerSlopReached2 = 0;
                 List changes2 = obj24.getChanges();
                 int i9 = 0;
-                int i15 = 0;
+                int i14 = 0;
                 totalPositionChange$iv = 0;
                 index$iv$iv$iv = 0;
-                obj4 = null;
+                obj = null;
                 totalPositionChange$iv++;
-                i = 0;
-                int i8 = i;
+                i2 = 0;
+                int i8 = i2;
                 $result = obj23;
-                anon = $continuation;
-                onPointerSlopReached = 0;
-                onPointerSlopReached2.element = (PointerInputChange)i8.getId-J3iCeTQ();
+                anon = $continuation2;
+                onPointerSlopReached2 = 0;
+                onPointerSlopReached.element = (PointerInputChange)i8.getId-J3iCeTQ();
                 totalPositionChange$iv = obj22;
                 $result = obj23;
-                anon = $continuation;
-                $continuation = $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv;
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = pointer$iv;
-                onPointerSlopReached = 0;
+                anon = $continuation2;
+                $continuation2 = $i$f$awaitPointerSlopOrCancellationPn7EDYM;
+                $i$f$awaitPointerSlopOrCancellationPn7EDYM = pointer$iv;
+                onPointerSlopReached2 = 0;
                 pointer$iv = touchSlop$iv2;
                 int i10 = 0;
-                int i16 = 0;
-                int i17 = touchSlop$iv + i11;
-                onPointerSlopReached = obj22;
-                $continuation.L$0 = onPointerSlopReached;
-                $continuation.L$1 = pointer$iv;
-                $continuation.L$2 = onPointerSlopReached2;
-                $continuation.L$3 = obj5;
-                $continuation.F$0 = touchSlop$iv2;
-                $continuation.F$1 = i17;
-                $continuation.label = 2;
-                return $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv;
-                anon = $continuation;
-                $continuation = $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv;
-                touchSlop$iv = i17;
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = pointer$iv;
-                totalPositionChange$iv = onPointerSlopReached;
+                int i15 = 0;
+                int i16 = touchSlop$iv + i11;
+                onPointerSlopReached2 = obj22;
+                $continuation2.L$0 = onPointerSlopReached2;
+                $continuation2.L$1 = pointer$iv;
+                $continuation2.L$2 = onPointerSlopReached;
+                $continuation2.L$3 = obj5;
+                $continuation2.F$0 = touchSlop$iv2;
+                $continuation2.F$1 = i16;
+                $continuation2.label = 2;
+                return $i$f$awaitPointerSlopOrCancellationPn7EDYM;
+                anon = $continuation2;
+                $continuation2 = $i$f$awaitPointerSlopOrCancellationPn7EDYM;
+                touchSlop$iv = i16;
+                $i$f$awaitPointerSlopOrCancellationPn7EDYM = pointer$iv;
+                totalPositionChange$iv = onPointerSlopReached2;
                 pointer$iv = touchSlop$iv2;
                 touchSlop$iv2 = obj5;
                 $result = obj23;
-                onPointerSlopReached = 0;
-                onPointerSlopReached = 0;
+                onPointerSlopReached2 = 0;
+                onPointerSlopReached2 = 0;
                 Object obj6 = obj22;
-                obj6.invoke(obj5, Boxing.boxFloat(i17 -= i12));
-                onPointerSlopReached = obj5;
-                anon = $continuation;
+                obj6.invoke(obj5, Boxing.boxFloat(i16 -= i12));
+                onPointerSlopReached2 = obj5;
+                anon = $continuation2;
                 $result = obj23;
-                return onPointerSlopReached;
+                return onPointerSlopReached2;
                 touchSlop$iv = 0;
                 $result = obj23;
-                anon = $continuation;
-                $continuation = $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv;
+                anon = $continuation2;
+                $continuation2 = $i$f$awaitPointerSlopOrCancellationPn7EDYM;
                 totalPositionChange$iv = obj6;
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = pointer$iv;
-                onPointerSlopReached = 0;
+                $i$f$awaitPointerSlopOrCancellationPn7EDYM = pointer$iv;
+                onPointerSlopReached2 = 0;
                 pointer$iv = touchSlop$iv2;
                 break;
             case 2:
                 touchSlop$iv2 = anon.L$3;
                 ResultKt.throwOnFailure($result);
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv2 = i13;
-                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = obj7;
+                $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = i13;
+                $i$f$awaitPointerSlopOrCancellationPn7EDYM = obj7;
                 touchSlop$iv = f$1;
                 totalPositionChange$iv = l$02;
-                onPointerSlopReached2 = l$22;
+                onPointerSlopReached = l$22;
                 pointer$iv = f;
-                onPointerSlopReached = 0;
-                onPointerSlopReached = 0;
-                return onPointerSlopReached;
+                onPointerSlopReached2 = 0;
+                onPointerSlopReached2 = 0;
+                return onPointerSlopReached2;
             default:
                 IllegalStateException $result2 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw $result2;
         }
         anon.L$0 = totalPositionChange$iv;
-        anon.L$1 = $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv;
-        anon.L$2 = onPointerSlopReached2;
-        anon.L$3 = onPointerSlopReached;
+        anon.L$1 = $i$f$awaitPointerSlopOrCancellationPn7EDYM;
+        anon.L$2 = onPointerSlopReached;
+        anon.L$3 = onPointerSlopReached2;
         anon.F$0 = pointer$iv;
         anon.F$1 = touchSlop$iv;
-        int i19 = 1;
-        anon.label = i19;
-        Object awaitPointerEvent$default = AwaitPointerEventScope.awaitPointerEvent$default($this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv, onPointerSlopReached, anon, i19, onPointerSlopReached);
-        if (awaitPointerEvent$default != $continuation) {
-            $continuation2 = $result;
+        int i18 = 1;
+        anon.label = i18;
+        Object awaitPointerEvent$default = AwaitPointerEventScope.awaitPointerEvent$default($i$f$awaitPointerSlopOrCancellationPn7EDYM, onPointerSlopReached2, anon, i18, onPointerSlopReached2);
+        if (awaitPointerEvent$default != $continuation2) {
+            $continuation = $result;
             $result = awaitPointerEvent$default;
             touchSlop$iv2 = pointer$iv;
-            pointer$iv = $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv;
-            $this$awaitPointerSlopOrCancellation_u2dpn7EDYM$iv = $continuation;
-            $continuation = f;
+            pointer$iv = $i$f$awaitPointerSlopOrCancellationPn7EDYM;
+            $i$f$awaitPointerSlopOrCancellationPn7EDYM = $continuation2;
+            $continuation2 = f;
         }
-        return $continuation;
+        return $continuation2;
     }
 
     private static final Object awaitPointerSlopOrCancellation-pn7EDYM(AwaitPointerEventScope $this$awaitPointerSlopOrCancellation_u2dpn7EDYM, long pointerId, int pointerType, Function2<? super PointerInputChange, ? super Float, Unit> onPointerSlopReached, Function1<? super Offset, Float> getDragDirectionValue, Continuation<? super PointerInputChange> $completion) {
         PointerEvent dragEvent;
-        int booleanValue;
+        int booleanValue2;
         long $this$fastFirstOrNull$iv;
-        int element;
+        int $i$f$awaitPointerSlopOrCancellationPn7EDYM;
         long id-J3iCeTQ;
         float pointerSlop-E8SPZFQ;
-        int i2;
         int i;
+        int i3;
         int totalPositionChange;
         Object awaitPointerEvent$default;
         int index$iv$iv;
         int size;
         List consumed;
         Object obj4;
-        int i5;
+        int i2;
         int i8;
-        int i3;
-        int booleanValue2;
-        int i4;
+        int i7;
+        int booleanValue;
+        int i5;
         int pressed;
         int i6;
         Object obj;
-        int i7;
+        int i4;
         float f;
         final AwaitPointerEventScope awaitPointerEventScope = $this$awaitPointerSlopOrCancellation_u2dpn7EDYM;
         dragEvent = pointerId;
         final Object obj3 = $completion;
         final Continuation continuation = obj31;
-        element = 0;
+        $i$f$awaitPointerSlopOrCancellationPn7EDYM = 0;
         if (DragGestureDetectorCopyKt.isPointerUp-DmW0f2w(awaitPointerEventScope.getCurrentEvent(), dragEvent)) {
             return null;
         }
@@ -257,62 +257,62 @@ public final class DragGestureDetectorCopyKt {
         longRef.element = dragEvent;
         totalPositionChange = 0;
         while (/* condition */) {
-            while (booleanValue < size2) {
-                Object obj2 = consumed.get(booleanValue);
-                booleanValue2 = 0;
+            while (booleanValue2 < size2) {
+                Object obj2 = consumed.get(booleanValue2);
+                booleanValue = 0;
                 pressed = 0;
                 obj = obj2;
                 Boolean valueOf = Boolean.valueOf(PointerId.equals-impl0((PointerInputChange)obj2.getId-J3iCeTQ(), obj2));
                 $this$fastFirstOrNull$iv = valueOf;
-                booleanValue = i6 + 1;
-                element = i7;
+                booleanValue2 = i6 + 1;
+                $i$f$awaitPointerSlopOrCancellationPn7EDYM = i4;
                 pointerSlop-E8SPZFQ = f;
             }
-            i6 = booleanValue;
-            i7 = element;
+            i6 = booleanValue2;
+            i4 = $i$f$awaitPointerSlopOrCancellationPn7EDYM;
             f = pointerSlop-E8SPZFQ;
-            i8 = i3;
+            i8 = i7;
             Intrinsics.checkNotNull(i8);
             int i9 = i8;
             totalPositionChange += $this$fastFirstOrNull$iv;
             getDragDirectionValue.invoke(i9, Float.valueOf(totalPositionChange - i13));
             totalPositionChange = 0;
             dragEvent = pointerId;
-            i2 = i3;
-            element = i7;
+            i = i7;
+            $i$f$awaitPointerSlopOrCancellationPn7EDYM = i4;
             pointerSlop-E8SPZFQ = f;
-            awaitPointerEvent$default = AwaitPointerEventScope.awaitPointerEvent$default(awaitPointerEventScope, i2, continuation, 1, i2);
+            awaitPointerEvent$default = AwaitPointerEventScope.awaitPointerEvent$default(awaitPointerEventScope, i, continuation, 1, i);
             consumed = changes2;
-            i5 = 0;
-            i3 = i2;
-            booleanValue = i8;
+            i2 = 0;
+            i7 = i;
+            booleanValue2 = i8;
             awaitPointerEventScope.awaitPointerEvent(PointerEventPass.Final, continuation);
             obj4 = getDragDirectionValue;
             int i10 = 0;
             pointerSlop-E8SPZFQ = changes;
-            i = 0;
+            i3 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < pointerSlop-E8SPZFQ.size()) {
                 i8 = 0;
                 int i16 = 0;
                 Boolean valueOf3 = Boolean.valueOf((PointerInputChange)pointerSlop-E8SPZFQ.get(index$iv$iv).getPressed());
-                i4 = valueOf3;
+                i5 = valueOf3;
                 index$iv$iv++;
             }
-            i5 = i3;
-            $this$fastFirstOrNull$iv = i5;
+            i2 = i7;
+            $this$fastFirstOrNull$iv = i2;
             longRef.element = (PointerInputChange)$this$fastFirstOrNull$iv.getId-J3iCeTQ();
             obj4 = getDragDirectionValue;
             i8 = 0;
             i16 = 0;
             valueOf3 = Boolean.valueOf((PointerInputChange)pointerSlop-E8SPZFQ.get(index$iv$iv).getPressed());
-            i4 = valueOf3;
+            i5 = valueOf3;
             if (valueOf3.booleanValue() != 0) {
             } else {
             }
             index$iv$iv++;
-            obj2 = consumed.get(booleanValue);
-            booleanValue2 = 0;
+            obj2 = consumed.get(booleanValue2);
+            booleanValue = 0;
             pressed = 0;
             obj = obj2;
             valueOf = Boolean.valueOf(PointerId.equals-impl0((PointerInputChange)obj2.getId-J3iCeTQ(), obj2));
@@ -320,11 +320,11 @@ public final class DragGestureDetectorCopyKt {
             if (valueOf.booleanValue()) {
             } else {
             }
-            booleanValue = i6 + 1;
-            element = i7;
+            booleanValue2 = i6 + 1;
+            $i$f$awaitPointerSlopOrCancellationPn7EDYM = i4;
             pointerSlop-E8SPZFQ = f;
         }
-        return i3;
+        return i7;
     }
 
     private static final boolean isPointerUp-DmW0f2w(PointerEvent $this$isPointerUp_u2dDmW0f2w, long pointerId) {

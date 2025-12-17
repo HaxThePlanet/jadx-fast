@@ -20,9 +20,9 @@ public final class SelectionLayoutKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
+            int ordinal2;
             int ordinal;
             int ordinal3;
-            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[Direction.BEFORE.ordinal()] = 1;
             iArr[Direction.ON.ordinal()] = 2;
@@ -68,8 +68,8 @@ public final class SelectionLayoutKt {
 
     public static final boolean isCollapsed(androidx.compose.foundation.text.selection.Selection $this$isCollapsed, androidx.compose.foundation.text.selection.SelectionLayout layout) {
         int i;
-        androidx.compose.foundation.text.selection.Selection.AnchorInfo start;
         androidx.compose.foundation.text.selection.Selection.AnchorInfo start2;
+        androidx.compose.foundation.text.selection.Selection.AnchorInfo start;
         i = 1;
         if ($this$isCollapsed == null) {
             return i;
@@ -86,19 +86,19 @@ public final class SelectionLayoutKt {
             return i;
         }
         if ($this$isCollapsed.getHandlesCrossed()) {
-            start = $this$isCollapsed.getStart();
+            start2 = $this$isCollapsed.getStart();
         } else {
-            start = $this$isCollapsed.getEnd();
+            start2 = $this$isCollapsed.getEnd();
         }
-        if (start.getOffset() != 0) {
+        if (start2.getOffset() != 0) {
             return i2;
         }
         if ($this$isCollapsed.getHandlesCrossed()) {
-            start2 = $this$isCollapsed.getEnd();
+            start = $this$isCollapsed.getEnd();
         } else {
-            start2 = $this$isCollapsed.getStart();
+            start = $this$isCollapsed.getStart();
         }
-        if (layout.getFirstInfo().getTextLength() != start2.getOffset()) {
+        if (layout.getFirstInfo().getTextLength() != start.getOffset()) {
             return i2;
         }
         Ref.BooleanRef booleanRef = new Ref.BooleanRef();
@@ -109,23 +109,23 @@ public final class SelectionLayoutKt {
     }
 
     private static final boolean isOffsetAnEmptyLine(TextLayoutResult $this$isOffsetAnEmptyLine, int offset) {
-        int lineForOffset;
-        int i2;
-        int i;
         int lineForOffset2;
-        i2 = 0;
+        int i;
+        int i2;
+        int lineForOffset;
+        i = 0;
         final int i3 = 1;
-        lineForOffset = (CharSequence)$this$isOffsetAnEmptyLine.getLayoutInput().getText().length() == 0 ? i3 : i2;
-        if (lineForOffset == null) {
-            lineForOffset = $this$isOffsetAnEmptyLine.getLineForOffset(offset);
-            i = 0;
+        lineForOffset2 = (CharSequence)$this$isOffsetAnEmptyLine.getLayoutInput().getText().length() == 0 ? i3 : i;
+        if (lineForOffset2 == 0) {
+            lineForOffset2 = $this$isOffsetAnEmptyLine.getLineForOffset(offset);
+            i2 = 0;
             if (offset != null) {
-                if (lineForOffset != $this$isOffsetAnEmptyLine.getLineForOffset(offset + -1)) {
+                if (lineForOffset2 != $this$isOffsetAnEmptyLine.getLineForOffset(offset + -1)) {
                     if (offset != $this$isOffsetAnEmptyLine.getLayoutInput().getText().length()) {
-                        if (lineForOffset != $this$isOffsetAnEmptyLine.getLineForOffset(offset + 1)) {
-                            lineForOffset2 = i3;
+                        if (lineForOffset2 != $this$isOffsetAnEmptyLine.getLineForOffset(offset + 1)) {
+                            lineForOffset = i3;
                         } else {
-                            lineForOffset2 = i2;
+                            lineForOffset = i;
                         }
                     } else {
                     }
@@ -133,12 +133,12 @@ public final class SelectionLayoutKt {
                 }
             } else {
             }
-            if (lineForOffset2 != 0) {
-                i2 = i3;
+            if (lineForOffset != null) {
+                i = i3;
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public static final androidx.compose.foundation.text.selection.Direction resolve2dDirection(androidx.compose.foundation.text.selection.Direction x, androidx.compose.foundation.text.selection.Direction y) {

@@ -20,10 +20,10 @@ public final class TransferableContent_androidKt {
     public static final androidx.compose.foundation.content.TransferableContent consume(androidx.compose.foundation.content.TransferableContent $this$consume, Function1<? super ClipData.Item, Boolean> predicate) {
         int remainingItems;
         int i3;
-        int i2;
-        int i5;
         int i4;
-        boolean i;
+        int i;
+        int i5;
+        boolean i2;
         int itemCount;
         ClipData.Item itemAt;
         boolean booleanValue;
@@ -34,32 +34,32 @@ public final class TransferableContent_androidKt {
         if (clipData.getItemCount() == i7 && !(Boolean)predicate.invoke(clipData.getItemAt(0)).booleanValue()) {
             i6 = $this$consume;
             i8 = 0;
-            if (!(Boolean)predicate.invoke(clipData.getItemAt(i2)).booleanValue()) {
+            if (!(Boolean)predicate.invoke(clipData.getItemAt(i4)).booleanValue()) {
                 i3 = $this$consume;
             }
             return i3;
         }
         remainingItems = 0;
-        i4 = 0;
-        while (i4 < clipData.getItemCount()) {
-            itemAt = clipData.getItemAt(i4);
+        i5 = 0;
+        while (i5 < clipData.getItemCount()) {
+            itemAt = clipData.getItemAt(i5);
             if (!(Boolean)predicate.invoke(itemAt).booleanValue() && remainingItems == 0) {
             }
-            i4++;
+            i5++;
             if (remainingItems == 0) {
             }
             remainingItems.add(itemAt);
             booleanValue = new ArrayList();
             remainingItems = booleanValue;
         }
-        i = remainingItems;
-        if ((Collection)i != 0) {
-            if ((Collection)i.isEmpty()) {
-                i2 = i7;
+        i2 = remainingItems;
+        if ((Collection)i2 != 0) {
+            if ((Collection)i2.isEmpty()) {
+                i4 = i7;
             }
         } else {
         }
-        if (i2 != 0) {
+        if (i4 != 0) {
             return null;
         }
         if (remainingItems.size() == clipData.getItemCount()) {
@@ -67,10 +67,10 @@ public final class TransferableContent_androidKt {
         }
         ClipDescription clipDescription = new ClipDescription($this$consume.getClipMetadata().getClipDescription());
         ClipData clipData2 = new ClipData(clipDescription, (ClipData.Item)CollectionsKt.first(remainingItems));
-        i5 = 1;
-        while (i5 < remainingItems.size()) {
-            clipData2.addItem((ClipData.Item)remainingItems.get(i5));
-            i5++;
+        i = 1;
+        while (i < remainingItems.size()) {
+            clipData2.addItem((ClipData.Item)remainingItems.get(i));
+            i++;
         }
         TransferableContent transferableContent = new TransferableContent(AndroidClipboardManager_androidKt.toClipEntry(clipData2), AndroidClipboardManager_androidKt.toClipMetadata(clipDescription), $this$consume.getSource-kB6V9T0(), $this$consume.getPlatformTransferableContent(), 0);
         return transferableContent;
@@ -84,12 +84,12 @@ public final class TransferableContent_androidKt {
         int seenText;
         int i;
         int string;
-        int itemCount2;
-        int text2;
+        int itemCount;
+        int text;
         int seenFirstItem;
         int i2;
-        int itemCount;
-        java.lang.CharSequence text;
+        int itemCount2;
+        java.lang.CharSequence text2;
         int i3;
         String str;
         seenText = 0;
@@ -98,30 +98,30 @@ public final class TransferableContent_androidKt {
             if (seenText == 0) {
             } else {
             }
-            text2 = 1;
-            seenText = text2;
+            text = 1;
+            seenText = text;
             i++;
             if ($this$readPlainText.getClipData().getItemAt(i).getText() != null) {
             } else {
             }
-            text2 = 0;
+            text = 0;
         }
         if (seenText != 0) {
             StringBuilder stringBuilder = new StringBuilder();
             StringBuilder sb = stringBuilder;
-            text2 = 0;
+            text = 0;
             seenFirstItem = 0;
             i2 = 0;
             while (i2 < $this$readPlainText.getClipData().getItemCount()) {
-                text = $this$readPlainText.getClipData().getItemAt(i2).getText();
+                text2 = $this$readPlainText.getClipData().getItemAt(i2).getText();
                 i3 = 0;
-                if (text != null && seenFirstItem != 0) {
+                if (text2 != null && seenFirstItem != 0) {
                 }
                 i2++;
                 i3 = 0;
                 if (seenFirstItem != 0) {
                 }
-                sb.append(text);
+                sb.append(text2);
                 seenFirstItem = 1;
                 sb.append("\n");
             }

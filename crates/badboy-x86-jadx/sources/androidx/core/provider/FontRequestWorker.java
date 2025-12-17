@@ -57,8 +57,8 @@ class FontRequestWorker {
 
     private static String createCacheId(List<androidx.core.provider.FontRequest> list, int style) {
         int i;
-        int str2;
-        String str;
+        int str;
+        String str2;
         StringBuilder stringBuilder = new StringBuilder();
         i = 0;
         while (i < list.size()) {
@@ -72,9 +72,9 @@ class FontRequestWorker {
     }
 
     private static int getFontFamilyResultStatus(androidx.core.provider.FontsContractCompat.FontFamilyResult fontFamilyResult) {
-        int i;
-        int length;
         int i2;
+        int length;
+        int i;
         androidx.core.provider.FontsContractCompat.FontInfo fontInfo;
         int resultCode;
         if (fontFamilyResult.getStatusCode() != 0 && /* condition */) {
@@ -88,10 +88,10 @@ class FontRequestWorker {
             if (fonts2.length == 0) {
             } else {
                 final int i5 = 0;
-                i2 = i5;
-                while (i2 < fonts2.length) {
-                    resultCode = fonts2[i2].getResultCode();
-                    i2++;
+                i = i5;
+                while (i < fonts2.length) {
+                    resultCode = fonts2[i].getResultCode();
+                    i++;
                 }
             }
             return i5;

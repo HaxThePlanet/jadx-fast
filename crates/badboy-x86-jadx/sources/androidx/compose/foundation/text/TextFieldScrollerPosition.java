@@ -76,8 +76,8 @@ public final class TextFieldScrollerPosition {
     }
 
     public final void coerceOffset$foundation_release(float cursorStart, float cursorEnd, int containerSize) {
-        int cmp;
         int cmp2;
+        int cmp;
         int i;
         float f;
         final float offset = getOffset();

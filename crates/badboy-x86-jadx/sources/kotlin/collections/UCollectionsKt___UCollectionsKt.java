@@ -69,31 +69,31 @@ class UCollectionsKt___UCollectionsKt {
     }
 
     public static final byte[] toUByteArray(Collection<UByte> $this$toUByteArray) {
-        int i2;
-        byte unbox-impl;
         int i;
+        byte unbox-impl;
+        int i2;
         Intrinsics.checkNotNullParameter($this$toUByteArray, "<this>");
         byte[] constructor-impl = UByteArray.constructor-impl($this$toUByteArray.size());
-        i2 = 0;
+        i = 0;
         final Iterator iterator = $this$toUByteArray.iterator();
         for (UByte next2 : iterator) {
-            UByteArray.set-VurrAj0(constructor-impl, i2, next2.unbox-impl());
-            i2 = i;
+            UByteArray.set-VurrAj0(constructor-impl, i, next2.unbox-impl());
+            i = i2;
         }
         return constructor-impl;
     }
 
     public static final int[] toUIntArray(Collection<UInt> $this$toUIntArray) {
-        int i2;
-        int unbox-impl;
         int i;
+        int unbox-impl;
+        int i2;
         Intrinsics.checkNotNullParameter($this$toUIntArray, "<this>");
         int[] constructor-impl = UIntArray.constructor-impl($this$toUIntArray.size());
-        i2 = 0;
+        i = 0;
         final Iterator iterator = $this$toUIntArray.iterator();
         for (UInt next2 : iterator) {
-            UIntArray.set-VXSXFK8(constructor-impl, i2, next2.unbox-impl());
-            i2 = i;
+            UIntArray.set-VXSXFK8(constructor-impl, i, next2.unbox-impl());
+            i = i2;
         }
         return constructor-impl;
     }
@@ -114,16 +114,16 @@ class UCollectionsKt___UCollectionsKt {
     }
 
     public static final short[] toUShortArray(Collection<UShort> $this$toUShortArray) {
-        int i2;
-        short unbox-impl;
         int i;
+        short unbox-impl;
+        int i2;
         Intrinsics.checkNotNullParameter($this$toUShortArray, "<this>");
         short[] constructor-impl = UShortArray.constructor-impl($this$toUShortArray.size());
-        i2 = 0;
+        i = 0;
         final Iterator iterator = $this$toUShortArray.iterator();
         for (UShort next2 : iterator) {
-            UShortArray.set-01HTLdE(constructor-impl, i2, next2.unbox-impl());
-            i2 = i;
+            UShortArray.set-01HTLdE(constructor-impl, i, next2.unbox-impl());
+            i = i2;
         }
         return constructor-impl;
     }

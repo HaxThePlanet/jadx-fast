@@ -61,98 +61,98 @@ public final class BackdropScaffoldKt {
 
     private static final void BackLayerTransition(androidx.compose.material.BackdropValue target, Function2<? super Composer, ? super Integer, Unit> appBar, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         Object traceInProgress2;
-        Function0 factory$iv$iv$iv3;
+        Function0 factory$iv$iv$iv;
         int materialized$iv$iv;
-        int i12;
+        int i11;
         int $dirty;
         boolean $dirty2;
-        Object obj2;
+        Object obj3;
         boolean traceInProgress;
         Integer $this$BackLayerTransition_u24lambda_u2411;
-        int i26;
-        int i29;
-        int i19;
-        int iNSTANCE2;
-        boolean currentCompositionLocalMap3;
-        int i31;
-        Composer composer8;
-        Object currentCompositionLocalMap2;
-        int i21;
+        int i23;
+        int i2;
+        int i8;
+        int iNSTANCE;
+        boolean currentCompositionLocalMap2;
+        int i27;
+        Composer composer2;
+        Object currentCompositionLocalMap3;
+        int i4;
         Function0 factory$iv$iv$iv2;
-        Object anon;
+        Object $i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$4;
         int empty;
-        Object anon2;
+        Object $i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$5;
         boolean changed;
-        Composer composer4;
+        Composer composer10;
         Composer composer3;
         Object maybeCachedBoxMeasurePolicy3;
         Composer restartGroup;
-        Alignment topStart;
-        int i9;
-        Function0 factory$iv$iv$iv;
+        Alignment topStart2;
+        int i31;
+        Function0 factory$iv$iv$iv3;
         Object it$iv2;
         Object it$iv;
         boolean currentCompositionLocalMap;
-        int i6;
+        int i28;
         androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy;
-        Composer composer5;
-        Composer composer11;
+        Composer composer7;
+        Composer composer4;
         Object maybeCachedBoxMeasurePolicy2;
-        Object topStart2;
-        int i15;
+        Object topStart;
+        int i12;
         Object propagateMinConstraints$iv2;
-        int i10;
-        int i2;
-        int i22;
-        int i24;
-        int i17;
+        int i26;
+        int i20;
+        int i29;
+        int i3;
+        int i7;
         int currentCompositeKeyHash;
         int i16;
-        int i8;
-        androidx.compose.ui.Modifier.Companion companion2;
-        Composer composer;
-        int i13;
-        int i3;
+        int i24;
+        androidx.compose.ui.Modifier.Companion companion3;
+        Composer composer5;
+        int i30;
+        int i5;
         Composer composer9;
         int i18;
-        BoxScopeInstance iNSTANCE;
-        Function0 function02;
-        int i23;
-        int i30;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
-        androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        int i20;
-        int i4;
-        Modifier modifier3;
-        Composer composer2;
-        int i25;
-        int companion3;
-        Modifier modifier2;
-        Composer.Companion companion4;
-        int invalid$iv;
-        int i11;
-        boolean invalid$iv2;
-        int i27;
-        Object obj;
-        Composer.Companion companion;
-        Composer.Companion propagateMinConstraints$iv;
-        Object obj3;
-        Alignment contentAlignment$iv;
+        BoxScopeInstance iNSTANCE2;
         Function0 function0;
+        int i14;
+        int i15;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
+        androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
+        int i;
+        int i13;
+        Modifier modifier3;
+        Composer composer11;
+        int i17;
+        int companion2;
+        Modifier modifier2;
+        Composer.Companion companion;
+        int invalid$iv;
+        int i21;
+        boolean invalid$iv2;
+        int i19;
+        Object obj;
+        Composer.Companion companion4;
+        Composer.Companion propagateMinConstraints$iv;
+        Object obj2;
+        Alignment contentAlignment$iv;
+        Function0 function02;
         Modifier modifier;
         Composer composer6;
         float animationSlideOffset;
         androidx.compose.runtime.CompositionLocalMap map;
         Function0 function03;
-        int i5;
-        int i14;
-        Composer composer10;
-        int i7;
-        int i28;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
-        androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
-        Composer composer7;
-        int i;
+        int i6;
+        int i9;
+        Composer composer;
+        int i25;
+        int i10;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
+        androidx.compose.ui.layout.MeasurePolicy measurePolicy;
+        Composer composer8;
+        int i22;
         State obj64;
         traceInProgress2 = target;
         final Object obj4 = appBar;
@@ -162,50 +162,50 @@ public final class BackdropScaffoldKt {
         restartGroup = $composer.startRestartGroup(materialized$iv$iv);
         ComposerKt.sourceInformation(restartGroup, "C(BackLayerTransition)P(2)551@22995L112,*554@23157L7,556@23203L1485:BackdropScaffold.kt#jmzs0o");
         if (i42 & 6 == 0) {
-            i26 = restartGroup.changed(traceInProgress2) ? 4 : 2;
-            $dirty |= i26;
+            i23 = restartGroup.changed(traceInProgress2) ? 4 : 2;
+            $dirty |= i23;
         }
         if (i42 & 48 == 0) {
-            i29 = restartGroup.changedInstance(obj4) ? 32 : 16;
-            $dirty |= i29;
+            i2 = restartGroup.changedInstance(obj4) ? 32 : 16;
+            $dirty |= i2;
         }
         if (i42 & 384 == 0) {
-            i19 = restartGroup.changedInstance(obj5) ? 256 : 128;
-            $dirty |= i19;
+            i8 = restartGroup.changedInstance(obj5) ? 256 : 128;
+            $dirty |= i8;
         }
-        i6 = $dirty;
-        if (i6 & 147 == 146) {
+        i28 = $dirty;
+        if (i28 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(materialized$iv$iv, i6, -1, "androidx.compose.material.BackLayerTransition (BackdropScaffold.kt:548)");
+                    ComposerKt.traceEventStart(materialized$iv$iv, i28, -1, "androidx.compose.material.BackLayerTransition (BackdropScaffold.kt:548)");
                 }
-                i12 = traceInProgress2 == BackdropValue.Revealed ? 0 : 1073741824;
+                i11 = traceInProgress2 == BackdropValue.Revealed ? 0 : 1073741824;
                 TweenSpec tweenSpec2 = new TweenSpec(0, 0, 0, 7, 0);
-                State animateFloatAsState = AnimateAsStateKt.animateFloatAsState(i12, (AnimationSpec)tweenSpec2, 0, 0, 0, restartGroup, 48, 28);
+                State animateFloatAsState = AnimateAsStateKt.animateFloatAsState(i11, (AnimationSpec)tweenSpec2, 0, 0, 0, restartGroup, 48, 28);
                 int i45 = 0;
-                int i53 = 0;
+                int i52 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i46 = 0;
                 $this$BackLayerTransition_u24lambda_u2411 = (Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(BackdropScaffoldKt.AnimationSlideOffset);
-                int i54 = i47;
-                String str4 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, str4);
+                int i53 = $i$a$WithBackdropScaffoldKt$BackLayerTransition$animationSlideOffset$1;
+                String str3 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, str3);
                 androidx.compose.ui.Modifier.Companion companion13 = Modifier.Companion;
-                topStart2 = Alignment.Companion.getTopStart();
+                topStart = Alignment.Companion.getTopStart();
                 propagateMinConstraints$iv2 = 0;
-                maybeCachedBoxMeasurePolicy3 = BoxKt.maybeCachedBoxMeasurePolicy(topStart2, propagateMinConstraints$iv2);
-                i2 = 0;
+                maybeCachedBoxMeasurePolicy3 = BoxKt.maybeCachedBoxMeasurePolicy(topStart, propagateMinConstraints$iv2);
+                i20 = 0;
                 String $changed$iv4 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, $changed$iv4);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                currentCompositionLocalMap3 = restartGroup.getCurrentCompositionLocalMap();
-                i16 = i57;
+                currentCompositionLocalMap2 = restartGroup.getCurrentCompositionLocalMap();
+                i16 = i56;
                 Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(restartGroup, (Modifier)companion13);
-                companion2 = companion13;
+                companion3 = companion13;
                 Function0 function04 = constructor2;
-                i8 = 0;
-                i3 = i6;
+                i24 = 0;
+                i5 = i28;
                 String $dirty3 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $dirty3);
                 if (!applier3 instanceof Applier) {
@@ -215,271 +215,271 @@ public final class BackdropScaffoldKt {
                 if (restartGroup.getInserting()) {
                     restartGroup.createNode(function04);
                 } else {
-                    factory$iv$iv$iv = function04;
+                    factory$iv$iv$iv3 = function04;
                     restartGroup.useNode();
                 }
-                composer = restartGroup;
-                Composer constructor-impl2 = Updater.constructor-impl(composer);
-                int i97 = 0;
-                function02 = factory$iv$iv$iv;
+                composer5 = restartGroup;
+                Composer constructor-impl2 = Updater.constructor-impl(composer5);
+                int i96 = 0;
+                function0 = factory$iv$iv$iv3;
                 Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy3, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl2, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i98 = 0;
-                Composer composer17 = constructor-impl2;
-                int i101 = 0;
-                if (!composer17.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap3;
-                    measurePolicy = maybeCachedBoxMeasurePolicy3;
-                    if (!Intrinsics.areEqual(composer17.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer17.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                Updater.set-impl(constructor-impl2, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i97 = 0;
+                Composer composer16 = constructor-impl2;
+                int i100 = 0;
+                if (!composer16.getInserting()) {
+                    localMap$iv$iv2 = currentCompositionLocalMap2;
+                    measurePolicy2 = maybeCachedBoxMeasurePolicy3;
+                    if (!Intrinsics.areEqual(composer16.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer16.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer17;
+                        composer3 = composer16;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap3;
-                    measurePolicy = maybeCachedBoxMeasurePolicy3;
+                    localMap$iv$iv2 = currentCompositionLocalMap2;
+                    measurePolicy2 = maybeCachedBoxMeasurePolicy3;
                 }
                 Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
-                composer4 = composer;
-                i18 = i51;
+                composer10 = composer5;
+                i18 = i50;
                 String $changed$iv3 = "C73@3429L9:Box.kt#2w3rfo";
-                ComposerKt.sourceInformationMarkerStart(composer4, -2146769399, $changed$iv3);
-                iNSTANCE = BoxScopeInstance.INSTANCE;
-                i100 |= 6;
-                Composer composer18 = composer4;
-                i20 = 0;
+                ComposerKt.sourceInformationMarkerStart(composer10, -2146769399, $changed$iv3);
+                iNSTANCE2 = BoxScopeInstance.INSTANCE;
+                i99 |= 6;
+                Composer composer17 = composer10;
+                i = 0;
                 modifier3 = materializeModifier2;
-                ComposerKt.sourceInformationMarkerStart(composer4, -1148278766, "C559@23267L351,566@23650L218,557@23217L694,577@24032L353,584@24417L221,574@23920L762:BackdropScaffold.kt#jmzs0o");
-                i30 = i64;
-                String str3 = "CC(remember):BackdropScaffold.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart(composer4, -452682761, str3);
-                Composer composer19 = composer4;
-                int i104 = 0;
-                it$iv2 = composer19.rememberedValue();
-                companion = 0;
-                if (!composer4.changed(animateFloatAsState)) {
-                    contentAlignment$iv = topStart2;
+                ComposerKt.sourceInformationMarkerStart(composer10, -1148278766, "C559@23267L351,566@23650L218,557@23217L694,577@24032L353,584@24417L221,574@23920L762:BackdropScaffold.kt#jmzs0o");
+                i15 = i63;
+                String $i$a$LayoutBoxKt$Box$1$iv = "CC(remember):BackdropScaffold.kt#9igjgp";
+                ComposerKt.sourceInformationMarkerStart(composer10, -452682761, $i$a$LayoutBoxKt$Box$1$iv);
+                Composer composer18 = composer10;
+                int i103 = 0;
+                it$iv2 = composer18.rememberedValue();
+                companion4 = 0;
+                if (!composer10.changed(animateFloatAsState)) {
+                    contentAlignment$iv = topStart;
                     if (it$iv2 == Composer.Companion.getEmpty()) {
                         int contentAlignment$iv2 = 0;
-                        obj3 = it$iv2;
+                        obj2 = it$iv2;
                         it$iv2 = new BackdropScaffoldKt.BackLayerTransition.1.1.1(animateFloatAsState);
-                        composer19.updateRememberedValue((Function3)it$iv2);
+                        composer18.updateRememberedValue((Function3)it$iv2);
                     } else {
-                        obj3 = it$iv2;
-                        composer5 = composer19;
+                        obj2 = it$iv2;
+                        composer7 = composer18;
                     }
                 } else {
-                    contentAlignment$iv = topStart2;
+                    contentAlignment$iv = topStart;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerStart(composer4, -452670638, str3);
-                Composer composer16 = composer4;
-                int i102 = 0;
-                it$iv = composer16.rememberedValue();
-                int i106 = 0;
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerStart(composer10, -452670638, $i$a$LayoutBoxKt$Box$1$iv);
+                Composer composer15 = composer10;
+                int i101 = 0;
+                it$iv = composer15.rememberedValue();
+                int i105 = 0;
                 if (changed6 |= changed7 == 0) {
                     propagateMinConstraints$iv = propagateMinConstraints$iv2;
                     if (it$iv == Composer.Companion.getEmpty()) {
                         propagateMinConstraints$iv2 = 0;
                         obj = it$iv;
                         it$iv = new BackdropScaffoldKt.BackLayerTransition.1.2.1($this$BackLayerTransition_u24lambda_u2411, animateFloatAsState);
-                        composer16.updateRememberedValue((Function1)it$iv);
+                        composer15.updateRememberedValue((Function1)it$iv);
                     } else {
                         obj = it$iv;
                     }
                 } else {
                     propagateMinConstraints$iv = propagateMinConstraints$iv2;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer10);
                 Modifier graphicsLayer2 = GraphicsLayerModifierKt.graphicsLayer(LayoutModifierKt.layout((Modifier)Modifier.Companion, (Function3)it$iv2), (Function1)it$iv);
-                ComposerKt.sourceInformationMarkerStart(composer4, 733328855, str4);
+                ComposerKt.sourceInformationMarkerStart(composer10, 733328855, str3);
                 Alignment topStart3 = Alignment.Companion.getTopStart();
-                int i103 = i74;
+                int i102 = i73;
                 int $changed$iv5 = 0;
-                companion4 = i81;
+                companion = i80;
                 maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart3, $changed$iv5);
-                int i110 = 0;
-                int i111 = $changed$iv5;
-                ComposerKt.sourceInformationMarkerStart(composer4, -1323940314, $changed$iv4);
-                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(composer4, 0);
-                currentCompositionLocalMap = composer4.getCurrentCompositionLocalMap();
+                int i109 = 0;
+                int i110 = $changed$iv5;
+                ComposerKt.sourceInformationMarkerStart(composer10, -1323940314, $changed$iv4);
+                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(composer10, 0);
+                currentCompositionLocalMap = composer10.getCurrentCompositionLocalMap();
                 Alignment alignment = topStart3;
                 Modifier modifier4 = graphicsLayer2;
                 Function0 function06 = constructor3;
-                int i113 = 0;
-                ComposerKt.sourceInformationMarkerStart(composer4, -692256719, $dirty3);
+                int i112 = 0;
+                ComposerKt.sourceInformationMarkerStart(composer10, -692256719, $dirty3);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                composer4.startReusableNode();
-                if (composer4.getInserting()) {
-                    composer4.createNode(function06);
+                composer10.startReusableNode();
+                if (composer10.getInserting()) {
+                    composer10.createNode(function06);
                 } else {
                     factory$iv$iv$iv2 = function06;
-                    composer4.useNode();
+                    composer10.useNode();
                 }
                 function03 = factory$iv$iv$iv2;
-                Composer constructor-impl = Updater.constructor-impl(composer4);
-                int i114 = 0;
+                Composer constructor-impl = Updater.constructor-impl(composer10);
+                int i113 = 0;
                 Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i116 = 0;
+                Composer composer20 = constructor-impl;
                 int i117 = 0;
-                Composer composer21 = constructor-impl;
-                int i118 = 0;
-                if (!composer21.getInserting()) {
-                    localMap$iv$iv2 = currentCompositionLocalMap;
-                    measurePolicy2 = maybeCachedBoxMeasurePolicy2;
-                    if (!Intrinsics.areEqual(composer21.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
-                        composer21.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
+                if (!composer20.getInserting()) {
+                    localMap$iv$iv = currentCompositionLocalMap;
+                    measurePolicy = maybeCachedBoxMeasurePolicy2;
+                    if (!Intrinsics.areEqual(composer20.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
+                        composer20.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer11 = composer21;
+                        composer4 = composer20;
                     }
                 } else {
-                    localMap$iv$iv2 = currentCompositionLocalMap;
-                    measurePolicy2 = maybeCachedBoxMeasurePolicy2;
+                    localMap$iv$iv = currentCompositionLocalMap;
+                    measurePolicy = maybeCachedBoxMeasurePolicy2;
                 }
-                Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(composer4, graphicsLayer2), ComposeUiNode.Companion.getSetModifier());
-                Composer composer12 = composer4;
+                Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(composer10, graphicsLayer2), ComposeUiNode.Companion.getSetModifier());
+                Composer composer12 = composer10;
                 ComposerKt.sourceInformationMarkerStart(composer12, -2146769399, $changed$iv3);
                 BoxScopeInstance iNSTANCE3 = BoxScopeInstance.INSTANCE;
-                i116 |= 6;
-                i7 = 0;
-                i28 = i33;
-                i = i76;
-                Composer composer14 = composer10;
-                ComposerKt.sourceInformationMarkerStart(composer14, 799556868, "C572@23893L8:BackdropScaffold.kt#jmzs0o");
-                obj4.invoke(composer14, Integer.valueOf(i34 &= 14));
-                ComposerKt.sourceInformationMarkerEnd(composer14);
+                i115 |= 6;
+                i25 = 0;
+                i10 = i33;
+                i22 = i75;
+                Composer $i$a$LayoutBoxKt$Box$1$iv2 = composer;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv2, 799556868, "C572@23893L8:BackdropScaffold.kt#jmzs0o");
+                obj4.invoke($i$a$LayoutBoxKt$Box$1$iv2, Integer.valueOf(i34 &= 14));
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv2);
                 ComposerKt.sourceInformationMarkerEnd(composer12);
-                composer4.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerStart(composer4, -452658279, str3);
-                changed = composer4.changed(animateFloatAsState);
-                Composer composer15 = composer4;
-                int i83 = 0;
-                Object rememberedValue5 = composer15.rememberedValue();
-                companion3 = 0;
+                composer10.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerStart(composer10, -452658279, $i$a$LayoutBoxKt$Box$1$iv);
+                changed = composer10.changed(animateFloatAsState);
+                Composer composer14 = composer10;
+                int i82 = 0;
+                Object rememberedValue5 = composer14.rememberedValue();
+                companion2 = 0;
                 if (!changed) {
                     invalid$iv2 = changed;
                     if (rememberedValue5 == Composer.Companion.getEmpty()) {
-                        companion4 = invalid$iv4;
-                        anon = new BackdropScaffoldKt.BackLayerTransition.1.4.1(animateFloatAsState);
-                        composer15.updateRememberedValue((Function3)anon);
+                        companion = invalid$iv4;
+                        $i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$4 = new BackdropScaffoldKt.BackLayerTransition.1.4.1(animateFloatAsState);
+                        composer14.updateRememberedValue((Function3)$i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$4);
                     } else {
-                        anon = rememberedValue5;
+                        $i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$4 = rememberedValue5;
                     }
                 } else {
                     invalid$iv2 = changed;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerStart(composer4, -452646091, str3);
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerStart(composer10, -452646091, $i$a$LayoutBoxKt$Box$1$iv);
                 changed3 |= changed4;
-                Composer composer13 = composer4;
-                int i77 = 0;
+                Composer composer13 = composer10;
+                int i76 = 0;
                 Object rememberedValue4 = composer13.rememberedValue();
-                int i86 = 0;
+                int i85 = 0;
                 if (empty == 0) {
                     invalid$iv = empty;
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                        companion3 = invalid$iv3;
-                        anon2 = new BackdropScaffoldKt.BackLayerTransition.1.5.1($this$BackLayerTransition_u24lambda_u2411, animateFloatAsState);
-                        composer13.updateRememberedValue((Function1)anon2);
+                        companion2 = invalid$iv3;
+                        $i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$5 = new BackdropScaffoldKt.BackLayerTransition.1.5.1($this$BackLayerTransition_u24lambda_u2411, animateFloatAsState);
+                        composer13.updateRememberedValue((Function1)$i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$5);
                     } else {
-                        anon2 = rememberedValue4;
+                        $i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$5 = rememberedValue4;
                     }
                 } else {
                     invalid$iv = empty;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                Modifier graphicsLayer = GraphicsLayerModifierKt.graphicsLayer(LayoutModifierKt.layout((Modifier)Modifier.Companion, (Function3)anon), (Function1)anon2);
-                i21 = i94;
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                Modifier graphicsLayer = GraphicsLayerModifierKt.graphicsLayer(LayoutModifierKt.layout((Modifier)Modifier.Companion, (Function3)$i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$4), (Function1)$i$a$CacheBackdropScaffoldKt$BackLayerTransition$1$5);
+                i4 = i93;
                 restartGroup = 0;
-                ComposerKt.sourceInformationMarkerStart(composer4, 733328855, str4);
-                i25 = 0;
+                ComposerKt.sourceInformationMarkerStart(composer10, 733328855, str3);
+                i17 = 0;
                 obj64 = animateFloatAsState;
-                ComposerKt.sourceInformationMarkerStart(composer4, -1323940314, $changed$iv4);
-                currentCompositionLocalMap2 = composer4.getCurrentCompositionLocalMap();
-                i22 = currentCompositeKeyHash2;
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier(composer4, graphicsLayer);
+                ComposerKt.sourceInformationMarkerStart(composer10, -1323940314, $changed$iv4);
+                currentCompositionLocalMap3 = composer10.getCurrentCompositionLocalMap();
+                i29 = currentCompositeKeyHash2;
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier(composer10, graphicsLayer);
                 modifier2 = graphicsLayer;
                 Function0 function05 = constructor;
-                i17 = 0;
-                ComposerKt.sourceInformationMarkerStart(composer4, -692256719, $dirty3);
+                i7 = 0;
+                ComposerKt.sourceInformationMarkerStart(composer10, -692256719, $dirty3);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                composer4.startReusableNode();
-                if (composer4.getInserting()) {
-                    composer4.createNode(function05);
+                composer10.startReusableNode();
+                if (composer10.getInserting()) {
+                    composer10.createNode(function05);
                 } else {
-                    factory$iv$iv$iv3 = function05;
-                    composer4.useNode();
+                    factory$iv$iv$iv = function05;
+                    composer10.useNode();
                 }
-                Composer constructor-impl3 = Updater.constructor-impl(composer4);
-                int i96 = 0;
-                function0 = factory$iv$iv$iv3;
+                Composer constructor-impl3 = Updater.constructor-impl(composer10);
+                int i95 = 0;
+                function02 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl3, BoxKt.maybeCachedBoxMeasurePolicy(Alignment.Companion.getTopStart(), false), ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl3, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i109 = 0;
-                Composer composer20 = constructor-impl3;
-                int i112 = 0;
-                if (!composer20.getInserting()) {
+                Updater.set-impl(constructor-impl3, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i108 = 0;
+                Composer composer19 = constructor-impl3;
+                int i111 = 0;
+                if (!composer19.getInserting()) {
                     animationSlideOffset = $this$BackLayerTransition_u24lambda_u2411;
-                    map = currentCompositionLocalMap2;
-                    if (!Intrinsics.areEqual(composer20.rememberedValue(), Integer.valueOf(i22))) {
-                        composer20.updateRememberedValue(Integer.valueOf(i22));
-                        constructor-impl3.apply(Integer.valueOf(i22), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    map = currentCompositionLocalMap3;
+                    if (!Intrinsics.areEqual(composer19.rememberedValue(), Integer.valueOf(i29))) {
+                        composer19.updateRememberedValue(Integer.valueOf(i29));
+                        constructor-impl3.apply(Integer.valueOf(i29), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer8 = composer20;
+                        composer2 = composer19;
                     }
                 } else {
                     animationSlideOffset = $this$BackLayerTransition_u24lambda_u2411;
-                    map = currentCompositionLocalMap2;
+                    map = currentCompositionLocalMap3;
                 }
                 Updater.set-impl(constructor-impl3, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                $dirty2 = composer4;
-                i31 = 0;
+                $dirty2 = composer10;
+                i27 = 0;
                 ComposerKt.sourceInformationMarkerStart($dirty2, -2146769399, $changed$iv3);
-                iNSTANCE2 = BoxScopeInstance.INSTANCE;
-                i80 |= 6;
+                iNSTANCE = BoxScopeInstance.INSTANCE;
+                i79 |= 6;
                 composer9 = $dirty2;
-                i4 = 0;
-                i11 = i39;
+                i13 = 0;
+                i21 = i39;
                 modifier = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart($dirty2, 800320739, "C590@24663L9:BackdropScaffold.kt#jmzs0o");
                 obj5.invoke($dirty2, Integer.valueOf(i40 &= 14));
                 ComposerKt.sourceInformationMarkerEnd($dirty2);
                 ComposerKt.sourceInformationMarkerEnd($dirty2);
-                composer4.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                composer.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                ComposerKt.sourceInformationMarkerEnd(composer);
+                composer10.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                ComposerKt.sourceInformationMarkerEnd(composer10);
+                composer5.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer5);
+                ComposerKt.sourceInformationMarkerEnd(composer5);
+                ComposerKt.sourceInformationMarkerEnd(composer5);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                composer = restartGroup;
-                i3 = i6;
+                composer5 = restartGroup;
+                i5 = i28;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer5.endRestartGroup();
         if (endRestartGroup != null) {
             materialized$iv$iv = new BackdropScaffoldKt.BackLayerTransition.2(target, obj4, obj5, i42);
             endRestartGroup.updateScope((Function2)materialized$iv$iv);
         } else {
-            obj2 = target;
+            obj3 = target;
         }
     }
 
@@ -491,118 +491,118 @@ public final class BackdropScaffoldKt {
     }
 
     public static final void BackdropScaffold-0hNv9B8(Function2<? super Composer, ? super Integer, Unit> appBar, Function2<? super Composer, ? super Integer, Unit> backLayerContent, Function2<? super Composer, ? super Integer, Unit> frontLayerContent, Modifier modifier, androidx.compose.material.BackdropScaffoldState scaffoldState, Function3<? super androidx.compose.material.SnackbarHostState, ? super Composer, ? super Integer, Unit> snackbarHost, boolean gesturesEnabled, float peekHeight, float headerHeight, boolean persistentAppBar, boolean stickyFrontLayer, long backLayerBackgroundColor, long backLayerContentColor, Shape frontLayerShape, float frontLayerElevation, long frontLayerBackgroundColor, long frontLayerContentColor, long frontLayerScrimColor, Composer $composer, int $changed, int $changed1, int i22) {
-        int changed4;
-        int changed12;
-        Object obj2;
-        float f5;
+        int changed9;
+        int changed11;
+        Object obj3;
+        float f4;
         int skipping;
-        int i;
-        int $dirty14;
+        int i2;
+        int $dirty1;
         int defaultsInvalid;
-        androidx.compose.ui.Modifier.Companion modifier3;
-        int modifier4;
+        androidx.compose.ui.Modifier.Companion modifier4;
+        int modifier3;
         long backLayerBackgroundColor2;
         float frontLayerElevation2;
-        long l7;
-        long $dirty12;
+        long l9;
+        long $dirty14;
         Object endRestartGroup;
         Shape frontLayerShape2;
-        int i5;
+        int i17;
         Object it$iv;
-        Object anon;
-        boolean changed8;
-        int changed11;
-        long obj4;
-        int i26;
+        Object $i$a$CacheBackdropScaffoldKt$BackdropScaffold$calculateBackLayerConstraints$1;
+        boolean changed5;
+        int changed4;
+        long obj2;
+        int i9;
         int iNSTANCE;
         int iNSTANCE2;
-        int i15;
-        int i17;
-        int i6;
-        int i14;
+        int i21;
+        int i27;
+        int i4;
+        int i24;
         int empty;
         androidx.compose.ui.Modifier.Companion companion;
         int $dirty2;
         Object $dirty;
-        int $dirty15;
-        int i4;
-        int i9;
-        int i25;
+        int $dirty13;
+        int i3;
+        int i5;
+        int i10;
         androidx.compose.material.BackdropScaffoldState rememberBackdropScaffoldState;
-        Object obj;
-        int i16;
-        int i18;
-        int i7;
-        boolean z;
+        Object obj5;
+        int i19;
+        int i25;
+        int i14;
         boolean z3;
-        long l6;
-        long l3;
-        long l9;
+        boolean z;
+        long l2;
         long l10;
-        long l8;
-        Object snackbarHost2;
-        long snackbarHost3;
+        long l3;
+        long l7;
+        long l6;
+        Object snackbarHost3;
+        long snackbarHost2;
         boolean z2;
         Object gesturesEnabled2;
-        float f2;
-        Object obj5;
-        float peekHeight2;
         float f6;
-        int $composer2;
-        float f3;
-        float headerHeight2;
-        int i20;
-        float f4;
-        int persistentAppBar3;
-        long persistentAppBar2;
-        boolean stickyFrontLayer2;
-        int stickyFrontLayer4;
-        Object $dirty1;
-        long l4;
-        Object anon2;
-        int changed7;
-        int i8;
-        int i23;
-        int changed;
-        int i19;
-        int $dirty13;
-        androidx.compose.ui.Modifier.Companion i13;
-        Shape modifier2;
-        int changed13;
-        int changed5;
+        Object obj;
+        float peekHeight2;
         float f;
-        int i2;
-        int changed3;
+        int $composer2;
+        float f5;
+        float headerHeight2;
+        int i6;
+        float f2;
+        int persistentAppBar2;
+        long persistentAppBar3;
+        boolean stickyFrontLayer3;
+        int stickyFrontLayer4;
+        Object $dirty15;
         long l;
+        Object anon;
+        int changed6;
+        int i13;
+        int i18;
+        int changed10;
+        int i20;
+        int $dirty12;
+        androidx.compose.ui.Modifier.Companion i7;
+        Shape modifier2;
+        int changed8;
+        int changed;
+        float f3;
+        int i15;
+        int changed12;
+        long l4;
         int backLayerContentColor2;
-        int i12;
-        long stickyFrontLayer3;
-        int changed9;
+        int i11;
+        long stickyFrontLayer2;
+        int changed7;
         boolean frontLayerBackgroundColor2;
         long scaffoldState2;
         androidx.compose.material.AnchoredDraggableState anchoredDraggableState$material_release;
         int backLayerBackgroundColor3;
         long backLayerBackgroundColor4;
-        int i3;
-        long i10;
+        int i;
+        long i23;
         int i28;
-        int i21;
+        int i12;
         int surface-0d7_KjU;
         long frontLayerContentColor2;
         int frontLayerContentColor3;
-        int changed10;
-        int i11;
-        int changed6;
+        int changed2;
+        int i16;
+        int changed13;
         float frontLayerScrimColor2;
-        int i27;
-        int i24;
+        int i8;
+        int i26;
         int px-0680j_4;
-        boolean changed2;
+        boolean changed3;
         Composer composer;
-        long l2;
-        Object obj3;
-        ScopeUpdateScope scopeUpdateScope;
         long l5;
+        Object obj4;
+        ScopeUpdateScope scopeUpdateScope;
+        long l8;
         androidx.compose.ui.Modifier.Companion obj44;
         Shape obj45;
         float obj46;
@@ -616,39 +616,39 @@ public final class BackdropScaffoldKt {
         int obj56;
         Object obj57;
         frontLayerShape2 = appBar;
-        obj4 = backLayerContent;
-        changed4 = obj65;
-        i14 = obj66;
+        obj2 = backLayerContent;
+        changed9 = obj65;
+        i24 = obj66;
         empty = obj67;
         Composer restartGroup = obj64.startRestartGroup(113877443);
         ComposerKt.sourceInformation(restartGroup, "C(BackdropScaffold)P(!1,2,5,12,15,16,10,13:c#ui.unit.Dp,11:c#ui.unit.Dp,14,17,1:c#ui.graphics.Color,3:c#ui.graphics.Color,9,7:c#ui.unit.Dp,4:c#ui.graphics.Color,6:c#ui.graphics.Color,8:c#ui.graphics.Color)371@15931L40,378@16340L6,379@16391L41,380@16488L15,382@16634L6,383@16686L42,384@16789L20,387@16929L7,388@16952L47,388@16941L58,*392@17042L7,393@17116L7,395@17182L315,408@17568L100,418@17848L3899,415@17746L4001:BackdropScaffold.kt#jmzs0o");
         $dirty2 = obj65;
-        $dirty15 = obj66;
+        $dirty13 = obj66;
         if (empty & 1 != 0) {
             $dirty2 |= 6;
         } else {
-            if (changed4 & 6 == 0) {
-                i16 = restartGroup.changedInstance(frontLayerShape2) ? 4 : 2;
-                $dirty2 |= i16;
+            if (changed9 & 6 == 0) {
+                i19 = restartGroup.changedInstance(frontLayerShape2) ? 4 : 2;
+                $dirty2 |= i19;
             }
         }
         if (empty & 2 != 0) {
             $dirty2 |= 48;
         } else {
-            if (changed4 & 48 == 0) {
-                i18 = restartGroup.changedInstance(obj4) ? 32 : 16;
-                $dirty2 |= i18;
+            if (changed9 & 48 == 0) {
+                i25 = restartGroup.changedInstance(obj2) ? 32 : 16;
+                $dirty2 |= i25;
             }
         }
         if (empty & 4 != 0) {
             $dirty2 |= 384;
-            anon2 = frontLayerContent;
+            anon = frontLayerContent;
         } else {
-            if (changed4 & 384 == 0) {
-                i7 = restartGroup.changedInstance(frontLayerContent) ? 256 : 128;
-                $dirty2 |= i7;
+            if (changed9 & 384 == 0) {
+                i14 = restartGroup.changedInstance(frontLayerContent) ? 256 : 128;
+                $dirty2 |= i14;
             } else {
-                anon2 = frontLayerContent;
+                anon = frontLayerContent;
             }
         }
         int i82 = empty & 8;
@@ -657,22 +657,22 @@ public final class BackdropScaffoldKt {
             $dirty2 |= 3072;
             gesturesEnabled2 = modifier;
         } else {
-            if (changed4 & 3072 == 0) {
-                i2 = restartGroup.changed(modifier) ? i97 : changed7;
-                $dirty2 |= i2;
+            if (changed9 & 3072 == 0) {
+                i15 = restartGroup.changed(modifier) ? i97 : changed6;
+                $dirty2 |= i15;
             } else {
                 gesturesEnabled2 = modifier;
             }
         }
-        if (changed4 & 24576 == 0) {
+        if (changed9 & 24576 == 0) {
             if (empty & 16 == 0) {
-                changed9 = restartGroup.changed(scaffoldState) ? 16384 : backLayerContentColor2;
+                changed7 = restartGroup.changed(scaffoldState) ? 16384 : backLayerContentColor2;
             } else {
-                obj5 = scaffoldState;
+                obj = scaffoldState;
             }
-            $dirty2 |= changed9;
+            $dirty2 |= changed7;
         } else {
-            obj5 = scaffoldState;
+            obj = scaffoldState;
         }
         frontLayerBackgroundColor2 = empty & 32;
         int i104 = 131072;
@@ -680,157 +680,157 @@ public final class BackdropScaffoldKt {
         backLayerBackgroundColor3 = 196608;
         if (frontLayerBackgroundColor2 != 0) {
             $dirty2 |= backLayerBackgroundColor3;
-            $dirty1 = snackbarHost;
+            $dirty15 = snackbarHost;
         } else {
-            if (changed4 & backLayerBackgroundColor3 == 0) {
-                i3 = restartGroup.changedInstance(snackbarHost) ? i104 : anchoredDraggableState$material_release;
-                $dirty2 |= i3;
+            if (changed9 & backLayerBackgroundColor3 == 0) {
+                i = restartGroup.changedInstance(snackbarHost) ? i104 : anchoredDraggableState$material_release;
+                $dirty2 |= i;
             } else {
-                $dirty1 = snackbarHost;
+                $dirty15 = snackbarHost;
             }
         }
-        i10 = empty & 64;
+        i23 = empty & 64;
         final int i111 = 1572864;
-        if (i10 != 0) {
+        if (i23 != 0) {
             $dirty2 |= i111;
-            stickyFrontLayer2 = gesturesEnabled;
+            stickyFrontLayer3 = gesturesEnabled;
         } else {
-            if (changed4 & i111 == 0) {
-                i21 = restartGroup.changed(gesturesEnabled) ? 1048576 : 524288;
-                $dirty2 |= i21;
+            if (changed9 & i111 == 0) {
+                i12 = restartGroup.changed(gesturesEnabled) ? 1048576 : 524288;
+                $dirty2 |= i12;
             } else {
-                stickyFrontLayer2 = gesturesEnabled;
+                stickyFrontLayer3 = gesturesEnabled;
             }
         }
-        if (changed4 & i105 == 0) {
+        if (changed9 & i105 == 0) {
             if (empty & 128 == 0) {
-                changed10 = restartGroup.changed(peekHeight) ? 8388608 : 4194304;
+                changed2 = restartGroup.changed(peekHeight) ? 8388608 : 4194304;
             } else {
-                f3 = peekHeight;
+                f5 = peekHeight;
             }
-            $dirty2 |= changed10;
+            $dirty2 |= changed2;
         } else {
-            f3 = peekHeight;
+            f5 = peekHeight;
         }
-        int i107 = changed4 & i106;
+        int i107 = changed9 & i106;
         if (i107 == 0) {
             if (empty & 256 == 0) {
-                changed6 = restartGroup.changed(headerHeight) ? 67108864 : 33554432;
+                changed13 = restartGroup.changed(headerHeight) ? 67108864 : 33554432;
             } else {
-                f4 = headerHeight;
+                f2 = headerHeight;
             }
-            $dirty2 |= changed6;
+            $dirty2 |= changed13;
         } else {
-            f4 = headerHeight;
+            f2 = headerHeight;
         }
         int i83 = empty & 512;
         int i108 = 805306368;
         if (i83 != 0) {
             $dirty2 |= i108;
-            i27 = i83;
-            z = persistentAppBar;
+            i8 = i83;
+            z3 = persistentAppBar;
         } else {
-            if (changed4 & i108 == 0) {
-                i27 = i83;
-                i24 = restartGroup.changed(persistentAppBar) ? 536870912 : 268435456;
-                $dirty2 |= i24;
+            if (changed9 & i108 == 0) {
+                i8 = i83;
+                i26 = restartGroup.changed(persistentAppBar) ? 536870912 : 268435456;
+                $dirty2 |= i26;
             } else {
-                i27 = i83;
-                z = persistentAppBar;
+                i8 = i83;
+                z3 = persistentAppBar;
             }
         }
         int i84 = empty & 1024;
         if (i84 != 0) {
-            $dirty15 |= 6;
+            $dirty13 |= 6;
             px-0680j_4 = i84;
-            z3 = stickyFrontLayer;
+            z = stickyFrontLayer;
         } else {
-            if (i14 & 6 == 0) {
+            if (i24 & 6 == 0) {
                 px-0680j_4 = i84;
-                i2 = restartGroup.changed(stickyFrontLayer) ? 4 : 2;
-                $dirty15 |= i2;
+                i15 = restartGroup.changed(stickyFrontLayer) ? 4 : 2;
+                $dirty13 |= i15;
             } else {
                 px-0680j_4 = i84;
-                z3 = stickyFrontLayer;
+                z = stickyFrontLayer;
             }
         }
-        if (i14 & 48 == 0) {
+        if (i24 & 48 == 0) {
             if (empty & 2048 == 0) {
                 surface-0d7_KjU = restartGroup.changed(backLayerBackgroundColor) ? 32 : 16;
             } else {
-                l6 = backLayerBackgroundColor;
+                l2 = backLayerBackgroundColor;
             }
-            $dirty15 |= surface-0d7_KjU;
+            $dirty13 |= surface-0d7_KjU;
         } else {
-            l6 = backLayerBackgroundColor;
+            l2 = backLayerBackgroundColor;
         }
-        if (i14 & 384 == 0) {
+        if (i24 & 384 == 0) {
             if (empty & 4096 == 0) {
                 backLayerBackgroundColor3 = restartGroup.changed(frontLayerShape) ? 256 : 128;
             } else {
-                l3 = frontLayerShape;
+                l10 = frontLayerShape;
             }
-            $dirty15 |= backLayerBackgroundColor3;
+            $dirty13 |= backLayerBackgroundColor3;
         } else {
-            l3 = frontLayerShape;
+            l10 = frontLayerShape;
         }
-        if (i14 & 3072 == 0) {
+        if (i24 & 3072 == 0) {
             if (empty & 8192 == 0) {
                 if (restartGroup.changed(frontLayerBackgroundColor)) {
-                    changed7 = i97;
+                    changed6 = i97;
                 }
             } else {
-                obj2 = frontLayerBackgroundColor;
+                obj3 = frontLayerBackgroundColor;
             }
-            $dirty15 |= changed7;
+            $dirty13 |= changed6;
         } else {
-            obj2 = frontLayerBackgroundColor;
+            obj3 = frontLayerBackgroundColor;
         }
-        if (i14 & 24576 == 0) {
+        if (i24 & 24576 == 0) {
             if (empty & 16384 == 0) {
                 if (restartGroup.changed(frontLayerContentColor)) {
                     backLayerContentColor2 = 16384;
                 }
             } else {
-                f5 = frontLayerContentColor;
+                f4 = frontLayerContentColor;
             }
-            $dirty15 |= backLayerContentColor2;
+            $dirty13 |= backLayerContentColor2;
         } else {
-            f5 = frontLayerContentColor;
+            f4 = frontLayerContentColor;
         }
-        if (i14 & i94 == 0) {
+        if (i24 & i94 == 0) {
             if (empty & i96 == 0) {
-                i8 = restartGroup.changed(frontLayerScrimColor) ? i104 : anchoredDraggableState$material_release;
+                i13 = restartGroup.changed(frontLayerScrimColor) ? i104 : anchoredDraggableState$material_release;
             } else {
-                l9 = frontLayerScrimColor;
+                l3 = frontLayerScrimColor;
             }
-            $dirty15 |= i8;
+            $dirty13 |= i13;
         } else {
-            l9 = frontLayerScrimColor;
+            l3 = frontLayerScrimColor;
         }
-        if (i14 & i111 == 0) {
+        if (i24 & i111 == 0) {
             if (empty & anchoredDraggableState$material_release == 0) {
-                i23 = restartGroup.changed($changed) ? 1048576 : 524288;
+                i18 = restartGroup.changed($changed) ? 1048576 : 524288;
             } else {
-                l10 = $changed;
+                l7 = $changed;
             }
-            $dirty15 |= i23;
+            $dirty13 |= i18;
         } else {
-            l10 = $changed;
+            l7 = $changed;
         }
-        if (i14 & i95 == 0) {
+        if (i24 & i95 == 0) {
             if (empty & i104 == 0) {
-                i19 = restartGroup.changed(i22) ? 8388608 : 4194304;
+                i20 = restartGroup.changed(i22) ? 8388608 : 4194304;
             } else {
-                l8 = i22;
+                l6 = i22;
             }
-            $dirty15 |= i19;
+            $dirty13 |= i20;
         } else {
-            l8 = i22;
+            l6 = i22;
         }
-        $dirty13 = $dirty15;
-        if ($dirty17 &= $dirty2 == 306783378 && $dirty13 & i39 == 4793490) {
-            if ($dirty13 & i39 == 4793490) {
+        $dirty12 = $dirty13;
+        if ($dirty17 &= $dirty2 == 306783378 && $dirty12 & i39 == 4793490) {
+            if ($dirty12 & i39 == 4793490) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
                     int i98 = -29360129;
@@ -838,26 +838,26 @@ public final class BackdropScaffoldKt {
                     if (obj65 & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
                             if (i82 != 0) {
-                                modifier3 = Modifier.Companion;
+                                modifier4 = Modifier.Companion;
                             } else {
-                                modifier3 = modifier;
+                                modifier4 = modifier;
                             }
                             if (empty & 16 != 0) {
-                                obj44 = modifier3;
-                                modifier4 = 0;
+                                obj44 = modifier4;
+                                modifier3 = 0;
                                 rememberBackdropScaffoldState = BackdropScaffoldKt.rememberBackdropScaffoldState(BackdropValue.Concealed, 0, 0, 0, restartGroup, 6, 14);
                                 $dirty2 &= i101;
                             } else {
-                                obj44 = modifier3;
-                                modifier4 = 0;
+                                obj44 = modifier4;
+                                modifier3 = 0;
                                 rememberBackdropScaffoldState = scaffoldState;
                             }
                             if (frontLayerBackgroundColor2 != 0) {
-                                snackbarHost2 = ComposableSingletons.BackdropScaffoldKt.INSTANCE.getLambda-1$material_release();
+                                snackbarHost3 = ComposableSingletons.BackdropScaffoldKt.INSTANCE.getLambda-1$material_release();
                             } else {
-                                snackbarHost2 = $dirty1;
+                                snackbarHost3 = $dirty15;
                             }
-                            gesturesEnabled2 = i10 != 0 ? 1 : stickyFrontLayer2;
+                            gesturesEnabled2 = i23 != 0 ? 1 : stickyFrontLayer3;
                             if (empty & 128 != 0) {
                                 peekHeight2 = BackdropScaffoldDefaults.INSTANCE.getPeekHeight-D9Ej5fM();
                                 $dirty2 &= i98;
@@ -866,79 +866,79 @@ public final class BackdropScaffoldKt {
                             }
                             if (empty & 256 != 0) {
                                 headerHeight2 = BackdropScaffoldDefaults.INSTANCE.getHeaderHeight-D9Ej5fM();
-                                $dirty2 &= f4;
+                                $dirty2 &= f2;
                             } else {
                                 headerHeight2 = headerHeight;
                             }
-                            persistentAppBar3 = i27 != 0 ? 1 : persistentAppBar;
+                            persistentAppBar2 = i8 != 0 ? 1 : persistentAppBar;
                             stickyFrontLayer4 = px-0680j_4 != 0 ? 1 : stickyFrontLayer;
                             if (empty & 2048 != 0) {
                                 backLayerBackgroundColor2 = backLayerContentColor2;
-                                $dirty1 = $dirty13;
+                                $dirty15 = $dirty12;
                             } else {
                                 backLayerBackgroundColor2 = backLayerBackgroundColor;
-                                $dirty1 = $dirty13;
+                                $dirty15 = $dirty12;
                             }
                             if (empty & 4096 != 0) {
                                 backLayerContentColor2 = ColorsKt.contentColorFor-ek8zF_U(backLayerBackgroundColor2, frontLayerShape2, restartGroup);
-                                $dirty1 &= -897;
+                                $dirty15 &= -897;
                             } else {
                                 backLayerContentColor2 = frontLayerShape;
                             }
                             if (empty & 8192 != 0) {
                                 backLayerBackgroundColor4 = backLayerBackgroundColor2;
                                 frontLayerShape2 = BackdropScaffoldDefaults.INSTANCE.getFrontLayerShape(restartGroup, 0);
-                                $dirty1 &= -7169;
+                                $dirty15 &= -7169;
                             } else {
                                 backLayerBackgroundColor4 = backLayerBackgroundColor2;
                                 frontLayerShape2 = frontLayerBackgroundColor;
                             }
                             if (empty & 16384 != 0) {
                                 frontLayerElevation2 = BackdropScaffoldDefaults.INSTANCE.getFrontLayerElevation-D9Ej5fM();
-                                $dirty1 &= i101;
+                                $dirty15 &= i101;
                             } else {
                                 frontLayerElevation2 = frontLayerContentColor;
                             }
                             if (i59 &= empty != 0) {
                                 obj46 = frontLayerElevation2;
-                                $dirty1 &= i37;
+                                $dirty15 &= i37;
                                 obj45 = frontLayerShape2;
-                                l7 = surface-0d7_KjU;
+                                l9 = surface-0d7_KjU;
                             } else {
                                 obj46 = frontLayerElevation2;
                                 obj45 = frontLayerShape2;
-                                l7 = frontLayerScrimColor;
+                                l9 = frontLayerScrimColor;
                             }
                             if (empty & anchoredDraggableState$material_release != 0) {
-                                frontLayerContentColor2 = ColorsKt.contentColorFor-ek8zF_U(l7, frontLayerShape2, restartGroup);
-                                $dirty1 &= i15;
+                                frontLayerContentColor2 = ColorsKt.contentColorFor-ek8zF_U(l9, frontLayerShape2, restartGroup);
+                                $dirty15 &= i21;
                             } else {
                                 frontLayerContentColor2 = $changed;
                             }
                             if (empty & i104 != 0) {
-                                i13 = obj44;
-                                i17 = i36;
-                                obj3 = snackbarHost2;
-                                $dirty12 = backLayerBackgroundColor4;
-                                l2 = frontLayerScrimColor3;
+                                i7 = obj44;
+                                i27 = i36;
+                                obj4 = snackbarHost3;
+                                $dirty14 = backLayerBackgroundColor4;
+                                l5 = frontLayerScrimColor3;
                                 backLayerBackgroundColor3 = obj45;
                                 frontLayerScrimColor2 = obj46;
                                 frontLayerBackgroundColor2 = gesturesEnabled2;
-                                snackbarHost3 = backLayerContentColor2;
-                                i12 = stickyFrontLayer4;
-                                stickyFrontLayer2 = l5;
+                                snackbarHost2 = backLayerContentColor2;
+                                i11 = stickyFrontLayer4;
+                                stickyFrontLayer3 = l8;
                             } else {
-                                i13 = obj44;
+                                i7 = obj44;
                                 frontLayerScrimColor2 = obj46;
-                                l2 = i22;
-                                obj3 = snackbarHost2;
-                                i17 = $dirty1;
-                                $dirty12 = backLayerBackgroundColor4;
+                                l5 = i22;
+                                obj4 = snackbarHost3;
+                                i27 = $dirty15;
+                                $dirty14 = backLayerBackgroundColor4;
                                 backLayerBackgroundColor3 = obj45;
                                 frontLayerBackgroundColor2 = gesturesEnabled2;
-                                snackbarHost3 = backLayerContentColor2;
-                                i12 = stickyFrontLayer4;
-                                stickyFrontLayer2 = l5;
+                                snackbarHost2 = backLayerContentColor2;
+                                i11 = stickyFrontLayer4;
+                                stickyFrontLayer3 = l8;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
@@ -949,65 +949,65 @@ public final class BackdropScaffoldKt {
                                 $dirty2 &= i98;
                             }
                             if (empty & 256 != 0) {
-                                $dirty2 &= i;
+                                $dirty2 &= i2;
                             }
                             if (empty & 2048 != 0) {
-                                $dirty13 &= -113;
+                                $dirty12 &= -113;
                             }
                             if (empty & 4096 != 0) {
-                                $dirty14 &= -897;
+                                $dirty1 &= -897;
                             }
                             if (empty & 8192 != 0) {
-                                $dirty14 &= -7169;
+                                $dirty1 &= -7169;
                             }
                             if (empty & 16384 != 0) {
-                                $dirty14 &= i101;
+                                $dirty1 &= i101;
                             }
                             if (i78 &= empty != 0) {
-                                $dirty14 &= i9;
+                                $dirty1 &= i5;
                             }
                             if (empty & anchoredDraggableState$material_release != 0) {
-                                $dirty14 &= i25;
+                                $dirty1 &= i10;
                             }
                             if (empty & i104 != 0) {
-                                $dirty14 &= i98;
+                                $dirty1 &= i98;
                             }
-                            i13 = modifier;
-                            i12 = stickyFrontLayer;
+                            i7 = modifier;
+                            i11 = stickyFrontLayer;
                             backLayerBackgroundColor3 = frontLayerBackgroundColor;
                             frontLayerScrimColor2 = frontLayerContentColor;
                             frontLayerContentColor2 = $changed;
-                            i17 = $dirty14;
-                            l2 = l8;
-                            rememberBackdropScaffoldState = obj5;
-                            peekHeight2 = f3;
-                            headerHeight2 = f4;
-                            frontLayerBackgroundColor2 = stickyFrontLayer2;
-                            obj3 = $dirty1;
-                            persistentAppBar3 = persistentAppBar;
-                            $dirty12 = backLayerBackgroundColor;
-                            snackbarHost3 = frontLayerShape;
-                            stickyFrontLayer2 = frontLayerScrimColor;
+                            i27 = $dirty1;
+                            l5 = l6;
+                            rememberBackdropScaffoldState = obj;
+                            peekHeight2 = f5;
+                            headerHeight2 = f2;
+                            frontLayerBackgroundColor2 = stickyFrontLayer3;
+                            obj4 = $dirty15;
+                            persistentAppBar2 = persistentAppBar;
+                            $dirty14 = backLayerBackgroundColor;
+                            snackbarHost2 = frontLayerShape;
+                            stickyFrontLayer3 = frontLayerScrimColor;
                         }
                     } else {
                     }
                     restartGroup.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        obj46 = $dirty12;
-                        ComposerKt.traceEventStart(113877443, $dirty2, i17, "androidx.compose.material.BackdropScaffold (BackdropScaffold.kt:385)");
+                        obj46 = $dirty14;
+                        ComposerKt.traceEventStart(113877443, $dirty2, i27, "androidx.compose.material.BackdropScaffold (BackdropScaffold.kt:385)");
                     } else {
-                        obj46 = $dirty12;
+                        obj46 = $dirty14;
                     }
                     int i99 = 0;
                     obj44 = i42;
-                    obj56 = i17;
+                    obj56 = i27;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     Object this_$iv = consume2;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 1348845825, "CC(remember):BackdropScaffold.kt#9igjgp");
                     if (i45 ^= 24576 > 16384) {
                         if (!restartGroup.changed(rememberBackdropScaffoldState)) {
-                            i5 = $dirty2 & 24576 == 16384 ? 1 : 0;
+                            i17 = $dirty2 & 24576 == 16384 ? 1 : 0;
                         } else {
                         }
                     } else {
@@ -1016,7 +1016,7 @@ public final class BackdropScaffoldKt {
                     int i100 = 0;
                     it$iv = composer3.rememberedValue();
                     int i102 = 0;
-                    if (i5 |= changed14 == 0) {
+                    if (i17 |= changed14 == 0) {
                         if (it$iv == Composer.Companion.getEmpty()) {
                             empty = 0;
                             obj48 = it$iv;
@@ -1041,74 +1041,74 @@ public final class BackdropScaffoldKt {
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     int i49 = 0;
                     float $this$BackdropScaffold_0hNv9B8_u24lambda_u245 = (Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(headerHeight2);
-                    BackdropScaffoldKt.BackdropScaffold.backLayer.1 anon3 = new BackdropScaffoldKt.BackdropScaffold.backLayer.1(persistentAppBar3, rememberBackdropScaffoldState, appBar, obj4);
+                    BackdropScaffoldKt.BackdropScaffold.backLayer.1 $i$a$WithBackdropScaffoldKt$BackdropScaffold$headerHeightPx$1 = new BackdropScaffoldKt.BackdropScaffold.backLayer.1(persistentAppBar2, rememberBackdropScaffoldState, appBar, obj2);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 1348865590, "CC(remember):BackdropScaffold.kt#9igjgp");
-                    changed8 = restartGroup.changed($this$BackdropScaffold_0hNv9B8_u24lambda_u245);
+                    changed5 = restartGroup.changed($this$BackdropScaffold_0hNv9B8_u24lambda_u245);
                     Composer composer2 = restartGroup;
                     int i68 = 0;
                     Object rememberedValue = composer2.rememberedValue();
                     int i103 = 0;
-                    if (!changed8) {
-                        obj45 = changed8;
+                    if (!changed5) {
+                        obj45 = changed5;
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             obj48 = invalid$iv;
-                            anon = new BackdropScaffoldKt.BackdropScaffold.calculateBackLayerConstraints.1.1($this$BackdropScaffold_0hNv9B8_u24lambda_u245);
-                            composer2.updateRememberedValue((Function1)anon);
+                            $i$a$CacheBackdropScaffoldKt$BackdropScaffold$calculateBackLayerConstraints$1 = new BackdropScaffoldKt.BackdropScaffold.calculateBackLayerConstraints.1.1($this$BackdropScaffold_0hNv9B8_u24lambda_u245);
+                            composer2.updateRememberedValue((Function1)$i$a$CacheBackdropScaffoldKt$BackdropScaffold$calculateBackLayerConstraints$1);
                         } else {
-                            anon = rememberedValue;
+                            $i$a$CacheBackdropScaffoldKt$BackdropScaffold$calculateBackLayerConstraints$1 = rememberedValue;
                         }
                     } else {
-                        obj45 = changed8;
+                        obj45 = changed5;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     Object obj7 = rememberBackdropScaffoldState;
-                    changed2 = peekHeight2;
-                    i27 = headerHeight2;
-                    i10 = stickyFrontLayer2;
-                    anon2 = new BackdropScaffoldKt.BackdropScaffold.2(i13, (Function2)ComposableLambdaKt.rememberComposableLambda(461235665, true, anon3, restartGroup, 54), (Function1)anon, $this$BackdropScaffold_0hNv9B8_u24lambda_u245, i12, frontLayerBackgroundColor2, obj7, rememberBackdropScaffoldState.getAnchoredDraggableState$material_release(), backLayerBackgroundColor3, i10, i28, frontLayerContentColor2, i107, frontLayerScrimColor2, i27, (Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(peekHeight2), changed2, frontLayerContent, l2, obj35, obj3);
-                    obj48 = snackbarHost3;
+                    changed3 = peekHeight2;
+                    i8 = headerHeight2;
+                    i23 = stickyFrontLayer3;
+                    anon = new BackdropScaffoldKt.BackdropScaffold.2(i7, (Function2)ComposableLambdaKt.rememberComposableLambda(461235665, true, $i$a$WithBackdropScaffoldKt$BackdropScaffold$headerHeightPx$1, restartGroup, 54), (Function1)$i$a$CacheBackdropScaffoldKt$BackdropScaffold$calculateBackLayerConstraints$1, $this$BackdropScaffold_0hNv9B8_u24lambda_u245, i11, frontLayerBackgroundColor2, obj7, rememberBackdropScaffoldState.getAnchoredDraggableState$material_release(), backLayerBackgroundColor3, i23, i28, frontLayerContentColor2, i107, frontLayerScrimColor2, i8, (Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(peekHeight2), changed3, frontLayerContent, l5, obj35, obj4);
+                    obj48 = snackbarHost2;
                     obj53 = restartGroup;
-                    SurfaceKt.Surface-F-jzlyU(0, 0, obj46, gesturesEnabled, obj48, headerHeight, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(1961515015, true, anon2, restartGroup, 54), obj53);
+                    SurfaceKt.Surface-F-jzlyU(0, 0, obj46, gesturesEnabled, obj48, headerHeight, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(1961515015, true, anon, restartGroup, 54), obj53);
                     composer = obj53;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    l4 = obj4;
-                    $composer2 = persistentAppBar3;
-                    companion = i13;
-                    i20 = i12;
+                    l = obj2;
+                    $composer2 = persistentAppBar2;
+                    companion = i7;
+                    i6 = i11;
                     z2 = frontLayerBackgroundColor2;
                     modifier2 = backLayerBackgroundColor3;
-                    l = i10;
-                    stickyFrontLayer3 = frontLayerContentColor2;
-                    f = frontLayerScrimColor2;
-                    f6 = i27;
-                    f2 = changed2;
-                    obj = obj3;
-                    i11 = obj56;
-                    persistentAppBar2 = skipping;
+                    l4 = i23;
+                    stickyFrontLayer2 = frontLayerContentColor2;
+                    f3 = frontLayerScrimColor2;
+                    f = i8;
+                    f6 = changed3;
+                    obj5 = obj4;
+                    i16 = obj56;
+                    persistentAppBar3 = skipping;
                     frontLayerContentColor3 = $dirty2;
                     $dirty = obj7;
-                    scaffoldState2 = l2;
+                    scaffoldState2 = l5;
                 } else {
                     restartGroup.skipToGroupEnd();
                     companion = modifier;
-                    f = frontLayerContentColor;
-                    l = frontLayerScrimColor;
-                    stickyFrontLayer3 = $changed;
+                    f3 = frontLayerContentColor;
+                    l4 = frontLayerScrimColor;
+                    stickyFrontLayer2 = $changed;
                     frontLayerContentColor3 = $dirty2;
-                    scaffoldState2 = l8;
-                    $dirty = obj5;
+                    scaffoldState2 = l6;
+                    $dirty = obj;
                     composer = restartGroup;
-                    f2 = f3;
-                    f6 = f4;
-                    z2 = stickyFrontLayer2;
-                    obj = $dirty1;
-                    i11 = $dirty13;
+                    f6 = f5;
+                    f = f2;
+                    z2 = stickyFrontLayer3;
+                    obj5 = $dirty15;
+                    i16 = $dirty12;
                     $composer2 = persistentAppBar;
-                    i20 = stickyFrontLayer;
-                    persistentAppBar2 = backLayerBackgroundColor;
-                    l4 = frontLayerShape;
+                    i6 = stickyFrontLayer;
+                    persistentAppBar3 = backLayerBackgroundColor;
+                    l = frontLayerShape;
                     modifier2 = frontLayerBackgroundColor;
                 }
             } else {
@@ -1117,7 +1117,7 @@ public final class BackdropScaffoldKt {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new BackdropScaffoldKt.BackdropScaffold.3(appBar, backLayerContent, frontLayerContent, companion, $dirty, obj, z2, f2, f6, $composer2, i20, persistentAppBar2, stickyFrontLayer2, l4, anon2, modifier2, f, l, backLayerContentColor2, stickyFrontLayer3, frontLayerBackgroundColor2, scaffoldState2, anchoredDraggableState$material_release, obj65, obj66, obj67);
+            endRestartGroup = new BackdropScaffoldKt.BackdropScaffold.3(appBar, backLayerContent, frontLayerContent, companion, $dirty, obj5, z2, f6, f, $composer2, i6, persistentAppBar3, stickyFrontLayer3, l, anon, modifier2, f3, l4, backLayerContentColor2, stickyFrontLayer2, frontLayerBackgroundColor2, scaffoldState2, anchoredDraggableState$material_release, obj65, obj66, obj67);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
@@ -1146,69 +1146,69 @@ public final class BackdropScaffoldKt {
     }
 
     private static final void BackdropStack(Modifier modifier, Function2<? super Composer, ? super Integer, Unit> backLayer, Function1<? super Constraints, Constraints> calculateBackLayerConstraints, Function4<? super Constraints, ? super Float, ? super Composer, ? super Integer, Unit> frontLayer, Composer $composer, int $changed) {
-        int i;
-        int traceInProgress2;
+        int i7;
+        int traceInProgress;
         int $dirty;
         int i8;
-        int i9;
-        int i7;
-        int i6;
-        int skipping;
-        boolean traceInProgress;
-        int i2;
-        int i5;
         int i4;
+        int i10;
+        int i5;
+        int skipping;
+        boolean traceInProgress2;
+        int i6;
+        int i;
+        int i3;
         Object modifier2;
         int rememberedValue;
-        Object obj;
-        int i3;
-        Object obj2;
-        int str;
         Object obj3;
+        int i9;
+        Object obj;
+        int str;
+        Object obj2;
         Object empty;
-        int i10;
+        int i2;
         Object anon;
-        traceInProgress2 = -1248995194;
-        final Composer obj13 = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -1248995194;
+        final Composer obj13 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj13, "C(BackdropStack)P(3)602@24951L890,602@24924L917:BackdropScaffold.kt#jmzs0o");
         if ($changed & 6 == 0) {
             i8 = obj13.changed(modifier) ? 4 : 2;
             $dirty |= i8;
         }
-        i4 = 32;
+        i3 = 32;
         if ($changed & 48 == 0) {
-            i9 = obj13.changedInstance(backLayer) ? i4 : 16;
-            $dirty |= i9;
+            i4 = obj13.changedInstance(backLayer) ? i3 : 16;
+            $dirty |= i4;
         }
         rememberedValue = 256;
         if ($changed & 384 == 0) {
-            i7 = obj13.changedInstance(calculateBackLayerConstraints) ? rememberedValue : 128;
-            $dirty |= i7;
+            i10 = obj13.changedInstance(calculateBackLayerConstraints) ? rememberedValue : 128;
+            $dirty |= i10;
         }
-        i3 = 2048;
+        i9 = 2048;
         if ($changed & 3072 == 0) {
-            i6 = obj13.changedInstance(frontLayer) ? i3 : 1024;
-            $dirty |= i6;
+            i5 = obj13.changedInstance(frontLayer) ? i9 : 1024;
+            $dirty |= i5;
         }
         if ($dirty & 1171 == 1170) {
             if (!obj13.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.BackdropStack (BackdropScaffold.kt:601)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.BackdropStack (BackdropScaffold.kt:601)");
                 }
                 ComposerKt.sourceInformationMarkerStart(obj13, -1431305978, "CC(remember):BackdropScaffold.kt#9igjgp");
-                i2 = 1;
+                i6 = 1;
                 str = 0;
-                i = $dirty & 112 == i4 ? i2 : str;
-                i5 = $dirty & 896 == rememberedValue ? i2 : str;
-                if ($dirty & 7168 == i3) {
+                i7 = $dirty & 112 == i3 ? i6 : str;
+                i = $dirty & 896 == rememberedValue ? i6 : str;
+                if ($dirty & 7168 == i9) {
                 } else {
-                    i2 = str;
+                    i6 = str;
                 }
                 skipping = obj13;
-                i4 = 0;
-                rememberedValue = skipping.rememberedValue();
                 i3 = 0;
-                if (i13 |= i2 == 0) {
+                rememberedValue = skipping.rememberedValue();
+                i9 = 0;
+                if (i13 |= i6 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new BackdropScaffoldKt.BackdropStack.1.1(backLayer, calculateBackLayerConstraints, frontLayer);
@@ -1234,10 +1234,10 @@ public final class BackdropScaffoldKt {
             endRestartGroup.updateScope((Function2)skipping);
         } else {
             modifier2 = modifier;
-            obj = backLayer;
-            obj2 = calculateBackLayerConstraints;
-            obj3 = frontLayer;
-            i10 = $changed;
+            obj3 = backLayer;
+            obj = calculateBackLayerConstraints;
+            obj2 = frontLayer;
+            i2 = $changed;
         }
     }
 
@@ -1247,89 +1247,89 @@ public final class BackdropScaffoldKt {
     }
 
     private static final void Scrim-3J-VO9M(long color, Function0<Unit> onDismiss, boolean visible, Composer $composer, int $changed) {
-        int traceInProgress;
-        int i11;
+        int traceInProgress2;
+        int $i$f$isSpecified8_81llA;
         Modifier pointerInput;
         Object it$iv;
-        int $dirty2;
+        int $dirty;
         int i5;
-        int i8;
-        int i10;
+        int i11;
+        int i13;
         boolean skipping;
-        boolean traceInProgress2;
-        int i12;
+        boolean traceInProgress;
+        int i8;
         int str;
         Composer cmp;
         androidx.compose.ui.Modifier.Companion companion2;
-        int i;
-        Unit iNSTANCE;
-        int i13;
-        Object rememberedValue;
-        int i6;
         int i2;
-        Composer i3;
+        Unit iNSTANCE;
+        int i;
+        Object rememberedValue;
+        int i9;
+        int i6;
+        Composer i4;
         Object empty;
         int anon;
-        int $dirty;
-        int i14;
-        int i9;
+        int $dirty2;
+        int i3;
+        int i12;
         Object companion;
-        int i4;
+        int i10;
         int i7;
         final long l = color;
         final Object obj = visible;
         final boolean z = $composer;
-        final int i18 = obj27;
-        traceInProgress = -92141505;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
+        final int i17 = obj27;
+        traceInProgress2 = -92141505;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(Scrim)P(0:c#ui.graphics.Color):BackdropScaffold.kt#jmzs0o");
-        if (i18 & 6 == 0) {
+        if (i17 & 6 == 0) {
             i5 = restartGroup.changed(l) ? 4 : 2;
-            $dirty2 |= i5;
+            $dirty |= i5;
         }
         anon = 32;
-        if (i18 & 48 == 0) {
-            i8 = restartGroup.changedInstance(obj) ? anon : 16;
-            $dirty2 |= i8;
+        if (i17 & 48 == 0) {
+            i11 = restartGroup.changedInstance(obj) ? anon : 16;
+            $dirty |= i11;
         }
-        if (i18 & 384 == 0) {
-            i10 = restartGroup.changed(z) ? 256 : 128;
-            $dirty2 |= i10;
+        if (i17 & 384 == 0) {
+            i13 = restartGroup.changed(z) ? 256 : 128;
+            $dirty |= i13;
         }
-        if ($dirty2 & 147 == 146) {
+        if ($dirty & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material.Scrim (BackdropScaffold.kt:517)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.Scrim (BackdropScaffold.kt:517)");
                 }
-                int i15 = 0;
-                i = 1;
+                int i14 = 0;
+                i2 = 1;
                 rememberedValue = 0;
-                i11 = Long.compare(skipping, i23) != 0 ? i : rememberedValue;
-                if (i11 != 0) {
+                $i$f$isSpecified8_81llA = Long.compare(skipping, i22) != 0 ? i2 : rememberedValue;
+                if ($i$f$isSpecified8_81llA != 0) {
                     restartGroup.startReplaceGroup(478578989);
                     ComposerKt.sourceInformation(restartGroup, "519@21902L121,532@22312L62,528@22203L171");
-                    i12 = z ? 1065353216 : 0;
+                    i8 = z ? 1065353216 : 0;
                     TweenSpec tweenSpec3 = new TweenSpec(0, 0, 0, 7, 0);
-                    i14 = rememberedValue;
-                    $dirty = $dirty2;
-                    $dirty2 = AnimateAsStateKt.animateFloatAsState(i12, (AnimationSpec)tweenSpec3, 0, 0, 0, restartGroup, 48, 28);
-                    int i19 = 0;
+                    i3 = rememberedValue;
+                    $dirty2 = $dirty;
+                    $dirty = AnimateAsStateKt.animateFloatAsState(i8, (AnimationSpec)tweenSpec3, 0, 0, 0, restartGroup, 48, 28);
+                    int i18 = 0;
                     String str4 = "CC(remember):BackdropScaffold.kt#9igjgp";
                     if (z) {
                         restartGroup.startReplaceGroup(478752713);
                         ComposerKt.sourceInformation(restartGroup, "524@22109L37");
                         ComposerKt.sourceInformationMarkerStart(restartGroup, 1262370917, str4);
-                        i6 = $dirty & 112 == anon ? empty : 0;
-                        i3 = restartGroup;
+                        i9 = $dirty2 & 112 == anon ? empty : 0;
+                        i4 = restartGroup;
                         anon = 0;
-                        it$iv = i3.rememberedValue();
-                        i9 = 0;
-                        if (i6 == 0) {
+                        it$iv = i4.rememberedValue();
+                        i12 = 0;
+                        if (i9 == 0) {
                             if (it$iv == Composer.Companion.getEmpty()) {
                                 empty = 0;
                                 companion = it$iv;
-                                it$iv = new BackdropScaffoldKt.Scrim.dismissModifier.1.1(obj, i19);
-                                i3.updateRememberedValue((Function2)it$iv);
+                                it$iv = new BackdropScaffoldKt.Scrim.dismissModifier.1.1(obj, i18);
+                                i4.updateRememberedValue((Function2)it$iv);
                             } else {
                                 companion = it$iv;
                             }
@@ -1343,17 +1343,17 @@ public final class BackdropScaffoldKt {
                         restartGroup.endReplaceGroup();
                         pointerInput = Modifier.Companion;
                     }
-                    int i31 = 1;
+                    int i30 = 1;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 1262377438, str4);
-                    i13 = $dirty & 14 == 4 ? i31 : 0;
+                    i = $dirty2 & 14 == 4 ? i30 : 0;
                     cmp = restartGroup;
-                    i = 0;
-                    rememberedValue = cmp.rememberedValue();
                     i2 = 0;
-                    if (changed3 |= i13 == 0) {
+                    rememberedValue = cmp.rememberedValue();
+                    i6 = 0;
+                    if (changed3 |= i == 0) {
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             empty = 0;
-                            anon = new BackdropScaffoldKt.Scrim.1.1(l, obj2, $dirty2);
+                            anon = new BackdropScaffoldKt.Scrim.1.1(l, obj2, $dirty);
                             cmp.updateRememberedValue((Function1)anon);
                         } else {
                             anon = rememberedValue;
@@ -1361,10 +1361,10 @@ public final class BackdropScaffoldKt {
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    CanvasKt.Canvas(SizeKt.fillMaxSize$default((Modifier)Modifier.Companion, 0, i31, i19).then(pointerInput), (Function1)anon, restartGroup, 0);
+                    CanvasKt.Canvas(SizeKt.fillMaxSize$default((Modifier)Modifier.Companion, 0, i30, i18).then(pointerInput), (Function1)anon, restartGroup, 0);
                     restartGroup.endReplaceGroup();
                 } else {
-                    $dirty = $dirty2;
+                    $dirty2 = $dirty;
                     restartGroup.startReplaceGroup(479060450);
                     restartGroup.endReplaceGroup();
                 }
@@ -1373,14 +1373,14 @@ public final class BackdropScaffoldKt {
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                $dirty = $dirty2;
+                $dirty2 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new BackdropScaffoldKt.Scrim.2(l, obj2, obj, z, i18);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new BackdropScaffoldKt.Scrim.2(l, obj2, obj, z, i17);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -1427,16 +1427,16 @@ public final class BackdropScaffoldKt {
         boolean changed3;
         int i3;
         Composer str;
+        int i2;
         int i6;
-        int i5;
         Object rememberedValue;
         boolean changed2;
-        int i2;
+        int i5;
         int changed;
         int i;
-        int empty;
+        int empty2;
         Object anon2;
-        Object empty2;
+        Object empty;
         Object obj;
         Object snackbarHostState2;
         AnimationSpec animationSpec2;
@@ -1462,11 +1462,11 @@ public final class BackdropScaffoldKt {
             ComposerKt.sourceInformationMarkerStart(composer2, -1082628462, str3);
             int i11 = 0;
             str = $composer;
-            i5 = 0;
+            i6 = 0;
             rememberedValue = str.rememberedValue();
             i = 0;
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                empty2 = 0;
+                empty = 0;
                 snackbarHostState2 = new SnackbarHostState();
                 str.updateRememberedValue(snackbarHostState2);
             } else {
@@ -1486,12 +1486,12 @@ public final class BackdropScaffoldKt {
         ComposerKt.sourceInformationMarkerEnd(composer2);
         Object obj3 = consume;
         ComposerKt.sourceInformationMarkerStart(composer2, -1082613988, str3);
-        i6 = 0;
+        i2 = 0;
         int i21 = 1;
         int i24 = 4;
         if (i12 ^= 6 > i24) {
             if (!composer2.changed(initialValue)) {
-                i3 = i28 & 6 == i24 ? i21 : i6;
+                i3 = i28 & 6 == i24 ? i21 : i2;
             } else {
             }
         } else {
@@ -1500,16 +1500,16 @@ public final class BackdropScaffoldKt {
         int i29 = 256;
         if (i25 ^= 384 > i29) {
             if (!composer2.changed(anon)) {
-                i2 = i28 & 384 == i29 ? i21 : i6;
+                i5 = i28 & 384 == i29 ? i21 : i2;
             } else {
             }
         } else {
         }
-        empty = 2048;
-        if (i26 ^= 3072 > empty) {
+        empty2 = 2048;
+        if (i26 ^= 3072 > empty2) {
             if (!composer2.changed(obj2)) {
-                if (i28 & 3072 == empty) {
-                    i6 = i21;
+                if (i28 & 3072 == empty2) {
+                    i2 = i21;
                 }
             } else {
             }
@@ -1519,7 +1519,7 @@ public final class BackdropScaffoldKt {
         int i22 = 0;
         Object rememberedValue2 = composer.rememberedValue();
         final int i30 = 0;
-        if (i15 |= i6 == 0) {
+        if (i15 |= i2 == 0) {
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
                 i4 = 0;
                 anon2 = new BackdropScaffoldKt.rememberBackdropScaffoldState.3.1(obj, obj3, animationSpec2, anon, obj2);

@@ -72,10 +72,10 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
             int i5;
             int j$iv;
             int i;
-            int i2;
+            int i3;
             long l;
             int i4;
-            int i3;
+            int i2;
             boolean contains;
             final Object obj = this;
             final Object obj2 = elements;
@@ -104,8 +104,8 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
             initializeStorage(ScatterMapKt.unloadedCapacity(initialCapacity));
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive value.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMutableScatterSet$1 = new IllegalArgumentException("Capacity must be a positive value.".toString());
+        throw $i$a$RequireMutableScatterSet$1;
     }
 
     public MutableScatterSet(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -130,48 +130,48 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
     }
 
     private final int findAbsoluteInsertIndex(E element) {
-        Object obj2;
         Object obj;
+        Object obj2;
         int $i$f$hash;
         int m;
         int index;
-        int i4;
+        int i12;
         int metadata$iv;
-        int i14;
+        int i9;
         int $i$f$h1;
         int $i$f$hasNext;
         int probeOffset;
         int probeIndex;
         int $this$maskEmpty$iv;
         int $this$next$iv;
-        int i2;
-        int i3;
-        int i7;
-        int cmp;
-        int i10;
+        int i14;
         int i6;
-        long l;
         int i8;
+        int cmp;
         int i11;
-        int i12;
-        int i9;
+        int i2;
+        long l;
+        int i7;
+        int i3;
         int i13;
         int i;
+        int i10;
+        int i4;
         int numberOfTrailingZeros;
         int i5;
-        obj = element;
+        obj2 = element;
         int i20 = 0;
-        if (obj != null) {
-            i14 = obj.hashCode();
+        if (obj2 != null) {
+            i9 = obj2.hashCode();
         } else {
-            i14 = 0;
+            i9 = 0;
         }
-        i14 *= i33;
+        i9 *= i33;
         $i$f$hash = i27 ^ i34;
         int i28 = 0;
         int i35 = 0;
         int $i$f$h2 = $i$f$hash & 127;
-        final int _capacity = obj2._capacity;
+        final int _capacity = obj._capacity;
         probeOffset = $i$f$h1 & _capacity;
         probeIndex = 0;
         while (/* condition */) {
@@ -181,10 +181,10 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
             while (Long.compare(i36, i49) != 0) {
                 $i$f$hasNext = numberOfTrailingZeros;
                 int i30 = 0;
-                i6 = 0;
+                i2 = 0;
                 $i$f$h1 = i51 & _capacity;
                 int i38 = m;
-                i7 = 0;
+                i8 = 0;
                 m = $this$next$iv;
                 i29 = 0;
                 i49 = 0;
@@ -192,29 +192,29 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
                 $i$f$hasNext = 0;
             }
             $i$f$hasNext = 0;
-            int i39 = i;
+            int i39 = i4;
             int i31 = 0;
-            $i$f$h1 = i13;
+            $i$f$h1 = i10;
             probeOffset = i15 & _capacity;
-            obj2 = this;
-            obj = element;
-            $i$f$hash = i11;
-            long[] metadata2 = obj2.metadata;
-            i2 = 0;
+            obj = this;
+            obj2 = element;
+            $i$f$hash = i3;
+            long[] metadata2 = obj.metadata;
+            i14 = 0;
             int i48 = probeOffset >> 3;
             i54 <<= 3;
-            i13 = $i$f$h1;
-            i24 |= i6;
-            i7 = 0;
+            i10 = $i$f$h1;
+            i24 |= i2;
+            i8 = 0;
             long l7 = 72340172838076673L;
             i56 ^= $this$next$iv;
             l = -9187201950435737472L;
             i21 &= l;
             i30 = 0;
-            i6 = 0;
+            i2 = 0;
             $i$f$h1 = i51 & _capacity;
             i38 = m;
-            i7 = 0;
+            i8 = 0;
             m = $this$next$iv;
             $i$f$hasNext = numberOfTrailingZeros;
         }
@@ -225,20 +225,20 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
         int probeOffset;
         int probeIndex;
         int metadata$iv;
-        int i4;
-        int $this$maskEmptyOrDeleted$iv;
-        int i3;
-        int i2;
-        int i7;
         int i;
-        long l;
+        int $this$maskEmptyOrDeleted$iv;
+        int i2;
         int i5;
+        int i7;
         int i6;
+        long l;
+        int i3;
+        int i4;
         final int _capacity = this._capacity;
         probeOffset = hash1 & _capacity;
         probeIndex = 0;
         long[] metadata = this.metadata;
-        i4 = 0;
+        i = 0;
         int i8 = probeOffset >> 3;
         i10 <<= 3;
         int i9 = metadata$iv;
@@ -246,9 +246,9 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
         i17 &= i9;
         $this$maskEmptyOrDeleted$iv = i7 & l;
         while (Long.compare($this$maskEmptyOrDeleted$iv, i13) != 0) {
-            probeOffset = i2 & _capacity;
+            probeOffset = i5 & _capacity;
             metadata = this.metadata;
-            i4 = 0;
+            i = 0;
             i8 = probeOffset >> 3;
             i10 <<= 3;
             i9 = metadata$iv;
@@ -266,21 +266,21 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
 
     private final void initializeMetadata(int capacity) {
         long[] size;
-        long[] lArr2;
         long[] lArr;
+        long[] lArr2;
         long l;
-        int i5;
+        int i3;
+        int i2;
         int i;
         int i4;
-        int i2;
-        int i3;
+        int i5;
         if (capacity == 0) {
             size = ScatterMapKt.EmptyGroup;
         } else {
-            lArr2 = new long[i9 >>= 3];
-            i3 = 0;
-            ArraysKt.fill$default(lArr2, -9187201950435737472L, obj4, 0, 0, 6);
-            size = lArr2;
+            lArr = new long[i9 >>= 3];
+            i5 = 0;
+            ArraysKt.fill$default(lArr, -9187201950435737472L, obj4, 0, 0, 6);
+            size = lArr;
         }
         this.metadata = size;
         long[] metadata = this.metadata;
@@ -305,89 +305,89 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
     }
 
     private final void removeDeletedMarkers() {
-        long[] metadata2;
-        int _capacity2;
-        int removedDeletes;
-        int i10;
-        int $i$f$readRawMetadata;
-        int i2;
-        Object cmp;
-        int _capacity;
-        int i11;
-        int i7;
-        int i8;
         long[] metadata;
-        int i9;
-        int i6;
-        int i4;
+        int _capacity;
+        int removedDeletes;
         int i3;
+        int $i$f$readRawMetadata;
+        int i4;
+        Object cmp;
+        int _capacity2;
+        int i2;
         int i;
-        long[] m;
+        int i8;
+        long[] metadata2;
         int i5;
+        int i9;
+        int i10;
+        int i6;
+        int i7;
+        long[] m;
+        int i11;
         final Object obj = this;
-        metadata2 = obj.metadata;
-        _capacity2 = obj._capacity;
+        metadata = obj.metadata;
+        _capacity = obj._capacity;
         removedDeletes = 0;
-        i10 = 0;
-        while (i10 < _capacity2) {
+        i3 = 0;
+        while (i3 < _capacity) {
             int i15 = 0;
-            _capacity = 255;
-            if (Long.compare($i$f$readRawMetadata, i7) == 0) {
+            _capacity2 = 255;
+            if (Long.compare($i$f$readRawMetadata, i) == 0) {
             } else {
             }
-            m = metadata2;
-            i5 = _capacity2;
-            i10++;
-            metadata2 = m;
-            _capacity2 = i5;
-            i7 = 128;
+            m = metadata;
+            i11 = _capacity;
+            i3++;
+            metadata = m;
+            _capacity = i11;
+            i = 128;
             cmp = this;
             i8 = 0;
-            metadata = cmp.metadata;
+            metadata2 = cmp.metadata;
             int i25 = 0;
-            int i27 = i10 >> 3;
+            int i27 = i3 >> 3;
             i28 <<= 3;
-            i = _capacity;
-            metadata[i27] = i21 |= i31;
-            _capacity = cmp._capacity;
+            i7 = _capacity2;
+            metadata2[i27] = i21 |= i31;
+            _capacity2 = cmp._capacity;
             i24 += i26;
-            i9 = 0;
-            i6 = i11 >> 3;
+            i5 = 0;
+            i9 = i2 >> 3;
             i30 <<= 3;
-            m = metadata2;
-            i5 = _capacity2;
-            metadata[i6] = i14 |= i3;
+            m = metadata;
+            i11 = _capacity;
+            metadata2[i9] = i14 |= i6;
             removedDeletes++;
         }
-        long[] m4 = metadata2;
+        long[] m4 = metadata;
         obj.growthLimit = m2 += removedDeletes;
     }
 
     private final void resizeStorage(int newCapacity) {
-        Object obj2;
+        Object obj3;
         long[] metadata2;
-        int i7;
-        Object obj;
+        int i5;
+        Object obj2;
         int $i$f$hash;
         int firstAvailableSlot;
-        Object obj3;
+        Object obj;
         int _capacity;
-        int i6;
+        int i7;
         long l;
         int i4;
         long[] metadata;
         int i;
-        int i5;
+        int i6;
         int i2;
-        int i3;
         int i8;
+        int i3;
         long[] previousMetadata;
-        obj2 = this;
-        metadata2 = obj2.metadata;
+        obj3 = this;
+        metadata2 = obj3.metadata;
         initializeStorage(newCapacity);
-        i7 = 0;
-        while (i7 < obj2._capacity) {
-            obj = 0;
+        i5 = 0;
+        while (i5 < obj3._capacity) {
+            obj2 = 0;
             int i12 = 0;
             _capacity = 255;
             if (Long.compare($i$f$readRawMetadata, l) < 0) {
@@ -398,36 +398,36 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
             } else {
             }
             previousMetadata = metadata2;
-            i7++;
-            obj2 = this;
+            i5++;
+            obj3 = this;
             metadata2 = previousMetadata;
-            obj = obj2.elements[i7];
+            obj2 = obj3.elements[i5];
             int i13 = 0;
-            if (obj != null) {
+            if (obj2 != null) {
             }
             firstAvailableSlot *= i18;
             $i$f$hash = i16 ^ i19;
             int i17 = 0;
-            firstAvailableSlot = obj2.findFirstAvailableSlot($i$f$hash >>> 7);
+            firstAvailableSlot = obj3.findFirstAvailableSlot($i$f$hash >>> 7);
             int i20 = 0;
             l = (long)$i$f$h2;
-            obj3 = this;
+            obj = this;
             i4 = 0;
-            metadata = obj3.metadata;
+            metadata = obj.metadata;
             int i29 = 0;
             int i31 = firstAvailableSlot >> 3;
             i32 <<= 3;
-            i8 = _capacity;
+            i3 = _capacity;
             metadata[i31] = i25 |= i35;
-            _capacity = obj3._capacity;
+            _capacity = obj._capacity;
             i28 += i30;
             i = 0;
-            i5 = i6 >> 3;
+            i6 = i7 >> 3;
             i34 <<= 3;
             previousMetadata = metadata2;
-            metadata[i5] = i11 |= i3;
-            obj2.elements[firstAvailableSlot] = obj;
-            firstAvailableSlot = obj.hashCode();
+            metadata[i6] = i11 |= i8;
+            obj3.elements[firstAvailableSlot] = obj2;
+            firstAvailableSlot = obj2.hashCode();
             $i$f$hash = 1;
         }
     }
@@ -504,12 +504,12 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
     public final void clear() {
         long[] metadata;
         long[] emptyGroup;
-        int i5;
+        int i3;
         long l2;
         long l;
         int i4;
+        int i5;
         int i;
-        int i3;
         int i6;
         int i2;
         final int i7 = 0;
@@ -543,21 +543,21 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
     }
 
     public final void minusAssign(androidx.collection.ScatterSet<E> elements) {
-        Object this_$iv2;
-        Object obj;
         Object this_$iv3;
+        Object obj;
+        Object this_$iv;
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         int i;
         int j$iv$iv;
-        int i4;
         int i3;
-        long l;
         int i2;
-        int i5;
+        long l;
         int i6;
-        Object this_$iv;
+        int i4;
+        int i5;
+        Object this_$iv2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         obj = elements;
         final int i7 = 0;
@@ -566,8 +566,8 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
         length += -2;
         if (0 <= i9) {
         } else {
-            this_$iv = obj;
-            this_$iv2 = this;
+            this_$iv2 = obj;
+            this_$iv3 = this;
         }
     }
 
@@ -585,40 +585,40 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
     }
 
     public final void minusAssign(E element) {
-        int m$iv2;
         int m$iv;
+        int m$iv2;
         int $i$f$hash;
-        int i10;
-        int i7;
+        int i;
+        int i6;
         int $i$f$h2;
         int $i$f$h1;
         int probeIndex$iv;
-        int i11;
-        int i12;
+        int i4;
+        int i7;
         int $this$next$iv$iv;
-        int i13;
-        int i6;
         int i14;
-        int i;
+        int i13;
+        int i2;
+        int i12;
         long l;
         int i9;
-        int i5;
-        int i2;
         int i3;
+        int i11;
+        int i5;
         int i8;
         int numberOfTrailingZeros;
-        int i4;
+        int i10;
         final Object obj = this;
         final Object obj2 = element;
         final Object obj3 = obj;
-        m$iv2 = 0;
+        m$iv = 0;
         int i16 = 0;
         if (obj2 != null) {
-            i7 = obj2.hashCode();
+            i6 = obj2.hashCode();
         } else {
-            i7 = 0;
+            i6 = 0;
         }
-        i7 *= i22;
+        i6 *= i22;
         $i$f$hash = i20 ^ i23;
         int i21 = 0;
         $i$f$h2 = $i$f$hash & 127;
@@ -631,46 +631,46 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
             int i35 = 0;
             while (Long.compare(i25, i35) != 0) {
                 i8 = 1;
-                i13 = 0;
-                i3 = 0;
-                int i28 = m$iv;
-                i = 0;
-                m$iv = $this$next$iv$iv;
+                i14 = 0;
+                i5 = 0;
+                int i28 = m$iv2;
+                i12 = 0;
+                m$iv2 = $this$next$iv$iv;
                 i30 = 0;
                 i35 = 0;
                 i8 = 0;
             }
             i8 = 0;
-            int i27 = i10;
-            i13 = 0;
-            if (Long.compare($this$maskEmpty$iv$iv, i3) != 0) {
+            int i27 = i;
+            i14 = 0;
+            if (Long.compare($this$maskEmpty$iv$iv, i5) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i11 & _capacity;
-            $i$f$h2 = i6;
-            m$iv2 = i5;
-            $i$f$hash = i2;
+            $i$f$h1 = i4 & _capacity;
+            $i$f$h2 = i13;
+            m$iv = i3;
+            $i$f$hash = i11;
             long[] metadata = obj3.metadata;
             $this$next$iv$iv = 0;
             int i29 = $i$f$h1 >> 3;
             i31 <<= 3;
             i19 |= i33;
-            i13 = 0;
-            i6 = i42;
+            i14 = 0;
+            i13 = i42;
             long l6 = 72340172838076673L;
-            i34 ^= i12;
+            i34 ^= i7;
             l = -9187201950435737472L;
             i15 &= l;
-            i13 = 0;
-            i3 = 0;
-            i28 = m$iv;
-            i = 0;
-            m$iv = $this$next$iv$iv;
+            i14 = 0;
+            i5 = 0;
+            i28 = m$iv2;
+            i12 = 0;
+            m$iv2 = $this$next$iv$iv;
             i8 = 1;
         }
-        if (i12 >= 0) {
-            obj.removeElementAt(i12);
+        if (i7 >= 0) {
+            obj.removeElementAt(i7);
         }
     }
 
@@ -688,18 +688,18 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
     }
 
     public final void minusAssign(E[] elements) {
-        int i2;
-        Object obj;
-        Object obj2;
         int i;
+        Object obj2;
+        Object obj;
+        int i2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj3 = elements;
         final int i3 = 0;
-        i2 = 0;
-        while (i2 < obj3.length) {
-            i = 0;
-            minusAssign(obj3[i2]);
-            i2++;
+        i = 0;
+        while (i < obj3.length) {
+            i2 = 0;
+            minusAssign(obj3[i]);
+            i++;
         }
     }
 
@@ -719,21 +719,21 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
     }
 
     public final void plusAssign(androidx.collection.ScatterSet<E> elements) {
-        Object this_$iv2;
-        Object obj;
         Object this_$iv3;
+        Object obj;
+        Object this_$iv;
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
+        int i4;
         int j$iv$iv;
-        int i3;
+        int i6;
         int i5;
         long l;
+        int i2;
         int i;
-        int i6;
-        int i4;
-        Object this_$iv;
+        int i3;
+        Object this_$iv2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         obj = elements;
         final int i7 = 0;
@@ -742,8 +742,8 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
         length += -2;
         if (0 <= i9) {
         } else {
-            this_$iv = obj;
-            this_$iv2 = this;
+            this_$iv2 = obj;
+            this_$iv3 = this;
         }
     }
 
@@ -794,41 +794,41 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
     }
 
     public final boolean remove(E element) {
-        int m$iv2;
         int m$iv;
+        int m$iv2;
         int $i$f$hash;
-        int i7;
-        int i8;
         int i4;
+        int i;
+        int i14;
         int $i$f$h2;
         int $i$f$h1;
         int probeIndex$iv;
-        int i9;
-        int i14;
+        int i8;
+        int i6;
         int $this$hasNext$iv$iv;
         int $this$next$iv$iv;
-        int i12;
-        int i;
-        int i2;
-        int i10;
-        long l;
-        int i3;
         int i5;
-        int i13;
-        int i6;
+        int i3;
+        int i7;
+        int i2;
+        long l;
+        int i9;
+        int i12;
+        int i10;
         int i11;
+        int i13;
         int numberOfTrailingZeros;
         final Object obj = this;
         final Object obj2 = element;
         final Object obj3 = obj;
-        m$iv2 = 0;
+        m$iv = 0;
         int i16 = 0;
         if (obj2 != null) {
-            i4 = obj2.hashCode();
+            i14 = obj2.hashCode();
         } else {
-            i4 = 0;
+            i14 = 0;
         }
-        i4 *= i22;
+        i14 *= i22;
         $i$f$hash = i20 ^ i23;
         int i21 = 0;
         $i$f$h2 = $i$f$hash & 127;
@@ -839,53 +839,53 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
         while (/* condition */) {
             int i30 = 0;
             int i35 = 0;
-            i11 = 1;
+            i13 = 1;
             while (Long.compare(i25, i35) != 0) {
-                $this$hasNext$iv$iv = i11;
-                i12 = 0;
-                i6 = 0;
-                int i28 = m$iv;
-                i10 = 0;
-                m$iv = $this$next$iv$iv;
+                $this$hasNext$iv$iv = i13;
+                i5 = 0;
+                i11 = 0;
+                int i28 = m$iv2;
+                i2 = 0;
+                m$iv2 = $this$next$iv$iv;
                 i30 = 0;
                 i35 = 0;
-                i11 = 1;
+                i13 = 1;
                 $this$hasNext$iv$iv = 0;
             }
             $this$hasNext$iv$iv = 0;
-            int i27 = i7;
-            i12 = 0;
+            int i27 = i4;
+            i5 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i9 & _capacity;
-            $i$f$h2 = i;
-            m$iv2 = i5;
-            $i$f$hash = i13;
+            $i$f$h1 = i8 & _capacity;
+            $i$f$h2 = i3;
+            m$iv = i12;
+            $i$f$hash = i10;
             long[] metadata = obj3.metadata;
             $this$next$iv$iv = 0;
             int i29 = $i$f$h1 >> 3;
             i31 <<= 3;
             i19 |= i33;
-            i12 = 0;
-            i = i42;
+            i5 = 0;
+            i3 = i42;
             long l6 = 72340172838076673L;
-            i34 ^= i14;
+            i34 ^= i6;
             l = -9187201950435737472L;
             i15 &= l;
-            i12 = 0;
-            i6 = 0;
-            i28 = m$iv;
-            i10 = 0;
-            m$iv = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i11;
+            i5 = 0;
+            i11 = 0;
+            i28 = m$iv2;
+            i2 = 0;
+            m$iv2 = $this$next$iv$iv;
+            $this$hasNext$iv$iv = i13;
         }
-        i8 = i14 >= 0 ? i11 : 0;
-        if (i8 != 0) {
-            obj.removeElementAt(i14);
+        i = i6 >= 0 ? i13 : 0;
+        if (i != 0) {
+            obj.removeElementAt(i6);
         }
-        return i8;
+        return i;
     }
 
     public final boolean removeAll(androidx.collection.ObjectList<E> elements) {
@@ -955,8 +955,8 @@ public final class MutableScatterSet<E>  extends androidx.collection.ScatterSet<
         int $this$maskEmptyOrDeleted$iv$iv;
         int booleanValue;
         int j$iv;
-        int i3;
         int i2;
+        int i3;
         long l;
         int i4;
         int i;

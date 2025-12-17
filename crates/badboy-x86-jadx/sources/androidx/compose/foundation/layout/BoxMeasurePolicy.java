@@ -83,27 +83,27 @@ final class BoxMeasurePolicy implements MeasurePolicy {
 
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, List<? extends Measurable> measurables, long constraints) {
         long copy-Zbe2FdA$default;
-        long i3;
-        int i8;
-        int element2;
-        int boxWidth;
+        long i2;
+        int i3;
         int element;
+        int boxWidth;
+        int element2;
         int boxHeight;
         int hasMatchParentSizeChildren;
         Placeable placeable;
-        int i7;
-        long minHeight-impl2;
-        int i2;
-        int index$iv2;
-        long l;
-        int minHeight-impl;
-        int index$iv;
-        int i5;
-        int size;
         int i4;
-        int i6;
-        int i9;
+        long minHeight-impl;
         int i;
+        int index$iv;
+        long l;
+        int minHeight-impl2;
+        int index$iv2;
+        int i8;
+        int size;
+        int i6;
+        int i7;
+        int i9;
+        int i5;
         boolean measure-BRTryo0;
         if (measurables.isEmpty()) {
             return MeasureScope.layout$default($this$measure_u2d3p2s80s, Constraints.getMinWidth-impl(constraints), Constraints.getMinHeight-impl(constraints), 0, (Function1)BoxMeasurePolicy.measure.1.INSTANCE, 4, 0);
@@ -122,59 +122,59 @@ final class BoxMeasurePolicy implements MeasurePolicy {
             int i19 = 0;
             if (!BoxKt.access$getMatchesParentSize((Measurable)obj2)) {
                 placeable = obj2.measure-BRTryo0(l2);
-                i2 = boxHeight3;
+                i = boxHeight3;
                 boxHeight = boxWidth;
             } else {
                 int minWidth-impl4 = Constraints.getMinWidth-impl(constraints);
                 placeable = obj2.measure-BRTryo0(Constraints.Companion.fixed-JhjzzOo(minWidth-impl4, Constraints.getMinHeight-impl(constraints)));
-                i2 = boxHeight2;
+                i = boxHeight2;
                 boxHeight = boxWidth;
             }
             int i23 = boxHeight;
             Placeable boxWidth3 = placeable;
-            BoxMeasurePolicy.measure.2 boxWidth2 = new BoxMeasurePolicy.measure.2(boxWidth3, obj2, $this$measure_u2d3p2s80s, i23, i2, obj3);
+            BoxMeasurePolicy.measure.2 boxWidth2 = new BoxMeasurePolicy.measure.2(boxWidth3, obj2, $this$measure_u2d3p2s80s, i23, i, obj3);
             Placeable placeable4 = boxWidth3;
             Object obj4 = obj2;
-            return MeasureScope.layout$default($this$measure_u2d3p2s80s, i23, i2, 0, (Function1)boxWidth2, 4, 0);
+            return MeasureScope.layout$default($this$measure_u2d3p2s80s, i23, i, 0, (Function1)boxWidth2, 4, 0);
         }
         Placeable[] arr = new Placeable[measurables.size()];
         Ref.IntRef intRef = new Ref.IntRef();
         intRef.element = Constraints.getMinWidth-impl(constraints);
         Ref.IntRef intRef2 = new Ref.IntRef();
         intRef2.element = Constraints.getMinHeight-impl(constraints);
-        i7 = measurables;
-        index$iv2 = 0;
-        index$iv = i17;
+        i4 = measurables;
+        index$iv = 0;
+        index$iv2 = i17;
         hasMatchParentSizeChildren = i31;
-        while (hasMatchParentSizeChildren < i7.size()) {
-            i6 = i4;
-            i = 0;
-            if (!BoxKt.access$getMatchesParentSize((Measurable)i6)) {
+        while (hasMatchParentSizeChildren < i4.size()) {
+            i7 = i6;
+            i5 = 0;
+            if (!BoxKt.access$getMatchesParentSize((Measurable)i7)) {
             } else {
             }
-            index$iv = i8;
+            index$iv2 = i3;
             hasMatchParentSizeChildren++;
-            i3 = measurables;
-            element = 0;
-            measure-BRTryo0 = i6.measure-BRTryo0(l2);
+            i2 = measurables;
+            element2 = 0;
+            measure-BRTryo0 = i7.measure-BRTryo0(l2);
             arr[hasMatchParentSizeChildren] = measure-BRTryo0;
             intRef.element = Math.max(intRef.element, measure-BRTryo0.getWidth());
             intRef2.element = Math.max(intRef2.element, measure-BRTryo0.getHeight());
         }
-        if (index$iv != 0) {
+        if (index$iv2 != 0) {
             int i13 = Integer.MAX_VALUE;
-            element2 = intRef.element != i13 ? intRef.element : 0;
-            element = intRef2.element != i13 ? intRef2.element : 0;
+            element = intRef.element != i13 ? intRef.element : 0;
+            element2 = intRef2.element != i13 ? intRef2.element : 0;
             hasMatchParentSizeChildren = measurables;
-            i7 = 0;
-            index$iv2 = 0;
-            while (index$iv2 < hasMatchParentSizeChildren.size()) {
-                i6 = i4;
-                i = 0;
-                if (BoxKt.access$getMatchesParentSize((Measurable)i6)) {
+            i4 = 0;
+            index$iv = 0;
+            while (index$iv < hasMatchParentSizeChildren.size()) {
+                i7 = i6;
+                i5 = 0;
+                if (BoxKt.access$getMatchesParentSize((Measurable)i7)) {
                 }
-                index$iv2++;
-                arr[index$iv2] = i6.measure-BRTryo0(ConstraintsKt.Constraints(element2, intRef.element, element, intRef2.element));
+                index$iv++;
+                arr[index$iv] = i7.measure-BRTryo0(ConstraintsKt.Constraints(element, intRef.element, element2, intRef2.element));
             }
         }
         BoxMeasurePolicy.measure.5 anon = new BoxMeasurePolicy.measure.5(arr, measurables, $this$measure_u2d3p2s80s, intRef, intRef2, this);

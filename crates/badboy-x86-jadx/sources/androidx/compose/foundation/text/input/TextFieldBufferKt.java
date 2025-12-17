@@ -73,8 +73,8 @@ public final class TextFieldBufferKt {
 
     public static final void forEachChange(androidx.compose.foundation.text.input.TextFieldBuffer.ChangeList $this$forEachChange, Function2<? super TextRange, ? super TextRange, Unit> block) {
         int i;
-        TextRange box-impl;
-        long box-impl2;
+        TextRange box-impl2;
+        long box-impl;
         final int i2 = 0;
         i = 0;
         while (i < $this$forEachChange.getChangeCount()) {
@@ -85,8 +85,8 @@ public final class TextFieldBufferKt {
 
     public static final void forEachChangeReversed(androidx.compose.foundation.text.input.TextFieldBuffer.ChangeList $this$forEachChangeReversed, Function2<? super TextRange, ? super TextRange, Unit> block) {
         int i;
-        TextRange box-impl;
-        long box-impl2;
+        TextRange box-impl2;
+        long box-impl;
         final int i2 = 0;
         changeCount--;
         while (i >= 0) {

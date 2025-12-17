@@ -270,8 +270,8 @@ public final class TransformedTextFieldState {
     }
 
     public TransformedTextFieldState(TextFieldState textFieldState, InputTransformation inputTransformation, androidx.compose.foundation.text.input.internal.CodepointTransformation codepointTransformation, OutputTransformation outputTransformation) {
-        State transformation;
-        int transformation2;
+        State transformation2;
+        int transformation;
         int i;
         androidx.compose.foundation.text.input.internal.TransformedTextFieldState.outputTransformedText.1.1 anon;
         super();
@@ -284,20 +284,20 @@ public final class TransformedTextFieldState {
         if (outputTransformation2 != null) {
             i = 0;
             anon = new TransformedTextFieldState.outputTransformedText.1.1(this, outputTransformation2);
-            transformation = SnapshotStateKt.derivedStateOf((Function0)anon);
-        } else {
-            transformation = i2;
-        }
-        this.outputTransformedText = transformation;
-        androidx.compose.foundation.text.input.internal.CodepointTransformation codepointTransformation2 = this.codepointTransformation;
-        if (codepointTransformation2 != null) {
-            i = 0;
-            anon = new TransformedTextFieldState.codepointTransformedText.1.1(this, codepointTransformation2);
             transformation2 = SnapshotStateKt.derivedStateOf((Function0)anon);
         } else {
             transformation2 = i2;
         }
-        this.codepointTransformedText = transformation2;
+        this.outputTransformedText = transformation2;
+        androidx.compose.foundation.text.input.internal.CodepointTransformation codepointTransformation2 = this.codepointTransformation;
+        if (codepointTransformation2 != null) {
+            i = 0;
+            anon = new TransformedTextFieldState.codepointTransformedText.1.1(this, codepointTransformation2);
+            transformation = SnapshotStateKt.derivedStateOf((Function0)anon);
+        } else {
+            transformation = i2;
+        }
+        this.codepointTransformedText = transformation;
         SelectionWedgeAffinity selectionWedgeAffinity = new SelectionWedgeAffinity(WedgeAffinity.Start);
         this.selectionWedgeAffinity$delegate = SnapshotStateKt.mutableStateOf$default(selectionWedgeAffinity, i2, 2, i2);
     }
@@ -405,58 +405,58 @@ public final class TransformedTextFieldState {
     }
 
     public final Object collectImeNotifications(TextFieldState.NotifyImeListener textFieldState$NotifyImeListener, Continuation<?> continuation2) {
-        boolean anon;
+        boolean anon2;
         int i2;
+        Object cOROUTINE_SUSPENDED2;
+        int i3;
         Object cOROUTINE_SUSPENDED;
         int i5;
-        Object cOROUTINE_SUSPENDED2;
-        int i4;
         CancellableContinuationImpl cancellableContinuationImpl2;
         androidx.compose.foundation.text.input.internal.TransformedTextFieldState.collectImeNotifications.1 field;
         int i;
         CancellableContinuationImpl cancellableContinuationImpl;
-        int i3;
-        androidx.compose.foundation.text.input.internal.TransformedTextFieldState.collectImeNotifications.2.1 anon2;
+        int i4;
+        androidx.compose.foundation.text.input.internal.TransformedTextFieldState.collectImeNotifications.2.1 anon;
         int obj11;
         Object obj12;
-        anon = continuation2;
-        i5 = Integer.MIN_VALUE;
-        if (continuation2 instanceof TransformedTextFieldState.collectImeNotifications.1 && label &= i5 != 0) {
-            anon = continuation2;
-            i5 = Integer.MIN_VALUE;
-            if (label &= i5 != 0) {
-                anon.label = obj12 -= i5;
+        anon2 = continuation2;
+        i3 = Integer.MIN_VALUE;
+        if (continuation2 instanceof TransformedTextFieldState.collectImeNotifications.1 && label &= i3 != 0) {
+            anon2 = continuation2;
+            i3 = Integer.MIN_VALUE;
+            if (label &= i3 != 0) {
+                anon2.label = obj12 -= i3;
             } else {
-                anon = new TransformedTextFieldState.collectImeNotifications.1(this, continuation2);
+                anon2 = new TransformedTextFieldState.collectImeNotifications.1(this, continuation2);
             }
         } else {
         }
-        obj12 = anon.result;
-        cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (cOROUTINE_SUSPENDED2) {
+        obj12 = anon2.result;
+        cOROUTINE_SUSPENDED2 = IntrinsicsKt.getCOROUTINE_SUSPENDED();
+        switch (cOROUTINE_SUSPENDED) {
             case 0:
                 ResultKt.throwOnFailure(obj12);
                 androidx.compose.foundation.text.input.internal.TransformedTextFieldState field2 = this;
-                anon.L$0 = field2;
-                anon.L$1 = notifyImeListener;
+                anon2.L$0 = field2;
+                anon2.L$1 = notifyImeListener;
                 int i6 = 1;
-                anon.label = i6;
+                anon2.label = i6;
                 i = 0;
-                cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon), i6);
+                cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon2), i6);
                 cancellableContinuationImpl.initCancellability();
-                i3 = 0;
+                i4 = 0;
                 TransformedTextFieldState.access$getTextFieldState$p(field2).addNotifyImeListener$foundation_release(notifyImeListener);
-                anon2 = new TransformedTextFieldState.collectImeNotifications.2.1(field2, notifyImeListener);
-                (CancellableContinuation)cancellableContinuationImpl.invokeOnCancellation((Function1)anon2);
+                anon = new TransformedTextFieldState.collectImeNotifications.2.1(field2, notifyImeListener);
+                (CancellableContinuation)cancellableContinuationImpl.invokeOnCancellation((Function1)anon);
                 obj11 = cancellableContinuationImpl.getResult();
-                DebugProbesKt.probeCoroutineSuspended((Continuation)anon);
-                return cOROUTINE_SUSPENDED;
-                obj11 = i4;
+                DebugProbesKt.probeCoroutineSuspended((Continuation)anon2);
+                return cOROUTINE_SUSPENDED2;
+                obj11 = i5;
                 break;
             case 1:
                 obj11 = 0;
-                Object l$1 = anon.L$1;
-                cOROUTINE_SUSPENDED = anon.L$0;
+                Object l$1 = anon2.L$1;
+                cOROUTINE_SUSPENDED2 = anon2.L$0;
                 ResultKt.throwOnFailure(obj12);
                 break;
             default:
@@ -577,8 +577,8 @@ public final class TransformedTextFieldState {
 
     public final long mapFromTransformed--jx7JFs(int offset) {
         Object outputTransformedText;
-        int offsetMapping2;
         int offsetMapping;
+        int offsetMapping2;
         Object codepointTransformedText;
         long mapFromDest--jx7JFs;
         long it;
@@ -589,9 +589,9 @@ public final class TransformedTextFieldState {
         if (outputTransformedText != null && (TransformedTextFieldState.TransformedText)outputTransformedText != null) {
             outputTransformedText = outputTransformedText.getValue();
             if ((TransformedTextFieldState.TransformedText)(TransformedTextFieldState.TransformedText)outputTransformedText != null) {
-                offsetMapping2 = (TransformedTextFieldState.TransformedText)(TransformedTextFieldState.TransformedText)outputTransformedText.getOffsetMapping();
+                offsetMapping = (TransformedTextFieldState.TransformedText)(TransformedTextFieldState.TransformedText)outputTransformedText.getOffsetMapping();
             } else {
-                offsetMapping2 = offsetMapping;
+                offsetMapping = offsetMapping2;
             }
         } else {
         }
@@ -600,15 +600,15 @@ public final class TransformedTextFieldState {
         if (codepointTransformedText != null && (TransformedTextFieldState.TransformedText)codepointTransformedText != null) {
             codepointTransformedText = codepointTransformedText.getValue();
             if ((TransformedTextFieldState.TransformedText)(TransformedTextFieldState.TransformedText)codepointTransformedText != null) {
-                offsetMapping = (TransformedTextFieldState.TransformedText)(TransformedTextFieldState.TransformedText)codepointTransformedText.getOffsetMapping();
+                offsetMapping2 = (TransformedTextFieldState.TransformedText)(TransformedTextFieldState.TransformedText)codepointTransformedText.getOffsetMapping();
             }
         }
-        if (offsetMapping != 0) {
-            mapFromDest--jx7JFs = offsetMapping.mapFromDest--jx7JFs(offset);
+        if (offsetMapping2 != 0) {
+            mapFromDest--jx7JFs = offsetMapping2.mapFromDest--jx7JFs(offset);
         } else {
             mapFromDest--jx7JFs = TextRangeKt.TextRange(offset);
         }
-        if (offsetMapping2 != 0) {
+        if (offsetMapping != 0) {
             i = 0;
             it = TransformedTextFieldState.Companion.access$mapFromTransformed-xdX6-G0(TransformedTextFieldState.Companion, mapFromDest--jx7JFs, obj3);
         } else {
@@ -622,11 +622,11 @@ public final class TransformedTextFieldState {
         int offsetMapping2;
         int offsetMapping;
         Object codepointTransformedText;
-        androidx.compose.foundation.text.input.internal.TransformedTextFieldState.Companion it2;
-        int i;
-        androidx.compose.foundation.text.input.internal.TransformedTextFieldState.Companion companion;
-        long it;
+        androidx.compose.foundation.text.input.internal.TransformedTextFieldState.Companion it;
         int i2;
+        androidx.compose.foundation.text.input.internal.TransformedTextFieldState.Companion companion;
+        long it2;
+        int i;
         androidx.compose.foundation.text.input.internal.TransformedTextFieldState.Companion companion2;
         outputTransformedText = this.outputTransformedText;
         outputTransformedText = outputTransformedText.getValue();
@@ -648,18 +648,18 @@ public final class TransformedTextFieldState {
             }
         }
         if (offsetMapping != 0) {
-            i = 0;
-            it2 = TransformedTextFieldState.Companion.access$mapFromTransformed-xdX6-G0(TransformedTextFieldState.Companion, range, obj9);
+            i2 = 0;
+            it = TransformedTextFieldState.Companion.access$mapFromTransformed-xdX6-G0(TransformedTextFieldState.Companion, range, obj9);
         } else {
-            it2 = range;
+            it = range;
         }
         if (offsetMapping2 != 0) {
-            i2 = 0;
-            it = TransformedTextFieldState.Companion.access$mapFromTransformed-xdX6-G0(TransformedTextFieldState.Companion, it2, i);
+            i = 0;
+            it2 = TransformedTextFieldState.Companion.access$mapFromTransformed-xdX6-G0(TransformedTextFieldState.Companion, it, i2);
         } else {
-            it = it2;
+            it2 = it;
         }
-        return it;
+        return it2;
     }
 
     public final long mapToTransformed--jx7JFs(int offset) {
@@ -711,12 +711,12 @@ public final class TransformedTextFieldState {
         int offsetMapping2;
         Object codepointTransformedText;
         androidx.compose.foundation.text.input.internal.TransformedTextFieldState.Companion range2;
-        int i;
-        long l;
+        int i2;
+        long $i$a$LetTransformedTextFieldState$mapToTransformed$2;
         int companion;
         int selectionWedgeAffinity;
         int i3;
-        int i2;
+        int i;
         long obj11;
         outputTransformedText = this.outputTransformedText;
         outputTransformedText = outputTransformedText.getValue();
@@ -738,18 +738,18 @@ public final class TransformedTextFieldState {
             }
         }
         if (offsetMapping != 0) {
-            i2 = 0;
+            i = 0;
             obj11 = TransformedTextFieldState.Companion.mapToTransformed-XGyztTk$default(TransformedTextFieldState.Companion, range, obj4, offsetMapping, 0, 4);
         } else {
             range2 = range;
         }
         if (offsetMapping2 != 0) {
             int i4 = 0;
-            l = TransformedTextFieldState.Companion.access$mapToTransformed-XGyztTk(TransformedTextFieldState.Companion, obj11, obj12, offsetMapping2);
+            $i$a$LetTransformedTextFieldState$mapToTransformed$2 = TransformedTextFieldState.Companion.access$mapToTransformed-XGyztTk(TransformedTextFieldState.Companion, obj11, obj12, offsetMapping2);
         } else {
-            l = obj11;
+            $i$a$LetTransformedTextFieldState$mapToTransformed$2 = obj11;
         }
-        return l;
+        return $i$a$LetTransformedTextFieldState$mapToTransformed$2;
     }
 
     public final void placeCursorBeforeCharAt(int transformedOffset) {

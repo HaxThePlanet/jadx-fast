@@ -33,20 +33,20 @@ final class ClosedDoubleRange implements kotlin.ranges.ClosedFloatingPointRange<
     @Override // kotlin.ranges.ClosedFloatingPointRange
     public boolean equals(Object other) {
         int empty;
-        int i2;
         int i;
-        double _endInclusive2;
+        int i2;
         double _endInclusive;
-        i2 = 0;
+        double _endInclusive2;
+        i = 0;
         if (other instanceof ClosedDoubleRange) {
-            i = 1;
+            i2 = 1;
             if (isEmpty()) {
                 if (!(ClosedDoubleRange)other.isEmpty()) {
-                    empty = Double.compare(_endInclusive2, _endInclusive) == 0 ? i : i2;
+                    empty = Double.compare(_endInclusive, _endInclusive2) == 0 ? i2 : i;
                     if (empty != 0) {
-                        empty = Double.compare(_endInclusive2, _endInclusive) == 0 ? i : i2;
+                        empty = Double.compare(_endInclusive, _endInclusive2) == 0 ? i2 : i;
                         if (empty != 0) {
-                            i2 = i;
+                            i = i2;
                         } else {
                         }
                     } else {
@@ -57,7 +57,7 @@ final class ClosedDoubleRange implements kotlin.ranges.ClosedFloatingPointRange<
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     @Override // kotlin.ranges.ClosedFloatingPointRange

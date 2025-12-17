@@ -50,87 +50,87 @@ public final class StrategyKt {
 
     private static final androidx.compose.material3.carousel.KeylineList createShiftedKeylineListForContentPadding(androidx.compose.material3.carousel.KeylineList from, float carouselMainAxisSize, float itemSpacing, float contentPadding, androidx.compose.material3.carousel.Keyline pivot, int pivotIndex) {
         int size;
-        int i7;
-        int index$iv$iv2;
-        Object obj6;
-        Object obj4;
-        int i16;
-        Object obj;
-        int i8;
+        int i14;
         int index$iv$iv;
+        Object obj;
+        Object obj5;
+        int i16;
+        Object obj3;
+        int i5;
+        int index$iv$iv2;
         boolean anchor;
         Object obj2;
-        int i9;
-        Object obj3;
-        int i11;
-        int i6;
-        Object obj5;
-        int i12;
-        int i14;
-        float unadjustedOffset;
-        int i13;
-        int i10;
+        int i8;
+        Object obj4;
         int i15;
-        int i4;
-        int i;
-        int i5;
+        int i6;
+        Object obj6;
+        int i7;
+        int i9;
+        float unadjustedOffset;
         int i17;
+        int i10;
+        int i;
         int i2;
         int i3;
+        int i4;
+        int i11;
+        int i12;
+        int i13;
         final androidx.compose.material3.carousel.KeylineList list = from;
         androidx.compose.material3.carousel.KeylineList list2 = list;
         int i18 = 0;
         ArrayList arrayList = new ArrayList((List)list2.size());
         androidx.compose.material3.carousel.KeylineList list4 = list2;
         int i24 = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < list4.size()) {
-            obj4 = obj6;
+        index$iv$iv = 0;
+        while (index$iv$iv < list4.size()) {
+            obj5 = obj;
             i16 = 0;
-            i8 = 0;
-            if (!(Keyline)obj4.isAnchor()) {
+            i5 = 0;
+            if (!(Keyline)obj5.isAnchor()) {
             }
-            index$iv$iv2++;
-            (Collection)arrayList.add(obj4);
+            index$iv$iv++;
+            (Collection)arrayList.add(obj5);
         }
-        i7 = contentPadding / f;
-        StrategyKt.createShiftedKeylineListForContentPadding.newKeylines.1 anon = new StrategyKt.createShiftedKeylineListForContentPadding.newKeylines.1(list, i7);
+        i14 = contentPadding / f;
+        StrategyKt.createShiftedKeylineListForContentPadding.newKeylines.1 anon = new StrategyKt.createShiftedKeylineListForContentPadding.newKeylines.1(list, i14);
         androidx.compose.material3.carousel.KeylineList list5 = keylineListOf;
         int i26 = 0;
         ArrayList arrayList2 = new ArrayList((List)list5.size());
         androidx.compose.material3.carousel.KeylineList list6 = list5;
         int i27 = 0;
-        index$iv$iv = 0;
-        while (index$iv$iv < list6.size()) {
-            i11 = 0;
-            i2 = 0;
-            (Collection)arrayList2.add(Keyline.copy$default((Keyline)list6.get(index$iv$iv), 0, 0, list.get(index$iv$iv).getUnadjustedOffset(), false, false, false, 0, 123, 0));
-            index$iv$iv++;
+        index$iv$iv2 = 0;
+        while (index$iv$iv2 < list6.size()) {
+            i15 = 0;
+            i12 = 0;
+            (Collection)arrayList2.add(Keyline.copy$default((Keyline)list6.get(index$iv$iv2), 0, 0, list.get(index$iv$iv2).getUnadjustedOffset(), false, false, false, 0, 123, 0));
+            index$iv$iv2++;
             size = i6;
-            i7 = i3;
+            i14 = i13;
         }
         int numberOfNonAnchorKeylines2 = size;
-        int i28 = i7;
+        int i28 = i14;
         KeylineList keylineList = new KeylineList((List)arrayList2);
         return keylineList;
     }
 
     private static final List<androidx.compose.material3.carousel.KeylineList> getEndKeylineSteps(androidx.compose.material3.carousel.KeylineList defaultKeylines, float carouselMainAxisSize, float itemSpacing, float afterContentPadding) {
-        float f;
-        float shiftedKeylineListForContentPadding;
         float f2;
-        float i;
+        float shiftedKeylineListForContentPadding2;
+        float f;
+        float i2;
         int cmp;
-        int shiftedKeylineListForContentPadding2;
+        int shiftedKeylineListForContentPadding;
         androidx.compose.material3.carousel.Keyline lastFocal;
-        int lastFocalIndex2;
         int lastFocalIndex;
+        int lastFocalIndex2;
         Object obj2;
-        int i2;
-        int lastIndex2;
+        int i;
+        int lastIndex;
         int dstIndex;
         androidx.compose.material3.carousel.KeylineList moveKeylineAndCreateShiftedKeylineList;
-        int lastIndex;
+        int lastIndex2;
         int lastIndexBeforeFocalRangeWithSize;
         Object obj;
         Object obj3 = defaultKeylines;
@@ -141,52 +141,52 @@ public final class StrategyKt {
         ArrayList arrayList = new ArrayList();
         final ArrayList list = arrayList;
         (List)list.add(obj3);
-        i = 0;
-        shiftedKeylineListForContentPadding2 = 0;
+        i2 = 0;
+        shiftedKeylineListForContentPadding = 0;
         lastFocal = 1;
-        if (defaultKeylines.isLastFocalItemAtEndOfContainer(carouselMainAxisSize) && Float.compare(i4, i) == 0) {
-            if (Float.compare(i4, i) == 0) {
-                shiftedKeylineListForContentPadding2 = lastFocal;
+        if (defaultKeylines.isLastFocalItemAtEndOfContainer(carouselMainAxisSize) && Float.compare(i4, i2) == 0) {
+            if (Float.compare(i4, i2) == 0) {
+                shiftedKeylineListForContentPadding = lastFocal;
             }
-            if (shiftedKeylineListForContentPadding2 == 0) {
-                i = itemSpacing;
+            if (shiftedKeylineListForContentPadding == 0) {
+                i2 = itemSpacing;
                 obj2 = obj3;
-                f = i;
-                list.add(StrategyKt.createShiftedKeylineListForContentPadding(obj3, carouselMainAxisSize, i, -i4, obj3.getLastFocal(), obj3.getLastFocalIndex()));
+                f2 = i2;
+                list.add(StrategyKt.createShiftedKeylineListForContentPadding(obj3, carouselMainAxisSize, i2, -i4, obj3.getLastFocal(), obj3.getLastFocalIndex()));
             } else {
-                f2 = carouselMainAxisSize;
+                f = carouselMainAxisSize;
                 obj2 = obj3;
-                f = itemSpacing;
+                f2 = itemSpacing;
             }
             return list;
         }
         float f3 = carouselMainAxisSize;
         Object obj5 = obj3;
-        shiftedKeylineListForContentPadding = itemSpacing;
+        shiftedKeylineListForContentPadding2 = itemSpacing;
         final int lastNonAnchorIndex = obj5.getLastNonAnchorIndex();
         final int i5 = lastNonAnchorIndex - lastFocalIndex3;
-        if (i5 <= 0 && Float.compare(cutoff, i) > 0) {
-            if (Float.compare(cutoff, i) > 0) {
-                list.add(StrategyKt.moveKeylineAndCreateShiftedKeylineList(obj5, shiftedKeylineListForContentPadding2, shiftedKeylineListForContentPadding2, f3, shiftedKeylineListForContentPadding));
+        if (i5 <= 0 && Float.compare(cutoff, i2) > 0) {
+            if (Float.compare(cutoff, i2) > 0) {
+                list.add(StrategyKt.moveKeylineAndCreateShiftedKeylineList(obj5, shiftedKeylineListForContentPadding, shiftedKeylineListForContentPadding, f3, shiftedKeylineListForContentPadding2));
                 return list;
             }
         }
-        i2 = lastFocalIndex;
-        while (i2 < i5) {
-            lastFocalIndex = CollectionsKt.last(list);
-            lastIndex2 = lastNonAnchorIndex - i2;
+        i = lastFocalIndex2;
+        while (i < i5) {
+            lastFocalIndex2 = CollectionsKt.last(list);
+            lastIndex = lastNonAnchorIndex - i;
             dstIndex = 0;
-            if (lastIndex2 < CollectionsKt.getLastIndex((List)obj5)) {
+            if (lastIndex < CollectionsKt.getLastIndex((List)obj5)) {
             }
-            list.add(StrategyKt.moveKeylineAndCreateShiftedKeylineList((KeylineList)lastFocalIndex, obj5.getLastNonAnchorIndex(), dstIndex, f3, shiftedKeylineListForContentPadding));
-            i2++;
+            list.add(StrategyKt.moveKeylineAndCreateShiftedKeylineList((KeylineList)lastFocalIndex2, obj5.getLastNonAnchorIndex(), dstIndex, f3, shiftedKeylineListForContentPadding2));
+            i++;
             dstIndex = lastIndexBeforeFocalRangeWithSize + 1;
         }
-        if (Float.compare(i4, i) == 0) {
-            shiftedKeylineListForContentPadding2 = lastFocal;
+        if (Float.compare(i4, i2) == 0) {
+            shiftedKeylineListForContentPadding = lastFocal;
         }
-        if (shiftedKeylineListForContentPadding2 == 0) {
-            list.set(CollectionsKt.getLastIndex(list), StrategyKt.createShiftedKeylineListForContentPadding((KeylineList)CollectionsKt.last(list), f3, shiftedKeylineListForContentPadding, -i4, (KeylineList)CollectionsKt.last(list).getLastFocal(), (KeylineList)CollectionsKt.last(list).getLastFocalIndex()));
+        if (shiftedKeylineListForContentPadding == 0) {
+            list.set(CollectionsKt.getLastIndex(list), StrategyKt.createShiftedKeylineListForContentPadding((KeylineList)CollectionsKt.last(list), f3, shiftedKeylineListForContentPadding2, -i4, (KeylineList)CollectionsKt.last(list).getLastFocal(), (KeylineList)CollectionsKt.last(list).getLastFocalIndex()));
         }
         return list;
     }
@@ -201,8 +201,8 @@ public final class StrategyKt {
     private static final androidx.compose.material3.carousel.ShiftPointRange getShiftPointRange(int stepsCount, FloatList shiftPoint, float interpolation) {
         float lowerBounds;
         int nextInt;
-        int i3;
         int i;
+        int i3;
         int i2;
         float f;
         int cmp;
@@ -211,15 +211,15 @@ public final class StrategyKt {
         lowerBounds = shiftPoint.get(i5);
         final int i7 = 0;
         Iterator iterator = (Iterable)RangesKt.until(1, stepsCount).iterator();
-        i3 = 0;
+        i = 0;
         while (iterator.hasNext()) {
-            i = nextInt;
+            i3 = nextInt;
             i2 = 0;
-            f = shiftPoint.get(i);
+            f = shiftPoint.get(i3);
             lowerBounds = f;
-            i3 = 0;
+            i = 0;
         }
-        ShiftPointRange $this$forEach$iv = new ShiftPointRange(i5, i5, i3);
+        ShiftPointRange $this$forEach$iv = new ShiftPointRange(i5, i5, i);
         return $this$forEach$iv;
     }
 
@@ -227,14 +227,14 @@ public final class StrategyKt {
         float f2;
         float shiftedKeylineListForContentPadding;
         float f;
-        float i;
+        float i2;
         int cmp;
-        int i2;
+        int i3;
         androidx.compose.material3.carousel.KeylineList shiftedKeylineListForContentPadding2;
         int firstFocalIndex;
         int firstFocalIndex2;
         Object obj;
-        int i3;
+        int i;
         int lastIndex;
         int dstIndex;
         androidx.compose.material3.carousel.KeylineList moveKeylineAndCreateShiftedKeylineList;
@@ -246,18 +246,18 @@ public final class StrategyKt {
         ArrayList arrayList = new ArrayList();
         final ArrayList list = arrayList;
         (List)list.add(obj2);
-        i = 0;
         i2 = 0;
+        i3 = 0;
         shiftedKeylineListForContentPadding2 = 1;
-        if (obj2.isFirstFocalItemAtStartOfContainer() && Float.compare(beforeContentPadding, i) == 0) {
-            if (Float.compare(beforeContentPadding, i) == 0) {
-                i2 = shiftedKeylineListForContentPadding2;
+        if (obj2.isFirstFocalItemAtStartOfContainer() && Float.compare(beforeContentPadding, i2) == 0) {
+            if (Float.compare(beforeContentPadding, i2) == 0) {
+                i3 = shiftedKeylineListForContentPadding2;
             }
-            if (i2 == 0) {
-                i = itemSpacing;
+            if (i3 == 0) {
+                i2 = itemSpacing;
                 obj = obj2;
-                f2 = i;
-                list.add(StrategyKt.createShiftedKeylineListForContentPadding(obj2, carouselMainAxisSize, i, beforeContentPadding, obj2.getFirstFocal(), obj2.getFirstFocalIndex()));
+                f2 = i2;
+                list.add(StrategyKt.createShiftedKeylineListForContentPadding(obj2, carouselMainAxisSize, i2, beforeContentPadding, obj2.getFirstFocal(), obj2.getFirstFocalIndex()));
             } else {
                 f = carouselMainAxisSize;
                 obj = obj2;
@@ -270,27 +270,27 @@ public final class StrategyKt {
         shiftedKeylineListForContentPadding = itemSpacing;
         final int firstNonAnchorIndex = obj5.getFirstNonAnchorIndex();
         final int i4 = firstFocalIndex3 - firstNonAnchorIndex;
-        if (i4 <= 0 && Float.compare(cutoff, i) > 0) {
-            if (Float.compare(cutoff, i) > 0) {
-                list.add(StrategyKt.moveKeylineAndCreateShiftedKeylineList(obj5, i2, i2, f3, shiftedKeylineListForContentPadding));
+        if (i4 <= 0 && Float.compare(cutoff, i2) > 0) {
+            if (Float.compare(cutoff, i2) > 0) {
+                list.add(StrategyKt.moveKeylineAndCreateShiftedKeylineList(obj5, i3, i3, f3, shiftedKeylineListForContentPadding));
                 return list;
             }
         }
-        i3 = firstFocalIndex2;
-        while (i3 < i4) {
+        i = firstFocalIndex2;
+        while (i < i4) {
             firstFocalIndex2 = CollectionsKt.last(list);
-            lastIndex = firstNonAnchorIndex + i3;
+            lastIndex = firstNonAnchorIndex + i;
             dstIndex = CollectionsKt.getLastIndex((List)obj5);
             if (lastIndex > 0) {
             }
             list.add(StrategyKt.moveKeylineAndCreateShiftedKeylineList((KeylineList)firstFocalIndex2, obj5.getFirstNonAnchorIndex(), dstIndex, f3, shiftedKeylineListForContentPadding));
-            i3++;
+            i++;
             dstIndex = firstIndexAfterFocalRangeWithSize + -1;
         }
-        if (Float.compare(beforeContentPadding, i) == 0) {
-            i2 = shiftedKeylineListForContentPadding2;
+        if (Float.compare(beforeContentPadding, i2) == 0) {
+            i3 = shiftedKeylineListForContentPadding2;
         }
-        if (i2 == 0) {
+        if (i3 == 0) {
             list.set(CollectionsKt.getLastIndex(list), StrategyKt.createShiftedKeylineListForContentPadding((KeylineList)CollectionsKt.last(list), f3, shiftedKeylineListForContentPadding, beforeContentPadding, (KeylineList)CollectionsKt.last(list).getFirstFocal(), (KeylineList)CollectionsKt.last(list).getFirstFocalIndex()));
         }
         return list;
@@ -307,13 +307,13 @@ public final class StrategyKt {
         int empty;
         int nextInt;
         Boolean valueOf;
-        int i3;
+        int i2;
         Object obj2;
         Object obj;
-        int i;
         int i4;
+        int i;
         float unadjustedOffset;
-        int i2;
+        int i3;
         final List list = steps;
         int i5 = 0;
         final MutableFloatList mutableFloatListOf = FloatListKt.mutableFloatListOf(i5);
@@ -329,7 +329,7 @@ public final class StrategyKt {
                 final Iterator iterator = until.iterator();
                 while (iterator.hasNext()) {
                     int i10 = nextInt;
-                    i3 = 0;
+                    i2 = 0;
                     obj2 = list.get(i10 + -1);
                     obj = list.get(i10);
                     if (isShiftingLeft) {
@@ -339,9 +339,9 @@ public final class StrategyKt {
                     if (i10 == CollectionsKt.getLastIndex(list)) {
                     } else {
                     }
-                    f += i4;
-                    (Collection)arrayList.add(Boolean.valueOf(mutableFloatListOf.add(i2)));
-                    i2 = 1065353216;
+                    f += i;
+                    (Collection)arrayList.add(Boolean.valueOf(mutableFloatListOf.add(i3)));
+                    i3 = 1065353216;
                     unadjustedOffset2 -= unadjustedOffset;
                 }
             }

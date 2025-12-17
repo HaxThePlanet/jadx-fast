@@ -32,23 +32,23 @@ final class CompositionCallStack<T>  implements androidx.compose.ui.tooling.data
     }
 
     private final androidx.compose.ui.tooling.data.SourceInformationContext contextOf(String information) {
-        int i2;
-        Object sourceInformationContextOf$default;
         int i;
+        Object $i$a$GetOrPutCompositionCallStack$contextOf$1;
+        int i2;
         Map contexts = this.contexts;
         final int i3 = 0;
         final Object obj = contexts.get(information);
-        i2 = 0;
+        i = 0;
         if (obj == null) {
             int i4 = 0;
-            contexts.put(information, SlotTreeKt.sourceInformationContextOf$default(information, i2, 2, i2));
+            contexts.put(information, SlotTreeKt.sourceInformationContextOf$default(information, i, 2, i));
         } else {
-            sourceInformationContextOf$default = obj;
+            $i$a$GetOrPutCompositionCallStack$contextOf$1 = obj;
         }
-        if (sourceInformationContextOf$default instanceof SourceInformationContext != null) {
-            i2 = sourceInformationContextOf$default;
+        if ($i$a$GetOrPutCompositionCallStack$contextOf$1 instanceof SourceInformationContext != null) {
+            i = $i$a$GetOrPutCompositionCallStack$contextOf$1;
         }
-        return i2;
+        return i;
     }
 
     private final CompositionGroup getCurrent() {
@@ -57,8 +57,8 @@ final class CompositionCallStack<T>  implements androidx.compose.ui.tooling.data
 
     private final boolean isCall(CompositionGroup group) {
         int startsWith$default;
-        int i;
         int i2;
+        int i;
         String str;
         final String sourceInfo = group.getSourceInfo();
         if (sourceInfo != null) {
@@ -144,52 +144,52 @@ final class CompositionCallStack<T>  implements androidx.compose.ui.tooling.data
 
     @Override // androidx.compose.ui.tooling.data.SourceContext
     public androidx.compose.ui.tooling.data.SourceLocation getLocation() {
-        Object it2;
+        Object it;
         androidx.compose.ui.tooling.data.SourceInformationContext parentContext;
-        int i2;
         int i3;
-        androidx.compose.ui.tooling.data.SourceInformationContext it;
+        int i2;
+        androidx.compose.ui.tooling.data.SourceInformationContext it2;
         Object parentGroup;
         int i4;
         String sourceFile;
         int i;
-        it2 = parentGroup(1);
+        it = parentGroup(1);
         int i6 = 0;
-        it2 = it2.getSourceInfo();
-        if (it2 != null && it2 != null) {
-            it2 = it2.getSourceInfo();
-            if (it2 != null) {
-                i2 = 0;
-                it2 = contextOf(it2);
-                if (it2 == null) {
+        it = it.getSourceInfo();
+        if (it != null && it != null) {
+            it = it.getSourceInfo();
+            if (it != null) {
+                i3 = 0;
+                it = contextOf(it);
+                if (it == null) {
                 } else {
-                    parentContext = it2;
-                    i3 = 2;
-                    while (i3 < this.stack.size()) {
+                    parentContext = it;
+                    i2 = 2;
+                    while (i2 < this.stack.size()) {
                         if (parentContext != null) {
                         } else {
                         }
                         sourceFile = i6;
                         if (sourceFile == null) {
                         }
-                        parentGroup = parentGroup(i3);
+                        parentGroup = parentGroup(i2);
                         parentGroup = parentGroup.getSourceInfo();
                         if (parentGroup != null && parentGroup != null) {
                         } else {
                         }
-                        it = i6;
-                        parentContext = it;
-                        i3 = i4;
+                        it2 = i6;
+                        parentContext = it2;
+                        i2 = i4;
                         parentGroup = parentGroup.getSourceInfo();
                         if (parentGroup != null) {
                         } else {
                         }
                         i = 0;
-                        it = contextOf(parentGroup);
+                        it2 = contextOf(parentGroup);
                         sourceFile = parentContext.getSourceFile();
                     }
                 }
-                return it2.sourceLocation(this.currentCallIndex, parentContext);
+                return it.sourceLocation(this.currentCallIndex, parentContext);
             }
         }
         return i6;
@@ -244,18 +244,18 @@ final class CompositionCallStack<T>  implements androidx.compose.ui.tooling.data
     @Override // androidx.compose.ui.tooling.data.SourceContext
     public boolean isInline() {
         String startsWith$default;
+        int i;
         int i2;
         int i3;
-        int i;
         String str;
         startsWith$default = getCurrent().getSourceInfo();
-        i3 = 1;
-        if (startsWith$default != null && StringsKt.startsWith$default(startsWith$default, "CC", false, 2, 0) == i3) {
-            i3 = 1;
-            if (StringsKt.startsWith$default(startsWith$default, "CC", i2, 2, 0) == i3) {
-                i2 = i3;
+        i2 = 1;
+        if (startsWith$default != null && StringsKt.startsWith$default(startsWith$default, "CC", false, 2, 0) == i2) {
+            i2 = 1;
+            if (StringsKt.startsWith$default(startsWith$default, "CC", i, 2, 0) == i2) {
+                i = i2;
             }
         }
-        return i2;
+        return i;
     }
 }

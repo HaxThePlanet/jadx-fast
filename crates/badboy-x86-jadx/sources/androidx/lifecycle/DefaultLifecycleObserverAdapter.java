@@ -16,13 +16,13 @@ public final class DefaultLifecycleObserverAdapter implements androidx.lifecycle
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal4;
-            int ordinal7;
-            int ordinal2;
-            int ordinal5;
-            int ordinal6;
-            int ordinal;
             int ordinal3;
+            int ordinal6;
+            int ordinal2;
+            int ordinal7;
+            int ordinal4;
+            int ordinal5;
+            int ordinal;
             int[] iArr = new int[values.length];
             iArr[Lifecycle.Event.ON_CREATE.ordinal()] = 1;
             iArr[Lifecycle.Event.ON_START.ordinal()] = 2;

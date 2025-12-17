@@ -82,11 +82,11 @@ public final class FocusTransactionManager {
         int i4;
         int j$iv$iv;
         long l;
-        int i2;
         int i;
+        int i3;
         long slot$iv$iv;
         long l2;
-        int i3;
+        int i2;
         final Object obj = this;
         MutableScatterMap states = obj.states;
         final int i5 = 0;
@@ -102,9 +102,9 @@ public final class FocusTransactionManager {
     }
 
     public static Object withExistingTransaction$default(androidx.compose.ui.focus.FocusTransactionManager $this, Function0 onCancelled, Function0 block, int i4, Object object5) {
-        int i;
-        MutableVector mutableVector;
         int i2;
+        MutableVector mutableVector;
+        int i;
         int obj4;
         int obj7;
         if (i4 &= 1 != 0) {
@@ -112,8 +112,8 @@ public final class FocusTransactionManager {
         }
         int obj6 = 0;
         if (obj4 != null) {
-            i = 0;
             i2 = 0;
+            i = 0;
             FocusTransactionManager.access$getCancellationListener$p($this).add(obj4);
         }
         if (FocusTransactionManager.access$getOngoingTransaction$p($this)) {
@@ -189,9 +189,9 @@ public final class FocusTransactionManager {
 
     public final <T> T withNewTransaction(Function0<Unit> onCancelled, Function0<? extends T> block) {
         boolean z;
-        int i;
-        MutableVector mutableVector;
         int i2;
+        MutableVector mutableVector;
+        int i;
         final int i3 = 0;
         if (FocusTransactionManager.access$getOngoingTransaction$p(this)) {
             FocusTransactionManager.access$cancelTransaction(this);
@@ -200,8 +200,8 @@ public final class FocusTransactionManager {
             FocusTransactionManager.access$beginTransaction(this);
             if (onCancelled != null) {
             }
-            i = 0;
             i2 = 0;
+            i = 0;
             FocusTransactionManager.access$getCancellationListener$p(this).add(onCancelled);
             FocusTransactionManager.access$commitTransaction(this);
             return block.invoke();

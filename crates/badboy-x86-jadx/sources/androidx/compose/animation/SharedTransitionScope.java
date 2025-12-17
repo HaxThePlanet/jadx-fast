@@ -73,8 +73,8 @@ public interface SharedTransitionScope extends LookaheadScope {
                 return internalState$animation_release;
             }
             int i = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Error: SharedContentState has not been added to a sharedElement/sharedBoundsmodifier yet. Therefore the internal state has not bee initialized.".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireNotNullSharedTransitionScope$SharedContentState$nonNullInternalState$1 = new IllegalArgumentException("Error: SharedContentState has not been added to a sharedElement/sharedBoundsmodifier yet. Therefore the internal state has not bee initialized.".toString());
+            throw $i$a$RequireNotNullSharedTransitionScope$SharedContentState$nonNullInternalState$1;
         }
 
         public final Path getClipPathInOverlay() {
@@ -181,13 +181,13 @@ public interface SharedTransitionScope extends LookaheadScope {
     }
 
     public static Modifier sharedBounds$default(androidx.compose.animation.SharedTransitionScope sharedTransitionScope, Modifier modifier2, androidx.compose.animation.SharedTransitionScope.SharedContentState sharedTransitionScope$SharedContentState3, androidx.compose.animation.AnimatedVisibilityScope animatedVisibilityScope4, androidx.compose.animation.EnterTransition enterTransition5, androidx.compose.animation.ExitTransition exitTransition6, androidx.compose.animation.BoundsTransform boundsTransform7, androidx.compose.animation.SharedTransitionScope.ResizeMode sharedTransitionScope$ResizeMode8, androidx.compose.animation.SharedTransitionScope.PlaceHolderSize sharedTransitionScope$PlaceHolderSize9, boolean z10, float f11, androidx.compose.animation.SharedTransitionScope.OverlayClip sharedTransitionScope$OverlayClip12, int i13, Object object14) {
-        androidx.compose.animation.SharedTransitionScope.OverlayClip i6;
+        androidx.compose.animation.SharedTransitionScope.OverlayClip i;
         int fadeIn$default;
         int fadeOut$default;
-        int i2;
-        androidx.compose.animation.SharedTransitionScope.ResizeMode i;
+        int i5;
+        androidx.compose.animation.SharedTransitionScope.ResizeMode i4;
         androidx.compose.animation.SharedTransitionScope.PlaceHolderSize contentSize;
-        int i3;
+        int i6;
         ContentScale fillWidth;
         Alignment center;
         androidx.compose.animation.EnterTransition enterTransition;
@@ -195,8 +195,8 @@ public interface SharedTransitionScope extends LookaheadScope {
         androidx.compose.animation.BoundsTransform boundsTransform;
         androidx.compose.animation.SharedTransitionScope.ResizeMode resizeMode;
         androidx.compose.animation.SharedTransitionScope.PlaceHolderSize placeHolderSize;
-        int i4;
-        int i5;
+        int i3;
+        int i2;
         androidx.compose.animation.SharedTransitionScope.OverlayClip overlayClip;
         int i7 = i13;
         if (object14 != null) {
@@ -215,12 +215,12 @@ public interface SharedTransitionScope extends LookaheadScope {
                 exitTransition = exitTransition6;
             }
             if (i7 & 16 != 0) {
-                boundsTransform = i2;
+                boundsTransform = i5;
             } else {
                 boundsTransform = boundsTransform7;
             }
             if (i7 & 32 != 0) {
-                resizeMode = i;
+                resizeMode = i4;
             } else {
                 resizeMode = resizeMode8;
             }
@@ -229,14 +229,14 @@ public interface SharedTransitionScope extends LookaheadScope {
             } else {
                 placeHolderSize = placeHolderSize9;
             }
-            i4 = i7 & 128 != 0 ? i3 : z10;
-            i5 = i7 & 256 != 0 ? i9 : f11;
+            i3 = i7 & 128 != 0 ? i6 : z10;
+            i2 = i7 & 256 != 0 ? i9 : f11;
             if (i7 &= 512 != 0) {
-                overlayClip = i6;
+                overlayClip = i;
             } else {
                 overlayClip = overlayClip12;
             }
-            return sharedTransitionScope.sharedBounds(modifier2, sharedContentState3, animatedVisibilityScope4, enterTransition, exitTransition, boundsTransform, resizeMode, placeHolderSize, i4, i5, overlayClip);
+            return sharedTransitionScope.sharedBounds(modifier2, sharedContentState3, animatedVisibilityScope4, enterTransition, exitTransition, boundsTransform, resizeMode, placeHolderSize, i3, i2, overlayClip);
         }
         UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: sharedBounds");
         throw unsupportedOperationException;

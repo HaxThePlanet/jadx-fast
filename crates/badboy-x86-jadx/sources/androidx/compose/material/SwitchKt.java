@@ -97,486 +97,486 @@ public final class SwitchKt {
     }
 
     public static final void Switch(boolean checked, Function1<? super Boolean, Unit> onCheckedChange, Modifier modifier, boolean enabled, MutableInteractionSource interactionSource, androidx.compose.material.SwitchColors colors, Composer $composer, int $changed, int i9) {
-        int i2;
-        int i8;
-        Modifier companion;
-        Object it$iv2;
+        int i15;
+        int i21;
+        Modifier companion2;
+        Object it$iv;
         int anon2;
         Modifier minimumInteractiveComponentSize;
         Integer currentCompositionLocalMap;
-        Object invalid$iv2;
-        boolean traceInProgress;
-        Object obj3;
-        Object obj5;
-        Function0 factory$iv$iv$iv;
-        Object $composer2;
-        int $composer3;
-        Object empty;
-        Object anchoredDraggableState3;
-        int empty2;
-        Object $composer4;
-        int $dirty2;
+        Object invalid$iv;
         boolean traceInProgress2;
-        int invalid$iv4;
+        Object $i$a$CacheSwitchKt$Switch$1;
+        Object obj6;
+        Function0 factory$iv$iv$iv;
+        Object $composer3;
+        int $composer4;
+        Object $i$a$CacheSwitchKt$Switch$forceAnimationCheck$2;
+        Object anchoredDraggableState2;
+        int empty;
+        Object $composer5;
+        int $dirty;
+        boolean traceInProgress;
+        int invalid$iv3;
         Composer currentOnCheckedChange$delegate;
-        int i17;
-        Object it$iv;
-        boolean enabled4;
-        boolean $dirty;
-        int i12;
-        int i18;
+        int i11;
+        Object it$iv2;
+        boolean enabled3;
+        boolean $dirty2;
+        int i10;
+        int i22;
         Object modifier2;
         Object box-impl;
-        Composer composer;
-        int valueOf2;
-        Object obj8;
-        Object obj6;
-        int empty3;
+        Composer composer2;
+        int valueOf;
+        Object obj2;
+        Object $i$a$CacheSwitchKt$Switch$interactionSource$1;
+        int $i$a$CacheSwitchKt$Switch$2;
         Object switchColors;
         Object mutableStateOf$default;
         float px-0680j_4;
         int colors2;
         int defaultsInvalid;
-        Object obj7;
-        Composer $composer5;
-        int i10;
-        int i5;
+        Object obj3;
+        Composer $composer2;
+        int i16;
         int i19;
+        int i5;
         boolean z2;
-        int i3;
+        int i6;
         boolean z;
         int enabled2;
         boolean contentAlignment$iv;
-        Object i11;
-        int i4;
+        Object i18;
+        int i14;
         Object propagateMinConstraints$iv;
         int changed;
         int measurePolicy$iv;
         androidx.compose.material.AnchoredDraggableState isRtl;
-        int enabled3;
-        int i13;
-        int i14;
+        int enabled4;
+        int i7;
+        int i;
         int maxBound;
-        int invalid$iv;
-        int i6;
-        int companion2;
-        int anchoredDraggableState;
-        Object obj2;
+        int invalid$iv4;
+        int i20;
+        int companion3;
+        int anchoredDraggableState3;
+        Object obj;
         State state;
         int i23;
         Object obj4;
-        int i20;
-        int i7;
-        Composer composer2;
-        int i21;
-        int i22;
+        int i2;
+        int i8;
+        Composer composer;
+        int i4;
+        int i3;
         int $this$Switch_u24lambda_u2412;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         boolean z3;
-        Object obj;
-        androidx.compose.material.AnchoredDraggableState anchoredDraggableState2;
-        Boolean valueOf;
+        Object obj5;
+        androidx.compose.material.AnchoredDraggableState anchoredDraggableState;
+        Boolean valueOf2;
         androidx.compose.material.DraggableAnchors draggableAnchors;
         androidx.compose.material.SwitchKt.Switch.anchoredDraggableState.1.2 anon;
-        androidx.compose.material.SwitchKt.Switch.anchoredDraggableState.1.3 companion3;
-        TweenSpec invalid$iv3;
-        int i15;
-        int i;
-        int i16;
+        androidx.compose.material.SwitchKt.Switch.anchoredDraggableState.1.3 companion;
+        TweenSpec invalid$iv2;
+        int i12;
+        int i13;
+        int i17;
         androidx.compose.ui.Modifier.Companion obj45;
         int obj46;
         int obj47;
         int obj48;
         int obj49;
-        traceInProgress = checked;
-        $composer2 = onCheckedChange;
+        traceInProgress2 = checked;
+        $composer3 = onCheckedChange;
         px-0680j_4 = $changed;
         anon2 = 25866825;
         Composer restartGroup = $composer.startRestartGroup(anon2);
         ComposerKt.sourceInformation(restartGroup, "C(Switch)P(!1,5,4,2,3)98@4560L8,*103@4753L7,108@5135L34,109@5224L7,110@5301L447,122@5783L37,123@5847L29,124@5920L315,124@5881L354,133@6285L133,133@6240L178,138@6456L7,153@6897L1050:Switch.kt#jmzs0o");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i9 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if (px-0680j_4 & 6 == 0) {
-                i12 = restartGroup.changed(traceInProgress) ? 4 : 2;
-                $dirty2 |= i12;
+                i10 = restartGroup.changed(traceInProgress2) ? 4 : 2;
+                $dirty |= i10;
             }
         }
         if (i9 & 2 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
         } else {
             if (px-0680j_4 & 48 == 0) {
-                i18 = restartGroup.changedInstance($composer2) ? 32 : 16;
-                $dirty2 |= i18;
+                i22 = restartGroup.changedInstance($composer3) ? 32 : 16;
+                $dirty |= i22;
             }
         }
-        int i52 = i9 & 4;
-        if (i52 != 0) {
-            $dirty2 |= 384;
-            obj7 = modifier;
+        int i51 = i9 & 4;
+        if (i51 != 0) {
+            $dirty |= 384;
+            obj3 = modifier;
         } else {
             if (px-0680j_4 & 384 == 0) {
-                i10 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i10;
+                i16 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i16;
             } else {
-                obj7 = modifier;
+                obj3 = modifier;
             }
         }
-        int i77 = i9 & 8;
-        if (i77 != 0) {
-            $dirty2 |= 3072;
+        int i76 = i9 & 8;
+        if (i76 != 0) {
+            $dirty |= 3072;
             z2 = enabled;
         } else {
             if (px-0680j_4 & 3072 == 0) {
-                i3 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty2 |= i3;
+                i6 = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty |= i6;
             } else {
                 z2 = enabled;
             }
         }
         contentAlignment$iv = i9 & 16;
         if (contentAlignment$iv != 0) {
-            $dirty2 |= 24576;
-            i11 = interactionSource;
+            $dirty |= 24576;
+            i18 = interactionSource;
         } else {
             if (px-0680j_4 & 24576 == 0) {
-                i4 = restartGroup.changed(interactionSource) ? 16384 : 8192;
-                $dirty2 |= i4;
+                i14 = restartGroup.changed(interactionSource) ? 16384 : 8192;
+                $dirty |= i14;
             } else {
-                i11 = interactionSource;
+                i18 = interactionSource;
             }
         }
-        if (i85 &= px-0680j_4 == 0) {
+        if (i84 &= px-0680j_4 == 0) {
             if (i9 & 32 == 0) {
                 changed = restartGroup.changed(colors) ? 131072 : 65536;
             } else {
                 propagateMinConstraints$iv = colors;
             }
-            $dirty2 |= changed;
+            $dirty |= changed;
         } else {
             propagateMinConstraints$iv = colors;
         }
-        i91 &= $dirty2;
+        i90 &= $dirty;
         if (measurePolicy$iv == 74898) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                int i107 = -458753;
+                int i106 = -458753;
                 if (px-0680j_4 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i52 != 0) {
+                        if (i51 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = obj7;
+                            modifier2 = obj3;
                         }
-                        z3 = i77 != 0 ? defaultsInvalid : z2;
-                        obj = contentAlignment$iv != 0 ? defaultsInvalid : i11;
+                        z3 = i76 != 0 ? defaultsInvalid : z2;
+                        obj5 = contentAlignment$iv != 0 ? defaultsInvalid : i18;
                         if (i9 & 32 != 0) {
-                            composer2 = restartGroup;
-                            $composer3 = 2;
-                            $composer5 = composer2;
-                            i5 = $dirty2;
-                            i11 = colors-SQMK_m0;
+                            composer = restartGroup;
+                            $composer4 = 2;
+                            $composer2 = composer;
+                            i19 = $dirty;
+                            i18 = colors-SQMK_m0;
                             z = z3;
                             colors2 = modifier2;
                         } else {
-                            $composer5 = restartGroup;
-                            $composer3 = 2;
-                            i11 = colors;
-                            i5 = $dirty2;
+                            $composer2 = restartGroup;
+                            $composer4 = 2;
+                            i18 = colors;
+                            i19 = $dirty;
                             colors2 = modifier2;
                             z = z3;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i9 & 32 != 0) {
-                            $dirty2 &= i107;
+                            $dirty &= i106;
                         }
-                        i5 = $dirty2;
-                        colors2 = obj7;
+                        i19 = $dirty;
+                        colors2 = obj3;
                         z = z2;
-                        obj = i11;
-                        i11 = propagateMinConstraints$iv;
-                        $composer5 = restartGroup;
-                        $composer3 = 2;
+                        obj5 = i18;
+                        i18 = propagateMinConstraints$iv;
+                        $composer2 = restartGroup;
+                        $composer4 = 2;
                     }
                 } else {
                 }
-                $composer5.endDefaults();
+                $composer2.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(anon2, i5, -1, "androidx.compose.material.Switch (Switch.kt:99)");
+                    ComposerKt.traceEventStart(anon2, i19, -1, "androidx.compose.material.Switch (Switch.kt:99)");
                 }
                 String str3 = "CC(remember):Switch.kt#9igjgp";
-                if (obj == null) {
-                    $composer5.startReplaceGroup(-1604953567);
-                    ComposerKt.sourceInformation($composer5, "101@4654L39");
-                    ComposerKt.sourceInformationMarkerStart($composer5, 779511297, str3);
-                    i2 = 0;
-                    traceInProgress2 = $composer5;
+                if (obj5 == null) {
+                    $composer2.startReplaceGroup(-1604953567);
+                    ComposerKt.sourceInformation($composer2, "101@4654L39");
+                    ComposerKt.sourceInformationMarkerStart($composer2, 779511297, str3);
+                    i15 = 0;
+                    traceInProgress = $composer2;
                     modifier2 = 0;
-                    propagateMinConstraints$iv = traceInProgress2.rememberedValue();
+                    propagateMinConstraints$iv = traceInProgress.rememberedValue();
                     measurePolicy$iv = 0;
                     if (propagateMinConstraints$iv == Composer.Companion.getEmpty()) {
-                        int i63 = 0;
-                        traceInProgress2.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                        int i62 = 0;
+                        traceInProgress.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     } else {
-                        obj6 = propagateMinConstraints$iv;
+                        $i$a$CacheSwitchKt$Switch$interactionSource$1 = propagateMinConstraints$iv;
                     }
-                    ComposerKt.sourceInformationMarkerEnd($composer5);
-                    $composer5.endReplaceGroup();
+                    ComposerKt.sourceInformationMarkerEnd($composer2);
+                    $composer2.endReplaceGroup();
                 } else {
-                    $composer5.startReplaceGroup(779510646);
-                    $composer5.endReplaceGroup();
-                    obj6 = obj;
+                    $composer2.startReplaceGroup(779510646);
+                    $composer2.endReplaceGroup();
+                    $i$a$CacheSwitchKt$Switch$interactionSource$1 = obj5;
                 }
-                Object obj12 = obj6;
-                int i87 = 0;
+                Object obj10 = $i$a$CacheSwitchKt$Switch$interactionSource$1;
+                int i86 = 0;
                 int i41 = 0;
-                int i53 = 0;
+                int i52 = 0;
                 String str5 = "CC:CompositionLocal.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart($composer5, 2023513938, str5);
-                ComposerKt.sourceInformationMarkerEnd($composer5);
+                ComposerKt.sourceInformationMarkerStart($composer2, 2023513938, str5);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
                 int i42 = 0;
-                float $this$Switch_u24lambda_u241 = (Density)$composer5.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(SwitchKt.ThumbPathLength);
-                ComposerKt.sourceInformationMarkerStart($composer5, 779526684, str3);
-                int i44 = 0;
-                Composer composer4 = $composer5;
-                int i93 = 0;
+                float $this$Switch_u24lambda_u241 = (Density)$composer2.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(SwitchKt.ThumbPathLength);
+                ComposerKt.sourceInformationMarkerStart($composer2, 779526684, str3);
+                int i43 = 0;
+                Composer composer4 = $composer2;
+                int i92 = 0;
                 Object rememberedValue4 = composer4.rememberedValue();
-                int i96 = 0;
+                int i95 = 0;
                 if (rememberedValue4 == Composer.Companion.getEmpty()) {
                     obj48 = i40;
-                    invalid$iv = i44;
-                    empty = 0;
-                    composer4.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(false, empty, 2, empty));
+                    invalid$iv4 = i43;
+                    $i$a$CacheSwitchKt$Switch$forceAnimationCheck$2 = 0;
+                    composer4.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(false, $i$a$CacheSwitchKt$Switch$forceAnimationCheck$2, 2, $i$a$CacheSwitchKt$Switch$forceAnimationCheck$2));
                 } else {
-                    invalid$iv = i44;
+                    invalid$iv4 = i43;
                     obj47 = 0;
-                    invalid$iv4 = 2;
+                    invalid$iv3 = 2;
                     mutableStateOf$default = rememberedValue4;
                 }
                 obj4 = mutableStateOf$default;
-                ComposerKt.sourceInformationMarkerEnd($composer5);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                int i53 = 0;
+                int i64 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, 2023513938, str5);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
                 int i54 = 0;
-                int i65 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer5, 2023513938, str5);
-                ComposerKt.sourceInformationMarkerEnd($composer5);
-                int i55 = 0;
-                px-0680j_4 = (Density)$composer5.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(SwitchKt.SwitchVelocityThreshold);
-                ComposerKt.sourceInformationMarkerStart($composer5, 779532409, str3);
+                px-0680j_4 = (Density)$composer2.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(SwitchKt.SwitchVelocityThreshold);
+                ComposerKt.sourceInformationMarkerStart($composer2, 779532409, str3);
                 changed2 |= changed3;
-                Composer composer5 = $composer5;
-                int i66 = 0;
+                Composer composer5 = $composer2;
+                int i65 = 0;
                 Object rememberedValue3 = composer5.rememberedValue();
-                int i97 = 0;
-                if (empty2 == 0) {
-                    obj48 = empty2;
+                int i96 = 0;
+                if (empty == 0) {
+                    obj48 = empty;
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                        companion2 = invalid$iv5;
-                        SwitchKt.Switch.anchoredDraggableState.1.1 anon3 = new SwitchKt.Switch.anchoredDraggableState.1.1(i87, $this$Switch_u24lambda_u241);
-                        SwitchKt.Switch.anchoredDraggableState.1.3 anon4 = new SwitchKt.Switch.anchoredDraggableState.1.3(px-0680j_4);
-                        anchoredDraggableState2 = new AnchoredDraggableState(Boolean.valueOf(traceInProgress), AnchoredDraggableKt.DraggableAnchors((Function1)anon3), (Function1)SwitchKt.Switch.anchoredDraggableState.1.2.INSTANCE, (Function0)anon4, (AnimationSpec)SwitchKt.AnimationSpec, 0, 32, 0);
-                        composer5.updateRememberedValue(anchoredDraggableState2);
+                        companion3 = invalid$iv5;
+                        SwitchKt.Switch.anchoredDraggableState.1.1 $i$a$CacheSwitchKt$Switch$anchoredDraggableState$1 = new SwitchKt.Switch.anchoredDraggableState.1.1(i86, $this$Switch_u24lambda_u241);
+                        SwitchKt.Switch.anchoredDraggableState.1.3 anon3 = new SwitchKt.Switch.anchoredDraggableState.1.3(px-0680j_4);
+                        anchoredDraggableState = new AnchoredDraggableState(Boolean.valueOf(traceInProgress2), AnchoredDraggableKt.DraggableAnchors((Function1)$i$a$CacheSwitchKt$Switch$anchoredDraggableState$1), (Function1)SwitchKt.Switch.anchoredDraggableState.1.2.INSTANCE, (Function0)anon3, (AnimationSpec)SwitchKt.AnimationSpec, 0, 32, 0);
+                        composer5.updateRememberedValue(anchoredDraggableState);
                     } else {
-                        anchoredDraggableState3 = rememberedValue3;
+                        anchoredDraggableState2 = rememberedValue3;
                     }
                 } else {
-                    obj48 = empty2;
+                    obj48 = empty;
                 }
-                ComposerKt.sourceInformationMarkerEnd($composer5);
-                State rememberUpdatedState = SnapshotStateKt.rememberUpdatedState($composer2, $composer5, i45 &= 14);
-                State rememberUpdatedState2 = SnapshotStateKt.rememberUpdatedState(Boolean.valueOf(traceInProgress), $composer5, i5 & 14);
-                ComposerKt.sourceInformationMarkerStart($composer5, 779552085, str3);
-                obj48 = $composer5;
-                int i98 = 0;
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                State rememberUpdatedState = SnapshotStateKt.rememberUpdatedState($composer3, $composer2, i44 &= 14);
+                State rememberUpdatedState2 = SnapshotStateKt.rememberUpdatedState(Boolean.valueOf(traceInProgress2), $composer2, i19 & 14);
+                ComposerKt.sourceInformationMarkerStart($composer2, 779552085, str3);
+                obj48 = $composer2;
+                int i97 = 0;
                 float f2 = $this$Switch_u24lambda_u241;
                 Object rememberedValue = obj48.rememberedValue();
-                int i104 = 0;
-                if (i69 |= changed11 == 0) {
+                int i103 = 0;
+                if (i68 |= changed11 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int i39 = 0;
-                        companion2 = new SwitchKt.Switch.1.1(anchoredDraggableState3, rememberUpdatedState2, rememberUpdatedState, (MutableState)obj4, 0);
-                        obj48.updateRememberedValue((Function2)companion2);
+                        companion3 = new SwitchKt.Switch.1.1(anchoredDraggableState2, rememberUpdatedState2, rememberUpdatedState, (MutableState)obj4, 0);
+                        obj48.updateRememberedValue((Function2)companion3);
                     } else {
-                        obj3 = rememberedValue;
+                        $i$a$CacheSwitchKt$Switch$1 = rememberedValue;
                         i23 = rememberUpdatedState;
                         state = rememberUpdatedState2;
                         currentOnCheckedChange$delegate = obj48;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd($composer5);
-                EffectsKt.LaunchedEffect(anchoredDraggableState3, (Function2)obj3, $composer5, obj47);
-                ComposerKt.sourceInformationMarkerStart($composer5, 779563583, str3);
-                i13 = 1;
-                i17 = i5 & 14 == 4 ? i13 : 0;
-                Composer composer6 = $composer5;
-                empty3 = 0;
-                it$iv = composer6.rememberedValue();
-                int i102 = 0;
-                if (i17 |= changed4 == 0) {
-                    obj49 = empty3;
-                    if (it$iv == Composer.Companion.getEmpty()) {
-                        obj2 = it$iv;
-                        i20 = $i$f$cache;
-                        it$iv = new SwitchKt.Switch.2.1(traceInProgress, anchoredDraggableState3, 0);
-                        composer6.updateRememberedValue((Function2)it$iv);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                EffectsKt.LaunchedEffect(anchoredDraggableState2, (Function2)$i$a$CacheSwitchKt$Switch$1, $composer2, obj47);
+                ComposerKt.sourceInformationMarkerStart($composer2, 779563583, str3);
+                i7 = 1;
+                i11 = i19 & 14 == 4 ? i7 : 0;
+                Composer composer6 = $composer2;
+                $i$a$CacheSwitchKt$Switch$2 = 0;
+                it$iv2 = composer6.rememberedValue();
+                int i101 = 0;
+                if (i11 |= changed4 == 0) {
+                    obj49 = $i$a$CacheSwitchKt$Switch$2;
+                    if (it$iv2 == Composer.Companion.getEmpty()) {
+                        obj = it$iv2;
+                        i2 = $i$f$cache;
+                        it$iv2 = new SwitchKt.Switch.2.1(traceInProgress2, anchoredDraggableState2, 0);
+                        composer6.updateRememberedValue((Function2)it$iv2);
                     } else {
-                        obj2 = it$iv;
+                        obj = it$iv2;
                     }
                 } else {
-                    obj49 = empty3;
+                    obj49 = $i$a$CacheSwitchKt$Switch$2;
                 }
-                ComposerKt.sourceInformationMarkerEnd($composer5);
-                EffectsKt.LaunchedEffect(Boolean.valueOf(traceInProgress), Boolean.valueOf(SwitchKt.Switch$lambda$3(obj4)), (Function2)it$iv, $composer5, i5 & 14);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                EffectsKt.LaunchedEffect(Boolean.valueOf(traceInProgress2), Boolean.valueOf(SwitchKt.Switch$lambda$3(obj4)), (Function2)it$iv2, $composer2, i19 & 14);
                 int i36 = 0;
-                int i50 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer5, 2023513938, str5);
-                ComposerKt.sourceInformationMarkerEnd($composer5);
-                i8 = $composer5.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? i13 : 0;
-                int i92 = i8;
+                int i49 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, 2023513938, str5);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                i21 = $composer2.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? i7 : 0;
+                int i91 = i21;
                 if (onCheckedChange != null) {
-                    maxBound = i92;
+                    maxBound = i91;
                     isRtl = anchoredDraggableState5;
-                    anchoredDraggableState = f;
+                    anchoredDraggableState3 = f;
                     enabled2 = 2;
-                    companion = ToggleableKt.toggleable-O2vRcR0((Modifier)Modifier.Companion, traceInProgress, obj12, 0, z, Role.box-impl(Role.Companion.getSwitch-o7Vup1c()), onCheckedChange);
+                    companion2 = ToggleableKt.toggleable-O2vRcR0((Modifier)Modifier.Companion, traceInProgress2, obj10, 0, z, Role.box-impl(Role.Companion.getSwitch-o7Vup1c()), onCheckedChange);
                 } else {
-                    enabled4 = z;
-                    anchoredDraggableState = f2;
-                    obj5 = obj12;
+                    enabled3 = z;
+                    anchoredDraggableState3 = f2;
+                    obj6 = obj10;
                     enabled2 = 2;
-                    maxBound = i92;
-                    isRtl = anchoredDraggableState3;
-                    companion = Modifier.Companion;
+                    maxBound = i91;
+                    isRtl = anchoredDraggableState2;
+                    companion2 = Modifier.Companion;
                 }
                 if (onCheckedChange != null) {
                     minimumInteractiveComponentSize = InteractiveComponentSizeKt.minimumInteractiveComponentSize((Modifier)Modifier.Companion);
                 } else {
                     minimumInteractiveComponentSize = Modifier.Companion;
                 }
-                if (enabled4 && onCheckedChange != null) {
+                if (enabled3 && onCheckedChange != null) {
                     if (onCheckedChange != null) {
                     } else {
-                        i13 = 0;
+                        i7 = 0;
                     }
                 } else {
                 }
-                i6 = obj5;
+                i20 = obj6;
                 androidx.compose.material.AnchoredDraggableState anchoredDraggableState4 = isRtl;
-                int i88 = 0;
-                Modifier requiredSize-VpY3zN4 = SizeKt.requiredSize-VpY3zN4(PaddingKt.padding-3ABfNKs(SizeKt.wrapContentSize$default(AnchoredDraggableKt.anchoredDraggable(colors2.then(minimumInteractiveComponentSize).then(companion), isRtl, Orientation.Horizontal, i13, maxBound, i6, false), Alignment.Companion.getCenter(), i88, enabled2, 0), SwitchKt.DefaultSwitchPadding), SwitchKt.SwitchWidth, SwitchKt.SwitchHeight);
-                valueOf2 = i88;
-                int i72 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer5, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
+                int i87 = 0;
+                Modifier requiredSize-VpY3zN4 = SizeKt.requiredSize-VpY3zN4(PaddingKt.padding-3ABfNKs(SizeKt.wrapContentSize$default(AnchoredDraggableKt.anchoredDraggable(colors2.then(minimumInteractiveComponentSize).then(companion2), isRtl, Orientation.Horizontal, i7, maxBound, i20, false), Alignment.Companion.getCenter(), i87, enabled2, 0), SwitchKt.DefaultSwitchPadding), SwitchKt.SwitchWidth, SwitchKt.SwitchHeight);
+                valueOf = i87;
+                int i71 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 Alignment topStart = Alignment.Companion.getTopStart();
-                int i89 = 0;
-                androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i89);
-                i20 = 0;
-                obj45 = companion;
+                int i88 = 0;
+                androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i88);
+                i2 = 0;
+                obj45 = companion2;
                 obj46 = i32;
-                ComposerKt.sourceInformationMarkerStart($composer5, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
-                currentCompositionLocalMap = $composer5.getCurrentCompositionLocalMap();
+                ComposerKt.sourceInformationMarkerStart($composer2, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
+                currentCompositionLocalMap = $composer2.getCurrentCompositionLocalMap();
                 obj47 = currentCompositeKeyHash;
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier($composer5, requiredSize-VpY3zN4);
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier($composer2, requiredSize-VpY3zN4);
                 obj48 = requiredSize-VpY3zN4;
                 obj49 = constructor;
-                i7 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer5, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
+                i8 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                $composer5.startReusableNode();
-                if ($composer5.getInserting()) {
-                    $composer5.createNode(obj49);
+                $composer2.startReusableNode();
+                if ($composer2.getInserting()) {
+                    $composer2.createNode(obj49);
                 } else {
                     factory$iv$iv$iv = obj49;
-                    $composer5.useNode();
+                    $composer2.useNode();
                 }
-                Composer constructor-impl = Updater.constructor-impl($composer5);
-                int i99 = 0;
-                i22 = factory$iv$iv$iv;
+                Composer constructor-impl = Updater.constructor-impl($composer2);
+                int i98 = 0;
+                i3 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i105 = 0;
+                int i104 = 0;
                 obj49 = constructor-impl;
-                int i106 = 0;
+                int i105 = 0;
                 if (!obj49.getInserting()) {
                     localMap$iv$iv = currentCompositionLocalMap;
-                    z3 = valueOf2;
+                    z3 = valueOf;
                     if (!Intrinsics.areEqual(obj49.rememberedValue(), Integer.valueOf(obj47))) {
                         obj49.updateRememberedValue(Integer.valueOf(obj47));
                         constructor-impl.apply(Integer.valueOf(obj47), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = obj49;
+                        composer2 = obj49;
                     }
                 } else {
                     localMap$iv$iv = currentCompositionLocalMap;
-                    z3 = valueOf2;
+                    z3 = valueOf;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                Composer composer3 = $composer5;
-                int i51 = 0;
+                Composer composer3 = $composer2;
+                int i50 = 0;
                 obj49 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer3, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 Composer composer8 = composer3;
-                i21 = 0;
-                anchoredDraggableState2 = i34;
+                i4 = 0;
+                anchoredDraggableState = i34;
                 ComposerKt.sourceInformationMarkerStart(composer3, -277232920, "C179@7838L42,175@7683L258:Switch.kt#jmzs0o");
                 ComposerKt.sourceInformationMarkerStart(composer3, 545251075, str3);
-                invalid$iv2 = composer3.changed(anchoredDraggableState4);
+                invalid$iv = composer3.changed(anchoredDraggableState4);
                 Composer composer7 = composer3;
-                int i100 = 0;
-                it$iv2 = composer7.rememberedValue();
+                int i99 = 0;
+                it$iv = composer7.rememberedValue();
                 anon = 0;
-                if (!invalid$iv2) {
-                    invalid$iv3 = invalid$iv2;
-                    if (it$iv2 == Composer.Companion.getEmpty()) {
-                        invalid$iv2 = 0;
-                        companion3 = it$iv2;
-                        it$iv2 = new SwitchKt.Switch.3.1.1(anchoredDraggableState4);
-                        composer7.updateRememberedValue((Function0)it$iv2);
+                if (!invalid$iv) {
+                    invalid$iv2 = invalid$iv;
+                    if (it$iv == Composer.Companion.getEmpty()) {
+                        invalid$iv = 0;
+                        companion = it$iv;
+                        it$iv = new SwitchKt.Switch.3.1.1(anchoredDraggableState4);
+                        composer7.updateRememberedValue((Function0)it$iv);
                     } else {
-                        companion3 = it$iv2;
+                        companion = it$iv;
                     }
                 } else {
-                    invalid$iv3 = invalid$iv2;
+                    invalid$iv2 = invalid$iv;
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer3);
                 $this$Switch_u24lambda_u2412 = measurePolicy;
                 Alignment measurePolicy$iv2 = topStart;
                 contentAlignment$iv = z6;
-                enabled3 = composer3;
-                $composer2 = i89;
-                SwitchKt.SwitchImpl((BoxScope)BoxScopeInstance.INSTANCE, (Boolean)anchoredDraggableState4.getTargetValue().booleanValue(), contentAlignment$iv, i11, (Function0)it$iv2, (InteractionSource)i6, enabled3, i30 |= i81);
-                ComposerKt.sourceInformationMarkerEnd(enabled3);
+                enabled4 = composer3;
+                $composer3 = i88;
+                SwitchKt.SwitchImpl((BoxScope)BoxScopeInstance.INSTANCE, (Boolean)anchoredDraggableState4.getTargetValue().booleanValue(), contentAlignment$iv, i18, (Function0)it$iv, (InteractionSource)i20, enabled4, i30 |= i80);
+                ComposerKt.sourceInformationMarkerEnd(enabled4);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
-                $composer5.endNode();
-                ComposerKt.sourceInformationMarkerEnd($composer5);
-                ComposerKt.sourceInformationMarkerEnd($composer5);
-                ComposerKt.sourceInformationMarkerEnd($composer5);
+                $composer2.endNode();
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i19 = anon2;
-                $composer4 = colors2;
-                $dirty = contentAlignment$iv;
-                switchColors = i11;
-                obj8 = obj;
+                i5 = anon2;
+                $composer5 = colors2;
+                $dirty2 = contentAlignment$iv;
+                switchColors = i18;
+                obj2 = obj5;
             } else {
                 restartGroup.skipToGroupEnd();
-                $composer5 = restartGroup;
-                $composer4 = obj9;
-                i19 = $dirty2;
-                $dirty = z2;
-                obj8 = i11;
+                $composer2 = restartGroup;
+                $composer5 = obj7;
+                i5 = $dirty;
+                $dirty2 = z2;
+                obj2 = i18;
                 switchColors = propagateMinConstraints$iv;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = $composer5.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = $composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            anon2 = new SwitchKt.Switch.4(checked, onCheckedChange, $composer4, $dirty, obj8, switchColors, $changed, i9);
+            anon2 = new SwitchKt.Switch.4(checked, onCheckedChange, $composer5, $dirty2, obj2, switchColors, $changed, i9);
             endRestartGroup.updateScope((Function2)anon2);
         }
     }
@@ -610,54 +610,54 @@ public final class SwitchKt {
     }
 
     private static final void SwitchImpl(BoxScope $this$SwitchImpl, boolean checked, boolean enabled, androidx.compose.material.SwitchColors colors, Function0<Float> thumbValue, InteractionSource interactionSource, Composer $composer, int $changed) {
-        Object anon;
-        int i13;
+        Object $i$a$CacheSwitchKt$SwitchImpl$2;
+        int i9;
         Object invalid$iv2;
         int traceInProgress;
         String str;
         boolean circleShape;
         Object elevationOverlay;
         Object anon2;
-        float i8;
+        float i4;
         int $dirty;
         int skipping;
         boolean traceInProgress2;
         long l;
-        int i20;
-        int i4;
-        int i9;
-        int i18;
-        int i19;
+        int i10;
+        int i5;
         int i2;
+        int i7;
+        int i17;
+        int i11;
         int thumbRippleRadius;
         int invalid$iv;
         float thumbDefaultElevation;
         long apply-7g2Lkgo;
-        int i14;
+        int i21;
         int empty;
         Composer restartGroup;
-        int i12;
-        Object anon3;
         int i16;
-        Object mutableStateListOf;
+        Object anon;
+        int i19;
+        Object $i$a$CacheSwitchKt$SwitchImpl$interactions$1;
         int i6;
-        int i15;
+        int i13;
         int animateColorAsState-euL9pac;
         State state;
         State state2;
-        int i21;
-        int i;
-        Composer.Companion companion2;
-        int companion;
-        int i5;
+        int i18;
+        int i14;
+        Composer.Companion companion;
+        int companion2;
+        int i3;
         Modifier requiredSize-3ABfNKs;
         float f;
         androidx.compose.foundation.shape.RoundedCornerShape roundedCornerShape;
-        int i11;
-        int i10;
-        int i3;
-        int i7;
-        int i17;
+        int i20;
+        int i;
+        int i15;
+        int i8;
+        int i12;
         androidx.compose.runtime.snapshots.SnapshotStateList interactions;
         final Object obj = $this$SwitchImpl;
         circleShape = checked;
@@ -665,34 +665,34 @@ public final class SwitchKt {
         final Object obj2 = colors;
         final Object obj3 = thumbValue;
         final Object obj4 = interactionSource;
-        i8 = $changed;
+        i4 = $changed;
         traceInProgress = 70908914;
         restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(SwitchImpl)P(!1,2!1,4)221@9029L46,223@9115L614,223@9081L648,242@9932L28,246@10055L81,243@9965L171,249@10166L28,250@10244L7,*251@10303L7,253@10414L6,252@10353L228,262@10673L43,265@10826L133,259@10586L549:Switch.kt#jmzs0o");
-        if (i8 & 6 == 0) {
-            i20 = restartGroup.changed(obj) ? 4 : 2;
-            $dirty |= i20;
+        if (i4 & 6 == 0) {
+            i10 = restartGroup.changed(obj) ? 4 : 2;
+            $dirty |= i10;
         }
-        if (i8 & 48 == 0) {
-            i4 = restartGroup.changed(circleShape) ? 32 : 16;
-            $dirty |= i4;
+        if (i4 & 48 == 0) {
+            i5 = restartGroup.changed(circleShape) ? 32 : 16;
+            $dirty |= i5;
         }
-        if (i8 & 384 == 0) {
-            i9 = restartGroup.changed(elevationOverlay) ? 256 : 128;
-            $dirty |= i9;
-        }
-        if (i8 & 3072 == 0) {
-            i18 = restartGroup.changed(obj2) ? 2048 : 1024;
-            $dirty |= i18;
-        }
-        if (i8 & 24576 == 0) {
-            i19 = restartGroup.changedInstance(obj3) ? 16384 : 8192;
-            $dirty |= i19;
-        }
-        i14 = 131072;
-        if (i36 &= i8 == 0) {
-            i2 = restartGroup.changed(obj4) ? i14 : 65536;
+        if (i4 & 384 == 0) {
+            i2 = restartGroup.changed(elevationOverlay) ? 256 : 128;
             $dirty |= i2;
+        }
+        if (i4 & 3072 == 0) {
+            i7 = restartGroup.changed(obj2) ? 2048 : 1024;
+            $dirty |= i7;
+        }
+        if (i4 & 24576 == 0) {
+            i17 = restartGroup.changedInstance(obj3) ? 16384 : 8192;
+            $dirty |= i17;
+        }
+        i21 = 131072;
+        if (i36 &= i4 == 0) {
+            i11 = restartGroup.changed(obj4) ? i21 : 65536;
+            $dirty |= i11;
         }
         animateColorAsState-euL9pac = $dirty;
         if ($dirty2 &= animateColorAsState-euL9pac == 74898) {
@@ -711,24 +711,24 @@ public final class SwitchKt {
                     int i69 = 0;
                     composer2.updateRememberedValue(SnapshotStateKt.mutableStateListOf());
                 } else {
-                    mutableStateListOf = rememberedValue3;
+                    $i$a$CacheSwitchKt$SwitchImpl$interactions$1 = rememberedValue3;
                 }
-                invalid$iv2 = mutableStateListOf;
+                invalid$iv2 = $i$a$CacheSwitchKt$SwitchImpl$interactions$1;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 463290144, str5);
-                invalid$iv = i38 &= animateColorAsState-euL9pac == i14 ? 1 : 0;
+                invalid$iv = i38 &= animateColorAsState-euL9pac == i21 ? 1 : 0;
                 Composer composer3 = restartGroup;
                 int i66 = 0;
                 Object rememberedValue2 = composer3.rememberedValue();
                 int i71 = 0;
                 if (invalid$iv == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        mutableStateListOf = 0;
-                        i = invalid$iv;
+                        $i$a$CacheSwitchKt$SwitchImpl$interactions$1 = 0;
+                        i14 = invalid$iv;
                         anon2 = new SwitchKt.SwitchImpl.1.1(obj4, (SnapshotStateList)invalid$iv2, 0);
                         composer3.updateRememberedValue((Function2)anon2);
                     } else {
-                        i = invalid$iv;
+                        i14 = invalid$iv;
                         anon2 = rememberedValue2;
                     }
                 } else {
@@ -747,17 +747,17 @@ public final class SwitchKt {
                 if (!restartGroup.changed(trackColor)) {
                     interactions = invalid$iv2;
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                        companion = interactions2;
-                        anon = new SwitchKt.SwitchImpl.2.1(trackColor);
-                        composer4.updateRememberedValue((Function1)anon);
+                        companion2 = interactions2;
+                        $i$a$CacheSwitchKt$SwitchImpl$2 = new SwitchKt.SwitchImpl.2.1(trackColor);
+                        composer4.updateRememberedValue((Function1)$i$a$CacheSwitchKt$SwitchImpl$2);
                     } else {
-                        anon = rememberedValue4;
+                        $i$a$CacheSwitchKt$SwitchImpl$2 = rememberedValue4;
                     }
                 } else {
                     interactions = invalid$iv2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.fillMaxSize$default(obj.align((Modifier)Modifier.Companion, Alignment.Companion.getCenter()), 0, 1, 0), (Function1)anon, restartGroup, 0);
+                CanvasKt.Canvas(SizeKt.fillMaxSize$default(obj.align((Modifier)Modifier.Companion, Alignment.Companion.getCenter()), 0, 1, 0), (Function1)$i$a$CacheSwitchKt$SwitchImpl$2, restartGroup, 0);
                 int i64 = 6;
                 int i68 = 0;
                 int i56 = 2023513938;
@@ -766,13 +766,13 @@ public final class SwitchKt {
                 ComposerKt.sourceInformationMarkerStart(restartGroup, i56, thumbColor$delegate);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 Object this_$iv = consume2;
-                i12 = 6;
+                i16 = 6;
                 int i75 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, i56, thumbColor$delegate);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i57 = 0;
                 float constructor-impl = Dp.constructor-impl(unbox-impl + f);
-                companion2 = i33;
+                companion = i33;
                 String str6 = str5;
                 if (Color.equals-impl0(SwitchKt.SwitchImpl$lambda$17(state2), elevationOverlay) && (ElevationOverlay)this_$iv != null) {
                     if ((ElevationOverlay)this_$iv != null) {
@@ -780,18 +780,18 @@ public final class SwitchKt {
                         ComposerKt.sourceInformation(restartGroup, "254@10489L36");
                         Object obj6 = this_$iv;
                         str = str3;
-                        i13 = 0;
-                        i21 = 1;
+                        i9 = 0;
+                        i18 = 1;
                         elevationOverlay = obj6;
-                        i8 = constructor-impl;
+                        i4 = constructor-impl;
                         restartGroup.endReplaceGroup();
                         l = apply-7g2Lkgo;
                     } else {
                         elevationOverlay = this_$iv;
                         str = str6;
-                        i8 = constructor-impl;
-                        i13 = 0;
-                        i21 = 1;
+                        i4 = constructor-impl;
+                        i9 = 0;
+                        i18 = 1;
                         restartGroup.startReplaceGroup(1478489190);
                         restartGroup.endReplaceGroup();
                         l = apply-7g2Lkgo;
@@ -802,7 +802,7 @@ public final class SwitchKt {
                 state = trackColor;
                 restartGroup = composer5;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 463339429, str);
-                i6 = i5 & i30 == 16384 ? i21 : 0;
+                i6 = i3 & i30 == 16384 ? i18 : 0;
                 Composer composer = restartGroup;
                 int i32 = 0;
                 Object rememberedValue = composer.rememberedValue();
@@ -810,22 +810,22 @@ public final class SwitchKt {
                 if (i6 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        anon3 = new SwitchKt.SwitchImpl.3.1(obj3);
-                        composer.updateRememberedValue((Function1)anon3);
+                        anon = new SwitchKt.SwitchImpl.3.1(obj3);
+                        composer.updateRememberedValue((Function1)anon);
                     } else {
-                        anon3 = rememberedValue;
+                        anon = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 thumbRippleRadius = SwitchKt.ThumbRippleRadius;
-                SpacerKt.Spacer(BackgroundKt.background-bw27NRU(ShadowKt.shadow-s4CzXII$default(SizeKt.requiredSize-3ABfNKs(IndicationKt.indication(OffsetKt.offset(obj.align((Modifier)Modifier.Companion, Alignment.Companion.getCenterStart()), (Function1)anon3), obj4, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, thumbRippleRadius, 0, empty, restartGroup, 54)), SwitchKt.ThumbDiameter), f, (Shape)RoundedCornerShapeKt.getCircleShape(), false, 0, obj26, 0, obj28), SwitchKt.SwitchImpl$lambda$18(SingleValueAnimationKt.animateColorAsState-euL9pac(l, apply-7g2Lkgo, 0, 0, 0, composer5, 0)), thumbRippleRadius), restartGroup, 0);
+                SpacerKt.Spacer(BackgroundKt.background-bw27NRU(ShadowKt.shadow-s4CzXII$default(SizeKt.requiredSize-3ABfNKs(IndicationKt.indication(OffsetKt.offset(obj.align((Modifier)Modifier.Companion, Alignment.Companion.getCenterStart()), (Function1)anon), obj4, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, thumbRippleRadius, 0, empty, restartGroup, 54)), SwitchKt.ThumbDiameter), f, (Shape)RoundedCornerShapeKt.getCircleShape(), false, 0, obj26, 0, obj28), SwitchKt.SwitchImpl$lambda$18(SingleValueAnimationKt.animateColorAsState-euL9pac(l, apply-7g2Lkgo, 0, 0, 0, composer5, 0)), thumbRippleRadius), restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i5 = animateColorAsState-euL9pac;
+                i3 = animateColorAsState-euL9pac;
             }
         } else {
         }

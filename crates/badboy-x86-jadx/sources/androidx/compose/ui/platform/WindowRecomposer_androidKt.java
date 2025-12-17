@@ -52,9 +52,9 @@ public final class WindowRecomposer_androidKt {
         int lifecycle2;
         int i;
         Object iNSTANCE;
-        PausableMonotonicFrameClock pausableMonotonicFrameClock;
-        Object recomposer;
         PausableMonotonicFrameClock pausableMonotonicFrameClock2;
+        Object recomposer;
+        PausableMonotonicFrameClock pausableMonotonicFrameClock;
         int i2;
         if (coroutineContext.get((CoroutineContext.Key)ContinuationInterceptor.Key) != null) {
             if (coroutineContext.get((CoroutineContext.Key)MonotonicFrameClock.Key) == null) {
@@ -67,17 +67,17 @@ public final class WindowRecomposer_androidKt {
         kotlin.coroutines.CoroutineContext.Element context2 = plus.get((CoroutineContext.Key)MonotonicFrameClock.Key);
         if ((MonotonicFrameClock)context2 != null) {
             i = 0;
-            pausableMonotonicFrameClock = new PausableMonotonicFrameClock((MonotonicFrameClock)context2);
+            pausableMonotonicFrameClock2 = new PausableMonotonicFrameClock((MonotonicFrameClock)context2);
             i2 = 0;
-            pausableMonotonicFrameClock.pause();
+            pausableMonotonicFrameClock2.pause();
         } else {
-            pausableMonotonicFrameClock = lifecycle2;
+            pausableMonotonicFrameClock2 = lifecycle2;
         }
-        final PausableMonotonicFrameClock pausableMonotonicFrameClock3 = pausableMonotonicFrameClock;
+        final PausableMonotonicFrameClock pausableMonotonicFrameClock3 = pausableMonotonicFrameClock2;
         Ref.ObjectRef objectRef = new Ref.ObjectRef();
         if ((MotionDurationScale)plus.get((CoroutineContext.Key)MotionDurationScale.Key) == null) {
             motionDurationScaleImpl = new MotionDurationScaleImpl();
-            pausableMonotonicFrameClock = 0;
+            pausableMonotonicFrameClock2 = 0;
             objectRef.element = motionDurationScaleImpl;
         }
         if (pausableMonotonicFrameClock3 != null) {
@@ -150,13 +150,13 @@ public final class WindowRecomposer_androidKt {
         androidx.compose.ui.platform.WindowRecomposer_androidKt.getAnimationScaleFlowFor.1.1.contentObserver.1 anon;
         kotlinx.coroutines.channels.Channel channel;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i3;
-        SharingStarted sharingStarted;
-        android.content.ContentResolver contentResolver;
-        android.content.ContentResolver contentResolver2;
-        android.net.Uri uri;
-        int i2;
         int i;
+        SharingStarted sharingStarted;
+        android.content.ContentResolver contentResolver2;
+        android.content.ContentResolver contentResolver;
+        android.net.Uri uri;
+        int i3;
+        int i2;
         final Object obj2 = applicationContext;
         final Map animationScale2 = WindowRecomposer_androidKt.animationScale;
         final int i8 = 0;
@@ -165,14 +165,14 @@ public final class WindowRecomposer_androidKt {
         final int i10 = 0;
         final Object obj3 = obj;
         synchronized (animationScale2) {
-            i3 = 0;
+            i = 0;
             android.content.ContentResolver contentResolver3 = obj2.getContentResolver();
             android.net.Uri uriFor = Settings.Global.getUriFor("animator_duration_scale");
             int i6 = 0;
             channel = ChannelKt.Channel$default(-1, i6, i6, 6, i6);
             anon = new WindowRecomposer_androidKt.getAnimationScaleFlowFor.1.1.contentObserver.1(channel, HandlerCompat.createAsync(Looper.getMainLooper()));
             WindowRecomposer_androidKt.getAnimationScaleFlowFor.1.1.1 anon2 = new WindowRecomposer_androidKt.getAnimationScaleFlowFor.1.1.1(contentResolver3, uriFor, anon, channel, obj2, 0);
-            contentResolver2 = contentResolver3;
+            contentResolver = contentResolver3;
             uri = uriFor;
             map.put(obj2, FlowKt.stateIn(FlowKt.flow((Function2)anon2), CoroutineScopeKt.MainScope(), SharingStarted.Companion.WhileSubscribed$default(SharingStarted.Companion, 0, obj16, 0, obj18), Float.valueOf(Settings.Global.getFloat(obj2.getContentResolver(), "animator_duration_scale", 1065353216))));
             return (StateFlow)stateIn;
@@ -201,7 +201,7 @@ public final class WindowRecomposer_androidKt {
     }
 
     public static final Recomposer getWindowRecomposer(View $this$windowRecomposer) {
-        String string;
+        String $i$a$CheckPreconditionWindowRecomposer_androidKt$windowRecomposer$1;
         CompositionContext andInstallWindowRecomposer$ui_release;
         StringBuilder append;
         String str;

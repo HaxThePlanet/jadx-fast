@@ -59,28 +59,28 @@ public final class OutlineResolver {
     }
 
     private final boolean isSameBounds-4L21HEs(RoundRect $this$isSameBounds_u2d4L21HEs, long offset, long size, float radius) {
-        int i2;
         int i;
+        int i2;
         boolean simple;
         long topLeftCornerRadius-kKHJgLs;
         float height-impl;
-        i2 = 0;
+        i = 0;
         if ($this$isSameBounds_u2d4L21HEs != null) {
             if (!RoundRectKt.isSimple($this$isSameBounds_u2d4L21HEs)) {
             } else {
                 int i3 = 1;
-                i = Float.compare(left, x-impl2) == 0 ? i3 : i2;
-                if (i != 0) {
-                    i = Float.compare(top, topLeftCornerRadius-kKHJgLs) == 0 ? i3 : i2;
-                    if (i != 0) {
-                        i = Float.compare(right, topLeftCornerRadius-kKHJgLs) == 0 ? i3 : i2;
-                        if (i != 0) {
+                i2 = Float.compare(left, x-impl2) == 0 ? i3 : i;
+                if (i2 != 0) {
+                    i2 = Float.compare(top, topLeftCornerRadius-kKHJgLs) == 0 ? i3 : i;
+                    if (i2 != 0) {
+                        i2 = Float.compare(right, topLeftCornerRadius-kKHJgLs) == 0 ? i3 : i;
+                        if (i2 != 0) {
                             height-impl = Size.getHeight-impl(radius);
-                            i = Float.compare(bottom, topLeftCornerRadius-kKHJgLs) == 0 ? i3 : i2;
-                            if (i != 0) {
-                                i = Float.compare(x-impl, obj11) == 0 ? i3 : i2;
-                                if (i != 0) {
-                                    i2 = i3;
+                            i2 = Float.compare(bottom, topLeftCornerRadius-kKHJgLs) == 0 ? i3 : i;
+                            if (i2 != 0) {
+                                i2 = Float.compare(x-impl, obj11) == 0 ? i3 : i;
+                                if (i2 != 0) {
+                                    i = i3;
                                 } else {
                                 }
                             } else {
@@ -92,9 +92,9 @@ public final class OutlineResolver {
                 } else {
                 }
             }
-            return i2;
+            return i;
         }
-        return i2;
+        return i;
     }
 
     private final void updateCache() {
@@ -168,10 +168,10 @@ public final class OutlineResolver {
         float height;
         Outline cachedOutline;
         int i;
-        int round2;
         int round3;
-        int round;
+        int round2;
         int round4;
+        int round;
         final float x-impl = CornerRadius.getX-impl(roundRect.getTopLeftCornerRadius-kKHJgLs());
         this.rectTopLeft = OffsetKt.Offset(roundRect.getLeft(), roundRect.getTop());
         this.rectSize = SizeKt.Size(roundRect.getWidth(), roundRect.getHeight());
@@ -200,10 +200,10 @@ public final class OutlineResolver {
         boolean sameBounds-4L21HEs;
         long i4;
         long rectSize;
-        long i5;
+        long i2;
         float roundedCornerRadius;
         Canvas canvas2;
-        int i2;
+        int i5;
         Path roundRectClipPath;
         Object obj;
         float x-impl;
@@ -221,14 +221,14 @@ public final class OutlineResolver {
             Canvas.clipPath-mtrdD-E$default(canvas2, clipPath, i6, i7, i8);
             obj = roundedCornerRadius2;
         } else {
-            i2 = 0;
-            int cmp = Float.compare(roundedCornerRadius3, i2);
+            i5 = 0;
+            int cmp = Float.compare(roundedCornerRadius3, i5);
             if (cmp > 0) {
                 roundRectClipPath = roundedCornerRadius2.tmpPath;
                 if (roundRectClipPath != null) {
                     obj = roundedCornerRadius2;
                     if (!roundedCornerRadius2.isSameBounds-4L21HEs(roundedCornerRadius2.tmpRoundRect, roundedCornerRadius2.rectTopLeft, obj3, roundedCornerRadius2.rectSize)) {
-                        roundRect = RoundRectKt.RoundRect-gG7oq9Y(Offset.getX-impl(obj.rectTopLeft), Offset.getY-impl(obj.rectTopLeft), x-impl2 + width-impl, y-impl2 + sameBounds-4L21HEs, CornerRadiusKt.CornerRadius$default(obj.roundedCornerRadius, i2, i7, i8));
+                        roundRect = RoundRectKt.RoundRect-gG7oq9Y(Offset.getX-impl(obj.rectTopLeft), Offset.getY-impl(obj.rectTopLeft), x-impl2 + width-impl, y-impl2 + sameBounds-4L21HEs, CornerRadiusKt.CornerRadius$default(obj.roundedCornerRadius, i5, i7, i8));
                         if (roundRectClipPath == null) {
                             roundRectClipPath = AndroidPath_androidKt.Path();
                         } else {

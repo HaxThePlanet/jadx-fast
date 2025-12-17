@@ -131,20 +131,20 @@ public interface Canvas {
     }
 
     public static void drawImageRect-HPBpro0$default(androidx.compose.ui.graphics.Canvas canvas, androidx.compose.ui.graphics.ImageBitmap imageBitmap2, long l3, long l4, long l5, long l6, androidx.compose.ui.graphics.Paint paint7, int i8, Object object9) {
-        int zero-nOcc-ac2;
-        int i;
         int zero-nOcc-ac;
+        int i;
+        int zero-nOcc-ac2;
         int height;
-        long l8;
-        long l2;
-        long l;
         long l7;
+        long l2;
+        long l8;
+        long l;
         if (obj25 != null) {
         } else {
             if (obj24 & 2 != 0) {
-                l8 = zero-nOcc-ac2;
+                l7 = zero-nOcc-ac;
             } else {
-                l8 = l3;
+                l7 = l3;
             }
             if (obj24 & 4 != 0) {
                 l2 = i;
@@ -152,12 +152,12 @@ public interface Canvas {
                 l2 = l5;
             }
             if (obj24 & 8 != 0) {
-                l = zero-nOcc-ac;
+                l8 = zero-nOcc-ac2;
             } else {
-                l = paint7;
+                l8 = paint7;
             }
-            l7 = obj24 & 16 != 0 ? l2 : object9;
-            canvas.drawImageRect-HPBpro0(imageBitmap2, l8, obj5, l2, obj7, l);
+            l = obj24 & 16 != 0 ? l2 : object9;
+            canvas.drawImageRect-HPBpro0(imageBitmap2, l7, obj5, l2, obj7, l8);
         }
         UnsupportedOperationException obj13 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: drawImageRect-HPBpro0");
         throw obj13;

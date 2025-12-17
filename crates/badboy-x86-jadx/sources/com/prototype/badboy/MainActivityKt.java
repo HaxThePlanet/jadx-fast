@@ -78,483 +78,483 @@ public final class MainActivityKt {
     }
 
     public static final void Greeting(String name, Modifier modifier, Function1<? super String[], Unit> requestPermissions, Composer $composer, int $changed, int i6) {
-        Object externalSyntheticLambda6;
+        Object this_4;
         boolean traceInProgress2;
-        Object rememberedValue;
-        Object rememberedValue4;
-        Object rememberedValue3;
-        int empty6;
-        Object externalSyntheticLambda5;
-        int fillMaxWidth$default2;
-        int $dirty;
-        Object obj2;
+        Object it32;
+        Object it36;
+        Object it40;
+        int empty2;
+        Object $i$a$CacheMainActivityKt$Greeting$2$1$54633827;
+        int fillMaxWidth$default;
         int $dirty2;
-        Object modifier4;
+        Object obj2;
+        int $dirty;
+        Object modifier3;
         Integer currentCompositionLocalMap;
-        Object rememberedValue5;
-        int i42;
-        int i37;
-        int i33;
-        int i27;
-        int constructor-impl;
+        Object it28;
+        int i17;
+        int i34;
+        int i26;
+        int i22;
+        int $this$dp47;
         Object obj4;
-        int i38;
-        Object i18;
-        Object requestPermissions2;
-        int i12;
-        Composer i17;
+        int i27;
+        Object i30;
+        Object invalid1;
+        int i8;
+        Composer $this$Greeting_u24lambda_u241918;
         boolean traceInProgress;
         Object mutableStateOf$default;
-        int i41;
+        int i23;
         Integer currentCompositionLocalMap2;
-        int empty4;
-        int empty5;
-        Object empty2;
+        int $i$f$cache32104;
+        int $i$f$cache361302;
+        Object $i$f$cache401562;
         Object str;
-        kotlin.jvm.functions.Function0 function03;
-        Composer composer5;
-        Object empty3;
-        Object columnMeasurePolicy2;
-        int i13;
-        int i28;
-        kotlin.jvm.functions.Function0 function04;
-        int rememberedValue2;
-        int i20;
-        Composer composer;
+        kotlin.jvm.functions.Function0 factory13;
+        Composer composer3;
+        Object $composer272;
         Object columnMeasurePolicy;
+        int i;
+        int i9;
+        kotlin.jvm.functions.Function0 factory22;
+        int rememberedValue;
+        int i31;
+        Composer composer2;
+        Object columnMeasurePolicy2;
         int currentCompositeKeyHash;
         Object top;
-        Object mutableStateOf$default2;
+        Object $i$a$CacheMainActivityKt$Greeting$androidId$272290;
         Object empty;
-        int i34;
-        int i24;
-        int i16;
-        Object obj8;
-        int i25;
+        int i18;
+        int i38;
+        int i32;
+        Object obj5;
+        int i36;
         int currentCompositeKeyHash2;
         androidx.compose.ui.Alignment.Horizontal horizontal;
-        int i10;
-        int i14;
         int i29;
+        int i25;
+        int i12;
         kotlin.jvm.functions.Function0 function0;
-        int i11;
-        Modifier modifier2;
-        int i21;
-        Modifier modifier5;
-        int i30;
-        int i;
         int i15;
-        Composer composer4;
-        androidx.compose.runtime.CompositionLocalMap map2;
-        androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        ColumnScopeInstance columnScopeInstance2;
-        int i8;
-        int padding-3ABfNKs;
+        Modifier modifier4;
+        int i20;
+        Modifier modifier5;
         int i35;
-        int i36;
-        kotlin.jvm.functions.Function0 function02;
+        int i13;
+        int i19;
+        Composer composer4;
+        androidx.compose.runtime.CompositionLocalMap localMap12;
+        androidx.compose.ui.layout.MeasurePolicy measurePolicy;
         ColumnScopeInstance columnScopeInstance;
-        Modifier modifier3;
-        androidx.compose.runtime.CompositionLocalMap map;
+        int i16;
+        int padding-3ABfNKs;
+        int i37;
+        int i33;
+        kotlin.jvm.functions.Function0 function02;
+        ColumnScopeInstance columnScopeInstance2;
+        Modifier modifier2;
+        androidx.compose.runtime.CompositionLocalMap localMap21;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
         com.prototype.badboy.MainActivityKt$$ExternalSyntheticLambda5 activity;
-        int companion4;
-        Modifier fillMaxWidth$default;
-        int i2;
-        Object obj7;
-        Object obj5;
-        Object obj3;
-        Composer.Companion companion;
-        int companion5;
         int companion2;
-        int companion3;
+        Modifier fillMaxWidth$default2;
+        int i28;
+        Object obj3;
         Object obj6;
-        int i9;
+        Object obj7;
+        Composer.Companion companion;
+        int companion4;
+        int companion3;
+        int companion5;
+        Object obj8;
+        int $i$f$cache321042;
+        int $i$f$cache36130;
+        int $i$f$cache40156;
+        int i24;
+        int i2;
+        int i14;
+        int i21;
         int i3;
-        int i26;
-        int i40;
-        int i22;
-        int i19;
-        int i5;
-        int i31;
         kotlin.jvm.functions.Function3 lambda-5$app_debug;
-        Composer composer6;
-        Composer composer7;
-        int i23;
-        Composer composer2;
-        Composer composer3;
-        int i39;
-        int i32;
+        Composer composer5;
+        Composer $composer27;
+        int i10;
+        Composer $composer18;
+        Composer composer;
         int i4;
+        int i5;
         int i7;
+        int i11;
         Object obj;
         int obj67;
         int obj69;
-        i18 = $changed;
+        i30 = $changed;
         Intrinsics.checkNotNullParameter(name, "name");
-        externalSyntheticLambda6 = 654543564;
-        final Composer restartGroup = $composer.startRestartGroup(externalSyntheticLambda6);
+        this_4 = 654543564;
+        final Composer restartGroup = $composer.startRestartGroup(this_4);
         ComposerKt.sourceInformation(restartGroup, "C(Greeting)P(1)70@2603L2,72@2641L7,73@2670L31,74@2725L31,76@2762L5249:MainActivity.kt#3hk3sw");
-        $dirty = $changed;
-        int i75 = i6 & 2;
-        if (i75 != 0) {
-            $dirty |= 48;
-            requestPermissions2 = modifier;
+        $dirty2 = $changed;
+        int i69 = i6 & 2;
+        if (i69 != 0) {
+            $dirty2 |= 48;
+            invalid1 = modifier;
         } else {
-            if (i18 & 48 == 0) {
-                i12 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i12;
+            if (i30 & 48 == 0) {
+                i8 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i8;
             } else {
-                requestPermissions2 = modifier;
+                invalid1 = modifier;
             }
         }
-        i17 = i6 & 4;
-        if (i17 != 0) {
-            $dirty |= 384;
+        $this$Greeting_u24lambda_u241918 = i6 & 4;
+        if ($this$Greeting_u24lambda_u241918 != 0) {
+            $dirty2 |= 384;
             str = requestPermissions;
         } else {
-            if (i18 & 384 == 0) {
-                i13 = restartGroup.changedInstance(requestPermissions) ? 256 : 128;
-                $dirty |= i13;
+            if (i30 & 384 == 0) {
+                i = restartGroup.changedInstance(requestPermissions) ? 256 : 128;
+                $dirty2 |= i;
             } else {
                 str = requestPermissions;
             }
         }
-        int i122 = $dirty;
-        if (i122 & 145 == 144) {
+        int i111 = $dirty2;
+        if (i111 & 145 == 144) {
             if (!restartGroup.getSkipping()) {
-                if (i75 != 0) {
-                    modifier4 = Modifier.Companion;
+                if (i69 != 0) {
+                    modifier3 = Modifier.Companion;
                 } else {
-                    modifier4 = requestPermissions2;
+                    modifier3 = invalid1;
                 }
-                String str7 = "CC(remember):MainActivity.kt#9igjgp";
-                if (i17 != 0) {
+                String str6 = "CC(remember):MainActivity.kt#9igjgp";
+                if ($this$Greeting_u24lambda_u241918 != 0) {
                     restartGroup.startReplaceGroup(-1388754071);
-                    ComposerKt.sourceInformation(restartGroup, str7);
-                    int i78 = 0;
-                    i17 = restartGroup;
-                    i28 = 0;
-                    rememberedValue2 = i17.rememberedValue();
-                    i20 = 0;
-                    if (rememberedValue2 == Composer.Companion.getEmpty()) {
+                    ComposerKt.sourceInformation(restartGroup, str6);
+                    int i72 = 0;
+                    $this$Greeting_u24lambda_u241918 = restartGroup;
+                    i9 = 0;
+                    rememberedValue = $this$Greeting_u24lambda_u241918.rememberedValue();
+                    i31 = 0;
+                    if (rememberedValue == Composer.Companion.getEmpty()) {
                         currentCompositeKeyHash = 0;
                         top = new MainActivityKt$$ExternalSyntheticLambda0();
-                        i17.updateRememberedValue(top);
+                        $this$Greeting_u24lambda_u241918.updateRememberedValue(top);
                     } else {
-                        top = rememberedValue2;
+                        top = rememberedValue;
                     }
-                    requestPermissions2 = top;
+                    invalid1 = top;
                     restartGroup.endReplaceGroup();
                 } else {
-                    requestPermissions2 = str;
+                    invalid1 = str;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(externalSyntheticLambda6, i122, -1, "com.prototype.badboy.Greeting (MainActivity.kt:71)");
+                    ComposerKt.traceEventStart(this_4, i111, -1, "com.prototype.badboy.Greeting (MainActivity.kt:71)");
                 }
-                int i80 = 0;
-                int i106 = 0;
+                int i74 = 0;
+                int i99 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                externalSyntheticLambda6 = consume;
+                this_4 = consume;
                 restartGroup.startReplaceGroup(-1388751898);
-                ComposerKt.sourceInformation(restartGroup, str7);
-                int i82 = 0;
-                int i107 = i82;
-                Composer composer17 = restartGroup;
-                int i124 = 0;
-                Object rememberedValue9 = composer17.rememberedValue();
-                int i147 = 0;
-                String str9 = "";
-                obj67 = i82;
-                int i83 = 2;
-                if (rememberedValue9 == Composer.Companion.getEmpty()) {
-                    int i152 = 0;
+                ComposerKt.sourceInformation(restartGroup, str6);
+                int i76 = 0;
+                int i100 = i76;
+                Composer composer15 = restartGroup;
+                int i113 = 0;
+                Object rememberedValue5 = composer15.rememberedValue();
+                int i133 = 0;
+                String str7 = "";
+                obj67 = i76;
+                int i77 = 2;
+                if (rememberedValue5 == Composer.Companion.getEmpty()) {
+                    int i138 = 0;
                     traceInProgress2 = 0;
-                    composer17.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(str9, traceInProgress2, i83, traceInProgress2));
+                    composer15.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(str7, traceInProgress2, i77, traceInProgress2));
                 } else {
-                    mutableStateOf$default2 = rememberedValue9;
+                    $i$a$CacheMainActivityKt$Greeting$androidId$272290 = rememberedValue5;
                 }
-                Object obj9 = mutableStateOf$default2;
+                Object obj9 = $i$a$CacheMainActivityKt$Greeting$androidId$272290;
                 restartGroup.endReplaceGroup();
                 restartGroup.startReplaceGroup(-1388750138);
-                ComposerKt.sourceInformation(restartGroup, str7);
-                int i109 = obj67;
-                Composer composer18 = restartGroup;
-                int i125 = 0;
-                Object rememberedValue10 = composer18.rememberedValue();
-                int i148 = 0;
-                if (rememberedValue10 == Composer.Companion.getEmpty()) {
+                ComposerKt.sourceInformation(restartGroup, str6);
+                int i102 = obj67;
+                Composer composer16 = restartGroup;
+                int i114 = 0;
+                Object rememberedValue6 = composer16.rememberedValue();
+                int i134 = 0;
+                if (rememberedValue6 == Composer.Companion.getEmpty()) {
                     empty = 0;
-                    i18 = 0;
-                    composer18.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(str9, i18, i83, i18));
+                    i30 = 0;
+                    composer16.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(str7, i30, i77, i30));
                 } else {
-                    mutableStateOf$default = rememberedValue10;
+                    mutableStateOf$default = rememberedValue6;
                 }
-                i18 = mutableStateOf$default;
+                i30 = mutableStateOf$default;
                 restartGroup.endReplaceGroup();
-                Modifier fillMaxSize$default = SizeKt.fillMaxSize$default(modifier4, 0, 1, 0);
-                int i111 = obj67;
-                String str14 = "CC(Column)P(2,3,1)85@4251L61,86@4317L133:Column.kt#2w3rfo";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, -483455358, str14);
+                Modifier fillMaxSize$default = SizeKt.fillMaxSize$default(modifier3, 0, 1, 0);
+                int i104 = obj67;
+                String str9 = "CC(Column)P(2,3,1)85@4251L61,86@4317L133:Column.kt#2w3rfo";
+                ComposerKt.sourceInformationMarkerStart(restartGroup, -483455358, str9);
                 androidx.compose.ui.Alignment.Horizontal start = Alignment.Companion.getStart();
-                columnMeasurePolicy = ColumnKt.columnMeasurePolicy(Arrangement.INSTANCE.getTop(), start, restartGroup, i154 | i157);
-                i24 = 0;
+                columnMeasurePolicy2 = ColumnKt.columnMeasurePolicy(Arrangement.INSTANCE.getTop(), start, restartGroup, i140 | i143);
+                i38 = 0;
                 String modifier6 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, modifier6);
                 currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, obj67);
                 currentCompositionLocalMap2 = restartGroup.getCurrentCompositionLocalMap();
                 horizontal = start;
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, fillMaxSize$default);
-                kotlin.jvm.functions.Function0 function05 = constructor2;
-                i10 = 0;
-                modifier2 = fillMaxSize$default;
-                String str12 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, str12);
+                kotlin.jvm.functions.Function0 function03 = constructor2;
+                i29 = 0;
+                modifier4 = fillMaxSize$default;
+                String modifier11 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
+                ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, modifier11);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
                 restartGroup.startReusableNode();
                 if (restartGroup.getInserting()) {
-                    restartGroup.createNode(function05);
+                    restartGroup.createNode(function03);
                 } else {
-                    function03 = function05;
+                    factory13 = function03;
                     restartGroup.useNode();
                 }
-                function0 = function03;
-                Composer constructor-impl6 = Updater.constructor-impl(restartGroup);
-                int i161 = 0;
-                i = i126;
-                Updater.set-impl(constructor-impl6, columnMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl6, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i162 = 0;
-                Composer composer19 = constructor-impl6;
-                int i163 = 0;
-                if (!composer19.getInserting()) {
-                    map2 = currentCompositionLocalMap2;
-                    measurePolicy = columnMeasurePolicy;
-                    if (!Intrinsics.areEqual(composer19.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
-                        composer19.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
-                        constructor-impl6.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                function0 = factory13;
+                Composer constructor-impl = Updater.constructor-impl(restartGroup);
+                int i147 = 0;
+                i13 = i115;
+                Updater.set-impl(constructor-impl, columnMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i148 = 0;
+                Composer composer17 = constructor-impl;
+                int i149 = 0;
+                if (!composer17.getInserting()) {
+                    localMap12 = currentCompositionLocalMap2;
+                    measurePolicy = columnMeasurePolicy2;
+                    if (!Intrinsics.areEqual(composer17.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
+                        composer17.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
+                        constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer19;
+                        composer2 = composer17;
                     }
                 } else {
-                    map2 = currentCompositionLocalMap2;
-                    measurePolicy = columnMeasurePolicy;
+                    localMap12 = currentCompositionLocalMap2;
+                    measurePolicy = columnMeasurePolicy2;
                 }
-                Updater.set-impl(constructor-impl6, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                Composer composer13 = restartGroup;
+                Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
+                Composer composer11 = restartGroup;
                 modifier5 = materializeModifier;
-                ComposerKt.sourceInformationMarkerStart(composer13, -384862393, "C87@4365L9:Column.kt#2w3rfo");
-                i17 = composer13;
-                i30 = 0;
-                i15 = i89;
-                ComposerKt.sourceInformationMarkerStart(i17, 1157528740, "C82@2928L21,79@2828L4950:MainActivity.kt#3hk3sw");
-                int i91 = 0;
-                int i164 = 0;
-                i4 = i127;
-                i8 = 432;
+                ComposerKt.sourceInformationMarkerStart(composer11, -384862393, "C87@4365L9:Column.kt#2w3rfo");
+                $this$Greeting_u24lambda_u241918 = composer11;
+                i35 = 0;
+                i19 = i83;
+                ComposerKt.sourceInformationMarkerStart($this$Greeting_u24lambda_u241918, 1157528740, "C82@2928L21,79@2828L4950:MainActivity.kt#3hk3sw");
+                int i84 = 0;
+                int i150 = 0;
+                i7 = i116;
+                i16 = 432;
                 padding-3ABfNKs = 0;
-                i7 = i142;
-                ComposerKt.sourceInformationMarkerStart(i17, -483455358, str14);
-                columnMeasurePolicy2 = ColumnKt.columnMeasurePolicy(Arrangement.INSTANCE.getTop(), Alignment.Companion.getCenterHorizontally(), i17, i145 |= i150);
-                i20 = 0;
-                ComposerKt.sourceInformationMarkerStart(i17, -1323940314, modifier6);
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(i17, 0);
-                currentCompositionLocalMap = i17.getCurrentCompositionLocalMap();
-                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(i17, PaddingKt.padding-3ABfNKs(ScrollKt.verticalScroll$default(ColumnScope.weight$default((ColumnScope)ColumnScopeInstance.INSTANCE, (Modifier)Modifier.Companion, 1065353216, false, 2, 0), ScrollKt.rememberScrollState(i91, i17, i91, 1), false, 0, false, 14, 0), Dp.constructor-impl((float)i117)));
-                kotlin.jvm.functions.Function0 function06 = constructor;
-                i16 = 0;
-                i36 = i132;
-                ComposerKt.sourceInformationMarkerStart(i17, -692256719, str12);
+                i11 = i129;
+                ComposerKt.sourceInformationMarkerStart($this$Greeting_u24lambda_u241918, -483455358, str9);
+                columnMeasurePolicy = ColumnKt.columnMeasurePolicy(Arrangement.INSTANCE.getTop(), Alignment.Companion.getCenterHorizontally(), $this$Greeting_u24lambda_u241918, i131 |= i136);
+                i31 = 0;
+                ComposerKt.sourceInformationMarkerStart($this$Greeting_u24lambda_u241918, -1323940314, modifier6);
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($this$Greeting_u24lambda_u241918, 0);
+                currentCompositionLocalMap = $this$Greeting_u24lambda_u241918.getCurrentCompositionLocalMap();
+                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier($this$Greeting_u24lambda_u241918, PaddingKt.padding-3ABfNKs(ScrollKt.verticalScroll$default(ColumnScope.weight$default((ColumnScope)ColumnScopeInstance.INSTANCE, (Modifier)Modifier.Companion, 1065353216, false, 2, 0), ScrollKt.rememberScrollState(i84, $this$Greeting_u24lambda_u241918, i84, 1), false, 0, false, 14, 0), Dp.constructor-impl((float)i109)));
+                kotlin.jvm.functions.Function0 function04 = constructor;
+                i32 = 0;
+                i33 = i120;
+                ComposerKt.sourceInformationMarkerStart($this$Greeting_u24lambda_u241918, -692256719, modifier11);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                i17.startReusableNode();
-                if (i17.getInserting()) {
-                    i17.createNode(function06);
+                $this$Greeting_u24lambda_u241918.startReusableNode();
+                if ($this$Greeting_u24lambda_u241918.getInserting()) {
+                    $this$Greeting_u24lambda_u241918.createNode(function04);
                 } else {
-                    function04 = function06;
-                    i17.useNode();
+                    factory22 = function04;
+                    $this$Greeting_u24lambda_u241918.useNode();
                 }
-                Composer constructor-impl8 = Updater.constructor-impl(i17);
+                Composer constructor-impl2 = Updater.constructor-impl($this$Greeting_u24lambda_u241918);
+                int i146 = 0;
+                function02 = factory22;
+                Updater.set-impl(constructor-impl2, columnMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i153 = 0;
+                Composer composer18 = constructor-impl2;
+                int i156 = 0;
+                if (!composer18.getInserting()) {
+                    localMap21 = currentCompositionLocalMap;
+                    measurePolicy2 = columnMeasurePolicy;
+                    if (!Intrinsics.areEqual(composer18.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer18.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                        constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    } else {
+                        composer3 = composer18;
+                    }
+                } else {
+                    localMap21 = currentCompositionLocalMap;
+                    measurePolicy2 = columnMeasurePolicy;
+                }
+                Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
+                $composer272 = $this$Greeting_u24lambda_u241918;
+                i9 = 0;
+                i20 = i50;
+                ComposerKt.sourceInformationMarkerStart($composer272, -384862393, "C87@4365L9:Column.kt#2w3rfo");
+                i123 |= 6;
+                Composer composer19 = $composer272;
+                i37 = 0;
+                modifier2 = materializeModifier2;
+                ComposerKt.sourceInformationMarkerStart($composer272, 653305464, "C88@3156L259,87@3122L410,100@3546L40,103@3634L879,102@3600L1028,126@4642L40,129@4730L860,128@4696L1013,152@5723L40,155@5811L710,154@5777L859,174@6650L40,177@6738L910,176@6704L1064:MainActivity.kt#3hk3sw");
+                $composer272.startReplaceGroup(1406544392);
+                ComposerKt.sourceInformation($composer272, str6);
+                Composer composer10 = $composer272;
                 int i160 = 0;
-                function02 = function04;
-                Updater.set-impl(constructor-impl8, columnMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl8, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i167 = 0;
-                Composer composer20 = constructor-impl8;
-                int i170 = 0;
-                if (!composer20.getInserting()) {
-                    map = currentCompositionLocalMap;
-                    measurePolicy2 = columnMeasurePolicy2;
-                    if (!Intrinsics.areEqual(composer20.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer20.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
-                        constructor-impl8.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                it28 = composer10.rememberedValue();
+                int i172 = 0;
+                if (!$composer272.changedInstance((Context)this_4)) {
+                    $composer27 = $composer272;
+                    if (it28 == Composer.Companion.getEmpty()) {
+                        $composer272 = 0;
+                        obj8 = it28;
+                        it28 = new MainActivityKt$$ExternalSyntheticLambda1(this_4, (MutableState)obj9, (MutableState)i30);
+                        composer10.updateRememberedValue(it28);
                     } else {
-                        composer5 = composer20;
+                        obj8 = it28;
                     }
                 } else {
-                    map = currentCompositionLocalMap;
-                    measurePolicy2 = columnMeasurePolicy2;
+                    $composer27 = $composer272;
                 }
-                Updater.set-impl(constructor-impl8, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
-                empty3 = i17;
-                i28 = 0;
-                i21 = i55;
-                ComposerKt.sourceInformationMarkerStart(empty3, -384862393, "C87@4365L9:Column.kt#2w3rfo");
-                i136 |= 6;
-                Composer composer21 = empty3;
-                i35 = 0;
-                modifier3 = materializeModifier2;
-                ComposerKt.sourceInformationMarkerStart(empty3, 653305464, "C88@3156L259,87@3122L410,100@3546L40,103@3634L879,102@3600L1028,126@4642L40,129@4730L860,128@4696L1013,152@5723L40,155@5811L710,154@5777L859,174@6650L40,177@6738L910,176@6704L1064:MainActivity.kt#3hk3sw");
-                empty3.startReplaceGroup(1406544392);
-                ComposerKt.sourceInformation(empty3, str7);
-                Composer composer12 = empty3;
-                int i174 = 0;
-                rememberedValue5 = composer12.rememberedValue();
-                int i186 = 0;
-                if (!empty3.changedInstance((Context)externalSyntheticLambda6)) {
-                    composer7 = empty3;
-                    if (rememberedValue5 == Composer.Companion.getEmpty()) {
-                        empty3 = 0;
-                        obj6 = rememberedValue5;
-                        rememberedValue5 = new MainActivityKt$$ExternalSyntheticLambda1(externalSyntheticLambda6, (MutableState)obj9, (MutableState)i18);
-                        composer12.updateRememberedValue(rememberedValue5);
-                    } else {
-                        obj6 = rememberedValue5;
-                    }
-                } else {
-                    composer7 = empty3;
-                }
-                composer7.endReplaceGroup();
+                $composer27.endReplaceGroup();
                 obj = obj9;
-                ButtonKt.Button((Function0)rememberedValue5, SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), false, 0, 0, 0, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-1$app_debug(), composer7, 805306416, 508);
-                Composer composer14 = composer7;
-                int i175 = i93;
-                SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, Dp.constructor-impl((float)i58)), composer14, 6);
-                composer14.startReplaceGroup(1406560308);
-                ComposerKt.sourceInformation(composer14, str7);
-                i42 = i122 & 896 == 256 ? 1 : 0;
-                Composer composer8 = composer14;
-                empty4 = 0;
-                rememberedValue = composer8.rememberedValue();
-                int i182 = 0;
-                if (changedInstance |= i42 == 0) {
-                    i9 = empty4;
-                    if (rememberedValue == Composer.Companion.getEmpty()) {
-                        empty4 = 0;
-                        obj7 = rememberedValue;
-                        rememberedValue = new MainActivityKt$$ExternalSyntheticLambda2(externalSyntheticLambda6, requestPermissions2, i18);
-                        composer8.updateRememberedValue(rememberedValue);
+                ButtonKt.Button((Function0)it28, SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), false, 0, 0, 0, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-1$app_debug(), $composer27, 805306416, 508);
+                Composer composer12 = $composer27;
+                int i161 = i86;
+                SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, Dp.constructor-impl((float)i52)), composer12, 6);
+                composer12.startReplaceGroup(1406560308);
+                ComposerKt.sourceInformation(composer12, str6);
+                i17 = i111 & 896 == 256 ? 1 : 0;
+                Composer composer6 = composer12;
+                $i$f$cache32104 = 0;
+                it32 = composer6.rememberedValue();
+                int i168 = 0;
+                if (changedInstance |= i17 == 0) {
+                    $i$f$cache321042 = $i$f$cache32104;
+                    if (it32 == Composer.Companion.getEmpty()) {
+                        $i$f$cache32104 = 0;
+                        obj3 = it32;
+                        it32 = new MainActivityKt$$ExternalSyntheticLambda2(this_4, invalid1, i30);
+                        composer6.updateRememberedValue(it32);
                     } else {
-                        obj7 = rememberedValue;
+                        obj3 = it32;
                     }
                 } else {
-                    i9 = empty4;
+                    $i$f$cache321042 = $i$f$cache32104;
+                }
+                composer12.endReplaceGroup();
+                Composer composer20 = composer12;
+                ButtonKt.Button((Function0)it32, SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), false, 0, 0, 0, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-2$app_debug(), composer20, 805306416, 508);
+                Composer composer13 = composer20;
+                int i163 = i89;
+                SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, Dp.constructor-impl((float)i56)), composer13, 6);
+                composer13.startReplaceGroup(1406595361);
+                ComposerKt.sourceInformation(composer13, str6);
+                i34 = i111 & 896 == 256 ? 1 : 0;
+                Composer composer7 = composer13;
+                $i$f$cache361302 = 0;
+                it36 = composer7.rememberedValue();
+                int i169 = 0;
+                if (changedInstance2 |= i34 == 0) {
+                    $i$f$cache36130 = $i$f$cache361302;
+                    if (it36 == Composer.Companion.getEmpty()) {
+                        $i$f$cache361302 = 0;
+                        obj6 = it36;
+                        it36 = new MainActivityKt$$ExternalSyntheticLambda3(this_4, invalid1, i30);
+                        composer7.updateRememberedValue(it36);
+                    } else {
+                        obj6 = it36;
+                    }
+                } else {
+                    $i$f$cache36130 = $i$f$cache361302;
+                }
+                composer13.endReplaceGroup();
+                Composer composer21 = composer13;
+                ButtonKt.Button((Function0)it36, SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), false, 0, 0, 0, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-3$app_debug(), composer21, 805306416, 508);
+                Composer composer14 = composer21;
+                int i165 = i92;
+                SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, Dp.constructor-impl((float)i60)), composer14, 6);
+                composer14.startReplaceGroup(1406629803);
+                ComposerKt.sourceInformation(composer14, str6);
+                i26 = i111 & 896 == 256 ? 1 : 0;
+                Composer composer8 = composer14;
+                $i$f$cache401562 = 0;
+                it40 = composer8.rememberedValue();
+                int i170 = 0;
+                if (changedInstance3 |= i26 == 0) {
+                    $i$f$cache40156 = $i$f$cache401562;
+                    if (it40 == Composer.Companion.getEmpty()) {
+                        $i$f$cache401562 = 0;
+                        obj7 = it40;
+                        it40 = new MainActivityKt$$ExternalSyntheticLambda4(this_4, invalid1, i30);
+                        composer8.updateRememberedValue(it40);
+                    } else {
+                        obj7 = it40;
+                    }
+                } else {
+                    $i$f$cache40156 = $i$f$cache401562;
                 }
                 composer14.endReplaceGroup();
                 Composer composer22 = composer14;
-                ButtonKt.Button((Function0)rememberedValue, SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), false, 0, 0, 0, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-2$app_debug(), composer22, 805306416, 508);
-                Composer composer15 = composer22;
-                int i177 = i96;
-                SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, Dp.constructor-impl((float)i62)), composer15, 6);
-                composer15.startReplaceGroup(1406595361);
-                ComposerKt.sourceInformation(composer15, str7);
-                i37 = i122 & 896 == 256 ? 1 : 0;
-                Composer composer9 = composer15;
-                empty5 = 0;
-                rememberedValue4 = composer9.rememberedValue();
-                int i183 = 0;
-                if (changedInstance2 |= i37 == 0) {
-                    i3 = empty5;
-                    if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                        empty5 = 0;
-                        obj5 = rememberedValue4;
-                        rememberedValue4 = new MainActivityKt$$ExternalSyntheticLambda3(externalSyntheticLambda6, requestPermissions2, i18);
-                        composer9.updateRememberedValue(rememberedValue4);
-                    } else {
-                        obj5 = rememberedValue4;
-                    }
-                } else {
-                    i3 = empty5;
-                }
-                composer15.endReplaceGroup();
-                Composer composer23 = composer15;
-                ButtonKt.Button((Function0)rememberedValue4, SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), false, 0, 0, 0, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-3$app_debug(), composer23, 805306416, 508);
-                Composer composer16 = composer23;
-                int i179 = i99;
-                SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, Dp.constructor-impl((float)i66)), composer16, 6);
-                composer16.startReplaceGroup(1406629803);
-                ComposerKt.sourceInformation(composer16, str7);
-                i33 = i122 & 896 == 256 ? 1 : 0;
-                Composer composer10 = composer16;
-                empty2 = 0;
-                rememberedValue3 = composer10.rememberedValue();
-                int i184 = 0;
-                if (changedInstance3 |= i33 == 0) {
-                    i26 = empty2;
-                    if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                        empty2 = 0;
-                        obj3 = rememberedValue3;
-                        rememberedValue3 = new MainActivityKt$$ExternalSyntheticLambda4(externalSyntheticLambda6, requestPermissions2, i18);
-                        composer10.updateRememberedValue(rememberedValue3);
-                    } else {
-                        obj3 = rememberedValue3;
-                    }
-                } else {
-                    i26 = empty2;
-                }
-                composer16.endReplaceGroup();
-                Composer composer24 = composer16;
-                ButtonKt.Button((Function0)rememberedValue3, SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), false, 0, 0, 0, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-4$app_debug(), composer24, 805306416, 508);
-                str = composer24;
-                companion4 = i102;
-                SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, Dp.constructor-impl((float)i70)), str, 6);
+                ButtonKt.Button((Function0)it40, SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), false, 0, 0, 0, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-4$app_debug(), composer22, 805306416, 508);
+                str = composer22;
+                companion2 = i95;
+                SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, Dp.constructor-impl((float)i64)), str, 6);
                 str.startReplaceGroup(1406659667);
-                ComposerKt.sourceInformation(str, str7);
-                i27 = i122 & 896 == 256 ? 1 : 0;
-                changedInstance4 |= i27;
-                Composer composer11 = str;
-                int i76 = 0;
-                Object rememberedValue7 = composer11.rememberedValue();
-                i11 = 0;
-                if (empty6 == 0) {
-                    obj69 = empty6;
-                    if (rememberedValue7 == Composer.Companion.getEmpty()) {
-                        companion4 = i50;
-                        externalSyntheticLambda5 = new MainActivityKt$$ExternalSyntheticLambda5(externalSyntheticLambda6, requestPermissions2, i18);
-                        composer11.updateRememberedValue(externalSyntheticLambda5);
+                ComposerKt.sourceInformation(str, str6);
+                i22 = i111 & 896 == 256 ? 1 : 0;
+                changedInstance4 |= i22;
+                Composer composer9 = str;
+                int i70 = 0;
+                Object rememberedValue3 = composer9.rememberedValue();
+                i15 = 0;
+                if (empty2 == 0) {
+                    obj69 = empty2;
+                    if (rememberedValue3 == Composer.Companion.getEmpty()) {
+                        companion2 = invalid44;
+                        $i$a$CacheMainActivityKt$Greeting$2$1$54633827 = new MainActivityKt$$ExternalSyntheticLambda5(this_4, invalid1, i30);
+                        composer9.updateRememberedValue($i$a$CacheMainActivityKt$Greeting$2$1$54633827);
                     } else {
-                        externalSyntheticLambda5 = rememberedValue7;
+                        $i$a$CacheMainActivityKt$Greeting$2$1$54633827 = rememberedValue3;
                     }
                 } else {
-                    obj69 = empty6;
+                    obj69 = empty2;
                 }
                 str.endReplaceGroup();
-                fillMaxWidth$default = SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0);
-                i22 = 0;
-                composer6 = str;
-                ButtonKt.Button((Function0)externalSyntheticLambda5, fillMaxWidth$default, false, 0, 0, i22, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-5$app_debug(), composer6, 805306416, 508);
-                ComposerKt.sourceInformationMarkerEnd(composer6);
-                ComposerKt.sourceInformationMarkerEnd(empty3);
-                i17.endNode();
-                ComposerKt.sourceInformationMarkerEnd(i17);
-                ComposerKt.sourceInformationMarkerEnd(i17);
-                ComposerKt.sourceInformationMarkerEnd(i17);
-                i17.startReplaceGroup(-1763621921);
-                ComposerKt.sourceInformation(i17, "202@7832L163");
-                fillMaxWidth$default2 = (CharSequence)MainActivityKt.Greeting$lambda$6(i18).length() > 0 ? 1 : 0;
-                if (fillMaxWidth$default2 != 0) {
-                    i38 = 0;
-                    TextKt.Text--4IGK_g(MainActivityKt.Greeting$lambda$6(i18), PaddingKt.padding-3ABfNKs(SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), Dp.constructor-impl((float)i74)), 0, i36, 0, (ColumnScope)ColumnScopeInstance.INSTANCE, 0, 0, 0, 0, fillMaxWidth$default, 0, false, 0, i22, 0, 0, 0, 0, 0, 0);
+                fillMaxWidth$default2 = SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0);
+                i2 = 0;
+                composer5 = str;
+                ButtonKt.Button((Function0)$i$a$CacheMainActivityKt$Greeting$2$1$54633827, fillMaxWidth$default2, false, 0, 0, i2, 0, 0, 0, ComposableSingletons.MainActivityKt.INSTANCE.getLambda-5$app_debug(), composer5, 805306416, 508);
+                ComposerKt.sourceInformationMarkerEnd(composer5);
+                ComposerKt.sourceInformationMarkerEnd($composer272);
+                $this$Greeting_u24lambda_u241918.endNode();
+                ComposerKt.sourceInformationMarkerEnd($this$Greeting_u24lambda_u241918);
+                ComposerKt.sourceInformationMarkerEnd($this$Greeting_u24lambda_u241918);
+                ComposerKt.sourceInformationMarkerEnd($this$Greeting_u24lambda_u241918);
+                $this$Greeting_u24lambda_u241918.startReplaceGroup(-1763621921);
+                ComposerKt.sourceInformation($this$Greeting_u24lambda_u241918, "202@7832L163");
+                fillMaxWidth$default = (CharSequence)MainActivityKt.Greeting$lambda$6(i30).length() > 0 ? 1 : 0;
+                if (fillMaxWidth$default != 0) {
+                    i27 = 0;
+                    TextKt.Text--4IGK_g(MainActivityKt.Greeting$lambda$6(i30), PaddingKt.padding-3ABfNKs(SizeKt.fillMaxWidth$default((Modifier)Modifier.Companion, 0, 1, 0), Dp.constructor-impl((float)i68)), 0, i33, 0, (ColumnScope)ColumnScopeInstance.INSTANCE, 0, 0, 0, 0, fillMaxWidth$default2, 0, false, 0, i2, 0, 0, 0, 0, 0, 0);
                 } else {
-                    composer2 = i17;
+                    $composer18 = $this$Greeting_u24lambda_u241918;
                 }
-                composer2.endReplaceGroup();
-                ComposerKt.sourceInformationMarkerEnd(composer2);
-                ComposerKt.sourceInformationMarkerEnd(composer13);
+                $composer18.endReplaceGroup();
+                ComposerKt.sourceInformationMarkerEnd($composer18);
+                ComposerKt.sourceInformationMarkerEnd(composer11);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -562,19 +562,19 @@ public final class MainActivityKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj4 = requestPermissions2;
-                obj2 = obj8;
+                obj4 = invalid1;
+                obj2 = obj5;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj2 = requestPermissions2;
+                obj2 = invalid1;
                 obj4 = str;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            externalSyntheticLambda6 = new MainActivityKt$$ExternalSyntheticLambda6(name, obj2, obj4, $changed, i6);
-            endRestartGroup.updateScope(externalSyntheticLambda6);
+            this_4 = new MainActivityKt$$ExternalSyntheticLambda6(name, obj2, obj4, $changed, i6);
+            endRestartGroup.updateScope(this_4);
         }
     }
 
@@ -585,12 +585,12 @@ public final class MainActivityKt {
 
     private static final Unit Greeting$lambda$19$lambda$18$lambda$11$lambda$10(Context $context, Function1 $requestPermissions, MutableState $displayText$delegate) {
         Object query;
-        String[] strArr;
+        String[] strArr2;
         int str2;
         int count;
         ContentResolver contentResolver;
         Uri parse;
-        String[] strArr2;
+        String[] strArr;
         int i2;
         int i;
         String str;
@@ -598,12 +598,12 @@ public final class MainActivityKt {
         str2 = 1;
         count = 0;
         if (ContextCompat.checkSelfPermission($context, str3) == 0) {
-            strArr2 = new String[4];
-            strArr2[count] = "_id";
-            strArr2[str2] = "address";
-            strArr2[2] = "body";
-            strArr2[3] = "date";
-            query = $context.getContentResolver().query(Uri.parse("content://sms/inbox"), strArr2, 0, 0, "date DESC");
+            strArr = new String[4];
+            strArr[count] = "_id";
+            strArr[str2] = "address";
+            strArr[2] = "body";
+            strArr[3] = "date";
+            query = $context.getContentResolver().query(Uri.parse("content://sms/inbox"), strArr, 0, 0, "date DESC");
             if (query != null) {
                 count = query.getCount();
             }
@@ -613,9 +613,9 @@ public final class MainActivityKt {
             StringBuilder stringBuilder = new StringBuilder();
             MainActivityKt.Greeting$lambda$7($displayText$delegate, stringBuilder.append("SMS Count: ").append(count).toString());
         } else {
-            strArr = new String[str2];
-            strArr[count] = str3;
-            $requestPermissions.invoke(strArr);
+            strArr2 = new String[str2];
+            strArr2[count] = str3;
+            $requestPermissions.invoke(strArr2);
             MainActivityKt.Greeting$lambda$7($displayText$delegate, "Requesting SMS permission...");
         }
         return Unit.INSTANCE;
@@ -627,9 +627,9 @@ public final class MainActivityKt {
         int count;
         String str;
         Uri cONTENT_URI;
+        int i4;
         int i2;
         int i;
-        int i4;
         int i3;
         String str2 = "android.permission.READ_CONTACTS";
         if (ContextCompat.checkSelfPermission($context, str2) == 0) {
@@ -669,24 +669,24 @@ public final class MainActivityKt {
 
     private static final Unit Greeting$lambda$19$lambda$18$lambda$17$lambda$16(Context $context, Function1 $requestPermissions, MutableState $displayText$delegate) {
         Object query;
-        String[] strArr;
+        String[] strArr2;
         int str;
         int count;
         ContentResolver contentResolver;
         Uri parse;
-        String[] strArr2;
+        String[] strArr;
+        int i;
         int i2;
         int i3;
-        int i;
         String str2 = "android.permission.READ_CALENDAR";
         str = 1;
         count = 0;
         if (ContextCompat.checkSelfPermission($context, str2) == 0) {
-            strArr2 = new String[3];
-            strArr2[count] = "_id";
-            strArr2[str] = "title";
-            strArr2[2] = "dtstart";
-            query = $context.getContentResolver().query(Uri.parse("content://com.android.calendar/events"), strArr2, 0, 0, 0);
+            strArr = new String[3];
+            strArr[count] = "_id";
+            strArr[str] = "title";
+            strArr[2] = "dtstart";
+            query = $context.getContentResolver().query(Uri.parse("content://com.android.calendar/events"), strArr, 0, 0, 0);
             if (query != null) {
                 count = query.getCount();
             }
@@ -696,9 +696,9 @@ public final class MainActivityKt {
             StringBuilder stringBuilder = new StringBuilder();
             MainActivityKt.Greeting$lambda$7($displayText$delegate, stringBuilder.append("Calendar Events Count: ").append(count).toString());
         } else {
-            strArr = new String[str];
-            strArr[count] = str2;
-            $requestPermissions.invoke(strArr);
+            strArr2 = new String[str];
+            strArr2[count] = str2;
+            $requestPermissions.invoke(strArr2);
             MainActivityKt.Greeting$lambda$7($displayText$delegate, "Requesting Calendar permission...");
         }
         return Unit.INSTANCE;
@@ -747,10 +747,10 @@ public final class MainActivityKt {
     public static final void GreetingPreview(Composer $composer, int $changed) {
         int externalSyntheticLambda7;
         int str;
-        int i;
-        kotlin.jvm.functions.Function2 lambda-6$app_debug;
-        int i3;
         int i2;
+        kotlin.jvm.functions.Function2 lambda-6$app_debug;
+        int i;
+        int i3;
         boolean obj7;
         externalSyntheticLambda7 = -893745181;
         final Composer restartGroup = $composer.startRestartGroup(externalSyntheticLambda7);

@@ -119,9 +119,9 @@ public class FileProvider extends ContentProvider {
             int mostSpecific;
             Object next;
             String path;
-            int length;
-            boolean belongsToRoot;
             int length2;
+            boolean belongsToRoot;
+            int length;
             try {
                 String canonicalPath = file.getCanonicalPath();
                 mostSpecific = 0;
@@ -292,14 +292,14 @@ public class FileProvider extends ContentProvider {
 
     private static androidx.core.content.FileProvider.PathStrategy parsePathStrategy(Context context, String authority, int resourceId) throws IOException, XmlPullParserException {
         int name;
-        int i2;
+        int i;
         int path;
-        String attributeValue;
-        int externalFilesDirs;
         String attributeValue2;
+        int externalFilesDirs;
+        String attributeValue;
         File target;
         boolean equals;
-        int i;
+        int i2;
         FileProvider.SimplePathStrategy simplePathStrategy = new FileProvider.SimplePathStrategy(authority);
         XmlResourceParser fileProviderPathsMetaData = FileProvider.getFileProviderPathsMetaData(context, authority, context.getPackageManager().resolveContentProvider(authority, 128), resourceId);
         int next = fileProviderPathsMetaData.next();
@@ -312,7 +312,7 @@ public class FileProvider extends ContentProvider {
             name = fileProviderPathsMetaData.getName();
             externalFilesDirs = 0;
             target = 0;
-            i = 0;
+            i2 = 0;
             if ("root-path".equals(name)) {
             } else {
             }
@@ -337,20 +337,20 @@ public class FileProvider extends ContentProvider {
             if (target != null) {
             }
             String[] strArr = new String[path];
-            strArr[i] = fileProviderPathsMetaData.getAttributeValue(externalFilesDirs, "path");
+            strArr[i2] = fileProviderPathsMetaData.getAttributeValue(externalFilesDirs, "path");
             simplePathStrategy.addRoot(fileProviderPathsMetaData.getAttributeValue(externalFilesDirs, "name"), FileProvider.buildPath(target, strArr));
             externalFilesDirs = FileProvider.Api21Impl.getExternalMediaDirs(context);
             if (externalFilesDirs.length > 0) {
             }
-            target = externalFilesDirs[i];
+            target = externalFilesDirs[i2];
             externalFilesDirs = ContextCompat.getExternalCacheDirs(context);
             if (externalFilesDirs.length > 0) {
             }
-            target = externalFilesDirs[i];
+            target = externalFilesDirs[i2];
             externalFilesDirs = ContextCompat.getExternalFilesDirs(context, externalFilesDirs);
             if (externalFilesDirs.length > 0) {
             }
-            target = externalFilesDirs[i];
+            target = externalFilesDirs[i2];
             target = Environment.getExternalStorageDirectory();
             target = context.getCacheDir();
             target = context.getFilesDir();
@@ -450,8 +450,8 @@ public class FileProvider extends ContentProvider {
 
     @Override // android.content.ContentProvider
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        int i2;
         int i;
+        int i2;
         String str;
         String i3;
         boolean valueOf;
@@ -463,10 +463,10 @@ public class FileProvider extends ContentProvider {
         }
         String[] strArr = new String[obj13.length];
         Object[] arr = new Object[obj13.length];
-        i2 = 0;
         i = 0;
-        while (i < obj13.length) {
-            str = obj13[i];
+        i2 = 0;
+        while (i2 < obj13.length) {
+            str = obj13[i2];
             String str3 = "_display_name";
             if (str3.equals(str)) {
             } else {
@@ -474,21 +474,21 @@ public class FileProvider extends ContentProvider {
             i3 = "_size";
             if (i3.equals(str)) {
             }
-            i++;
-            strArr[i2] = i3;
-            arr[i2] = Long.valueOf(fileForUri.length());
-            i2 = i3;
-            strArr[i2] = str3;
+            i2++;
+            strArr[i] = i3;
+            arr[i] = Long.valueOf(fileForUri.length());
+            i = i3;
+            strArr[i] = str3;
             if (queryParameter == null) {
             } else {
             }
             valueOf = queryParameter;
-            arr[i2] = valueOf;
-            i2 = i3;
+            arr[i] = valueOf;
+            i = i3;
             valueOf = fileForUri.getName();
         }
-        MatrixCursor matrixCursor = new MatrixCursor(FileProvider.copyOf(strArr, i2), 1);
-        matrixCursor.addRow(FileProvider.copyOf(arr, i2));
+        MatrixCursor matrixCursor = new MatrixCursor(FileProvider.copyOf(strArr, i), 1);
+        matrixCursor.addRow(FileProvider.copyOf(arr, i));
         return matrixCursor;
     }
 

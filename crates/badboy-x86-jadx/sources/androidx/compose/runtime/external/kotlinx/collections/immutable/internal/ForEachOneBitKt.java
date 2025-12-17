@@ -11,8 +11,8 @@ public final class ForEachOneBitKt {
         int mask;
         int index;
         int lowestOneBit;
-        Integer valueOf;
         Integer valueOf2;
+        Integer valueOf;
         final int i = 0;
         mask = $this$forEachOneBit;
         index = 0;

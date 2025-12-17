@@ -59,35 +59,35 @@ public final class KeyframesWithSplineSpec<T>  implements androidx.compose.anima
     }
 
     public <V extends androidx.compose.animation.core.AnimationVector> androidx.compose.animation.core.VectorizedDurationBasedAnimationSpec<V> vectorize(androidx.compose.animation.core.TwoWayConverter<T, V> converter) {
-        int this_$iv;
+        int this_$iv2;
         boolean durationMillis;
         int invoke;
         int[] easing$animation_core_release;
         int i$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i;
+        int i2;
         int j$iv$iv;
         long l;
-        int i5;
         int i3;
+        int i;
         long slot$iv$iv;
         long key;
         Object obj;
-        MutableIntObjectMap this_$iv2;
+        MutableIntObjectMap this_$iv;
         int i4;
-        int i2;
+        int i5;
         int[] iArr;
         final Object obj2 = this;
         MutableIntList mutableIntList = new MutableIntList(size += 2);
         MutableIntObjectMap mutableIntObjectMap = new MutableIntObjectMap(obj2.config.getKeyframes$animation_core_release().getSize());
-        this_$iv = obj2.config.getKeyframes$animation_core_release();
+        this_$iv2 = obj2.config.getKeyframes$animation_core_release();
         int i8 = 0;
         long[] metadata = map2.metadata;
         length += -2;
         if (0 <= i9) {
         } else {
-            this_$iv2 = this_$iv;
-            i2 = invoke;
+            this_$iv = this_$iv2;
+            i5 = invoke;
             iArr = easing$animation_core_release;
         }
         int i7 = 0;

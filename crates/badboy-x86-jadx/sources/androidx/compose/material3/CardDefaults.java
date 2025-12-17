@@ -45,27 +45,27 @@ public final class CardDefaults {
         long contentColorFor-ek8zF_U;
         long disabledContainerColor2;
         boolean traceInProgress;
-        long l3;
         long l;
+        long l3;
         long copy-wmQWz5c$default;
-        int i;
-        long l2;
         int i4;
-        int i2;
+        long l2;
         int i3;
+        int i2;
+        int i;
         final Composer composer = obj25;
         final int i5 = obj26;
         int i6 = -1589582123;
         ComposerKt.sourceInformationMarkerStart(composer, i6, "C(cardColors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color)490@21903L31,494@22109L11:Card.kt#uh7d8r");
         if (obj27 & 1 != 0) {
-            l3 = unspecified-0d7_KjU;
+            l = unspecified-0d7_KjU;
         } else {
-            l3 = containerColor;
+            l = containerColor;
         }
         if (obj27 & 2 != 0) {
-            l = contentColorFor-ek8zF_U;
+            l3 = contentColorFor-ek8zF_U;
         } else {
-            l = disabledContainerColor;
+            l3 = disabledContainerColor;
         }
         if (obj27 & 4 != 0) {
             disabledContainerColor2 = Color.Companion.getUnspecified-0d7_KjU();
@@ -84,17 +84,17 @@ public final class CardDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultCardColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-jRlVdoo(l3, obj7, l, obj9);
+        return this.getDefaultCardColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-jRlVdoo(l, obj7, l3, obj9);
     }
 
     public final androidx.compose.material3.CardElevation cardElevation-aqJV_2Y(float defaultElevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         FilledCardTokens iNSTANCE;
         float f5;
-        float f6;
         float f4;
         float f;
         float f2;
         float f3;
+        float f6;
         float obj12;
         float obj13;
         float obj14;
@@ -107,36 +107,36 @@ public final class CardDefaults {
             f5 = defaultElevation;
         }
         if (i9 & 2 != 0) {
-            f6 = obj13;
+            f4 = obj13;
         } else {
-            f6 = pressedElevation;
+            f4 = pressedElevation;
         }
         if (i9 & 4 != 0) {
-            f4 = obj14;
+            f = obj14;
         } else {
-            f4 = focusedElevation;
+            f = focusedElevation;
         }
         if (i9 & 8 != 0) {
-            f = obj12;
-        } else {
-            f = hoveredElevation;
-        }
-        if (i9 & 16 != 0) {
             f2 = obj12;
         } else {
-            f2 = draggedElevation;
+            f2 = hoveredElevation;
         }
-        if (i9 & 32 != 0) {
+        if (i9 & 16 != 0) {
             f3 = obj12;
         } else {
-            f3 = disabledElevation;
+            f3 = draggedElevation;
+        }
+        if (i9 & 32 != 0) {
+            f6 = obj12;
+        } else {
+            f6 = disabledElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.CardDefaults.cardElevation (Card.kt:405)");
         } else {
             obj14 = $changed;
         }
-        CardElevation cardElevation = new CardElevation(f5, f6, f4, f, f2, f3, 0);
+        CardElevation cardElevation = new CardElevation(f5, f4, f, f2, f3, f6, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -165,13 +165,13 @@ public final class CardDefaults {
         long disabledContainerColor2;
         boolean traceInProgress;
         long l3;
-        long l2;
-        long copy-wmQWz5c$default;
-        int i3;
         long l;
-        int i4;
-        int i;
+        long copy-wmQWz5c$default;
         int i2;
+        long l2;
+        int i4;
+        int i3;
+        int i;
         final Composer composer = obj25;
         final int i5 = obj26;
         int i6 = 139558303;
@@ -182,9 +182,9 @@ public final class CardDefaults {
             l3 = containerColor;
         }
         if (obj27 & 2 != 0) {
-            l2 = contentColorFor-ek8zF_U;
+            l = contentColorFor-ek8zF_U;
         } else {
-            l2 = disabledContainerColor;
+            l = disabledContainerColor;
         }
         if (obj27 & 4 != 0) {
             disabledContainerColor2 = Color.Companion.getUnspecified-0d7_KjU();
@@ -192,9 +192,9 @@ public final class CardDefaults {
             disabledContainerColor2 = $composer;
         }
         if (obj27 & 8 != 0) {
-            l = copy-wmQWz5c$default;
+            l2 = copy-wmQWz5c$default;
         } else {
-            l = i7;
+            l2 = i7;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i6, i5, -1, "androidx.compose.material3.CardDefaults.elevatedCardColors (Card.kt:540)");
@@ -203,17 +203,17 @@ public final class CardDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultElevatedCardColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-jRlVdoo(l3, obj7, l2, obj9);
+        return this.getDefaultElevatedCardColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-jRlVdoo(l3, obj7, l, obj9);
     }
 
     public final androidx.compose.material3.CardElevation elevatedCardElevation-aqJV_2Y(float defaultElevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         ElevatedCardTokens iNSTANCE;
-        float f4;
-        float f5;
+        float f2;
+        float f6;
         float f3;
         float f;
-        float f6;
-        float f2;
+        float f4;
+        float f5;
         float obj12;
         float obj13;
         float obj14;
@@ -221,14 +221,14 @@ public final class CardDefaults {
         final Composer composer = $composer;
         ComposerKt.sourceInformationMarkerStart(composer, i, "C(elevatedCardElevation)P(0:c#ui.unit.Dp,5:c#ui.unit.Dp,3:c#ui.unit.Dp,4:c#ui.unit.Dp,2:c#ui.unit.Dp,1:c#ui.unit.Dp):Card.kt#uh7d8r");
         if (i9 & 1 != 0) {
-            f4 = obj12;
+            f2 = obj12;
         } else {
-            f4 = defaultElevation;
+            f2 = defaultElevation;
         }
         if (i9 & 2 != 0) {
-            f5 = obj13;
+            f6 = obj13;
         } else {
-            f5 = pressedElevation;
+            f6 = pressedElevation;
         }
         if (i9 & 4 != 0) {
             f3 = obj14;
@@ -241,21 +241,21 @@ public final class CardDefaults {
             f = hoveredElevation;
         }
         if (i9 & 16 != 0) {
-            f6 = obj12;
+            f4 = obj12;
         } else {
-            f6 = draggedElevation;
+            f4 = draggedElevation;
         }
         if (i9 & 32 != 0) {
-            f2 = obj12;
+            f5 = obj12;
         } else {
-            f2 = disabledElevation;
+            f5 = disabledElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.CardDefaults.elevatedCardElevation (Card.kt:434)");
         } else {
             obj14 = $changed;
         }
-        CardElevation cardElevation = new CardElevation(f4, f5, f3, f, f6, f2, 0);
+        CardElevation cardElevation = new CardElevation(f2, f6, f3, f, f4, f5, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -266,25 +266,25 @@ public final class CardDefaults {
     public final androidx.compose.material3.CardColors getDefaultCardColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultCardColors) {
         androidx.compose.material3.CardColors defaultCardColorsCached$material3_release;
         androidx.compose.material3.CardColors cardColors;
-        int i6;
+        int i3;
         long contentColorFor-4WTKRHQ;
         long compositeOver--OWjLjI;
         long copy-wmQWz5c$default;
-        int i2;
-        int i7;
-        int i8;
-        int i5;
-        int i10;
-        int i3;
         int i;
+        int i7;
+        int i6;
+        int i5;
+        int i8;
         int i4;
         int i9;
+        int i2;
+        int i10;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultCardColors;
         if (colorScheme.getDefaultCardColorsCached$material3_release() == null) {
-            i2 = 0;
-            i8 = 0;
-            cardColors = new CardColors(ColorSchemeKt.fromToken(colorScheme, FilledCardTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledCardTokens.INSTANCE.getContainerColor())), obj6, ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledCardTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledCardTokens.INSTANCE.getDisabledContainerOpacity(), i2, 0, i8, 14), obj8), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledCardTokens.INSTANCE.getContainerColor())), i8, 1052938076, 0, 0, 0, 14), i2, 0);
+            i = 0;
             i6 = 0;
+            cardColors = new CardColors(ColorSchemeKt.fromToken(colorScheme, FilledCardTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledCardTokens.INSTANCE.getContainerColor())), obj6, ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledCardTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledCardTokens.INSTANCE.getDisabledContainerOpacity(), i, 0, i6, 14), obj8), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledCardTokens.INSTANCE.getContainerColor())), i6, 1052938076, 0, 0, 0, 14), i, 0);
+            i3 = 0;
             colorScheme.setDefaultCardColorsCached$material3_release(cardColors);
         }
         return defaultCardColorsCached$material3_release;
@@ -297,20 +297,20 @@ public final class CardDefaults {
         long contentColorFor-4WTKRHQ;
         long compositeOver--OWjLjI;
         long copy-wmQWz5c$default;
+        int i8;
+        int i3;
         int i10;
-        int i4;
+        int i5;
         int i9;
         int i7;
-        int i3;
-        int i8;
-        int i5;
-        int i;
         int i6;
+        int i;
+        int i4;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultElevatedCardColors;
         if (colorScheme.getDefaultElevatedCardColorsCached$material3_release() == null) {
+            i8 = 0;
             i10 = 0;
-            i9 = 0;
-            cardColors = new CardColors(ColorSchemeKt.fromToken(colorScheme, ElevatedCardTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, ElevatedCardTokens.INSTANCE.getContainerColor())), obj6, ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ElevatedCardTokens.INSTANCE.getDisabledContainerColor()), obj8, ElevatedCardTokens.INSTANCE.getDisabledContainerOpacity(), i10, 0, i9, 14), obj8), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, ElevatedCardTokens.INSTANCE.getContainerColor())), i9, 1052938076, 0, 0, 0, 14), i10, 0);
+            cardColors = new CardColors(ColorSchemeKt.fromToken(colorScheme, ElevatedCardTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, ElevatedCardTokens.INSTANCE.getContainerColor())), obj6, ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ElevatedCardTokens.INSTANCE.getDisabledContainerColor()), obj8, ElevatedCardTokens.INSTANCE.getDisabledContainerOpacity(), i8, 0, i10, 14), obj8), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, ElevatedCardTokens.INSTANCE.getContainerColor())), i10, 1052938076, 0, 0, 0, 14), i8, 0);
             i2 = 0;
             colorScheme.setDefaultElevatedCardColorsCached$material3_release(cardColors);
         }
@@ -324,13 +324,13 @@ public final class CardDefaults {
         long contentColorFor-4WTKRHQ;
         long token;
         long copy-wmQWz5c$default;
-        int i4;
-        int i;
-        int i6;
-        int i3;
-        int i7;
-        int i8;
         int i2;
+        int i6;
+        int i;
+        int i8;
+        int i7;
+        int i3;
+        int i4;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultOutlinedCardColors;
         if (colorScheme.getDefaultOutlinedCardColorsCached$material3_release() == null) {
             cardColors = new CardColors(ColorSchemeKt.fromToken(colorScheme, OutlinedCardTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, OutlinedCardTokens.INSTANCE.getContainerColor())), obj6, ColorSchemeKt.fromToken(colorScheme, OutlinedCardTokens.INSTANCE.getContainerColor()), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, OutlinedCardTokens.INSTANCE.getContainerColor())), obj12, 1052938076, 0, 0, 0, 14), obj10, 0);
@@ -389,13 +389,13 @@ public final class CardDefaults {
         long compositeOver--OWjLjI;
         String value2;
         long value;
-        int i2;
-        int i5;
-        int i3;
-        int empty;
-        Object borderStroke;
-        int outlineWidth-D9Ej5fM;
         int i;
+        int i3;
+        int i5;
+        int empty;
+        Object $i$a$CacheCardDefaults$outlinedCardBorder$1;
+        int outlineWidth-D9Ej5fM;
+        int i2;
         int obj10;
         boolean obj13;
         int i6 = -392936593;
@@ -416,8 +416,8 @@ public final class CardDefaults {
             $composer.startReplaceGroup(-134330379);
             ComposerKt.sourceInformation($composer, "622@28214L5,624@28366L5");
             value2 = ColorSchemeKt.getValue(OutlinedCardTokens.INSTANCE.getDisabledOutlineColor(), $composer, obj13);
-            i2 = 1039516303;
-            compositeOver--OWjLjI = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(value2, obj2, i2, 0, 0, 0, 14), value2);
+            i = 1039516303;
+            compositeOver--OWjLjI = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(value2, obj2, i, 0, 0, 0, 14), value2);
             $composer.endReplaceGroup();
         }
         ComposerKt.sourceInformationMarkerStart($composer, -974156849, "CC(remember):Card.kt#9igjgp");
@@ -430,7 +430,7 @@ public final class CardDefaults {
                 int i11 = 0;
                 composer.updateRememberedValue(BorderStrokeKt.BorderStroke-cXLIe8U(OutlinedCardTokens.INSTANCE.getOutlineWidth-D9Ej5fM(), compositeOver--OWjLjI));
             } else {
-                borderStroke = rememberedValue;
+                $i$a$CacheCardDefaults$outlinedCardBorder$1 = rememberedValue;
             }
         } else {
         }
@@ -439,7 +439,7 @@ public final class CardDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (BorderStroke)borderStroke;
+        return (BorderStroke)$i$a$CacheCardDefaults$outlinedCardBorder$1;
     }
 
     public final androidx.compose.material3.CardColors outlinedCardColors(Composer $composer, int $changed) {
@@ -466,14 +466,14 @@ public final class CardDefaults {
         String str;
         long l;
         long l2;
-        long l3;
         long l4;
-        int i4;
-        int i3;
+        long l3;
+        int i6;
         int i5;
         int i;
+        int i3;
+        int i4;
         int i2;
-        int i6;
         final Composer composer = obj29;
         final int i8 = obj30;
         int i9 = -1112362409;
@@ -489,14 +489,14 @@ public final class CardDefaults {
             l2 = disabledContainerColor;
         }
         if (obj31 & 4 != 0) {
-            l3 = unspecified-0d7_KjU;
+            l4 = unspecified-0d7_KjU;
         } else {
-            l3 = $composer;
+            l4 = $composer;
         }
         if (obj31 & 8 != 0) {
-            l4 = copy-wmQWz5c$default;
+            l3 = copy-wmQWz5c$default;
         } else {
-            l4 = i7;
+            l3 = i7;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i9, i8, -1, "androidx.compose.material3.CardDefaults.outlinedCardColors (Card.kt:589)");
@@ -510,12 +510,12 @@ public final class CardDefaults {
 
     public final androidx.compose.material3.CardElevation outlinedCardElevation-aqJV_2Y(float defaultElevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         OutlinedCardTokens iNSTANCE;
-        float f4;
-        float f6;
-        float f;
-        float f2;
-        float f3;
         float f5;
+        float f6;
+        float f2;
+        float f;
+        float f3;
+        float f4;
         float obj12;
         float obj13;
         float obj14;
@@ -523,29 +523,29 @@ public final class CardDefaults {
         final Composer composer = $composer;
         ComposerKt.sourceInformationMarkerStart(composer, i, "C(outlinedCardElevation)P(0:c#ui.unit.Dp,5:c#ui.unit.Dp,3:c#ui.unit.Dp,4:c#ui.unit.Dp,2:c#ui.unit.Dp,1:c#ui.unit.Dp):Card.kt#uh7d8r");
         if (i9 & 1 != 0) {
-            f4 = obj12;
+            f5 = obj12;
         } else {
-            f4 = defaultElevation;
+            f5 = defaultElevation;
         }
         f6 = i9 & 2 != 0 ? obj13 : pressedElevation;
-        f = i9 & 4 != 0 ? obj14 : focusedElevation;
-        f2 = i9 & 8 != 0 ? obj12 : hoveredElevation;
+        f2 = i9 & 4 != 0 ? obj14 : focusedElevation;
+        f = i9 & 8 != 0 ? obj12 : hoveredElevation;
         if (i9 & 16 != 0) {
             f3 = obj12;
         } else {
             f3 = draggedElevation;
         }
         if (i9 & 32 != 0) {
-            f5 = obj12;
+            f4 = obj12;
         } else {
-            f5 = disabledElevation;
+            f4 = disabledElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.CardDefaults.outlinedCardElevation (Card.kt:463)");
         } else {
             obj14 = $changed;
         }
-        CardElevation cardElevation = new CardElevation(f4, f6, f, f2, f3, f5, 0);
+        CardElevation cardElevation = new CardElevation(f5, f6, f2, f, f3, f4, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

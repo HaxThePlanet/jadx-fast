@@ -51,8 +51,8 @@ public interface IUnusedAppRestrictionsBackportCallback extends IInterface {
 
         public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
             int i3;
-            int i2;
             int i;
+            int i2;
             final String dESCRIPTOR = IUnusedAppRestrictionsBackportCallback.Stub.DESCRIPTOR;
             int i4 = 1;
             if (code >= i4 && code <= 16777215) {
@@ -65,11 +65,11 @@ public interface IUnusedAppRestrictionsBackportCallback extends IInterface {
                 return i4;
             }
             if (/* condition */) {
-                i2 = data.readInt() != 0 ? i4 : i;
+                i = data.readInt() != 0 ? i4 : i2;
                 if (data.readInt() != 0) {
-                    i = i4;
+                    i2 = i4;
                 }
-                onIsPermissionRevocationEnabledForAppResult(i2, i);
+                onIsPermissionRevocationEnabledForAppResult(i, i2);
                 return i4;
             }
             return super.onTransact(code, data, reply, flags);

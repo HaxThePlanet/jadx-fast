@@ -33,22 +33,22 @@ public final class ListItemDefaults {
         float listItemDisabledLeadingIconOpacity;
         int i;
         long copy-wmQWz5c$default;
+        int i8;
         int i5;
-        int i7;
-        long l9;
+        long l7;
+        long l4;
         long l;
         long l5;
-        long l6;
-        long l8;
-        long l2;
         long l3;
-        int i2;
-        int i3;
-        long l7;
-        int i4;
+        long l9;
+        long l8;
         int i6;
-        long l4;
-        int i8;
+        int i2;
+        long l2;
+        int i3;
+        int i4;
+        long l6;
+        int i7;
         long obj28;
         float obj30;
         int obj31;
@@ -62,56 +62,56 @@ public final class ListItemDefaults {
         ComposerKt.sourceInformationMarkerStart(composer, i10, "C(colors)P(0:c#ui.graphics.Color,4:c#ui.graphics.Color,5:c#ui.graphics.Color,6:c#ui.graphics.Color,7:c#ui.graphics.Color,8:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color)563@22671L5,564@22743L5,565@22820L5,566@22891L5,567@22970L5,568@23049L5,570@23149L5,574@23342L5,578@23539L5:ListItem.kt#uh7d8r");
         int i11 = 6;
         if (i9 & 1 != 0) {
-            l9 = copy-wmQWz5c$default;
-        } else {
-            l9 = containerColor;
-        }
-        if (i9 & 2 != 0) {
-            l = copy-wmQWz5c$default;
-        } else {
-            l = leadingIconColor;
-        }
-        if (i9 & 4 != 0) {
-            l5 = copy-wmQWz5c$default;
-        } else {
-            l5 = supportingColor;
-        }
-        if (i9 & 8 != 0) {
-            l6 = copy-wmQWz5c$default;
-        } else {
-            l6 = disabledHeadlineColor;
-        }
-        if (i9 & 16 != 0) {
-            l8 = copy-wmQWz5c$default;
-        } else {
-            l8 = disabledTrailingIconColor;
-        }
-        if (i9 & 32 != 0) {
-            l2 = copy-wmQWz5c$default;
-        } else {
-            l2 = $changed;
-        }
-        if (i9 & 64 != 0) {
-            l3 = copy-wmQWz5c$default;
-        } else {
-            l3 = obj40;
-        }
-        if (i9 & 128 != 0) {
             l7 = copy-wmQWz5c$default;
         } else {
-            l7 = obj42;
+            l7 = containerColor;
+        }
+        if (i9 & 2 != 0) {
+            l4 = copy-wmQWz5c$default;
+        } else {
+            l4 = leadingIconColor;
+        }
+        if (i9 & 4 != 0) {
+            l = copy-wmQWz5c$default;
+        } else {
+            l = supportingColor;
+        }
+        if (i9 & 8 != 0) {
+            l5 = copy-wmQWz5c$default;
+        } else {
+            l5 = disabledHeadlineColor;
+        }
+        if (i9 & 16 != 0) {
+            l3 = copy-wmQWz5c$default;
+        } else {
+            l3 = disabledTrailingIconColor;
+        }
+        if (i9 & 32 != 0) {
+            l9 = copy-wmQWz5c$default;
+        } else {
+            l9 = $changed;
+        }
+        if (i9 & 64 != 0) {
+            l8 = copy-wmQWz5c$default;
+        } else {
+            l8 = obj40;
+        }
+        if (i9 & 128 != 0) {
+            l2 = copy-wmQWz5c$default;
+        } else {
+            l2 = obj42;
         }
         if (i9 &= 256 != 0) {
-            l4 = listItemDisabledLeadingIconOpacity;
+            l6 = listItemDisabledLeadingIconOpacity;
         } else {
-            l4 = obj44;
+            l6 = obj44;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i10, obj47, -1, "androidx.compose.material3.ListItemDefaults.colors (ListItem.kt:582)");
         } else {
             i = obj47;
         }
-        ListItemColors listItemColors = new ListItemColors(l9, obj9, l, obj11, l5, obj13, l6, obj15, l8, obj17, l2, obj19, l3, i2, l7, i4, l4, i8, 0);
+        ListItemColors listItemColors = new ListItemColors(l7, obj9, l4, obj11, l, obj13, l5, obj15, l3, obj17, l9, obj19, l8, i6, l2, i3, l6, i7, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

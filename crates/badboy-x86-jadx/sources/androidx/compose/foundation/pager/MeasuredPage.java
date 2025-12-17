@@ -39,13 +39,13 @@ public final class MeasuredPage implements androidx.compose.foundation.pager.Pag
     private MeasuredPage(int index, int size, List<? extends Placeable> placeables, long visualOffset, Object key, Orientation orientation, Alignment.Horizontal horizontalAlignment, Alignment.Vertical verticalAlignment, LayoutDirection layoutDirection, boolean reverseLayout) {
         int size2;
         int height;
-        int i2;
+        int i3;
         int maxCrossAxis;
         int index$iv;
-        Object obj;
         Object obj2;
+        Object obj;
+        int i2;
         int i;
-        int i3;
         final Object obj3 = this;
         super();
         obj3.index = index;
@@ -57,24 +57,24 @@ public final class MeasuredPage implements androidx.compose.foundation.pager.Pag
         obj3.verticalAlignment = layoutDirection;
         obj3.layoutDirection = reverseLayout;
         obj3.reverseLayout = obj31;
-        i2 = horizontalAlignment == Orientation.Vertical ? 1 : 0;
-        obj3.isVertical = i2;
+        i3 = horizontalAlignment == Orientation.Vertical ? 1 : 0;
+        obj3.isVertical = i3;
         maxCrossAxis = 0;
         final List placeables3 = obj3.placeables;
         final int i9 = 0;
         index$iv = 0;
         size2 = placeables3.size();
         while (index$iv < size2) {
-            obj2 = obj;
-            i = 0;
+            obj = obj2;
+            i2 = 0;
             if (!obj3.isVertical) {
             } else {
             }
-            height = (Placeable)obj2.getWidth();
+            height = (Placeable)obj.getWidth();
             maxCrossAxis = i7;
             index$iv++;
-            size2 = i3;
-            height = obj2.getHeight();
+            size2 = i;
+            height = obj.getHeight();
         }
         obj3.crossAxisSize = maxCrossAxis;
         obj3.placeableOffsets = new int[size3 *= 2];
@@ -118,27 +118,27 @@ public final class MeasuredPage implements androidx.compose.foundation.pager.Pag
 
     @Override // androidx.compose.foundation.pager.PageInfo
     public final void applyScrollDelta(int delta) {
-        int i4;
-        int i3;
-        int i;
-        int[] placeableOffsets;
         int i2;
+        int i;
+        int i3;
+        int[] placeableOffsets;
+        int i4;
         this.offset = offset += delta;
-        i4 = 0;
-        while (i4 < placeableOffsets2.length) {
-            i3 = i4;
-            i = 0;
+        i2 = 0;
+        while (i2 < placeableOffsets2.length) {
+            i = i2;
+            i3 = 0;
             if (this.isVertical) {
             } else {
             }
-            if (!this.isVertical && i3 % 2 == 0) {
+            if (!this.isVertical && i % 2 == 0) {
             }
-            i4++;
-            if (i3 % 2 == 0) {
+            i2++;
+            if (i % 2 == 0) {
             }
             placeableOffsets = this.placeableOffsets;
-            placeableOffsets[i3] = i6 += delta;
-            if (i3 % 2 != 1) {
+            placeableOffsets[i] = i6 += delta;
+            if (i % 2 != 1) {
             } else {
             }
         }
@@ -172,20 +172,20 @@ public final class MeasuredPage implements androidx.compose.foundation.pager.Pag
     @Override // androidx.compose.foundation.pager.PageInfo
     public final void place(Placeable.PlacementScope scope) {
         int $this$place_u24lambda_u247;
-        int i;
+        int i3;
         List placeables;
         int offset;
         long offset2;
-        int i7;
+        int i4;
         boolean $this$copy_u2d4Tuh3kE$iv;
         long l;
-        int i3;
-        int i8;
+        int i;
+        int i5;
+        int i7;
         int i6;
         int i2;
-        int i5;
         int mainAxisOffset;
-        int i4;
+        int i8;
         int $this$place_u24lambda_u2472;
         int mainAxisSize;
         int mainAxisSize2;
@@ -193,14 +193,14 @@ public final class MeasuredPage implements androidx.compose.foundation.pager.Pag
         $this$place_u24lambda_u247 = scope;
         final int i13 = 0;
         final int i12 = 0;
-        i = obj.mainAxisLayoutSize != Integer.MIN_VALUE ? 1 : i12;
-        if (i == 0) {
+        i3 = obj.mainAxisLayoutSize != Integer.MIN_VALUE ? 1 : i12;
+        if (i3 == 0) {
         } else {
-            i6 = i12;
-            while (i6 < obj.placeables.size()) {
-                i2 = i6;
-                i5 = 0;
-                placeables = obj.placeables.get(i2);
+            i7 = i12;
+            while (i7 < obj.placeables.size()) {
+                i6 = i7;
+                i2 = 0;
+                placeables = obj.placeables.get(i6);
                 if (obj.reverseLayout) {
                 } else {
                 }
@@ -210,77 +210,77 @@ public final class MeasuredPage implements androidx.compose.foundation.pager.Pag
                 } else {
                 }
                 Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default($this$place_u24lambda_u2472, (Placeable)placeables, offset, i12, 0, 0, 6);
-                i6++;
+                i7++;
                 Placeable.PlacementScope.placeWithLayer-aW-9-wM$default($this$place_u24lambda_u2472, placeables, offset, i12, 0, 0, 6);
                 long l2 = offset2;
-                i3 = this;
-                i8 = 0;
-                if (i3.isVertical) {
+                i = this;
+                i5 = 0;
+                if (i.isVertical) {
                 } else {
                 }
-                i4 = 0;
+                i8 = 0;
                 $this$place_u24lambda_u2472 = $this$place_u24lambda_u247;
                 mainAxisOffset = $this$place_u24lambda_u247;
-                if (i3.isVertical) {
+                if (i.isVertical) {
                 } else {
                 }
                 $this$place_u24lambda_u247 = IntOffset.getY-impl(l2);
                 offset2 = $this$copy_u2d4Tuh3kE$iv;
-                i4 = 0;
+                i8 = 0;
                 i10 -= mainAxisSize2;
                 mainAxisOffset = IntOffset.getX-impl(l2);
                 $this$place_u24lambda_u2472 = $this$place_u24lambda_u247;
             }
         }
         int i11 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("position() should be called first".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMeasuredPage$place$1$1 = new IllegalArgumentException("position() should be called first".toString());
+        throw $i$a$RequireMeasuredPage$place$1$1;
     }
 
     @Override // androidx.compose.foundation.pager.PageInfo
     public final void position(int offset, int layoutWidth, int layoutHeight) {
-        Object obj;
-        int i7;
-        int i2;
-        int i3;
+        Object obj2;
+        int i4;
+        int i6;
         int i5;
+        int i8;
         int mainAxisOffset;
         int index$iv;
+        Object obj;
         Object obj3;
-        Object obj2;
+        int i3;
+        int i2;
         int i;
-        int i4;
-        int i8;
         int height;
-        int i6;
+        int i7;
         int width;
         LayoutDirection layoutDirection;
-        obj = this;
-        obj.offset = offset;
-        i5 = obj.isVertical ? layoutHeight : layoutWidth;
-        obj.mainAxisLayoutSize = i5;
+        obj2 = this;
+        obj2.offset = offset;
+        i8 = obj2.isVertical ? layoutHeight : layoutWidth;
+        obj2.mainAxisLayoutSize = i8;
         int i13 = 0;
         mainAxisOffset = offset;
-        final List placeables = obj.placeables;
+        final List placeables = obj2.placeables;
         final int i14 = 0;
         index$iv = 0;
         while (index$iv < placeables.size()) {
-            obj2 = obj3;
-            i4 = 0;
-            i8 = i * 2;
-            i3 = layoutWidth;
-            obj.placeableOffsets[i8] = mainAxisOffset;
-            Alignment.Vertical verticalAlignment = obj.verticalAlignment;
-            obj.placeableOffsets[i8 + 1] = verticalAlignment.align((Placeable)obj2.getHeight(), layoutHeight);
+            obj3 = obj;
+            i2 = 0;
+            i = i3 * 2;
+            i5 = layoutWidth;
+            obj2.placeableOffsets[i] = mainAxisOffset;
+            Alignment.Vertical verticalAlignment = obj2.verticalAlignment;
+            obj2.placeableOffsets[i + 1] = verticalAlignment.align((Placeable)obj3.getHeight(), layoutHeight);
             mainAxisOffset += height;
             index$iv++;
-            obj = this;
-            i2 = offset;
-            Alignment.Horizontal horizontalAlignment = obj.horizontalAlignment;
-            obj.placeableOffsets[i8] = horizontalAlignment.align(obj2.getWidth(), layoutWidth, obj.layoutDirection);
-            obj.placeableOffsets[i8 + 1] = mainAxisOffset;
+            obj2 = this;
+            i6 = offset;
+            Alignment.Horizontal horizontalAlignment = obj2.horizontalAlignment;
+            obj2.placeableOffsets[i] = horizontalAlignment.align(obj3.getWidth(), layoutWidth, obj2.layoutDirection);
+            obj2.placeableOffsets[i + 1] = mainAxisOffset;
             mainAxisOffset += height;
-            i7 = layoutHeight;
+            i4 = layoutHeight;
         }
         int i11 = layoutWidth;
         int i9 = layoutHeight;

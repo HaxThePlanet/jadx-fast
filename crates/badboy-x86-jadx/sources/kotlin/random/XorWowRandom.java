@@ -54,8 +54,8 @@ public final class XorWowRandom extends kotlin.random.Random implements Serializ
             }
         }
         int i9 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Initial state must have at least one non-zero element.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireXorWowRandom$1 = new IllegalArgumentException("Initial state must have at least one non-zero element.".toString());
+        throw $i$a$RequireXorWowRandom$1;
     }
 
     @Override // kotlin.random.Random

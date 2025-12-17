@@ -46,58 +46,58 @@ public final class ChipKt {
     }
 
     public static final void Chip(Function0<Unit> onClick, Modifier modifier, boolean enabled, MutableInteractionSource interactionSource, Shape shape, BorderStroke border, androidx.compose.material.ChipColors colors, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i12) {
-        Object obj2;
+        Object obj4;
         int contentColor;
         int defaultsInvalid;
         Object shape2;
-        int i2;
+        int i13;
         boolean traceInProgress2;
         Object $composer2;
         Composer traceInProgress;
         int $dirty;
-        int i6;
-        Object $dirty3;
+        int i;
+        Object $dirty2;
+        Object obj9;
+        boolean z2;
+        int i16;
+        int $dirty4;
         Object obj5;
-        boolean z;
-        int i8;
-        int $dirty2;
-        Object obj;
-        Object obj6;
+        Object obj2;
         Object modifier2;
-        int i10;
+        int i7;
         int border2;
         Object colors2;
-        boolean z2;
+        boolean z;
         Object leadingIcon2;
-        int i9;
-        Composer $composer3;
-        Object obj7;
-        Object obj9;
-        int i3;
-        Object iNSTANCE;
-        int changed2;
-        Object obj4;
-        Object obj8;
-        int i11;
-        Object obj10;
-        int changed;
-        int i4;
-        int i20;
-        int $dirty4;
-        int i13;
-        long copy-wmQWz5c$default;
         int i15;
-        int i;
-        int i19;
+        Composer $composer3;
+        Object obj10;
+        Object obj;
+        int i6;
+        Object iNSTANCE;
+        int changed;
+        Object obj7;
         Object obj3;
-        int i5;
-        Composer composer2;
-        Composer composer;
-        int i17;
-        int i14;
-        int i16;
-        int i7;
+        int i8;
+        Object obj6;
+        int changed2;
         int i18;
+        int i20;
+        int $dirty3;
+        int i2;
+        long copy-wmQWz5c$default;
+        int i3;
+        int i17;
+        int i19;
+        Object obj8;
+        int i9;
+        Composer composer;
+        Composer composer2;
+        int i5;
+        int i10;
+        int i14;
+        int i11;
+        int i4;
         Object obj32;
         State obj33;
         int obj34;
@@ -112,58 +112,58 @@ public final class ChipKt {
         $dirty = $changed;
         if (i64 & 1 != 0) {
             $dirty |= 6;
-            obj5 = onClick;
+            obj9 = onClick;
         } else {
             if (i63 & 6 == 0) {
-                i8 = traceInProgress.changedInstance(onClick) ? 4 : 2;
-                $dirty |= i8;
+                i16 = traceInProgress.changedInstance(onClick) ? 4 : 2;
+                $dirty |= i16;
             } else {
-                obj5 = onClick;
+                obj9 = onClick;
             }
         }
-        $dirty2 = i64 & 2;
-        if ($dirty2 != 0) {
+        $dirty4 = i64 & 2;
+        if ($dirty4 != 0) {
             $dirty |= 48;
-            obj6 = modifier;
+            obj2 = modifier;
         } else {
             if (i63 & 48 == 0) {
-                i10 = traceInProgress.changed(modifier) ? 32 : 16;
-                $dirty |= i10;
+                i7 = traceInProgress.changed(modifier) ? 32 : 16;
+                $dirty |= i7;
             } else {
-                obj6 = modifier;
+                obj2 = modifier;
             }
         }
         border2 = i64 & 4;
         if (border2 != 0) {
             $dirty |= 384;
-            z2 = enabled;
+            z = enabled;
         } else {
             if (i63 & 384 == 0) {
-                i9 = traceInProgress.changed(enabled) ? 256 : 128;
-                $dirty |= i9;
+                i15 = traceInProgress.changed(enabled) ? 256 : 128;
+                $dirty |= i15;
             } else {
-                z2 = enabled;
+                z = enabled;
             }
         }
         int i52 = i64 & 8;
         if (i52 != 0) {
             $dirty |= 3072;
-            obj9 = interactionSource;
+            obj = interactionSource;
         } else {
             if (i63 & 3072 == 0) {
-                i3 = traceInProgress.changed(interactionSource) ? 2048 : 1024;
-                $dirty |= i3;
+                i6 = traceInProgress.changed(interactionSource) ? 2048 : 1024;
+                $dirty |= i6;
             } else {
-                obj9 = interactionSource;
+                obj = interactionSource;
             }
         }
         if (i63 & 24576 == 0) {
             if (i64 & 16 == 0) {
-                changed2 = traceInProgress.changed(shape) ? 16384 : 8192;
+                changed = traceInProgress.changed(shape) ? 16384 : 8192;
             } else {
                 iNSTANCE = shape;
             }
-            $dirty |= changed2;
+            $dirty |= changed;
         } else {
             iNSTANCE = shape;
         }
@@ -171,165 +171,165 @@ public final class ChipKt {
         int i72 = 196608;
         if (i70 != 0) {
             $dirty |= i72;
-            obj8 = border;
+            obj3 = border;
         } else {
             if (i72 &= i63 == 0) {
-                i11 = traceInProgress.changed(border) ? 131072 : 65536;
-                $dirty |= i11;
+                i8 = traceInProgress.changed(border) ? 131072 : 65536;
+                $dirty |= i8;
             } else {
-                obj8 = border;
+                obj3 = border;
             }
         }
         if (i74 &= i63 == 0) {
             if (i64 & 64 == 0) {
-                changed = traceInProgress.changed(colors) ? 1048576 : 524288;
+                changed2 = traceInProgress.changed(colors) ? 1048576 : 524288;
             } else {
-                obj10 = colors;
+                obj6 = colors;
             }
-            $dirty |= changed;
+            $dirty |= changed2;
         } else {
-            obj10 = colors;
+            obj6 = colors;
         }
         int i22 = i64 & 128;
-        i4 = 12582912;
+        i18 = 12582912;
         if (i22 != 0) {
-            $dirty |= i4;
+            $dirty |= i18;
             obj40 = i70;
-            obj4 = leadingIcon;
+            obj7 = leadingIcon;
         } else {
-            if (i63 & i4 == 0) {
+            if (i63 & i18 == 0) {
                 obj40 = i70;
-                i4 = traceInProgress.changedInstance(leadingIcon) ? 8388608 : 4194304;
-                $dirty |= i4;
+                i18 = traceInProgress.changedInstance(leadingIcon) ? 8388608 : 4194304;
+                $dirty |= i18;
             } else {
                 obj40 = i70;
-                obj4 = leadingIcon;
+                obj7 = leadingIcon;
             }
         }
         i20 = 100663296;
         if (i64 & 256 != 0) {
             $dirty |= i20;
-            obj2 = content;
+            obj4 = content;
         } else {
             if (i63 & i20 == 0) {
                 i20 = traceInProgress.changedInstance(content) ? 67108864 : 33554432;
                 $dirty |= i20;
             } else {
-                obj2 = content;
+                obj4 = content;
             }
         }
-        $dirty4 = $dirty;
+        $dirty3 = $dirty;
         if ($dirty & i77 == 38347922) {
             if (!traceInProgress.getSkipping()) {
                 traceInProgress.startDefaults();
                 int i34 = -3670017;
-                i13 = -57345;
+                i2 = -57345;
                 if (i63 & 1 != 0) {
                     if (traceInProgress.getDefaultsInvalid()) {
-                        if ($dirty2 != 0) {
-                            obj6 = defaultsInvalid;
+                        if ($dirty4 != 0) {
+                            obj2 = defaultsInvalid;
                         }
                         if (border2 != 0) {
-                            z2 = defaultsInvalid;
+                            z = defaultsInvalid;
                         }
                         if (i52 != 0) {
-                            obj9 = defaultsInvalid;
+                            obj = defaultsInvalid;
                         }
                         if (i64 & 16 != 0) {
                             shape2 = MaterialTheme.INSTANCE.getShapes(traceInProgress, 6).getSmall().copy(CornerSizeKt.CornerSize(50));
-                            $dirty2 = $dirty4 & i13;
+                            $dirty4 = $dirty3 & i2;
                         } else {
                             shape2 = iNSTANCE;
-                            $dirty2 = $dirty4;
+                            $dirty4 = $dirty3;
                         }
-                        border2 = obj40 != null ? 0 : obj8;
+                        border2 = obj40 != null ? 0 : obj3;
                         if (i64 & 64 != 0) {
-                            composer = traceInProgress;
-                            $composer2 = ChipDefaults.INSTANCE.chipColors-5tl4gsc(0, obj8, 0, $dirty4, 0, obj18, 0, obj20, 0);
-                            $composer3 = composer;
-                            $dirty2 &= i34;
+                            composer2 = traceInProgress;
+                            $composer2 = ChipDefaults.INSTANCE.chipColors-5tl4gsc(0, obj3, 0, $dirty3, 0, obj18, 0, obj20, 0);
+                            $composer3 = composer2;
+                            $dirty4 &= i34;
                         } else {
                             $composer3 = traceInProgress;
                             $composer2 = colors;
                         }
                         if (i22 != 0) {
-                            obj10 = shape2;
-                            obj4 = i35;
-                            i6 = $dirty2;
-                            i = border2;
-                            obj8 = z2;
-                            obj3 = obj9;
+                            obj6 = shape2;
+                            obj7 = i35;
+                            i = $dirty4;
+                            i17 = border2;
+                            obj3 = z;
+                            obj8 = obj;
                         } else {
-                            obj4 = leadingIcon;
-                            obj10 = shape2;
-                            i6 = $dirty2;
-                            i = border2;
-                            obj8 = z2;
-                            obj3 = obj9;
+                            obj7 = leadingIcon;
+                            obj6 = shape2;
+                            i = $dirty4;
+                            i17 = border2;
+                            obj3 = z;
+                            obj8 = obj;
                         }
                     } else {
                         traceInProgress.skipToGroupEnd();
                         if (i64 & 16 != 0) {
-                            $dirty4 = i2;
+                            $dirty3 = i13;
                         }
                         if (i64 & 64 != 0) {
-                            i6 = shape2;
+                            i = shape2;
                             $composer3 = traceInProgress;
-                            obj3 = obj9;
-                            i = obj8;
-                            $composer2 = obj10;
-                            obj8 = z2;
-                            obj10 = iNSTANCE;
+                            obj8 = obj;
+                            i17 = obj3;
+                            $composer2 = obj6;
+                            obj3 = z;
+                            obj6 = iNSTANCE;
                         } else {
                             $composer3 = traceInProgress;
-                            obj3 = obj9;
-                            i = obj8;
-                            $composer2 = obj10;
-                            i6 = $dirty4;
-                            obj8 = z2;
-                            obj10 = iNSTANCE;
+                            obj8 = obj;
+                            i17 = obj3;
+                            $composer2 = obj6;
+                            i = $dirty3;
+                            obj3 = z;
+                            obj6 = iNSTANCE;
                         }
                     }
                 } else {
                 }
                 $composer3.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-368396408, i6, -1, "androidx.compose.material.Chip (Chip.kt:98)");
+                    ComposerKt.traceEventStart(-368396408, i, -1, "androidx.compose.material.Chip (Chip.kt:98)");
                 }
-                contentColor = $composer2.contentColor(obj8, $composer3, i27 |= i41);
+                contentColor = $composer2.contentColor(obj3, $composer3, i27 |= i41);
                 int i55 = 1;
                 obj35 = $composer2;
                 obj32 = anon2;
-                obj34 = obj4;
-                super(contentColor, obj34, obj35, obj8, content);
-                SurfaceKt.Surface-LPr_se0(obj5, SemanticsModifierKt.semantics$default(obj6, false, (Function1)ChipKt.Chip.1.INSTANCE, i55, 0), obj8, obj10, (Color)$composer2.backgroundColor(obj8, $composer3, i45 |= i50).getValue().unbox-impl(), i13, Color.copy-wmQWz5c$default(ChipKt.Chip$lambda$0(contentColor), obj24, 1065353216, 0, 0, 0, 14), i15, i, 0, obj3, (Function2)ComposableLambdaKt.rememberComposableLambda(139076687, i55, obj32, $composer3, 54), $composer3);
+                obj34 = obj7;
+                super(contentColor, obj34, obj35, obj3, content);
+                SurfaceKt.Surface-LPr_se0(obj9, SemanticsModifierKt.semantics$default(obj2, false, (Function1)ChipKt.Chip.1.INSTANCE, i55, 0), obj3, obj6, (Color)$composer2.backgroundColor(obj3, $composer3, i45 |= i50).getValue().unbox-impl(), i2, Color.copy-wmQWz5c$default(ChipKt.Chip$lambda$0(contentColor), obj24, 1065353216, 0, 0, 0, 14), i3, i17, 0, obj8, (Function2)ComposableLambdaKt.rememberComposableLambda(139076687, i55, obj32, $composer3, 54), $composer3);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $dirty4 = i6;
-                $dirty3 = obj6;
-                obj7 = i51;
-                z = obj8;
-                modifier2 = obj10;
-                obj = obj3;
+                $dirty3 = i;
+                $dirty2 = obj2;
+                obj10 = i51;
+                z2 = obj3;
+                modifier2 = obj6;
+                obj5 = obj8;
                 leadingIcon2 = chipColors;
-                colors2 = i;
+                colors2 = i17;
             } else {
                 traceInProgress.skipToGroupEnd();
-                composer2 = traceInProgress;
-                $dirty3 = obj6;
-                z = z2;
-                obj = obj9;
+                composer = traceInProgress;
+                $dirty2 = obj2;
+                z2 = z;
+                obj5 = obj;
                 modifier2 = iNSTANCE;
-                obj7 = obj4;
-                colors2 = obj8;
-                leadingIcon2 = obj10;
+                obj10 = obj7;
+                colors2 = obj3;
+                leadingIcon2 = obj6;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            contentColor = new ChipKt.Chip.3(onClick, $dirty3, z, obj, modifier2, colors2, leadingIcon2, obj7, content, i63, i64);
+            contentColor = new ChipKt.Chip.3(onClick, $dirty2, z2, obj5, modifier2, colors2, leadingIcon2, obj10, content, i63, i64);
             endRestartGroup.updateScope((Function2)contentColor);
         }
     }
@@ -342,85 +342,85 @@ public final class ChipKt {
     }
 
     public static final void FilterChip(boolean selected, Function0<Unit> onClick, Modifier modifier, boolean enabled, MutableInteractionSource interactionSource, Shape shape, BorderStroke border, androidx.compose.material.SelectableChipColors colors, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function2<? super Composer, ? super Integer, Unit> selectedIcon, Function2<? super Composer, ? super Integer, Unit> trailingIcon, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i16) {
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Object endRestartGroup;
-        Object obj;
+        Object obj6;
         boolean skipping;
-        int modifier2;
+        int modifier3;
         int defaultsInvalid;
         Object modifier4;
-        int i5;
-        int modifier3;
+        int i3;
+        int modifier2;
+        Object enabled3;
+        boolean enabled2;
         Object enabled4;
-        boolean enabled3;
-        Object enabled2;
         int changedInstance;
-        int i9;
+        int i17;
         boolean shape2;
         Object leadingIcon3;
         int leadingIcon2;
-        int $dirty;
+        int $dirty2;
+        Object $dirty;
         Object $dirty3;
-        Object $dirty2;
         Object $dirty16;
-        Object obj6;
-        Object obj9;
-        Object $dirty15;
+        Object obj15;
+        Object obj13;
+        Object $dirty12;
         int selectedIcon3;
-        int i27;
+        int i;
         int selectedIcon2;
-        int i14;
-        Object obj11;
-        Object obj12;
         int i13;
+        Object obj7;
+        Object obj8;
+        int i5;
         boolean l;
         Object obj4;
         int copy;
-        Object obj5;
-        int border2;
-        Object obj3;
-        Object obj8;
-        int obj7;
-        int i3;
-        Object obj13;
-        int interactionSource2;
-        Object obj10;
-        int i22;
-        int $dirty5;
-        int i21;
-        Composer restartGroup;
-        Object obj16;
-        boolean traceInProgress;
-        int i6;
-        int i7;
-        int i23;
-        Composer composer;
-        int i25;
-        int i8;
-        int $dirty14;
-        int i15;
-        int $dirty13;
-        int i18;
-        int $dirty1;
-        int changed;
-        int $dirty12;
-        int i10;
-        int $dirty17;
-        int i17;
-        int i12;
-        int i11;
-        int i24;
-        boolean changedInstance2;
-        int i;
-        int i4;
-        Object obj15;
         Object obj2;
+        int border2;
+        Object obj12;
+        Object obj10;
+        int obj3;
         int i2;
-        int $dirty4;
-        Object obj14;
-        int i26;
+        Object obj9;
+        int interactionSource2;
+        Object obj16;
+        int i4;
+        int $dirty5;
+        int i24;
+        Composer restartGroup;
+        Object obj5;
+        boolean traceInProgress2;
+        int i9;
+        int i10;
+        int i12;
+        Composer composer;
+        int i21;
         int i20;
+        int $dirty17;
+        int i22;
+        int $dirty15;
+        int i25;
+        int $dirty13;
+        int changed;
+        int $dirty14;
+        int i26;
+        int $dirty1;
+        int i8;
+        int i27;
+        int i6;
+        int i23;
+        boolean changedInstance2;
+        int i7;
         int i19;
+        Object obj14;
+        Object obj11;
+        int i11;
+        int $dirty4;
+        Object obj;
+        int i18;
+        int i14;
+        int i15;
         ScopeUpdateScope scopeUpdateScope;
         Object obj37;
         long obj38;
@@ -432,90 +432,90 @@ public final class ChipKt {
         Object obj44;
         boolean obj45;
         Object obj47;
-        traceInProgress2 = selected;
+        traceInProgress = selected;
         Object obj17 = colors;
         int i33 = $changed;
         int i34 = i16;
         restartGroup = $composer.startRestartGroup(-1259208246);
         ComposerKt.sourceInformation(restartGroup, "C(FilterChip)P(8,7,6,3,4,10!2,5,9,11)190@8782L6,192@8909L18,199@9240L31,206@9478L34,210@9652L3966,200@9276L4342:Chip.kt#jmzs0o");
-        $dirty = $changed;
+        $dirty2 = $changed;
         int i59 = $changed1;
         if (i34 & 1 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
         } else {
             if (i33 & 6 == 0) {
-                i14 = restartGroup.changed(traceInProgress2) ? 4 : 2;
-                $dirty |= i14;
+                i13 = restartGroup.changed(traceInProgress) ? 4 : 2;
+                $dirty2 |= i13;
             }
         }
         if (i34 & 2 != 0) {
-            $dirty |= 48;
-            obj11 = onClick;
+            $dirty2 |= 48;
+            obj7 = onClick;
         } else {
             if (i33 & 48 == 0) {
-                i22 = restartGroup.changedInstance(onClick) ? 32 : 16;
-                $dirty |= i22;
+                i4 = restartGroup.changedInstance(onClick) ? 32 : 16;
+                $dirty2 |= i4;
             } else {
-                obj11 = onClick;
+                obj7 = onClick;
             }
         }
         $dirty5 = i34 & 4;
         if ($dirty5 != 0) {
-            $dirty |= 384;
-            obj16 = modifier;
+            $dirty2 |= 384;
+            obj5 = modifier;
         } else {
             if (i33 & 384 == 0) {
-                i6 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i6;
+                i9 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i9;
             } else {
-                obj16 = modifier;
+                obj5 = modifier;
             }
         }
-        i7 = i34 & 8;
-        if (i7 != 0) {
-            $dirty |= 3072;
+        i10 = i34 & 8;
+        if (i10 != 0) {
+            $dirty2 |= 3072;
             l = enabled;
         } else {
             if (i33 & 3072 == 0) {
-                i23 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty |= i23;
+                i12 = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty2 |= i12;
             } else {
                 l = enabled;
             }
         }
-        i25 = i34 & 16;
-        if (i25 != 0) {
-            $dirty |= 24576;
-            obj5 = interactionSource;
+        i21 = i34 & 16;
+        if (i21 != 0) {
+            $dirty2 |= 24576;
+            obj2 = interactionSource;
         } else {
             if (i33 & 24576 == 0) {
-                i18 = restartGroup.changed(interactionSource) ? 16384 : 8192;
-                $dirty |= i18;
+                i25 = restartGroup.changed(interactionSource) ? 16384 : 8192;
+                $dirty2 |= i25;
             } else {
-                obj5 = interactionSource;
+                obj2 = interactionSource;
             }
         }
         if (i33 & i87 == 0) {
             if (i34 & 32 == 0) {
                 changed = restartGroup.changed(shape) ? 131072 : 65536;
             } else {
-                obj8 = shape;
+                obj10 = shape;
             }
-            $dirty |= changed;
+            $dirty2 |= changed;
         } else {
-            obj8 = shape;
+            obj10 = shape;
         }
         int i89 = i34 & 64;
-        $dirty12 = 1572864;
+        $dirty14 = 1572864;
         if (i89 != 0) {
-            $dirty |= $dirty12;
-            obj13 = border;
+            $dirty2 |= $dirty14;
+            obj9 = border;
         } else {
-            if (i33 & $dirty12 == 0) {
-                i10 = restartGroup.changed(border) ? 1048576 : 524288;
-                $dirty |= i10;
+            if (i33 & $dirty14 == 0) {
+                i26 = restartGroup.changed(border) ? 1048576 : 524288;
+                $dirty2 |= i26;
             } else {
-                obj13 = border;
+                obj9 = border;
             }
         }
         if (i33 & i92 == 0) {
@@ -525,64 +525,64 @@ public final class ChipKt {
                 } else {
                     changedInstance = restartGroup.changedInstance(obj17);
                 }
-                i9 = changedInstance != null ? 8388608 : 4194304;
+                i17 = changedInstance != null ? 8388608 : 4194304;
             } else {
             }
-            $dirty |= i9;
+            $dirty2 |= i17;
         }
         int i43 = i34 & 256;
         int i94 = 100663296;
         if (i43 != 0) {
-            $dirty |= i94;
-            $dirty17 = i59;
+            $dirty2 |= i94;
+            $dirty1 = i59;
             $dirty16 = leadingIcon;
         } else {
             if (i33 & i94 == 0) {
-                $dirty17 = i59;
-                i17 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
-                $dirty |= i17;
+                $dirty1 = i59;
+                i8 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
+                $dirty2 |= i8;
             } else {
-                $dirty17 = i59;
+                $dirty1 = i59;
                 $dirty16 = leadingIcon;
             }
         }
         int $dirty19 = i34 & 512;
         int i97 = 805306368;
         if ($dirty19 != 0) {
-            $dirty |= i97;
-            i12 = $dirty19;
-            obj6 = selectedIcon;
+            $dirty2 |= i97;
+            i27 = $dirty19;
+            obj15 = selectedIcon;
         } else {
             if (i33 & i97 == 0) {
-                i12 = $dirty19;
-                i11 = restartGroup.changedInstance(selectedIcon) ? 536870912 : 268435456;
-                $dirty |= i11;
+                i27 = $dirty19;
+                i6 = restartGroup.changedInstance(selectedIcon) ? 536870912 : 268435456;
+                $dirty2 |= i6;
             } else {
-                i12 = $dirty19;
-                obj6 = selectedIcon;
+                i27 = $dirty19;
+                obj15 = selectedIcon;
             }
         }
         int i60 = i34 & 1024;
         if (i60 != 0) {
-            $dirty14 = $dirty17 | 6;
-            i24 = i60;
-            obj9 = trailingIcon;
+            $dirty17 = $dirty1 | 6;
+            i23 = i60;
+            obj13 = trailingIcon;
         } else {
         }
         if (i34 & 2048 != 0) {
-            $dirty14 |= 48;
-            obj = content;
+            $dirty17 |= 48;
+            obj6 = content;
         } else {
             if ($changed1 & 48 == 0) {
-                $dirty1 = restartGroup.changedInstance(content) ? 32 : 16;
-                $dirty14 |= $dirty1;
+                $dirty13 = restartGroup.changedInstance(content) ? 32 : 16;
+                $dirty17 |= $dirty13;
             } else {
-                obj = content;
+                obj6 = content;
             }
         }
-        i27 = $dirty14;
-        if ($dirty & $dirty13 == 306783378 && i27 & 19 == 18) {
-            if (i27 & 19 == 18) {
+        i = $dirty17;
+        if ($dirty2 & $dirty15 == 306783378 && i & 19 == 18) {
+            if (i & 19 == 18) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
                     if ($changed & 1 != 0) {
@@ -590,136 +590,136 @@ public final class ChipKt {
                             if ($dirty5 != 0) {
                                 modifier4 = Modifier.Companion;
                             } else {
-                                modifier4 = obj16;
+                                modifier4 = obj5;
                             }
-                            enabled3 = i7 != 0 ? 1 : l;
-                            obj15 = i25 != 0 ? l : obj5;
+                            enabled2 = i10 != 0 ? 1 : l;
+                            obj14 = i21 != 0 ? l : obj2;
                             if (i34 & 32 != 0) {
-                                obj2 = copy;
-                                $dirty4 = $dirty;
+                                obj11 = copy;
+                                $dirty4 = $dirty2;
                             } else {
-                                obj2 = obj8;
-                                $dirty4 = $dirty;
+                                obj11 = obj10;
+                                $dirty4 = $dirty2;
                             }
-                            obj14 = i89 != 0 ? $dirty : obj13;
+                            obj = i89 != 0 ? $dirty2 : obj9;
                             if (i34 & 128 != 0) {
-                                $dirty13 = i27;
+                                $dirty15 = i;
                                 changedInstance2 = restartGroup;
-                                i20 = i12;
-                                i19 = i24;
+                                i14 = i27;
+                                i15 = i23;
                                 obj37 = modifier4;
-                                modifier2 = i26;
-                                $dirty2 = ChipDefaults.INSTANCE.filterChipColors-J08w3-E(0, obj11, 0, obj5, 0, obj13, 0, restartGroup, 0, i7, 0, $dirty13);
+                                modifier3 = i18;
+                                $dirty3 = ChipDefaults.INSTANCE.filterChipColors-J08w3-E(0, obj7, 0, obj2, 0, obj9, 0, restartGroup, 0, i10, 0, $dirty15);
                                 restartGroup = changedInstance2;
-                                $dirty4 &= i27;
+                                $dirty4 &= i;
                             } else {
                                 obj37 = modifier4;
-                                modifier2 = i27;
-                                i20 = i12;
-                                i19 = i24;
-                                $dirty2 = colors;
+                                modifier3 = i;
+                                i14 = i27;
+                                i15 = i23;
+                                $dirty3 = colors;
                             }
                             leadingIcon2 = i43 != 0 ? 0 : leadingIcon;
-                            selectedIcon2 = i20 != 0 ? 0 : selectedIcon;
-                            if (i19 != 0) {
-                                l = enabled3;
-                                i3 = i67;
-                                obj10 = obj15;
-                                i21 = $dirty4;
-                                obj3 = obj14;
-                                enabled4 = obj37;
-                                i13 = selectedIcon2;
+                            selectedIcon2 = i14 != 0 ? 0 : selectedIcon;
+                            if (i15 != 0) {
+                                l = enabled2;
+                                i2 = i67;
+                                obj16 = obj14;
+                                i24 = $dirty4;
+                                obj12 = obj;
+                                enabled3 = obj37;
+                                i5 = selectedIcon2;
                                 selectedIcon3 = leadingIcon2;
-                                leadingIcon3 = obj2;
+                                leadingIcon3 = obj11;
                             } else {
-                                i3 = trailingIcon;
-                                l = enabled3;
-                                i13 = selectedIcon2;
-                                obj10 = obj15;
-                                i21 = $dirty4;
-                                obj3 = obj14;
-                                enabled4 = obj37;
+                                i2 = trailingIcon;
+                                l = enabled2;
+                                i5 = selectedIcon2;
+                                obj16 = obj14;
+                                i24 = $dirty4;
+                                obj12 = obj;
+                                enabled3 = obj37;
                                 selectedIcon3 = leadingIcon2;
-                                leadingIcon3 = obj2;
+                                leadingIcon3 = obj11;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
                             if (i34 & 32 != 0) {
-                                $dirty &= i5;
+                                $dirty2 &= i3;
                             }
                             if (i34 & 128 != 0) {
-                                obj10 = obj5;
-                                obj3 = obj18;
-                                $dirty2 = colors;
-                                i13 = selectedIcon;
-                                i21 = i31;
-                                modifier2 = i27;
-                                leadingIcon3 = obj8;
-                                enabled4 = obj16;
+                                obj16 = obj2;
+                                obj12 = obj18;
+                                $dirty3 = colors;
+                                i5 = selectedIcon;
+                                i24 = i31;
+                                modifier3 = i;
+                                leadingIcon3 = obj10;
+                                enabled3 = obj5;
                                 selectedIcon3 = leadingIcon;
-                                i3 = trailingIcon;
+                                i2 = trailingIcon;
                             } else {
-                                obj10 = obj5;
-                                obj3 = $dirty6;
-                                i13 = selectedIcon;
-                                i21 = $dirty;
-                                modifier2 = i27;
-                                leadingIcon3 = obj8;
-                                enabled4 = obj16;
-                                $dirty2 = colors;
+                                obj16 = obj2;
+                                obj12 = $dirty6;
+                                i5 = selectedIcon;
+                                i24 = $dirty2;
+                                modifier3 = i;
+                                leadingIcon3 = obj10;
+                                enabled3 = obj5;
+                                $dirty3 = colors;
                                 selectedIcon3 = leadingIcon;
-                                i3 = trailingIcon;
+                                i2 = trailingIcon;
                             }
                         }
                     } else {
                     }
                     restartGroup.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(-1259208246, i21, modifier2, "androidx.compose.material.FilterChip (Chip.kt:197)");
+                        ComposerKt.traceEventStart(-1259208246, i24, modifier3, "androidx.compose.material.FilterChip (Chip.kt:197)");
                     }
-                    State contentColor = $dirty2.contentColor(l, traceInProgress2, restartGroup, i75 |= i81);
-                    i15 = modifier2;
+                    State contentColor = $dirty3.contentColor(l, traceInProgress, restartGroup, i75 |= i81);
+                    i22 = modifier3;
                     int shape3 = 1;
                     obj37 = anon2;
-                    obj44 = $dirty2;
+                    obj44 = $dirty3;
                     obj39 = selectedIcon3;
-                    obj41 = i13;
+                    obj41 = i5;
                     obj45 = l;
-                    obj42 = i3;
+                    obj42 = i2;
                     obj38 = contentColor;
-                    super(obj38, obj39, traceInProgress2, obj41, obj42, content, obj44, obj45);
-                    $dirty12 = obj38;
+                    super(obj38, obj39, traceInProgress, obj41, obj42, content, obj44, obj45);
+                    $dirty14 = obj38;
                     boolean z3 = obj45;
-                    int i64 = i21 << 15;
+                    int i64 = i24 << 15;
                     Object obj19 = obj47;
-                    i2 = i21;
-                    SurfaceKt.Surface-Ny5ogXk(selected, onClick, SemanticsModifierKt.semantics$default(enabled4, false, (Function1)ChipKt.FilterChip.1.INSTANCE, shape3, 0), z3, obj19, (Color)$dirty2.backgroundColor(l, traceInProgress2, restartGroup, i38 |= i85).getValue().unbox-impl(), i64, Color.copy-wmQWz5c$default((Color)contentColor.getValue().unbox-impl(), enabled, 1065353216, 0, 0, 0, 14), l, obj3, 0, obj10, (Function2)ComposableLambdaKt.rememberComposableLambda(722126431, shape3, obj37, restartGroup, 54), restartGroup, i48 | i57);
+                    i11 = i24;
+                    SurfaceKt.Surface-Ny5ogXk(selected, onClick, SemanticsModifierKt.semantics$default(enabled3, false, (Function1)ChipKt.FilterChip.1.INSTANCE, shape3, 0), z3, obj19, (Color)$dirty3.backgroundColor(l, traceInProgress, restartGroup, i38 |= i85).getValue().unbox-impl(), i64, Color.copy-wmQWz5c$default((Color)contentColor.getValue().unbox-impl(), enabled, 1065353216, 0, 0, 0, 14), l, obj12, 0, obj16, (Function2)ComposableLambdaKt.rememberComposableLambda(722126431, shape3, obj37, restartGroup, 54), restartGroup, i48 | i57);
                     composer = restartGroup;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    $dirty15 = obj19;
-                    obj12 = obj3;
-                    $dirty3 = obj10;
-                    obj4 = $dirty17;
-                    border2 = i12;
-                    obj7 = i24;
+                    $dirty12 = obj19;
+                    obj8 = obj12;
+                    $dirty = obj16;
+                    obj4 = $dirty1;
+                    border2 = i27;
+                    obj3 = i23;
                     interactionSource2 = changedInstance2;
                     shape2 = z3;
-                    enabled2 = $dirty1;
+                    enabled4 = $dirty13;
                 } else {
                     restartGroup.skipToGroupEnd();
-                    i2 = $dirty;
-                    i15 = i27;
+                    i11 = $dirty2;
+                    i22 = i;
                     shape2 = l;
-                    $dirty3 = obj5;
-                    $dirty15 = obj8;
-                    obj12 = obj13;
+                    $dirty = obj2;
+                    $dirty12 = obj10;
+                    obj8 = obj9;
                     composer = restartGroup;
-                    enabled2 = obj16;
+                    enabled4 = obj5;
                     obj4 = colors;
                     border2 = leadingIcon;
-                    obj7 = selectedIcon;
+                    obj3 = selectedIcon;
                     interactionSource2 = trailingIcon;
                 }
             } else {
@@ -728,7 +728,7 @@ public final class ChipKt {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new ChipKt.FilterChip.3(selected, onClick, enabled2, shape2, $dirty3, $dirty15, obj12, obj4, border2, obj7, interactionSource2, content, $changed, $changed1, i16);
+            endRestartGroup = new ChipKt.FilterChip.3(selected, onClick, enabled4, shape2, $dirty, $dirty12, obj8, obj4, border2, obj3, interactionSource2, content, $changed, $changed1, i16);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }

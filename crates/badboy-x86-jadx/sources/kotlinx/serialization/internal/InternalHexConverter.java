@@ -17,40 +17,40 @@ public final class InternalHexConverter {
     }
 
     private final int hexToInt(char ch) {
-        int i3;
         int i5;
-        int i;
+        int i3;
         int i2;
-        int i4;
         int i6;
+        int i;
         int i7;
-        i7 = 1;
+        int i4;
+        i4 = 1;
         final int i10 = 0;
         if (48 <= ch && ch < 58) {
-            i5 = ch < 58 ? i7 : i10;
+            i3 = ch < 58 ? i4 : i10;
         } else {
         }
-        if (i5 != 0) {
-            i6 = ch + -48;
+        if (i3 != 0) {
+            i7 = ch + -48;
         } else {
             if (65 <= ch && ch < 71) {
-                i2 = ch < 71 ? i7 : i10;
+                i6 = ch < 71 ? i4 : i10;
             } else {
             }
-            if (i2 != 0) {
+            if (i6 != 0) {
                 i8 += 10;
             } else {
                 if (97 <= ch && ch < 103) {
                     if (ch < 103) {
                     } else {
-                        i7 = i10;
+                        i4 = i10;
                     }
                 } else {
                 }
-                i6 = i7 != 0 ? i9 + 10 : -1;
+                i7 = i4 != 0 ? i9 + 10 : -1;
             }
         }
-        return i6;
+        return i7;
     }
 
     public static String printHexBinary$default(kotlinx.serialization.internal.InternalHexConverter internalHexConverter, byte[] b2Arr2, boolean z3, int i4, Object object5) {
@@ -62,42 +62,42 @@ public final class InternalHexConverter {
     }
 
     public final byte[] parseHexBinary(String s) {
-        int i4;
-        int i3;
+        int i2;
+        int i;
         int hexToInt2;
         int hexToInt;
-        int i;
-        int i2;
+        int i3;
+        int i4;
         byte b;
         Intrinsics.checkNotNullParameter(s, "s");
         int length = s.length();
         int i7 = 0;
         int i9 = 1;
-        i4 = length % 2 == 0 ? i9 : i7;
-        if (i4 == 0) {
+        i2 = length % 2 == 0 ? i9 : i7;
+        if (i2 == 0) {
         } else {
             byte[] bArr = new byte[length / 2];
-            i3 = 0;
-            while (i3 < length) {
-                hexToInt2 = hexToInt(s.charAt(i3));
-                hexToInt = hexToInt(s.charAt(i3 + 1));
+            i = 0;
+            while (i < length) {
+                hexToInt2 = hexToInt(s.charAt(i));
+                hexToInt = hexToInt(s.charAt(i + 1));
                 int i11 = -1;
                 if (hexToInt2 != i11 && hexToInt != i11) {
                 } else {
                 }
-                i2 = i7;
-                bArr[i3 / 2] = (byte)i14;
-                i3 += 2;
+                i4 = i7;
+                bArr[i / 2] = (byte)i14;
+                i += 2;
                 if (hexToInt != i11) {
                 } else {
                 }
-                i2 = i9;
+                i4 = i9;
             }
             return bArr;
         }
         int bytes = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("HexBinary string must be even length".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireInternalHexConverter$parseHexBinary$1 = new IllegalArgumentException("HexBinary string must be even length".toString());
+        throw $i$a$RequireInternalHexConverter$parseHexBinary$1;
     }
 
     public final String printHexBinary(byte[] data, boolean lowerCase) {

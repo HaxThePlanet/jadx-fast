@@ -83,10 +83,10 @@ public final class ULongArray implements Collection<kotlin.ULong>, KMappedMarker
 
     public static boolean containsAll-impl(long[] arg0, Collection<kotlin.ULong> elements) {
         Iterator iterator;
-        int i2;
+        int i3;
         boolean next;
         int it;
-        int i3;
+        int i2;
         boolean contains;
         int i;
         long unbox-impl;
@@ -98,7 +98,7 @@ public final class ULongArray implements Collection<kotlin.ULong>, KMappedMarker
             iterator = obj.iterator();
             while (iterator.hasNext()) {
                 Object obj3 = next;
-                i3 = 0;
+                i2 = 0;
                 i = 0;
                 if (obj3 instanceof ULong && ArraysKt.contains(arg0, (ULong)obj3.unbox-impl())) {
                 } else {
@@ -107,10 +107,10 @@ public final class ULongArray implements Collection<kotlin.ULong>, KMappedMarker
                 if (ArraysKt.contains(arg0, (ULong)obj3.unbox-impl())) {
                 } else {
                 }
-                it = i2;
+                it = i3;
             }
         }
-        return i2;
+        return i3;
     }
 
     public static boolean equals-impl(long[] lArr, Object object2) {

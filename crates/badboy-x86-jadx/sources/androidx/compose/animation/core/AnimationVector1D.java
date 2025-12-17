@@ -21,17 +21,17 @@ public final class AnimationVector1D extends androidx.compose.animation.core.Ani
 
     @Override // androidx.compose.animation.core.AnimationVector
     public boolean equals(Object other) {
+        int i;
         int i2;
         int i3;
-        int i;
         if (other instanceof AnimationVector1D) {
-            i = 1;
-            i2 = Float.compare(value, value2) == 0 ? i : i3;
-            if (i2 != 0) {
-                i3 = i;
+            i3 = 1;
+            i = Float.compare(value, value2) == 0 ? i3 : i2;
+            if (i != 0) {
+                i2 = i3;
             }
         }
-        return i3;
+        return i2;
     }
 
     @Override // androidx.compose.animation.core.AnimationVector

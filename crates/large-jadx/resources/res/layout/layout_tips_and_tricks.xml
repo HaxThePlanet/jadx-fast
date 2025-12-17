@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/layout_tips_and_tricks_0"
+    android:background="@drawable/ripple_effect_gray_rounded_corners"
+    android:padding="@dimen/margin_16"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.google.android.material.textview.MaterialTextView
+        android:textSize="16sp"
+        android:textColor="@color/darkGray"
+        android:id="@+id/moreTipsHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tips.evaluation.screen.header"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintEnd_toStartOf="@+id/arrow_go"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:lineHeight="22dp"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:textColor="@color/darkGray"
+        android:id="@+id/moreTipsDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tips.evaluation.screen.text"
+        app:layout_constraintEnd_toStartOf="@+id/arrow_go"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/moreTipsHeader"
+        app:lineHeight="16dp"/>
+    <ImageView
+        android:id="@+id/arrow_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:src="@drawable/vector_right_arrow_small"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:tint="@color/darkGray"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,7 @@ public final class FocusInteractionKt {
         int changed;
         String str;
         Object empty;
-        Object mutableStateOf$default;
+        Object $i$a$CacheFocusInteractionKt$collectIsFocusedAsState$isFocused$1;
         Object anon;
         int i2;
         Boolean valueOf;
@@ -38,9 +38,9 @@ public final class FocusInteractionKt {
             int i13 = 0;
             composer2.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(false, i14, 2, i14));
         } else {
-            mutableStateOf$default = rememberedValue2;
+            $i$a$CacheFocusInteractionKt$collectIsFocusedAsState$isFocused$1 = rememberedValue2;
         }
-        androidx.compose.runtime.MutableState invalid$iv = mutableStateOf$default;
+        androidx.compose.runtime.MutableState invalid$iv = $i$a$CacheFocusInteractionKt$collectIsFocusedAsState$isFocused$1;
         ComposerKt.sourceInformationMarkerEnd($composer);
         ComposerKt.sourceInformationMarkerStart($composer, -1673625084, str3);
         int i9 = 4;

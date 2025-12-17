@@ -36,13 +36,13 @@ public final class BottomAppBarDefaults {
     }
 
     public final androidx.compose.material3.BottomAppBarScrollBehavior exitAlwaysScrollBehavior(androidx.compose.material3.BottomAppBarState state, Function0<Boolean> canScroll, AnimationSpec<Float> snapAnimationSpec, DecayAnimationSpec<Float> flingAnimationSpec, Composer $composer, int $changed, int i7) {
-        int i5;
-        int i2;
-        int i6;
         int i4;
-        Composer $composer2;
-        int i3;
+        int i5;
         int i;
+        int i6;
+        Composer $composer2;
+        int i2;
+        int i3;
         androidx.compose.material3.BottomAppBarState obj9;
         androidx.compose.material3.BottomAppBarDefaults.exitAlwaysScrollBehavior.1 obj10;
         androidx.compose.animation.core.SpringSpec obj11;
@@ -60,7 +60,7 @@ public final class BottomAppBarDefaults {
             obj10 = obj13;
         }
         if (i7 & 4 != 0) {
-            i6 = 0;
+            i = 0;
             obj11 = obj13;
         }
         if (i7 & 8 != 0) {

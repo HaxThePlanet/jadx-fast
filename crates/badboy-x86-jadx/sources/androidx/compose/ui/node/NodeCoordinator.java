@@ -223,7 +223,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
     }
 
     private final void drawContainedDrawModifiers(Canvas canvas, GraphicsLayer graphicsLayer) {
-        int constructor-impl;
+        int $i$f$getDrawOLwlOKw;
         int mDrawScope$ui_release;
         Canvas canvas2;
         long size-ozmzZPI;
@@ -336,9 +336,9 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         long l;
         Object obj;
         boolean z4;
-        boolean z2;
-        boolean z3;
         boolean z;
+        boolean z3;
+        boolean z2;
         boolean z5;
         if ($this$hit_u2d1hIXUjU == null) {
             this.hitTestChild-YqVAtuI(hitTestSource, pointerPosition, obj3, isTouchEvent, isInLayer);
@@ -352,13 +352,13 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     private final void hitNear-JHbHoSQ(Modifier.Node $this$hitNear_u2dJHbHoSQ, androidx.compose.ui.node.NodeCoordinator.HitTestSource hitTestSource, long pointerPosition, androidx.compose.ui.node.HitTestResult hitTestResult, boolean isTouchEvent, boolean isInLayer, float distanceFromEdge) {
         androidx.compose.ui.node.NodeCoordinator.hitNear.1 anon;
-        Object obj2;
-        long l;
         Object obj;
-        boolean z4;
-        boolean z;
+        long l;
+        Object obj2;
         boolean z3;
         boolean z2;
+        boolean z4;
+        boolean z;
         float f2;
         float f;
         if ($this$hitNear_u2dJHbHoSQ == null) {
@@ -374,22 +374,22 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
     }
 
     private final long offsetFromEdge-MK-Hz9U(long pointerPosition) {
-        int i;
         int i2;
+        int i;
         final float x-impl = Offset.getX-impl(pointerPosition);
         int i3 = 0;
         if (Float.compare(x-impl, i3) < 0) {
-            i = -x-impl;
+            i2 = -x-impl;
         } else {
-            i = x-impl - f3;
+            i2 = x-impl - f3;
         }
         final float y-impl = Offset.getY-impl(pointerPosition);
         if (Float.compare(y-impl, i3) < 0) {
-            i2 = -y-impl;
+            i = -y-impl;
         } else {
-            i2 = y-impl - f4;
+            i = y-impl - f4;
         }
-        return OffsetKt.Offset(Math.max(i3, i), Math.max(i3, i2));
+        return OffsetKt.Offset(Math.max(i3, i2), Math.max(i3, i));
     }
 
     private final void placeSelf-MLgxB_4(long position, float zIndex, Function1<? super GraphicsLayerScope, Unit> layerBlock, GraphicsLayer explicitLayer) {
@@ -402,7 +402,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         int i2;
         GraphicsLayer value$iv;
         int i;
-        String str;
+        String $i$a$RequirePreconditionNodeCoordinator$placeSelf$1;
         invalidateParentLayer = 2;
         owner$ui_release = 0;
         layoutNode = 0;
@@ -477,12 +477,12 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         Object hitTestSource2;
         long l;
         androidx.compose.ui.node.HitTestResult hitTestResult2;
-        boolean z4;
-        boolean z3;
-        boolean z2;
         boolean z;
-        float f;
+        boolean z4;
+        boolean z2;
+        boolean z3;
         float f2;
+        float f;
         if ($this$speculativeHit_u2dJHbHoSQ == null) {
             this.hitTestChild-YqVAtuI(hitTestSource, pointerPosition, obj3, isTouchEvent, isInLayer);
         } else {
@@ -531,10 +531,10 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         boolean equal;
         long tmpMatrix;
         long zero-nOcc-ac;
-        long l;
         long l2;
-        int i2;
+        long l;
         int i;
+        int i2;
         androidx.compose.ui.node.NodeCoordinator wrappedBy = this.wrappedBy;
         Intrinsics.checkNotNull(wrappedBy);
         wrappedBy.transformFromAncestor-EL8BTi8(ancestor, matrix);
@@ -558,13 +558,13 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         Object wrapper;
         long position-nOcc-ac;
         androidx.compose.ui.node.NodeCoordinator wrappedBy;
-        boolean tmpMatrix;
-        float[] tmpMatrix2;
+        boolean tmpMatrix2;
+        float[] tmpMatrix;
         float f;
         float f2;
-        int i;
-        int i3;
         int i2;
+        int i3;
+        int i;
         wrapper = this;
         while (!Intrinsics.areEqual(wrapper, ancestor)) {
             androidx.compose.ui.node.OwnedLayer layer = wrapper.layer;
@@ -600,7 +600,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         int layerBlock;
         androidx.compose.ui.node.LayerPositionalProperties layerPositionalProperties;
         Object obj;
-        String owner$ui_release;
+        String $i$a$CheckPreconditionNodeCoordinator$updateLayerParameters$2;
         Function1 onCommitAffectingLayerParams;
         androidx.compose.ui.node.NodeCoordinator.updateLayerParameters.1 anon;
         if (this.explicitLayer != null) {
@@ -626,11 +626,11 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 layer.updateLayerProperties(NodeCoordinator.graphicsLayerScope);
                 this.isClipping = NodeCoordinator.graphicsLayerScope.getClip();
                 this.lastLayerAlpha = NodeCoordinator.graphicsLayerScope.getAlpha();
-                owner$ui_release = getLayoutNode().getOwner$ui_release();
-                if (invokeOnLayoutChange && owner$ui_release != null) {
-                    owner$ui_release = getLayoutNode().getOwner$ui_release();
-                    if (owner$ui_release != null) {
-                        owner$ui_release.onLayoutChange(getLayoutNode());
+                $i$a$CheckPreconditionNodeCoordinator$updateLayerParameters$2 = getLayoutNode().getOwner$ui_release();
+                if (invokeOnLayoutChange && $i$a$CheckPreconditionNodeCoordinator$updateLayerParameters$2 != null) {
+                    $i$a$CheckPreconditionNodeCoordinator$updateLayerParameters$2 = getLayoutNode().getOwner$ui_release();
+                    if ($i$a$CheckPreconditionNodeCoordinator$updateLayerParameters$2 != null) {
+                        $i$a$CheckPreconditionNodeCoordinator$updateLayerParameters$2.onLayoutChange(getLayoutNode());
                     }
                 }
             }
@@ -674,21 +674,21 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         float distanceSquared-impl;
         float height-impl;
         int cmp2;
-        if (Float.compare(f, width-impl2) >= 0 && Float.compare(f2, height-impl) >= 0) {
+        if (Float.compare(f, width-impl) >= 0 && Float.compare(f2, height-impl) >= 0) {
             if (Float.compare(f2, height-impl) >= 0) {
                 return 2139095040;
             }
         }
         long minimumTouchTargetPadding-E7KxVPU = calculateMinimumTouchTargetPadding-E7KxVPU(obj10);
         int i = 0;
-        float width-impl = Size.getWidth-impl(minimumTouchTargetPadding-E7KxVPU);
+        float $i$f$component1Impl = Size.getWidth-impl(minimumTouchTargetPadding-E7KxVPU);
         final int i2 = 0;
         float height-impl2 = Size.getHeight-impl(minimumTouchTargetPadding-E7KxVPU);
         final long offsetFromEdge-MK-Hz9U = offsetFromEdge-MK-Hz9U(pointerPosition);
         cmp2 = 0;
-        if (Float.compare(width-impl, cmp2) <= 0) {
-            if (Float.compare(height-impl2, cmp2) > 0 && Float.compare(x-impl, width-impl) <= 0 && Float.compare(y-impl, height-impl2) <= 0) {
-                if (Float.compare(x-impl, width-impl) <= 0) {
+        if (Float.compare($i$f$component1Impl, cmp2) <= 0) {
+            if (Float.compare(height-impl2, cmp2) > 0 && Float.compare(x-impl, $i$f$component1Impl) <= 0 && Float.compare(y-impl, height-impl2) <= 0) {
+                if (Float.compare(x-impl, $i$f$component1Impl) <= 0) {
                     if (Float.compare(y-impl, height-impl2) <= 0) {
                         distanceSquared-impl = Offset.getDistanceSquared-impl(offsetFromEdge-MK-Hz9U);
                     } else {
@@ -705,18 +705,18 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public final void draw(Canvas canvas, GraphicsLayer graphicsLayer) {
         float f;
-        long l2;
         long l;
+        long l2;
         int i;
         final androidx.compose.ui.node.OwnedLayer layer = this.layer;
         if (layer != null) {
             layer.drawLayer(canvas, graphicsLayer);
         } else {
             f = (float)x-impl;
-            l2 = (float)y-impl;
-            canvas.translate(f, l2);
+            l = (float)y-impl;
+            canvas.translate(f, l);
             drawContainedDrawModifiers(canvas, graphicsLayer);
-            canvas.translate(-f, -l2);
+            canvas.translate(-f, -l);
         }
     }
 
@@ -734,14 +734,14 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
     public final androidx.compose.ui.node.NodeCoordinator findCommonAncestor$ui_release(androidx.compose.ui.node.NodeCoordinator other) {
         androidx.compose.ui.node.LayoutNode ancestor1;
         androidx.compose.ui.node.LayoutNode ancestor2;
-        androidx.compose.ui.node.LayoutNode parent$ui_release3;
-        int parent$ui_release4;
+        androidx.compose.ui.node.LayoutNode parent$ui_release2;
+        int parent$ui_release3;
         int parent$ui_release;
         androidx.compose.ui.node.NodeCoordinator innerCoordinator$ui_release;
-        int parent$ui_release2;
+        int parent$ui_release4;
         Modifier.Node next$iv;
         int i;
-        String str;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalAncestors$1$iv;
         ancestor2 = getLayoutNode();
         Modifier.Node tail2 = getTail();
         int i2 = 0;
@@ -759,25 +759,25 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
             next$iv = tail2.getNode().getParent$ui_release();
             while (next$iv != null) {
                 next$iv = next$iv.getParent$ui_release();
-                str = 0;
+                $i$a$CheckPreconditionDelegatableNodeKt$visitLocalAncestors$1$iv = 0;
             }
             return this;
         }
         while (ancestor1.getDepth$ui_release() > ancestor2.getDepth$ui_release()) {
-            parent$ui_release3 = ancestor1.getParent$ui_release();
-            Intrinsics.checkNotNull(parent$ui_release3);
-            ancestor1 = parent$ui_release3;
+            parent$ui_release2 = ancestor1.getParent$ui_release();
+            Intrinsics.checkNotNull(parent$ui_release2);
+            ancestor1 = parent$ui_release2;
         }
         while (ancestor2.getDepth$ui_release() > ancestor1.getDepth$ui_release()) {
-            parent$ui_release4 = ancestor2.getParent$ui_release();
-            Intrinsics.checkNotNull(parent$ui_release4);
-            ancestor2 = parent$ui_release4;
+            parent$ui_release3 = ancestor2.getParent$ui_release();
+            Intrinsics.checkNotNull(parent$ui_release3);
+            ancestor2 = parent$ui_release3;
         }
         while (ancestor1 != ancestor2) {
             parent$ui_release = ancestor1.getParent$ui_release();
-            parent$ui_release2 = ancestor2.getParent$ui_release();
+            parent$ui_release4 = ancestor2.getParent$ui_release();
             ancestor1 = parent$ui_release;
-            ancestor2 = parent$ui_release2;
+            ancestor2 = parent$ui_release4;
         }
         if (ancestor2 == getLayoutNode()) {
             innerCoordinator$ui_release = this;
@@ -916,7 +916,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public final LayoutCoordinates getParentCoordinates() {
-        String str;
+        String $i$a$CheckPreconditionNodeCoordinator$parentCoordinates$1;
         final int i = 0;
         if (!isAttached()) {
             int i2 = 0;
@@ -929,7 +929,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public Object getParentData() {
         int count$iv2;
-        int this_$iv$iv2;
+        int this_$iv$iv;
         androidx.compose.ui.node.NodeChain nodes$ui_release;
         int this_$iv2;
         MutableVector $i$f$mutableVectorOf;
@@ -937,389 +937,389 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         int $i$f$tailToHead$ui_release;
         Modifier.Node parent$ui_release;
         int node$iv2;
-        int node$iv;
+        int node$iv3;
+        Modifier.Node node3;
+        int i3;
+        int $i$f$getParentDataOLwlOKw;
         Modifier.Node node4;
         int i2;
-        int kind$iv;
-        Modifier.Node node;
-        int i3;
         int stack$iv;
         Modifier.Node element;
-        int i6;
-        Modifier.Node node$iv3;
+        int i;
+        Modifier.Node node$iv;
         Modifier.Node node$iv$iv;
-        int i5;
+        int i7;
         Modifier.Node node2;
         androidx.compose.ui.node.NodeChain this_$iv;
-        int this_$iv$iv;
+        int this_$iv$iv2;
         androidx.compose.ui.node.LayoutNode layoutNode;
         int count$iv;
-        int i;
-        int i7;
         int i4;
-        Modifier.Node node3;
+        int i5;
+        int i6;
+        Modifier.Node node;
         int i8 = 0;
         if (getLayoutNode().getNodes$ui_release().has-H91voCI$ui_release(NodeKind.constructor-impl(64))) {
             Ref.ObjectRef objectRef = new Ref.ObjectRef();
             $i$f$tailToHead$ui_release = 0;
             parent$ui_release = getLayoutNode().getNodes$ui_release().getTail$ui_release();
             while (parent$ui_release != null) {
-                node4 = parent$ui_release;
-                i2 = 0;
-                int i10 = 0;
+                node3 = parent$ui_release;
                 i3 = 0;
-                if (kindSet$ui_release &= constructor-impl2 != 0) {
+                int i10 = 0;
+                i2 = 0;
+                if (kindSet$ui_release &= $i$f$getParentDataOLwlOKw3 != 0) {
                 } else {
                 }
-                kind$iv = 0;
-                if (kind$iv != 0) {
+                $i$f$getParentDataOLwlOKw = 0;
+                if ($i$f$getParentDataOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv = nodes$ui_release;
-                i4 = $i$f$tailToHead$ui_release;
-                node3 = parent$ui_release;
-                if (node4 != getTail()) {
+                i6 = $i$f$tailToHead$ui_release;
+                node = parent$ui_release;
+                if (node3 != getTail()) {
                 }
-                parent$ui_release = node3.getParent$ui_release();
+                parent$ui_release = node.getParent$ui_release();
                 nodes$ui_release = this_$iv;
-                $i$f$tailToHead$ui_release = i4;
+                $i$f$tailToHead$ui_release = i6;
                 count$iv2 = 64;
                 int i11 = 0;
-                kind$iv = NodeKind.constructor-impl(count$iv2);
-                i3 = 0;
+                $i$f$getParentDataOLwlOKw = NodeKind.constructor-impl(count$iv2);
+                i2 = 0;
                 stack$iv = 0;
                 int i12 = 0;
-                node$iv3 = node;
-                while (node$iv3 != null) {
-                    if (node$iv3 instanceof ParentDataModifierNode) {
+                node$iv = node4;
+                while (node$iv != null) {
+                    if (node$iv instanceof ParentDataModifierNode) {
                     } else {
                     }
                     element = 0;
-                    if (kindSet$ui_release2 &= kind$iv != 0) {
+                    if (kindSet$ui_release2 &= $i$f$getParentDataOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0 && node$iv3 instanceof DelegatingNode) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv = nodes$ui_release;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
                     this_$iv2 = 1;
                     node$iv2 = 0;
-                    node$iv3 = DelegatableNodeKt.access$pop(stack$iv);
+                    node$iv = DelegatableNodeKt.access$pop(stack$iv);
                     nodes$ui_release = this_$iv;
-                    $i$f$tailToHead$ui_release = i4;
-                    parent$ui_release = node3;
+                    $i$f$tailToHead$ui_release = i6;
+                    parent$ui_release = node;
                     count$iv2 = 64;
-                    if (node$iv3 instanceof DelegatingNode) {
+                    if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    i6 = 0;
-                    node$iv$iv = (DelegatingNode)node$iv3.getDelegate$ui_release();
+                    this_$iv$iv = 0;
+                    i = 0;
+                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
-                        i5 = node$iv$iv;
+                        i7 = node$iv$iv;
                         node2 = 0;
                         count$iv = 0;
-                        if (kindSet$ui_release3 &= kind$iv != 0) {
+                        if (kindSet$ui_release3 &= $i$f$getParentDataOLwlOKw != 0) {
                         } else {
                         }
-                        this_$iv$iv = 0;
-                        if (this_$iv$iv != 0) {
+                        this_$iv$iv2 = 0;
+                        if (this_$iv$iv2 != 0) {
                         } else {
                         }
                         this_$iv = nodes$ui_release;
-                        i4 = $i$f$tailToHead$ui_release;
-                        node3 = parent$ui_release;
-                        next$iv = i5;
-                        node$iv = 0;
+                        i6 = $i$f$tailToHead$ui_release;
+                        node = parent$ui_release;
+                        next$iv = i7;
+                        node$iv3 = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
                         nodes$ui_release = this_$iv;
-                        $i$f$tailToHead$ui_release = i4;
-                        parent$ui_release = node3;
-                        this_$iv$iv2++;
+                        $i$f$tailToHead$ui_release = i6;
+                        parent$ui_release = node;
+                        this_$iv$iv++;
                         this_$iv = nodes$ui_release;
-                        if (this_$iv$iv2 == 1) {
+                        if (this_$iv$iv == 1) {
                         } else {
                         }
                         if (stack$iv == 0) {
                         } else {
                         }
-                        count$iv = this_$iv$iv2;
-                        i4 = $i$f$tailToHead$ui_release;
-                        node3 = parent$ui_release;
-                        node$iv = 0;
+                        count$iv = this_$iv$iv;
+                        i6 = $i$f$tailToHead$ui_release;
+                        node = parent$ui_release;
+                        node$iv3 = 0;
                         $i$f$mutableVectorOf = stack$iv;
                         stack$iv = $i$f$mutableVectorOf;
-                        Modifier.Node node6 = node$iv3;
+                        Modifier.Node node6 = node$iv;
                         if (node6 != null && stack$iv != null) {
                         }
                         if (stack$iv != null) {
                         } else {
                         }
-                        next$iv = i5;
-                        this_$iv$iv2 = count$iv;
-                        stack$iv.add(i5);
+                        next$iv = i7;
+                        this_$iv$iv = count$iv;
+                        stack$iv.add(i7);
                         if (stack$iv != null) {
                         }
-                        node$iv3 = $i$f$mutableVectorOf;
+                        node$iv = $i$f$mutableVectorOf;
                         stack$iv.add(node6);
-                        count$iv = this_$iv$iv2;
-                        i = 0;
-                        i7 = i9;
-                        i4 = $i$f$tailToHead$ui_release;
-                        node3 = parent$ui_release;
+                        count$iv = this_$iv$iv;
+                        i4 = 0;
+                        i5 = i9;
+                        i6 = $i$f$tailToHead$ui_release;
+                        node = parent$ui_release;
                         $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                        node$iv3 = i5;
-                        i4 = $i$f$tailToHead$ui_release;
-                        node3 = parent$ui_release;
-                        next$iv = i5;
-                        node$iv = 0;
-                        this_$iv$iv = 1;
+                        node$iv = i7;
+                        i6 = $i$f$tailToHead$ui_release;
+                        node = parent$ui_release;
+                        next$iv = i7;
+                        node$iv3 = 0;
+                        this_$iv$iv2 = 1;
                     }
                     node$iv2 = 0;
-                    if (this_$iv$iv2 == 1) {
+                    if (this_$iv$iv == 1) {
                     } else {
                     }
                     nodes$ui_release = this_$iv;
-                    $i$f$tailToHead$ui_release = i4;
-                    parent$ui_release = node3;
+                    $i$f$tailToHead$ui_release = i6;
+                    parent$ui_release = node;
                     count$iv2 = 64;
-                    i5 = node$iv$iv;
+                    i7 = node$iv$iv;
                     node2 = 0;
                     count$iv = 0;
-                    if (kindSet$ui_release3 &= kind$iv != 0) {
+                    if (kindSet$ui_release3 &= $i$f$getParentDataOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv = 0;
-                    if (this_$iv$iv != 0) {
+                    this_$iv$iv2 = 0;
+                    if (this_$iv$iv2 != 0) {
                     } else {
                     }
                     this_$iv = nodes$ui_release;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
-                    next$iv = i5;
-                    node$iv = 0;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
+                    next$iv = i7;
+                    node$iv3 = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     nodes$ui_release = this_$iv;
-                    $i$f$tailToHead$ui_release = i4;
-                    parent$ui_release = node3;
-                    this_$iv$iv2++;
+                    $i$f$tailToHead$ui_release = i6;
+                    parent$ui_release = node;
+                    this_$iv$iv++;
                     this_$iv = nodes$ui_release;
-                    if (this_$iv$iv2 == 1) {
+                    if (this_$iv$iv == 1) {
                     } else {
                     }
                     if (stack$iv == 0) {
                     } else {
                     }
-                    count$iv = this_$iv$iv2;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
-                    node$iv = 0;
+                    count$iv = this_$iv$iv;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
+                    node$iv3 = 0;
                     $i$f$mutableVectorOf = stack$iv;
                     stack$iv = $i$f$mutableVectorOf;
-                    node6 = node$iv3;
+                    node6 = node$iv;
                     if (node6 != null && stack$iv != null) {
                     }
                     if (stack$iv != null) {
                     } else {
                     }
-                    next$iv = i5;
-                    this_$iv$iv2 = count$iv;
-                    stack$iv.add(i5);
+                    next$iv = i7;
+                    this_$iv$iv = count$iv;
+                    stack$iv.add(i7);
                     if (stack$iv != null) {
                     }
-                    node$iv3 = $i$f$mutableVectorOf;
+                    node$iv = $i$f$mutableVectorOf;
                     stack$iv.add(node6);
-                    count$iv = this_$iv$iv2;
-                    i = 0;
-                    i7 = i9;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
+                    count$iv = this_$iv$iv;
+                    i4 = 0;
+                    i5 = i9;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                    node$iv3 = i5;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
-                    next$iv = i5;
-                    node$iv = 0;
-                    this_$iv$iv = 1;
+                    node$iv = i7;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
+                    next$iv = i7;
+                    node$iv3 = 0;
                     this_$iv$iv2 = 1;
-                    i5 = 0;
+                    this_$iv$iv = 1;
+                    i7 = 0;
                     int i13 = 0;
-                    objectRef.element = (ParentDataModifierNode)node$iv3.modifyParentData(getLayoutNode().getDensity(), objectRef.element);
+                    objectRef.element = (ParentDataModifierNode)node$iv.modifyParentData(getLayoutNode().getDensity(), objectRef.element);
                     this_$iv = nodes$ui_release;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
                     this_$iv2 = 1;
                     node$iv2 = 0;
                 }
                 this_$iv = nodes$ui_release;
-                i4 = $i$f$tailToHead$ui_release;
-                node3 = parent$ui_release;
-                if (node$iv3 instanceof ParentDataModifierNode) {
+                i6 = $i$f$tailToHead$ui_release;
+                node = parent$ui_release;
+                if (node$iv instanceof ParentDataModifierNode) {
                 } else {
                 }
                 element = 0;
-                if (kindSet$ui_release2 &= kind$iv != 0) {
+                if (kindSet$ui_release2 &= $i$f$getParentDataOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0 && node$iv3 instanceof DelegatingNode) {
+                this_$iv$iv = 0;
+                if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
                 this_$iv = nodes$ui_release;
-                i4 = $i$f$tailToHead$ui_release;
-                node3 = parent$ui_release;
+                i6 = $i$f$tailToHead$ui_release;
+                node = parent$ui_release;
                 this_$iv2 = 1;
                 node$iv2 = 0;
-                node$iv3 = DelegatableNodeKt.access$pop(stack$iv);
+                node$iv = DelegatableNodeKt.access$pop(stack$iv);
                 nodes$ui_release = this_$iv;
-                $i$f$tailToHead$ui_release = i4;
-                parent$ui_release = node3;
+                $i$f$tailToHead$ui_release = i6;
+                parent$ui_release = node;
                 count$iv2 = 64;
-                if (node$iv3 instanceof DelegatingNode) {
+                if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                this_$iv$iv2 = 0;
-                i6 = 0;
-                node$iv$iv = (DelegatingNode)node$iv3.getDelegate$ui_release();
+                this_$iv$iv = 0;
+                i = 0;
+                node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
-                    i5 = node$iv$iv;
+                    i7 = node$iv$iv;
                     node2 = 0;
                     count$iv = 0;
-                    if (kindSet$ui_release3 &= kind$iv != 0) {
+                    if (kindSet$ui_release3 &= $i$f$getParentDataOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv = 0;
-                    if (this_$iv$iv != 0) {
+                    this_$iv$iv2 = 0;
+                    if (this_$iv$iv2 != 0) {
                     } else {
                     }
                     this_$iv = nodes$ui_release;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
-                    next$iv = i5;
-                    node$iv = 0;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
+                    next$iv = i7;
+                    node$iv3 = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     nodes$ui_release = this_$iv;
-                    $i$f$tailToHead$ui_release = i4;
-                    parent$ui_release = node3;
-                    this_$iv$iv2++;
+                    $i$f$tailToHead$ui_release = i6;
+                    parent$ui_release = node;
+                    this_$iv$iv++;
                     this_$iv = nodes$ui_release;
-                    if (this_$iv$iv2 == 1) {
+                    if (this_$iv$iv == 1) {
                     } else {
                     }
                     if (stack$iv == 0) {
                     } else {
                     }
-                    count$iv = this_$iv$iv2;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
-                    node$iv = 0;
+                    count$iv = this_$iv$iv;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
+                    node$iv3 = 0;
                     $i$f$mutableVectorOf = stack$iv;
                     stack$iv = $i$f$mutableVectorOf;
-                    node6 = node$iv3;
+                    node6 = node$iv;
                     if (node6 != null && stack$iv != null) {
                     }
                     if (stack$iv != null) {
                     } else {
                     }
-                    next$iv = i5;
-                    this_$iv$iv2 = count$iv;
-                    stack$iv.add(i5);
+                    next$iv = i7;
+                    this_$iv$iv = count$iv;
+                    stack$iv.add(i7);
                     if (stack$iv != null) {
                     }
-                    node$iv3 = $i$f$mutableVectorOf;
+                    node$iv = $i$f$mutableVectorOf;
                     stack$iv.add(node6);
-                    count$iv = this_$iv$iv2;
-                    i = 0;
-                    i7 = i9;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
+                    count$iv = this_$iv$iv;
+                    i4 = 0;
+                    i5 = i9;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                    node$iv3 = i5;
-                    i4 = $i$f$tailToHead$ui_release;
-                    node3 = parent$ui_release;
-                    next$iv = i5;
-                    node$iv = 0;
-                    this_$iv$iv = 1;
+                    node$iv = i7;
+                    i6 = $i$f$tailToHead$ui_release;
+                    node = parent$ui_release;
+                    next$iv = i7;
+                    node$iv3 = 0;
+                    this_$iv$iv2 = 1;
                 }
                 node$iv2 = 0;
-                if (this_$iv$iv2 == 1) {
+                if (this_$iv$iv == 1) {
                 } else {
                 }
                 nodes$ui_release = this_$iv;
-                $i$f$tailToHead$ui_release = i4;
-                parent$ui_release = node3;
+                $i$f$tailToHead$ui_release = i6;
+                parent$ui_release = node;
                 count$iv2 = 64;
-                i5 = node$iv$iv;
+                i7 = node$iv$iv;
                 node2 = 0;
                 count$iv = 0;
-                if (kindSet$ui_release3 &= kind$iv != 0) {
+                if (kindSet$ui_release3 &= $i$f$getParentDataOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                if (this_$iv$iv != 0) {
+                this_$iv$iv2 = 0;
+                if (this_$iv$iv2 != 0) {
                 } else {
                 }
                 this_$iv = nodes$ui_release;
-                i4 = $i$f$tailToHead$ui_release;
-                node3 = parent$ui_release;
-                next$iv = i5;
-                node$iv = 0;
+                i6 = $i$f$tailToHead$ui_release;
+                node = parent$ui_release;
+                next$iv = i7;
+                node$iv3 = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
                 nodes$ui_release = this_$iv;
-                $i$f$tailToHead$ui_release = i4;
-                parent$ui_release = node3;
-                this_$iv$iv2++;
+                $i$f$tailToHead$ui_release = i6;
+                parent$ui_release = node;
+                this_$iv$iv++;
                 this_$iv = nodes$ui_release;
-                if (this_$iv$iv2 == 1) {
+                if (this_$iv$iv == 1) {
                 } else {
                 }
                 if (stack$iv == 0) {
                 } else {
                 }
-                count$iv = this_$iv$iv2;
-                i4 = $i$f$tailToHead$ui_release;
-                node3 = parent$ui_release;
-                node$iv = 0;
+                count$iv = this_$iv$iv;
+                i6 = $i$f$tailToHead$ui_release;
+                node = parent$ui_release;
+                node$iv3 = 0;
                 $i$f$mutableVectorOf = stack$iv;
                 stack$iv = $i$f$mutableVectorOf;
-                node6 = node$iv3;
+                node6 = node$iv;
                 if (node6 != null && stack$iv != null) {
                 }
                 if (stack$iv != null) {
                 } else {
                 }
-                next$iv = i5;
-                this_$iv$iv2 = count$iv;
-                stack$iv.add(i5);
+                next$iv = i7;
+                this_$iv$iv = count$iv;
+                stack$iv.add(i7);
                 if (stack$iv != null) {
                 }
-                node$iv3 = $i$f$mutableVectorOf;
+                node$iv = $i$f$mutableVectorOf;
                 stack$iv.add(node6);
-                count$iv = this_$iv$iv2;
-                i = 0;
-                i7 = i9;
-                i4 = $i$f$tailToHead$ui_release;
-                node3 = parent$ui_release;
+                count$iv = this_$iv$iv;
+                i4 = 0;
+                i5 = i9;
+                i6 = $i$f$tailToHead$ui_release;
+                node = parent$ui_release;
                 $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                node$iv3 = i5;
-                i4 = $i$f$tailToHead$ui_release;
-                node3 = parent$ui_release;
-                next$iv = i5;
-                node$iv = 0;
-                this_$iv$iv = 1;
+                node$iv = i7;
+                i6 = $i$f$tailToHead$ui_release;
+                node = parent$ui_release;
+                next$iv = i7;
+                node$iv3 = 0;
                 this_$iv$iv2 = 1;
-                i5 = 0;
+                this_$iv$iv = 1;
+                i7 = 0;
                 i13 = 0;
-                objectRef.element = (ParentDataModifierNode)node$iv3.modifyParentData(getLayoutNode().getDensity(), objectRef.element);
+                objectRef.element = (ParentDataModifierNode)node$iv.modifyParentData(getLayoutNode().getDensity(), objectRef.element);
                 this_$iv = nodes$ui_release;
-                i4 = $i$f$tailToHead$ui_release;
-                node3 = parent$ui_release;
+                i6 = $i$f$tailToHead$ui_release;
+                node = parent$ui_release;
                 this_$iv2 = 1;
                 node$iv2 = 0;
-                kind$iv = 1;
+                $i$f$getParentDataOLwlOKw = 1;
             }
             return objectRef.element;
         }
@@ -1328,7 +1328,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public final LayoutCoordinates getParentLayoutCoordinates() {
-        String str;
+        String $i$a$CheckPreconditionNodeCoordinator$parentLayoutCoordinates$1;
         final int i = 0;
         if (!isAttached()) {
             int i2 = 0;
@@ -1514,8 +1514,8 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         androidx.compose.ui.node.NodeCoordinator.HitTestSource hitTestSource2;
         long l;
         int i;
-        boolean z;
         boolean z2;
+        boolean z;
         Object obj;
         androidx.compose.ui.node.NodeCoordinator nodeCoordinator;
         long obj11;
@@ -1528,8 +1528,8 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         } else {
             hitTestSource2 = hitTestSource;
             nodeCoordinator = pointerPosition;
-            z = isTouchEvent;
-            z2 = isInLayer;
+            z2 = isTouchEvent;
+            z = isInLayer;
             obj = obj15;
         }
     }
@@ -1605,7 +1605,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public Rect localBoundingBoxOf(LayoutCoordinates sourceCoordinates, boolean clipBounds) {
-        String string;
+        String $i$a$CheckPreconditionNodeCoordinator$localBoundingBoxOf$2;
         androidx.compose.ui.node.NodeCoordinator coordinator;
         StringBuilder append;
         String str;
@@ -1678,12 +1678,12 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public long localToRoot-MK-Hz9U(long relativeToLocal) {
-        String str;
+        String $i$a$CheckPreconditionNodeCoordinator$localToRoot$1;
         Object coordinator;
         androidx.compose.ui.node.NodeCoordinator position;
+        int i2;
         int i3;
         int i;
-        int i2;
         int i4 = 0;
         if (!isAttached()) {
             int i5 = 0;
@@ -1701,7 +1701,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public long localToScreen-MK-Hz9U(long relativeToLocal) {
-        String str;
+        String $i$a$CheckPreconditionNodeCoordinator$localToScreen$1;
         if (!isAttached()) {
             int i2 = 0;
             InlineClassHelperKt.throwIllegalStateException("LayoutCoordinate operations are only valid when isAttached is true");
@@ -1738,112 +1738,112 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     protected void onMeasureResultChanged(int width, int height) {
-        Object count$iv$iv2;
-        Modifier.Node count$iv$iv;
+        Object count$iv$iv3;
+        Modifier.Node count$iv$iv2;
         androidx.compose.ui.node.OwnedLayer layer;
         boolean wrappedBy;
-        int type$iv;
-        Modifier.Node type$iv2;
-        int node$iv$iv;
-        Modifier.Node node4;
+        int $i$f$getDrawOLwlOKw;
+        Modifier.Node type$iv;
         int node$iv$iv6;
-        int node$iv$iv2;
+        Modifier.Node node4;
+        int node$iv$iv4;
+        int node$iv$iv;
         Modifier.Node parent$ui_release;
-        Modifier.Node node$iv$iv4;
-        Modifier.Node node2;
-        int i3;
-        Modifier.Node node;
-        int i;
-        int i4;
-        Modifier.Node node$iv$iv3;
-        int i5;
-        int i9;
+        Modifier.Node node$iv$iv5;
         Modifier.Node node5;
-        Modifier.Node node$iv$iv$iv;
-        Modifier.Node node3;
         int i2;
+        Modifier.Node node;
+        int i4;
+        int i7;
+        Modifier.Node node$iv$iv2;
+        int $i$f$isKindH91voCI$ui_release;
+        int i3;
+        Modifier.Node node3;
+        Modifier.Node node$iv$iv$iv;
+        Modifier.Node node2;
+        int i8;
         androidx.compose.ui.node.OwnedLayer layer2;
         int this_$iv$iv$iv;
-        int count$iv$iv3;
-        int i7;
+        int count$iv$iv;
+        int i5;
         int i6;
-        int i8;
-        Modifier.Node node$iv$iv5;
-        count$iv$iv2 = this;
-        layer = count$iv$iv2.layer;
+        int i;
+        Modifier.Node node$iv$iv3;
+        count$iv$iv3 = this;
+        layer = count$iv$iv3.layer;
         if (layer != null) {
             layer.resize-ozmzZPI(IntSizeKt.IntSize(width, height));
         } else {
-            wrappedBy = count$iv$iv2.wrappedBy;
-            if (count$iv$iv2.getLayoutNode().isPlaced() && wrappedBy != null) {
-                wrappedBy = count$iv$iv2.wrappedBy;
+            wrappedBy = count$iv$iv3.wrappedBy;
+            if (count$iv$iv3.getLayoutNode().isPlaced() && wrappedBy != null) {
+                wrappedBy = count$iv$iv3.wrappedBy;
                 if (wrappedBy != null) {
                     wrappedBy.invalidateLayer();
                 }
             }
         }
-        count$iv$iv2.setMeasuredSize-ozmzZPI(IntSizeKt.IntSize(width, height));
-        if (count$iv$iv2.layerBlock != null) {
-            count$iv$iv2.updateLayerParameters(false);
+        count$iv$iv3.setMeasuredSize-ozmzZPI(IntSizeKt.IntSize(width, height));
+        if (count$iv$iv3.layerBlock != null) {
+            count$iv$iv3.updateLayerParameters(false);
         }
-        int i11 = 0;
-        type$iv = NodeKind.constructor-impl(4);
-        final int i13 = 0;
-        final boolean includeSelfInTraversal-H91voCI = NodeKindKt.getIncludeSelfInTraversal-H91voCI(type$iv);
-        final int i14 = type$iv;
+        int i10 = 0;
+        $i$f$getDrawOLwlOKw = NodeKind.constructor-impl(4);
+        final int i12 = 0;
+        final boolean includeSelfInTraversal-H91voCI = NodeKindKt.getIncludeSelfInTraversal-H91voCI($i$f$getDrawOLwlOKw);
+        final int i13 = $i$f$getDrawOLwlOKw;
         final androidx.compose.ui.node.NodeCoordinator nodeCoordinator = obj;
-        final int i15 = 0;
+        final int i14 = 0;
         if (includeSelfInTraversal-H91voCI) {
-            node$iv$iv4 = NodeCoordinator.access$headNode(nodeCoordinator, includeSelfInTraversal-H91voCI);
-            while (node$iv$iv4 != null) {
-                if (kindSet$ui_release &= i14 != 0) {
+            node$iv$iv5 = NodeCoordinator.access$headNode(nodeCoordinator, includeSelfInTraversal-H91voCI);
+            while (node$iv$iv5 != null) {
+                if (kindSet$ui_release &= i13 != 0) {
                 } else {
                 }
                 layer2 = layer;
-                i8 = type$iv;
-                node$iv$iv4 = node$iv$iv4.getChild$ui_release();
-                count$iv$iv2 = this;
+                i = $i$f$getDrawOLwlOKw;
+                node$iv$iv5 = node$iv$iv5.getChild$ui_release();
+                count$iv$iv3 = this;
                 layer = layer2;
-                type$iv = i8;
-                i3 = 0;
-                i = 0;
+                $i$f$getDrawOLwlOKw = i;
+                i2 = 0;
                 i4 = 0;
-                int i16 = 0;
-                node4 = node$iv$iv3;
+                i7 = 0;
+                int i15 = 0;
+                node4 = node$iv$iv2;
                 while (node4 != null) {
                     if (node4 instanceof DrawModifierNode) {
                     } else {
                     }
-                    count$iv$iv = node4;
-                    int i17 = 0;
-                    Modifier.Node node8 = count$iv$iv;
-                    if (kindSet$ui_release2 &= type$iv != 0) {
+                    count$iv$iv2 = node4;
+                    int i16 = 0;
+                    Modifier.Node node8 = count$iv$iv2;
+                    if (kindSet$ui_release2 &= $i$f$getDrawOLwlOKw != 0) {
                     } else {
                     }
-                    i5 = 0;
-                    if (i5 != 0 && node4 instanceof DelegatingNode) {
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    if ($i$f$isKindH91voCI$ui_release != 0 && node4 instanceof DelegatingNode) {
                     } else {
                     }
                     layer2 = layer;
-                    i8 = type$iv;
-                    node5 = node4;
-                    node$iv$iv6 = 0;
-                    node$iv$iv5 = node5;
+                    i = $i$f$getDrawOLwlOKw;
+                    node3 = node4;
+                    node$iv$iv4 = 0;
+                    node$iv$iv3 = node3;
                     node4 = node6;
                     layer = layer2;
-                    type$iv = i8;
-                    count$iv$iv2 = this;
+                    $i$f$getDrawOLwlOKw = i;
+                    count$iv$iv3 = this;
                     if (node4 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    node5 = 0;
+                    count$iv$iv2 = 0;
+                    node3 = 0;
                     node$iv$iv$iv = (DelegatingNode)node4.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node3 = node$iv$iv$iv;
-                        i2 = 0;
-                        count$iv$iv3 = 0;
-                        if (kindSet$ui_release3 &= type$iv != 0) {
+                        node2 = node$iv$iv$iv;
+                        i8 = 0;
+                        count$iv$iv = 0;
+                        if (kindSet$ui_release3 &= $i$f$getDrawOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -1851,65 +1851,65 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                         } else {
                         }
                         layer2 = layer;
-                        i8 = type$iv;
-                        node$iv$iv5 = node4;
-                        type$iv2 = node3;
-                        node$iv$iv2 = 0;
+                        i = $i$f$getDrawOLwlOKw;
+                        node$iv$iv3 = node4;
+                        type$iv = node2;
+                        node$iv$iv = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         layer = layer2;
-                        type$iv = i8;
-                        node4 = node$iv$iv5;
-                        count$iv$iv++;
+                        $i$f$getDrawOLwlOKw = i;
+                        node4 = node$iv$iv3;
+                        count$iv$iv2++;
                         layer2 = layer;
-                        if (count$iv$iv == 1) {
+                        if (count$iv$iv2 == 1) {
                         } else {
                         }
-                        if (i4 == 0) {
+                        if (i7 == 0) {
                         } else {
                         }
-                        count$iv$iv3 = count$iv$iv;
-                        i8 = type$iv;
-                        node$iv$iv5 = node4;
-                        node$iv$iv2 = 0;
-                        layer = i4;
-                        Modifier.Node node7 = node$iv$iv5;
+                        count$iv$iv = count$iv$iv2;
+                        i = $i$f$getDrawOLwlOKw;
+                        node$iv$iv3 = node4;
+                        node$iv$iv = 0;
+                        layer = i7;
+                        Modifier.Node node7 = node$iv$iv3;
                         if (node7 != null && layer != 0) {
                         }
                         if (layer != 0) {
                         } else {
                         }
-                        type$iv2 = node3;
-                        i4 = layer;
-                        count$iv$iv = count$iv$iv3;
-                        layer.add(node3);
+                        type$iv = node2;
+                        i7 = layer;
+                        count$iv$iv2 = count$iv$iv;
+                        layer.add(node2);
                         if (layer != 0) {
                         }
-                        node$iv$iv5 = type$iv;
+                        node$iv$iv3 = $i$f$getDrawOLwlOKw;
                         layer.add(node7);
-                        count$iv$iv3 = count$iv$iv;
-                        i7 = 0;
-                        i6 = i10;
-                        i8 = type$iv;
-                        node$iv$iv5 = node4;
+                        count$iv$iv = count$iv$iv2;
+                        i5 = 0;
+                        i6 = i9;
+                        i = $i$f$getDrawOLwlOKw;
+                        node$iv$iv3 = node4;
                         layer = new MutableVector(new Modifier.Node[16], 0);
-                        i8 = type$iv;
-                        node$iv$iv5 = node$iv$iv7;
-                        type$iv2 = node3;
-                        node$iv$iv2 = 0;
+                        i = $i$f$getDrawOLwlOKw;
+                        node$iv$iv3 = node$iv$iv7;
+                        type$iv = node2;
+                        node$iv$iv = 0;
                         this_$iv$iv$iv = 1;
                     }
-                    node$iv$iv6 = 0;
-                    if (count$iv$iv == 1) {
+                    node$iv$iv4 = 0;
+                    if (count$iv$iv2 == 1) {
                     } else {
                     }
-                    count$iv$iv2 = this;
+                    count$iv$iv3 = this;
                     layer = layer2;
-                    type$iv = i8;
-                    node4 = node$iv$iv5;
-                    node3 = node$iv$iv$iv;
-                    i2 = 0;
-                    count$iv$iv3 = 0;
-                    if (kindSet$ui_release3 &= type$iv != 0) {
+                    $i$f$getDrawOLwlOKw = i;
+                    node4 = node$iv$iv3;
+                    node2 = node$iv$iv$iv;
+                    i8 = 0;
+                    count$iv$iv = 0;
+                    if (kindSet$ui_release3 &= $i$f$getDrawOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -1917,97 +1917,97 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     } else {
                     }
                     layer2 = layer;
-                    i8 = type$iv;
-                    node$iv$iv5 = node4;
-                    type$iv2 = node3;
-                    node$iv$iv2 = 0;
+                    i = $i$f$getDrawOLwlOKw;
+                    node$iv$iv3 = node4;
+                    type$iv = node2;
+                    node$iv$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     layer = layer2;
-                    type$iv = i8;
-                    node4 = node$iv$iv5;
-                    count$iv$iv++;
+                    $i$f$getDrawOLwlOKw = i;
+                    node4 = node$iv$iv3;
+                    count$iv$iv2++;
                     layer2 = layer;
-                    if (count$iv$iv == 1) {
+                    if (count$iv$iv2 == 1) {
                     } else {
                     }
-                    if (i4 == 0) {
+                    if (i7 == 0) {
                     } else {
                     }
-                    count$iv$iv3 = count$iv$iv;
-                    i8 = type$iv;
-                    node$iv$iv5 = node4;
-                    node$iv$iv2 = 0;
-                    layer = i4;
-                    node7 = node$iv$iv5;
+                    count$iv$iv = count$iv$iv2;
+                    i = $i$f$getDrawOLwlOKw;
+                    node$iv$iv3 = node4;
+                    node$iv$iv = 0;
+                    layer = i7;
+                    node7 = node$iv$iv3;
                     if (node7 != null && layer != 0) {
                     }
                     if (layer != 0) {
                     } else {
                     }
-                    type$iv2 = node3;
-                    i4 = layer;
-                    count$iv$iv = count$iv$iv3;
-                    layer.add(node3);
+                    type$iv = node2;
+                    i7 = layer;
+                    count$iv$iv2 = count$iv$iv;
+                    layer.add(node2);
                     if (layer != 0) {
                     }
-                    node$iv$iv5 = type$iv;
+                    node$iv$iv3 = $i$f$getDrawOLwlOKw;
                     layer.add(node7);
-                    count$iv$iv3 = count$iv$iv;
-                    i7 = 0;
-                    i6 = i10;
-                    i8 = type$iv;
-                    node$iv$iv5 = node4;
-                    layer = new MutableVector(new Modifier.Node[16], 0);
-                    i8 = type$iv;
-                    node$iv$iv5 = node$iv$iv7;
-                    type$iv2 = node3;
-                    node$iv$iv2 = 0;
-                    this_$iv$iv$iv = 1;
-                    i5 = 1;
+                    count$iv$iv = count$iv$iv2;
                     i5 = 0;
+                    i6 = i9;
+                    i = $i$f$getDrawOLwlOKw;
+                    node$iv$iv3 = node4;
+                    layer = new MutableVector(new Modifier.Node[16], 0);
+                    i = $i$f$getDrawOLwlOKw;
+                    node$iv$iv3 = node$iv$iv7;
+                    type$iv = node2;
+                    node$iv$iv = 0;
+                    this_$iv$iv$iv = 1;
+                    $i$f$isKindH91voCI$ui_release = 1;
+                    $i$f$isKindH91voCI$ui_release = 0;
                     (DrawModifierNode)node4.onMeasureResultChanged();
                     layer2 = layer;
-                    i8 = type$iv;
-                    node5 = node4;
-                    node$iv$iv6 = 0;
+                    i = $i$f$getDrawOLwlOKw;
+                    node3 = node4;
+                    node$iv$iv4 = 0;
                 }
                 layer2 = layer;
-                i8 = type$iv;
-                node5 = node4;
-                node$iv$iv = 0;
+                i = $i$f$getDrawOLwlOKw;
+                node3 = node4;
+                node$iv$iv6 = 0;
                 if (node4 instanceof DrawModifierNode) {
                 } else {
                 }
-                count$iv$iv = node4;
-                i17 = 0;
-                node8 = count$iv$iv;
-                if (kindSet$ui_release2 &= type$iv != 0) {
+                count$iv$iv2 = node4;
+                i16 = 0;
+                node8 = count$iv$iv2;
+                if (kindSet$ui_release2 &= $i$f$getDrawOLwlOKw != 0) {
                 } else {
                 }
-                i5 = 0;
-                if (i5 != 0 && node4 instanceof DelegatingNode) {
+                $i$f$isKindH91voCI$ui_release = 0;
+                if ($i$f$isKindH91voCI$ui_release != 0 && node4 instanceof DelegatingNode) {
                 } else {
                 }
                 layer2 = layer;
-                i8 = type$iv;
-                node5 = node4;
-                node$iv$iv6 = 0;
-                node$iv$iv5 = node5;
+                i = $i$f$getDrawOLwlOKw;
+                node3 = node4;
+                node$iv$iv4 = 0;
+                node$iv$iv3 = node3;
                 node4 = node6;
                 layer = layer2;
-                type$iv = i8;
-                count$iv$iv2 = this;
+                $i$f$getDrawOLwlOKw = i;
+                count$iv$iv3 = this;
                 if (node4 instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv = 0;
-                node5 = 0;
+                count$iv$iv2 = 0;
+                node3 = 0;
                 node$iv$iv$iv = (DelegatingNode)node4.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
-                    node3 = node$iv$iv$iv;
-                    i2 = 0;
-                    count$iv$iv3 = 0;
-                    if (kindSet$ui_release3 &= type$iv != 0) {
+                    node2 = node$iv$iv$iv;
+                    i8 = 0;
+                    count$iv$iv = 0;
+                    if (kindSet$ui_release3 &= $i$f$getDrawOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -2015,65 +2015,65 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     } else {
                     }
                     layer2 = layer;
-                    i8 = type$iv;
-                    node$iv$iv5 = node4;
-                    type$iv2 = node3;
-                    node$iv$iv2 = 0;
+                    i = $i$f$getDrawOLwlOKw;
+                    node$iv$iv3 = node4;
+                    type$iv = node2;
+                    node$iv$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     layer = layer2;
-                    type$iv = i8;
-                    node4 = node$iv$iv5;
-                    count$iv$iv++;
+                    $i$f$getDrawOLwlOKw = i;
+                    node4 = node$iv$iv3;
+                    count$iv$iv2++;
                     layer2 = layer;
-                    if (count$iv$iv == 1) {
+                    if (count$iv$iv2 == 1) {
                     } else {
                     }
-                    if (i4 == 0) {
+                    if (i7 == 0) {
                     } else {
                     }
-                    count$iv$iv3 = count$iv$iv;
-                    i8 = type$iv;
-                    node$iv$iv5 = node4;
-                    node$iv$iv2 = 0;
-                    layer = i4;
-                    node7 = node$iv$iv5;
+                    count$iv$iv = count$iv$iv2;
+                    i = $i$f$getDrawOLwlOKw;
+                    node$iv$iv3 = node4;
+                    node$iv$iv = 0;
+                    layer = i7;
+                    node7 = node$iv$iv3;
                     if (node7 != null && layer != 0) {
                     }
                     if (layer != 0) {
                     } else {
                     }
-                    type$iv2 = node3;
-                    i4 = layer;
-                    count$iv$iv = count$iv$iv3;
-                    layer.add(node3);
+                    type$iv = node2;
+                    i7 = layer;
+                    count$iv$iv2 = count$iv$iv;
+                    layer.add(node2);
                     if (layer != 0) {
                     }
-                    node$iv$iv5 = type$iv;
+                    node$iv$iv3 = $i$f$getDrawOLwlOKw;
                     layer.add(node7);
-                    count$iv$iv3 = count$iv$iv;
-                    i7 = 0;
-                    i6 = i10;
-                    i8 = type$iv;
-                    node$iv$iv5 = node4;
+                    count$iv$iv = count$iv$iv2;
+                    i5 = 0;
+                    i6 = i9;
+                    i = $i$f$getDrawOLwlOKw;
+                    node$iv$iv3 = node4;
                     layer = new MutableVector(new Modifier.Node[16], 0);
-                    i8 = type$iv;
-                    node$iv$iv5 = node$iv$iv7;
-                    type$iv2 = node3;
-                    node$iv$iv2 = 0;
+                    i = $i$f$getDrawOLwlOKw;
+                    node$iv$iv3 = node$iv$iv7;
+                    type$iv = node2;
+                    node$iv$iv = 0;
                     this_$iv$iv$iv = 1;
                 }
-                node$iv$iv6 = 0;
-                if (count$iv$iv == 1) {
+                node$iv$iv4 = 0;
+                if (count$iv$iv2 == 1) {
                 } else {
                 }
-                count$iv$iv2 = this;
+                count$iv$iv3 = this;
                 layer = layer2;
-                type$iv = i8;
-                node4 = node$iv$iv5;
-                node3 = node$iv$iv$iv;
-                i2 = 0;
-                count$iv$iv3 = 0;
-                if (kindSet$ui_release3 &= type$iv != 0) {
+                $i$f$getDrawOLwlOKw = i;
+                node4 = node$iv$iv3;
+                node2 = node$iv$iv$iv;
+                i8 = 0;
+                count$iv$iv = 0;
+                if (kindSet$ui_release3 &= $i$f$getDrawOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -2081,66 +2081,66 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 } else {
                 }
                 layer2 = layer;
-                i8 = type$iv;
-                node$iv$iv5 = node4;
-                type$iv2 = node3;
-                node$iv$iv2 = 0;
+                i = $i$f$getDrawOLwlOKw;
+                node$iv$iv3 = node4;
+                type$iv = node2;
+                node$iv$iv = 0;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 layer = layer2;
-                type$iv = i8;
-                node4 = node$iv$iv5;
-                count$iv$iv++;
+                $i$f$getDrawOLwlOKw = i;
+                node4 = node$iv$iv3;
+                count$iv$iv2++;
                 layer2 = layer;
-                if (count$iv$iv == 1) {
+                if (count$iv$iv2 == 1) {
                 } else {
                 }
-                if (i4 == 0) {
+                if (i7 == 0) {
                 } else {
                 }
-                count$iv$iv3 = count$iv$iv;
-                i8 = type$iv;
-                node$iv$iv5 = node4;
-                node$iv$iv2 = 0;
-                layer = i4;
-                node7 = node$iv$iv5;
+                count$iv$iv = count$iv$iv2;
+                i = $i$f$getDrawOLwlOKw;
+                node$iv$iv3 = node4;
+                node$iv$iv = 0;
+                layer = i7;
+                node7 = node$iv$iv3;
                 if (node7 != null && layer != 0) {
                 }
                 if (layer != 0) {
                 } else {
                 }
-                type$iv2 = node3;
-                i4 = layer;
-                count$iv$iv = count$iv$iv3;
-                layer.add(node3);
+                type$iv = node2;
+                i7 = layer;
+                count$iv$iv2 = count$iv$iv;
+                layer.add(node2);
                 if (layer != 0) {
                 }
-                node$iv$iv5 = type$iv;
+                node$iv$iv3 = $i$f$getDrawOLwlOKw;
                 layer.add(node7);
-                count$iv$iv3 = count$iv$iv;
-                i7 = 0;
-                i6 = i10;
-                i8 = type$iv;
-                node$iv$iv5 = node4;
-                layer = new MutableVector(new Modifier.Node[16], 0);
-                i8 = type$iv;
-                node$iv$iv5 = node$iv$iv7;
-                type$iv2 = node3;
-                node$iv$iv2 = 0;
-                this_$iv$iv$iv = 1;
-                i5 = 1;
+                count$iv$iv = count$iv$iv2;
                 i5 = 0;
+                i6 = i9;
+                i = $i$f$getDrawOLwlOKw;
+                node$iv$iv3 = node4;
+                layer = new MutableVector(new Modifier.Node[16], 0);
+                i = $i$f$getDrawOLwlOKw;
+                node$iv$iv3 = node$iv$iv7;
+                type$iv = node2;
+                node$iv$iv = 0;
+                this_$iv$iv$iv = 1;
+                $i$f$isKindH91voCI$ui_release = 1;
+                $i$f$isKindH91voCI$ui_release = 0;
                 (DrawModifierNode)node4.onMeasureResultChanged();
                 layer2 = layer;
-                i8 = type$iv;
-                node5 = node4;
-                node$iv$iv6 = 0;
+                i = $i$f$getDrawOLwlOKw;
+                node3 = node4;
+                node$iv$iv4 = 0;
             }
             layer2 = layer;
-            i8 = type$iv;
+            i = $i$f$getDrawOLwlOKw;
         } else {
             if (nodeCoordinator.getTail().getParent$ui_release() == null) {
                 layer2 = layer;
-                i8 = type$iv;
+                i = $i$f$getDrawOLwlOKw;
             } else {
             }
         }
@@ -2154,51 +2154,51 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
     public final void onMeasured() {
         boolean node-H91voCI;
         int readObserver;
-        int node$iv$iv4;
-        int node$iv$iv2;
+        int $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+        int node$iv$iv;
         int constructor-impl;
-        Modifier.Node this_$iv$iv$iv;
+        Modifier.Node this_$iv$iv$iv2;
         int capacity$iv$iv$iv$iv;
         Modifier.Node next$iv$iv;
         Modifier.Node[] arr;
         Snapshot.Companion companion;
-        int i7;
+        int i3;
         Snapshot currentThreadSnapshot;
         Function1 function1;
         Snapshot currentNonObservable;
-        androidx.compose.ui.node.NodeCoordinator count$iv$iv2;
-        long count$iv$iv;
-        int i3;
-        boolean includeSelfInTraversal-H91voCI;
-        int i8;
-        androidx.compose.ui.node.NodeCoordinator nodeCoordinator;
-        int i9;
-        Modifier.Node parent$ui_release;
-        Modifier.Node node$iv$iv5;
-        int i14;
-        int i4;
-        Modifier.Node node;
-        int i5;
-        int i2;
-        int node$iv$iv;
-        int type$iv;
+        androidx.compose.ui.node.NodeCoordinator count$iv$iv;
+        long $i$f$isKindH91voCI$ui_release;
         int i10;
-        androidx.compose.ui.node.NodeCoordinator this_$iv;
-        int i;
-        Modifier.Node node$iv$iv$iv;
-        Modifier.Node node2;
-        int i12;
-        int this_$iv$iv$iv2;
+        boolean includeSelfInTraversal-H91voCI;
+        int i9;
+        androidx.compose.ui.node.NodeCoordinator nodeCoordinator;
         int i6;
-        int i13;
-        Modifier.Node node$iv$iv3;
-        int i11;
+        Modifier.Node parent$ui_release;
+        Modifier.Node node$iv$iv2;
+        int i12;
+        int i5;
         Modifier.Node node3;
+        int i8;
+        int i11;
+        int $i$a$WithoutReadObservationNodeCoordinator$onMeasured$12;
+        int type$iv;
+        int i7;
+        androidx.compose.ui.node.NodeCoordinator this_$iv;
+        int i2;
+        Modifier.Node node$iv$iv$iv;
+        Modifier.Node node;
+        int i13;
+        int this_$iv$iv$iv;
+        int i4;
+        int i14;
+        Modifier.Node node$iv$iv3;
+        int i;
+        Modifier.Node node2;
         int i15 = 0;
         constructor-impl = 128;
         if (this.hasNode-H91voCI(NodeKind.constructor-impl(constructor-impl))) {
             companion = Snapshot.Companion;
-            i7 = 0;
+            i3 = 0;
             currentThreadSnapshot = companion.getCurrentThreadSnapshot();
             if (currentThreadSnapshot != null) {
                 readObserver = currentThreadSnapshot.getReadObserver();
@@ -2207,322 +2207,322 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
             }
             int i17 = 0;
             constructor-impl = NodeKind.constructor-impl(constructor-impl);
-            count$iv$iv2 = this;
+            count$iv$iv = this;
             includeSelfInTraversal-H91voCI = NodeKindKt.getIncludeSelfInTraversal-H91voCI(constructor-impl);
-            i8 = constructor-impl;
-            nodeCoordinator = count$iv$iv2;
-            i9 = 0;
+            i9 = constructor-impl;
+            nodeCoordinator = count$iv$iv;
+            i6 = 0;
             if (includeSelfInTraversal-H91voCI) {
                 parent$ui_release = nodeCoordinator.getTail();
-                node$iv$iv5 = NodeCoordinator.access$headNode(nodeCoordinator, includeSelfInTraversal-H91voCI);
-                while (node$iv$iv5 != null) {
-                    if (kindSet$ui_release2 &= i8 != 0) {
+                node$iv$iv2 = NodeCoordinator.access$headNode(nodeCoordinator, includeSelfInTraversal-H91voCI);
+                while (node$iv$iv2 != null) {
+                    if (kindSet$ui_release2 &= i9 != 0) {
                     } else {
                     }
-                    node$iv$iv = node$iv$iv4;
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$12 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                     type$iv = constructor-impl;
-                    this_$iv = count$iv$iv2;
-                    i = i3;
-                    node$iv$iv5 = child$ui_release;
+                    this_$iv = count$iv$iv;
+                    i2 = i10;
+                    node$iv$iv2 = child$ui_release;
                     arr = this;
-                    node$iv$iv4 = node$iv$iv;
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$12;
                     constructor-impl = type$iv;
-                    count$iv$iv2 = this_$iv;
-                    i3 = i;
-                    i4 = 0;
+                    count$iv$iv = this_$iv;
+                    i10 = i2;
                     i5 = 0;
-                    i2 = 0;
+                    i8 = 0;
+                    i11 = 0;
                     int i19 = 0;
-                    node$iv$iv = node$iv$iv4;
-                    node$iv$iv4 = node3;
-                    while (node$iv$iv4 != null) {
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$12 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node2;
+                    while ($i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 != null) {
                         type$iv = constructor-impl;
-                        if (node$iv$iv4 instanceof LayoutAwareModifierNode) {
+                        if ($i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 instanceof LayoutAwareModifierNode) {
                         } else {
                         }
-                        Modifier.Node node5 = node$iv$iv4;
+                        Modifier.Node node5 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                         int i18 = 0;
-                        i10 = node5;
+                        i7 = node5;
                         if (kindSet$ui_release &= type$iv != 0) {
                         } else {
                         }
-                        count$iv$iv = 0;
-                        if (count$iv$iv != 0 && node$iv$iv4 instanceof DelegatingNode) {
+                        $i$f$isKindH91voCI$ui_release = 0;
+                        if ($i$f$isKindH91voCI$ui_release != 0 && $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 instanceof DelegatingNode) {
                         } else {
                         }
-                        node$iv$iv4 = node4;
+                        $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node4;
                         arr = this;
                         constructor-impl = type$iv;
-                        count$iv$iv2 = this_$iv;
-                        i3 = i;
-                        if (node$iv$iv4 instanceof DelegatingNode) {
+                        count$iv$iv = this_$iv;
+                        i10 = i2;
+                        if ($i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 instanceof DelegatingNode) {
                         } else {
                         }
-                        count$iv$iv = 0;
-                        i10 = 0;
-                        node$iv$iv$iv = (DelegatingNode)node$iv$iv4.getDelegate$ui_release();
+                        $i$f$isKindH91voCI$ui_release = 0;
+                        i7 = 0;
+                        node$iv$iv$iv = (DelegatingNode)$i$a$WithoutReadObservationNodeCoordinator$onMeasured$1.getDelegate$ui_release();
                         while (node$iv$iv$iv != null) {
-                            node2 = node$iv$iv$iv;
-                            i12 = 0;
-                            i6 = 0;
+                            node = node$iv$iv$iv;
+                            i13 = 0;
+                            i4 = 0;
                             if (kindSet$ui_release3 &= type$iv != 0) {
                             } else {
                             }
-                            this_$iv$iv$iv2 = 0;
-                            if (this_$iv$iv$iv2 != 0) {
+                            this_$iv$iv$iv = 0;
+                            if (this_$iv$iv$iv != 0) {
                             } else {
                             }
-                            node$iv$iv3 = node$iv$iv4;
-                            next$iv$iv = node2;
+                            node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                            next$iv$iv = node;
                             node$iv$iv$iv = child$ui_release2;
-                            this_$iv$iv$iv = 1;
+                            this_$iv$iv$iv2 = 1;
                             arr = this;
-                            if (count$iv$iv++ == this_$iv$iv$iv) {
+                            if ($i$f$isKindH91voCI$ui_release++ == this_$iv$iv$iv2) {
                             } else {
                             }
-                            if (i2 == 0) {
+                            if (i11 == 0) {
                             } else {
                             }
-                            node$iv$iv3 = node$iv$iv4;
+                            node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                             capacity$iv$iv$iv$iv = 0;
-                            node$iv$iv2 = i2;
+                            node$iv$iv = i11;
                             arr = node$iv$iv3;
-                            if (arr != null && node$iv$iv2 != 0) {
+                            if (arr != null && node$iv$iv != 0) {
                             }
-                            if (node$iv$iv2 != 0) {
+                            if (node$iv$iv != 0) {
                             } else {
                             }
-                            next$iv$iv = node2;
-                            i2 = node$iv$iv2;
-                            node$iv$iv4 = node$iv$iv3;
-                            node$iv$iv2.add(node2);
-                            if (node$iv$iv2 != 0) {
+                            next$iv$iv = node;
+                            i11 = node$iv$iv;
+                            $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node$iv$iv3;
+                            node$iv$iv.add(node);
+                            if (node$iv$iv != 0) {
                             }
-                            node$iv$iv3 = i2;
-                            node$iv$iv2.add(arr);
-                            this_$iv$iv$iv2 = 0;
+                            node$iv$iv3 = i11;
+                            node$iv$iv.add(arr);
+                            this_$iv$iv$iv = 0;
                             int i16 = 16;
-                            i13 = 0;
-                            node$iv$iv3 = node$iv$iv4;
-                            i11 = i16;
-                            node$iv$iv2 = new MutableVector(new Modifier.Node[i16], 0);
-                            node$iv$iv4 = node2;
-                            next$iv$iv = node2;
-                            this_$iv$iv$iv2 = this_$iv$iv$iv;
+                            i14 = 0;
+                            node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                            i = i16;
+                            node$iv$iv = new MutableVector(new Modifier.Node[i16], 0);
+                            $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node;
+                            next$iv$iv = node;
+                            this_$iv$iv$iv = this_$iv$iv$iv2;
                         }
-                        node$iv$iv3 = node$iv$iv4;
-                        if (count$iv$iv == 1) {
+                        node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                        if ($i$f$isKindH91voCI$ui_release == 1) {
                         } else {
                         }
-                        node$iv$iv4 = node$iv$iv3;
+                        $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node$iv$iv3;
                         arr = this;
                         constructor-impl = type$iv;
-                        count$iv$iv2 = this_$iv;
-                        i3 = i;
-                        node$iv$iv4 = node$iv$iv3;
-                        node2 = node$iv$iv$iv;
-                        i12 = 0;
-                        i6 = 0;
+                        count$iv$iv = this_$iv;
+                        i10 = i2;
+                        $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node$iv$iv3;
+                        node = node$iv$iv$iv;
+                        i13 = 0;
+                        i4 = 0;
                         if (kindSet$ui_release3 &= type$iv != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv2 = 0;
-                        if (this_$iv$iv$iv2 != 0) {
+                        this_$iv$iv$iv = 0;
+                        if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        node$iv$iv3 = node$iv$iv4;
-                        next$iv$iv = node2;
+                        node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                        next$iv$iv = node;
                         node$iv$iv$iv = child$ui_release2;
-                        this_$iv$iv$iv = 1;
+                        this_$iv$iv$iv2 = 1;
                         arr = this;
-                        if (count$iv$iv++ == this_$iv$iv$iv) {
+                        if ($i$f$isKindH91voCI$ui_release++ == this_$iv$iv$iv2) {
                         } else {
                         }
-                        if (i2 == 0) {
+                        if (i11 == 0) {
                         } else {
                         }
-                        node$iv$iv3 = node$iv$iv4;
+                        node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                         capacity$iv$iv$iv$iv = 0;
-                        node$iv$iv2 = i2;
+                        node$iv$iv = i11;
                         arr = node$iv$iv3;
-                        if (arr != null && node$iv$iv2 != 0) {
+                        if (arr != null && node$iv$iv != 0) {
                         }
-                        if (node$iv$iv2 != 0) {
+                        if (node$iv$iv != 0) {
                         } else {
                         }
-                        next$iv$iv = node2;
-                        i2 = node$iv$iv2;
-                        node$iv$iv4 = node$iv$iv3;
-                        node$iv$iv2.add(node2);
-                        if (node$iv$iv2 != 0) {
+                        next$iv$iv = node;
+                        i11 = node$iv$iv;
+                        $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node$iv$iv3;
+                        node$iv$iv.add(node);
+                        if (node$iv$iv != 0) {
                         }
-                        node$iv$iv3 = i2;
-                        node$iv$iv2.add(arr);
-                        this_$iv$iv$iv2 = 0;
+                        node$iv$iv3 = i11;
+                        node$iv$iv.add(arr);
+                        this_$iv$iv$iv = 0;
                         i16 = 16;
-                        i13 = 0;
-                        node$iv$iv3 = node$iv$iv4;
-                        i11 = i16;
-                        node$iv$iv2 = new MutableVector(new Modifier.Node[i16], 0);
-                        node$iv$iv4 = node2;
-                        next$iv$iv = node2;
-                        this_$iv$iv$iv2 = this_$iv$iv$iv;
-                        count$iv$iv = this_$iv$iv$iv;
-                        i10 = 0;
-                        this_$iv = count$iv$iv2;
-                        i = i3;
-                        (LayoutAwareModifierNode)node$iv$iv4.onRemeasured-ozmzZPI(arr.getMeasuredSize-YbymL2g());
+                        i14 = 0;
+                        node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                        i = i16;
+                        node$iv$iv = new MutableVector(new Modifier.Node[i16], 0);
+                        $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node;
+                        next$iv$iv = node;
+                        this_$iv$iv$iv = this_$iv$iv$iv2;
+                        $i$f$isKindH91voCI$ui_release = this_$iv$iv$iv2;
+                        i7 = 0;
+                        this_$iv = count$iv$iv;
+                        i2 = i10;
+                        (LayoutAwareModifierNode)$i$a$WithoutReadObservationNodeCoordinator$onMeasured$1.onRemeasured-ozmzZPI(arr.getMeasuredSize-YbymL2g());
                     }
                     type$iv = constructor-impl;
-                    this_$iv = count$iv$iv2;
-                    i = i3;
+                    this_$iv = count$iv$iv;
+                    i2 = i10;
                     type$iv = constructor-impl;
-                    if (node$iv$iv4 instanceof LayoutAwareModifierNode) {
+                    if ($i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 instanceof LayoutAwareModifierNode) {
                     } else {
                     }
-                    node5 = node$iv$iv4;
+                    node5 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                     i18 = 0;
-                    i10 = node5;
+                    i7 = node5;
                     if (kindSet$ui_release &= type$iv != 0) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    if (count$iv$iv != 0 && node$iv$iv4 instanceof DelegatingNode) {
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    if ($i$f$isKindH91voCI$ui_release != 0 && $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 instanceof DelegatingNode) {
                     } else {
                     }
-                    node$iv$iv4 = node4;
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node4;
                     arr = this;
                     constructor-impl = type$iv;
-                    count$iv$iv2 = this_$iv;
-                    i3 = i;
-                    if (node$iv$iv4 instanceof DelegatingNode) {
+                    count$iv$iv = this_$iv;
+                    i10 = i2;
+                    if ($i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    i10 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv4.getDelegate$ui_release();
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    i7 = 0;
+                    node$iv$iv$iv = (DelegatingNode)$i$a$WithoutReadObservationNodeCoordinator$onMeasured$1.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node2 = node$iv$iv$iv;
-                        i12 = 0;
-                        i6 = 0;
+                        node = node$iv$iv$iv;
+                        i13 = 0;
+                        i4 = 0;
                         if (kindSet$ui_release3 &= type$iv != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv2 = 0;
-                        if (this_$iv$iv$iv2 != 0) {
+                        this_$iv$iv$iv = 0;
+                        if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        node$iv$iv3 = node$iv$iv4;
-                        next$iv$iv = node2;
+                        node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                        next$iv$iv = node;
                         node$iv$iv$iv = child$ui_release2;
-                        this_$iv$iv$iv = 1;
+                        this_$iv$iv$iv2 = 1;
                         arr = this;
-                        if (count$iv$iv++ == this_$iv$iv$iv) {
+                        if ($i$f$isKindH91voCI$ui_release++ == this_$iv$iv$iv2) {
                         } else {
                         }
-                        if (i2 == 0) {
+                        if (i11 == 0) {
                         } else {
                         }
-                        node$iv$iv3 = node$iv$iv4;
+                        node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                         capacity$iv$iv$iv$iv = 0;
-                        node$iv$iv2 = i2;
+                        node$iv$iv = i11;
                         arr = node$iv$iv3;
-                        if (arr != null && node$iv$iv2 != 0) {
+                        if (arr != null && node$iv$iv != 0) {
                         }
-                        if (node$iv$iv2 != 0) {
+                        if (node$iv$iv != 0) {
                         } else {
                         }
-                        next$iv$iv = node2;
-                        i2 = node$iv$iv2;
-                        node$iv$iv4 = node$iv$iv3;
-                        node$iv$iv2.add(node2);
-                        if (node$iv$iv2 != 0) {
+                        next$iv$iv = node;
+                        i11 = node$iv$iv;
+                        $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node$iv$iv3;
+                        node$iv$iv.add(node);
+                        if (node$iv$iv != 0) {
                         }
-                        node$iv$iv3 = i2;
-                        node$iv$iv2.add(arr);
-                        this_$iv$iv$iv2 = 0;
+                        node$iv$iv3 = i11;
+                        node$iv$iv.add(arr);
+                        this_$iv$iv$iv = 0;
                         i16 = 16;
-                        i13 = 0;
-                        node$iv$iv3 = node$iv$iv4;
-                        i11 = i16;
-                        node$iv$iv2 = new MutableVector(new Modifier.Node[i16], 0);
-                        node$iv$iv4 = node2;
-                        next$iv$iv = node2;
-                        this_$iv$iv$iv2 = this_$iv$iv$iv;
+                        i14 = 0;
+                        node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                        i = i16;
+                        node$iv$iv = new MutableVector(new Modifier.Node[i16], 0);
+                        $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node;
+                        next$iv$iv = node;
+                        this_$iv$iv$iv = this_$iv$iv$iv2;
                     }
-                    node$iv$iv3 = node$iv$iv4;
-                    if (count$iv$iv == 1) {
+                    node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                    if ($i$f$isKindH91voCI$ui_release == 1) {
                     } else {
                     }
-                    node$iv$iv4 = node$iv$iv3;
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node$iv$iv3;
                     arr = this;
                     constructor-impl = type$iv;
-                    count$iv$iv2 = this_$iv;
-                    i3 = i;
-                    node$iv$iv4 = node$iv$iv3;
-                    node2 = node$iv$iv$iv;
-                    i12 = 0;
-                    i6 = 0;
+                    count$iv$iv = this_$iv;
+                    i10 = i2;
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node$iv$iv3;
+                    node = node$iv$iv$iv;
+                    i13 = 0;
+                    i4 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv2 = 0;
-                    if (this_$iv$iv$iv2 != 0) {
+                    this_$iv$iv$iv = 0;
+                    if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    node$iv$iv3 = node$iv$iv4;
-                    next$iv$iv = node2;
+                    node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                    next$iv$iv = node;
                     node$iv$iv$iv = child$ui_release2;
-                    this_$iv$iv$iv = 1;
+                    this_$iv$iv$iv2 = 1;
                     arr = this;
-                    if (count$iv$iv++ == this_$iv$iv$iv) {
+                    if ($i$f$isKindH91voCI$ui_release++ == this_$iv$iv$iv2) {
                     } else {
                     }
-                    if (i2 == 0) {
+                    if (i11 == 0) {
                     } else {
                     }
-                    node$iv$iv3 = node$iv$iv4;
+                    node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                     capacity$iv$iv$iv$iv = 0;
-                    node$iv$iv2 = i2;
+                    node$iv$iv = i11;
                     arr = node$iv$iv3;
-                    if (arr != null && node$iv$iv2 != 0) {
+                    if (arr != null && node$iv$iv != 0) {
                     }
-                    if (node$iv$iv2 != 0) {
+                    if (node$iv$iv != 0) {
                     } else {
                     }
-                    next$iv$iv = node2;
-                    i2 = node$iv$iv2;
-                    node$iv$iv4 = node$iv$iv3;
-                    node$iv$iv2.add(node2);
-                    if (node$iv$iv2 != 0) {
+                    next$iv$iv = node;
+                    i11 = node$iv$iv;
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node$iv$iv3;
+                    node$iv$iv.add(node);
+                    if (node$iv$iv != 0) {
                     }
-                    node$iv$iv3 = i2;
-                    node$iv$iv2.add(arr);
-                    this_$iv$iv$iv2 = 0;
+                    node$iv$iv3 = i11;
+                    node$iv$iv.add(arr);
+                    this_$iv$iv$iv = 0;
                     i16 = 16;
-                    i13 = 0;
-                    node$iv$iv3 = node$iv$iv4;
-                    i11 = i16;
-                    node$iv$iv2 = new MutableVector(new Modifier.Node[i16], 0);
-                    node$iv$iv4 = node2;
-                    next$iv$iv = node2;
-                    this_$iv$iv$iv2 = this_$iv$iv$iv;
-                    count$iv$iv = this_$iv$iv$iv;
-                    i10 = 0;
-                    this_$iv = count$iv$iv2;
-                    i = i3;
-                    (LayoutAwareModifierNode)node$iv$iv4.onRemeasured-ozmzZPI(arr.getMeasuredSize-YbymL2g());
+                    i14 = 0;
+                    node$iv$iv3 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
+                    i = i16;
+                    node$iv$iv = new MutableVector(new Modifier.Node[i16], 0);
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1 = node;
+                    next$iv$iv = node;
+                    this_$iv$iv$iv = this_$iv$iv$iv2;
+                    $i$f$isKindH91voCI$ui_release = this_$iv$iv$iv2;
+                    i7 = 0;
+                    this_$iv = count$iv$iv;
+                    i2 = i10;
+                    (LayoutAwareModifierNode)$i$a$WithoutReadObservationNodeCoordinator$onMeasured$1.onRemeasured-ozmzZPI(arr.getMeasuredSize-YbymL2g());
                 }
-                node$iv$iv = node$iv$iv4;
+                $i$a$WithoutReadObservationNodeCoordinator$onMeasured$12 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                 type$iv = constructor-impl;
-                this_$iv = count$iv$iv2;
-                i = i3;
+                this_$iv = count$iv$iv;
+                i2 = i10;
             } else {
                 if (nodeCoordinator.getTail().getParent$ui_release() == null) {
-                    node$iv$iv = node$iv$iv4;
+                    $i$a$WithoutReadObservationNodeCoordinator$onMeasured$12 = $i$a$WithoutReadObservationNodeCoordinator$onMeasured$1;
                     type$iv = constructor-impl;
-                    this_$iv = count$iv$iv2;
-                    i = i3;
+                    this_$iv = count$iv$iv;
+                    i2 = i10;
                 } else {
                 }
             }
@@ -2533,40 +2533,40 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public final void onPlaced() {
-        int constructor-impl;
+        int $i$f$getLayoutAwareOLwlOKw;
         int this_$iv$iv$iv;
         int capacity$iv$iv$iv$iv;
         Object nodeCoordinator;
-        int this_$iv2;
-        int arr;
+        int this_$iv;
+        int $i$f$visitNodesALcG6gQ;
         Modifier.Node next$iv$iv;
         Modifier.Node parent$ui_release;
         Modifier.Node node$iv$iv;
         Modifier.Node node2;
-        int i2;
-        Modifier.Node node5;
-        int i;
+        int i4;
+        Modifier.Node node3;
+        int i3;
         int stack$iv$iv;
         Modifier.Node node$iv$iv2;
         int count$iv$iv;
-        Modifier.Node node;
-        int type$iv;
         Modifier.Node node4;
+        int type$iv;
+        Modifier.Node node5;
         Modifier.Node node$iv$iv$iv;
-        Modifier.Node node3;
+        Modifier.Node node;
         int i5;
         int this_$iv$iv$iv2;
+        int i2;
         int i6;
-        int i3;
-        Modifier.Node this_$iv;
-        int i4;
+        Modifier.Node this_$iv2;
         int i7;
+        int i;
         int i8 = 0;
-        constructor-impl = NodeKind.constructor-impl(128);
+        $i$f$getLayoutAwareOLwlOKw = NodeKind.constructor-impl(128);
         nodeCoordinator = this;
-        final boolean includeSelfInTraversal-H91voCI = NodeKindKt.getIncludeSelfInTraversal-H91voCI(constructor-impl);
+        final boolean includeSelfInTraversal-H91voCI = NodeKindKt.getIncludeSelfInTraversal-H91voCI($i$f$getLayoutAwareOLwlOKw);
         final androidx.compose.ui.node.NodeCoordinator nodeCoordinator2 = nodeCoordinator;
-        final int i11 = constructor-impl;
+        final int i11 = $i$f$getLayoutAwareOLwlOKw;
         final int i12 = 0;
         if (includeSelfInTraversal-H91voCI) {
             node$iv$iv = NodeCoordinator.access$headNode(nodeCoordinator2, includeSelfInTraversal-H91voCI);
@@ -2574,26 +2574,26 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 if (kindSet$ui_release &= i11 != 0) {
                 } else {
                 }
-                type$iv = constructor-impl;
-                this_$iv = nodeCoordinator;
-                i4 = arr;
+                type$iv = $i$f$getLayoutAwareOLwlOKw;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                constructor-impl = type$iv;
-                nodeCoordinator = this_$iv;
-                arr = i4;
-                i2 = 0;
-                i = 0;
+                $i$f$getLayoutAwareOLwlOKw = type$iv;
+                nodeCoordinator = this_$iv2;
+                $i$f$visitNodesALcG6gQ = i7;
+                i4 = 0;
+                i3 = 0;
                 stack$iv$iv = 0;
                 int i13 = 0;
-                node$iv$iv2 = node5;
+                node$iv$iv2 = node3;
                 while (node$iv$iv2 != null) {
                     if (node$iv$iv2 instanceof LayoutAwareModifierNode) {
                     } else {
                     }
-                    type$iv = constructor-impl;
+                    type$iv = $i$f$getLayoutAwareOLwlOKw;
                     Modifier.Node type$iv2 = node$iv$iv2;
                     int i14 = 0;
-                    node4 = type$iv2;
+                    node5 = type$iv2;
                     if (kindSet$ui_release2 &= type$iv != 0) {
                     } else {
                     }
@@ -2601,22 +2601,22 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if (count$iv$iv != 0 && node$iv$iv2 instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
                     node$iv$iv2 = DelegatableNodeKt.access$pop(stack$iv$iv);
-                    constructor-impl = type$iv;
-                    nodeCoordinator = this_$iv;
-                    arr = i4;
+                    $i$f$getLayoutAwareOLwlOKw = type$iv;
+                    nodeCoordinator = this_$iv2;
+                    $i$f$visitNodesALcG6gQ = i7;
                     if (node$iv$iv2 instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv$iv = 0;
-                    node4 = 0;
+                    node5 = 0;
                     node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node3 = node$iv$iv$iv;
+                        node = node$iv$iv$iv;
                         i5 = 0;
-                        i6 = 0;
+                        i2 = 0;
                         if (kindSet$ui_release3 &= type$iv != 0) {
                         } else {
                         }
@@ -2624,13 +2624,13 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                         if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        this_$iv = nodeCoordinator;
-                        i4 = arr;
-                        next$iv$iv = node3;
+                        this_$iv2 = nodeCoordinator;
+                        i7 = $i$f$visitNodesALcG6gQ;
+                        next$iv$iv = node;
                         capacity$iv$iv$iv$iv = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        nodeCoordinator = this_$iv;
-                        arr = i4;
+                        nodeCoordinator = this_$iv2;
+                        $i$f$visitNodesALcG6gQ = i7;
                         this_$iv$iv$iv = 1;
                         if (count$iv$iv++ == this_$iv$iv$iv) {
                         } else {
@@ -2638,46 +2638,46 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                         if (stack$iv$iv == 0) {
                         } else {
                         }
-                        this_$iv = nodeCoordinator;
-                        i4 = arr;
+                        this_$iv2 = nodeCoordinator;
+                        i7 = $i$f$visitNodesALcG6gQ;
                         capacity$iv$iv$iv$iv = 0;
-                        this_$iv2 = stack$iv$iv;
-                        stack$iv$iv = this_$iv2;
+                        this_$iv = stack$iv$iv;
+                        stack$iv$iv = this_$iv;
                         nodeCoordinator = node$iv$iv2;
                         if (nodeCoordinator != null && stack$iv$iv != 0) {
                         }
                         if (stack$iv$iv != 0) {
                         } else {
                         }
-                        next$iv$iv = node3;
-                        stack$iv$iv.add(node3);
+                        next$iv$iv = node;
+                        stack$iv$iv.add(node);
                         if (stack$iv$iv != 0) {
                         }
-                        node$iv$iv2 = arr;
+                        node$iv$iv2 = $i$f$visitNodesALcG6gQ;
                         stack$iv$iv.add(nodeCoordinator);
                         this_$iv$iv$iv2 = 0;
                         int i9 = 16;
-                        i3 = 0;
-                        this_$iv = nodeCoordinator;
-                        i4 = arr;
-                        i7 = i9;
-                        this_$iv2 = new MutableVector(new Modifier.Node[i9], 0);
-                        node$iv$iv2 = node3;
-                        this_$iv = nodeCoordinator;
-                        i4 = arr;
-                        next$iv$iv = node3;
+                        i6 = 0;
+                        this_$iv2 = nodeCoordinator;
+                        i7 = $i$f$visitNodesALcG6gQ;
+                        i = i9;
+                        this_$iv = new MutableVector(new Modifier.Node[i9], 0);
+                        node$iv$iv2 = node;
+                        this_$iv2 = nodeCoordinator;
+                        i7 = $i$f$visitNodesALcG6gQ;
+                        next$iv$iv = node;
                         capacity$iv$iv$iv$iv = 0;
                         this_$iv$iv$iv2 = this_$iv$iv$iv;
                     }
                     if (count$iv$iv == 1) {
                     } else {
                     }
-                    constructor-impl = type$iv;
-                    nodeCoordinator = this_$iv;
-                    arr = i4;
-                    node3 = node$iv$iv$iv;
+                    $i$f$getLayoutAwareOLwlOKw = type$iv;
+                    nodeCoordinator = this_$iv2;
+                    $i$f$visitNodesALcG6gQ = i7;
+                    node = node$iv$iv$iv;
                     i5 = 0;
-                    i6 = 0;
+                    i2 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
@@ -2685,13 +2685,13 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
-                    next$iv$iv = node3;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
+                    next$iv$iv = node;
                     capacity$iv$iv$iv$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    nodeCoordinator = this_$iv;
-                    arr = i4;
+                    nodeCoordinator = this_$iv2;
+                    $i$f$visitNodesALcG6gQ = i7;
                     this_$iv$iv$iv = 1;
                     if (count$iv$iv++ == this_$iv$iv$iv) {
                     } else {
@@ -2699,53 +2699,53 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if (stack$iv$iv == 0) {
                     } else {
                     }
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
                     capacity$iv$iv$iv$iv = 0;
-                    this_$iv2 = stack$iv$iv;
-                    stack$iv$iv = this_$iv2;
+                    this_$iv = stack$iv$iv;
+                    stack$iv$iv = this_$iv;
                     nodeCoordinator = node$iv$iv2;
                     if (nodeCoordinator != null && stack$iv$iv != 0) {
                     }
                     if (stack$iv$iv != 0) {
                     } else {
                     }
-                    next$iv$iv = node3;
-                    stack$iv$iv.add(node3);
+                    next$iv$iv = node;
+                    stack$iv$iv.add(node);
                     if (stack$iv$iv != 0) {
                     }
-                    node$iv$iv2 = arr;
+                    node$iv$iv2 = $i$f$visitNodesALcG6gQ;
                     stack$iv$iv.add(nodeCoordinator);
                     this_$iv$iv$iv2 = 0;
                     i9 = 16;
-                    i3 = 0;
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
-                    i7 = i9;
-                    this_$iv2 = new MutableVector(new Modifier.Node[i9], 0);
-                    node$iv$iv2 = node3;
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
-                    next$iv$iv = node3;
+                    i6 = 0;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
+                    i = i9;
+                    this_$iv = new MutableVector(new Modifier.Node[i9], 0);
+                    node$iv$iv2 = node;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
+                    next$iv$iv = node;
                     capacity$iv$iv$iv$iv = 0;
                     this_$iv$iv$iv2 = this_$iv$iv$iv;
                     count$iv$iv = this_$iv$iv$iv;
-                    node = 0;
-                    type$iv = constructor-impl;
+                    node4 = 0;
+                    type$iv = $i$f$getLayoutAwareOLwlOKw;
                     (LayoutAwareModifierNode)node$iv$iv2.onPlaced((LayoutCoordinates)this);
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
                 }
-                type$iv = constructor-impl;
-                this_$iv = nodeCoordinator;
-                i4 = arr;
+                type$iv = $i$f$getLayoutAwareOLwlOKw;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
                 if (node$iv$iv2 instanceof LayoutAwareModifierNode) {
                 } else {
                 }
-                type$iv = constructor-impl;
+                type$iv = $i$f$getLayoutAwareOLwlOKw;
                 type$iv2 = node$iv$iv2;
                 i14 = 0;
-                node4 = type$iv2;
+                node5 = type$iv2;
                 if (kindSet$ui_release2 &= type$iv != 0) {
                 } else {
                 }
@@ -2753,22 +2753,22 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 if (count$iv$iv != 0 && node$iv$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                this_$iv = nodeCoordinator;
-                i4 = arr;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
                 node$iv$iv2 = DelegatableNodeKt.access$pop(stack$iv$iv);
-                constructor-impl = type$iv;
-                nodeCoordinator = this_$iv;
-                arr = i4;
+                $i$f$getLayoutAwareOLwlOKw = type$iv;
+                nodeCoordinator = this_$iv2;
+                $i$f$visitNodesALcG6gQ = i7;
                 if (node$iv$iv2 instanceof DelegatingNode) {
                 } else {
                 }
                 count$iv$iv = 0;
-                node4 = 0;
+                node5 = 0;
                 node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
-                    node3 = node$iv$iv$iv;
+                    node = node$iv$iv$iv;
                     i5 = 0;
-                    i6 = 0;
+                    i2 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
@@ -2776,13 +2776,13 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
-                    next$iv$iv = node3;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
+                    next$iv$iv = node;
                     capacity$iv$iv$iv$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    nodeCoordinator = this_$iv;
-                    arr = i4;
+                    nodeCoordinator = this_$iv2;
+                    $i$f$visitNodesALcG6gQ = i7;
                     this_$iv$iv$iv = 1;
                     if (count$iv$iv++ == this_$iv$iv$iv) {
                     } else {
@@ -2790,46 +2790,46 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if (stack$iv$iv == 0) {
                     } else {
                     }
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
                     capacity$iv$iv$iv$iv = 0;
-                    this_$iv2 = stack$iv$iv;
-                    stack$iv$iv = this_$iv2;
+                    this_$iv = stack$iv$iv;
+                    stack$iv$iv = this_$iv;
                     nodeCoordinator = node$iv$iv2;
                     if (nodeCoordinator != null && stack$iv$iv != 0) {
                     }
                     if (stack$iv$iv != 0) {
                     } else {
                     }
-                    next$iv$iv = node3;
-                    stack$iv$iv.add(node3);
+                    next$iv$iv = node;
+                    stack$iv$iv.add(node);
                     if (stack$iv$iv != 0) {
                     }
-                    node$iv$iv2 = arr;
+                    node$iv$iv2 = $i$f$visitNodesALcG6gQ;
                     stack$iv$iv.add(nodeCoordinator);
                     this_$iv$iv$iv2 = 0;
                     i9 = 16;
-                    i3 = 0;
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
-                    i7 = i9;
-                    this_$iv2 = new MutableVector(new Modifier.Node[i9], 0);
-                    node$iv$iv2 = node3;
-                    this_$iv = nodeCoordinator;
-                    i4 = arr;
-                    next$iv$iv = node3;
+                    i6 = 0;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
+                    i = i9;
+                    this_$iv = new MutableVector(new Modifier.Node[i9], 0);
+                    node$iv$iv2 = node;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = $i$f$visitNodesALcG6gQ;
+                    next$iv$iv = node;
                     capacity$iv$iv$iv$iv = 0;
                     this_$iv$iv$iv2 = this_$iv$iv$iv;
                 }
                 if (count$iv$iv == 1) {
                 } else {
                 }
-                constructor-impl = type$iv;
-                nodeCoordinator = this_$iv;
-                arr = i4;
-                node3 = node$iv$iv$iv;
+                $i$f$getLayoutAwareOLwlOKw = type$iv;
+                nodeCoordinator = this_$iv2;
+                $i$f$visitNodesALcG6gQ = i7;
+                node = node$iv$iv$iv;
                 i5 = 0;
-                i6 = 0;
+                i2 = 0;
                 if (kindSet$ui_release3 &= type$iv != 0) {
                 } else {
                 }
@@ -2837,13 +2837,13 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 if (this_$iv$iv$iv2 != 0) {
                 } else {
                 }
-                this_$iv = nodeCoordinator;
-                i4 = arr;
-                next$iv$iv = node3;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
+                next$iv$iv = node;
                 capacity$iv$iv$iv$iv = 0;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                nodeCoordinator = this_$iv;
-                arr = i4;
+                nodeCoordinator = this_$iv2;
+                $i$f$visitNodesALcG6gQ = i7;
                 this_$iv$iv$iv = 1;
                 if (count$iv$iv++ == this_$iv$iv$iv) {
                 } else {
@@ -2851,51 +2851,51 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 if (stack$iv$iv == 0) {
                 } else {
                 }
-                this_$iv = nodeCoordinator;
-                i4 = arr;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
                 capacity$iv$iv$iv$iv = 0;
-                this_$iv2 = stack$iv$iv;
-                stack$iv$iv = this_$iv2;
+                this_$iv = stack$iv$iv;
+                stack$iv$iv = this_$iv;
                 nodeCoordinator = node$iv$iv2;
                 if (nodeCoordinator != null && stack$iv$iv != 0) {
                 }
                 if (stack$iv$iv != 0) {
                 } else {
                 }
-                next$iv$iv = node3;
-                stack$iv$iv.add(node3);
+                next$iv$iv = node;
+                stack$iv$iv.add(node);
                 if (stack$iv$iv != 0) {
                 }
-                node$iv$iv2 = arr;
+                node$iv$iv2 = $i$f$visitNodesALcG6gQ;
                 stack$iv$iv.add(nodeCoordinator);
                 this_$iv$iv$iv2 = 0;
                 i9 = 16;
-                i3 = 0;
-                this_$iv = nodeCoordinator;
-                i4 = arr;
-                i7 = i9;
-                this_$iv2 = new MutableVector(new Modifier.Node[i9], 0);
-                node$iv$iv2 = node3;
-                this_$iv = nodeCoordinator;
-                i4 = arr;
-                next$iv$iv = node3;
+                i6 = 0;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
+                i = i9;
+                this_$iv = new MutableVector(new Modifier.Node[i9], 0);
+                node$iv$iv2 = node;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
+                next$iv$iv = node;
                 capacity$iv$iv$iv$iv = 0;
                 this_$iv$iv$iv2 = this_$iv$iv$iv;
                 count$iv$iv = this_$iv$iv$iv;
-                node = 0;
-                type$iv = constructor-impl;
+                node4 = 0;
+                type$iv = $i$f$getLayoutAwareOLwlOKw;
                 (LayoutAwareModifierNode)node$iv$iv2.onPlaced((LayoutCoordinates)this);
-                this_$iv = nodeCoordinator;
-                i4 = arr;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
             }
-            type$iv = constructor-impl;
-            this_$iv = nodeCoordinator;
-            i4 = arr;
+            type$iv = $i$f$getLayoutAwareOLwlOKw;
+            this_$iv2 = nodeCoordinator;
+            i7 = $i$f$visitNodesALcG6gQ;
         } else {
             if (nodeCoordinator2.getTail().getParent$ui_release() == null) {
-                type$iv = constructor-impl;
-                this_$iv = nodeCoordinator;
-                i4 = arr;
+                type$iv = $i$f$getLayoutAwareOLwlOKw;
+                this_$iv2 = nodeCoordinator;
+                i7 = $i$f$visitNodesALcG6gQ;
             } else {
             }
         }
@@ -2959,14 +2959,14 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public final void rectInParent$ui_release(MutableRect bounds, boolean clipBounds, boolean clipToMinimumTouchTargetSize) {
-        int i2;
-        long minimumTouchTargetSize-NH-jbRc;
-        long l2;
-        long l;
         int i;
+        long minimumTouchTargetSize-NH-jbRc;
+        long l;
+        long l2;
+        int i2;
         int i5;
-        int i3;
         int i4;
+        int i3;
         long l3;
         final androidx.compose.ui.node.OwnedLayer layer = this.layer;
         if (layer != null && this.isClipping) {
@@ -2976,11 +2976,11 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     int i10 = 1073741824;
                     width-impl2 /= i10;
                     height-impl2 /= i10;
-                    bounds.intersect(-l, -i5, f5 += l, f6 += i5);
+                    bounds.intersect(-l2, -i5, f5 += l2, f6 += i5);
                 } else {
                     if (clipBounds) {
-                        l = 0;
-                        bounds.intersect(l, l, (float)width-impl, (float)height-impl);
+                        l2 = 0;
+                        bounds.intersect(l2, l2, (float)width-impl, (float)height-impl);
                     }
                 }
                 if (bounds.isEmpty()) {
@@ -3030,7 +3030,7 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public long screenToLocal-MK-Hz9U(long relativeToScreen) {
-        String str;
+        String $i$a$CheckPreconditionNodeCoordinator$screenToLocal$1;
         int i = 0;
         if (!isAttached()) {
             int i2 = 0;
@@ -3054,8 +3054,8 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public void setMeasureResult$ui_release(MeasureResult value) {
-        int oldAlignmentLines;
-        Map oldAlignmentLines3;
+        int oldAlignmentLines3;
+        Map oldAlignmentLines;
         int oldAlignmentLines2;
         int i;
         final MeasureResult _measureResult = this._measureResult;
@@ -3070,27 +3070,27 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 }
             } else {
             }
-            oldAlignmentLines3 = this.oldAlignmentLines;
-            if (oldAlignmentLines3 != null) {
-                if (oldAlignmentLines3.isEmpty()) {
-                    oldAlignmentLines = 1;
+            oldAlignmentLines = this.oldAlignmentLines;
+            if (oldAlignmentLines != null) {
+                if (oldAlignmentLines.isEmpty()) {
+                    oldAlignmentLines3 = 1;
                 } else {
-                    oldAlignmentLines = 0;
+                    oldAlignmentLines3 = 0;
                 }
             } else {
             }
-            if (oldAlignmentLines != 0) {
+            if (oldAlignmentLines3 != 0) {
                 getAlignmentLinesOwner().getAlignmentLines().onAlignmentsChanged();
                 if (!value.getAlignmentLines().isEmpty() && !Intrinsics.areEqual(value.getAlignmentLines(), this.oldAlignmentLines) && this.oldAlignmentLines == null) {
                     if (!Intrinsics.areEqual(value.getAlignmentLines(), this.oldAlignmentLines)) {
                         getAlignmentLinesOwner().getAlignmentLines().onAlignmentsChanged();
                         if (this.oldAlignmentLines == null) {
-                            oldAlignmentLines = new LinkedHashMap();
+                            oldAlignmentLines3 = new LinkedHashMap();
                             i = 0;
-                            this.oldAlignmentLines = (Map)oldAlignmentLines;
+                            this.oldAlignmentLines = (Map)oldAlignmentLines3;
                         }
-                        oldAlignmentLines.clear();
-                        oldAlignmentLines.putAll(value.getAlignmentLines());
+                        oldAlignmentLines3.clear();
+                        oldAlignmentLines3.putAll(value.getAlignmentLines());
                     }
                 }
             } else {
@@ -3122,92 +3122,92 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
     public final boolean shouldSharePointerInputWithSiblings() {
         Modifier.Node count$iv$iv3;
         int count$iv$iv;
-        int type$iv;
+        int type$iv2;
         Modifier.Node[] arr;
         Modifier.Node next$iv$iv;
         int node$iv$iv;
         Modifier.Node attached;
         int i10;
         int i4;
-        int i11;
-        Modifier.Node node;
         int i7;
-        Modifier.Node node3;
+        Modifier.Node node;
+        int i5;
+        Modifier.Node node4;
         Modifier.Node next$iv$iv2;
-        String str;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv$iv;
         int i8;
-        Modifier.Node node2;
+        Modifier.Node node3;
+        int i12;
         int i;
-        int i2;
         Modifier.Node node$iv$iv2;
         Modifier.Node start;
         Modifier.Node start2;
         Modifier.Node this_$iv$iv$iv2;
-        int i5;
+        int i11;
         boolean sharePointerInputWithSiblings;
         Modifier.Node node$iv$iv$iv;
-        Modifier.Node node4;
-        int i12;
-        int type$iv2;
+        Modifier.Node node2;
+        int i2;
+        int type$iv;
         int this_$iv$iv$iv;
         int count$iv$iv2;
-        int i3;
         int i6;
+        int i3;
         int i9;
         int i13 = 0;
-        type$iv = 16;
-        count$iv$iv3 = this.headNode(NodeKindKt.getIncludeSelfInTraversal-H91voCI(NodeKind.constructor-impl(type$iv)));
+        type$iv2 = 16;
+        count$iv$iv3 = this.headNode(NodeKindKt.getIncludeSelfInTraversal-H91voCI(NodeKind.constructor-impl(type$iv2)));
         if (count$iv$iv3 == null) {
             return 0;
         }
         if (count$iv$iv3.isAttached()) {
             int i15 = 0;
-            type$iv = NodeKind.constructor-impl(type$iv);
+            type$iv2 = NodeKind.constructor-impl(type$iv2);
             i10 = 0;
             i4 = 1;
-            i11 = type$iv;
+            i7 = type$iv2;
             node = attached;
-            i7 = 0;
+            i5 = 0;
             int i16 = 0;
             if (!node.getNode().isAttached()) {
                 int i17 = 0;
                 InlineClassHelperKt.throwIllegalStateException("visitLocalDescendants called on an unattached node");
             }
-            node3 = node.getNode();
-            if (aggregateChildKindSet$ui_release &= i11 != 0) {
-                next$iv$iv2 = node3;
+            node4 = node.getNode();
+            if (aggregateChildKindSet$ui_release &= i7 != 0) {
+                next$iv$iv2 = node4;
                 while (next$iv$iv2 != null) {
-                    if (kindSet$ui_release &= i11 != 0) {
+                    if (kindSet$ui_release &= i7 != 0) {
                     } else {
                     }
                     start = count$iv$iv3;
-                    type$iv2 = type$iv;
+                    type$iv = type$iv2;
                     next$iv$iv2 = next$iv$iv2.getChild$ui_release();
                     arr = this;
                     count$iv$iv3 = start;
-                    type$iv = type$iv2;
+                    type$iv2 = type$iv;
                     node$iv$iv = 0;
                     i8 = 0;
+                    i12 = 0;
                     i = 0;
-                    i2 = 0;
                     int i18 = 0;
                     node$iv$iv = node$iv$iv2;
                     while (node$iv$iv != null) {
                         start = count$iv$iv3;
                         count$iv$iv = 1;
-                        i5 = 0;
-                        if (kindSet$ui_release2 &= type$iv != 0) {
+                        i11 = 0;
+                        if (kindSet$ui_release2 &= type$iv2 != 0) {
                         } else {
                         }
                         this_$iv$iv$iv2 = 0;
                         if (this_$iv$iv$iv2 != 0 && node$iv$iv instanceof DelegatingNode) {
                         } else {
                         }
-                        type$iv2 = type$iv;
-                        node$iv$iv = DelegatableNodeKt.access$pop(i2);
+                        type$iv = type$iv2;
+                        node$iv$iv = DelegatableNodeKt.access$pop(i);
                         arr = this;
                         count$iv$iv3 = start;
-                        type$iv = type$iv2;
+                        type$iv2 = type$iv;
                         if (node$iv$iv instanceof DelegatingNode) {
                         } else {
                         }
@@ -3215,53 +3215,53 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                         sharePointerInputWithSiblings = 0;
                         node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                         while (node$iv$iv$iv != null) {
-                            node4 = node$iv$iv$iv;
-                            i12 = 0;
+                            node2 = node$iv$iv$iv;
+                            i2 = 0;
                             count$iv$iv2 = 0;
-                            if (kindSet$ui_release3 &= type$iv != 0) {
+                            if (kindSet$ui_release3 &= type$iv2 != 0) {
                             } else {
                             }
                             this_$iv$iv$iv = 0;
                             if (this_$iv$iv$iv != 0) {
                             } else {
                             }
-                            type$iv2 = type$iv;
-                            next$iv$iv = node4;
+                            type$iv = type$iv2;
+                            next$iv$iv = node2;
                             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                             arr = this;
-                            type$iv = type$iv2;
-                            count$iv$iv++;
                             type$iv2 = type$iv;
+                            count$iv$iv++;
+                            type$iv = type$iv2;
                             if (count$iv$iv == 1) {
                             } else {
                             }
-                            if (i2 == 0) {
+                            if (i == 0) {
                             } else {
                             }
                             count$iv$iv2 = count$iv$iv;
-                            type$iv = i2;
+                            type$iv2 = i;
                             Modifier.Node node5 = node$iv$iv;
-                            if (node5 != null && type$iv != 0) {
+                            if (node5 != null && type$iv2 != 0) {
                             }
-                            if (type$iv != 0) {
+                            if (type$iv2 != 0) {
                             } else {
                             }
-                            next$iv$iv = node4;
-                            i2 = type$iv;
+                            next$iv$iv = node2;
+                            i = type$iv2;
                             count$iv$iv = count$iv$iv2;
-                            type$iv.add(node4);
-                            if (type$iv != 0) {
+                            type$iv2.add(node2);
+                            if (type$iv2 != 0) {
                             }
                             node$iv$iv = arr;
-                            type$iv.add(node5);
+                            type$iv2.add(node5);
                             count$iv$iv2 = count$iv$iv;
                             int count$iv$iv4 = 16;
-                            i3 = 0;
-                            i6 = i14;
+                            i6 = 0;
+                            i3 = i14;
                             i9 = count$iv$iv4;
-                            type$iv = new MutableVector(new Modifier.Node[count$iv$iv4], 0);
-                            node$iv$iv = node4;
-                            next$iv$iv = node4;
+                            type$iv2 = new MutableVector(new Modifier.Node[count$iv$iv4], 0);
+                            node$iv$iv = node2;
+                            next$iv$iv = node2;
                             this_$iv$iv$iv = 1;
                         }
                         if (count$iv$iv == 1) {
@@ -3269,76 +3269,76 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                         }
                         arr = this;
                         count$iv$iv3 = start;
-                        type$iv = type$iv2;
-                        node4 = node$iv$iv$iv;
-                        i12 = 0;
+                        type$iv2 = type$iv;
+                        node2 = node$iv$iv$iv;
+                        i2 = 0;
                         count$iv$iv2 = 0;
-                        if (kindSet$ui_release3 &= type$iv != 0) {
+                        if (kindSet$ui_release3 &= type$iv2 != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
                         if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        type$iv2 = type$iv;
-                        next$iv$iv = node4;
+                        type$iv = type$iv2;
+                        next$iv$iv = node2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         arr = this;
-                        type$iv = type$iv2;
-                        count$iv$iv++;
                         type$iv2 = type$iv;
+                        count$iv$iv++;
+                        type$iv = type$iv2;
                         if (count$iv$iv == 1) {
                         } else {
                         }
-                        if (i2 == 0) {
+                        if (i == 0) {
                         } else {
                         }
                         count$iv$iv2 = count$iv$iv;
-                        type$iv = i2;
+                        type$iv2 = i;
                         node5 = node$iv$iv;
-                        if (node5 != null && type$iv != 0) {
+                        if (node5 != null && type$iv2 != 0) {
                         }
-                        if (type$iv != 0) {
+                        if (type$iv2 != 0) {
                         } else {
                         }
-                        next$iv$iv = node4;
-                        i2 = type$iv;
+                        next$iv$iv = node2;
+                        i = type$iv2;
                         count$iv$iv = count$iv$iv2;
-                        type$iv.add(node4);
-                        if (type$iv != 0) {
+                        type$iv2.add(node2);
+                        if (type$iv2 != 0) {
                         }
                         node$iv$iv = arr;
-                        type$iv.add(node5);
+                        type$iv2.add(node5);
                         count$iv$iv2 = count$iv$iv;
                         count$iv$iv4 = 16;
-                        i3 = 0;
-                        i6 = i14;
+                        i6 = 0;
+                        i3 = i14;
                         i9 = count$iv$iv4;
-                        type$iv = new MutableVector(new Modifier.Node[count$iv$iv4], 0);
-                        node$iv$iv = node4;
-                        next$iv$iv = node4;
+                        type$iv2 = new MutableVector(new Modifier.Node[count$iv$iv4], 0);
+                        node$iv$iv = node2;
+                        next$iv$iv = node2;
                         this_$iv$iv$iv = 1;
                         this_$iv$iv$iv2 = count$iv$iv;
-                        i5 = 0;
-                        type$iv2 = type$iv;
+                        i11 = 0;
+                        type$iv = type$iv2;
                     }
                     start = count$iv$iv3;
-                    type$iv2 = type$iv;
+                    type$iv = type$iv2;
                     start = count$iv$iv3;
                     count$iv$iv = 1;
-                    i5 = 0;
-                    if (kindSet$ui_release2 &= type$iv != 0) {
+                    i11 = 0;
+                    if (kindSet$ui_release2 &= type$iv2 != 0) {
                     } else {
                     }
                     this_$iv$iv$iv2 = 0;
                     if (this_$iv$iv$iv2 != 0 && node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    type$iv2 = type$iv;
-                    node$iv$iv = DelegatableNodeKt.access$pop(i2);
+                    type$iv = type$iv2;
+                    node$iv$iv = DelegatableNodeKt.access$pop(i);
                     arr = this;
                     count$iv$iv3 = start;
-                    type$iv = type$iv2;
+                    type$iv2 = type$iv;
                     if (node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
@@ -3346,53 +3346,53 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     sharePointerInputWithSiblings = 0;
                     node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node4 = node$iv$iv$iv;
-                        i12 = 0;
+                        node2 = node$iv$iv$iv;
+                        i2 = 0;
                         count$iv$iv2 = 0;
-                        if (kindSet$ui_release3 &= type$iv != 0) {
+                        if (kindSet$ui_release3 &= type$iv2 != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
                         if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        type$iv2 = type$iv;
-                        next$iv$iv = node4;
+                        type$iv = type$iv2;
+                        next$iv$iv = node2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         arr = this;
-                        type$iv = type$iv2;
-                        count$iv$iv++;
                         type$iv2 = type$iv;
+                        count$iv$iv++;
+                        type$iv = type$iv2;
                         if (count$iv$iv == 1) {
                         } else {
                         }
-                        if (i2 == 0) {
+                        if (i == 0) {
                         } else {
                         }
                         count$iv$iv2 = count$iv$iv;
-                        type$iv = i2;
+                        type$iv2 = i;
                         node5 = node$iv$iv;
-                        if (node5 != null && type$iv != 0) {
+                        if (node5 != null && type$iv2 != 0) {
                         }
-                        if (type$iv != 0) {
+                        if (type$iv2 != 0) {
                         } else {
                         }
-                        next$iv$iv = node4;
-                        i2 = type$iv;
+                        next$iv$iv = node2;
+                        i = type$iv2;
                         count$iv$iv = count$iv$iv2;
-                        type$iv.add(node4);
-                        if (type$iv != 0) {
+                        type$iv2.add(node2);
+                        if (type$iv2 != 0) {
                         }
                         node$iv$iv = arr;
-                        type$iv.add(node5);
+                        type$iv2.add(node5);
                         count$iv$iv2 = count$iv$iv;
                         count$iv$iv4 = 16;
-                        i3 = 0;
-                        i6 = i14;
+                        i6 = 0;
+                        i3 = i14;
                         i9 = count$iv$iv4;
-                        type$iv = new MutableVector(new Modifier.Node[count$iv$iv4], 0);
-                        node$iv$iv = node4;
-                        next$iv$iv = node4;
+                        type$iv2 = new MutableVector(new Modifier.Node[count$iv$iv4], 0);
+                        node$iv$iv = node2;
+                        next$iv$iv = node2;
                         this_$iv$iv$iv = 1;
                     }
                     if (count$iv$iv == 1) {
@@ -3400,64 +3400,64 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     }
                     arr = this;
                     count$iv$iv3 = start;
-                    type$iv = type$iv2;
-                    node4 = node$iv$iv$iv;
-                    i12 = 0;
+                    type$iv2 = type$iv;
+                    node2 = node$iv$iv$iv;
+                    i2 = 0;
                     count$iv$iv2 = 0;
-                    if (kindSet$ui_release3 &= type$iv != 0) {
+                    if (kindSet$ui_release3 &= type$iv2 != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
                     if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    type$iv2 = type$iv;
-                    next$iv$iv = node4;
+                    type$iv = type$iv2;
+                    next$iv$iv = node2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     arr = this;
-                    type$iv = type$iv2;
-                    count$iv$iv++;
                     type$iv2 = type$iv;
+                    count$iv$iv++;
+                    type$iv = type$iv2;
                     if (count$iv$iv == 1) {
                     } else {
                     }
-                    if (i2 == 0) {
+                    if (i == 0) {
                     } else {
                     }
                     count$iv$iv2 = count$iv$iv;
-                    type$iv = i2;
+                    type$iv2 = i;
                     node5 = node$iv$iv;
-                    if (node5 != null && type$iv != 0) {
+                    if (node5 != null && type$iv2 != 0) {
                     }
-                    if (type$iv != 0) {
+                    if (type$iv2 != 0) {
                     } else {
                     }
-                    next$iv$iv = node4;
-                    i2 = type$iv;
+                    next$iv$iv = node2;
+                    i = type$iv2;
                     count$iv$iv = count$iv$iv2;
-                    type$iv.add(node4);
-                    if (type$iv != 0) {
+                    type$iv2.add(node2);
+                    if (type$iv2 != 0) {
                     }
                     node$iv$iv = arr;
-                    type$iv.add(node5);
+                    type$iv2.add(node5);
                     count$iv$iv2 = count$iv$iv;
                     count$iv$iv4 = 16;
-                    i3 = 0;
-                    i6 = i14;
+                    i6 = 0;
+                    i3 = i14;
                     i9 = count$iv$iv4;
-                    type$iv = new MutableVector(new Modifier.Node[count$iv$iv4], 0);
-                    node$iv$iv = node4;
-                    next$iv$iv = node4;
+                    type$iv2 = new MutableVector(new Modifier.Node[count$iv$iv4], 0);
+                    node$iv$iv = node2;
+                    next$iv$iv = node2;
                     this_$iv$iv$iv = 1;
                     this_$iv$iv$iv2 = count$iv$iv;
-                    i5 = 0;
-                    type$iv2 = type$iv;
+                    i11 = 0;
+                    type$iv = type$iv2;
                 }
                 start2 = count$iv$iv3;
-                type$iv2 = type$iv;
+                type$iv = type$iv2;
             } else {
                 start2 = count$iv$iv3;
-                type$iv2 = type$iv;
+                type$iv = type$iv2;
             }
         } else {
             start2 = count$iv$iv3;
@@ -3531,29 +3531,29 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
         int invalidateParentLayer;
         int owner$ui_release;
         GraphicsLayer explicitLayer;
-        int i3;
+        int i2;
         int i;
         int layerLayoutDirection;
-        String layoutDirection;
+        String $i$a$RequirePreconditionNodeCoordinator$updateLayerBlock$1;
         androidx.compose.ui.node.OwnedLayer layer$default;
-        int i6;
-        int i2;
-        long position-nOcc-ac;
-        int i7;
+        int i3;
         int i4;
+        long position-nOcc-ac;
         int i5;
+        int i6;
+        int i7;
         invalidateParentLayer = 0;
         owner$ui_release = 1;
         if (layerBlock != null) {
             if (this.explicitLayer == null) {
-                i3 = owner$ui_release;
+                i2 = owner$ui_release;
             } else {
-                i3 = invalidateParentLayer;
+                i2 = invalidateParentLayer;
             }
         } else {
         }
         layerLayoutDirection = 0;
-        if (i3 == 0) {
+        if (i2 == 0) {
             int i8 = 0;
             InlineClassHelperKt.throwIllegalArgumentException("layerBlock can't be provided when explicitLayer is provided");
         }
@@ -3579,12 +3579,12 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
             if (layerBlock != null) {
                 this.layerBlock = layerBlock;
                 if (this.layer == null) {
-                    i7 = 0;
-                    layer$default = Owner.createLayer$default(LayoutNodeKt.requireOwner(layoutNode), this.drawBlock, this.invalidateParentLayer, i7, 4, 0);
-                    i6 = layer$default;
-                    i2 = 0;
-                    i6.resize-ozmzZPI(getMeasuredSize-YbymL2g());
-                    i6.move--gyyYBs(getPosition-nOcc-ac());
+                    i5 = 0;
+                    layer$default = Owner.createLayer$default(LayoutNodeKt.requireOwner(layoutNode), this.drawBlock, this.invalidateParentLayer, i5, 4, 0);
+                    i3 = layer$default;
+                    i4 = 0;
+                    i3.resize-ozmzZPI(getMeasuredSize-YbymL2g());
+                    i3.move--gyyYBs(getPosition-nOcc-ac());
                     this.layer = layer$default;
                     NodeCoordinator.updateLayerParameters$default(this, invalidateParentLayer, owner$ui_release, i9);
                     layoutNode.setInnerLayerCoordinatorIsDirty$ui_release(owner$ui_release);
@@ -3597,13 +3597,13 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
             } else {
                 this.layerBlock = i9;
                 layer$default = this.layer;
-                i6 = 0;
+                i3 = 0;
                 layer$default.destroy();
                 layoutNode.setInnerLayerCoordinatorIsDirty$ui_release(owner$ui_release);
                 this.invalidateParentLayer.invoke();
                 owner$ui_release = layoutNode.getOwner$ui_release();
                 if (layer$default != null && isAttached() && owner$ui_release != null) {
-                    i6 = 0;
+                    i3 = 0;
                     layer$default.destroy();
                     layoutNode.setInnerLayerCoordinatorIsDirty$ui_release(owner$ui_release);
                     this.invalidateParentLayer.invoke();
@@ -3641,62 +3641,62 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
     }
 
     public final <T> void visitNodes-aLcG6gQ(int type, Function1<? super T, Unit> block) {
-        int i10;
-        boolean includeTail$iv2;
-        int includeTail$iv3;
+        int i6;
+        boolean includeTail$iv3;
+        int includeTail$iv2;
         androidx.compose.ui.node.NodeCoordinator nodeCoordinator;
-        int this_$iv2;
-        int i5;
-        Modifier.Node parent$ui_release;
-        Modifier.Node node$iv2;
-        int i8;
+        int this_$iv;
         int i;
-        Modifier.Node node2;
-        int i9;
-        int stack$iv;
+        Modifier.Node parent$ui_release;
         Modifier.Node node$iv;
+        int i9;
+        int i11;
+        Modifier.Node node2;
+        int i2;
+        int stack$iv;
+        Modifier.Node node$iv2;
         Object obj;
         int count$iv;
         Modifier.Node node;
-        int i3;
-        int i11;
+        int i5;
+        int i10;
         Modifier.Node node$iv$iv;
         int i12;
         boolean includeTail$iv;
         int this_$iv$iv;
-        int i7;
-        int i2;
-        androidx.compose.ui.node.NodeCoordinator this_$iv;
+        int i3;
         int i4;
-        int i6;
-        includeTail$iv2 = NodeKindKt.getIncludeSelfInTraversal-H91voCI(type);
+        androidx.compose.ui.node.NodeCoordinator this_$iv2;
+        int i7;
+        int i8;
+        includeTail$iv3 = NodeKindKt.getIncludeSelfInTraversal-H91voCI(type);
         nodeCoordinator = this;
-        i5 = type;
+        i = type;
         final int i17 = 0;
-        if (includeTail$iv2) {
-            node$iv2 = NodeCoordinator.access$headNode(nodeCoordinator, includeTail$iv2);
-            while (node$iv2 != null) {
-                if (kindSet$ui_release &= i5 != 0) {
+        if (includeTail$iv3) {
+            node$iv = NodeCoordinator.access$headNode(nodeCoordinator, includeTail$iv3);
+            while (node$iv != null) {
+                if (kindSet$ui_release &= i != 0) {
                 } else {
                 }
                 obj = block;
-                i11 = i10;
-                includeTail$iv = includeTail$iv2;
-                this_$iv = nodeCoordinator;
-                i4 = i5;
-                node$iv2 = node$iv2.getChild$ui_release();
-                i10 = i11;
-                includeTail$iv2 = includeTail$iv;
-                nodeCoordinator = this_$iv;
-                i5 = i4;
-                i = 0;
-                i9 = 0;
+                i10 = i6;
+                includeTail$iv = includeTail$iv3;
+                this_$iv2 = nodeCoordinator;
+                i7 = i;
+                node$iv = node$iv.getChild$ui_release();
+                i6 = i10;
+                includeTail$iv3 = includeTail$iv;
+                nodeCoordinator = this_$iv2;
+                i = i7;
+                i11 = 0;
+                i2 = 0;
                 stack$iv = 0;
                 int i18 = 0;
-                node$iv = node2;
-                while (node$iv != null) {
+                node$iv2 = node2;
+                while (node$iv2 != null) {
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv instanceof Object != null) {
+                    if (node$iv2 instanceof Object != null) {
                     } else {
                     }
                     obj = block;
@@ -3705,27 +3705,27 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     } else {
                     }
                     count$iv = 0;
-                    if (count$iv != 0 && node$iv instanceof DelegatingNode) {
+                    if (count$iv != 0 && node$iv2 instanceof DelegatingNode) {
                     } else {
                     }
-                    includeTail$iv = includeTail$iv2;
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                    i10 = i11;
-                    includeTail$iv2 = includeTail$iv;
-                    nodeCoordinator = this_$iv;
-                    i5 = i4;
-                    if (node$iv instanceof DelegatingNode) {
+                    includeTail$iv = includeTail$iv3;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    i6 = i10;
+                    includeTail$iv3 = includeTail$iv;
+                    nodeCoordinator = this_$iv2;
+                    i = i7;
+                    if (node$iv2 instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv = 0;
-                    i3 = 0;
-                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
+                    i5 = 0;
+                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
                     while (node$iv$iv != null) {
-                        i10 = node$iv$iv;
+                        i6 = node$iv$iv;
                         i12 = 0;
-                        i7 = 0;
+                        i3 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -3733,15 +3733,15 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                         if (this_$iv$iv != 0) {
                         } else {
                         }
-                        includeTail$iv = includeTail$iv2;
-                        this_$iv = nodeCoordinator;
-                        i4 = i5;
-                        includeTail$iv3 = 0;
+                        includeTail$iv = includeTail$iv3;
+                        this_$iv2 = nodeCoordinator;
+                        i7 = i;
+                        includeTail$iv2 = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        includeTail$iv2 = includeTail$iv;
-                        nodeCoordinator = this_$iv;
-                        i5 = i4;
-                        includeTail$iv = includeTail$iv2;
+                        includeTail$iv3 = includeTail$iv;
+                        nodeCoordinator = this_$iv2;
+                        i = i7;
+                        includeTail$iv = includeTail$iv3;
                         if (count$iv++ == 1) {
                         } else {
                         }
@@ -3749,48 +3749,48 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                         if ((MutableVector)i14 == 0) {
                         } else {
                         }
-                        this_$iv = nodeCoordinator;
-                        i4 = i5;
-                        this_$iv2 = i14;
-                        includeTail$iv3 = 0;
-                        stack$iv = this_$iv2;
-                        nodeCoordinator = node$iv;
+                        this_$iv2 = nodeCoordinator;
+                        i7 = i;
+                        this_$iv = i14;
+                        includeTail$iv2 = 0;
+                        stack$iv = this_$iv;
+                        nodeCoordinator = node$iv2;
                         int i16 = stack$iv;
                         if ((Modifier.Node)nodeCoordinator != null && (MutableVector)i16 != 0) {
                         }
-                        i5 = stack$iv;
-                        if ((MutableVector)i5 != 0) {
+                        i = stack$iv;
+                        if ((MutableVector)i != 0) {
                         }
-                        (MutableVector)i5.add(i10);
+                        (MutableVector)i.add(i6);
                         i16 = stack$iv;
                         if ((MutableVector)(MutableVector)i16 != 0) {
                         }
-                        node$iv = i5;
+                        node$iv2 = i;
                         (MutableVector)(MutableVector)i16.add((Modifier.Node)nodeCoordinator);
-                        i7 = i15;
+                        i3 = i15;
                         int $i$f$mutableVectorOf = 16;
-                        i2 = 0;
-                        this_$iv = nodeCoordinator;
-                        i4 = i5;
-                        i6 = $i$f$mutableVectorOf;
-                        this_$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i5 = this_$iv2;
-                        node$iv = i10;
-                        this_$iv = nodeCoordinator;
-                        i4 = i5;
-                        includeTail$iv3 = 0;
+                        i4 = 0;
+                        this_$iv2 = nodeCoordinator;
+                        i7 = i;
+                        i8 = $i$f$mutableVectorOf;
+                        this_$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i = this_$iv;
+                        node$iv2 = i6;
+                        this_$iv2 = nodeCoordinator;
+                        i7 = i;
+                        includeTail$iv2 = 0;
                         this_$iv$iv = 1;
                     }
                     if (count$iv == 1) {
                     } else {
                     }
-                    i10 = i11;
-                    includeTail$iv2 = includeTail$iv;
-                    nodeCoordinator = this_$iv;
-                    i5 = i4;
-                    i10 = node$iv$iv;
+                    i6 = i10;
+                    includeTail$iv3 = includeTail$iv;
+                    nodeCoordinator = this_$iv2;
+                    i = i7;
+                    i6 = node$iv$iv;
                     i12 = 0;
-                    i7 = 0;
+                    i3 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -3798,15 +3798,15 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if (this_$iv$iv != 0) {
                     } else {
                     }
-                    includeTail$iv = includeTail$iv2;
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    includeTail$iv3 = 0;
+                    includeTail$iv = includeTail$iv3;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    includeTail$iv2 = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    includeTail$iv2 = includeTail$iv;
-                    nodeCoordinator = this_$iv;
-                    i5 = i4;
-                    includeTail$iv = includeTail$iv2;
+                    includeTail$iv3 = includeTail$iv;
+                    nodeCoordinator = this_$iv2;
+                    i = i7;
+                    includeTail$iv = includeTail$iv3;
                     if (count$iv++ == 1) {
                     } else {
                     }
@@ -3814,51 +3814,51 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if ((MutableVector)(MutableVector)i14 == 0) {
                     } else {
                     }
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    this_$iv2 = i14;
-                    includeTail$iv3 = 0;
-                    stack$iv = this_$iv2;
-                    nodeCoordinator = node$iv;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    this_$iv = i14;
+                    includeTail$iv2 = 0;
+                    stack$iv = this_$iv;
+                    nodeCoordinator = node$iv2;
                     i16 = stack$iv;
                     if ((Modifier.Node)nodeCoordinator != null && (MutableVector)i16 != 0) {
                     }
-                    i5 = stack$iv;
-                    if ((MutableVector)i5 != 0) {
+                    i = stack$iv;
+                    if ((MutableVector)i != 0) {
                     }
-                    (MutableVector)i5.add(i10);
+                    (MutableVector)i.add(i6);
                     i16 = stack$iv;
                     if ((MutableVector)(MutableVector)i16 != 0) {
                     }
-                    node$iv = i5;
+                    node$iv2 = i;
                     (MutableVector)(MutableVector)i16.add((Modifier.Node)nodeCoordinator);
-                    i7 = i15;
+                    i3 = i15;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    i6 = $i$f$mutableVectorOf;
-                    this_$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i5 = this_$iv2;
-                    node$iv = i10;
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    includeTail$iv3 = 0;
+                    i4 = 0;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    i8 = $i$f$mutableVectorOf;
+                    this_$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i = this_$iv;
+                    node$iv2 = i6;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    includeTail$iv2 = 0;
                     this_$iv$iv = 1;
                     count$iv = 1;
-                    block.invoke(node$iv);
-                    i11 = i10;
-                    includeTail$iv = includeTail$iv2;
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
+                    block.invoke(node$iv2);
+                    i10 = i6;
+                    includeTail$iv = includeTail$iv3;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
                 }
                 obj = block;
-                i11 = i10;
-                includeTail$iv = includeTail$iv2;
-                this_$iv = nodeCoordinator;
-                i4 = i5;
+                i10 = i6;
+                includeTail$iv = includeTail$iv3;
+                this_$iv2 = nodeCoordinator;
+                i7 = i;
                 Intrinsics.reifiedOperationMarker(3, "T");
-                if (node$iv instanceof Object != null) {
+                if (node$iv2 instanceof Object != null) {
                 } else {
                 }
                 obj = block;
@@ -3867,27 +3867,27 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 } else {
                 }
                 count$iv = 0;
-                if (count$iv != 0 && node$iv instanceof DelegatingNode) {
+                if (count$iv != 0 && node$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                includeTail$iv = includeTail$iv2;
-                this_$iv = nodeCoordinator;
-                i4 = i5;
-                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                i10 = i11;
-                includeTail$iv2 = includeTail$iv;
-                nodeCoordinator = this_$iv;
-                i5 = i4;
-                if (node$iv instanceof DelegatingNode) {
+                includeTail$iv = includeTail$iv3;
+                this_$iv2 = nodeCoordinator;
+                i7 = i;
+                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                i6 = i10;
+                includeTail$iv3 = includeTail$iv;
+                nodeCoordinator = this_$iv2;
+                i = i7;
+                if (node$iv2 instanceof DelegatingNode) {
                 } else {
                 }
                 count$iv = 0;
-                i3 = 0;
-                node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
+                i5 = 0;
+                node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
                 while (node$iv$iv != null) {
-                    i10 = node$iv$iv;
+                    i6 = node$iv$iv;
                     i12 = 0;
-                    i7 = 0;
+                    i3 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -3895,15 +3895,15 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if (this_$iv$iv != 0) {
                     } else {
                     }
-                    includeTail$iv = includeTail$iv2;
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    includeTail$iv3 = 0;
+                    includeTail$iv = includeTail$iv3;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    includeTail$iv2 = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    includeTail$iv2 = includeTail$iv;
-                    nodeCoordinator = this_$iv;
-                    i5 = i4;
-                    includeTail$iv = includeTail$iv2;
+                    includeTail$iv3 = includeTail$iv;
+                    nodeCoordinator = this_$iv2;
+                    i = i7;
+                    includeTail$iv = includeTail$iv3;
                     if (count$iv++ == 1) {
                     } else {
                     }
@@ -3911,48 +3911,48 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                     if ((MutableVector)(MutableVector)(MutableVector)i14 == 0) {
                     } else {
                     }
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    this_$iv2 = i14;
-                    includeTail$iv3 = 0;
-                    stack$iv = this_$iv2;
-                    nodeCoordinator = node$iv;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    this_$iv = i14;
+                    includeTail$iv2 = 0;
+                    stack$iv = this_$iv;
+                    nodeCoordinator = node$iv2;
                     i16 = stack$iv;
                     if ((Modifier.Node)nodeCoordinator != null && (MutableVector)i16 != 0) {
                     }
-                    i5 = stack$iv;
-                    if ((MutableVector)i5 != 0) {
+                    i = stack$iv;
+                    if ((MutableVector)i != 0) {
                     }
-                    (MutableVector)i5.add(i10);
+                    (MutableVector)i.add(i6);
                     i16 = stack$iv;
                     if ((MutableVector)(MutableVector)i16 != 0) {
                     }
-                    node$iv = i5;
+                    node$iv2 = i;
                     (MutableVector)(MutableVector)i16.add((Modifier.Node)nodeCoordinator);
-                    i7 = i15;
+                    i3 = i15;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    i6 = $i$f$mutableVectorOf;
-                    this_$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i5 = this_$iv2;
-                    node$iv = i10;
-                    this_$iv = nodeCoordinator;
-                    i4 = i5;
-                    includeTail$iv3 = 0;
+                    i4 = 0;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    i8 = $i$f$mutableVectorOf;
+                    this_$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i = this_$iv;
+                    node$iv2 = i6;
+                    this_$iv2 = nodeCoordinator;
+                    i7 = i;
+                    includeTail$iv2 = 0;
                     this_$iv$iv = 1;
                 }
                 if (count$iv == 1) {
                 } else {
                 }
-                i10 = i11;
-                includeTail$iv2 = includeTail$iv;
-                nodeCoordinator = this_$iv;
-                i5 = i4;
-                i10 = node$iv$iv;
+                i6 = i10;
+                includeTail$iv3 = includeTail$iv;
+                nodeCoordinator = this_$iv2;
+                i = i7;
+                i6 = node$iv$iv;
                 i12 = 0;
-                i7 = 0;
+                i3 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -3960,15 +3960,15 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 if (this_$iv$iv != 0) {
                 } else {
                 }
-                includeTail$iv = includeTail$iv2;
-                this_$iv = nodeCoordinator;
-                i4 = i5;
-                includeTail$iv3 = 0;
+                includeTail$iv = includeTail$iv3;
+                this_$iv2 = nodeCoordinator;
+                i7 = i;
+                includeTail$iv2 = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                includeTail$iv2 = includeTail$iv;
-                nodeCoordinator = this_$iv;
-                i5 = i4;
-                includeTail$iv = includeTail$iv2;
+                includeTail$iv3 = includeTail$iv;
+                nodeCoordinator = this_$iv2;
+                i = i7;
+                includeTail$iv = includeTail$iv3;
                 if (count$iv++ == 1) {
                 } else {
                 }
@@ -3976,53 +3976,53 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
                 if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i14 == 0) {
                 } else {
                 }
-                this_$iv = nodeCoordinator;
-                i4 = i5;
-                this_$iv2 = i14;
-                includeTail$iv3 = 0;
-                stack$iv = this_$iv2;
-                nodeCoordinator = node$iv;
+                this_$iv2 = nodeCoordinator;
+                i7 = i;
+                this_$iv = i14;
+                includeTail$iv2 = 0;
+                stack$iv = this_$iv;
+                nodeCoordinator = node$iv2;
                 i16 = stack$iv;
                 if ((Modifier.Node)nodeCoordinator != null && (MutableVector)i16 != 0) {
                 }
-                i5 = stack$iv;
-                if ((MutableVector)i5 != 0) {
+                i = stack$iv;
+                if ((MutableVector)i != 0) {
                 }
-                (MutableVector)i5.add(i10);
+                (MutableVector)i.add(i6);
                 i16 = stack$iv;
                 if ((MutableVector)(MutableVector)i16 != 0) {
                 }
-                node$iv = i5;
+                node$iv2 = i;
                 (MutableVector)(MutableVector)i16.add((Modifier.Node)nodeCoordinator);
-                i7 = i15;
+                i3 = i15;
                 $i$f$mutableVectorOf = 16;
-                i2 = 0;
-                this_$iv = nodeCoordinator;
-                i4 = i5;
-                i6 = $i$f$mutableVectorOf;
-                this_$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i5 = this_$iv2;
-                node$iv = i10;
-                this_$iv = nodeCoordinator;
-                i4 = i5;
-                includeTail$iv3 = 0;
+                i4 = 0;
+                this_$iv2 = nodeCoordinator;
+                i7 = i;
+                i8 = $i$f$mutableVectorOf;
+                this_$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i = this_$iv;
+                node$iv2 = i6;
+                this_$iv2 = nodeCoordinator;
+                i7 = i;
+                includeTail$iv2 = 0;
                 this_$iv$iv = 1;
                 count$iv = 1;
-                block.invoke(node$iv);
-                i11 = i10;
-                includeTail$iv = includeTail$iv2;
-                this_$iv = nodeCoordinator;
-                i4 = i5;
+                block.invoke(node$iv2);
+                i10 = i6;
+                includeTail$iv = includeTail$iv3;
+                this_$iv2 = nodeCoordinator;
+                i7 = i;
             }
             obj = block;
-            i11 = i10;
-            includeTail$iv = includeTail$iv2;
-            this_$iv = nodeCoordinator;
-            i4 = i5;
+            i10 = i6;
+            includeTail$iv = includeTail$iv3;
+            this_$iv2 = nodeCoordinator;
+            i7 = i;
         } else {
             if (nodeCoordinator.getTail().getParent$ui_release() == null) {
                 obj = block;
-                i11 = i10;
+                i10 = i6;
             } else {
             }
         }
@@ -4030,14 +4030,14 @@ public abstract class NodeCoordinator extends androidx.compose.ui.node.Lookahead
 
     @Override // androidx.compose.ui.node.LookaheadCapablePlaceable
     public long windowToLocal-MK-Hz9U(long relativeToWindow) {
-        String str;
+        String $i$a$CheckPreconditionNodeCoordinator$windowToLocal$1;
         int i = 0;
         if (!isAttached()) {
             int i2 = 0;
             InlineClassHelperKt.throwIllegalStateException("LayoutCoordinate operations are only valid when isAttached is true");
         }
         LayoutCoordinates rootCoordinates = LayoutCoordinatesKt.findRootCoordinates((LayoutCoordinates)this);
-        return localPositionOf-R5De75A(rootCoordinates, Offset.minus-MK-Hz9U(LayoutNodeKt.requireOwner(getLayoutNode()).calculateLocalPosition-MK-Hz9U(relativeToWindow), str));
+        return localPositionOf-R5De75A(rootCoordinates, Offset.minus-MK-Hz9U(LayoutNodeKt.requireOwner(getLayoutNode()).calculateLocalPosition-MK-Hz9U(relativeToWindow), $i$a$CheckPreconditionNodeCoordinator$windowToLocal$1));
     }
 
     protected final void withPositionTranslation(Canvas canvas, Function1<? super Canvas, Unit> block) {

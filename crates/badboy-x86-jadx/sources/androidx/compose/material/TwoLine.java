@@ -85,21 +85,21 @@ final class TwoLine {
 
     public final void ListItem(Modifier modifier, Function2<? super Composer, ? super Integer, Unit> icon, Function2<? super Composer, ? super Integer, Unit> text, Function2<? super Composer, ? super Integer, Unit> secondaryText, Function2<? super Composer, ? super Integer, Unit> overlineText, Function2<? super Composer, ? super Integer, Unit> trailing, Composer $composer, int $changed, int i9) {
         float minHeightWithIcon;
-        boolean currentCompositionLocalMap2;
-        boolean traceInProgress;
+        boolean currentCompositionLocalMap;
+        boolean traceInProgress2;
         int $dirty;
         int rememberComposableLambda;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Integer valueOf;
-        boolean currentCompositionLocalMap;
+        boolean currentCompositionLocalMap2;
         int str;
         String $changed$iv;
         Object obj;
         Object materialized$iv$iv;
-        Modifier i23;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv;
+        Modifier i8;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
         Composer composer3;
-        int i26;
+        int i24;
         int anon;
         float primaryBaselineOffsetNoIcon2;
         float primaryBaselineOffsetNoIcon;
@@ -108,61 +108,61 @@ final class TwoLine {
         Object maybeCachedBoxMeasurePolicy;
         Object rowMeasurePolicy;
         int restartGroup;
-        Object factory$iv$iv$iv2;
+        Object factory$iv$iv$iv;
+        int i12;
+        int i21;
+        int i6;
+        int i;
+        int i27;
         int i22;
-        int i18;
-        int i24;
-        int i11;
-        int i8;
-        int i16;
-        Object obj2;
+        Object obj3;
         int i13;
         float horizontalArrangement$iv;
-        Object padding-qDBjuR0$default;
+        Object padding-qDBjuR0$default2;
         int f;
         int contentAlignment$iv;
-        int i17;
+        int i26;
         androidx.compose.foundation.layout.Arrangement.Horizontal horizontal;
         androidx.compose.ui.Alignment.Vertical vertical;
+        int i17;
         int i14;
         int i15;
         int i7;
-        int i12;
         int currentCompositeKeyHash;
-        int i25;
-        Modifier modifier4;
+        int i2;
+        Modifier modifier3;
         int function0;
-        int i5;
-        int i3;
-        Object obj3;
-        Composer composer5;
+        int i23;
+        int i20;
+        Object obj2;
+        Composer composer4;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
-        int i19;
+        int i10;
         RowScopeInstance rowScopeInstance;
         int companion;
         java.util.List listOf;
-        int padding-qDBjuR0$default2;
-        int i27;
+        int padding-qDBjuR0$default;
+        int i19;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i;
-        Composer composer;
-        int i10;
-        int i6;
-        Alignment alignment;
-        int i2;
+        int i25;
         Composer composer2;
-        Modifier modifier3;
+        int i18;
+        int i3;
+        Alignment alignment;
+        int i4;
+        Composer composer5;
+        Modifier modifier2;
         Object weight$default;
         int contentLeftPadding;
-        int i20;
+        int i11;
         kotlin.jvm.functions.Function0 contentRightPadding;
-        int i4;
-        BoxScopeInstance i21;
+        int i16;
+        BoxScopeInstance i5;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        Modifier modifier2;
-        Composer composer4;
+        Modifier modifier4;
+        Composer composer;
         androidx.compose.ui.Alignment.Vertical vertical2;
         int obj58;
         final Object obj5 = icon;
@@ -170,104 +170,104 @@ final class TwoLine {
         final Object obj7 = secondaryText;
         final Object obj8 = overlineText;
         final Object obj9 = trailing;
-        i23 = $changed;
-        traceInProgress = -1340612993;
-        restartGroup = $composer.startRestartGroup(traceInProgress);
+        i8 = $changed;
+        traceInProgress2 = -1340612993;
+        restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(ListItem)P(1!1,4,3)208@7880L2468:ListItem.kt#jmzs0o");
         $dirty = $changed;
         str = i9 & 1;
         anon = 2;
         if (str != null) {
             $dirty |= 6;
-            factory$iv$iv$iv2 = modifier;
+            factory$iv$iv$iv = modifier;
         } else {
-            if (i23 & 6 == 0) {
-                i22 = restartGroup.changed(modifier) ? 4 : anon;
-                $dirty |= i22;
+            if (i8 & 6 == 0) {
+                i12 = restartGroup.changed(modifier) ? 4 : anon;
+                $dirty |= i12;
             } else {
-                factory$iv$iv$iv2 = modifier;
+                factory$iv$iv$iv = modifier;
             }
         }
         if (i9 & 2 != 0) {
             $dirty |= 48;
         } else {
-            if (i23 & 48 == 0) {
-                i18 = restartGroup.changedInstance(obj5) ? 32 : 16;
-                $dirty |= i18;
+            if (i8 & 48 == 0) {
+                i21 = restartGroup.changedInstance(obj5) ? 32 : 16;
+                $dirty |= i21;
             }
         }
         if (i9 & 4 != 0) {
             $dirty |= 384;
         } else {
-            if (i23 & 384 == 0) {
-                i24 = restartGroup.changedInstance(obj6) ? 256 : 128;
-                $dirty |= i24;
+            if (i8 & 384 == 0) {
+                i6 = restartGroup.changedInstance(obj6) ? 256 : 128;
+                $dirty |= i6;
             }
         }
         if (i9 & 8 != 0) {
             $dirty |= 3072;
         } else {
-            if (i23 & 3072 == 0) {
-                i11 = restartGroup.changedInstance(obj7) ? 2048 : 1024;
-                $dirty |= i11;
+            if (i8 & 3072 == 0) {
+                i = restartGroup.changedInstance(obj7) ? 2048 : 1024;
+                $dirty |= i;
             }
         }
         if (i9 & 16 != 0) {
             $dirty |= 24576;
         } else {
-            if (i23 & 24576 == 0) {
-                i8 = restartGroup.changedInstance(obj8) ? 16384 : 8192;
-                $dirty |= i8;
+            if (i8 & 24576 == 0) {
+                i27 = restartGroup.changedInstance(obj8) ? 16384 : 8192;
+                $dirty |= i27;
             }
         }
         int i62 = 196608;
         if (i9 & 32 != 0) {
             $dirty |= i62;
         } else {
-            if (i23 & i62 == 0) {
-                i16 = restartGroup.changedInstance(obj9) ? 131072 : 65536;
-                $dirty |= i16;
+            if (i8 & i62 == 0) {
+                i22 = restartGroup.changedInstance(obj9) ? 131072 : 65536;
+                $dirty |= i22;
             }
         }
         i13 = 1572864;
         if (i9 & 64 != 0) {
             $dirty |= i13;
-            obj2 = this;
+            obj3 = this;
         } else {
-            if (i23 & i13 == 0) {
+            if (i8 & i13 == 0) {
                 i13 = restartGroup.changed(this) ? 1048576 : 524288;
                 $dirty |= i13;
             } else {
-                obj2 = this;
+                obj3 = this;
             }
         }
         int i63 = $dirty;
         if ($dirty2 &= i63 == 599186) {
             if (!restartGroup.getSkipping()) {
                 if (str != null) {
-                    factory$iv$iv$iv2 = rememberComposableLambda;
+                    factory$iv$iv$iv = rememberComposableLambda;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i63, -1, "androidx.compose.material.TwoLine.ListItem (ListItem.kt:206)");
+                    ComposerKt.traceEventStart(traceInProgress2, i63, -1, "androidx.compose.material.TwoLine.ListItem (ListItem.kt:206)");
                 }
                 minHeightWithIcon = obj5 == null ? TwoLine.MinHeight : TwoLine.MinHeightWithIcon;
-                Modifier heightIn-VpY3zN4$default = SizeKt.heightIn-VpY3zN4$default(factory$iv$iv$iv2, minHeightWithIcon, 0, anon, 0);
+                Modifier heightIn-VpY3zN4$default = SizeKt.heightIn-VpY3zN4$default(factory$iv$iv$iv, minHeightWithIcon, 0, anon, 0);
                 int i43 = 0;
-                i14 = 0;
+                i17 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
                 androidx.compose.foundation.layout.Arrangement.Horizontal start = Arrangement.INSTANCE.getStart();
-                padding-qDBjuR0$default = Alignment.Companion.getTop();
-                rowMeasurePolicy = RowKt.rowMeasurePolicy(start, padding-qDBjuR0$default, restartGroup, i66 | i70);
-                i7 = 0;
+                padding-qDBjuR0$default2 = Alignment.Companion.getTop();
+                rowMeasurePolicy = RowKt.rowMeasurePolicy(start, padding-qDBjuR0$default2, restartGroup, i66 | i70);
+                i15 = 0;
                 f = minHeightWithIcon;
                 $changed$iv = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, $changed$iv);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                currentCompositionLocalMap2 = restartGroup.getCurrentCompositionLocalMap();
+                currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(restartGroup, heightIn-VpY3zN4$default);
-                modifier4 = heightIn-VpY3zN4$default;
+                modifier3 = heightIn-VpY3zN4$default;
                 function0 = constructor;
-                i5 = 0;
+                i23 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -276,19 +276,19 @@ final class TwoLine {
                 if (restartGroup.getInserting()) {
                     restartGroup.createNode(function0);
                 } else {
-                    factory$iv$iv$iv2 = function0;
+                    factory$iv$iv$iv = function0;
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
                 int i71 = 0;
-                composer5 = restartGroup;
+                composer4 = restartGroup;
                 Updater.set-impl(constructor-impl, rowMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i17 = 0;
+                Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                i26 = 0;
                 Composer composer9 = constructor-impl;
                 int i77 = 0;
                 if (!composer9.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap2;
+                    localMap$iv$iv = currentCompositionLocalMap;
                     measurePolicy2 = rowMeasurePolicy;
                     if (!Intrinsics.areEqual(composer9.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer9.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
@@ -297,44 +297,44 @@ final class TwoLine {
                         composer3 = composer9;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap2;
+                    localMap$iv$iv = currentCompositionLocalMap;
                     measurePolicy2 = rowMeasurePolicy;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
-                Composer composer8 = composer5;
-                i26 = 0;
-                i19 = i30;
+                Composer composer8 = composer4;
+                i24 = 0;
+                i10 = i30;
                 ComposerKt.sourceInformationMarkerStart(composer8, -407918630, "C100@5047L9:Row.kt#2w3rfo");
                 i55 |= 6;
                 Composer composer7 = composer8;
-                i2 = 0;
-                modifier3 = materializeModifier2;
+                i4 = 0;
+                modifier2 = materializeModifier2;
                 ComposerKt.sourceInformationMarkerStart(composer7, -1767188485, "C:ListItem.kt#jmzs0o");
-                padding-qDBjuR0$default2 = PaddingKt.padding-qDBjuR0$default(RowScope.weight$default((RowScope)RowScopeInstance.INSTANCE, (Modifier)Modifier.Companion, 1065353216, false, 2, 0), TwoLine.ContentLeftPadding, 0, TwoLine.ContentRightPadding, 0, 10, 0);
+                padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default(RowScope.weight$default((RowScope)RowScopeInstance.INSTANCE, (Modifier)Modifier.Companion, 1065353216, false, 2, 0), TwoLine.ContentLeftPadding, 0, TwoLine.ContentRightPadding, 0, 10, 0);
                 if (obj5 != null) {
                     composer7.startReplaceGroup(-1767094742);
                     ComposerKt.sourceInformation(composer7, "213@8104L532");
                     int i73 = 0;
                     horizontalArrangement$iv = f;
                     f = 48;
-                    i17 = 0;
+                    i26 = 0;
                     horizontal = horizontal2;
                     vertical = vertical3;
                     ComposerKt.sourceInformationMarkerStart(composer7, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                     int i36 = 0;
                     Alignment alignment2 = alignment3;
-                    contentAlignment$iv = i26;
+                    contentAlignment$iv = i24;
                     maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(alignment2, i36);
-                    i27 = 0;
-                    i = i36;
+                    i19 = 0;
+                    i25 = i36;
                     ComposerKt.sourceInformationMarkerStart(composer7, -1323940314, $changed$iv);
-                    currentCompositionLocalMap = composer7.getCurrentCompositionLocalMap();
-                    i12 = currentCompositeKeyHash2;
+                    currentCompositionLocalMap2 = composer7.getCurrentCompositionLocalMap();
+                    i7 = currentCompositeKeyHash2;
                     Modifier materializeModifier = ComposedModifierKt.materializeModifier(composer7, PaddingKt.padding-qDBjuR0$default(SizeKt.sizeIn-qDBjuR0$default((Modifier)Modifier.Companion, Dp.constructor-impl(iconLeftPadding + iconMinPaddedWidth), f, 0, 0, 12, 0), TwoLine.IconLeftPadding, TwoLine.IconVerticalPadding, 0, TwoLine.IconVerticalPadding, 4, 0));
                     alignment = alignment2;
                     kotlin.jvm.functions.Function0 function02 = constructor2;
-                    i10 = 0;
-                    i20 = restartGroup;
+                    i18 = 0;
+                    i11 = restartGroup;
                     ComposerKt.sourceInformationMarkerStart(composer7, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                     if (!applier instanceof Applier) {
                         ComposablesKt.invalidApplier();
@@ -343,40 +343,40 @@ final class TwoLine {
                     if (composer7.getInserting()) {
                         composer7.createNode(function02);
                     } else {
-                        factory$iv$iv$iv = function02;
+                        factory$iv$iv$iv2 = function02;
                         composer7.useNode();
                     }
                     Composer constructor-impl2 = Updater.constructor-impl(composer7);
                     int i79 = 0;
-                    contentRightPadding = factory$iv$iv$iv;
+                    contentRightPadding = factory$iv$iv$iv2;
                     Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                    Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    Updater.set-impl(constructor-impl2, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                     int i82 = 0;
                     Composer composer10 = constructor-impl2;
                     int i86 = 0;
                     if (!composer10.getInserting()) {
-                        localMap$iv$iv2 = currentCompositionLocalMap;
+                        localMap$iv$iv2 = currentCompositionLocalMap2;
                         measurePolicy = maybeCachedBoxMeasurePolicy;
-                        if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(i12))) {
-                            composer10.updateRememberedValue(Integer.valueOf(i12));
-                            constructor-impl2.apply(Integer.valueOf(i12), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                        if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(i7))) {
+                            composer10.updateRememberedValue(Integer.valueOf(i7));
+                            constructor-impl2.apply(Integer.valueOf(i7), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
                             composer6 = composer10;
                         }
                     } else {
-                        localMap$iv$iv2 = currentCompositionLocalMap;
+                        localMap$iv$iv2 = currentCompositionLocalMap2;
                         measurePolicy = maybeCachedBoxMeasurePolicy;
                     }
                     Updater.set-impl(constructor-impl2, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                     materialized$iv$iv = composer7;
-                    i26 = 0;
+                    i24 = 0;
                     function0 = i39;
                     ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                     i58 |= 6;
                     weight$default = materialized$iv$iv;
-                    i4 = 0;
-                    i21 = iNSTANCE2;
-                    modifier2 = materializeModifier;
+                    i16 = 0;
+                    i5 = iNSTANCE2;
+                    modifier4 = materializeModifier;
                     ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, 1547774650, "C225@8628L6:ListItem.kt#jmzs0o");
                     obj5.invoke(materialized$iv$iv, Integer.valueOf(i40 &= 14));
                     ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv);
@@ -387,10 +387,10 @@ final class TwoLine {
                     ComposerKt.sourceInformationMarkerEnd(composer7);
                     composer7.endReplaceGroup();
                 } else {
-                    contentAlignment$iv = i26;
-                    i20 = restartGroup;
+                    contentAlignment$iv = i24;
+                    i11 = restartGroup;
                     horizontal = start;
-                    vertical = padding-qDBjuR0$default;
+                    vertical = padding-qDBjuR0$default2;
                     horizontalArrangement$iv = f;
                     composer7.startReplaceGroup(-1766552738);
                     composer7.endReplaceGroup();
@@ -403,9 +403,9 @@ final class TwoLine {
                     Dp[] arr = new Dp[2];
                     arr[i44] = Dp.box-impl(TwoLine.OverlineToPrimaryBaselineOffset);
                     TwoLine.ListItem.1.2 anon2 = new TwoLine.ListItem.1.2(obj8, obj6);
-                    ListItemKt.access$BaselinesOffsetColumn(CollectionsKt.listOf(arr), padding-qDBjuR0$default2, (Function2)ComposableLambdaKt.rememberComposableLambda(-1675021441, i44, anon2, composer7, i34), composer7, 390, 0);
+                    ListItemKt.access$BaselinesOffsetColumn(CollectionsKt.listOf(arr), padding-qDBjuR0$default, (Function2)ComposableLambdaKt.rememberComposableLambda(-1675021441, i44, anon2, composer7, i34), composer7, 390, 0);
                     composer7.endReplaceGroup();
-                    i23 = padding-qDBjuR0$default2;
+                    i8 = padding-qDBjuR0$default;
                 } else {
                     composer7.startReplaceGroup(-1766213598);
                     ComposerKt.sourceInformation(composer7, "251@9572L84,237@8988L668");
@@ -414,8 +414,8 @@ final class TwoLine {
                     primaryToSecondaryBaselineOffsetNoIcon = obj5 != null ? TwoLine.PrimaryToSecondaryBaselineOffsetWithIcon : TwoLine.PrimaryToSecondaryBaselineOffsetNoIcon;
                     arr2[i44] = Dp.box-impl(primaryToSecondaryBaselineOffsetNoIcon);
                     TwoLine.ListItem.1.3 anon3 = new TwoLine.ListItem.1.3(obj6, obj7);
-                    ListItemKt.access$BaselinesOffsetColumn(CollectionsKt.listOf(arr2), padding-qDBjuR0$default2, (Function2)ComposableLambdaKt.rememberComposableLambda(993836488, i44, anon3, composer7, i34), composer7, 384, 0);
-                    i23 = padding-qDBjuR0$default2;
+                    ListItemKt.access$BaselinesOffsetColumn(CollectionsKt.listOf(arr2), padding-qDBjuR0$default, (Function2)ComposableLambdaKt.rememberComposableLambda(993836488, i44, anon3, composer7, i34), composer7, 384, 0);
+                    i8 = padding-qDBjuR0$default;
                     composer7.endReplaceGroup();
                 }
                 if (obj9 != null) {
@@ -431,25 +431,25 @@ final class TwoLine {
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer7);
                 ComposerKt.sourceInformationMarkerEnd(composer8);
-                composer5.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer5);
-                ComposerKt.sourceInformationMarkerEnd(composer5);
-                ComposerKt.sourceInformationMarkerEnd(composer5);
+                composer4.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = obj3;
+                obj = obj2;
             } else {
                 restartGroup.skipToGroupEnd();
-                composer5 = restartGroup;
-                obj = factory$iv$iv$iv2;
+                composer4 = restartGroup;
+                obj = factory$iv$iv$iv;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer5.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer4.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TwoLine.ListItem.2(obj2, obj, obj5, obj6, obj7, obj8, obj9, $changed, i9);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new TwoLine.ListItem.2(obj3, obj, obj5, obj6, obj7, obj8, obj9, $changed, i9);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 }

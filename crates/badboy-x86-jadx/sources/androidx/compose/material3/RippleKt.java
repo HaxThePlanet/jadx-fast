@@ -107,18 +107,18 @@ public final class RippleKt {
     }
 
     public static final Indication rippleOrFallbackImplementation-9IZ8Weo(boolean bounded, float radius, long color, Composer $composer, int $changed, int i6) {
-        int i3;
+        int i2;
         float f;
         long l;
         Composer $composer2;
         int i;
-        int i2;
+        int i3;
         int obj8;
         float obj9;
         long obj10;
         final int i4 = -1315814667;
         ComposerKt.sourceInformationMarkerStart($changed, i4, "C(rippleOrFallbackImplementation)P(!1,2:c#ui.unit.Dp,1:c#ui.graphics.Color):Ripple.kt#uh7d8r");
-        i3 = obj14 & 1 != 0 ? obj8 : bounded;
+        i2 = obj14 & 1 != 0 ? obj8 : bounded;
         if (obj14 & 2 != 0) {
             f = obj9;
         } else {
@@ -139,10 +139,10 @@ public final class RippleKt {
         ComposerKt.sourceInformationMarkerStart($changed, 2023513938, "CC:CompositionLocal.kt#9igjgp");
         ComposerKt.sourceInformationMarkerEnd($changed);
         if ((Boolean)$changed.consume((CompositionLocal)RippleKt.LocalUseFallbackRippleImplementation).booleanValue()) {
-            obj8 = RippleKt.rememberRipple-9IZ8Weo(i3, f, l, obj4, $changed, obj8 | obj9);
+            obj8 = RippleKt.rememberRipple-9IZ8Weo(i2, f, l, obj4, $changed, obj8 | obj9);
         } else {
             $composer2 = $changed;
-            obj8 = RippleKt.ripple-H2RKhps(i3, f, l);
+            obj8 = RippleKt.ripple-H2RKhps(i2, f, l);
         }
         $composer2.endReplaceGroup();
         if (ComposerKt.isTraceInProgress()) {

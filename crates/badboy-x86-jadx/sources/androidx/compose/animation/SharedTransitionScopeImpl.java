@@ -113,23 +113,23 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
     private final androidx.compose.animation.SharedElementInternalState rememberSharedElementState(androidx.compose.animation.SharedElement sharedElement, androidx.compose.animation.BoundsAnimation boundsAnimation, androidx.compose.animation.SharedTransitionScope.PlaceHolderSize placeHolderSize, boolean renderOnlyWhenVisible, androidx.compose.animation.SharedTransitionScope.SharedContentState sharedContentState, androidx.compose.animation.SharedTransitionScope.OverlayClip clipInOverlayDuringTransition, float zIndexInOverlay, boolean renderInOverlayDuringTransition, Composer $composer, int $changed) {
         Object sharedElementInternalState;
         boolean traceInProgress;
-        Object str2;
-        String str;
+        Object str;
+        String str2;
         androidx.compose.animation.SharedTransitionScope.PlaceHolderSize placeHolderSize2;
-        boolean z2;
-        androidx.compose.animation.SharedTransitionScope.OverlayClip overlayClip;
         boolean z;
+        androidx.compose.animation.SharedTransitionScope.OverlayClip overlayClip;
+        boolean z2;
         androidx.compose.animation.SharedTransitionScope.SharedContentState sharedContentState2;
         float f;
-        int i;
         int i2;
+        int i;
         final Composer composer = $composer;
         int i3 = 2066772852;
         ComposerKt.sourceInformationMarkerStart(composer, i3, "C(rememberSharedElementState)P(6!1,2,4,5!1,7)*1032@54440L467:SharedTransitionScope.kt#xbi5r1");
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i3, $changed, -1, "androidx.compose.animation.SharedTransitionScopeImpl.rememberSharedElementState (SharedTransitionScope.kt:1032)");
         } else {
-            i = $changed;
+            i2 = $changed;
         }
         ComposerKt.sourceInformationMarkerStart(composer, -663265575, "CC(remember):SharedTransitionScope.kt#9igjgp");
         int i6 = 0;
@@ -138,7 +138,7 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
         final Object rememberedValue = composer2.rememberedValue();
         final int i8 = 0;
         if (rememberedValue == Composer.Companion.getEmpty()) {
-            i2 = 0;
+            i = 0;
             sharedElementInternalState = new SharedElementInternalState(sharedElement, boundsAnimation, placeHolderSize, renderOnlyWhenVisible, clipInOverlayDuringTransition, renderInOverlayDuringTransition, sharedContentState, zIndexInOverlay);
             composer2.updateRememberedValue(sharedElementInternalState);
         } else {
@@ -216,22 +216,22 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
     }
 
     private final androidx.compose.animation.SharedElement sharedElementsFor(Object key) {
-        Object sharedElement;
-        androidx.compose.animation.SharedElement sharedElement2;
+        Object sharedElement2;
+        androidx.compose.animation.SharedElement sharedElement;
         int i;
         MutableScatterMap sharedElements;
         if ((SharedElement)this.sharedElements.get(key) == null) {
-            sharedElement = new SharedElement(key, this);
+            sharedElement2 = new SharedElement(key, this);
             i = 0;
-            this.sharedElements.set(key, sharedElement);
+            this.sharedElements.set(key, sharedElement2);
         }
-        return sharedElement;
+        return sharedElement2;
     }
 
     private final void updateTransitionActiveness() {
-        int j$iv$iv2;
-        int isActive2;
         int j$iv$iv;
+        int isActive;
+        int j$iv$iv2;
         int sharedElements;
         int j$iv$iv$iv;
         boolean $i$f$isFull2;
@@ -239,20 +239,20 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
         int $i$f$isFull;
         MutableScatterMap map2;
         int keys;
-        Object[] values;
         Object[] values2;
+        Object[] values;
         MutableScatterMap map;
         int metadata2;
         long[] metadata;
         int i$iv$iv;
         int slot$iv$iv;
         int i$iv$iv$iv;
-        int i5;
+        int i;
         long value$iv$iv$iv$iv;
-        int isActive;
+        int isActive2;
         long $this$maskEmptyOrDeleted$iv$iv$iv;
-        Object this_$iv2;
-        MutableScatterMap this_$iv;
+        Object this_$iv;
+        MutableScatterMap this_$iv2;
         int slot$iv$iv2;
         int i3;
         int i4;
@@ -260,7 +260,7 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
         Object obj;
         int i2;
         boolean element;
-        int i;
+        int i5;
         final Object obj2 = this;
         sharedElements = obj2.sharedElements;
         map2 = sharedElements;
@@ -272,40 +272,40 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
         final int i33 = 0;
         final long l = -9187201950435737472L;
         final int i34 = 128;
-        i5 = 8;
+        i = 8;
         if (0 <= slot$iv$iv) {
         } else {
-            this_$iv = sharedElements;
+            this_$iv2 = sharedElements;
             slot$iv$iv2 = j$iv$iv$iv;
             i4 = 255;
-            j$iv$iv2 = i33;
+            j$iv$iv = i33;
         }
-        if (j$iv$iv2 != obj2.isTransitionActive()) {
-            obj2.setTransitionActive(j$iv$iv2);
-            if (j$iv$iv2 == 0) {
+        if (j$iv$iv != obj2.isTransitionActive()) {
+            obj2.setTransitionActive(j$iv$iv);
+            if (j$iv$iv == 0) {
                 $i$f$isFull2 = obj2.sharedElements;
                 map2 = 0;
                 map = 0;
-                metadata2 = values2.metadata;
+                metadata2 = values.metadata;
                 length2 += -2;
                 if (0 <= metadata) {
                 } else {
-                    isActive = j$iv$iv2;
+                    isActive2 = j$iv$iv;
                     $this$maskEmptyOrDeleted$iv$iv$iv = $i$f$isFull2;
                 }
             } else {
-                isActive = j$iv$iv2;
+                isActive2 = j$iv$iv;
             }
         } else {
-            isActive = j$iv$iv2;
+            isActive2 = j$iv$iv;
         }
-        isActive2 = obj2.sharedElements;
+        isActive = obj2.sharedElements;
         int i28 = 0;
         long[] metadata3 = map3.metadata;
         length += -2;
         if (0 <= i29) {
         } else {
-            this_$iv2 = isActive2;
+            this_$iv = isActive;
             slot$iv$iv2 = index$iv$iv;
         }
         SharedTransitionScopeKt.getSharedTransitionObserver().observeReads(obj2, obj2.updateTransitionActiveness, obj2.observeAnimatingBlock);
@@ -321,8 +321,8 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
     public final void drawInOverlay$animation_release(ContentDrawScope scope) {
         int size;
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         androidx.compose.ui.graphics.drawscope.DrawScope drawScope;
         SnapshotStateList renderers = this.renderers;
@@ -354,8 +354,8 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
             return nullableLookaheadRoot;
         }
         int i = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Error: Uninitialized LayoutCoordinates. Please make sure when using the SharedTransitionScope composable function, the modifier passed to the child content is being used, or use SharedTransitionLayout instead.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullSharedTransitionScopeImpl$lookaheadRoot$1 = new IllegalArgumentException("Error: Uninitialized LayoutCoordinates. Please make sure when using the SharedTransitionScope composable function, the modifier passed to the child content is being used, or use SharedTransitionLayout instead.".toString());
+        throw $i$a$RequireNotNullSharedTransitionScopeImpl$lookaheadRoot$1;
     }
 
     @Override // androidx.compose.animation.SharedTransitionScope
@@ -403,12 +403,12 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
     @Override // androidx.compose.animation.SharedTransitionScope
     public final void onStateAdded$animation_release(androidx.compose.animation.SharedElementInternalState sharedElementState) {
         SnapshotStateList renderers;
-        int i3;
+        int i;
         int index$iv;
         Object next;
         int i2;
         Object obj;
-        int i;
+        int i3;
         boolean equal;
         Object obj2;
         int sharedElement;
@@ -417,13 +417,13 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
         sharedElement2.addState(sharedElementState);
         this.updateTransitionActiveness.invoke(this);
         SharedTransitionScopeKt.getSharedTransitionObserver().observeReads(sharedElement2.getScope(), this.updateTransitionActiveness, this.observeAnimatingBlock);
-        i3 = 0;
+        i = 0;
         index$iv = 0;
         Iterator iterator = (List)this.renderers.iterator();
         i2 = -1;
         while (iterator.hasNext()) {
             obj = next;
-            i = 0;
+            i3 = 0;
             if (obj instanceof SharedElementInternalState) {
             } else {
             }
@@ -453,8 +453,8 @@ public final class SharedTransitionScopeImpl implements androidx.compose.animati
         Function1 updateTransitionActiveness;
         Function0 observeAnimatingBlock;
         androidx.compose.animation.SharedTransitionScopeImpl.onStateRemoved.1.1 anon;
-        int i2;
         int i;
+        int i2;
         final androidx.compose.animation.SharedElement sharedElement = sharedElementState.getSharedElement();
         final int i3 = 0;
         sharedElement.removeState(sharedElementState);

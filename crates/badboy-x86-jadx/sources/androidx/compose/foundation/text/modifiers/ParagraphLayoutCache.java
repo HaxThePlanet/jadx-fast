@@ -74,21 +74,21 @@ public final class ParagraphLayoutCache {
     }
 
     public ParagraphLayoutCache(String string, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, int i4, boolean z5, int i6, int i7, int i8, DefaultConstructorMarker defaultConstructorMarker9) {
-        int i3;
+        int i5;
         int i;
         int i2;
-        int i5;
+        int i3;
         int obj13;
         if (i8 & 8 != 0) {
-            i3 = obj13;
+            i5 = obj13;
         } else {
-            i3 = i4;
+            i5 = i4;
         }
         int i10 = 1;
         i = i8 & 16 != 0 ? i10 : z5;
         i2 = i8 & 32 != 0 ? obj13 : i6;
-        i5 = i8 & 64 != 0 ? i10 : i7;
-        super(string, textStyle2, resolver3, i3, i, i2, i5, 0);
+        i3 = i8 & 64 != 0 ? i10 : i7;
+        super(string, textStyle2, resolver3, i5, i, i2, i3, 0);
     }
 
     public ParagraphLayoutCache(String string, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, int i4, boolean z5, int i6, int i7, DefaultConstructorMarker defaultConstructorMarker8) {
@@ -152,11 +152,11 @@ public final class ParagraphLayoutCache {
         ParagraphIntrinsics paragraphIntrinsics;
         String text;
         TextStyle resolveDefaults;
+        int i2;
         int i3;
-        int i4;
         Density density;
         FontFamily.Resolver fontFamilyResolver;
-        int i2;
+        int i4;
         int i;
         final ParagraphIntrinsics paragraphIntrinsics2 = this.paragraphIntrinsics;
         if (paragraphIntrinsics2 != null && layoutDirection == this.intrinsicsLayoutDirection) {
@@ -227,10 +227,10 @@ public final class ParagraphLayoutCache {
         long prevConstraints;
         Density constrain-4WqzIAM;
         FontFamily.Resolver fontFamilyResolver;
-        int cmp;
         int cmp2;
-        float height;
+        int cmp;
         float height2;
+        float height;
         androidx.compose.foundation.text.modifiers.MinLinesConstrainer obj14;
         i2 = 1;
         if (this.minLines > i2) {
@@ -253,8 +253,8 @@ public final class ParagraphLayoutCache {
                 constrain-4WqzIAM = ConstraintsKt.constrain-4WqzIAM(coerceMinLines-Oh53vG4$foundation_release, mMinLinesConstrainer);
                 this.layoutSize = constrain-4WqzIAM;
                 if (!TextOverflow.equals-impl0(this.overflow, TextOverflow.Companion.getVisible-gIe3tQ8())) {
-                    if (Float.compare(f, height) >= 0) {
-                        if (Float.compare(f2, height) < 0) {
+                    if (Float.compare(f, height2) >= 0) {
+                        if (Float.compare(f2, height2) < 0) {
                         } else {
                             i2 = i;
                         }
@@ -275,8 +275,8 @@ public final class ParagraphLayoutCache {
         long constrain-4WqzIAM2 = ConstraintsKt.constrain-4WqzIAM(coerceMinLines-Oh53vG4$foundation_release, mMinLinesConstrainer);
         this.layoutSize = constrain-4WqzIAM2;
         if (!TextOverflow.equals-impl0(this.overflow, TextOverflow.Companion.getVisible-gIe3tQ8())) {
-            if (Float.compare(f3, height2) >= 0) {
-                if (Float.compare(f4, height2) < 0) {
+            if (Float.compare(f3, height) >= 0) {
+                if (Float.compare(f4, height) < 0) {
                     i = i2;
                 } else {
                 }

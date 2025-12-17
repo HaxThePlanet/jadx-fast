@@ -16,7 +16,7 @@ final class ScopedGraphicsContext implements GraphicsContext {
     @Override // androidx.compose.ui.graphics.GraphicsContext
     public GraphicsLayer createGraphicsLayer() {
         int i;
-        String mutableObjectListOf;
+        String $i$a$CheckPreconditionScopedGraphicsContext$createGraphicsLayer$1;
         int i2;
         final GraphicsContext graphicsContext = this.graphicsContext;
         i = graphicsContext != null ? 1 : 0;
@@ -53,20 +53,20 @@ final class ScopedGraphicsContext implements GraphicsContext {
     public final void releaseGraphicsLayers() {
         int i;
         MutableObjectList list;
-        int i2;
+        int i3;
         Object[] content;
         int i$iv;
         int _size;
         Object obj;
-        int i3;
+        int i2;
         final MutableObjectList allocatedGraphicsLayers = this.allocatedGraphicsLayers;
         if (allocatedGraphicsLayers != null) {
             i = 0;
             list = allocatedGraphicsLayers;
-            i2 = 0;
+            i3 = 0;
             i$iv = 0;
             while (i$iv < list._size) {
-                i3 = 0;
+                i2 = 0;
                 releaseGraphicsLayer((GraphicsLayer)list.content[i$iv]);
                 i$iv++;
             }

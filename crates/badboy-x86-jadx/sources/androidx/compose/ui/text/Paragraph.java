@@ -104,24 +104,24 @@ public interface Paragraph {
 
     public static void paint-hn5TExg$default(androidx.compose.ui.text.Paragraph paragraph, Canvas canvas2, Brush brush3, float f4, Shadow shadow5, TextDecoration textDecoration6, DrawStyle drawStyle7, int i8, int i9, Object object10) {
         int i2;
-        int i3;
         int i;
-        int i4;
         int i5;
+        int i3;
+        int i4;
         int obj11;
         if (object10 != null) {
         } else {
             i2 = i9 & 4 != 0 ? obj11 : f4;
             int i7 = 0;
-            i3 = i9 & 8 != 0 ? i7 : shadow5;
-            i = i9 & 16 != 0 ? i7 : textDecoration6;
-            i4 = i9 & 32 != 0 ? i7 : drawStyle7;
+            i = i9 & 8 != 0 ? i7 : shadow5;
+            i5 = i9 & 16 != 0 ? i7 : textDecoration6;
+            i3 = i9 & 32 != 0 ? i7 : drawStyle7;
             if (i9 & 64 != 0) {
-                i5 = obj11;
+                i4 = obj11;
             } else {
-                i5 = i8;
+                i4 = i8;
             }
-            paragraph.paint-hn5TExg(canvas2, brush3, i2, i3, i, i4, i5);
+            paragraph.paint-hn5TExg(canvas2, brush3, i2, i, i5, i3, i4);
         }
         UnsupportedOperationException obj8 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: paint-hn5TExg");
         throw obj8;

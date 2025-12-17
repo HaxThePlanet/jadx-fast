@@ -36,11 +36,11 @@ final class LocaleListCompatWrapper implements androidx.core.os.LocaleListInterf
         Object arrayList;
         HashSet hashSet;
         StringBuilder stringBuilder;
-        int i2;
+        int i;
         String string;
         int length;
         boolean contains;
-        int i;
+        int i2;
         super();
         if (list.length == 0) {
             this.mList = LocaleListCompatWrapper.sEmptyList;
@@ -49,17 +49,17 @@ final class LocaleListCompatWrapper implements androidx.core.os.LocaleListInterf
             arrayList = new ArrayList();
             hashSet = new HashSet();
             stringBuilder = new StringBuilder();
-            i2 = 0;
+            i = 0;
             for (Object length : list) {
                 contains = length.clone();
                 arrayList.add((Locale)contains);
                 LocaleListCompatWrapper.toLanguageTag(stringBuilder, contains);
-                if (!hashSet.contains(length) && i2 < length3--) {
+                if (!hashSet.contains(length) && i < length3--) {
                 }
                 contains = length.clone();
                 arrayList.add((Locale)contains);
                 LocaleListCompatWrapper.toLanguageTag(stringBuilder, contains);
-                if (i2 < length3--) {
+                if (i < length3--) {
                 }
                 hashSet.add(contains);
                 stringBuilder.append(',');
@@ -78,10 +78,10 @@ final class LocaleListCompatWrapper implements androidx.core.os.LocaleListInterf
 
     private int computeFirstMatchIndex(Collection<String> collection, boolean assumeEnglishIsSupported) {
         int bestIndex;
-        int firstMatchIndex;
+        int firstMatchIndex2;
         Object next;
         Locale forLanguageTagCompat;
-        int firstMatchIndex2;
+        int firstMatchIndex;
         final int i3 = 0;
         if (mList.length == 1) {
             return i3;
@@ -89,22 +89,22 @@ final class LocaleListCompatWrapper implements androidx.core.os.LocaleListInterf
         if (mList2.length == 0) {
             return -1;
         }
-        firstMatchIndex = findFirstMatchIndex(LocaleListCompatWrapper.EN_LATN);
-        if (assumeEnglishIsSupported && firstMatchIndex == 0) {
-            firstMatchIndex = findFirstMatchIndex(LocaleListCompatWrapper.EN_LATN);
-            if (firstMatchIndex == 0) {
+        firstMatchIndex2 = findFirstMatchIndex(LocaleListCompatWrapper.EN_LATN);
+        if (assumeEnglishIsSupported && firstMatchIndex2 == 0) {
+            firstMatchIndex2 = findFirstMatchIndex(LocaleListCompatWrapper.EN_LATN);
+            if (firstMatchIndex2 == 0) {
                 return i3;
             }
-            if (firstMatchIndex < Integer.MAX_VALUE) {
-                bestIndex = firstMatchIndex;
+            if (firstMatchIndex2 < Integer.MAX_VALUE) {
+                bestIndex = firstMatchIndex2;
             }
         }
         Iterator iterator = collection.iterator();
         for (String next : iterator) {
-            firstMatchIndex2 = findFirstMatchIndex(LocaleListCompat.forLanguageTagCompat(next));
-            if (firstMatchIndex2 < bestIndex) {
+            firstMatchIndex = findFirstMatchIndex(LocaleListCompat.forLanguageTagCompat(next));
+            if (firstMatchIndex < bestIndex) {
             }
-            bestIndex = firstMatchIndex2;
+            bestIndex = firstMatchIndex;
         }
         if (bestIndex == Integer.MAX_VALUE) {
             return i3;

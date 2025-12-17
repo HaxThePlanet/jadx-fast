@@ -147,49 +147,49 @@ public final class ChangeTracker implements TextFieldBuffer.ChangeList {
     }
 
     public ChangeTracker(androidx.compose.foundation.text.input.internal.ChangeTracker initialChanges) {
-        int _changes;
+        int _changes2;
         int i2;
         int size;
         int i$iv;
         androidx.compose.foundation.text.input.internal.ChangeTracker.Change[] content;
-        int i4;
-        int i;
-        MutableVector _changes2;
-        androidx.compose.foundation.text.input.internal.ChangeTracker.Change change;
         int i3;
+        int i4;
+        MutableVector _changes;
+        androidx.compose.foundation.text.input.internal.ChangeTracker.Change change;
+        int i;
         int preEnd;
         int originalStart;
         int originalEnd;
         super();
         int i5 = 0;
         int i7 = 0;
-        i4 = 0;
-        MutableVector mutableVector = new MutableVector(new ChangeTracker.Change[16], i4);
+        i3 = 0;
+        MutableVector mutableVector = new MutableVector(new ChangeTracker.Change[16], i3);
         this._changes = mutableVector;
-        _changes = 0;
+        _changes2 = 0;
         size = 0;
-        i$iv = new MutableVector(new ChangeTracker.Change[16], i4);
+        i$iv = new MutableVector(new ChangeTracker.Change[16], i3);
         this._changesTemp = i$iv;
-        _changes = initialChanges._changes;
+        _changes2 = initialChanges._changes;
         i2 = 0;
-        size = _changes.getSize();
-        if (initialChanges != null && _changes != null && size > 0) {
-            _changes = initialChanges._changes;
-            if (_changes != null) {
+        size = _changes2.getSize();
+        if (initialChanges != null && _changes2 != null && size > 0) {
+            _changes2 = initialChanges._changes;
+            if (_changes2 != null) {
                 i2 = 0;
-                size = _changes.getSize();
+                size = _changes2.getSize();
                 if (size > 0) {
                     i$iv = 0;
-                    i4 = _changes.getContent()[i$iv];
+                    i3 = _changes2.getContent()[i$iv];
+                    i4 = 0;
+                    change = new ChangeTracker.Change((ChangeTracker.Change)i3.getPreStart(), i3.getPreEnd(), i3.getOriginalStart(), i3.getOriginalEnd());
                     i = 0;
-                    change = new ChangeTracker.Change((ChangeTracker.Change)i4.getPreStart(), i4.getPreEnd(), i4.getOriginalStart(), i4.getOriginalEnd());
-                    i3 = 0;
                     this._changes.add(change);
                     while (i$iv++ >= size) {
-                        i4 = content[i$iv];
+                        i3 = content[i$iv];
+                        i4 = 0;
+                        change = new ChangeTracker.Change((ChangeTracker.Change)i3.getPreStart(), i3.getPreEnd(), i3.getOriginalStart(), i3.getOriginalEnd());
                         i = 0;
-                        change = new ChangeTracker.Change((ChangeTracker.Change)i4.getPreStart(), i4.getPreEnd(), i4.getOriginalStart(), i4.getOriginalEnd());
-                        i3 = 0;
                         this._changes.add(change);
                     }
                 }
@@ -205,21 +205,21 @@ public final class ChangeTracker implements TextFieldBuffer.ChangeList {
 
     private final void appendNewChange(androidx.compose.foundation.text.input.internal.ChangeTracker.Change mergedOverlappingChange, int preMin, int preMax, int postDelta) {
         int it;
+        int i2;
         int i;
-        int i3;
         int preEnd;
         int originalEnd;
         int originalEnd2;
         androidx.compose.foundation.text.input.internal.ChangeTracker.Change newChange;
-        int i2;
+        int i3;
         if (this._changesTemp.isEmpty()) {
             it = 0;
         } else {
             Object last = this._changesTemp.last();
-            i = 0;
+            i2 = 0;
             it = originalEnd - originalEnd2;
         }
-        i3 = 0;
+        i = 0;
         if (mergedOverlappingChange == null) {
             originalEnd = preMin - it;
             newChange = new ChangeTracker.Change(preMin, preMax + postDelta, originalEnd, i6 += originalEnd);

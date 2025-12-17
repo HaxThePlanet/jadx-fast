@@ -105,12 +105,12 @@ public final class BorderKt {
         long l;
         Stroke stroke;
         float f;
+        int i5;
         int i3;
-        int i4;
         int i6;
         int i;
-        int i5;
         int i2;
+        int i4;
         if (obj22 != null) {
             size-NH-jbRc = Offset.Companion.getZero-F1C5BW0();
         } else {

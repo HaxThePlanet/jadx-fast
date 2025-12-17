@@ -31,8 +31,8 @@ public final class SelectionManagerKt {
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal2;
             int ordinal3;
+            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[Handle.SelectionStart.ordinal()] = 1;
             iArr[Handle.SelectionEnd.ordinal()] = 2;
@@ -89,32 +89,32 @@ public final class SelectionManagerKt {
     }
 
     public static final boolean containsInclusive-Uv8p0NA(Rect $this$containsInclusive_u2dUv8p0NA, long offset) {
-        int cmp;
-        int i;
         int cmp2;
+        int i2;
+        int cmp;
         float bottom;
         float x-impl;
-        int i2;
+        int i;
         x-impl = Offset.getX-impl(offset);
-        i2 = 1;
+        i = 1;
         final int i3 = 0;
         if (Float.compare(left, x-impl) <= 0 && Float.compare(x-impl, bottom) <= 0) {
-            i = Float.compare(x-impl, bottom) <= 0 ? i2 : i3;
+            i2 = Float.compare(x-impl, bottom) <= 0 ? i : i3;
         } else {
         }
-        if (i != 0) {
+        if (i2 != 0) {
             x-impl = Offset.getY-impl(offset);
             if (Float.compare(top, x-impl) <= 0 && Float.compare(x-impl, bottom) <= 0) {
-                i = Float.compare(x-impl, bottom) <= 0 ? i2 : i3;
+                i2 = Float.compare(x-impl, bottom) <= 0 ? i : i3;
             } else {
             }
-            if (i != 0) {
+            if (i2 != 0) {
             } else {
-                i2 = i3;
+                i = i3;
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     private static final <T> List<T> firstAndLast(List<? extends T> $this$firstAndLast) {
@@ -134,9 +134,9 @@ public final class SelectionManagerKt {
         float lineRight;
         int i3;
         float f2;
-        int i;
-        float f;
         int i2;
+        float f;
+        int i;
         float coerceIn;
         Object obj = manager;
         final androidx.compose.foundation.text.selection.Selection.AnchorInfo anchorInfo = obj21;
@@ -169,8 +169,8 @@ public final class SelectionManagerKt {
             lineStartX = coerceIn;
         }
         i3 = -1082130432;
-        i = Float.compare(lineStartX, i3) == 0 ? i4 : i2;
-        if (i != 0) {
+        i2 = Float.compare(lineStartX, i3) == 0 ? i4 : i;
+        if (i2 != 0) {
             return Offset.Companion.getUnspecified-F1C5BW0();
         }
         IntSize.Companion companion8 = IntSize.Companion;
@@ -182,16 +182,16 @@ public final class SelectionManagerKt {
         }
         float centerYForOffset = anchorSelectable$foundation_release.getCenterYForOffset(offset);
         if (Float.compare(centerYForOffset, i8) == 0) {
-            i2 = 1;
+            i = 1;
         }
-        if (i2 != 0) {
+        if (i != 0) {
             return Offset.Companion.getUnspecified-F1C5BW0();
         }
         return containerLayoutCoordinates.localPositionOf-R5De75A(layoutCoordinates, OffsetKt.Offset(lineStartX, centerYForOffset));
     }
 
     public static final Rect getSelectedRegionRect(List<? extends Pair<? extends androidx.compose.foundation.text.selection.Selectable, androidx.compose.foundation.text.selection.Selection>> selectableSubSelectionPairs, LayoutCoordinates containerCoordinates) {
-        float f;
+        float f3;
         float containerBottom;
         float containerLeft;
         float containerTop;
@@ -199,32 +199,32 @@ public final class SelectionManagerKt {
         long containerBottom2;
         int minOffset;
         int offsets;
-        int[] iArr;
+        int[] iArr2;
         int bottom;
         int size;
-        float left2;
+        float left;
         Object item$iv;
         Object subSelection;
-        int i4;
+        int i2;
         Object component1;
-        int offset;
         int offset2;
+        int offset;
         LayoutCoordinates layoutCoordinates;
         long $this$fastForEach$iv;
-        int i5;
+        int i4;
         int i;
-        int[] iArr2;
-        int i2;
-        int left;
+        int[] iArr;
+        int i3;
+        int left2;
         Object top;
         Object right;
-        int i3;
-        float f2;
+        int i5;
+        float f;
         float boundingBox;
         long localPositionOf-R5De75A;
         long localPositionOf-R5De75A2;
-        float f3;
-        f = containerCoordinates;
+        float f2;
+        f3 = containerCoordinates;
         if (selectableSubSelectionPairs.isEmpty()) {
             return SelectionManagerKt.invertedInfiniteRect;
         }
@@ -243,86 +243,86 @@ public final class SelectionManagerKt {
         while (bottom < size) {
             item$iv = containerBottom2.get(bottom);
             Object obj = item$iv;
-            i4 = 0;
+            i2 = 0;
             component1 = (Pair)obj.component1();
             subSelection = obj.component2();
-            offset = (Selection)subSelection.getStart().getOffset();
-            offset2 = subSelection.getEnd().getOffset();
-            if (offset != offset2) {
+            offset2 = (Selection)subSelection.getStart().getOffset();
+            offset = subSelection.getEnd().getOffset();
+            if (offset2 != offset) {
             } else {
             }
             $this$fastForEach$iv = containerBottom2;
             i = offsets;
-            i2 = bottom;
-            left = size;
+            i3 = bottom;
+            left2 = size;
             top = item$iv;
             right = subSelection;
-            bottom = i2 + 1;
-            f = containerCoordinates;
+            bottom = i3 + 1;
+            f3 = containerCoordinates;
             containerBottom2 = $this$fastForEach$iv;
             offsets = i;
-            size = left;
+            size = left2;
             layoutCoordinates = (Selectable)component1.getLayoutCoordinates();
             if (layoutCoordinates == null) {
             } else {
             }
             $this$fastForEach$iv = containerBottom2;
-            int i10 = Math.min(offset, offset2);
-            i5 = Math.max(offset, offset2);
+            int i10 = Math.min(offset2, offset);
+            i4 = Math.max(offset2, offset);
             i = offsets;
             int i13 = 0;
-            i2 = bottom;
+            i3 = bottom;
             int index$iv = 1;
-            if (i10 == i5 + -1) {
+            if (i10 == i4 + -1) {
             } else {
             }
-            iArr = new int[2];
-            iArr[i13] = i10;
-            iArr[index$iv] = i5 + -1;
+            iArr2 = new int[2];
+            iArr2[i13] = i10;
+            iArr2[index$iv] = i4 + -1;
             Rect invertedInfiniteRect3 = SelectionManagerKt.invertedInfiniteRect;
             bottom = invertedInfiniteRect3.component4();
-            i3 = i10;
-            minOffset = iArr.length;
+            i5 = i10;
+            minOffset = iArr2.length;
             offsets = i14;
-            left = size;
-            left2 = f6;
+            left2 = size;
+            left = f6;
             top = item$iv;
             item$iv = f7;
             right = subSelection;
-            subSelection = f3;
+            subSelection = f2;
             while (offsets < minOffset) {
-                int i11 = iArr[offsets];
+                int i11 = iArr2[offsets];
                 boundingBox = component1.getBoundingBox(i11);
                 localPositionOf-R5De75A = i11;
-                left2 = Math.min(left2, boundingBox.getLeft());
+                left = Math.min(left, boundingBox.getLeft());
                 item$iv = Math.min(item$iv, boundingBox.getTop());
                 subSelection = Math.max(subSelection, boundingBox.getRight());
                 bottom = Math.max(bottom, boundingBox.getBottom());
                 offsets++;
-                minOffset = f2;
+                minOffset = f;
             }
-            f2 = left2;
+            f = left;
             boundingBox = item$iv;
-            localPositionOf-R5De75A = f.localPositionOf-R5De75A(layoutCoordinates, OffsetKt.Offset(left2, item$iv));
-            localPositionOf-R5De75A2 = f.localPositionOf-R5De75A(layoutCoordinates, OffsetKt.Offset(subSelection, bottom));
+            localPositionOf-R5De75A = f3.localPositionOf-R5De75A(layoutCoordinates, OffsetKt.Offset(left, item$iv));
+            localPositionOf-R5De75A2 = f3.localPositionOf-R5De75A(layoutCoordinates, OffsetKt.Offset(subSelection, bottom));
             containerBottom = Math.max(containerBottom, Offset.getY-impl(localPositionOf-R5De75A2));
             containerRight = f5;
             containerTop = f4;
-            containerLeft = f;
-            i11 = iArr2[offsets];
+            containerLeft = f3;
+            i11 = iArr[offsets];
             boundingBox = component1.getBoundingBox(i11);
             localPositionOf-R5De75A = i11;
-            left2 = Math.min(left2, boundingBox.getLeft());
+            left = Math.min(left, boundingBox.getLeft());
             item$iv = Math.min(item$iv, boundingBox.getTop());
             subSelection = Math.max(subSelection, boundingBox.getRight());
             bottom = Math.max(bottom, boundingBox.getBottom());
             offsets++;
-            minOffset = f2;
+            minOffset = f;
             new int[index$iv][i13] = i10;
             $this$fastForEach$iv = containerBottom2;
             i = offsets;
-            i2 = bottom;
-            left = size;
+            i3 = bottom;
+            left2 = size;
             top = item$iv;
         }
         Rect rect = new Rect(containerLeft, containerTop, containerRight, containerBottom);

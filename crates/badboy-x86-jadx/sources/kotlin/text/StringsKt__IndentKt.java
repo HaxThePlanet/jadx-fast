@@ -66,23 +66,23 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
     }
 
     private static final String reindent$StringsKt__IndentKt(List<String> $this$reindent, int resultSizeEstimate, Function1<? super String, String> indentAddFunction, Function1<? super String, String> indentCutFunction) {
-        int i2;
-        Object $i$f$reindent2;
-        int lastIndex3;
-        Object lastIndex2;
+        int i;
+        Object $i$f$reindent;
+        int lastIndex2;
+        Object lastIndex;
         int index$iv$iv;
         Object next;
-        int i4;
+        int i3;
         Object apiVersionIsAtLeast;
         int i5;
         Object value;
-        int i;
+        int i2;
         int blank;
-        int i3;
-        int $i$f$reindent;
-        int lastIndex;
-        i2 = 0;
-        lastIndex3 = CollectionsKt.getLastIndex($this$reindent);
+        int i4;
+        int $i$f$reindent2;
+        int lastIndex3;
+        i = 0;
+        lastIndex2 = CollectionsKt.getLastIndex($this$reindent);
         int i7 = 0;
         ArrayList arrayList = new ArrayList();
         int i8 = 0;
@@ -93,45 +93,45 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
             i5 = 0;
             value = apiVersionIsAtLeast;
             blank = index$iv$iv;
-            i3 = 0;
+            i4 = 0;
             if (blank != 0) {
             } else {
             }
-            $i$f$reindent = i2;
-            $i$f$reindent2 = blank;
+            $i$f$reindent2 = i;
+            $i$f$reindent = blank;
             if (StringsKt.isBlank((CharSequence)(String)value)) {
             } else {
             }
-            i = $i$f$reindent2;
-            $i$f$reindent2 = invoke;
-            if ((String)$i$f$reindent2 != null) {
+            i2 = $i$f$reindent;
+            $i$f$reindent = invoke;
+            if ((String)$i$f$reindent != null) {
             } else {
             }
-            lastIndex = lastIndex3;
-            lastIndex2 = indentAddFunction;
+            lastIndex3 = lastIndex2;
+            lastIndex = indentAddFunction;
             if (value != null) {
             }
-            index$iv$iv = i4;
-            i2 = $i$f$reindent;
-            lastIndex3 = lastIndex;
-            $i$f$reindent2 = 0;
+            index$iv$iv = i3;
+            i = $i$f$reindent2;
+            lastIndex2 = lastIndex3;
+            $i$f$reindent = 0;
             (Collection)arrayList.add(value);
-            lastIndex = lastIndex3;
-            $i$f$reindent2 = indentAddFunction.invoke((String)$i$f$reindent2);
-            if ((String)$i$f$reindent2 == null) {
+            lastIndex3 = lastIndex2;
+            $i$f$reindent = indentAddFunction.invoke((String)$i$f$reindent);
+            if ((String)$i$f$reindent == null) {
             } else {
             }
-            value = $i$f$reindent2;
-            lastIndex = lastIndex3;
-            value = i;
-            lastIndex2 = indentAddFunction;
-            $i$f$reindent = i2;
-            if (blank == lastIndex3) {
+            value = $i$f$reindent;
+            lastIndex3 = lastIndex2;
+            value = i2;
+            lastIndex = indentAddFunction;
+            $i$f$reindent2 = i;
+            if (blank == lastIndex2) {
             } else {
             }
             CollectionsKt.throwIndexOverflow();
         }
-        int $i$f$reindent3 = i2;
+        int $i$f$reindent3 = i;
         StringBuilder stringBuilder = new StringBuilder(resultSizeEstimate);
         String string = (StringBuilder)CollectionsKt.joinTo$default((Iterable)(List)arrayList, (Appendable)stringBuilder, (CharSequence)"\n", 0, 0, 0, 0, 0, 124, 0).toString();
         Intrinsics.checkNotNullExpressionValue(string, "toString(...)");
@@ -143,20 +143,20 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
         int index$iv;
         int intValue;
         Object next2;
-        boolean next3;
+        boolean next;
         Object valueOf;
-        int i2;
+        int i7;
         boolean blank2;
         int i;
-        Object next;
-        int i7;
-        Object obj;
-        int i4;
-        Object value$iv;
-        Object obj2;
-        int blank;
-        int i3;
+        Object next3;
         int i5;
+        Object obj2;
+        int i3;
+        Object value$iv;
+        Object obj;
+        int blank;
+        int i4;
+        int i2;
         int i6;
         it$iv$iv$iv = $this$replaceIndent;
         Intrinsics.checkNotNullParameter(it$iv$iv$iv, "<this>");
@@ -169,7 +169,7 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
         Iterator iterator = (Iterable)lines.iterator();
         while (iterator.hasNext()) {
             next2 = iterator.next();
-            i2 = 0;
+            i7 = 0;
             if (!StringsKt.isBlank((CharSequence)(String)next2)) {
             }
             (Collection)arrayList2.add(next2);
@@ -178,9 +178,9 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
         ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)(List)arrayList2, 10));
         int i14 = 0;
         Iterator iterator2 = arrayList2.iterator();
-        for (Object next3 : iterator2) {
-            i2 = 0;
-            (Collection)arrayList.add(Integer.valueOf(StringsKt__IndentKt.indentWidth$StringsKt__IndentKt((String)next3)));
+        for (Object next : iterator2) {
+            i7 = 0;
+            (Collection)arrayList.add(Integer.valueOf(StringsKt__IndentKt.indentWidth$StringsKt__IndentKt((String)next)));
         }
         Comparable minOrNull = CollectionsKt.minOrNull((Iterable)(List)arrayList);
         if ((Integer)minOrNull != null) {
@@ -199,10 +199,10 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
         while (iterator3.hasNext()) {
             if (i < 0) {
             }
-            i4 = 0;
-            value$iv = obj;
-            blank = i;
             i3 = 0;
+            value$iv = obj2;
+            blank = i;
+            i4 = 0;
             if (blank != 0) {
             } else {
             }
@@ -210,7 +210,7 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
             if (StringsKt.isBlank((CharSequence)(String)value$iv)) {
             } else {
             }
-            i5 = 0;
+            i2 = 0;
             i6 = index$iv;
             index$iv = StringsKt.drop(value$iv, intValue);
             if (index$iv != null) {
@@ -218,7 +218,7 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
             if (value$iv != null) {
             }
             it$iv$iv$iv = $this$replaceIndent;
-            i = i7;
+            i = i5;
             value$iv = 0;
             (Collection)arrayList3.add(value$iv);
             index$iv = StringsKt__IndentKt.getIndentFunction$StringsKt__IndentKt(obj4).invoke(index$iv);
@@ -226,7 +226,7 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
             } else {
             }
             value$iv = index$iv;
-            value$iv = obj2;
+            value$iv = obj;
             if (blank == CollectionsKt.getLastIndex(list5)) {
             } else {
             }
@@ -251,32 +251,32 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
         ArrayList list;
         ArrayList firstNonWhitespaceIndex;
         int line;
-        Object substring;
+        Object $i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv;
         int index$iv;
         int startsWith$default;
-        int i6;
-        int i5;
-        Object next;
-        int i7;
-        Object obj;
-        int i;
-        int i3;
-        Object value$iv;
-        int i8;
-        int i9;
-        int i10;
         int i4;
+        int i8;
+        Object next;
+        int i3;
+        Object obj;
+        int i5;
+        int i9;
+        Object value$iv;
+        int i6;
+        int i2;
+        int i7;
+        int i;
         int charAt;
         Object obj2;
-        int i2;
+        int i10;
         boolean whitespace;
         destination$iv$iv$iv = $this$replaceIndentByMargin;
-        substring = marginPrefix;
+        $i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv = marginPrefix;
         Intrinsics.checkNotNullParameter(destination$iv$iv$iv, "<this>");
         final Object obj7 = newIndent;
         Intrinsics.checkNotNullParameter(obj7, "newIndent");
-        Intrinsics.checkNotNullParameter(substring, "marginPrefix");
-        if (StringsKt.isBlank((CharSequence)substring)) {
+        Intrinsics.checkNotNullParameter($i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv, "marginPrefix");
+        if (StringsKt.isBlank((CharSequence)$i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv)) {
         } else {
             final List lines = StringsKt.lines((CharSequence)destination$iv$iv$iv);
             final List list2 = lines;
@@ -290,11 +290,11 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
             while (iterator.hasNext()) {
                 if (index$iv < 0) {
                 }
-                i = index$iv;
-                i3 = 0;
-                value$iv = obj;
-                i8 = 0;
+                i5 = index$iv;
                 i9 = 0;
+                value$iv = obj;
+                i6 = 0;
+                i2 = 0;
                 if (index$iv != 0) {
                 } else {
                 }
@@ -303,16 +303,16 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
                 }
                 startsWith$default = firstNonWhitespaceIndex;
                 Object destination$iv$iv$iv3 = value$iv;
-                i10 = 0;
-                i6 = destination$iv$iv$iv3;
-                i5 = 0;
+                i7 = 0;
+                i4 = destination$iv$iv$iv3;
+                i8 = 0;
                 obj2 = destination$iv$iv$iv3;
                 line = charAt;
                 int i12 = -1;
-                while (line < (CharSequence)i6.length()) {
-                    i2 = 0;
+                while (line < (CharSequence)i4.length()) {
+                    i10 = 0;
                     line++;
-                    substring = marginPrefix;
+                    $i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv = marginPrefix;
                     i12 = -1;
                 }
                 line = i12;
@@ -320,43 +320,43 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
                 } else {
                 }
                 list = startsWith$default;
-                i4 = index$iv;
+                i = index$iv;
                 index$iv = line;
                 firstNonWhitespaceIndex = obj2;
                 if (StringsKt.startsWith$default(firstNonWhitespaceIndex, marginPrefix, index$iv, false, 4, 0)) {
                 } else {
                 }
-                substring = i9;
-                if (substring != null) {
+                $i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv = i2;
+                if ($i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv != null) {
                 }
                 if (value$iv != null) {
                 }
-                substring = marginPrefix;
+                $i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv = marginPrefix;
                 firstNonWhitespaceIndex = list;
-                index$iv = i7;
+                index$iv = i3;
                 destination$iv$iv$iv = $this$replaceIndentByMargin;
-                substring = 0;
+                $i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv = 0;
                 list.add(value$iv);
-                firstNonWhitespaceIndex = StringsKt__IndentKt.getIndentFunction$StringsKt__IndentKt(obj7).invoke(substring);
+                firstNonWhitespaceIndex = StringsKt__IndentKt.getIndentFunction$StringsKt__IndentKt(obj7).invoke($i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv);
                 if ((String)firstNonWhitespaceIndex == null) {
                 } else {
                 }
                 value$iv = firstNonWhitespaceIndex;
                 Intrinsics.checkNotNull(firstNonWhitespaceIndex, "null cannot be cast to non-null type java.lang.String");
                 Intrinsics.checkNotNullExpressionValue(firstNonWhitespaceIndex.substring(length3 += index$iv), "substring(...)");
-                i4 = index$iv;
+                i = index$iv;
                 list = startsWith$default;
-                substring = i9;
+                $i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv = i2;
                 index$iv = line;
                 firstNonWhitespaceIndex = obj2;
-                i2 = 0;
-                if (!CharsKt.isWhitespace(i6.charAt(line))) {
+                i10 = 0;
+                if (!CharsKt.isWhitespace(i4.charAt(line))) {
                 } else {
                 }
                 line++;
-                substring = marginPrefix;
+                $i$a$LetCollectionsKt___CollectionsKt$mapIndexedNotNullTo$1$1$iv$iv$iv = marginPrefix;
                 list = firstNonWhitespaceIndex;
-                value$iv = i9;
+                value$iv = i2;
                 if (index$iv == CollectionsKt.getLastIndex(list2) && StringsKt.isBlank((CharSequence)value$iv)) {
                 } else {
                 }
@@ -368,8 +368,8 @@ class StringsKt__IndentKt extends kotlin.text.StringsKt__AppendableKt {
             return string;
         }
         int i11 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("marginPrefix must be non-blank string.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireStringsKt__IndentKt$replaceIndentByMargin$1 = new IllegalArgumentException("marginPrefix must be non-blank string.".toString());
+        throw $i$a$RequireStringsKt__IndentKt$replaceIndentByMargin$1;
     }
 
     public static String replaceIndentByMargin$default(String string, String string2, String string3, int i4, Object object5) {

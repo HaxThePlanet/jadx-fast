@@ -87,25 +87,25 @@ public final class Triple<A, B, C>  implements Serializable {
 
     @Override // java.io.Serializable
     public int hashCode() {
+        int i2;
         int i3;
         int i;
-        int i2;
-        i = 0;
+        i3 = 0;
         if (this.first == null) {
-            i3 = i;
+            i2 = i3;
         } else {
-            i3 = this.first.hashCode();
+            i2 = this.first.hashCode();
         }
         if (this.second == null) {
-            i2 = i;
+            i = i3;
         } else {
-            i2 = this.second.hashCode();
+            i = this.second.hashCode();
         }
         if (this.third == null) {
         } else {
-            i = this.third.hashCode();
+            i3 = this.third.hashCode();
         }
-        return i4 += i;
+        return i4 += i3;
     }
 
     @Override // java.io.Serializable

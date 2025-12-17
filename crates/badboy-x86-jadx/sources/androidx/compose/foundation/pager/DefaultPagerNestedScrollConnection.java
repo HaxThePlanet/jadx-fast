@@ -40,9 +40,9 @@ final class DefaultPagerNestedScrollConnection implements NestedScrollConnection
         long l2;
         long l;
         int i4;
-        int i3;
         int i;
         int i2;
+        int i3;
         long obj8;
         if (obj10 == Orientation.Vertical) {
             l2 = $this$consumeOnOrientation_u2dQWom1Mo;
@@ -87,14 +87,14 @@ final class DefaultPagerNestedScrollConnection implements NestedScrollConnection
     public long onPreScroll-OzD1aCk(long available, int source) {
         boolean cmp;
         long currentPageOffset;
-        int i2;
+        int i;
         long l;
         int minBound;
         int maxBound;
-        float x-impl;
+        float x-impl2;
         float coerceIn;
-        int i;
-        int x-impl2;
+        int i2;
+        int x-impl;
         int y-impl;
         Orientation vertical;
         if (NestedScrollSource.equals-impl0(obj14, NestedScrollSource.Companion.getUserInput-WNlRxjI()) && Double.compare(d, l) > 0) {
@@ -105,22 +105,22 @@ final class DefaultPagerNestedScrollConnection implements NestedScrollConnection
                 int i7 = 0;
                 maxBound = Float.compare(currentPageOffsetFraction4, i8) > 0 ? i3 : l;
                 if (this.orientation == Orientation.Horizontal) {
-                    x-impl = Offset.getX-impl(available);
-                } else {
-                    x-impl = Offset.getY-impl(available);
-                }
-                i = -dispatchRawDelta;
-                if (this.orientation == Orientation.Horizontal) {
-                    x-impl2 = i;
-                } else {
                     x-impl2 = Offset.getX-impl(available);
+                } else {
+                    x-impl2 = Offset.getY-impl(available);
+                }
+                i2 = -dispatchRawDelta;
+                if (this.orientation == Orientation.Horizontal) {
+                    x-impl = i2;
+                } else {
+                    x-impl = Offset.getX-impl(available);
                 }
                 if (this.orientation == Orientation.Vertical) {
-                    y-impl = i;
+                    y-impl = i2;
                 } else {
                     y-impl = Offset.getY-impl(available);
                 }
-                currentPageOffset = Offset.copy-dBAh8RU(available, source, x-impl2);
+                currentPageOffset = Offset.copy-dBAh8RU(available, source, x-impl);
             } else {
                 currentPageOffset = Offset.Companion.getZero-F1C5BW0();
             }

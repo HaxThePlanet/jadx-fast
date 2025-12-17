@@ -24,8 +24,8 @@ public final class MutableIntSet extends androidx.collection.IntSet {
             initializeStorage(ScatterMapKt.unloadedCapacity(initialCapacity));
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive value.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMutableIntSet$1 = new IllegalArgumentException("Capacity must be a positive value.".toString());
+        throw $i$a$RequireMutableIntSet$1;
     }
 
     public MutableIntSet(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -51,30 +51,30 @@ public final class MutableIntSet extends androidx.collection.IntSet {
 
     private final int findAbsoluteInsertIndex(int element) {
         Object obj;
-        int m2;
         int m;
+        int m2;
         int index;
-        int i4;
+        int i13;
         int metadata$iv;
         int probeIndex;
         int $this$maskEmpty$iv;
-        int i11;
-        int $this$hasNext$iv;
-        int i12;
-        int i6;
-        int i14;
         int i7;
+        int $this$hasNext$iv;
+        int i14;
+        int i4;
+        int i5;
+        int i8;
         int $this$next$iv;
         int cmp;
         long l;
-        int i;
-        int i3;
-        int i2;
-        int i8;
         int i9;
         int i10;
-        int i13;
-        int i5;
+        int i6;
+        int i2;
+        int i11;
+        int i;
+        int i12;
+        int i3;
         int hash;
         int i20 = 0;
         i21 *= i24;
@@ -83,93 +83,93 @@ public final class MutableIntSet extends androidx.collection.IntSet {
         int $i$f$h1 = $i$f$hash >>> 7;
         int i26 = 0;
         int $i$f$h2 = $i$f$hash & 127;
-        i4 = $i$f$h1 & m2;
+        i13 = $i$f$h1 & m;
         probeIndex = 0;
         while (/* condition */) {
             int i47 = 0;
             int i52 = 0;
-            i10 = 0;
-            i13 = 1;
+            i = 0;
+            i12 = 1;
             while (Long.compare(i34, i52) != 0) {
-                $this$hasNext$iv = i13;
+                $this$hasNext$iv = i12;
                 int i48 = 0;
-                i3 = 0;
-                $this$get$iv &= i2;
-                int i54 = m;
-                i12 = 0;
-                m = $this$next$iv;
+                i10 = 0;
+                $this$get$iv &= i6;
+                int i54 = m2;
+                i14 = 0;
+                m2 = $this$next$iv;
                 i47 = 0;
                 i52 = 0;
-                i10 = 0;
-                i13 = 1;
-                $this$hasNext$iv = i10;
+                i = 0;
+                i12 = 1;
+                $this$hasNext$iv = i;
             }
-            $this$hasNext$iv = i10;
-            i6 = element;
-            int i36 = i9;
-            i3 = 0;
+            $this$hasNext$iv = i;
+            i4 = element;
+            int i36 = i11;
+            i10 = 0;
             hash = $i$f$hash;
-            i4 = i19 & i2;
+            i13 = i19 & i6;
             obj = this;
-            m2 = i2;
+            m = i6;
             long[] metadata2 = obj.metadata;
-            i12 = 0;
-            int i46 = i4 >> 3;
+            i14 = 0;
+            int i46 = i13 >> 3;
             i49 <<= 3;
             l4 >>>= i50;
-            i2 = m2;
-            i8 = i4;
+            i6 = m;
+            i2 = i13;
             i29 |= cmp;
-            i14 = 0;
+            i5 = 0;
             long l5 = 72340172838076673L;
-            i51 ^= i11;
+            i51 ^= i7;
             l = -9187201950435737472L;
             i31 &= l;
             i48 = 0;
-            i3 = 0;
-            $this$get$iv &= i2;
-            i54 = m;
-            i12 = 0;
-            m = $this$next$iv;
-            $this$hasNext$iv = i13;
+            i10 = 0;
+            $this$get$iv &= i6;
+            i54 = m2;
+            i14 = 0;
+            m2 = $this$next$iv;
+            $this$hasNext$iv = i12;
         }
-        return i11;
+        return i7;
     }
 
     private final int findFirstAvailableSlot(int hash1) {
         int probeOffset;
         int probeIndex;
         int metadata$iv;
-        int i7;
-        int $this$maskEmptyOrDeleted$iv;
         int i;
-        int i6;
-        int i2;
-        int i4;
-        long l;
+        int $this$maskEmptyOrDeleted$iv;
         int i3;
         int i5;
+        int i6;
+        int i7;
+        long l;
+        int i4;
+        int i2;
         final int _capacity = this._capacity;
         probeOffset = hash1 & _capacity;
         probeIndex = 0;
         long[] metadata = this.metadata;
-        i7 = 0;
+        i = 0;
         int i8 = probeOffset >> 3;
         i10 <<= 3;
         int i9 = metadata$iv;
         int i12 = 0;
         i17 &= i9;
-        $this$maskEmptyOrDeleted$iv = i2 & l;
+        $this$maskEmptyOrDeleted$iv = i6 & l;
         while (Long.compare($this$maskEmptyOrDeleted$iv, i13) != 0) {
-            probeOffset = i6 & _capacity;
+            probeOffset = i5 & _capacity;
             metadata = this.metadata;
-            i7 = 0;
+            i = 0;
             i8 = probeOffset >> 3;
             i10 <<= 3;
             i9 = metadata$iv;
             i12 = 0;
             i17 &= i9;
-            $this$maskEmptyOrDeleted$iv = i2 & l;
+            $this$maskEmptyOrDeleted$iv = i6 & l;
         }
         int i20 = 0;
         return $this$lowestBitSet$iv2 &= _capacity;
@@ -184,10 +184,10 @@ public final class MutableIntSet extends androidx.collection.IntSet {
         long[] lArr2;
         long[] lArr;
         long l;
-        int i2;
         int i3;
-        int i;
         int i4;
+        int i;
+        int i2;
         int i5;
         if (capacity == 0) {
             size = ScatterMapKt.EmptyGroup;
@@ -223,55 +223,55 @@ public final class MutableIntSet extends androidx.collection.IntSet {
         long[] metadata;
         int _capacity2;
         int removedDeletes;
-        int i9;
+        int i4;
         int $i$f$readRawMetadata;
-        int i2;
+        int i3;
         Object cmp;
         int _capacity;
-        int i4;
-        int i6;
+        int i2;
         int i7;
-        long[] metadata2;
-        int i8;
-        int i3;
-        int i;
         int i11;
-        int i10;
-        long[] m;
+        long[] metadata2;
+        int i6;
+        int i8;
         int i5;
+        int i10;
+        int i9;
+        long[] m;
+        int i;
         final Object obj = this;
         metadata = obj.metadata;
         _capacity2 = obj._capacity;
         removedDeletes = 0;
-        i9 = 0;
-        while (i9 < _capacity2) {
+        i4 = 0;
+        while (i4 < _capacity2) {
             int i15 = 0;
             _capacity = 255;
-            if (Long.compare($i$f$readRawMetadata, i6) == 0) {
+            if (Long.compare($i$f$readRawMetadata, i7) == 0) {
             } else {
             }
             m = metadata;
-            i5 = _capacity2;
-            i9++;
+            i = _capacity2;
+            i4++;
             metadata = m;
-            _capacity2 = i5;
-            i6 = 128;
+            _capacity2 = i;
+            i7 = 128;
             cmp = this;
-            i7 = 0;
+            i11 = 0;
             metadata2 = cmp.metadata;
             int i25 = 0;
-            int i27 = i9 >> 3;
+            int i27 = i4 >> 3;
             i28 <<= 3;
-            i10 = _capacity;
+            i9 = _capacity;
             metadata2[i27] = i21 |= i31;
             _capacity = cmp._capacity;
             i24 += i26;
-            i8 = 0;
-            i3 = i4 >> 3;
+            i6 = 0;
+            i8 = i2 >> 3;
             i30 <<= 3;
             m = metadata;
-            i5 = _capacity2;
-            metadata2[i3] = i14 |= i11;
+            i = _capacity2;
+            metadata2[i8] = i14 |= i10;
             removedDeletes++;
         }
         long[] m4 = metadata;
@@ -300,31 +300,31 @@ public final class MutableIntSet extends androidx.collection.IntSet {
     private final void resizeStorage(int newCapacity) {
         Object obj2;
         long[] metadata2;
-        int i9;
-        int i5;
+        int i7;
+        int i;
         int $i$f$hash;
         int firstAvailableSlot;
         Object obj;
         int _capacity;
-        int i10;
-        int i2;
         int i6;
+        int i5;
+        int i2;
         long[] metadata;
-        int i;
+        int i10;
         int i3;
+        int i9;
         int i8;
-        int i7;
         int i4;
         long[] previousMetadata;
         obj2 = this;
         metadata2 = obj2.metadata;
         initializeStorage(newCapacity);
-        i9 = 0;
-        while (i9 < obj2._capacity) {
-            i5 = 0;
+        i7 = 0;
+        while (i7 < obj2._capacity) {
+            i = 0;
             int i14 = 0;
             _capacity = 255;
-            if (Long.compare($i$f$readRawMetadata, i2) < 0) {
+            if (Long.compare($i$f$readRawMetadata, i5) < 0) {
             } else {
             }
             $i$f$hash = 0;
@@ -332,19 +332,19 @@ public final class MutableIntSet extends androidx.collection.IntSet {
             } else {
             }
             previousMetadata = metadata2;
-            i9++;
+            i7++;
             obj2 = this;
             metadata2 = previousMetadata;
-            i5 = obj2.elements[i9];
+            i = obj2.elements[i7];
             int i15 = 0;
             i17 *= i20;
             $i$f$hash = i18 ^ i21;
             int i19 = 0;
             firstAvailableSlot = obj2.findFirstAvailableSlot($i$f$hash >>> 7);
             int i22 = 0;
-            i2 = (long)$i$f$h2;
+            i5 = (long)$i$f$h2;
             obj = this;
-            i6 = 0;
+            i2 = 0;
             metadata = obj.metadata;
             int i31 = 0;
             int i33 = firstAvailableSlot >> 3;
@@ -353,12 +353,12 @@ public final class MutableIntSet extends androidx.collection.IntSet {
             metadata[i33] = i27 |= i37;
             _capacity = obj._capacity;
             i30 += i32;
-            i = 0;
-            i3 = i10 >> 3;
+            i10 = 0;
+            i3 = i6 >> 3;
             i36 <<= 3;
             previousMetadata = metadata2;
-            metadata[i3] = i13 |= i7;
-            obj2.elements[firstAvailableSlot] = i5;
+            metadata[i3] = i13 |= i8;
+            obj2.elements[firstAvailableSlot] = i;
             $i$f$hash = 1;
         }
     }
@@ -409,23 +409,23 @@ public final class MutableIntSet extends androidx.collection.IntSet {
     public final void clear() {
         long[] metadata;
         long[] emptyGroup;
-        int i2;
-        long l;
-        long l2;
         int i3;
-        int i;
+        long l2;
+        long l;
         int i5;
-        int i4;
+        int i;
+        int i2;
         int i6;
+        int i4;
         this._size = 0;
         if (this.metadata != ScatterMapKt.EmptyGroup) {
             ArraysKt.fill$default(this.metadata, -9187201950435737472L, obj4, 0, 0, 6);
             metadata = this.metadata;
             emptyGroup = this._capacity;
-            l2 = 0;
-            i3 = emptyGroup >> 3;
+            l = 0;
+            i5 = emptyGroup >> 3;
             i10 <<= 3;
-            metadata[i3] = i12 |= i6;
+            metadata[i5] = i12 |= i4;
         }
         initializeGrowth();
     }
@@ -437,22 +437,22 @@ public final class MutableIntSet extends androidx.collection.IntSet {
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
+        int i4;
+        int i;
         int i7;
-        int i2;
-        int i6;
-        int i5;
+        int i12;
         int i8;
         int $this$next$iv$iv;
-        int i12;
-        long l;
         int i9;
+        long l;
+        int i2;
         int i10;
-        int i;
-        int i11;
         int i3;
-        int i13;
+        int i5;
+        int i6;
+        int i11;
         int numberOfTrailingZeros;
-        int i4;
+        int i13;
         final Object obj = this;
         final Object obj2 = obj;
         m$iv2 = 0;
@@ -468,67 +468,67 @@ public final class MutableIntSet extends androidx.collection.IntSet {
             int i30 = 0;
             int i35 = 0;
             while (Long.compare(i26, i35) != 0) {
-                i = 1;
+                i3 = 1;
                 int i31 = 0;
                 i10 = 0;
                 int i37 = m$iv;
-                i6 = 0;
+                i7 = 0;
                 m$iv = $this$next$iv$iv;
                 i30 = 0;
                 i35 = 0;
-                i = 0;
+                i3 = 0;
             }
-            i = 0;
-            i5 = element;
-            int i28 = i13;
+            i3 = 0;
+            i12 = element;
+            int i28 = i11;
             i10 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i7 & _capacity;
-            m$iv2 = i11;
-            $i$f$hash = i3;
+            $i$f$h1 = i4 & _capacity;
+            m$iv2 = i5;
+            $i$f$hash = i6;
             long[] metadata = obj2.metadata;
-            i6 = 0;
+            i7 = 0;
             int i29 = $i$f$h1 >> 3;
             i32 <<= 3;
             l3 >>>= i33;
-            i16 |= i12;
-            i5 = 0;
+            i16 |= i9;
+            i12 = 0;
             long l4 = 72340172838076673L;
-            i34 ^= i2;
+            i34 ^= i;
             l = -9187201950435737472L;
             i18 &= l;
             i31 = 0;
             i10 = 0;
             i37 = m$iv;
-            i6 = 0;
+            i7 = 0;
             m$iv = $this$next$iv$iv;
-            i = 1;
+            i3 = 1;
         }
-        if (i2 >= 0) {
-            obj.removeElementAt(i2);
+        if (i >= 0) {
+            obj.removeElementAt(i);
         }
     }
 
     @Override // androidx.collection.IntSet
     public final void minusAssign(androidx.collection.IntSet elements) {
-        Object this_$iv;
-        Object obj;
         Object this_$iv2;
+        Object obj;
+        Object this_$iv3;
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         int i5;
         int j$iv$iv;
-        int i2;
-        int i3;
-        long l;
         int i;
-        int i4;
+        int i2;
+        long l;
+        int i3;
         int i6;
-        Object this_$iv3;
+        int i4;
+        Object this_$iv;
         Intrinsics.checkNotNullParameter(elements, "elements");
         obj = elements;
         final int i7 = 0;
@@ -537,25 +537,25 @@ public final class MutableIntSet extends androidx.collection.IntSet {
         length += -2;
         if (0 <= i9) {
         } else {
-            this_$iv3 = obj;
-            this_$iv = this;
+            this_$iv = obj;
+            this_$iv2 = this;
         }
     }
 
     @Override // androidx.collection.IntSet
     public final void minusAssign(int[] elements) {
-        int i4;
         int i3;
-        int i2;
         int i;
+        int i2;
+        int i4;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = elements;
         final int i5 = 0;
-        i4 = 0;
-        while (i4 < obj.length) {
-            i = 0;
-            minusAssign(obj[i4]);
-            i4++;
+        i3 = 0;
+        while (i3 < obj.length) {
+            i4 = 0;
+            minusAssign(obj[i3]);
+            i3++;
         }
     }
 
@@ -566,21 +566,21 @@ public final class MutableIntSet extends androidx.collection.IntSet {
 
     @Override // androidx.collection.IntSet
     public final void plusAssign(androidx.collection.IntSet elements) {
-        Object this_$iv;
-        Object obj;
         Object this_$iv2;
+        Object obj;
+        Object this_$iv3;
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i5;
-        int j$iv$iv;
-        int i6;
-        int i;
-        long l;
-        int i4;
-        int i2;
         int i3;
-        Object this_$iv3;
+        int j$iv$iv;
+        int i5;
+        int i4;
+        long l;
+        int i;
+        int i6;
+        int i2;
+        Object this_$iv;
         Intrinsics.checkNotNullParameter(elements, "elements");
         obj = elements;
         final int i7 = 0;
@@ -589,56 +589,56 @@ public final class MutableIntSet extends androidx.collection.IntSet {
         length += -2;
         if (0 <= i9) {
         } else {
-            this_$iv3 = obj;
-            this_$iv = this;
+            this_$iv = obj;
+            this_$iv2 = this;
         }
     }
 
     @Override // androidx.collection.IntSet
     public final void plusAssign(int[] elements) {
-        int i4;
         int i2;
         int i;
+        int i4;
         int i3;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = elements;
         final int i5 = 0;
-        i4 = 0;
-        while (i4 < obj.length) {
+        i2 = 0;
+        while (i2 < obj.length) {
             i3 = 0;
-            plusAssign(obj[i4]);
-            i4++;
+            plusAssign(obj[i2]);
+            i2++;
         }
     }
 
     @Override // androidx.collection.IntSet
     public final boolean remove(int element) {
-        int m$iv;
         int m$iv2;
+        int m$iv;
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
-        int i14;
-        int i4;
-        int $this$hasNext$iv$iv;
         int i;
-        int i12;
-        int i9;
-        int $this$next$iv$iv;
-        int i11;
-        long l;
-        int i8;
+        int i14;
+        int $this$hasNext$iv$iv;
         int i5;
-        int i13;
-        int i2;
-        int i6;
-        int i3;
+        int i8;
+        int i11;
+        int $this$next$iv$iv;
+        int i9;
+        long l;
         int i7;
-        int numberOfTrailingZeros;
+        int i2;
         int i10;
+        int i12;
+        int i13;
+        int i3;
+        int i4;
+        int numberOfTrailingZeros;
+        int i6;
         final Object obj = this;
         final Object obj2 = obj;
-        m$iv = 0;
+        m$iv2 = 0;
         int i20 = 0;
         i21 *= i24;
         $i$f$hash = i22 ^ i25;
@@ -650,53 +650,53 @@ public final class MutableIntSet extends androidx.collection.IntSet {
         while (/* condition */) {
             int i31 = 0;
             int i36 = 0;
-            i7 = 1;
+            i4 = 1;
             while (Long.compare(i27, i36) != 0) {
-                $this$hasNext$iv$iv = i7;
+                $this$hasNext$iv$iv = i4;
                 int i32 = 0;
+                i2 = 0;
+                int i38 = m$iv;
                 i5 = 0;
-                int i38 = m$iv2;
-                i = 0;
-                m$iv2 = $this$next$iv$iv;
+                m$iv = $this$next$iv$iv;
                 i31 = 0;
                 i36 = 0;
-                i7 = 1;
+                i4 = 1;
                 $this$hasNext$iv$iv = i3;
             }
             $this$hasNext$iv$iv = i3;
-            i12 = element;
-            int i29 = i6;
-            i5 = 0;
+            i8 = element;
+            int i29 = i13;
+            i2 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i14 & _capacity;
-            m$iv = i13;
-            $i$f$hash = i2;
+            $i$f$h1 = i & _capacity;
+            m$iv2 = i10;
+            $i$f$hash = i12;
             long[] metadata = obj2.metadata;
-            i = 0;
+            i5 = 0;
             int i30 = $i$f$h1 >> 3;
             i33 <<= 3;
             l3 >>>= i34;
-            i17 |= i11;
-            i12 = 0;
+            i17 |= i9;
+            i8 = 0;
             long l4 = 72340172838076673L;
-            i35 ^= i4;
+            i35 ^= i14;
             l = -9187201950435737472L;
             i19 &= l;
             i32 = 0;
+            i2 = 0;
+            i38 = m$iv;
             i5 = 0;
-            i38 = m$iv2;
-            i = 0;
-            m$iv2 = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i7;
+            m$iv = $this$next$iv$iv;
+            $this$hasNext$iv$iv = i4;
         }
-        if (i4 >= 0) {
-            i3 = i7;
+        if (i14 >= 0) {
+            i3 = i4;
         }
         if (i3 != 0) {
-            obj.removeElementAt(i4);
+            obj.removeElementAt(i14);
         }
         return i3;
     }

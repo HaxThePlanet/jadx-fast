@@ -30,83 +30,83 @@ public final class MultiParagraphKt {
     public static final int findParagraphByIndex(List<androidx.compose.ui.text.ParagraphInfo> paragraphInfoList, int index) {
         int low$iv;
         int high$iv;
-        int i2;
         int i3;
+        int i;
         Object obj2;
         Object obj;
-        int i;
         int i4;
+        int i2;
         final Object obj3 = paragraphInfoList;
         final int i5 = 0;
         low$iv = 0;
-        i2 = 1;
-        size -= i2;
+        i3 = 1;
+        size -= i3;
         while (low$iv <= high$iv) {
-            i6 >>>= i2;
+            i6 >>>= i3;
             obj = obj2;
-            i = 0;
+            i4 = 0;
             if ((ParagraphInfo)obj.getStartIndex() > index) {
             } else {
             }
             if (obj.getEndIndex() <= index) {
             } else {
             }
-            i4 = 0;
-            high$iv = i3 + -1;
-            low$iv = i3 + 1;
-            i4 = -1;
-            i4 = i2;
+            i2 = 0;
+            high$iv = i + -1;
+            low$iv = i + 1;
+            i2 = -1;
+            i2 = i3;
         }
-        i3 = -i2;
-        return i3;
+        i = -i3;
+        return i;
     }
 
     public static final int findParagraphByLineIndex(List<androidx.compose.ui.text.ParagraphInfo> paragraphInfoList, int lineIndex) {
         int low$iv;
         int high$iv;
+        int i3;
         int i4;
-        int i;
         Object obj2;
         Object obj;
+        int i;
         int i2;
-        int i3;
         final Object obj3 = paragraphInfoList;
         final int i5 = 0;
         low$iv = 0;
-        i4 = 1;
-        size -= i4;
+        i3 = 1;
+        size -= i3;
         while (low$iv <= high$iv) {
-            i6 >>>= i4;
+            i6 >>>= i3;
             obj = obj2;
-            i2 = 0;
+            i = 0;
             if ((ParagraphInfo)obj.getStartLineIndex() > lineIndex) {
             } else {
             }
             if (obj.getEndLineIndex() <= lineIndex) {
             } else {
             }
-            i3 = 0;
-            high$iv = i + -1;
-            low$iv = i + 1;
-            i3 = -1;
-            i3 = i4;
+            i2 = 0;
+            high$iv = i4 + -1;
+            low$iv = i4 + 1;
+            i2 = -1;
+            i2 = i3;
         }
-        i = -i4;
-        return i;
+        i4 = -i3;
+        return i4;
     }
 
     public static final int findParagraphByY(List<androidx.compose.ui.text.ParagraphInfo> paragraphInfoList, float y) {
-        int i;
+        int i4;
         int low$iv;
         int high$iv;
         int i3;
         Object obj;
         Object obj2;
+        int i;
         int i2;
-        int i4;
-        i = 0;
+        i4 = 0;
         if (Float.compare(y, i5) <= 0) {
-            return i;
+            return i4;
         }
         if (Float.compare(y, bottom) >= 0) {
             return CollectionsKt.getLastIndex(paragraphInfoList);
@@ -119,20 +119,20 @@ public final class MultiParagraphKt {
         while (low$iv <= high$iv) {
             i8 >>>= i7;
             obj2 = obj;
-            i2 = 0;
+            i = 0;
             if (Float.compare(top, y) > 0) {
             } else {
             }
             if (Float.compare(bottom2, y) <= 0) {
             } else {
             }
-            i4 = i;
+            i2 = i4;
             high$iv = i3 + -1;
             low$iv = i3 + 1;
-            i4 = -1;
-            i4 = i7;
+            i2 = -1;
+            i2 = i7;
         }
-        i3 = -i;
+        i3 = -i4;
         return i3;
     }
 

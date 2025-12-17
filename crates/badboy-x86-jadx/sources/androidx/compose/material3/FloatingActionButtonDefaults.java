@@ -57,10 +57,10 @@ public final class FloatingActionButtonDefaults {
 
     public final androidx.compose.material3.FloatingActionButtonElevation elevation-xZ9-QkE(float defaultElevation, float pressedElevation, float focusedElevation, float hoveredElevation, Composer $composer, int $changed, int i7) {
         FabPrimaryTokens iNSTANCE;
-        float f3;
-        float f2;
-        float f;
         float f4;
+        float f;
+        float f2;
+        float f3;
         float obj8;
         float obj9;
         float obj10;
@@ -68,29 +68,29 @@ public final class FloatingActionButtonDefaults {
         final int i = -241106249;
         ComposerKt.sourceInformationMarkerStart($composer, i, "C(elevation)P(0:c#ui.unit.Dp,3:c#ui.unit.Dp,1:c#ui.unit.Dp,2:c#ui.unit.Dp):FloatingActionButton.kt#uh7d8r");
         if (i7 & 1 != 0) {
-            f3 = obj8;
+            f4 = obj8;
         } else {
-            f3 = defaultElevation;
+            f4 = defaultElevation;
         }
         if (i7 & 2 != 0) {
-            f2 = obj9;
+            f = obj9;
         } else {
-            f2 = pressedElevation;
+            f = pressedElevation;
         }
         if (i7 & 4 != 0) {
-            f = obj10;
+            f2 = obj10;
         } else {
-            f = focusedElevation;
+            f2 = focusedElevation;
         }
         if (i7 & 8 != 0) {
-            f4 = obj11;
+            f3 = obj11;
         } else {
-            f4 = hoveredElevation;
+            f3 = hoveredElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.FloatingActionButtonDefaults.elevation (FloatingActionButton.kt:446)");
         }
-        FloatingActionButtonElevation floatingActionButtonElevation = new FloatingActionButtonElevation(f3, f2, f, f4, 0);
+        FloatingActionButtonElevation floatingActionButtonElevation = new FloatingActionButtonElevation(f4, f, f2, f3, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -180,9 +180,9 @@ public final class FloatingActionButtonDefaults {
     public final androidx.compose.material3.FloatingActionButtonElevation loweredElevation-xZ9-QkE(float defaultElevation, float pressedElevation, float focusedElevation, float hoveredElevation, Composer $composer, int $changed, int i7) {
         FabPrimaryTokens iNSTANCE;
         float f2;
+        float f;
         float f3;
         float f4;
-        float f;
         float obj8;
         float obj9;
         float obj10;
@@ -195,24 +195,24 @@ public final class FloatingActionButtonDefaults {
             f2 = defaultElevation;
         }
         if (i7 & 2 != 0) {
-            f3 = obj9;
+            f = obj9;
         } else {
-            f3 = pressedElevation;
+            f = pressedElevation;
         }
         if (i7 & 4 != 0) {
-            f4 = obj10;
+            f3 = obj10;
         } else {
-            f4 = focusedElevation;
+            f3 = focusedElevation;
         }
         if (i7 & 8 != 0) {
-            f = obj11;
+            f4 = obj11;
         } else {
-            f = hoveredElevation;
+            f4 = hoveredElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.FloatingActionButtonDefaults.loweredElevation (FloatingActionButton.kt:470)");
         }
-        FloatingActionButtonElevation floatingActionButtonElevation = new FloatingActionButtonElevation(f2, f3, f4, f, 0);
+        FloatingActionButtonElevation floatingActionButtonElevation = new FloatingActionButtonElevation(f2, f, f3, f4, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

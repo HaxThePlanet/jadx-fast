@@ -61,68 +61,68 @@ final class PointerInputChangeEventProducer {
         Object previousData;
         int i;
         int down2;
-        LongSparseArray previousPointerInputData;
+        LongSparseArray previousPointerInputData2;
         int index$iv;
+        Object obj3;
         Object obj2;
-        Object obj;
-        int i4;
-        long id-J3iCeTQ2;
+        int i5;
+        long id-J3iCeTQ;
         long previousTime;
         long previousPosition;
         int screenToLocal-MK-Hz9U;
-        LongSparseArray previousPointerInputData2;
+        LongSparseArray previousPointerInputData;
         List list;
-        int i5;
-        Object obj3;
+        int i2;
+        Object obj;
         androidx.compose.ui.input.pointer.PointerInputChange pointerInputChange;
-        long id-J3iCeTQ;
+        long id-J3iCeTQ2;
         long uptime;
-        long down3;
-        long type-T8wyACA;
-        boolean down;
+        long down;
+        long type-T8wyACA2;
+        boolean down3;
         float pressure;
         long l;
         long l2;
-        int i6;
-        int i2;
-        int type-T8wyACA2;
+        int i4;
+        int i3;
+        int type-T8wyACA;
         List historical;
         long scrollDelta-F1C5BW0;
         long originalEventPosition-F1C5BW0;
-        int i3;
+        int i6;
         final Object obj4 = this;
         LongSparseArray longSparseArray = new LongSparseArray(pointerInputEvent.getPointers().size());
         i = 0;
         index$iv = 0;
         while (index$iv < pointerInputEvent.getPointers().size()) {
-            obj = obj2;
-            i4 = 0;
+            obj2 = obj3;
+            i5 = 0;
             int i7 = 0;
             int i8 = 0;
             screenToLocal-MK-Hz9U = 0;
-            previousPointerInputData2 = obj4.previousPointerInputData;
-            Object obj5 = previousPointerInputData2.get((PointerInputEventData)obj.getId-J3iCeTQ());
+            previousPointerInputData = obj4.previousPointerInputData;
+            Object obj5 = previousPointerInputData.get((PointerInputEventData)obj2.getId-J3iCeTQ());
             if ((PointerInputChangeEventProducer.PointerInputData)obj5 == null) {
             } else {
             }
-            obj3 = obj5;
-            i6 = down2;
+            obj = obj5;
+            i4 = down2;
             l = previousTime;
             l2 = previousPosition;
-            pointerInputChange = new PointerInputChange(obj.getId-J3iCeTQ(), obj20, obj.getUptime(), obj22, obj.getPosition-F1C5BW0(), type-T8wyACA, obj.getDown(), obj.getPressure(), l, obj28, l2, obj30, i6, 0, obj.getType-T8wyACA(), obj.getHistorical(), obj.getScrollDelta-F1C5BW0(), obj36, obj.getOriginalEventPosition-F1C5BW0(), obj38, 0);
-            longSparseArray.put(obj.getId-J3iCeTQ(), obj10);
-            if (obj.getDown()) {
+            pointerInputChange = new PointerInputChange(obj2.getId-J3iCeTQ(), obj20, obj2.getUptime(), obj22, obj2.getPosition-F1C5BW0(), type-T8wyACA2, obj2.getDown(), obj2.getPressure(), l, obj28, l2, obj30, i4, 0, obj2.getType-T8wyACA(), obj2.getHistorical(), obj2.getScrollDelta-F1C5BW0(), obj36, obj2.getOriginalEventPosition-F1C5BW0(), obj38, 0);
+            longSparseArray.put(obj2.getId-J3iCeTQ(), obj10);
+            if (obj2.getDown()) {
             } else {
             }
-            obj4.previousPointerInputData.remove(obj.getId-J3iCeTQ());
+            obj4.previousPointerInputData.remove(obj2.getId-J3iCeTQ());
             index$iv++;
             pointers = list;
-            i = i5;
-            pointerInputChange = new PointerInputChangeEventProducer.PointerInputData(obj.getUptime(), obj20, obj.getPositionOnScreen-F1C5BW0(), obj22, obj.getDown(), obj.getType-T8wyACA(), 0);
-            obj4.previousPointerInputData.put(obj.getId-J3iCeTQ(), obj10);
-            obj3 = obj5;
+            i = i2;
+            pointerInputChange = new PointerInputChangeEventProducer.PointerInputData(obj2.getUptime(), obj20, obj2.getPositionOnScreen-F1C5BW0(), obj22, obj2.getDown(), obj2.getType-T8wyACA(), 0);
+            obj4.previousPointerInputData.put(obj2.getId-J3iCeTQ(), obj10);
+            obj = obj5;
             previousData = positionCalculator;
-            i6 = down2;
+            i4 = down2;
             l = previousTime;
             l2 = previousPosition;
         }

@@ -38,94 +38,94 @@ public final class VectorPainterKt {
 
     public static final String RootGroupName = "VectorRootGroup";
     public static final void RenderVectorGroup(androidx.compose.ui.graphics.vector.VectorGroup group, Map<String, ? extends androidx.compose.ui.graphics.vector.VectorConfig> configs, Composer $composer, int $changed, int i5) {
-        Object configs4;
-        int vectorNode;
+        Object configs2;
+        int vectorNode2;
         int $dirty3;
-        Object obj2;
+        Object obj;
         Object anon;
-        int i4;
-        int configs3;
+        int i;
+        int configs4;
         Object obj4;
-        boolean vectorNode2;
-        int i6;
-        boolean config2;
+        boolean vectorNode;
+        int i3;
+        boolean config;
         Object anon2;
-        int floatValue2;
-        Object floatValue;
-        float floatValue4;
+        int floatValue;
+        Object floatValue4;
         float floatValue3;
+        float floatValue2;
+        int i6;
         int i7;
-        int i2;
         Composer restartGroup;
         float f2;
-        float config;
-        Object configs2;
+        float config2;
+        Object configs3;
         Composer $dirty;
-        int i3;
+        int i2;
         int $dirty2;
-        int i;
+        int i4;
         float f;
-        Object obj;
+        Object obj2;
         Object obj3;
         Object obj26;
         int obj27;
-        configs4 = group;
+        configs2 = group;
         final int i8 = $changed;
         final int i9 = i5;
-        vectorNode = -446179233;
-        restartGroup = $composer.startRestartGroup(vectorNode);
+        vectorNode2 = -446179233;
+        restartGroup = $composer.startRestartGroup(vectorNode2);
         ComposerKt.sourceInformation(restartGroup, "C(RenderVectorGroup)P(1):VectorPainter.kt#huu6hf");
         $dirty3 = $changed;
         if (i9 & 1 != 0) {
             $dirty3 |= 6;
         } else {
             if (i8 & 6 == 0) {
-                i4 = restartGroup.changed(configs4) ? 4 : 2;
-                $dirty3 |= i4;
+                i = restartGroup.changed(configs2) ? 4 : 2;
+                $dirty3 |= i;
             }
         }
-        configs3 = i9 & 2;
-        if (configs3 != 0) {
+        configs4 = i9 & 2;
+        if (configs4 != 0) {
             $dirty3 |= 48;
             obj4 = configs;
         } else {
             if (i8 & 48 == 0) {
-                i6 = restartGroup.changedInstance(configs) ? 32 : 16;
-                $dirty3 |= i6;
+                i3 = restartGroup.changedInstance(configs) ? 32 : 16;
+                $dirty3 |= i3;
             } else {
                 obj4 = configs;
             }
         }
         if ($dirty3 & 19 == 18) {
             if (!restartGroup.getSkipping()) {
-                if (configs3 != 0) {
-                    configs3 = MapsKt.emptyMap();
+                if (configs4 != 0) {
+                    configs4 = MapsKt.emptyMap();
                 } else {
-                    configs3 = obj4;
+                    configs4 = obj4;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(vectorNode, $dirty3, -1, "androidx.compose.ui.graphics.vector.RenderVectorGroup (VectorPainter.kt:430)");
+                    ComposerKt.traceEventStart(vectorNode2, $dirty3, -1, "androidx.compose.ui.graphics.vector.RenderVectorGroup (VectorPainter.kt:430)");
                 }
-                vectorNode = configs4.iterator();
-                while (vectorNode.hasNext()) {
-                    vectorNode2 = vectorNode.next();
-                    if (vectorNode2 instanceof VectorPath != null) {
+                vectorNode2 = configs2.iterator();
+                while (vectorNode2.hasNext()) {
+                    vectorNode = vectorNode2.next();
+                    if (vectorNode instanceof VectorPath != null) {
                     } else {
                     }
-                    obj26 = vectorNode;
+                    obj26 = vectorNode2;
                     obj27 = $dirty3;
-                    Object obj6 = configs3;
-                    boolean z2 = vectorNode2;
+                    Object obj6 = configs4;
+                    boolean z2 = vectorNode;
                     if (z2 instanceof VectorGroup) {
                     } else {
                     }
                     $dirty = z2;
                     restartGroup.startReplaceGroup(-20402883);
                     restartGroup.endReplaceGroup();
-                    configs4 = group;
-                    vectorNode = obj26;
+                    configs2 = group;
+                    vectorNode2 = obj26;
                     $dirty3 = obj27;
-                    configs3 = configs2;
+                    configs4 = configs3;
                     restartGroup.startReplaceGroup(-21815553);
                     ComposerKt.sourceInformation(restartGroup, "513@19224L88,479@17944L1368");
                     if ((VectorConfig)obj6.get((VectorGroup)z2.getName()) == null) {
@@ -135,31 +135,31 @@ public final class VectorPainterKt {
                     Object obj7 = obj9;
                     VectorComposeKt.Group((VectorGroup)z2.getName(), (Number)anon.getOrDefault((VectorProperty)VectorProperty.Rotation.INSTANCE, Float.valueOf((VectorGroup)z2.getRotation())).floatValue(), (Number)anon.getOrDefault((VectorProperty)VectorProperty.PivotX.INSTANCE, Float.valueOf((VectorGroup)z2.getPivotX())).floatValue(), (Number)anon.getOrDefault((VectorProperty)VectorProperty.PivotY.INSTANCE, Float.valueOf((VectorGroup)z2.getPivotY())).floatValue(), (Number)anon.getOrDefault((VectorProperty)VectorProperty.ScaleX.INSTANCE, Float.valueOf((VectorGroup)z2.getScaleX())).floatValue(), (Number)anon.getOrDefault((VectorProperty)VectorProperty.ScaleY.INSTANCE, Float.valueOf((VectorGroup)z2.getScaleY())).floatValue(), (Number)anon.getOrDefault((VectorProperty)VectorProperty.TranslateX.INSTANCE, Float.valueOf((VectorGroup)z2.getTranslationX())).floatValue(), (Number)anon.getOrDefault((VectorProperty)VectorProperty.TranslateY.INSTANCE, Float.valueOf((VectorGroup)z2.getTranslationY())).floatValue(), (List)anon.getOrDefault((VectorProperty)VectorProperty.PathData.INSTANCE, (VectorGroup)z2.getClipPathData()), (Function2)ComposableLambdaKt.rememberComposableLambda(1450046638, true, anon3, restartGroup, 54), restartGroup, 805306368, 0);
                     restartGroup.endReplaceGroup();
-                    configs4 = group;
-                    vectorNode = obj26;
+                    configs2 = group;
+                    vectorNode2 = obj26;
                     $dirty3 = obj27;
-                    configs3 = configs2;
+                    configs4 = configs3;
                     anon = new VectorPainterKt.RenderVectorGroup.config.2();
                     restartGroup.startReplaceGroup(-23647808);
                     ComposerKt.sourceInformation(restartGroup, "434@16086L1719");
-                    if ((VectorConfig)configs3.get((VectorPath)(VectorNode)vectorNode2.getName()) == null) {
+                    if ((VectorConfig)configs4.get((VectorPath)(VectorNode)vectorNode.getName()) == null) {
                     }
-                    obj = obj8;
+                    obj2 = obj8;
                     $dirty = restartGroup;
-                    boolean z = vectorNode2;
-                    VectorComposeKt.Path-9cdaXJ4((List)anon2.getOrDefault((VectorProperty)VectorProperty.PathData.INSTANCE, (VectorPath)vectorNode2.getPathData()), (VectorPath)vectorNode2.getPathFillType-Rg-k1Os(), (VectorPath)vectorNode2.getName(), (Brush)anon2.getOrDefault((VectorProperty)VectorProperty.Fill.INSTANCE, (VectorPath)vectorNode2.getFill()), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.FillAlpha.INSTANCE, Float.valueOf((VectorPath)vectorNode2.getFillAlpha())).floatValue(), (Brush)anon2.getOrDefault((VectorProperty)VectorProperty.Stroke.INSTANCE, (VectorPath)vectorNode2.getStroke()), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.StrokeAlpha.INSTANCE, Float.valueOf((VectorPath)vectorNode2.getStrokeAlpha())).floatValue(), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.StrokeLineWidth.INSTANCE, Float.valueOf((VectorPath)vectorNode2.getStrokeLineWidth())).floatValue(), (VectorPath)vectorNode2.getStrokeLineCap-KaPHkGw(), (VectorPath)vectorNode2.getStrokeLineJoin-LxFBmk8(), (VectorPath)vectorNode2.getStrokeLineMiter(), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.TrimPathStart.INSTANCE, Float.valueOf((VectorPath)vectorNode2.getTrimPathStart())).floatValue(), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.TrimPathEnd.INSTANCE, Float.valueOf((VectorPath)vectorNode2.getTrimPathEnd())).floatValue(), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.TrimPathOffset.INSTANCE, Float.valueOf((VectorPath)vectorNode2.getTrimPathOffset())).floatValue(), $dirty, 0, 0, 0);
+                    boolean z = vectorNode;
+                    VectorComposeKt.Path-9cdaXJ4((List)anon2.getOrDefault((VectorProperty)VectorProperty.PathData.INSTANCE, (VectorPath)vectorNode.getPathData()), (VectorPath)vectorNode.getPathFillType-Rg-k1Os(), (VectorPath)vectorNode.getName(), (Brush)anon2.getOrDefault((VectorProperty)VectorProperty.Fill.INSTANCE, (VectorPath)vectorNode.getFill()), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.FillAlpha.INSTANCE, Float.valueOf((VectorPath)vectorNode.getFillAlpha())).floatValue(), (Brush)anon2.getOrDefault((VectorProperty)VectorProperty.Stroke.INSTANCE, (VectorPath)vectorNode.getStroke()), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.StrokeAlpha.INSTANCE, Float.valueOf((VectorPath)vectorNode.getStrokeAlpha())).floatValue(), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.StrokeLineWidth.INSTANCE, Float.valueOf((VectorPath)vectorNode.getStrokeLineWidth())).floatValue(), (VectorPath)vectorNode.getStrokeLineCap-KaPHkGw(), (VectorPath)vectorNode.getStrokeLineJoin-LxFBmk8(), (VectorPath)vectorNode.getStrokeLineMiter(), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.TrimPathStart.INSTANCE, Float.valueOf((VectorPath)vectorNode.getTrimPathStart())).floatValue(), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.TrimPathEnd.INSTANCE, Float.valueOf((VectorPath)vectorNode.getTrimPathEnd())).floatValue(), (Number)anon2.getOrDefault((VectorProperty)VectorProperty.TrimPathOffset.INSTANCE, Float.valueOf((VectorPath)vectorNode.getTrimPathOffset())).floatValue(), $dirty, 0, 0, 0);
                     $dirty.endReplaceGroup();
-                    vectorNode = obj26;
+                    vectorNode2 = obj26;
                     $dirty3 = obj27;
-                    configs3 = obj5;
-                    configs4 = group;
+                    configs4 = obj5;
+                    configs2 = group;
                     anon2 = new VectorPainterKt.RenderVectorGroup.config.1();
                 }
                 obj27 = $dirty3;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj4 = configs2;
+                obj4 = configs3;
             } else {
                 restartGroup.skipToGroupEnd();
                 obj27 = $dirty3;
@@ -168,10 +168,10 @@ public final class VectorPainterKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            vectorNode = new VectorPainterKt.RenderVectorGroup.2(group, obj4, i8, i9);
-            endRestartGroup.updateScope((Function2)vectorNode);
+            vectorNode2 = new VectorPainterKt.RenderVectorGroup.2(group, obj4, i8, i9);
+            endRestartGroup.updateScope((Function2)vectorNode2);
         } else {
-            obj2 = group;
+            obj = group;
         }
     }
 
@@ -307,7 +307,7 @@ public final class VectorPainterKt {
     public static final androidx.compose.ui.graphics.vector.VectorPainter rememberVectorPainter(androidx.compose.ui.graphics.vector.ImageVector image, Composer $composer, int $changed) {
         boolean traceInProgress;
         String str;
-        Object vectorPainterFromImageVector;
+        Object $i$a$CacheVectorPainterKt$rememberVectorPainter$3;
         int empty;
         androidx.compose.ui.graphics.vector.GroupComponent groupComponent;
         int $this$rememberVectorPainter_u24lambda_u245_u24lambda_u244;
@@ -339,7 +339,7 @@ public final class VectorPainterKt {
                 $this$rememberVectorPainter_u24lambda_u245_u24lambda_u244 = Unit.INSTANCE;
                 composer.updateRememberedValue(VectorPainterKt.createVectorPainterFromImageVector(this_$iv, image, groupComponent));
             } else {
-                vectorPainterFromImageVector = rememberedValue;
+                $i$a$CacheVectorPainterKt$rememberVectorPainter$3 = rememberedValue;
             }
         } else {
         }
@@ -348,39 +348,39 @@ public final class VectorPainterKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (VectorPainter)vectorPainterFromImageVector;
+        return (VectorPainter)$i$a$CacheVectorPainterKt$rememberVectorPainter$3;
     }
 
     @Deprecated(message = "Replace rememberVectorPainter graphicsLayer that consumes the auto mirror flag", replaceWith = @ReplaceWith(...))
     public static final androidx.compose.ui.graphics.vector.VectorPainter rememberVectorPainter-mlNsNFs(float defaultWidth, float defaultHeight, float viewportWidth, float viewportHeight, String name, long tintColor, int tintBlendMode, Function4<? super Float, ? super Float, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
+        int i4;
         int i3;
-        int i2;
-        String str;
+        String str3;
         int unspecified-0d7_KjU;
         int srcIn-0nO6VwU;
         boolean traceInProgress;
         String str2;
-        int i4;
-        int i5;
-        String str3;
-        long l;
         int i;
+        int i5;
+        String str;
+        long l;
+        int i2;
         final int i6 = i11;
         int i7 = -964365210;
         final Composer composer = $changed;
         ComposerKt.sourceInformationMarkerStart(composer, i7, "C(rememberVectorPainter)P(2:c#ui.unit.Dp,1:c#ui.unit.Dp,7,6,3,5:c#ui.graphics.Color,4:c#ui.graphics.BlendMode)86@3732L207:VectorPainter.kt#huu6hf");
-        i4 = obj27 & 4 != 0 ? i3 : viewportWidth;
-        i5 = obj27 & 8 != 0 ? i2 : viewportHeight;
-        str3 = obj27 & 16 != 0 ? str : name;
+        i = obj27 & 4 != 0 ? i4 : viewportWidth;
+        i5 = obj27 & 8 != 0 ? i3 : viewportHeight;
+        str = obj27 & 16 != 0 ? str3 : name;
         if (obj27 & 32 != 0) {
             l = unspecified-0d7_KjU;
         } else {
             l = tintColor;
         }
         if (obj27 & 64 != 0) {
-            i = srcIn-0nO6VwU;
+            i2 = srcIn-0nO6VwU;
         } else {
-            i = content;
+            i2 = content;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i7, i6, -1, "androidx.compose.ui.graphics.vector.rememberVectorPainter (VectorPainter.kt:86)");
@@ -389,40 +389,40 @@ public final class VectorPainterKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($changed);
-        return VectorPainterKt.rememberVectorPainter-vIP8VLU(defaultWidth, defaultHeight, i4, i5, str3, l, obj9, i, 0, $composer, composer, i16 | i28);
+        return VectorPainterKt.rememberVectorPainter-vIP8VLU(defaultWidth, defaultHeight, i, i5, str, l, obj9, i2, 0, $composer, composer, i16 | i28);
     }
 
     public static final androidx.compose.ui.graphics.vector.VectorPainter rememberVectorPainter-vIP8VLU(float defaultWidth, float defaultHeight, float viewportWidth, float viewportHeight, String name, long tintColor, int tintBlendMode, boolean autoMirror, Function4<? super Float, ? super Float, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i12) {
-        int i3;
-        Object it$iv2;
-        int i7;
-        int i2;
         int i6;
-        Composition it$iv;
-        int changed3;
+        Object it$iv;
+        int i2;
+        int i3;
+        int i4;
+        Composition it$iv2;
+        int changed2;
         Composer composer;
         int composableLambdaInstance;
-        int i5;
-        int i;
+        int $i$a$CacheVectorPainterKt$rememberVectorPainter$2$1;
+        int i7;
         boolean traceInProgress;
-        boolean changed;
+        boolean changed4;
         Object obj;
-        int i8;
+        int i;
         androidx.compose.runtime.CompositionContext compositionContext;
-        int changed4;
+        int changed3;
         int viewportWidth2;
         int viewportHeight2;
-        int str3;
+        int str;
         long tintColor2;
-        Object empty2;
+        Object $i$a$CacheVectorPainterKt$rememberVectorPainter$1;
         Object vectorPainter;
         int tintBlendMode2;
-        String str;
-        Object colorFilter-xETnrds;
-        float empty;
         String str2;
-        int changed2;
-        int i4;
+        Object $i$a$CacheVectorPainterKt$rememberVectorPainter$intrinsicColorFilter$1;
+        float empty;
+        String str3;
+        int changed;
+        int i5;
         Composer.Companion companion;
         boolean companion2;
         Composer.Companion composition$ui_release;
@@ -432,28 +432,28 @@ public final class VectorPainterKt {
         int obj34;
         composer = $changed;
         composableLambdaInstance = i12;
-        int i22 = obj34;
-        int i28 = 1068590786;
-        ComposerKt.sourceInformationMarkerStart(composer, i28, "C(rememberVectorPainter)P(3:c#ui.unit.Dp,2:c#ui.unit.Dp,8,7,4,6:c#ui.graphics.Color,5:c#ui.graphics.BlendMode)131@5630L7,134@5823L94:VectorPainter.kt#huu6hf");
-        viewportWidth2 = i22 & 4 != 0 ? 0x7fc00000 /* Unknown resource */ : viewportWidth;
-        viewportHeight2 = i22 & 8 != 0 ? 0x7fc00000 /* Unknown resource */ : viewportHeight;
-        str2 = i22 & 16 != 0 ? str3 : name;
-        if (i22 & 32 != 0) {
+        int i21 = obj34;
+        int i27 = 1068590786;
+        ComposerKt.sourceInformationMarkerStart(composer, i27, "C(rememberVectorPainter)P(3:c#ui.unit.Dp,2:c#ui.unit.Dp,8,7,4,6:c#ui.graphics.Color,5:c#ui.graphics.BlendMode)131@5630L7,134@5823L94:VectorPainter.kt#huu6hf");
+        viewportWidth2 = i21 & 4 != 0 ? 0x7fc00000 /* Unknown resource */ : viewportWidth;
+        viewportHeight2 = i21 & 8 != 0 ? 0x7fc00000 /* Unknown resource */ : viewportHeight;
+        str3 = i21 & 16 != 0 ? str : name;
+        if (i21 & 32 != 0) {
             tintColor2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             tintColor2 = tintColor;
         }
-        if (i22 & 64 != 0) {
+        if (i21 & 64 != 0) {
             tintBlendMode2 = BlendMode.Companion.getSrcIn-0nO6VwU();
         } else {
             tintBlendMode2 = autoMirror;
         }
-        i4 = i22 &= 128 != 0 ? i : content;
+        i5 = i21 &= 128 != 0 ? i7 : content;
         if (ComposerKt.isTraceInProgress()) {
-            ComposerKt.traceEventStart(i28, composableLambdaInstance, -1, "androidx.compose.ui.graphics.vector.rememberVectorPainter (VectorPainter.kt:130)");
+            ComposerKt.traceEventStart(i27, composableLambdaInstance, -1, "androidx.compose.ui.graphics.vector.rememberVectorPainter (VectorPainter.kt:130)");
         }
-        int i29 = 6;
-        int i39 = 0;
+        int i28 = 6;
+        int i38 = 0;
         final String str6 = "CC:CompositionLocal.kt#9igjgp";
         ComposerKt.sourceInformationMarkerStart(composer, 2023513938, str6);
         ComposerKt.sourceInformationMarkerEnd(composer);
@@ -464,34 +464,34 @@ public final class VectorPainterKt {
         long viewportSize-Pq9zytI = VectorPainterKt.obtainViewportSize-Pq9zytI(density, f, viewportWidth2);
         String defaultSize = "CC(remember):VectorPainter.kt#9igjgp";
         ComposerKt.sourceInformationMarkerStart(composer, -1837515400, defaultSize);
-        int i44 = 196608;
-        int i45 = 131072;
-        if (i31 ^= i44 > i45) {
+        int i43 = 196608;
+        int i44 = 131072;
+        if (i30 ^= i43 > i44) {
             if (!composer.changed(tintColor2)) {
-                i8 = composableLambdaInstance & obj27 == i45 ? 1 : 0;
+                i = composableLambdaInstance & obj27 == i44 ? 1 : 0;
             } else {
             }
         } else {
         }
-        int i49 = 1572864;
-        int i9 = 1048576;
-        if (i47 ^= i49 > i9) {
+        int i48 = 1572864;
+        int i8 = 1048576;
+        if (i46 ^= i48 > i8) {
             if (!composer.changed(tintBlendMode2)) {
-                i3 = composableLambdaInstance & i49 == i9 ? 1 : 0;
+                i6 = composableLambdaInstance & i48 == i8 ? 1 : 0;
             } else {
             }
         } else {
         }
         Composer composer3 = $changed;
-        int i48 = 0;
+        int i47 = 0;
         Object rememberedValue = composer3.rememberedValue();
-        int i50 = 0;
-        if (i3 |= i8 == 0) {
+        int i49 = 0;
+        if (i6 |= i == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                int i41 = 0;
+                int i40 = 0;
                 composer3.updateRememberedValue(VectorPainterKt.createColorFilter-xETnrds(tintColor2, obj8));
             } else {
-                colorFilter-xETnrds = rememberedValue;
+                $i$a$CacheVectorPainterKt$rememberVectorPainter$intrinsicColorFilter$1 = rememberedValue;
             }
         } else {
         }
@@ -500,15 +500,15 @@ public final class VectorPainterKt {
         ComposerKt.sourceInformation(composer, "*137@5929L28,145@6235L28,146@6291L487");
         ComposerKt.sourceInformationMarkerStart(composer, -1837512074, defaultSize);
         Composer composer4 = $changed;
-        obj29 = i14;
-        it$iv2 = composer4.rememberedValue();
-        int i51 = 0;
+        obj29 = i13;
+        it$iv = composer4.rememberedValue();
+        int i50 = 0;
         final long l = tintColor2;
-        if (it$iv2 == Composer.Companion.getEmpty()) {
-            obj30 = it$iv2;
-            it$iv2 = 0;
-            obj34 = i36;
-            vectorPainter = new VectorPainter(it$iv2, 1, it$iv2);
+        if (it$iv == Composer.Companion.getEmpty()) {
+            obj30 = it$iv;
+            it$iv = 0;
+            obj34 = i35;
+            vectorPainter = new VectorPainter(it$iv, 1, it$iv);
             composer4.updateRememberedValue(vectorPainter);
         } else {
             vectorPainter = obj30;
@@ -516,70 +516,70 @@ public final class VectorPainterKt {
         Object obj2 = vectorPainter;
         ComposerKt.sourceInformationMarkerEnd(composer);
         Object obj3 = obj2;
-        int i37 = tintBlendMode2;
-        VectorPainterKt.configureVectorPainter-T4PVSW8(obj3, density, 0, viewportSize-Pq9zytI, str6, str2);
-        final int obj26 = i32;
+        int i36 = tintBlendMode2;
+        VectorPainterKt.configureVectorPainter-T4PVSW8(obj3, density, 0, viewportSize-Pq9zytI, str6, str3);
+        final int obj26 = i31;
         compositionContext = ComposablesKt.rememberCompositionContext(composer, 0);
         ComposerKt.sourceInformationMarkerStart(composer, 904082560, defaultSize);
-        int i23 = 256;
-        if (i17 ^= 384 > i23) {
+        int i22 = 256;
+        if (i16 ^= 384 > i22) {
             if (!composer.changed(viewportWidth2)) {
-                i7 = composableLambdaInstance & 384 == i23 ? 1 : 0;
+                i2 = composableLambdaInstance & 384 == i22 ? 1 : 0;
             } else {
             }
         } else {
         }
-        int i18 = 2048;
-        if (i24 ^= 3072 > i18) {
+        int i17 = 2048;
+        if (i23 ^= 3072 > i17) {
             if (!composer.changed(viewportHeight2)) {
-                i2 = composableLambdaInstance & 3072 == i18 ? 1 : 0;
+                i3 = composableLambdaInstance & 3072 == i17 ? 1 : 0;
             } else {
             }
         } else {
         }
-        int i52 = 100663296;
-        int i20 = 67108864;
-        if (i26 ^= i52 > i20) {
+        int i51 = 100663296;
+        int i19 = 67108864;
+        if (i25 ^= i51 > i19) {
             if (!composer.changed($composer)) {
-                i6 = composableLambdaInstance & i52 == i20 ? 1 : 0;
+                i4 = composableLambdaInstance & i51 == i19 ? 1 : 0;
             } else {
             }
         } else {
             obj = $composer;
         }
         Composer composer2 = $changed;
+        int i52 = 0;
+        it$iv2 = composer2.rememberedValue();
         int i53 = 0;
-        it$iv = composer2.rememberedValue();
-        int i54 = 0;
-        if (obj29 | i6 == 0) {
-            if (it$iv == Composer.Companion.getEmpty()) {
-                i5 = 0;
+        if (obj29 | i4 == 0) {
+            if (it$iv2 == Composer.Companion.getEmpty()) {
+                $i$a$CacheVectorPainterKt$rememberVectorPainter$2$1 = 0;
                 composition$ui_release = obj3.getComposition$ui_release();
                 if (composition$ui_release != null) {
                     if (composition$ui_release.isDisposed()) {
-                        obj29 = it$iv;
-                        obj30 = i5;
+                        obj29 = it$iv2;
+                        obj30 = $i$a$CacheVectorPainterKt$rememberVectorPainter$2$1;
                         VectorApplier it$iv3 = new VectorApplier((VNode)obj3.getVector$ui_release().getRoot());
-                        it$iv = CompositionKt.Composition((Applier)it$iv3, compositionContext);
+                        it$iv2 = CompositionKt.Composition((Applier)it$iv3, compositionContext);
                     } else {
-                        obj29 = it$iv;
-                        obj30 = i5;
-                        it$iv = composition$ui_release;
+                        obj29 = it$iv2;
+                        obj30 = $i$a$CacheVectorPainterKt$rememberVectorPainter$2$1;
+                        it$iv2 = composition$ui_release;
                     }
                 } else {
                 }
                 VectorPainterKt.rememberVectorPainter.2.1.1 anon = new VectorPainterKt.rememberVectorPainter.2.1.1(obj, viewportSize-Pq9zytI, str6);
                 obj34 = compositionContext;
-                it$iv.setContent((Function2)ComposableLambdaKt.composableLambdaInstance(-824421385, true, anon));
-                composer2.updateRememberedValue(it$iv);
+                it$iv2.setContent((Function2)ComposableLambdaKt.composableLambdaInstance(-824421385, true, anon));
+                composer2.updateRememberedValue(it$iv2);
             } else {
-                obj29 = it$iv;
+                obj29 = it$iv2;
                 obj34 = compositionContext;
             }
         } else {
         }
         ComposerKt.sourceInformationMarkerEnd($changed);
-        obj3.setComposition$ui_release((Composition)it$iv);
+        obj3.setComposition$ui_release((Composition)it$iv2);
         $changed.endReplaceGroup();
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();

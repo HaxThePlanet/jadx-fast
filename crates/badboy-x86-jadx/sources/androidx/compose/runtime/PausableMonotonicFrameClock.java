@@ -62,20 +62,20 @@ public final class PausableMonotonicFrameClock implements androidx.compose.runti
 
     public <R> Object withFrameNanos(Function1<? super Long, ? extends R> function1, Continuation<? super R> continuation2) {
         boolean anon;
+        int i2;
         int i3;
-        int i;
         Object label;
         Object frameClock;
-        int i2;
+        int i;
         Object obj6;
         Object obj7;
         anon = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof PausableMonotonicFrameClock.withFrameNanos.1 && label2 &= i != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation2 instanceof PausableMonotonicFrameClock.withFrameNanos.1 && label2 &= i3 != 0) {
             anon = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label2 &= i != 0) {
-                anon.label = obj7 -= i;
+            i3 = Integer.MIN_VALUE;
+            if (label2 &= i3 != 0) {
+                anon.label = obj7 -= i3;
             } else {
                 anon = new PausableMonotonicFrameClock.withFrameNanos.1(this, continuation2);
             }

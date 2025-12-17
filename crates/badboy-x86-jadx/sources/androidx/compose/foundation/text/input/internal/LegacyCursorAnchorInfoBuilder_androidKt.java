@@ -21,7 +21,7 @@ import kotlin.ranges.RangesKt;
 public final class LegacyCursorAnchorInfoBuilder_androidKt {
     private static final CursorAnchorInfo.Builder addCharacterBounds(CursorAnchorInfo.Builder $this$addCharacterBounds, int startOffset, int endOffset, OffsetMapping offsetMapping, TextLayoutResult textLayoutResult, Rect innerTextFieldBounds) {
         int originalToTransformed;
-        long rect;
+        long rect2;
         int offset;
         int left;
         int flags;
@@ -32,7 +32,7 @@ public final class LegacyCursorAnchorInfoBuilder_androidKt {
         float bottom;
         int i;
         int i2;
-        Rect rect2;
+        Rect rect;
         final int i3 = endOffset;
         final Object obj = offsetMapping;
         final Rect rect3 = innerTextFieldBounds;
@@ -55,7 +55,7 @@ public final class LegacyCursorAnchorInfoBuilder_androidKt {
             } else {
             }
             i = flags;
-            rect2 = rect4;
+            rect = rect4;
             $this$addCharacterBounds.addCharacterBounds(offset, rect4.getLeft(), rect4.getTop(), rect4.getRight(), rect4.getBottom(), i);
             offset++;
             i = flags;
@@ -149,28 +149,28 @@ public final class LegacyCursorAnchorInfoBuilder_androidKt {
 
     public static final boolean containsInclusive(Rect $this$containsInclusive, float x, float y) {
         float left;
-        int i2;
+        int i;
         float top;
         int cmp;
-        int i;
-        i = 1;
+        int i2;
+        i2 = 1;
         final int i3 = 0;
         if (Float.compare(x, right) <= 0 && Float.compare(left, x) <= 0) {
-            i2 = Float.compare(left, x) <= 0 ? i : i3;
+            i = Float.compare(left, x) <= 0 ? i2 : i3;
         } else {
         }
-        if (i2 != 0) {
+        if (i != 0) {
             if (Float.compare(y, bottom) <= 0 && Float.compare(top, y) <= 0) {
-                i2 = Float.compare(top, y) <= 0 ? i : i3;
+                i = Float.compare(top, y) <= 0 ? i2 : i3;
             } else {
             }
-            if (i2 != 0) {
+            if (i != 0) {
             } else {
-                i = i3;
+                i2 = i3;
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     private static final CursorAnchorInfo.Builder setInsertionMarker(CursorAnchorInfo.Builder $this$setInsertionMarker, int selectionStart, OffsetMapping offsetMapping, TextLayoutResult textLayoutResult, Rect innerTextFieldBounds) {

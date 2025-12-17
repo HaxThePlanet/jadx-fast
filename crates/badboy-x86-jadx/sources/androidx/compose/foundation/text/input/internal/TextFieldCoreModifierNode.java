@@ -183,15 +183,15 @@ public final class TextFieldCoreModifierNode extends DelegatingNode implements L
         long copy-wmQWz5c$default;
         long i5;
         long black-0d7_KjU;
-        int i8;
-        int i9;
-        int i7;
         int i6;
-        int i3;
-        int i4;
         int i;
-        long l;
+        int i8;
+        int i4;
+        int i3;
+        int i9;
         int i10;
+        long l;
+        int i7;
         long unbox-impl2 = (TextRange)highlight.component2().unbox-impl();
         if (TextRange.getCollapsed-impl(unbox-impl2)) {
         }
@@ -206,8 +206,8 @@ public final class TextFieldCoreModifierNode extends DelegatingNode implements L
                 brush = copy-wmQWz5c$default;
                 int i11 = 0;
                 i2 = 0;
-                i7 = Long.compare(black-0d7_KjU, i13) != 0 ? 1 : 0;
-                if (i7 != 0) {
+                i8 = Long.compare(black-0d7_KjU, i13) != 0 ? 1 : 0;
+                if (i8 != 0) {
                 } else {
                     i2 = 0;
                     $this$takeOrElse_u2dDxMtmZc$iv = black-0d7_KjU;
@@ -227,12 +227,12 @@ public final class TextFieldCoreModifierNode extends DelegatingNode implements L
         Object obj2;
         androidx.compose.ui.graphics.Path pathForRange;
         long l;
-        int i;
-        int i3;
-        int i2;
-        int i6;
         int i5;
         int i4;
+        int i;
+        int i2;
+        int i6;
+        int i3;
         final int min-impl = TextRange.getMin-impl(selection);
         final int max-impl = TextRange.getMax-impl(selection);
         if (min-impl != max-impl) {
@@ -287,70 +287,70 @@ public final class TextFieldCoreModifierNode extends DelegatingNode implements L
     }
 
     private final void updateScrollState-tIlFzwE(Density $this$updateScrollState_u2dtIlFzwE, int containerSize, int textLayoutSize, long currSelection, LayoutDirection layoutDirection) {
-        int i;
+        int i8;
         int difference;
         long l;
-        int cmp2;
         int cmp;
+        int cmp2;
         int anon;
         boolean showCursor;
-        int i5;
         int i7;
+        int i3;
         int left;
         LayoutDirection layoutDirection2;
         Density density;
         int previousTextLayoutSize;
         float value;
-        int i8;
-        int i2;
+        int i;
+        int i4;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i6;
+        int i2;
         CoroutineStart uNDISPATCHED;
         androidx.compose.foundation.text.input.internal.TextFieldCoreModifierNode.updateScrollState.1 field;
-        int i3;
-        int i4;
+        int i6;
+        int i5;
         final Object obj = this;
-        i = containerSize;
+        i8 = containerSize;
         final int i9 = textLayoutSize;
-        difference = i9 - i;
+        difference = i9 - i8;
         obj.scrollState.setMaxValue$foundation_release(difference);
         final int offsetToFollow-72CqOWE = obj.calculateOffsetToFollow-72CqOWE(currSelection, obj5);
         if (offsetToFollow-72CqOWE >= 0) {
             if (!obj.getShowCursor()) {
                 density = $this$updateScrollState_u2dtIlFzwE;
                 layoutDirection2 = obj29;
-                i8 = difference;
+                i = difference;
             } else {
                 TextLayoutResult layoutResult = obj.textLayoutState.getLayoutResult();
                 if (layoutResult == null) {
                 }
-                i7 = 0;
-                IntRange intRange = new IntRange(i7, layoutResult.getLayoutInput().getText().length());
+                i3 = 0;
+                IntRange intRange = new IntRange(i3, layoutResult.getLayoutInput().getText().length());
                 Rect cursorRect = layoutResult.getCursorRect(RangesKt.coerceIn(offsetToFollow-72CqOWE, (ClosedRange)intRange));
                 left = 1;
-                i5 = obj29 == LayoutDirection.Rtl ? left : i7;
-                Rect rect = TextFieldCoreModifierKt.access$getCursorRectInScroller($this$updateScrollState_u2dtIlFzwE, cursorRect, i5, i9);
-                previousTextLayoutSize = Float.compare(left2, value) == 0 ? left : i7;
+                i7 = obj29 == LayoutDirection.Rtl ? left : i3;
+                Rect rect = TextFieldCoreModifierKt.access$getCursorRectInScroller($this$updateScrollState_u2dtIlFzwE, cursorRect, i7, i9);
+                previousTextLayoutSize = Float.compare(left2, value) == 0 ? left : i3;
                 if (previousTextLayoutSize != 0) {
-                    previousTextLayoutSize = Float.compare(top, value) == 0 ? left : i7;
+                    previousTextLayoutSize = Float.compare(top, value) == 0 ? left : i3;
                     if (previousTextLayoutSize != 0) {
                         if (i9 != obj.previousTextLayoutSize) {
                             if (obj.orientation == Orientation.Vertical) {
-                                i7 = left;
+                                i3 = left;
                             }
-                            if (i7 != 0) {
+                            if (i3 != 0) {
                                 left = rect.getTop();
                             } else {
                                 left = rect.getLeft();
                             }
-                            if (i7 != 0) {
+                            if (i3 != 0) {
                                 previousTextLayoutSize = rect.getBottom();
                             } else {
                                 previousTextLayoutSize = rect.getRight();
                             }
                             value = obj.scrollState.getValue();
-                            i2 = difference;
-                            difference = value + i;
+                            i4 = difference;
+                            difference = value + i8;
                             if (Float.compare(previousTextLayoutSize, f) > 0) {
                                 l = previousTextLayoutSize - f2;
                             } else {
@@ -372,7 +372,7 @@ public final class TextFieldCoreModifierNode extends DelegatingNode implements L
                             anon = new TextFieldCoreModifierNode.updateScrollState.1(obj, l, cursorRect, 0);
                             BuildersKt.launch$default(obj.getCoroutineScope(), 0, CoroutineStart.UNDISPATCHED, (Function2)anon, 1, 0);
                         } else {
-                            i2 = difference;
+                            i4 = difference;
                         }
                     } else {
                     }
@@ -382,7 +382,7 @@ public final class TextFieldCoreModifierNode extends DelegatingNode implements L
         }
         density = $this$updateScrollState_u2dtIlFzwE;
         layoutDirection2 = obj29;
-        i8 = difference;
+        i = difference;
     }
 
     @Override // androidx.compose.ui.node.DelegatingNode
@@ -453,16 +453,16 @@ public final class TextFieldCoreModifierNode extends DelegatingNode implements L
     public final void updateNode(boolean isFocused, boolean isDragHovered, androidx.compose.foundation.text.input.internal.TextLayoutState textLayoutState, androidx.compose.foundation.text.input.internal.TransformedTextFieldState textFieldState, TextFieldSelectionState textFieldSelectionState, Brush cursorBrush, boolean writeable, ScrollState scrollState, Orientation orientation) {
         androidx.compose.foundation.text.input.internal.CursorAnimationState cursorAnimation;
         boolean equal;
-        int i2;
-        int previousShowCursor;
         int i;
-        boolean previousShowCursor2;
+        int previousShowCursor2;
+        int i2;
+        boolean previousShowCursor;
         final Object obj = this;
         final androidx.compose.foundation.text.input.internal.TextLayoutState textLayoutState2 = textLayoutState;
         final androidx.compose.foundation.text.input.internal.TransformedTextFieldState field = textFieldState;
         final TextFieldSelectionState field2 = textFieldSelectionState;
         final ScrollState scrollState2 = scrollState;
-        previousShowCursor = obj.getShowCursor();
+        previousShowCursor2 = obj.getShowCursor();
         final androidx.compose.foundation.text.input.internal.TransformedTextFieldState textFieldState2 = obj.textFieldState;
         obj.isFocused = isFocused;
         obj.isDragHovered = isDragHovered;
@@ -475,28 +475,28 @@ public final class TextFieldCoreModifierNode extends DelegatingNode implements L
         obj.orientation = orientation;
         if (!isFocused) {
             if (isDragHovered) {
-                i2 = 1;
+                i = 1;
             } else {
-                i2 = i;
+                i = i2;
             }
         } else {
         }
-        obj.textFieldMagnifierNode.update(field, field2, textLayoutState2, i2);
+        obj.textFieldMagnifierNode.update(field, field2, textLayoutState2, i);
         if (!obj.getShowCursor()) {
             Job changeObserverJob = obj.changeObserverJob;
-            i2 = 0;
+            i = 0;
             if (changeObserverJob != null) {
-                previousShowCursor2 = previousShowCursor;
-                Job.DefaultImpls.cancel$default(changeObserverJob, i2, 1, i2);
+                previousShowCursor = previousShowCursor2;
+                Job.DefaultImpls.cancel$default(changeObserverJob, i, 1, i);
             } else {
-                previousShowCursor2 = previousShowCursor;
+                previousShowCursor = previousShowCursor2;
             }
-            obj.changeObserverJob = i2;
+            obj.changeObserverJob = i;
             obj.cursorAnimation.cancelAndHide();
         } else {
             if (obj.isFocused && Intrinsics.areEqual(textFieldState2, field)) {
                 if (Intrinsics.areEqual(textFieldState2, field)) {
-                    if (previousShowCursor == null) {
+                    if (!previousShowCursor2) {
                         obj.startCursorJob();
                     }
                 } else {

@@ -16,7 +16,7 @@ import kotlin.Metadata;
 public final class MultiWidgetSelectionDelegateKt {
     public static final void appendSelectableInfo-Parwq6A(androidx.compose.foundation.text.selection.SelectionLayoutBuilder $this$appendSelectableInfo_u2dParwq6A, TextLayoutResult textLayoutResult, long localPosition, long previousHandlePosition, long selectableId) {
         androidx.compose.foundation.text.selection.Direction currentXDirection;
-        int currentYDirection;
+        int currentYDirection2;
         int offsetForPosition-3MmeM6k;
         androidx.compose.foundation.text.selection.Direction yDirection-3MmeM6k;
         androidx.compose.foundation.text.selection.Direction previousAdjustedOffset;
@@ -26,9 +26,9 @@ public final class MultiWidgetSelectionDelegateKt {
         int i;
         androidx.compose.foundation.text.selection.Direction direction3;
         androidx.compose.foundation.text.selection.Direction otherDirection;
-        androidx.compose.foundation.text.selection.Direction direction;
-        int rawStartHandleOffset;
         androidx.compose.foundation.text.selection.Direction direction2;
+        int rawStartHandleOffset;
+        androidx.compose.foundation.text.selection.Direction direction;
         androidx.compose.foundation.text.selection.Direction direction5;
         int selectableIdOrderingComparator;
         int i2;
@@ -36,7 +36,7 @@ public final class MultiWidgetSelectionDelegateKt {
         androidx.compose.foundation.text.selection.Direction endYHandleDirection;
         androidx.compose.foundation.text.selection.Direction direction4;
         androidx.compose.foundation.text.selection.Direction startXHandleDirection;
-        androidx.compose.foundation.text.selection.Direction currentYDirection2;
+        androidx.compose.foundation.text.selection.Direction currentYDirection;
         final TextLayoutResult textLayoutResult2 = textLayoutResult;
         Object obj = localPosition;
         int i3 = 0;
@@ -59,9 +59,9 @@ public final class MultiWidgetSelectionDelegateKt {
             previousAdjustedOffset = xDirection-3MmeM6k;
             direction4 = xDirection-3MmeM6k;
             currentXDirection = yDirection-3MmeM6k;
-            direction2 = direction3;
+            direction = direction3;
             endYHandleDirection = appendSelectableInfo_Parwq6A$otherDirection;
-            direction5 = direction;
+            direction5 = direction2;
             otherDirection = direction9;
             startYHandleDirection = obj24;
         } else {
@@ -74,7 +74,7 @@ public final class MultiWidgetSelectionDelegateKt {
             yDirection-3MmeM6k = otherDirection;
             endYHandleDirection = otherDirection;
             direction5 = direction11;
-            direction2 = direction;
+            direction = direction2;
         }
         if (!MultiWidgetSelectionDelegateKt.isSelected(SelectionLayoutKt.resolve2dDirection(direction4, currentXDirection), endYHandleDirection)) {
         }
@@ -85,25 +85,25 @@ public final class MultiWidgetSelectionDelegateKt {
             int rawStartHandleOffset3 = MultiWidgetSelectionDelegateKt.getOffsetForPosition-3MmeM6k(obj, obj12);
             androidx.compose.foundation.text.selection.Selection previousSelection4 = $this$appendSelectableInfo_u2dParwq6A.getPreviousSelection();
             if (previousSelection4 != null) {
-                currentYDirection2 = currentXDirection;
+                currentYDirection = currentXDirection;
                 currentXDirection = previousSelection4.getEnd();
                 if (currentXDirection != null) {
                     startXHandleDirection = previousAdjustedOffset;
-                    currentYDirection = MultiWidgetSelectionDelegateKt.getPreviousAdjustedOffset(currentXDirection, $this$appendSelectableInfo_u2dParwq6A.getSelectableIdOrderingComparator(), startYHandleDirection, direction3);
+                    currentYDirection2 = MultiWidgetSelectionDelegateKt.getPreviousAdjustedOffset(currentXDirection, $this$appendSelectableInfo_u2dParwq6A.getSelectableIdOrderingComparator(), startYHandleDirection, direction3);
                 } else {
                     startXHandleDirection = previousAdjustedOffset;
-                    currentYDirection = rawStartHandleOffset3;
+                    currentYDirection2 = rawStartHandleOffset3;
                 }
             } else {
-                currentYDirection2 = currentXDirection;
+                currentYDirection = currentXDirection;
                 startXHandleDirection = previousAdjustedOffset;
             }
             i = rawStartHandleOffset3;
-            rawStartHandleOffset = currentYDirection;
+            rawStartHandleOffset = currentYDirection2;
         } else {
-            currentYDirection2 = currentXDirection;
+            currentYDirection = currentXDirection;
             startXHandleDirection = previousAdjustedOffset;
-            currentYDirection = MultiWidgetSelectionDelegateKt.getOffsetForPosition-3MmeM6k(obj, obj12);
+            currentYDirection2 = MultiWidgetSelectionDelegateKt.getOffsetForPosition-3MmeM6k(obj, obj12);
             previousSelection = $this$appendSelectableInfo_u2dParwq6A.getPreviousSelection();
             previousSelection = previousSelection.getStart();
             if (previousSelection != null && previousSelection != null) {
@@ -111,12 +111,12 @@ public final class MultiWidgetSelectionDelegateKt {
                 if (previousSelection != null) {
                     previousAdjustedOffset = MultiWidgetSelectionDelegateKt.getPreviousAdjustedOffset(previousSelection, $this$appendSelectableInfo_u2dParwq6A.getSelectableIdOrderingComparator(), startYHandleDirection, direction3);
                 } else {
-                    previousAdjustedOffset = currentYDirection;
+                    previousAdjustedOffset = currentYDirection2;
                 }
             } else {
             }
             i = rawStartHandleOffset2;
-            rawStartHandleOffset = currentYDirection;
+            rawStartHandleOffset = currentYDirection2;
         }
         if (OffsetKt.isUnspecified-k-4lQ0M(selectableId)) {
             obj2 = selectableId;
@@ -125,7 +125,7 @@ public final class MultiWidgetSelectionDelegateKt {
             i2 = offsetForPosition-3MmeM6k;
         }
         int startXHandleDirection2 = length;
-        $this$appendSelectableInfo_u2dParwq6A.appendInfo(obj24, previousAdjustedOffset, i, startXHandleDirection, otherDirection, rawStartHandleOffset, direction2, direction5, i2);
+        $this$appendSelectableInfo_u2dParwq6A.appendInfo(obj24, previousAdjustedOffset, i, startXHandleDirection, otherDirection, rawStartHandleOffset, direction, direction5, i2);
     }
 
     private static final androidx.compose.foundation.text.selection.Direction appendSelectableInfo_Parwq6A$otherDirection(androidx.compose.foundation.text.selection.Direction currentXDirection, androidx.compose.foundation.text.selection.Direction currentYDirection, androidx.compose.foundation.text.selection.SelectionLayoutBuilder $this_appendSelectableInfo, long $selectableId, androidx.compose.foundation.text.selection.Selection.AnchorInfo anchor) {

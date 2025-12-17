@@ -164,20 +164,20 @@ public class ViewCompat {
         boolean booleanNullToFalseEquals(Boolean a, Boolean b) {
             int i3;
             boolean booleanValue2;
-            int i2;
-            boolean booleanValue;
             int i;
+            boolean booleanValue;
+            int i2;
             i3 = 1;
             final int i4 = 0;
             if (a != null && a.booleanValue()) {
-                i2 = a.booleanValue() ? i3 : i4;
+                i = a.booleanValue() ? i3 : i4;
             } else {
             }
             if (b != null && b.booleanValue()) {
-                i = b.booleanValue() ? i3 : i4;
+                i2 = b.booleanValue() ? i3 : i4;
             } else {
             }
-            if (i2 == i) {
+            if (i == i2) {
             } else {
                 i3 = i4;
             }
@@ -832,31 +832,31 @@ public class ViewCompat {
         }
 
         private boolean onUnhandledKeyEvent(View v, KeyEvent event) {
-            int i2;
             int i;
+            int i2;
             boolean onUnhandledKeyEvent;
             Object tag = v.getTag(R.id.tag_unhandled_key_listeners);
             if ((ArrayList)tag != null) {
-                i = 1;
-                size -= i;
-                while (i2 >= 0) {
-                    i2--;
+                i2 = 1;
+                size -= i2;
+                while (i >= 0) {
+                    i--;
                 }
             }
             return 0;
         }
 
         private void recalcViewsWithUnhandled() {
-            WeakHashMap mViewsContainingListeners;
             WeakHashMap mViewsContainingListeners2;
+            WeakHashMap mViewsContainingListeners;
             int i;
-            Object obj;
             Object obj2;
+            Object obj;
             ArrayList nxt;
             boolean z;
-            Boolean tRUE;
-            ViewParent view;
             Boolean tRUE2;
+            ViewParent view;
+            Boolean tRUE;
             if (this.mViewsContainingListeners != null) {
                 this.mViewsContainingListeners.clear();
             }
@@ -864,23 +864,23 @@ public class ViewCompat {
             }
             ArrayList sViewsWithListeners2 = ViewCompat.UnhandledKeyEventManager.sViewsWithListeners;
             synchronized (sViewsWithListeners2) {
-                mViewsContainingListeners2 = new WeakHashMap();
-                this.mViewsContainingListeners = mViewsContainingListeners2;
+                mViewsContainingListeners = new WeakHashMap();
+                this.mViewsContainingListeners = mViewsContainingListeners;
                 size--;
                 while (i >= 0) {
-                    obj2 = (WeakReference)ViewCompat.UnhandledKeyEventManager.sViewsWithListeners.get(i).get();
-                    if ((View)obj2 == null) {
+                    obj = (WeakReference)ViewCompat.UnhandledKeyEventManager.sViewsWithListeners.get(i).get();
+                    if ((View)obj == null) {
                     } else {
                     }
-                    this.mViewsContainingListeners.put((View)obj2, Boolean.TRUE);
-                    nxt = obj2.getParent();
+                    this.mViewsContainingListeners.put((View)obj, Boolean.TRUE);
+                    nxt = obj.getParent();
                     while (nxt instanceof View != null) {
                         this.mViewsContainingListeners.put((View)nxt, Boolean.TRUE);
-                        nxt = tRUE;
+                        nxt = tRUE2;
                     }
                     i--;
                     this.mViewsContainingListeners.put((View)nxt, Boolean.TRUE);
-                    nxt = tRUE;
+                    nxt = tRUE2;
                     ViewCompat.UnhandledKeyEventManager.sViewsWithListeners.remove(i);
                 }
             }
@@ -1149,13 +1149,13 @@ public class ViewCompat {
 
     public static void dispatchNestedScroll(View view, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] offsetInWindow, int type, int[] consumed) {
         Object obj;
-        int i;
-        int i4;
         int i3;
+        int i5;
+        int i4;
+        int i;
+        int[] iArr2;
         int i2;
         int[] iArr;
-        int i5;
-        int[] iArr2;
         if (view instanceof NestedScrollingChild3) {
             (NestedScrollingChild3)view.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow, type, consumed);
         } else {
@@ -1216,8 +1216,8 @@ public class ViewCompat {
 
     static void fallbackTransformMatrixToGlobal(View view, Matrix matrix) {
         boolean z;
-        float f2;
         float f;
+        float f2;
         final ViewParent parent = view.getParent();
         if (parent instanceof View != null) {
             z = parent;
@@ -1311,11 +1311,11 @@ public class ViewCompat {
         int i2;
         int i;
         boolean equals;
-        int size;
+        int size2;
         int length;
         int idAvailable;
         int j;
-        int size2;
+        int size;
         result = -1;
         final List actionList = ViewCompat.getActionList(view);
         i2 = 0;
@@ -1323,30 +1323,30 @@ public class ViewCompat {
             i2++;
         }
         i = 0;
-        for (int size : obj3) {
+        for (int size2 : obj3) {
             if (result == -1) {
             }
             idAvailable = 1;
             j = 0;
             while (j < actionList.size()) {
-                if ((AccessibilityNodeInfoCompat.AccessibilityActionCompat)actionList.get(j).getId() != size) {
+                if ((AccessibilityNodeInfoCompat.AccessibilityActionCompat)actionList.get(j).getId() != size2) {
                 } else {
                 }
-                size2 = 0;
-                idAvailable &= size2;
+                size = 0;
+                idAvailable &= size;
                 j++;
-                size2 = 1;
+                size = 1;
             }
             if (idAvailable != 0) {
             }
-            result = size;
-            if ((AccessibilityNodeInfoCompat.AccessibilityActionCompat)actionList.get(j).getId() != size) {
+            result = size2;
+            if ((AccessibilityNodeInfoCompat.AccessibilityActionCompat)actionList.get(j).getId() != size2) {
             } else {
             }
-            size2 = 0;
-            idAvailable &= size2;
+            size = 0;
+            idAvailable &= size;
             j++;
-            size2 = 1;
+            size = 1;
         }
         return result;
     }
@@ -1384,12 +1384,12 @@ public class ViewCompat {
     }
 
     private static Rect getEmptyTempRect() {
-        java.lang.ThreadLocal sThreadLocalRect;
-        Object rect;
         java.lang.ThreadLocal sThreadLocalRect2;
+        Object rect;
+        java.lang.ThreadLocal sThreadLocalRect;
         if (ViewCompat.sThreadLocalRect == null) {
-            sThreadLocalRect = new ThreadLocal();
-            ViewCompat.sThreadLocalRect = sThreadLocalRect;
+            sThreadLocalRect2 = new ThreadLocal();
+            ViewCompat.sThreadLocalRect = sThreadLocalRect2;
         }
         if ((Rect)ViewCompat.sThreadLocalRect.get() == null) {
             Rect rect2 = new Rect();
@@ -2203,8 +2203,8 @@ public class ViewCompat {
         int sDK_INT;
         String[] strArr;
         int hasLeadingWildcard;
-        String string;
         String string2;
+        String string;
         boolean startsWith;
         int obj6;
         if (Build.VERSION.SDK_INT >= 31) {

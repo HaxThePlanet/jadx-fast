@@ -1,0 +1,68 @@
+package androidx.compose.foundation.lazy.grid;
+
+import androidx.compose.animation.core.AnimationSpecKt;
+import androidx.compose.animation.core.FiniteAnimationSpec;
+import androidx.compose.animation.core.VisibilityThresholdsKt;
+import androidx.compose.ui.Modifier;
+import androidx.compose.ui.unit.IntOffset;
+import kotlin.Deprecated;
+import kotlin.Metadata;
+import kotlin.ReplaceWith;
+
+/* loaded from: classes.dex */
+@LazyGridScopeMarker
+@Metadata(d1 = "\u0000(\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0010\u0007\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0018\u0002\n\u0000\u0008w\u0018\u00002\u00020\u0001JB\u0010\u0002\u001a\u00020\u0003*\u00020\u00032\u0010\u0008\u0002\u0010\u0004\u001a\n\u0012\u0004\u0012\u00020\u0006\u0018\u00010\u00052\u0010\u0008\u0002\u0010\u0007\u001a\n\u0012\u0004\u0012\u00020\u0008\u0018\u00010\u00052\u0010\u0008\u0002\u0010\t\u001a\n\u0012\u0004\u0012\u00020\u0006\u0018\u00010\u0005H&J\u001c\u0010\n\u001a\u00020\u0003*\u00020\u00032\u000e\u0008\u0002\u0010\u000b\u001a\u0008\u0012\u0004\u0012\u00020\u00080\u0005H\u0017\u0082\u0001\u0001\u000cø\u0001\u0000\u0082\u0002\u0006\n\u0004\u0008!0\u0001¨\u0006\rÀ\u0006\u0001", d2 = {"Landroidx/compose/foundation/lazy/grid/LazyGridItemScope;", "", "animateItem", "Landroidx/compose/ui/Modifier;", "fadeInSpec", "Landroidx/compose/animation/core/FiniteAnimationSpec;", "", "placementSpec", "Landroidx/compose/ui/unit/IntOffset;", "fadeOutSpec", "animateItemPlacement", "animationSpec", "Landroidx/compose/foundation/lazy/grid/LazyGridItemScopeImpl;", "foundation_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
+public interface LazyGridItemScope {
+    public static Modifier animateItem$default(androidx.compose.foundation.lazy.grid.LazyGridItemScope lazyGridItemScope, Modifier modifier2, FiniteAnimationSpec finiteAnimationSpec3, FiniteAnimationSpec finiteAnimationSpec4, FiniteAnimationSpec finiteAnimationSpec5, int i6, Object object7) {
+        long visibilityThreshold;
+        androidx.compose.animation.core.SpringSpec obj8;
+        androidx.compose.animation.core.SpringSpec obj9;
+        androidx.compose.animation.core.SpringSpec obj10;
+        int obj12;
+        if (object7 != null) {
+        } else {
+            final int i = 5;
+            final int i2 = 1137180672;
+            final int i3 = 0;
+            final int i4 = 0;
+            if (i6 & 1 != 0) {
+                obj8 = AnimationSpecKt.spring$default(i3, i2, i4, i, i4);
+            }
+            if (i6 & 2 != 0) {
+                obj9 = AnimationSpecKt.spring$default(i3, i2, IntOffset.box-impl(VisibilityThresholdsKt.getVisibilityThreshold(IntOffset.Companion)), 1, i4);
+            }
+            if (i6 &= 4 != 0) {
+                obj10 = AnimationSpecKt.spring$default(i3, i2, i4, i, i4);
+            }
+            return lazyGridItemScope.animateItem(modifier2, obj8, obj9, obj10);
+        }
+        UnsupportedOperationException obj6 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: animateItem");
+        throw obj6;
+    }
+
+    public static Modifier animateItemPlacement$default(androidx.compose.foundation.lazy.grid.LazyGridItemScope lazyGridItemScope, Modifier modifier2, FiniteAnimationSpec finiteAnimationSpec3, int i4, Object object5) {
+        int i;
+        int i2;
+        androidx.compose.animation.core.SpringSpec obj4;
+        int obj5;
+        if (object5 != null) {
+        } else {
+            final int obj6 = 1;
+            i4 &= obj6;
+            if (obj5 != null) {
+                obj4 = AnimationSpecKt.spring$default(0, 1137180672, IntOffset.box-impl(VisibilityThresholdsKt.getVisibilityThreshold(IntOffset.Companion)), obj6, 0);
+            }
+            return lazyGridItemScope.animateItemPlacement(modifier2, obj4);
+        }
+        UnsupportedOperationException obj2 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: animateItemPlacement");
+        throw obj2;
+    }
+
+    public abstract Modifier animateItem(Modifier modifier, FiniteAnimationSpec<Float> finiteAnimationSpec2, FiniteAnimationSpec<IntOffset> finiteAnimationSpec3, FiniteAnimationSpec<Float> finiteAnimationSpec4);
+
+    @Deprecated(message = "Use Modifier.animateItem() instead", replaceWith = @ReplaceWith(...))
+    public Modifier animateItemPlacement(Modifier $this$animateItemPlacement, FiniteAnimationSpec<IntOffset> animationSpec) {
+        int i = 0;
+        return animateItem($this$animateItemPlacement, i, animationSpec, i);
+    }
+}

@@ -95,13 +95,13 @@ public final class FastServiceLoader {
         String string;
         int length;
         int $this$all$iv;
-        int i4;
-        int i3;
-        int i;
-        int charAt;
         int i2;
-        int it;
+        int i4;
         int i5;
+        int charAt;
+        int i3;
+        int it;
+        int i;
         boolean javaIdentifierPart;
         LinkedHashSet linkedHashSet = new LinkedHashSet();
         line = r.readLine();
@@ -109,47 +109,47 @@ public final class FastServiceLoader {
             int i8 = 0;
             string = StringsKt.trim((CharSequence)StringsKt.substringBefore$default(line, "#", i8, 2, i8)).toString();
             String str2 = string;
+            i2 = 0;
             i4 = 0;
-            i3 = 0;
-            i = i3;
-            i2 = 1;
-            while (i < (CharSequence)str2.length()) {
+            i5 = i4;
+            i3 = 1;
+            while (i5 < (CharSequence)str2.length()) {
                 char c = charAt;
-                i5 = 0;
+                i = 0;
                 if (c != 46) {
                 } else {
                 }
-                it = i2;
-                i++;
-                i2 = 1;
+                it = i3;
+                i5++;
+                i3 = 1;
                 if (Character.isJavaIdentifierPart(c)) {
                 } else {
                 }
-                it = i3;
+                it = i4;
             }
-            $this$all$iv = i2;
+            $this$all$iv = i3;
             if ((CharSequence)string.length() > 0) {
             }
-            if (i3 != 0) {
+            if (i4 != 0) {
             }
             line = r.readLine();
             (Set)linkedHashSet.add(string);
-            i3 = i2;
+            i4 = i3;
             c = charAt;
-            i5 = 0;
+            i = 0;
             if (c != 46) {
             } else {
             }
-            it = i2;
+            it = i3;
             if (it == 0) {
             } else {
             }
-            i++;
-            $this$all$iv = i3;
+            i5++;
+            $this$all$iv = i4;
             if (Character.isJavaIdentifierPart(c)) {
             } else {
             }
-            it = i3;
+            it = i4;
         }
         return CollectionsKt.toList((Iterable)linkedHashSet);
     }
@@ -163,10 +163,10 @@ public final class FastServiceLoader {
 
     public final List<kotlinx.coroutines.internal.MainDispatcherFactory> loadMainDispatcherFactory$kotlinx_coroutines_core() {
         ArrayList arrayList;
-        String str2;
         String str;
-        Class forName2;
+        String $i$a$ApplyFastServiceLoader$loadMainDispatcherFactory$1;
         Class forName;
+        Class forName2;
         Object cast;
         final Class<kotlinx.coroutines.internal.MainDispatcherFactory> obj = MainDispatcherFactory.class;
         if (!FastServiceLoaderKt.getANDROID_DETECTED()) {
@@ -180,14 +180,14 @@ public final class FastServiceLoader {
         int i6 = 0;
         cast = obj.cast(Class.forName("kotlinx.coroutines.android.AndroidDispatcherFactory", i5, obj.getClassLoader()).getDeclaredConstructor(new Class[i6]).newInstance(new Object[i6]));
         if (cast != null) {
-            str2 = 0;
+            str = 0;
             arrayList.add(cast);
         }
         Object obj3 = this;
         int i3 = 0;
         Object obj4 = cast2;
         if (obj4 != null) {
-            str = 0;
+            $i$a$ApplyFastServiceLoader$loadMainDispatcherFactory$1 = 0;
             arrayList.add(obj4);
         }
         return arrayList;
@@ -197,8 +197,8 @@ public final class FastServiceLoader {
         Object next;
         List it;
         int it2;
-        kotlinx.coroutines.internal.FastServiceLoader iNSTANCE;
         kotlinx.coroutines.internal.FastServiceLoader iNSTANCE2;
+        kotlinx.coroutines.internal.FastServiceLoader iNSTANCE;
         StringBuilder stringBuilder = new StringBuilder();
         ArrayList list = Collections.list(loader.getResources(stringBuilder.append("META-INF/services/").append(service.getName()).toString()));
         Intrinsics.checkNotNullExpressionValue(list, "list(this)");
@@ -219,13 +219,13 @@ public final class FastServiceLoader {
             int i6 = 0;
             Iterator iterator2 = set3.iterator();
             for (Object it : iterator2) {
-                iNSTANCE = 0;
+                iNSTANCE2 = 0;
                 (Collection)arrayList2.add(FastServiceLoader.INSTANCE.getProviderInstance((String)it, loader, service));
             }
             return (List)arrayList2;
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("No providers were loaded with FastServiceLoader".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireFastServiceLoader$loadProviders$1 = new IllegalArgumentException("No providers were loaded with FastServiceLoader".toString());
+        throw $i$a$RequireFastServiceLoader$loadProviders$1;
     }
 }

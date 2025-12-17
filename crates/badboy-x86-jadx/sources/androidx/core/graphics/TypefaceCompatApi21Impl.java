@@ -60,11 +60,11 @@ class TypefaceCompatApi21Impl extends androidx.core.graphics.TypefaceCompatBaseI
     }
 
     private static void init() {
-        Method method2;
+        Method method;
         Class forName;
         int i;
         Constructor constructor;
-        Method method;
+        Method method2;
         if (TypefaceCompatApi21Impl.sHasInitBeenCalled) {
         }
         int i2 = 1;
@@ -76,14 +76,14 @@ class TypefaceCompatApi21Impl extends androidx.core.graphics.TypefaceCompatBaseI
         arr3[i] = String.class;
         arr3[i2] = Integer.TYPE;
         arr3[2] = Boolean.TYPE;
-        method = forName.getMethod("addFontWeightStyle", arr3);
+        method2 = forName.getMethod("addFontWeightStyle", arr3);
         Class[] arr = new Class[i2];
         arr[i] = Array.newInstance(forName, i2).getClass();
-        method2 = Typeface.class.getMethod("createFromFamiliesWithDefault", arr);
+        method = Typeface.class.getMethod("createFromFamiliesWithDefault", arr);
         TypefaceCompatApi21Impl.sFontFamilyCtor = constructor;
         TypefaceCompatApi21Impl.sFontFamily = forName;
-        TypefaceCompatApi21Impl.sAddFontWeightStyle = method;
-        TypefaceCompatApi21Impl.sCreateFromFamiliesWithDefault = method2;
+        TypefaceCompatApi21Impl.sAddFontWeightStyle = method2;
+        TypefaceCompatApi21Impl.sCreateFromFamiliesWithDefault = method;
     }
 
     private static Object newFamily() {
@@ -93,22 +93,22 @@ class TypefaceCompatApi21Impl extends androidx.core.graphics.TypefaceCompatBaseI
 
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry entry, Resources resources, int style) {
-        int i2;
+        int i;
         FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry;
         File tempFile;
-        int i;
+        int i2;
         boolean fontWeightStyle;
         int weight;
         boolean italic;
         final Object family = TypefaceCompatApi21Impl.newFamily();
         FontResourcesParserCompat.FontFileResourceEntry[] entries = entry.getEntries();
-        i2 = 0;
-        while (i2 < entries.length) {
-            fontFileResourceEntry = entries[i2];
+        i = 0;
+        while (i < entries.length) {
+            fontFileResourceEntry = entries[i];
             tempFile = TypefaceCompatUtil.getTempFile(context);
-            i = 0;
+            i2 = 0;
             tempFile.delete();
-            i2++;
+            i++;
         }
         return TypefaceCompatApi21Impl.createFromFamiliesWithDefault(family);
     }
@@ -117,8 +117,8 @@ class TypefaceCompatApi21Impl extends androidx.core.graphics.TypefaceCompatBaseI
     public Typeface createFromFontInfo(Context context, CancellationSignal cancellationSignal, FontsContractCompat.FontInfo[] fonts, int style) {
         Throwable file;
         Throwable read;
-        Throwable th2;
         Throwable th;
+        Throwable th2;
         final int i2 = 0;
         if (fonts.length < 1) {
             return i2;

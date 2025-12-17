@@ -77,16 +77,16 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
     }
     public BroadcastChannelImpl(int capacity) {
         int capacity2;
-        int i;
         int i2;
+        int i;
         super(0, 0);
         this.capacity = capacity;
         int i5 = 1;
         if (this.capacity < i5) {
-            i = this.capacity == -1 ? i5 : i;
+            i2 = this.capacity == -1 ? i5 : i2;
         } else {
         }
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
             ReentrantLock reentrantLock = new ReentrantLock();
             this.lock = reentrantLock;
@@ -122,8 +122,8 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
     private final void removeSubscriber(kotlinx.coroutines.channels.ReceiveChannel<? extends E> s) {
         Object next;
         Object obj;
-        int i2;
         int i;
+        int i2;
         final int i3 = 0;
         final ReentrantLock reentrantLock = lock;
         (Lock)reentrantLock.lock();
@@ -134,18 +134,18 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
         final Iterator iterator = (Iterable)this.subscribers.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            i2 = 0;
+            i = 0;
             if ((BufferedChannel)next != s) {
             } else {
             }
-            i = 0;
-            if (i != 0) {
+            i2 = 0;
+            if (i2 != 0) {
             }
             (Collection)arrayList.add(next);
-            i = 1;
+            i2 = 1;
         }
         this.subscribers = (List)arrayList;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$WithLockBroadcastChannelImpl$removeSubscriber$1 = Unit.INSTANCE;
         reentrantLock.unlock();
     }
 
@@ -172,11 +172,11 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
     @Override // kotlinx.coroutines.channels.BufferedChannel
     public boolean close(Throwable cause) {
         Object next;
-        Object obj;
-        int i;
-        Object next2;
         Object obj2;
         int i2;
+        Object next2;
+        Object obj;
+        int i;
         boolean elements$kotlinx_coroutines_core;
         final int i3 = 0;
         final ReentrantLock reentrantLock = lock;
@@ -185,7 +185,7 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
         int i5 = 0;
         Iterator iterator = (Iterable)this.subscribers.iterator();
         for (Object next : iterator) {
-            i = 0;
+            i2 = 0;
             (BufferedChannel)next.close(cause);
         }
         int i6 = 0;
@@ -194,7 +194,7 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
         Iterator iterator2 = (Iterable)this.subscribers.iterator();
         while (iterator2.hasNext()) {
             next2 = iterator2.next();
-            i2 = 0;
+            i = 0;
             if ((BufferedChannel)next2.hasElements$kotlinx_coroutines_core()) {
             }
             (Collection)arrayList.add(next2);
@@ -233,23 +233,23 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
     }
 
     public final E getValueOrNull() {
-        boolean lastConflatedElement;
-        int lastConflatedElement2;
+        boolean lastConflatedElement2;
+        int lastConflatedElement;
         kotlinx.coroutines.internal.Symbol symbol;
         final int i = 0;
         final ReentrantLock reentrantLock = lock;
         (Lock)reentrantLock.lock();
         final int i2 = 0;
-        lastConflatedElement2 = 0;
+        lastConflatedElement = 0;
         if (isClosedForReceive()) {
         } else {
             if (this.lastConflatedElement == BroadcastChannelKt.access$getNO_ELEMENT$p()) {
             } else {
-                lastConflatedElement2 = this.lastConflatedElement;
+                lastConflatedElement = this.lastConflatedElement;
             }
         }
         reentrantLock.unlock();
-        return lastConflatedElement2;
+        return lastConflatedElement;
     }
 
     @Override // kotlinx.coroutines.channels.BufferedChannel
@@ -301,7 +301,7 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
             select.selectInRegistrationPhase(remove);
             reentrantLock.unlock();
         }
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$WithLockBroadcastChannelImpl$registerSelectForSend$1 = Unit.INSTANCE;
         reentrantLock.unlock();
         int i3 = 0;
         BroadcastChannelImpl.registerSelectForSend.2 anon = new BroadcastChannelImpl.registerSelectForSend.2(this, element, select, i3);
@@ -313,15 +313,15 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
         Object $continuation;
         int i2;
         Object $continuation2;
-        kotlinx.coroutines.channels.BroadcastChannelImpl.send.1 anon;
+        kotlinx.coroutines.channels.BroadcastChannelImpl.send.1 anon2;
         int i;
-        Object obj;
+        Object $i$a$ForEachBroadcastChannelImpl$send$2;
         Iterator $this$forEach$iv;
         Object $i$f$forEach;
         kotlinx.coroutines.channels.BroadcastChannelImpl l$0;
         List subscribers;
         int closedForSend;
-        kotlinx.coroutines.channels.BroadcastChannelImpl.send.1 anon2;
+        kotlinx.coroutines.channels.BroadcastChannelImpl.send.1 anon;
         int obj10;
         Object obj11;
         $result = continuation2;
@@ -340,18 +340,18 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
         switch (label2) {
             case 0:
                 ResultKt.throwOnFailure(obj11);
-                obj = this;
+                $i$a$ForEachBroadcastChannelImpl$send$2 = this;
                 int i4 = 0;
                 ReentrantLock reentrantLock = lock;
                 (Lock)reentrantLock.lock();
                 int $this$withLock$iv = 0;
-                obj.lastConflatedElement = e;
+                $i$a$ForEachBroadcastChannelImpl$send$2.lastConflatedElement = e;
                 reentrantLock.unlock();
                 $i$f$forEach = e;
                 obj10 = $this$forEach$iv2;
                 $this$forEach$iv = iterator;
-                l$0 = obj;
-                throw obj.getSendException();
+                l$0 = $i$a$ForEachBroadcastChannelImpl$send$2;
+                throw $i$a$ForEachBroadcastChannelImpl$send$2.getSendException();
             case 1:
                 obj10 = 0;
                 $this$forEach$iv = $result.L$2;
@@ -359,13 +359,13 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
                 l$0 = $result.L$0;
                 ResultKt.throwOnFailure(obj11);
                 subscribers = i3;
-                obj = $continuation2;
-                anon = $result;
+                $i$a$ForEachBroadcastChannelImpl$send$2 = $continuation2;
+                anon2 = $result;
                 $continuation = obj11;
                 throw l$0.getSendException();
                 obj11 = $continuation;
-                $result = anon;
-                $continuation2 = obj;
+                $result = anon2;
+                $continuation2 = $i$a$ForEachBroadcastChannelImpl$send$2;
                 break;
             default:
                 obj10 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
@@ -402,10 +402,10 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
 
     public Object trySend-JP2dKIU(E element) {
         boolean iterator;
-        int i;
+        int i2;
         boolean next;
         Object obj;
-        int i2;
+        int i;
         boolean sendSuspend$kotlinx_coroutines_core;
         final int i3 = 0;
         final ReentrantLock reentrantLock = lock;
@@ -417,19 +417,19 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
         }
         List subscribers = this.subscribers;
         int i5 = 0;
-        i = 0;
+        i2 = 0;
         if (subscribers instanceof Collection != null && (Collection)(Iterable)subscribers.isEmpty()) {
             if ((Collection)subscribers.isEmpty()) {
             } else {
                 iterator = subscribers.iterator();
                 for (Object next : iterator) {
-                    i2 = 0;
+                    i = 0;
                 }
             }
         } else {
         }
         try {
-            if (i != 0) {
+            if (i2 != 0) {
             }
             reentrantLock.unlock();
             return ChannelResult.Companion.failure-PtdJZtk();
@@ -439,10 +439,10 @@ public final class BroadcastChannelImpl<E>  extends kotlinx.coroutines.channels.
             int i7 = 0;
             Iterator iterator2 = (Iterable)this.subscribers.iterator();
             for (Object next : iterator2) {
-                i2 = 0;
+                i = 0;
                 (BufferedChannel)next.trySend-JP2dKIU(element);
             }
-            i2 = 0;
+            i = 0;
             (BufferedChannel)iterator2.next().trySend-JP2dKIU(element);
             reentrantLock.unlock();
             return ChannelResult.Companion.success-JP2dKIU(Unit.INSTANCE);

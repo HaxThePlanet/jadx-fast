@@ -1,0 +1,99 @@
+package androidx.compose.material.icons.filled;
+
+import androidx.compose.material.icons.Icons.Filled;
+import androidx.compose.ui.graphics.Color;
+import androidx.compose.ui.graphics.Color.Companion;
+import androidx.compose.ui.graphics.SolidColor;
+import androidx.compose.ui.graphics.StrokeCap;
+import androidx.compose.ui.graphics.StrokeCap.Companion;
+import androidx.compose.ui.graphics.StrokeJoin;
+import androidx.compose.ui.graphics.StrokeJoin.Companion;
+import androidx.compose.ui.graphics.vector.ImageVector;
+import androidx.compose.ui.graphics.vector.ImageVector.Builder;
+import androidx.compose.ui.graphics.vector.PathBuilder;
+import androidx.compose.ui.graphics.vector.VectorKt;
+import androidx.compose.ui.unit.Dp;
+import kotlin.Deprecated;
+import kotlin.Metadata;
+import kotlin.ReplaceWith;
+import kotlin.jvm.internal.Intrinsics;
+
+/* loaded from: classes.dex */
+@Metadata(d1 = "\u0000\u0010\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0005\"\u0010\u0010\u0000\u001a\u0004\u0018\u00010\u0001X\u0082\u000e¢\u0006\u0002\n\u0000\"\u001e\u0010\u0002\u001a\u00020\u0001*\u00020\u00038FX\u0087\u0004¢\u0006\u000c\u0012\u0004\u0008\u0004\u0010\u0005\u001a\u0004\u0008\u0006\u0010\u0007¨\u0006\u0008", d2 = {"_list", "Landroidx/compose/ui/graphics/vector/ImageVector;", "List", "Landroidx/compose/material/icons/Icons$Filled;", "getList$annotations", "(Landroidx/compose/material/icons/Icons$Filled;)V", "getList", "(Landroidx/compose/material/icons/Icons$Filled;)Landroidx/compose/ui/graphics/vector/ImageVector;", "material-icons-core_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
+public final class ListKt {
+
+    private static ImageVector _list;
+    static {
+    }
+
+    public static final ImageVector getList(Icons.Filled $this$List) {
+        if (ListKt._list != null) {
+            ImageVector _list2 = ListKt._list;
+            Intrinsics.checkNotNull(_list2);
+            return _list2;
+        }
+        int i31 = 0;
+        int i32 = 0;
+        ImageVector.Builder builder = new ImageVector.Builder("Filled.List", Dp.constructor-impl(1103101952), Dp.constructor-impl(1103101952), 1103101952, 1103101952, 0, obj8, 0, 0, 96, 0);
+        int i30 = 0;
+        int i34 = 0;
+        int i40 = 0;
+        SolidColor solidColor = new SolidColor(Color.Companion.getBlack-0d7_KjU(), obj8, i40);
+        final int i48 = 1065353216;
+        int i36 = 0;
+        int i38 = 0;
+        PathBuilder pathBuilder = new PathBuilder();
+        int i41 = 0;
+        PathBuilder builder4 = pathBuilder;
+        int i50 = 0;
+        final int i56 = i;
+        int $i$f$materialIcon = 1077936128;
+        final ImageVector.Builder builder5 = builder;
+        builder4.moveTo($i$f$materialIcon, 1095761920);
+        builder4.horizontalLineToRelative(1073741824);
+        builder4.verticalLineToRelative(-1073741824);
+        builder4.lineTo($i$f$materialIcon, 1093664768);
+        builder4.verticalLineToRelative(1073741824);
+        builder4.close();
+        builder4.moveTo($i$f$materialIcon, 1099431936);
+        builder4.horizontalLineToRelative(1073741824);
+        builder4.verticalLineToRelative(-1073741824);
+        builder4.lineTo($i$f$materialIcon, 1097859072);
+        builder4.verticalLineToRelative(1073741824);
+        builder4.close();
+        builder4.moveTo($i$f$materialIcon, 1091567616);
+        builder4.horizontalLineToRelative(1073741824);
+        int i2 = 1088421888;
+        builder4.lineTo(1084227584, i2);
+        builder4.lineTo(1077936128, i2);
+        builder4.verticalLineToRelative(1073741824);
+        builder4.close();
+        builder4.moveTo(i2, 1095761920);
+        builder4.horizontalLineToRelative(1096810496);
+        builder4.verticalLineToRelative(-1073741824);
+        builder4.lineTo(i2, 1093664768);
+        builder4.verticalLineToRelative(1073741824);
+        builder4.close();
+        builder4.moveTo(i2, 1099431936);
+        builder4.horizontalLineToRelative(1096810496);
+        builder4.verticalLineToRelative(-1073741824);
+        builder4.lineTo(i2, 1097859072);
+        int i26 = 1073741824;
+        builder4.verticalLineToRelative(i26);
+        builder4.close();
+        builder4.moveTo(i2, i2);
+        builder4.verticalLineToRelative(i26);
+        builder4.horizontalLineToRelative(1096810496);
+        builder4.lineTo(1101529088, i2);
+        builder4.lineTo(i2, i2);
+        builder4.close();
+        ListKt._list = ImageVector.Builder.addPath-oIyEayM$default(builder, pathBuilder.getNodes(), VectorKt.getDefaultFillType(), "", (Brush)solidColor, 1065353216, i40, 1065353216, i48, StrokeCap.Companion.getButt-KaPHkGw(), StrokeJoin.Companion.getBevel-LxFBmk8(), i48, 0, 0, 0, 14336, 0).build();
+        ImageVector _list3 = ListKt._list;
+        Intrinsics.checkNotNull(_list3);
+        return _list3;
+    }
+
+    @Deprecated(message = "Use the AutoMirrored version at Icons.AutoMirrored.Filled.List", replaceWith = @ReplaceWith(...))
+    public static void getList$annotations(Icons.Filled icons$Filled) {
+    }
+}

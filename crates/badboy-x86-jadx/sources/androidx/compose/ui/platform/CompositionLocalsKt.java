@@ -77,20 +77,20 @@ public final class CompositionLocalsKt {
     public static final void ProvideCommonCompositionLocals(Owner owner, androidx.compose.ui.platform.UriHandler uriHandler, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int traceInProgress2;
         int $dirty;
-        int i2;
+        int i4;
         boolean changedInstance2;
         int i;
-        int i3;
+        int i2;
         int skipping;
         boolean traceInProgress;
         boolean changedInstance;
-        int i4;
+        int i3;
         int density;
         int autofillTree;
         traceInProgress2 = 874662829;
         final Composer obj10 = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(obj10, "C(ProvideCommonCompositionLocals)P(1,2)215@7394L1256:CompositionLocals.kt#itgzvw");
-        i4 = 4;
+        i3 = 4;
         density = 2;
         if ($changed & 6 == 0) {
             if ($changed & 8 == 0) {
@@ -98,8 +98,8 @@ public final class CompositionLocalsKt {
             } else {
                 changedInstance = obj10.changedInstance(owner);
             }
-            i2 = changedInstance != null ? i4 : density;
-            $dirty |= i2;
+            i4 = changedInstance != null ? i3 : density;
+            $dirty |= i4;
         }
         final int i23 = 16;
         if ($changed & 48 == 0) {
@@ -112,8 +112,8 @@ public final class CompositionLocalsKt {
             $dirty |= i;
         }
         if ($changed & 384 == 0) {
-            i3 = obj10.changedInstance(content) ? 256 : 128;
-            $dirty |= i3;
+            i2 = obj10.changedInstance(content) ? 256 : 128;
+            $dirty |= i2;
         }
         if ($dirty & 147 == 146) {
             if (!obj10.getSkipping()) {
@@ -123,7 +123,7 @@ public final class CompositionLocalsKt {
                 ProvidedValue[] arr = new ProvidedValue[19];
                 arr[density] = CompositionLocalsKt.LocalAutofillTree.provides(owner.getAutofillTree());
                 arr[3] = CompositionLocalsKt.LocalClipboardManager.provides(owner.getClipboardManager());
-                arr[i4] = CompositionLocalsKt.LocalDensity.provides(owner.getDensity());
+                arr[i3] = CompositionLocalsKt.LocalDensity.provides(owner.getDensity());
                 arr[5] = CompositionLocalsKt.LocalFocusManager.provides(owner.getFocusOwner());
                 arr[6] = CompositionLocalsKt.LocalFontLoader.providesDefault(owner.getFontLoader());
                 arr[7] = CompositionLocalsKt.LocalFontFamilyResolver.providesDefault(owner.getFontFamilyResolver());
@@ -138,7 +138,7 @@ public final class CompositionLocalsKt {
                 arr[i23] = CompositionLocalsKt.LocalWindowInfo.provides(owner.getWindowInfo());
                 arr[17] = CompositionLocalsKt.LocalPointerIconService.provides(owner.getPointerIconService());
                 arr[18] = CompositionLocalsKt.LocalGraphicsContext.provides(owner.getGraphicsContext());
-                CompositionLocalKt.CompositionLocalProvider(arr, content, obj10, $stable |= i4);
+                CompositionLocalKt.CompositionLocalProvider(arr, content, obj10, $stable |= i3);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }

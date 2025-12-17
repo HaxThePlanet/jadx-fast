@@ -111,10 +111,10 @@ public abstract class RectListNode extends Modifier.Node implements GlobalPositi
     public void onGloballyPositioned(LayoutCoordinates coordinates) {
         Object boundsInRoot;
         Rect calcBounds;
-        int roundToInt3;
         int roundToInt2;
-        int roundToInt4;
         int roundToInt;
+        int roundToInt4;
+        int roundToInt3;
         if (getRect() == null) {
             boundsInRoot = LayoutCoordinatesKt.boundsInRoot(coordinates);
             calcBounds = new Rect(MathKt.roundToInt(boundsInRoot.getLeft()), MathKt.roundToInt(boundsInRoot.getTop()), MathKt.roundToInt(boundsInRoot.getRight()), MathKt.roundToInt(boundsInRoot.getBottom()));

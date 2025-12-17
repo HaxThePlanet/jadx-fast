@@ -42,92 +42,92 @@ public final class SwipeToDismissBoxKt {
     }
 
     public static final void SwipeToDismissBox(androidx.compose.material3.SwipeToDismissBoxState state, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> backgroundContent, Modifier modifier, boolean enableDismissFromStartToEnd, boolean enableDismissFromEndToStart, boolean gesturesEnabled, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i10) {
-        int traceInProgress;
+        int traceInProgress2;
         boolean gesturesEnabled2;
-        Integer currentCompositionLocalMap2;
         Integer currentCompositionLocalMap;
+        Integer currentCompositionLocalMap2;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv3;
-        int obj;
-        int i38;
+        int obj4;
+        int i16;
         Object it$iv;
-        Integer valueOf2;
-        Object obj3;
-        int $dirty;
-        Composer composer2;
-        int valueOf;
-        Object $dirty3;
-        int i35;
-        int i8;
-        boolean traceInProgress2;
+        Integer valueOf;
+        Object obj5;
+        int $dirty3;
+        Composer composer;
+        int valueOf3;
+        Object $dirty2;
         int i6;
+        int i11;
+        boolean traceInProgress;
+        int i14;
         boolean z4;
         boolean str;
-        boolean z;
-        Object obj2;
+        boolean z3;
+        Object obj3;
         Composer composer5;
         Object maybeCachedBoxMeasurePolicy;
-        boolean z5;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
-        androidx.compose.ui.Alignment.Vertical top;
-        int i11;
-        Object currentValue;
+        boolean z;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv;
-        Composer i4;
-        Object settled;
-        Integer valueOf3;
-        boolean z2;
-        int $dirty2;
-        int i20;
-        Composer composer4;
-        int i19;
-        int i32;
-        Object rowMeasurePolicy;
-        androidx.compose.ui.layout.MeasurePolicy rowMeasurePolicy2;
-        boolean z3;
-        int i14;
-        int i17;
-        int i34;
-        int i33;
-        int i37;
-        int i29;
-        Object obj4;
-        int i12;
-        int i9;
-        int i16;
-        int currentCompositeKeyHash;
-        int i15;
-        Modifier modifier2;
-        kotlin.jvm.functions.Function0 function02;
-        int i;
-        int i30;
-        int i24;
-        int i31;
-        Object obj5;
-        int companion;
-        int i7;
-        int i36;
+        androidx.compose.ui.Alignment.Vertical top;
         int i13;
+        Object currentValue;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
+        Composer $i$a$LayoutBoxKt$Box$1$iv;
+        Object settled;
+        Integer valueOf2;
+        boolean z5;
+        int $dirty;
+        int i25;
+        Composer composer4;
+        int i12;
+        int i26;
+        Object rowMeasurePolicy2;
+        androidx.compose.ui.layout.MeasurePolicy rowMeasurePolicy;
+        boolean z2;
+        int i29;
+        int i30;
+        int i3;
+        int i27;
+        int i2;
+        int i31;
+        Object obj;
+        int i36;
+        int i18;
+        int i24;
+        int currentCompositeKeyHash;
+        int i;
+        Modifier modifier3;
+        kotlin.jvm.functions.Function0 function0;
+        int i32;
+        int i4;
+        int i9;
+        int i34;
+        Object obj2;
+        int companion;
+        int i17;
+        int i19;
+        int i28;
         Composer composer3;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        Modifier modifier3;
-        int i18;
-        BoxScopeInstance boxScopeInstance;
-        int i2;
-        kotlin.jvm.functions.Function0 function03;
+        Modifier modifier2;
         int i23;
-        int i21;
-        int $changed$iv;
-        int i3;
-        int i25;
-        androidx.compose.ui.Alignment.Vertical vertical;
-        kotlin.jvm.functions.Function0 function0;
-        int i28;
+        BoxScopeInstance boxScopeInstance;
+        int i37;
+        kotlin.jvm.functions.Function0 function02;
         int i22;
+        int i35;
+        int $changed$iv;
+        int i21;
+        int i7;
+        androidx.compose.ui.Alignment.Vertical vertical;
+        kotlin.jvm.functions.Function0 function03;
+        int i15;
+        int i33;
         int i5;
-        int i26;
-        Composer composer;
-        int i27;
+        int i20;
+        Composer composer2;
+        int i8;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
         int obj57;
@@ -135,126 +135,126 @@ public final class SwipeToDismissBoxKt {
         boolean obj59;
         Alignment obj60;
         int obj62;
-        obj = state;
-        obj3 = backgroundContent;
+        obj4 = state;
+        obj5 = backgroundContent;
         final Object obj7 = content;
         top = $changed;
         final Composer restartGroup = $composer.startRestartGroup(-402577235);
         ComposerKt.sourceInformation(restartGroup, "C(SwipeToDismissBox)P(6!1,5,3,2,4)225@9211L7,227@9247L1205:SwipeToDismissBox.kt#uh7d8r");
-        $dirty = $changed;
+        $dirty3 = $changed;
         if (i10 & 1 != 0) {
-            $dirty |= 6;
+            $dirty3 |= 6;
         } else {
             if (top & 6 == 0) {
-                i35 = restartGroup.changed(obj) ? 4 : 2;
-                $dirty |= i35;
+                i6 = restartGroup.changed(obj4) ? 4 : 2;
+                $dirty3 |= i6;
             }
         }
         if (i10 & 2 != 0) {
-            $dirty |= 48;
+            $dirty3 |= 48;
         } else {
             if (top & 48 == 0) {
-                i8 = restartGroup.changedInstance(obj3) ? 32 : 16;
-                $dirty |= i8;
+                i11 = restartGroup.changedInstance(obj5) ? 32 : 16;
+                $dirty3 |= i11;
             }
         }
-        int i56 = i10 & 4;
-        if (i56 != 0) {
-            $dirty |= 384;
-            obj2 = modifier;
+        int i55 = i10 & 4;
+        if (i55 != 0) {
+            $dirty3 |= 384;
+            obj3 = modifier;
         } else {
             if (top & 384 == 0) {
-                i11 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i11;
+                i13 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty3 |= i13;
             } else {
-                obj2 = modifier;
+                obj3 = modifier;
             }
         }
-        i4 = i10 & 8;
-        if (i4 != 0) {
-            $dirty |= 3072;
-            z2 = enableDismissFromStartToEnd;
+        $i$a$LayoutBoxKt$Box$1$iv = i10 & 8;
+        if ($i$a$LayoutBoxKt$Box$1$iv != 0) {
+            $dirty3 |= 3072;
+            z5 = enableDismissFromStartToEnd;
         } else {
             if (top & 3072 == 0) {
-                i20 = restartGroup.changed(enableDismissFromStartToEnd) ? 2048 : 1024;
-                $dirty |= i20;
+                i25 = restartGroup.changed(enableDismissFromStartToEnd) ? 2048 : 1024;
+                $dirty3 |= i25;
             } else {
-                z2 = enableDismissFromStartToEnd;
+                z5 = enableDismissFromStartToEnd;
             }
         }
-        rowMeasurePolicy2 = i10 & 16;
-        if (rowMeasurePolicy2 != 0) {
-            $dirty |= 24576;
-            z3 = enableDismissFromEndToStart;
+        rowMeasurePolicy = i10 & 16;
+        if (rowMeasurePolicy != 0) {
+            $dirty3 |= 24576;
+            z2 = enableDismissFromEndToStart;
         } else {
             if (top & 24576 == 0) {
-                i14 = restartGroup.changed(enableDismissFromEndToStart) ? 16384 : 8192;
-                $dirty |= i14;
+                i29 = restartGroup.changed(enableDismissFromEndToStart) ? 16384 : 8192;
+                $dirty3 |= i29;
             } else {
-                z3 = enableDismissFromEndToStart;
+                z2 = enableDismissFromEndToStart;
             }
         }
-        i17 = i10 & 32;
-        i34 = 196608;
-        if (i17 != 0) {
-            $dirty |= i34;
+        i30 = i10 & 32;
+        i3 = 196608;
+        if (i30 != 0) {
+            $dirty3 |= i3;
             str = gesturesEnabled;
         } else {
-            if (top & i34 == 0) {
-                i34 = restartGroup.changed(gesturesEnabled) ? 131072 : 65536;
-                $dirty |= i34;
+            if (top & i3 == 0) {
+                i3 = restartGroup.changed(gesturesEnabled) ? 131072 : 65536;
+                $dirty3 |= i3;
             } else {
                 str = gesturesEnabled;
             }
         }
         if (i10 & 64 != 0) {
-            i33 = 1572864;
-            $dirty |= i33;
+            i27 = 1572864;
+            $dirty3 |= i27;
         } else {
         }
-        if ($dirty & i37 == 599186) {
+        if ($dirty3 & i2 == 599186) {
             if (!restartGroup.getSkipping()) {
-                if (i56 != 0) {
-                    obj4 = traceInProgress;
+                if (i55 != 0) {
+                    obj = traceInProgress2;
                 } else {
-                    obj4 = obj2;
+                    obj = obj3;
                 }
-                if (i4 != 0) {
-                    z2 = traceInProgress;
+                if ($i$a$LayoutBoxKt$Box$1$iv != 0) {
+                    z5 = traceInProgress2;
                 }
-                if (rowMeasurePolicy2 != 0) {
-                    z3 = traceInProgress;
+                if (rowMeasurePolicy != 0) {
+                    z2 = traceInProgress2;
                 }
-                gesturesEnabled2 = i17 != 0 ? 1 : str;
+                gesturesEnabled2 = i30 != 0 ? 1 : str;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-402577235, $dirty, -1, "androidx.compose.material3.SwipeToDismissBox (SwipeToDismissBox.kt:224)");
+                    ComposerKt.traceEventStart(-402577235, $dirty3, -1, "androidx.compose.material3.SwipeToDismissBox (SwipeToDismissBox.kt:224)");
                 }
+                int i56 = 0;
                 int i57 = 0;
-                int i58 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i59 = 1;
-                i6 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? i59 : 0;
-                if (gesturesEnabled2 && obj.getCurrentValue() == SwipeToDismissBoxValue.Settled) {
-                    i16 = obj.getCurrentValue() == SwipeToDismissBoxValue.Settled ? i59 : 0;
+                int i58 = 1;
+                i14 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? i58 : 0;
+                if (gesturesEnabled2 && obj4.getCurrentValue() == SwipeToDismissBoxValue.Settled) {
+                    i24 = obj4.getCurrentValue() == SwipeToDismissBoxValue.Settled ? i58 : 0;
                 } else {
                 }
-                Modifier anchoredDraggable$default = AnchoredDraggableKt.anchoredDraggable$default(obj4, obj.getAnchoredDraggableState$material3_release(), Orientation.Horizontal, i16, false, 0, 24, 0);
-                int i71 = 384;
-                int i77 = i59;
+                Modifier anchoredDraggable$default = AnchoredDraggableKt.anchoredDraggable$default(obj, obj4.getAnchoredDraggableState$material3_release(), Orientation.Horizontal, i24, false, 0, 24, 0);
+                int i70 = 384;
+                int i76 = i58;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 Alignment topStart = Alignment.Companion.getTopStart();
-                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i77);
-                i12 = 0;
+                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i76);
+                i36 = 0;
                 obj60 = topStart;
                 String contentAlignment$iv = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, contentAlignment$iv);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                currentCompositionLocalMap2 = restartGroup.getCurrentCompositionLocalMap();
+                currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 Modifier materializeModifier3 = ComposedModifierKt.materializeModifier(restartGroup, anchoredDraggable$default);
-                modifier2 = anchoredDraggable$default;
+                modifier3 = anchoredDraggable$default;
                 kotlin.jvm.functions.Function0 function04 = constructor2;
-                i15 = 0;
+                i = 0;
                 String $changed$iv5 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $changed$iv5);
                 if (!applier3 instanceof Applier) {
@@ -264,20 +264,20 @@ public final class SwipeToDismissBoxKt {
                 if (restartGroup.getInserting()) {
                     restartGroup.createNode(function04);
                 } else {
-                    factory$iv$iv$iv = function04;
+                    factory$iv$iv$iv2 = function04;
                     restartGroup.useNode();
                 }
-                function02 = factory$iv$iv$iv;
+                function0 = factory$iv$iv$iv2;
                 Composer constructor-impl2 = Updater.constructor-impl(restartGroup);
-                int i112 = 0;
-                i36 = i77;
+                int i111 = 0;
+                i19 = i76;
                 Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl2, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i113 = 0;
+                Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i112 = 0;
                 Composer composer10 = constructor-impl2;
-                int i114 = 0;
+                int i113 = 0;
                 if (!composer10.getInserting()) {
-                    localMap$iv$iv2 = currentCompositionLocalMap2;
+                    localMap$iv$iv2 = currentCompositionLocalMap;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
                     if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer10.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
@@ -286,155 +286,155 @@ public final class SwipeToDismissBoxKt {
                         composer5 = composer10;
                     }
                 } else {
-                    localMap$iv$iv2 = currentCompositionLocalMap2;
+                    localMap$iv$iv2 = currentCompositionLocalMap;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
                 }
                 Updater.set-impl(constructor-impl2, materializeModifier3, ComposeUiNode.Companion.getSetModifier());
                 Composer composer6 = restartGroup;
-                i31 = i42;
+                i34 = i41;
                 ComposerKt.sourceInformationMarkerStart(composer6, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 BoxScopeInstance iNSTANCE = BoxScopeInstance.INSTANCE;
-                i13 = 0;
-                modifier3 = materializeModifier3;
-                i18 = i70;
-                i4 = composer9;
-                ComposerKt.sourceInformationMarkerStart(i4, -586717200, "C235@9549L71,239@9784L652,236@9629L817:SwipeToDismissBox.kt#uh7d8r");
+                i28 = 0;
+                modifier2 = materializeModifier3;
+                i23 = i69;
+                $i$a$LayoutBoxKt$Box$1$iv = composer9;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -586717200, "C235@9549L71,239@9784L652,236@9629L817:SwipeToDismissBox.kt#uh7d8r");
                 companion = 0;
                 boxScopeInstance = iNSTANCE;
-                int i115 = i64;
-                ComposerKt.sourceInformationMarkerStart(i4, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
+                int i114 = i63;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
                 androidx.compose.foundation.layout.Arrangement.Horizontal start = Arrangement.INSTANCE.getStart();
                 androidx.compose.ui.Alignment.Vertical top2 = Alignment.Companion.getTop();
-                i21 = i81;
-                rowMeasurePolicy = RowKt.rowMeasurePolicy(start, top2, i4, i117 | i121);
-                int i122 = 0;
+                i35 = i80;
+                rowMeasurePolicy2 = RowKt.rowMeasurePolicy(start, top2, $i$a$LayoutBoxKt$Box$1$iv, i116 | i120);
+                int i121 = 0;
                 androidx.compose.foundation.layout.Arrangement.Horizontal horizontal3 = start;
-                ComposerKt.sourceInformationMarkerStart(i4, -1323940314, contentAlignment$iv);
-                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(i4, 0);
-                currentCompositionLocalMap = i4.getCurrentCompositionLocalMap();
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -1323940314, contentAlignment$iv);
+                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash($i$a$LayoutBoxKt$Box$1$iv, 0);
+                currentCompositionLocalMap2 = $i$a$LayoutBoxKt$Box$1$iv.getCurrentCompositionLocalMap();
                 vertical = top2;
                 kotlin.jvm.functions.Function0 function05 = constructor3;
-                i25 = 0;
-                ComposerKt.sourceInformationMarkerStart(i4, -692256719, $changed$iv5);
+                i7 = 0;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -692256719, $changed$iv5);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                i4.startReusableNode();
-                if (i4.getInserting()) {
-                    i4.createNode(function05);
+                $i$a$LayoutBoxKt$Box$1$iv.startReusableNode();
+                if ($i$a$LayoutBoxKt$Box$1$iv.getInserting()) {
+                    $i$a$LayoutBoxKt$Box$1$iv.createNode(function05);
                 } else {
-                    factory$iv$iv$iv2 = function05;
-                    i4.useNode();
+                    factory$iv$iv$iv = function05;
+                    $i$a$LayoutBoxKt$Box$1$iv.useNode();
                 }
-                function0 = factory$iv$iv$iv2;
-                Composer constructor-impl = Updater.constructor-impl(i4);
-                int i123 = 0;
-                i26 = i91;
-                Updater.set-impl(constructor-impl, rowMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                function03 = factory$iv$iv$iv;
+                Composer constructor-impl = Updater.constructor-impl($i$a$LayoutBoxKt$Box$1$iv);
+                int i122 = 0;
+                i20 = i90;
+                Updater.set-impl(constructor-impl, rowMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 i5 = 0;
-                composer = constructor-impl;
-                i27 = 0;
-                if (!composer.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap;
-                    measurePolicy2 = rowMeasurePolicy;
-                    if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
-                        composer.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
+                composer2 = constructor-impl;
+                i8 = 0;
+                if (!composer2.getInserting()) {
+                    localMap$iv$iv = currentCompositionLocalMap2;
+                    measurePolicy2 = rowMeasurePolicy2;
+                    if (!Intrinsics.areEqual(composer2.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
+                        composer2.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer4 = composer;
+                        composer4 = composer2;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap;
-                    measurePolicy2 = rowMeasurePolicy;
+                    localMap$iv$iv = currentCompositionLocalMap2;
+                    measurePolicy2 = rowMeasurePolicy2;
                 }
-                Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(i4, (BoxScope)iNSTANCE.matchParentSize((Modifier)Modifier.Companion)), ComposeUiNode.Companion.getSetModifier());
-                Composer composer7 = i4;
-                int i82 = 0;
-                i22 = i45;
+                Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier($i$a$LayoutBoxKt$Box$1$iv, (BoxScope)iNSTANCE.matchParentSize((Modifier)Modifier.Companion)), ComposeUiNode.Companion.getSetModifier());
+                Composer composer7 = $i$a$LayoutBoxKt$Box$1$iv;
+                int i81 = 0;
+                i33 = i44;
                 ComposerKt.sourceInformationMarkerStart(composer7, -407918630, "C100@5047L9:Row.kt#2w3rfo");
-                obj3.invoke(RowScopeInstance.INSTANCE, composer7, Integer.valueOf(i94 |= 6));
+                obj5.invoke(RowScopeInstance.INSTANCE, composer7, Integer.valueOf(i93 |= 6));
                 ComposerKt.sourceInformationMarkerEnd(composer7);
-                i4.endNode();
-                ComposerKt.sourceInformationMarkerEnd(i4);
-                ComposerKt.sourceInformationMarkerEnd(i4);
-                ComposerKt.sourceInformationMarkerEnd(i4);
-                ComposerKt.sourceInformationMarkerStart(i4, 396722910, "CC(remember):SwipeToDismissBox.kt#9igjgp");
-                i19 = $dirty & 7168 == 2048 ? 1 : 0;
-                i38 = i97 &= $dirty == 16384 ? 1 : 0;
-                i32 = $dirty & 14 == 4 ? 1 : 0;
-                Composer composer8 = i4;
-                int i100 = 0;
+                $i$a$LayoutBoxKt$Box$1$iv.endNode();
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, 396722910, "CC(remember):SwipeToDismissBox.kt#9igjgp");
+                i12 = $dirty3 & 7168 == 2048 ? 1 : 0;
+                i16 = i96 &= $dirty3 == 16384 ? 1 : 0;
+                i26 = $dirty3 & 14 == 4 ? 1 : 0;
+                Composer composer8 = $i$a$LayoutBoxKt$Box$1$iv;
+                int i99 = 0;
                 it$iv = composer8.rememberedValue();
-                int i107 = 0;
-                if (i52 |= i32 == 0) {
-                    obj62 = $dirty;
+                int i106 = 0;
+                if (i51 |= i26 == 0) {
+                    obj62 = $dirty3;
                     if (it$iv == Composer.Companion.getEmpty()) {
-                        $dirty = 0;
-                        obj5 = it$iv;
-                        it$iv = new SwipeToDismissBoxKt.SwipeToDismissBox.1.1.1(obj, z2, i6, z3);
+                        $dirty3 = 0;
+                        obj2 = it$iv;
+                        it$iv = new SwipeToDismissBoxKt.SwipeToDismissBox.1.1.1(obj4, z5, i14, z2);
                         composer8.updateRememberedValue((Function2)it$iv);
                     } else {
-                        obj5 = it$iv;
+                        obj2 = it$iv;
                     }
                 } else {
-                    obj62 = $dirty;
+                    obj62 = $dirty3;
                 }
-                ComposerKt.sourceInformationMarkerEnd(i4);
-                i54 &= 7168;
-                valueOf = 0;
-                ComposerKt.sourceInformationMarkerStart(i4, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
-                i29 = 0;
-                ComposerKt.sourceInformationMarkerStart(i4, -1323940314, contentAlignment$iv);
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier(i4, AnchoredDraggableKt.draggableAnchors((Modifier)Modifier.Companion, obj.getAnchoredDraggableState$material3_release(), Orientation.Horizontal, (Function2)it$iv));
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
+                i53 &= 7168;
+                valueOf3 = 0;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
+                i31 = 0;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -1323940314, contentAlignment$iv);
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier($i$a$LayoutBoxKt$Box$1$iv, AnchoredDraggableKt.draggableAnchors((Modifier)Modifier.Companion, obj4.getAnchoredDraggableState$material3_release(), Orientation.Horizontal, (Function2)it$iv));
                 obj57 = currentCompositeKeyHash2;
                 obj58 = constructor;
-                i9 = 0;
-                ComposerKt.sourceInformationMarkerStart(i4, -692256719, $changed$iv5);
+                i18 = 0;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -692256719, $changed$iv5);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                i4.startReusableNode();
-                if (i4.getInserting()) {
-                    i4.createNode(obj58);
+                $i$a$LayoutBoxKt$Box$1$iv.startReusableNode();
+                if ($i$a$LayoutBoxKt$Box$1$iv.getInserting()) {
+                    $i$a$LayoutBoxKt$Box$1$iv.createNode(obj58);
                 } else {
                     factory$iv$iv$iv3 = obj58;
-                    i4.useNode();
+                    $i$a$LayoutBoxKt$Box$1$iv.useNode();
                 }
-                Composer constructor-impl3 = Updater.constructor-impl(i4);
-                i24 = 0;
-                function03 = factory$iv$iv$iv3;
-                Updater.set-impl(constructor-impl3, RowKt.rowMeasurePolicy(Arrangement.INSTANCE.getStart(), Alignment.Companion.getTop(), i4, i88 |= i102), ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl3, i4.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i2 = 0;
+                Composer constructor-impl3 = Updater.constructor-impl($i$a$LayoutBoxKt$Box$1$iv);
+                i9 = 0;
+                function02 = factory$iv$iv$iv3;
+                Updater.set-impl(constructor-impl3, RowKt.rowMeasurePolicy(Arrangement.INSTANCE.getStart(), Alignment.Companion.getTop(), $i$a$LayoutBoxKt$Box$1$iv, i87 |= i101), ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl3, $i$a$LayoutBoxKt$Box$1$iv.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                i37 = 0;
                 obj58 = constructor-impl3;
-                i23 = 0;
+                i22 = 0;
                 if (!obj58.getInserting()) {
-                    $changed$iv = valueOf2;
-                    i3 = valueOf;
+                    $changed$iv = valueOf;
+                    i21 = valueOf3;
                     if (!Intrinsics.areEqual(obj58.rememberedValue(), Integer.valueOf(obj57))) {
                         obj58.updateRememberedValue(Integer.valueOf(obj57));
                         constructor-impl3.apply(Integer.valueOf(obj57), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = obj58;
+                        composer = obj58;
                     }
                 } else {
-                    $changed$iv = valueOf2;
-                    i3 = valueOf;
+                    $changed$iv = valueOf;
+                    i21 = valueOf3;
                 }
                 Updater.set-impl(constructor-impl3, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                i50 &= 14;
-                obj3 = i4;
-                int i55 = 0;
+                i49 &= 14;
+                obj5 = $i$a$LayoutBoxKt$Box$1$iv;
+                int i54 = 0;
                 obj58 = materializeModifier;
-                ComposerKt.sourceInformationMarkerStart(obj3, -407918630, "C100@5047L9:Row.kt#2w3rfo");
-                obj7.invoke(RowScopeInstance.INSTANCE, obj3, Integer.valueOf(i74 |= 6));
-                ComposerKt.sourceInformationMarkerEnd(obj3);
-                i4.endNode();
-                ComposerKt.sourceInformationMarkerEnd(i4);
-                ComposerKt.sourceInformationMarkerEnd(i4);
-                ComposerKt.sourceInformationMarkerEnd(i4);
-                ComposerKt.sourceInformationMarkerEnd(i4);
+                ComposerKt.sourceInformationMarkerStart(obj5, -407918630, "C100@5047L9:Row.kt#2w3rfo");
+                obj7.invoke(RowScopeInstance.INSTANCE, obj5, Integer.valueOf(i73 |= 6));
+                ComposerKt.sourceInformationMarkerEnd(obj5);
+                $i$a$LayoutBoxKt$Box$1$iv.endNode();
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer6);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -443,27 +443,27 @@ public final class SwipeToDismissBoxKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                z5 = obj59;
-                $dirty3 = obj4;
-                z4 = z2;
-                z = z3;
+                z = obj59;
+                $dirty2 = obj;
+                z4 = z5;
+                z3 = z2;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj62 = $dirty;
-                $dirty3 = obj2;
-                z5 = str;
-                z4 = z2;
-                z = z3;
+                obj62 = $dirty3;
+                $dirty2 = obj3;
+                z = str;
+                z4 = z5;
+                z3 = z2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty2 = obj62;
-            traceInProgress = new SwipeToDismissBoxKt.SwipeToDismissBox.2(state, backgroundContent, $dirty3, z4, z, z5, obj7, $changed, i10);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            $dirty = obj62;
+            traceInProgress2 = new SwipeToDismissBoxKt.SwipeToDismissBox.2(state, backgroundContent, $dirty2, z4, z3, z, obj7, $changed, i10);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         } else {
-            $dirty2 = obj62;
+            $dirty = obj62;
         }
     }
 
@@ -472,13 +472,13 @@ public final class SwipeToDismissBoxKt {
     }
 
     public static final androidx.compose.material3.SwipeToDismissBoxState rememberSwipeToDismissBoxState(androidx.compose.material3.SwipeToDismissBoxValue initialValue, Function1<? super androidx.compose.material3.SwipeToDismissBoxValue, Boolean> confirmValueChange, Function1<? super Float, Float> positionalThreshold, Composer $composer, int $changed, int i6) {
-        int i2;
-        int iNSTANCE;
-        int i3;
-        boolean changed;
-        int changed2;
         int i;
-        int changed3;
+        int iNSTANCE;
+        int i2;
+        boolean changed3;
+        int changed2;
+        int i3;
+        int changed;
         String str;
         Object empty;
         Object anon;
@@ -507,12 +507,12 @@ public final class SwipeToDismissBoxKt {
         ComposerKt.sourceInformationMarkerStart($composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
         ComposerKt.sourceInformationMarkerEnd($composer);
         obj15 = consume;
-        i2 = 0;
+        i = 0;
         ComposerKt.sourceInformationMarkerStart($composer, -1333458863, "CC(remember):SwipeToDismissBox.kt#9igjgp");
         int i20 = 1;
         if (i12 ^= i19 > i9) {
             if (!$composer.changed(obj10)) {
-                i3 = $changed & 6 == i9 ? i20 : i2;
+                i2 = $changed & 6 == i9 ? i20 : i;
             } else {
             }
         } else {
@@ -520,7 +520,7 @@ public final class SwipeToDismissBoxKt {
         int i22 = 32;
         if (i13 ^= 48 > i22) {
             if (!$composer.changed(obj11)) {
-                i = $changed & 48 == i22 ? i20 : i2;
+                i3 = $changed & 48 == i22 ? i20 : i;
             } else {
             }
         } else {
@@ -529,7 +529,7 @@ public final class SwipeToDismissBoxKt {
         if (i14 ^= 384 > i23) {
             if (!$composer.changed(obj12)) {
                 if ($changed & 384 == i23) {
-                    i2 = i20;
+                    i = i20;
                 }
             } else {
             }
@@ -539,7 +539,7 @@ public final class SwipeToDismissBoxKt {
         int i15 = 0;
         Object rememberedValue = composer.rememberedValue();
         int i24 = 0;
-        if (i2 |= i11 == 0) {
+        if (i |= i11 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 empty = 0;
                 anon = new SwipeToDismissBoxKt.rememberSwipeToDismissBoxState.2.1(obj10, obj15, obj11, obj12);
@@ -555,6 +555,6 @@ public final class SwipeToDismissBoxKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer2);
-        return (SwipeToDismissBoxState)RememberSaveableKt.rememberSaveable(new Object[i2], SwipeToDismissBoxState.Companion.Saver(obj11, obj12, (Density)obj15), 0, (Function0)anon, composer2, 0, 4);
+        return (SwipeToDismissBoxState)RememberSaveableKt.rememberSaveable(new Object[i], SwipeToDismissBoxState.Companion.Saver(obj11, obj12, (Density)obj15), 0, (Function0)anon, composer2, 0, 4);
     }
 }

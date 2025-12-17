@@ -43,14 +43,14 @@ public final class ViewParentCompat {
     }
     private static int[] getTempNestedScrollConsumed() {
         int[] sTempNestedScrollConsumed;
-        int i2;
         int i;
+        int i2;
         if (ViewParentCompat.sTempNestedScrollConsumed == null) {
             ViewParentCompat.sTempNestedScrollConsumed = new int[2];
         } else {
-            i2 = 0;
-            ViewParentCompat.sTempNestedScrollConsumed[i2] = i2;
-            ViewParentCompat.sTempNestedScrollConsumed[1] = i2;
+            i = 0;
+            ViewParentCompat.sTempNestedScrollConsumed[i] = i;
+            ViewParentCompat.sTempNestedScrollConsumed[1] = i;
         }
         return ViewParentCompat.sTempNestedScrollConsumed;
     }
@@ -103,14 +103,14 @@ public final class ViewParentCompat {
 
     public static void onNestedScroll(ViewParent parent, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type, int[] consumed) {
         boolean z;
-        int i;
+        int i3;
         Object str;
         View view;
+        int i2;
+        int i5;
+        int i;
         int i4;
         int i6;
-        int i5;
-        int i2;
-        int i3;
         if (parent instanceof NestedScrollingParent3) {
             (NestedScrollingParent3)parent.onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type, consumed);
         } else {

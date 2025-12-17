@@ -1,0 +1,64 @@
+package f.g.d;
+
+/* loaded from: classes2.dex */
+public final class j {
+
+    public static final int A = 2131887745;
+    public static final int B = 2131887746;
+    public static final int C = 2131887747;
+    public static final int D = 2131887748;
+    public static final int E = 2131887749;
+    public static final int F = 2131887750;
+    public static final int G = 2131887751;
+    public static final int H = 2131887752;
+    public static final int I = 2131887757;
+    public static final int J = 2131887758;
+    public static final int K = 2131887759;
+    public static final int L = 2131887760;
+    public static final int M = 2131887761;
+    public static final int N = 2131887762;
+    public static final int O = 2131887763;
+    public static final int P = 2131887764;
+    public static final int Q = 2131887765;
+    public static final int R = 2131887766;
+    public static final int S = 2131887767;
+    public static final int T = 2131887768;
+    public static final int U = 2131887769;
+    public static final int V = 2131887770;
+    public static final int W = 2131887771;
+    public static final int X = 2131887772;
+    public static final int Y = 2131887773;
+    public static final int Z = 2131887774;
+    public static final int a = 2131886149;
+    public static final int a0 = 2131887775;
+    public static final int b = 2131886509;
+    public static final int b0 = 2131887776;
+    public static final int c = 2131887205;
+    public static final int c0 = 2131887777;
+    public static final int d = 2131887206;
+    public static final int d0 = 2131887778;
+    public static final int e = 2131887207;
+    public static final int e0 = 2131887779;
+    public static final int f = 2131887208;
+    public static final int f0 = 2131887780;
+    public static final int g = 2131887209;
+    public static final int h = 2131887210;
+    public static final int i = 2131887212;
+    public static final int j = 2131887213;
+    public static final int k = 2131887214;
+    public static final int l = 2131887218;
+    public static final int m = 2131887220;
+    public static final int n = 2131887221;
+    public static final int o = 2131887222;
+    public static final int p = 2131887223;
+    public static final int q = 2131887225;
+    public static final int r = 2131887226;
+    public static final int s = 2131887228;
+    public static final int t = 2131887229;
+    public static final int u = 2131887230;
+    public static final int v = 2131887234;
+    public static final int w = 2131887235;
+    public static final int x = 2131887254;
+    public static final int y = 2131887741;
+    public static final int z = 2131887744;
+}

@@ -45,49 +45,49 @@ public class ProfileInstallReceiver extends BroadcastReceiver {
 
     @Override // android.content.BroadcastReceiver
     public void onReceive(Context context, Intent intent) {
+        androidx.profileinstaller.ProfileInstallReceiver$$ExternalSyntheticLambda0 resultDiagnostics4;
+        Object resultDiagnostics3;
         androidx.profileinstaller.ProfileInstallReceiver$$ExternalSyntheticLambda0 resultDiagnostics;
-        Object resultDiagnostics2;
-        androidx.profileinstaller.ProfileInstallReceiver$$ExternalSyntheticLambda0 resultDiagnostics3;
-        androidx.profileinstaller.ProfileInstallReceiver.ResultDiagnostics resultDiagnostics4;
+        androidx.profileinstaller.ProfileInstallReceiver.ResultDiagnostics resultDiagnostics2;
         int i;
         if (intent == null) {
         }
         final String action = intent.getAction();
         if ("androidx.profileinstaller.action.INSTALL_PROFILE".equals(action) != null) {
-            resultDiagnostics = new ProfileInstallReceiver$$ExternalSyntheticLambda0();
-            resultDiagnostics2 = new ProfileInstallReceiver.ResultDiagnostics(this);
-            ProfileInstaller.writeProfile(context, resultDiagnostics, resultDiagnostics2, true);
+            resultDiagnostics4 = new ProfileInstallReceiver$$ExternalSyntheticLambda0();
+            resultDiagnostics3 = new ProfileInstallReceiver.ResultDiagnostics(this);
+            ProfileInstaller.writeProfile(context, resultDiagnostics4, resultDiagnostics3, true);
         } else {
             if ("androidx.profileinstaller.action.SKIP_FILE".equals(action) != null) {
-                resultDiagnostics = intent.getExtras();
-                if (resultDiagnostics != null) {
-                    resultDiagnostics2 = resultDiagnostics.getString("EXTRA_SKIP_FILE_OPERATION");
-                    if ("WRITE_SKIP_FILE".equals(resultDiagnostics2) != null) {
-                        resultDiagnostics3 = new ProfileInstallReceiver$$ExternalSyntheticLambda0();
-                        resultDiagnostics4 = new ProfileInstallReceiver.ResultDiagnostics(this);
-                        ProfileInstaller.writeSkipFile(context, resultDiagnostics3, resultDiagnostics4);
+                resultDiagnostics4 = intent.getExtras();
+                if (resultDiagnostics4 != null) {
+                    resultDiagnostics3 = resultDiagnostics4.getString("EXTRA_SKIP_FILE_OPERATION");
+                    if ("WRITE_SKIP_FILE".equals(resultDiagnostics3) != null) {
+                        resultDiagnostics = new ProfileInstallReceiver$$ExternalSyntheticLambda0();
+                        resultDiagnostics2 = new ProfileInstallReceiver.ResultDiagnostics(this);
+                        ProfileInstaller.writeSkipFile(context, resultDiagnostics, resultDiagnostics2);
                     } else {
-                        if ("DELETE_SKIP_FILE".equals(resultDiagnostics2) != null) {
-                            resultDiagnostics3 = new ProfileInstallReceiver$$ExternalSyntheticLambda0();
-                            resultDiagnostics4 = new ProfileInstallReceiver.ResultDiagnostics(this);
-                            ProfileInstaller.deleteSkipFile(context, resultDiagnostics3, resultDiagnostics4);
+                        if ("DELETE_SKIP_FILE".equals(resultDiagnostics3) != null) {
+                            resultDiagnostics = new ProfileInstallReceiver$$ExternalSyntheticLambda0();
+                            resultDiagnostics2 = new ProfileInstallReceiver.ResultDiagnostics(this);
+                            ProfileInstaller.deleteSkipFile(context, resultDiagnostics, resultDiagnostics2);
                         }
                     }
                 }
             } else {
                 if ("androidx.profileinstaller.action.SAVE_PROFILE".equals(action) != null) {
-                    resultDiagnostics = new ProfileInstallReceiver.ResultDiagnostics(this);
-                    ProfileInstallReceiver.saveProfile(resultDiagnostics);
+                    resultDiagnostics4 = new ProfileInstallReceiver.ResultDiagnostics(this);
+                    ProfileInstallReceiver.saveProfile(resultDiagnostics4);
                 } else {
-                    resultDiagnostics = intent.getExtras();
-                    if ("androidx.profileinstaller.action.BENCHMARK_OPERATION".equals(action) != null && resultDiagnostics != null) {
-                        resultDiagnostics = intent.getExtras();
-                        if (resultDiagnostics != null) {
-                            resultDiagnostics3 = new ProfileInstallReceiver.ResultDiagnostics(this);
-                            if ("DROP_SHADER_CACHE".equals(resultDiagnostics.getString("EXTRA_BENCHMARK_OPERATION"))) {
-                                BenchmarkOperation.dropShaderCache(context, resultDiagnostics3);
+                    resultDiagnostics4 = intent.getExtras();
+                    if ("androidx.profileinstaller.action.BENCHMARK_OPERATION".equals(action) != null && resultDiagnostics4 != null) {
+                        resultDiagnostics4 = intent.getExtras();
+                        if (resultDiagnostics4 != null) {
+                            resultDiagnostics = new ProfileInstallReceiver.ResultDiagnostics(this);
+                            if ("DROP_SHADER_CACHE".equals(resultDiagnostics4.getString("EXTRA_BENCHMARK_OPERATION"))) {
+                                BenchmarkOperation.dropShaderCache(context, resultDiagnostics);
                             } else {
-                                resultDiagnostics3.onResultReceived(16, 0);
+                                resultDiagnostics.onResultReceived(16, 0);
                             }
                         }
                     }

@@ -45,34 +45,34 @@ public final class ImeOptions {
     }
 
     public ImeOptions(boolean z, int i2, boolean z3, int i4, int i5, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
-        int i;
-        int i9;
         int i8;
-        int i7;
         int i3;
+        int i7;
+        int i9;
+        int i;
         int obj8;
         int obj9;
         int obj10;
         int obj11;
         int obj12;
-        i = i6 & 1 != 0 ? obj8 : z;
+        i8 = i6 & 1 != 0 ? obj8 : z;
         if (i6 & 2 != 0) {
-            i9 = obj9;
+            i3 = obj9;
         } else {
-            i9 = i2;
+            i3 = i2;
         }
-        i8 = i6 & 4 != 0 ? obj10 : z3;
+        i7 = i6 & 4 != 0 ? obj10 : z3;
         if (i6 & 8 != 0) {
-            i7 = obj11;
+            i9 = obj11;
         } else {
-            i7 = i4;
+            i9 = i4;
         }
         if (i6 & 16 != 0) {
-            i3 = obj12;
+            i = obj12;
         } else {
-            i3 = i5;
+            i = i5;
         }
-        super(i, i9, i8, i7, i3, 0);
+        super(i8, i3, i7, i9, i, 0);
     }
 
     private ImeOptions(boolean singleLine, int capitalization, boolean autoCorrect, int keyboardType, int imeAction, androidx.compose.ui.text.input.PlatformImeOptions platformImeOptions) {
@@ -80,19 +80,19 @@ public final class ImeOptions {
     }
 
     public ImeOptions(boolean z, int i2, boolean z3, int i4, int i5, androidx.compose.ui.text.input.PlatformImeOptions platformImeOptions6, int i7, DefaultConstructorMarker defaultConstructorMarker8) {
-        int i3;
+        int i;
         int none-IUNYP9k;
-        int i6;
+        int i3;
         int text-PjHm6EE;
         int default-eUduSuo;
-        int i;
-        i3 = i7 & 1 != 0 ? 0 : z;
+        int i6;
+        i = i7 & 1 != 0 ? 0 : z;
         if (i7 & 2 != 0) {
             none-IUNYP9k = KeyboardCapitalization.Companion.getNone-IUNYP9k();
         } else {
             none-IUNYP9k = i2;
         }
-        i6 = i7 & 4 != 0 ? 1 : z3;
+        i3 = i7 & 4 != 0 ? 1 : z3;
         if (i7 & 8 != 0) {
             text-PjHm6EE = KeyboardType.Companion.getText-PjHm6EE();
         } else {
@@ -103,8 +103,8 @@ public final class ImeOptions {
         } else {
             default-eUduSuo = i5;
         }
-        i = i7 & 32 != 0 ? 0 : platformImeOptions6;
-        super(i3, none-IUNYP9k, i6, text-PjHm6EE, default-eUduSuo, i, 0);
+        i6 = i7 & 32 != 0 ? 0 : platformImeOptions6;
+        super(i, none-IUNYP9k, i3, text-PjHm6EE, default-eUduSuo, i6, 0);
     }
 
     private ImeOptions(boolean singleLine, int capitalization, boolean autoCorrect, int keyboardType, int imeAction, androidx.compose.ui.text.input.PlatformImeOptions platformImeOptions, LocaleList hintLocales) {
@@ -121,10 +121,10 @@ public final class ImeOptions {
     public ImeOptions(boolean z, int i2, boolean z3, int i4, int i5, androidx.compose.ui.text.input.PlatformImeOptions platformImeOptions6, LocaleList localeList7, int i8, DefaultConstructorMarker defaultConstructorMarker9) {
         int i;
         int none-IUNYP9k;
-        int i3;
+        int i6;
         int text-PjHm6EE;
         int default-eUduSuo;
-        int i6;
+        int i3;
         LocaleList empty;
         i = i8 & 1 != 0 ? 0 : z;
         if (i8 & 2 != 0) {
@@ -132,7 +132,7 @@ public final class ImeOptions {
         } else {
             none-IUNYP9k = i2;
         }
-        i3 = i8 & 4 != 0 ? 1 : z3;
+        i6 = i8 & 4 != 0 ? 1 : z3;
         if (i8 & 8 != 0) {
             text-PjHm6EE = KeyboardType.Companion.getText-PjHm6EE();
         } else {
@@ -143,13 +143,13 @@ public final class ImeOptions {
         } else {
             default-eUduSuo = i5;
         }
-        i6 = i8 & 32 != 0 ? 0 : platformImeOptions6;
+        i3 = i8 & 32 != 0 ? 0 : platformImeOptions6;
         if (i8 & 64 != 0) {
             empty = LocaleList.Companion.getEmpty();
         } else {
             empty = localeList7;
         }
-        super(i, none-IUNYP9k, i3, text-PjHm6EE, default-eUduSuo, i6, empty, 0);
+        super(i, none-IUNYP9k, i6, text-PjHm6EE, default-eUduSuo, i3, empty, 0);
     }
 
     public ImeOptions(boolean z, int i2, boolean z3, int i4, int i5, androidx.compose.ui.text.input.PlatformImeOptions platformImeOptions6, LocaleList localeList7, DefaultConstructorMarker defaultConstructorMarker8) {

@@ -34,8 +34,8 @@ public final class LifecycleEffectKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal3;
             int ordinal;
+            int ordinal3;
             int ordinal2;
             int ordinal4;
             int[] iArr = new int[values.length];
@@ -125,10 +125,10 @@ public final class LifecycleEffectKt {
     public static final void LifecycleEventEffect(Lifecycle.Event event, LifecycleOwner lifecycleOwner, Function0<Unit> onEvent, Composer $composer, int $changed, int i6) {
         int rememberUpdatedState;
         int $dirty;
-        int i4;
-        int i2;
-        int changedInstance;
+        int i;
         int i3;
+        int changedInstance;
+        int i2;
         int traceInProgress;
         int defaultsInvalid;
         int localLifecycleOwner;
@@ -141,7 +141,7 @@ public final class LifecycleEffectKt {
         Object consume;
         Object obj;
         String empty;
-        int i;
+        int i4;
         Object externalSyntheticLambda3;
         Object obj10;
         rememberUpdatedState = -709389590;
@@ -153,23 +153,23 @@ public final class LifecycleEffectKt {
             $dirty |= 6;
         } else {
             if ($changed & 6 == 0) {
-                i4 = obj12.changed((Enum)event.ordinal()) ? externalSyntheticLambda4 : 2;
-                $dirty |= i4;
+                i = obj12.changed((Enum)event.ordinal()) ? externalSyntheticLambda4 : 2;
+                $dirty |= i;
             }
         }
         if ($changed & 48 == 0) {
             if (i6 & 2 == 0 && obj12.changedInstance(lifecycleOwner)) {
-                i2 = obj12.changedInstance(lifecycleOwner) ? 32 : 16;
+                i3 = obj12.changedInstance(lifecycleOwner) ? 32 : 16;
             } else {
             }
-            $dirty |= i2;
+            $dirty |= i3;
         }
         if (i6 & 4 != 0) {
             $dirty |= 384;
         } else {
             if ($changed & 384 == 0) {
-                i3 = obj12.changedInstance(onEvent) ? 256 : 128;
-                $dirty |= i3;
+                i2 = obj12.changedInstance(onEvent) ? 256 : 128;
+                $dirty |= i2;
             }
         }
         if ($dirty & 147 == 146) {
@@ -206,7 +206,7 @@ public final class LifecycleEffectKt {
                     } else {
                         event2 = event;
                         obj = onEvent;
-                        i = $changed;
+                        i4 = $changed;
                     }
                 }
             } else {
@@ -304,10 +304,10 @@ public final class LifecycleEffectKt {
     public static final void LifecycleResumeEffect(Object key1, LifecycleOwner lifecycleOwner, Function1<? super androidx.lifecycle.compose.LifecycleResumePauseEffectScope, ? extends androidx.lifecycle.compose.LifecyclePauseOrDisposeEffectResult> effects, Composer $composer, int $changed, int i6) {
         int traceInProgress2;
         int $dirty;
-        int i2;
-        int i;
-        int changedInstance;
         int i3;
+        int i2;
+        int changedInstance;
+        int i;
         int skipping;
         int defaultsInvalid;
         int localLifecycleOwner;
@@ -329,23 +329,23 @@ public final class LifecycleEffectKt {
             $dirty |= 6;
         } else {
             if (i10 & 6 == 0) {
-                i2 = restartGroup.changedInstance(key1) ? 4 : 2;
-                $dirty |= i2;
+                i3 = restartGroup.changedInstance(key1) ? 4 : 2;
+                $dirty |= i3;
             }
         }
         if (i10 & 48 == 0) {
             if (i6 & 2 == 0 && restartGroup.changedInstance(lifecycleOwner)) {
-                i = restartGroup.changedInstance(lifecycleOwner) ? 32 : 16;
+                i2 = restartGroup.changedInstance(lifecycleOwner) ? 32 : 16;
             } else {
             }
-            $dirty |= i;
+            $dirty |= i2;
         }
         if (i6 & 4 != 0) {
             $dirty |= 384;
         } else {
             if (i10 & 384 == 0) {
-                i3 = restartGroup.changedInstance(effects) ? 256 : 128;
-                $dirty |= i3;
+                i = restartGroup.changedInstance(effects) ? 256 : 128;
+                $dirty |= i;
             }
         }
         if ($dirty & 147 == 146) {
@@ -407,19 +407,19 @@ public final class LifecycleEffectKt {
     }
 
     public static final void LifecycleResumeEffect(Object key1, Object key2, LifecycleOwner lifecycleOwner, Function1<? super androidx.lifecycle.compose.LifecycleResumePauseEffectScope, ? extends androidx.lifecycle.compose.LifecyclePauseOrDisposeEffectResult> effects, Composer $composer, int $changed, int i7) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
         Object obj;
         int i;
-        int i4;
+        int i2;
         Object obj2;
         int changedInstance;
-        int i2;
+        int i3;
         boolean skipping;
         int localLifecycleOwner;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int defaultsInvalid;
-        int i3;
+        int i4;
         int str;
         Object rememberedValue;
         int consume;
@@ -428,8 +428,8 @@ public final class LifecycleEffectKt {
         Lifecycle lifecycle;
         final Object obj4 = effects;
         final int i14 = $changed;
-        traceInProgress2 = 752680142;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 752680142;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LifecycleResumeEffect)P(1,2,3)508@24459L118,511@24582L83:LifecycleEffect.kt#2vxrgp");
         $dirty = $changed;
         if (i7 & 1 != 0) {
@@ -444,8 +444,8 @@ public final class LifecycleEffectKt {
             $dirty |= 48;
         } else {
             if (i14 & 48 == 0) {
-                i4 = restartGroup.changedInstance(key2) ? 32 : 16;
-                $dirty |= i4;
+                i2 = restartGroup.changedInstance(key2) ? 32 : 16;
+                $dirty |= i2;
             }
         }
         if (i14 & 384 == 0) {
@@ -462,8 +462,8 @@ public final class LifecycleEffectKt {
             $dirty |= 3072;
         } else {
             if (i14 & 3072 == 0) {
-                i2 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
-                $dirty |= i2;
+                i3 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
+                $dirty |= i3;
             }
         }
         if ($dirty & 1171 == 1170) {
@@ -490,7 +490,7 @@ public final class LifecycleEffectKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.lifecycle.compose.LifecycleResumeEffect (LifecycleEffect.kt:506)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.lifecycle.compose.LifecycleResumeEffect (LifecycleEffect.kt:506)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1771119972, "CC(remember):LifecycleEffect.kt#9igjgp");
                 Composer composer = restartGroup;
@@ -512,33 +512,33 @@ public final class LifecycleEffectKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i3 = $dirty;
+                i4 = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
-                i3 = $dirty;
+                i4 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new LifecycleEffectKt$$ExternalSyntheticLambda13(key1, key2, obj2, obj4, i14, i7);
-            endRestartGroup.updateScope(traceInProgress2);
+            traceInProgress = new LifecycleEffectKt$$ExternalSyntheticLambda13(key1, key2, obj2, obj4, i14, i7);
+            endRestartGroup.updateScope(traceInProgress);
         }
     }
 
     public static final void LifecycleResumeEffect(Object key1, Object key2, Object key3, LifecycleOwner lifecycleOwner, Function1<? super androidx.lifecycle.compose.LifecycleResumePauseEffectScope, ? extends androidx.lifecycle.compose.LifecyclePauseOrDisposeEffectResult> effects, Composer $composer, int $changed, int i8) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
         Object $dirty2;
-        int i3;
-        int i;
         int i4;
+        int i5;
+        int i3;
         Object obj;
         int changedInstance;
-        int i5;
+        int i;
         int skipping;
         int localLifecycleOwner;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int defaultsInvalid;
         int i2;
         int str;
@@ -552,32 +552,32 @@ public final class LifecycleEffectKt {
         final Object obj4 = key3;
         final Object obj6 = effects;
         final int i14 = $changed;
-        traceInProgress2 = -485941842;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -485941842;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LifecycleResumeEffect)P(1,2,3,4)572@27657L124,575@27786L83:LifecycleEffect.kt#2vxrgp");
         $dirty = $changed;
         if (i8 & 1 != 0) {
             $dirty |= 6;
         } else {
             if (i14 & 6 == 0) {
-                i3 = restartGroup.changedInstance(obj2) ? 4 : 2;
-                $dirty |= i3;
+                i4 = restartGroup.changedInstance(obj2) ? 4 : 2;
+                $dirty |= i4;
             }
         }
         if (i8 & 2 != 0) {
             $dirty |= 48;
         } else {
             if (i14 & 48 == 0) {
-                i = restartGroup.changedInstance(obj3) ? 32 : 16;
-                $dirty |= i;
+                i5 = restartGroup.changedInstance(obj3) ? 32 : 16;
+                $dirty |= i5;
             }
         }
         if (i8 & 4 != 0) {
             $dirty |= 384;
         } else {
             if (i14 & 384 == 0) {
-                i4 = restartGroup.changedInstance(obj4) ? 256 : 128;
-                $dirty |= i4;
+                i3 = restartGroup.changedInstance(obj4) ? 256 : 128;
+                $dirty |= i3;
             }
         }
         if (i14 & 3072 == 0) {
@@ -594,8 +594,8 @@ public final class LifecycleEffectKt {
             $dirty |= 24576;
         } else {
             if (i14 & 24576 == 0) {
-                i5 = restartGroup.changedInstance(obj6) ? 16384 : 8192;
-                $dirty |= i5;
+                i = restartGroup.changedInstance(obj6) ? 16384 : 8192;
+                $dirty |= i;
             }
         }
         if ($dirty & 9363 == 9362) {
@@ -622,7 +622,7 @@ public final class LifecycleEffectKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.lifecycle.compose.LifecycleResumeEffect (LifecycleEffect.kt:570)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.lifecycle.compose.LifecycleResumeEffect (LifecycleEffect.kt:570)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1161334858, "CC(remember):LifecycleEffect.kt#9igjgp");
                 Composer composer = restartGroup;
@@ -655,28 +655,28 @@ public final class LifecycleEffectKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new LifecycleEffectKt$$ExternalSyntheticLambda11(obj2, obj3, obj4, $dirty2, obj6, i14, i8);
-            endRestartGroup.updateScope(traceInProgress2);
+            traceInProgress = new LifecycleEffectKt$$ExternalSyntheticLambda11(obj2, obj3, obj4, $dirty2, obj6, i14, i8);
+            endRestartGroup.updateScope(traceInProgress);
         }
     }
 
     public static final void LifecycleResumeEffect(Object[] keys, LifecycleOwner lifecycleOwner, Function1<? super androidx.lifecycle.compose.LifecycleResumePauseEffectScope, ? extends androidx.lifecycle.compose.LifecyclePauseOrDisposeEffectResult> effects, Composer $composer, int $changed, int i6) {
-        int traceInProgress2;
+        int traceInProgress;
         Object[] lifecycle;
-        int $dirty2;
+        int $dirty;
         int $dirty3;
-        Object $dirty;
+        Object $dirty2;
         Object obj;
         int changedInstance;
         int i3;
-        int i;
         int i2;
+        int i4;
         int skipping;
         int localLifecycleOwner;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int defaultsInvalid;
         int str;
-        int i4;
+        int i;
         int invalid$iv;
         Object consume;
         int rememberedValue;
@@ -687,8 +687,8 @@ public final class LifecycleEffectKt {
         final Object obj2 = keys;
         final Object obj4 = effects;
         final int i9 = $changed;
-        traceInProgress2 = -781756895;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -781756895;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LifecycleResumeEffect)P(1,2)631@30683L113,634@30801L83:LifecycleEffect.kt#2vxrgp");
         if (i9 & 48 == 0) {
             if (i6 & 2 == 0) {
@@ -696,30 +696,30 @@ public final class LifecycleEffectKt {
             } else {
                 obj = lifecycleOwner;
             }
-            $dirty2 |= changedInstance;
+            $dirty |= changedInstance;
         } else {
             obj = lifecycleOwner;
         }
         if (i6 & 4 != 0) {
-            $dirty2 |= 384;
+            $dirty |= 384;
         } else {
             if (i9 & 384 == 0) {
                 i3 = restartGroup.changedInstance(obj4) ? 256 : 128;
-                $dirty2 |= i3;
+                $dirty |= i3;
             }
         }
         restartGroup.startMovableGroup(350902322, Integer.valueOf(obj2.length));
         ComposerKt.sourceInformation(restartGroup, "627@30533L7");
         int i17 = 4;
-        i4 = 0;
-        i = restartGroup.changed(obj2.length) ? i17 : i4;
-        $dirty2 |= i;
-        invalid$iv = i4;
+        i = 0;
+        i2 = restartGroup.changed(obj2.length) ? i17 : i;
+        $dirty |= i2;
+        invalid$iv = i;
         while (invalid$iv < obj2.length) {
             if (restartGroup.changedInstance(obj2[invalid$iv])) {
             } else {
             }
-            rememberedValue = i4;
+            rememberedValue = i;
             $dirty3 |= rememberedValue;
             invalid$iv++;
             rememberedValue = i17;
@@ -752,7 +752,7 @@ public final class LifecycleEffectKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty3, -1, "androidx.lifecycle.compose.LifecycleResumeEffect (LifecycleEffect.kt:629)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty3, -1, "androidx.lifecycle.compose.LifecycleResumeEffect (LifecycleEffect.kt:629)");
                 }
                 SpreadBuilder spreadBuilder = new SpreadBuilder(2);
                 spreadBuilder.addSpread(obj2);
@@ -762,20 +762,20 @@ public final class LifecycleEffectKt {
                 str = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -568225417, "CC(remember)P(1):Composables.kt#9igjgp");
                 invalid$iv = 0;
-                while (i4 < lifecycle.length) {
+                while (i < lifecycle.length) {
                     invalid$iv |= changed;
-                    i4++;
+                    i++;
                 }
-                i4 = restartGroup;
+                i = restartGroup;
                 consume = 0;
-                rememberedValue = i4.rememberedValue();
+                rememberedValue = i.rememberedValue();
                 changed = 0;
                 if (invalid$iv == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         obj17 = lifecycle;
                         lifecycleResumePauseEffectScope = new LifecycleResumePauseEffectScope(obj.getLifecycle());
-                        i4.updateRememberedValue(lifecycleResumePauseEffectScope);
+                        i.updateRememberedValue(lifecycleResumePauseEffectScope);
                     } else {
                         obj17 = lifecycle;
                         lifecycleResumePauseEffectScope = rememberedValue;
@@ -787,19 +787,19 @@ public final class LifecycleEffectKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i2 = $dirty3;
-                $dirty = obj;
+                i4 = $dirty3;
+                $dirty2 = obj;
             } else {
                 restartGroup.skipToGroupEnd();
-                i2 = $dirty3;
-                $dirty = obj;
+                i4 = $dirty3;
+                $dirty2 = obj;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new LifecycleEffectKt$$ExternalSyntheticLambda6(obj2, $dirty, obj4, i9, i6);
-            endRestartGroup.updateScope(traceInProgress2);
+            traceInProgress = new LifecycleEffectKt$$ExternalSyntheticLambda6(obj2, $dirty2, obj4, i9, i6);
+            endRestartGroup.updateScope(traceInProgress);
         }
     }
 
@@ -831,32 +831,32 @@ public final class LifecycleEffectKt {
     private static final void LifecycleResumeEffectImpl(LifecycleOwner lifecycleOwner, androidx.lifecycle.compose.LifecycleResumePauseEffectScope scope, Function1<? super androidx.lifecycle.compose.LifecycleResumePauseEffectScope, ? extends androidx.lifecycle.compose.LifecyclePauseOrDisposeEffectResult> effects, Composer $composer, int $changed) {
         int traceInProgress;
         int $dirty;
-        int i3;
-        int i6;
-        int i4;
+        int i;
+        int i5;
+        int i2;
         boolean skipping;
         boolean traceInProgress2;
-        int i2;
-        int i5;
+        int i3;
+        int i6;
         int rememberedValue;
-        int i;
+        int i4;
         Object empty;
         Object obj;
         traceInProgress = 912823238;
         final Composer obj11 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj11, "C(LifecycleResumeEffectImpl)P(1,2)664@32092L670,664@32052L710:LifecycleEffect.kt#2vxrgp");
         if ($changed & 6 == 0) {
-            i3 = obj11.changedInstance(lifecycleOwner) ? 4 : 2;
-            $dirty |= i3;
+            i = obj11.changedInstance(lifecycleOwner) ? 4 : 2;
+            $dirty |= i;
         }
         if ($changed & 48 == 0) {
-            i6 = obj11.changedInstance(scope) ? 32 : 16;
-            $dirty |= i6;
+            i5 = obj11.changedInstance(scope) ? 32 : 16;
+            $dirty |= i5;
         }
-        i5 = 256;
+        i6 = 256;
         if ($changed & 384 == 0) {
-            i4 = obj11.changedInstance(effects) ? i5 : 128;
-            $dirty |= i4;
+            i2 = obj11.changedInstance(effects) ? i6 : 128;
+            $dirty |= i2;
         }
         if ($dirty & 147 == 146) {
             if (!obj11.getSkipping()) {
@@ -864,11 +864,11 @@ public final class LifecycleEffectKt {
                     ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.lifecycle.compose.LifecycleResumeEffectImpl (LifecycleEffect.kt:663)");
                 }
                 ComposerKt.sourceInformationMarkerStart(obj11, 1049812516, "CC(remember):LifecycleEffect.kt#9igjgp");
-                i2 = $dirty & 896 == i5 ? 1 : 0;
+                i3 = $dirty & 896 == i6 ? 1 : 0;
                 Composer composer = obj11;
-                i5 = 0;
+                i6 = 0;
                 rememberedValue = composer.rememberedValue();
-                i = 0;
+                i4 = 0;
                 if (i8 |= changedInstance3 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
@@ -983,16 +983,16 @@ public final class LifecycleEffectKt {
     }
 
     public static final void LifecycleStartEffect(Object key1, LifecycleOwner lifecycleOwner, Function1<? super androidx.lifecycle.compose.LifecycleStartStopEffectScope, ? extends androidx.lifecycle.compose.LifecycleStopOrDisposeEffectResult> effects, Composer $composer, int $changed, int i6) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
-        int i;
+        int i3;
         int i2;
         int changedInstance;
-        int i3;
+        int i;
         int skipping;
         int defaultsInvalid;
         int localLifecycleOwner;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         Object obj;
         int str;
         int rememberedValue;
@@ -1002,16 +1002,16 @@ public final class LifecycleEffectKt {
         Lifecycle lifecycle;
         Object obj13;
         final int i10 = $changed;
-        traceInProgress2 = -1408314671;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -1408314671;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LifecycleStartEffect)P(1,2)131@5981L90,132@6076L80:LifecycleEffect.kt#2vxrgp");
         $dirty = $changed;
         if (i6 & 1 != 0) {
             $dirty |= 6;
         } else {
             if (i10 & 6 == 0) {
-                i = restartGroup.changedInstance(key1) ? 4 : 2;
-                $dirty |= i;
+                i3 = restartGroup.changedInstance(key1) ? 4 : 2;
+                $dirty |= i3;
             }
         }
         if (i10 & 48 == 0) {
@@ -1025,8 +1025,8 @@ public final class LifecycleEffectKt {
             $dirty |= 384;
         } else {
             if (i10 & 384 == 0) {
-                i3 = restartGroup.changedInstance(effects) ? 256 : 128;
-                $dirty |= i3;
+                i = restartGroup.changedInstance(effects) ? 256 : 128;
+                $dirty |= i;
             }
         }
         if ($dirty & 147 == 146) {
@@ -1052,7 +1052,7 @@ public final class LifecycleEffectKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.lifecycle.compose.LifecycleStartEffect (LifecycleEffect.kt:129)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.lifecycle.compose.LifecycleStartEffect (LifecycleEffect.kt:129)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -475692085, "CC(remember):LifecycleEffect.kt#9igjgp");
                 Composer composer = restartGroup;
@@ -1082,8 +1082,8 @@ public final class LifecycleEffectKt {
         obj13 = $dirty;
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new LifecycleEffectKt$$ExternalSyntheticLambda0(key1, obj13, effects, i10, i6);
-            endRestartGroup.updateScope(traceInProgress2);
+            traceInProgress = new LifecycleEffectKt$$ExternalSyntheticLambda0(key1, obj13, effects, i10, i6);
+            endRestartGroup.updateScope(traceInProgress);
         }
     }
 
@@ -1091,16 +1091,16 @@ public final class LifecycleEffectKt {
         int traceInProgress2;
         int $dirty;
         Object obj;
+        int i2;
         int i4;
-        int i;
         Object obj2;
         int changedInstance;
-        int i2;
+        int i3;
         boolean skipping;
         int localLifecycleOwner;
         boolean traceInProgress;
         int defaultsInvalid;
-        int i3;
+        int i;
         int str;
         Object rememberedValue;
         int consume;
@@ -1117,16 +1117,16 @@ public final class LifecycleEffectKt {
             $dirty |= 6;
         } else {
             if (i14 & 6 == 0) {
-                i4 = restartGroup.changedInstance(key1) ? 4 : 2;
-                $dirty |= i4;
+                i2 = restartGroup.changedInstance(key1) ? 4 : 2;
+                $dirty |= i2;
             }
         }
         if (i7 & 2 != 0) {
             $dirty |= 48;
         } else {
             if (i14 & 48 == 0) {
-                i = restartGroup.changedInstance(key2) ? 32 : 16;
-                $dirty |= i;
+                i4 = restartGroup.changedInstance(key2) ? 32 : 16;
+                $dirty |= i4;
             }
         }
         if (i14 & 384 == 0) {
@@ -1143,8 +1143,8 @@ public final class LifecycleEffectKt {
             $dirty |= 3072;
         } else {
             if (i14 & 3072 == 0) {
-                i2 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
-                $dirty |= i2;
+                i3 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
+                $dirty |= i3;
             }
         }
         if ($dirty & 1171 == 1170) {
@@ -1193,10 +1193,10 @@ public final class LifecycleEffectKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i3 = $dirty;
+                i = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
-                i3 = $dirty;
+                i = $dirty;
             }
         } else {
         }
@@ -1208,20 +1208,20 @@ public final class LifecycleEffectKt {
     }
 
     public static final void LifecycleStartEffect(Object key1, Object key2, Object key3, LifecycleOwner lifecycleOwner, Function1<? super androidx.lifecycle.compose.LifecycleStartStopEffectScope, ? extends androidx.lifecycle.compose.LifecycleStopOrDisposeEffectResult> effects, Composer $composer, int $changed, int i8) {
-        int traceInProgress2;
-        int $dirty2;
-        Object $dirty;
+        int traceInProgress;
+        int $dirty;
+        Object $dirty2;
         int i5;
         int i;
-        int i3;
+        int i2;
         Object obj;
         int changedInstance;
-        int i4;
+        int i3;
         int skipping;
         int localLifecycleOwner;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int defaultsInvalid;
-        int i2;
+        int i4;
         int str;
         int rememberedValue;
         Object consume;
@@ -1233,32 +1233,32 @@ public final class LifecycleEffectKt {
         final Object obj4 = key3;
         final Object obj6 = effects;
         final int i14 = $changed;
-        traceInProgress2 = 574812561;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 574812561;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LifecycleStartEffect)P(1,2,3,4)252@12163L122,255@12290L80:LifecycleEffect.kt#2vxrgp");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i8 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if (i14 & 6 == 0) {
                 i5 = restartGroup.changedInstance(obj2) ? 4 : 2;
-                $dirty2 |= i5;
+                $dirty |= i5;
             }
         }
         if (i8 & 2 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
         } else {
             if (i14 & 48 == 0) {
                 i = restartGroup.changedInstance(obj3) ? 32 : 16;
-                $dirty2 |= i;
+                $dirty |= i;
             }
         }
         if (i8 & 4 != 0) {
-            $dirty2 |= 384;
+            $dirty |= 384;
         } else {
             if (i14 & 384 == 0) {
-                i3 = restartGroup.changedInstance(obj4) ? 256 : 128;
-                $dirty2 |= i3;
+                i2 = restartGroup.changedInstance(obj4) ? 256 : 128;
+                $dirty |= i2;
             }
         }
         if (i14 & 3072 == 0) {
@@ -1267,19 +1267,19 @@ public final class LifecycleEffectKt {
             } else {
                 obj = lifecycleOwner;
             }
-            $dirty2 |= changedInstance;
+            $dirty |= changedInstance;
         } else {
             obj = lifecycleOwner;
         }
         if (i8 & 16 != 0) {
-            $dirty2 |= 24576;
+            $dirty |= 24576;
         } else {
             if (i14 & 24576 == 0) {
-                i4 = restartGroup.changedInstance(obj6) ? 16384 : 8192;
-                $dirty2 |= i4;
+                i3 = restartGroup.changedInstance(obj6) ? 16384 : 8192;
+                $dirty |= i3;
             }
         }
-        if ($dirty2 & 9363 == 9362) {
+        if ($dirty & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 ComposerKt.sourceInformation(restartGroup, "248@12018L7");
@@ -1291,19 +1291,19 @@ public final class LifecycleEffectKt {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
                             obj = consume;
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i8 & 8 != 0) {
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.lifecycle.compose.LifecycleStartEffect (LifecycleEffect.kt:250)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.lifecycle.compose.LifecycleStartEffect (LifecycleEffect.kt:250)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1655900501, "CC(remember):LifecycleEffect.kt#9igjgp");
                 Composer composer = restartGroup;
@@ -1325,39 +1325,39 @@ public final class LifecycleEffectKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i2 = $dirty2;
-                $dirty = obj;
+                i4 = $dirty;
+                $dirty2 = obj;
             } else {
                 restartGroup.skipToGroupEnd();
-                i2 = $dirty2;
-                $dirty = obj;
+                i4 = $dirty;
+                $dirty2 = obj;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new LifecycleEffectKt$$ExternalSyntheticLambda15(obj2, obj3, obj4, $dirty, obj6, i14, i8);
-            endRestartGroup.updateScope(traceInProgress2);
+            traceInProgress = new LifecycleEffectKt$$ExternalSyntheticLambda15(obj2, obj3, obj4, $dirty2, obj6, i14, i8);
+            endRestartGroup.updateScope(traceInProgress);
         }
     }
 
     public static final void LifecycleStartEffect(Object[] keys, LifecycleOwner lifecycleOwner, Function1<? super androidx.lifecycle.compose.LifecycleStartStopEffectScope, ? extends androidx.lifecycle.compose.LifecycleStopOrDisposeEffectResult> effects, Composer $composer, int $changed, int i6) {
-        int traceInProgress2;
+        int traceInProgress;
         Object[] lifecycle;
-        int $dirty3;
         int $dirty;
+        int $dirty3;
         Object $dirty2;
         Object obj;
         int changedInstance;
         int i2;
-        int i3;
         int i;
+        int i4;
         int skipping;
         int localLifecycleOwner;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int defaultsInvalid;
         int str;
-        int i4;
+        int i3;
         int invalid$iv;
         Object consume;
         int rememberedValue;
@@ -1368,8 +1368,8 @@ public final class LifecycleEffectKt {
         final Object obj2 = keys;
         final Object obj4 = effects;
         final int i9 = $changed;
-        traceInProgress2 = -1510305724;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -1510305724;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LifecycleStartEffect)P(1,2)310@15140L91,311@15236L80:LifecycleEffect.kt#2vxrgp");
         if (i9 & 48 == 0) {
             if (i6 & 2 == 0) {
@@ -1377,39 +1377,39 @@ public final class LifecycleEffectKt {
             } else {
                 obj = lifecycleOwner;
             }
-            $dirty3 |= changedInstance;
+            $dirty |= changedInstance;
         } else {
             obj = lifecycleOwner;
         }
         if (i6 & 4 != 0) {
-            $dirty3 |= 384;
+            $dirty |= 384;
         } else {
             if (i9 & 384 == 0) {
                 i2 = restartGroup.changedInstance(obj4) ? 256 : 128;
-                $dirty3 |= i2;
+                $dirty |= i2;
             }
         }
         restartGroup.startMovableGroup(295146869, Integer.valueOf(obj2.length));
         ComposerKt.sourceInformation(restartGroup, "306@14995L7");
         int i17 = 4;
-        i4 = 0;
-        i3 = restartGroup.changed(obj2.length) ? i17 : i4;
-        $dirty3 |= i3;
-        invalid$iv = i4;
+        i3 = 0;
+        i = restartGroup.changed(obj2.length) ? i17 : i3;
+        $dirty |= i;
+        invalid$iv = i3;
         while (invalid$iv < obj2.length) {
             if (restartGroup.changedInstance(obj2[invalid$iv])) {
             } else {
             }
-            rememberedValue = i4;
-            $dirty |= rememberedValue;
+            rememberedValue = i3;
+            $dirty3 |= rememberedValue;
             invalid$iv++;
             rememberedValue = i17;
         }
         restartGroup.endMovableGroup();
-        if ($dirty & 14 == 0) {
-            $dirty |= 2;
+        if ($dirty3 & 14 == 0) {
+            $dirty3 |= 2;
         }
-        if ($dirty & 147 == 146) {
+        if ($dirty3 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 ComposerKt.sourceInformation(restartGroup, "");
@@ -1421,19 +1421,19 @@ public final class LifecycleEffectKt {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
                             obj = consume;
-                            $dirty &= -113;
+                            $dirty3 &= -113;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i6 & 2 != 0) {
-                            $dirty &= -113;
+                            $dirty3 &= -113;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.lifecycle.compose.LifecycleStartEffect (LifecycleEffect.kt:308)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty3, -1, "androidx.lifecycle.compose.LifecycleStartEffect (LifecycleEffect.kt:308)");
                 }
                 SpreadBuilder spreadBuilder = new SpreadBuilder(2);
                 spreadBuilder.addSpread(obj2);
@@ -1443,20 +1443,20 @@ public final class LifecycleEffectKt {
                 str = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -568225417, "CC(remember)P(1):Composables.kt#9igjgp");
                 invalid$iv = 0;
-                while (i4 < lifecycle.length) {
+                while (i3 < lifecycle.length) {
                     invalid$iv |= changed;
-                    i4++;
+                    i3++;
                 }
-                i4 = restartGroup;
+                i3 = restartGroup;
                 consume = 0;
-                rememberedValue = i4.rememberedValue();
+                rememberedValue = i3.rememberedValue();
                 changed = 0;
                 if (invalid$iv == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         obj17 = lifecycle;
                         lifecycleStartStopEffectScope = new LifecycleStartStopEffectScope(obj.getLifecycle());
-                        i4.updateRememberedValue(lifecycleStartStopEffectScope);
+                        i3.updateRememberedValue(lifecycleStartStopEffectScope);
                     } else {
                         obj17 = lifecycle;
                         lifecycleStartStopEffectScope = rememberedValue;
@@ -1468,19 +1468,19 @@ public final class LifecycleEffectKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i = $dirty;
+                i4 = $dirty3;
                 $dirty2 = obj;
             } else {
                 restartGroup.skipToGroupEnd();
-                i = $dirty;
+                i4 = $dirty3;
                 $dirty2 = obj;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new LifecycleEffectKt$$ExternalSyntheticLambda16(obj2, $dirty2, obj4, i9, i6);
-            endRestartGroup.updateScope(traceInProgress2);
+            traceInProgress = new LifecycleEffectKt$$ExternalSyntheticLambda16(obj2, $dirty2, obj4, i9, i6);
+            endRestartGroup.updateScope(traceInProgress);
         }
     }
 
@@ -1512,32 +1512,32 @@ public final class LifecycleEffectKt {
     private static final void LifecycleStartEffectImpl(LifecycleOwner lifecycleOwner, androidx.lifecycle.compose.LifecycleStartStopEffectScope scope, Function1<? super androidx.lifecycle.compose.LifecycleStartStopEffectScope, ? extends androidx.lifecycle.compose.LifecycleStopOrDisposeEffectResult> effects, Composer $composer, int $changed) {
         int traceInProgress;
         int $dirty;
-        int i5;
-        int i6;
         int i4;
+        int i5;
+        int i;
         boolean skipping;
         boolean traceInProgress2;
+        int i6;
         int i2;
-        int i3;
         int rememberedValue;
-        int i;
+        int i3;
         Object empty;
         Object externalSyntheticLambda8;
         traceInProgress = 228371534;
         final Composer obj11 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj11, "C(LifecycleStartEffectImpl)P(1,2)341@16508L661,341@16468L701:LifecycleEffect.kt#2vxrgp");
         if ($changed & 6 == 0) {
-            i5 = obj11.changedInstance(lifecycleOwner) ? 4 : 2;
-            $dirty |= i5;
+            i4 = obj11.changedInstance(lifecycleOwner) ? 4 : 2;
+            $dirty |= i4;
         }
         if ($changed & 48 == 0) {
-            i6 = obj11.changedInstance(scope) ? 32 : 16;
-            $dirty |= i6;
+            i5 = obj11.changedInstance(scope) ? 32 : 16;
+            $dirty |= i5;
         }
-        i3 = 256;
+        i2 = 256;
         if ($changed & 384 == 0) {
-            i4 = obj11.changedInstance(effects) ? i3 : 128;
-            $dirty |= i4;
+            i = obj11.changedInstance(effects) ? i2 : 128;
+            $dirty |= i;
         }
         if ($dirty & 147 == 146) {
             if (!obj11.getSkipping()) {
@@ -1545,11 +1545,11 @@ public final class LifecycleEffectKt {
                     ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.lifecycle.compose.LifecycleStartEffectImpl (LifecycleEffect.kt:340)");
                 }
                 ComposerKt.sourceInformationMarkerStart(obj11, 421721059, "CC(remember):LifecycleEffect.kt#9igjgp");
-                i2 = $dirty & 896 == i3 ? 1 : 0;
+                i6 = $dirty & 896 == i2 ? 1 : 0;
                 Composer composer = obj11;
-                i3 = 0;
+                i2 = 0;
                 rememberedValue = composer.rememberedValue();
-                i = 0;
+                i3 = 0;
                 if (i8 |= changedInstance3 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;

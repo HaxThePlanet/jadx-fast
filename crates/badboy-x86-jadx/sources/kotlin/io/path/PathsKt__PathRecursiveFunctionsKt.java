@@ -38,8 +38,8 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
         public static final int[] $EnumSwitchMapping$1;
         static {
             int i;
-            int ordinal;
             int ordinal4;
+            int ordinal;
             int ordinal3;
             int ordinal2;
             int[] iArr = new int[values.length];
@@ -113,13 +113,13 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
 
     public static final Path copyToRecursively(Path $this$copyToRecursively, Path target, Function3<? super Path, ? super Path, ? super Exception, ? extends kotlin.io.path.OnErrorResult> onError, boolean followLinks, Function3<? super kotlin.io.path.CopyActionContext, ? super Path, ? super Path, ? extends kotlin.io.path.CopyActionResult> copyAction) {
         int startsWith2;
-        boolean symbolicLink;
         boolean symbolicLink2;
-        int realPath2;
+        boolean symbolicLink;
+        int realPath;
         boolean sameFile;
         java.nio.file.FileSystem fileSystem;
         boolean startsWith;
-        Path realPath;
+        Path realPath2;
         Intrinsics.checkNotNullParameter($this$copyToRecursively, "<this>");
         Intrinsics.checkNotNullParameter(target, "target");
         Intrinsics.checkNotNullParameter(onError, "onError");
@@ -132,16 +132,16 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
             if (Files.exists($this$copyToRecursively, (LinkOption[])Arrays.copyOf(new LinkOption[startsWith2], startsWith2)) != null) {
                 if (!followLinks) {
                     if (Files.isSymbolicLink($this$copyToRecursively) == null) {
-                        realPath2 = 1;
+                        realPath = 1;
                         if (Files.exists(target, (LinkOption[])Arrays.copyOf(new LinkOption[startsWith2], startsWith2)) != null && Files.isSymbolicLink(target) == null) {
-                            symbolicLink = Files.isSymbolicLink(target) == null ? realPath2 : startsWith2;
+                            symbolicLink2 = Files.isSymbolicLink(target) == null ? realPath : startsWith2;
                         } else {
                         }
-                        if (symbolicLink != 0) {
+                        if (symbolicLink2 != 0) {
                             if (Files.isSameFile($this$copyToRecursively, target) == null) {
                                 if (Intrinsics.areEqual($this$copyToRecursively.getFileSystem(), target.getFileSystem()) == null) {
                                 } else {
-                                    if (symbolicLink != 0) {
+                                    if (symbolicLink2 != 0) {
                                         startsWith2 = target.toRealPath(new LinkOption[startsWith2]).startsWith($this$copyToRecursively.toRealPath(new LinkOption[startsWith2]));
                                     } else {
                                         sameFile = target.getParent();
@@ -150,7 +150,7 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
                                             fileSystem = 0;
                                             if (Files.exists(sameFile, (LinkOption[])Arrays.copyOf(new LinkOption[startsWith2], startsWith2)) != null) {
                                                 if (sameFile.toRealPath(new LinkOption[startsWith2]).startsWith($this$copyToRecursively.toRealPath(new LinkOption[startsWith2])) != null) {
-                                                    startsWith2 = realPath2;
+                                                    startsWith2 = realPath;
                                                 }
                                             }
                                         }
@@ -182,9 +182,9 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
 
     public static final Path copyToRecursively(Path $this$copyToRecursively, Path target, Function3<? super Path, ? super Path, ? super Exception, ? extends kotlin.io.path.OnErrorResult> onError, boolean followLinks, boolean overwrite) {
         Path copyToRecursively$default;
-        Object obj;
         Object obj2;
         Object obj3;
+        Object obj;
         boolean z;
         int i2;
         int i3;
@@ -195,9 +195,9 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
         if (overwrite) {
             PathsKt__PathRecursiveFunctionsKt.copyToRecursively.2 anon = new PathsKt__PathRecursiveFunctionsKt.copyToRecursively.2(followLinks);
             copyToRecursively$default = PathsKt.copyToRecursively($this$copyToRecursively, target, onError, followLinks, (Function3)anon);
-            obj = $this$copyToRecursively;
-            obj2 = target;
-            obj3 = onError;
+            obj2 = $this$copyToRecursively;
+            obj3 = target;
+            obj = onError;
             z = followLinks;
         } else {
             copyToRecursively$default = PathsKt.copyToRecursively$default($this$copyToRecursively, target, onError, followLinks, 0, 8, 0);
@@ -209,21 +209,21 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
         boolean empty;
         FileVisitResult fileVisitResult$PathsKt__PathRecursiveFunctionsKt;
         Function3 function3;
-        Path path;
-        Path path4;
-        Path path2;
         Path path3;
+        Path path4;
+        Path path;
+        Path path2;
         Throwable th;
         if (!(Collection)stack.isEmpty()) {
             try {
                 PathsKt.checkFileName(source);
                 PathsKt__PathRecursiveFunctionsKt.checkNotSameAs$PathsKt__PathRecursiveFunctionsKt(source, (Path)CollectionsKt.last((List)stack));
                 fileVisitResult$PathsKt__PathRecursiveFunctionsKt = PathsKt__PathRecursiveFunctionsKt.toFileVisitResult$PathsKt__PathRecursiveFunctionsKt((CopyActionResult)$copyAction.invoke(DefaultCopyActionContext.INSTANCE, source, PathsKt__PathRecursiveFunctionsKt.copyToRecursively$destination$PathsKt__PathRecursiveFunctionsKt($this_copyToRecursively, $target, normalizedTarget, source)));
-                path = $this_copyToRecursively;
+                path3 = $this_copyToRecursively;
                 path4 = $target;
-                path2 = normalizedTarget;
+                path = normalizedTarget;
                 function3 = $onError;
-                path3 = source;
+                path2 = source;
                 return fileVisitResult$PathsKt__PathRecursiveFunctionsKt;
             }
         }
@@ -287,11 +287,11 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
 
     private static final List<Exception> deleteRecursivelyImpl$PathsKt__PathRecursiveFunctionsKt(Path $this$deleteRecursivelyImpl) {
         int useInsecure;
-        int i2;
+        int i;
         Object directoryStream;
         Object obj;
         Object stream;
-        int i;
+        int i2;
         boolean z;
         Path fileName;
         String str;
@@ -301,15 +301,15 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
         useInsecure = 1;
         Path parent = $this$deleteRecursivelyImpl.getParent();
         if (parent != null) {
-            i2 = 0;
+            i = 0;
             directoryStream = Files.newDirectoryStream(parent);
             obj = directoryStream;
             DirectoryStream stream2 = obj;
-            i = 0;
+            i2 = 0;
             if (directoryStream != null && stream2 instanceof SecureDirectoryStream != null) {
                 obj = directoryStream;
                 stream2 = obj;
-                i = 0;
+                i2 = 0;
                 if (stream2 instanceof SecureDirectoryStream != null) {
                     useInsecure = 0;
                     exceptionsCollector.setPath(parent);
@@ -359,8 +359,8 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
         int i;
         Path path;
         int totalExceptions;
-        int totalExceptions2;
-        int iNSTANCE;
+        int $i$a$TryIgnoreNoSuchFileExceptionPathsKt__PathRecursiveFunctionsKt$handleEntry$1$2;
+        int $i$a$TryIgnoreNoSuchFileExceptionPathsKt__PathRecursiveFunctionsKt$handleEntry$1$1;
         collector.enterEntry(name);
         final int i2 = 0;
         i = 0;
@@ -374,16 +374,16 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
         if (PathsKt__PathRecursiveFunctionsKt.isDirectory$PathsKt__PathRecursiveFunctionsKt($this$handleEntry, name, LinkOption.NOFOLLOW_LINKS) != null) {
             PathsKt__PathRecursiveFunctionsKt.enterDirectory$PathsKt__PathRecursiveFunctionsKt($this$handleEntry, name, collector);
             if (collector.getTotalExceptions() == collector.getTotalExceptions()) {
-                totalExceptions2 = 0;
+                $i$a$TryIgnoreNoSuchFileExceptionPathsKt__PathRecursiveFunctionsKt$handleEntry$1$2 = 0;
                 int i4 = 0;
                 $this$handleEntry.deleteDirectory(name);
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$TryIgnoreNoSuchFileExceptionPathsKt__PathRecursiveFunctionsKt$handleEntry$1$1 = Unit.INSTANCE;
             }
         } else {
             totalExceptions = 0;
             int i3 = 0;
             $this$handleEntry.deleteFile(name);
-            totalExceptions2 = Unit.INSTANCE;
+            $i$a$TryIgnoreNoSuchFileExceptionPathsKt__PathRecursiveFunctionsKt$handleEntry$1$2 = Unit.INSTANCE;
         }
         try {
             collector.collect(th);
@@ -414,10 +414,10 @@ class PathsKt__PathRecursiveFunctionsKt extends kotlin.io.path.PathsKt__PathRead
             try {
                 directoryStream2 = Unit.INSTANCE;
                 CloseableKt.closeFinally(directoryStream, 0);
+                throw th;
+                CloseableKt.closeFinally(closeable, th);
                 throw th2;
-                CloseableKt.closeFinally(closeable, th2);
-                throw th3;
-                collector.collect(th);
+                collector.collect($i$a$CollectIfThrowsPathsKt__PathRecursiveFunctionsKt$insecureEnterDirectory$1);
             } catch (Exception e) {
             }
         }

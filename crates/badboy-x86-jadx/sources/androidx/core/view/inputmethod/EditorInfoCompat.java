@@ -154,21 +154,21 @@ public final class EditorInfoCompat {
     }
 
     private static boolean isPasswordInputType(int inputType) {
-        int i;
         int i2;
+        int i;
         final int i3 = inputType & 4095;
         if (i3 != 129 && i3 != 225) {
             if (i3 != 225) {
                 if (i3 == 18) {
-                    i2 = 1;
+                    i = 1;
                 } else {
-                    i2 = 0;
+                    i = 0;
                 }
             } else {
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public static boolean isStylusHandwritingEnabled(EditorInfo editorInfo) {
@@ -192,29 +192,29 @@ public final class EditorInfoCompat {
     }
 
     public static void setInitialSurroundingSubText(EditorInfo editorInfo, java.lang.CharSequence subText, int subTextStart) {
-        int i2;
         int i;
+        int i2;
         Preconditions.checkNotNull(subText);
         if (Build.VERSION.SDK_INT >= 30) {
             EditorInfoCompat.Api30Impl.setInitialSurroundingSubText(editorInfo, subText, subTextStart);
         }
-        i2 = editorInfo.initialSelStart > editorInfo.initialSelEnd ? initialSelEnd - subTextStart : initialSelStart2 - subTextStart;
-        i = editorInfo.initialSelStart > editorInfo.initialSelEnd ? initialSelStart4 - subTextStart : initialSelEnd3 - subTextStart;
+        i = editorInfo.initialSelStart > editorInfo.initialSelEnd ? initialSelEnd - subTextStart : initialSelStart2 - subTextStart;
+        i2 = editorInfo.initialSelStart > editorInfo.initialSelEnd ? initialSelStart4 - subTextStart : initialSelEnd3 - subTextStart;
         int length = subText.length();
         int i4 = 0;
         final int i6 = 0;
-        if (subTextStart >= 0 && i2 >= 0) {
-            if (i2 >= 0) {
-                if (i > length) {
+        if (subTextStart >= 0 && i >= 0) {
+            if (i >= 0) {
+                if (i2 > length) {
                 } else {
                     if (EditorInfoCompat.isPasswordInputType(editorInfo.inputType)) {
                         EditorInfoCompat.setSurroundingText(editorInfo, i4, i6, i6);
                     }
                     if (length <= 2048) {
-                        EditorInfoCompat.setSurroundingText(editorInfo, subText, i2, i);
+                        EditorInfoCompat.setSurroundingText(editorInfo, subText, i, i2);
                     }
                 }
-                EditorInfoCompat.trimLongSurroundingText(editorInfo, subText, i2, i);
+                EditorInfoCompat.trimLongSurroundingText(editorInfo, subText, i, i2);
             }
         }
         EditorInfoCompat.setSurroundingText(editorInfo, i4, i6, i6);
@@ -259,21 +259,21 @@ public final class EditorInfoCompat {
     }
 
     private static void trimLongSurroundingText(EditorInfo editorInfo, java.lang.CharSequence subText, int selStart, int selEnd) {
-        int i;
-        java.lang.CharSequence subSequence3;
+        int i2;
+        java.lang.CharSequence subSequence;
         int newAfterCursorLength;
         int newBeforeCursorLength;
         int newBeforeCursorHead;
+        java.lang.CharSequence subSequence3;
         java.lang.CharSequence subSequence2;
-        java.lang.CharSequence subSequence;
-        int i2;
+        int i;
         final java.lang.CharSequence charSequence = subText;
         final int i3 = selStart;
         final int i4 = selEnd;
         final int i5 = i4 - i3;
         int i7 = 0;
-        i = i5 > 1024 ? i7 : i5;
-        final int i10 = i - 2048;
+        i2 = i5 > 1024 ? i7 : i5;
+        final int i10 = i2 - 2048;
         newAfterCursorLength = Math.min(length -= i4, i10 - i12);
         newBeforeCursorLength = Math.min(i3, i10 - newAfterCursorLength);
         if (EditorInfoCompat.isCutOnSurrogate(charSequence, i3 - newBeforeCursorLength, i7)) {
@@ -284,15 +284,15 @@ public final class EditorInfoCompat {
         if (EditorInfoCompat.isCutOnSurrogate(charSequence, i17 -= i21, i21)) {
             newAfterCursorLength--;
         }
-        if (i != i5) {
+        if (i2 != i5) {
             java.lang.CharSequence[] arr = new CharSequence[2];
             arr[i7] = charSequence.subSequence(newBeforeCursorHead, newBeforeCursorHead + newBeforeCursorLength);
             arr[i21] = charSequence.subSequence(i4, i4 + newAfterCursorLength);
-            subSequence3 = TextUtils.concat(arr);
+            subSequence = TextUtils.concat(arr);
         } else {
-            subSequence3 = charSequence.subSequence(newBeforeCursorHead, newBeforeCursorHead + i20);
+            subSequence = charSequence.subSequence(newBeforeCursorHead, newBeforeCursorHead + i20);
         }
         int i22 = newBeforeCursorHead2 + newBeforeCursorLength;
-        EditorInfoCompat.setSurroundingText(editorInfo, subSequence3, i22, i22 + i);
+        EditorInfoCompat.setSurroundingText(editorInfo, subSequence, i22, i22 + i2);
     }
 }

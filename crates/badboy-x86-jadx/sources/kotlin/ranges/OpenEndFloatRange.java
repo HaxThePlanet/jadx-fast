@@ -39,19 +39,19 @@ final class OpenEndFloatRange implements kotlin.ranges.OpenEndRange<Float> {
     @Override // kotlin.ranges.OpenEndRange
     public boolean equals(Object other) {
         int empty;
-        int i;
         int i2;
+        int i;
         float _endExclusive;
-        i = 0;
+        i2 = 0;
         if (other instanceof OpenEndFloatRange) {
-            i2 = 1;
+            i = 1;
             if (isEmpty()) {
                 if (!(OpenEndFloatRange)other.isEmpty()) {
-                    empty = Float.compare(_start, _endExclusive) == 0 ? i2 : i;
+                    empty = Float.compare(_start, _endExclusive) == 0 ? i : i2;
                     if (empty != 0) {
-                        empty = Float.compare(_endExclusive2, _endExclusive) == 0 ? i2 : i;
+                        empty = Float.compare(_endExclusive2, _endExclusive) == 0 ? i : i2;
                         if (empty != 0) {
-                            i = i2;
+                            i2 = i;
                         } else {
                         }
                     } else {
@@ -62,7 +62,7 @@ final class OpenEndFloatRange implements kotlin.ranges.OpenEndRange<Float> {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     @Override // kotlin.ranges.OpenEndRange

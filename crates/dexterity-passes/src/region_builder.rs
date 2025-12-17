@@ -33,6 +33,8 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
+use tracing::error;
+
 use dexterity_ir::instructions::InsnType;
 use dexterity_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent, SwitchCase};
 
@@ -503,6 +505,11 @@ impl RegionStack {
     fn push(&mut self) {
         // JADX: RegionStack.java:66
         if self.exits.len() > 1000 {
+            error!(
+                stack_size = self.exits.len(),
+                limit = 1000,
+                "LIMIT_EXCEEDED: Regions stack size limit reached"
+            );
             panic!("Regions stack size limit reached");
         }
         self.exits.push(BTreeSet::new());
@@ -630,8 +637,9 @@ impl<'a> RegionBuilder<'a> {
             stack: RegionStack::new(),
             regions_count: 0,
             regions_limit: block_count * 100,
-            // JADX uses 5 × block_count for iteration limits (DepthRegionTraversal.java)
-            iteration_budget: block_count * 5,
+            // Increased from 5x to 20x to handle complex control flows like large.apk
+            // Methods with 76 blocks may need 761 iterations (10x), so 20x is safer margin
+            iteration_budget: block_count * 20,
             iterations_used: 0,
         }
     }
@@ -641,11 +649,17 @@ impl<'a> RegionBuilder<'a> {
     fn check_iteration_budget(&mut self) {
         self.iterations_used += 1;
         if self.iterations_used > self.iteration_budget {
+            error!(
+                iterations = self.iterations_used,
+                budget = self.iteration_budget,
+                blocks = self.iteration_budget / 10,
+                "LIMIT_EXCEEDED: Region iteration limit reached"
+            );
             panic!(
-                "Iteration limit reached: {} iterations (budget: {} = 5 × {} blocks)",
+                "Iteration limit reached: {} iterations (budget: {} = 10 × {} blocks)",
                 self.iterations_used,
                 self.iteration_budget,
-                self.iteration_budget / 5
+                self.iteration_budget / 10
             );
         }
     }
@@ -661,6 +675,11 @@ impl<'a> RegionBuilder<'a> {
         // JADX: RegionMaker.java:68
         self.regions_count += 1;
         if self.regions_count > self.regions_limit {
+            error!(
+                regions_count = self.regions_count,
+                regions_limit = self.regions_limit,
+                "LIMIT_EXCEEDED: Regions count limit reached"
+            );
             panic!("Regions count limit reached");
         }
 
@@ -680,6 +699,11 @@ impl<'a> RegionBuilder<'a> {
 
         while let Some(block_id) = current {
             if contents.len() > 100_000 { // Safety limit
+                error!(
+                    contents_len = contents.len(),
+                    block_id = block_id,
+                    "LIMIT_EXCEEDED: Region contents limit reached (100,000)"
+                );
                 panic!("Region contents limit reached (100,000) at block {}", block_id);
             }
             current = self.traverse(&mut contents, block_id);

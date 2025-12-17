@@ -65,8 +65,8 @@ public final class UIntRange extends kotlin.ranges.UIntProgression implements ko
     @Override // kotlin.ranges.UIntProgression
     public boolean equals(Object other) {
         int i;
-        boolean first-pVg5ArA2;
-        int first-pVg5ArA;
+        boolean first-pVg5ArA;
+        int first-pVg5ArA2;
         if (other instanceof UIntRange) {
             if (isEmpty()) {
                 if (!(UIntRange)other.isEmpty()) {

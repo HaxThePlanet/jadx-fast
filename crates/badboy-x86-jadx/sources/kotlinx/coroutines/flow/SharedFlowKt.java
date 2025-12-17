@@ -18,13 +18,13 @@ public final class SharedFlowKt {
 
     public static final <T> kotlinx.coroutines.flow.MutableSharedFlow<T> MutableSharedFlow(int replay, int extraBufferCapacity, BufferOverflow onBufferOverflow) {
         int i;
-        int i3;
         int i2;
+        int i3;
         int sUSPEND;
         i = 1;
         int i7 = 0;
-        i2 = replay >= 0 ? i : i7;
-        if (i2 == 0) {
+        i3 = replay >= 0 ? i : i7;
+        if (i3 == 0) {
         } else {
             sUSPEND = extraBufferCapacity >= 0 ? i : i7;
             if (sUSPEND == 0) {
@@ -40,8 +40,8 @@ public final class SharedFlowKt {
                 if (i == 0) {
                 } else {
                     int i6 = replay + extraBufferCapacity;
-                    i3 = i6 < 0 ? 0x7fffffff /* Unknown resource */ : i6;
-                    SharedFlowImpl sharedFlowImpl = new SharedFlowImpl(replay, i3, onBufferOverflow);
+                    i2 = i6 < 0 ? 0x7fffffff /* Unknown resource */ : i6;
+                    SharedFlowImpl sharedFlowImpl = new SharedFlowImpl(replay, i2, onBufferOverflow);
                     return (MutableSharedFlow)sharedFlowImpl;
                 }
                 int bufferCapacity0 = 0;

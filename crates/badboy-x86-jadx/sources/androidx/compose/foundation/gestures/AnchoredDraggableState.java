@@ -179,8 +179,8 @@ public final class AnchoredDraggableState<T>  {
         int closestAnchor;
         float positionOf;
         float i;
-        float f2;
         float f;
+        float f2;
         int cmp;
         final androidx.compose.foundation.gestures.DraggableAnchors anchors = getAnchors();
         final float positionOf2 = anchors.positionOf(currentValue);
@@ -190,21 +190,21 @@ public final class AnchoredDraggableState<T>  {
             if (Float.isNaN(positionOf2)) {
                 closestAnchor = currentValue;
             } else {
-                f2 = 0;
+                f = 0;
                 if (Float.compare(f3, f4) >= 0) {
-                    if (Float.compare(signum, f2) > 0) {
+                    if (Float.compare(signum, f) > 0) {
                     } else {
                         positionOf = i;
                     }
                     Intrinsics.checkNotNull(anchors.closestAnchor(offset, positionOf));
                 } else {
-                    if (Float.compare(i2, f2) > 0) {
+                    if (Float.compare(i2, f) > 0) {
                     } else {
                         positionOf = i;
                     }
                     closestAnchor = anchors.closestAnchor(offset, positionOf);
                     Intrinsics.checkNotNull(closestAnchor);
-                    if (Float.compare(f, f2) <= 0) {
+                    if (Float.compare(f2, f) <= 0) {
                     }
                 }
             }
@@ -262,26 +262,26 @@ public final class AnchoredDraggableState<T>  {
     private final boolean trySnapTo(T targetValue) {
         Throwable th;
         androidx.compose.foundation.gestures.AnchoredDraggableState.anchoredDragScope.1 anchoredDragScope;
-        int i2;
+        int i4;
         float positionOf;
         boolean naN;
-        int i3;
+        int i2;
         int i;
-        int i4;
+        int i3;
         final MutatorMutex dragMutex = this.dragMutex;
         final int i5 = 0;
         final boolean tryLock = dragMutex.tryLock();
         th = 0;
-        i2 = 0;
+        i4 = 0;
         positionOf = getAnchors().positionOf(targetValue);
         if (tryLock && !Float.isNaN(positionOf)) {
             th = 0;
-            i2 = 0;
+            i4 = 0;
             positionOf = getAnchors().positionOf(targetValue);
             if (!Float.isNaN(positionOf)) {
-                i4 = 0;
-                AnchoredDragScope.dragTo$default((AnchoredDragScope)this.anchoredDragScope, positionOf, 0, 2, i4);
-                setDragTarget(i4);
+                i3 = 0;
+                AnchoredDragScope.dragTo$default((AnchoredDragScope)this.anchoredDragScope, positionOf, 0, 2, i3);
+                setDragTarget(i3);
             }
             setCurrentValue(targetValue);
             setSettledValue(targetValue);
@@ -314,45 +314,45 @@ public final class AnchoredDraggableState<T>  {
     }
 
     public final Object anchoredDrag(T t, MutatePriority mutatePriority2, Function4<? super androidx.compose.foundation.gestures.AnchoredDragScope, ? super androidx.compose.foundation.gestures.DraggableAnchors<T>, ? super T, ? super Continuation<? super Unit>, ? extends Object> function43, Continuation<? super Unit> continuation4) {
-        boolean anon2;
-        int i3;
+        boolean anon;
+        int i;
         int i2;
         int label;
         Object anchorFor;
-        androidx.compose.foundation.gestures.AnchoredDraggableState.anchoredDrag.4 anon;
-        int i;
+        androidx.compose.foundation.gestures.AnchoredDraggableState.anchoredDrag.4 anon2;
+        int i3;
         Object obj8;
         Throwable obj9;
         Object obj11;
-        anon2 = continuation4;
+        anon = continuation4;
         i2 = Integer.MIN_VALUE;
         if (continuation4 instanceof AnchoredDraggableState.anchoredDrag.3 && label2 &= i2 != 0) {
-            anon2 = continuation4;
+            anon = continuation4;
             i2 = Integer.MIN_VALUE;
             if (label2 &= i2 != 0) {
-                anon2.label = obj11 -= i2;
+                anon.label = obj11 -= i2;
             } else {
-                anon2 = new AnchoredDraggableState.anchoredDrag.3(this, continuation4);
+                anon = new AnchoredDraggableState.anchoredDrag.3(this, continuation4);
             }
         } else {
         }
-        obj11 = anon2.result;
+        obj11 = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         final int i4 = 0;
         switch (label) {
             case 0:
                 ResultKt.throwOnFailure(obj11);
                 label = this;
-                anon = new AnchoredDraggableState.anchoredDrag.4(label, t, function43, i4);
-                anon2.L$0 = label;
-                anon2.label = 1;
+                anon2 = new AnchoredDraggableState.anchoredDrag.4(label, t, function43, i4);
+                anon.L$0 = label;
+                anon.label = 1;
                 return cOROUTINE_SUSPENDED;
                 obj8 = label;
                 label.setSettledValue(t);
                 label.setCurrentValue(t);
                 return Unit.INSTANCE;
             case 1:
-                obj8 = anon2.L$0;
+                obj8 = anon.L$0;
                 ResultKt.throwOnFailure(obj11);
                 break;
             default:
@@ -479,8 +479,8 @@ public final class AnchoredDraggableState<T>  {
             return getOffset();
         }
         int i = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("The offset was read before being initialized. Did you access the offset in a phase before layout, like effects or composition?".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckAnchoredDraggableState$requireOffset$1 = new IllegalStateException("The offset was read before being initialized. Did you access the offset in a phase before layout, like effects or composition?".toString());
+        throw $i$a$CheckAnchoredDraggableState$requireOffset$1;
     }
 
     public final Object settle(float velocity, Continuation<? super Float> $completion) {

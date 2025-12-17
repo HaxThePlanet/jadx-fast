@@ -114,15 +114,15 @@ public final class CarouselDefaults {
 
     public final TargetedFlingBehavior singleAdvanceFlingBehavior(androidx.compose.material3.carousel.CarouselState state, AnimationSpec<Float> snapAnimationSpec, Composer $composer, int $changed, int i5) {
         String str;
-        int i2;
         int i;
+        int i2;
         androidx.compose.animation.core.SpringSpec springSpec;
         androidx.compose.animation.core.SpringSpec obj12;
         int obj15;
         final int i3 = 1701587199;
         ComposerKt.sourceInformationMarkerStart($composer, i3, "C(singleAdvanceFlingBehavior)P(1)612@27409L174:Carousel.kt#dcf9yb");
         if (i5 &= 2 != 0) {
-            i = 0;
+            i2 = 0;
             springSpec = obj12;
         } else {
             springSpec = snapAnimationSpec;

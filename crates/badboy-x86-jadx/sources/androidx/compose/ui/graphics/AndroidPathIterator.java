@@ -24,11 +24,11 @@ final class AndroidPathIterator implements androidx.compose.ui.graphics.PathIter
         static {
             int i;
             int ordinal6;
-            int ordinal3;
-            int ordinal4;
-            int ordinal;
-            int ordinal2;
             int ordinal5;
+            int ordinal2;
+            int ordinal3;
+            int ordinal;
+            int ordinal4;
             int[] iArr = new int[values.length];
             i = 1;
             iArr[PathIterator.ConicEvaluation.AsConic.ordinal()] = i;
@@ -108,14 +108,14 @@ final class AndroidPathIterator implements androidx.compose.ui.graphics.PathIter
 
     @Override // androidx.compose.ui.graphics.PathIterator
     public androidx.compose.ui.graphics.PathSegment next() {
-        int i;
+        int i2;
         float[] fArr;
         float f2;
-        float i2;
+        float i;
         float f;
         final float[] segmentPoints = this.segmentPoints;
-        i = 0;
-        androidx.compose.ui.graphics.PathSegment.Type type = AndroidPathIterator_androidKt.access$toPathSegmentType(this.implementation.next(segmentPoints, i));
+        i2 = 0;
+        androidx.compose.ui.graphics.PathSegment.Type type = AndroidPathIterator_androidKt.access$toPathSegmentType(this.implementation.next(segmentPoints, i2));
         if (type == PathSegment.Type.Done) {
             return PathSegmentKt.getDoneSegment();
         }
@@ -123,7 +123,7 @@ final class AndroidPathIterator implements androidx.compose.ui.graphics.PathIter
             return PathSegmentKt.getCloseSegment();
         }
         int i5 = 6;
-        i2 = 5;
+        i = 5;
         final int i6 = 4;
         final int i7 = 3;
         final int i8 = 2;
@@ -131,48 +131,48 @@ final class AndroidPathIterator implements androidx.compose.ui.graphics.PathIter
         switch (i3) {
             case 1:
                 fArr = new float[i8];
-                fArr[i] = segmentPoints[i];
+                fArr[i2] = segmentPoints[i2];
                 fArr[i9] = segmentPoints[i9];
                 break;
             case 2:
                 fArr = new float[i6];
-                fArr[i] = segmentPoints[i];
+                fArr[i2] = segmentPoints[i2];
                 fArr[i9] = segmentPoints[i9];
                 fArr[i8] = segmentPoints[i8];
                 fArr[i7] = segmentPoints[i7];
                 break;
             case 3:
                 fArr = new float[i5];
-                fArr[i] = segmentPoints[i];
+                fArr[i2] = segmentPoints[i2];
                 fArr[i9] = segmentPoints[i9];
                 fArr[i8] = segmentPoints[i8];
                 fArr[i7] = segmentPoints[i7];
                 fArr[i6] = segmentPoints[i6];
-                fArr[i2] = segmentPoints[i2];
+                fArr[i] = segmentPoints[i];
                 break;
             case 4:
                 fArr = new float[i5];
-                fArr[i] = segmentPoints[i];
+                fArr[i2] = segmentPoints[i2];
                 fArr[i9] = segmentPoints[i9];
                 fArr[i8] = segmentPoints[i8];
                 fArr[i7] = segmentPoints[i7];
                 fArr[i6] = segmentPoints[i6];
-                fArr[i2] = segmentPoints[i2];
+                fArr[i] = segmentPoints[i];
                 break;
             case 5:
                 fArr = new float[8];
-                fArr[i] = segmentPoints[i];
+                fArr[i2] = segmentPoints[i2];
                 fArr[i9] = segmentPoints[i9];
                 fArr[i8] = segmentPoints[i8];
                 fArr[i7] = segmentPoints[i7];
                 fArr[i6] = segmentPoints[i6];
-                fArr[i2] = segmentPoints[i2];
-                fArr[i5] = segmentPoints[i5];
-                i = 7;
                 fArr[i] = segmentPoints[i];
+                fArr[i5] = segmentPoints[i5];
+                i2 = 7;
+                fArr[i2] = segmentPoints[i2];
                 break;
             default:
-                fArr = new float[i];
+                fArr = new float[i2];
         }
         f2 = type == PathSegment.Type.Conic ? segmentPoints[i5] : 0;
         PathSegment pathSegment = new PathSegment(type, fArr, f2);

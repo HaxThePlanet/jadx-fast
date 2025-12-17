@@ -79,8 +79,8 @@ final class ClassesInfoCache {
 
         public boolean equals(Object o) {
             int i;
-            int mCallType2;
             int mCallType;
+            int mCallType2;
             if (this == o) {
                 return 1;
             }
@@ -142,14 +142,14 @@ final class ClassesInfoCache {
         int hasLifecycleMethods;
         Class cls;
         Iterator iterator;
-        int i2;
+        int i;
         boolean next;
         Object annotation;
         Object parameterTypes;
         int callType;
         androidx.lifecycle.Lifecycle.Event value;
         int assignableFrom;
-        int i;
+        int i2;
         int length;
         final Object obj = this;
         final Class cls2 = class;
@@ -180,9 +180,9 @@ final class ClassesInfoCache {
             declaredMethods2 = getDeclaredMethods(class);
         }
         hasLifecycleMethods = 0;
-        i2 = methodReference;
-        while (i2 < declaredMethods2.length) {
-            next = declaredMethods2[i2];
+        i = methodReference;
+        while (i < declaredMethods2.length) {
+            next = declaredMethods2[i];
             annotation = next.getAnnotation(OnLifecycleEvent.class);
             hasLifecycleMethods = 1;
             parameterTypes = next.getParameterTypes();
@@ -191,7 +191,7 @@ final class ClassesInfoCache {
             oN_ANY = 1;
             methodReference = new ClassesInfoCache.MethodReference(callType, next);
             obj.verifyAndPutHandler(hashMap, methodReference, value, cls2);
-            i2++;
+            i++;
             methodReference = 0;
             callType = 2;
             callType = 1;

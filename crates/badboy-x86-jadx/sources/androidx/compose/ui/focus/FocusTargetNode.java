@@ -91,9 +91,9 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal2;
-            int ordinal3;
             int ordinal4;
+            int ordinal3;
+            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[FocusStateImpl.Active.ordinal()] = 1;
             iArr[FocusStateImpl.Captured.ordinal()] = 2;
@@ -143,48 +143,48 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
             } else {
             }
             setFocusState(activeParent);
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$WithNewTransaction$defaultFocusTargetNode$initializeFocusState$2 = Unit.INSTANCE;
             FocusTransactionManager.access$commitTransaction(requireTransactionManager);
         }
         int $this$iv = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Re-initializing focus target node.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckFocusTargetNode$initializeFocusState$1 = new IllegalStateException("Re-initializing focus target node.".toString());
+        throw $i$a$CheckFocusTargetNode$initializeFocusState$1;
     }
 
     private static final boolean initializeFocusState$hasActiveChild(androidx.compose.ui.focus.FocusTargetNode this$0) {
         int diveDeeper$iv$iv;
-        int type$iv;
-        int arr;
-        Modifier.Node next$iv$iv;
+        int $i$f$getFocusTargetOLwlOKw;
+        int $i$f$visitSubtreeIf6rFNWt0;
+        Modifier.Node $i$f$visitSubtreeIf6rFNWt02;
         int node;
-        String str;
-        int count$iv$iv2;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitSubtreeIf$1$iv$iv;
         int count$iv$iv;
-        Modifier.Node[] node$iv$iv;
-        int node$iv$iv3;
+        int count$iv$iv2;
+        Modifier.Node[] node$iv$iv3;
+        int node$iv$iv;
         Object obj3;
-        int i5;
-        Object obj2;
-        int i9;
-        int i11;
-        Object node$iv$iv2;
-        int i10;
-        int i;
+        int i4;
         Object obj;
+        int i5;
+        int i9;
+        Object node$iv$iv2;
+        int i11;
+        int i6;
+        Object obj2;
         int i7;
         Modifier.Node node$iv$iv$iv;
         boolean initializeFocusState$isInitialized;
-        int i6;
+        int i8;
         int $this$visitSubtreeIf_u2d6rFNWt0$iv;
         int this_$iv$iv$iv;
-        int i4;
-        int i8;
-        int type$iv2;
-        int i2;
         int i3;
+        int i2;
+        int type$iv;
+        int i;
+        int i10;
         int i13 = 0;
-        arr = 0;
-        final int i15 = type$iv;
+        $i$f$visitSubtreeIf6rFNWt0 = 0;
+        final int i15 = $i$f$getFocusTargetOLwlOKw;
         final int i16 = diveDeeper$iv$iv;
         final int i17 = 0;
         int i18 = 0;
@@ -193,7 +193,7 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
             InlineClassHelperKt.throwIllegalStateException("visitSubtreeIf called on an unattached node");
         }
         int value$iv$iv$iv = 0;
-        count$iv$iv2 = 0;
+        count$iv$iv = 0;
         MutableVector mutableVector = new MutableVector(new Modifier.Node[16], 0);
         Modifier.Node child$ui_release = i16.getNode().getChild$ui_release();
         if (child$ui_release == null) {
@@ -202,67 +202,67 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
             mutableVector.add(child$ui_release);
         }
         while (mutableVector.isNotEmpty()) {
-            node = mutableVector.removeAt(size -= count$iv$iv2);
+            node = mutableVector.removeAt(size -= count$iv$iv);
             if (aggregateChildKindSet$ui_release &= i15 != 0) {
             } else {
             }
             $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-            type$iv2 = type$iv;
-            i2 = arr;
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
             DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector, node);
             diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv = type$iv2;
-            arr = i2;
-            node$iv$iv3 = 0;
-            node$iv$iv = node;
-            while (node$iv$iv != null) {
+            $i$f$getFocusTargetOLwlOKw = type$iv;
+            $i$f$visitSubtreeIf6rFNWt0 = i;
+            node$iv$iv = 0;
+            node$iv$iv3 = node;
+            while (node$iv$iv3 != null) {
                 if (kindSet$ui_release &= i15 == 0) {
                     break loop_8;
                 } else {
                 }
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                type$iv2 = type$iv;
-                i2 = arr;
-                i = count$iv$iv2;
-                node$iv$iv = node$iv$iv.getChild$ui_release();
-                count$iv$iv2 = i;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                i6 = count$iv$iv;
+                node$iv$iv3 = node$iv$iv3.getChild$ui_release();
+                count$iv$iv = i6;
                 diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv = type$iv2;
-                arr = i2;
-                node$iv$iv3 = 0;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitSubtreeIf6rFNWt0 = i;
+                node$iv$iv = 0;
+                i4 = 0;
                 i5 = 0;
                 i9 = 0;
-                i11 = 0;
                 int i21 = 0;
-                node$iv$iv3 = node$iv$iv2;
-                while (node$iv$iv3 != null) {
-                    obj = 0;
-                    if (kindSet$ui_release2 &= type$iv != 0) {
+                node$iv$iv = node$iv$iv2;
+                while (node$iv$iv != null) {
+                    obj2 = 0;
+                    if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                    count$iv$iv2 = 0;
+                    if (count$iv$iv2 != 0 && node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
                     $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    node$iv$iv3 = DelegatableNodeKt.access$pop(i11);
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    node$iv$iv = DelegatableNodeKt.access$pop(i9);
                     diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                    type$iv = type$iv2;
-                    arr = i2;
-                    count$iv$iv2 = 1;
-                    if (node$iv$iv3 instanceof DelegatingNode) {
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitSubtreeIf6rFNWt0 = i;
+                    count$iv$iv = 1;
+                    if (node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv = 0;
+                    count$iv$iv2 = 0;
                     i7 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         initializeFocusState$isInitialized = node$iv$iv$iv;
-                        i6 = 0;
-                        i4 = 0;
-                        if (kindSet$ui_release3 &= type$iv != 0) {
+                        i8 = 0;
+                        i3 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -270,60 +270,60 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                         } else {
                         }
                         $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                        type$iv2 = type$iv;
-                        i2 = arr;
-                        next$iv$iv = initializeFocusState$isInitialized;
+                        type$iv = $i$f$getFocusTargetOLwlOKw;
+                        i = $i$f$visitSubtreeIf6rFNWt0;
+                        $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                        type$iv = type$iv2;
-                        arr = i2;
+                        $i$f$getFocusTargetOLwlOKw = type$iv;
+                        $i$f$visitSubtreeIf6rFNWt0 = i;
                         $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                        if (count$iv$iv++ == 1) {
+                        if (count$iv$iv2++ == 1) {
                         } else {
                         }
-                        if (i11 == 0) {
+                        if (i9 == 0) {
                         } else {
                         }
-                        type$iv2 = type$iv;
-                        i2 = arr;
-                        type$iv = i11;
-                        diveDeeper$iv$iv = node$iv$iv3;
-                        if (diveDeeper$iv$iv != null && type$iv != 0) {
+                        type$iv = $i$f$getFocusTargetOLwlOKw;
+                        i = $i$f$visitSubtreeIf6rFNWt0;
+                        $i$f$getFocusTargetOLwlOKw = i9;
+                        diveDeeper$iv$iv = node$iv$iv;
+                        if (diveDeeper$iv$iv != null && $i$f$getFocusTargetOLwlOKw != 0) {
                         }
-                        if (type$iv != 0) {
+                        if ($i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
-                        next$iv$iv = initializeFocusState$isInitialized;
-                        i11 = type$iv;
-                        type$iv.add(initializeFocusState$isInitialized);
-                        if (type$iv != 0) {
+                        $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
+                        i9 = $i$f$getFocusTargetOLwlOKw;
+                        $i$f$getFocusTargetOLwlOKw.add(initializeFocusState$isInitialized);
+                        if ($i$f$getFocusTargetOLwlOKw != 0) {
                         }
-                        node$iv$iv3 = arr;
-                        type$iv.add(diveDeeper$iv$iv);
-                        i4 = i12;
+                        node$iv$iv = $i$f$visitSubtreeIf6rFNWt0;
+                        $i$f$getFocusTargetOLwlOKw.add(diveDeeper$iv$iv);
+                        i3 = i12;
                         int $i$f$mutableVectorOf = 16;
-                        i8 = 0;
-                        type$iv2 = type$iv;
-                        i2 = arr;
-                        i3 = $i$f$mutableVectorOf;
-                        type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        node$iv$iv3 = initializeFocusState$isInitialized;
-                        type$iv2 = type$iv;
-                        i2 = arr;
-                        next$iv$iv = initializeFocusState$isInitialized;
+                        i2 = 0;
+                        type$iv = $i$f$getFocusTargetOLwlOKw;
+                        i = $i$f$visitSubtreeIf6rFNWt0;
+                        i10 = $i$f$mutableVectorOf;
+                        $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        node$iv$iv = initializeFocusState$isInitialized;
+                        type$iv = $i$f$getFocusTargetOLwlOKw;
+                        i = $i$f$visitSubtreeIf6rFNWt0;
+                        $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                         this_$iv$iv$iv = 1;
                     }
-                    if (count$iv$iv == 1) {
+                    if (count$iv$iv2 == 1) {
                     } else {
                     }
                     diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                    type$iv = type$iv2;
-                    arr = i2;
-                    count$iv$iv2 = 1;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitSubtreeIf6rFNWt0 = i;
+                    count$iv$iv = 1;
                     initializeFocusState$isInitialized = node$iv$iv$iv;
-                    i6 = 0;
-                    i4 = 0;
-                    if (kindSet$ui_release3 &= type$iv != 0) {
+                    i8 = 0;
+                    i3 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -331,83 +331,83 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                     } else {
                     }
                     $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    next$iv$iv = initializeFocusState$isInitialized;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                    type$iv = type$iv2;
-                    arr = i2;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitSubtreeIf6rFNWt0 = i;
                     $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                    if (count$iv$iv++ == 1) {
+                    if (count$iv$iv2++ == 1) {
                     } else {
                     }
-                    if (i11 == 0) {
+                    if (i9 == 0) {
                     } else {
                     }
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    type$iv = i11;
-                    diveDeeper$iv$iv = node$iv$iv3;
-                    if (diveDeeper$iv$iv != null && type$iv != 0) {
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$getFocusTargetOLwlOKw = i9;
+                    diveDeeper$iv$iv = node$iv$iv;
+                    if (diveDeeper$iv$iv != null && $i$f$getFocusTargetOLwlOKw != 0) {
                     }
-                    if (type$iv != 0) {
+                    if ($i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
-                    next$iv$iv = initializeFocusState$isInitialized;
-                    i11 = type$iv;
-                    type$iv.add(initializeFocusState$isInitialized);
-                    if (type$iv != 0) {
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
+                    i9 = $i$f$getFocusTargetOLwlOKw;
+                    $i$f$getFocusTargetOLwlOKw.add(initializeFocusState$isInitialized);
+                    if ($i$f$getFocusTargetOLwlOKw != 0) {
                     }
-                    node$iv$iv3 = arr;
-                    type$iv.add(diveDeeper$iv$iv);
-                    i4 = i12;
+                    node$iv$iv = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$getFocusTargetOLwlOKw.add(diveDeeper$iv$iv);
+                    i3 = i12;
                     $i$f$mutableVectorOf = 16;
-                    i8 = 0;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    i3 = $i$f$mutableVectorOf;
-                    type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv3 = initializeFocusState$isInitialized;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    next$iv$iv = initializeFocusState$isInitialized;
+                    i2 = 0;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    i10 = $i$f$mutableVectorOf;
+                    $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv = initializeFocusState$isInitialized;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                     this_$iv$iv$iv = 1;
-                    count$iv$iv = 1;
-                    obj = 0;
-                    i7 = count$iv$iv;
+                    count$iv$iv2 = 1;
+                    obj2 = 0;
+                    i7 = count$iv$iv2;
                     node$iv$iv$iv = 0;
                     $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                    type$iv2 = type$iv;
-                    i2 = arr;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
                 }
-                obj = 0;
-                if (kindSet$ui_release2 &= type$iv != 0) {
+                obj2 = 0;
+                if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
-                count$iv$iv = 0;
-                if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                count$iv$iv2 = 0;
+                if (count$iv$iv2 != 0 && node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                type$iv2 = type$iv;
-                i2 = arr;
-                node$iv$iv3 = DelegatableNodeKt.access$pop(i11);
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                node$iv$iv = DelegatableNodeKt.access$pop(i9);
                 diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv = type$iv2;
-                arr = i2;
-                count$iv$iv2 = 1;
-                if (node$iv$iv3 instanceof DelegatingNode) {
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitSubtreeIf6rFNWt0 = i;
+                count$iv$iv = 1;
+                if (node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv = 0;
+                count$iv$iv2 = 0;
                 i7 = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     initializeFocusState$isInitialized = node$iv$iv$iv;
-                    i6 = 0;
-                    i4 = 0;
-                    if (kindSet$ui_release3 &= type$iv != 0) {
+                    i8 = 0;
+                    i3 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -415,60 +415,60 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                     } else {
                     }
                     $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    next$iv$iv = initializeFocusState$isInitialized;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                    type$iv = type$iv2;
-                    arr = i2;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitSubtreeIf6rFNWt0 = i;
                     $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                    if (count$iv$iv++ == 1) {
+                    if (count$iv$iv2++ == 1) {
                     } else {
                     }
-                    if (i11 == 0) {
+                    if (i9 == 0) {
                     } else {
                     }
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    type$iv = i11;
-                    diveDeeper$iv$iv = node$iv$iv3;
-                    if (diveDeeper$iv$iv != null && type$iv != 0) {
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$getFocusTargetOLwlOKw = i9;
+                    diveDeeper$iv$iv = node$iv$iv;
+                    if (diveDeeper$iv$iv != null && $i$f$getFocusTargetOLwlOKw != 0) {
                     }
-                    if (type$iv != 0) {
+                    if ($i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
-                    next$iv$iv = initializeFocusState$isInitialized;
-                    i11 = type$iv;
-                    type$iv.add(initializeFocusState$isInitialized);
-                    if (type$iv != 0) {
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
+                    i9 = $i$f$getFocusTargetOLwlOKw;
+                    $i$f$getFocusTargetOLwlOKw.add(initializeFocusState$isInitialized);
+                    if ($i$f$getFocusTargetOLwlOKw != 0) {
                     }
-                    node$iv$iv3 = arr;
-                    type$iv.add(diveDeeper$iv$iv);
-                    i4 = i12;
+                    node$iv$iv = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$getFocusTargetOLwlOKw.add(diveDeeper$iv$iv);
+                    i3 = i12;
                     $i$f$mutableVectorOf = 16;
-                    i8 = 0;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    i3 = $i$f$mutableVectorOf;
-                    type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv3 = initializeFocusState$isInitialized;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    next$iv$iv = initializeFocusState$isInitialized;
+                    i2 = 0;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    i10 = $i$f$mutableVectorOf;
+                    $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv = initializeFocusState$isInitialized;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                     this_$iv$iv$iv = 1;
                 }
-                if (count$iv$iv == 1) {
+                if (count$iv$iv2 == 1) {
                 } else {
                 }
                 diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv = type$iv2;
-                arr = i2;
-                count$iv$iv2 = 1;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitSubtreeIf6rFNWt0 = i;
+                count$iv$iv = 1;
                 initializeFocusState$isInitialized = node$iv$iv$iv;
-                i6 = 0;
-                i4 = 0;
-                if (kindSet$ui_release3 &= type$iv != 0) {
+                i8 = 0;
+                i3 = 0;
+                if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -476,105 +476,105 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                 } else {
                 }
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                type$iv2 = type$iv;
-                i2 = arr;
-                next$iv$iv = initializeFocusState$isInitialized;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv = type$iv2;
-                arr = i2;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitSubtreeIf6rFNWt0 = i;
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                if (count$iv$iv++ == 1) {
+                if (count$iv$iv2++ == 1) {
                 } else {
                 }
-                if (i11 == 0) {
+                if (i9 == 0) {
                 } else {
                 }
-                type$iv2 = type$iv;
-                i2 = arr;
-                type$iv = i11;
-                diveDeeper$iv$iv = node$iv$iv3;
-                if (diveDeeper$iv$iv != null && type$iv != 0) {
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$getFocusTargetOLwlOKw = i9;
+                diveDeeper$iv$iv = node$iv$iv;
+                if (diveDeeper$iv$iv != null && $i$f$getFocusTargetOLwlOKw != 0) {
                 }
-                if (type$iv != 0) {
+                if ($i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
-                next$iv$iv = initializeFocusState$isInitialized;
-                i11 = type$iv;
-                type$iv.add(initializeFocusState$isInitialized);
-                if (type$iv != 0) {
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
+                i9 = $i$f$getFocusTargetOLwlOKw;
+                $i$f$getFocusTargetOLwlOKw.add(initializeFocusState$isInitialized);
+                if ($i$f$getFocusTargetOLwlOKw != 0) {
                 }
-                node$iv$iv3 = arr;
-                type$iv.add(diveDeeper$iv$iv);
-                i4 = i12;
+                node$iv$iv = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$getFocusTargetOLwlOKw.add(diveDeeper$iv$iv);
+                i3 = i12;
                 $i$f$mutableVectorOf = 16;
-                i8 = 0;
-                type$iv2 = type$iv;
-                i2 = arr;
-                i3 = $i$f$mutableVectorOf;
-                type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv3 = initializeFocusState$isInitialized;
-                type$iv2 = type$iv;
-                i2 = arr;
-                next$iv$iv = initializeFocusState$isInitialized;
+                i2 = 0;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                i10 = $i$f$mutableVectorOf;
+                $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                node$iv$iv = initializeFocusState$isInitialized;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                 this_$iv$iv$iv = 1;
-                count$iv$iv = 1;
-                obj = 0;
-                i7 = count$iv$iv;
+                count$iv$iv2 = 1;
+                obj2 = 0;
+                i7 = count$iv$iv2;
                 node$iv$iv$iv = 0;
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                type$iv2 = type$iv;
-                i2 = arr;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
             }
             $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-            type$iv2 = type$iv;
-            i2 = arr;
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
             if (kindSet$ui_release &= i15 != 0) {
             } else {
             }
             $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-            type$iv2 = type$iv;
-            i2 = arr;
-            i = count$iv$iv2;
-            node$iv$iv = node$iv$iv.getChild$ui_release();
-            count$iv$iv2 = i;
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
+            i6 = count$iv$iv;
+            node$iv$iv3 = node$iv$iv3.getChild$ui_release();
+            count$iv$iv = i6;
             diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv = type$iv2;
-            arr = i2;
-            node$iv$iv3 = 0;
+            $i$f$getFocusTargetOLwlOKw = type$iv;
+            $i$f$visitSubtreeIf6rFNWt0 = i;
+            node$iv$iv = 0;
+            i4 = 0;
             i5 = 0;
             i9 = 0;
-            i11 = 0;
             i21 = 0;
-            node$iv$iv3 = node$iv$iv2;
-            while (node$iv$iv3 != null) {
-                obj = 0;
-                if (kindSet$ui_release2 &= type$iv != 0) {
+            node$iv$iv = node$iv$iv2;
+            while (node$iv$iv != null) {
+                obj2 = 0;
+                if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
-                count$iv$iv = 0;
-                if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                count$iv$iv2 = 0;
+                if (count$iv$iv2 != 0 && node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                type$iv2 = type$iv;
-                i2 = arr;
-                node$iv$iv3 = DelegatableNodeKt.access$pop(i11);
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                node$iv$iv = DelegatableNodeKt.access$pop(i9);
                 diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv = type$iv2;
-                arr = i2;
-                count$iv$iv2 = 1;
-                if (node$iv$iv3 instanceof DelegatingNode) {
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitSubtreeIf6rFNWt0 = i;
+                count$iv$iv = 1;
+                if (node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv = 0;
+                count$iv$iv2 = 0;
                 i7 = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     initializeFocusState$isInitialized = node$iv$iv$iv;
-                    i6 = 0;
-                    i4 = 0;
-                    if (kindSet$ui_release3 &= type$iv != 0) {
+                    i8 = 0;
+                    i3 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -582,60 +582,60 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                     } else {
                     }
                     $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    next$iv$iv = initializeFocusState$isInitialized;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                    type$iv = type$iv2;
-                    arr = i2;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitSubtreeIf6rFNWt0 = i;
                     $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                    if (count$iv$iv++ == 1) {
+                    if (count$iv$iv2++ == 1) {
                     } else {
                     }
-                    if (i11 == 0) {
+                    if (i9 == 0) {
                     } else {
                     }
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    type$iv = i11;
-                    diveDeeper$iv$iv = node$iv$iv3;
-                    if (diveDeeper$iv$iv != null && type$iv != 0) {
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$getFocusTargetOLwlOKw = i9;
+                    diveDeeper$iv$iv = node$iv$iv;
+                    if (diveDeeper$iv$iv != null && $i$f$getFocusTargetOLwlOKw != 0) {
                     }
-                    if (type$iv != 0) {
+                    if ($i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
-                    next$iv$iv = initializeFocusState$isInitialized;
-                    i11 = type$iv;
-                    type$iv.add(initializeFocusState$isInitialized);
-                    if (type$iv != 0) {
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
+                    i9 = $i$f$getFocusTargetOLwlOKw;
+                    $i$f$getFocusTargetOLwlOKw.add(initializeFocusState$isInitialized);
+                    if ($i$f$getFocusTargetOLwlOKw != 0) {
                     }
-                    node$iv$iv3 = arr;
-                    type$iv.add(diveDeeper$iv$iv);
-                    i4 = i12;
+                    node$iv$iv = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$getFocusTargetOLwlOKw.add(diveDeeper$iv$iv);
+                    i3 = i12;
                     $i$f$mutableVectorOf = 16;
-                    i8 = 0;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    i3 = $i$f$mutableVectorOf;
-                    type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv3 = initializeFocusState$isInitialized;
-                    type$iv2 = type$iv;
-                    i2 = arr;
-                    next$iv$iv = initializeFocusState$isInitialized;
+                    i2 = 0;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    i10 = $i$f$mutableVectorOf;
+                    $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv = initializeFocusState$isInitialized;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i = $i$f$visitSubtreeIf6rFNWt0;
+                    $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                     this_$iv$iv$iv = 1;
                 }
-                if (count$iv$iv == 1) {
+                if (count$iv$iv2 == 1) {
                 } else {
                 }
                 diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv = type$iv2;
-                arr = i2;
-                count$iv$iv2 = 1;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitSubtreeIf6rFNWt0 = i;
+                count$iv$iv = 1;
                 initializeFocusState$isInitialized = node$iv$iv$iv;
-                i6 = 0;
-                i4 = 0;
-                if (kindSet$ui_release3 &= type$iv != 0) {
+                i8 = 0;
+                i3 = 0;
+                if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -643,90 +643,90 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                 } else {
                 }
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                type$iv2 = type$iv;
-                i2 = arr;
-                next$iv$iv = initializeFocusState$isInitialized;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv = type$iv2;
-                arr = i2;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitSubtreeIf6rFNWt0 = i;
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                if (count$iv$iv++ == 1) {
+                if (count$iv$iv2++ == 1) {
                 } else {
                 }
-                if (i11 == 0) {
+                if (i9 == 0) {
                 } else {
                 }
-                type$iv2 = type$iv;
-                i2 = arr;
-                type$iv = i11;
-                diveDeeper$iv$iv = node$iv$iv3;
-                if (diveDeeper$iv$iv != null && type$iv != 0) {
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$getFocusTargetOLwlOKw = i9;
+                diveDeeper$iv$iv = node$iv$iv;
+                if (diveDeeper$iv$iv != null && $i$f$getFocusTargetOLwlOKw != 0) {
                 }
-                if (type$iv != 0) {
+                if ($i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
-                next$iv$iv = initializeFocusState$isInitialized;
-                i11 = type$iv;
-                type$iv.add(initializeFocusState$isInitialized);
-                if (type$iv != 0) {
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
+                i9 = $i$f$getFocusTargetOLwlOKw;
+                $i$f$getFocusTargetOLwlOKw.add(initializeFocusState$isInitialized);
+                if ($i$f$getFocusTargetOLwlOKw != 0) {
                 }
-                node$iv$iv3 = arr;
-                type$iv.add(diveDeeper$iv$iv);
-                i4 = i12;
+                node$iv$iv = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$getFocusTargetOLwlOKw.add(diveDeeper$iv$iv);
+                i3 = i12;
                 $i$f$mutableVectorOf = 16;
-                i8 = 0;
-                type$iv2 = type$iv;
-                i2 = arr;
-                i3 = $i$f$mutableVectorOf;
-                type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv3 = initializeFocusState$isInitialized;
-                type$iv2 = type$iv;
-                i2 = arr;
-                next$iv$iv = initializeFocusState$isInitialized;
+                i2 = 0;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                i10 = $i$f$mutableVectorOf;
+                $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                node$iv$iv = initializeFocusState$isInitialized;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                 this_$iv$iv$iv = 1;
-                count$iv$iv = 1;
-                obj = 0;
-                i7 = count$iv$iv;
+                count$iv$iv2 = 1;
+                obj2 = 0;
+                i7 = count$iv$iv2;
                 node$iv$iv$iv = 0;
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                type$iv2 = type$iv;
-                i2 = arr;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
             }
             if (1 != 0) {
             } else {
             }
             diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv = type$iv2;
-            arr = i2;
-            node$iv$iv3 = 0;
-            obj = 0;
-            if (kindSet$ui_release2 &= type$iv != 0) {
+            $i$f$getFocusTargetOLwlOKw = type$iv;
+            $i$f$visitSubtreeIf6rFNWt0 = i;
+            node$iv$iv = 0;
+            obj2 = 0;
+            if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
             } else {
             }
-            count$iv$iv = 0;
-            if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+            count$iv$iv2 = 0;
+            if (count$iv$iv2 != 0 && node$iv$iv instanceof DelegatingNode) {
             } else {
             }
             $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-            type$iv2 = type$iv;
-            i2 = arr;
-            node$iv$iv3 = DelegatableNodeKt.access$pop(i11);
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
+            node$iv$iv = DelegatableNodeKt.access$pop(i9);
             diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv = type$iv2;
-            arr = i2;
-            count$iv$iv2 = 1;
-            if (node$iv$iv3 instanceof DelegatingNode) {
+            $i$f$getFocusTargetOLwlOKw = type$iv;
+            $i$f$visitSubtreeIf6rFNWt0 = i;
+            count$iv$iv = 1;
+            if (node$iv$iv instanceof DelegatingNode) {
             } else {
             }
-            count$iv$iv = 0;
+            count$iv$iv2 = 0;
             i7 = 0;
-            node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+            node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
             while (node$iv$iv$iv != null) {
                 initializeFocusState$isInitialized = node$iv$iv$iv;
-                i6 = 0;
-                i4 = 0;
-                if (kindSet$ui_release3 &= type$iv != 0) {
+                i8 = 0;
+                i3 = 0;
+                if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -734,60 +734,60 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                 } else {
                 }
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                type$iv2 = type$iv;
-                i2 = arr;
-                next$iv$iv = initializeFocusState$isInitialized;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv = type$iv2;
-                arr = i2;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitSubtreeIf6rFNWt0 = i;
                 $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-                if (count$iv$iv++ == 1) {
+                if (count$iv$iv2++ == 1) {
                 } else {
                 }
-                if (i11 == 0) {
+                if (i9 == 0) {
                 } else {
                 }
-                type$iv2 = type$iv;
-                i2 = arr;
-                type$iv = i11;
-                diveDeeper$iv$iv = node$iv$iv3;
-                if (diveDeeper$iv$iv != null && type$iv != 0) {
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$getFocusTargetOLwlOKw = i9;
+                diveDeeper$iv$iv = node$iv$iv;
+                if (diveDeeper$iv$iv != null && $i$f$getFocusTargetOLwlOKw != 0) {
                 }
-                if (type$iv != 0) {
+                if ($i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
-                next$iv$iv = initializeFocusState$isInitialized;
-                i11 = type$iv;
-                type$iv.add(initializeFocusState$isInitialized);
-                if (type$iv != 0) {
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
+                i9 = $i$f$getFocusTargetOLwlOKw;
+                $i$f$getFocusTargetOLwlOKw.add(initializeFocusState$isInitialized);
+                if ($i$f$getFocusTargetOLwlOKw != 0) {
                 }
-                node$iv$iv3 = arr;
-                type$iv.add(diveDeeper$iv$iv);
-                i4 = i12;
+                node$iv$iv = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$getFocusTargetOLwlOKw.add(diveDeeper$iv$iv);
+                i3 = i12;
                 $i$f$mutableVectorOf = 16;
-                i8 = 0;
-                type$iv2 = type$iv;
-                i2 = arr;
-                i3 = $i$f$mutableVectorOf;
-                type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv3 = initializeFocusState$isInitialized;
-                type$iv2 = type$iv;
-                i2 = arr;
-                next$iv$iv = initializeFocusState$isInitialized;
+                i2 = 0;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                i10 = $i$f$mutableVectorOf;
+                $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                node$iv$iv = initializeFocusState$isInitialized;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i = $i$f$visitSubtreeIf6rFNWt0;
+                $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
                 this_$iv$iv$iv = 1;
             }
-            if (count$iv$iv == 1) {
+            if (count$iv$iv2 == 1) {
             } else {
             }
             diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv = type$iv2;
-            arr = i2;
-            count$iv$iv2 = 1;
+            $i$f$getFocusTargetOLwlOKw = type$iv;
+            $i$f$visitSubtreeIf6rFNWt0 = i;
+            count$iv$iv = 1;
             initializeFocusState$isInitialized = node$iv$iv$iv;
-            i6 = 0;
-            i4 = 0;
-            if (kindSet$ui_release3 &= type$iv != 0) {
+            i8 = 0;
+            i3 = 0;
+            if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
             } else {
             }
             this_$iv$iv$iv = 0;
@@ -795,215 +795,215 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
             } else {
             }
             $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-            type$iv2 = type$iv;
-            i2 = arr;
-            next$iv$iv = initializeFocusState$isInitialized;
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
+            $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
             diveDeeper$iv$iv = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv = type$iv2;
-            arr = i2;
+            $i$f$getFocusTargetOLwlOKw = type$iv;
+            $i$f$visitSubtreeIf6rFNWt0 = i;
             $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-            if (count$iv$iv++ == 1) {
+            if (count$iv$iv2++ == 1) {
             } else {
             }
-            if (i11 == 0) {
+            if (i9 == 0) {
             } else {
             }
-            type$iv2 = type$iv;
-            i2 = arr;
-            type$iv = i11;
-            diveDeeper$iv$iv = node$iv$iv3;
-            if (diveDeeper$iv$iv != null && type$iv != 0) {
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
+            $i$f$getFocusTargetOLwlOKw = i9;
+            diveDeeper$iv$iv = node$iv$iv;
+            if (diveDeeper$iv$iv != null && $i$f$getFocusTargetOLwlOKw != 0) {
             }
-            if (type$iv != 0) {
+            if ($i$f$getFocusTargetOLwlOKw != 0) {
             } else {
             }
-            next$iv$iv = initializeFocusState$isInitialized;
-            i11 = type$iv;
-            type$iv.add(initializeFocusState$isInitialized);
-            if (type$iv != 0) {
+            $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
+            i9 = $i$f$getFocusTargetOLwlOKw;
+            $i$f$getFocusTargetOLwlOKw.add(initializeFocusState$isInitialized);
+            if ($i$f$getFocusTargetOLwlOKw != 0) {
             }
-            node$iv$iv3 = arr;
-            type$iv.add(diveDeeper$iv$iv);
-            i4 = i12;
+            node$iv$iv = $i$f$visitSubtreeIf6rFNWt0;
+            $i$f$getFocusTargetOLwlOKw.add(diveDeeper$iv$iv);
+            i3 = i12;
             $i$f$mutableVectorOf = 16;
-            i8 = 0;
-            type$iv2 = type$iv;
-            i2 = arr;
-            i3 = $i$f$mutableVectorOf;
-            type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-            node$iv$iv3 = initializeFocusState$isInitialized;
-            type$iv2 = type$iv;
-            i2 = arr;
-            next$iv$iv = initializeFocusState$isInitialized;
+            i2 = 0;
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
+            i10 = $i$f$mutableVectorOf;
+            $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+            node$iv$iv = initializeFocusState$isInitialized;
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
+            $i$f$visitSubtreeIf6rFNWt02 = initializeFocusState$isInitialized;
             this_$iv$iv$iv = 1;
-            count$iv$iv = 1;
-            obj = 0;
-            i7 = count$iv$iv;
+            count$iv$iv2 = 1;
+            obj2 = 0;
+            i7 = count$iv$iv2;
             node$iv$iv$iv = 0;
             $this$visitSubtreeIf_u2d6rFNWt0$iv = diveDeeper$iv$iv;
-            type$iv2 = type$iv;
-            i2 = arr;
+            type$iv = $i$f$getFocusTargetOLwlOKw;
+            i = $i$f$visitSubtreeIf6rFNWt0;
         }
         return 0;
     }
 
     private static final boolean initializeFocusState$isInActiveSubTree(androidx.compose.ui.focus.FocusTargetNode this$0) {
-        DelegatableNode count$iv$iv2;
+        DelegatableNode count$iv$iv;
         boolean $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
         int tail$ui_release;
-        int type$iv2;
+        int $i$f$getFocusTargetOLwlOKw;
         Modifier.Node type$iv;
         int $i$f$mutableVectorOf;
         int includeSelf$iv;
-        Modifier.Node node$iv$iv;
-        LayoutNode layout$iv$iv;
         Modifier.Node node$iv$iv3;
+        LayoutNode layout$iv$iv;
+        Modifier.Node node$iv$iv;
         Modifier.Node head$ui_release;
-        int i3;
+        int i6;
         void v;
-        Modifier.Node node;
-        int i8;
+        Modifier.Node node2;
+        int i3;
         int stack$iv$iv;
         Modifier.Node node$iv$iv2;
-        int i5;
+        int i;
         DelegatableNode $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
         int this_$iv$iv$iv;
-        Modifier.Node node2;
+        Modifier.Node node;
         int initializeFocusState$isInitialized;
         Modifier.Node node$iv$iv$iv;
         Modifier.Node node3;
-        int i6;
-        int type$iv3;
+        int i5;
+        int type$iv2;
         int this_$iv$iv$iv2;
-        int count$iv$iv;
-        int i;
+        int count$iv$iv2;
+        int i8;
         int i7;
         int i4;
         int i2;
-        count$iv$iv2 = this$0;
+        count$iv$iv = this$0;
         int i9 = 0;
-        type$iv2 = NodeKind.constructor-impl(1024);
+        $i$f$getFocusTargetOLwlOKw = NodeKind.constructor-impl(1024);
         includeSelf$iv = 0;
         final int i12 = 0;
-        final int i13 = type$iv2;
-        final DelegatableNode delegatableNode = count$iv$iv2;
+        final int i13 = $i$f$getFocusTargetOLwlOKw;
+        final DelegatableNode delegatableNode = count$iv$iv;
         final int i14 = 0;
         if (!delegatableNode.getNode().isAttached()) {
         } else {
-            node$iv$iv = delegatableNode.getNode().getParent$ui_release();
+            node$iv$iv3 = delegatableNode.getNode().getParent$ui_release();
             layout$iv$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode);
             while (layout$iv$iv != null) {
                 if (aggregateChildKindSet$ui_release &= i13 != 0) {
                 } else {
                 }
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                type$iv3 = type$iv2;
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                type$iv2 = $i$f$getFocusTargetOLwlOKw;
                 i4 = includeSelf$iv;
                 layout$iv$iv = layout$iv$iv.getParent$ui_release();
-                count$iv$iv2 = layout$iv$iv.getNodes$ui_release();
-                if (layout$iv$iv != null && count$iv$iv2 != null) {
+                count$iv$iv = layout$iv$iv.getNodes$ui_release();
+                if (layout$iv$iv != null && count$iv$iv != null) {
                 } else {
                 }
                 tail$ui_release = 0;
-                node$iv$iv = tail$ui_release;
-                count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                type$iv2 = type$iv3;
+                node$iv$iv3 = tail$ui_release;
+                count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                $i$f$getFocusTargetOLwlOKw = type$iv2;
                 includeSelf$iv = i4;
-                count$iv$iv2 = layout$iv$iv.getNodes$ui_release();
-                if (count$iv$iv2 != null) {
+                count$iv$iv = layout$iv$iv.getNodes$ui_release();
+                if (count$iv$iv != null) {
                 } else {
                 }
-                tail$ui_release = count$iv$iv2.getTail$ui_release();
-                while (node$iv$iv != null) {
+                tail$ui_release = count$iv$iv.getTail$ui_release();
+                while (node$iv$iv3 != null) {
                     if (kindSet$ui_release &= i13 == 0) {
                         break loop_4;
                     } else {
                     }
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                    type$iv3 = type$iv2;
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
-                    node$iv$iv = node$iv$iv.getParent$ui_release();
-                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                    type$iv2 = type$iv3;
+                    node$iv$iv3 = node$iv$iv3.getParent$ui_release();
+                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                    $i$f$getFocusTargetOLwlOKw = type$iv2;
                     includeSelf$iv = i4;
                     v = 0;
-                    i8 = 0;
+                    i3 = 0;
                     stack$iv$iv = 0;
                     int i16 = 0;
-                    node$iv$iv3 = node$iv$iv2;
-                    while (node$iv$iv3 != null) {
-                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                        node2 = 0;
-                        if (kindSet$ui_release2 &= type$iv2 != 0) {
+                    node$iv$iv = node$iv$iv2;
+                    while (node$iv$iv != null) {
+                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                        node = 0;
+                        if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
-                        if (this_$iv$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                        if (this_$iv$iv$iv != 0 && node$iv$iv instanceof DelegatingNode) {
                         } else {
                         }
-                        type$iv3 = type$iv2;
+                        type$iv2 = $i$f$getFocusTargetOLwlOKw;
                         i4 = includeSelf$iv;
-                        node$iv$iv3 = DelegatableNodeKt.access$pop(stack$iv$iv);
-                        count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                        type$iv2 = type$iv3;
+                        node$iv$iv = DelegatableNodeKt.access$pop(stack$iv$iv);
+                        count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                        $i$f$getFocusTargetOLwlOKw = type$iv2;
                         includeSelf$iv = i4;
-                        if (node$iv$iv3 instanceof DelegatingNode) {
+                        if (node$iv$iv instanceof DelegatingNode) {
                         } else {
                         }
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = 0;
                         initializeFocusState$isInitialized = 0;
-                        node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                        node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                         while (node$iv$iv$iv != null) {
                             node3 = node$iv$iv$iv;
-                            i6 = 0;
-                            count$iv$iv = 0;
-                            if (kindSet$ui_release3 &= type$iv2 != 0) {
+                            i5 = 0;
+                            count$iv$iv2 = 0;
+                            if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                             } else {
                             }
                             this_$iv$iv$iv2 = 0;
                             if (this_$iv$iv$iv2 != 0) {
                             } else {
                             }
-                            type$iv3 = type$iv2;
+                            type$iv2 = $i$f$getFocusTargetOLwlOKw;
                             i4 = includeSelf$iv;
                             type$iv = node3;
                             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                            type$iv2 = type$iv3;
+                            $i$f$getFocusTargetOLwlOKw = type$iv2;
                             includeSelf$iv = i4;
                             $this$visitAncestors_u2dY_u2dYKmho_u24default$iv++;
-                            type$iv3 = type$iv2;
+                            type$iv2 = $i$f$getFocusTargetOLwlOKw;
                             if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                             } else {
                             }
                             if (stack$iv$iv == 0) {
                             } else {
                             }
-                            count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                            count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                             i4 = includeSelf$iv;
                             $i$f$mutableVectorOf = stack$iv$iv;
                             stack$iv$iv = $i$f$mutableVectorOf;
-                            Modifier.Node node4 = node$iv$iv3;
+                            Modifier.Node node4 = node$iv$iv;
                             if (node4 != null && stack$iv$iv != 0) {
                             }
                             if (stack$iv$iv != 0) {
                             } else {
                             }
                             type$iv = node3;
-                            $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv;
+                            $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv2;
                             stack$iv$iv.add(node3);
                             if (stack$iv$iv != 0) {
                             }
-                            node$iv$iv3 = $i$f$mutableVectorOf;
+                            node$iv$iv = $i$f$mutableVectorOf;
                             stack$iv$iv.add(node4);
-                            count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                            count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                             int count$iv$iv3 = 16;
-                            i = 0;
+                            i8 = 0;
                             i7 = i10;
                             i4 = includeSelf$iv;
                             i2 = count$iv$iv3;
                             $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                            node$iv$iv3 = node3;
+                            node$iv$iv = node3;
                             i4 = includeSelf$iv;
                             type$iv = node3;
                             this_$iv$iv$iv2 = 1;
@@ -1011,141 +1011,141 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                         if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                         } else {
                         }
-                        count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                        type$iv2 = type$iv3;
+                        count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                        $i$f$getFocusTargetOLwlOKw = type$iv2;
                         includeSelf$iv = i4;
                         node3 = node$iv$iv$iv;
-                        i6 = 0;
-                        count$iv$iv = 0;
-                        if (kindSet$ui_release3 &= type$iv2 != 0) {
+                        i5 = 0;
+                        count$iv$iv2 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv2 = 0;
                         if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        type$iv3 = type$iv2;
+                        type$iv2 = $i$f$getFocusTargetOLwlOKw;
                         i4 = includeSelf$iv;
                         type$iv = node3;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        type$iv2 = type$iv3;
+                        $i$f$getFocusTargetOLwlOKw = type$iv2;
                         includeSelf$iv = i4;
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv++;
-                        type$iv3 = type$iv2;
+                        type$iv2 = $i$f$getFocusTargetOLwlOKw;
                         if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                         } else {
                         }
                         if (stack$iv$iv == 0) {
                         } else {
                         }
-                        count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                        count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                         i4 = includeSelf$iv;
                         $i$f$mutableVectorOf = stack$iv$iv;
                         stack$iv$iv = $i$f$mutableVectorOf;
-                        node4 = node$iv$iv3;
+                        node4 = node$iv$iv;
                         if (node4 != null && stack$iv$iv != 0) {
                         }
                         if (stack$iv$iv != 0) {
                         } else {
                         }
                         type$iv = node3;
-                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv;
+                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv2;
                         stack$iv$iv.add(node3);
                         if (stack$iv$iv != 0) {
                         }
-                        node$iv$iv3 = $i$f$mutableVectorOf;
+                        node$iv$iv = $i$f$mutableVectorOf;
                         stack$iv$iv.add(node4);
-                        count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                        count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                         count$iv$iv3 = 16;
-                        i = 0;
+                        i8 = 0;
                         i7 = i10;
                         i4 = includeSelf$iv;
                         i2 = count$iv$iv3;
                         $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                        node$iv$iv3 = node3;
+                        node$iv$iv = node3;
                         i4 = includeSelf$iv;
                         type$iv = node3;
                         this_$iv$iv$iv2 = 1;
                         this_$iv$iv$iv = 1;
-                        this_$iv$iv$iv = node$iv$iv3;
-                        node2 = 0;
-                        type$iv3 = type$iv2;
+                        this_$iv$iv$iv = node$iv$iv;
+                        node = 0;
+                        type$iv2 = $i$f$getFocusTargetOLwlOKw;
                         i4 = includeSelf$iv;
                     }
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                    type$iv3 = type$iv2;
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                    node2 = 0;
-                    if (kindSet$ui_release2 &= type$iv2 != 0) {
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                    node = 0;
+                    if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                    if (this_$iv$iv$iv != 0 && node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    type$iv3 = type$iv2;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
-                    node$iv$iv3 = DelegatableNodeKt.access$pop(stack$iv$iv);
-                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                    type$iv2 = type$iv3;
+                    node$iv$iv = DelegatableNodeKt.access$pop(stack$iv$iv);
+                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                    $i$f$getFocusTargetOLwlOKw = type$iv2;
                     includeSelf$iv = i4;
-                    if (node$iv$iv3 instanceof DelegatingNode) {
+                    if (node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = 0;
                     initializeFocusState$isInitialized = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         node3 = node$iv$iv$iv;
-                        i6 = 0;
-                        count$iv$iv = 0;
-                        if (kindSet$ui_release3 &= type$iv2 != 0) {
+                        i5 = 0;
+                        count$iv$iv2 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv2 = 0;
                         if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        type$iv3 = type$iv2;
+                        type$iv2 = $i$f$getFocusTargetOLwlOKw;
                         i4 = includeSelf$iv;
                         type$iv = node3;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        type$iv2 = type$iv3;
+                        $i$f$getFocusTargetOLwlOKw = type$iv2;
                         includeSelf$iv = i4;
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv++;
-                        type$iv3 = type$iv2;
+                        type$iv2 = $i$f$getFocusTargetOLwlOKw;
                         if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                         } else {
                         }
                         if (stack$iv$iv == 0) {
                         } else {
                         }
-                        count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                        count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                         i4 = includeSelf$iv;
                         $i$f$mutableVectorOf = stack$iv$iv;
                         stack$iv$iv = $i$f$mutableVectorOf;
-                        node4 = node$iv$iv3;
+                        node4 = node$iv$iv;
                         if (node4 != null && stack$iv$iv != 0) {
                         }
                         if (stack$iv$iv != 0) {
                         } else {
                         }
                         type$iv = node3;
-                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv;
+                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv2;
                         stack$iv$iv.add(node3);
                         if (stack$iv$iv != 0) {
                         }
-                        node$iv$iv3 = $i$f$mutableVectorOf;
+                        node$iv$iv = $i$f$mutableVectorOf;
                         stack$iv$iv.add(node4);
-                        count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                        count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                         count$iv$iv3 = 16;
-                        i = 0;
+                        i8 = 0;
                         i7 = i10;
                         i4 = includeSelf$iv;
                         i2 = count$iv$iv3;
                         $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                        node$iv$iv3 = node3;
+                        node$iv$iv = node3;
                         i4 = includeSelf$iv;
                         type$iv = node3;
                         this_$iv$iv$iv2 = 1;
@@ -1153,157 +1153,157 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                     if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                     } else {
                     }
-                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                    type$iv2 = type$iv3;
+                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                    $i$f$getFocusTargetOLwlOKw = type$iv2;
                     includeSelf$iv = i4;
                     node3 = node$iv$iv$iv;
-                    i6 = 0;
-                    count$iv$iv = 0;
-                    if (kindSet$ui_release3 &= type$iv2 != 0) {
+                    i5 = 0;
+                    count$iv$iv2 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv2 = 0;
                     if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    type$iv3 = type$iv2;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
                     type$iv = node3;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    type$iv2 = type$iv3;
+                    $i$f$getFocusTargetOLwlOKw = type$iv2;
                     includeSelf$iv = i4;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv++;
-                    type$iv3 = type$iv2;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                     } else {
                     }
                     if (stack$iv$iv == 0) {
                     } else {
                     }
-                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                     i4 = includeSelf$iv;
                     $i$f$mutableVectorOf = stack$iv$iv;
                     stack$iv$iv = $i$f$mutableVectorOf;
-                    node4 = node$iv$iv3;
+                    node4 = node$iv$iv;
                     if (node4 != null && stack$iv$iv != 0) {
                     }
                     if (stack$iv$iv != 0) {
                     } else {
                     }
                     type$iv = node3;
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv;
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv2;
                     stack$iv$iv.add(node3);
                     if (stack$iv$iv != 0) {
                     }
-                    node$iv$iv3 = $i$f$mutableVectorOf;
+                    node$iv$iv = $i$f$mutableVectorOf;
                     stack$iv$iv.add(node4);
-                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                     count$iv$iv3 = 16;
-                    i = 0;
+                    i8 = 0;
                     i7 = i10;
                     i4 = includeSelf$iv;
                     i2 = count$iv$iv3;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                    node$iv$iv3 = node3;
+                    node$iv$iv = node3;
                     i4 = includeSelf$iv;
                     type$iv = node3;
                     this_$iv$iv$iv2 = 1;
                     this_$iv$iv$iv = 1;
-                    this_$iv$iv$iv = node$iv$iv3;
-                    node2 = 0;
-                    type$iv3 = type$iv2;
+                    this_$iv$iv$iv = node$iv$iv;
+                    node = 0;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
                 }
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                type$iv3 = type$iv2;
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                type$iv2 = $i$f$getFocusTargetOLwlOKw;
                 i4 = includeSelf$iv;
                 if (kindSet$ui_release &= i13 != 0) {
                 } else {
                 }
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                type$iv3 = type$iv2;
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                type$iv2 = $i$f$getFocusTargetOLwlOKw;
                 i4 = includeSelf$iv;
-                node$iv$iv = node$iv$iv.getParent$ui_release();
-                count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                type$iv2 = type$iv3;
+                node$iv$iv3 = node$iv$iv3.getParent$ui_release();
+                count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                $i$f$getFocusTargetOLwlOKw = type$iv2;
                 includeSelf$iv = i4;
                 v = 0;
-                i8 = 0;
+                i3 = 0;
                 stack$iv$iv = 0;
                 i16 = 0;
-                node$iv$iv3 = node$iv$iv2;
-                while (node$iv$iv3 != null) {
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                    node2 = 0;
-                    if (kindSet$ui_release2 &= type$iv2 != 0) {
+                node$iv$iv = node$iv$iv2;
+                while (node$iv$iv != null) {
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                    node = 0;
+                    if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                    if (this_$iv$iv$iv != 0 && node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    type$iv3 = type$iv2;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
-                    node$iv$iv3 = DelegatableNodeKt.access$pop(stack$iv$iv);
-                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                    type$iv2 = type$iv3;
+                    node$iv$iv = DelegatableNodeKt.access$pop(stack$iv$iv);
+                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                    $i$f$getFocusTargetOLwlOKw = type$iv2;
                     includeSelf$iv = i4;
-                    if (node$iv$iv3 instanceof DelegatingNode) {
+                    if (node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = 0;
                     initializeFocusState$isInitialized = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         node3 = node$iv$iv$iv;
-                        i6 = 0;
-                        count$iv$iv = 0;
-                        if (kindSet$ui_release3 &= type$iv2 != 0) {
+                        i5 = 0;
+                        count$iv$iv2 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv2 = 0;
                         if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        type$iv3 = type$iv2;
+                        type$iv2 = $i$f$getFocusTargetOLwlOKw;
                         i4 = includeSelf$iv;
                         type$iv = node3;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        type$iv2 = type$iv3;
+                        $i$f$getFocusTargetOLwlOKw = type$iv2;
                         includeSelf$iv = i4;
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv++;
-                        type$iv3 = type$iv2;
+                        type$iv2 = $i$f$getFocusTargetOLwlOKw;
                         if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                         } else {
                         }
                         if (stack$iv$iv == 0) {
                         } else {
                         }
-                        count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                        count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                         i4 = includeSelf$iv;
                         $i$f$mutableVectorOf = stack$iv$iv;
                         stack$iv$iv = $i$f$mutableVectorOf;
-                        node4 = node$iv$iv3;
+                        node4 = node$iv$iv;
                         if (node4 != null && stack$iv$iv != 0) {
                         }
                         if (stack$iv$iv != 0) {
                         } else {
                         }
                         type$iv = node3;
-                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv;
+                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv2;
                         stack$iv$iv.add(node3);
                         if (stack$iv$iv != 0) {
                         }
-                        node$iv$iv3 = $i$f$mutableVectorOf;
+                        node$iv$iv = $i$f$mutableVectorOf;
                         stack$iv$iv.add(node4);
-                        count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                        count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                         count$iv$iv3 = 16;
-                        i = 0;
+                        i8 = 0;
                         i7 = i10;
                         i4 = includeSelf$iv;
                         i2 = count$iv$iv3;
                         $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                        node$iv$iv3 = node3;
+                        node$iv$iv = node3;
                         i4 = includeSelf$iv;
                         type$iv = node3;
                         this_$iv$iv$iv2 = 1;
@@ -1311,141 +1311,141 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                     if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                     } else {
                     }
-                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                    type$iv2 = type$iv3;
+                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                    $i$f$getFocusTargetOLwlOKw = type$iv2;
                     includeSelf$iv = i4;
                     node3 = node$iv$iv$iv;
-                    i6 = 0;
-                    count$iv$iv = 0;
-                    if (kindSet$ui_release3 &= type$iv2 != 0) {
+                    i5 = 0;
+                    count$iv$iv2 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv2 = 0;
                     if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    type$iv3 = type$iv2;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
                     type$iv = node3;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    type$iv2 = type$iv3;
+                    $i$f$getFocusTargetOLwlOKw = type$iv2;
                     includeSelf$iv = i4;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv++;
-                    type$iv3 = type$iv2;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                     } else {
                     }
                     if (stack$iv$iv == 0) {
                     } else {
                     }
-                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                     i4 = includeSelf$iv;
                     $i$f$mutableVectorOf = stack$iv$iv;
                     stack$iv$iv = $i$f$mutableVectorOf;
-                    node4 = node$iv$iv3;
+                    node4 = node$iv$iv;
                     if (node4 != null && stack$iv$iv != 0) {
                     }
                     if (stack$iv$iv != 0) {
                     } else {
                     }
                     type$iv = node3;
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv;
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv2;
                     stack$iv$iv.add(node3);
                     if (stack$iv$iv != 0) {
                     }
-                    node$iv$iv3 = $i$f$mutableVectorOf;
+                    node$iv$iv = $i$f$mutableVectorOf;
                     stack$iv$iv.add(node4);
-                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                     count$iv$iv3 = 16;
-                    i = 0;
+                    i8 = 0;
                     i7 = i10;
                     i4 = includeSelf$iv;
                     i2 = count$iv$iv3;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                    node$iv$iv3 = node3;
+                    node$iv$iv = node3;
                     i4 = includeSelf$iv;
                     type$iv = node3;
                     this_$iv$iv$iv2 = 1;
                     this_$iv$iv$iv = 1;
-                    this_$iv$iv$iv = node$iv$iv3;
-                    node2 = 0;
-                    type$iv3 = type$iv2;
+                    this_$iv$iv$iv = node$iv$iv;
+                    node = 0;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
                 }
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                type$iv3 = type$iv2;
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                type$iv2 = $i$f$getFocusTargetOLwlOKw;
                 i4 = includeSelf$iv;
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv2;
-                node2 = 0;
-                if (kindSet$ui_release2 &= type$iv2 != 0) {
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2 = count$iv$iv;
+                node = 0;
+                if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
-                if (this_$iv$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                if (this_$iv$iv$iv != 0 && node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                type$iv3 = type$iv2;
+                type$iv2 = $i$f$getFocusTargetOLwlOKw;
                 i4 = includeSelf$iv;
-                node$iv$iv3 = DelegatableNodeKt.access$pop(stack$iv$iv);
-                count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                type$iv2 = type$iv3;
+                node$iv$iv = DelegatableNodeKt.access$pop(stack$iv$iv);
+                count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                $i$f$getFocusTargetOLwlOKw = type$iv2;
                 includeSelf$iv = i4;
-                if (node$iv$iv3 instanceof DelegatingNode) {
+                if (node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
                 $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = 0;
                 initializeFocusState$isInitialized = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     node3 = node$iv$iv$iv;
-                    i6 = 0;
-                    count$iv$iv = 0;
-                    if (kindSet$ui_release3 &= type$iv2 != 0) {
+                    i5 = 0;
+                    count$iv$iv2 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv2 = 0;
                     if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    type$iv3 = type$iv2;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     i4 = includeSelf$iv;
                     type$iv = node3;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    type$iv2 = type$iv3;
+                    $i$f$getFocusTargetOLwlOKw = type$iv2;
                     includeSelf$iv = i4;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv++;
-                    type$iv3 = type$iv2;
+                    type$iv2 = $i$f$getFocusTargetOLwlOKw;
                     if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                     } else {
                     }
                     if (stack$iv$iv == 0) {
                     } else {
                     }
-                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                     i4 = includeSelf$iv;
                     $i$f$mutableVectorOf = stack$iv$iv;
                     stack$iv$iv = $i$f$mutableVectorOf;
-                    node4 = node$iv$iv3;
+                    node4 = node$iv$iv;
                     if (node4 != null && stack$iv$iv != 0) {
                     }
                     if (stack$iv$iv != 0) {
                     } else {
                     }
                     type$iv = node3;
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv;
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv2;
                     stack$iv$iv.add(node3);
                     if (stack$iv$iv != 0) {
                     }
-                    node$iv$iv3 = $i$f$mutableVectorOf;
+                    node$iv$iv = $i$f$mutableVectorOf;
                     stack$iv$iv.add(node4);
-                    count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                    count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                     count$iv$iv3 = 16;
-                    i = 0;
+                    i8 = 0;
                     i7 = i10;
                     i4 = includeSelf$iv;
                     i2 = count$iv$iv3;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                    node$iv$iv3 = node3;
+                    node$iv$iv = node3;
                     i4 = includeSelf$iv;
                     type$iv = node3;
                     this_$iv$iv$iv2 = 1;
@@ -1453,74 +1453,74 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                 if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                 } else {
                 }
-                count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
-                type$iv2 = type$iv3;
+                count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv2;
+                $i$f$getFocusTargetOLwlOKw = type$iv2;
                 includeSelf$iv = i4;
                 node3 = node$iv$iv$iv;
-                i6 = 0;
-                count$iv$iv = 0;
-                if (kindSet$ui_release3 &= type$iv2 != 0) {
+                i5 = 0;
+                count$iv$iv2 = 0;
+                if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv2 = 0;
                 if (this_$iv$iv$iv2 != 0) {
                 } else {
                 }
-                type$iv3 = type$iv2;
+                type$iv2 = $i$f$getFocusTargetOLwlOKw;
                 i4 = includeSelf$iv;
                 type$iv = node3;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                type$iv2 = type$iv3;
+                $i$f$getFocusTargetOLwlOKw = type$iv2;
                 includeSelf$iv = i4;
                 $this$visitAncestors_u2dY_u2dYKmho_u24default$iv++;
-                type$iv3 = type$iv2;
+                type$iv2 = $i$f$getFocusTargetOLwlOKw;
                 if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv == 1) {
                 } else {
                 }
                 if (stack$iv$iv == 0) {
                 } else {
                 }
-                count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                 i4 = includeSelf$iv;
                 $i$f$mutableVectorOf = stack$iv$iv;
                 stack$iv$iv = $i$f$mutableVectorOf;
-                node4 = node$iv$iv3;
+                node4 = node$iv$iv;
                 if (node4 != null && stack$iv$iv != 0) {
                 }
                 if (stack$iv$iv != 0) {
                 } else {
                 }
                 type$iv = node3;
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv;
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = count$iv$iv2;
                 stack$iv$iv.add(node3);
                 if (stack$iv$iv != 0) {
                 }
-                node$iv$iv3 = $i$f$mutableVectorOf;
+                node$iv$iv = $i$f$mutableVectorOf;
                 stack$iv$iv.add(node4);
-                count$iv$iv = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                count$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                 count$iv$iv3 = 16;
-                i = 0;
+                i8 = 0;
                 i7 = i10;
                 i4 = includeSelf$iv;
                 i2 = count$iv$iv3;
                 $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                node$iv$iv3 = node3;
+                node$iv$iv = node3;
                 i4 = includeSelf$iv;
                 type$iv = node3;
                 this_$iv$iv$iv2 = 1;
                 this_$iv$iv$iv = 1;
-                this_$iv$iv$iv = node$iv$iv3;
-                node2 = 0;
-                type$iv3 = type$iv2;
+                this_$iv$iv$iv = node$iv$iv;
+                node = 0;
+                type$iv2 = $i$f$getFocusTargetOLwlOKw;
                 i4 = includeSelf$iv;
             }
             return 0;
         }
-        DelegatableNode delegatableNode2 = count$iv$iv2;
-        int i18 = type$iv2;
+        DelegatableNode delegatableNode2 = count$iv$iv;
+        int i18 = $i$f$getFocusTargetOLwlOKw;
         int $this$visitAncestors_u2dY_u2dYKmho_u24default$iv3 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv;
     }
 
     private static final boolean initializeFocusState$isInitialized(androidx.compose.ui.focus.FocusTargetNode $this$initializeFocusState_u24isInitialized) {
@@ -1590,34 +1590,34 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
         int count$iv$iv;
         int tail$ui_release;
         DelegatableNode delegatableNode;
-        int this_$iv$iv$iv2;
+        int this_$iv$iv$iv4;
         Modifier.Node this_$iv$iv$iv3;
-        int type$iv3;
+        int $i$f$getFocusPropertiesOLwlOKw;
         Modifier.Node type$iv2;
-        int constructor-impl;
+        int $i$f$getFocusTargetOLwlOKw;
         int untilType$iv2;
         int untilType$iv;
-        Modifier.Node node$iv$iv;
+        Modifier.Node node$iv$iv2;
         LayoutNode layout$iv$iv;
         Modifier.Node head$ui_release;
-        Modifier.Node node;
-        int i2;
+        Modifier.Node node2;
+        int i6;
         Modifier.Node node$iv$iv3;
         Modifier.Node this_$iv$iv;
-        int i6;
         int i4;
-        Modifier.Node node$iv$iv2;
+        int i;
+        Modifier.Node node$iv$iv;
         androidx.compose.ui.focus.FocusPropertiesImpl properties2;
         androidx.compose.ui.focus.FocusPropertiesImpl properties;
-        int i;
+        int i5;
         DelegatableNode $this$visitSelfAndAncestors_u2d5BbP62I$iv;
         Modifier.Node node$iv$iv$iv;
-        Modifier.Node node2;
+        Modifier.Node node;
         int i3;
-        Modifier.Node this_$iv$iv$iv4;
-        int this_$iv$iv$iv;
+        Modifier.Node this_$iv$iv$iv;
+        int this_$iv$iv$iv2;
         int count$iv$iv2;
-        int i5;
+        int i2;
         int i7;
         int type$iv;
         int i8;
@@ -1626,13 +1626,13 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
         int i11 = 0;
         int i13 = 0;
         int i15 = 0;
-        final int i16 = type$iv3 | constructor-impl;
+        final int i16 = $i$f$getFocusPropertiesOLwlOKw | $i$f$getFocusTargetOLwlOKw;
         final int i17 = 1;
         final DelegatableNode delegatableNode2 = delegatableNode;
         final int i18 = 0;
         if (!delegatableNode2.getNode().isAttached()) {
         } else {
-            node$iv$iv = delegatableNode2.getNode();
+            node$iv$iv2 = delegatableNode2.getNode();
             layout$iv$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode2);
             while (layout$iv$iv != null) {
                 if (aggregateChildKindSet$ui_release &= i16 == 0) {
@@ -1640,38 +1640,38 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                 }
                 properties2 = count$iv$iv3;
                 $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
                 layout$iv$iv = layout$iv$iv.getParent$ui_release();
                 count$iv$iv3 = layout$iv$iv.getNodes$ui_release();
                 if (layout$iv$iv != null && count$iv$iv3 != null) {
                 } else {
                 }
                 tail$ui_release = 0;
-                node$iv$iv = tail$ui_release;
+                node$iv$iv2 = tail$ui_release;
                 count$iv$iv3 = properties2;
                 delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                type$iv3 = type$iv;
-                constructor-impl = i8;
+                $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                $i$f$getFocusTargetOLwlOKw = i8;
                 count$iv$iv3 = layout$iv$iv.getNodes$ui_release();
                 if (count$iv$iv3 != null) {
                 } else {
                 }
                 tail$ui_release = count$iv$iv3.getTail$ui_release();
-                while (node$iv$iv != null) {
+                while (node$iv$iv2 != null) {
                     properties2 = count$iv$iv3;
                     $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    node$iv$iv = node$iv$iv.getParent$ui_release();
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    node$iv$iv2 = node$iv$iv2.getParent$ui_release();
                     count$iv$iv3 = properties2;
                     delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                    type$iv3 = type$iv;
-                    constructor-impl = i8;
-                    node = node$iv$iv;
-                    i2 = 0;
+                    $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                    $i$f$getFocusTargetOLwlOKw = i8;
+                    node2 = node$iv$iv2;
                     i6 = 0;
-                    if (kindSet$ui_release3 &= type$iv3 != 0) {
+                    i4 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv = 0;
@@ -1680,345 +1680,345 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                     }
                     properties2 = count$iv$iv3;
                     $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    i6 = 0;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
                     i4 = 0;
+                    i = 0;
                     int i19 = 0;
-                    node$iv$iv3 = node$iv$iv2;
+                    node$iv$iv3 = node$iv$iv;
                     while (node$iv$iv3 != null) {
                         properties2 = count$iv$iv3;
                         if (node$iv$iv3 instanceof FocusPropertiesModifierNode) {
                         } else {
                         }
                         int i9 = 0;
-                        if (kindSet$ui_release4 &= type$iv3 != 0) {
+                        if (kindSet$ui_release4 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                         } else {
                         }
                         count$iv$iv = 0;
                         if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
                         } else {
                         }
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
-                        this_$iv$iv$iv2 = 1;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
+                        this_$iv$iv$iv4 = 1;
                         untilType$iv2 = 0;
-                        node$iv$iv3 = DelegatableNodeKt.access$pop(i4);
+                        node$iv$iv3 = DelegatableNodeKt.access$pop(i);
                         count$iv$iv3 = properties2;
                         delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                        type$iv3 = type$iv;
-                        constructor-impl = i8;
+                        $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                        $i$f$getFocusTargetOLwlOKw = i8;
                         if (node$iv$iv3 instanceof DelegatingNode) {
                         } else {
                         }
                         count$iv$iv = 0;
-                        i = 0;
+                        i5 = 0;
                         node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                         while (node$iv$iv$iv != null) {
-                            node2 = node$iv$iv$iv;
+                            node = node$iv$iv$iv;
                             i3 = 0;
                             count$iv$iv2 = 0;
-                            if (kindSet$ui_release5 &= type$iv3 != 0) {
+                            if (kindSet$ui_release5 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                             } else {
                             }
-                            this_$iv$iv$iv = 0;
-                            if (this_$iv$iv$iv != 0) {
+                            this_$iv$iv$iv2 = 0;
+                            if (this_$iv$iv$iv2 != 0) {
                             } else {
                             }
-                            this_$iv$iv$iv4 = this_$iv$iv$iv3;
-                            type$iv = type$iv3;
-                            i8 = constructor-impl;
-                            type$iv2 = node2;
+                            this_$iv$iv$iv = this_$iv$iv$iv3;
+                            type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                            i8 = $i$f$getFocusTargetOLwlOKw;
+                            type$iv2 = node;
                             untilType$iv = 0;
                             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                            this_$iv$iv$iv3 = this_$iv$iv$iv4;
-                            type$iv3 = type$iv;
-                            constructor-impl = i8;
+                            this_$iv$iv$iv3 = this_$iv$iv$iv;
+                            $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                            $i$f$getFocusTargetOLwlOKw = i8;
                             count$iv$iv++;
-                            this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                            this_$iv$iv$iv = this_$iv$iv$iv3;
                             if (count$iv$iv == 1) {
                             } else {
                             }
-                            if (i4 == 0) {
+                            if (i == 0) {
                             } else {
                             }
                             count$iv$iv2 = count$iv$iv;
-                            type$iv = type$iv3;
-                            i8 = constructor-impl;
+                            type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                            i8 = $i$f$getFocusTargetOLwlOKw;
                             untilType$iv = 0;
-                            this_$iv$iv$iv3 = i4;
+                            this_$iv$iv$iv3 = i;
                             Modifier.Node node4 = node$iv$iv3;
                             if (node4 != null && this_$iv$iv$iv3 != 0) {
                             }
                             if (this_$iv$iv$iv3 != 0) {
                             } else {
                             }
-                            type$iv2 = node2;
-                            i4 = this_$iv$iv$iv3;
+                            type$iv2 = node;
+                            i = this_$iv$iv$iv3;
                             count$iv$iv = count$iv$iv2;
-                            this_$iv$iv$iv3.add(node2);
+                            this_$iv$iv$iv3.add(node);
                             if (this_$iv$iv$iv3 != 0) {
                             }
-                            node$iv$iv3 = type$iv3;
+                            node$iv$iv3 = $i$f$getFocusPropertiesOLwlOKw;
                             this_$iv$iv$iv3.add(node4);
                             count$iv$iv2 = count$iv$iv;
-                            i5 = 0;
+                            i2 = 0;
                             i7 = i10;
-                            type$iv = type$iv3;
-                            i8 = constructor-impl;
+                            type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                            i8 = $i$f$getFocusTargetOLwlOKw;
                             this_$iv$iv$iv3 = new MutableVector(new Modifier.Node[16], 0);
-                            node$iv$iv3 = node2;
-                            type$iv = type$iv3;
-                            i8 = constructor-impl;
-                            type$iv2 = node2;
+                            node$iv$iv3 = node;
+                            type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                            i8 = $i$f$getFocusTargetOLwlOKw;
+                            type$iv2 = node;
                             untilType$iv = 0;
-                            this_$iv$iv$iv = 1;
+                            this_$iv$iv$iv2 = 1;
                         }
-                        this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                        this_$iv$iv$iv = this_$iv$iv$iv3;
                         untilType$iv2 = 0;
                         if (count$iv$iv == 1) {
                         } else {
                         }
                         count$iv$iv3 = properties2;
                         delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                        type$iv3 = type$iv;
-                        constructor-impl = i8;
-                        node2 = node$iv$iv$iv;
+                        $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                        $i$f$getFocusTargetOLwlOKw = i8;
+                        node = node$iv$iv$iv;
                         i3 = 0;
                         count$iv$iv2 = 0;
-                        if (kindSet$ui_release5 &= type$iv3 != 0) {
+                        if (kindSet$ui_release5 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv = 0;
-                        if (this_$iv$iv$iv != 0) {
+                        this_$iv$iv$iv2 = 0;
+                        if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv4 = this_$iv$iv$iv3;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
-                        type$iv2 = node2;
+                        this_$iv$iv$iv = this_$iv$iv$iv3;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
+                        type$iv2 = node;
                         untilType$iv = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        this_$iv$iv$iv3 = this_$iv$iv$iv4;
-                        type$iv3 = type$iv;
-                        constructor-impl = i8;
+                        this_$iv$iv$iv3 = this_$iv$iv$iv;
+                        $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                        $i$f$getFocusTargetOLwlOKw = i8;
                         count$iv$iv++;
-                        this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                        this_$iv$iv$iv = this_$iv$iv$iv3;
                         if (count$iv$iv == 1) {
                         } else {
                         }
-                        if (i4 == 0) {
+                        if (i == 0) {
                         } else {
                         }
                         count$iv$iv2 = count$iv$iv;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
                         untilType$iv = 0;
-                        this_$iv$iv$iv3 = i4;
+                        this_$iv$iv$iv3 = i;
                         node4 = node$iv$iv3;
                         if (node4 != null && this_$iv$iv$iv3 != 0) {
                         }
                         if (this_$iv$iv$iv3 != 0) {
                         } else {
                         }
-                        type$iv2 = node2;
-                        i4 = this_$iv$iv$iv3;
+                        type$iv2 = node;
+                        i = this_$iv$iv$iv3;
                         count$iv$iv = count$iv$iv2;
-                        this_$iv$iv$iv3.add(node2);
+                        this_$iv$iv$iv3.add(node);
                         if (this_$iv$iv$iv3 != 0) {
                         }
-                        node$iv$iv3 = type$iv3;
+                        node$iv$iv3 = $i$f$getFocusPropertiesOLwlOKw;
                         this_$iv$iv$iv3.add(node4);
                         count$iv$iv2 = count$iv$iv;
-                        i5 = 0;
+                        i2 = 0;
                         i7 = i10;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
                         this_$iv$iv$iv3 = new MutableVector(new Modifier.Node[16], 0);
-                        node$iv$iv3 = node2;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
-                        type$iv2 = node2;
+                        node$iv$iv3 = node;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
+                        type$iv2 = node;
                         untilType$iv = 0;
-                        this_$iv$iv$iv = 1;
+                        this_$iv$iv$iv2 = 1;
                         count$iv$iv = 1;
-                        i = 0;
+                        i5 = 0;
                         $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
                         (FocusPropertiesModifierNode)node$iv$iv3.applyFocusProperties((FocusProperties)properties2);
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
-                        this_$iv$iv$iv2 = 1;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
+                        this_$iv$iv$iv4 = 1;
                         untilType$iv2 = 0;
                     }
                     properties2 = count$iv$iv3;
                     $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
                     properties2 = count$iv$iv3;
                     if (node$iv$iv3 instanceof FocusPropertiesModifierNode) {
                     } else {
                     }
                     i9 = 0;
-                    if (kindSet$ui_release4 &= type$iv3 != 0) {
+                    if (kindSet$ui_release4 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                     } else {
                     }
                     count$iv$iv = 0;
                     if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    this_$iv$iv$iv2 = 1;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    this_$iv$iv$iv4 = 1;
                     untilType$iv2 = 0;
-                    node$iv$iv3 = DelegatableNodeKt.access$pop(i4);
+                    node$iv$iv3 = DelegatableNodeKt.access$pop(i);
                     count$iv$iv3 = properties2;
                     delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                    type$iv3 = type$iv;
-                    constructor-impl = i8;
+                    $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                    $i$f$getFocusTargetOLwlOKw = i8;
                     if (node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv$iv = 0;
-                    i = 0;
+                    i5 = 0;
                     node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node2 = node$iv$iv$iv;
+                        node = node$iv$iv$iv;
                         i3 = 0;
                         count$iv$iv2 = 0;
-                        if (kindSet$ui_release5 &= type$iv3 != 0) {
+                        if (kindSet$ui_release5 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv = 0;
-                        if (this_$iv$iv$iv != 0) {
+                        this_$iv$iv$iv2 = 0;
+                        if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv4 = this_$iv$iv$iv3;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
-                        type$iv2 = node2;
+                        this_$iv$iv$iv = this_$iv$iv$iv3;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
+                        type$iv2 = node;
                         untilType$iv = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        this_$iv$iv$iv3 = this_$iv$iv$iv4;
-                        type$iv3 = type$iv;
-                        constructor-impl = i8;
+                        this_$iv$iv$iv3 = this_$iv$iv$iv;
+                        $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                        $i$f$getFocusTargetOLwlOKw = i8;
                         count$iv$iv++;
-                        this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                        this_$iv$iv$iv = this_$iv$iv$iv3;
                         if (count$iv$iv == 1) {
                         } else {
                         }
-                        if (i4 == 0) {
+                        if (i == 0) {
                         } else {
                         }
                         count$iv$iv2 = count$iv$iv;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
                         untilType$iv = 0;
-                        this_$iv$iv$iv3 = i4;
+                        this_$iv$iv$iv3 = i;
                         node4 = node$iv$iv3;
                         if (node4 != null && this_$iv$iv$iv3 != 0) {
                         }
                         if (this_$iv$iv$iv3 != 0) {
                         } else {
                         }
-                        type$iv2 = node2;
-                        i4 = this_$iv$iv$iv3;
+                        type$iv2 = node;
+                        i = this_$iv$iv$iv3;
                         count$iv$iv = count$iv$iv2;
-                        this_$iv$iv$iv3.add(node2);
+                        this_$iv$iv$iv3.add(node);
                         if (this_$iv$iv$iv3 != 0) {
                         }
-                        node$iv$iv3 = type$iv3;
+                        node$iv$iv3 = $i$f$getFocusPropertiesOLwlOKw;
                         this_$iv$iv$iv3.add(node4);
                         count$iv$iv2 = count$iv$iv;
-                        i5 = 0;
+                        i2 = 0;
                         i7 = i10;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
                         this_$iv$iv$iv3 = new MutableVector(new Modifier.Node[16], 0);
-                        node$iv$iv3 = node2;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
-                        type$iv2 = node2;
+                        node$iv$iv3 = node;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
+                        type$iv2 = node;
                         untilType$iv = 0;
-                        this_$iv$iv$iv = 1;
+                        this_$iv$iv$iv2 = 1;
                     }
-                    this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                    this_$iv$iv$iv = this_$iv$iv$iv3;
                     untilType$iv2 = 0;
                     if (count$iv$iv == 1) {
                     } else {
                     }
                     count$iv$iv3 = properties2;
                     delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                    type$iv3 = type$iv;
-                    constructor-impl = i8;
-                    node2 = node$iv$iv$iv;
+                    $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                    $i$f$getFocusTargetOLwlOKw = i8;
+                    node = node$iv$iv$iv;
                     i3 = 0;
                     count$iv$iv2 = 0;
-                    if (kindSet$ui_release5 &= type$iv3 != 0) {
+                    if (kindSet$ui_release5 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0) {
+                    this_$iv$iv$iv2 = 0;
+                    if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv4 = this_$iv$iv$iv3;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    type$iv2 = node2;
+                    this_$iv$iv$iv = this_$iv$iv$iv3;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    type$iv2 = node;
                     untilType$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    this_$iv$iv$iv3 = this_$iv$iv$iv4;
-                    type$iv3 = type$iv;
-                    constructor-impl = i8;
+                    this_$iv$iv$iv3 = this_$iv$iv$iv;
+                    $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                    $i$f$getFocusTargetOLwlOKw = i8;
                     count$iv$iv++;
-                    this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                    this_$iv$iv$iv = this_$iv$iv$iv3;
                     if (count$iv$iv == 1) {
                     } else {
                     }
-                    if (i4 == 0) {
+                    if (i == 0) {
                     } else {
                     }
                     count$iv$iv2 = count$iv$iv;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
                     untilType$iv = 0;
-                    this_$iv$iv$iv3 = i4;
+                    this_$iv$iv$iv3 = i;
                     node4 = node$iv$iv3;
                     if (node4 != null && this_$iv$iv$iv3 != 0) {
                     }
                     if (this_$iv$iv$iv3 != 0) {
                     } else {
                     }
-                    type$iv2 = node2;
-                    i4 = this_$iv$iv$iv3;
+                    type$iv2 = node;
+                    i = this_$iv$iv$iv3;
                     count$iv$iv = count$iv$iv2;
-                    this_$iv$iv$iv3.add(node2);
+                    this_$iv$iv$iv3.add(node);
                     if (this_$iv$iv$iv3 != 0) {
                     }
-                    node$iv$iv3 = type$iv3;
+                    node$iv$iv3 = $i$f$getFocusPropertiesOLwlOKw;
                     this_$iv$iv$iv3.add(node4);
                     count$iv$iv2 = count$iv$iv;
-                    i5 = 0;
+                    i2 = 0;
                     i7 = i10;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
                     this_$iv$iv$iv3 = new MutableVector(new Modifier.Node[16], 0);
-                    node$iv$iv3 = node2;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    type$iv2 = node2;
+                    node$iv$iv3 = node;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    type$iv2 = node;
                     untilType$iv = 0;
-                    this_$iv$iv$iv = 1;
+                    this_$iv$iv$iv2 = 1;
                     count$iv$iv = 1;
-                    i = 0;
+                    i5 = 0;
                     $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
                     (FocusPropertiesModifierNode)node$iv$iv3.applyFocusProperties((FocusProperties)properties2);
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    this_$iv$iv$iv2 = 1;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    this_$iv$iv$iv4 = 1;
                     untilType$iv2 = 0;
                     this_$iv$iv = 1;
-                    i6 = 0;
-                    if (kindSet$ui_release2 &= constructor-impl != 0) {
+                    i4 = 0;
+                    if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv = 0;
@@ -2026,21 +2026,21 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                 }
                 properties2 = count$iv$iv3;
                 $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
                 properties2 = count$iv$iv3;
                 $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
-                node$iv$iv = node$iv$iv.getParent$ui_release();
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
+                node$iv$iv2 = node$iv$iv2.getParent$ui_release();
                 count$iv$iv3 = properties2;
                 delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                type$iv3 = type$iv;
-                constructor-impl = i8;
-                node = node$iv$iv;
-                i2 = 0;
+                $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                $i$f$getFocusTargetOLwlOKw = i8;
+                node2 = node$iv$iv2;
                 i6 = 0;
-                if (kindSet$ui_release3 &= type$iv3 != 0) {
+                i4 = 0;
+                if (kindSet$ui_release3 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv = 0;
@@ -2049,345 +2049,345 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                 }
                 properties2 = count$iv$iv3;
                 $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
-                i6 = 0;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
                 i4 = 0;
+                i = 0;
                 i19 = 0;
-                node$iv$iv3 = node$iv$iv2;
+                node$iv$iv3 = node$iv$iv;
                 while (node$iv$iv3 != null) {
                     properties2 = count$iv$iv3;
                     if (node$iv$iv3 instanceof FocusPropertiesModifierNode) {
                     } else {
                     }
                     i9 = 0;
-                    if (kindSet$ui_release4 &= type$iv3 != 0) {
+                    if (kindSet$ui_release4 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                     } else {
                     }
                     count$iv$iv = 0;
                     if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    this_$iv$iv$iv2 = 1;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    this_$iv$iv$iv4 = 1;
                     untilType$iv2 = 0;
-                    node$iv$iv3 = DelegatableNodeKt.access$pop(i4);
+                    node$iv$iv3 = DelegatableNodeKt.access$pop(i);
                     count$iv$iv3 = properties2;
                     delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                    type$iv3 = type$iv;
-                    constructor-impl = i8;
+                    $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                    $i$f$getFocusTargetOLwlOKw = i8;
                     if (node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv$iv = 0;
-                    i = 0;
+                    i5 = 0;
                     node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node2 = node$iv$iv$iv;
+                        node = node$iv$iv$iv;
                         i3 = 0;
                         count$iv$iv2 = 0;
-                        if (kindSet$ui_release5 &= type$iv3 != 0) {
+                        if (kindSet$ui_release5 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv = 0;
-                        if (this_$iv$iv$iv != 0) {
+                        this_$iv$iv$iv2 = 0;
+                        if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv4 = this_$iv$iv$iv3;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
-                        type$iv2 = node2;
+                        this_$iv$iv$iv = this_$iv$iv$iv3;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
+                        type$iv2 = node;
                         untilType$iv = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        this_$iv$iv$iv3 = this_$iv$iv$iv4;
-                        type$iv3 = type$iv;
-                        constructor-impl = i8;
+                        this_$iv$iv$iv3 = this_$iv$iv$iv;
+                        $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                        $i$f$getFocusTargetOLwlOKw = i8;
                         count$iv$iv++;
-                        this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                        this_$iv$iv$iv = this_$iv$iv$iv3;
                         if (count$iv$iv == 1) {
                         } else {
                         }
-                        if (i4 == 0) {
+                        if (i == 0) {
                         } else {
                         }
                         count$iv$iv2 = count$iv$iv;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
                         untilType$iv = 0;
-                        this_$iv$iv$iv3 = i4;
+                        this_$iv$iv$iv3 = i;
                         node4 = node$iv$iv3;
                         if (node4 != null && this_$iv$iv$iv3 != 0) {
                         }
                         if (this_$iv$iv$iv3 != 0) {
                         } else {
                         }
-                        type$iv2 = node2;
-                        i4 = this_$iv$iv$iv3;
+                        type$iv2 = node;
+                        i = this_$iv$iv$iv3;
                         count$iv$iv = count$iv$iv2;
-                        this_$iv$iv$iv3.add(node2);
+                        this_$iv$iv$iv3.add(node);
                         if (this_$iv$iv$iv3 != 0) {
                         }
-                        node$iv$iv3 = type$iv3;
+                        node$iv$iv3 = $i$f$getFocusPropertiesOLwlOKw;
                         this_$iv$iv$iv3.add(node4);
                         count$iv$iv2 = count$iv$iv;
-                        i5 = 0;
+                        i2 = 0;
                         i7 = i10;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
                         this_$iv$iv$iv3 = new MutableVector(new Modifier.Node[16], 0);
-                        node$iv$iv3 = node2;
-                        type$iv = type$iv3;
-                        i8 = constructor-impl;
-                        type$iv2 = node2;
+                        node$iv$iv3 = node;
+                        type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                        i8 = $i$f$getFocusTargetOLwlOKw;
+                        type$iv2 = node;
                         untilType$iv = 0;
-                        this_$iv$iv$iv = 1;
+                        this_$iv$iv$iv2 = 1;
                     }
-                    this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                    this_$iv$iv$iv = this_$iv$iv$iv3;
                     untilType$iv2 = 0;
                     if (count$iv$iv == 1) {
                     } else {
                     }
                     count$iv$iv3 = properties2;
                     delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                    type$iv3 = type$iv;
-                    constructor-impl = i8;
-                    node2 = node$iv$iv$iv;
+                    $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                    $i$f$getFocusTargetOLwlOKw = i8;
+                    node = node$iv$iv$iv;
                     i3 = 0;
                     count$iv$iv2 = 0;
-                    if (kindSet$ui_release5 &= type$iv3 != 0) {
+                    if (kindSet$ui_release5 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0) {
+                    this_$iv$iv$iv2 = 0;
+                    if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv4 = this_$iv$iv$iv3;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    type$iv2 = node2;
+                    this_$iv$iv$iv = this_$iv$iv$iv3;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    type$iv2 = node;
                     untilType$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    this_$iv$iv$iv3 = this_$iv$iv$iv4;
-                    type$iv3 = type$iv;
-                    constructor-impl = i8;
+                    this_$iv$iv$iv3 = this_$iv$iv$iv;
+                    $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                    $i$f$getFocusTargetOLwlOKw = i8;
                     count$iv$iv++;
-                    this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                    this_$iv$iv$iv = this_$iv$iv$iv3;
                     if (count$iv$iv == 1) {
                     } else {
                     }
-                    if (i4 == 0) {
+                    if (i == 0) {
                     } else {
                     }
                     count$iv$iv2 = count$iv$iv;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
                     untilType$iv = 0;
-                    this_$iv$iv$iv3 = i4;
+                    this_$iv$iv$iv3 = i;
                     node4 = node$iv$iv3;
                     if (node4 != null && this_$iv$iv$iv3 != 0) {
                     }
                     if (this_$iv$iv$iv3 != 0) {
                     } else {
                     }
-                    type$iv2 = node2;
-                    i4 = this_$iv$iv$iv3;
+                    type$iv2 = node;
+                    i = this_$iv$iv$iv3;
                     count$iv$iv = count$iv$iv2;
-                    this_$iv$iv$iv3.add(node2);
+                    this_$iv$iv$iv3.add(node);
                     if (this_$iv$iv$iv3 != 0) {
                     }
-                    node$iv$iv3 = type$iv3;
+                    node$iv$iv3 = $i$f$getFocusPropertiesOLwlOKw;
                     this_$iv$iv$iv3.add(node4);
                     count$iv$iv2 = count$iv$iv;
-                    i5 = 0;
+                    i2 = 0;
                     i7 = i10;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
                     this_$iv$iv$iv3 = new MutableVector(new Modifier.Node[16], 0);
-                    node$iv$iv3 = node2;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    type$iv2 = node2;
+                    node$iv$iv3 = node;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    type$iv2 = node;
                     untilType$iv = 0;
-                    this_$iv$iv$iv = 1;
+                    this_$iv$iv$iv2 = 1;
                     count$iv$iv = 1;
-                    i = 0;
+                    i5 = 0;
                     $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
                     (FocusPropertiesModifierNode)node$iv$iv3.applyFocusProperties((FocusProperties)properties2);
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    this_$iv$iv$iv2 = 1;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    this_$iv$iv$iv4 = 1;
                     untilType$iv2 = 0;
                 }
                 properties2 = count$iv$iv3;
                 $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
                 properties2 = count$iv$iv3;
                 if (node$iv$iv3 instanceof FocusPropertiesModifierNode) {
                 } else {
                 }
                 i9 = 0;
-                if (kindSet$ui_release4 &= type$iv3 != 0) {
+                if (kindSet$ui_release4 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                 } else {
                 }
                 count$iv$iv = 0;
                 if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
                 } else {
                 }
-                type$iv = type$iv3;
-                i8 = constructor-impl;
-                this_$iv$iv$iv2 = 1;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
+                this_$iv$iv$iv4 = 1;
                 untilType$iv2 = 0;
-                node$iv$iv3 = DelegatableNodeKt.access$pop(i4);
+                node$iv$iv3 = DelegatableNodeKt.access$pop(i);
                 count$iv$iv3 = properties2;
                 delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                type$iv3 = type$iv;
-                constructor-impl = i8;
+                $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                $i$f$getFocusTargetOLwlOKw = i8;
                 if (node$iv$iv3 instanceof DelegatingNode) {
                 } else {
                 }
                 count$iv$iv = 0;
-                i = 0;
+                i5 = 0;
                 node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
-                    node2 = node$iv$iv$iv;
+                    node = node$iv$iv$iv;
                     i3 = 0;
                     count$iv$iv2 = 0;
-                    if (kindSet$ui_release5 &= type$iv3 != 0) {
+                    if (kindSet$ui_release5 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0) {
+                    this_$iv$iv$iv2 = 0;
+                    if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv4 = this_$iv$iv$iv3;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    type$iv2 = node2;
+                    this_$iv$iv$iv = this_$iv$iv$iv3;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    type$iv2 = node;
                     untilType$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    this_$iv$iv$iv3 = this_$iv$iv$iv4;
-                    type$iv3 = type$iv;
-                    constructor-impl = i8;
+                    this_$iv$iv$iv3 = this_$iv$iv$iv;
+                    $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                    $i$f$getFocusTargetOLwlOKw = i8;
                     count$iv$iv++;
-                    this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                    this_$iv$iv$iv = this_$iv$iv$iv3;
                     if (count$iv$iv == 1) {
                     } else {
                     }
-                    if (i4 == 0) {
+                    if (i == 0) {
                     } else {
                     }
                     count$iv$iv2 = count$iv$iv;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
                     untilType$iv = 0;
-                    this_$iv$iv$iv3 = i4;
+                    this_$iv$iv$iv3 = i;
                     node4 = node$iv$iv3;
                     if (node4 != null && this_$iv$iv$iv3 != 0) {
                     }
                     if (this_$iv$iv$iv3 != 0) {
                     } else {
                     }
-                    type$iv2 = node2;
-                    i4 = this_$iv$iv$iv3;
+                    type$iv2 = node;
+                    i = this_$iv$iv$iv3;
                     count$iv$iv = count$iv$iv2;
-                    this_$iv$iv$iv3.add(node2);
+                    this_$iv$iv$iv3.add(node);
                     if (this_$iv$iv$iv3 != 0) {
                     }
-                    node$iv$iv3 = type$iv3;
+                    node$iv$iv3 = $i$f$getFocusPropertiesOLwlOKw;
                     this_$iv$iv$iv3.add(node4);
                     count$iv$iv2 = count$iv$iv;
-                    i5 = 0;
+                    i2 = 0;
                     i7 = i10;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
                     this_$iv$iv$iv3 = new MutableVector(new Modifier.Node[16], 0);
-                    node$iv$iv3 = node2;
-                    type$iv = type$iv3;
-                    i8 = constructor-impl;
-                    type$iv2 = node2;
+                    node$iv$iv3 = node;
+                    type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                    i8 = $i$f$getFocusTargetOLwlOKw;
+                    type$iv2 = node;
                     untilType$iv = 0;
-                    this_$iv$iv$iv = 1;
+                    this_$iv$iv$iv2 = 1;
                 }
-                this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                this_$iv$iv$iv = this_$iv$iv$iv3;
                 untilType$iv2 = 0;
                 if (count$iv$iv == 1) {
                 } else {
                 }
                 count$iv$iv3 = properties2;
                 delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I$iv;
-                type$iv3 = type$iv;
-                constructor-impl = i8;
-                node2 = node$iv$iv$iv;
+                $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                $i$f$getFocusTargetOLwlOKw = i8;
+                node = node$iv$iv$iv;
                 i3 = 0;
                 count$iv$iv2 = 0;
-                if (kindSet$ui_release5 &= type$iv3 != 0) {
+                if (kindSet$ui_release5 &= $i$f$getFocusPropertiesOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv$iv = 0;
-                if (this_$iv$iv$iv != 0) {
+                this_$iv$iv$iv2 = 0;
+                if (this_$iv$iv$iv2 != 0) {
                 } else {
                 }
-                this_$iv$iv$iv4 = this_$iv$iv$iv3;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
-                type$iv2 = node2;
+                this_$iv$iv$iv = this_$iv$iv$iv3;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
+                type$iv2 = node;
                 untilType$iv = 0;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                this_$iv$iv$iv3 = this_$iv$iv$iv4;
-                type$iv3 = type$iv;
-                constructor-impl = i8;
+                this_$iv$iv$iv3 = this_$iv$iv$iv;
+                $i$f$getFocusPropertiesOLwlOKw = type$iv;
+                $i$f$getFocusTargetOLwlOKw = i8;
                 count$iv$iv++;
-                this_$iv$iv$iv4 = this_$iv$iv$iv3;
+                this_$iv$iv$iv = this_$iv$iv$iv3;
                 if (count$iv$iv == 1) {
                 } else {
                 }
-                if (i4 == 0) {
+                if (i == 0) {
                 } else {
                 }
                 count$iv$iv2 = count$iv$iv;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
                 untilType$iv = 0;
-                this_$iv$iv$iv3 = i4;
+                this_$iv$iv$iv3 = i;
                 node4 = node$iv$iv3;
                 if (node4 != null && this_$iv$iv$iv3 != 0) {
                 }
                 if (this_$iv$iv$iv3 != 0) {
                 } else {
                 }
-                type$iv2 = node2;
-                i4 = this_$iv$iv$iv3;
+                type$iv2 = node;
+                i = this_$iv$iv$iv3;
                 count$iv$iv = count$iv$iv2;
-                this_$iv$iv$iv3.add(node2);
+                this_$iv$iv$iv3.add(node);
                 if (this_$iv$iv$iv3 != 0) {
                 }
-                node$iv$iv3 = type$iv3;
+                node$iv$iv3 = $i$f$getFocusPropertiesOLwlOKw;
                 this_$iv$iv$iv3.add(node4);
                 count$iv$iv2 = count$iv$iv;
-                i5 = 0;
+                i2 = 0;
                 i7 = i10;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
                 this_$iv$iv$iv3 = new MutableVector(new Modifier.Node[16], 0);
-                node$iv$iv3 = node2;
-                type$iv = type$iv3;
-                i8 = constructor-impl;
-                type$iv2 = node2;
+                node$iv$iv3 = node;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
+                type$iv2 = node;
                 untilType$iv = 0;
-                this_$iv$iv$iv = 1;
+                this_$iv$iv$iv2 = 1;
                 count$iv$iv = 1;
-                i = 0;
+                i5 = 0;
                 $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
                 (FocusPropertiesModifierNode)node$iv$iv3.applyFocusProperties((FocusProperties)properties2);
-                type$iv = type$iv3;
-                i8 = constructor-impl;
-                this_$iv$iv$iv2 = 1;
+                type$iv = $i$f$getFocusPropertiesOLwlOKw;
+                i8 = $i$f$getFocusTargetOLwlOKw;
+                this_$iv$iv$iv4 = 1;
                 untilType$iv2 = 0;
                 this_$iv$iv = 1;
-                i6 = 0;
-                if (kindSet$ui_release2 &= constructor-impl != 0) {
+                i4 = 0;
+                if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv = 0;
@@ -2395,15 +2395,15 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
             }
             properties = count$iv$iv3;
             $this$visitSelfAndAncestors_u2d5BbP62I$iv = delegatableNode;
-            type$iv = type$iv3;
-            i8 = constructor-impl;
+            type$iv = $i$f$getFocusPropertiesOLwlOKw;
+            i8 = $i$f$getFocusTargetOLwlOKw;
             return (FocusProperties)properties;
         }
         androidx.compose.ui.focus.FocusPropertiesImpl properties5 = count$iv$iv3;
         DelegatableNode delegatableNode3 = delegatableNode;
         int properties3 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv;
     }
 
     @Override // androidx.compose.ui.Modifier$Node
@@ -2474,7 +2474,7 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
         int requireTransactionManager;
         int[] exit-dhqQ-8s;
         int i;
-        Throwable iNSTANCE;
+        Throwable $i$a$WithNewTransaction$defaultFocusTargetNode$onDetach$1;
         androidx.compose.ui.focus.FocusStateImpl inactive;
         switch (requireTransactionManager) {
             case 1:
@@ -2490,7 +2490,7 @@ public final class FocusTargetNode extends Modifier.Node implements CompositionL
                 FocusTransactionManager.access$beginTransaction(requireTransactionManager);
                 int i3 = 0;
                 setFocusState(FocusStateImpl.Inactive);
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$WithNewTransaction$defaultFocusTargetNode$onDetach$1 = Unit.INSTANCE;
                 FocusTransactionManager.access$commitTransaction(requireTransactionManager);
                 break;
             default:

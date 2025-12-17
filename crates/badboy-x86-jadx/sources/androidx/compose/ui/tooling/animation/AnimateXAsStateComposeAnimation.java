@@ -53,10 +53,10 @@ public final class AnimateXAsStateComposeAnimation<T, V extends androidx.compose
     }
     static {
         int i2;
-        int i;
+        int i3;
         ComposeAnimationType composeAnimationType;
         boolean it;
-        int i3;
+        int i;
         String name;
         String str;
         AnimateXAsStateComposeAnimation.Companion companion = new AnimateXAsStateComposeAnimation.Companion(0);
@@ -64,10 +64,10 @@ public final class AnimateXAsStateComposeAnimation<T, V extends androidx.compose
         int i4 = 8;
         ComposeAnimationType[] values = ComposeAnimationType.values();
         int i6 = 0;
-        i = i2;
-        while (i < values.length) {
-            i3 = 0;
-            i++;
+        i3 = i2;
+        while (i3 < values.length) {
+            i = 0;
+            i3++;
         }
         AnimateXAsStateComposeAnimation.apiAvailable = i2;
     }

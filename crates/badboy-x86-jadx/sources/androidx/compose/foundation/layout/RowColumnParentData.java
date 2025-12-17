@@ -125,19 +125,19 @@ public final class RowColumnParentData {
     }
 
     public int hashCode() {
-        int i;
-        androidx.compose.foundation.layout.FlowLayoutData flowLayoutData;
         int i2;
+        androidx.compose.foundation.layout.FlowLayoutData flowLayoutData;
+        int i;
         if (this.crossAxisAlignment == null) {
-            i = i2;
+            i2 = i;
         } else {
-            i = this.crossAxisAlignment.hashCode();
+            i2 = this.crossAxisAlignment.hashCode();
         }
         if (this.flowLayoutData == null) {
         } else {
-            i2 = this.flowLayoutData.hashCode();
+            i = this.flowLayoutData.hashCode();
         }
-        return i8 += i2;
+        return i8 += i;
     }
 
     public final void setCrossAxisAlignment(androidx.compose.foundation.layout.CrossAxisAlignment <set-?>) {

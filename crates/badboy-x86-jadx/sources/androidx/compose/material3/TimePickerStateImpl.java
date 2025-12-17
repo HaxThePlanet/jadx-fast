@@ -37,24 +37,24 @@ final class TimePickerStateImpl implements androidx.compose.material3.TimePicker
     }
 
     public TimePickerStateImpl(int initialHour, int initialMinute, boolean is24Hour) {
-        int i4;
-        int i3;
-        int i;
         int i2;
+        int i3;
+        int i4;
+        int i;
         super();
-        i4 = 1;
+        i2 = 1;
         int i8 = 0;
         if (initialHour >= 0 && initialHour < 24) {
-            i = initialHour < 24 ? i4 : i8;
+            i4 = initialHour < 24 ? i2 : i8;
         } else {
         }
-        if (i == 0) {
+        if (i4 == 0) {
         } else {
             if (initialMinute >= 0 && initialMinute < 60) {
-                i2 = initialMinute < 60 ? i4 : i8;
+                i = initialMinute < 60 ? i2 : i8;
             } else {
             }
-            if (i2 == 0) {
+            if (i == 0) {
             } else {
                 this.is24hour = is24Hour;
                 final int i10 = 0;
@@ -62,19 +62,19 @@ final class TimePickerStateImpl implements androidx.compose.material3.TimePicker
                 this.selection$delegate = SnapshotStateKt.mutableStateOf$default(TimePickerSelectionMode.box-impl(TimePickerSelectionMode.Companion.getHour-yecRtBI()), i10, i11, i10);
                 if (initialHour >= 12) {
                 } else {
-                    i4 = i8;
+                    i2 = i8;
                 }
-                this.isAfternoon$delegate = SnapshotStateKt.mutableStateOf$default(Boolean.valueOf(i4), i10, i11, i10);
+                this.isAfternoon$delegate = SnapshotStateKt.mutableStateOf$default(Boolean.valueOf(i2), i10, i11, i10);
                 this.hourState = SnapshotIntStateKt.mutableIntStateOf(initialHour % 12);
                 this.minuteState = SnapshotIntStateKt.mutableIntStateOf(initialMinute);
             }
             int i6 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("initialMinute should be in [0..59] range".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireTimePickerStateImpl$2 = new IllegalArgumentException("initialMinute should be in [0..59] range".toString());
+            throw $i$a$RequireTimePickerStateImpl$2;
         }
         int i5 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("initialHour should in [0..23] range".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireTimePickerStateImpl$1 = new IllegalArgumentException("initialHour should in [0..23] range".toString());
+        throw $i$a$RequireTimePickerStateImpl$1;
     }
 
     @Override // androidx.compose.material3.TimePickerState

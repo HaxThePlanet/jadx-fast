@@ -31,83 +31,83 @@ import kotlinx.coroutines.CoroutineScope;
 public final class PagerKt {
     public static final void HorizontalPager-oI3XNZo(androidx.compose.foundation.pager.PagerState state, Modifier modifier, PaddingValues contentPadding, androidx.compose.foundation.pager.PageSize pageSize, int beyondViewportPageCount, float pageSpacing, Alignment.Vertical verticalAlignment, TargetedFlingBehavior flingBehavior, boolean userScrollEnabled, boolean reverseLayout, Function1<? super Integer, ? extends Object> key, NestedScrollConnection pageNestedScrollConnection, SnapPosition snapPosition, Function4<? super androidx.compose.foundation.pager.PagerScope, ? super Integer, ? super Composer, ? super Integer, Unit> pageContent, Composer $composer, int $changed, int $changed1, int i18) {
         int $dirty;
-        Object obj11;
+        Object obj13;
         int $dirty14;
-        Object $dirty15;
-        Object flingBehavior3;
+        Object $dirty16;
+        Object flingBehavior2;
         Object endRestartGroup;
-        Object obj12;
+        Object obj;
         int traceInProgress2;
         int $this$dp$iv;
-        Object $dirty1;
-        int i7;
+        Object $dirty13;
+        int i9;
         boolean z;
         boolean z2;
-        Object obj7;
-        int i24;
+        Object obj8;
+        int i12;
         int userScrollEnabled2;
         Object userScrollEnabled3;
         Object contentPadding3;
-        int i11;
-        int i8;
+        int i15;
+        int i20;
         int reverseLayout3;
         Object reverseLayout2;
         Object obj4;
-        int key3;
         int key2;
-        Object obj;
-        Object obj6;
+        int key3;
+        Object obj10;
+        Object obj2;
         Object pageNestedScrollConnection4;
         Object pageNestedScrollConnection2;
-        int flingBehavior2;
-        int $composer2;
-        float $composer3;
-        int i19;
+        int flingBehavior3;
+        int $composer3;
+        float $composer2;
+        int i2;
         Object beyondViewportPageCount2;
         float f;
         Object pageSpacing2;
-        Object obj13;
+        Object obj5;
         int pageSize2;
         NestedScrollConnection connection;
         int pageNestedScrollConnection3;
-        int obj8;
-        Object obj2;
-        int i3;
-        Object obj5;
-        Object obj10;
+        int obj3;
+        Object obj12;
+        int i;
+        Object obj6;
+        Object obj7;
         Object modifier2;
         Object verticalAlignment2;
-        int i21;
-        Object obj3;
+        int i6;
+        Object obj11;
         Object contentPadding2;
         Object obj9;
         boolean traceInProgress;
-        int changedInstance;
-        int $dirty13;
-        Composer $dirty16;
-        int i2;
-        Object i12;
-        int i17;
-        Composer composer;
-        float i22;
-        int i4;
-        int $dirty12;
-        int i5;
-        int i20;
-        int changed;
-        int i9;
-        int i25;
-        int i6;
-        int i13;
-        int i14;
-        int changed2;
-        int i15;
-        int i16;
-        int i;
-        int i10;
-        int i23;
-        int $dirty2;
         int changedInstance2;
+        int $dirty12;
+        Composer $dirty1;
+        int i19;
+        Object i23;
+        int i5;
+        Composer composer;
+        float i10;
+        int i24;
+        int $dirty15;
+        int i7;
+        int i13;
+        int changed2;
+        int i3;
+        int i17;
+        int i22;
+        int i21;
+        int i4;
+        int changed;
+        int i14;
+        int i25;
+        int i8;
+        int i11;
+        int i16;
+        int $dirty2;
+        int changedInstance;
         ScopeUpdateScope scopeUpdateScope;
         Object obj36;
         int obj37;
@@ -122,20 +122,20 @@ public final class PagerKt {
             $dirty |= 6;
         } else {
             if (i64 & 6 == 0) {
-                i11 = restartGroup.changed(state) ? 4 : 2;
-                $dirty |= i11;
+                i15 = restartGroup.changed(state) ? 4 : 2;
+                $dirty |= i15;
             }
         }
-        i8 = i66 & 2;
-        if (i8 != 0) {
+        i20 = i66 & 2;
+        if (i20 != 0) {
             $dirty |= 48;
-            obj10 = modifier;
+            obj7 = modifier;
         } else {
             if (i64 & 48 == 0) {
-                i21 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i21;
+                i6 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i6;
             } else {
-                obj10 = modifier;
+                obj7 = modifier;
             }
         }
         contentPadding2 = i66 & 4;
@@ -144,35 +144,35 @@ public final class PagerKt {
             obj4 = contentPadding;
         } else {
             if (i64 & 384 == 0) {
-                i2 = restartGroup.changed(contentPadding) ? 256 : changedInstance;
-                $dirty |= i2;
+                i19 = restartGroup.changed(contentPadding) ? 256 : changedInstance2;
+                $dirty |= i19;
             } else {
                 obj4 = contentPadding;
             }
         }
-        i12 = i66 & 8;
-        i22 = 2048;
-        if (i12 != 0) {
+        i23 = i66 & 8;
+        i10 = 2048;
+        if (i23 != 0) {
             $dirty |= 3072;
-            obj6 = pageSize;
+            obj2 = pageSize;
         } else {
             if (i64 & 3072 == 0) {
-                i20 = restartGroup.changed(pageSize) ? i22 : i17;
-                $dirty |= i20;
+                i13 = restartGroup.changed(pageSize) ? i10 : i5;
+                $dirty |= i13;
             } else {
-                obj6 = pageSize;
+                obj2 = pageSize;
             }
         }
         int i98 = i66 & 16;
         if (i98 != 0) {
             $dirty |= 24576;
-            i19 = beyondViewportPageCount;
+            i2 = beyondViewportPageCount;
         } else {
             if (i64 & 24576 == 0) {
-                i9 = restartGroup.changed(beyondViewportPageCount) ? 16384 : 8192;
-                $dirty |= i9;
+                i3 = restartGroup.changed(beyondViewportPageCount) ? 16384 : 8192;
+                $dirty |= i3;
             } else {
-                i19 = beyondViewportPageCount;
+                i2 = beyondViewportPageCount;
             }
         }
         int i99 = i66 & 32;
@@ -182,49 +182,49 @@ public final class PagerKt {
             f = pageSpacing;
         } else {
             if (i64 & i100 == 0) {
-                i6 = restartGroup.changed(pageSpacing) ? 131072 : 65536;
-                $dirty |= i6;
+                i22 = restartGroup.changed(pageSpacing) ? 131072 : 65536;
+                $dirty |= i22;
             } else {
                 f = pageSpacing;
             }
         }
         int i101 = i66 & 64;
-        i13 = 1572864;
+        i21 = 1572864;
         if (i101 != 0) {
-            $dirty |= i13;
+            $dirty |= i21;
             obj9 = verticalAlignment;
         } else {
-            if (i64 & i13 == 0) {
-                i14 = restartGroup.changed(verticalAlignment) ? 1048576 : 524288;
-                $dirty |= i14;
+            if (i64 & i21 == 0) {
+                i4 = restartGroup.changed(verticalAlignment) ? 1048576 : 524288;
+                $dirty |= i4;
             } else {
                 obj9 = verticalAlignment;
             }
         }
         if (i64 & i102 == 0) {
             if (i66 & 128 == 0) {
-                changed2 = restartGroup.changed(flingBehavior) ? 8388608 : 4194304;
+                changed = restartGroup.changed(flingBehavior) ? 8388608 : 4194304;
             } else {
-                obj2 = flingBehavior;
+                obj12 = flingBehavior;
             }
-            $dirty |= changed2;
+            $dirty |= changed;
         } else {
-            obj2 = flingBehavior;
+            obj12 = flingBehavior;
         }
         int i104 = i54;
         int $dirty110 = i66 & 256;
         int i105 = 100663296;
         if ($dirty110 != 0) {
             $dirty |= i105;
-            i16 = $dirty110;
+            i25 = $dirty110;
             z = userScrollEnabled;
         } else {
             if (i64 & i105 == 0) {
-                i16 = $dirty110;
-                i = restartGroup.changed(userScrollEnabled) ? 67108864 : 33554432;
-                $dirty |= i;
+                i25 = $dirty110;
+                i8 = restartGroup.changed(userScrollEnabled) ? 67108864 : 33554432;
+                $dirty |= i8;
             } else {
-                i16 = $dirty110;
+                i25 = $dirty110;
                 z = userScrollEnabled;
             }
         }
@@ -232,197 +232,197 @@ public final class PagerKt {
         int i107 = 805306368;
         if (i55 != 0) {
             $dirty2 = $dirty;
-            i10 = i55;
+            i11 = i55;
             z2 = reverseLayout;
         } else {
             if (i64 & i107 == 0) {
-                i10 = i55;
-                i23 = restartGroup.changed(reverseLayout) ? 536870912 : 268435456;
-                $dirty |= i23;
+                i11 = i55;
+                i16 = restartGroup.changed(reverseLayout) ? 536870912 : 268435456;
+                $dirty |= i16;
             } else {
-                i10 = i55;
+                i11 = i55;
                 z2 = reverseLayout;
             }
             $dirty2 = $dirty;
         }
         int $dirty3 = i66 & 1024;
         if ($dirty3 != 0) {
-            $dirty12 = i104 | 6;
-            obj7 = key;
+            $dirty15 = i104 | 6;
+            obj8 = key;
         } else {
         }
         if (i65 & 48 == 0) {
-            i15 = $dirty3;
+            i14 = $dirty3;
             if (i66 & 2048 == 0) {
-                changed = restartGroup.changedInstance(pageNestedScrollConnection) ? 32 : 16;
+                changed2 = restartGroup.changedInstance(pageNestedScrollConnection) ? 32 : 16;
             } else {
-                obj11 = pageNestedScrollConnection;
+                obj13 = pageNestedScrollConnection;
             }
-            $dirty12 |= changed;
+            $dirty15 |= changed2;
         } else {
-            i15 = $dirty3;
-            obj11 = pageNestedScrollConnection;
+            i14 = $dirty3;
+            obj13 = pageNestedScrollConnection;
         }
-        int i26 = $dirty12;
+        int i26 = $dirty15;
         int i56 = i66 & 4096;
         if (i56 != 0) {
             i26 |= 384;
         } else {
-            $dirty12 = i26;
+            $dirty15 = i26;
             if (i65 & 384 == 0) {
                 if (restartGroup.changed(snapPosition)) {
-                    changedInstance = 256;
+                    changedInstance2 = 256;
                 }
-                $dirty14 = changedInstance;
+                $dirty14 = changedInstance2;
             } else {
                 Object obj16 = snapPosition;
-                $dirty14 = $dirty12;
+                $dirty14 = $dirty15;
             }
         }
         if (i66 & 8192 != 0) {
             $dirty14 |= 3072;
-            obj12 = pageContent;
+            obj = pageContent;
         } else {
             if (i65 & 3072 == 0) {
                 if (restartGroup.changedInstance(pageContent)) {
-                    i17 = i22;
+                    i5 = i10;
                 }
-                $dirty14 |= i17;
+                $dirty14 |= i5;
             } else {
-                obj12 = pageContent;
+                obj = pageContent;
             }
         }
-        $dirty16 = i56;
+        $dirty1 = i56;
         if ($dirty2 & i70 == 306783378 && $dirty14 & 1171 == 1170) {
             if ($dirty14 & 1171 == 1170) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
                     if (i64 & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
-                            if (i8 != 0) {
-                                obj10 = $this$dp$iv;
+                            if (i20 != 0) {
+                                obj7 = $this$dp$iv;
                             }
                             if (contentPadding2 != 0) {
-                                i24 = 0;
-                                obj3 = $this$dp$iv;
+                                i12 = 0;
+                                obj11 = $this$dp$iv;
                             } else {
-                                obj3 = obj4;
+                                obj11 = obj4;
                             }
-                            if (i12 != 0) {
-                                i12 = $this$dp$iv;
+                            if (i23 != 0) {
+                                i23 = $this$dp$iv;
                             } else {
-                                i12 = obj6;
+                                i23 = obj2;
                             }
-                            i17 = i98 != 0 ? $this$dp$iv : i19;
+                            i5 = i98 != 0 ? $this$dp$iv : i2;
                             if (i99 != 0) {
-                                i24 = 0;
-                                i22 = $this$dp$iv;
+                                i12 = 0;
+                                i10 = $this$dp$iv;
                             } else {
-                                i22 = f;
+                                i10 = f;
                             }
                             if (i101 != 0) {
                                 obj9 = $this$dp$iv;
                             }
                             if (i66 & 128 != 0) {
-                                $dirty12 = $dirty16;
-                                $dirty13 = i49;
-                                $dirty15 = PagerDefaults.INSTANCE.flingBehavior(state, 0, 0, 0, 0, restartGroup, i57 | i100, 30);
-                                $dirty2 &= i24;
+                                $dirty15 = $dirty1;
+                                $dirty12 = i49;
+                                $dirty16 = PagerDefaults.INSTANCE.flingBehavior(state, 0, 0, 0, 0, restartGroup, i57 | i100, 30);
+                                $dirty2 &= i12;
                             } else {
-                                $dirty1 = state;
-                                $dirty12 = $dirty16;
-                                $dirty13 = $dirty14;
-                                $dirty15 = obj2;
+                                $dirty13 = state;
+                                $dirty15 = $dirty1;
+                                $dirty12 = $dirty14;
+                                $dirty16 = obj12;
                             }
-                            userScrollEnabled2 = i16 != 0 ? 1 : userScrollEnabled;
-                            reverseLayout3 = i10 != 0 ? 0 : reverseLayout;
-                            key3 = i15 != 0 ? 0 : key;
+                            userScrollEnabled2 = i25 != 0 ? 1 : userScrollEnabled;
+                            reverseLayout3 = i11 != 0 ? 0 : reverseLayout;
+                            key2 = i14 != 0 ? 0 : key;
                             if (i66 & 2048 != 0) {
-                                pageNestedScrollConnection4 = PagerDefaults.INSTANCE.pageNestedScrollConnection($dirty1, Orientation.Horizontal, restartGroup, i63 |= 432);
-                                $dirty13 = i19;
+                                pageNestedScrollConnection4 = PagerDefaults.INSTANCE.pageNestedScrollConnection($dirty13, Orientation.Horizontal, restartGroup, i63 |= 432);
+                                $dirty12 = i2;
                             } else {
                                 pageNestedScrollConnection4 = pageNestedScrollConnection;
                             }
-                            if ($dirty12 != 0) {
-                                obj8 = key3;
+                            if ($dirty15 != 0) {
+                                obj3 = key2;
                                 connection = pageNestedScrollConnection4;
-                                key2 = $dirty13;
-                                obj13 = i12;
-                                f = i22;
-                                i3 = $dirty2;
-                                pageNestedScrollConnection2 = $dirty15;
-                                $dirty16 = restartGroup;
-                                flingBehavior3 = obj10;
+                                key3 = $dirty12;
+                                obj5 = i23;
+                                f = i10;
+                                i = $dirty2;
+                                pageNestedScrollConnection2 = $dirty16;
+                                $dirty1 = restartGroup;
+                                flingBehavior2 = obj7;
                                 modifier2 = obj9;
-                                $composer2 = userScrollEnabled2;
-                                userScrollEnabled3 = obj3;
+                                $composer3 = userScrollEnabled2;
+                                userScrollEnabled3 = obj11;
                                 contentPadding2 = iNSTANCE2;
-                                i19 = i17;
+                                i2 = i5;
                             } else {
-                                obj8 = key3;
+                                obj3 = key2;
                                 connection = pageNestedScrollConnection4;
-                                key2 = $dirty13;
-                                obj13 = i12;
-                                i19 = i17;
-                                f = i22;
-                                i3 = $dirty2;
-                                pageNestedScrollConnection2 = $dirty15;
-                                $dirty16 = restartGroup;
-                                flingBehavior3 = obj10;
+                                key3 = $dirty12;
+                                obj5 = i23;
+                                i2 = i5;
+                                f = i10;
+                                i = $dirty2;
+                                pageNestedScrollConnection2 = $dirty16;
+                                $dirty1 = restartGroup;
+                                flingBehavior2 = obj7;
                                 modifier2 = obj9;
-                                $composer2 = userScrollEnabled2;
-                                userScrollEnabled3 = obj3;
+                                $composer3 = userScrollEnabled2;
+                                userScrollEnabled3 = obj11;
                                 contentPadding2 = snapPosition;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
                             if (i66 & 128 != 0) {
-                                $dirty2 &= i7;
+                                $dirty2 &= i9;
                             }
                             if (i66 & 2048 != 0) {
                                 $dirty14 &= -113;
                             }
-                            $dirty1 = state;
+                            $dirty13 = state;
                             reverseLayout3 = reverseLayout;
-                            obj8 = key;
+                            obj3 = key;
                             connection = pageNestedScrollConnection;
                             contentPadding2 = snapPosition;
                             userScrollEnabled3 = obj4;
-                            obj13 = obj6;
-                            $dirty16 = restartGroup;
-                            pageNestedScrollConnection2 = obj2;
-                            i3 = $dirty2;
-                            $composer2 = userScrollEnabled;
-                            key2 = $dirty14;
-                            flingBehavior3 = obj10;
+                            obj5 = obj2;
+                            $dirty1 = restartGroup;
+                            pageNestedScrollConnection2 = obj12;
+                            i = $dirty2;
+                            $composer3 = userScrollEnabled;
+                            key3 = $dirty14;
+                            flingBehavior2 = obj7;
                             modifier2 = obj9;
                         }
                     } else {
                     }
-                    $dirty16.endDefaults();
+                    $dirty1.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        obj36 = flingBehavior3;
-                        ComposerKt.traceEventStart(1870896258, i3, key2, "androidx.compose.foundation.pager.HorizontalPager (Pager.kt:124)");
+                        obj36 = flingBehavior2;
+                        ComposerKt.traceEventStart(1870896258, i, key3, "androidx.compose.foundation.pager.HorizontalPager (Pager.kt:124)");
                     } else {
-                        obj36 = flingBehavior3;
+                        obj36 = flingBehavior2;
                     }
                     obj37 = modifier3;
                     $dirty14 = obj36;
-                    i5 = obj37;
-                    $dirty2 = i3;
-                    LazyLayoutPagerKt.Pager-uYRUAWA($dirty14, $dirty1, userScrollEnabled3, reverseLayout3, Orientation.Horizontal, pageNestedScrollConnection2, $composer2, i19, f, obj13, connection, obj8, Alignment.Companion.getCenterHorizontally(), modifier2, contentPadding2, pageContent, $dirty16, i37 | i83, i45 | i94, 0);
-                    composer = $dirty16;
+                    i7 = obj37;
+                    $dirty2 = i;
+                    LazyLayoutPagerKt.Pager-uYRUAWA($dirty14, $dirty13, userScrollEnabled3, reverseLayout3, Orientation.Horizontal, pageNestedScrollConnection2, $composer3, i2, f, obj5, connection, obj3, Alignment.Companion.getCenterHorizontally(), modifier2, contentPadding2, pageContent, $dirty1, i37 | i83, i45 | i94, 0);
+                    composer = $dirty1;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    obj = obj13;
-                    obj5 = connection;
+                    obj10 = obj5;
+                    obj6 = connection;
                     pageNestedScrollConnection3 = reverseLayout3;
-                    pageSize2 = $composer2;
-                    $composer3 = f;
+                    pageSize2 = $composer3;
+                    $composer2 = f;
                     reverseLayout2 = userScrollEnabled3;
                     pageSpacing2 = pageNestedScrollConnection2;
-                    flingBehavior2 = i19;
+                    flingBehavior3 = i2;
                     beyondViewportPageCount2 = modifier2;
                     verticalAlignment2 = contentPadding2;
                     contentPadding3 = $dirty14;
@@ -430,17 +430,17 @@ public final class PagerKt {
                     restartGroup.skipToGroupEnd();
                     pageSize2 = userScrollEnabled;
                     pageNestedScrollConnection3 = reverseLayout;
-                    obj8 = key;
-                    i5 = $dirty14;
+                    obj3 = key;
+                    i7 = $dirty14;
                     reverseLayout2 = obj4;
-                    obj = obj6;
+                    obj10 = obj2;
                     composer = restartGroup;
-                    flingBehavior2 = i19;
-                    $composer3 = f;
-                    pageSpacing2 = obj2;
-                    contentPadding3 = obj10;
+                    flingBehavior3 = i2;
+                    $composer2 = f;
+                    pageSpacing2 = obj12;
+                    contentPadding3 = obj7;
                     beyondViewportPageCount2 = obj9;
-                    obj5 = pageNestedScrollConnection;
+                    obj6 = pageNestedScrollConnection;
                     verticalAlignment2 = snapPosition;
                 }
             } else {
@@ -449,89 +449,89 @@ public final class PagerKt {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new PagerKt.HorizontalPager.1(state, contentPadding3, reverseLayout2, obj, flingBehavior2, $composer3, beyondViewportPageCount2, pageSpacing2, pageSize2, pageNestedScrollConnection3, obj8, obj5, verticalAlignment2, pageContent, $changed, $changed1, i18);
+            endRestartGroup = new PagerKt.HorizontalPager.1(state, contentPadding3, reverseLayout2, obj10, flingBehavior3, $composer2, beyondViewportPageCount2, pageSpacing2, pageSize2, pageNestedScrollConnection3, obj3, obj6, verticalAlignment2, pageContent, $changed, $changed1, i18);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
 
     public static final void VerticalPager-oI3XNZo(androidx.compose.foundation.pager.PagerState state, Modifier modifier, PaddingValues contentPadding, androidx.compose.foundation.pager.PageSize pageSize, int beyondViewportPageCount, float pageSpacing, Alignment.Horizontal horizontalAlignment, TargetedFlingBehavior flingBehavior, boolean userScrollEnabled, boolean reverseLayout, Function1<? super Integer, ? extends Object> key, NestedScrollConnection pageNestedScrollConnection, SnapPosition snapPosition, Function4<? super androidx.compose.foundation.pager.PagerScope, ? super Integer, ? super Composer, ? super Integer, Unit> pageContent, Composer $composer, int $changed, int $changed1, int i18) {
-        int $dirty2;
-        Object obj9;
+        int $dirty;
+        Object obj12;
         int $dirty16;
-        Object $dirty1;
-        Object flingBehavior3;
+        Object $dirty14;
+        Object flingBehavior2;
         Object endRestartGroup;
-        Object obj;
+        Object obj10;
         int traceInProgress;
         int $this$dp$iv;
-        Object $dirty13;
-        int i13;
-        boolean z2;
+        Object $dirty15;
+        int i21;
         boolean z;
-        Object obj3;
-        int i7;
-        int userScrollEnabled2;
-        Object userScrollEnabled3;
-        Object contentPadding3;
-        int i3;
-        int i23;
-        int reverseLayout3;
-        Object reverseLayout2;
+        boolean z2;
         Object obj14;
+        int i7;
+        int userScrollEnabled3;
+        Object userScrollEnabled2;
+        Object contentPadding3;
+        int i23;
+        int i19;
+        int reverseLayout2;
+        Object reverseLayout3;
+        Object obj2;
         int key2;
         int key3;
-        Object obj7;
-        Object obj13;
+        Object obj5;
+        Object obj11;
         Object pageNestedScrollConnection2;
-        Object pageNestedScrollConnection4;
-        int flingBehavior2;
-        int $composer3;
-        float $composer2;
-        int i19;
+        Object pageNestedScrollConnection3;
+        int flingBehavior3;
+        int $composer2;
+        float $composer3;
+        int i8;
         Object beyondViewportPageCount2;
         float f;
         Object pageSpacing2;
-        Object obj12;
+        Object obj6;
         int pageSize2;
         NestedScrollConnection connection;
-        int pageNestedScrollConnection3;
-        int obj10;
-        Object obj8;
-        Object obj4;
+        int pageNestedScrollConnection4;
+        int obj;
+        Object obj7;
+        Object obj9;
         Object horizontalAlignment2;
-        Object obj6;
+        Object obj13;
         int modifier2;
-        Object obj2;
-        int i9;
-        Object obj5;
+        Object obj3;
+        int i2;
+        Object obj4;
         Object contentPadding2;
-        Object obj11;
+        Object obj8;
         boolean traceInProgress2;
         int changedInstance;
-        int $dirty14;
-        Composer $dirty12;
-        int i16;
-        Object i;
-        int i8;
-        Composer composer;
-        float i10;
-        int i21;
-        int $dirty15;
-        int i24;
-        int i2;
-        int changed2;
+        int $dirty1;
+        Composer $dirty13;
         int i6;
-        int i17;
-        int i12;
+        Object i15;
+        int i20;
+        Composer composer;
+        float i16;
+        int i10;
+        int $dirty12;
+        int i;
+        int i3;
+        int changed2;
+        int i13;
+        int i14;
         int i4;
-        int i11;
+        int i9;
+        int i17;
         int changed;
+        int i24;
+        int i11;
         int i5;
         int i22;
-        int i14;
-        int i15;
-        int i20;
-        int $dirty;
+        int i12;
+        int $dirty2;
         int changedInstance2;
         ScopeUpdateScope scopeUpdateScope;
         Object obj36;
@@ -542,158 +542,158 @@ public final class PagerKt {
         int i65 = i18;
         Composer restartGroup = $composer.startRestartGroup(909160706);
         ComposerKt.sourceInformation(restartGroup, "C(VerticalPager)P(12,5,1,8!1,9:c#ui.unit.Dp,3!1,13,10!1,7,11)201@11541L28,205@11757L77,212@11957L659:Pager.kt#g6yjnt");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i65 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if (i63 & 6 == 0) {
-                i3 = restartGroup.changed(state) ? 4 : 2;
-                $dirty2 |= i3;
+                i23 = restartGroup.changed(state) ? 4 : 2;
+                $dirty |= i23;
             }
         }
-        i23 = i65 & 2;
-        if (i23 != 0) {
-            $dirty2 |= 48;
-            obj6 = modifier;
+        i19 = i65 & 2;
+        if (i19 != 0) {
+            $dirty |= 48;
+            obj13 = modifier;
         } else {
             if (i63 & 48 == 0) {
-                i9 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i9;
+                i2 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i2;
             } else {
-                obj6 = modifier;
+                obj13 = modifier;
             }
         }
         contentPadding2 = i65 & 4;
         if (contentPadding2 != 0) {
-            $dirty2 |= 384;
-            obj14 = contentPadding;
+            $dirty |= 384;
+            obj2 = contentPadding;
         } else {
             if (i63 & 384 == 0) {
-                i16 = restartGroup.changed(contentPadding) ? 256 : changedInstance;
-                $dirty2 |= i16;
+                i6 = restartGroup.changed(contentPadding) ? 256 : changedInstance;
+                $dirty |= i6;
             } else {
-                obj14 = contentPadding;
+                obj2 = contentPadding;
             }
         }
-        i = i65 & 8;
-        i10 = 2048;
-        if (i != 0) {
-            $dirty2 |= 3072;
-            obj13 = pageSize;
+        i15 = i65 & 8;
+        i16 = 2048;
+        if (i15 != 0) {
+            $dirty |= 3072;
+            obj11 = pageSize;
         } else {
             if (i63 & 3072 == 0) {
-                i2 = restartGroup.changed(pageSize) ? i10 : i8;
-                $dirty2 |= i2;
+                i3 = restartGroup.changed(pageSize) ? i16 : i20;
+                $dirty |= i3;
             } else {
-                obj13 = pageSize;
+                obj11 = pageSize;
             }
         }
         int i97 = i65 & 16;
         if (i97 != 0) {
-            $dirty2 |= 24576;
-            i19 = beyondViewportPageCount;
+            $dirty |= 24576;
+            i8 = beyondViewportPageCount;
         } else {
             if (i63 & 24576 == 0) {
-                i6 = restartGroup.changed(beyondViewportPageCount) ? 16384 : 8192;
-                $dirty2 |= i6;
+                i13 = restartGroup.changed(beyondViewportPageCount) ? 16384 : 8192;
+                $dirty |= i13;
             } else {
-                i19 = beyondViewportPageCount;
+                i8 = beyondViewportPageCount;
             }
         }
         int i98 = i65 & 32;
         final int i99 = 196608;
         if (i98 != 0) {
-            $dirty2 |= i99;
+            $dirty |= i99;
             f = pageSpacing;
         } else {
             if (i63 & i99 == 0) {
-                i12 = restartGroup.changed(pageSpacing) ? 131072 : 65536;
-                $dirty2 |= i12;
+                i4 = restartGroup.changed(pageSpacing) ? 131072 : 65536;
+                $dirty |= i4;
             } else {
                 f = pageSpacing;
             }
         }
         int i100 = i65 & 64;
-        i4 = 1572864;
+        i9 = 1572864;
         if (i100 != 0) {
-            $dirty2 |= i4;
-            obj11 = horizontalAlignment;
+            $dirty |= i9;
+            obj8 = horizontalAlignment;
         } else {
-            if (i63 & i4 == 0) {
-                i11 = restartGroup.changed(horizontalAlignment) ? 1048576 : 524288;
-                $dirty2 |= i11;
+            if (i63 & i9 == 0) {
+                i17 = restartGroup.changed(horizontalAlignment) ? 1048576 : 524288;
+                $dirty |= i17;
             } else {
-                obj11 = horizontalAlignment;
+                obj8 = horizontalAlignment;
             }
         }
         if (i63 & i101 == 0) {
             if (i65 & 128 == 0) {
                 changed = restartGroup.changed(flingBehavior) ? 8388608 : 4194304;
             } else {
-                obj8 = flingBehavior;
+                obj7 = flingBehavior;
             }
-            $dirty2 |= changed;
+            $dirty |= changed;
         } else {
-            obj8 = flingBehavior;
+            obj7 = flingBehavior;
         }
         int i103 = i53;
         int $dirty110 = i65 & 256;
         int i104 = 100663296;
         if ($dirty110 != 0) {
-            $dirty2 |= i104;
-            i22 = $dirty110;
-            z2 = userScrollEnabled;
+            $dirty |= i104;
+            i11 = $dirty110;
+            z = userScrollEnabled;
         } else {
             if (i63 & i104 == 0) {
-                i22 = $dirty110;
-                i14 = restartGroup.changed(userScrollEnabled) ? 67108864 : 33554432;
-                $dirty2 |= i14;
+                i11 = $dirty110;
+                i5 = restartGroup.changed(userScrollEnabled) ? 67108864 : 33554432;
+                $dirty |= i5;
             } else {
-                i22 = $dirty110;
-                z2 = userScrollEnabled;
+                i11 = $dirty110;
+                z = userScrollEnabled;
             }
         }
         int i54 = i65 & 512;
         int i106 = 805306368;
         if (i54 != 0) {
-            $dirty = $dirty2;
-            i15 = i54;
-            z = reverseLayout;
+            $dirty2 = $dirty;
+            i22 = i54;
+            z2 = reverseLayout;
         } else {
             if (i63 & i106 == 0) {
-                i15 = i54;
-                i20 = restartGroup.changed(reverseLayout) ? 536870912 : 268435456;
-                $dirty2 |= i20;
+                i22 = i54;
+                i12 = restartGroup.changed(reverseLayout) ? 536870912 : 268435456;
+                $dirty |= i12;
             } else {
-                i15 = i54;
-                z = reverseLayout;
+                i22 = i54;
+                z2 = reverseLayout;
             }
-            $dirty = $dirty2;
+            $dirty2 = $dirty;
         }
         int $dirty3 = i65 & 1024;
         if ($dirty3 != 0) {
-            $dirty15 = i103 | 6;
-            obj3 = key;
+            $dirty12 = i103 | 6;
+            obj14 = key;
         } else {
         }
         if (i64 & 48 == 0) {
-            i5 = $dirty3;
+            i24 = $dirty3;
             if (i65 & 2048 == 0) {
                 changed2 = restartGroup.changedInstance(pageNestedScrollConnection) ? 32 : 16;
             } else {
-                obj9 = pageNestedScrollConnection;
+                obj12 = pageNestedScrollConnection;
             }
-            $dirty15 |= changed2;
+            $dirty12 |= changed2;
         } else {
-            i5 = $dirty3;
-            obj9 = pageNestedScrollConnection;
+            i24 = $dirty3;
+            obj12 = pageNestedScrollConnection;
         }
-        int i25 = $dirty15;
+        int i25 = $dirty12;
         int i55 = i65 & 4096;
         if (i55 != 0) {
             i25 |= 384;
         } else {
-            $dirty15 = i25;
+            $dirty12 = i25;
             if (i64 & 384 == 0) {
                 if (restartGroup.changed(snapPosition)) {
                     changedInstance = 256;
@@ -701,172 +701,172 @@ public final class PagerKt {
                 $dirty16 = changedInstance;
             } else {
                 Object obj17 = snapPosition;
-                $dirty16 = $dirty15;
+                $dirty16 = $dirty12;
             }
         }
         if (i65 & 8192 != 0) {
             $dirty16 |= 3072;
-            obj = pageContent;
+            obj10 = pageContent;
         } else {
             if (i64 & 3072 == 0) {
                 if (restartGroup.changedInstance(pageContent)) {
-                    i8 = i10;
+                    i20 = i16;
                 }
-                $dirty16 |= i8;
+                $dirty16 |= i20;
             } else {
-                obj = pageContent;
+                obj10 = pageContent;
             }
         }
-        $dirty12 = i55;
-        if ($dirty & i69 == 306783378 && $dirty16 & 1171 == 1170) {
+        $dirty13 = i55;
+        if ($dirty2 & i69 == 306783378 && $dirty16 & 1171 == 1170) {
             if ($dirty16 & 1171 == 1170) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
                     if (i63 & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
-                            if (i23 != 0) {
-                                obj6 = $this$dp$iv;
+                            if (i19 != 0) {
+                                obj13 = $this$dp$iv;
                             }
                             if (contentPadding2 != 0) {
                                 i7 = 0;
-                                obj5 = $this$dp$iv;
+                                obj4 = $this$dp$iv;
                             } else {
-                                obj5 = obj14;
+                                obj4 = obj2;
                             }
-                            if (i != 0) {
-                                i = $this$dp$iv;
+                            if (i15 != 0) {
+                                i15 = $this$dp$iv;
                             } else {
-                                i = obj13;
+                                i15 = obj11;
                             }
-                            i8 = i97 != 0 ? $this$dp$iv : i19;
+                            i20 = i97 != 0 ? $this$dp$iv : i8;
                             if (i98 != 0) {
                                 i7 = 0;
-                                i10 = $this$dp$iv;
+                                i16 = $this$dp$iv;
                             } else {
-                                i10 = f;
+                                i16 = f;
                             }
                             if (i100 != 0) {
-                                obj11 = $this$dp$iv;
+                                obj8 = $this$dp$iv;
                             }
                             if (i65 & 128 != 0) {
-                                $dirty15 = $dirty12;
-                                $dirty14 = i48;
-                                $dirty1 = PagerDefaults.INSTANCE.flingBehavior(state, 0, 0, 0, 0, restartGroup, i56 | i99, 30);
-                                $dirty &= i7;
+                                $dirty12 = $dirty13;
+                                $dirty1 = i48;
+                                $dirty14 = PagerDefaults.INSTANCE.flingBehavior(state, 0, 0, 0, 0, restartGroup, i56 | i99, 30);
+                                $dirty2 &= i7;
                             } else {
-                                $dirty13 = state;
-                                $dirty15 = $dirty12;
-                                $dirty14 = $dirty16;
-                                $dirty1 = obj8;
+                                $dirty15 = state;
+                                $dirty12 = $dirty13;
+                                $dirty1 = $dirty16;
+                                $dirty14 = obj7;
                             }
-                            userScrollEnabled2 = i22 != 0 ? 1 : userScrollEnabled;
-                            reverseLayout3 = i15 != 0 ? 0 : reverseLayout;
-                            key2 = i5 != 0 ? 0 : key;
+                            userScrollEnabled3 = i11 != 0 ? 1 : userScrollEnabled;
+                            reverseLayout2 = i22 != 0 ? 0 : reverseLayout;
+                            key2 = i24 != 0 ? 0 : key;
                             if (i65 & 2048 != 0) {
-                                pageNestedScrollConnection2 = PagerDefaults.INSTANCE.pageNestedScrollConnection($dirty13, Orientation.Vertical, restartGroup, i62 |= 432);
-                                $dirty14 = i19;
+                                pageNestedScrollConnection2 = PagerDefaults.INSTANCE.pageNestedScrollConnection($dirty15, Orientation.Vertical, restartGroup, i62 |= 432);
+                                $dirty1 = i8;
                             } else {
                                 pageNestedScrollConnection2 = pageNestedScrollConnection;
                             }
-                            if ($dirty15 != 0) {
-                                obj10 = key2;
+                            if ($dirty12 != 0) {
+                                obj = key2;
                                 connection = pageNestedScrollConnection2;
-                                obj4 = obj11;
-                                key3 = $dirty14;
-                                obj12 = i;
-                                f = i10;
-                                pageNestedScrollConnection4 = $dirty1;
-                                $dirty12 = restartGroup;
-                                flingBehavior3 = obj6;
-                                modifier2 = $dirty;
-                                $composer3 = userScrollEnabled2;
-                                userScrollEnabled3 = obj5;
+                                obj9 = obj8;
+                                key3 = $dirty1;
+                                obj6 = i15;
+                                f = i16;
+                                pageNestedScrollConnection3 = $dirty14;
+                                $dirty13 = restartGroup;
+                                flingBehavior2 = obj13;
+                                modifier2 = $dirty2;
+                                $composer2 = userScrollEnabled3;
+                                userScrollEnabled2 = obj4;
                                 contentPadding2 = iNSTANCE2;
-                                i19 = i8;
+                                i8 = i20;
                             } else {
-                                obj10 = key2;
+                                obj = key2;
                                 connection = pageNestedScrollConnection2;
-                                obj4 = obj11;
-                                key3 = $dirty14;
-                                obj12 = i;
-                                i19 = i8;
-                                f = i10;
-                                pageNestedScrollConnection4 = $dirty1;
-                                $dirty12 = restartGroup;
-                                flingBehavior3 = obj6;
-                                modifier2 = $dirty;
-                                $composer3 = userScrollEnabled2;
-                                userScrollEnabled3 = obj5;
+                                obj9 = obj8;
+                                key3 = $dirty1;
+                                obj6 = i15;
+                                i8 = i20;
+                                f = i16;
+                                pageNestedScrollConnection3 = $dirty14;
+                                $dirty13 = restartGroup;
+                                flingBehavior2 = obj13;
+                                modifier2 = $dirty2;
+                                $composer2 = userScrollEnabled3;
+                                userScrollEnabled2 = obj4;
                                 contentPadding2 = snapPosition;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
                             if (i65 & 128 != 0) {
-                                $dirty &= i13;
+                                $dirty2 &= i21;
                             }
                             if (i65 & 2048 != 0) {
                                 $dirty16 &= -113;
                             }
-                            $dirty13 = state;
-                            reverseLayout3 = reverseLayout;
-                            obj10 = key;
+                            $dirty15 = state;
+                            reverseLayout2 = reverseLayout;
+                            obj = key;
                             connection = pageNestedScrollConnection;
                             contentPadding2 = snapPosition;
-                            userScrollEnabled3 = obj14;
-                            obj12 = obj13;
-                            $dirty12 = restartGroup;
-                            pageNestedScrollConnection4 = obj8;
-                            obj4 = obj11;
-                            $composer3 = userScrollEnabled;
+                            userScrollEnabled2 = obj2;
+                            obj6 = obj11;
+                            $dirty13 = restartGroup;
+                            pageNestedScrollConnection3 = obj7;
+                            obj9 = obj8;
+                            $composer2 = userScrollEnabled;
                             key3 = $dirty16;
-                            flingBehavior3 = obj6;
-                            modifier2 = $dirty;
+                            flingBehavior2 = obj13;
+                            modifier2 = $dirty2;
                         }
                     } else {
                     }
-                    $dirty12.endDefaults();
+                    $dirty13.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        obj36 = flingBehavior3;
+                        obj36 = flingBehavior2;
                         ComposerKt.traceEventStart(909160706, modifier2, key3, "androidx.compose.foundation.pager.VerticalPager (Pager.kt:211)");
                     } else {
-                        obj36 = flingBehavior3;
+                        obj36 = flingBehavior2;
                     }
                     obj37 = modifier3;
                     $dirty16 = obj36;
-                    i24 = obj37;
-                    $dirty = modifier2;
-                    LazyLayoutPagerKt.Pager-uYRUAWA($dirty16, $dirty13, userScrollEnabled3, reverseLayout3, Orientation.Vertical, pageNestedScrollConnection4, $composer3, i19, f, obj12, connection, obj10, obj4, Alignment.Companion.getCenterVertically(), contentPadding2, pageContent, $dirty12, i36 | i82, i44 | i93, 0);
-                    composer = $dirty12;
+                    i = obj37;
+                    $dirty2 = modifier2;
+                    LazyLayoutPagerKt.Pager-uYRUAWA($dirty16, $dirty15, userScrollEnabled2, reverseLayout2, Orientation.Vertical, pageNestedScrollConnection3, $composer2, i8, f, obj6, connection, obj, obj9, Alignment.Companion.getCenterVertically(), contentPadding2, pageContent, $dirty13, i36 | i82, i44 | i93, 0);
+                    composer = $dirty13;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    obj7 = obj12;
-                    obj2 = contentPadding2;
-                    pageSize2 = $composer3;
-                    $composer2 = f;
-                    pageSpacing2 = pageNestedScrollConnection4;
-                    flingBehavior2 = i19;
-                    beyondViewportPageCount2 = obj4;
+                    obj5 = obj6;
+                    obj3 = contentPadding2;
+                    pageSize2 = $composer2;
+                    $composer3 = f;
+                    pageSpacing2 = pageNestedScrollConnection3;
+                    flingBehavior3 = i8;
+                    beyondViewportPageCount2 = obj9;
                     horizontalAlignment2 = connection;
-                    pageNestedScrollConnection3 = reverseLayout3;
-                    reverseLayout2 = userScrollEnabled3;
+                    pageNestedScrollConnection4 = reverseLayout2;
+                    reverseLayout3 = userScrollEnabled2;
                     contentPadding3 = $dirty16;
                 } else {
                     restartGroup.skipToGroupEnd();
                     pageSize2 = userScrollEnabled;
-                    pageNestedScrollConnection3 = reverseLayout;
-                    obj10 = key;
-                    i24 = $dirty16;
-                    reverseLayout2 = obj14;
-                    obj7 = obj13;
+                    pageNestedScrollConnection4 = reverseLayout;
+                    obj = key;
+                    i = $dirty16;
+                    reverseLayout3 = obj2;
+                    obj5 = obj11;
                     composer = restartGroup;
-                    flingBehavior2 = i19;
-                    $composer2 = f;
-                    pageSpacing2 = obj8;
-                    contentPadding3 = obj6;
-                    beyondViewportPageCount2 = obj11;
+                    flingBehavior3 = i8;
+                    $composer3 = f;
+                    pageSpacing2 = obj7;
+                    contentPadding3 = obj13;
+                    beyondViewportPageCount2 = obj8;
                     horizontalAlignment2 = pageNestedScrollConnection;
-                    obj2 = snapPosition;
+                    obj3 = snapPosition;
                 }
             } else {
             }
@@ -874,7 +874,7 @@ public final class PagerKt {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new PagerKt.VerticalPager.1(state, contentPadding3, reverseLayout2, obj7, flingBehavior2, $composer2, beyondViewportPageCount2, pageSpacing2, pageSize2, pageNestedScrollConnection3, obj10, horizontalAlignment2, obj2, pageContent, $changed, $changed1, i18);
+            endRestartGroup = new PagerKt.VerticalPager.1(state, contentPadding3, reverseLayout3, obj5, flingBehavior3, $composer3, beyondViewportPageCount2, pageSpacing2, pageSize2, pageNestedScrollConnection4, obj, horizontalAlignment2, obj3, pageContent, $changed, $changed1, i18);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
@@ -899,8 +899,8 @@ public final class PagerKt {
     public static final Modifier pagerSemantics(Modifier $this$pagerSemantics, androidx.compose.foundation.pager.PagerState state, boolean isVertical, CoroutineScope scope, boolean userScrollEnabled) {
         Modifier then;
         androidx.compose.foundation.pager.PagerKt.pagerSemantics.1 anon;
-        int i;
         int i2;
+        int i;
         int i3;
         if (userScrollEnabled) {
             anon = new PagerKt.pagerSemantics.1(isVertical, state, scope);
@@ -915,10 +915,10 @@ public final class PagerKt {
         androidx.compose.foundation.pager.PagerKt.pagerSemantics.performBackwardPaging.1 canScrollBackward;
         int i4;
         CoroutineScope $scope2;
-        int i2;
+        int i3;
         int i;
         androidx.compose.foundation.pager.PagerKt.pagerSemantics.performBackwardPaging.1 anon;
-        int i3;
+        int i2;
         int i5;
         int obj9;
         if ($state.getCanScrollBackward()) {
@@ -936,11 +936,11 @@ public final class PagerKt {
         androidx.compose.foundation.pager.PagerKt.pagerSemantics.performForwardPaging.1 canScrollForward;
         int i;
         CoroutineScope $scope2;
-        int i4;
-        int i2;
-        androidx.compose.foundation.pager.PagerKt.pagerSemantics.performForwardPaging.1 anon;
         int i5;
         int i3;
+        androidx.compose.foundation.pager.PagerKt.pagerSemantics.performForwardPaging.1 anon;
+        int i2;
+        int i4;
         int obj9;
         if ($state.getCanScrollForward()) {
             canScrollForward = new PagerKt.pagerSemantics.performForwardPaging.1($state, 0);

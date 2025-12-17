@@ -25,17 +25,17 @@ public final class ShapesKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal11;
-            int ordinal5;
+            int ordinal8;
+            int ordinal;
             int ordinal4;
-            int ordinal10;
-            int ordinal7;
             int ordinal9;
             int ordinal2;
-            int ordinal8;
+            int ordinal7;
+            int ordinal11;
             int ordinal6;
-            int ordinal;
+            int ordinal10;
             int ordinal3;
+            int ordinal5;
             int[] iArr = new int[values.length];
             iArr[ShapeKeyTokens.CornerExtraLarge.ordinal()] = 1;
             iArr[ShapeKeyTokens.CornerExtraLargeTop.ordinal()] = 2;

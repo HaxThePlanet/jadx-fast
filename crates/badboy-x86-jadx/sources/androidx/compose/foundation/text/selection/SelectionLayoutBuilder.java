@@ -103,15 +103,15 @@ public final class SelectionLayoutBuilder {
     }
 
     public final androidx.compose.foundation.text.selection.SelectionLayout build() {
-        int startSlot2;
-        int endSlot;
         int startSlot;
+        int endSlot;
+        int startSlot2;
         Object singleSelectionLayout;
-        boolean isStartHandle2;
+        boolean isStartHandle;
         int infoList;
         int i;
         int previousSelection;
-        Object isStartHandle;
+        Object isStartHandle2;
         androidx.compose.foundation.text.selection.Selection previousSelection2;
         currentSlot++;
         int i3 = -1;
@@ -121,14 +121,14 @@ public final class SelectionLayoutBuilder {
                 throw illegalStateException;
             case 1:
                 infoList = i2;
-                infoList = startSlot2;
+                infoList = startSlot;
                 i = i2;
                 i = endSlot;
                 singleSelectionLayout = new SingleSelectionLayout(this.isStartHandle, infoList, i, this.previousSelection, (SelectableInfo)CollectionsKt.single(this.infoList));
                 break;
             default:
                 i = i2;
-                i = startSlot;
+                i = startSlot2;
                 previousSelection = i2;
                 previousSelection = endSlot;
                 singleSelectionLayout = new MultiSelectionLayout((LongIntMap)this.selectableIdToInfoListIndex, this.infoList, i, previousSelection, this.isStartHandle, this.previousSelection);

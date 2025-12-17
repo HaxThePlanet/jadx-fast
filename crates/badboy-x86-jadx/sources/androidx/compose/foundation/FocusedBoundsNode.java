@@ -47,18 +47,18 @@ public final class FocusedBoundsNode extends Modifier.Node implements Traversabl
     }
 
     private final void notifyObserverWhenAttached() {
-        LayoutCoordinates layoutCoordinates2;
         LayoutCoordinates layoutCoordinates;
+        LayoutCoordinates layoutCoordinates2;
         LayoutCoordinates layoutCoordinates3 = this.layoutCoordinates;
         Intrinsics.checkNotNull(layoutCoordinates3);
-        layoutCoordinates2 = getObserver();
-        if (this.layoutCoordinates != null && layoutCoordinates3.isAttached() && layoutCoordinates2 != null) {
+        layoutCoordinates = getObserver();
+        if (this.layoutCoordinates != null && layoutCoordinates3.isAttached() && layoutCoordinates != null) {
             layoutCoordinates3 = this.layoutCoordinates;
             Intrinsics.checkNotNull(layoutCoordinates3);
             if (layoutCoordinates3.isAttached()) {
-                layoutCoordinates2 = getObserver();
-                if (layoutCoordinates2 != null) {
-                    layoutCoordinates2.onFocusBoundsChanged(this.layoutCoordinates);
+                layoutCoordinates = getObserver();
+                if (layoutCoordinates != null) {
+                    layoutCoordinates.onFocusBoundsChanged(this.layoutCoordinates);
                 }
             }
         }

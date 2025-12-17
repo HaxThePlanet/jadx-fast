@@ -29,8 +29,8 @@ public final class Xyz extends androidx.compose.ui.graphics.colorspace.ColorSpac
 
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public float[] fromXyz(float[] v) {
-        int $this$fastCoerceAtMost$iv$iv$iv3;
         int $this$fastCoerceAtMost$iv$iv$iv2;
+        int $this$fastCoerceAtMost$iv$iv$iv3;
         int $this$fastCoerceAtMost$iv$iv$iv;
         int i = 0;
         Object obj = this;
@@ -39,14 +39,14 @@ public final class Xyz extends androidx.compose.ui.graphics.colorspace.ColorSpac
         int i13 = 1073741824;
         int i19 = 0;
         int i22 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv3, i10) < 0) {
-            $this$fastCoerceAtMost$iv$iv$iv3 = i10;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv2, i10) < 0) {
+            $this$fastCoerceAtMost$iv$iv$iv2 = i10;
         }
         int i23 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv3, i13) > 0) {
-            $this$fastCoerceAtMost$iv$iv$iv3 = i13;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv2, i13) > 0) {
+            $this$fastCoerceAtMost$iv$iv$iv2 = i13;
         }
-        v[i] = $this$fastCoerceAtMost$iv$iv$iv3;
+        v[i] = $this$fastCoerceAtMost$iv$iv$iv2;
         int i2 = 1;
         Object obj2 = this;
         int i8 = 0;
@@ -54,14 +54,14 @@ public final class Xyz extends androidx.compose.ui.graphics.colorspace.ColorSpac
         int i14 = 1073741824;
         int i20 = 0;
         int i24 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv2, i11) < 0) {
-            $this$fastCoerceAtMost$iv$iv$iv2 = i11;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv3, i11) < 0) {
+            $this$fastCoerceAtMost$iv$iv$iv3 = i11;
         }
         int i25 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv2, i14) > 0) {
-            $this$fastCoerceAtMost$iv$iv$iv2 = i14;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv3, i14) > 0) {
+            $this$fastCoerceAtMost$iv$iv$iv3 = i14;
         }
-        v[i2] = $this$fastCoerceAtMost$iv$iv$iv2;
+        v[i2] = $this$fastCoerceAtMost$iv$iv$iv3;
         int i3 = 2;
         Object obj3 = this;
         int i9 = 0;
@@ -97,20 +97,20 @@ public final class Xyz extends androidx.compose.ui.graphics.colorspace.ColorSpac
 
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public long toXy$ui_graphics_release(float v0, float v1, float v2) {
-        int $this$fastCoerceAtMost$iv$iv$iv;
         int $this$fastCoerceAtMost$iv$iv$iv2;
+        int $this$fastCoerceAtMost$iv$iv$iv;
         Object obj = this;
         int i2 = 0;
         int i4 = -1073741824;
         int i6 = 1073741824;
         int i10 = 0;
         int i13 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv, i4) < 0) {
-            $this$fastCoerceAtMost$iv$iv$iv = i4;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv2, i4) < 0) {
+            $this$fastCoerceAtMost$iv$iv$iv2 = i4;
         }
         int i14 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv, i6) > 0) {
-            $this$fastCoerceAtMost$iv$iv$iv = i6;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv2, i6) > 0) {
+            $this$fastCoerceAtMost$iv$iv$iv2 = i6;
         }
         Object this_$iv = this;
         int i3 = 0;
@@ -118,12 +118,12 @@ public final class Xyz extends androidx.compose.ui.graphics.colorspace.ColorSpac
         int i7 = 1073741824;
         int i11 = 0;
         int i15 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv2, i5) < 0) {
-            $this$fastCoerceAtMost$iv$iv$iv2 = i5;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv, i5) < 0) {
+            $this$fastCoerceAtMost$iv$iv$iv = i5;
         }
         int i16 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv2, i7) > 0) {
-            $this$fastCoerceAtMost$iv$iv$iv2 = i7;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv, i7) > 0) {
+            $this$fastCoerceAtMost$iv$iv$iv = i7;
         }
         int i = 0;
         return i17 | i18;
@@ -131,9 +131,9 @@ public final class Xyz extends androidx.compose.ui.graphics.colorspace.ColorSpac
 
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public float[] toXyz(float[] v) {
-        int $this$fastCoerceAtMost$iv$iv$iv3;
-        int $this$fastCoerceAtMost$iv$iv$iv2;
         int $this$fastCoerceAtMost$iv$iv$iv;
+        int $this$fastCoerceAtMost$iv$iv$iv2;
+        int $this$fastCoerceAtMost$iv$iv$iv3;
         int i = 0;
         Object obj = this;
         int i7 = 0;
@@ -141,14 +141,14 @@ public final class Xyz extends androidx.compose.ui.graphics.colorspace.ColorSpac
         int i13 = 1073741824;
         int i19 = 0;
         int i22 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv3, i10) < 0) {
-            $this$fastCoerceAtMost$iv$iv$iv3 = i10;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv, i10) < 0) {
+            $this$fastCoerceAtMost$iv$iv$iv = i10;
         }
         int i23 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv3, i13) > 0) {
-            $this$fastCoerceAtMost$iv$iv$iv3 = i13;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv, i13) > 0) {
+            $this$fastCoerceAtMost$iv$iv$iv = i13;
         }
-        v[i] = $this$fastCoerceAtMost$iv$iv$iv3;
+        v[i] = $this$fastCoerceAtMost$iv$iv$iv;
         int i2 = 1;
         Object obj2 = this;
         int i8 = 0;
@@ -171,14 +171,14 @@ public final class Xyz extends androidx.compose.ui.graphics.colorspace.ColorSpac
         int i15 = 1073741824;
         int i21 = 0;
         int i26 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv, i12) < 0) {
-            $this$fastCoerceAtMost$iv$iv$iv = i12;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv3, i12) < 0) {
+            $this$fastCoerceAtMost$iv$iv$iv3 = i12;
         }
         int i27 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv, i15) > 0) {
-            $this$fastCoerceAtMost$iv$iv$iv = i15;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv$iv3, i15) > 0) {
+            $this$fastCoerceAtMost$iv$iv$iv3 = i15;
         }
-        v[i3] = $this$fastCoerceAtMost$iv$iv$iv;
+        v[i3] = $this$fastCoerceAtMost$iv$iv$iv3;
         return v;
     }
 

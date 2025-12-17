@@ -99,15 +99,15 @@ public class Connector {
         private final float[] computeTransform-YBCOT_4(androidx.compose.ui.graphics.colorspace.Rgb source, androidx.compose.ui.graphics.colorspace.Rgb destination, int intent) {
             float[] transform;
             float[] inverseTransform;
-            boolean chromaticAdaptation2;
             boolean chromaticAdaptation;
+            boolean chromaticAdaptation2;
             boolean equals-impl0;
             String str;
             float[] transform$ui_graphics_release;
             androidx.compose.ui.graphics.colorspace.WhitePoint copyOf;
             int length;
-            int i;
             int i2;
+            int i;
             float[] fArr;
             if (ColorSpaceKt.compare(source.getWhitePoint(), destination.getWhitePoint())) {
                 return ColorSpaceKt.mul3x3(destination.getInverseTransform$ui_graphics_release(), source.getTransform$ui_graphics_release());
@@ -132,11 +132,11 @@ public class Connector {
             if (RenderIntent.equals-impl0(intent, RenderIntent.Companion.getAbsolute-uksYyKA())) {
                 equals-impl0 = 0;
                 copyOf = 1;
-                i = 2;
+                i2 = 2;
                 fArr = new float[3];
                 fArr[equals-impl0] = f /= f2;
                 fArr[copyOf] = f3 /= f4;
-                fArr[i] = f5 /= f6;
+                fArr[i2] = f5 /= f6;
                 transform = ColorSpaceKt.mul3x3Diag(fArr, transform);
             }
             return ColorSpaceKt.mul3x3(inverseTransform, transform);
@@ -184,21 +184,21 @@ public class Connector {
     private Connector(androidx.compose.ui.graphics.colorspace.ColorSpace source, androidx.compose.ui.graphics.colorspace.ColorSpace destination, int intent) {
         androidx.compose.ui.graphics.colorspace.ColorSpace adapt$default;
         boolean adapt$default2;
-        androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace2;
         androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace;
+        androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace2;
         final int i = 2;
         int i2 = 0;
         if (ColorModel.equals-impl0(source.getModel-xdoWZVw(), obj1)) {
-            colorSpace2 = adapt$default;
+            colorSpace = adapt$default;
         } else {
-            colorSpace2 = source;
+            colorSpace = source;
         }
         if (ColorModel.equals-impl0(destination.getModel-xdoWZVw(), obj4)) {
-            colorSpace = adapt$default2;
+            colorSpace2 = adapt$default2;
         } else {
-            colorSpace = destination;
+            colorSpace2 = destination;
         }
-        super(source, destination, colorSpace2, colorSpace, intent, Connector.Companion.access$computeTransform-YBCOT_4(Connector.Companion, source, destination, intent), 0);
+        super(source, destination, colorSpace, colorSpace2, intent, Connector.Companion.access$computeTransform-YBCOT_4(Connector.Companion, source, destination, intent), 0);
     }
 
     public Connector(androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace, androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace2, int i3, DefaultConstructorMarker defaultConstructorMarker4) {
@@ -256,32 +256,32 @@ public class Connector {
         int z;
         int bits$iv$iv;
         int y;
-        int i;
         int i2;
+        int i;
         int i3 = 0;
-        float red-impl = Color.getRed-impl(color);
+        float $i$f$component1Impl = Color.getRed-impl(color);
         int i4 = 0;
-        float green-impl = Color.getGreen-impl(color);
+        float $i$f$component2Impl = Color.getGreen-impl(color);
         int i5 = 0;
-        float blue-impl = Color.getBlue-impl(color);
+        float $i$f$component3Impl = Color.getBlue-impl(color);
         int i6 = 0;
-        final long xy$ui_graphics_release = this.transformSource.toXy$ui_graphics_release(red-impl, green-impl, blue-impl);
+        final long xy$ui_graphics_release = this.transformSource.toXy$ui_graphics_release($i$f$component1Impl, $i$f$component2Impl, $i$f$component3Impl);
         int i7 = 0;
         int i12 = 0;
         bits$iv$iv = Float.intBitsToFloat((int)i10);
         int i8 = 0;
         int i15 = 0;
         float bits$iv$iv2 = Float.intBitsToFloat((int)i13);
-        z = this.transformSource.toZ$ui_graphics_release(red-impl, green-impl, blue-impl);
+        z = this.transformSource.toZ$ui_graphics_release($i$f$component1Impl, $i$f$component2Impl, $i$f$component3Impl);
         if (this.transform != null) {
-            i2 = z;
-            i = y2;
+            i = z;
+            i2 = y2;
             y = bits$iv$iv;
         } else {
-            i2 = z;
-            i = bits$iv$iv2;
+            i = z;
+            i2 = bits$iv$iv2;
             y = bits$iv$iv;
         }
-        return this.transformDestination.xyzaToColor-JlNiLsg$ui_graphics_release(y, i, i2, Color.getAlpha-impl(color), this.destination);
+        return this.transformDestination.xyzaToColor-JlNiLsg$ui_graphics_release(y, i2, i, Color.getAlpha-impl(color), this.destination);
     }
 }

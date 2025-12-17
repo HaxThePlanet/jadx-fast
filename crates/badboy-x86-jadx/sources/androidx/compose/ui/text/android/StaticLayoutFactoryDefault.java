@@ -74,32 +74,32 @@ final class StaticLayoutFactoryDefault implements androidx.compose.ui.text.andro
     @Override // androidx.compose.ui.text.android.StaticLayoutFactoryImpl
     public StaticLayout create(androidx.compose.ui.text.android.StaticLayoutParams params) {
         Object instance;
-        int i2;
-        Constructor constructor;
         int i;
+        Constructor constructor;
+        int i2;
         java.lang.CharSequence text;
-        Integer valueOf7;
         Integer valueOf8;
+        Integer valueOf6;
         android.text.TextPaint paint;
-        Integer valueOf4;
+        Integer valueOf3;
         android.text.Layout.Alignment alignment;
         android.text.TextDirectionHeuristic textDir;
-        Float valueOf3;
-        Float valueOf;
+        Float valueOf7;
+        Float valueOf4;
         Boolean valueOf2;
         android.text.TextUtils.TruncateAt ellipsize;
+        Integer valueOf;
         Integer valueOf5;
-        Integer valueOf6;
         final String str = "unable to call constructor";
         final String str2 = "StaticLayoutFactory";
         instance = StaticLayoutFactoryDefault.Companion.access$getStaticLayoutConstructor(StaticLayoutFactoryDefault.Companion);
-        i2 = 0;
+        i = 0;
         if (instance != null) {
-            i = 0;
-            i2 = instance;
+            i2 = 0;
+            i = instance;
         }
-        if (i2 != 0) {
-            return i2;
+        if (i != 0) {
+            return i;
         }
         StaticLayout staticLayout = new StaticLayout(params.getText(), params.getStart(), params.getEnd(), params.getPaint(), params.getWidth(), params.getAlignment(), params.getLineSpacingMultiplier(), params.getLineSpacingExtra(), params.getIncludePadding(), params.getEllipsize(), params.getEllipsizedWidth());
         return staticLayout;

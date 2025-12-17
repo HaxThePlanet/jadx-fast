@@ -31,7 +31,7 @@ public final class PersistentVector<E>  extends androidx.compose.runtime.externa
     public PersistentVector(Object[] root, Object[] tail, int size, int rootShift) {
         int i;
         int i2;
-        String string;
+        String $i$a$RequirePreconditionPersistentVector$1;
         StringBuilder append;
         int size2;
         super();
@@ -267,13 +267,13 @@ public final class PersistentVector<E>  extends androidx.compose.runtime.externa
     }
 
     private final PersistentList<E> removeFromTailAt(Object[] root, int rootSize, int shift, int index) {
-        int i2;
-        int tail;
         int i;
+        int tail;
+        int i2;
         size -= rootSize;
         int i4 = 1;
-        i2 = index < i3 ? i4 : 0;
-        CommonFunctionsKt.assert(i2);
+        i = index < i3 ? i4 : 0;
+        CommonFunctionsKt.assert(i);
         if (i3 == i4) {
             return pullLastBufferFromRoot(root, rootSize, shift);
         }

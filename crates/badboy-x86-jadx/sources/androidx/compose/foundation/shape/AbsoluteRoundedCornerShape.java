@@ -39,28 +39,28 @@ public final class AbsoluteRoundedCornerShape extends androidx.compose.foundatio
 
     @Override // androidx.compose.foundation.shape.CornerBasedShape
     public Outline createOutline-LjSzlW0(long size, float topStart, float topEnd, float bottomEnd, float bottomStart, LayoutDirection layoutDirection) {
-        int i;
+        int i2;
         Outline rectangle;
         Object rect-uvyYCjk;
         androidx.compose.ui.geometry.Rect rect-uvyYCjk2;
-        long l3;
-        int i2;
-        long l;
         long l4;
+        int i;
+        long l3;
         long l2;
+        long l;
         long l5;
         final int i3 = topEnd;
         final int i4 = bottomEnd;
         final int i5 = bottomStart;
         final int i6 = layoutDirection;
         int i10 = 0;
-        i = Float.compare(i9, i10) == 0 ? 1 : 0;
-        if (i != 0) {
+        i2 = Float.compare(i9, i10) == 0 ? 1 : 0;
+        if (i2 != 0) {
             rectangle = new Outline.Rectangle(SizeKt.toRect-uvyYCjk(size));
         } else {
             int i11 = 2;
-            i2 = 0;
-            rectangle = new Outline.Rounded(RoundRectKt.RoundRect-ZAM2FJo(SizeKt.toRect-uvyYCjk(size), CornerRadiusKt.CornerRadius$default(i3, i10, i11, i2), i2, CornerRadiusKt.CornerRadius$default(i4, i10, i11, i2), obj10));
+            i = 0;
+            rectangle = new Outline.Rounded(RoundRectKt.RoundRect-ZAM2FJo(SizeKt.toRect-uvyYCjk(size), CornerRadiusKt.CornerRadius$default(i3, i10, i11, i), i, CornerRadiusKt.CornerRadius$default(i4, i10, i11, i), obj10));
         }
         return rectangle;
     }

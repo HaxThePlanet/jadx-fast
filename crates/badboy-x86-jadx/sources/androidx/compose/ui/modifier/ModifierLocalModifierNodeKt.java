@@ -76,8 +76,8 @@ public final class ModifierLocalModifierNodeKt {
         int i;
         int index$iv$iv;
         int size;
-        Object obj;
         Object obj2;
+        Object obj;
         int i2;
         ArrayList list;
         Pair it;

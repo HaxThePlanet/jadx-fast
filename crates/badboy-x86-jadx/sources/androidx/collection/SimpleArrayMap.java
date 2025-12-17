@@ -86,10 +86,10 @@ public class SimpleArrayMap<K, V>  {
 
     private final int indexOfNull() {
         int end;
-        int i;
         int i4;
         int i2;
         int i3;
+        int i;
         final int size = this.size;
         if (size == 0) {
             return -1;
@@ -105,9 +105,9 @@ public class SimpleArrayMap<K, V>  {
         while (end < size) {
             end++;
         }
-        i4 = binarySearch + -1;
-        while (i4 >= 0) {
-            i4--;
+        i2 = binarySearch + -1;
+        while (i2 >= 0) {
+            i2--;
         }
         return ~end;
     }
@@ -182,8 +182,8 @@ public class SimpleArrayMap<K, V>  {
         int i3;
         int i2;
         Object keyAt;
-        Object valueAt;
         Object valueAt2;
+        Object valueAt;
         Object equal;
         boolean equal2;
         i = 1;
@@ -199,24 +199,24 @@ public class SimpleArrayMap<K, V>  {
             i2 = 0;
             try {
                 while (i2 < this.size) {
-                    valueAt = keyAt(i2);
-                    valueAt2 = valueAt(i2);
-                    equal = (SimpleArrayMap)obj.get(valueAt);
+                    valueAt2 = keyAt(i2);
+                    valueAt = valueAt(i2);
+                    equal = (SimpleArrayMap)obj.get(valueAt2);
                     i2++;
                 }
-                valueAt = keyAt(i2);
-                valueAt2 = valueAt(i2);
-                equal = obj.get(valueAt);
-                if (valueAt2 == null) {
+                valueAt2 = keyAt(i2);
+                valueAt = valueAt(i2);
+                equal = obj.get(valueAt2);
+                if (valueAt == null) {
                 } else {
                 }
                 if (equal == null) {
                 }
-                if (!obj.containsKey(valueAt)) {
+                if (!obj.containsKey(valueAt2)) {
                 } else {
                 }
                 return i4;
-                if (!Intrinsics.areEqual(valueAt2, equal)) {
+                if (!Intrinsics.areEqual(valueAt, equal)) {
                 } else {
                 }
                 return i4;
@@ -230,23 +230,23 @@ public class SimpleArrayMap<K, V>  {
                 i3 = 0;
                 while (i3 < this.size) {
                     keyAt = keyAt(i3);
-                    valueAt = valueAt(i3);
-                    valueAt2 = (Map)other.get(keyAt);
+                    valueAt2 = valueAt(i3);
+                    valueAt = (Map)other.get(keyAt);
                     i3++;
                 }
                 keyAt = keyAt(i3);
-                valueAt = valueAt(i3);
-                valueAt2 = (Map)other.get(keyAt);
-                if (valueAt == null) {
+                valueAt2 = valueAt(i3);
+                valueAt = (Map)other.get(keyAt);
+                if (valueAt2 == null) {
                 } else {
                 }
-                if (valueAt2 == null) {
+                if (valueAt == null) {
                 }
                 if (!(Map)other.containsKey(keyAt)) {
                 } else {
                 }
                 return i4;
-                if (!Intrinsics.areEqual(valueAt, valueAt2)) {
+                if (!Intrinsics.areEqual(valueAt2, valueAt)) {
                 } else {
                 }
                 return i4;
@@ -287,24 +287,24 @@ public class SimpleArrayMap<K, V>  {
 
     public int hashCode() {
         int result;
-        int i;
+        int i3;
         int v;
         Object obj;
-        int i3;
         int i2;
+        int i;
         result = 0;
-        i = 0;
+        i3 = 0;
         v = 1;
-        while (i < this.size) {
+        while (i3 < this.size) {
             obj = this.array[v];
             if (obj != null) {
             } else {
             }
-            i2 = 0;
-            result += i3;
-            i++;
+            i = 0;
+            result += i2;
+            i3++;
             v += 2;
-            i2 = obj.hashCode();
+            i = obj.hashCode();
         }
         return result;
     }
@@ -345,24 +345,24 @@ public class SimpleArrayMap<K, V>  {
     }
 
     public V put(K key, V value) {
-        int i;
-        int it;
         int i2;
-        int length;
+        int it;
+        int i;
         int length2;
+        int length;
         int array;
         String str;
         int i3;
         int i4;
         final int size = this.size;
         if (key != null) {
-            i = key.hashCode();
+            i2 = key.hashCode();
         } else {
-            i = 0;
+            i2 = 0;
         }
         if (key != null) {
-            i2 = 0;
-            it = indexOf(key, i);
+            i = 0;
+            it = indexOf(key, i2);
         } else {
             it = indexOfNull();
         }
@@ -379,14 +379,14 @@ public class SimpleArrayMap<K, V>  {
                 array = 4;
                 if (size >= array) {
                 } else {
-                    length = array;
+                    length2 = array;
                 }
             }
-            int[] copyOf = Arrays.copyOf(this.hashes, length);
+            int[] copyOf = Arrays.copyOf(this.hashes, length2);
             str = "copyOf(this, newSize)";
             Intrinsics.checkNotNullExpressionValue(copyOf, str);
             this.hashes = copyOf;
-            Object[] copyOf2 = Arrays.copyOf(this.array, length << 1);
+            Object[] copyOf2 = Arrays.copyOf(this.array, length2 << 1);
             Intrinsics.checkNotNullExpressionValue(copyOf2, str);
             this.array = copyOf2;
             if (size != this.size) {
@@ -403,7 +403,7 @@ public class SimpleArrayMap<K, V>  {
         } else {
             if (old >= hashes3.length) {
             } else {
-                this.hashes[old] = i;
+                this.hashes[old] = i2;
                 this.array[old << 1] = key;
                 this.array[i11++] = value;
                 this.size = size2++;
@@ -415,10 +415,10 @@ public class SimpleArrayMap<K, V>  {
     }
 
     public void putAll(androidx.collection.SimpleArrayMap<? extends K, ? extends V> map) {
-        int i;
+        int i2;
         Object keyAt;
         Object valueAt;
-        int i2;
+        int i;
         Intrinsics.checkNotNullParameter(map, "map");
         int size = map.size;
         ensureCapacity(size2 += size);
@@ -430,10 +430,10 @@ public class SimpleArrayMap<K, V>  {
                 this.size = size;
             }
         } else {
-            i = 0;
-            while (i < size) {
-                put(map.keyAt(i), map.valueAt(i));
-                i++;
+            i2 = 0;
+            while (i2 < size) {
+                put(map.keyAt(i2), map.valueAt(i2));
+                i2++;
             }
         }
     }
@@ -472,45 +472,45 @@ public class SimpleArrayMap<K, V>  {
 
     public V removeAt(int index) {
         int array;
-        int i;
-        int size;
-        int i3;
         int i2;
+        int size;
+        int i4;
+        int i;
         int hashes;
         int length;
-        int i4;
+        int i3;
         int array3;
         int array2;
         String str;
         int i5;
         array = 0;
-        i = 1;
+        i2 = 1;
         if (index >= 0 && index < this.size) {
-            i3 = index < this.size ? i : array;
+            i4 = index < this.size ? i2 : array;
         } else {
         }
-        if (i3 == 0) {
+        if (i4 == 0) {
         } else {
             int size2 = this.size;
-            if (size2 <= i) {
+            if (size2 <= i2) {
                 clear();
-                return this.array[i7 += i];
+                return this.array[i7 += i2];
             } else {
-                i2 = size2 + -1;
-                i4 = 8;
-                if (hashes4.length > i4 && size2 < length2 /= 3) {
+                i = size2 + -1;
+                i3 = 8;
+                if (hashes4.length > i3 && size2 < length2 /= 3) {
                     if (size2 < length2 /= 3) {
-                        if (size2 > i4) {
-                            i4 = size2 + length;
+                        if (size2 > i3) {
+                            i3 = size2 + length;
                         } else {
                         }
                         hashes = this.hashes;
                         array3 = this.array;
-                        int[] copyOf = Arrays.copyOf(this.hashes, i4);
+                        int[] copyOf = Arrays.copyOf(this.hashes, i3);
                         str = "copyOf(this, newSize)";
                         Intrinsics.checkNotNullExpressionValue(copyOf, str);
                         this.hashes = copyOf;
-                        Object[] copyOf2 = Arrays.copyOf(this.array, i4 << 1);
+                        Object[] copyOf2 = Arrays.copyOf(this.array, i3 << 1);
                         Intrinsics.checkNotNullExpressionValue(copyOf2, str);
                         this.array = copyOf2;
                         if (size2 != this.size) {
@@ -519,26 +519,26 @@ public class SimpleArrayMap<K, V>  {
                                 ArraysKt.copyInto(hashes, this.hashes, array, array, index);
                                 ArraysKt.copyInto(array3, this.array, array, array, index << 1);
                             }
-                            if (index < i2) {
-                                ArraysKt.copyInto(hashes, this.hashes, index, index + 1, i2 + 1);
-                                ArraysKt.copyInto(array3, this.array, index << 1, i17 <<= i, i5 << 1);
+                            if (index < i) {
+                                ArraysKt.copyInto(hashes, this.hashes, index, index + 1, i + 1);
+                                ArraysKt.copyInto(array3, this.array, index << 1, i17 <<= i2, i5 << 1);
                             }
                             if (size2 != this.size) {
                             } else {
-                                this.size = i2;
+                                this.size = i;
                             }
                         }
                         ConcurrentModificationException concurrentModificationException2 = new ConcurrentModificationException();
                         throw concurrentModificationException2;
                     }
                 }
-                if (index < i2) {
-                    ArraysKt.copyInto(this.hashes, this.hashes, index, index + 1, i2 + 1);
-                    ArraysKt.copyInto(this.array, this.array, index << 1, i13 <<= i, i14 <<= i);
+                if (index < i) {
+                    ArraysKt.copyInto(this.hashes, this.hashes, index, index + 1, i + 1);
+                    ArraysKt.copyInto(this.array, this.array, index << 1, i13 <<= i2, i14 <<= i2);
                 }
-                i4 = 0;
-                this.array[i2 << 1] = i4;
-                this.array[i10 += i] = i4;
+                i3 = 0;
+                this.array[i << 1] = i3;
+                this.array[i10 += i2] = i3;
             }
             ConcurrentModificationException concurrentModificationException = new ConcurrentModificationException();
             throw concurrentModificationException;

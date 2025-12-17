@@ -37,22 +37,22 @@ public final class ListItemKt {
         int $dirty2;
         Object modifier2;
         int valueOf;
-        int i10;
-        int i3;
+        int i7;
+        int i5;
         boolean traceInProgress2;
         Object str;
-        int i2;
-        int i8;
+        int i4;
+        int i10;
         int currentCompositeKeyHash;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         Object materializeModifier;
         kotlin.jvm.functions.Function0 constructor;
         Object anon;
-        int i4;
-        int i;
+        int i2;
         int i9;
-        int i5;
-        int i7;
+        int i8;
+        int i3;
+        int i;
         Object measurePolicy$iv;
         Object obj20;
         Composer obj22;
@@ -67,18 +67,18 @@ public final class ListItemKt {
             $dirty |= 6;
         } else {
             if (valueOf & 6 == 0) {
-                i10 = restartGroup.changedInstance(constructor-impl) ? 4 : 2;
-                $dirty |= i10;
+                i7 = restartGroup.changedInstance(constructor-impl) ? 4 : 2;
+                $dirty |= i7;
             }
         }
-        i3 = i6 & 2;
-        if (i3 != 0) {
+        i5 = i6 & 2;
+        if (i5 != 0) {
             $dirty |= 48;
             str = modifier;
         } else {
             if (valueOf & 48 == 0) {
-                i2 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i2;
+                i4 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i4;
             } else {
                 str = modifier;
             }
@@ -87,14 +87,14 @@ public final class ListItemKt {
             $dirty |= 384;
         } else {
             if (valueOf & 384 == 0) {
-                i8 = restartGroup.changedInstance(obj2) ? 256 : 128;
-                $dirty |= i8;
+                i10 = restartGroup.changedInstance(obj2) ? 256 : 128;
+                $dirty |= i10;
             }
         }
         int i19 = $dirty;
         if (i19 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
-                if (i3 != 0) {
+                if (i5 != 0) {
                     modifier2 = Modifier.Companion;
                 } else {
                     modifier2 = str;
@@ -122,7 +122,7 @@ public final class ListItemKt {
                 str = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                i = 0;
+                i9 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -134,12 +134,12 @@ public final class ListItemKt {
                     restartGroup.useNode();
                 }
                 constructor-impl = Updater.constructor-impl(restartGroup);
-                i9 = 0;
+                i8 = 0;
                 Updater.set-impl(constructor-impl, (MeasurePolicy)invalid$iv, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i5 = 0;
+                i3 = 0;
                 obj22 = constructor-impl;
-                i7 = 0;
+                i = 0;
                 if (!obj22.getInserting()) {
                     measurePolicy$iv = invalid$iv;
                     if (!Intrinsics.areEqual(obj22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
@@ -174,180 +174,180 @@ public final class ListItemKt {
     }
 
     public static final void ListItem(Modifier modifier, Function2<? super Composer, ? super Integer, Unit> icon, Function2<? super Composer, ? super Integer, Unit> secondaryText, boolean singleLineSecondaryText, Function2<? super Composer, ? super Integer, Unit> overlineText, Function2<? super Composer, ? super Integer, Unit> trailing, Function2<? super Composer, ? super Integer, Unit> text, Composer $composer, int $changed, int i10) {
-        Object obj2;
+        Object obj;
         int skipping;
         Object modifier2;
-        int $dirty3;
-        Object $dirty2;
-        Object icon3;
+        int $dirty;
+        Object $dirty3;
+        Object icon2;
         Function2 function2;
         Object styledOverlineText2;
         Object obj3;
         Object secondaryText2;
-        int i9;
+        int i4;
         int singleLineSecondaryText2;
-        Object obj;
+        Object obj2;
         Object overlineText2;
-        int i2;
+        int i3;
         int trailing2;
         Object $dirty4;
         boolean traceInProgress;
         Object iNSTANCE;
-        int i8;
-        int semantics;
-        boolean icon2;
-        int $dirty;
         int i6;
-        int textStyle2;
-        Object styledSecondaryText2;
+        int semantics;
+        boolean icon3;
+        int $dirty2;
+        int i9;
+        int textStyle3;
+        Object styledSecondaryText;
         Composer styledOverlineText;
-        int i5;
+        int i8;
         Function2 textStyle;
-        int i7;
-        int i3;
+        int i2;
         int i;
-        Function2 styledSecondaryText;
-        int i4;
+        int i7;
+        Function2 styledSecondaryText2;
+        int i5;
         androidx.compose.material.Typography typography;
-        Function2 textStyle3;
+        Function2 textStyle2;
         final Object obj5 = text;
         final int i21 = $changed;
         styledOverlineText = $composer.startRestartGroup(-450923337);
         ComposerKt.sourceInformation(styledOverlineText, "C(ListItem)P(1!1,3,4!1,6)84@3532L10,86@3615L4,87@3705L6,88@3806L4,89@3899L4:ListItem.kt#jmzs0o");
-        $dirty3 = $changed;
+        $dirty = $changed;
         int i12 = i10 & 1;
         if (i12 != 0) {
-            $dirty3 |= 6;
+            $dirty |= 6;
             obj3 = modifier;
         } else {
             if (i21 & 6 == 0) {
-                i9 = styledOverlineText.changed(modifier) ? 4 : 2;
-                $dirty3 |= i9;
+                i4 = styledOverlineText.changed(modifier) ? 4 : 2;
+                $dirty |= i4;
             } else {
                 obj3 = modifier;
             }
         }
         int i18 = i10 & 2;
         if (i18 != 0) {
-            $dirty3 |= 48;
-            obj = icon;
+            $dirty |= 48;
+            obj2 = icon;
         } else {
             if (i21 & 48 == 0) {
-                i2 = styledOverlineText.changedInstance(icon) ? 32 : 16;
-                $dirty3 |= i2;
+                i3 = styledOverlineText.changedInstance(icon) ? 32 : 16;
+                $dirty |= i3;
             } else {
-                obj = icon;
+                obj2 = icon;
             }
         }
         int i20 = i10 & 4;
         if (i20 != 0) {
-            $dirty3 |= 384;
+            $dirty |= 384;
             $dirty4 = secondaryText;
         } else {
             if (i21 & 384 == 0) {
-                i8 = styledOverlineText.changedInstance(secondaryText) ? 256 : 128;
-                $dirty3 |= i8;
+                i6 = styledOverlineText.changedInstance(secondaryText) ? 256 : 128;
+                $dirty |= i6;
             } else {
                 $dirty4 = secondaryText;
             }
         }
         semantics = i10 & 8;
         if (semantics != 0) {
-            $dirty3 |= 3072;
-            icon2 = singleLineSecondaryText;
+            $dirty |= 3072;
+            icon3 = singleLineSecondaryText;
         } else {
             if (i21 & 3072 == 0) {
-                i6 = styledOverlineText.changed(singleLineSecondaryText) ? 2048 : 1024;
-                $dirty3 |= i6;
+                i9 = styledOverlineText.changed(singleLineSecondaryText) ? 2048 : 1024;
+                $dirty |= i9;
             } else {
-                icon2 = singleLineSecondaryText;
+                icon3 = singleLineSecondaryText;
             }
         }
-        textStyle2 = i10 & 16;
-        if (textStyle2 != 0) {
-            $dirty3 |= 24576;
-            styledSecondaryText2 = overlineText;
+        textStyle3 = i10 & 16;
+        if (textStyle3 != 0) {
+            $dirty |= 24576;
+            styledSecondaryText = overlineText;
         } else {
             if (i21 & 24576 == 0) {
-                i5 = styledOverlineText.changedInstance(overlineText) ? 16384 : 8192;
-                $dirty3 |= i5;
+                i8 = styledOverlineText.changedInstance(overlineText) ? 16384 : 8192;
+                $dirty |= i8;
             } else {
-                styledSecondaryText2 = overlineText;
+                styledSecondaryText = overlineText;
             }
         }
         textStyle = i10 & 32;
-        i7 = 196608;
+        i2 = 196608;
         if (textStyle != 0) {
-            $dirty3 |= i7;
-            obj2 = trailing;
+            $dirty |= i2;
+            obj = trailing;
         } else {
-            if (i21 & i7 == 0) {
-                i3 = styledOverlineText.changedInstance(trailing) ? 131072 : 65536;
-                $dirty3 |= i3;
+            if (i21 & i2 == 0) {
+                i = styledOverlineText.changedInstance(trailing) ? 131072 : 65536;
+                $dirty |= i;
             } else {
-                obj2 = trailing;
+                obj = trailing;
             }
         }
-        i4 = 1572864;
+        i5 = 1572864;
         if (i10 & 64 != 0) {
-            $dirty3 |= i4;
+            $dirty |= i5;
         } else {
-            if (i21 & i4 == 0) {
-                i = styledOverlineText.changedInstance(obj5) ? 1048576 : 524288;
-                $dirty3 |= i;
+            if (i21 & i5 == 0) {
+                i7 = styledOverlineText.changedInstance(obj5) ? 1048576 : 524288;
+                $dirty |= i7;
             }
         }
-        if ($dirty3 & styledSecondaryText == 599186) {
+        if ($dirty & styledSecondaryText2 == 599186) {
             if (!styledOverlineText.getSkipping()) {
                 if (i12 != 0) {
                     modifier2 = Modifier.Companion;
                 } else {
                     modifier2 = obj3;
                 }
-                icon3 = i18 != 0 ? 0 : obj;
+                icon2 = i18 != 0 ? 0 : obj2;
                 secondaryText2 = i20 != 0 ? 0 : $dirty4;
-                singleLineSecondaryText2 = semantics != 0 ? 1 : icon2;
-                overlineText2 = textStyle2 != 0 ? 0 : styledSecondaryText2;
+                singleLineSecondaryText2 = semantics != 0 ? 1 : icon3;
+                overlineText2 = textStyle3 != 0 ? 0 : styledSecondaryText;
                 trailing2 = textStyle != 0 ? 0 : trailing;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-450923337, $dirty3, -1, "androidx.compose.material.ListItem (ListItem.kt:83)");
+                    ComposerKt.traceEventStart(-450923337, $dirty, -1, "androidx.compose.material.ListItem (ListItem.kt:83)");
                 }
                 int i26 = 6;
                 typography = MaterialTheme.INSTANCE.getTypography(styledOverlineText, i26);
-                textStyle2 = ListItemKt.applyTextStyle(typography.getSubtitle1(), ContentAlpha.INSTANCE.getHigh(styledOverlineText, i26), obj5);
-                Intrinsics.checkNotNull(textStyle2);
-                styledSecondaryText = ListItemKt.applyTextStyle(typography.getBody2(), ContentAlpha.INSTANCE.getMedium(styledOverlineText, i26), secondaryText2);
-                textStyle3 = ListItemKt.applyTextStyle(typography.getOverline(), ContentAlpha.INSTANCE.getHigh(styledOverlineText, i26), overlineText2);
+                textStyle3 = ListItemKt.applyTextStyle(typography.getSubtitle1(), ContentAlpha.INSTANCE.getHigh(styledOverlineText, i26), obj5);
+                Intrinsics.checkNotNull(textStyle3);
+                styledSecondaryText2 = ListItemKt.applyTextStyle(typography.getBody2(), ContentAlpha.INSTANCE.getMedium(styledOverlineText, i26), secondaryText2);
+                textStyle2 = ListItemKt.applyTextStyle(typography.getOverline(), ContentAlpha.INSTANCE.getHigh(styledOverlineText, i26), overlineText2);
                 textStyle = ListItemKt.applyTextStyle(typography.getCaption(), ContentAlpha.INSTANCE.getHigh(styledOverlineText, i26), trailing2);
                 semantics = SemanticsModifierKt.semantics(modifier2, true, (Function1)ListItemKt.ListItem.semanticsModifier.1.INSTANCE);
-                if (styledSecondaryText == null && textStyle3 == null) {
-                    if (textStyle3 == null) {
+                if (styledSecondaryText2 == null && textStyle2 == null) {
+                    if (textStyle2 == null) {
                         styledOverlineText.startReplaceGroup(-215915306);
                         ComposerKt.sourceInformation(styledOverlineText, "94@4077L61");
                         Function2 function22 = textStyle;
-                        OneLine.INSTANCE.ListItem(semantics, icon3, textStyle2, function22, styledOverlineText, i29 |= 24576, 0);
+                        OneLine.INSTANCE.ListItem(semantics, icon2, textStyle3, function22, styledOverlineText, i29 |= 24576, 0);
                         textStyle = function22;
                         styledOverlineText.endReplaceGroup();
-                        styledSecondaryText2 = styledSecondaryText;
-                        function2 = textStyle3;
+                        styledSecondaryText = styledSecondaryText2;
+                        function2 = textStyle2;
                     } else {
-                        icon2 = icon3;
-                        if (textStyle3 == null) {
+                        icon3 = icon2;
+                        if (textStyle2 == null) {
                             if (singleLineSecondaryText2 == 0) {
-                                if (styledSecondaryText == null) {
+                                if (styledSecondaryText2 == null) {
                                     styledOverlineText.startReplaceGroup(-215716069);
                                     ComposerKt.sourceInformation(styledOverlineText, "98@4274L184");
-                                    i7 = styledOverlineText;
-                                    Function2 $composer2 = textStyle3;
-                                    TwoLine.INSTANCE.ListItem(semantics, icon2, textStyle2, styledSecondaryText, $composer2, textStyle, i7, i15 |= i4, 0);
+                                    i2 = styledOverlineText;
+                                    Function2 $composer2 = textStyle2;
+                                    TwoLine.INSTANCE.ListItem(semantics, icon3, textStyle3, styledSecondaryText2, $composer2, textStyle, i2, i15 |= i5, 0);
                                     function2 = $composer2;
-                                    i7.endReplaceGroup();
+                                    i2.endReplaceGroup();
                                 } else {
                                     styledOverlineText.startReplaceGroup(-215503719);
                                     ComposerKt.sourceInformation(styledOverlineText, "107@4490L184");
-                                    i7 = styledOverlineText;
-                                    ThreeLine.INSTANCE.ListItem(semantics, icon2, textStyle2, styledSecondaryText, textStyle3, textStyle, i7, i32 | i4, 0);
-                                    i7.endReplaceGroup();
+                                    i2 = styledOverlineText;
+                                    ThreeLine.INSTANCE.ListItem(semantics, icon3, textStyle3, styledSecondaryText2, textStyle2, textStyle, i2, i32 | i5, 0);
+                                    i2.endReplaceGroup();
                                 }
                             } else {
                             }
@@ -359,32 +359,32 @@ public final class ListItemKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                styledOverlineText2 = icon2;
+                styledOverlineText2 = icon3;
             } else {
                 styledOverlineText.skipToGroupEnd();
                 trailing2 = trailing;
                 modifier2 = obj3;
-                styledOverlineText2 = obj;
+                styledOverlineText2 = obj2;
                 secondaryText2 = $dirty4;
-                singleLineSecondaryText2 = icon2;
-                overlineText2 = styledSecondaryText2;
+                singleLineSecondaryText2 = icon3;
+                overlineText2 = styledSecondaryText;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = styledOverlineText.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty = i25;
+            $dirty2 = i25;
             modifier2 = new ListItemKt.ListItem.1(modifier2, styledOverlineText2, secondaryText2, singleLineSecondaryText2, overlineText2, trailing2, obj5, i21, i10);
             endRestartGroup.updateScope((Function2)modifier2);
         } else {
-            $dirty = $dirty3;
-            $dirty2 = modifier2;
+            $dirty2 = $dirty;
+            $dirty3 = modifier2;
         }
     }
 
     private static final void OffsetToBaselineOrCenter-Kz89ssw(float offset, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i6) {
-        int traceInProgress2;
-        int i;
+        int traceInProgress;
+        int i2;
         Integer invalid$iv;
         float constructor-impl;
         int $dirty2;
@@ -392,39 +392,39 @@ public final class ListItemKt {
         int $dirty;
         Object modifier2;
         int valueOf;
-        int i11;
+        int i4;
         int currentCompositeKeyHash;
-        boolean traceInProgress;
-        int i8;
+        boolean traceInProgress2;
+        int i3;
         Object str;
-        int i5;
-        int i9;
+        int i;
+        int i10;
         int currentCompositionLocalMap;
         Modifier materializeModifier;
         Object constructor;
-        int i7;
+        int i11;
         Object anon;
-        int i10;
-        int i4;
-        int i2;
-        int i3;
+        int i5;
+        int i7;
+        int i8;
+        int i9;
         Object measurePolicy$iv;
         Object obj20;
         Composer obj22;
         constructor-impl = offset;
         final Object obj2 = content;
         valueOf = $changed;
-        traceInProgress2 = -1062692685;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -1062692685;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(OffsetToBaselineOrCenter)P(2:c#ui.unit.Dp,1)397@14931L780,397@14905L806:ListItem.kt#jmzs0o");
         $dirty2 = $changed;
-        i8 = 4;
+        i3 = 4;
         if (i6 & 1 != 0) {
             $dirty2 |= 6;
         } else {
             if (valueOf & 6 == 0) {
-                i11 = restartGroup.changed(constructor-impl) ? i8 : 2;
-                $dirty2 |= i11;
+                i4 = restartGroup.changed(constructor-impl) ? i3 : 2;
+                $dirty2 |= i4;
             }
         }
         currentCompositeKeyHash = i6 & 2;
@@ -433,8 +433,8 @@ public final class ListItemKt {
             str = modifier;
         } else {
             if (valueOf & 48 == 0) {
-                i5 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i5;
+                i = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i;
             } else {
                 str = modifier;
             }
@@ -443,8 +443,8 @@ public final class ListItemKt {
             $dirty2 |= 384;
         } else {
             if (valueOf & 384 == 0) {
-                i9 = restartGroup.changedInstance(obj2) ? 256 : 128;
-                $dirty2 |= i9;
+                i10 = restartGroup.changedInstance(obj2) ? 256 : 128;
+                $dirty2 |= i10;
             }
         }
         int i22 = $dirty2;
@@ -456,16 +456,16 @@ public final class ListItemKt {
                     modifier2 = str;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, i22, -1, "androidx.compose.material.OffsetToBaselineOrCenter (ListItem.kt:396)");
+                    ComposerKt.traceEventStart(traceInProgress, i22, -1, "androidx.compose.material.OffsetToBaselineOrCenter (ListItem.kt:396)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1484813085, "CC(remember):ListItem.kt#9igjgp");
                 int i16 = 0;
-                i = i22 & 14 == i8 ? 1 : i16;
+                i2 = i22 & 14 == i3 ? 1 : i16;
                 Composer composer2 = restartGroup;
                 int i20 = 0;
                 Object rememberedValue2 = composer2.rememberedValue();
                 int i24 = 0;
-                if (i == 0) {
+                if (i2 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         constructor = 0;
                         anon = new ListItemKt.OffsetToBaselineOrCenter.1.1(constructor-impl);
@@ -480,7 +480,7 @@ public final class ListItemKt {
                 str = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i16);
-                i10 = 0;
+                i5 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -492,12 +492,12 @@ public final class ListItemKt {
                     restartGroup.useNode();
                 }
                 constructor-impl = Updater.constructor-impl(restartGroup);
-                i4 = 0;
+                i7 = 0;
                 Updater.set-impl(constructor-impl, (MeasurePolicy)invalid$iv, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i2 = 0;
+                i8 = 0;
                 obj22 = constructor-impl;
-                i3 = 0;
+                i9 = 0;
                 if (!obj22.getInserting()) {
                     measurePolicy$iv = invalid$iv;
                     if (!Intrinsics.areEqual(obj22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
@@ -526,8 +526,8 @@ public final class ListItemKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ListItemKt.OffsetToBaselineOrCenter.2(offset, obj, obj2, $changed, i6);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ListItemKt.OffsetToBaselineOrCenter.2(offset, obj, obj2, $changed, i6);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 

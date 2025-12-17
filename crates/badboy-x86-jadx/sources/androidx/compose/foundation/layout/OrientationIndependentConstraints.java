@@ -30,31 +30,31 @@ public final class OrientationIndependentConstraints {
     }
 
     public static long constructor-impl(long c, androidx.compose.foundation.layout.LayoutOrientation orientation) {
-        int minHeight-impl2;
-        int maxHeight-impl;
         int minHeight-impl;
         int maxHeight-impl2;
+        int minHeight-impl2;
+        int maxHeight-impl;
         if (obj6 == LayoutOrientation.Horizontal) {
-            minHeight-impl2 = Constraints.getMinWidth-impl(c);
-        } else {
-            minHeight-impl2 = Constraints.getMinHeight-impl(c);
-        }
-        if (obj6 == LayoutOrientation.Horizontal) {
-            maxHeight-impl = Constraints.getMaxWidth-impl(c);
-        } else {
-            maxHeight-impl = Constraints.getMaxHeight-impl(c);
-        }
-        if (obj6 == LayoutOrientation.Horizontal) {
-            minHeight-impl = Constraints.getMinHeight-impl(c);
-        } else {
             minHeight-impl = Constraints.getMinWidth-impl(c);
+        } else {
+            minHeight-impl = Constraints.getMinHeight-impl(c);
         }
         if (obj6 == LayoutOrientation.Horizontal) {
-            maxHeight-impl2 = Constraints.getMaxHeight-impl(c);
-        } else {
             maxHeight-impl2 = Constraints.getMaxWidth-impl(c);
+        } else {
+            maxHeight-impl2 = Constraints.getMaxHeight-impl(c);
         }
-        return OrientationIndependentConstraints.constructor-impl(minHeight-impl2, maxHeight-impl, minHeight-impl, maxHeight-impl2);
+        if (obj6 == LayoutOrientation.Horizontal) {
+            minHeight-impl2 = Constraints.getMinHeight-impl(c);
+        } else {
+            minHeight-impl2 = Constraints.getMinWidth-impl(c);
+        }
+        if (obj6 == LayoutOrientation.Horizontal) {
+            maxHeight-impl = Constraints.getMaxHeight-impl(c);
+        } else {
+            maxHeight-impl = Constraints.getMaxWidth-impl(c);
+        }
+        return OrientationIndependentConstraints.constructor-impl(minHeight-impl, maxHeight-impl2, minHeight-impl2, maxHeight-impl);
     }
 
     public static final long copy-yUG9Ft0(long arg0, int mainAxisMin, int mainAxisMax, int crossAxisMin, int crossAxisMax) {
@@ -62,39 +62,39 @@ public final class OrientationIndependentConstraints {
     }
 
     public static long copy-yUG9Ft0$default(long l, int i2, int i3, int i4, int i5, int i6, Object object7) {
-        int i;
         int i9;
-        int i7;
         int i8;
+        int i;
+        int i7;
         int obj8;
         int obj9;
         int obj10;
         int obj11;
         if (object7 & 1 != 0) {
             obj8 = 0;
-            i = obj8;
+            i9 = obj8;
         } else {
-            i = i3;
+            i9 = i3;
         }
         if (object7 & 2 != 0) {
             obj8 = 0;
-            i9 = obj9;
+            i8 = obj9;
         } else {
-            i9 = i4;
+            i8 = i4;
         }
         if (object7 & 4 != 0) {
             obj8 = 0;
-            i7 = obj10;
+            i = obj10;
         } else {
-            i7 = i5;
+            i = i5;
         }
         if (object7 & 8 != 0) {
             obj8 = 0;
-            i8 = obj11;
+            i7 = obj11;
         } else {
-            i8 = i6;
+            i7 = i6;
         }
-        return OrientationIndependentConstraints.copy-yUG9Ft0(l, obj1, i, i9, i7);
+        return OrientationIndependentConstraints.copy-yUG9Ft0(l, obj1, i9, i8, i);
     }
 
     public static boolean equals-impl(long l, Object object2) {
@@ -137,53 +137,53 @@ public final class OrientationIndependentConstraints {
     }
 
     public static final int maxHeight-impl(long arg0, androidx.compose.foundation.layout.LayoutOrientation orientation) {
-        int maxHeight-impl;
+        int $i$f$getCrossAxisMaxImpl;
         int maxWidth-impl;
         if (obj4 == LayoutOrientation.Horizontal) {
             int i = 0;
-            maxHeight-impl = Constraints.getMaxHeight-impl(arg0);
+            $i$f$getCrossAxisMaxImpl = Constraints.getMaxHeight-impl(arg0);
         } else {
             int i2 = 0;
-            maxHeight-impl = maxWidth-impl;
+            $i$f$getCrossAxisMaxImpl = maxWidth-impl;
         }
-        return maxHeight-impl;
+        return $i$f$getCrossAxisMaxImpl;
     }
 
     public static final int maxWidth-impl(long arg0, androidx.compose.foundation.layout.LayoutOrientation orientation) {
-        int maxWidth-impl;
+        int $i$f$getMainAxisMaxImpl;
         int maxHeight-impl;
         if (obj4 == LayoutOrientation.Horizontal) {
             int i = 0;
-            maxWidth-impl = Constraints.getMaxWidth-impl(arg0);
+            $i$f$getMainAxisMaxImpl = Constraints.getMaxWidth-impl(arg0);
         } else {
             int i2 = 0;
-            maxWidth-impl = maxHeight-impl;
+            $i$f$getMainAxisMaxImpl = maxHeight-impl;
         }
-        return maxWidth-impl;
+        return $i$f$getMainAxisMaxImpl;
     }
 
     public static final long stretchCrossAxis-q4ezo7Y(long arg0) {
-        int maxHeight-impl;
+        int $i$f$getCrossAxisMaxImpl;
         int minHeight-impl;
         int i = 0;
         int i2 = 0;
         int i3 = 0;
         if (Constraints.getMaxHeight-impl(arg0) != Integer.MAX_VALUE) {
             int i4 = 0;
-            maxHeight-impl = Constraints.getMaxHeight-impl(arg0);
+            $i$f$getCrossAxisMaxImpl = Constraints.getMaxHeight-impl(arg0);
         } else {
             int i5 = 0;
-            maxHeight-impl = minHeight-impl;
+            $i$f$getCrossAxisMaxImpl = minHeight-impl;
         }
         int i6 = 0;
-        return OrientationIndependentConstraints.constructor-impl(Constraints.getMinWidth-impl(arg0), Constraints.getMaxWidth-impl(arg0), maxHeight-impl, Constraints.getMaxHeight-impl(arg0));
+        return OrientationIndependentConstraints.constructor-impl(Constraints.getMinWidth-impl(arg0), Constraints.getMaxWidth-impl(arg0), $i$f$getCrossAxisMaxImpl, Constraints.getMaxHeight-impl(arg0));
     }
 
     public static final long toBoxConstraints-OenEA2s(long arg0, androidx.compose.foundation.layout.LayoutOrientation orientation) {
         long l;
-        int maxHeight-impl;
-        int minHeight-impl;
-        int maxHeight-impl2;
+        int $i$f$getMainAxisMaxImpl;
+        int $i$f$getCrossAxisMinImpl;
+        int $i$f$getCrossAxisMaxImpl;
         if (obj6 == LayoutOrientation.Horizontal) {
             int i = 0;
             int i3 = 0;

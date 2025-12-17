@@ -18,10 +18,10 @@ public interface ContinuationInterceptor extends kotlin.coroutines.CoroutineCont
         }
 
         public static <E extends kotlin.coroutines.CoroutineContext.Element> E get(kotlin.coroutines.ContinuationInterceptor $this, kotlin.coroutines.CoroutineContext.Key<E> key) {
-            Object key3;
+            Object key2;
             boolean subKey$kotlin_stdlib;
             int i;
-            kotlin.coroutines.CoroutineContext.Key key2;
+            kotlin.coroutines.CoroutineContext.Key key3;
             Intrinsics.checkNotNullParameter(key, "key");
             i = 0;
             subKey$kotlin_stdlib = (AbstractCoroutineContextKey)key.tryCast$kotlin_stdlib((CoroutineContext.Element)$this);

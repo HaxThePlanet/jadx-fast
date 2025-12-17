@@ -34,9 +34,9 @@ public final class TextFieldSelectionManagerKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
-            int ordinal2;
             int ordinal3;
+            int ordinal2;
+            int ordinal;
             int[] iArr = new int[values.length];
             iArr[Handle.Cursor.ordinal()] = 1;
             iArr[Handle.SelectionStart.ordinal()] = 2;
@@ -45,82 +45,82 @@ public final class TextFieldSelectionManagerKt {
         }
     }
     public static final void TextFieldSelectionHandle(boolean isStartHandle, ResolvedTextDirection direction, androidx.compose.foundation.text.selection.TextFieldSelectionManager manager, Composer $composer, int $changed) {
-        int traceInProgress;
-        int i;
+        int traceInProgress2;
+        int i7;
         Object anon2;
         boolean z;
         int $dirty2;
         boolean $dirty;
-        boolean traceInProgress2;
-        int i7;
-        int i8;
-        int i4;
-        int str;
+        boolean traceInProgress;
         int i2;
+        int i3;
+        int i8;
+        int str;
+        int i;
         int companion;
         Modifier pointerInput;
-        int i3;
+        int i4;
         int i6;
         Object empty;
         Object obj;
         int i5;
         Object anon;
-        Object dragObserver$foundation_release;
+        Object $i$a$CacheTextFieldSelectionManagerKt$TextFieldSelectionHandle$observer$1;
         Object obj19;
         z = isStartHandle;
         final Object obj3 = direction;
         final Object obj5 = manager;
         final int i24 = $changed;
-        traceInProgress = -1344558920;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = -1344558920;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(TextFieldSelectionHandle)P(1)1001@38955L90,1006@39093L44,1010@39319L71,1005@39051L346:TextFieldSelectionManager.kt#eksfi3");
         companion = 4;
         if (i24 & 6 == 0) {
-            i7 = restartGroup.changed(z) ? companion : 2;
-            $dirty2 |= i7;
+            i2 = restartGroup.changed(z) ? companion : 2;
+            $dirty2 |= i2;
         }
         if (i24 & 48 == 0) {
-            i8 = restartGroup.changed(obj3) ? 32 : 16;
-            $dirty2 |= i8;
+            i3 = restartGroup.changed(obj3) ? 32 : 16;
+            $dirty2 |= i3;
         }
         if (i24 & 384 == 0) {
-            i4 = restartGroup.changedInstance(obj5) ? 256 : 128;
-            $dirty2 |= i4;
+            i8 = restartGroup.changedInstance(obj5) ? 256 : 128;
+            $dirty2 |= i8;
         }
         final int i25 = $dirty2;
         if (i25 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i25, -1, "androidx.compose.foundation.text.selection.TextFieldSelectionHandle (TextFieldSelectionManager.kt:1000)");
+                    ComposerKt.traceEventStart(traceInProgress2, i25, -1, "androidx.compose.foundation.text.selection.TextFieldSelectionHandle (TextFieldSelectionManager.kt:1000)");
                 }
                 String str3 = "CC(remember):TextFieldSelectionManager.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 990782570, str3);
                 int i19 = 0;
-                i = i25 & 14 == companion ? i2 : i19;
+                i7 = i25 & 14 == companion ? i : i19;
                 Composer composer3 = restartGroup;
                 empty = 0;
                 Object rememberedValue3 = composer3.rememberedValue();
                 int i26 = 0;
-                if (i |= changed3 == 0) {
+                if (i7 |= changed3 == 0) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         int i27 = 0;
                         composer3.updateRememberedValue(obj5.handleDragObserver$foundation_release(z));
                     } else {
-                        dragObserver$foundation_release = rememberedValue3;
+                        $i$a$CacheTextFieldSelectionManagerKt$TextFieldSelectionHandle$observer$1 = rememberedValue3;
                     }
                 } else {
                 }
-                obj = dragObserver$foundation_release;
+                obj = $i$a$CacheTextFieldSelectionManagerKt$TextFieldSelectionHandle$observer$1;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 990786940, str3);
                 if (i25 & 14 == companion) {
                 } else {
-                    i2 = i19;
+                    i = i19;
                 }
                 Composer composer = restartGroup;
                 Object rememberedValue = composer.rememberedValue();
                 int i22 = 0;
-                if (changedInstance |= i2 == 0) {
+                if (changedInstance |= i == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new TextFieldSelectionManagerKt.TextFieldSelectionHandle.1.1(obj5, z);
@@ -140,7 +140,7 @@ public final class TextFieldSelectionManagerKt {
                 i5 = 0;
                 if (!restartGroup.changedInstance((TextDragObserver)obj)) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        dragObserver$foundation_release = 0;
+                        $i$a$CacheTextFieldSelectionManagerKt$TextFieldSelectionHandle$observer$1 = 0;
                         obj19 = invalid$iv;
                         anon2 = new TextFieldSelectionManagerKt.TextFieldSelectionHandle.2.1(obj, 0);
                         composer2.updateRememberedValue((Function2)anon2);
@@ -169,18 +169,18 @@ public final class TextFieldSelectionManagerKt {
 
     public static final long calculateSelectionMagnifierCenterAndroid-O0kMr_c(androidx.compose.foundation.text.selection.TextFieldSelectionManager manager, long magnifierSize) {
         int transformedText$foundation_release;
-        int i2;
+        int i;
         int start-impl;
         int $EnumSwitchMapping$0;
         long selection-d9O1mEE;
-        Object state$foundation_release;
         Object state$foundation_release2;
+        Object state$foundation_release;
         int cmp;
         float f;
         long localDragPosition2;
         long localDragPosition;
         int width-impl;
-        int i;
+        int i2;
         Offset currentDragPosition-_m7T9-E = manager.getCurrentDragPosition-_m7T9-E();
         if (currentDragPosition-_m7T9-E != null) {
             long unbox-impl = currentDragPosition-_m7T9-E.unbox-impl();
@@ -199,11 +199,11 @@ public final class TextFieldSelectionManagerKt {
             }
             Handle draggingHandle = manager.getDraggingHandle();
             if (draggingHandle == null) {
-                i2 = -1;
+                i = -1;
             } else {
-                i2 = TextFieldSelectionManagerKt.WhenMappings.$EnumSwitchMapping$0[draggingHandle.ordinal()];
+                i = TextFieldSelectionManagerKt.WhenMappings.$EnumSwitchMapping$0[draggingHandle.ordinal()];
             }
-            switch (i2) {
+            switch (i) {
                 case -1:
                     long localDragPosition8 = unbox-impl;
                     return Offset.Companion.getUnspecified-F1C5BW0();
@@ -217,25 +217,25 @@ public final class TextFieldSelectionManagerKt {
                 default:
                     start-impl = TextRange.getEnd-impl(manager.getValue$foundation_release().getSelection-d9O1mEE());
             }
-            state$foundation_release = manager.getState$foundation_release();
-            if (state$foundation_release != null) {
-                state$foundation_release = state$foundation_release.getLayoutResult();
-                if (state$foundation_release == null) {
+            state$foundation_release2 = manager.getState$foundation_release();
+            if (state$foundation_release2 != null) {
+                state$foundation_release2 = state$foundation_release2.getLayoutResult();
+                if (state$foundation_release2 == null) {
                     localDragPosition = unbox-impl;
                     return Offset.Companion.getUnspecified-F1C5BW0();
                 } else {
-                    state$foundation_release2 = manager.getState$foundation_release();
-                    state$foundation_release2 = state$foundation_release2.getTextDelegate();
-                    if (state$foundation_release2 != null && state$foundation_release2 != null) {
-                        state$foundation_release2 = state$foundation_release2.getTextDelegate();
-                        if (state$foundation_release2 != null) {
-                            state$foundation_release2 = state$foundation_release2.getText();
-                            if (state$foundation_release2 == null) {
+                    state$foundation_release = manager.getState$foundation_release();
+                    state$foundation_release = state$foundation_release.getTextDelegate();
+                    if (state$foundation_release != null && state$foundation_release != null) {
+                        state$foundation_release = state$foundation_release.getTextDelegate();
+                        if (state$foundation_release != null) {
+                            state$foundation_release = state$foundation_release.getText();
+                            if (state$foundation_release == null) {
                                 localDragPosition2 = unbox-impl;
                             } else {
-                                int length2 = state$foundation_release2.length();
-                                float x-impl = Offset.getX-impl(state$foundation_release.translateDecorationToInnerCoordinates-MK-Hz9U$foundation_release(unbox-impl));
-                                TextLayoutResult value = state$foundation_release.getValue();
+                                int length2 = state$foundation_release.length();
+                                float x-impl = Offset.getX-impl(state$foundation_release2.translateDecorationToInnerCoordinates-MK-Hz9U$foundation_release(unbox-impl));
+                                TextLayoutResult value = state$foundation_release2.getValue();
                                 final int lineForOffset = value.getLineForOffset(RangesKt.coerceIn(manager.getOffsetMapping$foundation_release().originalToTransformed(start-impl), i5, length2));
                                 final float lineLeft = value.getLineLeft(lineForOffset);
                                 final float lineRight = value.getLineRight(lineForOffset);
@@ -243,12 +243,12 @@ public final class TextFieldSelectionManagerKt {
                                 long l2 = unbox-impl;
                                 Object localDragPosition5 = magnifierSize;
                                 if (!IntSize.equals-impl0(localDragPosition5, obj1)) {
-                                    i = 2;
+                                    i2 = 2;
                                     if (Float.compare(f5, f) > 0) {
                                         return Offset.Companion.getUnspecified-F1C5BW0();
                                     }
                                 } else {
-                                    i = 2;
+                                    i2 = 2;
                                 }
                             }
                             float lineTop = value.getLineTop(lineForOffset);

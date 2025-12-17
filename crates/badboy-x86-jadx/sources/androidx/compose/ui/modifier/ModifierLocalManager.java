@@ -57,39 +57,39 @@ public final class ModifierLocalManager {
         Object obj3;
         Modifier.Node next$iv$iv;
         int capacity$iv$iv$iv$iv;
-        int i;
-        int i8;
-        int count$iv$iv2;
+        int i9;
+        int i2;
         int count$iv$iv3;
         int count$iv$iv4;
-        int type$iv2;
+        int count$iv$iv2;
+        int $i$f$getLocalsOLwlOKw;
         boolean type$iv;
         int node2;
-        String str;
-        int i2;
-        Modifier.Node[] node$iv$iv2;
-        int node$iv$iv;
-        Object obj4;
-        int i5;
-        Object obj;
-        int i6;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitSubtreeIf$1$iv$iv;
         int i10;
-        Object node$iv$iv3;
-        int i7;
+        Modifier.Node[] node$iv$iv;
+        int node$iv$iv3;
+        Object obj4;
+        int i6;
+        Object obj;
+        int i11;
+        int i3;
+        Object node$iv$iv2;
+        int i;
         int $this$visitSubtreeIf_u2d6rFNWt0$iv;
         int node$iv$iv$iv;
-        int i3;
-        Object obj2;
-        int i11;
-        int this_$iv$iv$iv;
-        int i9;
-        int count$iv$iv;
         int i4;
+        Object obj2;
+        int i8;
+        int this_$iv$iv$iv;
+        int i5;
+        int count$iv$iv;
+        int i7;
         obj3 = key;
         int i14 = 0;
         int i16 = 0;
-        final int i17 = type$iv2;
-        final int i18 = count$iv$iv2;
+        final int i17 = $i$f$getLocalsOLwlOKw;
+        final int i18 = count$iv$iv3;
         final int i19 = 0;
         int i20 = 0;
         if (!i18.getNode().isAttached()) {
@@ -97,7 +97,7 @@ public final class ModifierLocalManager {
             InlineClassHelperKt.throwIllegalStateException("visitSubtreeIf called on an unattached node");
         }
         int value$iv$iv$iv = 0;
-        i2 = 0;
+        i10 = 0;
         MutableVector mutableVector = new MutableVector(new Modifier.Node[16], 0);
         Modifier.Node child$ui_release = i18.getNode().getChild$ui_release();
         if (child$ui_release == null) {
@@ -106,65 +106,65 @@ public final class ModifierLocalManager {
             mutableVector.add(child$ui_release);
         }
         while (mutableVector.isNotEmpty()) {
-            node2 = mutableVector.removeAt(size -= i2);
+            node2 = mutableVector.removeAt(size -= i10);
             if (aggregateChildKindSet$ui_release &= i17 != 0) {
             } else {
             }
-            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-            i3 = type$iv2;
+            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+            i4 = $i$f$getLocalsOLwlOKw;
             DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector, node2);
             obj3 = key;
-            count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv2 = i3;
-            node$iv$iv = 0;
-            node$iv$iv2 = node2;
-            while (node$iv$iv2 != null) {
+            count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+            $i$f$getLocalsOLwlOKw = i4;
+            node$iv$iv3 = 0;
+            node$iv$iv = node2;
+            while (node$iv$iv != null) {
                 if (kindSet$ui_release &= i17 == 0) {
                     break loop_8;
                 } else {
                 }
-                $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-                i3 = type$iv2;
-                i8 = i2;
-                node$iv$iv2 = node$iv$iv2.getChild$ui_release();
-                i2 = i8;
-                count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv2 = i3;
-                node$iv$iv = 0;
+                $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+                i4 = $i$f$getLocalsOLwlOKw;
+                i2 = i10;
+                node$iv$iv = node$iv$iv.getChild$ui_release();
+                i10 = i2;
+                count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+                $i$f$getLocalsOLwlOKw = i4;
+                node$iv$iv3 = 0;
                 obj3 = key;
-                i5 = 0;
                 i6 = 0;
-                i10 = 0;
+                i11 = 0;
+                i3 = 0;
                 int i23 = 0;
-                node$iv$iv = node$iv$iv3;
-                while (node$iv$iv != null) {
-                    i3 = type$iv2;
-                    type$iv2 = set;
-                    i2 = 0;
-                    if (kindSet$ui_release2 &= i3 != 0) {
+                node$iv$iv3 = node$iv$iv2;
+                while (node$iv$iv3 != null) {
+                    i4 = $i$f$getLocalsOLwlOKw;
+                    $i$f$getLocalsOLwlOKw = set;
+                    i10 = 0;
+                    if (kindSet$ui_release2 &= i4 != 0) {
                     } else {
                     }
-                    count$iv$iv3 = 0;
-                    if (count$iv$iv3 != 0 && node$iv$iv instanceof DelegatingNode) {
+                    count$iv$iv4 = 0;
+                    if (count$iv$iv4 != 0 && node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    i = 1;
-                    node$iv$iv = DelegatableNodeKt.access$pop(i10);
-                    i2 = i;
-                    count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                    type$iv2 = i3;
+                    i9 = 1;
+                    node$iv$iv3 = DelegatableNodeKt.access$pop(i3);
+                    i10 = i9;
+                    count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+                    $i$f$getLocalsOLwlOKw = i4;
                     obj3 = key;
-                    if (node$iv$iv instanceof DelegatingNode) {
+                    if (node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv3 = 0;
-                    i7 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
+                    count$iv$iv4 = 0;
+                    i = 0;
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         obj2 = node$iv$iv$iv;
-                        i11 = 0;
-                        i9 = 0;
-                        if (kindSet$ui_release3 &= i3 != 0) {
+                        i8 = 0;
+                        i5 = 0;
+                        if (kindSet$ui_release3 &= i4 != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -174,53 +174,53 @@ public final class ModifierLocalManager {
                         next$iv$iv = obj2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         obj3 = key;
-                        type$iv2 = set;
-                        count$iv$iv3++;
-                        if (count$iv$iv3 == 1) {
+                        $i$f$getLocalsOLwlOKw = set;
+                        count$iv$iv4++;
+                        if (count$iv$iv4 == 1) {
                         } else {
                         }
-                        if (i10 == 0) {
+                        if (i3 == 0) {
                         } else {
                         }
-                        count$iv$iv = count$iv$iv3;
+                        count$iv$iv = count$iv$iv4;
                         capacity$iv$iv$iv$iv = 0;
-                        count$iv$iv4 = i10;
-                        type$iv2 = node$iv$iv;
-                        if (type$iv2 != null && count$iv$iv4 != 0) {
+                        count$iv$iv2 = i3;
+                        $i$f$getLocalsOLwlOKw = node$iv$iv3;
+                        if ($i$f$getLocalsOLwlOKw != null && count$iv$iv2 != 0) {
                         }
-                        if (count$iv$iv4 != 0) {
+                        if (count$iv$iv2 != 0) {
                         } else {
                         }
                         next$iv$iv = obj2;
-                        i10 = count$iv$iv4;
-                        count$iv$iv3 = count$iv$iv;
-                        count$iv$iv4.add(obj2);
-                        if (count$iv$iv4 != 0) {
+                        i3 = count$iv$iv2;
+                        count$iv$iv4 = count$iv$iv;
+                        count$iv$iv2.add(obj2);
+                        if (count$iv$iv2 != 0) {
                         }
-                        node$iv$iv = 0;
-                        count$iv$iv4.add(type$iv2);
+                        node$iv$iv3 = 0;
+                        count$iv$iv2.add($i$f$getLocalsOLwlOKw);
                         this_$iv$iv$iv = i13;
                         int $i$f$mutableVectorOf = 16;
-                        i9 = 0;
-                        count$iv$iv = count$iv$iv3;
-                        i4 = $i$f$mutableVectorOf;
-                        count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        node$iv$iv = obj2;
+                        i5 = 0;
+                        count$iv$iv = count$iv$iv4;
+                        i7 = $i$f$mutableVectorOf;
+                        count$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        node$iv$iv3 = obj2;
                         next$iv$iv = obj2;
                         this_$iv$iv$iv = 1;
                     }
-                    i = 1;
-                    if (count$iv$iv3 == i) {
+                    i9 = 1;
+                    if (count$iv$iv4 == i9) {
                     } else {
                     }
-                    i2 = i;
-                    count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                    type$iv2 = i3;
+                    i10 = i9;
+                    count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+                    $i$f$getLocalsOLwlOKw = i4;
                     obj3 = key;
                     obj2 = node$iv$iv$iv;
-                    i11 = 0;
-                    i9 = 0;
-                    if (kindSet$ui_release3 &= i3 != 0) {
+                    i8 = 0;
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= i4 != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -230,93 +230,93 @@ public final class ModifierLocalManager {
                     next$iv$iv = obj2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     obj3 = key;
-                    type$iv2 = set;
-                    count$iv$iv3++;
-                    if (count$iv$iv3 == 1) {
+                    $i$f$getLocalsOLwlOKw = set;
+                    count$iv$iv4++;
+                    if (count$iv$iv4 == 1) {
                     } else {
                     }
-                    if (i10 == 0) {
+                    if (i3 == 0) {
                     } else {
                     }
-                    count$iv$iv = count$iv$iv3;
+                    count$iv$iv = count$iv$iv4;
                     capacity$iv$iv$iv$iv = 0;
-                    count$iv$iv4 = i10;
-                    type$iv2 = node$iv$iv;
-                    if (type$iv2 != null && count$iv$iv4 != 0) {
+                    count$iv$iv2 = i3;
+                    $i$f$getLocalsOLwlOKw = node$iv$iv3;
+                    if ($i$f$getLocalsOLwlOKw != null && count$iv$iv2 != 0) {
                     }
-                    if (count$iv$iv4 != 0) {
+                    if (count$iv$iv2 != 0) {
                     } else {
                     }
                     next$iv$iv = obj2;
-                    i10 = count$iv$iv4;
-                    count$iv$iv3 = count$iv$iv;
-                    count$iv$iv4.add(obj2);
-                    if (count$iv$iv4 != 0) {
+                    i3 = count$iv$iv2;
+                    count$iv$iv4 = count$iv$iv;
+                    count$iv$iv2.add(obj2);
+                    if (count$iv$iv2 != 0) {
                     }
-                    node$iv$iv = 0;
-                    count$iv$iv4.add(type$iv2);
+                    node$iv$iv3 = 0;
+                    count$iv$iv2.add($i$f$getLocalsOLwlOKw);
                     this_$iv$iv$iv = i13;
                     $i$f$mutableVectorOf = 16;
-                    i9 = 0;
-                    count$iv$iv = count$iv$iv3;
-                    i4 = $i$f$mutableVectorOf;
-                    count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv = obj2;
+                    i5 = 0;
+                    count$iv$iv = count$iv$iv4;
+                    i7 = $i$f$mutableVectorOf;
+                    count$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv3 = obj2;
                     next$iv$iv = obj2;
                     this_$iv$iv$iv = 1;
-                    count$iv$iv3 = 1;
-                    i7 = 0;
-                    $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-                    Object $this$visitSubtreeIf_u2d6rFNWt0$iv3 = i2;
+                    count$iv$iv4 = 1;
+                    i = 0;
+                    $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+                    Object $this$visitSubtreeIf_u2d6rFNWt0$iv3 = i10;
                     node$iv$iv$iv = 0;
-                    i3 = type$iv2;
+                    i4 = $i$f$getLocalsOLwlOKw;
                     if ($this$visitSubtreeIf_u2d6rFNWt0$iv3 instanceof BackwardsCompatNode && element instanceof ModifierLocalConsumer) {
                     } else {
                     }
-                    type$iv2 = set;
-                    i = 1;
+                    $i$f$getLocalsOLwlOKw = set;
+                    i9 = 1;
                     if (element instanceof ModifierLocalConsumer) {
                     } else {
                     }
                     if ((BackwardsCompatNode)$this$visitSubtreeIf_u2d6rFNWt0$iv3.getReadValues().contains(obj3)) {
                     } else {
                     }
-                    type$iv2 = set;
+                    $i$f$getLocalsOLwlOKw = set;
                     set.add($this$visitSubtreeIf_u2d6rFNWt0$iv3);
                 }
-                $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-                i3 = type$iv2;
-                count$iv$iv2 = i8;
-                if (node$iv$iv instanceof ModifierLocalModifierNode) {
+                $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+                i4 = $i$f$getLocalsOLwlOKw;
+                count$iv$iv3 = i2;
+                if (node$iv$iv3 instanceof ModifierLocalModifierNode) {
                 } else {
                 }
-                i3 = type$iv2;
-                type$iv2 = set;
-                i2 = 0;
-                if (kindSet$ui_release2 &= i3 != 0) {
+                i4 = $i$f$getLocalsOLwlOKw;
+                $i$f$getLocalsOLwlOKw = set;
+                i10 = 0;
+                if (kindSet$ui_release2 &= i4 != 0) {
                 } else {
                 }
-                count$iv$iv3 = 0;
-                if (count$iv$iv3 != 0 && node$iv$iv instanceof DelegatingNode) {
+                count$iv$iv4 = 0;
+                if (count$iv$iv4 != 0 && node$iv$iv3 instanceof DelegatingNode) {
                 } else {
                 }
-                i = 1;
-                node$iv$iv = DelegatableNodeKt.access$pop(i10);
-                i2 = i;
-                count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv2 = i3;
+                i9 = 1;
+                node$iv$iv3 = DelegatableNodeKt.access$pop(i3);
+                i10 = i9;
+                count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+                $i$f$getLocalsOLwlOKw = i4;
                 obj3 = key;
-                if (node$iv$iv instanceof DelegatingNode) {
+                if (node$iv$iv3 instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv3 = 0;
-                i7 = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
+                count$iv$iv4 = 0;
+                i = 0;
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     obj2 = node$iv$iv$iv;
-                    i11 = 0;
-                    i9 = 0;
-                    if (kindSet$ui_release3 &= i3 != 0) {
+                    i8 = 0;
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= i4 != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -326,53 +326,53 @@ public final class ModifierLocalManager {
                     next$iv$iv = obj2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     obj3 = key;
-                    type$iv2 = set;
-                    count$iv$iv3++;
-                    if (count$iv$iv3 == 1) {
+                    $i$f$getLocalsOLwlOKw = set;
+                    count$iv$iv4++;
+                    if (count$iv$iv4 == 1) {
                     } else {
                     }
-                    if (i10 == 0) {
+                    if (i3 == 0) {
                     } else {
                     }
-                    count$iv$iv = count$iv$iv3;
+                    count$iv$iv = count$iv$iv4;
                     capacity$iv$iv$iv$iv = 0;
-                    count$iv$iv4 = i10;
-                    type$iv2 = node$iv$iv;
-                    if (type$iv2 != null && count$iv$iv4 != 0) {
+                    count$iv$iv2 = i3;
+                    $i$f$getLocalsOLwlOKw = node$iv$iv3;
+                    if ($i$f$getLocalsOLwlOKw != null && count$iv$iv2 != 0) {
                     }
-                    if (count$iv$iv4 != 0) {
+                    if (count$iv$iv2 != 0) {
                     } else {
                     }
                     next$iv$iv = obj2;
-                    i10 = count$iv$iv4;
-                    count$iv$iv3 = count$iv$iv;
-                    count$iv$iv4.add(obj2);
-                    if (count$iv$iv4 != 0) {
+                    i3 = count$iv$iv2;
+                    count$iv$iv4 = count$iv$iv;
+                    count$iv$iv2.add(obj2);
+                    if (count$iv$iv2 != 0) {
                     }
-                    node$iv$iv = 0;
-                    count$iv$iv4.add(type$iv2);
+                    node$iv$iv3 = 0;
+                    count$iv$iv2.add($i$f$getLocalsOLwlOKw);
                     this_$iv$iv$iv = i13;
                     $i$f$mutableVectorOf = 16;
-                    i9 = 0;
-                    count$iv$iv = count$iv$iv3;
-                    i4 = $i$f$mutableVectorOf;
-                    count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv = obj2;
+                    i5 = 0;
+                    count$iv$iv = count$iv$iv4;
+                    i7 = $i$f$mutableVectorOf;
+                    count$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv3 = obj2;
                     next$iv$iv = obj2;
                     this_$iv$iv$iv = 1;
                 }
-                i = 1;
-                if (count$iv$iv3 == i) {
+                i9 = 1;
+                if (count$iv$iv4 == i9) {
                 } else {
                 }
-                i2 = i;
-                count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv2 = i3;
+                i10 = i9;
+                count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+                $i$f$getLocalsOLwlOKw = i4;
                 obj3 = key;
                 obj2 = node$iv$iv$iv;
-                i11 = 0;
-                i9 = 0;
-                if (kindSet$ui_release3 &= i3 != 0) {
+                i8 = 0;
+                i5 = 0;
+                if (kindSet$ui_release3 &= i4 != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -382,112 +382,112 @@ public final class ModifierLocalManager {
                 next$iv$iv = obj2;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 obj3 = key;
-                type$iv2 = set;
-                count$iv$iv3++;
-                if (count$iv$iv3 == 1) {
+                $i$f$getLocalsOLwlOKw = set;
+                count$iv$iv4++;
+                if (count$iv$iv4 == 1) {
                 } else {
                 }
-                if (i10 == 0) {
+                if (i3 == 0) {
                 } else {
                 }
-                count$iv$iv = count$iv$iv3;
+                count$iv$iv = count$iv$iv4;
                 capacity$iv$iv$iv$iv = 0;
-                count$iv$iv4 = i10;
-                type$iv2 = node$iv$iv;
-                if (type$iv2 != null && count$iv$iv4 != 0) {
+                count$iv$iv2 = i3;
+                $i$f$getLocalsOLwlOKw = node$iv$iv3;
+                if ($i$f$getLocalsOLwlOKw != null && count$iv$iv2 != 0) {
                 }
-                if (count$iv$iv4 != 0) {
+                if (count$iv$iv2 != 0) {
                 } else {
                 }
                 next$iv$iv = obj2;
-                i10 = count$iv$iv4;
-                count$iv$iv3 = count$iv$iv;
-                count$iv$iv4.add(obj2);
-                if (count$iv$iv4 != 0) {
+                i3 = count$iv$iv2;
+                count$iv$iv4 = count$iv$iv;
+                count$iv$iv2.add(obj2);
+                if (count$iv$iv2 != 0) {
                 }
-                node$iv$iv = 0;
-                count$iv$iv4.add(type$iv2);
+                node$iv$iv3 = 0;
+                count$iv$iv2.add($i$f$getLocalsOLwlOKw);
                 this_$iv$iv$iv = i13;
                 $i$f$mutableVectorOf = 16;
-                i9 = 0;
-                count$iv$iv = count$iv$iv3;
-                i4 = $i$f$mutableVectorOf;
-                count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv = obj2;
+                i5 = 0;
+                count$iv$iv = count$iv$iv4;
+                i7 = $i$f$mutableVectorOf;
+                count$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                node$iv$iv3 = obj2;
                 next$iv$iv = obj2;
                 this_$iv$iv$iv = 1;
-                count$iv$iv3 = 1;
-                i7 = 0;
-                $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-                $this$visitSubtreeIf_u2d6rFNWt0$iv3 = i2;
+                count$iv$iv4 = 1;
+                i = 0;
+                $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+                $this$visitSubtreeIf_u2d6rFNWt0$iv3 = i10;
                 node$iv$iv$iv = 0;
-                i3 = type$iv2;
+                i4 = $i$f$getLocalsOLwlOKw;
                 if ($this$visitSubtreeIf_u2d6rFNWt0$iv3 instanceof BackwardsCompatNode && element instanceof ModifierLocalConsumer) {
                 } else {
                 }
-                type$iv2 = set;
+                $i$f$getLocalsOLwlOKw = set;
                 if ($this$visitSubtreeIf_u2d6rFNWt0$iv3.getProvidedValues().contains$ui_release(obj3)) {
                 } else {
                 }
-                i = 1;
-                i8 = 1;
-                count$iv$iv2 = 0;
+                i9 = 1;
+                i2 = 1;
+                count$iv$iv3 = 0;
                 if (element instanceof ModifierLocalConsumer) {
                 } else {
                 }
                 if ((BackwardsCompatNode)$this$visitSubtreeIf_u2d6rFNWt0$iv3.getReadValues().contains(obj3)) {
                 } else {
                 }
-                type$iv2 = set;
+                $i$f$getLocalsOLwlOKw = set;
                 set.add($this$visitSubtreeIf_u2d6rFNWt0$iv3);
             }
-            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-            i3 = type$iv2;
+            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+            i4 = $i$f$getLocalsOLwlOKw;
             if (kindSet$ui_release &= i17 != 0) {
             } else {
             }
-            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-            i3 = type$iv2;
-            i8 = i2;
-            node$iv$iv2 = node$iv$iv2.getChild$ui_release();
-            i2 = i8;
-            count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv2 = i3;
-            node$iv$iv = 0;
+            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+            i4 = $i$f$getLocalsOLwlOKw;
+            i2 = i10;
+            node$iv$iv = node$iv$iv.getChild$ui_release();
+            i10 = i2;
+            count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+            $i$f$getLocalsOLwlOKw = i4;
+            node$iv$iv3 = 0;
             obj3 = key;
-            i5 = 0;
             i6 = 0;
-            i10 = 0;
+            i11 = 0;
+            i3 = 0;
             i23 = 0;
-            node$iv$iv = node$iv$iv3;
-            while (node$iv$iv != null) {
-                i3 = type$iv2;
-                type$iv2 = set;
-                i2 = 0;
-                if (kindSet$ui_release2 &= i3 != 0) {
+            node$iv$iv3 = node$iv$iv2;
+            while (node$iv$iv3 != null) {
+                i4 = $i$f$getLocalsOLwlOKw;
+                $i$f$getLocalsOLwlOKw = set;
+                i10 = 0;
+                if (kindSet$ui_release2 &= i4 != 0) {
                 } else {
                 }
-                count$iv$iv3 = 0;
-                if (count$iv$iv3 != 0 && node$iv$iv instanceof DelegatingNode) {
+                count$iv$iv4 = 0;
+                if (count$iv$iv4 != 0 && node$iv$iv3 instanceof DelegatingNode) {
                 } else {
                 }
-                i = 1;
-                node$iv$iv = DelegatableNodeKt.access$pop(i10);
-                i2 = i;
-                count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv2 = i3;
+                i9 = 1;
+                node$iv$iv3 = DelegatableNodeKt.access$pop(i3);
+                i10 = i9;
+                count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+                $i$f$getLocalsOLwlOKw = i4;
                 obj3 = key;
-                if (node$iv$iv instanceof DelegatingNode) {
+                if (node$iv$iv3 instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv3 = 0;
-                i7 = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
+                count$iv$iv4 = 0;
+                i = 0;
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     obj2 = node$iv$iv$iv;
-                    i11 = 0;
-                    i9 = 0;
-                    if (kindSet$ui_release3 &= i3 != 0) {
+                    i8 = 0;
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= i4 != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -497,53 +497,53 @@ public final class ModifierLocalManager {
                     next$iv$iv = obj2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     obj3 = key;
-                    type$iv2 = set;
-                    count$iv$iv3++;
-                    if (count$iv$iv3 == 1) {
+                    $i$f$getLocalsOLwlOKw = set;
+                    count$iv$iv4++;
+                    if (count$iv$iv4 == 1) {
                     } else {
                     }
-                    if (i10 == 0) {
+                    if (i3 == 0) {
                     } else {
                     }
-                    count$iv$iv = count$iv$iv3;
+                    count$iv$iv = count$iv$iv4;
                     capacity$iv$iv$iv$iv = 0;
-                    count$iv$iv4 = i10;
-                    type$iv2 = node$iv$iv;
-                    if (type$iv2 != null && count$iv$iv4 != 0) {
+                    count$iv$iv2 = i3;
+                    $i$f$getLocalsOLwlOKw = node$iv$iv3;
+                    if ($i$f$getLocalsOLwlOKw != null && count$iv$iv2 != 0) {
                     }
-                    if (count$iv$iv4 != 0) {
+                    if (count$iv$iv2 != 0) {
                     } else {
                     }
                     next$iv$iv = obj2;
-                    i10 = count$iv$iv4;
-                    count$iv$iv3 = count$iv$iv;
-                    count$iv$iv4.add(obj2);
-                    if (count$iv$iv4 != 0) {
+                    i3 = count$iv$iv2;
+                    count$iv$iv4 = count$iv$iv;
+                    count$iv$iv2.add(obj2);
+                    if (count$iv$iv2 != 0) {
                     }
-                    node$iv$iv = 0;
-                    count$iv$iv4.add(type$iv2);
+                    node$iv$iv3 = 0;
+                    count$iv$iv2.add($i$f$getLocalsOLwlOKw);
                     this_$iv$iv$iv = i13;
                     $i$f$mutableVectorOf = 16;
-                    i9 = 0;
-                    count$iv$iv = count$iv$iv3;
-                    i4 = $i$f$mutableVectorOf;
-                    count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv = obj2;
+                    i5 = 0;
+                    count$iv$iv = count$iv$iv4;
+                    i7 = $i$f$mutableVectorOf;
+                    count$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv3 = obj2;
                     next$iv$iv = obj2;
                     this_$iv$iv$iv = 1;
                 }
-                i = 1;
-                if (count$iv$iv3 == i) {
+                i9 = 1;
+                if (count$iv$iv4 == i9) {
                 } else {
                 }
-                i2 = i;
-                count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-                type$iv2 = i3;
+                i10 = i9;
+                count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+                $i$f$getLocalsOLwlOKw = i4;
                 obj3 = key;
                 obj2 = node$iv$iv$iv;
-                i11 = 0;
-                i9 = 0;
-                if (kindSet$ui_release3 &= i3 != 0) {
+                i8 = 0;
+                i5 = 0;
+                if (kindSet$ui_release3 &= i4 != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -553,100 +553,100 @@ public final class ModifierLocalManager {
                 next$iv$iv = obj2;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 obj3 = key;
-                type$iv2 = set;
-                count$iv$iv3++;
-                if (count$iv$iv3 == 1) {
+                $i$f$getLocalsOLwlOKw = set;
+                count$iv$iv4++;
+                if (count$iv$iv4 == 1) {
                 } else {
                 }
-                if (i10 == 0) {
+                if (i3 == 0) {
                 } else {
                 }
-                count$iv$iv = count$iv$iv3;
+                count$iv$iv = count$iv$iv4;
                 capacity$iv$iv$iv$iv = 0;
-                count$iv$iv4 = i10;
-                type$iv2 = node$iv$iv;
-                if (type$iv2 != null && count$iv$iv4 != 0) {
+                count$iv$iv2 = i3;
+                $i$f$getLocalsOLwlOKw = node$iv$iv3;
+                if ($i$f$getLocalsOLwlOKw != null && count$iv$iv2 != 0) {
                 }
-                if (count$iv$iv4 != 0) {
+                if (count$iv$iv2 != 0) {
                 } else {
                 }
                 next$iv$iv = obj2;
-                i10 = count$iv$iv4;
-                count$iv$iv3 = count$iv$iv;
-                count$iv$iv4.add(obj2);
-                if (count$iv$iv4 != 0) {
+                i3 = count$iv$iv2;
+                count$iv$iv4 = count$iv$iv;
+                count$iv$iv2.add(obj2);
+                if (count$iv$iv2 != 0) {
                 }
-                node$iv$iv = 0;
-                count$iv$iv4.add(type$iv2);
+                node$iv$iv3 = 0;
+                count$iv$iv2.add($i$f$getLocalsOLwlOKw);
                 this_$iv$iv$iv = i13;
                 $i$f$mutableVectorOf = 16;
-                i9 = 0;
-                count$iv$iv = count$iv$iv3;
-                i4 = $i$f$mutableVectorOf;
-                count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv = obj2;
+                i5 = 0;
+                count$iv$iv = count$iv$iv4;
+                i7 = $i$f$mutableVectorOf;
+                count$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                node$iv$iv3 = obj2;
                 next$iv$iv = obj2;
                 this_$iv$iv$iv = 1;
-                count$iv$iv3 = 1;
-                i7 = 0;
-                $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-                $this$visitSubtreeIf_u2d6rFNWt0$iv3 = i2;
+                count$iv$iv4 = 1;
+                i = 0;
+                $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+                $this$visitSubtreeIf_u2d6rFNWt0$iv3 = i10;
                 node$iv$iv$iv = 0;
-                i3 = type$iv2;
+                i4 = $i$f$getLocalsOLwlOKw;
                 if ($this$visitSubtreeIf_u2d6rFNWt0$iv3 instanceof BackwardsCompatNode && element instanceof ModifierLocalConsumer) {
                 } else {
                 }
-                type$iv2 = set;
-                i = 1;
+                $i$f$getLocalsOLwlOKw = set;
+                i9 = 1;
                 if (element instanceof ModifierLocalConsumer) {
                 } else {
                 }
                 if ((BackwardsCompatNode)$this$visitSubtreeIf_u2d6rFNWt0$iv3.getReadValues().contains(obj3)) {
                 } else {
                 }
-                type$iv2 = set;
+                $i$f$getLocalsOLwlOKw = set;
                 set.add($this$visitSubtreeIf_u2d6rFNWt0$iv3);
             }
-            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-            i3 = type$iv2;
-            count$iv$iv2 = i8;
-            if (count$iv$iv2 != 0) {
+            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+            i4 = $i$f$getLocalsOLwlOKw;
+            count$iv$iv3 = i2;
+            if (count$iv$iv3 != 0) {
             } else {
             }
             obj3 = key;
-            count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv2 = i3;
-            node$iv$iv = 0;
-            if (node$iv$iv instanceof ModifierLocalModifierNode) {
+            count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+            $i$f$getLocalsOLwlOKw = i4;
+            node$iv$iv3 = 0;
+            if (node$iv$iv3 instanceof ModifierLocalModifierNode) {
             } else {
             }
-            i3 = type$iv2;
-            type$iv2 = set;
-            i2 = 0;
-            if (kindSet$ui_release2 &= i3 != 0) {
+            i4 = $i$f$getLocalsOLwlOKw;
+            $i$f$getLocalsOLwlOKw = set;
+            i10 = 0;
+            if (kindSet$ui_release2 &= i4 != 0) {
             } else {
             }
-            count$iv$iv3 = 0;
-            if (count$iv$iv3 != 0 && node$iv$iv instanceof DelegatingNode) {
+            count$iv$iv4 = 0;
+            if (count$iv$iv4 != 0 && node$iv$iv3 instanceof DelegatingNode) {
             } else {
             }
-            i = 1;
-            node$iv$iv = DelegatableNodeKt.access$pop(i10);
-            i2 = i;
-            count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv2 = i3;
+            i9 = 1;
+            node$iv$iv3 = DelegatableNodeKt.access$pop(i3);
+            i10 = i9;
+            count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+            $i$f$getLocalsOLwlOKw = i4;
             obj3 = key;
-            if (node$iv$iv instanceof DelegatingNode) {
+            if (node$iv$iv3 instanceof DelegatingNode) {
             } else {
             }
-            count$iv$iv3 = 0;
-            i7 = 0;
-            node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
+            count$iv$iv4 = 0;
+            i = 0;
+            node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
             while (node$iv$iv$iv != null) {
                 obj2 = node$iv$iv$iv;
-                i11 = 0;
-                i9 = 0;
-                if (kindSet$ui_release3 &= i3 != 0) {
+                i8 = 0;
+                i5 = 0;
+                if (kindSet$ui_release3 &= i4 != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -656,53 +656,53 @@ public final class ModifierLocalManager {
                 next$iv$iv = obj2;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 obj3 = key;
-                type$iv2 = set;
-                count$iv$iv3++;
-                if (count$iv$iv3 == 1) {
+                $i$f$getLocalsOLwlOKw = set;
+                count$iv$iv4++;
+                if (count$iv$iv4 == 1) {
                 } else {
                 }
-                if (i10 == 0) {
+                if (i3 == 0) {
                 } else {
                 }
-                count$iv$iv = count$iv$iv3;
+                count$iv$iv = count$iv$iv4;
                 capacity$iv$iv$iv$iv = 0;
-                count$iv$iv4 = i10;
-                type$iv2 = node$iv$iv;
-                if (type$iv2 != null && count$iv$iv4 != 0) {
+                count$iv$iv2 = i3;
+                $i$f$getLocalsOLwlOKw = node$iv$iv3;
+                if ($i$f$getLocalsOLwlOKw != null && count$iv$iv2 != 0) {
                 }
-                if (count$iv$iv4 != 0) {
+                if (count$iv$iv2 != 0) {
                 } else {
                 }
                 next$iv$iv = obj2;
-                i10 = count$iv$iv4;
-                count$iv$iv3 = count$iv$iv;
-                count$iv$iv4.add(obj2);
-                if (count$iv$iv4 != 0) {
+                i3 = count$iv$iv2;
+                count$iv$iv4 = count$iv$iv;
+                count$iv$iv2.add(obj2);
+                if (count$iv$iv2 != 0) {
                 }
-                node$iv$iv = 0;
-                count$iv$iv4.add(type$iv2);
+                node$iv$iv3 = 0;
+                count$iv$iv2.add($i$f$getLocalsOLwlOKw);
                 this_$iv$iv$iv = i13;
                 $i$f$mutableVectorOf = 16;
-                i9 = 0;
-                count$iv$iv = count$iv$iv3;
-                i4 = $i$f$mutableVectorOf;
-                count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv = obj2;
+                i5 = 0;
+                count$iv$iv = count$iv$iv4;
+                i7 = $i$f$mutableVectorOf;
+                count$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                node$iv$iv3 = obj2;
                 next$iv$iv = obj2;
                 this_$iv$iv$iv = 1;
             }
-            i = 1;
-            if (count$iv$iv3 == i) {
+            i9 = 1;
+            if (count$iv$iv4 == i9) {
             } else {
             }
-            i2 = i;
-            count$iv$iv2 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
-            type$iv2 = i3;
+            i10 = i9;
+            count$iv$iv3 = $this$visitSubtreeIf_u2d6rFNWt0$iv;
+            $i$f$getLocalsOLwlOKw = i4;
             obj3 = key;
             obj2 = node$iv$iv$iv;
-            i11 = 0;
-            i9 = 0;
-            if (kindSet$ui_release3 &= i3 != 0) {
+            i8 = 0;
+            i5 = 0;
+            if (kindSet$ui_release3 &= i4 != 0) {
             } else {
             }
             this_$iv$iv$iv = 0;
@@ -712,63 +712,63 @@ public final class ModifierLocalManager {
             next$iv$iv = obj2;
             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
             obj3 = key;
-            type$iv2 = set;
-            count$iv$iv3++;
-            if (count$iv$iv3 == 1) {
+            $i$f$getLocalsOLwlOKw = set;
+            count$iv$iv4++;
+            if (count$iv$iv4 == 1) {
             } else {
             }
-            if (i10 == 0) {
+            if (i3 == 0) {
             } else {
             }
-            count$iv$iv = count$iv$iv3;
+            count$iv$iv = count$iv$iv4;
             capacity$iv$iv$iv$iv = 0;
-            count$iv$iv4 = i10;
-            type$iv2 = node$iv$iv;
-            if (type$iv2 != null && count$iv$iv4 != 0) {
+            count$iv$iv2 = i3;
+            $i$f$getLocalsOLwlOKw = node$iv$iv3;
+            if ($i$f$getLocalsOLwlOKw != null && count$iv$iv2 != 0) {
             }
-            if (count$iv$iv4 != 0) {
+            if (count$iv$iv2 != 0) {
             } else {
             }
             next$iv$iv = obj2;
-            i10 = count$iv$iv4;
-            count$iv$iv3 = count$iv$iv;
-            count$iv$iv4.add(obj2);
-            if (count$iv$iv4 != 0) {
+            i3 = count$iv$iv2;
+            count$iv$iv4 = count$iv$iv;
+            count$iv$iv2.add(obj2);
+            if (count$iv$iv2 != 0) {
             }
-            node$iv$iv = 0;
-            count$iv$iv4.add(type$iv2);
+            node$iv$iv3 = 0;
+            count$iv$iv2.add($i$f$getLocalsOLwlOKw);
             this_$iv$iv$iv = i13;
             $i$f$mutableVectorOf = 16;
-            i9 = 0;
-            count$iv$iv = count$iv$iv3;
-            i4 = $i$f$mutableVectorOf;
-            count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-            node$iv$iv = obj2;
+            i5 = 0;
+            count$iv$iv = count$iv$iv4;
+            i7 = $i$f$mutableVectorOf;
+            count$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+            node$iv$iv3 = obj2;
             next$iv$iv = obj2;
             this_$iv$iv$iv = 1;
-            count$iv$iv3 = 1;
-            i7 = 0;
-            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv2;
-            $this$visitSubtreeIf_u2d6rFNWt0$iv3 = i2;
+            count$iv$iv4 = 1;
+            i = 0;
+            $this$visitSubtreeIf_u2d6rFNWt0$iv = count$iv$iv3;
+            $this$visitSubtreeIf_u2d6rFNWt0$iv3 = i10;
             node$iv$iv$iv = 0;
-            i3 = type$iv2;
+            i4 = $i$f$getLocalsOLwlOKw;
             if ($this$visitSubtreeIf_u2d6rFNWt0$iv3 instanceof BackwardsCompatNode && element instanceof ModifierLocalConsumer) {
             } else {
             }
-            type$iv2 = set;
+            $i$f$getLocalsOLwlOKw = set;
             if ($this$visitSubtreeIf_u2d6rFNWt0$iv3.getProvidedValues().contains$ui_release(obj3)) {
             } else {
             }
-            i = 1;
-            i8 = 1;
-            count$iv$iv2 = 0;
+            i9 = 1;
+            i2 = 1;
+            count$iv$iv3 = 0;
             if (element instanceof ModifierLocalConsumer) {
             } else {
             }
             if ((BackwardsCompatNode)$this$visitSubtreeIf_u2d6rFNWt0$iv3.getReadValues().contains(obj3)) {
             } else {
             }
-            type$iv2 = set;
+            $i$f$getLocalsOLwlOKw = set;
             set.add($this$visitSubtreeIf_u2d6rFNWt0$iv3);
         }
     }

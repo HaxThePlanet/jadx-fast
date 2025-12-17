@@ -17,29 +17,29 @@ public final class IntrinsicMeasureBlocks {
 
     public final int HorizontalMaxHeight(List<? extends IntrinsicMeasurable> measurables, int availableWidth, int mainAxisSpacing) {
         int fixedSpace$iv;
-        int crossAxisMax$iv;
-        int $this$fastRoundToInt$iv$iv;
-        int weightUnitSpace$iv;
         int crossAxisMax$iv2;
+        int $this$fastRoundToInt$iv$iv2;
+        int weightUnitSpace$iv;
+        int crossAxisMax$iv;
         int i4;
-        int i5;
+        int i;
         int i2;
         int totalWeight$iv;
         int round;
-        int i;
-        int index$iv$iv2;
+        int i6;
         int index$iv$iv;
+        int index$iv$iv2;
         int size;
         int size2;
         int w;
-        int $this$fastRoundToInt$iv$iv2;
+        int $this$fastRoundToInt$iv$iv;
         int i3;
         Object obj2;
         Object obj;
         int weight;
         float weight2;
         int $this$HorizontalMaxHeight_u24lambda_u2410;
-        int i6;
+        int i5;
         final int i7 = availableWidth;
         final int i8 = 0;
         if (measurables.isEmpty()) {
@@ -47,14 +47,14 @@ public final class IntrinsicMeasureBlocks {
         } else {
             int i9 = 0;
             fixedSpace$iv = Math.min(i13 *= mainAxisSpacing, i7);
-            crossAxisMax$iv2 = 0;
+            crossAxisMax$iv = 0;
             totalWeight$iv = 0;
             round = measurables;
             int i16 = 0;
-            index$iv$iv = 0;
+            index$iv$iv2 = 0;
             w = 0;
             i3 = Integer.MAX_VALUE;
-            while (index$iv$iv < round.size()) {
+            while (index$iv$iv2 < round.size()) {
                 obj = obj2;
                 weight = 0;
                 weight2 = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
@@ -67,7 +67,7 @@ public final class IntrinsicMeasureBlocks {
                 }
                 if (Float.compare(weight2, w) > 0) {
                 }
-                index$iv$iv++;
+                index$iv$iv2++;
                 i4 = 1;
                 w = 0;
                 i3 = Integer.MAX_VALUE;
@@ -79,63 +79,63 @@ public final class IntrinsicMeasureBlocks {
                 int $this$HorizontalMaxHeight_u24lambda_u2492 = 0;
                 i4 = Math.min(obj.maxIntrinsicWidth(Integer.MAX_VALUE), i3);
                 fixedSpace$iv += i4;
-                i6 = 0;
-                crossAxisMax$iv2 = crossAxisMax$iv;
+                i5 = 0;
+                crossAxisMax$iv = crossAxisMax$iv2;
                 $this$HorizontalMaxHeight_u24lambda_u2410 = i4;
             }
-            i5 = Float.compare(totalWeight$iv, w) == 0 ? 1 : 0;
-            if (i5 != 0) {
-                $this$fastRoundToInt$iv$iv = 0;
+            i = Float.compare(totalWeight$iv, w) == 0 ? 1 : 0;
+            if (i != 0) {
+                $this$fastRoundToInt$iv$iv2 = 0;
             } else {
                 if (i7 == i3) {
-                    $this$fastRoundToInt$iv$iv = i3;
+                    $this$fastRoundToInt$iv$iv2 = i3;
                 } else {
-                    i5 = 0;
-                    $this$fastRoundToInt$iv$iv = round;
+                    i = 0;
+                    $this$fastRoundToInt$iv$iv2 = round;
                 }
             }
             i2 = measurables;
-            i = 0;
-            index$iv$iv2 = 0;
-            while (index$iv$iv2 < i2.size()) {
+            i6 = 0;
+            index$iv$iv = 0;
+            while (index$iv$iv < i2.size()) {
                 obj2 = size2;
                 obj = 0;
                 weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
                 if (Float.compare(weight, w) > 0) {
                 }
-                index$iv$iv2++;
+                index$iv$iv++;
                 w = 0;
                 i3 = Integer.MAX_VALUE;
-                if ($this$fastRoundToInt$iv$iv != i3) {
+                if ($this$fastRoundToInt$iv$iv2 != i3) {
                 } else {
                 }
-                $this$fastRoundToInt$iv$iv2 = i3;
+                $this$fastRoundToInt$iv$iv = i3;
                 $this$HorizontalMaxHeight_u24lambda_u2410 = 0;
-                crossAxisMax$iv2 = Math.max(crossAxisMax$iv2, obj2.maxIntrinsicHeight($this$fastRoundToInt$iv$iv2));
+                crossAxisMax$iv = Math.max(crossAxisMax$iv, obj2.maxIntrinsicHeight($this$fastRoundToInt$iv$iv));
                 $this$HorizontalMaxHeight_u24lambda_u2410 = 0;
-                $this$fastRoundToInt$iv$iv2 = Math.round(f2 *= weight);
+                $this$fastRoundToInt$iv$iv = Math.round(f2 *= weight);
             }
-            weightUnitSpace$iv = crossAxisMax$iv2;
+            weightUnitSpace$iv = crossAxisMax$iv;
         }
         return weightUnitSpace$iv;
     }
 
     public final int HorizontalMaxWidth(List<? extends IntrinsicMeasurable> measurables, int availableHeight, int mainAxisSpacing) {
         int weightUnitSpace$iv;
-        int i3;
+        int i;
         int fixedSpace$iv;
         int totalWeight$iv;
-        int i2;
+        int i3;
         int i5;
         int index$iv$iv;
         int size;
         int $this$fastRoundToInt$iv$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         int i4;
         float weight;
         int $this$HorizontalMaxWidth_u24lambda_u246;
-        int i;
+        int i2;
         int cmp;
         final int i6 = 0;
         if (measurables.isEmpty()) {
@@ -147,31 +147,31 @@ public final class IntrinsicMeasureBlocks {
             i5 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < obj3.size()) {
-                obj2 = obj;
+                obj = obj2;
                 i4 = 0;
-                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
+                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
                 int i12 = 0;
-                $this$HorizontalMaxWidth_u24lambda_u246 = obj2.maxIntrinsicWidth(availableHeight);
-                i = 0;
-                if (Float.compare(weight, i) == 0) {
+                $this$HorizontalMaxWidth_u24lambda_u246 = obj.maxIntrinsicWidth(availableHeight);
+                i2 = 0;
+                if (Float.compare(weight, i2) == 0) {
                 } else {
                 }
-                $this$fastRoundToInt$iv$iv = i3;
+                $this$fastRoundToInt$iv$iv = i;
                 if ($this$fastRoundToInt$iv$iv != 0) {
                 } else {
                 }
-                if (Float.compare(weight, i) > 0) {
+                if (Float.compare(weight, i2) > 0) {
                 }
                 index$iv$iv++;
                 totalWeight$iv += weight;
-                i = 0;
+                i2 = 0;
                 weightUnitSpace$iv = Math.max(weightUnitSpace$iv, Math.round(f2 /= weight));
                 fixedSpace$iv += $this$HorizontalMaxWidth_u24lambda_u246;
             }
             int i8 = 0;
-            $this$fastRoundToInt$iv$iv3 += i2;
+            $this$fastRoundToInt$iv$iv3 += i3;
         }
-        return i3;
+        return i;
     }
 
     public final int HorizontalMinHeight(List<? extends IntrinsicMeasurable> measurables, int availableWidth, int mainAxisSpacing) {
@@ -180,25 +180,25 @@ public final class IntrinsicMeasureBlocks {
         int $this$fastRoundToInt$iv$iv;
         int weightUnitSpace$iv;
         int crossAxisMax$iv2;
-        int i6;
-        int i3;
-        int i5;
+        int i4;
+        int i;
+        int i2;
         int totalWeight$iv;
         int round;
-        int i;
-        int index$iv$iv2;
+        int i6;
         int index$iv$iv;
+        int index$iv$iv2;
         int size;
         int size2;
         int w;
         int $this$fastRoundToInt$iv$iv2;
-        int i2;
-        Object obj2;
+        int i3;
         Object obj;
+        Object obj2;
         int weight2;
         float weight;
         int $this$HorizontalMinHeight_u24lambda_u244;
-        int i4;
+        int i5;
         final int i7 = availableWidth;
         final int i8 = 0;
         if (measurables.isEmpty()) {
@@ -210,13 +210,13 @@ public final class IntrinsicMeasureBlocks {
             totalWeight$iv = 0;
             round = measurables;
             int i16 = 0;
-            index$iv$iv = 0;
+            index$iv$iv2 = 0;
             w = 0;
-            i2 = Integer.MAX_VALUE;
-            while (index$iv$iv < round.size()) {
-                obj = obj2;
+            i3 = Integer.MAX_VALUE;
+            while (index$iv$iv2 < round.size()) {
+                obj2 = obj;
                 weight2 = 0;
-                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
+                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
                 if (Float.compare(weight, w) == 0) {
                 } else {
                 }
@@ -226,51 +226,51 @@ public final class IntrinsicMeasureBlocks {
                 }
                 if (Float.compare(weight, w) > 0) {
                 }
-                index$iv$iv++;
-                i6 = 1;
+                index$iv$iv2++;
+                i4 = 1;
                 w = 0;
-                i2 = Integer.MAX_VALUE;
+                i3 = Integer.MAX_VALUE;
                 totalWeight$iv += weight;
-                if (i7 == i2) {
+                if (i7 == i3) {
                 } else {
                 }
-                i2 = i7 - fixedSpace$iv;
+                i3 = i7 - fixedSpace$iv;
                 int $this$HorizontalMinHeight_u24lambda_u2432 = 0;
-                i6 = Math.min(obj.maxIntrinsicWidth(Integer.MAX_VALUE), i2);
-                fixedSpace$iv += i6;
-                i4 = 0;
+                i4 = Math.min(obj2.maxIntrinsicWidth(Integer.MAX_VALUE), i3);
+                fixedSpace$iv += i4;
+                i5 = 0;
                 crossAxisMax$iv2 = crossAxisMax$iv;
-                $this$HorizontalMinHeight_u24lambda_u244 = i6;
+                $this$HorizontalMinHeight_u24lambda_u244 = i4;
             }
-            i3 = Float.compare(totalWeight$iv, w) == 0 ? 1 : 0;
-            if (i3 != 0) {
+            i = Float.compare(totalWeight$iv, w) == 0 ? 1 : 0;
+            if (i != 0) {
                 $this$fastRoundToInt$iv$iv = 0;
             } else {
-                if (i7 == i2) {
-                    $this$fastRoundToInt$iv$iv = i2;
+                if (i7 == i3) {
+                    $this$fastRoundToInt$iv$iv = i3;
                 } else {
-                    i3 = 0;
+                    i = 0;
                     $this$fastRoundToInt$iv$iv = round;
                 }
             }
-            i5 = measurables;
-            i = 0;
-            index$iv$iv2 = 0;
-            while (index$iv$iv2 < i5.size()) {
-                obj2 = size2;
-                obj = 0;
-                weight2 = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
+            i2 = measurables;
+            i6 = 0;
+            index$iv$iv = 0;
+            while (index$iv$iv < i2.size()) {
+                obj = size2;
+                obj2 = 0;
+                weight2 = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
                 if (Float.compare(weight2, w) > 0) {
                 }
-                index$iv$iv2++;
+                index$iv$iv++;
                 w = 0;
-                i2 = Integer.MAX_VALUE;
-                if ($this$fastRoundToInt$iv$iv != i2) {
+                i3 = Integer.MAX_VALUE;
+                if ($this$fastRoundToInt$iv$iv != i3) {
                 } else {
                 }
-                $this$fastRoundToInt$iv$iv2 = i2;
+                $this$fastRoundToInt$iv$iv2 = i3;
                 $this$HorizontalMinHeight_u24lambda_u244 = 0;
-                crossAxisMax$iv2 = Math.max(crossAxisMax$iv2, obj2.minIntrinsicHeight($this$fastRoundToInt$iv$iv2));
+                crossAxisMax$iv2 = Math.max(crossAxisMax$iv2, obj.minIntrinsicHeight($this$fastRoundToInt$iv$iv2));
                 $this$HorizontalMinHeight_u24lambda_u244 = 0;
                 $this$fastRoundToInt$iv$iv2 = Math.round(f2 *= weight2);
             }
@@ -285,13 +285,13 @@ public final class IntrinsicMeasureBlocks {
         int fixedSpace$iv;
         int totalWeight$iv;
         int i5;
-        int i4;
+        int i;
         int index$iv$iv;
         int size;
         int $this$fastRoundToInt$iv$iv;
         Object obj;
         Object obj2;
-        int i;
+        int i4;
         float weight;
         int $this$HorizontalMinWidth_u24lambda_u240;
         int i2;
@@ -303,11 +303,11 @@ public final class IntrinsicMeasureBlocks {
             fixedSpace$iv = 0;
             totalWeight$iv = 0;
             int obj3 = measurables;
-            i4 = 0;
+            i = 0;
             index$iv$iv = 0;
             while (index$iv$iv < obj3.size()) {
                 obj2 = obj;
-                i = 0;
+                i4 = 0;
                 weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
                 int i12 = 0;
                 $this$HorizontalMinWidth_u24lambda_u240 = obj2.minIntrinsicWidth(availableHeight);
@@ -338,13 +338,13 @@ public final class IntrinsicMeasureBlocks {
         int i5;
         int fixedSpace$iv;
         int totalWeight$iv;
-        int i4;
         int i3;
+        int i4;
         int index$iv$iv;
         int size;
         int $this$fastRoundToInt$iv$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         float weight;
         int $this$VerticalMaxHeight_u24lambda_u2411;
@@ -357,14 +357,14 @@ public final class IntrinsicMeasureBlocks {
             fixedSpace$iv = 0;
             totalWeight$iv = 0;
             int obj3 = measurables;
-            i3 = 0;
+            i4 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < obj3.size()) {
-                obj = obj2;
+                obj2 = obj;
                 i = 0;
-                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
+                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
                 int i12 = 0;
-                $this$VerticalMaxHeight_u24lambda_u2411 = obj.maxIntrinsicHeight(availableWidth);
+                $this$VerticalMaxHeight_u24lambda_u2411 = obj2.maxIntrinsicHeight(availableWidth);
                 i2 = 0;
                 if (Float.compare(weight, i2) == 0) {
                 } else {
@@ -382,36 +382,36 @@ public final class IntrinsicMeasureBlocks {
                 fixedSpace$iv += $this$VerticalMaxHeight_u24lambda_u2411;
             }
             int i8 = 0;
-            $this$fastRoundToInt$iv$iv3 += i4;
+            $this$fastRoundToInt$iv$iv3 += i3;
         }
         return i5;
     }
 
     public final int VerticalMaxWidth(List<? extends IntrinsicMeasurable> measurables, int availableHeight, int mainAxisSpacing) {
         int fixedSpace$iv;
-        int crossAxisMax$iv2;
-        int $this$fastRoundToInt$iv$iv2;
-        int weightUnitSpace$iv;
         int crossAxisMax$iv;
-        int i6;
-        int i2;
+        int $this$fastRoundToInt$iv$iv;
+        int weightUnitSpace$iv;
+        int crossAxisMax$iv2;
+        int i3;
         int i;
+        int i6;
         int totalWeight$iv;
         int round;
-        int i4;
+        int i5;
         int index$iv$iv;
         int index$iv$iv2;
-        int size2;
         int size;
+        int size2;
         int h;
-        int $this$fastRoundToInt$iv$iv;
-        int i5;
-        Object obj;
+        int $this$fastRoundToInt$iv$iv2;
+        int i4;
         Object obj2;
+        Object obj;
         int weight;
         float weight2;
         int $this$VerticalMaxWidth_u24lambda_u248;
-        int i3;
+        int i2;
         final int i7 = availableHeight;
         final int i8 = 0;
         if (measurables.isEmpty()) {
@@ -419,17 +419,17 @@ public final class IntrinsicMeasureBlocks {
         } else {
             int i9 = 0;
             fixedSpace$iv = Math.min(i13 *= mainAxisSpacing, i7);
-            crossAxisMax$iv = 0;
+            crossAxisMax$iv2 = 0;
             totalWeight$iv = 0;
             round = measurables;
             int i16 = 0;
             index$iv$iv2 = 0;
             h = 0;
-            i5 = Integer.MAX_VALUE;
+            i4 = Integer.MAX_VALUE;
             while (index$iv$iv2 < round.size()) {
-                obj2 = obj;
+                obj = obj2;
                 weight = 0;
-                weight2 = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
+                weight2 = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
                 if (Float.compare(weight2, h) == 0) {
                 } else {
                 }
@@ -440,74 +440,74 @@ public final class IntrinsicMeasureBlocks {
                 if (Float.compare(weight2, h) > 0) {
                 }
                 index$iv$iv2++;
-                i6 = 1;
+                i3 = 1;
                 h = 0;
-                i5 = Integer.MAX_VALUE;
+                i4 = Integer.MAX_VALUE;
                 totalWeight$iv += weight2;
-                if (i7 == i5) {
+                if (i7 == i4) {
                 } else {
                 }
-                i5 = i7 - fixedSpace$iv;
+                i4 = i7 - fixedSpace$iv;
                 int $this$VerticalMaxWidth_u24lambda_u2472 = 0;
-                i6 = Math.min(obj2.maxIntrinsicHeight(Integer.MAX_VALUE), i5);
-                fixedSpace$iv += i6;
-                i3 = 0;
-                crossAxisMax$iv = crossAxisMax$iv2;
-                $this$VerticalMaxWidth_u24lambda_u248 = i6;
+                i3 = Math.min(obj.maxIntrinsicHeight(Integer.MAX_VALUE), i4);
+                fixedSpace$iv += i3;
+                i2 = 0;
+                crossAxisMax$iv2 = crossAxisMax$iv;
+                $this$VerticalMaxWidth_u24lambda_u248 = i3;
             }
-            i2 = Float.compare(totalWeight$iv, h) == 0 ? 1 : 0;
-            if (i2 != 0) {
-                $this$fastRoundToInt$iv$iv2 = 0;
+            i = Float.compare(totalWeight$iv, h) == 0 ? 1 : 0;
+            if (i != 0) {
+                $this$fastRoundToInt$iv$iv = 0;
             } else {
-                if (i7 == i5) {
-                    $this$fastRoundToInt$iv$iv2 = i5;
+                if (i7 == i4) {
+                    $this$fastRoundToInt$iv$iv = i4;
                 } else {
-                    i2 = 0;
-                    $this$fastRoundToInt$iv$iv2 = round;
+                    i = 0;
+                    $this$fastRoundToInt$iv$iv = round;
                 }
             }
-            i = measurables;
-            i4 = 0;
+            i6 = measurables;
+            i5 = 0;
             index$iv$iv = 0;
-            while (index$iv$iv < i.size()) {
-                obj = size;
-                obj2 = 0;
-                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
+            while (index$iv$iv < i6.size()) {
+                obj2 = size2;
+                obj = 0;
+                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
                 if (Float.compare(weight, h) > 0) {
                 }
                 index$iv$iv++;
                 h = 0;
-                i5 = Integer.MAX_VALUE;
-                if ($this$fastRoundToInt$iv$iv2 != i5) {
+                i4 = Integer.MAX_VALUE;
+                if ($this$fastRoundToInt$iv$iv != i4) {
                 } else {
                 }
-                $this$fastRoundToInt$iv$iv = i5;
+                $this$fastRoundToInt$iv$iv2 = i4;
                 $this$VerticalMaxWidth_u24lambda_u248 = 0;
-                crossAxisMax$iv = Math.max(crossAxisMax$iv, obj.maxIntrinsicWidth($this$fastRoundToInt$iv$iv));
+                crossAxisMax$iv2 = Math.max(crossAxisMax$iv2, obj2.maxIntrinsicWidth($this$fastRoundToInt$iv$iv2));
                 $this$VerticalMaxWidth_u24lambda_u248 = 0;
-                $this$fastRoundToInt$iv$iv = Math.round(f2 *= weight);
+                $this$fastRoundToInt$iv$iv2 = Math.round(f2 *= weight);
             }
-            weightUnitSpace$iv = crossAxisMax$iv;
+            weightUnitSpace$iv = crossAxisMax$iv2;
         }
         return weightUnitSpace$iv;
     }
 
     public final int VerticalMinHeight(List<? extends IntrinsicMeasurable> measurables, int availableWidth, int mainAxisSpacing) {
         int weightUnitSpace$iv;
-        int i4;
+        int i;
         int fixedSpace$iv;
         int totalWeight$iv;
-        int i2;
-        int i;
+        int i5;
+        int i3;
         int index$iv$iv;
         int size;
         int $this$fastRoundToInt$iv$iv;
-        Object obj2;
         Object obj;
-        int i3;
+        Object obj2;
+        int i4;
         float weight;
         int $this$VerticalMinHeight_u24lambda_u245;
-        int i5;
+        int i2;
         int cmp;
         final int i6 = 0;
         if (measurables.isEmpty()) {
@@ -516,61 +516,61 @@ public final class IntrinsicMeasureBlocks {
             fixedSpace$iv = 0;
             totalWeight$iv = 0;
             int obj3 = measurables;
-            i = 0;
+            i3 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < obj3.size()) {
-                obj = obj2;
-                i3 = 0;
-                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
+                obj2 = obj;
+                i4 = 0;
+                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
                 int i12 = 0;
-                $this$VerticalMinHeight_u24lambda_u245 = obj.minIntrinsicHeight(availableWidth);
-                i5 = 0;
-                if (Float.compare(weight, i5) == 0) {
+                $this$VerticalMinHeight_u24lambda_u245 = obj2.minIntrinsicHeight(availableWidth);
+                i2 = 0;
+                if (Float.compare(weight, i2) == 0) {
                 } else {
                 }
-                $this$fastRoundToInt$iv$iv = i4;
+                $this$fastRoundToInt$iv$iv = i;
                 if ($this$fastRoundToInt$iv$iv != 0) {
                 } else {
                 }
-                if (Float.compare(weight, i5) > 0) {
+                if (Float.compare(weight, i2) > 0) {
                 }
                 index$iv$iv++;
                 totalWeight$iv += weight;
-                i5 = 0;
+                i2 = 0;
                 weightUnitSpace$iv = Math.max(weightUnitSpace$iv, Math.round(f2 /= weight));
                 fixedSpace$iv += $this$VerticalMinHeight_u24lambda_u245;
             }
             int i8 = 0;
-            $this$fastRoundToInt$iv$iv3 += i2;
+            $this$fastRoundToInt$iv$iv3 += i5;
         }
-        return i4;
+        return i;
     }
 
     public final int VerticalMinWidth(List<? extends IntrinsicMeasurable> measurables, int availableHeight, int mainAxisSpacing) {
         int fixedSpace$iv;
-        int crossAxisMax$iv2;
-        int $this$fastRoundToInt$iv$iv2;
-        int weightUnitSpace$iv;
         int crossAxisMax$iv;
-        int i3;
-        int i2;
+        int $this$fastRoundToInt$iv$iv;
+        int weightUnitSpace$iv;
+        int crossAxisMax$iv2;
+        int i;
+        int i6;
         int i4;
         int totalWeight$iv;
         int round;
         int i5;
-        int index$iv$iv;
         int index$iv$iv2;
-        int size2;
+        int index$iv$iv;
         int size;
+        int size2;
         int h;
-        int $this$fastRoundToInt$iv$iv;
-        int i;
-        Object obj;
+        int $this$fastRoundToInt$iv$iv2;
+        int i3;
         Object obj2;
+        Object obj;
         int weight2;
         float weight;
         int $this$VerticalMinWidth_u24lambda_u242;
-        int i6;
+        int i2;
         final int i7 = availableHeight;
         final int i8 = 0;
         if (measurables.isEmpty()) {
@@ -578,17 +578,17 @@ public final class IntrinsicMeasureBlocks {
         } else {
             int i9 = 0;
             fixedSpace$iv = Math.min(i13 *= mainAxisSpacing, i7);
-            crossAxisMax$iv = 0;
+            crossAxisMax$iv2 = 0;
             totalWeight$iv = 0;
             round = measurables;
             int i16 = 0;
-            index$iv$iv2 = 0;
+            index$iv$iv = 0;
             h = 0;
-            i = Integer.MAX_VALUE;
-            while (index$iv$iv2 < round.size()) {
-                obj2 = obj;
+            i3 = Integer.MAX_VALUE;
+            while (index$iv$iv < round.size()) {
+                obj = obj2;
                 weight2 = 0;
-                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
+                weight = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
                 if (Float.compare(weight, h) == 0) {
                 } else {
                 }
@@ -598,55 +598,55 @@ public final class IntrinsicMeasureBlocks {
                 }
                 if (Float.compare(weight, h) > 0) {
                 }
-                index$iv$iv2++;
-                i3 = 1;
+                index$iv$iv++;
+                i = 1;
                 h = 0;
-                i = Integer.MAX_VALUE;
+                i3 = Integer.MAX_VALUE;
                 totalWeight$iv += weight;
-                if (i7 == i) {
+                if (i7 == i3) {
                 } else {
                 }
-                i = i7 - fixedSpace$iv;
+                i3 = i7 - fixedSpace$iv;
                 int $this$VerticalMinWidth_u24lambda_u2412 = 0;
-                i3 = Math.min(obj2.maxIntrinsicHeight(Integer.MAX_VALUE), i);
-                fixedSpace$iv += i3;
-                i6 = 0;
-                crossAxisMax$iv = crossAxisMax$iv2;
-                $this$VerticalMinWidth_u24lambda_u242 = i3;
+                i = Math.min(obj.maxIntrinsicHeight(Integer.MAX_VALUE), i3);
+                fixedSpace$iv += i;
+                i2 = 0;
+                crossAxisMax$iv2 = crossAxisMax$iv;
+                $this$VerticalMinWidth_u24lambda_u242 = i;
             }
-            i2 = Float.compare(totalWeight$iv, h) == 0 ? 1 : 0;
-            if (i2 != 0) {
-                $this$fastRoundToInt$iv$iv2 = 0;
+            i6 = Float.compare(totalWeight$iv, h) == 0 ? 1 : 0;
+            if (i6 != 0) {
+                $this$fastRoundToInt$iv$iv = 0;
             } else {
-                if (i7 == i) {
-                    $this$fastRoundToInt$iv$iv2 = i;
+                if (i7 == i3) {
+                    $this$fastRoundToInt$iv$iv = i3;
                 } else {
-                    i2 = 0;
-                    $this$fastRoundToInt$iv$iv2 = round;
+                    i6 = 0;
+                    $this$fastRoundToInt$iv$iv = round;
                 }
             }
             i4 = measurables;
             i5 = 0;
-            index$iv$iv = 0;
-            while (index$iv$iv < i4.size()) {
-                obj = size;
-                obj2 = 0;
-                weight2 = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj));
+            index$iv$iv2 = 0;
+            while (index$iv$iv2 < i4.size()) {
+                obj2 = size2;
+                obj = 0;
+                weight2 = RowColumnImplKt.getWeight(RowColumnImplKt.getRowColumnParentData((IntrinsicMeasurable)obj2));
                 if (Float.compare(weight2, h) > 0) {
                 }
-                index$iv$iv++;
+                index$iv$iv2++;
                 h = 0;
-                i = Integer.MAX_VALUE;
-                if ($this$fastRoundToInt$iv$iv2 != i) {
+                i3 = Integer.MAX_VALUE;
+                if ($this$fastRoundToInt$iv$iv != i3) {
                 } else {
                 }
-                $this$fastRoundToInt$iv$iv = i;
+                $this$fastRoundToInt$iv$iv2 = i3;
                 $this$VerticalMinWidth_u24lambda_u242 = 0;
-                crossAxisMax$iv = Math.max(crossAxisMax$iv, obj.minIntrinsicWidth($this$fastRoundToInt$iv$iv));
+                crossAxisMax$iv2 = Math.max(crossAxisMax$iv2, obj2.minIntrinsicWidth($this$fastRoundToInt$iv$iv2));
                 $this$VerticalMinWidth_u24lambda_u242 = 0;
-                $this$fastRoundToInt$iv$iv = Math.round(f2 *= weight2);
+                $this$fastRoundToInt$iv$iv2 = Math.round(f2 *= weight2);
             }
-            weightUnitSpace$iv = crossAxisMax$iv;
+            weightUnitSpace$iv = crossAxisMax$iv2;
         }
         return weightUnitSpace$iv;
     }

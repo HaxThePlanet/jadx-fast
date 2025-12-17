@@ -60,16 +60,16 @@ public final class ProgressIndicatorDefaults {
 
     public final void drawStopIndicator-EgI2THU(DrawScope drawScope, float stopSize, long color, int strokeCap) {
         DrawScope drawScope2;
-        int i3;
+        int i8;
         long l2;
         long l;
-        int i7;
-        int i;
         int i5;
-        int i8;
-        int i4;
+        int i;
+        int i7;
         int i6;
         int i2;
+        int i3;
+        int i4;
         final Object obj = drawScope;
         final int i20 = 0;
         float height-impl2 = Size.getHeight-impl(obj.getSize-NH-jbRc());

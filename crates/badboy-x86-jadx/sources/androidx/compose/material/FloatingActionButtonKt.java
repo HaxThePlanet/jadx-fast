@@ -40,61 +40,61 @@ public final class FloatingActionButtonKt {
     }
 
     public static final void ExtendedFloatingActionButton-wqdebIU(Function2<? super Composer, ? super Integer, Unit> text, Function0<Unit> onClick, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> icon, MutableInteractionSource interactionSource, Shape shape, long backgroundColor, long contentColor, androidx.compose.material.FloatingActionButtonElevation elevation, Composer $composer, int $changed, int i12) {
-        long l2;
         long l3;
-        int traceInProgress2;
+        long l4;
+        int traceInProgress;
         int defaultsInvalid;
         int copy;
-        int $dirty4;
-        int $dirty5;
-        boolean traceInProgress;
-        int obj3;
+        int $dirty2;
+        int $dirty3;
+        boolean traceInProgress2;
+        int obj9;
         Object elevation-xZ9-QkE;
         Function2 $composer2;
-        int $dirty3;
+        int $dirty4;
         long $dirty;
-        Object $dirty2;
-        int i3;
-        int i11;
-        int i19;
-        Object obj2;
-        Object obj4;
+        Object $dirty5;
+        int i13;
+        int i9;
+        int i10;
+        Object obj3;
+        Object obj;
         Object modifier2;
-        int i;
+        int i18;
         int i4;
         int i17;
         Composer $composer3;
-        Object obj8;
+        Object obj2;
         Object i2;
         long icon2;
-        int i15;
-        int i18;
-        Object obj6;
-        long l4;
-        int i8;
-        Object obj;
-        int changed3;
-        int i9;
-        int changed;
-        Object obj9;
-        Object obj7;
         int i7;
+        int i8;
+        Object obj6;
+        long l2;
+        int i11;
+        Object obj8;
         int changed2;
+        int i19;
+        int changed3;
+        Object obj7;
+        Object obj4;
+        int i6;
+        int changed;
         int i14;
         Modifier sizeIn-qDBjuR0$default;
         int changed4;
         Object i5;
-        Object i10;
+        Object i15;
         int secondary-0d7_KjU;
         long contentColor2;
         long contentColor3;
         long l;
-        int i13;
+        int i3;
         Object obj5;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
         int i16;
-        int i6;
+        int i;
         androidx.compose.material.FloatingActionButtonDefaults obj29;
         int obj30;
         int obj31;
@@ -103,110 +103,110 @@ public final class FloatingActionButtonKt {
         Composer obj34;
         int obj35;
         int obj36;
-        obj3 = text;
+        obj9 = text;
         final int i64 = obj39;
         final int i65 = obj40;
         elevation-xZ9-QkE = i12.startRestartGroup(-1555720195);
         ComposerKt.sourceInformation(elevation-xZ9-QkE, "C(ExtendedFloatingActionButton)P(8,6,5,3,4,7,0:c#ui.graphics.Color,1:c#ui.graphics.Color)152@7254L6,153@7342L6,154@7386L32,155@7496L11,168@7878L487,157@7516L849:FloatingActionButton.kt#jmzs0o");
-        $dirty3 = obj39;
+        $dirty4 = obj39;
         if (i65 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty4 |= 6;
         } else {
             if (i64 & 6 == 0) {
-                i3 = elevation-xZ9-QkE.changedInstance(obj3) ? 4 : 2;
-                $dirty3 |= i3;
+                i13 = elevation-xZ9-QkE.changedInstance(obj9) ? 4 : 2;
+                $dirty4 |= i13;
             }
         }
         if (i65 & 2 != 0) {
-            $dirty3 |= 48;
-            obj7 = onClick;
+            $dirty4 |= 48;
+            obj4 = onClick;
         } else {
             if (i64 & 48 == 0) {
-                i11 = elevation-xZ9-QkE.changedInstance(onClick) ? 32 : 16;
-                $dirty3 |= i11;
+                i9 = elevation-xZ9-QkE.changedInstance(onClick) ? 32 : 16;
+                $dirty4 |= i9;
             } else {
-                obj7 = onClick;
+                obj4 = onClick;
             }
         }
-        i19 = i65 & 4;
-        if (i19 != 0) {
-            $dirty3 |= 384;
-            obj4 = modifier;
+        i10 = i65 & 4;
+        if (i10 != 0) {
+            $dirty4 |= 384;
+            obj = modifier;
         } else {
             if (i64 & 384 == 0) {
-                i = elevation-xZ9-QkE.changed(modifier) ? 256 : 128;
-                $dirty3 |= i;
+                i18 = elevation-xZ9-QkE.changed(modifier) ? 256 : 128;
+                $dirty4 |= i18;
             } else {
-                obj4 = modifier;
+                obj = modifier;
             }
         }
         i4 = i65 & 8;
         if (i4 != 0) {
-            $dirty3 |= 3072;
+            $dirty4 |= 3072;
             i2 = icon;
         } else {
             if (i64 & 3072 == 0) {
-                i15 = elevation-xZ9-QkE.changedInstance(icon) ? 2048 : 1024;
-                $dirty3 |= i15;
+                i7 = elevation-xZ9-QkE.changedInstance(icon) ? 2048 : 1024;
+                $dirty4 |= i7;
             } else {
                 i2 = icon;
             }
         }
-        i18 = i65 & 16;
-        if (i18 != 0) {
-            $dirty3 |= 24576;
+        i8 = i65 & 16;
+        if (i8 != 0) {
+            $dirty4 |= 24576;
             obj6 = interactionSource;
         } else {
             if (i64 & 24576 == 0) {
-                i8 = elevation-xZ9-QkE.changed(interactionSource) ? 16384 : 8192;
-                $dirty3 |= i8;
+                i11 = elevation-xZ9-QkE.changed(interactionSource) ? 16384 : 8192;
+                $dirty4 |= i11;
             } else {
                 obj6 = interactionSource;
             }
         }
         if (i57 &= i64 == 0) {
             if (i65 & 32 == 0) {
-                changed3 = elevation-xZ9-QkE.changed(shape) ? 131072 : 65536;
+                changed2 = elevation-xZ9-QkE.changed(shape) ? 131072 : 65536;
             } else {
-                obj = shape;
+                obj8 = shape;
             }
-            $dirty3 |= changed3;
+            $dirty4 |= changed2;
         } else {
-            obj = shape;
+            obj8 = shape;
         }
         if (i60 &= i64 == 0) {
             if (i65 & 64 == 0) {
-                changed2 = elevation-xZ9-QkE.changed(backgroundColor) ? 1048576 : 524288;
+                changed = elevation-xZ9-QkE.changed(backgroundColor) ? 1048576 : 524288;
             } else {
-                l2 = backgroundColor;
+                l3 = backgroundColor;
             }
-            $dirty3 |= changed2;
+            $dirty4 |= changed;
         } else {
-            l2 = backgroundColor;
+            l3 = backgroundColor;
         }
         int i66 = 12582912;
         if (i64 & i66 == 0) {
             if (i65 & 128 == 0) {
-                i9 = elevation-xZ9-QkE.changed(elevation) ? 8388608 : 4194304;
+                i19 = elevation-xZ9-QkE.changed(elevation) ? 8388608 : 4194304;
             } else {
-                l3 = elevation;
+                l4 = elevation;
             }
-            $dirty3 |= i9;
+            $dirty4 |= i19;
         } else {
-            l3 = elevation;
+            l4 = elevation;
         }
         if (i61 &= i64 == 0) {
             if (i65 & 256 == 0) {
                 changed4 = elevation-xZ9-QkE.changed($changed) ? 67108864 : 33554432;
             } else {
-                obj9 = $changed;
+                obj7 = $changed;
             }
-            $dirty3 |= changed4;
+            $dirty4 |= changed4;
         } else {
-            obj9 = $changed;
+            obj7 = $changed;
         }
-        i10 = i66;
-        if ($dirty3 & i5 == 38347922) {
+        i15 = i66;
+        if ($dirty4 & i5 == 38347922) {
             if (!elevation-xZ9-QkE.getSkipping()) {
                 elevation-xZ9-QkE.startDefaults();
                 int i31 = -234881025;
@@ -215,30 +215,30 @@ public final class FloatingActionButtonKt {
                 secondary-0d7_KjU = -458753;
                 if (i64 & 1 != 0) {
                     if (elevation-xZ9-QkE.getDefaultsInvalid()) {
-                        if (i19 != 0) {
-                            obj4 = defaultsInvalid;
+                        if (i10 != 0) {
+                            obj = defaultsInvalid;
                         }
                         if (i4 != 0) {
                             i2 = defaultsInvalid;
                         }
-                        if (i18 != 0) {
+                        if (i8 != 0) {
                             obj6 = defaultsInvalid;
                         }
-                        i19 = 6;
+                        i10 = 6;
                         if (i65 & 32 != 0) {
-                            $dirty3 &= secondary-0d7_KjU;
-                            obj = copy;
+                            $dirty4 &= secondary-0d7_KjU;
+                            obj8 = copy;
                         }
                         if (i65 & 64 != 0) {
-                            $dirty4 = $dirty7;
+                            $dirty2 = $dirty7;
                             $dirty = secondary-0d7_KjU;
                         } else {
-                            $dirty4 = $dirty3;
+                            $dirty2 = $dirty4;
                             $dirty = backgroundColor;
                         }
                         if (i65 & 128 != 0) {
-                            contentColor2 = ColorsKt.contentColorFor-ek8zF_U($dirty, i19, elevation-xZ9-QkE);
-                            $dirty4 &= i14;
+                            contentColor2 = ColorsKt.contentColorFor-ek8zF_U($dirty, i10, elevation-xZ9-QkE);
+                            $dirty2 &= i14;
                         } else {
                             contentColor2 = elevation;
                         }
@@ -249,362 +249,362 @@ public final class FloatingActionButtonKt {
                             i5 = obj6;
                             l = contentColor2;
                             contentColor3 = $dirty;
-                            $dirty3 = $dirty6;
-                            $dirty5 = i10;
-                            i10 = obj;
+                            $dirty4 = $dirty6;
+                            $dirty3 = i15;
+                            i15 = obj8;
                         } else {
                             $composer3 = elevation-xZ9-QkE;
                             i5 = obj6;
-                            obj5 = obj9;
+                            obj5 = obj7;
                             l = contentColor2;
                             contentColor3 = $dirty;
-                            $dirty3 = $dirty4;
-                            $dirty5 = i10;
-                            i10 = obj;
+                            $dirty4 = $dirty2;
+                            $dirty3 = i15;
+                            i15 = obj8;
                         }
                     } else {
                         elevation-xZ9-QkE.skipToGroupEnd();
                         if (i65 & 32 != 0) {
-                            $dirty3 &= secondary-0d7_KjU;
+                            $dirty4 &= secondary-0d7_KjU;
                         }
                         if (i65 & 64 != 0) {
-                            $dirty3 &= i67;
+                            $dirty4 &= i67;
                         }
                         if (i65 & 128 != 0) {
-                            $dirty3 &= i14;
+                            $dirty4 &= i14;
                         }
                         if (i65 & 256 != 0) {
                             contentColor3 = backgroundColor;
                             l = elevation;
-                            $dirty3 = i30;
+                            $dirty4 = i30;
                             $composer3 = elevation-xZ9-QkE;
                             i5 = obj6;
-                            obj5 = obj9;
-                            $dirty5 = i10;
-                            i10 = obj;
+                            obj5 = obj7;
+                            $dirty3 = i15;
+                            i15 = obj8;
                         } else {
                             contentColor3 = backgroundColor;
                             l = elevation;
                             $composer3 = elevation-xZ9-QkE;
                             i5 = obj6;
-                            obj5 = obj9;
-                            $dirty5 = i10;
-                            i10 = obj;
+                            obj5 = obj7;
+                            $dirty3 = i15;
+                            i15 = obj8;
                         }
                     }
                 } else {
                 }
                 $composer3.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-1555720195, $dirty3, -1, "androidx.compose.material.ExtendedFloatingActionButton (FloatingActionButton.kt:156)");
+                    ComposerKt.traceEventStart(-1555720195, $dirty4, -1, "androidx.compose.material.ExtendedFloatingActionButton (FloatingActionButton.kt:156)");
                 }
                 FloatingActionButtonKt.ExtendedFloatingActionButton.1 anon = new FloatingActionButtonKt.ExtendedFloatingActionButton.1(i2, text);
-                FloatingActionButtonKt.FloatingActionButton-bogVsAg(obj7, SizeKt.sizeIn-qDBjuR0$default(obj4, FloatingActionButtonKt.ExtendedFabSize, FloatingActionButtonKt.ExtendedFabSize, 0, 0, 12, 0), i5, i10, contentColor3, obj19, l, i13, obj5, (Function2)ComposableLambdaKt.rememberComposableLambda(1418981691, true, anon, $composer3, 54), $composer3);
+                FloatingActionButtonKt.FloatingActionButton-bogVsAg(obj4, SizeKt.sizeIn-qDBjuR0$default(obj, FloatingActionButtonKt.ExtendedFabSize, FloatingActionButtonKt.ExtendedFabSize, 0, 0, 12, 0), i5, i15, contentColor3, obj19, l, i3, obj5, (Function2)ComposableLambdaKt.rememberComposableLambda(1418981691, true, anon, $composer3, 54), $composer3);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i7 = $dirty3;
-                $dirty2 = obj4;
-                obj2 = i2;
+                i6 = $dirty4;
+                $dirty5 = obj;
+                obj3 = i2;
                 modifier2 = i5;
-                obj8 = i10;
+                obj2 = i15;
                 icon2 = contentColor3;
-                l4 = l;
-                obj9 = obj5;
+                l2 = l;
+                obj7 = obj5;
             } else {
                 elevation-xZ9-QkE.skipToGroupEnd();
                 composer = elevation-xZ9-QkE;
-                i7 = $dirty3;
-                $dirty2 = obj4;
-                obj2 = i2;
+                i6 = $dirty4;
+                $dirty5 = obj;
+                obj3 = i2;
                 modifier2 = obj6;
-                obj8 = obj;
+                obj2 = obj8;
                 $composer2 = text;
                 icon2 = backgroundColor;
-                l4 = elevation;
+                l2 = elevation;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new FloatingActionButtonKt.ExtendedFloatingActionButton.2($composer2, onClick, $dirty2, obj2, modifier2, obj8, icon2, i18, l4, obj, obj9, i64, i65);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new FloatingActionButtonKt.ExtendedFloatingActionButton.2($composer2, onClick, $dirty5, obj3, modifier2, obj2, icon2, i8, l2, obj8, obj7, i64, i65);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void FloatingActionButton-bogVsAg(Function0<Unit> onClick, Modifier modifier, MutableInteractionSource interactionSource, Shape shape, long backgroundColor, long contentColor, androidx.compose.material.FloatingActionButtonElevation elevation, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        Object obj3;
-        int i6;
+        Object obj7;
+        int i9;
         int traceInProgress2;
         int defaultsInvalid;
-        Object modifier3;
-        int modifier2;
-        Object obj9;
-        int $dirty;
-        int i5;
-        int i7;
+        Object modifier4;
+        int modifier3;
+        Object $i$a$CacheFloatingActionButtonKt$FloatingActionButton$interactionSource$1;
+        int $dirty2;
+        int i13;
+        int i8;
         boolean traceInProgress;
-        Object obj;
-        Object obj8;
+        Object obj4;
+        Object obj2;
         int copy;
         long backgroundColor3;
-        Object modifier4;
-        int i9;
-        int backgroundColor2;
-        Object obj6;
-        Object obj4;
-        int i4;
+        Object modifier2;
+        int i10;
+        int backgroundColor4;
+        Object obj;
+        Object obj8;
+        int i;
         long interactionSource2;
-        int i3;
+        int i4;
         Object contentColorFor-ek8zF_U;
-        long l;
-        int changed4;
         long l3;
-        int $dirty3;
-        androidx.compose.material.FloatingActionButtonElevation $dirty2;
-        Object obj5;
-        int i8;
         int changed;
         long l2;
-        int i12;
-        int changed3;
-        int i10;
+        int $dirty3;
+        androidx.compose.material.FloatingActionButtonElevation $dirty;
+        Object obj3;
+        int i7;
         int changed2;
-        long i14;
-        int i13;
+        long l;
+        int i14;
+        int changed3;
+        int i2;
+        int changed4;
+        long i3;
+        int i5;
         Object companion;
-        Object obj7;
-        long backgroundColor4;
+        Object obj6;
+        long backgroundColor2;
         float unbox-impl;
-        Object obj2;
+        Object obj5;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i;
-        int i2;
+        int i6;
+        int i12;
         int obj29;
-        final Object obj12 = $changed;
+        final Object obj11 = $changed;
         final int i55 = obj39;
         final int i56 = obj40;
         final Composer restartGroup = i11.startRestartGroup(1028985328);
         ComposerKt.sourceInformation(restartGroup, "C(FloatingActionButton)P(6,5,4,7,0:c#ui.graphics.Color,2:c#ui.graphics.Color,3)83@3890L6,84@3978L6,85@4022L32,86@4132L11,97@4531L28,99@4619L408,91@4310L717:FloatingActionButton.kt#jmzs0o");
-        $dirty = obj39;
+        $dirty2 = obj39;
         if (i56 & 1 != 0) {
-            $dirty |= 6;
-            obj5 = onClick;
+            $dirty2 |= 6;
+            obj3 = onClick;
         } else {
             if (i55 & 6 == 0) {
-                i5 = restartGroup.changedInstance(onClick) ? 4 : 2;
-                $dirty |= i5;
+                i13 = restartGroup.changedInstance(onClick) ? 4 : 2;
+                $dirty2 |= i13;
             } else {
-                obj5 = onClick;
+                obj3 = onClick;
             }
         }
         int i26 = i56 & 2;
         if (i26 != 0) {
-            $dirty |= 48;
-            obj8 = modifier;
+            $dirty2 |= 48;
+            obj2 = modifier;
         } else {
             if (i55 & 48 == 0) {
-                i9 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i9;
+                i10 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i10;
             } else {
-                obj8 = modifier;
+                obj2 = modifier;
             }
         }
-        backgroundColor2 = i56 & 4;
-        if (backgroundColor2 != 0) {
-            $dirty |= 384;
-            obj4 = interactionSource;
+        backgroundColor4 = i56 & 4;
+        if (backgroundColor4 != 0) {
+            $dirty2 |= 384;
+            obj8 = interactionSource;
         } else {
             if (i55 & 384 == 0) {
-                i3 = restartGroup.changed(interactionSource) ? 256 : 128;
-                $dirty |= i3;
+                i4 = restartGroup.changed(interactionSource) ? 256 : 128;
+                $dirty2 |= i4;
             } else {
-                obj4 = interactionSource;
+                obj8 = interactionSource;
             }
         }
         if (i55 & 3072 == 0) {
             if (i56 & 8 == 0) {
-                changed4 = restartGroup.changed(shape) ? 2048 : 1024;
+                changed = restartGroup.changed(shape) ? 2048 : 1024;
             } else {
                 contentColorFor-ek8zF_U = shape;
             }
-            $dirty |= changed4;
+            $dirty2 |= changed;
         } else {
             contentColorFor-ek8zF_U = shape;
         }
         if (i55 & 24576 == 0) {
             if (i56 & 16 == 0) {
-                changed = restartGroup.changed(backgroundColor) ? 16384 : 8192;
+                changed2 = restartGroup.changed(backgroundColor) ? 16384 : 8192;
             } else {
-                l3 = backgroundColor;
+                l2 = backgroundColor;
             }
-            $dirty |= changed;
+            $dirty2 |= changed2;
         } else {
-            l3 = backgroundColor;
+            l2 = backgroundColor;
         }
         if (i57 &= i55 == 0) {
             if (i56 & 32 == 0) {
                 changed3 = restartGroup.changed(elevation) ? 131072 : 65536;
             } else {
-                l2 = elevation;
+                l = elevation;
             }
-            $dirty |= changed3;
+            $dirty2 |= changed3;
         } else {
-            l2 = elevation;
+            l = elevation;
         }
         if (i55 & i60 == 0) {
             if (i56 & 64 == 0) {
-                changed2 = restartGroup.changed($composer) ? 1048576 : 524288;
+                changed4 = restartGroup.changed($composer) ? 1048576 : 524288;
             } else {
-                obj3 = $composer;
+                obj7 = $composer;
             }
-            $dirty |= changed2;
+            $dirty2 |= changed4;
         } else {
-            obj3 = $composer;
+            obj7 = $composer;
         }
-        i14 = 12582912;
+        i3 = 12582912;
         if (i56 & 128 != 0) {
-            $dirty |= i14;
+            $dirty2 |= i3;
         } else {
-            if (i55 & i14 == 0) {
-                i6 = restartGroup.changedInstance(obj12) ? 8388608 : 4194304;
-                $dirty |= i6;
+            if (i55 & i3 == 0) {
+                i9 = restartGroup.changedInstance(obj11) ? 8388608 : 4194304;
+                $dirty2 |= i9;
             }
         }
-        if (i16 &= $dirty == 4793490) {
+        if (i16 &= $dirty2 == 4793490) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i61 = -3670017;
-                i7 = -458753;
-                i13 = -57345;
+                i8 = -458753;
+                i5 = -57345;
                 if (i55 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i26 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier4 = Modifier.Companion;
                         } else {
-                            modifier3 = obj8;
+                            modifier4 = obj2;
                         }
-                        companion = backgroundColor2 != 0 ? obj8 : obj4;
-                        backgroundColor2 = 6;
+                        companion = backgroundColor4 != 0 ? obj2 : obj8;
+                        backgroundColor4 = 6;
                         if (i56 & 8 != 0) {
-                            $dirty &= -7169;
-                            obj7 = copy;
+                            $dirty2 &= -7169;
+                            obj6 = copy;
                         } else {
-                            obj7 = contentColorFor-ek8zF_U;
+                            obj6 = contentColorFor-ek8zF_U;
                         }
                         if (i56 & 16 != 0) {
-                            backgroundColor3 = MaterialTheme.INSTANCE.getColors(restartGroup, backgroundColor2).getSecondary-0d7_KjU();
-                            $dirty &= i13;
+                            backgroundColor3 = MaterialTheme.INSTANCE.getColors(restartGroup, backgroundColor4).getSecondary-0d7_KjU();
+                            $dirty2 &= i5;
                         } else {
-                            backgroundColor3 = l3;
+                            backgroundColor3 = l2;
                         }
                         if (i56 & 32 != 0) {
-                            l2 = contentColorFor-ek8zF_U;
-                            $dirty3 = $dirty;
+                            l = contentColorFor-ek8zF_U;
+                            $dirty3 = $dirty2;
                         } else {
-                            $dirty3 = $dirty;
+                            $dirty3 = $dirty2;
                         }
                         if (i56 & 64 != 0) {
-                            $dirty = FloatingActionButtonDefaults.INSTANCE.elevation-xZ9-QkE(0, 0, 0, 0, restartGroup, 24576, 15);
-                            obj8 = modifier3;
-                            $dirty3 = i7;
-                            obj4 = companion;
-                            i10 = obj7;
-                            i14 = backgroundColor4;
-                            modifier2 = 1028985328;
+                            $dirty2 = FloatingActionButtonDefaults.INSTANCE.elevation-xZ9-QkE(0, 0, 0, 0, restartGroup, 24576, 15);
+                            obj2 = modifier4;
+                            $dirty3 = i8;
+                            obj8 = companion;
+                            i2 = obj6;
+                            i3 = backgroundColor2;
+                            modifier3 = 1028985328;
                         } else {
-                            $dirty = $composer;
-                            obj8 = modifier3;
-                            obj4 = companion;
-                            i10 = obj7;
-                            i14 = backgroundColor4;
-                            modifier2 = 1028985328;
+                            $dirty2 = $composer;
+                            obj2 = modifier4;
+                            obj8 = companion;
+                            i2 = obj6;
+                            i3 = backgroundColor2;
+                            modifier3 = 1028985328;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i56 & 8 != 0) {
-                            $dirty &= -7169;
+                            $dirty2 &= -7169;
                         }
                         if (i56 & 16 != 0) {
-                            $dirty &= i13;
+                            $dirty2 &= i5;
                         }
                         if (i56 & 32 != 0) {
-                            $dirty &= i7;
+                            $dirty2 &= i8;
                         }
                         if (i56 & 64 != 0) {
-                            $dirty = $composer;
-                            i10 = contentColorFor-ek8zF_U;
-                            i14 = l3;
+                            $dirty2 = $composer;
+                            i2 = contentColorFor-ek8zF_U;
+                            i3 = l2;
                             $dirty3 = i21;
-                            modifier2 = 1028985328;
+                            modifier3 = 1028985328;
                         } else {
-                            i10 = contentColorFor-ek8zF_U;
-                            i14 = l3;
-                            modifier2 = 1028985328;
-                            $dirty3 = $dirty;
-                            $dirty = $composer;
+                            i2 = contentColorFor-ek8zF_U;
+                            i3 = l2;
+                            modifier3 = 1028985328;
+                            $dirty3 = $dirty2;
+                            $dirty2 = $composer;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(modifier2, $dirty3, -1, "androidx.compose.material.FloatingActionButton (FloatingActionButton.kt:88)");
+                    ComposerKt.traceEventStart(modifier3, $dirty3, -1, "androidx.compose.material.FloatingActionButton (FloatingActionButton.kt:88)");
                 }
-                if (obj4 == null) {
+                if (obj8 == null) {
                     restartGroup.startReplaceGroup(-1991754265);
                     ComposerKt.sourceInformation(restartGroup, "90@4266L39");
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 628486523, "CC(remember):FloatingActionButton.kt#9igjgp");
                     traceInProgress = restartGroup;
-                    backgroundColor2 = 0;
+                    backgroundColor4 = 0;
                     contentColorFor-ek8zF_U = traceInProgress.rememberedValue();
-                    l3 = 0;
+                    l2 = 0;
                     obj29 = i24;
                     if (contentColorFor-ek8zF_U == Composer.Companion.getEmpty()) {
                         int i25 = 0;
                         traceInProgress.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     } else {
-                        obj9 = contentColorFor-ek8zF_U;
+                        $i$a$CacheFloatingActionButtonKt$FloatingActionButton$interactionSource$1 = contentColorFor-ek8zF_U;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     restartGroup.endReplaceGroup();
-                    obj2 = obj9;
+                    obj5 = $i$a$CacheFloatingActionButtonKt$FloatingActionButton$interactionSource$1;
                 } else {
                     restartGroup.startReplaceGroup(628485872);
                     restartGroup.endReplaceGroup();
-                    obj2 = obj4;
+                    obj5 = obj8;
                 }
                 int i52 = 1;
-                FloatingActionButtonKt.FloatingActionButton.2 anon = new FloatingActionButtonKt.FloatingActionButton.2(l2, obj15, obj12);
-                companion = l2;
-                SurfaceKt.Surface-LPr_se0(obj5, SemanticsModifierKt.semantics$default(obj8, false, (Function1)FloatingActionButtonKt.FloatingActionButton.1.INSTANCE, i52, 0), false, i10, i14, i13, companion, obj7, 0, (Dp)$dirty.elevation((InteractionSource)obj2, restartGroup, i37 &= 112).getValue().unbox-impl(), obj2, (Function2)ComposableLambdaKt.rememberComposableLambda(1972871863, i52, anon, restartGroup, 54), restartGroup);
+                FloatingActionButtonKt.FloatingActionButton.2 anon = new FloatingActionButtonKt.FloatingActionButton.2(l, obj15, obj11);
+                companion = l;
+                SurfaceKt.Surface-LPr_se0(obj3, SemanticsModifierKt.semantics$default(obj2, false, (Function1)FloatingActionButtonKt.FloatingActionButton.1.INSTANCE, i52, 0), false, i2, i3, i5, companion, obj6, 0, (Dp)$dirty2.elevation((InteractionSource)obj5, restartGroup, i37 &= 112).getValue().unbox-impl(), obj5, (Function2)ComposableLambdaKt.rememberComposableLambda(1972871863, i52, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = obj8;
-                modifier4 = obj4;
-                i8 = $dirty3;
-                obj6 = i10;
-                interactionSource2 = i14;
-                l = companion;
-                $dirty2 = $dirty;
+                obj4 = obj2;
+                modifier2 = obj8;
+                i7 = $dirty3;
+                obj = i2;
+                interactionSource2 = i3;
+                l3 = companion;
+                $dirty = $dirty2;
             } else {
                 restartGroup.skipToGroupEnd();
-                i8 = $dirty;
-                obj = obj8;
-                modifier4 = obj4;
+                i7 = $dirty2;
+                obj4 = obj2;
+                modifier2 = obj8;
                 composer = restartGroup;
-                obj6 = contentColorFor-ek8zF_U;
-                interactionSource2 = l3;
-                l = l2;
-                $dirty2 = $composer;
+                obj = contentColorFor-ek8zF_U;
+                interactionSource2 = l2;
+                l3 = l;
+                $dirty = $composer;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new FloatingActionButtonKt.FloatingActionButton.3(onClick, obj, modifier4, obj6, interactionSource2, restartGroup, l, l3, $dirty2, obj12, i55, i56);
+            traceInProgress2 = new FloatingActionButtonKt.FloatingActionButton.3(onClick, obj4, modifier2, obj, interactionSource2, restartGroup, l3, l2, $dirty, obj11, i55, i56);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }

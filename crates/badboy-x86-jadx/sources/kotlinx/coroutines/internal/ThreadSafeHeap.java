@@ -50,8 +50,8 @@ public class ThreadSafeHeap<T extends kotlinx.coroutines.internal.ThreadSafeHeap
     private final void siftDownFrom(int i) {
         int j;
         kotlinx.coroutines.internal.ThreadSafeHeapNode[] objArr;
-        int compareTo2;
         int compareTo;
+        int compareTo2;
         kotlinx.coroutines.internal.ThreadSafeHeapNode threadSafeHeapNode;
         int size;
         int obj5;
@@ -139,14 +139,14 @@ public class ThreadSafeHeap<T extends kotlinx.coroutines.internal.ThreadSafeHeap
         final int i2 = 0;
         int i3 = 0;
         addImpl(node);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedThreadSafeHeap$addLast$1 = Unit.INSTANCE;
         return;
         synchronized (this) {
             i = 0;
             i2 = 0;
             i3 = 0;
             addImpl(node);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedThreadSafeHeap$addLast$1 = Unit.INSTANCE;
         }
     }
 
@@ -164,11 +164,11 @@ public class ThreadSafeHeap<T extends kotlinx.coroutines.internal.ThreadSafeHeap
     }
 
     public final void clear() {
+        int i;
         int i3;
-        int i2;
         int i5;
         int i4;
-        int i;
+        int i2;
         final int i7 = 0;
         final int i8 = 0;
         int i6 = 0;
@@ -176,7 +176,7 @@ public class ThreadSafeHeap<T extends kotlinx.coroutines.internal.ThreadSafeHeap
         synchronized (this) {
             ArraysKt.fill$default(objArr, 0, 0, 0, 6, 0);
             ThreadSafeHeap._size$FU.set(this, 0);
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedThreadSafeHeap$clear$1 = Unit.INSTANCE;
         }
     }
 
@@ -236,31 +236,31 @@ public class ThreadSafeHeap<T extends kotlinx.coroutines.internal.ThreadSafeHeap
 
     public final boolean remove(T node) {
         int index;
-        int i2;
-        boolean aSSERTIONS_ENABLED;
         int i;
+        boolean aSSERTIONS_ENABLED;
+        int i2;
         final int i3 = 0;
         final int i4 = 0;
         final int i5 = 0;
-        i2 = 0;
+        i = 0;
         synchronized (this) {
-            return i2;
+            return i;
         }
     }
 
     public final T removeAtImpl(int index) {
-        int aSSERTIONS_ENABLED2;
+        int $i$a$AssertThreadSafeHeap$removeAtImpl$1;
         int i;
-        int size2;
         int size;
+        int size2;
         int compareTo;
         boolean aSSERTIONS_ENABLED;
         kotlinx.coroutines.internal.ThreadSafeHeapNode heap;
         int i4 = 1;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i2 = 0;
-            aSSERTIONS_ENABLED2 = getSize() > 0 ? i4 : i;
-            if (aSSERTIONS_ENABLED2 == 0) {
+            $i$a$AssertThreadSafeHeap$removeAtImpl$1 = getSize() > 0 ? i4 : i;
+            if ($i$a$AssertThreadSafeHeap$removeAtImpl$1 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -275,16 +275,16 @@ public class ThreadSafeHeap<T extends kotlinx.coroutines.internal.ThreadSafeHeap
             i6 /= 2;
             kotlinx.coroutines.internal.ThreadSafeHeapNode threadSafeHeapNode2 = objArr[index];
             Intrinsics.checkNotNull(threadSafeHeapNode2);
-            heap = objArr[size];
+            heap = objArr[size2];
             Intrinsics.checkNotNull(heap);
             if (index > 0 && (Comparable)threadSafeHeapNode2.compareTo(heap) < 0) {
                 threadSafeHeapNode2 = objArr[index];
                 Intrinsics.checkNotNull(threadSafeHeapNode2);
-                heap = objArr[size];
+                heap = objArr[size2];
                 Intrinsics.checkNotNull(heap);
                 if ((Comparable)threadSafeHeapNode2.compareTo(heap) < 0) {
-                    swap(index, size);
-                    siftUpFrom(size);
+                    swap(index, size2);
+                    siftUpFrom(size2);
                 } else {
                     siftDownFrom(index);
                 }

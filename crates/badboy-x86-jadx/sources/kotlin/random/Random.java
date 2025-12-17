@@ -150,59 +150,59 @@ public abstract class Random {
 
     public byte[] nextBytes(byte[] array, int fromIndex, int toIndex) {
         int i4;
-        int i2;
-        int length;
-        int length2;
         int i;
+        int length2;
+        int length;
+        int i5;
         int position;
         String str;
-        int i6;
         int i3;
+        int i6;
         int nextInt;
-        int i5;
+        int i2;
         byte b;
         Intrinsics.checkNotNullParameter(array, "array");
         i4 = 1;
-        i2 = 0;
+        i = 0;
         if (fromIndex >= 0 && fromIndex <= array.length) {
-            length2 = fromIndex <= array.length ? i4 : i2;
+            length = fromIndex <= array.length ? i4 : i;
         } else {
         }
-        if (length2 != 0) {
+        if (length != 0) {
             if (toIndex >= 0 && toIndex <= array.length) {
-                length2 = toIndex <= array.length ? i4 : i2;
+                length = toIndex <= array.length ? i4 : i;
             } else {
             }
-            i = length2 != 0 ? i4 : i2;
+            i5 = length != 0 ? i4 : i;
         } else {
         }
         str = "fromIndex (";
-        if (i == 0) {
+        if (i5 == 0) {
         } else {
             if (fromIndex <= toIndex) {
             } else {
-                i4 = i2;
+                i4 = i;
             }
             if (i4 == 0) {
             } else {
                 int i12 = 0;
                 position = fromIndex;
-                while (i2 < i8 /= 4) {
-                    str = i2;
-                    i6 = 0;
+                while (i < i8 /= 4) {
+                    str = i;
+                    i3 = 0;
                     nextInt = nextInt();
                     array[position] = (byte)nextInt;
                     array[position + 1] = (byte)i18;
                     array[position + 2] = (byte)i19;
                     array[position + 3] = (byte)i20;
                     position += 4;
-                    i2++;
+                    i++;
                 }
                 int i10 = toIndex - position;
-                i3 = 0;
-                while (i3 < i10) {
-                    array[position + i3] = (byte)i15;
-                    i3++;
+                i6 = 0;
+                while (i6 < i10) {
+                    array[position + i6] = (byte)i15;
+                    i6++;
                 }
                 return array;
             }
@@ -226,45 +226,45 @@ public abstract class Random {
     }
 
     public double nextDouble(double from, double until) {
-        boolean infinite;
-        int infinite2;
-        int i2;
+        boolean infinite2;
+        int infinite;
+        int i4;
         double nextAfter;
         int i;
-        int i3;
-        int i4;
         int i5;
+        int i3;
+        int i2;
         RandomKt.checkRangeBounds(from, until);
         final int i6 = obj11 - from;
         if (Double.isInfinite(i6)) {
-            i3 = 0;
+            i5 = 0;
             if (!Double.isInfinite(from) && !Double.isNaN(from)) {
-                infinite2 = !Double.isNaN(from) ? i : i3;
+                infinite = !Double.isNaN(from) ? i : i5;
             } else {
             }
-            if (infinite2 != 0) {
+            if (infinite != 0) {
                 if (!Double.isInfinite(obj11) && !Double.isNaN(obj11)) {
                     if (!Double.isNaN(obj11)) {
                     } else {
-                        i = i3;
+                        i = i5;
                     }
                 } else {
                 }
                 if (i != 0) {
                     double d = (double)i7;
-                    nextDouble *= i5;
-                    i9 += i2;
+                    nextDouble *= i2;
+                    i9 += i4;
                 } else {
-                    i4 = from + i2;
+                    i3 = from + i4;
                 }
             } else {
             }
         } else {
         }
-        if (Double.compare(i4, obj11) >= 0) {
+        if (Double.compare(i3, obj11) >= 0) {
             nextAfter = Math.nextAfter(obj11, obj12);
         } else {
-            nextAfter = i4;
+            nextAfter = i3;
         }
         return nextAfter;
     }
@@ -285,9 +285,9 @@ public abstract class Random {
         int bitCount;
         int nextInt;
         int v;
-        int i;
         int i2;
         int i3;
+        int i;
         RandomKt.checkRangeBounds(from, until);
         final int i4 = until - from;
         int i5 = 1;
@@ -301,10 +301,10 @@ public abstract class Random {
         } else {
             v = 0;
             nextInt2 >>>= i5;
-            v = i % i4;
-            while (i7 += i3 >= 0) {
+            v = i2 % i4;
+            while (i7 += i >= 0) {
                 nextInt2 >>>= i5;
-                v = i % i4;
+                v = i2 % i4;
             }
             bitCount = v;
         }
@@ -321,16 +321,16 @@ public abstract class Random {
 
     public long nextLong(long from, long until) {
         int nextLong;
-        int i3;
-        int nextInt;
-        int cmp;
-        int cmp2;
-        int nextBits;
         int i;
+        int nextInt;
+        int cmp2;
+        int cmp;
+        int nextBits;
+        int i2;
         int rnd;
         long l2;
         long l;
-        int i2;
+        int i3;
         final Object obj = this;
         RandomKt.checkRangeBounds(from, until);
         final int i4 = obj20 - from;
@@ -339,14 +339,14 @@ public abstract class Random {
         if (Long.compare(i4, nextLong) > 0) {
             int i7 = 0;
             if (Long.compare(i9, i4) == 0) {
-                i3 = (int)i4;
+                i = (int)i4;
                 int i6 = 32;
-                cmp2 = (int)i10;
+                cmp = (int)i10;
                 long l3 = 4294967295L;
-                if (i3 != 0) {
+                if (i != 0) {
                     l3 &= l2;
                 } else {
-                    if (cmp2 == nextBits) {
+                    if (cmp == nextBits) {
                         l3 &= l2;
                     } else {
                         i11 += l2;
@@ -360,20 +360,20 @@ public abstract class Random {
                     nextLong2 >>>= nextBits;
                     rnd = l2 % i4;
                 }
-                i3 = rnd;
+                i = rnd;
             }
             return from + rnd;
         }
         nextLong = obj.nextLong();
-        i = 0;
+        i2 = 0;
         do {
             nextLong = obj.nextLong();
-            i = 0;
-            if (i == 0) {
+            i2 = 0;
+            if (i2 == 0) {
             }
             if (Long.compare(nextLong, obj20) < 0) {
             }
-            i = nextBits;
+            i2 = nextBits;
         } while (Long.compare(from, nextLong) <= 0);
         return nextLong;
     }

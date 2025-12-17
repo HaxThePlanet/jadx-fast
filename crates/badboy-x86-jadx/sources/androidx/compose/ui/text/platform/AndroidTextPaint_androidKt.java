@@ -8,28 +8,28 @@ import kotlin.Metadata;
 public final class AndroidTextPaint_androidKt {
     public static final void setAlpha(TextPaint $this$setAlpha, float alpha) {
         boolean $i$f$fastRoundToInt;
-        int i4;
+        int i2;
         float f;
         int i;
         float $this$fastCoerceAtMost$iv$iv;
         int i3;
-        int i2;
+        int i4;
         int cmp;
         int i5 = 0;
-        i4 = 1065353216;
+        i2 = 1065353216;
         i = 0;
         int i7 = 0;
         if (!Float.isNaN(alpha) && Float.compare($this$fastCoerceAtMost$iv$iv, i5) < 0) {
             i5 = 0;
-            i4 = 1065353216;
+            i2 = 1065353216;
             i = 0;
             i7 = 0;
             if (Float.compare($this$fastCoerceAtMost$iv$iv, i5) < 0) {
                 $this$fastCoerceAtMost$iv$iv = i5;
             }
-            i2 = 0;
-            if (Float.compare($this$fastCoerceAtMost$iv$iv, i4) > 0) {
-                $this$fastCoerceAtMost$iv$iv = i4;
+            i4 = 0;
+            if (Float.compare($this$fastCoerceAtMost$iv$iv, i2) > 0) {
+                $this$fastCoerceAtMost$iv$iv = i2;
             }
             int i6 = 0;
             $this$setAlpha.setAlpha(Math.round($this$fastCoerceAtMost$iv$iv *= f2));

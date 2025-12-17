@@ -121,8 +121,8 @@ public abstract class AbstractList<E>  extends kotlin.collections.AbstractCollec
         public final int orderedHashCode$kotlin_stdlib(Collection<?> c) {
             int hashCode;
             Object next;
-            int i2;
             int i;
+            int i2;
             Intrinsics.checkNotNullParameter(c, "c");
             hashCode = 1;
             final Iterator iterator = c.iterator();
@@ -131,9 +131,9 @@ public abstract class AbstractList<E>  extends kotlin.collections.AbstractCollec
                 if (next != null) {
                 } else {
                 }
-                i = 0;
-                hashCode = i2 + i;
-                i = next.hashCode();
+                i2 = 0;
+                hashCode = i + i2;
+                i2 = next.hashCode();
             }
             return hashCode;
         }

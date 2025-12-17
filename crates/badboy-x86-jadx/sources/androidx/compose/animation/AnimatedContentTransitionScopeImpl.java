@@ -226,16 +226,16 @@ public final class AnimatedContentTransitionScopeImpl<S>  implements androidx.co
         Object deferredAnimation;
         boolean traceInProgress;
         Object targetState;
-        String str;
-        int i;
+        String str2;
+        int i3;
         Object rememberedValue;
         int rememberedValue2;
-        int i3;
-        String str2;
-        Object then;
+        int i;
+        String str;
+        Object $i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$1;
         int empty2;
         int clipToBounds;
-        Object mutableStateOf$default;
+        Object $i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$shouldAnimateSize$2;
         Object empty;
         Boolean valueOf;
         int i2;
@@ -247,12 +247,12 @@ public final class AnimatedContentTransitionScopeImpl<S>  implements androidx.co
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i4, $changed, -1, "androidx.compose.animation.AnimatedContentTransitionScopeImpl.createSizeAnimationModifier (AnimatedContent.kt:573)");
         } else {
-            i3 = $changed;
+            i = $changed;
         }
-        str2 = "CC(remember):AnimatedContent.kt#9igjgp";
-        ComposerKt.sourceInformationMarkerStart(composer2, -546171924, str2);
+        str = "CC(remember):AnimatedContent.kt#9igjgp";
+        ComposerKt.sourceInformationMarkerStart(composer2, -546171924, str);
         Composer composer = $composer;
-        i = 0;
+        i3 = 0;
         rememberedValue = composer.rememberedValue();
         rememberedValue2 = 0;
         empty2 = 0;
@@ -262,7 +262,7 @@ public final class AnimatedContentTransitionScopeImpl<S>  implements androidx.co
                 int i13 = 0;
                 composer.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(Boolean.valueOf(clipToBounds), empty2, 2, empty2));
             } else {
-                mutableStateOf$default = rememberedValue;
+                $i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$shouldAnimateSize$2 = rememberedValue;
             }
         } else {
         }
@@ -270,21 +270,21 @@ public final class AnimatedContentTransitionScopeImpl<S>  implements androidx.co
         State rememberUpdatedState = SnapshotStateKt.rememberUpdatedState(contentTransform.getSizeTransform(), composer2, clipToBounds);
         sizeModifier = 1;
         if (Intrinsics.areEqual(this.transition.getCurrentState(), this.transition.getTargetState())) {
-            AnimatedContentTransitionScopeImpl.createSizeAnimationModifier$lambda$3((MutableState)mutableStateOf$default, clipToBounds);
+            AnimatedContentTransitionScopeImpl.createSizeAnimationModifier$lambda$3((MutableState)$i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$shouldAnimateSize$2, clipToBounds);
         } else {
             if (rememberUpdatedState.getValue() != null) {
-                AnimatedContentTransitionScopeImpl.createSizeAnimationModifier$lambda$3(mutableStateOf$default, sizeModifier);
+                AnimatedContentTransitionScopeImpl.createSizeAnimationModifier$lambda$3($i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$shouldAnimateSize$2, sizeModifier);
             }
         }
-        if (AnimatedContentTransitionScopeImpl.createSizeAnimationModifier$lambda$2(mutableStateOf$default)) {
+        if (AnimatedContentTransitionScopeImpl.createSizeAnimationModifier$lambda$2($i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$shouldAnimateSize$2)) {
             composer2.startReplaceGroup(249037309);
             ComposerKt.sourceInformation(composer2, "585@27840L48,586@27901L205");
             deferredAnimation = TransitionKt.createDeferredAnimation(this.transition, VectorConvertersKt.getVectorConverter(IntSize.Companion), 0, composer2, 0, 2);
-            ComposerKt.sourceInformationMarkerStart(composer2, -546152591, str2);
-            i = $composer;
+            ComposerKt.sourceInformationMarkerStart(composer2, -546152591, str);
+            i3 = $composer;
             rememberedValue = 0;
-            rememberedValue2 = i.rememberedValue();
-            str2 = 0;
+            rememberedValue2 = i3.rememberedValue();
+            str = 0;
             if (!composer2.changed(deferredAnimation)) {
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
                     int i12 = 0;
@@ -300,9 +300,9 @@ public final class AnimatedContentTransitionScopeImpl<S>  implements androidx.co
                         clipToBounds = ClipKt.clipToBounds((Modifier)Modifier.Companion);
                     }
                     sizeModifier = new AnimatedContentTransitionScopeImpl.SizeModifier(this, deferredAnimation, rememberUpdatedState);
-                    i.updateRememberedValue(clipToBounds.then((Modifier)sizeModifier));
+                    i3.updateRememberedValue(clipToBounds.then((Modifier)sizeModifier));
                 } else {
-                    then = rememberedValue2;
+                    $i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$1 = rememberedValue2;
                 }
             } else {
             }
@@ -312,13 +312,13 @@ public final class AnimatedContentTransitionScopeImpl<S>  implements androidx.co
             composer2.startReplaceGroup(249353726);
             composer2.endReplaceGroup();
             this.animatedSize = empty2;
-            then = deferredAnimation;
+            $i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$1 = deferredAnimation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer2);
-        return then;
+        return $i$a$CacheAnimatedContentTransitionScopeImpl$createSizeAnimationModifier$1;
     }
 
     public final State<IntSize> getAnimatedSize$animation_release() {

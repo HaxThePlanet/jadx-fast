@@ -121,15 +121,15 @@ public final class WindowInsetsControllerCompat {
 
         @Override // androidx.core.view.WindowInsetsControllerCompat$Impl
         void hide(int typeMask) {
-            int i2;
             int i;
-            i2 = 1;
-            while (i2 <= 512) {
-                if (typeMask & i2 == 0) {
+            int i2;
+            i = 1;
+            while (i <= 512) {
+                if (typeMask & i == 0) {
                 } else {
                 }
-                hideForType(i2);
-                i2 <<= 1;
+                hideForType(i);
+                i <<= 1;
             }
         }
 
@@ -172,15 +172,15 @@ public final class WindowInsetsControllerCompat {
 
         @Override // androidx.core.view.WindowInsetsControllerCompat$Impl
         void show(int typeMask) {
-            int i;
             int i2;
-            i = 1;
-            while (i <= 512) {
-                if (typeMask & i == 0) {
+            int i;
+            i2 = 1;
+            while (i2 <= 512) {
+                if (typeMask & i2 == 0) {
                 } else {
                 }
-                showForType(i);
-                i <<= 1;
+                showForType(i2);
+                i2 <<= 1;
             }
         }
 

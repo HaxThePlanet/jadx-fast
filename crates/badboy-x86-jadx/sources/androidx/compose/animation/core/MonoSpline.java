@@ -17,27 +17,27 @@ public final class MonoSpline {
     }
 
     public MonoSpline(float[] time, float[][] y, float periodicBias) {
-        int i3;
+        int i4;
         int length;
         int j4;
-        int j2;
         int j3;
+        int j;
         float[] fArr2;
+        int i6;
+        float j2;
+        int i3;
         int i2;
-        float j;
+        float[] fArr;
         int i;
         int i5;
-        float[] fArr;
-        int i4;
-        int i6;
         int n;
         long l;
         final Object obj = this;
         final float[] fArr3 = time;
         final float[][] arr = y;
         super();
-        i3 = 1;
-        obj.isExtrapolate = i3;
+        i4 = 1;
+        obj.isExtrapolate = i4;
         length = fArr3.length;
         final int i8 = 0;
         int length2 = obj2.length;
@@ -46,93 +46,93 @@ public final class MonoSpline {
         final float[][] floatArray2 = obj.makeFloatArray(length, length2);
         j4 = 0;
         while (j4 < length2) {
-            i2 = 0;
-            while (i2 < length + -1) {
-                floatArray[i2][j4] = i28 /= i;
-                if (i2 == 0) {
+            i6 = 0;
+            while (i6 < length + -1) {
+                floatArray[i6][j4] = i28 /= i3;
+                if (i6 == 0) {
                 } else {
                 }
-                floatArray2[i2][j4] = i31 *= i6;
-                i2++;
-                floatArray2[i2][j4] = floatArray[i2][j4];
+                floatArray2[i6][j4] = i31 *= i5;
+                i6++;
+                floatArray2[i6][j4] = floatArray[i6][j4];
             }
             floatArray2[length + -1][j4] = floatArray[length + -2][j4];
             j4++;
-            floatArray[i2][j4] = i28 /= i;
-            if (i2 == 0) {
+            floatArray[i6][j4] = i28 /= i3;
+            if (i6 == 0) {
             } else {
             }
-            floatArray2[i2][j4] = i31 *= i6;
-            i2++;
-            floatArray2[i2][j4] = floatArray[i2][j4];
+            floatArray2[i6][j4] = i31 *= i5;
+            i6++;
+            floatArray2[i6][j4] = floatArray[i6][j4];
         }
         if (!Float.isNaN(periodicBias)) {
-            j2 = 0;
-            while (j2 < length2) {
+            j3 = 0;
+            while (j3 < length2) {
                 i11 += i15;
-                floatArray[i8][j2] = fArr2;
-                floatArray[length + -2][j2] = fArr2;
-                floatArray2[length + -1][j2] = fArr2;
-                floatArray2[i8][j2] = fArr2;
-                j2++;
+                floatArray[i8][j3] = fArr2;
+                floatArray[length + -2][j3] = fArr2;
+                floatArray2[length + -1][j3] = fArr2;
+                floatArray2[i8][j3] = fArr2;
+                j3++;
             }
         }
-        j3 = 0;
-        while (j3 < length + -1) {
-            j = 0;
-            while (j < length2) {
+        j = 0;
+        while (j < length + -1) {
+            j2 = 0;
+            while (j2 < length2) {
                 fArr = 0;
                 if (Float.compare(f4, fArr) == 0) {
                 } else {
                 }
-                i5 = i8;
-                if (i5 != 0) {
+                i2 = i8;
+                if (i2 != 0) {
                 } else {
                 }
                 f5 /= f6;
                 f7 /= f8;
                 n = length;
-                i3 = (float)hypot;
-                if (Double.compare(i4, l) > 0) {
+                i4 = (float)hypot;
+                if (Double.compare(i, l) > 0) {
                 }
-                j++;
+                j2++;
                 length = n;
-                i3 = 1;
-                i7 /= i3;
-                floatArray2[j3][j] = i32 *= f11;
-                floatArray2[j3 + 1][j] = i34 *= l;
-                floatArray2[j3][j] = fArr;
-                floatArray2[j3 + 1][j] = fArr;
+                i4 = 1;
+                i7 /= i4;
+                floatArray2[j][j2] = i32 *= f11;
+                floatArray2[j + 1][j2] = i34 *= l;
+                floatArray2[j][j2] = fArr;
+                floatArray2[j + 1][j2] = fArr;
                 n = length;
-                i5 = i3;
+                i2 = i4;
             }
             n = length;
-            j3++;
-            i3 = 1;
+            j++;
+            i4 = 1;
             fArr = 0;
             if (Float.compare(f4, fArr) == 0) {
             } else {
             }
-            i5 = i8;
-            if (i5 != 0) {
+            i2 = i8;
+            if (i2 != 0) {
             } else {
             }
             f5 /= f6;
             f7 /= f8;
             n = length;
-            i3 = (float)hypot;
-            if (Double.compare(i4, l) > 0) {
+            i4 = (float)hypot;
+            if (Double.compare(i, l) > 0) {
             }
-            j++;
+            j2++;
             length = n;
-            i3 = 1;
-            i7 /= i3;
-            floatArray2[j3][j] = i32 *= f11;
-            floatArray2[j3 + 1][j] = i34 *= l;
-            floatArray2[j3][j] = fArr;
-            floatArray2[j3 + 1][j] = fArr;
+            i4 = 1;
+            i7 /= i4;
+            floatArray2[j][j2] = i32 *= f11;
+            floatArray2[j + 1][j2] = i34 *= l;
+            floatArray2[j][j2] = fArr;
+            floatArray2[j + 1][j2] = fArr;
             n = length;
-            i5 = i3;
+            i2 = i4;
         }
         obj.timePoints = fArr3;
         obj.values = arr;
@@ -157,23 +157,23 @@ public final class MonoSpline {
     private final float getSlope(float time, int j) {
         float t;
         int timePoints;
-        int i3;
-        int i2;
-        int cmp;
         int i;
+        int i3;
+        int cmp;
+        int i2;
         t = time;
         int length = timePoints2.length;
-        i2 = 0;
+        i3 = 0;
         if (Float.compare(t, f) < 0) {
-            t = this.timePoints[i2];
+            t = this.timePoints[i3];
         } else {
             if (Float.compare(t, f2) >= 0) {
                 t = this.timePoints[length + -1];
             }
         }
-        i3 = 0;
-        while (i3 < length + -1) {
-            i3++;
+        i = 0;
+        while (i < length + -1) {
+            i++;
         }
         return 0;
     }
@@ -207,12 +207,12 @@ public final class MonoSpline {
     }
 
     public final float getPos(float t, int j) {
-        int cmp;
-        int i;
-        int i2;
         int cmp2;
-        int i3;
         int i4;
+        int i;
+        int cmp;
+        int i2;
+        int i3;
         int length = timePoints.length;
         int i8 = 0;
         if (this.isExtrapolate) {
@@ -230,36 +230,36 @@ public final class MonoSpline {
                 return this.values[length + -1][j];
             }
         }
-        i = 0;
-        while (i < length + -1) {
+        i4 = 0;
+        while (i4 < length + -1) {
             if (Float.compare(t, f17) == 0) {
             } else {
             }
-            i3 = i8;
-            i++;
-            i3 = 1;
+            i2 = i8;
+            i4++;
+            i2 = 1;
         }
         return 0;
     }
 
     public final void getPos(float time, androidx.compose.animation.core.AnimationVector v, int index) {
-        int j5;
         int j4;
-        int j2;
-        int cmp;
-        int i2;
-        int j;
-        float[] slopeTemp;
+        int j5;
         int j6;
+        int cmp2;
+        int i3;
+        int j;
+        float[] slopeTemp2;
+        int j2;
         int i;
         float interpolate;
-        float f3;
-        float[] slopeTemp2;
-        int cmp2;
-        int j3;
-        int i3;
         float f4;
+        float[] slopeTemp;
+        int cmp;
+        int j3;
+        int i2;
         float f5;
+        float f3;
         float f;
         float f2;
         int length = timePoints.length;
@@ -268,18 +268,18 @@ public final class MonoSpline {
         if (this.isExtrapolate) {
             if (Float.compare(time, f11) <= 0) {
                 getSlope(this.timePoints[i4], this.slopeTemp);
-                j6 = 0;
-                while (j6 < length2) {
-                    v.set$animation_core_release(j6, f16 += cmp2);
-                    j6++;
+                j2 = 0;
+                while (j2 < length2) {
+                    v.set$animation_core_release(j2, f16 += cmp);
+                    j2++;
                 }
             }
             if (Float.compare(time, f12) >= 0) {
                 getSlope(this.timePoints[length + -1], this.slopeTemp);
-                j2 = 0;
-                while (j2 < length2) {
-                    v.set$animation_core_release(j2, f13 += i);
-                    j2++;
+                j6 = 0;
+                while (j6 < length2) {
+                    v.set$animation_core_release(j6, f13 += i);
+                    j6++;
                 }
             }
         } else {
@@ -291,15 +291,15 @@ public final class MonoSpline {
                 }
             }
             if (Float.compare(time, f10) >= 0) {
-                j4 = 0;
-                while (j4 < length2) {
-                    v.set$animation_core_release(j4, this.values[length + -1][j4]);
-                    j4++;
+                j5 = 0;
+                while (j5 < length2) {
+                    v.set$animation_core_release(j5, this.values[length + -1][j5]);
+                    j5++;
                 }
             }
         }
-        i2 = index;
-        while (i2 < length + -1) {
+        i3 = index;
+        while (i3 < length + -1) {
             if (Float.compare(time, f17) == 0) {
             } else {
             }
@@ -310,32 +310,32 @@ public final class MonoSpline {
                 break;
             } else {
             }
-            i2++;
+            i3++;
             j3 = 0;
             while (j3 < length2) {
-                v.set$animation_core_release(j3, this.values[i2][j3]);
+                v.set$animation_core_release(j3, this.values[i3][j3]);
                 j3++;
             }
-            v.set$animation_core_release(j3, this.values[i2][j3]);
+            v.set$animation_core_release(j3, this.values[i3][j3]);
             j3++;
             j3 = 1;
         }
     }
 
     public final void getSlope(float time, androidx.compose.animation.core.AnimationVector v, int index) {
-        int j3;
-        int i4;
-        int j2;
-        int i3;
         int j;
+        int i3;
+        int j2;
+        int i;
+        int j3;
         float cmp;
+        int i4;
         int i2;
         int i5;
-        int i;
-        float f;
-        float f2;
         float f3;
         float f4;
+        float f;
+        float f2;
         final Object obj = v;
         final float f5 = time;
         int length = timePoints.length;
@@ -349,19 +349,19 @@ public final class MonoSpline {
             }
         }
         if (Float.compare(f5, f6) >= 0) {
-            j3 = 0;
-            while (j3 < length2) {
-                obj.set$animation_core_release(j3, this.tangents[length + -1][j3]);
-                j3++;
+            j = 0;
+            while (j < length2) {
+                obj.set$animation_core_release(j, this.tangents[length + -1][j]);
+                j++;
             }
         }
-        i4 = index;
-        while (i4 < length + -1) {
+        i3 = index;
+        while (i3 < length + -1) {
             if (Float.compare(f5, f10) <= 0) {
                 break;
             } else {
             }
-            i4++;
+            i3++;
         }
     }
 
@@ -373,12 +373,12 @@ public final class MonoSpline {
         int j;
         int cmp;
         int i2;
-        int i;
         int i4;
+        int i;
         float f;
+        float f4;
         float f2;
         float f3;
-        float f4;
         t = time;
         int length = timePoints3.length;
         timePoints2 = 0;

@@ -12,8 +12,8 @@ public final class LazyStaggeredGridStateKt {
     public static final androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState rememberLazyStaggeredGridState(int initialFirstVisibleItemIndex, int initialFirstVisibleItemScrollOffset, Composer $composer, int $changed, int i5) {
         int str;
         int i;
-        boolean changed;
         boolean changed2;
+        boolean changed;
         Object empty;
         Object anon;
         int obj8;

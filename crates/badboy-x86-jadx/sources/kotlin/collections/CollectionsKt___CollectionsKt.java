@@ -130,8 +130,8 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
 
     public static final <T, K, V> Map<K, V> associateBy(Iterable<? extends T> $this$associateBy, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
         Object next;
-        Object invoke2;
         Object invoke;
+        Object invoke2;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -457,61 +457,61 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final <T> List<T> drop(Iterable<? extends T> $this$drop, int n) {
-        ArrayList list2;
-        int i2;
+        ArrayList list3;
+        int i;
         int index;
+        int list2;
         int list;
-        int list3;
-        boolean i;
+        boolean i2;
         Object next;
         int size;
         Object obj;
         Intrinsics.checkNotNullParameter($this$drop, "<this>");
         int i3 = 1;
-        i2 = n >= 0 ? i3 : 0;
-        if (i2 == 0) {
+        i = n >= 0 ? i3 : 0;
+        if (i == 0) {
         } else {
             if (n == 0) {
                 return CollectionsKt.toList($this$drop);
             }
-            list = 0;
+            list2 = 0;
             if ($this$drop instanceof Collection != null) {
                 size2 -= n;
-                if (i <= 0) {
+                if (i2 <= 0) {
                     return CollectionsKt.emptyList();
                 }
-                if (i == i3) {
+                if (i2 == i3) {
                     return CollectionsKt.listOf(CollectionsKt.last($this$drop));
                 }
-                list2 = new ArrayList(i);
+                list3 = new ArrayList(i2);
                 if ($this$drop instanceof List != null) {
                     if ($this$drop instanceof RandomAccess) {
                         index = n;
                         while (index < (Collection)$this$drop.size()) {
-                            list2.add((List)$this$drop.get(index));
+                            list3.add((List)$this$drop.get(index));
                             index++;
                         }
                     } else {
                         index = (List)$this$drop.listIterator(n);
                         for (Object next : index) {
-                            list2.add(next);
+                            list3.add(next);
                         }
                     }
-                    return (List)list2;
+                    return (List)list3;
                 }
             } else {
-                list2 = new ArrayList();
+                list3 = new ArrayList();
             }
-            list3 = 0;
+            list = 0;
             Iterator iterator = $this$drop.iterator();
             while (iterator.hasNext()) {
-                if (list3 >= n) {
+                if (list >= n) {
                 } else {
                 }
-                list3++;
-                list2.add(iterator.next());
+                list++;
+                list3.add(iterator.next());
             }
-            return CollectionsKt.optimizeReadOnlyList((List)list2);
+            return CollectionsKt.optimizeReadOnlyList((List)list3);
         }
         int list5 = 0;
         StringBuilder stringBuilder = new StringBuilder();
@@ -588,23 +588,23 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
 
     public static final <T> T elementAtOrElse(Iterable<? extends T> $this$elementAtOrElse, int index, Function1<? super Integer, ? extends T> defaultValue) {
         Object invoke;
-        int i3;
+        int i2;
         int i;
         int size;
-        int i2;
+        int i3;
         Intrinsics.checkNotNullParameter($this$elementAtOrElse, "<this>");
         Intrinsics.checkNotNullParameter(defaultValue, "defaultValue");
         Object obj = $this$elementAtOrElse;
-        i3 = 0;
+        i2 = 0;
         if ($this$elementAtOrElse instanceof List != null && index >= 0 && index < (List)obj.size()) {
             obj = $this$elementAtOrElse;
-            i3 = 0;
+            i2 = 0;
             if (index >= 0) {
                 if (index < (List)obj.size()) {
-                    i3 = 1;
+                    i2 = 1;
                 }
             }
-            if (i3 != 0) {
+            if (i2 != 0) {
                 invoke = obj.get(index);
             } else {
                 invoke = defaultValue.invoke(Integer.valueOf(index));
@@ -617,7 +617,7 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Iterator iterator = $this$elementAtOrElse.iterator();
         i = 0;
         for (Object size : iterator) {
-            i = i2;
+            i = i3;
         }
         return defaultValue.invoke(Integer.valueOf(index));
     }
@@ -688,9 +688,9 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     public static final <T> List<T> filterIndexed(Iterable<? extends T> $this$filterIndexed, Function2<? super Integer, ? super T, Boolean> predicate) {
         int index$iv;
         Object next;
-        int i;
-        Object apiVersionIsAtLeast;
         int i2;
+        Object apiVersionIsAtLeast;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -702,10 +702,10 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Iterator iterator = $this$filterIndexed.iterator();
         for (Object next : iterator) {
             apiVersionIsAtLeast = next;
-            i2 = 0;
+            i = 0;
             if ((Boolean)predicate.invoke(Integer.valueOf(index$iv), apiVersionIsAtLeast).booleanValue()) {
             }
-            index$iv = i;
+            index$iv = i2;
             (Collection)arrayList.add(apiVersionIsAtLeast);
             CollectionsKt.throwIndexOverflow();
         }
@@ -715,9 +715,9 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     public static final <T, C extends Collection<? super T>> C filterIndexedTo(Iterable<? extends T> $this$filterIndexedTo, C destination, Function2<? super Integer, ? super T, Boolean> predicate) {
         int index;
         Object next;
-        int i;
-        Object apiVersionIsAtLeast;
         int i2;
+        Object apiVersionIsAtLeast;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
@@ -728,10 +728,10 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Iterator iterator = $this$filterIndexedTo.iterator();
         for (Object next : iterator) {
             apiVersionIsAtLeast = next;
-            i2 = 0;
+            i = 0;
             if ((Boolean)predicate.invoke(Integer.valueOf(index), apiVersionIsAtLeast).booleanValue()) {
             }
-            index = i;
+            index = i2;
             destination.add(apiVersionIsAtLeast);
             CollectionsKt.throwIndexOverflow();
         }
@@ -1015,20 +1015,20 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     private static final <T, R> List<R> flatMapIndexedIterable(Iterable<? extends T> $this$flatMapIndexed, Function2<? super Integer, ? super T, ? extends Iterable<? extends R>> transform) {
-        int i2;
-        Object next;
         int i;
-        boolean apiVersionIsAtLeast;
+        Object next;
         int i3;
+        boolean apiVersionIsAtLeast;
+        int i2;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
         Iterator iterator = $this$flatMapIndexed.iterator();
         final int i4 = 0;
-        i2 = i4;
+        i = i4;
         for (Object next : iterator) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), next));
-            i2 = i;
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i), next));
+            i = i3;
             CollectionsKt.throwIndexOverflow();
         }
         return (List)arrayList;
@@ -1037,10 +1037,10 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     private static final <T, R, C extends Collection<? super R>> C flatMapIndexedIterableTo(Iterable<? extends T> $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super T, ? extends Iterable<? extends R>> transform) {
         int list;
         Object next;
-        int i3;
-        boolean apiVersionIsAtLeast;
         int i2;
+        boolean apiVersionIsAtLeast;
         int i;
+        int i3;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -1048,27 +1048,27 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Iterator iterator = $this$flatMapIndexedTo.iterator();
         for (Object next : iterator) {
             CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(list), next));
-            list = i3;
+            list = i2;
             CollectionsKt.throwIndexOverflow();
         }
         return destination;
     }
 
     private static final <T, R> List<R> flatMapIndexedSequence(Iterable<? extends T> $this$flatMapIndexed, Function2<? super Integer, ? super T, ? extends Sequence<? extends R>> transform) {
-        int i2;
-        Object next;
-        int i3;
-        boolean apiVersionIsAtLeast;
         int i;
+        Object next;
+        int i2;
+        boolean apiVersionIsAtLeast;
+        int i3;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
         Iterator iterator = $this$flatMapIndexed.iterator();
         final int i4 = 0;
-        i2 = i4;
+        i = i4;
         for (Object next : iterator) {
-            CollectionsKt.addAll((Collection)arrayList, (Sequence)transform.invoke(Integer.valueOf(i2), next));
-            i2 = i3;
+            CollectionsKt.addAll((Collection)arrayList, (Sequence)transform.invoke(Integer.valueOf(i), next));
+            i = i2;
             CollectionsKt.throwIndexOverflow();
         }
         return (List)arrayList;
@@ -1079,8 +1079,8 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Object next;
         int i;
         boolean apiVersionIsAtLeast;
-        int i3;
         int i2;
+        int i3;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -1152,22 +1152,22 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final <T, R> R foldIndexed(Iterable<? extends T> $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super T, ? extends R> operation) {
-        int i2;
+        int i4;
         Object accumulator;
         Object next;
-        int i4;
+        int i2;
         boolean apiVersionIsAtLeast;
-        int i3;
         int i;
+        int i3;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i5 = 0;
-        i2 = 0;
+        i4 = 0;
         accumulator = initial;
         Iterator iterator = $this$foldIndexed.iterator();
         for (Object next : iterator) {
-            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, next);
-            i2 = i4;
+            accumulator = operation.invoke(Integer.valueOf(i4), accumulator, next);
+            i4 = i2;
             CollectionsKt.throwIndexOverflow();
         }
         return accumulator;
@@ -1221,20 +1221,20 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final <T> void forEachIndexed(Iterable<? extends T> $this$forEachIndexed, Function2<? super Integer, ? super T, Unit> action) {
-        int i2;
-        Object next;
-        int i4;
-        boolean apiVersionIsAtLeast;
         int i;
+        Object next;
+        int i2;
+        boolean apiVersionIsAtLeast;
         int i3;
+        int i4;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i5 = 0;
-        i2 = 0;
+        i = 0;
         Iterator iterator = $this$forEachIndexed.iterator();
         for (Object next : iterator) {
-            action.invoke(Integer.valueOf(i2), next);
-            i2 = i4;
+            action.invoke(Integer.valueOf(i), next);
+            i = i2;
             CollectionsKt.throwIndexOverflow();
         }
     }
@@ -1282,9 +1282,9 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Object next;
         Object invoke;
         ArrayList $this$getOrPut$iv$iv;
-        int i;
-        Object obj;
         int i2;
+        Object obj;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -1296,14 +1296,14 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
             next = iterator.next();
             invoke = keySelector.invoke(next);
             LinkedHashMap map = linkedHashMap;
-            i = 0;
+            i2 = 0;
             obj = map.get(invoke);
             if (obj == null) {
             } else {
             }
             arrayList = obj;
             (List)arrayList.add(next);
-            i2 = 0;
+            i = 0;
             arrayList = new ArrayList();
             map.put(invoke, (List)arrayList);
         }
@@ -1312,9 +1312,9 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
 
     public static final <T, K, V> Map<K, List<V>> groupBy(Iterable<? extends T> $this$groupBy, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
         Object next;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv$iv;
         Object invoke;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke2;
         Object obj;
         int i;
         ArrayList arrayList;
@@ -1327,10 +1327,10 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         final Iterator iterator = $this$groupBy.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            invoke2 = keySelector.invoke(next);
+            invoke = keySelector.invoke(next);
             LinkedHashMap map = linkedHashMap;
             int i4 = 0;
-            obj = map.get(invoke2);
+            obj = map.get(invoke);
             if (obj == null) {
             } else {
             }
@@ -1338,7 +1338,7 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
             (List)arrayList.add(valueTransform.invoke(next));
             i = 0;
             arrayList = new ArrayList();
-            map.put(invoke2, (List)arrayList);
+            map.put(invoke, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
@@ -1376,9 +1376,9 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
 
     public static final <T, K, V, M extends Map<? super K, List<V>>> M groupByTo(Iterable<? extends T> $this$groupByTo, M destination, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
         Object next;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv;
         Object invoke;
+        ArrayList $this$getOrPut$iv;
+        Object invoke2;
         Object obj;
         int i;
         ArrayList arrayList;
@@ -1390,10 +1390,10 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         final Iterator iterator = $this$groupByTo.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            invoke2 = keySelector.invoke(next);
+            invoke = keySelector.invoke(next);
             Object obj2 = destination;
             int i3 = 0;
-            obj = obj2.get(invoke2);
+            obj = obj2.get(invoke);
             if (obj == null) {
             } else {
             }
@@ -1401,7 +1401,7 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
             (List)arrayList.add(valueTransform.invoke(next));
             i = 0;
             arrayList = new ArrayList();
-            obj2.put(invoke2, (List)arrayList);
+            obj2.put(invoke, (List)arrayList);
         }
         return destination;
     }
@@ -1552,33 +1552,33 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
 
     public static java.lang.Appendable joinTo$default(Iterable iterable, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
         String str2;
-        String str;
         String str4;
-        int i2;
         String str3;
         int i;
+        String str;
+        int i2;
         if (i9 & 2 != 0) {
             str2 = ", ";
         } else {
             str2 = charSequence3;
         }
         if (i9 & 4 != 0) {
-            str = str4;
+            str4 = str3;
         } else {
-            str = charSequence4;
+            str4 = charSequence4;
         }
         if (i9 & 8 != 0) {
         } else {
-            str4 = charSequence5;
+            str3 = charSequence5;
         }
-        i2 = i9 & 16 != 0 ? -1 : i6;
+        i = i9 & 16 != 0 ? -1 : i6;
         if (i9 & 32 != 0) {
-            str3 = "...";
+            str = "...";
         } else {
-            str3 = charSequence7;
+            str = charSequence7;
         }
-        i = i9 & 64 != 0 ? 0 : function18;
-        return CollectionsKt.joinTo(iterable, appendable2, str2, str, str4, i2, str3, i);
+        i2 = i9 & 64 != 0 ? 0 : function18;
+        return CollectionsKt.joinTo(iterable, appendable2, str2, str4, str3, i, str, i2);
     }
 
     public static final <T> String joinToString(Iterable<? extends T> $this$joinToString, java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super T, ? extends java.lang.CharSequence> transform) {
@@ -1801,22 +1801,22 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final <T, R> List<R> mapIndexed(Iterable<? extends T> $this$mapIndexed, Function2<? super Integer, ? super T, ? extends R> transform) {
-        int i3;
-        Object next;
         int i2;
-        boolean apiVersionIsAtLeast;
+        Object next;
         int i;
+        boolean apiVersionIsAtLeast;
+        int i3;
         int i4;
         Intrinsics.checkNotNullParameter($this$mapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i5 = 0;
         ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault($this$mapIndexed, 10));
         final int i7 = 0;
-        i3 = 0;
+        i2 = 0;
         Iterator iterator = $this$mapIndexed.iterator();
         for (Object next : iterator) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i3), next));
-            i3 = i2;
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i2), next));
+            i2 = i;
             CollectionsKt.throwIndexOverflow();
         }
         return (List)arrayList;
@@ -1827,9 +1827,9 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Object next;
         int i3;
         Object apiVersionIsAtLeast;
-        int i2;
-        Object invoke;
         int i;
+        Object invoke;
+        int i2;
         Intrinsics.checkNotNullParameter($this$mapIndexedNotNull, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i4 = 0;
@@ -1839,12 +1839,12 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         index$iv = 0;
         Iterator iterator = $this$mapIndexedNotNull.iterator();
         for (Object next : iterator) {
-            i2 = 0;
+            i = 0;
             invoke = transform.invoke(Integer.valueOf(index$iv), next);
             if (invoke != null) {
             }
             index$iv = i3;
-            i = 0;
+            i2 = 0;
             (Collection)arrayList.add(invoke);
             CollectionsKt.throwIndexOverflow();
         }
@@ -1854,9 +1854,9 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     public static final <T, R, C extends Collection<? super R>> C mapIndexedNotNullTo(Iterable<? extends T> $this$mapIndexedNotNullTo, C destination, Function2<? super Integer, ? super T, ? extends R> transform) {
         int index;
         Object next;
-        int i3;
-        Object apiVersionIsAtLeast;
         int i;
+        Object apiVersionIsAtLeast;
+        int i3;
         Object invoke;
         int i2;
         Intrinsics.checkNotNullParameter($this$mapIndexedNotNullTo, "<this>");
@@ -1867,11 +1867,11 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         index = 0;
         Iterator iterator = $this$mapIndexedNotNullTo.iterator();
         for (Object next : iterator) {
-            i = 0;
+            i3 = 0;
             invoke = transform.invoke(Integer.valueOf(index), next);
             if (invoke != null) {
             }
-            index = i3;
+            index = i;
             i2 = 0;
             destination.add(invoke);
             CollectionsKt.throwIndexOverflow();
@@ -1880,21 +1880,21 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final <T, R, C extends Collection<? super R>> C mapIndexedTo(Iterable<? extends T> $this$mapIndexedTo, C destination, Function2<? super Integer, ? super T, ? extends R> transform) {
-        int i;
-        Object next;
-        int i2;
-        boolean apiVersionIsAtLeast;
         int i4;
+        Object next;
+        int i;
+        boolean apiVersionIsAtLeast;
+        int i2;
         int i3;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i5 = 0;
-        i = 0;
+        i4 = 0;
         Iterator iterator = $this$mapIndexedTo.iterator();
         for (Object next : iterator) {
-            destination.add(transform.invoke(Integer.valueOf(i), next));
-            i = i2;
+            destination.add(transform.invoke(Integer.valueOf(i4), next));
+            i4 = i;
             CollectionsKt.throwIndexOverflow();
         }
         return destination;
@@ -2768,14 +2768,14 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final <T> List<T> minus(Iterable<? extends T> $this$minus, T[] elements) {
-        int i2;
+        int i;
         Object next;
         boolean it;
-        int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$minus, "<this>");
         Intrinsics.checkNotNullParameter(elements, "elements");
-        i2 = elements.length == 0 ? 1 : 0;
-        if (i2 != 0) {
+        i = elements.length == 0 ? 1 : 0;
+        if (i != 0) {
             return CollectionsKt.toList($this$minus);
         }
         final int i3 = 0;
@@ -2784,7 +2784,7 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         final Iterator iterator = $this$minus.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            i = 0;
+            i2 = 0;
             if (!ArraysKt.contains(elements, next)) {
             }
             (Collection)arrayList.add(next);
@@ -2838,21 +2838,21 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final <T, C extends Iterable<? extends T>> C onEachIndexed(C $this$onEachIndexed, Function2<? super Integer, ? super T, Unit> action) {
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i3 = 0;
         final int i4 = 0;
         final int i5 = 0;
-        i2 = 0;
+        i = 0;
         final Iterator iterator = $this$onEachIndexed.iterator();
         while (iterator.hasNext()) {
-            if (i2 < 0) {
+            if (i < 0) {
             }
-            action.invoke(Integer.valueOf(i2), iterator.next());
-            i2 = i;
+            action.invoke(Integer.valueOf(i), iterator.next());
+            i = i2;
             CollectionsKt.throwIndexOverflow();
         }
         return $this$onEachIndexed;
@@ -3025,10 +3025,10 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     public static final <S, T extends S> S reduceIndexed(Iterable<? extends T> $this$reduceIndexed, Function3<? super Integer, ? super S, ? super T, ? extends S> operation) {
         int i4;
         Object accumulator;
-        int i3;
-        Object apiVersionIsAtLeast;
         int i;
+        Object apiVersionIsAtLeast;
         int i2;
+        int i3;
         Intrinsics.checkNotNullParameter($this$reduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i5 = 0;
@@ -3039,7 +3039,7 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
             accumulator = iterator.next();
             while (iterator.hasNext()) {
                 accumulator = operation.invoke(Integer.valueOf(i4), accumulator, iterator.next());
-                i4 = i3;
+                i4 = i;
                 CollectionsKt.throwIndexOverflow();
             }
             return accumulator;
@@ -3051,9 +3051,9 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     public static final <S, T extends S> S reduceIndexedOrNull(Iterable<? extends T> $this$reduceIndexedOrNull, Function3<? super Integer, ? super S, ? super T, ? extends S> operation) {
         int i2;
         Object accumulator;
-        int i3;
-        Object apiVersionIsAtLeast;
         int i;
+        Object apiVersionIsAtLeast;
+        int i3;
         int i4;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
@@ -3066,7 +3066,7 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         accumulator = iterator.next();
         while (iterator.hasNext()) {
             accumulator = operation.invoke(Integer.valueOf(i2), accumulator, iterator.next());
-            i2 = i3;
+            i2 = i;
             CollectionsKt.throwIndexOverflow();
         }
         return accumulator;
@@ -3880,16 +3880,16 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final boolean[] toBooleanArray(Collection<Boolean> $this$toBooleanArray) {
-        int i2;
-        boolean booleanValue;
         int i;
+        boolean booleanValue;
+        int i2;
         Intrinsics.checkNotNullParameter($this$toBooleanArray, "<this>");
         boolean[] zArr = new boolean[$this$toBooleanArray.size()];
-        i2 = 0;
+        i = 0;
         final Iterator iterator = $this$toBooleanArray.iterator();
         for (Boolean next2 : iterator) {
-            zArr[i2] = next2.booleanValue();
-            i2 = i;
+            zArr[i] = next2.booleanValue();
+            i = i2;
         }
         return zArr;
     }
@@ -3951,16 +3951,16 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final float[] toFloatArray(Collection<Float> $this$toFloatArray) {
-        int i;
-        float floatValue;
         int i2;
+        float floatValue;
+        int i;
         Intrinsics.checkNotNullParameter($this$toFloatArray, "<this>");
         float[] fArr = new float[$this$toFloatArray.size()];
-        i = 0;
+        i2 = 0;
         final Iterator iterator = $this$toFloatArray.iterator();
         for (Number next2 : iterator) {
-            fArr[i] = next2.floatValue();
-            i = i2;
+            fArr[i2] = next2.floatValue();
+            i2 = i;
         }
         return fArr;
     }
@@ -4010,16 +4010,16 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final long[] toLongArray(Collection<Long> $this$toLongArray) {
-        int i;
-        long longValue;
         int i2;
+        long longValue;
+        int i;
         Intrinsics.checkNotNullParameter($this$toLongArray, "<this>");
         long[] lArr = new long[$this$toLongArray.size()];
-        i = 0;
+        i2 = 0;
         final Iterator iterator = $this$toLongArray.iterator();
         for (Number next2 : iterator) {
-            lArr[i] = next2.longValue();
-            i = i2;
+            lArr[i2] = next2.longValue();
+            i2 = i;
         }
         return lArr;
     }
@@ -4078,16 +4078,16 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
     }
 
     public static final short[] toShortArray(Collection<Short> $this$toShortArray) {
-        int i2;
-        short shortValue;
         int i;
+        short shortValue;
+        int i2;
         Intrinsics.checkNotNullParameter($this$toShortArray, "<this>");
         short[] sArr = new short[$this$toShortArray.size()];
-        i2 = 0;
+        i = 0;
         final Iterator iterator = $this$toShortArray.iterator();
         for (Number next2 : iterator) {
-            sArr[i2] = next2.shortValue();
-            i2 = i;
+            sArr[i] = next2.shortValue();
+            i = i2;
         }
         return sArr;
     }
@@ -4106,11 +4106,11 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Object next;
         Object obj;
         int index;
-        int i2;
+        int i5;
         int coerceAtMost;
         ArrayList arrayList;
+        int i2;
         int i3;
-        int i5;
         int i4;
         Object obj2;
         final Object obj3 = $this$windowed;
@@ -4138,17 +4138,17 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
                     } else {
                     }
                     arrayList = new ArrayList(coerceAtMost);
-                    i3 = i8;
-                    while (i3 < coerceAtMost) {
+                    i2 = i8;
+                    while (i2 < coerceAtMost) {
                         i4 = 0;
-                        arrayList.add((List)obj3.get(i5 + index));
-                        i3++;
+                        arrayList.add((List)obj3.get(i3 + index));
+                        i2++;
                     }
                     arrayList2.add((List)arrayList);
                     index += i7;
                     i4 = 0;
-                    arrayList.add((List)obj3.get(i5 + index));
-                    i3++;
+                    arrayList.add((List)obj3.get(i3 + index));
+                    i2++;
                     if (z2) {
                     }
                     coerceAtMost = 1;
@@ -4160,7 +4160,7 @@ class CollectionsKt___CollectionsKt extends kotlin.collections.CollectionsKt___C
         Iterator windowedIterator = SlidingWindowKt.windowedIterator(obj3.iterator(), i6, i7, z2, i8);
         int i11 = 0;
         for (Object next : windowedIterator) {
-            i2 = 0;
+            i5 = 0;
             thisSize.add((List)next);
         }
         return (List)thisSize;

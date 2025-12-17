@@ -36,35 +36,35 @@ final class SizeNode extends Modifier.Node implements LayoutModifierNode {
     }
 
     public SizeNode(float f, float f2, float f3, float f4, boolean z5, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
-        float f8;
         float f7;
-        float f5;
+        float f8;
         float f6;
+        float f5;
         float obj8;
         float obj9;
         float obj10;
         float obj11;
         if (i6 & 1 != 0) {
-            f8 = obj8;
+            f7 = obj8;
         } else {
-            f8 = f;
+            f7 = f;
         }
         if (i6 & 2 != 0) {
-            f7 = obj9;
+            f8 = obj9;
         } else {
-            f7 = f2;
+            f8 = f2;
         }
         if (i6 & 4 != 0) {
-            f5 = obj10;
+            f6 = obj10;
         } else {
-            f5 = f3;
+            f6 = f3;
         }
         if (i6 & 8 != 0) {
-            f6 = obj11;
+            f5 = obj11;
         } else {
-            f6 = f4;
+            f5 = f4;
         }
-        super(f8, f7, f5, f6, z5, 0);
+        super(f7, f8, f6, f5, z5, 0);
     }
 
     public SizeNode(float f, float f2, float f3, float f4, boolean z5, DefaultConstructorMarker defaultConstructorMarker6) {
@@ -72,28 +72,28 @@ final class SizeNode extends Modifier.Node implements LayoutModifierNode {
     }
 
     private final long getTargetConstraints-OenEA2s(Density $this$targetConstraints) {
-        int coerceAtLeast3;
-        int i;
         int coerceAtLeast2;
+        int i;
+        int coerceAtLeast3;
         int it;
-        float unspecified-D9Ej5fM2;
+        float unspecified-D9Ej5fM;
         int coerceAtLeast;
-        int unspecified-D9Ej5fM;
+        int unspecified-D9Ej5fM2;
         int i2 = Integer.MAX_VALUE;
         i = 0;
         if (!Dp.equals-impl0(this.maxWidth, Dp.Companion.getUnspecified-D9Ej5fM())) {
-            coerceAtLeast3 = RangesKt.coerceAtLeast($this$targetConstraints.roundToPx-0680j_4(this.maxWidth), i);
-        } else {
-            coerceAtLeast3 = i2;
-        }
-        if (!Dp.equals-impl0(this.maxHeight, Dp.Companion.getUnspecified-D9Ej5fM())) {
-            coerceAtLeast2 = RangesKt.coerceAtLeast($this$targetConstraints.roundToPx-0680j_4(this.maxHeight), i);
+            coerceAtLeast2 = RangesKt.coerceAtLeast($this$targetConstraints.roundToPx-0680j_4(this.maxWidth), i);
         } else {
             coerceAtLeast2 = i2;
         }
+        if (!Dp.equals-impl0(this.maxHeight, Dp.Companion.getUnspecified-D9Ej5fM())) {
+            coerceAtLeast3 = RangesKt.coerceAtLeast($this$targetConstraints.roundToPx-0680j_4(this.maxHeight), i);
+        } else {
+            coerceAtLeast3 = i2;
+        }
         if (!Dp.equals-impl0(this.minWidth, Dp.Companion.getUnspecified-D9Ej5fM())) {
-            unspecified-D9Ej5fM2 = 0;
-            if (RangesKt.coerceAtLeast(RangesKt.coerceAtMost($this$targetConstraints.roundToPx-0680j_4(this.minWidth), coerceAtLeast3), i) != i2) {
+            unspecified-D9Ej5fM = 0;
+            if (RangesKt.coerceAtLeast(RangesKt.coerceAtMost($this$targetConstraints.roundToPx-0680j_4(this.minWidth), coerceAtLeast2), i) != i2) {
             } else {
                 it = i;
             }
@@ -101,14 +101,14 @@ final class SizeNode extends Modifier.Node implements LayoutModifierNode {
             it = i;
         }
         if (!Dp.equals-impl0(this.minHeight, Dp.Companion.getUnspecified-D9Ej5fM())) {
-            coerceAtLeast = RangesKt.coerceAtLeast(RangesKt.coerceAtMost($this$targetConstraints.roundToPx-0680j_4(this.minHeight), coerceAtLeast2), i);
-            unspecified-D9Ej5fM = 0;
+            coerceAtLeast = RangesKt.coerceAtLeast(RangesKt.coerceAtMost($this$targetConstraints.roundToPx-0680j_4(this.minHeight), coerceAtLeast3), i);
+            unspecified-D9Ej5fM2 = 0;
             if (coerceAtLeast != i2) {
                 i = coerceAtLeast;
             }
         } else {
         }
-        return ConstraintsKt.Constraints(it, coerceAtLeast3, i, coerceAtLeast2);
+        return ConstraintsKt.Constraints(it, coerceAtLeast2, i, coerceAtLeast3);
     }
 
     @Override // androidx.compose.ui.Modifier$Node
@@ -166,9 +166,9 @@ final class SizeNode extends Modifier.Node implements LayoutModifierNode {
         long resolvedMinWidth;
         int minWidth-impl;
         int maxWidth-impl;
-        float unspecified-D9Ej5fM;
-        int minHeight-impl;
         float unspecified-D9Ej5fM2;
+        int minHeight-impl;
+        float unspecified-D9Ej5fM;
         int maxHeight-impl;
         float unspecified-D9Ej5fM3;
         long l;

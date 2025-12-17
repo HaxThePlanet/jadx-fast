@@ -43,8 +43,8 @@ public final class UndoManager<T>  {
     }
 
     public UndoManager(List<? extends T> initialUndoStack, List<? extends T> initialRedoStack, int capacity) {
-        int i;
         int i2;
+        int i;
         super();
         this.capacity = capacity;
         SnapshotStateList snapshotStateList = new SnapshotStateList();
@@ -56,24 +56,24 @@ public final class UndoManager<T>  {
         snapshotStateList2.addAll((Collection)initialRedoStack);
         this.redoStack = snapshotStateList2;
         int i7 = 0;
-        i = this.capacity >= 0 ? i2 : i7;
-        if (i == 0) {
+        i2 = this.capacity >= 0 ? i : i7;
+        if (i2 == 0) {
         } else {
             if (getSize() <= this.capacity) {
             } else {
-                i2 = i7;
+                i = i7;
             }
-            if (i2 == 0) {
+            if (i == 0) {
             } else {
             }
             int i4 = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(stringBuilder.append("Initial list of undo and redo operations have a size=(").append(getSize()).append(") greater than the given capacity=(").append(this.capacity).append(").").toString().toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Initial list of undo and redo operations have a size=(").append(getSize()).append(") greater than the given capacity=(").append(this.capacity).append(").").toString().toString());
+            throw illegalArgumentException;
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive integer".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireUndoManager$1 = new IllegalArgumentException("Capacity must be a positive integer".toString());
+        throw $i$a$RequireUndoManager$1;
     }
 
     public UndoManager(List list, List list2, int i3, int i4, DefaultConstructorMarker defaultConstructorMarker5) {
@@ -137,8 +137,8 @@ public final class UndoManager<T>  {
             return last;
         }
         int topOperation = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("It's an error to call redo while there is nothing to redo. Please first check `canRedo` value before calling the `redo` function.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckUndoManager$redo$1 = new IllegalStateException("It's an error to call redo while there is nothing to redo. Please first check `canRedo` value before calling the `redo` function.".toString());
+        throw $i$a$CheckUndoManager$redo$1;
     }
 
     public final T undo() {
@@ -149,7 +149,7 @@ public final class UndoManager<T>  {
             return last;
         }
         int topOperation = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("It's an error to call undo while there is nothing to undo. Please first check `canUndo` value before calling the `undo` function.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckUndoManager$undo$1 = new IllegalStateException("It's an error to call undo while there is nothing to undo. Please first check `canUndo` value before calling the `undo` function.".toString());
+        throw $i$a$CheckUndoManager$undo$1;
     }
 }

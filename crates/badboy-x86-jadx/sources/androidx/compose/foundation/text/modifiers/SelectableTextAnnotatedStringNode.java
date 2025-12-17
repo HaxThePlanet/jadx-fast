@@ -51,41 +51,41 @@ public final class SelectableTextAnnotatedStringNode extends DelegatingNode impl
         } else {
         }
         int i = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Do not use SelectionCapableStaticTextModifier unless selectionController != null".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullSelectableTextAnnotatedStringNode$1 = new IllegalArgumentException("Do not use SelectionCapableStaticTextModifier unless selectionController != null".toString());
+        throw $i$a$RequireNotNullSelectableTextAnnotatedStringNode$1;
     }
 
     public SelectableTextAnnotatedStringNode(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, Function1 function14, int i5, boolean z6, int i7, int i8, List list9, Function1 function110, androidx.compose.foundation.text.modifiers.SelectionController selectionController11, ColorProducer colorProducer12, Function1 function113, int i14, DefaultConstructorMarker defaultConstructorMarker15) {
         int clip-gIe3tQ8;
-        int i6;
-        int i3;
-        int i11;
         int i15;
-        int i13;
-        int i;
-        int i2;
-        int i4;
+        int i3;
         int i9;
-        int i10;
         int i12;
+        int i;
+        int i6;
+        int i13;
+        int i4;
+        int i10;
+        int i11;
+        int i2;
         int i16 = i14;
         final int i25 = 0;
         i3 = i16 & 8 != 0 ? i25 : function14;
         if (i16 & 16 != 0) {
-            i11 = clip-gIe3tQ8;
+            i9 = clip-gIe3tQ8;
         } else {
-            i11 = i5;
+            i9 = i5;
         }
         int i26 = 1;
-        i15 = i16 & 32 != 0 ? i26 : z6;
-        i13 = i16 & 64 != 0 ? i6 : i7;
-        i = i16 & 128 != 0 ? i26 : i8;
-        i2 = i16 & 256 != 0 ? i25 : list9;
+        i12 = i16 & 32 != 0 ? i26 : z6;
+        i = i16 & 64 != 0 ? i15 : i7;
+        i6 = i16 & 128 != 0 ? i26 : i8;
+        i13 = i16 & 256 != 0 ? i25 : list9;
         i4 = i16 & 512 != 0 ? i25 : function110;
-        i9 = i16 & 1024 != 0 ? i25 : selectionController11;
-        i10 = i16 & 2048 != 0 ? i25 : colorProducer12;
-        i12 = i16 &= 4096 != 0 ? i25 : function113;
-        super(annotatedString, textStyle2, resolver3, i3, i11, i15, i13, i, i2, i4, i9, i10, i12, 0);
+        i10 = i16 & 1024 != 0 ? i25 : selectionController11;
+        i11 = i16 & 2048 != 0 ? i25 : colorProducer12;
+        i2 = i16 &= 4096 != 0 ? i25 : function113;
+        super(annotatedString, textStyle2, resolver3, i3, i9, i12, i, i6, i13, i4, i10, i11, i2, 0);
     }
 
     public SelectableTextAnnotatedStringNode(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, Function1 function14, int i5, boolean z6, int i7, int i8, List list9, Function1 function110, androidx.compose.foundation.text.modifiers.SelectionController selectionController11, ColorProducer colorProducer12, Function1 function113, DefaultConstructorMarker defaultConstructorMarker14) {

@@ -17,23 +17,23 @@ import kotlin.jvm.functions.Function4;
 public final class TransformGestureDetectorKt {
     private static final float angle-k-4lQ0M(long $this$angle_u2dk_u2d4lQ0M) {
         int cmp;
-        int i2;
-        double i;
-        i2 = 0;
+        int i;
+        double i2;
+        i = 0;
         final int i6 = 0;
-        cmp = Float.compare(x-impl, i2) == 0 ? i : i6;
+        cmp = Float.compare(x-impl, i) == 0 ? i2 : i6;
         if (cmp != 0) {
-            if (Float.compare(y-impl, i2) == 0) {
+            if (Float.compare(y-impl, i) == 0) {
             } else {
-                i = i6;
+                i2 = i6;
             }
-            if (i != 0) {
+            if (i2 != 0) {
             } else {
-                i2 = cmp / i5;
+                i = cmp / i5;
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public static final long calculateCentroid(PointerEvent $this$calculateCentroid, boolean useCurrent) {
@@ -140,36 +140,36 @@ public final class TransformGestureDetectorKt {
 
     public static final float calculateRotation(PointerEvent $this$calculateRotation) {
         PointerEvent minus-MK-Hz9U2;
-        int rotation2;
+        int rotation;
         int position-F1C5BW0;
-        int i4;
+        int i3;
         int sum$iv;
         int index$iv$iv;
         long minus-MK-Hz9U;
         int previousPosition-F1C5BW0;
-        int i8;
-        int i2;
-        Object obj;
-        int rotationWeight;
-        Object obj2;
-        int i;
-        Object obj4;
-        int index$iv;
-        int i7;
-        boolean previousPressed2;
+        int i4;
+        int i6;
         Object obj3;
-        int i12;
-        int i10;
-        boolean previousPressed;
+        int rotationWeight;
+        Object obj;
         int i11;
-        int rotation;
+        Object obj2;
+        int index$iv;
+        int i12;
+        boolean previousPressed;
+        Object obj4;
+        int i;
+        int i10;
+        boolean previousPressed2;
+        int i8;
+        int rotation2;
         long l;
         float angle-k-4lQ0M2;
         float angle-k-4lQ0M;
-        int i3;
         int i9;
+        int i7;
         long l2;
-        int i6;
+        int i2;
         int i5;
         minus-MK-Hz9U2 = $this$calculateRotation;
         int i14 = 0;
@@ -177,75 +177,75 @@ public final class TransformGestureDetectorKt {
         List list = changes;
         index$iv$iv = 0;
         final int size = list.size();
-        i2 = 1;
+        i6 = 1;
         while (index$iv$iv < size) {
-            i = 0;
-            obj4 = obj2;
-            i7 = 0;
-            if ((PointerInputChange)obj4.getPreviousPressed() && obj4.getPressed()) {
+            i11 = 0;
+            obj2 = obj;
+            i12 = 0;
+            if ((PointerInputChange)obj2.getPreviousPressed() && obj2.getPressed()) {
             }
             sum$iv += previousPosition-F1C5BW0;
             index$iv$iv++;
-            i2 = 1;
-            if (obj4.getPressed()) {
+            i6 = 1;
+            if (obj2.getPressed()) {
             }
-            previousPosition-F1C5BW0 = i2;
+            previousPosition-F1C5BW0 = i6;
         }
         if (sum$iv < 2) {
             return 0;
         }
         minus-MK-Hz9U = TransformGestureDetectorKt.calculateCentroid(minus-MK-Hz9U2, false);
-        rotation2 = 0;
+        rotation = 0;
         rotationWeight = 0;
         List changes2 = minus-MK-Hz9U2.getChanges();
         int i16 = 0;
         index$iv = 0;
         while (index$iv < changes2.size()) {
-            obj3 = previousPressed2;
-            i12 = 0;
-            if ((PointerInputChange)obj3.getPressed() && obj3.getPreviousPressed()) {
+            obj4 = previousPressed;
+            i = 0;
+            if ((PointerInputChange)obj4.getPressed() && obj4.getPreviousPressed()) {
             } else {
             }
-            i11 = position-F1C5BW0;
+            i8 = position-F1C5BW0;
             i10 = sum$iv;
             l = minus-MK-Hz9U;
-            rotation2 = rotation;
+            rotation = rotation2;
             index$iv++;
             minus-MK-Hz9U2 = $this$calculateRotation;
             sum$iv = i10;
-            position-F1C5BW0 = i11;
+            position-F1C5BW0 = i8;
             minus-MK-Hz9U = l;
             previousPosition-F1C5BW0 = 0;
-            i2 = 1;
-            if (obj3.getPreviousPressed()) {
+            i6 = 1;
+            if (obj4.getPreviousPressed()) {
             } else {
             }
-            i11 = position-F1C5BW0;
+            i8 = position-F1C5BW0;
             i10 = sum$iv;
-            minus-MK-Hz9U2 = Offset.minus-MK-Hz9U(obj3.getPreviousPosition-F1C5BW0(), i2);
+            minus-MK-Hz9U2 = Offset.minus-MK-Hz9U(obj4.getPreviousPosition-F1C5BW0(), i6);
             l = minus-MK-Hz9U;
-            minus-MK-Hz9U = Offset.minus-MK-Hz9U(obj3.getPosition-F1C5BW0(), sum$iv);
-            i3 = angle-k-4lQ0M - angle-k-4lQ0M2;
+            minus-MK-Hz9U = Offset.minus-MK-Hz9U(obj4.getPosition-F1C5BW0(), sum$iv);
+            i9 = angle-k-4lQ0M - angle-k-4lQ0M2;
             distance-impl /= i21;
             i5 = 1135869952;
-            if (Float.compare(i3, i22) > 0) {
+            if (Float.compare(i9, i22) > 0) {
             } else {
             }
-            if (Float.compare(i3, i23) < 0) {
+            if (Float.compare(i9, i23) < 0) {
             } else {
             }
-            i6 = i3;
-            rotationWeight += i9;
-            rotation2 = rotation;
-            i6 = i3 + i5;
-            i6 = i3 - i5;
+            i2 = i9;
+            rotationWeight += i7;
+            rotation = rotation2;
+            i2 = i9 + i5;
+            i2 = i9 - i5;
         }
         int i18 = position-F1C5BW0;
         int i17 = sum$iv;
         long l3 = minus-MK-Hz9U;
-        i8 = Float.compare(rotationWeight, i18) == 0 ? 1 : 0;
-        i4 = i8 != 0 ? i18 : i19 / rotationWeight;
-        return i4;
+        i4 = Float.compare(rotationWeight, i18) == 0 ? 1 : 0;
+        i3 = i4 != 0 ? i18 : i19 / rotationWeight;
+        return i3;
     }
 
     public static final float calculateZoom(PointerEvent $this$calculateZoom) {

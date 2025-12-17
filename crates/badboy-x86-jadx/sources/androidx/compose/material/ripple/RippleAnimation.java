@@ -133,20 +133,20 @@ public final class RippleAnimation {
 
     public final Object animate(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i2;
         int i;
-        Object l$0;
-        int fadeOut;
+        int i2;
+        Object _this2;
+        int _this;
         int await;
         Object fadeIn;
         Object obj6;
         anon = continuation;
-        i = Integer.MIN_VALUE;
-        if (continuation instanceof RippleAnimation.animate.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation instanceof RippleAnimation.animate.1 && label &= i2 != 0) {
             anon = continuation;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj6 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj6 -= i2;
             } else {
                 anon = new RippleAnimation.animate.1(this, continuation);
             }
@@ -155,19 +155,19 @@ public final class RippleAnimation {
         obj6 = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         await = 1;
-        switch (fadeOut) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(obj6);
-                l$0 = this;
-                anon.L$0 = l$0;
+                _this2 = this;
+                anon.L$0 = _this2;
                 anon.label = await;
                 return cOROUTINE_SUSPENDED;
             case 1:
-                l$0 = anon.L$0;
+                _this2 = anon.L$0;
                 ResultKt.throwOnFailure(obj6);
                 break;
             case 2:
-                l$0 = anon.L$0;
+                _this2 = anon.L$0;
                 ResultKt.throwOnFailure(obj6);
                 anon.L$0 = 0;
                 anon.label = 3;
@@ -180,10 +180,10 @@ public final class RippleAnimation {
                 obj6 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj6;
         }
-        l$0.setFinishedFadingIn(await);
-        anon.L$0 = l$0;
+        _this2.setFinishedFadingIn(await);
+        anon.L$0 = _this2;
         anon.label = 2;
-        if (l$0.finishSignalDeferred.await(anon) == cOROUTINE_SUSPENDED) {
+        if (_this2.finishSignalDeferred.await(anon) == cOROUTINE_SUSPENDED) {
             return cOROUTINE_SUSPENDED;
         }
     }
@@ -197,27 +197,27 @@ public final class RippleAnimation {
         boolean finishedFadingIn;
         long l;
         boolean bounded;
-        int i6;
+        int i;
         int lerp;
         float y-impl;
         Canvas canvas;
         int $this$withTransform_u24lambda_u246$iv$iv3;
-        DrawContext context3;
+        DrawContext context;
         int $this$withTransform_u24lambda_u246$iv$iv2;
         int $this$withTransform_u24lambda_u246$iv$iv;
-        int i2;
-        int i8;
-        int i9;
-        int i7;
-        int alpha;
         int i5;
-        int i4;
+        int i8;
+        int i3;
+        int i6;
+        int alpha;
+        int $i$a$WithTransformDrawScopeKt$clipRect$1$iv;
+        int i7;
         float f;
         float f2;
-        int i;
-        int i3;
+        int i4;
+        int i2;
+        DrawContext context3;
         DrawContext context2;
-        DrawContext context;
         size-NH-jbRc = this;
         if (size-NH-jbRc.startRadius == null) {
             size-NH-jbRc.startRadius = Float.valueOf(RippleAnimationKt.getRippleStartRadius-uvyYCjk($this$draw_u2d4WTKRHQ.getSize-NH-jbRc()));
@@ -256,30 +256,30 @@ public final class RippleAnimation {
         final long copy-wmQWz5c$default = Color.copy-wmQWz5c$default(color, obj12, alpha-impl * floatValue, 0, 0, 0, 14);
         if (size-NH-jbRc.bounded) {
             bounded = $this$draw_u2d4WTKRHQ;
-            int i11 = 0;
-            int i13 = 0;
+            int i10 = 0;
+            int i12 = 0;
             float width-impl2 = Size.getWidth-impl(bounded.getSize-NH-jbRc());
             float height-impl2 = Size.getHeight-impl(bounded.getSize-NH-jbRc());
             int intersect-rtfAjoo = ClipOp.Companion.getIntersect-rtfAjoo();
             lerp = 0;
             y-impl = bounded;
-            i9 = 0;
+            i3 = 0;
             DrawContext drawContext = y-impl.getDrawContext();
-            i7 = 0;
+            i6 = 0;
             alpha = floatValue;
             drawContext.getCanvas().save();
-            int i17 = 0;
-            drawContext.getTransform().clipRect-N_I0leg(i11, i13, width-impl2, height-impl2, intersect-rtfAjoo);
-            i5 = i11;
-            i4 = i13;
+            int i16 = 0;
+            drawContext.getTransform().clipRect-N_I0leg(i10, i12, width-impl2, height-impl2, intersect-rtfAjoo);
+            $i$a$WithTransformDrawScopeKt$clipRect$1$iv = i10;
+            i7 = i12;
             f = width-impl2;
             f2 = height-impl2;
-            i = intersect-rtfAjoo;
-            i3 = 0;
-            context = context2;
+            i4 = intersect-rtfAjoo;
+            i2 = 0;
+            context2 = context3;
             DrawScope.drawCircle-VaOC9Bg$default(y-impl, copy-wmQWz5c$default, obj7, lerp3, l3, obj10, 0, 0, 0, 0);
-            context.getCanvas().restore();
-            context.setSize-uvyYCjk(drawContext.getSize-NH-jbRc());
+            context2.getCanvas().restore();
+            context2.setSize-uvyYCjk(drawContext.getSize-NH-jbRc());
         } else {
             alpha = floatValue;
             DrawScope.drawCircle-VaOC9Bg$default($this$draw_u2d4WTKRHQ, copy-wmQWz5c$default, obj7, lerp3, l3, obj10, 0, 0, 0, 0);

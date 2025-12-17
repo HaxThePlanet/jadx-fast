@@ -47,22 +47,22 @@ public final class BitmapKt {
 
     public static final boolean contains(Bitmap $this$contains, PointF p) {
         int cmp;
-        int i;
         int i2;
+        int i;
         float f;
         final int i3 = 0;
-        i2 = 0;
-        if (Float.compare(f2, i2) >= 0 && Float.compare(f3, f) < 0 && Float.compare(f4, i2) >= 0 && Float.compare(f5, i2) < 0) {
+        i = 0;
+        if (Float.compare(f2, i) >= 0 && Float.compare(f3, f) < 0 && Float.compare(f4, i) >= 0 && Float.compare(f5, i) < 0) {
             if (Float.compare(f3, f) < 0) {
-                if (Float.compare(f4, i2) >= 0) {
-                    i = Float.compare(f5, i2) < 0 ? 1 : 0;
+                if (Float.compare(f4, i) >= 0) {
+                    i2 = Float.compare(f5, i) < 0 ? 1 : 0;
                 } else {
                 }
             } else {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     public static final Bitmap createBitmap(int width, int height, Bitmap.Config config) {

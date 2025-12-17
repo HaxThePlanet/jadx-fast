@@ -242,520 +242,520 @@ public final class TextFieldColors {
     }
 
     public final androidx.compose.material3.TextFieldColors copy-ejIjP34(long focusedTextColor, long unfocusedTextColor, long disabledTextColor, long errorTextColor, long focusedContainerColor, long unfocusedContainerColor, long disabledContainerColor, long errorContainerColor, long cursorColor, long errorCursorColor, TextSelectionColors textSelectionColors, long focusedIndicatorColor, long unfocusedIndicatorColor, long disabledIndicatorColor, long errorIndicatorColor, long focusedLeadingIconColor, long unfocusedLeadingIconColor, long disabledLeadingIconColor, long errorLeadingIconColor, long focusedTrailingIconColor, long unfocusedTrailingIconColor, long disabledTrailingIconColor, long errorTrailingIconColor, long focusedLabelColor, long unfocusedLabelColor, long disabledLabelColor, long errorLabelColor, long focusedPlaceholderColor, long unfocusedPlaceholderColor, long disabledPlaceholderColor, long errorPlaceholderColor, long focusedSupportingTextColor, long unfocusedSupportingTextColor, long disabledSupportingTextColor, long errorSupportingTextColor, long focusedPrefixColor, long unfocusedPrefixColor, long disabledPrefixColor, long errorPrefixColor, long focusedSuffixColor, long unfocusedSuffixColor, long disabledSuffixColor, long errorSuffixColor) {
-        int $this$isSpecified$iv$iv18;
-        int $this$isSpecified$iv$iv39;
-        int $this$isSpecified$iv$iv13;
-        int $this$isSpecified$iv$iv35;
-        int $this$isSpecified$iv$iv10;
-        int $this$isSpecified$iv$iv19;
-        int $this$isSpecified$iv$iv21;
-        int $this$isSpecified$iv$iv23;
-        int $this$isSpecified$iv$iv41;
-        int $this$isSpecified$iv$iv7;
-        int $this$isSpecified$iv$iv31;
-        int $this$isSpecified$iv$iv27;
-        int $this$isSpecified$iv$iv22;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$2;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$3;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$4;
         int $this$isSpecified$iv$iv;
-        int $this$isSpecified$iv$iv40;
-        int $this$isSpecified$iv$iv30;
-        int $this$isSpecified$iv$iv6;
-        int $this$isSpecified$iv$iv38;
-        int $this$isSpecified$iv$iv24;
-        int $this$isSpecified$iv$iv20;
-        int $this$isSpecified$iv$iv4;
-        int $this$isSpecified$iv$iv26;
-        int $this$isSpecified$iv$iv25;
-        int $this$isSpecified$iv$iv32;
-        int $this$isSpecified$iv$iv5;
-        int $this$isSpecified$iv$iv14;
-        int $this$isSpecified$iv$iv8;
-        int $this$isSpecified$iv$iv11;
-        int $this$isSpecified$iv$iv3;
-        int $this$isSpecified$iv$iv17;
-        int $this$isSpecified$iv$iv28;
-        int $this$isSpecified$iv$iv9;
-        int $this$isSpecified$iv$iv15;
-        int $this$isSpecified$iv$iv33;
-        int $this$isSpecified$iv$iv12;
-        int $this$isSpecified$iv$iv36;
-        int $this$isSpecified$iv$iv29;
-        int $this$isSpecified$iv$iv34;
-        int $this$isSpecified$iv$iv37;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$6;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$7;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$8;
         int $this$isSpecified$iv$iv2;
-        int $this$isSpecified$iv$iv16;
-        long errorSuffixColor2;
-        int i2;
-        long l17;
-        long l39;
-        long l4;
-        long l36;
-        long l18;
-        long l32;
-        long l7;
-        long l15;
-        long l16;
-        long l33;
-        long l29;
-        long l14;
-        long l8;
-        long l25;
-        long l19;
-        long l40;
-        long i;
-        long l10;
-        long l37;
-        long l38;
-        long l20;
-        long l28;
-        long l30;
-        long l11;
-        long l5;
-        long l2;
-        long l35;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$10;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$12;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$13;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$14;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$15;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$16;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$17;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$18;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$19;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$20;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$21;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$22;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$23;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$24;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$25;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$26;
+        int $this$isSpecified$iv$iv3;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$28;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$29;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$30;
+        int $this$isSpecified$iv$iv4;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$32;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$33;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$34;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$35;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$36;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$37;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$38;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$39;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$40;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$41;
+        int $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$42;
+        long $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$43;
+        int i3;
         long l21;
-        long l12;
-        long l31;
+        long l37;
         long l9;
-        long l3;
-        long l22;
-        long l26;
-        long l24;
-        long l6;
-        long l27;
-        long i3;
+        long l11;
+        long l;
+        long l15;
+        long l2;
+        long l7;
+        long l30;
+        long l16;
+        long l17;
+        long l20;
+        long l12;
+        long l18;
         long l23;
         long l13;
+        long i;
+        long l25;
+        long l8;
+        long l3;
+        long l5;
+        long l27;
+        long l36;
+        long l14;
+        long l19;
+        long l38;
+        long l4;
+        long l33;
+        long l29;
+        long l24;
+        long l6;
+        long l26;
+        long l28;
         long l34;
-        long l;
+        long l39;
+        long l40;
+        long l22;
+        long i2;
+        long l10;
+        long l31;
+        long l32;
+        long l35;
         final Object obj = this;
         int i4 = focusedTextColor;
         int i37 = 0;
         int i131 = 0;
         int i141 = 16;
-        i2 = 1;
+        i3 = 1;
         final int i174 = 0;
-        $this$isSpecified$iv$iv18 = Long.compare(i48, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv18 != 0) {
-            l17 = i4;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$1 = Long.compare(i48, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$1 != 0) {
+            l21 = i4;
         } else {
             int i67 = 0;
-            l17 = $this$isSpecified$iv$iv18;
+            l21 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = disabledTextColor;
         int i38 = 0;
         int i132 = 0;
-        $this$isSpecified$iv$iv39 = Long.compare(i49, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv39 != 0) {
-            l39 = $this$takeOrElse_u2dDxMtmZc$iv;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$2 = Long.compare(i49, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$2 != 0) {
+            l37 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i66 = 0;
-            l39 = $this$isSpecified$iv$iv39;
+            l37 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = focusedContainerColor;
         int i39 = 0;
         int i133 = 0;
-        $this$isSpecified$iv$iv13 = Long.compare(i50, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv13 != 0) {
-            l4 = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$3 = Long.compare(i50, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$3 != 0) {
+            l9 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i65 = 0;
-            l4 = $this$isSpecified$iv$iv13;
+            l9 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = disabledContainerColor;
         int i40 = 0;
         int i134 = 0;
-        $this$isSpecified$iv$iv35 = Long.compare(i51, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv35 != 0) {
-            l36 = $this$takeOrElse_u2dDxMtmZc$iv3;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$4 = Long.compare(i51, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$4 != 0) {
+            l11 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i64 = 0;
-            l36 = $this$isSpecified$iv$iv35;
+            l11 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv4 = cursorColor;
         int i41 = 0;
         int i135 = 0;
-        $this$isSpecified$iv$iv10 = Long.compare(i52, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv10 != 0) {
-            l18 = $this$takeOrElse_u2dDxMtmZc$iv4;
+        $this$isSpecified$iv$iv = Long.compare(i52, i141) != 0 ? i3 : i174;
+        if ($this$isSpecified$iv$iv != 0) {
+            l = $this$takeOrElse_u2dDxMtmZc$iv4;
         } else {
             int i63 = 0;
-            l18 = $this$isSpecified$iv$iv10;
+            l = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv5 = textSelectionColors;
         int i42 = 0;
         int i136 = 0;
-        $this$isSpecified$iv$iv19 = Long.compare(i53, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv19 != 0) {
-            l32 = $this$takeOrElse_u2dDxMtmZc$iv5;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$6 = Long.compare(i53, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$6 != 0) {
+            l15 = $this$takeOrElse_u2dDxMtmZc$iv5;
         } else {
             int i62 = 0;
-            l32 = $this$isSpecified$iv$iv19;
+            l15 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$6;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv6 = unfocusedIndicatorColor;
         int i43 = 0;
         int i137 = 0;
-        $this$isSpecified$iv$iv21 = Long.compare(i54, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv21 != 0) {
-            l7 = $this$takeOrElse_u2dDxMtmZc$iv6;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$7 = Long.compare(i54, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$7 != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv6;
         } else {
             int i61 = 0;
-            l7 = $this$isSpecified$iv$iv21;
+            l2 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$7;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv7 = errorIndicatorColor;
         int i44 = 0;
         int i138 = 0;
-        $this$isSpecified$iv$iv23 = Long.compare(i55, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv23 != 0) {
-            l15 = $this$takeOrElse_u2dDxMtmZc$iv7;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$8 = Long.compare(i55, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$8 != 0) {
+            l7 = $this$takeOrElse_u2dDxMtmZc$iv7;
         } else {
             int i60 = 0;
-            l15 = $this$isSpecified$iv$iv23;
+            l7 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$8;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv8 = unfocusedLeadingIconColor;
         int i45 = 0;
         int i139 = 0;
-        $this$isSpecified$iv$iv41 = Long.compare(i56, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv41 != 0) {
-            l16 = $this$takeOrElse_u2dDxMtmZc$iv8;
+        $this$isSpecified$iv$iv2 = Long.compare(i56, i141) != 0 ? i3 : i174;
+        if ($this$isSpecified$iv$iv2 != 0) {
+            l30 = $this$takeOrElse_u2dDxMtmZc$iv8;
         } else {
             int i59 = 0;
-            l16 = $this$isSpecified$iv$iv41;
+            l30 = $this$isSpecified$iv$iv2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv9 = errorLeadingIconColor;
         int i46 = 0;
         int i140 = 0;
-        $this$isSpecified$iv$iv7 = Long.compare(i57, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv7 != 0) {
-            l33 = $this$takeOrElse_u2dDxMtmZc$iv9;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$10 = Long.compare(i57, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$10 != 0) {
+            l16 = $this$takeOrElse_u2dDxMtmZc$iv9;
         } else {
             int i58 = 0;
-            l33 = $this$isSpecified$iv$iv7;
+            l16 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$10;
         }
         TextFieldColors.copy.11 $this$takeOrElse_u2dDxMtmZc$iv10 = new TextFieldColors.copy.11(obj);
         int i47 = disabledTrailingIconColor;
         int i5 = 0;
         int i142 = 0;
-        $this$isSpecified$iv$iv31 = Long.compare(i68, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv31 != 0) {
-            l29 = i47;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$12 = Long.compare(i68, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$12 != 0) {
+            l17 = i47;
         } else {
             int i130 = 0;
-            l29 = $this$isSpecified$iv$iv31;
+            l17 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$12;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv11 = focusedLabelColor;
         int i6 = 0;
         int i143 = 0;
-        $this$isSpecified$iv$iv27 = Long.compare(i69, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv27 != 0) {
-            l14 = $this$takeOrElse_u2dDxMtmZc$iv11;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$13 = Long.compare(i69, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$13 != 0) {
+            l20 = $this$takeOrElse_u2dDxMtmZc$iv11;
         } else {
             int i129 = 0;
-            l14 = $this$isSpecified$iv$iv27;
+            l20 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$13;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv12 = disabledLabelColor;
         int i7 = 0;
         int i144 = 0;
-        $this$isSpecified$iv$iv22 = Long.compare(i70, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv22 != 0) {
-            l8 = $this$takeOrElse_u2dDxMtmZc$iv12;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$14 = Long.compare(i70, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$14 != 0) {
+            l12 = $this$takeOrElse_u2dDxMtmZc$iv12;
         } else {
             int i128 = 0;
-            l8 = $this$isSpecified$iv$iv22;
+            l12 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$14;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv13 = focusedPlaceholderColor;
         int i8 = 0;
         int i145 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i71, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv != 0) {
-            l25 = $this$takeOrElse_u2dDxMtmZc$iv13;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$15 = Long.compare(i71, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$15 != 0) {
+            l18 = $this$takeOrElse_u2dDxMtmZc$iv13;
         } else {
             int i127 = 0;
-            l25 = $this$isSpecified$iv$iv;
+            l18 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$15;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv14 = disabledPlaceholderColor;
         int i9 = 0;
         int i146 = 0;
-        $this$isSpecified$iv$iv40 = Long.compare(i72, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv40 != 0) {
-            l19 = $this$takeOrElse_u2dDxMtmZc$iv14;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$16 = Long.compare(i72, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$16 != 0) {
+            l23 = $this$takeOrElse_u2dDxMtmZc$iv14;
         } else {
             int i126 = 0;
-            l19 = $this$isSpecified$iv$iv40;
+            l23 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$16;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv15 = focusedSupportingTextColor;
         int i10 = 0;
         int i147 = 0;
-        $this$isSpecified$iv$iv30 = Long.compare(i73, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv30 != 0) {
-            l40 = $this$takeOrElse_u2dDxMtmZc$iv15;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$17 = Long.compare(i73, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$17 != 0) {
+            l13 = $this$takeOrElse_u2dDxMtmZc$iv15;
         } else {
             int i125 = 0;
-            l40 = $this$isSpecified$iv$iv30;
+            l13 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$17;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv16 = disabledSupportingTextColor;
         int i11 = 0;
         int i148 = 0;
-        $this$isSpecified$iv$iv6 = Long.compare(i74, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv6 != 0) {
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$18 = Long.compare(i74, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$18 != 0) {
             i = $this$takeOrElse_u2dDxMtmZc$iv16;
         } else {
             int i124 = 0;
-            i = $this$isSpecified$iv$iv6;
+            i = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$18;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv17 = focusedPrefixColor;
         int i12 = 0;
         int i149 = 0;
-        $this$isSpecified$iv$iv38 = Long.compare(i75, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv38 != 0) {
-            l10 = $this$takeOrElse_u2dDxMtmZc$iv17;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$19 = Long.compare(i75, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$19 != 0) {
+            l25 = $this$takeOrElse_u2dDxMtmZc$iv17;
         } else {
             int i123 = 0;
-            l10 = $this$isSpecified$iv$iv38;
+            l25 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$19;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv18 = disabledPrefixColor;
         int i13 = 0;
         int i150 = 0;
-        $this$isSpecified$iv$iv24 = Long.compare(i76, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv24 != 0) {
-            l37 = $this$takeOrElse_u2dDxMtmZc$iv18;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$20 = Long.compare(i76, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$20 != 0) {
+            l8 = $this$takeOrElse_u2dDxMtmZc$iv18;
         } else {
             int i122 = 0;
-            l37 = $this$isSpecified$iv$iv24;
+            l8 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$20;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv19 = focusedSuffixColor;
         int i14 = 0;
         int i151 = 0;
-        $this$isSpecified$iv$iv20 = Long.compare(i77, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv20 != 0) {
-            l38 = $this$takeOrElse_u2dDxMtmZc$iv19;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$21 = Long.compare(i77, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$21 != 0) {
+            l3 = $this$takeOrElse_u2dDxMtmZc$iv19;
         } else {
             int i121 = 0;
-            l38 = $this$isSpecified$iv$iv20;
+            l3 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$21;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv20 = disabledSuffixColor;
         int i15 = 0;
         int i152 = 0;
-        $this$isSpecified$iv$iv4 = Long.compare(i78, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv4 != 0) {
-            l20 = $this$takeOrElse_u2dDxMtmZc$iv20;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$22 = Long.compare(i78, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$22 != 0) {
+            l5 = $this$takeOrElse_u2dDxMtmZc$iv20;
         } else {
             int i79 = 0;
-            l20 = $this$isSpecified$iv$iv4;
+            l5 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$22;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv21 = obj143;
         int i16 = 0;
         int i153 = 0;
-        $this$isSpecified$iv$iv26 = Long.compare(i80, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv26 != 0) {
-            l28 = $this$takeOrElse_u2dDxMtmZc$iv21;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$23 = Long.compare(i80, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$23 != 0) {
+            l27 = $this$takeOrElse_u2dDxMtmZc$iv21;
         } else {
             int i120 = 0;
-            l28 = $this$isSpecified$iv$iv26;
+            l27 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$23;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv22 = obj145;
         int i17 = 0;
         int i154 = 0;
-        $this$isSpecified$iv$iv25 = Long.compare(i81, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv25 != 0) {
-            l30 = $this$takeOrElse_u2dDxMtmZc$iv22;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$24 = Long.compare(i81, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$24 != 0) {
+            l36 = $this$takeOrElse_u2dDxMtmZc$iv22;
         } else {
             int i119 = 0;
-            l30 = $this$isSpecified$iv$iv25;
+            l36 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$24;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv23 = obj147;
         int i18 = 0;
         int i155 = 0;
-        $this$isSpecified$iv$iv32 = Long.compare(i82, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv32 != 0) {
-            l11 = $this$takeOrElse_u2dDxMtmZc$iv23;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$25 = Long.compare(i82, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$25 != 0) {
+            l14 = $this$takeOrElse_u2dDxMtmZc$iv23;
         } else {
             int i118 = 0;
-            l11 = $this$isSpecified$iv$iv32;
+            l14 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$25;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv24 = obj149;
         int i19 = 0;
         int i156 = 0;
-        $this$isSpecified$iv$iv5 = Long.compare(i83, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv5 != 0) {
-            l5 = $this$takeOrElse_u2dDxMtmZc$iv24;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$26 = Long.compare(i83, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$26 != 0) {
+            l19 = $this$takeOrElse_u2dDxMtmZc$iv24;
         } else {
             int i117 = 0;
-            l5 = $this$isSpecified$iv$iv5;
+            l19 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$26;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv25 = obj151;
         int i20 = 0;
         int i157 = 0;
-        $this$isSpecified$iv$iv14 = Long.compare(i84, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv14 != 0) {
-            l2 = $this$takeOrElse_u2dDxMtmZc$iv25;
+        $this$isSpecified$iv$iv3 = Long.compare(i84, i141) != 0 ? i3 : i174;
+        if ($this$isSpecified$iv$iv3 != 0) {
+            l38 = $this$takeOrElse_u2dDxMtmZc$iv25;
         } else {
             int i116 = 0;
-            l2 = $this$isSpecified$iv$iv14;
+            l38 = $this$isSpecified$iv$iv3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv26 = obj153;
         int i21 = 0;
         int i158 = 0;
-        $this$isSpecified$iv$iv8 = Long.compare(i85, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv8 != 0) {
-            l35 = $this$takeOrElse_u2dDxMtmZc$iv26;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$28 = Long.compare(i85, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$28 != 0) {
+            l4 = $this$takeOrElse_u2dDxMtmZc$iv26;
         } else {
             int i115 = 0;
-            l35 = $this$isSpecified$iv$iv8;
+            l4 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$28;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv27 = obj155;
         int i22 = 0;
         int i159 = 0;
-        $this$isSpecified$iv$iv11 = Long.compare(i86, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv11 != 0) {
-            l21 = $this$takeOrElse_u2dDxMtmZc$iv27;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$29 = Long.compare(i86, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$29 != 0) {
+            l33 = $this$takeOrElse_u2dDxMtmZc$iv27;
         } else {
             int i114 = 0;
-            l21 = $this$isSpecified$iv$iv11;
+            l33 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$29;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv28 = obj157;
         int i23 = 0;
         int i160 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i87, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l12 = $this$takeOrElse_u2dDxMtmZc$iv28;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$30 = Long.compare(i87, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$30 != 0) {
+            l29 = $this$takeOrElse_u2dDxMtmZc$iv28;
         } else {
             int i113 = 0;
-            l12 = $this$isSpecified$iv$iv3;
+            l29 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$30;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv29 = obj159;
         int i24 = 0;
         int i161 = 0;
-        $this$isSpecified$iv$iv17 = Long.compare(i88, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv17 != 0) {
-            l31 = $this$takeOrElse_u2dDxMtmZc$iv29;
+        $this$isSpecified$iv$iv4 = Long.compare(i88, i141) != 0 ? i3 : i174;
+        if ($this$isSpecified$iv$iv4 != 0) {
+            l24 = $this$takeOrElse_u2dDxMtmZc$iv29;
         } else {
             int i112 = 0;
-            l31 = $this$isSpecified$iv$iv17;
+            l24 = $this$isSpecified$iv$iv4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv30 = obj161;
         int i25 = 0;
         int i162 = 0;
-        $this$isSpecified$iv$iv28 = Long.compare(i89, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv28 != 0) {
-            l9 = $this$takeOrElse_u2dDxMtmZc$iv30;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$32 = Long.compare(i89, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$32 != 0) {
+            l6 = $this$takeOrElse_u2dDxMtmZc$iv30;
         } else {
             int i111 = 0;
-            l9 = $this$isSpecified$iv$iv28;
+            l6 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$32;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv31 = obj163;
         int i26 = 0;
         int i163 = 0;
-        $this$isSpecified$iv$iv9 = Long.compare(i90, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv9 != 0) {
-            l3 = $this$takeOrElse_u2dDxMtmZc$iv31;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$33 = Long.compare(i90, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$33 != 0) {
+            l26 = $this$takeOrElse_u2dDxMtmZc$iv31;
         } else {
             int i110 = 0;
-            l3 = $this$isSpecified$iv$iv9;
+            l26 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$33;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv32 = obj165;
         int i27 = 0;
         int i164 = 0;
-        $this$isSpecified$iv$iv15 = Long.compare(i91, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv15 != 0) {
-            l22 = $this$takeOrElse_u2dDxMtmZc$iv32;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$34 = Long.compare(i91, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$34 != 0) {
+            l28 = $this$takeOrElse_u2dDxMtmZc$iv32;
         } else {
             int i109 = 0;
-            l22 = $this$isSpecified$iv$iv15;
+            l28 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$34;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv33 = obj167;
         int i28 = 0;
         int i165 = 0;
-        $this$isSpecified$iv$iv33 = Long.compare(i92, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv33 != 0) {
-            l26 = $this$takeOrElse_u2dDxMtmZc$iv33;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$35 = Long.compare(i92, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$35 != 0) {
+            l34 = $this$takeOrElse_u2dDxMtmZc$iv33;
         } else {
             int i108 = 0;
-            l26 = $this$isSpecified$iv$iv33;
+            l34 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$35;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv34 = obj169;
         int i29 = 0;
         int i166 = 0;
-        $this$isSpecified$iv$iv12 = Long.compare(i93, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv12 != 0) {
-            l24 = $this$takeOrElse_u2dDxMtmZc$iv34;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$36 = Long.compare(i93, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$36 != 0) {
+            l39 = $this$takeOrElse_u2dDxMtmZc$iv34;
         } else {
             int i107 = 0;
-            l24 = $this$isSpecified$iv$iv12;
+            l39 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$36;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv35 = obj171;
         int i30 = 0;
         int i167 = 0;
-        $this$isSpecified$iv$iv36 = Long.compare(i94, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv36 != 0) {
-            l6 = $this$takeOrElse_u2dDxMtmZc$iv35;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$37 = Long.compare(i94, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$37 != 0) {
+            l40 = $this$takeOrElse_u2dDxMtmZc$iv35;
         } else {
             int i106 = 0;
-            l6 = $this$isSpecified$iv$iv36;
+            l40 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$37;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv36 = obj173;
         int i31 = 0;
         int i168 = 0;
-        $this$isSpecified$iv$iv29 = Long.compare(i95, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv29 != 0) {
-            l27 = $this$takeOrElse_u2dDxMtmZc$iv36;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$38 = Long.compare(i95, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$38 != 0) {
+            l22 = $this$takeOrElse_u2dDxMtmZc$iv36;
         } else {
             int i105 = 0;
-            l27 = $this$isSpecified$iv$iv29;
+            l22 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$38;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv37 = obj175;
         int i32 = 0;
         int i169 = 0;
-        $this$isSpecified$iv$iv34 = Long.compare(i96, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv34 != 0) {
-            i3 = $this$takeOrElse_u2dDxMtmZc$iv37;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$39 = Long.compare(i96, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$39 != 0) {
+            i2 = $this$takeOrElse_u2dDxMtmZc$iv37;
         } else {
             int i104 = 0;
-            i3 = $this$isSpecified$iv$iv34;
+            i2 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$39;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv38 = obj177;
         int i33 = 0;
         int i170 = 0;
-        $this$isSpecified$iv$iv37 = Long.compare(i97, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv37 != 0) {
-            l23 = $this$takeOrElse_u2dDxMtmZc$iv38;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$40 = Long.compare(i97, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$40 != 0) {
+            l10 = $this$takeOrElse_u2dDxMtmZc$iv38;
         } else {
             int i103 = 0;
-            l23 = $this$isSpecified$iv$iv37;
+            l10 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$40;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv39 = obj179;
         int i34 = 0;
         int i171 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i98, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv2 != 0) {
-            l13 = $this$takeOrElse_u2dDxMtmZc$iv39;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$41 = Long.compare(i98, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$41 != 0) {
+            l31 = $this$takeOrElse_u2dDxMtmZc$iv39;
         } else {
             int i102 = 0;
-            l13 = $this$isSpecified$iv$iv2;
+            l31 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$41;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv40 = obj181;
         int i35 = 0;
         int i172 = 0;
-        $this$isSpecified$iv$iv16 = Long.compare(i99, i141) != 0 ? i2 : i174;
-        if ($this$isSpecified$iv$iv16 != 0) {
-            l34 = $this$takeOrElse_u2dDxMtmZc$iv40;
+        $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$42 = Long.compare(i99, i141) != 0 ? i3 : i174;
+        if ($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$42 != 0) {
+            l32 = $this$takeOrElse_u2dDxMtmZc$iv40;
         } else {
             int i101 = 0;
-            l34 = $this$isSpecified$iv$iv16;
+            l32 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$42;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv41 = obj183;
         int i36 = 0;
         int i173 = 0;
-        if (Long.compare(errorSuffixColor2, i141) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcTextFieldColors$copy$43, i141) != 0) {
         } else {
-            i2 = i174;
+            i3 = i174;
         }
-        if (i2 != 0) {
-            l = $this$takeOrElse_u2dDxMtmZc$iv41;
+        if (i3 != 0) {
+            l35 = $this$takeOrElse_u2dDxMtmZc$iv41;
         } else {
             int i100 = 0;
-            l = errorSuffixColor2;
+            l35 = $i$a$TakeOrElseDxMtmZcTextFieldColors$copy$43;
         }
-        TextFieldColors textFieldColors = new TextFieldColors(l17, obj14, l39, obj16, l4, obj18, l36, obj20, l18, obj22, l32, obj24, l7, obj26, l15, obj28, l16, obj30, l33, obj32, obj.takeOrElse$material3_release(unfocusedTrailingIconColor, (Function0)$this$takeOrElse_u2dDxMtmZc$iv10), l29, obj35, l14, obj37, l8, obj39, l25, obj41, l19, obj43, l40, obj45, i, obj47, l10, obj49, l37, obj51, l38, obj53, l20, obj55, l28, obj57, l30, obj59, l11, obj61, l5, obj63, l2, obj65, l35, obj67, l21, obj69, l12, obj71, l31, obj73, l9, obj75, l3, obj77, l22, obj79, l26, obj81, l24, obj83, l6, obj85, l27, obj87, i3, obj89, l23, obj91, l13, obj93, l34, obj95, l, obj97, 0);
+        TextFieldColors textFieldColors = new TextFieldColors(l21, obj14, l37, obj16, l9, obj18, l11, obj20, l, obj22, l15, obj24, l2, obj26, l7, obj28, l30, obj30, l16, obj32, obj.takeOrElse$material3_release(unfocusedTrailingIconColor, (Function0)$this$takeOrElse_u2dDxMtmZc$iv10), l17, obj35, l20, obj37, l12, obj39, l18, obj41, l23, obj43, l13, obj45, i, obj47, l25, obj49, l8, obj51, l3, obj53, l5, obj55, l27, obj57, l36, obj59, l14, obj61, l19, obj63, l38, obj65, l4, obj67, l33, obj69, l29, obj71, l24, obj73, l6, obj75, l26, obj77, l28, obj79, l34, obj81, l39, obj83, l40, obj85, l22, obj87, i2, obj89, l10, obj91, l31, obj93, l32, obj95, l35, obj97, 0);
         return textFieldColors;
     }
 

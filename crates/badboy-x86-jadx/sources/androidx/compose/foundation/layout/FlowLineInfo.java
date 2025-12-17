@@ -26,30 +26,30 @@ public final class FlowLineInfo {
     }
 
     public FlowLineInfo(int i, int i2, float f3, float f4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
-        int i4;
         int i3;
-        float f2;
+        int i4;
         float f;
+        float f2;
         int obj8;
         int obj9;
         float obj10;
         float obj11;
         final int i6 = 0;
-        i4 = i5 & 1 != 0 ? i6 : i;
-        i3 = i5 & 2 != 0 ? i6 : i2;
+        i3 = i5 & 1 != 0 ? i6 : i;
+        i4 = i5 & 2 != 0 ? i6 : i2;
         if (i5 & 4 != 0) {
             obj9 = 0;
-            f2 = obj10;
+            f = obj10;
         } else {
-            f2 = f3;
+            f = f3;
         }
         if (i5 & 8 != 0) {
             obj9 = 0;
-            f = obj11;
+            f2 = obj11;
         } else {
-            f = f4;
+            f2 = f4;
         }
-        super(i4, i3, f2, f, 0);
+        super(i3, i4, f, f2, 0);
     }
 
     public FlowLineInfo(int i, int i2, float f3, float f4, DefaultConstructorMarker defaultConstructorMarker5) {

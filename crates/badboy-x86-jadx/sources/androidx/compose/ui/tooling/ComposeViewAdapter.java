@@ -175,16 +175,16 @@ public final class ComposeViewAdapter extends FrameLayout {
         int i2;
         int rememberComposableLambda;
         boolean traceInProgress;
-        int i;
         int i4;
+        int i;
         int str;
         traceInProgress2 = 522143116;
         final Composer obj8 = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(obj8, "C(WrapPreview)442@16450L61,437@16083L428:ComposeViewAdapter.android.kt#hevd2p");
-        i = 4;
-        i4 = 2;
+        i4 = 4;
+        i = 2;
         if ($changed & 6 == 0) {
-            i3 = obj8.changedInstance(content) ? i : i4;
+            i3 = obj8.changedInstance(content) ? i4 : i;
             $dirty |= i3;
         }
         if ($changed & 48 == 0) {
@@ -196,12 +196,12 @@ public final class ComposeViewAdapter extends FrameLayout {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.ui.tooling.ComposeViewAdapter.WrapPreview (ComposeViewAdapter.android.kt:432)");
                 }
-                ProvidedValue[] arr = new ProvidedValue[i];
+                ProvidedValue[] arr = new ProvidedValue[i4];
                 LayoutlibFontResourceLoader layoutlibFontResourceLoader = new LayoutlibFontResourceLoader(getContext());
                 arr[0] = CompositionLocalsKt.getLocalFontLoader().provides(layoutlibFontResourceLoader);
                 int i6 = 1;
                 arr[i6] = CompositionLocalsKt.getLocalFontFamilyResolver().provides(FontFamilyResolver_androidKt.createFontFamilyResolver(getContext()));
-                arr[i4] = LocalOnBackPressedDispatcherOwner.INSTANCE.provides((OnBackPressedDispatcherOwner)this.FakeOnBackPressedDispatcherOwner);
+                arr[i] = LocalOnBackPressedDispatcherOwner.INSTANCE.provides((OnBackPressedDispatcherOwner)this.FakeOnBackPressedDispatcherOwner);
                 arr[3] = LocalActivityResultRegistryOwner.INSTANCE.provides((ActivityResultRegistryOwner)this.FakeActivityResultRegistryOwner);
                 ComposeViewAdapter.WrapPreview.1 anon = new ComposeViewAdapter.WrapPreview.1(this, content);
                 CompositionLocalKt.CompositionLocalProvider(arr, (Function2)ComposableLambdaKt.rememberComposableLambda(-1475548980, i6, anon, obj8, 54), obj8, $stable |= 48);
@@ -241,27 +241,27 @@ public final class ComposeViewAdapter extends FrameLayout {
     }
 
     private final void findAndTrackAnimations() {
-        int i2;
+        int i;
         boolean hasAnimations;
         Object next;
         Group it;
-        int i;
+        int i2;
         java.util.Set store = this.slotTableRecord.getStore();
         int i3 = 0;
         ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)store, 10));
         int i6 = 0;
         final Iterator iterator = store.iterator();
         for (Object next : iterator) {
-            i = 0;
+            i2 = 0;
             (Collection)arrayList.add(SlotTreeKt.asTree((CompositionData)next));
         }
-        i2 = this.clock != null ? 1 : 0;
+        i = this.clock != null ? 1 : 0;
         ComposeViewAdapter.findAndTrackAnimations.1 anon = new ComposeViewAdapter.findAndTrackAnimations.1(this);
         ComposeViewAdapter.findAndTrackAnimations.2 anon2 = new ComposeViewAdapter.findAndTrackAnimations.2(this);
         AnimationSearch animationSearch = new AnimationSearch((Function0)anon, (Function0)anon2);
         int i5 = 0;
         this.hasAnimations = animationSearch.searchAny((Collection)(List)arrayList);
-        if (i2 != 0 && this.hasAnimations) {
+        if (i != 0 && this.hasAnimations) {
             if (this.hasAnimations) {
                 animationSearch.attachAllAnimations((Collection)arrayList);
             }
@@ -270,29 +270,29 @@ public final class ComposeViewAdapter extends FrameLayout {
 
     private final void findDesignInfoProviders() {
         ArrayList list$iv$iv;
-        Object $this$flatMap$iv;
+        Object $this$flatMap$iv2;
         int i5;
         String designInfoOrNull;
-        Iterator iterator2;
-        Object next;
+        Iterator iterator;
+        Object next2;
         Group it2;
-        int i6;
-        int i3;
+        int i8;
+        int i2;
         List all;
-        int i;
+        int i9;
         ArrayList arrayList;
         List list2;
-        int i9;
+        int i;
         List list;
-        int i2;
-        Iterator iterator;
+        int i3;
+        Iterator iterator2;
         boolean next3;
         Object obj;
-        int i7;
-        ArrayList $this$flatMap$iv2;
         int i4;
-        int i8;
-        int next2;
+        ArrayList $this$flatMap$iv;
+        int i6;
+        int i7;
+        int next;
         Object group;
         Iterator it;
         final Object obj2 = this;
@@ -301,85 +301,85 @@ public final class ComposeViewAdapter extends FrameLayout {
         ArrayList arrayList2 = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)store, 10));
         int i12 = 0;
         Iterator iterator3 = store.iterator();
-        for (Object next : iterator3) {
-            i6 = 0;
-            (Collection)arrayList2.add(SlotTreeKt.asTree((CompositionData)next));
+        for (Object next2 : iterator3) {
+            i8 = 0;
+            (Collection)arrayList2.add(SlotTreeKt.asTree((CompositionData)next2));
         }
         i5 = 0;
         ArrayList arrayList3 = new ArrayList();
         int i13 = 0;
         Iterator iterator4 = (Iterable)(List)arrayList2.iterator();
         for (Object it2 : iterator4) {
-            i3 = 0;
-            ComposeViewAdapter.findDesignInfoProviders.1.1 anon = new ComposeViewAdapter.findDesignInfoProviders.1.1(obj2);
-            i = 0;
-            arrayList = new ArrayList();
-            i9 = 0;
             i2 = 0;
-            iterator = (Iterable)PreviewUtils_androidKt.findAll((Group)it2, (Function1)anon).iterator();
-            while (iterator.hasNext()) {
-                i7 = 0;
-                $this$flatMap$iv = obj;
+            ComposeViewAdapter.findDesignInfoProviders.1.1 anon = new ComposeViewAdapter.findDesignInfoProviders.1.1(obj2);
+            i9 = 0;
+            arrayList = new ArrayList();
+            i = 0;
+            i3 = 0;
+            iterator2 = (Iterable)PreviewUtils_androidKt.findAll((Group)it2, (Function1)anon).iterator();
+            while (iterator2.hasNext()) {
                 i4 = 0;
-                if (obj2.getDesignInfoOrNull($this$flatMap$iv, (Group)$this$flatMap$iv.getBox()) == null) {
+                $this$flatMap$iv2 = obj;
+                i6 = 0;
+                if (obj2.getDesignInfoOrNull($this$flatMap$iv2, (Group)$this$flatMap$iv2.getBox()) == null) {
                 } else {
                 }
-                group = $this$flatMap$iv;
+                group = $this$flatMap$iv2;
                 if (designInfoOrNull != null) {
                 }
-                list$iv$iv = $this$flatMap$iv2;
-                i5 = i8;
-                $this$flatMap$iv = 0;
+                list$iv$iv = $this$flatMap$iv;
+                i5 = i7;
+                $this$flatMap$iv2 = 0;
                 (Collection)arrayList.add(designInfoOrNull);
-                iterator2 = (Iterable)$this$flatMap$iv.getChildren().iterator();
-                for (Object next6 : iterator2) {
-                    group = $this$flatMap$iv;
-                    next2 = 0;
-                    $this$flatMap$iv = group;
-                    iterator2 = it;
+                iterator = (Iterable)$this$flatMap$iv2.getChildren().iterator();
+                for (Object next6 : iterator) {
+                    group = $this$flatMap$iv2;
+                    next = 0;
+                    $this$flatMap$iv2 = group;
+                    iterator = it;
                 }
-                group = $this$flatMap$iv;
+                group = $this$flatMap$iv2;
                 designInfoOrNull = 0;
-                group = $this$flatMap$iv;
-                next2 = 0;
-                if (obj2.getDesignInfoOrNull((Group)iterator2.next(), group.getBox()) != null) {
+                group = $this$flatMap$iv2;
+                next = 0;
+                if (obj2.getDesignInfoOrNull((Group)iterator.next(), group.getBox()) != null) {
                 } else {
                 }
-                $this$flatMap$iv = group;
-                iterator2 = it;
+                $this$flatMap$iv2 = group;
+                iterator = it;
             }
-            i8 = i5;
+            i7 = i5;
             CollectionsKt.addAll((Collection)arrayList3, (Iterable)(List)arrayList);
-            list$iv$iv = $this$flatMap$iv2;
-            i7 = 0;
-            $this$flatMap$iv = obj;
+            list$iv$iv = $this$flatMap$iv;
             i4 = 0;
-            if (obj2.getDesignInfoOrNull($this$flatMap$iv, (Group)$this$flatMap$iv.getBox()) == null) {
+            $this$flatMap$iv2 = obj;
+            i6 = 0;
+            if (obj2.getDesignInfoOrNull($this$flatMap$iv2, (Group)$this$flatMap$iv2.getBox()) == null) {
             } else {
             }
-            group = $this$flatMap$iv;
+            group = $this$flatMap$iv2;
             if (designInfoOrNull != null) {
             }
-            list$iv$iv = $this$flatMap$iv2;
-            i5 = i8;
-            $this$flatMap$iv = 0;
+            list$iv$iv = $this$flatMap$iv;
+            i5 = i7;
+            $this$flatMap$iv2 = 0;
             arrayList.add(designInfoOrNull);
-            iterator2 = (Iterable)$this$flatMap$iv.getChildren().iterator();
-            for (Object next6 : iterator2) {
-                group = $this$flatMap$iv;
-                next2 = 0;
-                $this$flatMap$iv = group;
-                iterator2 = it;
+            iterator = (Iterable)$this$flatMap$iv2.getChildren().iterator();
+            for (Object next6 : iterator) {
+                group = $this$flatMap$iv2;
+                next = 0;
+                $this$flatMap$iv2 = group;
+                iterator = it;
             }
-            group = $this$flatMap$iv;
+            group = $this$flatMap$iv2;
             designInfoOrNull = 0;
-            group = $this$flatMap$iv;
-            next2 = 0;
-            if (obj2.getDesignInfoOrNull((Group)iterator2.next(), group.getBox()) != null) {
+            group = $this$flatMap$iv2;
+            next = 0;
+            if (obj2.getDesignInfoOrNull((Group)iterator.next(), group.getBox()) != null) {
             } else {
             }
-            $this$flatMap$iv = group;
-            iterator2 = it;
+            $this$flatMap$iv2 = group;
+            iterator = it;
         }
         ArrayList $this$flatMap$iv4 = list$iv$iv;
         obj2.designInfoList = (List)arrayList3;
@@ -444,10 +444,10 @@ public final class ComposeViewAdapter extends FrameLayout {
 
     private final boolean hasDesignInfo(Group $this$hasDesignInfo) {
         boolean iterator;
-        int i;
+        int i3;
         boolean next;
         int it;
-        int i3;
+        int i;
         Method designInfoMethodOrNull;
         int i2;
         final Collection data = $this$hasDesignInfo.getData();
@@ -458,7 +458,7 @@ public final class ComposeViewAdapter extends FrameLayout {
                 iterator = data.iterator();
                 while (iterator.hasNext()) {
                     Object obj = next;
-                    i3 = 0;
+                    i = 0;
                     if (obj != null) {
                     } else {
                     }
@@ -467,30 +467,30 @@ public final class ComposeViewAdapter extends FrameLayout {
                     if (designInfoMethodOrNull != null) {
                     } else {
                     }
-                    it = i;
+                    it = i3;
                     it = i2;
                     designInfoMethodOrNull = getDesignInfoMethodOrNull(obj);
                 }
             }
         } else {
         }
-        return i;
+        return i3;
     }
 
     private final boolean hasNullSourcePosition(Group $this$hasNullSourcePosition) {
         int lineNumber;
-        int i;
         int i2;
+        int i;
         final int i3 = 0;
-        lineNumber = (CharSequence)getFileName($this$hasNullSourcePosition).length() == null ? i : i3;
+        lineNumber = (CharSequence)getFileName($this$hasNullSourcePosition).length() == null ? i2 : i3;
         if (lineNumber != 0 && getLineNumber($this$hasNullSourcePosition) == -1) {
             if (getLineNumber($this$hasNullSourcePosition) == -1) {
             } else {
-                i = i3;
+                i2 = i3;
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     private final void init(AttributeSet attrs) {
@@ -525,28 +525,28 @@ public final class ComposeViewAdapter extends FrameLayout {
     public static void init$ui_tooling_release$default(androidx.compose.ui.tooling.ComposeViewAdapter composeViewAdapter, String string2, String string3, Class class4, int i5, boolean z6, boolean z7, long l8, boolean z9, boolean z10, String string11, Function0 function012, Function0 function013, int i14, Object object15) {
         androidx.compose.ui.tooling.ComposeViewAdapter.init.2 iNSTANCE2;
         androidx.compose.ui.tooling.ComposeViewAdapter.init.1 iNSTANCE;
-        int i6;
-        int i3;
         int i;
-        int i2;
         int i10;
+        int i6;
         int i4;
+        int i9;
+        int i2;
         int i7;
         int i8;
-        int i9;
+        int i3;
         androidx.compose.ui.tooling.ComposeViewAdapter.init.1 view2;
         androidx.compose.ui.tooling.ComposeViewAdapter.init.2 view;
         int i11 = object15;
         final int i21 = 0;
-        i3 = i11 & 4 != 0 ? i21 : class4;
+        i10 = i11 & 4 != 0 ? i21 : class4;
         int i22 = 0;
-        i = i11 & 8 != 0 ? i22 : i5;
-        i2 = i11 & 16 != 0 ? i22 : z6;
-        i10 = i11 & 32 != 0 ? i22 : z7;
-        i4 = i11 & 64 != 0 ? i6 : l8;
+        i6 = i11 & 8 != 0 ? i22 : i5;
+        i4 = i11 & 16 != 0 ? i22 : z6;
+        i9 = i11 & 32 != 0 ? i22 : z7;
+        i2 = i11 & 64 != 0 ? i : l8;
         i7 = i11 & 128 != 0 ? i22 : z10;
         i8 = i11 & 256 != 0 ? i22 : string11;
-        i9 = i11 & 512 != 0 ? i21 : function012;
+        i3 = i11 & 512 != 0 ? i21 : function012;
         if (i11 & 1024 != 0) {
             view2 = iNSTANCE;
         } else {
@@ -557,7 +557,7 @@ public final class ComposeViewAdapter extends FrameLayout {
         } else {
             view = i14;
         }
-        composeViewAdapter.init$ui_tooling_release(string2, string3, i3, i, i2, i10, i4, obj11, i7, i8, i9, view2);
+        composeViewAdapter.init$ui_tooling_release(string2, string3, i10, i6, i4, i9, i2, obj11, i7, i8, i3, view2);
     }
 
     private final void invalidateComposition() {
@@ -567,54 +567,54 @@ public final class ComposeViewAdapter extends FrameLayout {
     }
 
     private final String invokeGetDesignInfo(Object $this$invokeGetDesignInfo, int x, int y) {
-        int i2;
         int i3;
-        Object invoke;
-        Object obj;
         int i;
+        Object invoke;
+        Object $i$a$IfEmptyComposeViewAdapter$invokeGetDesignInfo$1$1;
+        int i2;
         final Method designInfoMethodOrNull = getDesignInfoMethodOrNull($this$invokeGetDesignInfo);
         if (designInfoMethodOrNull != null) {
-            i3 = 0;
+            i = 0;
             invoke = designInfoMethodOrNull.invoke($this$invokeGetDesignInfo, /* result */);
             Intrinsics.checkNotNull(invoke, "null cannot be cast to non-null type kotlin.String");
-            i = (CharSequence)(String)invoke.length() == 0 ? 1 : 0;
-            if (i != 0) {
+            i2 = (CharSequence)(String)invoke.length() == 0 ? 1 : 0;
+            if (i2 != 0) {
                 int i4 = 0;
-                obj = i2;
+                $i$a$IfEmptyComposeViewAdapter$invokeGetDesignInfo$1$1 = i3;
             }
-            i2 = obj;
+            i3 = $i$a$IfEmptyComposeViewAdapter$invokeGetDesignInfo$1$1;
         }
-        return i2;
+        return i3;
     }
 
     private final boolean isNullGroup(Group $this$isNullGroup) {
-        int i;
+        int i2;
         Group group;
         int nullSourcePosition;
-        int i2;
+        int i;
         boolean z;
         if (hasNullSourcePosition($this$isNullGroup) && $this$isNullGroup.getChildren().isEmpty()) {
             if ($this$isNullGroup.getChildren().isEmpty()) {
-                i2 = 0;
+                i = 0;
                 if ($this$isNullGroup instanceof NodeGroup) {
                     group = $this$isNullGroup;
                 } else {
-                    group = i2;
+                    group = i;
                 }
                 if (group != null) {
                     nullSourcePosition = group.getNode();
                 } else {
-                    nullSourcePosition = i2;
+                    nullSourcePosition = i;
                 }
                 if (nullSourcePosition instanceof LayoutInfo) {
-                    i2 = nullSourcePosition;
+                    i = nullSourcePosition;
                 }
-                i = i2 == 0 ? 1 : 0;
+                i2 = i == 0 ? 1 : 0;
             } else {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     private final void processViewInfos() {
@@ -656,8 +656,8 @@ public final class ComposeViewAdapter extends FrameLayout {
         String sourceFile;
         int lineNumber;
         int i;
-        Object next2;
-        boolean next;
+        Object next;
+        boolean next2;
         Object it;
         int i2;
         boolean nullGroup;
@@ -688,19 +688,19 @@ public final class ComposeViewAdapter extends FrameLayout {
         int i7 = 0;
         Iterator iterator = (Iterable)$this$toViewInfo.getChildren().iterator();
         while (iterator.hasNext()) {
-            next2 = iterator.next();
+            next = iterator.next();
             i2 = 0;
-            if (!isNullGroup((Group)next2)) {
+            if (!isNullGroup((Group)next)) {
             }
-            (Collection)arrayList2.add(next2);
+            (Collection)arrayList2.add(next);
         }
         int i3 = 0;
         ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)(List)arrayList2, 10));
         int i8 = 0;
         Iterator iterator2 = arrayList2.iterator();
-        for (Object next : iterator2) {
+        for (Object next2 : iterator2) {
             i2 = 0;
-            (Collection)arrayList.add(toViewInfo((Group)next));
+            (Collection)arrayList.add(toViewInfo((Group)next2));
         }
         sourceFile = $this$toViewInfo.getLocation();
         if (sourceFile != null) {

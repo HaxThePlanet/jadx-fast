@@ -43,17 +43,17 @@ final class ThreadState implements Function1<Throwable, Unit> {
 
     @Override // kotlin.jvm.functions.Function1
     public final void clearInterrupt() {
-        int i3;
-        int i2;
-        boolean compareAndSet;
         int i;
+        int i3;
+        boolean compareAndSet;
+        int i2;
         final Object obj = this;
         final int i4 = 0;
         while (/* condition */) {
-            i3 = ThreadState._state$FU.get(this);
-            i2 = 0;
+            i = ThreadState._state$FU.get(this);
+            i3 = 0;
         }
-        invalidState(i3);
+        invalidState(i);
         KotlinNothingValueException kotlinNothingValueException = new KotlinNothingValueException();
         throw kotlinNothingValueException;
     }
@@ -67,14 +67,14 @@ final class ThreadState implements Function1<Throwable, Unit> {
     @Override // kotlin.jvm.functions.Function1
     public void invoke(Throwable cause) {
         int i;
-        int i2;
-        boolean compareAndSet;
         int i3;
+        boolean compareAndSet;
+        int i2;
         final Object obj = this;
         final int i4 = 0;
         while (/* condition */) {
             i = ThreadState._state$FU.get(this);
-            i2 = 0;
+            i3 = 0;
         }
     }
 

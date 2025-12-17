@@ -64,9 +64,9 @@ public final class SavedStateHandleImpl {
     }
 
     private static final Bundle savedStateProvider$lambda$0(androidx.lifecycle.internal.SavedStateHandleImpl this$0) {
-        Object value2;
+        Object value;
         boolean value3;
-        Object key2;
+        Object key;
         kotlin.Pair[] $i$f$toTypedArray;
         Object state;
         int arr;
@@ -76,9 +76,9 @@ public final class SavedStateHandleImpl {
         int i;
         Iterator iterator;
         boolean next;
-        kotlin.Pair pair;
-        Object key;
-        Object value;
+        kotlin.Pair $i$a$MapSavedStateKt__SavedState_androidKt$savedState$pairs$1$iv;
+        Object key2;
+        Object value2;
         Iterator iterator2 = MapsKt.toMap(this$0.mutableFlows).entrySet().iterator();
         for (Map.Entry next4 : iterator2) {
             this$0.set((String)next4.getKey(), (MutableStateFlow)next4.getValue().getValue());
@@ -142,7 +142,7 @@ public final class SavedStateHandleImpl {
     }
 
     public final <T> MutableStateFlow<T> getMutableStateFlow(String key, T initialValue) {
-        Object mutableStateFlow;
+        Object $i$a$GetOrPutSavedStateHandleImpl$getMutableStateFlow$flow$1;
         boolean regular;
         Object obj;
         Intrinsics.checkNotNullParameter(key, "key");
@@ -156,10 +156,10 @@ public final class SavedStateHandleImpl {
             }
             mutableFlows.put(key, StateFlowKt.MutableStateFlow(this.regular.get(key)));
         } else {
-            mutableStateFlow = obj2;
+            $i$a$GetOrPutSavedStateHandleImpl$getMutableStateFlow$flow$1 = obj2;
         }
-        Intrinsics.checkNotNull((MutableStateFlow)mutableStateFlow, "null cannot be cast to non-null type kotlinx.coroutines.flow.MutableStateFlow<T of androidx.lifecycle.internal.SavedStateHandleImpl.getMutableStateFlow>");
-        return mutableStateFlow;
+        Intrinsics.checkNotNull((MutableStateFlow)$i$a$GetOrPutSavedStateHandleImpl$getMutableStateFlow$flow$1, "null cannot be cast to non-null type kotlinx.coroutines.flow.MutableStateFlow<T of androidx.lifecycle.internal.SavedStateHandleImpl.getMutableStateFlow>");
+        return $i$a$GetOrPutSavedStateHandleImpl$getMutableStateFlow$flow$1;
     }
 
     public final Map<String, Object> getRegular() {
@@ -171,7 +171,7 @@ public final class SavedStateHandleImpl {
     }
 
     public final <T> StateFlow<T> getStateFlow(String key, T initialValue) {
-        Object mutableStateFlow;
+        Object $i$a$GetOrPutSavedStateHandleImpl$getStateFlow$flow$1;
         boolean regular;
         Object obj;
         Intrinsics.checkNotNullParameter(key, "key");
@@ -185,9 +185,9 @@ public final class SavedStateHandleImpl {
             }
             flows.put(key, StateFlowKt.MutableStateFlow(this.regular.get(key)));
         } else {
-            mutableStateFlow = obj2;
+            $i$a$GetOrPutSavedStateHandleImpl$getStateFlow$flow$1 = obj2;
         }
-        StateFlow stateFlow = FlowKt.asStateFlow((MutableStateFlow)mutableStateFlow);
+        StateFlow stateFlow = FlowKt.asStateFlow((MutableStateFlow)$i$a$GetOrPutSavedStateHandleImpl$getStateFlow$flow$1);
         Intrinsics.checkNotNull(stateFlow, "null cannot be cast to non-null type kotlinx.coroutines.flow.StateFlow<T of androidx.lifecycle.internal.SavedStateHandleImpl.getStateFlow>");
         return stateFlow;
     }

@@ -55,8 +55,8 @@ public final class KTypeProjection {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal3;
             int ordinal2;
+            int ordinal3;
             int ordinal;
             int[] iArr = new int[values.length];
             iArr[KVariance.INVARIANT.ordinal()] = 1;
@@ -75,22 +75,22 @@ public final class KTypeProjection {
 
     public KTypeProjection(kotlin.reflect.KVariance variance, kotlin.reflect.KType type) {
         int i2;
-        int i3;
+        int i;
         String string;
         int str;
-        int i;
+        int i3;
         super();
         this.variance = variance;
         this.type = type;
-        i3 = 1;
+        i = 1;
         str = 0;
-        i2 = this.variance == null ? i3 : str;
-        i = this.type == null ? i3 : str;
-        if (i2 == i) {
+        i2 = this.variance == null ? i : str;
+        i3 = this.type == null ? i : str;
+        if (i2 == i3) {
         } else {
-            i3 = str;
+            i = str;
         }
-        if (i3 == 0) {
+        if (i == 0) {
             int i4 = 0;
             if (this.variance == null) {
                 string = "Star projection must have no type specified.";
@@ -98,8 +98,8 @@ public final class KTypeProjection {
                 StringBuilder stringBuilder = new StringBuilder();
                 string = stringBuilder.append("The projection variance ").append(this.variance).append(" requires type to be specified.").toString();
             }
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(string.toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireKTypeProjection$1 = new IllegalArgumentException(string.toString());
+            throw $i$a$RequireKTypeProjection$1;
         }
     }
 

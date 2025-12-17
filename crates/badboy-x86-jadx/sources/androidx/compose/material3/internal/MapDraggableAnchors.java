@@ -57,12 +57,12 @@ final class MapDraggableAnchors<T>  implements androidx.compose.material3.intern
         int key;
         boolean floatValue;
         int compare;
-        int delta;
-        int i2;
-        int cmp;
-        int i;
         int delta2;
+        int i2;
         int cmp2;
+        int i;
+        int delta;
+        int cmp;
         Iterator iterator = (Iterable)this.anchors.entrySet().iterator();
         if (!iterator.hasNext()) {
             next = key;
@@ -70,30 +70,30 @@ final class MapDraggableAnchors<T>  implements androidx.compose.material3.intern
             if (iterator.hasNext()) {
                 compare = 0;
                 floatValue = (Number)(Map.Entry)iterator.next().getValue().floatValue();
-                delta = searchUpwards ? floatValue - position : position - floatValue;
+                delta2 = searchUpwards ? floatValue - position : position - floatValue;
                 i2 = 0;
                 i = 2139095040;
-                if (Float.compare(delta, i2) < 0) {
-                    delta = i;
+                if (Float.compare(delta2, i2) < 0) {
+                    delta2 = i;
                 }
                 Object next3 = iterator.next();
-                cmp = 0;
+                cmp2 = 0;
                 float floatValue2 = (Number)(Map.Entry)next3.getValue().floatValue();
                 do {
                     next3 = iterator.next();
-                    cmp = 0;
+                    cmp2 = 0;
                     floatValue2 = (Number)(Map.Entry)next3.getValue().floatValue();
-                    delta2 = position - floatValue2;
-                    if (Float.compare(delta2, i2) < 0) {
+                    delta = position - floatValue2;
+                    if (Float.compare(delta, i2) < 0) {
                     }
-                    if (Float.compare(delta, delta2) > 0) {
+                    if (Float.compare(delta2, delta) > 0) {
                     }
                     if (iterator.hasNext()) {
                     }
                     next = next3;
-                    delta = delta2;
-                    delta2 = i;
-                    delta2 = floatValue2 - position;
+                    delta2 = delta;
+                    delta = i;
+                    delta = floatValue2 - position;
                 } while (searchUpwards);
             }
         }

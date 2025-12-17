@@ -56,8 +56,8 @@ public final class LineHeightStyleSpan implements LineHeightSpan {
         } else {
         }
         int i4 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("topRatio should be in [0..1] range or -1".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckLineHeightStyleSpan$1 = new IllegalStateException("topRatio should be in [0..1] range or -1".toString());
+        throw $i$a$CheckLineHeightStyleSpan$1;
     }
 
     private final void calculateTargetMetrics(Paint.FontMetricsInt fontMetricsInt) {
@@ -102,21 +102,21 @@ public final class LineHeightStyleSpan implements LineHeightSpan {
 
     @Override // android.text.style.LineHeightSpan
     public void chooseHeight(java.lang.CharSequence text, int start, int end, int spanStartVertical, int lineHeight, Paint.FontMetricsInt fontMetricsInt) {
-        int i;
         int i2;
+        int i;
         int trimLastLineBottom;
         int firstAscent;
         int lastDescent;
         if (LineHeightStyleSpan_androidKt.lineHeight(fontMetricsInt) <= 0) {
         }
         trimLastLineBottom = 0;
-        i = start == this.startIndex ? i2 : trimLastLineBottom;
+        i2 = start == this.startIndex ? i : trimLastLineBottom;
         if (end == this.endIndex) {
         } else {
-            i2 = trimLastLineBottom;
+            i = trimLastLineBottom;
         }
-        if (i != 0 && i2 != 0 && this.trimFirstLineTop && this.trimLastLineBottom) {
-            if (i2 != 0) {
+        if (i2 != 0 && i != 0 && this.trimFirstLineTop && this.trimLastLineBottom) {
+            if (i != 0) {
                 if (this.trimFirstLineTop) {
                     if (this.trimLastLineBottom) {
                     }
@@ -126,9 +126,9 @@ public final class LineHeightStyleSpan implements LineHeightSpan {
         if (this.firstAscent == Integer.MIN_VALUE) {
             calculateTargetMetrics(fontMetricsInt);
         }
-        firstAscent = i != 0 ? this.firstAscent : this.ascent;
+        firstAscent = i2 != 0 ? this.firstAscent : this.ascent;
         fontMetricsInt.ascent = firstAscent;
-        lastDescent = i2 != 0 ? this.lastDescent : this.descent;
+        lastDescent = i != 0 ? this.lastDescent : this.descent;
         fontMetricsInt.descent = lastDescent;
     }
 

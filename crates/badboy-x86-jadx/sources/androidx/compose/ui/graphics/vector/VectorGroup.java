@@ -83,13 +83,13 @@ public final class VectorGroup extends androidx.compose.ui.graphics.vector.Vecto
 
     @Override // androidx.compose.ui.graphics.vector.VectorNode
     public boolean equals(Object other) {
-        int i2;
+        int i6;
+        int i4;
         int i5;
+        int i3;
         int i;
         int i7;
-        int i3;
-        int i4;
-        int i6;
+        int i2;
         boolean z;
         final int i8 = 1;
         if (this == other) {
@@ -102,32 +102,32 @@ public final class VectorGroup extends androidx.compose.ui.graphics.vector.Vecto
                 if (!Intrinsics.areEqual(this.name, obj.name)) {
                     return i9;
                 }
-                i2 = Float.compare(rotation, rotation2) == 0 ? i8 : i9;
-                if (i2 == 0) {
+                i6 = Float.compare(rotation, rotation2) == 0 ? i8 : i9;
+                if (i6 == 0) {
                     return i9;
                 }
-                i5 = Float.compare(pivotX, pivotX2) == 0 ? i8 : i9;
-                if (i5 == 0) {
-                    return i9;
-                }
-                i = Float.compare(pivotY, pivotY2) == 0 ? i8 : i9;
-                if (i == 0) {
-                    return i9;
-                }
-                i7 = Float.compare(scaleX, scaleX2) == 0 ? i8 : i9;
-                if (i7 == 0) {
-                    return i9;
-                }
-                i3 = Float.compare(scaleY, scaleY2) == 0 ? i8 : i9;
-                if (i3 == 0) {
-                    return i9;
-                }
-                i4 = Float.compare(translationX, translationX2) == 0 ? i8 : i9;
+                i4 = Float.compare(pivotX, pivotX2) == 0 ? i8 : i9;
                 if (i4 == 0) {
                     return i9;
                 }
-                i6 = Float.compare(translationY, translationY2) == 0 ? i8 : i9;
-                if (i6 == 0) {
+                i5 = Float.compare(pivotY, pivotY2) == 0 ? i8 : i9;
+                if (i5 == 0) {
+                    return i9;
+                }
+                i3 = Float.compare(scaleX, scaleX2) == 0 ? i8 : i9;
+                if (i3 == 0) {
+                    return i9;
+                }
+                i = Float.compare(scaleY, scaleY2) == 0 ? i8 : i9;
+                if (i == 0) {
+                    return i9;
+                }
+                i7 = Float.compare(translationX, translationX2) == 0 ? i8 : i9;
+                if (i7 == 0) {
+                    return i9;
+                }
+                i2 = Float.compare(translationY, translationY2) == 0 ? i8 : i9;
+                if (i2 == 0) {
                     return i9;
                 }
                 if (!Intrinsics.areEqual(this.clipPathData, obj9.clipPathData)) {

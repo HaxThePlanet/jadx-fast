@@ -54,14 +54,14 @@ final class VectorizedFloatDecaySpec<V extends androidx.compose.animation.core.A
     }
 
     public V getTargetValue(V initialValue, V initialVelocity) {
-        androidx.compose.animation.core.AnimationVector targetVector2;
-        int i;
         androidx.compose.animation.core.AnimationVector targetVector;
-        androidx.compose.animation.core.AnimationVector i2;
+        int i;
         androidx.compose.animation.core.AnimationVector targetVector3;
+        androidx.compose.animation.core.AnimationVector i2;
+        androidx.compose.animation.core.AnimationVector targetVector2;
         float targetValue;
-        float f;
         float f2;
+        float f;
         if (this.targetVector == null) {
             this.targetVector = AnimationVectorsKt.newInstance(initialValue);
         }
@@ -70,15 +70,15 @@ final class VectorizedFloatDecaySpec<V extends androidx.compose.animation.core.A
         final String str = "targetVector";
         if (this.targetVector == null) {
             Intrinsics.throwUninitializedPropertyAccessException(str);
-            targetVector = i2;
+            targetVector3 = i2;
         }
-        while (i < targetVector.getSize$animation_core_release()) {
+        while (i < targetVector3.getSize$animation_core_release()) {
             if (this.targetVector == null) {
             }
-            targetVector3.set$animation_core_release(i, this.floatDecaySpec.getTargetValue(initialValue.get$animation_core_release(i), initialVelocity.get$animation_core_release(i)));
+            targetVector2.set$animation_core_release(i, this.floatDecaySpec.getTargetValue(initialValue.get$animation_core_release(i), initialVelocity.get$animation_core_release(i)));
             i++;
             Intrinsics.throwUninitializedPropertyAccessException(str);
-            targetVector3 = i2;
+            targetVector2 = i2;
         }
         androidx.compose.animation.core.AnimationVector i3 = this.targetVector;
         if (i3 == null) {
@@ -92,9 +92,9 @@ final class VectorizedFloatDecaySpec<V extends androidx.compose.animation.core.A
     public V getValueFromNanos(long playTimeNanos, V initialValue, V initialVelocity) {
         androidx.compose.animation.core.AnimationVector valueVector3;
         int i;
-        androidx.compose.animation.core.AnimationVector valueVector2;
-        androidx.compose.animation.core.AnimationVector i2;
         androidx.compose.animation.core.AnimationVector valueVector;
+        androidx.compose.animation.core.AnimationVector i2;
+        androidx.compose.animation.core.AnimationVector valueVector2;
         float valueFromNanos;
         float f;
         float f2;
@@ -106,15 +106,15 @@ final class VectorizedFloatDecaySpec<V extends androidx.compose.animation.core.A
         final String str = "valueVector";
         if (this.valueVector == null) {
             Intrinsics.throwUninitializedPropertyAccessException(str);
-            valueVector2 = i2;
+            valueVector = i2;
         }
-        while (i < valueVector2.getSize$animation_core_release()) {
+        while (i < valueVector.getSize$animation_core_release()) {
             if (this.valueVector == null) {
             }
-            valueVector.set$animation_core_release(i, this.floatDecaySpec.getValueFromNanos(playTimeNanos, initialValue, initialVelocity.get$animation_core_release(i)));
+            valueVector2.set$animation_core_release(i, this.floatDecaySpec.getValueFromNanos(playTimeNanos, initialValue, initialVelocity.get$animation_core_release(i)));
             i++;
             Intrinsics.throwUninitializedPropertyAccessException(str);
-            valueVector = i2;
+            valueVector2 = i2;
         }
         androidx.compose.animation.core.AnimationVector i3 = this.valueVector;
         if (i3 == null) {
@@ -126,38 +126,38 @@ final class VectorizedFloatDecaySpec<V extends androidx.compose.animation.core.A
     }
 
     public V getVelocityFromNanos(long playTimeNanos, V initialValue, V initialVelocity) {
-        androidx.compose.animation.core.AnimationVector velocityVector;
-        int i2;
-        androidx.compose.animation.core.AnimationVector velocityVector3;
-        androidx.compose.animation.core.AnimationVector i;
         androidx.compose.animation.core.AnimationVector velocityVector2;
+        int i;
+        androidx.compose.animation.core.AnimationVector velocityVector;
+        androidx.compose.animation.core.AnimationVector i2;
+        androidx.compose.animation.core.AnimationVector velocityVector3;
         float velocityFromNanos;
-        float f;
         float f2;
+        float f;
         if (this.velocityVector == null) {
             this.velocityVector = AnimationVectorsKt.newInstance(initialVelocity);
         }
-        i2 = 0;
         i = 0;
+        i2 = 0;
         final String str = "velocityVector";
         if (this.velocityVector == null) {
             Intrinsics.throwUninitializedPropertyAccessException(str);
-            velocityVector3 = i;
+            velocityVector = i2;
         }
-        while (i2 < velocityVector3.getSize$animation_core_release()) {
+        while (i < velocityVector.getSize$animation_core_release()) {
             if (this.velocityVector == null) {
             }
-            velocityVector2.set$animation_core_release(i2, this.floatDecaySpec.getVelocityFromNanos(playTimeNanos, initialValue, initialVelocity.get$animation_core_release(i2)));
-            i2++;
+            velocityVector3.set$animation_core_release(i, this.floatDecaySpec.getVelocityFromNanos(playTimeNanos, initialValue, initialVelocity.get$animation_core_release(i)));
+            i++;
             Intrinsics.throwUninitializedPropertyAccessException(str);
-            velocityVector2 = i;
+            velocityVector3 = i2;
         }
         androidx.compose.animation.core.AnimationVector i3 = this.velocityVector;
         if (i3 == null) {
             Intrinsics.throwUninitializedPropertyAccessException(str);
         } else {
-            i = i3;
+            i2 = i3;
         }
-        return i;
+        return i2;
     }
 }

@@ -32,9 +32,9 @@ final class SizeElement extends ModifierNodeElement<androidx.compose.foundation.
 
     public SizeElement(float f, float f2, float f3, float f4, boolean z5, Function1 function16, int i7, DefaultConstructorMarker defaultConstructorMarker8) {
         float f5;
-        float f7;
-        float f6;
         float f8;
+        float f6;
+        float f7;
         float obj9;
         float obj10;
         float obj11;
@@ -45,9 +45,9 @@ final class SizeElement extends ModifierNodeElement<androidx.compose.foundation.
             f5 = f;
         }
         if (i7 & 2 != 0) {
-            f7 = obj10;
+            f8 = obj10;
         } else {
-            f7 = f2;
+            f8 = f2;
         }
         if (i7 & 4 != 0) {
             f6 = obj11;
@@ -55,11 +55,11 @@ final class SizeElement extends ModifierNodeElement<androidx.compose.foundation.
             f6 = f3;
         }
         if (i7 & 8 != 0) {
-            f8 = obj12;
+            f7 = obj12;
         } else {
-            f8 = f4;
+            f7 = f4;
         }
-        super(f5, f7, f6, f8, z5, function16, 0);
+        super(f5, f8, f6, f7, z5, function16, 0);
     }
 
     public SizeElement(float f, float f2, float f3, float f4, boolean z5, Function1 function16, DefaultConstructorMarker defaultConstructorMarker7) {

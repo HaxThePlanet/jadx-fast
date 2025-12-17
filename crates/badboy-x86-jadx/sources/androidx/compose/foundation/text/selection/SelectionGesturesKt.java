@@ -61,38 +61,38 @@ public final class SelectionGesturesKt {
     }
 
     private static final Object awaitDown(AwaitPointerEventScope awaitPointerEventScope, Continuation<? super PointerEvent> continuation2) {
-        Object obj;
+        Object obj5;
         Object event;
         boolean $result;
-        Object $continuation2;
-        int i2;
-        androidx.compose.foundation.text.selection.SelectionGesturesKt.awaitDown.1 anon;
         Object $continuation;
+        int i;
+        androidx.compose.foundation.text.selection.SelectionGesturesKt.awaitDown.1 anon;
+        Object $continuation2;
         int i6;
         Object $this$awaitDown;
+        Object obj2;
         Object obj3;
-        Object obj5;
         List changes;
         int i3;
-        int i7;
+        int i2;
         int index$iv$iv;
-        int i;
+        int i7;
         Object obj4;
-        Object obj2;
-        int i4;
-        boolean it;
+        Object obj;
         int i5;
+        boolean it;
+        int i4;
         androidx.compose.foundation.text.selection.SelectionGesturesKt.awaitDown.1 anon2;
-        obj = continuation2;
-        $result = obj;
+        obj5 = continuation2;
+        $result = obj5;
         i6 = Integer.MIN_VALUE;
-        if (obj instanceof SelectionGesturesKt.awaitDown.1 && label2 &= i6 != 0) {
-            $result = obj;
+        if (obj5 instanceof SelectionGesturesKt.awaitDown.1 && label2 &= i6 != 0) {
+            $result = obj5;
             i6 = Integer.MIN_VALUE;
             if (label2 &= i6 != 0) {
                 $result.label = label -= i6;
             } else {
-                $result = new SelectionGesturesKt.awaitDown.1(obj);
+                $result = new SelectionGesturesKt.awaitDown.1(obj5);
             }
         } else {
         }
@@ -101,44 +101,44 @@ public final class SelectionGesturesKt {
         switch (label3) {
             case 0:
                 ResultKt.throwOnFailure(event);
-                obj3 = awaitPointerEventScope;
+                obj2 = awaitPointerEventScope;
                 break;
             case 1:
                 ResultKt.throwOnFailure(event);
-                obj5 = l$0;
-                $this$awaitDown = $continuation;
+                obj3 = l$0;
+                $this$awaitDown = $continuation2;
                 anon = $result;
-                $continuation2 = event;
+                $continuation = event;
                 changes = (PointerEvent)event.getChanges();
                 i3 = 0;
-                i7 = 0;
+                i2 = 0;
                 index$iv$iv = 0;
-                i4 = 0;
                 i5 = 0;
-                i = 0;
+                i4 = 0;
+                i7 = 0;
                 index$iv$iv++;
-                i = i8;
+                i7 = i8;
                 return event;
-                event = $continuation2;
+                event = $continuation;
                 $result = anon;
-                $continuation = $this$awaitDown;
-                obj3 = obj5;
+                $continuation2 = $this$awaitDown;
+                obj2 = obj3;
                 break;
             default:
                 IllegalStateException $result2 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw $result2;
         }
-        $result.L$0 = obj3;
+        $result.L$0 = obj2;
         $result.label = i8;
-        Object awaitPointerEvent = obj3.awaitPointerEvent(PointerEventPass.Main, $result);
-        if (awaitPointerEvent != $continuation) {
-            $continuation2 = event;
+        Object awaitPointerEvent = obj2.awaitPointerEvent(PointerEventPass.Main, $result);
+        if (awaitPointerEvent != $continuation2) {
+            $continuation = event;
             event = awaitPointerEvent;
-            obj5 = obj3;
-            $this$awaitDown = $continuation;
+            obj3 = obj2;
+            $this$awaitDown = $continuation2;
             anon = anon2;
         }
-        return $continuation;
+        return $continuation2;
     }
 
     private static final boolean distanceIsTolerable(ViewConfiguration viewConfiguration, PointerInputChange change1, PointerInputChange change2) {
@@ -150,11 +150,11 @@ public final class SelectionGesturesKt {
     public static final boolean isPrecisePointer(PointerEvent $this$isPrecisePointer) {
         int index$iv$iv;
         int i;
-        Object obj2;
         Object obj;
-        int i2;
-        boolean it;
+        Object obj2;
         int i3;
+        boolean it;
+        int i2;
         int type-T8wyACA;
         int mouse-T8wyACA;
         final int i4 = 0;
@@ -162,8 +162,8 @@ public final class SelectionGesturesKt {
         final int i5 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i2 = 0;
             i3 = 0;
+            i2 = 0;
             index$iv$iv++;
         }
         i = 1;
@@ -172,13 +172,13 @@ public final class SelectionGesturesKt {
 
     private static final Object mouseSelection(AwaitPointerEventScope awaitPointerEventScope, androidx.compose.foundation.text.selection.MouseSelectionObserver mouseSelectionObserver2, androidx.compose.foundation.text.selection.ClicksCounter clicksCounter3, PointerEvent pointerEvent4, Continuation<? super Unit> continuation5) {
         boolean anon;
-        int i2;
+        int i;
         Object cOROUTINE_SUSPENDED;
         int i3;
         Object label;
         boolean shiftPressed;
         int changedToUp;
-        int i;
+        int i2;
         androidx.compose.foundation.text.selection.MouseSelectionObserver mouseSelectionObserver;
         Object obj7;
         Object obj8;
@@ -272,13 +272,13 @@ public final class SelectionGesturesKt {
 
     private static final Object mouseSelectionBtf2(AwaitPointerEventScope awaitPointerEventScope, androidx.compose.foundation.text.selection.MouseSelectionObserver mouseSelectionObserver2, androidx.compose.foundation.text.selection.ClicksCounter clicksCounter3, PointerEvent pointerEvent4, Continuation<? super Unit> continuation5) {
         boolean anon;
-        int i2;
+        int i;
         Object cOROUTINE_SUSPENDED;
-        int i3;
+        int i2;
         int item$iv;
         androidx.compose.foundation.text.selection.SelectionGesturesKt.mouseSelectionBtf2.shouldConsumeUp.1 shiftPressed;
         int changedToUp;
-        int i;
+        int i3;
         Throwable th;
         Object obj7;
         Object obj8;
@@ -286,12 +286,12 @@ public final class SelectionGesturesKt {
         PointerEvent obj10;
         Object obj11;
         anon = continuation5;
-        i3 = Integer.MIN_VALUE;
-        if (continuation5 instanceof SelectionGesturesKt.mouseSelectionBtf2.1 && label &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation5 instanceof SelectionGesturesKt.mouseSelectionBtf2.1 && label &= i2 != 0) {
             anon = continuation5;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj11 -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj11 -= i2;
             } else {
                 anon = new SelectionGesturesKt.mouseSelectionBtf2.1(continuation5);
             }
@@ -388,9 +388,9 @@ public final class SelectionGesturesKt {
 
     private static final Object touchSelection(AwaitPointerEventScope awaitPointerEventScope, TextDragObserver textDragObserver2, PointerEvent pointerEvent3, Continuation<? super Unit> continuation4) {
         boolean anon;
-        int i2;
-        Object index$iv;
         int i;
+        Object index$iv;
+        int i2;
         Object firstDown;
         long item$iv;
         long l;
@@ -401,12 +401,12 @@ public final class SelectionGesturesKt {
         Object obj9;
         Object obj10;
         anon = continuation4;
-        i = Integer.MIN_VALUE;
-        if (continuation4 instanceof SelectionGesturesKt.touchSelection.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation4 instanceof SelectionGesturesKt.touchSelection.1 && label &= i2 != 0) {
             anon = continuation4;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj10 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj10 -= i2;
             } else {
                 anon = new SelectionGesturesKt.touchSelection.1(continuation4);
             }
@@ -566,9 +566,9 @@ public final class SelectionGesturesKt {
 
     private static final Object touchSelectionSubsequentPress(AwaitPointerEventScope awaitPointerEventScope, TextDragObserver textDragObserver2, PointerEvent pointerEvent3, Continuation<? super Unit> continuation4) {
         boolean anon2;
-        int i3;
-        int index$iv;
         int i2;
+        int index$iv;
+        int i3;
         int label;
         Object first;
         int item$iv;
@@ -584,12 +584,12 @@ public final class SelectionGesturesKt {
         Object obj14;
         Object obj15;
         anon2 = continuation4;
-        i2 = Integer.MIN_VALUE;
-        if (continuation4 instanceof SelectionGesturesKt.touchSelectionSubsequentPress.1 && label2 &= i2 != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation4 instanceof SelectionGesturesKt.touchSelectionSubsequentPress.1 && label2 &= i3 != 0) {
             anon2 = continuation4;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon2.label = obj15 -= i2;
+            i3 = Integer.MIN_VALUE;
+            if (label2 &= i3 != 0) {
+                anon2.label = obj15 -= i3;
             } else {
                 anon2 = new SelectionGesturesKt.touchSelectionSubsequentPress.1(continuation4);
             }

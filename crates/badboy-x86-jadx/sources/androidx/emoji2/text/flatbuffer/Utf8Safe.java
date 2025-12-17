@@ -44,19 +44,19 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
 
     public static String decodeUtf8Array(byte[] bytes, int index, int size) {
         int offset2;
-        int i2;
-        int i3;
+        int i;
+        int i4;
         byte offset;
         int oneByte;
         boolean oneByte2;
-        int i;
-        int i4;
+        int i3;
+        int i2;
         int resultPos;
         if (i5 |= i12 < 0) {
         } else {
             int i13 = offset2 + size;
             final char[] cArr = new char[size];
-            i3 = 0;
+            i4 = 0;
             while (offset2 < i13) {
                 offset = bytes[offset2];
                 if (!Utf8.DecodeUtil.isOneByte(offset)) {
@@ -64,28 +64,28 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
                 } else {
                 }
                 offset2++;
-                Utf8.DecodeUtil.handleOneByte(offset, cArr, i3);
-                i3 = oneByte;
+                Utf8.DecodeUtil.handleOneByte(offset, cArr, i4);
+                i4 = oneByte;
             }
-            i = i3;
+            i3 = i4;
             while (offset2 < i13) {
                 offset = i14;
-                i3 = bytes[offset2];
+                i4 = bytes[offset2];
                 String str2 = "Invalid UTF-8";
                 int i10 = offset + 1;
                 int i16 = i10 + 1;
-                Utf8.DecodeUtil.handleFourBytes(i3, bytes[offset], bytes[i10], bytes[i16], cArr, i);
-                offset2 = i4;
-                i = resultPos;
+                Utf8.DecodeUtil.handleFourBytes(i4, bytes[offset], bytes[i10], bytes[i16], cArr, i3);
+                offset2 = i2;
+                i3 = resultPos;
                 int i8 = offset + 1;
-                Utf8.DecodeUtil.handleThreeBytes(i3, bytes[offset], bytes[i8], cArr, i);
+                Utf8.DecodeUtil.handleThreeBytes(i4, bytes[offset], bytes[i8], cArr, i3);
                 offset2 = oneByte;
-                i = oneByte2;
+                i3 = oneByte2;
                 offset2 = offset + 1;
-                Utf8.DecodeUtil.handleTwoBytes(i3, bytes[offset], cArr, i);
-                i = oneByte;
-                i2 = i + 1;
-                Utf8.DecodeUtil.handleOneByte(i3, cArr, i);
+                Utf8.DecodeUtil.handleTwoBytes(i4, bytes[offset], cArr, i3);
+                i3 = oneByte;
+                i = i3 + 1;
+                Utf8.DecodeUtil.handleOneByte(i4, cArr, i3);
                 while (offset < i13) {
                     oneByte = bytes[offset];
                     if (!Utf8.DecodeUtil.isOneByte(oneByte)) {
@@ -93,20 +93,20 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
                     } else {
                     }
                     offset++;
-                    Utf8.DecodeUtil.handleOneByte(oneByte, cArr, i2);
-                    i2 = oneByte2;
+                    Utf8.DecodeUtil.handleOneByte(oneByte, cArr, i);
+                    i = oneByte2;
                 }
-                i = i2;
+                i3 = i;
                 offset2 = offset;
                 oneByte = bytes[offset];
                 if (!Utf8.DecodeUtil.isOneByte(oneByte)) {
                 } else {
                 }
                 offset++;
-                Utf8.DecodeUtil.handleOneByte(oneByte, cArr, i2);
-                i2 = oneByte2;
+                Utf8.DecodeUtil.handleOneByte(oneByte, cArr, i);
+                i = oneByte2;
             }
-            String byte1 = new String(cArr, 0, i);
+            String byte1 = new String(cArr, 0, i3);
             return byte1;
         }
         ArrayIndexOutOfBoundsException offset3 = new ArrayIndexOutOfBoundsException(String.format("buffer length=%d, index=%d, size=%d", /* result */));
@@ -114,19 +114,19 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
     }
 
     public static String decodeUtf8Buffer(ByteBuffer buffer, int offset, int length) {
-        int i;
-        byte offset2;
-        int oneByte2;
-        boolean oneByte;
-        int i3;
         int i2;
+        byte offset2;
+        int oneByte;
+        boolean oneByte2;
+        int i;
+        int i3;
         int resultPos;
         int obj10;
         if (i4 |= i8 < 0) {
         } else {
             int i6 = offset + length;
             final char[] cArr = new char[length];
-            i = 0;
+            i2 = 0;
             while (obj10 < i6) {
                 offset2 = buffer.get(obj10);
                 if (!Utf8.DecodeUtil.isOneByte(offset2)) {
@@ -134,49 +134,49 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
                 } else {
                 }
                 obj10++;
-                Utf8.DecodeUtil.handleOneByte(offset2, cArr, i);
-                i = oneByte2;
+                Utf8.DecodeUtil.handleOneByte(offset2, cArr, i2);
+                i2 = oneByte;
             }
-            i3 = i;
+            i = i2;
             while (obj10 < i6) {
                 offset2 = i9;
-                i = buffer.get(obj10);
+                i2 = buffer.get(obj10);
                 String str2 = "Invalid UTF-8";
                 obj10 = offset2 + 1;
                 int i11 = obj10 + 1;
-                Utf8.DecodeUtil.handleFourBytes(i, buffer.get(offset2), buffer.get(obj10), buffer.get(i11), cArr, i3);
-                obj10 = i2;
-                i3 = resultPos;
+                Utf8.DecodeUtil.handleFourBytes(i2, buffer.get(offset2), buffer.get(obj10), buffer.get(i11), cArr, i);
+                obj10 = i3;
+                i = resultPos;
                 obj10 = offset2 + 1;
-                Utf8.DecodeUtil.handleThreeBytes(i, buffer.get(offset2), buffer.get(obj10), cArr, i3);
-                obj10 = oneByte2;
-                i3 = oneByte;
+                Utf8.DecodeUtil.handleThreeBytes(i2, buffer.get(offset2), buffer.get(obj10), cArr, i);
+                obj10 = oneByte;
+                i = oneByte2;
                 obj10 = offset2 + 1;
-                Utf8.DecodeUtil.handleTwoBytes(i, buffer.get(offset2), cArr, i3);
-                i3 = oneByte2;
-                obj10 = i3 + 1;
-                Utf8.DecodeUtil.handleOneByte(i, cArr, i3);
+                Utf8.DecodeUtil.handleTwoBytes(i2, buffer.get(offset2), cArr, i);
+                i = oneByte;
+                obj10 = i + 1;
+                Utf8.DecodeUtil.handleOneByte(i2, cArr, i);
                 while (offset2 < i6) {
-                    oneByte2 = buffer.get(offset2);
-                    if (!Utf8.DecodeUtil.isOneByte(oneByte2)) {
+                    oneByte = buffer.get(offset2);
+                    if (!Utf8.DecodeUtil.isOneByte(oneByte)) {
                         break loop_10;
                     } else {
                     }
                     offset2++;
-                    Utf8.DecodeUtil.handleOneByte(oneByte2, cArr, obj10);
-                    obj10 = oneByte;
+                    Utf8.DecodeUtil.handleOneByte(oneByte, cArr, obj10);
+                    obj10 = oneByte2;
                 }
-                i3 = obj10;
+                i = obj10;
                 obj10 = offset2;
-                oneByte2 = buffer.get(offset2);
-                if (!Utf8.DecodeUtil.isOneByte(oneByte2)) {
+                oneByte = buffer.get(offset2);
+                if (!Utf8.DecodeUtil.isOneByte(oneByte)) {
                 } else {
                 }
                 offset2++;
-                Utf8.DecodeUtil.handleOneByte(oneByte2, cArr, obj10);
-                obj10 = oneByte;
+                Utf8.DecodeUtil.handleOneByte(oneByte, cArr, obj10);
+                obj10 = oneByte2;
             }
-            String byte1 = new String(cArr, 0, i3);
+            String byte1 = new String(cArr, 0, i);
             return byte1;
         }
         ArrayIndexOutOfBoundsException limit = new ArrayIndexOutOfBoundsException(String.format("buffer limit=%d, index=%d, limit=%d", /* result */));
@@ -186,15 +186,15 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
     private static int encodeUtf8Array(java.lang.CharSequence in, byte[] out, int offset, int length) {
         int j;
         int i3;
-        int i2;
+        int i;
         int surrogatePair;
         byte charAt;
         char codePoint;
         int j2;
-        int length2;
+        int length3;
         int surrogatePair2;
-        byte length3;
-        int i;
+        byte length2;
+        int i2;
         byte b;
         final int length4 = in.length();
         int i4 = offset;
@@ -217,7 +217,7 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
         i4 += i3;
         while (i3 < length4) {
             charAt = in.charAt(i3);
-            length2 = 57343;
+            length3 = 57343;
             int i12 = 55296;
             char charAt3 = in.charAt(i3++);
             codePoint = Character.toCodePoint(charAt, charAt3);
@@ -225,10 +225,10 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
             out[j] = (byte)i27;
             int i6 = i25 + 1;
             out[i25] = (byte)i30;
-            i = i6 + 1;
+            i2 = i6 + 1;
             out[i6] = (byte)i33;
-            j = i + 1;
-            out[i] = (byte)i35;
+            j = i2 + 1;
+            out[i2] = (byte)i35;
             i3++;
             int i10 = j + 1;
             out[j] = (byte)i14;
@@ -303,18 +303,18 @@ public final class Utf8Safe extends androidx.emoji2.text.flatbuffer.Utf8 {
 
     private static int encodedLengthGeneral(java.lang.CharSequence sequence, int start) {
         int utf8Length;
-        int i;
+        int i2;
         char charAt;
         int codePointAt;
-        int i2;
+        int i;
         final int length = sequence.length();
         utf8Length = 0;
-        i = start;
-        while (i < length) {
-            charAt = sequence.charAt(i);
+        i2 = start;
+        while (i2 < length) {
+            charAt = sequence.charAt(i2);
             utf8Length += 2;
-            i++;
-            i++;
+            i2++;
+            i2++;
             utf8Length += codePointAt;
         }
         return utf8Length;

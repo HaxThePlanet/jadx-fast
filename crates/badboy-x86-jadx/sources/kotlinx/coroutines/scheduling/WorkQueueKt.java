@@ -15,16 +15,16 @@ public final class WorkQueueKt {
     public static final int STEAL_CPU_ONLY = 2;
     public static final long TASK_STOLEN = -1L;
     public static final int getMaskForStealingMode(kotlinx.coroutines.scheduling.Task $this$maskForStealingMode) {
-        int i2;
         int i;
+        int i2;
         final int i3 = 0;
         final int i4 = 0;
-        i = 1;
-        i2 = obj.taskContext.getTaskMode() == i ? i : 0;
-        if (i2 != 0) {
+        i2 = 1;
+        i = obj.taskContext.getTaskMode() == i2 ? i2 : 0;
+        if (i != 0) {
         } else {
-            i = 2;
+            i2 = 2;
         }
-        return i;
+        return i2;
     }
 }

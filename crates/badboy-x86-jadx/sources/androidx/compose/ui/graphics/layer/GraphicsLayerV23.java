@@ -553,15 +553,15 @@ public final class GraphicsLayerV23 implements androidx.compose.ui.graphics.laye
     @Override // androidx.compose.ui.graphics.layer.GraphicsLayerImpl
     public void setPosition-H0pRuoY(int x, int y, long size) {
         boolean shouldManuallySetCenterPivot;
-        int i2;
         int i;
+        int i2;
         width-impl += x;
-        this.renderNode.setLeftTopRightBottom(x, y, i2, height-impl2 += y);
-        if (!IntSize.equals-impl0(this.size, i2) && this.shouldManuallySetCenterPivot) {
+        this.renderNode.setLeftTopRightBottom(x, y, i, height-impl2 += y);
+        if (!IntSize.equals-impl0(this.size, i) && this.shouldManuallySetCenterPivot) {
             if (this.shouldManuallySetCenterPivot) {
-                i = 1073741824;
-                this.renderNode.setPivotX(f /= i);
-                this.renderNode.setPivotY(f2 /= i);
+                i2 = 1073741824;
+                this.renderNode.setPivotX(f /= i2);
+                this.renderNode.setPivotY(f2 /= i2);
             }
             this.size = size;
         }

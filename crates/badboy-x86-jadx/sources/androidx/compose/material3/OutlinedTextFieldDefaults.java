@@ -76,7 +76,7 @@ public final class OutlinedTextFieldDefaults {
 
     public final void Container-4EFweAY(boolean enabled, boolean isError, InteractionSource interactionSource, Modifier modifier, androidx.compose.material3.TextFieldColors colors, Shape shape, float focusedBorderThickness, float unfocusedBorderThickness, Composer $composer, int $changed, int i11) {
         Object anon;
-        Object obj2;
+        Object obj;
         boolean z;
         boolean booleanValue;
         int modifier2;
@@ -85,42 +85,42 @@ public final class OutlinedTextFieldDefaults {
         int $dirty3;
         Object $dirty2;
         Object $dirty;
-        int i;
-        int i4;
-        int i8;
-        Object focusedBorderThickness2;
-        float colors3;
-        Object colors2;
-        Object obj3;
-        Object unfocusedBorderThickness3;
-        float shape4;
-        Object shape3;
-        float $composer2;
         int i5;
-        Object focusedBorderThickness3;
-        float f2;
-        int changed3;
-        Object obj;
-        int containerColor;
+        int i2;
+        int i6;
+        Object focusedBorderThickness2;
+        float colors2;
+        Object colors3;
+        Object obj3;
         Object unfocusedBorderThickness2;
-        int changed4;
+        float shape3;
+        Object shape4;
+        float $composer2;
+        int i9;
+        Object focusedBorderThickness3;
         float f3;
+        int changed2;
+        Object obj2;
+        int containerColor;
+        Object unfocusedBorderThickness3;
+        int changed3;
+        float f;
         Composer composer;
         Object obj4;
-        int changed2;
-        float f;
-        int i9;
+        int changed4;
+        float f2;
+        int i8;
         int changed;
-        int i2;
+        int i3;
         int anon2;
         int i7;
         int shape2;
         Composer composer2;
-        int i6;
-        int i3;
+        int i;
+        int i4;
         Object obj24;
         int obj29;
-        obj2 = this;
+        obj = this;
         z = enabled;
         final boolean z2 = isError;
         anon = interactionSource;
@@ -133,24 +133,24 @@ public final class OutlinedTextFieldDefaults {
             $dirty3 |= 6;
         } else {
             if (i36 & 6 == 0) {
-                i = restartGroup.changed(z) ? 4 : 2;
-                $dirty3 |= i;
+                i5 = restartGroup.changed(z) ? 4 : 2;
+                $dirty3 |= i5;
             }
         }
         if (i37 & 2 != 0) {
             $dirty3 |= 48;
         } else {
             if (i36 & 48 == 0) {
-                i4 = restartGroup.changed(z2) ? 32 : 16;
-                $dirty3 |= i4;
+                i2 = restartGroup.changed(z2) ? 32 : 16;
+                $dirty3 |= i2;
             }
         }
         if (i37 & 4 != 0) {
             $dirty3 |= 384;
         } else {
             if (i36 & 384 == 0) {
-                i8 = restartGroup.changed(anon) ? 256 : 128;
-                $dirty3 |= i8;
+                i6 = restartGroup.changed(anon) ? 256 : 128;
+                $dirty3 |= i6;
             }
         }
         int i22 = i37 & 8;
@@ -159,59 +159,59 @@ public final class OutlinedTextFieldDefaults {
             obj3 = modifier;
         } else {
             if (i36 & 3072 == 0) {
-                i5 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty3 |= i5;
+                i9 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty3 |= i9;
             } else {
                 obj3 = modifier;
             }
         }
         if (i36 & 24576 == 0) {
             if (i37 & 16 == 0) {
-                changed3 = restartGroup.changed(colors) ? 16384 : 8192;
+                changed2 = restartGroup.changed(colors) ? 16384 : 8192;
             } else {
                 focusedBorderThickness3 = colors;
             }
-            $dirty3 |= changed3;
+            $dirty3 |= changed2;
         } else {
             focusedBorderThickness3 = colors;
         }
         if (i38 &= i36 == 0) {
             if (i37 & 32 == 0) {
-                changed4 = restartGroup.changed(shape) ? 131072 : 65536;
+                changed3 = restartGroup.changed(shape) ? 131072 : 65536;
             } else {
-                obj = shape;
+                obj2 = shape;
             }
-            $dirty3 |= changed4;
+            $dirty3 |= changed3;
         } else {
-            obj = shape;
+            obj2 = shape;
         }
         if (i42 &= i36 == 0) {
             if (i37 & 64 == 0) {
-                changed2 = restartGroup.changed(focusedBorderThickness) ? 1048576 : 524288;
+                changed4 = restartGroup.changed(focusedBorderThickness) ? 1048576 : 524288;
             } else {
-                f3 = focusedBorderThickness;
+                f = focusedBorderThickness;
             }
-            $dirty3 |= changed2;
+            $dirty3 |= changed4;
         } else {
-            f3 = focusedBorderThickness;
+            f = focusedBorderThickness;
         }
         if (i45 &= i36 == 0) {
             if (i37 & 128 == 0) {
                 changed = restartGroup.changed(unfocusedBorderThickness) ? 8388608 : 4194304;
             } else {
-                f = unfocusedBorderThickness;
+                f2 = unfocusedBorderThickness;
             }
             $dirty3 |= changed;
         } else {
-            f = unfocusedBorderThickness;
+            f2 = unfocusedBorderThickness;
         }
         shape2 = 100663296;
         if (i37 & 256 != 0) {
             $dirty3 |= shape2;
         } else {
             if (i36 & shape2 == 0) {
-                i2 = restartGroup.changed(obj2) ? 67108864 : 33554432;
-                $dirty3 |= i2;
+                i3 = restartGroup.changed(obj) ? 67108864 : 33554432;
+                $dirty3 |= i3;
             }
         }
         if (i48 &= $dirty3 == 38347922) {
@@ -229,37 +229,37 @@ public final class OutlinedTextFieldDefaults {
                             modifier2 = obj3;
                         }
                         if (i37 & 16 != 0) {
-                            colors2 = obj2.colors(restartGroup, i24 &= 14);
+                            colors3 = obj.colors(restartGroup, i24 &= 14);
                             $dirty3 &= i62;
                         } else {
-                            colors2 = focusedBorderThickness3;
+                            colors3 = focusedBorderThickness3;
                         }
                         if (i37 & 32 != 0) {
-                            shape3 = OutlinedTextFieldDefaults.INSTANCE.getShape(restartGroup, 6);
+                            shape4 = OutlinedTextFieldDefaults.INSTANCE.getShape(restartGroup, 6);
                             $dirty3 &= i61;
                         } else {
-                            shape3 = obj;
+                            shape4 = obj2;
                         }
                         if (i37 & 64 != 0) {
                             focusedBorderThickness3 = OutlinedTextFieldDefaults.FocusedBorderThickness;
                             $dirty3 &= i59;
                         } else {
-                            focusedBorderThickness3 = f3;
+                            focusedBorderThickness3 = f;
                         }
                         if (i37 & 128 != 0) {
-                            i9 = $dirty4;
-                            $dirty = colors2;
-                            obj4 = shape3;
-                            colors3 = focusedBorderThickness3;
-                            shape4 = unfocusedBorderThickness4;
-                            unfocusedBorderThickness2 = modifier2;
+                            i8 = $dirty4;
+                            $dirty = colors3;
+                            obj4 = shape4;
+                            colors2 = focusedBorderThickness3;
+                            shape3 = unfocusedBorderThickness4;
+                            unfocusedBorderThickness3 = modifier2;
                         } else {
-                            unfocusedBorderThickness2 = modifier2;
-                            obj4 = shape3;
-                            shape4 = f;
-                            i9 = $dirty3;
-                            $dirty = colors2;
-                            colors3 = focusedBorderThickness3;
+                            unfocusedBorderThickness3 = modifier2;
+                            obj4 = shape4;
+                            shape3 = f2;
+                            i8 = $dirty3;
+                            $dirty = colors3;
+                            colors2 = focusedBorderThickness3;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -274,17 +274,17 @@ public final class OutlinedTextFieldDefaults {
                         }
                         if (i37 & 128 != 0) {
                             $dirty = focusedBorderThickness3;
-                            colors3 = f3;
-                            obj4 = obj;
-                            unfocusedBorderThickness2 = obj3;
-                            shape4 = f;
-                            i9 = modifier2;
+                            colors2 = f;
+                            obj4 = obj2;
+                            unfocusedBorderThickness3 = obj3;
+                            shape3 = f2;
+                            i8 = modifier2;
                         } else {
-                            colors3 = f3;
-                            obj4 = obj;
-                            unfocusedBorderThickness2 = obj3;
-                            shape4 = f;
-                            i9 = $dirty3;
+                            colors2 = f;
+                            obj4 = obj2;
+                            unfocusedBorderThickness3 = obj3;
+                            shape3 = f2;
+                            i8 = $dirty3;
                             $dirty = focusedBorderThickness3;
                         }
                     }
@@ -292,7 +292,7 @@ public final class OutlinedTextFieldDefaults {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1035477640, i9, -1, "androidx.compose.material3.OutlinedTextFieldDefaults.Container (TextFieldDefaults.kt:776)");
+                    ComposerKt.traceEventStart(1035477640, i8, -1, "androidx.compose.material3.OutlinedTextFieldDefaults.Container (TextFieldDefaults.kt:776)");
                 }
                 booleanValue = (Boolean)FocusInteractionKt.collectIsFocusedAsState(anon, restartGroup, i16 &= 14).getValue().booleanValue();
                 int modifier3 = 0;
@@ -300,123 +300,123 @@ public final class OutlinedTextFieldDefaults {
                 z = obj7;
                 composer2 = restartGroup;
                 int $composer3 = i13;
-                obj2 = obj24;
+                obj = obj24;
                 anon2 = new OutlinedTextFieldDefaults.Container.1(SingleValueAnimationKt.animateColorAsState-euL9pac($dirty.containerColor-XeAY9LY$material3_release(z, z2, booleanValue), obj4, (AnimationSpec)AnimationSpecKt.tween$default(150, modifier3, i12, 6, i12), 0, 0, composer2, 48));
                 TextFieldDefaults.sam.androidx_compose_ui_graphics_ColorProducer.0 anon3 = new TextFieldDefaults.sam.androidx_compose_ui_graphics_ColorProducer.0((Function0)anon2);
-                BoxKt.Box(TextFieldImplKt.textFieldBackground(BorderKt.border(obj2, (BorderStroke)TextFieldImplKt.animateBorderStrokeAsState-NuRrP5Q(z, z2, booleanValue, $dirty, colors3, shape4, restartGroup, i32 |= i55).getValue(), z), (ColorProducer)anon3, z), composer2, 0);
+                BoxKt.Box(TextFieldImplKt.textFieldBackground(BorderKt.border(obj, (BorderStroke)TextFieldImplKt.animateBorderStrokeAsState-NuRrP5Q(z, z2, booleanValue, $dirty, colors2, shape3, restartGroup, i32 |= i55).getValue(), z), (ColorProducer)anon3, z), composer2, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 containerColor = anon;
-                $composer2 = colors3;
-                f2 = shape4;
-                unfocusedBorderThickness3 = z;
+                $composer2 = colors2;
+                f3 = shape3;
+                unfocusedBorderThickness2 = z;
                 focusedBorderThickness2 = $dirty;
-                $dirty2 = obj2;
+                $dirty2 = obj;
             } else {
                 restartGroup.skipToGroupEnd();
                 containerColor = $dirty3;
                 $dirty2 = obj3;
-                unfocusedBorderThickness3 = obj5;
+                unfocusedBorderThickness2 = obj5;
                 composer = restartGroup;
                 $composer2 = f4;
                 focusedBorderThickness2 = focusedBorderThickness3;
-                f2 = f;
+                f3 = f2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            anon = new OutlinedTextFieldDefaults.Container.2(this, enabled, z2, interactionSource, $dirty2, focusedBorderThickness2, unfocusedBorderThickness3, $composer2, f2, i36, i37);
+            anon = new OutlinedTextFieldDefaults.Container.2(this, enabled, z2, interactionSource, $dirty2, focusedBorderThickness2, unfocusedBorderThickness2, $composer2, f3, i36, i37);
             endRestartGroup.updateScope((Function2)anon);
         }
     }
 
     @Deprecated(level = DeprecationLevel.WARNING, message = "Renamed to OutlinedTextFieldDefaults.Container", replaceWith = @ReplaceWith(...))
     public final void ContainerBox-nbWgWpA(boolean enabled, boolean isError, InteractionSource interactionSource, androidx.compose.material3.TextFieldColors colors, Shape shape, float focusedBorderThickness, float unfocusedBorderThickness, Composer $composer, int $changed, int i10) {
-        boolean traceInProgress2;
-        boolean i5;
-        int $dirty;
         boolean traceInProgress;
+        boolean i9;
+        int $dirty;
+        boolean traceInProgress2;
+        boolean z3;
+        int i;
         boolean z;
-        int i9;
-        boolean z2;
-        int i8;
-        Object obj;
+        int i2;
         Object obj2;
-        int i6;
+        Object obj;
+        int i3;
         Object colors3;
         Object colors2;
-        int changed;
+        int changed2;
         Object shape2;
         float shape3;
         int changed3;
-        float focusedBorderThickness3;
         float focusedBorderThickness2;
+        float focusedBorderThickness3;
         Composer restartGroup;
-        int changed4;
+        int changed;
         float unfocusedBorderThickness2;
-        int changed2;
-        int i4;
+        int changed4;
+        int i7;
         Composer composer;
         int skipping;
         int defaultsInvalid;
-        int i2;
+        int i5;
         int iNSTANCE;
         int str;
-        int i3;
-        int i;
-        int i7;
+        int i6;
         int i11;
-        boolean z3;
+        int i8;
+        int i4;
+        boolean z2;
         int obj26;
-        traceInProgress2 = this;
+        traceInProgress = this;
         final int i57 = $changed;
         final int i58 = i10;
-        i5 = 1461761386;
-        restartGroup = $composer.startRestartGroup(i5);
+        i9 = 1461761386;
+        restartGroup = $composer.startRestartGroup(i9);
         ComposerKt.sourceInformation(restartGroup, "C(ContainerBox)P(1,4,3!1,5,2:c#ui.unit.Dp,6:c#ui.unit.Dp)1174@62656L8,1175@62715L5,1179@62864L348:TextFieldDefaults.kt#uh7d8r");
         $dirty = $changed;
         if (i58 & 1 != 0) {
             $dirty |= 6;
-            z = enabled;
+            z3 = enabled;
         } else {
             if (i57 & 6 == 0) {
-                i9 = restartGroup.changed(enabled) ? 4 : 2;
-                $dirty |= i9;
+                i = restartGroup.changed(enabled) ? 4 : 2;
+                $dirty |= i;
             } else {
-                z = enabled;
+                z3 = enabled;
             }
         }
         if (i58 & 2 != 0) {
             $dirty |= 48;
-            z2 = isError;
+            z = isError;
         } else {
             if (i57 & 48 == 0) {
-                i8 = restartGroup.changed(isError) ? 32 : 16;
-                $dirty |= i8;
+                i2 = restartGroup.changed(isError) ? 32 : 16;
+                $dirty |= i2;
             } else {
-                z2 = isError;
+                z = isError;
             }
         }
         if (i58 & 4 != 0) {
             $dirty |= 384;
-            obj = interactionSource;
+            obj2 = interactionSource;
         } else {
             if (i57 & 384 == 0) {
-                i6 = restartGroup.changed(interactionSource) ? 256 : 128;
-                $dirty |= i6;
+                i3 = restartGroup.changed(interactionSource) ? 256 : 128;
+                $dirty |= i3;
             } else {
-                obj = interactionSource;
+                obj2 = interactionSource;
             }
         }
         if (i57 & 3072 == 0) {
             if (i58 & 8 == 0) {
-                changed = restartGroup.changed(colors) ? 2048 : 1024;
+                changed2 = restartGroup.changed(colors) ? 2048 : 1024;
             } else {
                 colors3 = colors;
             }
-            $dirty |= changed;
+            $dirty |= changed2;
         } else {
             colors3 = colors;
         }
@@ -432,21 +432,21 @@ public final class OutlinedTextFieldDefaults {
         }
         if (i32 &= i57 == 0) {
             if (i58 & 32 == 0) {
-                changed4 = restartGroup.changed(focusedBorderThickness) ? 131072 : 65536;
+                changed = restartGroup.changed(focusedBorderThickness) ? 131072 : 65536;
             } else {
-                focusedBorderThickness3 = focusedBorderThickness;
+                focusedBorderThickness2 = focusedBorderThickness;
             }
-            $dirty |= changed4;
+            $dirty |= changed;
         } else {
-            focusedBorderThickness3 = focusedBorderThickness;
+            focusedBorderThickness2 = focusedBorderThickness;
         }
         if (i35 &= i57 == 0) {
             if (i58 & 64 == 0) {
-                changed2 = restartGroup.changed(unfocusedBorderThickness) ? 1048576 : 524288;
+                changed4 = restartGroup.changed(unfocusedBorderThickness) ? 1048576 : 524288;
             } else {
                 unfocusedBorderThickness2 = unfocusedBorderThickness;
             }
-            $dirty |= changed2;
+            $dirty |= changed4;
         } else {
             unfocusedBorderThickness2 = unfocusedBorderThickness;
         }
@@ -455,38 +455,38 @@ public final class OutlinedTextFieldDefaults {
             $dirty |= i59;
         } else {
             if (i57 & i59 == 0) {
-                i4 = restartGroup.changed(traceInProgress2) ? 8388608 : 4194304;
-                $dirty |= i4;
+                i7 = restartGroup.changed(traceInProgress) ? 8388608 : 4194304;
+                $dirty |= i7;
             }
         }
         if (i38 &= $dirty == 4793490) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i = -3670017;
+                i11 = -3670017;
                 int i61 = -458753;
-                i11 = -57345;
+                i4 = -57345;
                 if (i57 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i58 & 8 != 0) {
-                            colors3 = traceInProgress2.colors(restartGroup, i43 &= 14);
+                            colors3 = traceInProgress.colors(restartGroup, i43 &= 14);
                             $dirty &= -7169;
                         }
                         if (i58 & 16 != 0) {
-                            obj26 = i;
+                            obj26 = i11;
                             shape2 = OutlinedTextFieldDefaults.INSTANCE.getShape(restartGroup, 6);
-                            $dirty &= i11;
+                            $dirty &= i4;
                         } else {
-                            obj26 = i;
+                            obj26 = i11;
                         }
                         if (i58 & 32 != 0) {
-                            focusedBorderThickness3 = OutlinedTextFieldDefaults.FocusedBorderThickness;
+                            focusedBorderThickness2 = OutlinedTextFieldDefaults.FocusedBorderThickness;
                             $dirty &= i61;
                         }
                         if (i58 & 64 != 0) {
                             unfocusedBorderThickness2 = OutlinedTextFieldDefaults.UnfocusedBorderThickness;
-                            i3 = $dirty;
+                            i6 = $dirty;
                         } else {
-                            i3 = $dirty;
+                            i6 = $dirty;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -494,61 +494,61 @@ public final class OutlinedTextFieldDefaults {
                             $dirty &= -7169;
                         }
                         if (i58 & 16 != 0) {
-                            $dirty &= i11;
+                            $dirty &= i4;
                         }
                         if (i58 & 32 != 0) {
                             $dirty &= i61;
                         }
-                        i3 = i58 & 64 != 0 ? $dirty : $dirty;
+                        i6 = i58 & 64 != 0 ? $dirty : $dirty;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i5, i3, -1, "androidx.compose.material3.OutlinedTextFieldDefaults.ContainerBox (TextFieldDefaults.kt:1179)");
+                    ComposerKt.traceEventStart(i9, i6, -1, "androidx.compose.material3.OutlinedTextFieldDefaults.ContainerBox (TextFieldDefaults.kt:1179)");
                 }
-                traceInProgress2.Container-4EFweAY(z, z2, obj, (Modifier)Modifier.Companion, colors3, shape2, focusedBorderThickness3, unfocusedBorderThickness2, restartGroup, i20 |= i55, 0);
+                traceInProgress.Container-4EFweAY(z3, z, obj2, (Modifier)Modifier.Companion, colors3, shape2, focusedBorderThickness2, unfocusedBorderThickness2, restartGroup, i20 |= i55, 0);
                 composer = restartGroup;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i3 = $dirty;
-                obj2 = colors3;
+                i6 = $dirty;
+                obj = colors3;
                 colors2 = shape2;
-                shape3 = focusedBorderThickness3;
+                shape3 = focusedBorderThickness2;
                 composer = restartGroup;
-                focusedBorderThickness2 = unfocusedBorderThickness2;
+                focusedBorderThickness3 = unfocusedBorderThickness2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new OutlinedTextFieldDefaults.ContainerBox.1(this, enabled, isError, interactionSource, obj2, colors2, shape3, focusedBorderThickness2, i57, i58);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new OutlinedTextFieldDefaults.ContainerBox.1(this, enabled, isError, interactionSource, obj, colors2, shape3, focusedBorderThickness3, i57, i58);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public final void DecorationBox(String value, Function2<? super Composer, ? super Integer, Unit> innerTextField, boolean enabled, boolean singleLine, VisualTransformation visualTransformation, InteractionSource interactionSource, boolean isError, Function2<? super Composer, ? super Integer, Unit> label, Function2<? super Composer, ? super Integer, Unit> placeholder, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function2<? super Composer, ? super Integer, Unit> trailingIcon, Function2<? super Composer, ? super Integer, Unit> prefix, Function2<? super Composer, ? super Integer, Unit> suffix, Function2<? super Composer, ? super Integer, Unit> supportingText, androidx.compose.material3.TextFieldColors colors, PaddingValues contentPadding, Function2<? super Composer, ? super Integer, Unit> container, Composer $composer, int $changed, int $changed1, int i21) {
         Object obj11;
-        Object obj8;
-        Object obj10;
-        Object i37;
-        Object obj3;
-        Object obj9;
-        Object obj12;
         Object obj4;
-        Object obj5;
+        Object obj10;
+        Object i18;
+        Object obj13;
+        Object obj8;
+        Object obj12;
+        Object obj2;
+        Object obj9;
         int traceInProgress;
-        int $dirty12;
-        int i8;
+        int $dirty13;
+        int i35;
         int defaultsInvalid;
-        boolean isError3;
+        boolean isError2;
         Object endRestartGroup;
-        int i25;
+        int i3;
         Object contentPadding2;
-        Object $dirty13;
+        Object $dirty12;
         int colors2;
         boolean traceInProgress2;
         int placeholder2;
@@ -556,69 +556,69 @@ public final class OutlinedTextFieldDefaults {
         Object $composer2;
         int $dirty;
         int $dirty1;
-        Object obj7;
-        Object obj;
-        int i12;
-        boolean prefix4;
+        Object obj6;
+        Object obj3;
+        int i27;
+        boolean prefix2;
         boolean z;
         int leadingIcon2;
         int leadingIcon3;
-        Object suffix3;
-        int i20;
-        Object obj2;
-        int i34;
-        int supportingText4;
-        int trailingIcon2;
-        int i15;
-        int i36;
-        Object obj6;
-        boolean label2;
-        int isError4;
-        int i26;
-        int i3;
-        int i6;
-        boolean z2;
-        Object obj13;
-        int contentPadding3;
+        Object suffix2;
+        int i28;
+        Object obj7;
         int i14;
-        int i9;
-        Object supportingText2;
+        int supportingText2;
+        int trailingIcon2;
+        int i29;
+        int i11;
+        Object obj;
+        boolean label2;
+        int isError3;
+        int i34;
+        int i13;
+        int i19;
+        boolean z2;
+        Object obj5;
+        int contentPadding3;
+        int i4;
+        int i12;
+        Object supportingText4;
         int supportingText3;
-        int changedInstance3;
-        int i;
-        Object isError2;
+        int changedInstance;
+        int i5;
+        Object isError4;
         PaddingValues container2;
         int changed;
-        int i4;
-        int i2;
-        Composer prefix2;
-        int prefix3;
+        int i6;
+        int i9;
+        Composer prefix3;
+        int prefix4;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int suffix2;
-        int i33;
-        int i16;
-        int i31;
-        int i19;
-        int i22;
-        int i18;
-        int i11;
-        int i32;
-        int i28;
-        int i23;
-        int i7;
-        Composer composer;
-        int i10;
-        int i5;
-        int i27;
-        int i38;
-        int changedInstance2;
-        int i13;
-        int i17;
-        int i29;
-        int i30;
+        int suffix3;
         int i24;
-        int i35;
-        boolean changedInstance;
+        int i15;
+        int i22;
+        int i17;
+        int i7;
+        int i38;
+        int i16;
+        int i;
+        int i36;
+        int i2;
+        int i33;
+        Composer composer;
+        int i26;
+        int i32;
+        int i25;
+        int i23;
+        int changedInstance2;
+        int i10;
+        int i30;
+        int i8;
+        int i37;
+        int i31;
+        int i20;
+        boolean changedInstance3;
         ScopeUpdateScope scopeUpdateScope;
         PaddingValues obj41;
         int obj42;
@@ -628,7 +628,7 @@ public final class OutlinedTextFieldDefaults {
         int obj46;
         int obj47;
         int obj52;
-        $dirty13 = this;
+        $dirty12 = this;
         boolean z5 = enabled;
         Object obj14 = interactionSource;
         int i39 = $changed;
@@ -640,77 +640,77 @@ public final class OutlinedTextFieldDefaults {
         $dirty1 = $changed1;
         if (str & 1 != 0) {
             $dirty |= 6;
-            obj7 = value;
+            obj6 = value;
         } else {
             if (i39 & 6 == 0) {
-                i20 = $composer2.changed(value) ? 4 : 2;
-                $dirty |= i20;
+                i28 = $composer2.changed(value) ? 4 : 2;
+                $dirty |= i28;
             } else {
-                obj7 = value;
+                obj6 = value;
             }
         }
         if (str & 2 != 0) {
             $dirty |= 48;
-            obj2 = innerTextField;
+            obj7 = innerTextField;
         } else {
             if (i39 & 48 == 0) {
-                i3 = $composer2.changedInstance(innerTextField) ? 32 : 16;
-                $dirty |= i3;
+                i13 = $composer2.changedInstance(innerTextField) ? 32 : 16;
+                $dirty |= i13;
             } else {
-                obj2 = innerTextField;
+                obj7 = innerTextField;
             }
         }
-        changedInstance3 = 128;
+        changedInstance = 128;
         if (str & 4 != 0) {
             $dirty |= 384;
         } else {
             if (i39 & 384 == 0) {
-                i6 = $composer2.changed(z5) ? i14 : changedInstance3;
-                $dirty |= i6;
+                i19 = $composer2.changed(z5) ? i4 : changedInstance;
+                $dirty |= i19;
             }
         }
-        suffix2 = 1024;
+        suffix3 = 1024;
         if (str & 8 != 0) {
             $dirty |= 3072;
             z2 = singleLine;
         } else {
             if (i39 & 3072 == 0) {
-                i33 = $composer2.changed(singleLine) ? i4 : suffix2;
-                $dirty |= i33;
+                i24 = $composer2.changed(singleLine) ? i6 : suffix3;
+                $dirty |= i24;
             } else {
                 z2 = singleLine;
             }
         }
-        i11 = 16384;
+        i16 = 16384;
         if (str & 16 != 0) {
             $dirty |= 24576;
-            obj = visualTransformation;
+            obj3 = visualTransformation;
         } else {
             if (i39 & 24576 == 0) {
-                i16 = $composer2.changed(visualTransformation) ? i11 : i18;
-                $dirty |= i16;
+                i15 = $composer2.changed(visualTransformation) ? i16 : i38;
+                $dirty |= i15;
             } else {
-                obj = visualTransformation;
+                obj3 = visualTransformation;
             }
         }
-        i28 = 196608;
+        i36 = 196608;
         if (str & 32 != 0) {
-            $dirty |= i28;
+            $dirty |= i36;
         } else {
-            if (i39 & i28 == 0) {
-                i31 = $composer2.changed(obj14) ? 131072 : 65536;
-                $dirty |= i31;
+            if (i39 & i36 == 0) {
+                i22 = $composer2.changed(obj14) ? 131072 : 65536;
+                $dirty |= i22;
             }
         }
-        i19 = str & 64;
-        i7 = 1572864;
-        if (i19 != 0) {
-            $dirty |= i7;
+        i17 = str & 64;
+        i33 = 1572864;
+        if (i17 != 0) {
+            $dirty |= i33;
             z = isError;
         } else {
-            if (i39 & i7 == 0) {
-                i27 = $composer2.changed(isError) ? 1048576 : 524288;
-                $dirty |= i27;
+            if (i39 & i33 == 0) {
+                i25 = $composer2.changed(isError) ? 1048576 : 524288;
+                $dirty |= i25;
             } else {
                 z = isError;
             }
@@ -719,28 +719,28 @@ public final class OutlinedTextFieldDefaults {
         final int i132 = 12582912;
         if (trailingIcon2 != 0) {
             $dirty |= i132;
-            obj6 = label;
+            obj = label;
         } else {
             if (i39 & i132 == 0) {
-                i13 = $composer2.changedInstance(label) ? 8388608 : 4194304;
-                $dirty |= i13;
+                i10 = $composer2.changedInstance(label) ? 8388608 : 4194304;
+                $dirty |= i10;
             } else {
-                obj6 = label;
+                obj = label;
             }
         }
         int i40 = str & 256;
         int i133 = 100663296;
         if (i40 != 0) {
             $dirty |= i133;
-            i17 = i40;
+            i30 = i40;
             obj11 = placeholder;
         } else {
             if ($changed & i133 == 0) {
-                i17 = i40;
-                i29 = $composer2.changedInstance(placeholder) ? 67108864 : 33554432;
-                $dirty |= i29;
+                i30 = i40;
+                i8 = $composer2.changedInstance(placeholder) ? 67108864 : 33554432;
+                $dirty |= i8;
             } else {
-                i17 = i40;
+                i30 = i40;
                 obj11 = placeholder;
             }
         }
@@ -748,122 +748,122 @@ public final class OutlinedTextFieldDefaults {
         int i135 = 805306368;
         if (i41 != 0) {
             $dirty |= i135;
-            i30 = i41;
-            obj8 = leadingIcon;
+            i37 = i41;
+            obj4 = leadingIcon;
         } else {
             if ($changed & i135 == 0) {
-                i30 = i41;
-                i24 = $composer2.changedInstance(leadingIcon) ? 536870912 : 268435456;
-                $dirty |= i24;
+                i37 = i41;
+                i31 = $composer2.changedInstance(leadingIcon) ? 536870912 : 268435456;
+                $dirty |= i31;
             } else {
-                i30 = i41;
-                obj8 = leadingIcon;
+                i37 = i41;
+                obj4 = leadingIcon;
             }
         }
         int i42 = str & 1024;
         if (i42 != 0) {
             $dirty1 |= 6;
-            i35 = i42;
+            i20 = i42;
             obj10 = trailingIcon;
         } else {
             if (i55 & 6 == 0) {
-                i35 = i42;
-                i10 = $composer2.changedInstance(trailingIcon) ? 4 : 2;
-                $dirty1 |= i10;
+                i20 = i42;
+                i26 = $composer2.changedInstance(trailingIcon) ? 4 : 2;
+                $dirty1 |= i26;
             } else {
-                i35 = i42;
+                i20 = i42;
                 obj10 = trailingIcon;
             }
         }
         int i43 = str & 2048;
         if (i43 != 0) {
             $dirty1 |= 48;
-            i5 = i43;
-            i37 = prefix;
+            i32 = i43;
+            i18 = prefix;
         } else {
             if (i55 & 48 == 0) {
-                i5 = i43;
-                i27 = $composer2.changedInstance(prefix) ? 32 : 16;
-                $dirty1 |= i27;
+                i32 = i43;
+                i25 = $composer2.changedInstance(prefix) ? 32 : 16;
+                $dirty1 |= i25;
             } else {
-                i5 = i43;
-                i37 = prefix;
+                i32 = i43;
+                i18 = prefix;
             }
         }
         int i44 = str & 4096;
         if (i44 != 0) {
             $dirty1 |= 384;
-            i38 = i44;
-            obj3 = suffix;
+            i23 = i44;
+            obj13 = suffix;
         } else {
-            i38 = i44;
+            i23 = i44;
             if (i55 & 384 == 0) {
                 if ($composer2.changedInstance(suffix)) {
                 } else {
-                    i14 = changedInstance3;
+                    i4 = changedInstance;
                 }
-                $dirty1 |= i14;
+                $dirty1 |= i4;
             } else {
-                obj3 = suffix;
+                obj13 = suffix;
             }
         }
         int i46 = str & 8192;
         if (i46 != 0) {
             $dirty1 |= 3072;
-            i9 = i46;
-            obj9 = supportingText;
+            i12 = i46;
+            obj8 = supportingText;
         } else {
-            i9 = i46;
+            i12 = i46;
             if (i55 & 3072 == 0) {
                 if ($composer2.changedInstance(supportingText)) {
                 } else {
-                    i4 = suffix2;
+                    i6 = suffix3;
                 }
-                $dirty1 |= i4;
+                $dirty1 |= i6;
             } else {
-                obj9 = supportingText;
+                obj8 = supportingText;
             }
         }
         if (i55 & 24576 == 0) {
             if (str & 16384 == 0) {
                 if ($composer2.changed(colors)) {
-                    i18 = i11;
+                    i38 = i16;
                 }
             } else {
                 obj12 = colors;
             }
-            $dirty1 |= i18;
+            $dirty1 |= i38;
         } else {
             obj12 = colors;
         }
-        if (i55 & i28 == 0) {
+        if (i55 & i36 == 0) {
             if (str & i117 == 0) {
-                i = $composer2.changed(contentPadding) ? 131072 : 65536;
+                i5 = $composer2.changed(contentPadding) ? 131072 : 65536;
             } else {
-                obj4 = contentPadding;
+                obj2 = contentPadding;
             }
-            $dirty1 |= i;
+            $dirty1 |= i5;
         } else {
-            obj4 = contentPadding;
+            obj2 = contentPadding;
         }
         int i116 = str & i115;
         if (i116 != 0) {
-            $dirty1 |= i7;
-            obj5 = container;
+            $dirty1 |= i33;
+            obj9 = container;
         } else {
-            if (i55 & i7 == 0) {
-                i4 = $composer2.changedInstance(container) ? 1048576 : 524288;
-                $dirty1 |= i4;
+            if (i55 & i33 == 0) {
+                i6 = $composer2.changedInstance(container) ? 1048576 : 524288;
+                $dirty1 |= i6;
             } else {
-                obj5 = container;
+                obj9 = container;
             }
         }
         if (str & i118 != 0) {
             $dirty1 |= i132;
         } else {
             if (i55 & i132 == 0) {
-                i2 = $composer2.changed($dirty13) ? 8388608 : 4194304;
-                $dirty1 |= i2;
+                i9 = $composer2.changed($dirty12) ? 8388608 : 4194304;
+                $dirty1 |= i9;
             }
         }
         if ($dirty & i119 == 306783378 && i53 &= $dirty1 == 4793490) {
@@ -872,89 +872,89 @@ public final class OutlinedTextFieldDefaults {
                     $composer2.startDefaults();
                     if ($changed & 1 != 0) {
                         if ($composer2.getDefaultsInvalid()) {
-                            isError3 = i19 != 0 ? 0 : z;
+                            isError2 = i17 != 0 ? 0 : z;
                             if (trailingIcon2 != 0) {
-                                obj6 = colors2;
+                                obj = colors2;
                             }
-                            placeholder2 = i17 != 0 ? 0 : placeholder;
-                            leadingIcon3 = i30 != 0 ? 0 : leadingIcon;
-                            trailingIcon2 = i35 != 0 ? 0 : trailingIcon;
-                            prefix3 = i5 != 0 ? 0 : prefix;
-                            suffix2 = i38 != 0 ? 0 : suffix;
-                            supportingText3 = i9 != 0 ? 0 : supportingText;
+                            placeholder2 = i30 != 0 ? 0 : placeholder;
+                            leadingIcon3 = i37 != 0 ? 0 : leadingIcon;
+                            trailingIcon2 = i20 != 0 ? 0 : trailingIcon;
+                            prefix4 = i32 != 0 ? 0 : prefix;
+                            suffix3 = i23 != 0 ? 0 : suffix;
+                            supportingText3 = i12 != 0 ? 0 : supportingText;
                             obj52 = placeholder2;
                             if (str & 16384 != 0) {
-                                colors2 = $dirty13.colors($composer2, i57 &= 14);
-                                $dirty1 &= i19;
+                                colors2 = $dirty12.colors($composer2, i57 &= 14);
+                                $dirty1 &= i17;
                             } else {
                                 colors2 = colors;
                             }
                             if (str & i129 != 0) {
-                                contentPadding2 = OutlinedTextFieldDefaults.contentPadding-a9UjIt4$default($dirty13, 0, 0, 0, 0, 15, 0);
-                                $dirty1 &= i22;
+                                contentPadding2 = OutlinedTextFieldDefaults.contentPadding-a9UjIt4$default($dirty12, 0, 0, 0, 0, 15, 0);
+                                $dirty1 &= i7;
                             } else {
                                 contentPadding2 = contentPadding;
                             }
                             if (i116 != 0) {
-                                OutlinedTextFieldDefaults.DecorationBox.1 contentPadding4 = new OutlinedTextFieldDefaults.DecorationBox.1(z5, isError3, obj14, colors2);
-                                obj13 = obj41;
-                                i25 = $dirty1;
+                                OutlinedTextFieldDefaults.DecorationBox.1 contentPadding4 = new OutlinedTextFieldDefaults.DecorationBox.1(z5, isError2, obj14, colors2);
+                                obj5 = obj41;
+                                i3 = $dirty1;
                                 $dirty1 = leadingIcon3;
-                                obj7 = trailingIcon2;
-                                i34 = supportingText3;
-                                i12 = prefix3;
-                                leadingIcon2 = suffix2;
-                                supportingText2 = i19;
-                                prefix2 = $composer2;
-                                $composer2 = obj6;
+                                obj6 = trailingIcon2;
+                                i14 = supportingText3;
+                                i27 = prefix4;
+                                leadingIcon2 = suffix3;
+                                supportingText4 = i17;
+                                prefix3 = $composer2;
+                                $composer2 = obj;
                                 label2 = z6;
-                                isError2 = rememberComposableLambda;
-                                $dirty12 = obj52;
+                                isError4 = rememberComposableLambda;
+                                $dirty13 = obj52;
                             } else {
-                                obj13 = obj41;
-                                $dirty12 = obj52;
-                                i25 = $dirty1;
+                                obj5 = obj41;
+                                $dirty13 = obj52;
+                                i3 = $dirty1;
                                 $dirty1 = leadingIcon3;
-                                obj7 = trailingIcon2;
-                                i34 = supportingText3;
-                                i12 = prefix3;
-                                leadingIcon2 = suffix2;
-                                supportingText2 = i19;
-                                prefix2 = $composer2;
-                                $composer2 = obj6;
+                                obj6 = trailingIcon2;
+                                i14 = supportingText3;
+                                i27 = prefix4;
+                                leadingIcon2 = suffix3;
+                                supportingText4 = i17;
+                                prefix3 = $composer2;
+                                $composer2 = obj;
                                 label2 = isError6;
-                                isError2 = container;
+                                isError4 = container;
                             }
                         } else {
                             $composer2.skipToGroupEnd();
                             if (str & 16384 != 0) {
-                                $dirty1 &= i8;
+                                $dirty1 &= i35;
                             }
                             if (i49 &= str != 0) {
                                 $dirty1 = leadingIcon;
-                                obj7 = trailingIcon;
-                                i12 = prefix;
-                                i34 = supportingText;
-                                supportingText2 = colors;
-                                obj13 = contentPadding;
-                                isError2 = container;
-                                i25 = i52;
-                                prefix2 = $composer2;
-                                $composer2 = obj6;
-                                $dirty12 = placeholder;
+                                obj6 = trailingIcon;
+                                i27 = prefix;
+                                i14 = supportingText;
+                                supportingText4 = colors;
+                                obj5 = contentPadding;
+                                isError4 = container;
+                                i3 = i52;
+                                prefix3 = $composer2;
+                                $composer2 = obj;
+                                $dirty13 = placeholder;
                                 label2 = z;
                                 leadingIcon2 = suffix;
                             } else {
-                                $dirty12 = placeholder;
-                                obj7 = trailingIcon;
-                                i12 = prefix;
-                                i34 = supportingText;
-                                supportingText2 = colors;
-                                obj13 = contentPadding;
-                                isError2 = container;
-                                prefix2 = $composer2;
-                                i25 = $dirty1;
-                                $composer2 = obj6;
+                                $dirty13 = placeholder;
+                                obj6 = trailingIcon;
+                                i27 = prefix;
+                                i14 = supportingText;
+                                supportingText4 = colors;
+                                obj5 = contentPadding;
+                                isError4 = container;
+                                prefix3 = $composer2;
+                                i3 = $dirty1;
+                                $composer2 = obj;
                                 $dirty1 = leadingIcon;
                                 label2 = z;
                                 leadingIcon2 = suffix;
@@ -962,44 +962,44 @@ public final class OutlinedTextFieldDefaults {
                         }
                     } else {
                     }
-                    prefix2.endDefaults();
+                    prefix3.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(-350442135, $dirty, i25, "androidx.compose.material3.OutlinedTextFieldDefaults.DecorationBox (TextFieldDefaults.kt:884)");
+                        ComposerKt.traceEventStart(-350442135, $dirty, i3, "androidx.compose.material3.OutlinedTextFieldDefaults.DecorationBox (TextFieldDefaults.kt:884)");
                     }
-                    i23 = i25;
-                    i32 = $dirty;
+                    i2 = i3;
+                    i = $dirty;
                     $dirty = i56;
-                    TextFieldImplKt.CommonDecorationBox(TextFieldType.Outlined, value, innerTextField, visualTransformation, $composer2, $dirty, $dirty1, obj7, i12, leadingIcon2, i34, singleLine, z5, label2, obj14, obj13, supportingText2, isError2, prefix2, i68 | i99, i76 | i112, 0);
-                    composer = prefix2;
+                    TextFieldImplKt.CommonDecorationBox(TextFieldType.Outlined, value, innerTextField, visualTransformation, $composer2, $dirty, $dirty1, obj6, i27, leadingIcon2, i14, singleLine, z5, label2, obj14, obj5, supportingText4, isError4, prefix3, i68 | i99, i76 | i112, 0);
+                    composer = prefix3;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    isError4 = i12;
-                    prefix4 = z4;
-                    i15 = $dirty1;
-                    i36 = obj7;
-                    i26 = leadingIcon2;
-                    composableLambda = isError2;
-                    suffix3 = $composer2;
-                    container2 = obj13;
-                    contentPadding3 = i34;
-                    supportingText4 = colors2;
+                    isError3 = i27;
+                    prefix2 = z4;
+                    i29 = $dirty1;
+                    i11 = obj6;
+                    i34 = leadingIcon2;
+                    composableLambda = isError4;
+                    suffix2 = $composer2;
+                    container2 = obj5;
+                    contentPadding3 = i14;
+                    supportingText2 = colors2;
                 } else {
                     $composer2.skipToGroupEnd();
-                    supportingText4 = placeholder;
-                    i15 = leadingIcon;
-                    i36 = trailingIcon;
-                    i26 = suffix;
+                    supportingText2 = placeholder;
+                    i29 = leadingIcon;
+                    i11 = trailingIcon;
+                    i34 = suffix;
                     contentPadding3 = supportingText;
-                    supportingText2 = colors;
+                    supportingText4 = colors;
                     container2 = contentPadding;
                     composableLambda = container;
                     composer = $composer2;
-                    i32 = $dirty;
-                    i23 = $dirty1;
-                    prefix4 = z;
-                    suffix3 = obj6;
-                    isError4 = prefix;
+                    i = $dirty;
+                    i2 = $dirty1;
+                    prefix2 = z;
+                    suffix2 = obj;
+                    isError3 = prefix;
                 }
             } else {
             }
@@ -1007,7 +1007,7 @@ public final class OutlinedTextFieldDefaults {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new OutlinedTextFieldDefaults.DecorationBox.2(this, value, innerTextField, enabled, singleLine, visualTransformation, interactionSource, prefix4, suffix3, supportingText4, i15, i36, isError4, i26, contentPadding3, supportingText2, container2, composableLambda, $changed, $changed1, i21);
+            endRestartGroup = new OutlinedTextFieldDefaults.DecorationBox.2(this, value, innerTextField, enabled, singleLine, visualTransformation, interactionSource, prefix2, suffix2, supportingText2, i29, i11, isError3, i34, contentPadding3, supportingText4, container2, composableLambda, $changed, $changed1, i21);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
@@ -1028,323 +1028,323 @@ public final class OutlinedTextFieldDefaults {
     }
 
     public final androidx.compose.material3.TextFieldColors colors-0hiis_0(long focusedTextColor, long unfocusedTextColor, long disabledTextColor, long errorTextColor, long focusedContainerColor, long unfocusedContainerColor, long disabledContainerColor, long errorContainerColor, long cursorColor, long errorCursorColor, TextSelectionColors selectionColors, long focusedBorderColor, long unfocusedBorderColor, long disabledBorderColor, long errorBorderColor, long focusedLeadingIconColor, long unfocusedLeadingIconColor, long disabledLeadingIconColor, long errorLeadingIconColor, long focusedTrailingIconColor, long unfocusedTrailingIconColor, long disabledTrailingIconColor, long errorTrailingIconColor, long focusedLabelColor, long unfocusedLabelColor, long disabledLabelColor, long errorLabelColor, long focusedPlaceholderColor, long unfocusedPlaceholderColor, long disabledPlaceholderColor, long errorPlaceholderColor, long focusedSupportingTextColor, long unfocusedSupportingTextColor, long disabledSupportingTextColor, long errorSupportingTextColor, long focusedPrefixColor, long unfocusedPrefixColor, long disabledPrefixColor, long errorPrefixColor, long focusedSuffixColor, long unfocusedSuffixColor, long disabledSuffixColor, long errorSuffixColor, Composer $composer, int $changed, int $changed1, int $changed2, int $changed3, int $changed4, int i50, int i51) {
-        int companion3;
-        int companion8;
-        int companion4;
-        Color.Companion companion10;
-        int companion7;
-        int companion12;
         int companion11;
-        int companion5;
-        int companion2;
-        int companion6;
-        int companion;
         int companion9;
-        int unspecified-0d7_KjU27;
-        boolean traceInProgress;
-        int i2;
+        int companion4;
+        Color.Companion companion12;
+        int companion2;
+        int companion;
+        int companion3;
+        int companion10;
+        int companion8;
+        int companion6;
+        int companion5;
+        int companion7;
         int unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU17;
+        boolean traceInProgress;
+        int i3;
+        int unspecified-0d7_KjU10;
+        int unspecified-0d7_KjU22;
+        int unspecified-0d7_KjU16;
+        int unspecified-0d7_KjU6;
         int unspecified-0d7_KjU7;
         int unspecified-0d7_KjU14;
-        int unspecified-0d7_KjU22;
-        int unspecified-0d7_KjU;
         int unspecified-0d7_KjU21;
-        int unspecified-0d7_KjU8;
-        long unspecified-0d7_KjU3;
+        int unspecified-0d7_KjU12;
+        long unspecified-0d7_KjU27;
         int unspecified-0d7_KjU9;
-        int i;
-        int unspecified-0d7_KjU2;
-        long unspecified-0d7_KjU5;
-        int unspecified-0d7_KjU23;
-        int unspecified-0d7_KjU19;
-        int unspecified-0d7_KjU18;
-        int unspecified-0d7_KjU28;
-        int unspecified-0d7_KjU13;
-        int unspecified-0d7_KjU20;
-        int unspecified-0d7_KjU25;
-        int unspecified-0d7_KjU15;
-        int unspecified-0d7_KjU6;
-        int unspecified-0d7_KjU10;
+        int i2;
         int unspecified-0d7_KjU31;
-        int unspecified-0d7_KjU16;
-        int unspecified-0d7_KjU26;
-        int unspecified-0d7_KjU11;
-        int unspecified-0d7_KjU29;
-        int unspecified-0d7_KjU24;
-        long unspecified-0d7_KjU12;
+        long unspecified-0d7_KjU25;
         int unspecified-0d7_KjU30;
-        int i4;
-        long l30;
-        long l41;
-        long l7;
-        long l34;
-        long l35;
-        long l24;
-        long l20;
-        long l36;
-        long l28;
-        long l8;
-        int i3;
-        long l31;
+        int unspecified-0d7_KjU;
+        int unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU13;
+        int unspecified-0d7_KjU18;
+        int unspecified-0d7_KjU26;
+        int unspecified-0d7_KjU15;
+        int unspecified-0d7_KjU24;
+        int unspecified-0d7_KjU11;
+        int unspecified-0d7_KjU3;
+        int unspecified-0d7_KjU28;
+        int unspecified-0d7_KjU19;
+        int unspecified-0d7_KjU29;
+        int unspecified-0d7_KjU17;
+        int unspecified-0d7_KjU23;
+        int unspecified-0d7_KjU20;
+        long unspecified-0d7_KjU2;
+        int unspecified-0d7_KjU8;
+        int i;
         long l12;
-        long l15;
-        long l37;
+        long l36;
         long l2;
-        long l19;
-        long l17;
+        long l6;
+        long l23;
+        long l16;
         long l42;
+        long l18;
         long l9;
         long l;
-        long l5;
-        long l10;
+        int i4;
+        long l20;
+        long l17;
         long l29;
-        long l38;
         long l22;
-        long l13;
-        long l14;
-        long l39;
-        long l32;
-        long l11;
-        long l25;
-        long l3;
-        long l6;
-        long l40;
-        long l21;
         long l4;
-        long l23;
-        long l18;
+        long l39;
+        long l34;
+        long l37;
+        long l27;
+        long l30;
+        long l24;
+        long l15;
+        long l10;
+        long l35;
+        long l28;
+        long l19;
+        long l31;
+        long l41;
+        long l7;
+        long l32;
+        long l21;
+        long l25;
+        long l38;
         long l33;
         long l26;
-        long l27;
-        long l16;
+        long l13;
+        long l11;
+        long l8;
+        long l3;
+        long l40;
+        long l14;
+        long l5;
         final Composer composer = obj178;
         int i5 = obj184;
         int i6 = obj185;
         int i7 = 1767617725;
         ComposerKt.sourceInformationMarkerStart(composer, i7, "C(colors)P(30:c#ui.graphics.Color,41:c#ui.graphics.Color,9:c#ui.graphics.Color,20:c#ui.graphics.Color,23:c#ui.graphics.Color,34:c#ui.graphics.Color,2:c#ui.graphics.Color,12:c#ui.graphics.Color,0:c#ui.graphics.Color,13:c#ui.graphics.Color,32,22:c#ui.graphics.Color,33:c#ui.graphics.Color,1:c#ui.graphics.Color,11:c#ui.graphics.Color,25:c#ui.graphics.Color,36:c#ui.graphics.Color,4:c#ui.graphics.Color,15:c#ui.graphics.Color,31:c#ui.graphics.Color,42:c#ui.graphics.Color,10:c#ui.graphics.Color,21:c#ui.graphics.Color,24:c#ui.graphics.Color,35:c#ui.graphics.Color,3:c#ui.graphics.Color,14:c#ui.graphics.Color,26:c#ui.graphics.Color,37:c#ui.graphics.Color,5:c#ui.graphics.Color,16:c#ui.graphics.Color,29:c#ui.graphics.Color,40:c#ui.graphics.Color,8:c#ui.graphics.Color,19:c#ui.graphics.Color,27:c#ui.graphics.Color,38:c#ui.graphics.Color,6:c#ui.graphics.Color,17:c#ui.graphics.Color,28:c#ui.graphics.Color,39:c#ui.graphics.Color,7:c#ui.graphics.Color,18:c#ui.graphics.Color)1023@53240L11,1023@53252L30:TextFieldDefaults.kt#uh7d8r");
         if (i5 & 1 != 0) {
-            l30 = unspecified-0d7_KjU4;
+            l12 = unspecified-0d7_KjU10;
         } else {
-            l30 = focusedTextColor;
+            l12 = focusedTextColor;
         }
         if (i5 & 2 != 0) {
-            l41 = unspecified-0d7_KjU17;
+            l36 = unspecified-0d7_KjU22;
         } else {
-            l41 = disabledTextColor;
+            l36 = disabledTextColor;
         }
         if (i5 & 4 != 0) {
-            l7 = unspecified-0d7_KjU7;
+            l2 = unspecified-0d7_KjU16;
         } else {
-            l7 = focusedContainerColor;
+            l2 = focusedContainerColor;
         }
         if (i5 & 8 != 0) {
-            l34 = unspecified-0d7_KjU14;
+            l6 = unspecified-0d7_KjU6;
         } else {
-            l34 = disabledContainerColor;
+            l6 = disabledContainerColor;
         }
         if (i5 & 16 != 0) {
-            l35 = unspecified-0d7_KjU22;
+            l23 = unspecified-0d7_KjU7;
         } else {
-            l35 = cursorColor;
+            l23 = cursorColor;
         }
         if (i5 & 32 != 0) {
-            l24 = unspecified-0d7_KjU;
+            l16 = unspecified-0d7_KjU14;
         } else {
-            l24 = selectionColors;
+            l16 = selectionColors;
         }
         if (i5 & 64 != 0) {
-            l20 = unspecified-0d7_KjU21;
+            l42 = unspecified-0d7_KjU21;
         } else {
-            l20 = unfocusedBorderColor;
+            l42 = unfocusedBorderColor;
         }
         if (i5 & 128 != 0) {
-            l36 = unspecified-0d7_KjU8;
+            l18 = unspecified-0d7_KjU12;
         } else {
-            l36 = errorBorderColor;
+            l18 = errorBorderColor;
         }
         if (i5 & 256 != 0) {
-            l28 = unspecified-0d7_KjU3;
+            l9 = unspecified-0d7_KjU27;
         } else {
-            l28 = unfocusedLeadingIconColor;
+            l9 = unfocusedLeadingIconColor;
         }
         if (i5 & 512 != 0) {
-            l8 = unspecified-0d7_KjU9;
+            l = unspecified-0d7_KjU9;
         } else {
-            l8 = errorLeadingIconColor;
+            l = errorLeadingIconColor;
         }
-        i3 = i5 & 1024 != 0 ? i : unfocusedTrailingIconColor;
+        i4 = i5 & 1024 != 0 ? i2 : unfocusedTrailingIconColor;
         if (i5 & 2048 != 0) {
-            l31 = unspecified-0d7_KjU2;
+            l20 = unspecified-0d7_KjU31;
         } else {
-            l31 = disabledTrailingIconColor;
+            l20 = disabledTrailingIconColor;
         }
         if (i5 & 4096 != 0) {
-            l12 = unspecified-0d7_KjU5;
+            l17 = unspecified-0d7_KjU25;
         } else {
-            l12 = focusedLabelColor;
+            l17 = focusedLabelColor;
         }
         if (i5 & 8192 != 0) {
-            l15 = unspecified-0d7_KjU23;
+            l29 = unspecified-0d7_KjU30;
         } else {
-            l15 = disabledLabelColor;
+            l29 = disabledLabelColor;
         }
         if (i5 & 16384 != 0) {
-            l37 = unspecified-0d7_KjU19;
+            l22 = unspecified-0d7_KjU;
         } else {
-            l37 = focusedPlaceholderColor;
+            l22 = focusedPlaceholderColor;
         }
         if (i11 &= i5 != 0) {
-            l2 = unspecified-0d7_KjU18;
+            l4 = unspecified-0d7_KjU5;
         } else {
-            l2 = disabledPlaceholderColor;
+            l4 = disabledPlaceholderColor;
         }
         if (i12 &= i5 != 0) {
-            l19 = unspecified-0d7_KjU28;
+            l39 = unspecified-0d7_KjU13;
         } else {
-            l19 = focusedSupportingTextColor;
+            l39 = focusedSupportingTextColor;
         }
         if (i13 &= i5 != 0) {
-            l17 = unspecified-0d7_KjU13;
+            l34 = unspecified-0d7_KjU18;
         } else {
-            l17 = disabledSupportingTextColor;
+            l34 = disabledSupportingTextColor;
         }
         if (i14 &= i5 != 0) {
-            l42 = unspecified-0d7_KjU20;
+            l37 = unspecified-0d7_KjU26;
         } else {
-            l42 = focusedPrefixColor;
+            l37 = focusedPrefixColor;
         }
         if (i15 &= i5 != 0) {
-            l9 = unspecified-0d7_KjU25;
+            l27 = unspecified-0d7_KjU15;
         } else {
-            l9 = disabledPrefixColor;
+            l27 = disabledPrefixColor;
         }
         if (i16 &= i5 != 0) {
-            l = unspecified-0d7_KjU15;
+            l30 = unspecified-0d7_KjU24;
         } else {
-            l = focusedSuffixColor;
+            l30 = focusedSuffixColor;
         }
         if (i17 &= i5 != 0) {
-            l5 = unspecified-0d7_KjU6;
+            l24 = unspecified-0d7_KjU11;
         } else {
-            l5 = disabledSuffixColor;
+            l24 = disabledSuffixColor;
         }
         if (i18 &= i5 != 0) {
-            l10 = unspecified-0d7_KjU10;
+            l15 = unspecified-0d7_KjU3;
         } else {
-            l10 = $composer;
+            l15 = $composer;
         }
         if (i19 &= i5 != 0) {
-            l29 = unspecified-0d7_KjU31;
+            l10 = unspecified-0d7_KjU28;
         } else {
-            l29 = $changed1;
+            l10 = $changed1;
         }
         if (i20 &= i5 != 0) {
-            l38 = unspecified-0d7_KjU16;
+            l35 = unspecified-0d7_KjU19;
         } else {
-            l38 = $changed3;
+            l35 = $changed3;
         }
         if (i21 &= i5 != 0) {
-            l22 = unspecified-0d7_KjU26;
+            l28 = unspecified-0d7_KjU29;
         } else {
-            l22 = i50;
+            l28 = i50;
         }
         if (i22 &= i5 != 0) {
-            l13 = unspecified-0d7_KjU11;
+            l19 = unspecified-0d7_KjU17;
         } else {
-            l13 = obj144;
+            l19 = obj144;
         }
         if (i23 &= i5 != 0) {
-            l14 = unspecified-0d7_KjU29;
+            l31 = unspecified-0d7_KjU23;
         } else {
-            l14 = obj146;
+            l31 = obj146;
         }
         if (i24 &= i5 != 0) {
-            l39 = unspecified-0d7_KjU24;
+            l41 = unspecified-0d7_KjU20;
         } else {
-            l39 = obj148;
+            l41 = obj148;
         }
         if (i25 &= i5 != 0) {
-            l32 = unspecified-0d7_KjU12;
+            l7 = unspecified-0d7_KjU2;
         } else {
-            l32 = obj150;
+            l7 = obj150;
         }
-        if (i5 &= unspecified-0d7_KjU30 != 0) {
-            l11 = unspecified-0d7_KjU30;
+        if (i5 &= unspecified-0d7_KjU8 != 0) {
+            l32 = unspecified-0d7_KjU8;
         } else {
-            l11 = obj152;
+            l32 = obj152;
         }
         if (i6 & 1 != 0) {
-            l25 = unspecified-0d7_KjU30;
+            l21 = unspecified-0d7_KjU8;
         } else {
-            l25 = obj154;
+            l21 = obj154;
         }
         if (i6 & 2 != 0) {
-            l3 = unspecified-0d7_KjU30;
+            l25 = unspecified-0d7_KjU8;
         } else {
-            l3 = obj156;
+            l25 = obj156;
         }
         if (i6 & 4 != 0) {
-            l6 = unspecified-0d7_KjU30;
+            l38 = unspecified-0d7_KjU8;
         } else {
-            l6 = obj158;
+            l38 = obj158;
         }
         if (i6 & 8 != 0) {
-            l40 = unspecified-0d7_KjU30;
+            l33 = unspecified-0d7_KjU8;
         } else {
-            l40 = obj160;
+            l33 = obj160;
         }
         if (i6 & 16 != 0) {
-            l21 = unspecified-0d7_KjU30;
+            l26 = unspecified-0d7_KjU8;
         } else {
-            l21 = obj162;
+            l26 = obj162;
         }
         if (i6 & 32 != 0) {
-            l4 = unspecified-0d7_KjU30;
+            l13 = unspecified-0d7_KjU8;
         } else {
-            l4 = obj164;
+            l13 = obj164;
         }
         if (i6 & 64 != 0) {
-            l23 = unspecified-0d7_KjU30;
+            l11 = unspecified-0d7_KjU8;
         } else {
-            l23 = obj166;
+            l11 = obj166;
         }
         if (i6 & 128 != 0) {
-            l18 = unspecified-0d7_KjU30;
+            l8 = unspecified-0d7_KjU8;
         } else {
-            l18 = obj168;
+            l8 = obj168;
         }
         if (i6 & 256 != 0) {
-            l33 = unspecified-0d7_KjU30;
+            l3 = unspecified-0d7_KjU8;
         } else {
-            l33 = obj170;
+            l3 = obj170;
         }
         if (i6 & 512 != 0) {
-            l26 = unspecified-0d7_KjU30;
+            l40 = unspecified-0d7_KjU8;
         } else {
-            l26 = obj172;
+            l40 = obj172;
         }
         if (i6 & 1024 != 0) {
-            l27 = unspecified-0d7_KjU30;
+            l14 = unspecified-0d7_KjU8;
         } else {
-            l27 = obj174;
+            l14 = obj174;
         }
         if (i6 & 2048 != 0) {
-            l16 = unspecified-0d7_KjU27;
+            l5 = unspecified-0d7_KjU4;
         } else {
-            l16 = obj176;
+            l5 = obj176;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i7, obj179, obj180, "androidx.compose.material3.OutlinedTextFieldDefaults.colors (TextFieldDefaults.kt:1023)");
         } else {
-            i2 = obj179;
-            i4 = obj180;
+            i3 = obj179;
+            i = obj180;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultOutlinedTextFieldColors(MaterialTheme.INSTANCE.getColorScheme(composer, 6), composer, i9 &= 112).copy-ejIjP34(l30, obj8, l41, obj10, l7, obj12, l34, obj14, l35, obj16, l24, obj18, l20, obj20, l36, obj22, l28, obj24, l8, obj26, i3, l31, obj29, l12, obj31, l15, obj33, l37, obj35, l2, obj37, l19, obj39, l17, obj41, l42, obj43, l9, obj45, l, obj47, l5, obj49);
+        return this.getDefaultOutlinedTextFieldColors(MaterialTheme.INSTANCE.getColorScheme(composer, 6), composer, i9 &= 112).copy-ejIjP34(l12, obj8, l36, obj10, l2, obj12, l6, obj14, l23, obj16, l16, obj18, l42, obj20, l18, obj22, l9, obj24, l, obj26, i4, l20, obj29, l17, obj31, l29, obj33, l22, obj35, l4, obj37, l39, obj39, l34, obj41, l37, obj43, l27, obj45, l30, obj47, l24, obj49);
     }
 
     public final PaddingValues contentPadding-a9UjIt4(float start, float top, float end, float bottom) {
@@ -1356,80 +1356,80 @@ public final class OutlinedTextFieldDefaults {
         boolean traceInProgress;
         String str;
         String $i$f$getCurrent;
-        int i9;
-        androidx.compose.material3.TextFieldColors textFieldColors;
-        long token20;
-        long token22;
-        long copy-wmQWz5c$default8;
-        long token4;
-        int i29;
-        long transparent-0d7_KjU2;
-        int i4;
-        long transparent-0d7_KjU3;
-        int i20;
-        long transparent-0d7_KjU4;
-        long transparent-0d7_KjU;
-        long token15;
-        long token12;
-        Object $changed$iv;
-        long token21;
-        long token28;
-        long copy-wmQWz5c$default4;
-        long token19;
-        int i2;
-        long token25;
         int i27;
-        long token14;
-        int i21;
-        long copy-wmQWz5c$default7;
+        androidx.compose.material3.TextFieldColors textFieldColors;
+        long token3;
+        long token20;
+        long copy-wmQWz5c$default8;
+        long token21;
+        int i9;
+        long transparent-0d7_KjU3;
+        int i13;
+        long transparent-0d7_KjU;
+        int i20;
+        long transparent-0d7_KjU2;
+        long transparent-0d7_KjU4;
         long token27;
-        int i5;
-        long token18;
-        int i7;
+        long token;
+        Object $changed$iv;
+        long token29;
+        long token4;
+        long copy-wmQWz5c$default4;
         long token9;
-        int i6;
-        long copy-wmQWz5c$default9;
-        long token5;
-        int i10;
+        int i21;
+        long token22;
+        int i5;
         long token2;
+        int i26;
+        long copy-wmQWz5c$default5;
+        long token28;
+        int i6;
+        long token8;
+        int i12;
+        long token11;
+        int i14;
+        long copy-wmQWz5c$default6;
+        long token18;
+        int i25;
+        long token7;
+        int i10;
+        long token19;
+        int i24;
+        long copy-wmQWz5c$default3;
+        long token16;
+        int i29;
+        long token24;
+        int i7;
+        long token14;
+        int i15;
+        long copy-wmQWz5c$default9;
+        long token10;
         int i8;
         long token6;
-        int i14;
-        long copy-wmQWz5c$default3;
-        long token26;
-        int i24;
-        long token17;
-        int i12;
-        long token29;
-        int i22;
-        long copy-wmQWz5c$default6;
-        long token23;
-        int i3;
-        long token24;
-        int i30;
-        long token7;
-        int i25;
-        long copy-wmQWz5c$default2;
-        long token3;
-        int i26;
-        long token8;
-        int i18;
-        long token11;
-        int i13;
-        long copy-wmQWz5c$default;
-        long token;
-        int i16;
-        long token16;
         int i11;
-        long token13;
-        int i15;
-        long copy-wmQWz5c$default5;
-        long token10;
-        int i17;
+        long token5;
         int i23;
-        int i28;
+        long copy-wmQWz5c$default7;
+        long token26;
         int i19;
+        long token17;
+        int i22;
+        long token12;
+        int i3;
+        long copy-wmQWz5c$default2;
+        long token15;
+        int i17;
+        long token23;
         int i;
+        long token13;
+        int i2;
+        long copy-wmQWz5c$default;
+        long token25;
+        int i30;
+        int i28;
+        int i4;
+        int i18;
+        int i16;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultOutlinedTextFieldColors;
         final Composer composer = $composer;
         int i31 = -292363577;
@@ -1437,41 +1437,41 @@ public final class OutlinedTextFieldDefaults {
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i31, $changed, -1, "androidx.compose.material3.OutlinedTextFieldDefaults.<get-defaultOutlinedTextFieldColors> (TextFieldDefaults.kt:1071)");
         } else {
-            i9 = $changed;
+            i27 = $changed;
         }
         composer.startReplaceGroup(1540400102);
         ComposerKt.sourceInformation(composer, "*1086@57012L7");
         if (colorScheme.getDefaultOutlinedTextFieldColorsCached$material3_release() == null) {
             i20 = 0;
-            i29 = 0;
-            i4 = 0;
+            i9 = 0;
+            i13 = 0;
             int i38 = i33;
             int i39 = i34;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             ComposerKt.sourceInformationMarkerEnd(composer);
-            i21 = 0;
-            i2 = 0;
-            i27 = 0;
-            i6 = 0;
-            i5 = 0;
-            i7 = 0;
-            i14 = 0;
-            i10 = 0;
-            i8 = 0;
-            i22 = 0;
-            i24 = 0;
-            i12 = 0;
-            i25 = 0;
-            i3 = 0;
-            i30 = 0;
-            i13 = 0;
             i26 = 0;
-            i18 = 0;
+            i21 = 0;
+            i5 = 0;
+            i14 = 0;
+            i6 = 0;
+            i12 = 0;
+            i24 = 0;
+            i25 = 0;
+            i10 = 0;
             i15 = 0;
-            i16 = 0;
+            i29 = 0;
+            i7 = 0;
+            i23 = 0;
+            i8 = 0;
             i11 = 0;
+            i3 = 0;
+            i19 = 0;
+            i22 = 0;
+            i2 = 0;
             i17 = 0;
-            textFieldColors = new TextFieldColors(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusInputColor()), obj8, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputColor()), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledInputColor()), obj12, 1052938076, i29, 0, i4, 14), obj12, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorInputColor()), i29, Color.Companion.getTransparent-0d7_KjU(), i4, Color.Companion.getTransparent-0d7_KjU(), i20, Color.Companion.getTransparent-0d7_KjU(), obj20, Color.Companion.getTransparent-0d7_KjU(), obj22, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getCaretColor()), obj24, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorFocusCaretColor()), obj26, (TextSelectionColors)composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors()), ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusOutlineColor()), obj29, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getOutlineColor()), obj31, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledOutlineColor()), obj33, 1039516303, i2, 0, i27, 14), obj33, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorOutlineColor()), i2, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusLeadingIconColor()), i27, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getLeadingIconColor()), i21, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledLeadingIconColor()), obj41, 1052938076, i5, 0, i7, 14), obj41, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorLeadingIconColor()), i5, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusTrailingIconColor()), i7, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getTrailingIconColor()), i6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledTrailingIconColor()), obj49, 1052938076, i10, 0, i8, 14), obj49, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorTrailingIconColor()), i10, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusLabelColor()), i8, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getLabelColor()), i14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledLabelColor()), obj57, 1052938076, i24, 0, i12, 14), obj57, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorLabelColor()), i24, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPlaceholderColor()), i12, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPlaceholderColor()), i22, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledInputColor()), obj65, 1052938076, i3, 0, i30, 14), obj65, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPlaceholderColor()), i3, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusSupportingColor()), i30, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getSupportingColor()), i25, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledSupportingColor()), obj73, 1052938076, i26, 0, i18, 14), obj73, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorSupportingColor()), i26, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPrefixColor()), i18, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPrefixColor()), i13, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPrefixColor()), obj81, 1052938076, i16, 0, i11, 14), obj81, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPrefixColor()), i16, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputSuffixColor()), i11, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputSuffixColor()), i15, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputSuffixColor()), obj89, 1052938076, i17, 0, 0, 14), obj89, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputSuffixColor()), i17, 0);
+            i = 0;
+            i30 = 0;
+            textFieldColors = new TextFieldColors(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusInputColor()), obj8, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputColor()), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledInputColor()), obj12, 1052938076, i9, 0, i13, 14), obj12, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorInputColor()), i9, Color.Companion.getTransparent-0d7_KjU(), i13, Color.Companion.getTransparent-0d7_KjU(), i20, Color.Companion.getTransparent-0d7_KjU(), obj20, Color.Companion.getTransparent-0d7_KjU(), obj22, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getCaretColor()), obj24, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorFocusCaretColor()), obj26, (TextSelectionColors)composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors()), ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusOutlineColor()), obj29, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getOutlineColor()), obj31, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledOutlineColor()), obj33, 1039516303, i21, 0, i5, 14), obj33, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorOutlineColor()), i21, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusLeadingIconColor()), i5, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getLeadingIconColor()), i26, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledLeadingIconColor()), obj41, 1052938076, i6, 0, i12, 14), obj41, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorLeadingIconColor()), i6, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusTrailingIconColor()), i12, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getTrailingIconColor()), i14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledTrailingIconColor()), obj49, 1052938076, i25, 0, i10, 14), obj49, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorTrailingIconColor()), i25, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusLabelColor()), i10, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getLabelColor()), i24, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledLabelColor()), obj57, 1052938076, i29, 0, i7, 14), obj57, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorLabelColor()), i29, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPlaceholderColor()), i7, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPlaceholderColor()), i15, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledInputColor()), obj65, 1052938076, i8, 0, i11, 14), obj65, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPlaceholderColor()), i8, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getFocusSupportingColor()), i11, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getSupportingColor()), i23, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getDisabledSupportingColor()), obj73, 1052938076, i19, 0, i22, 14), obj73, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getErrorSupportingColor()), i19, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPrefixColor()), i22, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPrefixColor()), i3, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPrefixColor()), obj81, 1052938076, i17, 0, i, 14), obj81, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputPrefixColor()), i17, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputSuffixColor()), i, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputSuffixColor()), i2, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputSuffixColor()), obj89, 1052938076, i30, 0, 0, 14), obj89, ColorSchemeKt.fromToken(colorScheme, OutlinedTextFieldTokens.INSTANCE.getInputSuffixColor()), i30, 0);
             str = 0;
             colorScheme.setDefaultOutlinedTextFieldColorsCached$material3_release(textFieldColors);
         }

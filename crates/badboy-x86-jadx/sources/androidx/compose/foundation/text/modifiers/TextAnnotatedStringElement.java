@@ -60,35 +60,35 @@ public final class TextAnnotatedStringElement extends ModifierNodeElement<androi
 
     public TextAnnotatedStringElement(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, Function1 function14, int i5, boolean z6, int i7, int i8, List list9, Function1 function110, androidx.compose.foundation.text.modifiers.SelectionController selectionController11, ColorProducer colorProducer12, Function1 function113, int i14, DefaultConstructorMarker defaultConstructorMarker15) {
         int clip-gIe3tQ8;
-        int i;
-        int i2;
         int i12;
-        int i15;
         int i3;
+        int i10;
+        int i2;
+        int i15;
         int i4;
         int i13;
-        int i6;
+        int i;
         int i9;
-        int i10;
+        int i6;
         int i11;
         int i16 = i14;
         final int i25 = 0;
-        i2 = i16 & 8 != 0 ? i25 : function14;
+        i3 = i16 & 8 != 0 ? i25 : function14;
         if (i16 & 16 != 0) {
-            i12 = clip-gIe3tQ8;
+            i10 = clip-gIe3tQ8;
         } else {
-            i12 = i5;
+            i10 = i5;
         }
         int i26 = 1;
-        i15 = i16 & 32 != 0 ? i26 : z6;
-        i3 = i16 & 64 != 0 ? i : i7;
+        i2 = i16 & 32 != 0 ? i26 : z6;
+        i15 = i16 & 64 != 0 ? i12 : i7;
         i4 = i16 & 128 != 0 ? i26 : i8;
         i13 = i16 & 256 != 0 ? i25 : list9;
-        i6 = i16 & 512 != 0 ? i25 : function110;
+        i = i16 & 512 != 0 ? i25 : function110;
         i9 = i16 & 1024 != 0 ? i25 : selectionController11;
-        i10 = i16 & 2048 != 0 ? i25 : colorProducer12;
+        i6 = i16 & 2048 != 0 ? i25 : colorProducer12;
         i11 = i16 &= 4096 != 0 ? i25 : function113;
-        super(annotatedString, textStyle2, resolver3, i2, i12, i15, i3, i4, i13, i6, i9, i10, i11, 0);
+        super(annotatedString, textStyle2, resolver3, i3, i10, i2, i15, i4, i13, i, i9, i6, i11, 0);
     }
 
     public TextAnnotatedStringElement(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, Function1 function14, int i5, boolean z6, int i7, int i8, List list9, Function1 function110, androidx.compose.foundation.text.modifiers.SelectionController selectionController11, ColorProducer colorProducer12, Function1 function113, DefaultConstructorMarker defaultConstructorMarker14) {
@@ -160,48 +160,48 @@ public final class TextAnnotatedStringElement extends ModifierNodeElement<androi
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i4;
-        int i2;
+        int i3;
+        int i5;
         int i;
         int i6;
-        int i5;
-        int i3;
+        int i2;
+        int i4;
         Function1 onTextLayout = this.onTextLayout;
-        i3 = 0;
+        i4 = 0;
         if (onTextLayout != null) {
-            i4 = onTextLayout.hashCode();
+            i3 = onTextLayout.hashCode();
         } else {
-            i4 = i3;
+            i3 = i4;
         }
         List placeholders = this.placeholders;
         if (placeholders != null) {
-            i2 = placeholders.hashCode();
+            i5 = placeholders.hashCode();
         } else {
-            i2 = i3;
+            i5 = i4;
         }
         Function1 onPlaceholderLayout = this.onPlaceholderLayout;
         if (onPlaceholderLayout != null) {
             i = onPlaceholderLayout.hashCode();
         } else {
-            i = i3;
+            i = i4;
         }
         androidx.compose.foundation.text.modifiers.SelectionController selectionController = this.selectionController;
         if (selectionController != null) {
             i6 = selectionController.hashCode();
         } else {
-            i6 = i3;
+            i6 = i4;
         }
         ColorProducer color = this.color;
         if (color != null) {
-            i5 = color.hashCode();
+            i2 = color.hashCode();
         } else {
-            i5 = i3;
+            i2 = i4;
         }
         Function1 onShowTranslation = this.onShowTranslation;
         if (onShowTranslation != null) {
-            i3 = onShowTranslation.hashCode();
+            i4 = onShowTranslation.hashCode();
         }
-        return result6 += i3;
+        return result6 += i4;
     }
 
     @Override // androidx.compose.ui.node.ModifierNodeElement

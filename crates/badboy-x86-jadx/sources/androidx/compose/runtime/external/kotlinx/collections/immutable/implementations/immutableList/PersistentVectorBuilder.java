@@ -73,8 +73,8 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     private final Object[] copyToBuffer(Object[] buffer, int bufferIndex, Iterator<? extends Object> sourceIterator) {
         int i;
         int i2;
-        int next2;
-        Object next;
+        int next;
+        Object next2;
         i = bufferIndex;
         while (i < 32) {
             if (sourceIterator.hasNext()) {
@@ -105,15 +105,15 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         }
         int i2 = nullBuffers;
         int i4 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("root is null".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckNotNullPersistentVectorBuilder$insertIntoRoot$1 = new IllegalStateException("root is null".toString());
+        throw $i$a$CheckNotNullPersistentVectorBuilder$insertIntoRoot$1;
     }
 
     private final Object[] insertIntoRoot(Object[] root, int shift, int index, Object element, androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableList.ObjectRef elementCarry) {
         Object obj3;
-        int i2;
-        Object intoRoot;
         int i;
+        Object intoRoot;
+        int i2;
         Object value;
         int obj12;
         final int indexSegment = UtilsKt.indexSegment(index, shift);
@@ -129,12 +129,12 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         Object obj2 = mutable[indexSegment];
         final String str = "null cannot be cast to non-null type kotlin.Array<kotlin.Any?>";
         Intrinsics.checkNotNull(obj2, str);
-        i = index;
+        i2 = index;
         value = element;
         final androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableList.ObjectRef list = elementCarry;
-        final int obj13 = i;
+        final int obj13 = i2;
         final Object obj14 = value;
-        mutable[indexSegment] = this.insertIntoRoot((Object[])obj2, i5, i, value, list);
+        mutable[indexSegment] = this.insertIntoRoot((Object[])obj2, i5, i2, value, list);
         obj12 = indexSegment + 1;
         while (obj12 < 32) {
             if (mutable[obj12] != null) {
@@ -148,10 +148,10 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     }
 
     private final void insertIntoTail(Object[] root, int index, E element) {
-        int i;
+        int i2;
         int mutableBufferWith;
         Object[] tail;
-        int i2;
+        int i;
         final int tailSize = tailSize();
         Object[] mutable = makeMutable(this.tail);
         if (tailSize < 32) {
@@ -193,8 +193,8 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
             return (ListIterator)trieIterator;
         }
         int root2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Invalid root".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckNotNullPersistentVectorBuilder$leafBufferIterator$root$1 = new IllegalStateException("Invalid root".toString());
+        throw $i$a$CheckNotNullPersistentVectorBuilder$leafBufferIterator$root$1;
     }
 
     private final Object[] makeMutable(Object[] buffer) {
@@ -226,17 +226,17 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     }
 
     private final Object[] nullifyAfter(Object[] root, int index, int shift) {
-        int i;
-        String str;
+        int i2;
+        String $i$a$RequirePreconditionPersistentVectorBuilder$nullifyAfter$1;
         Object[] newRoot;
         int mutableBuffer;
         boolean mutable;
         int i3;
-        int i2;
+        int i;
         int i4 = 0;
-        i = shift >= 0 ? 1 : i4;
+        i2 = shift >= 0 ? 1 : i4;
         int i5 = 0;
-        if (i == 0) {
+        if (i2 == 0) {
             int i6 = 0;
             PreconditionsKt.throwIllegalArgumentException("shift should be positive");
         }
@@ -286,19 +286,19 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     }
 
     private final void pullLastBufferFromRoot(Object[] root, int rootSize, int shift) {
-        int i;
-        Object[] arr;
         int i2;
-        i = 0;
+        Object[] arr;
+        int i;
         i2 = 0;
+        i = 0;
         if (shift == 0) {
-            this.root = i2;
-            arr = root == null ? new Object[i] : root;
+            this.root = i;
+            arr = root == null ? new Object[i2] : root;
             this.tail = arr;
             this.size = rootSize;
             this.rootShift = shift;
         }
-        ObjectRef objectRef = new ObjectRef(i2);
+        ObjectRef objectRef = new ObjectRef(i);
         Intrinsics.checkNotNull(root);
         Object[] pullLastBuffer = pullLastBuffer(root, shift, rootSize, objectRef);
         Intrinsics.checkNotNull(pullLastBuffer);
@@ -307,7 +307,7 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         this.tail = (Object[])value;
         this.size = rootSize;
         if (pullLastBuffer[1] == null) {
-            this.root = (Object[])pullLastBuffer[i];
+            this.root = (Object[])pullLastBuffer[i2];
             this.rootShift = shift + -5;
         } else {
             this.root = pullLastBuffer;
@@ -316,13 +316,13 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     }
 
     private final Object[] pushBuffers(Object[] root, int rootSize, int shift, Iterator<Object[]> buffersIterator) {
-        String str;
-        int i;
+        String $i$a$RequirePreconditionPersistentVectorBuilder$pushBuffers$1;
+        int i2;
         int index;
-        String str2;
+        String $i$a$RequirePreconditionPersistentVectorBuilder$pushBuffers$2;
         Object[] pushBuffers;
         int next;
-        int i2;
+        int i;
         int i3 = 0;
         if (!buffersIterator.hasNext()) {
             int i5 = 0;
@@ -330,9 +330,9 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         }
         int value$iv = 1;
         int i4 = 0;
-        i = shift >= 0 ? value$iv : i4;
+        i2 = shift >= 0 ? value$iv : i4;
         int i6 = 0;
-        if (i == 0) {
+        if (i2 == 0) {
             int i7 = 0;
             PreconditionsKt.throwIllegalArgumentException("negative shift");
         }
@@ -371,8 +371,8 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     }
 
     private final void pushFilledTail(Object[] root, Object[] filledTail, Object[] newTail) {
-        int i;
         int i2;
+        int i;
         final int i5 = 1;
         if (size >>= 5 > i5 << rootShift3) {
             this.root = pushTail(mutableBufferWith(root), filledTail, rootShift4 += 5);
@@ -478,11 +478,11 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     private final boolean removeAll(Function1<? super E, Boolean> predicate) {
         Object obj;
         Function1 function1;
-        int bufferSize2;
+        int bufferSize;
         int i;
         ArrayList arrayList;
         Object next;
-        int bufferSize;
+        int bufferSize2;
         Object[] root;
         int size;
         Object[] pushBuffers;
@@ -499,17 +499,17 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
             return i;
         }
         final ListIterator leafBufferIterator = leafBufferIterator(0);
-        bufferSize2 = 32;
+        bufferSize = 32;
         iterator = 32;
-        while (bufferSize2 == iterator) {
+        while (bufferSize == iterator) {
             if (leafBufferIterator.hasNext()) {
             }
-            bufferSize2 = removeAll(predicate, (Object[])leafBufferIterator.next(), iterator, objectRef);
+            bufferSize = removeAll(predicate, (Object[])leafBufferIterator.next(), iterator, objectRef);
             iterator = 32;
         }
         CommonFunctionsKt.assert(next3 ^= i6);
         int allFromTail2 = removeAllFromTail(predicate, tailSize, objectRef);
-        if (bufferSize2 == iterator && allFromTail2 == 0) {
+        if (bufferSize == iterator && allFromTail2 == 0) {
             CommonFunctionsKt.assert(next3 ^= i6);
             allFromTail2 = removeAllFromTail(predicate, tailSize, objectRef);
             if (allFromTail2 == 0) {
@@ -525,11 +525,11 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         ArrayList list2 = arrayList2;
         arrayList = new ArrayList();
         ArrayList list = arrayList;
-        bufferSize = bufferSize2;
-        for (Object[] bufferSize2 : leafBufferIterator) {
-            bufferSize = this.recyclableRemoveAll(predicate, bufferSize2, 32, bufferSize, objectRef, (List)list, (List)list2);
+        bufferSize2 = bufferSize;
+        for (Object[] bufferSize : leafBufferIterator) {
+            bufferSize2 = this.recyclableRemoveAll(predicate, bufferSize, 32, bufferSize2, objectRef, (List)list, (List)list2);
         }
-        int recyclableRemoveAll = this.recyclableRemoveAll(predicate, this.tail, tailSize, bufferSize, objectRef, list, list2);
+        int recyclableRemoveAll = this.recyclableRemoveAll(predicate, this.tail, tailSize, bufferSize2, objectRef, list, list2);
         Object value = objectRef.getValue();
         Intrinsics.checkNotNull(value, "null cannot be cast to non-null type kotlin.Array<kotlin.Any?>");
         ArraysKt.fill((Object[])value, rootShift, recyclableRemoveAll, iterator);
@@ -592,15 +592,15 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     private final Object removeFromTailAt(Object[] root, int rootSize, int shift, int index) {
         Object obj;
         int tail;
-        int i;
+        int i3;
         Object[] copyInto;
         int i2;
-        int i3;
+        int i;
         size -= rootSize;
         int i5 = 0;
         tail = 1;
-        i = index < i4 ? tail : i5;
-        CommonFunctionsKt.assert(i);
+        i3 = index < i4 ? tail : i5;
+        CommonFunctionsKt.assert(i3);
         copyInto = 0;
         if (i4 == tail) {
             obj = this.tail[i5];
@@ -620,7 +620,7 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     private final Object[] retainFirst(Object[] root, int size) {
         int i;
         String[] newRoot;
-        String str2;
+        String $i$a$RequirePreconditionPersistentVectorBuilder$retainFirst$1;
         String str;
         int i5 = 0;
         i = size & 31 == 0 ? 1 : i5;
@@ -637,9 +637,9 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         newRoot = root;
         while (i3 >> rootShift2 == 0) {
             this.rootShift = rootShift3 += -5;
-            str2 = newRoot[i5];
-            Intrinsics.checkNotNull(str2, "null cannot be cast to non-null type kotlin.Array<kotlin.Any?>");
-            newRoot = str2;
+            $i$a$RequirePreconditionPersistentVectorBuilder$retainFirst$1 = newRoot[i5];
+            Intrinsics.checkNotNull($i$a$RequirePreconditionPersistentVectorBuilder$retainFirst$1, "null cannot be cast to non-null type kotlin.Array<kotlin.Any?>");
+            newRoot = $i$a$RequirePreconditionPersistentVectorBuilder$retainFirst$1;
         }
         return nullifyAfter(newRoot, i3, this.rootShift);
     }
@@ -674,8 +674,8 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         Object[] buffer;
         Object previous;
         int i2;
-        int i3;
         int i;
+        int i3;
         if (this.root == null) {
         } else {
             ListIterator leafBufferIterator = leafBufferIterator(rootSize >>= 5);
@@ -689,18 +689,18 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
             return (Object[])leafBufferIterator.previous();
         }
         int leafCount = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("root is null".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckNotNullPersistentVectorBuilder$shiftLeafBuffers$1 = new IllegalStateException("root is null".toString());
+        throw $i$a$CheckNotNullPersistentVectorBuilder$shiftLeafBuffers$1;
     }
 
     private final void splitToBuffers(Collection<? extends E> elements, int index, Object[] startBuffer, int startBufferSize, Object[][] buffers, int nullBuffers, Object[] nextBuffer) {
         int i4;
         Object[] mutableBuffer;
-        int i;
-        String str;
+        int i2;
+        String $i$a$RequirePreconditionPersistentVectorBuilder$splitToBuffers$1;
         Object[] newNextBuffer;
         int newNullBuffers;
-        int i2;
+        int i;
         int i3;
         Object[] objArr;
         int copyToBuffer;
@@ -708,9 +708,9 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         final int i6 = nullBuffers;
         final int i7 = 0;
         int i8 = 1;
-        i = i6 >= i8 ? i8 : i7;
+        i2 = i6 >= i8 ? i8 : i7;
         int i9 = 0;
-        if (i == 0) {
+        if (i2 == 0) {
             int i10 = 0;
             PreconditionsKt.throwIllegalArgumentException("requires at least one nullBuffer");
         }
@@ -732,8 +732,8 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
                 buffers[newNullBuffers--] = mutableBuffer;
                 newNextBuffer = mutableBuffer;
             }
-            ArraysKt.copyInto(mutable, nextBuffer, i7, i5 - i2, i5);
-            ArraysKt.copyInto(mutable, newNextBuffer, i14 + 1, i11, i5 - i2);
+            ArraysKt.copyInto(mutable, nextBuffer, i7, i5 - i, i5);
+            ArraysKt.copyInto(mutable, newNextBuffer, i14 + 1, i11, i5 - i);
         }
         Iterator iterator = elements.iterator();
         copyToBuffer(mutable, i11, iterator);
@@ -793,23 +793,23 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
 
     public boolean addAll(int index, Collection<? extends E> elements) {
         Object obj;
-        Collection newTail;
-        int i2;
-        int tail;
+        Collection newTail2;
         int i;
-        Object[][] tailSize;
+        int tail;
+        int i2;
+        Object[][] tailSize2;
         int buffersSize;
-        Object[] newTail2;
+        Object[] newTail;
         Object[] newTail3;
-        int tailSize2;
+        int tailSize;
         int buffersSize2;
         ListImplementation.checkPositionIndex$runtime_release(index, size());
         if (index == size()) {
             return addAll(elements);
         }
-        i = 0;
+        i2 = 0;
         if (elements.isEmpty()) {
-            return i;
+            return i2;
         }
         final int i21 = 1;
         this.modCount = modCount += i21;
@@ -817,9 +817,9 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
         int i15 = i9 / 32;
         if (i15 == 0 && index >= rootSize()) {
             if (index >= rootSize()) {
-                i = i21;
+                i2 = i21;
             }
-            CommonFunctionsKt.assert(i);
+            CommonFunctionsKt.assert(i2);
             int i10 = index & 31;
             Object[] copyInto = ArraysKt.copyInto(this.tail, makeMutable(this.tail), i14 + 1, i10, tailSize());
             copyToBuffer(copyInto, i10, elements.iterator());
@@ -827,36 +827,36 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
             this.size = size8 += size10;
             return i21;
         }
-        newTail2 = i15;
-        buffersSize = new Object[newTail2];
+        newTail = i15;
+        buffersSize = new Object[newTail];
         int tailSize3 = tailSize();
         int tailSize4 = tailSize(size9 += size11);
         int i20 = 0;
         if (index >= rootSize()) {
-            this.splitToBuffers(elements, index, this.tail, tailSize3, buffersSize, newTail2, mutableBuffer());
-            tailSize2 = tailSize3;
-            tailSize = buffersSize;
-            buffersSize2 = newTail2;
+            this.splitToBuffers(elements, index, this.tail, tailSize3, buffersSize, newTail, mutableBuffer());
+            tailSize = tailSize3;
+            tailSize2 = buffersSize;
+            buffersSize2 = newTail;
         } else {
-            tailSize2 = tailSize3;
-            tailSize = buffersSize;
-            if (tailSize4 > tailSize2) {
-                tail = tailSize4 - tailSize2;
-                buffersSize = newTail2;
-                newTail2 = mutableShiftingRight;
-                this.insertIntoRoot(elements, index, tail, tailSize, buffersSize, newTail2);
+            tailSize = tailSize3;
+            tailSize2 = buffersSize;
+            if (tailSize4 > tailSize) {
+                tail = tailSize4 - tailSize;
+                buffersSize = newTail;
+                newTail = mutableShiftingRight;
+                this.insertIntoRoot(elements, index, tail, tailSize2, buffersSize, newTail);
                 buffersSize2 = buffersSize;
-                newTail3 = newTail2;
+                newTail3 = newTail;
             } else {
-                buffersSize2 = newTail2;
-                newTail3 = ArraysKt.copyInto(this.tail, mutableBuffer(), i, tailSize2 - tailSize4, tailSize2);
+                buffersSize2 = newTail;
+                newTail3 = ArraysKt.copyInto(this.tail, mutableBuffer(), i2, tailSize - tailSize4, tailSize);
                 tail = i3 - 32;
-                newTail2 = makeMutableShiftingRight(this.tail, tail);
-                tailSize[buffersSize2 + -1] = newTail2;
-                this.insertIntoRoot(elements, index, tail, tailSize, buffersSize2 + -1, newTail2);
+                newTail = makeMutableShiftingRight(this.tail, tail);
+                tailSize2[buffersSize2 + -1] = newTail;
+                this.insertIntoRoot(elements, index, tail, tailSize2, buffersSize2 + -1, newTail);
             }
         }
-        this.root = pushBuffersIncreasingHeightIfNeeded(this.root, i22, tailSize);
+        this.root = pushBuffersIncreasingHeightIfNeeded(this.root, i22, tailSize2);
         this.tail = newTail3;
         this.size = size3 += size4;
         return i21;
@@ -865,8 +865,8 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
     public boolean addAll(Collection<? extends E> elements) {
         int i;
         int size2;
-        int size3;
         int size;
+        int size3;
         int index;
         int copyToBuffer;
         int i3 = 0;
@@ -882,16 +882,16 @@ public final class PersistentVectorBuilder<E>  extends AbstractMutableList<E> im
             this.size = size4 += size2;
         } else {
             i7 /= 32;
-            size3 = new Object[size2];
-            size3[i3] = copyToBuffer(makeMutable(this.tail), tailSize, iterator);
+            size = new Object[size2];
+            size[i3] = copyToBuffer(makeMutable(this.tail), tailSize, iterator);
             index = 1;
             while (index < size2) {
-                size3[index] = copyToBuffer(mutableBuffer(), i3, iterator);
+                size[index] = copyToBuffer(mutableBuffer(), i3, iterator);
                 index++;
             }
-            this.root = pushBuffersIncreasingHeightIfNeeded(this.root, rootSize(), size3);
+            this.root = pushBuffersIncreasingHeightIfNeeded(this.root, rootSize(), size);
             this.tail = copyToBuffer(mutableBuffer(), i3, iterator);
-            this.size = size5 += size;
+            this.size = size5 += size3;
         }
         return i4;
     }

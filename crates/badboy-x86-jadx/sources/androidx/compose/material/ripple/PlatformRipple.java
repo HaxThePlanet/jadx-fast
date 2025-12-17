@@ -31,19 +31,19 @@ public final class PlatformRipple extends androidx.compose.material.ripple.Rippl
     public androidx.compose.material.ripple.RippleIndicationInstance rememberUpdatedRippleInstance-942rkJo(InteractionSource interactionSource, boolean bounded, float radius, State<Color> color, State<androidx.compose.material.ripple.RippleAlpha> rippleAlpha, Composer $composer, int $changed) {
         Object obj;
         boolean traceInProgress;
-        int i6;
-        String str;
         int i;
+        String str;
+        int i6;
         boolean changed;
         boolean changed2;
         Object androidRippleIndicationInstance;
-        int i4;
+        int i5;
         int i2;
-        State state;
         State state2;
+        State state;
         int i3;
         Object obj2;
-        int i5;
+        int i4;
         final Composer composer = $composer;
         final int i7 = $changed;
         int i8 = 331259447;
@@ -62,18 +62,18 @@ public final class PlatformRipple extends androidx.compose.material.ripple.Rippl
         int i18 = 4;
         if (i10 ^= 6 > i18) {
             if (!composer.changed(interactionSource)) {
-                i = i7 & 6 == i18 ? i16 : i6;
+                i6 = i7 & 6 == i18 ? i16 : i;
             } else {
             }
         } else {
             obj = interactionSource;
         }
-        i4 = 196608;
+        i5 = 196608;
         i2 = 131072;
-        if (i21 ^= i4 > i2) {
+        if (i21 ^= i5 > i2) {
             if (!composer.changed(this)) {
-                if (i7 & i4 == i2) {
-                    i6 = i16;
+                if (i7 & i5 == i2) {
+                    i = i16;
                 }
             } else {
             }
@@ -86,7 +86,7 @@ public final class PlatformRipple extends androidx.compose.material.ripple.Rippl
         final int i22 = 0;
         if (i13 |= changed3 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                i5 = 0;
+                i4 = 0;
                 androidRippleIndicationInstance = new AndroidRippleIndicationInstance(bounded, radius, color, rippleAlpha, view, 0);
                 composer2.updateRememberedValue(androidRippleIndicationInstance);
             } else {

@@ -99,13 +99,13 @@ public final class Strategy {
 
     public boolean equals(Object other) {
         boolean isValid;
-        int i;
-        int i4;
-        int i5;
-        int i2;
-        int i3;
         int i6;
+        int i;
+        int i2;
+        int i4;
         int i7;
+        int i3;
+        int i5;
         final int i8 = 1;
         if (this == other) {
             return i8;
@@ -122,32 +122,32 @@ public final class Strategy {
         if (this.isValid != obj2.isValid) {
             return i9;
         }
-        i = Float.compare(availableSpace, availableSpace2) == 0 ? i8 : i9;
-        if (i == 0) {
-            return i9;
-        }
-        i4 = Float.compare(itemSpacing, itemSpacing2) == 0 ? i8 : i9;
-        if (i4 == 0) {
-            return i9;
-        }
-        i5 = Float.compare(beforeContentPadding, beforeContentPadding2) == 0 ? i8 : i9;
-        if (i5 == 0) {
-            return i9;
-        }
-        i2 = Float.compare(afterContentPadding, afterContentPadding2) == 0 ? i8 : i9;
-        if (i2 == 0) {
-            return i9;
-        }
-        i3 = Float.compare(itemMainAxisSize, itemMainAxisSize2) == 0 ? i8 : i9;
-        if (i3 == 0) {
-            return i9;
-        }
-        i6 = Float.compare(startShiftDistance, startShiftDistance2) == 0 ? i8 : i9;
+        i6 = Float.compare(availableSpace, availableSpace2) == 0 ? i8 : i9;
         if (i6 == 0) {
             return i9;
         }
-        i7 = Float.compare(endShiftDistance, endShiftDistance2) == 0 ? i8 : i9;
+        i = Float.compare(itemSpacing, itemSpacing2) == 0 ? i8 : i9;
+        if (i == 0) {
+            return i9;
+        }
+        i2 = Float.compare(beforeContentPadding, beforeContentPadding2) == 0 ? i8 : i9;
+        if (i2 == 0) {
+            return i9;
+        }
+        i4 = Float.compare(afterContentPadding, afterContentPadding2) == 0 ? i8 : i9;
+        if (i4 == 0) {
+            return i9;
+        }
+        i7 = Float.compare(itemMainAxisSize, itemMainAxisSize2) == 0 ? i8 : i9;
         if (i7 == 0) {
+            return i9;
+        }
+        i3 = Float.compare(startShiftDistance, startShiftDistance2) == 0 ? i8 : i9;
+        if (i3 == 0) {
+            return i9;
+        }
+        i5 = Float.compare(endShiftDistance, endShiftDistance2) == 0 ? i8 : i9;
+        if (i5 == 0) {
             return i9;
         }
         if (!Intrinsics.areEqual(this.startShiftPoints, obj10.startShiftPoints)) {

@@ -133,26 +133,26 @@ public final class NestedScrollNode extends Modifier.Node implements Traversable
 
     public Object onPostFling-RZ2iAVY(long l, long l2, Continuation<? super Velocity> continuation3) {
         boolean anon;
+        int i4;
         int i2;
-        int i;
         Object l$0;
-        androidx.compose.ui.input.nestedscroll.NestedScrollConnection parentConnection;
+        androidx.compose.ui.input.nestedscroll.NestedScrollConnection _this;
         Object onPostFling-RZ2iAVY;
         long unbox-impl;
         int i3;
-        int i4;
+        int i;
         long l3;
         androidx.compose.ui.input.nestedscroll.NestedScrollConnection obj9;
         long obj10;
         long obj12;
         Object obj14;
         anon = obj14;
-        i = Integer.MIN_VALUE;
-        if (obj14 instanceof NestedScrollNode.onPostFling.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (obj14 instanceof NestedScrollNode.onPostFling.1 && label &= i2 != 0) {
             anon = obj14;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj14 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj14 -= i2;
             } else {
                 anon = new NestedScrollNode.onPostFling.1(this, obj14);
             }
@@ -161,7 +161,7 @@ public final class NestedScrollNode extends Modifier.Node implements Traversable
         obj14 = anon;
         Object result = obj14.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (parentConnection) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(result);
                 l$0 = this;
@@ -191,16 +191,16 @@ public final class NestedScrollNode extends Modifier.Node implements Traversable
                 throw obj10;
         }
         unbox-impl = (Velocity)onPostFling-RZ2iAVY.unbox-impl();
-        parentConnection = l$0.getParentConnection();
-        if (parentConnection != null) {
+        _this = l$0.getParentConnection();
+        if (_this != null) {
             obj14.L$0 = 0;
             obj14.J$0 = unbox-impl;
             obj14.label = 2;
-            if (parentConnection.onPostFling-RZ2iAVY(Velocity.plus-AH228Gc(obj12, obj13), l2, Velocity.minus-AH228Gc(obj10, obj6)) == cOROUTINE_SUSPENDED) {
+            if (_this.onPostFling-RZ2iAVY(Velocity.plus-AH228Gc(obj12, obj13), l2, Velocity.minus-AH228Gc(obj10, obj6)) == cOROUTINE_SUSPENDED) {
                 return cOROUTINE_SUSPENDED;
             }
         } else {
-            i4 = obj10;
+            i = obj10;
             obj10 = Velocity.Companion.getZero-9UxMQ8M();
         }
     }
@@ -226,24 +226,24 @@ public final class NestedScrollNode extends Modifier.Node implements Traversable
 
     public Object onPreFling-QWom1Mo(long l, Continuation<? super Velocity> continuation2) {
         boolean anon;
-        int i;
         int i4;
+        int i2;
         Object label;
         Object onPreFling-QWom1Mo;
         long zero-9UxMQ8M;
-        int i3;
+        int i;
         androidx.compose.ui.input.nestedscroll.NestedScrollConnection connection;
         long minus-AH228Gc;
-        int i2;
+        int i3;
         long obj10;
         Object obj12;
         anon = obj12;
-        i4 = Integer.MIN_VALUE;
-        if (obj12 instanceof NestedScrollNode.onPreFling.1 && label2 &= i4 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (obj12 instanceof NestedScrollNode.onPreFling.1 && label2 &= i2 != 0) {
             anon = obj12;
-            i4 = Integer.MIN_VALUE;
-            if (label2 &= i4 != 0) {
-                anon.label = obj12 -= i4;
+            i2 = Integer.MIN_VALUE;
+            if (label2 &= i2 != 0) {
+                anon.label = obj12 -= i2;
             } else {
                 anon = new NestedScrollNode.onPreFling.1(this, obj12);
             }
@@ -265,7 +265,7 @@ public final class NestedScrollNode extends Modifier.Node implements Traversable
                 anon.J$0 = zero-9UxMQ8M;
                 anon.label = 2;
                 return cOROUTINE_SUSPENDED;
-                return Velocity.box-impl(Velocity.plus-AH228Gc(zero-9UxMQ8M, i3));
+                return Velocity.box-impl(Velocity.plus-AH228Gc(zero-9UxMQ8M, i));
             case 1:
                 obj10 = anon.J$0;
                 label = anon.L$0;
@@ -276,7 +276,7 @@ public final class NestedScrollNode extends Modifier.Node implements Traversable
                 ResultKt.throwOnFailure(obj12);
                 zero-9UxMQ8M = obj10;
                 obj10 = obj12;
-                return Velocity.box-impl(Velocity.plus-AH228Gc(zero-9UxMQ8M, i3));
+                return Velocity.box-impl(Velocity.plus-AH228Gc(zero-9UxMQ8M, i));
             default:
                 obj10 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj10;

@@ -43,18 +43,18 @@ public final class PickVisualMediaRequestKt {
     }
 
     public static androidx.activity.result.PickVisualMediaRequest PickVisualMediaRequest$default(long l, ActivityResultContracts.PickVisualMedia.VisualMediaType activityResultContracts$PickVisualMedia$VisualMediaType2, int i3, boolean z4, ActivityResultContracts.PickVisualMedia.DefaultTab activityResultContracts$PickVisualMedia$DefaultTab5, int i6, Object object7) {
-        ActivityResultContracts.PickVisualMedia.ImageAndVideo activity2;
+        ActivityResultContracts.PickVisualMedia.ImageAndVideo activity;
         int i;
         int i2;
-        ActivityResultContracts.PickVisualMedia.DefaultTab.PhotosTab activity;
+        ActivityResultContracts.PickVisualMedia.DefaultTab.PhotosTab activity2;
         ActivityResultContracts.PickVisualMedia.ImageAndVideo obj8;
         int obj9;
         int obj10;
         ActivityResultContracts.PickVisualMedia.DefaultTab.PhotosTab obj11;
         if (object7 & 2 != 0) {
-            activity2 = obj8;
+            activity = obj8;
         } else {
-            activity2 = i3;
+            activity = i3;
         }
         if (object7 & 4 != 0) {
             i = obj9;
@@ -63,11 +63,11 @@ public final class PickVisualMediaRequestKt {
         }
         i2 = object7 & 8 != 0 ? obj10 : defaultTab5;
         if (object7 & 16 != 0) {
-            activity = obj11;
+            activity2 = obj11;
         } else {
-            activity = i6;
+            activity2 = i6;
         }
-        return PickVisualMediaRequestKt.PickVisualMediaRequest(l, obj1, activity2, i, i2);
+        return PickVisualMediaRequestKt.PickVisualMediaRequest(l, obj1, activity, i, i2);
     }
 
     public static androidx.activity.result.PickVisualMediaRequest PickVisualMediaRequest$default(ActivityResultContracts.PickVisualMedia.VisualMediaType activityResultContracts$PickVisualMedia$VisualMediaType, int i2, int i3, Object object4) {

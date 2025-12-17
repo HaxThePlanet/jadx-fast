@@ -21,7 +21,7 @@ public final class PullRefreshStateKt {
 
     private static final float DragMultiplier = 0.5f;
     public static final androidx.compose.material.pullrefresh.PullRefreshState rememberPullRefreshState-UuyPYSY(boolean refreshing, Function0<Unit> onRefresh, float refreshThreshold, float refreshingOffset, Composer $composer, int $changed, int i7) {
-        Object pullRefreshState;
+        Object $i$a$CachePullRefreshStateKt$rememberPullRefreshState$state$1;
         int empty3;
         int i2;
         float refreshThreshold2;
@@ -32,10 +32,10 @@ public final class PullRefreshStateKt {
         int compositionCoroutineScope;
         String str;
         Object compositionScopedCoroutineScopeCanceller;
-        Object empty2;
-        Object anon;
         Object empty;
-        EmptyCoroutineContext iNSTANCE;
+        Object anon;
+        Object empty2;
+        EmptyCoroutineContext $i$a$RememberCoroutineScopeEffectsKt$rememberCoroutineScope$1;
         float f2;
         float f;
         int obj24;
@@ -72,7 +72,7 @@ public final class PullRefreshStateKt {
             Object rememberedValue2 = composer4.rememberedValue();
             int i32 = 0;
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                empty = 0;
+                empty2 = 0;
                 int i34 = 0;
                 compositionScopedCoroutineScopeCanceller = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, $composer));
                 composer4.updateRememberedValue(compositionScopedCoroutineScopeCanceller);
@@ -95,7 +95,7 @@ public final class PullRefreshStateKt {
             String str6 = "CC(remember):PullRefreshState.kt#9igjgp";
             ComposerKt.sourceInformationMarkerStart(composer, 975868558, str6);
             Composer composer5 = $composer;
-            empty2 = 0;
+            empty = 0;
             Object rememberedValue3 = composer5.rememberedValue();
             int i33 = 0;
             if (!composer.changed(coroutineScope)) {
@@ -103,12 +103,12 @@ public final class PullRefreshStateKt {
                     obj24 = i3;
                     f2 = refreshThreshold2;
                     f = refreshingOffset2;
-                    pullRefreshState = new PullRefreshState(coroutineScope, SnapshotStateKt.rememberUpdatedState(onRefresh, composer, i8 &= 14), floatRef2.element, floatRef.element);
-                    composer5.updateRememberedValue(pullRefreshState);
+                    $i$a$CachePullRefreshStateKt$rememberPullRefreshState$state$1 = new PullRefreshState(coroutineScope, SnapshotStateKt.rememberUpdatedState(onRefresh, composer, i8 &= 14), floatRef2.element, floatRef.element);
+                    composer5.updateRememberedValue($i$a$CachePullRefreshStateKt$rememberPullRefreshState$state$1);
                 } else {
                     f2 = refreshThreshold2;
                     f = refreshingOffset2;
-                    pullRefreshState = rememberedValue3;
+                    $i$a$CachePullRefreshStateKt$rememberPullRefreshState$state$1 = rememberedValue3;
                 }
             } else {
             }
@@ -128,8 +128,8 @@ public final class PullRefreshStateKt {
             int i30 = 0;
             if (i13 |= changed3 == 0) {
                 if (rememberedValue == Composer.Companion.getEmpty()) {
-                    empty2 = 0;
-                    anon = new PullRefreshStateKt.rememberPullRefreshState.3.1(pullRefreshState, z, floatRef, floatRef2);
+                    empty = 0;
+                    anon = new PullRefreshStateKt.rememberPullRefreshState.3.1($i$a$CachePullRefreshStateKt$rememberPullRefreshState$state$1, z, floatRef, floatRef2);
                     composer2.updateRememberedValue((Function0)anon);
                 } else {
                     anon = rememberedValue;
@@ -142,10 +142,10 @@ public final class PullRefreshStateKt {
                 ComposerKt.traceEventEnd();
             }
             ComposerKt.sourceInformationMarkerEnd(composer);
-            return pullRefreshState;
+            return $i$a$CachePullRefreshStateKt$rememberPullRefreshState$state$1;
         }
         int state = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("The refresh trigger must be greater than zero!".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequirePullRefreshStateKt$rememberPullRefreshState$1 = new IllegalArgumentException("The refresh trigger must be greater than zero!".toString());
+        throw $i$a$RequirePullRefreshStateKt$rememberPullRefreshState$1;
     }
 }

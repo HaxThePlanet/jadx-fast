@@ -18,10 +18,10 @@ class MapsKt___MapsJvmKt extends kotlin.collections.MapsKt__MapsKt {
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     private static final <K, V, R extends Comparable<? super R>> Map.Entry<K, V> maxBy(Map<? extends K, ? extends V> $this$maxBy, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> selector) {
         Object obj;
-        Object next2;
-        boolean invoke;
-        boolean next;
-        Object invoke2;
+        Object next;
+        boolean invoke2;
+        boolean next2;
+        Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxBy, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
@@ -30,19 +30,19 @@ class MapsKt___MapsJvmKt extends kotlin.collections.MapsKt__MapsKt {
             obj = 0;
         } else {
             if (iterator.hasNext()) {
-                invoke = selector.invoke(iterator.next());
+                invoke2 = selector.invoke(iterator.next());
                 Object next3 = iterator.next();
-                invoke2 = selector.invoke(next3);
+                invoke = selector.invoke(next3);
                 do {
                     next3 = iterator.next();
-                    invoke2 = selector.invoke(next3);
+                    invoke = selector.invoke(next3);
                     if (iterator.hasNext()) {
                     }
-                    next2 = next3;
-                    invoke = invoke2;
-                } while (invoke.compareTo((Comparable)invoke2) < 0);
+                    next = next3;
+                    invoke2 = invoke;
+                } while (invoke2.compareTo((Comparable)invoke) < 0);
             }
-            obj = next2;
+            obj = next;
         }
         return (Map.Entry)obj;
     }
@@ -60,9 +60,9 @@ class MapsKt___MapsJvmKt extends kotlin.collections.MapsKt__MapsKt {
     public static final <K, V, R extends Comparable<? super R>> Map.Entry<K, V> minBy(Map<? extends K, ? extends V> $this$minBy, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> selector) {
         Object obj;
         Object next;
-        boolean invoke2;
+        boolean invoke;
         boolean next2;
-        Object invoke;
+        Object invoke2;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minBy, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
@@ -72,17 +72,17 @@ class MapsKt___MapsJvmKt extends kotlin.collections.MapsKt__MapsKt {
             obj = 0;
         } else {
             if (iterator.hasNext()) {
-                invoke2 = selector.invoke(iterator.next());
+                invoke = selector.invoke(iterator.next());
                 Object next3 = iterator.next();
-                invoke = selector.invoke(next3);
+                invoke2 = selector.invoke(next3);
                 do {
                     next3 = iterator.next();
-                    invoke = selector.invoke(next3);
+                    invoke2 = selector.invoke(next3);
                     if (iterator.hasNext()) {
                     }
                     next = next3;
-                    invoke2 = invoke;
-                } while (invoke2.compareTo((Comparable)invoke) > 0);
+                    invoke = invoke2;
+                } while (invoke.compareTo((Comparable)invoke2) > 0);
             }
             obj = next;
         }

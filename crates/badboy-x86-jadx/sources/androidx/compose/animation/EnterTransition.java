@@ -83,10 +83,10 @@ public abstract class EnterTransition {
         int i;
         StringBuilder append;
         androidx.compose.animation.Scale scale;
-        String string;
+        String string4;
         String string2;
         String string3;
-        int string4;
+        int string;
         if (Intrinsics.areEqual(this, EnterTransition.None)) {
             $this$toString_u24lambda_u240 = "EnterTransition.None";
         } else {
@@ -94,29 +94,29 @@ public abstract class EnterTransition {
             i = 0;
             StringBuilder stringBuilder = new StringBuilder();
             androidx.compose.animation.Fade fade = data$animation_release.getFade();
-            string4 = 0;
+            string = 0;
             if (fade != null) {
-                string = fade.toString();
+                string4 = fade.toString();
             } else {
-                string = string4;
+                string4 = string;
             }
             androidx.compose.animation.Slide slide = data$animation_release.getSlide();
             if (slide != null) {
                 string2 = slide.toString();
             } else {
-                string2 = string4;
+                string2 = string;
             }
             androidx.compose.animation.ChangeSize changeSize = data$animation_release.getChangeSize();
             if (changeSize != null) {
                 string3 = changeSize.toString();
             } else {
-                string3 = string4;
+                string3 = string;
             }
             scale = data$animation_release.getScale();
             if (scale != null) {
-                string4 = scale.toString();
+                string = scale.toString();
             }
-            $this$toString_u24lambda_u240 = stringBuilder.append("EnterTransition: \nFade - ").append(string).append(",\nSlide - ").append(string2).append(",\nShrink - ").append(string3).append(",\nScale - ").append(string4).toString();
+            $this$toString_u24lambda_u240 = stringBuilder.append("EnterTransition: \nFade - ").append(string4).append(",\nSlide - ").append(string2).append(",\nShrink - ").append(string3).append(",\nScale - ").append(string).toString();
         }
         return $this$toString_u24lambda_u240;
     }

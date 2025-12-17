@@ -273,41 +273,41 @@ public final class Rect {
     }
 
     public final boolean isFinite() {
-        float naN3;
-        int i;
         float naN2;
+        int i2;
         float naN4;
+        float naN3;
         float naN;
         boolean infinite;
-        int i2;
-        naN3 = this.left;
-        i2 = 1;
+        int i;
+        naN2 = this.left;
+        i = 1;
         final int i3 = 0;
-        if (!Float.isInfinite(naN3) && !Float.isNaN(naN3)) {
-            i = !Float.isNaN(naN3) ? i2 : i3;
+        if (!Float.isInfinite(naN2) && !Float.isNaN(naN2)) {
+            i2 = !Float.isNaN(naN2) ? i : i3;
         } else {
         }
-        if (i != 0) {
+        if (i2 != 0) {
             naN = this.top;
             if (!Float.isInfinite(naN) && !Float.isNaN(naN)) {
-                i = !Float.isNaN(naN) ? i2 : i3;
+                i2 = !Float.isNaN(naN) ? i : i3;
             } else {
             }
-            if (i != 0) {
-                naN4 = this.right;
-                if (!Float.isInfinite(naN4) && !Float.isNaN(naN4)) {
-                    i = !Float.isNaN(naN4) ? i2 : i3;
+            if (i2 != 0) {
+                naN3 = this.right;
+                if (!Float.isInfinite(naN3) && !Float.isNaN(naN3)) {
+                    i2 = !Float.isNaN(naN3) ? i : i3;
                 } else {
                 }
-                if (i != 0) {
-                    naN2 = this.bottom;
-                    if (!Float.isInfinite(naN2) && !Float.isNaN(naN2)) {
-                        i = !Float.isNaN(naN2) ? i2 : i3;
+                if (i2 != 0) {
+                    naN4 = this.bottom;
+                    if (!Float.isInfinite(naN4) && !Float.isNaN(naN4)) {
+                        i2 = !Float.isNaN(naN4) ? i : i3;
                     } else {
                     }
-                    if (i != 0) {
+                    if (i2 != 0) {
                     } else {
-                        i2 = i3;
+                        i = i3;
                     }
                 } else {
                 }
@@ -315,7 +315,7 @@ public final class Rect {
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public final boolean isInfinite() {

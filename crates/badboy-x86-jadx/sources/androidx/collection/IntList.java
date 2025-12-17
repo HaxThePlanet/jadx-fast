@@ -146,8 +146,8 @@ public abstract class IntList {
 
     public final boolean any(Function1<? super Integer, Boolean> predicate) {
         int i$iv;
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -155,7 +155,7 @@ public abstract class IntList {
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i = 0;
+            i2 = 0;
             i$iv++;
         }
         return 0;
@@ -195,8 +195,8 @@ public abstract class IntList {
     public final int count(Function1<? super Integer, Boolean> predicate) {
         int count;
         int i$iv;
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -205,7 +205,7 @@ public abstract class IntList {
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i = 0;
+            i2 = 0;
             if ((Boolean)predicate.invoke(Integer.valueOf(obj.content[i$iv])).booleanValue()) {
             }
             i$iv++;
@@ -253,10 +253,10 @@ public abstract class IntList {
 
     public boolean equals(Object other) {
         boolean _size;
-        int _size3;
-        int i;
         int _size2;
         int i2;
+        int _size3;
+        int i;
         int i3 = 0;
         if (other instanceof IntList != null) {
             if (obj._size != this._size) {
@@ -283,8 +283,8 @@ public abstract class IntList {
 
     public final int first(Function1<? super Integer, Boolean> predicate) {
         int i$iv;
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -292,8 +292,8 @@ public abstract class IntList {
         int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i2 = obj.content[i$iv];
-            i = 0;
+            i = obj.content[i$iv];
+            i2 = 0;
             i$iv++;
         }
         NoSuchElementException this_$iv = new NoSuchElementException("IntList contains no element matching the predicate.");
@@ -303,8 +303,8 @@ public abstract class IntList {
     public final <R> R fold(R initial, Function2<? super R, ? super Integer, ? extends R> operation) {
         Object acc;
         int i$iv;
-        int i;
         int i2;
+        int i;
         Integer valueOf;
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -314,7 +314,7 @@ public abstract class IntList {
         final int i5 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i2 = 0;
+            i = 0;
             acc = operation.invoke(acc, Integer.valueOf(obj.content[i$iv]));
             i$iv++;
         }
@@ -324,9 +324,9 @@ public abstract class IntList {
     public final <R> R foldIndexed(R initial, Function3<? super Integer, ? super R, ? super Integer, ? extends R> operation) {
         Object acc;
         int i$iv;
-        int i2;
         int i;
         int i3;
+        int i2;
         Integer valueOf2;
         Integer valueOf;
         Intrinsics.checkNotNullParameter(operation, "operation");
@@ -337,7 +337,7 @@ public abstract class IntList {
         final int i6 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i3 = 0;
+            i2 = 0;
             acc = operation.invoke(Integer.valueOf(i$iv), acc, Integer.valueOf(obj.content[i$iv]));
             i$iv++;
         }
@@ -347,8 +347,8 @@ public abstract class IntList {
     public final <R> R foldRight(R initial, Function2<? super Integer, ? super R, ? extends R> operation) {
         Object acc;
         int i$iv;
-        int i2;
         int i;
+        int i2;
         Integer valueOf;
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -358,7 +358,7 @@ public abstract class IntList {
         final int i5 = 0;
         _size--;
         while (-1 < i$iv) {
-            i = 0;
+            i2 = 0;
             acc = operation.invoke(Integer.valueOf(obj.content[i$iv]), acc);
             i$iv--;
         }
@@ -368,8 +368,8 @@ public abstract class IntList {
     public final <R> R foldRightIndexed(R initial, Function3<? super Integer, ? super Integer, ? super R, ? extends R> operation) {
         Object acc;
         int i$iv;
-        int i;
         int i2;
+        int i;
         int i3;
         Integer valueOf;
         Integer valueOf2;
@@ -402,8 +402,8 @@ public abstract class IntList {
 
     public final void forEachIndexed(Function2<? super Integer, ? super Integer, Unit> block) {
         int i;
-        Integer valueOf2;
         Integer valueOf;
+        Integer valueOf2;
         Intrinsics.checkNotNullParameter(block, "block");
         int i2 = 0;
         i = 0;
@@ -475,16 +475,16 @@ public abstract class IntList {
     public int hashCode() {
         int hashCode;
         int i$iv;
-        int i3;
         int i2;
         int i;
+        int i3;
         hashCode = 0;
         final Object obj = this;
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i2 = 0;
-            hashCode += i;
+            i = 0;
+            hashCode += i3;
             i$iv++;
         }
         return hashCode;
@@ -525,8 +525,8 @@ public abstract class IntList {
 
     public final int indexOfLast(Function1<? super Integer, Boolean> predicate) {
         int i$iv;
-        int i3;
         int i2;
+        int i3;
         int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -586,9 +586,9 @@ public abstract class IntList {
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated) {
         int i$iv;
+        int i2;
         int i4;
         int i;
-        int i2;
         int i3;
         final Object obj = separator;
         final Object obj2 = prefix;
@@ -606,9 +606,9 @@ public abstract class IntList {
         final int i6 = 0;
         i$iv = 0;
         while (i$iv < obj5._size) {
-            i = i$iv;
-            i2 = 0;
-            if (i != 0) {
+            i4 = i$iv;
+            i = 0;
+            if (i4 != 0) {
             }
             sb.append(obj5.content[i$iv]);
             i$iv++;
@@ -624,11 +624,11 @@ public abstract class IntList {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
         Object obj2;
         Object obj;
-        int i3;
-        int i$iv;
         int i;
-        int i2;
+        int i$iv;
         int i4;
+        int i2;
+        int i3;
         obj = prefix;
         final Object obj3 = postfix;
         final Object obj4 = truncated;
@@ -648,7 +648,7 @@ public abstract class IntList {
         i$iv = 0;
         while (i$iv < obj6._size) {
             i2 = i$iv;
-            i4 = 0;
+            i3 = 0;
             if (i2 != 0) {
             }
             sb.append((CharSequence)obj5.invoke(Integer.valueOf(obj6.content[i$iv])));
@@ -657,7 +657,7 @@ public abstract class IntList {
             obj = prefix;
             sb.append(obj2);
         }
-        i3 = limit;
+        i = limit;
         sb.append(obj3);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -665,19 +665,19 @@ public abstract class IntList {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
-        Object obj;
         Object obj2;
+        Object obj;
         int i2;
         int $i$f$joinToString;
         int i$iv$iv;
         int i;
-        int index$iv2;
         int index$iv;
-        obj2 = prefix;
+        int index$iv2;
+        obj = prefix;
         final Object obj3 = postfix;
         final Object obj4 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(obj2, "prefix");
+        Intrinsics.checkNotNullParameter(obj, "prefix");
         Intrinsics.checkNotNullParameter(obj3, "postfix");
         Intrinsics.checkNotNullParameter(obj4, "transform");
         $i$f$joinToString = 0;
@@ -685,24 +685,24 @@ public abstract class IntList {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         final int i5 = 0;
-        sb.append(obj2);
+        sb.append(obj);
         final Object obj5 = this;
         final int i6 = 0;
         i$iv$iv = 0;
         while (i$iv$iv < obj5._size) {
-            index$iv2 = 0;
+            index$iv = 0;
             $i$f$joinToString = i3;
             if ($i$f$joinToString != null) {
             }
             sb.append((CharSequence)obj4.invoke(Integer.valueOf(obj5.content[i$iv$iv])));
             i$iv$iv++;
-            obj = separator;
-            obj2 = prefix;
-            $i$f$joinToString = index$iv;
-            sb.append(obj);
+            obj2 = separator;
+            obj = prefix;
+            $i$f$joinToString = index$iv2;
+            sb.append(obj2);
         }
         i2 = limit;
-        index$iv = $i$f$joinToString;
+        index$iv2 = $i$f$joinToString;
         sb.append(obj3);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -710,17 +710,17 @@ public abstract class IntList {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
-        Object obj;
         Object obj2;
+        Object obj;
         int i$iv$iv;
-        int i2;
-        int index$iv;
         int i;
-        obj2 = prefix;
+        int index$iv;
+        int i2;
+        obj = prefix;
         final Object obj3 = postfix;
         final Object obj4 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(obj2, "prefix");
+        Intrinsics.checkNotNullParameter(obj, "prefix");
         Intrinsics.checkNotNullParameter(obj3, "postfix");
         Intrinsics.checkNotNullParameter(obj4, "transform");
         int i3 = 0;
@@ -728,20 +728,20 @@ public abstract class IntList {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         final int i6 = 0;
-        sb.append(obj2);
+        sb.append(obj);
         final Object obj5 = this;
         final int i7 = 0;
         i$iv$iv = 0;
         while (i$iv$iv < obj5._size) {
             index$iv = 0;
-            obj2 = i;
-            if (obj2 != null) {
+            obj = i2;
+            if (obj != null) {
             }
             sb.append((CharSequence)obj4.invoke(Integer.valueOf(obj5.content[i$iv$iv])));
             i$iv$iv++;
-            obj = separator;
-            obj2 = prefix;
-            sb.append(obj);
+            obj2 = separator;
+            obj = prefix;
+            sb.append(obj2);
         }
         sb.append(obj3);
         String string = stringBuilder.toString();
@@ -827,15 +827,15 @@ public abstract class IntList {
     }
 
     public final String joinToString(Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
-        int $i$f$joinToString;
-        int i$iv$iv;
-        int i;
-        int index$iv;
-        int i2;
         int $i$f$joinToString2;
+        int i$iv$iv;
+        int i2;
+        int index$iv;
+        int i;
+        int $i$f$joinToString;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(obj, "transform");
-        $i$f$joinToString = 0;
+        $i$f$joinToString2 = 0;
         final String str3 = "";
         final int i4 = 0;
         StringBuilder stringBuilder = new StringBuilder();
@@ -847,16 +847,16 @@ public abstract class IntList {
         i$iv$iv = 0;
         while (i$iv$iv < obj2._size) {
             index$iv = 0;
-            $i$f$joinToString = i2;
-            if ($i$f$joinToString != null) {
+            $i$f$joinToString2 = i;
+            if ($i$f$joinToString2 != 0) {
             }
-            i2 = $i$f$joinToString;
+            i = $i$f$joinToString2;
             sb.append((CharSequence)obj.invoke(Integer.valueOf(obj2.content[i$iv$iv])));
             i$iv$iv++;
-            $i$f$joinToString = $i$f$joinToString2;
+            $i$f$joinToString2 = $i$f$joinToString;
             sb.append((CharSequence)", ");
         }
-        $i$f$joinToString2 = $i$f$joinToString;
+        $i$f$joinToString = $i$f$joinToString2;
         sb.append((CharSequence)str3);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -894,15 +894,15 @@ public abstract class IntList {
 
     public final int lastIndexOf(int element) {
         int i$iv;
-        int i;
-        int i2;
         int i3;
+        int i2;
+        int i;
         final Object obj = this;
         final int i4 = 0;
         _size--;
         int i5 = -1;
         while (i5 < i$iv) {
-            i3 = 0;
+            i = 0;
             i$iv--;
             i5 = -1;
         }

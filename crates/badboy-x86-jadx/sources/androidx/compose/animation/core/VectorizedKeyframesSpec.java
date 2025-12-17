@@ -54,12 +54,12 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
     public VectorizedKeyframesSpec(Map<Integer, ? extends Pair<? extends V, ? extends androidx.compose.animation.core.Easing>> keyframes, int durationMillis, int delayMillis) {
         Object obj;
         Object next;
-        int i;
-        int intValue2;
         int i2;
+        int intValue;
+        int i;
         Object next2;
         int i3;
-        int intValue;
+        int intValue2;
         Object value;
         androidx.compose.animation.core.VectorizedKeyframeSpecElementInfo vectorizedKeyframeSpecElementInfo;
         Object first;
@@ -71,7 +71,7 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
         int i7 = 0;
         Iterator iterator = keyframes.entrySet().iterator();
         for (Map.Entry next : iterator) {
-            i = 0;
+            i2 = 0;
             mutableIntList.add((Number)next.getKey().intValue());
         }
         int $this$forEach$iv = 0;
@@ -81,7 +81,7 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
         if (!obj.containsKey(Integer.valueOf(durationMillis))) {
             mutableIntList.add(durationMillis);
         } else {
-            i2 = durationMillis;
+            i = durationMillis;
         }
         mutableIntList.sort();
         int i5 = 0;
@@ -96,7 +96,7 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
             mutableIntObjectMap.set((Number)next2.getKey().intValue(), vectorizedKeyframeSpecElementInfo);
             obj = keyframes;
         }
-        super((IntList)mutableIntList, (IntObjectMap)mutableIntObjectMap, i2, delayMillis, EasingKt.getLinearEasing(), ArcMode.Companion.getArcLinear--9T-Mq4(), 0);
+        super((IntList)mutableIntList, (IntObjectMap)mutableIntObjectMap, i, delayMillis, EasingKt.getLinearEasing(), ArcMode.Companion.getArcLinear--9T-Mq4(), 0);
     }
 
     public VectorizedKeyframesSpec(Map map, int i2, int i3, int i4, DefaultConstructorMarker defaultConstructorMarker5) {
@@ -144,31 +144,31 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
 
     private final void init(V initialValue, V targetValue, V initialVelocity) {
         int requiresArcSpline;
-        androidx.compose.animation.core.ArcSpline arcSpline;
-        androidx.compose.animation.core.AnimationVector valueVector;
         androidx.compose.animation.core.ArcSpline arcSpline2;
+        androidx.compose.animation.core.AnimationVector valueVector;
+        androidx.compose.animation.core.ArcSpline arcSpline;
         androidx.compose.animation.core.AnimationVector lastInitialValue;
         androidx.compose.animation.core.AnimationVector lastTargetValue;
         int[] iArr;
-        int i5;
+        int i2;
         int i3;
         int modes;
         int initialArcMode;
         float times;
         int i;
-        int i2;
+        int i4;
         float[] fArr;
         int vectorValue;
-        int i4;
+        int i5;
         float f;
-        arcSpline = 0;
-        requiresArcSpline = this.arcSpline != null ? 1 : arcSpline;
+        arcSpline2 = 0;
+        requiresArcSpline = this.arcSpline != null ? 1 : arcSpline2;
         if (this.valueVector == null) {
             this.valueVector = AnimationVectorsKt.newInstance(initialValue);
             this.velocityVector = AnimationVectorsKt.newInstance(initialVelocity);
             int size = this.timestamps.getSize();
             float[] fArr2 = new float[size];
-            i3 = arcSpline;
+            i3 = arcSpline2;
             while (i3 < size) {
                 fArr2[i3] = f2 /= times;
                 i3++;
@@ -176,7 +176,7 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
             this.times = fArr2;
             valueVector = this.timestamps.getSize();
             iArr = new int[valueVector];
-            modes = arcSpline;
+            modes = arcSpline2;
             while (modes < valueVector) {
                 Object obj = this.keyframes.get(this.timestamps.get(modes));
                 if ((VectorizedKeyframeSpecElementInfo)obj != null) {
@@ -194,79 +194,79 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
         }
         if (requiresArcSpline == 0) {
         }
-        i5 = 0;
+        i2 = 0;
         if (this.arcSpline != null) {
             if (this.lastInitialValue == null) {
                 Intrinsics.throwUninitializedPropertyAccessException("lastInitialValue");
-                lastInitialValue = i5;
+                lastInitialValue = i2;
             }
             if (Intrinsics.areEqual(lastInitialValue, initialValue)) {
                 if (this.lastTargetValue == null) {
                     Intrinsics.throwUninitializedPropertyAccessException("lastTargetValue");
-                    lastTargetValue = i5;
+                    lastTargetValue = i2;
                 }
                 if (!Intrinsics.areEqual(lastTargetValue, targetValue)) {
                     this.lastInitialValue = initialValue;
                     this.lastTargetValue = targetValue;
                     i6 += size$animation_core_release2;
-                    this.posArray = new float[arcSpline2];
-                    this.slopeArray = new float[arcSpline2];
+                    this.posArray = new float[arcSpline];
+                    this.slopeArray = new float[arcSpline];
                     int size2 = this.timestamps.getSize();
                     initialArcMode = new float[size2];
-                    i = arcSpline;
+                    i = arcSpline2;
                     while (i < size2) {
-                        i2 = this.timestamps.get(i);
-                        if (i2 == 0) {
+                        i4 = this.timestamps.get(i);
+                        if (i4 == 0) {
                         } else {
                         }
-                        if (i2 == getDurationMillis()) {
+                        if (i4 == getDurationMillis()) {
                         } else {
                         }
-                        Object obj3 = this.keyframes.get(i2);
+                        Object obj3 = this.keyframes.get(i4);
                         Intrinsics.checkNotNull(obj3);
-                        i4 = arcSpline;
-                        while (i4 < arcSpline2) {
-                            new float[arcSpline2][i4] = (VectorizedKeyframeSpecElementInfo)obj3.getVectorValue().get$animation_core_release(i4);
-                            i4++;
+                        i5 = arcSpline2;
+                        while (i5 < arcSpline) {
+                            new float[arcSpline][i5] = (VectorizedKeyframeSpecElementInfo)obj3.getVectorValue().get$animation_core_release(i5);
+                            i5++;
                         }
                         initialArcMode[i] = fArr;
                         i++;
-                        fArr[i4] = vectorValue.get$animation_core_release(i4);
-                        i4++;
-                        if (!this.keyframes.contains(i2)) {
+                        fArr[i5] = vectorValue.get$animation_core_release(i5);
+                        i5++;
+                        if (!this.keyframes.contains(i4)) {
                         } else {
                         }
-                        Object obj4 = this.keyframes.get(i2);
+                        Object obj4 = this.keyframes.get(i4);
                         Intrinsics.checkNotNull(obj4);
-                        i4 = arcSpline;
-                        while (i4 < arcSpline2) {
-                            new float[arcSpline2][i4] = (VectorizedKeyframeSpecElementInfo)obj4.getVectorValue().get$animation_core_release(i4);
-                            i4++;
+                        i5 = arcSpline2;
+                        while (i5 < arcSpline) {
+                            new float[arcSpline][i5] = (VectorizedKeyframeSpecElementInfo)obj4.getVectorValue().get$animation_core_release(i5);
+                            i5++;
                         }
-                        fArr[i4] = vectorValue.get$animation_core_release(i4);
-                        i4++;
-                        vectorValue = arcSpline;
-                        while (vectorValue < arcSpline2) {
-                            new float[arcSpline2][vectorValue] = targetValue.get$animation_core_release(vectorValue);
+                        fArr[i5] = vectorValue.get$animation_core_release(i5);
+                        i5++;
+                        vectorValue = arcSpline2;
+                        while (vectorValue < arcSpline) {
+                            new float[arcSpline][vectorValue] = targetValue.get$animation_core_release(vectorValue);
                             vectorValue++;
                         }
                         fArr[vectorValue] = targetValue.get$animation_core_release(vectorValue);
                         vectorValue++;
-                        if (!this.keyframes.contains(i2)) {
+                        if (!this.keyframes.contains(i4)) {
                         } else {
                         }
-                        Object obj2 = this.keyframes.get(i2);
+                        Object obj2 = this.keyframes.get(i4);
                         Intrinsics.checkNotNull(obj2);
-                        i4 = arcSpline;
-                        while (i4 < arcSpline2) {
-                            new float[arcSpline2][i4] = (VectorizedKeyframeSpecElementInfo)obj2.getVectorValue().get$animation_core_release(i4);
-                            i4++;
+                        i5 = arcSpline2;
+                        while (i5 < arcSpline) {
+                            new float[arcSpline][i5] = (VectorizedKeyframeSpecElementInfo)obj2.getVectorValue().get$animation_core_release(i5);
+                            i5++;
                         }
-                        fArr[i4] = vectorValue.get$animation_core_release(i4);
-                        i4++;
-                        vectorValue = arcSpline;
-                        while (vectorValue < arcSpline2) {
-                            new float[arcSpline2][vectorValue] = initialValue.get$animation_core_release(vectorValue);
+                        fArr[i5] = vectorValue.get$animation_core_release(i5);
+                        i5++;
+                        vectorValue = arcSpline2;
+                        while (vectorValue < arcSpline) {
+                            new float[arcSpline][vectorValue] = initialValue.get$animation_core_release(vectorValue);
                             vectorValue++;
                         }
                         fArr[vectorValue] = initialValue.get$animation_core_release(vectorValue);
@@ -274,16 +274,16 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
                     }
                     if (this.modes == null) {
                         Intrinsics.throwUninitializedPropertyAccessException("modes");
-                        modes = i5;
+                        modes = i2;
                     }
                     times = this.times;
                     if (times == null) {
                         Intrinsics.throwUninitializedPropertyAccessException("times");
                     } else {
-                        i5 = times;
+                        i2 = times;
                     }
-                    arcSpline = new ArcSpline(modes, i5, initialArcMode);
-                    this.arcSpline = arcSpline;
+                    arcSpline2 = new ArcSpline(modes, i2, initialArcMode);
+                    this.arcSpline = arcSpline2;
                 }
             } else {
             }
@@ -303,23 +303,23 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
 
     public V getValueFromNanos(long playTimeNanos, V initialValue, V targetValue, V initialVelocity) {
         androidx.compose.animation.core.AnimationVector animationVector4;
-        androidx.compose.animation.core.AnimationVector valueVector2;
-        androidx.compose.animation.core.AnimationVector animationVector2;
-        int i2;
         androidx.compose.animation.core.AnimationVector valueVector3;
+        androidx.compose.animation.core.AnimationVector animationVector2;
+        int i3;
+        androidx.compose.animation.core.AnimationVector valueVector;
         androidx.compose.animation.core.AnimationVector animationVector;
         androidx.compose.animation.core.AnimationVector animationVector3;
         androidx.compose.animation.core.ArcSpline arcSpline;
-        int i;
-        float[] posArray3;
+        int i2;
         float[] posArray2;
-        androidx.compose.animation.core.AnimationVector vectorValue;
-        androidx.compose.animation.core.AnimationVector valueVector;
-        androidx.compose.animation.core.AnimationVector vectorValue2;
-        float f;
         float[] posArray;
-        int i3;
+        androidx.compose.animation.core.AnimationVector vectorValue2;
+        androidx.compose.animation.core.AnimationVector valueVector2;
+        androidx.compose.animation.core.AnimationVector vectorValue;
+        float f;
+        float[] posArray3;
         int i4;
+        int i;
         final Object obj = this;
         animationVector4 = targetValue;
         animationVector2 = initialVelocity;
@@ -345,25 +345,25 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
             String str3 = "posArray";
             if (obj.posArray == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str3);
-                posArray3 = 0;
-            }
-            arcSpline.getPos(obj.getEasedTime(i6), posArray3);
-            i = 0;
-            if (obj.posArray == null) {
-                Intrinsics.throwUninitializedPropertyAccessException(str3);
                 posArray2 = 0;
             }
-            while (i < posArray2.length) {
+            arcSpline.getPos(obj.getEasedTime(i6), posArray2);
+            i2 = 0;
+            if (obj.posArray == null) {
+                Intrinsics.throwUninitializedPropertyAccessException(str3);
+                posArray = 0;
+            }
+            while (i2 < posArray.length) {
                 if (obj.valueVector == null) {
                 }
                 if (obj.posArray == null) {
                 }
-                valueVector.set$animation_core_release(i, posArray[i]);
-                i++;
+                valueVector2.set$animation_core_release(i2, posArray3[i2]);
+                i2++;
                 Intrinsics.throwUninitializedPropertyAccessException(str3);
-                posArray = 0;
+                posArray3 = 0;
                 Intrinsics.throwUninitializedPropertyAccessException(str);
-                valueVector = 0;
+                valueVector2 = 0;
             }
             androidx.compose.animation.core.AnimationVector i8 = obj.valueVector;
             animationVector3 = i8 == null ? 0 : i8;
@@ -374,35 +374,35 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
         if (obj.keyframes.contains(i9)) {
             Object obj4 = obj.keyframes.get(i9);
             Intrinsics.checkNotNull(obj4);
-            vectorValue = (VectorizedKeyframeSpecElementInfo)obj4.getVectorValue();
+            vectorValue2 = (VectorizedKeyframeSpecElementInfo)obj4.getVectorValue();
         } else {
-            vectorValue = animationVector4;
+            vectorValue2 = animationVector4;
         }
         int i10 = obj.timestamps.get(entryForTimeMillis + 1);
         if (obj.keyframes.contains(i10)) {
             Object obj5 = obj.keyframes.get(i10);
             Intrinsics.checkNotNull(obj5);
-            vectorValue2 = (VectorizedKeyframeSpecElementInfo)obj5.getVectorValue();
+            vectorValue = (VectorizedKeyframeSpecElementInfo)obj5.getVectorValue();
         } else {
-            vectorValue2 = animationVector2;
+            vectorValue = animationVector2;
         }
-        i3 = 0;
+        i4 = 0;
         if (obj.valueVector == null) {
+            Intrinsics.throwUninitializedPropertyAccessException(str);
+            valueVector = 0;
+        }
+        while (i4 < valueVector.getSize$animation_core_release()) {
+            if (obj.valueVector == null) {
+            }
+            valueVector3.set$animation_core_release(i4, VectorConvertersKt.lerp(vectorValue2.get$animation_core_release(i4), vectorValue.get$animation_core_release(i4), obj.getEasedTimeFromIndex(entryForTimeMillis, i6, true)));
+            i4++;
+            animationVector4 = targetValue;
+            animationVector2 = initialVelocity;
+            i3 = i;
             Intrinsics.throwUninitializedPropertyAccessException(str);
             valueVector3 = 0;
         }
-        while (i3 < valueVector3.getSize$animation_core_release()) {
-            if (obj.valueVector == null) {
-            }
-            valueVector2.set$animation_core_release(i3, VectorConvertersKt.lerp(vectorValue.get$animation_core_release(i3), vectorValue2.get$animation_core_release(i3), obj.getEasedTimeFromIndex(entryForTimeMillis, i6, true)));
-            i3++;
-            animationVector4 = targetValue;
-            animationVector2 = initialVelocity;
-            i2 = i4;
-            Intrinsics.throwUninitializedPropertyAccessException(str);
-            valueVector2 = 0;
-        }
-        int playTimeMillis = i2;
+        int playTimeMillis = i3;
         androidx.compose.animation.core.AnimationVector valueVector4 = obj.valueVector;
         animationVector = valueVector4 == null ? 0 : valueVector4;
         return animationVector;
@@ -410,17 +410,17 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
 
     public V getVelocityFromNanos(long playTimeNanos, V initialValue, V targetValue, V initialVelocity) {
         androidx.compose.animation.core.ArcSpline arcSpline;
-        int i;
+        int i3;
         float[] slopeArray;
-        float[] slopeArray3;
-        int i2;
-        androidx.compose.animation.core.AnimationVector velocityVector;
-        long clampPlayTime;
-        int i4;
-        androidx.compose.animation.core.AnimationVector i3;
-        androidx.compose.animation.core.AnimationVector velocityVector2;
-        float f;
         float[] slopeArray2;
+        int i2;
+        androidx.compose.animation.core.AnimationVector velocityVector2;
+        long clampPlayTime;
+        int i;
+        androidx.compose.animation.core.AnimationVector i4;
+        androidx.compose.animation.core.AnimationVector velocityVector;
+        float f;
+        float[] slopeArray3;
         final Object obj = this;
         androidx.compose.animation.core.AnimationVector animationVector5 = obj21;
         clampPlayTime = VectorizedAnimationSpecKt.clampPlayTime((VectorizedDurationBasedAnimationSpec)obj, playTimeNanos / i5);
@@ -431,59 +431,59 @@ public final class VectorizedKeyframesSpec<V extends androidx.compose.animation.
         androidx.compose.animation.core.AnimationVector animationVector3 = initialVelocity;
         obj.init(animationVector, animationVector3, animationVector5);
         final String str2 = "velocityVector";
-        i3 = 0;
+        i4 = 0;
         if (obj.arcSpline != null && obj.arcSpline == null) {
             if (obj.arcSpline == null) {
                 Intrinsics.throwUninitializedPropertyAccessException("arcSpline");
-                arcSpline = i3;
+                arcSpline = i4;
             }
             String str3 = "slopeArray";
             if (obj.slopeArray == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str3);
-                slopeArray = i3;
+                slopeArray = i4;
             }
             arcSpline.getSlope(obj.getEasedTime((int)clampPlayTime), slopeArray);
-            i = 0;
+            i3 = 0;
             if (obj.slopeArray == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str3);
-                slopeArray3 = i3;
+                slopeArray2 = i4;
             }
-            while (i < slopeArray3.length) {
+            while (i3 < slopeArray2.length) {
                 if (obj.velocityVector == null) {
                 }
                 if (obj.slopeArray == null) {
                 }
-                velocityVector2.set$animation_core_release(i, slopeArray2[i]);
-                i++;
+                velocityVector.set$animation_core_release(i3, slopeArray3[i3]);
+                i3++;
                 Intrinsics.throwUninitializedPropertyAccessException(str3);
-                slopeArray2 = i3;
+                slopeArray3 = i4;
                 Intrinsics.throwUninitializedPropertyAccessException(str2);
-                velocityVector2 = i3;
+                velocityVector = i4;
             }
             androidx.compose.animation.core.AnimationVector i8 = obj.velocityVector;
             if (i8 == null) {
                 Intrinsics.throwUninitializedPropertyAccessException(str2);
             } else {
-                i3 = i8;
+                i4 = i8;
             }
-            return i3;
+            return i4;
         }
         androidx.compose.animation.core.AnimationVector valueFromMillis2 = VectorizedAnimationSpecKt.getValueFromMillis((VectorizedAnimationSpec)obj, clampPlayTime - i9, obj3, animationVector, animationVector3);
         i2 = 0;
         while (i2 < valueFromMillis2.getSize$animation_core_release()) {
             if (obj.velocityVector == null) {
             }
-            velocityVector.set$animation_core_release(i2, i13 *= i4);
+            velocityVector2.set$animation_core_release(i2, i13 *= i);
             i2++;
             Intrinsics.throwUninitializedPropertyAccessException(str2);
-            velocityVector = i3;
+            velocityVector2 = i4;
         }
         androidx.compose.animation.core.AnimationVector i11 = obj.velocityVector;
         if (i11 == null) {
             Intrinsics.throwUninitializedPropertyAccessException(str2);
         } else {
-            i3 = i11;
+            i4 = i11;
         }
-        return i3;
+        return i4;
     }
 }

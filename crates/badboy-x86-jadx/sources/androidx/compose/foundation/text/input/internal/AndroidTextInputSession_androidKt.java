@@ -49,8 +49,8 @@ public final class AndroidTextInputSession_androidKt {
     public static final Object platformSpecificTextInputSession(PlatformTextInputSession platformTextInputSession, androidx.compose.foundation.text.input.internal.TransformedTextFieldState transformedTextFieldState2, androidx.compose.foundation.text.input.internal.TextLayoutState textLayoutState3, ImeOptions imeOptions4, ReceiveContentConfiguration receiveContentConfiguration5, Function1<? super ImeAction, Unit> function16, androidx.compose.foundation.text.input.internal.ComposeInputMethodManager composeInputMethodManager7, MutableSharedFlow<Unit> mutableSharedFlow8, ViewConfiguration viewConfiguration9, Continuation<?> continuation10) {
         Object obj;
         boolean anon2;
+        int i;
         int i2;
-        int i3;
         androidx.compose.foundation.text.input.internal.AndroidTextInputSession_androidKt.platformSpecificTextInputSession.3 anon;
         MutableSharedFlow mutableSharedFlow;
         androidx.compose.foundation.text.input.internal.TransformedTextFieldState field;
@@ -61,16 +61,16 @@ public final class AndroidTextInputSession_androidKt {
         ReceiveContentConfiguration receiveContentConfiguration;
         Function1 function1;
         ViewConfiguration view;
-        int i;
+        int i3;
         Object obj15;
         obj = continuation10;
         anon2 = obj;
-        i3 = Integer.MIN_VALUE;
-        if (obj instanceof AndroidTextInputSession_androidKt.platformSpecificTextInputSession.2 && label2 &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (obj instanceof AndroidTextInputSession_androidKt.platformSpecificTextInputSession.2 && label2 &= i2 != 0) {
             anon2 = obj;
-            i3 = Integer.MIN_VALUE;
-            if (label2 &= i3 != 0) {
-                anon2.label = label -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label2 &= i2 != 0) {
+                anon2.label = label -= i2;
             } else {
                 anon2 = new AndroidTextInputSession_androidKt.platformSpecificTextInputSession.2(obj);
             }
@@ -98,9 +98,9 @@ public final class AndroidTextInputSession_androidKt {
     public static final Object platformSpecificTextInputSession(PlatformTextInputSession platformTextInputSession, androidx.compose.foundation.text.input.internal.TransformedTextFieldState transformedTextFieldState2, androidx.compose.foundation.text.input.internal.TextLayoutState textLayoutState3, ImeOptions imeOptions4, ReceiveContentConfiguration receiveContentConfiguration5, Function1<? super ImeAction, Unit> function16, MutableSharedFlow<Unit> mutableSharedFlow7, ViewConfiguration viewConfiguration8, Continuation<?> continuation9) {
         Object obj;
         boolean anon;
-        int i2;
-        PlatformTextInputSession label;
         int i;
+        PlatformTextInputSession label;
+        int i2;
         androidx.compose.foundation.text.input.internal.TextLayoutState textLayoutState;
         ImeOptions imeOptions;
         ReceiveContentConfiguration receiveContentConfiguration;
@@ -111,12 +111,12 @@ public final class AndroidTextInputSession_androidKt {
         Object obj12;
         obj = continuation9;
         anon = obj;
-        i = Integer.MIN_VALUE;
-        if (obj instanceof AndroidTextInputSession_androidKt.platformSpecificTextInputSession.1 && label3 &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (obj instanceof AndroidTextInputSession_androidKt.platformSpecificTextInputSession.1 && label3 &= i2 != 0) {
             anon = obj;
-            i = Integer.MIN_VALUE;
-            if (label3 &= i != 0) {
-                anon.label = label2 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label3 &= i2 != 0) {
+                anon.label = label2 -= i2;
             } else {
                 anon = new AndroidTextInputSession_androidKt.platformSpecificTextInputSession.1(obj);
             }

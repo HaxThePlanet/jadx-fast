@@ -80,8 +80,8 @@ public abstract class FloatSet {
         long l;
         int i2;
         float f;
-        int i3;
         int i4;
+        int i3;
         Object obj28;
         int obj29;
         int obj31;
@@ -146,14 +146,14 @@ public abstract class FloatSet {
         long booleanValue;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i;
-        int i3;
+        int i2;
         int i4;
+        int i3;
         long slot$iv$iv;
         long cmp2;
         int i5;
-        int i2;
         int i6;
+        int i;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
         int i7 = 0;
@@ -164,9 +164,9 @@ public abstract class FloatSet {
         length += -2;
         if (0 <= i10) {
         } else {
-            i4 = 1;
+            i3 = 1;
         }
-        return i4;
+        return i3;
     }
 
     public final boolean any() {
@@ -177,17 +177,17 @@ public abstract class FloatSet {
 
     public final boolean any(Function1<? super Float, Boolean> predicate) {
         int i$iv$iv;
-        int cmp;
+        int cmp2;
         long booleanValue;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i3;
         int i4;
-        int i;
-        long slot$iv$iv;
-        long cmp2;
-        int i5;
         int i2;
+        int i3;
+        long slot$iv$iv;
+        long cmp;
+        int i5;
+        int i;
         int i6;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
@@ -199,36 +199,36 @@ public abstract class FloatSet {
         length += -2;
         if (0 <= i10) {
         } else {
-            i = 0;
+            i3 = 0;
         }
-        return i;
+        return i3;
     }
 
     public final boolean contains(float element) {
-        int m$iv2;
         int m$iv;
+        int m$iv2;
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
-        int i11;
-        int i10;
+        int i8;
+        int i7;
         int $this$hasNext$iv$iv;
         int $this$next$iv$iv;
-        int i;
-        int i3;
-        int i12;
-        int i7;
-        long l;
+        int i6;
+        int i9;
+        int i10;
         int i4;
+        long l;
+        int i11;
+        int i13;
+        int i12;
+        int i3;
+        int i;
         int i5;
         int i2;
-        int i6;
-        int i13;
-        int i9;
-        int i8;
         int numberOfTrailingZeros;
         final Object obj = this;
-        m$iv2 = 0;
+        m$iv = 0;
         int i19 = 0;
         i20 *= i23;
         $i$f$hash = i21 ^ i24;
@@ -240,63 +240,63 @@ public abstract class FloatSet {
         while (/* condition */) {
             int i31 = 0;
             int i35 = 0;
-            i9 = 0;
-            i8 = 1;
+            i5 = 0;
+            i2 = 1;
             while (Long.compare(i26, i35) != 0) {
-                $this$hasNext$iv$iv = i8;
-                i = 0;
-                i5 = 0;
+                $this$hasNext$iv$iv = i2;
+                i6 = 0;
+                i13 = 0;
                 if (Float.compare(f, element) == 0) {
                 } else {
                 }
-                $this$next$iv$iv = i9;
-                int i29 = m$iv;
-                i12 = 0;
-                m$iv = $this$next$iv$iv;
+                $this$next$iv$iv = i5;
+                int i29 = m$iv2;
+                i10 = 0;
+                m$iv2 = $this$next$iv$iv;
                 i31 = 0;
                 i35 = 0;
-                i9 = 0;
-                i8 = 1;
-                $this$hasNext$iv$iv = i9;
-                $this$next$iv$iv = i8;
+                i5 = 0;
+                i2 = 1;
+                $this$hasNext$iv$iv = i5;
+                $this$next$iv$iv = i2;
             }
-            $this$hasNext$iv$iv = i9;
-            int i28 = i13;
-            i = 0;
+            $this$hasNext$iv$iv = i5;
+            int i28 = i;
+            i6 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i11 & _capacity;
-            m$iv2 = i2;
-            $i$f$hash = i6;
+            $i$f$h1 = i8 & _capacity;
+            m$iv = i12;
+            $i$f$hash = i3;
             long[] metadata = obj.metadata;
             $this$next$iv$iv = 0;
             int i30 = $i$f$h1 >> 3;
             i32 <<= 3;
             l3 >>>= i33;
-            i16 |= i7;
-            i = 0;
+            i16 |= i4;
+            i6 = 0;
             long l4 = 72340172838076673L;
-            i34 ^= i10;
+            i34 ^= i7;
             l = -9187201950435737472L;
             i18 &= l;
-            i = 0;
-            i5 = 0;
+            i6 = 0;
+            i13 = 0;
             if (Float.compare(f, element) == 0) {
             } else {
             }
-            $this$next$iv$iv = i9;
-            i29 = m$iv;
-            i12 = 0;
-            m$iv = $this$next$iv$iv;
-            $this$next$iv$iv = i8;
-            $this$hasNext$iv$iv = i8;
+            $this$next$iv$iv = i5;
+            i29 = m$iv2;
+            i10 = 0;
+            m$iv2 = $this$next$iv$iv;
+            $this$next$iv$iv = i2;
+            $this$hasNext$iv$iv = i2;
         }
-        if (i10 >= 0) {
-            i9 = i8;
+        if (i7 >= 0) {
+            i5 = i2;
         }
-        return i9;
+        return i5;
     }
 
     public final int count() {
@@ -309,14 +309,14 @@ public abstract class FloatSet {
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i4;
+        int i3;
         int i5;
         int $i$f$count;
         int count;
         long l;
+        int i4;
         int i;
         int i2;
-        int i3;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
         booleanValue = 0;
@@ -336,30 +336,30 @@ public abstract class FloatSet {
     public boolean equals(Object other) {
         int cmp;
         Object contains;
-        int i2;
+        int i4;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
         int value$iv$iv$iv;
-        int i3;
-        int i4;
+        int i6;
+        int i;
         Object obj;
         long l;
         int i5;
-        int i;
-        int i6;
+        int i2;
+        int i3;
         final Object obj2 = this;
         final Object obj3 = other;
         cmp = 1;
         if (obj3 == obj2) {
             return cmp;
         }
-        i2 = 0;
+        i4 = 0;
         if (obj3 instanceof FloatSet == null) {
-            return i2;
+            return i4;
         }
         if (obj4._size != obj2._size) {
-            return i2;
+            return i4;
         }
         contains = this;
         int i14 = 0;
@@ -368,39 +368,39 @@ public abstract class FloatSet {
         length += -2;
         if (0 <= i16) {
         } else {
-            i4 = cmp;
+            i = cmp;
             obj = contains;
         }
-        return i4;
+        return i;
     }
 
     public final int findElementIndex$collection(float element) {
-        int m2;
         int m;
+        int m2;
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex;
+        int i11;
         int i;
-        int i8;
         int $this$hasNext$iv;
         int $this$next$iv;
-        int i5;
-        int i11;
-        int i12;
-        int i14;
-        int i13;
-        long l;
-        int i2;
-        int i3;
         int i7;
         int i15;
-        int i9;
+        int i14;
+        int i5;
         int i6;
-        int i10;
+        long l;
         int i4;
+        int i13;
+        int i2;
+        int i8;
+        int i3;
+        int i9;
+        int i10;
+        int i12;
         int numberOfTrailingZeros;
         final Object obj = this;
-        m2 = 0;
+        m = 0;
         int i21 = 0;
         i22 *= i25;
         $i$f$hash = i23 ^ i26;
@@ -412,63 +412,63 @@ public abstract class FloatSet {
         while (/* condition */) {
             int i33 = 0;
             int i37 = 0;
-            i4 = 1;
+            i12 = 1;
             while (Long.compare(i28, i37) != 0) {
-                $this$hasNext$iv = i4;
-                i11 = 0;
-                i3 = 0;
-                i8 = i41 & _capacity;
+                $this$hasNext$iv = i12;
+                i15 = 0;
+                i13 = 0;
+                i = i41 & _capacity;
                 if (Float.compare(f, element) == 0) {
                 }
-                int i31 = m;
-                i14 = 0;
-                m = $this$next$iv;
+                int i31 = m2;
+                i5 = 0;
+                m2 = $this$next$iv;
                 i33 = 0;
                 i37 = 0;
-                i4 = 1;
+                i12 = 1;
                 $this$hasNext$iv = i10;
-                i10 = i4;
+                i10 = i12;
             }
             $this$hasNext$iv = i10;
-            int i29 = i9;
-            i5 = 0;
-            $i$f$h1 = i & _capacity;
-            m2 = i7;
-            $i$f$hash = i15;
+            int i29 = i3;
+            i7 = 0;
+            $i$f$h1 = i11 & _capacity;
+            m = i2;
+            $i$f$hash = i8;
             long[] metadata = obj.metadata;
             $this$next$iv = 0;
             int i32 = $i$f$h1 >> 3;
             i34 <<= 3;
             l3 >>>= i35;
-            i18 |= i13;
-            i11 = 0;
+            i18 |= i6;
+            i15 = 0;
             long l4 = 72340172838076673L;
-            i36 ^= i8;
+            i36 ^= i;
             l = -9187201950435737472L;
             i20 &= l;
-            i11 = 0;
-            i3 = 0;
-            i8 = i41 & _capacity;
+            i15 = 0;
+            i13 = 0;
+            i = i41 & _capacity;
             if (Float.compare(f, element) == 0) {
             }
-            i31 = m;
-            i14 = 0;
-            m = $this$next$iv;
-            i10 = i4;
-            $this$hasNext$iv = i4;
+            i31 = m2;
+            i5 = 0;
+            m2 = $this$next$iv;
+            i10 = i12;
+            $this$hasNext$iv = i12;
         }
-        return i8;
+        return i;
     }
 
     public final float first() {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
-        int j$iv$iv;
-        int i3;
-        long l;
         int i;
+        int j$iv$iv;
+        int i2;
+        long l;
+        int i3;
         final int i4 = 0;
         Object obj = this;
         int i5 = 0;
@@ -488,14 +488,14 @@ public abstract class FloatSet {
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
-        int i5;
-        int i3;
+        int i4;
+        int i;
         int $i$f$first;
         Object obj;
         long l;
-        int i;
-        int i4;
         int i2;
+        int i5;
+        int i3;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter(obj2, "predicate");
         booleanValue = this;
@@ -518,11 +518,11 @@ public abstract class FloatSet {
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
-        int i3;
         int i;
-        long l;
         int i2;
+        long l;
         int i4;
+        int i3;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         int i5 = 0;
@@ -535,15 +535,15 @@ public abstract class FloatSet {
     }
 
     public final void forEachIndex(Function1<? super Integer, Unit> block) {
-        int i;
+        int i2;
         long slot;
         int $this$maskEmptyOrDeleted$iv;
         int i4;
         int j;
-        int i3;
+        int i;
         Integer valueOf;
         long l;
-        int i2;
+        int i3;
         Intrinsics.checkNotNullParameter(block, "block");
         int i5 = 0;
         final long[] metadata = this.metadata;
@@ -565,14 +565,14 @@ public abstract class FloatSet {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
-        int j$iv$iv;
         int i4;
-        int i3;
-        long l;
+        int j$iv$iv;
         int i5;
-        int i6;
         int i;
+        long l;
+        int i2;
+        int i6;
+        int i3;
         hash = 0;
         final Object obj = this;
         final int i7 = 0;
@@ -627,23 +627,23 @@ public abstract class FloatSet {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated) {
-        int i;
+        int i4;
         Object obj;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i9;
+        int i2;
         int index;
         int j$iv$iv;
         int i$iv$iv;
         long slot$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i7;
-        int i2;
-        int i3;
         int i8;
-        long l;
-        int i4;
+        int i9;
+        int i7;
         int i5;
+        long l;
+        int i;
         int i6;
+        int i3;
         final Object obj2 = separator;
         obj = prefix;
         final Object obj3 = postfix;
@@ -655,18 +655,18 @@ public abstract class FloatSet {
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder sb = stringBuilder;
         sb.append(obj);
-        i9 = 0;
+        i2 = 0;
         index = this;
         final int i15 = 0;
         final long[] metadata = obj5.metadata;
         length += -2;
         if (0 <= i16) {
         } else {
-            i = limit;
-            i3 = $this$maskEmptyOrDeleted$iv$iv$iv;
+            i4 = limit;
+            i7 = $this$maskEmptyOrDeleted$iv$iv$iv;
             $this$maskEmptyOrDeleted$iv$iv$iv2 = index;
-            i7 = j$iv$iv;
-            index = i9;
+            i8 = j$iv$iv;
+            index = i2;
             sb.append(obj3);
         }
         String string = stringBuilder.toString();
@@ -677,23 +677,23 @@ public abstract class FloatSet {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
         int invoke;
         int $i$f$joinToString;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int index2;
-        int i;
-        int i9;
+        int $this$maskEmptyOrDeleted$iv$iv$iv2;
+        int index;
+        int i7;
+        int i8;
         int this_$iv;
-        Object index;
+        Object index2;
         int j$iv$iv;
         long slot$iv$iv;
-        Object $this$maskEmptyOrDeleted$iv$iv$iv2;
+        Object $this$maskEmptyOrDeleted$iv$iv$iv;
+        int i6;
         int i2;
-        int i8;
-        int i7;
+        int $i$a$BuildStringFloatSet$joinToString$2;
         int i5;
         long l;
-        int i6;
-        int i3;
+        int i;
         int i4;
+        int i3;
         Object obj = prefix;
         final Object obj2 = postfix;
         final Object obj3 = truncated;
@@ -706,17 +706,17 @@ public abstract class FloatSet {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         sb.append(obj);
-        index = this;
-        final int i18 = 0;
+        index2 = this;
+        final int i17 = 0;
         final long[] metadata = obj5.metadata;
         length += -2;
-        final int i19 = i11;
-        if (0 <= i10) {
+        final int i18 = i10;
+        if (0 <= i9) {
         } else {
-            i7 = $this$maskEmptyOrDeleted$iv$iv$iv;
-            $this$maskEmptyOrDeleted$iv$iv$iv2 = index;
-            i2 = j$iv$iv;
-            index2 = limit;
+            $i$a$BuildStringFloatSet$joinToString$2 = $this$maskEmptyOrDeleted$iv$iv$iv2;
+            $this$maskEmptyOrDeleted$iv$iv$iv = index2;
+            i6 = j$iv$iv;
+            index = limit;
             this_$iv = invoke;
             sb.append(obj2);
         }
@@ -729,21 +729,21 @@ public abstract class FloatSet {
         int invoke;
         int m$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i2;
+        int i7;
         StringBuilder stringBuilder;
-        int i3;
+        int i;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int i6;
-        int i;
+        int i3;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
+        int i2;
         int i4;
         int i5;
-        int i7;
         Object obj = prefix;
         final Object obj2 = postfix;
         final Object obj3 = transform;
@@ -756,17 +756,17 @@ public abstract class FloatSet {
         sb2.append(obj);
         index$iv = 0;
         final Object obj4 = this;
+        final int i14 = 0;
         final int i15 = 0;
-        final int i16 = 0;
         long[] metadata = obj5.metadata;
-        final int i17 = i8;
+        final int i16 = i8;
         $i$f$joinToString2 += -2;
         if (0 <= i9) {
         } else {
             $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
             $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
-            i2 = limit;
+            i7 = limit;
             sb2.append(obj2);
         }
         String string = sb.toString();
@@ -776,20 +776,20 @@ public abstract class FloatSet {
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i4;
-        int i2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i;
+        int i5;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i;
-        int i5;
+        int i2;
         int i3;
+        int i4;
         final Object obj = separator;
         Object obj2 = prefix;
         final Object obj3 = postfix;
@@ -803,16 +803,16 @@ public abstract class FloatSet {
         sb2.append(obj2);
         index$iv = 0;
         final Object obj5 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         long[] metadata = obj6.metadata;
-        final int i16 = i6;
+        final int i15 = i6;
         $i$f$joinToString2 += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
             sb2.append(obj3);
         }
         String string = sb.toString();
@@ -834,8 +834,8 @@ public abstract class FloatSet {
         StringBuilder sb;
         long l;
         int i3;
-        int i4;
         int i5;
+        int i4;
         final Object obj = separator;
         Object obj2 = prefix;
         final Object obj3 = transform;
@@ -847,10 +847,10 @@ public abstract class FloatSet {
         sb2.append(obj2);
         index$iv = 0;
         final Object obj4 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         long[] metadata = obj5.metadata;
-        final int i16 = i6;
+        final int i15 = i6;
         $i$f$joinToString2 += -2;
         if (0 <= i7) {
         } else {
@@ -866,20 +866,20 @@ public abstract class FloatSet {
 
     public final String joinToString(java.lang.CharSequence separator, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i4;
-        int i;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i2;
+        int i3;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
+        int i4;
         int i5;
-        int i2;
-        int i3;
+        int i;
         final Object obj = separator;
         final Object obj2 = transform;
         Intrinsics.checkNotNullParameter(obj, "separator");
@@ -891,17 +891,17 @@ public abstract class FloatSet {
         sb2.append((CharSequence)str4);
         index$iv = 0;
         final Object obj3 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
-        final int i16 = i6;
+        final int i15 = i6;
         long[] $i$f$joinToString2 = obj4.metadata;
         final String str7 = str4;
         prefix$iv += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
             sb2.append((CharSequence)str3);
         }
         String string = sb.toString();
@@ -911,20 +911,20 @@ public abstract class FloatSet {
 
     public final String joinToString(Function1<? super Float, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int i3;
-        int i;
+        int i5;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i2;
         int i4;
-        int i5;
+        int i;
+        int i2;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(obj, "transform");
         final String str3 = "";
@@ -934,17 +934,17 @@ public abstract class FloatSet {
         sb2.append((CharSequence)str4);
         index$iv = 0;
         final Object obj2 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
-        final int i16 = i6;
+        final int i15 = i6;
         long[] $i$f$joinToString2 = obj3.metadata;
         final String str7 = str4;
         prefix$iv += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
             sb2.append((CharSequence)str3);
         }
         String string = sb.toString();

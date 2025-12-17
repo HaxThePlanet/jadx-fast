@@ -16,8 +16,8 @@ public final class IntervalListKt {
         int startIndex;
         int right;
         int startIndex2;
-        Object[] content;
         Object[] content2;
+        Object[] content;
         left = 0;
         startIndex = 0;
         size--;
@@ -26,7 +26,7 @@ public final class IntervalListKt {
             startIndex2 = 0;
             startIndex = (IntervalList.Interval)$this$binarySearch.getContent()[i].getStartIndex();
             right = i + -1;
-            content = 0;
+            content2 = 0;
         }
         return left;
     }

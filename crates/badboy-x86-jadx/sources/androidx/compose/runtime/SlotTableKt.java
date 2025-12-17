@@ -371,16 +371,16 @@ public final class SlotTableKt {
     }
 
     private static final void initGroup(int[] $this$initGroup, int address, int key, boolean isNode, boolean hasDataKey, boolean hasData, int parentAnchor, int dataAnchor) {
-        int i;
-        int i3;
         int i2;
+        int i3;
+        int i;
         int i4 = 0;
-        i = isNode ? 1073741824 : i4;
+        i2 = isNode ? 1073741824 : i4;
         i3 = hasDataKey ? 536870912 : i4;
-        i2 = hasData != null ? 268435456 : i4;
+        i = hasData != null ? 268435456 : i4;
         final int i6 = address * 5;
         $this$initGroup[i6 + 0] = key;
-        $this$initGroup[i6 + 1] = i11 |= i2;
+        $this$initGroup[i6 + 1] = i11 |= i;
         $this$initGroup[i6 + 2] = parentAnchor;
         $this$initGroup[i6 + 3] = i4;
         $this$initGroup[i6 + 4] = dataAnchor;
@@ -431,11 +431,11 @@ public final class SlotTableKt {
         int index$iv$iv;
         Object obj2;
         Object obj;
-        int i2;
+        int i;
         ArrayList list;
         Integer valueOf;
+        int i2;
         int i3;
-        int i;
         List slice = SlotTableKt.slice($this$nodeCounts, (Iterable)RangesKt.step((IntProgression)RangesKt.until(1, len), 5));
         int i6 = 0;
         ArrayList arrayList = new ArrayList(slice.size());
@@ -443,9 +443,9 @@ public final class SlotTableKt {
         final int i7 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list2.size()) {
+            i = 0;
             i2 = 0;
-            i3 = 0;
-            (Collection)arrayList.add(Integer.valueOf(intValue &= i));
+            (Collection)arrayList.add(Integer.valueOf(intValue &= i3));
             index$iv$iv++;
         }
         return (List)arrayList;
@@ -566,13 +566,13 @@ public final class SlotTableKt {
     }
 
     private static final void updateMark(int[] $this$updateMark, int address, boolean value) {
-        int i2;
         int i;
+        int i2;
         i3++;
         if (value != null) {
-            $this$updateMark[i4] = i5 |= i;
+            $this$updateMark[i4] = i5 |= i2;
         } else {
-            $this$updateMark[i4] = i6 &= i;
+            $this$updateMark[i4] = i6 &= i2;
         }
     }
 

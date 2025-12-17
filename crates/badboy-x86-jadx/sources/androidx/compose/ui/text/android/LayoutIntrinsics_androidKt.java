@@ -24,13 +24,13 @@ public final class LayoutIntrinsics_androidKt {
         int end;
         Pair pair;
         int minWidth;
-        Integer valueOf4;
-        Integer valueOf2;
-        int valueOf3;
         Integer valueOf;
-        int intValue2;
-        int i;
+        Integer valueOf4;
+        int valueOf2;
+        Integer valueOf3;
         int intValue;
+        int i;
+        int intValue2;
         float desiredWidth;
         BreakIterator lineInstance = BreakIterator.getLineInstance(paint.getTextLocale());
         CharSequenceCharacterIterator charSequenceCharacterIterator = new CharSequenceCharacterIterator(text, 0, text.length());
@@ -46,25 +46,25 @@ public final class LayoutIntrinsics_androidKt {
             } else {
             }
             pair = priorityQueue.peek();
-            valueOf4 = 0;
+            valueOf = 0;
             if (pair != null && intValue3 -= intValue4 < end - start) {
             }
             start = end;
             end = lineInstance.next();
-            valueOf4 = 0;
+            valueOf = 0;
             if (intValue3 -= intValue4 < end - start) {
             }
             priorityQueue.poll();
-            valueOf2 = new Pair(Integer.valueOf(start), Integer.valueOf(end));
-            priorityQueue.add(valueOf2);
+            valueOf4 = new Pair(Integer.valueOf(start), Integer.valueOf(end));
+            priorityQueue.add(valueOf4);
             pair = new Pair(Integer.valueOf(start), Integer.valueOf(end));
             priorityQueue.add(pair);
         }
         minWidth = 0;
         int i6 = 0;
         Iterator iterator = (Iterable)priorityQueue.iterator();
-        for (Object valueOf : iterator) {
-            Object obj = valueOf;
+        for (Object valueOf3 : iterator) {
+            Object obj = valueOf3;
             i = 0;
             minWidth = Math.max(minWidth, Layout.getDesiredWidth(text, (Number)(Pair)obj.component1().intValue(), (Number)obj.component2().intValue(), paint));
         }

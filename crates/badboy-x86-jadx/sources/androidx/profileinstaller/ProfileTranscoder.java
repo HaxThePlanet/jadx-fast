@@ -51,40 +51,40 @@ class ProfileTranscoder {
 
     private static byte[] createCompressibleBody(androidx.profileinstaller.DexProfileData[] lines, byte[] version) throws IOException {
         int requiredCapacity;
-        int i2;
         int i;
+        int i2;
         int length;
         Object obj;
         int dexKey;
-        String dexName;
-        int dexName2;
+        String dexName2;
+        int dexName;
         int methodBitmapStorageSize;
         requiredCapacity = 0;
-        i2 = 0;
-        i = i2;
-        while (i < lines.length) {
-            obj = lines[i];
-            requiredCapacity += dexName2;
-            i++;
+        i = 0;
+        i2 = i;
+        while (i2 < lines.length) {
+            obj = lines[i2];
+            requiredCapacity += dexName;
+            i2++;
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(requiredCapacity);
         if (Arrays.equals(version, ProfileVersion.V009_O_MR1) != null) {
-            while (i2 < lines.length) {
-                obj = lines[i2];
+            while (i < lines.length) {
+                obj = lines[i];
                 ProfileTranscoder.writeLineHeader(byteArrayOutputStream, obj, ProfileTranscoder.generateDexKey(obj.apkName, obj.dexName, version));
                 ProfileTranscoder.writeLineData(byteArrayOutputStream, obj);
-                i2++;
+                i++;
             }
         } else {
-            obj = i2;
+            obj = i;
             while (obj < lines.length) {
                 dexKey = lines[obj];
                 ProfileTranscoder.writeLineHeader(byteArrayOutputStream, dexKey, ProfileTranscoder.generateDexKey(dexKey.apkName, dexKey.dexName, version));
                 obj++;
             }
-            while (i2 < lines.length) {
-                ProfileTranscoder.writeLineData(byteArrayOutputStream, lines[i2]);
-                i2++;
+            while (i < lines.length) {
+                ProfileTranscoder.writeLineData(byteArrayOutputStream, lines[i]);
+                i++;
             }
         }
         if (byteArrayOutputStream.size() != requiredCapacity) {
@@ -98,16 +98,16 @@ class ProfileTranscoder {
     private static androidx.profileinstaller.WritableFileSection createCompressibleClassSection(androidx.profileinstaller.DexProfileData[] profileData) throws IOException {
         int expectedSize;
         Throwable contents;
-        int i;
-        Throwable th;
         int i2;
+        Throwable th;
+        int i;
         expectedSize = 0;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        i = 0;
+        i2 = 0;
         for (Object th : profileData) {
-            Encoding.writeUInt16(byteArrayOutputStream, i);
+            Encoding.writeUInt16(byteArrayOutputStream, i2);
             Encoding.writeUInt16(byteArrayOutputStream, th.classSetSize);
-            expectedSize3 += i2;
+            expectedSize3 += i;
             ProfileTranscoder.writeClasses(byteArrayOutputStream, th);
         }
         byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -124,27 +124,27 @@ class ProfileTranscoder {
     private static androidx.profileinstaller.WritableFileSection createCompressibleMethodsSection(androidx.profileinstaller.DexProfileData[] profileData) throws IOException {
         int expectedSize;
         Throwable contents;
-        int i;
+        int i2;
         Throwable th;
         int methodFlags;
         byte[] methodBitmapRegionForS;
         byte[] methodsWithInlineCaches;
-        int i2;
+        int i;
         long l;
         expectedSize = 0;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        i = 0;
+        i2 = 0;
         for (Object th : profileData) {
             methodFlags = ProfileTranscoder.computeMethodFlags(th);
             methodBitmapRegionForS = ProfileTranscoder.createMethodBitmapRegionForS(methodFlags, th);
             methodsWithInlineCaches = ProfileTranscoder.createMethodsWithInlineCaches(th);
-            Encoding.writeUInt16(byteArrayOutputStream, i);
+            Encoding.writeUInt16(byteArrayOutputStream, i2);
             i4 += length5;
-            Encoding.writeUInt32(byteArrayOutputStream, (long)i2);
+            Encoding.writeUInt32(byteArrayOutputStream, (long)i);
             Encoding.writeUInt16(byteArrayOutputStream, methodFlags);
             byteArrayOutputStream.write(methodBitmapRegionForS);
             byteArrayOutputStream.write(methodsWithInlineCaches);
-            expectedSize3 += i2;
+            expectedSize3 += i;
         }
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         if (expectedSize != byteArray.length) {
@@ -167,8 +167,8 @@ class ProfileTranscoder {
     }
 
     private static byte[] createMethodsWithInlineCaches(androidx.profileinstaller.DexProfileData profile) throws IOException {
-        Throwable th;
         Throwable th2;
+        Throwable th;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ProfileTranscoder.writeMethodsWithInlineCaches(byteArrayOutputStream, profile);
         byteArrayOutputStream.close();
@@ -259,15 +259,15 @@ class ProfileTranscoder {
     private static int[] readClasses(InputStream is, int classSetSize) throws IOException {
         int lastClassIndex;
         int k;
-        int i2;
         int i;
+        int i2;
         final int[] iArr = new int[classSetSize];
         lastClassIndex = 0;
         k = 0;
         while (k < classSetSize) {
-            i = lastClassIndex + i2;
-            iArr[k] = i;
-            lastClassIndex = i;
+            i2 = lastClassIndex + i;
+            iArr[k] = i2;
+            lastClassIndex = i2;
             k++;
         }
         return iArr;
@@ -294,22 +294,22 @@ class ProfileTranscoder {
 
     private static void readHotMethodRegion(InputStream is, androidx.profileinstaller.DexProfileData data) throws IOException {
         int lastMethodIndex;
-        int i2;
         int i;
+        int i2;
         int inlineCacheSize;
         Integer valueOf;
         Integer valueOf2;
         available -= hotMethodRegionSize;
         lastMethodIndex = 0;
         while (is.available() > i3) {
-            i = lastMethodIndex + i2;
-            data.methods.put(Integer.valueOf(i), 1);
+            i2 = lastMethodIndex + i;
+            data.methods.put(Integer.valueOf(i2), 1);
             inlineCacheSize = Encoding.readUInt16(is);
             while (inlineCacheSize > 0) {
                 ProfileTranscoder.skipInlineCache(is);
                 inlineCacheSize--;
             }
-            lastMethodIndex = i;
+            lastMethodIndex = i2;
             ProfileTranscoder.skipInlineCache(is);
             inlineCacheSize--;
         }
@@ -351,9 +351,9 @@ class ProfileTranscoder {
     }
 
     private static androidx.profileinstaller.DexProfileData[] readMetadataForNBody(InputStream is, int numberOfDexFiles, androidx.profileinstaller.DexProfileData[] profile) throws IOException {
+        int i;
         int i3;
         int i2;
-        int i;
         String classes;
         String str;
         if (is.available() == 0) {
@@ -363,18 +363,18 @@ class ProfileTranscoder {
         } else {
             String[] strArr = new String[numberOfDexFiles];
             final int[] iArr = new int[numberOfDexFiles];
+            i = 0;
+            while (i < numberOfDexFiles) {
+                iArr[i] = Encoding.readUInt16(is);
+                strArr[i] = Encoding.readString(is, Encoding.readUInt16(is));
+                i++;
+            }
             i3 = 0;
             while (i3 < numberOfDexFiles) {
-                iArr[i3] = Encoding.readUInt16(is);
-                strArr[i3] = Encoding.readString(is, Encoding.readUInt16(is));
+                i2 = profile[i3];
+                i2.classSetSize = iArr[i3];
+                i2.classes = ProfileTranscoder.readClasses(is, i2.classSetSize);
                 i3++;
-            }
-            i2 = 0;
-            while (i2 < numberOfDexFiles) {
-                i = profile[i2];
-                i.classSetSize = iArr[i2];
-                i.classes = ProfileTranscoder.readClasses(is, i.classSetSize);
-                i2++;
             }
             return profile;
         }
@@ -382,8 +382,8 @@ class ProfileTranscoder {
     }
 
     static androidx.profileinstaller.DexProfileData[] readMetadataV002(InputStream is, byte[] desiredProfileVersion, androidx.profileinstaller.DexProfileData[] profile) throws IOException {
-        Throwable th;
         Throwable th2;
+        Throwable th;
         if (is.read() > 0) {
         } else {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Encoding.readCompressed(is, (int)uInt322, (int)uInt32));
@@ -395,10 +395,10 @@ class ProfileTranscoder {
 
     private static androidx.profileinstaller.DexProfileData[] readMetadataV002Body(InputStream is, byte[] desiredProfileVersion, int dexFileCount, androidx.profileinstaller.DexProfileData[] profile) throws IOException {
         int i2;
-        int i3;
+        int i;
         String string;
         long l;
-        int i;
+        int i3;
         androidx.profileinstaller.DexProfileData byDexName;
         int[] classes;
         boolean equals;
@@ -411,14 +411,14 @@ class ProfileTranscoder {
             while (i2 < dexFileCount) {
                 Encoding.readUInt16(is);
                 string = Encoding.readString(is, Encoding.readUInt16(is));
-                i = Encoding.readUInt16(is);
+                i3 = Encoding.readUInt16(is);
                 byDexName = ProfileTranscoder.findByDexName(profile, string);
                 byDexName.mTypeIdCount = Encoding.readUInt32(is);
                 if (Arrays.equals(desiredProfileVersion, ProfileVersion.V001_N) != null) {
                 }
                 i2++;
-                byDexName.classSetSize = i;
-                byDexName.classes = ProfileTranscoder.readClasses(is, i);
+                byDexName.classSetSize = i3;
+                byDexName.classes = ProfileTranscoder.readClasses(is, i3);
             }
             return profile;
         }
@@ -430,9 +430,9 @@ class ProfileTranscoder {
         int flagsFromBitmap;
         Object current;
         TreeMap methods;
-        Integer valueOf;
-        Integer valueOf2;
         Integer valueOf3;
+        Integer valueOf2;
+        Integer valueOf;
         methodIndex = 0;
         while (methodIndex < data.numMethodIds) {
             flagsFromBitmap = ProfileTranscoder.readFlagsFromBitmap(BitSet.valueOf(Encoding.read(is, Encoding.bitsToBytes(numMethodIds *= 2))), methodIndex, data.numMethodIds);
@@ -447,8 +447,8 @@ class ProfileTranscoder {
     }
 
     static androidx.profileinstaller.DexProfileData[] readProfile(InputStream is, byte[] version, String apkName) throws IOException {
-        Throwable th2;
         Throwable th;
+        Throwable th2;
         if (Arrays.equals(version, ProfileVersion.V010_P) == null) {
         } else {
             if (is.read() > 0) {
@@ -463,15 +463,15 @@ class ProfileTranscoder {
     }
 
     private static androidx.profileinstaller.DexProfileData[] readUncompressedBody(InputStream is, String apkName, int numberOfDexFiles) throws IOException {
-        int i5;
+        int i3;
         int i6;
-        int i4;
+        int i5;
         androidx.profileinstaller.DexProfileData hotMethodRegionSize;
         String str;
         String string;
         long l;
         int numMethodIds;
-        int i3;
+        int i4;
         int i;
         int i2;
         int[] iArr;
@@ -486,23 +486,23 @@ class ProfileTranscoder {
         androidx.profileinstaller.DexProfileData[] arr = new DexProfileData[i7];
         i6 = 0;
         while (i6 < i7) {
-            i3 = Encoding.readUInt16(inputStream);
+            i4 = Encoding.readUInt16(inputStream);
             long uInt32 = Encoding.readUInt32(inputStream);
             long uInt322 = Encoding.readUInt32(inputStream);
             hotMethodRegionSize = dexProfileData3;
             l2 = l4;
             treeMap = new TreeMap();
             l3 = uInt322;
-            super(apkName, Encoding.readString(inputStream, Encoding.readUInt16(inputStream)), Encoding.readUInt32(inputStream), obj10, 0, obj12, i3, (int)uInt32, (int)uInt322, new int[i3], treeMap);
+            super(apkName, Encoding.readString(inputStream, Encoding.readUInt16(inputStream)), Encoding.readUInt32(inputStream), obj10, 0, obj12, i4, (int)uInt32, (int)uInt322, new int[i4], treeMap);
             arr[i6] = hotMethodRegionSize;
             i6++;
         }
-        while (i5 < arr.length) {
-            i4 = arr[i5];
-            ProfileTranscoder.readHotMethodRegion(inputStream, i4);
-            i4.classes = ProfileTranscoder.readClasses(inputStream, i4.classSetSize);
-            ProfileTranscoder.readMethodBitmap(inputStream, i4);
-            i5++;
+        while (i3 < arr.length) {
+            i5 = arr[i3];
+            ProfileTranscoder.readHotMethodRegion(inputStream, i5);
+            i5.classes = ProfileTranscoder.readClasses(inputStream, i5.classSetSize);
+            ProfileTranscoder.readMethodBitmap(inputStream, i5);
+            i3++;
         }
         return arr;
     }
@@ -662,10 +662,10 @@ class ProfileTranscoder {
         int offset;
         int flag;
         int i2;
-        int i3;
-        int i4;
-        byte b;
         int i;
+        int i3;
+        byte b;
+        int i4;
         final byte[] bArr = new byte[ProfileTranscoder.getMethodBitmapStorageSizeForS(methodFlags, dexData.numMethodIds)];
         Iterator iterator = dexData.methods.entrySet().iterator();
         for (Map.Entry next : iterator) {
@@ -684,8 +684,8 @@ class ProfileTranscoder {
                 offset++;
                 flag <<= 1;
                 i7 += intValue;
-                i4 = i3 / 8;
-                bArr[i4] = (byte)i6;
+                i3 = i / 8;
+                bArr[i3] = (byte)i6;
                 flag <<= 1;
                 flag <<= 1;
             }
@@ -701,8 +701,8 @@ class ProfileTranscoder {
             offset++;
             flag <<= 1;
             i7 += intValue;
-            i4 = i3 / 8;
-            bArr[i4] = (byte)i6;
+            i3 = i / 8;
+            bArr[i3] = (byte)i6;
             flag <<= 1;
             flag <<= 1;
         }
@@ -712,38 +712,38 @@ class ProfileTranscoder {
     private static void writeMethodsWithInlineCaches(OutputStream os, androidx.profileinstaller.DexProfileData dexData) throws IOException {
         int lastMethodIndex;
         Object next;
-        int intValue;
         int intValue2;
-        int i2;
+        int intValue;
         int i;
+        int i2;
         lastMethodIndex = 0;
         Iterator iterator = dexData.methods.entrySet().iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            intValue = (Integer)(Map.Entry)next.getKey().intValue();
-            if (intValue2 & 1 == 0) {
+            intValue2 = (Integer)(Map.Entry)next.getKey().intValue();
+            if (intValue & 1 == 0) {
             } else {
             }
-            Encoding.writeUInt16(os, intValue - lastMethodIndex);
+            Encoding.writeUInt16(os, intValue2 - lastMethodIndex);
             Encoding.writeUInt16(os, 0);
-            lastMethodIndex = intValue;
+            lastMethodIndex = intValue2;
         }
     }
 
     private static void writeProfileForN(OutputStream os, androidx.profileinstaller.DexProfileData[] lines) throws IOException {
-        int i2;
+        int i3;
         Object obj;
         String dexKey;
         int[] classes;
         int length;
         byte[] intValue;
-        int i3;
+        int i2;
         int i;
         Encoding.writeUInt16(os, lines.length);
         final int i4 = 0;
-        i2 = i4;
-        while (i2 < lines.length) {
-            obj = lines[i2];
+        i3 = i4;
+        while (i3 < lines.length) {
+            obj = lines[i3];
             intValue = ProfileVersion.V001_N;
             dexKey = ProfileTranscoder.generateDexKey(obj.apkName, obj.dexName, intValue);
             Encoding.writeUInt16(os, Encoding.utf8Length(dexKey));
@@ -756,20 +756,20 @@ class ProfileTranscoder {
                 Encoding.writeUInt16(os, next2.intValue());
             }
             classes = obj.classes;
-            i3 = i4;
-            while (i3 < classes.length) {
-                Encoding.writeUInt16(os, classes[i3]);
-                i3++;
+            i2 = i4;
+            while (i2 < classes.length) {
+                Encoding.writeUInt16(os, classes[i2]);
+                i2++;
             }
-            i2++;
-            Encoding.writeUInt16(os, classes[i3]);
             i3++;
+            Encoding.writeUInt16(os, classes[i2]);
+            i2++;
             Encoding.writeUInt16(os, (Integer)iterator.next().intValue());
         }
     }
 
     private static void writeProfileForO(OutputStream os, androidx.profileinstaller.DexProfileData[] lines) throws IOException {
-        int i3;
+        int i;
         Object obj;
         int i2;
         String dexKey;
@@ -777,12 +777,12 @@ class ProfileTranscoder {
         int length;
         byte[] intValue;
         int i4;
-        int i;
+        int i3;
         Encoding.writeUInt8(os, lines.length);
         final int i5 = 0;
-        i3 = i5;
-        while (i3 < lines.length) {
-            obj = lines[i3];
+        i = i5;
+        while (i < lines.length) {
+            obj = lines[i];
             intValue = ProfileVersion.V005_O;
             dexKey = ProfileTranscoder.generateDexKey(obj.apkName, obj.dexName, intValue);
             Encoding.writeUInt16(os, Encoding.utf8Length(dexKey));
@@ -801,7 +801,7 @@ class ProfileTranscoder {
                 Encoding.writeUInt16(os, classes[i4]);
                 i4++;
             }
-            i3++;
+            i++;
             Encoding.writeUInt16(os, classes[i4]);
             i4++;
             Encoding.writeUInt16(os, (Integer)iterator.next().intValue());
@@ -824,14 +824,14 @@ class ProfileTranscoder {
     }
 
     private static void writeProfileSections(OutputStream os, androidx.profileinstaller.DexProfileData[] profileData) throws IOException {
-        int i;
         int i2;
+        int i;
         int offset;
-        long l;
+        long l3;
         int size;
         long l2;
         byte[] compress;
-        long l3;
+        long l;
         int i3 = 3;
         ArrayList arrayList = new ArrayList(i3);
         ArrayList arrayList2 = new ArrayList(i3);
@@ -840,29 +840,29 @@ class ProfileTranscoder {
         arrayList.add(ProfileTranscoder.createCompressibleMethodsSection(profileData));
         offset2 += l6;
         Encoding.writeUInt32(os, (long)size3);
-        i = 0;
-        while (i < arrayList.size()) {
-            l = arrayList.get(i);
-            Encoding.writeUInt32(os, l.mType.getValue());
+        i2 = 0;
+        while (i2 < arrayList.size()) {
+            l3 = arrayList.get(i2);
+            Encoding.writeUInt32(os, l3.mType.getValue());
             Encoding.writeUInt32(os, offset);
-            if (l.mNeedsCompression) {
+            if (l3.mNeedsCompression) {
             } else {
             }
-            arrayList2.add(l.mContents);
+            arrayList2.add(l3.mContents);
             Encoding.writeUInt32(os, (long)length4);
             Encoding.writeUInt32(os, 0);
             offset += l2;
-            i++;
-            compress = Encoding.compress(l.mContents);
+            i2++;
+            compress = Encoding.compress(l3.mContents);
             arrayList2.add(compress);
             Encoding.writeUInt32(os, (long)length6);
             Encoding.writeUInt32(os, (long)length3);
-            offset += l3;
+            offset += l;
         }
-        i2 = 0;
-        while (i2 < arrayList2.size()) {
-            os.write((byte[])arrayList2.get(i2));
-            i2++;
+        i = 0;
+        while (i < arrayList2.size()) {
+            os.write((byte[])arrayList2.get(i));
+            i++;
         }
     }
 }

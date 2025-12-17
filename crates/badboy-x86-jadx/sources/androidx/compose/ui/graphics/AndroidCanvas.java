@@ -26,23 +26,23 @@ public final class AndroidCanvas implements androidx.compose.ui.graphics.Canvas 
     }
 
     private final void drawLines(List<Offset> points, androidx.compose.ui.graphics.Paint paint, int stepBy) {
-        int i;
         int i2;
+        int i;
         Canvas internalCanvas;
         float x-impl2;
-        float y-impl2;
-        float x-impl;
         float y-impl;
+        float x-impl;
+        float y-impl2;
         android.graphics.Paint frameworkPaint;
-        long unbox-impl;
         long unbox-impl2;
+        long unbox-impl;
         if (points.size() >= 2) {
-            i = 0;
-            while (i < size--) {
-                unbox-impl = (Offset)points.get(i).unbox-impl();
-                unbox-impl2 = (Offset)points.get(i + 1).unbox-impl();
-                this.internalCanvas.drawLine(Offset.getX-impl(unbox-impl), Offset.getY-impl(unbox-impl), Offset.getX-impl(unbox-impl2), Offset.getY-impl(unbox-impl2), paint.asFrameworkPaint());
-                i += stepBy;
+            i2 = 0;
+            while (i2 < size--) {
+                unbox-impl2 = (Offset)points.get(i2).unbox-impl();
+                unbox-impl = (Offset)points.get(i2 + 1).unbox-impl();
+                this.internalCanvas.drawLine(Offset.getX-impl(unbox-impl2), Offset.getY-impl(unbox-impl2), Offset.getX-impl(unbox-impl), Offset.getY-impl(unbox-impl), paint.asFrameworkPaint());
+                i2 += stepBy;
             }
         }
     }
@@ -68,19 +68,19 @@ public final class AndroidCanvas implements androidx.compose.ui.graphics.Canvas 
     }
 
     private final void drawRawLines(float[] points, androidx.compose.ui.graphics.Paint paint, int stepBy) {
-        int i6;
-        int i2;
         int i3;
-        int i4;
+        int i6;
         int i;
+        int i2;
+        int i4;
         int i5;
         android.graphics.Paint frameworkPaint;
         if (points.length >= 4 && length %= 2 == 0) {
             if (length %= 2 == 0) {
-                i6 = 0;
-                while (i6 < length2 += -3) {
-                    this.internalCanvas.drawLine(points[i6], points[i6 + 1], points[i6 + 2], points[i6 + 3], paint.asFrameworkPaint());
-                    i6 += i2;
+                i3 = 0;
+                while (i3 < length2 += -3) {
+                    this.internalCanvas.drawLine(points[i3], points[i3 + 1], points[i3 + 2], points[i3 + 3], paint.asFrameworkPaint());
+                    i3 += i6;
                 }
             }
         }
@@ -89,8 +89,8 @@ public final class AndroidCanvas implements androidx.compose.ui.graphics.Canvas 
     private final void drawRawPoints(float[] points, androidx.compose.ui.graphics.Paint paint, int stepBy) {
         int frameworkPaint;
         int i3;
-        int i;
         int i2;
+        int i;
         Canvas internalCanvas;
         if (length %= 2 == 0) {
             i3 = 0;

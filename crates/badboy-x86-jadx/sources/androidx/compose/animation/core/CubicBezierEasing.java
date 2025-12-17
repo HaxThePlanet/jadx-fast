@@ -18,11 +18,11 @@ public final class CubicBezierEasing implements androidx.compose.animation.core.
     }
 
     public CubicBezierEasing(float a, float b, float c, float d) {
-        int i2;
-        boolean naN;
-        String string;
-        StringBuilder append;
         int i;
+        boolean naN;
+        String $i$a$RequirePreconditionCubicBezierEasing$1;
+        StringBuilder append;
+        int i2;
         float f;
         super();
         this.a = a;
@@ -32,7 +32,7 @@ public final class CubicBezierEasing implements androidx.compose.animation.core.
         if (!Float.isNaN(this.a) && !Float.isNaN(this.b) && !Float.isNaN(this.c) && !Float.isNaN(this.d)) {
             if (!Float.isNaN(this.b)) {
                 if (!Float.isNaN(this.c)) {
-                    i2 = !Float.isNaN(this.d) ? 1 : 0;
+                    i = !Float.isNaN(this.d) ? 1 : 0;
                 } else {
                 }
             } else {
@@ -40,7 +40,7 @@ public final class CubicBezierEasing implements androidx.compose.animation.core.
         } else {
         }
         int i3 = 0;
-        if (i2 == 0) {
+        if (i == 0) {
             int i5 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             String str2 = ", ";
@@ -110,9 +110,9 @@ public final class CubicBezierEasing implements androidx.compose.animation.core.
         int evaluateCubic;
         int cmp;
         float max;
-        int i;
-        int $this$fastCoerceAtMost$iv$iv;
         int i2;
+        int $this$fastCoerceAtMost$iv$iv;
+        int i;
         int cmp2;
         firstCubicRoot = 0;
         evaluateCubic = 1065353216;
@@ -125,12 +125,12 @@ public final class CubicBezierEasing implements androidx.compose.animation.core.
                 }
                 cmp = this.min;
                 max = this.max;
-                i = 0;
+                i2 = 0;
                 int i7 = 0;
                 if (Float.compare($this$fastCoerceAtMost$iv$iv, cmp) < 0) {
                     $this$fastCoerceAtMost$iv$iv = cmp;
                 }
-                i2 = 0;
+                i = 0;
                 if (Float.compare($this$fastCoerceAtMost$iv$iv, max) > 0) {
                     $this$fastCoerceAtMost$iv$iv = max;
                 }

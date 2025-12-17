@@ -26,18 +26,18 @@ import kotlin.jvm.functions.Function2;
 @Metadata(d1 = "\u0000J\n\u0000\n\u0002\u0010\u000b\n\u0002\u0018\u0002\n\u0002\u0008\u0006\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\u0008\u0003\n\u0002\u0010\u0002\n\u0002\u0008\u0002\n\u0002\u0010\u0008\n\u0000\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010 \n\u0002\u0008\u0003\u001a.\u0010\u0012\u001a\u00020\u00132\u0006\u0010\u0014\u001a\u00020\u00022\u0008\u0008\u0002\u0010\u0015\u001a\u00020\u00162\u0012\u0010\u0017\u001a\u000e\u0012\u0004\u0012\u00020\u0019\u0012\u0004\u0012\u00020\u00130\u0018H\u0002\u001a\u0012\u0010\u001a\u001a\u0008\u0012\u0004\u0012\u00020\u00020\u001b*\u00020\u0002H\u0002\u001a!\u0010\u001c\u001a\u00020\u0013*\u00020\u00022\u0012\u0010\u001d\u001a\u000e\u0012\u0004\u0012\u00020\u0002\u0012\u0004\u0012\u00020\u00010\u0018H\u0082\u0008\"\u0018\u0010\u0000\u001a\u00020\u0001*\u00020\u00028BX\u0082\u0004¢\u0006\u0006\u001a\u0004\u0008\u0003\u0010\u0004\"\u001e\u0010\u0005\u001a\u00020\u0001*\u00020\u00028BX\u0082\u0004¢\u0006\u000c\u0012\u0004\u0008\u0006\u0010\u0007\u001a\u0004\u0008\u0005\u0010\u0004\"E\u0010\u0008\u001a/\u0008\u0001\u0012\u0013\u0012\u00110\n¢\u0006\u000c\u0008\u000b\u0012\u0008\u0008\u000c\u0012\u0004\u0008\u0008(\r\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\n0\u000e\u0012\u0006\u0012\u0004\u0018\u00010\u000f\u0018\u00010\t*\u00020\u00028@X\u0080\u0004¢\u0006\u0006\u001a\u0004\u0008\u0010\u0010\u0011¨\u0006\u001e", d2 = {"canScrollVertically", "", "Landroidx/compose/ui/semantics/SemanticsNode;", "getCanScrollVertically", "(Landroidx/compose/ui/semantics/SemanticsNode;)Z", "isVisible", "isVisible$annotations", "(Landroidx/compose/ui/semantics/SemanticsNode;)V", "scrollCaptureScrollByAction", "Lkotlin/Function2;", "Landroidx/compose/ui/geometry/Offset;", "Lkotlin/ParameterName;", "name", "offset", "Lkotlin/coroutines/Continuation;", "", "getScrollCaptureScrollByAction", "(Landroidx/compose/ui/semantics/SemanticsNode;)Lkotlin/jvm/functions/Function2;", "visitScrollCaptureCandidates", "", "fromNode", "depth", "", "onCandidate", "Lkotlin/Function1;", "Landroidx/compose/ui/scrollcapture/ScrollCaptureCandidate;", "getChildrenForSearch", "", "visitDescendants", "onNode", "ui_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
 public final class ScrollCapture_androidKt {
     private static final boolean getCanScrollVertically(SemanticsNode $this$canScrollVertically) {
-        int i;
-        androidx.compose.ui.semantics.SemanticsPropertyKey verticalScrollAxisRange;
         int i2;
+        androidx.compose.ui.semantics.SemanticsPropertyKey verticalScrollAxisRange;
+        int i;
         Object orNull = SemanticsConfigurationKt.getOrNull($this$canScrollVertically.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getVerticalScrollAxisRange());
-        if (ScrollCapture_androidKt.getScrollCaptureScrollByAction($this$canScrollVertically) != null && orNull != null && Float.compare(floatValue, i2) > 0) {
+        if (ScrollCapture_androidKt.getScrollCaptureScrollByAction($this$canScrollVertically) != null && orNull != null && Float.compare(floatValue, i) > 0) {
             if (orNull != null) {
-                i = Float.compare(floatValue, i2) > 0 ? 1 : 0;
+                i2 = Float.compare(floatValue, i) > 0 ? 1 : 0;
             } else {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     private static final List<SemanticsNode> getChildrenForSearch(SemanticsNode $this$getChildrenForSearch) {
@@ -67,9 +67,9 @@ public final class ScrollCapture_androidKt {
         List childrenForSearch;
         MutableVector booleanValue;
         int childrenForSearch2;
-        int size;
-        int i;
         int size2;
+        int i;
+        int size;
         final int i2 = 0;
         int i3 = 0;
         int i6 = 0;
@@ -82,9 +82,9 @@ public final class ScrollCapture_androidKt {
             childrenForSearch = mutableVector2.removeAt(size3--);
             if ((Boolean)onNode.invoke((SemanticsNode)childrenForSearch).booleanValue() != null) {
             }
-            size = mutableVector2;
+            size2 = mutableVector2;
             i = 0;
-            size.addAll(size.getSize(), ScrollCapture_androidKt.getChildrenForSearch(childrenForSearch));
+            size2.addAll(size2.getSize(), ScrollCapture_androidKt.getChildrenForSearch(childrenForSearch));
         }
     }
 

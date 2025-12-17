@@ -31,20 +31,20 @@ public final class NestedScrollDispatcher {
 
     public final Object dispatchPostFling-RZ2iAVY(long l, long l2, Continuation<? super Velocity> continuation3) {
         boolean anon;
-        int i2;
         int i3;
-        androidx.compose.ui.input.nestedscroll.NestedScrollConnection parent$ui_release;
+        int i2;
+        androidx.compose.ui.input.nestedscroll.NestedScrollConnection _this;
         int i;
         Object obj4;
         Object obj5;
         Object obj9;
         anon = obj9;
-        i3 = Integer.MIN_VALUE;
-        if (obj9 instanceof NestedScrollDispatcher.dispatchPostFling.1 && label &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (obj9 instanceof NestedScrollDispatcher.dispatchPostFling.1 && label &= i2 != 0) {
             anon = obj9;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj9 -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj9 -= i2;
             } else {
                 anon = new NestedScrollDispatcher.dispatchPostFling.1(this, obj9);
             }
@@ -53,10 +53,10 @@ public final class NestedScrollDispatcher {
         obj9 = anon;
         Object result = obj9.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (parent$ui_release) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(result);
-                parent$ui_release = this.getParent$ui_release();
+                _this = this.getParent$ui_release();
                 obj9.label = 1;
                 return cOROUTINE_SUSPENDED;
                 obj5 = Velocity.Companion.getZero-9UxMQ8M();
@@ -91,19 +91,19 @@ public final class NestedScrollDispatcher {
 
     public final Object dispatchPreFling-QWom1Mo(long l, Continuation<? super Velocity> continuation2) {
         boolean anon;
-        int i;
         int i3;
-        androidx.compose.ui.input.nestedscroll.NestedScrollConnection parent$ui_release;
+        int i;
+        androidx.compose.ui.input.nestedscroll.NestedScrollConnection _this;
         int i2;
         Object obj5;
         Object obj7;
         anon = obj7;
-        i3 = Integer.MIN_VALUE;
-        if (obj7 instanceof NestedScrollDispatcher.dispatchPreFling.1 && label &= i3 != 0) {
+        i = Integer.MIN_VALUE;
+        if (obj7 instanceof NestedScrollDispatcher.dispatchPreFling.1 && label &= i != 0) {
             anon = obj7;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj7 -= i3;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj7 -= i;
             } else {
                 anon = new NestedScrollDispatcher.dispatchPreFling.1(this, obj7);
             }
@@ -111,10 +111,10 @@ public final class NestedScrollDispatcher {
         }
         obj7 = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (parent$ui_release) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(obj7);
-                parent$ui_release = this.getParent$ui_release();
+                _this = this.getParent$ui_release();
                 anon.label = 1;
                 return cOROUTINE_SUSPENDED;
                 obj5 = Velocity.Companion.getZero-9UxMQ8M();

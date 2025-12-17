@@ -24,36 +24,36 @@ public final class EncodingKt {
     }
 
     public static final <E> void encodeCollection(kotlinx.serialization.encoding.Encoder $this$encodeCollection, SerialDescriptor descriptor, Collection<? extends E> collection, Function3<? super kotlinx.serialization.encoding.CompositeEncoder, ? super Integer, ? super E, Unit> block) {
-        Object obj;
-        int i2;
-        int i5;
-        Object next;
-        int i4;
         Object obj2;
-        int i;
+        int i2;
+        int i4;
+        Object next;
+        int i5;
+        Object obj;
         int i3;
+        int i;
         final Object obj3 = descriptor;
-        obj = collection;
+        obj2 = collection;
         final Object obj4 = block;
         Intrinsics.checkNotNullParameter($this$encodeCollection, "<this>");
         Intrinsics.checkNotNullParameter(obj3, "descriptor");
-        Intrinsics.checkNotNullParameter(obj, "collection");
+        Intrinsics.checkNotNullParameter(obj2, "collection");
         Intrinsics.checkNotNullParameter(obj4, "block");
         i2 = 0;
         final int i6 = 0;
-        final kotlinx.serialization.encoding.CompositeEncoder beginCollection = $this$encodeCollection.beginCollection(obj3, obj.size());
+        final kotlinx.serialization.encoding.CompositeEncoder beginCollection = $this$encodeCollection.beginCollection(obj3, obj2.size());
         final int i7 = 0;
         final int i8 = 0;
-        i5 = 0;
-        final Iterator iterator = (Iterable)obj.iterator();
+        i4 = 0;
+        final Iterator iterator = (Iterable)obj2.iterator();
         while (iterator.hasNext()) {
-            if (i5 < 0) {
+            if (i4 < 0) {
             }
-            i = 0;
-            obj4.invoke(beginCollection, Integer.valueOf(i5), iterator.next());
-            obj = collection;
-            i5 = i4;
-            i2 = i3;
+            i3 = 0;
+            obj4.invoke(beginCollection, Integer.valueOf(i4), iterator.next());
+            obj2 = collection;
+            i4 = i5;
+            i2 = i;
             CollectionsKt.throwIndexOverflow();
         }
         beginCollection.endStructure(obj3);

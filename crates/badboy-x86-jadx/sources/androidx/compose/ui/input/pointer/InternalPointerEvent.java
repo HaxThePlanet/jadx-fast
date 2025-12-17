@@ -28,17 +28,17 @@ public final class InternalPointerEvent {
         int index$iv$iv;
         Object obj2;
         Object obj;
-        int i2;
-        boolean it;
         int i;
+        boolean it;
+        int i2;
         long id-J3iCeTQ;
         final int i3 = 0;
         final List list = pointers;
         final int i4 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i2 = 0;
             i = 0;
+            i2 = 0;
             index$iv$iv++;
         }
         obj = 0;

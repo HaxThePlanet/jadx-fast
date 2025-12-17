@@ -47,13 +47,13 @@ final class DateVisualTransformation implements VisualTransformation {
     public TransformedText filter(AnnotatedString text) {
         String substring;
         int dateFormatLength;
-        String transformedText;
-        int i;
-        int i3;
-        int i2;
         String transformedText2;
-        String str;
+        int i2;
+        int i3;
         int i4;
+        String transformedText;
+        String str;
+        int i;
         StringBuilder append;
         char firstDelimiterOffset;
         if (text.getText().length() > this.dateFormatLength) {
@@ -65,21 +65,21 @@ final class DateVisualTransformation implements VisualTransformation {
         final String str2 = substring;
         final int i6 = 0;
         i3 = 0;
-        transformedText2 = transformedText;
-        while (i < (CharSequence)str2.length()) {
-            i4 = 0;
+        transformedText = transformedText2;
+        while (i2 < (CharSequence)str2.length()) {
+            i = 0;
             StringBuilder stringBuilder = new StringBuilder();
             if (i3 + 1 != this.firstDelimiterOffset) {
             } else {
             }
             StringBuilder stringBuilder2 = new StringBuilder();
-            transformedText2 = stringBuilder2.append(stringBuilder.append(transformedText2).append(str2.charAt(i)).toString()).append(this.dateInputFormat.getDelimiter()).toString();
-            i++;
-            i3 = i2;
+            transformedText = stringBuilder2.append(stringBuilder.append(transformedText).append(str2.charAt(i2)).toString()).append(this.dateInputFormat.getDelimiter()).toString();
+            i2++;
+            i3 = i4;
             if (i3 + 2 == this.secondDelimiterOffset) {
             }
         }
-        AnnotatedString annotatedString = new AnnotatedString(transformedText2, 0, 0, 6, 0);
+        AnnotatedString annotatedString = new AnnotatedString(transformedText, 0, 0, 6, 0);
         TransformedText transformedText3 = new TransformedText(annotatedString, (OffsetMapping)this.dateOffsetTranslator);
         return transformedText3;
     }

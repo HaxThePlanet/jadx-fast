@@ -69,9 +69,9 @@ public final class SharedTransitionScopeKt {
 
     private static final androidx.compose.animation.ScaleToBoundsImpl ScaleToBoundsCached(ContentScale contentScale, Alignment alignment) {
         boolean shouldCache;
-        Object obj2;
+        Object $i$a$GetOrPutSharedTransitionScopeKt$ScaleToBoundsCached$map$1;
         MutableScatterMap mutableScatterMap;
-        Object obj;
+        Object $i$a$GetOrPutSharedTransitionScopeKt$ScaleToBoundsCached$1;
         int scaleToBoundsImpl;
         int i;
         int i2;
@@ -87,15 +87,15 @@ public final class SharedTransitionScopeKt {
                     scaleToBoundsImpl = 0;
                     cachedScaleToBoundsImplMap.set(contentScale, mutableScatterMap);
                 }
-                Object obj3 = this_$iv;
+                Object obj = this_$iv;
                 int i5 = 0;
-                if (obj3.get(alignment) == null) {
+                if (obj.get(alignment) == null) {
                     int i6 = 0;
                     scaleToBoundsImpl = new ScaleToBoundsImpl(contentScale, alignment);
                     i = 0;
-                    obj3.set(alignment, scaleToBoundsImpl);
+                    obj.set(alignment, scaleToBoundsImpl);
                 }
-                return (ScaleToBoundsImpl)obj;
+                return (ScaleToBoundsImpl)$i$a$GetOrPutSharedTransitionScopeKt$ScaleToBoundsCached$1;
             }
         }
         ScaleToBoundsImpl map = new ScaleToBoundsImpl(contentScale, alignment);
@@ -103,17 +103,17 @@ public final class SharedTransitionScopeKt {
     }
 
     public static final void SharedTransitionLayout(Modifier modifier, Function3<? super androidx.compose.animation.SharedTransitionScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i5) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
         int companion;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int i;
         int i2;
         int skipping;
         int i3;
         Object obj5;
-        traceInProgress2 = 2043053727;
-        final Composer obj7 = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 2043053727;
+        final Composer obj7 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj7, "C(SharedTransitionLayout)P(1)112@5418L299,112@5396L321:SharedTransitionScope.kt#xbi5r1");
         $dirty = $changed;
         companion = i5 & 1;
@@ -139,7 +139,7 @@ public final class SharedTransitionScopeKt {
                     obj5 = companion;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.animation.SharedTransitionLayout (SharedTransitionScope.kt:111)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.animation.SharedTransitionLayout (SharedTransitionScope.kt:111)");
                 }
                 SharedTransitionScopeKt.SharedTransitionLayout.1 anon = new SharedTransitionScopeKt.SharedTransitionLayout.1(obj5, content);
                 SharedTransitionScopeKt.SharedTransitionScope((Function4)ComposableLambdaKt.rememberComposableLambda(-130587847, true, anon, obj7, 54), obj7, 6);

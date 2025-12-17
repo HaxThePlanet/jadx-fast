@@ -40,9 +40,9 @@ final class SerializersKt__SerializersKt {
     }
 
     private static final kotlinx.serialization.KSerializer<? extends Object> builtinParametrizedSerializer$SerializersKt__SerializersKt(KClass<Object> $this$builtinParametrizedSerializer, List<? extends kotlinx.serialization.KSerializer<Object>> serializers, Function0<? extends KClassifier> elementClassifierIfArray) {
+        boolean equal2;
         boolean equal;
         boolean equal3;
-        boolean equal2;
         ArrayListSerializer linkedHashSetSerializer;
         Object i;
         Object str;
@@ -298,9 +298,9 @@ final class SerializersKt__SerializersKt {
         int nullable$SerializersKt__SerializersKt;
         int failure-impl;
         kotlinx.serialization.KSerializer $this$polymorphicIfInterface$iv;
-        Iterator polymorphicSerializer;
+        Iterator polymorphicSerializer2;
         Object next;
-        int polymorphicSerializer2;
+        int polymorphicSerializer;
         KType p0;
         int i;
         int i2;
@@ -310,8 +310,8 @@ final class SerializersKt__SerializersKt {
         int i3 = 0;
         ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)arguments, 10));
         failure-impl = 0;
-        polymorphicSerializer = arguments.iterator();
-        for (Object next : polymorphicSerializer) {
+        polymorphicSerializer2 = arguments.iterator();
+        for (Object next : polymorphicSerializer2) {
             i = 0;
             i2 = 0;
             (Collection)arrayList.add(Platform_commonKt.typeOrThrow((KTypeProjection)next));
@@ -345,11 +345,11 @@ final class SerializersKt__SerializersKt {
                     serializersForParameters = kclass;
                     int i6 = 0;
                     if (PlatformKt.isInterface(serializersForParameters)) {
-                        polymorphicSerializer = new PolymorphicSerializer(serializersForParameters);
+                        polymorphicSerializer2 = new PolymorphicSerializer(serializersForParameters);
                     } else {
-                        polymorphicSerializer = nullable$SerializersKt__SerializersKt;
+                        polymorphicSerializer2 = nullable$SerializersKt__SerializersKt;
                     }
-                    $this$polymorphicIfInterface$iv = polymorphicSerializer;
+                    $this$polymorphicIfInterface$iv = polymorphicSerializer2;
                 }
             }
         } else {
@@ -361,13 +361,13 @@ final class SerializersKt__SerializersKt {
             if (SerializersKt.parametrizedSerializerOrNull(kclass, serializersForParameters, externalSyntheticLambda1) == null && $this$serializerByKTypeImpl.getContextual(kclass, serializersForParameters) == null) {
                 if ($this$serializerByKTypeImpl.getContextual(kclass, serializersForParameters) == null) {
                     KClass cls = kclass;
-                    polymorphicSerializer = 0;
+                    polymorphicSerializer2 = 0;
                     if (PlatformKt.isInterface(cls)) {
-                        polymorphicSerializer2 = new PolymorphicSerializer(cls);
+                        polymorphicSerializer = new PolymorphicSerializer(cls);
                     } else {
-                        polymorphicSerializer2 = nullable$SerializersKt__SerializersKt;
+                        polymorphicSerializer = nullable$SerializersKt__SerializersKt;
                     }
-                    $this$polymorphicIfInterface$iv = polymorphicSerializer2;
+                    $this$polymorphicIfInterface$iv = polymorphicSerializer;
                 }
             }
         }
@@ -405,38 +405,38 @@ final class SerializersKt__SerializersKt {
 
     public static final List<kotlinx.serialization.KSerializer<Object>> serializersForParameters(SerializersModule $this$serializersForParameters, List<? extends KType> typeArguments, boolean failOnMissingTypeArgSerializer) {
         ArrayList list;
-        Object obj2;
-        int i2;
         Object obj;
         int i;
-        Iterator iterator;
-        boolean next2;
-        Object next;
-        Object it;
+        Object obj2;
         int i3;
+        Iterator iterator;
+        boolean next;
+        Object next2;
+        Object it;
+        int i2;
         kotlinx.serialization.KSerializer serializerOrNull;
         Intrinsics.checkNotNullParameter($this$serializersForParameters, "<this>");
         Intrinsics.checkNotNullParameter(typeArguments, "typeArguments");
         int i4 = 10;
         if (failOnMissingTypeArgSerializer) {
-            obj2 = typeArguments;
-            i2 = 0;
-            ArrayList arrayList2 = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)obj2, i4));
+            obj = typeArguments;
             i = 0;
-            iterator = obj2.iterator();
-            for (Object next : iterator) {
-                i3 = 0;
-                (Collection)arrayList2.add(SerializersKt.serializer($this$serializersForParameters, (KType)next));
+            ArrayList arrayList2 = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)obj, i4));
+            i3 = 0;
+            iterator = obj.iterator();
+            for (Object next2 : iterator) {
+                i2 = 0;
+                (Collection)arrayList2.add(SerializersKt.serializer($this$serializersForParameters, (KType)next2));
             }
         } else {
-            obj2 = typeArguments;
-            i2 = 0;
-            ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)obj2, i4));
+            obj = typeArguments;
             i = 0;
-            iterator = obj2.iterator();
-            for (Object next : iterator) {
-                i3 = 0;
-                serializerOrNull = SerializersKt.serializerOrNull($this$serializersForParameters, (KType)next);
+            ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)obj, i4));
+            i3 = 0;
+            iterator = obj.iterator();
+            for (Object next2 : iterator) {
+                i2 = 0;
+                serializerOrNull = SerializersKt.serializerOrNull($this$serializersForParameters, (KType)next2);
                 (Collection)arrayList.add(serializerOrNull);
             }
         }

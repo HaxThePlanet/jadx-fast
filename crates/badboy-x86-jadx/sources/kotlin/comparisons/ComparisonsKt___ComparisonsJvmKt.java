@@ -83,14 +83,14 @@ class ComparisonsKt___ComparisonsJvmKt extends kotlin.comparisons.ComparisonsKt_
 
     public static final int maxOf(int a, int... other) {
         int max;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter(other, "other");
         max = a;
-        i = 0;
-        while (i < other.length) {
-            max = Math.max(max, other[i]);
-            i++;
+        i2 = 0;
+        while (i2 < other.length) {
+            max = Math.max(max, other[i2]);
+            i2++;
         }
         return max;
     }
@@ -157,15 +157,15 @@ class ComparisonsKt___ComparisonsJvmKt extends kotlin.comparisons.ComparisonsKt_
 
     public static final short maxOf(short a, short... other) {
         int max;
-        int i2;
-        short s;
         int i;
+        short s;
+        int i2;
         Intrinsics.checkNotNullParameter(other, "other");
         max = a;
-        i2 = 0;
-        while (i2 < other.length) {
-            max = (short)i;
-            i2++;
+        i = 0;
+        while (i < other.length) {
+            max = (short)i2;
+            i++;
         }
         return max;
     }
@@ -247,14 +247,14 @@ class ComparisonsKt___ComparisonsJvmKt extends kotlin.comparisons.ComparisonsKt_
 
     public static final int minOf(int a, int... other) {
         int min;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter(other, "other");
         min = a;
-        i = 0;
-        while (i < other.length) {
-            min = Math.min(min, other[i]);
-            i++;
+        i2 = 0;
+        while (i2 < other.length) {
+            min = Math.min(min, other[i2]);
+            i2++;
         }
         return min;
     }

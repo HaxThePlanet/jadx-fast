@@ -39,10 +39,10 @@ public final class SnackbarDefaults {
         long primary;
         String str;
         long copy-wmQWz5c$default;
+        int i6;
+        int i3;
         int i2;
         int i5;
-        int i3;
-        int i6;
         int i;
         int i4;
         int i7 = -810329402;

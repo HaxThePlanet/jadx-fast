@@ -53,7 +53,7 @@ class MapsKt__MapsJVMKt extends kotlin.collections.MapsKt__MapWithDefaultKt {
     }
 
     public static final <K, V> V getOrPut(ConcurrentMap<K, V> $this$getOrPut, K key, Function0<? extends V> defaultValue) {
-        Object invoke;
+        Object _default;
         int i;
         Object ifAbsent;
         Intrinsics.checkNotNullParameter($this$getOrPut, "<this>");
@@ -64,10 +64,10 @@ class MapsKt__MapsJVMKt extends kotlin.collections.MapsKt__MapWithDefaultKt {
             ifAbsent = $this$getOrPut.putIfAbsent(key, defaultValue.invoke());
             if (ifAbsent == null) {
             } else {
-                invoke = ifAbsent;
+                _default = ifAbsent;
             }
         }
-        return invoke;
+        return _default;
     }
 
     public static final int mapCapacity(int expectedSize) {

@@ -23,24 +23,24 @@ class ActorCoroutine<E>  extends kotlinx.coroutines.channels.ChannelCoroutine<E>
 
     @Override // kotlinx.coroutines.channels.ChannelCoroutine
     protected void onCancelling(Throwable cause) {
-        int i;
-        Object obj;
         int i2;
+        Object obj;
+        int i;
         boolean str;
-        i = 0;
-        obj = cause;
         i2 = 0;
+        obj = cause;
+        i = 0;
         if (cause != null && obj instanceof CancellationException != null) {
             obj = cause;
-            i2 = 0;
+            i = 0;
             if (obj instanceof CancellationException != null) {
-                i = obj;
+                i2 = obj;
             }
-            if (i == 0) {
+            if (i2 == 0) {
                 StringBuilder stringBuilder = new StringBuilder();
-                i = ExceptionsKt.CancellationException(stringBuilder.append(DebugStringsKt.getClassSimpleName(this)).append(" was cancelled").toString(), obj);
+                i2 = ExceptionsKt.CancellationException(stringBuilder.append(DebugStringsKt.getClassSimpleName(this)).append(" was cancelled").toString(), obj);
             }
         }
-        get_channel().cancel(i);
+        get_channel().cancel(i2);
     }
 }

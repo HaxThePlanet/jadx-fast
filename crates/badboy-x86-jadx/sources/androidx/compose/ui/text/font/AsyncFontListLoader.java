@@ -66,22 +66,22 @@ public final class AsyncFontListLoader implements State<Object> {
     }
 
     public final Object load(Continuation<? super Unit> continuation) {
-        Object obj2;
-        androidx.compose.ui.text.font.AsyncFontListLoader.load.1 list3;
-        boolean index$iv2;
-        int index$iv;
+        Object obj3;
+        androidx.compose.ui.text.font.AsyncFontListLoader.load.1 list2;
+        boolean index$iv;
+        int index$iv2;
         int active;
-        androidx.compose.ui.text.font.AsyncFontListLoader list;
-        Object fontList;
+        androidx.compose.ui.text.font.AsyncFontListLoader list3;
+        Object $i$a$FastForEachAsyncFontListLoader$load$22;
         int $i$f$fastForEach;
-        int i5;
+        int i4;
         Object $result2;
         int $result;
-        Object $i$f$fastForEach2;
+        Object $i$a$FastForEachAsyncFontListLoader$load$2;
         boolean z;
-        int i2;
-        int $i$f$fastForEach3;
-        int i3;
+        int i5;
+        int $i$f$fastForEach2;
+        int i;
         int font;
         Object async-PKNRLFQ;
         Object l$2;
@@ -89,106 +89,106 @@ public final class AsyncFontListLoader implements State<Object> {
         Object $this$fastForEach$iv;
         Object l$1;
         Object l$0;
-        androidx.compose.ui.text.font.AsyncFontListLoader.load.1 list2;
-        int i4;
-        Object obj3;
-        int i;
-        obj2 = continuation;
-        index$iv2 = obj2;
-        i5 = Integer.MIN_VALUE;
-        if (obj2 instanceof AsyncFontListLoader.load.1 && label2 &= i5 != 0) {
-            index$iv2 = obj2;
-            i5 = Integer.MIN_VALUE;
-            if (label2 &= i5 != 0) {
-                index$iv2.label = label -= i5;
-                list = this;
+        androidx.compose.ui.text.font.AsyncFontListLoader.load.1 list;
+        int i2;
+        Object obj2;
+        int i3;
+        obj3 = continuation;
+        index$iv = obj3;
+        i4 = Integer.MIN_VALUE;
+        if (obj3 instanceof AsyncFontListLoader.load.1 && label2 &= i4 != 0) {
+            index$iv = obj3;
+            i4 = Integer.MIN_VALUE;
+            if (label2 &= i4 != 0) {
+                index$iv.label = label -= i4;
+                list3 = this;
             } else {
-                index$iv2 = new AsyncFontListLoader.load.1(this, obj2);
+                index$iv = new AsyncFontListLoader.load.1(this, obj3);
             }
         } else {
         }
-        $result2 = index$iv2.result;
+        $result2 = index$iv.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        int i9 = 0;
-        i2 = 1;
-        final int i10 = 0;
+        int i8 = 0;
+        i5 = 1;
+        final int i9 = 0;
         switch (label3) {
             case 0:
                 ResultKt.throwOnFailure($result2);
                 $this$fastForEach$iv = this;
                 $result = 0;
-                list2 = index$iv2;
-                index$iv = $i$f$fastForEach3;
-                i4 = font;
-                obj3 = $this$fastForEach$iv;
+                list = index$iv;
+                index$iv2 = $i$f$fastForEach2;
+                i2 = font;
+                obj2 = $this$fastForEach$iv;
                 break;
             case 1:
-                font = index$iv2.I$0;
-                l$2 = index$iv2.L$2;
-                l$1 = index$iv2.L$1;
+                font = index$iv.I$0;
+                l$2 = index$iv.L$2;
+                l$1 = index$iv.L$1;
                 ResultKt.throwOnFailure($result2);
-                i4 = i$1;
-                obj3 = l$0;
-                i3 = i6;
-                $i$f$fastForEach = i8;
-                $i$f$fastForEach2 = $result2;
-                obj3.setValue(FontSynthesis_androidKt.synthesizeTypeface-FxwP2eA(obj3.typefaceRequest.getFontSynthesis-GVVA2EU(), $result2, l$2, obj3.typefaceRequest.getFontWeight(), obj3.typefaceRequest.getFontStyle-_-LCdwA()));
-                obj3.cacheable = i10;
-                i2 = i10;
-                TypefaceResult.Immutable immutable3 = new TypefaceResult.Immutable(obj3.getValue(), i2);
-                obj3.onCompletion.invoke(immutable3);
+                i2 = i$1;
+                obj2 = l$0;
+                i = $i$a$FastForEachAsyncFontListLoader$load$23;
+                $i$f$fastForEach = i7;
+                $i$a$FastForEachAsyncFontListLoader$load$2 = $result2;
+                obj2.setValue(FontSynthesis_androidKt.synthesizeTypeface-FxwP2eA(obj2.typefaceRequest.getFontSynthesis-GVVA2EU(), $result2, l$2, obj2.typefaceRequest.getFontWeight(), obj2.typefaceRequest.getFontStyle-_-LCdwA()));
+                obj2.cacheable = i9;
+                i5 = i9;
+                TypefaceResult.Immutable immutable3 = new TypefaceResult.Immutable(obj2.getValue(), i5);
+                obj2.onCompletion.invoke(immutable3);
                 return Unit.INSTANCE;
-                index$iv2.L$0 = obj3;
-                index$iv2.L$1 = l$1;
-                index$iv2.L$2 = i9;
-                index$iv2.I$0 = font;
-                index$iv2.I$1 = i4;
-                index$iv2.label = 2;
+                index$iv.L$0 = obj2;
+                index$iv.L$1 = l$1;
+                index$iv.L$2 = i8;
+                index$iv.I$0 = font;
+                index$iv.I$1 = i2;
+                index$iv.label = 2;
                 return cOROUTINE_SUSPENDED;
-                $result2 = $i$f$fastForEach2;
-                $result = i3;
+                $result2 = $i$a$FastForEachAsyncFontListLoader$load$2;
+                $result = i;
                 async-PKNRLFQ = l$1;
-                $i$f$fastForEach3 = i4;
-                $this$fastForEach$iv = obj3;
-                list2 = index$iv2;
-                i4 = $i$f$fastForEach3;
-                index$iv = font;
-                fontList = async-PKNRLFQ;
-                obj3 = $this$fastForEach$iv;
-                index$iv += i2;
+                $i$f$fastForEach2 = i2;
+                $this$fastForEach$iv = obj2;
+                list = index$iv;
+                i2 = $i$f$fastForEach2;
+                index$iv2 = font;
+                $i$a$FastForEachAsyncFontListLoader$load$22 = async-PKNRLFQ;
+                obj2 = $this$fastForEach$iv;
+                index$iv2 += i5;
                 break;
             case 2:
                 $i$f$fastForEach = 0;
                 $result = 0;
-                $i$f$fastForEach3 = index$iv2.I$1;
-                font = index$iv2.I$0;
-                async-PKNRLFQ = index$iv2.L$1;
-                $this$fastForEach$iv = index$iv2.L$0;
+                $i$f$fastForEach2 = index$iv.I$1;
+                font = index$iv.I$0;
+                async-PKNRLFQ = index$iv.L$1;
+                $this$fastForEach$iv = index$iv.L$0;
                 ResultKt.throwOnFailure($result2);
-                list2 = index$iv2;
-                i4 = $i$f$fastForEach3;
-                index$iv = font;
-                fontList = async-PKNRLFQ;
-                obj3 = $this$fastForEach$iv;
-                index$iv += i2;
+                list = index$iv;
+                i2 = $i$f$fastForEach2;
+                index$iv2 = font;
+                $i$a$FastForEachAsyncFontListLoader$load$22 = async-PKNRLFQ;
+                obj2 = $this$fastForEach$iv;
+                index$iv2 += i5;
                 break;
             default:
                 IllegalStateException illegalStateException = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw illegalStateException;
         }
-        if (index$iv < i4) {
+        if (index$iv2 < i2) {
             font = obj4;
             if (FontLoadingStrategy.equals-impl0((Font)font.getLoadingStrategy-PKNRLFQ(), FontLoadingStrategy.Companion.getAsync-PKNRLFQ())) {
             } else {
             }
         }
-        obj3.cacheable = i10;
-        if (JobKt.isActive(list2.getContext())) {
+        obj2.cacheable = i9;
+        if (JobKt.isActive(list.getContext())) {
         } else {
-            i2 = i10;
+            i5 = i9;
         }
-        TypefaceResult.Immutable immutable = new TypefaceResult.Immutable(obj3.getValue(), i2);
-        obj3.onCompletion.invoke(immutable);
+        TypefaceResult.Immutable immutable = new TypefaceResult.Immutable(obj2.getValue(), i5);
+        obj2.onCompletion.invoke(immutable);
         return Unit.INSTANCE;
     }
 

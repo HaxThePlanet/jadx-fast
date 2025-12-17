@@ -27,50 +27,50 @@ public final class IconButtonDefaults {
 
     public final androidx.compose.material3.IconButtonColors defaultIconButtonColors-4WTKRHQ$material3_release(androidx.compose.material3.ColorScheme $this$defaultIconButtonColors_u2d4WTKRHQ, long localContentColor) {
         androidx.compose.material3.IconButtonColors $this$defaultIconButtonColors_4WTKRHQ_u24lambda_u241;
-        int i3;
-        androidx.compose.material3.IconButtonColors iconButtonColors2;
-        androidx.compose.material3.IconButtonColors iconButtonColors;
-        long l3;
-        long l2;
-        long transparent-0d7_KjU;
-        long l;
-        int i;
-        int i4;
-        int i7;
-        int i2;
-        int i5;
         int i6;
+        androidx.compose.material3.IconButtonColors iconButtonColors;
+        androidx.compose.material3.IconButtonColors iconButtonColors2;
+        long l3;
+        long l;
+        long transparent-0d7_KjU;
+        long l2;
+        int i7;
+        int i;
+        int i2;
+        int i3;
+        int i4;
+        int i5;
         if ($this$defaultIconButtonColors_u2d4WTKRHQ.getDefaultIconButtonColorsCached$material3_release() == null) {
-            i3 = 0;
-            iconButtonColors2 = new IconButtonColors(Color.Companion.getTransparent-0d7_KjU(), obj4, localContentColor, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, Color.copy-wmQWz5c$default(localContentColor, obj10, 1052938076, 0, 0, 0, 14), obj10, 0);
+            i6 = 0;
+            iconButtonColors = new IconButtonColors(Color.Companion.getTransparent-0d7_KjU(), obj4, localContentColor, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, Color.copy-wmQWz5c$default(localContentColor, obj10, 1052938076, 0, 0, 0, 14), obj10, 0);
             l3 = 0;
-            $this$defaultIconButtonColors_u2d4WTKRHQ.setDefaultIconButtonColorsCached$material3_release(iconButtonColors2);
-            $this$defaultIconButtonColors_4WTKRHQ_u24lambda_u241 = iconButtonColors2;
+            $this$defaultIconButtonColors_u2d4WTKRHQ.setDefaultIconButtonColorsCached$material3_release(iconButtonColors);
+            $this$defaultIconButtonColors_4WTKRHQ_u24lambda_u241 = iconButtonColors;
         }
         return $this$defaultIconButtonColors_4WTKRHQ_u24lambda_u241;
     }
 
     public final androidx.compose.material3.IconToggleButtonColors defaultIconToggleButtonColors-4WTKRHQ$material3_release(androidx.compose.material3.ColorScheme $this$defaultIconToggleButtonColors_u2d4WTKRHQ, long localContentColor) {
         androidx.compose.material3.IconToggleButtonColors $this$defaultIconToggleButtonColors_4WTKRHQ_u24lambda_u243;
-        int i5;
+        int i2;
         androidx.compose.material3.IconToggleButtonColors iconToggleButtonColors;
         androidx.compose.material3.IconToggleButtonColors iconToggleButtonColors2;
         long l;
-        long l3;
-        long transparent-0d7_KjU;
         long l2;
         long transparent-0d7_KjU2;
-        int i3;
-        long token;
+        long l3;
+        long transparent-0d7_KjU;
         int i;
+        long token;
         int i4;
-        int i2;
+        int i3;
+        int i5;
         if ($this$defaultIconToggleButtonColors_u2d4WTKRHQ.getDefaultIconToggleButtonColorsCached$material3_release() == null) {
             androidx.compose.material3.ColorScheme colorScheme = $this$defaultIconToggleButtonColors_u2d4WTKRHQ;
-            i5 = 0;
-            i3 = 0;
+            i2 = 0;
             i = 0;
-            iconToggleButtonColors = new IconToggleButtonColors(Color.Companion.getTransparent-0d7_KjU(), obj4, localContentColor, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, Color.copy-wmQWz5c$default(localContentColor, obj10, 1052938076, i3, 0, i, 14), obj10, Color.Companion.getTransparent-0d7_KjU(), i3, ColorSchemeKt.fromToken(colorScheme, IconButtonTokens.INSTANCE.getSelectedIconColor()), i, 0);
+            i4 = 0;
+            iconToggleButtonColors = new IconToggleButtonColors(Color.Companion.getTransparent-0d7_KjU(), obj4, localContentColor, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, Color.copy-wmQWz5c$default(localContentColor, obj10, 1052938076, i, 0, i4, 14), obj10, Color.Companion.getTransparent-0d7_KjU(), i, ColorSchemeKt.fromToken(colorScheme, IconButtonTokens.INSTANCE.getSelectedIconColor()), i4, 0);
             l = 0;
             colorScheme.setDefaultIconToggleButtonColorsCached$material3_release(iconToggleButtonColors);
             $this$defaultIconToggleButtonColors_4WTKRHQ_u24lambda_u243 = iconToggleButtonColors;
@@ -80,25 +80,25 @@ public final class IconButtonDefaults {
 
     public final androidx.compose.material3.IconButtonColors defaultOutlinedIconButtonColors-4WTKRHQ$material3_release(androidx.compose.material3.ColorScheme $this$defaultOutlinedIconButtonColors_u2d4WTKRHQ, long localContentColor) {
         androidx.compose.material3.IconButtonColors $this$defaultOutlinedIconButtonColors_4WTKRHQ_u24lambda_u249;
-        int i4;
-        androidx.compose.material3.IconButtonColors iconButtonColors2;
+        int i3;
         androidx.compose.material3.IconButtonColors iconButtonColors;
+        androidx.compose.material3.IconButtonColors iconButtonColors2;
         long l2;
         long l;
         long transparent-0d7_KjU;
         long l3;
         int i;
+        int i2;
+        int i4;
+        int i5;
         int i6;
         int i7;
-        int i5;
-        int i2;
-        int i3;
         if ($this$defaultOutlinedIconButtonColors_u2d4WTKRHQ.getDefaultOutlinedIconButtonColorsCached$material3_release() == null) {
-            i4 = 0;
-            iconButtonColors2 = new IconButtonColors(Color.Companion.getTransparent-0d7_KjU(), obj4, localContentColor, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, Color.copy-wmQWz5c$default(localContentColor, obj10, 1052938076, 0, 0, 0, 14), obj10, 0);
+            i3 = 0;
+            iconButtonColors = new IconButtonColors(Color.Companion.getTransparent-0d7_KjU(), obj4, localContentColor, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, Color.copy-wmQWz5c$default(localContentColor, obj10, 1052938076, 0, 0, 0, 14), obj10, 0);
             l2 = 0;
-            $this$defaultOutlinedIconButtonColors_u2d4WTKRHQ.setDefaultOutlinedIconButtonColorsCached$material3_release(iconButtonColors2);
-            $this$defaultOutlinedIconButtonColors_4WTKRHQ_u24lambda_u249 = iconButtonColors2;
+            $this$defaultOutlinedIconButtonColors_u2d4WTKRHQ.setDefaultOutlinedIconButtonColorsCached$material3_release(iconButtonColors);
+            $this$defaultOutlinedIconButtonColors_4WTKRHQ_u24lambda_u249 = iconButtonColors;
         }
         return $this$defaultOutlinedIconButtonColors_4WTKRHQ_u24lambda_u249;
     }
@@ -113,17 +113,17 @@ public final class IconButtonDefaults {
         long transparent-0d7_KjU;
         long l;
         long token;
-        int i4;
+        int i;
         long contentColorFor-4WTKRHQ;
         int i2;
-        int i;
         int i3;
+        int i4;
         if ($this$defaultOutlinedIconToggleButtonColors_u2d4WTKRHQ.getDefaultIconToggleButtonColorsCached$material3_release() == null) {
             androidx.compose.material3.ColorScheme colorScheme = $this$defaultOutlinedIconToggleButtonColors_u2d4WTKRHQ;
             i5 = 0;
-            i4 = 0;
+            i = 0;
             i2 = 0;
-            iconToggleButtonColors2 = new IconToggleButtonColors(Color.Companion.getTransparent-0d7_KjU(), obj4, localContentColor, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, Color.copy-wmQWz5c$default(localContentColor, obj10, 1052938076, i4, 0, i2, 14), obj10, ColorSchemeKt.fromToken(colorScheme, OutlinedIconButtonTokens.INSTANCE.getSelectedContainerColor()), i4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, OutlinedIconButtonTokens.INSTANCE.getSelectedContainerColor())), i2, 0);
+            iconToggleButtonColors2 = new IconToggleButtonColors(Color.Companion.getTransparent-0d7_KjU(), obj4, localContentColor, obj6, Color.Companion.getTransparent-0d7_KjU(), obj8, Color.copy-wmQWz5c$default(localContentColor, obj10, 1052938076, i, 0, i2, 14), obj10, ColorSchemeKt.fromToken(colorScheme, OutlinedIconButtonTokens.INSTANCE.getSelectedContainerColor()), i, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, OutlinedIconButtonTokens.INSTANCE.getSelectedContainerColor())), i2, 0);
             l3 = 0;
             colorScheme.setDefaultOutlinedIconToggleButtonColorsCached$material3_release(iconToggleButtonColors2);
             $this$defaultOutlinedIconToggleButtonColors_4WTKRHQ_u24lambda_u2411 = iconToggleButtonColors2;
@@ -149,8 +149,8 @@ public final class IconButtonDefaults {
     public final androidx.compose.material3.IconButtonColors filledIconButtonColors-ro_MJ88(long containerColor, long contentColor, long disabledContainerColor, long disabledContentColor, Composer $composer, int $changed, int i7) {
         long unspecified-0d7_KjU3;
         long contentColorFor-ek8zF_U;
-        long unspecified-0d7_KjU;
-        int unspecified-0d7_KjU2;
+        long unspecified-0d7_KjU2;
+        int unspecified-0d7_KjU;
         boolean traceInProgress;
         String str;
         long l;
@@ -172,12 +172,12 @@ public final class IconButtonDefaults {
             l2 = disabledContainerColor;
         }
         if (obj25 & 4 != 0) {
-            l3 = unspecified-0d7_KjU;
+            l3 = unspecified-0d7_KjU2;
         } else {
             l3 = $composer;
         }
         if (obj25 & 8 != 0) {
-            l4 = unspecified-0d7_KjU2;
+            l4 = unspecified-0d7_KjU;
         } else {
             l4 = i7;
         }
@@ -208,47 +208,47 @@ public final class IconButtonDefaults {
 
     public final androidx.compose.material3.IconToggleButtonColors filledIconToggleButtonColors-5tl4gsc(long containerColor, long contentColor, long disabledContainerColor, long disabledContentColor, long checkedContainerColor, long checkedContentColor, Composer $composer, int $changed, int i9) {
         long unspecified-0d7_KjU3;
-        long unspecified-0d7_KjU4;
         long unspecified-0d7_KjU;
+        long unspecified-0d7_KjU2;
         int unspecified-0d7_KjU5;
-        int unspecified-0d7_KjU2;
+        int unspecified-0d7_KjU4;
         int contentColorFor-ek8zF_U;
         boolean traceInProgress;
         String str;
-        long l5;
-        long l6;
         long l;
+        long l6;
         long l2;
         long l3;
+        long l5;
         long l4;
         final Composer composer = obj31;
         final int i = obj32;
         int i2 = 1887173701;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(filledIconToggleButtonColors)P(2:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color,5:c#ui.graphics.Color,0:c#ui.graphics.Color,1:c#ui.graphics.Color)788@36995L38,790@37088L11:IconButton.kt#uh7d8r");
         if (obj33 & 1 != 0) {
-            l5 = unspecified-0d7_KjU3;
+            l = unspecified-0d7_KjU3;
         } else {
-            l5 = containerColor;
+            l = containerColor;
         }
         if (obj33 & 2 != 0) {
-            l6 = unspecified-0d7_KjU4;
+            l6 = unspecified-0d7_KjU;
         } else {
             l6 = disabledContainerColor;
         }
         if (obj33 & 4 != 0) {
-            l = unspecified-0d7_KjU;
+            l2 = unspecified-0d7_KjU2;
         } else {
-            l = checkedContainerColor;
+            l2 = checkedContainerColor;
         }
         if (obj33 & 8 != 0) {
-            l2 = unspecified-0d7_KjU5;
+            l3 = unspecified-0d7_KjU5;
         } else {
-            l2 = $composer;
+            l3 = $composer;
         }
         if (obj33 & 16 != 0) {
-            l3 = unspecified-0d7_KjU2;
+            l5 = unspecified-0d7_KjU4;
         } else {
-            l3 = i9;
+            l5 = i9;
         }
         if (obj33 & 32 != 0) {
             l4 = contentColorFor-ek8zF_U;
@@ -262,7 +262,7 @@ public final class IconButtonDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultFilledIconToggleButtonColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-tNS2XkQ(l5, obj7, l6, obj9, l, obj11);
+        return this.getDefaultFilledIconToggleButtonColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-tNS2XkQ(l, obj7, l6, obj9, l2, obj11);
     }
 
     public final androidx.compose.material3.IconButtonColors filledTonalIconButtonColors(Composer $composer, int $changed) {
@@ -281,39 +281,39 @@ public final class IconButtonDefaults {
     }
 
     public final androidx.compose.material3.IconButtonColors filledTonalIconButtonColors-ro_MJ88(long containerColor, long contentColor, long disabledContainerColor, long disabledContentColor, Composer $composer, int $changed, int i7) {
-        long unspecified-0d7_KjU3;
-        long contentColorFor-ek8zF_U;
         long unspecified-0d7_KjU2;
-        int unspecified-0d7_KjU;
+        long contentColorFor-ek8zF_U;
+        long unspecified-0d7_KjU;
+        int unspecified-0d7_KjU3;
         boolean traceInProgress;
         String str;
-        long l4;
         long l2;
-        long l;
         long l3;
+        long l4;
+        long l;
         final Composer composer = obj23;
         final int i = obj24;
         int i2 = -18532843;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(filledTonalIconButtonColors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color)844@39854L31,848@40050L11:IconButton.kt#uh7d8r");
         if (obj25 & 1 != 0) {
-            l4 = unspecified-0d7_KjU3;
+            l2 = unspecified-0d7_KjU2;
         } else {
-            l4 = containerColor;
+            l2 = containerColor;
         }
         if (obj25 & 2 != 0) {
-            l2 = contentColorFor-ek8zF_U;
+            l3 = contentColorFor-ek8zF_U;
         } else {
-            l2 = disabledContainerColor;
+            l3 = disabledContainerColor;
         }
         if (obj25 & 4 != 0) {
-            l = unspecified-0d7_KjU2;
+            l4 = unspecified-0d7_KjU;
         } else {
-            l = $composer;
+            l4 = $composer;
         }
         if (obj25 & 8 != 0) {
-            l3 = unspecified-0d7_KjU;
+            l = unspecified-0d7_KjU3;
         } else {
-            l3 = i7;
+            l = i7;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, i, -1, "androidx.compose.material3.IconButtonDefaults.filledTonalIconButtonColors (IconButton.kt:848)");
@@ -322,7 +322,7 @@ public final class IconButtonDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return getDefaultFilledTonalIconButtonColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-jRlVdoo(l4, obj7, l2, obj9);
+        return getDefaultFilledTonalIconButtonColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-jRlVdoo(l2, obj7, l3, obj9);
     }
 
     public final androidx.compose.material3.IconToggleButtonColors filledTonalIconToggleButtonColors(Composer $composer, int $changed) {
@@ -341,53 +341,53 @@ public final class IconButtonDefaults {
     }
 
     public final androidx.compose.material3.IconToggleButtonColors filledTonalIconToggleButtonColors-5tl4gsc(long containerColor, long contentColor, long disabledContainerColor, long disabledContentColor, long checkedContainerColor, long checkedContentColor, Composer $composer, int $changed, int i9) {
-        long unspecified-0d7_KjU2;
-        long contentColorFor-ek8zF_U;
         long unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU;
-        int unspecified-0d7_KjU3;
+        long contentColorFor-ek8zF_U;
+        long unspecified-0d7_KjU;
+        int unspecified-0d7_KjU2;
         int unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU3;
         boolean traceInProgress;
         String str;
         long l;
-        long l6;
-        long l4;
         long l2;
-        long l5;
         long l3;
+        long l4;
+        long l5;
+        long l6;
         final Composer composer = obj31;
         final int i = obj32;
         int i2 = -19426557;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(filledTonalIconToggleButtonColors)P(2:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color,5:c#ui.graphics.Color,0:c#ui.graphics.Color,1:c#ui.graphics.Color)894@42431L31,900@42747L11:IconButton.kt#uh7d8r");
         if (obj33 & 1 != 0) {
-            l = unspecified-0d7_KjU2;
+            l = unspecified-0d7_KjU4;
         } else {
             l = containerColor;
         }
         if (obj33 & 2 != 0) {
-            l6 = contentColorFor-ek8zF_U;
+            l2 = contentColorFor-ek8zF_U;
         } else {
-            l6 = disabledContainerColor;
+            l2 = disabledContainerColor;
         }
         if (obj33 & 4 != 0) {
-            l4 = unspecified-0d7_KjU4;
+            l3 = unspecified-0d7_KjU;
         } else {
-            l4 = checkedContainerColor;
+            l3 = checkedContainerColor;
         }
         if (obj33 & 8 != 0) {
-            l2 = unspecified-0d7_KjU;
+            l4 = unspecified-0d7_KjU2;
         } else {
-            l2 = $composer;
+            l4 = $composer;
         }
         if (obj33 & 16 != 0) {
-            l5 = unspecified-0d7_KjU3;
+            l5 = unspecified-0d7_KjU5;
         } else {
             l5 = i9;
         }
         if (obj33 & 32 != 0) {
-            l3 = unspecified-0d7_KjU5;
+            l6 = unspecified-0d7_KjU3;
         } else {
-            l3 = obj29;
+            l6 = obj29;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, i, -1, "androidx.compose.material3.IconButtonDefaults.filledTonalIconToggleButtonColors (IconButton.kt:900)");
@@ -396,29 +396,29 @@ public final class IconButtonDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultFilledTonalIconToggleButtonColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-tNS2XkQ(l, obj7, l6, obj9, l4, obj11);
+        return this.getDefaultFilledTonalIconToggleButtonColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-tNS2XkQ(l, obj7, l2, obj9, l3, obj11);
     }
 
     public final androidx.compose.material3.IconButtonColors getDefaultFilledIconButtonColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultFilledIconButtonColors) {
         androidx.compose.material3.IconButtonColors defaultFilledIconButtonColorsCached$material3_release;
         androidx.compose.material3.IconButtonColors iconButtonColors;
-        int i2;
-        long contentColorFor-4WTKRHQ;
-        long copy-wmQWz5c$default;
-        long copy-wmQWz5c$default2;
-        int i3;
-        int i;
-        int i4;
-        int i6;
         int i7;
+        long contentColorFor-4WTKRHQ;
+        long copy-wmQWz5c$default2;
+        long copy-wmQWz5c$default;
         int i8;
+        int i;
+        int i2;
+        int i6;
+        int i3;
+        int i4;
         int i5;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultFilledIconButtonColors;
         if (colorScheme.getDefaultFilledIconButtonColorsCached$material3_release() == null) {
-            i3 = 0;
-            i4 = 0;
-            iconButtonColors = new IconButtonColors(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getContainerColor())), obj6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledIconButtonTokens.INSTANCE.getDisabledContainerOpacity(), i3, 0, i4, 14), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getDisabledColor()), i3, FilledIconButtonTokens.INSTANCE.getDisabledOpacity(), i4, 0, 0, 14), i3, 0);
+            i8 = 0;
             i2 = 0;
+            iconButtonColors = new IconButtonColors(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getContainerColor())), obj6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledIconButtonTokens.INSTANCE.getDisabledContainerOpacity(), i8, 0, i2, 14), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getDisabledColor()), i8, FilledIconButtonTokens.INSTANCE.getDisabledOpacity(), i2, 0, 0, 14), i8, 0);
+            i7 = 0;
             colorScheme.setDefaultFilledIconButtonColorsCached$material3_release(iconButtonColors);
         }
         return defaultFilledIconButtonColorsCached$material3_release;
@@ -427,24 +427,24 @@ public final class IconButtonDefaults {
     public final androidx.compose.material3.IconToggleButtonColors getDefaultFilledIconToggleButtonColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultFilledIconToggleButtonColors) {
         androidx.compose.material3.IconToggleButtonColors defaultFilledIconToggleButtonColorsCached$material3_release;
         androidx.compose.material3.IconToggleButtonColors iconToggleButtonColors;
-        int i;
-        long token;
-        long copy-wmQWz5c$default;
-        long copy-wmQWz5c$default2;
-        int i3;
-        long token2;
-        int i6;
-        long contentColorFor-4WTKRHQ;
-        int i2;
-        int i4;
         int i5;
+        long token;
+        long copy-wmQWz5c$default2;
+        long copy-wmQWz5c$default;
+        int i;
+        long token2;
+        int i4;
+        long contentColorFor-4WTKRHQ;
+        int i6;
+        int i2;
+        int i3;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultFilledIconToggleButtonColors;
         if (colorScheme.getDefaultFilledIconToggleButtonColorsCached$material3_release() == null) {
-            i3 = 0;
-            i6 = 0;
-            i2 = 0;
-            iconToggleButtonColors = new IconToggleButtonColors(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getUnselectedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getToggleUnselectedColor()), obj6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledIconButtonTokens.INSTANCE.getDisabledContainerOpacity(), i3, 0, i6, 14), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getDisabledColor()), i3, FilledIconButtonTokens.INSTANCE.getDisabledOpacity(), i6, 0, i2, 14), i3, ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getSelectedContainerColor()), i6, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getSelectedContainerColor())), i2, 0);
             i = 0;
+            i4 = 0;
+            i6 = 0;
+            iconToggleButtonColors = new IconToggleButtonColors(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getUnselectedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getToggleUnselectedColor()), obj6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledIconButtonTokens.INSTANCE.getDisabledContainerOpacity(), i, 0, i4, 14), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getDisabledColor()), i, FilledIconButtonTokens.INSTANCE.getDisabledOpacity(), i4, 0, i6, 14), i, ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getSelectedContainerColor()), i4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledIconButtonTokens.INSTANCE.getSelectedContainerColor())), i6, 0);
+            i5 = 0;
             colorScheme.setDefaultFilledIconToggleButtonColorsCached$material3_release(iconToggleButtonColors);
         }
         return defaultFilledIconToggleButtonColorsCached$material3_release;
@@ -453,23 +453,23 @@ public final class IconButtonDefaults {
     public final androidx.compose.material3.IconButtonColors getDefaultFilledTonalIconButtonColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultFilledTonalIconButtonColors) {
         androidx.compose.material3.IconButtonColors defaultFilledTonalIconButtonColorsCached$material3_release;
         androidx.compose.material3.IconButtonColors iconButtonColors;
-        int i5;
+        int i;
         long contentColorFor-4WTKRHQ;
         long copy-wmQWz5c$default2;
         long copy-wmQWz5c$default;
-        int i;
-        int i2;
-        int i6;
-        int i3;
         int i8;
-        int i4;
+        int i2;
         int i7;
+        int i3;
+        int i4;
+        int i5;
+        int i6;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultFilledTonalIconButtonColors;
         if (colorScheme.getDefaultFilledTonalIconButtonColorsCached$material3_release() == null) {
+            i8 = 0;
+            i7 = 0;
+            iconButtonColors = new IconButtonColors(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getContainerColor())), obj6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledTonalIconButtonTokens.INSTANCE.getDisabledContainerOpacity(), i8, 0, i7, 14), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getDisabledColor()), i8, FilledTonalIconButtonTokens.INSTANCE.getDisabledOpacity(), i7, 0, 0, 14), i8, 0);
             i = 0;
-            i6 = 0;
-            iconButtonColors = new IconButtonColors(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getContainerColor())), obj6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledTonalIconButtonTokens.INSTANCE.getDisabledContainerOpacity(), i, 0, i6, 14), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getDisabledColor()), i, FilledTonalIconButtonTokens.INSTANCE.getDisabledOpacity(), i6, 0, 0, 14), i, 0);
-            i5 = 0;
             colorScheme.setDefaultFilledTonalIconButtonColorsCached$material3_release(iconButtonColors);
         }
         return defaultFilledTonalIconButtonColorsCached$material3_release;
@@ -478,24 +478,24 @@ public final class IconButtonDefaults {
     public final androidx.compose.material3.IconToggleButtonColors getDefaultFilledTonalIconToggleButtonColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultFilledTonalIconToggleButtonColors) {
         androidx.compose.material3.IconToggleButtonColors defaultFilledTonalIconToggleButtonColorsCached$material3_release;
         androidx.compose.material3.IconToggleButtonColors iconToggleButtonColors;
-        int i5;
+        int i2;
         long contentColorFor-4WTKRHQ;
-        long copy-wmQWz5c$default2;
         long copy-wmQWz5c$default;
+        long copy-wmQWz5c$default2;
         int i;
+        long token;
+        int i5;
         long token2;
         int i3;
-        long token;
-        int i2;
         int i6;
         int i4;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultFilledTonalIconToggleButtonColors;
         if (colorScheme.getDefaultFilledTonalIconToggleButtonColorsCached$material3_release() == null) {
             i = 0;
-            i3 = 0;
-            i2 = 0;
-            iconToggleButtonColors = new IconToggleButtonColors(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getUnselectedContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getUnselectedContainerColor())), obj6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledTonalIconButtonTokens.INSTANCE.getDisabledContainerOpacity(), i, 0, i3, 14), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getDisabledColor()), i, FilledTonalIconButtonTokens.INSTANCE.getDisabledOpacity(), i3, 0, i2, 14), i, ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getSelectedContainerColor()), i3, ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getToggleSelectedColor()), i2, 0);
             i5 = 0;
+            i3 = 0;
+            iconToggleButtonColors = new IconToggleButtonColors(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getUnselectedContainerColor()), obj4, ColorSchemeKt.contentColorFor-4WTKRHQ(colorScheme, ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getUnselectedContainerColor())), obj6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getDisabledContainerColor()), obj8, FilledTonalIconButtonTokens.INSTANCE.getDisabledContainerOpacity(), i, 0, i5, 14), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getDisabledColor()), i, FilledTonalIconButtonTokens.INSTANCE.getDisabledOpacity(), i5, 0, i3, 14), i, ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getSelectedContainerColor()), i5, ColorSchemeKt.fromToken(colorScheme, FilledTonalIconButtonTokens.INSTANCE.getToggleSelectedColor()), i3, 0);
+            i2 = 0;
             colorScheme.setDefaultFilledTonalIconToggleButtonColorsCached$material3_release(iconToggleButtonColors);
         }
         return defaultFilledTonalIconToggleButtonColorsCached$material3_release;
@@ -576,32 +576,32 @@ public final class IconButtonDefaults {
         androidx.compose.runtime.ProvidableCompositionLocal localContentColor;
         Color.Companion companion;
         boolean traceInProgress;
-        long l2;
+        long l;
         long contentColor2;
-        int i;
+        int i8;
         Object unspecified-0d7_KjU2;
         long contentColor3;
-        long l;
-        int i6;
-        int i2;
-        int i5;
-        int i4;
-        int i3;
-        int i8;
         long l3;
+        int i5;
+        int i3;
+        int i4;
+        int i2;
+        int i6;
+        int i;
+        long l2;
         final Composer composer = obj28;
         int i9 = 999008085;
         ComposerKt.sourceInformationMarkerStart(composer, i9, "C(iconButtonColors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color)617@28950L7,622@29180L11,623@29247L7:IconButton.kt#uh7d8r");
         if (obj30 & 1 != 0) {
-            l2 = unspecified-0d7_KjU;
+            l = unspecified-0d7_KjU;
         } else {
-            l2 = containerColor;
+            l = containerColor;
         }
         String str2 = "CC:CompositionLocal.kt#9igjgp";
         int i12 = 2023513938;
         if (obj30 & 2 != 0) {
             int i14 = 6;
-            i = 0;
+            i8 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, i12, str2);
             ComposerKt.sourceInformationMarkerEnd(composer);
             contentColor2 = (Color)composer.consume((CompositionLocal)ContentColorKt.getLocalContentColor()).unbox-impl();
@@ -609,34 +609,34 @@ public final class IconButtonDefaults {
             contentColor2 = disabledContainerColor;
         }
         if (obj30 & 4 != 0) {
-            l3 = unspecified-0d7_KjU2;
+            l2 = unspecified-0d7_KjU2;
         } else {
-            l3 = $composer;
+            l2 = $composer;
         }
         if (obj30 & 8 != 0) {
-            l = contentColor2;
+            l3 = contentColor2;
         } else {
             contentColor3 = contentColor2;
-            l = i7;
+            l3 = i7;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i9, obj29, -1, "androidx.compose.material3.IconButtonDefaults.iconButtonColors (IconButton.kt:622)");
         } else {
-            i5 = obj29;
+            i4 = obj29;
         }
         int i13 = 6;
         ComposerKt.sourceInformationMarkerStart(composer, i12, str2);
         Object consume = composer.consume((CompositionLocal)ContentColorKt.getLocalContentColor());
         ComposerKt.sourceInformationMarkerEnd(composer);
         long l5 = contentColor3;
-        long contentColor4 = l3;
+        long contentColor4 = l2;
         long l4 = contentColor4;
         long disabledContainerColor2 = l5;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.defaultIconButtonColors-4WTKRHQ$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6), (Color)consume.unbox-impl()).copy-jRlVdoo(l2, obj6, l5, 0);
+        return this.defaultIconButtonColors-4WTKRHQ$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6), (Color)consume.unbox-impl()).copy-jRlVdoo(l, obj6, l5, 0);
     }
 
     public final androidx.compose.material3.IconToggleButtonColors iconToggleButtonColors(Composer $composer, int $changed) {
@@ -680,34 +680,34 @@ public final class IconButtonDefaults {
     }
 
     public final androidx.compose.material3.IconToggleButtonColors iconToggleButtonColors-5tl4gsc(long containerColor, long contentColor, long disabledContainerColor, long disabledContentColor, long checkedContainerColor, long checkedContentColor, Composer $composer, int $changed, int i9) {
-        long unspecified-0d7_KjU2;
+        long unspecified-0d7_KjU;
         androidx.compose.runtime.ProvidableCompositionLocal localContentColor;
         Color.Companion companion;
         int companion3;
         int companion2;
         boolean traceInProgress;
-        long l;
+        long l4;
         long contentColor3;
         int i3;
-        int i4;
-        Object unspecified-0d7_KjU;
-        long contentColor2;
-        long l2;
-        int i2;
-        int i5;
-        long l4;
         int i6;
-        int i7;
+        Object unspecified-0d7_KjU2;
+        long contentColor2;
         long l3;
+        int i2;
         int i;
+        long l;
+        int i4;
+        int i5;
         long l5;
+        int i7;
+        long l2;
         final Composer composer = obj33;
         int i8 = -2020719549;
         ComposerKt.sourceInformationMarkerStart(composer, i8, "C(iconToggleButtonColors)P(2:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color,5:c#ui.graphics.Color,0:c#ui.graphics.Color,1:c#ui.graphics.Color)678@31629L7,685@31979L11,686@32052L7:IconButton.kt#uh7d8r");
         if (obj35 & 1 != 0) {
-            l = unspecified-0d7_KjU2;
+            l4 = unspecified-0d7_KjU;
         } else {
-            l = containerColor;
+            l4 = containerColor;
         }
         String str2 = "CC:CompositionLocal.kt#9igjgp";
         int i12 = 2023513938;
@@ -721,30 +721,30 @@ public final class IconButtonDefaults {
             contentColor3 = disabledContainerColor;
         }
         if (obj35 & 4 != 0) {
-            l5 = unspecified-0d7_KjU;
+            l2 = unspecified-0d7_KjU2;
         } else {
-            l5 = checkedContainerColor;
+            l2 = checkedContainerColor;
         }
         if (obj35 & 8 != 0) {
-            l2 = contentColor3;
-        } else {
-            contentColor2 = contentColor3;
-            l2 = $composer;
-        }
-        if (obj35 & 16 != 0) {
-            l4 = contentColor3;
-        } else {
-            l4 = i9;
-        }
-        if (obj35 & 32 != 0) {
             l3 = contentColor3;
         } else {
-            l3 = obj31;
+            contentColor2 = contentColor3;
+            l3 = $composer;
+        }
+        if (obj35 & 16 != 0) {
+            l = contentColor3;
+        } else {
+            l = i9;
+        }
+        if (obj35 & 32 != 0) {
+            l5 = contentColor3;
+        } else {
+            l5 = obj31;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, obj34, -1, "androidx.compose.material3.IconButtonDefaults.iconToggleButtonColors (IconButton.kt:685)");
         } else {
-            i4 = obj34;
+            i6 = obj34;
         }
         int i13 = 6;
         final int i16 = 0;
@@ -752,14 +752,14 @@ public final class IconButtonDefaults {
         Object consume = composer.consume((CompositionLocal)ContentColorKt.getLocalContentColor());
         ComposerKt.sourceInformationMarkerEnd(composer);
         long l7 = contentColor2;
-        long contentColor4 = l5;
+        long contentColor4 = l2;
         long l6 = contentColor4;
         long disabledContainerColor2 = l7;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.defaultIconToggleButtonColors-4WTKRHQ$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6), (Color)consume.unbox-impl()).copy-tNS2XkQ(l, obj6, l7, i4, contentColor4, obj10);
+        return this.defaultIconToggleButtonColors-4WTKRHQ$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6), (Color)consume.unbox-impl()).copy-tNS2XkQ(l4, obj6, l7, i6, contentColor4, obj10);
     }
 
     public final BorderStroke outlinedIconButtonBorder(boolean enabled, Composer $composer, int $changed) {
@@ -769,11 +769,11 @@ public final class IconButtonDefaults {
         String str;
         androidx.compose.runtime.ProvidableCompositionLocal localContentColor;
         int i2;
+        int i4;
         int i;
         int i3;
-        int i4;
         int empty;
-        Object obj;
+        Object $i$a$CacheIconButtonDefaults$outlinedIconButtonBorder$1;
         int unselectedOutlineWidth-D9Ej5fM;
         int i5 = -511461558;
         ComposerKt.sourceInformationMarkerStart($composer, i5, "C(outlinedIconButtonBorder)1100@51643L108:IconButton.kt#uh7d8r");
@@ -786,7 +786,7 @@ public final class IconButtonDefaults {
             $composer.startReplaceGroup(1186104514);
             ComposerKt.sourceInformation($composer, "1094@51433L7");
             i2 = 6;
-            i = 0;
+            i4 = 0;
             ComposerKt.sourceInformationMarkerStart($composer, unbox-impl, str2);
             ComposerKt.sourceInformationMarkerEnd($composer);
             copy-wmQWz5c$default = (Color)$composer.consume((CompositionLocal)ContentColorKt.getLocalContentColor()).unbox-impl();
@@ -812,7 +812,7 @@ public final class IconButtonDefaults {
                 int i13 = 0;
                 composer.updateRememberedValue(BorderStrokeKt.BorderStroke-cXLIe8U(OutlinedIconButtonTokens.INSTANCE.getUnselectedOutlineWidth-D9Ej5fM(), copy-wmQWz5c$default));
             } else {
-                obj = rememberedValue;
+                $i$a$CacheIconButtonDefaults$outlinedIconButtonBorder$1 = rememberedValue;
             }
         } else {
         }
@@ -821,7 +821,7 @@ public final class IconButtonDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (BorderStroke)obj;
+        return (BorderStroke)$i$a$CacheIconButtonDefaults$outlinedIconButtonBorder$1;
     }
 
     public final androidx.compose.material3.IconButtonColors outlinedIconButtonColors(Composer $composer, int $changed) {
@@ -871,32 +871,32 @@ public final class IconButtonDefaults {
         androidx.compose.runtime.ProvidableCompositionLocal localContentColor;
         Color.Companion companion;
         boolean traceInProgress;
-        long l3;
+        long l2;
         long contentColor3;
-        int i;
+        int i5;
         Object unspecified-0d7_KjU;
         long contentColor2;
-        long l2;
-        int i2;
-        int i5;
-        int i3;
+        long l3;
         int i4;
         int i6;
+        int i;
+        int i3;
         int i8;
+        int i2;
         long l;
         final Composer composer = obj28;
         int i9 = -1030517545;
         ComposerKt.sourceInformationMarkerStart(composer, i9, "C(outlinedIconButtonColors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color)965@45873L7,970@46107L11,971@46182L7:IconButton.kt#uh7d8r");
         if (obj30 & 1 != 0) {
-            l3 = unspecified-0d7_KjU2;
+            l2 = unspecified-0d7_KjU2;
         } else {
-            l3 = containerColor;
+            l2 = containerColor;
         }
         String str2 = "CC:CompositionLocal.kt#9igjgp";
         int i12 = 2023513938;
         if (obj30 & 2 != 0) {
             int i14 = 6;
-            i = 0;
+            i5 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, i12, str2);
             ComposerKt.sourceInformationMarkerEnd(composer);
             contentColor3 = (Color)composer.consume((CompositionLocal)ContentColorKt.getLocalContentColor()).unbox-impl();
@@ -909,15 +909,15 @@ public final class IconButtonDefaults {
             l = $composer;
         }
         if (obj30 & 8 != 0) {
-            l2 = contentColor3;
+            l3 = contentColor3;
         } else {
             contentColor2 = contentColor3;
-            l2 = i7;
+            l3 = i7;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i9, obj29, -1, "androidx.compose.material3.IconButtonDefaults.outlinedIconButtonColors (IconButton.kt:970)");
         } else {
-            i3 = obj29;
+            i = obj29;
         }
         int i13 = 6;
         ComposerKt.sourceInformationMarkerStart(composer, i12, str2);
@@ -931,7 +931,7 @@ public final class IconButtonDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.defaultOutlinedIconButtonColors-4WTKRHQ$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6), (Color)consume.unbox-impl()).copy-jRlVdoo(l3, obj6, l5, 0);
+        return this.defaultOutlinedIconButtonColors-4WTKRHQ$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6), (Color)consume.unbox-impl()).copy-jRlVdoo(l2, obj6, l5, 0);
     }
 
     public final BorderStroke outlinedIconToggleButtonBorder(boolean enabled, boolean checked, Composer $composer, int $changed) {
@@ -998,66 +998,66 @@ public final class IconButtonDefaults {
     }
 
     public final androidx.compose.material3.IconToggleButtonColors outlinedIconToggleButtonColors-5tl4gsc(long containerColor, long contentColor, long disabledContainerColor, long disabledContentColor, long checkedContainerColor, long checkedContentColor, Composer $composer, int $changed, int i9) {
-        long unspecified-0d7_KjU;
+        long unspecified-0d7_KjU2;
         androidx.compose.runtime.ProvidableCompositionLocal localContentColor;
-        Color.Companion companion2;
-        int companion;
-        int i3;
-        boolean traceInProgress;
-        long l2;
-        long contentColor2;
-        int i2;
-        Object unspecified-0d7_KjU2;
-        long contentColor3;
-        long l;
+        Color.Companion companion;
+        int companion2;
         int i4;
-        int i5;
-        long l3;
-        int i6;
+        boolean traceInProgress;
+        long l5;
+        long contentColor3;
         int i;
+        Object unspecified-0d7_KjU;
+        long contentColor2;
         long l4;
         int i7;
-        long l5;
+        int i6;
+        long l;
+        int i2;
+        int i3;
+        long l2;
+        int i5;
+        long l3;
         final Composer composer = obj33;
         final int i8 = obj34;
         int i10 = 2130592709;
         ComposerKt.sourceInformationMarkerStart(composer, i10, "C(outlinedIconToggleButtonColors)P(2:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color,5:c#ui.graphics.Color,0:c#ui.graphics.Color,1:c#ui.graphics.Color)1028@48650L7,1033@48932L38,1035@49025L11,1036@49106L7:IconButton.kt#uh7d8r");
         if (obj35 & 1 != 0) {
-            l2 = unspecified-0d7_KjU;
+            l5 = unspecified-0d7_KjU2;
         } else {
-            l2 = containerColor;
+            l5 = containerColor;
         }
         String str2 = "CC:CompositionLocal.kt#9igjgp";
         int i14 = 2023513938;
         if (obj35 & 2 != 0) {
             int i16 = 6;
-            i2 = 0;
+            i = 0;
             ComposerKt.sourceInformationMarkerStart(composer, i14, str2);
             ComposerKt.sourceInformationMarkerEnd(composer);
-            contentColor2 = (Color)composer.consume((CompositionLocal)ContentColorKt.getLocalContentColor()).unbox-impl();
+            contentColor3 = (Color)composer.consume((CompositionLocal)ContentColorKt.getLocalContentColor()).unbox-impl();
         } else {
-            contentColor2 = disabledContainerColor;
+            contentColor3 = disabledContainerColor;
         }
         if (obj35 & 4 != 0) {
-            l5 = unspecified-0d7_KjU2;
+            l3 = unspecified-0d7_KjU;
         } else {
-            l5 = checkedContainerColor;
+            l3 = checkedContainerColor;
         }
         if (obj35 & 8 != 0) {
-            l = contentColor2;
+            l4 = contentColor3;
         } else {
-            contentColor3 = contentColor2;
-            l = $composer;
+            contentColor2 = contentColor3;
+            l4 = $composer;
         }
         if (obj35 & 16 != 0) {
-            l3 = contentColor2;
+            l = contentColor3;
         } else {
-            l3 = i9;
+            l = i9;
         }
         if (obj35 & 32 != 0) {
-            l4 = contentColor2;
+            l2 = contentColor3;
         } else {
-            l4 = obj31;
+            l2 = obj31;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i10, i8, -1, "androidx.compose.material3.IconButtonDefaults.outlinedIconToggleButtonColors (IconButton.kt:1035)");
@@ -1066,14 +1066,14 @@ public final class IconButtonDefaults {
         ComposerKt.sourceInformationMarkerStart(composer, i14, str2);
         Object consume = composer.consume((CompositionLocal)ContentColorKt.getLocalContentColor());
         ComposerKt.sourceInformationMarkerEnd(composer);
-        long l7 = contentColor3;
-        long contentColor4 = l5;
+        long l7 = contentColor2;
+        long contentColor4 = l3;
         long l6 = contentColor4;
         long disabledContainerColor2 = l7;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.defaultOutlinedIconToggleButtonColors-4WTKRHQ$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6), (Color)consume.unbox-impl()).copy-tNS2XkQ(l2, obj7, l7, 0, contentColor4, obj11);
+        return this.defaultOutlinedIconToggleButtonColors-4WTKRHQ$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6), (Color)consume.unbox-impl()).copy-tNS2XkQ(l5, obj7, l7, 0, contentColor4, obj11);
     }
 }

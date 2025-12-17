@@ -20,31 +20,31 @@ public final class HexFormatKt {
     }
 
     private static final boolean isCaseSensitive(String $this$isCaseSensitive) {
-        int i;
         int i3;
+        int i4;
         char charAt;
         int it;
-        int i4;
+        int i;
         boolean compare;
         int i2;
         final java.lang.CharSequence charSequence = $this$isCaseSensitive;
         final int i5 = 0;
-        i = 0;
-        i3 = i;
-        while (i3 < (CharSequence)charSequence.length()) {
+        i3 = 0;
+        i4 = i3;
+        while (i4 < (CharSequence)charSequence.length()) {
             char c = charAt;
-            i4 = 0;
+            i = 0;
             i2 = 1;
             if (Intrinsics.compare(c, 128) < 0) {
             } else {
             }
             it = i2;
-            i3++;
+            i4++;
             if (Character.isLetter(c)) {
             } else {
             }
-            it = i;
+            it = i3;
         }
-        return i;
+        return i3;
     }
 }

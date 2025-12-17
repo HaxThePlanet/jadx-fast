@@ -69,18 +69,18 @@ public final class IconsKt {
     }
 
     public static ImageVector.Builder materialPath-YwgOQQI$default(ImageVector.Builder $this$materialPath_u2dYwgOQQI_u24default, float fillAlpha, float strokeAlpha, int pathFillType, Function1 pathBuilder, int i6, Object object7) {
-        int i4;
         int i2;
-        int defaultFillType;
         int i;
-        int i5;
+        int defaultFillType;
         int i3;
-        i5 = i6 & 1 != 0 ? i4 : fillAlpha;
-        i3 = i6 & 2 != 0 ? i2 : strokeAlpha;
+        int i4;
+        int i5;
+        i4 = i6 & 1 != 0 ? i2 : fillAlpha;
+        i5 = i6 & 2 != 0 ? i : strokeAlpha;
         if (i6 & 4 != 0) {
-            i = defaultFillType;
+            i3 = defaultFillType;
         } else {
-            i = pathFillType;
+            i3 = pathFillType;
         }
         int i7 = 0;
         final int i9 = 0;
@@ -91,6 +91,6 @@ public final class IconsKt {
         PathBuilder pathBuilder2 = new PathBuilder();
         int i13 = 0;
         pathBuilder.invoke(pathBuilder2);
-        return ImageVector.Builder.addPath-oIyEayM$default($this$materialPath_u2dYwgOQQI_u24default, pathBuilder2.getNodes(), i, "", (Brush)solidColor, i5, i9, i3, i10, StrokeCap.Companion.getButt-KaPHkGw(), StrokeJoin.Companion.getBevel-LxFBmk8(), i10, 0, 0, 0, 14336, 0);
+        return ImageVector.Builder.addPath-oIyEayM$default($this$materialPath_u2dYwgOQQI_u24default, pathBuilder2.getNodes(), i3, "", (Brush)solidColor, i4, i9, i5, i10, StrokeCap.Companion.getButt-KaPHkGw(), StrokeJoin.Companion.getBevel-LxFBmk8(), i10, 0, 0, 0, 14336, 0);
     }
 }

@@ -37,18 +37,18 @@ public final class PersistentOrderedMapBuilder<K, V>  extends AbstractMutableMap
 
     public PersistentMap<K, V> build() {
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMap persistentOrderedMap;
-        int i2;
+        int i;
         Object lastKey$runtime_release;
         int lastKey;
-        int i;
+        int i2;
         PersistentHashMap build = this.hashMapBuilder.build();
         if (build == this.map.getHashMap$runtime_release()) {
-            i = 0;
-            i2 = this.firstKey == this.map.getFirstKey$runtime_release() ? lastKey : i;
-            CommonFunctionsKt.assert(i2);
+            i2 = 0;
+            i = this.firstKey == this.map.getFirstKey$runtime_release() ? lastKey : i2;
+            CommonFunctionsKt.assert(i);
             if (this.lastKey == this.map.getLastKey$runtime_release()) {
             } else {
-                lastKey = i;
+                lastKey = i2;
             }
             CommonFunctionsKt.assert(lastKey);
             persistentOrderedMap = this.map;
@@ -141,10 +141,10 @@ public final class PersistentOrderedMapBuilder<K, V>  extends AbstractMutableMap
 
     public V remove(Object key) {
         Object next;
-        Object previous;
-        PersistentHashMapBuilder hashMapBuilder;
         Object previous2;
-        androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedMap.LinkedValue previous3;
+        PersistentHashMapBuilder hashMapBuilder;
+        Object previous3;
+        androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedMap.LinkedValue previous;
         Object remove = this.hashMapBuilder.remove(key);
         if ((LinkedValue)remove == null) {
             return 0;
@@ -157,9 +157,9 @@ public final class PersistentOrderedMapBuilder<K, V>  extends AbstractMutableMap
             this.firstKey = remove.getNext();
         }
         if (remove.getHasNext()) {
-            previous = (Map)this.hashMapBuilder.get(remove.getNext());
-            Intrinsics.checkNotNull(previous);
-            (Map)this.hashMapBuilder.put(remove.getNext(), (LinkedValue)previous.withPrevious(remove.getPrevious()));
+            previous2 = (Map)this.hashMapBuilder.get(remove.getNext());
+            Intrinsics.checkNotNull(previous2);
+            (Map)this.hashMapBuilder.put(remove.getNext(), (LinkedValue)previous2.withPrevious(remove.getPrevious()));
         } else {
             this.lastKey = remove.getPrevious();
         }

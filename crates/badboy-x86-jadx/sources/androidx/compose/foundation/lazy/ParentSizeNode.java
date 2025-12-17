@@ -52,19 +52,19 @@ final class ParentSizeNode extends Modifier.Node implements LayoutModifierNode {
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, Measurable measurable, long constraints) {
         int minWidth-impl;
         int maxHeight-impl;
-        int i2;
+        int i;
         int minHeight-impl;
         int $this$fastRoundToInt$iv;
-        int i;
+        int i2;
         int $this$fastRoundToInt$iv2;
         int i3;
         int maxWidth-impl;
         State widthState = this.widthState;
         int i4 = Integer.MAX_VALUE;
         if (widthState != null) {
-            i2 = 0;
+            i = 0;
             if ((Number)widthState.getValue().intValue() != i4) {
-                i = 0;
+                i2 = 0;
                 $this$fastRoundToInt$iv = Math.round(floatValue *= fraction);
             } else {
                 $this$fastRoundToInt$iv = i4;
@@ -74,7 +74,7 @@ final class ParentSizeNode extends Modifier.Node implements LayoutModifierNode {
         }
         State heightState = this.heightState;
         if (heightState != null) {
-            i2 = 0;
+            i = 0;
             if ((Number)heightState.getValue().intValue() != i4) {
                 i3 = 0;
                 $this$fastRoundToInt$iv2 = Math.round(floatValue2 *= fraction2);

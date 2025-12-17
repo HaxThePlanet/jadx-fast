@@ -196,14 +196,14 @@ public final class LockFreeTaskQueueCore<E>  {
     }
 
     private final long markFrozen() {
-        Object obj;
+        Object $i$a$UpdateAndGet$atomicfuLockFreeTaskQueueCore$markFrozen$1;
         boolean compareAndSet;
         int state;
         long l;
         int cmp;
         int i;
         final AtomicLongFieldUpdater _state$FU = LockFreeTaskQueueCore._state$FU;
-        final Object obj2 = this;
+        final Object obj = this;
         final int i3 = 0;
         long l2 = _state$FU.get(this);
         long l3 = l2;
@@ -221,35 +221,35 @@ public final class LockFreeTaskQueueCore<E>  {
 
     private final kotlinx.coroutines.internal.LockFreeTaskQueueCore<E> removeSlowPath(int oldHead, int newHead) {
         boolean compareAndSet;
-        int i3;
-        long l3;
+        int i8;
+        long l2;
         long head;
         kotlinx.coroutines.internal.LockFreeTaskQueueCore.Companion companion;
         boolean aSSERTIONS_ENABLED;
         AtomicLongFieldUpdater _state$FU;
         int atomicfu$handler$iv;
-        int i5;
+        int i3;
         kotlinx.coroutines.internal.LockFreeTaskQueueCore.Companion companion2;
-        long l2;
-        int i6;
-        int i4;
+        long l3;
         int i;
+        int i7;
+        int i5;
         int i2;
         AtomicLongFieldUpdater atomicfu$handler$iv2;
-        int i8;
-        int i7;
+        int i6;
+        int i4;
         long l;
         final Object obj = this;
         _state$FU = LockFreeTaskQueueCore._state$FU;
         final Object obj3 = this;
         final int i17 = 0;
-        l3 = _state$FU.get(obj);
-        i5 = 0;
+        l2 = _state$FU.get(obj);
+        i3 = 0;
         companion2 = LockFreeTaskQueueCore.Companion;
-        l2 = l4;
-        i6 = 0;
-        i = (int)i13;
-        int i14 = i4;
+        l3 = l4;
+        i = 0;
+        i5 = (int)i13;
+        int i14 = i7;
         i2 = 0;
         while (DebugKt.getASSERTIONS_ENABLED()) {
             aSSERTIONS_ENABLED = 0;
@@ -258,17 +258,17 @@ public final class LockFreeTaskQueueCore<E>  {
             }
             companion = LockFreeTaskQueueCore.Companion;
             _state$FU = atomicfu$handler$iv2;
-            l3 = _state$FU.get(obj);
-            i5 = 0;
+            l2 = _state$FU.get(obj);
+            i3 = 0;
             companion2 = LockFreeTaskQueueCore.Companion;
-            l2 = l4;
-            i6 = 0;
-            i = (int)i13;
-            i14 = i4;
+            l3 = l4;
+            i = 0;
+            i5 = (int)i13;
+            i14 = i7;
             i2 = 0;
             atomicfu$handler$iv2 = _state$FU;
             atomicfu$handler$iv = oldHead;
-            i3 = 1;
+            i8 = 1;
         }
         AssertionError assertionError = new AssertionError();
         throw assertionError;
@@ -296,82 +296,82 @@ public final class LockFreeTaskQueueCore<E>  {
 
     private final long updateAndGet$atomicfu(AtomicLongFieldUpdater atomicLongFieldUpdater, Function1<? super Long, Long> function12, Object object3) {
         Object obj3;
-        Object obj;
+        Object obj2;
         long l;
         long longValue;
-        Object obj2;
+        Object obj;
         Object obj9;
         Object obj11;
         final int i = 0;
         l = obj9.get(obj11);
-        obj2 = invoke;
+        obj = invoke;
         obj3 = obj9;
-        obj = obj11;
-        while (obj3.compareAndSet(obj, l, obj4)) {
+        obj2 = obj11;
+        while (obj3.compareAndSet(obj2, l, obj4)) {
             obj9 = obj3;
-            obj11 = obj;
+            obj11 = obj2;
             l = obj9.get(obj11);
-            obj2 = invoke;
+            obj = invoke;
             obj3 = obj9;
-            obj = obj11;
+            obj2 = obj11;
         }
-        return obj2.longValue();
+        return obj.longValue();
     }
 
     public final int addLast(E element) {
         AtomicLongFieldUpdater compareAndSet;
         Object singleConsumer;
         Object cur;
-        long l3;
+        long l2;
         int tail$iv;
         int fillPlaceholder;
-        int i7;
-        Object obj;
-        int i12;
-        int mask;
-        int i3;
-        int i10;
-        kotlinx.coroutines.internal.LockFreeTaskQueueCore.Companion companion;
-        long l;
         int i;
-        int i11;
-        int i2;
+        Object obj2;
         int i6;
-        int i4;
+        int mask;
+        int i7;
+        int i12;
+        kotlinx.coroutines.internal.LockFreeTaskQueueCore.Companion companion;
+        long l3;
         int i8;
         int i9;
         int i5;
-        long l2;
-        Object obj2;
+        int i10;
+        int i11;
+        int i2;
+        int i4;
+        int i3;
+        long l;
+        Object obj;
         final Object obj3 = this;
         final Object obj4 = element;
-        obj = this;
+        obj2 = this;
         final int i23 = 0;
-        l3 = LockFreeTaskQueueCore._state$FU.get(obj3);
-        i12 = 0;
+        l2 = LockFreeTaskQueueCore._state$FU.get(obj3);
+        i6 = 0;
         int i24 = 0;
         while (Long.compare(i16, i24) != 0) {
             companion = LockFreeTaskQueueCore.Companion;
-            l = l5;
-            i = 0;
-            i11 = 0;
+            l3 = l5;
+            i8 = 0;
+            i9 = 0;
             int i13 = (int)i19;
             tail$iv = (int)i21;
-            i2 = i13;
-            i7 = tail$iv;
-            i6 = 0;
+            i5 = i13;
+            i = tail$iv;
+            i10 = 0;
             mask = obj3.mask;
-            i8 = i13;
-            i9 = 1;
-            i5 = 1073741823;
-            i9 = tail$iv;
-            int this_$iv = i7;
-            obj = i5;
-            l3 = num2.get(obj3);
-            i12 = 0;
+            i2 = i13;
+            i4 = 1;
+            i3 = 1073741823;
+            i4 = tail$iv;
+            int this_$iv = i;
+            obj2 = i3;
+            l2 = num2.get(obj3);
+            i6 = 0;
             i24 = 0;
         }
-        return LockFreeTaskQueueCore.Companion.addFailReason(l3);
+        return LockFreeTaskQueueCore.Companion.addFailReason(l2);
     }
 
     public final boolean close() {
@@ -459,47 +459,47 @@ public final class LockFreeTaskQueueCore<E>  {
     }
 
     public final Object removeFirstOrNull() {
-        int singleConsumer2;
+        int singleConsumer;
         Object cur;
-        long l;
+        long l2;
         Object element;
-        boolean singleConsumer;
+        boolean singleConsumer2;
         AtomicLongFieldUpdater head;
         Object newHead;
-        int i;
-        kotlinx.coroutines.internal.LockFreeTaskQueueCore.Companion companion;
-        long l2;
         int i6;
-        int i4;
+        kotlinx.coroutines.internal.LockFreeTaskQueueCore.Companion companion;
+        long l;
+        int i5;
         int i2;
         int i3;
-        int i5;
+        int i4;
+        int i;
         AtomicLongFieldUpdater num;
         Object head2;
-        Object obj2;
         Object obj;
+        Object obj2;
         final Object obj3 = this;
         head = LockFreeTaskQueueCore._state$FU;
         newHead = this;
         final int i22 = 0;
-        l = head.get(obj3);
-        i = 0;
+        l2 = head.get(obj3);
+        i6 = 0;
         while (Long.compare(i9, i23) != 0) {
             companion = LockFreeTaskQueueCore.Companion;
-            l2 = l;
-            i6 = 0;
-            singleConsumer2 = i4;
+            l = l2;
             i5 = 0;
+            singleConsumer = i2;
+            i = 0;
             num = head;
             int atomicfu$handler$iv = 0;
-            element = obj3.array.get(mask4 &= singleConsumer2);
+            element = obj3.array.get(mask4 &= singleConsumer);
             i19 &= i24;
             int i21 = i25;
             head2 = element;
             head = num;
-            newHead = obj2;
-            l = head.get(obj3);
-            i = 0;
+            newHead = obj;
+            l2 = head.get(obj3);
+            i6 = 0;
             head = num;
         }
         return LockFreeTaskQueueCore.REMOVE_FROZEN;

@@ -10,27 +10,27 @@ public final class LazyStaggeredGridCellsKt {
     }
 
     private static final int[] calculateCellsCrossAxisSizeImpl(int gridSize, int slotCount, int spacing) {
-        int i;
         int i3;
+        int i;
         int i2;
         int i6 = gridSize - i5;
         final int i7 = i6 / slotCount;
         final int[] iArr = new int[slotCount];
         final int i9 = 0;
-        i = i9;
-        while (i < slotCount) {
+        i3 = i9;
+        while (i3 < slotCount) {
             if (i7 < 0) {
             } else {
             }
-            if (i < i6 % slotCount) {
+            if (i3 < i6 % slotCount) {
             } else {
             }
             i2 = i9;
             i2 += i7;
-            iArr[i] = i3;
-            i++;
+            iArr[i3] = i;
+            i3++;
             i2 = 1;
-            i3 = i9;
+            i = i9;
         }
         return iArr;
     }

@@ -130,8 +130,8 @@ public final class SpannableBuilder extends SpannableStringBuilder {
     private void fireWatchers() {
         int i;
         Object obj;
-        int length;
         int length2;
+        int length;
         int i2;
         i = 0;
         while (i < this.mWatchers.size()) {

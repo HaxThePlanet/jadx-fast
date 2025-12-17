@@ -27,8 +27,8 @@ public final class TextFieldScrollKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal2;
             int ordinal;
+            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[Orientation.Vertical.ordinal()] = 1;
             iArr[Orientation.Horizontal.ordinal()] = 2;

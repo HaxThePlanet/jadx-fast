@@ -115,21 +115,21 @@ public final class TaskStackBuilder implements Iterable<Intent> {
 
     @Override // java.lang.Iterable
     public Intent[] getIntents() {
-        int i2;
-        int intent;
         int i;
+        int intent;
+        int i2;
         Intent[] arr = new Intent[this.mIntents.size()];
         if (arr.length == 0) {
             return arr;
         }
-        i = 0;
-        Intent intent2 = new Intent((Intent)this.mIntents.get(i));
-        arr[i] = intent2.addFlags(268484608);
-        i2 = 1;
-        while (i2 < arr.length) {
-            intent = new Intent((Intent)this.mIntents.get(i2));
-            arr[i2] = intent;
-            i2++;
+        i2 = 0;
+        Intent intent2 = new Intent((Intent)this.mIntents.get(i2));
+        arr[i2] = intent2.addFlags(268484608);
+        i = 1;
+        while (i < arr.length) {
+            intent = new Intent((Intent)this.mIntents.get(i));
+            arr[i] = intent;
+            i++;
         }
         return arr;
     }

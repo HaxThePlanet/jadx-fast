@@ -76,8 +76,8 @@ public final class KeyboardActions {
 
     public boolean equals(Object other) {
         int i;
-        Function1 onPrevious2;
         Function1 onPrevious;
+        Function1 onPrevious2;
         if (this == other) {
             return 1;
         }
@@ -132,47 +132,47 @@ public final class KeyboardActions {
     }
 
     public int hashCode() {
-        int i5;
-        int i3;
-        int i;
         int i2;
+        int i;
+        int i3;
+        int i5;
         int i4;
         int i6;
         Function1 onDone = this.onDone;
-        i3 = 0;
+        i = 0;
         if (onDone != null) {
-            i5 = onDone.hashCode();
+            i2 = onDone.hashCode();
         } else {
-            i5 = i3;
+            i2 = i;
         }
         Function1 onGo = this.onGo;
         if (onGo != null) {
-            i = onGo.hashCode();
+            i3 = onGo.hashCode();
         } else {
-            i = i3;
+            i3 = i;
         }
         Function1 onNext = this.onNext;
         if (onNext != null) {
-            i2 = onNext.hashCode();
+            i5 = onNext.hashCode();
         } else {
-            i2 = i3;
+            i5 = i;
         }
         Function1 onPrevious = this.onPrevious;
         if (onPrevious != null) {
             i4 = onPrevious.hashCode();
         } else {
-            i4 = i3;
+            i4 = i;
         }
         Function1 onSearch = this.onSearch;
         if (onSearch != null) {
             i6 = onSearch.hashCode();
         } else {
-            i6 = i3;
+            i6 = i;
         }
         Function1 onSend = this.onSend;
         if (onSend != null) {
-            i3 = onSend.hashCode();
+            i = onSend.hashCode();
         }
-        return result4 += i3;
+        return result4 += i;
     }
 }

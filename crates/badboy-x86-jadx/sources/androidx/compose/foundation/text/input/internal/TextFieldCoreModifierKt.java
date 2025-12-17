@@ -50,7 +50,7 @@ public final class TextFieldCoreModifierKt {
     }
 
     private static final boolean isSpecified(Brush $this$isSpecified) {
-        boolean z;
+        boolean $i$f$isUnspecified8_81llA;
         int i2;
         long value-0d7_KjU;
         int cmp;
@@ -58,8 +58,8 @@ public final class TextFieldCoreModifierKt {
         if ($this$isSpecified instanceof SolidColor) {
             int i3 = 0;
             i = 0;
-            z = Long.compare(value-0d7_KjU, i4) == 0 ? i2 : i;
-            if (z == 0) {
+            $i$f$isUnspecified8_81llA = Long.compare(value-0d7_KjU, i4) == 0 ? i2 : i;
+            if ($i$f$isUnspecified8_81llA == 0) {
             } else {
                 i2 = i;
             }

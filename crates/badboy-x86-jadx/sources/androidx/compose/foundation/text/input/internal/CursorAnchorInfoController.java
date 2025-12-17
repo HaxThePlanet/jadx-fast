@@ -67,10 +67,10 @@ public final class CursorAnchorInfoController {
     private final CursorAnchorInfo calculateCursorAnchorInfo() {
         int textLayoutNodeCoordinates;
         LayoutCoordinates coreNodeCoordinates;
-        boolean it;
+        boolean it2;
         LayoutCoordinates decoratorNodeCoordinates;
-        int it2;
-        boolean it3;
+        int it3;
+        boolean it;
         int i;
         int textLayoutCoordinates;
         int textLayoutCoordinates2;
@@ -78,7 +78,7 @@ public final class CursorAnchorInfoController {
         textLayoutNodeCoordinates = obj.textLayoutState.getTextLayoutNodeCoordinates();
         int i2 = 0;
         if (textLayoutNodeCoordinates != null) {
-            it2 = 0;
+            it3 = 0;
             if (textLayoutNodeCoordinates.isAttached()) {
             } else {
                 textLayoutNodeCoordinates = i2;
@@ -86,7 +86,7 @@ public final class CursorAnchorInfoController {
             if (textLayoutNodeCoordinates != 0) {
                 coreNodeCoordinates = obj.textLayoutState.getCoreNodeCoordinates();
                 if (coreNodeCoordinates != null) {
-                    it3 = 0;
+                    it = 0;
                     if (coreNodeCoordinates.isAttached()) {
                     } else {
                         coreNodeCoordinates = i2;
@@ -154,11 +154,11 @@ public final class CursorAnchorInfoController {
         Job monitorJob;
         int i2;
         int monitorScope;
-        int i;
+        int i3;
         CoroutineStart uNDISPATCHED;
         androidx.compose.foundation.text.input.internal.CursorAnchorInfoController.startOrStopMonitoring.1 anon;
         int i4;
-        int i3;
+        int i;
         i2 = 1;
         final int i5 = 0;
         if (this.monitorEnabled) {
@@ -184,37 +184,37 @@ public final class CursorAnchorInfoController {
     }
 
     public final void requestUpdates(int cursorUpdateMode) {
-        int i;
+        int i3;
         int includeInsertionMarker;
-        int sDK_INT2;
+        int sDK_INT;
         int includeCharacterBounds;
-        int i6;
+        int i7;
         int includeEditorBounds;
         int includeLineBounds;
         int includeLineBounds2;
-        int i5;
-        int i2;
-        int i3;
-        int sDK_INT;
         int i4;
-        int i7;
-        sDK_INT2 = 0;
+        int i;
+        int i5;
+        int sDK_INT2;
+        int i6;
+        int i2;
+        sDK_INT = 0;
         final int i10 = 1;
-        i = cursorUpdateMode & 1 != 0 ? i10 : sDK_INT2;
-        i6 = cursorUpdateMode & 2 != 0 ? i10 : sDK_INT2;
+        i3 = cursorUpdateMode & 1 != 0 ? i10 : sDK_INT;
+        i7 = cursorUpdateMode & 2 != 0 ? i10 : sDK_INT;
         if (Build.VERSION.SDK_INT >= 33) {
-            i5 = cursorUpdateMode & 16 != 0 ? i10 : sDK_INT2;
-            includeInsertionMarker = i5;
-            i2 = cursorUpdateMode & 8 != 0 ? i10 : sDK_INT2;
-            includeCharacterBounds = i2;
-            i3 = cursorUpdateMode & 4 != 0 ? i10 : sDK_INT2;
-            int includeEditorBounds2 = i3;
+            i4 = cursorUpdateMode & 16 != 0 ? i10 : sDK_INT;
+            includeInsertionMarker = i4;
+            i = cursorUpdateMode & 8 != 0 ? i10 : sDK_INT;
+            includeCharacterBounds = i;
+            i5 = cursorUpdateMode & 4 != 0 ? i10 : sDK_INT;
+            int includeEditorBounds2 = i5;
             int i17 = 34;
             if (Build.VERSION.SDK_INT >= i17 && cursorUpdateMode & 32 != 0) {
                 if (cursorUpdateMode & 32 != 0) {
-                    sDK_INT2 = i10;
+                    sDK_INT = i10;
                 }
-                includeLineBounds = sDK_INT2;
+                includeLineBounds = sDK_INT;
             }
             if (includeInsertionMarker == 0 && includeCharacterBounds == 0 && includeEditorBounds2 == 0 && includeLineBounds == 0) {
                 if (includeCharacterBounds == 0) {
@@ -224,19 +224,19 @@ public final class CursorAnchorInfoController {
                             includeCharacterBounds = 1;
                             int includeEditorBounds3 = 1;
                             if (Build.VERSION.SDK_INT >= i17) {
-                                i4 = includeEditorBounds3;
-                                i7 = includeLineBounds3;
+                                i6 = includeEditorBounds3;
+                                i2 = includeLineBounds3;
                                 includeEditorBounds = includeInsertionMarker;
                                 includeLineBounds2 = includeCharacterBounds;
                             } else {
-                                i4 = includeEditorBounds3;
-                                i7 = includeLineBounds;
+                                i6 = includeEditorBounds3;
+                                i2 = includeLineBounds;
                                 includeEditorBounds = includeInsertionMarker;
                                 includeLineBounds2 = includeCharacterBounds;
                             }
                         } else {
-                            i4 = includeEditorBounds2;
-                            i7 = includeLineBounds;
+                            i6 = includeEditorBounds2;
+                            i2 = includeLineBounds;
                             includeEditorBounds = includeInsertionMarker;
                             includeLineBounds2 = includeCharacterBounds;
                         }
@@ -247,11 +247,11 @@ public final class CursorAnchorInfoController {
             } else {
             }
         } else {
-            i4 = i12;
-            i7 = includeLineBounds;
+            i6 = i12;
+            i2 = includeLineBounds;
             includeEditorBounds = includeInsertionMarker;
             includeLineBounds2 = includeCharacterBounds;
         }
-        this.requestUpdates(i, i6, includeEditorBounds, includeLineBounds2, i4, i7);
+        this.requestUpdates(i3, i7, includeEditorBounds, includeLineBounds2, i6, i2);
     }
 }

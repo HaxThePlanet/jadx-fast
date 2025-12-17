@@ -60,34 +60,34 @@ public final class CardElevation {
 
     private final State<Dp> animateElevation(boolean enabled, InteractionSource interactionSource, Composer $composer, int $changed) {
         boolean changed2;
-        int i8;
+        int i;
         float disabledElevation;
-        Object animatable2;
+        Object animatable;
         boolean traceInProgress;
-        Object it$iv2;
+        Object it$iv;
         String str;
         float f;
-        int i;
-        int changed3;
-        int i7;
+        int i3;
         int changed;
-        Object it$iv;
-        Object mutableStateListOf;
+        int i7;
+        int changed3;
+        Object it$iv2;
+        Object $i$a$CacheCardElevation$animateElevation$interactions$1;
         Object empty;
         Object anon;
-        Object obj2;
-        int i2;
-        Animatable animatable;
+        Object $i$a$CacheCardElevation$animateElevation$animatable$1;
+        int i4;
+        Animatable animatable2;
         Dp box-impl;
         Object obj;
         androidx.compose.animation.core.TwoWayConverter vectorConverter;
-        int i3;
-        int i4;
-        int i6;
+        int i2;
         int i5;
-        final Object obj3 = this;
+        int i8;
+        int i6;
+        final Object obj2 = this;
         boolean z5 = enabled;
-        final Object obj6 = interactionSource;
+        final Object obj5 = interactionSource;
         final Composer composer4 = $composer;
         final int i26 = $changed;
         int i9 = -1421890746;
@@ -99,23 +99,23 @@ public final class CardElevation {
         ComposerKt.sourceInformationMarkerStart(composer4, -1719589842, str3);
         int i11 = 0;
         Composer composer = $composer;
-        i = 0;
+        i3 = 0;
         Object rememberedValue2 = composer.rememberedValue();
         int i27 = 0;
         if (rememberedValue2 == Composer.Companion.getEmpty()) {
             int i28 = 0;
             composer.updateRememberedValue(SnapshotStateKt.mutableStateListOf());
         } else {
-            mutableStateListOf = rememberedValue2;
+            $i$a$CacheCardElevation$animateElevation$interactions$1 = rememberedValue2;
         }
-        androidx.compose.runtime.snapshots.SnapshotStateList list2 = mutableStateListOf;
+        androidx.compose.runtime.snapshots.SnapshotStateList list2 = $i$a$CacheCardElevation$animateElevation$interactions$1;
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, -1719585567, str3);
         int i21 = 32;
         int i29 = 0;
         if (i13 ^= 48 > i21) {
-            if (!composer4.changed(obj6)) {
-                i8 = i26 & 48 == i21 ? 1 : i29;
+            if (!composer4.changed(obj5)) {
+                i = i26 & 48 == i21 ? 1 : i29;
             } else {
             }
         } else {
@@ -124,10 +124,10 @@ public final class CardElevation {
         int i22 = 0;
         Object rememberedValue3 = composer2.rememberedValue();
         int i31 = 0;
-        if (i8 == 0) {
+        if (i == 0) {
             if (rememberedValue3 == Composer.Companion.getEmpty()) {
                 empty = 0;
-                anon = new CardElevation.animateElevation.1.1(obj6, (SnapshotStateList)list2, 0);
+                anon = new CardElevation.animateElevation.1.1(obj5, (SnapshotStateList)list2, 0);
                 composer2.updateRememberedValue((Function2)anon);
             } else {
                 anon = rememberedValue3;
@@ -135,8 +135,8 @@ public final class CardElevation {
         } else {
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
-        EffectsKt.LaunchedEffect(obj6, (Function2)anon, composer4, i14 &= 14);
-        Object obj4 = lastOrNull;
+        EffectsKt.LaunchedEffect(obj5, (Function2)anon, composer4, i14 &= 14);
+        Object obj3 = lastOrNull;
         f = !z5 ? disabledElevation : z ? disabledElevation : z2 ? disabledElevation : z3 ? disabledElevation : z4 ? disabledElevation : disabledElevation;
         ComposerKt.sourceInformationMarkerStart(composer4, -1719521869, str3);
         int i17 = 0;
@@ -146,12 +146,12 @@ public final class CardElevation {
         int i35 = 0;
         if (rememberedValue4 == Composer.Companion.getEmpty()) {
             int i36 = 0;
-            animatable = new Animatable(Dp.box-impl(f), VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
-            composer3.updateRememberedValue(animatable);
+            animatable2 = new Animatable(Dp.box-impl(f), VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
+            composer3.updateRememberedValue(animatable2);
         } else {
-            obj2 = rememberedValue4;
+            $i$a$CacheCardElevation$animateElevation$animatable$1 = rememberedValue4;
         }
-        Object invalid$iv = obj2;
+        Object invalid$iv = $i$a$CacheCardElevation$animateElevation$animatable$1;
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, -1719518296, str3);
         int i32 = 4;
@@ -164,8 +164,8 @@ public final class CardElevation {
         }
         int i33 = 256;
         if (i25 ^= 384 > i33) {
-            if (!composer4.changed(obj3)) {
-                i2 = i26 & 384 == i33 ? 1 : i29;
+            if (!composer4.changed(obj2)) {
+                i4 = i26 & 384 == i33 ? 1 : i29;
             } else {
             }
         } else {
@@ -174,25 +174,25 @@ public final class CardElevation {
         int i37 = 0;
         Object rememberedValue = composer5.rememberedValue();
         int i38 = 0;
-        if (i20 | it$iv == 0) {
+        if (i20 | it$iv2 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                animatable = 0;
-                obj = obj5;
-                animatable2 = new CardElevation.animateElevation.2.1(invalid$iv, f, z5, obj3, obj4, 0);
-                composer5.updateRememberedValue((Function2)animatable2);
+                animatable2 = 0;
+                obj = obj4;
+                animatable = new CardElevation.animateElevation.2.1(invalid$iv, f, z5, obj2, obj3, 0);
+                composer5.updateRememberedValue((Function2)animatable);
             } else {
-                it$iv2 = invalid$iv;
-                animatable2 = obj;
+                it$iv = invalid$iv;
+                animatable = obj;
             }
         } else {
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
-        EffectsKt.LaunchedEffect(Dp.box-impl(f), (Function2)animatable2, composer4, i29);
+        EffectsKt.LaunchedEffect(Dp.box-impl(f), (Function2)animatable, composer4, i29);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
-        return it$iv2.asState();
+        return it$iv.asState();
     }
 
     public boolean equals(Object other) {
@@ -233,7 +233,7 @@ public final class CardElevation {
     public final State<Dp> shadowElevation$material3_release(boolean enabled, InteractionSource interactionSource, Composer $composer, int $changed) {
         boolean traceInProgress;
         String str;
-        Object mutableStateOf$default;
+        Object $i$a$CacheCardElevation$shadowElevation$1;
         Dp box-impl;
         int i2;
         int i;
@@ -257,7 +257,7 @@ public final class CardElevation {
                 i = 0;
                 composer.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(Dp.box-impl(this.defaultElevation), i, 2, i));
             } else {
-                mutableStateOf$default = rememberedValue;
+                $i$a$CacheCardElevation$shadowElevation$1 = rememberedValue;
             }
             ComposerKt.sourceInformationMarkerEnd($composer);
             $composer.endReplaceGroup();
@@ -265,7 +265,7 @@ public final class CardElevation {
                 ComposerKt.traceEventEnd();
             }
             $composer.endReplaceGroup();
-            return (State)(MutableState)mutableStateOf$default;
+            return (State)(MutableState)$i$a$CacheCardElevation$shadowElevation$1;
         }
         $composer.endReplaceGroup();
         if (ComposerKt.isTraceInProgress()) {

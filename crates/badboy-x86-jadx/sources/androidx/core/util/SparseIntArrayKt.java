@@ -33,8 +33,8 @@ public final class SparseIntArrayKt {
 
     public static final void forEach(SparseIntArray $this$forEach, Function2<? super Integer, ? super Integer, Unit> action) {
         int index;
-        Integer valueOf2;
         Integer valueOf;
+        Integer valueOf2;
         final int i = 0;
         index = 0;
         while (index < $this$forEach.size()) {

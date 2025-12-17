@@ -1,0 +1,37 @@
+package androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedMap;
+
+import androidx.compose.runtime.external.kotlinx.collections.immutable.ImmutableSet;
+import java.util.Iterator;
+import kotlin.Metadata;
+import kotlin.collections.AbstractSet;
+
+/* loaded from: classes.dex */
+@Metadata(d1 = "\u00000\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0010\u0008\n\u0002\u0008\u0003\n\u0002\u0010\u000b\n\u0002\u0008\u0003\n\u0002\u0010(\n\u0000\u0008\u0000\u0018\u0000*\u0004\u0008\u0000\u0010\u0001*\u0004\u0008\u0001\u0010\u00022\u0008\u0012\u0004\u0012\u0002H\u00010\u00032\u0008\u0012\u0004\u0012\u0002H\u00010\u0004B\u0019\u0012\u0012\u0010\u0005\u001a\u000e\u0012\u0004\u0012\u00028\u0000\u0012\u0004\u0012\u00028\u00010\u0006¢\u0006\u0002\u0010\u0007J\u0016\u0010\u000c\u001a\u00020\r2\u0006\u0010\u000e\u001a\u00028\u0000H\u0096\u0002¢\u0006\u0002\u0010\u000fJ\u000f\u0010\u0010\u001a\u0008\u0012\u0004\u0012\u00028\u00000\u0011H\u0096\u0002R\u001a\u0010\u0005\u001a\u000e\u0012\u0004\u0012\u00028\u0000\u0012\u0004\u0012\u00028\u00010\u0006X\u0082\u0004¢\u0006\u0002\n\u0000R\u0014\u0010\u0008\u001a\u00020\t8VX\u0096\u0004¢\u0006\u0006\u001a\u0004\u0008\n\u0010\u000b¨\u0006\u0012", d2 = {"Landroidx/compose/runtime/external/kotlinx/collections/immutable/implementations/persistentOrderedMap/PersistentOrderedMapKeys;", "K", "V", "Landroidx/compose/runtime/external/kotlinx/collections/immutable/ImmutableSet;", "Lkotlin/collections/AbstractSet;", "map", "Landroidx/compose/runtime/external/kotlinx/collections/immutable/implementations/persistentOrderedMap/PersistentOrderedMap;", "(Landroidx/compose/runtime/external/kotlinx/collections/immutable/implementations/persistentOrderedMap/PersistentOrderedMap;)V", "size", "", "getSize", "()I", "contains", "", "element", "(Ljava/lang/Object;)Z", "iterator", "", "runtime_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
+public final class PersistentOrderedMapKeys<K, V>  extends AbstractSet<K> implements ImmutableSet<K> {
+
+    public static final int $stable = 8;
+    private final androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMap<K, V> map;
+    static {
+        final int i = 8;
+    }
+
+    public PersistentOrderedMapKeys(androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMap<K, V> map) {
+        super();
+        this.map = map;
+    }
+
+    @Override // kotlin.collections.AbstractSet
+    public boolean contains(Object element) {
+        return this.map.containsKey(element);
+    }
+
+    @Override // kotlin.collections.AbstractSet
+    public int getSize() {
+        return this.map.size();
+    }
+
+    public Iterator<K> iterator() {
+        PersistentOrderedMapKeysIterator persistentOrderedMapKeysIterator = new PersistentOrderedMapKeysIterator(this.map);
+        return (Iterator)persistentOrderedMapKeysIterator;
+    }
+}

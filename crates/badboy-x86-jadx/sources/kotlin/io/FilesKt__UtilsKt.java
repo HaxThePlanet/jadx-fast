@@ -96,12 +96,12 @@ class FilesKt__UtilsKt extends kotlin.io.FilesKt__FileTreeWalkKt {
     public static final File copyTo(File $this$copyTo, File target, boolean overwrite, int bufferSize) {
         boolean exists;
         int output;
-        FileInputStream inputStream;
-        FileInputStream inputStream2;
-        int i2;
-        FileOutputStream outputStream;
-        int i;
         FileInputStream inputStream3;
+        FileInputStream inputStream2;
+        int i;
+        FileOutputStream outputStream;
+        int i2;
+        FileInputStream inputStream;
         FileOutputStream outputStream2;
         Intrinsics.checkNotNullParameter($this$copyTo, "<this>");
         Intrinsics.checkNotNullParameter(target, "target");
@@ -132,15 +132,15 @@ class FilesKt__UtilsKt extends kotlin.io.FilesKt__FileTreeWalkKt {
                 parentFile.mkdirs();
             }
             FileInputStream fileInputStream = new FileInputStream($this$copyTo);
-            inputStream = fileInputStream;
-            i2 = 0;
+            inputStream3 = fileInputStream;
+            i = 0;
             FileOutputStream fileOutputStream = new FileOutputStream(target);
             outputStream = fileOutputStream;
-            i = 0;
-            ByteStreamsKt.copyTo((InputStream)(FileInputStream)(Closeable)inputStream, (OutputStream)(FileOutputStream)(Closeable)outputStream, bufferSize);
+            i2 = 0;
+            ByteStreamsKt.copyTo((InputStream)(FileInputStream)(Closeable)inputStream3, (OutputStream)(FileOutputStream)(Closeable)outputStream, bufferSize);
             output = 0;
             CloseableKt.closeFinally(outputStream, output);
-            CloseableKt.closeFinally(inputStream, output);
+            CloseableKt.closeFinally(inputStream3, output);
         }
         NoSuchFileException noSuchFileException = new NoSuchFileException($this$copyTo, 0, "The source file doesn't exist.", 2, 0);
         throw noSuchFileException;
@@ -219,9 +219,9 @@ class FilesKt__UtilsKt extends kotlin.io.FilesKt__FileTreeWalkKt {
         int accumulator$iv;
         Object next;
         Object obj;
-        int i2;
         int i3;
         int i;
+        int i2;
         boolean delete;
         Intrinsics.checkNotNullParameter($this$deleteRecursively, "<this>");
         final int i5 = 0;
@@ -229,16 +229,16 @@ class FilesKt__UtilsKt extends kotlin.io.FilesKt__FileTreeWalkKt {
         final Iterator iterator = (Sequence)FilesKt.walkBottomUp($this$deleteRecursively).iterator();
         while (iterator.hasNext()) {
             obj = next;
-            i3 = 0;
+            i = 0;
             if ((File)obj.delete() == null) {
             } else {
             }
             if (accumulator$iv != 0) {
             } else {
             }
-            i = 0;
-            accumulator$iv = i;
-            i = 1;
+            i2 = 0;
+            accumulator$iv = i2;
+            i2 = 1;
             if (!obj.exists() && accumulator$iv != 0) {
             } else {
             }
@@ -283,10 +283,10 @@ class FilesKt__UtilsKt extends kotlin.io.FilesKt__FileTreeWalkKt {
         String replace$default;
         String path;
         char separatorChar;
+        int i;
         int i3;
         int i4;
         int i2;
-        int i;
         Intrinsics.checkNotNullParameter($this$invariantSeparatorsPath, "<this>");
         final String str2 = "getPath(...)";
         if (File.separatorChar != 47) {
@@ -318,25 +318,25 @@ class FilesKt__UtilsKt extends kotlin.io.FilesKt__FileTreeWalkKt {
 
     private static final List<File> normalize$FilesKt__UtilsKt(List<? extends File> $this$normalize) {
         Object next;
-        String equal;
-        boolean equal2;
+        String equal2;
+        boolean equal;
         ArrayList arrayList = new ArrayList($this$normalize.size());
         Iterator iterator = $this$normalize.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            equal = (File)next.getName();
-            if (!Intrinsics.areEqual(equal, ".")) {
+            equal2 = (File)next.getName();
+            if (!Intrinsics.areEqual(equal2, ".")) {
             }
-            equal2 = "..";
-            if (Intrinsics.areEqual(equal, equal2)) {
+            equal = "..";
+            if (Intrinsics.areEqual(equal2, equal)) {
             } else {
             }
             (List)arrayList.add(next);
-            if (!arrayList.isEmpty() && Intrinsics.areEqual((File)CollectionsKt.last(arrayList).getName(), equal2) == null) {
+            if (!arrayList.isEmpty() && Intrinsics.areEqual((File)CollectionsKt.last(arrayList).getName(), equal) == null) {
             } else {
             }
             arrayList.add(next);
-            if (Intrinsics.areEqual((File)CollectionsKt.last(arrayList).getName(), equal2) == null) {
+            if (Intrinsics.areEqual((File)CollectionsKt.last(arrayList).getName(), equal) == null) {
             } else {
             }
             arrayList.remove(size2--);
@@ -391,8 +391,8 @@ class FilesKt__UtilsKt extends kotlin.io.FilesKt__FileTreeWalkKt {
         File file;
         String string;
         char separatorChar;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$resolve, "<this>");
         Intrinsics.checkNotNullParameter(relative, "relative");
         if (FilesKt.isRooted(relative) != null) {
@@ -483,45 +483,45 @@ class FilesKt__UtilsKt extends kotlin.io.FilesKt__FileTreeWalkKt {
     }
 
     private static final String toRelativeStringOrNull$FilesKt__UtilsKt(File $this$toRelativeStringOrNull, File base) {
-        int separatorChar2;
-        int i9;
-        int i8;
         int separatorChar;
+        int i3;
+        int i9;
+        int separatorChar2;
         boolean equal;
         Object obj;
-        int i2;
+        int i8;
         int i5;
-        int i6;
-        int i3;
+        int i2;
         int i4;
+        int i6;
         int i7;
         int i;
         kotlin.io.FilePathComponents normalize$FilesKt__UtilsKt = FilesKt__UtilsKt.normalize$FilesKt__UtilsKt(FilesKt.toComponents($this$toRelativeStringOrNull));
         kotlin.io.FilePathComponents normalize$FilesKt__UtilsKt2 = FilesKt__UtilsKt.normalize$FilesKt__UtilsKt(FilesKt.toComponents(base));
-        separatorChar2 = 0;
+        separatorChar = 0;
         if (Intrinsics.areEqual(normalize$FilesKt__UtilsKt.getRoot(), normalize$FilesKt__UtilsKt2.getRoot()) == null) {
-            return separatorChar2;
+            return separatorChar;
         }
         int size = normalize$FilesKt__UtilsKt2.getSize();
         final int size2 = normalize$FilesKt__UtilsKt.getSize();
         File file = $this$toRelativeStringOrNull;
         int i10 = 0;
-        i8 = 0;
-        while (i8 < Math.min(size2, size)) {
-            if (Intrinsics.areEqual(normalize$FilesKt__UtilsKt.getSegments().get(i8), normalize$FilesKt__UtilsKt2.getSegments().get(i8)) != null) {
+        i9 = 0;
+        while (i9 < Math.min(size2, size)) {
+            if (Intrinsics.areEqual(normalize$FilesKt__UtilsKt.getSegments().get(i9), normalize$FilesKt__UtilsKt2.getSegments().get(i9)) != null) {
             }
-            i8++;
+            i9++;
         }
         StringBuilder stringBuilder = new StringBuilder();
-        if (i8 <= size + -1) {
+        if (i9 <= size + -1) {
         }
-        if (i8 < size2 && i8 < size) {
-            if (i8 < size) {
+        if (i9 < size2 && i9 < size) {
+            if (i9 < size) {
                 stringBuilder.append(File.separatorChar);
             }
-            separatorChar2 = File.separator;
-            Intrinsics.checkNotNullExpressionValue(separatorChar2, "separator");
-            CollectionsKt.joinTo$default((Iterable)CollectionsKt.drop((Iterable)normalize$FilesKt__UtilsKt.getSegments(), i8), (Appendable)stringBuilder, (CharSequence)separatorChar2, 0, 0, 0, 0, 0, 124, 0);
+            separatorChar = File.separator;
+            Intrinsics.checkNotNullExpressionValue(separatorChar, "separator");
+            CollectionsKt.joinTo$default((Iterable)CollectionsKt.drop((Iterable)normalize$FilesKt__UtilsKt.getSegments(), i9), (Appendable)stringBuilder, (CharSequence)separatorChar, 0, 0, 0, 0, 0, 124, 0);
         }
         return stringBuilder.toString();
     }

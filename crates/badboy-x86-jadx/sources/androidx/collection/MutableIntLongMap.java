@@ -26,8 +26,8 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
             initializeStorage(ScatterMapKt.unloadedCapacity(initialCapacity));
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive value.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMutableIntLongMap$1 = new IllegalArgumentException("Capacity must be a positive value.".toString());
+        throw $i$a$RequireMutableIntLongMap$1;
     }
 
     public MutableIntLongMap(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -57,13 +57,13 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         int metadata$iv;
         int i3;
         int $this$maskEmptyOrDeleted$iv;
-        int i2;
         int i;
         int i4;
-        int i5;
-        long l;
         int i6;
+        int i2;
+        long l;
         int i7;
+        int i5;
         final int _capacity = this._capacity;
         probeOffset = hash1 & _capacity;
         probeIndex = 0;
@@ -74,9 +74,9 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         int i9 = metadata$iv;
         int i12 = 0;
         i17 &= i9;
-        $this$maskEmptyOrDeleted$iv = i4 & l;
+        $this$maskEmptyOrDeleted$iv = i6 & l;
         while (Long.compare($this$maskEmptyOrDeleted$iv, i13) != 0) {
-            probeOffset = i & _capacity;
+            probeOffset = i4 & _capacity;
             metadata = this.metadata;
             i3 = 0;
             i8 = probeOffset >> 3;
@@ -84,7 +84,7 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
             i9 = metadata$iv;
             i12 = 0;
             i17 &= i9;
-            $this$maskEmptyOrDeleted$iv = i4 & l;
+            $this$maskEmptyOrDeleted$iv = i6 & l;
         }
         int i20 = 0;
         return $this$lowestBitSet$iv2 &= _capacity;
@@ -95,26 +95,26 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         int m;
         int m2;
         int index;
-        int i9;
+        int i7;
         int metadata$iv;
         int probeIndex;
         int $this$maskEmpty$iv;
-        int i4;
-        int $this$hasNext$iv;
-        int i3;
-        int i13;
-        int i5;
         int i12;
+        int $this$hasNext$iv;
+        int i5;
+        int i3;
+        int i14;
+        int i6;
         int $this$next$iv;
         int cmp;
         long l;
-        int i14;
-        int i11;
-        int i7;
-        int i6;
-        int i8;
-        int i;
+        int i4;
+        int i9;
         int i10;
+        int i8;
+        int i11;
+        int i13;
+        int i;
         int i2;
         int hash;
         int i21 = 0;
@@ -124,57 +124,57 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         int $i$f$h1 = $i$f$hash >>> 7;
         int i27 = 0;
         int $i$f$h2 = $i$f$hash & 127;
-        i9 = $i$f$h1 & m;
+        i7 = $i$f$h1 & m;
         probeIndex = 0;
         while (/* condition */) {
             int i48 = 0;
             int i53 = 0;
-            i = 0;
-            i10 = 1;
+            i13 = 0;
+            i = 1;
             while (Long.compare(i35, i53) != 0) {
-                $this$hasNext$iv = i10;
+                $this$hasNext$iv = i;
                 int i49 = 0;
-                i11 = 0;
-                $this$get$iv &= i7;
+                i9 = 0;
+                $this$get$iv &= i10;
                 int i55 = m2;
-                i3 = 0;
+                i5 = 0;
                 m2 = $this$next$iv;
                 i48 = 0;
                 i53 = 0;
-                i = 0;
-                i10 = 1;
-                $this$hasNext$iv = i;
+                i13 = 0;
+                i = 1;
+                $this$hasNext$iv = i13;
             }
-            $this$hasNext$iv = i;
-            i13 = key;
-            int i37 = i8;
-            i11 = 0;
+            $this$hasNext$iv = i13;
+            i3 = key;
+            int i37 = i11;
+            i9 = 0;
             hash = $i$f$hash;
-            i9 = i20 & i7;
+            i7 = i20 & i10;
             obj = this;
-            m = i7;
+            m = i10;
             long[] metadata2 = obj.metadata;
-            i3 = 0;
-            int i47 = i9 >> 3;
+            i5 = 0;
+            int i47 = i7 >> 3;
             i50 <<= 3;
             l4 >>>= i51;
-            i7 = m;
-            i6 = i9;
+            i10 = m;
+            i8 = i7;
             i30 |= cmp;
-            i5 = 0;
+            i14 = 0;
             long l5 = 72340172838076673L;
-            i52 ^= i4;
+            i52 ^= i12;
             l = -9187201950435737472L;
             i32 &= l;
             i49 = 0;
-            i11 = 0;
-            $this$get$iv &= i7;
+            i9 = 0;
+            $this$get$iv &= i10;
             i55 = m2;
-            i3 = 0;
+            i5 = 0;
             m2 = $this$next$iv;
-            $this$hasNext$iv = i10;
+            $this$hasNext$iv = i;
         }
-        return i4;
+        return i12;
     }
 
     private final void initializeGrowth() {
@@ -187,15 +187,15 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         long[] lArr;
         long l;
         int i3;
-        int i4;
-        int i5;
-        int i2;
         int i;
+        int i4;
+        int i2;
+        int i5;
         if (capacity == 0) {
             size = ScatterMapKt.EmptyGroup;
         } else {
             lArr2 = new long[i9 >>= 3];
-            i = 0;
+            i5 = 0;
             ArraysKt.fill$default(lArr2, -9187201950435737472L, obj4, 0, 0, 6);
             size = lArr2;
         }
@@ -226,55 +226,55 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         long[] metadata2;
         int _capacity;
         int removedDeletes;
-        int i4;
+        int i;
         int $i$f$readRawMetadata;
-        int i8;
+        int i2;
         Object cmp;
         int _capacity2;
-        int i6;
-        int i10;
-        int i7;
-        long[] metadata;
         int i5;
+        int i10;
         int i11;
+        long[] metadata;
+        int i8;
+        int i6;
+        int i4;
         int i3;
         int i9;
-        int i;
         long[] m;
-        int i2;
+        int i7;
         final Object obj = this;
         metadata2 = obj.metadata;
         _capacity = obj._capacity;
         removedDeletes = 0;
-        i4 = 0;
-        while (i4 < _capacity) {
+        i = 0;
+        while (i < _capacity) {
             int i15 = 0;
             _capacity2 = 255;
             if (Long.compare($i$f$readRawMetadata, i10) == 0) {
             } else {
             }
             m = metadata2;
-            i2 = _capacity;
-            i4++;
+            i7 = _capacity;
+            i++;
             metadata2 = m;
-            _capacity = i2;
+            _capacity = i7;
             i10 = 128;
             cmp = this;
-            i7 = 0;
+            i11 = 0;
             metadata = cmp.metadata;
             int i25 = 0;
-            int i27 = i4 >> 3;
+            int i27 = i >> 3;
             i28 <<= 3;
-            i = _capacity2;
+            i9 = _capacity2;
             metadata[i27] = i21 |= i31;
             _capacity2 = cmp._capacity;
             i24 += i26;
-            i5 = 0;
-            i11 = i6 >> 3;
+            i8 = 0;
+            i6 = i5 >> 3;
             i30 <<= 3;
             m = metadata2;
-            i2 = _capacity;
-            metadata[i11] = i14 |= i9;
+            i7 = _capacity;
+            metadata[i6] = i14 |= i3;
             removedDeletes++;
         }
         long[] m4 = metadata2;
@@ -283,68 +283,68 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
 
     private final void resizeStorage(int newCapacity) {
         Object obj;
-        long[] metadata2;
+        long[] metadata;
         int i4;
-        int i2;
+        int i5;
         int $i$f$hash;
         int firstAvailableSlot;
         Object obj2;
-        int metadata;
-        int i10;
-        int i5;
+        int metadata2;
+        int i;
         int i8;
+        int i7;
         int i9;
         int i6;
-        int i3;
+        int i2;
         long l;
         long[] previousMetadata;
-        int i;
-        int i7;
+        int i10;
+        int i3;
         obj = this;
-        metadata2 = obj.metadata;
+        metadata = obj.metadata;
         initializeStorage(newCapacity);
         i4 = 0;
         while (i4 < obj._capacity) {
-            i2 = 0;
+            i5 = 0;
             int i20 = 0;
-            metadata = 255;
-            if (Long.compare($i$f$readRawMetadata, i5) < 0) {
+            metadata2 = 255;
+            if (Long.compare($i$f$readRawMetadata, i8) < 0) {
             } else {
             }
             $i$f$hash = 0;
             if ($i$f$hash != 0) {
             } else {
             }
-            previousMetadata = metadata2;
+            previousMetadata = metadata;
             i4++;
             obj = this;
-            metadata2 = previousMetadata;
-            i2 = obj.keys[i4];
+            metadata = previousMetadata;
+            i5 = obj.keys[i4];
             int i21 = 0;
             i23 *= i26;
             $i$f$hash = i24 ^ i27;
             int i25 = 0;
             firstAvailableSlot = obj.findFirstAvailableSlot($i$f$hash >>> 7);
             int i28 = 0;
-            i5 = (long)$i$f$h2;
+            i8 = (long)$i$f$h2;
             obj2 = this;
-            i8 = 0;
-            int i33 = metadata;
-            metadata = obj2.metadata;
+            i7 = 0;
+            int i33 = metadata2;
+            metadata2 = obj2.metadata;
             int i31 = 0;
             int i34 = firstAvailableSlot >> 3;
             i35 <<= 3;
-            previousMetadata = metadata2;
-            metadata[i34] = i13 |= i38;
+            previousMetadata = metadata;
+            metadata2[i34] = i13 |= i38;
             int _capacity = obj2._capacity;
             i19 += i32;
-            i10 = 0;
-            i6 = metadata2 >> 3;
+            i = 0;
+            i6 = metadata >> 3;
             i37 <<= 3;
-            i = _capacity;
-            i7 = metadata2;
-            metadata[i6] = i16 |= i9;
-            obj.keys[firstAvailableSlot] = i2;
+            i10 = _capacity;
+            i3 = metadata;
+            metadata2[i6] = i16 |= i9;
+            obj.keys[firstAvailableSlot] = i5;
             obj.values[firstAvailableSlot] = obj.values[i4];
             $i$f$hash = 1;
         }
@@ -370,23 +370,23 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
     public final void clear() {
         long[] metadata;
         long[] emptyGroup;
-        int i2;
-        long l2;
-        long l;
-        int i5;
-        int i4;
-        int i3;
-        int i;
         int i6;
+        long l;
+        long l2;
+        int i3;
+        int i2;
+        int i4;
+        int i5;
+        int i;
         this._size = 0;
         if (this.metadata != ScatterMapKt.EmptyGroup) {
             ArraysKt.fill$default(this.metadata, -9187201950435737472L, obj4, 0, 0, 6);
             metadata = this.metadata;
             emptyGroup = this._capacity;
-            l = 0;
-            i5 = emptyGroup >> 3;
+            l2 = 0;
+            i3 = emptyGroup >> 3;
             i10 <<= 3;
-            metadata[i5] = i12 |= i6;
+            metadata[i3] = i12 |= i;
         }
         initializeGrowth();
     }
@@ -430,23 +430,23 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
     @Override // androidx.collection.IntLongMap
     public final void minusAssign(androidx.collection.IntSet keys) {
         int cmp;
-        int obj2;
+        int obj;
         Object this_$iv2;
-        Object obj;
+        Object obj2;
         Object this_$iv3;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i;
-        int i2;
-        int $i$f$minusAssign;
-        long l;
         int i3;
         int i4;
+        int $i$f$minusAssign;
+        long l;
+        int i;
         int i5;
+        int i2;
         Object this_$iv;
         Intrinsics.checkNotNullParameter(keys, "keys");
-        obj = keys;
+        obj2 = keys;
         final int i12 = 0;
         final int i13 = 0;
         final long[] metadata = obj3.metadata;
@@ -454,7 +454,7 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         if (0 <= i14) {
         } else {
             $i$f$minusAssign = cmp;
-            this_$iv = obj;
+            this_$iv = obj2;
             this_$iv2 = this;
         }
     }
@@ -507,9 +507,9 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         int obj;
         int $i$f$forEach2;
         int[] keys;
-        Object v$iv2;
-        long[] values;
         Object v$iv;
+        long[] values;
+        Object v$iv2;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
@@ -517,11 +517,11 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         int i;
         Object this_$iv;
         long l;
-        int i3;
+        int i4;
         int i2;
         int $i$f$forEach;
         int[] iArr;
-        int i4;
+        int i3;
         long[] lArr;
         Intrinsics.checkNotNullParameter(from, "from");
         cmp = from;
@@ -534,7 +534,7 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
             $i$f$forEach = $i$f$forEach2;
             iArr = keys;
             lArr = values;
-            v$iv2 = this;
+            v$iv = this;
         }
     }
 
@@ -560,19 +560,19 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
     }
 
     public final void removeIf(Function2<? super Integer, ? super Long, Boolean> predicate) {
-        int $i$f$removeIf;
+        int $i$f$removeIf2;
         int i$iv;
         long slot$iv;
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
         int i;
-        int i2;
-        long l;
         int i4;
-        int i3;
-        int $i$f$removeIf2;
         long l2;
+        int i3;
+        int i2;
+        int $i$f$removeIf;
+        long l;
         final Object obj = this;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter(obj2, "predicate");
@@ -581,7 +581,7 @@ public final class MutableIntLongMap extends androidx.collection.IntLongMap {
         length += -2;
         if (0 <= i6) {
         } else {
-            $i$f$removeIf2 = $i$f$removeIf;
+            $i$f$removeIf = $i$f$removeIf2;
         }
     }
 

@@ -28,9 +28,9 @@ public abstract class AbstractSharedFlow<S extends kotlinx.coroutines.flow.inter
     protected final S allocateSlot() {
         Object[] curSlots;
         Object[] slotArray;
-        int index;
-        Object[] nCollectors;
         int index2;
+        Object[] nCollectors;
+        int index;
         int allocateLocked;
         Object slot;
         kotlinx.coroutines.flow.internal.AbstractSharedFlowSlot abstractSharedFlowSlot;
@@ -47,37 +47,37 @@ public abstract class AbstractSharedFlow<S extends kotlinx.coroutines.flow.inter
             this.slots = slotArray;
             curSlots = slotArray;
             int i6 = 0;
-            index2 = this.nextIndex;
-            index = 0;
+            index = this.nextIndex;
+            index2 = 0;
             try {
                 do {
-                    index = slot;
-                    if (index2++ >= curSlots.length) {
+                    index2 = slot;
+                    if (index++ >= curSlots.length) {
                     }
-                    Intrinsics.checkNotNull(index, "null cannot be cast to non-null type kotlinx.coroutines.flow.internal.AbstractSharedFlowSlot<kotlin.Any>");
-                    if (index.allocateLocked(this) == 0) {
+                    Intrinsics.checkNotNull(index2, "null cannot be cast to non-null type kotlinx.coroutines.flow.internal.AbstractSharedFlowSlot<kotlin.Any>");
+                    if (index2.allocateLocked(this) == 0) {
                     }
-                    index2 = 0;
+                    index = 0;
                     i = 0;
-                    curSlots[index2] = createSlot();
-                } while (curSlots[index2] == null);
+                    curSlots[index] = createSlot();
+                } while (curSlots[index] == null);
                 i = 0;
-                curSlots[index2] = createSlot();
-                index = slot;
-                if (index2++ >= curSlots.length) {
+                curSlots[index] = createSlot();
+                index2 = slot;
+                if (index++ >= curSlots.length) {
                 }
-                index2 = 0;
-                Intrinsics.checkNotNull(index, "null cannot be cast to non-null type kotlinx.coroutines.flow.internal.AbstractSharedFlowSlot<kotlin.Any>");
-                if (index.allocateLocked(this) == 0) {
+                index = 0;
+                Intrinsics.checkNotNull(index2, "null cannot be cast to non-null type kotlinx.coroutines.flow.internal.AbstractSharedFlowSlot<kotlin.Any>");
+                if (index2.allocateLocked(this) == 0) {
                 }
-                this.nextIndex = index2;
+                this.nextIndex = index;
                 int i9 = 1;
                 this.nCollectors = nCollectors2 += i9;
                 kotlinx.coroutines.flow.internal.SubscriptionCountStateFlow _subscriptionCount = this._subscriptionCount;
                 if (_subscriptionCount != null) {
                 }
                 _subscriptionCount.increment(i9);
-                return index;
+                return index2;
                 throw th;
             }
         }
@@ -88,22 +88,22 @@ public abstract class AbstractSharedFlow<S extends kotlinx.coroutines.flow.inter
     protected abstract S[] createSlotArray(int i);
 
     protected final void forEachSlotLocked(Function1<? super S, Unit> block) {
-        int i;
+        int i3;
         int length;
         int i2;
         kotlinx.coroutines.flow.internal.AbstractSharedFlowSlot abstractSharedFlowSlot;
         kotlinx.coroutines.flow.internal.AbstractSharedFlowSlot abstractSharedFlowSlot2;
-        int i3;
+        int i;
         final int i4 = 0;
         if (AbstractSharedFlow.access$getNCollectors(this) == 0) {
         }
         kotlinx.coroutines.flow.internal.AbstractSharedFlowSlot[] objArr = AbstractSharedFlow.access$getSlots(this);
         if (objArr != null) {
-            i = 0;
+            i3 = 0;
             i2 = 0;
             while (i2 < objArr.length) {
                 abstractSharedFlowSlot2 = abstractSharedFlowSlot;
-                i3 = 0;
+                i = 0;
                 if (abstractSharedFlowSlot2 != null) {
                 }
                 i2++;

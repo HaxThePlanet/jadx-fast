@@ -28,26 +28,26 @@ public final class ComponentActivityKt {
 
     public static final void setContent(ComponentActivity $this$setContent, CompositionContext parent, Function2<? super Composer, ? super Integer, Unit> content) {
         View childAt;
-        int i5;
+        int i2;
         ComposeView view;
         ComposeView composeView;
         ViewGroup.LayoutParams defaultActivityContentLayoutParams;
-        int i;
-        int i2;
         int i3;
+        int i5;
         int i4;
+        int i;
         if (childAt instanceof ComposeView != null) {
         } else {
             childAt = 0;
         }
         if (childAt != null) {
-            i5 = childAt;
+            i2 = childAt;
             view = 0;
-            i5.setParentCompositionContext(parent);
-            i5.setContent(content);
+            i2.setParentCompositionContext(parent);
+            i2.setContent(content);
         } else {
             composeView = new ComposeView((Context)$this$setContent, 0, 0, 6, 0);
-            i5 = 0;
+            i2 = 0;
             composeView.setParentCompositionContext(parent);
             composeView.setContent(content);
             ComponentActivityKt.setOwners($this$setContent);

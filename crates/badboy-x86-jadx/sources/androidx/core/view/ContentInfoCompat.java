@@ -33,27 +33,27 @@ public final class ContentInfoCompat {
 
     private static final class Api31Impl {
         public static Pair<ContentInfo, ContentInfo> partition(ContentInfo payload, Predicate<ClipData.Item> predicate2) {
-            int i2;
             int i;
+            int i2;
             final ClipData clip = payload.getClip();
-            i = 0;
+            i2 = 0;
             if (clip.getItemCount() == 1) {
                 boolean test = predicate2.test(clip.getItemAt(0));
-                i2 = test ? payload : i;
+                i = test ? payload : i2;
                 if (test) {
                 } else {
-                    i = payload;
+                    i2 = payload;
                 }
-                return Pair.create(i2, i);
+                return Pair.create(i, i2);
             }
             Objects.requireNonNull(predicate2);
             ContentInfoCompat.Api31Impl$$ExternalSyntheticLambda0 externalSyntheticLambda0 = new ContentInfoCompat.Api31Impl$$ExternalSyntheticLambda0(predicate2);
             Pair partition = ContentInfoCompat.partition(clip, externalSyntheticLambda0);
             if (partition.first == null) {
-                return Pair.create(i, payload);
+                return Pair.create(i2, payload);
             }
             if (partition.second == null) {
-                return Pair.create(payload, i);
+                return Pair.create(payload, i2);
             }
             ContentInfo.Builder builder = new ContentInfo.Builder(payload);
             ContentInfo.Builder builder2 = new ContentInfo.Builder(payload);
@@ -393,43 +393,43 @@ public final class ContentInfoCompat {
     }
 
     static Pair<ClipData, ClipData> partition(ClipData clip, Predicate<ClipData.Item> predicate2) {
-        int i2;
         int i3;
         int i;
+        int i2;
         ClipData.Item itemAt;
         ArrayList arrayList;
-        i2 = 0;
         i3 = 0;
         i = 0;
-        while (i < clip.getItemCount()) {
-            itemAt = clip.getItemAt(i);
+        i2 = 0;
+        while (i2 < clip.getItemCount()) {
+            itemAt = clip.getItemAt(i2);
             if (predicate2.test(itemAt)) {
             } else {
             }
+            if (i == 0) {
+            } else {
+            }
+            arrayList = i;
+            arrayList.add(itemAt);
+            i = arrayList;
+            i2++;
+            arrayList = new ArrayList();
             if (i3 == 0) {
             } else {
             }
             arrayList = i3;
             arrayList.add(itemAt);
             i3 = arrayList;
-            i++;
-            arrayList = new ArrayList();
-            if (i2 == 0) {
-            } else {
-            }
-            arrayList = i2;
-            arrayList.add(itemAt);
-            i2 = arrayList;
             arrayList = new ArrayList();
         }
         int i4 = 0;
-        if (i2 == 0) {
+        if (i3 == 0) {
             return Pair.create(i4, clip);
         }
-        if (i3 == 0) {
+        if (i == 0) {
             return Pair.create(clip, i4);
         }
-        return Pair.create(ContentInfoCompat.buildClipData(clip.getDescription(), i2), ContentInfoCompat.buildClipData(clip.getDescription(), i3));
+        return Pair.create(ContentInfoCompat.buildClipData(clip.getDescription(), i3), ContentInfoCompat.buildClipData(clip.getDescription(), i));
     }
 
     public static Pair<ContentInfo, ContentInfo> partition(ContentInfo payload, Predicate<ClipData.Item> predicate2) {
@@ -482,25 +482,25 @@ public final class ContentInfoCompat {
     }
 
     public Pair<androidx.core.view.ContentInfoCompat, androidx.core.view.ContentInfoCompat> partition(Predicate<ClipData.Item> predicate) {
-        int i;
-        Object i2;
+        int i2;
+        Object i;
         ClipData clip = this.mCompat.getClip();
-        i2 = 0;
+        i = 0;
         if (clip.getItemCount() == 1) {
             boolean test = predicate.test(clip.getItemAt(0));
-            i = test ? this : i2;
+            i2 = test ? this : i;
             if (test) {
             } else {
-                i2 = this;
+                i = this;
             }
-            return Pair.create(i, i2);
+            return Pair.create(i2, i);
         }
         Pair partition = ContentInfoCompat.partition(clip, predicate);
         if (partition.first == null) {
-            return Pair.create(i2, this);
+            return Pair.create(i, this);
         }
         if (partition.second == null) {
-            return Pair.create(this, i2);
+            return Pair.create(this, i);
         }
         ContentInfoCompat.Builder builder = new ContentInfoCompat.Builder(this);
         ContentInfoCompat.Builder builder2 = new ContentInfoCompat.Builder(this);

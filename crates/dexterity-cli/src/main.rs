@@ -675,7 +675,9 @@ fn process_resources(
     if !raw_files.is_empty() {
         let mut raw_count = 0;
         for (name, data) in raw_files {
-            let out_path = out_res.join(&name);
+            // Normalize config qualifiers (remove redundant -v4 for density, etc.)
+            let normalized_name = normalize_config_qualifier(&name);
+            let out_path = out_res.join(&normalized_name);
             if let Some(parent) = out_path.parent() {
                 std::fs::create_dir_all(parent)?;
             }
@@ -1663,7 +1665,9 @@ fn generate_class_stub(class: &dexterity_dex::sections::ClassDef<'_>, class_name
 // LazyDexInfo loads strings/types/fields/methods on-demand instead of upfront
 
 /// Normalize config qualifier by removing redundant API version suffixes.
-/// E.g., "mipmap-anydpi-v21" -> "mipmap-anydpi" (anydpi implies v21)
+/// Follows JADX behavior: strips version qualifiers when implied by other qualifiers.
+/// E.g., "drawable-hdpi-v4" -> "drawable-hdpi" (density implies v4+)
+///       "mipmap-anydpi-v21" -> "mipmap-anydpi" (anydpi implies v21)
 fn normalize_config_qualifier(path: &str) -> String {
     // Only process res/ paths with config qualifiers
     if !path.starts_with("res/") {
@@ -1676,15 +1680,37 @@ fn normalize_config_qualifier(path: &str) -> String {
         return path.to_string();
     }
 
-    // The second component is the resource type + config (e.g., "mipmap-anydpi-v21")
+    // The second component is the resource type + config (e.g., "drawable-hdpi-v4")
     let type_config = parts[1];
 
-    // Handle anydpi-v21 -> anydpi (anydpi was introduced in API 21)
-    // Handle anydpi-v26 etc. - keep the version if it's higher than 21
-    let normalized = if type_config.contains("anydpi-v21") {
-        type_config.replace("-v21", "")
-    } else {
-        type_config.to_string()
+    // Apply JADX-style normalization rules:
+    // 1. anydpi implies v21 (API 21+)
+    // 2. density qualifiers (ldpi, mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi, tvdpi, nodpi) imply v4
+    let normalized = {
+        let mut result = type_config.to_string();
+
+        // Strip -v21 from anydpi (anydpi was introduced in API 21)
+        if result.contains("anydpi-v21") {
+            result = result.replace("-v21", "");
+        }
+
+        // Strip -v4 from density qualifiers (density support was added in API 4 / Donut)
+        // Only strip -v4, not higher versions which may indicate specific requirements
+        if result.ends_with("-v4") {
+            let has_density = result.contains("-ldpi")
+                || result.contains("-mdpi")
+                || result.contains("-hdpi")
+                || result.contains("-xhdpi")
+                || result.contains("-xxhdpi")
+                || result.contains("-xxxhdpi")
+                || result.contains("-tvdpi")
+                || result.contains("-nodpi");
+            if has_density {
+                result = result.trim_end_matches("-v4").to_string();
+            }
+        }
+
+        result
     };
 
     // Rebuild path with normalized qualifier

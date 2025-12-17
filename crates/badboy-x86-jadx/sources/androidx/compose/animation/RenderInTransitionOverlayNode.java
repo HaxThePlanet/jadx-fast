@@ -53,65 +53,65 @@ public final class RenderInTransitionOverlayNode extends Modifier.Node implement
         public void drawInOverlay(DrawScope drawScope) {
             boolean booleanValue;
             DrawContext canvas;
-            int i3;
-            int x-impl;
+            int $i$a$WithRenderInTransitionOverlayNode$LayerWithRenderer$drawInOverlay$1;
+            int $i$f$component1Impl;
             Object obj;
             Throwable y-impl;
             DrawContext transform;
             int intersect-rtfAjoo;
-            int i9;
-            int i8;
+            int i6;
             int i7;
+            int i9;
             DrawContext drawContext;
-            int i2;
+            int i8;
             long size-NH-jbRc;
             int i;
-            int i4;
-            int i10;
+            int i3;
+            int i2;
             int i5;
-            int i6;
+            int i4;
             DrawContext $this$drawInOverlay_u24lambda_u243;
             final Object obj2 = this;
             if ((Boolean)obj2.this$0.getRenderInOverlay().invoke().booleanValue()) {
                 androidx.compose.animation.RenderInTransitionOverlayNode this$02 = obj2.this$0;
                 canvas = drawScope;
-                int i11 = 0;
+                int i10 = 0;
                 androidx.compose.animation.RenderInTransitionOverlayNode renderInTransitionOverlayNode = this$02;
                 long zero-F1C5BW0 = Offset.Companion.getZero-F1C5BW0();
                 long localPositionOf-R5De75A = this$02.getSharedScope().getRoot$animation_release().localPositionOf-R5De75A(DelegatableNodeKt.requireLayoutCoordinates((DelegatableNode)renderInTransitionOverlayNode), zero-F1C5BW0);
-                int i12 = 0;
-                x-impl = Offset.getX-impl(localPositionOf-R5De75A);
-                int i14 = 0;
+                int i11 = 0;
+                $i$f$component1Impl = Offset.getX-impl(localPositionOf-R5De75A);
+                int i13 = 0;
                 y-impl = Offset.getY-impl(localPositionOf-R5De75A);
                 obj = invoke2;
                 if ((Path)obj != null) {
+                    i6 = 0;
+                    i7 = transform;
                     i9 = 0;
-                    i8 = transform;
-                    i7 = 0;
-                    drawContext = i8.getDrawContext();
-                    i2 = 0;
+                    drawContext = i7.getDrawContext();
+                    i8 = 0;
                     drawContext.getCanvas().save();
-                    int i15 = 0;
+                    int i14 = 0;
                     drawContext.getTransform().clipPath-mtrdD-E((Path)obj, ClipOp.Companion.getIntersect-rtfAjoo());
-                    i4 = 0;
-                    i10 = i;
+                    i3 = 0;
+                    i2 = i;
                     i5 = 0;
-                    i10.getDrawContext().getTransform().translate(x-impl, y-impl);
-                    int i16 = 0;
+                    i2.getDrawContext().getTransform().translate($i$f$component1Impl, y-impl);
+                    int i15 = 0;
                     $this$drawInOverlay_u24lambda_u243 = canvas;
-                    GraphicsLayerKt.drawLayer(i10, obj2.layer);
-                    i6 = i11;
-                    i10.getDrawContext().getTransform().translate(-x-impl, -y-impl);
+                    GraphicsLayerKt.drawLayer(i2, obj2.layer);
+                    i4 = i10;
+                    i2.getDrawContext().getTransform().translate(-$i$f$component1Impl, -y-impl);
                     drawContext.getCanvas().restore();
                     drawContext.setSize-uvyYCjk(drawContext.getSize-NH-jbRc());
                 } else {
                     $this$drawInOverlay_u24lambda_u243 = canvas;
-                    i6 = i11;
-                    i3 = 0;
-                    canvas.getDrawContext().getTransform().translate(x-impl, y-impl);
-                    int i13 = 0;
+                    i4 = i10;
+                    $i$a$WithRenderInTransitionOverlayNode$LayerWithRenderer$drawInOverlay$1 = 0;
+                    canvas.getDrawContext().getTransform().translate($i$f$component1Impl, y-impl);
+                    int i12 = 0;
                     GraphicsLayerKt.drawLayer(canvas, obj2.layer);
-                    canvas.getDrawContext().getTransform().translate(-x-impl, -y-impl);
+                    canvas.getDrawContext().getTransform().translate(-$i$f$component1Impl, -y-impl);
                 }
             }
         }
@@ -157,8 +157,8 @@ public final class RenderInTransitionOverlayNode extends Modifier.Node implement
             }
         }
         int i = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Error: layer never initialized".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullRenderInTransitionOverlayNode$draw$layer$1 = new IllegalArgumentException("Error: layer never initialized".toString());
+        throw $i$a$RequireNotNullRenderInTransitionOverlayNode$draw$layer$1;
     }
 
     public final Function2<LayoutDirection, Density, Path> getClipInOverlay() {

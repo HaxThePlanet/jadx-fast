@@ -85,12 +85,12 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
 
     private final Object animateToHidden(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i;
+        int i2;
         Object l$0;
         int i3;
         androidx.compose.material3.pulltorefresh.PullToRefreshModifierNode label;
         Object animateToHidden;
-        int i2;
+        int i;
         Object obj6;
         anon = continuation;
         i3 = Integer.MIN_VALUE;
@@ -123,9 +123,9 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
                 obj6 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj6;
         }
-        int i4 = 0;
-        l$0.setDistancePulled(i4);
-        l$0.setVerticalOffset(i4);
+        int _this = 0;
+        l$0.setDistancePulled(_this);
+        l$0.setVerticalOffset(_this);
         return Unit.INSTANCE;
     }
 
@@ -177,14 +177,14 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
     private final float calculateVerticalOffset() {
         float overshootPercent;
         float coerceIn;
-        int i2;
-        double d;
         int i;
+        double d;
+        int i2;
         if (Float.compare(adjustedDistancePulled, coerceIn) <= 0) {
             overshootPercent = getAdjustedDistancePulled();
         } else {
             coerceIn = RangesKt.coerceIn(f -= i4, 0, 1073741824);
-            overshootPercent = i;
+            overshootPercent = i2;
         }
         return overshootPercent;
     }
@@ -232,23 +232,23 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
 
     private final Object onRelease(float f, Continuation<? super Float> continuation2) {
         boolean anon;
-        int i;
-        Object l$0;
         int i3;
-        int onRefresh;
-        int cmp;
+        Object l$0;
         int i2;
+        int _this;
+        int cmp;
+        int i;
         Object animateToThreshold;
         float f2;
         float obj8;
         Object obj9;
         anon = continuation2;
-        i3 = Integer.MIN_VALUE;
-        if (continuation2 instanceof PullToRefreshModifierNode.onRelease.1 && label &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation2 instanceof PullToRefreshModifierNode.onRelease.1 && label &= i2 != 0) {
             anon = continuation2;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj9 -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj9 -= i2;
             } else {
                 anon = new PullToRefreshModifierNode.onRelease.1(this, continuation2);
             }
@@ -257,22 +257,22 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
         obj9 = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         final int i4 = 0;
-        switch (onRefresh) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(obj9);
-                onRefresh = this;
+                _this = this;
                 return Boxing.boxFloat(i4);
-                anon.L$0 = onRefresh;
+                anon.L$0 = _this;
                 anon.F$0 = f;
                 anon.label = 1;
                 return cOROUTINE_SUSPENDED;
-                l$0 = onRefresh;
-                anon.L$0 = onRefresh;
+                l$0 = _this;
+                anon.L$0 = _this;
                 anon.F$0 = f;
                 anon.label = 2;
                 return cOROUTINE_SUSPENDED;
-                l$0 = onRefresh;
-                i2 = 0;
+                l$0 = _this;
+                i = 0;
                 obj8 = i4;
                 obj8 = i4;
                 l$0.setDistancePulled(i4);
@@ -286,7 +286,7 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
                 obj8 = anon.F$0;
                 l$0 = anon.L$0;
                 ResultKt.throwOnFailure(obj9);
-                i2 = 0;
+                i = 0;
                 obj8 = i4;
                 obj8 = i4;
                 l$0.setDistancePulled(i4);
@@ -347,10 +347,10 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
         long consumeAvailableOffset-MK-Hz9U;
         kotlinx.coroutines.CoroutineScope coroutineScope;
         int i2;
-        int i;
-        androidx.compose.material3.pulltorefresh.PullToRefreshModifierNode.onPostScroll.1 anon;
         int i3;
+        androidx.compose.material3.pulltorefresh.PullToRefreshModifierNode.onPostScroll.1 anon;
         int i4;
+        int i;
         if (this.state.isAnimating()) {
             consumeAvailableOffset-MK-Hz9U = Offset.Companion.getZero-F1C5BW0();
         } else {
@@ -359,9 +359,9 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
             } else {
                 if (NestedScrollSource.equals-impl0(obj13, NestedScrollSource.Companion.getUserInput-WNlRxjI())) {
                     consumeAvailableOffset-MK-Hz9U = consumeAvailableOffset-MK-Hz9U(source);
-                    i = 0;
-                    PullToRefreshModifierNode.onPostScroll.1 anon2 = new PullToRefreshModifierNode.onPostScroll.1(this, i);
-                    BuildersKt.launch$default(getCoroutineScope(), 0, i, (Function2)anon2, 3, 0);
+                    i3 = 0;
+                    PullToRefreshModifierNode.onPostScroll.1 anon2 = new PullToRefreshModifierNode.onPostScroll.1(this, i3);
+                    BuildersKt.launch$default(getCoroutineScope(), 0, i3, (Function2)anon2, 3, 0);
                 } else {
                     consumeAvailableOffset-MK-Hz9U = Offset.Companion.getZero-F1C5BW0();
                 }
@@ -373,20 +373,20 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
     public Object onPreFling-QWom1Mo(long l, Continuation<? super Velocity> continuation2) {
         boolean anon;
         int i4;
-        int i2;
+        int i;
         androidx.compose.material3.pulltorefresh.PullToRefreshModifierNode label;
         float y-impl;
+        int i2;
         int i3;
-        int i;
         Object obj7;
         Object obj9;
         anon = obj9;
-        i2 = Integer.MIN_VALUE;
-        if (obj9 instanceof PullToRefreshModifierNode.onPreFling.1 && label2 &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (obj9 instanceof PullToRefreshModifierNode.onPreFling.1 && label2 &= i != 0) {
             anon = obj9;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon.label = obj9 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon.label = obj9 -= i;
             } else {
                 anon = new PullToRefreshModifierNode.onPreFling.1(this, obj9);
             }
@@ -402,14 +402,14 @@ public final class PullToRefreshModifierNode extends DelegatingNode implements C
                 return cOROUTINE_SUSPENDED;
             case 1:
                 ResultKt.throwOnFailure(obj9);
-                i3 = obj7;
+                i2 = obj7;
                 obj7 = obj9;
                 break;
             default:
                 obj7 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj7;
         }
-        return Velocity.box-impl(VelocityKt.Velocity(i3, (Number)obj7.floatValue()));
+        return Velocity.box-impl(VelocityKt.Velocity(i2, (Number)obj7.floatValue()));
     }
 
     @Override // androidx.compose.ui.node.DelegatingNode

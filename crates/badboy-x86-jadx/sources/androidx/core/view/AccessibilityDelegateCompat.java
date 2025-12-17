@@ -195,19 +195,19 @@ public class AccessibilityDelegateCompat {
 
     public boolean performAccessibilityAction(View host, int action, Bundle args) {
         int success;
-        int i;
-        Object size;
         int i2;
+        Object size;
+        int i;
         success = 0;
         final List actionList = AccessibilityDelegateCompat.getActionList(host);
-        i = 0;
-        while (i < actionList.size()) {
-            size = actionList.get(i);
+        i2 = 0;
+        while (i2 < actionList.size()) {
+            size = actionList.get(i2);
             if ((AccessibilityNodeInfoCompat.AccessibilityActionCompat)size.getId() == action) {
                 break;
             } else {
             }
-            i++;
+            i2++;
         }
         if (success == 0) {
             success = this.mOriginalDelegate.performAccessibilityAction(host, action, args);

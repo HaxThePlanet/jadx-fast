@@ -220,26 +220,26 @@ public final class TextStringSimpleNode extends Modifier.Node implements LayoutM
     }
 
     public TextStringSimpleNode(String string, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, int i4, boolean z5, int i6, int i7, ColorProducer colorProducer8, int i9, DefaultConstructorMarker defaultConstructorMarker10) {
-        int i11;
-        int clip-gIe3tQ8;
         int i;
-        int i3;
-        int i2;
-        int i10;
+        int clip-gIe3tQ8;
         int i8;
+        int i10;
+        int i3;
         int i5;
+        int i2;
+        int i11;
         int i12 = i9;
         if (i12 & 8 != 0) {
-            i3 = clip-gIe3tQ8;
+            i10 = clip-gIe3tQ8;
         } else {
-            i3 = i4;
+            i10 = i4;
         }
         int i15 = 1;
-        i2 = i12 & 16 != 0 ? i15 : z5;
-        i10 = i12 & 32 != 0 ? i : i6;
-        i8 = i12 & 64 != 0 ? i15 : i7;
-        i5 = i12 &= 128 != 0 ? i11 : colorProducer8;
-        super(string, textStyle2, resolver3, i3, i2, i10, i8, i5, 0);
+        i3 = i12 & 16 != 0 ? i15 : z5;
+        i5 = i12 & 32 != 0 ? i8 : i6;
+        i2 = i12 & 64 != 0 ? i15 : i7;
+        i11 = i12 &= 128 != 0 ? i : colorProducer8;
+        super(string, textStyle2, resolver3, i10, i3, i5, i2, i11, 0);
     }
 
     public TextStringSimpleNode(String string, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, int i4, boolean z5, int i6, int i7, ColorProducer colorProducer8, DefaultConstructorMarker defaultConstructorMarker9) {
@@ -377,9 +377,9 @@ public final class TextStringSimpleNode extends Modifier.Node implements LayoutM
         int annotatedString;
         int substitution;
         int i4;
-        int i3;
-        int i;
         int i2;
+        int i;
+        int i3;
         if (this.semanticsTextLayoutResult == null) {
             anon = new TextStringSimpleNode.applySemantics.1(this);
             this.semanticsTextLayoutResult = (Function1)anon;
@@ -449,24 +449,24 @@ public final class TextStringSimpleNode extends Modifier.Node implements LayoutM
         Shadow shadow;
         androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle;
         androidx.compose.ui.graphics.Brush brush;
-        int i;
+        int i6;
         androidx.compose.ui.graphics.Brush color-0d7_KjU;
         long unspecified-0d7_KjU;
         int $this$isSpecified$iv;
         long alpha;
-        float f;
         float f2;
-        int i4;
+        float f;
         int i2;
-        int i7;
-        int i3;
-        int i6;
+        int i;
         int i8;
-        int cmp;
+        int i9;
+        int i7;
         int i10;
+        int cmp;
+        int i3;
         long l;
         int cmp2;
-        int i9;
+        int i4;
         int i5;
         final Object obj = this;
         if (!obj.isAttached()) {
@@ -508,19 +508,19 @@ public final class TextStringSimpleNode extends Modifier.Node implements LayoutM
                 } else {
                     unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
                 }
-                i3 = 0;
+                i9 = 0;
                 cmp = 16;
                 i5 = 0;
-                $this$isSpecified$iv = Long.compare(unspecified-0d7_KjU, cmp) != 0 ? i9 : i5;
+                $this$isSpecified$iv = Long.compare(unspecified-0d7_KjU, cmp) != 0 ? i4 : i5;
                 if ($this$isSpecified$iv != 0) {
                     color-0d7_KjU = l;
                 } else {
-                    i3 = 0;
+                    i9 = 0;
                     if (Long.compare(color-0d7_KjU2, cmp) != 0) {
                     } else {
-                        i9 = i5;
+                        i4 = i5;
                     }
-                    if (i9 != 0) {
+                    if (i4 != 0) {
                         color-0d7_KjU = obj.style.getColor-0d7_KjU();
                     } else {
                         color-0d7_KjU = Color.Companion.getBlack-0d7_KjU();

@@ -190,12 +190,12 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
     }
 
     private final void emitDragExitEvent() {
-        int i;
         int i2;
+        int i;
         HoverInteraction.Exit exit;
         final HoverInteraction.Enter dragEnterEvent = this.dragEnterEvent;
         if (dragEnterEvent != null) {
-            i = 0;
+            i2 = 0;
             exit = new HoverInteraction.Exit(dragEnterEvent);
             this.interactionSource.tryEmit((Interaction)exit);
             this.dragEnterEvent = 0;
@@ -229,23 +229,23 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
 
     private final boolean isFocused() {
         WindowInfo windowFocused;
-        int i2;
         int i;
+        int i2;
         windowFocused = this.windowInfo;
-        i = 1;
+        i2 = 1;
         final int i3 = 0;
-        if (windowFocused != null && windowFocused.isWindowFocused() == i) {
-            i2 = windowFocused.isWindowFocused() == i ? i : i3;
+        if (windowFocused != null && windowFocused.isWindowFocused() == i2) {
+            i = windowFocused.isWindowFocused() == i2 ? i2 : i3;
         } else {
         }
-        if (this.isElementFocused && i2 != 0) {
-            if (i2 != 0) {
+        if (this.isElementFocused && i != 0) {
+            if (i != 0) {
             } else {
-                i = i3;
+                i2 = i3;
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     private final void onFocusChange() {
@@ -255,8 +255,8 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
         int i4;
         int i;
         androidx.compose.foundation.text.input.internal.TextFieldDecoratorModifierNode.onFocusChange.1 field;
-        int i3;
         int i2;
+        int i3;
         this.textFieldSelectionState.setFocused(isFocused());
         int i5 = 0;
         if (isFocused() && this.observeChangesJob == null) {
@@ -320,8 +320,8 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
     public void applySemantics(SemanticsPropertyReceiver $this$applySemantics) {
         boolean editable;
         androidx.compose.foundation.text.input.internal.TextFieldDecoratorModifierNode.applySemantics.5 anon;
-        int i;
         int i2;
+        int i;
         boolean obj13;
         TextFieldCharSequence outputText = this.textFieldState.getOutputText();
         final long selection-d9O1mEE = outputText.getSelection-d9O1mEE();
@@ -333,45 +333,45 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
         }
         SemanticsPropertiesKt.setEditable($this$applySemantics, getEditable());
         TextFieldDecoratorModifierNode.applySemantics.1 anon2 = new TextFieldDecoratorModifierNode.applySemantics.1(this);
-        i = 0;
-        i2 = 1;
-        SemanticsPropertiesKt.getTextLayoutResult$default($this$applySemantics, i, (Function1)anon2, i2, i);
+        i2 = 0;
+        i = 1;
+        SemanticsPropertiesKt.getTextLayoutResult$default($this$applySemantics, i2, (Function1)anon2, i, i2);
         if (getEditable()) {
             TextFieldDecoratorModifierNode.applySemantics.2 anon3 = new TextFieldDecoratorModifierNode.applySemantics.2(this);
-            SemanticsPropertiesKt.setText$default($this$applySemantics, i, (Function1)anon3, i2, i);
+            SemanticsPropertiesKt.setText$default($this$applySemantics, i2, (Function1)anon3, i, i2);
             editable = new TextFieldDecoratorModifierNode.applySemantics.3(this);
-            SemanticsPropertiesKt.insertTextAtCursor$default($this$applySemantics, i, (Function1)editable, i2, i);
+            SemanticsPropertiesKt.insertTextAtCursor$default($this$applySemantics, i2, (Function1)editable, i, i2);
         }
         TextFieldDecoratorModifierNode.applySemantics.4 anon4 = new TextFieldDecoratorModifierNode.applySemantics.4(this);
-        SemanticsPropertiesKt.setSelection$default($this$applySemantics, i, (Function3)anon4, i2, i);
+        SemanticsPropertiesKt.setSelection$default($this$applySemantics, i2, (Function3)anon4, i, i2);
         int imeActionOrDefault-eUduSuo$foundation_release = this.keyboardOptions.getImeActionOrDefault-eUduSuo$foundation_release();
         anon = new TextFieldDecoratorModifierNode.applySemantics.5(this, imeActionOrDefault-eUduSuo$foundation_release);
         SemanticsPropertyReceiver semanticsPropertyReceiver = $this$applySemantics;
         SemanticsPropertiesKt.onImeAction-9UiTYpY$default(semanticsPropertyReceiver, imeActionOrDefault-eUduSuo$foundation_release, 0, (Function0)anon, 2, 0);
         obj13 = new TextFieldDecoratorModifierNode.applySemantics.6(this);
-        SemanticsPropertiesKt.onClick$default(semanticsPropertyReceiver, i, (Function0)obj13, i2, i);
+        SemanticsPropertiesKt.onClick$default(semanticsPropertyReceiver, i2, (Function0)obj13, i, i2);
         obj13 = new TextFieldDecoratorModifierNode.applySemantics.7(this);
-        SemanticsPropertiesKt.onLongClick$default(semanticsPropertyReceiver, i, (Function0)obj13, i2, i);
+        SemanticsPropertiesKt.onLongClick$default(semanticsPropertyReceiver, i2, (Function0)obj13, i, i2);
         obj13 = new TextFieldDecoratorModifierNode.applySemantics.8(this);
-        SemanticsPropertiesKt.copyText$default(semanticsPropertyReceiver, i, (Function0)obj13, i2, i);
+        SemanticsPropertiesKt.copyText$default(semanticsPropertyReceiver, i2, (Function0)obj13, i, i2);
         if (!TextRange.getCollapsed-impl(selection-d9O1mEE) && this.enabled && !this.readOnly) {
             obj13 = new TextFieldDecoratorModifierNode.applySemantics.8(this);
-            SemanticsPropertiesKt.copyText$default(semanticsPropertyReceiver, i, (Function0)obj13, i2, i);
+            SemanticsPropertiesKt.copyText$default(semanticsPropertyReceiver, i2, (Function0)obj13, i, i2);
             if (this.enabled) {
                 if (!this.readOnly) {
                     obj13 = new TextFieldDecoratorModifierNode.applySemantics.9(this);
-                    SemanticsPropertiesKt.cutText$default(semanticsPropertyReceiver, i, (Function0)obj13, i2, i);
+                    SemanticsPropertiesKt.cutText$default(semanticsPropertyReceiver, i2, (Function0)obj13, i, i2);
                 }
             }
         }
         if (getEditable()) {
             obj13 = new TextFieldDecoratorModifierNode.applySemantics.10(this);
-            SemanticsPropertiesKt.pasteText$default(semanticsPropertyReceiver, i, (Function0)obj13, i2, i);
+            SemanticsPropertiesKt.pasteText$default(semanticsPropertyReceiver, i2, (Function0)obj13, i, i2);
         }
         obj13 = this.filter;
         if (obj13 != null) {
             anon = 0;
-            i2 = 0;
+            i = 0;
             obj13.applySemantics(semanticsPropertyReceiver);
         }
     }
@@ -453,13 +453,13 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
     public void onFocusEvent(FocusState focusState) {
         androidx.compose.foundation.text.input.internal.TransformedTextFieldState $this$iv;
         int focused;
-        int i3;
+        int i2;
         TextFieldState field;
         InputTransformation inputTransformation;
         TextFieldEditUndoBehavior mergeIfPossible;
-        int i;
+        int i3;
         androidx.compose.foundation.text.input.internal.EditingBuffer mainBuffer$foundation_release;
-        int i2;
+        int i;
         if (this.isElementFocused == focusState.isFocused()) {
         }
         this.isElementFocused = focusState.isFocused();
@@ -471,11 +471,11 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
         } else {
             disposeInputSession();
             androidx.compose.foundation.text.input.internal.TransformedTextFieldState textFieldState = this.textFieldState;
-            i3 = 0;
-            field = TransformedTextFieldState.access$getTextFieldState$p(textFieldState);
-            i = 0;
-            field.getMainBuffer$foundation_release().getChangeTracker().clearChanges();
             i2 = 0;
+            field = TransformedTextFieldState.access$getTextFieldState$p(textFieldState);
+            i3 = 0;
+            field.getMainBuffer$foundation_release().getChangeTracker().clearChanges();
+            i = 0;
             EditCommandKt.finishComposingText(field.getMainBuffer$foundation_release());
             TextFieldState.access$commitEditAsUser(field, TransformedTextFieldState.access$getInputTransformation$p(textFieldState), true, TextFieldEditUndoBehavior.MergeIfPossible);
             this.textFieldState.collapseSelectionToMax();
@@ -568,8 +568,8 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
         boolean receiveContentConfigurationProvider;
         boolean stylusHandwritingNode;
         boolean readOnly2;
-        int i2;
         int i;
+        int i2;
         KeyboardOptions keyboardOptions2;
         final Object obj = this;
         focused = textFieldState;
@@ -579,13 +579,13 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
         final boolean z3 = readOnly;
         final MutableInteractionSource mutableInteractionSource = interactionSource;
         if (obj.enabled && !obj.readOnly) {
-            i2 = !obj.readOnly ? i : 0;
+            i = !obj.readOnly ? i2 : 0;
         } else {
         }
         if (z2 && !z3) {
             if (!z3) {
             } else {
-                i = 0;
+                i2 = 0;
             }
         } else {
         }
@@ -604,14 +604,14 @@ public final class TextFieldDecoratorModifierNode extends DelegatingNode impleme
         obj.keyboardActionHandler = keyboardActionHandler;
         obj.singleLine = singleLine;
         obj.interactionSource = mutableInteractionSource;
-        if (i == i2 && Intrinsics.areEqual(focused, obj.textFieldState)) {
+        if (i2 == i && Intrinsics.areEqual(focused, obj.textFieldState)) {
             if (Intrinsics.areEqual(focused, textFieldState2)) {
                 if (!Intrinsics.areEqual(obj.keyboardOptions, obj.keyboardOptions)) {
-                    if (i != 0 && obj.isFocused()) {
+                    if (i2 != 0 && obj.isFocused()) {
                         if (obj.isFocused()) {
                             obj.startInputSession(false);
                         } else {
-                            if (i == 0) {
+                            if (i2 == 0) {
                                 obj.disposeInputSession();
                             }
                         }

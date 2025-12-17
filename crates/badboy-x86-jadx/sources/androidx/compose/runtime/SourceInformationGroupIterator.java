@@ -48,20 +48,20 @@ final class SourceInformationGroupIterator implements Iterator<CompositionGroup>
 
     @Override // java.util.Iterator
     public boolean hasNext() {
-        int i2;
         int i;
+        int i2;
         int index;
         int size;
         ArrayList groups = this.group.getGroups();
-        i2 = 0;
         i = 0;
+        i2 = 0;
         if (groups != null && this.index < groups.size()) {
-            i = 0;
+            i2 = 0;
             if (this.index < groups.size()) {
-                i2 = 1;
+                i = 1;
             }
         }
-        return i2;
+        return i;
     }
 
     @Override // java.util.Iterator

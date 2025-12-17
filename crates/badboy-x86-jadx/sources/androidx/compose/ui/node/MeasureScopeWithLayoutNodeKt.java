@@ -19,10 +19,10 @@ public final class MeasureScopeWithLayoutNodeKt {
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal3;
-            int ordinal5;
             int ordinal2;
+            int ordinal3;
             int ordinal4;
+            int ordinal5;
             int[] iArr = new int[values.length];
             iArr[LayoutNode.LayoutState.LookaheadMeasuring.ordinal()] = 1;
             iArr[LayoutNode.LayoutState.LookaheadLayingOut.ordinal()] = 2;
@@ -78,8 +78,8 @@ public final class MeasureScopeWithLayoutNodeKt {
                 androidx.compose.ui.node.LayoutNode parent$ui_release = $this$isInLookaheadPass.getParent$ui_release();
                 inLookaheadPass = MeasureScopeWithLayoutNodeKt.isInLookaheadPass(parent$ui_release);
                 int i2 = 0;
-                IllegalArgumentException illegalArgumentException = new IllegalArgumentException("no parent for idle node".toString());
-                throw illegalArgumentException;
+                IllegalArgumentException $i$a$RequireNotNullMeasureScopeWithLayoutNodeKt$isInLookaheadPass$1 = new IllegalArgumentException("no parent for idle node".toString());
+                throw $i$a$RequireNotNullMeasureScopeWithLayoutNodeKt$isInLookaheadPass$1;
             default:
                 NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
                 throw noWhenBranchMatchedException;

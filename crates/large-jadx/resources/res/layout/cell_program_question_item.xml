@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_program_question_item_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/question_image"
+        android:background="@drawable/shape_circle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:srcCompat="@drawable/question_placeholder"/>
+    <TextView
+        android:id="@+id/title"
+        android:text="@string/daily.question"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/question_image"
+        style="@style/ProgramQuestionTitle"/>
+    <TextView
+        android:textColor="#4c5d56"
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        style="@style/ProgramQuestionDescription"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

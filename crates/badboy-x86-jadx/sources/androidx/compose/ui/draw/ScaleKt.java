@@ -14,37 +14,37 @@ public final class ScaleKt {
     public static final Modifier scale(Modifier $this$scale, float scaleX, float scaleY) {
         Modifier graphicsLayer-Ap8cVGQ$default;
         int cmp;
-        int i4;
-        int i13;
-        int i;
-        int i3;
-        int i20;
-        int i8;
-        int i19;
+        int i10;
         int i12;
-        int i6;
-        int i14;
-        int i15;
-        int i16;
+        int i13;
+        int i5;
         int i17;
+        int i20;
+        int i21;
         int i11;
-        int i9;
+        int i6;
+        int i4;
+        int i;
         int i22;
         int i18;
-        int i2;
-        int i21;
-        int i10;
-        int i5;
         int i7;
+        int i2;
+        int i8;
+        int i14;
+        int i9;
+        int i15;
+        int i3;
+        int i19;
+        int i16;
         cmp = 1065353216;
-        i = 0;
-        i4 = Float.compare(scaleX, cmp) == 0 ? i13 : i;
-        if (i4 != 0) {
+        i13 = 0;
+        i10 = Float.compare(scaleX, cmp) == 0 ? i12 : i13;
+        if (i10 != 0) {
             if (Float.compare(scaleY, cmp) == 0) {
             } else {
-                i13 = i;
+                i12 = i13;
             }
-            if (i13 == 0) {
+            if (i12 == 0) {
                 graphicsLayer-Ap8cVGQ$default = GraphicsLayerModifierKt.graphicsLayer-Ap8cVGQ$default($this$scale, scaleX, scaleY, 0, 0, 0, 0, 0, 0, 0, 0, 0, obj15, false, 0, 0, 0, obj20, 0, obj22);
             } else {
                 graphicsLayer-Ap8cVGQ$default = $this$scale;

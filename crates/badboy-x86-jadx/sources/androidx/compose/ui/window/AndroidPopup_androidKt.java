@@ -46,138 +46,138 @@ public final class AndroidPopup_androidKt {
 
     public static final void Popup(androidx.compose.ui.window.PopupPositionProvider popupPositionProvider, Function0<Unit> onDismissRequest, androidx.compose.ui.window.PopupProperties properties, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i7) {
         Object view;
-        Object empty2;
-        Object obj4;
-        int traceInProgress;
+        Object $i$a$CacheAndroidPopup_androidKt$Popup$2;
+        Object $i$a$CacheAndroidPopup_androidKt$Popup$3;
+        int traceInProgress2;
         Object onDismissRequest2;
-        Object anon3;
+        Object $i$a$CacheAndroidPopup_androidKt$Popup$5;
         Object onGloballyPositioned;
-        Object valueOf;
-        int $dirty2;
+        Object $i$a$CacheAndroidPopup_androidKt$Popup$8;
         int $dirty;
-        boolean traceInProgress2;
+        int $dirty2;
+        boolean traceInProgress;
         Object properties2;
         Object invalid$iv2;
-        Object invalid$iv3;
-        Object anon4;
-        boolean invalid$iv;
+        Object invalid$iv;
+        Object $i$a$CacheAndroidPopup_androidKt$Popup$4;
+        boolean invalid$iv3;
         boolean changedInstance;
-        Object anon;
+        Object $i$a$CacheAndroidPopup_androidKt$Popup$7;
         Function0 factory$iv$iv;
         Object empty;
-        Object obj8;
-        int i4;
+        Object obj3;
+        int i18;
         int str;
         Object $composer2;
-        Object obj6;
-        Object obj2;
-        Object valueOf2;
-        Composer composer3;
-        int i18;
+        Object obj;
+        Object obj8;
+        Object valueOf;
+        Composer composer4;
+        int i16;
         Object $this$cache$iv;
         Object restartGroup;
-        Object obj10;
+        Object obj4;
         int i5;
-        int i10;
         int i13;
-        int i6;
+        int i3;
+        int i8;
         int i;
         int currentCompositeKeyHash;
-        int i11;
+        int i22;
         int i21;
+        int i14;
+        Object anon;
+        int i19;
         int i17;
-        Object anon2;
-        int i2;
-        int i20;
-        Object obj3;
-        Composer composer4;
+        Object obj6;
         Composer composer;
-        String layoutDirection;
+        Composer composer2;
+        String layoutDirection2;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         State state;
         androidx.compose.runtime.CompositionContext context;
         int companion2;
         int companion;
-        int i14;
-        Object popupLayout2;
+        int i10;
         Object popupLayout;
-        Object obj;
-        Object it$iv;
-        Object layoutDirection2;
-        int i22;
+        Object popupLayout2;
         Object obj7;
-        int i8;
-        Object i12;
-        int i9;
-        int i16;
-        int i15;
-        int measurePolicy$iv;
-        int i3;
-        Object obj9;
-        Composer composer2;
-        int i19;
+        Object it$iv;
+        Object layoutDirection;
+        int i6;
         Object obj5;
+        int i2;
+        Object i11;
+        int i12;
+        int i15;
+        int i9;
+        int measurePolicy$iv;
+        int i4;
+        Object obj9;
+        Composer composer3;
+        int i20;
+        Object obj2;
         Composer obj31;
         Object obj32;
         int obj34;
         onDismissRequest2 = popupPositionProvider;
-        obj3 = content;
+        obj6 = content;
         int i90 = $changed;
-        traceInProgress = -830247068;
-        restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = -830247068;
+        restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(Popup)P(2,1,3)303@13293L7,304@13332L7,305@13376L7,306@13431L7,307@13467L28,308@13522L29,309@13570L38,310@13631L944,338@14611L387,338@14581L417,353@15015L218,353@15004L229,362@15279L126,362@15239L166,374@15996L147,374@15968L175,387@16413L573,395@16993L99,384@16321L771:AndroidPopup.android.kt#2oxthz");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i7 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if (i90 & 6 == 0) {
-                i4 = restartGroup.changed(onDismissRequest2) ? 4 : 2;
-                $dirty2 |= i4;
+                i18 = restartGroup.changed(onDismissRequest2) ? 4 : 2;
+                $dirty |= i18;
             }
         }
         str = i7 & 2;
         if (str != null) {
-            $dirty2 |= 48;
-            obj2 = onDismissRequest;
+            $dirty |= 48;
+            obj8 = onDismissRequest;
         } else {
             if (i90 & 48 == 0) {
-                i18 = restartGroup.changedInstance(onDismissRequest) ? 32 : 16;
-                $dirty2 |= i18;
+                i16 = restartGroup.changedInstance(onDismissRequest) ? 32 : 16;
+                $dirty |= i16;
             } else {
-                obj2 = onDismissRequest;
+                obj8 = onDismissRequest;
             }
         }
         $this$cache$iv = i7 & 4;
         if ($this$cache$iv != 0) {
-            $dirty2 |= 384;
-            obj10 = properties;
+            $dirty |= 384;
+            obj4 = properties;
         } else {
             if (i90 & 384 == 0) {
                 i5 = restartGroup.changed(properties) ? 256 : 128;
-                $dirty2 |= i5;
+                $dirty |= i5;
             } else {
-                obj10 = properties;
+                obj4 = properties;
             }
         }
         if (i7 & 8 != 0) {
-            $dirty2 |= 3072;
+            $dirty |= 3072;
         } else {
             if (i90 & 3072 == 0) {
-                i10 = restartGroup.changedInstance(obj3) ? 2048 : 1024;
-                $dirty2 |= i10;
+                i13 = restartGroup.changedInstance(obj6) ? 2048 : 1024;
+                $dirty |= i13;
             }
         }
-        currentCompositeKeyHash = $dirty2;
+        currentCompositeKeyHash = $dirty;
         if (currentCompositeKeyHash & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
-                it$iv = str != null ? $dirty : obj2;
+                it$iv = str != null ? $dirty2 : obj8;
                 if ($this$cache$iv != 0) {
-                    layoutDirection2 = new PopupProperties(0, 0, 0, 0, 15, 0);
+                    layoutDirection = new PopupProperties(0, 0, 0, 0, 15, 0);
                 } else {
-                    layoutDirection2 = obj10;
+                    layoutDirection = obj4;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, currentCompositeKeyHash, -1, "androidx.compose.ui.window.Popup (AndroidPopup.android.kt:302)");
+                    ComposerKt.traceEventStart(traceInProgress2, currentCompositeKeyHash, -1, "androidx.compose.ui.window.Popup (AndroidPopup.android.kt:302)");
                 }
                 int i28 = 6;
                 int i49 = 0;
@@ -190,12 +190,12 @@ public final class AndroidPopup_androidKt {
                 int i60 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, i55, str4);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                anon2 = consume3;
+                anon = consume3;
                 int i51 = 6;
                 int i61 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, i55, str4);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                obj7 = consume4;
+                obj5 = consume4;
                 int i52 = 6;
                 int i62 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, i55, str4);
@@ -203,7 +203,7 @@ public final class AndroidPopup_androidKt {
                 int i29 = 0;
                 int i58 = i29;
                 int i93 = i65;
-                Object obj13 = obj14;
+                Object obj12 = obj13;
                 Composer composer6 = restartGroup;
                 String str3 = "CC(remember):AndroidPopup.android.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(composer6, -1370792809, str3);
@@ -211,96 +211,96 @@ public final class AndroidPopup_androidKt {
                 companion2 = i31;
                 int i96 = 0;
                 properties2 = composer7.rememberedValue();
-                i12 = 0;
-                i13 = 1;
+                i11 = 0;
+                i3 = 1;
                 if (properties2 == Composer.Companion.getEmpty()) {
                     measurePolicy$iv = 0;
-                    i3 = currentCompositeKeyHash;
-                    Object obj12 = onDismissRequest2;
-                    Object obj11 = it$iv;
-                    Object it$iv2 = layoutDirection2;
-                    layoutDirection = obj31;
+                    i4 = currentCompositeKeyHash;
+                    Object obj11 = onDismissRequest2;
+                    Object obj10 = it$iv;
+                    Object it$iv2 = layoutDirection;
+                    layoutDirection2 = obj31;
                     obj31 = composer6;
-                    PopupLayout view2 = new PopupLayout(obj11, it$iv2, (String)obj7, (View)this_$iv, (Density)anon2, obj12, (UUID)RememberSaveableKt.rememberSaveable(new Object[i58], 0, 0, (Function0)AndroidPopup_androidKt.Popup.popupId.1.INSTANCE, restartGroup, 3072, 6), 0, 128, 0);
-                    it$iv = obj11;
-                    onDismissRequest2 = obj12;
+                    PopupLayout view2 = new PopupLayout(obj10, it$iv2, (String)obj5, (View)this_$iv, (Density)anon, obj11, (UUID)RememberSaveableKt.rememberSaveable(new Object[i58], 0, 0, (Function0)AndroidPopup_androidKt.Popup.popupId.1.INSTANCE, restartGroup, 3072, 6), 0, 128, 0);
+                    it$iv = obj10;
+                    onDismissRequest2 = obj11;
                     restartGroup = properties3;
-                    layoutDirection2 = it$iv2;
-                    properties2 = obj5;
-                    i13 = view2;
+                    layoutDirection = it$iv2;
+                    properties2 = obj2;
+                    i3 = view2;
                     currentCompositeKeyHash = 0;
-                    anon2 = new AndroidPopup_androidKt.Popup.popupLayout.1.1.1(i13, SnapshotStateKt.rememberUpdatedState(obj3, restartGroup, i56 &= 14));
-                    i13.setContent(ComposablesKt.rememberCompositionContext(restartGroup, i29), (Function2)ComposableLambdaKt.composableLambdaInstance(1302892335, i13, anon2));
+                    anon = new AndroidPopup_androidKt.Popup.popupLayout.1.1.1(i3, SnapshotStateKt.rememberUpdatedState(obj6, restartGroup, i56 &= 14));
+                    i3.setContent(ComposablesKt.rememberCompositionContext(restartGroup, i29), (Function2)ComposableLambdaKt.composableLambdaInstance(1302892335, i3, anon));
                     composer7.updateRememberedValue(view2);
                 } else {
                     obj31 = composer6;
-                    composer4 = composer7;
-                    i20 = i13;
-                    i3 = currentCompositeKeyHash;
-                    $this$cache$iv = anon2;
-                    restartGroup = obj13;
-                    $composer2 = obj7;
-                    layoutDirection = str3;
-                    valueOf2 = this_$iv;
+                    composer = composer7;
+                    i17 = i3;
+                    i4 = currentCompositeKeyHash;
+                    $this$cache$iv = anon;
+                    restartGroup = obj12;
+                    $composer2 = obj5;
+                    layoutDirection2 = str3;
+                    valueOf = this_$iv;
                     view = properties2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(obj31);
-                composer = obj31;
-                ComposerKt.sourceInformationMarkerStart(composer, -1370762006, layoutDirection);
-                i6 = i3 & 112 == 32 ? i20 : 0;
-                i = i3;
-                i11 = i & 896 == 256 ? i20 : 0;
+                composer2 = obj31;
+                ComposerKt.sourceInformationMarkerStart(composer2, -1370762006, layoutDirection2);
+                i8 = i4 & 112 == 32 ? i17 : 0;
+                i = i4;
+                i22 = i & 896 == 256 ? i17 : 0;
                 i35 |= changed4;
-                Composer composer8 = composer;
+                Composer composer8 = composer2;
                 int i81 = 0;
                 Object rememberedValue2 = composer8.rememberedValue();
                 int i98 = 0;
                 if (i36 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        companion2 = new AndroidPopup_androidKt.Popup.2.1(popupLayout2, it$iv, layoutDirection2, $composer2, restartGroup);
+                        companion2 = new AndroidPopup_androidKt.Popup.2.1(popupLayout, it$iv, layoutDirection, $composer2, restartGroup);
                         obj31 = popupLayout3;
-                        empty2 = popupLayout2;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$2 = popupLayout;
                         obj32 = i36;
                         composer8.updateRememberedValue((Function1)companion2);
                     } else {
                         obj32 = i36;
                         invalid$iv2 = rememberedValue2;
-                        empty2 = popupLayout2;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$2 = popupLayout;
                     }
                 } else {
-                    popupLayout2 = view;
+                    popupLayout = view;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                EffectsKt.DisposableEffect(empty2, (Function1)invalid$iv2, composer, 0);
-                ComposerKt.sourceInformationMarkerStart(composer, -1370749247, layoutDirection);
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                EffectsKt.DisposableEffect($i$a$CacheAndroidPopup_androidKt$Popup$2, (Function1)invalid$iv2, composer2, 0);
+                ComposerKt.sourceInformationMarkerStart(composer2, -1370749247, layoutDirection2);
                 i21 = i & 112 == 32 ? 1 : 0;
-                i17 = i & 896 == 256 ? 1 : 0;
+                i14 = i & 896 == 256 ? 1 : 0;
                 i40 |= changed6;
-                Composer composer9 = composer;
+                Composer composer9 = composer2;
                 int i84 = 0;
                 Object rememberedValue3 = composer9.rememberedValue();
                 int i97 = 0;
                 if (i41 == 0) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                        companion2 = new AndroidPopup_androidKt.Popup.3.1(popupLayout, it$iv, layoutDirection2, $composer2, restartGroup);
+                        companion2 = new AndroidPopup_androidKt.Popup.3.1(popupLayout2, it$iv, layoutDirection, $composer2, restartGroup);
                         obj31 = popupLayout4;
-                        obj4 = popupLayout;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$3 = popupLayout2;
                         obj32 = i41;
                         composer9.updateRememberedValue((Function0)companion2);
                     } else {
                         obj32 = i41;
-                        invalid$iv3 = rememberedValue3;
-                        obj4 = popupLayout;
+                        invalid$iv = rememberedValue3;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$3 = popupLayout2;
                     }
                 } else {
-                    popupLayout = empty2;
+                    popupLayout2 = $i$a$CacheAndroidPopup_androidKt$Popup$2;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                EffectsKt.SideEffect((Function0)invalid$iv3, composer, 0);
-                ComposerKt.sourceInformationMarkerStart(composer, -1370740891, layoutDirection);
-                i19 = i & 14 == 4 ? 1 : 0;
-                changedInstance4 |= i19;
-                Composer composer10 = composer;
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                EffectsKt.SideEffect((Function0)invalid$iv, composer2, 0);
+                ComposerKt.sourceInformationMarkerStart(composer2, -1370740891, layoutDirection2);
+                i20 = i & 14 == 4 ? 1 : 0;
+                changedInstance4 |= i20;
+                Composer composer10 = composer2;
                 int i86 = 0;
                 Object rememberedValue4 = composer10.rememberedValue();
                 int i94 = 0;
@@ -308,39 +308,39 @@ public final class AndroidPopup_androidKt {
                     obj31 = empty;
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
                         obj32 = invalid$iv5;
-                        anon4 = new AndroidPopup_androidKt.Popup.4.1(obj4, onDismissRequest2);
-                        composer10.updateRememberedValue((Function1)anon4);
+                        $i$a$CacheAndroidPopup_androidKt$Popup$4 = new AndroidPopup_androidKt.Popup.4.1($i$a$CacheAndroidPopup_androidKt$Popup$3, onDismissRequest2);
+                        composer10.updateRememberedValue((Function1)$i$a$CacheAndroidPopup_androidKt$Popup$4);
                     } else {
-                        anon4 = rememberedValue4;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$4 = rememberedValue4;
                     }
                 } else {
                     obj31 = empty;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                EffectsKt.DisposableEffect(onDismissRequest2, (Function1)anon4, composer, i & 14);
-                ComposerKt.sourceInformationMarkerStart(composer, -1370717926, layoutDirection);
-                invalid$iv = composer.changedInstance(obj4);
-                Composer composer11 = composer;
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                EffectsKt.DisposableEffect(onDismissRequest2, (Function1)$i$a$CacheAndroidPopup_androidKt$Popup$4, composer2, i & 14);
+                ComposerKt.sourceInformationMarkerStart(composer2, -1370717926, layoutDirection2);
+                invalid$iv3 = composer2.changedInstance($i$a$CacheAndroidPopup_androidKt$Popup$3);
+                Composer composer11 = composer2;
                 int i87 = 0;
                 Object rememberedValue5 = composer11.rememberedValue();
                 int i95 = 0;
-                if (!invalid$iv) {
+                if (!invalid$iv3) {
                     if (rememberedValue5 == Composer.Companion.getEmpty()) {
                         obj31 = i26;
-                        obj32 = invalid$iv;
-                        anon3 = new AndroidPopup_androidKt.Popup.5.1(obj4, 0);
-                        composer11.updateRememberedValue((Function2)anon3);
+                        obj32 = invalid$iv3;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$5 = new AndroidPopup_androidKt.Popup.5.1($i$a$CacheAndroidPopup_androidKt$Popup$3, 0);
+                        composer11.updateRememberedValue((Function2)$i$a$CacheAndroidPopup_androidKt$Popup$5);
                     } else {
-                        obj32 = invalid$iv;
-                        anon3 = rememberedValue5;
+                        obj32 = invalid$iv3;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$5 = rememberedValue5;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                EffectsKt.LaunchedEffect(obj4, (Function2)anon3, composer, 0);
-                ComposerKt.sourceInformationMarkerStart(composer, -1370704156, layoutDirection);
-                changedInstance = composer.changedInstance(obj4);
-                Composer composer12 = composer;
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                EffectsKt.LaunchedEffect($i$a$CacheAndroidPopup_androidKt$Popup$3, (Function2)$i$a$CacheAndroidPopup_androidKt$Popup$5, composer2, 0);
+                ComposerKt.sourceInformationMarkerStart(composer2, -1370704156, layoutDirection2);
+                changedInstance = composer2.changedInstance($i$a$CacheAndroidPopup_androidKt$Popup$3);
+                Composer composer12 = composer2;
                 int i88 = 0;
                 Object rememberedValue6 = composer12.rememberedValue();
                 companion = 0;
@@ -348,18 +348,18 @@ public final class AndroidPopup_androidKt {
                     obj31 = changedInstance;
                     if (rememberedValue6 == Composer.Companion.getEmpty()) {
                         obj32 = invalid$iv4;
-                        anon = new AndroidPopup_androidKt.Popup.7.1(obj4);
-                        composer12.updateRememberedValue((Function1)anon);
+                        $i$a$CacheAndroidPopup_androidKt$Popup$7 = new AndroidPopup_androidKt.Popup.7.1($i$a$CacheAndroidPopup_androidKt$Popup$3);
+                        composer12.updateRememberedValue((Function1)$i$a$CacheAndroidPopup_androidKt$Popup$7);
                     } else {
-                        anon = rememberedValue6;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$7 = rememberedValue6;
                     }
                 } else {
                     obj31 = changedInstance;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                onGloballyPositioned = OnGloballyPositionedModifierKt.onGloballyPositioned((Modifier)Modifier.Companion, (Function1)anon);
-                ComposerKt.sourceInformationMarkerStart(composer, -1370686070, layoutDirection);
-                Composer composer13 = composer;
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                onGloballyPositioned = OnGloballyPositionedModifierKt.onGloballyPositioned((Modifier)Modifier.Companion, (Function1)$i$a$CacheAndroidPopup_androidKt$Popup$7);
+                ComposerKt.sourceInformationMarkerStart(composer2, -1370686070, layoutDirection2);
+                Composer composer13 = composer2;
                 int i89 = 0;
                 Object rememberedValue7 = composer13.rememberedValue();
                 int i91 = 0;
@@ -367,83 +367,83 @@ public final class AndroidPopup_androidKt {
                     obj31 = onGloballyPositioned;
                     if (rememberedValue7 == Composer.Companion.getEmpty()) {
                         obj32 = i24;
-                        valueOf = new AndroidPopup_androidKt.Popup.8.1(obj4, restartGroup);
-                        composer13.updateRememberedValue((MeasurePolicy)valueOf);
+                        $i$a$CacheAndroidPopup_androidKt$Popup$8 = new AndroidPopup_androidKt.Popup.8.1($i$a$CacheAndroidPopup_androidKt$Popup$3, restartGroup);
+                        composer13.updateRememberedValue((MeasurePolicy)$i$a$CacheAndroidPopup_androidKt$Popup$8);
                     } else {
-                        valueOf = rememberedValue7;
+                        $i$a$CacheAndroidPopup_androidKt$Popup$8 = rememberedValue7;
                     }
                 } else {
                     obj31 = onGloballyPositioned;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                obj3 = 0;
-                ComposerKt.sourceInformationMarkerStart(composer, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(composer, 0);
-                obj = obj4;
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier(composer, obj31);
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                obj6 = 0;
+                ComposerKt.sourceInformationMarkerStart(composer2, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(composer2, 0);
+                obj7 = $i$a$CacheAndroidPopup_androidKt$Popup$3;
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier(composer2, obj31);
                 obj32 = constructor;
-                i14 = 0;
-                i22 = $composer2;
-                ComposerKt.sourceInformationMarkerStart(composer, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
+                i10 = 0;
+                i6 = $composer2;
+                ComposerKt.sourceInformationMarkerStart(composer2, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                composer.startReusableNode();
-                if (composer.getInserting()) {
-                    composer.createNode(obj32);
+                composer2.startReusableNode();
+                if (composer2.getInserting()) {
+                    composer2.createNode(obj32);
                 } else {
                     factory$iv$iv = obj32;
-                    composer.useNode();
+                    composer2.useNode();
                 }
-                Composer constructor-impl = Updater.constructor-impl(composer);
-                i8 = 0;
-                i16 = factory$iv$iv;
-                Updater.set-impl(constructor-impl, (MeasurePolicy)valueOf, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl, composer.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i9 = 0;
+                Composer constructor-impl = Updater.constructor-impl(composer2);
+                i2 = 0;
+                i15 = factory$iv$iv;
+                Updater.set-impl(constructor-impl, (MeasurePolicy)$i$a$CacheAndroidPopup_androidKt$Popup$8, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, composer2.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                i12 = 0;
                 obj32 = constructor-impl;
-                i15 = 0;
+                i9 = 0;
                 if (!obj32.getInserting()) {
-                    measurePolicy$iv = valueOf;
-                    obj9 = valueOf2;
+                    measurePolicy$iv = $i$a$CacheAndroidPopup_androidKt$Popup$8;
+                    obj9 = valueOf;
                     if (!Intrinsics.areEqual(obj32.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         obj32.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = obj32;
+                        composer4 = obj32;
                     }
                 } else {
-                    measurePolicy$iv = valueOf;
-                    obj9 = valueOf2;
+                    measurePolicy$iv = $i$a$CacheAndroidPopup_androidKt$Popup$8;
+                    obj9 = valueOf;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 i25 &= 14;
-                Composer composer5 = composer;
+                Composer composer5 = composer2;
                 int i53 = 0;
                 obj32 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer5, 2112480445, "C:AndroidPopup.android.kt#2oxthz");
                 ComposerKt.sourceInformationMarkerEnd(composer5);
-                composer.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                ComposerKt.sourceInformationMarkerEnd(composer);
+                composer2.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                ComposerKt.sourceInformationMarkerEnd(composer2);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj8 = it$iv;
-                obj6 = layoutDirection2;
+                obj3 = it$iv;
+                obj = layoutDirection;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj8 = obj2;
-                composer = restartGroup;
-                obj6 = obj10;
+                obj3 = obj8;
+                composer2 = restartGroup;
+                obj = obj4;
                 i = currentCompositeKeyHash;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new AndroidPopup_androidKt.Popup.9(popupPositionProvider, obj8, obj6, content, $changed, i7);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new AndroidPopup_androidKt.Popup.9(popupPositionProvider, obj3, obj, content, $changed, i7);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -455,123 +455,123 @@ public final class AndroidPopup_androidKt {
     }
 
     public static final void Popup-K5zGePQ(Alignment alignment, long offset, Function0<Unit> onDismissRequest, androidx.compose.ui.window.PopupProperties properties, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i8) {
-        int i4;
+        int i15;
         int invalid$iv;
         androidx.compose.ui.window.AlignmentOffsetPositionProvider anon;
-        int $dirty;
-        Object $dirty2;
-        Object alignment2;
-        long alignment3;
+        int $dirty2;
+        Object $dirty;
+        Object alignment3;
+        long alignment2;
         int traceInProgress2;
-        int i3;
-        Object obj2;
-        long offset4;
-        Object offset3;
-        int i15;
-        Object obj4;
         int i12;
-        boolean traceInProgress;
-        long offset2;
         Object obj;
-        int i2;
-        int i10;
-        Object i;
-        Object obj6;
+        long offset2;
+        Object offset4;
+        int i16;
+        Object obj5;
         int i9;
+        boolean traceInProgress;
+        long offset3;
+        Object obj6;
+        int i5;
+        int i6;
+        Object i;
+        Object obj4;
+        int i17;
         int empty;
         Object obj3;
         Object alignmentOffsetPositionProvider;
-        int i5;
-        Object obj5;
+        int i7;
+        Object obj2;
         int i13;
         androidx.compose.ui.window.PopupProperties popupProperties;
-        int i6;
-        int i16;
-        int i14;
-        int i7;
+        int i10;
+        int i2;
+        int i3;
         int i11;
-        int i17;
-        long l2;
+        int i14;
+        int i4;
         long l;
+        long l2;
         int obj26;
         final int i31 = i8;
         anon = 295309329;
         final Composer restartGroup = $changed.startRestartGroup(anon);
         ComposerKt.sourceInformation(restartGroup, "C(Popup)P(!1,2:c#ui.unit.IntOffset,3,4)269@12290L128,276@12424L165:AndroidPopup.android.kt#2oxthz");
-        $dirty = i8;
+        $dirty2 = i8;
         int i20 = obj34 & 1;
         if (i20 != 0) {
-            $dirty |= 6;
-            obj2 = alignment;
+            $dirty2 |= 6;
+            obj = alignment;
         } else {
             if (i31 & 6 == 0) {
-                i15 = restartGroup.changed(alignment) ? 4 : 2;
-                $dirty |= i15;
+                i16 = restartGroup.changed(alignment) ? 4 : 2;
+                $dirty2 |= i16;
             } else {
-                obj2 = alignment;
+                obj = alignment;
             }
         }
         int i25 = obj34 & 2;
         if (i25 != 0) {
-            $dirty |= 48;
-            offset2 = offset;
+            $dirty2 |= 48;
+            offset3 = offset;
         } else {
             if (i31 & 48 == 0) {
-                i10 = restartGroup.changed(offset) ? 32 : 16;
-                $dirty |= i10;
+                i6 = restartGroup.changed(offset) ? 32 : 16;
+                $dirty2 |= i6;
             } else {
-                offset2 = offset;
+                offset3 = offset;
             }
         }
         i = obj34 & 4;
         if (i != 0) {
-            $dirty |= 384;
-            obj6 = properties;
+            $dirty2 |= 384;
+            obj4 = properties;
         } else {
             if (i31 & 384 == 0) {
-                i9 = restartGroup.changedInstance(properties) ? 256 : 128;
-                $dirty |= i9;
+                i17 = restartGroup.changedInstance(properties) ? 256 : 128;
+                $dirty2 |= i17;
             } else {
-                obj6 = properties;
+                obj4 = properties;
             }
         }
         empty = obj34 & 8;
         if (empty != 0) {
-            $dirty |= 3072;
+            $dirty2 |= 3072;
             obj3 = content;
         } else {
             if (i31 & 3072 == 0) {
-                i5 = restartGroup.changed(content) ? 2048 : 1024;
-                $dirty |= i5;
+                i7 = restartGroup.changed(content) ? 2048 : 1024;
+                $dirty2 |= i7;
             } else {
                 obj3 = content;
             }
         }
         if (obj34 & 16 != 0) {
-            $dirty |= 24576;
-            obj5 = $composer;
+            $dirty2 |= 24576;
+            obj2 = $composer;
         } else {
             if (i31 & 24576 == 0) {
                 i13 = restartGroup.changedInstance($composer) ? 16384 : 8192;
-                $dirty |= i13;
+                $dirty2 |= i13;
             } else {
-                obj5 = $composer;
+                obj2 = $composer;
             }
         }
-        if ($dirty & 9363 == 9362) {
+        if ($dirty2 & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
                 if (i20 != 0) {
-                    alignment2 = Alignment.Companion.getTopStart();
+                    alignment3 = Alignment.Companion.getTopStart();
                 } else {
-                    alignment2 = obj2;
+                    alignment3 = obj;
                 }
-                i3 = 0;
+                i12 = 0;
                 if (i25 != 0) {
-                    offset4 = IntOffsetKt.IntOffset(i3, i3);
+                    offset2 = IntOffsetKt.IntOffset(i12, i12);
                 } else {
-                    offset4 = offset2;
+                    offset2 = offset3;
                 }
-                obj = i != 0 ? i12 : obj6;
+                obj6 = i != 0 ? i9 : obj4;
                 if (empty != 0) {
                     popupProperties = new PopupProperties(0, 0, 0, 0, 15, 0);
                     i = popupProperties;
@@ -579,15 +579,15 @@ public final class AndroidPopup_androidKt {
                     i = obj3;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(anon, $dirty, -1, "androidx.compose.ui.window.Popup (AndroidPopup.android.kt:268)");
+                    ComposerKt.traceEventStart(anon, $dirty2, -1, "androidx.compose.ui.window.Popup (AndroidPopup.android.kt:268)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1370836537, "CC(remember):AndroidPopup.android.kt#9igjgp");
                 int i26 = 1;
-                i4 = $dirty & 14 == 4 ? i26 : i3;
-                if ($dirty & 112 == 32) {
-                    i3 = i26;
+                i15 = $dirty2 & 14 == 4 ? i26 : i12;
+                if ($dirty2 & 112 == 32) {
+                    i12 = i26;
                 }
-                i4 |= i3;
+                i15 |= i12;
                 Composer composer = restartGroup;
                 int i27 = 0;
                 Object rememberedValue = composer.rememberedValue();
@@ -596,7 +596,7 @@ public final class AndroidPopup_androidKt {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         obj26 = invalid$iv;
-                        alignmentOffsetPositionProvider = new AlignmentOffsetPositionProvider(alignment2, offset4, i25, 0);
+                        alignmentOffsetPositionProvider = new AlignmentOffsetPositionProvider(alignment3, offset2, i25, 0);
                         composer.updateRememberedValue(alignmentOffsetPositionProvider);
                     } else {
                         obj26 = invalid$iv;
@@ -605,56 +605,56 @@ public final class AndroidPopup_androidKt {
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                AndroidPopup_androidKt.Popup((PopupPositionProvider)(AlignmentOffsetPositionProvider)alignmentOffsetPositionProvider, obj, i, obj5, restartGroup, i23 | i12, 0);
+                AndroidPopup_androidKt.Popup((PopupPositionProvider)(AlignmentOffsetPositionProvider)alignmentOffsetPositionProvider, obj6, i, obj2, restartGroup, i23 | i9, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                offset3 = obj;
-                offset2 = l2;
-                obj4 = i;
+                offset4 = obj6;
+                offset3 = l;
+                obj5 = i;
             } else {
                 restartGroup.skipToGroupEnd();
-                alignment2 = obj2;
-                offset3 = obj6;
-                obj4 = obj3;
+                alignment3 = obj;
+                offset4 = obj4;
+                obj5 = obj3;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            i2 = $dirty;
-            anon = new AndroidPopup_androidKt.Popup.1(alignment2, offset2, traceInProgress2, offset3, obj4, $composer, i31, obj34);
+            i5 = $dirty2;
+            anon = new AndroidPopup_androidKt.Popup.1(alignment3, offset3, traceInProgress2, offset4, obj5, $composer, i31, obj34);
             endRestartGroup.updateScope((Function2)anon);
         } else {
-            i2 = $dirty;
-            $dirty2 = alignment2;
-            alignment3 = l;
+            i5 = $dirty2;
+            $dirty = alignment3;
+            alignment2 = l2;
         }
     }
 
     public static final void PopupTestTag(String tag, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
-        int i2;
         int i;
+        int i2;
         int skipping;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int str;
-        traceInProgress = -498879600;
-        final Composer obj6 = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = -498879600;
+        final Composer obj6 = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(obj6, "C(PopupTestTag)P(1)429@18089L75:AndroidPopup.android.kt#2oxthz");
         if ($changed & 6 == 0) {
-            i2 = obj6.changed(tag) ? 4 : 2;
-            $dirty |= i2;
+            i = obj6.changed(tag) ? 4 : 2;
+            $dirty |= i;
         }
         if ($changed & 48 == 0) {
-            i = obj6.changedInstance(content) ? 32 : 16;
-            $dirty |= i;
+            i2 = obj6.changedInstance(content) ? 32 : 16;
+            $dirty |= i2;
         }
         if ($dirty & 19 == 18) {
             if (!obj6.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.ui.window.PopupTestTag (AndroidPopup.android.kt:428)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.ui.window.PopupTestTag (AndroidPopup.android.kt:428)");
                 }
                 CompositionLocalKt.CompositionLocalProvider(AndroidPopup_androidKt.LocalPopupTestTag.provides(tag), content, obj6, $stable |= str);
                 if (ComposerKt.isTraceInProgress()) {

@@ -119,10 +119,10 @@ public final class AndroidParagraph_androidKt {
     }
 
     private static final int toLayoutAlign-aXe7zB0(int align) {
-        int i2;
         int i;
-        i2 = TextAlign.equals-impl0(align, TextAlign.Companion.getLeft-e0LSkKk()) ? 3 : equals-impl02 ? 4 : equals-impl03 ? 2 : equals-impl04 ? i : equals-impl05 ? 1 : i;
-        return i2;
+        int i2;
+        i = TextAlign.equals-impl0(align, TextAlign.Companion.getLeft-e0LSkKk()) ? 3 : equals-impl02 ? 4 : equals-impl03 ? 2 : equals-impl04 ? i2 : equals-impl05 ? 1 : i2;
+        return i;
     }
 
     private static final int toLayoutBreakStrategy-xImikfE(int breakStrategy) {
@@ -144,15 +144,15 @@ public final class AndroidParagraph_androidKt {
     }
 
     private static final int toLayoutHyphenationFrequency--3fSNIE(int hyphens) {
-        int i2;
         int i;
+        int i2;
         if (Hyphens.equals-impl0(hyphens, Hyphens.Companion.getAuto-vmbZdU8())) {
-            i2 = Build.VERSION.SDK_INT <= 32 ? 2 : 4;
+            i = Build.VERSION.SDK_INT <= 32 ? 2 : 4;
         } else {
-            i = 0;
-            i2 = Hyphens.equals-impl0(hyphens, Hyphens.Companion.getNone-vmbZdU8()) ? i : i;
+            i2 = 0;
+            i = Hyphens.equals-impl0(hyphens, Hyphens.Companion.getNone-vmbZdU8()) ? i2 : i2;
         }
-        return i2;
+        return i;
     }
 
     private static final int toLayoutLineBreakStyle-hpcqdu8(int lineBreakStrictness) {

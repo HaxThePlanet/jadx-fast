@@ -26,35 +26,35 @@ public final class StaticLayoutFactory {
         int length;
         int dEFAULT_TEXT_DIRECTION_HEURISTIC$ui_text_release;
         int dEFAULT_LAYOUT_ALIGNMENT$ui_text_release;
-        int i2;
+        int i28;
+        int i7;
         int i22;
+        int i25;
+        int i24;
         int i26;
-        int i21;
-        int i3;
-        int i30;
         TextDirectionHeuristic textDirectionHeuristic;
         Layout.Alignment alignment;
-        int i8;
-        int i31;
-        int i25;
-        int i7;
+        int i27;
+        int i30;
+        int i16;
+        int i12;
         int i;
         int i10;
-        int i12;
-        int i13;
         int i15;
-        int i16;
-        int i24;
-        int i27;
         int i29;
-        int i28;
+        int i2;
+        int i31;
+        int i21;
+        int i8;
+        int i13;
+        int i3;
         int i32 = i23;
         final int i50 = 0;
-        i3 = i32 & 8 != 0 ? i50 : i5;
+        i24 = i32 & 8 != 0 ? i50 : i5;
         if (i32 & 16 != 0) {
-            i30 = length;
+            i26 = length;
         } else {
-            i30 = i6;
+            i26 = i6;
         }
         if (i32 & 32 != 0) {
             textDirectionHeuristic = dEFAULT_TEXT_DIRECTION_HEURISTIC$ui_text_release;
@@ -66,22 +66,22 @@ public final class StaticLayoutFactory {
         } else {
             alignment = alignment8;
         }
-        i8 = i32 & 128 != 0 ? i2 : i9;
+        i27 = i32 & 128 != 0 ? i28 : i9;
         int i51 = 0;
-        i31 = i32 & 256 != 0 ? i51 : truncateAt10;
-        i25 = i32 & 512 != 0 ? i4 : i11;
-        i7 = i32 & 1024 != 0 ? i22 : f12;
-        i = i32 & 2048 != 0 ? i26 : f13;
+        i30 = i32 & 256 != 0 ? i51 : truncateAt10;
+        i16 = i32 & 512 != 0 ? i4 : i11;
+        i12 = i32 & 1024 != 0 ? i7 : f12;
+        i = i32 & 2048 != 0 ? i22 : f13;
         i10 = i32 & 4096 != 0 ? i50 : i14;
-        i12 = i32 & 8192 != 0 ? i50 : z15;
-        i13 = i32 & 16384 != 0 ? i21 : z16;
-        i15 = i39 &= i32 != 0 ? i50 : i17;
-        i16 = i41 &= i32 != 0 ? i50 : i18;
-        i24 = i43 &= i32 != 0 ? i50 : i19;
-        i27 = i45 &= i32 != 0 ? i50 : i20;
-        i29 = i47 &= i32 != 0 ? i51 : i21Arr21;
-        i28 = i32 &= i49 != 0 ? i51 : i22Arr22;
-        return staticLayoutFactory.create(charSequence2, textPaint3, i4, i3, i30, textDirectionHeuristic, alignment, i8, i31, i25, i7, i, i10, i12, i13, i15, i16, i24, i27, i29, i28);
+        i15 = i32 & 8192 != 0 ? i50 : z15;
+        i29 = i32 & 16384 != 0 ? i25 : z16;
+        i2 = i39 &= i32 != 0 ? i50 : i17;
+        i31 = i41 &= i32 != 0 ? i50 : i18;
+        i21 = i43 &= i32 != 0 ? i50 : i19;
+        i8 = i45 &= i32 != 0 ? i50 : i20;
+        i13 = i47 &= i32 != 0 ? i51 : i21Arr21;
+        i3 = i32 &= i49 != 0 ? i51 : i22Arr22;
+        return staticLayoutFactory.create(charSequence2, textPaint3, i4, i24, i26, textDirectionHeuristic, alignment, i27, i30, i16, i12, i, i10, i15, i29, i2, i31, i21, i8, i13, i3);
     }
 
     public final StaticLayout create(java.lang.CharSequence text, TextPaint paint, int width, int start, int end, TextDirectionHeuristic textDir, Layout.Alignment alignment, int maxLines, TextUtils.TruncateAt ellipsize, int ellipsizedWidth, float lineSpacingMultiplier, float lineSpacingExtra, int justificationMode, boolean includePadding, boolean useFallbackLineSpacing, int breakStrategy, int lineBreakStyle, int lineBreakWordStyle, int hyphenationFrequency, int[] leftIndents, int[] rightIndents) {

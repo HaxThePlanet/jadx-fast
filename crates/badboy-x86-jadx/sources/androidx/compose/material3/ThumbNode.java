@@ -69,11 +69,11 @@ final class ThumbNode extends Modifier.Node implements LayoutModifierNode {
     @Override // androidx.compose.ui.Modifier$Node
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, Measurable measurable, long constraints) {
         int maxIntrinsicHeight;
-        int i5;
-        boolean isPressed;
+        int i;
+        boolean isPressed3;
         float uncheckedThumbDiameter;
         float floatValue;
-        boolean isPressed3;
+        boolean isPressed;
         boolean isPressed2;
         int px-0680j_4;
         int targetValue2;
@@ -82,22 +82,22 @@ final class ThumbNode extends Modifier.Node implements LayoutModifierNode {
         boolean equal2;
         boolean naN;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i3;
         int i4;
+        int i3;
         androidx.compose.material3.ThumbNode.measure.1 anon;
-        int i;
         int i2;
+        int i5;
         final Object obj = this;
         final MeasureScope measureScope = $this$measure_u2d3p2s80s;
         final Object obj2 = measurable;
         if (obj2.maxIntrinsicHeight(Constraints.getMaxWidth-impl(constraints)) != 0 && obj2.maxIntrinsicWidth(Constraints.getMaxHeight-impl(constraints)) != 0) {
-            i5 = obj2.maxIntrinsicWidth(Constraints.getMaxHeight-impl(constraints)) != 0 ? 1 : 0;
+            i = obj2.maxIntrinsicWidth(Constraints.getMaxHeight-impl(constraints)) != 0 ? 1 : 0;
         } else {
         }
         if (obj.isPressed) {
             uncheckedThumbDiameter = SwitchTokens.INSTANCE.getPressedHandleWidth-D9Ej5fM();
         } else {
-            if (i5 == 0) {
+            if (i == 0) {
                 if (obj.checked) {
                     uncheckedThumbDiameter = SwitchKt.getThumbDiameter();
                 } else {

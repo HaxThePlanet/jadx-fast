@@ -68,47 +68,47 @@ public final class Draggable2DKt {
     }
 
     public static Modifier draggable2D$default(Modifier modifier, androidx.compose.foundation.gestures.Draggable2DState draggable2DState2, boolean z3, MutableInteractionSource mutableInteractionSource4, boolean z5, Function1 function16, Function1 function17, boolean z8, int i9, Object object10) {
-        int i;
         int i3;
-        int i2;
         int i4;
+        int i;
+        int i2;
         Function1 noOpOnDragStart;
         Function1 noOpOnDragStop;
-        i = i9 & 2 != 0 ? 1 : z3;
-        i3 = i9 & 4 != 0 ? 0 : mutableInteractionSource4;
-        i2 = i9 & 8 != 0 ? i4 : z5;
+        i3 = i9 & 2 != 0 ? 1 : z3;
+        i4 = i9 & 4 != 0 ? 0 : mutableInteractionSource4;
+        i = i9 & 8 != 0 ? i2 : z5;
         noOpOnDragStart = i9 & 16 != 0 ? Draggable2DKt.NoOpOnDragStart : function16;
         noOpOnDragStop = i9 & 32 != 0 ? Draggable2DKt.NoOpOnDragStop : function17;
         if (i9 & 64 != 0) {
         } else {
-            i4 = z8;
+            i2 = z8;
         }
-        return Draggable2DKt.draggable2D(modifier, draggable2DState2, i, i3, i2, noOpOnDragStart, noOpOnDragStop, i4);
+        return Draggable2DKt.draggable2D(modifier, draggable2DState2, i3, i4, i, noOpOnDragStart, noOpOnDragStop, i2);
     }
 
     public static Modifier draggable2D$default(Modifier modifier, androidx.compose.foundation.gestures.Draggable2DState draggable2DState2, boolean z3, MutableInteractionSource mutableInteractionSource4, boolean z5, Function3 function36, Function3 function37, boolean z8, int i9, Object object10) {
-        int i4;
         int i;
-        int i2;
         int i3;
+        int i4;
+        int i2;
         Function3 noOpOnDragStarted;
         Function3 noOpOnDragStopped;
-        i4 = i9 & 2 != 0 ? 1 : z3;
-        i = i9 & 4 != 0 ? 0 : mutableInteractionSource4;
-        i2 = i9 & 8 != 0 ? i3 : z5;
+        i = i9 & 2 != 0 ? 1 : z3;
+        i3 = i9 & 4 != 0 ? 0 : mutableInteractionSource4;
+        i4 = i9 & 8 != 0 ? i2 : z5;
         noOpOnDragStarted = i9 & 16 != 0 ? Draggable2DKt.NoOpOnDragStarted : function36;
         noOpOnDragStopped = i9 & 32 != 0 ? Draggable2DKt.NoOpOnDragStopped : function37;
         if (i9 & 64 != 0) {
         } else {
-            i3 = z8;
+            i2 = z8;
         }
-        return Draggable2DKt.draggable2D(modifier, draggable2DState2, i4, i, i2, noOpOnDragStarted, noOpOnDragStopped, i3);
+        return Draggable2DKt.draggable2D(modifier, draggable2DState2, i, i3, i4, noOpOnDragStarted, noOpOnDragStopped, i2);
     }
 
     public static final androidx.compose.foundation.gestures.Draggable2DState rememberDraggable2DState(Function1<? super Offset, Unit> onDelta, Composer $composer, int $changed) {
         boolean traceInProgress;
         String str;
-        Object draggable2DState;
+        Object $i$a$CacheDraggable2DKt$rememberDraggable2DState$1;
         androidx.compose.foundation.gestures.Draggable2DKt.rememberDraggable2DState.1.1 anon;
         int i = -1150277615;
         ComposerKt.sourceInformationMarkerStart($composer, i, "C(rememberDraggable2DState)121@4913L29,122@4954L63:Draggable2D.kt#8bwon0");
@@ -126,13 +126,13 @@ public final class Draggable2DKt {
             anon = new Draggable2DKt.rememberDraggable2DState.1.1(SnapshotStateKt.rememberUpdatedState(onDelta, $composer, $changed & 14));
             composer.updateRememberedValue(Draggable2DKt.Draggable2DState((Function1)anon));
         } else {
-            draggable2DState = rememberedValue;
+            $i$a$CacheDraggable2DKt$rememberDraggable2DState$1 = rememberedValue;
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (Draggable2DState)draggable2DState;
+        return (Draggable2DState)$i$a$CacheDraggable2DKt$rememberDraggable2DState$1;
     }
 }

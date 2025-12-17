@@ -10,38 +10,35 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 public enum CharCategory {
 
     UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn"),
-    UNASSIGNED(false, "Cn");
+    UPPERCASE_LETTER(false, "Cn"),
+    LOWERCASE_LETTER(false, "Cn"),
+    TITLECASE_LETTER(false, "Cn"),
+    MODIFIER_LETTER(false, "Cn"),
+    OTHER_LETTER(false, "Cn"),
+    NON_SPACING_MARK(false, "Cn"),
+    ENCLOSING_MARK(false, "Cn"),
+    COMBINING_SPACING_MARK(false, "Cn"),
+    DECIMAL_DIGIT_NUMBER(false, "Cn"),
+    LETTER_NUMBER(false, "Cn"),
+    OTHER_NUMBER(false, "Cn"),
+    SPACE_SEPARATOR(false, "Cn"),
+    LINE_SEPARATOR(false, "Cn"),
+    PARAGRAPH_SEPARATOR(false, "Cn"),
+    CONTROL(false, "Cn"),
+    FORMAT(false, "Cn"),
+    PRIVATE_USE(18, false),
+    SURROGATE("UNASSIGNED", false),
+    DASH_PUNCTUATION(18, false),
+    START_PUNCTUATION("UNASSIGNED", false),
+    END_PUNCTUATION(18, false),
+    CONNECTOR_PUNCTUATION(false, "Cn"),
+    OTHER_PUNCTUATION(false, "Cn"),
+    MATH_SYMBOL(false, "Cn"),
+    CURRENCY_SYMBOL(false, "Cn"),
+    MODIFIER_SYMBOL(false, "Cn"),
+    OTHER_SYMBOL(false, "Cn"),
+    INITIAL_QUOTE_PUNCTUATION(false, "Cn"),
+    FINAL_QUOTE_PUNCTUATION(false, "Cn");
 
     private final String code;
     private final int value;
@@ -53,14 +50,14 @@ public enum CharCategory {
         }
 
         public final kotlin.text.CharCategory valueOf(int category) {
-            int i2;
-            Object obj;
             int i;
+            Object obj;
+            int i2;
             int i3;
             int i4;
-            i = 0;
+            i2 = 0;
             if (category >= 0 && category < 17) {
-                i4 = category < 17 ? i2 : i;
+                i4 = category < 17 ? i : i2;
             } else {
             }
             if (i4 != 0) {
@@ -70,11 +67,11 @@ public enum CharCategory {
                 if (18 <= category && category < 31) {
                     if (category < 31) {
                     } else {
-                        i2 = i;
+                        i = i2;
                     }
                 } else {
                 }
-                if (i2 == 0) {
+                if (i == 0) {
                 } else {
                     obj = CharCategory.getEntries().get(category + -1);
                 }

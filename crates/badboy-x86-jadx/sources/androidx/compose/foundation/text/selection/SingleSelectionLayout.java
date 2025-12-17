@@ -44,8 +44,8 @@ final class SingleSelectionLayout implements androidx.compose.foundation.text.se
         androidx.compose.foundation.text.selection.Selection copy$default;
         int handlesCrossed;
         int offset;
-        int i;
         int i3;
+        int i;
         int i2;
         androidx.compose.foundation.text.selection.Selection selection2 = selection;
         final int i5 = 0;
@@ -63,7 +63,7 @@ final class SingleSelectionLayout implements androidx.compose.foundation.text.se
             }
         } else {
         }
-        return LongObjectMapKt.longObjectMapOf(this.info.getSelectableId(), i);
+        return LongObjectMapKt.longObjectMapOf(this.info.getSelectableId(), i3);
     }
 
     public void forEachMiddleInfo(Function1<? super androidx.compose.foundation.text.selection.SelectableInfo, Unit> block) {

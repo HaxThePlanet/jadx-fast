@@ -47,24 +47,24 @@ public final class ReportDrawnKt {
     public static final void ReportDrawnAfter(Function1<? super Continuation<? super Unit>, ? extends Object> block, Composer $composer, int $changed) {
         Object fullyDrawnReporter;
         int $dirty;
-        int i3;
+        int i2;
         int traceInProgress;
         boolean traceInProgress2;
-        int anon;
+        int anon2;
         int str;
-        int i2;
-        Object rememberedValue;
         int i;
-        Object empty;
-        Object anon2;
+        Object rememberedValue;
         int i4;
+        Object empty;
+        Object anon;
+        int i3;
         fullyDrawnReporter = 945311272;
         final Composer obj11 = $composer.startRestartGroup(fullyDrawnReporter);
         ComposerKt.sourceInformation(obj11, "C(ReportDrawnAfter)149@5495L7,150@5579L48,150@5537L90:ReportDrawn.kt#q1dkbc");
         str = 2;
         if ($changed & 6 == 0) {
-            i3 = obj11.changedInstance(block) ? 4 : str;
-            $dirty |= i3;
+            i2 = obj11.changedInstance(block) ? 4 : str;
+            $dirty |= i2;
         }
         if ($dirty & 3 == str) {
             if (!obj11.getSkipping()) {
@@ -78,21 +78,21 @@ public final class ReportDrawnKt {
                     } else {
                         ComposerKt.sourceInformationMarkerStart(obj11, 1169985900, "CC(remember):ReportDrawn.kt#9igjgp");
                         str = obj11;
-                        i2 = 0;
-                        rememberedValue = str.rememberedValue();
                         i = 0;
+                        rememberedValue = str.rememberedValue();
+                        i4 = 0;
                         if (changedInstance |= changedInstance3 == 0) {
                             if (rememberedValue == Composer.Companion.getEmpty()) {
                                 empty = 0;
-                                anon2 = new ReportDrawnKt.ReportDrawnAfter.1.1(fullyDrawnReporter, block, 0);
-                                str.updateRememberedValue((Function2)anon2);
+                                anon = new ReportDrawnKt.ReportDrawnAfter.1.1(fullyDrawnReporter, block, 0);
+                                str.updateRememberedValue((Function2)anon);
                             } else {
-                                anon2 = rememberedValue;
+                                anon = rememberedValue;
                             }
                         } else {
                         }
                         ComposerKt.sourceInformationMarkerEnd(obj11);
-                        EffectsKt.LaunchedEffect(block, fullyDrawnReporter, (Function2)anon2, obj11, $dirty & 14);
+                        EffectsKt.LaunchedEffect(block, fullyDrawnReporter, (Function2)anon, obj11, $dirty & 14);
                         if (ComposerKt.isTraceInProgress()) {
                             ComposerKt.traceEventEnd();
                         }
@@ -113,8 +113,8 @@ public final class ReportDrawnKt {
         }
         ScopeUpdateScope endRestartGroup = obj11.endRestartGroup();
         if (endRestartGroup != null) {
-            anon = new ReportDrawnKt.ReportDrawnAfter.fullyDrawnReporter.1(block, $changed);
-            endRestartGroup.updateScope((Function2)anon);
+            anon2 = new ReportDrawnKt.ReportDrawnAfter.fullyDrawnReporter.1(block, $changed);
+            endRestartGroup.updateScope((Function2)anon2);
         }
     }
 
@@ -124,14 +124,14 @@ public final class ReportDrawnKt {
         int i;
         int traceInProgress;
         boolean traceInProgress2;
-        int anon;
+        int anon2;
         int i4;
         int i2;
         int str;
         Object rememberedValue;
         int i3;
         Object empty;
-        Object anon2;
+        Object anon;
         fullyDrawnReporter = -2047119994;
         final Composer obj10 = $composer.startRestartGroup(fullyDrawnReporter);
         ComposerKt.sourceInformation(obj10, "C(ReportDrawnWhen)117@4373L7,118@4463L263,118@4415L311:ReportDrawn.kt#q1dkbc");
@@ -160,15 +160,15 @@ public final class ReportDrawnKt {
                         if (changedInstance |= i4 == 0) {
                             if (rememberedValue == Composer.Companion.getEmpty()) {
                                 empty = 0;
-                                anon2 = new ReportDrawnKt.ReportDrawnWhen.1.1(fullyDrawnReporter, predicate);
-                                i2.updateRememberedValue((Function1)anon2);
+                                anon = new ReportDrawnKt.ReportDrawnWhen.1.1(fullyDrawnReporter, predicate);
+                                i2.updateRememberedValue((Function1)anon);
                             } else {
-                                anon2 = rememberedValue;
+                                anon = rememberedValue;
                             }
                         } else {
                         }
                         ComposerKt.sourceInformationMarkerEnd(obj10);
-                        EffectsKt.DisposableEffect(fullyDrawnReporter, predicate, (Function1)anon2, obj10, i7 &= 112);
+                        EffectsKt.DisposableEffect(fullyDrawnReporter, predicate, (Function1)anon, obj10, i7 &= 112);
                         if (ComposerKt.isTraceInProgress()) {
                             ComposerKt.traceEventEnd();
                         }
@@ -189,8 +189,8 @@ public final class ReportDrawnKt {
         }
         ScopeUpdateScope endRestartGroup = obj10.endRestartGroup();
         if (endRestartGroup != null) {
-            anon = new ReportDrawnKt.ReportDrawnWhen.fullyDrawnReporter.1(predicate, $changed);
-            endRestartGroup.updateScope((Function2)anon);
+            anon2 = new ReportDrawnKt.ReportDrawnWhen.fullyDrawnReporter.1(predicate, $changed);
+            endRestartGroup.updateScope((Function2)anon2);
         }
     }
 }

@@ -165,19 +165,19 @@ public abstract class FloatList {
         int i$iv;
         int i;
         float f;
-        int i3;
-        int cmp;
         int i2;
+        int cmp;
+        int i3;
         final Object obj = this;
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i3 = 0;
-            i2 = 1;
+            i2 = 0;
+            i3 = 1;
             if (Float.compare(f, element) == 0) {
             }
             i$iv++;
-            i = i2;
+            i = i3;
         }
         return 0;
     }
@@ -379,8 +379,8 @@ public abstract class FloatList {
         float f;
         int i;
         int i2;
-        Integer valueOf2;
-        Float valueOf;
+        Integer valueOf;
+        Float valueOf2;
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
         int i4 = 0;
@@ -410,8 +410,8 @@ public abstract class FloatList {
 
     public final void forEachIndexed(Function2<? super Integer, ? super Float, Unit> block) {
         int i;
-        Integer valueOf;
-        Float valueOf2;
+        Integer valueOf2;
+        Float valueOf;
         Intrinsics.checkNotNullParameter(block, "block");
         int i2 = 0;
         i = 0;
@@ -435,8 +435,8 @@ public abstract class FloatList {
 
     public final void forEachReversedIndexed(Function2<? super Integer, ? super Float, Unit> block) {
         int i;
-        Integer valueOf2;
-        Float valueOf;
+        Integer valueOf;
+        Float valueOf2;
         Intrinsics.checkNotNullParameter(block, "block");
         int i2 = 0;
         _size--;
@@ -502,19 +502,19 @@ public abstract class FloatList {
         int i$iv;
         float f;
         int i2;
-        int i;
         int i3;
+        int i;
         Object obj = this;
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i = 0;
+            i3 = 0;
             if (Float.compare(element, f) == 0) {
             } else {
             }
-            i3 = 0;
+            i = 0;
             i$iv++;
-            i3 = 1;
+            i = 1;
         }
         return -1;
     }
@@ -522,8 +522,8 @@ public abstract class FloatList {
     public final int indexOfFirst(Function1<? super Float, Boolean> predicate) {
         int i$iv;
         float f;
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -531,7 +531,7 @@ public abstract class FloatList {
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i = 0;
+            i2 = 0;
             i$iv++;
         }
         return -1;
@@ -601,9 +601,9 @@ public abstract class FloatList {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated) {
         int i$iv;
         float f;
-        int i2;
-        int i;
         int i3;
+        int i;
+        int i2;
         final Object obj = separator;
         final Object obj2 = prefix;
         final Object obj3 = postfix;
@@ -620,15 +620,15 @@ public abstract class FloatList {
         final int i5 = 0;
         i$iv = 0;
         while (i$iv < obj5._size) {
-            i2 = i$iv;
+            i3 = i$iv;
             i = 0;
-            if (i2 != 0) {
+            if (i3 != 0) {
             }
             sb.append(obj5.content[i$iv]);
             i$iv++;
             sb.append(obj);
         }
-        i3 = limit;
+        i2 = limit;
         sb.append(obj3);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -636,19 +636,19 @@ public abstract class FloatList {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
-        Object obj;
         Object obj2;
+        Object obj;
         int i3;
         int i$iv;
         float f;
         int i;
         int i2;
-        obj2 = prefix;
+        obj = prefix;
         final Object obj3 = postfix;
         final Object obj4 = truncated;
         final Object obj5 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(obj2, "prefix");
+        Intrinsics.checkNotNullParameter(obj, "prefix");
         Intrinsics.checkNotNullParameter(obj3, "postfix");
         Intrinsics.checkNotNullParameter(obj4, "truncated");
         Intrinsics.checkNotNullParameter(obj5, "transform");
@@ -656,7 +656,7 @@ public abstract class FloatList {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         final int i5 = 0;
-        sb.append(obj2);
+        sb.append(obj);
         final Object obj6 = this;
         final int i6 = 0;
         i$iv = 0;
@@ -667,9 +667,9 @@ public abstract class FloatList {
             }
             sb.append((CharSequence)obj5.invoke(Float.valueOf(obj6.content[i$iv])));
             i$iv++;
-            obj = separator;
-            obj2 = prefix;
-            sb.append(obj);
+            obj2 = separator;
+            obj = prefix;
+            sb.append(obj2);
         }
         i3 = limit;
         sb.append(obj3);
@@ -679,19 +679,19 @@ public abstract class FloatList {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
-        Object obj;
         Object obj2;
+        Object obj;
         int i;
         int $i$f$joinToString;
         int i$iv$iv;
         float f;
         int index$iv;
         int index$iv2;
-        obj2 = prefix;
+        obj = prefix;
         final Object obj3 = postfix;
         final Object obj4 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(obj2, "prefix");
+        Intrinsics.checkNotNullParameter(obj, "prefix");
         Intrinsics.checkNotNullParameter(obj3, "postfix");
         Intrinsics.checkNotNullParameter(obj4, "transform");
         $i$f$joinToString = 0;
@@ -699,7 +699,7 @@ public abstract class FloatList {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         final int i4 = 0;
-        sb.append(obj2);
+        sb.append(obj);
         final Object obj5 = this;
         final int i5 = 0;
         i$iv$iv = 0;
@@ -710,10 +710,10 @@ public abstract class FloatList {
             }
             sb.append((CharSequence)obj4.invoke(Float.valueOf(obj5.content[i$iv$iv])));
             i$iv$iv++;
-            obj = separator;
-            obj2 = prefix;
+            obj2 = separator;
+            obj = prefix;
             $i$f$joinToString = index$iv2;
-            sb.append(obj);
+            sb.append(obj2);
         }
         i = limit;
         index$iv2 = $i$f$joinToString;
@@ -724,17 +724,17 @@ public abstract class FloatList {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
-        Object obj2;
         Object obj;
+        Object obj2;
         int i$iv$iv;
         float f;
         int index$iv;
         int i;
-        obj = prefix;
+        obj2 = prefix;
         final Object obj3 = postfix;
         final Object obj4 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(obj, "prefix");
+        Intrinsics.checkNotNullParameter(obj2, "prefix");
         Intrinsics.checkNotNullParameter(obj3, "postfix");
         Intrinsics.checkNotNullParameter(obj4, "transform");
         int i2 = 0;
@@ -742,20 +742,20 @@ public abstract class FloatList {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         final int i5 = 0;
-        sb.append(obj);
+        sb.append(obj2);
         final Object obj5 = this;
         final int i6 = 0;
         i$iv$iv = 0;
         while (i$iv$iv < obj5._size) {
             index$iv = 0;
-            obj = i;
-            if (obj != null) {
+            obj2 = i;
+            if (obj2 != null) {
             }
             sb.append((CharSequence)obj4.invoke(Float.valueOf(obj5.content[i$iv$iv])));
             i$iv$iv++;
-            obj2 = separator;
-            obj = prefix;
-            sb.append(obj2);
+            obj = separator;
+            obj2 = prefix;
+            sb.append(obj);
         }
         sb.append(obj3);
         String string = stringBuilder.toString();
@@ -764,36 +764,36 @@ public abstract class FloatList {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
-        Object obj2;
         Object obj;
+        Object obj2;
         int i$iv$iv;
         float f;
         int index$iv;
         int i;
-        obj = prefix;
+        obj2 = prefix;
         final Object obj3 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(obj, "prefix");
+        Intrinsics.checkNotNullParameter(obj2, "prefix");
         Intrinsics.checkNotNullParameter(obj3, "transform");
         int i2 = 0;
         final int i4 = 0;
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         final int i5 = 0;
-        sb.append(obj);
+        sb.append(obj2);
         final Object obj4 = this;
         final int i6 = 0;
         i$iv$iv = 0;
         while (i$iv$iv < obj4._size) {
             index$iv = 0;
-            obj = i;
-            if (obj != null) {
+            obj2 = i;
+            if (obj2 != null) {
             }
             sb.append((CharSequence)obj3.invoke(Float.valueOf(obj4.content[i$iv$iv])));
             i$iv$iv++;
-            obj2 = separator;
-            obj = prefix;
-            sb.append(obj2);
+            obj = separator;
+            obj2 = prefix;
+            sb.append(obj);
         }
         sb.append((CharSequence)"");
         String string = stringBuilder.toString();
@@ -803,16 +803,16 @@ public abstract class FloatList {
 
     public final String joinToString(java.lang.CharSequence separator, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
         Object obj;
-        int $i$f$joinToString;
+        int $i$f$joinToString2;
         int i$iv$iv;
         float f;
         int index$iv;
         int i;
-        int $i$f$joinToString2;
+        int $i$f$joinToString;
         final Object obj2 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
         Intrinsics.checkNotNullParameter(obj2, "transform");
-        $i$f$joinToString = 0;
+        $i$f$joinToString2 = 0;
         final String str4 = "";
         final int i3 = 0;
         StringBuilder stringBuilder = new StringBuilder();
@@ -824,16 +824,16 @@ public abstract class FloatList {
         i$iv$iv = 0;
         while (i$iv$iv < obj3._size) {
             index$iv = 0;
-            $i$f$joinToString = i;
-            if ($i$f$joinToString != null) {
+            $i$f$joinToString2 = i;
+            if ($i$f$joinToString2 != 0) {
             }
             sb.append((CharSequence)obj2.invoke(Float.valueOf(obj3.content[i$iv$iv])));
             i$iv$iv++;
             obj = separator;
-            $i$f$joinToString = $i$f$joinToString2;
+            $i$f$joinToString2 = $i$f$joinToString;
             sb.append(obj);
         }
-        $i$f$joinToString2 = $i$f$joinToString;
+        $i$f$joinToString = $i$f$joinToString2;
         sb.append((CharSequence)str4);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -910,22 +910,22 @@ public abstract class FloatList {
         int i$iv;
         float f;
         int i;
-        int i2;
         int i3;
+        int i2;
         final Object obj = this;
         final int i4 = 0;
         final int i5 = 1;
         _size -= i5;
         int i6 = -1;
         while (i6 < i$iv) {
-            i2 = 0;
+            i3 = 0;
             if (Float.compare(f, element) == 0) {
             } else {
             }
-            i3 = 0;
+            i2 = 0;
             i$iv--;
             i6 = -1;
-            i3 = i5;
+            i2 = i5;
         }
         return i6;
     }

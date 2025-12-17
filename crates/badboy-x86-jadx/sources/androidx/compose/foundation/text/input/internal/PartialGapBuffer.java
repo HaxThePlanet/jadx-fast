@@ -37,17 +37,17 @@ public final class PartialGapBuffer implements java.lang.CharSequence {
     }
 
     public static void replace$default(androidx.compose.foundation.text.input.internal.PartialGapBuffer partialGapBuffer, int i2, int i3, java.lang.CharSequence charSequence4, int i5, int i6, int i7, Object object8) {
-        int i4;
         int i;
+        int i4;
         int obj10;
         int obj11;
-        i4 = i7 & 8 != 0 ? obj10 : i5;
+        i = i7 & 8 != 0 ? obj10 : i5;
         if (i7 & 16 != 0) {
-            i = obj11;
+            i4 = obj11;
         } else {
-            i = i6;
+            i4 = i6;
         }
-        partialGapBuffer.replace(i2, i3, charSequence4, i4, i);
+        partialGapBuffer.replace(i2, i3, charSequence4, i, i4);
     }
 
     @Override // java.lang.CharSequence
@@ -92,27 +92,27 @@ public final class PartialGapBuffer implements java.lang.CharSequence {
 
     @Override // java.lang.CharSequence
     public final void replace(int start, int end, java.lang.CharSequence text, int textStart, int textEnd) {
-        int i;
+        int i4;
         int bufStart;
         int i3;
+        int i;
         int i2;
-        int i4;
-        i = 1;
+        i4 = 1;
         int i9 = 0;
-        i3 = start <= end ? i : i9;
+        i3 = start <= end ? i4 : i9;
         if (i3 == 0) {
         } else {
-            i2 = textStart <= textEnd ? i : i9;
-            if (i2 == 0) {
+            i = textStart <= textEnd ? i4 : i9;
+            if (i == 0) {
             } else {
-                i4 = start >= 0 ? i : i9;
-                if (i4 == 0) {
+                i2 = start >= 0 ? i4 : i9;
+                if (i2 == 0) {
                 } else {
                     if (textStart >= 0) {
                     } else {
-                        i = i9;
+                        i4 = i9;
                     }
-                    if (i == 0) {
+                    if (i4 == 0) {
                     } else {
                         androidx.compose.foundation.text.input.internal.GapBuffer buffer = this.buffer;
                         int i6 = textEnd - textStart;

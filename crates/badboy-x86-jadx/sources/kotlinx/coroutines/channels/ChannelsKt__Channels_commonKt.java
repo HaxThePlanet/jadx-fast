@@ -57,15 +57,15 @@ final class ChannelsKt__Channels_commonKt {
     @Deprecated(level = DeprecationLevel.WARNING, message = "BroadcastChannel is deprecated in the favour of SharedFlow and is no longer supported")
     public static final <E> Object consumeEach(kotlinx.coroutines.channels.BroadcastChannel<E> broadcastChannel, Function1<? super E, Unit> function12, Continuation<? super Unit> continuation3) {
         boolean $result;
-        Object $continuation;
-        Throwable $continuation4;
-        Object $continuation3;
+        Object $continuation2;
+        Throwable $continuation;
+        Object $continuation4;
         kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt.consumeEach.3 anon2;
-        int i2;
-        int $i$f$consumeEach;
-        Object obj;
-        Object $i$f$consume;
         int i;
+        int $i$f$consumeEach;
+        Object $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$42;
+        Object $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$4;
+        int i2;
         Throwable th;
         Object subscription;
         Object channel$iv;
@@ -77,12 +77,12 @@ final class ChannelsKt__Channels_commonKt {
         int obj11;
         Object obj12;
         $result = continuation3;
-        i2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof ChannelsKt__Channels_commonKt.consumeEach.3 && label &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof ChannelsKt__Channels_commonKt.consumeEach.3 && label &= i != 0) {
             $result = continuation3;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                $result.label = obj12 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                $result.label = obj12 -= i;
             } else {
                 $result = new ChannelsKt__Channels_commonKt.consumeEach.3(continuation3);
             }
@@ -98,7 +98,7 @@ final class ChannelsKt__Channels_commonKt {
                 $i$f$consumeEach = i8;
                 channel$iv2 = function12;
                 obj11 = i7;
-                $i$f$consume = iterator;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$4 = iterator;
                 break;
             case 1:
                 obj10 = 0;
@@ -107,16 +107,16 @@ final class ChannelsKt__Channels_commonKt {
                 iterator = l$0;
                 action = l$1;
                 channel$iv = l$2;
-                i = i3;
-                obj = $continuation3;
+                i2 = i3;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$42 = $continuation4;
                 anon2 = $result;
-                $continuation = obj12;
+                $continuation2 = obj12;
                 iterator.invoke(channel$iv.next());
-                obj12 = $continuation;
+                obj12 = $continuation2;
                 $result = anon2;
-                $continuation3 = obj;
-                $i$f$consumeEach = i;
-                $i$f$consume = channel$iv;
+                $continuation4 = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$42;
+                $i$f$consumeEach = i2;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$4 = channel$iv;
                 subscription = action;
                 channel$iv2 = iterator;
                 obj12 = Unit.INSTANCE;
@@ -128,54 +128,54 @@ final class ChannelsKt__Channels_commonKt {
         }
         $result.L$0 = channel$iv2;
         $result.L$1 = subscription;
-        $result.L$2 = $i$f$consume;
+        $result.L$2 = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$4;
         $result.label = i5;
-        Object next = $i$f$consume.hasNext($result);
-        if (next == $continuation3) {
-            return $continuation3;
+        Object next = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$4.hasNext($result);
+        if (next == $continuation4) {
+            return $continuation4;
         } else {
-            $continuation = obj12;
+            $continuation2 = obj12;
             obj12 = next;
             iterator = channel$iv2;
             action = subscription;
-            channel$iv = $i$f$consume;
-            i = $i$f$consumeEach;
-            obj = $continuation3;
+            channel$iv = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$4;
+            i2 = $i$f$consumeEach;
+            $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$42 = $continuation4;
             anon2 = anon;
         }
     }
 
     public static final <E> Object consumeEach(kotlinx.coroutines.channels.ReceiveChannel<? extends E> receiveChannel, Function1<? super E, Unit> function12, Continuation<? super Unit> continuation3) {
         boolean $result;
-        Object $continuation2;
-        Throwable e$iv;
         Object $continuation;
-        kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt.consumeEach.1 anon;
-        int $i$f$consumeEach2;
+        Throwable e$iv;
+        Object $continuation3;
+        kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt.consumeEach.1 anon2;
         int $i$f$consumeEach;
-        Object obj;
-        Object $this$consumeEach_u24lambda_u241;
-        int i;
-        Throwable th;
+        int $i$f$consumeEach2;
+        Object $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2;
+        Object $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$22;
         int i2;
-        Object cause$iv2;
-        Throwable cause$iv;
+        Throwable th;
+        int i;
         Object cause$iv3;
+        Throwable cause$iv2;
+        Object cause$iv;
         int $this$consume$iv;
         Object $this$consume$iv2;
         Object action;
         Object iterator;
-        kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt.consumeEach.1 anon2;
+        kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt.consumeEach.1 anon;
         int obj9;
         int obj10;
         Object obj11;
         $result = continuation3;
-        $i$f$consumeEach2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof ChannelsKt__Channels_commonKt.consumeEach.1 && label &= $i$f$consumeEach2 != 0) {
+        $i$f$consumeEach = Integer.MIN_VALUE;
+        if (continuation3 instanceof ChannelsKt__Channels_commonKt.consumeEach.1 && label &= $i$f$consumeEach != 0) {
             $result = continuation3;
-            $i$f$consumeEach2 = Integer.MIN_VALUE;
-            if (label &= $i$f$consumeEach2 != 0) {
-                $result.label = obj11 -= $i$f$consumeEach2;
+            $i$f$consumeEach = Integer.MIN_VALUE;
+            if (label &= $i$f$consumeEach != 0) {
+                $result.label = obj11 -= $i$f$consumeEach;
             } else {
                 $result = new ChannelsKt__Channels_commonKt.consumeEach.1(continuation3);
             }
@@ -185,12 +185,12 @@ final class ChannelsKt__Channels_commonKt {
         switch (label2) {
             case 0:
                 ResultKt.throwOnFailure(obj11);
-                i2 = 0;
+                i = 0;
                 obj10 = obj9;
                 obj9 = i4;
-                $i$f$consumeEach = i6;
-                $this$consume$iv2 = $this$consumeEach_u24lambda_u2412;
-                $this$consumeEach_u24lambda_u241 = iterator;
+                $i$f$consumeEach2 = i6;
+                $this$consume$iv2 = $this$consumeEach_u24lambda_u241;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$22 = iterator;
                 break;
             case 1:
                 obj9 = 0;
@@ -199,19 +199,19 @@ final class ChannelsKt__Channels_commonKt {
                 iterator = l$0;
                 action = l$1;
                 $this$consume$iv = i5;
-                cause$iv2 = l$2;
-                i = i3;
-                obj = $continuation;
-                anon = $result;
-                $continuation2 = obj11;
-                iterator.invoke(cause$iv2.next());
-                obj11 = $continuation2;
-                $result = anon;
-                $continuation = obj;
-                $i$f$consumeEach = i;
-                $this$consumeEach_u24lambda_u241 = cause$iv2;
-                i2 = $this$consume$iv;
-                cause$iv3 = action;
+                cause$iv3 = l$2;
+                i2 = i3;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2 = $continuation3;
+                anon2 = $result;
+                $continuation = obj11;
+                iterator.invoke(cause$iv3.next());
+                obj11 = $continuation;
+                $result = anon2;
+                $continuation3 = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2;
+                $i$f$consumeEach2 = i2;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$22 = cause$iv3;
+                i = $this$consume$iv;
+                cause$iv = action;
                 $this$consume$iv2 = iterator;
                 obj11 = Unit.INSTANCE;
                 ChannelsKt.cancelConsumed(action, $this$consume$iv);
@@ -221,22 +221,22 @@ final class ChannelsKt__Channels_commonKt {
                 throw obj9;
         }
         $result.L$0 = $this$consume$iv2;
-        $result.L$1 = cause$iv3;
-        $result.L$2 = $this$consumeEach_u24lambda_u241;
+        $result.L$1 = cause$iv;
+        $result.L$2 = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$22;
         $result.label = 1;
-        Object next = $this$consumeEach_u24lambda_u241.hasNext($result);
-        if (next == $continuation) {
-            return $continuation;
+        Object next = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$22.hasNext($result);
+        if (next == $continuation3) {
+            return $continuation3;
         } else {
-            $continuation2 = obj11;
+            $continuation = obj11;
             obj11 = next;
             iterator = $this$consume$iv2;
-            action = cause$iv3;
-            $this$consume$iv = i2;
-            cause$iv2 = $this$consumeEach_u24lambda_u241;
-            i = $i$f$consumeEach;
-            obj = $continuation;
-            anon = anon2;
+            action = cause$iv;
+            $this$consume$iv = i;
+            cause$iv3 = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$22;
+            i2 = $i$f$consumeEach2;
+            $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2 = $continuation3;
+            anon2 = anon;
         }
     }
 
@@ -291,28 +291,28 @@ final class ChannelsKt__Channels_commonKt {
         Object $continuation2;
         kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt.toList.1 list2;
         Throwable th2;
-        int i3;
-        Object $i$f$consumeEach3;
+        int i2;
+        Object $i$f$consumeEach2;
         Throwable th;
-        int $i$f$consumeEach2;
-        int $i$f$consume;
+        int $i$f$consumeEach;
         int $i$f$consume2;
-        int i5;
-        Object $i$f$consumeEach;
-        int i4;
-        kotlinx.coroutines.channels.ReceiveChannel receiveChannel2;
+        int $i$f$consume;
+        int $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv;
+        Object $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv2;
         int i;
-        Object cause$iv$iv2;
-        kotlinx.coroutines.channels.ReceiveChannel cause$iv$iv;
+        kotlinx.coroutines.channels.ReceiveChannel receiveChannel2;
+        int i4;
         Object cause$iv$iv3;
+        kotlinx.coroutines.channels.ReceiveChannel cause$iv$iv2;
+        Object cause$iv$iv;
         int $this$consume$iv$iv2;
         Object $this$consume$iv$iv;
         Object $this$toList_u24lambda_u243;
         Object $this$toList_u24lambda_u2432;
-        Object obj;
-        Object iterator;
         Object obj2;
-        int i2;
+        Object iterator;
+        Object obj;
+        int i3;
         kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt.toList.1 list;
         int obj14;
         Object obj15;
@@ -333,41 +333,41 @@ final class ChannelsKt__Channels_commonKt {
             case 0:
                 ResultKt.throwOnFailure(obj15);
                 List listBuilder = CollectionsKt.createListBuilder();
-                i = 0;
+                i4 = 0;
                 $this$consume$iv$iv = list3;
-                $i$f$consumeEach2 = obj14;
-                obj14 = i9;
-                $i$f$consume2 = i12;
+                $i$f$consumeEach = obj14;
+                obj14 = i8;
+                $i$f$consume = i11;
                 $this$toList_u24lambda_u2432 = listBuilder;
-                i3 = i10;
-                $i$f$consumeEach = iterator;
+                i2 = i9;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv2 = iterator;
                 break;
             case 1:
                 obj14 = 0;
                 ResultKt.throwOnFailure(obj15);
                 iterator = l$0;
-                obj = l$1;
+                obj2 = l$1;
                 $this$toList_u24lambda_u243 = l$2;
-                $this$consume$iv$iv2 = i11;
-                cause$iv$iv2 = l$3;
-                i4 = i8;
-                i5 = i7;
-                $i$f$consume = i6;
-                $i$f$consumeEach3 = $continuation2;
+                $this$consume$iv$iv2 = i10;
+                cause$iv$iv3 = l$3;
+                i = i7;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv = i6;
+                $i$f$consume2 = i5;
+                $i$f$consumeEach2 = $continuation2;
                 list2 = $result;
                 $continuation3 = obj15;
-                i2 = 0;
-                obj.add(cause$iv$iv2.next());
+                i3 = 0;
+                obj2.add(cause$iv$iv3.next());
                 obj15 = $continuation3;
                 $result = list2;
-                $continuation2 = $i$f$consumeEach3;
-                i3 = $i$f$consume;
-                $i$f$consumeEach2 = i5;
-                $i$f$consume2 = i4;
-                $i$f$consumeEach = cause$iv$iv2;
-                i = $this$consume$iv$iv2;
-                cause$iv$iv3 = $this$toList_u24lambda_u243;
-                $this$consume$iv$iv = obj;
+                $continuation2 = $i$f$consumeEach2;
+                i2 = $i$f$consume2;
+                $i$f$consumeEach = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv;
+                $i$f$consume = i;
+                $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv2 = cause$iv$iv3;
+                i4 = $this$consume$iv$iv2;
+                cause$iv$iv = $this$toList_u24lambda_u243;
+                $this$consume$iv$iv = obj2;
                 $this$toList_u24lambda_u2432 = iterator;
                 obj15 = Unit.INSTANCE;
                 ChannelsKt.cancelConsumed($this$toList_u24lambda_u243, $this$consume$iv$iv2);
@@ -378,24 +378,24 @@ final class ChannelsKt__Channels_commonKt {
         }
         $result.L$0 = $this$toList_u24lambda_u2432;
         $result.L$1 = $this$consume$iv$iv;
-        $result.L$2 = cause$iv$iv3;
-        $result.L$3 = $i$f$consumeEach;
+        $result.L$2 = cause$iv$iv;
+        $result.L$3 = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv2;
         $result.label = 1;
-        Object next = $i$f$consumeEach.hasNext($result);
+        Object next = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv2.hasNext($result);
         if (next == $continuation2) {
             return $continuation2;
         } else {
             $continuation3 = obj15;
             obj15 = next;
             iterator = $this$toList_u24lambda_u2432;
-            obj = $this$consume$iv$iv;
-            $this$toList_u24lambda_u243 = cause$iv$iv3;
-            $this$consume$iv$iv2 = i;
-            cause$iv$iv2 = $i$f$consumeEach;
-            i4 = $i$f$consume2;
-            i5 = $i$f$consumeEach2;
-            $i$f$consume = i3;
-            $i$f$consumeEach3 = $continuation2;
+            obj2 = $this$consume$iv$iv;
+            $this$toList_u24lambda_u243 = cause$iv$iv;
+            $this$consume$iv$iv2 = i4;
+            cause$iv$iv3 = $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv2;
+            i = $i$f$consume;
+            $i$a$ConsumeChannelsKt__Channels_commonKt$consumeEach$2$iv = $i$f$consumeEach;
+            $i$f$consume2 = i2;
+            $i$f$consumeEach2 = $continuation2;
             list2 = list;
         }
     }

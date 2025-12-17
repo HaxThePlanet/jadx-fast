@@ -25,19 +25,19 @@ final class AnnotationContentHandler implements ContentHandler {
     private final void handleAnnotationEnd() {
         int index$iv;
         Object[] objArr;
-        int i2;
+        int i3;
         int length2;
         int spanStart;
         Object length;
         Object output;
         int i;
-        int i3;
         int i4;
+        int i2;
         int i7 = 0;
         int i6 = 0;
         ArrayList arrayList = new ArrayList();
         objArr = spans;
-        i2 = 0;
+        i3 = 0;
         spanStart = i7;
         while (spanStart < objArr.length) {
             length = objArr[spanStart];
@@ -45,25 +45,25 @@ final class AnnotationContentHandler implements ContentHandler {
             if (this.output.getSpanFlags((AnnotationSpan)length) == 17) {
             } else {
             }
-            i3 = i7;
-            if (i3 != 0) {
+            i4 = i7;
+            if (i4 != 0) {
             }
             spanStart++;
             (Collection)arrayList.add(length);
-            i3 = 1;
+            i4 = 1;
         }
         int i5 = 0;
         index$iv = 0;
         while (index$iv < (List)arrayList.size()) {
-            i2 = objArr;
+            i3 = objArr;
             length2 = 0;
-            spanStart = this.output.getSpanStart((AnnotationSpan)i2);
+            spanStart = this.output.getSpanStart((AnnotationSpan)i3);
             length = this.output.length();
-            this.output.removeSpan(i2);
+            this.output.removeSpan(i3);
             if (spanStart != length) {
             }
             index$iv++;
-            this.output.setSpan(i2, spanStart, length, 33);
+            this.output.setSpan(i3, spanStart, length, 33);
         }
     }
 

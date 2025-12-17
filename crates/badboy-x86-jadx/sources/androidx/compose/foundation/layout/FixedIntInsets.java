@@ -23,8 +23,8 @@ final class FixedIntInsets implements androidx.compose.foundation.layout.WindowI
     @Override // androidx.compose.foundation.layout.WindowInsets
     public boolean equals(Object other) {
         int i;
-        int bottomVal;
         int bottomVal2;
+        int bottomVal;
         if (this == other) {
             return 1;
         }

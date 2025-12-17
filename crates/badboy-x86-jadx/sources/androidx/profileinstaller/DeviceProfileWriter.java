@@ -114,8 +114,8 @@ public class DeviceProfileWriter {
         AssetFileDescriptor assetFileDescriptor;
         java.io.FileInputStream inputStream;
         String mDiagnostics;
-        int i2;
         int i;
+        int i2;
         int i3 = 0;
         return assetManager.openFd(location).createInputStream();
     }
@@ -239,12 +239,12 @@ public class DeviceProfileWriter {
     }
 
     public boolean write() {
-        Throwable th6;
-        Throwable th3;
-        Throwable th2;
-        Throwable th4;
-        Throwable th5;
         Throwable th;
+        Throwable th5;
+        Throwable th2;
+        Throwable th3;
+        Throwable th4;
+        Throwable th6;
         final byte[] mTranscodedProfile = this.mTranscodedProfile;
         if (mTranscodedProfile == null) {
             return 0;

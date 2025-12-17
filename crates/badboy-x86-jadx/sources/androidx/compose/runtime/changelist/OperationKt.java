@@ -110,15 +110,15 @@ public final class OperationKt {
         boolean it$iv;
         int i4;
         Object writer;
-        int i3;
         int i6;
+        int i5;
         ControlledComposition controlledComposition;
         ControlledComposition controlledComposition2;
         Object obj;
         Object obj3;
+        int i;
+        boolean i3;
         int i2;
-        boolean i;
-        int i5;
         RecomposeScopeImpl.Companion companion;
         androidx.compose.runtime.changelist.OperationKt.releaseMovableGroupAtCurrent.movableContentRecomposeScopeOwner.1 anon;
         final MovableContentStateReference movableContentStateReference = reference;
@@ -132,16 +132,16 @@ public final class OperationKt {
         }
         i4 = 0;
         writer = writer2;
-        i3 = 0;
         i6 = 0;
+        i5 = 0;
         SlotWriter writer3 = writer;
         int i7 = 0;
         writer3.beginInsert();
         writer3.startGroup(126665345, movableContentStateReference.getContent$runtime_release());
-        i2 = 1;
-        SlotWriter.markGroup$default(writer3, 0, i2, 0);
+        i = 1;
+        SlotWriter.markGroup$default(writer3, 0, i, 0);
         writer3.update(movableContentStateReference.getParameter$runtime_release());
-        java.util.List moveTo = slots.moveTo(movableContentStateReference.getAnchor$runtime_release(), i2, writer3);
+        java.util.List moveTo = slots.moveTo(movableContentStateReference.getAnchor$runtime_release(), i, writer3);
         writer3.skipGroup();
         writer3.endGroup();
         writer3.endInsert();
@@ -151,15 +151,15 @@ public final class OperationKt {
         MovableContentState movableContentState = new MovableContentState(slotTable2);
         if (RecomposeScopeImpl.Companion.hasAnchoredRecomposeScopes$runtime_release(slotTable2, moveTo)) {
             OperationKt.releaseMovableGroupAtCurrent.movableContentRecomposeScopeOwner.1 anon2 = new OperationKt.releaseMovableGroupAtCurrent.movableContentRecomposeScopeOwner.1(composition, movableContentStateReference);
-            i3 = 0;
-            i6 = writer5;
-            i2 = 0;
+            i6 = 0;
+            i5 = writer5;
             i = 0;
+            i3 = 0;
             int i12 = 0;
-            RecomposeScopeImpl.Companion.adoptAnchoredScopes$runtime_release(i6, moveTo, (RecomposeScopeOwner)anon2);
+            RecomposeScopeImpl.Companion.adoptAnchoredScopes$runtime_release(i5, moveTo, (RecomposeScopeOwner)anon2);
             Unit writer7 = Unit.INSTANCE;
-            i5 = 0;
-            i6.close(true);
+            i2 = 0;
+            i5.close(true);
         } else {
             controlledComposition2 = composition;
         }

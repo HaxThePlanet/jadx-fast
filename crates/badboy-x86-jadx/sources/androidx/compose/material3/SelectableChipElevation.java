@@ -53,35 +53,35 @@ public final class SelectableChipElevation {
     }
 
     private final State<Dp> animateElevation(boolean enabled, InteractionSource interactionSource, Composer $composer, int $changed) {
-        boolean changed2;
-        int i5;
+        boolean changed;
+        int i4;
         float disabledElevation;
         Object animatable;
         boolean traceInProgress;
-        Object it$iv2;
+        Object it$iv;
         String str;
         Object empty;
         float f;
-        int changed;
-        Object it$iv;
-        Object mutableStateListOf;
-        Object mutableStateOf$default;
+        int changed2;
+        Object it$iv2;
+        Object $i$a$CacheSelectableChipElevation$animateElevation$interactions$1;
+        Object $i$a$CacheSelectableChipElevation$animateElevation$lastInteraction$2;
         Object anon;
-        int i;
-        Object obj2;
+        int i2;
+        Object $i$a$CacheSelectableChipElevation$animateElevation$animatable$1;
         Composer.Companion companion;
-        int i7;
+        int i;
         Animatable animatable2;
         Dp box-impl;
         Object obj;
         androidx.compose.animation.core.TwoWayConverter vectorConverter;
-        int i2;
-        int i3;
-        int i4;
+        int i5;
         int i6;
-        final Object obj3 = this;
+        int i7;
+        int i3;
+        final Object obj2 = this;
         boolean z5 = enabled;
-        final Object obj6 = interactionSource;
+        final Object obj5 = interactionSource;
         final Composer composer4 = $composer;
         final int i30 = $changed;
         int i8 = 664514136;
@@ -100,7 +100,7 @@ public final class SelectableChipElevation {
             int i31 = 0;
             composer.updateRememberedValue(SnapshotStateKt.mutableStateListOf());
         } else {
-            mutableStateListOf = rememberedValue2;
+            $i$a$CacheSelectableChipElevation$animateElevation$interactions$1 = rememberedValue2;
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, -208083231, str3);
@@ -114,14 +114,14 @@ public final class SelectableChipElevation {
             int i32 = 0;
             empty.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i34, i34, 2, i34));
         } else {
-            mutableStateOf$default = rememberedValue3;
+            $i$a$CacheSelectableChipElevation$animateElevation$lastInteraction$2 = rememberedValue3;
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, -208078925, str3);
         int i24 = 32;
         if (i14 ^= 48 > i24) {
-            if (!composer4.changed(obj6)) {
-                i5 = i30 & 48 == i24 ? 1 : 0;
+            if (!composer4.changed(obj5)) {
+                i4 = i30 & 48 == i24 ? 1 : 0;
             } else {
             }
         } else {
@@ -130,10 +130,10 @@ public final class SelectableChipElevation {
         int i27 = 0;
         Object rememberedValue5 = composer2.rememberedValue();
         int i38 = 0;
-        if (i5 == 0) {
+        if (i4 == 0) {
             if (rememberedValue5 == Composer.Companion.getEmpty()) {
                 empty = 0;
-                anon = new SelectableChipElevation.animateElevation.1.1(obj6, (SnapshotStateList)mutableStateListOf, i34);
+                anon = new SelectableChipElevation.animateElevation.1.1(obj5, (SnapshotStateList)$i$a$CacheSelectableChipElevation$animateElevation$interactions$1, i34);
                 composer2.updateRememberedValue((Function2)anon);
             } else {
                 anon = rememberedValue5;
@@ -141,8 +141,8 @@ public final class SelectableChipElevation {
         } else {
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
-        EffectsKt.LaunchedEffect(obj6, (Function2)anon, composer4, i15 &= 14);
-        Object obj4 = lastOrNull;
+        EffectsKt.LaunchedEffect(obj5, (Function2)anon, composer4, i15 &= 14);
+        Object obj3 = lastOrNull;
         f = !z5 ? disabledElevation : z ? disabledElevation : z2 ? disabledElevation : z3 ? disabledElevation : z4 ? disabledElevation : disabledElevation;
         ComposerKt.sourceInformationMarkerStart(composer4, -208015451, str3);
         int i18 = 0;
@@ -155,15 +155,15 @@ public final class SelectableChipElevation {
             animatable2 = new Animatable(Dp.box-impl(f), VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
             composer3.updateRememberedValue(animatable2);
         } else {
-            obj2 = rememberedValue4;
+            $i$a$CacheSelectableChipElevation$animateElevation$animatable$1 = rememberedValue4;
         }
-        Object invalid$iv = obj2;
+        Object invalid$iv = $i$a$CacheSelectableChipElevation$animateElevation$animatable$1;
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, -208012300, str3);
         int i35 = 4;
         if (i29 ^= 6 > i35) {
             if (!composer4.changed(z5)) {
-                i7 = i30 & 6 == i35 ? 1 : 0;
+                i = i30 & 6 == i35 ? 1 : 0;
             } else {
             }
         } else {
@@ -172,14 +172,14 @@ public final class SelectableChipElevation {
         int i40 = 0;
         Object rememberedValue = composer5.rememberedValue();
         int i41 = 0;
-        if (i20 | it$iv == 0) {
+        if (i20 | it$iv2 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 animatable2 = 0;
-                obj = obj5;
-                animatable = new SelectableChipElevation.animateElevation.2.1(invalid$iv, f, z5, obj4, (MutableState)mutableStateOf$default, 0);
+                obj = obj4;
+                animatable = new SelectableChipElevation.animateElevation.2.1(invalid$iv, f, z5, obj3, (MutableState)$i$a$CacheSelectableChipElevation$animateElevation$lastInteraction$2, 0);
                 composer5.updateRememberedValue((Function2)animatable);
             } else {
-                it$iv2 = invalid$iv;
+                it$iv = invalid$iv;
                 animatable = obj;
             }
         } else {
@@ -190,7 +190,7 @@ public final class SelectableChipElevation {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
-        return it$iv2.asState();
+        return it$iv.asState();
     }
 
     private static final Interaction animateElevation$lambda$2(MutableState<Interaction> $lastInteraction$delegate) {

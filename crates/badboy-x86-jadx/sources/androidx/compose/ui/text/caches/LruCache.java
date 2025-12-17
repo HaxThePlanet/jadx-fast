@@ -49,8 +49,8 @@ public class LruCache<K, V>  {
             this.keySet = linkedHashSet;
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("maxSize <= 0".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireLruCache$1 = new IllegalArgumentException("maxSize <= 0".toString());
+        throw $i$a$RequireLruCache$1;
     }
 
     public static final SynchronizedObject access$getMonitor$p(androidx.compose.ui.text.caches.LruCache $this) {
@@ -241,7 +241,7 @@ public class LruCache<K, V>  {
             this.keySet.remove(key);
             synchronized (monitor) {
                 this.size = size -= safeSizeOf;
-                Unit iNSTANCE = Unit.INSTANCE;
+                Unit $i$a$SynchronizedLruCache$remove$1 = Unit.INSTANCE;
                 if (previous2 != null) {
                 }
                 return previous2;
@@ -261,7 +261,7 @@ public class LruCache<K, V>  {
             int i2 = 0;
             int i3 = 0;
             this.maxSize = maxSize;
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedLruCache$resize$2 = Unit.INSTANCE;
             trimToSize(maxSize);
             return;
             synchronized (monitor) {
@@ -269,7 +269,7 @@ public class LruCache<K, V>  {
                 i2 = 0;
                 i3 = 0;
                 this.maxSize = maxSize;
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SynchronizedLruCache$resize$2 = Unit.INSTANCE;
                 trimToSize(maxSize);
             }
         }
@@ -344,17 +344,17 @@ public class LruCache<K, V>  {
     public void trimToSize(int maxSize) {
         int key;
         int value;
-        int i;
         int i2;
-        Object iNSTANCE;
+        int i;
+        Object $i$a$SynchronizedLruCache$trimToSize$1;
         int empty3;
-        int empty2;
         int empty;
+        int empty2;
         int safeSizeOf;
         key = 0;
         value = 0;
         SynchronizedObject monitor = this.monitor;
-        i2 = 0;
+        i = 0;
         int i3 = 0;
         synchronized (monitor) {
             if (this.map.isEmpty()) {

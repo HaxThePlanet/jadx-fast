@@ -22,16 +22,16 @@ public final class BackHandlerKt {
         int $dirty;
         boolean enabled2;
         int onBackPressedDispatcher;
-        int i4;
+        int i3;
         boolean invalid$iv;
         boolean traceInProgress2;
         int i6;
-        int i3;
+        int i2;
         boolean skipping;
         int this_$iv;
         Composer composer;
         Object anon;
-        int i2;
+        int i4;
         Object rememberedValue;
         int i;
         int empty;
@@ -61,8 +61,8 @@ public final class BackHandlerKt {
             $dirty |= 48;
         } else {
             if (i7 & 48 == 0) {
-                i3 = restartGroup.changedInstance(obj) ? 32 : 16;
-                $dirty |= i3;
+                i2 = restartGroup.changedInstance(obj) ? 32 : 16;
+                $dirty |= i2;
             }
         }
         if ($dirty & 19 == 18) {
@@ -89,12 +89,12 @@ public final class BackHandlerKt {
                 invalid$iv = empty2;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -41168687, str3);
-                i4 = $dirty & 14 == onBackPressedDispatcher ? 1 : 0;
+                i3 = $dirty & 14 == onBackPressedDispatcher ? 1 : 0;
                 Composer composer3 = restartGroup;
                 int i24 = 0;
                 Object rememberedValue3 = composer3.rememberedValue();
                 int i28 = 0;
-                if (i4 == 0) {
+                if (i3 == 0) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         empty2 = 0;
                         anon = new BackHandlerKt.BackHandler.1.1((BackHandlerKt.BackHandler.backCallback.1.1)invalid$iv, enabled2);
@@ -117,7 +117,7 @@ public final class BackHandlerKt {
                     this_$iv = consume;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -41153386, str3);
                     composer = restartGroup;
-                    i2 = 0;
+                    i4 = 0;
                     rememberedValue = composer.rememberedValue();
                     i = 0;
                     if (changedInstance |= changedInstance3 == 0) {
@@ -151,8 +151,8 @@ public final class BackHandlerKt {
         }
         obj18 = rememberUpdatedState;
         int i9 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("No OnBackPressedDispatcherOwner was provided via LocalOnBackPressedDispatcherOwner".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckNotNullBackHandlerKt$BackHandler$backDispatcher$1 = new IllegalStateException("No OnBackPressedDispatcherOwner was provided via LocalOnBackPressedDispatcherOwner".toString());
+        throw $i$a$CheckNotNullBackHandlerKt$BackHandler$backDispatcher$1;
     }
 
     private static final Function0<Unit> BackHandler$lambda$0(State<? extends Function0<Unit>> $currentOnBack$delegate) {

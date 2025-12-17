@@ -68,54 +68,54 @@ public final class ContextMenuUi_androidKt {
     }
 
     public static final void ContextMenuColumn(androidx.compose.foundation.contextmenu.ContextMenuColors colors, Modifier modifier, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i6) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
         boolean $dirty2;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Function0 factory$iv$iv$iv;
-        Object obj3;
         Object obj;
+        Object obj3;
         int valueOf3;
-        int i2;
+        int i;
         int valueOf2;
         Composer composer;
         Integer valueOf;
         Object obj2;
-        int i7;
-        int i11;
-        int i4;
+        int i9;
+        int i3;
+        int i2;
         androidx.compose.foundation.layout.Arrangement.Vertical top;
         androidx.compose.ui.Alignment.Horizontal start;
         androidx.compose.ui.layout.MeasurePolicy columnMeasurePolicy;
-        int i9;
+        int i5;
         long l2;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
-        int i;
+        int i4;
         Modifier modifier2;
-        int i8;
+        int i7;
         int i10;
         Function0 function0;
         long l;
-        int i3;
+        int i8;
         int $changed$iv;
-        int i5;
+        int i11;
         int obj26;
         Modifier obj28;
         final Object obj4 = content;
         valueOf3 = $changed;
-        traceInProgress = -921259293;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = -921259293;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(ContextMenuColumn)P(!1,2)154@5499L21,145@5128L427:ContextMenuUi.android.kt#3xeu6s");
         $dirty = $changed;
         if (i6 & 1 != 0) {
             $dirty |= 6;
-            obj3 = colors;
+            obj = colors;
         } else {
             if (valueOf3 & 6 == 0) {
-                i2 = restartGroup.changed(colors) ? 4 : 2;
-                $dirty |= i2;
+                i = restartGroup.changed(colors) ? 4 : 2;
+                $dirty |= i;
             } else {
-                obj3 = colors;
+                obj = colors;
             }
         }
         valueOf2 = i6 & 2;
@@ -124,8 +124,8 @@ public final class ContextMenuUi_androidKt {
             obj2 = modifier;
         } else {
             if (valueOf3 & 48 == 0) {
-                i7 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i7;
+                i9 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i9;
             } else {
                 obj2 = modifier;
             }
@@ -134,24 +134,24 @@ public final class ContextMenuUi_androidKt {
             $dirty |= 384;
         } else {
             if (valueOf3 & 384 == 0) {
-                i11 = restartGroup.changedInstance(obj4) ? 256 : 128;
-                $dirty |= i11;
+                i3 = restartGroup.changedInstance(obj4) ? 256 : 128;
+                $dirty |= i3;
             }
         }
         int i27 = $dirty;
         if (i27 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (valueOf2 != 0) {
-                    i4 = $dirty2;
+                    i2 = $dirty2;
                 } else {
-                    i4 = obj2;
+                    i2 = obj2;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i27, -1, "androidx.compose.foundation.contextmenu.ContextMenuColumn (ContextMenuUi.android.kt:144)");
+                    ComposerKt.traceEventStart(traceInProgress2, i27, -1, "androidx.compose.foundation.contextmenu.ContextMenuColumn (ContextMenuUi.android.kt:144)");
                 }
                 int i28 = 1;
                 int i12 = 0;
-                Modifier verticalScroll$default = ScrollKt.verticalScroll$default(PaddingKt.padding-VpY3zN4$default(IntrinsicKt.width(BackgroundKt.background-bw27NRU$default(ShadowKt.shadow-s4CzXII$default(i4, ContextMenuSpec.INSTANCE.getMenuContainerElevation-D9Ej5fM(), (Shape)RoundedCornerShapeKt.RoundedCornerShape-0680j_4(ContextMenuSpec.INSTANCE.getCornerRadius-D9Ej5fM()), false, 0, obj14, 0, obj16), obj3.getBackgroundColor-0d7_KjU(), obj21, 0, 2), IntrinsicSize.Max), 0, ContextMenuSpec.INSTANCE.getVerticalPadding-D9Ej5fM(), i28, 0), ScrollKt.rememberScrollState(i12, restartGroup, i12, i28), false, 0, false, 14, 0);
+                Modifier verticalScroll$default = ScrollKt.verticalScroll$default(PaddingKt.padding-VpY3zN4$default(IntrinsicKt.width(BackgroundKt.background-bw27NRU$default(ShadowKt.shadow-s4CzXII$default(i2, ContextMenuSpec.INSTANCE.getMenuContainerElevation-D9Ej5fM(), (Shape)RoundedCornerShapeKt.RoundedCornerShape-0680j_4(ContextMenuSpec.INSTANCE.getCornerRadius-D9Ej5fM()), false, 0, obj14, 0, obj16), obj.getBackgroundColor-0d7_KjU(), obj21, 0, 2), IntrinsicSize.Max), 0, ContextMenuSpec.INSTANCE.getVerticalPadding-D9Ej5fM(), i28, 0), ScrollKt.rememberScrollState(i12, restartGroup, i12, i28), false, 0, false, 14, 0);
                 i20 &= 7168;
                 obj2 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -483455358, "CC(Column)P(2,3,1)85@4251L61,86@4317L133:Column.kt#2w3rfo");
@@ -161,7 +161,7 @@ public final class ContextMenuUi_androidKt {
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, verticalScroll$default);
                 obj28 = verticalScroll$default;
                 Function0 function02 = constructor;
-                i = 0;
+                i4 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -180,7 +180,7 @@ public final class ContextMenuUi_androidKt {
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 i10 = 0;
                 l = constructor-impl;
-                i3 = 0;
+                i8 = 0;
                 if (!l.getInserting()) {
                     $changed$iv = valueOf;
                     if (!Intrinsics.areEqual(l.rememberedValue(), Integer.valueOf(obj26))) {
@@ -207,24 +207,24 @@ public final class ContextMenuUi_androidKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = i4;
+                obj3 = i2;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj = obj2;
+                obj3 = obj2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ContextMenuUi_androidKt.ContextMenuColumn.1(colors, obj, obj4, $changed, i6);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ContextMenuUi_androidKt.ContextMenuColumn.1(colors, obj3, obj4, $changed, i6);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void ContextMenuItem(String label, boolean enabled, androidx.compose.foundation.contextmenu.ContextMenuColors colors, Modifier modifier, Function3<? super Color, ? super Composer, ? super Integer, Unit> leadingIcon, Function0<Unit> onClick, Composer $composer, int $changed, int i9) {
-        int i25;
-        int i34;
-        boolean traceInProgress2;
+        int i22;
+        int i24;
+        boolean traceInProgress;
         Object materialized$iv$iv;
         long disabledTextColor-0d7_KjU;
         boolean currentCompositionLocalMap;
@@ -232,177 +232,177 @@ public final class ContextMenuUi_androidKt {
         Modifier weight;
         int $dirty;
         int skipping;
-        Object modifier2;
-        Object valueOf2;
-        Function0 factory$iv$iv$iv2;
-        int i27;
-        int i26;
-        int i23;
+        Object modifier4;
+        Object valueOf;
+        Function0 factory$iv$iv$iv;
         int i4;
-        boolean traceInProgress;
+        int i27;
+        int i25;
+        int i34;
+        boolean traceInProgress2;
         int empty;
-        boolean valueOf;
+        boolean valueOf2;
+        int $i$a$LayoutBoxKt$Box$1$iv;
+        Composer composer2;
+        Object maybeCachedBoxMeasurePolicy;
         int i7;
         Composer composer4;
-        Object maybeCachedBoxMeasurePolicy;
-        int i14;
-        Composer composer6;
         Object rowMeasurePolicy;
-        Object obj5;
+        Object obj2;
         Object str;
         Object anon;
         int materializeModifier;
         Object obj;
-        int i16;
-        int i6;
-        Object obj2;
-        int i35;
-        Object i;
-        Object factory$iv$iv$iv;
-        Object obj4;
+        int i31;
+        int i18;
+        Object obj5;
+        int i12;
+        Object i16;
+        Object factory$iv$iv$iv2;
+        Object obj3;
         Object $composer2;
-        int i38;
-        int i28;
-        int localMap$iv$iv;
+        int i23;
+        int i2;
+        int localMap$iv$iv2;
         String currentCompositeKeyHash2;
-        int i8;
+        int i17;
         Function0 constructor;
         int i11;
-        int i21;
-        int i19;
+        int i14;
+        int i10;
         Composer.Companion companion;
-        int i37;
+        int i3;
         Composer composer3;
-        int i20;
-        int i22;
-        Composer composer2;
+        int i21;
+        int i15;
+        Composer composer5;
         boolean inserting;
-        int i2;
+        int i8;
         int i32;
         int currentCompositeKeyHash;
-        int i13;
-        int i24;
-        Object obj3;
-        int i31;
+        int i38;
+        int i6;
+        Object obj4;
+        int i;
         int $i$f$Row;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        int i15;
-        int i39;
-        int i12;
-        Modifier modifier4;
-        Composer composer;
-        int i29;
-        int i18;
-        int i33;
-        Alignment alignment;
-        int i17;
-        Modifier modifier3;
-        int i30;
-        int i5;
+        int i26;
+        int i28;
         int i36;
-        int i10;
+        Modifier modifier2;
+        Composer composer6;
+        int i13;
+        int i33;
+        int i5;
+        Alignment alignment;
+        int i35;
+        Modifier modifier3;
+        int i19;
+        int i20;
+        int i29;
+        int i30;
         Function0 function0;
         BoxScopeInstance boxScopeInstance;
-        Composer composer5;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
+        Composer composer;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
-        int i3;
+        int i37;
         int obj56;
         weight = enabled;
-        obj2 = onClick;
-        i35 = $changed;
-        traceInProgress2 = 791018367;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        obj5 = onClick;
+        i12 = $changed;
+        traceInProgress = 791018367;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(ContextMenuItem)P(2,1!1,4)189@6696L221,182@6391L1588:ContextMenuUi.android.kt#3xeu6s");
         $dirty = $changed;
         if (i9 & 1 != 0) {
             $dirty |= 6;
-            factory$iv$iv$iv = label;
+            factory$iv$iv$iv2 = label;
         } else {
-            if (i35 & 6 == 0) {
-                i27 = restartGroup.changed(label) ? 4 : 2;
-                $dirty |= i27;
+            if (i12 & 6 == 0) {
+                i4 = restartGroup.changed(label) ? 4 : 2;
+                $dirty |= i4;
             } else {
-                factory$iv$iv$iv = label;
+                factory$iv$iv$iv2 = label;
             }
         }
-        int i63 = 32;
+        int i61 = 32;
         if (i9 & 2 != 0) {
             $dirty |= 48;
         } else {
-            if (i35 & 48 == 0) {
-                i26 = restartGroup.changed(weight) ? i63 : 16;
-                $dirty |= i26;
+            if (i12 & 48 == 0) {
+                i27 = restartGroup.changed(weight) ? i61 : 16;
+                $dirty |= i27;
             }
         }
         if (i9 & 4 != 0) {
             $dirty |= 384;
-            obj4 = colors;
+            obj3 = colors;
         } else {
-            if (i35 & 384 == 0) {
-                i23 = restartGroup.changed(colors) ? 256 : 128;
-                $dirty |= i23;
+            if (i12 & 384 == 0) {
+                i25 = restartGroup.changed(colors) ? 256 : 128;
+                $dirty |= i25;
             } else {
-                obj4 = colors;
+                obj3 = colors;
             }
         }
-        i4 = i9 & 8;
-        if (i4 != 0) {
+        i34 = i9 & 8;
+        if (i34 != 0) {
             $dirty |= 3072;
             str = modifier;
         } else {
-            if (i35 & 3072 == 0) {
-                i16 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty |= i16;
+            if (i12 & 3072 == 0) {
+                i31 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty |= i31;
             } else {
                 str = modifier;
             }
         }
-        i6 = i9 & 16;
-        if (i6 != 0) {
+        i18 = i9 & 16;
+        if (i18 != 0) {
             $dirty |= 24576;
             $composer2 = leadingIcon;
         } else {
-            if (i35 & 24576 == 0) {
-                i38 = restartGroup.changedInstance(leadingIcon) ? 16384 : 8192;
-                $dirty |= i38;
+            if (i12 & 24576 == 0) {
+                i23 = restartGroup.changedInstance(leadingIcon) ? 16384 : 8192;
+                $dirty |= i23;
             } else {
                 $composer2 = leadingIcon;
             }
         }
-        i8 = 131072;
+        i17 = 131072;
         i11 = 196608;
         if (i9 & 32 != 0) {
             $dirty |= i11;
         } else {
-            if (i35 & i11 == 0) {
-                i28 = restartGroup.changedInstance(obj2) ? i8 : 65536;
-                $dirty |= i28;
+            if (i12 & i11 == 0) {
+                i2 = restartGroup.changedInstance(obj5) ? i17 : 65536;
+                $dirty |= i2;
             }
         }
-        localMap$iv$iv = $dirty;
-        if ($dirty2 &= localMap$iv$iv == 74898) {
+        localMap$iv$iv2 = $dirty;
+        if ($dirty2 &= localMap$iv$iv2 == 74898) {
             if (!restartGroup.getSkipping()) {
-                if (i4 != 0) {
-                    modifier2 = Modifier.Companion;
+                if (i34 != 0) {
+                    modifier4 = Modifier.Companion;
                 } else {
-                    modifier2 = str;
+                    modifier4 = str;
                 }
-                i = i6 != 0 ? i4 : $composer2;
+                i16 = i18 != 0 ? i34 : $composer2;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, localMap$iv$iv, -1, "androidx.compose.foundation.contextmenu.ContextMenuItem (ContextMenuUi.android.kt:181)");
+                    ComposerKt.traceEventStart(traceInProgress, localMap$iv$iv2, -1, "androidx.compose.foundation.contextmenu.ContextMenuItem (ContextMenuUi.android.kt:181)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1814201532, "CC(remember):ContextMenuUi.android.kt#9igjgp");
-                i25 = localMap$iv$iv & 112 == i63 ? 1 : 0;
-                i14 = i64 &= localMap$iv$iv == i8 ? 1 : 0;
+                i22 = localMap$iv$iv2 & 112 == i61 ? 1 : 0;
+                i7 = i62 &= localMap$iv$iv2 == i17 ? 1 : 0;
                 Composer composer8 = restartGroup;
-                int i75 = 0;
+                int i73 = 0;
                 Object rememberedValue3 = composer8.rememberedValue();
-                int i94 = 0;
-                if (i25 |= i14 == 0) {
+                int i92 = 0;
+                if (i22 |= i7 == 0) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        anon = new ContextMenuUi_androidKt.ContextMenuItem.1.1(weight, obj2);
+                        anon = new ContextMenuUi_androidKt.ContextMenuItem.1.1(weight, obj5);
                         composer8.updateRememberedValue((Function0)anon);
                     } else {
                         anon = rememberedValue3;
@@ -410,23 +410,23 @@ public final class ContextMenuUi_androidKt {
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                Object obj6 = modifier2;
-                int i46 = 0;
-                int i53 = 0;
-                int i54 = 432;
-                valueOf = 0;
+                Object obj6 = modifier4;
+                int i45 = 0;
+                int i51 = 0;
+                int i52 = 432;
+                valueOf2 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
-                rowMeasurePolicy = RowKt.rowMeasurePolicy((Arrangement.Horizontal)Arrangement.INSTANCE.spacedBy-0680j_4(ContextMenuSpec.INSTANCE.getHorizontalPadding-D9Ej5fM()), ContextMenuSpec.INSTANCE.getLabelVerticalTextAlignment(), restartGroup, i72 |= i78);
-                i74 &= 112;
-                i6 = 0;
+                rowMeasurePolicy = RowKt.rowMeasurePolicy((Arrangement.Horizontal)Arrangement.INSTANCE.spacedBy-0680j_4(ContextMenuSpec.INSTANCE.getHorizontalPadding-D9Ej5fM()), ContextMenuSpec.INSTANCE.getLabelVerticalTextAlignment(), restartGroup, i70 |= i76);
+                i72 &= 112;
+                i18 = 0;
                 currentCompositeKeyHash2 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, currentCompositeKeyHash2);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                obj56 = localMap$iv$iv;
+                obj56 = localMap$iv$iv2;
                 androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2 = restartGroup.getCurrentCompositionLocalMap();
-                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(restartGroup, PaddingKt.padding-VpY3zN4$default(SizeKt.sizeIn-qDBjuR0(SizeKt.fillMaxWidth$default(ClickableKt.clickable-XHw0xAI$default(obj6, weight, factory$iv$iv$iv, 0, (Function0)anon, 4, 0), i46, 1, i53), ContextMenuSpec.INSTANCE.getContainerWidthMin-D9Ej5fM(), ContextMenuSpec.INSTANCE.getListItemHeight-D9Ej5fM(), ContextMenuSpec.INSTANCE.getContainerWidthMax-D9Ej5fM(), ContextMenuSpec.INSTANCE.getListItemHeight-D9Ej5fM()), ContextMenuSpec.INSTANCE.getHorizontalPadding-D9Ej5fM(), i46, 2, i53));
+                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(restartGroup, PaddingKt.padding-VpY3zN4$default(SizeKt.sizeIn-qDBjuR0(SizeKt.fillMaxWidth$default(ClickableKt.clickable-XHw0xAI$default(obj6, weight, factory$iv$iv$iv2, 0, (Function0)anon, 4, 0), i45, 1, i51), ContextMenuSpec.INSTANCE.getContainerWidthMin-D9Ej5fM(), ContextMenuSpec.INSTANCE.getListItemHeight-D9Ej5fM(), ContextMenuSpec.INSTANCE.getContainerWidthMax-D9Ej5fM(), ContextMenuSpec.INSTANCE.getListItemHeight-D9Ej5fM()), ContextMenuSpec.INSTANCE.getHorizontalPadding-D9Ej5fM(), i45, 2, i51));
                 Function0 function03 = constructor;
-                i24 = 0;
+                i6 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -438,66 +438,66 @@ public final class ContextMenuUi_androidKt {
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                int i89 = 0;
+                int i87 = 0;
                 Updater.set-impl(constructor-impl, rowMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i37 = 0;
+                i3 = 0;
                 composer3 = constructor-impl;
-                i22 = 0;
+                i15 = 0;
                 if (!composer3.getInserting()) {
-                    $i$f$Row = valueOf;
+                    $i$f$Row = valueOf2;
                     measurePolicy = rowMeasurePolicy;
                     if (!Intrinsics.areEqual(composer3.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer3.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer6 = composer3;
+                        composer4 = composer3;
                     }
                 } else {
-                    $i$f$Row = valueOf;
+                    $i$f$Row = valueOf2;
                     measurePolicy = rowMeasurePolicy;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
-                valueOf2 = restartGroup;
-                i7 = 0;
-                ComposerKt.sourceInformationMarkerStart(valueOf2, -407918630, "C100@5047L9:Row.kt#2w3rfo");
-                i15 = i91 | 6;
-                Composer composer9 = valueOf2;
-                i39 = 0;
-                i12 = i44;
-                modifier4 = materializeModifier2;
+                valueOf = restartGroup;
+                $i$a$LayoutBoxKt$Box$1$iv = 0;
+                ComposerKt.sourceInformationMarkerStart(valueOf, -407918630, "C100@5047L9:Row.kt#2w3rfo");
+                i26 = i89 | 6;
+                Composer composer9 = valueOf;
+                i28 = 0;
+                i36 = i43;
+                modifier2 = materializeModifier2;
                 ComposerKt.sourceInformationMarkerStart(composer9, 554565222, "C212@7698L275:ContextMenuUi.android.kt#3xeu6s");
-                if (i == null) {
+                if (i16 == null) {
                     composer9.startReplaceGroup(554568909);
                     composer9.endReplaceGroup();
-                    composer = valueOf2;
-                    i29 = i7;
-                    i17 = materializeModifier;
-                    i36 = i6;
+                    composer6 = valueOf;
+                    i13 = $i$a$LayoutBoxKt$Box$1$iv;
+                    i35 = materializeModifier;
+                    i29 = i18;
                 } else {
                     composer9.startReplaceGroup(554568910);
                     ComposerKt.sourceInformation(composer9, "*204@7349L330");
-                    i37 = i21;
-                    i22 = 0;
-                    inserting = i47;
-                    composer = valueOf2;
+                    i3 = i14;
+                    i15 = 0;
+                    inserting = i46;
+                    composer6 = valueOf;
                     ComposerKt.sourceInformationMarkerStart(composer9, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                     Alignment topStart = Alignment.Companion.getTopStart();
-                    int i57 = 0;
-                    i29 = i7;
-                    maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i57);
-                    i18 = 0;
+                    int i55 = 0;
+                    i13 = $i$a$LayoutBoxKt$Box$1$iv;
+                    maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i55);
+                    i33 = 0;
                     alignment = topStart;
                     ComposerKt.sourceInformationMarkerStart(composer9, -1323940314, currentCompositeKeyHash2);
                     currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(composer9, 0);
                     currentCompositionLocalMap = composer9.getCurrentCompositionLocalMap();
-                    constructor = i57;
-                    i17 = materializeModifier;
+                    constructor = i55;
+                    i35 = materializeModifier;
                     Modifier propagateMinConstraints$iv = modifier7;
                     modifier3 = propagateMinConstraints$iv;
                     Function0 function04 = constructor2;
                     composer3 = 0;
-                    i36 = i6;
+                    i29 = i18;
                     ComposerKt.sourceInformationMarkerStart(composer9, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                     if (!applier2 instanceof Applier) {
                         ComposablesKt.invalidApplier();
@@ -506,48 +506,48 @@ public final class ContextMenuUi_androidKt {
                     if (composer9.getInserting()) {
                         composer9.createNode(function04);
                     } else {
-                        factory$iv$iv$iv2 = function04;
+                        factory$iv$iv$iv = function04;
                         composer9.useNode();
                     }
                     Composer constructor-impl2 = Updater.constructor-impl(composer9);
-                    int i99 = 0;
-                    function0 = factory$iv$iv$iv2;
+                    int i97 = 0;
+                    function0 = factory$iv$iv$iv;
                     Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                     Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                    int i100 = 0;
+                    int i98 = 0;
                     Composer composer10 = constructor-impl2;
-                    int i101 = 0;
+                    int i99 = 0;
                     if (!composer10.getInserting()) {
-                        localMap$iv$iv2 = currentCompositionLocalMap;
+                        localMap$iv$iv = currentCompositionLocalMap;
                         measurePolicy2 = maybeCachedBoxMeasurePolicy;
                         if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
                             composer10.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
                             constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer4 = composer10;
+                            composer2 = composer10;
                         }
                     } else {
-                        localMap$iv$iv2 = currentCompositionLocalMap;
+                        localMap$iv$iv = currentCompositionLocalMap;
                         measurePolicy2 = maybeCachedBoxMeasurePolicy;
                     }
                     Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier(composer9, propagateMinConstraints$iv), ComposeUiNode.Companion.getSetModifier());
                     Composer composer7 = composer9;
-                    i30 = i51;
+                    i19 = i49;
                     ComposerKt.sourceInformationMarkerStart(composer7, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                    i81 |= 6;
-                    i10 = 0;
+                    i79 |= 6;
+                    i30 = 0;
                     boxScopeInstance = iNSTANCE4;
                     String $composer$iv2 = "C210@7612L65:ContextMenuUi.android.kt#3xeu6s";
-                    i3 = i62;
-                    i7 = i21;
-                    ComposerKt.sourceInformationMarkerStart(i7, -1218311042, $composer$iv2);
+                    i37 = i60;
+                    $i$a$LayoutBoxKt$Box$1$iv = i14;
+                    ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -1218311042, $composer$iv2);
                     if (enabled) {
-                        disabledIconColor-0d7_KjU = obj4.getIconColor-0d7_KjU();
+                        disabledIconColor-0d7_KjU = obj3.getIconColor-0d7_KjU();
                     } else {
-                        disabledIconColor-0d7_KjU = obj4.getDisabledIconColor-0d7_KjU();
+                        disabledIconColor-0d7_KjU = obj3.getDisabledIconColor-0d7_KjU();
                     }
-                    i.invoke(Color.box-impl(disabledIconColor-0d7_KjU), i7, 0);
-                    ComposerKt.sourceInformationMarkerEnd(i7);
+                    i16.invoke(Color.box-impl(disabledIconColor-0d7_KjU), $i$a$LayoutBoxKt$Box$1$iv, 0);
+                    ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
                     ComposerKt.sourceInformationMarkerEnd(composer7);
                     composer9.endNode();
                     ComposerKt.sourceInformationMarkerEnd(composer9);
@@ -556,17 +556,17 @@ public final class ContextMenuUi_androidKt {
                     composer9.endReplaceGroup();
                 }
                 if (enabled) {
-                    disabledTextColor-0d7_KjU = obj4.getTextColor-0d7_KjU();
+                    disabledTextColor-0d7_KjU = obj3.getTextColor-0d7_KjU();
                 } else {
-                    disabledTextColor-0d7_KjU = obj4.getDisabledTextColor-0d7_KjU();
+                    disabledTextColor-0d7_KjU = obj3.getDisabledTextColor-0d7_KjU();
                 }
                 skipping = currentCompositionLocalMap2;
-                i33 = obj56;
-                composer2 = composer9;
+                i5 = obj56;
+                composer5 = composer9;
                 Function0 function02 = function03;
-                BasicTextKt.BasicText-VhcvRP8(label, (RowScope)RowScopeInstance.INSTANCE.weight((Modifier)Modifier.Companion, 1065353216, true), ContextMenuSpec.INSTANCE.textStyle-8_81llA(disabledTextColor-0d7_KjU), 0, 0, false, 1, 0, 0, composer2, i56 | i4, 440);
-                ComposerKt.sourceInformationMarkerEnd(composer2);
-                ComposerKt.sourceInformationMarkerEnd(composer);
+                BasicTextKt.BasicText-VhcvRP8(label, (RowScope)RowScopeInstance.INSTANCE.weight((Modifier)Modifier.Companion, 1065353216, true), ContextMenuSpec.INSTANCE.textStyle-8_81llA(disabledTextColor-0d7_KjU), 0, 0, false, 1, 0, 0, composer5, i54 | i34, 440);
+                ComposerKt.sourceInformationMarkerEnd(composer5);
+                ComposerKt.sourceInformationMarkerEnd(composer6);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -574,54 +574,54 @@ public final class ContextMenuUi_androidKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = i;
-                obj5 = obj3;
+                obj = i16;
+                obj2 = obj4;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj5 = str;
+                obj2 = str;
                 obj = $composer2;
-                i33 = localMap$iv$iv;
+                i5 = localMap$iv$iv2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ContextMenuUi_androidKt.ContextMenuItem.3(label, enabled, colors, obj5, obj, obj2, i35, i9);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ContextMenuUi_androidKt.ContextMenuItem.3(label, enabled, colors, obj2, obj, obj5, i12, i9);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void ContextMenuPopup(PopupPositionProvider popupPositionProvider, Function0<Unit> onDismiss, Modifier modifier, androidx.compose.foundation.contextmenu.ContextMenuColors colors, Function1<? super androidx.compose.foundation.contextmenu.ContextMenuScope, Unit> contextMenuBuilderBlock, Composer $composer, int $changed, int i8) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
         boolean $dirty2;
-        int i10;
-        int i4;
-        int i9;
-        boolean traceInProgress;
-        Object str;
-        int i2;
         int i;
+        int i9;
+        int i4;
+        boolean traceInProgress2;
+        Object str;
         int i5;
+        int i6;
         int i3;
+        int i2;
         Object obj;
         PopupProperties defaultPopupProperties;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i6;
         int i7;
+        int i10;
         final Object obj3 = colors;
         final Object obj4 = contextMenuBuilderBlock;
         final int i16 = $changed;
-        traceInProgress2 = 1447189339;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 1447189339;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(ContextMenuPopup)P(4,3,2)126@4681L257,122@4530L408:ContextMenuUi.android.kt#3xeu6s");
         $dirty = $changed;
         if (i8 & 1 != 0) {
             $dirty |= 6;
         } else {
             if (i16 & 6 == 0) {
-                i10 = restartGroup.changed(popupPositionProvider) ? 4 : 2;
-                $dirty |= i10;
+                i = restartGroup.changed(popupPositionProvider) ? 4 : 2;
+                $dirty |= i;
             }
         }
         if (i8 & 2 != 0) {
@@ -629,20 +629,20 @@ public final class ContextMenuUi_androidKt {
             obj = onDismiss;
         } else {
             if (i16 & 48 == 0) {
-                i4 = restartGroup.changedInstance(onDismiss) ? 32 : 16;
-                $dirty |= i4;
+                i9 = restartGroup.changedInstance(onDismiss) ? 32 : 16;
+                $dirty |= i9;
             } else {
                 obj = onDismiss;
             }
         }
-        i9 = i8 & 4;
-        if (i9 != 0) {
+        i4 = i8 & 4;
+        if (i4 != 0) {
             $dirty |= 384;
             str = modifier;
         } else {
             if (i16 & 384 == 0) {
-                i2 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i2;
+                i5 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i5;
             } else {
                 str = modifier;
             }
@@ -651,31 +651,31 @@ public final class ContextMenuUi_androidKt {
             $dirty |= 3072;
         } else {
             if (i16 & 3072 == 0) {
-                i = restartGroup.changed(obj3) ? 2048 : 1024;
-                $dirty |= i;
+                i6 = restartGroup.changed(obj3) ? 2048 : 1024;
+                $dirty |= i6;
             }
         }
         if (i8 & 16 != 0) {
             $dirty |= 24576;
         } else {
             if (i16 & 24576 == 0) {
-                i5 = restartGroup.changedInstance(obj4) ? 16384 : 8192;
-                $dirty |= i5;
+                i3 = restartGroup.changedInstance(obj4) ? 16384 : 8192;
+                $dirty |= i3;
             }
         }
         final int i18 = $dirty;
         if (i18 & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
-                if (i9 != 0) {
+                if (i4 != 0) {
                     $dirty2 = Modifier.Companion;
                 } else {
                     $dirty2 = str;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, i18, -1, "androidx.compose.foundation.contextmenu.ContextMenuPopup (ContextMenuUi.android.kt:121)");
+                    ComposerKt.traceEventStart(traceInProgress, i18, -1, "androidx.compose.foundation.contextmenu.ContextMenuPopup (ContextMenuUi.android.kt:121)");
                 }
                 ContextMenuUi_androidKt.ContextMenuPopup.2 anon = new ContextMenuUi_androidKt.ContextMenuPopup.2(obj3, $dirty2, obj4);
-                AndroidPopup_androidKt.Popup(popupPositionProvider, obj, ContextMenuUi_androidKt.DefaultPopupProperties, (Function2)ComposableLambdaKt.rememberComposableLambda(795909757, true, anon, restartGroup, 54), restartGroup, i12 | i9, 0);
+                AndroidPopup_androidKt.Popup(popupPositionProvider, obj, ContextMenuUi_androidKt.DefaultPopupProperties, (Function2)ComposableLambdaKt.rememberComposableLambda(795909757, true, anon, restartGroup, 54), restartGroup, i12 | i4, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -687,105 +687,105 @@ public final class ContextMenuUi_androidKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ContextMenuUi_androidKt.ContextMenuPopup.3(popupPositionProvider, onDismiss, str, obj3, obj4, i16, i8);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ContextMenuUi_androidKt.ContextMenuPopup.3(popupPositionProvider, onDismiss, str, obj3, obj4, i16, i8);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void ContextMenuPopup(PopupPositionProvider popupPositionProvider, Function0<Unit> onDismiss, Modifier modifier, Function1<? super androidx.compose.foundation.contextmenu.ContextMenuScope, Unit> contextMenuBuilderBlock, Composer $composer, int $changed, int i7) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
         boolean $dirty2;
-        boolean traceInProgress;
-        int i8;
+        boolean traceInProgress2;
+        int i4;
+        Object obj4;
+        int i3;
+        Object obj;
+        int str;
         Object obj3;
         int i5;
-        Object obj6;
-        int str;
-        Object obj;
-        int i3;
-        int i4;
-        int i6;
-        Object obj4;
-        Object obj2;
-        androidx.compose.foundation.contextmenu.ContextMenuColors contextMenuColors;
-        Object obj5;
-        int i2;
         int i;
+        int i6;
+        Object obj5;
+        Object obj6;
+        androidx.compose.foundation.contextmenu.ContextMenuColors contextMenuColors;
+        Object obj2;
+        int i2;
+        int i8;
         final int i21 = $changed;
-        traceInProgress2 = 712057293;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 712057293;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(ContextMenuPopup)P(3,2,1)108@4164L26,104@4014L241:ContextMenuUi.android.kt#3xeu6s");
         $dirty = $changed;
         if (i7 & 1 != 0) {
             $dirty |= 6;
         } else {
             if (i21 & 6 == 0) {
-                i8 = restartGroup.changed(popupPositionProvider) ? 4 : 2;
-                $dirty |= i8;
+                i4 = restartGroup.changed(popupPositionProvider) ? 4 : 2;
+                $dirty |= i4;
             }
         }
         if (i7 & 2 != 0) {
             $dirty |= 48;
-            obj3 = onDismiss;
+            obj4 = onDismiss;
         } else {
             if (i21 & 48 == 0) {
-                i5 = restartGroup.changedInstance(onDismiss) ? 32 : 16;
-                $dirty |= i5;
+                i3 = restartGroup.changedInstance(onDismiss) ? 32 : 16;
+                $dirty |= i3;
             } else {
-                obj3 = onDismiss;
+                obj4 = onDismiss;
             }
         }
         str = i7 & 4;
         if (str != null) {
             $dirty |= 384;
-            obj = modifier;
+            obj3 = modifier;
         } else {
             if (i21 & 384 == 0) {
-                i3 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i3;
+                i5 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i5;
             } else {
-                obj = modifier;
+                obj3 = modifier;
             }
         }
         if (i7 & 8 != 0) {
             $dirty |= 3072;
-            obj5 = contextMenuBuilderBlock;
+            obj2 = contextMenuBuilderBlock;
         } else {
             if (i21 & 3072 == 0) {
-                i4 = restartGroup.changedInstance(contextMenuBuilderBlock) ? 2048 : 1024;
-                $dirty |= i4;
+                i = restartGroup.changedInstance(contextMenuBuilderBlock) ? 2048 : 1024;
+                $dirty |= i;
             } else {
-                obj5 = contextMenuBuilderBlock;
+                obj2 = contextMenuBuilderBlock;
             }
         }
         final int i22 = $dirty;
         if (i22 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 if (str != null) {
-                    obj2 = $dirty2;
+                    obj6 = $dirty2;
                 } else {
-                    obj2 = obj;
+                    obj6 = obj3;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, i22, -1, "androidx.compose.foundation.contextmenu.ContextMenuPopup (ContextMenuUi.android.kt:103)");
+                    ComposerKt.traceEventStart(traceInProgress, i22, -1, "androidx.compose.foundation.contextmenu.ContextMenuPopup (ContextMenuUi.android.kt:103)");
                 }
                 int i9 = 0;
-                ContextMenuUi_androidKt.ContextMenuPopup(popupPositionProvider, obj3, obj2, ContextMenuUi_androidKt.computeContextMenuColors(i9, i9, restartGroup, i9, 3), obj5, restartGroup, i12 | $dirty2, 0);
+                ContextMenuUi_androidKt.ContextMenuPopup(popupPositionProvider, obj4, obj6, ContextMenuUi_androidKt.computeContextMenuColors(i9, i9, restartGroup, i9, 3), obj2, restartGroup, i12 | $dirty2, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj6 = obj2;
+                obj = obj6;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj6 = obj;
+                obj = obj3;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ContextMenuUi_androidKt.ContextMenuPopup.1(popupPositionProvider, onDismiss, obj6, contextMenuBuilderBlock, i21, i7);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ContextMenuUi_androidKt.ContextMenuPopup.1(popupPositionProvider, onDismiss, obj, contextMenuBuilderBlock, i21, i7);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
@@ -802,9 +802,9 @@ public final class ContextMenuUi_androidKt {
         Object contextMenuColors;
         long resolveColor-g2O1Hgs;
         long enabledColor-4WTKRHQ;
-        long l;
-        long disabledColor-4WTKRHQ;
         long l2;
+        long disabledColor-4WTKRHQ;
+        long l;
         int i;
         final Composer composer = $composer;
         int i4 = 1689505294;

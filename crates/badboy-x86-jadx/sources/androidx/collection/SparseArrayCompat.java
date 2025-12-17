@@ -198,14 +198,14 @@ public class SparseArrayCompat<E>  implements java.lang.Cloneable {
 
     public void put(int key, E value) {
         int i$iv;
-        Object[] values2;
-        int size;
+        Object[] values;
+        int size2;
         boolean binarySearch;
         int idealIntArraySize;
-        int values;
+        int values2;
         Object copyOf;
         String str;
-        int size2;
+        int size;
         final Object obj = this;
         final int i = 0;
         i$iv = ContainerHelpersKt.binarySearch(obj.keys, obj.size, key);
@@ -471,10 +471,10 @@ public class SparseArrayCompat<E>  implements java.lang.Cloneable {
         String buffer$iv;
         String string;
         int i$iv;
-        String str;
+        String str2;
         int keyAt;
         Object valueAt;
-        String str2;
+        String str;
         final Object obj = this;
         final int i = 0;
         if (obj.size() <= 0) {

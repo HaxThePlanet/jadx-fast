@@ -83,18 +83,18 @@ public final class MapEntrySerializer<K, V>  extends kotlinx.serialization.inter
 
         @Override // java.util.Map$Entry
         public int hashCode() {
-            int i;
             int i2;
+            int i;
             if (this.key == null) {
-                i = i2;
+                i2 = i;
             } else {
-                i = this.key.hashCode();
+                i2 = this.key.hashCode();
             }
             if (this.value == null) {
             } else {
-                i2 = this.value.hashCode();
+                i = this.value.hashCode();
             }
-            return i3 += i2;
+            return i3 += i;
         }
 
         public V setValue(V v) {

@@ -88,26 +88,26 @@ final class AndroidFlingSpline {
     static {
         int xMin;
         int yMin;
-        int i8;
+        int i4;
         int xMax;
         float[] splineTimes;
-        int i4;
-        int i6;
+        int i;
+        int i9;
         int x;
         int tx;
         int coef;
         int cmp;
-        int i5;
-        int i10;
-        int yMax;
-        int i7;
-        int i;
-        int y;
+        int i8;
         int i2;
+        int yMax;
+        int i3;
+        int i6;
+        int y;
+        int i5;
         long l;
         int dy;
-        int i9;
-        int i3;
+        int i10;
+        int i7;
         AndroidFlingSpline androidFlingSpline = new AndroidFlingSpline();
         AndroidFlingSpline.INSTANCE = androidFlingSpline;
         int i11 = 101;
@@ -115,10 +115,10 @@ final class AndroidFlingSpline {
         AndroidFlingSpline.SplineTimes = new float[i11];
         xMin = 0;
         yMin = 0;
-        i8 = 0;
+        i4 = 0;
         int i13 = 100;
-        i4 = 1065353216;
-        while (i8 < i13) {
+        i = 1065353216;
+        while (i4 < i13) {
             f4 /= f;
             xMax = 1065353216;
             x = 0;
@@ -126,65 +126,65 @@ final class AndroidFlingSpline {
             coef = 0;
             x = xMin + i15;
             coef = i21 * i27;
-            i7 = 1043542835;
-            i = 1051931444;
+            i3 = 1043542835;
+            i6 = 1051931444;
             tx = i25 + i30;
             l = 4532020583610935537L;
             while (Double.compare(y, l) >= 0) {
-                if (Float.compare(tx, i6) > 0) {
+                if (Float.compare(tx, i9) > 0) {
                 } else {
                 }
                 xMin = x;
                 x = xMin + i15;
                 coef = i21 * i27;
-                i7 = 1043542835;
-                i = 1051931444;
+                i3 = 1043542835;
+                i6 = 1051931444;
                 tx = i25 + i30;
                 l = 4532020583610935537L;
                 xMax = x;
             }
-            i2 = 1056964608;
-            AndroidFlingSpline.SplinePositions[i8] = i34 += i37;
+            i5 = 1056964608;
+            AndroidFlingSpline.SplinePositions[i4] = i34 += i37;
             yMax = 1065353216;
             y = 0;
             dy = 0;
             y = yMin + i39;
             coef = i40 * i46;
             dy = i44 + i48;
-            i3 = i4;
+            i7 = i;
             while (Double.compare(d, l) >= 0) {
-                if (Float.compare(dy, i6) > 0) {
+                if (Float.compare(dy, i9) > 0) {
                 } else {
                 }
                 yMin = y;
-                i4 = i3;
-                i5 = 1077936128;
-                i10 = 1073741824;
+                i = i7;
+                i8 = 1077936128;
+                i2 = 1073741824;
                 y = yMin + i39;
                 coef = i40 * i46;
                 dy = i44 + i48;
-                i3 = i4;
+                i7 = i;
                 yMax = y;
             }
-            AndroidFlingSpline.SplineTimes[i8] = i19 += i10;
-            i8++;
+            AndroidFlingSpline.SplineTimes[i4] = i19 += i2;
+            i4++;
             i13 = 100;
-            i4 = 1065353216;
-            if (Float.compare(dy, i6) > 0) {
+            i = 1065353216;
+            if (Float.compare(dy, i9) > 0) {
             } else {
             }
             yMin = y;
-            i4 = i3;
-            i5 = 1077936128;
-            i10 = 1073741824;
+            i = i7;
+            i8 = 1077936128;
+            i2 = 1073741824;
             yMax = y;
-            if (Float.compare(tx, i6) > 0) {
+            if (Float.compare(tx, i9) > 0) {
             } else {
             }
             xMin = x;
             xMax = x;
         }
-        AndroidFlingSpline.SplineTimes[i13] = i4;
+        AndroidFlingSpline.SplineTimes[i13] = i;
         AndroidFlingSpline.SplinePositions[i13] = AndroidFlingSpline.SplineTimes[i13];
     }
 
@@ -194,20 +194,20 @@ final class AndroidFlingSpline {
     }
 
     public final long flingPosition-LfoxSSI(float time) {
-        int i;
+        int i3;
         float f;
         int distanceCoef;
         int velocityCoef;
-        int i3;
+        int i;
         float f2;
         int i4;
         int i2;
-        i = 100;
-        f = (float)i;
+        i3 = 100;
+        f = (float)i3;
         int i7 = (int)i6;
         distanceCoef = 1065353216;
         velocityCoef = 0;
-        if (i7 < i) {
+        if (i7 < i3) {
             f3 /= f;
             f = AndroidFlingSpline.SplinePositions[i7];
             distanceCoef = f + i4;

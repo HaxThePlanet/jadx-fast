@@ -105,12 +105,12 @@ public final class GraphicsLayerV29 implements androidx.compose.ui.graphics.laye
     }
 
     private final void applyClip() {
-        boolean outlineIsProvided2;
+        boolean outlineIsProvided;
         int i2;
         int i;
         boolean clipToBounds;
         boolean clipToOutline;
-        boolean outlineIsProvided;
+        boolean outlineIsProvided2;
         int i3 = 0;
         if (getClip() && !this.outlineIsProvided) {
             i2 = !this.outlineIsProvided ? i : i3;

@@ -52,8 +52,8 @@ public final class ListUtilsKt {
 
     public static final <T> boolean fastAny(List<? extends T> $this$fastAny, Function1<? super T, Boolean> predicate) {
         int index$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         int i;
         boolean booleanValue;
         final int i2 = 0;
@@ -93,8 +93,8 @@ public final class ListUtilsKt {
 
     public static final <T> List<T> fastFilter(List<? extends T> $this$fastFilter, Function1<? super T, Boolean> predicate) {
         int index$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         int i;
         boolean booleanValue;
         final int i2 = 0;
@@ -103,20 +103,20 @@ public final class ListUtilsKt {
         final int i3 = 0;
         index$iv = 0;
         while (index$iv < obj3.size()) {
-            obj2 = obj;
+            obj = obj2;
             i = 0;
-            if ((Boolean)predicate.invoke(obj2).booleanValue()) {
+            if ((Boolean)predicate.invoke(obj).booleanValue()) {
             }
             index$iv++;
-            (Collection)arrayList.add(obj2);
+            (Collection)arrayList.add(obj);
         }
         return (List)arrayList;
     }
 
     public static final <T> List<T> fastFilterNotNull(List<? extends T> $this$fastFilterNotNull) {
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         ArrayList list;
         ArrayList arrayList = new ArrayList($this$fastFilterNotNull.size());
@@ -124,12 +124,12 @@ public final class ListUtilsKt {
         final int i2 = 0;
         index$iv = 0;
         while (index$iv < obj3.size()) {
-            obj = obj2;
+            obj2 = obj;
             i = 0;
-            if (obj != null) {
+            if (obj2 != null) {
             }
             index$iv++;
-            (Collection)arrayList.add(obj);
+            (Collection)arrayList.add(obj2);
         }
         return (List)arrayList;
     }
@@ -155,8 +155,8 @@ public final class ListUtilsKt {
 
     public static final <T> T fastFirstOrNull(List<? extends T> $this$fastFirstOrNull, Function1<? super T, Boolean> predicate) {
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         boolean booleanValue;
         final int i2 = 0;
@@ -164,7 +164,7 @@ public final class ListUtilsKt {
         final int i3 = 0;
         index$iv = 0;
         while (index$iv < obj3.size()) {
-            obj = obj2;
+            obj2 = obj;
             i = 0;
             index$iv++;
         }
@@ -194,8 +194,8 @@ public final class ListUtilsKt {
     public static final <T, R> R fastFold(List<? extends T> $this$fastFold, R initial, Function2<? super R, ? super T, ? extends R> operation) {
         Object accumulator;
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         final int i2 = 0;
         int i3 = 0;
@@ -277,34 +277,34 @@ public final class ListUtilsKt {
     }
 
     static java.lang.Appendable fastJoinTo$default(List list, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
+        String str4;
         String str3;
         String str;
-        String str4;
-        int i2;
-        String str2;
         int i;
+        String str2;
+        int i2;
         if (i9 & 2 != 0) {
-            str3 = ", ";
+            str4 = ", ";
         } else {
-            str3 = charSequence3;
+            str4 = charSequence3;
         }
         if (i9 & 4 != 0) {
-            str = str4;
+            str3 = str;
         } else {
-            str = charSequence4;
+            str3 = charSequence4;
         }
         if (i9 & 8 != 0) {
         } else {
-            str4 = charSequence5;
+            str = charSequence5;
         }
-        i2 = i9 & 16 != 0 ? -1 : i6;
+        i = i9 & 16 != 0 ? -1 : i6;
         if (i9 & 32 != 0) {
             str2 = "...";
         } else {
             str2 = charSequence7;
         }
-        i = i9 & 64 != 0 ? 0 : function18;
-        return ListUtilsKt.fastJoinTo(list, appendable2, str3, str, str4, i2, str2, i);
+        i2 = i9 & 64 != 0 ? 0 : function18;
+        return ListUtilsKt.fastJoinTo(list, appendable2, str4, str3, str, i, str2, i2);
     }
 
     public static final <T> String fastJoinToString(List<? extends T> $this$fastJoinToString, java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super T, ? extends java.lang.CharSequence> transform) {
@@ -341,8 +341,8 @@ public final class ListUtilsKt {
     }
 
     public static final <T> T fastLastOrNull(List<? extends T> $this$fastLastOrNull, Function1<? super T, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         Object obj;
         boolean booleanValue;
         final int i3 = 0;
@@ -373,9 +373,9 @@ public final class ListUtilsKt {
 
     public static final <T, R> List<R> fastMapIndexed(List<? extends T> $this$fastMapIndexed, Function2<? super Integer, ? super T, ? extends R> transform) {
         int index$iv;
-        Object obj2;
-        int i;
         Object obj;
+        int i;
+        Object obj2;
         int i2;
         ArrayList list;
         Object invoke;
@@ -394,9 +394,9 @@ public final class ListUtilsKt {
 
     public static final <T, R> List<R> fastMapIndexedNotNull(List<? extends T> $this$fastMapIndexedNotNull, Function2<? super Integer, ? super T, ? extends R> transform) {
         int index$iv;
-        Object obj2;
-        int i;
         Object obj;
+        int i;
+        Object obj2;
         int i2;
         Object invoke;
         int i3;
@@ -422,9 +422,9 @@ public final class ListUtilsKt {
         int index$iv;
         Object obj2;
         Object obj;
-        int i;
-        Object invoke;
         int i2;
+        Object invoke;
+        int i;
         ArrayList list;
         final int i3 = 0;
         ArrayList arrayList = new ArrayList($this$fastMapNotNull.size());
@@ -432,12 +432,12 @@ public final class ListUtilsKt {
         final int i4 = 0;
         index$iv = 0;
         while (index$iv < obj3.size()) {
-            i = 0;
+            i2 = 0;
             invoke = transform.invoke(obj3.get(index$iv));
             if (invoke != null) {
             }
             index$iv++;
-            i2 = 0;
+            i = 0;
             (Collection)arrayList.add(invoke);
         }
         return (List)arrayList;

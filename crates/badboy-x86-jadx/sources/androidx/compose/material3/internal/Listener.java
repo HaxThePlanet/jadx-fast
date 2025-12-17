@@ -74,13 +74,13 @@ final class Listener implements AccessibilityManager.AccessibilityStateChangeLis
     private final boolean getSwitchAccessEnabled(AccessibilityManager $this$switchAccessEnabled) {
         List enabledAccessibilityServiceList;
         int index$iv$iv;
-        int i2;
-        Object obj2;
-        Object obj;
-        int i4;
-        Object obj3;
         int i;
+        Object obj;
+        Object obj3;
         int i3;
+        Object obj2;
+        int i4;
+        int i2;
         int i5;
         String str;
         List $this$fastAny$iv;
@@ -89,24 +89,24 @@ final class Listener implements AccessibilityManager.AccessibilityStateChangeLis
         final int i8 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
+            i3 = 0;
             i4 = 0;
-            i = 0;
             String settingsActivityName = (AccessibilityServiceInfo)list.get(index$iv$iv).getSettingsActivityName();
             if (settingsActivityName != null) {
             } else {
             }
             $this$fastAny$iv = enabledAccessibilityServiceList;
-            i3 = 1;
+            i2 = 1;
             index$iv$iv++;
             enabledAccessibilityServiceList = $this$fastAny$iv;
             $this$fastAny$iv = enabledAccessibilityServiceList;
-            i3 = 1;
-            if (StringsKt.contains$default((CharSequence)settingsActivityName, (CharSequence)"SwitchAccess", false, 2, 0) == i3) {
+            i2 = 1;
+            if (StringsKt.contains$default((CharSequence)settingsActivityName, (CharSequence)"SwitchAccess", false, 2, 0) == i2) {
             }
-            i2 = i3;
+            i = i2;
         }
         $this$fastAny$iv = enabledAccessibilityServiceList;
-        return i2;
+        return i;
     }
 
     private final void setAccessibilityEnabled(boolean <set-?>) {
@@ -158,14 +158,14 @@ final class Listener implements AccessibilityManager.AccessibilityStateChangeLis
     @Override // android.view.accessibility.AccessibilityManager$AccessibilityStateChangeListener
     public final void register(AccessibilityManager am) {
         int switchAccessListener;
-        int i;
         int i2;
+        int i;
         androidx.compose.material3.internal.Listener.touchExplorationListener.1 list;
         setAccessibilityEnabled(am.isEnabled());
         am.addAccessibilityStateChangeListener((AccessibilityManager.AccessibilityStateChangeListener)this);
         androidx.compose.material3.internal.Listener.touchExplorationListener.1 touchExplorationListener = this.touchExplorationListener;
         if (touchExplorationListener != null) {
-            i = 0;
+            i2 = 0;
             touchExplorationListener.setEnabled(am.isTouchExplorationEnabled());
             am.addTouchExplorationStateChangeListener((AccessibilityManager.TouchExplorationStateChangeListener)touchExplorationListener);
         }
@@ -173,7 +173,7 @@ final class Listener implements AccessibilityManager.AccessibilityStateChangeLis
         if (Build.VERSION.SDK_INT >= 33 && switchAccessListener != null) {
             switchAccessListener = this.switchAccessListener;
             if (switchAccessListener != null) {
-                i2 = 0;
+                i = 0;
                 switchAccessListener.setEnabled(getSwitchAccessEnabled(am));
                 Listener.Api33Impl.addAccessibilityServicesStateChangeListener(am, (AccessibilityManager.AccessibilityServicesStateChangeListener)switchAccessListener);
             }
@@ -183,20 +183,20 @@ final class Listener implements AccessibilityManager.AccessibilityStateChangeLis
     @Override // android.view.accessibility.AccessibilityManager$AccessibilityStateChangeListener
     public final void unregister(AccessibilityManager am) {
         int it;
-        int i2;
         int i;
+        int i2;
         androidx.compose.material3.internal.Listener.touchExplorationListener.1 list;
         am.removeAccessibilityStateChangeListener((AccessibilityManager.AccessibilityStateChangeListener)this);
         androidx.compose.material3.internal.Listener.touchExplorationListener.1 touchExplorationListener = this.touchExplorationListener;
         if (touchExplorationListener != null) {
-            i2 = 0;
+            i = 0;
             am.removeTouchExplorationStateChangeListener((AccessibilityManager.TouchExplorationStateChangeListener)touchExplorationListener);
         }
         it = this.switchAccessListener;
         if (Build.VERSION.SDK_INT >= 33 && it != null) {
             it = this.switchAccessListener;
             if (it != null) {
-                i = 0;
+                i2 = 0;
                 Listener.Api33Impl.removeAccessibilityServicesStateChangeListener(am, (AccessibilityManager.AccessibilityServicesStateChangeListener)it);
             }
         }

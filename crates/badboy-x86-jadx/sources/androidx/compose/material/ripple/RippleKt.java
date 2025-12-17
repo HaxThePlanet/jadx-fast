@@ -46,11 +46,11 @@ public final class RippleKt {
     private static final AnimationSpec<Float> incomingStateLayerAnimationSpecFor(Interaction interaction) {
         TweenSpec defaultTweenSpec;
         TweenSpec tweenSpec;
-        int i3;
-        int i;
-        androidx.compose.animation.core.Easing linearEasing;
-        int i4;
         int i2;
+        int i3;
+        androidx.compose.animation.core.Easing linearEasing;
+        int i;
+        int i4;
         if (interaction instanceof HoverInteraction.Enter) {
             defaultTweenSpec = RippleKt.DefaultTweenSpec;
         } else {
@@ -72,10 +72,10 @@ public final class RippleKt {
     private static final AnimationSpec<Float> outgoingStateLayerAnimationSpecFor(Interaction interaction) {
         TweenSpec defaultTweenSpec;
         TweenSpec tweenSpec;
-        int i2;
         int i4;
-        androidx.compose.animation.core.Easing linearEasing;
         int i;
+        androidx.compose.animation.core.Easing linearEasing;
+        int i2;
         int i3;
         if (interaction instanceof HoverInteraction.Enter) {
             defaultTweenSpec = RippleKt.DefaultTweenSpec;
@@ -97,14 +97,14 @@ public final class RippleKt {
     @Deprecated(level = DeprecationLevel.ERROR, message = "rememberRipple has been deprecated - it returns an old Indication implementation that is not compatible with the new Indication APIs that provide notable performance improvements. Instead, use the new ripple APIs provided by design system libraries, such as material and material3. If you are implementing your own design system library, use createRippleNode to create your own custom ripple implementation that queries your own theme values. For a migration guide and background information, please visit developer.android.com")
     public static final Indication rememberRipple-9IZ8Weo(boolean bounded, float radius, long color, Composer $composer, int $changed, int i6) {
         boolean changed2;
-        int i;
+        int i3;
         int companion;
         int changed;
         String str;
         int i2;
         Object empty;
         Object platformRipple;
-        int i3;
+        int i;
         int obj8;
         float obj9;
         long obj10;
@@ -128,7 +128,7 @@ public final class RippleKt {
         int i15 = 1;
         if (i9 ^= 6 > i12) {
             if (!$changed.changed(obj8)) {
-                i = i6 & 6 == i12 ? i15 : i2;
+                i3 = i6 & 6 == i12 ? i15 : i2;
             } else {
             }
         } else {
@@ -147,7 +147,7 @@ public final class RippleKt {
         int i14 = 0;
         Object rememberedValue = composer.rememberedValue();
         int i17 = 0;
-        if (i |= i2 == 0) {
+        if (i3 |= i2 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 empty = 0;
                 platformRipple = new PlatformRipple(obj8, obj9, SnapshotStateKt.rememberUpdatedState(Color.box-impl(obj10), $changed, i5 &= 14), 0);

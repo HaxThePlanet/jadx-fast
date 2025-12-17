@@ -74,26 +74,26 @@ public final class ScrollingLayoutNode extends Modifier.Node implements LayoutMo
         Orientation horizontal;
         boolean maxHeight-impl;
         int maxWidth-impl;
-        int i2;
         int i;
+        int i2;
         int i3;
         horizontal = this.isVertical ? Orientation.Vertical : Orientation.Horizontal;
         Object obj2 = constraints;
         CheckScrollableContainerConstraintsKt.checkScrollableContainerConstraints-K40F9xA(obj2, obj2);
         if (this.isVertical) {
-            i2 = maxWidth-impl;
+            i = maxWidth-impl;
         } else {
-            i2 = maxHeight-impl;
+            i = maxHeight-impl;
         }
         if (this.isVertical) {
             maxWidth-impl = Constraints.getMaxWidth-impl(obj2);
         }
         final int i6 = maxWidth-impl;
-        Placeable measure-BRTryo0 = measurable.measure-BRTryo0(Constraints.copy-Zbe2FdA$default(obj2, obj2, 0, i6, 0, i2, 5));
+        Placeable measure-BRTryo0 = measurable.measure-BRTryo0(Constraints.copy-Zbe2FdA$default(obj2, obj2, 0, i6, 0, i, 5));
         int coerceAtMost = RangesKt.coerceAtMost(measure-BRTryo0.getWidth(), Constraints.getMaxWidth-impl(constraints));
         int coerceAtMost2 = RangesKt.coerceAtMost(measure-BRTryo0.getHeight(), Constraints.getMaxHeight-impl(constraints));
-        i = this.isVertical ? i4 : i8;
-        final int i14 = i;
+        i2 = this.isVertical ? i4 : i8;
+        final int i14 = i2;
         this.scrollerState.setMaxValue$foundation_release(i14);
         i3 = this.isVertical ? coerceAtMost2 : coerceAtMost;
         this.scrollerState.setViewportSize$foundation_release(i3);

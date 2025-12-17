@@ -83,10 +83,10 @@ public final class AnchoredDraggableKt {
 
     private static final <I> Object restartable(Function0<? extends I> function0, Function2<? super I, ? super Continuation<? super Unit>, ? extends Object> function22, Continuation<? super Unit> continuation3) {
         boolean anon;
-        int i;
+        int i3;
         int i2;
         int coroutineScope;
-        int i3;
+        int i;
         Throwable obj4;
         Object obj6;
         anon = continuation3;

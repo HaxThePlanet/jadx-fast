@@ -167,13 +167,13 @@ public final class ShareCompat {
             Object mToAddresses;
             Object mCcAddresses;
             Object mBccAddresses2;
-            ArrayList mStreams;
+            ArrayList mStreams3;
             Intent mIntent;
-            int mStreams2;
+            int mStreams4;
             ArrayList mBccAddresses;
-            Object mStreams3;
+            Object mStreams;
             int i;
-            ArrayList mStreams4;
+            ArrayList mStreams2;
             String str;
             int i2 = 0;
             if (this.mToAddresses != null) {

@@ -33,16 +33,16 @@ public class UserHandleCompat {
 
     private static Constructor<UserHandle> getUserHandleConstructor() throws java.lang.NoSuchMethodException {
         Constructor sUserHandleConstructor;
-        int i2;
-        Class[] arr;
         int i;
+        Class[] arr;
+        int i2;
         Class tYPE;
         if (UserHandleCompat.sUserHandleConstructor == null) {
-            i2 = 1;
-            arr = new Class[i2];
+            i = 1;
+            arr = new Class[i];
             arr[0] = Integer.TYPE;
             UserHandleCompat.sUserHandleConstructor = UserHandle.class.getDeclaredConstructor(arr);
-            UserHandleCompat.sUserHandleConstructor.setAccessible(i2);
+            UserHandleCompat.sUserHandleConstructor.setAccessible(i);
         }
         return UserHandleCompat.sUserHandleConstructor;
     }

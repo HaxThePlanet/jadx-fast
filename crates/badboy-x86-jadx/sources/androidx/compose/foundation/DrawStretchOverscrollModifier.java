@@ -118,9 +118,9 @@ final class DrawStretchOverscrollModifier extends InspectorValueInfo implements 
 
     @Override // androidx.compose.ui.platform.InspectorValueInfo
     public void draw(ContentDrawScope $this$draw) {
-        boolean needsInvalidate;
-        int needsInvalidate3;
-        float i;
+        boolean needsInvalidate3;
+        int needsInvalidate;
+        float i4;
         int distanceCompat;
         boolean topNegationStretched;
         boolean orCreateTopEffect;
@@ -133,14 +133,14 @@ final class DrawStretchOverscrollModifier extends InspectorValueInfo implements 
         boolean leftNegationStretched;
         boolean orCreateLeftEffect;
         float f;
-        int i2;
         int i3;
+        int i;
         int height;
-        int i4;
+        int i5;
         int leftStretched;
         long orCreateBottomEffectNegation;
         EdgeEffect orCreateLeftEffectNegation;
-        int i5;
+        int i2;
         boolean needsInvalidate2;
         DrawContext context;
         Object obj = this;
@@ -152,7 +152,7 @@ final class DrawStretchOverscrollModifier extends InspectorValueInfo implements 
         androidx.compose.ui.unit.Density density2 = $this$draw;
         float px-0680j_4 = density2.toPx-0680j_4(ClipScrollableContainerKt.getMaxSupportedElevation());
         final Canvas nativeCanvas = AndroidCanvas_androidKt.getNativeCanvas(density2.getDrawContext().getCanvas());
-        needsInvalidate3 = 0;
+        needsInvalidate = 0;
         androidx.compose.foundation.EdgeEffectWrapper edgeEffectWrapper = obj.edgeEffectWrapper;
         boolean drawVerticalStretch = obj.shouldDrawVerticalStretch();
         boolean drawHorizontalStretch = obj.shouldDrawHorizontalStretch();
@@ -166,17 +166,17 @@ final class DrawStretchOverscrollModifier extends InspectorValueInfo implements 
                     obj.drawRightStretch(leftNegationStretched, (Canvas)beginRecording);
                     leftNegationStretched.finish();
                 }
-                i4 = 1;
+                i5 = 1;
                 if (edgeEffectWrapper.isLeftAnimating()) {
                     orCreateLeftEffect = edgeEffectWrapper.getOrCreateLeftEffect();
-                    needsInvalidate = drawLeftStretch;
+                    needsInvalidate3 = drawLeftStretch;
                     if (edgeEffectWrapper.isLeftStretched()) {
-                        needsInvalidate2 = needsInvalidate;
+                        needsInvalidate2 = needsInvalidate3;
                         EdgeEffectCompat.INSTANCE.onPullDistanceCompat(edgeEffectWrapper.getOrCreateLeftEffectNegation(), EdgeEffectCompat.INSTANCE.getDistanceCompat(orCreateLeftEffect), needsInvalidate4 -= leftStretched);
                     } else {
-                        needsInvalidate2 = needsInvalidate;
+                        needsInvalidate2 = needsInvalidate3;
                     }
-                    needsInvalidate3 = needsInvalidate2;
+                    needsInvalidate = needsInvalidate2;
                 }
                 if (edgeEffectWrapper.isTopNegationStretched()) {
                     topNegationStretched = edgeEffectWrapper.getOrCreateTopEffectNegation();
@@ -186,14 +186,14 @@ final class DrawStretchOverscrollModifier extends InspectorValueInfo implements 
                 if (edgeEffectWrapper.isTopAnimating()) {
                     orCreateTopEffect = edgeEffectWrapper.getOrCreateTopEffect();
                     if (!obj.drawTopStretch(orCreateTopEffect, (Canvas)beginRecording)) {
-                        if (needsInvalidate3 != 0) {
-                            i3 = i4;
+                        if (needsInvalidate != 0) {
+                            i = i5;
                         } else {
-                            i3 = 0;
+                            i = 0;
                         }
                     } else {
                     }
-                    needsInvalidate3 = i3;
+                    needsInvalidate = i;
                     if (edgeEffectWrapper.isTopStretched()) {
                         EdgeEffectCompat.INSTANCE.onPullDistanceCompat(edgeEffectWrapper.getOrCreateTopEffectNegation(), EdgeEffectCompat.INSTANCE.getDistanceCompat(orCreateTopEffect), Offset.getX-impl(obj.overscrollEffect.displacement-F1C5BW0$foundation_release()));
                     }
@@ -206,14 +206,14 @@ final class DrawStretchOverscrollModifier extends InspectorValueInfo implements 
                 if (edgeEffectWrapper.isRightAnimating()) {
                     orCreateRightEffect = edgeEffectWrapper.getOrCreateRightEffect();
                     if (!obj.drawRightStretch(orCreateRightEffect, (Canvas)beginRecording)) {
-                        if (needsInvalidate3 != 0) {
-                            i2 = i4;
+                        if (needsInvalidate != 0) {
+                            i3 = i5;
                         } else {
-                            i2 = 0;
+                            i3 = 0;
                         }
                     } else {
                     }
-                    needsInvalidate3 = i2;
+                    needsInvalidate = i3;
                     if (edgeEffectWrapper.isRightStretched()) {
                         EdgeEffectCompat.INSTANCE.onPullDistanceCompat(edgeEffectWrapper.getOrCreateRightEffectNegation(), EdgeEffectCompat.INSTANCE.getDistanceCompat(orCreateRightEffect), Offset.getY-impl(obj.overscrollEffect.displacement-F1C5BW0$foundation_release()));
                     }
@@ -226,29 +226,29 @@ final class DrawStretchOverscrollModifier extends InspectorValueInfo implements 
                 if (edgeEffectWrapper.isBottomAnimating()) {
                     EdgeEffect orCreateBottomEffect = edgeEffectWrapper.getOrCreateBottomEffect();
                     if (!obj.drawBottomStretch(orCreateBottomEffect, (Canvas)beginRecording)) {
-                        if (needsInvalidate3 != 0) {
-                            i5 = i4;
+                        if (needsInvalidate != 0) {
+                            i2 = i5;
                         } else {
-                            i5 = 0;
+                            i2 = 0;
                         }
                     } else {
                     }
                     if (edgeEffectWrapper.isBottomStretched()) {
                         EdgeEffectCompat.INSTANCE.onPullDistanceCompat(edgeEffectWrapper.getOrCreateBottomEffectNegation(), EdgeEffectCompat.INSTANCE.getDistanceCompat(orCreateBottomEffect), f3 -= orCreateLeftEffect);
                     }
-                    bottomEffect = needsInvalidate3;
+                    bottomEffect = needsInvalidate;
                 } else {
-                    bottomEffect = needsInvalidate3;
+                    bottomEffect = needsInvalidate;
                 }
                 if (bottomEffect != 0) {
                     obj.overscrollEffect.invalidateOverscroll$foundation_release();
                 }
-                f = drawHorizontalStretch ? i : px-0680j_4;
+                f = drawHorizontalStretch ? i4 : px-0680j_4;
                 if (drawVerticalStretch) {
                 } else {
-                    i = px-0680j_4;
+                    i4 = px-0680j_4;
                 }
-                float f2 = i;
+                float f2 = i4;
                 androidx.compose.ui.unit.Density density4 = $this$draw;
                 androidx.compose.ui.unit.Density density5 = density4;
                 int i13 = 0;

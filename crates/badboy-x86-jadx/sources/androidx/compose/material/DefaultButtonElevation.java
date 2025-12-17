@@ -49,32 +49,32 @@ final class DefaultButtonElevation implements androidx.compose.material.ButtonEl
     }
 
     public State<Dp> elevation(boolean enabled, InteractionSource interactionSource, Composer $composer, int $changed) {
-        boolean changed;
-        int i7;
+        boolean changed2;
+        int i4;
         float disabledElevation;
-        Object animatable2;
+        Object animatable;
         boolean traceInProgress;
-        Animatable it$iv;
+        Animatable it$iv2;
         String str;
         float f;
-        int i4;
-        boolean changed3;
-        int i8;
-        int changed2;
-        Object it$iv2;
-        Object mutableStateListOf;
+        int i7;
+        boolean changed;
+        int i6;
+        int changed3;
+        Object it$iv;
+        Object $i$a$CacheDefaultButtonElevation$elevation$interactions$1;
         Object empty;
         Object anon;
-        Object animatable3;
-        int i;
-        Animatable animatable;
+        Object $i$a$CacheDefaultButtonElevation$elevation$animatable$1;
+        int i5;
+        Animatable animatable2;
         Dp box-impl;
         Object obj;
         androidx.compose.animation.core.TwoWayConverter vectorConverter;
+        int i;
+        int i8;
         int i2;
         int i3;
-        int i5;
-        int i6;
         final Object obj2 = this;
         boolean z4 = enabled;
         final Object obj5 = interactionSource;
@@ -90,23 +90,23 @@ final class DefaultButtonElevation implements androidx.compose.material.ButtonEl
         ComposerKt.sourceInformationMarkerStart(composer4, 1976547373, str3);
         int i11 = 0;
         Composer composer = $composer;
-        i4 = 0;
+        i7 = 0;
         Object rememberedValue2 = composer.rememberedValue();
         int i27 = 0;
         if (rememberedValue2 == Composer.Companion.getEmpty()) {
             int i28 = 0;
             composer.updateRememberedValue(SnapshotStateKt.mutableStateListOf());
         } else {
-            mutableStateListOf = rememberedValue2;
+            $i$a$CacheDefaultButtonElevation$elevation$interactions$1 = rememberedValue2;
         }
-        androidx.compose.runtime.snapshots.SnapshotStateList list2 = mutableStateListOf;
+        androidx.compose.runtime.snapshots.SnapshotStateList list2 = $i$a$CacheDefaultButtonElevation$elevation$interactions$1;
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, 1976551252, str3);
         int i21 = 32;
         int i29 = 0;
         if (i13 ^= 48 > i21) {
             if (!composer4.changed(obj5)) {
-                i7 = i26 & 48 == i21 ? 1 : i29;
+                i4 = i26 & 48 == i21 ? 1 : i29;
             } else {
             }
         } else {
@@ -115,7 +115,7 @@ final class DefaultButtonElevation implements androidx.compose.material.ButtonEl
         int i22 = 0;
         Object rememberedValue3 = composer2.rememberedValue();
         int i31 = 0;
-        if (i7 == 0) {
+        if (i4 == 0) {
             if (rememberedValue3 == Composer.Companion.getEmpty()) {
                 empty = 0;
                 anon = new DefaultButtonElevation.elevation.1.1(obj5, (SnapshotStateList)list2, 0);
@@ -137,18 +137,18 @@ final class DefaultButtonElevation implements androidx.compose.material.ButtonEl
         int i35 = 0;
         if (rememberedValue4 == Composer.Companion.getEmpty()) {
             int i36 = 0;
-            animatable = new Animatable(Dp.box-impl(f), VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
-            composer3.updateRememberedValue(animatable);
+            animatable2 = new Animatable(Dp.box-impl(f), VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
+            composer3.updateRememberedValue(animatable2);
         } else {
-            animatable3 = rememberedValue4;
+            $i$a$CacheDefaultButtonElevation$elevation$animatable$1 = rememberedValue4;
         }
-        Animatable invalid$iv = animatable3;
+        Animatable invalid$iv = $i$a$CacheDefaultButtonElevation$elevation$animatable$1;
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, 1976602514, str3);
         int i32 = 4;
         if (i24 ^= 6 > i32) {
             if (!composer4.changed(z4)) {
-                i8 = i26 & 6 == i32 ? 1 : i29;
+                i6 = i26 & 6 == i32 ? 1 : i29;
             } else {
             }
         } else {
@@ -156,7 +156,7 @@ final class DefaultButtonElevation implements androidx.compose.material.ButtonEl
         int i33 = 256;
         if (i25 ^= 384 > i33) {
             if (!composer4.changed(obj2)) {
-                i = i26 & 384 == i33 ? 1 : i29;
+                i5 = i26 & 384 == i33 ? 1 : i29;
             } else {
             }
         } else {
@@ -165,24 +165,24 @@ final class DefaultButtonElevation implements androidx.compose.material.ButtonEl
         int i37 = 0;
         Object rememberedValue = composer5.rememberedValue();
         int i38 = 0;
-        if (i20 | it$iv2 == 0) {
+        if (i20 | it$iv == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                animatable = 0;
+                animatable2 = 0;
                 obj = obj4;
-                animatable2 = new DefaultButtonElevation.elevation.2.1(invalid$iv, f, z4, obj2, obj3, 0);
-                composer5.updateRememberedValue((Function2)animatable2);
+                animatable = new DefaultButtonElevation.elevation.2.1(invalid$iv, f, z4, obj2, obj3, 0);
+                composer5.updateRememberedValue((Function2)animatable);
             } else {
-                it$iv = invalid$iv;
-                animatable2 = obj;
+                it$iv2 = invalid$iv;
+                animatable = obj;
             }
         } else {
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
-        EffectsKt.LaunchedEffect(Dp.box-impl(f), (Function2)animatable2, composer4, i29);
+        EffectsKt.LaunchedEffect(Dp.box-impl(f), (Function2)animatable, composer4, i29);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         composer4.endReplaceGroup();
-        return it$iv.asState();
+        return it$iv2.asState();
     }
 }

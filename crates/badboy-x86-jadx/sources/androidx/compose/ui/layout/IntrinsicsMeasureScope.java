@@ -47,23 +47,23 @@ public final class IntrinsicsMeasureScope implements androidx.compose.ui.layout.
     }
 
     public androidx.compose.ui.layout.MeasureResult layout(int width, int height, Map<androidx.compose.ui.layout.AlignmentLine, Integer> alignmentLines, Function1<? super androidx.compose.ui.layout.RulerScope, Unit> rulers, Function1<? super androidx.compose.ui.layout.Placeable.PlacementScope, Unit> placementBlock) {
-        int i2;
         int i;
-        int string;
+        int i2;
+        int $i$a$CheckPreconditionLookaheadDelegateKt$checkMeasuredSize$1$iv;
         StringBuilder append;
         String str;
-        i2 = 0;
-        final int coerceAtLeast = RangesKt.coerceAtLeast(width, i2);
-        final int coerceAtLeast2 = RangesKt.coerceAtLeast(height, i2);
+        i = 0;
+        final int coerceAtLeast = RangesKt.coerceAtLeast(width, i);
+        final int coerceAtLeast2 = RangesKt.coerceAtLeast(height, i);
         final int i3 = 0;
-        i = -16777216;
-        if (coerceAtLeast & i == 0 && i &= coerceAtLeast2 == 0) {
-            if (i &= coerceAtLeast2 == 0) {
-                i2 = 1;
+        i2 = -16777216;
+        if (coerceAtLeast & i2 == 0 && i2 &= coerceAtLeast2 == 0) {
+            if (i2 &= coerceAtLeast2 == 0) {
+                i = 1;
             }
         }
         int i4 = 0;
-        if (i2 == 0) {
+        if (i == 0) {
             int i5 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             InlineClassHelperKt.throwIllegalStateException(stringBuilder.append("Size(").append(coerceAtLeast).append(" x ").append(coerceAtLeast2).append(") is out of range. Each dimension must be between 0 and 16777215.").toString());

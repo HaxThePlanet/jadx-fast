@@ -85,8 +85,8 @@ public final class SharedElementInternalState implements androidx.compose.animat
             return getSharedElement().getScope().getLookaheadRoot$animation_release().localPositionOf-R5De75A((LayoutCoordinates)invoke, Offset.Companion.getZero-F1C5BW0());
         }
         int c = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Error: lookahead coordinates is null.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullSharedElementInternalState$calculateLookaheadOffset$c$1 = new IllegalArgumentException("Error: lookahead coordinates is null.".toString());
+        throw $i$a$RequireNotNullSharedElementInternalState$calculateLookaheadOffset$c$1;
     }
 
     @Override // androidx.compose.animation.LayerRenderer
@@ -94,23 +94,23 @@ public final class SharedElementInternalState implements androidx.compose.animat
         int box-impl;
         Object shouldRenderInOverlay$animation_release;
         long size-NH-jbRc;
-        int i3;
+        int i;
         int iNSTANCE;
         long topLeft-F1C5BW0;
         Object l;
         long f;
-        int i4;
+        int i5;
         long l4;
         int intersect-rtfAjoo;
-        int i;
-        long l3;
         int i6;
+        long l3;
+        int i4;
         DrawContext drawContext;
-        int i7;
+        int i3;
         long $this$drawInOverlay_u24lambda_u245;
-        int i5;
-        long l2;
         int i8;
+        long l2;
+        int i7;
         DrawScope drawScope2;
         int i2;
         DrawContext context;
@@ -120,7 +120,7 @@ public final class SharedElementInternalState implements androidx.compose.animat
         final GraphicsLayer graphicsLayer = layer;
         if (getShouldRenderInOverlay$animation_release()) {
             size-NH-jbRc = drawScope;
-            i3 = 0;
+            i = 0;
             if (getSharedElement().getCurrentBounds() == null) {
             } else {
                 Rect currentBounds2 = getSharedElement().getCurrentBounds();
@@ -132,24 +132,24 @@ public final class SharedElementInternalState implements androidx.compose.animat
                 Intrinsics.checkNotNull(box-impl);
                 long unbox-impl = box-impl.unbox-impl();
                 int i9 = 0;
-                f = x-impl;
+                f = $i$f$component1Impl;
                 int i10 = 0;
-                topLeft-F1C5BW0 = y-impl;
+                topLeft-F1C5BW0 = $i$f$component2Impl;
                 shouldRenderInOverlay$animation_release = l.clipPathInOverlay;
                 if (shouldRenderInOverlay$animation_release != null) {
                     Path path = shouldRenderInOverlay$animation_release;
-                    i4 = 0;
-                    i = 0;
-                    l3 = l4;
+                    i5 = 0;
                     i6 = 0;
+                    l3 = l4;
+                    i4 = 0;
                     drawContext = l3.getDrawContext();
-                    i7 = 0;
+                    i3 = 0;
                     $this$drawInOverlay_u24lambda_u245 = size-NH-jbRc;
-                    i5 = i3;
+                    i8 = i;
                     drawContext.getCanvas().save();
                     int i13 = 0;
                     drawContext.getTransform().clipPath-mtrdD-E(path, ClipOp.Companion.getIntersect-rtfAjoo());
-                    i8 = 0;
+                    i7 = 0;
                     drawScope2 = l2;
                     i2 = 0;
                     drawScope2.getDrawContext().getTransform().translate(f, topLeft-F1C5BW0);
@@ -162,11 +162,11 @@ public final class SharedElementInternalState implements androidx.compose.animat
                     iNSTANCE = Unit.INSTANCE;
                 } else {
                     $this$drawInOverlay_u24lambda_u245 = size-NH-jbRc;
-                    i5 = i3;
+                    i8 = i;
                 }
                 if (iNSTANCE == null) {
                     size-NH-jbRc = $this$drawInOverlay_u24lambda_u245;
-                    i3 = 0;
+                    i = 0;
                     size-NH-jbRc.getDrawContext().getTransform().translate(f, topLeft-F1C5BW0);
                     int i12 = 0;
                     GraphicsLayerKt.drawLayer(size-NH-jbRc, graphicsLayer);
@@ -175,8 +175,8 @@ public final class SharedElementInternalState implements androidx.compose.animat
             }
             long l5 = size-NH-jbRc;
             int i11 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Error: current bounds not set yet.".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireNotNullSharedElementInternalState$drawInOverlay$1$1 = new IllegalArgumentException("Error: current bounds not set yet.".toString());
+            throw $i$a$RequireNotNullSharedElementInternalState$drawInOverlay$1$1;
         }
     }
 

@@ -19,11 +19,11 @@ public final class DebugStringsKt {
     public static final String toDebugString(Continuation<?> $this$toDebugString) {
         String string;
         String string2;
-        Object constructor-impl;
+        Object $i$a$GetOrElseDebugStringsKt$toDebugString$2;
         int i;
         Object exceptionOrNull-impl;
-        String hexAddress;
         String hexAddress2;
+        String hexAddress;
         if ($this$toDebugString instanceof DispatchedContinuation) {
             string2 = $this$toDebugString.toString();
         } else {
@@ -32,14 +32,14 @@ public final class DebugStringsKt {
             Object obj = $this$toDebugString;
             i = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            constructor-impl = Result.constructor-impl(stringBuilder.append(obj).append(string).append(DebugStringsKt.getHexAddress(obj)).toString());
-            if (Result.exceptionOrNull-impl(constructor-impl) == null) {
+            $i$a$GetOrElseDebugStringsKt$toDebugString$2 = Result.constructor-impl(stringBuilder.append(obj).append(string).append(DebugStringsKt.getHexAddress(obj)).toString());
+            if (Result.exceptionOrNull-impl($i$a$GetOrElseDebugStringsKt$toDebugString$2) == null) {
             } else {
                 int i2 = 0;
                 StringBuilder stringBuilder2 = new StringBuilder();
-                constructor-impl = string;
+                $i$a$GetOrElseDebugStringsKt$toDebugString$2 = string;
             }
-            string2 = constructor-impl;
+            string2 = $i$a$GetOrElseDebugStringsKt$toDebugString$2;
         }
         return string2;
     }

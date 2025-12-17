@@ -218,10 +218,10 @@ public abstract class ObjectList<E>  {
     }
 
     public boolean equals(Object other) {
-        boolean _size2;
-        int _size3;
-        int i;
+        boolean _size3;
         int _size;
+        int i;
+        int _size2;
         Object obj;
         int i2 = 0;
         if (other instanceof ObjectList != null) {
@@ -319,8 +319,8 @@ public abstract class ObjectList<E>  {
         Object acc;
         int i$iv;
         Object obj;
-        int i;
         int i2;
+        int i;
         Integer valueOf;
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -330,7 +330,7 @@ public abstract class ObjectList<E>  {
         final int i5 = 0;
         i$iv = 0;
         while (i$iv < obj2._size) {
-            i2 = 0;
+            i = 0;
             acc = operation.invoke(Integer.valueOf(i$iv), acc, obj2.content[i$iv]);
             i$iv++;
         }
@@ -489,28 +489,28 @@ public abstract class ObjectList<E>  {
     }
 
     public final int indexOf(E element) {
-        Object obj;
-        int i3;
+        Object obj2;
+        int i2;
         Object[] content;
         int i$iv;
         int _size;
-        Object obj2;
-        int i2;
+        Object obj;
+        int i3;
         int i;
         boolean equals;
         if (element == 0) {
-            obj = this;
-            i3 = 0;
+            obj2 = this;
+            i2 = 0;
             i$iv = 0;
-            while (i$iv < obj._size) {
+            while (i$iv < obj2._size) {
                 i = 0;
                 i$iv++;
             }
         } else {
-            obj = this;
-            i3 = 0;
+            obj2 = this;
+            i2 = 0;
             i$iv = 0;
-            while (i$iv < obj._size) {
+            while (i$iv < obj2._size) {
                 i = 0;
                 i$iv++;
             }
@@ -521,8 +521,8 @@ public abstract class ObjectList<E>  {
     public final int indexOfFirst(Function1<? super E, Boolean> predicate) {
         int i$iv;
         Object obj;
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -530,7 +530,7 @@ public abstract class ObjectList<E>  {
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj2._size) {
-            i2 = 0;
+            i = 0;
             i$iv++;
         }
         return -1;
@@ -607,45 +607,45 @@ public abstract class ObjectList<E>  {
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super E, ? extends java.lang.CharSequence> transform) {
         Object obj;
-        Object obj3;
-        int i2;
-        int i$iv;
         Object obj2;
-        int i3;
         int i;
+        int i$iv;
+        Object obj3;
+        int i3;
+        int i2;
         Object invoke;
-        obj3 = prefix;
+        obj2 = prefix;
         final Object obj4 = postfix;
         final Object obj5 = truncated;
         final Object obj6 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(obj3, "prefix");
+        Intrinsics.checkNotNullParameter(obj2, "prefix");
         Intrinsics.checkNotNullParameter(obj4, "postfix");
         Intrinsics.checkNotNullParameter(obj5, "truncated");
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         final int i4 = 0;
-        sb.append(obj3);
+        sb.append(obj2);
         final Object obj7 = this;
         final int i5 = 0;
         i$iv = 0;
         while (i$iv < obj7._size) {
-            obj2 = obj7.content[i$iv];
+            obj3 = obj7.content[i$iv];
             i3 = i$iv;
-            i = 0;
+            i2 = 0;
             if (i3 != 0) {
             }
             if (obj6 == null) {
             } else {
             }
-            sb.append((CharSequence)obj6.invoke(obj2));
+            sb.append((CharSequence)obj6.invoke(obj3));
             i$iv++;
             obj = separator;
-            obj3 = prefix;
-            sb.append(obj2);
+            obj2 = prefix;
+            sb.append(obj3);
             sb.append(obj);
         }
-        i2 = limit;
+        i = limit;
         sb.append(obj4);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -682,29 +682,29 @@ public abstract class ObjectList<E>  {
     }
 
     public final int lastIndexOf(E element) {
-        Object obj2;
+        Object obj;
         int i2;
         Object[] content;
         int i$iv;
-        Object obj;
-        int i3;
+        Object obj2;
         int i;
+        int i3;
         boolean equals;
         final int i4 = -1;
         if (element == 0) {
-            obj2 = this;
+            obj = this;
             i2 = 0;
             _size2--;
             while (i4 < i$iv) {
-                i = 0;
+                i3 = 0;
                 i$iv--;
             }
         } else {
-            obj2 = this;
+            obj = this;
             i2 = 0;
             _size--;
             while (i4 < i$iv) {
-                i = 0;
+                i3 = 0;
                 i$iv--;
             }
         }
@@ -712,18 +712,18 @@ public abstract class ObjectList<E>  {
     }
 
     public final E lastOrNull() {
-        int i2;
-        Object obj;
         int i;
+        Object obj;
+        int i2;
         int i3;
         final int i4 = 0;
         if (isEmpty()) {
-            i2 = 0;
-        } else {
             i = 0;
-            i2 = this.content[_size--];
+        } else {
+            i2 = 0;
+            i = this.content[_size--];
         }
-        return i2;
+        return i;
     }
 
     public final E lastOrNull(Function1<? super E, Boolean> predicate) {

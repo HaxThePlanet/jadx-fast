@@ -528,9 +528,9 @@ class MapsKt__MapsKt extends kotlin.collections.MapsKt__MapsJVMKt {
 
     public static final <K, V> Map<K, V> plus(Map<? extends K, ? extends V> $this$plus, Pair<? extends K, ? extends V>[] pairs) {
         Object linkedHashMap;
-        LinkedHashMap map;
-        int i;
         LinkedHashMap map2;
+        int i;
+        LinkedHashMap map;
         Intrinsics.checkNotNullParameter($this$plus, "<this>");
         Intrinsics.checkNotNullParameter(pairs, "pairs");
         if ($this$plus.isEmpty()) {

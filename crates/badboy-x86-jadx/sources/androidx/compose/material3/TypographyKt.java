@@ -20,21 +20,21 @@ public final class TypographyKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
-            int ordinal6;
-            int ordinal14;
+            int ordinal15;
             int ordinal8;
             int ordinal5;
-            int ordinal13;
             int ordinal2;
-            int ordinal9;
-            int ordinal7;
-            int ordinal3;
-            int ordinal10;
+            int ordinal13;
             int ordinal11;
-            int ordinal15;
             int ordinal4;
+            int ordinal;
+            int ordinal9;
             int ordinal12;
+            int ordinal3;
+            int ordinal6;
+            int ordinal7;
+            int ordinal14;
+            int ordinal10;
             int[] iArr = new int[values.length];
             iArr[TypographyKeyTokens.DisplayLarge.ordinal()] = 1;
             iArr[TypographyKeyTokens.DisplayMedium.ordinal()] = 2;

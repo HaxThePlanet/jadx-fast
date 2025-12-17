@@ -41,33 +41,33 @@ public final class ViewModelProviders {
 
     public final <VM extends androidx.lifecycle.ViewModel> VM createViewModelFromInitializers$lifecycle_viewmodel_release(KClass<VM> modelClass, CreationExtras extras, ViewModelInitializer<?>... initializers) {
         Object initializer$lifecycle_viewmodel_release;
-        int i;
         int i2;
+        int i3;
         Object obj;
         boolean it;
-        int i3;
+        int i;
         KClass clazz$lifecycle_viewmodel_release;
         Intrinsics.checkNotNullParameter(modelClass, "modelClass");
         Intrinsics.checkNotNullParameter(extras, "extras");
         Intrinsics.checkNotNullParameter(initializers, "initializers");
         initializer$lifecycle_viewmodel_release = initializers;
         int i5 = 0;
-        i = 0;
-        while (i < initializer$lifecycle_viewmodel_release.length) {
-            i3 = 0;
-            i++;
+        i2 = 0;
+        while (i2 < initializer$lifecycle_viewmodel_release.length) {
+            i = 0;
+            i2++;
         }
-        obj = i2;
+        obj = i3;
         initializer$lifecycle_viewmodel_release = obj.getInitializer$lifecycle_viewmodel_release();
         if (obj != null && initializer$lifecycle_viewmodel_release != null) {
             initializer$lifecycle_viewmodel_release = obj.getInitializer$lifecycle_viewmodel_release();
             if (initializer$lifecycle_viewmodel_release != null) {
-                i2 = initializer$lifecycle_viewmodel_release;
+                i3 = initializer$lifecycle_viewmodel_release;
             }
         }
-        if (i2 == 0) {
+        if (i3 == 0) {
         } else {
-            return i2;
+            return i3;
         }
         int i4 = 0;
         StringBuilder stringBuilder = new StringBuilder();
@@ -106,8 +106,8 @@ public final class ViewModelProviders {
             return stringBuilder.append("androidx.lifecycle.ViewModelProvider.DefaultKey:").append(canonicalName).toString();
         }
         int canonicalName2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Local and anonymous classes can not be ViewModels".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullViewModelProviders$getDefaultKey$canonicalName$1 = new IllegalArgumentException("Local and anonymous classes can not be ViewModels".toString());
+        throw $i$a$RequireNotNullViewModelProviders$getDefaultKey$canonicalName$1;
     }
 
     public final <VM extends androidx.lifecycle.ViewModel> VM unsupportedCreateViewModel$lifecycle_viewmodel_release() {

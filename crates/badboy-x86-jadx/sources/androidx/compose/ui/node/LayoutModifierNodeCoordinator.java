@@ -135,7 +135,7 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
         int i2 = approachMeasureScopeImpl;
         int i3 = 0;
         int i5 = 0;
-        i = kindSet$ui_release &= constructor-impl != 0 ? 1 : 0;
+        i = kindSet$ui_release &= $i$f$getApproachMeasureOLwlOKw != 0 ? 1 : 0;
         if (i != 0) {
             Intrinsics.checkNotNull(measureNode, "null cannot be cast to non-null type androidx.compose.ui.layout.ApproachLayoutModifierNode");
             approachMeasureScopeImpl = new ApproachMeasureScopeImpl(this, (ApproachLayoutModifierNode)measureNode);
@@ -153,25 +153,25 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
     }
 
     private final void onAfterPlaceAt() {
-        int i;
-        ApproachLayoutModifierNode approachNode;
-        int i3;
-        androidx.compose.ui.node.NodeCoordinator wrappedNonNull;
         int i4;
+        ApproachLayoutModifierNode approachNode;
+        int i;
+        androidx.compose.ui.node.NodeCoordinator wrappedNonNull;
         int i2;
+        int i3;
         boolean placementApproachInProgress;
-        Object size-YbymL2g$ui_release;
+        Object size-YbymL2g$ui_release2;
         int box-impl;
-        long size-YbymL2g$ui_release2;
+        long size-YbymL2g$ui_release;
         if (isShallowPlacing$ui_release()) {
         }
         onPlaced();
         ApproachMeasureScopeImpl approachMeasureScope = this.approachMeasureScope;
         final int i5 = 0;
         if (approachMeasureScope != null) {
-            i = 0;
-            i3 = 0;
             i4 = 0;
+            i = 0;
+            i2 = 0;
             androidx.compose.ui.node.LookaheadDelegate lookaheadDelegate = getLookaheadDelegate();
             Intrinsics.checkNotNull(lookaheadDelegate);
             if (!approachMeasureScope.getApproachNode().isPlacementApproachInProgress(getPlacementScope(), (LayoutCoordinates)lookaheadDelegate.getLookaheadLayoutCoordinates()) && !approachMeasureScope.getApproachMeasureRequired$ui_release()) {
@@ -179,23 +179,23 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
                     androidx.compose.ui.node.LookaheadDelegate lookaheadDelegate2 = getLookaheadDelegate();
                     box-impl = 0;
                     if (lookaheadDelegate2 != null) {
-                        size-YbymL2g$ui_release = IntSize.box-impl(lookaheadDelegate2.getSize-YbymL2g$ui_release());
+                        size-YbymL2g$ui_release2 = IntSize.box-impl(lookaheadDelegate2.getSize-YbymL2g$ui_release());
                     } else {
-                        size-YbymL2g$ui_release = box-impl;
+                        size-YbymL2g$ui_release2 = box-impl;
                     }
                     if (IntSize.equals-impl(getSize-YbymL2g(), obj8)) {
-                        size-YbymL2g$ui_release = getWrappedNonNull().getLookaheadDelegate();
-                        if (size-YbymL2g$ui_release != null) {
-                            box-impl = IntSize.box-impl(size-YbymL2g$ui_release.getSize-YbymL2g$ui_release());
+                        size-YbymL2g$ui_release2 = getWrappedNonNull().getLookaheadDelegate();
+                        if (size-YbymL2g$ui_release2 != null) {
+                            box-impl = IntSize.box-impl(size-YbymL2g$ui_release2.getSize-YbymL2g$ui_release());
                         }
-                        i2 = IntSize.equals-impl(getWrappedNonNull().getSize-YbymL2g(), obj8) ? 1 : i5;
+                        i3 = IntSize.equals-impl(getWrappedNonNull().getSize-YbymL2g(), obj8) ? 1 : i5;
                     } else {
                     }
                 } else {
                 }
             } else {
             }
-            getWrappedNonNull().setForcePlaceWithLookaheadOffset$ui_release(i2);
+            getWrappedNonNull().setForcePlaceWithLookaheadOffset$ui_release(i3);
         }
         getMeasureResult$ui_release().placeChildren();
         getWrappedNonNull().setForcePlaceWithLookaheadOffset$ui_release(i5);
@@ -254,13 +254,13 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
         Object approachMeasureScope;
         int i;
         int $this$maxIntrinsicHeight_u24lambda_u2416_u24lambda_u2415;
-        int wrappedNonNull;
+        int wrappedNonNull2;
         ApproachMeasureScopeImpl approachMeasureScopeImpl;
-        androidx.compose.ui.node.NodeCoordinator wrappedNonNull2;
+        androidx.compose.ui.node.NodeCoordinator wrappedNonNull;
         approachMeasureScope = this.approachMeasureScope;
         if (approachMeasureScope != null) {
             i = 0;
-            wrappedNonNull = 0;
+            wrappedNonNull2 = 0;
             $this$maxIntrinsicHeight_u24lambda_u2416_u24lambda_u2415 = approachMeasureScope.getApproachNode().maxApproachIntrinsicHeight((ApproachIntrinsicMeasureScope)approachMeasureScope, (IntrinsicMeasurable)getWrappedNonNull(), width);
         } else {
             i = 0;
@@ -293,14 +293,14 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
     public Placeable measure-BRTryo0(long constraints) {
         long unbox-impl;
         Object layoutModifierNode;
-        int i;
+        int i2;
         ApproachLayoutModifierNode approachNode;
         int wrappedNonNull;
-        int i2;
+        int i3;
         boolean approachMeasureRequired$ui_release2;
         boolean measurementApproachInProgress-ozmzZPI;
         MeasureResult approachMeasure-3p2s80s;
-        int i3;
+        int i;
         MeasureResult measure-3p2s80s;
         boolean approachMeasureRequired$ui_release;
         int height;
@@ -316,25 +316,25 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
                 int i6 = 0;
                 layoutModifierNode = LayoutModifierNodeCoordinator.access$getApproachMeasureScope$p(obj);
                 if (layoutModifierNode != null) {
-                    i = 0;
+                    i2 = 0;
                     approachNode = layoutModifierNode.getApproachNode();
                     wrappedNonNull = 0;
-                    i3 = 0;
+                    i = 0;
                     int i7 = 1;
                     if (!approachNode.isMeasurementApproachInProgress-ozmzZPI(layoutModifierNode.getLookaheadSize-YbymL2g())) {
                         if (!Constraints.equals-impl(unbox-impl, obj2)) {
-                            i2 = i7;
+                            i3 = i7;
                         } else {
-                            i2 = i3;
+                            i3 = i;
                         }
                     } else {
                     }
-                    layoutModifierNode.setApproachMeasureRequired$ui_release(i2);
+                    layoutModifierNode.setApproachMeasureRequired$ui_release(i3);
                     if (!layoutModifierNode.getApproachMeasureRequired$ui_release()) {
                         obj.getWrappedNonNull().setForceMeasureWithLookaheadConstraints$ui_release(i7);
                     }
                     approachMeasure-3p2s80s = approachNode.approachMeasure-3p2s80s((ApproachMeasureScope)layoutModifierNode, (Measurable)obj.getWrappedNonNull(), unbox-impl);
-                    obj.getWrappedNonNull().setForceMeasureWithLookaheadConstraints$ui_release(i3);
+                    obj.getWrappedNonNull().setForceMeasureWithLookaheadConstraints$ui_release(i);
                     androidx.compose.ui.node.LookaheadDelegate lookaheadDelegate = obj.getLookaheadDelegate();
                     Intrinsics.checkNotNull(lookaheadDelegate);
                     androidx.compose.ui.node.LookaheadDelegate lookaheadDelegate2 = obj.getLookaheadDelegate();
@@ -343,7 +343,7 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
                         lookaheadDelegate2 = obj.getLookaheadDelegate();
                         Intrinsics.checkNotNull(lookaheadDelegate2);
                         if (approachMeasure-3p2s80s.getHeight() == lookaheadDelegate2.getHeight()) {
-                            i3 = i7;
+                            i = i7;
                         } else {
                         }
                     } else {
@@ -355,8 +355,8 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
                         } else {
                             box-impl = 0;
                         }
-                        if (IntSize.equals-impl(obj.getWrappedNonNull().getSize-YbymL2g(), height) && i3 == 0) {
-                            if (i3 == 0) {
+                        if (IntSize.equals-impl(obj.getWrappedNonNull().getSize-YbymL2g(), height) && i == 0) {
+                            if (i == 0) {
                                 measure-3p2s80s = new LayoutModifierNodeCoordinator.measure.1.1.1.1(approachMeasure-3p2s80s, obj);
                             } else {
                                 measure-3p2s80s = approachMeasure-3p2s80s;
@@ -366,19 +366,19 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
                     } else {
                     }
                     if (measure-3p2s80s == null) {
-                        i = 0;
+                        i2 = 0;
                         measure-3p2s80s = obj.getLayoutModifierNode().measure-3p2s80s((MeasureScope)obj, (Measurable)obj.getWrappedNonNull(), unbox-impl);
                     }
                 } else {
                 }
                 obj.setMeasureResult$ui_release(measure-3p2s80s);
-                Object obj4 = obj;
+                Object $i$a$PerformingMeasureK40F9xALayoutModifierNodeCoordinator$measure$1 = obj;
                 obj.onMeasured();
                 return (Placeable)obj;
             }
             int i4 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Lookahead constraints cannot be null in approach pass.".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireNotNullLayoutModifierNodeCoordinator$measure$constraints$1 = new IllegalArgumentException("Lookahead constraints cannot be null in approach pass.".toString());
+            throw $i$a$RequireNotNullLayoutModifierNodeCoordinator$measure$constraints$1;
         }
         unbox-impl = constraints;
     }
@@ -388,13 +388,13 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
         Object approachMeasureScope;
         int i;
         int $this$minIntrinsicHeight_u24lambda_u2413_u24lambda_u2412;
-        int wrappedNonNull;
+        int wrappedNonNull2;
         ApproachMeasureScopeImpl approachMeasureScopeImpl;
-        androidx.compose.ui.node.NodeCoordinator wrappedNonNull2;
+        androidx.compose.ui.node.NodeCoordinator wrappedNonNull;
         approachMeasureScope = this.approachMeasureScope;
         if (approachMeasureScope != null) {
             i = 0;
-            wrappedNonNull = 0;
+            wrappedNonNull2 = 0;
             $this$minIntrinsicHeight_u24lambda_u2413_u24lambda_u2412 = approachMeasureScope.getApproachNode().minApproachIntrinsicHeight((ApproachIntrinsicMeasureScope)approachMeasureScope, (IntrinsicMeasurable)getWrappedNonNull(), width);
         } else {
             i = 0;
@@ -408,13 +408,13 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
         Object approachMeasureScope;
         int i;
         int $this$minIntrinsicWidth_u24lambda_u247_u24lambda_u246;
-        int wrappedNonNull;
+        int wrappedNonNull2;
         ApproachMeasureScopeImpl approachMeasureScopeImpl;
-        androidx.compose.ui.node.NodeCoordinator wrappedNonNull2;
+        androidx.compose.ui.node.NodeCoordinator wrappedNonNull;
         approachMeasureScope = this.approachMeasureScope;
         if (approachMeasureScope != null) {
             i = 0;
-            wrappedNonNull = 0;
+            wrappedNonNull2 = 0;
             $this$minIntrinsicWidth_u24lambda_u247_u24lambda_u246 = approachMeasureScope.getApproachNode().minApproachIntrinsicWidth((ApproachIntrinsicMeasureScope)approachMeasureScope, (IntrinsicMeasurable)getWrappedNonNull(), height);
         } else {
             i = 0;
@@ -446,19 +446,19 @@ public final class LayoutModifierNodeCoordinator extends androidx.compose.ui.nod
     @Override // androidx.compose.ui.node.NodeCoordinator
     public final void setLayoutModifierNode$ui_release(androidx.compose.ui.node.LayoutModifierNode value) {
         boolean approachMeasureScope;
-        int constructor-impl;
-        int i;
+        int $i$f$getApproachMeasureOLwlOKw;
         int i2;
+        int i;
         if (!Intrinsics.areEqual(value, this.layoutModifierNode)) {
             int i3 = 0;
-            i = 0;
-            i2 = kindSet$ui_release &= constructor-impl != 0 ? 1 : 0;
-            if (i2 != 0) {
+            i2 = 0;
+            i = kindSet$ui_release &= $i$f$getApproachMeasureOLwlOKw != 0 ? 1 : 0;
+            if (i != 0) {
                 Intrinsics.checkNotNull(value, "null cannot be cast to non-null type androidx.compose.ui.layout.ApproachLayoutModifierNode");
                 Object obj = value;
                 approachMeasureScope = this.approachMeasureScope;
                 if (approachMeasureScope != null) {
-                    i = 0;
+                    i2 = 0;
                     approachMeasureScope.setApproachNode((ApproachLayoutModifierNode)value);
                 } else {
                     approachMeasureScope = new ApproachMeasureScopeImpl(this, (ApproachLayoutModifierNode)value);

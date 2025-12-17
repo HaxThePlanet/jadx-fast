@@ -22,38 +22,38 @@ public final class DividerKt {
     private static final float DividerAlpha = 0.12f;
     public static final void Divider-oMI9zvI(Modifier modifier, long color, float thickness, float startIndent, Composer $composer, int $changed, int i7) {
         boolean traceInProgress2;
-        int $dirty2;
-        Object $dirty;
-        Object modifier3;
-        long modifier2;
+        int $dirty;
+        Object $dirty2;
+        Object modifier2;
+        long modifier3;
         Object color2;
-        int i2;
+        int i5;
         long l;
         float f2;
         float $this$dp$iv;
         boolean traceInProgress;
-        int i16;
-        int i;
+        int i4;
+        int i15;
         float f;
         int changed;
         int $i$f$getDp;
-        float i15;
+        float i;
         int thickness2;
-        int i5;
+        int i6;
         int padding-qDBjuR0$default;
-        float i10;
-        int i14;
+        float i2;
+        int i8;
         int skipping;
         int onSurface-0d7_KjU;
         boolean equals-impl0;
+        int i10;
+        int i14;
         int i9;
-        int i6;
-        int i3;
-        int i8;
-        int i4;
-        int i12;
-        int i13;
         int i11;
+        int i16;
+        int i12;
+        int i3;
+        int i13;
         Modifier obj21;
         long obj22;
         int obj24;
@@ -63,15 +63,15 @@ public final class DividerKt {
         traceInProgress2 = -1249392198;
         final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(Divider)P(1,0:c#ui.graphics.Color,3:c#ui.unit.Dp,2:c#ui.unit.Dp)45@1819L6,59@2200L147:Divider.kt#jmzs0o");
-        $dirty2 = i7;
+        $dirty = i7;
         int i19 = obj28 & 1;
         if (i19 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
             color2 = modifier;
         } else {
             if (i29 & 6 == 0) {
-                i2 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i2;
+                i5 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i5;
             } else {
                 color2 = modifier;
             }
@@ -82,88 +82,88 @@ public final class DividerKt {
             } else {
                 l = color;
             }
-            $dirty2 |= changed;
+            $dirty |= changed;
         } else {
             l = color;
         }
         $i$f$getDp = obj28 & 4;
         if ($i$f$getDp != 0) {
-            $dirty2 |= 384;
-            i15 = startIndent;
+            $dirty |= 384;
+            i = startIndent;
         } else {
             if (i29 & 384 == 0) {
-                i5 = restartGroup.changed(startIndent) ? 256 : 128;
-                $dirty2 |= i5;
+                i6 = restartGroup.changed(startIndent) ? 256 : 128;
+                $dirty |= i6;
             } else {
-                i15 = startIndent;
+                i = startIndent;
             }
         }
         padding-qDBjuR0$default = obj28 & 8;
         if (padding-qDBjuR0$default != 0) {
-            $dirty2 |= 3072;
-            i10 = $composer;
+            $dirty |= 3072;
+            i2 = $composer;
         } else {
             if (i29 & 3072 == 0) {
-                i14 = restartGroup.changed($composer) ? 2048 : 1024;
-                $dirty2 |= i14;
+                i8 = restartGroup.changed($composer) ? 2048 : 1024;
+                $dirty |= i8;
             } else {
-                i10 = $composer;
+                i2 = $composer;
             }
         }
-        i9 = 1170;
-        if ($dirty2 & 1171 == i9) {
+        i10 = 1170;
+        if ($dirty & 1171 == i10) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i29 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i19 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = color2;
+                            modifier2 = color2;
                         }
                         if (obj28 & 2 != 0) {
-                            color2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(restartGroup, 6).getOnSurface-0d7_KjU(), i9, 1039516303, 0, 0, 0, 14);
-                            $dirty2 &= -113;
+                            color2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(restartGroup, 6).getOnSurface-0d7_KjU(), i10, 1039516303, 0, 0, 0, 14);
+                            $dirty &= -113;
                         } else {
                             color2 = l;
                         }
                         if ($i$f$getDp != 0) {
                             $i$f$getDp = 0;
-                            i15 = $this$dp$iv;
+                            i = $this$dp$iv;
                         }
                         if (padding-qDBjuR0$default != 0) {
                             $i$f$getDp = 0;
-                            i10 = $this$dp$iv;
+                            i2 = $this$dp$iv;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj28 & 2 != 0) {
-                            $dirty2 &= -113;
+                            $dirty &= -113;
                         }
-                        modifier3 = color2;
+                        modifier2 = color2;
                         color2 = l;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material.Divider (Divider.kt:48)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.Divider (Divider.kt:48)");
                 }
                 int i17 = 0;
                 int i33 = 1;
-                i16 = Float.compare(i10, i17) == 0 ? i33 : 0;
-                if (i16 == 0) {
-                    i = i11;
-                    padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default((Modifier)Modifier.Companion, i10, 0, 0, 0, 14, 0);
+                i4 = Float.compare(i2, i17) == 0 ? i33 : 0;
+                if (i4 == 0) {
+                    i15 = i13;
+                    padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default((Modifier)Modifier.Companion, i2, 0, 0, 0, 14, 0);
                 } else {
-                    i = i33;
+                    i15 = i33;
                     padding-qDBjuR0$default = Modifier.Companion;
                 }
-                if (Dp.equals-impl0(i15, Dp.Companion.getHairline-D9Ej5fM())) {
+                if (Dp.equals-impl0(i, Dp.Companion.getHairline-D9Ej5fM())) {
                     restartGroup.startReplaceGroup(-129374855);
                     ComposerKt.sourceInformation(restartGroup, "*55@2139L7");
-                    i9 = 0;
-                    i6 = 0;
+                    i10 = 0;
+                    i14 = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     int i31 = 0;
@@ -172,31 +172,31 @@ public final class DividerKt {
                 } else {
                     restartGroup.startReplaceGroup(-129316234);
                     restartGroup.endReplaceGroup();
-                    $i$f$getDp = i15;
+                    $i$f$getDp = i;
                 }
-                i9 = 0;
-                BoxKt.Box(BackgroundKt.background-bw27NRU$default(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier3.then(padding-qDBjuR0$default), i17, i, i9), $i$f$getDp), color2, thickness, i9, 2), restartGroup, 0);
+                i10 = 0;
+                BoxKt.Box(BackgroundKt.background-bw27NRU$default(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier2.then(padding-qDBjuR0$default), i17, i15, i10), $i$f$getDp), color2, thickness, i10, 2), restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                thickness2 = $dirty2;
-                $dirty = modifier3;
-                modifier2 = color2;
+                thickness2 = $dirty;
+                $dirty2 = modifier2;
+                modifier3 = color2;
                 f2 = f3;
-                f = i10;
+                f = i2;
             } else {
                 restartGroup.skipToGroupEnd();
-                thickness2 = $dirty2;
-                $dirty = color2;
-                modifier2 = l;
-                f2 = i11;
-                f = i10;
+                thickness2 = $dirty;
+                $dirty2 = color2;
+                modifier3 = l;
+                f2 = i13;
+                f = i2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new DividerKt.Divider.1($dirty, modifier2, color2, f2, f, i29, obj28);
+            traceInProgress2 = new DividerKt.Divider.1($dirty2, modifier3, color2, f2, f, i29, obj28);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }

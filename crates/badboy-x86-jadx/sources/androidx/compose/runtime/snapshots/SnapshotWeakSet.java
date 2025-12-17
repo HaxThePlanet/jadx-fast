@@ -43,28 +43,28 @@ public final class SnapshotWeakSet<T>  {
     }
 
     private final int findExactIndex(int midIndex, T value, int valueHash) {
-        int i;
-        int i2;
-        int i4;
-        WeakReference weakReference;
         int i3;
+        int i4;
+        int i2;
+        WeakReference weakReference;
+        int i;
         Object obj;
-        i = midIndex + -1;
-        while (-1 < i) {
-            weakReference = this.values[i];
+        i3 = midIndex + -1;
+        while (-1 < i3) {
+            weakReference = this.values[i3];
             if (weakReference != null) {
             }
-            i--;
-            i4 = weakReference.get();
+            i3--;
+            i2 = weakReference.get();
         }
-        i2 = midIndex + 1;
-        while (i2 < this.size) {
-            WeakReference weakReference2 = this.values[i2];
+        i4 = midIndex + 1;
+        while (i4 < this.size) {
+            WeakReference weakReference2 = this.values[i4];
             if (weakReference2 != null) {
             } else {
             }
-            obj = i4;
-            i2++;
+            obj = i2;
+            i4++;
             obj = weakReference2.get();
         }
         return -i6;
@@ -74,11 +74,11 @@ public final class SnapshotWeakSet<T>  {
         int index;
         int[] hashes2;
         int[] hashes;
-        int i;
-        int i5;
-        int i3;
         int i2;
+        int i5;
         int i4;
+        int i;
+        int i3;
         int[] iArr;
         WeakReference[] objArr;
         int i6 = 0;
@@ -94,18 +94,18 @@ public final class SnapshotWeakSet<T>  {
         final int i14 = -i8;
         int length = values.length;
         if (size == length) {
-            i4 = length * 2;
-            WeakReference[] arr = new WeakReference[i4];
-            iArr = new int[i4];
+            i3 = length * 2;
+            WeakReference[] arr = new WeakReference[i3];
+            iArr = new int[i3];
             ArraysKt.copyInto(this.values, arr, i14 + 1, i14, size);
-            i3 = 6;
-            i2 = 0;
+            i4 = 6;
             i = 0;
+            i2 = 0;
             i5 = 0;
-            ArraysKt.copyInto$default(this.values, arr, i, i5, i14, i3, i2);
+            ArraysKt.copyInto$default(this.values, arr, i2, i5, i14, i4, i);
             ArraysKt.copyInto(this.hashes, iArr, i14 + 1, i14, size);
             hashes = iArr;
-            ArraysKt.copyInto$default(this.hashes, hashes, i, i5, i14, i3, i2);
+            ArraysKt.copyInto$default(this.hashes, hashes, i2, i5, i14, i4, i);
             this.values = arr;
             this.hashes = hashes;
         } else {
@@ -134,9 +134,9 @@ public final class SnapshotWeakSet<T>  {
 
     public final boolean isValid$runtime_release() {
         int previous;
-        int i;
-        int i2;
         int i3;
+        int i2;
+        int i;
         WeakReference weakReference;
         Object obj;
         int identityHashCode;
@@ -149,13 +149,13 @@ public final class SnapshotWeakSet<T>  {
             return i4;
         }
         previous = Integer.MIN_VALUE;
-        i = 0;
-        while (i < size) {
-            i3 = hashes[i];
-            weakReference = values[i];
+        i3 = 0;
+        while (i3 < size) {
+            i = hashes[i3];
+            weakReference = values[i3];
             obj = weakReference.get();
-            previous = i3;
-            i++;
+            previous = i;
+            i3++;
         }
         i2 = size;
         while (i2 < length) {
@@ -166,37 +166,37 @@ public final class SnapshotWeakSet<T>  {
 
     public final void removeIf(Function1<? super T, Boolean> block) {
         int currentUsed;
-        int i4;
-        int i3;
-        int i;
-        WeakReference hashes$runtime_release;
-        boolean hashes$runtime_release2;
         int i2;
+        int i;
+        int i3;
+        WeakReference hashes$runtime_release2;
+        boolean hashes$runtime_release;
+        int i4;
         final int i5 = 0;
         final int size$runtime_release = getSize$runtime_release();
         currentUsed = 0;
-        i4 = 0;
-        while (i4 < size$runtime_release) {
-            hashes$runtime_release = getValues$runtime_release()[i4];
-            if (hashes$runtime_release != null) {
+        i2 = 0;
+        while (i2 < size$runtime_release) {
+            hashes$runtime_release2 = getValues$runtime_release()[i2];
+            if (hashes$runtime_release2 != null) {
             }
-            if (i != 0 && !(Boolean)block.invoke(i).booleanValue() && currentUsed != i4) {
+            if (i3 != 0 && !(Boolean)block.invoke(i3).booleanValue() && currentUsed != i2) {
             }
-            i4++;
-            if (!(Boolean)block.invoke(i).booleanValue()) {
+            i2++;
+            if (!(Boolean)block.invoke(i3).booleanValue()) {
             }
-            if (currentUsed != i4) {
+            if (currentUsed != i2) {
             }
             currentUsed++;
-            getValues$runtime_release()[currentUsed] = hashes$runtime_release;
-            getHashes$runtime_release()[currentUsed] = getHashes$runtime_release()[i4];
-            i = hashes$runtime_release.get();
+            getValues$runtime_release()[currentUsed] = hashes$runtime_release2;
+            getHashes$runtime_release()[currentUsed] = getHashes$runtime_release()[i2];
+            i3 = hashes$runtime_release2.get();
         }
-        i3 = currentUsed;
-        while (i3 < size$runtime_release) {
-            getValues$runtime_release()[i3] = 0;
-            getHashes$runtime_release()[i3] = 0;
-            i3++;
+        i = currentUsed;
+        while (i < size$runtime_release) {
+            getValues$runtime_release()[i] = 0;
+            getHashes$runtime_release()[i] = 0;
+            i++;
         }
         if (currentUsed != size$runtime_release) {
             setSize$runtime_release(currentUsed);

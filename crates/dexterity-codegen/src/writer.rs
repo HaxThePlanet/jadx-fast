@@ -1,5 +1,7 @@
 //! Code writer abstraction
 
+use tracing::error;
+
 /// Code writer trait
 pub trait CodeWriter {
     /// Start a new line with current indentation
@@ -67,9 +69,19 @@ impl CodeWriter for SimpleCodeWriter {
 
     fn add(&mut self, s: &str) -> &mut Self {
         if s.len() > 10_000_000 {
+             error!(
+                 string_len = s.len(),
+                 limit = 10_000_000,
+                 "LIMIT_EXCEEDED: SimpleCodeWriter adding huge string"
+             );
              panic!("SimpleCodeWriter adding huge string! len={} start={:.50}...", s.len(), s);
         }
         if self.buf.len() > 100_000_000 { // 100MB limit check BEFORE allocation
+             error!(
+                 buf_len = self.buf.len(),
+                 limit = 100_000_000,
+                 "LIMIT_EXCEEDED: SimpleCodeWriter buffer limit exceeded (100MB)"
+             );
              panic!("SimpleCodeWriter limit exceeded (100MB) while adding: {:.50}...", s);
         }
         if self.at_line_start {

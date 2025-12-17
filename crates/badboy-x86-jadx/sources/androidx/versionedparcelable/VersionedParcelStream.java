@@ -562,13 +562,13 @@ class VersionedParcelStream extends androidx.versionedparcelable.VersionedParcel
 
     @Override // androidx.versionedparcelable.VersionedParcel
     public void writeString(String val) {
-        byte[] mCurrentOutput2;
-        DataOutputStream mCurrentOutput;
+        byte[] mCurrentOutput;
+        DataOutputStream mCurrentOutput2;
         int length;
         if (val != null) {
-            mCurrentOutput2 = val.getBytes(VersionedParcelStream.UTF_16);
-            this.mCurrentOutput.writeInt(mCurrentOutput2.length);
-            this.mCurrentOutput.write(mCurrentOutput2);
+            mCurrentOutput = val.getBytes(VersionedParcelStream.UTF_16);
+            this.mCurrentOutput.writeInt(mCurrentOutput.length);
+            this.mCurrentOutput.write(mCurrentOutput);
         } else {
             try {
                 this.mCurrentOutput.writeInt(-1);

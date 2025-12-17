@@ -50,25 +50,25 @@ public final class MenuDefaults {
         androidx.compose.material3.MenuItemColors defaultMenuItemColorsCached$material3_release;
         androidx.compose.material3.MenuItemColors menuItemColors;
         int i2;
-        long token;
         long token2;
+        long token;
         long copy-wmQWz5c$default;
         long copy-wmQWz5c$default3;
-        int i3;
+        int i6;
         long copy-wmQWz5c$default2;
         int i;
-        int i9;
-        int i4;
         int i5;
-        int i7;
-        int i6;
         int i8;
+        int i3;
+        int i7;
+        int i4;
+        int i9;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultMenuItemColors;
         if (colorScheme.getDefaultMenuItemColorsCached$material3_release() == null) {
-            i3 = 0;
+            i6 = 0;
             i = 0;
-            i4 = 0;
-            menuItemColors = new MenuItemColors(ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemLabelTextColor()), obj4, ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemLeadingIconColor()), obj6, ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemTrailingIconColor()), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemDisabledLabelTextColor()), obj10, ListTokens.INSTANCE.getListItemDisabledLabelTextOpacity(), i3, 0, i, 14), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemDisabledLeadingIconColor()), i3, ListTokens.INSTANCE.getListItemDisabledLeadingIconOpacity(), i, 0, i4, 14), i3, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemDisabledTrailingIconColor()), i, ListTokens.INSTANCE.getListItemDisabledTrailingIconOpacity(), i4, 0, 0, 14), i, 0);
+            i8 = 0;
+            menuItemColors = new MenuItemColors(ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemLabelTextColor()), obj4, ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemLeadingIconColor()), obj6, ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemTrailingIconColor()), obj8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemDisabledLabelTextColor()), obj10, ListTokens.INSTANCE.getListItemDisabledLabelTextOpacity(), i6, 0, i, 14), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemDisabledLeadingIconColor()), i6, ListTokens.INSTANCE.getListItemDisabledLeadingIconOpacity(), i, 0, i8, 14), i6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ListTokens.INSTANCE.getListItemDisabledTrailingIconColor()), i, ListTokens.INSTANCE.getListItemDisabledTrailingIconOpacity(), i8, 0, 0, 14), i, 0);
             i2 = 0;
             colorScheme.setDefaultMenuItemColorsCached$material3_release(menuItemColors);
         }
@@ -118,53 +118,53 @@ public final class MenuDefaults {
     }
 
     public final androidx.compose.material3.MenuItemColors itemColors-5tl4gsc(long textColor, long leadingIconColor, long trailingIconColor, long disabledTextColor, long disabledLeadingIconColor, long disabledTrailingIconColor, Composer $composer, int $changed, int i9) {
-        long unspecified-0d7_KjU4;
+        long unspecified-0d7_KjU;
+        long unspecified-0d7_KjU2;
         long unspecified-0d7_KjU3;
-        long unspecified-0d7_KjU6;
-        int unspecified-0d7_KjU;
-        int unspecified-0d7_KjU2;
         int unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU4;
+        int unspecified-0d7_KjU6;
         boolean traceInProgress;
         String str;
         int i;
+        long l;
+        long l4;
+        long l5;
+        long l2;
         long l3;
         long l6;
-        long l5;
-        long l4;
-        long l;
-        long l2;
         final Composer composer = obj30;
         int i2 = -1278543580;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(itemColors)P(4:c#ui.graphics.Color,3:c#ui.graphics.Color,5:c#ui.graphics.Color,1:c#ui.graphics.Color,0:c#ui.graphics.Color,2:c#ui.graphics.Color)229@11073L11:Menu.kt#uh7d8r");
         if (obj32 & 1 != 0) {
-            l3 = unspecified-0d7_KjU4;
+            l = unspecified-0d7_KjU;
         } else {
-            l3 = textColor;
+            l = textColor;
         }
         if (obj32 & 2 != 0) {
-            l6 = unspecified-0d7_KjU3;
+            l4 = unspecified-0d7_KjU2;
         } else {
-            l6 = trailingIconColor;
+            l4 = trailingIconColor;
         }
         if (obj32 & 4 != 0) {
-            l5 = unspecified-0d7_KjU6;
+            l5 = unspecified-0d7_KjU3;
         } else {
             l5 = disabledLeadingIconColor;
         }
         if (obj32 & 8 != 0) {
-            l4 = unspecified-0d7_KjU;
-        } else {
-            l4 = $composer;
-        }
-        if (obj32 & 16 != 0) {
-            l = unspecified-0d7_KjU2;
-        } else {
-            l = i9;
-        }
-        if (obj32 & 32 != 0) {
             l2 = unspecified-0d7_KjU5;
         } else {
-            l2 = obj28;
+            l2 = $composer;
+        }
+        if (obj32 & 16 != 0) {
+            l3 = unspecified-0d7_KjU4;
+        } else {
+            l3 = i9;
+        }
+        if (obj32 & 32 != 0) {
+            l6 = unspecified-0d7_KjU6;
+        } else {
+            l6 = obj28;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj31, -1, "androidx.compose.material3.MenuDefaults.itemColors (Menu.kt:229)");
@@ -175,6 +175,6 @@ public final class MenuDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultMenuItemColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-tNS2XkQ(l3, obj6, l6, obj8, l5, obj10);
+        return this.getDefaultMenuItemColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-tNS2XkQ(l, obj6, l4, obj8, l5, obj10);
     }
 }

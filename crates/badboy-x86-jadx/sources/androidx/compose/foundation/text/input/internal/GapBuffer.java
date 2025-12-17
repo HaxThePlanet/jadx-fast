@@ -21,12 +21,12 @@ final class GapBuffer {
 
     private final void delete(int start, int end) {
         int i2;
-        int gapStart4;
+        int gapStart3;
         int gapStart;
-        int i;
-        int buffer;
         int i3;
-        char[] gapStart3;
+        int buffer;
+        int i;
+        char[] gapStart4;
         int gapStart2;
         int gapEnd;
         if (start < this.gapStart && end <= this.gapStart) {
@@ -78,17 +78,17 @@ final class GapBuffer {
     }
 
     public static void replace$default(androidx.compose.foundation.text.input.internal.GapBuffer gapBuffer, int i2, int i3, java.lang.CharSequence charSequence4, int i5, int i6, int i7, Object object8) {
-        int i;
         int i4;
+        int i;
         int obj10;
         int obj11;
-        i = i7 & 8 != 0 ? obj10 : i5;
+        i4 = i7 & 8 != 0 ? obj10 : i5;
         if (i7 & 16 != 0) {
-            i4 = obj11;
+            i = obj11;
         } else {
-            i4 = i6;
+            i = i6;
         }
-        gapBuffer.replace(i2, i3, charSequence4, i, i4);
+        gapBuffer.replace(i2, i3, charSequence4, i4, i);
     }
 
     public final void append(StringBuilder builder) {

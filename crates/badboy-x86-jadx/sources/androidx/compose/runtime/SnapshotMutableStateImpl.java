@@ -52,19 +52,19 @@ public class SnapshotMutableStateImpl<T>  extends StateObjectImpl implements Sna
     }
 
     public SnapshotMutableStateImpl(T value, androidx.compose.runtime.SnapshotMutationPolicy<T> policy) {
-        boolean stateStateRecord;
-        androidx.compose.runtime.SnapshotMutableStateImpl.StateStateRecord stateStateRecord2;
-        int i2;
+        boolean stateStateRecord2;
+        androidx.compose.runtime.SnapshotMutableStateImpl.StateStateRecord stateStateRecord;
         int i;
+        int i2;
         super();
         this.policy = policy;
         SnapshotMutableStateImpl.StateStateRecord stateStateRecord3 = new SnapshotMutableStateImpl.StateStateRecord(value);
         final int i3 = 0;
         if (Snapshot.Companion.isInSnapshot()) {
-            stateStateRecord = new SnapshotMutableStateImpl.StateStateRecord(value);
-            i2 = 0;
-            stateStateRecord.setSnapshotId$runtime_release(1);
-            stateStateRecord3.setNext$runtime_release((StateRecord)stateStateRecord);
+            stateStateRecord2 = new SnapshotMutableStateImpl.StateStateRecord(value);
+            i = 0;
+            stateStateRecord2.setSnapshotId$runtime_release(1);
+            stateStateRecord3.setNext$runtime_release((StateRecord)stateStateRecord2);
         }
         this.next = stateStateRecord3;
     }
@@ -142,9 +142,9 @@ public class SnapshotMutableStateImpl<T>  extends StateObjectImpl implements Sna
         boolean equivalent;
         Object value2;
         Snapshot snapshot$iv;
-        int i;
-        Object obj;
         int i2;
+        Object obj;
+        int i;
         Throwable th;
         Unit $this$_set_value__u24lambda_u241_u24lambda_u240;
         int i3;
@@ -157,13 +157,13 @@ public class SnapshotMutableStateImpl<T>  extends StateObjectImpl implements Sna
             Snapshot snapshot$iv2 = SnapshotKt.getSnapshotInitializer();
             int i7 = 0;
             Object lock = SnapshotKt.getLock();
-            i2 = 0;
+            i = 0;
             th = 0;
             snapshot$iv = current2;
             i3 = 0;
             (SnapshotMutableStateImpl.StateStateRecord)SnapshotKt.overwritableRecord((StateRecord)this.next, (StateObject)this, snapshot$iv, (StateRecord)current).setValue(value);
             $this$_set_value__u24lambda_u241_u24lambda_u240 = Unit.INSTANCE;
-            i = 0;
+            i2 = 0;
             SnapshotKt.notifyWrite(snapshot$iv, (StateObject)this);
             synchronized (lock) {
                 value2 = 0;
@@ -171,13 +171,13 @@ public class SnapshotMutableStateImpl<T>  extends StateObjectImpl implements Sna
                 snapshot$iv2 = SnapshotKt.getSnapshotInitializer();
                 i7 = 0;
                 lock = SnapshotKt.getLock();
-                i2 = 0;
+                i = 0;
                 th = 0;
                 snapshot$iv = current2;
                 i3 = 0;
                 (SnapshotMutableStateImpl.StateStateRecord)SnapshotKt.overwritableRecord((StateRecord)this.next, (StateObject)this, snapshot$iv, (StateRecord)current).setValue(value);
                 $this$_set_value__u24lambda_u241_u24lambda_u240 = Unit.INSTANCE;
-                i = 0;
+                i2 = 0;
                 SnapshotKt.notifyWrite(snapshot$iv, (StateObject)this);
             }
         }

@@ -59,19 +59,19 @@ final class DragAndDropModifierOnDragListener implements View.OnDragListener, Dr
     public boolean onDrag(View view, DragEvent event) {
         ArraySet rootDragAndDropNode;
         boolean acceptDragAndDropTransfer;
-        int i;
+        int i2;
         Iterator iterator;
         boolean next;
         Object obj;
-        int i2;
+        int i;
         DragAndDropEvent dragAndDropEvent2 = new DragAndDropEvent(event);
         acceptDragAndDropTransfer = 0;
         switch (rootDragAndDropNode) {
             case 1:
                 acceptDragAndDropTransfer = this.rootDragAndDropNode.acceptDragAndDropTransfer(dragAndDropEvent2);
-                i = 0;
-                iterator = (Iterable)this.interestedNodes.iterator();
                 i2 = 0;
+                iterator = (Iterable)this.interestedNodes.iterator();
+                i = 0;
                 (DragAndDropModifierNode)iterator.next().onStarted(dragAndDropEvent2);
                 break;
             case 2:

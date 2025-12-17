@@ -34,26 +34,26 @@ public final class ExpressiveNavigationBarItemDefaults {
     public final androidx.compose.material3.NavigationItemColors getDefaultExpressiveNavigationBarItemColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultExpressiveNavigationBarItemColors) {
         androidx.compose.material3.NavigationItemColors defaultExpressiveNavigationBarItemColorsCached$material3_release;
         androidx.compose.material3.NavigationItemColors navigationItemColors;
-        int i6;
+        int i;
+        long token3;
+        long token2;
         long token4;
         long token;
-        long token2;
-        long token3;
         long copy-wmQWz5c$default2;
         long copy-wmQWz5c$default;
-        int i7;
         int i5;
+        int i7;
+        int i3;
         int i8;
         int i4;
-        int i;
-        int i3;
         int i2;
+        int i6;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultExpressiveNavigationBarItemColors;
         if (colorScheme.getDefaultExpressiveNavigationBarItemColorsCached$material3_release() == null) {
-            i7 = 0;
-            i8 = 0;
-            navigationItemColors = new NavigationItemColors(ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getActiveIconColor$p()), obj4, ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getActiveLabelTextColor$p()), obj6, ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getActiveIndicatorColor$p()), obj8, ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getInactiveIconColor$p()), obj10, ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getInactiveLabelTextColor$p()), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getInactiveIconColor$p()), obj14, 1052938076, i7, 0, i8, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getInactiveLabelTextColor$p()), i7, 1052938076, i8, 0, 0, 14), i7, 0);
-            i6 = 0;
+            i5 = 0;
+            i3 = 0;
+            navigationItemColors = new NavigationItemColors(ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getActiveIconColor$p()), obj4, ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getActiveLabelTextColor$p()), obj6, ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getActiveIndicatorColor$p()), obj8, ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getInactiveIconColor$p()), obj10, ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getInactiveLabelTextColor$p()), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getInactiveIconColor$p()), obj14, 1052938076, i5, 0, i3, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, ExpressiveNavigationBarKt.access$getInactiveLabelTextColor$p()), i5, 1052938076, i3, 0, 0, 14), i5, 0);
+            i = 0;
             colorScheme.setDefaultExpressiveNavigationBarItemColorsCached$material3_release(navigationItemColors);
         }
         return defaultExpressiveNavigationBarItemColorsCached$material3_release;

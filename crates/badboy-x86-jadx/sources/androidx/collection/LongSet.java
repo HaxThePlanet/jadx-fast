@@ -76,12 +76,12 @@ public abstract class LongSet {
         Object this_$iv;
         int j$iv$iv;
         long slot$iv$iv;
+        int i;
+        long l;
         int i2;
         long l2;
-        int i4;
-        long l;
         int i3;
-        int i;
+        int i4;
         Object obj29;
         int obj30;
         int obj32;
@@ -146,14 +146,14 @@ public abstract class LongSet {
         long booleanValue;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i;
+        int i3;
         int i5;
         int i4;
         long slot$iv$iv;
         long cmp;
         int i2;
         long l;
-        int i3;
+        int i;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
         int i6 = 0;
@@ -181,8 +181,8 @@ public abstract class LongSet {
         long booleanValue;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i2;
         int i;
+        int i2;
         int i5;
         long slot$iv$iv;
         long cmp2;
@@ -210,22 +210,22 @@ public abstract class LongSet {
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
-        int i2;
-        int i13;
+        int i3;
+        int i12;
         int $this$hasNext$iv$iv;
         int $this$next$iv$iv;
-        int i5;
-        int i4;
         int i7;
-        int i9;
-        long l;
-        int i10;
-        int i;
-        int i12;
-        int i6;
-        int i11;
         int i8;
-        int i3;
+        int i13;
+        int i;
+        long l;
+        int i9;
+        int i2;
+        int i4;
+        int i5;
+        int i10;
+        int i11;
+        int i6;
         int numberOfTrailingZeros;
         final Object obj = this;
         m$iv2 = 0;
@@ -240,51 +240,51 @@ public abstract class LongSet {
         while (/* condition */) {
             int i31 = 0;
             int i35 = 0;
-            i3 = 1;
+            i6 = 1;
             while (Long.compare(i26, i35) != 0) {
-                $this$hasNext$iv$iv = i3;
-                i5 = 0;
-                i = 0;
-                int i29 = m$iv;
+                $this$hasNext$iv$iv = i6;
                 i7 = 0;
+                i2 = 0;
+                int i29 = m$iv;
+                i13 = 0;
                 m$iv = $this$next$iv$iv;
                 i31 = 0;
                 i35 = 0;
-                i3 = 1;
-                $this$hasNext$iv$iv = i8;
+                i6 = 1;
+                $this$hasNext$iv$iv = i11;
             }
-            $this$hasNext$iv$iv = i8;
-            int i28 = i11;
-            i5 = 0;
+            $this$hasNext$iv$iv = i11;
+            int i28 = i10;
+            i7 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i2 & _capacity;
-            m$iv2 = i12;
-            $i$f$hash = i6;
+            $i$f$h1 = i3 & _capacity;
+            m$iv2 = i4;
+            $i$f$hash = i5;
             long[] metadata = obj.metadata;
             $this$next$iv$iv = 0;
             int i30 = $i$f$h1 >> 3;
             i32 <<= 3;
             l4 >>>= i33;
-            i16 |= i9;
-            i5 = 0;
+            i16 |= i;
+            i7 = 0;
             long l5 = 72340172838076673L;
-            i34 ^= i13;
+            i34 ^= i12;
             l = -9187201950435737472L;
             i18 &= l;
-            i5 = 0;
-            i = 0;
-            i29 = m$iv;
             i7 = 0;
+            i2 = 0;
+            i29 = m$iv;
+            i13 = 0;
             m$iv = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i3;
+            $this$hasNext$iv$iv = i6;
         }
-        if (i13 >= 0) {
-            i8 = i3;
+        if (i12 >= 0) {
+            i11 = i6;
         }
-        return i8;
+        return i11;
     }
 
     public final int count() {
@@ -297,14 +297,14 @@ public abstract class LongSet {
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i2;
+        int i5;
         int i4;
         int $i$f$count;
         int count;
         long l;
-        int i;
         int i3;
-        int i5;
+        int i;
+        int i2;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
         booleanValue = 0;
@@ -324,32 +324,32 @@ public abstract class LongSet {
     public boolean equals(Object other) {
         int cmp;
         Object contains;
-        int i6;
         int i4;
+        int i;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
         int value$iv$iv$iv;
         int i8;
-        int i2;
+        int i3;
         Object obj;
         long l;
-        int i7;
-        int i3;
-        int i;
         int i5;
+        int i2;
+        int i6;
+        int i7;
         final Object obj2 = this;
         final Object obj3 = other;
         cmp = 1;
         if (obj3 == obj2) {
             return cmp;
         }
-        i6 = 0;
+        i4 = 0;
         if (obj3 instanceof LongSet == null) {
-            return i6;
+            return i4;
         }
         if (obj4._size != obj2._size) {
-            return i6;
+            return i4;
         }
         contains = this;
         final int i16 = 0;
@@ -357,11 +357,11 @@ public abstract class LongSet {
         length += -2;
         if (0 <= i17) {
         } else {
-            i2 = cmp;
+            i3 = cmp;
             obj = contains;
-            i3 = i4;
+            i2 = i;
         }
-        return i2;
+        return i3;
     }
 
     public final int findElementIndex$collection(long element) {
@@ -370,21 +370,21 @@ public abstract class LongSet {
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex;
-        int i4;
-        int i;
-        int $this$next$iv;
-        int i5;
-        int i7;
-        int i2;
-        int i10;
-        int i14;
-        long l;
-        int i13;
-        int i8;
-        int i3;
-        int i9;
         int i11;
+        int i3;
+        int $this$next$iv;
+        int i14;
+        int i;
         int i12;
+        int i7;
+        int i8;
+        long l;
+        int i9;
+        int i2;
+        int i13;
+        int i5;
+        int i4;
+        int i10;
         int i6;
         final Object obj = this;
         m = 0;
@@ -400,43 +400,43 @@ public abstract class LongSet {
             int i32 = 0;
             int i36 = 0;
             while (Long.compare(i27, i36) != 0) {
-                i3 = 1;
-                i7 = 0;
-                i8 = 0;
-                i = i38 & _capacity;
+                i13 = 1;
+                i = 0;
+                i2 = 0;
+                i3 = i38 & _capacity;
                 int i30 = m2;
-                i10 = 0;
+                i7 = 0;
                 m2 = $this$next$iv;
                 i32 = 0;
                 i36 = 0;
-                i3 = 0;
+                i13 = 0;
             }
-            i3 = 0;
-            int i29 = i12;
-            i5 = 0;
-            $i$f$h1 = i4 & _capacity;
-            m = i9;
-            $i$f$hash = i11;
+            i13 = 0;
+            int i29 = i10;
+            i14 = 0;
+            $i$f$h1 = i11 & _capacity;
+            m = i5;
+            $i$f$hash = i4;
             long[] metadata = obj.metadata;
             $this$next$iv = 0;
             int i31 = $i$f$h1 >> 3;
             i33 <<= 3;
             l4 >>>= i34;
-            i17 |= i14;
-            i7 = 0;
+            i17 |= i8;
+            i = 0;
             long l5 = 72340172838076673L;
-            i35 ^= i;
+            i35 ^= i3;
             l = -9187201950435737472L;
             i19 &= l;
-            i7 = 0;
-            i8 = 0;
-            i = i38 & _capacity;
+            i = 0;
+            i2 = 0;
+            i3 = i38 & _capacity;
             i30 = m2;
-            i10 = 0;
+            i7 = 0;
             m2 = $this$next$iv;
-            i3 = 1;
+            i13 = 1;
         }
-        return i;
+        return i3;
     }
 
     public final long first() {
@@ -468,13 +468,13 @@ public abstract class LongSet {
         long slot$iv$iv;
         long j$iv$iv;
         int i4;
-        int i5;
+        int i;
         int $i$f$first;
         Object obj;
         long l;
-        int i2;
-        int i;
         int i3;
+        int i5;
+        int i2;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter(obj2, "predicate");
         booleanValue = this;
@@ -497,11 +497,11 @@ public abstract class LongSet {
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
-        int i;
-        int i4;
-        long l;
         int i2;
         int i3;
+        long l;
+        int i4;
+        int i;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         int i5 = 0;
@@ -514,15 +514,15 @@ public abstract class LongSet {
     }
 
     public final void forEachIndex(Function1<? super Integer, Unit> block) {
-        int i;
+        int i3;
         long slot;
         int $this$maskEmptyOrDeleted$iv;
-        int i3;
+        int i2;
         int j;
         int i4;
         Integer valueOf;
         long l;
-        int i2;
+        int i;
         Intrinsics.checkNotNullParameter(block, "block");
         int i5 = 0;
         final long[] metadata = this.metadata;
@@ -544,14 +544,14 @@ public abstract class LongSet {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i;
-        int j$iv$iv;
-        int i2;
         int i4;
-        long l;
-        int i5;
-        int i3;
+        int j$iv$iv;
         int i6;
+        int i5;
+        long l;
+        int i;
+        int i2;
+        int i3;
         hash = 0;
         final Object obj = this;
         final int i7 = 0;
@@ -606,26 +606,26 @@ public abstract class LongSet {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated) {
-        int i2;
+        int i;
         Object obj;
         StringBuilder stringBuilder;
-        int index2;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i5;
+        int index;
+        int $this$maskEmptyOrDeleted$iv$iv$iv2;
+        int i2;
         int this_$iv;
         int j$iv$iv;
         int i$iv$iv;
         long slot$iv$iv;
-        Object $this$maskEmptyOrDeleted$iv$iv$iv2;
+        Object $this$maskEmptyOrDeleted$iv$iv$iv;
         int i3;
-        int i7;
-        int i8;
-        int i4;
-        long l;
         int i9;
-        int i;
-        StringBuilder index;
+        int i5;
         int i6;
+        long l;
+        int i4;
+        int i8;
+        StringBuilder index2;
+        int i7;
         final Object obj2 = separator;
         obj = prefix;
         final Object obj3 = postfix;
@@ -637,22 +637,22 @@ public abstract class LongSet {
         stringBuilder = new StringBuilder();
         StringBuilder sb = stringBuilder;
         sb.append(obj);
-        i5 = 0;
+        i2 = 0;
         this_$iv = this;
         final int i16 = 0;
         final long[] metadata = obj5.metadata;
         length += -2;
         if (0 <= i17) {
         } else {
-            i2 = limit;
-            index = stringBuilder;
-            i8 = $this$maskEmptyOrDeleted$iv$iv$iv;
-            $this$maskEmptyOrDeleted$iv$iv$iv2 = this_$iv;
+            i = limit;
+            index2 = stringBuilder;
+            i5 = $this$maskEmptyOrDeleted$iv$iv$iv2;
+            $this$maskEmptyOrDeleted$iv$iv$iv = this_$iv;
             i3 = j$iv$iv;
-            this_$iv = i5;
+            this_$iv = i2;
             sb.append(obj3);
         }
-        String string = index.toString();
+        String string = index2.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
         return string;
     }
@@ -662,21 +662,21 @@ public abstract class LongSet {
         int $i$f$joinToString;
         int $this$maskEmptyOrDeleted$iv$iv$iv2;
         int index;
-        int i7;
-        int i;
+        int i5;
+        int i2;
         int this_$iv;
         Object index2;
         int j$iv$iv;
         long slot$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
-        int i8;
-        int i4;
+        int i;
+        int i6;
+        int $i$a$BuildStringLongSet$joinToString$2;
         int i3;
         long l;
-        int i5;
-        int i6;
-        int i9;
+        int i7;
+        int i8;
+        int i4;
         Object obj = prefix;
         final Object obj2 = postfix;
         final Object obj3 = truncated;
@@ -690,15 +690,15 @@ public abstract class LongSet {
         final StringBuilder sb = stringBuilder;
         sb.append(obj);
         index2 = this;
-        final int i18 = 0;
+        final int i17 = 0;
         final long[] metadata = obj5.metadata;
         length += -2;
-        final int i19 = i11;
-        if (0 <= i10) {
+        final int i18 = i10;
+        if (0 <= i9) {
         } else {
-            i4 = $this$maskEmptyOrDeleted$iv$iv$iv2;
+            $i$a$BuildStringLongSet$joinToString$2 = $this$maskEmptyOrDeleted$iv$iv$iv2;
             $this$maskEmptyOrDeleted$iv$iv$iv = index2;
-            i2 = j$iv$iv;
+            i = j$iv$iv;
             index = limit;
             this_$iv = invoke;
             sb.append(obj2);
@@ -711,22 +711,22 @@ public abstract class LongSet {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, Function1<? super Long, ? extends java.lang.CharSequence> transform) {
         int invoke;
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i4;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i7;
         StringBuilder stringBuilder;
         int i;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int i4;
         int i2;
-        int i3;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
         int i5;
         int i6;
-        int i7;
+        int i3;
         Object obj = prefix;
         final Object obj2 = postfix;
         final Object obj3 = transform;
@@ -739,17 +739,17 @@ public abstract class LongSet {
         sb2.append(obj);
         index$iv = 0;
         final Object obj4 = this;
+        final int i14 = 0;
         final int i15 = 0;
-        final int i16 = 0;
         long[] metadata = obj5.metadata;
-        final int i17 = i8;
+        final int i16 = i8;
         $i$f$joinToString2 += -2;
         if (0 <= i9) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
-            i4 = limit;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            i7 = limit;
             sb2.append(obj2);
         }
         String string = sb.toString();
@@ -770,8 +770,8 @@ public abstract class LongSet {
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i;
         int i3;
+        int i;
         int i2;
         final Object obj = separator;
         Object obj2 = prefix;
@@ -786,10 +786,10 @@ public abstract class LongSet {
         sb2.append(obj2);
         index$iv = 0;
         final Object obj5 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         long[] metadata = obj6.metadata;
-        final int i16 = i6;
+        final int i15 = i6;
         $i$f$joinToString2 += -2;
         if (0 <= i7) {
         } else {
@@ -805,20 +805,20 @@ public abstract class LongSet {
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, Function1<? super Long, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int i5;
-        int i2;
+        int i3;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i3;
-        int i4;
         int i;
+        int i2;
+        int i4;
         final Object obj = separator;
         Object obj2 = prefix;
         final Object obj3 = transform;
@@ -830,16 +830,16 @@ public abstract class LongSet {
         sb2.append(obj2);
         index$iv = 0;
         final Object obj4 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         long[] metadata = obj5.metadata;
-        final int i16 = i6;
+        final int i15 = i6;
         $i$f$joinToString2 += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
             sb2.append((CharSequence)"");
         }
         String string = sb.toString();
@@ -855,14 +855,14 @@ public abstract class LongSet {
         int index$iv;
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i;
         int i3;
+        int i;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i2;
-        int i5;
         int i4;
+        int i5;
+        int i2;
         final Object obj = separator;
         final Object obj2 = transform;
         Intrinsics.checkNotNullParameter(obj, "separator");
@@ -874,9 +874,9 @@ public abstract class LongSet {
         sb2.append((CharSequence)str4);
         index$iv = 0;
         final Object obj3 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
-        final int i16 = i6;
+        final int i15 = i6;
         long[] $i$f$joinToString2 = obj4.metadata;
         final String str7 = str4;
         prefix$iv += -2;
@@ -894,20 +894,20 @@ public abstract class LongSet {
 
     public final String joinToString(Function1<? super Long, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int i4;
-        int i;
+        int i3;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i3;
-        int i2;
         int i5;
+        int i;
+        int i2;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(obj, "transform");
         final String str3 = "";
@@ -917,17 +917,17 @@ public abstract class LongSet {
         sb2.append((CharSequence)str4);
         index$iv = 0;
         final Object obj2 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
-        final int i16 = i6;
+        final int i15 = i6;
         long[] $i$f$joinToString2 = obj3.metadata;
         final String str7 = str4;
         prefix$iv += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
             sb2.append((CharSequence)str3);
         }
         String string = sb.toString();

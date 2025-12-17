@@ -88,9 +88,9 @@ public final class ResourcesCompat {
 
         public boolean equals(Object o) {
             int i;
-            Class class;
-            boolean equals;
             Class class2;
+            boolean equals;
+            Class class;
             Object mResources;
             if (this == o) {
                 return 1;
@@ -344,8 +344,8 @@ public final class ResourcesCompat {
         StringBuilder string;
         Resources resources;
         int i;
-        String str2;
         String str;
+        String str2;
         Resources resources2 = wrapper;
         final Object obj = value;
         int i2 = id;

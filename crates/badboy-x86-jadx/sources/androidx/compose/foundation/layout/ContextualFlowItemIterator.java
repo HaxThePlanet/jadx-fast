@@ -34,10 +34,10 @@ public final class ContextualFlowItemIterator implements Iterator<Measurable>, K
     public static Measurable getNext$foundation_layout_release$default(androidx.compose.foundation.layout.ContextualFlowItemIterator contextualFlowItemIterator, androidx.compose.foundation.layout.FlowLineInfo flowLineInfo2, int i3, Object object4) {
         androidx.compose.foundation.layout.FlowLineInfo flowLineInfo;
         int i7;
-        int i4;
         int i;
-        int i5;
         int i2;
+        int i4;
+        int i5;
         int i6;
         androidx.compose.foundation.layout.FlowLineInfo obj8;
         if (i3 &= 1 != 0) {

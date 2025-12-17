@@ -19,8 +19,8 @@ class PathInterpolatorApi14 implements Interpolator {
     }
 
     PathInterpolatorApi14(Path path) {
-        int i2;
         int i;
+        int i2;
         float[] fArr;
         float f;
         super();
@@ -32,12 +32,12 @@ class PathInterpolatorApi14 implements Interpolator {
         this.mX = new float[i7];
         this.mY = new float[i7];
         float[] fArr4 = new float[2];
-        i2 = 0;
-        while (i2 < i7) {
+        i = 0;
+        while (i < i7) {
             pathMeasure.getPosTan(i10 /= f3, fArr4, 0);
-            this.mX[i2] = fArr4[i3];
-            this.mY[i2] = fArr4[i8];
-            i2++;
+            this.mX[i] = fArr4[i3];
+            this.mY[i] = fArr4[i8];
+            i++;
         }
     }
 

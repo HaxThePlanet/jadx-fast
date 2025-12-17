@@ -82,14 +82,14 @@ final class WindowInsetsNestedScrollConnection implements NestedScrollConnection
     }
 
     private final void adjustInsets(float inset) {
-        int i;
+        int i3;
         android.graphics.Insets currentInsets;
         android.graphics.Insets adjustInsets;
+        int i;
         int i2;
-        int i3;
         final WindowInsetsAnimationController animationController = this.animationController;
         if (animationController != null) {
-            i = 0;
+            i3 = 0;
             int i4 = 0;
             animationController.setInsetsAndAlpha(this.sideCalculator.adjustInsets(animationController.getCurrentInsets(), Math.round(inset)), 1065353216, 0);
         }
@@ -133,161 +133,161 @@ final class WindowInsetsNestedScrollConnection implements NestedScrollConnection
     }
 
     private final Object fling-huYlsQE(long l, float f2, boolean z3, Continuation<? super Velocity> continuation4) {
-        Object obj3;
+        Object obj4;
         boolean anon;
-        int i4;
+        int i6;
         androidx.compose.foundation.layout.WindowInsetsNestedScrollConnection connection;
         Object flingAmount;
-        long j$02;
-        long available;
-        int i;
-        Object l$0;
-        Object l$03;
-        Object floatRef;
-        int i6;
-        Object l$02;
-        int i8;
-        int endPercent;
-        long i2;
-        int i7;
         long j$0;
-        androidx.compose.foundation.layout.WindowInsetsNestedScrollConnection.fling.3 available2;
-        Object obj2;
-        int currentInsets;
+        long available;
+        int i5;
+        Object _this2;
+        Object l$0;
+        Object _this;
         int i9;
+        Object l$02;
+        int i7;
+        int endPercent;
+        long i;
+        int i2;
+        long j$02;
+        androidx.compose.foundation.layout.WindowInsetsNestedScrollConnection.fling.3 available2;
+        Object obj;
+        int currentInsets;
+        int i8;
         int animationController;
         androidx.compose.foundation.layout.WindowInsetsAnimationCancelledException splineBasedFloatDecayAnimationSpec;
         int cmp;
-        Object obj;
+        Object obj3;
         int valueOf;
         int num;
-        Object obj4;
-        int i5;
+        Object obj2;
+        int i4;
         int i3;
         long l2;
-        obj3 = obj27;
-        anon = obj3;
-        i = Integer.MIN_VALUE;
-        if (obj3 instanceof WindowInsetsNestedScrollConnection.fling.1 && label2 &= i != 0) {
-            anon = obj3;
-            i = Integer.MIN_VALUE;
-            if (label2 &= i != 0) {
-                anon.label = label -= i;
+        obj4 = obj27;
+        anon = obj4;
+        i5 = Integer.MIN_VALUE;
+        if (obj4 instanceof WindowInsetsNestedScrollConnection.fling.1 && label2 &= i5 != 0) {
+            anon = obj4;
+            i5 = Integer.MIN_VALUE;
+            if (label2 &= i5 != 0) {
+                anon.label = label -= i5;
                 connection = this;
             } else {
-                anon = new WindowInsetsNestedScrollConnection.fling.1(this, obj3);
+                anon = new WindowInsetsNestedScrollConnection.fling.1(this, obj4);
             }
         } else {
         }
         Object result = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        i6 = 0;
-        i2 = 0;
-        i7 = 1;
+        i9 = 0;
+        i = 0;
+        i2 = 1;
         switch (label3) {
             case 0:
                 ResultKt.throwOnFailure(result);
-                l$0 = this;
+                _this2 = this;
                 boolean z = continuation4;
                 currentInsets = z3;
-                Job animationJob = l$0.animationJob;
+                Job animationJob = _this2.animationJob;
                 splineBasedFloatDecayAnimationSpec = new WindowInsetsAnimationCancelledException();
                 animationJob.cancel((CancellationException)splineBasedFloatDecayAnimationSpec);
-                l$0.animationJob = i6;
-                l$0.partialConsumption = i2;
-                animationController = i7;
+                _this2.animationJob = i9;
+                _this2.partialConsumption = i;
+                animationController = i2;
                 animationController = 0;
                 return Velocity.box-impl(Velocity.Companion.getZero-9UxMQ8M());
-                anon.L$0 = l$0;
+                anon.L$0 = _this2;
                 anon.J$0 = l;
                 anon.F$0 = currentInsets;
-                anon.label = i7;
+                anon.label = i2;
                 return cOROUTINE_SUSPENDED;
-                i9 = currentInsets;
+                i8 = currentInsets;
                 break;
             case 1:
-                j$0 = anon.J$0;
-                l$0 = anon.L$0;
+                j$02 = anon.J$0;
+                _this2 = anon.L$0;
                 ResultKt.throwOnFailure(result);
-                i9 = available3;
+                i8 = available3;
                 flingAmount = result;
                 break;
             case 2:
                 available = anon.J$0;
-                floatRef = anon.L$1;
+                _this = anon.L$1;
                 l$02 = anon.L$0;
                 ResultKt.throwOnFailure(result);
-                float element = floatRef.element;
+                float element = _this.element;
                 return Velocity.box-impl(l$02.sideCalculator.consumedVelocity-QWom1Mo(available, cOROUTINE_SUSPENDED));
             case 3:
-                j$02 = anon.J$0;
-                l$03 = anon.L$0;
+                j$0 = anon.J$0;
+                l$0 = anon.L$0;
                 ResultKt.throwOnFailure(result);
                 int i14 = 0;
-                return Velocity.box-impl(l$03.sideCalculator.consumedVelocity-QWom1Mo(j$02, cOROUTINE_SUSPENDED));
+                return Velocity.box-impl(l$0.sideCalculator.consumedVelocity-QWom1Mo(j$0, cOROUTINE_SUSPENDED));
             default:
                 IllegalStateException $result2 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw $result2;
         }
-        obj = flingAmount;
-        if ((WindowInsetsAnimationController)obj == null) {
+        obj3 = flingAmount;
+        if ((WindowInsetsAnimationController)obj3 == null) {
             return Velocity.box-impl(Velocity.Companion.getZero-9UxMQ8M());
         }
-        int valueOf2 = l$0.sideCalculator.valueOf((WindowInsetsAnimationController)obj.getHiddenStateInsets());
-        valueOf = l$0.sideCalculator.valueOf(obj.getShownStateInsets());
-        currentInsets = l$0.sideCalculator.valueOf(obj.getCurrentInsets());
-        if (Float.compare(i9, i2) <= 0) {
+        int valueOf2 = _this2.sideCalculator.valueOf((WindowInsetsAnimationController)obj3.getHiddenStateInsets());
+        valueOf = _this2.sideCalculator.valueOf(obj3.getShownStateInsets());
+        currentInsets = _this2.sideCalculator.valueOf(obj3.getCurrentInsets());
+        if (Float.compare(i8, i) <= 0) {
             if (currentInsets != valueOf2) {
-                if (Float.compare(i9, i2) >= 0 && currentInsets == valueOf) {
+                if (Float.compare(i8, i) >= 0 && currentInsets == valueOf) {
                     if (currentInsets == valueOf) {
-                        i8 = currentInsets == valueOf ? i7 : 0;
+                        i7 = currentInsets == valueOf ? i2 : 0;
                     }
                 }
             } else {
             }
-            obj.finish(i8);
-            l$0.animationController = i6;
+            obj3.finish(i7);
+            _this2.animationController = i9;
             return Velocity.box-impl(Velocity.Companion.getZero-9UxMQ8M());
         } else {
         }
-        splineBasedFloatDecayAnimationSpec = new SplineBasedFloatDecayAnimationSpec(l$0.density);
+        splineBasedFloatDecayAnimationSpec = new SplineBasedFloatDecayAnimationSpec(_this2.density);
         f += flingDistance;
         endPercent = Float.compare(i13, i16) > 0 ? 1 : 0;
-        i7 = endPercent != 0 ? valueOf : valueOf2;
-        if (Float.compare(i6, f4) <= 0) {
-            if (Float.compare(i6, f5) < 0) {
-                i2 = j$0;
-                obj2 = l$0;
-                floatRef = new Ref.FloatRef();
-                i5 = endPercent != 0 ? 1 : 0;
-                available2 = new WindowInsetsNestedScrollConnection.fling.2(obj2, currentInsets, i9, splineBasedFloatDecayAnimationSpec, valueOf2, valueOf, floatRef, obj, i5, 0);
-                anon.L$0 = obj2;
-                anon.L$1 = floatRef;
-                anon.J$0 = i2;
+        i2 = endPercent != 0 ? valueOf : valueOf2;
+        if (Float.compare(i9, f4) <= 0) {
+            if (Float.compare(i9, f5) < 0) {
+                i = j$02;
+                obj = _this2;
+                _this = new Ref.FloatRef();
+                i4 = endPercent != 0 ? 1 : 0;
+                available2 = new WindowInsetsNestedScrollConnection.fling.2(obj, currentInsets, i8, splineBasedFloatDecayAnimationSpec, valueOf2, valueOf, _this, obj3, i4, 0);
+                anon.L$0 = obj;
+                anon.L$1 = _this;
+                anon.J$0 = i;
                 anon.label = 2;
                 if (CoroutineScopeKt.coroutineScope((Function2)available2, anon) == cOROUTINE_SUSPENDED) {
                     return cOROUTINE_SUSPENDED;
                 }
-                available = i2;
-                l$02 = obj2;
+                available = i;
+                l$02 = obj;
             } else {
                 valueOf = endPercent != 0 ? 1 : 0;
-                obj2 = l$0;
-                i2 = i5;
-                available2 = new WindowInsetsNestedScrollConnection.fling.3(obj2, currentInsets, i7, i9, obj, valueOf, 0);
-                anon.L$0 = obj2;
-                anon.J$0 = i2;
+                obj = _this2;
+                i = i4;
+                available2 = new WindowInsetsNestedScrollConnection.fling.3(obj, currentInsets, i2, i8, obj3, valueOf, 0);
+                anon.L$0 = obj;
+                anon.J$0 = i;
                 anon.label = 3;
                 if (CoroutineScopeKt.coroutineScope((Function2)available2, anon) == cOROUTINE_SUSPENDED) {
                     return cOROUTINE_SUSPENDED;
                 }
-                j$02 = i2;
-                l$03 = obj2;
+                j$0 = i;
+                l$0 = obj;
             }
         }
-        obj2 = l$0;
-        l$0 = i7;
-        i2 = l2;
+        obj = _this2;
+        _this2 = i2;
+        i = l2;
     }
 
     private final Object getAnimationController(Continuation<? super WindowInsetsAnimationController> $completion) {
@@ -321,8 +321,8 @@ final class WindowInsetsNestedScrollConnection implements NestedScrollConnection
         boolean isControllerRequested;
         WindowInsetsController windowInsetsController;
         int type$foundation_layout_release;
-        int i;
         int i2;
+        int i;
         CancellationSignal cancellationSignal;
         Object obj;
         this.isControllerRequested = true;
@@ -337,17 +337,17 @@ final class WindowInsetsNestedScrollConnection implements NestedScrollConnection
     }
 
     private final long scroll-8S9VItk(long available, float scrollAmount) {
-        int i4;
+        int i;
         int i2;
         int visible;
-        int i3;
-        int cmp;
-        int i;
-        int adjustInsets;
         int i5;
+        int cmp;
+        int i4;
+        int adjustInsets;
+        int i3;
         Job animationJob = this.animationJob;
         if (animationJob != null) {
-            i4 = 0;
+            i = 0;
             WindowInsetsAnimationCancelledException windowInsetsAnimationCancelledException = new WindowInsetsAnimationCancelledException();
             animationJob.cancel((CancellationException)windowInsetsAnimationCancelledException);
             this.animationJob = 0;
@@ -355,13 +355,13 @@ final class WindowInsetsNestedScrollConnection implements NestedScrollConnection
         WindowInsetsAnimationController animationController = this.animationController;
         int i6 = 0;
         int i7 = 0;
-        visible = Float.compare(obj14, i6) == 0 ? i3 : i7;
+        visible = Float.compare(obj14, i6) == 0 ? i5 : i7;
         if (visible == 0) {
             if (Float.compare(obj14, i6) > 0) {
             } else {
-                i3 = i7;
+                i5 = i7;
             }
-            if (this.windowInsets.isVisible() == i3 && animationController == null) {
+            if (this.windowInsets.isVisible() == i5 && animationController == null) {
                 if (animationController == null) {
                 } else {
                     if (animationController == null) {
@@ -373,15 +373,15 @@ final class WindowInsetsNestedScrollConnection implements NestedScrollConnection
                     int valueOf2 = this.sideCalculator.valueOf(animationController.getShownStateInsets());
                     android.graphics.Insets currentInsets = animationController.getCurrentInsets();
                     int valueOf3 = this.sideCalculator.valueOf(currentInsets);
-                    i = Float.compare(obj14, i6) > 0 ? valueOf2 : valueOf;
-                    if (valueOf3 == i) {
+                    i4 = Float.compare(obj14, i6) > 0 ? valueOf2 : valueOf;
+                    if (valueOf3 == i4) {
                         this.partialConsumption = i6;
                         return Offset.Companion.getZero-F1C5BW0();
                     }
                     i8 += partialConsumption;
                     int i11 = 0;
                     int coerceIn = RangesKt.coerceIn(Math.round(i9), valueOf, valueOf2);
-                    i5 = 0;
+                    i3 = 0;
                     this.partialConsumption = i9 - $this$fastRoundToInt$iv3;
                     if (coerceIn != valueOf3) {
                         animationController.setInsetsAndAlpha(this.sideCalculator.adjustInsets(currentInsets, coerceIn), 1065353216, i6);

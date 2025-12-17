@@ -42,20 +42,20 @@ public final class HandlerContext extends kotlinx.coroutines.android.HandlerDisp
     }
 
     private HandlerContext(Handler handler, String name, boolean invokeImmediately) {
-        int i3;
+        int i;
         kotlinx.coroutines.android.HandlerContext handlerContext;
         boolean invokeImmediately2;
+        int i3;
         int i2;
-        int i;
         super(0);
         this.handler = handler;
         this.name = name;
         this.invokeImmediately = invokeImmediately;
-        i3 = this.invokeImmediately ? this : i3;
-        this._immediate = i3;
+        i = this.invokeImmediately ? this : i;
+        this._immediate = i;
         if (this._immediate == null) {
             handlerContext = new HandlerContext(this.handler, this.name, 1);
-            i2 = 0;
+            i3 = 0;
             this._immediate = handlerContext;
         }
         this.immediate = handlerContext;
@@ -85,9 +85,9 @@ public final class HandlerContext extends kotlinx.coroutines.android.HandlerDisp
 
     @Override // kotlinx.coroutines.android.HandlerDispatcher
     public boolean equals(Object other) {
-        boolean handler2;
+        boolean handler;
         int i;
-        Handler handler;
+        Handler handler2;
         if (other instanceof HandlerContext != null && obj.handler == this.handler) {
             i = obj.handler == this.handler ? 1 : 0;
         } else {

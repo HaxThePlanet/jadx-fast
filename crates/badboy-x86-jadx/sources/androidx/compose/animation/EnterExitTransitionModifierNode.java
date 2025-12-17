@@ -49,9 +49,9 @@ final class EnterExitTransitionModifierNode extends androidx.compose.animation.L
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal3;
-            int ordinal;
             int ordinal2;
+            int ordinal;
+            int ordinal3;
             int[] iArr = new int[values.length];
             iArr[EnterExitState.Visible.ordinal()] = 1;
             iArr[EnterExitState.PreEnter.ordinal()] = 2;
@@ -180,12 +180,12 @@ final class EnterExitTransitionModifierNode extends androidx.compose.animation.L
         Object offsetAnimation;
         long lookaheadSize;
         long iNSTANCE;
-        long zero-nOcc-ac;
         long zero-nOcc-ac2;
+        long zero-nOcc-ac;
         androidx.compose.animation.EnterExitTransitionModifierNode.measure.offsetDelta.2 anon;
-        long l;
-        long l3;
         long l2;
+        long l3;
+        long l;
         long align-KFBX0sM;
         long currentSize;
         final Object obj = this;
@@ -233,9 +233,9 @@ final class EnterExitTransitionModifierNode extends androidx.compose.animation.L
                 anon = new EnterExitTransitionModifierNode.measure.offsetDelta.2(obj, l7, obj15);
                 offsetAnimation = offsetAnimation.animate((Function1)EnterExitTransitionModifierNode.measure.offsetDelta.1.INSTANCE, (Function1)anon);
                 if (offsetAnimation != null) {
-                    l = zero-nOcc-ac;
+                    l2 = zero-nOcc-ac2;
                 } else {
-                    l = zero-nOcc-ac;
+                    l2 = zero-nOcc-ac2;
                 }
             } else {
             }
@@ -246,27 +246,27 @@ final class EnterExitTransitionModifierNode extends androidx.compose.animation.L
                 anon = new EnterExitTransitionModifierNode.measure.slideOffset.1(obj, l7, obj15);
                 slideAnimation = slideAnimation.animate(obj.slideSpec, (Function1)anon);
                 if (slideAnimation != null) {
-                    zero-nOcc-ac2 = (IntOffset)slideAnimation.getValue().unbox-impl();
+                    zero-nOcc-ac = (IntOffset)slideAnimation.getValue().unbox-impl();
                 } else {
-                    zero-nOcc-ac2 = IntOffset.Companion.getZero-nOcc-ac();
+                    zero-nOcc-ac = IntOffset.Companion.getZero-nOcc-ac();
                 }
             } else {
             }
             Alignment currentAlignment2 = obj.currentAlignment;
             if (currentAlignment2 != null) {
                 currentSize = constrain-4WqzIAM;
-                l2 = l7;
+                l = l7;
                 l3 = align-KFBX0sM;
             } else {
                 currentSize = constrain-4WqzIAM;
-                l2 = l7;
+                l = l7;
                 l3 = align-KFBX0sM;
             }
-            final long l8 = zero-nOcc-ac2;
+            final long l8 = zero-nOcc-ac;
             long slideOffset = plus-qkQi6aY;
-            EnterExitTransitionModifierNode.measure.2 anon3 = new EnterExitTransitionModifierNode.measure.2(measure-BRTryo03, slideOffset, anon, l, obj11, init);
+            EnterExitTransitionModifierNode.measure.2 anon3 = new EnterExitTransitionModifierNode.measure.2(measure-BRTryo03, slideOffset, anon, l2, obj11, init);
             final long l10 = slideOffset;
-            final long l9 = l;
+            final long l9 = l2;
             Function1 function1 = init;
             return MeasureScope.layout$default($this$measure_u2d3p2s80s, IntSize.getWidth-impl(currentSize), IntSize.getHeight-impl(currentSize), 0, (Function1)anon3, 4, 0);
         }
@@ -350,25 +350,14 @@ final class EnterExitTransitionModifierNode extends androidx.compose.animation.L
 
     @Override // androidx.compose.animation.LayoutModifierNodeWithPassThroughIntrinsics
     public final long slideTargetValueByState-oFUgxo0(androidx.compose.animation.EnterExitState targetState, long fullSize) {
-        Object slideOffset2;
-        long zero-nOcc-ac2;
-        IntSize box-impl;
         Object slideOffset;
         long zero-nOcc-ac;
         IntSize box-impl2;
+        Object slideOffset2;
         long zero-nOcc-ac3;
-        slideOffset2 = this.enter.getData$animation_release().getSlide();
-        slideOffset2 = slideOffset2.getSlideOffset();
-        if (slideOffset2 != null && slideOffset2 != null) {
-            slideOffset2 = slideOffset2.getSlideOffset();
-            if (slideOffset2 != null) {
-                zero-nOcc-ac2 = (IntOffset)slideOffset2.invoke(IntSize.box-impl(fullSize)).unbox-impl();
-            } else {
-                zero-nOcc-ac2 = IntOffset.Companion.getZero-nOcc-ac();
-            }
-        } else {
-        }
-        slideOffset = this.exit.getData$animation_release().getSlide();
+        IntSize box-impl;
+        long zero-nOcc-ac2;
+        slideOffset = this.enter.getData$animation_release().getSlide();
         slideOffset = slideOffset.getSlideOffset();
         if (slideOffset != null && slideOffset != null) {
             slideOffset = slideOffset.getSlideOffset();
@@ -379,21 +368,32 @@ final class EnterExitTransitionModifierNode extends androidx.compose.animation.L
             }
         } else {
         }
+        slideOffset2 = this.exit.getData$animation_release().getSlide();
+        slideOffset2 = slideOffset2.getSlideOffset();
+        if (slideOffset2 != null && slideOffset2 != null) {
+            slideOffset2 = slideOffset2.getSlideOffset();
+            if (slideOffset2 != null) {
+                zero-nOcc-ac3 = (IntOffset)slideOffset2.invoke(IntSize.box-impl(fullSize)).unbox-impl();
+            } else {
+                zero-nOcc-ac3 = IntOffset.Companion.getZero-nOcc-ac();
+            }
+        } else {
+        }
         switch (i) {
             case 1:
-                zero-nOcc-ac3 = IntOffset.Companion.getZero-nOcc-ac();
+                zero-nOcc-ac2 = IntOffset.Companion.getZero-nOcc-ac();
                 break;
             case 2:
-                zero-nOcc-ac3 = zero-nOcc-ac2;
+                zero-nOcc-ac2 = zero-nOcc-ac;
                 break;
             case 3:
-                zero-nOcc-ac3 = zero-nOcc-ac;
+                zero-nOcc-ac2 = zero-nOcc-ac3;
                 break;
             default:
                 NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
                 throw noWhenBranchMatchedException;
         }
-        return zero-nOcc-ac3;
+        return zero-nOcc-ac2;
     }
 
     @Override // androidx.compose.animation.LayoutModifierNodeWithPassThroughIntrinsics

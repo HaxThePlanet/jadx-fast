@@ -25,8 +25,7 @@ public final class VelocityTracker1D {
     public static enum Strategy {
 
         Lsq2,
-        Lsq2,
-        Lsq2;
+        Impulse;
         private static final androidx.compose.ui.input.pointer.util.VelocityTracker1D.Strategy[] $values() {
             return /* result */;
         }
@@ -37,8 +36,8 @@ public final class VelocityTracker1D {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
             int ordinal2;
+            int ordinal;
             int[] iArr = new int[values.length];
             iArr[VelocityTracker1D.Strategy.Impulse.ordinal()] = 1;
             iArr[VelocityTracker1D.Strategy.Lsq2.ordinal()] = 2;
@@ -117,12 +116,12 @@ public final class VelocityTracker1D {
         int index;
         float leastSquaresVelocity;
         androidx.compose.ui.input.pointer.util.DataPointAtTime previousSample;
-        androidx.compose.ui.input.pointer.util.DataPointAtTime time2;
-        float f2;
+        androidx.compose.ui.input.pointer.util.DataPointAtTime time;
         float f;
+        float f2;
         int cmp;
         androidx.compose.ui.input.pointer.util.VelocityTracker1D.Strategy isDataDifferential;
-        androidx.compose.ui.input.pointer.util.DataPointAtTime time;
+        androidx.compose.ui.input.pointer.util.DataPointAtTime time2;
         int lsq2;
         final float[] reusableDataPointsArray = this.reusableDataPointsArray;
         final float[] reusableTimeArray = this.reusableTimeArray;
@@ -133,29 +132,29 @@ public final class VelocityTracker1D {
             return i;
         }
         previousSample = time3;
-        time2 = this.samples[index];
-        while (time2 == null) {
-            long time6 = time2.getTime();
-            f2 = (float)i5;
+        time = this.samples[index];
+        while (time == null) {
+            long time6 = time.getTime();
+            f = (float)i5;
             if (this.strategy != VelocityTracker1D.Strategy.Lsq2) {
             } else {
             }
-            time = time2;
-            previousSample = time;
-            reusableDataPointsArray[sampleCount] = time2.getDataPoint();
-            reusableTimeArray[sampleCount] = -f2;
+            time2 = time;
+            previousSample = time2;
+            reusableDataPointsArray[sampleCount] = time.getDataPoint();
+            reusableTimeArray[sampleCount] = -f;
             cmp = 20;
             if (index == 0) {
             } else {
             }
             lsq2 = index;
             index = lsq2 + -1;
-            time2 = this.samples[index];
+            time = this.samples[index];
             lsq2 = cmp;
             if (this.isDataDifferential) {
             } else {
             }
-            time = time3;
+            time2 = time3;
         }
         if (sampleCount >= this.minSampleSize) {
             switch (i2) {
@@ -178,7 +177,7 @@ public final class VelocityTracker1D {
         int coerceAtLeast;
         int i;
         int naN;
-        String string;
+        String $i$a$CheckPreconditionVelocityTracker1D$calculateVelocity$1;
         StringBuilder append;
         String str;
         coerceAtLeast = 0;

@@ -144,15 +144,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final boolean any-jgv0xPQ(int[] $this$any_u2djgv0xPQ, Function1<? super UInt, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$any_u2djgv0xPQ, "$this$any");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         final int i4 = 0;
-        i = i4;
-        while (i < UIntArray.getSize-impl($this$any_u2djgv0xPQ)) {
-            i++;
+        i2 = i4;
+        while (i2 < UIntArray.getSize-impl($this$any_u2djgv0xPQ)) {
+            i2++;
         }
         return i4;
     }
@@ -464,14 +464,14 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final boolean contentEquals-KJPZfPQ(int[] $this$contentEquals_u2dKJPZfPQ, int[] other) {
-        int i2;
         int i;
-        i = $this$contentEquals_u2dKJPZfPQ == 0 ? i2 : $this$contentEquals_u2dKJPZfPQ;
+        int i2;
+        i2 = $this$contentEquals_u2dKJPZfPQ == 0 ? i : $this$contentEquals_u2dKJPZfPQ;
         if (other == 0) {
         } else {
-            i2 = other;
+            i = other;
         }
-        return Arrays.equals(i, i2);
+        return Arrays.equals(i2, i);
     }
 
     public static final boolean contentEquals-kV0jMPg(byte[] $this$contentEquals_u2dkV0jMPg, byte[] other) {
@@ -486,14 +486,14 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final boolean contentEquals-lec5QzE(long[] $this$contentEquals_u2dlec5QzE, long[] other) {
-        int i2;
         int i;
-        i = $this$contentEquals_u2dlec5QzE == 0 ? i2 : $this$contentEquals_u2dlec5QzE;
+        int i2;
+        i2 = $this$contentEquals_u2dlec5QzE == 0 ? i : $this$contentEquals_u2dlec5QzE;
         if (other == 0) {
         } else {
-            i2 = other;
+            i = other;
         }
-        return Arrays.equals(i, i2);
+        return Arrays.equals(i2, i);
     }
 
     public static final int contentHashCode-2csIQuQ(byte[] $this$contentHashCode_u2d2csIQuQ) {
@@ -523,13 +523,13 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     public static final String contentToString-2csIQuQ(byte[] $this$contentToString_u2d2csIQuQ) {
         String joinToString$default;
         UByteArray uByteArray;
-        String str;
         String str2;
+        String str;
         String str3;
+        int i2;
+        int i4;
         int i3;
         int i;
-        int i4;
-        int i2;
         int i5;
         if ($this$contentToString_u2d2csIQuQ != null) {
             if (CollectionsKt.joinToString$default((Iterable)UByteArray.box-impl($this$contentToString_u2d2csIQuQ), (CharSequence)", ", (CharSequence)"[", (CharSequence)"]", 0, 0, 0, 56, 0) == null) {
@@ -543,14 +543,14 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     public static final String contentToString-XUkPCBk(int[] $this$contentToString_u2dXUkPCBk) {
         String joinToString$default;
         UIntArray uIntArray;
-        String str3;
         String str;
+        String str3;
         String str2;
+        int i4;
+        int i5;
         int i2;
         int i;
-        int i4;
         int i3;
-        int i5;
         if ($this$contentToString_u2dXUkPCBk != null) {
             if (CollectionsKt.joinToString$default((Iterable)UIntArray.box-impl($this$contentToString_u2dXUkPCBk), (CharSequence)", ", (CharSequence)"[", (CharSequence)"]", 0, 0, 0, 56, 0) == null) {
                 joinToString$default = "null";
@@ -566,11 +566,11 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         String str2;
         String str;
         String str3;
-        int i2;
         int i;
-        int i4;
+        int i2;
         int i3;
         int i5;
+        int i4;
         if ($this$contentToString_u2dd_u2d6D3K8 != null) {
             if (CollectionsKt.joinToString$default((Iterable)UShortArray.box-impl($this$contentToString_u2dd_u2d6D3K8), (CharSequence)", ", (CharSequence)"[", (CharSequence)"]", 0, 0, 0, 56, 0) == null) {
                 joinToString$default = "null";
@@ -583,14 +583,14 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     public static final String contentToString-uLth9ew(long[] $this$contentToString_u2duLth9ew) {
         String joinToString$default;
         ULongArray num;
-        String str;
-        String str2;
         String str3;
+        String str2;
+        String str;
+        int i4;
+        int i;
         int i5;
         int i2;
-        int i4;
         int i3;
-        int i;
         if ($this$contentToString_u2duLth9ew != null) {
             if (CollectionsKt.joinToString$default((Iterable)ULongArray.box-impl($this$contentToString_u2duLth9ew), (CharSequence)", ", (CharSequence)"[", (CharSequence)"]", 0, 0, 0, 56, 0) == null) {
                 joinToString$default = "null";
@@ -1413,66 +1413,66 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final List<UByte> filterIndexed-ELGow60(byte[] $this$filterIndexed_u2dELGow60, Function2<? super Integer, ? super UByte, Boolean> predicate) {
-        int i2;
         int i;
+        int i3;
         boolean booleanValue;
         byte b;
-        int i3;
+        int i2;
         UByte box-impl;
         Intrinsics.checkNotNullParameter($this$filterIndexed_u2dELGow60, "$this$filterIndexed");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         ArrayList arrayList = new ArrayList();
-        i = i2;
-        while (i2 < UByteArray.getSize-impl($this$filterIndexed_u2dELGow60)) {
-            b = UByteArray.get-w2LRezQ($this$filterIndexed_u2dELGow60, i2);
-            if ((Boolean)predicate.invoke(Integer.valueOf(i), UByte.box-impl(b)).booleanValue()) {
+        i3 = i;
+        while (i < UByteArray.getSize-impl($this$filterIndexed_u2dELGow60)) {
+            b = UByteArray.get-w2LRezQ($this$filterIndexed_u2dELGow60, i);
+            if ((Boolean)predicate.invoke(Integer.valueOf(i3), UByte.box-impl(b)).booleanValue()) {
             }
-            i2++;
-            i = i3;
+            i++;
+            i3 = i2;
             (Collection)arrayList.add(UByte.box-impl(b));
         }
         return (List)arrayList;
     }
 
     private static final List<UInt> filterIndexed-WyvcNBI(int[] $this$filterIndexed_u2dWyvcNBI, Function2<? super Integer, ? super UInt, Boolean> predicate) {
+        int i4;
         int i;
-        int i2;
         boolean booleanValue;
         int i3;
-        int i4;
+        int i2;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$filterIndexed_u2dWyvcNBI, "$this$filterIndexed");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         ArrayList arrayList = new ArrayList();
-        i2 = i;
-        while (i < UIntArray.getSize-impl($this$filterIndexed_u2dWyvcNBI)) {
-            i3 = UIntArray.get-pVg5ArA($this$filterIndexed_u2dWyvcNBI, i);
-            if ((Boolean)predicate.invoke(Integer.valueOf(i2), UInt.box-impl(i3)).booleanValue()) {
+        i = i4;
+        while (i4 < UIntArray.getSize-impl($this$filterIndexed_u2dWyvcNBI)) {
+            i3 = UIntArray.get-pVg5ArA($this$filterIndexed_u2dWyvcNBI, i4);
+            if ((Boolean)predicate.invoke(Integer.valueOf(i), UInt.box-impl(i3)).booleanValue()) {
             }
-            i++;
-            i2 = i4;
+            i4++;
+            i = i2;
             (Collection)arrayList.add(UInt.box-impl(i3));
         }
         return (List)arrayList;
     }
 
     private static final List<ULong> filterIndexed-s8dVfGU(long[] $this$filterIndexed_u2ds8dVfGU, Function2<? super Integer, ? super ULong, Boolean> predicate) {
-        int i2;
+        int i;
         int i3;
         boolean booleanValue;
         long l;
-        int i;
+        int i2;
         ULong box-impl;
         Intrinsics.checkNotNullParameter($this$filterIndexed_u2ds8dVfGU, "$this$filterIndexed");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         ArrayList arrayList = new ArrayList();
-        i3 = i2;
-        while (i2 < ULongArray.getSize-impl($this$filterIndexed_u2ds8dVfGU)) {
-            l = ULongArray.get-s-VKNKU($this$filterIndexed_u2ds8dVfGU, i2);
+        i3 = i;
+        while (i < ULongArray.getSize-impl($this$filterIndexed_u2ds8dVfGU)) {
+            l = ULongArray.get-s-VKNKU($this$filterIndexed_u2ds8dVfGU, i);
             if ((Boolean)predicate.invoke(Integer.valueOf(i3), ULong.box-impl(l)).booleanValue()) {
             }
-            i2++;
-            i3 = i;
+            i++;
+            i3 = i2;
             (Collection)arrayList.add(ULong.box-impl(l));
         }
         return (List)arrayList;
@@ -1501,25 +1501,25 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <C extends Collection<? super UInt>> C filterIndexedTo--6EtJGI(int[] $this$filterIndexedTo_u2d_u2d6EtJGI, C destination, Function2<? super Integer, ? super UInt, Boolean> predicate) {
-        int i;
-        int i2;
         int i3;
         int i4;
+        int i;
         int i5;
+        int i2;
         boolean booleanValue;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo_u2d_u2d6EtJGI, "$this$filterIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
-        i2 = i;
-        while (i < UIntArray.getSize-impl($this$filterIndexedTo_u2d_u2d6EtJGI)) {
-            i3 = UIntArray.get-pVg5ArA($this$filterIndexedTo_u2d_u2d6EtJGI, i);
-            i5 = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i2), UInt.box-impl(i3)).booleanValue()) {
+        i4 = i3;
+        while (i3 < UIntArray.getSize-impl($this$filterIndexedTo_u2d_u2d6EtJGI)) {
+            i = UIntArray.get-pVg5ArA($this$filterIndexedTo_u2d_u2d6EtJGI, i3);
+            i2 = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i4), UInt.box-impl(i)).booleanValue()) {
             }
-            i++;
-            i2 = i4;
-            destination.add(UInt.box-impl(i3));
+            i3++;
+            i4 = i5;
+            destination.add(UInt.box-impl(i));
         }
         return destination;
     }
@@ -1549,48 +1549,48 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <C extends Collection<? super UByte>> C filterIndexedTo-eNpIKz8(byte[] $this$filterIndexedTo_u2deNpIKz8, C destination, Function2<? super Integer, ? super UByte, Boolean> predicate) {
-        int i2;
+        int i4;
         int i3;
         byte b;
+        int i2;
         int i;
-        int i4;
         boolean booleanValue;
         UByte box-impl;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo_u2deNpIKz8, "$this$filterIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
-        i3 = i2;
-        while (i2 < UByteArray.getSize-impl($this$filterIndexedTo_u2deNpIKz8)) {
-            b = UByteArray.get-w2LRezQ($this$filterIndexedTo_u2deNpIKz8, i2);
-            i4 = 0;
+        i3 = i4;
+        while (i4 < UByteArray.getSize-impl($this$filterIndexedTo_u2deNpIKz8)) {
+            b = UByteArray.get-w2LRezQ($this$filterIndexedTo_u2deNpIKz8, i4);
+            i = 0;
             if ((Boolean)predicate.invoke(Integer.valueOf(i3), UByte.box-impl(b)).booleanValue()) {
             }
-            i2++;
-            i3 = i;
+            i4++;
+            i3 = i2;
             destination.add(UByte.box-impl(b));
         }
         return destination;
     }
 
     private static final <C extends Collection<? super ULong>> C filterIndexedTo-pe2Q0Dw(long[] $this$filterIndexedTo_u2dpe2Q0Dw, C destination, Function2<? super Integer, ? super ULong, Boolean> predicate) {
-        int i3;
+        int i4;
         int i2;
         long l;
-        int i4;
+        int i3;
         int i;
         boolean booleanValue;
         ULong box-impl;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo_u2dpe2Q0Dw, "$this$filterIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
-        i2 = i3;
-        while (i3 < ULongArray.getSize-impl($this$filterIndexedTo_u2dpe2Q0Dw)) {
-            l = ULongArray.get-s-VKNKU($this$filterIndexedTo_u2dpe2Q0Dw, i3);
+        i2 = i4;
+        while (i4 < ULongArray.getSize-impl($this$filterIndexedTo_u2dpe2Q0Dw)) {
+            l = ULongArray.get-s-VKNKU($this$filterIndexedTo_u2dpe2Q0Dw, i4);
             i = 0;
             if ((Boolean)predicate.invoke(Integer.valueOf(i2), ULong.box-impl(l)).booleanValue()) {
             }
-            i3++;
-            i2 = i4;
+            i4++;
+            i2 = i3;
             destination.add(ULong.box-impl(l));
         }
         return destination;
@@ -1878,8 +1878,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final UByte findLast-JOV_ifY(byte[] $this$findLast_u2dJOV_ifY, Function1<? super UByte, Boolean> predicate) {
         int box-impl;
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$findLast_u2dJOV_ifY, "$this$findLast");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -1920,8 +1920,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final UShort findLast-xTcfx_M(short[] $this$findLast_u2dxTcfx_M, Function1<? super UShort, Boolean> predicate) {
         int box-impl;
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$findLast_u2dxTcfx_M, "$this$findLast");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -1978,15 +1978,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final int first-jgv0xPQ(int[] $this$first_u2djgv0xPQ, Function1<? super UInt, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$first_u2djgv0xPQ, "$this$first");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$first_u2djgv0xPQ)) {
-            i2 = UIntArray.get-pVg5ArA($this$first_u2djgv0xPQ, i);
-            i++;
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$first_u2djgv0xPQ)) {
+            i = UIntArray.get-pVg5ArA($this$first_u2djgv0xPQ, i2);
+            i2++;
         }
         NoSuchElementException noSuchElementException = new NoSuchElementException("Array contains no element matching the predicate.");
         throw noSuchElementException;
@@ -2074,15 +2074,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final UInt firstOrNull-jgv0xPQ(int[] $this$firstOrNull_u2djgv0xPQ, Function1<? super UInt, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$firstOrNull_u2djgv0xPQ, "$this$firstOrNull");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$firstOrNull_u2djgv0xPQ)) {
-            i2 = UIntArray.get-pVg5ArA($this$firstOrNull_u2djgv0xPQ, i);
-            i++;
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$firstOrNull_u2djgv0xPQ)) {
+            i = UIntArray.get-pVg5ArA($this$firstOrNull_u2djgv0xPQ, i2);
+            i2++;
         }
         return null;
     }
@@ -2169,107 +2169,107 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <R> List<R> flatMapIndexed-ELGow60(byte[] $this$flatMapIndexed_u2dELGow60, Function2<? super Integer, ? super UByte, ? extends Iterable<? extends R>> transform) {
-        int i2;
+        int i;
         int i3;
         UByte box-impl;
-        int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed_u2dELGow60, "$this$flatMapIndexed");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
-        i3 = i2;
-        while (i2 < UByteArray.getSize-impl($this$flatMapIndexed_u2dELGow60)) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), UByte.box-impl(UByteArray.get-w2LRezQ($this$flatMapIndexed_u2dELGow60, i2))));
-            i2++;
-            i3 = i;
-        }
-        return (List)arrayList;
-    }
-
-    private static final <R> List<R> flatMapIndexed-WyvcNBI(int[] $this$flatMapIndexed_u2dWyvcNBI, Function2<? super Integer, ? super UInt, ? extends Iterable<? extends R>> transform) {
-        int i;
-        int i3;
-        UInt box-impl;
-        int i2;
-        Intrinsics.checkNotNullParameter($this$flatMapIndexed_u2dWyvcNBI, "$this$flatMapIndexed");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        ArrayList arrayList = new ArrayList();
         i3 = i;
-        while (i < UIntArray.getSize-impl($this$flatMapIndexed_u2dWyvcNBI)) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), UInt.box-impl(UIntArray.get-pVg5ArA($this$flatMapIndexed_u2dWyvcNBI, i))));
+        while (i < UByteArray.getSize-impl($this$flatMapIndexed_u2dELGow60)) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), UByte.box-impl(UByteArray.get-w2LRezQ($this$flatMapIndexed_u2dELGow60, i))));
             i++;
             i3 = i2;
         }
         return (List)arrayList;
     }
 
-    private static final <R> List<R> flatMapIndexed-s8dVfGU(long[] $this$flatMapIndexed_u2ds8dVfGU, Function2<? super Integer, ? super ULong, ? extends Iterable<? extends R>> transform) {
-        int i;
+    private static final <R> List<R> flatMapIndexed-WyvcNBI(int[] $this$flatMapIndexed_u2dWyvcNBI, Function2<? super Integer, ? super UInt, ? extends Iterable<? extends R>> transform) {
         int i2;
-        ULong box-impl;
         int i3;
+        UInt box-impl;
+        int i;
+        Intrinsics.checkNotNullParameter($this$flatMapIndexed_u2dWyvcNBI, "$this$flatMapIndexed");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        ArrayList arrayList = new ArrayList();
+        i3 = i2;
+        while (i2 < UIntArray.getSize-impl($this$flatMapIndexed_u2dWyvcNBI)) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), UInt.box-impl(UIntArray.get-pVg5ArA($this$flatMapIndexed_u2dWyvcNBI, i2))));
+            i2++;
+            i3 = i;
+        }
+        return (List)arrayList;
+    }
+
+    private static final <R> List<R> flatMapIndexed-s8dVfGU(long[] $this$flatMapIndexed_u2ds8dVfGU, Function2<? super Integer, ? super ULong, ? extends Iterable<? extends R>> transform) {
+        int i3;
+        int i;
+        ULong box-impl;
+        int i2;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed_u2ds8dVfGU, "$this$flatMapIndexed");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
-        i2 = i;
-        while (i < ULongArray.getSize-impl($this$flatMapIndexed_u2ds8dVfGU)) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), ULong.box-impl(ULongArray.get-s-VKNKU($this$flatMapIndexed_u2ds8dVfGU, i))));
-            i++;
-            i2 = i3;
+        i = i3;
+        while (i3 < ULongArray.getSize-impl($this$flatMapIndexed_u2ds8dVfGU)) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i), ULong.box-impl(ULongArray.get-s-VKNKU($this$flatMapIndexed_u2ds8dVfGU, i3))));
+            i3++;
+            i = i2;
         }
         return (List)arrayList;
     }
 
     private static final <R> List<R> flatMapIndexed-xzaTVY8(short[] $this$flatMapIndexed_u2dxzaTVY8, Function2<? super Integer, ? super UShort, ? extends Iterable<? extends R>> transform) {
         int i2;
-        int i;
-        UShort box-impl;
         int i3;
+        UShort box-impl;
+        int i;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed_u2dxzaTVY8, "$this$flatMapIndexed");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
-        i = i2;
+        i3 = i2;
         while (i2 < UShortArray.getSize-impl($this$flatMapIndexed_u2dxzaTVY8)) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i), UShort.box-impl(UShortArray.get-Mh2AYeg($this$flatMapIndexed_u2dxzaTVY8, i2))));
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), UShort.box-impl(UShortArray.get-Mh2AYeg($this$flatMapIndexed_u2dxzaTVY8, i2))));
             i2++;
-            i = i3;
+            i3 = i;
         }
         return (List)arrayList;
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedTo--6EtJGI(int[] $this$flatMapIndexedTo_u2d_u2d6EtJGI, C destination, Function2<? super Integer, ? super UInt, ? extends Iterable<? extends R>> transform) {
         int i;
-        int i4;
         int i2;
         int i3;
+        int i4;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo_u2d_u2d6EtJGI, "$this$flatMapIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         i = 0;
-        i4 = 0;
-        while (i4 < UIntArray.getSize-impl($this$flatMapIndexedTo_u2d_u2d6EtJGI)) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), UInt.box-impl(UIntArray.get-pVg5ArA($this$flatMapIndexedTo_u2d_u2d6EtJGI, i4))));
-            i4++;
-            i = i3;
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$flatMapIndexedTo_u2d_u2d6EtJGI)) {
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), UInt.box-impl(UIntArray.get-pVg5ArA($this$flatMapIndexedTo_u2d_u2d6EtJGI, i2))));
+            i2++;
+            i = i4;
         }
         return destination;
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedTo-QqktQ3k(short[] $this$flatMapIndexedTo_u2dQqktQ3k, C destination, Function2<? super Integer, ? super UShort, ? extends Iterable<? extends R>> transform) {
-        int i;
-        int i2;
-        short s;
         int i3;
+        int i;
+        short s;
+        int i2;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo_u2dQqktQ3k, "$this$flatMapIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
+        i3 = 0;
         i = 0;
-        i2 = 0;
-        while (i2 < UShortArray.getSize-impl($this$flatMapIndexedTo_u2dQqktQ3k)) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), UShort.box-impl(UShortArray.get-Mh2AYeg($this$flatMapIndexedTo_u2dQqktQ3k, i2))));
-            i2++;
-            i = i3;
+        while (i < UShortArray.getSize-impl($this$flatMapIndexedTo_u2dQqktQ3k)) {
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i3), UShort.box-impl(UShortArray.get-Mh2AYeg($this$flatMapIndexedTo_u2dQqktQ3k, i))));
+            i++;
+            i3 = i2;
         }
         return destination;
     }
@@ -2294,20 +2294,20 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedTo-pe2Q0Dw(long[] $this$flatMapIndexedTo_u2dpe2Q0Dw, C destination, Function2<? super Integer, ? super ULong, ? extends Iterable<? extends R>> transform) {
-        int i3;
         int i2;
-        long l;
         int i;
+        long l;
+        int i3;
         ULong box-impl;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo_u2dpe2Q0Dw, "$this$flatMapIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i3 = 0;
         i2 = 0;
-        while (i2 < ULongArray.getSize-impl($this$flatMapIndexedTo_u2dpe2Q0Dw)) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i3), ULong.box-impl(ULongArray.get-s-VKNKU($this$flatMapIndexedTo_u2dpe2Q0Dw, i2))));
-            i2++;
-            i3 = i;
+        i = 0;
+        while (i < ULongArray.getSize-impl($this$flatMapIndexedTo_u2dpe2Q0Dw)) {
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i2), ULong.box-impl(ULongArray.get-s-VKNKU($this$flatMapIndexedTo_u2dpe2Q0Dw, i))));
+            i++;
+            i2 = i3;
         }
         return destination;
     }
@@ -2406,16 +2406,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final <R> R fold-zi1B2BA(int[] $this$fold_u2dzi1B2BA, R initial, Function2<? super R, ? super UInt, ? extends R> operation) {
         Object accumulator;
-        int i2;
         int i;
+        int i2;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$fold_u2dzi1B2BA, "$this$fold");
         Intrinsics.checkNotNullParameter(operation, "operation");
         accumulator = initial;
-        i2 = 0;
-        while (i2 < UIntArray.getSize-impl($this$fold_u2dzi1B2BA)) {
-            accumulator = operation.invoke(accumulator, UInt.box-impl(UIntArray.get-pVg5ArA($this$fold_u2dzi1B2BA, i2)));
-            i2++;
+        i = 0;
+        while (i < UIntArray.getSize-impl($this$fold_u2dzi1B2BA)) {
+            accumulator = operation.invoke(accumulator, UInt.box-impl(UIntArray.get-pVg5ArA($this$fold_u2dzi1B2BA, i)));
+            i++;
         }
         return accumulator;
     }
@@ -2439,39 +2439,39 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final <R> R foldIndexed-3iWJZGE(byte[] $this$foldIndexed_u2d3iWJZGE, R initial, Function3<? super Integer, ? super R, ? super UByte, ? extends R> operation) {
         int i3;
         Object accumulator;
-        int i;
-        byte b;
         int i2;
+        byte b;
+        int i;
         UByte box-impl;
         Intrinsics.checkNotNullParameter($this$foldIndexed_u2d3iWJZGE, "$this$foldIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
         i3 = 0;
         accumulator = initial;
-        i = 0;
-        while (i < UByteArray.getSize-impl($this$foldIndexed_u2d3iWJZGE)) {
-            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, UByte.box-impl(UByteArray.get-w2LRezQ($this$foldIndexed_u2d3iWJZGE, i)));
-            i++;
-            i3 = i2;
+        i2 = 0;
+        while (i2 < UByteArray.getSize-impl($this$foldIndexed_u2d3iWJZGE)) {
+            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, UByte.box-impl(UByteArray.get-w2LRezQ($this$foldIndexed_u2d3iWJZGE, i2)));
+            i2++;
+            i3 = i;
         }
         return accumulator;
     }
 
     private static final <R> R foldIndexed-bzxtMww(short[] $this$foldIndexed_u2dbzxtMww, R initial, Function3<? super Integer, ? super R, ? super UShort, ? extends R> operation) {
-        int i3;
-        Object accumulator;
-        int i;
-        short s;
         int i2;
+        Object accumulator;
+        int i3;
+        short s;
+        int i;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$foldIndexed_u2dbzxtMww, "$this$foldIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
-        i3 = 0;
+        i2 = 0;
         accumulator = initial;
-        i = 0;
-        while (i < UShortArray.getSize-impl($this$foldIndexed_u2dbzxtMww)) {
-            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, UShort.box-impl(UShortArray.get-Mh2AYeg($this$foldIndexed_u2dbzxtMww, i)));
-            i++;
-            i3 = i2;
+        i3 = 0;
+        while (i3 < UShortArray.getSize-impl($this$foldIndexed_u2dbzxtMww)) {
+            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, UShort.box-impl(UShortArray.get-Mh2AYeg($this$foldIndexed_u2dbzxtMww, i3)));
+            i3++;
+            i2 = i;
         }
         return accumulator;
     }
@@ -2479,39 +2479,39 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final <R> R foldIndexed-mwnnOCs(long[] $this$foldIndexed_u2dmwnnOCs, R initial, Function3<? super Integer, ? super R, ? super ULong, ? extends R> operation) {
         int i;
         Object accumulator;
-        int i2;
-        long l;
         int i3;
+        long l;
+        int i2;
         ULong box-impl;
         Intrinsics.checkNotNullParameter($this$foldIndexed_u2dmwnnOCs, "$this$foldIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
         i = 0;
         accumulator = initial;
-        i2 = 0;
-        while (i2 < ULongArray.getSize-impl($this$foldIndexed_u2dmwnnOCs)) {
-            accumulator = operation.invoke(Integer.valueOf(i), accumulator, ULong.box-impl(ULongArray.get-s-VKNKU($this$foldIndexed_u2dmwnnOCs, i2)));
-            i2++;
-            i = i3;
+        i3 = 0;
+        while (i3 < ULongArray.getSize-impl($this$foldIndexed_u2dmwnnOCs)) {
+            accumulator = operation.invoke(Integer.valueOf(i), accumulator, ULong.box-impl(ULongArray.get-s-VKNKU($this$foldIndexed_u2dmwnnOCs, i3)));
+            i3++;
+            i = i2;
         }
         return accumulator;
     }
 
     private static final <R> R foldIndexed-yVwIW0Q(int[] $this$foldIndexed_u2dyVwIW0Q, R initial, Function3<? super Integer, ? super R, ? super UInt, ? extends R> operation) {
-        int i3;
+        int i2;
         Object accumulator;
         int i;
         int i4;
-        int i2;
+        int i3;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$foldIndexed_u2dyVwIW0Q, "$this$foldIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
-        i3 = 0;
+        i2 = 0;
         accumulator = initial;
         i = 0;
         while (i < UIntArray.getSize-impl($this$foldIndexed_u2dyVwIW0Q)) {
-            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, UInt.box-impl(UIntArray.get-pVg5ArA($this$foldIndexed_u2dyVwIW0Q, i)));
+            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, UInt.box-impl(UIntArray.get-pVg5ArA($this$foldIndexed_u2dyVwIW0Q, i)));
             i++;
-            i3 = i2;
+            i2 = i3;
         }
         return accumulator;
     }
@@ -2676,15 +2676,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final void forEach-jgv0xPQ(int[] $this$forEach_u2djgv0xPQ, Function1<? super UInt, Unit> action) {
-        int i;
         int i2;
+        int i;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$forEach_u2djgv0xPQ, "$this$forEach");
         Intrinsics.checkNotNullParameter(action, "action");
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$forEach_u2djgv0xPQ)) {
-            action.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$forEach_u2djgv0xPQ, i)));
-            i++;
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$forEach_u2djgv0xPQ)) {
+            action.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$forEach_u2djgv0xPQ, i2)));
+            i2++;
         }
     }
 
@@ -2702,70 +2702,70 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final void forEachIndexed-ELGow60(byte[] $this$forEachIndexed_u2dELGow60, Function2<? super Integer, ? super UByte, Unit> action) {
-        int i2;
         int i3;
-        byte b;
         int i;
+        byte b;
+        int i2;
         UByte box-impl;
         Intrinsics.checkNotNullParameter($this$forEachIndexed_u2dELGow60, "$this$forEachIndexed");
         Intrinsics.checkNotNullParameter(action, "action");
+        i3 = 0;
+        i = 0;
+        while (i < UByteArray.getSize-impl($this$forEachIndexed_u2dELGow60)) {
+            action.invoke(Integer.valueOf(i3), UByte.box-impl(UByteArray.get-w2LRezQ($this$forEachIndexed_u2dELGow60, i)));
+            i++;
+            i3 = i2;
+        }
+    }
+
+    private static final void forEachIndexed-WyvcNBI(int[] $this$forEachIndexed_u2dWyvcNBI, Function2<? super Integer, ? super UInt, Unit> action) {
+        int i;
+        int i3;
+        int i2;
+        int i4;
+        UInt box-impl;
+        Intrinsics.checkNotNullParameter($this$forEachIndexed_u2dWyvcNBI, "$this$forEachIndexed");
+        Intrinsics.checkNotNullParameter(action, "action");
+        i = 0;
+        i3 = 0;
+        while (i3 < UIntArray.getSize-impl($this$forEachIndexed_u2dWyvcNBI)) {
+            action.invoke(Integer.valueOf(i), UInt.box-impl(UIntArray.get-pVg5ArA($this$forEachIndexed_u2dWyvcNBI, i3)));
+            i3++;
+            i = i4;
+        }
+    }
+
+    private static final void forEachIndexed-s8dVfGU(long[] $this$forEachIndexed_u2ds8dVfGU, Function2<? super Integer, ? super ULong, Unit> action) {
+        int i2;
+        int i3;
+        long l;
+        int i;
+        ULong box-impl;
+        Intrinsics.checkNotNullParameter($this$forEachIndexed_u2ds8dVfGU, "$this$forEachIndexed");
+        Intrinsics.checkNotNullParameter(action, "action");
         i2 = 0;
         i3 = 0;
-        while (i3 < UByteArray.getSize-impl($this$forEachIndexed_u2dELGow60)) {
-            action.invoke(Integer.valueOf(i2), UByte.box-impl(UByteArray.get-w2LRezQ($this$forEachIndexed_u2dELGow60, i3)));
+        while (i3 < ULongArray.getSize-impl($this$forEachIndexed_u2ds8dVfGU)) {
+            action.invoke(Integer.valueOf(i2), ULong.box-impl(ULongArray.get-s-VKNKU($this$forEachIndexed_u2ds8dVfGU, i3)));
             i3++;
             i2 = i;
         }
     }
 
-    private static final void forEachIndexed-WyvcNBI(int[] $this$forEachIndexed_u2dWyvcNBI, Function2<? super Integer, ? super UInt, Unit> action) {
-        int i2;
-        int i;
-        int i4;
-        int i3;
-        UInt box-impl;
-        Intrinsics.checkNotNullParameter($this$forEachIndexed_u2dWyvcNBI, "$this$forEachIndexed");
-        Intrinsics.checkNotNullParameter(action, "action");
-        i2 = 0;
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$forEachIndexed_u2dWyvcNBI)) {
-            action.invoke(Integer.valueOf(i2), UInt.box-impl(UIntArray.get-pVg5ArA($this$forEachIndexed_u2dWyvcNBI, i)));
-            i++;
-            i2 = i3;
-        }
-    }
-
-    private static final void forEachIndexed-s8dVfGU(long[] $this$forEachIndexed_u2ds8dVfGU, Function2<? super Integer, ? super ULong, Unit> action) {
-        int i;
-        int i2;
-        long l;
-        int i3;
-        ULong box-impl;
-        Intrinsics.checkNotNullParameter($this$forEachIndexed_u2ds8dVfGU, "$this$forEachIndexed");
-        Intrinsics.checkNotNullParameter(action, "action");
-        i = 0;
-        i2 = 0;
-        while (i2 < ULongArray.getSize-impl($this$forEachIndexed_u2ds8dVfGU)) {
-            action.invoke(Integer.valueOf(i), ULong.box-impl(ULongArray.get-s-VKNKU($this$forEachIndexed_u2ds8dVfGU, i2)));
-            i2++;
-            i = i3;
-        }
-    }
-
     private static final void forEachIndexed-xzaTVY8(short[] $this$forEachIndexed_u2dxzaTVY8, Function2<? super Integer, ? super UShort, Unit> action) {
-        int i2;
-        int i;
-        short s;
         int i3;
+        int i2;
+        short s;
+        int i;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$forEachIndexed_u2dxzaTVY8, "$this$forEachIndexed");
         Intrinsics.checkNotNullParameter(action, "action");
+        i3 = 0;
         i2 = 0;
-        i = 0;
-        while (i < UShortArray.getSize-impl($this$forEachIndexed_u2dxzaTVY8)) {
-            action.invoke(Integer.valueOf(i2), UShort.box-impl(UShortArray.get-Mh2AYeg($this$forEachIndexed_u2dxzaTVY8, i)));
-            i++;
-            i2 = i3;
+        while (i2 < UShortArray.getSize-impl($this$forEachIndexed_u2dxzaTVY8)) {
+            action.invoke(Integer.valueOf(i3), UShort.box-impl(UShortArray.get-Mh2AYeg($this$forEachIndexed_u2dxzaTVY8, i2)));
+            i2++;
+            i3 = i;
         }
     }
 
@@ -3067,8 +3067,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final <K, V> Map<K, List<V>> groupBy-L4rlFek(int[] $this$groupBy_u2dL4rlFek, Function1<? super UInt, ? extends K> keySelector, Function1<? super UInt, ? extends V> valueTransform) {
         int i;
-        Object invoke2;
         Object invoke;
+        Object invoke2;
         Object arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy_u2dL4rlFek, "$this$groupBy");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -3077,13 +3077,13 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         i = 0;
         while (i < UIntArray.getSize-impl($this$groupBy_u2dL4rlFek)) {
             int i2 = UIntArray.get-pVg5ArA($this$groupBy_u2dL4rlFek, i);
-            invoke = keySelector.invoke(UInt.box-impl(i2));
-            if ((Map)linkedHashMap.get(invoke) == null) {
+            invoke2 = keySelector.invoke(UInt.box-impl(i2));
+            if ((Map)linkedHashMap.get(invoke2) == null) {
             }
             (List)arrayList.add(valueTransform.invoke(UInt.box-impl(i2)));
             i++;
             arrayList = new ArrayList();
-            linkedHashMap.put(invoke, (List)arrayList);
+            linkedHashMap.put(invoke2, (List)arrayList);
         }
         return linkedHashMap;
     }
@@ -3178,21 +3178,21 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <K, M extends Map<? super K, List<UInt>>> M groupByTo-4D70W2E(int[] $this$groupByTo_u2d4D70W2E, M destination, Function1<? super UInt, ? extends K> keySelector) {
-        int i3;
         int i2;
+        int i;
         Object invoke;
         ArrayList $this$getOrPut$iv;
         UInt box-impl;
         Object obj;
-        int i;
+        int i3;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo_u2d4D70W2E, "$this$groupByTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
-        i3 = 0;
-        while (i3 < UIntArray.getSize-impl($this$groupByTo_u2d4D70W2E)) {
-            i2 = UIntArray.get-pVg5ArA($this$groupByTo_u2d4D70W2E, i3);
-            invoke = keySelector.invoke(UInt.box-impl(i2));
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$groupByTo_u2d4D70W2E)) {
+            i = UIntArray.get-pVg5ArA($this$groupByTo_u2d4D70W2E, i2);
+            invoke = keySelector.invoke(UInt.box-impl(i));
             Object obj2 = destination;
             int i4 = 0;
             obj = obj2.get(invoke);
@@ -3200,9 +3200,9 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
             } else {
             }
             arrayList = obj;
-            (List)arrayList.add(UInt.box-impl(i2));
-            i3++;
-            i = 0;
+            (List)arrayList.add(UInt.box-impl(i));
+            i2++;
+            i3 = 0;
             arrayList = new ArrayList();
             obj2.put(invoke, (List)arrayList);
         }
@@ -3242,86 +3242,86 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <K, V, M extends Map<? super K, List<V>>> M groupByTo-JM6gNCM(int[] $this$groupByTo_u2dJM6gNCM, M destination, Function1<? super UInt, ? extends K> keySelector, Function1<? super UInt, ? extends V> valueTransform) {
-        int i;
         int i3;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv;
-        Object invoke;
-        Object obj;
         int i2;
+        Object invoke;
+        ArrayList $this$getOrPut$iv;
+        Object invoke2;
+        Object obj;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo_u2dJM6gNCM, "$this$groupByTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$groupByTo_u2dJM6gNCM)) {
-            i3 = UIntArray.get-pVg5ArA($this$groupByTo_u2dJM6gNCM, i);
-            invoke2 = keySelector.invoke(UInt.box-impl(i3));
+        i3 = 0;
+        while (i3 < UIntArray.getSize-impl($this$groupByTo_u2dJM6gNCM)) {
+            i2 = UIntArray.get-pVg5ArA($this$groupByTo_u2dJM6gNCM, i3);
+            invoke = keySelector.invoke(UInt.box-impl(i2));
             Object obj2 = destination;
             int i4 = 0;
-            obj = obj2.get(invoke2);
+            obj = obj2.get(invoke);
             if (obj == null) {
             } else {
             }
             arrayList = obj;
-            (List)arrayList.add(valueTransform.invoke(UInt.box-impl(i3)));
-            i++;
-            i2 = 0;
+            (List)arrayList.add(valueTransform.invoke(UInt.box-impl(i2)));
+            i3++;
+            i = 0;
             arrayList = new ArrayList();
-            obj2.put(invoke2, (List)arrayList);
+            obj2.put(invoke, (List)arrayList);
         }
         return destination;
     }
 
     private static final <K, V, M extends Map<? super K, List<V>>> M groupByTo-QxgOkWg(long[] $this$groupByTo_u2dQxgOkWg, M destination, Function1<? super ULong, ? extends K> keySelector, Function1<? super ULong, ? extends V> valueTransform) {
-        int i;
-        long l;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv;
-        Object invoke;
-        Object obj;
         int i2;
+        long l;
+        Object invoke;
+        ArrayList $this$getOrPut$iv;
+        Object invoke2;
+        Object obj;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo_u2dQxgOkWg, "$this$groupByTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
-        i = 0;
-        while (i < ULongArray.getSize-impl($this$groupByTo_u2dQxgOkWg)) {
-            l = ULongArray.get-s-VKNKU($this$groupByTo_u2dQxgOkWg, i);
-            invoke2 = keySelector.invoke(ULong.box-impl(l));
+        i2 = 0;
+        while (i2 < ULongArray.getSize-impl($this$groupByTo_u2dQxgOkWg)) {
+            l = ULongArray.get-s-VKNKU($this$groupByTo_u2dQxgOkWg, i2);
+            invoke = keySelector.invoke(ULong.box-impl(l));
             Object obj2 = destination;
             int i3 = 0;
-            obj = obj2.get(invoke2);
+            obj = obj2.get(invoke);
             if (obj == null) {
             } else {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(ULong.box-impl(l)));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
-            obj2.put(invoke2, (List)arrayList);
+            obj2.put(invoke, (List)arrayList);
         }
         return destination;
     }
 
     private static final <K, M extends Map<? super K, List<ULong>>> M groupByTo-X6OPwNk(long[] $this$groupByTo_u2dX6OPwNk, M destination, Function1<? super ULong, ? extends K> keySelector) {
-        int i;
+        int i2;
         long l;
         Object invoke;
         ArrayList $this$getOrPut$iv;
         ULong box-impl;
         Object obj;
-        int i2;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo_u2dX6OPwNk, "$this$groupByTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
-        i = 0;
-        while (i < ULongArray.getSize-impl($this$groupByTo_u2dX6OPwNk)) {
-            l = ULongArray.get-s-VKNKU($this$groupByTo_u2dX6OPwNk, i);
+        i2 = 0;
+        while (i2 < ULongArray.getSize-impl($this$groupByTo_u2dX6OPwNk)) {
+            l = ULongArray.get-s-VKNKU($this$groupByTo_u2dX6OPwNk, i2);
             invoke = keySelector.invoke(ULong.box-impl(l));
             Object obj2 = destination;
             int i3 = 0;
@@ -3331,8 +3331,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
             }
             arrayList = obj;
             (List)arrayList.add(ULong.box-impl(l));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
             obj2.put(invoke, (List)arrayList);
         }
@@ -3374,9 +3374,9 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final <K, V, M extends Map<? super K, List<V>>> M groupByTo-q8RuPII(short[] $this$groupByTo_u2dq8RuPII, M destination, Function1<? super UShort, ? extends K> keySelector, Function1<? super UShort, ? extends V> valueTransform) {
         int i;
         short s;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv;
         Object invoke;
+        ArrayList $this$getOrPut$iv;
+        Object invoke2;
         Object obj;
         int i2;
         ArrayList arrayList;
@@ -3387,10 +3387,10 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         i = 0;
         while (i < UShortArray.getSize-impl($this$groupByTo_u2dq8RuPII)) {
             s = UShortArray.get-Mh2AYeg($this$groupByTo_u2dq8RuPII, i);
-            invoke2 = keySelector.invoke(UShort.box-impl(s));
+            invoke = keySelector.invoke(UShort.box-impl(s));
             Object obj2 = destination;
             int i3 = 0;
-            obj = obj2.get(invoke2);
+            obj = obj2.get(invoke);
             if (obj == null) {
             } else {
             }
@@ -3399,40 +3399,40 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
             i++;
             i2 = 0;
             arrayList = new ArrayList();
-            obj2.put(invoke2, (List)arrayList);
+            obj2.put(invoke, (List)arrayList);
         }
         return destination;
     }
 
     private static final <K, V, M extends Map<? super K, List<V>>> M groupByTo-qOZmbk8(byte[] $this$groupByTo_u2dqOZmbk8, M destination, Function1<? super UByte, ? extends K> keySelector, Function1<? super UByte, ? extends V> valueTransform) {
-        int i;
-        byte b;
-        Object invoke;
-        ArrayList $this$getOrPut$iv;
-        Object invoke2;
-        Object obj;
         int i2;
+        byte b;
+        Object invoke2;
+        ArrayList $this$getOrPut$iv;
+        Object invoke;
+        Object obj;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo_u2dqOZmbk8, "$this$groupByTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
-        i = 0;
-        while (i < UByteArray.getSize-impl($this$groupByTo_u2dqOZmbk8)) {
-            b = UByteArray.get-w2LRezQ($this$groupByTo_u2dqOZmbk8, i);
-            invoke = keySelector.invoke(UByte.box-impl(b));
+        i2 = 0;
+        while (i2 < UByteArray.getSize-impl($this$groupByTo_u2dqOZmbk8)) {
+            b = UByteArray.get-w2LRezQ($this$groupByTo_u2dqOZmbk8, i2);
+            invoke2 = keySelector.invoke(UByte.box-impl(b));
             Object obj2 = destination;
             int i3 = 0;
-            obj = obj2.get(invoke);
+            obj = obj2.get(invoke2);
             if (obj == null) {
             } else {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(UByte.box-impl(b)));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
-            obj2.put(invoke, (List)arrayList);
+            obj2.put(invoke2, (List)arrayList);
         }
         return destination;
     }
@@ -3531,46 +3531,46 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final int indexOfLast-JOV_ifY(byte[] $this$indexOfLast_u2dJOV_ifY, Function1<? super UByte, Boolean> predicate) {
         int i;
-        int i2;
+        int i4;
         int i3;
         boolean it;
-        int i4;
+        int i2;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$indexOfLast_u2dJOV_ifY, "$this$indexOfLast");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         Object obj = $this$indexOfLast_u2dJOV_ifY;
         final int i5 = 0;
-        i2 = -1;
-        if (length += i2 >= 0) {
+        i4 = -1;
+        if (length += i4 >= 0) {
         } else {
         }
-        return i2;
+        return i4;
     }
 
     private static final int indexOfLast-MShoTSo(long[] $this$indexOfLast_u2dMShoTSo, Function1<? super ULong, Boolean> predicate) {
+        int i;
         int i3;
         int i2;
-        int i4;
         boolean it;
-        int i;
+        int i4;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$indexOfLast_u2dMShoTSo, "$this$indexOfLast");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         Object obj = $this$indexOfLast_u2dMShoTSo;
         final int i5 = 0;
-        i2 = -1;
-        if (length += i2 >= 0) {
+        i3 = -1;
+        if (length += i3 >= 0) {
         } else {
         }
-        return i2;
+        return i3;
     }
 
     private static final int indexOfLast-jgv0xPQ(int[] $this$indexOfLast_u2djgv0xPQ, Function1<? super UInt, Boolean> predicate) {
-        int i4;
-        int i;
         int i3;
-        boolean it;
+        int i;
         int i2;
+        boolean it;
+        int i4;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$indexOfLast_u2djgv0xPQ, "$this$indexOfLast");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -3584,21 +3584,21 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final int indexOfLast-xTcfx_M(short[] $this$indexOfLast_u2dxTcfx_M, Function1<? super UShort, Boolean> predicate) {
-        int i3;
-        int i4;
         int i2;
-        boolean it;
         int i;
+        int i3;
+        boolean it;
+        int i4;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$indexOfLast_u2dxTcfx_M, "$this$indexOfLast");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         Object obj = $this$indexOfLast_u2dxTcfx_M;
         final int i5 = 0;
-        i4 = -1;
-        if (length += i4 >= 0) {
+        i = -1;
+        if (length += i >= 0) {
         } else {
         }
-        return i4;
+        return i;
     }
 
     private static final int last--ajY-9A(int[] $this$last_u2d_u2dajY_u2d9A) {
@@ -3643,8 +3643,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final int last-jgv0xPQ(int[] $this$last_u2djgv0xPQ, Function1<? super UInt, Boolean> predicate) {
-        int i2;
         int i3;
+        int i2;
         int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$last_u2djgv0xPQ, "$this$last");
@@ -3716,8 +3716,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final UByte lastOrNull-JOV_ifY(byte[] $this$lastOrNull_u2dJOV_ifY, Function1<? super UByte, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         byte b;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$lastOrNull_u2dJOV_ifY, "$this$lastOrNull");
@@ -3752,8 +3752,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final UInt lastOrNull-jgv0xPQ(int[] $this$lastOrNull_u2djgv0xPQ, Function1<? super UInt, Boolean> predicate) {
         int i3;
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$lastOrNull_u2djgv0xPQ, "$this$lastOrNull");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -3774,8 +3774,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final UShort lastOrNull-xTcfx_M(short[] $this$lastOrNull_u2dxTcfx_M, Function1<? super UShort, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         short s;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$lastOrNull_u2dxTcfx_M, "$this$lastOrNull");
@@ -3859,90 +3859,90 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <R> List<R> mapIndexed-WyvcNBI(int[] $this$mapIndexed_u2dWyvcNBI, Function2<? super Integer, ? super UInt, ? extends R> transform) {
-        int i;
         int i2;
+        int i;
         UInt box-impl;
         int i3;
         Intrinsics.checkNotNullParameter($this$mapIndexed_u2dWyvcNBI, "$this$mapIndexed");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList(UIntArray.getSize-impl($this$mapIndexed_u2dWyvcNBI));
-        i2 = i;
-        while (i < UIntArray.getSize-impl($this$mapIndexed_u2dWyvcNBI)) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i2), UInt.box-impl(UIntArray.get-pVg5ArA($this$mapIndexed_u2dWyvcNBI, i))));
-            i++;
-            i2 = i3;
+        i = i2;
+        while (i2 < UIntArray.getSize-impl($this$mapIndexed_u2dWyvcNBI)) {
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), UInt.box-impl(UIntArray.get-pVg5ArA($this$mapIndexed_u2dWyvcNBI, i2))));
+            i2++;
+            i = i3;
         }
         return (List)arrayList;
     }
 
     private static final <R> List<R> mapIndexed-s8dVfGU(long[] $this$mapIndexed_u2ds8dVfGU, Function2<? super Integer, ? super ULong, ? extends R> transform) {
         int i;
-        int i2;
-        ULong box-impl;
         int i3;
+        ULong box-impl;
+        int i2;
         Intrinsics.checkNotNullParameter($this$mapIndexed_u2ds8dVfGU, "$this$mapIndexed");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList(ULongArray.getSize-impl($this$mapIndexed_u2ds8dVfGU));
-        i2 = i;
+        i3 = i;
         while (i < ULongArray.getSize-impl($this$mapIndexed_u2ds8dVfGU)) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i2), ULong.box-impl(ULongArray.get-s-VKNKU($this$mapIndexed_u2ds8dVfGU, i))));
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i3), ULong.box-impl(ULongArray.get-s-VKNKU($this$mapIndexed_u2ds8dVfGU, i))));
             i++;
-            i2 = i3;
+            i3 = i2;
         }
         return (List)arrayList;
     }
 
     private static final <R> List<R> mapIndexed-xzaTVY8(short[] $this$mapIndexed_u2dxzaTVY8, Function2<? super Integer, ? super UShort, ? extends R> transform) {
-        int i3;
+        int i2;
         int i;
         UShort box-impl;
-        int i2;
+        int i3;
         Intrinsics.checkNotNullParameter($this$mapIndexed_u2dxzaTVY8, "$this$mapIndexed");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList(UShortArray.getSize-impl($this$mapIndexed_u2dxzaTVY8));
-        i = i3;
-        while (i3 < UShortArray.getSize-impl($this$mapIndexed_u2dxzaTVY8)) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), UShort.box-impl(UShortArray.get-Mh2AYeg($this$mapIndexed_u2dxzaTVY8, i3))));
-            i3++;
-            i = i2;
+        i = i2;
+        while (i2 < UShortArray.getSize-impl($this$mapIndexed_u2dxzaTVY8)) {
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), UShort.box-impl(UShortArray.get-Mh2AYeg($this$mapIndexed_u2dxzaTVY8, i2))));
+            i2++;
+            i = i3;
         }
         return (List)arrayList;
     }
 
     private static final <R, C extends Collection<? super R>> C mapIndexedTo--6EtJGI(int[] $this$mapIndexedTo_u2d_u2d6EtJGI, C destination, Function2<? super Integer, ? super UInt, ? extends R> transform) {
-        int i3;
-        int i4;
-        int i2;
         int i;
+        int i3;
+        int i2;
+        int i4;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo_u2d_u2d6EtJGI, "$this$mapIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
+        i = 0;
         i3 = 0;
-        i4 = 0;
-        while (i4 < UIntArray.getSize-impl($this$mapIndexedTo_u2d_u2d6EtJGI)) {
-            destination.add(transform.invoke(Integer.valueOf(i3), UInt.box-impl(UIntArray.get-pVg5ArA($this$mapIndexedTo_u2d_u2d6EtJGI, i4))));
-            i4++;
-            i3 = i;
+        while (i3 < UIntArray.getSize-impl($this$mapIndexedTo_u2d_u2d6EtJGI)) {
+            destination.add(transform.invoke(Integer.valueOf(i), UInt.box-impl(UIntArray.get-pVg5ArA($this$mapIndexedTo_u2d_u2d6EtJGI, i3))));
+            i3++;
+            i = i4;
         }
         return destination;
     }
 
     private static final <R, C extends Collection<? super R>> C mapIndexedTo-QqktQ3k(short[] $this$mapIndexedTo_u2dQqktQ3k, C destination, Function2<? super Integer, ? super UShort, ? extends R> transform) {
-        int i2;
-        int i;
-        short s;
         int i3;
+        int i2;
+        short s;
+        int i;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo_u2dQqktQ3k, "$this$mapIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
+        i3 = 0;
         i2 = 0;
-        i = 0;
-        while (i < UShortArray.getSize-impl($this$mapIndexedTo_u2dQqktQ3k)) {
-            destination.add(transform.invoke(Integer.valueOf(i2), UShort.box-impl(UShortArray.get-Mh2AYeg($this$mapIndexedTo_u2dQqktQ3k, i))));
-            i++;
-            i2 = i3;
+        while (i2 < UShortArray.getSize-impl($this$mapIndexedTo_u2dQqktQ3k)) {
+            destination.add(transform.invoke(Integer.valueOf(i3), UShort.box-impl(UShortArray.get-Mh2AYeg($this$mapIndexedTo_u2dQqktQ3k, i2))));
+            i2++;
+            i3 = i;
         }
         return destination;
     }
@@ -3967,20 +3967,20 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <R, C extends Collection<? super R>> C mapIndexedTo-pe2Q0Dw(long[] $this$mapIndexedTo_u2dpe2Q0Dw, C destination, Function2<? super Integer, ? super ULong, ? extends R> transform) {
-        int i3;
         int i;
+        int i3;
         long l;
         int i2;
         ULong box-impl;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo_u2dpe2Q0Dw, "$this$mapIndexedTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i3 = 0;
         i = 0;
-        while (i < ULongArray.getSize-impl($this$mapIndexedTo_u2dpe2Q0Dw)) {
-            destination.add(transform.invoke(Integer.valueOf(i3), ULong.box-impl(ULongArray.get-s-VKNKU($this$mapIndexedTo_u2dpe2Q0Dw, i))));
-            i++;
-            i3 = i2;
+        i3 = 0;
+        while (i3 < ULongArray.getSize-impl($this$mapIndexedTo_u2dpe2Q0Dw)) {
+            destination.add(transform.invoke(Integer.valueOf(i), ULong.box-impl(ULongArray.get-s-VKNKU($this$mapIndexedTo_u2dpe2Q0Dw, i3))));
+            i3++;
+            i = i2;
         }
         return destination;
     }
@@ -4016,16 +4016,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <R, C extends Collection<? super R>> C mapTo-wU5IKMo(int[] $this$mapTo_u2dwU5IKMo, C destination, Function1<? super UInt, ? extends R> transform) {
-        int i;
         int i2;
+        int i;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$mapTo_u2dwU5IKMo, "$this$mapTo");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$mapTo_u2dwU5IKMo)) {
-            destination.add(transform.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$mapTo_u2dwU5IKMo, i))));
-            i++;
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$mapTo_u2dwU5IKMo)) {
+            destination.add(transform.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$mapTo_u2dwU5IKMo, i2))));
+            i2++;
         }
         return destination;
     }
@@ -4096,8 +4096,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final <R extends Comparable<? super R>> UInt maxByOrNull-jgv0xPQ(int[] $this$maxByOrNull_u2djgv0xPQ, Function1<? super UInt, ? extends R> selector) {
         int maxElem;
         Object maxValue;
-        int i2;
         int i;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxByOrNull_u2djgv0xPQ, "$this$maxByOrNull");
@@ -4170,8 +4170,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final <R extends Comparable<? super R>> int maxByOrThrow-U(int[] $this$maxBy_u2djgv0xPQ, Function1<? super UInt, ? extends R> selector) {
         int maxElem;
         Object maxValue;
-        int i2;
         int i;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxBy_u2djgv0xPQ, "$this$maxBy");
@@ -4900,15 +4900,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     public static final UShort maxOrNull-rL5Bavg(short[] $this$maxOrNull_u2drL5Bavg) {
         short max;
         int i3;
-        int i;
-        int compare;
         int i2;
+        int compare;
+        int i;
         Intrinsics.checkNotNullParameter($this$maxOrNull_u2drL5Bavg, "$this$maxOrNull");
         if (UShortArray.isEmpty-impl($this$maxOrNull_u2drL5Bavg)) {
             return null;
         }
         max = UShortArray.get-Mh2AYeg($this$maxOrNull_u2drL5Bavg, 0);
-        i = 0;
+        i2 = 0;
         int $this$lastIndex$iv = ArraysKt.getLastIndex($this$maxOrNull_u2drL5Bavg);
         if (1 <= $this$lastIndex$iv) {
         }
@@ -4975,15 +4975,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final short maxOrThrow-U(short[] $this$max_u2drL5Bavg) {
         short max;
-        int i;
         int i3;
+        int i;
         int compare;
         int i2;
         Intrinsics.checkNotNullParameter($this$max_u2drL5Bavg, "$this$max");
         if (UShortArray.isEmpty-impl($this$max_u2drL5Bavg)) {
         } else {
             max = UShortArray.get-Mh2AYeg($this$max_u2drL5Bavg, 0);
-            i3 = 0;
+            i = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$max_u2drL5Bavg);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -5071,8 +5071,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final byte maxWithOrThrow-U(byte[] $this$maxWith_u2dXMRcp5o, Comparator<? super UByte> comparator) {
         byte max;
-        int i;
         int i2;
+        int i;
         int compare;
         UByte box-impl;
         Intrinsics.checkNotNullParameter($this$maxWith_u2dXMRcp5o, "$this$maxWith");
@@ -5080,7 +5080,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         if (UByteArray.isEmpty-impl($this$maxWith_u2dXMRcp5o)) {
         } else {
             max = UByteArray.get-w2LRezQ($this$maxWith_u2dXMRcp5o, 0);
-            i2 = 0;
+            i = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$maxWith_u2dXMRcp5o);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -5092,8 +5092,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final int maxWithOrThrow-U(int[] $this$maxWith_u2dYmdZ_VM, Comparator<? super UInt> comparator) {
         int max;
-        int i2;
         int i;
+        int i2;
         int compare;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$maxWith_u2dYmdZ_VM, "$this$maxWith");
@@ -5101,7 +5101,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         if (UIntArray.isEmpty-impl($this$maxWith_u2dYmdZ_VM)) {
         } else {
             max = UIntArray.get-pVg5ArA($this$maxWith_u2dYmdZ_VM, 0);
-            i = 0;
+            i2 = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$maxWith_u2dYmdZ_VM);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -5134,8 +5134,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final short maxWithOrThrow-U(short[] $this$maxWith_u2deOHTfZs, Comparator<? super UShort> comparator) {
         short max;
-        int i;
         int i2;
+        int i;
         int compare;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$maxWith_u2deOHTfZs, "$this$maxWith");
@@ -5143,7 +5143,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         if (UShortArray.isEmpty-impl($this$maxWith_u2deOHTfZs)) {
         } else {
             max = UShortArray.get-Mh2AYeg($this$maxWith_u2deOHTfZs, 0);
-            i2 = 0;
+            i = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$maxWith_u2deOHTfZs);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -5204,8 +5204,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final <R extends Comparable<? super R>> UInt minByOrNull-jgv0xPQ(int[] $this$minByOrNull_u2djgv0xPQ, Function1<? super UInt, ? extends R> selector) {
         int minElem;
         Object minValue;
-        int i;
         int i2;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minByOrNull_u2djgv0xPQ, "$this$minByOrNull");
@@ -5278,8 +5278,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final <R extends Comparable<? super R>> int minByOrThrow-U(int[] $this$minBy_u2djgv0xPQ, Function1<? super UInt, ? extends R> selector) {
         int minElem;
         Object minValue;
-        int i2;
         int i;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minBy_u2djgv0xPQ, "$this$minBy");
@@ -5955,15 +5955,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final UInt minOrNull--ajY-9A(int[] $this$minOrNull_u2d_u2dajY_u2d9A) {
         int min;
-        int i;
         int i2;
+        int i;
         int compareUnsigned;
         Intrinsics.checkNotNullParameter($this$minOrNull_u2d_u2dajY_u2d9A, "$this$minOrNull");
         if (UIntArray.isEmpty-impl($this$minOrNull_u2d_u2dajY_u2d9A)) {
             return null;
         }
         min = UIntArray.get-pVg5ArA($this$minOrNull_u2d_u2dajY_u2d9A, 0);
-        i2 = 0;
+        i = 0;
         int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minOrNull_u2d_u2dajY_u2d9A);
         if (1 <= $this$lastIndex$iv) {
         }
@@ -5972,16 +5972,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final UByte minOrNull-GBYM_sE(byte[] $this$minOrNull_u2dGBYM_sE) {
         byte min;
-        int i2;
-        int i;
-        int compare;
         int i3;
+        int i2;
+        int compare;
+        int i;
         Intrinsics.checkNotNullParameter($this$minOrNull_u2dGBYM_sE, "$this$minOrNull");
         if (UByteArray.isEmpty-impl($this$minOrNull_u2dGBYM_sE)) {
             return null;
         }
         min = UByteArray.get-w2LRezQ($this$minOrNull_u2dGBYM_sE, 0);
-        i = 0;
+        i2 = 0;
         int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minOrNull_u2dGBYM_sE);
         if (1 <= $this$lastIndex$iv) {
         }
@@ -5990,15 +5990,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final ULong minOrNull-QwZRm1k(long[] $this$minOrNull_u2dQwZRm1k) {
         long min;
-        int i2;
         int i;
+        int i2;
         int compareUnsigned;
         Intrinsics.checkNotNullParameter($this$minOrNull_u2dQwZRm1k, "$this$minOrNull");
         if (ULongArray.isEmpty-impl($this$minOrNull_u2dQwZRm1k)) {
             return null;
         }
         min = ULongArray.get-s-VKNKU($this$minOrNull_u2dQwZRm1k, 0);
-        i = 0;
+        i2 = 0;
         int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minOrNull_u2dQwZRm1k);
         if (1 <= $this$lastIndex$iv) {
         }
@@ -6007,8 +6007,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final UShort minOrNull-rL5Bavg(short[] $this$minOrNull_u2drL5Bavg) {
         short min;
-        int i2;
         int i3;
+        int i2;
         int compare;
         int i;
         Intrinsics.checkNotNullParameter($this$minOrNull_u2drL5Bavg, "$this$minOrNull");
@@ -6016,7 +6016,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
             return null;
         }
         min = UShortArray.get-Mh2AYeg($this$minOrNull_u2drL5Bavg, 0);
-        i3 = 0;
+        i2 = 0;
         int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minOrNull_u2drL5Bavg);
         if (1 <= $this$lastIndex$iv) {
         }
@@ -6026,14 +6026,14 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     public static final byte minOrThrow-U(byte[] $this$min_u2dGBYM_sE) {
         byte min;
         int i3;
-        int i2;
-        int compare;
         int i;
+        int compare;
+        int i2;
         Intrinsics.checkNotNullParameter($this$min_u2dGBYM_sE, "$this$min");
         if (UByteArray.isEmpty-impl($this$min_u2dGBYM_sE)) {
         } else {
             min = UByteArray.get-w2LRezQ($this$min_u2dGBYM_sE, 0);
-            i2 = 0;
+            i = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$min_u2dGBYM_sE);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -6064,14 +6064,14 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final long minOrThrow-U(long[] $this$min_u2dQwZRm1k) {
         long min;
-        int i2;
         int i;
+        int i2;
         int compareUnsigned;
         Intrinsics.checkNotNullParameter($this$min_u2dQwZRm1k, "$this$min");
         if (ULongArray.isEmpty-impl($this$min_u2dQwZRm1k)) {
         } else {
             min = ULongArray.get-s-VKNKU($this$min_u2dQwZRm1k, 0);
-            i = 0;
+            i2 = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$min_u2dQwZRm1k);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -6103,8 +6103,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final UByte minWithOrNull-XMRcp5o(byte[] $this$minWithOrNull_u2dXMRcp5o, Comparator<? super UByte> comparator) {
         byte min;
-        int i2;
         int i;
+        int i2;
         int compare;
         UByte box-impl;
         Intrinsics.checkNotNullParameter($this$minWithOrNull_u2dXMRcp5o, "$this$minWithOrNull");
@@ -6113,7 +6113,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
             return null;
         }
         min = UByteArray.get-w2LRezQ($this$minWithOrNull_u2dXMRcp5o, 0);
-        i = 0;
+        i2 = 0;
         int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minWithOrNull_u2dXMRcp5o);
         if (1 <= $this$lastIndex$iv) {
         }
@@ -6122,8 +6122,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final UInt minWithOrNull-YmdZ_VM(int[] $this$minWithOrNull_u2dYmdZ_VM, Comparator<? super UInt> comparator) {
         int min;
-        int i;
         int i2;
+        int i;
         int compare;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$minWithOrNull_u2dYmdZ_VM, "$this$minWithOrNull");
@@ -6132,7 +6132,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
             return null;
         }
         min = UIntArray.get-pVg5ArA($this$minWithOrNull_u2dYmdZ_VM, 0);
-        i2 = 0;
+        i = 0;
         int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minWithOrNull_u2dYmdZ_VM);
         if (1 <= $this$lastIndex$iv) {
         }
@@ -6141,8 +6141,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final UShort minWithOrNull-eOHTfZs(short[] $this$minWithOrNull_u2deOHTfZs, Comparator<? super UShort> comparator) {
         short min;
-        int i2;
         int i;
+        int i2;
         int compare;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$minWithOrNull_u2deOHTfZs, "$this$minWithOrNull");
@@ -6151,7 +6151,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
             return null;
         }
         min = UShortArray.get-Mh2AYeg($this$minWithOrNull_u2deOHTfZs, 0);
-        i = 0;
+        i2 = 0;
         int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minWithOrNull_u2deOHTfZs);
         if (1 <= $this$lastIndex$iv) {
         }
@@ -6179,8 +6179,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final byte minWithOrThrow-U(byte[] $this$minWith_u2dXMRcp5o, Comparator<? super UByte> comparator) {
         byte min;
-        int i;
         int i2;
+        int i;
         int compare;
         UByte box-impl;
         Intrinsics.checkNotNullParameter($this$minWith_u2dXMRcp5o, "$this$minWith");
@@ -6188,7 +6188,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         if (UByteArray.isEmpty-impl($this$minWith_u2dXMRcp5o)) {
         } else {
             min = UByteArray.get-w2LRezQ($this$minWith_u2dXMRcp5o, 0);
-            i2 = 0;
+            i = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minWith_u2dXMRcp5o);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -6221,8 +6221,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final long minWithOrThrow-U(long[] $this$minWith_u2dzrEWJaI, Comparator<? super ULong> comparator) {
         long min;
-        int i2;
         int i;
+        int i2;
         int compare;
         ULong box-impl;
         Intrinsics.checkNotNullParameter($this$minWith_u2dzrEWJaI, "$this$minWith");
@@ -6230,7 +6230,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         if (ULongArray.isEmpty-impl($this$minWith_u2dzrEWJaI)) {
         } else {
             min = ULongArray.get-s-VKNKU($this$minWith_u2dzrEWJaI, 0);
-            i = 0;
+            i2 = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minWith_u2dzrEWJaI);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -6242,8 +6242,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final short minWithOrThrow-U(short[] $this$minWith_u2deOHTfZs, Comparator<? super UShort> comparator) {
         short min;
-        int i2;
         int i;
+        int i2;
         int compare;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$minWith_u2deOHTfZs, "$this$minWith");
@@ -6251,7 +6251,7 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         if (UShortArray.isEmpty-impl($this$minWith_u2deOHTfZs)) {
         } else {
             min = UShortArray.get-Mh2AYeg($this$minWith_u2deOHTfZs, 0);
-            i = 0;
+            i2 = 0;
             int $this$lastIndex$iv = ArraysKt.getLastIndex($this$minWith_u2deOHTfZs);
             if (1 <= $this$lastIndex$iv) {
             }
@@ -6370,17 +6370,17 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final int[] onEach-jgv0xPQ(int[] $this$onEach_u2djgv0xPQ, Function1<? super UInt, Unit> action) {
-        int i2;
         int i;
+        int i2;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$onEach_u2djgv0xPQ, "$this$onEach");
         Intrinsics.checkNotNullParameter(action, "action");
         Object obj = $this$onEach_u2djgv0xPQ;
         final int i3 = 0;
-        i2 = 0;
-        while (i2 < UIntArray.getSize-impl(obj)) {
-            action.invoke(UInt.box-impl(UIntArray.get-pVg5ArA(obj, i2)));
-            i2++;
+        i = 0;
+        while (i < UIntArray.getSize-impl(obj)) {
+            action.invoke(UInt.box-impl(UIntArray.get-pVg5ArA(obj, i)));
+            i++;
         }
         return $this$onEach_u2djgv0xPQ;
     }
@@ -6420,55 +6420,55 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final int[] onEachIndexed-WyvcNBI(int[] $this$onEachIndexed_u2dWyvcNBI, Function2<? super Integer, ? super UInt, Unit> action) {
-        int i2;
         int i3;
-        UInt box-impl;
         int i;
+        UInt box-impl;
+        int i2;
         Intrinsics.checkNotNullParameter($this$onEachIndexed_u2dWyvcNBI, "$this$onEachIndexed");
         Intrinsics.checkNotNullParameter(action, "action");
         Object obj = $this$onEachIndexed_u2dWyvcNBI;
         final int i4 = 0;
-        i3 = i2;
-        while (i2 < UIntArray.getSize-impl(obj)) {
-            action.invoke(Integer.valueOf(i3), UInt.box-impl(UIntArray.get-pVg5ArA(obj, i2)));
-            i2++;
-            i3 = i;
+        i = i3;
+        while (i3 < UIntArray.getSize-impl(obj)) {
+            action.invoke(Integer.valueOf(i), UInt.box-impl(UIntArray.get-pVg5ArA(obj, i3)));
+            i3++;
+            i = i2;
         }
         return $this$onEachIndexed_u2dWyvcNBI;
     }
 
     private static final long[] onEachIndexed-s8dVfGU(long[] $this$onEachIndexed_u2ds8dVfGU, Function2<? super Integer, ? super ULong, Unit> action) {
-        int i;
         int i2;
+        int i;
         ULong box-impl;
         int i3;
         Intrinsics.checkNotNullParameter($this$onEachIndexed_u2ds8dVfGU, "$this$onEachIndexed");
         Intrinsics.checkNotNullParameter(action, "action");
         Object obj = $this$onEachIndexed_u2ds8dVfGU;
         final int i4 = 0;
-        i2 = i;
-        while (i < ULongArray.getSize-impl(obj)) {
-            action.invoke(Integer.valueOf(i2), ULong.box-impl(ULongArray.get-s-VKNKU(obj, i)));
-            i++;
-            i2 = i3;
+        i = i2;
+        while (i2 < ULongArray.getSize-impl(obj)) {
+            action.invoke(Integer.valueOf(i), ULong.box-impl(ULongArray.get-s-VKNKU(obj, i2)));
+            i2++;
+            i = i3;
         }
         return $this$onEachIndexed_u2ds8dVfGU;
     }
 
     private static final short[] onEachIndexed-xzaTVY8(short[] $this$onEachIndexed_u2dxzaTVY8, Function2<? super Integer, ? super UShort, Unit> action) {
-        int i2;
         int i;
-        UShort box-impl;
         int i3;
+        UShort box-impl;
+        int i2;
         Intrinsics.checkNotNullParameter($this$onEachIndexed_u2dxzaTVY8, "$this$onEachIndexed");
         Intrinsics.checkNotNullParameter(action, "action");
         Object obj = $this$onEachIndexed_u2dxzaTVY8;
         final int i4 = 0;
-        i = i2;
-        while (i2 < UShortArray.getSize-impl(obj)) {
-            action.invoke(Integer.valueOf(i), UShort.box-impl(UShortArray.get-Mh2AYeg(obj, i2)));
-            i2++;
-            i = i3;
+        i3 = i;
+        while (i < UShortArray.getSize-impl(obj)) {
+            action.invoke(Integer.valueOf(i3), UShort.box-impl(UShortArray.get-Mh2AYeg(obj, i)));
+            i++;
+            i3 = i2;
         }
         return $this$onEachIndexed_u2dxzaTVY8;
     }
@@ -6810,8 +6810,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         byte accumulator;
         int index;
         int invoke;
-        UByte box-impl;
         UByte box-impl2;
+        UByte box-impl;
         Intrinsics.checkNotNullParameter($this$reduceIndexed_u2dEOyYB1Y, "$this$reduceIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (UByteArray.isEmpty-impl($this$reduceIndexed_u2dEOyYB1Y)) {
@@ -6892,8 +6892,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         byte accumulator;
         int index;
         int invoke;
-        UByte box-impl2;
         UByte box-impl;
+        UByte box-impl2;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull_u2dEOyYB1Y, "$this$reduceIndexedOrNull");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (UByteArray.isEmpty-impl($this$reduceIndexedOrNull_u2dEOyYB1Y)) {
@@ -6911,8 +6911,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         short accumulator;
         int index;
         int invoke;
-        UShort box-impl2;
         UShort box-impl;
+        UShort box-impl2;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull_u2daLgx1Fo, "$this$reduceIndexedOrNull");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (UShortArray.isEmpty-impl($this$reduceIndexedOrNull_u2daLgx1Fo)) {
@@ -7113,8 +7113,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         int accumulator;
         int index;
         Object invoke;
-        UInt box-impl2;
         UInt box-impl;
+        UInt box-impl2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexed_u2dD40WMg8, "$this$reduceRightIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -7137,8 +7137,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         byte accumulator;
         int index;
         Object invoke;
-        UByte box-impl;
         UByte box-impl2;
+        UByte box-impl;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexed_u2dEOyYB1Y, "$this$reduceRightIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -7209,8 +7209,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         int accumulator;
         int index;
         Object invoke;
-        UInt box-impl2;
         UInt box-impl;
+        UInt box-impl2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull_u2dD40WMg8, "$this$reduceRightIndexedOrNull");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -7253,8 +7253,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         short accumulator;
         int index;
         Object invoke;
-        UShort box-impl2;
         UShort box-impl;
+        UShort box-impl2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull_u2daLgx1Fo, "$this$reduceRightIndexedOrNull");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -7275,8 +7275,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         int $this$lastIndex$iv;
         int index;
         long accumulator;
-        ULong box-impl;
-        long box-impl2;
+        ULong box-impl2;
+        long box-impl;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull_u2dz1zDJgo, "$this$reduceRightIndexedOrNull");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -7656,8 +7656,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final List<UByte> runningReduce-ELGow60(byte[] $this$runningReduce_u2dELGow60, Function2<? super UByte, ? super UByte, UByte> operation) {
         byte accumulator;
         int $this$runningReduce_ELGow60_u24lambda_u2482;
-        UByte box-impl;
         UByte box-impl2;
+        UByte box-impl;
         Intrinsics.checkNotNullParameter($this$runningReduce_u2dELGow60, "$this$runningReduce");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (UByteArray.isEmpty-impl($this$runningReduce_u2dELGow60)) {
@@ -7678,8 +7678,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final List<UInt> runningReduce-WyvcNBI(int[] $this$runningReduce_u2dWyvcNBI, Function2<? super UInt, ? super UInt, UInt> operation) {
         int accumulator;
         int $this$runningReduce_WyvcNBI_u24lambda_u2480;
-        UInt box-impl2;
         UInt box-impl;
+        UInt box-impl2;
         Intrinsics.checkNotNullParameter($this$runningReduce_u2dWyvcNBI, "$this$runningReduce");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (UIntArray.isEmpty-impl($this$runningReduce_u2dWyvcNBI)) {
@@ -7722,8 +7722,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final List<UShort> runningReduce-xzaTVY8(short[] $this$runningReduce_u2dxzaTVY8, Function2<? super UShort, ? super UShort, UShort> operation) {
         short accumulator;
         int $this$runningReduce_xzaTVY8_u24lambda_u2483;
-        UShort box-impl;
         UShort box-impl2;
+        UShort box-impl;
         Intrinsics.checkNotNullParameter($this$runningReduce_u2dxzaTVY8, "$this$runningReduce");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (UShortArray.isEmpty-impl($this$runningReduce_u2dxzaTVY8)) {
@@ -7745,8 +7745,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         int accumulator;
         int $this$runningReduceIndexed_D40WMg8_u24lambda_u2484;
         UInt box-impl;
-        UInt box-impl3;
         UInt box-impl2;
+        UInt box-impl3;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed_u2dD40WMg8, "$this$runningReduceIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (UIntArray.isEmpty-impl($this$runningReduceIndexed_u2dD40WMg8)) {
@@ -7791,8 +7791,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         short accumulator;
         int $this$runningReduceIndexed_aLgx1Fo_u24lambda_u2487;
         UShort box-impl2;
-        UShort box-impl;
         UShort box-impl3;
+        UShort box-impl;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed_u2daLgx1Fo, "$this$runningReduceIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (UShortArray.isEmpty-impl($this$runningReduceIndexed_u2daLgx1Fo)) {
@@ -7813,9 +7813,9 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final List<ULong> runningReduceIndexed-z1zDJgo(long[] $this$runningReduceIndexed_u2dz1zDJgo, Function3<? super Integer, ? super ULong, ? super ULong, ULong> operation) {
         long accumulator;
         int $this$runningReduceIndexed_z1zDJgo_u24lambda_u2485;
-        ULong box-impl2;
         ULong box-impl;
         ULong box-impl3;
+        ULong box-impl2;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed_u2dz1zDJgo, "$this$runningReduceIndexed");
         Intrinsics.checkNotNullParameter(operation, "operation");
         if (ULongArray.isEmpty-impl($this$runningReduceIndexed_u2dz1zDJgo)) {
@@ -8029,8 +8029,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     public static final void shuffle-2D5oskM(int[] $this$shuffle_u2d2D5oskM, Random random) {
         int $this$lastIndex$iv;
         int nextInt;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$shuffle_u2d2D5oskM, "$this$shuffle");
         Intrinsics.checkNotNullParameter(random, "random");
         nextInt = 0;
@@ -8073,8 +8073,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     public static final void shuffle-oSF2wD8(byte[] $this$shuffle_u2doSF2wD8, Random random) {
         int $this$lastIndex$iv;
         int nextInt;
-        byte b2;
         byte b;
+        byte b2;
         Intrinsics.checkNotNullParameter($this$shuffle_u2doSF2wD8, "$this$shuffle");
         Intrinsics.checkNotNullParameter(random, "random");
         nextInt = 0;
@@ -8095,8 +8095,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     public static final void shuffle-s5X_as8(short[] $this$shuffle_u2ds5X_as8, Random random) {
         int $this$lastIndex$iv;
         int nextInt;
-        short s;
         short s2;
+        short s;
         Intrinsics.checkNotNullParameter($this$shuffle_u2ds5X_as8, "$this$shuffle");
         Intrinsics.checkNotNullParameter(random, "random");
         nextInt = 0;
@@ -8177,18 +8177,18 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final int single-jgv0xPQ(int[] $this$single_u2djgv0xPQ, Function1<? super UInt, Boolean> predicate) {
         int single;
         int found;
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$single_u2djgv0xPQ, "$this$single");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         single = 0;
         found = 0;
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$single_u2djgv0xPQ)) {
-            i2 = UIntArray.get-pVg5ArA($this$single_u2djgv0xPQ, i);
-            i++;
-            single = UInt.box-impl(i2);
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$single_u2djgv0xPQ)) {
+            i = UIntArray.get-pVg5ArA($this$single_u2djgv0xPQ, i2);
+            i2++;
+            single = UInt.box-impl(i);
             found = 1;
         }
         if (found == 0) {
@@ -8254,25 +8254,25 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final UByte singleOrNull-JOV_ifY(byte[] $this$singleOrNull_u2dJOV_ifY, Function1<? super UByte, Boolean> predicate) {
         int single;
         int found;
-        int i2;
         int i;
+        int i2;
         byte b;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull_u2dJOV_ifY, "$this$singleOrNull");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         single = 0;
         found = 0;
-        i2 = 0;
         i = 0;
-        while (i2 < UByteArray.getSize-impl($this$singleOrNull_u2dJOV_ifY)) {
-            b = UByteArray.get-w2LRezQ($this$singleOrNull_u2dJOV_ifY, i2);
-            i2++;
-            i = 0;
+        i2 = 0;
+        while (i < UByteArray.getSize-impl($this$singleOrNull_u2dJOV_ifY)) {
+            b = UByteArray.get-w2LRezQ($this$singleOrNull_u2dJOV_ifY, i);
+            i++;
+            i2 = 0;
             single = UByte.box-impl(b);
             found = 1;
         }
         if (found == 0) {
-            return i;
+            return i2;
         }
         return single;
     }
@@ -8280,25 +8280,25 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final ULong singleOrNull-MShoTSo(long[] $this$singleOrNull_u2dMShoTSo, Function1<? super ULong, Boolean> predicate) {
         int single;
         int found;
-        int i2;
         int i;
+        int i2;
         long l;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull_u2dMShoTSo, "$this$singleOrNull");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         single = 0;
         found = 0;
-        i2 = 0;
         i = 0;
-        while (i2 < ULongArray.getSize-impl($this$singleOrNull_u2dMShoTSo)) {
-            l = ULongArray.get-s-VKNKU($this$singleOrNull_u2dMShoTSo, i2);
-            i2++;
-            i = 0;
+        i2 = 0;
+        while (i < ULongArray.getSize-impl($this$singleOrNull_u2dMShoTSo)) {
+            l = ULongArray.get-s-VKNKU($this$singleOrNull_u2dMShoTSo, i);
+            i++;
+            i2 = 0;
             single = ULong.box-impl(l);
             found = 1;
         }
         if (found == 0) {
-            return i;
+            return i2;
         }
         return single;
     }
@@ -8318,25 +8318,25 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final UInt singleOrNull-jgv0xPQ(int[] $this$singleOrNull_u2djgv0xPQ, Function1<? super UInt, Boolean> predicate) {
         int single;
         int found;
+        int i;
         int i2;
         int i3;
-        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull_u2djgv0xPQ, "$this$singleOrNull");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         single = 0;
         found = 0;
+        i = 0;
         i2 = 0;
-        i3 = 0;
-        while (i2 < UIntArray.getSize-impl($this$singleOrNull_u2djgv0xPQ)) {
-            i = UIntArray.get-pVg5ArA($this$singleOrNull_u2djgv0xPQ, i2);
-            i2++;
-            i3 = 0;
-            single = UInt.box-impl(i);
+        while (i < UIntArray.getSize-impl($this$singleOrNull_u2djgv0xPQ)) {
+            i3 = UIntArray.get-pVg5ArA($this$singleOrNull_u2djgv0xPQ, i);
+            i++;
+            i2 = 0;
+            single = UInt.box-impl(i3);
             found = 1;
         }
         if (found == 0) {
-            return i3;
+            return i2;
         }
         return single;
     }
@@ -8355,25 +8355,25 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     private static final UShort singleOrNull-xTcfx_M(short[] $this$singleOrNull_u2dxTcfx_M, Function1<? super UShort, Boolean> predicate) {
         int single;
         int found;
-        int i;
         int i2;
+        int i;
         short s;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull_u2dxTcfx_M, "$this$singleOrNull");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         single = 0;
         found = 0;
-        i = 0;
         i2 = 0;
-        while (i < UShortArray.getSize-impl($this$singleOrNull_u2dxTcfx_M)) {
-            s = UShortArray.get-Mh2AYeg($this$singleOrNull_u2dxTcfx_M, i);
-            i++;
-            i2 = 0;
+        i = 0;
+        while (i2 < UShortArray.getSize-impl($this$singleOrNull_u2dxTcfx_M)) {
+            s = UShortArray.get-Mh2AYeg($this$singleOrNull_u2dxTcfx_M, i2);
+            i2++;
+            i = 0;
             single = UShort.box-impl(s);
             found = 1;
         }
         if (found == 0) {
-            return i2;
+            return i;
         }
         return single;
     }
@@ -8531,8 +8531,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final void sort--ajY-9A(int[] $this$sort_u2d_u2dajY_u2d9A) {
-        int size-impl;
         int size-impl2;
+        int size-impl;
         Intrinsics.checkNotNullParameter($this$sort_u2d_u2dajY_u2d9A, "$this$sort");
         if (UIntArray.getSize-impl($this$sort_u2d_u2dajY_u2d9A) > 1) {
             UArraySortingKt.sortArray-oBK06Vg($this$sort_u2d_u2dajY_u2d9A, 0, UIntArray.getSize-impl($this$sort_u2d_u2dajY_u2d9A));
@@ -8603,8 +8603,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final void sort-QwZRm1k(long[] $this$sort_u2dQwZRm1k) {
-        int size-impl;
         int size-impl2;
+        int size-impl;
         Intrinsics.checkNotNullParameter($this$sort_u2dQwZRm1k, "$this$sort");
         if (ULongArray.getSize-impl($this$sort_u2dQwZRm1k) > 1) {
             UArraySortingKt.sortArray--nroSd4($this$sort_u2dQwZRm1k, 0, ULongArray.getSize-impl($this$sort_u2dQwZRm1k));
@@ -8630,8 +8630,8 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final void sort-rL5Bavg(short[] $this$sort_u2drL5Bavg) {
-        int size-impl2;
         int size-impl;
+        int size-impl2;
         Intrinsics.checkNotNullParameter($this$sort_u2drL5Bavg, "$this$sort");
         if (UShortArray.getSize-impl($this$sort_u2drL5Bavg) > 1) {
             UArraySortingKt.sortArray-Aa5vz7o($this$sort_u2drL5Bavg, 0, UShortArray.getSize-impl($this$sort_u2drL5Bavg));
@@ -8885,18 +8885,18 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final int sum-GBYM_sE(byte[] $this$sum_u2dGBYM_sE) {
         int i2;
-        int constructor-impl;
+        int constructor-impl2;
         byte b;
         int i;
-        int constructor-impl2;
+        int constructor-impl;
         Intrinsics.checkNotNullParameter($this$sum_u2dGBYM_sE, "$this$sum");
-        constructor-impl = UInt.constructor-impl(0);
+        constructor-impl2 = UInt.constructor-impl(0);
         while (i2 < UByteArray.getSize-impl($this$sum_u2dGBYM_sE)) {
             i = 0;
-            constructor-impl = UInt.constructor-impl(constructor-impl += constructor-impl2);
+            constructor-impl2 = UInt.constructor-impl(constructor-impl2 += constructor-impl);
             i2++;
         }
-        return constructor-impl;
+        return constructor-impl2;
     }
 
     private static final long sum-QwZRm1k(long[] $this$sum_u2dQwZRm1k) {
@@ -8905,17 +8905,17 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final int sum-rL5Bavg(short[] $this$sum_u2drL5Bavg) {
-        int i2;
+        int i;
         int constructor-impl2;
         short s;
-        int i;
+        int i2;
         int constructor-impl;
         Intrinsics.checkNotNullParameter($this$sum_u2drL5Bavg, "$this$sum");
         constructor-impl2 = UInt.constructor-impl(0);
-        while (i2 < UShortArray.getSize-impl($this$sum_u2drL5Bavg)) {
-            i = 0;
+        while (i < UShortArray.getSize-impl($this$sum_u2drL5Bavg)) {
+            i2 = 0;
             constructor-impl2 = UInt.constructor-impl(constructor-impl2 += constructor-impl);
-            i2++;
+            i++;
         }
         return constructor-impl2;
     }
@@ -8960,16 +8960,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     @DeprecatedSinceKotlin(warningSince = "1.5")
     private static final int sumBy-jgv0xPQ(int[] $this$sumBy_u2djgv0xPQ, Function1<? super UInt, UInt> selector) {
         int sum;
-        int i3;
         int i2;
+        int i3;
         int i;
         Intrinsics.checkNotNullParameter($this$sumBy_u2djgv0xPQ, "$this$sumBy");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = 0;
-        i3 = 0;
-        while (i3 < UIntArray.getSize-impl($this$sumBy_u2djgv0xPQ)) {
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$sumBy_u2djgv0xPQ)) {
             sum = UInt.constructor-impl(unbox-impl += sum);
-            i3++;
+            i2++;
         }
         return sum;
     }
@@ -8978,16 +8978,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     @DeprecatedSinceKotlin(warningSince = "1.5")
     private static final int sumBy-xTcfx_M(short[] $this$sumBy_u2dxTcfx_M, Function1<? super UShort, UInt> selector) {
         int sum;
-        int i;
-        short s;
         int i2;
+        short s;
+        int i;
         Intrinsics.checkNotNullParameter($this$sumBy_u2dxTcfx_M, "$this$sumBy");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = 0;
-        i = 0;
-        while (i < UShortArray.getSize-impl($this$sumBy_u2dxTcfx_M)) {
+        i2 = 0;
+        while (i2 < UShortArray.getSize-impl($this$sumBy_u2dxTcfx_M)) {
             sum = UInt.constructor-impl(unbox-impl += sum);
-            i++;
+            i2++;
         }
         return sum;
     }
@@ -9032,16 +9032,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     @DeprecatedSinceKotlin(warningSince = "1.5")
     private static final double sumByDouble-jgv0xPQ(int[] $this$sumByDouble_u2djgv0xPQ, Function1<? super UInt, Double> selector) {
         int sum;
-        int i2;
         int i;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$sumByDouble_u2djgv0xPQ, "$this$sumByDouble");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = 0;
-        i2 = 0;
-        while (i2 < UIntArray.getSize-impl($this$sumByDouble_u2djgv0xPQ)) {
+        i = 0;
+        while (i < UIntArray.getSize-impl($this$sumByDouble_u2djgv0xPQ)) {
             sum += doubleValue;
-            i2++;
+            i++;
         }
         return sum;
     }
@@ -9082,16 +9082,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final double sumOfDouble(int[] $this$sumOf_u2djgv0xPQ, Function1<? super UInt, Double> selector) {
         int sum;
-        int i2;
         int i;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$sumOf_u2djgv0xPQ, "$this$sumOf");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = 0;
-        i2 = 0;
-        while (i2 < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
+        i = 0;
+        while (i < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
             sum += doubleValue;
-            i2++;
+            i++;
         }
         return sum;
     }
@@ -9146,16 +9146,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final int sumOfInt(int[] $this$sumOf_u2djgv0xPQ, Function1<? super UInt, Integer> selector) {
         int sum;
-        int i;
         int i2;
+        int i;
         int intValue;
         Intrinsics.checkNotNullParameter($this$sumOf_u2djgv0xPQ, "$this$sumOf");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = 0;
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
             sum += intValue;
-            i++;
+            i2++;
         }
         return sum;
     }
@@ -9272,31 +9272,31 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final int sumOfUInt(byte[] $this$sumOf_u2dJOV_ifY, Function1<? super UByte, UInt> selector) {
-        int i2;
+        int i;
         int sum;
         byte b;
-        int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sumOf_u2dJOV_ifY, "$this$sumOf");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = UInt.constructor-impl(0);
-        while (i2 < UByteArray.getSize-impl($this$sumOf_u2dJOV_ifY)) {
+        while (i < UByteArray.getSize-impl($this$sumOf_u2dJOV_ifY)) {
             sum = UInt.constructor-impl(unbox-impl += sum);
-            i2++;
+            i++;
         }
         return sum;
     }
 
     private static final int sumOfUInt(int[] $this$sumOf_u2djgv0xPQ, Function1<? super UInt, UInt> selector) {
-        int i;
-        int sum;
-        int i2;
         int i3;
+        int sum;
+        int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sumOf_u2djgv0xPQ, "$this$sumOf");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = UInt.constructor-impl(0);
-        while (i < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
+        while (i3 < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
             sum = UInt.constructor-impl(unbox-impl += sum);
-            i++;
+            i3++;
         }
         return sum;
     }
@@ -9364,16 +9364,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     private static final long sumOfULong(int[] $this$sumOf_u2djgv0xPQ, Function1<? super UInt, ULong> selector) {
         long sum;
-        int i2;
         int i;
         int i3;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sumOf_u2djgv0xPQ, "$this$sumOf");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = ULong.constructor-impl(0);
-        i2 = 0;
-        while (i2 < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
+        i = 0;
+        while (i < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
             sum = ULong.constructor-impl(unbox-impl += sum);
-            i2++;
+            i++;
         }
         return sum;
     }
@@ -9396,15 +9396,15 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
 
     public static final long sumOfULong(ULong[] $this$sum) {
         int sum;
-        int i2;
-        long unbox-impl;
         int i;
+        long unbox-impl;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sum, "<this>");
         sum = 0;
-        i2 = 0;
-        while (i2 < $this$sum.length) {
+        i = 0;
+        while (i < $this$sum.length) {
             sum = ULong.constructor-impl(sum + unbox-impl);
-            i2++;
+            i++;
         }
         return sum;
     }
@@ -9480,16 +9480,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final List<UShort> take-nggk6HY(short[] $this$take_u2dnggk6HY, int n) {
-        int i;
-        int count;
         int i2;
+        int count;
+        int i;
         short s;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$take_u2dnggk6HY, "$this$take");
-        i = 0;
+        i2 = 0;
         int i4 = 1;
-        i2 = n >= 0 ? i4 : i;
-        if (i2 == 0) {
+        i = n >= 0 ? i4 : i2;
+        if (i == 0) {
         } else {
             if (n == 0) {
                 return CollectionsKt.emptyList();
@@ -9498,17 +9498,17 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
                 return CollectionsKt.toList((Iterable)UShortArray.box-impl($this$take_u2dnggk6HY));
             }
             if (n == i4) {
-                return CollectionsKt.listOf(UShort.box-impl(UShortArray.get-Mh2AYeg($this$take_u2dnggk6HY, i)));
+                return CollectionsKt.listOf(UShort.box-impl(UShortArray.get-Mh2AYeg($this$take_u2dnggk6HY, i2)));
             }
             count = 0;
             ArrayList arrayList = new ArrayList(n);
-            while (i < UShortArray.getSize-impl($this$take_u2dnggk6HY)) {
-                arrayList.add(UShort.box-impl(UShortArray.get-Mh2AYeg($this$take_u2dnggk6HY, i)));
+            while (i2 < UShortArray.getSize-impl($this$take_u2dnggk6HY)) {
+                arrayList.add(UShort.box-impl(UShortArray.get-Mh2AYeg($this$take_u2dnggk6HY, i2)));
                 if (count++ == n) {
                     break;
                 } else {
                 }
-                i++;
+                i2++;
             }
             return (List)arrayList;
         }
@@ -9519,16 +9519,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final List<UInt> take-qFRl0hI(int[] $this$take_u2dqFRl0hI, int n) {
-        int i3;
-        int count;
         int i;
+        int count;
         int i2;
+        int i3;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$take_u2dqFRl0hI, "$this$take");
-        i3 = 0;
+        i = 0;
         int i6 = 1;
-        i = n >= 0 ? i6 : i3;
-        if (i == 0) {
+        i2 = n >= 0 ? i6 : i;
+        if (i2 == 0) {
         } else {
             if (n == 0) {
                 return CollectionsKt.emptyList();
@@ -9537,17 +9537,17 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
                 return CollectionsKt.toList((Iterable)UIntArray.box-impl($this$take_u2dqFRl0hI));
             }
             if (n == i6) {
-                return CollectionsKt.listOf(UInt.box-impl(UIntArray.get-pVg5ArA($this$take_u2dqFRl0hI, i3)));
+                return CollectionsKt.listOf(UInt.box-impl(UIntArray.get-pVg5ArA($this$take_u2dqFRl0hI, i)));
             }
             count = 0;
             ArrayList arrayList = new ArrayList(n);
-            while (i3 < UIntArray.getSize-impl($this$take_u2dqFRl0hI)) {
-                arrayList.add(UInt.box-impl(UIntArray.get-pVg5ArA($this$take_u2dqFRl0hI, i3)));
+            while (i < UIntArray.getSize-impl($this$take_u2dqFRl0hI)) {
+                arrayList.add(UInt.box-impl(UIntArray.get-pVg5ArA($this$take_u2dqFRl0hI, i)));
                 if (count++ == n) {
                     break;
                 } else {
                 }
-                i3++;
+                i++;
             }
             return (List)arrayList;
         }
@@ -9558,16 +9558,16 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final List<ULong> take-r7IrZao(long[] $this$take_u2dr7IrZao, int n) {
-        int i;
-        int count;
         int i2;
+        int count;
+        int i;
         long l;
         ULong box-impl;
         Intrinsics.checkNotNullParameter($this$take_u2dr7IrZao, "$this$take");
-        i = 0;
+        i2 = 0;
         int i4 = 1;
-        i2 = n >= 0 ? i4 : i;
-        if (i2 == 0) {
+        i = n >= 0 ? i4 : i2;
+        if (i == 0) {
         } else {
             if (n == 0) {
                 return CollectionsKt.emptyList();
@@ -9576,17 +9576,17 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
                 return CollectionsKt.toList((Iterable)ULongArray.box-impl($this$take_u2dr7IrZao));
             }
             if (n == i4) {
-                return CollectionsKt.listOf(ULong.box-impl(ULongArray.get-s-VKNKU($this$take_u2dr7IrZao, i)));
+                return CollectionsKt.listOf(ULong.box-impl(ULongArray.get-s-VKNKU($this$take_u2dr7IrZao, i2)));
             }
             count = 0;
             ArrayList arrayList = new ArrayList(n);
-            while (i < ULongArray.getSize-impl($this$take_u2dr7IrZao)) {
-                arrayList.add(ULong.box-impl(ULongArray.get-s-VKNKU($this$take_u2dr7IrZao, i)));
+            while (i2 < ULongArray.getSize-impl($this$take_u2dr7IrZao)) {
+                arrayList.add(ULong.box-impl(ULongArray.get-s-VKNKU($this$take_u2dr7IrZao, i2)));
                 if (count++ == n) {
                     break;
                 } else {
                 }
-                i++;
+                i2++;
             }
             return (List)arrayList;
         }
@@ -9952,18 +9952,18 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final byte[] toUByteArray(UByte[] $this$toUByteArray) {
-        int i2;
-        byte index;
         int i;
+        byte index;
+        int i2;
         Object obj;
         Intrinsics.checkNotNullParameter($this$toUByteArray, "<this>");
         int length = $this$toUByteArray.length;
         final byte[] bArr = new byte[length];
-        i2 = 0;
-        while (i2 < length) {
-            i = 0;
-            bArr[i2] = $this$toUByteArray[i2].unbox-impl();
-            i2++;
+        i = 0;
+        while (i < length) {
+            i2 = 0;
+            bArr[i] = $this$toUByteArray[i].unbox-impl();
+            i++;
         }
         return UByteArray.constructor-impl(bArr);
     }
@@ -9976,18 +9976,18 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final int[] toUIntArray(UInt[] $this$toUIntArray) {
-        int i;
-        int index;
         int i2;
+        int index;
+        int i;
         Object obj;
         Intrinsics.checkNotNullParameter($this$toUIntArray, "<this>");
         int length = $this$toUIntArray.length;
         final int[] iArr = new int[length];
-        i = 0;
-        while (i < length) {
-            i2 = 0;
-            iArr[i] = $this$toUIntArray[i].unbox-impl();
-            i++;
+        i2 = 0;
+        while (i2 < length) {
+            i = 0;
+            iArr[i2] = $this$toUIntArray[i2].unbox-impl();
+            i2++;
         }
         return UIntArray.constructor-impl(iArr);
     }
@@ -10017,18 +10017,18 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final short[] toUShortArray(UShort[] $this$toUShortArray) {
-        int i;
-        short index;
         int i2;
+        short index;
+        int i;
         Object obj;
         Intrinsics.checkNotNullParameter($this$toUShortArray, "<this>");
         int length = $this$toUShortArray.length;
         final short[] sArr = new short[length];
-        i = 0;
-        while (i < length) {
-            i2 = 0;
-            sArr[i] = $this$toUShortArray[i].unbox-impl();
-            i++;
+        i2 = 0;
+        while (i2 < length) {
+            i = 0;
+            sArr[i2] = $this$toUShortArray[i2].unbox-impl();
+            i2++;
         }
         return UShortArray.constructor-impl(sArr);
     }
@@ -10069,21 +10069,21 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <R, V> List<V> zip-7znnbtw(int[] $this$zip_u2d7znnbtw, Iterable<? extends R> other, Function2<? super UInt, ? super R, ? extends V> transform) {
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         Intrinsics.checkNotNullParameter($this$zip_u2d7znnbtw, "$this$zip");
         Intrinsics.checkNotNullParameter(other, "other");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int size-impl = UIntArray.getSize-impl($this$zip_u2d7znnbtw);
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), size-impl));
-        i2 = 0;
+        i = 0;
         Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i2 < size-impl) {
+            if (i < size-impl) {
             }
-            arrayList.add(transform.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$zip_u2d7znnbtw, i2)), iterator.next()));
-            i2 = i;
+            arrayList.add(transform.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$zip_u2d7znnbtw, i)), iterator.next()));
+            i = i2;
         }
         return (List)arrayList;
     }
@@ -10106,28 +10106,28 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final <R> List<Pair<UInt, R>> zip-C-E_24M(int[] $this$zip_u2dC_u2dE_24M, R[] other) {
-        int i2;
+        int i;
         Pair t1;
         Object obj;
-        int i;
+        int i2;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$zip_u2dC_u2dE_24M, "$this$zip");
         Intrinsics.checkNotNullParameter(other, "other");
         int i3 = Math.min(UIntArray.getSize-impl($this$zip_u2dC_u2dE_24M), other.length);
         ArrayList arrayList = new ArrayList(i3);
-        i2 = 0;
-        while (i2 < i3) {
-            i = 0;
-            arrayList.add(TuplesKt.to(UInt.box-impl(UIntArray.get-pVg5ArA($this$zip_u2dC_u2dE_24M, i2)), other[i2]));
-            i2++;
+        i = 0;
+        while (i < i3) {
+            i2 = 0;
+            arrayList.add(TuplesKt.to(UInt.box-impl(UIntArray.get-pVg5ArA($this$zip_u2dC_u2dE_24M, i)), other[i]));
+            i++;
         }
         return (List)arrayList;
     }
 
     public static final <R> List<Pair<ULong, R>> zip-F7u83W8(long[] $this$zip_u2dF7u83W8, Iterable<? extends R> other) {
-        int i;
-        Object next;
         int i2;
+        Object next;
+        int i;
         long l;
         ULong box-impl;
         Intrinsics.checkNotNullParameter($this$zip_u2dF7u83W8, "$this$zip");
@@ -10135,21 +10135,21 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         int size-impl = ULongArray.getSize-impl($this$zip_u2dF7u83W8);
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), size-impl));
         Iterator iterator = other.iterator();
-        i = 0;
+        i2 = 0;
         while (iterator.hasNext()) {
-            if (i < size-impl) {
+            if (i2 < size-impl) {
             }
             int i5 = 0;
-            arrayList.add(TuplesKt.to(ULong.box-impl(ULongArray.get-s-VKNKU($this$zip_u2dF7u83W8, i)), iterator.next()));
-            i = i2;
+            arrayList.add(TuplesKt.to(ULong.box-impl(ULongArray.get-s-VKNKU($this$zip_u2dF7u83W8, i2)), iterator.next()));
+            i2 = i;
         }
         return (List)arrayList;
     }
 
     public static final <R> List<Pair<UInt, R>> zip-HwE9HBo(int[] $this$zip_u2dHwE9HBo, Iterable<? extends R> other) {
-        int i;
-        Object next;
         int i3;
+        Object next;
+        int i;
         int i2;
         UInt box-impl;
         Intrinsics.checkNotNullParameter($this$zip_u2dHwE9HBo, "$this$zip");
@@ -10157,13 +10157,13 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         int size-impl = UIntArray.getSize-impl($this$zip_u2dHwE9HBo);
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), size-impl));
         Iterator iterator = other.iterator();
-        i = 0;
+        i3 = 0;
         while (iterator.hasNext()) {
-            if (i < size-impl) {
+            if (i3 < size-impl) {
             }
             i2 = 0;
-            arrayList.add(TuplesKt.to(UInt.box-impl(UIntArray.get-pVg5ArA($this$zip_u2dHwE9HBo, i)), iterator.next()));
-            i = i3;
+            arrayList.add(TuplesKt.to(UInt.box-impl(UIntArray.get-pVg5ArA($this$zip_u2dHwE9HBo, i3)), iterator.next()));
+            i3 = i;
         }
         return (List)arrayList;
     }
@@ -10186,9 +10186,9 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final <R> List<Pair<UShort, R>> zip-JGPC0-M(short[] $this$zip_u2dJGPC0_u2dM, Iterable<? extends R> other) {
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         int i3;
         UShort box-impl;
         Intrinsics.checkNotNullParameter($this$zip_u2dJGPC0_u2dM, "$this$zip");
@@ -10196,21 +10196,21 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         int size-impl = UShortArray.getSize-impl($this$zip_u2dJGPC0_u2dM);
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), size-impl));
         Iterator iterator = other.iterator();
-        i2 = 0;
+        i = 0;
         while (iterator.hasNext()) {
-            if (i2 < size-impl) {
+            if (i < size-impl) {
             }
             i3 = 0;
-            arrayList.add(TuplesKt.to(UShort.box-impl(UShortArray.get-Mh2AYeg($this$zip_u2dJGPC0_u2dM, i2)), iterator.next()));
-            i2 = i;
+            arrayList.add(TuplesKt.to(UShort.box-impl(UShortArray.get-Mh2AYeg($this$zip_u2dJGPC0_u2dM, i)), iterator.next()));
+            i = i2;
         }
         return (List)arrayList;
     }
 
     public static final <R> List<Pair<UByte, R>> zip-JQknh5Q(byte[] $this$zip_u2dJQknh5Q, Iterable<? extends R> other) {
-        int i;
-        Object next;
         int i3;
+        Object next;
+        int i;
         int i2;
         UByte box-impl;
         Intrinsics.checkNotNullParameter($this$zip_u2dJQknh5Q, "$this$zip");
@@ -10218,13 +10218,13 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
         int size-impl = UByteArray.getSize-impl($this$zip_u2dJQknh5Q);
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), size-impl));
         Iterator iterator = other.iterator();
-        i = 0;
+        i3 = 0;
         while (iterator.hasNext()) {
-            if (i < size-impl) {
+            if (i3 < size-impl) {
             }
             i2 = 0;
-            arrayList.add(TuplesKt.to(UByte.box-impl(UByteArray.get-w2LRezQ($this$zip_u2dJQknh5Q, i)), iterator.next()));
-            i = i3;
+            arrayList.add(TuplesKt.to(UByte.box-impl(UByteArray.get-w2LRezQ($this$zip_u2dJQknh5Q, i3)), iterator.next()));
+            i3 = i;
         }
         return (List)arrayList;
     }
@@ -10281,22 +10281,22 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     private static final <R, V> List<V> zip-TUPTUsU(long[] $this$zip_u2dTUPTUsU, Iterable<? extends R> other, Function2<? super ULong, ? super R, ? extends V> transform) {
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         long l;
         Intrinsics.checkNotNullParameter($this$zip_u2dTUPTUsU, "$this$zip");
         Intrinsics.checkNotNullParameter(other, "other");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int size-impl = ULongArray.getSize-impl($this$zip_u2dTUPTUsU);
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), size-impl));
-        i2 = 0;
+        i = 0;
         Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i2 < size-impl) {
+            if (i < size-impl) {
             }
-            arrayList.add(transform.invoke(ULong.box-impl(ULongArray.get-s-VKNKU($this$zip_u2dTUPTUsU, i2)), iterator.next()));
-            i2 = i;
+            arrayList.add(transform.invoke(ULong.box-impl(ULongArray.get-s-VKNKU($this$zip_u2dTUPTUsU, i)), iterator.next()));
+            i = i2;
         }
         return (List)arrayList;
     }
@@ -10339,21 +10339,21 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final List<Pair<UInt, UInt>> zip-ctEhBpI(int[] $this$zip_u2dctEhBpI, int[] other) {
-        int i;
-        Pair t1;
         int i2;
+        Pair t1;
         int i3;
+        int i;
         UInt box-impl;
         UInt box-impl2;
         Intrinsics.checkNotNullParameter($this$zip_u2dctEhBpI, "$this$zip");
         Intrinsics.checkNotNullParameter(other, "other");
         int i4 = Math.min(UIntArray.getSize-impl($this$zip_u2dctEhBpI), UIntArray.getSize-impl(other));
         ArrayList arrayList = new ArrayList(i4);
-        i = 0;
-        while (i < i4) {
-            i3 = 0;
-            arrayList.add(TuplesKt.to(UInt.box-impl(UIntArray.get-pVg5ArA($this$zip_u2dctEhBpI, i)), UInt.box-impl(UIntArray.get-pVg5ArA(other, i))));
-            i++;
+        i2 = 0;
+        while (i2 < i4) {
+            i = 0;
+            arrayList.add(TuplesKt.to(UInt.box-impl(UIntArray.get-pVg5ArA($this$zip_u2dctEhBpI, i2)), UInt.box-impl(UIntArray.get-pVg5ArA(other, i2))));
+            i2++;
         }
         return (List)arrayList;
     }
@@ -10432,21 +10432,21 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final List<Pair<UByte, UByte>> zip-kdPth3s(byte[] $this$zip_u2dkdPth3s, byte[] other) {
-        int i;
+        int i2;
         Pair t1;
         byte b;
-        int i2;
-        UByte box-impl;
+        int i;
         UByte box-impl2;
+        UByte box-impl;
         Intrinsics.checkNotNullParameter($this$zip_u2dkdPth3s, "$this$zip");
         Intrinsics.checkNotNullParameter(other, "other");
         int i3 = Math.min(UByteArray.getSize-impl($this$zip_u2dkdPth3s), UByteArray.getSize-impl(other));
         ArrayList arrayList = new ArrayList(i3);
-        i = 0;
-        while (i < i3) {
-            i2 = 0;
-            arrayList.add(TuplesKt.to(UByte.box-impl(UByteArray.get-w2LRezQ($this$zip_u2dkdPth3s, i)), UByte.box-impl(UByteArray.get-w2LRezQ(other, i))));
-            i++;
+        i2 = 0;
+        while (i2 < i3) {
+            i = 0;
+            arrayList.add(TuplesKt.to(UByte.box-impl(UByteArray.get-w2LRezQ($this$zip_u2dkdPth3s, i2)), UByte.box-impl(UByteArray.get-w2LRezQ(other, i2))));
+            i2++;
         }
         return (List)arrayList;
     }
@@ -10510,21 +10510,21 @@ class UArraysKt___UArraysKt extends kotlin.collections.unsigned.UArraysKt___UArr
     }
 
     public static final List<Pair<ULong, ULong>> zip-us8wMrg(long[] $this$zip_u2dus8wMrg, long[] other) {
-        int i;
+        int i2;
         Pair t1;
         long l;
-        int i2;
-        ULong box-impl2;
+        int i;
         ULong box-impl;
+        ULong box-impl2;
         Intrinsics.checkNotNullParameter($this$zip_u2dus8wMrg, "$this$zip");
         Intrinsics.checkNotNullParameter(other, "other");
         int i3 = Math.min(ULongArray.getSize-impl($this$zip_u2dus8wMrg), ULongArray.getSize-impl(other));
         ArrayList arrayList = new ArrayList(i3);
-        i = 0;
-        while (i < i3) {
-            i2 = 0;
-            arrayList.add(TuplesKt.to(ULong.box-impl(ULongArray.get-s-VKNKU($this$zip_u2dus8wMrg, i)), ULong.box-impl(ULongArray.get-s-VKNKU(other, i))));
-            i++;
+        i2 = 0;
+        while (i2 < i3) {
+            i = 0;
+            arrayList.add(TuplesKt.to(ULong.box-impl(ULongArray.get-s-VKNKU($this$zip_u2dus8wMrg, i2)), ULong.box-impl(ULongArray.get-s-VKNKU(other, i2))));
+            i2++;
         }
         return (List)arrayList;
     }

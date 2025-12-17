@@ -200,24 +200,24 @@ public class PersistentHashMapBuilder<K, V>  extends AbstractMutableMap<K, V> im
 
     @Override // kotlin.collections.AbstractMutableMap
     public final boolean remove(Object key, Object value) {
-        int i;
         int i2;
+        int i;
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode obj9;
         Object obj10;
         if (key != null) {
-            i = key.hashCode();
+            i2 = key.hashCode();
         } else {
-            i = i2;
+            i2 = i;
         }
         final Object obj3 = this;
-        if (this.node.mutableRemove(i, key, value, 0, obj3) == null) {
+        if (this.node.mutableRemove(i2, key, value, 0, obj3) == null) {
             Intrinsics.checkNotNull(TrieNode.Companion.getEMPTY$runtime_release(), "null cannot be cast to non-null type androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode<K of androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder, V of androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder>");
         }
         obj3.node = obj9;
         if (size() != size()) {
-            i2 = 1;
+            i = 1;
         }
-        return i2;
+        return i;
     }
 
     @Override // kotlin.collections.AbstractMutableMap

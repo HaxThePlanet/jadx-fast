@@ -210,9 +210,9 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
     public static final <K, V, R> List<R> mapNotNull(Map<? extends K, ? extends V> $this$mapNotNull, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> transform) {
         Object next;
         Object obj;
-        int i2;
-        Object invoke;
         int i;
+        Object invoke;
+        int i2;
         Intrinsics.checkNotNullParameter($this$mapNotNull, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i3 = 0;
@@ -221,11 +221,11 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
         final int i5 = 0;
         Iterator iterator = $this$mapNotNull.entrySet().iterator();
         while (iterator.hasNext()) {
-            i2 = 0;
+            i = 0;
             invoke = transform.invoke((Map.Entry)iterator.next());
             if (invoke != null) {
             }
-            i = 0;
+            i2 = 0;
             (Collection)arrayList.add(invoke);
         }
         return (List)arrayList;
@@ -234,9 +234,9 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
     public static final <K, V, R, C extends Collection<? super R>> C mapNotNullTo(Map<? extends K, ? extends V> $this$mapNotNullTo, C destination, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> transform) {
         Object next;
         Object obj;
-        int i;
-        Object invoke;
         int i2;
+        Object invoke;
+        int i;
         Intrinsics.checkNotNullParameter($this$mapNotNullTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -244,11 +244,11 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
         final int i4 = 0;
         Iterator iterator = $this$mapNotNullTo.entrySet().iterator();
         while (iterator.hasNext()) {
-            i = 0;
+            i2 = 0;
             invoke = transform.invoke((Map.Entry)iterator.next());
             if (invoke != null) {
             }
-            i2 = 0;
+            i = 0;
             destination.add(invoke);
         }
         return destination;
@@ -332,18 +332,18 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
     }
 
     private static final <K, V> double maxOf(Map<? extends K, ? extends V> $this$maxOf, Function1<? super Map.Entry<? extends K, ? extends V>, Double> selector) {
-        double doubleValue;
         double doubleValue2;
+        double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         Iterator iterator = (Iterable)$this$maxOf.entrySet().iterator();
         if (!iterator.hasNext()) {
         } else {
-            doubleValue = (Number)selector.invoke(iterator.next()).doubleValue();
+            doubleValue2 = (Number)selector.invoke(iterator.next()).doubleValue();
             for (Object next4 : iterator) {
-                doubleValue = Math.max(doubleValue, obj2);
+                doubleValue2 = Math.max(doubleValue2, obj2);
             }
-            return doubleValue;
+            return doubleValue2;
         }
         NoSuchElementException noSuchElementException = new NoSuchElementException();
         throw noSuchElementException;
@@ -391,8 +391,8 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
 
     private static final <K, V, R extends Comparable<? super R>> R maxOfOrNull(Map<? extends K, ? extends V> $this$maxOfOrNull, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> selector) {
         Object obj;
-        Object invoke2;
-        boolean invoke;
+        Object invoke;
+        boolean invoke2;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
@@ -400,14 +400,14 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
         if (!iterator.hasNext()) {
             obj = 0;
         } else {
-            invoke2 = selector.invoke(iterator.next());
+            invoke = selector.invoke(iterator.next());
             while (iterator.hasNext()) {
-                invoke = selector.invoke(iterator.next());
-                if (invoke2.compareTo((Comparable)invoke) < 0) {
+                invoke2 = selector.invoke(iterator.next());
+                if (invoke.compareTo((Comparable)invoke2) < 0) {
                 }
-                invoke2 = invoke;
+                invoke = invoke2;
             }
-            obj = invoke2;
+            obj = invoke;
         }
         return obj;
     }
@@ -433,57 +433,32 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
 
     private static final <K, V> Float maxOfOrNull(Map<? extends K, ? extends V> $this$maxOfOrNull, Function1<? super Map.Entry<? extends K, ? extends V>, Float> selector) {
         int valueOf;
-        boolean floatValue2;
         boolean floatValue;
+        boolean floatValue2;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         Iterator iterator = (Iterable)$this$maxOfOrNull.entrySet().iterator();
         if (!iterator.hasNext()) {
             valueOf = 0;
         } else {
-            floatValue2 = (Number)selector.invoke(iterator.next()).floatValue();
+            floatValue = (Number)selector.invoke(iterator.next()).floatValue();
             for (Object next2 : iterator) {
-                floatValue2 = Math.max(floatValue2, (Number)selector.invoke(next2).floatValue());
+                floatValue = Math.max(floatValue, (Number)selector.invoke(next2).floatValue());
             }
-            valueOf = Float.valueOf(floatValue2);
+            valueOf = Float.valueOf(floatValue);
         }
         return valueOf;
     }
 
     private static final <K, V, R> R maxOfWith(Map<? extends K, ? extends V> $this$maxOfWith, Comparator<? super R> comparator, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> selector) {
-        Object invoke;
         Object invoke2;
+        Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         Iterator iterator = (Iterable)$this$maxOfWith.entrySet().iterator();
         if (!iterator.hasNext()) {
-        } else {
-            invoke = selector.invoke(iterator.next());
-            while (iterator.hasNext()) {
-                invoke2 = selector.invoke(iterator.next());
-                if (comparator.compare(invoke, invoke2) < 0) {
-                }
-                invoke = invoke2;
-            }
-            return invoke;
-        }
-        NoSuchElementException noSuchElementException = new NoSuchElementException();
-        throw noSuchElementException;
-    }
-
-    private static final <K, V, R> R maxOfWithOrNull(Map<? extends K, ? extends V> $this$maxOfWithOrNull, Comparator<? super R> comparator, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> selector) {
-        Object obj;
-        Object invoke2;
-        boolean invoke;
-        int compare;
-        Intrinsics.checkNotNullParameter($this$maxOfWithOrNull, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        Iterator iterator = (Iterable)$this$maxOfWithOrNull.entrySet().iterator();
-        if (!iterator.hasNext()) {
-            obj = 0;
         } else {
             invoke2 = selector.invoke(iterator.next());
             while (iterator.hasNext()) {
@@ -492,7 +467,32 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
                 }
                 invoke2 = invoke;
             }
-            obj = invoke2;
+            return invoke2;
+        }
+        NoSuchElementException noSuchElementException = new NoSuchElementException();
+        throw noSuchElementException;
+    }
+
+    private static final <K, V, R> R maxOfWithOrNull(Map<? extends K, ? extends V> $this$maxOfWithOrNull, Comparator<? super R> comparator, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> selector) {
+        Object obj;
+        Object invoke;
+        boolean invoke2;
+        int compare;
+        Intrinsics.checkNotNullParameter($this$maxOfWithOrNull, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        Iterator iterator = (Iterable)$this$maxOfWithOrNull.entrySet().iterator();
+        if (!iterator.hasNext()) {
+            obj = 0;
+        } else {
+            invoke = selector.invoke(iterator.next());
+            while (iterator.hasNext()) {
+                invoke2 = selector.invoke(iterator.next());
+                if (comparator.compare(invoke, invoke2) < 0) {
+                }
+                invoke = invoke2;
+            }
+            obj = invoke;
         }
         return obj;
     }
@@ -591,18 +591,18 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
     }
 
     private static final <K, V> float minOf(Map<? extends K, ? extends V> $this$minOf, Function1<? super Map.Entry<? extends K, ? extends V>, Float> selector) {
-        float floatValue;
         float floatValue2;
+        float floatValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         Iterator iterator = (Iterable)$this$minOf.entrySet().iterator();
         if (!iterator.hasNext()) {
         } else {
-            floatValue = (Number)selector.invoke(iterator.next()).floatValue();
+            floatValue2 = (Number)selector.invoke(iterator.next()).floatValue();
             for (Object next4 : iterator) {
-                floatValue = Math.min(floatValue, (Number)selector.invoke(next4).floatValue());
+                floatValue2 = Math.min(floatValue2, (Number)selector.invoke(next4).floatValue());
             }
-            return floatValue;
+            return floatValue2;
         }
         NoSuchElementException noSuchElementException = new NoSuchElementException();
         throw noSuchElementException;
@@ -632,8 +632,8 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
 
     private static final <K, V, R extends Comparable<? super R>> R minOfOrNull(Map<? extends K, ? extends V> $this$minOfOrNull, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> selector) {
         Object obj;
-        Object invoke;
-        boolean invoke2;
+        Object invoke2;
+        boolean invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
@@ -641,14 +641,14 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
         if (!iterator.hasNext()) {
             obj = 0;
         } else {
-            invoke = selector.invoke(iterator.next());
+            invoke2 = selector.invoke(iterator.next());
             while (iterator.hasNext()) {
-                invoke2 = selector.invoke(iterator.next());
-                if (invoke.compareTo((Comparable)invoke2) > 0) {
+                invoke = selector.invoke(iterator.next());
+                if (invoke2.compareTo((Comparable)invoke) > 0) {
                 }
-                invoke = invoke2;
+                invoke2 = invoke;
             }
-            obj = invoke;
+            obj = invoke2;
         }
         return obj;
     }
@@ -674,26 +674,26 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
 
     private static final <K, V> Float minOfOrNull(Map<? extends K, ? extends V> $this$minOfOrNull, Function1<? super Map.Entry<? extends K, ? extends V>, Float> selector) {
         int valueOf;
-        boolean floatValue;
         boolean floatValue2;
+        boolean floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         Iterator iterator = (Iterable)$this$minOfOrNull.entrySet().iterator();
         if (!iterator.hasNext()) {
             valueOf = 0;
         } else {
-            floatValue = (Number)selector.invoke(iterator.next()).floatValue();
+            floatValue2 = (Number)selector.invoke(iterator.next()).floatValue();
             for (Object next2 : iterator) {
-                floatValue = Math.min(floatValue, (Number)selector.invoke(next2).floatValue());
+                floatValue2 = Math.min(floatValue2, (Number)selector.invoke(next2).floatValue());
             }
-            valueOf = Float.valueOf(floatValue);
+            valueOf = Float.valueOf(floatValue2);
         }
         return valueOf;
     }
 
     private static final <K, V, R> R minOfWith(Map<? extends K, ? extends V> $this$minOfWith, Comparator<? super R> comparator, Function1<? super Map.Entry<? extends K, ? extends V>, ? extends R> selector) {
-        Object invoke;
         Object invoke2;
+        Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
@@ -701,14 +701,14 @@ class MapsKt___MapsKt extends kotlin.collections.MapsKt___MapsJvmKt {
         Iterator iterator = (Iterable)$this$minOfWith.entrySet().iterator();
         if (!iterator.hasNext()) {
         } else {
-            invoke = selector.invoke(iterator.next());
+            invoke2 = selector.invoke(iterator.next());
             while (iterator.hasNext()) {
-                invoke2 = selector.invoke(iterator.next());
-                if (comparator.compare(invoke, invoke2) > 0) {
+                invoke = selector.invoke(iterator.next());
+                if (comparator.compare(invoke2, invoke) > 0) {
                 }
-                invoke = invoke2;
+                invoke2 = invoke;
             }
-            return invoke;
+            return invoke2;
         }
         NoSuchElementException noSuchElementException = new NoSuchElementException();
         throw noSuchElementException;

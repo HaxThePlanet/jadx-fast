@@ -120,20 +120,20 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
 
         public final V getImpl(K key) {
             int index;
-            Object obj2;
             Object obj;
+            Object obj2;
             boolean equal;
             Object ref;
             index = index(key.hashCode());
-            obj2 = this.keys.get(index);
-            while ((HashedWeakRef)obj2 == null) {
-                obj = (HashedWeakRef)obj2.get();
-                if (obj == null) {
+            obj = this.keys.get(index);
+            while ((HashedWeakRef)obj == null) {
+                obj2 = (HashedWeakRef)obj.get();
+                if (obj2 == null) {
                 }
                 if (index == 0) {
                 }
                 index--;
-                obj2 = this.keys.get(index);
+                obj = this.keys.get(index);
                 index = this.allocated;
                 removeCleanedAt(index);
             }
@@ -150,13 +150,13 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
             int loadIncremented2;
             int loadIncremented;
             kotlinx.coroutines.debug.internal.HashedWeakRef weakKey;
-            Object obj;
             Object obj3;
-            boolean hashedWeakRef;
-            int i2;
             Object obj2;
-            kotlinx.coroutines.debug.internal.HashedWeakRef hashedWeakRef2;
+            boolean hashedWeakRef;
             int i;
+            Object obj;
+            kotlinx.coroutines.debug.internal.HashedWeakRef hashedWeakRef2;
+            int i2;
             boolean compareAndSet;
             int n;
             int i3;
@@ -164,14 +164,14 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
             index = index(key.hashCode());
             loadIncremented2 = 0;
             weakKey = weakKey0;
-            obj = this.keys.get(index);
-            while ((HashedWeakRef)obj == null) {
+            obj3 = this.keys.get(index);
+            while ((HashedWeakRef)obj3 == null) {
                 int i5 = 0;
                 if (weakKey == null) {
                 }
-                obj = this.keys.get(index);
-                obj3 = (HashedWeakRef)(HashedWeakRef)obj.get();
-                if (obj3 == null) {
+                obj3 = this.keys.get(index);
+                obj2 = (HashedWeakRef)(HashedWeakRef)obj3.get();
+                if (obj2 == null) {
                 }
                 if (index == 0) {
                 }
@@ -181,8 +181,8 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
                 hashedWeakRef = new HashedWeakRef(key, ConcurrentWeakMap.access$getWeakRefQueue$p(this.this$0));
                 weakKey = hashedWeakRef;
                 hashedWeakRef = ConcurrentWeakMap.Core.load$FU;
-                obj2 = this;
-                i = 0;
+                obj = this;
+                i2 = 0;
                 int i6 = hashedWeakRef.get(this);
                 int i7 = i6;
                 i3 = 0;
@@ -201,19 +201,19 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
             kotlinx.coroutines.debug.internal.ConcurrentWeakMap.Core core;
             int index;
             int allocated;
-            Object obj;
             Object obj2;
+            Object obj;
             Object value;
             Object impl;
             kotlinx.coroutines.internal.Symbol symbol;
             while (/* condition */) {
                 while (index < allocated) {
-                    obj = this.keys.get(index);
-                    if ((HashedWeakRef)obj != null) {
+                    obj2 = this.keys.get(index);
+                    if ((HashedWeakRef)obj2 != null) {
                     } else {
                     }
-                    obj2 = 0;
-                    if ((HashedWeakRef)obj != null && obj2 == null) {
+                    obj = 0;
+                    if ((HashedWeakRef)obj2 != null && obj == null) {
                     }
                     value = 0;
                     value = this.values.get(index);
@@ -226,24 +226,24 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
                     if (!ChannelSegment$$ExternalSyntheticBackportWithForwarding0.m(this.values, index, value, ConcurrentWeakMapKt.access$mark(value))) {
                     }
                     index++;
-                    impl = core.putImpl(obj2, value, (HashedWeakRef)obj);
+                    impl = core.putImpl(obj, value, (HashedWeakRef)obj2);
                     if (impl == null) {
                     } else {
                     }
                     symbol = 0;
                     symbol = 1;
                     value = impl.ref;
-                    if (obj2 == null) {
+                    if (obj == null) {
                     }
                     removeCleanedAt(index);
-                    obj2 = obj.get();
+                    obj = obj2.get();
                 }
-                obj = this.keys.get(index);
-                if ((HashedWeakRef)obj != null) {
+                obj2 = this.keys.get(index);
+                if ((HashedWeakRef)obj2 != null) {
                 } else {
                 }
-                obj2 = 0;
-                if ((HashedWeakRef)obj != null && obj2 == null) {
+                obj = 0;
+                if ((HashedWeakRef)obj2 != null && obj == null) {
                 }
                 value = 0;
                 value = this.values.get(index);
@@ -256,7 +256,7 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
                 if (!ChannelSegment$$ExternalSyntheticBackportWithForwarding0.m(this.values, index, value, ConcurrentWeakMapKt.access$mark(value))) {
                 }
                 index++;
-                impl = core.putImpl(obj2, value, (HashedWeakRef)obj);
+                impl = core.putImpl(obj, value, (HashedWeakRef)obj2);
                 int i2 = 4;
                 core = new ConcurrentWeakMap.Core(this.this$0, highestOneBit *= i2);
                 index = 0;
@@ -266,10 +266,10 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
                 symbol = 0;
                 symbol = 1;
                 value = impl.ref;
-                if (obj2 == null) {
+                if (obj == null) {
                 }
                 removeCleanedAt(index);
-                obj2 = obj.get();
+                obj = obj2.get();
             }
             return core;
         }
@@ -380,9 +380,9 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
         Object curCore;
         Object obj2;
         Object obj;
+        int i2;
         int i;
         int i3;
-        int i2;
         Object obj8;
         Object obj9;
         curCore = obj3;
@@ -485,7 +485,7 @@ public final class ConcurrentWeakMap<K, V>  extends AbstractMutableMap<K, V> {
             }
         }
         int i = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Must be created with weakRefQueue = true".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckConcurrentWeakMap$runWeakRefQueueCleaningLoopUntilInterrupted$1 = new IllegalStateException("Must be created with weakRefQueue = true".toString());
+        throw $i$a$CheckConcurrentWeakMap$runWeakRefQueueCleaningLoopUntilInterrupted$1;
     }
 }

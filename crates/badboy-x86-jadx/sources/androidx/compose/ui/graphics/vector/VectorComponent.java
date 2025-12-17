@@ -84,17 +84,17 @@ public final class VectorComponent extends androidx.compose.ui.graphics.vector.V
 
     @Override // androidx.compose.ui.graphics.vector.VNode
     public final void draw(DrawScope $this$draw, float alpha, ColorFilter colorFilter) {
-        boolean tintableWithAlphaMask;
+        boolean $i$f$isSpecified8_81llA;
         int argb8888-_sVssgQ;
-        boolean size-NH-jbRc;
+        boolean size-NH-jbRc2;
         int tint-xETnrds$default;
         ColorFilter intrinsicColorFilter$ui_release;
-        long tintColor-0d7_KjU2;
+        long tintColor-0d7_KjU;
         int cmp;
         int i;
         androidx.compose.ui.graphics.vector.DrawCache cacheDrawScope;
-        long size-NH-jbRc2;
-        long tintColor-0d7_KjU;
+        long size-NH-jbRc;
+        long tintColor-0d7_KjU2;
         androidx.compose.ui.unit.LayoutDirection layoutDirection2;
         int layoutDirection;
         int drawVectorBlock;
@@ -104,8 +104,8 @@ public final class VectorComponent extends androidx.compose.ui.graphics.vector.V
         int i7 = 0;
         if (obj.root.isTintable()) {
             int i3 = 0;
-            tintableWithAlphaMask = Long.compare(tintColor-0d7_KjU2, i8) != 0 ? i : i7;
-            if (tintableWithAlphaMask != 0) {
+            $i$f$isSpecified8_81llA = Long.compare(tintColor-0d7_KjU, i8) != 0 ? i : i7;
+            if ($i$f$isSpecified8_81llA != 0) {
             } else {
                 i = i7;
             }
@@ -134,7 +134,7 @@ public final class VectorComponent extends androidx.compose.ui.graphics.vector.V
                     obj.tintFilter = tint-xETnrds$default;
                     obj.rootScaleX = width-impl /= width-impl3;
                     obj.rootScaleY = height-impl /= height-impl2;
-                    obj.cacheDrawScope.drawCachedImage-FqjB98A(i9, IntSizeKt.IntSize((int)f, (int)f2), tintColor-0d7_KjU, (Density)drawScope, drawScope.getLayoutDirection());
+                    obj.cacheDrawScope.drawCachedImage-FqjB98A(i9, IntSizeKt.IntSize((int)f, (int)f2), tintColor-0d7_KjU2, (Density)drawScope, drawScope.getLayoutDirection());
                     obj.isDirty = i7;
                     obj.previousDrawSize = drawScope.getSize-NH-jbRc();
                 }

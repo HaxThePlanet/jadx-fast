@@ -51,21 +51,21 @@ public final class ConcurrentLinkedListKt {
     public static final <N extends kotlinx.coroutines.internal.ConcurrentLinkedListNode<N>> N close(N $this$close) {
         Object cur;
         kotlinx.coroutines.internal.ConcurrentLinkedListNode markAsClosed;
-        int i;
-        Object obj;
         int i2;
-        Object obj2;
+        Object obj;
+        int i;
+        Object $i$a$NextOrIfClosedConcurrentLinkedListKt$close$next$1;
         int i3 = 0;
         cur = $this$close;
-        i = 0;
-        obj = ConcurrentLinkedListNode.access$getNextOrClosed(cur);
         i2 = 0;
+        obj = ConcurrentLinkedListNode.access$getNextOrClosed(cur);
+        i = 0;
         while (obj == ConcurrentLinkedListKt.access$getCLOSED$p()) {
-            obj2 = obj;
-            cur = obj2;
-            i = 0;
-            obj = ConcurrentLinkedListNode.access$getNextOrClosed(cur);
+            $i$a$NextOrIfClosedConcurrentLinkedListKt$close$next$1 = obj;
+            cur = $i$a$NextOrIfClosedConcurrentLinkedListKt$close$next$1;
             i2 = 0;
+            obj = ConcurrentLinkedListNode.access$getNextOrClosed(cur);
+            i = 0;
         }
         int i4 = 0;
         return cur;
@@ -73,13 +73,13 @@ public final class ConcurrentLinkedListKt {
 
     public static final Object findSegmentAndMoveForward$atomicfu(Object atomicfu$dispatchReceiver, AtomicReferenceFieldUpdater atomicfu$handler, long id, S startFrom, Function2<? super Long, ? super S, ? extends S> createNewSegment) {
         int tryIncPointers$kotlinx_coroutines_core;
-        int i;
+        int i4;
         Object obj3;
         Function2 function2;
         Object segmentInternal;
         kotlinx.coroutines.internal.Segment segment-impl;
+        int i;
         int i2;
-        int i4;
         Object obj;
         int i3;
         long l;
@@ -90,21 +90,21 @@ public final class ConcurrentLinkedListKt {
         segmentInternal = ConcurrentLinkedListKt.findSegmentInternal(createNewSegment, id, obj4);
         while (!SegmentOrClosed.isClosed-impl(segmentInternal)) {
             segment-impl = SegmentOrClosed.getSegment-impl(segmentInternal);
+            i = 0;
             i2 = 0;
-            i4 = 0;
             obj = field.get(obj2);
             i3 = 0;
             $i$f$findSegmentAndMoveForward$atomicfu = tryIncPointers$kotlinx_coroutines_core;
-            i = 1;
+            i4 = 1;
             while (Long.compare(l, $i$f$findSegmentAndMoveForward$atomicfu2) >= 0) {
                 if (segment-impl.decPointers$kotlinx_coroutines_core()) {
                 }
-                i = id;
+                i4 = id;
                 tryIncPointers$kotlinx_coroutines_core = $i$f$findSegmentAndMoveForward$atomicfu;
                 obj = field.get(obj2);
                 i3 = 0;
                 $i$f$findSegmentAndMoveForward$atomicfu = tryIncPointers$kotlinx_coroutines_core;
-                i = 1;
+                i4 = 1;
                 segment-impl.remove();
             }
             if (!segment-impl.tryIncPointers$kotlinx_coroutines_core()) {
@@ -115,7 +115,7 @@ public final class ConcurrentLinkedListKt {
             }
             if (segment-impl.decPointers$kotlinx_coroutines_core()) {
             }
-            i = id;
+            i4 = id;
             tryIncPointers$kotlinx_coroutines_core = $i$f$findSegmentAndMoveForward$atomicfu;
             segment-impl.remove();
             if (obj.decPointers$kotlinx_coroutines_core()) {
@@ -123,7 +123,7 @@ public final class ConcurrentLinkedListKt {
             tryIncPointers$kotlinx_coroutines_core = $i$f$findSegmentAndMoveForward$atomicfu;
             segmentInternal = ConcurrentLinkedListKt.findSegmentInternal(createNewSegment, id, obj4);
             obj.remove();
-            i = 0;
+            i4 = 0;
         }
         $i$f$findSegmentAndMoveForward$atomicfu = tryIncPointers$kotlinx_coroutines_core;
         return segmentInternal;
@@ -136,28 +136,28 @@ public final class ConcurrentLinkedListKt {
         Object segmentInternal;
         kotlinx.coroutines.internal.Segment segment-impl;
         int i;
-        int i2;
+        int i3;
         Object obj;
         int i4;
         AtomicReferenceArray atomicReferenceArray;
-        int decPointers$kotlinx_coroutines_core;
-        int i3;
-        boolean decPointers$kotlinx_coroutines_core2;
+        int decPointers$kotlinx_coroutines_core2;
+        int i2;
+        boolean decPointers$kotlinx_coroutines_core;
         final int i5 = 0;
         segmentInternal = ConcurrentLinkedListKt.findSegmentInternal(createNewSegment, id, obj2);
         while (!SegmentOrClosed.isClosed-impl(segmentInternal)) {
             segment-impl = SegmentOrClosed.getSegment-impl(segmentInternal);
             i = 0;
-            i2 = 0;
+            i3 = 0;
             obj = atomicfu$handler.get(atomicfu$index);
             i4 = 0;
-            decPointers$kotlinx_coroutines_core = 1;
+            decPointers$kotlinx_coroutines_core2 = 1;
             while (Long.compare(l, l2) >= 0) {
                 if (segment-impl.decPointers$kotlinx_coroutines_core()) {
                 }
                 obj = atomicfu$handler.get(atomicfu$index);
                 i4 = 0;
-                decPointers$kotlinx_coroutines_core = 1;
+                decPointers$kotlinx_coroutines_core2 = 1;
                 segment-impl.remove();
             }
             if (!segment-impl.tryIncPointers$kotlinx_coroutines_core()) {
@@ -173,14 +173,14 @@ public final class ConcurrentLinkedListKt {
             }
             segmentInternal = ConcurrentLinkedListKt.findSegmentInternal(createNewSegment, id, obj2);
             obj.remove();
-            decPointers$kotlinx_coroutines_core = 0;
+            decPointers$kotlinx_coroutines_core2 = 0;
             atomicReferenceArray = atomicfu$handler;
-            i3 = atomicfu$index;
+            i2 = atomicfu$index;
             atomicReferenceArray = atomicfu$handler;
-            i3 = atomicfu$index;
+            i2 = atomicfu$index;
         }
         atomicReferenceArray = atomicfu$handler;
-        i3 = atomicfu$index;
+        i2 = atomicfu$index;
         return segmentInternal;
     }
 
@@ -191,13 +191,13 @@ public final class ConcurrentLinkedListKt {
         Object invoke;
         boolean trySetNext;
         int i;
-        Object obj;
+        Object $i$a$NextOrIfClosedConcurrentLinkedListKt$findSegmentInternal$next$1;
         cur = $this$findSegmentInternal;
         while (Long.compare(l, id) >= 0) {
             invoke = 0;
             trySetNext = ConcurrentLinkedListNode.access$getNextOrClosed((ConcurrentLinkedListNode)cur);
             i = 0;
-            this_$iv = obj;
+            this_$iv = $i$a$NextOrIfClosedConcurrentLinkedListKt$findSegmentInternal$next$1;
             if ((Segment)this_$iv != null) {
             } else {
             }
@@ -231,45 +231,45 @@ public final class ConcurrentLinkedListKt {
 
     public static final boolean moveForward$atomicfu(Object atomicfu$dispatchReceiver, AtomicReferenceFieldUpdater atomicfu$handler, S to) {
         Object obj;
-        int i;
-        boolean decPointers$kotlinx_coroutines_core;
         int i2;
+        boolean decPointers$kotlinx_coroutines_core;
+        int i;
         long l;
         final int i3 = 0;
         final int i4 = 0;
         obj = atomicfu$handler.get(atomicfu$dispatchReceiver);
-        i = 0;
-        i2 = 1;
+        i2 = 0;
+        i = 1;
         while (Long.compare(l2, l) >= 0) {
             if (to.decPointers$kotlinx_coroutines_core()) {
             }
             obj = atomicfu$handler.get(atomicfu$dispatchReceiver);
-            i = 0;
-            i2 = 1;
+            i2 = 0;
+            i = 1;
             to.remove();
         }
-        return i2;
+        return i;
     }
 
     public static final boolean moveForward$atomicfu$array(Object atomicfu$dispatchReceiver, AtomicReferenceArray atomicfu$handler, int atomicfu$index, S to) {
         Object obj;
-        int i;
-        boolean decPointers$kotlinx_coroutines_core;
         int i2;
+        boolean decPointers$kotlinx_coroutines_core;
+        int i;
         long l;
         final int i3 = 0;
         final int i4 = 0;
         obj = atomicfu$handler.get(atomicfu$index);
-        i = 0;
-        i2 = 1;
+        i2 = 0;
+        i = 1;
         while (Long.compare(l2, l) >= 0) {
             if (to.decPointers$kotlinx_coroutines_core()) {
             }
             obj = atomicfu$handler.get(atomicfu$index);
-            i = 0;
-            i2 = 1;
+            i2 = 0;
+            i = 1;
             to.remove();
         }
-        return i2;
+        return i;
     }
 }

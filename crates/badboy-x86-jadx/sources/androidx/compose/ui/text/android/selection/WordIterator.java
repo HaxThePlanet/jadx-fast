@@ -25,8 +25,8 @@ public final class WordIterator {
         }
 
         public final boolean isPunctuation$ui_text_release(int cp) {
-            int i2;
             int i;
+            int i2;
             final int type = Character.getType(cp);
             if (type != 23 && type != 20 && type != 22 && type != 30 && type != 29 && type != 24) {
                 if (type != 20) {
@@ -35,9 +35,9 @@ public final class WordIterator {
                             if (type != 29) {
                                 if (type != 24) {
                                     if (type == 21) {
-                                        i2 = 1;
+                                        i = 1;
                                     } else {
-                                        i2 = 0;
+                                        i = 0;
                                     }
                                 } else {
                                 }
@@ -51,7 +51,7 @@ public final class WordIterator {
                 }
             } else {
             }
-            return i2;
+            return i;
         }
     }
     static {
@@ -62,16 +62,16 @@ public final class WordIterator {
 
     public WordIterator(java.lang.CharSequence charSequence, int start, int end, Locale locale) {
         int i;
-        int length;
         int length2;
+        int length;
         super();
         this.charSequence = charSequence;
         int i7 = 0;
         if (start >= 0 && start <= this.charSequence.length()) {
-            length2 = start <= this.charSequence.length() ? i : i7;
+            length = start <= this.charSequence.length() ? i : i7;
         } else {
         }
-        if (length2 == 0) {
+        if (length == 0) {
         } else {
             if (end >= 0 && end <= this.charSequence.length()) {
                 if (end <= this.charSequence.length()) {
@@ -89,12 +89,12 @@ public final class WordIterator {
                 this.iterator.setText((CharacterIterator)charSequenceCharacterIterator);
             }
             int i2 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("input end index is outside the CharSequence".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireWordIterator$2 = new IllegalArgumentException("input end index is outside the CharSequence".toString());
+            throw $i$a$RequireWordIterator$2;
         }
         int i6 = 0;
-        IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("input start index is outside the CharSequence".toString());
-        throw illegalArgumentException2;
+        IllegalArgumentException $i$a$RequireWordIterator$1 = new IllegalArgumentException("input start index is outside the CharSequence".toString());
+        throw $i$a$RequireWordIterator$1;
     }
 
     private final void checkOffsetIsValid(int offset) {

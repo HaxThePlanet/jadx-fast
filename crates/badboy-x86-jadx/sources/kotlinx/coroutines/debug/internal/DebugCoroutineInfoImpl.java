@@ -50,22 +50,22 @@ public final class DebugCoroutineInfoImpl {
 
     private final Object yieldFrames(SequenceScope<? super java.lang.StackTraceElement> sequenceScope, CoroutineStackFrame coroutineStackFrame2, Continuation<? super Unit> continuation3) {
         boolean anon;
-        int i4;
         int i2;
-        Object l$1;
-        Object l$0;
         int i;
+        Object _this;
+        Object l$0;
         int i3;
+        int i4;
         int obj7;
         Object obj8;
         Object obj9;
         anon = continuation3;
-        i2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof DebugCoroutineInfoImpl.yieldFrames.1 && label &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof DebugCoroutineInfoImpl.yieldFrames.1 && label &= i != 0) {
             anon = continuation3;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj9 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj9 -= i;
             } else {
                 anon = new DebugCoroutineInfoImpl.yieldFrames.1(this, continuation3);
             }
@@ -77,12 +77,12 @@ public final class DebugCoroutineInfoImpl {
             case 0:
                 ResultKt.throwOnFailure(obj9);
                 l$0 = debugCoroutineInfoImpl;
-                l$1 = sequenceScope;
+                _this = sequenceScope;
                 break;
             case 1:
                 obj7 = 0;
                 obj8 = anon.L$2;
-                l$1 = anon.L$1;
+                _this = anon.L$1;
                 l$0 = anon.L$0;
                 ResultKt.throwOnFailure(obj9);
                 obj7 = obj8.getCallerFrame();

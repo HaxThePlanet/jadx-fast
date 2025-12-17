@@ -303,18 +303,18 @@ public final class MutableVector<T>  implements RandomAccess {
         }
 
         public boolean removeAll(Collection<? extends Object> elements) {
-            int i2;
+            int i;
             Object next;
             Object obj;
-            int i;
+            int i2;
             final int i3 = 0;
             final Iterator iterator = (Iterable)elements.iterator();
             for (Object next : iterator) {
-                i = 0;
+                i2 = 0;
                 remove(next);
             }
-            i2 = this.end != this.end ? 1 : 0;
-            return i2;
+            i = this.end != this.end ? 1 : 0;
+            return i;
         }
 
         public T removeAt(int index) {
@@ -478,12 +478,12 @@ public final class MutableVector<T>  implements RandomAccess {
     public final boolean addAll(int index, Collection<? extends T> elements) {
         int size2;
         int size;
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         Object obj;
-        int i4;
         int i3;
+        int i4;
         if (elements.isEmpty()) {
             return 0;
         }
@@ -493,14 +493,14 @@ public final class MutableVector<T>  implements RandomAccess {
             ArraysKt.copyInto(content, content, size5 += index, index, this.size);
         }
         int i9 = 0;
-        i2 = 0;
+        i = 0;
         final Iterator iterator = (Iterable)elements.iterator();
         while (iterator.hasNext()) {
-            if (i2 < 0) {
+            if (i < 0) {
             }
-            i4 = 0;
-            content[index + i2] = iterator.next();
-            i2 = i;
+            i3 = 0;
+            content[index + i] = iterator.next();
+            i = i2;
             CollectionsKt.throwIndexOverflow();
         }
         this.size = $this$forEachIndexed$iv += size6;
@@ -652,10 +652,10 @@ public final class MutableVector<T>  implements RandomAccess {
     }
 
     public final boolean contentEquals(androidx.compose.runtime.collection.MutableVector<T> other) {
-        int i;
+        int i2;
         Object equal;
         int this_$iv;
-        int i2;
+        int i;
         Object[] content;
         final int i3 = 0;
         if (other.size != this.size) {
@@ -1049,40 +1049,40 @@ public final class MutableVector<T>  implements RandomAccess {
     }
 
     public final <R> R[] map(Function1<? super T, ? extends R> transform) {
-        int i;
-        Object invoke;
         int i2;
+        Object invoke;
+        int i;
         Object obj;
         final int i3 = 0;
         final int size = getSize();
         Intrinsics.reifiedOperationMarker(0, "R");
         Object[] arr = new Object[size];
-        while (i < size) {
-            i2 = 0;
-            obj = this.getContent()[i];
+        while (i2 < size) {
+            i = 0;
+            obj = this.getContent()[i2];
             Object this_$iv = obj;
-            arr[i] = transform.invoke(obj);
-            i++;
+            arr[i2] = transform.invoke(obj);
+            i2++;
         }
         return arr;
     }
 
     public final <R> R[] mapIndexed(Function2<? super Integer, ? super T, ? extends R> transform) {
-        int i;
+        int i2;
         Object invoke;
         Object this_$iv;
-        int i2;
+        int i;
         Object obj;
         final int i3 = 0;
         final int size = getSize();
         Intrinsics.reifiedOperationMarker(0, "R");
         Object[] arr = new Object[size];
-        while (i < size) {
-            i2 = 0;
-            obj = this.getContent()[i];
+        while (i2 < size) {
+            i = 0;
+            obj = this.getContent()[i2];
             this_$iv = obj;
-            arr[i] = transform.invoke(Integer.valueOf(i), obj);
-            i++;
+            arr[i2] = transform.invoke(Integer.valueOf(i2), obj);
+            i2++;
         }
         return arr;
     }
@@ -1114,28 +1114,28 @@ public final class MutableVector<T>  implements RandomAccess {
     }
 
     public final <R> androidx.compose.runtime.collection.MutableVector<R> mapNotNull(Function1<? super T, ? extends R> transform) {
-        int i3;
-        Object[] content;
-        int i;
-        Object invoke;
         int i2;
+        Object[] content;
+        int i3;
+        Object invoke;
+        int i;
         final int i4 = 0;
         final int size = getSize();
         Intrinsics.reifiedOperationMarker(0, "R?");
         Object[] arr = new Object[size];
-        i3 = 0;
+        i2 = 0;
         if (size > 0) {
-            i = 0;
-            invoke = transform.invoke(getContent()[i]);
+            i3 = 0;
+            invoke = transform.invoke(getContent()[i3]);
             do {
-                invoke = transform.invoke(content[i]);
-                if (i++ < size) {
+                invoke = transform.invoke(content[i3]);
+                if (i3++ < size) {
                 }
-                arr[i3] = invoke;
-                i3 = i2;
+                arr[i2] = invoke;
+                i2 = i;
             } while (invoke != null);
         }
-        MutableVector content2 = new MutableVector(arr, i3);
+        MutableVector content2 = new MutableVector(arr, i2);
         return content2;
     }
 
@@ -1223,22 +1223,22 @@ public final class MutableVector<T>  implements RandomAccess {
 
     public final void removeIf(Function1<? super T, Boolean> predicate) {
         int gap;
-        int i;
-        boolean booleanValue;
         int i2;
+        boolean booleanValue;
+        int i;
         Object obj;
         final int i3 = 0;
         gap = 0;
         final int size = getSize();
-        i = 0;
-        while (i < size) {
-            if ((Boolean)predicate.invoke(getContent()[i]).booleanValue()) {
+        i2 = 0;
+        while (i2 < size) {
+            if ((Boolean)predicate.invoke(getContent()[i2]).booleanValue()) {
             } else {
             }
             if (gap > 0) {
             }
-            i++;
-            getContent()[i - gap] = getContent()[i];
+            i2++;
+            getContent()[i2 - gap] = getContent()[i2];
             gap++;
         }
         ArraysKt.fill(getContent(), 0, size - gap, size);
@@ -1247,12 +1247,12 @@ public final class MutableVector<T>  implements RandomAccess {
 
     @Override // java.util.RandomAccess
     public final void removeRange(int start, int end) {
-        int i;
+        int i2;
         int content2;
         int i3;
         Object content;
         int i4;
-        int i2;
+        int i;
         if (end > start && end < this.size) {
             if (end < this.size) {
                 ArraysKt.copyInto(this.content, this.content, start, end, this.size);
@@ -1260,32 +1260,32 @@ public final class MutableVector<T>  implements RandomAccess {
             size -= i5;
             i4 = 0;
             size2--;
-            if (i <= i2) {
+            if (i2 <= i) {
             }
-            this.size = i;
+            this.size = i2;
         }
     }
 
     public final boolean retainAll(Collection<? extends T> elements) {
         Object this_$iv;
         int contains;
-        int i;
         int i2;
+        int i;
         Object[] content;
         contains = 0;
-        size3 -= i2;
-        while (-1 < i) {
+        size3 -= i;
+        while (-1 < i2) {
             int i4 = 0;
-            if (elements.contains(this.getContent()[i]) == 0) {
+            if (elements.contains(this.getContent()[i2]) == 0) {
             }
-            i--;
-            removeAt(i);
+            i2--;
+            removeAt(i2);
         }
         if (this.size != this.size) {
         } else {
-            i2 = 0;
+            i = 0;
         }
-        return i2;
+        return i;
     }
 
     public final boolean reversedAny(Function1<? super T, Boolean> predicate) {

@@ -80,27 +80,27 @@ public final class MagnifierNode extends Modifier.Node implements GlobalPosition
 
     public MagnifierNode(Function1 function1, Function1 function12, Function1 function13, float f4, boolean z5, long l6, float f7, float f8, boolean z9, androidx.compose.foundation.PlatformMagnifierFactory platformMagnifierFactory10, int i11, DefaultConstructorMarker defaultConstructorMarker12) {
         androidx.compose.foundation.PlatformMagnifierFactory forCurrentPlatform;
-        int i4;
-        int i;
+        int i6;
+        int i2;
         int unspecified-MYxV2XQ;
         int unspecified-D9Ej5fM;
         int unspecified-D9Ej5fM2;
-        int i6;
-        int i3;
-        int i8;
-        int i2;
         int i7;
+        int i5;
+        int i3;
+        int i;
+        int i8;
         long l;
         float f2;
         float f;
-        int i5;
+        int i4;
         androidx.compose.foundation.PlatformMagnifierFactory factory;
         int i9 = defaultConstructorMarker12;
         final int i13 = 0;
-        i3 = i9 & 2 != 0 ? i13 : function12;
-        i8 = i9 & 4 != 0 ? i13 : function13;
-        i2 = i9 & 8 != 0 ? i4 : f4;
-        i7 = i9 & 16 != 0 ? i : z5;
+        i5 = i9 & 2 != 0 ? i13 : function12;
+        i3 = i9 & 4 != 0 ? i13 : function13;
+        i = i9 & 8 != 0 ? i6 : f4;
+        i8 = i9 & 16 != 0 ? i2 : z5;
         if (i9 & 32 != 0) {
             l = unspecified-MYxV2XQ;
         } else {
@@ -116,13 +116,13 @@ public final class MagnifierNode extends Modifier.Node implements GlobalPosition
         } else {
             f = z9;
         }
-        i5 = i9 & 256 != 0 ? i6 : platformMagnifierFactory10;
+        i4 = i9 & 256 != 0 ? i7 : platformMagnifierFactory10;
         if (i9 &= 512 != 0) {
             factory = forCurrentPlatform;
         } else {
             factory = i11;
         }
-        super(function1, i3, i8, i2, i7, l, obj10, f2, f, i5, factory, 0);
+        super(function1, i5, i3, i, i8, l, obj10, f2, f, i4, factory, 0);
     }
 
     public MagnifierNode(Function1 function1, Function1 function12, Function1 function13, float f4, boolean z5, long l6, float f7, float f8, boolean z9, androidx.compose.foundation.PlatformMagnifierFactory platformMagnifierFactory10, DefaultConstructorMarker defaultConstructorMarker11) {

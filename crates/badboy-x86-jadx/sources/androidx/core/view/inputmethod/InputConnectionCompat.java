@@ -70,37 +70,37 @@ public final class InputConnectionCompat {
     }
 
     static boolean handlePerformPrivateCommand(String action, Bundle data, androidx.core.view.inputmethod.InputConnectionCompat.OnCommitContentListener onCommitContentListener) {
-        int i2;
         int i;
+        int i2;
         int result;
-        String str6;
-        String str2;
-        String str3;
         String str;
         String str5;
         String str4;
+        String str3;
+        String str2;
+        String str6;
         androidx.core.view.inputmethod.InputContentInfoCompat inputContentInfoCompat;
         boolean onCommitContent;
-        i2 = 0;
+        i = 0;
         if (data == null) {
-            return i2;
+            return i;
         }
         if (TextUtils.equals("androidx.core.view.inputmethod.InputConnectionCompat.COMMIT_CONTENT", action)) {
-            i = 0;
+            i2 = 0;
             int i3 = 0;
             result = 0;
-            str6 = i != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER";
+            str = i2 != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER";
             android.os.Parcelable resultReceiver = parcelable;
-            str2 = i != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_URI" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_URI";
-            android.os.Parcelable parcelable2 = data.getParcelable(str2);
-            str3 = i != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION";
-            android.os.Parcelable parcelable3 = data.getParcelable(str3);
-            str = i != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI";
-            str5 = i != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS";
-            str4 = i != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_OPTS" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_OPTS";
+            str5 = i2 != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_URI" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_URI";
+            android.os.Parcelable parcelable2 = data.getParcelable(str5);
+            str4 = i2 != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION";
+            android.os.Parcelable parcelable3 = data.getParcelable(str4);
+            str3 = i2 != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI";
+            str2 = i2 != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS";
+            str6 = i2 != 0 ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_OPTS" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_OPTS";
             if ((Uri)parcelable2 != null && (ClipDescription)parcelable3 != null) {
                 if ((ClipDescription)parcelable3 != null) {
-                    inputContentInfoCompat = new InputContentInfoCompat((Uri)parcelable2, (ClipDescription)parcelable3, (Uri)data.getParcelable(str));
+                    inputContentInfoCompat = new InputContentInfoCompat((Uri)parcelable2, (ClipDescription)parcelable3, (Uri)data.getParcelable(str3));
                     result = onCommitContent;
                 }
             }
@@ -108,20 +108,20 @@ public final class InputConnectionCompat {
                 try {
                     if (result != null) {
                     }
-                    i2 = 1;
-                    resultReceiver.send(i2, 0);
+                    i = 1;
+                    resultReceiver.send(i, 0);
                     return result;
                     if (obj2 == null) {
                     } else {
                     }
                     obj2.send(obj3, obj4);
                     throw th;
-                    return i2;
+                    return i;
                 }
             }
         } else {
             if (TextUtils.equals("android.support.v13.view.inputmethod.InputConnectionCompat.COMMIT_CONTENT", action)) {
-                i = 1;
+                i2 = 1;
             }
         }
     }

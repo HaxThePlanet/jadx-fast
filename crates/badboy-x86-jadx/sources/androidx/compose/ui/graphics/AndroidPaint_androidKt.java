@@ -19,12 +19,12 @@ public final class AndroidPaint_androidKt {
         public static final int[] $EnumSwitchMapping$2;
         static {
             int i;
-            int ordinal5;
-            int ordinal4;
-            int ordinal;
             int ordinal6;
-            int ordinal3;
             int ordinal2;
+            int ordinal;
+            int ordinal3;
+            int ordinal4;
+            int ordinal5;
             int[] iArr = new int[values.length];
             i = 1;
             iArr[Paint.Style.STROKE.ordinal()] = i;

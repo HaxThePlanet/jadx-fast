@@ -59,7 +59,7 @@ public final class FloatingActionButtonKt {
     }
 
     public static final void ExtendedFloatingActionButton-ElI5-7k(Function2<? super Composer, ? super Integer, Unit> text, Function2<? super Composer, ? super Integer, Unit> icon, Function0<Unit> onClick, Modifier modifier, boolean expanded, Shape shape, long containerColor, long contentColor, androidx.compose.material3.FloatingActionButtonElevation elevation, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i13) {
-        long l2;
+        long l4;
         boolean traceInProgress2;
         Object endRestartGroup;
         int defaultsInvalid;
@@ -69,51 +69,51 @@ public final class FloatingActionButtonKt {
         int str;
         int $dirty2;
         Object elevation-xZ9-QkE;
-        int i;
-        int i12;
         int i2;
+        int i;
+        int i9;
         Object obj7;
-        Object obj;
-        Object obj6;
-        boolean z2;
-        int extendedFabShape;
-        long containerColor5;
-        int i15;
-        Object obj2;
-        int containerColor2;
+        Object obj10;
+        Object obj4;
         boolean z3;
-        long expanded2;
-        int i14;
-        int i8;
+        int extendedFabShape;
+        long containerColor2;
+        int i10;
+        Object obj5;
+        int containerColor4;
+        boolean z;
+        long expanded3;
+        int i12;
+        int i11;
         Object contentColorFor-ek8zF_U;
         long l3;
-        int changed4;
+        int changed2;
         long l;
-        Object obj4;
-        int $dirty3;
-        int changed;
-        int i3;
-        Object obj10;
-        Object obj5;
         Object obj3;
         int $dirty;
         int changed3;
-        Object i4;
-        int changed2;
-        Object expanded3;
-        boolean z;
-        int i11;
-        int i7;
-        int i6;
-        long l4;
-        int i5;
-        Object containerColor3;
-        long containerColor4;
+        int i15;
+        Object obj;
+        Object obj2;
         Object obj8;
+        int $dirty3;
+        int changed4;
+        Object i8;
+        int changed;
+        Object expanded2;
+        boolean z2;
+        int i3;
+        int i6;
+        int i5;
+        long l2;
+        int i4;
+        Object containerColor5;
+        long containerColor3;
+        Object obj6;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i9;
-        int i10;
+        int i14;
+        int i7;
         Object obj9;
         int obj32;
         int obj41;
@@ -128,198 +128,198 @@ public final class FloatingActionButtonKt {
             $dirty2 |= 6;
         } else {
             if (i60 & 6 == 0) {
-                i = restartGroup.changedInstance(obj11) ? 4 : 2;
-                $dirty2 |= i;
+                i2 = restartGroup.changedInstance(obj11) ? 4 : 2;
+                $dirty2 |= i2;
             }
         }
         if (i61 & 2 != 0) {
             $dirty2 |= 48;
         } else {
             if (i60 & 48 == 0) {
-                i12 = restartGroup.changedInstance(obj12) ? 32 : 16;
-                $dirty2 |= i12;
+                i = restartGroup.changedInstance(obj12) ? 32 : 16;
+                $dirty2 |= i;
             }
         }
         if (i61 & 4 != 0) {
             $dirty2 |= 384;
-            obj3 = onClick;
+            obj8 = onClick;
         } else {
             if (i60 & 384 == 0) {
-                i2 = restartGroup.changedInstance(onClick) ? 256 : 128;
-                $dirty2 |= i2;
+                i9 = restartGroup.changedInstance(onClick) ? 256 : 128;
+                $dirty2 |= i9;
             } else {
-                obj3 = onClick;
+                obj8 = onClick;
             }
         }
         int i29 = i61 & 8;
         if (i29 != 0) {
             $dirty2 |= 3072;
-            obj6 = modifier;
+            obj4 = modifier;
         } else {
             if (i60 & 3072 == 0) {
-                i15 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty2 |= i15;
+                i10 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty2 |= i10;
             } else {
-                obj6 = modifier;
+                obj4 = modifier;
             }
         }
-        containerColor2 = i61 & 16;
-        if (containerColor2 != 0) {
+        containerColor4 = i61 & 16;
+        if (containerColor4 != 0) {
             $dirty2 |= 24576;
-            z3 = expanded;
+            z = expanded;
         } else {
             if (i60 & 24576 == 0) {
-                i8 = restartGroup.changed(expanded) ? 16384 : 8192;
-                $dirty2 |= i8;
+                i11 = restartGroup.changed(expanded) ? 16384 : 8192;
+                $dirty2 |= i11;
             } else {
-                z3 = expanded;
+                z = expanded;
             }
         }
         if (i52 &= i60 == 0) {
             if (i61 & 32 == 0) {
-                changed4 = restartGroup.changed(shape) ? 131072 : 65536;
+                changed2 = restartGroup.changed(shape) ? 131072 : 65536;
             } else {
                 contentColorFor-ek8zF_U = shape;
             }
-            $dirty2 |= changed4;
+            $dirty2 |= changed2;
         } else {
             contentColorFor-ek8zF_U = shape;
         }
         if (i56 &= i60 == 0) {
             if (i61 & 64 == 0) {
-                changed = restartGroup.changed(containerColor) ? 1048576 : 524288;
+                changed3 = restartGroup.changed(containerColor) ? 1048576 : 524288;
             } else {
                 l = containerColor;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed3;
         } else {
             l = containerColor;
         }
-        i3 = 12582912;
-        if (i60 & i3 == 0) {
-            obj41 = i3;
+        i15 = 12582912;
+        if (i60 & i15 == 0) {
+            obj41 = i15;
             if (i61 & 128 == 0) {
-                changed3 = restartGroup.changed(elevation) ? 8388608 : 4194304;
+                changed4 = restartGroup.changed(elevation) ? 8388608 : 4194304;
             } else {
-                l2 = elevation;
+                l4 = elevation;
             }
-            $dirty2 |= changed3;
+            $dirty2 |= changed4;
         } else {
-            l2 = elevation;
-            obj41 = i3;
+            l4 = elevation;
+            obj41 = i15;
         }
         if (i60 & i62 == 0) {
             if (i61 & 256 == 0) {
-                changed2 = restartGroup.changed($composer) ? 67108864 : 33554432;
+                changed = restartGroup.changed($composer) ? 67108864 : 33554432;
             } else {
-                obj10 = $composer;
+                obj = $composer;
             }
-            $dirty2 |= changed2;
+            $dirty2 |= changed;
         } else {
-            obj10 = $composer;
+            obj = $composer;
         }
         int i30 = i61 & 512;
         int i63 = 805306368;
         if (i30 != 0) {
             $dirty2 |= i63;
-            i11 = i30;
+            i3 = i30;
             obj7 = $changed;
         } else {
             if (i60 & i63 == 0) {
-                i11 = i30;
-                i7 = restartGroup.changed($changed) ? 536870912 : 268435456;
-                $dirty2 |= i7;
+                i3 = i30;
+                i6 = restartGroup.changed($changed) ? 536870912 : 268435456;
+                $dirty2 |= i6;
             } else {
-                i11 = i30;
+                i3 = i30;
                 obj7 = $changed;
             }
         }
-        if ($dirty2 & i6 == 306783378) {
+        if ($dirty2 & i5 == 306783378) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 str = -234881025;
-                i6 = -29360129;
+                i5 = -29360129;
                 int i65 = -3670017;
-                i5 = -458753;
+                i4 = -458753;
                 if (i60 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i29 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = obj6;
+                            modifier2 = obj4;
                         }
-                        z = containerColor2 != 0 ? obj6 : z3;
-                        containerColor2 = 6;
+                        z2 = containerColor4 != 0 ? obj4 : z;
+                        containerColor4 = 6;
                         if (i61 & 32 != 0) {
-                            $dirty2 &= i5;
-                            i5 = extendedFabShape;
+                            $dirty2 &= i4;
+                            i4 = extendedFabShape;
                         } else {
-                            i5 = contentColorFor-ek8zF_U;
+                            i4 = contentColorFor-ek8zF_U;
                         }
                         if (i61 & 64 != 0) {
-                            containerColor5 = FloatingActionButtonDefaults.INSTANCE.getContainerColor(restartGroup, containerColor2);
+                            containerColor2 = FloatingActionButtonDefaults.INSTANCE.getContainerColor(restartGroup, containerColor4);
                             $dirty2 &= i65;
                         } else {
-                            containerColor5 = l;
+                            containerColor2 = l;
                         }
                         if (i61 & 128 != 0) {
-                            i6 = contentColorFor-ek8zF_U;
-                            $dirty3 = $dirty2;
+                            i5 = contentColorFor-ek8zF_U;
+                            $dirty = $dirty2;
                         } else {
-                            i6 = elevation;
-                            $dirty3 = $dirty2;
+                            i5 = elevation;
+                            $dirty = $dirty2;
                         }
                         if (i61 & 256 != 0) {
-                            containerColor4 = l5;
+                            containerColor3 = l5;
                             elevation-xZ9-QkE = FloatingActionButtonDefaults.INSTANCE.elevation-xZ9-QkE(0, 0, 0, 0, restartGroup, 24576, 15);
-                            $dirty3 &= str;
+                            $dirty &= str;
                         } else {
-                            containerColor4 = containerColor5;
-                            elevation-xZ9-QkE = obj10;
+                            containerColor3 = containerColor2;
+                            elevation-xZ9-QkE = obj;
                         }
-                        if (i11 != 0) {
-                            obj6 = modifier2;
-                            z3 = z;
-                            expanded3 = i5;
-                            l4 = i6;
-                            i11 = containerColor4;
-                            obj8 = str;
-                            containerColor3 = elevation-xZ9-QkE;
-                            $dirty2 = $dirty3;
+                        if (i3 != 0) {
+                            obj4 = modifier2;
+                            z = z2;
+                            expanded2 = i4;
+                            l2 = i5;
+                            i3 = containerColor3;
+                            obj6 = str;
+                            containerColor5 = elevation-xZ9-QkE;
+                            $dirty2 = $dirty;
                         } else {
-                            obj6 = modifier2;
-                            z3 = z;
-                            expanded3 = i5;
-                            l4 = i6;
-                            i11 = containerColor4;
-                            obj8 = $changed;
-                            containerColor3 = elevation-xZ9-QkE;
-                            $dirty2 = $dirty3;
+                            obj4 = modifier2;
+                            z = z2;
+                            expanded2 = i4;
+                            l2 = i5;
+                            i3 = containerColor3;
+                            obj6 = $changed;
+                            containerColor5 = elevation-xZ9-QkE;
+                            $dirty2 = $dirty;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i61 & 32 != 0) {
-                            $dirty2 &= i5;
+                            $dirty2 &= i4;
                         }
                         if (i61 & 64 != 0) {
                             $dirty2 &= i65;
                         }
                         if (i61 & 128 != 0) {
-                            $dirty2 &= i6;
+                            $dirty2 &= i5;
                         }
                         if (i61 & 256 != 0) {
-                            l4 = elevation;
+                            l2 = elevation;
                             $dirty2 = modifier2;
-                            obj8 = obj7;
-                            expanded3 = contentColorFor-ek8zF_U;
-                            i11 = l;
-                            containerColor3 = obj10;
+                            obj6 = obj7;
+                            expanded2 = contentColorFor-ek8zF_U;
+                            i3 = l;
+                            containerColor5 = obj;
                         } else {
-                            l4 = elevation;
-                            obj8 = obj7;
-                            expanded3 = contentColorFor-ek8zF_U;
-                            i11 = l;
-                            containerColor3 = obj10;
+                            l2 = elevation;
+                            obj6 = obj7;
+                            expanded2 = contentColorFor-ek8zF_U;
+                            i3 = l;
+                            containerColor5 = obj;
                         }
                     }
                 } else {
@@ -328,372 +328,372 @@ public final class FloatingActionButtonKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(-1387401842, $dirty2, -1, "androidx.compose.material3.ExtendedFloatingActionButton (FloatingActionButton.kt:364)");
                 }
-                FloatingActionButtonKt.ExtendedFloatingActionButton.3 anon = new FloatingActionButtonKt.ExtendedFloatingActionButton.3(z3, obj12, text);
-                i4 = obj6;
-                FloatingActionButtonKt.FloatingActionButton-X-z6DiA(obj3, i4, expanded3, i11, i6, l4, i5, containerColor3, obj8, (Function2)ComposableLambdaKt.rememberComposableLambda(1172118032, true, anon, restartGroup, 54), restartGroup);
+                FloatingActionButtonKt.ExtendedFloatingActionButton.3 anon = new FloatingActionButtonKt.ExtendedFloatingActionButton.3(z, obj12, text);
+                i8 = obj4;
+                FloatingActionButtonKt.FloatingActionButton-X-z6DiA(obj8, i8, expanded2, i3, i5, l2, i4, containerColor5, obj6, (Function2)ComposableLambdaKt.rememberComposableLambda(1172118032, true, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                z2 = z3;
-                obj = i4;
-                obj2 = expanded3;
-                expanded2 = i11;
-                l3 = l4;
-                obj4 = containerColor3;
-                obj5 = obj8;
-                $dirty = $dirty2;
+                z3 = z;
+                obj10 = i8;
+                obj5 = expanded2;
+                expanded3 = i3;
+                l3 = l2;
+                obj3 = containerColor5;
+                obj2 = obj6;
+                $dirty3 = $dirty2;
             } else {
                 restartGroup.skipToGroupEnd();
                 function2 = text;
                 composer = restartGroup;
-                obj2 = contentColorFor-ek8zF_U;
-                obj5 = obj7;
-                obj = obj6;
-                z2 = z3;
-                expanded2 = l;
-                obj4 = obj9;
+                obj5 = contentColorFor-ek8zF_U;
+                obj2 = obj7;
+                obj10 = obj4;
+                z3 = z;
+                expanded3 = l;
+                obj3 = obj9;
                 l3 = elevation;
-                $dirty = $dirty2;
+                $dirty3 = $dirty2;
             }
         } else {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            obj32 = $dirty;
-            endRestartGroup = new FloatingActionButtonKt.ExtendedFloatingActionButton.4(function2, obj12, onClick, obj, z2, obj2, expanded2, restartGroup, l3, l, obj4, obj5, i60, i61);
+            obj32 = $dirty3;
+            endRestartGroup = new FloatingActionButtonKt.ExtendedFloatingActionButton.4(function2, obj12, onClick, obj10, z3, obj5, expanded3, restartGroup, l3, l, obj3, obj2, i60, i61);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         } else {
-            obj32 = $dirty;
+            obj32 = $dirty3;
         }
     }
 
     public static final void ExtendedFloatingActionButton-X-z6DiA(Function0<Unit> onClick, Modifier modifier, Shape shape, long containerColor, long contentColor, androidx.compose.material3.FloatingActionButtonElevation elevation, MutableInteractionSource interactionSource, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        int i15;
+        int i16;
         int traceInProgress2;
         int defaultsInvalid;
         Object modifier2;
         int modifier3;
-        int $dirty2;
-        long $dirty5;
-        int i13;
-        int containerColor3;
-        int i2;
-        Object obj2;
-        Object $dirty;
-        int extendedFabShape;
-        int $dirty4;
-        boolean traceInProgress;
-        Object obj4;
-        int i5;
-        Object str;
-        long l;
-        int changed4;
-        int i3;
-        int changed2;
-        int i9;
-        int i6;
-        Object obj;
-        int changed;
-        int changed3;
-        long $composer2;
-        long containerColor4;
-        int i12;
-        Object obj9;
-        Object obj6;
-        Object obj7;
+        int $dirty6;
+        long $dirty3;
+        int i7;
+        int containerColor2;
+        int i;
         Object obj5;
-        int i14;
-        long contentColor2;
-        Object obj8;
-        long i7;
+        Object $dirty5;
+        int extendedFabShape;
+        int $dirty2;
+        boolean traceInProgress;
+        Object obj6;
         int i10;
-        long i16;
+        Object str;
+        long l2;
+        int changed3;
+        int i6;
+        int changed2;
+        int i5;
         int i8;
         Object obj3;
-        Object shape2;
-        int $dirty3;
-        Object $dirty6;
-        long containerColor2;
-        Composer composer;
+        int changed4;
+        int changed;
+        long $composer2;
+        long containerColor4;
+        int i9;
+        Object obj;
+        Object obj7;
+        Object obj8;
+        Object obj9;
+        int i2;
+        long contentColor2;
+        Object obj2;
+        long i13;
+        int i15;
+        long i12;
         int i4;
-        int i;
-        long l2;
+        Object obj4;
+        Object shape2;
+        int $dirty4;
+        Object $dirty;
+        long containerColor3;
+        Composer composer;
+        int i3;
+        int i14;
+        long l;
         int obj38;
         final Object obj11 = $changed;
         final int i55 = obj39;
         final int i56 = obj40;
         Composer restartGroup = i11.startRestartGroup(-326283107);
         ComposerKt.sourceInformation(restartGroup, "C(ExtendedFloatingActionButton)P(6,5,7,0:c#ui.graphics.Color,2:c#ui.graphics.Color,3,4)285@13734L16,286@13809L14,287@13851L31,288@13960L11,300@14347L335,292@14084L598:FloatingActionButton.kt#uh7d8r");
-        $dirty2 = obj39;
+        $dirty6 = obj39;
         if (i56 & 1 != 0) {
-            $dirty2 |= 6;
-            obj5 = onClick;
+            $dirty6 |= 6;
+            obj9 = onClick;
         } else {
             if (i55 & 6 == 0) {
-                i13 = restartGroup.changedInstance(onClick) ? 4 : 2;
-                $dirty2 |= i13;
+                i7 = restartGroup.changedInstance(onClick) ? 4 : 2;
+                $dirty6 |= i7;
             } else {
-                obj5 = onClick;
+                obj9 = onClick;
             }
         }
         int i31 = i56 & 2;
         if (i31 != 0) {
-            $dirty2 |= 48;
-            $dirty = modifier;
+            $dirty6 |= 48;
+            $dirty5 = modifier;
         } else {
             if (i55 & 48 == 0) {
-                i5 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i5;
+                i10 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty6 |= i10;
             } else {
-                $dirty = modifier;
+                $dirty5 = modifier;
             }
         }
         if (i55 & 384 == 0) {
             if (i56 & 4 == 0) {
-                changed4 = restartGroup.changed(shape) ? 256 : 128;
+                changed3 = restartGroup.changed(shape) ? 256 : 128;
             } else {
                 str = shape;
             }
-            $dirty2 |= changed4;
+            $dirty6 |= changed3;
         } else {
             str = shape;
         }
         if (i55 & 3072 == 0) {
             if (i56 & 8 == 0) {
-                i3 = restartGroup.changed(containerColor) ? 2048 : 1024;
+                i6 = restartGroup.changed(containerColor) ? 2048 : 1024;
             } else {
                 containerColor4 = containerColor;
             }
-            $dirty2 |= i3;
+            $dirty6 |= i6;
         } else {
             containerColor4 = containerColor;
         }
         if (i55 & 24576 == 0) {
             if (i56 & 16 == 0) {
-                i9 = restartGroup.changed(elevation) ? 16384 : 8192;
+                i5 = restartGroup.changed(elevation) ? 16384 : 8192;
             } else {
                 contentColor2 = elevation;
             }
-            $dirty2 |= i9;
+            $dirty6 |= i5;
         } else {
             contentColor2 = elevation;
         }
         if (i52 &= i55 == 0) {
             if (i56 & 32 == 0) {
-                i6 = restartGroup.changed(content) ? 131072 : 65536;
+                i8 = restartGroup.changed(content) ? 131072 : 65536;
             } else {
-                obj6 = content;
+                obj7 = content;
             }
-            $dirty2 |= i6;
+            $dirty6 |= i8;
         } else {
-            obj6 = content;
+            obj7 = content;
         }
-        i7 = i56 & 64;
+        i13 = i56 & 64;
         int i53 = 1572864;
-        if (i7 != 0) {
-            $dirty2 |= i53;
-            obj = $composer;
+        if (i13 != 0) {
+            $dirty6 |= i53;
+            obj3 = $composer;
         } else {
             if (i53 &= i55 == 0) {
-                i10 = restartGroup.changed($composer) ? 1048576 : 524288;
-                $dirty2 |= i10;
+                i15 = restartGroup.changed($composer) ? 1048576 : 524288;
+                $dirty6 |= i15;
             } else {
-                obj = $composer;
+                obj3 = $composer;
             }
         }
-        i16 = 12582912;
+        i12 = 12582912;
         if (i56 & 128 != 0) {
-            $dirty2 |= i16;
+            $dirty6 |= i12;
         } else {
-            if (i55 & i16 == 0) {
-                i15 = restartGroup.changedInstance(obj11) ? 8388608 : 4194304;
-                $dirty2 |= i15;
+            if (i55 & i12 == 0) {
+                i16 = restartGroup.changedInstance(obj11) ? 8388608 : 4194304;
+                $dirty6 |= i16;
             }
         }
-        if (i18 &= $dirty2 == 4793490) {
+        if (i18 &= $dirty6 == 4793490) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i8 = -458753;
+                i4 = -458753;
                 int i33 = -57345;
                 if (i55 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i31 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = $dirty;
+                            modifier2 = $dirty5;
                         }
-                        containerColor3 = 6;
+                        containerColor2 = 6;
                         if (i56 & 4 != 0) {
-                            $dirty2 &= -897;
-                            obj3 = extendedFabShape;
+                            $dirty6 &= -897;
+                            obj4 = extendedFabShape;
                         } else {
-                            obj3 = str;
+                            obj4 = str;
                         }
                         if (i56 & 8 != 0) {
-                            $dirty4 = $dirty7;
-                            $dirty5 = l2;
+                            $dirty2 = $dirty7;
+                            $dirty3 = l;
                         } else {
-                            $dirty4 = $dirty2;
-                            $dirty5 = containerColor4;
+                            $dirty2 = $dirty6;
+                            $dirty3 = containerColor4;
                         }
                         if (i56 & 16 != 0) {
                             contentColor2 = containerColor4;
-                            $dirty3 = $dirty4;
+                            $dirty4 = $dirty2;
                         } else {
-                            $dirty3 = $dirty4;
+                            $dirty4 = $dirty2;
                         }
                         if (i56 & 32 != 0) {
-                            containerColor2 = l4;
-                            $dirty3 &= i8;
-                            obj6 = $dirty5;
+                            containerColor3 = l4;
+                            $dirty4 &= i4;
+                            obj7 = $dirty3;
                         } else {
-                            containerColor2 = $dirty5;
+                            containerColor3 = $dirty3;
                         }
-                        if (i7 != 0) {
+                        if (i13 != 0) {
                             contentColor2 = modifier2;
-                            modifier3 = i16;
-                            i16 = l6;
-                            $dirty6 = i30;
-                            $dirty2 = i34;
-                            obj8 = obj3;
-                            i7 = containerColor2;
-                            i2 = -326283107;
-                            shape2 = obj6;
+                            modifier3 = i12;
+                            i12 = l6;
+                            $dirty = i30;
+                            $dirty6 = i34;
+                            obj2 = obj4;
+                            i13 = containerColor3;
+                            i = -326283107;
+                            shape2 = obj7;
                         } else {
                             contentColor2 = modifier2;
-                            modifier3 = i16;
-                            i16 = interactionSource2;
-                            obj8 = obj3;
-                            $dirty2 = $dirty3;
-                            i7 = containerColor2;
-                            i2 = -326283107;
-                            $dirty6 = $composer;
-                            shape2 = obj6;
+                            modifier3 = i12;
+                            i12 = interactionSource2;
+                            obj2 = obj4;
+                            $dirty6 = $dirty4;
+                            i13 = containerColor3;
+                            i = -326283107;
+                            $dirty = $composer;
+                            shape2 = obj7;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i56 & 4 != 0) {
-                            $dirty2 &= -897;
+                            $dirty6 &= -897;
                         }
                         if (i56 & 8 != 0) {
-                            $dirty2 &= -7169;
+                            $dirty6 &= -7169;
                         }
                         if (i56 & 16 != 0) {
-                            $dirty2 &= i33;
+                            $dirty6 &= i33;
                         }
                         if (i56 & 32 != 0) {
-                            $dirty2 = i23;
-                            $dirty6 = obj;
-                            i7 = containerColor4;
-                            shape2 = obj6;
-                            modifier3 = i16;
-                            i2 = -326283107;
-                            i16 = contentColor2;
-                            contentColor2 = $dirty;
-                            obj8 = str;
+                            $dirty6 = i23;
+                            $dirty = obj3;
+                            i13 = containerColor4;
+                            shape2 = obj7;
+                            modifier3 = i12;
+                            i = -326283107;
+                            i12 = contentColor2;
+                            contentColor2 = $dirty5;
+                            obj2 = str;
                         } else {
-                            $dirty6 = obj;
-                            i7 = containerColor4;
-                            shape2 = obj6;
-                            modifier3 = i16;
-                            i2 = -326283107;
-                            i16 = contentColor2;
-                            contentColor2 = $dirty;
-                            obj8 = str;
+                            $dirty = obj3;
+                            i13 = containerColor4;
+                            shape2 = obj7;
+                            modifier3 = i12;
+                            i = -326283107;
+                            i12 = contentColor2;
+                            contentColor2 = $dirty5;
+                            obj2 = str;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i2, $dirty2, -1, "androidx.compose.material3.ExtendedFloatingActionButton (FloatingActionButton.kt:291)");
+                    ComposerKt.traceEventStart(i, $dirty6, -1, "androidx.compose.material3.ExtendedFloatingActionButton (FloatingActionButton.kt:291)");
                 }
                 FloatingActionButtonKt.ExtendedFloatingActionButton.1 anon = new FloatingActionButtonKt.ExtendedFloatingActionButton.1(obj11);
-                FloatingActionButtonKt.FloatingActionButton-X-z6DiA(obj5, contentColor2, obj8, i7, i10, i16, i8, shape2, $dirty6, (Function2)ComposableLambdaKt.rememberComposableLambda(398457247, true, anon, restartGroup, 54), restartGroup);
+                FloatingActionButtonKt.FloatingActionButton-X-z6DiA(obj9, contentColor2, obj2, i13, i15, i12, i4, shape2, $dirty, (Function2)ComposableLambdaKt.rememberComposableLambda(398457247, true, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj2 = contentColor2;
-                obj4 = obj8;
-                l = i7;
-                $composer2 = i16;
-                obj9 = shape2;
-                obj7 = $dirty6;
-                i14 = $dirty2;
+                obj5 = contentColor2;
+                obj6 = obj2;
+                l2 = i13;
+                $composer2 = i12;
+                obj = shape2;
+                obj8 = $dirty;
+                i2 = $dirty6;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj2 = $dirty;
-                obj4 = str;
+                obj5 = $dirty5;
+                obj6 = str;
                 composer = restartGroup;
-                obj7 = obj;
-                l = containerColor4;
-                obj9 = l2;
+                obj8 = obj3;
+                l2 = containerColor4;
+                obj = l;
                 $composer2 = contentColor2;
-                i14 = $dirty2;
+                i2 = $dirty6;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new FloatingActionButtonKt.ExtendedFloatingActionButton.2(onClick, obj2, obj4, l, obj, $composer2, containerColor4, obj9, obj7, obj11, i55, i56);
+            traceInProgress2 = new FloatingActionButtonKt.ExtendedFloatingActionButton.2(onClick, obj5, obj6, l2, obj3, $composer2, containerColor4, obj, obj8, obj11, i55, i56);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void FloatingActionButton-X-z6DiA(Function0<Unit> onClick, Modifier modifier, Shape shape, long containerColor, long contentColor, androidx.compose.material3.FloatingActionButtonElevation elevation, MutableInteractionSource interactionSource, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        int i8;
+        int i14;
         int traceInProgress2;
         int defaultsInvalid;
-        Object modifier3;
-        int modifier4;
-        Object str;
-        int $dirty3;
-        long $dirty5;
-        int i;
+        Object modifier4;
+        int modifier2;
+        Object $i$a$CacheFloatingActionButtonKt$FloatingActionButton$interactionSource$1;
+        int $dirty4;
+        long $dirty;
+        int i10;
         int containerColor4;
         boolean traceInProgress;
-        Object obj4;
-        Object obj7;
-        int shape2;
-        int $dirty4;
-        int $dirty2;
-        Object modifier2;
-        int i2;
-        Object str2;
-        long l2;
-        int changed2;
-        int i3;
-        int changed;
-        int i9;
-        int i10;
         Object obj6;
+        Object obj2;
+        int shape2;
+        int $dirty3;
+        int $dirty2;
+        Object modifier3;
+        int i13;
+        Object str;
+        long l;
         int changed4;
+        int i9;
+        int changed;
+        int i5;
+        int i3;
+        Object obj4;
+        int changed2;
         int changed3;
         long $composer2;
         long containerColor2;
-        int i4;
-        Object obj2;
+        int i2;
         Object obj5;
+        Object obj7;
         Object elevation2;
         Object obj3;
-        int i7;
+        int i4;
         long l3;
-        int i12;
-        Object i6;
-        int i13;
-        int i5;
+        int i;
+        Object i12;
+        int i7;
+        int i15;
         Object companion;
-        int $dirty;
+        int $dirty5;
         long containerColor3;
         float unbox-impl;
-        int i14;
+        int i16;
         Object obj;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i16;
-        int i15;
+        int i6;
         int i17;
-        long l;
+        int i8;
+        long l2;
         int obj33;
         int obj42;
         final Object obj10 = $changed;
@@ -701,281 +701,281 @@ public final class FloatingActionButtonKt {
         final int i58 = obj44;
         Composer restartGroup = i11.startRestartGroup(-731723913);
         ComposerKt.sourceInformation(restartGroup, "C(FloatingActionButton)P(6,5,7,0:c#ui.graphics.Color,2:c#ui.graphics.Color,3,4)100@4948L5,101@5012L14,102@5054L31,103@5163L11,116@5678L54,118@5792L536,109@5399L929:FloatingActionButton.kt#uh7d8r");
-        $dirty3 = obj43;
+        $dirty4 = obj43;
         if (i58 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty4 |= 6;
             obj3 = onClick;
         } else {
             if (i57 & 6 == 0) {
-                i = restartGroup.changedInstance(onClick) ? 4 : 2;
-                $dirty3 |= i;
+                i10 = restartGroup.changedInstance(onClick) ? 4 : 2;
+                $dirty4 |= i10;
             } else {
                 obj3 = onClick;
             }
         }
         int i30 = i58 & 2;
         if (i30 != 0) {
-            $dirty3 |= 48;
-            obj7 = modifier;
+            $dirty4 |= 48;
+            obj2 = modifier;
         } else {
             if (i57 & 48 == 0) {
-                i2 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty3 |= i2;
+                i13 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty4 |= i13;
             } else {
-                obj7 = modifier;
+                obj2 = modifier;
             }
         }
         if (i57 & 384 == 0) {
             if (i58 & 4 == 0) {
-                changed2 = restartGroup.changed(shape) ? 256 : 128;
+                changed4 = restartGroup.changed(shape) ? 256 : 128;
             } else {
-                str2 = shape;
+                str = shape;
             }
-            $dirty3 |= changed2;
+            $dirty4 |= changed4;
         } else {
-            str2 = shape;
+            str = shape;
         }
         if (i57 & 3072 == 0) {
             if (i58 & 8 == 0) {
-                i3 = restartGroup.changed(containerColor) ? 2048 : 1024;
+                i9 = restartGroup.changed(containerColor) ? 2048 : 1024;
             } else {
                 containerColor2 = containerColor;
             }
-            $dirty3 |= i3;
+            $dirty4 |= i9;
         } else {
             containerColor2 = containerColor;
         }
         if (i57 & 24576 == 0) {
             if (i58 & 16 == 0) {
-                i9 = restartGroup.changed(elevation) ? 16384 : 8192;
+                i5 = restartGroup.changed(elevation) ? 16384 : 8192;
             } else {
                 l3 = elevation;
             }
-            $dirty3 |= i9;
+            $dirty4 |= i5;
         } else {
             l3 = elevation;
         }
         if (i51 &= i57 == 0) {
             if (i58 & 32 == 0) {
-                i10 = restartGroup.changed(content) ? 131072 : 65536;
+                i3 = restartGroup.changed(content) ? 131072 : 65536;
             } else {
-                obj5 = content;
+                obj7 = content;
             }
-            $dirty3 |= i10;
+            $dirty4 |= i3;
         } else {
-            obj5 = content;
+            obj7 = content;
         }
-        i6 = i58 & 64;
+        i12 = i58 & 64;
         int i52 = 1572864;
-        if (i6 != 0) {
-            $dirty3 |= i52;
-            obj6 = $composer;
+        if (i12 != 0) {
+            $dirty4 |= i52;
+            obj4 = $composer;
         } else {
             if (i52 &= i57 == 0) {
-                i13 = restartGroup.changed($composer) ? 1048576 : 524288;
-                $dirty3 |= i13;
+                i7 = restartGroup.changed($composer) ? 1048576 : 524288;
+                $dirty4 |= i7;
             } else {
-                obj6 = $composer;
+                obj4 = $composer;
             }
         }
-        i5 = 12582912;
+        i15 = 12582912;
         if (i58 & 128 != 0) {
-            $dirty3 |= i5;
+            $dirty4 |= i15;
         } else {
-            if (i57 & i5 == 0) {
-                i8 = restartGroup.changedInstance(obj10) ? 8388608 : 4194304;
-                $dirty3 |= i8;
+            if (i57 & i15 == 0) {
+                i14 = restartGroup.changedInstance(obj10) ? 8388608 : 4194304;
+                $dirty4 |= i14;
             }
         }
-        if (i19 &= $dirty3 == 4793490) {
+        if (i19 &= $dirty4 == 4793490) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i5 = -458753;
+                i15 = -458753;
                 containerColor4 = -57345;
                 if (i57 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i30 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier4 = Modifier.Companion;
                         } else {
-                            modifier3 = obj7;
+                            modifier4 = obj2;
                         }
                         containerColor4 = 6;
                         if (i58 & 4 != 0) {
-                            $dirty3 &= -897;
+                            $dirty4 &= -897;
                             companion = shape2;
                         } else {
-                            companion = str2;
+                            companion = str;
                         }
                         if (i58 & 8 != 0) {
-                            $dirty4 = $dirty6;
-                            $dirty5 = l;
+                            $dirty3 = $dirty6;
+                            $dirty = l2;
                         } else {
-                            $dirty4 = $dirty3;
-                            $dirty5 = containerColor2;
+                            $dirty3 = $dirty4;
+                            $dirty = containerColor2;
                         }
                         if (i58 & 16 != 0) {
                             l3 = containerColor2;
-                            $dirty = $dirty4;
+                            $dirty5 = $dirty3;
                         } else {
-                            $dirty = $dirty4;
+                            $dirty5 = $dirty3;
                         }
                         if (i58 & 32 != 0) {
                             containerColor3 = l5;
-                            $dirty &= i5;
-                            obj5 = $dirty5;
+                            $dirty5 &= i15;
+                            obj7 = $dirty;
                         } else {
-                            containerColor3 = $dirty5;
+                            containerColor3 = $dirty;
                         }
-                        if (i6 != 0) {
-                            obj7 = modifier3;
-                            obj6 = i29;
-                            i6 = companion;
-                            $dirty3 = $dirty;
-                            i13 = containerColor3;
-                            modifier4 = -731723913;
+                        if (i12 != 0) {
+                            obj2 = modifier4;
+                            obj4 = i29;
+                            i12 = companion;
+                            $dirty4 = $dirty5;
+                            i7 = containerColor3;
+                            modifier2 = -731723913;
                         } else {
-                            obj6 = $composer;
-                            obj7 = modifier3;
-                            i6 = companion;
-                            $dirty3 = $dirty;
-                            i13 = containerColor3;
-                            modifier4 = -731723913;
+                            obj4 = $composer;
+                            obj2 = modifier4;
+                            i12 = companion;
+                            $dirty4 = $dirty5;
+                            i7 = containerColor3;
+                            modifier2 = -731723913;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i58 & 4 != 0) {
-                            $dirty3 &= -897;
+                            $dirty4 &= -897;
                         }
                         if (i58 & 8 != 0) {
-                            $dirty3 &= -7169;
+                            $dirty4 &= -7169;
                         }
                         if (i58 & 16 != 0) {
-                            $dirty3 &= containerColor4;
+                            $dirty4 &= containerColor4;
                         }
                         if (i58 & 32 != 0) {
-                            $dirty3 = i24;
-                            i6 = str2;
-                            i13 = containerColor2;
-                            modifier4 = -731723913;
+                            $dirty4 = i24;
+                            i12 = str;
+                            i7 = containerColor2;
+                            modifier2 = -731723913;
                         } else {
-                            i6 = str2;
-                            i13 = containerColor2;
-                            modifier4 = -731723913;
+                            i12 = str;
+                            i7 = containerColor2;
+                            modifier2 = -731723913;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(modifier4, $dirty3, -1, "androidx.compose.material3.FloatingActionButton (FloatingActionButton.kt:106)");
+                    ComposerKt.traceEventStart(modifier2, $dirty4, -1, "androidx.compose.material3.FloatingActionButton (FloatingActionButton.kt:106)");
                 }
                 restartGroup.startReplaceGroup(519755085);
                 ComposerKt.sourceInformation(restartGroup, "108@5355L39");
-                if (obj6 == null) {
+                if (obj4 == null) {
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 519755736, "CC(remember):FloatingActionButton.kt#9igjgp");
                     traceInProgress = restartGroup;
-                    str2 = 0;
+                    str = 0;
                     containerColor2 = traceInProgress.rememberedValue();
-                    i4 = 0;
+                    i2 = 0;
                     obj33 = i27;
                     if (containerColor2 == Composer.Companion.getEmpty()) {
                         int i28 = 0;
                         traceInProgress.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     } else {
-                        str = containerColor2;
+                        $i$a$CacheFloatingActionButtonKt$FloatingActionButton$interactionSource$1 = containerColor2;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    obj = str;
+                    obj = $i$a$CacheFloatingActionButtonKt$FloatingActionButton$interactionSource$1;
                 } else {
-                    obj = obj6;
+                    obj = obj4;
                 }
                 restartGroup.endReplaceGroup();
                 int i54 = 1;
                 FloatingActionButtonKt.FloatingActionButton.2 anon = new FloatingActionButtonKt.FloatingActionButton.2(l3, obj15, obj10);
                 companion = l3;
-                SurfaceKt.Surface-o_FOJdg(obj3, SemanticsModifierKt.semantics$default(obj7, false, (Function1)FloatingActionButtonKt.FloatingActionButton.1.INSTANCE, i54, 0), false, i6, i13, i5, companion, $dirty, obj5.tonalElevation-D9Ej5fM$material3_release(), (Dp)obj5.shadowElevation$material3_release((InteractionSource)obj, restartGroup, i41 &= 112).getValue().unbox-impl(), 0, obj, (Function2)ComposableLambdaKt.rememberComposableLambda(1249316354, i54, anon, restartGroup, 54), restartGroup, i35 | i49);
+                SurfaceKt.Surface-o_FOJdg(obj3, SemanticsModifierKt.semantics$default(obj2, false, (Function1)FloatingActionButtonKt.FloatingActionButton.1.INSTANCE, i54, 0), false, i12, i7, i15, companion, $dirty5, obj7.tonalElevation-D9Ej5fM$material3_release(), (Dp)obj7.shadowElevation$material3_release((InteractionSource)obj, restartGroup, i41 &= 112).getValue().unbox-impl(), 0, obj, (Function2)ComposableLambdaKt.rememberComposableLambda(1249316354, i54, anon, restartGroup, 54), restartGroup, i35 | i49);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj4 = obj7;
-                obj2 = obj5;
-                modifier2 = i6;
+                obj6 = obj2;
+                obj5 = obj7;
+                modifier3 = i12;
                 $composer2 = companion;
-                elevation2 = obj6;
-                l2 = i13;
-                i7 = $dirty3;
+                elevation2 = obj4;
+                l = i7;
+                i4 = $dirty4;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj4 = obj7;
-                modifier2 = str2;
+                obj6 = obj2;
+                modifier3 = str;
                 composer = restartGroup;
-                elevation2 = obj6;
-                l2 = containerColor2;
-                obj2 = l;
+                elevation2 = obj4;
+                l = containerColor2;
+                obj5 = l2;
                 $composer2 = l3;
-                i7 = $dirty3;
+                i4 = $dirty4;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new FloatingActionButtonKt.FloatingActionButton.3(onClick, obj4, modifier2, l2, obj6, $composer2, containerColor2, obj2, elevation2, obj10, i57, i58);
+            traceInProgress2 = new FloatingActionButtonKt.FloatingActionButton.3(onClick, obj6, modifier3, l, obj4, $composer2, containerColor2, obj5, elevation2, obj10, i57, i58);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void LargeFloatingActionButton-X-z6DiA(Function0<Unit> onClick, Modifier modifier, Shape shape, long containerColor, long contentColor, androidx.compose.material3.FloatingActionButtonElevation elevation, MutableInteractionSource interactionSource, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        Object obj2;
-        int traceInProgress2;
+        Object obj6;
+        int traceInProgress;
         int defaultsInvalid;
         Object modifier4;
-        int modifier3;
-        int $dirty5;
-        long $dirty4;
-        int i9;
-        int containerColor4;
-        boolean traceInProgress;
-        Object obj5;
-        Object obj;
-        int largeShape;
-        int $dirty3;
-        int $dirty2;
-        Object modifier2;
-        int i5;
-        Object str;
-        long l3;
-        int changed3;
-        int i13;
-        int changed2;
-        int i14;
-        int i8;
-        Object obj7;
-        int changed;
-        int changed4;
-        long $composer2;
-        long containerColor3;
+        int modifier2;
+        int $dirty4;
+        long $dirty3;
         int i12;
+        int containerColor3;
+        boolean traceInProgress2;
         Object obj3;
-        long l2;
-        Object obj6;
-        int i15;
-        Object obj9;
-        int i10;
-        Object sizeIn-qDBjuR0$default;
-        Object i;
-        int i3;
-        int i4;
-        int i7;
-        Object obj8;
-        long shape2;
+        Object obj7;
+        int largeShape;
         int $dirty;
-        long containerColor5;
-        Object containerColor2;
+        int $dirty5;
+        Object modifier3;
+        int i3;
+        Object str;
+        long l2;
+        int changed4;
+        int i6;
+        int changed3;
+        int i15;
+        int i13;
         Object obj4;
+        int changed2;
+        int changed;
+        long $composer2;
+        long containerColor2;
+        int i;
+        Object obj2;
+        long l3;
+        Object obj5;
+        int i4;
+        Object obj8;
+        int i5;
+        Object sizeIn-qDBjuR0$default;
+        Object i14;
+        int i2;
+        int i8;
+        int i7;
+        Object obj;
+        long shape2;
+        int $dirty2;
+        long containerColor5;
+        Object containerColor4;
+        Object obj9;
         Composer composer;
         Composer composer2;
-        int i6;
-        int i2;
+        int i10;
+        int i9;
         long l;
         Object obj29;
         float obj30;
@@ -989,271 +989,271 @@ public final class FloatingActionButtonKt {
         final int i54 = obj40;
         Composer restartGroup = i11.startRestartGroup(-1650866856);
         ComposerKt.sourceInformation(restartGroup, "C(LargeFloatingActionButton)P(6,5,7,0:c#ui.graphics.Color,2:c#ui.graphics.Color,3,4)226@10910L10,227@10979L14,228@11021L31,229@11130L11,233@11245L455:FloatingActionButton.kt#uh7d8r");
-        $dirty5 = obj39;
+        $dirty4 = obj39;
         if (i54 & 1 != 0) {
-            $dirty5 |= 6;
-            obj9 = onClick;
+            $dirty4 |= 6;
+            obj8 = onClick;
         } else {
             if (i53 & 6 == 0) {
-                i9 = restartGroup.changedInstance(onClick) ? 4 : 2;
-                $dirty5 |= i9;
+                i12 = restartGroup.changedInstance(onClick) ? 4 : 2;
+                $dirty4 |= i12;
             } else {
-                obj9 = onClick;
+                obj8 = onClick;
             }
         }
         int i31 = i54 & 2;
         if (i31 != 0) {
-            $dirty5 |= 48;
-            obj = modifier;
+            $dirty4 |= 48;
+            obj7 = modifier;
         } else {
             if (i53 & 48 == 0) {
-                i5 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty5 |= i5;
+                i3 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty4 |= i3;
             } else {
-                obj = modifier;
+                obj7 = modifier;
             }
         }
         if (i53 & 384 == 0) {
             if (i54 & 4 == 0) {
-                changed3 = restartGroup.changed(shape) ? 256 : 128;
+                changed4 = restartGroup.changed(shape) ? 256 : 128;
             } else {
                 str = shape;
             }
-            $dirty5 |= changed3;
+            $dirty4 |= changed4;
         } else {
             str = shape;
         }
         if (i53 & 3072 == 0) {
             if (i54 & 8 == 0) {
-                i13 = restartGroup.changed(containerColor) ? 2048 : 1024;
+                i6 = restartGroup.changed(containerColor) ? 2048 : 1024;
             } else {
-                containerColor3 = containerColor;
+                containerColor2 = containerColor;
             }
-            $dirty5 |= i13;
+            $dirty4 |= i6;
         } else {
-            containerColor3 = containerColor;
+            containerColor2 = containerColor;
         }
         if (i53 & 24576 == 0) {
             if (i54 & 16 == 0) {
-                i14 = restartGroup.changed(elevation) ? 16384 : 8192;
+                i15 = restartGroup.changed(elevation) ? 16384 : 8192;
             } else {
-                l2 = elevation;
+                l3 = elevation;
             }
-            $dirty5 |= i14;
+            $dirty4 |= i15;
         } else {
-            l2 = elevation;
+            l3 = elevation;
         }
         if (i49 &= i53 == 0) {
             if (i54 & 32 == 0) {
-                i8 = restartGroup.changed(content) ? 131072 : 65536;
+                i13 = restartGroup.changed(content) ? 131072 : 65536;
             } else {
                 sizeIn-qDBjuR0$default = content;
             }
-            $dirty5 |= i8;
+            $dirty4 |= i13;
         } else {
             sizeIn-qDBjuR0$default = content;
         }
-        i = i54 & 64;
+        i14 = i54 & 64;
         int i50 = 1572864;
-        if (i != 0) {
-            $dirty5 |= i50;
-            obj7 = $composer;
+        if (i14 != 0) {
+            $dirty4 |= i50;
+            obj4 = $composer;
         } else {
             if (i50 &= i53 == 0) {
-                i3 = restartGroup.changed($composer) ? 1048576 : 524288;
-                $dirty5 |= i3;
+                i2 = restartGroup.changed($composer) ? 1048576 : 524288;
+                $dirty4 |= i2;
             } else {
-                obj7 = $composer;
+                obj4 = $composer;
             }
         }
-        i4 = 12582912;
+        i8 = 12582912;
         if (i54 & 128 != 0) {
-            $dirty5 |= i4;
-            obj2 = $changed;
+            $dirty4 |= i8;
+            obj6 = $changed;
         } else {
-            if (i53 & i4 == 0) {
-                i4 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
-                $dirty5 |= i4;
+            if (i53 & i8 == 0) {
+                i8 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
+                $dirty4 |= i8;
             } else {
-                obj2 = $changed;
+                obj6 = $changed;
             }
         }
-        if ($dirty5 & i7 == 4793490) {
+        if ($dirty4 & i7 == 4793490) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 i7 = -458753;
-                containerColor4 = -57345;
+                containerColor3 = -57345;
                 if (i53 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i31 != 0) {
                             modifier4 = Modifier.Companion;
                         } else {
-                            modifier4 = obj;
+                            modifier4 = obj7;
                         }
-                        containerColor4 = 6;
+                        containerColor3 = 6;
                         if (i54 & 4 != 0) {
-                            $dirty5 &= -897;
-                            obj8 = largeShape;
+                            $dirty4 &= -897;
+                            obj = largeShape;
                         } else {
-                            obj8 = str;
+                            obj = str;
                         }
                         if (i54 & 8 != 0) {
-                            $dirty3 = $dirty6;
-                            $dirty4 = l;
+                            $dirty = $dirty6;
+                            $dirty3 = l;
                         } else {
-                            $dirty3 = $dirty5;
-                            $dirty4 = containerColor3;
+                            $dirty = $dirty4;
+                            $dirty3 = containerColor2;
                         }
                         if (i54 & 16 != 0) {
-                            l2 = containerColor3;
-                            $dirty = $dirty3;
+                            l3 = containerColor2;
+                            $dirty2 = $dirty;
                         } else {
-                            $dirty = $dirty3;
+                            $dirty2 = $dirty;
                         }
                         if (i54 & 32 != 0) {
                             containerColor5 = l5;
-                            $dirty &= i7;
-                            sizeIn-qDBjuR0$default = $dirty4;
+                            $dirty2 &= i7;
+                            sizeIn-qDBjuR0$default = $dirty3;
                         } else {
-                            containerColor5 = $dirty4;
+                            containerColor5 = $dirty3;
                         }
-                        if (i != 0) {
-                            obj = modifier4;
-                            i = obj8;
-                            i3 = containerColor5;
-                            modifier3 = -1650866856;
-                            obj4 = i30;
-                            containerColor2 = sizeIn-qDBjuR0$default;
-                            $dirty5 = $dirty;
-                            shape2 = l2;
+                        if (i14 != 0) {
+                            obj7 = modifier4;
+                            i14 = obj;
+                            i2 = containerColor5;
+                            modifier2 = -1650866856;
+                            obj9 = i30;
+                            containerColor4 = sizeIn-qDBjuR0$default;
+                            $dirty4 = $dirty2;
+                            shape2 = l3;
                         } else {
-                            obj = modifier4;
-                            i = obj8;
-                            $dirty5 = $dirty;
-                            i3 = containerColor5;
-                            modifier3 = -1650866856;
-                            obj4 = $composer;
-                            shape2 = l2;
-                            containerColor2 = sizeIn-qDBjuR0$default;
+                            obj7 = modifier4;
+                            i14 = obj;
+                            $dirty4 = $dirty2;
+                            i2 = containerColor5;
+                            modifier2 = -1650866856;
+                            obj9 = $composer;
+                            shape2 = l3;
+                            containerColor4 = sizeIn-qDBjuR0$default;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i54 & 4 != 0) {
-                            $dirty5 &= -897;
+                            $dirty4 &= -897;
                         }
                         if (i54 & 8 != 0) {
-                            $dirty5 &= -7169;
+                            $dirty4 &= -7169;
                         }
                         if (i54 & 16 != 0) {
-                            $dirty5 &= containerColor4;
+                            $dirty4 &= containerColor3;
                         }
                         if (i54 & 32 != 0) {
-                            $dirty5 = i23;
-                            i = str;
-                            obj4 = obj7;
-                            i3 = containerColor3;
-                            shape2 = l2;
-                            containerColor2 = sizeIn-qDBjuR0$default;
-                            modifier3 = -1650866856;
+                            $dirty4 = i23;
+                            i14 = str;
+                            obj9 = obj4;
+                            i2 = containerColor2;
+                            shape2 = l3;
+                            containerColor4 = sizeIn-qDBjuR0$default;
+                            modifier2 = -1650866856;
                         } else {
-                            i = str;
-                            obj4 = obj7;
-                            i3 = containerColor3;
-                            shape2 = l2;
-                            containerColor2 = sizeIn-qDBjuR0$default;
-                            modifier3 = -1650866856;
+                            i14 = str;
+                            obj9 = obj4;
+                            i2 = containerColor2;
+                            shape2 = l3;
+                            containerColor4 = sizeIn-qDBjuR0$default;
+                            modifier2 = -1650866856;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(modifier3, $dirty5, -1, "androidx.compose.material3.LargeFloatingActionButton (FloatingActionButton.kt:232)");
+                    ComposerKt.traceEventStart(modifier2, $dirty4, -1, "androidx.compose.material3.LargeFloatingActionButton (FloatingActionButton.kt:232)");
                 }
-                FloatingActionButtonKt.FloatingActionButton-X-z6DiA(obj9, SizeKt.sizeIn-qDBjuR0$default(obj, FabPrimaryLargeTokens.INSTANCE.getContainerWidth-D9Ej5fM(), FabPrimaryLargeTokens.INSTANCE.getContainerHeight-D9Ej5fM(), 0, 0, 12, 0), i, i3, i7, shape2, $dirty, containerColor2, obj4, $changed, restartGroup);
+                FloatingActionButtonKt.FloatingActionButton-X-z6DiA(obj8, SizeKt.sizeIn-qDBjuR0$default(obj7, FabPrimaryLargeTokens.INSTANCE.getContainerWidth-D9Ej5fM(), FabPrimaryLargeTokens.INSTANCE.getContainerHeight-D9Ej5fM(), 0, 0, 12, 0), i14, i2, i7, shape2, $dirty2, containerColor4, obj9, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = obj;
-                modifier2 = i;
-                l3 = i3;
+                obj3 = obj7;
+                modifier3 = i14;
+                l2 = i2;
                 $composer2 = shape2;
-                obj3 = containerColor2;
-                obj6 = obj4;
-                i10 = $dirty5;
+                obj2 = containerColor4;
+                obj5 = obj9;
+                i5 = $dirty4;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj5 = obj;
-                modifier2 = str;
+                obj3 = obj7;
+                modifier3 = str;
                 composer2 = restartGroup;
-                obj6 = obj7;
-                l3 = containerColor3;
+                obj5 = obj4;
+                l2 = containerColor2;
                 $composer2 = l;
-                obj3 = sizeIn-qDBjuR0$default;
-                i10 = $dirty5;
+                obj2 = sizeIn-qDBjuR0$default;
+                i5 = $dirty4;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new FloatingActionButtonKt.LargeFloatingActionButton.1(onClick, obj5, modifier2, l3, obj7, $composer2, containerColor3, obj3, obj6, $changed, i53, i54);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new FloatingActionButtonKt.LargeFloatingActionButton.1(onClick, obj3, modifier3, l2, obj4, $composer2, containerColor2, obj2, obj5, $changed, i53, i54);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void SmallFloatingActionButton-X-z6DiA(Function0<Unit> onClick, Modifier modifier, Shape shape, long containerColor, long contentColor, androidx.compose.material3.FloatingActionButtonElevation elevation, MutableInteractionSource interactionSource, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        Object obj8;
+        Object obj;
         int traceInProgress2;
         int defaultsInvalid;
-        Object modifier2;
-        int modifier3;
-        int $dirty5;
-        long $dirty4;
-        int i4;
-        int containerColor2;
-        boolean traceInProgress;
-        Object obj3;
-        Object obj;
-        int smallShape;
+        Object modifier3;
+        int modifier2;
         int $dirty3;
-        int $dirty;
-        Object modifier4;
+        long $dirty;
         int i3;
-        Object str;
-        long l;
-        int changed4;
-        int i5;
-        int changed3;
-        int i9;
-        int i13;
-        Object obj2;
-        int changed2;
-        int changed;
-        long $composer2;
-        long containerColor3;
-        int i2;
+        int containerColor4;
+        boolean traceInProgress;
         Object obj5;
-        long l3;
-        Object obj6;
-        int i6;
-        Object obj4;
-        int i12;
-        Object sizeIn-qDBjuR0$default;
-        Object i15;
-        int i7;
-        int i8;
-        int i14;
-        Object obj9;
-        long shape2;
+        Object obj2;
+        int smallShape;
+        int $dirty5;
         int $dirty2;
-        long containerColor4;
-        Object containerColor5;
-        Object obj7;
-        Composer composer;
-        Composer composer2;
-        int i10;
-        int i;
+        Object modifier4;
+        int i4;
+        Object str;
         long l2;
+        int changed2;
+        int i6;
+        int changed;
+        int i8;
+        int i5;
+        Object obj6;
+        int changed4;
+        int changed3;
+        long $composer2;
+        long containerColor5;
+        int i7;
+        Object obj3;
+        long l;
+        Object obj7;
+        int i9;
+        Object obj4;
+        int i14;
+        Object sizeIn-qDBjuR0$default;
+        Object i10;
+        int i12;
+        int i13;
+        int i;
+        Object obj8;
+        long shape2;
+        int $dirty4;
+        long containerColor2;
+        Object containerColor3;
+        Object obj9;
+        Composer composer2;
+        Composer composer;
+        int i15;
+        int i2;
+        long l3;
         Object obj29;
         float obj30;
         float obj31;
@@ -1266,214 +1266,214 @@ public final class FloatingActionButtonKt {
         final int i54 = obj40;
         Composer restartGroup = i11.startRestartGroup(1444748300);
         ComposerKt.sourceInformation(restartGroup, "C(SmallFloatingActionButton)P(6,5,7,0:c#ui.graphics.Color,2:c#ui.graphics.Color,3,4)170@8224L10,171@8293L14,172@8335L31,173@8444L11,177@8559L455:FloatingActionButton.kt#uh7d8r");
-        $dirty5 = obj39;
+        $dirty3 = obj39;
         if (i54 & 1 != 0) {
-            $dirty5 |= 6;
+            $dirty3 |= 6;
             obj4 = onClick;
         } else {
             if (i53 & 6 == 0) {
-                i4 = restartGroup.changedInstance(onClick) ? 4 : 2;
-                $dirty5 |= i4;
+                i3 = restartGroup.changedInstance(onClick) ? 4 : 2;
+                $dirty3 |= i3;
             } else {
                 obj4 = onClick;
             }
         }
         int i31 = i54 & 2;
         if (i31 != 0) {
-            $dirty5 |= 48;
-            obj = modifier;
+            $dirty3 |= 48;
+            obj2 = modifier;
         } else {
             if (i53 & 48 == 0) {
-                i3 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty5 |= i3;
+                i4 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty3 |= i4;
             } else {
-                obj = modifier;
+                obj2 = modifier;
             }
         }
         if (i53 & 384 == 0) {
             if (i54 & 4 == 0) {
-                changed4 = restartGroup.changed(shape) ? 256 : 128;
+                changed2 = restartGroup.changed(shape) ? 256 : 128;
             } else {
                 str = shape;
             }
-            $dirty5 |= changed4;
+            $dirty3 |= changed2;
         } else {
             str = shape;
         }
         if (i53 & 3072 == 0) {
             if (i54 & 8 == 0) {
-                i5 = restartGroup.changed(containerColor) ? 2048 : 1024;
+                i6 = restartGroup.changed(containerColor) ? 2048 : 1024;
             } else {
-                containerColor3 = containerColor;
+                containerColor5 = containerColor;
             }
-            $dirty5 |= i5;
+            $dirty3 |= i6;
         } else {
-            containerColor3 = containerColor;
+            containerColor5 = containerColor;
         }
         if (i53 & 24576 == 0) {
             if (i54 & 16 == 0) {
-                i9 = restartGroup.changed(elevation) ? 16384 : 8192;
+                i8 = restartGroup.changed(elevation) ? 16384 : 8192;
             } else {
-                l3 = elevation;
+                l = elevation;
             }
-            $dirty5 |= i9;
+            $dirty3 |= i8;
         } else {
-            l3 = elevation;
+            l = elevation;
         }
         if (i49 &= i53 == 0) {
             if (i54 & 32 == 0) {
-                i13 = restartGroup.changed(content) ? 131072 : 65536;
+                i5 = restartGroup.changed(content) ? 131072 : 65536;
             } else {
                 sizeIn-qDBjuR0$default = content;
             }
-            $dirty5 |= i13;
+            $dirty3 |= i5;
         } else {
             sizeIn-qDBjuR0$default = content;
         }
-        i15 = i54 & 64;
+        i10 = i54 & 64;
         int i50 = 1572864;
-        if (i15 != 0) {
-            $dirty5 |= i50;
-            obj2 = $composer;
+        if (i10 != 0) {
+            $dirty3 |= i50;
+            obj6 = $composer;
         } else {
             if (i50 &= i53 == 0) {
-                i7 = restartGroup.changed($composer) ? 1048576 : 524288;
-                $dirty5 |= i7;
+                i12 = restartGroup.changed($composer) ? 1048576 : 524288;
+                $dirty3 |= i12;
             } else {
-                obj2 = $composer;
+                obj6 = $composer;
             }
         }
-        i8 = 12582912;
+        i13 = 12582912;
         if (i54 & 128 != 0) {
-            $dirty5 |= i8;
-            obj8 = $changed;
+            $dirty3 |= i13;
+            obj = $changed;
         } else {
-            if (i53 & i8 == 0) {
-                i8 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
-                $dirty5 |= i8;
+            if (i53 & i13 == 0) {
+                i13 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
+                $dirty3 |= i13;
             } else {
-                obj8 = $changed;
+                obj = $changed;
             }
         }
-        if ($dirty5 & i14 == 4793490) {
+        if ($dirty3 & i == 4793490) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i14 = -458753;
-                containerColor2 = -57345;
+                i = -458753;
+                containerColor4 = -57345;
                 if (i53 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i31 != 0) {
-                            modifier2 = Modifier.Companion;
+                            modifier3 = Modifier.Companion;
                         } else {
-                            modifier2 = obj;
+                            modifier3 = obj2;
                         }
-                        containerColor2 = 6;
+                        containerColor4 = 6;
                         if (i54 & 4 != 0) {
-                            $dirty5 &= -897;
-                            obj9 = smallShape;
+                            $dirty3 &= -897;
+                            obj8 = smallShape;
                         } else {
-                            obj9 = str;
+                            obj8 = str;
                         }
                         if (i54 & 8 != 0) {
-                            $dirty3 = $dirty6;
-                            $dirty4 = l2;
+                            $dirty5 = $dirty6;
+                            $dirty = l3;
                         } else {
-                            $dirty3 = $dirty5;
-                            $dirty4 = containerColor3;
+                            $dirty5 = $dirty3;
+                            $dirty = containerColor5;
                         }
                         if (i54 & 16 != 0) {
-                            l3 = containerColor3;
-                            $dirty2 = $dirty3;
+                            l = containerColor5;
+                            $dirty4 = $dirty5;
                         } else {
-                            $dirty2 = $dirty3;
+                            $dirty4 = $dirty5;
                         }
                         if (i54 & 32 != 0) {
-                            containerColor4 = l5;
-                            $dirty2 &= i14;
-                            sizeIn-qDBjuR0$default = $dirty4;
+                            containerColor2 = l5;
+                            $dirty4 &= i;
+                            sizeIn-qDBjuR0$default = $dirty;
                         } else {
-                            containerColor4 = $dirty4;
+                            containerColor2 = $dirty;
                         }
-                        if (i15 != 0) {
-                            obj = modifier2;
-                            i15 = obj9;
-                            i7 = containerColor4;
-                            modifier3 = 1444748300;
-                            obj7 = i30;
-                            containerColor5 = sizeIn-qDBjuR0$default;
-                            $dirty5 = $dirty2;
-                            shape2 = l3;
+                        if (i10 != 0) {
+                            obj2 = modifier3;
+                            i10 = obj8;
+                            i12 = containerColor2;
+                            modifier2 = 1444748300;
+                            obj9 = i30;
+                            containerColor3 = sizeIn-qDBjuR0$default;
+                            $dirty3 = $dirty4;
+                            shape2 = l;
                         } else {
-                            obj = modifier2;
-                            i15 = obj9;
-                            $dirty5 = $dirty2;
-                            i7 = containerColor4;
-                            modifier3 = 1444748300;
-                            obj7 = $composer;
-                            shape2 = l3;
-                            containerColor5 = sizeIn-qDBjuR0$default;
+                            obj2 = modifier3;
+                            i10 = obj8;
+                            $dirty3 = $dirty4;
+                            i12 = containerColor2;
+                            modifier2 = 1444748300;
+                            obj9 = $composer;
+                            shape2 = l;
+                            containerColor3 = sizeIn-qDBjuR0$default;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i54 & 4 != 0) {
-                            $dirty5 &= -897;
+                            $dirty3 &= -897;
                         }
                         if (i54 & 8 != 0) {
-                            $dirty5 &= -7169;
+                            $dirty3 &= -7169;
                         }
                         if (i54 & 16 != 0) {
-                            $dirty5 &= containerColor2;
+                            $dirty3 &= containerColor4;
                         }
                         if (i54 & 32 != 0) {
-                            $dirty5 = i23;
-                            i15 = str;
-                            obj7 = obj2;
-                            i7 = containerColor3;
-                            shape2 = l3;
-                            containerColor5 = sizeIn-qDBjuR0$default;
-                            modifier3 = 1444748300;
+                            $dirty3 = i23;
+                            i10 = str;
+                            obj9 = obj6;
+                            i12 = containerColor5;
+                            shape2 = l;
+                            containerColor3 = sizeIn-qDBjuR0$default;
+                            modifier2 = 1444748300;
                         } else {
-                            i15 = str;
-                            obj7 = obj2;
-                            i7 = containerColor3;
-                            shape2 = l3;
-                            containerColor5 = sizeIn-qDBjuR0$default;
-                            modifier3 = 1444748300;
+                            i10 = str;
+                            obj9 = obj6;
+                            i12 = containerColor5;
+                            shape2 = l;
+                            containerColor3 = sizeIn-qDBjuR0$default;
+                            modifier2 = 1444748300;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(modifier3, $dirty5, -1, "androidx.compose.material3.SmallFloatingActionButton (FloatingActionButton.kt:176)");
+                    ComposerKt.traceEventStart(modifier2, $dirty3, -1, "androidx.compose.material3.SmallFloatingActionButton (FloatingActionButton.kt:176)");
                 }
-                FloatingActionButtonKt.FloatingActionButton-X-z6DiA(obj4, SizeKt.sizeIn-qDBjuR0$default(obj, FabPrimarySmallTokens.INSTANCE.getContainerWidth-D9Ej5fM(), FabPrimarySmallTokens.INSTANCE.getContainerHeight-D9Ej5fM(), 0, 0, 12, 0), i15, i7, i14, shape2, $dirty2, containerColor5, obj7, $changed, restartGroup);
+                FloatingActionButtonKt.FloatingActionButton-X-z6DiA(obj4, SizeKt.sizeIn-qDBjuR0$default(obj2, FabPrimarySmallTokens.INSTANCE.getContainerWidth-D9Ej5fM(), FabPrimarySmallTokens.INSTANCE.getContainerHeight-D9Ej5fM(), 0, 0, 12, 0), i10, i12, i, shape2, $dirty4, containerColor3, obj9, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj3 = obj;
-                modifier4 = i15;
-                l = i7;
+                obj5 = obj2;
+                modifier4 = i10;
+                l2 = i12;
                 $composer2 = shape2;
-                obj5 = containerColor5;
-                obj6 = obj7;
-                i12 = $dirty5;
+                obj3 = containerColor3;
+                obj7 = obj9;
+                i14 = $dirty3;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj3 = obj;
+                obj5 = obj2;
                 modifier4 = str;
-                composer2 = restartGroup;
-                obj6 = obj2;
-                l = containerColor3;
-                $composer2 = l2;
-                obj5 = sizeIn-qDBjuR0$default;
-                i12 = $dirty5;
+                composer = restartGroup;
+                obj7 = obj6;
+                l2 = containerColor5;
+                $composer2 = l3;
+                obj3 = sizeIn-qDBjuR0$default;
+                i14 = $dirty3;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new FloatingActionButtonKt.SmallFloatingActionButton.1(onClick, obj3, modifier4, l, obj2, $composer2, containerColor3, obj5, obj6, $changed, i53, i54);
+            traceInProgress2 = new FloatingActionButtonKt.SmallFloatingActionButton.1(onClick, obj5, modifier4, l2, obj6, $composer2, containerColor5, obj3, obj7, $changed, i53, i54);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }

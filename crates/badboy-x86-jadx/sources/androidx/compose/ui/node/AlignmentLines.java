@@ -54,8 +54,8 @@ public abstract class AlignmentLines {
         androidx.compose.ui.node.NodeCoordinator coordinator;
         boolean positionFor;
         float x-impl;
-        float f2;
         float f;
+        float f2;
         int merge;
         final float f4 = (float)initialPosition;
         position = OffsetKt.Offset((float)initialPosition, f4);
@@ -192,8 +192,8 @@ public abstract class AlignmentLines {
     public final void recalculateQueryOwner() {
         androidx.compose.ui.node.AlignmentLinesOwner parent;
         androidx.compose.ui.node.AlignmentLinesOwner queryOwner;
-        androidx.compose.ui.node.AlignmentLinesOwner queried$ui_release;
         androidx.compose.ui.node.AlignmentLinesOwner queried$ui_release2;
+        androidx.compose.ui.node.AlignmentLinesOwner queried$ui_release;
         Object parentAlignmentLinesOwner;
         Object parentAlignmentLinesOwner2;
         if (getQueried$ui_release()) {
@@ -208,11 +208,11 @@ public abstract class AlignmentLines {
                 if (queryOwner.getAlignmentLines().getQueried$ui_release()) {
                     parent = queryOwner;
                 } else {
-                    queried$ui_release = this.queryOwner;
-                    if (queried$ui_release != null) {
-                        if (queried$ui_release.getAlignmentLines().getQueried$ui_release()) {
+                    queried$ui_release2 = this.queryOwner;
+                    if (queried$ui_release2 != null) {
+                        if (queried$ui_release2.getAlignmentLines().getQueried$ui_release()) {
                         } else {
-                            parentAlignmentLinesOwner = queried$ui_release.getParentAlignmentLinesOwner();
+                            parentAlignmentLinesOwner = queried$ui_release2.getParentAlignmentLinesOwner();
                             parentAlignmentLinesOwner = parentAlignmentLinesOwner.getAlignmentLines();
                             if (parentAlignmentLinesOwner != null && parentAlignmentLinesOwner != null) {
                                 parentAlignmentLinesOwner = parentAlignmentLinesOwner.getAlignmentLines();
@@ -220,14 +220,14 @@ public abstract class AlignmentLines {
                                     parentAlignmentLinesOwner.recalculateQueryOwner();
                                 }
                             }
-                            parentAlignmentLinesOwner2 = queried$ui_release.getParentAlignmentLinesOwner();
+                            parentAlignmentLinesOwner2 = queried$ui_release2.getParentAlignmentLinesOwner();
                             parentAlignmentLinesOwner2 = parentAlignmentLinesOwner2.getAlignmentLines();
                             if (parentAlignmentLinesOwner2 != null && parentAlignmentLinesOwner2 != null) {
                                 parentAlignmentLinesOwner2 = parentAlignmentLinesOwner2.getAlignmentLines();
-                                queried$ui_release2 = parentAlignmentLinesOwner2 != null ? parentAlignmentLinesOwner2.queryOwner : 0;
+                                queried$ui_release = parentAlignmentLinesOwner2 != null ? parentAlignmentLinesOwner2.queryOwner : 0;
                             } else {
                             }
-                            parent = queried$ui_release2;
+                            parent = queried$ui_release;
                         }
                     }
                 }

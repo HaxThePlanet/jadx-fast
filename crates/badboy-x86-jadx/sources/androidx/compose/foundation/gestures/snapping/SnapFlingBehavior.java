@@ -139,19 +139,19 @@ public final class SnapFlingBehavior implements TargetedFlingBehavior {
     private final Object tryApproach(ScrollScope scrollScope, float f2, float f3, Function1<? super Float, Unit> function14, Continuation<? super AnimationState<Float, AnimationVector1D>> continuation5) {
         Object obj;
         boolean anon;
-        int i7;
+        int i4;
         Object cOROUTINE_SUSPENDED;
         int i;
-        int label;
+        int _this;
         Function1 function1;
         float f;
         int cmp;
         int i6;
-        int i2;
         int i3;
-        int i4;
-        int i8;
         int i5;
+        int i7;
+        int i8;
+        int i2;
         androidx.compose.foundation.gestures.snapping.SnapFlingBehavior obj13;
         Object obj14;
         float obj16;
@@ -160,11 +160,11 @@ public final class SnapFlingBehavior implements TargetedFlingBehavior {
         obj = continuation5;
         anon = obj;
         i = Integer.MIN_VALUE;
-        if (obj instanceof SnapFlingBehavior.tryApproach.1 && label3 &= i != 0) {
+        if (obj instanceof SnapFlingBehavior.tryApproach.1 && label2 &= i != 0) {
             anon = obj;
             i = Integer.MIN_VALUE;
-            if (label3 &= i != 0) {
-                anon.label = label2 -= i;
+            if (label2 &= i != 0) {
+                anon.label = label -= i;
             } else {
                 anon = new SnapFlingBehavior.tryApproach.1(this, obj);
             }
@@ -172,23 +172,23 @@ public final class SnapFlingBehavior implements TargetedFlingBehavior {
         }
         Object result = anon.result;
         cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (label) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(result);
-                label = this;
+                _this = this;
                 function1 = function14;
                 f = f3;
                 i6 = 0;
-                i3 = 1;
+                i5 = 1;
+                cmp = i5;
                 cmp = i3;
-                cmp = i2;
-                i2 = i3;
-                anon.label = i3;
+                i3 = i5;
+                anon.label = i5;
                 return cOROUTINE_SUSPENDED;
-                label = scrollScope;
+                _this = scrollScope;
                 obj14 = snapFlingBehavior;
                 cOROUTINE_SUSPENDED = function1;
-                obj14 = AnimationStateKt.AnimationState$default(f2, f, 0, i6, false, i3, 0);
+                obj14 = AnimationStateKt.AnimationState$default(f2, f, 0, i6, false, i5, 0);
                 return obj14;
             case 1:
                 ResultKt.throwOnFailure(result);
@@ -238,21 +238,21 @@ public final class SnapFlingBehavior implements TargetedFlingBehavior {
 
     public Object performFling(ScrollScope scrollScope, float f2, Function1<? super Float, Unit> function13, Continuation<? super Float> continuation4) {
         boolean anon;
-        int i2;
-        int i3;
-        int label;
         int i;
+        int i2;
+        int label;
+        int i3;
         Object obj5;
         Object obj6;
         float obj7;
         Object obj8;
         anon = continuation4;
-        i3 = Integer.MIN_VALUE;
-        if (continuation4 instanceof SnapFlingBehavior.performFling.1 && label2 &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation4 instanceof SnapFlingBehavior.performFling.1 && label2 &= i2 != 0) {
             anon = continuation4;
-            i3 = Integer.MIN_VALUE;
-            if (label2 &= i3 != 0) {
-                anon.label = obj8 -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label2 &= i2 != 0) {
+                anon.label = obj8 -= i2;
             } else {
                 anon = new SnapFlingBehavior.performFling.1(this, continuation4);
             }
@@ -276,9 +276,9 @@ public final class SnapFlingBehavior implements TargetedFlingBehavior {
         obj7 = 0;
         if (Float.compare(obj6, obj7) == 0) {
         } else {
-            i = 0;
+            i3 = 0;
         }
-        if (i != 0) {
+        if (i3 != 0) {
         } else {
             obj7 = (Number)obj5.component2().getVelocity().floatValue();
         }

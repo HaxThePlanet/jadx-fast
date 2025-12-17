@@ -71,36 +71,36 @@ public final class VectorizedMonoSplineKeyframesSpec<V extends androidx.compose.
 
     private final void init(V initialValue, V targetValue, V initialVelocity) {
         androidx.compose.animation.core.AnimationVector valueVector;
-        androidx.compose.animation.core.MonoSpline monoSpline;
-        int monoSpline2;
-        float[] fArr3;
+        androidx.compose.animation.core.MonoSpline monoSpline2;
+        int monoSpline;
+        float[] fArr;
         int size$animation_core_release;
         int times;
         int contains;
         float periodicBias;
-        float[][] i3;
+        float[][] i;
         float[][] binarySearch$default;
         int fArr2;
-        int i;
-        float[] fArr;
-        int first;
         int i2;
+        float[] fArr3;
+        int first;
+        int i3;
         float f;
         final Object obj = this;
         final androidx.compose.animation.core.AnimationVector animationVector = initialValue;
         final Object obj2 = targetValue;
-        monoSpline2 = 0;
+        monoSpline = 0;
         if (obj.valueVector == null) {
             obj.valueVector = AnimationVectorsKt.newInstance(animationVector);
             obj.velocityVector = AnimationVectorsKt.newInstance(initialVelocity);
             valueVector = obj.timestamps.getSize();
-            fArr3 = new float[valueVector];
-            size$animation_core_release = monoSpline2;
+            fArr = new float[valueVector];
+            size$animation_core_release = monoSpline;
             while (size$animation_core_release < valueVector) {
-                fArr3[size$animation_core_release] = f2 /= periodicBias;
+                fArr[size$animation_core_release] = f2 /= periodicBias;
                 size$animation_core_release++;
             }
-            obj.times = fArr3;
+            obj.times = fArr;
         }
         if (obj.monoSpline != null && Intrinsics.areEqual(obj.lastInitialValue, animationVector)) {
             if (Intrinsics.areEqual(obj.lastInitialValue, animationVector)) {
@@ -109,82 +109,82 @@ public final class VectorizedMonoSplineKeyframesSpec<V extends androidx.compose.
                     obj.lastTargetValue = obj2;
                     size$animation_core_release = animationVector.getSize$animation_core_release();
                     String str2 = "values";
-                    i3 = 0;
+                    i = 0;
                     if (obj.values == null) {
                         contains = obj.timestamps.getSize();
                         binarySearch$default = new float[contains];
-                        fArr2 = monoSpline2;
+                        fArr2 = monoSpline;
                         while (fArr2 < contains) {
-                            i = obj.timestamps.get(fArr2);
-                            if (i == 0) {
+                            i2 = obj.timestamps.get(fArr2);
+                            if (i2 == 0) {
                             } else {
                             }
-                            if (i == obj.getDurationMillis()) {
+                            if (i2 == obj.getDurationMillis()) {
                             } else {
                             }
-                            Object obj4 = obj.keyframes.get(i);
+                            Object obj4 = obj.keyframes.get(i2);
                             Intrinsics.checkNotNull(obj4);
-                            i2 = monoSpline2;
-                            while (i2 < size$animation_core_release) {
-                                new float[size$animation_core_release][i2] = (AnimationVector)(Pair)obj4.getFirst().get$animation_core_release(i2);
-                                i2++;
+                            i3 = monoSpline;
+                            while (i3 < size$animation_core_release) {
+                                new float[size$animation_core_release][i3] = (AnimationVector)(Pair)obj4.getFirst().get$animation_core_release(i3);
+                                i3++;
                             }
-                            binarySearch$default[fArr2] = fArr;
+                            binarySearch$default[fArr2] = fArr3;
                             fArr2++;
-                            fArr[i2] = first.get$animation_core_release(i2);
-                            i2++;
-                            if (!obj.keyframes.contains(i)) {
+                            fArr3[i3] = first.get$animation_core_release(i3);
+                            i3++;
+                            if (!obj.keyframes.contains(i2)) {
                             } else {
                             }
-                            Object obj5 = obj.keyframes.get(i);
+                            Object obj5 = obj.keyframes.get(i2);
                             Intrinsics.checkNotNull(obj5);
-                            i2 = monoSpline2;
-                            while (i2 < size$animation_core_release) {
-                                new float[size$animation_core_release][i2] = (AnimationVector)(Pair)obj5.getFirst().get$animation_core_release(i2);
-                                i2++;
+                            i3 = monoSpline;
+                            while (i3 < size$animation_core_release) {
+                                new float[size$animation_core_release][i3] = (AnimationVector)(Pair)obj5.getFirst().get$animation_core_release(i3);
+                                i3++;
                             }
-                            fArr[i2] = first.get$animation_core_release(i2);
-                            i2++;
-                            first = monoSpline2;
+                            fArr3[i3] = first.get$animation_core_release(i3);
+                            i3++;
+                            first = monoSpline;
                             while (first < size$animation_core_release) {
                                 new float[size$animation_core_release][first] = obj2.get$animation_core_release(first);
                                 first++;
                             }
-                            fArr[first] = obj2.get$animation_core_release(first);
+                            fArr3[first] = obj2.get$animation_core_release(first);
                             first++;
-                            if (!obj.keyframes.contains(i)) {
+                            if (!obj.keyframes.contains(i2)) {
                             } else {
                             }
-                            Object obj3 = obj.keyframes.get(i);
+                            Object obj3 = obj.keyframes.get(i2);
                             Intrinsics.checkNotNull(obj3);
-                            i2 = monoSpline2;
-                            while (i2 < size$animation_core_release) {
-                                new float[size$animation_core_release][i2] = (AnimationVector)(Pair)obj3.getFirst().get$animation_core_release(i2);
-                                i2++;
+                            i3 = monoSpline;
+                            while (i3 < size$animation_core_release) {
+                                new float[size$animation_core_release][i3] = (AnimationVector)(Pair)obj3.getFirst().get$animation_core_release(i3);
+                                i3++;
                             }
-                            fArr[i2] = first.get$animation_core_release(i2);
-                            i2++;
-                            first = monoSpline2;
+                            fArr3[i3] = first.get$animation_core_release(i3);
+                            i3++;
+                            first = monoSpline;
                             while (first < size$animation_core_release) {
                                 new float[size$animation_core_release][first] = animationVector.get$animation_core_release(first);
                                 first++;
                             }
-                            fArr[first] = animationVector.get$animation_core_release(first);
+                            fArr3[first] = animationVector.get$animation_core_release(first);
                             first++;
                         }
                         obj.values = binarySearch$default;
                     } else {
-                        if (equal ^= 1 != 0 && !obj.keyframes.contains(monoSpline2) && obj.values == null) {
-                            if (!obj.keyframes.contains(monoSpline2)) {
+                        if (equal ^= 1 != 0 && !obj.keyframes.contains(monoSpline) && obj.values == null) {
+                            if (!obj.keyframes.contains(monoSpline)) {
                                 if (obj.values == null) {
                                     Intrinsics.throwUninitializedPropertyAccessException(str2);
-                                    contains = i3;
+                                    contains = i;
                                 }
                                 fArr2 = new float[size$animation_core_release];
-                                i = monoSpline2;
-                                while (i < size$animation_core_release) {
-                                    fArr2[i] = animationVector.get$animation_core_release(i);
-                                    i++;
+                                i2 = monoSpline;
+                                while (i2 < size$animation_core_release) {
+                                    fArr2[i2] = animationVector.get$animation_core_release(i2);
+                                    i2++;
                                 }
                                 contains[IntListExtensionKt.binarySearch$default(obj.timestamps, 0, 0, 0, 6, 0)] = fArr2;
                             }
@@ -193,12 +193,12 @@ public final class VectorizedMonoSplineKeyframesSpec<V extends androidx.compose.
                             if (!obj.keyframes.contains(obj.getDurationMillis())) {
                                 if (obj.values == null) {
                                     Intrinsics.throwUninitializedPropertyAccessException(str2);
-                                    contains = i3;
+                                    contains = i;
                                 }
                                 fArr2 = new float[size$animation_core_release];
-                                while (monoSpline2 < size$animation_core_release) {
-                                    fArr2[monoSpline2] = obj2.get$animation_core_release(monoSpline2);
-                                    monoSpline2++;
+                                while (monoSpline < size$animation_core_release) {
+                                    fArr2[monoSpline] = obj2.get$animation_core_release(monoSpline);
+                                    monoSpline++;
                                 }
                                 contains[IntListExtensionKt.binarySearch$default(obj.timestamps, obj.getDurationMillis(), 0, 0, 6, 0)] = fArr2;
                             }
@@ -206,16 +206,16 @@ public final class VectorizedMonoSplineKeyframesSpec<V extends androidx.compose.
                     }
                     if (obj.times == null) {
                         Intrinsics.throwUninitializedPropertyAccessException("times");
-                        times = i3;
+                        times = i;
                     }
                     binarySearch$default = obj.values;
                     if (binarySearch$default == null) {
                         Intrinsics.throwUninitializedPropertyAccessException(str2);
                     } else {
-                        i3 = binarySearch$default;
+                        i = binarySearch$default;
                     }
-                    monoSpline2 = new MonoSpline(times, i3, obj.periodicBias);
-                    obj.monoSpline = monoSpline2;
+                    monoSpline = new MonoSpline(times, i, obj.periodicBias);
+                    obj.monoSpline = monoSpline;
                 }
             } else {
             }

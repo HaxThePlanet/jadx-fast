@@ -50,8 +50,8 @@ public abstract class DispatchedTask<T>  extends Task {
 
     @Override // kotlinx.coroutines.scheduling.Task
     public final void handleFatalException$kotlinx_coroutines_core(Throwable exception, Throwable finallyException) {
-        Throwable th2;
         Throwable th;
+        Throwable th2;
         int i;
         if (exception == null && finallyException == null) {
             if (finallyException == null) {
@@ -63,10 +63,10 @@ public abstract class DispatchedTask<T>  extends Task {
                 ExceptionsKt.addSuppressed(exception, finallyException);
             }
         }
-        th = exception == null ? finallyException : exception;
+        th2 = exception == null ? finallyException : exception;
         StringBuilder stringBuilder = new StringBuilder();
-        Intrinsics.checkNotNull(th);
-        CoroutinesInternalError coroutinesInternalError = new CoroutinesInternalError(stringBuilder.append("Fatal exception in coroutines machinery for ").append(this).append(". Please read KDoc to 'handleFatalException' method and report this incident to maintainers").toString(), th);
+        Intrinsics.checkNotNull(th2);
+        CoroutinesInternalError coroutinesInternalError = new CoroutinesInternalError(stringBuilder.append("Fatal exception in coroutines machinery for ").append(this).append(". Please read KDoc to 'handleFatalException' method and report this incident to maintainers").toString(), th2);
         CoroutineExceptionHandlerKt.handleCoroutineException(getDelegate$kotlinx_coroutines_core().getContext(), (Throwable)coroutinesInternalError);
     }
 
@@ -74,23 +74,23 @@ public abstract class DispatchedTask<T>  extends Task {
     public final void run() {
         boolean aSSERTIONS_ENABLED;
         kotlinx.coroutines.UndispatchedCoroutine undispatchedCompletion;
-        Object constructor-impl2;
+        Object constructor-impl;
         Unit clearThreadContext;
         Object constructor-impl3;
         boolean companion;
-        Object taskContext;
-        int i4;
         Object taskContext2;
+        int i2;
+        Object taskContext3;
         int fatalException;
         int i3;
         Continuation delegate;
-        int i5;
-        boolean cancellationException;
-        int i6;
-        int i2;
         int i;
+        boolean cancellationException;
+        int $i$a$WithContinuationContextDispatchedTask$run$2;
+        int i4;
+        int i5;
         boolean z;
-        TaskContext taskContext3;
+        TaskContext taskContext;
         Object obj5;
         Continuation continuation;
         final Object obj2 = this;
@@ -103,55 +103,55 @@ public abstract class DispatchedTask<T>  extends Task {
             AssertionError assertionError = new AssertionError();
             throw assertionError;
         }
-        taskContext = obj2.taskContext;
+        taskContext2 = obj2.taskContext;
         i3 = 0;
         Continuation delegate$kotlinx_coroutines_core = obj2.getDelegate$kotlinx_coroutines_core();
         Intrinsics.checkNotNull(delegate$kotlinx_coroutines_core, "null cannot be cast to non-null type kotlinx.coroutines.internal.DispatchedContinuation<T of kotlinx.coroutines.DispatchedTask>");
         delegate = delegate$kotlinx_coroutines_core;
         final Continuation continuation3 = continuation2;
-        final int i8 = 0;
+        final int i7 = 0;
         final CoroutineContext context2 = context;
         final Object obj4 = threadContext;
         if (obj4 != ThreadContextKt.NO_THREAD_ELEMENTS) {
             undispatchedCompletion = CoroutineContextKt.updateUndispatchedCompletion(continuation3, context2, obj4);
         } else {
-            undispatchedCompletion = i5;
+            undispatchedCompletion = i;
         }
         final kotlinx.coroutines.UndispatchedCoroutine undispatchedCoroutine = undispatchedCompletion;
-        int i7 = 0;
+        int i6 = 0;
         final Object takeState$kotlinx_coroutines_core = obj2.takeState$kotlinx_coroutines_core();
         final Throwable exceptionalResult$kotlinx_coroutines_core = obj2.getExceptionalResult$kotlinx_coroutines_core(takeState$kotlinx_coroutines_core);
         if (exceptionalResult$kotlinx_coroutines_core == null && DispatchedTaskKt.isCancellableMode(obj2.resumeMode)) {
             if (DispatchedTaskKt.isCancellableMode(obj2.resumeMode)) {
-                i5 = continuation3.getContext().get((CoroutineContext.Key)Job.Key);
+                i = continuation3.getContext().get((CoroutineContext.Key)Job.Key);
             }
         }
-        if (i5 != 0 && !i5.isActive()) {
-            if (!i5.isActive()) {
-                cancellationException = i5.getCancellationException();
-                i6 = i7;
+        if (i != 0 && !i.isActive()) {
+            if (!i.isActive()) {
+                cancellationException = i.getCancellationException();
+                $i$a$WithContinuationContextDispatchedTask$run$2 = i6;
                 obj2.cancelCompletedResult$kotlinx_coroutines_core(takeState$kotlinx_coroutines_core, (Throwable)cancellationException);
-                constructor-impl2 = continuation3;
-                i2 = 0;
+                constructor-impl = continuation3;
+                i4 = 0;
                 kotlin.Result.Companion companion5 = Result.Companion;
-                i = 0;
+                i5 = 0;
                 if (DebugKt.getRECOVER_STACK_TRACES()) {
-                    taskContext3 = taskContext;
-                    if (!constructor-impl2 instanceof CoroutineStackFrame) {
+                    taskContext = taskContext2;
+                    if (!constructor-impl instanceof CoroutineStackFrame) {
                         continuation = delegate;
-                        taskContext2 = cancellationException;
+                        taskContext3 = cancellationException;
                     } else {
                         continuation = delegate;
-                        taskContext2 = StackTraceRecoveryKt.access$recoverFromStackFrame((Throwable)cancellationException, (CoroutineStackFrame)constructor-impl2);
+                        taskContext3 = StackTraceRecoveryKt.access$recoverFromStackFrame((Throwable)cancellationException, (CoroutineStackFrame)constructor-impl);
                     }
                 } else {
-                    taskContext3 = taskContext;
+                    taskContext = taskContext2;
                     continuation = delegate;
                 }
-                constructor-impl2.resumeWith(Result.constructor-impl(ResultKt.createFailure(taskContext2)));
+                constructor-impl.resumeWith(Result.constructor-impl(ResultKt.createFailure(taskContext3)));
             } else {
-                i6 = i7;
-                taskContext3 = taskContext;
+                $i$a$WithContinuationContextDispatchedTask$run$2 = i6;
+                taskContext = taskContext2;
                 continuation = delegate;
                 if (exceptionalResult$kotlinx_coroutines_core != null) {
                     kotlin.Result.Companion companion3 = Result.Companion;
@@ -170,8 +170,8 @@ public abstract class DispatchedTask<T>  extends Task {
                     ThreadContextKt.restoreThreadContext(context2, obj4);
                     kotlin.Result.Companion companion4 = Result.Companion;
                     Object obj = obj2;
-                    i4 = 0;
-                    taskContext3.afterTask();
+                    i2 = 0;
+                    taskContext.afterTask();
                     constructor-impl3 = Result.constructor-impl(Unit.INSTANCE);
                     obj5 = obj4;
                     companion = obj11.clearThreadContext();
@@ -183,17 +183,17 @@ public abstract class DispatchedTask<T>  extends Task {
                     } else {
                     }
                     ThreadContextKt.restoreThreadContext(obj8, obj9);
-                    throw constructor-impl;
-                    fatalException = constructor-impl;
-                    Throwable constructor-impl = Result.Companion;
-                    constructor-impl = this;
+                    throw constructor-impl2;
+                    fatalException = constructor-impl2;
+                    Throwable constructor-impl2 = Result.Companion;
+                    constructor-impl2 = this;
                     companion = false;
                     companion.afterTask();
-                    constructor-impl = Unit.INSTANCE;
-                    constructor-impl = Result.constructor-impl(constructor-impl);
+                    constructor-impl2 = Unit.INSTANCE;
+                    constructor-impl2 = Result.constructor-impl(constructor-impl2);
                     companion = Result.Companion;
-                    constructor-impl = ResultKt.createFailure(constructor-impl);
-                    constructor-impl = Result.constructor-impl(constructor-impl);
+                    constructor-impl2 = ResultKt.createFailure(constructor-impl2);
+                    constructor-impl2 = Result.constructor-impl(constructor-impl2);
                     obj2.handleFatalException$kotlinx_coroutines_core(i3, Result.exceptionOrNull-impl(constructor-impl3));
                 } catch (Throwable th) {
                 }

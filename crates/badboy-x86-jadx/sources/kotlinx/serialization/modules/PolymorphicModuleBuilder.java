@@ -48,8 +48,8 @@ public final class PolymorphicModuleBuilder<Base>  {
         KClass baseClass2;
         KSerializer baseSerializer;
         int baseClass;
-        int i2;
         int i3;
+        int i2;
         Object next;
         int i;
         Object obj2;

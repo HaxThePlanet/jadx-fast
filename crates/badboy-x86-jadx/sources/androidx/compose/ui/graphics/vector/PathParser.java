@@ -88,20 +88,20 @@ public final class PathParser {
         int value;
         int dataCount;
         int naN;
-        int compare;
-        int dataCount2;
         int compare2;
+        int dataCount2;
+        int compare;
         int c;
         int command;
         int index;
         int nextFloat;
-        int i;
-        int nodeData;
-        float[] nodeData2;
+        int i2;
+        int nodeData2;
+        float[] nodeData;
         int length;
         long l;
         int start;
-        int i2;
+        int i;
         final Object obj = this;
         final String str = pathData;
         final ArrayList list = nodes;
@@ -126,7 +126,7 @@ public final class PathParser {
             index = dataCount2 + 1;
             c = str.charAt(dataCount2);
             int i8 = c | 32;
-            while (i13 *= i <= 0) {
+            while (i13 *= i2 <= 0) {
                 if (i8 != 101) {
                     break loop_10;
                 } else {
@@ -164,19 +164,19 @@ public final class PathParser {
             while (index < end) {
                 if (Intrinsics.compare(str.charAt(index), naN) <= 0) {
                 }
-                nodeData = nextFloat;
+                nodeData2 = nextFloat;
                 int i15 = i9;
                 int i10 = 0;
                 int i11 = dataCount;
-                i2 = i5;
+                i = i5;
                 int i6 = 0;
                 float bits$iv$iv = Float.intBitsToFloat((int)dataCount3);
                 if (!Float.isNaN(bits$iv$iv)) {
                 } else {
                 }
                 start = start2;
-                compare2 = i11;
-                index = i2;
+                compare = i11;
+                index = i;
                 while (index < end) {
                     if (str.charAt(index) == true) {
                     }
@@ -189,41 +189,41 @@ public final class PathParser {
                     break loop_17;
                 } else {
                 }
-                dataCount = compare2;
+                dataCount = compare;
                 start2 = start;
                 naN = 32;
                 if (str.charAt(index) == true) {
                 }
                 index++;
-                compare2 = i11 + 1;
+                compare = i11 + 1;
                 obj.nodeData[i11] = bits$iv$iv;
                 naN = this;
                 int i12 = 0;
-                if (compare2 >= nodeData5.length) {
+                if (compare >= nodeData5.length) {
                 } else {
                 }
                 start = start2;
-                index = i2;
-                nodeData = naN.nodeData;
-                naN.nodeData = new float[compare2 * 2];
+                index = i;
+                nodeData2 = naN.nodeData;
+                naN.nodeData = new float[compare * 2];
                 start = start2;
                 start2 = 0;
-                ArraysKt.copyInto(nodeData, naN.nodeData, start2, start2, nodeData.length);
+                ArraysKt.copyInto(nodeData2, naN.nodeData, start2, start2, nodeData2.length);
                 index++;
             }
-            nodeData = nextFloat;
+            nodeData2 = nextFloat;
             i15 = i9;
             i10 = 0;
             i11 = dataCount;
-            i2 = i5;
+            i = i5;
             i6 = 0;
             bits$iv$iv = Float.intBitsToFloat((int)dataCount3);
             if (!Float.isNaN(bits$iv$iv)) {
             } else {
             }
             start = start2;
-            compare2 = i11;
-            index = i2;
+            compare = i11;
+            index = i;
             while (index < end) {
                 if (str.charAt(index) == true) {
                 }
@@ -231,31 +231,31 @@ public final class PathParser {
             }
             if (index < end) {
             }
-            value = compare2;
+            value = compare;
             dataCount2 = index;
             if (Float.isNaN(bits$iv$iv)) {
             } else {
             }
-            dataCount = compare2;
+            dataCount = compare;
             start2 = start;
             naN = 32;
             if (str.charAt(index) == true) {
             }
             index++;
-            compare2 = i11 + 1;
+            compare = i11 + 1;
             obj.nodeData[i11] = bits$iv$iv;
             naN = this;
             i12 = 0;
-            if (compare2 >= nodeData5.length) {
+            if (compare >= nodeData5.length) {
             } else {
             }
             start = start2;
-            index = i2;
-            nodeData = naN.nodeData;
-            naN.nodeData = new float[compare2 * 2];
+            index = i;
+            nodeData2 = naN.nodeData;
+            naN.nodeData = new float[compare * 2];
             start = start2;
             start2 = 0;
-            ArraysKt.copyInto(nodeData, naN.nodeData, start2, start2, nodeData.length);
+            ArraysKt.copyInto(nodeData2, naN.nodeData, start2, start2, nodeData2.length);
             if (Intrinsics.compare(str.charAt(index), naN) <= 0) {
             }
             index++;

@@ -166,14 +166,14 @@ public final class AnnotatedString implements java.lang.CharSequence {
             String text2;
             int index$iv;
             int size;
-            Object obj2;
             Object obj;
-            int i2;
+            Object obj2;
+            int i;
             Object annotations;
             int mutableRange;
             int item;
+            int i2;
             int i3;
-            int i;
             String tag;
             int length = this.text.length();
             this.text.append(text.getText());
@@ -182,9 +182,9 @@ public final class AnnotatedString implements java.lang.CharSequence {
                 text2 = 0;
                 index$iv = 0;
                 while (index$iv < spanStylesOrNull$ui_text_release.size()) {
-                    obj = obj2;
-                    i2 = 0;
-                    addStyle((SpanStyle)(AnnotatedString.Range)obj.getItem(), start += length, end += length);
+                    obj2 = obj;
+                    i = 0;
+                    addStyle((SpanStyle)(AnnotatedString.Range)obj2.getItem(), start += length, end += length);
                     index$iv++;
                 }
             }
@@ -193,9 +193,9 @@ public final class AnnotatedString implements java.lang.CharSequence {
                 text2 = 0;
                 index$iv = 0;
                 while (index$iv < paragraphStylesOrNull$ui_text_release.size()) {
-                    obj = obj2;
-                    i2 = 0;
-                    addStyle((ParagraphStyle)(AnnotatedString.Range)obj.getItem(), start2 += length, end2 += length);
+                    obj2 = obj;
+                    i = 0;
+                    addStyle((ParagraphStyle)(AnnotatedString.Range)obj2.getItem(), start2 += length, end2 += length);
                     index$iv++;
                 }
             }
@@ -204,9 +204,9 @@ public final class AnnotatedString implements java.lang.CharSequence {
                 text2 = 0;
                 index$iv = 0;
                 while (index$iv < annotations$ui_text_release.size()) {
-                    obj = obj2;
-                    i2 = 0;
-                    mutableRange = new AnnotatedString.Builder.MutableRange((AnnotatedString.Range)obj.getItem(), start3 += length, end3 += length, obj.getTag());
+                    obj2 = obj;
+                    i = 0;
+                    mutableRange = new AnnotatedString.Builder.MutableRange((AnnotatedString.Range)obj2.getItem(), start3 += length, end3 += length, obj2.getTag());
                     this.annotations.add(mutableRange);
                     index$iv++;
                 }
@@ -221,12 +221,12 @@ public final class AnnotatedString implements java.lang.CharSequence {
             int size;
             Object obj3;
             Object obj;
-            int i3;
+            int i2;
             Object annotations;
             int mutableRange;
             int item;
+            int i3;
             int i;
-            int i2;
             obj2 = this;
             int length = obj2.text.length();
             obj2.text.append((CharSequence)text.getText(), start, end);
@@ -236,7 +236,7 @@ public final class AnnotatedString implements java.lang.CharSequence {
                 index$iv = 0;
                 while (index$iv < list.size()) {
                     obj = obj3;
-                    i3 = 0;
+                    i2 = 0;
                     obj2.addStyle((SpanStyle)(AnnotatedString.Range)obj.getItem(), start2 += length, end2 += length);
                     index$iv++;
                 }
@@ -247,7 +247,7 @@ public final class AnnotatedString implements java.lang.CharSequence {
                 index$iv = 0;
                 while (index$iv < list2.size()) {
                     obj = obj3;
-                    i3 = 0;
+                    i2 = 0;
                     obj2.addStyle((ParagraphStyle)(AnnotatedString.Range)obj.getItem(), start3 += length, end3 += length);
                     index$iv++;
                 }
@@ -258,7 +258,7 @@ public final class AnnotatedString implements java.lang.CharSequence {
                 index$iv = 0;
                 while (index$iv < list3.size()) {
                     obj = obj3;
-                    i3 = 0;
+                    i2 = 0;
                     mutableRange = new AnnotatedString.Builder.MutableRange((AnnotatedString.Range)obj.getItem(), start4 += length, end4 += length, obj.getTag());
                     obj2.annotations.add(mutableRange);
                     index$iv++;
@@ -284,8 +284,8 @@ public final class AnnotatedString implements java.lang.CharSequence {
                 (AnnotatedString.Builder.MutableRange)this.styleStack.remove(size--).setEnd(this.text.length());
             }
             int item = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("Nothing to pop.".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckAnnotatedString$Builder$pop$1 = new IllegalStateException("Nothing to pop.".toString());
+            throw $i$a$CheckAnnotatedString$Builder$pop$1;
         }
 
         @Override // java.lang.Appendable
@@ -357,15 +357,15 @@ public final class AnnotatedString implements java.lang.CharSequence {
 
         @Override // java.lang.Appendable
         public final androidx.compose.ui.text.AnnotatedString toAnnotatedString() {
-            ArrayList $this$fastMap$iv;
             ArrayList $this$fastMap$iv2;
+            ArrayList $this$fastMap$iv;
             ArrayList arrayList;
             List annotations;
-            ArrayList list2;
-            int index$iv$iv;
+            ArrayList $i$a$IfEmptyAnnotatedString$Builder$toAnnotatedString$6;
+            int index$iv$iv2;
             Object obj;
             int index$iv$iv3;
-            int index$iv$iv2;
+            int index$iv$iv;
             Object obj2;
             int i;
             ArrayList list;
@@ -373,59 +373,59 @@ public final class AnnotatedString implements java.lang.CharSequence {
             int i2;
             int length;
             int i3;
-            List list3;
+            List list2;
             final Object obj3 = this;
             List spanStyles = obj3.spanStyles;
             int i5 = 0;
             arrayList = new ArrayList(spanStyles.size());
-            List list4 = spanStyles;
+            List list3 = spanStyles;
             int i10 = 0;
-            index$iv$iv = 0;
-            while (index$iv$iv < list4.size()) {
+            index$iv$iv2 = 0;
+            while (index$iv$iv2 < list3.size()) {
                 i = 0;
                 i2 = 0;
-                (Collection)arrayList.add((AnnotatedString.Builder.MutableRange)list4.get(index$iv$iv).toRange(obj3.text.length()));
-                index$iv$iv++;
+                (Collection)arrayList.add((AnnotatedString.Builder.MutableRange)list3.get(index$iv$iv2).toRange(obj3.text.length()));
+                index$iv$iv2++;
             }
             if ((Collection)(List)arrayList.isEmpty()) {
                 int i4 = 0;
-                $this$fastMap$iv = 0;
+                $this$fastMap$iv2 = 0;
             }
             List paragraphStyles = obj3.paragraphStyles;
             int i8 = 0;
             ArrayList arrayList2 = new ArrayList(paragraphStyles.size());
-            List list5 = paragraphStyles;
+            List list4 = paragraphStyles;
             int i11 = 0;
             index$iv$iv3 = 0;
-            while (index$iv$iv3 < list5.size()) {
+            while (index$iv$iv3 < list4.size()) {
                 it = 0;
                 i3 = 0;
-                (Collection)arrayList2.add((AnnotatedString.Builder.MutableRange)list5.get(index$iv$iv3).toRange(obj3.text.length()));
+                (Collection)arrayList2.add((AnnotatedString.Builder.MutableRange)list4.get(index$iv$iv3).toRange(obj3.text.length()));
                 index$iv$iv3++;
             }
             if ((Collection)(List)arrayList2.isEmpty()) {
                 int i6 = 0;
-                $this$fastMap$iv2 = 0;
+                $this$fastMap$iv = 0;
             }
             annotations = obj3.annotations;
             int i9 = 0;
             ArrayList arrayList3 = new ArrayList(annotations.size());
-            List list6 = annotations;
+            List list5 = annotations;
             int i12 = 0;
-            index$iv$iv2 = 0;
-            while (index$iv$iv2 < list6.size()) {
+            index$iv$iv = 0;
+            while (index$iv$iv < list5.size()) {
                 it = 0;
                 i3 = 0;
-                (Collection)arrayList3.add((AnnotatedString.Builder.MutableRange)list6.get(index$iv$iv2).toRange(obj3.text.length()));
-                index$iv$iv2++;
-                annotations = list3;
+                (Collection)arrayList3.add((AnnotatedString.Builder.MutableRange)list5.get(index$iv$iv).toRange(obj3.text.length()));
+                index$iv$iv++;
+                annotations = list2;
             }
             List $this$fastMap$iv4 = annotations;
             if ((Collection)(List)arrayList3.isEmpty()) {
                 int i7 = 0;
-                list2 = 0;
+                $i$a$IfEmptyAnnotatedString$Builder$toAnnotatedString$6 = 0;
             }
-            AnnotatedString annotatedString = new AnnotatedString(obj3.text.toString(), (List)$this$fastMap$iv, (List)$this$fastMap$iv2, (List)list2);
+            AnnotatedString annotatedString = new AnnotatedString(obj3.text.toString(), (List)$this$fastMap$iv2, (List)$this$fastMap$iv, (List)$i$a$IfEmptyAnnotatedString$Builder$toAnnotatedString$6);
             return annotatedString;
         }
     }
@@ -468,8 +468,8 @@ public final class AnnotatedString implements java.lang.CharSequence {
             } else {
             }
             int i2 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Reversed range is not supported".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireAnnotatedString$Range$1 = new IllegalArgumentException("Reversed range is not supported".toString());
+            throw $i$a$RequireAnnotatedString$Range$1;
         }
 
         public static androidx.compose.ui.text.AnnotatedString.Range copy$default(androidx.compose.ui.text.AnnotatedString.Range annotatedString$Range, Object object2, int i3, int i4, String string5, int i6, Object object7) {
@@ -576,18 +576,18 @@ public final class AnnotatedString implements java.lang.CharSequence {
     }
 
     public AnnotatedString(String text, List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.SpanStyle>> spanStyles, List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.ParagraphStyle>> paragraphStyles) {
-        int i;
-        int i2;
-        final int i5 = 0;
+        int $i$a$IfEmptyAnnotatedString$1;
+        int $i$a$IfEmptyAnnotatedString$2;
+        final int i3 = 0;
         if ((Collection)spanStyles.isEmpty()) {
-            int i3 = 0;
-            i = i5;
+            int i = 0;
+            $i$a$IfEmptyAnnotatedString$1 = i3;
         }
         if ((Collection)paragraphStyles.isEmpty()) {
-            int i4 = 0;
-            i2 = i5;
+            int i2 = 0;
+            $i$a$IfEmptyAnnotatedString$2 = i3;
         }
-        super(text, (List)i, (List)i2, i5);
+        super(text, (List)$i$a$IfEmptyAnnotatedString$1, (List)$i$a$IfEmptyAnnotatedString$2, i3);
     }
 
     public AnnotatedString(String string, List list2, List list3, int i4, DefaultConstructorMarker defaultConstructorMarker5) {
@@ -605,16 +605,16 @@ public final class AnnotatedString implements java.lang.CharSequence {
     public AnnotatedString(String text, List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.SpanStyle>> spanStylesOrNull, List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.ParagraphStyle>> paragraphStylesOrNull, List<? extends androidx.compose.ui.text.AnnotatedString.Range<? extends Object>> annotations) {
         int lastStyleEnd;
         List $this$sortedBy$iv;
-        int i4;
+        int i5;
         int index$iv;
         int size;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         int end;
-        int i3;
-        int i5;
         int i2;
+        int i3;
+        int i4;
         final Object obj3 = this;
         super();
         obj3.text = text;
@@ -624,32 +624,32 @@ public final class AnnotatedString implements java.lang.CharSequence {
         int i6 = 0;
         lastStyleEnd = -1;
         $this$sortedBy$iv = obj3.paragraphStylesOrNull;
-        i4 = 0;
+        i5 = 0;
         index$iv = new AnnotatedString.special$$inlined.sortedBy.1();
         $this$sortedBy$iv = CollectionsKt.sortedWith((Iterable)$this$sortedBy$iv, (Comparator)index$iv);
         if ($this$sortedBy$iv != null && $this$sortedBy$iv != null) {
-            i4 = 0;
+            i5 = 0;
             index$iv = new AnnotatedString.special$$inlined.sortedBy.1();
             $this$sortedBy$iv = CollectionsKt.sortedWith((Iterable)$this$sortedBy$iv, (Comparator)index$iv);
             if ($this$sortedBy$iv != null) {
-                i4 = 0;
+                i5 = 0;
                 index$iv = 0;
                 while (index$iv < $this$sortedBy$iv.size()) {
-                    obj = obj2;
+                    obj2 = obj;
                     i = 0;
-                    i2 = 1;
-                    if ((AnnotatedString.Range)obj.getStart() >= lastStyleEnd) {
+                    i4 = 1;
+                    if ((AnnotatedString.Range)obj2.getStart() >= lastStyleEnd) {
+                    } else {
+                    }
+                    i2 = 0;
+                    if (obj2.getEnd() <= obj3.text.length()) {
                     } else {
                     }
                     i3 = 0;
-                    if (obj.getEnd() <= obj3.text.length()) {
-                    } else {
-                    }
-                    i5 = 0;
-                    lastStyleEnd = obj.getEnd();
+                    lastStyleEnd = obj2.getEnd();
                     index$iv++;
-                    i5 = i2;
-                    i3 = i2;
+                    i3 = i4;
+                    i2 = i4;
                 }
             }
         }
@@ -715,60 +715,60 @@ public final class AnnotatedString implements java.lang.CharSequence {
     }
 
     public final List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.LinkAnnotation>> getLinkAnnotations(int start, int end) {
-        int i9;
-        Object obj4;
-        int i8;
-        Object $this$fastFilter$iv;
+        int i6;
+        Object obj;
         int i7;
+        Object $this$fastFilter$iv;
+        int i;
         ArrayList arrayList;
         List list;
-        int i4;
+        int i5;
         int index$iv$iv;
         int size;
         Object obj3;
         Object obj2;
-        int i5;
-        Object obj;
-        int i6;
-        int i2;
+        int i8;
+        Object obj4;
+        int i3;
+        int i4;
         boolean intersect;
         int end2;
-        int i;
-        int i3;
-        List annotations = obj4.annotations;
+        int i2;
+        int i9;
+        List annotations = obj.annotations;
         if (annotations != null) {
-            i7 = 0;
+            i = 0;
             arrayList = new ArrayList(annotations.size());
             list = annotations;
-            i4 = 0;
+            i5 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
                 obj2 = obj3;
-                i5 = 0;
-                obj = obj2;
-                i6 = 0;
+                i8 = 0;
+                obj4 = obj2;
+                i3 = 0;
                 if (item instanceof LinkAnnotation) {
                 } else {
                 }
-                i3 = start;
-                i8 = end;
-                i2 = 0;
-                if (i2 != 0) {
+                i9 = start;
+                i7 = end;
+                i4 = 0;
+                if (i4 != 0) {
                 }
                 index$iv$iv++;
-                obj4 = this;
+                obj = this;
                 (Collection)arrayList.add(obj2);
-                if (AnnotatedStringKt.intersect(start, end, obj.getStart(), obj.getEnd())) {
+                if (AnnotatedStringKt.intersect(start, end, obj4.getStart(), obj4.getEnd())) {
                 } else {
                 }
-                i2 = 1;
+                i4 = 1;
             }
-            i = start;
-            i9 = end;
+            i2 = start;
+            i6 = end;
             $this$fastFilter$iv = arrayList;
         } else {
-            i = start;
-            i9 = end;
+            i2 = start;
+            i6 = end;
             $this$fastFilter$iv = CollectionsKt.emptyList();
         }
         Intrinsics.checkNotNull($this$fastFilter$iv, "null cannot be cast to non-null type kotlin.collections.List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.LinkAnnotation>>");
@@ -800,60 +800,60 @@ public final class AnnotatedString implements java.lang.CharSequence {
     }
 
     public final List<androidx.compose.ui.text.AnnotatedString.Range<String>> getStringAnnotations(int start, int end) {
-        int i7;
-        Object obj;
-        int i9;
+        int i3;
+        Object obj3;
+        int i2;
         Object $this$fastFilter$iv;
-        int i5;
+        int i7;
         ArrayList arrayList;
         List list;
         int i6;
         int index$iv$iv;
         int size;
         Object obj2;
-        Object obj4;
+        Object obj;
         int i8;
-        Object obj3;
-        int i;
-        int i2;
+        Object obj4;
+        int i9;
+        int i4;
         boolean intersect;
         int end2;
-        int i3;
-        int i4;
-        List annotations = obj.annotations;
+        int i5;
+        int i;
+        List annotations = obj3.annotations;
         if (annotations != null) {
-            i5 = 0;
+            i7 = 0;
             arrayList = new ArrayList(annotations.size());
             list = annotations;
             i6 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
-                obj4 = obj2;
+                obj = obj2;
                 i8 = 0;
-                obj3 = obj4;
-                i = 0;
+                obj4 = obj;
+                i9 = 0;
                 if (item instanceof String != null) {
                 } else {
                 }
-                i4 = start;
-                i9 = end;
-                i2 = 0;
-                if (i2 != 0) {
+                i = start;
+                i2 = end;
+                i4 = 0;
+                if (i4 != 0) {
                 }
                 index$iv$iv++;
-                obj = this;
-                (Collection)arrayList.add(obj4);
-                if (AnnotatedStringKt.intersect(start, end, obj3.getStart(), obj3.getEnd())) {
+                obj3 = this;
+                (Collection)arrayList.add(obj);
+                if (AnnotatedStringKt.intersect(start, end, obj4.getStart(), obj4.getEnd())) {
                 } else {
                 }
-                i2 = 1;
+                i4 = 1;
             }
-            i3 = start;
-            i7 = end;
+            i5 = start;
+            i3 = end;
             $this$fastFilter$iv = arrayList;
         } else {
-            i3 = start;
-            i7 = end;
+            i5 = start;
+            i3 = end;
             $this$fastFilter$iv = CollectionsKt.emptyList();
         }
         Intrinsics.checkNotNull($this$fastFilter$iv, "null cannot be cast to non-null type kotlin.collections.List<androidx.compose.ui.text.AnnotatedString.Range<kotlin.String>>");
@@ -862,26 +862,26 @@ public final class AnnotatedString implements java.lang.CharSequence {
 
     public final List<androidx.compose.ui.text.AnnotatedString.Range<String>> getStringAnnotations(String tag, int start, int end) {
         Object obj6;
-        int i;
-        int i3;
+        int i5;
+        int i4;
         List annotations;
         int $this$fastFilter$iv2;
         int $this$fastFilter$iv;
         Object $i$f$fastFilter;
         ArrayList arrayList;
         List list;
-        int i4;
+        int i3;
         int index$iv$iv;
         int size;
-        Object obj3;
-        Object obj4;
-        int i5;
         Object obj5;
-        int i6;
-        int i2;
-        boolean intersect;
-        Object obj2;
+        Object obj4;
+        int i;
         Object obj;
+        int i2;
+        int i6;
+        boolean intersect;
+        Object obj3;
+        Object obj2;
         int end2;
         List list2;
         annotations = obj6.annotations;
@@ -889,44 +889,44 @@ public final class AnnotatedString implements java.lang.CharSequence {
             int i7 = 0;
             arrayList = new ArrayList(annotations.size());
             list = annotations;
-            i4 = 0;
+            i3 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
-                obj4 = obj3;
-                i5 = 0;
-                obj5 = obj4;
-                i6 = 0;
+                obj4 = obj5;
+                i = 0;
+                obj = obj4;
+                i2 = 0;
                 if (item instanceof String != null) {
                 } else {
                 }
-                obj2 = tag;
-                i = start;
+                obj3 = tag;
+                i5 = start;
                 list2 = annotations;
                 $this$fastFilter$iv2 = end;
-                i2 = 0;
-                if (i2 != 0) {
+                i6 = 0;
+                if (i6 != 0) {
                 }
                 index$iv$iv++;
                 obj6 = this;
                 annotations = list2;
                 (Collection)arrayList.add(obj4);
-                if (Intrinsics.areEqual(tag, obj5.getTag())) {
+                if (Intrinsics.areEqual(tag, obj.getTag())) {
                 } else {
                 }
                 list2 = annotations;
-                if (AnnotatedStringKt.intersect(start, end, obj5.getStart(), obj5.getEnd())) {
+                if (AnnotatedStringKt.intersect(start, end, obj.getStart(), obj.getEnd())) {
                 } else {
                 }
-                i2 = 1;
+                i6 = 1;
             }
-            obj = tag;
-            i3 = start;
+            obj2 = tag;
+            i4 = start;
             list2 = annotations;
             $this$fastFilter$iv = end;
             $i$f$fastFilter = arrayList;
         } else {
-            obj = tag;
-            i3 = start;
+            obj2 = tag;
+            i4 = start;
             $this$fastFilter$iv = end;
             $i$f$fastFilter = CollectionsKt.emptyList();
         }
@@ -940,60 +940,60 @@ public final class AnnotatedString implements java.lang.CharSequence {
     }
 
     public final List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.TtsAnnotation>> getTtsAnnotations(int start, int end) {
-        int i8;
-        Object obj4;
+        int i9;
+        Object obj3;
         int i4;
         Object $this$fastFilter$iv;
-        int i5;
+        int i6;
         ArrayList arrayList;
         List list;
-        int i7;
+        int i3;
         int index$iv$iv;
         int size;
-        Object obj2;
+        Object obj4;
         Object obj;
-        int i3;
-        Object obj3;
-        int i2;
-        int i6;
+        int i5;
+        Object obj2;
+        int i;
+        int i7;
         boolean intersect;
         int end2;
-        int i9;
-        int i;
-        List annotations = obj4.annotations;
+        int i2;
+        int i8;
+        List annotations = obj3.annotations;
         if (annotations != null) {
-            i5 = 0;
+            i6 = 0;
             arrayList = new ArrayList(annotations.size());
             list = annotations;
-            i7 = 0;
+            i3 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
-                obj = obj2;
-                i3 = 0;
-                obj3 = obj;
-                i2 = 0;
+                obj = obj4;
+                i5 = 0;
+                obj2 = obj;
+                i = 0;
                 if (item instanceof TtsAnnotation) {
                 } else {
                 }
-                i = start;
+                i8 = start;
                 i4 = end;
-                i6 = 0;
-                if (i6 != 0) {
+                i7 = 0;
+                if (i7 != 0) {
                 }
                 index$iv$iv++;
-                obj4 = this;
+                obj3 = this;
                 (Collection)arrayList.add(obj);
-                if (AnnotatedStringKt.intersect(start, end, obj3.getStart(), obj3.getEnd())) {
+                if (AnnotatedStringKt.intersect(start, end, obj2.getStart(), obj2.getEnd())) {
                 } else {
                 }
-                i6 = 1;
+                i7 = 1;
             }
-            i9 = start;
-            i8 = end;
+            i2 = start;
+            i9 = end;
             $this$fastFilter$iv = arrayList;
         } else {
-            i9 = start;
-            i8 = end;
+            i2 = start;
+            i9 = end;
             $this$fastFilter$iv = CollectionsKt.emptyList();
         }
         Intrinsics.checkNotNull($this$fastFilter$iv, "null cannot be cast to non-null type kotlin.collections.List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.TtsAnnotation>>");
@@ -1002,60 +1002,60 @@ public final class AnnotatedString implements java.lang.CharSequence {
 
     @Deprecated(message = "Use LinkAnnotation API instead", replaceWith = @ReplaceWith(...))
     public final List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.UrlAnnotation>> getUrlAnnotations(int start, int end) {
-        int i9;
+        int i7;
         Object obj3;
-        int i2;
+        int i9;
         Object $this$fastFilter$iv;
-        int i3;
+        int i2;
         ArrayList arrayList;
         List list;
-        int i;
+        int i5;
         int index$iv$iv;
         int size;
-        Object obj;
         Object obj2;
-        int i4;
+        Object obj;
+        int i6;
         Object obj4;
         int i8;
-        int i6;
+        int i;
         boolean intersect;
         int end2;
-        int i5;
-        int i7;
+        int i3;
+        int i4;
         List annotations = obj3.annotations;
         if (annotations != null) {
-            i3 = 0;
+            i2 = 0;
             arrayList = new ArrayList(annotations.size());
             list = annotations;
-            i = 0;
+            i5 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
-                obj2 = obj;
-                i4 = 0;
-                obj4 = obj2;
+                obj = obj2;
+                i6 = 0;
+                obj4 = obj;
                 i8 = 0;
                 if (item instanceof UrlAnnotation) {
                 } else {
                 }
-                i7 = start;
-                i2 = end;
-                i6 = 0;
-                if (i6 != 0) {
+                i4 = start;
+                i9 = end;
+                i = 0;
+                if (i != 0) {
                 }
                 index$iv$iv++;
                 obj3 = this;
-                (Collection)arrayList.add(obj2);
+                (Collection)arrayList.add(obj);
                 if (AnnotatedStringKt.intersect(start, end, obj4.getStart(), obj4.getEnd())) {
                 } else {
                 }
-                i6 = 1;
+                i = 1;
             }
-            i5 = start;
-            i9 = end;
+            i3 = start;
+            i7 = end;
             $this$fastFilter$iv = arrayList;
         } else {
-            i5 = start;
-            i9 = end;
+            i3 = start;
+            i7 = end;
             $this$fastFilter$iv = CollectionsKt.emptyList();
         }
         Intrinsics.checkNotNull($this$fastFilter$iv, "null cannot be cast to non-null type kotlin.collections.List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.UrlAnnotation>>");
@@ -1077,13 +1077,13 @@ public final class AnnotatedString implements java.lang.CharSequence {
         int size;
         Object obj;
         Object obj2;
-        int i7;
-        int it;
-        int i2;
-        boolean intersect;
-        int i5;
-        int end2;
         int i6;
+        int it;
+        int i5;
+        boolean intersect;
+        int i7;
+        int end2;
+        int i2;
         final List annotations = obj3.annotations;
         if (annotations != null) {
             i = 0;
@@ -1091,14 +1091,14 @@ public final class AnnotatedString implements java.lang.CharSequence {
             i3 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
-                i7 = 0;
+                i6 = 0;
                 Object obj4 = obj2;
-                i2 = 0;
+                i5 = 0;
                 if (item instanceof LinkAnnotation) {
                 } else {
                 }
                 i4 = start;
-                i5 = end;
+                i7 = end;
                 it = 0;
                 index$iv$iv++;
                 if (AnnotatedStringKt.intersect(start, end, obj4.getStart(), obj4.getEnd())) {
@@ -1107,98 +1107,98 @@ public final class AnnotatedString implements java.lang.CharSequence {
                 it = 1;
             }
             i4 = start;
-            i5 = end;
-            i6 = 0;
+            i7 = end;
+            i2 = 0;
         } else {
             i4 = start;
-            i5 = end;
-            i6 = 0;
+            i7 = end;
+            i2 = 0;
         }
-        return i6;
+        return i2;
     }
 
     @Override // java.lang.CharSequence
     public final boolean hasStringAnnotations(String tag, int start, int end) {
         Object obj3;
-        int i4;
-        boolean intersect;
-        int i3;
         int i7;
+        boolean intersect;
+        int i2;
+        int i;
         List list;
-        int i5;
+        int i3;
         int index$iv$iv;
         int size;
-        Object obj4;
-        Object obj;
-        int i6;
         Object obj2;
-        int i;
-        int equal;
-        int i2;
         Object obj5;
+        int i5;
+        Object obj4;
+        int i4;
+        int equal;
+        int i6;
+        Object obj;
         final List annotations = obj3.annotations;
         if (annotations != null) {
-            i7 = 0;
+            i = 0;
             list = annotations;
-            i5 = 0;
+            i3 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
-                i6 = 0;
-                obj2 = obj;
-                i = 0;
+                i5 = 0;
+                obj4 = obj5;
+                i4 = 0;
                 if (item instanceof String != null) {
                 } else {
                 }
-                obj5 = tag;
-                i2 = start;
-                i4 = end;
+                obj = tag;
+                i6 = start;
+                i7 = end;
                 intersect = 0;
                 index$iv$iv++;
                 obj3 = this;
-                if (Intrinsics.areEqual(tag, obj2.getTag())) {
+                if (Intrinsics.areEqual(tag, obj4.getTag())) {
                 } else {
                 }
-                if (AnnotatedStringKt.intersect(start, end, obj2.getStart(), obj2.getEnd())) {
+                if (AnnotatedStringKt.intersect(start, end, obj4.getStart(), obj4.getEnd())) {
                 } else {
                 }
                 intersect = 1;
             }
-            obj5 = tag;
-            i2 = start;
-            i4 = end;
-            i3 = 0;
+            obj = tag;
+            i6 = start;
+            i7 = end;
+            i2 = 0;
         } else {
-            obj5 = tag;
-            i2 = start;
-            i4 = end;
-            i3 = 0;
+            obj = tag;
+            i6 = start;
+            i7 = end;
+            i2 = 0;
         }
-        return i3;
+        return i2;
     }
 
     @Override // java.lang.CharSequence
     public int hashCode() {
         int i3;
-        int i;
         int i2;
+        int i;
         List spanStylesOrNull = this.spanStylesOrNull;
-        i2 = 0;
+        i = 0;
         if (spanStylesOrNull != null) {
             i3 = spanStylesOrNull.hashCode();
         } else {
-            i3 = i2;
+            i3 = i;
         }
         List paragraphStylesOrNull = this.paragraphStylesOrNull;
         if (paragraphStylesOrNull != null) {
-            i = paragraphStylesOrNull.hashCode();
+            i2 = paragraphStylesOrNull.hashCode();
         } else {
-            i = i2;
+            i2 = i;
         }
         List annotations = this.annotations;
         if (annotations != null) {
-            i2 = annotations.hashCode();
+            i = annotations.hashCode();
         }
-        return result2 += i2;
+        return result2 += i;
     }
 
     @Override // java.lang.CharSequence

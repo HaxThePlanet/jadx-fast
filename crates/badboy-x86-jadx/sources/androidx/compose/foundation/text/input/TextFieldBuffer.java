@@ -133,17 +133,17 @@ public final class TextFieldBuffer implements java.lang.Appendable {
     }
 
     public static void replace$foundation_release$default(androidx.compose.foundation.text.input.TextFieldBuffer textFieldBuffer, int i2, int i3, java.lang.CharSequence charSequence4, int i5, int i6, int i7, Object object8) {
-        int i4;
         int i;
+        int i4;
         int obj10;
         int obj11;
-        i4 = i7 & 8 != 0 ? obj10 : i5;
+        i = i7 & 8 != 0 ? obj10 : i5;
         if (i7 & 16 != 0) {
-            i = obj11;
+            i4 = obj11;
         } else {
-            i = i6;
+            i4 = i6;
         }
-        textFieldBuffer.replace$foundation_release(i2, i3, charSequence4, i4, i);
+        textFieldBuffer.replace$foundation_release(i2, i3, charSequence4, i, i4);
     }
 
     private final void requireValidIndex(int index, boolean startExclusive, boolean endExclusive) {
@@ -206,16 +206,16 @@ public final class TextFieldBuffer implements java.lang.Appendable {
     @Override // java.lang.Appendable
     public java.lang.Appendable append(java.lang.CharSequence text) {
         PartialGapBuffer buffer2;
-        int length;
         int length2;
+        int length;
         PartialGapBuffer buffer;
-        int length4;
         int length3;
+        int length4;
         java.lang.CharSequence text2;
-        int i2;
-        int i3;
-        int i4;
         int i;
+        int i2;
+        int i4;
+        int i3;
         final Object obj = this;
         final int i5 = 0;
         if (text != null) {
@@ -230,16 +230,16 @@ public final class TextFieldBuffer implements java.lang.Appendable {
     @Override // java.lang.Appendable
     public java.lang.Appendable append(java.lang.CharSequence text, int start, int end) {
         PartialGapBuffer buffer;
-        int length3;
-        int i;
+        int length;
+        int i3;
         PartialGapBuffer buffer2;
         int length2;
-        int length;
+        int length3;
         java.lang.CharSequence subSequence;
-        int i4;
-        int i3;
-        int i2;
         int i5;
+        int i4;
+        int i2;
+        int i;
         Object obj = this;
         final int i6 = 0;
         if (text != null) {
@@ -365,22 +365,22 @@ public final class TextFieldBuffer implements java.lang.Appendable {
         int bEnd$iv;
         int prefixFound$iv;
         int suffixFound$iv;
-        int charAt2;
-        char charAt;
+        int charAt;
+        char charAt2;
         java.lang.CharSequence charSequence;
-        int i;
         int i2;
+        int i;
         final PartialGapBuffer buffer = this.buffer;
         final int i3 = 0;
         aStart$iv = 0;
         aEnd$iv = (CharSequence)buffer.length();
         bStart$iv = 0;
         bEnd$iv = newText.length();
-        charAt2 = 1;
-        prefixFound$iv = buffer.length() > 0 ? charAt2 : suffixFound$iv;
+        charAt = 1;
+        prefixFound$iv = buffer.length() > 0 ? charAt : suffixFound$iv;
         if (prefixFound$iv != 0 && newText.length() > 0) {
             if (newText.length() > 0) {
-                suffixFound$iv = charAt2;
+                suffixFound$iv = charAt;
             }
             if (suffixFound$iv != 0) {
                 prefixFound$iv = 0;

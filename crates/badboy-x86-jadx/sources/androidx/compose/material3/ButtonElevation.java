@@ -53,31 +53,31 @@ public final class ButtonElevation {
     }
 
     private final State<Dp> animateElevation(boolean enabled, InteractionSource interactionSource, Composer $composer, int $changed) {
-        boolean changed;
+        boolean changed2;
         int i6;
         float disabledElevation;
-        Object animatable;
+        Object animatable2;
         boolean traceInProgress;
         Animatable it$iv;
         String str;
         float f;
-        int i;
-        boolean changed2;
-        int i7;
-        int changed3;
+        int i3;
+        boolean changed3;
+        int i4;
+        int changed;
         Object it$iv2;
-        Object mutableStateListOf;
+        Object $i$a$CacheButtonElevation$animateElevation$interactions$1;
         Object empty;
         Object anon;
-        Object animatable2;
-        int i8;
-        Animatable animatable3;
+        Object $i$a$CacheButtonElevation$animateElevation$animatable$1;
+        int i2;
+        Animatable animatable;
         Dp box-impl;
         Object obj;
         androidx.compose.animation.core.TwoWayConverter vectorConverter;
-        int i3;
-        int i2;
-        int i4;
+        int i8;
+        int i7;
+        int i;
         int i5;
         final Object obj2 = this;
         boolean z4 = enabled;
@@ -93,16 +93,16 @@ public final class ButtonElevation {
         ComposerKt.sourceInformationMarkerStart(composer4, -842871664, str3);
         int i11 = 0;
         Composer composer = $composer;
-        i = 0;
+        i3 = 0;
         Object rememberedValue2 = composer.rememberedValue();
         int i27 = 0;
         if (rememberedValue2 == Composer.Companion.getEmpty()) {
             int i28 = 0;
             composer.updateRememberedValue(SnapshotStateKt.mutableStateListOf());
         } else {
-            mutableStateListOf = rememberedValue2;
+            $i$a$CacheButtonElevation$animateElevation$interactions$1 = rememberedValue2;
         }
-        androidx.compose.runtime.snapshots.SnapshotStateList list2 = mutableStateListOf;
+        androidx.compose.runtime.snapshots.SnapshotStateList list2 = $i$a$CacheButtonElevation$animateElevation$interactions$1;
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, -842867785, str3);
         int i21 = 32;
@@ -140,18 +140,18 @@ public final class ButtonElevation {
         int i35 = 0;
         if (rememberedValue4 == Composer.Companion.getEmpty()) {
             int i36 = 0;
-            animatable3 = new Animatable(Dp.box-impl(f), VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
-            composer3.updateRememberedValue(animatable3);
+            animatable = new Animatable(Dp.box-impl(f), VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
+            composer3.updateRememberedValue(animatable);
         } else {
-            animatable2 = rememberedValue4;
+            $i$a$CacheButtonElevation$animateElevation$animatable$1 = rememberedValue4;
         }
-        Animatable invalid$iv = animatable2;
+        Animatable invalid$iv = $i$a$CacheButtonElevation$animateElevation$animatable$1;
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, -842814943, str3);
         int i32 = 4;
         if (i24 ^= 6 > i32) {
             if (!composer4.changed(z4)) {
-                i7 = i26 & 6 == i32 ? 1 : i29;
+                i4 = i26 & 6 == i32 ? 1 : i29;
             } else {
             }
         } else {
@@ -159,7 +159,7 @@ public final class ButtonElevation {
         int i33 = 256;
         if (i25 ^= 384 > i33) {
             if (!composer4.changed(obj2)) {
-                i8 = i26 & 384 == i33 ? 1 : i29;
+                i2 = i26 & 384 == i33 ? 1 : i29;
             } else {
             }
         } else {
@@ -170,18 +170,18 @@ public final class ButtonElevation {
         int i38 = 0;
         if (i20 | it$iv2 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                animatable3 = 0;
+                animatable = 0;
                 obj = obj4;
-                animatable = new ButtonElevation.animateElevation.2.1(invalid$iv, f, z4, obj2, obj3, 0);
-                composer5.updateRememberedValue((Function2)animatable);
+                animatable2 = new ButtonElevation.animateElevation.2.1(invalid$iv, f, z4, obj2, obj3, 0);
+                composer5.updateRememberedValue((Function2)animatable2);
             } else {
                 it$iv = invalid$iv;
-                animatable = obj;
+                animatable2 = obj;
             }
         } else {
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
-        EffectsKt.LaunchedEffect(Dp.box-impl(f), (Function2)animatable, composer4, i29);
+        EffectsKt.LaunchedEffect(Dp.box-impl(f), (Function2)animatable2, composer4, i29);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

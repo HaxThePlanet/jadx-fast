@@ -41,11 +41,11 @@ final class ScrollableTabData {
         int tabOffset;
         int value;
         CoroutineScope coroutineScope;
-        int i5;
-        int i;
-        androidx.compose.material3.ScrollableTabData.onLaidOut.1.1 anon;
-        int i3;
         int i4;
+        int i5;
+        androidx.compose.material3.ScrollableTabData.onLaidOut.1.1 anon;
+        int i;
+        int i3;
         selectedTab2 = this.selectedTab;
         if (selectedTab2 == null) {
             this.selectedTab = Integer.valueOf(selectedTab);
@@ -54,9 +54,9 @@ final class ScrollableTabData {
                 i2 = 0;
                 tabOffset = calculateTabOffset((TabPosition)selectedTab2, density, edgeOffset, tabPositions);
                 if (this.scrollState.getValue() != tabOffset) {
-                    i5 = 0;
-                    value = new ScrollableTabData.onLaidOut.1.1(this, tabOffset, i5);
-                    BuildersKt.launch$default(this.coroutineScope, i5, 0, (Function2)value, 3, 0);
+                    i4 = 0;
+                    value = new ScrollableTabData.onLaidOut.1.1(this, tabOffset, i4);
+                    BuildersKt.launch$default(this.coroutineScope, i4, 0, (Function2)value, 3, 0);
                 }
             }
         } else {

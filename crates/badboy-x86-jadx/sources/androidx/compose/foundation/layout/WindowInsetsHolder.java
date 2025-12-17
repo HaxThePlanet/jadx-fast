@@ -67,17 +67,17 @@ public final class WindowInsetsHolder {
         }
 
         private final androidx.compose.foundation.layout.WindowInsetsHolder getOrCreateFor(View view) {
-            int i3;
-            int i2;
-            Object windowInsetsHolder;
             int i;
+            int i3;
+            Object windowInsetsHolder;
+            int i2;
             final WeakHashMap map = WindowInsetsHolder.access$getViewMap$cp();
             final int i4 = 0;
             final WeakHashMap map2 = WindowInsetsHolder.access$getViewMap$cp();
             final int i5 = 0;
             final Object obj = (Map)map2.get(view);
             synchronized (map) {
-                i3 = 0;
+                i = 0;
                 windowInsetsHolder = new WindowInsetsHolder(0, view, 0);
                 map2.put(view, windowInsetsHolder);
                 return (WindowInsetsHolder)windowInsetsHolder;

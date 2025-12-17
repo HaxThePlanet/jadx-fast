@@ -56,7 +56,7 @@ public final class ColorsKt {
         long $this$takeOrElse_u2dDxMtmZc$iv;
         boolean traceInProgress;
         String str;
-        long unbox-impl;
+        long $i$a$TakeOrElseDxMtmZcColorsKt$contentColorFor$1;
         ProvidableCompositionLocal localContentColor;
         int i2;
         int i;
@@ -71,7 +71,7 @@ public final class ColorsKt {
         ComposerKt.sourceInformation($changed, "*296@11462L6,296@11533L7");
         int i6 = 0;
         i2 = 0;
-        i = Long.compare(unbox-impl, i8) != 0 ? 1 : 0;
+        i = Long.compare($i$a$TakeOrElseDxMtmZcColorsKt$contentColorFor$1, i8) != 0 ? 1 : 0;
         if (i != 0) {
         } else {
             int i7 = 0;
@@ -79,7 +79,7 @@ public final class ColorsKt {
             i = 0;
             ComposerKt.sourceInformationMarkerStart($changed, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             ComposerKt.sourceInformationMarkerEnd($changed);
-            $this$takeOrElse_u2dDxMtmZc$iv = unbox-impl;
+            $this$takeOrElse_u2dDxMtmZc$iv = $i$a$TakeOrElseDxMtmZcColorsKt$contentColorFor$1;
         }
         $changed.endReplaceGroup();
         if (ComposerKt.isTraceInProgress()) {
@@ -95,55 +95,55 @@ public final class ColorsKt {
     }
 
     public static androidx.compose.material.Colors darkColors-2qZNXz8$default(long l, long l2, long l3, long l4, long l5, long l6, long l7, long l8, long l9, long l10, long l11, long l12, int i13, Object object14) {
-        Color.Companion companion;
-        long l13;
-        long l17;
-        long l19;
+        Color.Companion companion4;
         long l14;
         long l18;
-        Color.Companion companion4;
-        Color.Companion companion5;
-        Color.Companion companion2;
+        long l19;
+        long l17;
+        long l13;
         Color.Companion companion3;
-        long l16;
+        Color.Companion companion5;
+        Color.Companion companion;
+        Color.Companion companion2;
         long l15;
+        long l16;
         long black-0d7_KjU2;
-        long black-0d7_KjU3;
+        long black-0d7_KjU;
         long white-0d7_KjU;
         long white-0d7_KjU2;
-        long black-0d7_KjU;
+        long black-0d7_KjU3;
         int i = obj50;
         if (i & 1 != 0) {
-            l13 = ColorKt.Color(4290479868L);
+            l14 = ColorKt.Color(4290479868L);
         } else {
-            l13 = l;
+            l14 = l;
         }
         if (i & 2 != 0) {
-            l17 = ColorKt.Color(4281794739L);
+            l18 = ColorKt.Color(4281794739L);
         } else {
-            l17 = l3;
+            l18 = l3;
         }
         if (i & 4 != 0) {
             l19 = ColorKt.Color(4278442694L);
         } else {
             l19 = l5;
         }
-        l14 = i & 8 != 0 ? l19 : l7;
+        l17 = i & 8 != 0 ? l19 : l7;
         final long l23 = 4279374354L;
         if (i & 16 != 0) {
-            l16 = ColorKt.Color(l23);
+            l15 = ColorKt.Color(l23);
         } else {
-            l16 = l9;
+            l15 = l9;
         }
         if (i & 32 != 0) {
-            l18 = ColorKt.Color(l23);
+            l13 = ColorKt.Color(l23);
         } else {
-            l18 = l11;
+            l13 = l11;
         }
         if (i & 64 != 0) {
-            l15 = ColorKt.Color(4291782265L);
+            l16 = ColorKt.Color(4291782265L);
         } else {
-            l15 = i13;
+            l16 = i13;
         }
         if (i & 128 != 0) {
             black-0d7_KjU2 = Color.Companion.getBlack-0d7_KjU();
@@ -151,9 +151,9 @@ public final class ColorsKt {
             black-0d7_KjU2 = obj40;
         }
         if (i & 256 != 0) {
-            black-0d7_KjU3 = Color.Companion.getBlack-0d7_KjU();
+            black-0d7_KjU = Color.Companion.getBlack-0d7_KjU();
         } else {
-            black-0d7_KjU3 = obj42;
+            black-0d7_KjU = obj42;
         }
         if (i & 512 != 0) {
             white-0d7_KjU = Color.Companion.getWhite-0d7_KjU();
@@ -166,11 +166,11 @@ public final class ColorsKt {
             white-0d7_KjU2 = obj46;
         }
         if (i &= 2048 != 0) {
-            black-0d7_KjU = Color.Companion.getBlack-0d7_KjU();
+            black-0d7_KjU3 = Color.Companion.getBlack-0d7_KjU();
         } else {
-            black-0d7_KjU = obj48;
+            black-0d7_KjU3 = obj48;
         }
-        return ColorsKt.darkColors-2qZNXz8(l13, l2, l17, l4, l19, l6, l14, l8, l16, l10, l18, l12);
+        return ColorsKt.darkColors-2qZNXz8(l14, l2, l18, l4, l19, l6, l17, l8, l15, l10, l13, l12);
     }
 
     public static final ProvidableCompositionLocal<androidx.compose.material.Colors> getLocalColors() {
@@ -194,28 +194,28 @@ public final class ColorsKt {
 
     public static androidx.compose.material.Colors lightColors-2qZNXz8$default(long l, long l2, long l3, long l4, long l5, long l6, long l7, long l8, long l9, long l10, long l11, long l12, int i13, Object object14) {
         Color.Companion companion;
-        long l14;
-        long black-0d7_KjU2;
-        long black-0d7_KjU3;
-        long black-0d7_KjU;
-        long l13;
-        long l16;
-        long l17;
-        long white-0d7_KjU;
-        long white-0d7_KjU3;
         long l15;
-        long white-0d7_KjU4;
+        long black-0d7_KjU3;
+        long black-0d7_KjU2;
+        long black-0d7_KjU;
+        long l17;
+        long l16;
+        long l13;
         long white-0d7_KjU2;
+        long white-0d7_KjU;
+        long l14;
+        long white-0d7_KjU3;
+        long white-0d7_KjU4;
         int i = obj43;
         if (i & 1 != 0) {
-            l14 = ColorKt.Color(4284612846L);
+            l15 = ColorKt.Color(4284612846L);
         } else {
-            l14 = l;
+            l15 = l;
         }
         if (i & 2 != 0) {
-            l13 = ColorKt.Color(4281794739L);
+            l17 = ColorKt.Color(4281794739L);
         } else {
-            l13 = l3;
+            l17 = l3;
         }
         if (i & 4 != 0) {
             l16 = ColorKt.Color(4278442694L);
@@ -223,39 +223,39 @@ public final class ColorsKt {
             l16 = l5;
         }
         if (i & 8 != 0) {
-            l17 = ColorKt.Color(4278290310L);
+            l13 = ColorKt.Color(4278290310L);
         } else {
-            l17 = l7;
+            l13 = l7;
         }
         if (i & 16 != 0) {
-            white-0d7_KjU = Color.Companion.getWhite-0d7_KjU();
+            white-0d7_KjU2 = Color.Companion.getWhite-0d7_KjU();
         } else {
-            white-0d7_KjU = l9;
+            white-0d7_KjU2 = l9;
         }
         if (i & 32 != 0) {
-            white-0d7_KjU3 = Color.Companion.getWhite-0d7_KjU();
+            white-0d7_KjU = Color.Companion.getWhite-0d7_KjU();
         } else {
-            white-0d7_KjU3 = l11;
+            white-0d7_KjU = l11;
         }
         if (i & 64 != 0) {
-            l15 = ColorKt.Color(4289724448L);
+            l14 = ColorKt.Color(4289724448L);
         } else {
-            l15 = i13;
+            l14 = i13;
         }
         if (i & 128 != 0) {
-            white-0d7_KjU4 = Color.Companion.getWhite-0d7_KjU();
+            white-0d7_KjU3 = Color.Companion.getWhite-0d7_KjU();
         } else {
-            white-0d7_KjU4 = obj33;
+            white-0d7_KjU3 = obj33;
         }
         if (i & 256 != 0) {
-            black-0d7_KjU2 = Color.Companion.getBlack-0d7_KjU();
-        } else {
-            black-0d7_KjU2 = obj35;
-        }
-        if (i & 512 != 0) {
             black-0d7_KjU3 = Color.Companion.getBlack-0d7_KjU();
         } else {
-            black-0d7_KjU3 = obj37;
+            black-0d7_KjU3 = obj35;
+        }
+        if (i & 512 != 0) {
+            black-0d7_KjU2 = Color.Companion.getBlack-0d7_KjU();
+        } else {
+            black-0d7_KjU2 = obj37;
         }
         if (i & 1024 != 0) {
             black-0d7_KjU = Color.Companion.getBlack-0d7_KjU();
@@ -263,11 +263,11 @@ public final class ColorsKt {
             black-0d7_KjU = obj39;
         }
         if (i &= 2048 != 0) {
-            white-0d7_KjU2 = Color.Companion.getWhite-0d7_KjU();
+            white-0d7_KjU4 = Color.Companion.getWhite-0d7_KjU();
         } else {
-            white-0d7_KjU2 = obj41;
+            white-0d7_KjU4 = obj41;
         }
-        return ColorsKt.lightColors-2qZNXz8(l14, l2, l13, l4, l16, l6, l17, l8, white-0d7_KjU, l10, white-0d7_KjU3, l12);
+        return ColorsKt.lightColors-2qZNXz8(l15, l2, l17, l4, l16, l6, l13, l8, white-0d7_KjU2, l10, white-0d7_KjU, l12);
     }
 
     public static final void updateColorsFrom(androidx.compose.material.Colors $this$updateColorsFrom, androidx.compose.material.Colors other) {

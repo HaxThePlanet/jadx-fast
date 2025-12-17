@@ -7,15 +7,15 @@ import kotlin.jvm.internal.Intrinsics;
 @Metadata(d1 = "\u0000\u001e\n\u0000\n\u0002\u0010\u000c\n\u0002\u0010\u0008\n\u0002\u0008\u0006\n\u0002\u0010\u000b\n\u0002\u0008\u0004\n\u0002\u0010\u000e\n\u0002\u0008\u0002\u001a\u000c\u0010\u0000\u001a\u00020\u0001*\u00020\u0002H\u0007\u001a\u0014\u0010\u0000\u001a\u00020\u0001*\u00020\u00022\u0006\u0010\u0003\u001a\u00020\u0002H\u0007\u001a\u000c\u0010\u0004\u001a\u00020\u0002*\u00020\u0001H\u0007\u001a\u0014\u0010\u0004\u001a\u00020\u0002*\u00020\u00012\u0006\u0010\u0003\u001a\u00020\u0002H\u0007\u001a\u0013\u0010\u0005\u001a\u0004\u0018\u00010\u0002*\u00020\u0001H\u0007¢\u0006\u0002\u0010\u0006\u001a\u001b\u0010\u0005\u001a\u0004\u0018\u00010\u0002*\u00020\u00012\u0006\u0010\u0003\u001a\u00020\u0002H\u0007¢\u0006\u0002\u0010\u0007\u001a\u001c\u0010\u0008\u001a\u00020\t*\u00020\u00012\u0006\u0010\n\u001a\u00020\u00012\u0008\u0008\u0002\u0010\u000b\u001a\u00020\t\u001a\n\u0010\u000c\u001a\u00020\t*\u00020\u0001\u001a\u0015\u0010\r\u001a\u00020\u000e*\u00020\u00012\u0006\u0010\n\u001a\u00020\u000eH\u0087\n\u001a\u000c\u0010\u000f\u001a\u00020\u000e*\u00020\u0001H\u0007¨\u0006\u0010", d2 = {"digitToChar", "", "", "radix", "digitToInt", "digitToIntOrNull", "(C)Ljava/lang/Integer;", "(CI)Ljava/lang/Integer;", "equals", "", "other", "ignoreCase", "isSurrogate", "plus", "", "titlecase", "kotlin-stdlib"}, k = 5, mv = {1, 9, 0}, xi = 49, xs = "kotlin/text/CharsKt")
 class CharsKt__CharKt extends kotlin.text.CharsKt__CharJVMKt {
     public static final char digitToChar(int $this$digitToChar) {
-        int i;
         int i2;
-        i = 0;
+        int i;
+        i2 = 0;
         if ($this$digitToChar >= 0 && $this$digitToChar < 10) {
             if ($this$digitToChar < 10) {
-                i = 1;
+                i2 = 1;
             }
         }
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
             return (char)i3;
         }
@@ -25,16 +25,16 @@ class CharsKt__CharKt extends kotlin.text.CharsKt__CharJVMKt {
     }
 
     public static final char digitToChar(int $this$digitToChar, int radix) {
-        int i;
-        char c;
         int i2;
-        i2 = 0;
+        char c;
+        int i;
+        i = 0;
         if (2 <= radix && radix < 37) {
             if (radix < 37) {
-                i2 = 1;
+                i = 1;
             }
         }
-        if (i2 == 0) {
+        if (i == 0) {
         } else {
             if ($this$digitToChar < 0) {
             } else {
@@ -44,7 +44,7 @@ class CharsKt__CharKt extends kotlin.text.CharsKt__CharJVMKt {
                     if ($this$digitToChar < i3) {
                         c = (char)i4;
                     } else {
-                        c = (char)i2;
+                        c = (char)i;
                     }
                     return c;
                 }
@@ -137,15 +137,15 @@ class CharsKt__CharKt extends kotlin.text.CharsKt__CharJVMKt {
     }
 
     public static final boolean isSurrogate(char $this$isSurrogate) {
-        int i;
         int i2;
-        i2 = 0;
+        int i;
+        i = 0;
         if (55296 <= $this$isSurrogate && $this$isSurrogate < 57344) {
             if ($this$isSurrogate < 57344) {
-                i2 = 1;
+                i = 1;
             }
         }
-        return i2;
+        return i;
     }
 
     private static final String plus(char $this$plus, String other) {

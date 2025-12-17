@@ -30,25 +30,25 @@ final class DefaultRadioButtonColors implements androidx.compose.material.RadioB
 
     @Override // androidx.compose.material.RadioButtonColors
     public boolean equals(Object other) {
-        Class class2;
         Class class;
+        Class class2;
         final int i = 1;
         if (this == other) {
             return i;
         }
         final int i2 = 0;
         if (other != null) {
-            class = other.getClass();
-            if (getClass() != class) {
+            class2 = other.getClass();
+            if (getClass() != class2) {
             } else {
                 Object obj = other;
-                if (!Color.equals-impl0(this.selectedColor, class)) {
+                if (!Color.equals-impl0(this.selectedColor, class2)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.unselectedColor, class)) {
+                if (!Color.equals-impl0(this.unselectedColor, class2)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledColor, class)) {
+                if (!Color.equals-impl0(this.disabledColor, class2)) {
                     return i2;
                 }
             }
@@ -69,10 +69,10 @@ final class DefaultRadioButtonColors implements androidx.compose.material.RadioB
         String str;
         androidx.compose.animation.core.TweenSpec tweenSpec;
         int i4;
-        int i;
-        Composer $composer2;
-        int i2;
         int i3;
+        Composer $composer2;
+        int i;
+        int i2;
         State obj13;
         int i5 = 1243421834;
         $composer.startReplaceGroup(i5);

@@ -75,8 +75,8 @@ public final class Insets {
     }
 
     public boolean equals(Object o) {
-        Class class;
         Class class2;
+        Class class;
         final int i = 1;
         if (this == o) {
             return i;

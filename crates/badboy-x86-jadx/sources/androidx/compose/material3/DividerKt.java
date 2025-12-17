@@ -25,25 +25,25 @@ public final class DividerKt {
         float $i$f$getDp;
         int $dirty;
         Object $dirty2;
-        Object modifier3;
-        float modifier2;
+        Object modifier2;
+        float modifier3;
         Object obj;
-        float thickness2;
-        long thickness3;
-        int i4;
-        int traceInProgress2;
-        boolean traceInProgress;
-        float str2;
+        float thickness3;
+        long thickness2;
+        int i5;
+        int traceInProgress;
+        boolean traceInProgress2;
+        float str;
         int i2;
         long consume;
-        int i3;
-        long l2;
+        int i4;
+        long l;
         int changed;
         int defaultsInvalid;
-        int str;
+        int str2;
+        int i3;
         int i;
-        int i5;
-        long l;
+        long l2;
         final int i15 = i6;
         $i$f$getDp = 1562471785;
         final Composer restartGroup = $changed.startRestartGroup($i$f$getDp);
@@ -55,22 +55,22 @@ public final class DividerKt {
             obj = modifier;
         } else {
             if (i15 & 6 == 0) {
-                i4 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i4;
+                i5 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i5;
             } else {
                 obj = modifier;
             }
         }
-        traceInProgress2 = obj22 & 2;
-        if (traceInProgress2 != 0) {
+        traceInProgress = obj22 & 2;
+        if (traceInProgress != 0) {
             $dirty |= 48;
-            str2 = thickness;
+            str = thickness;
         } else {
             if (i15 & 48 == 0) {
                 i2 = restartGroup.changed(thickness) ? 32 : 16;
                 $dirty |= i2;
             } else {
-                str2 = thickness;
+                str = thickness;
             }
         }
         if (i15 & 384 == 0) {
@@ -89,32 +89,32 @@ public final class DividerKt {
                 if (i15 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i9 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = obj;
+                            modifier2 = obj;
                         }
-                        if (traceInProgress2 != 0) {
-                            thickness2 = DividerDefaults.INSTANCE.getThickness-D9Ej5fM();
+                        if (traceInProgress != 0) {
+                            thickness3 = DividerDefaults.INSTANCE.getThickness-D9Ej5fM();
                         } else {
-                            thickness2 = str2;
+                            thickness3 = str;
                         }
                         if (obj22 & 4 != 0) {
                             $dirty &= -897;
-                            l2 = consume;
+                            l = consume;
                         } else {
-                            l2 = consume;
+                            l = consume;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj22 & 4 != 0) {
                             $dirty &= -897;
-                            modifier3 = obj;
-                            thickness2 = str2;
-                            l2 = consume;
+                            modifier2 = obj;
+                            thickness3 = str;
+                            l = consume;
                         } else {
-                            modifier3 = obj;
-                            thickness2 = str2;
-                            l2 = consume;
+                            modifier2 = obj;
+                            thickness3 = str;
+                            l = consume;
                         }
                     }
                 } else {
@@ -125,61 +125,61 @@ public final class DividerKt {
                 }
                 restartGroup.startReplaceGroup(-433645095);
                 ComposerKt.sourceInformation(restartGroup, "*104@3767L7");
-                if (Dp.equals-impl0(thickness2, Dp.Companion.getHairline-D9Ej5fM())) {
+                if (Dp.equals-impl0(thickness3, Dp.Companion.getHairline-D9Ej5fM())) {
                     int i12 = 0;
-                    str2 = 0;
+                    str = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     int i8 = 0;
                     $i$f$getDp = Dp.constructor-impl(i13 /= density);
                 } else {
-                    $i$f$getDp = thickness2;
+                    $i$f$getDp = thickness3;
                 }
                 restartGroup.endReplaceGroup();
-                BoxKt.Box(BackgroundKt.background-bw27NRU$default(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier3, 0, 1, 0), $i$f$getDp), l2, defaultsInvalid, 0, 2), restartGroup, 0);
+                BoxKt.Box(BackgroundKt.background-bw27NRU$default(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier2, 0, 1, 0), $i$f$getDp), l, defaultsInvalid, 0, 2), restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i3 = $dirty;
-                $dirty2 = modifier3;
-                modifier2 = thickness2;
-                thickness3 = l2;
+                i4 = $dirty;
+                $dirty2 = modifier2;
+                modifier3 = thickness3;
+                thickness2 = l;
             } else {
                 restartGroup.skipToGroupEnd();
-                i3 = $dirty;
+                i4 = $dirty;
                 $dirty2 = obj;
-                thickness3 = l;
-                modifier2 = str2;
+                thickness2 = l2;
+                modifier3 = str;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            $i$f$getDp = new DividerKt.Divider.1($dirty2, modifier2, thickness3, traceInProgress2, i15, obj22);
+            $i$f$getDp = new DividerKt.Divider.1($dirty2, modifier3, thickness2, traceInProgress, i15, obj22);
             endRestartGroup.updateScope((Function2)$i$f$getDp);
         }
     }
 
     public static final void HorizontalDivider-9IZ8Weo(Modifier modifier, float thickness, long color, Composer $composer, int $changed, int i6) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty2;
         Object $dirty;
-        float modifier3;
-        Object modifier2;
+        float modifier2;
+        Object modifier3;
         Object obj;
-        long thickness3;
-        float thickness2;
-        int i3;
+        long thickness2;
+        float thickness3;
+        int i7;
         int iNSTANCE;
-        boolean traceInProgress;
-        int i;
-        int i5;
+        boolean traceInProgress2;
+        int i3;
+        int i9;
         int changed2;
         float color2;
-        int i9;
+        int i;
         int i8;
-        int i7;
         int i2;
+        int i5;
         boolean skipping;
         boolean defaultsInvalid;
         boolean changed;
@@ -189,8 +189,8 @@ public final class DividerKt {
         int empty;
         Object anon;
         final int i17 = i6;
-        traceInProgress2 = 75144485;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
+        traceInProgress = 75144485;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(HorizontalDivider)P(1,2:c#ui.unit.Dp,0:c#ui.graphics.Color)52@2069L5,54@2134L220,54@2084L270:Divider.kt#uh7d8r");
         $dirty2 = i6;
         int i11 = obj22 & 1;
@@ -199,21 +199,21 @@ public final class DividerKt {
             obj = modifier;
         } else {
             if (i17 & 6 == 0) {
-                i3 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i3;
+                i7 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i7;
             } else {
                 obj = modifier;
             }
         }
         iNSTANCE = obj22 & 2;
-        i5 = 32;
+        i9 = 32;
         if (iNSTANCE != null) {
             $dirty2 |= 48;
             color2 = thickness;
         } else {
             if (i17 & 48 == 0) {
-                i7 = restartGroup.changed(thickness) ? i5 : 16;
-                $dirty2 |= i7;
+                i2 = restartGroup.changed(thickness) ? i9 : 16;
+                $dirty2 |= i2;
             } else {
                 color2 = thickness;
             }
@@ -221,11 +221,11 @@ public final class DividerKt {
         rememberedValue = 256;
         if (i17 & 384 == 0) {
             if (obj22 & 4 == 0) {
-                i2 = restartGroup.changed(color) ? rememberedValue : 128;
+                i5 = restartGroup.changed(color) ? rememberedValue : 128;
             } else {
                 l = color;
             }
-            $dirty2 |= i2;
+            $dirty2 |= i5;
         } else {
             l = color;
         }
@@ -235,14 +235,14 @@ public final class DividerKt {
                 if (i17 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i11 != 0) {
-                            modifier2 = Modifier.Companion;
+                            modifier3 = Modifier.Companion;
                         } else {
-                            modifier2 = obj;
+                            modifier3 = obj;
                         }
                         if (iNSTANCE != null) {
-                            thickness2 = DividerDefaults.INSTANCE.getThickness-D9Ej5fM();
+                            thickness3 = DividerDefaults.INSTANCE.getThickness-D9Ej5fM();
                         } else {
-                            thickness2 = color2;
+                            thickness3 = color2;
                         }
                         if (obj22 & 4 != 0) {
                             $dirty2 &= -897;
@@ -253,19 +253,19 @@ public final class DividerKt {
                         if (obj22 & 4 != 0) {
                             $dirty2 &= -897;
                         }
-                        modifier2 = obj;
-                        thickness2 = color2;
+                        modifier3 = obj;
+                        thickness3 = color2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.HorizontalDivider (Divider.kt:54)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.HorizontalDivider (Divider.kt:54)");
                 }
                 i8 = 1;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -873178642, "CC(remember):Divider.kt#9igjgp");
                 skipping = 0;
-                i = $dirty2 & 112 == i5 ? i8 : skipping;
+                i3 = $dirty2 & 112 == i9 ? i8 : skipping;
                 if (i18 ^= 384 > rememberedValue) {
                     if (!restartGroup.changed(l)) {
                         if ($dirty2 & 384 == rememberedValue) {
@@ -276,47 +276,47 @@ public final class DividerKt {
                     }
                 } else {
                 }
-                i5 = restartGroup;
+                i9 = restartGroup;
                 int i20 = 0;
-                rememberedValue = i5.rememberedValue();
+                rememberedValue = i9.rememberedValue();
                 i4 = 0;
-                if (i |= i8 == 0) {
+                if (i3 |= i8 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        anon = new DividerKt.HorizontalDivider.1.1(thickness2, l, obj12);
-                        i5.updateRememberedValue((Function1)anon);
+                        anon = new DividerKt.HorizontalDivider.1.1(thickness3, l, obj12);
+                        i9.updateRememberedValue((Function1)anon);
                     } else {
                         anon = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier2, 0, i8, 0), thickness2), (Function1)anon, restartGroup, skipping);
+                CanvasKt.Canvas(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier3, 0, i8, 0), thickness3), (Function1)anon, restartGroup, skipping);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i9 = $dirty2;
-                $dirty = modifier2;
-                modifier3 = thickness2;
-                thickness3 = l;
+                i = $dirty2;
+                $dirty = modifier3;
+                modifier2 = thickness3;
+                thickness2 = l;
             } else {
                 restartGroup.skipToGroupEnd();
-                modifier3 = color2;
-                i9 = $dirty2;
+                modifier2 = color2;
+                i = $dirty2;
                 $dirty = obj;
-                thickness3 = l;
+                thickness2 = l;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new DividerKt.HorizontalDivider.2($dirty, modifier3, thickness3, iNSTANCE, i17, obj22);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new DividerKt.HorizontalDivider.2($dirty, modifier2, thickness2, iNSTANCE, i17, obj22);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void VerticalDivider-9IZ8Weo(Modifier modifier, float thickness, long color, Composer $composer, int $changed, int i6) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
         Object $dirty2;
         float modifier2;
@@ -324,28 +324,28 @@ public final class DividerKt {
         Object obj;
         long thickness2;
         float thickness3;
-        int i;
+        int i9;
         int iNSTANCE;
-        boolean traceInProgress;
-        int i3;
+        boolean traceInProgress2;
         int i7;
+        int i;
         int changed;
         float color2;
         int i8;
         int i2;
-        int i4;
-        int i9;
+        int i3;
+        int i5;
         boolean skipping;
         boolean defaultsInvalid;
         boolean changed2;
         int rememberedValue;
         long l;
-        int i5;
+        int i4;
         int empty;
         Object anon;
         final int i17 = i6;
-        traceInProgress2 = -1534852205;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
+        traceInProgress = -1534852205;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(VerticalDivider)P(1,2:c#ui.unit.Dp,0:c#ui.graphics.Color)81@3089L5,83@3154L221,83@3104L271:Divider.kt#uh7d8r");
         $dirty = i6;
         int i11 = obj22 & 1;
@@ -354,21 +354,21 @@ public final class DividerKt {
             obj = modifier;
         } else {
             if (i17 & 6 == 0) {
-                i = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i;
+                i9 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i9;
             } else {
                 obj = modifier;
             }
         }
         iNSTANCE = obj22 & 2;
-        i7 = 32;
+        i = 32;
         if (iNSTANCE != null) {
             $dirty |= 48;
             color2 = thickness;
         } else {
             if (i17 & 48 == 0) {
-                i4 = restartGroup.changed(thickness) ? i7 : 16;
-                $dirty |= i4;
+                i3 = restartGroup.changed(thickness) ? i : 16;
+                $dirty |= i3;
             } else {
                 color2 = thickness;
             }
@@ -376,11 +376,11 @@ public final class DividerKt {
         rememberedValue = 256;
         if (i17 & 384 == 0) {
             if (obj22 & 4 == 0) {
-                i9 = restartGroup.changed(color) ? rememberedValue : 128;
+                i5 = restartGroup.changed(color) ? rememberedValue : 128;
             } else {
                 l = color;
             }
-            $dirty |= i9;
+            $dirty |= i5;
         } else {
             l = color;
         }
@@ -415,12 +415,12 @@ public final class DividerKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.VerticalDivider (Divider.kt:83)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.VerticalDivider (Divider.kt:83)");
                 }
                 i2 = 1;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -662977123, "CC(remember):Divider.kt#9igjgp");
                 skipping = 0;
-                i3 = $dirty & 112 == i7 ? i2 : skipping;
+                i7 = $dirty & 112 == i ? i2 : skipping;
                 if (i18 ^= 384 > rememberedValue) {
                     if (!restartGroup.changed(l)) {
                         if ($dirty & 384 == rememberedValue) {
@@ -431,15 +431,15 @@ public final class DividerKt {
                     }
                 } else {
                 }
-                i7 = restartGroup;
+                i = restartGroup;
                 int i20 = 0;
-                rememberedValue = i7.rememberedValue();
-                i5 = 0;
-                if (i3 |= i2 == 0) {
+                rememberedValue = i.rememberedValue();
+                i4 = 0;
+                if (i7 |= i2 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new DividerKt.VerticalDivider.1.1(thickness3, l, obj12);
-                        i7.updateRememberedValue((Function1)anon);
+                        i.updateRememberedValue((Function1)anon);
                     } else {
                         anon = rememberedValue;
                     }
@@ -465,8 +465,8 @@ public final class DividerKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new DividerKt.VerticalDivider.2($dirty2, modifier2, thickness2, iNSTANCE, i17, obj22);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new DividerKt.VerticalDivider.2($dirty2, modifier2, thickness2, iNSTANCE, i17, obj22);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 }

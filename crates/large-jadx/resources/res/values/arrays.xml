@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="exo_playback_speeds">
+        <item>0.25x</item>
+        <item>0.5x</item>
+        <item>0.75x</item>
+        <item>@string/exo_controls_playback_speed_normal</item>
+        <item>1.25x</item>
+        <item>1.5x</item>
+        <item>2x</item>
+    </string-array>
+    <integer-array name="exo_speed_multiplied_by_100">
+        <item>25</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+        <item>125</item>
+        <item>150</item>
+        <item>200</item>
+    </integer-array>
+    <array name="zab_article_helpful_response_options">
+        <item>@string/zui_button_label_no</item>
+        <item>@string/zui_button_label_yes</item>
+    </array>
+    <array name="zab_cells_greeting_text">
+        <item>@string/zab_cell_text_welcome</item>
+        <item>@string/zab_cell_text_prompt</item>
+    </array>
+    <array name="zui_avatar_view__background_color_palette">
+        <item>#b35827</item>
+        <item>#03363d</item>
+        <item>#144a75</item>
+        <item>#03363d</item>
+        <item>#68737d</item>
+    </array>
+</resources>

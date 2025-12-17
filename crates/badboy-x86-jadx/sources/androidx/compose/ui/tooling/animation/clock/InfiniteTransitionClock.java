@@ -62,24 +62,24 @@ public final class InfiniteTransitionClock implements androidx.compose.ui.toolin
     }
 
     public List<ComposeAnimatedProperty> getAnimatedProperties() {
-        int next3;
+        int next2;
         Iterator iterator;
         Object next;
-        boolean next2;
+        boolean next3;
         Object contains;
-        int label;
+        int label2;
         Object obj;
         int i;
         Object value;
         int composeAnimatedProperty;
-        String label2;
+        String label;
         int i3 = 0;
         ArrayList arrayList2 = new ArrayList();
         int i4 = 0;
-        next3 = 0;
+        next2 = 0;
         iterator = (Iterable)getAnimation().getAnimationObject().getAnimations().iterator();
         while (iterator.hasNext()) {
-            label = 0;
+            label2 = 0;
             obj = contains;
             i = 0;
             value = (InfiniteTransition.TransitionAnimationState)obj.getValue();
@@ -98,11 +98,11 @@ public final class InfiniteTransitionClock implements androidx.compose.ui.toolin
         int i5 = 0;
         Iterator iterator2 = (Iterable)(List)arrayList2.iterator();
         while (iterator2.hasNext()) {
-            next3 = iterator2.next();
-            next2 = false;
-            if (!Utils_androidKt.getIGNORE_TRANSITIONS().contains((ComposeAnimatedProperty)next3.getLabel())) {
+            next2 = iterator2.next();
+            next3 = false;
+            if (!Utils_androidKt.getIGNORE_TRANSITIONS().contains((ComposeAnimatedProperty)next2.getLabel())) {
             }
-            (Collection)arrayList.add(next3);
+            (Collection)arrayList.add(next2);
         }
         return (List)arrayList;
     }
@@ -161,8 +161,8 @@ public final class InfiniteTransitionClock implements androidx.compose.ui.toolin
     }
 
     public List<TransitionInfo> getTransitions(long stepMillis) {
-        Object next;
-        boolean next2;
+        Object next2;
+        boolean next;
         TransitionInfo it;
         int i;
         long maxDuration;
@@ -172,20 +172,20 @@ public final class InfiniteTransitionClock implements androidx.compose.ui.toolin
         ArrayList arrayList2 = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)animations, 10));
         int i5 = 0;
         Iterator iterator = animations.iterator();
-        for (Object next : iterator) {
+        for (Object next2 : iterator) {
             i = 0;
-            (Collection)arrayList2.add(Utils_androidKt.createTransitionInfo((InfiniteTransition.TransitionAnimationState)next, stepMillis, obj14));
+            (Collection)arrayList2.add(Utils_androidKt.createTransitionInfo((InfiniteTransition.TransitionAnimationState)next2, stepMillis, obj14));
         }
         int i2 = 0;
         ArrayList arrayList = new ArrayList();
         int i6 = 0;
         Iterator iterator2 = (Iterable)(List)arrayList2.iterator();
         while (iterator2.hasNext()) {
-            next2 = iterator2.next();
+            next = iterator2.next();
             i = 0;
-            if (!Utils_androidKt.getIGNORE_TRANSITIONS().contains((TransitionInfo)next2.getLabel())) {
+            if (!Utils_androidKt.getIGNORE_TRANSITIONS().contains((TransitionInfo)next.getLabel())) {
             }
-            (Collection)arrayList.add(next2);
+            (Collection)arrayList.add(next);
         }
         return CollectionsKt.toList((Iterable)(List)arrayList);
     }

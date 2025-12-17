@@ -47,25 +47,25 @@ public final class ScatterSetWrapper<T>  implements Set<T>, KMappedMarker {
 
     public boolean containsAll(Collection<? extends Object> elements) {
         boolean iterator;
-        int i2;
+        int i;
         boolean next;
         boolean it;
-        int i;
+        int i2;
         ScatterSet set;
         final Object obj = elements;
         final int i3 = 0;
-        i2 = 1;
+        i = 1;
         if (obj instanceof Collection != null && (Collection)(Iterable)obj.isEmpty()) {
             if ((Collection)obj.isEmpty()) {
             } else {
                 iterator = obj.iterator();
                 for (Object next : iterator) {
-                    i = 0;
+                    i2 = 0;
                 }
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public final ScatterSet<T> getSet$runtime_release() {

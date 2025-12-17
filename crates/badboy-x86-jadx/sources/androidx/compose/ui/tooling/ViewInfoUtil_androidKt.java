@@ -18,16 +18,16 @@ public final class ViewInfoUtil_androidKt {
     private static final List<androidx.compose.ui.tooling.ViewInfo> filterTree(List<androidx.compose.ui.tooling.ViewInfo> $this$filterTree, Function1<? super androidx.compose.ui.tooling.ViewInfo, Boolean> filter) {
         Iterable list$iv$iv;
         List listOf;
-        Object next2;
+        Object next;
         Object obj;
-        int i2;
+        int i3;
         List filterTree;
-        int i;
+        int i2;
         ArrayList arrayList;
         List list;
-        int i3;
+        int i;
         Iterator iterator;
-        boolean next;
+        boolean next2;
         Object $this$flatMap$iv;
         androidx.compose.ui.tooling.ViewInfo viewInfo;
         String fileName;
@@ -41,15 +41,15 @@ public final class ViewInfoUtil_androidKt {
         ArrayList arrayList2 = new ArrayList();
         final int i5 = 0;
         final Iterator iterator2 = (Iterable)$this$filterTree.iterator();
-        for (Object next2 : iterator2) {
-            obj = next2;
-            i2 = 0;
-            i = 0;
-            arrayList = new ArrayList();
+        for (Object next : iterator2) {
+            obj = next;
             i3 = 0;
+            i2 = 0;
+            arrayList = new ArrayList();
+            i = 0;
             iterator = (Iterable)ViewInfoUtil_androidKt.filterTree((ViewInfo)obj.getChildren(), function1).iterator();
             while (iterator.hasNext()) {
-                Object obj2 = next;
+                Object obj2 = next2;
                 viewInfo = 0;
                 if ((ViewInfo)obj2.getLocation() == null) {
                 } else {
@@ -69,7 +69,7 @@ public final class ViewInfoUtil_androidKt {
             list$iv$iv = $this$flatMap$iv;
             viewInfo = new ViewInfo(obj.getFileName(), obj.getLineNumber(), obj.getBounds(), obj.getLocation(), list2, obj.getLayoutInfo());
             listOf = CollectionsKt.listOf(viewInfo);
-            obj2 = next;
+            obj2 = next2;
             viewInfo = 0;
             if ((ViewInfo)obj2.getLocation() == null) {
             } else {
@@ -92,9 +92,9 @@ public final class ViewInfoUtil_androidKt {
     }
 
     public static final String toDebugString(List<androidx.compose.ui.tooling.ViewInfo> $this$toDebugString, int indentation, Function1<? super androidx.compose.ui.tooling.ViewInfo, Boolean> filter) {
-        int i4;
-        Object append3;
         int i3;
+        Object append3;
+        int i;
         StringBuilder append2;
         androidx.compose.ui.tooling.ViewInfoUtil_androidKt.toDebugString.4 iNSTANCE;
         androidx.compose.ui.tooling.ViewInfoUtil_androidKt.toDebugString.4 str;
@@ -102,7 +102,7 @@ public final class ViewInfoUtil_androidKt {
         int append;
         int lineNumber;
         String str2;
-        int i;
+        int i4;
         final int i5 = indentation;
         final Function1 function1 = filter;
         String repeat = StringsKt.repeat((CharSequence)".", i5);
@@ -114,7 +114,7 @@ public final class ViewInfoUtil_androidKt {
             str = iNSTANCE;
             i2 = 0;
             str2 = "append('\\n')";
-            i = 10;
+            i4 = 10;
             append3 = "append(value)";
             if ((ViewInfo)str.getLocation() != null) {
             } else {
@@ -122,7 +122,7 @@ public final class ViewInfoUtil_androidKt {
             StringBuilder stringBuilder2 = new StringBuilder();
             StringBuilder append11 = stringBuilder.append(stringBuilder2.append(repeat).append("|<root>").toString());
             Intrinsics.checkNotNullExpressionValue(append11, append3);
-            Intrinsics.checkNotNullExpressionValue(append11.append(i), str2);
+            Intrinsics.checkNotNullExpressionValue(append11.append(i4), str2);
             String string3 = StringsKt.trim((CharSequence)ViewInfoUtil_androidKt.toDebugString(str.getChildren(), i5 + 1, function1)).toString();
             if ((CharSequence)string3.length() > 0) {
             } else {
@@ -130,16 +130,16 @@ public final class ViewInfoUtil_androidKt {
             append = 0;
             if (append != 0) {
             }
-            i4 = 0;
-            i3 = 1;
+            i3 = 0;
+            i = 1;
             append = stringBuilder.append(string3);
             Intrinsics.checkNotNullExpressionValue(append, append3);
-            Intrinsics.checkNotNullExpressionValue(append.append(i), str2);
+            Intrinsics.checkNotNullExpressionValue(append.append(i4), str2);
             append = 1;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder append8 = stringBuilder.append(stringBuilder3.append(repeat).append('|').append(str.getFileName()).append(':').append(str.getLineNumber()).toString());
             Intrinsics.checkNotNullExpressionValue(append8, append3);
-            Intrinsics.checkNotNullExpressionValue(append8.append(i), str2);
+            Intrinsics.checkNotNullExpressionValue(append8.append(i4), str2);
         }
         return stringBuilder.toString();
     }

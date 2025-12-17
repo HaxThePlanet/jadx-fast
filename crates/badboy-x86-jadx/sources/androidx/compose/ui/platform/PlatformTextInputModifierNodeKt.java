@@ -32,15 +32,15 @@ public final class PlatformTextInputModifierNodeKt {
     public static final void InterceptPlatformTextInput(androidx.compose.ui.platform.PlatformTextInputInterceptor interceptor, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int this_$iv;
         int $dirty;
-        int i3;
-        int i5;
+        int i;
+        int i2;
         int invalid$iv;
         boolean traceInProgress2;
         boolean changedInstance;
         int traceInProgress;
-        int i;
-        int i2;
         int i4;
+        int i3;
+        int i5;
         Object empty;
         Object chainedPlatformTextInputInterceptor;
         this_$iv = 1315007550;
@@ -52,12 +52,12 @@ public final class PlatformTextInputModifierNodeKt {
             } else {
                 changedInstance = obj11.changedInstance(interceptor);
             }
-            i3 = changedInstance != null ? 4 : 2;
-            $dirty |= i3;
+            i = changedInstance != null ? 4 : 2;
+            $dirty |= i;
         }
         if ($changed & 48 == 0) {
-            i5 = obj11.changedInstance(content) ? 32 : 16;
-            $dirty |= i5;
+            i2 = obj11.changedInstance(content) ? 32 : 16;
+            $dirty |= i2;
         }
         if ($dirty & 19 == 18) {
             if (!obj11.getSkipping()) {
@@ -73,7 +73,7 @@ public final class PlatformTextInputModifierNodeKt {
                 Composer composer = obj11;
                 int i11 = 0;
                 Object rememberedValue = composer.rememberedValue();
-                i4 = 0;
+                i5 = 0;
                 if (!obj11.changed((ChainedPlatformTextInputInterceptor)this_$iv)) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
@@ -87,7 +87,7 @@ public final class PlatformTextInputModifierNodeKt {
                 invalid$iv = chainedPlatformTextInputInterceptor;
                 ComposerKt.sourceInformationMarkerEnd(obj11);
                 (ChainedPlatformTextInputInterceptor)invalid$iv.updateInterceptor(interceptor);
-                CompositionLocalKt.CompositionLocalProvider(PlatformTextInputModifierNodeKt.LocalChainedPlatformTextInputInterceptor.provides(invalid$iv), content, obj11, $stable |= i2);
+                CompositionLocalKt.CompositionLocalProvider(PlatformTextInputModifierNodeKt.LocalChainedPlatformTextInputInterceptor.provides(invalid$iv), content, obj11, $stable |= i3);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -109,20 +109,20 @@ public final class PlatformTextInputModifierNodeKt {
 
     public static final Object establishTextInputSession(androidx.compose.ui.platform.PlatformTextInputModifierNode platformTextInputModifierNode, Function2<? super androidx.compose.ui.platform.PlatformTextInputSessionScope, ? super Continuation<?>, ? extends Object> function22, Continuation<?> continuation3) {
         boolean anon;
-        int i2;
         int i;
+        int i2;
         Owner requireOwner;
         Object obj;
         ProvidableCompositionLocal localChainedPlatformTextInputInterceptor;
         Object obj5;
         Object obj7;
         anon = continuation3;
-        i = Integer.MIN_VALUE;
-        if (continuation3 instanceof PlatformTextInputModifierNodeKt.establishTextInputSession.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation3 instanceof PlatformTextInputModifierNodeKt.establishTextInputSession.1 && label &= i2 != 0) {
             anon = continuation3;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj7 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj7 -= i2;
             } else {
                 anon = new PlatformTextInputModifierNodeKt.establishTextInputSession.1(continuation3);
             }

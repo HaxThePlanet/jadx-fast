@@ -1,0 +1,43 @@
+package app.dogo.com.dogo_android.h;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.databinding.ViewDataBinding;
+import androidx.databinding.f;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import app.dogo.com.dogo_android.f.m.e;
+import app.dogo.com.dogo_android.n.m.o.a;
+import com.google.android.material.appbar.MaterialToolbar;
+
+/* loaded from: classes.dex */
+public abstract class mg extends ViewDataBinding {
+
+    public final RecyclerView O;
+    public final SwipeRefreshLayout P;
+    public final MaterialToolbar Q;
+    protected e R;
+    protected o.a S;
+    protected mg(Object object, View view2, int i3, RecyclerView recyclerView4, SwipeRefreshLayout swipeRefreshLayout5, MaterialToolbar materialToolbar6) {
+        super(object, view2, i3);
+        this.O = recyclerView4;
+        this.P = swipeRefreshLayout5;
+        this.Q = materialToolbar6;
+    }
+
+    public static app.dogo.com.dogo_android.h.mg T(LayoutInflater layoutInflater, ViewGroup viewGroup2, boolean z3) {
+        return mg.U(layoutInflater, viewGroup2, z3, f.e());
+    }
+
+    @Deprecated
+    public static app.dogo.com.dogo_android.h.mg U(LayoutInflater layoutInflater, ViewGroup viewGroup2, boolean z3, Object object4) {
+        return (mg)ViewDataBinding.z(layoutInflater, 2131558713, viewGroup2, z3, object4);
+    }
+
+    @Override // androidx.databinding.ViewDataBinding
+    public abstract void V(o.a o$a);
+
+    @Override // androidx.databinding.ViewDataBinding
+    public abstract void W(e e);
+}

@@ -30,20 +30,20 @@ public class UnbiasedSelectImplementation<R>  extends kotlinx.coroutines.selects
     private final void shuffleAndRegisterClauses() {
         Object next;
         Object obj2;
-        int i3;
-        Object obj;
         int i4;
+        Object obj;
         int i;
+        int i3;
         int i2;
         Collections.shuffle(this.clausesToRegister);
         final int i5 = 0;
         final Iterator iterator = (Iterable)this.clausesToRegister.iterator();
         try {
             for (Object next : iterator) {
-                i3 = 0;
+                i4 = 0;
                 SelectImplementation.register$default((SelectImplementation)this, (SelectImplementation.ClauseData)next, false, 1, 0);
             }
-            i3 = 0;
+            i4 = 0;
             SelectImplementation.register$default((SelectImplementation)this, (SelectImplementation.ClauseData)iterator.next(), false, 1, 0);
             this.clausesToRegister.clear();
             this.clausesToRegister.clear();

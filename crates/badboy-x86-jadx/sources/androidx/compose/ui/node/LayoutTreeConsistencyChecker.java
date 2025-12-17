@@ -37,21 +37,21 @@ public final class LayoutTreeConsistencyChecker {
         int placeOrder$ui_release;
         Boolean valueOf;
         int i7;
-        int i5;
-        int i2;
+        int i;
+        int i6;
         boolean lookahead2;
-        int i4;
         int i8;
+        int i2;
         int i3;
         List list;
-        int index$iv$iv;
         int index$iv$iv2;
+        int index$iv$iv;
         int size;
-        Object obj;
         Object obj3;
-        int i6;
+        Object obj;
+        int i4;
         Object obj2;
-        int i;
+        int i5;
         final Object obj4 = this;
         final Object obj5 = $this$consistentLayoutState;
         final androidx.compose.ui.node.LayoutNode parent$ui_release = obj5.getParent$ui_release();
@@ -71,24 +71,24 @@ public final class LayoutTreeConsistencyChecker {
                     if (obj5.getMeasurePending$ui_release()) {
                         i3 = 0;
                         list = placeOrder$ui_release;
-                        index$iv$iv = 0;
                         index$iv$iv2 = 0;
-                        while (index$iv$iv2 < list.size()) {
-                            i6 = 0;
-                            obj2 = obj3;
-                            i = 0;
+                        index$iv$iv = 0;
+                        while (index$iv$iv < list.size()) {
+                            i4 = 0;
+                            obj2 = obj;
+                            i5 = 0;
                             if (Intrinsics.areEqual((MeasureAndLayoutDelegate.PostponedRequest)obj2.getNode(), obj5) && !obj2.isLookahead()) {
                             } else {
                             }
                             layoutPending$ui_release = 0;
-                            index$iv$iv2++;
+                            index$iv$iv++;
                             if (!obj2.isLookahead()) {
                             } else {
                             }
                             layoutPending$ui_release = i9;
                         }
-                        obj3 = 0;
-                        if (obj3 != null) {
+                        obj = 0;
+                        if (obj != null) {
                             return i9;
                         }
                     }
@@ -127,9 +127,9 @@ public final class LayoutTreeConsistencyChecker {
                                     if (!parent$ui_release.getLayoutPending$ui_release()) {
                                         if (layoutState$ui_release2 != LayoutNode.LayoutState.Measuring) {
                                             if (layoutState$ui_release2 == LayoutNode.LayoutState.LayingOut) {
-                                                i5 = i9;
+                                                i = i9;
                                             } else {
-                                                i5 = 0;
+                                                i = 0;
                                             }
                                         } else {
                                         }
@@ -141,7 +141,7 @@ public final class LayoutTreeConsistencyChecker {
                             }
                         } else {
                         }
-                        return i5;
+                        return i;
                     }
                 }
             }
@@ -152,21 +152,21 @@ public final class LayoutTreeConsistencyChecker {
                 valueOf = 0;
                 i3 = postponedMeasureRequests;
                 list = 0;
-                index$iv$iv = 0;
-                while (index$iv$iv < i3.size()) {
-                    obj = size;
-                    obj3 = 0;
-                    i6 = obj;
+                index$iv$iv2 = 0;
+                while (index$iv$iv2 < i3.size()) {
+                    obj3 = size;
+                    obj = 0;
+                    i4 = obj3;
                     obj2 = null;
-                    if (Intrinsics.areEqual((MeasureAndLayoutDelegate.PostponedRequest)i6.getNode(), obj5) && i6.isLookahead()) {
+                    if (Intrinsics.areEqual((MeasureAndLayoutDelegate.PostponedRequest)i4.getNode(), obj5) && i4.isLookahead()) {
                     } else {
                     }
-                    i2 = 0;
-                    index$iv$iv++;
-                    if (i6.isLookahead()) {
+                    i6 = 0;
+                    index$iv$iv2++;
+                    if (i4.isLookahead()) {
                     } else {
                     }
-                    i2 = i9;
+                    i6 = i9;
                 }
                 $this$fastFirstOrNull$iv = 0;
                 if ($this$fastFirstOrNull$iv != null) {
@@ -187,9 +187,9 @@ public final class LayoutTreeConsistencyChecker {
                             }
                             if (lookaheadMeasurePending$ui_release != 0 && Intrinsics.areEqual(obj5.getLookaheadRoot$ui_release(), obj5)) {
                                 if (Intrinsics.areEqual(obj5.getLookaheadRoot$ui_release(), obj5)) {
-                                    i4 = i9;
+                                    i8 = i9;
                                 } else {
-                                    i4 = 0;
+                                    i8 = 0;
                                 }
                             } else {
                             }
@@ -199,7 +199,7 @@ public final class LayoutTreeConsistencyChecker {
                     }
                 } else {
                 }
-                return i4;
+                return i8;
             }
             if (obj5.getLookaheadLayoutPending$ui_release()) {
                 if (!obj4.relayoutNodes.contains(obj5, i9) && parent$ui_release != null && !parent$ui_release.getLookaheadMeasurePending$ui_release() && !parent$ui_release.getLookaheadLayoutPending$ui_release() && layoutState$ui_release2 != LayoutNode.LayoutState.LookaheadMeasuring && layoutState$ui_release2 != LayoutNode.LayoutState.LookaheadLayingOut) {
@@ -210,9 +210,9 @@ public final class LayoutTreeConsistencyChecker {
                                     if (layoutState$ui_release2 != LayoutNode.LayoutState.LookaheadLayingOut) {
                                         if (parent$ui_release.getLayoutPending$ui_release() && Intrinsics.areEqual(obj5.getLookaheadRoot$ui_release(), obj5)) {
                                             if (Intrinsics.areEqual(obj5.getLookaheadRoot$ui_release(), obj5)) {
-                                                i8 = i9;
+                                                i2 = i9;
                                             } else {
-                                                i8 = 0;
+                                                i2 = 0;
                                             }
                                         } else {
                                         }
@@ -228,7 +228,7 @@ public final class LayoutTreeConsistencyChecker {
                     }
                 } else {
                 }
-                return i8;
+                return i2;
             }
         }
         return i9;

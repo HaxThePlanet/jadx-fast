@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/zs_toolbar_search_selector"
+        android:id="@+id/fragment_help_menu_search"
+        android:visible="false"
+        android:title="@android:string/search_go"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="0x9"/>
+    <item
+        android:icon="?attr/zs_helpConversationsIcon"
+        android:id="@+id/fragment_help_menu_contact"
+        android:visible="false"
+        android:title="@string/support_conversations_menu"
+        app:showAsAction="0x2"/>
+</menu>

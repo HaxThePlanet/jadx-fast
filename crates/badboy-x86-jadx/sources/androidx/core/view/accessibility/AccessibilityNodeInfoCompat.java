@@ -178,12 +178,12 @@ public class AccessibilityNodeInfoCompat {
             int aCTION_DRAG_CANCEL;
             int aCTION_SHOW_TEXT_SUGGESTIONS;
             int actionScrollInDirection;
-            int i2;
             int i;
-            AccessibilityNodeInfo.AccessibilityAction accessibilityAction2;
+            int i3;
             AccessibilityNodeInfo.AccessibilityAction accessibilityAction3;
             AccessibilityNodeInfo.AccessibilityAction accessibilityAction;
-            int i3;
+            AccessibilityNodeInfo.AccessibilityAction accessibilityAction2;
+            int i2;
             actionScrollInDirection = 0;
             AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(1, actionScrollInDirection);
             AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_FOCUS = accessibilityActionCompat;
@@ -261,23 +261,23 @@ public class AccessibilityNodeInfoCompat {
             AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat31 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(AccessibilityNodeInfo.AccessibilityAction.ACTION_HIDE_TOOLTIP, 16908357, 0, 0, 0);
             AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_HIDE_TOOLTIP = accessibilityActionCompat31;
             int i28 = 30;
-            accessibilityAction2 = Build.VERSION.SDK_INT >= i28 ? aCTION_PRESS_AND_HOLD : actionScrollInDirection;
-            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat35 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(accessibilityAction2, 16908362, 0, 0, 0);
+            accessibilityAction3 = Build.VERSION.SDK_INT >= i28 ? aCTION_PRESS_AND_HOLD : actionScrollInDirection;
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat35 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(accessibilityAction3, 16908362, 0, 0, 0);
             AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_PRESS_AND_HOLD = accessibilityActionCompat35;
-            accessibilityAction3 = Build.VERSION.SDK_INT >= i28 ? aCTION_IME_ENTER : actionScrollInDirection;
-            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat38 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(accessibilityAction3, 16908372, 0, 0, 0);
+            accessibilityAction = Build.VERSION.SDK_INT >= i28 ? aCTION_IME_ENTER : actionScrollInDirection;
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat38 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(accessibilityAction, 16908372, 0, 0, 0);
             AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_IME_ENTER = accessibilityActionCompat38;
-            accessibilityAction = Build.VERSION.SDK_INT >= i9 ? aCTION_DRAG_START : actionScrollInDirection;
-            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat41 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(accessibilityAction, 16908373, 0, 0, 0);
+            accessibilityAction2 = Build.VERSION.SDK_INT >= i9 ? aCTION_DRAG_START : actionScrollInDirection;
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat41 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(accessibilityAction2, 16908373, 0, 0, 0);
             AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_DRAG_START = accessibilityActionCompat41;
-            i3 = Build.VERSION.SDK_INT >= i9 ? aCTION_DRAG_DROP : actionScrollInDirection;
-            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat44 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(i3, 16908374, 0, 0, 0);
+            i2 = Build.VERSION.SDK_INT >= i9 ? aCTION_DRAG_DROP : actionScrollInDirection;
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat44 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(i2, 16908374, 0, 0, 0);
             AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_DRAG_DROP = accessibilityActionCompat44;
-            i2 = Build.VERSION.SDK_INT >= i9 ? aCTION_DRAG_CANCEL : actionScrollInDirection;
-            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat25 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(i2, 16908375, 0, 0, 0);
+            i = Build.VERSION.SDK_INT >= i9 ? aCTION_DRAG_CANCEL : actionScrollInDirection;
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat25 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(i, 16908375, 0, 0, 0);
             AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_DRAG_CANCEL = accessibilityActionCompat25;
-            i = Build.VERSION.SDK_INT >= 33 ? aCTION_SHOW_TEXT_SUGGESTIONS : actionScrollInDirection;
-            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat28 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(i, 16908376, 0, 0, 0);
+            i3 = Build.VERSION.SDK_INT >= 33 ? aCTION_SHOW_TEXT_SUGGESTIONS : actionScrollInDirection;
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat28 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(i3, 16908376, 0, 0, 0);
             AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SHOW_TEXT_SUGGESTIONS = accessibilityActionCompat28;
             if (Build.VERSION.SDK_INT >= 34) {
                 actionScrollInDirection = AccessibilityNodeInfoCompat.Api34Impl.getActionScrollInDirection();
@@ -1247,8 +1247,8 @@ public class AccessibilityNodeInfoCompat {
     public java.lang.CharSequence getText() {
         int i;
         int accessibilityClickableSpanCompat;
-        int intValue;
         int intValue2;
+        int intValue;
         int intValue3;
         if (hasSpans()) {
             List extrasIntList = extrasIntList("androidx.view.accessibility.AccessibilityNodeInfoCompat.SPANS_START_KEY");

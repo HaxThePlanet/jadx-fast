@@ -29,8 +29,8 @@ public final class ListBuilderKt {
             return new Object[size];
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("capacity must be non-negative.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireListBuilderKt$arrayOfUninitializedElements$1 = new IllegalArgumentException("capacity must be non-negative.".toString());
+        throw $i$a$RequireListBuilderKt$arrayOfUninitializedElements$1;
     }
 
     public static final <T> T[] copyOfUninitializedElements(T[] $this$copyOfUninitializedElements, int newSize) {
@@ -72,20 +72,20 @@ public final class ListBuilderKt {
 
     private static final <T> int subarrayContentHashCode(T[] $this$subarrayContentHashCode, int offset, int length) {
         int result;
-        int i2;
-        Object obj;
         int i3;
+        Object obj;
+        int i2;
         int i;
         result = 1;
-        i2 = 0;
-        while (i2 < length) {
-            obj = $this$subarrayContentHashCode[offset + i2];
+        i3 = 0;
+        while (i3 < length) {
+            obj = $this$subarrayContentHashCode[offset + i3];
             if (obj != null) {
             } else {
             }
             i = 0;
-            result = i3 + i;
-            i2++;
+            result = i2 + i;
+            i3++;
             i = obj.hashCode();
         }
         return result;

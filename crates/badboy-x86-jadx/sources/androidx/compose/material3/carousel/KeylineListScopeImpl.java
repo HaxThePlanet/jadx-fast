@@ -98,36 +98,36 @@ final class KeylineListScopeImpl implements androidx.compose.material3.carousel.
     }
 
     private final List<androidx.compose.material3.carousel.Keyline> createKeylinesWithPivot(int pivotIndex, float pivotOffset, int firstFocalIndex, int lastFocalIndex, float itemMainAxisSize, float carouselMainAxisSize, float itemSpacing, List<androidx.compose.material3.carousel.KeylineListScopeImpl.TmpKeyline> tmpKeylines) {
-        float f2;
-        int i4;
-        int cutoffRight2;
+        float f;
+        int i8;
         int cutoffRight;
+        int cutoffRight2;
         kotlin.ranges.IntProgression downTo;
         float cutoffLeft;
         int $this$forEach$iv;
         int offset;
         int unadjustedOffset2;
         int unadjustedOffset;
-        float f3;
+        float f2;
         int i5;
-        int i8;
-        int nextInt2;
-        boolean nextInt;
-        int i2;
         int i9;
-        int i;
+        int nextInt;
+        boolean nextInt2;
+        int i3;
         int i10;
+        int i6;
+        int i;
         Object obj;
         kotlin.ranges.IntProgression intProgression;
         kotlin.ranges.IntProgression keyline2;
         androidx.compose.material3.carousel.Keyline keyline;
         float size;
-        int i6;
         int i7;
-        int anchor;
-        boolean anchor2;
-        int i3;
-        float f;
+        int i4;
+        int anchor2;
+        boolean anchor;
+        int i2;
+        float f3;
         float f4;
         final Object obj2 = this;
         int i11 = pivotIndex;
@@ -142,62 +142,62 @@ final class KeylineListScopeImpl implements androidx.compose.material3.carousel.
         final int i42 = 0;
         int i30 = 2;
         if (obj2.isCutoffLeft((KeylineListScopeImpl.TmpKeyline)obj5.getSize(), f5)) {
-            i9 = cutoffRight;
+            i10 = cutoffRight2;
         } else {
             if (obj2.isCutoffRight(obj5.getSize(), f5, f7)) {
-                i9 = cutoffRight;
+                i10 = cutoffRight2;
             } else {
-                i9 = i42;
+                i10 = i42;
             }
         }
         final int i43 = 1;
         i5 = 0;
         if (i40 <= i11 && i11 <= i41) {
             if (i11 <= i41) {
-                i8 = i5;
+                i9 = i5;
                 i5 = i43;
             } else {
-                i8 = i5;
+                i9 = i5;
             }
         } else {
         }
-        i = i39;
-        Keyline keyline4 = new Keyline(obj5.getSize(), f5, pivotOffset, i5, obj5.isAnchor(), 1, i9);
+        i6 = i39;
+        Keyline keyline4 = new Keyline(obj5.getSize(), f5, pivotOffset, i5, obj5.isAnchor(), 1, i10);
         (List)list.add(keyline4);
         int i23 = 0;
-        f2 = (float)i12;
+        f = (float)i12;
         i32 -= itemSpacing;
         int offset2 = 0;
         i35 -= itemSpacing;
         int i37 = 0;
         Iterator iterator = (Iterable)RangesKt.downTo(pivotIndex + -1, 0).iterator();
         while (iterator.hasNext()) {
-            i2 = nextInt2;
-            i10 = 0;
-            obj = obj4.get(i2);
-            f4 = f2;
+            i3 = nextInt;
+            i = 0;
+            obj = obj4.get(i3);
+            f4 = f;
             int i13 = offset - i46;
             if (obj2.isCutoffLeft(obj.getSize(), i13)) {
             } else {
             }
-            f = i42;
-            if (i40 <= i2 && i2 <= i41) {
+            f3 = i42;
+            if (i40 <= i3 && i3 <= i41) {
             } else {
             }
-            anchor = 0;
-            keyline = new Keyline(obj.getSize(), i13, unadjustedOffset - i47, anchor, obj.isAnchor(), 0, f);
+            anchor2 = 0;
+            keyline = new Keyline(obj.getSize(), i13, unadjustedOffset - i47, anchor2, obj.isAnchor(), 0, f3);
             list.add(0, keyline);
             offset -= i14;
             unadjustedOffset -= i15;
             downTo = intProgression;
-            f2 = f4;
-            if (i2 <= i41) {
+            f = f4;
+            if (i3 <= i41) {
             } else {
             }
-            anchor = i43;
-            f = cutoffLeft;
+            anchor2 = i43;
+            f3 = cutoffLeft;
         }
-        float f8 = f2;
+        float f8 = f;
         keyline2 = downTo;
         $this$forEach$iv = 0;
         i17 += itemSpacing;
@@ -205,28 +205,28 @@ final class KeylineListScopeImpl implements androidx.compose.material3.carousel.
         int i38 = 0;
         Iterator iterator2 = (Iterable)RangesKt.until(pivotIndex + 1, obj4.size()).iterator();
         while (iterator2.hasNext()) {
-            i2 = nextInt;
-            i = 0;
-            i10 = obj4.get(i2);
-            int i27 = i4 + i44;
-            if (obj2.isCutoffRight(i10.getSize(), i27, f7)) {
+            i3 = nextInt2;
+            i6 = 0;
+            i = obj4.get(i3);
+            int i27 = i8 + i44;
+            if (obj2.isCutoffRight(i.getSize(), i27, f7)) {
             } else {
             }
-            i3 = i42;
-            if (i40 <= i2 && i2 <= i41) {
+            i2 = i42;
+            if (i40 <= i3 && i3 <= i41) {
             } else {
             }
-            i7 = 0;
-            keyline2 = new Keyline(i10.getSize(), i27, unadjustedOffset2 + i45, i7, i10.isAnchor(), 0, i3);
+            i4 = 0;
+            keyline2 = new Keyline(i.getSize(), i27, unadjustedOffset2 + i45, i4, i.isAnchor(), 0, i2);
             list.add(keyline2);
             i20 += obj;
             unadjustedOffset2 += i28;
             $this$forEach$iv = 0;
-            if (i2 <= i41) {
+            if (i3 <= i41) {
             } else {
             }
-            i7 = i43;
-            i3 = cutoffRight2;
+            i4 = i43;
+            i2 = cutoffRight;
         }
         return list;
     }
@@ -287,19 +287,19 @@ final class KeylineListScopeImpl implements androidx.compose.material3.carousel.
     public final androidx.compose.material3.carousel.KeylineList createWithAlignment-waks0t8(float carouselMainAxisSize, float itemSpacing, int carouselAlignment) {
         int focalItemSize;
         float f;
-        int i4;
-        int i;
         int i3;
         int i2;
+        int i4;
+        int i;
         final int lastFocalIndex = findLastFocalIndex();
         final int i17 = lastFocalIndex - firstFocalIndex;
         this.pivotIndex = this.firstFocalIndex;
         int i6 = 2;
         if (CarouselAlignment.equals-impl0(carouselAlignment, CarouselAlignment.Companion.getCenter-NUL3oTo())) {
-            i = Float.compare(itemSpacing, focalItemSize) == 0 ? 1 : 0;
-            if (i == 0) {
+            i2 = Float.compare(itemSpacing, focalItemSize) == 0 ? 1 : 0;
+            if (i2 == 0) {
                 int i9 = i17 % 2;
-                if (i9 += i3 == 0) {
+                if (i9 += i4 == 0) {
                 } else {
                     focalItemSize = itemSpacing / i5;
                 }
@@ -309,12 +309,12 @@ final class KeylineListScopeImpl implements androidx.compose.material3.carousel.
             i8 -= focalItemSize;
         } else {
             if (CarouselAlignment.equals-impl0(carouselAlignment, CarouselAlignment.Companion.getEnd-NUL3oTo())) {
-                i4 = carouselMainAxisSize - focalItemSize;
+                i3 = carouselMainAxisSize - focalItemSize;
             } else {
-                i4 = focalItemSize / f;
+                i3 = focalItemSize / f;
             }
         }
-        this.pivotOffset = i4;
+        this.pivotOffset = i3;
         KeylineList obj12 = new KeylineList(this.createKeylinesWithPivot(this.pivotIndex, this.pivotOffset, this.firstFocalIndex, lastFocalIndex, this.focalItemSize, carouselMainAxisSize, itemSpacing, this.tmpKeylines));
         return obj12;
     }

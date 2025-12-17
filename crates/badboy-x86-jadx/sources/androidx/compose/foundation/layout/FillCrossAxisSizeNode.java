@@ -28,25 +28,25 @@ public final class FillCrossAxisSizeNode extends Modifier.Node implements Parent
 
     @Override // androidx.compose.ui.Modifier$Node
     public androidx.compose.foundation.layout.RowColumnParentData modifyParentData(Density $this$modifyParentData, Object parentData) {
-        int i2;
-        androidx.compose.foundation.layout.RowColumnParentData rowColumnParentData;
         int i5;
-        int i4;
+        androidx.compose.foundation.layout.RowColumnParentData rowColumnParentData;
+        int i2;
+        int i6;
         androidx.compose.foundation.layout.FlowLayoutData flowLayoutData;
         int fraction;
-        int i3;
         int i;
-        int i6;
+        int i3;
+        int i4;
         if (parentData instanceof RowColumnParentData != null) {
-            i2 = parentData;
+            i5 = parentData;
         } else {
-            i2 = 0;
+            i5 = 0;
         }
-        if (i2 == 0) {
+        if (i5 == 0) {
             rowColumnParentData = new RowColumnParentData(0, 0, 0, 0, 15, 0);
-            i2 = rowColumnParentData;
+            i5 = rowColumnParentData;
         }
-        int i7 = i2;
+        int i7 = i5;
         int i8 = 0;
         if (i7.getFlowLayoutData() == null) {
             flowLayoutData = new FlowLayoutData(this.fraction);
@@ -55,7 +55,7 @@ public final class FillCrossAxisSizeNode extends Modifier.Node implements Parent
         androidx.compose.foundation.layout.FlowLayoutData flowLayoutData2 = i7.getFlowLayoutData();
         Intrinsics.checkNotNull(flowLayoutData2);
         flowLayoutData2.setFillCrossAxisFraction(this.fraction);
-        return i2;
+        return i5;
     }
 
     @Override // androidx.compose.ui.Modifier$Node

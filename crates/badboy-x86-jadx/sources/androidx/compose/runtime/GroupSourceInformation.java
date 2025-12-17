@@ -38,96 +38,96 @@ public final class GroupSourceInformation {
 
     private final boolean hasAnchor(androidx.compose.runtime.Anchor anchor) {
         int $this$fastAny$iv;
-        int i;
-        int i2;
+        int i5;
+        int i6;
         ArrayList list;
-        int i4;
+        int i3;
         int index$iv$iv;
         int size;
-        int i6;
-        Object obj2;
+        int i;
         Object obj;
-        int i3;
+        Object obj2;
+        int i4;
         int it;
-        int i5;
+        int i2;
         boolean anchor2;
         $this$fastAny$iv = this.groups;
-        i = 0;
+        i5 = 0;
         if ($this$fastAny$iv != null) {
-            i2 = 0;
+            i6 = 0;
             list = $this$fastAny$iv;
-            i4 = 0;
+            i3 = 0;
             index$iv$iv = 0;
-            i6 = 1;
+            i = 1;
             while (index$iv$iv < list.size()) {
-                i3 = 0;
-                Object obj3 = obj;
-                i5 = 0;
+                i4 = 0;
+                Object obj3 = obj2;
+                i2 = 0;
                 if (!Intrinsics.areEqual(obj3, anchor)) {
                 } else {
                 }
-                it = i6;
+                it = i;
                 index$iv$iv++;
-                i6 = 1;
+                i = 1;
                 if (obj3 instanceof GroupSourceInformation && (GroupSourceInformation)obj3.hasAnchor(anchor)) {
                 } else {
                 }
-                it = i;
+                it = i5;
                 if ((GroupSourceInformation)obj3.hasAnchor(anchor)) {
                 } else {
                 }
             }
-            $this$fastAny$iv = i;
-            if ($this$fastAny$iv == i6) {
-                i = i6;
+            $this$fastAny$iv = i5;
+            if ($this$fastAny$iv == i) {
+                i5 = i;
             }
         }
-        return i;
+        return i5;
     }
 
     private final androidx.compose.runtime.GroupSourceInformation openInformation() {
         boolean information;
-        int i5;
+        int i4;
         int i;
         ArrayList list;
-        int i2;
+        int i6;
         int index$iv;
-        int i4;
+        int i5;
         Object obj;
         Object obj2;
         int i3;
-        int i6;
+        int i2;
         boolean closed;
         ArrayList groups = this.groups;
-        i5 = 0;
+        i4 = 0;
         if (groups != null) {
             i = 0;
             list = groups;
-            i2 = 0;
-            i4 = 1;
-            size -= i4;
+            i6 = 0;
+            i5 = 1;
+            size -= i5;
             while (index$iv >= 0) {
                 obj2 = obj;
                 i3 = 0;
                 if (obj2 instanceof GroupSourceInformation && !obj3.closed) {
                 } else {
                 }
-                i6 = 0;
+                i2 = 0;
                 index$iv--;
                 if (!obj3.closed) {
                 } else {
                 }
-                i6 = i4;
+                i2 = i5;
             }
-            obj = i5;
+            obj = i4;
         } else {
-            obj = i5;
+            obj = i4;
         }
         if (obj instanceof GroupSourceInformation) {
-            i5 = obj;
+            i4 = obj;
         }
-        if (i5 != 0 && i5.openInformation() != null) {
-            if (i5.openInformation() != null) {
+        if (i4 != 0 && i4.openInformation() != null) {
+            if (i4.openInformation() != null) {
             } else {
                 information = this;
             }
@@ -145,10 +145,10 @@ public final class GroupSourceInformation {
         int i3;
         int index$iv;
         int size;
-        Object obj;
         Object obj2;
-        int i2;
+        Object obj;
         int i;
+        int i2;
         boolean anchor;
         if (this.groups == null) {
             arrayList = new ArrayList();
@@ -162,18 +162,18 @@ public final class GroupSourceInformation {
                 i3 = 0;
                 index$iv = 0;
                 while (index$iv < list2.size()) {
-                    obj2 = obj;
-                    i2 = 0;
-                    if (!Intrinsics.areEqual(obj2, tryAnchor$runtime_release)) {
+                    obj = obj2;
+                    i = 0;
+                    if (!Intrinsics.areEqual(obj, tryAnchor$runtime_release)) {
                     } else {
                     }
-                    i = 1;
+                    i2 = 1;
                     index$iv++;
-                    if (obj2 instanceof GroupSourceInformation && (GroupSourceInformation)obj2.hasAnchor(tryAnchor$runtime_release)) {
+                    if (obj instanceof GroupSourceInformation && (GroupSourceInformation)obj.hasAnchor(tryAnchor$runtime_release)) {
                     } else {
                     }
-                    i = it;
-                    if ((GroupSourceInformation)obj2.hasAnchor(tryAnchor$runtime_release)) {
+                    i2 = it;
+                    if ((GroupSourceInformation)obj.hasAnchor(tryAnchor$runtime_release)) {
                     } else {
                     }
                 }

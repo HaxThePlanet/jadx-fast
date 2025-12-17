@@ -137,8 +137,8 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
                 this.expectedModCount = MapBuilder.access$getModCount$p(this.map);
             }
             int i2 = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("Call next() before removing element from the iterator.".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckMapBuilder$Itr$remove$1 = new IllegalStateException("Call next() before removing element from the iterator.".toString());
+            throw $i$a$CheckMapBuilder$Itr$remove$1;
         }
 
         public final void setIndex$kotlin_stdlib(int <set-?>) {
@@ -275,19 +275,19 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
 
         @Override // java.util.Map$Entry
         public int hashCode() {
-            int i;
             int i2;
+            int i;
             Object key = getKey();
             if (key != null) {
-                i = key.hashCode();
+                i2 = key.hashCode();
             } else {
-                i = i2;
+                i2 = i;
             }
             final Object value = getValue();
             if (value != null) {
-                i2 = value.hashCode();
+                i = value.hashCode();
             }
-            return i ^= i2;
+            return i2 ^= i;
         }
 
         public V setValue(V newValue) {
@@ -504,20 +504,20 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
     private final int findKey(K key) {
         int hash;
         int probesLeft;
-        int i3;
+        int i;
         int i2;
         boolean equal;
-        int i;
+        int i3;
         hash = hash(key);
         probesLeft = this.maxProbeDistance;
-        i3 = this.hashArray[hash];
+        i = this.hashArray[hash];
         int i4 = -1;
-        while (i3 == 0) {
+        while (i == 0) {
             if (hash == 0) {
             } else {
             }
             hash = i2;
-            i3 = this.hashArray[hash];
+            i = this.hashArray[hash];
             i4 = -1;
             hashSize--;
         }
@@ -589,22 +589,22 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
         int hash;
         int probesLeft;
         int i2;
-        int i4;
         int i3;
+        int i4;
         hash = hash(this.keysArray[i]);
         probesLeft = this.maxProbeDistance;
-        i4 = 1;
+        i3 = 1;
         while (this.hashArray[hash] == 0) {
             if (hash == 0) {
             } else {
             }
-            hash = i3;
-            i4 = 1;
-            hashSize -= i4;
+            hash = i4;
+            i3 = 1;
+            hashSize -= i3;
         }
         this.hashArray[hash] = i + 1;
         this.presenceArray[i] = hash;
-        return i4;
+        return i3;
     }
 
     private final void registerModification() {
@@ -645,8 +645,8 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
         int hole;
         int probeDistance;
         int patchAttemptsLeft;
-        int i;
         int i2;
+        int i;
         int hashArray;
         int presenceArray;
         int i3;
@@ -658,19 +658,19 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
             hashSize--;
             probeDistance++;
             int i6 = 0;
-            i = this.hashArray[hash];
-            i2 = -1;
-            if (i < 0) {
+            i2 = this.hashArray[hash];
+            i = -1;
+            if (i2 < 0) {
             } else {
             }
             if (i8 &= i3 >= probeDistance) {
             }
             hash = i5;
-            this.hashArray[hole] = i;
-            this.presenceArray[i + -1] = hole;
+            this.hashArray[hole] = i2;
+            this.presenceArray[i2 + -1] = hole;
             hole = hash;
             probeDistance = 0;
-            this.hashArray[hole] = i2;
+            this.hashArray[hole] = i;
             hole = hash;
             probeDistance = 0;
         }
@@ -706,15 +706,15 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
         int hash;
         int coerceAtMost;
         int probeDistance;
-        int i2;
         int i;
+        int i2;
         int length;
         int capacity$kotlin_stdlib;
         checkIsMutable$kotlin_stdlib();
         while (/* condition */) {
-            i2 = this.hashArray[hash];
-            i = 1;
-            while (i2 <= 0) {
+            i = this.hashArray[hash];
+            i2 = 1;
+            while (i <= 0) {
                 if (probeDistance++ > coerceAtMost) {
                     break loop_2;
                 } else {
@@ -723,9 +723,9 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
                 } else {
                 }
                 hash = length;
-                i2 = this.hashArray[hash];
-                i = 1;
-                hashSize -= i;
+                i = this.hashArray[hash];
+                i2 = 1;
+                hashSize -= i2;
             }
             if (probeDistance++ > coerceAtMost) {
             } else {
@@ -734,7 +734,7 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
             } else {
             }
             hash = length;
-            hashSize -= i;
+            hashSize -= i2;
             rehash(hashSize3 *= 2);
             hash = hash(key);
             probeDistance = 0;
@@ -742,14 +742,14 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
                 break;
             } else {
             }
-            ensureExtraCapacity(i);
+            ensureExtraCapacity(i2);
         }
         int length2 = this.length;
         this.length = length2 + 1;
         this.keysArray[length2] = key;
         this.presenceArray[length2] = hash;
         this.hashArray[hash] = length2 + 1;
-        this.size = size += i;
+        this.size = size += i2;
         registerModification();
         if (probeDistance > this.maxProbeDistance) {
             this.maxProbeDistance = probeDistance;
@@ -783,9 +783,9 @@ public final class MapBuilder<K, V>  implements Map<K, V>, Serializable, KMutabl
     public void clear() {
         int i2;
         int length;
-        int i3;
-        int[] presenceArray;
         int i;
+        int[] presenceArray;
+        int i3;
         checkIsMutable$kotlin_stdlib();
         length2--;
         final int i6 = 0;

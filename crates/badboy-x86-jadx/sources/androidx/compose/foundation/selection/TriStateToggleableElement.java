@@ -86,26 +86,26 @@ final class TriStateToggleableElement extends ModifierNodeElement<androidx.compo
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i3;
         int i2;
-        Role unbox-impl;
         int i;
+        Role unbox-impl;
+        int i3;
         MutableInteractionSource interactionSource = this.interactionSource;
-        i = 0;
+        i3 = 0;
         if (interactionSource != null) {
-            i3 = interactionSource.hashCode();
+            i2 = interactionSource.hashCode();
         } else {
-            i3 = i;
+            i2 = i3;
         }
         IndicationNodeFactory indicationNodeFactory = this.indicationNodeFactory;
         if (indicationNodeFactory != null) {
-            i2 = indicationNodeFactory.hashCode();
+            i = indicationNodeFactory.hashCode();
         } else {
-            i2 = i;
+            i = i3;
         }
         unbox-impl = this.role;
         if (unbox-impl != null) {
-            i = Role.hashCode-impl(unbox-impl.unbox-impl());
+            i3 = Role.hashCode-impl(unbox-impl.unbox-impl());
         }
         return result4 += i12;
     }

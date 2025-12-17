@@ -116,23 +116,23 @@ public final class AnimateAsStateKt {
         int changed;
         int i6;
         int defaultAnimation;
-        int i2;
-        int str3;
-        int i7;
+        int i3;
+        int str2;
+        int i9;
         boolean traceInProgress;
-        String str;
+        String str3;
         Object obj;
         Object rememberedValue;
-        String str2;
-        int i5;
-        int i3;
-        Object spring$default;
-        androidx.compose.animation.core.SpringSpec springSpec;
-        int i4;
-        Float valueOf;
+        String str;
         int i;
-        int i9;
+        int i7;
+        Object $i$a$CacheAnimateAsStateKt$animateFloatAsState$resolvedAnimSpec$1;
+        androidx.compose.animation.core.SpringSpec springSpec;
         int i10;
+        Float valueOf;
+        int i2;
+        int i4;
+        int i5;
         final Composer composer = $composer;
         final int i29 = $changed;
         int i11 = 668842840;
@@ -142,9 +142,9 @@ public final class AnimateAsStateKt {
         } else {
             springSpec = animationSpec;
         }
-        i4 = i8 & 4 != 0 ? i2 : visibilityThreshold;
-        str2 = i8 & 8 != 0 ? str3 : label;
-        i5 = i8 & 16 != 0 ? i7 : finishedListener;
+        i10 = i8 & 4 != 0 ? i3 : visibilityThreshold;
+        str = i8 & 8 != 0 ? str2 : label;
+        i = i8 & 16 != 0 ? i9 : finishedListener;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i11, i29, -1, "androidx.compose.animation.core.animateFloatAsState (AnimateAsState.kt:68)");
         }
@@ -154,7 +154,7 @@ public final class AnimateAsStateKt {
             ComposerKt.sourceInformationMarkerStart(composer, 313404723, "CC(remember):AnimateAsState.kt#9igjgp");
             int i15 = 256;
             if (i14 ^= 384 > i15) {
-                if (!composer.changed(i4)) {
+                if (!composer.changed(i10)) {
                     i6 = i29 & 384 == i15 ? 1 : 0;
                 } else {
                 }
@@ -163,20 +163,20 @@ public final class AnimateAsStateKt {
             traceInProgress = $composer;
             int i16 = 0;
             rememberedValue = traceInProgress.rememberedValue();
-            i3 = 0;
+            i7 = 0;
             if (i6 == 0) {
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     int i21 = 0;
-                    i9 = 0;
-                    traceInProgress.updateRememberedValue(AnimationSpecKt.spring$default(i9, i9, Float.valueOf(i4), 3, 0));
+                    i4 = 0;
+                    traceInProgress.updateRememberedValue(AnimationSpecKt.spring$default(i4, i4, Float.valueOf(i10), 3, 0));
                 } else {
-                    spring$default = rememberedValue;
+                    $i$a$CacheAnimateAsStateKt$animateFloatAsState$resolvedAnimSpec$1 = rememberedValue;
                 }
             } else {
             }
             ComposerKt.sourceInformationMarkerEnd(composer);
             composer.endReplaceGroup();
-            obj = spring$default;
+            obj = $i$a$CacheAnimateAsStateKt$animateFloatAsState$resolvedAnimSpec$1;
         } else {
             composer.startReplaceGroup(1125708605);
             composer.endReplaceGroup();
@@ -186,7 +186,7 @@ public final class AnimateAsStateKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return AnimateAsStateKt.animateValueAsState(Float.valueOf(targetValue), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), obj, Float.valueOf(i4), str2, i5, composer, i19 |= i27, 0);
+        return AnimateAsStateKt.animateValueAsState(Float.valueOf(targetValue), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), obj, Float.valueOf(i10), str, i, composer, i19 |= i27, 0);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "animate*AsState APIs now have a new label parameter added.")
@@ -552,7 +552,7 @@ public final class AnimateAsStateKt {
         androidx.compose.animation.core.TwoWayConverter twoWayConverter;
         Object obj2;
         int changedInstance;
-        int i5;
+        int i;
         Object invalid$iv;
         Object value;
         Object animationSpec2;
@@ -560,23 +560,23 @@ public final class AnimateAsStateKt {
         Object animatable2;
         Composer composer;
         int visibilityThreshold2;
-        int i3;
+        int i5;
         String label2;
         Object rememberedValue;
         int finishedListener2;
-        int i;
+        int i3;
         boolean traceInProgress;
-        Object spring$default;
+        Object $i$a$CacheAnimateAsStateKt$animateValueAsState$1;
         Object mutableStateOf$default;
         int i4;
         int i2;
         Object spring;
         Object rememberedValue2;
         float stiffness;
-        Object empty;
-        int empty4;
         Object empty3;
         int empty2;
+        Object empty4;
+        int empty;
         int anon;
         Object companion;
         Object obj;
@@ -587,26 +587,26 @@ public final class AnimateAsStateKt {
         int obj27;
         final Object obj3 = targetValue;
         final Composer composer2 = $composer;
-        int i11 = -1994373980;
-        ComposerKt.sourceInformationMarkerStart(composer2, i11, "C(animateValueAsState)P(3,4!1,5,2)393@18031L21,399@18213L44,400@18279L79,401@18379L38,402@18456L339,413@18814L42,414@18872L44,414@18861L55,417@18945L697,417@18921L721:AnimateAsState.kt#pdpnli");
+        int i10 = -1994373980;
+        ComposerKt.sourceInformationMarkerStart(composer2, i10, "C(animateValueAsState)P(3,4!1,5,2)393@18031L21,399@18213L44,400@18279L79,401@18379L38,402@18456L339,413@18814L42,414@18872L44,414@18861L55,417@18945L697,417@18921L721:AnimateAsState.kt#pdpnli");
         String str2 = "CC(remember):AnimateAsState.kt#9igjgp";
-        int i26 = 0;
+        int i25 = 0;
         if (i9 & 4 != 0) {
             ComposerKt.sourceInformationMarkerStart(composer2, 728506592, str2);
-            int i24 = 0;
+            int i23 = 0;
             composer = $composer;
-            i3 = 0;
+            i5 = 0;
             rememberedValue = composer.rememberedValue();
-            i = 0;
+            i3 = 0;
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                int i40 = 0;
+                int i39 = 0;
                 i2 = 0;
-                composer.updateRememberedValue(AnimationSpecKt.spring$default(i2, i2, i26, 7, i26));
+                composer.updateRememberedValue(AnimationSpecKt.spring$default(i2, i2, i25, 7, i25));
             } else {
-                spring$default = rememberedValue;
+                $i$a$CacheAnimateAsStateKt$animateValueAsState$1 = rememberedValue;
             }
             ComposerKt.sourceInformationMarkerEnd(composer2);
-            animationSpec2 = spring$default;
+            animationSpec2 = $i$a$CacheAnimateAsStateKt$animateValueAsState$1;
         } else {
             animationSpec2 = animationSpec;
         }
@@ -614,29 +614,29 @@ public final class AnimateAsStateKt {
         label2 = i9 & 16 != 0 ? "ValueAnimation" : label;
         finishedListener2 = i9 & 32 != 0 ? 0 : finishedListener;
         if (ComposerKt.isTraceInProgress()) {
-            ComposerKt.traceEventStart(i11, $changed, -1, "androidx.compose.animation.core.animateValueAsState (AnimateAsState.kt:397)");
+            ComposerKt.traceEventStart(i10, $changed, -1, "androidx.compose.animation.core.animateValueAsState (AnimateAsState.kt:397)");
         }
         ComposerKt.sourceInformationMarkerStart(composer2, 728512439, str2);
-        int i13 = 0;
+        int i12 = 0;
         Composer composer5 = $composer;
-        int i41 = 0;
+        int i40 = 0;
         Object rememberedValue5 = composer5.rememberedValue();
-        int i47 = 0;
+        int i46 = 0;
         if (rememberedValue5 == Composer.Companion.getEmpty()) {
-            empty4 = 0;
-            composer5.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i26, i26, 2, i26));
+            empty2 = 0;
+            composer5.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i25, i25, 2, i25));
         } else {
             mutableStateOf$default = rememberedValue5;
         }
         ComposerKt.sourceInformationMarkerEnd(composer2);
         ComposerKt.sourceInformationMarkerStart(composer2, 728514586, str2);
-        int i31 = 0;
+        int i30 = 0;
         Composer composer6 = $composer;
-        int i42 = 0;
+        int i41 = 0;
         rememberedValue2 = composer6.rememberedValue();
         stiffness = 0;
         if (rememberedValue2 == Composer.Companion.getEmpty()) {
-            empty3 = 0;
+            empty4 = 0;
             animatable = new Animatable(obj3, typeConverter, visibilityThreshold2, label2);
             composer6.updateRememberedValue(animatable);
         } else {
@@ -644,9 +644,9 @@ public final class AnimateAsStateKt {
             animatable = rememberedValue2;
         }
         ComposerKt.sourceInformationMarkerEnd(composer2);
-        State rememberUpdatedState = SnapshotStateKt.rememberUpdatedState(finishedListener2, composer2, i32 &= 14);
+        State rememberUpdatedState = SnapshotStateKt.rememberUpdatedState(finishedListener2, composer2, i31 &= 14);
         Object obj4 = animationSpec2;
-        int i43 = 0;
+        int i42 = 0;
         if (visibilityThreshold2 != 0 && obj4 instanceof SpringSpec && !Intrinsics.areEqual((SpringSpec)obj4.getVisibilityThreshold(), visibilityThreshold2)) {
             if (obj4 instanceof SpringSpec) {
                 if (!Intrinsics.areEqual((SpringSpec)obj4.getVisibilityThreshold(), visibilityThreshold2)) {
@@ -660,9 +660,9 @@ public final class AnimateAsStateKt {
         }
         State rememberUpdatedState2 = SnapshotStateKt.rememberUpdatedState(spring, composer2, 0);
         ComposerKt.sourceInformationMarkerStart(composer2, 728531669, str2);
-        int i45 = 0;
+        int i44 = 0;
         Composer composer7 = $composer;
-        empty2 = 0;
+        empty = 0;
         Object rememberedValue3 = composer7.rememberedValue();
         anon = 0;
         int toolingOverride = 6;
@@ -677,27 +677,27 @@ public final class AnimateAsStateKt {
         }
         ComposerKt.sourceInformationMarkerEnd(composer2);
         ComposerKt.sourceInformationMarkerStart(composer2, 728533527, str2);
-        int i38 = 4;
-        if (toolingOverride ^= i37 > i38) {
+        int i37 = 4;
+        if (toolingOverride ^= i36 > i37) {
             if (!composer2.changedInstance(obj3)) {
-                i5 = $changed & 6 == i38 ? 1 : 0;
+                i = $changed & 6 == i37 ? 1 : 0;
             } else {
             }
         } else {
         }
-        i5 |= changedInstance3;
+        i |= changedInstance3;
         Composer composer3 = $composer;
-        int i39 = 0;
+        int i38 = 0;
         Object rememberedValue6 = composer3.rememberedValue();
-        empty = 0;
-        if (i14 == 0) {
+        empty3 = 0;
+        if (i13 == 0) {
             if (rememberedValue6 == Composer.Companion.getEmpty()) {
-                empty2 = 0;
-                obj27 = i14;
+                empty = 0;
+                obj27 = i13;
                 invalid$iv = new AnimateAsStateKt.animateValueAsState.2.1(obj2, obj3);
                 composer3.updateRememberedValue((Function0)invalid$iv);
             } else {
-                obj27 = i14;
+                obj27 = i13;
                 invalid$iv = rememberedValue6;
             }
         } else {
@@ -706,12 +706,12 @@ public final class AnimateAsStateKt {
         EffectsKt.SideEffect((Function0)invalid$iv, composer2, 0);
         ComposerKt.sourceInformationMarkerStart(composer2, 728536516, str2);
         Composer composer4 = $composer;
-        int i25 = 0;
+        int i24 = 0;
         Object rememberedValue4 = composer4.rememberedValue();
-        int i46 = 0;
-        if (i17 |= changed2 == 0) {
+        int i45 = 0;
+        if (i16 |= changed2 == 0) {
             if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                empty = 0;
+                empty3 = 0;
                 anon = new AnimateAsStateKt.animateValueAsState.3.1(obj2, animatable, rememberUpdatedState2, rememberUpdatedState, 0);
                 composer4.updateRememberedValue((Function2)anon);
             } else {
@@ -736,17 +736,17 @@ public final class AnimateAsStateKt {
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "animate*AsState APIs now have a new label parameter added.")
     public static final State animateValueAsState(Object targetValue, androidx.compose.animation.core.TwoWayConverter typeConverter, androidx.compose.animation.core.AnimationSpec animationSpec, Object visibilityThreshold, Function1 finishedListener, Composer $composer, int $changed, int i8) {
-        int i;
-        Object obj;
-        int i7;
         int i2;
-        Object rememberedValue;
-        int i4;
+        Object obj;
         int i5;
-        Object spring$default;
         int i9;
-        int i6;
+        Object rememberedValue;
         int i3;
+        int i4;
+        Object $i$a$CacheAnimateAsStateKt$animateValueAsState$4;
+        int i;
+        int i6;
+        int i7;
         Object obj14;
         int obj15;
         final Composer composer2 = $composer;
@@ -755,26 +755,26 @@ public final class AnimateAsStateKt {
         ComposerKt.sourceInformationMarkerStart(composer2, i10, "C(animateValueAsState)P(2,3!1,4)572@23613L21,575@23730L240:AnimateAsState.kt#pdpnli");
         if (i8 & 4 != 0) {
             ComposerKt.sourceInformationMarkerStart(composer2, 728685216, "CC(remember):AnimateAsState.kt#9igjgp");
-            i = 0;
+            i2 = 0;
             Composer composer = $composer;
-            i7 = 0;
+            i5 = 0;
             rememberedValue = composer.rememberedValue();
-            i4 = 0;
+            i3 = 0;
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 int i14 = 0;
                 i6 = 0;
-                i3 = 0;
-                composer.updateRememberedValue(AnimationSpecKt.spring$default(i6, i6, i3, 7, i3));
+                i7 = 0;
+                composer.updateRememberedValue(AnimationSpecKt.spring$default(i6, i6, i7, 7, i7));
             } else {
-                spring$default = rememberedValue;
+                $i$a$CacheAnimateAsStateKt$animateValueAsState$4 = rememberedValue;
             }
             ComposerKt.sourceInformationMarkerEnd(composer2);
             obj = obj14;
         } else {
             obj = animationSpec;
         }
-        i2 = i8 & 8 != 0 ? obj15 : visibilityThreshold;
-        i5 = i8 & 16 != 0 ? obj14 : finishedListener;
+        i9 = i8 & 8 != 0 ? obj15 : visibilityThreshold;
+        i4 = i8 & 16 != 0 ? obj14 : finishedListener;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i10, i16, -1, "androidx.compose.animation.core.animateValueAsState (AnimateAsState.kt:575)");
         }
@@ -782,7 +782,7 @@ public final class AnimateAsStateKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return AnimateAsStateKt.animateValueAsState(targetValue, typeConverter, obj, i2, "ValueAnimation", i5, composer2, obj14 | obj15, 0);
+        return AnimateAsStateKt.animateValueAsState(targetValue, typeConverter, obj, i9, "ValueAnimation", i4, composer2, obj14 | obj15, 0);
     }
 
     private static final <T> Function1<T, Unit> animateValueAsState$lambda$4(State<? extends Function1<? super T, Unit>> $listener$delegate) {

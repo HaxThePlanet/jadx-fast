@@ -31,24 +31,24 @@ public final class PersistentHashMapEntries<K, V>  extends AbstractSet<Map.Entry
     }
 
     public boolean contains(Map.Entry<? extends K, ? extends V> element) {
-        Object value2;
-        boolean equal;
         Object value;
+        boolean $i$a$LetPersistentHashMapEntries$contains$1;
+        Object value2;
         if (!obj instanceof Map.Entry) {
             return 0;
         }
-        value2 = this.map.get(element.getKey());
-        if (value2 != null) {
+        value = this.map.get(element.getKey());
+        if (value != null) {
             int i = 0;
-            equal = Intrinsics.areEqual(value2, element.getValue());
+            $i$a$LetPersistentHashMapEntries$contains$1 = Intrinsics.areEqual(value, element.getValue());
         } else {
             if (element.getValue() == null && this.map.containsKey(element.getKey())) {
                 if (this.map.containsKey(element.getKey())) {
-                    equal = 1;
+                    $i$a$LetPersistentHashMapEntries$contains$1 = 1;
                 }
             }
         }
-        return equal;
+        return $i$a$LetPersistentHashMapEntries$contains$1;
     }
 
     @Override // kotlin.collections.AbstractSet

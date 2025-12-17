@@ -133,19 +133,19 @@ public final class LazyGridSpanLayoutProvider {
     private final List<androidx.compose.foundation.lazy.grid.GridItemSpan> getDefaultSpans(int currentSlotsPerLine) {
         Object previousDefaultSpans;
         ArrayList list;
-        int i;
-        int box-impl;
-        int i2;
         int i3;
+        int box-impl;
+        int i;
+        int i2;
         if (currentSlotsPerLine == this.previousDefaultSpans.size()) {
             previousDefaultSpans = this.previousDefaultSpans;
         } else {
             previousDefaultSpans = new ArrayList(currentSlotsPerLine);
-            i = 0;
-            while (i < currentSlotsPerLine) {
-                int i4 = i;
+            i3 = 0;
+            while (i3 < currentSlotsPerLine) {
+                int i4 = i3;
                 previousDefaultSpans.add(GridItemSpan.box-impl(LazyGridSpanKt.GridItemSpan(1)));
-                i++;
+                i3++;
             }
             box-impl = 0;
             this.previousDefaultSpans = (List)previousDefaultSpans;
@@ -170,15 +170,15 @@ public final class LazyGridSpanLayoutProvider {
         int currentItemIndex;
         int knownCurrentItemSpan2;
         int cachedBucketIndex;
+        int i3;
         int i;
-        int i2;
         int cachedBucket;
         int spansUsed;
         int spansUsed2;
         int it;
         int knownCurrentItemSpan;
         int box-impl;
-        int i3;
+        int i2;
         int slotsPerLine;
         int i4;
         int i8 = 0;
@@ -214,13 +214,13 @@ public final class LazyGridSpanLayoutProvider {
         if (currentLine % bucketSize3 == 0) {
             cachedBucket = lineIndex - currentLine;
             if (2 <= cachedBucket && cachedBucket < getBucketSize()) {
-                i = cachedBucket < getBucketSize() ? i12 : i8;
+                i3 = cachedBucket < getBucketSize() ? i12 : i8;
             } else {
             }
-            i2 = i != 0 ? i12 : i8;
+            i = i3 != 0 ? i12 : i8;
         } else {
         }
-        if (i2 != 0) {
+        if (i != 0) {
             this.cachedBucketIndex = i6;
             this.cachedBucket.clear();
         }
@@ -228,33 +228,33 @@ public final class LazyGridSpanLayoutProvider {
         if (spansUsed == 0) {
         }
         int firstItemIndex = 0;
-        IllegalStateException illegalStateException2 = new IllegalStateException("currentLine > lineIndex".toString());
-        throw illegalStateException2;
+        IllegalStateException $i$a$CheckLazyGridSpanLayoutProvider$getLineConfiguration$1 = new IllegalStateException("currentLine > lineIndex".toString());
+        throw $i$a$CheckLazyGridSpanLayoutProvider$getLineConfiguration$1;
     }
 
     public final int getLineIndexOfItem(int itemIndex) {
-        int i8;
+        int i9;
         int it;
         int currentLine;
-        int i9;
+        int i4;
         int span;
-        int i6;
-        int spansUsed;
-        int i;
         int i7;
+        int spansUsed;
+        int i5;
         int i3;
+        int i6;
         int slotsPerLine;
         androidx.compose.foundation.lazy.grid.LazyGridSpanLayoutProvider.Bucket bucket;
+        int i8;
         int i2;
-        int i4;
-        int i5;
+        int i;
         int i11 = 0;
         if (getTotalSize() <= 0) {
             return i11;
         }
         int i15 = 1;
-        i8 = itemIndex < getTotalSize() ? i15 : i11;
-        if (i8 == 0) {
+        i9 = itemIndex < getTotalSize() ? i15 : i11;
+        if (i9 == 0) {
         } else {
             if (!this.gridContent.getHasCustomSpans$foundation_release()) {
                 return itemIndex / slotsPerLine2;
@@ -265,15 +265,15 @@ public final class LazyGridSpanLayoutProvider {
             int i18 = 2;
             if (it >= 0) {
             } else {
-                it = i9;
+                it = i4;
             }
             bucketSize *= it;
-            i6 = (LazyGridSpanLayoutProvider.Bucket)this.buckets.get(it).getFirstItemIndex() <= itemIndex ? i15 : i11;
-            if (i6 == 0) {
+            i7 = (LazyGridSpanLayoutProvider.Bucket)this.buckets.get(it).getFirstItemIndex() <= itemIndex ? i15 : i11;
+            if (i7 == 0) {
             } else {
                 spansUsed = 0;
                 while (span < itemIndex) {
-                    i = span + 1;
+                    i5 = span + 1;
                     int spanOf2 = spanOf(span, slotsPerLine5 -= spansUsed);
                     if (spansUsed + spanOf2 < this.slotsPerLine) {
                     } else {
@@ -285,16 +285,16 @@ public final class LazyGridSpanLayoutProvider {
                     spansUsed = spanOf2;
                     if (currentLine % bucketSize2 == 0 && currentLine / bucketSize3 >= this.buckets.size()) {
                     }
-                    span = i;
+                    span = i5;
                     if (currentLine / bucketSize3 >= this.buckets.size()) {
                     }
                     if (spansUsed > 0) {
                     } else {
                     }
-                    i4 = i11;
-                    bucket = new LazyGridSpanLayoutProvider.Bucket(i - i4, i11, i18, 0);
+                    i2 = i11;
+                    bucket = new LazyGridSpanLayoutProvider.Bucket(i5 - i2, i11, i18, 0);
                     this.buckets.add(bucket);
-                    i4 = i15;
+                    i2 = i15;
                     currentLine++;
                     spansUsed = 0;
                     spansUsed += spanOf2;
@@ -305,12 +305,12 @@ public final class LazyGridSpanLayoutProvider {
                 return currentLine;
             }
             int i14 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("currentItemIndex > itemIndex".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireLazyGridSpanLayoutProvider$getLineIndexOfItem$2 = new IllegalArgumentException("currentItemIndex > itemIndex".toString());
+            throw $i$a$RequireLazyGridSpanLayoutProvider$getLineIndexOfItem$2;
         }
         int lowerBoundBucket = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("ItemIndex > total count".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireLazyGridSpanLayoutProvider$getLineIndexOfItem$1 = new IllegalArgumentException("ItemIndex > total count".toString());
+        throw $i$a$RequireLazyGridSpanLayoutProvider$getLineIndexOfItem$1;
     }
 
     public final int getSlotsPerLine() {

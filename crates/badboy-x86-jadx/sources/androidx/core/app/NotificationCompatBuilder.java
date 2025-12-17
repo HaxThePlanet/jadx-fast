@@ -210,42 +210,42 @@ class NotificationCompatBuilder implements androidx.core.app.NotificationBuilder
         }
     }
     NotificationCompatBuilder(androidx.core.app.NotificationCompat.Builder b) {
-        int i4;
+        int i5;
         int i2;
         int i;
         Icon icon;
-        int mBuilder;
+        int mBuilder2;
         boolean mBuilder3;
         int bundleForAction;
-        Object mSmallIcon;
+        Object mSmallIcon2;
         Object mContentView;
         Object mBigContentView;
         Object mHeadsUpContentView;
         boolean mColorizedSet;
         boolean lights;
         Object mLocusId;
-        int mFgsDeferBehavior;
+        int mFgsDeferBehavior2;
         int defaults;
         boolean mGroupAlertBehavior;
-        int next3;
+        int next2;
         Object locusId;
-        int mFgsDeferBehavior2;
-        int i5;
+        int mFgsDeferBehavior;
+        int i3;
         Context mProgressIndeterminate;
         Object actionsListWithSystemActions;
         Bundle mExtras;
-        Object mSmallIcon2;
+        Object mSmallIcon;
         java.lang.CharSequence[] mRemoteInputHistory;
         int mGroupAlertBehavior2;
         Iterator mExtras2;
         Uri iterator;
         Bundle carExtenderBundle;
-        Object next2;
-        boolean next;
+        Object next;
+        boolean next3;
         android.media.AudioAttributes audioAttributes;
-        Notification.Builder mBuilder2;
+        Notification.Builder mBuilder;
         Bundle bundle;
-        int i3;
+        int i4;
         String string;
         final Object obj = this;
         final androidx.core.app.NotificationCompat.Builder builder = b;
@@ -258,13 +258,13 @@ class NotificationCompatBuilder implements androidx.core.app.NotificationBuilder
         obj.mContext = builder.mContext;
         obj.mBuilder = NotificationCompatBuilder.Api26Impl.createBuilder(builder.mContext, builder.mChannelId);
         Notification mNotification = builder.mNotification;
-        mBuilder = 2;
-        next3 = 0;
-        i4 = flags &= mBuilder != null ? 1 : next3;
-        i2 = flags2 &= 8 != 0 ? 1 : next3;
-        i = flags3 &= 16 != 0 ? 1 : next3;
-        i5 = flags4 &= 128 != 0 ? 1 : next3;
-        obj.mBuilder.setWhen(mNotification.when).setSmallIcon(mNotification.icon, mNotification.iconLevel).setContent(mNotification.contentView).setTicker(mNotification.tickerText, builder.mTickerView).setVibrate(mNotification.vibrate).setLights(mNotification.ledARGB, mNotification.ledOnMS, mNotification.ledOffMS).setOngoing(i4).setOnlyAlertOnce(i2).setAutoCancel(i).setDefaults(mNotification.defaults).setContentTitle(builder.mContentTitle).setContentText(builder.mContentText).setContentInfo(builder.mContentInfo).setContentIntent(builder.mContentIntent).setDeleteIntent(mNotification.deleteIntent).setFullScreenIntent(builder.mFullScreenIntent, i5).setNumber(builder.mNumber).setProgress(builder.mProgressMax, builder.mProgress, builder.mProgressIndeterminate);
+        mBuilder2 = 2;
+        next2 = 0;
+        i5 = flags &= mBuilder2 != 0 ? 1 : next2;
+        i2 = flags2 &= 8 != 0 ? 1 : next2;
+        i = flags3 &= 16 != 0 ? 1 : next2;
+        i3 = flags4 &= 128 != 0 ? 1 : next2;
+        obj.mBuilder.setWhen(mNotification.when).setSmallIcon(mNotification.icon, mNotification.iconLevel).setContent(mNotification.contentView).setTicker(mNotification.tickerText, builder.mTickerView).setVibrate(mNotification.vibrate).setLights(mNotification.ledARGB, mNotification.ledOnMS, mNotification.ledOffMS).setOngoing(i5).setOnlyAlertOnce(i2).setAutoCancel(i).setDefaults(mNotification.defaults).setContentTitle(builder.mContentTitle).setContentText(builder.mContentText).setContentInfo(builder.mContentInfo).setContentIntent(builder.mContentIntent).setDeleteIntent(mNotification.deleteIntent).setFullScreenIntent(builder.mFullScreenIntent, i3).setNumber(builder.mNumber).setProgress(builder.mProgressMax, builder.mProgress, builder.mProgressIndeterminate);
         int i12 = 0;
         if (builder.mLargeIcon == null) {
             icon = i12;
@@ -275,13 +275,13 @@ class NotificationCompatBuilder implements androidx.core.app.NotificationBuilder
         obj.mBuilder.setSubText(builder.mSubText).setUsesChronometer(builder.mUseChronometer).setPriority(builder.mPriority);
         if (mStyle instanceof NotificationCompat.CallStyle) {
             mExtras2 = (NotificationCompat.CallStyle)builder.mStyle.getActionsListWithSystemActions().iterator();
-            for (NotificationCompat.Action next : mExtras2) {
-                obj.addAction(next);
+            for (NotificationCompat.Action next3 : mExtras2) {
+                obj.addAction(next3);
             }
         } else {
             actionsListWithSystemActions = builder.mActions.iterator();
-            for (NotificationCompat.Action next2 : actionsListWithSystemActions) {
-                obj.addAction(next2);
+            for (NotificationCompat.Action next : actionsListWithSystemActions) {
+                obj.addAction(next);
             }
         }
         if (builder.mExtras != null) {
@@ -300,10 +300,10 @@ class NotificationCompatBuilder implements androidx.core.app.NotificationBuilder
         NotificationCompatBuilder.Api21Impl.setVisibility(obj.mBuilder, builder.mVisibility);
         NotificationCompatBuilder.Api21Impl.setPublicVersion(obj.mBuilder, builder.mPublicVersion);
         NotificationCompatBuilder.Api21Impl.setSound(obj.mBuilder, mNotification.sound, mNotification.audioAttributes);
-        mSmallIcon2 = builder.mPeople;
-        if (mSmallIcon2 != null && !mSmallIcon2.isEmpty()) {
-            if (!mSmallIcon2.isEmpty()) {
-                iterator = mSmallIcon2.iterator();
+        mSmallIcon = builder.mPeople;
+        if (mSmallIcon != null && !mSmallIcon.isEmpty()) {
+            if (!mSmallIcon.isEmpty()) {
+                iterator = mSmallIcon.iterator();
                 for (String audioAttributes : iterator) {
                     NotificationCompatBuilder.Api21Impl.addPerson(obj.mBuilder, audioAttributes);
                 }
@@ -314,21 +314,21 @@ class NotificationCompatBuilder implements androidx.core.app.NotificationBuilder
         if (builder.mInvisibleActions.size() > 0 && builder.getExtras().getBundle(audioAttributes) == null) {
             audioAttributes = "android.car.EXTENSIONS";
             if (builder.getExtras().getBundle(audioAttributes) == null) {
-                mBuilder2 = new Bundle();
-                carExtenderBundle = mBuilder2;
+                mBuilder = new Bundle();
+                carExtenderBundle = mBuilder;
             }
-            mBuilder2 = new Bundle(carExtenderBundle);
+            mBuilder = new Bundle(carExtenderBundle);
             bundle = new Bundle();
-            i3 = 0;
-            while (i3 < builder.mInvisibleActions.size()) {
-                bundle.putBundle(Integer.toString(i3), NotificationCompatJellybean.getBundleForAction((NotificationCompat.Action)builder.mInvisibleActions.get(i3)));
-                i3++;
+            i4 = 0;
+            while (i4 < builder.mInvisibleActions.size()) {
+                bundle.putBundle(Integer.toString(i4), NotificationCompatJellybean.getBundleForAction((NotificationCompat.Action)builder.mInvisibleActions.get(i4)));
+                i4++;
             }
             String str = "invisible_actions";
             carExtenderBundle.putBundle(str, bundle);
-            mBuilder2.putBundle(str, bundle);
+            mBuilder.putBundle(str, bundle);
             builder.getExtras().putBundle(audioAttributes, carExtenderBundle);
-            obj.mExtras.putBundle(audioAttributes, mBuilder2);
+            obj.mExtras.putBundle(audioAttributes, mBuilder);
         }
         if (builder.mSmallIcon != null) {
             NotificationCompatBuilder.Api23Impl.setSmallIcon(obj.mBuilder, builder.mSmallIcon);
@@ -353,11 +353,11 @@ class NotificationCompatBuilder implements androidx.core.app.NotificationBuilder
             NotificationCompatBuilder.Api26Impl.setColorized(obj.mBuilder, builder.mColorized);
         }
         if (!TextUtils.isEmpty(builder.mChannelId)) {
-            obj.mBuilder.setSound(i12).setDefaults(next3).setLights(next3, next3, next3).setVibrate(i12);
+            obj.mBuilder.setSound(i12).setDefaults(next2).setLights(next2, next2, next2).setVibrate(i12);
         }
         Iterator iterator2 = builder.mPersonList.iterator();
-        for (Person next3 : iterator2) {
-            NotificationCompatBuilder.Api28Impl.addPerson(obj.mBuilder, next3.toAndroidPerson());
+        for (Person next2 : iterator2) {
+            NotificationCompatBuilder.Api28Impl.addPerson(obj.mBuilder, next2.toAndroidPerson());
         }
         NotificationCompatBuilder.Api29Impl.setAllowSystemGeneratedContextualActions(obj.mBuilder, builder.mAllowSystemGeneratedContextualActions);
         NotificationCompatBuilder.Api29Impl.setBubbleMetadata(obj.mBuilder, NotificationCompat.BubbleMetadata.toPlatform(builder.mBubbleMetadata));
@@ -371,7 +371,7 @@ class NotificationCompatBuilder implements androidx.core.app.NotificationBuilder
         }
         if (builder.mSilent) {
             if (mBuilderCompat2.mGroupSummary) {
-                obj.mGroupAlertBehavior = mBuilder;
+                obj.mGroupAlertBehavior = mBuilder2;
             } else {
                 obj.mGroupAlertBehavior = 1;
             }

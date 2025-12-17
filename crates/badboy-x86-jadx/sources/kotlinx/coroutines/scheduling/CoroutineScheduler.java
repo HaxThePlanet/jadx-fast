@@ -74,11 +74,11 @@ public final class CoroutineScheduler implements Executor, Closeable {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal5;
-            int ordinal4;
             int ordinal;
+            int ordinal5;
             int ordinal2;
             int ordinal3;
+            int ordinal4;
             int[] iArr = new int[values.length];
             iArr[CoroutineScheduler.WorkerState.PARKING.ordinal()] = 1;
             iArr[CoroutineScheduler.WorkerState.BLOCKING.ordinal()] = 2;
@@ -331,17 +331,17 @@ public final class CoroutineScheduler implements Executor, Closeable {
         private final boolean tryAcquireCpuPermit() {
             int $i$f$tryAcquireCpuPermit;
             Object cPU_ACQUIRED;
-            int i;
+            int i3;
             boolean this_$iv$iv;
             kotlinx.coroutines.scheduling.CoroutineScheduler this$0;
             long l;
-            int i7;
-            int i3;
+            int i;
+            int i4;
             kotlinx.coroutines.scheduling.CoroutineScheduler coroutineScheduler;
             int i5;
-            int i4;
             int i6;
             int i2;
+            int i7;
             if (this.state == CoroutineScheduler.WorkerState.CPU_ACQUIRED) {
             } else {
                 this$0 = this.this$0;
@@ -349,27 +349,27 @@ public final class CoroutineScheduler implements Executor, Closeable {
                 coroutineScheduler = this$0;
                 i5 = 0;
                 l = CoroutineScheduler.access$getControlState$FU$p().get(this$0);
-                i4 = 0;
+                i6 = 0;
                 kotlinx.coroutines.scheduling.CoroutineScheduler coroutineScheduler2 = this$0;
+                i = 0;
+                i4 = 42;
                 i7 = 0;
-                i3 = 42;
-                i2 = 0;
                 while ((int)i10 == 0) {
                     l = cPU_ACQUIRED.get(this$0);
-                    i4 = 0;
+                    i6 = 0;
                     coroutineScheduler2 = this$0;
+                    i = 0;
+                    i4 = 42;
                     i7 = 0;
-                    i3 = 42;
-                    i2 = 0;
                 }
-                $i$f$tryAcquireCpuPermit = i2;
+                $i$f$tryAcquireCpuPermit = i7;
                 if ($i$f$tryAcquireCpuPermit != 0) {
                     this.state = CoroutineScheduler.WorkerState.CPU_ACQUIRED;
                 } else {
-                    i = i2;
+                    i3 = i7;
                 }
             }
-            return i;
+            return i3;
         }
 
         private final void tryPark() {
@@ -401,14 +401,14 @@ public final class CoroutineScheduler implements Executor, Closeable {
         private final kotlinx.coroutines.scheduling.Task trySteal(int stealingMode) {
             int currentIndex;
             long minDelay;
-            int i3;
+            int i;
             int cmp;
             int i2;
             int i4;
             Object obj;
             long trySteal;
             Ref.ObjectRef stolenTask;
-            int i;
+            int i3;
             int cmp2;
             final Object obj2 = this;
             int i5 = 0;
@@ -422,15 +422,15 @@ public final class CoroutineScheduler implements Executor, Closeable {
             currentIndex = obj2.nextInt(this_$iv);
             int i10 = 0;
             minDelay = Long.MAX_VALUE;
-            i3 = 0;
-            while (i3 < this_$iv) {
-                i2 = i3;
+            i = 0;
+            while (i < this_$iv) {
+                i2 = i;
                 i4 = 0;
                 if (currentIndex++ > this_$iv) {
                 }
                 obj = this$02.workers.get(currentIndex);
-                i = stealingMode;
-                i3++;
+                i3 = stealingMode;
+                i++;
                 stolenTask = obj2.stolenTask;
                 trySteal = obj.localQueue.trySteal(stealingMode, stolenTask);
                 if (Long.compare(trySteal, cmp) > 0) {
@@ -515,17 +515,17 @@ public final class CoroutineScheduler implements Executor, Closeable {
 
         @Override // java.lang.Thread
         public final long runSingleTask() {
-            int i2;
+            int i;
             kotlinx.coroutines.scheduling.Task blockingTask;
             int i3;
             kotlinx.coroutines.scheduling.CoroutineScheduler this$0;
             boolean aSSERTIONS_ENABLED;
             int state;
             AtomicLongFieldUpdater num;
-            int i;
+            int i2;
             final int i5 = 0;
-            i2 = this.state == CoroutineScheduler.WorkerState.CPU_ACQUIRED ? i3 : i5;
-            if (i2 != 0) {
+            i = this.state == CoroutineScheduler.WorkerState.CPU_ACQUIRED ? i3 : i5;
+            if (i != 0) {
                 blockingTask = findCpuTask();
             } else {
                 blockingTask = findBlockingTask();
@@ -538,7 +538,7 @@ public final class CoroutineScheduler implements Executor, Closeable {
                 return this.minDelayUntilStealableTaskNs;
             }
             this.this$0.runSafely(blockingTask);
-            if (i2 == 0) {
+            if (i == 0) {
                 state = 0;
                 CoroutineScheduler.access$getControlState$FU$p().addAndGet(this.this$0, -2097152);
             }
@@ -599,11 +599,10 @@ public final class CoroutineScheduler implements Executor, Closeable {
     public static enum WorkerState {
 
         CPU_ACQUIRED,
-        CPU_ACQUIRED,
-        CPU_ACQUIRED,
-        CPU_ACQUIRED,
-        CPU_ACQUIRED,
-        CPU_ACQUIRED;
+        BLOCKING,
+        PARKING,
+        DORMANT,
+        TERMINATED;
         private static final kotlinx.coroutines.scheduling.CoroutineScheduler.WorkerState[] $values() {
             return /* result */;
         }
@@ -620,8 +619,8 @@ public final class CoroutineScheduler implements Executor, Closeable {
     }
 
     public CoroutineScheduler(int corePoolSize, int maxPoolSize, long idleWorkerKeepAliveNs, String schedulerName) {
-        int i2;
         int i;
+        int i2;
         int i3;
         int i4;
         super();
@@ -631,12 +630,12 @@ public final class CoroutineScheduler implements Executor, Closeable {
         this.schedulerName = obj12;
         int i10 = 0;
         int i11 = 1;
-        i2 = this.corePoolSize >= i11 ? i11 : i10;
-        if (i2 == 0) {
+        i = this.corePoolSize >= i11 ? i11 : i10;
+        if (i == 0) {
         } else {
-            i = this.maxPoolSize >= this.corePoolSize ? i11 : i10;
+            i2 = this.maxPoolSize >= this.corePoolSize ? i11 : i10;
             String str7 = "Max pool size ";
-            if (i == 0) {
+            if (i2 == 0) {
             } else {
                 i3 = this.maxPoolSize <= 2097150 ? i11 : i10;
                 if (i3 == 0) {
@@ -711,9 +710,9 @@ public final class CoroutineScheduler implements Executor, Closeable {
     }
 
     private final int createNewWorker() {
-        int i;
-        Object obj;
         int i2;
+        Object obj;
+        int i;
         final Object obj2 = this;
         int i6 = 0;
         ResizableAtomicArray workers = obj2.workers;
@@ -733,24 +732,24 @@ public final class CoroutineScheduler implements Executor, Closeable {
     private final kotlinx.coroutines.scheduling.CoroutineScheduler.Worker currentWorker() {
         Thread currentThread;
         boolean it;
-        int i;
         int i3;
-        kotlinx.coroutines.scheduling.CoroutineScheduler this_$iv;
         int i2;
+        kotlinx.coroutines.scheduling.CoroutineScheduler this_$iv;
+        int i;
         if (currentThread instanceof CoroutineScheduler.Worker) {
         } else {
-            currentThread = i;
+            currentThread = i3;
         }
-        i3 = 0;
         i2 = 0;
+        i = 0;
         if (currentThread != null && Intrinsics.areEqual(CoroutineScheduler.Worker.access$getThis$0$p(currentThread), this)) {
-            i3 = 0;
             i2 = 0;
+            i = 0;
             if (Intrinsics.areEqual(CoroutineScheduler.Worker.access$getThis$0$p(currentThread), this)) {
-                i = currentThread;
+                i3 = currentThread;
             }
         }
-        return i;
+        return i3;
     }
 
     private final void decrementBlockingTasks() {
@@ -826,22 +825,22 @@ public final class CoroutineScheduler implements Executor, Closeable {
         int compareAndSet;
         Object obj;
         long l;
-        int i2;
         int i;
-        int i4;
-        Object obj2;
+        int i2;
         int i3;
+        Object obj2;
+        int i4;
         int parkedWorkersStackNextIndex;
         final Object obj3 = this;
         final int i5 = 0;
         l = CoroutineScheduler.parkedWorkersStack$FU.get(this);
-        i = 0;
+        i2 = 0;
         Object obj4 = this.workers.get((int)i7);
         while ((CoroutineScheduler.Worker)obj4 == null) {
             obj2 = obj4;
             parkedWorkersStackNextIndex = parkedWorkersStackNextIndex(obj2);
             l = parkedWorkersStack$FU.get(this);
-            i = 0;
+            i2 = 0;
             obj4 = this.workers.get((int)i7);
         }
         return null;
@@ -885,19 +884,19 @@ public final class CoroutineScheduler implements Executor, Closeable {
         boolean compareAndSet;
         Object obj;
         long l;
-        int i3;
         int i;
+        int i3;
         int i2;
         final int i4 = 0;
         final Object obj2 = this;
         final int i5 = 0;
         l = CoroutineScheduler.access$getControlState$FU$p().get(this);
-        i = 0;
+        i3 = 0;
         Object obj3 = this;
         int i8 = 0;
         while ((int)i10 == 0) {
             l = num.get(this);
-            i = 0;
+            i3 = 0;
             obj3 = this;
             i8 = 0;
         }
@@ -1037,45 +1036,45 @@ public final class CoroutineScheduler implements Executor, Closeable {
     @Override // java.util.concurrent.Executor
     public final boolean parkedWorkersStackPush(kotlinx.coroutines.scheduling.CoroutineScheduler.Worker worker) {
         AtomicLongFieldUpdater parkedWorkersStack$FU;
-        boolean aSSERTIONS_ENABLED;
-        Object obj;
+        boolean $i$a$AssertCoroutineScheduler$parkedWorkersStackPush$1$1;
+        Object obj3;
         Symbol nOT_IN_STACK;
-        int i7;
         int i;
         int i2;
-        Object obj2;
-        int i3;
-        int i6;
-        int i4;
-        int indexInArray;
         int i5;
-        Object obj3;
-        obj = this;
+        Object obj;
+        int i6;
+        int i7;
+        int i3;
+        int indexInArray;
+        int i4;
+        Object obj2;
+        obj3 = this;
         if (worker.getNextParkedWorker() != CoroutineScheduler.NOT_IN_STACK) {
             return 0;
         }
-        obj2 = this;
+        obj = this;
         final int i13 = 0;
-        nOT_IN_STACK = CoroutineScheduler.parkedWorkersStack$FU.get(obj);
-        i3 = 0;
+        nOT_IN_STACK = CoroutineScheduler.parkedWorkersStack$FU.get(obj3);
+        i6 = 0;
         indexInArray = worker.getIndexInArray();
-        i5 = 1;
+        i4 = 1;
         while (DebugKt.getASSERTIONS_ENABLED()) {
             int i8 = 0;
             if (indexInArray != null) {
             } else {
             }
-            aSSERTIONS_ENABLED = i2;
-            worker.setNextParkedWorker(obj.workers.get((int)i10));
-            i = i4 | l;
-            i2 = 0;
-            obj = this;
-            obj2 = obj3;
-            nOT_IN_STACK = num.get(obj);
-            i3 = 0;
+            $i$a$AssertCoroutineScheduler$parkedWorkersStackPush$1$1 = i5;
+            worker.setNextParkedWorker(obj3.workers.get((int)i10));
+            i2 = i3 | l;
+            i5 = 0;
+            obj3 = this;
+            obj = obj2;
+            nOT_IN_STACK = num.get(obj3);
+            i6 = 0;
             indexInArray = worker.getIndexInArray();
-            i5 = 1;
-            aSSERTIONS_ENABLED = i5;
+            i4 = 1;
+            $i$a$AssertCoroutineScheduler$parkedWorkersStackPush$1$1 = i4;
         }
         AssertionError assertionError = new AssertionError();
         throw assertionError;
@@ -1086,29 +1085,29 @@ public final class CoroutineScheduler implements Executor, Closeable {
         int parkedWorkersStackNextIndex;
         Object obj;
         long l;
-        int i5;
-        int i6;
-        int i4;
-        int i3;
         int i;
+        int i6;
         int i2;
+        int i3;
+        int i5;
+        int i4;
         final Object obj2 = this;
         final int i7 = 0;
         l = CoroutineScheduler.parkedWorkersStack$FU.get(this);
         i6 = 0;
-        i4 = (int)i9;
-        while (i4 == oldIndex) {
+        i2 = (int)i9;
+        while (i2 == oldIndex) {
             if (newIndex == 0) {
             } else {
             }
             parkedWorkersStackNextIndex = newIndex;
-            i2 = parkedWorkersStackNextIndex;
-            if (i2 < 0) {
+            i4 = parkedWorkersStackNextIndex;
+            if (i4 < 0) {
             }
             l = parkedWorkersStack$FU.get(this);
             i6 = 0;
-            i4 = (int)i9;
-            parkedWorkersStackNextIndex = i4;
+            i2 = (int)i9;
+            parkedWorkersStackNextIndex = i2;
             if (!CoroutineScheduler.parkedWorkersStack$FU.compareAndSet(this, l, obj6)) {
             }
             parkedWorkersStackNextIndex = parkedWorkersStackNextIndex(worker);
@@ -1117,16 +1116,16 @@ public final class CoroutineScheduler implements Executor, Closeable {
 
     @Override // java.util.concurrent.Executor
     public final void runSafely(kotlinx.coroutines.scheduling.Task task) {
-        AbstractTimeSource timeSource;
-        Thread timeSource2;
+        AbstractTimeSource timeSource2;
+        Thread timeSource;
         java.lang.Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
         task.run();
-        timeSource = AbstractTimeSourceKt.getTimeSource();
-        if (timeSource != null) {
+        timeSource2 = AbstractTimeSourceKt.getTimeSource();
+        if (timeSource2 != null) {
             try {
-                timeSource.unTrackTask();
-                timeSource2 = Thread.currentThread();
-                timeSource2.getUncaughtExceptionHandler().uncaughtException(timeSource2, th);
+                timeSource2.unTrackTask();
+                timeSource = Thread.currentThread();
+                timeSource.getUncaughtExceptionHandler().uncaughtException(timeSource, th);
                 Throwable th = AbstractTimeSourceKt.getTimeSource();
             } catch (Throwable th) {
             }
@@ -1135,18 +1134,18 @@ public final class CoroutineScheduler implements Executor, Closeable {
 
     @Override // java.util.concurrent.Executor
     public final void shutdown(long timeout) {
-        int i3;
+        int i4;
         kotlinx.coroutines.scheduling.GlobalQueue globalCpuQueue;
         boolean aSSERTIONS_ENABLED;
         int i5;
         ResizableAtomicArray this_$iv;
         int state;
         int this_$iv$iv;
-        int aSSERTIONS_ENABLED2;
-        int i2;
-        kotlinx.coroutines.scheduling.GlobalQueue globalBlockingQueue;
-        int i4;
+        int $i$a$AssertCoroutineScheduler$shutdown$1;
         int i;
+        kotlinx.coroutines.scheduling.GlobalQueue globalBlockingQueue;
+        int i2;
+        int i3;
         int i6;
         final Object obj = this;
         i5 = 0;
@@ -1158,7 +1157,7 @@ public final class CoroutineScheduler implements Executor, Closeable {
         state = 0;
         this_$iv$iv = 0;
         int i7 = 0;
-        i2 = 0;
+        i = 0;
         l &= i14;
         int this_$iv2 = (int)i13;
         synchronized (this_$iv) {
@@ -1167,31 +1166,31 @@ public final class CoroutineScheduler implements Executor, Closeable {
             state = 0;
             this_$iv$iv = 0;
             i7 = 0;
-            i2 = 0;
+            i = 0;
             l &= i14;
             this_$iv2 = (int)i13;
         }
-        this_$iv = obj.workers.get(i3);
+        this_$iv = obj.workers.get(i4);
         Intrinsics.checkNotNull(this_$iv);
         while ((CoroutineScheduler.Worker)this_$iv != currentWorker) {
             while ((CoroutineScheduler.Worker)this_$iv.isAlive()) {
                 LockSupport.unpark((Thread)this_$iv);
                 this_$iv.join(timeout);
             }
-            i2 = timeout;
+            i = timeout;
             this_$iv.localQueue.offloadAllWorkTo(obj.globalBlockingQueue);
-            if (i3 != this_$iv2) {
+            if (i4 != this_$iv2) {
             }
-            i3++;
-            this_$iv = obj.workers.get(i3);
+            i4++;
+            this_$iv = obj.workers.get(i4);
             Intrinsics.checkNotNull(this_$iv);
-            i2 = timeout;
+            i = timeout;
             int i11 = 0;
             if (this_$iv.state == CoroutineScheduler.WorkerState.TERMINATED) {
             } else {
             }
-            aSSERTIONS_ENABLED2 = i5;
-            aSSERTIONS_ENABLED2 = i10;
+            $i$a$AssertCoroutineScheduler$shutdown$1 = i5;
+            $i$a$AssertCoroutineScheduler$shutdown$1 = i10;
             LockSupport.unpark((Thread)(CoroutineScheduler.Worker)this_$iv);
             this_$iv.join(timeout);
         }

@@ -80,108 +80,108 @@ public final class ExpressiveNavigationBarKt {
     }
 
     public static final void ExpressiveNavigationBar-NiJtXQ4(Modifier modifier, long containerColor, long contentColor, WindowInsets windowInsets, int arrangement, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
-        int traceInProgress;
+        int traceInProgress2;
         Object $composer2;
         int $dirty2;
         long $dirty;
         int modifier2;
-        Object obj2;
+        Object obj;
         long arrangement2;
         int arrangement-Ebr7WPU;
         int containerColor2;
         int containerColor3;
-        int windowInsets2;
-        int i3;
-        long l2;
-        boolean traceInProgress2;
-        Object obj;
-        String str;
-        int changed3;
-        int i11;
-        Object obj3;
         int windowInsets3;
-        boolean changed4;
-        long contentColor2;
-        int i4;
+        int i11;
+        long l;
+        boolean traceInProgress;
+        Object obj2;
+        String str;
         int changed;
-        int i10;
-        int changed2;
+        int i;
+        Object obj3;
+        int windowInsets2;
+        boolean changed3;
+        long contentColor2;
         int i6;
+        int changed2;
+        int i2;
+        int changed4;
+        int i10;
         boolean defaultsInvalid;
         int i5;
-        int i2;
-        int i8;
-        int i12;
+        int i4;
+        int i3;
+        int i7;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i7;
-        int i;
-        long l;
+        int i12;
+        int i8;
+        long l2;
         final Object obj5 = $changed;
         final int i29 = obj34;
-        traceInProgress = -1171105467;
-        Composer restartGroup = i9.startRestartGroup(traceInProgress);
+        traceInProgress2 = -1171105467;
+        Composer restartGroup = i9.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(ExpressiveNavigationBar)P(4,1:c#ui.graphics.Color,3:c#ui.graphics.Color,5,0:c#material3.NavigationBarArrangement)83@3944L14,84@4018L12,85@4097L12,92@4328L779,89@4244L863:ExpressiveNavigationBar.kt#uh7d8r");
         $dirty2 = obj34;
         modifier2 = obj35 & 1;
         if (modifier2 != 0) {
             $dirty2 |= 6;
-            obj2 = modifier;
+            obj = modifier;
         } else {
             if (i29 & 6 == 0) {
-                i3 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i3;
+                i11 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i11;
             } else {
-                obj2 = modifier;
+                obj = modifier;
             }
         }
         if (i29 & 48 == 0) {
             if (obj35 & 2 == 0) {
-                changed3 = restartGroup.changed(containerColor) ? 32 : 16;
+                changed = restartGroup.changed(containerColor) ? 32 : 16;
             } else {
-                l2 = containerColor;
+                l = containerColor;
             }
-            $dirty2 |= changed3;
+            $dirty2 |= changed;
         } else {
-            l2 = containerColor;
+            l = containerColor;
         }
         if (i29 & 384 == 0) {
             if (obj35 & 4 == 0) {
-                i11 = restartGroup.changed(windowInsets) ? 256 : 128;
+                i = restartGroup.changed(windowInsets) ? 256 : 128;
             } else {
                 contentColor2 = windowInsets;
             }
-            $dirty2 |= i11;
+            $dirty2 |= i;
         } else {
             contentColor2 = windowInsets;
         }
         if (i29 & 3072 == 0) {
             if (obj35 & 8 == 0) {
-                changed = restartGroup.changed(content) ? 2048 : 1024;
+                changed2 = restartGroup.changed(content) ? 2048 : 1024;
             } else {
                 obj3 = content;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed2;
         } else {
             obj3 = content;
         }
         if (i29 & 24576 == 0) {
             if (obj35 & 16 == 0) {
-                changed2 = restartGroup.changed($composer) ? 16384 : 8192;
+                changed4 = restartGroup.changed($composer) ? 16384 : 8192;
             } else {
-                i10 = $composer;
+                i2 = $composer;
             }
-            $dirty2 |= changed2;
+            $dirty2 |= changed4;
         } else {
-            i10 = $composer;
+            i2 = $composer;
         }
         int i35 = 196608;
         if (obj35 & 32 != 0) {
             $dirty2 |= i35;
         } else {
             if (i29 & i35 == 0) {
-                i6 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
-                $dirty2 |= i6;
+                i10 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
+                $dirty2 |= i10;
             }
         }
         if (i34 &= $dirty2 == 74898) {
@@ -193,12 +193,12 @@ public final class ExpressiveNavigationBarKt {
                         if (modifier2 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = obj2;
+                            modifier2 = obj;
                         }
                         defaultsInvalid = 6;
                         if (obj35 & 2 != 0) {
                             $dirty2 &= -113;
-                            l2 = containerColor2;
+                            l = containerColor2;
                         }
                         if (obj35 & 4 != 0) {
                             contentColor2 = ExpressiveNavigationBarDefaults.INSTANCE.getContentColor(restartGroup, defaultsInvalid);
@@ -206,17 +206,17 @@ public final class ExpressiveNavigationBarKt {
                         }
                         if (obj35 & 8 != 0) {
                             $dirty2 &= -7169;
-                            obj3 = windowInsets2;
+                            obj3 = windowInsets3;
                         }
                         if (obj35 & 16 != 0) {
                             arrangement-Ebr7WPU = ExpressiveNavigationBarDefaults.INSTANCE.getArrangement-Ebr7WPU();
                             $dirty2 &= i36;
-                            i10 = l2;
+                            i2 = l;
                             i5 = contentColor2;
                         } else {
                             i5 = contentColor2;
-                            arrangement-Ebr7WPU = i10;
-                            i10 = l2;
+                            arrangement-Ebr7WPU = i2;
+                            i2 = l;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -232,165 +232,165 @@ public final class ExpressiveNavigationBarKt {
                         if (obj35 & 16 != 0) {
                             $dirty2 &= i36;
                         }
-                        modifier2 = obj2;
+                        modifier2 = obj;
                         i5 = contentColor2;
-                        arrangement-Ebr7WPU = i10;
-                        i10 = l2;
+                        arrangement-Ebr7WPU = i2;
+                        i2 = l;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.ExpressiveNavigationBar (ExpressiveNavigationBar.kt:88)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.ExpressiveNavigationBar (ExpressiveNavigationBar.kt:88)");
                 }
                 ExpressiveNavigationBarKt.ExpressiveNavigationBar.1 anon = new ExpressiveNavigationBarKt.ExpressiveNavigationBar.1(modifier2, obj3, arrangement-Ebr7WPU, obj5);
-                SurfaceKt.Surface-T9BRK9s(0, 0, i10, defaultsInvalid, i5, obj15, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(1573697866, true, anon, restartGroup, 54), restartGroup);
+                SurfaceKt.Surface-T9BRK9s(0, 0, i2, defaultsInvalid, i5, obj15, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(1573697866, true, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i4 = $dirty2;
+                i6 = $dirty2;
                 $composer2 = modifier2;
-                obj = obj3;
-                $dirty = i10;
-                windowInsets3 = arrangement-Ebr7WPU;
+                obj2 = obj3;
+                $dirty = i2;
+                windowInsets2 = arrangement-Ebr7WPU;
                 arrangement2 = i5;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
-                $composer2 = obj2;
-                i4 = $dirty2;
-                $dirty = l2;
-                obj = obj3;
-                arrangement2 = l;
-                windowInsets3 = i10;
+                $composer2 = obj;
+                i6 = $dirty2;
+                $dirty = l;
+                obj2 = obj3;
+                arrangement2 = l2;
+                windowInsets2 = i2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ExpressiveNavigationBarKt.ExpressiveNavigationBar.2($composer2, $dirty, modifier2, arrangement2, l2, obj, windowInsets3, obj5, i29, obj35);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ExpressiveNavigationBarKt.ExpressiveNavigationBar.2($composer2, $dirty, modifier2, arrangement2, l, obj2, windowInsets2, obj5, i29, obj35);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void ExpressiveNavigationBarItem-pli-t6k(boolean selected, Function0<Unit> onClick, Function2<? super Composer, ? super Integer, Unit> icon, Modifier modifier, boolean enabled, Function2<? super Composer, ? super Integer, Unit> label, Function2<? super Composer, ? super Integer, Unit> badge, int iconPosition, androidx.compose.material3.NavigationItemColors colors, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i13) {
-        int i14;
-        Object obj7;
-        Object obj2;
-        boolean traceInProgress2;
+        int i6;
+        Object obj11;
+        Object obj9;
+        boolean traceInProgress;
         int $dirty3;
         int defaultsInvalid;
         Composer restartGroup;
-        int $dirty;
         int $dirty4;
-        int i16;
+        int $dirty2;
         int i8;
-        Object obj;
-        int i6;
-        Object obj4;
+        int i18;
+        Object obj7;
+        int i5;
+        Object obj2;
         int colors2;
-        boolean traceInProgress;
-        int str2;
-        Object str;
-        boolean z;
+        boolean traceInProgress2;
+        int str;
+        Object str2;
+        boolean z4;
         float startIconIndicatorHorizontalPadding;
         float startIconIndicatorVerticalPadding;
-        int i17;
-        Object $dirty2;
-        int i12;
+        int i14;
+        Object $dirty;
+        int i11;
         boolean z3;
-        Object obj12;
-        int i18;
-        int interactionSource3;
+        Object obj;
+        int i17;
         int interactionSource2;
+        int interactionSource3;
         Object rememberedValue;
         androidx.compose.material3.NavigationItemColors navigationItemColors;
-        int i3;
         int i2;
-        int i15;
-        boolean z4;
-        int i10;
-        Object obj9;
-        Object obj8;
+        int i12;
+        int i3;
+        boolean z2;
+        int i9;
+        Object obj5;
+        Object $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1;
         int value2;
         int value;
-        int i9;
+        int i4;
         int changed;
         int topIconItemActiveIndicatorWidth;
-        int i11;
-        float i5;
+        int i;
+        float i16;
         float f;
         float topIconIndicatorToLabelPadding;
         float startIconToLabelPadding;
         float topIconItemVerticalPadding;
-        Object obj11;
-        Object obj3;
-        boolean z2;
         Object obj6;
+        Object obj3;
+        boolean z;
         Object obj10;
-        int i4;
-        Object obj5;
-        Composer composer;
+        Object obj8;
         int i7;
-        int i;
+        Object obj4;
+        Composer composer;
+        int i15;
+        int i10;
         final int i62 = $changed;
         final int i63 = i13;
         restartGroup = $composer.startRestartGroup(1250474866);
         ComposerKt.sourceInformation(restartGroup, "C(ExpressiveNavigationBarItem)P(9,8,3,7,2,6!1,4:c#material3.NavigationItemIconPosition)195@8610L8,219@9391L5,220@9444L5,215@9259L800:ExpressiveNavigationBar.kt#uh7d8r");
-        $dirty = $changed;
+        $dirty4 = $changed;
         if (i63 & 1 != 0) {
-            $dirty |= 6;
-            z4 = selected;
+            $dirty4 |= 6;
+            z2 = selected;
         } else {
             if (i62 & 6 == 0) {
-                i16 = restartGroup.changed(selected) ? 4 : 2;
-                $dirty |= i16;
+                i8 = restartGroup.changed(selected) ? 4 : 2;
+                $dirty4 |= i8;
             } else {
-                z4 = selected;
+                z2 = selected;
             }
         }
         if (i63 & 2 != 0) {
-            $dirty |= 48;
-            obj9 = onClick;
+            $dirty4 |= 48;
+            obj5 = onClick;
         } else {
             if (i62 & 48 == 0) {
-                i8 = restartGroup.changedInstance(onClick) ? 32 : 16;
-                $dirty |= i8;
+                i18 = restartGroup.changedInstance(onClick) ? 32 : 16;
+                $dirty4 |= i18;
             } else {
-                obj9 = onClick;
+                obj5 = onClick;
             }
         }
         if (i63 & 4 != 0) {
-            $dirty |= 384;
-            obj = icon;
+            $dirty4 |= 384;
+            obj7 = icon;
         } else {
             if (i62 & 384 == 0) {
-                i6 = restartGroup.changedInstance(icon) ? 256 : 128;
-                $dirty |= i6;
+                i5 = restartGroup.changedInstance(icon) ? 256 : 128;
+                $dirty4 |= i5;
             } else {
-                obj = icon;
+                obj7 = icon;
             }
         }
         colors2 = i63 & 8;
         if (colors2 != 0) {
-            $dirty |= 3072;
-            str = modifier;
+            $dirty4 |= 3072;
+            str2 = modifier;
         } else {
             if (i62 & 3072 == 0) {
-                i17 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty |= i17;
+                i14 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty4 |= i14;
             } else {
-                str = modifier;
+                str2 = modifier;
             }
         }
         int i51 = i63 & 16;
         if (i51 != 0) {
-            $dirty |= 24576;
+            $dirty4 |= 24576;
             z3 = enabled;
         } else {
             if (i62 & 24576 == 0) {
-                i18 = restartGroup.changed(enabled) ? 16384 : 8192;
-                $dirty |= i18;
+                i17 = restartGroup.changed(enabled) ? 16384 : 8192;
+                $dirty4 |= i17;
             } else {
                 z3 = enabled;
             }
@@ -398,73 +398,73 @@ public final class ExpressiveNavigationBarKt {
         int i59 = i63 & 32;
         int i60 = 196608;
         if (i59 != 0) {
-            $dirty |= i60;
+            $dirty4 |= i60;
             rememberedValue = label;
         } else {
             if (i60 &= i62 == 0) {
-                i3 = restartGroup.changedInstance(label) ? 131072 : 65536;
-                $dirty |= i3;
+                i2 = restartGroup.changedInstance(label) ? 131072 : 65536;
+                $dirty4 |= i2;
             } else {
                 rememberedValue = label;
             }
         }
-        i15 = i63 & 64;
+        i3 = i63 & 64;
         int i64 = 1572864;
-        if (i15 != 0) {
-            $dirty |= i64;
-            obj8 = badge;
+        if (i3 != 0) {
+            $dirty4 |= i64;
+            $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1 = badge;
         } else {
             if (i64 &= i62 == 0) {
                 value2 = restartGroup.changedInstance(badge) ? 1048576 : 524288;
-                $dirty |= value2;
+                $dirty4 |= value2;
             } else {
-                obj8 = badge;
+                $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1 = badge;
             }
         }
         int i20 = i63 & 128;
         int i67 = 12582912;
         if (i20 != 0) {
-            $dirty |= i67;
+            $dirty4 |= i67;
             value = i20;
-            i14 = iconPosition;
+            i6 = iconPosition;
         } else {
             if (i62 & i67 == 0) {
                 value = i20;
-                i9 = restartGroup.changed(iconPosition) ? 8388608 : 4194304;
-                $dirty |= i9;
+                i4 = restartGroup.changed(iconPosition) ? 8388608 : 4194304;
+                $dirty4 |= i4;
             } else {
                 value = i20;
-                i14 = iconPosition;
+                i6 = iconPosition;
             }
         }
         if (i62 & i69 == 0) {
             if (i63 & 256 == 0) {
                 changed = restartGroup.changed(colors) ? 67108864 : 33554432;
             } else {
-                obj7 = colors;
+                obj11 = colors;
             }
-            $dirty |= changed;
+            $dirty4 |= changed;
         } else {
-            obj7 = colors;
+            obj11 = colors;
         }
         int i21 = i63 & 512;
         int i70 = 805306368;
         if (i21 != 0) {
-            $dirty |= i70;
+            $dirty4 |= i70;
             topIconItemActiveIndicatorWidth = i21;
-            obj2 = interactionSource;
+            obj9 = interactionSource;
         } else {
             if (i62 & i70 == 0) {
                 topIconItemActiveIndicatorWidth = i21;
-                i11 = restartGroup.changed(interactionSource) ? 536870912 : 268435456;
-                $dirty |= i11;
+                i = restartGroup.changed(interactionSource) ? 536870912 : 268435456;
+                $dirty4 |= i;
             } else {
                 topIconItemActiveIndicatorWidth = i21;
-                obj2 = interactionSource;
+                obj9 = interactionSource;
             }
         }
-        final int obj44 = $dirty;
-        if ($dirty & i5 == 306783378) {
+        final int obj44 = $dirty4;
+        if ($dirty4 & i16 == 306783378) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i72 = -234881025;
@@ -472,7 +472,7 @@ public final class ExpressiveNavigationBarKt {
                 if (i62 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (colors2 != 0) {
-                            str = defaultsInvalid;
+                            str2 = defaultsInvalid;
                         }
                         if (i51 != 0) {
                             z3 = defaultsInvalid;
@@ -480,8 +480,8 @@ public final class ExpressiveNavigationBarKt {
                         if (i59 != 0) {
                             rememberedValue = defaultsInvalid;
                         }
-                        if (i15 != 0) {
-                            obj8 = defaultsInvalid;
+                        if (i3 != 0) {
+                            $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1 = defaultsInvalid;
                         }
                         if (value != null) {
                             $dirty3 = NavigationItemIconPosition.Companion.getTop--xw1Ddg();
@@ -490,109 +490,109 @@ public final class ExpressiveNavigationBarKt {
                         }
                         if (i63 & 256 != 0) {
                             colors2 = ExpressiveNavigationBarItemDefaults.INSTANCE.colors(restartGroup, i25);
-                            i12 = obj44 & i72;
+                            i11 = obj44 & i72;
                         } else {
                             colors2 = colors;
-                            i12 = obj44;
+                            i11 = obj44;
                         }
                         if (topIconItemActiveIndicatorWidth != 0) {
-                            interactionSource2 = 0;
-                            obj11 = colors2;
-                            obj3 = str;
-                            z2 = z3;
-                            obj6 = rememberedValue;
-                            obj10 = obj8;
+                            interactionSource3 = 0;
+                            obj6 = colors2;
+                            obj3 = str2;
+                            z = z3;
+                            obj10 = rememberedValue;
+                            obj8 = $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1;
                         } else {
-                            interactionSource2 = interactionSource;
-                            obj11 = colors2;
-                            obj3 = str;
-                            z2 = z3;
-                            obj6 = rememberedValue;
-                            obj10 = obj8;
+                            interactionSource3 = interactionSource;
+                            obj6 = colors2;
+                            obj3 = str2;
+                            z = z3;
+                            obj10 = rememberedValue;
+                            obj8 = $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i63 & 256 != 0) {
-                            obj11 = colors;
-                            interactionSource2 = interactionSource;
-                            i12 = i23;
-                            obj3 = str;
-                            z2 = z3;
-                            obj6 = rememberedValue;
-                            obj10 = obj8;
+                            obj6 = colors;
+                            interactionSource3 = interactionSource;
+                            i11 = i23;
+                            obj3 = str2;
+                            z = z3;
+                            obj10 = rememberedValue;
+                            obj8 = $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1;
                             $dirty3 = iconPosition;
                         } else {
                             $dirty3 = iconPosition;
-                            obj11 = colors;
-                            interactionSource2 = interactionSource;
-                            i12 = obj44;
-                            obj3 = str;
-                            z2 = z3;
-                            obj6 = rememberedValue;
-                            obj10 = obj8;
+                            obj6 = colors;
+                            interactionSource3 = interactionSource;
+                            i11 = obj44;
+                            obj3 = str2;
+                            z = z3;
+                            obj10 = rememberedValue;
+                            obj8 = $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1250474866, i12, -1, "androidx.compose.material3.ExpressiveNavigationBarItem (ExpressiveNavigationBar.kt:197)");
+                    ComposerKt.traceEventStart(1250474866, i11, -1, "androidx.compose.material3.ExpressiveNavigationBarItem (ExpressiveNavigationBar.kt:197)");
                 }
                 restartGroup.startReplaceGroup(-986536477);
                 ComposerKt.sourceInformation(restartGroup, "199@8762L39");
-                if (interactionSource2 == 0) {
+                if (interactionSource3 == 0) {
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -986535826, "CC(remember):ExpressiveNavigationBar.kt#9igjgp");
-                    str2 = 0;
-                    str = restartGroup;
+                    str = 0;
+                    str2 = restartGroup;
                     z3 = 0;
-                    rememberedValue = str.rememberedValue();
-                    i15 = 0;
+                    rememberedValue = str2.rememberedValue();
+                    i3 = 0;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int i66 = 0;
-                        str.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                        str2.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     } else {
-                        obj8 = rememberedValue;
+                        $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1 = rememberedValue;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    obj5 = obj8;
+                    obj4 = $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1;
                 } else {
-                    obj5 = interactionSource2;
+                    obj4 = interactionSource3;
                 }
                 restartGroup.endReplaceGroup();
                 boolean equals-impl0 = NavigationItemIconPosition.equals-impl0($dirty3, NavigationItemIconPosition.Companion.getTop--xw1Ddg());
-                i5 = equals-impl0 ? startIconIndicatorHorizontalPadding : startIconIndicatorHorizontalPadding;
+                i16 = equals-impl0 ? startIconIndicatorHorizontalPadding : startIconIndicatorHorizontalPadding;
                 f = equals-impl0 ? startIconIndicatorVerticalPadding : startIconIndicatorVerticalPadding;
-                i4 = $dirty3;
-                NavigationItemKt.NavigationItem-SHbi2eg(z4, obj9, obj, TypographyKt.getValue(ExpressiveNavigationBarKt.LabelTextFont, restartGroup, i25), ShapesKt.getValue(ExpressiveNavigationBarKt.ActiveIndicatorShape, restartGroup, i25), ExpressiveNavigationBarKt.TopIconItemActiveIndicatorWidth, i5, f, ExpressiveNavigationBarKt.TopIconIndicatorToLabelPadding, ExpressiveNavigationBarKt.StartIconToLabelPadding, ExpressiveNavigationBarKt.TopIconItemVerticalPadding, obj11, obj3, z2, obj6, obj10, i4, obj5, restartGroup, i37 | i55, $dirty4 | i49);
+                i7 = $dirty3;
+                NavigationItemKt.NavigationItem-SHbi2eg(z2, obj5, obj7, TypographyKt.getValue(ExpressiveNavigationBarKt.LabelTextFont, restartGroup, i25), ShapesKt.getValue(ExpressiveNavigationBarKt.ActiveIndicatorShape, restartGroup, i25), ExpressiveNavigationBarKt.TopIconItemActiveIndicatorWidth, i16, f, ExpressiveNavigationBarKt.TopIconIndicatorToLabelPadding, ExpressiveNavigationBarKt.StartIconToLabelPadding, ExpressiveNavigationBarKt.TopIconItemVerticalPadding, obj6, obj3, z, obj10, obj8, i7, obj4, restartGroup, i37 | i55, $dirty2 | i49);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i10 = i12;
-                i2 = interactionSource2;
-                navigationItemColors = obj11;
-                obj4 = obj3;
-                z = z2;
-                $dirty2 = obj6;
-                obj12 = obj10;
-                interactionSource3 = i4;
+                i9 = i11;
+                i12 = interactionSource3;
+                navigationItemColors = obj6;
+                obj2 = obj3;
+                z4 = z;
+                $dirty = obj10;
+                obj = obj8;
+                interactionSource2 = i7;
             } else {
                 restartGroup.skipToGroupEnd();
-                interactionSource3 = iconPosition;
-                i2 = interactionSource;
-                i10 = obj44;
+                interactionSource2 = iconPosition;
+                i12 = interactionSource;
+                i9 = obj44;
                 composer = restartGroup;
-                obj4 = str;
-                z = z3;
-                $dirty2 = rememberedValue;
-                obj12 = obj8;
+                obj2 = str2;
+                z4 = z3;
+                $dirty = rememberedValue;
+                obj = $i$a$CacheExpressiveNavigationBarKt$ExpressiveNavigationBarItem$interactionSource$1;
                 navigationItemColors = colors;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ExpressiveNavigationBarKt.ExpressiveNavigationBarItem.1(selected, onClick, icon, obj4, z, $dirty2, obj12, interactionSource3, navigationItemColors, i2, i62, i63);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ExpressiveNavigationBarKt.ExpressiveNavigationBarItem.1(selected, onClick, icon, obj2, z4, $dirty, obj, interactionSource2, navigationItemColors, i12, i62, i63);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 

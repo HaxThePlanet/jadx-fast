@@ -74,41 +74,41 @@ public final class Oklab extends androidx.compose.ui.graphics.colorspace.ColorSp
 
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public long toXy$ui_graphics_release(float v0, float v1, float v2) {
-        int $this$fastCoerceAtMost$iv$iv;
         int $this$fastCoerceAtMost$iv$iv2;
         int $this$fastCoerceAtMost$iv$iv3;
+        int $this$fastCoerceAtMost$iv$iv;
         int i = 0;
         int i6 = 1065353216;
         int i21 = 0;
         int i27 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv, i) < 0) {
-            $this$fastCoerceAtMost$iv$iv = i;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i) < 0) {
+            $this$fastCoerceAtMost$iv$iv2 = i;
         }
         int i28 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv, i6) > 0) {
-            $this$fastCoerceAtMost$iv$iv = i6;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i6) > 0) {
+            $this$fastCoerceAtMost$iv$iv2 = i6;
         }
         int i2 = -1090519040;
         int i7 = 1056964608;
         int i22 = 0;
         int i29 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i2) < 0) {
-            $this$fastCoerceAtMost$iv$iv2 = i2;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv3, i2) < 0) {
+            $this$fastCoerceAtMost$iv$iv3 = i2;
         }
         int i30 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i7) > 0) {
-            $this$fastCoerceAtMost$iv$iv2 = i7;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv3, i7) > 0) {
+            $this$fastCoerceAtMost$iv$iv3 = i7;
         }
         int i3 = -1090519040;
         int i8 = 1056964608;
         int i23 = 0;
         int i31 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv3, i3) < 0) {
-            $this$fastCoerceAtMost$iv$iv3 = i3;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv, i3) < 0) {
+            $this$fastCoerceAtMost$iv$iv = i3;
         }
         int i32 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv3, i8) > 0) {
-            $this$fastCoerceAtMost$iv$iv3 = i8;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv, i8) > 0) {
+            $this$fastCoerceAtMost$iv$iv = i8;
         }
         float[] inverseM2 = Oklab.InverseM2;
         int i9 = 0;
@@ -140,22 +140,22 @@ public final class Oklab extends androidx.compose.ui.graphics.colorspace.ColorSp
 
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public float[] toXyz(float[] v) {
-        int $this$fastCoerceAtMost$iv$iv;
-        int $this$fastCoerceAtMost$iv$iv3;
         int $this$fastCoerceAtMost$iv$iv2;
+        int $this$fastCoerceAtMost$iv$iv3;
+        int $this$fastCoerceAtMost$iv$iv;
         int i = 0;
         int i12 = 0;
         int i15 = 1065353216;
         int i23 = 0;
         int i30 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv, i12) < 0) {
-            $this$fastCoerceAtMost$iv$iv = i12;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i12) < 0) {
+            $this$fastCoerceAtMost$iv$iv2 = i12;
         }
         int i31 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv, i15) > 0) {
-            $this$fastCoerceAtMost$iv$iv = i15;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i15) > 0) {
+            $this$fastCoerceAtMost$iv$iv2 = i15;
         }
-        v[i] = $this$fastCoerceAtMost$iv$iv;
+        v[i] = $this$fastCoerceAtMost$iv$iv2;
         int i9 = 1;
         int i16 = -1090519040;
         int i24 = 1056964608;
@@ -174,14 +174,14 @@ public final class Oklab extends androidx.compose.ui.graphics.colorspace.ColorSp
         int i29 = 1056964608;
         int i32 = 0;
         int i35 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i25) < 0) {
-            $this$fastCoerceAtMost$iv$iv2 = i25;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv, i25) < 0) {
+            $this$fastCoerceAtMost$iv$iv = i25;
         }
         int i36 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i29) > 0) {
-            $this$fastCoerceAtMost$iv$iv2 = i29;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv, i29) > 0) {
+            $this$fastCoerceAtMost$iv$iv = i29;
         }
-        v[i14] = $this$fastCoerceAtMost$iv$iv2;
+        v[i14] = $this$fastCoerceAtMost$iv$iv;
         ColorSpaceKt.mul3x3Float3(Oklab.InverseM2, v);
         v[i] = i19 *= i27;
         v[i9] = i3 *= i22;

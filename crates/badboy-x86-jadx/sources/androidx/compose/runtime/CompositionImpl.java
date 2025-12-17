@@ -98,15 +98,15 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
             int toAddAfter;
             int toAddPriority;
             int i5;
-            int i;
+            int i2;
             String mutableIntList;
             int j;
             int size;
-            int i2;
             int i3;
-            int i6;
-            MutableIntList list;
+            int i;
             int i4;
+            MutableIntList list;
+            int i6;
             if (!(Collection)this.pending.isEmpty()) {
                 index = 0;
                 toAdd = 0;
@@ -123,7 +123,7 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                     j = 1;
                     i5 = this.pending.remove(index);
                     size = this.afters.removeAt(index);
-                    i2 = this.priorities.removeAt(index);
+                    i3 = this.priorities.removeAt(index);
                     if (toAdd == 0) {
                     } else {
                     }
@@ -131,53 +131,53 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                     Intrinsics.checkNotNull(toAddAfter, mutableIntList);
                     toAdd.add(i5);
                     toAddAfter.add(size);
-                    toAddPriority.add(i2);
+                    toAddPriority.add(i3);
                     toAdd = CollectionsKt.mutableListOf(/* result */);
                     int i8 = 0;
-                    i6 = 0;
-                    MutableIntList mutableIntList2 = new MutableIntList(i8, j, i6);
                     i4 = 0;
+                    MutableIntList mutableIntList2 = new MutableIntList(i8, j, i4);
+                    i6 = 0;
                     mutableIntList2.add(size);
                     toAddAfter = mutableIntList2;
-                    mutableIntList = new MutableIntList(i8, j, i6);
-                    i3 = 0;
-                    mutableIntList.add(i2);
+                    mutableIntList = new MutableIntList(i8, j, i4);
+                    i = 0;
+                    mutableIntList.add(i3);
                     toAddPriority = mutableIntList;
                 }
                 if (toAdd != 0) {
                     Intrinsics.checkNotNull(toAddPriority, mutableIntList);
                     Intrinsics.checkNotNull(toAddAfter, mutableIntList);
-                    i = 0;
-                    while (i < size2 -= j) {
-                        j = i + 1;
+                    i2 = 0;
+                    while (i2 < size2 -= j) {
+                        j = i2 + 1;
                         while (j < toAdd.size()) {
-                            i2 = toAddAfter.get(i);
-                            i3 = toAddAfter.get(j);
-                            if (i2 >= i3) {
+                            i3 = toAddAfter.get(i2);
+                            i = toAddAfter.get(j);
+                            if (i3 >= i) {
                             } else {
                             }
-                            CompositionKt.access$swap(toAdd, i, j);
-                            CompositionKt.access$swap(toAddPriority, i, j);
-                            CompositionKt.access$swap(toAddAfter, i, j);
+                            CompositionKt.access$swap(toAdd, i2, j);
+                            CompositionKt.access$swap(toAddPriority, i2, j);
+                            CompositionKt.access$swap(toAddAfter, i2, j);
                             j++;
-                            if (i3 == i2 && toAddPriority.get(i) < toAddPriority.get(j)) {
+                            if (i == i3 && toAddPriority.get(i2) < toAddPriority.get(j)) {
                             }
-                            if (toAddPriority.get(i) < toAddPriority.get(j)) {
+                            if (toAddPriority.get(i2) < toAddPriority.get(j)) {
                             }
                         }
-                        i++;
-                        i2 = toAddAfter.get(i);
-                        i3 = toAddAfter.get(j);
-                        if (i2 >= i3) {
+                        i2++;
+                        i3 = toAddAfter.get(i2);
+                        i = toAddAfter.get(j);
+                        if (i3 >= i) {
                         } else {
                         }
-                        CompositionKt.access$swap(toAdd, i, j);
-                        CompositionKt.access$swap(toAddPriority, i, j);
-                        CompositionKt.access$swap(toAddAfter, i, j);
+                        CompositionKt.access$swap(toAdd, i2, j);
+                        CompositionKt.access$swap(toAddPriority, i2, j);
+                        CompositionKt.access$swap(toAddAfter, i2, j);
                         j++;
-                        if (i3 == i2 && toAddPriority.get(i) < toAddPriority.get(j)) {
+                        if (i == i3 && toAddPriority.get(i2) < toAddPriority.get(j)) {
                         }
-                        if (toAddPriority.get(i) < toAddPriority.get(j)) {
+                        if (toAddPriority.get(i2) < toAddPriority.get(j)) {
                         }
                     }
                     this.leaving.addAll((Collection)toAdd);
@@ -225,32 +225,32 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                     iNSTANCE2.remove();
                     next.onAbandoned();
                 }
-                Unit iNSTANCE4 = Unit.INSTANCE;
+                Unit $i$a$TraceCompositionImpl$RememberEventDispatcher$dispatchAbandons$1 = Unit.INSTANCE;
                 Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection("Compose:abandons"));
             }
         }
 
         @Override // androidx.compose.runtime.RememberManager
         public final void dispatchRememberObservers() {
-            boolean empty2;
             boolean empty;
+            boolean empty2;
             int i;
             Object beginSection;
-            Object iNSTANCE2;
             Object iNSTANCE;
+            Object iNSTANCE2;
             int i2;
             Object index$iv;
             boolean contains;
-            boolean obj;
+            boolean obj3;
             Object obj2;
-            Object obj3;
+            Object obj;
             int i3;
             Set abandoning;
             processPendingLeaving(Integer.MIN_VALUE);
             if (!(Collection)this.leaving.isEmpty()) {
                 i = 0;
                 int i5 = 0;
-                iNSTANCE = this.releasing;
+                iNSTANCE2 = this.releasing;
                 size--;
                 while (-1 < i2) {
                     index$iv = this.leaving.get(i2);
@@ -259,34 +259,34 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                     if (index$iv instanceof ComposeNodeLifecycleCallback != null) {
                     }
                     i2--;
-                    if (iNSTANCE != null && iNSTANCE.contains(index$iv)) {
+                    if (iNSTANCE2 != null && iNSTANCE2.contains(index$iv)) {
                     } else {
                     }
                     (ComposeNodeLifecycleCallback)index$iv.onDeactivate();
-                    if (iNSTANCE.contains(index$iv)) {
+                    if (iNSTANCE2.contains(index$iv)) {
                     } else {
                     }
                     (ComposeNodeLifecycleCallback)index$iv.onRelease();
                     this.abandoning.remove(index$iv);
                     (RememberObserver)index$iv.onForgotten();
                 }
-                Unit iNSTANCE5 = Unit.INSTANCE;
+                Unit $i$a$TraceCompositionImpl$RememberEventDispatcher$dispatchRememberObservers$1 = Unit.INSTANCE;
                 Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection("Compose:onForgotten"));
             }
             if (!(Collection)this.remembering.isEmpty()) {
                 i = 0;
                 int i6 = 0;
-                iNSTANCE = this.remembering;
+                iNSTANCE2 = this.remembering;
                 i2 = 0;
                 index$iv = 0;
-                while (index$iv < iNSTANCE.size()) {
-                    obj3 = obj2;
+                while (index$iv < iNSTANCE2.size()) {
+                    obj = obj2;
                     i3 = 0;
-                    this.abandoning.remove((RememberObserver)obj3);
-                    obj3.onRemembered();
+                    this.abandoning.remove((RememberObserver)obj);
+                    obj.onRemembered();
                     index$iv++;
                 }
-                Unit iNSTANCE6 = Unit.INSTANCE;
+                Unit $i$a$TraceCompositionImpl$RememberEventDispatcher$dispatchRememberObservers$2 = Unit.INSTANCE;
                 Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection("Compose:onRemembered"));
             }
         }
@@ -316,7 +316,7 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                     index$iv++;
                 }
                 this.sideEffects.clear();
-                Unit iNSTANCE3 = Unit.INSTANCE;
+                Unit $i$a$TraceCompositionImpl$RememberEventDispatcher$dispatchSideEffects$1 = Unit.INSTANCE;
                 Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection("Compose:sideeffects"));
             }
         }
@@ -418,51 +418,51 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
 
     private final void addPendingInvalidationsLocked(Object value, boolean forgetConditionalScopes) {
         ScopeMap $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i;
+        int i2;
         Object conditionallyInvalidatedScopes;
         Object index$iv$iv$iv2;
-        int i6;
+        int i7;
         Object[] elements;
         Object obj2;
-        int i8;
+        int i4;
         long[] metadata;
-        int i7;
+        int i8;
         int i$iv$iv$iv;
         long slot$iv$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         Object obj;
-        int i5;
-        ScopeMap this_$iv;
-        int i2;
-        long l;
-        int i9;
-        int i4;
         int i3;
+        ScopeMap this_$iv;
+        int i6;
+        long l;
+        int i5;
+        int i9;
+        int i;
         int index$iv$iv$iv;
         final Object obj3 = this;
         final Object obj4 = value;
         $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = obj3.observations;
-        i = 0;
+        i2 = 0;
         conditionallyInvalidatedScopes = $this$maskEmptyOrDeleted$iv$iv$iv$iv2.getMap().get(obj4);
         if (conditionallyInvalidatedScopes != null) {
             if (conditionallyInvalidatedScopes instanceof MutableScatterSet != null) {
                 index$iv$iv$iv2 = conditionallyInvalidatedScopes;
-                i6 = 0;
-                i8 = 0;
+                i7 = 0;
+                i4 = 0;
                 metadata = obj2.metadata;
                 length += -2;
-                if (0 <= i7) {
+                if (0 <= i8) {
                 } else {
                     this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-                    i2 = i;
+                    i6 = i2;
                     $this$maskEmptyOrDeleted$iv$iv$iv$iv = conditionallyInvalidatedScopes;
                     obj = index$iv$iv$iv2;
                 }
             } else {
                 this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-                i2 = i;
+                i6 = i2;
                 $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-                i = 0;
+                i2 = 0;
                 if (!obj3.observationsProcessed.remove(obj4, (RecomposeScopeImpl)$this$maskEmptyOrDeleted$iv$iv$iv$iv2) && $this$maskEmptyOrDeleted$iv$iv$iv$iv2.invalidateForResult(obj4) != InvalidationResult.IGNORED) {
                     if ($this$maskEmptyOrDeleted$iv$iv$iv$iv2.invalidateForResult(obj4) != InvalidationResult.IGNORED) {
                         if ($this$maskEmptyOrDeleted$iv$iv$iv$iv2.isConditional() && !forgetConditionalScopes) {
@@ -478,171 +478,171 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
             }
         } else {
             this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-            i2 = i;
+            i6 = i2;
             $this$maskEmptyOrDeleted$iv$iv$iv$iv = conditionallyInvalidatedScopes;
         }
     }
 
     private final void addPendingInvalidationsLocked(Set<? extends Object> values, boolean forgetConditionalScopes) {
-        Object scope2;
+        Object scope;
         String z;
         String str;
         Object $this$fastForEach$iv;
-        MutableScatterSet conditionallyInvalidatedScopes;
+        MutableScatterSet conditionallyInvalidatedScopes2;
         int $i$f$forEach;
-        Object $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
+        Object $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
         String m$iv$iv$iv;
-        boolean $this$maskEmptyOrDeleted$iv$iv$iv$iv8;
-        int i2;
-        int j$iv$iv$iv4;
-        Object[] j$iv$iv$iv3;
+        boolean $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int i8;
+        int j$iv$iv$iv6;
+        Object[] j$iv$iv$iv;
         int i$iv$iv$iv2;
-        int value$iv3;
-        Object value$iv2;
-        androidx.collection.ScatterSet scope;
+        int value$iv;
+        Object value$iv3;
+        androidx.collection.ScatterSet scope2;
         long[] index$iv$iv2;
         int m$iv$iv$iv2;
         int $i$f$isFull;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv7;
         Object this_$iv$iv$iv;
         Object j$iv$iv$iv2;
         long[] metadata;
-        int index$iv$iv3;
-        int scope3;
         int index$iv$iv;
+        int scope3;
+        int index$iv$iv3;
         int i$iv$iv$iv;
         Object[] slot$iv$iv$iv4;
-        Object $this$forEach$iv$iv;
         Object $this$forEach$iv$iv2;
-        int i8;
-        int cmp4;
-        int i3;
+        Object $this$forEach$iv$iv;
+        int i5;
+        int cmp;
+        int i2;
         int i6;
-        int slot$iv$iv$iv3;
+        int slot$iv$iv$iv5;
         int cmp2;
-        long l;
-        ScopeMap $this$maskEmptyOrDeleted$iv$iv$iv$iv7;
-        int i7;
         long l2;
-        int i4;
-        MutableScatterSet conditionallyInvalidatedScopes2;
-        Object j$iv$iv$iv5;
+        ScopeMap $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
+        int i7;
+        long l;
+        int i3;
+        MutableScatterSet conditionallyInvalidatedScopes;
+        Object j$iv$iv$iv4;
         Object obj;
         int i;
-        long slot$iv$iv$iv2;
-        Object value$iv;
-        Object $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i5;
+        long slot$iv$iv$iv;
+        Object value$iv2;
+        Object $this$maskEmptyOrDeleted$iv$iv$iv$iv5;
+        int i4;
         Object[] $i$f$isFull2;
-        Object slot$iv$iv$iv5;
-        long[] slot$iv$iv$iv;
-        long $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
-        Object[] $this$maskEmptyOrDeleted$iv$iv$iv$iv5;
-        androidx.collection.ScatterSet j$iv$iv$iv6;
+        Object slot$iv$iv$iv3;
+        long[] slot$iv$iv$iv2;
+        long $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv8;
+        Object[] $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
+        androidx.collection.ScatterSet j$iv$iv$iv3;
         int $i$f$removeIf;
         androidx.collection.ScatterSet this_$iv$iv;
         int cmp3;
-        int cmp;
-        int j$iv$iv$iv;
-        scope2 = this;
+        int cmp4;
+        int j$iv$iv$iv5;
+        scope = this;
         z = forgetConditionalScopes;
         $this$fastForEach$iv = values;
         $i$f$forEach = 0;
         if ($this$fastForEach$iv instanceof ScatterSetWrapper) {
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = (ScatterSetWrapper)$this$fastForEach$iv.getSet$runtime_release();
-            $this$forEach$iv$iv = 0;
-            i8 = 128;
-            scope = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-            cmp4 = 0;
-            i3 = 255;
-            index$iv$iv2 = scope.metadata;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = (ScatterSetWrapper)$this$fastForEach$iv.getSet$runtime_release();
+            $this$forEach$iv$iv2 = 0;
+            i5 = 128;
+            scope2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+            cmp = 0;
+            i2 = 255;
+            index$iv$iv2 = scope2.metadata;
             length += -2;
             i6 = 7;
             if (0 <= $i$f$isFull) {
             } else {
-                j$iv$iv$iv5 = $this$fastForEach$iv;
+                j$iv$iv$iv4 = $this$fastForEach$iv;
                 i = $i$f$forEach;
-                this_$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv3;
-                j$iv$iv$iv6 = scope;
-                l2 = -9187201950435737472L;
+                this_$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = j$iv$iv$iv;
+                j$iv$iv$iv3 = scope2;
+                l = -9187201950435737472L;
             }
         } else {
             i = $i$f$forEach;
-            l2 = -9187201950435737472L;
+            l = -9187201950435737472L;
             $i$f$forEach = 0;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = (Iterable)$this$fastForEach$iv.iterator();
-            while ($this$maskEmptyOrDeleted$iv$iv$iv$iv6.hasNext()) {
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv8 = $this$maskEmptyOrDeleted$iv$iv$iv$iv6.next();
-                j$iv$iv$iv3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv8;
-                scope = 0;
-                if (j$iv$iv$iv3 instanceof RecomposeScopeImpl) {
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = (Iterable)$this$fastForEach$iv.iterator();
+            while ($this$maskEmptyOrDeleted$iv$iv$iv$iv3.hasNext()) {
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3.next();
+                j$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                scope2 = 0;
+                if (j$iv$iv$iv instanceof RecomposeScopeImpl) {
                 } else {
                 }
                 $i$f$isFull = 0;
-                scope2.addPendingInvalidationsLocked(j$iv$iv$iv3, z);
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv = 0;
-                this_$iv$iv$iv = scope2.derivedStates.getMap().get(j$iv$iv$iv3);
+                scope.addPendingInvalidationsLocked(j$iv$iv$iv, z);
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv7 = 0;
+                this_$iv$iv$iv = scope.derivedStates.getMap().get(j$iv$iv$iv);
                 if (this_$iv$iv$iv != null) {
                 } else {
                 }
-                $this$forEach$iv$iv2 = $this$fastForEach$iv;
-                slot$iv$iv$iv3 = $i$f$forEach;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv7 = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                i4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv8;
-                obj = j$iv$iv$iv3;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = scope;
-                $this$fastForEach$iv = $this$forEach$iv$iv2;
-                $i$f$forEach = slot$iv$iv$iv3;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = $this$maskEmptyOrDeleted$iv$iv$iv$iv7;
+                $this$forEach$iv$iv = $this$fastForEach$iv;
+                slot$iv$iv$iv5 = $i$f$forEach;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                i3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                obj = j$iv$iv$iv;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = scope2;
+                $this$fastForEach$iv = $this$forEach$iv$iv;
+                $i$f$forEach = slot$iv$iv$iv5;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
                 if (this_$iv$iv$iv instanceof MutableScatterSet != null) {
                 } else {
                 }
-                $this$forEach$iv$iv2 = $this$fastForEach$iv;
-                slot$iv$iv$iv3 = $i$f$forEach;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv7 = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                i4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv8;
-                obj = j$iv$iv$iv3;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = scope;
+                $this$forEach$iv$iv = $this$fastForEach$iv;
+                slot$iv$iv$iv5 = $i$f$forEach;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                i3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                obj = j$iv$iv$iv;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = scope2;
                 $i$f$forEach = 0;
-                scope2.addPendingInvalidationsLocked((DerivedState)this_$iv$iv$iv, z);
+                scope.addPendingInvalidationsLocked((DerivedState)this_$iv$iv$iv, z);
                 j$iv$iv$iv2 = this_$iv$iv$iv;
                 i$iv$iv$iv = 0;
-                cmp4 = 0;
+                cmp = 0;
                 metadata = $i$f$isFull.metadata;
-                $this$forEach$iv$iv2 = $this$fastForEach$iv;
+                $this$forEach$iv$iv = $this$fastForEach$iv;
                 $this$forEach$iv$iv3 += -2;
-                slot$iv$iv$iv3 = $i$f$forEach;
+                slot$iv$iv$iv5 = $i$f$forEach;
                 if (0 <= $this$fastForEach$iv) {
                 } else {
                 }
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv7 = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                i4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv8;
-                obj = j$iv$iv$iv3;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = scope;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                i3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                obj = j$iv$iv$iv;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = scope2;
                 cmp2 = 0;
                 long l3 = l9;
-                while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv9, l2) != 0) {
-                    i2 = 8;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = i11 - 8;
-                    j$iv$iv$iv3 = 0;
-                    while (j$iv$iv$iv3 < $this$maskEmptyOrDeleted$iv$iv$iv$iv6) {
+                while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv9, l) != 0) {
+                    i8 = 8;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = i11 - 8;
+                    j$iv$iv$iv = 0;
+                    while (j$iv$iv$iv < $this$maskEmptyOrDeleted$iv$iv$iv$iv3) {
                         int i34 = 0;
-                        if (Long.compare(i5, i8) < 0) {
+                        if (Long.compare(i4, i5) < 0) {
                         } else {
                         }
-                        scope = 0;
-                        if (scope != 0) {
+                        scope2 = 0;
+                        if (scope2 != 0) {
                         }
-                        slot$iv$iv$iv2 >>= i2;
-                        j$iv$iv$iv3++;
+                        slot$iv$iv$iv >>= i8;
+                        j$iv$iv$iv++;
                         i7 = 0;
-                        i5 = 0;
-                        scope2.addPendingInvalidationsLocked((DerivedState)j$iv$iv$iv2.elements[i35 += j$iv$iv$iv3], z);
-                        scope = 1;
+                        i4 = 0;
+                        scope.addPendingInvalidationsLocked((DerivedState)j$iv$iv$iv2.elements[i35 += j$iv$iv$iv], z);
+                        scope2 = 1;
                     }
-                    if ($this$maskEmptyOrDeleted$iv$iv$iv$iv6 == 8) {
+                    if ($this$maskEmptyOrDeleted$iv$iv$iv$iv3 == 8) {
                         break loop_51;
                     }
                     if ($i$f$forEach == $this$fastForEach$iv) {
@@ -650,118 +650,118 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                     } else {
                     }
                     $i$f$forEach++;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = $this$maskEmptyOrDeleted$iv$iv$iv$iv7;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv8 = i4;
-                    j$iv$iv$iv3 = obj;
-                    scope = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = i3;
+                    j$iv$iv$iv = obj;
+                    scope2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv5;
                     cmp2 = 0;
                     l3 = l9;
                     i34 = 0;
-                    if (Long.compare(i5, i8) < 0) {
+                    if (Long.compare(i4, i5) < 0) {
                     } else {
                     }
-                    scope = 0;
-                    if (scope != 0) {
+                    scope2 = 0;
+                    if (scope2 != 0) {
                     }
-                    slot$iv$iv$iv2 >>= i2;
-                    j$iv$iv$iv3++;
+                    slot$iv$iv$iv >>= i8;
+                    j$iv$iv$iv++;
                     i7 = 0;
-                    i5 = 0;
-                    scope2.addPendingInvalidationsLocked((DerivedState)slot$iv$iv$iv4[i35 += j$iv$iv$iv3], z);
-                    scope = 1;
+                    i4 = 0;
+                    scope.addPendingInvalidationsLocked((DerivedState)slot$iv$iv$iv4[i35 += j$iv$iv$iv], z);
+                    scope2 = 1;
                 }
                 if ($i$f$forEach != $this$fastForEach$iv) {
                 } else {
                 }
                 $i$f$forEach++;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = $this$maskEmptyOrDeleted$iv$iv$iv$iv7;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv8 = i4;
-                j$iv$iv$iv3 = obj;
-                scope = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-                i2 = 8;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = i11 - 8;
-                j$iv$iv$iv3 = 0;
-                while (j$iv$iv$iv3 < $this$maskEmptyOrDeleted$iv$iv$iv$iv6) {
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = i3;
+                j$iv$iv$iv = obj;
+                scope2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv5;
+                i8 = 8;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = i11 - 8;
+                j$iv$iv$iv = 0;
+                while (j$iv$iv$iv < $this$maskEmptyOrDeleted$iv$iv$iv$iv3) {
                     i34 = 0;
-                    if (Long.compare(i5, i8) < 0) {
+                    if (Long.compare(i4, i5) < 0) {
                     } else {
                     }
-                    scope = 0;
-                    if (scope != 0) {
+                    scope2 = 0;
+                    if (scope2 != 0) {
                     }
-                    slot$iv$iv$iv2 >>= i2;
-                    j$iv$iv$iv3++;
+                    slot$iv$iv$iv >>= i8;
+                    j$iv$iv$iv++;
                     i7 = 0;
-                    i5 = 0;
-                    scope2.addPendingInvalidationsLocked((DerivedState)slot$iv$iv$iv4[i35 += j$iv$iv$iv3], z);
-                    scope = 1;
+                    i4 = 0;
+                    scope.addPendingInvalidationsLocked((DerivedState)slot$iv$iv$iv4[i35 += j$iv$iv$iv], z);
+                    scope2 = 1;
                 }
-                if ($this$maskEmptyOrDeleted$iv$iv$iv$iv6 == 8) {
+                if ($this$maskEmptyOrDeleted$iv$iv$iv$iv3 == 8) {
                 }
                 i34 = 0;
-                if (Long.compare(i5, i8) < 0) {
+                if (Long.compare(i4, i5) < 0) {
                 } else {
                 }
-                scope = 0;
-                if (scope != 0) {
+                scope2 = 0;
+                if (scope2 != 0) {
                 }
-                slot$iv$iv$iv2 >>= i2;
-                j$iv$iv$iv3++;
+                slot$iv$iv$iv >>= i8;
+                j$iv$iv$iv++;
                 i7 = 0;
-                i5 = 0;
-                scope2.addPendingInvalidationsLocked((DerivedState)slot$iv$iv$iv4[i35 += j$iv$iv$iv3], z);
-                scope = 1;
-                (RecomposeScopeImpl)j$iv$iv$iv3.invalidateForResult(0);
-                $this$forEach$iv$iv2 = $this$fastForEach$iv;
-                slot$iv$iv$iv3 = $i$f$forEach;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv7 = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                i4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv8;
-                obj = j$iv$iv$iv3;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = scope;
+                i4 = 0;
+                scope.addPendingInvalidationsLocked((DerivedState)slot$iv$iv$iv4[i35 += j$iv$iv$iv], z);
+                scope2 = 1;
+                (RecomposeScopeImpl)j$iv$iv$iv.invalidateForResult(0);
+                $this$forEach$iv$iv = $this$fastForEach$iv;
+                slot$iv$iv$iv5 = $i$f$forEach;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                i3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                obj = j$iv$iv$iv;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = scope2;
             }
-            $this$forEach$iv$iv = $this$fastForEach$iv;
-            slot$iv$iv$iv3 = $i$f$forEach;
+            $this$forEach$iv$iv2 = $this$fastForEach$iv;
+            slot$iv$iv$iv5 = $i$f$forEach;
         }
-        conditionallyInvalidatedScopes = scope2.conditionallyInvalidatedScopes;
-        MutableScatterSet invalidatedScopes = scope2.invalidatedScopes;
-        if (z && conditionallyInvalidatedScopes.isNotEmpty()) {
-            if (conditionallyInvalidatedScopes.isNotEmpty()) {
-                scope = scope2.observations;
-                $i$f$isFull = scope.getMap();
+        conditionallyInvalidatedScopes2 = scope.conditionallyInvalidatedScopes;
+        MutableScatterSet invalidatedScopes = scope.invalidatedScopes;
+        if (z && conditionallyInvalidatedScopes2.isNotEmpty()) {
+            if (conditionallyInvalidatedScopes2.isNotEmpty()) {
+                scope2 = scope.observations;
+                $i$f$isFull = scope2.getMap();
                 this_$iv$iv$iv = $i$f$isFull;
                 i$iv$iv$iv = this_$iv$iv$iv.metadata;
                 slot$iv$iv$iv4 = length3 + -2;
                 if (0 <= slot$iv$iv$iv4) {
                 } else {
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv7 = scope;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = scope2;
                     i7 = index$iv$iv2;
-                    $i$f$removeIf = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+                    $i$f$removeIf = $this$maskEmptyOrDeleted$iv$iv$iv$iv7;
                     this_$iv$iv = this_$iv$iv$iv;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = j$iv$iv$iv2;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv8 = j$iv$iv$iv2;
                 }
-                conditionallyInvalidatedScopes.clear();
-                scope2.cleanUpDerivedStateObservations();
-                conditionallyInvalidatedScopes2 = conditionallyInvalidatedScopes;
+                conditionallyInvalidatedScopes2.clear();
+                scope.cleanUpDerivedStateObservations();
+                conditionallyInvalidatedScopes = conditionallyInvalidatedScopes2;
             } else {
                 if (invalidatedScopes.isNotEmpty()) {
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv8 = scope2.observations;
-                    scope = $this$maskEmptyOrDeleted$iv$iv$iv$iv8.getMap();
-                    $i$f$isFull = scope;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv = 0;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = scope.observations;
+                    scope2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv2.getMap();
+                    $i$f$isFull = scope2;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv7 = 0;
                     this_$iv$iv$iv = $i$f$isFull.metadata;
                     length2 += -2;
                     if (0 <= j$iv$iv$iv2) {
                     } else {
-                        conditionallyInvalidatedScopes2 = conditionallyInvalidatedScopes;
-                        slot$iv$iv$iv3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv8;
+                        conditionallyInvalidatedScopes = conditionallyInvalidatedScopes2;
+                        slot$iv$iv$iv5 = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
                         cmp2 = i$iv$iv$iv2;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = index$iv$iv2;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = $i$f$isFull;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv = index$iv$iv2;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv8 = $i$f$isFull;
                     }
                     cleanUpDerivedStateObservations();
                     invalidatedScopes.clear();
                 } else {
-                    conditionallyInvalidatedScopes2 = conditionallyInvalidatedScopes;
+                    conditionallyInvalidatedScopes = conditionallyInvalidatedScopes2;
                 }
             }
         } else {
@@ -773,104 +773,104 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         Object obj3;
         boolean pendingInvalidScopes;
         androidx.compose.runtime.Trace empty2;
-        androidx.compose.runtime.CompositionImpl.RememberEventDispatcher $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
-        String str2;
-        int i2;
-        Object obj2;
+        androidx.compose.runtime.CompositionImpl.RememberEventDispatcher $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+        String str;
+        int i7;
+        Object obj;
         int i$iv$iv$iv;
         ScopeMap m$iv$iv$iv;
         int $i$f$isFull;
-        Object map2;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        MutableScatterMap j$iv$iv$iv;
-        int j$iv$iv$iv2;
+        Object map;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        MutableScatterMap j$iv$iv$iv2;
+        int j$iv$iv$iv;
         int value$iv$iv$iv$iv;
         long[] metadata;
         androidx.compose.runtime.CompositionImpl.RememberEventDispatcher rememberEventDispatcher;
         Object obj7;
         long slot$iv$iv$iv;
-        ScopeMap $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
-        int i12;
-        int cmp;
+        ScopeMap $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i10;
+        int cmp2;
         androidx.compose.runtime.Trace trace;
-        String str;
+        String str2;
         int i11;
         long l;
-        int i8;
-        int i9;
-        int i13;
         int i3;
-        int empty;
-        int i;
+        int i12;
+        int i4;
         int i6;
+        int empty;
+        int i9;
+        int $i$a$TraceCompositionImpl$applyChangesInLocked$2;
         int this_$iv$iv;
-        int i5;
+        int i2;
         Object obj4;
-        int i7;
+        int i5;
         int this_$iv$iv$iv;
         Object[] objArr;
-        Object obj;
-        long[] lArr;
-        long slot$iv$iv$iv2;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        Object obj2;
         long[] lArr2;
-        int i4;
+        long slot$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
+        long[] lArr;
+        int i;
         int $i$f$removeIf;
-        MutableScatterMap map;
-        int cmp2;
-        int i10;
+        MutableScatterMap map2;
+        int cmp;
+        int i8;
         boolean valid;
         final Object obj5 = this;
         CompositionImpl.RememberEventDispatcher rememberEventDispatcher2 = new CompositionImpl.RememberEventDispatcher(obj5.abandonSet);
-        $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = rememberEventDispatcher2;
+        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = rememberEventDispatcher2;
         if (changes.isEmpty() && obj5.lateChanges.isEmpty()) {
             if (obj5.lateChanges.isEmpty()) {
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv4.dispatchAbandons();
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv3.dispatchAbandons();
             }
         }
-        i2 = 0;
+        i7 = 0;
         i$iv$iv$iv = 0;
         obj5.applier.onBeginChanges();
         $i$f$isFull = 0;
-        map2 = writer;
-        $this$maskEmptyOrDeleted$iv$iv$iv$iv = 0;
-        j$iv$iv$iv = 0;
-        int i24 = 0;
-        changes.executeAndFlushAllPendingChanges(obj5.applier, map2, (RememberManager)$this$maskEmptyOrDeleted$iv$iv$iv$iv4);
+        map = writer;
+        $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = 0;
+        j$iv$iv$iv2 = 0;
+        int i23 = 0;
+        changes.executeAndFlushAllPendingChanges(obj5.applier, map, (RememberManager)$this$maskEmptyOrDeleted$iv$iv$iv$iv3);
         Unit slots = Unit.INSTANCE;
         value$iv$iv$iv$iv = 0;
-        map2.close(true);
+        map.close(true);
         obj5.applier.onEndChanges();
         Unit iNSTANCE2 = Unit.INSTANCE;
         Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection("Compose:applyChanges"));
-        $this$maskEmptyOrDeleted$iv$iv$iv$iv4.dispatchRememberObservers();
-        $this$maskEmptyOrDeleted$iv$iv$iv$iv4.dispatchSideEffects();
+        $this$maskEmptyOrDeleted$iv$iv$iv$iv3.dispatchRememberObservers();
+        $this$maskEmptyOrDeleted$iv$iv$iv$iv3.dispatchSideEffects();
         if (obj5.pendingInvalidScopes) {
-            str2 = str4;
+            str = str4;
             obj5.pendingInvalidScopes = false;
             m$iv$iv$iv = obj5.observations;
-            map2 = m$iv$iv$iv.getMap();
-            j$iv$iv$iv = map2;
-            metadata = j$iv$iv$iv.metadata;
+            map = m$iv$iv$iv.getMap();
+            j$iv$iv$iv2 = map;
+            metadata = j$iv$iv$iv2.metadata;
             length += -2;
             if (0 <= rememberEventDispatcher) {
             } else {
-                i6 = index$iv$iv;
-                trace = $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
-                str = str2;
-                this_$iv$iv = i2;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
-                i12 = $i$f$isFull;
-                $i$f$removeIf = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-                map = j$iv$iv$iv;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = value$iv$iv$iv$iv;
-                lArr2 = metadata;
+                $i$a$TraceCompositionImpl$applyChangesInLocked$2 = index$iv$iv;
+                trace = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                str2 = str;
+                this_$iv$iv = i7;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv = m$iv$iv$iv;
+                i10 = $i$f$isFull;
+                $i$f$removeIf = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                map2 = j$iv$iv$iv2;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = value$iv$iv$iv$iv;
+                lArr = metadata;
             }
             obj5.cleanUpDerivedStateObservations();
             Unit iNSTANCE5 = Unit.INSTANCE;
-            Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection(str2));
+            Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection(str));
         } else {
-            trace = $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
+            trace = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
         }
         if (obj5.lateChanges.isEmpty()) {
             trace.dispatchAbandons();
@@ -880,73 +880,73 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
     private final void cleanUpDerivedStateObservations() {
         ScopeMap derivedState;
         boolean conditionallyInvalidatedScopes;
-        int i13;
+        int i4;
         MutableScatterMap elements;
         int m$iv$iv$iv2;
-        MutableScatterMap $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int j$iv$iv$iv;
+        MutableScatterMap $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
         int j$iv$iv$iv3;
+        int j$iv$iv$iv;
         long[] metadata;
         int i$iv$iv;
         int i$iv$iv$iv;
-        int i3;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int value$iv$iv$iv$iv;
+        int i7;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int value$iv$iv$iv$iv2;
+        int value$iv$iv$iv$iv;
         int index$iv$iv;
         int value$iv$iv$iv;
-        int i12;
-        Object obj2;
-        long slot$iv$iv$iv;
-        int i;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
-        int conditional;
+        int i11;
+        Object obj;
+        long slot$iv$iv$iv2;
         int i8;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
+        int conditional;
+        int i12;
         int cmp;
-        int i10;
-        int i4;
+        int i;
+        int i9;
         int this_$iv$iv;
-        int i2;
+        int i5;
         ScopeMap this_$iv;
         Object[] objArr;
-        int i7;
-        int i9;
-        Object obj;
-        long[] lArr;
-        long slot$iv$iv$iv2;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
         int i6;
-        int i5;
+        int i10;
+        Object obj2;
+        long[] lArr;
+        long slot$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int i3;
+        int i13;
         MutableScatterMap this_$iv$iv$iv;
-        int i11;
+        int i2;
         int cmp2;
         int j$iv$iv$iv2;
         long[] m$iv$iv$iv;
         final Object obj3 = this;
         derivedState = obj3.derivedStates;
         elements = derivedState.getMap();
-        $this$maskEmptyOrDeleted$iv$iv$iv$iv = elements;
-        metadata = $this$maskEmptyOrDeleted$iv$iv$iv$iv.metadata;
+        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = elements;
+        metadata = $this$maskEmptyOrDeleted$iv$iv$iv$iv3.metadata;
         length2 += -2;
         final long l3 = -9187201950435737472L;
         final int i34 = 128;
-        i3 = 8;
+        i7 = 8;
         if (0 <= i$iv$iv) {
         } else {
             this_$iv = derivedState;
-            this_$iv$iv = i13;
-            i9 = m$iv$iv$iv2;
-            this_$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-            i11 = j$iv$iv$iv;
+            this_$iv$iv = i4;
+            i10 = m$iv$iv$iv2;
+            this_$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+            i2 = j$iv$iv$iv3;
             m$iv$iv$iv = metadata;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = 7;
-            i8 = 255;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = 7;
+            i12 = 255;
         }
         if (obj3.conditionallyInvalidatedScopes.isNotEmpty()) {
             conditionallyInvalidatedScopes = obj3.conditionallyInvalidatedScopes;
-            i13 = 0;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv = 0;
-            j$iv$iv$iv = m$iv$iv$iv2.metadata;
+            i4 = 0;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = 0;
+            j$iv$iv$iv3 = m$iv$iv$iv2.metadata;
             length += -2;
             if (0 <= metadata) {
             } else {
@@ -955,7 +955,7 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
     }
 
     private final void composeInitial(Function2<? super androidx.compose.runtime.Composer, ? super Integer, Unit> content) {
-        String str;
+        String $i$a$CheckPreconditionCompositionImpl$composeInitial$1;
         int i2 = 0;
         if (disposed ^= 1 == 0) {
             int i3 = 0;
@@ -966,11 +966,11 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
     }
 
     private final void drainPendingModificationsForCompositionLocked() {
-        Object obj2;
+        Object obj;
         int i;
         int length;
         int i2;
-        Object obj;
+        Object obj2;
         Object andSet = this.pendingModifications.getAndSet(CompositionKt.access$getPendingApplyNoModifications$p());
         if (andSet != null) {
             if (Intrinsics.areEqual(andSet, CompositionKt.access$getPendingApplyNoModifications$p())) {
@@ -981,10 +981,10 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                 } else {
                     if (!andSet instanceof Object[]) {
                     } else {
-                        obj2 = andSet;
+                        obj = andSet;
                         i2 = 0;
-                        while (i2 < obj2.length) {
-                            addPendingInvalidationsLocked((Set[])obj2[i2], i);
+                        while (i2 < obj.length) {
+                            addPendingInvalidationsLocked((Set[])obj[i2], i);
                             i2++;
                         }
                     }
@@ -1002,22 +1002,22 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
 
     private final void drainPendingModificationsLocked() {
         boolean equal;
-        int i2;
-        int length;
         int i;
+        int length;
+        int i2;
         Object obj;
         Object andSet = this.pendingModifications.getAndSet(0);
         if (!Intrinsics.areEqual(andSet, CompositionKt.access$getPendingApplyNoModifications$p())) {
-            i2 = 0;
+            i = 0;
             if (andSet instanceof Set != null) {
-                addPendingInvalidationsLocked((Set)andSet, i2);
+                addPendingInvalidationsLocked((Set)andSet, i);
             } else {
                 if (andSet instanceof Object[]) {
                     equal = andSet;
-                    i = i2;
-                    while (i < equal.length) {
-                        addPendingInvalidationsLocked((Set[])equal[i], i2);
-                        i++;
+                    i2 = i;
+                    while (i2 < equal.length) {
+                        addPendingInvalidationsLocked((Set[])equal[i2], i);
+                        i2++;
                     }
                 } else {
                     if (andSet == null) {
@@ -1068,187 +1068,187 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
     }
 
     private final androidx.compose.runtime.InvalidationResult invalidateChecked(androidx.compose.runtime.RecomposeScopeImpl scope, androidx.compose.runtime.Anchor anchor, Object instance) {
-        int invalidations;
+        int $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12;
         androidx.compose.runtime.InvalidationResult sCHEDULED;
         int m$iv$iv$iv$iv;
-        androidx.compose.runtime.CompositionImpl $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2;
-        int i10;
+        androidx.compose.runtime.CompositionImpl $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv;
+        int i7;
         int j$iv$iv$iv$iv;
         boolean $i$f$isFull;
         int invalidationDelegateGroup;
-        int i4;
-        Object obj4;
-        Object[] k$iv$iv$iv;
-        Object obj2;
-        int i9;
-        int i12;
-        Object obj11;
-        int this_$iv$iv$iv$iv;
         int i5;
+        Object obj2;
+        Object[] k$iv$iv$iv;
+        Object obj5;
+        int i2;
         int i11;
-        Object obj;
+        Object obj10;
+        int this_$iv$iv$iv$iv;
+        int i3;
+        int $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$1;
+        Object obj3;
         long[] lArr;
         long slot$iv$iv$iv$iv;
-        ScopeMap $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv;
-        int i8;
+        ScopeMap $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2;
+        int i9;
         int cmp;
-        int i6;
+        int i;
         CompositionObserver observer;
         long l;
-        Object obj5;
-        int i3;
-        Object obj3;
-        int i7;
-        int i2;
-        int i;
-        final Object obj7 = this;
+        Object obj;
+        int i4;
+        Object obj4;
+        int i8;
+        int i10;
+        int i6;
+        final Object obj6 = this;
         final androidx.compose.runtime.RecomposeScopeImpl recomposeScopeImpl = scope;
         final androidx.compose.runtime.Anchor anchor2 = anchor;
-        final Object obj8 = instance;
-        Object lock = obj7.lock;
+        final Object obj7 = instance;
+        Object lock = obj6.lock;
         m$iv$iv$iv$iv = 0;
-        invalidations = 0;
-        $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = obj7.invalidationDelegate;
-        i10 = 0;
+        $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12 = 0;
+        $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = obj6.invalidationDelegate;
+        i7 = 0;
         synchronized (lock) {
             j$iv$iv$iv$iv = 0;
-            if (obj7.slotTable.groupContainsAnchor(obj7.invalidationDelegateGroup, anchor2)) {
-                i10 = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2;
+            if (obj6.slotTable.groupContainsAnchor(obj6.invalidationDelegateGroup, anchor2)) {
+                i7 = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv;
             } else {
             }
-            if (i10 == 0) {
-                if (obj7.tryImminentInvalidation(recomposeScopeImpl, obj8)) {
+            if (i7 == 0) {
+                if (obj6.tryImminentInvalidation(recomposeScopeImpl, obj7)) {
                     return InvalidationResult.IMMINENT;
                 }
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = obj7.observer();
-                if (obj8 == null) {
-                    obj7.invalidations.set(recomposeScopeImpl, ScopeInvalidated.INSTANCE);
-                    i11 = invalidations;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = obj6.observer();
+                if (obj7 == null) {
+                    obj6.invalidations.set(recomposeScopeImpl, ScopeInvalidated.INSTANCE);
+                    $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$1 = $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12;
                     this_$iv$iv$iv$iv = m$iv$iv$iv$iv;
-                    i6 = i10;
+                    i = i7;
                 } else {
-                    if ($this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 == null && !obj8 instanceof DerivedState) {
-                        if (!obj8 instanceof DerivedState) {
+                    if ($this$maskEmptyOrDeleted$iv$iv$iv$iv$iv == null && !obj7 instanceof DerivedState) {
+                        if (!obj7 instanceof DerivedState) {
                             try {
-                                obj7.invalidations.set(recomposeScopeImpl, ScopeInvalidated.INSTANCE);
-                                i11 = invalidations;
+                                obj6.invalidations.set(recomposeScopeImpl, ScopeInvalidated.INSTANCE);
+                                $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$1 = $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12;
                                 this_$iv$iv$iv$iv = m$iv$iv$iv$iv;
-                                i6 = i10;
-                                j$iv$iv$iv$iv = obj7.invalidations;
+                                i = i7;
+                                j$iv$iv$iv$iv = obj6.invalidations;
                                 $i$f$isFull = 0;
-                                i4 = 0;
-                                obj4 = j$iv$iv$iv$iv.getMap().get(recomposeScopeImpl);
+                                i5 = 0;
+                                obj2 = j$iv$iv$iv$iv.getMap().get(recomposeScopeImpl);
                             } catch (Throwable th) {
                                 cmp = 0;
                                 long observer2 = l2;
                                 l = -9187201950435737472L;
-                                i10 = 8;
-                                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = i16 - 8;
+                                i7 = 8;
+                                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = i15 - 8;
                                 j$iv$iv$iv$iv = 0;
-                                int i18 = 0;
-                                $i$f$isFull = i9;
+                                int i17 = 0;
+                                $i$f$isFull = i2;
                                 $i$f$isFull = 0;
                                 l = 0;
-                                i3 = 0;
+                                i4 = 0;
+                                i8 = 0;
+                                i10 = i7;
+                                i6 = j$iv$iv$iv$iv;
+                                i7 = i2;
                                 i7 = 0;
-                                i2 = i10;
-                                i = j$iv$iv$iv$iv;
-                                i10 = i9;
-                                i10 = 0;
-                                k$iv$iv$iv = i9;
-                                i2 = i10;
-                                i = j$iv$iv$iv$iv;
-                                slot$iv$iv$iv$iv >>= i2;
-                                j$iv$iv$iv$iv = i + 1;
-                                i10 = i2;
-                                i2 = i10;
-                                i = j$iv$iv$iv$iv;
+                                k$iv$iv$iv = i2;
+                                i10 = i7;
+                                i6 = j$iv$iv$iv$iv;
+                                slot$iv$iv$iv$iv >>= i10;
+                                j$iv$iv$iv$iv = i6 + 1;
+                                i7 = i10;
+                                i10 = i7;
+                                i6 = j$iv$iv$iv$iv;
                                 m$iv$iv$iv$iv++;
-                                j$iv$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv;
-                                $i$f$isFull = i8;
-                                i10 = i6;
-                                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = observer;
+                                j$iv$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2;
+                                $i$f$isFull = i9;
+                                i7 = i;
+                                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = observer;
                                 k$iv$iv$iv = 0;
-                                obj7.invalidations.add(recomposeScopeImpl, obj8);
-                                int i13 = i6;
-                                return i13.invalidateChecked(recomposeScopeImpl, anchor2, obj8);
-                                obj7.parent.invalidate$runtime_release((ControlledComposition)obj7);
+                                obj6.invalidations.add(recomposeScopeImpl, obj7);
+                                int i12 = i;
+                                return i12.invalidateChecked(recomposeScopeImpl, anchor2, obj7);
+                                obj6.parent.invalidate$runtime_release((ControlledComposition)obj6);
                                 sCHEDULED = InvalidationResult.DEFERRED;
                                 sCHEDULED = InvalidationResult.SCHEDULED;
                                 return sCHEDULED;
                             }
-                            i9 = 1;
-                            if (obj4 instanceof MutableScatterSet != null) {
-                                obj2 = obj4;
-                                i12 = 0;
-                                i5 = 0;
-                                i11 = invalidations;
-                                Object obj6 = obj12;
+                            i2 = 1;
+                            if (obj2 instanceof MutableScatterSet != null) {
+                                obj5 = obj2;
+                                i11 = 0;
+                                i3 = 0;
+                                $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$1 = $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12;
+                                Object $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$13 = obj11;
                                 this_$iv$iv$iv$iv = m$iv$iv$iv$iv;
-                                long[] $i$f$synchronized = obj6.metadata;
-                                obj = obj6;
+                                long[] $i$f$synchronized = $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$13.metadata;
+                                obj3 = $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$13;
                                 this_$iv$iv$iv$iv2 += -2;
-                                if (0 <= invalidations) {
+                                if (0 <= $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12) {
                                 } else {
-                                    observer = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2;
-                                    i6 = i10;
-                                    $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = j$iv$iv$iv$iv;
-                                    i8 = $i$f$isFull;
+                                    observer = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv;
+                                    i = i7;
+                                    $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = j$iv$iv$iv$iv;
+                                    i9 = $i$f$isFull;
                                 }
                             } else {
-                                i11 = invalidations;
+                                $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$1 = $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12;
                                 this_$iv$iv$iv$iv = m$iv$iv$iv$iv;
-                                observer = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2;
-                                i6 = i10;
-                                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = j$iv$iv$iv$iv;
-                                i8 = $i$f$isFull;
+                                observer = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv;
+                                i = i7;
+                                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = j$iv$iv$iv$iv;
+                                i9 = $i$f$isFull;
                                 m$iv$iv$iv$iv = 0;
-                                i10 = 0;
-                                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = obj4 == ScopeInvalidated.INSTANCE ? i9 : 0;
-                                if ($this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 != 0) {
+                                i7 = 0;
+                                $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = obj2 == ScopeInvalidated.INSTANCE ? i2 : 0;
+                                if ($this$maskEmptyOrDeleted$iv$iv$iv$iv$iv != 0) {
                                     try {
-                                        k$iv$iv$iv = i9;
-                                        i11 = invalidations;
+                                        k$iv$iv$iv = i2;
+                                        $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$1 = $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12;
                                         this_$iv$iv$iv$iv = m$iv$iv$iv$iv;
-                                        observer = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2;
-                                        i6 = i10;
-                                        $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = j$iv$iv$iv$iv;
-                                        i8 = $i$f$isFull;
+                                        observer = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv;
+                                        i = i7;
+                                        $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = j$iv$iv$iv$iv;
+                                        i9 = $i$f$isFull;
                                         k$iv$iv$iv = 0;
                                     } catch (Throwable th) {
                                         cmp = 0;
                                         observer2 = l2;
                                         l = -9187201950435737472L;
-                                        i10 = 8;
-                                        $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = i16 - 8;
+                                        i7 = 8;
+                                        $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = i15 - 8;
                                         j$iv$iv$iv$iv = 0;
-                                        i18 = 0;
-                                        $i$f$isFull = i9;
+                                        i17 = 0;
+                                        $i$f$isFull = i2;
                                         $i$f$isFull = 0;
                                         l = 0;
-                                        i3 = 0;
+                                        i4 = 0;
+                                        i8 = 0;
+                                        i10 = i7;
+                                        i6 = j$iv$iv$iv$iv;
+                                        i7 = i2;
                                         i7 = 0;
-                                        i2 = i10;
-                                        i = j$iv$iv$iv$iv;
-                                        i10 = i9;
-                                        i10 = 0;
-                                        k$iv$iv$iv = i9;
-                                        i2 = i10;
-                                        i = j$iv$iv$iv$iv;
-                                        slot$iv$iv$iv$iv >>= i2;
-                                        j$iv$iv$iv$iv = i + 1;
-                                        i10 = i2;
-                                        i2 = i10;
-                                        i = j$iv$iv$iv$iv;
+                                        k$iv$iv$iv = i2;
+                                        i10 = i7;
+                                        i6 = j$iv$iv$iv$iv;
+                                        slot$iv$iv$iv$iv >>= i10;
+                                        j$iv$iv$iv$iv = i6 + 1;
+                                        i7 = i10;
+                                        i10 = i7;
+                                        i6 = j$iv$iv$iv$iv;
                                         m$iv$iv$iv$iv++;
-                                        j$iv$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv;
-                                        $i$f$isFull = i8;
-                                        i10 = i6;
-                                        $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2 = observer;
-                                        obj7.invalidations.add(recomposeScopeImpl, obj8);
-                                        i13 = i6;
-                                        return i13.invalidateChecked(recomposeScopeImpl, anchor2, obj8);
-                                        obj7.parent.invalidate$runtime_release((ControlledComposition)obj7);
+                                        j$iv$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv2;
+                                        $i$f$isFull = i9;
+                                        i7 = i;
+                                        $this$maskEmptyOrDeleted$iv$iv$iv$iv$iv = observer;
+                                        obj6.invalidations.add(recomposeScopeImpl, obj7);
+                                        i12 = i;
+                                        return i12.invalidateChecked(recomposeScopeImpl, anchor2, obj7);
+                                        obj6.parent.invalidate$runtime_release((ControlledComposition)obj6);
                                         sCHEDULED = InvalidationResult.DEFERRED;
                                         sCHEDULED = InvalidationResult.SCHEDULED;
                                         return sCHEDULED;
@@ -1262,67 +1262,67 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                     }
                 }
             } else {
-                i11 = invalidations;
+                $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$1 = $i$a$SynchronizedCompositionImpl$invalidateChecked$delegate$12;
                 this_$iv$iv$iv$iv = m$iv$iv$iv$iv;
-                i6 = i10;
+                i = i7;
             }
         }
     }
 
     private final void invalidateScopeOfLocked(Object value) {
-        Object this_$iv;
-        int i9;
+        Object this_$iv2;
+        int i6;
         androidx.compose.runtime.InvalidationResult observationsProcessed;
         Object index$iv$iv$iv;
-        int i8;
+        int i3;
         Object[] elements;
-        Object obj;
-        int i10;
+        Object obj2;
+        int i7;
         long[] metadata;
-        int i4;
+        int i5;
         int i$iv$iv$iv;
         long slot$iv$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        Object obj2;
+        Object obj;
         int i2;
-        ScopeMap this_$iv2;
-        int i3;
+        ScopeMap this_$iv;
+        int i8;
         long l;
-        int i7;
+        int i9;
+        int i4;
+        int i10;
         int i;
-        int i5;
-        int i6;
         final Object obj3 = this;
         final Object obj4 = value;
-        this_$iv = obj3.observations;
-        i9 = 0;
-        observationsProcessed = this_$iv.getMap().get(obj4);
+        this_$iv2 = obj3.observations;
+        i6 = 0;
+        observationsProcessed = this_$iv2.getMap().get(obj4);
         if (observationsProcessed != null) {
             if (observationsProcessed instanceof MutableScatterSet != null) {
                 index$iv$iv$iv = observationsProcessed;
-                i8 = 0;
-                i10 = 0;
-                metadata = obj.metadata;
+                i3 = 0;
+                i7 = 0;
+                metadata = obj2.metadata;
                 length += -2;
-                if (0 <= i4) {
+                if (0 <= i5) {
                 } else {
-                    this_$iv2 = this_$iv;
-                    i3 = i9;
+                    this_$iv = this_$iv2;
+                    i8 = i6;
                     $this$maskEmptyOrDeleted$iv$iv$iv$iv = observationsProcessed;
-                    obj2 = index$iv$iv$iv;
+                    obj = index$iv$iv$iv;
                 }
             } else {
-                this_$iv2 = this_$iv;
-                i3 = i9;
-                this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-                i9 = 0;
-                if ((RecomposeScopeImpl)this_$iv.invalidateForResult(obj4) == InvalidationResult.IMMINENT) {
-                    obj3.observationsProcessed.add(obj4, this_$iv);
+                this_$iv = this_$iv2;
+                i8 = i6;
+                this_$iv2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+                i6 = 0;
+                if ((RecomposeScopeImpl)this_$iv2.invalidateForResult(obj4) == InvalidationResult.IMMINENT) {
+                    obj3.observationsProcessed.add(obj4, this_$iv2);
                 }
             }
         } else {
-            this_$iv2 = this_$iv;
-            i3 = i9;
+            this_$iv = this_$iv2;
+            i8 = i6;
             $this$maskEmptyOrDeleted$iv$iv$iv$iv = observationsProcessed;
         }
     }
@@ -1382,12 +1382,12 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         androidx.compose.runtime.SlotTable string;
         int index$iv;
         Object[] objArr;
-        int i2;
+        int i;
         int length;
         int anchor;
         Object obj;
         Object contains;
-        int i;
+        int i2;
         Object obj2;
         int indexOf;
         Object str;
@@ -1395,10 +1395,10 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         ArrayList arrayList = new ArrayList();
         int i5 = 0;
         objArr = objArr2;
-        i2 = 0;
+        i = 0;
         anchor = 0;
         while (anchor < objArr.length) {
-            i = 0;
+            i2 = 0;
             obj2 = contains;
             indexOf = 0;
             if (obj2 instanceof RecomposeScopeImpl) {
@@ -1416,22 +1416,22 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         int i4 = 0;
         index$iv = 0;
         while (index$iv < list.size()) {
-            i2 = objArr;
+            i = objArr;
             length = 0;
-            anchor = (RecomposeScopeImpl)i2.getAnchor();
+            anchor = (RecomposeScopeImpl)i.getAnchor();
             obj = 0;
-            i = 0;
-            if (anchor != 0 && !string.slotsOf$runtime_release(anchor.toIndexFor(string)).contains(i2)) {
+            i2 = 0;
+            if (anchor != 0 && !string.slotsOf$runtime_release(anchor.toIndexFor(string)).contains(i)) {
             }
             index$iv++;
             string = slotTable;
             obj = 0;
-            i = 0;
-            if (!string.slotsOf$runtime_release(anchor.toIndexFor(string)).contains(i2)) {
+            i2 = 0;
+            if (!string.slotsOf$runtime_release(anchor.toIndexFor(string)).contains(i)) {
             }
             obj2 = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder.append("Misaligned anchor ").append(anchor).append(" in scope ").append(i2).append(" encountered, scope found at ").append(ArraysKt.indexOf(string.getSlots(), i2)).toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder.append("Misaligned anchor ").append(anchor).append(" in scope ").append(i).append(" encountered, scope found at ").append(ArraysKt.indexOf(string.getSlots(), i)).toString());
         }
     }
 
@@ -1463,10 +1463,10 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         int i6 = 0;
         applyChangesInLocked(this.changes);
         drainPendingModificationsLocked();
-        Unit iNSTANCE2 = Unit.INSTANCE;
+        Unit $i$a$GuardChangesCompositionImpl$applyChanges$1$1 = Unit.INSTANCE;
         int i7 = 0;
         int success$iv$iv = 1;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedCompositionImpl$applyChanges$1 = Unit.INSTANCE;
         return;
         synchronized (lock) {
             lock = this.lock;
@@ -1479,10 +1479,10 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
             i6 = 0;
             applyChangesInLocked(this.changes);
             drainPendingModificationsLocked();
-            iNSTANCE2 = Unit.INSTANCE;
+            $i$a$GuardChangesCompositionImpl$applyChanges$1$1 = Unit.INSTANCE;
             i7 = 0;
             success$iv$iv = 1;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedCompositionImpl$applyChanges$1 = Unit.INSTANCE;
         }
     }
 
@@ -1502,10 +1502,10 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         int i6 = 0;
         synchronized (lock) {
             applyChangesInLocked(this.lateChanges);
-            Unit iNSTANCE2 = Unit.INSTANCE;
+            Unit $i$a$GuardChangesCompositionImpl$applyLateChanges$1$1 = Unit.INSTANCE;
             int i7 = 0;
             int success$iv$iv = 1;
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedCompositionImpl$applyLateChanges$1 = Unit.INSTANCE;
         }
     }
 
@@ -1527,31 +1527,31 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         synchronized (lock) {
             rememberEventDispatcher = new CompositionImpl.RememberEventDispatcher(this.abandonSet);
             rememberEventDispatcher.dispatchAbandons();
-            Unit iNSTANCE2 = Unit.INSTANCE;
+            Unit $i$a$GuardChangesCompositionImpl$changesApplied$1$1 = Unit.INSTANCE;
             int i7 = 0;
             int success$iv$iv = 1;
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedCompositionImpl$changesApplied$1 = Unit.INSTANCE;
         }
     }
 
     public void composeContent(Function2<? super androidx.compose.runtime.Composer, ? super Integer, Unit> content) {
         Set rememberEventDispatcher;
-        Object this_$iv2;
+        Object this_$iv;
         int iNSTANCE;
         Function2 $i$f$guardChanges;
         Map map;
         Set abandonSet;
         String $i$f$trackAbandonedValues;
-        Set set;
-        Object this_$iv;
-        Function2 function2;
-        int i;
         Set set2;
+        Object this_$iv2;
+        Function2 function2;
         int i2;
+        Set set;
+        int i;
         final Object obj = this;
-        this_$iv2 = this;
+        this_$iv = this;
         map = 0;
-        final Object obj3 = this_$iv2;
+        final Object obj3 = this_$iv;
         $i$f$trackAbandonedValues = 0;
         final int i5 = 0;
         final int i6 = 0;
@@ -1564,10 +1564,10 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         final int i10 = 0;
         final CompositionObserver observer = obj.observer();
         synchronized (obj4) {
-            this_$iv = this_$iv2;
-            i = map;
+            this_$iv2 = this_$iv;
+            i2 = map;
             map = map2.asMap();
-            i2 = $i$f$trackAbandonedValues;
+            i = $i$f$trackAbandonedValues;
             Intrinsics.checkNotNull(map, "null cannot be cast to non-null type kotlin.collections.Map<androidx.compose.runtime.RecomposeScope, kotlin.collections.Set<kotlin.Any>?>");
             observer.onBeginComposition((Composition)obj, map);
             obj.composer.composeContent$runtime_release(map2, content);
@@ -1590,56 +1590,56 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
     @Override // androidx.compose.runtime.ControlledComposition
     public void deactivate() {
         int iNSTANCE;
-        Object rememberEventDispatcher;
-        int i3;
-        String str;
-        int i2;
-        Object obj;
-        int i;
-        androidx.compose.runtime.CompositionImpl.RememberEventDispatcher rememberEventDispatcher2;
-        androidx.compose.runtime.SlotTable slotTable;
-        int i4;
-        androidx.compose.runtime.SlotWriter writer;
+        Object rememberEventDispatcher2;
         int i5;
-        boolean z;
-        int i7;
-        androidx.compose.runtime.Trace trace;
+        String str;
         int i6;
+        Object obj;
+        int i7;
+        androidx.compose.runtime.CompositionImpl.RememberEventDispatcher rememberEventDispatcher;
+        androidx.compose.runtime.SlotTable slotTable;
+        int i3;
+        androidx.compose.runtime.SlotWriter writer;
+        int i2;
+        boolean z;
+        int i;
+        androidx.compose.runtime.Trace trace;
+        int i4;
         final Object obj2 = this;
         final Object lock = obj2.lock;
-        i3 = 0;
+        i5 = 0;
         final int i8 = 0;
         synchronized (lock) {
             iNSTANCE = 1;
             final int i9 = iNSTANCE;
             if (i9 == 0) {
                 if (!(Collection)obj2.abandonSet.isEmpty()) {
-                    i2 = 0;
-                    i = 0;
-                    rememberEventDispatcher = new CompositionImpl.RememberEventDispatcher(obj2.abandonSet);
-                    rememberEventDispatcher2 = rememberEventDispatcher;
+                    i6 = 0;
+                    i7 = 0;
+                    rememberEventDispatcher2 = new CompositionImpl.RememberEventDispatcher(obj2.abandonSet);
+                    rememberEventDispatcher = rememberEventDispatcher2;
                     if (i9 != 0) {
                         obj2.applier.onBeginChanges();
-                        i4 = 0;
-                        writer = writer2;
-                        i5 = 0;
-                        z = 0;
-                        i7 = 0;
-                        i6 = i3;
-                        ComposerKt.deactivateCurrentGroup(writer, (RememberManager)rememberEventDispatcher2);
-                        Unit writer4 = Unit.INSTANCE;
                         i3 = 0;
+                        writer = writer2;
+                        i2 = 0;
+                        z = 0;
+                        i = 0;
+                        i4 = i5;
+                        ComposerKt.deactivateCurrentGroup(writer, (RememberManager)rememberEventDispatcher);
+                        Unit writer4 = Unit.INSTANCE;
+                        i5 = 0;
                         writer.close(true);
                         obj2.applier.onEndChanges();
-                        rememberEventDispatcher2.dispatchRememberObservers();
+                        rememberEventDispatcher.dispatchRememberObservers();
                     } else {
-                        i6 = i3;
+                        i4 = i5;
                     }
-                    rememberEventDispatcher2.dispatchAbandons();
+                    rememberEventDispatcher.dispatchAbandons();
                     Unit iNSTANCE4 = Unit.INSTANCE;
                     Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection("Compose:deactivate"));
                 } else {
-                    i6 = i3;
+                    i4 = i5;
                 }
             } else {
             }
@@ -1738,7 +1738,7 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
                     throw writer2;
                     rememberEventDispatcher.dispatchAbandons();
                     this.composer.dispose$runtime_release();
-                    Unit iNSTANCE = Unit.INSTANCE;
+                    Unit $i$a$SynchronizedCompositionImpl$dispose$1 = Unit.INSTANCE;
                     this.parent.unregisterComposition$runtime_release((ControlledComposition)this);
                     throw th;
                 } catch (Throwable th) {
@@ -1841,31 +1841,31 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
     public void insertMovableContent(List<Pair<androidx.compose.runtime.MovableContentStateReference, androidx.compose.runtime.MovableContentStateReference>> references) {
         int index$iv$iv;
         Throwable th;
-        int i2;
+        int i;
         Set rememberEventDispatcher;
         Set abandonSet;
-        int i;
-        boolean it;
         int i3;
+        boolean it;
+        int i2;
         androidx.compose.runtime.ControlledComposition composition$runtime_release;
         int i4 = 0;
         List list2 = list;
         int i6 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list2.size()) {
-            i = 0;
             i3 = 0;
+            i2 = 0;
             index$iv$iv++;
         }
-        i2 = 1;
-        ComposerKt.runtimeCheck(i2);
+        i = 1;
+        ComposerKt.runtimeCheck(i);
         int i5 = 0;
         Object obj2 = obj;
         int i7 = 0;
         int i8 = 0;
         int i9 = 0;
         this.composer.insertMovableContentReferences(references);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$GuardChangesCompositionImpl$insertMovableContent$2 = Unit.INSTANCE;
         int i10 = 0;
         int success$iv$iv = 1;
     }
@@ -1914,83 +1914,83 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
 
     @Override // androidx.compose.runtime.ControlledComposition
     public void invalidateAll() {
-        int i;
-        Object obj;
-        Object obj3;
         int i2;
+        Object obj;
         Object obj2;
+        int i;
+        Object obj3;
         final Object lock = this.lock;
         final int i3 = 0;
         int i4 = 0;
         Object[] slots = this.slotTable.getSlots();
         final int i5 = 0;
-        i = 0;
+        i2 = 0;
         synchronized (lock) {
-            while (i < slots.length) {
-                obj3 = obj;
-                i2 = 0;
-                if (obj3 instanceof RecomposeScopeImpl) {
+            while (i2 < slots.length) {
+                obj2 = obj;
+                i = 0;
+                if (obj2 instanceof RecomposeScopeImpl) {
                 } else {
                 }
-                obj2 = 0;
-                if (obj2 != null) {
+                obj3 = 0;
+                if (obj3 != null) {
                 }
-                i++;
-                obj2.invalidate();
-                obj2 = obj3;
+                i2++;
+                obj3.invalidate();
+                obj3 = obj2;
             }
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedCompositionImpl$invalidateAll$1 = Unit.INSTANCE;
         }
     }
 
     @Override // androidx.compose.runtime.ControlledComposition
     public final void invalidateGroupsWithKey(int key) {
-        int i5;
-        int i2;
-        Object forceRecomposeScopes$runtime_release;
         int i4;
+        int i7;
+        Object forceRecomposeScopes$runtime_release;
+        int i2;
         int i;
         List list;
-        int i6;
+        int i3;
         int index$iv$iv;
         int size;
         androidx.compose.runtime.InvalidationResult iGNORED;
         Object obj;
-        Object obj3;
-        int i7;
         Object obj2;
-        int i3;
+        int i5;
+        Object obj3;
+        int i6;
         final Object obj4 = this;
         forceRecomposeScopes$runtime_release = obj4.lock;
-        i4 = 0;
         i2 = 0;
+        i7 = 0;
         List invalidateGroupsWithKey$runtime_release = obj4.slotTable.invalidateGroupsWithKey$runtime_release(key);
         synchronized (forceRecomposeScopes$runtime_release) {
             obj4 = this;
             forceRecomposeScopes$runtime_release = obj4.lock;
-            i4 = 0;
             i2 = 0;
+            i7 = 0;
             invalidateGroupsWithKey$runtime_release = obj4.slotTable.invalidateGroupsWithKey$runtime_release(key);
         }
-        i4 = 0;
+        i2 = 0;
         list = forceRecomposeScopes$runtime_release;
-        i6 = 0;
+        i3 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i7 = 0;
-            i3 = 0;
+            i5 = 0;
+            i6 = 0;
             if ((RecomposeScopeImpl)list.get(index$iv$iv).invalidateForResult(0) == InvalidationResult.IGNORED) {
             } else {
             }
-            i2 = 0;
+            i7 = 0;
             index$iv$iv++;
-            i2 = 1;
+            i7 = 1;
         }
-        i2 = 0;
-        if (i2 != 0) {
+        i7 = 0;
+        if (i7 != 0) {
             try {
-                i5 = 0;
-                i5 = 1;
+                i4 = 0;
+                i4 = 1;
             }
             if (obj4.composer.forceRecomposeScopes$runtime_release()) {
                 obj4.parent.invalidate$runtime_release((ControlledComposition)obj4);
@@ -2021,7 +2021,7 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         int i2 = 0;
         this.observerHolder.setObserver(observer);
         this.observerHolder.setRoot(true);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedCompositionImpl$observe$1 = Unit.INSTANCE;
         CompositionImpl.observe.2 lock$iv = new CompositionImpl.observe.2(this, observer);
         return (CompositionObserverHandle)lock$iv;
         synchronized (lock) {
@@ -2030,7 +2030,7 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
             i2 = 0;
             this.observerHolder.setObserver(observer);
             this.observerHolder.setRoot(true);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedCompositionImpl$observe$1 = Unit.INSTANCE;
             lock$iv = new CompositionImpl.observe.2(this, observer);
             return (CompositionObserverHandle)lock$iv;
         }
@@ -2038,54 +2038,54 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
 
     public boolean observesAnyOf(Set<? extends Object> values) {
         Object $this$fastForEach$iv2;
-        int i2;
+        int i4;
         androidx.collection.ScatterSet set$runtime_release;
         int j$iv$iv$iv;
         Object $i$f$isFull;
-        int i9;
+        int i;
         boolean contains;
         androidx.collection.ScatterSet set;
         int i8;
         long[] metadata;
-        int i3;
+        int i2;
         int i$iv$iv$iv;
         long slot$iv$iv$iv;
         Object $this$fastForEach$iv;
-        int i5;
+        int i3;
         int cmp;
-        int i4;
-        int i;
-        long l;
-        int i6;
         int i7;
+        int i6;
+        long l;
+        int i9;
+        int i5;
         androidx.collection.ScatterSet this_$iv$iv;
         final Object obj = this;
         $this$fastForEach$iv2 = values;
-        i2 = 0;
+        i4 = 0;
         if ($this$fastForEach$iv2 instanceof ScatterSetWrapper) {
             set$runtime_release = (ScatterSetWrapper)$this$fastForEach$iv2.getSet$runtime_release();
-            i9 = 0;
+            i = 0;
             i8 = 0;
             metadata = set.metadata;
             length += -2;
-            if (0 <= i3) {
+            if (0 <= i2) {
             } else {
                 $this$fastForEach$iv = $this$fastForEach$iv2;
-                i5 = i2;
+                i3 = i4;
                 this_$iv$iv = set$runtime_release;
-                i4 = 0;
+                i7 = 0;
             }
         } else {
-            i5 = i2;
+            i3 = i4;
+            i7 = 0;
             i4 = 0;
-            i2 = 0;
             set$runtime_release = (Iterable)$this$fastForEach$iv2.iterator();
             for (Object j$iv$iv$iv : set$runtime_release) {
                 $i$f$isFull = j$iv$iv$iv;
-                i9 = 0;
+                i = 0;
             }
         }
-        return i4;
+        return i7;
     }
 
     public void prepareCompose(Function0<Unit> block) {
@@ -2094,22 +2094,22 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
 
     @Override // androidx.compose.runtime.ControlledComposition
     public boolean recompose() {
-        Object invalidations2;
+        Object invalidations;
         Set rememberEventDispatcher;
-        int $i$f$synchronized2;
+        int $i$f$synchronized;
         Set abandonSet;
         int map;
         Object this_$iv;
         Set set2;
-        int $i$f$synchronized;
+        int $i$f$synchronized2;
         Set set;
         int i;
         Object obj5;
         Object obj;
-        ScopeMap invalidations;
+        ScopeMap invalidations2;
         final Object obj2 = this;
         final Object lock = obj2.lock;
-        $i$f$synchronized2 = 0;
+        $i$f$synchronized = 0;
         map = 0;
         obj2.drainPendingModificationsForCompositionLocked();
         this_$iv = this;
@@ -2119,25 +2119,25 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         final int i7 = 0;
         final int i8 = 0;
         final int i9 = 0;
-        invalidations2 = map2;
+        invalidations = map2;
         final int i10 = 0;
         final CompositionObserver observer = obj2.observer();
         synchronized (lock) {
-            $i$f$synchronized = $i$f$synchronized2;
+            $i$f$synchronized2 = $i$f$synchronized;
             i = map;
-            map = invalidations2.asMap();
+            map = invalidations.asMap();
             obj = this_$iv;
             Intrinsics.checkNotNull(map, "null cannot be cast to non-null type kotlin.collections.Map<androidx.compose.runtime.RecomposeScope, kotlin.collections.Set<kotlin.Any>?>");
             observer.onBeginComposition((Composition)obj2, map);
             try {
-                boolean recompose$runtime_release = obj2.composer.recompose$runtime_release(invalidations2);
+                boolean recompose$runtime_release = obj2.composer.recompose$runtime_release(invalidations);
                 int i3 = 0;
                 if (!recompose$runtime_release) {
                 }
                 obj2.drainPendingModificationsLocked();
             } catch (Throwable th) {
             }
-            invalidations = invalidations2;
+            invalidations2 = invalidations;
             observer.onEndComposition((Composition)obj2);
             boolean z = recompose$runtime_release;
             int i2 = 0;
@@ -2158,7 +2158,7 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         Set[] plus;
         boolean equal;
         int i;
-        Object iNSTANCE;
+        Object $i$a$SynchronizedCompositionImpl$recordModificationsOf$1;
         obj = this.pendingModifications.get();
         i2 = 1;
         while (obj == null) {
@@ -2180,73 +2180,73 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
     @Override // androidx.compose.runtime.ControlledComposition
     public void recordReadOf(Object value) {
         boolean areChildrenComposing;
-        Object derivedStates;
-        Object obj;
-        Object $this$maskEmptyOrDeleted$iv$iv$iv2;
+        Object $i$a$LetCompositionImpl$recordReadOf$1;
+        Object $i$a$LetCompositionImpl$recordReadOf$13;
+        Object $this$maskEmptyOrDeleted$iv$iv$iv;
         boolean recordRead;
         androidx.compose.runtime.DerivedState.Record currentRecord;
-        boolean z2;
+        boolean z;
         androidx.collection.ObjectIntMap this_$iv;
         int i4;
         Object[] keys;
-        androidx.collection.ObjectIntMap map2;
-        int i7;
+        androidx.collection.ObjectIntMap map;
+        int i;
         long[] metadata;
-        int i3;
+        int i7;
         int i$iv$iv;
         long slot$iv$iv;
-        androidx.compose.runtime.DerivedState.Record $this$maskEmptyOrDeleted$iv$iv$iv;
-        androidx.collection.ObjectIntMap map;
-        int i8;
-        int i5;
-        boolean z;
-        long l;
+        androidx.compose.runtime.DerivedState.Record $this$maskEmptyOrDeleted$iv$iv$iv2;
+        androidx.collection.ObjectIntMap map2;
         int i6;
-        int i9;
+        int i8;
+        boolean z2;
+        long l;
+        int i5;
         int i2;
+        int $i$a$LetCompositionImpl$recordReadOf$12;
         androidx.compose.runtime.snapshots.ReaderKind.Companion companion;
-        int i;
+        int i3;
         int j$iv$iv;
-        final Object obj2 = this;
-        final Object obj3 = value;
-        areChildrenComposing = obj2.composer.getCurrentRecomposeScope$runtime_release();
-        if (!obj2.getAreChildrenComposing() && areChildrenComposing != null) {
-            areChildrenComposing = obj2.composer.getCurrentRecomposeScope$runtime_release();
+        final Object obj = this;
+        final Object obj2 = value;
+        areChildrenComposing = obj.composer.getCurrentRecomposeScope$runtime_release();
+        if (!obj.getAreChildrenComposing() && areChildrenComposing != null) {
+            areChildrenComposing = obj.composer.getCurrentRecomposeScope$runtime_release();
             if (areChildrenComposing != null) {
-                derivedStates = 0;
-                $this$maskEmptyOrDeleted$iv$iv$iv2 = 1;
-                areChildrenComposing.setUsed($this$maskEmptyOrDeleted$iv$iv$iv2);
-                recordRead = areChildrenComposing.recordRead(obj3);
+                $i$a$LetCompositionImpl$recordReadOf$1 = 0;
+                $this$maskEmptyOrDeleted$iv$iv$iv = 1;
+                areChildrenComposing.setUsed($this$maskEmptyOrDeleted$iv$iv$iv);
+                recordRead = areChildrenComposing.recordRead(obj2);
                 if (!recordRead) {
-                    if (obj3 instanceof StateObjectImpl) {
+                    if (obj2 instanceof StateObjectImpl) {
                         androidx.compose.runtime.snapshots.ReaderKind.Companion companion2 = ReaderKind.Companion;
                         i4 = 0;
-                        (StateObjectImpl)obj3.recordReadIn-h_f27i8$runtime_release(ReaderKind.constructor-impl($this$maskEmptyOrDeleted$iv$iv$iv2));
+                        (StateObjectImpl)obj2.recordReadIn-h_f27i8$runtime_release(ReaderKind.constructor-impl($this$maskEmptyOrDeleted$iv$iv$iv));
                     }
-                    obj2.observations.add(obj3, areChildrenComposing);
-                    if (obj3 instanceof DerivedState) {
-                        currentRecord = (DerivedState)obj3.getCurrentRecord();
-                        obj2.derivedStates.removeScope(obj3);
+                    obj.observations.add(obj2, areChildrenComposing);
+                    if (obj2 instanceof DerivedState) {
+                        currentRecord = (DerivedState)obj2.getCurrentRecord();
+                        obj.derivedStates.removeScope(obj2);
                         this_$iv = currentRecord.getDependencies();
                         i4 = 0;
-                        i7 = 0;
-                        metadata = map2.metadata;
+                        i = 0;
+                        metadata = map.metadata;
                         length += -2;
-                        if (0 <= i3) {
+                        if (0 <= i7) {
                         } else {
-                            i2 = derivedStates;
-                            z = recordRead;
-                            $this$maskEmptyOrDeleted$iv$iv$iv = currentRecord;
-                            map = this_$iv;
+                            $i$a$LetCompositionImpl$recordReadOf$12 = $i$a$LetCompositionImpl$recordReadOf$1;
+                            z2 = recordRead;
+                            $this$maskEmptyOrDeleted$iv$iv$iv2 = currentRecord;
+                            map2 = this_$iv;
                         }
-                        areChildrenComposing.recordDerivedStateValue((DerivedState)obj3, $this$maskEmptyOrDeleted$iv$iv$iv.getCurrentValue());
+                        areChildrenComposing.recordDerivedStateValue((DerivedState)obj2, $this$maskEmptyOrDeleted$iv$iv$iv2.getCurrentValue());
                     } else {
-                        i2 = derivedStates;
-                        z = recordRead;
+                        $i$a$LetCompositionImpl$recordReadOf$12 = $i$a$LetCompositionImpl$recordReadOf$1;
+                        z2 = recordRead;
                     }
                 } else {
-                    i2 = derivedStates;
-                    z = recordRead;
+                    $i$a$LetCompositionImpl$recordReadOf$12 = $i$a$LetCompositionImpl$recordReadOf$1;
+                    z2 = recordRead;
                 }
             }
         }
@@ -2254,32 +2254,32 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
 
     @Override // androidx.compose.runtime.ControlledComposition
     public void recordWriteOf(Object value) {
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         ScopeMap derivedStates;
         int j$iv$iv$iv;
         Object obj3;
         Object obj;
-        Object obj5;
-        int i;
-        Object[] elements;
         Object obj4;
-        int i2;
-        long[] metadata;
         int i3;
+        Object[] elements;
+        Object obj5;
+        int i6;
+        long[] metadata;
+        int i4;
         int i$iv$iv$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         Object obj2;
-        int i4;
+        int i;
         int $i$f$synchronized;
         ScopeMap map;
         long l;
-        int i5;
+        int i2;
         int i7;
-        int i6;
+        int i5;
         final Object obj6 = this;
         final Object lock = obj6.lock;
-        $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = 0;
+        $this$maskEmptyOrDeleted$iv$iv$iv$iv = 0;
         int i8 = 0;
         invalidateScopeOfLocked(value);
         derivedStates = obj6.derivedStates;
@@ -2287,30 +2287,30 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
         obj3 = derivedStates.getMap().get(value);
         synchronized (lock) {
             if (obj3 instanceof MutableScatterSet != null) {
-                obj5 = obj3;
-                i = 0;
-                i2 = 0;
-                metadata = obj4.metadata;
+                obj4 = obj3;
+                i3 = 0;
+                i6 = 0;
+                metadata = obj5.metadata;
                 length += -2;
-                if (0 <= i3) {
+                if (0 <= i4) {
                 } else {
-                    $i$f$synchronized = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                    $i$f$synchronized = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
                     map = derivedStates;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
                     obj2 = obj3;
                 }
             } else {
                 try {
-                    $i$f$synchronized = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                    $i$f$synchronized = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
                     map = derivedStates;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
                     derivedStates = 0;
                     obj6.invalidateScopeOfLocked((DerivedState)obj3);
-                    $i$f$synchronized = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+                    $i$f$synchronized = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
                     map = derivedStates;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
                     obj2 = obj3;
-                    Unit iNSTANCE = Unit.INSTANCE;
+                    Unit $i$a$SynchronizedCompositionImpl$recordWriteOf$1 = Unit.INSTANCE;
                     obj = value;
                     $i$f$synchronized = obj3;
                     throw th;
@@ -2360,7 +2360,7 @@ public final class CompositionImpl implements androidx.compose.runtime.Controlle
             this.composer.verifyConsistent$runtime_release();
             this.slotTable.verifyWellFormed();
             validateRecomposeScopeAnchors(this.slotTable);
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedCompositionImpl$verifyConsistent$1 = Unit.INSTANCE;
         }
     }
 }

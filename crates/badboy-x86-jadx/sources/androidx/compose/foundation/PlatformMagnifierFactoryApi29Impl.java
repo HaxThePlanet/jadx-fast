@@ -60,9 +60,9 @@ public final class PlatformMagnifierFactoryApi29Impl implements androidx.compose
 
     @Override // androidx.compose.foundation.PlatformMagnifierFactory
     public androidx.compose.foundation.PlatformMagnifierFactoryApi29Impl.PlatformMagnifierImpl create-nHHXs2Y(View view, boolean useTextDefault, long size, float cornerRadius, float elevation, boolean clippingEnabled, Density density, float initialZoom) {
-        long roundToInt;
+        long roundToInt2;
         float f;
-        int roundToInt2;
+        int roundToInt;
         int i;
         final View view2 = view;
         final Object obj = initialZoom;
@@ -78,7 +78,7 @@ public final class PlatformMagnifierFactoryApi29Impl implements androidx.compose
         Magnifier.Builder builder = new Magnifier.Builder(view2);
         int i3 = 0;
         final int i4 = 0;
-        i = Long.compare(roundToInt, l2) != 0 ? 1 : 0;
+        i = Long.compare(roundToInt2, l2) != 0 ? 1 : 0;
         if (i != 0) {
             builder.setSize(MathKt.roundToInt(Size.getWidth-impl(size-XkaWNTQ)), MathKt.roundToInt(Size.getHeight-impl(size-XkaWNTQ)));
         }

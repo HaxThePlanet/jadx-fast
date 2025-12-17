@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_dog_log_calendar_day_0"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0">
+        <TextView
+            android:textSize="12dp"
+            android:id="@+id/textView"
+            android:tag="binding_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"/>
+        <TextView
+            android:textSize="12dp"
+            android:id="@+id/textView2"
+            android:tag="binding_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"/>
+    </LinearLayout>
+    <app.dogo.com.dogo_android.util.customview.DogLogView
+        android:id="@+id/dog_log_day_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/linear"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

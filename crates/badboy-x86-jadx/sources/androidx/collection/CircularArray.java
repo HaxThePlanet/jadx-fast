@@ -18,16 +18,16 @@ public final class CircularArray<E>  {
     }
 
     public CircularArray(int minCapacity) {
-        int i2;
-        int i3;
         int i;
+        int i3;
+        int i2;
         super();
         int i7 = 1;
-        i = minCapacity >= i7 ? i7 : i2;
-        if (i == 0) {
+        i2 = minCapacity >= i7 ? i7 : i;
+        if (i2 == 0) {
         } else {
-            i2 = minCapacity <= 1073741824 ? i7 : i2;
-            if (i2 == 0) {
+            i = minCapacity <= 1073741824 ? i7 : i;
+            if (i == 0) {
             } else {
                 if (Integer.bitCount(minCapacity) != i7) {
                     highestOneBit <<= i7;
@@ -38,12 +38,12 @@ public final class CircularArray<E>  {
                 this.elements = new Object[i3];
             }
             int i5 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("capacity must be <= 2^30".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireCircularArray$2 = new IllegalArgumentException("capacity must be <= 2^30".toString());
+            throw $i$a$RequireCircularArray$2;
         }
         int i4 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("capacity must be >= 1".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireCircularArray$1 = new IllegalArgumentException("capacity must be >= 1".toString());
+        throw $i$a$RequireCircularArray$1;
     }
 
     public CircularArray(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -168,12 +168,12 @@ public final class CircularArray<E>  {
 
     public final void removeFromEnd(int count) {
         int start;
-        int tail;
-        int i;
-        int i4;
-        int i3;
-        Object[] i2;
         int tail2;
+        int i;
+        int i2;
+        int i3;
+        Object[] i4;
+        int tail;
         Object[] elements;
         if (count <= 0) {
         }
@@ -182,7 +182,7 @@ public final class CircularArray<E>  {
             int i5 = count;
             start = 0;
             if (i5 < this.tail) {
-                start = tail - i5;
+                start = tail2 - i5;
             }
             i = start;
             i3 = 0;
@@ -197,12 +197,12 @@ public final class CircularArray<E>  {
             if (numOfElements > 0) {
                 this.tail = elements2.length;
                 tail5 -= numOfElements;
-                i2 = i4;
-                while (i2 < this.tail) {
-                    this.elements[i2] = i3;
-                    i2++;
+                i4 = i2;
+                while (i4 < this.tail) {
+                    this.elements[i4] = i3;
+                    i4++;
                 }
-                this.tail = i4;
+                this.tail = i2;
             }
         }
         androidx.collection.CollectionPlatformUtils numOfElements2 = CollectionPlatformUtils.INSTANCE;
@@ -214,10 +214,10 @@ public final class CircularArray<E>  {
     public final void removeFromStart(int count) {
         int end;
         int head;
-        int i2;
-        int i3;
-        Object[] elements;
         int i;
+        int i2;
+        Object[] elements;
+        int i3;
         int capacityBitmask;
         if (count <= 0) {
         }
@@ -227,21 +227,21 @@ public final class CircularArray<E>  {
             if (i4 < end - head2) {
                 end = head + i4;
             }
-            i2 = this.head;
-            i3 = 0;
-            while (i2 < end) {
-                this.elements[i2] = i3;
-                i2++;
-                i3 = 0;
+            i = this.head;
+            i2 = 0;
+            while (i < end) {
+                this.elements[i] = i2;
+                i++;
+                i2 = 0;
             }
             int i7 = end - i6;
             i4 -= i7;
             this.head = i8 &= capacityBitmask;
             if (numOfElements > 0) {
-                i = 0;
-                while (i < numOfElements) {
-                    this.elements[i] = i3;
-                    i++;
+                i3 = 0;
+                while (i3 < numOfElements) {
+                    this.elements[i3] = i2;
+                    i3++;
                 }
                 this.head = numOfElements;
             }

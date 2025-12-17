@@ -1,0 +1,16 @@
+package com.google.android.gms.internal.measurement;
+
+/* loaded from: classes2.dex */
+public final class jd implements com.google.android.gms.internal.measurement.id {
+
+    public static final com.google.android.gms.internal.measurement.w6<Boolean> a;
+    static {
+        t6 t6Var = new t6(m6.a("com.google.android.gms.measurement"));
+        jd.a = t6Var.e("measurement.collection.firebase_global_collection_flag_enabled", true);
+    }
+
+    @Override // com.google.android.gms.internal.measurement.id
+    public final boolean zza() {
+        return (Boolean)jd.a.b().booleanValue();
+    }
+}

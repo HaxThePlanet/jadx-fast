@@ -50,37 +50,37 @@ final class CommonRippleIndicationInstance extends androidx.compose.material.rip
 
     private final void drawRipples-4WTKRHQ(DrawScope $this$drawRipples_u2d4WTKRHQ, long color) {
         Object next;
-        int i4;
+        int i;
         Object value;
         Object obj;
-        int i7;
-        DrawScope drawScope;
         int i6;
+        DrawScope drawScope;
+        int i2;
         Object obj3;
         float pressedAlpha;
         long copy-wmQWz5c$default;
-        int i5;
-        int i;
-        int i2;
+        int i7;
         int i3;
+        int i4;
+        int i5;
         final Object obj2 = this;
         final int i8 = 0;
         Iterator iterator = (Map)obj2.ripples.entrySet().iterator();
         while (iterator.hasNext()) {
-            i4 = 0;
-            i7 = 0;
+            i = 0;
+            i6 = 0;
             pressedAlpha = (RippleAlpha)obj2.rippleAlpha.getValue().getPressedAlpha();
             if (Float.compare(pressedAlpha, i9) == 0) {
             } else {
             }
-            i6 = 0;
-            if (i6 == 0) {
+            i2 = 0;
+            if (i2 == 0) {
             } else {
             }
             drawScope = $this$drawRipples_u2d4WTKRHQ;
-            i5 = 0;
-            (RippleAnimation)(Map.Entry)iterator.next().getValue().draw-4WTKRHQ($this$drawRipples_u2d4WTKRHQ, Color.copy-wmQWz5c$default(color, obj11, pressedAlpha, 0, i5, 0, 14));
-            i6 = 1;
+            i7 = 0;
+            (RippleAnimation)(Map.Entry)iterator.next().getValue().draw-4WTKRHQ($this$drawRipples_u2d4WTKRHQ, Color.copy-wmQWz5c$default(color, obj11, pressedAlpha, 0, i7, 0, 14));
+            i2 = 1;
         }
         DrawScope drawScope2 = $this$drawRipples_u2d4WTKRHQ;
     }

@@ -23,16 +23,16 @@ public final class TextDelegateKt {
     public static final androidx.compose.foundation.text.TextDelegate updateTextDelegate-rm0N8CA(androidx.compose.foundation.text.TextDelegate current, AnnotatedString text, TextStyle style, Density density, FontFamily.Resolver fontFamilyResolver, boolean softWrap, int overflow, int maxLines, int minLines, List<AnnotatedString.Range<Placeholder>> placeholders) {
         FontFamily.Resolver fontFamilyResolver2;
         androidx.compose.foundation.text.TextDelegate textDelegate;
-        Object obj;
         Object obj3;
-        int i;
+        Object obj;
+        int i2;
         int i4;
         boolean z;
-        int i2;
+        int i3;
         Object obj2;
         FontFamily.Resolver resolver;
         Object obj4;
-        int i3;
+        int i;
         if (Intrinsics.areEqual(current.getText(), text)) {
             if (Intrinsics.areEqual(current.getStyle(), style)) {
                 if (current.getSoftWrap() == softWrap) {
@@ -42,7 +42,7 @@ public final class TextDelegateKt {
                                 if (Intrinsics.areEqual(current.getDensity(), density)) {
                                     if (Intrinsics.areEqual(current.getPlaceholders(), placeholders)) {
                                         if (current.getFontFamilyResolver() != fontFamilyResolver) {
-                                            textDelegate = new TextDelegate(text, style, i, i4, z, i2, density, resolver, obj4, 0);
+                                            textDelegate = new TextDelegate(text, style, i2, i4, z, i3, density, resolver, obj4, 0);
                                         } else {
                                             textDelegate = current;
                                         }
@@ -64,30 +64,30 @@ public final class TextDelegateKt {
                         }
                     } else {
                         resolver = fontFamilyResolver;
-                        i = maxLines;
+                        i2 = maxLines;
                         i4 = minLines;
                         obj4 = placeholders;
                     }
                 } else {
                     resolver = fontFamilyResolver;
-                    i2 = overflow;
-                    i = maxLines;
+                    i3 = overflow;
+                    i2 = maxLines;
                     i4 = minLines;
                     obj4 = placeholders;
                 }
             } else {
                 resolver = fontFamilyResolver;
                 z = softWrap;
-                i2 = overflow;
-                i = maxLines;
+                i3 = overflow;
+                i2 = maxLines;
                 i4 = minLines;
                 obj4 = placeholders;
             }
         } else {
             resolver = fontFamilyResolver;
             z = softWrap;
-            i2 = overflow;
-            i = maxLines;
+            i3 = overflow;
+            i2 = maxLines;
             i4 = minLines;
             obj4 = placeholders;
         }

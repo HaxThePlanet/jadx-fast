@@ -58,43 +58,43 @@ public final class TopAppBarDefaults {
 
     public final androidx.compose.material3.TopAppBarColors centerAlignedTopAppBarColors-zjMxDiM(long containerColor, long scrolledContainerColor, long navigationIconContentColor, long titleContentColor, long actionIconContentColor, Composer $composer, int $changed, int i8) {
         long unspecified-0d7_KjU3;
+        long unspecified-0d7_KjU;
         long unspecified-0d7_KjU2;
-        long unspecified-0d7_KjU4;
         int unspecified-0d7_KjU5;
-        int unspecified-0d7_KjU;
+        int unspecified-0d7_KjU4;
         boolean traceInProgress;
         String str;
-        long l5;
+        long l2;
         long l4;
         long l;
-        long l2;
+        long l5;
         long l3;
         int i;
         final Composer composer = obj27;
         int i2 = 1896017784;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(centerAlignedTopAppBarColors)P(1:c#ui.graphics.Color,3:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.graphics.Color,0:c#ui.graphics.Color)1056@50929L11:AppBar.kt#uh7d8r");
         if (obj29 & 1 != 0) {
-            l5 = unspecified-0d7_KjU3;
+            l2 = unspecified-0d7_KjU3;
         } else {
-            l5 = containerColor;
+            l2 = containerColor;
         }
         if (obj29 & 2 != 0) {
-            l4 = unspecified-0d7_KjU2;
+            l4 = unspecified-0d7_KjU;
         } else {
             l4 = navigationIconContentColor;
         }
         if (obj29 & 4 != 0) {
-            l = unspecified-0d7_KjU4;
+            l = unspecified-0d7_KjU2;
         } else {
             l = actionIconContentColor;
         }
         if (obj29 & 8 != 0) {
-            l2 = unspecified-0d7_KjU5;
+            l5 = unspecified-0d7_KjU5;
         } else {
-            l2 = $changed;
+            l5 = $changed;
         }
         if (obj29 & 16 != 0) {
-            l3 = unspecified-0d7_KjU;
+            l3 = unspecified-0d7_KjU4;
         } else {
             l3 = obj25;
         }
@@ -107,17 +107,17 @@ public final class TopAppBarDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultCenterAlignedTopAppBarColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-t635Npw(l5, obj6, l4, obj8, l);
+        return this.getDefaultCenterAlignedTopAppBarColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-t635Npw(l2, obj6, l4, obj8, l);
     }
 
     public final androidx.compose.material3.TopAppBarScrollBehavior enterAlwaysScrollBehavior(androidx.compose.material3.TopAppBarState state, Function0<Boolean> canScroll, AnimationSpec<Float> snapAnimationSpec, DecayAnimationSpec<Float> flingAnimationSpec, Composer $composer, int $changed, int i7) {
-        int i6;
-        int i4;
-        int i5;
-        int i3;
-        Composer $composer2;
         int i;
+        int i4;
         int i2;
+        int i5;
+        Composer $composer2;
+        int i3;
+        int i6;
         androidx.compose.material3.TopAppBarState obj9;
         androidx.compose.material3.TopAppBarDefaults.enterAlwaysScrollBehavior.1 obj10;
         androidx.compose.animation.core.SpringSpec obj11;
@@ -135,7 +135,7 @@ public final class TopAppBarDefaults {
             obj10 = obj13;
         }
         if (i7 & 4 != 0) {
-            i5 = 0;
+            i2 = 0;
             obj11 = obj13;
         }
         if (i7 & 8 != 0) {
@@ -153,12 +153,12 @@ public final class TopAppBarDefaults {
     }
 
     public final androidx.compose.material3.TopAppBarScrollBehavior exitUntilCollapsedScrollBehavior(androidx.compose.material3.TopAppBarState state, Function0<Boolean> canScroll, AnimationSpec<Float> snapAnimationSpec, DecayAnimationSpec<Float> flingAnimationSpec, Composer $composer, int $changed, int i7) {
-        int i5;
         int i6;
         int i;
-        int i2;
-        Composer $composer2;
+        int i5;
         int i3;
+        Composer $composer2;
+        int i2;
         int i4;
         androidx.compose.material3.TopAppBarState obj9;
         androidx.compose.material3.TopAppBarDefaults.exitUntilCollapsedScrollBehavior.1 obj10;
@@ -177,7 +177,7 @@ public final class TopAppBarDefaults {
             obj10 = obj13;
         }
         if (i7 & 4 != 0) {
-            i = 0;
+            i5 = 0;
             obj11 = obj13;
         }
         if (i7 & 8 != 0) {
@@ -198,9 +198,9 @@ public final class TopAppBarDefaults {
         androidx.compose.material3.TopAppBarColors defaultCenterAlignedTopAppBarColorsCached$material3_release;
         androidx.compose.material3.TopAppBarColors topAppBarColors;
         int i;
+        long token2;
         long token4;
         long token3;
-        long token2;
         long token;
         int i2;
         if ($this$defaultCenterAlignedTopAppBarColors.getDefaultCenterAlignedTopAppBarColorsCached$material3_release() == null) {
@@ -214,15 +214,15 @@ public final class TopAppBarDefaults {
     public final androidx.compose.material3.TopAppBarColors getDefaultLargeTopAppBarColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultLargeTopAppBarColors) {
         androidx.compose.material3.TopAppBarColors defaultLargeTopAppBarColorsCached$material3_release;
         androidx.compose.material3.TopAppBarColors topAppBarColors;
-        int i;
-        long token;
-        long token2;
-        long token3;
-        long token4;
         int i2;
+        long token;
+        long token4;
+        long token3;
+        long token2;
+        int i;
         if ($this$defaultLargeTopAppBarColors.getDefaultLargeTopAppBarColorsCached$material3_release() == null) {
             topAppBarColors = new TopAppBarColors(ColorSchemeKt.fromToken($this$defaultLargeTopAppBarColors, TopAppBarLargeTokens.INSTANCE.getContainerColor()), obj3, ColorSchemeKt.fromToken($this$defaultLargeTopAppBarColors, TopAppBarSmallTokens.INSTANCE.getOnScrollContainerColor()), obj5, ColorSchemeKt.fromToken($this$defaultLargeTopAppBarColors, TopAppBarLargeTokens.INSTANCE.getLeadingIconColor()), obj7, ColorSchemeKt.fromToken($this$defaultLargeTopAppBarColors, TopAppBarLargeTokens.INSTANCE.getHeadlineColor()), obj9, ColorSchemeKt.fromToken($this$defaultLargeTopAppBarColors, TopAppBarLargeTokens.INSTANCE.getTrailingIconColor()), obj11, 0);
-            i = 0;
+            i2 = 0;
             $this$defaultLargeTopAppBarColors.setDefaultLargeTopAppBarColorsCached$material3_release(topAppBarColors);
         }
         return defaultLargeTopAppBarColorsCached$material3_release;
@@ -231,15 +231,15 @@ public final class TopAppBarDefaults {
     public final androidx.compose.material3.TopAppBarColors getDefaultMediumTopAppBarColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultMediumTopAppBarColors) {
         androidx.compose.material3.TopAppBarColors defaultMediumTopAppBarColorsCached$material3_release;
         androidx.compose.material3.TopAppBarColors topAppBarColors;
-        int i;
+        int i2;
+        long token4;
+        long token3;
         long token2;
         long token;
-        long token3;
-        long token4;
-        int i2;
+        int i;
         if ($this$defaultMediumTopAppBarColors.getDefaultMediumTopAppBarColorsCached$material3_release() == null) {
             topAppBarColors = new TopAppBarColors(ColorSchemeKt.fromToken($this$defaultMediumTopAppBarColors, TopAppBarMediumTokens.INSTANCE.getContainerColor()), obj3, ColorSchemeKt.fromToken($this$defaultMediumTopAppBarColors, TopAppBarSmallTokens.INSTANCE.getOnScrollContainerColor()), obj5, ColorSchemeKt.fromToken($this$defaultMediumTopAppBarColors, TopAppBarMediumTokens.INSTANCE.getLeadingIconColor()), obj7, ColorSchemeKt.fromToken($this$defaultMediumTopAppBarColors, TopAppBarMediumTokens.INSTANCE.getHeadlineColor()), obj9, ColorSchemeKt.fromToken($this$defaultMediumTopAppBarColors, TopAppBarMediumTokens.INSTANCE.getTrailingIconColor()), obj11, 0);
-            i = 0;
+            i2 = 0;
             $this$defaultMediumTopAppBarColors.setDefaultMediumTopAppBarColorsCached$material3_release(topAppBarColors);
         }
         return defaultMediumTopAppBarColorsCached$material3_release;
@@ -249,10 +249,10 @@ public final class TopAppBarDefaults {
         androidx.compose.material3.TopAppBarColors defaultTopAppBarColorsCached$material3_release;
         androidx.compose.material3.TopAppBarColors topAppBarColors;
         int i;
+        long token4;
+        long token2;
         long token3;
         long token;
-        long token2;
-        long token4;
         int i2;
         if ($this$defaultTopAppBarColors.getDefaultTopAppBarColorsCached$material3_release() == null) {
             topAppBarColors = new TopAppBarColors(ColorSchemeKt.fromToken($this$defaultTopAppBarColors, TopAppBarSmallTokens.INSTANCE.getContainerColor()), obj3, ColorSchemeKt.fromToken($this$defaultTopAppBarColors, TopAppBarSmallTokens.INSTANCE.getOnScrollContainerColor()), obj5, ColorSchemeKt.fromToken($this$defaultTopAppBarColors, TopAppBarSmallTokens.INSTANCE.getLeadingIconColor()), obj7, ColorSchemeKt.fromToken($this$defaultTopAppBarColors, TopAppBarSmallTokens.INSTANCE.getHeadlineColor()), obj9, ColorSchemeKt.fromToken($this$defaultTopAppBarColors, TopAppBarSmallTokens.INSTANCE.getTrailingIconColor()), obj11, 0);
@@ -313,46 +313,46 @@ public final class TopAppBarDefaults {
     }
 
     public final androidx.compose.material3.TopAppBarColors largeTopAppBarColors-zjMxDiM(long containerColor, long scrolledContainerColor, long navigationIconContentColor, long titleContentColor, long actionIconContentColor, Composer $composer, int $changed, int i8) {
+        long unspecified-0d7_KjU3;
+        long unspecified-0d7_KjU4;
         long unspecified-0d7_KjU;
-        long unspecified-0d7_KjU5;
-        long unspecified-0d7_KjU2;
-        int unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU3;
+        int unspecified-0d7_KjU2;
+        int unspecified-0d7_KjU5;
         boolean traceInProgress;
         String str;
-        long l2;
-        long l;
-        long l3;
         long l4;
+        long l2;
+        long l3;
         long l5;
+        long l;
         int i;
         final Composer composer = obj27;
         int i2 = -1471507700;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(largeTopAppBarColors)P(1:c#ui.graphics.Color,3:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.graphics.Color,0:c#ui.graphics.Color)1157@55926L11:AppBar.kt#uh7d8r");
         if (obj29 & 1 != 0) {
-            l2 = unspecified-0d7_KjU;
+            l4 = unspecified-0d7_KjU3;
         } else {
-            l2 = containerColor;
+            l4 = containerColor;
         }
         if (obj29 & 2 != 0) {
-            l = unspecified-0d7_KjU5;
+            l2 = unspecified-0d7_KjU4;
         } else {
-            l = navigationIconContentColor;
+            l2 = navigationIconContentColor;
         }
         if (obj29 & 4 != 0) {
-            l3 = unspecified-0d7_KjU2;
+            l3 = unspecified-0d7_KjU;
         } else {
             l3 = actionIconContentColor;
         }
         if (obj29 & 8 != 0) {
-            l4 = unspecified-0d7_KjU4;
+            l5 = unspecified-0d7_KjU2;
         } else {
-            l4 = $changed;
+            l5 = $changed;
         }
         if (obj29 & 16 != 0) {
-            l5 = unspecified-0d7_KjU3;
+            l = unspecified-0d7_KjU5;
         } else {
-            l5 = obj25;
+            l = obj25;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj28, -1, "androidx.compose.material3.TopAppBarDefaults.largeTopAppBarColors (AppBar.kt:1157)");
@@ -363,7 +363,7 @@ public final class TopAppBarDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultLargeTopAppBarColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-t635Npw(l2, obj6, l, obj8, l3);
+        return this.getDefaultLargeTopAppBarColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-t635Npw(l4, obj6, l2, obj8, l3);
     }
 
     public final androidx.compose.material3.TopAppBarColors mediumTopAppBarColors(Composer $composer, int $changed) {
@@ -384,42 +384,42 @@ public final class TopAppBarDefaults {
     public final androidx.compose.material3.TopAppBarColors mediumTopAppBarColors-zjMxDiM(long containerColor, long scrolledContainerColor, long navigationIconContentColor, long titleContentColor, long actionIconContentColor, Composer $composer, int $changed, int i8) {
         long unspecified-0d7_KjU3;
         long unspecified-0d7_KjU2;
-        long unspecified-0d7_KjU4;
+        long unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU4;
         int unspecified-0d7_KjU;
-        int unspecified-0d7_KjU5;
         boolean traceInProgress;
         String str;
-        long l5;
-        long l2;
         long l3;
         long l;
+        long l5;
+        long l2;
         long l4;
         int i;
         final Composer composer = obj27;
         int i2 = -582474442;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(mediumTopAppBarColors)P(1:c#ui.graphics.Color,3:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.graphics.Color,0:c#ui.graphics.Color)1107@53476L11:AppBar.kt#uh7d8r");
         if (obj29 & 1 != 0) {
-            l5 = unspecified-0d7_KjU3;
+            l3 = unspecified-0d7_KjU3;
         } else {
-            l5 = containerColor;
+            l3 = containerColor;
         }
         if (obj29 & 2 != 0) {
-            l2 = unspecified-0d7_KjU2;
+            l = unspecified-0d7_KjU2;
         } else {
-            l2 = navigationIconContentColor;
+            l = navigationIconContentColor;
         }
         if (obj29 & 4 != 0) {
-            l3 = unspecified-0d7_KjU4;
+            l5 = unspecified-0d7_KjU5;
         } else {
-            l3 = actionIconContentColor;
+            l5 = actionIconContentColor;
         }
         if (obj29 & 8 != 0) {
-            l = unspecified-0d7_KjU;
+            l2 = unspecified-0d7_KjU4;
         } else {
-            l = $changed;
+            l2 = $changed;
         }
         if (obj29 & 16 != 0) {
-            l4 = unspecified-0d7_KjU5;
+            l4 = unspecified-0d7_KjU;
         } else {
             l4 = obj25;
         }
@@ -432,16 +432,16 @@ public final class TopAppBarDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultMediumTopAppBarColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-t635Npw(l5, obj6, l2, obj8, l3);
+        return this.getDefaultMediumTopAppBarColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-t635Npw(l3, obj6, l, obj8, l5);
     }
 
     public final androidx.compose.material3.TopAppBarScrollBehavior pinnedScrollBehavior(androidx.compose.material3.TopAppBarState state, Function0<Boolean> canScroll, Composer $composer, int $changed, int i5) {
+        int i;
         int i3;
         int i2;
-        int i4;
         Composer $composer2;
+        int i4;
         int i6;
-        int i;
         androidx.compose.material3.TopAppBarState obj9;
         androidx.compose.material3.TopAppBarDefaults.pinnedScrollBehavior.1 obj10;
         int obj11;
@@ -483,46 +483,46 @@ public final class TopAppBarDefaults {
     }
 
     public final androidx.compose.material3.TopAppBarColors topAppBarColors-zjMxDiM(long containerColor, long scrolledContainerColor, long navigationIconContentColor, long titleContentColor, long actionIconContentColor, Composer $composer, int $changed, int i8) {
-        long unspecified-0d7_KjU5;
-        long unspecified-0d7_KjU2;
         long unspecified-0d7_KjU4;
+        long unspecified-0d7_KjU2;
+        long unspecified-0d7_KjU5;
         int unspecified-0d7_KjU;
         int unspecified-0d7_KjU3;
         boolean traceInProgress;
         String str;
         long l;
-        long l4;
-        long l5;
         long l2;
+        long l5;
         long l3;
+        long l4;
         int i;
         final Composer composer = obj27;
         int i2 = 2142919275;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(topAppBarColors)P(1:c#ui.graphics.Color,3:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.graphics.Color,0:c#ui.graphics.Color)998@48245L11:AppBar.kt#uh7d8r");
         if (obj29 & 1 != 0) {
-            l = unspecified-0d7_KjU5;
+            l = unspecified-0d7_KjU4;
         } else {
             l = containerColor;
         }
         if (obj29 & 2 != 0) {
-            l4 = unspecified-0d7_KjU2;
+            l2 = unspecified-0d7_KjU2;
         } else {
-            l4 = navigationIconContentColor;
+            l2 = navigationIconContentColor;
         }
         if (obj29 & 4 != 0) {
-            l5 = unspecified-0d7_KjU4;
+            l5 = unspecified-0d7_KjU5;
         } else {
             l5 = actionIconContentColor;
         }
         if (obj29 & 8 != 0) {
-            l2 = unspecified-0d7_KjU;
+            l3 = unspecified-0d7_KjU;
         } else {
-            l2 = $changed;
+            l3 = $changed;
         }
         if (obj29 & 16 != 0) {
-            l3 = unspecified-0d7_KjU3;
+            l4 = unspecified-0d7_KjU3;
         } else {
-            l3 = obj25;
+            l4 = obj25;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj28, -1, "androidx.compose.material3.TopAppBarDefaults.topAppBarColors (AppBar.kt:998)");
@@ -533,6 +533,6 @@ public final class TopAppBarDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultTopAppBarColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-t635Npw(l, obj6, l4, obj8, l5);
+        return this.getDefaultTopAppBarColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-t635Npw(l, obj6, l2, obj8, l5);
     }
 }

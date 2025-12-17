@@ -98,9 +98,9 @@ final class OpArray {
         int i;
         int i2;
         int i3;
-        Integer valueOf;
         Integer valueOf2;
         Integer valueOf3;
+        Integer valueOf;
         int obj8;
         int obj11;
         if (i5 &= 2 != 0) {

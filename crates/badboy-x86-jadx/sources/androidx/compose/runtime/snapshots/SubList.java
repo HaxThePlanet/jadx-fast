@@ -248,13 +248,13 @@ final class SubList<T>  implements List<T>, KMutableList {
 
     public List<T> subList(int fromIndex, int toIndex) {
         int i;
-        int size;
+        int $i$a$RequirePreconditionSubList$subList$1;
         int i2 = 0;
         if (fromIndex >= 0 && fromIndex <= toIndex) {
-            size = fromIndex <= toIndex ? i : i2;
+            $i$a$RequirePreconditionSubList$subList$1 = fromIndex <= toIndex ? i : i2;
         } else {
         }
-        if (size != 0 && toIndex <= size()) {
+        if ($i$a$RequirePreconditionSubList$subList$1 != 0 && toIndex <= size()) {
             if (toIndex <= size()) {
             } else {
                 i = i2;

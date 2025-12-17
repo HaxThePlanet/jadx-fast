@@ -47,13 +47,13 @@ public final class IconKt {
         boolean traceInProgress;
         Modifier semantics$default;
         int i3;
-        int i8;
-        int i5;
-        int defaultSizeForColorProducer;
-        int i9;
-        int i2;
-        Object obj;
         int i4;
+        int i9;
+        int defaultSizeForColorProducer;
+        int i2;
+        int i5;
+        Object obj;
+        int i8;
         int i;
         Object rememberedValue;
         int i6;
@@ -80,17 +80,17 @@ public final class IconKt {
             $dirty2 |= 48;
         } else {
             if (i13 & 48 == 0) {
-                i8 = restartGroup.changedInstance(obj3) ? 32 : 16;
-                $dirty2 |= i8;
+                i4 = restartGroup.changedInstance(obj3) ? 32 : 16;
+                $dirty2 |= i4;
             }
         }
-        i9 = 256;
+        i2 = 256;
         if (i7 & 4 != 0) {
             $dirty2 |= 384;
         } else {
             if (i13 & 384 == 0) {
-                i5 = restartGroup.changed(obj4) ? i9 : 128;
-                $dirty2 |= i5;
+                i9 = restartGroup.changed(obj4) ? i2 : 128;
+                $dirty2 |= i9;
             }
         }
         defaultSizeForColorProducer = i7 & 8;
@@ -99,8 +99,8 @@ public final class IconKt {
             obj = modifier;
         } else {
             if (i13 & 3072 == 0) {
-                i4 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty2 |= i4;
+                i8 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty2 |= i8;
             } else {
                 obj = modifier;
             }
@@ -119,12 +119,12 @@ public final class IconKt {
                 String str2 = "CC(remember):Icon.kt#9igjgp";
                 if (obj4 != null) {
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -2144827505, str2);
-                    i2 = i16 & 896 == i9 ? 1 : 0;
+                    i5 = i16 & 896 == i2 ? 1 : 0;
                     Composer composer2 = restartGroup;
                     i6 = 0;
                     rememberedValue2 = composer2.rememberedValue();
                     anon = 0;
-                    if (i2 == 0) {
+                    if (i5 == 0) {
                         if (rememberedValue2 == Composer.Companion.getEmpty()) {
                             traceInProgress = 0;
                             rememberedValue = new IconKt.Icon.semantics.2.1(obj4);
@@ -175,37 +175,37 @@ public final class IconKt {
     }
 
     public static final void Icon-ww6aTOc(ImageBitmap bitmap, String contentDescription, Modifier modifier, long tint, Composer $composer, int $changed, int i7) {
-        Object $this$cache$iv2;
+        Object $this$cache$iv;
         Object anon;
-        boolean traceInProgress2;
-        int $dirty;
         boolean traceInProgress;
+        int $dirty;
+        boolean traceInProgress2;
         Object rememberedValue;
-        int i8;
+        int i;
         int i11;
         Object modifier2;
-        Object obj4;
-        Object $this$cache$iv;
+        Object obj3;
+        Object $this$cache$iv2;
         long l3;
         int i6;
         long l2;
-        int i;
+        int i3;
         int changed;
         int defaultsInvalid;
-        Composer composer3;
         Composer composer2;
-        int i3;
-        int i5;
-        Object obj3;
-        Object obj;
-        long l;
+        Composer composer3;
         int i10;
-        int i9;
-        int i4;
         int i2;
+        Object obj;
+        Object obj4;
+        long l;
+        int i8;
+        int i9;
+        int i5;
+        int i4;
         Composer composer;
         Object obj2;
-        traceInProgress2 = bitmap;
+        traceInProgress = bitmap;
         int i21 = i7;
         anon = -1092052280;
         final Composer restartGroup = $changed.startRestartGroup(anon);
@@ -215,31 +215,31 @@ public final class IconKt {
             $dirty |= 6;
         } else {
             if (i21 & 6 == 0) {
-                i8 = restartGroup.changedInstance(traceInProgress2) ? 4 : 2;
-                $dirty |= i8;
+                i = restartGroup.changedInstance(traceInProgress) ? 4 : 2;
+                $dirty |= i;
             }
         }
         if (obj28 & 2 != 0) {
             $dirty |= 48;
-            obj3 = contentDescription;
+            obj = contentDescription;
         } else {
             if (i21 & 48 == 0) {
                 i11 = restartGroup.changed(contentDescription) ? 32 : 16;
                 $dirty |= i11;
             } else {
-                obj3 = contentDescription;
+                obj = contentDescription;
             }
         }
         int i15 = obj28 & 4;
         if (i15 != 0) {
             $dirty |= 384;
-            $this$cache$iv = modifier;
+            $this$cache$iv2 = modifier;
         } else {
             if (i21 & 384 == 0) {
                 i6 = restartGroup.changed(modifier) ? 256 : 128;
                 $dirty |= i6;
             } else {
-                $this$cache$iv = modifier;
+                $this$cache$iv2 = modifier;
             }
         }
         if (i21 & 3072 == 0) {
@@ -260,19 +260,19 @@ public final class IconKt {
                         if (i15 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = $this$cache$iv;
+                            modifier2 = $this$cache$iv2;
                         }
                         if (obj28 & 8 != 0) {
                             defaultsInvalid = 6;
                             int i23 = 0;
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            i3 = $dirty;
-                            obj = modifier2;
-                            l = $this$cache$iv;
+                            i10 = $dirty;
+                            obj4 = modifier2;
+                            l = $this$cache$iv2;
                         } else {
-                            i3 = $dirty;
-                            obj = modifier2;
+                            i10 = $dirty;
+                            obj4 = modifier2;
                             l = l2;
                         }
                     } else {
@@ -280,146 +280,146 @@ public final class IconKt {
                         if (obj28 & 8 != 0) {
                             $dirty &= -7169;
                         }
-                        i3 = $dirty;
-                        obj = $this$cache$iv;
+                        i10 = $dirty;
+                        obj4 = $this$cache$iv2;
                         l = l2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(anon, i3, -1, "androidx.compose.material3.Icon (Icon.kt:106)");
+                    ComposerKt.traceEventStart(anon, i10, -1, "androidx.compose.material3.Icon (Icon.kt:106)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -2144951290, "CC(remember):Icon.kt#9igjgp");
-                $this$cache$iv2 = restartGroup;
+                $this$cache$iv = restartGroup;
                 int i25 = 0;
-                rememberedValue = $this$cache$iv2.rememberedValue();
-                i4 = 0;
-                if (!restartGroup.changed(traceInProgress2)) {
+                rememberedValue = $this$cache$iv.rememberedValue();
+                i5 = 0;
+                if (!restartGroup.changed(traceInProgress)) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
-                        i2 = 0;
-                        modifier2 = $this$cache$iv2;
+                        i4 = 0;
+                        modifier2 = $this$cache$iv;
                         l2 = rememberedValue;
                         obj2 = l2;
-                        $this$cache$iv2 = new BitmapPainter(traceInProgress2, 0, modifier2, 0, l2, 6, 0);
-                        modifier2.updateRememberedValue($this$cache$iv2);
+                        $this$cache$iv = new BitmapPainter(traceInProgress, 0, modifier2, 0, l2, 6, 0);
+                        modifier2.updateRememberedValue($this$cache$iv);
                     } else {
-                        composer3 = $this$cache$iv2;
+                        composer2 = $this$cache$iv;
                         obj2 = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                IconKt.Icon-ww6aTOc((Painter)(BitmapPainter)rememberedValue, obj3, obj, l, obj13, restartGroup, i14 | i17);
-                composer2 = restartGroup;
+                IconKt.Icon-ww6aTOc((Painter)(BitmapPainter)rememberedValue, obj, obj4, l, obj13, restartGroup, i14 | i17);
+                composer3 = restartGroup;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj4 = obj;
+                obj3 = obj4;
                 l3 = l;
-                i5 = $dirty;
+                i2 = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj4 = $this$cache$iv;
+                obj3 = $this$cache$iv2;
                 l3 = l2;
-                composer2 = restartGroup;
-                i5 = $dirty;
+                composer3 = restartGroup;
+                i2 = $dirty;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer3.endRestartGroup();
         if (endRestartGroup != null) {
-            anon = new IconKt.Icon.2(bitmap, contentDescription, obj4, l3, l2, i7, obj28);
+            anon = new IconKt.Icon.2(bitmap, contentDescription, obj3, l3, l2, i7, obj28);
             endRestartGroup.updateScope((Function2)anon);
         }
     }
 
     public static final void Icon-ww6aTOc(Painter painter, String contentDescription, Modifier modifier, long tint, Composer $composer, int $changed, int i7) {
         int traceInProgress;
-        int changed;
-        int i5;
+        int changed2;
+        int i13;
         Modifier semantics$default;
-        Object obj2;
-        int $dirty;
-        int i12;
-        int i4;
         Object obj;
+        int $dirty2;
+        int i5;
+        int i6;
+        Object obj2;
         Object modifier2;
         boolean traceInProgress2;
-        int i13;
-        int str2;
-        long l;
+        int i4;
+        int str;
+        long l3;
         Object obj3;
-        int i11;
-        Object semantics;
-        int i10;
-        int i6;
-        boolean skipping;
-        int defaultsInvalid;
-        boolean changed2;
         int i;
-        Object rememberedValue;
+        Object semantics;
         int i2;
         int i3;
+        boolean skipping;
+        int defaultsInvalid;
+        boolean changed;
+        int i10;
+        Object rememberedValue;
+        int i12;
+        int i8;
         Object obj4;
-        long l3;
+        long l2;
         Modifier colorFilter;
         Object it$iv;
-        long l2;
-        String str;
-        int $dirty2;
+        long l;
+        String str2;
+        int $dirty;
         Composer.Companion companion;
         int i14;
+        int i11;
         int i9;
-        int i8;
         int obj24;
-        obj2 = painter;
+        obj = painter;
         obj4 = contentDescription;
         final int i27 = i7;
         traceInProgress = -2142239481;
         final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(Icon)P(2!,3:c#ui.graphics.Color)142@6849L7,145@6891L82,155@7235L217:Icon.kt#uh7d8r");
-        $dirty = i7;
+        $dirty2 = i7;
         if (obj27 & 1 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
         } else {
             if (i27 & 6 == 0) {
-                i12 = restartGroup.changedInstance(obj2) ? 4 : 2;
-                $dirty |= i12;
+                i5 = restartGroup.changedInstance(obj) ? 4 : 2;
+                $dirty2 |= i5;
             }
         }
         if (obj27 & 2 != 0) {
-            $dirty |= 48;
+            $dirty2 |= 48;
         } else {
             if (i27 & 48 == 0) {
-                i4 = restartGroup.changed(obj4) ? 32 : 16;
-                $dirty |= i4;
+                i6 = restartGroup.changed(obj4) ? 32 : 16;
+                $dirty2 |= i6;
             }
         }
         int i18 = obj27 & 4;
         if (i18 != 0) {
-            $dirty |= 384;
+            $dirty2 |= 384;
             semantics = modifier;
         } else {
             if (i27 & 384 == 0) {
-                i10 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i10;
+                i2 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i2;
             } else {
                 semantics = modifier;
             }
         }
-        i = 2048;
+        i10 = 2048;
         if (i27 & 3072 == 0) {
             if (obj27 & 8 == 0) {
-                i6 = restartGroup.changed(tint) ? i : 1024;
+                i3 = restartGroup.changed(tint) ? i10 : 1024;
             } else {
-                l3 = tint;
+                l2 = tint;
             }
-            $dirty |= i6;
+            $dirty2 |= i3;
         } else {
-            l3 = tint;
+            l2 = tint;
         }
-        if ($dirty & 1171 == 1170) {
+        if ($dirty2 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i27 & 1 != 0) {
@@ -431,53 +431,53 @@ public final class IconKt {
                         }
                         if (obj27 & 8 != 0) {
                             defaultsInvalid = 6;
-                            i2 = 0;
+                            i12 = 0;
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            $dirty &= -7169;
-                            l3 = modifier2;
-                            l2 = semantics;
+                            $dirty2 &= -7169;
+                            l2 = modifier2;
+                            l = semantics;
                         } else {
-                            l2 = l3;
-                            l3 = modifier2;
+                            l = l2;
+                            l2 = modifier2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj27 & 8 != 0) {
-                            $dirty &= -7169;
+                            $dirty2 &= -7169;
                         }
-                        l2 = l3;
-                        l3 = semantics;
+                        l = l2;
+                        l2 = semantics;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.Icon (Icon.kt:143)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.Icon (Icon.kt:143)");
                 }
-                str2 = "CC(remember):Icon.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, -2144895090, str2);
-                if (i16 ^= 3072 > i) {
-                    if (!restartGroup.changed(l2)) {
-                        i5 = $dirty & 3072 == i ? 1 : 0;
+                str = "CC(remember):Icon.kt#9igjgp";
+                ComposerKt.sourceInformationMarkerStart(restartGroup, -2144895090, str);
+                if (i16 ^= 3072 > i10) {
+                    if (!restartGroup.changed(l)) {
+                        i13 = $dirty2 & 3072 == i10 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
                 rememberedValue = restartGroup;
-                i3 = 0;
-                it$iv = rememberedValue.rememberedValue();
                 i8 = 0;
-                if (i5 == 0) {
+                it$iv = rememberedValue.rememberedValue();
+                i9 = 0;
+                if (i13 == 0) {
                     if (it$iv == Composer.Companion.getEmpty()) {
                         int i25 = 0;
                         obj24 = i25;
-                        if (Color.equals-impl0(l2, str)) {
+                        if (Color.equals-impl0(l, str2)) {
                             obj3 = it$iv;
                             semantics = 0;
                         } else {
                             obj3 = it$iv;
-                            semantics = ColorFilter.Companion.tint-xETnrds$default(ColorFilter.Companion, l2, str, 0, 2);
+                            semantics = ColorFilter.Companion.tint-xETnrds$default(ColorFilter.Companion, l, str2, 0, 2);
                         }
                         rememberedValue.updateRememberedValue(semantics);
                     } else {
@@ -489,85 +489,85 @@ public final class IconKt {
                 restartGroup.startReplaceGroup(-2144891392);
                 ComposerKt.sourceInformation(restartGroup, "148@7067L115");
                 if (obj4 != null) {
-                    ComposerKt.sourceInformationMarkerStart(restartGroup, -2144889425, str2);
-                    i13 = $dirty & 112 == 32 ? 1 : 0;
+                    ComposerKt.sourceInformationMarkerStart(restartGroup, -2144889425, str);
+                    i4 = $dirty2 & 112 == 32 ? 1 : 0;
                     Composer composer = restartGroup;
                     int i24 = 0;
                     rememberedValue = composer.rememberedValue();
-                    i3 = 0;
-                    if (i13 == 0) {
+                    i8 = 0;
+                    if (i4 == 0) {
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             defaultsInvalid = 0;
-                            $dirty2 = $dirty;
-                            $dirty = new IconKt.Icon.semantics.1.1(obj4);
-                            composer.updateRememberedValue((Function1)$dirty);
+                            $dirty = $dirty2;
+                            $dirty2 = new IconKt.Icon.semantics.1.1(obj4);
+                            composer.updateRememberedValue((Function1)$dirty2);
                         } else {
-                            $dirty2 = $dirty;
-                            $dirty = rememberedValue;
+                            $dirty = $dirty2;
+                            $dirty2 = rememberedValue;
                         }
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    semantics$default = SemanticsModifierKt.semantics$default((Modifier)Modifier.Companion, false, (Function1)$dirty, 1, 0);
+                    semantics$default = SemanticsModifierKt.semantics$default((Modifier)Modifier.Companion, false, (Function1)$dirty2, 1, 0);
                 } else {
-                    $dirty2 = $dirty;
-                    i11 = 0;
+                    $dirty = $dirty2;
+                    i = 0;
                     semantics$default = Modifier.Companion;
                 }
                 restartGroup.endReplaceGroup();
-                BoxKt.Box(PainterModifierKt.paint$default(IconKt.defaultSizeFor(GraphicsLayerModifierKt.toolingGraphicsLayer(l3), obj2), obj2, false, 0, ContentScale.Companion.getFit(), 0, (ColorFilter)it$iv, 22, 0).then(semantics$default), restartGroup, i11);
+                BoxKt.Box(PainterModifierKt.paint$default(IconKt.defaultSizeFor(GraphicsLayerModifierKt.toolingGraphicsLayer(l2), obj), obj, false, 0, ContentScale.Companion.getFit(), 0, (ColorFilter)it$iv, 22, 0).then(semantics$default), restartGroup, i);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = l3;
-                l = l2;
+                obj2 = l2;
+                l3 = l;
             } else {
                 restartGroup.skipToGroupEnd();
-                $dirty2 = $dirty;
-                obj = semantics;
-                l = l3;
+                $dirty = $dirty2;
+                obj2 = semantics;
+                l3 = l2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new IconKt.Icon.3(painter, contentDescription, obj, l, semantics, i27, obj27);
+            traceInProgress = new IconKt.Icon.3(painter, contentDescription, obj2, l3, semantics, i27, obj27);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void Icon-ww6aTOc(ImageVector imageVector, String contentDescription, Modifier modifier, long tint, Composer $composer, int $changed, int i7) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
+        int i;
         int i4;
-        int i3;
-        int i6;
-        int modifier2;
-        boolean traceInProgress2;
-        Object unbox-impl;
         int i8;
+        int modifier2;
+        boolean traceInProgress;
+        Object unbox-impl;
+        int i5;
         long l2;
         int changed;
         boolean skipping;
         boolean defaultsInvalid;
         Object obj;
-        int i2;
-        int i;
+        int i6;
+        int i9;
         long l;
         String str;
-        int i5;
-        int i9;
+        int i3;
+        int i2;
         final int i18 = i7;
-        traceInProgress = -126890956;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
+        traceInProgress2 = -126890956;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(Icon)P(1!,3:c#ui.graphics.Color)69@3394L7,72@3434L34,71@3410L163:Icon.kt#uh7d8r");
         $dirty = i7;
         if (obj22 & 1 != 0) {
             $dirty |= 6;
         } else {
             if (i18 & 6 == 0) {
-                i4 = restartGroup.changed(imageVector) ? 4 : 2;
-                $dirty |= i4;
+                i = restartGroup.changed(imageVector) ? 4 : 2;
+                $dirty |= i;
             }
         }
         if (obj22 & 2 != 0) {
@@ -575,20 +575,20 @@ public final class IconKt {
             obj = contentDescription;
         } else {
             if (i18 & 48 == 0) {
-                i3 = restartGroup.changed(contentDescription) ? 32 : 16;
-                $dirty |= i3;
+                i4 = restartGroup.changed(contentDescription) ? 32 : 16;
+                $dirty |= i4;
             } else {
                 obj = contentDescription;
             }
         }
-        i6 = obj22 & 4;
-        if (i6 != 0) {
+        i8 = obj22 & 4;
+        if (i8 != 0) {
             $dirty |= 384;
             unbox-impl = modifier;
         } else {
             if (i18 & 384 == 0) {
-                i8 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i8;
+                i5 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i5;
             } else {
                 unbox-impl = modifier;
             }
@@ -608,7 +608,7 @@ public final class IconKt {
                 restartGroup.startDefaults();
                 if (i18 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i6 != 0) {
+                        if (i8 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
                             modifier2 = unbox-impl;
@@ -619,10 +619,10 @@ public final class IconKt {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
                             $dirty &= -7169;
-                            i = modifier2;
+                            i9 = modifier2;
                             l = unbox-impl;
                         } else {
-                            i = modifier2;
+                            i9 = modifier2;
                             l = l2;
                         }
                     } else {
@@ -630,32 +630,32 @@ public final class IconKt {
                         if (obj22 & 8 != 0) {
                             $dirty &= -7169;
                         }
-                        i = unbox-impl;
+                        i9 = unbox-impl;
                         l = l2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.Icon (Icon.kt:70)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.Icon (Icon.kt:70)");
                 }
-                IconKt.Icon-ww6aTOc((Painter)VectorPainterKt.rememberVectorPainter(imageVector, restartGroup, $dirty & 14), obj, i, l, str, restartGroup, i12 | i6);
+                IconKt.Icon-ww6aTOc((Painter)VectorPainterKt.rememberVectorPainter(imageVector, restartGroup, $dirty & 14), obj, i9, l, str, restartGroup, i12 | i8);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                unbox-impl = i;
+                unbox-impl = i9;
                 l2 = l;
-                i2 = $dirty;
+                i6 = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
-                i2 = $dirty;
+                i6 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new IconKt.Icon.1(imageVector, contentDescription, unbox-impl, l2, obj5, i18, obj22);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new IconKt.Icon.1(imageVector, contentDescription, unbox-impl, l2, obj5, i18, obj22);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 

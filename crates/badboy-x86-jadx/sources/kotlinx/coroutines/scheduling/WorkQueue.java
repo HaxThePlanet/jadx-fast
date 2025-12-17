@@ -107,10 +107,10 @@ public final class WorkQueue {
 
     private final kotlinx.coroutines.scheduling.Task pollBuffer() {
         int i;
-        int i3;
+        int i2;
         int andSet;
         boolean compareAndSet;
-        int i2;
+        int i3;
         i = WorkQueue.consumerIndex$FU.get(this);
         andSet = 0;
         while (i - i4 == 0) {
@@ -157,19 +157,19 @@ public final class WorkQueue {
     }
 
     private final kotlinx.coroutines.scheduling.Task stealWithExclusiveMode(int stealingMode) {
-        int i3;
-        int i4;
         int i;
+        int i4;
         int i2;
-        i3 = WorkQueue.consumerIndex$FU.get(this);
+        int i3;
+        i = WorkQueue.consumerIndex$FU.get(this);
         if (stealingMode == 1) {
         } else {
             i4 = 0;
         }
         int i6 = 0;
-        while (i3 != WorkQueue.producerIndex$FU.get(this)) {
-            kotlinx.coroutines.scheduling.Task tryExtractFromTheMiddle = tryExtractFromTheMiddle(i3, i4);
-            i3 = i;
+        while (i != WorkQueue.producerIndex$FU.get(this)) {
+            kotlinx.coroutines.scheduling.Task tryExtractFromTheMiddle = tryExtractFromTheMiddle(i, i4);
+            i = i2;
             i6 = 0;
         }
         return i6;
@@ -205,30 +205,30 @@ public final class WorkQueue {
     private final long tryStealLastScheduled(int stealingMode, Ref.ObjectRef<kotlinx.coroutines.scheduling.Task> stolenTaskRef) {
         Object obj;
         long nanoTime;
-        int i4;
-        int i5;
-        boolean z;
         int i;
         int i3;
+        boolean z;
+        int i5;
+        int i4;
         int i2;
         obj = WorkQueue.lastScheduledTask$FU.get(this);
         int i6 = -2;
         while ((Task)obj == null) {
-            i5 = 0;
+            i3 = 0;
             int i9 = 0;
             i2 = 1;
             if (obj3.taskContext.getTaskMode() == i2) {
             } else {
             }
-            i3 = 0;
-            if (i3 != 0) {
+            i4 = 0;
+            if (i4 != 0) {
             } else {
             }
             i2 = 2;
-            i4 = nanoTime - submissionTime;
+            i = nanoTime - submissionTime;
             obj = WorkQueue.lastScheduledTask$FU.get(this);
             i6 = -2;
-            i3 = i2;
+            i4 = i2;
         }
         return i6;
     }

@@ -74,24 +74,24 @@ public final class AnimationSearch {
 
         public final boolean hasAnimations(Collection<? extends Group> groups) {
             boolean iterator;
-            int i;
+            int i2;
             boolean next;
             boolean it;
-            int i2;
+            int i;
             final Object obj = groups;
             final int i3 = 0;
-            i = 0;
+            i2 = 0;
             if (obj instanceof Collection != null && (Collection)(Iterable)obj.isEmpty()) {
                 if ((Collection)obj.isEmpty()) {
                 } else {
                     iterator = obj.iterator();
                     for (Object next : iterator) {
-                        i2 = 0;
+                        i = 0;
                     }
                 }
             } else {
             }
-            return i;
+            return i2;
         }
 
         public final void track() {
@@ -116,82 +116,82 @@ public final class AnimationSearch {
         }
 
         public void addAnimations(Collection<? extends Group> groups) {
-            Object next;
-            int i;
-            Iterator iterator2;
             Object next2;
+            int i2;
+            Iterator iterator;
+            Object next;
             boolean modifierInfo;
             Object obj;
-            int iterator;
+            int iterator2;
             boolean empty;
             Object obj2;
-            int i2;
+            int i;
             Modifier modifier;
             androidx.compose.ui.tooling.animation.AnimationSearch.AnimateContentSizeSearch.addAnimations.2.1.1 anon;
             int i4 = 0;
             ArrayList arrayList = new ArrayList();
-            i = 0;
-            iterator2 = (Iterable)groups.iterator();
-            while (iterator2.hasNext()) {
-                next2 = iterator2.next();
-                iterator = 0;
-                if (!(Collection)(Group)next2.getModifierInfo().isEmpty()) {
+            i2 = 0;
+            iterator = (Iterable)groups.iterator();
+            while (iterator.hasNext()) {
+                next = iterator.next();
+                iterator2 = 0;
+                if (!(Collection)(Group)next.getModifierInfo().isEmpty()) {
                 }
-                (Collection)arrayList.add(next2);
+                (Collection)arrayList.add(next);
             }
             int i3 = 0;
             Iterator iterator3 = (Iterable)(List)arrayList.iterator();
-            for (Object next : iterator3) {
-                iterator2 = null;
+            for (Object next2 : iterator3) {
+                iterator = null;
                 obj = 0;
-                iterator = (Iterable)(Group)next.getModifierInfo().iterator();
-                for (Object empty : iterator) {
-                    i2 = 0;
+                iterator2 = (Iterable)(Group)next2.getModifierInfo().iterator();
+                for (Object empty : iterator2) {
+                    i = 0;
                     anon = new AnimationSearch.AnimateContentSizeSearch.addAnimations.2.1.1(this);
                     (ModifierInfo)empty.getModifier().any((Function1)anon);
                 }
-                i2 = 0;
+                i = 0;
                 anon = new AnimationSearch.AnimateContentSizeSearch.addAnimations.2.1.1(this);
-                (ModifierInfo)iterator.next().getModifier().any((Function1)anon);
+                (ModifierInfo)iterator2.next().getModifier().any((Function1)anon);
             }
         }
 
         @Override // androidx.compose.ui.tooling.animation.AnimationSearch$Search
         public boolean hasAnimation(Group group) {
             boolean $this$any$iv;
+            int i2;
             int i;
-            int i4;
             boolean iterator;
             int i3;
             Object next;
             boolean it;
-            int i2;
+            int i4;
             Modifier modifier;
             androidx.compose.ui.tooling.animation.AnimationSearch.AnimateContentSizeSearch.hasAnimation.1.1 iNSTANCE;
-            i = 0;
+            i2 = 0;
             if (!(Collection)group.getModifierInfo().isEmpty()) {
                 List modifierInfo2 = group.getModifierInfo();
-                i4 = 0;
+                i = 0;
                 i3 = 1;
                 if (modifierInfo2 instanceof Collection != null && (Collection)(Iterable)modifierInfo2.isEmpty()) {
                     if ((Collection)modifierInfo2.isEmpty()) {
-                        $this$any$iv = i;
+                        $this$any$iv = i2;
                     } else {
                         iterator = modifierInfo2.iterator();
                         for (Object next : iterator) {
-                            i2 = 0;
+                            i4 = 0;
                         }
-                        $this$any$iv = i;
+                        $this$any$iv = i2;
                     }
                 } else {
                 }
                 if ($this$any$iv != 0) {
-                    i = i3;
+                    i2 = i3;
                 } else {
                 }
             } else {
             }
-            return i;
+            return i2;
         }
     }
 
@@ -207,118 +207,118 @@ public final class AnimationSearch {
         }
 
         private final <T> Animatable<T, AnimationVector> findAnimatable(CallGroup group) {
-            Group group2;
+            Group $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2;
             ArrayList it$iv$iv$iv$iv;
             ArrayList list;
             Object rememberCalls$iv$iv2;
             boolean $this$findRememberedData$iv;
-            int i6;
+            int i4;
             androidx.compose.ui.tooling.animation.AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1 $i$f$findRememberedData;
             boolean $this$firstOrNull$iv$iv;
-            int i2;
-            Collection children;
+            int i3;
+            Collection $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv;
             boolean $this$findRememberedData$iv$iv;
             Object element$iv$iv;
             Object data$iv$iv;
             boolean it$iv;
-            int i;
+            int i6;
             Iterator iterator;
             boolean next3;
-            Object next;
+            Object next5;
             boolean next2;
-            Object obj3;
-            int i4;
+            Object obj2;
+            int i;
             Object obj;
             int iNSTANCE;
-            Object $this$firstOrNull$iv$iv$iv2;
+            Object $this$firstOrNull$iv$iv$iv;
             int i5;
-            Iterator $this$firstOrNull$iv$iv$iv;
+            Iterator $this$firstOrNull$iv$iv$iv2;
             Object next4;
             Object iterator2;
-            int next5;
-            Object obj2;
-            int i3;
+            int next;
+            Object obj3;
+            int i2;
             ArrayList rememberCalls$iv$iv;
-            group2 = group;
-            i6 = 0;
-            i2 = 0;
-            Iterator iterator3 = (Iterable)(Group)group2.getData().iterator();
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2 = group;
+            i4 = 0;
+            i3 = 0;
+            Iterator iterator3 = (Iterable)(Group)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2.getData().iterator();
             for (Object element$iv$iv : iterator3) {
-                i = 0;
+                i6 = 0;
             }
             element$iv$iv = 0;
             if (!element$iv$iv instanceof Animatable) {
                 element$iv$iv = 0;
             }
             if ((Animatable)element$iv$iv != null) {
-                i2 = 0;
+                i3 = 0;
                 if (CollectionsKt.listOf((Animatable)element$iv$iv) == null) {
                     $this$firstOrNull$iv$iv = CollectionsKt.emptyList();
                 }
             } else {
             }
-            children = group2.getChildren();
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv = $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2.getChildren();
             int i7 = 0;
             int i10 = 0;
             ArrayList arrayList3 = new ArrayList();
             int i13 = 0;
             int i16 = 0;
-            iterator = (Iterable)children.iterator();
-            for (Object next : iterator) {
-                i4 = 0;
+            iterator = (Iterable)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv.iterator();
+            for (Object next5 : iterator) {
+                i = 0;
                 iNSTANCE = 0;
                 i5 = 0;
-                $this$firstOrNull$iv$iv$iv = (Iterable)(Group)next.getData().iterator();
-                for (Object next4 : $this$firstOrNull$iv$iv$iv) {
-                    next5 = 0;
+                $this$firstOrNull$iv$iv$iv2 = (Iterable)(Group)next5.getData().iterator();
+                for (Object next4 : $this$firstOrNull$iv$iv$iv2) {
+                    next = 0;
                 }
                 data$iv$iv = 0;
                 if (!data$iv$iv instanceof Animatable) {
                 }
                 if ((Animatable)data$iv$iv != null) {
                 }
-                group2 = $this$firstOrNull$iv$iv$iv2;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2 = $this$firstOrNull$iv$iv$iv;
                 $this$findRememberedData$iv = 0;
                 (Collection)arrayList3.add((Animatable)data$iv$iv);
                 data$iv$iv = 0;
-                next4 = $this$firstOrNull$iv$iv$iv.next();
-                next5 = 0;
+                next4 = $this$firstOrNull$iv$iv$iv2.next();
+                next = 0;
                 if (obj5 instanceof Animatable) {
                 } else {
                 }
                 data$iv$iv = next4;
             }
-            Object $this$findRememberedData$iv2 = group2;
+            Object $this$findRememberedData$iv2 = $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2;
             it$iv$iv$iv$iv = arrayList3;
             int i8 = 0;
             ArrayList arrayList = new ArrayList();
             int i11 = 0;
             int i14 = 0;
-            Iterator iterator4 = (Iterable)children.iterator();
+            Iterator iterator4 = (Iterable)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv.iterator();
             while (iterator4.hasNext()) {
-                obj3 = 0;
+                obj2 = 0;
                 obj = 0;
                 Group it$iv$iv = PreviewUtils_androidKt.firstOrNull((Group)iterator4.next(), (Function1)AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1.INSTANCE);
                 if (it$iv$iv != null) {
                 }
-                it$iv$iv$iv$iv = i4;
-                i6 = i5;
+                it$iv$iv$iv$iv = i;
+                i4 = i5;
                 $i$f$findRememberedData = 0;
                 (Collection)arrayList.add(it$iv$iv);
             }
-            int i17 = i6;
+            int i17 = i4;
             int i9 = 0;
             ArrayList arrayList2 = new ArrayList();
             int i12 = 0;
             int i15 = 0;
             Iterator iterator5 = (Iterable)(List)arrayList.iterator();
             for (Object next3 : iterator5) {
-                obj3 = 0;
+                obj2 = 0;
                 iNSTANCE = 0;
                 next4 = 0;
                 iterator2 = (Iterable)(Group)next3.getData().iterator();
-                for (Object next5 : iterator2) {
-                    i3 = 0;
+                for (Object next : iterator2) {
+                    i2 = 0;
                     list = rememberCalls$iv$iv;
                 }
                 rememberCalls$iv$iv = list;
@@ -327,44 +327,44 @@ public final class AnimationSearch {
                 }
                 if ((Animatable)rememberCalls$iv$iv2 != null) {
                 }
-                children = $this$firstOrNull$iv$iv$iv;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv = $this$firstOrNull$iv$iv$iv2;
                 list = rememberCalls$iv$iv;
                 $this$findRememberedData$iv$iv = 0;
                 (Collection)arrayList2.add((Animatable)rememberCalls$iv$iv2);
                 rememberCalls$iv$iv2 = 0;
-                next5 = iterator2.next();
-                i3 = 0;
+                next = iterator2.next();
+                i2 = 0;
                 if (rememberCalls$iv$iv3 instanceof Animatable) {
                 } else {
                 }
                 list = rememberCalls$iv$iv;
-                rememberCalls$iv$iv2 = next5;
+                rememberCalls$iv$iv2 = next;
             }
             ArrayList rememberCalls$iv$iv5 = list;
             return (Animatable)CollectionsKt.firstOrNull(CollectionsKt.plus((Collection)$this$firstOrNull$iv$iv, (Iterable)CollectionsKt.plus((Collection)it$iv$iv$iv$iv, (Iterable)(List)arrayList2)));
         }
 
         private final <T> AnimationSpec<T> findAnimationSpec(CallGroup group) {
-            Object next5;
-            boolean it;
+            Object next;
+            boolean it3;
             Iterator iterator;
-            boolean next;
+            boolean next5;
             boolean next3;
             boolean next2;
             int next4;
-            boolean it2;
-            String it3;
+            boolean it;
+            String it2;
             String str;
             int i4 = 0;
             ArrayList arrayList3 = new ArrayList();
             int i7 = 0;
             Iterator iterator2 = (Iterable)group.getChildren().iterator();
             while (iterator2.hasNext()) {
-                next5 = iterator2.next();
+                next = iterator2.next();
                 next4 = 0;
-                if (Intrinsics.areEqual((Group)next5.getName(), "rememberUpdatedState")) {
+                if (Intrinsics.areEqual((Group)next.getName(), "rememberUpdatedState")) {
                 }
-                (Collection)arrayList3.add(next5);
+                (Collection)arrayList3.add(next);
             }
             int i6 = 0;
             ArrayList arrayList6 = new ArrayList();
@@ -379,7 +379,7 @@ public final class AnimationSearch {
             int i9 = 0;
             Iterator iterator3 = (Iterable)CollectionsKt.plus((Collection)(List)arrayList3, (Iterable)(List)arrayList6).iterator();
             for (Object iterator : iterator3) {
-                it3 = 0;
+                it2 = 0;
                 CollectionsKt.addAll((Collection)arrayList4, (Iterable)(Group)iterator.getData());
             }
             int i = 0;
@@ -387,17 +387,17 @@ public final class AnimationSearch {
             int i10 = 0;
             Iterator iterator4 = (Iterable)(List)arrayList4.iterator();
             while (iterator4.hasNext()) {
-                next = iterator4.next();
-                if (next instanceof State) {
+                next5 = iterator4.next();
+                if (next5 instanceof State) {
                 }
-                (Collection)arrayList.add(next);
+                (Collection)arrayList.add(next5);
             }
             int i2 = 0;
             ArrayList arrayList5 = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)(List)arrayList, 10));
             int i11 = 0;
             Iterator iterator5 = arrayList.iterator();
             for (Object next3 : iterator5) {
-                it3 = 0;
+                it2 = 0;
                 (Collection)arrayList5.add((State)next3.getValue());
             }
             int i3 = 0;
@@ -415,28 +415,28 @@ public final class AnimationSearch {
 
         private final <T> List<androidx.compose.ui.tooling.animation.AnimationSearch.AnimateXAsStateSearchInfo<T, AnimationVector>> findAnimations(Collection<? extends Group> groups) {
             androidx.compose.ui.tooling.animation.ToolingState it$iv$iv;
-            int i;
-            int toolingOverride;
+            int i4;
+            int toolingOverride2;
             ArrayList arrayList;
             Object next2;
             boolean next;
             Object obj;
-            int i3;
+            int i;
             CallGroup it;
             int i2;
             Animatable animatable;
             AnimationSpec animationSpec;
-            int i4;
+            int i3;
             androidx.compose.ui.tooling.animation.AnimationSearch.AnimateXAsStateSearchInfo animateXAsStateSearchInfo;
             ArrayList $this$mapNotNull$iv;
-            MutableState toolingOverride2;
+            MutableState toolingOverride;
             int i5 = 0;
             arrayList = new ArrayList();
             int i6 = 0;
             int i8 = 0;
             Iterator iterator = (Iterable)groups.iterator();
             while (iterator.hasNext()) {
-                i3 = 0;
+                i = 0;
                 i2 = 0;
                 it = this.toAnimationGroup((Group)iterator.next());
                 if (it != null) {
@@ -444,124 +444,124 @@ public final class AnimationSearch {
                 i2 = 0;
                 (Collection)arrayList.add(it);
             }
-            i = 0;
+            i4 = 0;
             ArrayList arrayList2 = new ArrayList();
             int i7 = 0;
             int i9 = 0;
             Iterator iterator2 = (Iterable)(List)arrayList.iterator();
             while (iterator2.hasNext()) {
-                i3 = 0;
+                i = 0;
                 it = obj;
                 i2 = 0;
                 animatable = it$iv$iv.findAnimatable((CallGroup)it);
                 animationSpec = it$iv$iv.findAnimationSpec(it);
-                toolingOverride = it$iv$iv.findToolingOverride((Group)it);
+                toolingOverride2 = it$iv$iv.findToolingOverride((Group)it);
                 animateXAsStateSearchInfo = 0;
-                if (animatable != null && animationSpec != null && toolingOverride != null) {
+                if (animatable != null && animationSpec != null && toolingOverride2 != null) {
                 } else {
                 }
-                toolingOverride2 = toolingOverride;
+                toolingOverride = toolingOverride2;
                 $this$mapNotNull$iv = arrayList;
                 if (animateXAsStateSearchInfo != null) {
                 }
                 it$iv$iv = this;
-                i = i4;
+                i4 = i3;
                 arrayList = $this$mapNotNull$iv;
-                toolingOverride = 0;
+                toolingOverride2 = 0;
                 (Collection)arrayList2.add(animateXAsStateSearchInfo);
                 if (animationSpec != null) {
                 } else {
                 }
-                if (toolingOverride != null) {
+                if (toolingOverride2 != null) {
                 } else {
                 }
-                if (toolingOverride.getValue() == null) {
+                if (toolingOverride2.getValue() == null) {
                 } else {
                 }
                 $this$mapNotNull$iv = arrayList;
-                arrayList = toolingOverride.getValue();
-                toolingOverride2 = toolingOverride;
+                arrayList = toolingOverride2.getValue();
+                toolingOverride = toolingOverride2;
                 if (arrayList instanceof ToolingState) {
                 }
                 if (animateXAsStateSearchInfo == 0) {
                 } else {
                 }
-                toolingOverride = animateXAsStateSearchInfo;
-                it$iv$iv = new AnimationSearch.AnimateXAsStateSearchInfo(animatable, animationSpec, toolingOverride);
+                toolingOverride2 = animateXAsStateSearchInfo;
+                it$iv$iv = new AnimationSearch.AnimateXAsStateSearchInfo(animatable, animationSpec, toolingOverride2);
                 animateXAsStateSearchInfo = it$iv$iv;
-                toolingOverride = new ToolingState(animatable.getValue());
+                toolingOverride2 = new ToolingState(animatable.getValue());
                 animateXAsStateSearchInfo = arrayList;
                 $this$mapNotNull$iv = arrayList;
                 it$iv$iv = new ToolingState(animatable.getValue());
-                toolingOverride.setValue(it$iv$iv);
+                toolingOverride2.setValue(it$iv$iv);
             }
             return (List)arrayList2;
         }
 
         private final <T> MutableState<State<T>> findToolingOverride(Group group) {
-            Object obj4;
+            Object $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2;
             ArrayList it$iv$iv$iv$iv;
             ArrayList list;
-            Object rememberCalls$iv$iv;
+            Object rememberCalls$iv$iv2;
             boolean $this$findRememberedData$iv;
-            int i;
+            int i2;
             androidx.compose.ui.tooling.animation.AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1 $i$f$findRememberedData;
             boolean $this$firstOrNull$iv$iv;
-            int i6;
-            Collection children;
+            int i5;
+            Collection $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv;
             boolean $this$findRememberedData$iv$iv;
             Object element$iv$iv;
             Object data$iv$iv;
             boolean it$iv;
-            int i5;
-            Iterator iterator;
-            boolean next3;
-            Object next2;
-            boolean next4;
-            Object obj3;
-            int i4;
-            Object obj;
-            int iNSTANCE;
-            Object $this$firstOrNull$iv$iv$iv;
-            int i2;
-            Iterator $this$firstOrNull$iv$iv$iv2;
+            int i;
+            Iterator iterator2;
+            boolean next2;
             Object next;
-            Object iterator2;
-            int next5;
+            boolean next3;
+            Object obj;
+            int i6;
             Object obj2;
+            int iNSTANCE;
+            Object $this$firstOrNull$iv$iv$iv2;
+            int i4;
+            Iterator $this$firstOrNull$iv$iv$iv;
+            Object next4;
+            Object iterator;
+            int next5;
+            Object obj3;
             int i3;
-            ArrayList rememberCalls$iv$iv2;
-            obj4 = group;
-            i = 0;
-            i6 = 0;
-            Iterator iterator3 = (Iterable)obj4.getData().iterator();
+            ArrayList rememberCalls$iv$iv;
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2 = group;
+            i2 = 0;
+            i5 = 0;
+            Iterator iterator3 = (Iterable)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2.getData().iterator();
             for (Object element$iv$iv : iterator3) {
-                i5 = 0;
+                i = 0;
             }
             element$iv$iv = 0;
             if (!element$iv$iv instanceof MutableState) {
                 element$iv$iv = 0;
             }
             if ((MutableState)element$iv$iv != null) {
-                i6 = 0;
+                i5 = 0;
                 if (CollectionsKt.listOf((MutableState)element$iv$iv) == null) {
                     $this$firstOrNull$iv$iv = CollectionsKt.emptyList();
                 }
             } else {
             }
-            children = obj4.getChildren();
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv = $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2.getChildren();
             int i7 = 0;
             int i10 = 0;
             ArrayList arrayList3 = new ArrayList();
             int i13 = 0;
             int i16 = 0;
-            iterator = (Iterable)children.iterator();
-            for (Object next2 : iterator) {
-                i4 = 0;
+            iterator2 = (Iterable)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv.iterator();
+            for (Object next : iterator2) {
+                i6 = 0;
                 iNSTANCE = 0;
-                i2 = 0;
-                $this$firstOrNull$iv$iv$iv2 = (Iterable)(Group)next2.getData().iterator();
-                for (Object next : $this$firstOrNull$iv$iv$iv2) {
+                i4 = 0;
+                $this$firstOrNull$iv$iv$iv = (Iterable)(Group)next.getData().iterator();
+                for (Object next4 : $this$firstOrNull$iv$iv$iv) {
                     next5 = 0;
                 }
                 data$iv$iv = 0;
@@ -569,68 +569,68 @@ public final class AnimationSearch {
                 }
                 if ((MutableState)data$iv$iv != null) {
                 }
-                obj4 = $this$firstOrNull$iv$iv$iv;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2 = $this$firstOrNull$iv$iv$iv2;
                 $this$findRememberedData$iv = 0;
                 (Collection)arrayList3.add((MutableState)data$iv$iv);
                 data$iv$iv = 0;
-                next = $this$firstOrNull$iv$iv$iv2.next();
+                next4 = $this$firstOrNull$iv$iv$iv.next();
                 next5 = 0;
-                if (obj6 instanceof MutableState) {
+                if (obj5 instanceof MutableState) {
                 } else {
                 }
-                data$iv$iv = next;
+                data$iv$iv = next4;
             }
-            Object $this$findRememberedData$iv2 = obj4;
+            Object $this$findRememberedData$iv2 = $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv2;
             it$iv$iv$iv$iv = arrayList3;
             int i8 = 0;
             ArrayList arrayList = new ArrayList();
             int i11 = 0;
             int i14 = 0;
-            Iterator iterator4 = (Iterable)children.iterator();
+            Iterator iterator4 = (Iterable)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv.iterator();
             while (iterator4.hasNext()) {
-                obj3 = 0;
                 obj = 0;
+                obj2 = 0;
                 Group it$iv$iv = PreviewUtils_androidKt.firstOrNull((Group)iterator4.next(), (Function1)AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1.INSTANCE);
                 if (it$iv$iv != null) {
                 }
-                it$iv$iv$iv$iv = i4;
-                i = i2;
+                it$iv$iv$iv$iv = i6;
+                i2 = i4;
                 $i$f$findRememberedData = 0;
                 (Collection)arrayList.add(it$iv$iv);
             }
-            int i17 = i;
+            int i17 = i2;
             int i9 = 0;
             ArrayList arrayList2 = new ArrayList();
             int i12 = 0;
             int i15 = 0;
             Iterator iterator5 = (Iterable)(List)arrayList.iterator();
-            for (Object next3 : iterator5) {
-                obj3 = 0;
+            for (Object next2 : iterator5) {
+                obj = 0;
                 iNSTANCE = 0;
-                next = 0;
-                iterator2 = (Iterable)(Group)next3.getData().iterator();
-                for (Object next5 : iterator2) {
+                next4 = 0;
+                iterator = (Iterable)(Group)next2.getData().iterator();
+                for (Object next5 : iterator) {
                     i3 = 0;
-                    list = rememberCalls$iv$iv2;
+                    list = rememberCalls$iv$iv;
                 }
-                rememberCalls$iv$iv2 = list;
-                rememberCalls$iv$iv = 0;
-                if (!rememberCalls$iv$iv instanceof MutableState) {
+                rememberCalls$iv$iv = list;
+                rememberCalls$iv$iv2 = 0;
+                if (!rememberCalls$iv$iv2 instanceof MutableState) {
                 }
-                if ((MutableState)rememberCalls$iv$iv != null) {
+                if ((MutableState)rememberCalls$iv$iv2 != null) {
                 }
-                children = $this$firstOrNull$iv$iv$iv2;
-                list = rememberCalls$iv$iv2;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv$iv = $this$firstOrNull$iv$iv$iv;
+                list = rememberCalls$iv$iv;
                 $this$findRememberedData$iv$iv = 0;
-                (Collection)arrayList2.add((MutableState)rememberCalls$iv$iv);
-                rememberCalls$iv$iv = 0;
-                next5 = iterator2.next();
+                (Collection)arrayList2.add((MutableState)rememberCalls$iv$iv2);
+                rememberCalls$iv$iv2 = 0;
+                next5 = iterator.next();
                 i3 = 0;
                 if (rememberCalls$iv$iv3 instanceof MutableState) {
                 } else {
                 }
-                list = rememberCalls$iv$iv2;
-                rememberCalls$iv$iv = next5;
+                list = rememberCalls$iv$iv;
+                rememberCalls$iv$iv2 = next5;
             }
             ArrayList rememberCalls$iv$iv5 = list;
             return (MutableState)CollectionsKt.firstOrNull(CollectionsKt.plus((Collection)$this$firstOrNull$iv$iv, (Iterable)CollectionsKt.plus((Collection)it$iv$iv$iv$iv, (Iterable)(List)arrayList2)));
@@ -638,22 +638,22 @@ public final class AnimationSearch {
 
         private final CallGroup toAnimationGroup(Group group) {
             int it;
-            int i;
-            androidx.compose.ui.tooling.data.SourceLocation location;
             int i2;
+            androidx.compose.ui.tooling.data.SourceLocation location;
+            int i;
             String str;
             int i3 = group;
             int i4 = 0;
             if (i3.getLocation() != null && Intrinsics.areEqual(i3.getName(), "animateValueAsState")) {
-                i2 = Intrinsics.areEqual(i3.getName(), "animateValueAsState") ? 1 : 0;
+                i = Intrinsics.areEqual(i3.getName(), "animateValueAsState") ? 1 : 0;
             } else {
             }
-            i = i2 != 0 ? group : it;
-            i2 = 0;
-            if (i != 0 && i instanceof CallGroup) {
-                i2 = 0;
-                if (i instanceof CallGroup) {
-                    it = i;
+            i2 = i != 0 ? group : it;
+            i = 0;
+            if (i2 != 0 && i2 instanceof CallGroup) {
+                i = 0;
+                if (i2 instanceof CallGroup) {
+                    it = i2;
                 }
             }
             return it;
@@ -665,17 +665,17 @@ public final class AnimationSearch {
 
         @Override // androidx.compose.ui.tooling.animation.AnimationSearch$Search
         public boolean hasAnimation(Group group) {
-            int i;
             int i2;
+            int i;
             Object toolingOverride;
             final CallGroup animationGroup = toAnimationGroup(group);
-            i = 0;
+            i2 = 0;
             if (animationGroup != null) {
-                i2 = 0;
+                i = 0;
                 if (findAnimatable(animationGroup) != null && findAnimationSpec(animationGroup) != null && findToolingOverride((Group)animationGroup) != null) {
                     if (findAnimationSpec(animationGroup) != null) {
                         if (findToolingOverride((Group)animationGroup) != null) {
-                            i = 1;
+                            i2 = 1;
                         } else {
                         }
                     } else {
@@ -684,7 +684,7 @@ public final class AnimationSearch {
                 }
             } else {
             }
-            return i;
+            return i2;
         }
     }
 
@@ -796,15 +796,15 @@ public final class AnimationSearch {
 
         private final Group toAnimationGroup(Group group) {
             int it;
-            int i;
+            int i4;
             androidx.compose.ui.tooling.data.SourceLocation location;
             int i2;
             String children;
-            int i3;
+            int i;
             Iterator iterator;
             boolean next;
             boolean updateTransitionCall;
-            int i4;
+            int i3;
             String name;
             String str;
             int i5 = group;
@@ -813,142 +813,142 @@ public final class AnimationSearch {
                 i2 = Intrinsics.areEqual(group.getName(), "AnimatedContent") ? 1 : 0;
             } else {
             }
-            i = i2 != 0 ? group : it;
-            if (i != 0) {
+            i4 = i2 != 0 ? group : it;
+            if (i4 != 0) {
                 i2 = 0;
-                i3 = 0;
-                iterator = (Iterable)i.getChildren().iterator();
+                i = 0;
+                iterator = (Iterable)i4.getChildren().iterator();
                 for (Object next : iterator) {
-                    i4 = 0;
+                    i3 = 0;
                 }
             }
             return it;
         }
 
         public void addAnimations(Collection<? extends Group> groups) {
-            int i5;
+            int $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv;
             ArrayList it$iv$iv$iv;
             ArrayList list;
-            Object rememberCalls$iv2;
+            Object rememberCalls$iv;
             boolean $i$f$findRememberedData;
-            ArrayList arrayList;
+            ArrayList $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2;
             boolean $this$findRememberedData$iv;
             Object next3;
-            Object obj2;
+            Object obj;
             int next5;
-            boolean next;
+            boolean next2;
             Group it;
-            int i2;
-            Object obj7;
             int i;
+            Object obj7;
+            int i4;
             Object obj3;
             int iNSTANCE;
-            int $this$firstOrNull$iv$iv;
-            int i3;
-            Iterator $this$firstOrNull$iv$iv2;
-            Object next4;
+            int $this$firstOrNull$iv$iv2;
+            int i2;
+            Iterator $this$firstOrNull$iv$iv;
+            Object next;
             Object iterator;
-            int next2;
-            Object obj;
-            int i4;
-            ArrayList rememberCalls$iv;
-            int i6 = 0;
-            arrayList = new ArrayList();
-            int i9 = 0;
-            int i11 = 0;
+            int next4;
+            Object obj2;
+            int i3;
+            ArrayList rememberCalls$iv2;
+            int i5 = 0;
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2 = new ArrayList();
+            int i8 = 0;
+            int i10 = 0;
             Iterator iterator2 = (Iterable)groups.iterator();
             while (iterator2.hasNext()) {
                 next5 = 0;
-                i2 = 0;
+                i = 0;
                 it = this.toAnimationGroup((Group)iterator2.next());
                 if (it != null) {
                 }
-                i2 = 0;
-                (Collection)arrayList.add(it);
+                i = 0;
+                (Collection)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2.add(it);
             }
             Object obj8 = this;
-            i5 = 0;
-            int i7 = 0;
-            ArrayList arrayList2 = new ArrayList();
-            int i12 = 0;
-            int i15 = 0;
-            Iterator iterator3 = (Iterable)(Collection)(List)arrayList.iterator();
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv = 0;
+            int i6 = 0;
+            ArrayList arrayList = new ArrayList();
+            int i11 = 0;
+            int i14 = 0;
+            Iterator iterator3 = (Iterable)(Collection)(List)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2.iterator();
             for (Object next5 : iterator3) {
-                i = 0;
+                i4 = 0;
                 iNSTANCE = 0;
-                i3 = 0;
-                $this$firstOrNull$iv$iv2 = (Iterable)(Group)next5.getData().iterator();
-                for (Object next4 : $this$firstOrNull$iv$iv2) {
-                    next2 = 0;
+                i2 = 0;
+                $this$firstOrNull$iv$iv = (Iterable)(Group)next5.getData().iterator();
+                for (Object next : $this$firstOrNull$iv$iv) {
+                    next4 = 0;
                 }
                 it = 0;
                 if (!it instanceof Transition) {
                 }
                 if ((Transition)it != null) {
                 }
-                i5 = $this$firstOrNull$iv$iv;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv = $this$firstOrNull$iv$iv2;
                 $i$f$findRememberedData = 0;
-                (Collection)arrayList2.add((Transition)it);
+                (Collection)arrayList.add((Transition)it);
                 it = 0;
-                next4 = $this$firstOrNull$iv$iv2.next();
-                next2 = 0;
+                next = $this$firstOrNull$iv$iv.next();
+                next4 = 0;
                 if (obj6 instanceof Transition) {
                 } else {
                 }
-                it = next4;
+                it = next;
             }
-            int $i$f$findRememberedData2 = i5;
-            it$iv$iv$iv = arrayList2;
-            int i8 = 0;
-            ArrayList arrayList3 = new ArrayList();
-            int i13 = 0;
-            int i16 = 0;
-            Iterator iterator4 = (Iterable)arrayList.iterator();
+            int $i$f$findRememberedData2 = $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv;
+            it$iv$iv$iv = arrayList;
+            int i7 = 0;
+            ArrayList arrayList2 = new ArrayList();
+            int i12 = 0;
+            int i15 = 0;
+            Iterator iterator4 = (Iterable)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2.iterator();
             while (iterator4.hasNext()) {
-                i2 = 0;
+                i = 0;
                 obj3 = 0;
                 Group firstOrNull = PreviewUtils_androidKt.firstOrNull((Group)iterator4.next(), (Function1)AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1.INSTANCE);
                 if (firstOrNull != null) {
                 }
-                it$iv$iv$iv = i3;
-                i = 0;
-                (Collection)arrayList3.add(firstOrNull);
-            }
-            int i10 = 0;
-            ArrayList arrayList4 = new ArrayList();
-            int i14 = 0;
-            int i17 = 0;
-            Iterator iterator5 = (Iterable)(List)arrayList3.iterator();
-            for (Object it : iterator5) {
-                i = 0;
-                iNSTANCE = 0;
-                next4 = 0;
-                iterator = (Iterable)(Group)it.getData().iterator();
-                for (Object next2 : iterator) {
-                    i4 = 0;
-                    list = rememberCalls$iv;
-                }
-                rememberCalls$iv = list;
-                rememberCalls$iv2 = 0;
-                if (!rememberCalls$iv2 instanceof Transition) {
-                }
-                if ((Transition)rememberCalls$iv2 != null) {
-                }
-                arrayList = $this$firstOrNull$iv$iv2;
-                list = rememberCalls$iv;
-                $this$findRememberedData$iv = 0;
-                (Collection)arrayList4.add((Transition)rememberCalls$iv2);
-                rememberCalls$iv2 = 0;
-                next2 = iterator.next();
+                it$iv$iv$iv = i2;
                 i4 = 0;
+                (Collection)arrayList2.add(firstOrNull);
+            }
+            int i9 = 0;
+            ArrayList arrayList3 = new ArrayList();
+            int i13 = 0;
+            int i16 = 0;
+            Iterator iterator5 = (Iterable)(List)arrayList2.iterator();
+            for (Object it : iterator5) {
+                i4 = 0;
+                iNSTANCE = 0;
+                next = 0;
+                iterator = (Iterable)(Group)it.getData().iterator();
+                for (Object next4 : iterator) {
+                    i3 = 0;
+                    list = rememberCalls$iv2;
+                }
+                rememberCalls$iv2 = list;
+                rememberCalls$iv = 0;
+                if (!rememberCalls$iv instanceof Transition) {
+                }
+                if ((Transition)rememberCalls$iv != null) {
+                }
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2 = $this$firstOrNull$iv$iv;
+                list = rememberCalls$iv2;
+                $this$findRememberedData$iv = 0;
+                (Collection)arrayList3.add((Transition)rememberCalls$iv);
+                rememberCalls$iv = 0;
+                next4 = iterator.next();
+                i3 = 0;
                 if (rememberCalls$iv3 instanceof Transition) {
                 } else {
                 }
-                list = rememberCalls$iv;
-                rememberCalls$iv2 = next2;
+                list = rememberCalls$iv2;
+                rememberCalls$iv = next4;
             }
             ArrayList rememberCalls$iv5 = list;
-            getAnimations().addAll((Collection)CollectionsKt.plus((Collection)it$iv$iv$iv, (Iterable)(List)arrayList4));
+            getAnimations().addAll((Collection)CollectionsKt.plus((Collection)it$iv$iv$iv, (Iterable)(List)arrayList3));
         }
 
         @Override // androidx.compose.ui.tooling.animation.AnimationSearch$Search
@@ -974,9 +974,9 @@ public final class AnimationSearch {
             int it;
             int i3;
             androidx.compose.ui.tooling.data.SourceLocation location;
-            int i;
-            String children;
             int i2;
+            String children;
+            int i;
             Iterator iterator;
             boolean next;
             boolean updateTransitionCall;
@@ -986,13 +986,13 @@ public final class AnimationSearch {
             int i5 = group;
             int i6 = 0;
             if (i5.getLocation() != null && Intrinsics.areEqual(i5.getName(), "AnimatedVisibility")) {
-                i = Intrinsics.areEqual(i5.getName(), "AnimatedVisibility") ? 1 : 0;
+                i2 = Intrinsics.areEqual(i5.getName(), "AnimatedVisibility") ? 1 : 0;
             } else {
             }
-            i3 = i != 0 ? group : it;
+            i3 = i2 != 0 ? group : it;
             if (i3 != 0) {
-                i = 0;
                 i2 = 0;
+                i = 0;
                 iterator = (Iterable)i3.getChildren().iterator();
                 for (Object next : iterator) {
                     i4 = 0;
@@ -1002,105 +1002,105 @@ public final class AnimationSearch {
         }
 
         public void addAnimations(Collection<? extends Group> groups) {
-            int i4;
+            int $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2;
             ArrayList it$iv$iv$iv;
             ArrayList list;
             Object rememberCalls$iv;
             boolean $i$f$findRememberedData;
-            ArrayList arrayList;
+            ArrayList $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv;
             boolean $this$findRememberedData$iv;
-            Object next5;
-            Object obj3;
-            int next4;
+            Object next2;
+            Object obj2;
+            int next5;
             boolean next3;
             Group it;
-            int i5;
-            Object obj7;
             int i;
-            Object obj2;
+            Object obj7;
+            int i3;
+            Object obj3;
             int iNSTANCE;
             int $this$firstOrNull$iv$iv;
-            int i3;
+            int i4;
             Iterator $this$firstOrNull$iv$iv2;
             Object next;
             Object iterator;
-            int next2;
+            int next4;
             Object obj;
             int i2;
             ArrayList rememberCalls$iv2;
-            int i6 = 0;
-            arrayList = new ArrayList();
-            int i9 = 0;
-            int i11 = 0;
+            int i5 = 0;
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv = new ArrayList();
+            int i8 = 0;
+            int i10 = 0;
             Iterator iterator2 = (Iterable)groups.iterator();
             while (iterator2.hasNext()) {
-                next4 = 0;
-                i5 = 0;
+                next5 = 0;
+                i = 0;
                 it = this.toAnimationGroup((Group)iterator2.next());
                 if (it != null) {
                 }
-                i5 = 0;
-                (Collection)arrayList.add(it);
+                i = 0;
+                (Collection)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv.add(it);
             }
             Object obj8 = this;
-            i4 = 0;
-            int i7 = 0;
-            ArrayList arrayList2 = new ArrayList();
-            int i12 = 0;
-            int i15 = 0;
-            Iterator iterator3 = (Iterable)(Collection)(List)arrayList.iterator();
-            for (Object next4 : iterator3) {
-                i = 0;
-                iNSTANCE = 0;
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2 = 0;
+            int i6 = 0;
+            ArrayList arrayList = new ArrayList();
+            int i11 = 0;
+            int i14 = 0;
+            Iterator iterator3 = (Iterable)(Collection)(List)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv.iterator();
+            for (Object next5 : iterator3) {
                 i3 = 0;
-                $this$firstOrNull$iv$iv2 = (Iterable)(Group)next4.getData().iterator();
+                iNSTANCE = 0;
+                i4 = 0;
+                $this$firstOrNull$iv$iv2 = (Iterable)(Group)next5.getData().iterator();
                 for (Object next : $this$firstOrNull$iv$iv2) {
-                    next2 = 0;
+                    next4 = 0;
                 }
                 it = 0;
                 if (!it instanceof Transition) {
                 }
                 if ((Transition)it != null) {
                 }
-                i4 = $this$firstOrNull$iv$iv;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2 = $this$firstOrNull$iv$iv;
                 $i$f$findRememberedData = 0;
-                (Collection)arrayList2.add((Transition)it);
+                (Collection)arrayList.add((Transition)it);
                 it = 0;
                 next = $this$firstOrNull$iv$iv2.next();
-                next2 = 0;
+                next4 = 0;
                 if (obj6 instanceof Transition) {
                 } else {
                 }
                 it = next;
             }
-            int $i$f$findRememberedData2 = i4;
-            it$iv$iv$iv = arrayList2;
-            int i8 = 0;
-            ArrayList arrayList3 = new ArrayList();
-            int i13 = 0;
-            int i16 = 0;
-            Iterator iterator4 = (Iterable)arrayList.iterator();
+            int $i$f$findRememberedData2 = $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2;
+            it$iv$iv$iv = arrayList;
+            int i7 = 0;
+            ArrayList arrayList2 = new ArrayList();
+            int i12 = 0;
+            int i15 = 0;
+            Iterator iterator4 = (Iterable)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv.iterator();
             while (iterator4.hasNext()) {
-                i5 = 0;
-                obj2 = 0;
+                i = 0;
+                obj3 = 0;
                 Group firstOrNull = PreviewUtils_androidKt.firstOrNull((Group)iterator4.next(), (Function1)AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1.INSTANCE);
                 if (firstOrNull != null) {
                 }
-                it$iv$iv$iv = i3;
-                i = 0;
-                (Collection)arrayList3.add(firstOrNull);
+                it$iv$iv$iv = i4;
+                i3 = 0;
+                (Collection)arrayList2.add(firstOrNull);
             }
-            int i10 = 0;
-            ArrayList arrayList4 = new ArrayList();
-            int i14 = 0;
-            int i17 = 0;
-            Iterator iterator5 = (Iterable)(List)arrayList3.iterator();
+            int i9 = 0;
+            ArrayList arrayList3 = new ArrayList();
+            int i13 = 0;
+            int i16 = 0;
+            Iterator iterator5 = (Iterable)(List)arrayList2.iterator();
             for (Object it : iterator5) {
-                i = 0;
+                i3 = 0;
                 iNSTANCE = 0;
                 next = 0;
                 iterator = (Iterable)(Group)it.getData().iterator();
-                for (Object next2 : iterator) {
+                for (Object next4 : iterator) {
                     i2 = 0;
                     list = rememberCalls$iv2;
                 }
@@ -1110,21 +1110,21 @@ public final class AnimationSearch {
                 }
                 if ((Transition)rememberCalls$iv != null) {
                 }
-                arrayList = $this$firstOrNull$iv$iv2;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv = $this$firstOrNull$iv$iv2;
                 list = rememberCalls$iv2;
                 $this$findRememberedData$iv = 0;
-                (Collection)arrayList4.add((Transition)rememberCalls$iv);
+                (Collection)arrayList3.add((Transition)rememberCalls$iv);
                 rememberCalls$iv = 0;
-                next2 = iterator.next();
+                next4 = iterator.next();
                 i2 = 0;
                 if (rememberCalls$iv3 instanceof Transition) {
                 } else {
                 }
                 list = rememberCalls$iv2;
-                rememberCalls$iv = next2;
+                rememberCalls$iv = next4;
             }
             ArrayList rememberCalls$iv5 = list;
-            getAnimations().addAll((Collection)CollectionsKt.plus((Collection)it$iv$iv$iv, (Iterable)(List)arrayList4));
+            getAnimations().addAll((Collection)CollectionsKt.plus((Collection)it$iv$iv$iv, (Iterable)(List)arrayList3));
         }
 
         @Override // androidx.compose.ui.tooling.animation.AnimationSearch$Search
@@ -1260,31 +1260,31 @@ public final class AnimationSearch {
         private final List<androidx.compose.ui.tooling.animation.AnimationSearch.InfiniteTransitionSearchInfo> findAnimations(Collection<? extends Group> groups) {
             int it$iv$iv;
             List plus;
-            int dataToSearch$iv;
+            int dataToSearch$iv2;
             ArrayList arrayList;
             MutableState toolingOverride;
             ArrayList list$iv$iv$iv;
             int infiniteTransitionSearchInfo;
             Object toolingState2;
-            Object next2;
-            boolean next;
+            Object next;
+            boolean next2;
             Object obj;
-            int i4;
+            int i;
             CallGroup it;
-            int i5;
+            int i3;
             boolean toolingState;
             int valueOf;
-            int i;
+            int i4;
             int i2;
-            Iterator iterator2;
+            Iterator iterator;
             int next3;
             Collection collection;
             ArrayList list;
-            int i3;
-            Iterator iterator;
-            boolean dataToSearch$iv2;
+            int i5;
+            Iterator iterator2;
+            boolean dataToSearch$iv;
             Collection it$iv;
-            ArrayList $this$mapNotNullTo$iv$iv;
+            ArrayList $i$a$FlatMapAnimationSearch_androidKt$findData$dataToSearch$2$iv;
             final Object obj2 = this;
             int i6 = 0;
             arrayList = new ArrayList();
@@ -1292,12 +1292,12 @@ public final class AnimationSearch {
             int i9 = 0;
             Iterator iterator3 = (Iterable)groups.iterator();
             while (iterator3.hasNext()) {
-                i4 = 0;
-                i5 = 0;
+                i = 0;
+                i3 = 0;
                 it = obj2.toAnimationGroup((Group)iterator3.next());
                 if (it != null) {
                 }
-                i5 = 0;
+                i3 = 0;
                 (Collection)arrayList.add(it);
             }
             it$iv$iv = 0;
@@ -1305,45 +1305,45 @@ public final class AnimationSearch {
             int i8 = 0;
             int i10 = 0;
             Iterator iterator4 = (Iterable)(List)arrayList.iterator();
-            for (Object next : iterator4) {
-                i4 = 0;
+            for (Object next2 : iterator4) {
+                i = 0;
                 it = obj;
-                i5 = 0;
+                i3 = 0;
                 toolingState = it;
                 valueOf = 0;
-                i = 0;
+                i4 = 0;
                 int i11 = 0;
                 next3 = 0;
                 ArrayList arrayList3 = new ArrayList();
                 ArrayList $this$mapNotNull$iv = arrayList3;
-                i3 = 0;
-                iterator = (Iterable)toolingState.getChildren().iterator();
-                for (Object dataToSearch$iv2 : iterator) {
+                i5 = 0;
+                iterator2 = (Iterable)toolingState.getChildren().iterator();
+                for (Object dataToSearch$iv : iterator2) {
                     int i12 = 0;
-                    CollectionsKt.addAll((Collection)$this$mapNotNull$iv, (Iterable)(Group)dataToSearch$iv2.getData());
-                    list$iv$iv$iv = $this$mapNotNullTo$iv$iv;
+                    CollectionsKt.addAll((Collection)$this$mapNotNull$iv, (Iterable)(Group)dataToSearch$iv.getData());
+                    list$iv$iv$iv = $i$a$FlatMapAnimationSearch_androidKt$findData$dataToSearch$2$iv;
                 }
                 infiniteTransitionSearchInfo = 0;
-                iterator2 = (Iterable)CollectionsKt.plus((Group)toolingState.getData(), (Iterable)(List)$this$mapNotNull$iv).iterator();
+                iterator = (Iterable)CollectionsKt.plus((Group)toolingState.getData(), (Iterable)(List)$this$mapNotNull$iv).iterator();
                 collection = null;
-                for (Object next3 : iterator2) {
-                    iterator = null;
-                    plus = dataToSearch$iv2;
+                for (Object next3 : iterator) {
+                    iterator2 = null;
+                    plus = dataToSearch$iv;
                     collection = null;
                 }
-                dataToSearch$iv2 = plus;
-                dataToSearch$iv = collection;
-                if (!dataToSearch$iv instanceof InfiniteTransition) {
+                dataToSearch$iv = plus;
+                dataToSearch$iv2 = collection;
+                if (!dataToSearch$iv2 instanceof InfiniteTransition) {
                 }
                 toolingOverride = obj2.findToolingOverride((Group)(CallGroup)it);
-                if ((InfiniteTransition)dataToSearch$iv != 0 && toolingOverride != null) {
+                if ((InfiniteTransition)dataToSearch$iv2 != 0 && toolingOverride != null) {
                 } else {
                 }
                 if (collection != null) {
                 }
                 it$iv$iv = i2;
                 arrayList = list;
-                list$iv$iv$iv = $this$mapNotNullTo$iv$iv;
+                list$iv$iv$iv = $i$a$FlatMapAnimationSearch_androidKt$findData$dataToSearch$2$iv;
                 toolingOverride = 0;
                 (Collection)arrayList2.add(collection);
                 if (toolingOverride != null) {
@@ -1352,7 +1352,7 @@ public final class AnimationSearch {
                 if (toolingOverride.getValue() == null) {
                 } else {
                 }
-                iterator2 = 0;
+                iterator = 0;
                 Object value = toolingOverride.getValue();
                 if (value instanceof ToolingState) {
                 }
@@ -1360,23 +1360,23 @@ public final class AnimationSearch {
                 } else {
                 }
                 toolingState = collection;
-                infiniteTransitionSearchInfo = new AnimationSearch.InfiniteTransitionSearchInfo((InfiniteTransition)dataToSearch$iv, toolingState);
+                infiniteTransitionSearchInfo = new AnimationSearch.InfiniteTransitionSearchInfo((InfiniteTransition)dataToSearch$iv2, toolingState);
                 collection = infiniteTransitionSearchInfo;
-                toolingState = new ToolingState(Long.valueOf(iterator2));
+                toolingState = new ToolingState(Long.valueOf(iterator));
                 collection = value;
                 toolingState2 = new ToolingState(Long.valueOf(0));
                 toolingOverride.setValue(toolingState2);
-                dataToSearch$iv = collection;
-                next3 = iterator2.next();
-                iterator = null;
+                dataToSearch$iv2 = collection;
+                next3 = iterator.next();
+                iterator2 = null;
                 if (dataToSearch$iv3 instanceof InfiniteTransition) {
                 } else {
                 }
-                plus = dataToSearch$iv2;
-                dataToSearch$iv = next3;
+                plus = dataToSearch$iv;
+                dataToSearch$iv2 = next3;
                 i12 = 0;
-                CollectionsKt.addAll($this$mapNotNull$iv, (Iterable)(Group)iterator.next().getData());
-                list$iv$iv$iv = $this$mapNotNullTo$iv$iv;
+                CollectionsKt.addAll($this$mapNotNull$iv, (Iterable)(Group)iterator2.next().getData());
+                list$iv$iv$iv = $i$a$FlatMapAnimationSearch_androidKt$findData$dataToSearch$2$iv;
             }
             int $i$f$mapNotNull = it$iv$iv;
             return (List)arrayList2;
@@ -1384,15 +1384,15 @@ public final class AnimationSearch {
 
         private final MutableState<State<Long>> findToolingOverride(Group group) {
             List element$iv$iv;
-            int i;
+            int i2;
             Iterator data$iv;
-            int next2;
-            boolean next;
+            int next4;
+            boolean next2;
             Iterator it$iv;
-            Object next4;
+            Object next;
             boolean next3;
             Collection child$iv;
-            int i2;
+            int i;
             final int i3 = 1;
             final Object obj = group;
             final int i4 = 0;
@@ -1400,31 +1400,31 @@ public final class AnimationSearch {
             int i6 = 0;
             int i8 = 0;
             ArrayList arrayList2 = new ArrayList();
-            next2 = 0;
+            next4 = 0;
             it$iv = (Iterable)children.iterator();
-            for (Object next4 : it$iv) {
-                i2 = 0;
-                CollectionsKt.addAll((Collection)arrayList2, (Iterable)(Group)next4.getChildren());
+            for (Object next : it$iv) {
+                i = 0;
+                CollectionsKt.addAll((Collection)arrayList2, (Iterable)(Group)next.getChildren());
             }
             int i5 = 0;
             ArrayList arrayList = new ArrayList();
-            i = 0;
+            i2 = 0;
             data$iv = (Iterable)(Collection)CollectionsKt.plus(children, (Iterable)(List)arrayList2).iterator();
-            for (Object next2 : data$iv) {
+            for (Object next4 : data$iv) {
                 next3 = false;
-                CollectionsKt.addAll((Collection)arrayList, (Iterable)(Group)next2.getData());
+                CollectionsKt.addAll((Collection)arrayList, (Iterable)(Group)next4.getData());
             }
             int i7 = 0;
             Iterator iterator = (Iterable)CollectionsKt.plus(obj.getData(), (Iterable)(List)arrayList).iterator();
             for (Object element$iv$iv : iterator) {
-                next = false;
+                next2 = false;
             }
-            element$iv$iv = i;
+            element$iv$iv = i2;
             if (!element$iv$iv instanceof MutableState) {
             } else {
-                i = element$iv$iv;
+                i2 = element$iv$iv;
             }
-            return (MutableState)i;
+            return (MutableState)i2;
         }
 
         private final CallGroup toAnimationGroup(Group group) {
@@ -1456,56 +1456,56 @@ public final class AnimationSearch {
 
         @Override // androidx.compose.ui.tooling.animation.AnimationSearch$Search
         public boolean hasAnimation(Group group) {
-            int i7;
-            int i5;
-            Object toolingOverride;
-            int i4;
             int i2;
+            int i6;
+            Object toolingOverride;
+            int i;
+            int i3;
             List plus;
             boolean $this$firstOrNull$iv$iv;
-            int i6;
+            int i7;
             Iterator iterator;
             Collection element$iv$iv;
-            int i;
+            int i4;
             Iterator data$iv;
             Object next;
             Collection it$iv;
-            int i3;
-            i7 = 0;
+            int i5;
+            i2 = 0;
             if (toAnimationGroup(group) != null) {
-                i5 = 0;
+                i6 = 0;
                 toolingOverride = group;
-                i4 = 0;
-                i2 = 0;
+                i = 0;
+                i3 = 0;
                 int i8 = 0;
                 int i9 = 0;
                 ArrayList arrayList = new ArrayList();
-                i = 0;
+                i4 = 0;
                 data$iv = (Iterable)toolingOverride.getChildren().iterator();
                 for (Object next : data$iv) {
-                    i3 = 0;
+                    i5 = 0;
                     CollectionsKt.addAll((Collection)arrayList, (Iterable)(Group)next.getData());
                 }
-                i6 = 0;
+                i7 = 0;
                 iterator = (Iterable)CollectionsKt.plus(toolingOverride.getData(), (Iterable)(List)arrayList).iterator();
                 for (Object element$iv$iv : iterator) {
                     next = false;
                 }
-                element$iv$iv = i;
+                element$iv$iv = i4;
                 if (!element$iv$iv instanceof InfiniteTransition) {
                 } else {
-                    i = element$iv$iv;
+                    i4 = element$iv$iv;
                 }
-                if ((InfiniteTransition)i != null && findToolingOverride(group) != null) {
+                if ((InfiniteTransition)i4 != null && findToolingOverride(group) != null) {
                     if (findToolingOverride(group) != null) {
-                        i7 = 1;
+                        i2 = 1;
                     } else {
                     }
                 } else {
                 }
             } else {
             }
-            return i7;
+            return i2;
         }
     }
 
@@ -1626,106 +1626,106 @@ public final class AnimationSearch {
         }
 
         public void addAnimations(Collection<? extends Group> groups) {
-            int i4;
+            int $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2;
             ArrayList it$iv$iv$iv;
             ArrayList list;
             Object rememberCalls$iv;
             boolean $i$f$findRememberedData;
-            ArrayList arrayList;
+            ArrayList $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv;
             boolean $this$findRememberedData$iv;
-            Object next;
+            Object next5;
             Object obj;
-            int next2;
-            boolean next3;
+            int next;
+            boolean next2;
             Group it;
-            int i;
+            int i3;
             Object obj7;
-            int i2;
+            int i;
             Object obj3;
             int iNSTANCE;
-            int $this$firstOrNull$iv$iv2;
-            int i5;
-            Iterator $this$firstOrNull$iv$iv;
-            Object next4;
+            int $this$firstOrNull$iv$iv;
+            int i2;
+            Iterator $this$firstOrNull$iv$iv2;
+            Object next3;
             Object iterator;
-            int next5;
+            int next4;
             Object obj2;
-            int i3;
+            int i4;
             ArrayList rememberCalls$iv2;
-            int i6 = 0;
-            arrayList = new ArrayList();
-            int i9 = 0;
-            int i11 = 0;
+            int i5 = 0;
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv = new ArrayList();
+            int i8 = 0;
+            int i10 = 0;
             Iterator iterator2 = (Iterable)groups.iterator();
             while (iterator2.hasNext()) {
-                next2 = 0;
-                i = 0;
+                next = 0;
+                i3 = 0;
                 it = this.toAnimationGroup((Group)iterator2.next());
                 if (it != null) {
                 }
-                i = 0;
-                (Collection)arrayList.add(it);
+                i3 = 0;
+                (Collection)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv.add(it);
             }
             Object obj8 = this;
-            i4 = 0;
-            int i7 = 0;
-            ArrayList arrayList2 = new ArrayList();
-            int i12 = 0;
-            int i15 = 0;
-            Iterator iterator3 = (Iterable)(Collection)(List)arrayList.iterator();
-            for (Object next2 : iterator3) {
-                i2 = 0;
+            $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2 = 0;
+            int i6 = 0;
+            ArrayList arrayList = new ArrayList();
+            int i11 = 0;
+            int i14 = 0;
+            Iterator iterator3 = (Iterable)(Collection)(List)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv.iterator();
+            for (Object next : iterator3) {
+                i = 0;
                 iNSTANCE = 0;
-                i5 = 0;
-                $this$firstOrNull$iv$iv = (Iterable)(Group)next2.getData().iterator();
-                for (Object next4 : $this$firstOrNull$iv$iv) {
-                    next5 = 0;
+                i2 = 0;
+                $this$firstOrNull$iv$iv2 = (Iterable)(Group)next.getData().iterator();
+                for (Object next3 : $this$firstOrNull$iv$iv2) {
+                    next4 = 0;
                 }
                 it = 0;
                 if (!it instanceof Transition) {
                 }
                 if ((Transition)it != null) {
                 }
-                i4 = $this$firstOrNull$iv$iv2;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2 = $this$firstOrNull$iv$iv;
                 $i$f$findRememberedData = 0;
-                (Collection)arrayList2.add((Transition)it);
+                (Collection)arrayList.add((Transition)it);
                 it = 0;
-                next4 = $this$firstOrNull$iv$iv.next();
-                next5 = 0;
+                next3 = $this$firstOrNull$iv$iv2.next();
+                next4 = 0;
                 if (obj6 instanceof Transition) {
                 } else {
                 }
-                it = next4;
+                it = next3;
             }
-            int $i$f$findRememberedData2 = i4;
-            it$iv$iv$iv = arrayList2;
-            int i8 = 0;
-            ArrayList arrayList3 = new ArrayList();
-            int i13 = 0;
-            int i16 = 0;
-            Iterator iterator4 = (Iterable)arrayList.iterator();
+            int $i$f$findRememberedData2 = $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv2;
+            it$iv$iv$iv = arrayList;
+            int i7 = 0;
+            ArrayList arrayList2 = new ArrayList();
+            int i12 = 0;
+            int i15 = 0;
+            Iterator iterator4 = (Iterable)$i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv.iterator();
             while (iterator4.hasNext()) {
-                i = 0;
+                i3 = 0;
                 obj3 = 0;
                 Group firstOrNull = PreviewUtils_androidKt.firstOrNull((Group)iterator4.next(), (Function1)AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1.INSTANCE);
                 if (firstOrNull != null) {
                 }
-                it$iv$iv$iv = i5;
-                i2 = 0;
-                (Collection)arrayList3.add(firstOrNull);
+                it$iv$iv$iv = i2;
+                i = 0;
+                (Collection)arrayList2.add(firstOrNull);
             }
-            int i10 = 0;
-            ArrayList arrayList4 = new ArrayList();
-            int i14 = 0;
-            int i17 = 0;
-            Iterator iterator5 = (Iterable)(List)arrayList3.iterator();
+            int i9 = 0;
+            ArrayList arrayList3 = new ArrayList();
+            int i13 = 0;
+            int i16 = 0;
+            Iterator iterator5 = (Iterable)(List)arrayList2.iterator();
             for (Object it : iterator5) {
-                i2 = 0;
+                i = 0;
                 iNSTANCE = 0;
-                next4 = 0;
+                next3 = 0;
                 iterator = (Iterable)(Group)it.getData().iterator();
-                for (Object next5 : iterator) {
-                    i3 = 0;
+                for (Object next4 : iterator) {
+                    i4 = 0;
                     list = rememberCalls$iv2;
                 }
                 rememberCalls$iv2 = list;
@@ -1734,21 +1734,21 @@ public final class AnimationSearch {
                 }
                 if ((Transition)rememberCalls$iv != null) {
                 }
-                arrayList = $this$firstOrNull$iv$iv;
+                $i$a$LetCollectionsKt___CollectionsKt$mapNotNullTo$1$1$iv$iv$iv = $this$firstOrNull$iv$iv2;
                 list = rememberCalls$iv2;
                 $this$findRememberedData$iv = 0;
-                (Collection)arrayList4.add((Transition)rememberCalls$iv);
+                (Collection)arrayList3.add((Transition)rememberCalls$iv);
                 rememberCalls$iv = 0;
-                next5 = iterator.next();
-                i3 = 0;
+                next4 = iterator.next();
+                i4 = 0;
                 if (rememberCalls$iv3 instanceof Transition) {
                 } else {
                 }
                 list = rememberCalls$iv2;
-                rememberCalls$iv = next5;
+                rememberCalls$iv = next4;
             }
             ArrayList rememberCalls$iv5 = list;
-            getAnimations().addAll((Collection)CollectionsKt.plus((Collection)it$iv$iv$iv, (Iterable)(List)arrayList4));
+            getAnimations().addAll((Collection)CollectionsKt.plus((Collection)it$iv$iv$iv, (Iterable)(List)arrayList3));
         }
 
         @Override // androidx.compose.ui.tooling.animation.AnimationSearch$Search
@@ -1846,92 +1846,92 @@ public final class AnimationSearch {
 
     public final void attachAllAnimations(Collection<? extends Group> slotTrees) {
         Object next2;
-        boolean next3;
-        Object obj2;
-        int i;
-        List all;
-        Set animations2;
-        Set animations;
-        Iterator iterator;
         boolean next;
-        Object obj;
+        Object obj2;
         int i2;
+        List all;
+        Set animations;
+        Set animations2;
+        Iterator iterator;
+        boolean next3;
+        Object obj;
+        int i;
         List list;
         int i3 = 0;
         Iterator iterator2 = (Iterable)slotTrees.iterator();
         for (Object next2 : iterator2) {
-            i = 0;
+            i2 = 0;
             int i5 = 0;
             iterator = (Iterable)this.setToSearch.iterator();
-            for (Object next : iterator) {
-                i2 = 0;
-                (AnimationSearch.Search)next.addAnimations((Collection)PreviewUtils_androidKt.findAll((Group)next2, (Function1)AnimationSearch.attachAllAnimations.1.groups.1.INSTANCE));
+            for (Object next3 : iterator) {
+                i = 0;
+                (AnimationSearch.Search)next3.addAnimations((Collection)PreviewUtils_androidKt.findAll((Group)next2, (Function1)AnimationSearch.attachAllAnimations.1.groups.1.INSTANCE));
             }
             this.transitionSearch.getAnimations().removeAll((Collection)this.animatedVisibilitySearch.getAnimations());
             this.transitionSearch.getAnimations().removeAll((Collection)this.animatedContentSearch.getAnimations());
-            i2 = 0;
+            i = 0;
             (AnimationSearch.Search)iterator.next().addAnimations((Collection)all);
         }
         int i4 = 0;
         Iterator iterator3 = (Iterable)this.setToTrack.iterator();
-        for (Object next3 : iterator3) {
-            i = 0;
-            (AnimationSearch.Search)next3.track();
+        for (Object next : iterator3) {
+            i2 = 0;
+            (AnimationSearch.Search)next.track();
         }
     }
 
     public final boolean searchAny(Collection<? extends Group> slotTrees) {
-        boolean iterator;
+        boolean iterator2;
         int animations;
+        int i4;
+        boolean next;
+        Object obj3;
+        int i3;
+        List all;
+        Object obj2;
+        Set supportedSearch;
+        int i2;
+        boolean iterator;
         int i;
         boolean next2;
         Object obj;
-        int i3;
-        List all;
-        Object obj3;
-        Set supportedSearch;
         int i5;
-        boolean iterator2;
-        int i2;
-        boolean next;
-        Object obj2;
-        int i4;
         final Object obj4 = slotTrees;
         final int i6 = 0;
         if (obj4 instanceof Collection != null && (Collection)(Iterable)obj4.isEmpty()) {
             if ((Collection)obj4.isEmpty()) {
-                i = 0;
-                obj3 = this;
+                i4 = 0;
+                obj2 = this;
             } else {
-                iterator = obj4.iterator();
-                while (iterator.hasNext()) {
+                iterator2 = obj4.iterator();
+                while (iterator2.hasNext()) {
                     i3 = 0;
-                    supportedSearch = obj3.supportedSearch;
-                    i5 = 0;
-                    i2 = 1;
+                    supportedSearch = obj2.supportedSearch;
+                    i2 = 0;
+                    i = 1;
                     if (supportedSearch instanceof Collection != null && (Collection)(Iterable)supportedSearch.isEmpty()) {
                     } else {
                     }
-                    iterator2 = supportedSearch.iterator();
-                    for (Object next : iterator2) {
-                        i4 = 0;
+                    iterator = supportedSearch.iterator();
+                    for (Object next2 : iterator) {
+                        i5 = 0;
                     }
                     animations = 0;
-                    i4 = 0;
-                    if ((AnimationSearch.Search)iterator2.next().hasAnimations((Collection)all)) {
+                    i5 = 0;
+                    if ((AnimationSearch.Search)iterator.next().hasAnimations((Collection)all)) {
                     } else {
                     }
-                    animations = i2;
+                    animations = i;
                     if ((Collection)supportedSearch.isEmpty()) {
                     } else {
                     }
                     animations = 0;
                 }
-                obj3 = this;
-                i = 0;
+                obj2 = this;
+                i4 = 0;
             }
         } else {
         }
-        return i;
+        return i4;
     }
 }

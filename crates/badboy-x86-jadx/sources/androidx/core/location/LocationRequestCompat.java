@@ -35,74 +35,74 @@ public final class LocationRequestCompat {
         private static Method sSetNumUpdatesMethod;
         private static Method sSetQualityMethod;
         public static Object toLocationRequest(androidx.core.location.LocationRequestCompat obj, String provider) {
-            Class sLocationRequestClass2;
+            Class sLocationRequestClass;
             Method sCreateFromDeprecatedProviderMethod;
             int sSetExpireInMethod;
-            int arr;
+            int arr2;
             String str;
             Method sSetQualityMethod;
             Method sSetFastestIntervalMethod;
             Method sSetNumUpdatesMethod;
             int sSetNumUpdatesMethod2;
-            Object sLocationRequestClass;
+            Object sLocationRequestClass2;
             Class[] arr4;
-            Object valueOf2;
-            Object[] arr3;
+            Object valueOf;
+            Object[] arr;
             int str2;
             Class tYPE;
-            Boolean valueOf;
-            long arr2;
+            Boolean valueOf2;
+            long arr3;
             int tYPE2;
             final int i = 0;
             if (LocationRequestCompat.Api19Impl.sLocationRequestClass == null) {
                 try {
                     LocationRequestCompat.Api19Impl.sLocationRequestClass = Class.forName("android.location.LocationRequest");
                     sSetExpireInMethod = 0;
-                    arr = 1;
+                    arr2 = 1;
                     if (LocationRequestCompat.Api19Impl.sCreateFromDeprecatedProviderMethod == null) {
                     }
                     arr4 = new Class[4];
                     arr4[sSetExpireInMethod] = String.class;
-                    arr4[arr] = Long.TYPE;
+                    arr4[arr2] = Long.TYPE;
                     arr4[2] = Float.TYPE;
                     arr4[3] = Boolean.TYPE;
                     LocationRequestCompat.Api19Impl.sCreateFromDeprecatedProviderMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("createFromDeprecatedProvider", arr4);
-                    LocationRequestCompat.Api19Impl.sCreateFromDeprecatedProviderMethod.setAccessible(arr);
+                    LocationRequestCompat.Api19Impl.sCreateFromDeprecatedProviderMethod.setAccessible(arr2);
                     Object invoke = LocationRequestCompat.Api19Impl.sCreateFromDeprecatedProviderMethod.invoke(i, /* result */);
                     if (invoke == null) {
                     }
                     return i;
                     if (LocationRequestCompat.Api19Impl.sSetQualityMethod == null) {
                     }
-                    valueOf = new Class[arr];
-                    valueOf[sSetExpireInMethod] = Integer.TYPE;
-                    LocationRequestCompat.Api19Impl.sSetQualityMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("setQuality", valueOf);
-                    LocationRequestCompat.Api19Impl.sSetQualityMethod.setAccessible(arr);
+                    valueOf2 = new Class[arr2];
+                    valueOf2[sSetExpireInMethod] = Integer.TYPE;
+                    LocationRequestCompat.Api19Impl.sSetQualityMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("setQuality", valueOf2);
+                    LocationRequestCompat.Api19Impl.sSetQualityMethod.setAccessible(arr2);
                     LocationRequestCompat.Api19Impl.sSetQualityMethod.invoke(invoke, /* result */);
                     if (LocationRequestCompat.Api19Impl.sSetFastestIntervalMethod == null) {
                     }
-                    valueOf = new Class[arr];
-                    valueOf[sSetExpireInMethod] = Long.TYPE;
-                    LocationRequestCompat.Api19Impl.sSetFastestIntervalMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("setFastestInterval", valueOf);
-                    LocationRequestCompat.Api19Impl.sSetFastestIntervalMethod.setAccessible(arr);
+                    valueOf2 = new Class[arr2];
+                    valueOf2[sSetExpireInMethod] = Long.TYPE;
+                    LocationRequestCompat.Api19Impl.sSetFastestIntervalMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("setFastestInterval", valueOf2);
+                    LocationRequestCompat.Api19Impl.sSetFastestIntervalMethod.setAccessible(arr2);
                     LocationRequestCompat.Api19Impl.sSetFastestIntervalMethod.invoke(invoke, /* result */);
                     if (obj.getMaxUpdates() < Integer.MAX_VALUE && LocationRequestCompat.Api19Impl.sSetNumUpdatesMethod == null) {
                     }
                     if (LocationRequestCompat.Api19Impl.sSetNumUpdatesMethod == null) {
                     }
-                    valueOf = new Class[arr];
-                    valueOf[sSetExpireInMethod] = Integer.TYPE;
-                    LocationRequestCompat.Api19Impl.sSetNumUpdatesMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("setNumUpdates", valueOf);
-                    LocationRequestCompat.Api19Impl.sSetNumUpdatesMethod.setAccessible(arr);
+                    valueOf2 = new Class[arr2];
+                    valueOf2[sSetExpireInMethod] = Integer.TYPE;
+                    LocationRequestCompat.Api19Impl.sSetNumUpdatesMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("setNumUpdates", valueOf2);
+                    LocationRequestCompat.Api19Impl.sSetNumUpdatesMethod.setAccessible(arr2);
                     LocationRequestCompat.Api19Impl.sSetNumUpdatesMethod.invoke(invoke, /* result */);
-                    if (Long.compare(durationMillis2, arr2) < 0 && LocationRequestCompat.Api19Impl.sSetExpireInMethod == null) {
+                    if (Long.compare(durationMillis2, arr3) < 0 && LocationRequestCompat.Api19Impl.sSetExpireInMethod == null) {
                     }
                     if (LocationRequestCompat.Api19Impl.sSetExpireInMethod == null) {
                     }
-                    arr2 = new Class[arr];
-                    arr2[sSetExpireInMethod] = Long.TYPE;
-                    LocationRequestCompat.Api19Impl.sSetExpireInMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("setExpireIn", arr2);
-                    LocationRequestCompat.Api19Impl.sSetExpireInMethod.setAccessible(arr);
+                    arr3 = new Class[arr2];
+                    arr3[sSetExpireInMethod] = Long.TYPE;
+                    LocationRequestCompat.Api19Impl.sSetExpireInMethod = LocationRequestCompat.Api19Impl.sLocationRequestClass.getDeclaredMethod("setExpireIn", arr3);
+                    LocationRequestCompat.Api19Impl.sSetExpireInMethod.setAccessible(arr2);
                     LocationRequestCompat.Api19Impl.sSetExpireInMethod.invoke(invoke, /* result */);
                     return invoke;
                     return obj0;

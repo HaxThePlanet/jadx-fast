@@ -20,23 +20,23 @@ import kotlin.ranges.RangesKt;
 class ArraysKt__ArraysKt extends kotlin.collections.ArraysKt__ArraysJVMKt {
     public static final <T> boolean contentDeepEquals(T[] $this$contentDeepEqualsImpl, T[] other) {
         int i;
-        int length;
         int length2;
-        Object obj2;
+        int length;
         Object obj;
+        Object obj2;
         boolean contentEquals-kV0jMPg;
-        boolean z10;
-        boolean z4;
-        boolean z8;
-        boolean z5;
-        boolean z7;
-        boolean z;
-        boolean z9;
         boolean z6;
-        boolean z3;
-        boolean z12;
-        boolean z2;
+        boolean z5;
         boolean z11;
+        boolean z3;
+        boolean z10;
+        boolean z9;
+        boolean z;
+        boolean z2;
+        boolean z7;
+        boolean z8;
+        boolean z12;
+        boolean z4;
         boolean z13;
         Object unbox-impl;
         final int i2 = 1;
@@ -50,8 +50,8 @@ class ArraysKt__ArraysKt extends kotlin.collections.ArraysKt__ArraysJVMKt {
                 } else {
                     i = 0;
                     while (i < $this$contentDeepEqualsImpl.length) {
-                        obj2 = $this$contentDeepEqualsImpl[i];
-                        obj = other[i];
+                        obj = $this$contentDeepEqualsImpl[i];
+                        obj2 = other[i];
                         i++;
                     }
                 }
@@ -188,23 +188,23 @@ class ArraysKt__ArraysKt extends kotlin.collections.ArraysKt__ArraysJVMKt {
     }
 
     public static final <T> List<T> flatten(T[][] $this$flatten) {
-        int i;
         int i3;
         int i2;
+        int i;
         int it;
         int i4;
         Intrinsics.checkNotNullParameter($this$flatten, "<this>");
         Object obj = $this$flatten;
-        i2 = i3;
-        while (i3 < obj.length) {
+        i = i2;
+        while (i2 < obj.length) {
             i4 = 0;
-            i2 += it;
-            i3++;
+            i += it;
+            i2++;
         }
-        ArrayList arrayList = new ArrayList(i2);
-        while (i < obj2.length) {
-            CollectionsKt.addAll((Collection)arrayList, $this$flatten[i]);
-            i++;
+        ArrayList arrayList = new ArrayList(i);
+        while (i3 < obj2.length) {
+            CollectionsKt.addAll((Collection)arrayList, $this$flatten[i3]);
+            i3++;
         }
         return (List)arrayList;
     }
@@ -223,18 +223,18 @@ class ArraysKt__ArraysKt extends kotlin.collections.ArraysKt__ArraysJVMKt {
     }
 
     private static final boolean isNullOrEmpty(Object[] $this$isNullOrEmpty) {
-        int i2;
         int i3;
         int i;
+        int i2;
         if ($this$isNullOrEmpty != null) {
-            i = 0;
-            i3 = $this$isNullOrEmpty.length == 0 ? i2 : i;
-            if (i3 != 0) {
+            i2 = 0;
+            i = $this$isNullOrEmpty.length == 0 ? i3 : i2;
+            if (i != 0) {
             } else {
-                i2 = i;
+                i3 = i2;
             }
         }
-        return i2;
+        return i3;
     }
 
     public static final <T, R> Pair<List<T>, List<R>> unzip(Pair<? extends T, ? extends R>[] $this$unzip) {

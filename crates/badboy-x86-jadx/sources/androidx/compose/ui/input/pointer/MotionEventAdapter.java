@@ -40,24 +40,24 @@ public final class MotionEventAdapter {
         int actionMasked;
         int activeHoverIds;
         int i;
-        int motionEventToComposePointerIdMap;
-        long motionEventToComposePointerIdMap2;
+        int motionEventToComposePointerIdMap2;
+        long motionEventToComposePointerIdMap;
         long nextId;
         activeHoverIds = 1;
         switch (actionMasked) {
             case 0:
                 actionMasked = motionEvent.getActionIndex();
-                motionEventToComposePointerIdMap = motionEvent.getPointerId(actionMasked);
+                motionEventToComposePointerIdMap2 = motionEvent.getPointerId(actionMasked);
                 nextId = this.nextId;
                 this.nextId = activeHoverIds += nextId;
-                this.motionEventToComposePointerIdMap.put(motionEventToComposePointerIdMap, nextId);
-                this.activeHoverIds.put(motionEventToComposePointerIdMap, true);
+                this.motionEventToComposePointerIdMap.put(motionEventToComposePointerIdMap2, nextId);
+                this.activeHoverIds.put(motionEventToComposePointerIdMap2, true);
                 break;
             case 5:
                 actionMasked = motionEvent.getPointerId(0);
-                motionEventToComposePointerIdMap2 = this.nextId;
-                this.nextId = activeHoverIds += motionEventToComposePointerIdMap2;
-                this.motionEventToComposePointerIdMap.put(actionMasked, motionEventToComposePointerIdMap2);
+                motionEventToComposePointerIdMap = this.nextId;
+                this.nextId = activeHoverIds += motionEventToComposePointerIdMap;
+                this.motionEventToComposePointerIdMap.put(actionMasked, motionEventToComposePointerIdMap);
                 break;
             default:
         }
@@ -82,31 +82,31 @@ public final class MotionEventAdapter {
 
     private final androidx.compose.ui.input.pointer.PointerInputEventData createPointerInputEventData(androidx.compose.ui.input.pointer.PositionCalculator positionCalculator, MotionEvent motionEvent, int index, boolean pressed) {
         int pos;
-        float axisValue;
-        int pointerId;
         float axisValue2;
+        int pointerId;
+        float axisValue;
         float iNSTANCE;
         int unknown-T8wyACA;
         long composePointerId-_I2yYro;
         long zero-F1C5BW0;
-        int infinite;
-        boolean infinite2;
+        int infinite2;
+        boolean infinite;
         long screenToLocal-MK-Hz9U;
-        long l3;
-        long rawPosition;
-        long l4;
-        int i3;
-        int i2;
-        int i;
         long l;
+        long rawPosition;
+        long l6;
+        int i5;
         int i4;
-        int i6;
+        int i2;
         long l2;
+        int i6;
+        int i3;
+        long l3;
         androidx.compose.ui.input.pointer.HistoricalChange historicalChange;
         long historicalEventTime;
         long l5;
-        long l6;
-        int i5;
+        long l4;
+        int i;
         final Object obj = this;
         Object obj2 = positionCalculator;
         final MotionEvent motionEvent2 = motionEvent;
@@ -117,54 +117,54 @@ public final class MotionEventAdapter {
         int i16 = 0;
         if (i9 == 0) {
             rawPosition = OffsetKt.Offset(motionEvent2.getRawX(), motionEvent2.getRawY());
-            l3 = rawPosition;
-            l4 = screenToLocal-MK-Hz9U;
+            l = rawPosition;
+            l6 = screenToLocal-MK-Hz9U;
         } else {
             rawPosition = MotionEventHelper.INSTANCE.toRawOffset-dBAh8RU(motionEvent2, i9);
-            l3 = rawPosition;
-            l4 = screenToLocal-MK-Hz9U;
+            l = rawPosition;
+            l6 = screenToLocal-MK-Hz9U;
         }
         switch (toolType) {
             case 0:
-                i3 = unknown-T8wyACA;
+                i5 = unknown-T8wyACA;
                 break;
             case 1:
-                i3 = unknown-T8wyACA;
+                i5 = unknown-T8wyACA;
                 break;
             case 2:
-                i3 = unknown-T8wyACA;
+                i5 = unknown-T8wyACA;
                 break;
             case 3:
-                i3 = unknown-T8wyACA;
+                i5 = unknown-T8wyACA;
                 break;
             case 4:
-                i3 = unknown-T8wyACA;
+                i5 = unknown-T8wyACA;
                 break;
             default:
-                i3 = unknown-T8wyACA;
+                i5 = unknown-T8wyACA;
         }
         ArrayList arrayList = new ArrayList(motionEvent2.getHistorySize());
         MotionEvent motionEvent3 = motionEvent;
         pos = 0;
         while (pos < motionEvent3.getHistorySize()) {
             int i20 = pos;
-            i = 0;
+            i2 = 0;
             float historicalX = motionEvent3.getHistoricalX(i9, pos);
             float historicalY = motionEvent3.getHistoricalY(i9, pos);
             if (!Float.isInfinite(historicalX) && !Float.isNaN(historicalX)) {
             } else {
             }
-            infinite = 0;
-            if (infinite != 0) {
+            infinite2 = 0;
+            if (infinite2 != 0) {
             }
-            pos = i4 + 1;
-            pointerId = i6;
-            composePointerId-_I2yYro = l2;
+            pos = i6 + 1;
+            pointerId = i3;
+            composePointerId-_I2yYro = l3;
             if (!Float.isInfinite(historicalY) && !Float.isNaN(historicalY)) {
             } else {
             }
-            i2 = 0;
-            if (i2 != 0) {
+            i4 = 0;
+            if (i4 != 0) {
             }
             l5 = OffsetKt.Offset(historicalX, historicalY);
             historicalChange = new HistoricalChange(motionEvent3.getHistoricalEventTime(pos), obj29, l5, obj31, l5, obj33, 0);
@@ -175,15 +175,15 @@ public final class MotionEventAdapter {
             if (!Float.isNaN(historicalX)) {
             } else {
             }
-            infinite = i2;
+            infinite2 = i4;
         }
         int motionEventPointerId = pointerId;
         if (motionEvent2.getActionMasked() == 8) {
-            l = zero-F1C5BW0;
+            l2 = zero-F1C5BW0;
         } else {
-            l = zero-F1C5BW0;
+            l2 = zero-F1C5BW0;
         }
-        PointerInputEventData historical = new PointerInputEventData(composePointerId-_I2yYro, infinite, motionEvent2.getEventTime(), 0, l3, rawPosition, l4, i18, pressed, motionEvent.getPressure(index), i3, obj.activeHoverIds.get(motionEvent.getPointerId(index), false), (List)arrayList, l, i4, Offset.copy-dBAh8RU$default(OffsetKt.Offset(motionEvent.getX(index), motionEvent.getY(index)), obj10, 0, i17, i18), obj22, 0);
+        PointerInputEventData historical = new PointerInputEventData(composePointerId-_I2yYro, infinite2, motionEvent2.getEventTime(), 0, l, rawPosition, l6, i18, pressed, motionEvent.getPressure(index), i5, obj.activeHoverIds.get(motionEvent.getPointerId(index), false), (List)arrayList, l2, i6, Offset.copy-dBAh8RU$default(OffsetKt.Offset(motionEvent.getX(index), motionEvent.getY(index)), obj10, 0, i17, i18), obj22, 0);
         return historical;
     }
 
@@ -216,11 +216,11 @@ public final class MotionEventAdapter {
 
     private final void removeStaleIds(MotionEvent motionEvent) {
         int actionMasked;
-        int i2;
+        int i;
         int pointerId;
         int pointerCount;
         boolean activeHoverIds;
-        int i;
+        int i2;
         if (/* condition */) {
             pointerId = motionEvent.getPointerId(motionEvent.getActionIndex());
             if (!this.activeHoverIds.get(pointerId, false)) {
@@ -231,28 +231,28 @@ public final class MotionEventAdapter {
         }
         if (this.motionEventToComposePointerIdMap.size() > motionEvent.getPointerCount()) {
             size--;
-            while (-1 < i2) {
-                pointerCount = this.motionEventToComposePointerIdMap.keyAt(i2);
+            while (-1 < i) {
+                pointerCount = this.motionEventToComposePointerIdMap.keyAt(i);
                 if (!hasPointerId(motionEvent, pointerCount)) {
                 }
-                i2--;
-                this.motionEventToComposePointerIdMap.removeAt(i2);
+                i--;
+                this.motionEventToComposePointerIdMap.removeAt(i);
                 this.activeHoverIds.delete(pointerCount);
             }
         }
     }
 
     public final androidx.compose.ui.input.pointer.PointerInputEvent convertToPointerInputEvent$ui_release(MotionEvent motionEvent, androidx.compose.ui.input.pointer.PositionCalculator positionCalculator) {
-        int i3;
         int i;
-        int i5;
+        int i2;
+        int i4;
         int pointerId;
         int actionIndex;
         SparseBooleanArray activeHoverIds;
-        int i2;
+        int i5;
         List pointers;
         androidx.compose.ui.input.pointer.PointerInputEventData pointerInputEventData;
-        int i4;
+        int i3;
         if (/* condition */) {
             this.motionEventToComposePointerIdMap.clear();
             this.activeHoverIds.clear();
@@ -265,16 +265,16 @@ public final class MotionEventAdapter {
         if (actionMasked != 9 && actionMasked != 7) {
             if (actionMasked != 7) {
                 if (actionMasked == 10) {
-                    i = i8;
+                    i2 = i8;
                 } else {
-                    i = i7;
+                    i2 = i7;
                 }
             } else {
             }
         } else {
         }
-        i5 = actionMasked == 8 ? i8 : i7;
-        if (i != 0) {
+        i4 = actionMasked == 8 ? i8 : i7;
+        if (i2 != 0) {
             this.activeHoverIds.put(motionEvent.getPointerId(motionEvent.getActionIndex()), i8);
         }
         switch (actionMasked) {
@@ -288,22 +288,22 @@ public final class MotionEventAdapter {
                 actionIndex = -1;
         }
         this.pointers.clear();
-        i2 = 0;
+        i5 = 0;
         final int pointerCount = motionEvent.getPointerCount();
-        while (i2 < pointerCount) {
-            if (i == 0 && i2 != actionIndex) {
+        while (i5 < pointerCount) {
+            if (i2 == 0 && i5 != actionIndex) {
             } else {
             }
-            i4 = i7;
-            this.pointers.add(createPointerInputEventData(positionCalculator, motionEvent, i2, i4));
-            i2++;
-            if (i2 != actionIndex) {
+            i3 = i7;
+            this.pointers.add(createPointerInputEventData(positionCalculator, motionEvent, i5, i3));
+            i5++;
+            if (i5 != actionIndex) {
             } else {
             }
-            if (i5 != 0) {
+            if (i4 != 0) {
             } else {
             }
-            i4 = i8;
+            i3 = i8;
             if (motionEvent.getButtonState() != 0) {
             } else {
             }

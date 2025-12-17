@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_program_task_completed_item_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="64dp">
+    <TextView
+        android:textSize="16sp"
+        android:textColor="#b8c0be"
+        android:ellipsize="end"
+        android:id="@+id/textView7"
+        android:tag="binding_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginStart="@dimen/lesson_task_decoration_margin"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:layout_constraintVertical_bias="0.511"/>
+    <ImageView
+        android:id="@+id/checkmark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toStartOf="@+id/textView7"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:srcCompat="@drawable/icon_allow"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

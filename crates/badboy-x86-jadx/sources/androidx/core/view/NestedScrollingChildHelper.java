@@ -18,25 +18,25 @@ public class NestedScrollingChildHelper {
 
     private boolean dispatchNestedScrollInternal(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] offsetInWindow, int type, int[] consumed) {
         boolean nestedScrollingEnabled;
-        int i3;
+        int i2;
         ViewParent nestedScrollingParentForType;
         int startX;
         View mView;
         int startY;
         View mView2;
-        int i4;
+        int i3;
         int[] iArr;
         int i;
-        int i2;
+        int i4;
         final int[] iArr2 = offsetInWindow;
-        i3 = 0;
-        i4 = type;
-        nestedScrollingParentForType = getNestedScrollingParentForType(i4);
+        i2 = 0;
+        i3 = type;
+        nestedScrollingParentForType = getNestedScrollingParentForType(i3);
         if (isNestedScrollingEnabled() && nestedScrollingParentForType == null) {
-            i4 = type;
-            nestedScrollingParentForType = getNestedScrollingParentForType(i4);
+            i3 = type;
+            nestedScrollingParentForType = getNestedScrollingParentForType(i3);
             if (nestedScrollingParentForType == null) {
-                return i3;
+                return i2;
             }
             nestedScrollingEnabled = 1;
             if (dxConsumed == 0 && dyConsumed == 0 && dxUnconsumed == 0) {
@@ -46,29 +46,29 @@ public class NestedScrollingChildHelper {
                             if (iArr2 != null) {
                                 this.mView.getLocationInWindow(iArr2);
                                 i = startX;
-                                i2 = startY;
+                                i4 = startY;
                             } else {
                                 i = startX;
-                                i2 = startY;
+                                i4 = startY;
                             }
                             if (consumed == null) {
                                 startX = getTempNestedScrollConsumed();
-                                startX[i3] = i3;
-                                startX[nestedScrollingEnabled] = i3;
+                                startX[i2] = i2;
+                                startX[nestedScrollingEnabled] = i2;
                                 iArr = startX;
                             } else {
                                 iArr = consumed;
                             }
-                            ViewParentCompat.onNestedScroll(nestedScrollingParentForType, this.mView, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, i4, iArr);
+                            ViewParentCompat.onNestedScroll(nestedScrollingParentForType, this.mView, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, i3, iArr);
                             if (iArr2 != null) {
                                 this.mView.getLocationInWindow(iArr2);
-                                iArr2[i3] = i6 -= i;
-                                iArr2[nestedScrollingEnabled] = i5 -= i2;
+                                iArr2[i2] = i6 -= i;
+                                iArr2[nestedScrollingEnabled] = i5 -= i4;
                             }
                         }
                         if (iArr2 != null) {
-                            iArr2[i3] = i3;
-                            iArr2[nestedScrollingEnabled] = i3;
+                            iArr2[i2] = i2;
+                            iArr2[nestedScrollingEnabled] = i2;
                         }
                     } else {
                     }
@@ -78,7 +78,7 @@ public class NestedScrollingChildHelper {
             }
             return nestedScrollingEnabled;
         }
-        return i3;
+        return i2;
     }
 
     private ViewParent getNestedScrollingParentForType(int type) {
@@ -144,7 +144,7 @@ public class NestedScrollingChildHelper {
 
     public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow, int type) {
         int nestedScrollingEnabled;
-        int i3;
+        int i5;
         ViewParent nestedScrollingParentForType;
         int startX;
         int dx2;
@@ -152,68 +152,68 @@ public class NestedScrollingChildHelper {
         int i2;
         View mView;
         int[] iArr;
-        int i5;
-        int i;
         int i4;
+        int i3;
+        int i;
         int obj11;
         int[] obj13;
-        i3 = 0;
+        i5 = 0;
         nestedScrollingParentForType = getNestedScrollingParentForType(type);
         if (isNestedScrollingEnabled() && nestedScrollingParentForType == null) {
             nestedScrollingParentForType = getNestedScrollingParentForType(type);
             if (nestedScrollingParentForType == null) {
-                return i3;
+                return i5;
             }
             nestedScrollingEnabled = 1;
             if (dx == 0) {
                 if (dy != 0) {
                     if (offsetInWindow != null) {
                         this.mView.getLocationInWindow(offsetInWindow);
-                        i = startX;
-                        i4 = startY;
+                        i3 = startX;
+                        i = startY;
                     } else {
-                        i = startX;
-                        i4 = startY;
+                        i3 = startX;
+                        i = startY;
                     }
                     if (consumed == null) {
                         iArr = obj13;
                     } else {
                         iArr = consumed;
                     }
-                    iArr[i3] = i3;
-                    iArr[nestedScrollingEnabled] = i3;
+                    iArr[i5] = i5;
+                    iArr[nestedScrollingEnabled] = i5;
                     ViewParentCompat.onNestedPreScroll(nestedScrollingParentForType, this.mView, dx, dy, iArr, type);
                     if (offsetInWindow != null) {
                         this.mView.getLocationInWindow(offsetInWindow);
-                        offsetInWindow[i3] = obj11 -= i;
-                        offsetInWindow[nestedScrollingEnabled] = obj11 -= i4;
+                        offsetInWindow[i5] = obj11 -= i3;
+                        offsetInWindow[nestedScrollingEnabled] = obj11 -= i;
                     }
-                    if (iArr[i3] == 0) {
+                    if (iArr[i5] == 0) {
                         if (iArr[nestedScrollingEnabled] != 0) {
-                            i3 = nestedScrollingEnabled;
+                            i5 = nestedScrollingEnabled;
                         }
                     } else {
                     }
                 }
                 if (offsetInWindow != null) {
-                    offsetInWindow[i3] = i3;
-                    offsetInWindow[nestedScrollingEnabled] = i3;
+                    offsetInWindow[i5] = i5;
+                    offsetInWindow[nestedScrollingEnabled] = i5;
                     dx2 = dx;
                     i2 = dy;
-                    i5 = type;
+                    i4 = type;
                 } else {
                     dx2 = dx;
                     i2 = dy;
-                    i5 = type;
+                    i4 = type;
                 }
-                return i3;
+                return i5;
             } else {
             }
-            return i3;
+            return i5;
         }
         dx2 = dx;
         i2 = dy;
-        i5 = type;
+        i4 = type;
     }
 
     public void dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] offsetInWindow, int type, int[] consumed) {

@@ -183,11 +183,11 @@ final class MarqueeModifierNode extends Modifier.Node implements LayoutModifierN
 
     private final void restartAnimation() {
         int launch$default;
-        int i;
+        int i5;
         boolean attached;
         kotlinx.coroutines.CoroutineScope coroutineScope;
         int i2;
-        int i5;
+        int i;
         androidx.compose.foundation.MarqueeModifierNode.restartAnimation.1 anon;
         int i4;
         int i3;
@@ -234,48 +234,48 @@ final class MarqueeModifierNode extends Modifier.Node implements LayoutModifierN
 
     @Override // androidx.compose.ui.Modifier$Node
     public void draw(ContentDrawScope $this$draw) {
-        int i8;
-        int i6;
-        int i9;
+        int i3;
+        int i10;
         int i;
         int i2;
+        int i5;
         DrawTransform transform;
         int obj;
         int spacingPx;
-        int i3;
+        int i6;
         int $this$draw_u24lambda_u241;
         int clipOffset;
         float f;
         float f2;
         int containerWidth;
         int i4;
-        int i5;
+        int i8;
         int i11;
         int i7;
-        int i10;
+        int i9;
         obj = this;
         clipOffset = floatValue * direction4;
         int i14 = 1065353216;
-        i3 = 1;
+        i6 = 1;
         int i16 = 0;
-        i8 = Float.compare(direction, i14) == 0 ? i3 : i16;
-        if (i8 != 0) {
-            i6 = Float.compare(floatValue2, f) < 0 ? i3 : i16;
+        i3 = Float.compare(direction, i14) == 0 ? i6 : i16;
+        if (i3 != 0) {
+            i10 = Float.compare(floatValue2, f) < 0 ? i6 : i16;
         } else {
-            i6 = Float.compare(floatValue3, f) < 0 ? i3 : i16;
+            i10 = Float.compare(floatValue3, f) < 0 ? i6 : i16;
         }
-        i9 = Float.compare(direction2, i14) == 0 ? i3 : i16;
-        if (i9 != 0) {
-            i = Float.compare(floatValue4, f2) > 0 ? i3 : i16;
+        i = Float.compare(direction2, i14) == 0 ? i6 : i16;
+        if (i != 0) {
+            i2 = Float.compare(floatValue4, f2) > 0 ? i6 : i16;
         } else {
-            i = Float.compare(floatValue5, f2) > 0 ? i3 : i16;
+            i2 = Float.compare(floatValue5, f2) > 0 ? i6 : i16;
         }
-        final int i22 = i;
+        final int i22 = i2;
         if (Float.compare(direction3, i14) == 0) {
         } else {
-            i3 = i16;
+            i6 = i16;
         }
-        if (i3 != 0) {
+        if (i6 != 0) {
             contentWidth2 += spacingPx;
         } else {
             i12 -= spacingPx;
@@ -292,23 +292,23 @@ final class MarqueeModifierNode extends Modifier.Node implements LayoutModifierN
         drawContext3.getTransform().clipRect-N_I0leg(clipOffset, 0, clipOffset + f4, Size.getHeight-impl((DrawScope)i23.getSize-NH-jbRc()), ClipOp.Companion.getIntersect-rtfAjoo());
         $this$draw_u24lambda_u241 = i25;
         final int i30 = 0;
-        if (i6 != 0) {
+        if (i10 != 0) {
             $this$draw.drawContent();
         }
         if (i22 != 0) {
             i4 = $this$draw_u24lambda_u241;
             obj = 0;
-            i5 = 0;
+            i8 = 0;
             i4.getDrawContext().getTransform().translate(f5, obj);
             int i13 = i4;
             int i31 = 0;
             $this$draw.drawContent();
             i11 = $this$draw_u24lambda_u241;
-            i10 = clipOffset;
+            i9 = clipOffset;
             i4.getDrawContext().getTransform().translate(-f5, -obj);
         } else {
             i11 = $this$draw_u24lambda_u241;
-            i10 = clipOffset;
+            i9 = clipOffset;
         }
         drawContext3.getCanvas().restore();
         drawContext3.setSize-uvyYCjk(drawContext3.getSize-NH-jbRc());

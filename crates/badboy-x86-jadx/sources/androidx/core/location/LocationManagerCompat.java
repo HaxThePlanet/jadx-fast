@@ -208,29 +208,29 @@ public final class LocationManagerCompat {
             int locationRequest2;
             Class sLocationRequestClass;
             Method sRequestLocationUpdatesExecutorMethod;
-            int i2;
+            int i;
             String str;
             Class[] arr;
             Class<LocationListener> obj;
-            int i;
+            int i2;
             final int i3 = 0;
             if (Build.VERSION.SDK_INT >= 30 && LocationManagerCompat.Api30Impl.sLocationRequestClass == null) {
                 if (LocationManagerCompat.Api30Impl.sLocationRequestClass == null) {
                     LocationManagerCompat.Api30Impl.sLocationRequestClass = Class.forName("android.location.LocationRequest");
                 }
-                i2 = 1;
+                i = 1;
                 if (LocationManagerCompat.Api30Impl.sRequestLocationUpdatesExecutorMethod == null) {
                     arr = new Class[3];
                     arr[i3] = LocationManagerCompat.Api30Impl.sLocationRequestClass;
-                    arr[i2] = Executor.class;
+                    arr[i] = Executor.class;
                     arr[2] = LocationListener.class;
                     LocationManagerCompat.Api30Impl.sRequestLocationUpdatesExecutorMethod = LocationManager.class.getDeclaredMethod("requestLocationUpdates", arr);
-                    LocationManagerCompat.Api30Impl.sRequestLocationUpdatesExecutorMethod.setAccessible(i2);
+                    LocationManagerCompat.Api30Impl.sRequestLocationUpdatesExecutorMethod.setAccessible(i);
                 }
                 locationRequest2 = locationRequest.toLocationRequest(provider);
                 if (locationRequest2 != null) {
                     LocationManagerCompat.Api30Impl.sRequestLocationUpdatesExecutorMethod.invoke(locationManager, /* result */);
-                    return i2;
+                    return i;
                 }
                 try {
                     return i3;
@@ -271,8 +271,8 @@ public final class LocationManagerCompat {
         }
 
         private void cleanup() {
-            Object mTimeoutRunnable;
-            Runnable mTimeoutRunnable2;
+            Object mTimeoutRunnable2;
+            Runnable mTimeoutRunnable;
             final int i = 0;
             this.mConsumer = i;
             this.mLocationManager.removeUpdates(this);
@@ -776,16 +776,16 @@ public final class LocationManagerCompat {
 
         @Override // android.location.GnssStatus$Callback
         public void register(Executor executor) {
-            int i2;
             int i;
+            int i2;
             final int i3 = 0;
-            i = executor != null ? i2 : i3;
-            Preconditions.checkArgument(i, "invalid null executor");
+            i2 = executor != null ? i : i3;
+            Preconditions.checkArgument(i2, "invalid null executor");
             if (this.mExecutor == null) {
             } else {
-                i2 = i3;
+                i = i3;
             }
-            Preconditions.checkState(i2);
+            Preconditions.checkState(i);
             this.mExecutor = executor;
         }
 
@@ -907,7 +907,7 @@ public final class LocationManagerCompat {
     }
 
     private static boolean registerGnssMeasurementsCallbackOnR(LocationManager locationManager, Executor executor, GnssMeasurementsEvent.Callback callback) {
-        int i;
+        int i2;
         Class sGnssRequestBuilderClass;
         Method sGnssRequestBuilderBuildMethod;
         Method sRegisterGnssMeasurementsCallbackMethod;
@@ -915,21 +915,21 @@ public final class LocationManagerCompat {
         Object[] booleanValue;
         Class[] arr;
         Class<GnssMeasurementsEvent.Callback> obj;
-        int i2;
+        int i;
         if (Build.VERSION.SDK_INT != 30) {
         } else {
-            i = 0;
+            i2 = 0;
             if (LocationManagerCompat.sGnssRequestBuilderClass == null) {
                 LocationManagerCompat.sGnssRequestBuilderClass = Class.forName("android.location.GnssRequest$Builder");
             }
             final int i4 = 1;
             if (LocationManagerCompat.sGnssRequestBuilderBuildMethod == null) {
-                LocationManagerCompat.sGnssRequestBuilderBuildMethod = LocationManagerCompat.sGnssRequestBuilderClass.getDeclaredMethod("build", new Class[i]);
+                LocationManagerCompat.sGnssRequestBuilderBuildMethod = LocationManagerCompat.sGnssRequestBuilderClass.getDeclaredMethod("build", new Class[i2]);
                 LocationManagerCompat.sGnssRequestBuilderBuildMethod.setAccessible(i4);
             }
             if (LocationManagerCompat.sRegisterGnssMeasurementsCallbackMethod == null) {
                 arr = new Class[3];
-                arr[i] = Class.forName("android.location.GnssRequest");
+                arr[i2] = Class.forName("android.location.GnssRequest");
                 arr[i4] = Executor.class;
                 arr[2] = GnssMeasurementsEvent.Callback.class;
                 LocationManagerCompat.sRegisterGnssMeasurementsCallbackMethod = LocationManager.class.getDeclaredMethod("registerGnssMeasurementsCallback", arr);
@@ -941,8 +941,8 @@ public final class LocationManagerCompat {
                 }
                 if ((Boolean)invoke.booleanValue()) {
                 }
-                i = i4;
-                return i;
+                i2 = i4;
+                return i2;
                 return obj0;
                 IllegalStateException illegalStateException = new IllegalStateException();
                 throw illegalStateException;

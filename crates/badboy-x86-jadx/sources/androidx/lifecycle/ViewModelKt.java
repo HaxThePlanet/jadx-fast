@@ -18,10 +18,10 @@ public final class ViewModelKt {
 
     public static final CoroutineScope getViewModelScope(androidx.lifecycle.ViewModel $this$viewModelScope) {
         java.lang.AutoCloseable viewModelScope;
-        androidx.lifecycle.viewmodel.internal.CloseableCoroutineScope closeableCoroutineScope;
+        androidx.lifecycle.viewmodel.internal.CloseableCoroutineScope closeableCoroutineScope2;
         int i;
         String str;
-        androidx.lifecycle.viewmodel.internal.CloseableCoroutineScope closeableCoroutineScope2;
+        androidx.lifecycle.viewmodel.internal.CloseableCoroutineScope closeableCoroutineScope;
         Intrinsics.checkNotNullParameter($this$viewModelScope, "<this>");
         SynchronizedObject vIEW_MODEL_SCOPE_LOCK = ViewModelKt.VIEW_MODEL_SCOPE_LOCK;
         final int i2 = 0;

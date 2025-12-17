@@ -152,34 +152,34 @@ public final class DebugProbesImpl {
 
     private final void build(Job $this$build, Map<Job, kotlinx.coroutines.debug.internal.DebugCoroutineInfoImpl> map, StringBuilder builder, String indent) {
         String newIndent;
-        int append;
         int append2;
+        int append3;
         boolean firstOrNull;
         String state$kotlinx_coroutines_core;
-        StringBuilder append3;
+        StringBuilder append;
         String str;
         final Object obj = map.get($this$build);
         int i = 0;
-        append = 9;
-        append2 = 10;
+        append2 = 9;
+        append3 = 10;
         if ((DebugCoroutineInfoImpl)obj == null) {
             if (!$this$build instanceof ScopeCoroutine) {
                 StringBuilder stringBuilder3 = new StringBuilder();
-                builder.append(stringBuilder3.append(indent).append(getDebugString($this$build)).append(append2).toString());
+                builder.append(stringBuilder3.append(indent).append(getDebugString($this$build)).append(append3).toString());
                 StringBuilder stringBuilder = new StringBuilder();
-                newIndent = stringBuilder.append(indent).append(append).toString();
+                newIndent = stringBuilder.append(indent).append(append2).toString();
             } else {
                 newIndent = indent;
             }
         } else {
             StringBuilder stringBuilder4 = new StringBuilder();
-            builder.append(stringBuilder4.append(indent).append(getDebugString($this$build)).append(", continuation is ").append(obj.getState$kotlinx_coroutines_core()).append(" at line ").append((StackTraceElement)CollectionsKt.firstOrNull((DebugCoroutineInfoImpl)obj.lastObservedStackTrace$kotlinx_coroutines_core())).append(append2).toString());
+            builder.append(stringBuilder4.append(indent).append(getDebugString($this$build)).append(", continuation is ").append(obj.getState$kotlinx_coroutines_core()).append(" at line ").append((StackTraceElement)CollectionsKt.firstOrNull((DebugCoroutineInfoImpl)obj.lastObservedStackTrace$kotlinx_coroutines_core())).append(append3).toString());
             StringBuilder stringBuilder2 = new StringBuilder();
-            newIndent = stringBuilder2.append(indent).append(append).toString();
+            newIndent = stringBuilder2.append(indent).append(append2).toString();
         }
         Iterator iterator = $this$build.getChildren().iterator();
-        for (Job append2 : iterator) {
-            build(append2, map, builder, newIndent);
+        for (Job append3 : iterator) {
+            build(append3, map, builder, newIndent);
         }
     }
 
@@ -208,8 +208,8 @@ public final class DebugProbesImpl {
             return SequencesKt.toList(SequencesKt.mapNotNull(SequencesKt.sortedWith(CollectionsKt.asSequence((Iterable)getCapturedCoroutines()), (Comparator)anon), (Function1)$i$f$sortedBy));
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Debug probes are not installed".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDebugProbesImpl$dumpCoroutinesInfoImpl$1 = new IllegalStateException("Debug probes are not installed".toString());
+        throw $i$a$CheckDebugProbesImpl$dumpCoroutinesInfoImpl$1;
     }
 
     private final void dumpCoroutinesSynchronized(PrintStream out) {
@@ -258,21 +258,21 @@ public final class DebugProbesImpl {
             }
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Debug probes are not installed".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDebugProbesImpl$dumpCoroutinesSynchronized$1 = new IllegalStateException("Debug probes are not installed".toString());
+        throw $i$a$CheckDebugProbesImpl$dumpCoroutinesSynchronized$1;
     }
 
     private final List<java.lang.StackTraceElement> enhanceStackTraceWithThreadDumpImpl(String state, Thread thread, List<java.lang.StackTraceElement> coroutineTrace) {
         Object constructor-impl;
-        int i;
+        int i5;
         int index$iv;
-        int i3;
         int i4;
+        int i2;
         int index;
         int index2;
         Object obj;
-        int i2;
-        int i5;
+        int i;
+        int i3;
         boolean equal;
         String str;
         if (Intrinsics.areEqual(state, "RUNNING")) {
@@ -280,7 +280,7 @@ public final class DebugProbesImpl {
             } else {
                 kotlin.Result.Companion companion = Result.Companion;
                 kotlinx.coroutines.debug.internal.DebugProbesImpl debugProbesImpl = this;
-                i = 0;
+                i5 = 0;
                 constructor-impl = Result.constructor-impl(thread.getStackTrace());
                 if (Result.isFailure-impl(constructor-impl)) {
                     constructor-impl = 0;
@@ -291,31 +291,31 @@ public final class DebugProbesImpl {
                 Object obj2 = constructor-impl;
                 int i6 = 0;
                 index$iv = 0;
-                i3 = -1;
-                i4 = 1;
+                i4 = -1;
+                i2 = 1;
                 while (index$iv < obj2.length) {
                     obj = obj2[index$iv];
-                    i2 = 0;
+                    i = 0;
                     if (Intrinsics.areEqual(obj.getClassName(), "kotlin.coroutines.jvm.internal.BaseContinuationImpl") && Intrinsics.areEqual(obj.getMethodName(), "resumeWith") && Intrinsics.areEqual(obj.getFileName(), "ContinuationImpl.kt") != null) {
                     } else {
                     }
-                    i5 = 0;
+                    i3 = 0;
                     index$iv++;
-                    i3 = -1;
-                    i4 = 1;
+                    i4 = -1;
+                    i2 = 1;
                     if (Intrinsics.areEqual(obj.getMethodName(), "resumeWith")) {
                     } else {
                     }
                     if (Intrinsics.areEqual(obj.getFileName(), "ContinuationImpl.kt") != null) {
                     } else {
                     }
-                    i5 = i4;
+                    i3 = i2;
                 }
-                index$iv = i3;
+                index$iv = i4;
                 Pair continuationStartIndex = findContinuationStartIndex(index$iv, (StackTraceElement[])constructor-impl, coroutineTrace);
                 int intValue2 = (Number)continuationStartIndex.component1().intValue();
                 int intValue = (Number)continuationStartIndex.component2().intValue();
-                if (intValue2 == i3) {
+                if (intValue2 == i4) {
                     return coroutineTrace;
                 }
                 ArrayList arrayList = new ArrayList(i9 -= intValue);
@@ -336,32 +336,32 @@ public final class DebugProbesImpl {
     }
 
     private final Pair<Integer, Integer> findContinuationStartIndex(int indexOfResumeWith, java.lang.StackTraceElement[] actualTrace, List<java.lang.StackTraceElement> coroutineTrace) {
-        int i5;
-        int i;
         int i3;
+        int i;
         int i2;
-        int indexOfFrame;
         int i4;
+        int indexOfFrame;
+        int i5;
         int i6 = 0;
-        i5 = i6;
+        i3 = i6;
         i = -1;
-        while (i5 < 3) {
-            i3 = i5;
-            i2 = 0;
-            indexOfFrame = DebugProbesImpl.INSTANCE.findIndexOfFrame(i8 -= i3, actualTrace, coroutineTrace);
-            i5++;
+        while (i3 < 3) {
+            i2 = i3;
+            i4 = 0;
+            indexOfFrame = DebugProbesImpl.INSTANCE.findIndexOfFrame(i8 -= i2, actualTrace, coroutineTrace);
+            i3++;
             i = -1;
         }
         return TuplesKt.to(Integer.valueOf(i), Integer.valueOf(i6));
     }
 
     private final int findIndexOfFrame(int frameIndex, java.lang.StackTraceElement[] actualTrace, List<java.lang.StackTraceElement> coroutineTrace) {
-        int i3;
+        int i;
         int index$iv;
         Object next;
         Object obj;
         int i2;
-        int i;
+        int i3;
         boolean equal;
         String methodName;
         final Object orNull = ArraysKt.getOrNull(actualTrace, frameIndex);
@@ -377,7 +377,7 @@ public final class DebugProbesImpl {
             if (Intrinsics.areEqual((StackTraceElement)obj.getFileName(), (StackTraceElement)orNull.getFileName()) != null && Intrinsics.areEqual(obj.getClassName(), orNull.getClassName()) && Intrinsics.areEqual(obj.getMethodName(), orNull.getMethodName())) {
             } else {
             }
-            i = 0;
+            i3 = 0;
             index$iv++;
             if (Intrinsics.areEqual(obj.getClassName(), orNull.getClassName())) {
             } else {
@@ -385,9 +385,9 @@ public final class DebugProbesImpl {
             if (Intrinsics.areEqual(obj.getMethodName(), orNull.getMethodName())) {
             } else {
             }
-            i = 1;
+            i3 = 1;
         }
-        return i3;
+        return i;
     }
 
     private final Set<kotlinx.coroutines.debug.internal.DebugProbesImpl.CoroutineOwner<?>> getCapturedCoroutines() {
@@ -518,69 +518,69 @@ public final class DebugProbesImpl {
     }
 
     private final <T extends Throwable> List<java.lang.StackTraceElement> sanitizeStackTrace(T throwable) {
-        int i5;
         int i3;
-        int i;
-        int j;
-        int i2;
-        int it;
-        java.lang.StackTraceElement internalMethod;
-        boolean it2;
         int i4;
+        int i2;
+        int j;
+        int i;
+        int it2;
+        java.lang.StackTraceElement internalMethod;
+        boolean it;
+        int i5;
         String className;
         String str;
         final java.lang.StackTraceElement[] stackTrace = throwable.getStackTrace();
         final int length = stackTrace.length;
         java.lang.StackTraceElement[] objArr = stackTrace;
         int i7 = 0;
-        i2 = -1;
-        if (length2 += i2 >= 0) {
+        i = -1;
+        if (length2 += i >= 0) {
         } else {
         }
         int $this$indexOfLast$iv = 1;
-        i2 += $this$indexOfLast$iv;
+        i += $this$indexOfLast$iv;
         if (!DebugProbesImpl.sanitizeStackTraces) {
             int i6 = length - i9;
             ArrayList arrayList = new ArrayList(i6);
-            i = 0;
-            while (i < i6) {
-                it2 = false;
+            i2 = 0;
+            while (i2 < i6) {
+                it = false;
                 arrayList.add(stackTrace[i10 + i9]);
-                i++;
+                i2++;
             }
             return (List)arrayList;
         }
         ArrayList arrayList2 = new ArrayList(i8 += $this$indexOfLast$iv);
-        i5 = i9;
-        while (i5 < length) {
-            if (isInternalMethod(stackTrace[i5])) {
+        i3 = i9;
+        while (i3 < length) {
+            if (isInternalMethod(stackTrace[i3])) {
             } else {
             }
-            (Collection)arrayList2.add(stackTrace[i5]);
-            i5++;
-            (Collection)arrayList2.add(stackTrace[i5]);
-            j = i5 + 1;
+            (Collection)arrayList2.add(stackTrace[i3]);
+            i3++;
+            (Collection)arrayList2.add(stackTrace[i3]);
+            j = i3 + 1;
             while (j < length) {
                 if (isInternalMethod(stackTrace[j]) != null) {
                 }
                 j++;
             }
-            it = j + -1;
-            while (it > i5) {
-                if (stackTrace[it].getFileName() == null) {
+            it2 = j + -1;
+            while (it2 > i3) {
+                if (stackTrace[it2].getFileName() == null) {
                 }
-                it--;
+                it2--;
             }
-            if (it > i5 && it < j + -1) {
+            if (it2 > i3 && it2 < j + -1) {
             }
             (Collection)arrayList2.add(stackTrace[j + -1]);
-            i5 = j;
-            if (it < j + -1) {
+            i3 = j;
+            if (it2 < j + -1) {
             }
-            (Collection)arrayList2.add(stackTrace[it]);
-            if (stackTrace[it].getFileName() == null) {
+            (Collection)arrayList2.add(stackTrace[it2]);
+            if (stackTrace[it2].getFileName() == null) {
             }
-            it--;
+            it2--;
             if (isInternalMethod(stackTrace[j]) != null) {
             }
             j++;
@@ -704,12 +704,12 @@ public final class DebugProbesImpl {
     public final void dumpCoroutines(PrintStream out) {
         int i = 0;
         DebugProbesImpl.INSTANCE.dumpCoroutinesSynchronized(out);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedDebugProbesImpl$dumpCoroutines$1 = Unit.INSTANCE;
         return;
         synchronized (out) {
             i = 0;
             DebugProbesImpl.INSTANCE.dumpCoroutinesSynchronized(out);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedDebugProbesImpl$dumpCoroutines$1 = Unit.INSTANCE;
         }
     }
 
@@ -724,20 +724,20 @@ public final class DebugProbesImpl {
             return SequencesKt.toList(SequencesKt.mapNotNull(SequencesKt.sortedWith(CollectionsKt.asSequence((Iterable)obj.getCapturedCoroutines()), (Comparator)anon), (Function1)$i$f$sortedBy));
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Debug probes are not installed".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDebugProbesImpl$dumpCoroutinesInfoImpl$1$iv = new IllegalStateException("Debug probes are not installed".toString());
+        throw $i$a$CheckDebugProbesImpl$dumpCoroutinesInfoImpl$1$iv;
     }
 
     public final Object[] dumpCoroutinesInfoAsJsonAndReferences() {
         Object next;
-        CoroutineContext context;
-        String stringRepr;
+        CoroutineContext context2;
+        String stringRepr2;
         Object name;
         Thread lastObservedThread;
         int valueOf;
-        String stringRepr2;
+        String stringRepr;
         String str;
-        kotlin.coroutines.CoroutineContext.Element context2;
+        kotlin.coroutines.CoroutineContext.Element context;
         final List dumpCoroutinesInfo = dumpCoroutinesInfo();
         final int size = dumpCoroutinesInfo.size();
         ArrayList arrayList = new ArrayList(size);
@@ -746,33 +746,33 @@ public final class DebugProbesImpl {
         Iterator iterator = dumpCoroutinesInfo.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            context = (DebugCoroutineInfo)next.getContext();
-            name = context.get((CoroutineContext.Key)CoroutineName.Key);
+            context2 = (DebugCoroutineInfo)next.getContext();
+            name = context2.get((CoroutineContext.Key)CoroutineName.Key);
             valueOf = 0;
             name = (CoroutineName)name.getName();
             if (name != null && name != null) {
             } else {
             }
-            stringRepr = valueOf;
-            kotlin.coroutines.CoroutineContext.Element context3 = context.get((CoroutineContext.Key)CoroutineDispatcher.Key);
+            stringRepr2 = valueOf;
+            kotlin.coroutines.CoroutineContext.Element context3 = context2.get((CoroutineContext.Key)CoroutineDispatcher.Key);
             if ((CoroutineDispatcher)context3 != null) {
             } else {
             }
-            stringRepr2 = valueOf;
+            stringRepr = valueOf;
             StringBuilder stringBuilder2 = new StringBuilder();
-            context2 = context.get((CoroutineContext.Key)CoroutineId.Key);
-            if ((CoroutineId)context2 != null) {
+            context = context2.get((CoroutineContext.Key)CoroutineId.Key);
+            if ((CoroutineId)context != null) {
             }
-            arrayList3.add(StringsKt.trimIndent(stringBuilder2.append("\n                {\n                    \"name\": ").append(stringRepr).append(",\n                    \"id\": ").append(valueOf).append(",\n                    \"dispatcher\": ").append(stringRepr2).append(",\n                    \"sequenceNumber\": ").append(next.getSequenceNumber()).append(",\n                    \"state\": \"").append(next.getState()).append("\"\n                } \n                ").toString()));
+            arrayList3.add(StringsKt.trimIndent(stringBuilder2.append("\n                {\n                    \"name\": ").append(stringRepr2).append(",\n                    \"id\": ").append(valueOf).append(",\n                    \"dispatcher\": ").append(stringRepr).append(",\n                    \"sequenceNumber\": ").append(next.getSequenceNumber()).append(",\n                    \"state\": \"").append(next.getState()).append("\"\n                } \n                ").toString()));
             arrayList2.add(next.getLastObservedFrame());
             arrayList.add(next.getLastObservedThread());
-            valueOf = Long.valueOf((CoroutineId)context2.getId());
-            stringRepr2 = toStringRepr((CoroutineDispatcher)context3);
+            valueOf = Long.valueOf((CoroutineId)context.getId());
+            stringRepr = toStringRepr((CoroutineDispatcher)context3);
             name = name.getName();
             if (name != null) {
             } else {
             }
-            stringRepr = toStringRepr(name);
+            stringRepr2 = toStringRepr(name);
         }
         StringBuilder stringBuilder = new StringBuilder();
         int i4 = 0;
@@ -793,8 +793,8 @@ public final class DebugProbesImpl {
             return SequencesKt.toList(SequencesKt.mapNotNull(SequencesKt.sortedWith(CollectionsKt.asSequence((Iterable)obj.getCapturedCoroutines()), (Comparator)anon), (Function1)$i$f$sortedBy));
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Debug probes are not installed".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDebugProbesImpl$dumpCoroutinesInfoImpl$1$iv = new IllegalStateException("Debug probes are not installed".toString());
+        throw $i$a$CheckDebugProbesImpl$dumpCoroutinesInfoImpl$1$iv;
     }
 
     public final List<java.lang.StackTraceElement> enhanceStackTraceWithThreadDump(kotlinx.coroutines.debug.internal.DebugCoroutineInfo info, List<java.lang.StackTraceElement> coroutineTrace) {
@@ -836,8 +836,8 @@ public final class DebugProbesImpl {
     }
 
     public final String hierarchyToString$kotlinx_coroutines_core(Job job) {
-        Object next;
         Object next2;
+        Object next;
         int it;
         int it2;
         kotlinx.coroutines.Job.Key key;
@@ -848,25 +848,25 @@ public final class DebugProbesImpl {
             int i7 = 0;
             Iterator iterator = (Iterable)getCapturedCoroutines().iterator();
             while (iterator.hasNext()) {
-                next = iterator.next();
+                next2 = iterator.next();
                 it = 0;
-                if (next2.delegate.getContext().get((CoroutineContext.Key)Job.Key) != null) {
+                if (next.delegate.getContext().get((CoroutineContext.Key)Job.Key) != null) {
                 } else {
                 }
                 it2 = 0;
                 if (it2 != 0) {
                 }
-                (Collection)arrayList.add(next);
+                (Collection)arrayList.add(next2);
                 it2 = 1;
             }
             int i = 0;
             LinkedHashMap linkedHashMap = new LinkedHashMap(RangesKt.coerceAtLeast(MapsKt.mapCapacity(CollectionsKt.collectionSizeOrDefault((Iterable)(List)arrayList, 10)), 16));
             int i8 = 0;
             Iterator iterator2 = arrayList.iterator();
-            for (Object next2 : iterator2) {
+            for (Object next : iterator2) {
                 int i9 = 0;
                 key = 0;
-                (Map)linkedHashMap.put(JobKt.getJob(obj.delegate.getContext()), obj2.info);
+                (Map)linkedHashMap.put(JobKt.getJob(obj.delegate.getContext()), $i$a$AssociateByDebugProbesImpl$hierarchyToString$jobToStack$2.info);
             }
             StringBuilder stringBuilder = new StringBuilder();
             int i5 = 0;
@@ -876,8 +876,8 @@ public final class DebugProbesImpl {
             return string;
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Debug probes are not installed".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDebugProbesImpl$hierarchyToString$1 = new IllegalStateException("Debug probes are not installed".toString());
+        throw $i$a$CheckDebugProbesImpl$hierarchyToString$1;
     }
 
     public final void install$kotlinx_coroutines_core() {
@@ -961,7 +961,7 @@ public final class DebugProbesImpl {
             }
         }
         int i = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Agent was not installed".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDebugProbesImpl$uninstall$1 = new IllegalStateException("Agent was not installed".toString());
+        throw $i$a$CheckDebugProbesImpl$uninstall$1;
     }
 }

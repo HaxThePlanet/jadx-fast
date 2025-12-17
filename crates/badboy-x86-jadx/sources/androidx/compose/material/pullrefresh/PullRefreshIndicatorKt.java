@@ -106,51 +106,51 @@ public final class PullRefreshIndicatorKt {
 
     private static final void CircularArrowIndicator-iJQMabo(androidx.compose.material.pullrefresh.PullRefreshState state, long color, Modifier modifier, Composer $composer, int $changed) {
         int traceInProgress;
-        int invalid$iv2;
+        int invalid$iv;
         Object alphaState;
-        Object obj2;
+        Object obj;
         int $dirty2;
+        int i6;
+        int i5;
         int i4;
-        int i;
-        int i9;
         boolean $dirty;
         boolean traceInProgress2;
         boolean changedInstance;
         int $this$cache$iv;
         long semantics$default;
-        int i8;
-        int i6;
-        int i3;
-        Composer composer;
+        int i;
         int i2;
+        int i8;
+        Composer composer;
+        int i9;
         Object rememberedValue;
         Object empty;
-        Object derivedStateOf;
-        int i7;
+        Object $i$a$CachePullRefreshIndicatorKt$CircularArrowIndicator$targetAlpha$2;
+        int i3;
         Object anon;
-        Object obj;
-        int invalid$iv;
-        int i5;
+        Object obj2;
+        int invalid$iv2;
+        int i7;
         Path obj23;
-        obj2 = state;
+        obj = state;
         final Object obj3 = $composer;
         final int i16 = obj24;
         traceInProgress = -486016981;
         final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(CircularArrowIndicator)P(2,0:c#ui.graphics.Color)135@5348L61,137@5434L119,143@5576L74,146@5719L970,146@5689L1000:PullRefreshIndicator.kt#t44y28");
         if (i16 & 6 == 0) {
-            i4 = restartGroup.changedInstance(obj2) ? 4 : 2;
-            $dirty2 |= i4;
+            i6 = restartGroup.changedInstance(obj) ? 4 : 2;
+            $dirty2 |= i6;
         }
         if (i16 & 48 == 0) {
-            i = restartGroup.changed(color) ? 32 : 16;
-            $dirty2 |= i;
+            i5 = restartGroup.changed(color) ? 32 : 16;
+            $dirty2 |= i5;
         } else {
             semantics$default = color;
         }
         if (i16 & 384 == 0) {
-            i9 = restartGroup.changed(obj3) ? 256 : 128;
-            $dirty2 |= i9;
+            i4 = restartGroup.changed(obj3) ? 256 : 128;
+            $dirty2 |= i4;
         }
         if ($dirty2 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
@@ -159,7 +159,7 @@ public final class PullRefreshIndicatorKt {
                 }
                 String str2 = "CC(remember):PullRefreshIndicator.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -659480864, str2);
-                invalid$iv2 = 0;
+                invalid$iv = 0;
                 Composer composer3 = restartGroup;
                 int i18 = 0;
                 Object rememberedValue2 = composer3.rememberedValue();
@@ -167,12 +167,12 @@ public final class PullRefreshIndicatorKt {
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
                     empty = 0;
                     anon = AndroidPath_androidKt.Path();
-                    obj = 0;
-                    invalid$iv = invalid$iv2;
+                    obj2 = 0;
+                    invalid$iv2 = invalid$iv;
                     anon.setFillType-oQ8Xj4U(PathFillType.Companion.getEvenOdd-Rg-k1Os());
                     composer3.updateRememberedValue(anon);
                 } else {
-                    invalid$iv = invalid$iv2;
+                    invalid$iv2 = invalid$iv;
                     anon = rememberedValue2;
                 }
                 $this$cache$iv = anon;
@@ -182,50 +182,50 @@ public final class PullRefreshIndicatorKt {
                 int i19 = 0;
                 Object rememberedValue3 = composer2.rememberedValue();
                 int i24 = 0;
-                if (!restartGroup.changed(obj2)) {
+                if (!restartGroup.changed(obj)) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         int i27 = 0;
-                        anon = new PullRefreshIndicatorKt.CircularArrowIndicator.targetAlpha.2.1(obj2);
+                        anon = new PullRefreshIndicatorKt.CircularArrowIndicator.targetAlpha.2.1(obj);
                         composer2.updateRememberedValue(SnapshotStateKt.derivedStateOf((Function0)anon));
                     } else {
-                        derivedStateOf = rememberedValue3;
+                        $i$a$CachePullRefreshIndicatorKt$CircularArrowIndicator$targetAlpha$2 = rememberedValue3;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                State animateFloatAsState = AnimateAsStateKt.animateFloatAsState(PullRefreshIndicatorKt.CircularArrowIndicator_iJQMabo$lambda$6((State)derivedStateOf), (AnimationSpec)PullRefreshIndicatorKt.AlphaTween, 0, 0, 0, restartGroup, 48, 28);
-                i8 = 0;
+                State animateFloatAsState = AnimateAsStateKt.animateFloatAsState(PullRefreshIndicatorKt.CircularArrowIndicator_iJQMabo$lambda$6((State)$i$a$CachePullRefreshIndicatorKt$CircularArrowIndicator$targetAlpha$2), (AnimationSpec)PullRefreshIndicatorKt.AlphaTween, 0, 0, 0, restartGroup, 48, 28);
+                i = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -659468083, str2);
                 if ($dirty2 & 112 == 32) {
                 } else {
-                    i3 = i8;
+                    i8 = i;
                 }
                 changedInstance = restartGroup.changedInstance((Path)$this$cache$iv);
                 composer = restartGroup;
-                i2 = 0;
+                i9 = 0;
                 rememberedValue = composer.rememberedValue();
-                i7 = 0;
+                i3 = 0;
                 if ($dirty | changedInstance == null) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
-                        invalid$iv = 0;
-                        i5 = i13;
-                        alphaState = new PullRefreshIndicatorKt.CircularArrowIndicator.2.1(obj2, animateFloatAsState, color, changedInstance, $this$cache$iv);
+                        invalid$iv2 = 0;
+                        i7 = i13;
+                        alphaState = new PullRefreshIndicatorKt.CircularArrowIndicator.2.1(obj, animateFloatAsState, color, changedInstance, $this$cache$iv);
                         composer.updateRememberedValue((Function1)alphaState);
                     } else {
-                        i5 = $dirty2;
+                        i7 = $dirty2;
                         $dirty2 = animateFloatAsState;
                         alphaState = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SemanticsModifierKt.semantics$default(obj3, i8, (Function1)PullRefreshIndicatorKt.CircularArrowIndicator.1.INSTANCE, 1, 0), (Function1)alphaState, restartGroup, i8);
+                CanvasKt.Canvas(SemanticsModifierKt.semantics$default(obj3, i, (Function1)PullRefreshIndicatorKt.CircularArrowIndicator.1.INSTANCE, 1, 0), (Function1)alphaState, restartGroup, i);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i5 = $dirty2;
+                i7 = $dirty2;
             }
         } else {
         }
@@ -244,73 +244,73 @@ public final class PullRefreshIndicatorKt {
     }
 
     public static final void PullRefreshIndicator-jB83MbM(boolean refreshing, androidx.compose.material.pullrefresh.PullRefreshState state, Modifier modifier, long backgroundColor, long contentColor, boolean scale, Composer $composer, int $changed, int i9) {
-        int i7;
+        int i18;
         Integer currentCompositionLocalMap;
         boolean traceInProgress;
-        int z2;
+        int z;
         int $composer2;
         int elevation;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv;
         Object $composer3;
-        int $dirty2;
+        int $dirty;
         Composer composer;
         Object maybeCachedBoxMeasurePolicy;
-        long $dirty;
-        int i11;
-        int i16;
-        Object modifier2;
-        int i22;
+        long $dirty2;
+        int i15;
+        int i17;
+        Object modifier3;
+        int i7;
         int skipping;
         long backgroundColor2;
         long unbox-impl;
         int defaultsInvalid;
         long color;
-        Object obj2;
-        int i15;
-        int i25;
-        int i10;
-        int changed;
-        int i6;
+        Object obj3;
+        int i16;
+        int i20;
+        int i11;
+        int changed2;
+        int i22;
         boolean traceInProgress2;
         Object derivedStateOf;
         float localElevationOverlay;
-        boolean z;
-        boolean changed2;
+        boolean z2;
+        boolean changed;
         long contentColor2;
         long str;
-        int i5;
+        int i12;
         boolean z3;
-        int i13;
+        int i26;
         Object empty;
         Composer composer2;
-        Object obj3;
-        int i;
-        int i8;
-        int i3;
-        Composer.Companion companion;
-        int i26;
-        int i2;
-        float f;
-        int i17;
-        int i12;
-        int i14;
-        int i18;
-        int i4;
-        Object obj;
+        Object obj2;
         int i23;
+        int i24;
+        int i;
+        Composer.Companion companion;
+        int i5;
+        int i21;
+        float f;
+        int i2;
+        int i8;
+        int i25;
+        int i3;
+        int i10;
+        Object obj;
+        int i6;
         kotlin.jvm.functions.Function0 function0;
         BoxScopeInstance boxScopeInstance;
-        Modifier modifier3;
+        Modifier modifier2;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
         Boolean valueOf;
-        int i21;
+        int i14;
         TweenSpec tweenSpec;
-        int i19;
+        int i4;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer3;
-        int i24;
-        int i20;
+        int i13;
+        int i19;
         Composer composer4;
         Object obj44;
         long obj45;
@@ -318,110 +318,110 @@ public final class PullRefreshIndicatorKt {
         float obj47;
         Composer obj48;
         int obj49;
-        z2 = refreshing;
+        z = refreshing;
         final Object obj4 = state;
-        final int i52 = obj51;
+        final int i51 = obj51;
         traceInProgress = 308716636;
         Composer restartGroup = i9.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(PullRefreshIndicator)P(3,5,2,0:c#ui.graphics.Color,1:c#ui.graphics.Color)79@3427L6,80@3469L32,83@3559L98,90@3942L7,94@4070L1067:PullRefreshIndicator.kt#t44y28");
-        $dirty2 = obj51;
+        $dirty = obj51;
         if (obj52 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
-            if (i52 & 6 == 0) {
-                i11 = restartGroup.changed(z2) ? 4 : 2;
-                $dirty2 |= i11;
+            if (i51 & 6 == 0) {
+                i15 = restartGroup.changed(z) ? 4 : 2;
+                $dirty |= i15;
             }
         }
         if (obj52 & 2 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
         } else {
-            if (i52 & 48 == 0) {
-                i16 = restartGroup.changedInstance(obj4) ? 32 : 16;
-                $dirty2 |= i16;
+            if (i51 & 48 == 0) {
+                i17 = restartGroup.changedInstance(obj4) ? 32 : 16;
+                $dirty |= i17;
             }
         }
-        i22 = obj52 & 4;
-        if (i22 != 0) {
-            $dirty2 |= 384;
-            obj2 = modifier;
+        i7 = obj52 & 4;
+        if (i7 != 0) {
+            $dirty |= 384;
+            obj3 = modifier;
         } else {
-            if (i52 & 384 == 0) {
-                i15 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i15;
+            if (i51 & 384 == 0) {
+                i16 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i16;
             } else {
-                obj2 = modifier;
+                obj3 = modifier;
             }
         }
-        if (i52 & 3072 == 0) {
+        if (i51 & 3072 == 0) {
             if (obj52 & 8 == 0) {
-                i25 = restartGroup.changed(backgroundColor) ? 2048 : 1024;
+                i20 = restartGroup.changed(backgroundColor) ? 2048 : 1024;
             } else {
                 contentColor2 = backgroundColor;
             }
-            $dirty2 |= i25;
+            $dirty |= i20;
         } else {
             contentColor2 = backgroundColor;
         }
-        if (i52 & 24576 == 0) {
+        if (i51 & 24576 == 0) {
             if (obj52 & 16 == 0) {
-                i10 = restartGroup.changed(scale) ? 16384 : 8192;
+                i11 = restartGroup.changed(scale) ? 16384 : 8192;
             } else {
                 str = scale;
             }
-            $dirty2 |= i10;
+            $dirty |= i11;
         } else {
             str = scale;
         }
-        i6 = obj52 & 32;
-        int i62 = 196608;
-        if (i6 != 0) {
-            $dirty2 |= i62;
+        i22 = obj52 & 32;
+        int i61 = 196608;
+        if (i22 != 0) {
+            $dirty |= i61;
             z3 = $changed;
         } else {
-            if (i62 &= i52 == 0) {
-                i13 = restartGroup.changed($changed) ? 131072 : 65536;
-                $dirty2 |= i13;
+            if (i61 &= i51 == 0) {
+                i26 = restartGroup.changed($changed) ? 131072 : 65536;
+                $dirty |= i26;
             } else {
                 z3 = $changed;
             }
         }
-        if (i64 &= $dirty2 == 74898) {
+        if (i63 &= $dirty == 74898) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                int i67 = -57345;
+                int i66 = -57345;
                 empty = 6;
-                if (i52 & 1 != 0) {
+                if (i51 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i22 != 0) {
-                            modifier2 = Modifier.Companion;
+                        if (i7 != 0) {
+                            modifier3 = Modifier.Companion;
                         } else {
-                            modifier2 = obj2;
+                            modifier3 = obj3;
                         }
                         if (obj52 & 8 != 0) {
                             backgroundColor2 = MaterialTheme.INSTANCE.getColors(restartGroup, empty).getSurface-0d7_KjU();
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         } else {
                             backgroundColor2 = contentColor2;
                         }
                         if (obj52 & 16 != 0) {
-                            contentColor2 = ColorsKt.contentColorFor-ek8zF_U(backgroundColor2, obj2, restartGroup);
-                            $dirty2 &= i67;
+                            contentColor2 = ColorsKt.contentColorFor-ek8zF_U(backgroundColor2, obj3, restartGroup);
+                            $dirty &= i66;
                         } else {
                             contentColor2 = str;
                         }
-                        if (i6 != 0) {
-                            z3 = i6;
+                        if (i22 != 0) {
+                            z3 = i22;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj52 & 8 != 0) {
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
                         if (obj52 & 16 != 0) {
-                            $dirty2 &= i67;
+                            $dirty &= i66;
                         }
-                        modifier2 = obj2;
+                        modifier3 = obj3;
                         backgroundColor2 = contentColor2;
                         contentColor2 = str;
                     }
@@ -429,31 +429,31 @@ public final class PullRefreshIndicatorKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material.pullrefresh.PullRefreshIndicator (PullRefreshIndicator.kt:82)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.pullrefresh.PullRefreshIndicator (PullRefreshIndicator.kt:82)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1619083065, "CC(remember):PullRefreshIndicator.kt#9igjgp");
-                i7 = $dirty2 & 14 == 4 ? 1 : 0;
+                i18 = $dirty & 14 == 4 ? 1 : 0;
                 Composer composer6 = restartGroup;
-                int i68 = 0;
+                int i67 = 0;
                 Object rememberedValue2 = composer6.rememberedValue();
-                i = 0;
-                if (i7 |= changed5 == 0) {
-                    i26 = empty;
+                i23 = 0;
+                if (i18 |= changed5 == 0) {
+                    i5 = empty;
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        i3 = 0;
-                        PullRefreshIndicatorKt.PullRefreshIndicator.showElevation.2.1 anon2 = new PullRefreshIndicatorKt.PullRefreshIndicator.showElevation.2.1(z2, obj4);
+                        i = 0;
+                        PullRefreshIndicatorKt.PullRefreshIndicator.showElevation.2.1 anon2 = new PullRefreshIndicatorKt.PullRefreshIndicator.showElevation.2.1(z, obj4);
                         composer6.updateRememberedValue(SnapshotStateKt.derivedStateOf((Function0)anon2));
                     } else {
                         derivedStateOf = rememberedValue2;
-                        i3 = 0;
+                        i = 0;
                     }
                 } else {
-                    i26 = empty;
+                    i5 = empty;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i56 = 6;
-                i5 = 0;
+                int i55 = 6;
+                i12 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 Object consume = restartGroup.consume((CompositionLocal)ElevationOverlayKt.getLocalElevationOverlay());
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -480,18 +480,18 @@ public final class PullRefreshIndicatorKt {
                 if (PullRefreshIndicatorKt.PullRefreshIndicator_jB83MbM$lambda$1((State)derivedStateOf)) {
                     f = elevation;
                 } else {
-                    i = 0;
+                    i23 = 0;
                     f = localElevationOverlay;
                 }
-                Modifier background-bw27NRU = BackgroundKt.background-bw27NRU(ShadowKt.shadow-s4CzXII$default(PullRefreshIndicatorTransformKt.pullRefreshIndicatorTransform(SizeKt.size-3ABfNKs(modifier2, PullRefreshIndicatorKt.IndicatorSize), obj4, z3), f, (Shape)PullRefreshIndicatorKt.SpinnerShape, true, 0, obj25, 0, obj27), unbox-impl, obj2);
-                int i51 = i3;
-                i8 = 0;
+                Modifier background-bw27NRU = BackgroundKt.background-bw27NRU(ShadowKt.shadow-s4CzXII$default(PullRefreshIndicatorTransformKt.pullRefreshIndicatorTransform(SizeKt.size-3ABfNKs(modifier3, PullRefreshIndicatorKt.IndicatorSize), obj4, z3), f, (Shape)PullRefreshIndicatorKt.SpinnerShape, true, 0, obj25, 0, obj27), unbox-impl, obj3);
+                int i50 = i;
+                i24 = 0;
                 obj45 = consume;
                 ComposerKt.sourceInformationMarkerStart(composer2, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 Alignment topStart = Alignment.Companion.getTopStart();
                 int i36 = 0;
                 maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i36);
-                i12 = 0;
+                i8 = 0;
                 obj46 = topStart;
                 obj47 = i36;
                 ComposerKt.sourceInformationMarkerStart(composer2, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
@@ -500,7 +500,7 @@ public final class PullRefreshIndicatorKt {
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(composer2, background-bw27NRU);
                 obj49 = background-bw27NRU;
                 kotlin.jvm.functions.Function0 function02 = constructor;
-                i14 = 0;
+                i25 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer2, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -513,13 +513,13 @@ public final class PullRefreshIndicatorKt {
                     composer2.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(composer2);
-                int i72 = 0;
+                int i71 = 0;
                 function0 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i74 = 0;
+                int i73 = 0;
                 Composer composer7 = constructor-impl;
-                int i77 = 0;
+                int i76 = 0;
                 if (!composer7.getInserting()) {
                     localMap$iv$iv = currentCompositionLocalMap;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
@@ -535,18 +535,18 @@ public final class PullRefreshIndicatorKt {
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer5 = composer2;
-                i18 = i32;
+                i3 = i32;
                 ComposerKt.sourceInformationMarkerStart(composer5, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 composer3 = composer5;
-                i23 = 0;
+                i6 = 0;
                 boxScopeInstance = iNSTANCE;
-                modifier3 = materializeModifier;
+                modifier2 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer5, -1392970137, "C104@4488L643,101@4357L774:PullRefreshIndicator.kt#t44y28");
                 obj44 = i40;
-                companion = i46;
+                companion = i45;
                 int i37 = 0;
                 PullRefreshIndicatorKt.PullRefreshIndicator.1.1 anon = new PullRefreshIndicatorKt.PullRefreshIndicator.1.1(contentColor2, obj11, obj4);
-                CrossfadeKt.Crossfade(Boolean.valueOf(refreshing), 0, (FiniteAnimationSpec)AnimationSpecKt.tween$default(100, 0, i37, i26, i37), 0, (Function3)ComposableLambdaKt.rememberComposableLambda(1853731063, true, anon, composer5, 54), composer3, i34 |= 24960, 10);
+                CrossfadeKt.Crossfade(Boolean.valueOf(refreshing), 0, (FiniteAnimationSpec)AnimationSpecKt.tween$default(100, 0, i37, i5, i37), 0, (Function3)ComposableLambdaKt.rememberComposableLambda(1853731063, true, anon, composer5, 54), composer3, i34 |= 24960, 10);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
                 ComposerKt.sourceInformationMarkerEnd(composer5);
                 composer2.endNode();
@@ -557,23 +557,23 @@ public final class PullRefreshIndicatorKt {
                     ComposerKt.traceEventEnd();
                 }
                 color = contentColor2;
-                $dirty = str;
+                $dirty2 = str;
                 $composer3 = obj;
-                z = z3;
+                z2 = z3;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer2 = restartGroup;
-                i2 = $dirty2;
-                $composer3 = obj2;
-                $dirty = contentColor2;
+                i21 = $dirty;
+                $composer3 = obj3;
+                $dirty2 = contentColor2;
                 color = str;
-                z = z3;
+                z2 = z3;
             }
         } else {
         }
         final ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new PullRefreshIndicatorKt.PullRefreshIndicator.2(refreshing, obj4, $composer3, $dirty, i22, color, obj2, z, i52, obj52);
+            traceInProgress = new PullRefreshIndicatorKt.PullRefreshIndicator.2(refreshing, obj4, $composer3, $dirty2, i7, color, obj3, z2, i51, obj52);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }

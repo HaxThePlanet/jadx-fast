@@ -150,8 +150,8 @@ public final class PagerStateKt {
     public static final androidx.compose.foundation.pager.PagerState rememberPagerState(int initialPage, float initialPageOffsetFraction, Function0<Integer> pageCount, Composer $composer, int $changed, int i6) {
         int str;
         int i;
-        boolean changed2;
         boolean changed3;
+        boolean changed2;
         int i2;
         int changed;
         Object empty;

@@ -373,19 +373,19 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
         }
 
         public boolean removeAll(Collection<? extends Object> elements) {
-            int i2;
+            int i;
             Object next;
             Object obj;
-            int i;
+            int i2;
             Intrinsics.checkNotNullParameter(elements, "elements");
             final int i3 = 0;
             final Iterator iterator = (Iterable)elements.iterator();
             for (Object next : iterator) {
-                i = 0;
+                i2 = 0;
                 remove(next);
             }
-            i2 = this.end != this.end ? 1 : 0;
-            return i2;
+            i = this.end != this.end ? 1 : 0;
+            return i;
         }
 
         public T removeAt(int index) {
@@ -494,10 +494,10 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
     }
 
     public final boolean addAll(int index, androidx.collection.ObjectList<E> elements) {
-        int _size2;
-        int i;
         int _size;
+        int i;
         int _size3;
+        int _size2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         int i2 = 1;
         int i3 = 0;
@@ -525,16 +525,16 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
     }
 
     public final boolean addAll(int index, Collection<? extends E> elements) {
-        int _size;
-        int i;
         int _size2;
+        int i;
         int _size3;
-        int i5;
-        Object next;
+        int _size;
         int i3;
-        Object obj;
-        int i2;
+        Object next;
         int i4;
+        Object obj;
+        int i5;
+        int i2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         int i6 = 1;
         int i7 = 0;
@@ -553,14 +553,14 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
                 ArraysKt.copyInto(content, content, size2 += index, index, this._size);
             }
             int i10 = 0;
-            i5 = 0;
+            i3 = 0;
             final Iterator iterator = (Iterable)elements.iterator();
             while (iterator.hasNext()) {
-                if (i5 < 0) {
+                if (i3 < 0) {
                 }
-                i2 = 0;
-                content[index + i5] = iterator.next();
-                i5 = i3;
+                i5 = 0;
+                content[index + i3] = iterator.next();
+                i3 = i4;
                 CollectionsKt.throwIndexOverflow();
             }
             this._size = $this$forEachIndexed$iv += size3;
@@ -574,20 +574,20 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
     public final boolean addAll(int index, E[] elements) {
         int _size;
         int _size2;
-        int i;
         int i2;
+        int i;
         int length;
         Intrinsics.checkNotNullParameter(elements, "elements");
         int i3 = 1;
         int i4 = 0;
         if (index >= 0 && index <= this._size) {
-            i = index <= this._size ? i3 : i4;
+            i2 = index <= this._size ? i3 : i4;
         } else {
         }
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
-            i2 = elements.length == 0 ? i3 : i4;
-            if (i2 != 0) {
+            i = elements.length == 0 ? i3 : i4;
+            if (i != 0) {
                 return i4;
             }
             ensureCapacity(_size4 += length);
@@ -700,16 +700,16 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
     public final void minusAssign(androidx.collection.ObjectList<E> elements) {
         int i$iv;
         Object obj;
-        int i2;
-        Object obj3;
         int i;
+        Object obj3;
+        int i2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj2 = elements;
         final int i3 = 0;
         i$iv = 0;
         while (i$iv < obj2._size) {
-            i2 = 0;
             i = 0;
+            i2 = 0;
             this.remove(obj2.content[i$iv]);
             i$iv++;
         }
@@ -720,16 +720,16 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i5;
-        int j$iv$iv;
-        int i;
-        int i6;
-        long l;
         int i2;
+        int j$iv$iv;
         int i7;
-        int i3;
-        Object obj;
         int i4;
+        long l;
+        int i6;
+        int i;
+        int i5;
+        Object obj;
+        int i3;
         Object this_$iv2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         this_$iv = elements;
@@ -765,16 +765,16 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
     }
 
     public final void minusAssign(List<? extends E> elements) {
-        int i2;
+        int i;
         Object obj;
         Object obj2;
-        int i;
+        int i2;
         Intrinsics.checkNotNullParameter(elements, "elements");
-        i2 = 0;
-        while (i2 < elements.size()) {
-            i = 0;
-            this.remove(elements.get(i2));
-            i2++;
+        i = 0;
+        while (i < elements.size()) {
+            i2 = 0;
+            this.remove(elements.get(i));
+            i++;
         }
     }
 
@@ -796,18 +796,18 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
 
     public final void minusAssign(E[] elements) {
         int i2;
-        Object obj;
         Object obj2;
-        int i;
-        Object obj4;
+        Object obj;
         int i3;
+        Object obj4;
+        int i;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj3 = elements;
         final int i4 = 0;
         i2 = 0;
         while (i2 < obj3.length) {
-            i = 0;
             i3 = 0;
+            i = 0;
             this.remove(obj3[i2]);
             i2++;
         }
@@ -824,49 +824,49 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
 
     public final void plusAssign(androidx.collection.ScatterSet<E> elements) {
         Object cmp;
+        Object obj3;
         Object obj;
-        Object obj2;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
         int i6;
-        int i3;
+        int i2;
         Object this_$iv;
         long l;
-        int i;
+        int i3;
         int i5;
-        int i2;
-        Object obj3;
         int i4;
+        Object obj2;
+        int i;
         cmp = this;
-        obj2 = elements;
-        Intrinsics.checkNotNullParameter(obj2, "elements");
-        if (obj2.isEmpty()) {
+        obj = elements;
+        Intrinsics.checkNotNullParameter(obj, "elements");
+        if (obj.isEmpty()) {
         }
         cmp.ensureCapacity(_size += size);
-        obj = elements;
+        obj3 = elements;
         int i15 = 0;
         final int i16 = 0;
         final long[] metadata = obj4.metadata;
         length += -2;
         if (0 <= i17) {
         } else {
-            this_$iv = obj;
+            this_$iv = obj3;
         }
     }
 
     public final void plusAssign(Iterable<? extends E> elements) {
         Object next;
         Object obj;
-        int i;
-        Object obj3;
         int i2;
+        Object obj3;
+        int i;
         Intrinsics.checkNotNullParameter(elements, "elements");
         final int i3 = 0;
         final Iterator iterator = elements.iterator();
         for (Object next : iterator) {
-            i = 0;
             i2 = 0;
+            i = 0;
             this.add(next);
         }
     }
@@ -896,15 +896,15 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
     public final void plusAssign(Sequence<? extends E> elements) {
         Object next;
         Object obj;
-        int i2;
-        Object obj3;
         int i;
+        Object obj3;
+        int i2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         final int i3 = 0;
         final Iterator iterator = elements.iterator();
         for (Object next : iterator) {
-            i2 = 0;
             i = 0;
+            i2 = 0;
             this.add(next);
         }
     }
@@ -971,24 +971,24 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
     }
 
     public final boolean removeAll(E[] elements) {
-        int i2;
         int i;
+        int i2;
         Object obj;
         Intrinsics.checkNotNullParameter(elements, "elements");
-        i2 = 0;
-        while (i2 < elements.length) {
-            remove(elements[i2]);
-            i2++;
+        i = 0;
+        while (i < elements.length) {
+            remove(elements[i]);
+            i++;
         }
-        i = this._size != this._size ? 1 : 0;
-        return i;
+        i2 = this._size != this._size ? 1 : 0;
+        return i2;
     }
 
     public final E removeAt(int index) {
         int i;
         int i2;
-        int _size;
-        Object _size2;
+        int _size2;
+        Object _size;
         i = 0;
         i2 = 1;
         if (index >= 0 && index < this._size) {
@@ -1038,15 +1038,15 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
         int content;
         int content2;
         int _size;
-        int _size3;
-        String _size2;
+        int _size2;
+        String _size3;
         content2 = 0;
         if (start >= 0 && start <= this._size) {
-            _size3 = start <= this._size ? i : content2;
+            _size2 = start <= this._size ? i : content2;
         } else {
         }
-        _size2 = "Start (";
-        if (_size3 == 0) {
+        _size3 = "Start (";
+        if (_size2 == 0) {
         } else {
             if (end >= 0 && end <= this._size) {
                 if (end <= this._size) {
@@ -1069,12 +1069,12 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
                     }
                 }
                 StringBuilder stringBuilder2 = new StringBuilder();
-                IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder2.append(_size2).append(start).append(") is more than end (").append(end).append(')').toString());
+                IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder2.append(_size3).append(start).append(") is more than end (").append(end).append(')').toString());
                 throw illegalArgumentException;
             }
         }
         StringBuilder stringBuilder = new StringBuilder();
-        IndexOutOfBoundsException indexOutOfBoundsException = new IndexOutOfBoundsException(stringBuilder.append(_size2).append(start).append(") and end (").append(end).append(") must be in 0..").append(this._size).toString());
+        IndexOutOfBoundsException indexOutOfBoundsException = new IndexOutOfBoundsException(stringBuilder.append(_size3).append(start).append(") and end (").append(end).append(") must be in 0..").append(this._size).toString());
         throw indexOutOfBoundsException;
     }
 
@@ -1123,34 +1123,13 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
     public final boolean retainAll(Collection<? extends E> elements) {
         Object obj;
         int contains;
-        int i2;
-        int i;
-        Intrinsics.checkNotNullParameter(elements, "elements");
-        contains = 0;
-        _size3 -= i;
-        while (-1 < i2) {
-            if (elements.contains(this.content[i2]) == 0) {
-            }
-            i2--;
-            removeAt(i2);
-        }
-        if (this._size != this._size) {
-        } else {
-            i = 0;
-        }
-        return i;
-    }
-
-    public final boolean retainAll(Sequence<? extends E> elements) {
-        Object obj;
-        int contains;
         int i;
         int i2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         contains = 0;
         _size3 -= i2;
         while (-1 < i) {
-            if (SequencesKt.contains(elements, this.content[i]) == 0) {
+            if (elements.contains(this.content[i]) == 0) {
             }
             i--;
             removeAt(i);
@@ -1160,6 +1139,27 @@ public final class MutableObjectList<E>  extends androidx.collection.ObjectList<
             i2 = 0;
         }
         return i2;
+    }
+
+    public final boolean retainAll(Sequence<? extends E> elements) {
+        Object obj;
+        int contains;
+        int i2;
+        int i;
+        Intrinsics.checkNotNullParameter(elements, "elements");
+        contains = 0;
+        _size3 -= i;
+        while (-1 < i2) {
+            if (SequencesKt.contains(elements, this.content[i2]) == 0) {
+            }
+            i2--;
+            removeAt(i2);
+        }
+        if (this._size != this._size) {
+        } else {
+            i = 0;
+        }
+        return i;
     }
 
     public final boolean retainAll(E[] elements) {

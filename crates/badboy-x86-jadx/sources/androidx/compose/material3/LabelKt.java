@@ -24,26 +24,26 @@ import kotlin.jvm.internal.Ref.ObjectRef;
 public final class LabelKt {
     private static final void HandleInteractions(boolean enabled, androidx.compose.material3.TooltipState state, MutableInteractionSource interactionSource, Composer $composer, int $changed) {
         int i;
-        int traceInProgress2;
-        int $dirty;
-        int i4;
-        boolean changedInstance2;
-        int i5;
-        int i3;
         int traceInProgress;
+        int $dirty;
+        int i3;
+        boolean changedInstance2;
+        int i4;
         int i2;
+        int traceInProgress2;
+        int i5;
         int changedInstance;
         int rememberedValue;
         int str;
         Object empty;
         Object anon;
         int i6;
-        traceInProgress2 = -627258109;
-        final Composer obj12 = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -627258109;
+        final Composer obj12 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj12, "C(HandleInteractions)P(!1,2)110@4384L587,110@4350L621:Label.kt#uh7d8r");
         if ($changed & 6 == 0) {
-            i4 = obj12.changed(enabled) ? 4 : 2;
-            $dirty |= i4;
+            i3 = obj12.changed(enabled) ? 4 : 2;
+            $dirty |= i3;
         }
         changedInstance = 32;
         if ($changed & 48 == 0) {
@@ -52,41 +52,41 @@ public final class LabelKt {
             } else {
                 changedInstance2 = obj12.changedInstance(state);
             }
-            i5 = changedInstance2 ? changedInstance : 16;
-            $dirty |= i5;
+            i4 = changedInstance2 ? changedInstance : 16;
+            $dirty |= i4;
         }
         rememberedValue = 256;
         if ($changed & 384 == 0) {
-            i3 = obj12.changed(interactionSource) ? rememberedValue : 128;
-            $dirty |= i3;
+            i2 = obj12.changed(interactionSource) ? rememberedValue : 128;
+            $dirty |= i2;
         }
         if ($dirty & 147 == 146) {
             if (!obj12.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.HandleInteractions (Label.kt:108)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.HandleInteractions (Label.kt:108)");
                 }
                 if (enabled) {
                     ComposerKt.sourceInformationMarkerStart(obj12, 354570583, "CC(remember):Label.kt#9igjgp");
                     int i13 = 0;
-                    i = $dirty & 896 == rememberedValue ? i2 : i13;
+                    i = $dirty & 896 == rememberedValue ? i5 : i13;
                     if ($dirty & 112 != changedInstance) {
                         if ($dirty & 64 != 0 && obj12.changedInstance(state)) {
                             if (obj12.changedInstance(state)) {
                             } else {
-                                i2 = i13;
+                                i5 = i13;
                             }
                         } else {
                         }
                     }
-                    traceInProgress = obj12;
+                    traceInProgress2 = obj12;
                     changedInstance = 0;
-                    rememberedValue = traceInProgress.rememberedValue();
+                    rememberedValue = traceInProgress2.rememberedValue();
                     str = 0;
-                    if (i |= i2 == 0) {
+                    if (i |= i5 == 0) {
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             empty = 0;
                             anon = new LabelKt.HandleInteractions.1.1(interactionSource, state, 0);
-                            traceInProgress.updateRememberedValue((Function2)anon);
+                            traceInProgress2.updateRememberedValue((Function2)anon);
                         } else {
                             anon = rememberedValue;
                         }
@@ -105,204 +105,204 @@ public final class LabelKt {
         }
         ScopeUpdateScope endRestartGroup = obj12.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new LabelKt.HandleInteractions.2(enabled, state, interactionSource, $changed);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new LabelKt.HandleInteractions.2(enabled, state, interactionSource, $changed);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void Label(Function3<? super androidx.compose.material3.TooltipScope, ? super Composer, ? super Integer, Unit> label, Modifier modifier, MutableInteractionSource interactionSource, boolean isPersistent, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i8) {
         androidx.compose.material3.TooltipScopeImpl invalid$iv;
-        int $dirty3;
-        Object $dirty4;
+        int $dirty4;
         Object $dirty2;
-        int i7;
-        Object mutableStateOf$default;
+        Object $dirty3;
         int i11;
-        Object obj;
-        Object modifier3;
+        Object mutableStateOf$default;
         int i6;
-        boolean z2;
+        Object obj2;
+        Object modifier2;
+        int i7;
+        boolean z;
         Object rememberBasicTooltipState;
-        Object obj5;
-        boolean traceInProgress;
-        int i10;
-        int i;
-        int str;
-        int i5;
         Object obj4;
-        Composer modifier2;
-        int i13;
-        int rememberedValue2;
+        boolean traceInProgress;
+        int i4;
+        int i12;
+        int str;
+        int i;
+        Object obj;
+        Composer modifier3;
+        int i3;
+        int rememberedValue;
         Composer composer;
         int empty;
-        boolean i9;
-        int i14;
+        boolean i10;
+        int i5;
         Object tooltipScopeImpl;
-        int i12;
         int i2;
+        int i13;
         androidx.compose.runtime.internal.ComposableLambda interactionSource2;
-        Object obj3;
-        Composer i4;
-        Object rememberedValue;
+        Object $i$a$CacheLabelKt$Label$interactionSource$1;
+        Composer i9;
+        Object rememberedValue2;
         androidx.compose.material3.LabelKt.Label.scope.1.1 anon;
         int positionProvider;
-        int i3;
-        Object obj2;
-        boolean z;
+        int i14;
+        Object obj5;
+        boolean z2;
         int $dirty;
-        Object obj6;
+        Object obj3;
         int obj24;
-        final Object obj7 = label;
-        final Object obj9 = content;
-        final int i27 = $changed;
+        final Object obj6 = label;
+        final Object obj8 = content;
+        final int i26 = $changed;
         invalid$iv = -544399326;
-        modifier2 = $composer.startRestartGroup(invalid$iv);
-        ComposerKt.sourceInformation(modifier2, "C(Label)P(3,4,1,2)74@3254L38,79@3493L33,80@3543L52,82@3646L103,88@3835L17,86@3755L249,95@4009L127:Label.kt#uh7d8r");
-        $dirty3 = $changed;
+        modifier3 = $composer.startRestartGroup(invalid$iv);
+        ComposerKt.sourceInformation(modifier3, "C(Label)P(3,4,1,2)74@3254L38,79@3493L33,80@3543L52,82@3646L103,88@3835L17,86@3755L249,95@4009L127:Label.kt#uh7d8r");
+        $dirty4 = $changed;
         if (i8 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty4 |= 6;
         } else {
-            if (i27 & 6 == 0) {
-                i11 = modifier2.changedInstance(obj7) ? 4 : 2;
-                $dirty3 |= i11;
+            if (i26 & 6 == 0) {
+                i6 = modifier3.changedInstance(obj6) ? 4 : 2;
+                $dirty4 |= i6;
             }
         }
-        int i20 = i8 & 2;
-        if (i20 != 0) {
-            $dirty3 |= 48;
-            obj5 = modifier;
+        int i19 = i8 & 2;
+        if (i19 != 0) {
+            $dirty4 |= 48;
+            obj4 = modifier;
         } else {
-            if (i27 & 48 == 0) {
-                i = modifier2.changed(modifier) ? 32 : 16;
-                $dirty3 |= i;
+            if (i26 & 48 == 0) {
+                i12 = modifier3.changed(modifier) ? 32 : 16;
+                $dirty4 |= i12;
             } else {
-                obj5 = modifier;
+                obj4 = modifier;
             }
         }
         str = i8 & 4;
         if (str != null) {
-            $dirty3 |= 384;
-            obj4 = interactionSource;
+            $dirty4 |= 384;
+            obj = interactionSource;
         } else {
-            if (i27 & 384 == 0) {
-                i13 = modifier2.changed(interactionSource) ? 256 : 128;
-                $dirty3 |= i13;
+            if (i26 & 384 == 0) {
+                i3 = modifier3.changed(interactionSource) ? 256 : 128;
+                $dirty4 |= i3;
             } else {
-                obj4 = interactionSource;
+                obj = interactionSource;
             }
         }
-        rememberedValue2 = i8 & 8;
-        if (rememberedValue2 != 0) {
-            $dirty3 |= 3072;
-            i9 = isPersistent;
+        rememberedValue = i8 & 8;
+        if (rememberedValue != 0) {
+            $dirty4 |= 3072;
+            i10 = isPersistent;
         } else {
-            if (i27 & 3072 == 0) {
-                i12 = modifier2.changed(isPersistent) ? 2048 : 1024;
-                $dirty3 |= i12;
+            if (i26 & 3072 == 0) {
+                i2 = modifier3.changed(isPersistent) ? 2048 : 1024;
+                $dirty4 |= i2;
             } else {
-                i9 = isPersistent;
+                i10 = isPersistent;
             }
         }
         if (i8 & 16 != 0) {
-            $dirty3 |= 24576;
+            $dirty4 |= 24576;
         } else {
-            if (i27 & 24576 == 0) {
-                i2 = modifier2.changedInstance(obj9) ? 16384 : 8192;
-                $dirty3 |= i2;
+            if (i26 & 24576 == 0) {
+                i13 = modifier3.changedInstance(obj8) ? 16384 : 8192;
+                $dirty4 |= i13;
             }
         }
-        if ($dirty3 & 9363 == 9362) {
-            if (!modifier2.getSkipping()) {
-                if (i20 != 0) {
-                    modifier3 = Modifier.Companion;
+        if ($dirty4 & 9363 == 9362) {
+            if (!modifier3.getSkipping()) {
+                if (i19 != 0) {
+                    modifier2 = Modifier.Companion;
                 } else {
-                    modifier3 = obj5;
+                    modifier2 = obj4;
                 }
-                obj2 = str != null ? obj5 : obj4;
-                z = rememberedValue2 != 0 ? obj5 : i9;
+                obj5 = str != null ? obj4 : obj;
+                z2 = rememberedValue != 0 ? obj4 : i10;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(invalid$iv, $dirty3, -1, "androidx.compose.material3.Label (Label.kt:70)");
+                    ComposerKt.traceEventStart(invalid$iv, $dirty4, -1, "androidx.compose.material3.Label (Label.kt:70)");
                 }
-                modifier2.startReplaceGroup(519104973);
-                ComposerKt.sourceInformation(modifier2, "72@3116L39");
+                modifier3.startReplaceGroup(519104973);
+                ComposerKt.sourceInformation(modifier3, "72@3116L39");
                 String str3 = "CC(remember):Label.kt#9igjgp";
-                if (obj2 == null) {
-                    ComposerKt.sourceInformationMarkerStart(modifier2, 519105624, str3);
+                if (obj5 == null) {
+                    ComposerKt.sourceInformationMarkerStart(modifier3, 519105624, str3);
                     traceInProgress = 0;
-                    str = modifier2;
-                    obj4 = 0;
-                    rememberedValue2 = str.rememberedValue();
-                    i9 = 0;
-                    if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        int i45 = 0;
+                    str = modifier3;
+                    obj = 0;
+                    rememberedValue = str.rememberedValue();
+                    i10 = 0;
+                    if (rememberedValue == Composer.Companion.getEmpty()) {
+                        int i44 = 0;
                         str.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     } else {
-                        obj3 = rememberedValue2;
+                        $i$a$CacheLabelKt$Label$interactionSource$1 = rememberedValue;
                     }
-                    ComposerKt.sourceInformationMarkerEnd(modifier2);
+                    ComposerKt.sourceInformationMarkerEnd(modifier3);
                 } else {
-                    obj3 = obj2;
+                    $i$a$CacheLabelKt$Label$interactionSource$1 = obj5;
                 }
-                modifier2.endReplaceGroup();
-                i10 = 0;
-                i5 = 0;
-                if (z) {
-                    modifier2.startReplaceGroup(-1087377900);
-                    ComposerKt.sourceInformation(modifier2, "76@3335L29");
-                    ComposerKt.sourceInformationMarkerStart(modifier2, 519112622, str3);
-                    int i41 = 0;
-                    composer = modifier2;
+                modifier3.endReplaceGroup();
+                i4 = 0;
+                i = 0;
+                if (z2) {
+                    modifier3.startReplaceGroup(-1087377900);
+                    ComposerKt.sourceInformation(modifier3, "76@3335L29");
+                    ComposerKt.sourceInformationMarkerStart(modifier3, 519112622, str3);
+                    int i40 = 0;
+                    composer = modifier3;
+                    i5 = 0;
+                    rememberedValue2 = composer.rememberedValue();
                     i14 = 0;
-                    rememberedValue = composer.rememberedValue();
-                    i3 = 0;
-                    if (rememberedValue == Composer.Companion.getEmpty()) {
+                    if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         rememberBasicTooltipState = 0;
-                        $dirty = $dirty3;
-                        obj6 = modifier3;
-                        $dirty2 = new LabelStateImpl(i10, i10, 3, i5);
-                        composer.updateRememberedValue($dirty2);
+                        $dirty = $dirty4;
+                        obj3 = modifier2;
+                        $dirty3 = new LabelStateImpl(i4, i4, 3, i);
+                        composer.updateRememberedValue($dirty3);
                     } else {
-                        $dirty = $dirty3;
-                        obj6 = modifier3;
-                        $dirty2 = rememberedValue;
+                        $dirty = $dirty4;
+                        obj3 = modifier2;
+                        $dirty3 = rememberedValue2;
                     }
-                    ComposerKt.sourceInformationMarkerEnd(modifier2);
-                    modifier2.endReplaceGroup();
-                    obj4 = $dirty2;
-                    i7 = i10;
-                    i6 = i5;
+                    ComposerKt.sourceInformationMarkerEnd(modifier3);
+                    modifier3.endReplaceGroup();
+                    obj = $dirty3;
+                    i11 = i4;
+                    i7 = i;
                 } else {
-                    $dirty = $dirty3;
-                    obj6 = modifier3;
-                    modifier2.startReplaceGroup(519114025);
-                    ComposerKt.sourceInformation(modifier2, "77@3378L56");
+                    $dirty = $dirty4;
+                    obj3 = modifier2;
+                    modifier3.startReplaceGroup(519114025);
+                    ComposerKt.sourceInformation(modifier3, "77@3378L56");
                     MutatorMutex mutatorMutex = new MutatorMutex();
-                    i7 = i10;
-                    i6 = i5;
-                    modifier2.endReplaceGroup();
-                    obj4 = rememberBasicTooltipState;
+                    i11 = i4;
+                    i7 = i;
+                    modifier3.endReplaceGroup();
+                    obj = rememberBasicTooltipState;
                 }
                 Ref.ObjectRef objectRef = new Ref.ObjectRef();
-                ComposerKt.sourceInformationMarkerStart(modifier2, 519117682, str3);
-                int i31 = 0;
-                Composer composer3 = modifier2;
-                int i42 = 0;
+                ComposerKt.sourceInformationMarkerStart(modifier3, 519117682, str3);
+                int i30 = 0;
+                Composer composer3 = modifier3;
+                int i41 = 0;
                 Object rememberedValue4 = composer3.rememberedValue();
                 anon = 0;
                 if (rememberedValue4 == Composer.Companion.getEmpty()) {
                     obj24 = i18;
-                    composer3.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i6, i6, 2, i6));
+                    composer3.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i7, i7, 2, i7));
                 } else {
                     mutableStateOf$default = rememberedValue4;
                 }
-                ComposerKt.sourceInformationMarkerEnd(modifier2);
+                ComposerKt.sourceInformationMarkerEnd(modifier3);
                 objectRef.element = (MutableState)mutableStateOf$default;
-                ComposerKt.sourceInformationMarkerStart(modifier2, 519119301, str3);
+                ComposerKt.sourceInformationMarkerStart(modifier3, 519119301, str3);
                 int i16 = 0;
-                Composer composer2 = modifier2;
-                int i21 = 0;
+                Composer composer2 = modifier3;
+                int i20 = 0;
                 Object rememberedValue3 = composer2.rememberedValue();
-                int i35 = 0;
+                int i34 = 0;
                 if (rememberedValue3 == Composer.Companion.getEmpty()) {
                     empty = 0;
                     anon = new LabelKt.Label.scope.1.1(objectRef);
@@ -311,32 +311,32 @@ public final class LabelKt {
                 } else {
                     tooltipScopeImpl = rememberedValue3;
                 }
-                ComposerKt.sourceInformationMarkerEnd(modifier2);
-                LabelKt.Label.wrappedContent.1 anon2 = new LabelKt.Label.wrappedContent.1(objectRef, obj9);
-                int i32 = 54;
-                int i36 = 1;
-                LabelKt.Label.1 anon3 = new LabelKt.Label.1(obj7, (TooltipScopeImpl)tooltipScopeImpl);
-                i4 = modifier2;
-                BasicTooltip_androidKt.BasicTooltipBox(TooltipDefaults.INSTANCE.rememberPlainTooltipPositionProvider-kHDZbjc(0, modifier2, 48, 1), (Function2)ComposableLambdaKt.rememberComposableLambda(784196780, i36, anon3, modifier2, i32), obj4, obj6, false, false, (Function2)ComposableLambdaKt.rememberComposableLambda(1950723216, i36, anon2, modifier2, i32), i4, i24 |= i33, 0);
-                LabelKt.HandleInteractions(z ^ 1, obj4, obj3, i4, 0);
+                ComposerKt.sourceInformationMarkerEnd(modifier3);
+                LabelKt.Label.wrappedContent.1 anon2 = new LabelKt.Label.wrappedContent.1(objectRef, obj8);
+                int i31 = 54;
+                int i35 = 1;
+                LabelKt.Label.1 anon3 = new LabelKt.Label.1(obj6, (TooltipScopeImpl)tooltipScopeImpl);
+                i9 = modifier3;
+                BasicTooltip_androidKt.BasicTooltipBox(TooltipDefaults.INSTANCE.rememberPlainTooltipPositionProvider-kHDZbjc(0, modifier3, 48, 1), (Function2)ComposableLambdaKt.rememberComposableLambda(784196780, i35, anon3, modifier3, i31), obj, obj3, false, false, (Function2)ComposableLambdaKt.rememberComposableLambda(1950723216, i35, anon2, modifier3, i31), i9, i23 |= i32, 0);
+                LabelKt.HandleInteractions(z2 ^ 1, obj, $i$a$CacheLabelKt$Label$interactionSource$1, i9, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = obj2;
-                z2 = z;
-                $dirty4 = obj6;
+                obj2 = obj5;
+                z = z2;
+                $dirty2 = obj3;
             } else {
-                modifier2.skipToGroupEnd();
-                $dirty = $dirty3;
-                $dirty4 = obj5;
-                obj = obj4;
-                z2 = i9;
+                modifier3.skipToGroupEnd();
+                $dirty = $dirty4;
+                $dirty2 = obj4;
+                obj2 = obj;
+                z = i10;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = modifier2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = modifier3.endRestartGroup();
         if (endRestartGroup != null) {
-            invalid$iv = new LabelKt.Label.2(obj7, $dirty4, obj, z2, obj9, i27, i8);
+            invalid$iv = new LabelKt.Label.2(obj6, $dirty2, obj2, z, obj8, i26, i8);
             endRestartGroup.updateScope((Function2)invalid$iv);
         }
     }

@@ -73,30 +73,30 @@ final class LazySaveableStateHolder implements SaveableStateRegistry, SaveableSt
     public void SaveableStateProvider(Object key, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int traceInProgress;
         int $dirty;
-        int i4;
+        int i;
         int i2;
-        int i3;
+        int i4;
         boolean skipping;
         boolean traceInProgress2;
         int str;
         Object rememberedValue;
-        int i;
+        int i3;
         Object empty;
         Object anon;
         traceInProgress = -697180401;
         final Composer obj11 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj11, "C(SaveableStateProvider)P(1)84@3453L35,85@3519L137,85@3497L159:LazySaveableStateHolder.kt#wow0x6");
         if ($changed & 6 == 0) {
-            i4 = obj11.changedInstance(key) ? 4 : 2;
-            $dirty |= i4;
+            i = obj11.changedInstance(key) ? 4 : 2;
+            $dirty |= i;
         }
         if ($changed & 48 == 0) {
             i2 = obj11.changedInstance(content) ? 32 : 16;
             $dirty |= i2;
         }
         if ($changed & 384 == 0) {
-            i3 = obj11.changedInstance(this) ? 256 : 128;
-            $dirty |= i3;
+            i4 = obj11.changedInstance(this) ? 256 : 128;
+            $dirty |= i4;
         }
         if ($dirty & 147 == 146) {
             if (!obj11.getSkipping()) {
@@ -111,7 +111,7 @@ final class LazySaveableStateHolder implements SaveableStateRegistry, SaveableSt
                     skipping = obj11;
                     str = 0;
                     rememberedValue = skipping.rememberedValue();
-                    i = 0;
+                    i3 = 0;
                     if (changedInstance |= changedInstance3 == 0) {
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             empty = 0;
@@ -139,8 +139,8 @@ final class LazySaveableStateHolder implements SaveableStateRegistry, SaveableSt
         } else {
         }
         int i8 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("null wrappedHolder".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullLazySaveableStateHolder$SaveableStateProvider$1 = new IllegalArgumentException("null wrappedHolder".toString());
+        throw $i$a$RequireNotNullLazySaveableStateHolder$SaveableStateProvider$1;
     }
 
     @Override // androidx.compose.runtime.saveable.SaveableStateRegistry
@@ -191,8 +191,8 @@ final class LazySaveableStateHolder implements SaveableStateRegistry, SaveableSt
             wrappedHolder.removeState(key);
         }
         int i = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("null wrappedHolder".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullLazySaveableStateHolder$removeState$1 = new IllegalArgumentException("null wrappedHolder".toString());
+        throw $i$a$RequireNotNullLazySaveableStateHolder$removeState$1;
     }
 
     @Override // androidx.compose.runtime.saveable.SaveableStateRegistry

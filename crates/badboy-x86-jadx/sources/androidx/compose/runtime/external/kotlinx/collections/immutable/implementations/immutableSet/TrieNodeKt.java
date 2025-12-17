@@ -32,44 +32,44 @@ public final class TrieNodeKt {
     }
 
     private static final int filterTo(Object[] $this$filterTo, Object[] newArray, int newArrayOffset, Function1<Object, Boolean> predicate) {
-        int i;
-        int j;
-        int i2;
         int i3;
+        int j;
+        int i;
+        int i2;
         Object obj;
         int i4;
         boolean booleanValue;
         int length;
         final int i5 = 0;
-        i = 0;
+        i3 = 0;
         j = 0;
-        while (i < $this$filterTo.length) {
-            i3 = 1;
-            if (j <= i) {
+        while (i3 < $this$filterTo.length) {
+            i2 = 1;
+            if (j <= i3) {
             } else {
             }
-            i4 = i2;
+            i4 = i;
             CommonFunctionsKt.assert(i4);
-            newArray[newArrayOffset + j] = $this$filterTo[i];
-            if ((Boolean)predicate.invoke($this$filterTo[i]).booleanValue() && newArrayOffset + j <= newArray.length) {
+            newArray[newArrayOffset + j] = $this$filterTo[i3];
+            if ((Boolean)predicate.invoke($this$filterTo[i3]).booleanValue() && newArrayOffset + j <= newArray.length) {
             }
-            i++;
-            newArray[newArrayOffset + j] = $this$filterTo[i];
+            i3++;
+            newArray[newArrayOffset + j] = $this$filterTo[i3];
             if (newArrayOffset + j <= newArray.length) {
             }
-            CommonFunctionsKt.assert(i2);
-            i2 = i3;
-            i4 = i3;
+            CommonFunctionsKt.assert(i);
+            i = i2;
+            i4 = i2;
         }
         return j;
     }
 
     static int filterTo$default(Object[] $this$filterTo_u24default, Object[] newArray, int newArrayOffset, Function1 predicate, int i5, Object object6) {
         int j;
-        int i3;
+        int i;
         int i2;
         Object obj;
-        int i;
+        int i3;
         boolean booleanValue;
         int length;
         int obj8;
@@ -90,8 +90,8 @@ public final class TrieNodeKt {
             if (j <= obj11) {
             } else {
             }
-            i = i3;
-            CommonFunctionsKt.assert(i);
+            i3 = i;
+            CommonFunctionsKt.assert(i3);
             newArray[obj8 + j] = $this$filterTo_u24default[obj11];
             if ((Boolean)obj9.invoke($this$filterTo_u24default[obj11]).booleanValue() && obj8 + j <= newArray.length) {
             }
@@ -99,9 +99,9 @@ public final class TrieNodeKt {
             newArray[obj8 + j] = $this$filterTo_u24default[obj11];
             if (obj8 + j <= newArray.length) {
             }
-            CommonFunctionsKt.assert(i3);
-            i3 = i2;
+            CommonFunctionsKt.assert(i);
             i = i2;
+            i3 = i2;
         }
         return j;
     }

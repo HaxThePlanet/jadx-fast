@@ -73,72 +73,72 @@ final class TextFieldTransitionScope {
     }
 
     public final void Transition-DTcfvLk(androidx.compose.material.InputPhase inputState, long focusedTextStyleColor, long unfocusedTextStyleColor, Function3<? super androidx.compose.material.InputPhase, ? super Composer, ? super Integer, Color> contentColor, boolean showLabel, Function6<? super Float, ? super Color, ? super Color, ? super Float, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
-        boolean traceInProgress3;
-        Object invoke;
-        Object transitionAnimation;
         boolean traceInProgress;
+        Object invoke;
         Object transitionAnimation2;
-        Object $composer6;
-        int i13;
-        Object it;
-        int i19;
-        Object iNSTANCE;
-        int $dirty2;
-        int i;
-        long l3;
-        int $composer4;
-        Object initialValue$iv$iv;
-        int i11;
-        State placeholderOpacity$delegate;
-        int i2;
-        Object $composer2;
-        int i7;
+        boolean traceInProgress3;
+        Object transitionAnimation;
+        Object $composer4;
+        int i17;
         Object it2;
         int i18;
-        int i5;
-        int i16;
+        Object iNSTANCE;
+        int $dirty;
+        int i2;
+        long l;
+        int $composer5;
+        Object initialValue$iv$iv;
+        int i3;
+        State placeholderOpacity$delegate;
         int i10;
-        int i4;
+        Object $composer2;
+        int i6;
+        Object it;
+        int i12;
+        int i13;
+        int i7;
+        int i;
+        int i9;
         int skipping;
         boolean traceInProgress2;
         State transitionSpec$iv;
         Transition $this$animateColor$iv;
-        Object typeConverter$iv2;
+        Object typeConverter$iv;
         int empty;
-        Object obj;
-        long l4;
-        Float valueOf2;
+        Object obj2;
+        long l2;
+        Float valueOf;
         Color box-impl2;
         Color box-impl;
-        Float valueOf;
+        Float valueOf2;
         Composer composer3;
-        Composer $composer3;
-        Integer $composer7;
+        Composer $composer6;
+        Integer $composer3;
         Object it3;
         Float initialValue$iv$iv2;
         Object companion2;
-        int i3;
-        int i8;
+        int i19;
         int i14;
-        int i9;
-        State placeholderOpacity$delegate2;
-        Composer composer;
-        Transition transition;
-        int i17;
-        Object companion;
+        int i11;
         int i15;
-        int $dirty;
+        State placeholderOpacity$delegate2;
         Composer composer2;
-        int i6;
+        Transition transition;
+        int i8;
+        Object companion;
+        int i4;
+        int $dirty2;
+        Composer composer;
+        int i16;
         Transition transition2;
-        Composer $composer5;
-        long l2;
-        long l;
-        int i12;
+        Composer $composer7;
+        long l3;
+        long l4;
+        int i5;
         State state;
-        Object obj2;
+        Object obj;
         androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace;
-        Object typeConverter$iv;
+        Object typeConverter$iv2;
         long l5;
         Float num;
         State obj46;
@@ -146,75 +146,75 @@ final class TextFieldTransitionScope {
         final Object obj3 = content;
         final boolean z = $composer;
         final int i75 = obj47;
-        traceInProgress = 1988729962;
-        transitionAnimation2 = obj46.startRestartGroup(traceInProgress);
-        ComposerKt.sourceInformation(transitionAnimation2, "C(Transition)P(3,2:c#ui.graphics.Color,5:c#ui.graphics.Color,1,4)276@11175L59,278@11276L325,289@11648L1101,317@12797L299,327@13142L186,333@13338L140:TextFieldImpl.kt#jmzs0o");
+        traceInProgress3 = 1988729962;
+        transitionAnimation = obj46.startRestartGroup(traceInProgress3);
+        ComposerKt.sourceInformation(transitionAnimation, "C(Transition)P(3,2:c#ui.graphics.Color,5:c#ui.graphics.Color,1,4)276@11175L59,278@11276L325,289@11648L1101,317@12797L299,327@13142L186,333@13338L140:TextFieldImpl.kt#jmzs0o");
         if (i75 & 6 == 0) {
-            i = transitionAnimation2.changed(iNSTANCE) ? 4 : 2;
-            $dirty2 |= i;
+            i2 = transitionAnimation.changed(iNSTANCE) ? 4 : 2;
+            $dirty |= i2;
         }
         if (i75 & 48 == 0) {
-            i18 = transitionAnimation2.changed(focusedTextStyleColor) ? 32 : 16;
-            $dirty2 |= i18;
+            i12 = transitionAnimation.changed(focusedTextStyleColor) ? 32 : 16;
+            $dirty |= i12;
         } else {
-            l3 = focusedTextStyleColor;
+            l = focusedTextStyleColor;
         }
         if (i75 & 384 == 0) {
-            i5 = transitionAnimation2.changed(contentColor) ? 256 : 128;
-            $dirty2 |= i5;
+            i13 = transitionAnimation.changed(contentColor) ? 256 : 128;
+            $dirty |= i13;
         } else {
-            l4 = contentColor;
+            l2 = contentColor;
         }
         if (i75 & 3072 == 0) {
-            i16 = transitionAnimation2.changedInstance(obj3) ? 2048 : 1024;
-            $dirty2 |= i16;
+            i7 = transitionAnimation.changedInstance(obj3) ? 2048 : 1024;
+            $dirty |= i7;
         }
         if (i75 & 24576 == 0) {
-            i10 = transitionAnimation2.changed(z) ? 16384 : 8192;
-            $dirty2 |= i10;
+            i = transitionAnimation.changed(z) ? 16384 : 8192;
+            $dirty |= i;
         }
         if (i65 &= i75 == 0) {
-            i4 = transitionAnimation2.changedInstance($changed) ? 131072 : 65536;
-            $dirty2 |= i4;
+            i9 = transitionAnimation.changedInstance($changed) ? 131072 : 65536;
+            $dirty |= i9;
         } else {
-            obj = $changed;
+            obj2 = $changed;
         }
-        if (i66 &= $dirty2 == 74898) {
-            if (!transitionAnimation2.getSkipping()) {
+        if (i66 &= $dirty == 74898) {
+            if (!transitionAnimation.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material.TextFieldTransitionScope.Transition (TextFieldImpl.kt:272)");
+                    ComposerKt.traceEventStart(traceInProgress3, $dirty, -1, "androidx.compose.material.TextFieldTransitionScope.Transition (TextFieldImpl.kt:272)");
                 }
-                Transition transition3 = TransitionKt.updateTransition(iNSTANCE, "TextFieldInputState", transitionAnimation2, i20 |= 48, 0);
+                Transition transition3 = TransitionKt.updateTransition(iNSTANCE, "TextFieldInputState", transitionAnimation, i20 |= 48, 0);
                 int i160 = i118;
                 int i162 = 0;
-                ComposerKt.sourceInformationMarkerStart(transitionAnimation2, -1338768149, "CC(animateFloat)P(2)1966@80444L78:Transition.kt#pdpnli");
+                ComposerKt.sourceInformationMarkerStart(transitionAnimation, -1338768149, "CC(animateFloat)P(2)1966@80444L78:Transition.kt#pdpnli");
                 int i164 = 57344;
                 Transition transition5 = transition8;
                 int i165 = i107;
                 int i167 = 0;
                 String str6 = "CC(animateValue)P(3,2)1883@77007L32,1884@77062L31,1885@77118L23,1887@77154L89:Transition.kt#pdpnli";
-                ComposerKt.sourceInformationMarkerStart(transitionAnimation2, -142660079, str6);
+                ComposerKt.sourceInformationMarkerStart(transitionAnimation, -142660079, str6);
                 int i168 = 0;
                 transition2 = transition3;
-                $composer6 = composer16;
-                $composer6.startReplaceGroup(-1158004136);
+                $composer4 = composer16;
+                $composer4.startReplaceGroup(-1158004136);
                 String str = "C:TextFieldImpl.kt#jmzs0o";
-                ComposerKt.sourceInformation($composer6, str);
+                ComposerKt.sourceInformation($composer4, str);
                 if (ComposerKt.isTraceInProgress()) {
-                    $composer5 = $composer6;
+                    $composer7 = $composer4;
                     ComposerKt.traceEventStart(-1158004136, i156 & 112, -1, "androidx.compose.material.TextFieldTransitionScope.Transition.<anonymous> (TextFieldImpl.kt:282)");
                 } else {
-                    $composer5 = $composer6;
+                    $composer7 = $composer4;
                 }
                 switch (i33) {
                     case 1:
-                        i13 = 1065353216;
+                        i17 = 1065353216;
                         break;
                     case 2:
-                        i13 = 0;
+                        i17 = 0;
                         break;
                     case 3:
-                        i13 = 1065353216;
+                        i17 = 1065353216;
                         break;
                     default:
                         NoWhenBranchMatchedException noWhenBranchMatchedException4 = new NoWhenBranchMatchedException();
@@ -223,31 +223,31 @@ final class TextFieldTransitionScope {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $composer5.endReplaceGroup();
-                it = transition5.getTargetState();
+                $composer7.endReplaceGroup();
+                it2 = transition5.getTargetState();
                 int i169 = 0;
                 Composer composer4 = composer17;
                 int i54 = -1158004136;
                 composer4.startReplaceGroup(i54);
                 ComposerKt.sourceInformation(composer4, str);
                 if (ComposerKt.isTraceInProgress()) {
-                    it3 = it;
-                    composer2 = composer4;
+                    it3 = it2;
+                    composer = composer4;
                     ComposerKt.traceEventStart(i54, i124 &= 112, -1, "androidx.compose.material.TextFieldTransitionScope.Transition.<anonymous> (TextFieldImpl.kt:282)");
                 } else {
-                    it3 = it;
-                    composer2 = composer4;
-                    $composer4 = -1;
+                    it3 = it2;
+                    composer = composer4;
+                    $composer5 = -1;
                 }
                 switch (i34) {
                     case 1:
-                        i19 = 1065353216;
+                        i18 = 1065353216;
                         break;
                     case 2:
-                        i19 = 0;
+                        i18 = 0;
                         break;
                     case 3:
-                        i19 = 1065353216;
+                        i18 = 1065353216;
                         break;
                     default:
                         NoWhenBranchMatchedException noWhenBranchMatchedException3 = new NoWhenBranchMatchedException();
@@ -256,11 +256,11 @@ final class TextFieldTransitionScope {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                composer2.endReplaceGroup();
+                composer.endReplaceGroup();
                 Object obj4 = invoke6;
-                i6 = 458752;
-                Composer composer11 = transitionAnimation2;
-                int i57 = $composer4;
+                i16 = 458752;
+                Composer composer11 = transitionAnimation;
+                int i57 = $composer5;
                 String $composer8 = str6;
                 int i38 = 384;
                 Float num2 = valueOf5;
@@ -286,23 +286,23 @@ final class TextFieldTransitionScope {
                 $composer2.startReplaceGroup(i35);
                 ComposerKt.sourceInformation($composer2, str);
                 if (ComposerKt.isTraceInProgress()) {
-                    $composer3 = $composer2;
+                    $composer6 = $composer2;
                     state = transitionSpec$iv;
                     ComposerKt.traceEventStart(i35, i145 & 112, -1, "androidx.compose.material.TextFieldTransitionScope.Transition.<anonymous> (TextFieldImpl.kt:310)");
                 } else {
-                    $composer3 = $composer2;
+                    $composer6 = $composer2;
                     state = transitionSpec$iv;
                 }
                 switch (i58) {
                     case 1:
-                        i7 = 1065353216;
+                        i6 = 1065353216;
                         break;
                     case 2:
-                        i7 = 0;
-                        i7 = 1065353216;
+                        i6 = 0;
+                        i6 = 1065353216;
                         break;
                     case 3:
-                        i7 = 0;
+                        i6 = 0;
                         break;
                     default:
                         NoWhenBranchMatchedException noWhenBranchMatchedException2 = new NoWhenBranchMatchedException();
@@ -311,31 +311,31 @@ final class TextFieldTransitionScope {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $composer3.endReplaceGroup();
-                initialValue$iv$iv = Float.valueOf(i7);
-                it2 = transition7.getTargetState();
+                $composer6.endReplaceGroup();
+                initialValue$iv$iv = Float.valueOf(i6);
+                it = transition7.getTargetState();
                 Composer composer9 = $this$animateValue$iv$iv;
                 int i146 = 0;
                 composer9.startReplaceGroup(i35);
                 ComposerKt.sourceInformation(composer9, str);
                 if (ComposerKt.isTraceInProgress()) {
                     initialValue$iv$iv2 = initialValue$iv$iv;
-                    obj2 = it2;
+                    obj = it;
                     ComposerKt.traceEventStart(i35, i68 &= 112, -1, "androidx.compose.material.TextFieldTransitionScope.Transition.<anonymous> (TextFieldImpl.kt:310)");
                 } else {
                     initialValue$iv$iv2 = initialValue$iv$iv;
-                    obj2 = it2;
+                    obj = it;
                 }
                 switch (i36) {
                     case 1:
-                        i11 = 1065353216;
+                        i3 = 1065353216;
                         break;
                     case 2:
-                        i11 = 0;
-                        i11 = 1065353216;
+                        i3 = 0;
+                        i3 = 1065353216;
                         break;
                     case 3:
-                        i11 = 0;
+                        i3 = 0;
                         break;
                     default:
                         NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
@@ -347,15 +347,15 @@ final class TextFieldTransitionScope {
                 composer9.endReplaceGroup();
                 Composer composer13 = $this$animateValue$iv$iv;
                 androidx.compose.material.TextFieldTransitionScope.Transition.placeholderOpacity.2 targetValue$iv$iv2 = iNSTANCE4;
-                placeholderOpacity$delegate = TransitionKt.createTransitionAnimation(transition7, initialValue$iv$iv2, Float.valueOf(i11), (FiniteAnimationSpec)(Function3)iNSTANCE4.invoke(transition7.getSegment(), $this$animateValue$iv$iv, Integer.valueOf(i59 &= 112)), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), "PlaceholderOpacity", composer13, i41 |= i64);
-                i2 = composer13;
-                ComposerKt.sourceInformationMarkerEnd(i2);
-                ComposerKt.sourceInformationMarkerEnd(i2);
+                placeholderOpacity$delegate = TransitionKt.createTransitionAnimation(transition7, initialValue$iv$iv2, Float.valueOf(i3), (FiniteAnimationSpec)(Function3)iNSTANCE4.invoke(transition7.getSegment(), $this$animateValue$iv$iv, Integer.valueOf(i59 &= 112)), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), "PlaceholderOpacity", composer13, i41 |= i64);
+                i10 = composer13;
+                ComposerKt.sourceInformationMarkerEnd(i10);
+                ComposerKt.sourceInformationMarkerEnd(i10);
                 $this$animateColor$iv = transition2;
                 int i159 = obj46;
-                i14 = 0;
-                ComposerKt.sourceInformationMarkerStart(i2, -1939694975, "CC(animateColor)P(2)68@3220L31,69@3287L70,73@3370L70:Transition.kt#xbi5r1");
-                Composer composer6 = i2;
+                i11 = 0;
+                ComposerKt.sourceInformationMarkerStart(i10, -1939694975, "CC(animateColor)P(2)68@3220L31,69@3287L70,73@3370L70:Transition.kt#xbi5r1");
+                Composer composer6 = i10;
                 int i134 = 0;
                 composer6.startReplaceGroup(-1490209928);
                 ComposerKt.sourceInformation(composer6, str);
@@ -368,49 +368,49 @@ final class TextFieldTransitionScope {
                     placeholderOpacity$delegate2 = placeholderOpacity$delegate;
                     transition = $this$animateColor$iv;
                 }
-                l = TextFieldTransitionScope.WhenMappings.$EnumSwitchMapping$0[(InputPhase)$this$animateColor$iv.getTargetState().ordinal()] == 1 ? focusedTextStyleColor : contentColor;
+                l4 = TextFieldTransitionScope.WhenMappings.$EnumSwitchMapping$0[(InputPhase)$this$animateColor$iv.getTargetState().ordinal()] == 1 ? focusedTextStyleColor : contentColor;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 composer6.endReplaceGroup();
-                androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace-impl = Color.getColorSpace-impl(l);
-                ComposerKt.sourceInformationMarkerStart(i2, 1918408083, "CC(remember):Transition.kt#9igjgp");
-                Composer composer5 = i2;
+                androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace-impl = Color.getColorSpace-impl(l4);
+                ComposerKt.sourceInformationMarkerStart(i10, 1918408083, "CC(remember):Transition.kt#9igjgp");
+                Composer composer5 = i10;
                 int i112 = 0;
                 Object rememberedValue = composer5.rememberedValue();
                 int i147 = 0;
-                if (!i2.changed(colorSpace-impl)) {
+                if (!i10.changed(colorSpace-impl)) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
-                        i12 = i74;
+                        i5 = i74;
                         composer5.updateRememberedValue((TwoWayConverter)ColorVectorConverterKt.getVectorConverter(Color.Companion).invoke(colorSpace-impl));
                     } else {
-                        typeConverter$iv2 = rememberedValue;
+                        typeConverter$iv = rememberedValue;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(i2);
-                i15 = i80 | i91;
+                ComposerKt.sourceInformationMarkerEnd(i10);
+                i4 = i80 | i91;
                 Transition transition6 = transition;
-                i12 = 0;
-                ComposerKt.sourceInformationMarkerStart(i2, -142660079, $composer8);
-                Composer composer10 = i2;
+                i5 = 0;
+                ComposerKt.sourceInformationMarkerStart(i10, -142660079, $composer8);
+                Composer composer10 = i10;
                 int i148 = 0;
                 colorSpace = colorSpace-impl;
                 int colorSpace$iv = -1490209928;
                 composer10.startReplaceGroup(colorSpace$iv);
                 ComposerKt.sourceInformation(composer10, str);
                 if (ComposerKt.isTraceInProgress()) {
-                    typeConverter$iv = typeConverter$iv2;
+                    typeConverter$iv2 = typeConverter$iv;
                     ComposerKt.traceEventStart(colorSpace$iv, i113 &= 112, -1, str11);
                 } else {
-                    typeConverter$iv = typeConverter$iv2;
+                    typeConverter$iv2 = typeConverter$iv;
                 }
                 l5 = TextFieldTransitionScope.WhenMappings.$EnumSwitchMapping$0[(InputPhase)transition6.getCurrentState().ordinal()] == 1 ? focusedTextStyleColor : contentColor;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 composer10.endReplaceGroup();
-                Composer composer7 = i2;
+                Composer composer7 = i10;
                 int i135 = 0;
                 int it5 = -1490209928;
                 composer7.startReplaceGroup(it5);
@@ -418,63 +418,63 @@ final class TextFieldTransitionScope {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(it5, i71 &= 112, -1, str11);
                 }
-                l2 = TextFieldTransitionScope.WhenMappings.$EnumSwitchMapping$0[(InputPhase)transition6.getTargetState().ordinal()] == 1 ? focusedTextStyleColor : contentColor;
+                l3 = TextFieldTransitionScope.WhenMappings.$EnumSwitchMapping$0[(InputPhase)transition6.getTargetState().ordinal()] == 1 ? focusedTextStyleColor : contentColor;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 composer7.endReplaceGroup();
-                transitionAnimation = TransitionKt.createTransitionAnimation(transition6, Color.box-impl(l5), Color.box-impl(l2), (FiniteAnimationSpec)(Function3)TextFieldTransitionScope.Transition.labelTextStyleColor.2.INSTANCE.invoke(transition6.getSegment(), i2, Integer.valueOf(i46 &= 112)), typeConverter$iv, "LabelTextStyleColor", i2, i24 | i51);
-                ComposerKt.sourceInformationMarkerEnd(i2);
-                ComposerKt.sourceInformationMarkerEnd(i2);
+                transitionAnimation2 = TransitionKt.createTransitionAnimation(transition6, Color.box-impl(l5), Color.box-impl(l3), (FiniteAnimationSpec)(Function3)TextFieldTransitionScope.Transition.labelTextStyleColor.2.INSTANCE.invoke(transition6.getSegment(), i10, Integer.valueOf(i46 &= 112)), typeConverter$iv2, "LabelTextStyleColor", i10, i24 | i51);
+                ComposerKt.sourceInformationMarkerEnd(i10);
+                ComposerKt.sourceInformationMarkerEnd(i10);
                 i52 |= i73;
                 skipping = transition2;
-                i8 = 0;
-                ComposerKt.sourceInformationMarkerStart(i2, -1939694975, "CC(animateColor)P(2)68@3220L31,69@3287L70,73@3370L70:Transition.kt#xbi5r1");
+                i14 = 0;
+                ComposerKt.sourceInformationMarkerStart(i10, -1939694975, "CC(animateColor)P(2)68@3220L31,69@3287L70,73@3370L70:Transition.kt#xbi5r1");
                 Integer valueOf10 = Integer.valueOf(i93 &= 112);
-                androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace-impl2 = Color.getColorSpace-impl((Color)obj3.invoke(skipping.getTargetState(), i2, valueOf10).unbox-impl());
-                ComposerKt.sourceInformationMarkerStart(i2, 1918408083, "CC(remember):Transition.kt#9igjgp");
-                Composer composer8 = i2;
+                androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace-impl2 = Color.getColorSpace-impl((Color)obj3.invoke(skipping.getTargetState(), i10, valueOf10).unbox-impl());
+                ComposerKt.sourceInformationMarkerStart(i10, 1918408083, "CC(remember):Transition.kt#9igjgp");
+                Composer composer8 = i10;
                 int i136 = 0;
                 Object rememberedValue2 = composer8.rememberedValue();
                 int i149 = 0;
-                if (!i2.changed(colorSpace-impl2)) {
-                    obj46 = transitionAnimation;
+                if (!i10.changed(colorSpace-impl2)) {
+                    obj46 = transitionAnimation2;
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        i14 = labelTextStyleColor$delegate;
+                        i11 = labelTextStyleColor$delegate;
                         composer8.updateRememberedValue((TwoWayConverter)ColorVectorConverterKt.getVectorConverter(Color.Companion).invoke(colorSpace-impl2));
                     } else {
                         invoke = rememberedValue2;
                     }
                 } else {
-                    obj46 = transitionAnimation;
+                    obj46 = transitionAnimation2;
                 }
-                ComposerKt.sourceInformationMarkerEnd(i2);
+                ComposerKt.sourceInformationMarkerEnd(i10);
                 i27 |= i101;
                 Transition colorSpace$iv2 = skipping;
-                i9 = 0;
-                ComposerKt.sourceInformationMarkerStart(i2, -142660079, $composer8);
-                i17 = i28;
-                Composer composer15 = i2;
+                i15 = 0;
+                ComposerKt.sourceInformationMarkerStart(i10, -142660079, $composer8);
+                i8 = i28;
+                Composer composer15 = i10;
                 androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace2 = colorSpace3;
                 ComposerKt.sourceInformationMarkerEnd(composer15);
                 ComposerKt.sourceInformationMarkerEnd(composer15);
                 composer3 = composer15;
-                obj.invoke(Float.valueOf(TextFieldTransitionScope.Transition_DTcfvLk$lambda$1(state)), Color.box-impl(TextFieldTransitionScope.Transition_DTcfvLk$lambda$5(obj46)), Color.box-impl(TextFieldTransitionScope.Transition_DTcfvLk$lambda$6(TransitionKt.createTransitionAnimation(colorSpace$iv2, obj3.invoke(colorSpace$iv2.getCurrentState(), i2, Integer.valueOf(i116 &= 112)), obj3.invoke(colorSpace$iv2.getTargetState(), i2, Integer.valueOf(i137 &= 112)), (FiniteAnimationSpec)(Function3)TextFieldTransitionScope.Transition.labelContentColor.2.INSTANCE.invoke(colorSpace$iv2.getSegment(), i2, Integer.valueOf(i150 &= 112)), (TwoWayConverter)invoke, "LabelContentColor", composer15, i30 | i155))), Float.valueOf(TextFieldTransitionScope.Transition_DTcfvLk$lambda$3(placeholderOpacity$delegate2)), composer3, Integer.valueOf(i31 &= i164));
-                composer = composer3;
+                obj2.invoke(Float.valueOf(TextFieldTransitionScope.Transition_DTcfvLk$lambda$1(state)), Color.box-impl(TextFieldTransitionScope.Transition_DTcfvLk$lambda$5(obj46)), Color.box-impl(TextFieldTransitionScope.Transition_DTcfvLk$lambda$6(TransitionKt.createTransitionAnimation(colorSpace$iv2, obj3.invoke(colorSpace$iv2.getCurrentState(), i10, Integer.valueOf(i116 &= 112)), obj3.invoke(colorSpace$iv2.getTargetState(), i10, Integer.valueOf(i137 &= 112)), (FiniteAnimationSpec)(Function3)TextFieldTransitionScope.Transition.labelContentColor.2.INSTANCE.invoke(colorSpace$iv2.getSegment(), i10, Integer.valueOf(i150 &= 112)), (TwoWayConverter)invoke, "LabelContentColor", composer15, i30 | i155))), Float.valueOf(TextFieldTransitionScope.Transition_DTcfvLk$lambda$3(placeholderOpacity$delegate2)), composer3, Integer.valueOf(i31 &= i164));
+                composer2 = composer3;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+                ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
                 if (endRestartGroup != null) {
-                    $dirty = $dirty2;
-                    traceInProgress = new TextFieldTransitionScope.Transition.1(this, inputState, focusedTextStyleColor, l3, contentColor, skipping, obj3, z, $changed, i75);
-                    endRestartGroup.updateScope((Function2)traceInProgress);
+                    $dirty2 = $dirty;
+                    traceInProgress3 = new TextFieldTransitionScope.Transition.1(this, inputState, focusedTextStyleColor, l, contentColor, skipping, obj3, z, $changed, i75);
+                    endRestartGroup.updateScope((Function2)traceInProgress3);
                 } else {
-                    $dirty = $dirty2;
+                    $dirty2 = $dirty;
                 }
             }
-            transitionAnimation2.skipToGroupEnd();
-            composer = transitionAnimation2;
+            transitionAnimation.skipToGroupEnd();
+            composer2 = transitionAnimation;
         } else {
         }
     }

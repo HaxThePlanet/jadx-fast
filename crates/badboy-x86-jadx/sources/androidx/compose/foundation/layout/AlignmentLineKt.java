@@ -31,21 +31,21 @@ public final class AlignmentLineKt {
     private static final MeasureResult alignmentLineOffsetMeasure-tjqqzMA(MeasureScope $this$alignmentLineOffsetMeasure_u2dtjqqzMA, AlignmentLine alignmentLine, float before, float after, Measurable measurable, long constraints) {
         long copy-Zbe2FdA$default;
         int it;
-        int height2;
+        int height;
         int maxHeight-impl;
         int roundToPx-0680j_4;
         int roundToPx-0680j_42;
         int width;
         int minWidth-impl;
-        int height;
-        int i7;
-        Object obj;
+        int height2;
         int i5;
+        Object obj;
+        int i7;
+        int i;
         int i6;
         int i3;
-        int i;
-        int i4;
         int i2;
+        int i4;
         final MeasureScope measureScope = $this$alignmentLineOffsetMeasure_u2dtjqqzMA;
         float f = before;
         final float f2 = after;
@@ -64,11 +64,11 @@ public final class AlignmentLineKt {
         }
         final int i26 = it;
         if (AlignmentLineKt.getHorizontal(alignmentLine2)) {
-            height2 = measure-BRTryo0.getHeight();
+            height = measure-BRTryo0.getHeight();
         } else {
-            height2 = measure-BRTryo0.getWidth();
+            height = measure-BRTryo0.getWidth();
         }
-        int i27 = height2;
+        int i27 = height;
         if (AlignmentLineKt.getHorizontal(alignmentLine2)) {
             maxHeight-impl = Constraints.getMaxHeight-impl(constraints);
         } else {
@@ -93,17 +93,17 @@ public final class AlignmentLineKt {
             width = Math.max(i11 += coerceIn2, Constraints.getMinWidth-impl(constraints));
         }
         if (AlignmentLineKt.getHorizontal(alignmentLine2)) {
-            i7 = height;
+            i5 = height2;
         } else {
-            i7 = height;
+            i5 = height2;
         }
         int i22 = width;
-        AlignmentLineKt.alignmentLineOffsetMeasure.1 width3 = new AlignmentLineKt.alignmentLineOffsetMeasure.1(alignmentLine2, f, coerceIn, i22, coerceIn2, measure-BRTryo0, i7);
+        AlignmentLineKt.alignmentLineOffsetMeasure.1 width3 = new AlignmentLineKt.alignmentLineOffsetMeasure.1(alignmentLine2, f, coerceIn, i22, coerceIn2, measure-BRTryo0, i5);
         int i29 = coerceIn2;
         int height4 = coerceIn;
         int i13 = i22;
         int i23 = i13;
-        return MeasureScope.layout$default(measureScope, i13, i7, 0, (Function1)width3, 4, 0);
+        return MeasureScope.layout$default(measureScope, i13, i5, 0, (Function1)width3, 4, 0);
     }
 
     private static final boolean getHorizontal(AlignmentLine $this$horizontal) {
@@ -158,21 +158,21 @@ public final class AlignmentLineKt {
     }
 
     public static Modifier paddingFrom-Y_r0B1c$default(Modifier modifier, AlignmentLine alignmentLine2, long l3, long l4, int i5, Object object6) {
-        long l2;
         long l;
+        long l2;
         long obj8;
         long obj10;
         if (obj12 & 2 != 0) {
-            l2 = obj8;
+            l = obj8;
         } else {
-            l2 = l3;
+            l = l3;
         }
         if (obj12 & 4 != 0) {
-            l = obj10;
+            l2 = obj10;
         } else {
-            l = i5;
+            l2 = i5;
         }
-        return AlignmentLineKt.paddingFrom-Y_r0B1c(modifier, alignmentLine2, l2, obj3);
+        return AlignmentLineKt.paddingFrom-Y_r0B1c(modifier, alignmentLine2, l, obj3);
     }
 
     public static final Modifier paddingFromBaseline-VpY3zN4(Modifier $this$paddingFromBaseline_u2dVpY3zN4, float top, float bottom) {
@@ -182,11 +182,11 @@ public final class AlignmentLineKt {
         androidx.compose.ui.layout.HorizontalAlignmentLine horizontalAlignmentLine;
         float top2;
         int i4;
-        int i5;
+        int i2;
         int i;
         float bottom2;
         int i3;
-        int i2;
+        int i5;
         Modifier obj11;
         Modifier obj12;
         if (!Dp.equals-impl0(top, Dp.Companion.getUnspecified-D9Ej5fM())) {
@@ -217,28 +217,28 @@ public final class AlignmentLineKt {
     }
 
     public static final Modifier paddingFromBaseline-wCyjxdI(Modifier $this$paddingFromBaseline_u2dwCyjxdI, long top, long bottom) {
-        Modifier paddingFrom-Y_r0B1c$default2;
-        androidx.compose.ui.Modifier.Companion companion;
         Modifier paddingFrom-Y_r0B1c$default;
+        androidx.compose.ui.Modifier.Companion companion;
+        Modifier paddingFrom-Y_r0B1c$default2;
         androidx.compose.ui.layout.HorizontalAlignmentLine horizontalAlignmentLine;
         AlignmentLine alignmentLine;
         long l;
         int i4;
         int i5;
-        int i;
-        int i3;
         int i2;
+        int i3;
+        int i;
         if (!TextUnitKt.isUnspecified--R2X_6o(top)) {
-            paddingFrom-Y_r0B1c$default2 = AlignmentLineKt.paddingFrom-Y_r0B1c$default((Modifier)Modifier.Companion, (AlignmentLine)AlignmentLineKt.getFirstBaseline(), top, obj4, 0, obj6);
-        } else {
-            paddingFrom-Y_r0B1c$default2 = Modifier.Companion;
-        }
-        if (!TextUnitKt.isUnspecified--R2X_6o(obj13)) {
-            paddingFrom-Y_r0B1c$default = AlignmentLineKt.paddingFrom-Y_r0B1c$default((Modifier)Modifier.Companion, (AlignmentLine)AlignmentLineKt.getLastBaseline(), 0, i4, obj13, i);
+            paddingFrom-Y_r0B1c$default = AlignmentLineKt.paddingFrom-Y_r0B1c$default((Modifier)Modifier.Companion, (AlignmentLine)AlignmentLineKt.getFirstBaseline(), top, obj4, 0, obj6);
         } else {
             paddingFrom-Y_r0B1c$default = Modifier.Companion;
         }
-        return $this$paddingFromBaseline_u2dwCyjxdI.then(paddingFrom-Y_r0B1c$default2).then(paddingFrom-Y_r0B1c$default);
+        if (!TextUnitKt.isUnspecified--R2X_6o(obj13)) {
+            paddingFrom-Y_r0B1c$default2 = AlignmentLineKt.paddingFrom-Y_r0B1c$default((Modifier)Modifier.Companion, (AlignmentLine)AlignmentLineKt.getLastBaseline(), 0, i4, obj13, i2);
+        } else {
+            paddingFrom-Y_r0B1c$default2 = Modifier.Companion;
+        }
+        return $this$paddingFromBaseline_u2dwCyjxdI.then(paddingFrom-Y_r0B1c$default).then(paddingFrom-Y_r0B1c$default2);
     }
 
     public static Modifier paddingFromBaseline-wCyjxdI$default(Modifier modifier, long l2, long l3, int i4, Object object5) {

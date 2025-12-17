@@ -13,19 +13,19 @@ public final class LazyLayoutBeyondBoundsStateKt {
     public static final List<Integer> calculateLazyLayoutPinnedIndices(androidx.compose.foundation.lazy.layout.LazyLayoutItemProvider $this$calculateLazyLayoutPinnedIndices, androidx.compose.foundation.lazy.layout.LazyLayoutPinnedItemList pinnedItemList, androidx.compose.foundation.lazy.layout.LazyLayoutBeyondBoundsInfo beyondBoundsInfo) {
         boolean intervals;
         IntRange intRange;
-        int i3;
-        int start;
-        int i2;
-        int valueOf;
         int i;
+        int start;
+        int i3;
+        int valueOf;
+        int i5;
         int index$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         int i4;
         int indexByKey;
         int itemCount;
         int last;
-        int i5;
+        int i2;
         if (!beyondBoundsInfo.hasIntervals() && pinnedItemList.isEmpty()) {
             if (pinnedItemList.isEmpty()) {
                 return CollectionsKt.emptyList();
@@ -42,24 +42,24 @@ public final class LazyLayoutBeyondBoundsStateKt {
         valueOf = 0;
         index$iv = 0;
         while (index$iv < (List)list.size()) {
-            obj2 = obj;
+            obj = obj2;
             i4 = 0;
-            indexByKey = LazyLayoutItemProviderKt.findIndexByKey($this$calculateLazyLayoutPinnedIndices, (LazyLayoutPinnedItemList.PinnedItem)obj2.getKey(), obj2.getIndex());
+            indexByKey = LazyLayoutItemProviderKt.findIndexByKey($this$calculateLazyLayoutPinnedIndices, (LazyLayoutPinnedItemList.PinnedItem)obj.getKey(), obj.getIndex());
             if (indexByKey <= intRange.getLast() && intRange.getFirst() <= indexByKey) {
             } else {
             }
-            itemCount = i5;
+            itemCount = i2;
             if (itemCount == 0 && indexByKey >= 0 && indexByKey < $this$calculateLazyLayoutPinnedIndices.getItemCount()) {
             }
             index$iv++;
             if (indexByKey >= 0) {
             }
-            if (i5 != 0) {
+            if (i2 != 0) {
             }
             (List)arrayList.add(Integer.valueOf(indexByKey));
             if (indexByKey < $this$calculateLazyLayoutPinnedIndices.getItemCount()) {
             }
-            i5 = i6;
+            i2 = i6;
             if (intRange.getFirst() <= indexByKey) {
             } else {
             }

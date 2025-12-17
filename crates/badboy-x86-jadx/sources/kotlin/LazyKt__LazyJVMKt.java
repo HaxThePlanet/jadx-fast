@@ -12,9 +12,9 @@ class LazyKt__LazyJVMKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal2;
-            int ordinal;
             int ordinal3;
+            int ordinal;
+            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[LazyThreadSafetyMode.SYNCHRONIZED.ordinal()] = 1;
             iArr[LazyThreadSafetyMode.PUBLICATION.ordinal()] = 2;

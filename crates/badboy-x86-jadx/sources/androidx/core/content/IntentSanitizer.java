@@ -621,20 +621,20 @@ public class IntentSanitizer {
 
     public Intent sanitize(Intent in, Consumer<String> consumer2) {
         boolean mAllowAnyComponent;
-        String string;
+        String string2;
         Object iterator;
         String identifier;
         Object selector;
         Object sourceBounds;
-        String str;
+        String str2;
         String mAllowedFlags;
         Object mAllowedClipData;
-        String string2;
+        String string3;
         boolean equals;
         boolean equals2;
-        String str2;
-        String string3;
         String str3;
+        String string;
+        String str;
         final Object obj = this;
         final Consumer consumer = consumer2;
         Intent intent2 = new Intent();
@@ -668,7 +668,7 @@ public class IntentSanitizer {
         } else {
             intent2.setFlags(mAllowedFlags3 &= flags2);
             StringBuilder stringBuilder2 = new StringBuilder();
-            consumer.accept(stringBuilder2.append("The intent contains flags that are not allowed: 0x").append(Integer.toHexString(flags3 &= string2)).toString());
+            consumer.accept(stringBuilder2.append("The intent contains flags that are not allowed: 0x").append(Integer.toHexString(flags3 &= string3)).toString());
         }
         final String action = in.getAction();
         if (action != null) {
@@ -724,17 +724,17 @@ public class IntentSanitizer {
                 if (mAllowedFlags.equals("output") && i4 &= 3 != 0) {
                 } else {
                 }
-                string2 = extras.get(mAllowedFlags);
-                str2 = obj.mAllowedExtras.get(mAllowedFlags);
-                if (str2 != null && (Predicate)str2.test(string2)) {
+                string3 = extras.get(mAllowedFlags);
+                str3 = obj.mAllowedExtras.get(mAllowedFlags);
+                if (str3 != null && (Predicate)str3.test(string3)) {
                 } else {
                 }
                 StringBuilder stringBuilder11 = new StringBuilder();
-                consumer.accept(stringBuilder11.append("Extra is not allowed. Key: ").append(mAllowedFlags).append(". Value: ").append(string2).toString());
-                if (str2.test(string2)) {
+                consumer.accept(stringBuilder11.append("Extra is not allowed. Key: ").append(mAllowedFlags).append(". Value: ").append(string3).toString());
+                if (str3.test(string3)) {
                 } else {
                 }
-                obj.putExtra(intent2, mAllowedFlags, string2);
+                obj.putExtra(intent2, mAllowedFlags, string3);
                 if (i4 &= 3 != 0) {
                 } else {
                 }

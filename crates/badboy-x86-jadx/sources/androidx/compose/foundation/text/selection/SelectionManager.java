@@ -189,30 +189,30 @@ public final class SelectionManager {
     }
 
     private final Rect getContentRect() {
-        int i4;
+        int i3;
         Pair it;
         List sort;
         int cmp;
         int index$iv$iv;
+        Object obj3;
         Object obj2;
+        int i;
         Object obj;
         int i2;
-        Object obj3;
-        int i;
         LongObjectMap subselections;
-        int i3;
+        int i4;
         List list;
         final Object obj4 = this;
-        i4 = 0;
+        i3 = 0;
         if (obj4.getSelection() == null) {
-            return i4;
+            return i3;
         }
         LayoutCoordinates containerLayoutCoordinates = obj4.containerLayoutCoordinates;
         if (containerLayoutCoordinates == null) {
-            return i4;
+            return i3;
         }
         if (!containerLayoutCoordinates.isAttached()) {
-            return i4;
+            return i3;
         }
         sort = obj4.selectionRegistrar.sort(obj4.requireContainerCoordinates$foundation_release());
         int i5 = 0;
@@ -221,26 +221,26 @@ public final class SelectionManager {
         int i8 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list4.size()) {
-            i2 = 0;
-            obj3 = obj;
             i = 0;
-            i3 = i4;
-            Object obj5 = obj4.selectionRegistrar.getSubselections().get((Selectable)obj3.getSelectableId());
+            obj = obj2;
+            i2 = 0;
+            i4 = i3;
+            Object obj5 = obj4.selectionRegistrar.getSubselections().get((Selectable)obj.getSelectableId());
             if ((Selection)obj5 != null) {
             } else {
             }
-            it = i3;
+            it = i4;
             if (it != null) {
             }
             index$iv$iv++;
-            i4 = i3;
+            i3 = i4;
             sort = list;
             sort = 0;
             (Collection)arrayList.add(it);
             sort = 0;
-            it = TuplesKt.to(obj3, (Selection)obj5);
+            it = TuplesKt.to(obj, (Selection)obj5);
         }
-        int i16 = i4;
+        int i16 = i3;
         List list5 = sort;
         List list3 = SelectionManagerKt.access$firstAndLast((List)arrayList);
         if (list3.isEmpty()) {
@@ -271,9 +271,9 @@ public final class SelectionManager {
         boolean z;
         Object obj;
         java.util.Comparator comparator;
+        int i;
         int i3;
         int i2;
-        int i;
         long selectableId;
         final LayoutCoordinates requireContainerCoordinates$foundation_release = requireContainerCoordinates$foundation_release();
         final List sort = this.selectionRegistrar.sort(requireContainerCoordinates$foundation_release);
@@ -282,7 +282,7 @@ public final class SelectionManager {
         int i4 = 0;
         index$iv = 0;
         while (index$iv < list.size()) {
-            i2 = 0;
+            i3 = 0;
             mutableLongIntMapOf.set((Selectable)list.get(index$iv).getSelectableId(), obj13);
             index$iv++;
         }
@@ -391,24 +391,24 @@ public final class SelectionManager {
     }
 
     private final void updateHandleOffsets() {
-        boolean inclusive-Uv8p0NA2;
+        boolean inclusive-Uv8p0NA;
         Object containerCoordinates;
-        int i2;
-        Handle inclusive-Uv8p0NA;
         int i6;
+        Handle inclusive-Uv8p0NA2;
+        int i2;
         int handleCoordinates;
         androidx.compose.foundation.text.selection.Selection.AnchorInfo start;
-        int p02;
+        int p0;
         int end;
-        androidx.compose.foundation.text.selection.Selectable p0;
+        androidx.compose.foundation.text.selection.Selectable p02;
         int i4;
+        LayoutCoordinates layoutCoordinates2;
         LayoutCoordinates layoutCoordinates5;
-        LayoutCoordinates layoutCoordinates3;
         boolean attached;
         Handle selectionStart;
         int unbox-impl;
         LayoutCoordinates handlePosition-dBAh8RU;
-        int i5;
+        int i3;
         long handlePosition-dBAh8RU2;
         boolean localPositionOf-R5De75A;
         long l;
@@ -417,94 +417,94 @@ public final class SelectionManager {
         LayoutCoordinates layoutCoordinates4;
         androidx.compose.foundation.text.selection.Selection selection2;
         androidx.compose.foundation.text.selection.Selection selection;
-        int i3;
-        LayoutCoordinates layoutCoordinates2;
+        int i5;
+        LayoutCoordinates layoutCoordinates3;
         LayoutCoordinates layoutCoordinates;
         final Object obj = this;
-        inclusive-Uv8p0NA2 = obj.getSelection();
+        inclusive-Uv8p0NA = obj.getSelection();
         containerCoordinates = obj.containerLayoutCoordinates;
-        start = inclusive-Uv8p0NA2.getStart();
-        if (inclusive-Uv8p0NA2 != null && start != null) {
-            start = inclusive-Uv8p0NA2.getStart();
+        start = inclusive-Uv8p0NA.getStart();
+        if (inclusive-Uv8p0NA != null && start != null) {
+            start = inclusive-Uv8p0NA.getStart();
             if (start != null) {
                 end = 0;
-                p02 = obj.getAnchorSelectable$foundation_release(start);
-            } else {
-                p02 = 0;
-            }
-        } else {
-        }
-        end = inclusive-Uv8p0NA2.getEnd();
-        if (inclusive-Uv8p0NA2 != null && end != null) {
-            end = inclusive-Uv8p0NA2.getEnd();
-            if (end != null) {
-                i4 = 0;
-                p0 = obj.getAnchorSelectable$foundation_release(end);
+                p0 = obj.getAnchorSelectable$foundation_release(start);
             } else {
                 p0 = 0;
             }
         } else {
         }
-        if (p02 != 0) {
+        end = inclusive-Uv8p0NA.getEnd();
+        if (inclusive-Uv8p0NA != null && end != null) {
+            end = inclusive-Uv8p0NA.getEnd();
+            if (end != null) {
+                i4 = 0;
+                p02 = obj.getAnchorSelectable$foundation_release(end);
+            } else {
+                p02 = 0;
+            }
+        } else {
+        }
+        if (p0 != 0) {
+            layoutCoordinates2 = p0.getLayoutCoordinates();
+        } else {
+            layoutCoordinates2 = 0;
+        }
+        if (p02 != null) {
             layoutCoordinates5 = p02.getLayoutCoordinates();
         } else {
             layoutCoordinates5 = 0;
         }
-        if (p0 != null) {
-            layoutCoordinates3 = p0.getLayoutCoordinates();
-        } else {
-            layoutCoordinates3 = 0;
-        }
-        if (inclusive-Uv8p0NA2 != null) {
+        if (inclusive-Uv8p0NA != null) {
             if (containerCoordinates != null) {
                 if (containerCoordinates.isAttached()) {
-                    if (layoutCoordinates5 == null && layoutCoordinates3 == null) {
-                        if (layoutCoordinates3 == null) {
-                            selection = inclusive-Uv8p0NA2;
+                    if (layoutCoordinates2 == null && layoutCoordinates5 == null) {
+                        if (layoutCoordinates5 == null) {
+                            selection = inclusive-Uv8p0NA;
                             layoutCoordinates = containerCoordinates;
                         } else {
                             Rect visibleBounds = SelectionManagerKt.visibleBounds(containerCoordinates);
-                            if (layoutCoordinates5 != null) {
-                                handlePosition-dBAh8RU = layoutCoordinates5;
-                                i5 = 0;
-                                handlePosition-dBAh8RU2 = p02.getHandlePosition-dBAh8RU(inclusive-Uv8p0NA2, true);
+                            if (layoutCoordinates2 != null) {
+                                handlePosition-dBAh8RU = layoutCoordinates2;
+                                i3 = 0;
+                                handlePosition-dBAh8RU2 = p0.getHandlePosition-dBAh8RU(inclusive-Uv8p0NA, true);
                                 if (OffsetKt.isUnspecified-k-4lQ0M(handlePosition-dBAh8RU2)) {
                                     box-impl = 0;
                                 } else {
                                     layoutCoordinates4 = handlePosition-dBAh8RU;
-                                    i3 = 0;
+                                    i5 = 0;
                                     if (obj.getDraggingHandle() != Handle.SelectionStart) {
                                         if (SelectionManagerKt.containsInclusive-Uv8p0NA(visibleBounds, Offset.box-impl(containerCoordinates.localPositionOf-R5De75A(handlePosition-dBAh8RU, handlePosition-dBAh8RU2)).unbox-impl())) {
-                                            i2 = 1;
+                                            i6 = 1;
                                         } else {
-                                            i2 = 0;
+                                            i6 = 0;
                                         }
                                     } else {
                                     }
-                                    if (i2 != 0) {
+                                    if (i6 != 0) {
                                     } else {
                                         box-impl = 0;
                                     }
                                 }
-                                i6 = box-impl;
+                                i2 = box-impl;
                             } else {
-                                i6 = 0;
+                                i2 = 0;
                             }
-                            obj.setStartHandlePosition-_kEHs6E(i6);
-                            if (layoutCoordinates3 != null) {
+                            obj.setStartHandlePosition-_kEHs6E(i2);
+                            if (layoutCoordinates5 != null) {
                                 selectionStart = 0;
-                                handlePosition-dBAh8RU = p0.getHandlePosition-dBAh8RU(inclusive-Uv8p0NA2, false);
+                                handlePosition-dBAh8RU = p02.getHandlePosition-dBAh8RU(inclusive-Uv8p0NA, false);
                                 if (OffsetKt.isUnspecified-k-4lQ0M(handlePosition-dBAh8RU)) {
-                                    selection2 = inclusive-Uv8p0NA2;
-                                    layoutCoordinates2 = containerCoordinates;
+                                    selection2 = inclusive-Uv8p0NA;
+                                    layoutCoordinates3 = containerCoordinates;
                                     handleCoordinates = 0;
                                 } else {
                                     l = handlePosition-dBAh8RU;
-                                    i5 = 0;
-                                    selection2 = inclusive-Uv8p0NA2;
-                                    layoutCoordinates2 = containerCoordinates;
+                                    i3 = 0;
+                                    selection2 = inclusive-Uv8p0NA;
+                                    layoutCoordinates3 = containerCoordinates;
                                     if (obj.getDraggingHandle() != Handle.SelectionEnd) {
-                                        if (SelectionManagerKt.containsInclusive-Uv8p0NA(visibleBounds, Offset.box-impl(containerCoordinates.localPositionOf-R5De75A(layoutCoordinates3, handlePosition-dBAh8RU)).unbox-impl())) {
+                                        if (SelectionManagerKt.containsInclusive-Uv8p0NA(visibleBounds, Offset.box-impl(containerCoordinates.localPositionOf-R5De75A(layoutCoordinates5, handlePosition-dBAh8RU)).unbox-impl())) {
                                             i = 1;
                                         } else {
                                             i = 0;
@@ -518,8 +518,8 @@ public final class SelectionManager {
                                     handleCoordinates = localPositionOf-R5De75A;
                                 }
                             } else {
-                                selection2 = inclusive-Uv8p0NA2;
-                                layoutCoordinates2 = containerCoordinates;
+                                selection2 = inclusive-Uv8p0NA;
+                                layoutCoordinates3 = containerCoordinates;
                                 handleCoordinates = 0;
                             }
                         }
@@ -527,14 +527,14 @@ public final class SelectionManager {
                     }
                     obj.setEndHandlePosition-_kEHs6E(handleCoordinates);
                 }
-                selection = inclusive-Uv8p0NA2;
+                selection = inclusive-Uv8p0NA;
                 layoutCoordinates = containerCoordinates;
             } else {
-                selection = inclusive-Uv8p0NA2;
+                selection = inclusive-Uv8p0NA;
                 layoutCoordinates = containerCoordinates;
             }
         } else {
-            selection = inclusive-Uv8p0NA2;
+            selection = inclusive-Uv8p0NA;
             layoutCoordinates = containerCoordinates;
         }
         int selection3 = 0;
@@ -548,11 +548,11 @@ public final class SelectionManager {
         Object contentRect;
         androidx.compose.foundation.text.selection.SelectionManager.updateSelectionToolbar.1 anon2;
         int anon;
-        int i5;
-        int i3;
         int i;
         int i4;
         int i2;
+        int i5;
+        int i3;
         if (!getHasFocus()) {
         }
         TextToolbar textToolbar = this.textToolbar;
@@ -707,8 +707,8 @@ public final class SelectionManager {
         Object subSequence;
         androidx.compose.foundation.text.selection.Selection selection;
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         Object obj3;
         long selectableId;
@@ -727,15 +727,15 @@ public final class SelectionManager {
                 int i7 = 0;
                 index$iv = 0;
                 while (index$iv < sort.size()) {
-                    obj = obj2;
+                    obj2 = obj;
                     i = 0;
-                    obj3 = subSequence.selectionRegistrar.getSubselections().get((Selectable)obj.getSelectableId());
+                    obj3 = subSequence.selectionRegistrar.getSubselections().get((Selectable)obj2.getSelectableId());
                     if ((Selection)obj3 != null) {
                     }
                     index$iv++;
                     subSequence = this;
                     selectableId = 0;
-                    text = obj.getText();
+                    text = obj2.getText();
                     if ((Selection)obj3.getHandlesCrossed()) {
                     } else {
                     }
@@ -773,24 +773,24 @@ public final class SelectionManager {
     }
 
     public final boolean isEntireContainerSelected$foundation_release() {
-        Object obj4;
+        Object obj2;
         List length;
         int subSelection;
         int i3;
         int offset;
         int index$iv$iv;
-        Object obj;
+        Object obj4;
         Object obj3;
-        int i2;
-        Object obj2;
         int i5;
+        Object obj;
+        int i;
         AnnotatedString text;
         int subselections;
-        int i;
         int i4;
+        int i2;
         List selectables;
-        obj4 = this;
-        length = obj4.selectionRegistrar.sort(obj4.requireContainerCoordinates$foundation_release());
+        obj2 = this;
+        length = obj2.selectionRegistrar.sort(obj2.requireContainerCoordinates$foundation_release());
         if (length.isEmpty()) {
             return 1;
         }
@@ -799,20 +799,20 @@ public final class SelectionManager {
         final int i6 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list2.size()) {
-            i2 = 0;
-            obj2 = obj3;
             i5 = 0;
-            text = (Selectable)obj2.getText();
+            obj = obj3;
             i = 0;
+            text = (Selectable)obj.getText();
+            i4 = 0;
             if ((CharSequence)text.length() == 0) {
             } else {
             }
-            subselections = i;
+            subselections = i4;
             if (subselections != 0) {
             } else {
             }
-            i4 = offset;
-            Object obj5 = obj4.selectionRegistrar.getSubselections().get(obj2.getSelectableId());
+            i2 = offset;
+            Object obj5 = obj2.selectionRegistrar.getSubselections().get(obj.getSelectableId());
             if ((Selection)obj5 == null) {
             } else {
             }
@@ -820,21 +820,21 @@ public final class SelectionManager {
             if (Math.abs(offset - subselections) == text.length()) {
             } else {
             }
-            subSelection = i;
+            subSelection = i4;
             index$iv$iv++;
             subSelection = 1;
-            obj4 = this;
-            offset = i4;
+            obj2 = this;
+            offset = i2;
             length = selectables;
             subSelection = 1;
             selectables = length;
-            subSelection = i;
+            subSelection = i4;
             selectables = length;
-            i4 = offset;
+            i2 = offset;
             subselections = subSelection;
         }
         selectables = length;
-        i4 = offset;
+        i2 = offset;
         i3 = 1;
         return i3;
     }
@@ -844,28 +844,28 @@ public final class SelectionManager {
     }
 
     public final boolean isNonEmptySelection$foundation_release() {
-        int i2;
         int i4;
+        int i;
         int $this$isNonEmptySelection_u24lambda_u2413_u24lambda_u2412;
         List sort;
         int offset;
         int index$iv$iv;
-        Object obj;
         Object obj3;
+        Object obj;
         int i3;
         Object obj2;
-        int i;
+        int i2;
         int subselections;
         List $this$fastAny$iv;
         androidx.compose.foundation.text.selection.Selection.AnchorInfo end;
         final Object obj4 = this;
         final androidx.compose.foundation.text.selection.Selection selection = obj4.getSelection();
-        i2 = 0;
+        i4 = 0;
         if (selection == null) {
-            return i2;
+            return i4;
         }
         if (Intrinsics.areEqual(selection.getStart(), selection.getEnd())) {
-            return i2;
+            return i4;
         }
         if (Long.compare(selectableId2, selectableId3) == 0) {
             return 1;
@@ -876,7 +876,7 @@ public final class SelectionManager {
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
             i3 = 0;
-            i = 0;
+            i2 = 0;
             Object obj5 = obj4.selectionRegistrar.getSubselections().get((Selectable)list.get(index$iv$iv).getSelectableId());
             if ((Selection)obj5 != null) {
             } else {
@@ -884,7 +884,7 @@ public final class SelectionManager {
             $this$isNonEmptySelection_u24lambda_u2413_u24lambda_u2412 = 0;
             index$iv$iv++;
             sort = $this$fastAny$iv;
-            i2 = 0;
+            i4 = 0;
             offset = 1;
             sort = 0;
             if ((Selection)obj5.getStart().getOffset() != obj5.getEnd().getOffset()) {
@@ -894,8 +894,8 @@ public final class SelectionManager {
             $this$isNonEmptySelection_u24lambda_u2413_u24lambda_u2412 = 1;
         }
         $this$fastAny$iv = sort;
-        i4 = 0;
-        return i4;
+        i = 0;
+        return i;
     }
 
     public final boolean isTriviallyCollapsedSelection$foundation_release() {
@@ -933,12 +933,12 @@ public final class SelectionManager {
                 return containerLayoutCoordinates;
             }
             int i = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("unattached coordinates".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireSelectionManager$requireContainerCoordinates$2 = new IllegalArgumentException("unattached coordinates".toString());
+            throw $i$a$RequireSelectionManager$requireContainerCoordinates$2;
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("null coordinates".toString());
-        throw illegalArgumentException2;
+        IllegalArgumentException $i$a$RequireNotNullSelectionManager$requireContainerCoordinates$1 = new IllegalArgumentException("null coordinates".toString());
+        throw $i$a$RequireNotNullSelectionManager$requireContainerCoordinates$1;
     }
 
     public final void selectAll$foundation_release() {
@@ -950,12 +950,12 @@ public final class SelectionManager {
         androidx.compose.foundation.text.selection.Selection.AnchorInfo end;
         int list;
         int index$iv;
-        Object obj;
         Object obj2;
-        int i;
+        Object obj;
+        int i2;
         androidx.compose.foundation.text.selection.Selection selectAllSelection;
         List list2;
-        int i2;
+        int i;
         final Object obj3 = this;
         selectableId = obj3.selectionRegistrar.sort(obj3.requireContainerCoordinates$foundation_release());
         if (selectableId.isEmpty()) {
@@ -968,9 +968,9 @@ public final class SelectionManager {
         final int i4 = 0;
         index$iv = 0;
         while (index$iv < list.size()) {
-            obj2 = obj;
-            i = 0;
-            selectAllSelection = (Selectable)obj2.getSelectAllSelection();
+            obj = obj2;
+            i2 = 0;
+            selectAllSelection = (Selectable)obj.getSelectAllSelection();
             if (selectAllSelection == null) {
             } else {
             }
@@ -978,8 +978,8 @@ public final class SelectionManager {
             }
             lastSubSelection = selectAllSelection;
             list2 = selectableId;
-            mutableLongObjectMapOf.put(obj2.getSelectableId(), firstSubSelection);
-            firstSubSelection = i2;
+            mutableLongObjectMapOf.put(obj.getSelectableId(), firstSubSelection);
+            firstSubSelection = i;
             index$iv++;
             selectableId = list2;
             firstSubSelection = selectAllSelection;
@@ -1002,23 +1002,23 @@ public final class SelectionManager {
 
     public final Pair<androidx.compose.foundation.text.selection.Selection, LongObjectMap<androidx.compose.foundation.text.selection.Selection>> selectAllInSelectable$foundation_release(long selectableId, androidx.compose.foundation.text.selection.Selection previousSelection) {
         List selectableId2;
-        Object obj2;
+        Object obj4;
         int hapticFeedBack;
         int $i$f$fastFold;
         int accumulator$iv;
         int index$iv$iv;
-        Object obj;
         Object obj3;
-        int i3;
-        Object obj4;
-        int i5;
+        Object obj;
+        int i;
+        Object obj2;
+        int i2;
         int i4;
         androidx.compose.foundation.text.selection.Selection selectAllSelection;
         androidx.compose.foundation.text.selection.Selection selection;
-        int i2;
+        int i5;
         List $this$fastFold$iv;
         int i6;
-        int i;
+        int i3;
         final Object obj5 = this;
         final MutableLongObjectMap mutableLongObjectMapOf = LongObjectMapKt.mutableLongObjectMapOf();
         $i$f$fastFold = 0;
@@ -1028,8 +1028,8 @@ public final class SelectionManager {
         final int i8 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i3 = 0;
-            obj4 = obj3;
+            i = 0;
+            obj2 = obj;
             i4 = 0;
             if (Long.compare(selectableId3, selectableId) == 0) {
             } else {
@@ -1041,18 +1041,18 @@ public final class SelectionManager {
             }
             $this$fastFold$iv = selectableId2;
             i6 = hapticFeedBack;
-            i = $i$f$fastFold;
+            i3 = $i$f$fastFold;
             accumulator$iv = merge;
             index$iv$iv++;
             selectableId2 = $this$fastFold$iv;
             hapticFeedBack = i6;
-            $i$f$fastFold = i;
-            i2 = 0;
+            $i$f$fastFold = i3;
+            i5 = 0;
             $this$fastFold$iv = selectableId2;
             i6 = hapticFeedBack;
-            i = $i$f$fastFold;
-            mutableLongObjectMapOf.set(obj4.getSelectableId(), hapticFeedBack);
-            selectAllSelection = obj4.getSelectAllSelection();
+            i3 = $i$f$fastFold;
+            mutableLongObjectMapOf.set(obj2.getSelectableId(), hapticFeedBack);
+            selectAllSelection = obj2.getSelectAllSelection();
         }
         List $this$fastFold$iv2 = selectableId2;
         int i9 = hapticFeedBack;
@@ -1066,7 +1066,7 @@ public final class SelectionManager {
                 }
             }
         } else {
-            obj2 = obj25;
+            obj4 = obj25;
         }
         Pair pair = new Pair(accumulator$iv, mutableLongObjectMapOf);
         return pair;
@@ -1146,45 +1146,45 @@ public final class SelectionManager {
 
     public final boolean shouldPerformHaptics$foundation_release() {
         int $this$fastAny$iv;
-        int i2;
+        int i5;
         int i;
         List list;
-        int i3;
+        int i6;
         int index$iv$iv;
         int size;
-        int i4;
-        Object obj2;
-        Object obj3;
-        int i5;
-        Object obj;
-        int i6;
         int i7;
-        i2 = 0;
+        Object obj3;
+        Object obj;
+        int i3;
+        Object obj2;
+        int i4;
+        int i2;
+        i5 = 0;
         if (isInTouchMode()) {
             i = 0;
             list = selectables$foundation_release;
-            i3 = 0;
+            i6 = 0;
             index$iv$iv = 0;
-            i4 = 1;
+            i7 = 1;
             while (index$iv$iv < list.size()) {
-                i5 = 0;
-                i6 = 0;
+                i3 = 0;
+                i4 = 0;
                 if ((CharSequence)(Selectable)list.get(index$iv$iv).getText().length() > 0) {
                 } else {
                 }
-                i7 = i2;
+                i2 = i5;
                 index$iv$iv++;
-                i4 = 1;
-                i7 = i4;
+                i7 = 1;
+                i2 = i7;
             }
-            $this$fastAny$iv = i2;
+            $this$fastAny$iv = i5;
             if ($this$fastAny$iv != 0) {
-                i2 = i4;
+                i5 = i7;
             } else {
             }
         } else {
         }
-        return i2;
+        return i5;
     }
 
     public final boolean updateSelection-jyLRC_s$foundation_release(long position, long previousHandlePosition, boolean isStartHandle, androidx.compose.foundation.text.selection.SelectionAdjustment adjustment) {

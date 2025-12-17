@@ -51,19 +51,19 @@ public final class PointerInputEventProcessor {
         androidx.compose.ui.input.pointer.PointerInputEvent pointerInputEvent;
         androidx.compose.ui.input.pointer.PositionCalculator positionCalculator2;
         int isHover;
-        int i5;
-        int i4;
-        boolean z;
-        Object valueAt2;
+        int i;
+        int i2;
+        boolean z2;
+        Object valueAt;
         int result;
         boolean i6;
         LayoutNode id-J3iCeTQ;
-        long valueAt;
+        long valueAt2;
         long positionChangedIgnoreConsumed;
         HitTestResult changedToDownIgnoreConsumed;
-        boolean z2;
-        int i;
-        int i2;
+        boolean z;
+        int i5;
+        int i4;
         int i3;
         final Object obj = this;
         final int i9 = 0;
@@ -73,27 +73,27 @@ public final class PointerInputEventProcessor {
         obj.isProcessing = true;
         androidx.compose.ui.input.pointer.InternalPointerEvent produce = obj.pointerInputChangeEventProducer.produce(pointerEvent, positionCalculator);
         isHover = 1;
-        i5 = 0;
-        while (i5 < produce.getChanges().size()) {
-            valueAt2 = produce.getChanges().valueAt(i5);
-            i5++;
+        i = 0;
+        while (i < produce.getChanges().size()) {
+            valueAt = produce.getChanges().valueAt(i);
+            i++;
         }
-        i4 = 0;
-        while (i4 < produce.getChanges().size()) {
-            valueAt2 = produce.getChanges().valueAt(i4);
+        i2 = 0;
+        while (i2 < produce.getChanges().size()) {
+            valueAt = produce.getChanges().valueAt(i2);
             if (isHover == 0) {
             } else {
             }
-            valueAt = valueAt2.getPosition-F1C5BW0();
-            LayoutNode.hitTest-M_7yMNQ$ui_release$default(obj.root, valueAt, positionChangedIgnoreConsumed, obj.hitResult, PointerType.equals-impl0((PointerInputChange)valueAt2.getType-T8wyACA(), PointerType.Companion.getTouch-T8wyACA()), 0, 8);
+            valueAt2 = valueAt.getPosition-F1C5BW0();
+            LayoutNode.hitTest-M_7yMNQ$ui_release$default(obj.root, valueAt2, positionChangedIgnoreConsumed, obj.hitResult, PointerType.equals-impl0((PointerInputChange)valueAt.getType-T8wyACA(), PointerType.Companion.getTouch-T8wyACA()), 0, 8);
             if (!(Collection)obj.hitResult.isEmpty()) {
             }
-            i4++;
-            obj.hitPathTracker.addHitPath-QJqDSyo(valueAt2.getId-J3iCeTQ(), valueAt, (List)obj.hitResult);
+            i2++;
+            obj.hitPathTracker.addHitPath-QJqDSyo(valueAt.getId-J3iCeTQ(), valueAt2, (List)obj.hitResult);
             obj.hitResult.clear();
-            valueAt = valueAt2.getPosition-F1C5BW0();
-            LayoutNode.hitTest-M_7yMNQ$ui_release$default(obj.root, valueAt, positionChangedIgnoreConsumed, obj.hitResult, PointerType.equals-impl0(valueAt2.getType-T8wyACA(), PointerType.Companion.getTouch-T8wyACA()), 0, 8);
-            if (PointerEventKt.changedToDownIgnoreConsumed(valueAt2) && !(Collection)obj.hitResult.isEmpty()) {
+            valueAt2 = valueAt.getPosition-F1C5BW0();
+            LayoutNode.hitTest-M_7yMNQ$ui_release$default(obj.root, valueAt2, positionChangedIgnoreConsumed, obj.hitResult, PointerType.equals-impl0(valueAt.getType-T8wyACA(), PointerType.Companion.getTouch-T8wyACA()), 0, 8);
+            if (PointerEventKt.changedToDownIgnoreConsumed(valueAt) && !(Collection)obj.hitResult.isEmpty()) {
             }
         }
         try {

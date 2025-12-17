@@ -213,7 +213,7 @@ public final class SavedStateEncoder extends AbstractEncoder {
         int i;
         Object constructor-impl;
         boolean next;
-        kotlin.Pair pair;
+        kotlin.Pair $i$a$MapSavedStateKt__SavedState_androidKt$savedState$pairs$1$iv;
         Object key;
         Object value;
         Intrinsics.checkNotNullParameter(descriptor, "descriptor");

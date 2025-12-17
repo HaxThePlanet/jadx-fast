@@ -30,17 +30,17 @@ public final class RadialGradient extends androidx.compose.ui.graphics.ShaderBru
     }
 
     public RadialGradient(List list, List list2, long l3, float f4, int i5, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
-        int i;
         int i2;
+        int i;
         int obj10;
         int obj14;
-        i = defaultConstructorMarker7 & 2 != 0 ? obj10 : list2;
+        i2 = defaultConstructorMarker7 & 2 != 0 ? obj10 : list2;
         if (defaultConstructorMarker7 & 16 != 0) {
-            i2 = obj14;
+            i = obj14;
         } else {
-            i2 = i6;
+            i = i6;
         }
-        super(list, i, l3, obj4, i5, i2, 0);
+        super(list, i2, l3, obj4, i5, i, 0);
     }
 
     public RadialGradient(List list, List list2, long l3, float f4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
@@ -129,16 +129,16 @@ public final class RadialGradient extends androidx.compose.ui.graphics.ShaderBru
     @Override // androidx.compose.ui.graphics.ShaderBrush
     public long getIntrinsicSize-NH-jbRc() {
         float naN;
-        int i;
+        int i2;
         long unspecified-NH-jbRc;
         boolean infinite;
-        int i2;
+        int i;
         naN = this.radius;
         if (!Float.isInfinite(naN) && !Float.isNaN(naN)) {
-            i = !Float.isNaN(naN) ? 1 : 0;
+            i2 = !Float.isNaN(naN) ? 1 : 0;
         } else {
         }
-        if (i != 0) {
+        if (i2 != 0) {
             infinite = (float)i4;
             unspecified-NH-jbRc = SizeKt.Size(radius *= infinite, radius2 *= infinite);
         } else {
@@ -161,17 +161,17 @@ public final class RadialGradient extends androidx.compose.ui.graphics.ShaderBru
 
     @Override // androidx.compose.ui.graphics.ShaderBrush
     public String toString() {
-        String string2;
         String string;
+        String string2;
         String string-impl;
         int radius;
         float naN;
         String str = ", ";
         if (OffsetKt.isSpecified-k-4lQ0M(this.center)) {
             StringBuilder stringBuilder = new StringBuilder();
-            string2 = stringBuilder.append("center=").append(Offset.toString-impl(this.center)).append(str).toString();
+            string = stringBuilder.append("center=").append(Offset.toString-impl(this.center)).append(str).toString();
         } else {
-            string2 = string;
+            string = string2;
         }
         naN = this.radius;
         if (!Float.isInfinite(naN) && !Float.isNaN(naN)) {
@@ -180,9 +180,9 @@ public final class RadialGradient extends androidx.compose.ui.graphics.ShaderBru
         }
         if (radius != 0) {
             StringBuilder stringBuilder2 = new StringBuilder();
-            string = stringBuilder2.append("radius=").append(this.radius).append(str).toString();
+            string2 = stringBuilder2.append("radius=").append(this.radius).append(str).toString();
         }
         StringBuilder stringBuilder3 = new StringBuilder();
-        return stringBuilder3.append("RadialGradient(colors=").append(this.colors).append(", stops=").append(this.stops).append(str).append(string2).append(string).append("tileMode=").append(TileMode.toString-impl(this.tileMode)).append(')').toString();
+        return stringBuilder3.append("RadialGradient(colors=").append(this.colors).append(", stops=").append(this.stops).append(str).append(string).append(string2).append("tileMode=").append(TileMode.toString-impl(this.tileMode)).append(')').toString();
     }
 }

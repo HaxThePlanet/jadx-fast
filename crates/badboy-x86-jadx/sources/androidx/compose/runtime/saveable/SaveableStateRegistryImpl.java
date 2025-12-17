@@ -70,33 +70,33 @@ final class SaveableStateRegistryImpl implements androidx.compose.runtime.saveab
 
     public Map<String, List<Object>> performSave() {
         Object next;
-        int i;
+        int i2;
         Object key;
         Object value;
         Object invoke2;
         int arrayListOf;
         int arrayList;
-        int i2;
         int i3;
+        int i;
         Object invoke;
         boolean beSaved;
         Map mutableMap = MapsKt.toMutableMap(this.restored);
         final int i4 = 0;
         Iterator iterator = this.valueProviders.entrySet().iterator();
         for (Map.Entry next : iterator) {
-            i = 0;
+            i2 = 0;
             key = next.getKey();
             value = next.getValue();
             invoke2 = value.size();
             arrayList = new ArrayList(invoke2);
             while (arrayListOf < invoke2) {
-                i3 = 0;
+                i = 0;
                 invoke = (Function0)value.get(arrayListOf).invoke();
                 arrayList.add(invoke);
                 arrayListOf++;
             }
             mutableMap.put((String)key, (List)arrayList);
-            i3 = 0;
+            i = 0;
             invoke = (Function0)value.get(arrayListOf).invoke();
             arrayList.add(invoke);
             arrayListOf++;
@@ -126,7 +126,7 @@ final class SaveableStateRegistryImpl implements androidx.compose.runtime.saveab
             return (SaveableStateRegistry.Entry)anon;
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Registered key is empty or blank".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireSaveableStateRegistryImpl$registerProvider$1 = new IllegalArgumentException("Registered key is empty or blank".toString());
+        throw $i$a$RequireSaveableStateRegistryImpl$registerProvider$1;
     }
 }

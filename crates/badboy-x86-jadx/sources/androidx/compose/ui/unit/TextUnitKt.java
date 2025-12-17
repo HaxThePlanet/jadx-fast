@@ -21,8 +21,8 @@ public final class TextUnitKt {
         } else {
         }
         int i = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Cannot perform operation for Unspecified type.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireTextUnitKt$checkArithmetic$1 = new IllegalArgumentException("Cannot perform operation for Unspecified type.".toString());
+        throw $i$a$RequireTextUnitKt$checkArithmetic$1;
     }
 
     public static final void checkArithmetic-NB67dxo(long a, long b) {
@@ -39,49 +39,49 @@ public final class TextUnitKt {
             }
             int i2 = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(stringBuilder.append("Cannot perform operation for ").append(TextUnitType.toString-impl(TextUnit.getType-UIouoOA(a))).append(" and ").append(TextUnitType.toString-impl(TextUnit.getType-UIouoOA(obj6))).toString().toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Cannot perform operation for ").append(TextUnitType.toString-impl(TextUnit.getType-UIouoOA(a))).append(" and ").append(TextUnitType.toString-impl(TextUnit.getType-UIouoOA(obj6))).toString().toString());
+            throw illegalArgumentException;
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Cannot perform operation for Unspecified type.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireTextUnitKt$checkArithmetic$2 = new IllegalArgumentException("Cannot perform operation for Unspecified type.".toString());
+        throw $i$a$RequireTextUnitKt$checkArithmetic$2;
     }
 
     public static final void checkArithmetic-vU-0ePk(long a, long b, long c) {
-        int i2;
+        int i;
         boolean equals-impl0;
         boolean unspecified--R2X_6o;
-        int i;
-        long type-UIouoOA;
+        int i2;
         long type-UIouoOA2;
+        long type-UIouoOA;
         int i5 = 0;
         if (!TextUnitKt.isUnspecified--R2X_6o(a) && !TextUnitKt.isUnspecified--R2X_6o(c) && !TextUnitKt.isUnspecified--R2X_6o(obj11)) {
             if (!TextUnitKt.isUnspecified--R2X_6o(c)) {
-                i2 = !TextUnitKt.isUnspecified--R2X_6o(obj11) ? i : i5;
+                i = !TextUnitKt.isUnspecified--R2X_6o(obj11) ? i2 : i5;
             } else {
             }
         } else {
         }
-        if (i2 == 0) {
+        if (i == 0) {
         } else {
             if (TextUnitType.equals-impl0(TextUnit.getType-UIouoOA(a), obj4) && TextUnitType.equals-impl0(TextUnit.getType-UIouoOA(c), obj4)) {
                 if (TextUnitType.equals-impl0(TextUnit.getType-UIouoOA(c), obj4)) {
                 } else {
-                    i = i5;
+                    i2 = i5;
                 }
             } else {
             }
-            if (i == 0) {
+            if (i2 == 0) {
             } else {
             }
             int i3 = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(stringBuilder.append("Cannot perform operation for ").append(TextUnitType.toString-impl(TextUnit.getType-UIouoOA(a))).append(" and ").append(TextUnitType.toString-impl(TextUnit.getType-UIouoOA(c))).toString().toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Cannot perform operation for ").append(TextUnitType.toString-impl(TextUnit.getType-UIouoOA(a))).append(" and ").append(TextUnitType.toString-impl(TextUnit.getType-UIouoOA(c))).toString().toString());
+            throw illegalArgumentException;
         }
         int i4 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Cannot perform operation for Unspecified type.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireTextUnitKt$checkArithmetic$4 = new IllegalArgumentException("Cannot perform operation for Unspecified type.".toString());
+        throw $i$a$RequireTextUnitKt$checkArithmetic$4;
     }
 
     public static final long getEm(double $this$em) {

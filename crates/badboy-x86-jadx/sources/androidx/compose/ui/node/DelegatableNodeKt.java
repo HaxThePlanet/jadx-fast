@@ -47,120 +47,120 @@ public final class DelegatableNodeKt {
     }
 
     public static final <T> List<T> ancestors-64DMado(androidx.compose.ui.node.DelegatableNode $this$ancestors_u2d64DMado, int type) {
-        int node$iv$iv2;
+        int $i$f$ancestors64DMado2;
         int capacity$iv$iv$iv$iv;
         Modifier.Node tail$ui_release;
-        int i7;
-        Modifier.Node node2;
-        androidx.compose.ui.node.DelegatableNode count$iv$iv2;
-        int count$iv$iv;
-        int count$iv$iv4;
-        int node$iv$iv;
-        Modifier.Node node$iv$iv3;
-        androidx.compose.ui.node.LayoutNode layout$iv$iv;
-        Modifier.Node head$ui_release;
-        int i5;
         int i6;
         Modifier.Node node4;
-        int i4;
+        androidx.compose.ui.node.DelegatableNode count$iv$iv2;
+        int count$iv$iv4;
+        int count$iv$iv;
+        int node$iv$iv2;
+        Modifier.Node node$iv$iv;
+        androidx.compose.ui.node.LayoutNode layout$iv$iv;
+        Modifier.Node head$ui_release;
+        int i2;
+        int i7;
+        Modifier.Node node3;
+        int i9;
         int stack$iv$iv;
-        int node$iv$iv4;
+        int $i$f$ancestors64DMado;
         int result;
         androidx.compose.ui.node.DelegatableNode delegatableNode;
         Modifier.Node arrayList;
-        int i8;
+        int i4;
         Modifier.Node node$iv$iv$iv;
-        int i;
-        Modifier.Node node3;
+        int i5;
+        Modifier.Node node2;
         int this_$iv$iv$iv;
-        int i9;
-        int i2;
+        int i8;
+        int i3;
         int count$iv$iv3;
         int includeSelf$iv;
-        int i3;
+        int i;
         Modifier.Node node;
-        i7 = 0;
+        i6 = 0;
         count$iv$iv2 = $this$ancestors_u2d64DMado;
-        node$iv$iv = 0;
-        final int i18 = 0;
+        node$iv$iv2 = 0;
+        final int i17 = 0;
         final Object obj = type;
         final androidx.compose.ui.node.DelegatableNode delegatableNode2 = count$iv$iv2;
-        final int i19 = 0;
+        final int i18 = 0;
         if (!delegatableNode2.getNode().isAttached()) {
         } else {
-            node$iv$iv3 = delegatableNode2.getNode().getParent$ui_release();
+            node$iv$iv = delegatableNode2.getNode().getParent$ui_release();
             layout$iv$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode2);
             while (layout$iv$iv != null) {
                 if (aggregateChildKindSet$ui_release &= obj != 0) {
                 } else {
                 }
-                node$iv$iv4 = node$iv$iv2;
+                $i$f$ancestors64DMado = $i$f$ancestors64DMado2;
                 delegatableNode = count$iv$iv2;
-                includeSelf$iv = node$iv$iv;
+                includeSelf$iv = node$iv$iv2;
                 layout$iv$iv = layout$iv$iv.getParent$ui_release();
-                node$iv$iv2 = layout$iv$iv.getNodes$ui_release();
-                if (layout$iv$iv != null && node$iv$iv2 != null) {
+                $i$f$ancestors64DMado2 = layout$iv$iv.getNodes$ui_release();
+                if (layout$iv$iv != null && $i$f$ancestors64DMado2 != null) {
                 } else {
                 }
                 tail$ui_release = 0;
-                node$iv$iv3 = tail$ui_release;
-                node$iv$iv2 = node$iv$iv4;
+                node$iv$iv = tail$ui_release;
+                $i$f$ancestors64DMado2 = $i$f$ancestors64DMado;
                 count$iv$iv2 = delegatableNode;
-                node$iv$iv = includeSelf$iv;
-                node$iv$iv2 = layout$iv$iv.getNodes$ui_release();
-                if (node$iv$iv2 != null) {
+                node$iv$iv2 = includeSelf$iv;
+                $i$f$ancestors64DMado2 = layout$iv$iv.getNodes$ui_release();
+                if ($i$f$ancestors64DMado2 != null) {
                 } else {
                 }
-                tail$ui_release = node$iv$iv2.getTail$ui_release();
-                while (node$iv$iv3 != null) {
+                tail$ui_release = $i$f$ancestors64DMado2.getTail$ui_release();
+                while (node$iv$iv != null) {
                     if (kindSet$ui_release &= obj != 0) {
                     } else {
                     }
-                    node$iv$iv4 = node$iv$iv2;
+                    $i$f$ancestors64DMado = $i$f$ancestors64DMado2;
                     delegatableNode = count$iv$iv2;
-                    includeSelf$iv = node$iv$iv;
-                    node$iv$iv3 = node$iv$iv3.getParent$ui_release();
-                    node$iv$iv2 = node$iv$iv4;
+                    includeSelf$iv = node$iv$iv2;
+                    node$iv$iv = node$iv$iv.getParent$ui_release();
+                    $i$f$ancestors64DMado2 = $i$f$ancestors64DMado;
                     count$iv$iv2 = delegatableNode;
-                    node$iv$iv = includeSelf$iv;
-                    i6 = 0;
-                    i4 = 0;
+                    node$iv$iv2 = includeSelf$iv;
+                    i7 = 0;
+                    i9 = 0;
                     stack$iv$iv = 0;
-                    int i20 = 0;
-                    node$iv$iv4 = node$iv$iv2;
-                    node$iv$iv2 = node;
-                    while (node$iv$iv2 != null) {
-                        result = i7;
+                    int i19 = 0;
+                    $i$f$ancestors64DMado = $i$f$ancestors64DMado2;
+                    $i$f$ancestors64DMado2 = node;
+                    while ($i$f$ancestors64DMado2 != null) {
+                        result = i6;
                         delegatableNode = count$iv$iv2;
                         Intrinsics.reifiedOperationMarker(3, "T");
-                        if (node$iv$iv2 instanceof Object != null) {
+                        if ($i$f$ancestors64DMado2 instanceof Object != null) {
                         } else {
                         }
-                        node2 = node$iv$iv2;
-                        int i14 = 0;
-                        i8 = node2;
+                        node4 = $i$f$ancestors64DMado2;
+                        int i13 = 0;
+                        i4 = node4;
                         if (kindSet$ui_release2 &= type != 0) {
                         } else {
                         }
-                        count$iv$iv = 0;
-                        if (count$iv$iv != 0 && node$iv$iv2 instanceof DelegatingNode) {
+                        count$iv$iv4 = 0;
+                        if (count$iv$iv4 != 0 && $i$f$ancestors64DMado2 instanceof DelegatingNode) {
                         } else {
                         }
-                        includeSelf$iv = node$iv$iv;
-                        i7 = result;
-                        node$iv$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
+                        includeSelf$iv = node$iv$iv2;
+                        i6 = result;
+                        $i$f$ancestors64DMado2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
                         count$iv$iv2 = delegatableNode;
-                        node$iv$iv = includeSelf$iv;
-                        if (node$iv$iv2 instanceof DelegatingNode) {
+                        node$iv$iv2 = includeSelf$iv;
+                        if ($i$f$ancestors64DMado2 instanceof DelegatingNode) {
                         } else {
                         }
-                        count$iv$iv = 0;
-                        i8 = 0;
-                        node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
+                        count$iv$iv4 = 0;
+                        i4 = 0;
+                        node$iv$iv$iv = (DelegatingNode)$i$f$ancestors64DMado2.getDelegate$ui_release();
                         while (node$iv$iv$iv != null) {
-                            node2 = node$iv$iv$iv;
-                            i = 0;
-                            i9 = 0;
+                            node4 = node$iv$iv$iv;
+                            i5 = 0;
+                            i8 = 0;
                             if (kindSet$ui_release3 &= type != 0) {
                             } else {
                             }
@@ -168,65 +168,65 @@ public final class DelegatableNodeKt {
                             if (this_$iv$iv$iv != 0) {
                             } else {
                             }
-                            node3 = node$iv$iv2;
-                            includeSelf$iv = node$iv$iv;
+                            node2 = $i$f$ancestors64DMado2;
+                            includeSelf$iv = node$iv$iv2;
                             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                            node$iv$iv = includeSelf$iv;
-                            count$iv$iv++;
-                            node3 = node$iv$iv2;
-                            if (count$iv$iv == 1) {
+                            node$iv$iv2 = includeSelf$iv;
+                            count$iv$iv4++;
+                            node2 = $i$f$ancestors64DMado2;
+                            if (count$iv$iv4 == 1) {
                             } else {
                             }
-                            int node$iv$iv7 = stack$iv$iv;
-                            if ((MutableVector)node$iv$iv7 == 0) {
+                            int node$iv$iv5 = stack$iv$iv;
+                            if ((MutableVector)node$iv$iv5 == 0) {
                             } else {
                             }
-                            count$iv$iv3 = count$iv$iv;
-                            includeSelf$iv = node$iv$iv;
-                            count$iv$iv4 = node$iv$iv7;
+                            count$iv$iv3 = count$iv$iv4;
+                            includeSelf$iv = node$iv$iv2;
+                            count$iv$iv = node$iv$iv5;
                             capacity$iv$iv$iv$iv = 0;
-                            stack$iv$iv = count$iv$iv4;
-                            Modifier.Node node6 = node3;
+                            stack$iv$iv = count$iv$iv;
+                            Modifier.Node node6 = node2;
                             if ((Modifier.Node)node6 != null) {
                             } else {
                             }
-                            node$iv$iv = node3;
+                            node$iv$iv2 = node2;
                             int i10 = stack$iv$iv;
                             if ((MutableVector)i10 != 0) {
                             }
-                            node$iv$iv2 = node$iv$iv;
-                            count$iv$iv = count$iv$iv3;
-                            (MutableVector)i10.add(node2);
-                            int i17 = stack$iv$iv;
-                            if ((MutableVector)i17 != 0) {
+                            $i$f$ancestors64DMado2 = node$iv$iv2;
+                            count$iv$iv4 = count$iv$iv3;
+                            (MutableVector)i10.add(node4);
+                            int i16 = stack$iv$iv;
+                            if ((MutableVector)i16 != 0) {
                             }
-                            node$iv$iv = 0;
-                            (MutableVector)i17.add((Modifier.Node)node6);
-                            i9 = i11;
+                            node$iv$iv2 = 0;
+                            (MutableVector)i16.add((Modifier.Node)node6);
+                            i8 = i11;
                             int $i$f$mutableVectorOf = 16;
-                            i2 = 0;
-                            count$iv$iv3 = count$iv$iv;
-                            includeSelf$iv = node$iv$iv;
-                            i3 = $i$f$mutableVectorOf;
-                            count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                            node$iv$iv = count$iv$iv4;
-                            node$iv$iv2 = node2;
-                            includeSelf$iv = node$iv$iv;
+                            i3 = 0;
+                            count$iv$iv3 = count$iv$iv4;
+                            includeSelf$iv = node$iv$iv2;
+                            i = $i$f$mutableVectorOf;
+                            count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                            node$iv$iv2 = count$iv$iv;
+                            $i$f$ancestors64DMado2 = node4;
+                            includeSelf$iv = node$iv$iv2;
                             this_$iv$iv$iv = 1;
                         }
-                        node3 = node$iv$iv2;
-                        if (count$iv$iv == 1) {
+                        node2 = $i$f$ancestors64DMado2;
+                        if (count$iv$iv4 == 1) {
                         } else {
                         }
-                        i7 = result;
-                        node$iv$iv2 = node3;
-                        i7 = result;
+                        i6 = result;
+                        $i$f$ancestors64DMado2 = node2;
+                        i6 = result;
                         count$iv$iv2 = delegatableNode;
-                        node$iv$iv2 = node3;
-                        node$iv$iv = includeSelf$iv;
-                        node2 = node$iv$iv$iv;
-                        i = 0;
-                        i9 = 0;
+                        $i$f$ancestors64DMado2 = node2;
+                        node$iv$iv2 = includeSelf$iv;
+                        node4 = node$iv$iv$iv;
+                        i5 = 0;
+                        i8 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -234,95 +234,95 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        node3 = node$iv$iv2;
-                        includeSelf$iv = node$iv$iv;
+                        node2 = $i$f$ancestors64DMado2;
+                        includeSelf$iv = node$iv$iv2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        node$iv$iv = includeSelf$iv;
-                        count$iv$iv++;
-                        node3 = node$iv$iv2;
-                        if (count$iv$iv == 1) {
+                        node$iv$iv2 = includeSelf$iv;
+                        count$iv$iv4++;
+                        node2 = $i$f$ancestors64DMado2;
+                        if (count$iv$iv4 == 1) {
                         } else {
                         }
-                        node$iv$iv7 = stack$iv$iv;
-                        if ((MutableVector)(MutableVector)node$iv$iv7 == 0) {
+                        node$iv$iv5 = stack$iv$iv;
+                        if ((MutableVector)(MutableVector)node$iv$iv5 == 0) {
                         } else {
                         }
-                        count$iv$iv3 = count$iv$iv;
-                        includeSelf$iv = node$iv$iv;
-                        count$iv$iv4 = node$iv$iv7;
+                        count$iv$iv3 = count$iv$iv4;
+                        includeSelf$iv = node$iv$iv2;
+                        count$iv$iv = node$iv$iv5;
                         capacity$iv$iv$iv$iv = 0;
-                        stack$iv$iv = count$iv$iv4;
-                        node6 = node3;
+                        stack$iv$iv = count$iv$iv;
+                        node6 = node2;
                         if ((Modifier.Node)node6 != null) {
                         } else {
                         }
-                        node$iv$iv = node3;
+                        node$iv$iv2 = node2;
                         i10 = stack$iv$iv;
                         if ((MutableVector)i10 != 0) {
                         }
-                        node$iv$iv2 = node$iv$iv;
-                        count$iv$iv = count$iv$iv3;
-                        (MutableVector)i10.add(node2);
-                        i17 = stack$iv$iv;
-                        if ((MutableVector)i17 != 0) {
+                        $i$f$ancestors64DMado2 = node$iv$iv2;
+                        count$iv$iv4 = count$iv$iv3;
+                        (MutableVector)i10.add(node4);
+                        i16 = stack$iv$iv;
+                        if ((MutableVector)i16 != 0) {
                         }
-                        node$iv$iv = 0;
-                        (MutableVector)i17.add((Modifier.Node)node6);
-                        i9 = i11;
+                        node$iv$iv2 = 0;
+                        (MutableVector)i16.add((Modifier.Node)node6);
+                        i8 = i11;
                         $i$f$mutableVectorOf = 16;
-                        i2 = 0;
-                        count$iv$iv3 = count$iv$iv;
-                        includeSelf$iv = node$iv$iv;
-                        i3 = $i$f$mutableVectorOf;
-                        count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        node$iv$iv = count$iv$iv4;
-                        node$iv$iv2 = node2;
-                        includeSelf$iv = node$iv$iv;
+                        i3 = 0;
+                        count$iv$iv3 = count$iv$iv4;
+                        includeSelf$iv = node$iv$iv2;
+                        i = $i$f$mutableVectorOf;
+                        count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        node$iv$iv2 = count$iv$iv;
+                        $i$f$ancestors64DMado2 = node4;
+                        includeSelf$iv = node$iv$iv2;
                         this_$iv$iv$iv = 1;
-                        count$iv$iv = 1;
+                        count$iv$iv4 = 1;
                         if (result == null) {
                         }
-                        arrayList = i15;
-                        (List)result.add(node$iv$iv2);
-                        includeSelf$iv = node$iv$iv;
-                        i7 = result;
+                        arrayList = i14;
+                        (List)result.add($i$f$ancestors64DMado2);
+                        includeSelf$iv = node$iv$iv2;
+                        i6 = result;
                         arrayList = new ArrayList();
                         result = arrayList;
                     }
-                    result = i7;
+                    result = i6;
                     delegatableNode = count$iv$iv2;
-                    includeSelf$iv = node$iv$iv;
-                    result = i7;
+                    includeSelf$iv = node$iv$iv2;
+                    result = i6;
                     delegatableNode = count$iv$iv2;
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv$iv2 instanceof Object != null) {
+                    if ($i$f$ancestors64DMado2 instanceof Object != null) {
                     } else {
                     }
-                    node2 = node$iv$iv2;
-                    i14 = 0;
-                    i8 = node2;
+                    node4 = $i$f$ancestors64DMado2;
+                    i13 = 0;
+                    i4 = node4;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    if (count$iv$iv != 0 && node$iv$iv2 instanceof DelegatingNode) {
+                    count$iv$iv4 = 0;
+                    if (count$iv$iv4 != 0 && $i$f$ancestors64DMado2 instanceof DelegatingNode) {
                     } else {
                     }
-                    includeSelf$iv = node$iv$iv;
-                    i7 = result;
-                    node$iv$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
+                    includeSelf$iv = node$iv$iv2;
+                    i6 = result;
+                    $i$f$ancestors64DMado2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
                     count$iv$iv2 = delegatableNode;
-                    node$iv$iv = includeSelf$iv;
-                    if (node$iv$iv2 instanceof DelegatingNode) {
+                    node$iv$iv2 = includeSelf$iv;
+                    if ($i$f$ancestors64DMado2 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    i8 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
+                    count$iv$iv4 = 0;
+                    i4 = 0;
+                    node$iv$iv$iv = (DelegatingNode)$i$f$ancestors64DMado2.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node2 = node$iv$iv$iv;
-                        i = 0;
-                        i9 = 0;
+                        node4 = node$iv$iv$iv;
+                        i5 = 0;
+                        i8 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -330,65 +330,65 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        node3 = node$iv$iv2;
-                        includeSelf$iv = node$iv$iv;
+                        node2 = $i$f$ancestors64DMado2;
+                        includeSelf$iv = node$iv$iv2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        node$iv$iv = includeSelf$iv;
-                        count$iv$iv++;
-                        node3 = node$iv$iv2;
-                        if (count$iv$iv == 1) {
+                        node$iv$iv2 = includeSelf$iv;
+                        count$iv$iv4++;
+                        node2 = $i$f$ancestors64DMado2;
+                        if (count$iv$iv4 == 1) {
                         } else {
                         }
-                        node$iv$iv7 = stack$iv$iv;
-                        if ((MutableVector)(MutableVector)(MutableVector)node$iv$iv7 == 0) {
+                        node$iv$iv5 = stack$iv$iv;
+                        if ((MutableVector)(MutableVector)(MutableVector)node$iv$iv5 == 0) {
                         } else {
                         }
-                        count$iv$iv3 = count$iv$iv;
-                        includeSelf$iv = node$iv$iv;
-                        count$iv$iv4 = node$iv$iv7;
+                        count$iv$iv3 = count$iv$iv4;
+                        includeSelf$iv = node$iv$iv2;
+                        count$iv$iv = node$iv$iv5;
                         capacity$iv$iv$iv$iv = 0;
-                        stack$iv$iv = count$iv$iv4;
-                        node6 = node3;
+                        stack$iv$iv = count$iv$iv;
+                        node6 = node2;
                         if ((Modifier.Node)node6 != null) {
                         } else {
                         }
-                        node$iv$iv = node3;
+                        node$iv$iv2 = node2;
                         i10 = stack$iv$iv;
                         if ((MutableVector)i10 != 0) {
                         }
-                        node$iv$iv2 = node$iv$iv;
-                        count$iv$iv = count$iv$iv3;
-                        (MutableVector)i10.add(node2);
-                        i17 = stack$iv$iv;
-                        if ((MutableVector)i17 != 0) {
+                        $i$f$ancestors64DMado2 = node$iv$iv2;
+                        count$iv$iv4 = count$iv$iv3;
+                        (MutableVector)i10.add(node4);
+                        i16 = stack$iv$iv;
+                        if ((MutableVector)i16 != 0) {
                         }
-                        node$iv$iv = 0;
-                        (MutableVector)i17.add((Modifier.Node)node6);
-                        i9 = i11;
+                        node$iv$iv2 = 0;
+                        (MutableVector)i16.add((Modifier.Node)node6);
+                        i8 = i11;
                         $i$f$mutableVectorOf = 16;
-                        i2 = 0;
-                        count$iv$iv3 = count$iv$iv;
-                        includeSelf$iv = node$iv$iv;
-                        i3 = $i$f$mutableVectorOf;
-                        count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        node$iv$iv = count$iv$iv4;
-                        node$iv$iv2 = node2;
-                        includeSelf$iv = node$iv$iv;
+                        i3 = 0;
+                        count$iv$iv3 = count$iv$iv4;
+                        includeSelf$iv = node$iv$iv2;
+                        i = $i$f$mutableVectorOf;
+                        count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        node$iv$iv2 = count$iv$iv;
+                        $i$f$ancestors64DMado2 = node4;
+                        includeSelf$iv = node$iv$iv2;
                         this_$iv$iv$iv = 1;
                     }
-                    node3 = node$iv$iv2;
-                    if (count$iv$iv == 1) {
+                    node2 = $i$f$ancestors64DMado2;
+                    if (count$iv$iv4 == 1) {
                     } else {
                     }
-                    i7 = result;
-                    node$iv$iv2 = node3;
-                    i7 = result;
+                    i6 = result;
+                    $i$f$ancestors64DMado2 = node2;
+                    i6 = result;
                     count$iv$iv2 = delegatableNode;
-                    node$iv$iv2 = node3;
-                    node$iv$iv = includeSelf$iv;
-                    node2 = node$iv$iv$iv;
-                    i = 0;
-                    i9 = 0;
+                    $i$f$ancestors64DMado2 = node2;
+                    node$iv$iv2 = includeSelf$iv;
+                    node4 = node$iv$iv$iv;
+                    i5 = 0;
+                    i8 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -396,112 +396,112 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    node3 = node$iv$iv2;
-                    includeSelf$iv = node$iv$iv;
+                    node2 = $i$f$ancestors64DMado2;
+                    includeSelf$iv = node$iv$iv2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    node$iv$iv = includeSelf$iv;
-                    count$iv$iv++;
-                    node3 = node$iv$iv2;
-                    if (count$iv$iv == 1) {
+                    node$iv$iv2 = includeSelf$iv;
+                    count$iv$iv4++;
+                    node2 = $i$f$ancestors64DMado2;
+                    if (count$iv$iv4 == 1) {
                     } else {
                     }
-                    node$iv$iv7 = stack$iv$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv7 == 0) {
+                    node$iv$iv5 = stack$iv$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv5 == 0) {
                     } else {
                     }
-                    count$iv$iv3 = count$iv$iv;
-                    includeSelf$iv = node$iv$iv;
-                    count$iv$iv4 = node$iv$iv7;
+                    count$iv$iv3 = count$iv$iv4;
+                    includeSelf$iv = node$iv$iv2;
+                    count$iv$iv = node$iv$iv5;
                     capacity$iv$iv$iv$iv = 0;
-                    stack$iv$iv = count$iv$iv4;
-                    node6 = node3;
+                    stack$iv$iv = count$iv$iv;
+                    node6 = node2;
                     if ((Modifier.Node)node6 != null) {
                     } else {
                     }
-                    node$iv$iv = node3;
+                    node$iv$iv2 = node2;
                     i10 = stack$iv$iv;
                     if ((MutableVector)i10 != 0) {
                     }
-                    node$iv$iv2 = node$iv$iv;
-                    count$iv$iv = count$iv$iv3;
-                    (MutableVector)i10.add(node2);
-                    i17 = stack$iv$iv;
-                    if ((MutableVector)i17 != 0) {
+                    $i$f$ancestors64DMado2 = node$iv$iv2;
+                    count$iv$iv4 = count$iv$iv3;
+                    (MutableVector)i10.add(node4);
+                    i16 = stack$iv$iv;
+                    if ((MutableVector)i16 != 0) {
                     }
-                    node$iv$iv = 0;
-                    (MutableVector)i17.add((Modifier.Node)node6);
-                    i9 = i11;
+                    node$iv$iv2 = 0;
+                    (MutableVector)i16.add((Modifier.Node)node6);
+                    i8 = i11;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    count$iv$iv3 = count$iv$iv;
-                    includeSelf$iv = node$iv$iv;
-                    i3 = $i$f$mutableVectorOf;
-                    count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv = count$iv$iv4;
-                    node$iv$iv2 = node2;
-                    includeSelf$iv = node$iv$iv;
+                    i3 = 0;
+                    count$iv$iv3 = count$iv$iv4;
+                    includeSelf$iv = node$iv$iv2;
+                    i = $i$f$mutableVectorOf;
+                    count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv2 = count$iv$iv;
+                    $i$f$ancestors64DMado2 = node4;
+                    includeSelf$iv = node$iv$iv2;
                     this_$iv$iv$iv = 1;
-                    count$iv$iv = 1;
+                    count$iv$iv4 = 1;
                     if (result == null) {
                     }
-                    arrayList = i15;
-                    (List)result.add(node$iv$iv2);
-                    includeSelf$iv = node$iv$iv;
-                    i7 = result;
+                    arrayList = i14;
+                    (List)result.add($i$f$ancestors64DMado2);
+                    includeSelf$iv = node$iv$iv2;
+                    i6 = result;
                     arrayList = new ArrayList();
                     result = arrayList;
                 }
-                node$iv$iv4 = node$iv$iv2;
+                $i$f$ancestors64DMado = $i$f$ancestors64DMado2;
                 delegatableNode = count$iv$iv2;
-                includeSelf$iv = node$iv$iv;
+                includeSelf$iv = node$iv$iv2;
                 if (kindSet$ui_release &= obj != 0) {
                 } else {
                 }
-                node$iv$iv4 = node$iv$iv2;
+                $i$f$ancestors64DMado = $i$f$ancestors64DMado2;
                 delegatableNode = count$iv$iv2;
-                includeSelf$iv = node$iv$iv;
-                node$iv$iv3 = node$iv$iv3.getParent$ui_release();
-                node$iv$iv2 = node$iv$iv4;
+                includeSelf$iv = node$iv$iv2;
+                node$iv$iv = node$iv$iv.getParent$ui_release();
+                $i$f$ancestors64DMado2 = $i$f$ancestors64DMado;
                 count$iv$iv2 = delegatableNode;
-                node$iv$iv = includeSelf$iv;
-                i6 = 0;
-                i4 = 0;
+                node$iv$iv2 = includeSelf$iv;
+                i7 = 0;
+                i9 = 0;
                 stack$iv$iv = 0;
-                i20 = 0;
-                node$iv$iv4 = node$iv$iv2;
-                node$iv$iv2 = node;
-                while (node$iv$iv2 != null) {
-                    result = i7;
+                i19 = 0;
+                $i$f$ancestors64DMado = $i$f$ancestors64DMado2;
+                $i$f$ancestors64DMado2 = node;
+                while ($i$f$ancestors64DMado2 != null) {
+                    result = i6;
                     delegatableNode = count$iv$iv2;
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv$iv2 instanceof Object != null) {
+                    if ($i$f$ancestors64DMado2 instanceof Object != null) {
                     } else {
                     }
-                    node2 = node$iv$iv2;
-                    i14 = 0;
-                    i8 = node2;
+                    node4 = $i$f$ancestors64DMado2;
+                    i13 = 0;
+                    i4 = node4;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    if (count$iv$iv != 0 && node$iv$iv2 instanceof DelegatingNode) {
+                    count$iv$iv4 = 0;
+                    if (count$iv$iv4 != 0 && $i$f$ancestors64DMado2 instanceof DelegatingNode) {
                     } else {
                     }
-                    includeSelf$iv = node$iv$iv;
-                    i7 = result;
-                    node$iv$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
+                    includeSelf$iv = node$iv$iv2;
+                    i6 = result;
+                    $i$f$ancestors64DMado2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
                     count$iv$iv2 = delegatableNode;
-                    node$iv$iv = includeSelf$iv;
-                    if (node$iv$iv2 instanceof DelegatingNode) {
+                    node$iv$iv2 = includeSelf$iv;
+                    if ($i$f$ancestors64DMado2 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    i8 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
+                    count$iv$iv4 = 0;
+                    i4 = 0;
+                    node$iv$iv$iv = (DelegatingNode)$i$f$ancestors64DMado2.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node2 = node$iv$iv$iv;
-                        i = 0;
-                        i9 = 0;
+                        node4 = node$iv$iv$iv;
+                        i5 = 0;
+                        i8 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -509,65 +509,65 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        node3 = node$iv$iv2;
-                        includeSelf$iv = node$iv$iv;
+                        node2 = $i$f$ancestors64DMado2;
+                        includeSelf$iv = node$iv$iv2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        node$iv$iv = includeSelf$iv;
-                        count$iv$iv++;
-                        node3 = node$iv$iv2;
-                        if (count$iv$iv == 1) {
+                        node$iv$iv2 = includeSelf$iv;
+                        count$iv$iv4++;
+                        node2 = $i$f$ancestors64DMado2;
+                        if (count$iv$iv4 == 1) {
                         } else {
                         }
-                        node$iv$iv7 = stack$iv$iv;
-                        if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv7 == 0) {
+                        node$iv$iv5 = stack$iv$iv;
+                        if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv5 == 0) {
                         } else {
                         }
-                        count$iv$iv3 = count$iv$iv;
-                        includeSelf$iv = node$iv$iv;
-                        count$iv$iv4 = node$iv$iv7;
+                        count$iv$iv3 = count$iv$iv4;
+                        includeSelf$iv = node$iv$iv2;
+                        count$iv$iv = node$iv$iv5;
                         capacity$iv$iv$iv$iv = 0;
-                        stack$iv$iv = count$iv$iv4;
-                        node6 = node3;
+                        stack$iv$iv = count$iv$iv;
+                        node6 = node2;
                         if ((Modifier.Node)node6 != null) {
                         } else {
                         }
-                        node$iv$iv = node3;
+                        node$iv$iv2 = node2;
                         i10 = stack$iv$iv;
                         if ((MutableVector)i10 != 0) {
                         }
-                        node$iv$iv2 = node$iv$iv;
-                        count$iv$iv = count$iv$iv3;
-                        (MutableVector)i10.add(node2);
-                        i17 = stack$iv$iv;
-                        if ((MutableVector)i17 != 0) {
+                        $i$f$ancestors64DMado2 = node$iv$iv2;
+                        count$iv$iv4 = count$iv$iv3;
+                        (MutableVector)i10.add(node4);
+                        i16 = stack$iv$iv;
+                        if ((MutableVector)i16 != 0) {
                         }
-                        node$iv$iv = 0;
-                        (MutableVector)i17.add((Modifier.Node)node6);
-                        i9 = i11;
+                        node$iv$iv2 = 0;
+                        (MutableVector)i16.add((Modifier.Node)node6);
+                        i8 = i11;
                         $i$f$mutableVectorOf = 16;
-                        i2 = 0;
-                        count$iv$iv3 = count$iv$iv;
-                        includeSelf$iv = node$iv$iv;
-                        i3 = $i$f$mutableVectorOf;
-                        count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        node$iv$iv = count$iv$iv4;
-                        node$iv$iv2 = node2;
-                        includeSelf$iv = node$iv$iv;
+                        i3 = 0;
+                        count$iv$iv3 = count$iv$iv4;
+                        includeSelf$iv = node$iv$iv2;
+                        i = $i$f$mutableVectorOf;
+                        count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        node$iv$iv2 = count$iv$iv;
+                        $i$f$ancestors64DMado2 = node4;
+                        includeSelf$iv = node$iv$iv2;
                         this_$iv$iv$iv = 1;
                     }
-                    node3 = node$iv$iv2;
-                    if (count$iv$iv == 1) {
+                    node2 = $i$f$ancestors64DMado2;
+                    if (count$iv$iv4 == 1) {
                     } else {
                     }
-                    i7 = result;
-                    node$iv$iv2 = node3;
-                    i7 = result;
+                    i6 = result;
+                    $i$f$ancestors64DMado2 = node2;
+                    i6 = result;
                     count$iv$iv2 = delegatableNode;
-                    node$iv$iv2 = node3;
-                    node$iv$iv = includeSelf$iv;
-                    node2 = node$iv$iv$iv;
-                    i = 0;
-                    i9 = 0;
+                    $i$f$ancestors64DMado2 = node2;
+                    node$iv$iv2 = includeSelf$iv;
+                    node4 = node$iv$iv$iv;
+                    i5 = 0;
+                    i8 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -575,95 +575,95 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    node3 = node$iv$iv2;
-                    includeSelf$iv = node$iv$iv;
+                    node2 = $i$f$ancestors64DMado2;
+                    includeSelf$iv = node$iv$iv2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    node$iv$iv = includeSelf$iv;
-                    count$iv$iv++;
-                    node3 = node$iv$iv2;
-                    if (count$iv$iv == 1) {
+                    node$iv$iv2 = includeSelf$iv;
+                    count$iv$iv4++;
+                    node2 = $i$f$ancestors64DMado2;
+                    if (count$iv$iv4 == 1) {
                     } else {
                     }
-                    node$iv$iv7 = stack$iv$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv7 == 0) {
+                    node$iv$iv5 = stack$iv$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv5 == 0) {
                     } else {
                     }
-                    count$iv$iv3 = count$iv$iv;
-                    includeSelf$iv = node$iv$iv;
-                    count$iv$iv4 = node$iv$iv7;
+                    count$iv$iv3 = count$iv$iv4;
+                    includeSelf$iv = node$iv$iv2;
+                    count$iv$iv = node$iv$iv5;
                     capacity$iv$iv$iv$iv = 0;
-                    stack$iv$iv = count$iv$iv4;
-                    node6 = node3;
+                    stack$iv$iv = count$iv$iv;
+                    node6 = node2;
                     if ((Modifier.Node)node6 != null) {
                     } else {
                     }
-                    node$iv$iv = node3;
+                    node$iv$iv2 = node2;
                     i10 = stack$iv$iv;
                     if ((MutableVector)i10 != 0) {
                     }
-                    node$iv$iv2 = node$iv$iv;
-                    count$iv$iv = count$iv$iv3;
-                    (MutableVector)i10.add(node2);
-                    i17 = stack$iv$iv;
-                    if ((MutableVector)i17 != 0) {
+                    $i$f$ancestors64DMado2 = node$iv$iv2;
+                    count$iv$iv4 = count$iv$iv3;
+                    (MutableVector)i10.add(node4);
+                    i16 = stack$iv$iv;
+                    if ((MutableVector)i16 != 0) {
                     }
-                    node$iv$iv = 0;
-                    (MutableVector)i17.add((Modifier.Node)node6);
-                    i9 = i11;
+                    node$iv$iv2 = 0;
+                    (MutableVector)i16.add((Modifier.Node)node6);
+                    i8 = i11;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    count$iv$iv3 = count$iv$iv;
-                    includeSelf$iv = node$iv$iv;
-                    i3 = $i$f$mutableVectorOf;
-                    count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv = count$iv$iv4;
-                    node$iv$iv2 = node2;
-                    includeSelf$iv = node$iv$iv;
+                    i3 = 0;
+                    count$iv$iv3 = count$iv$iv4;
+                    includeSelf$iv = node$iv$iv2;
+                    i = $i$f$mutableVectorOf;
+                    count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv2 = count$iv$iv;
+                    $i$f$ancestors64DMado2 = node4;
+                    includeSelf$iv = node$iv$iv2;
                     this_$iv$iv$iv = 1;
-                    count$iv$iv = 1;
+                    count$iv$iv4 = 1;
                     if (result == null) {
                     }
-                    arrayList = i15;
-                    (List)result.add(node$iv$iv2);
-                    includeSelf$iv = node$iv$iv;
-                    i7 = result;
+                    arrayList = i14;
+                    (List)result.add($i$f$ancestors64DMado2);
+                    includeSelf$iv = node$iv$iv2;
+                    i6 = result;
                     arrayList = new ArrayList();
                     result = arrayList;
                 }
-                result = i7;
+                result = i6;
                 delegatableNode = count$iv$iv2;
-                includeSelf$iv = node$iv$iv;
-                result = i7;
+                includeSelf$iv = node$iv$iv2;
+                result = i6;
                 delegatableNode = count$iv$iv2;
                 Intrinsics.reifiedOperationMarker(3, "T");
-                if (node$iv$iv2 instanceof Object != null) {
+                if ($i$f$ancestors64DMado2 instanceof Object != null) {
                 } else {
                 }
-                node2 = node$iv$iv2;
-                i14 = 0;
-                i8 = node2;
+                node4 = $i$f$ancestors64DMado2;
+                i13 = 0;
+                i4 = node4;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
-                count$iv$iv = 0;
-                if (count$iv$iv != 0 && node$iv$iv2 instanceof DelegatingNode) {
+                count$iv$iv4 = 0;
+                if (count$iv$iv4 != 0 && $i$f$ancestors64DMado2 instanceof DelegatingNode) {
                 } else {
                 }
-                includeSelf$iv = node$iv$iv;
-                i7 = result;
-                node$iv$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
+                includeSelf$iv = node$iv$iv2;
+                i6 = result;
+                $i$f$ancestors64DMado2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
                 count$iv$iv2 = delegatableNode;
-                node$iv$iv = includeSelf$iv;
-                if (node$iv$iv2 instanceof DelegatingNode) {
+                node$iv$iv2 = includeSelf$iv;
+                if ($i$f$ancestors64DMado2 instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv = 0;
-                i8 = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
+                count$iv$iv4 = 0;
+                i4 = 0;
+                node$iv$iv$iv = (DelegatingNode)$i$f$ancestors64DMado2.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
-                    node2 = node$iv$iv$iv;
-                    i = 0;
-                    i9 = 0;
+                    node4 = node$iv$iv$iv;
+                    i5 = 0;
+                    i8 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -671,65 +671,65 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    node3 = node$iv$iv2;
-                    includeSelf$iv = node$iv$iv;
+                    node2 = $i$f$ancestors64DMado2;
+                    includeSelf$iv = node$iv$iv2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    node$iv$iv = includeSelf$iv;
-                    count$iv$iv++;
-                    node3 = node$iv$iv2;
-                    if (count$iv$iv == 1) {
+                    node$iv$iv2 = includeSelf$iv;
+                    count$iv$iv4++;
+                    node2 = $i$f$ancestors64DMado2;
+                    if (count$iv$iv4 == 1) {
                     } else {
                     }
-                    node$iv$iv7 = stack$iv$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv7 == 0) {
+                    node$iv$iv5 = stack$iv$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv5 == 0) {
                     } else {
                     }
-                    count$iv$iv3 = count$iv$iv;
-                    includeSelf$iv = node$iv$iv;
-                    count$iv$iv4 = node$iv$iv7;
+                    count$iv$iv3 = count$iv$iv4;
+                    includeSelf$iv = node$iv$iv2;
+                    count$iv$iv = node$iv$iv5;
                     capacity$iv$iv$iv$iv = 0;
-                    stack$iv$iv = count$iv$iv4;
-                    node6 = node3;
+                    stack$iv$iv = count$iv$iv;
+                    node6 = node2;
                     if ((Modifier.Node)node6 != null) {
                     } else {
                     }
-                    node$iv$iv = node3;
+                    node$iv$iv2 = node2;
                     i10 = stack$iv$iv;
                     if ((MutableVector)i10 != 0) {
                     }
-                    node$iv$iv2 = node$iv$iv;
-                    count$iv$iv = count$iv$iv3;
-                    (MutableVector)i10.add(node2);
-                    i17 = stack$iv$iv;
-                    if ((MutableVector)i17 != 0) {
+                    $i$f$ancestors64DMado2 = node$iv$iv2;
+                    count$iv$iv4 = count$iv$iv3;
+                    (MutableVector)i10.add(node4);
+                    i16 = stack$iv$iv;
+                    if ((MutableVector)i16 != 0) {
                     }
-                    node$iv$iv = 0;
-                    (MutableVector)i17.add((Modifier.Node)node6);
-                    i9 = i11;
+                    node$iv$iv2 = 0;
+                    (MutableVector)i16.add((Modifier.Node)node6);
+                    i8 = i11;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    count$iv$iv3 = count$iv$iv;
-                    includeSelf$iv = node$iv$iv;
-                    i3 = $i$f$mutableVectorOf;
-                    count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv = count$iv$iv4;
-                    node$iv$iv2 = node2;
-                    includeSelf$iv = node$iv$iv;
+                    i3 = 0;
+                    count$iv$iv3 = count$iv$iv4;
+                    includeSelf$iv = node$iv$iv2;
+                    i = $i$f$mutableVectorOf;
+                    count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv2 = count$iv$iv;
+                    $i$f$ancestors64DMado2 = node4;
+                    includeSelf$iv = node$iv$iv2;
                     this_$iv$iv$iv = 1;
                 }
-                node3 = node$iv$iv2;
-                if (count$iv$iv == 1) {
+                node2 = $i$f$ancestors64DMado2;
+                if (count$iv$iv4 == 1) {
                 } else {
                 }
-                i7 = result;
-                node$iv$iv2 = node3;
-                i7 = result;
+                i6 = result;
+                $i$f$ancestors64DMado2 = node2;
+                i6 = result;
                 count$iv$iv2 = delegatableNode;
-                node$iv$iv2 = node3;
-                node$iv$iv = includeSelf$iv;
-                node2 = node$iv$iv$iv;
-                i = 0;
-                i9 = 0;
+                $i$f$ancestors64DMado2 = node2;
+                node$iv$iv2 = includeSelf$iv;
+                node4 = node$iv$iv$iv;
+                i5 = 0;
+                i8 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -737,69 +737,69 @@ public final class DelegatableNodeKt {
                 if (this_$iv$iv$iv != 0) {
                 } else {
                 }
-                node3 = node$iv$iv2;
-                includeSelf$iv = node$iv$iv;
+                node2 = $i$f$ancestors64DMado2;
+                includeSelf$iv = node$iv$iv2;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                node$iv$iv = includeSelf$iv;
-                count$iv$iv++;
-                node3 = node$iv$iv2;
-                if (count$iv$iv == 1) {
+                node$iv$iv2 = includeSelf$iv;
+                count$iv$iv4++;
+                node2 = $i$f$ancestors64DMado2;
+                if (count$iv$iv4 == 1) {
                 } else {
                 }
-                node$iv$iv7 = stack$iv$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv7 == 0) {
+                node$iv$iv5 = stack$iv$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)node$iv$iv5 == 0) {
                 } else {
                 }
-                count$iv$iv3 = count$iv$iv;
-                includeSelf$iv = node$iv$iv;
-                count$iv$iv4 = node$iv$iv7;
+                count$iv$iv3 = count$iv$iv4;
+                includeSelf$iv = node$iv$iv2;
+                count$iv$iv = node$iv$iv5;
                 capacity$iv$iv$iv$iv = 0;
-                stack$iv$iv = count$iv$iv4;
-                node6 = node3;
+                stack$iv$iv = count$iv$iv;
+                node6 = node2;
                 if ((Modifier.Node)node6 != null) {
                 } else {
                 }
-                node$iv$iv = node3;
+                node$iv$iv2 = node2;
                 i10 = stack$iv$iv;
                 if ((MutableVector)i10 != 0) {
                 }
-                node$iv$iv2 = node$iv$iv;
-                count$iv$iv = count$iv$iv3;
-                (MutableVector)i10.add(node2);
-                i17 = stack$iv$iv;
-                if ((MutableVector)i17 != 0) {
+                $i$f$ancestors64DMado2 = node$iv$iv2;
+                count$iv$iv4 = count$iv$iv3;
+                (MutableVector)i10.add(node4);
+                i16 = stack$iv$iv;
+                if ((MutableVector)i16 != 0) {
                 }
-                node$iv$iv = 0;
-                (MutableVector)i17.add((Modifier.Node)node6);
-                i9 = i11;
+                node$iv$iv2 = 0;
+                (MutableVector)i16.add((Modifier.Node)node6);
+                i8 = i11;
                 $i$f$mutableVectorOf = 16;
-                i2 = 0;
-                count$iv$iv3 = count$iv$iv;
-                includeSelf$iv = node$iv$iv;
-                i3 = $i$f$mutableVectorOf;
-                count$iv$iv4 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv = count$iv$iv4;
-                node$iv$iv2 = node2;
-                includeSelf$iv = node$iv$iv;
+                i3 = 0;
+                count$iv$iv3 = count$iv$iv4;
+                includeSelf$iv = node$iv$iv2;
+                i = $i$f$mutableVectorOf;
+                count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                node$iv$iv2 = count$iv$iv;
+                $i$f$ancestors64DMado2 = node4;
+                includeSelf$iv = node$iv$iv2;
                 this_$iv$iv$iv = 1;
-                count$iv$iv = 1;
+                count$iv$iv4 = 1;
                 if (result == null) {
                 }
-                arrayList = i15;
-                (List)result.add(node$iv$iv2);
-                includeSelf$iv = node$iv$iv;
-                i7 = result;
+                arrayList = i14;
+                (List)result.add($i$f$ancestors64DMado2);
+                includeSelf$iv = node$iv$iv2;
+                i6 = result;
                 arrayList = new ArrayList();
                 result = arrayList;
             }
-            int i21 = node$iv$iv2;
-            return (List)i7;
+            int $i$f$ancestors64DMado4 = $i$f$ancestors64DMado2;
+            return (List)i6;
         }
-        int i22 = node$iv$iv2;
+        int $i$f$ancestors64DMado5 = $i$f$ancestors64DMado2;
         androidx.compose.ui.node.DelegatableNode delegatableNode3 = count$iv$iv2;
-        int i13 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        int $i$f$ancestors64DMado3 = 0;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv;
     }
 
     public static final androidx.compose.ui.node.LayoutModifierNode asLayoutModifierNode(Modifier.Node $this$asLayoutModifierNode) {
@@ -815,7 +815,7 @@ public final class DelegatableNodeKt {
         delegate$ui_release = 0;
         final int i7 = 1;
         final int i8 = 0;
-        kind$iv2 = kindSet$ui_release &= constructor-impl != 0 ? i7 : i8;
+        kind$iv2 = kindSet$ui_release &= $i$f$getLayoutOLwlOKw != 0 ? i7 : i8;
         int this_$iv = 0;
         if (kind$iv2 == 0) {
             return this_$iv;
@@ -833,7 +833,7 @@ public final class DelegatableNodeKt {
                 node = delegate$ui_release;
                 int i6 = 0;
                 i2 = 0;
-                if (kindSet$ui_release2 &= constructor-impl2 != 0) {
+                if (kindSet$ui_release2 &= $i$f$getLayoutOLwlOKw2 != 0) {
                 } else {
                 }
                 kind$iv = i8;
@@ -849,128 +849,128 @@ public final class DelegatableNodeKt {
 
     public static final <T> void dispatchForKind-6rFNWt0(Modifier.Node $this$dispatchForKind_u2d6rFNWt0, int kind, Function1<? super T, Unit> block) {
         int stack;
-        Object node2;
+        Object node;
         Object obj;
         int count;
         int this_$iv2;
-        int i5;
         int i;
-        int i3;
-        Modifier.Node node$iv;
-        Modifier.Node node;
         int i2;
+        int i7;
+        Modifier.Node node$iv;
+        Modifier.Node node2;
+        int i4;
         int this_$iv;
         int i6;
-        int i4;
-        int i7;
+        int i5;
+        int i3;
         MutableVector mutableVector;
         final int i8 = 0;
         stack = 0;
         int i9 = 0;
-        node2 = $this$dispatchForKind_u2d6rFNWt0;
-        while (node2 != null) {
+        node = $this$dispatchForKind_u2d6rFNWt0;
+        while (node != null) {
             Intrinsics.reifiedOperationMarker(3, "T");
-            if (node2 instanceof Object != null) {
+            if (node instanceof Object != null) {
             } else {
             }
             obj = block;
             this_$iv2 = 0;
-            i = 0;
+            i2 = 0;
             if (kindSet$ui_release &= kind != 0) {
             } else {
             }
-            count = i;
-            if (count != 0 && node2 instanceof DelegatingNode) {
+            count = i2;
+            if (count != 0 && node instanceof DelegatingNode) {
             } else {
             }
-            node2 = DelegatableNodeKt.access$pop((MutableVector)stack);
-            if (node2 instanceof DelegatingNode) {
+            node = DelegatableNodeKt.access$pop((MutableVector)stack);
+            if (node instanceof DelegatingNode) {
             } else {
             }
             count = 0;
-            i5 = 0;
-            node$iv = (DelegatingNode)node2.getDelegate$ui_release();
+            i = 0;
+            node$iv = (DelegatingNode)node.getDelegate$ui_release();
             while (node$iv != null) {
-                node = node$iv;
-                i2 = 0;
+                node2 = node$iv;
                 i4 = 0;
+                i5 = 0;
                 if (kindSet$ui_release2 &= kind != 0) {
                 } else {
                 }
-                this_$iv = i;
+                this_$iv = i2;
                 if (this_$iv != 0) {
                 }
                 node$iv = node$iv.getChild$ui_release();
-                i3 = 1;
-                if (count++ == i3) {
+                i7 = 1;
+                if (count++ == i7) {
                 } else {
                 }
                 if ((MutableVector)stack == 0) {
                 }
                 stack = i6;
-                i3 = node2;
+                i7 = node;
                 i6 = stack;
-                if ((Modifier.Node)i3 != null && (MutableVector)i6 != 0) {
+                if ((Modifier.Node)i7 != null && (MutableVector)i6 != 0) {
                 }
                 this_$iv = stack;
                 if ((MutableVector)this_$iv != 0) {
                 }
-                (MutableVector)this_$iv.add(node);
+                (MutableVector)this_$iv.add(node2);
                 i6 = stack;
                 if ((MutableVector)(MutableVector)i6 != 0) {
                 }
-                node2 = 0;
-                (MutableVector)(MutableVector)i6.add((Modifier.Node)i3);
+                node = 0;
+                (MutableVector)(MutableVector)i6.add((Modifier.Node)i7);
                 int i11 = 0;
-                i7 = 0;
-                mutableVector = new MutableVector(new Modifier.Node[16], i);
-                i3 = mutableVector;
+                i3 = 0;
+                mutableVector = new MutableVector(new Modifier.Node[16], i2);
+                i7 = mutableVector;
                 i6 = mutableVector;
-                node2 = node;
-                this_$iv = i3;
+                node = node2;
+                this_$iv = i7;
             }
             if (count == 1) {
             } else {
             }
-            node = node$iv;
-            i2 = 0;
+            node2 = node$iv;
             i4 = 0;
+            i5 = 0;
             if (kindSet$ui_release2 &= kind != 0) {
             } else {
             }
-            this_$iv = i;
+            this_$iv = i2;
             if (this_$iv != 0) {
             }
             node$iv = node$iv.getChild$ui_release();
-            i3 = 1;
-            if (count++ == i3) {
+            i7 = 1;
+            if (count++ == i7) {
             } else {
             }
             if ((MutableVector)stack == 0) {
             }
             stack = i6;
-            i3 = node2;
+            i7 = node;
             i6 = stack;
-            if ((Modifier.Node)i3 != null && (MutableVector)i6 != 0) {
+            if ((Modifier.Node)i7 != null && (MutableVector)i6 != 0) {
             }
             this_$iv = stack;
             if ((MutableVector)this_$iv != 0) {
             }
-            (MutableVector)this_$iv.add(node);
+            (MutableVector)this_$iv.add(node2);
             i6 = stack;
             if ((MutableVector)(MutableVector)i6 != 0) {
             }
-            node2 = 0;
-            (MutableVector)(MutableVector)i6.add((Modifier.Node)i3);
+            node = 0;
+            (MutableVector)(MutableVector)i6.add((Modifier.Node)i7);
             i11 = 0;
-            i7 = 0;
-            mutableVector = new MutableVector(new Modifier.Node[16], i);
-            i3 = mutableVector;
+            i3 = 0;
+            mutableVector = new MutableVector(new Modifier.Node[16], i2);
+            i7 = mutableVector;
             i6 = mutableVector;
-            node2 = node;
-            this_$iv = i3;
-            count = i3;
-            block.invoke(node2);
+            node = node2;
+            this_$iv = i7;
+            count = i7;
+            block.invoke(node);
         }
         Object obj2 = block;
     }
@@ -984,8 +984,8 @@ public final class DelegatableNodeKt {
     public static final void invalidateSubtree(androidx.compose.ui.node.DelegatableNode $this$invalidateSubtree) {
         boolean requireLayoutNode;
         int i3;
-        int i2;
         int i;
+        int i2;
         if ($this$invalidateSubtree.getNode().isAttached()) {
             LayoutNode.invalidateSubtree$default(DelegatableNodeKt.requireLayoutNode($this$invalidateSubtree), false, 1, 0);
         }
@@ -1000,7 +1000,7 @@ public final class DelegatableNodeKt {
     public static final Modifier.Node nearestAncestor(androidx.compose.ui.node.DelegatableNode $this$nearestAncestor, int mask) {
         Modifier.Node node;
         androidx.compose.ui.node.LayoutNode layout;
-        String tail$ui_release;
+        String $i$a$CheckPreconditionDelegatableNodeKt$nearestAncestor$1;
         Modifier.Node head$ui_release;
         int nodes$ui_release;
         int i = 0;
@@ -1018,11 +1018,11 @@ public final class DelegatableNodeKt {
             nodes$ui_release = layout.getNodes$ui_release();
             if (layout != null && nodes$ui_release != null) {
             }
-            node = tail$ui_release;
+            node = $i$a$CheckPreconditionDelegatableNodeKt$nearestAncestor$1;
             nodes$ui_release = layout.getNodes$ui_release();
             if (nodes$ui_release != null) {
             }
-            tail$ui_release = nodes$ui_release.getTail$ui_release();
+            $i$a$CheckPreconditionDelegatableNodeKt$nearestAncestor$1 = nodes$ui_release.getTail$ui_release();
             while (node != null) {
                 node = node.getParent$ui_release();
             }
@@ -1035,127 +1035,127 @@ public final class DelegatableNodeKt {
         int nodes$ui_release;
         Modifier.Node it;
         androidx.compose.ui.node.DelegatableNode count$iv$iv;
-        int count$iv$iv3;
+        int $i$f$isKindH91voCI$ui_release;
         int includeSelf$iv;
         int $i$f$mutableVectorOf;
-        int arr;
+        int $i$f$visitAncestorsYYKmho;
         Object obj;
         int mask$iv$iv;
-        Modifier.Node node$iv$iv2;
+        Modifier.Node node$iv$iv;
         androidx.compose.ui.node.LayoutNode layout$iv$iv;
-        int node$iv$iv3;
+        int node$iv$iv2;
         Modifier.Node head$ui_release;
-        int i6;
         int i3;
-        Modifier.Node node2;
-        int i9;
-        int stack$iv$iv;
-        int node$iv$iv;
-        int i7;
-        androidx.compose.ui.node.DelegatableNode delegatableNode;
+        int i;
         Modifier.Node node;
-        int i5;
+        int i7;
+        int stack$iv$iv;
+        int node$iv$iv3;
+        int $i$f$nearestAncestor64DMado;
+        androidx.compose.ui.node.DelegatableNode delegatableNode;
+        Modifier.Node node2;
+        int i2;
         Modifier.Node node$iv$iv$iv;
-        int i4;
+        int i5;
         int includeSelf$iv2;
         int this_$iv$iv$iv;
         int count$iv$iv2;
-        int i2;
+        int i4;
+        int i6;
         int i8;
-        int i;
         Object obj2;
         count$iv$iv = $this$nearestAncestor_u2d64DMado;
         includeSelf$iv = 0;
-        arr = 0;
+        $i$f$visitAncestorsYYKmho = 0;
         obj = type;
         final androidx.compose.ui.node.DelegatableNode delegatableNode2 = count$iv$iv;
-        final int i17 = 0;
+        final int i14 = 0;
         if (!delegatableNode2.getNode().isAttached()) {
         } else {
-            node$iv$iv2 = delegatableNode2.getNode().getParent$ui_release();
+            node$iv$iv = delegatableNode2.getNode().getParent$ui_release();
             layout$iv$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode2);
             while (layout$iv$iv != null) {
                 if (aggregateChildKindSet$ui_release &= obj != 0) {
                 } else {
                 }
-                i7 = nodes$ui_release;
+                $i$f$nearestAncestor64DMado = nodes$ui_release;
                 delegatableNode = count$iv$iv;
                 includeSelf$iv2 = includeSelf$iv;
-                i = arr;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
-                node$iv$iv = 0;
+                node$iv$iv3 = 0;
                 layout$iv$iv = layout$iv$iv.getParent$ui_release();
                 nodes$ui_release = layout$iv$iv.getNodes$ui_release();
                 if (layout$iv$iv != null && nodes$ui_release != null) {
                 } else {
                 }
-                node$iv$iv3 = node$iv$iv;
                 node$iv$iv2 = node$iv$iv3;
-                nodes$ui_release = i7;
+                node$iv$iv = node$iv$iv2;
+                nodes$ui_release = $i$f$nearestAncestor64DMado;
                 count$iv$iv = delegatableNode;
                 includeSelf$iv = includeSelf$iv2;
-                arr = i;
+                $i$f$visitAncestorsYYKmho = i8;
                 obj = obj2;
                 nodes$ui_release = layout$iv$iv.getNodes$ui_release();
                 if (nodes$ui_release != null) {
                 } else {
                 }
-                node$iv$iv3 = nodes$ui_release.getTail$ui_release();
-                while (node$iv$iv2 != null) {
+                node$iv$iv2 = nodes$ui_release.getTail$ui_release();
+                while (node$iv$iv != null) {
                     if (kindSet$ui_release &= obj == 0) {
                         break loop_4;
                     } else {
                     }
-                    i7 = nodes$ui_release;
+                    $i$f$nearestAncestor64DMado = nodes$ui_release;
                     delegatableNode = count$iv$iv;
                     includeSelf$iv2 = includeSelf$iv;
-                    i = arr;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
-                    node$iv$iv = 0;
-                    node$iv$iv2 = node$iv$iv2.getParent$ui_release();
-                    nodes$ui_release = i7;
+                    node$iv$iv3 = 0;
+                    node$iv$iv = node$iv$iv.getParent$ui_release();
+                    nodes$ui_release = $i$f$nearestAncestor64DMado;
                     count$iv$iv = delegatableNode;
                     includeSelf$iv = includeSelf$iv2;
-                    arr = i;
+                    $i$f$visitAncestorsYYKmho = i8;
                     obj = obj2;
-                    i3 = 0;
-                    i9 = 0;
+                    i = 0;
+                    i7 = 0;
                     stack$iv$iv = 0;
-                    int i18 = 0;
-                    node$iv$iv3 = node$iv$iv4;
-                    node$iv$iv = 0;
-                    while (node$iv$iv3 != null) {
-                        i7 = nodes$ui_release;
+                    int i15 = 0;
+                    node$iv$iv2 = node$iv$iv4;
+                    node$iv$iv3 = 0;
+                    while (node$iv$iv2 != null) {
+                        $i$f$nearestAncestor64DMado = nodes$ui_release;
                         delegatableNode = count$iv$iv;
                         Intrinsics.reifiedOperationMarker(3, "T");
-                        it = node$iv$iv3;
-                        int i14 = 0;
-                        i5 = it;
+                        it = node$iv$iv2;
+                        int i11 = 0;
+                        i2 = it;
                         if (kindSet$ui_release2 &= type != 0) {
                         } else {
                         }
-                        count$iv$iv3 = 0;
-                        if (count$iv$iv3 != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                        $i$f$isKindH91voCI$ui_release = 0;
+                        if ($i$f$isKindH91voCI$ui_release != 0 && node$iv$iv2 instanceof DelegatingNode) {
                         } else {
                         }
                         includeSelf$iv2 = includeSelf$iv;
-                        i = arr;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
-                        node$iv$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
-                        nodes$ui_release = i7;
+                        node$iv$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
+                        nodes$ui_release = $i$f$nearestAncestor64DMado;
                         count$iv$iv = delegatableNode;
                         includeSelf$iv = includeSelf$iv2;
-                        arr = i;
+                        $i$f$visitAncestorsYYKmho = i8;
                         obj = obj2;
-                        if (node$iv$iv3 instanceof DelegatingNode) {
+                        if (node$iv$iv2 instanceof DelegatingNode) {
                         } else {
                         }
-                        count$iv$iv3 = 0;
-                        i5 = 0;
-                        node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                        $i$f$isKindH91voCI$ui_release = 0;
+                        i2 = 0;
+                        node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
                         while (node$iv$iv$iv != null) {
                             it = node$iv$iv$iv;
-                            i4 = 0;
+                            i5 = 0;
                             count$iv$iv2 = 0;
                             if (kindSet$ui_release3 &= type != 0) {
                             } else {
@@ -1165,63 +1165,63 @@ public final class DelegatableNodeKt {
                             } else {
                             }
                             includeSelf$iv2 = includeSelf$iv;
-                            i = arr;
+                            i8 = $i$f$visitAncestorsYYKmho;
                             obj2 = obj;
                             mask$iv$iv = 0;
                             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                             includeSelf$iv = includeSelf$iv2;
-                            arr = i;
+                            $i$f$visitAncestorsYYKmho = i8;
                             obj = obj2;
-                            count$iv$iv3++;
+                            $i$f$isKindH91voCI$ui_release++;
                             includeSelf$iv2 = includeSelf$iv;
-                            if (count$iv$iv3 == 1) {
+                            if ($i$f$isKindH91voCI$ui_release == 1) {
                             } else {
                             }
                             if ((MutableVector)stack$iv$iv == 0) {
                             } else {
                             }
-                            count$iv$iv2 = count$iv$iv3;
-                            i = arr;
+                            count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                            i8 = $i$f$visitAncestorsYYKmho;
                             obj2 = obj;
                             mask$iv$iv = 0;
                             stack$iv$iv = $i$f$mutableVectorOf;
-                            Modifier.Node node4 = node$iv$iv3;
-                            int i16 = stack$iv$iv;
-                            if ((Modifier.Node)node4 != null && (MutableVector)i16 != 0) {
+                            Modifier.Node node4 = node$iv$iv2;
+                            int i13 = stack$iv$iv;
+                            if ((Modifier.Node)node4 != null && (MutableVector)i13 != 0) {
                             }
                             includeSelf$iv = stack$iv$iv;
                             if ((MutableVector)includeSelf$iv != 0) {
                             }
-                            count$iv$iv3 = count$iv$iv2;
+                            $i$f$isKindH91voCI$ui_release = count$iv$iv2;
                             (MutableVector)includeSelf$iv.add(it);
-                            i16 = stack$iv$iv;
-                            if ((MutableVector)(MutableVector)i16 != 0) {
+                            i13 = stack$iv$iv;
+                            if ((MutableVector)(MutableVector)i13 != 0) {
                             }
-                            node$iv$iv3 = $i$f$mutableVectorOf;
-                            (MutableVector)(MutableVector)i16.add((Modifier.Node)node4);
-                            count$iv$iv2 = count$iv$iv3;
-                            i2 = 0;
-                            i8 = i15;
-                            i = arr;
+                            node$iv$iv2 = $i$f$mutableVectorOf;
+                            (MutableVector)(MutableVector)i13.add((Modifier.Node)node4);
+                            count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                            i4 = 0;
+                            i6 = i12;
+                            i8 = $i$f$visitAncestorsYYKmho;
                             obj2 = obj;
                             $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                            count$iv$iv3 = $i$f$mutableVectorOf;
-                            node$iv$iv3 = it;
-                            i = arr;
+                            $i$f$isKindH91voCI$ui_release = $i$f$mutableVectorOf;
+                            node$iv$iv2 = it;
+                            i8 = $i$f$visitAncestorsYYKmho;
                             obj2 = obj;
                             mask$iv$iv = 0;
                             this_$iv$iv$iv = 1;
                         }
-                        if (count$iv$iv3 == 1) {
+                        if ($i$f$isKindH91voCI$ui_release == 1) {
                         } else {
                         }
-                        nodes$ui_release = i7;
+                        nodes$ui_release = $i$f$nearestAncestor64DMado;
                         count$iv$iv = delegatableNode;
                         includeSelf$iv = includeSelf$iv2;
-                        arr = i;
+                        $i$f$visitAncestorsYYKmho = i8;
                         obj = obj2;
                         it = node$iv$iv$iv;
-                        i4 = 0;
+                        i5 = 0;
                         count$iv$iv2 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
@@ -1231,90 +1231,90 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         includeSelf$iv2 = includeSelf$iv;
-                        i = arr;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         includeSelf$iv = includeSelf$iv2;
-                        arr = i;
+                        $i$f$visitAncestorsYYKmho = i8;
                         obj = obj2;
-                        count$iv$iv3++;
+                        $i$f$isKindH91voCI$ui_release++;
                         includeSelf$iv2 = includeSelf$iv;
-                        if (count$iv$iv3 == 1) {
+                        if ($i$f$isKindH91voCI$ui_release == 1) {
                         } else {
                         }
                         if ((MutableVector)stack$iv$iv == 0) {
                         } else {
                         }
-                        count$iv$iv2 = count$iv$iv3;
-                        i = arr;
+                        count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         stack$iv$iv = $i$f$mutableVectorOf;
-                        node4 = node$iv$iv3;
-                        i16 = stack$iv$iv;
-                        if ((Modifier.Node)node4 != null && (MutableVector)i16 != 0) {
+                        node4 = node$iv$iv2;
+                        i13 = stack$iv$iv;
+                        if ((Modifier.Node)node4 != null && (MutableVector)i13 != 0) {
                         }
                         includeSelf$iv = stack$iv$iv;
                         if ((MutableVector)includeSelf$iv != 0) {
                         }
-                        count$iv$iv3 = count$iv$iv2;
+                        $i$f$isKindH91voCI$ui_release = count$iv$iv2;
                         (MutableVector)includeSelf$iv.add(it);
-                        i16 = stack$iv$iv;
-                        if ((MutableVector)(MutableVector)i16 != 0) {
+                        i13 = stack$iv$iv;
+                        if ((MutableVector)(MutableVector)i13 != 0) {
                         }
-                        node$iv$iv3 = $i$f$mutableVectorOf;
-                        (MutableVector)(MutableVector)i16.add((Modifier.Node)node4);
-                        count$iv$iv2 = count$iv$iv3;
-                        i2 = 0;
-                        i8 = i15;
-                        i = arr;
+                        node$iv$iv2 = $i$f$mutableVectorOf;
+                        (MutableVector)(MutableVector)i13.add((Modifier.Node)node4);
+                        count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                        i4 = 0;
+                        i6 = i12;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                        count$iv$iv3 = $i$f$mutableVectorOf;
-                        node$iv$iv3 = it;
-                        i = arr;
+                        $i$f$isKindH91voCI$ui_release = $i$f$mutableVectorOf;
+                        node$iv$iv2 = it;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         this_$iv$iv$iv = 1;
-                        count$iv$iv3 = 1;
+                        $i$f$isKindH91voCI$ui_release = 1;
                     }
-                    i7 = nodes$ui_release;
+                    $i$f$nearestAncestor64DMado = nodes$ui_release;
                     delegatableNode = count$iv$iv;
                     includeSelf$iv2 = includeSelf$iv;
-                    i = arr;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
-                    i7 = nodes$ui_release;
+                    $i$f$nearestAncestor64DMado = nodes$ui_release;
                     delegatableNode = count$iv$iv;
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    it = node$iv$iv3;
-                    i14 = 0;
-                    i5 = it;
+                    it = node$iv$iv2;
+                    i11 = 0;
+                    i2 = it;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
-                    count$iv$iv3 = 0;
-                    if (count$iv$iv3 != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    if ($i$f$isKindH91voCI$ui_release != 0 && node$iv$iv2 instanceof DelegatingNode) {
                     } else {
                     }
                     includeSelf$iv2 = includeSelf$iv;
-                    i = arr;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
-                    node$iv$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
-                    nodes$ui_release = i7;
+                    node$iv$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
+                    nodes$ui_release = $i$f$nearestAncestor64DMado;
                     count$iv$iv = delegatableNode;
                     includeSelf$iv = includeSelf$iv2;
-                    arr = i;
+                    $i$f$visitAncestorsYYKmho = i8;
                     obj = obj2;
-                    if (node$iv$iv3 instanceof DelegatingNode) {
+                    if (node$iv$iv2 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv3 = 0;
-                    i5 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    i2 = 0;
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         it = node$iv$iv$iv;
-                        i4 = 0;
+                        i5 = 0;
                         count$iv$iv2 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
@@ -1324,63 +1324,63 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         includeSelf$iv2 = includeSelf$iv;
-                        i = arr;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         includeSelf$iv = includeSelf$iv2;
-                        arr = i;
+                        $i$f$visitAncestorsYYKmho = i8;
                         obj = obj2;
-                        count$iv$iv3++;
+                        $i$f$isKindH91voCI$ui_release++;
                         includeSelf$iv2 = includeSelf$iv;
-                        if (count$iv$iv3 == 1) {
+                        if ($i$f$isKindH91voCI$ui_release == 1) {
                         } else {
                         }
                         if ((MutableVector)stack$iv$iv == 0) {
                         } else {
                         }
-                        count$iv$iv2 = count$iv$iv3;
-                        i = arr;
+                        count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         stack$iv$iv = $i$f$mutableVectorOf;
-                        node4 = node$iv$iv3;
-                        i16 = stack$iv$iv;
-                        if ((Modifier.Node)node4 != null && (MutableVector)i16 != 0) {
+                        node4 = node$iv$iv2;
+                        i13 = stack$iv$iv;
+                        if ((Modifier.Node)node4 != null && (MutableVector)i13 != 0) {
                         }
                         includeSelf$iv = stack$iv$iv;
                         if ((MutableVector)includeSelf$iv != 0) {
                         }
-                        count$iv$iv3 = count$iv$iv2;
+                        $i$f$isKindH91voCI$ui_release = count$iv$iv2;
                         (MutableVector)includeSelf$iv.add(it);
-                        i16 = stack$iv$iv;
-                        if ((MutableVector)(MutableVector)i16 != 0) {
+                        i13 = stack$iv$iv;
+                        if ((MutableVector)(MutableVector)i13 != 0) {
                         }
-                        node$iv$iv3 = $i$f$mutableVectorOf;
-                        (MutableVector)(MutableVector)i16.add((Modifier.Node)node4);
-                        count$iv$iv2 = count$iv$iv3;
-                        i2 = 0;
-                        i8 = i15;
-                        i = arr;
+                        node$iv$iv2 = $i$f$mutableVectorOf;
+                        (MutableVector)(MutableVector)i13.add((Modifier.Node)node4);
+                        count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                        i4 = 0;
+                        i6 = i12;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                        count$iv$iv3 = $i$f$mutableVectorOf;
-                        node$iv$iv3 = it;
-                        i = arr;
+                        $i$f$isKindH91voCI$ui_release = $i$f$mutableVectorOf;
+                        node$iv$iv2 = it;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         this_$iv$iv$iv = 1;
                     }
-                    if (count$iv$iv3 == 1) {
+                    if ($i$f$isKindH91voCI$ui_release == 1) {
                     } else {
                     }
-                    nodes$ui_release = i7;
+                    nodes$ui_release = $i$f$nearestAncestor64DMado;
                     count$iv$iv = delegatableNode;
                     includeSelf$iv = includeSelf$iv2;
-                    arr = i;
+                    $i$f$visitAncestorsYYKmho = i8;
                     obj = obj2;
                     it = node$iv$iv$iv;
-                    i4 = 0;
+                    i5 = 0;
                     count$iv$iv2 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
@@ -1390,113 +1390,113 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     includeSelf$iv2 = includeSelf$iv;
-                    i = arr;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     includeSelf$iv = includeSelf$iv2;
-                    arr = i;
+                    $i$f$visitAncestorsYYKmho = i8;
                     obj = obj2;
-                    count$iv$iv3++;
+                    $i$f$isKindH91voCI$ui_release++;
                     includeSelf$iv2 = includeSelf$iv;
-                    if (count$iv$iv3 == 1) {
+                    if ($i$f$isKindH91voCI$ui_release == 1) {
                     } else {
                     }
                     if ((MutableVector)stack$iv$iv == 0) {
                     } else {
                     }
-                    count$iv$iv2 = count$iv$iv3;
-                    i = arr;
+                    count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     stack$iv$iv = $i$f$mutableVectorOf;
-                    node4 = node$iv$iv3;
-                    i16 = stack$iv$iv;
-                    if ((Modifier.Node)node4 != null && (MutableVector)i16 != 0) {
+                    node4 = node$iv$iv2;
+                    i13 = stack$iv$iv;
+                    if ((Modifier.Node)node4 != null && (MutableVector)i13 != 0) {
                     }
                     includeSelf$iv = stack$iv$iv;
                     if ((MutableVector)includeSelf$iv != 0) {
                     }
-                    count$iv$iv3 = count$iv$iv2;
+                    $i$f$isKindH91voCI$ui_release = count$iv$iv2;
                     (MutableVector)includeSelf$iv.add(it);
-                    i16 = stack$iv$iv;
-                    if ((MutableVector)(MutableVector)i16 != 0) {
+                    i13 = stack$iv$iv;
+                    if ((MutableVector)(MutableVector)i13 != 0) {
                     }
-                    node$iv$iv3 = $i$f$mutableVectorOf;
-                    (MutableVector)(MutableVector)i16.add((Modifier.Node)node4);
-                    count$iv$iv2 = count$iv$iv3;
-                    i2 = 0;
-                    i8 = i15;
-                    i = arr;
+                    node$iv$iv2 = $i$f$mutableVectorOf;
+                    (MutableVector)(MutableVector)i13.add((Modifier.Node)node4);
+                    count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                    i4 = 0;
+                    i6 = i12;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                    count$iv$iv3 = $i$f$mutableVectorOf;
-                    node$iv$iv3 = it;
-                    i = arr;
+                    $i$f$isKindH91voCI$ui_release = $i$f$mutableVectorOf;
+                    node$iv$iv2 = it;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     this_$iv$iv$iv = 1;
-                    count$iv$iv3 = 1;
+                    $i$f$isKindH91voCI$ui_release = 1;
                 }
-                i7 = nodes$ui_release;
+                $i$f$nearestAncestor64DMado = nodes$ui_release;
                 delegatableNode = count$iv$iv;
                 includeSelf$iv2 = includeSelf$iv;
-                i = arr;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
-                node$iv$iv = 0;
+                node$iv$iv3 = 0;
                 if (kindSet$ui_release &= obj != 0) {
                 } else {
                 }
-                i7 = nodes$ui_release;
+                $i$f$nearestAncestor64DMado = nodes$ui_release;
                 delegatableNode = count$iv$iv;
                 includeSelf$iv2 = includeSelf$iv;
-                i = arr;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
-                node$iv$iv = 0;
-                node$iv$iv2 = node$iv$iv2.getParent$ui_release();
-                nodes$ui_release = i7;
+                node$iv$iv3 = 0;
+                node$iv$iv = node$iv$iv.getParent$ui_release();
+                nodes$ui_release = $i$f$nearestAncestor64DMado;
                 count$iv$iv = delegatableNode;
                 includeSelf$iv = includeSelf$iv2;
-                arr = i;
+                $i$f$visitAncestorsYYKmho = i8;
                 obj = obj2;
-                i3 = 0;
-                i9 = 0;
+                i = 0;
+                i7 = 0;
                 stack$iv$iv = 0;
-                i18 = 0;
-                node$iv$iv3 = node$iv$iv4;
-                node$iv$iv = 0;
-                while (node$iv$iv3 != null) {
-                    i7 = nodes$ui_release;
+                i15 = 0;
+                node$iv$iv2 = node$iv$iv4;
+                node$iv$iv3 = 0;
+                while (node$iv$iv2 != null) {
+                    $i$f$nearestAncestor64DMado = nodes$ui_release;
                     delegatableNode = count$iv$iv;
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    it = node$iv$iv3;
-                    i14 = 0;
-                    i5 = it;
+                    it = node$iv$iv2;
+                    i11 = 0;
+                    i2 = it;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
-                    count$iv$iv3 = 0;
-                    if (count$iv$iv3 != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    if ($i$f$isKindH91voCI$ui_release != 0 && node$iv$iv2 instanceof DelegatingNode) {
                     } else {
                     }
                     includeSelf$iv2 = includeSelf$iv;
-                    i = arr;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
-                    node$iv$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
-                    nodes$ui_release = i7;
+                    node$iv$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
+                    nodes$ui_release = $i$f$nearestAncestor64DMado;
                     count$iv$iv = delegatableNode;
                     includeSelf$iv = includeSelf$iv2;
-                    arr = i;
+                    $i$f$visitAncestorsYYKmho = i8;
                     obj = obj2;
-                    if (node$iv$iv3 instanceof DelegatingNode) {
+                    if (node$iv$iv2 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv3 = 0;
-                    i5 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    i2 = 0;
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         it = node$iv$iv$iv;
-                        i4 = 0;
+                        i5 = 0;
                         count$iv$iv2 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
@@ -1506,63 +1506,63 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         includeSelf$iv2 = includeSelf$iv;
-                        i = arr;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         includeSelf$iv = includeSelf$iv2;
-                        arr = i;
+                        $i$f$visitAncestorsYYKmho = i8;
                         obj = obj2;
-                        count$iv$iv3++;
+                        $i$f$isKindH91voCI$ui_release++;
                         includeSelf$iv2 = includeSelf$iv;
-                        if (count$iv$iv3 == 1) {
+                        if ($i$f$isKindH91voCI$ui_release == 1) {
                         } else {
                         }
                         if ((MutableVector)stack$iv$iv == 0) {
                         } else {
                         }
-                        count$iv$iv2 = count$iv$iv3;
-                        i = arr;
+                        count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         stack$iv$iv = $i$f$mutableVectorOf;
-                        node4 = node$iv$iv3;
-                        i16 = stack$iv$iv;
-                        if ((Modifier.Node)node4 != null && (MutableVector)i16 != 0) {
+                        node4 = node$iv$iv2;
+                        i13 = stack$iv$iv;
+                        if ((Modifier.Node)node4 != null && (MutableVector)i13 != 0) {
                         }
                         includeSelf$iv = stack$iv$iv;
                         if ((MutableVector)includeSelf$iv != 0) {
                         }
-                        count$iv$iv3 = count$iv$iv2;
+                        $i$f$isKindH91voCI$ui_release = count$iv$iv2;
                         (MutableVector)includeSelf$iv.add(it);
-                        i16 = stack$iv$iv;
-                        if ((MutableVector)(MutableVector)i16 != 0) {
+                        i13 = stack$iv$iv;
+                        if ((MutableVector)(MutableVector)i13 != 0) {
                         }
-                        node$iv$iv3 = $i$f$mutableVectorOf;
-                        (MutableVector)(MutableVector)i16.add((Modifier.Node)node4);
-                        count$iv$iv2 = count$iv$iv3;
-                        i2 = 0;
-                        i8 = i15;
-                        i = arr;
+                        node$iv$iv2 = $i$f$mutableVectorOf;
+                        (MutableVector)(MutableVector)i13.add((Modifier.Node)node4);
+                        count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                        i4 = 0;
+                        i6 = i12;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                        count$iv$iv3 = $i$f$mutableVectorOf;
-                        node$iv$iv3 = it;
-                        i = arr;
+                        $i$f$isKindH91voCI$ui_release = $i$f$mutableVectorOf;
+                        node$iv$iv2 = it;
+                        i8 = $i$f$visitAncestorsYYKmho;
                         obj2 = obj;
                         mask$iv$iv = 0;
                         this_$iv$iv$iv = 1;
                     }
-                    if (count$iv$iv3 == 1) {
+                    if ($i$f$isKindH91voCI$ui_release == 1) {
                     } else {
                     }
-                    nodes$ui_release = i7;
+                    nodes$ui_release = $i$f$nearestAncestor64DMado;
                     count$iv$iv = delegatableNode;
                     includeSelf$iv = includeSelf$iv2;
-                    arr = i;
+                    $i$f$visitAncestorsYYKmho = i8;
                     obj = obj2;
                     it = node$iv$iv$iv;
-                    i4 = 0;
+                    i5 = 0;
                     count$iv$iv2 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
@@ -1572,90 +1572,90 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     includeSelf$iv2 = includeSelf$iv;
-                    i = arr;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     includeSelf$iv = includeSelf$iv2;
-                    arr = i;
+                    $i$f$visitAncestorsYYKmho = i8;
                     obj = obj2;
-                    count$iv$iv3++;
+                    $i$f$isKindH91voCI$ui_release++;
                     includeSelf$iv2 = includeSelf$iv;
-                    if (count$iv$iv3 == 1) {
+                    if ($i$f$isKindH91voCI$ui_release == 1) {
                     } else {
                     }
                     if ((MutableVector)stack$iv$iv == 0) {
                     } else {
                     }
-                    count$iv$iv2 = count$iv$iv3;
-                    i = arr;
+                    count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     stack$iv$iv = $i$f$mutableVectorOf;
-                    node4 = node$iv$iv3;
-                    i16 = stack$iv$iv;
-                    if ((Modifier.Node)node4 != null && (MutableVector)i16 != 0) {
+                    node4 = node$iv$iv2;
+                    i13 = stack$iv$iv;
+                    if ((Modifier.Node)node4 != null && (MutableVector)i13 != 0) {
                     }
                     includeSelf$iv = stack$iv$iv;
                     if ((MutableVector)includeSelf$iv != 0) {
                     }
-                    count$iv$iv3 = count$iv$iv2;
+                    $i$f$isKindH91voCI$ui_release = count$iv$iv2;
                     (MutableVector)includeSelf$iv.add(it);
-                    i16 = stack$iv$iv;
-                    if ((MutableVector)(MutableVector)i16 != 0) {
+                    i13 = stack$iv$iv;
+                    if ((MutableVector)(MutableVector)i13 != 0) {
                     }
-                    node$iv$iv3 = $i$f$mutableVectorOf;
-                    (MutableVector)(MutableVector)i16.add((Modifier.Node)node4);
-                    count$iv$iv2 = count$iv$iv3;
-                    i2 = 0;
-                    i8 = i15;
-                    i = arr;
+                    node$iv$iv2 = $i$f$mutableVectorOf;
+                    (MutableVector)(MutableVector)i13.add((Modifier.Node)node4);
+                    count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                    i4 = 0;
+                    i6 = i12;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                    count$iv$iv3 = $i$f$mutableVectorOf;
-                    node$iv$iv3 = it;
-                    i = arr;
+                    $i$f$isKindH91voCI$ui_release = $i$f$mutableVectorOf;
+                    node$iv$iv2 = it;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     this_$iv$iv$iv = 1;
-                    count$iv$iv3 = 1;
+                    $i$f$isKindH91voCI$ui_release = 1;
                 }
-                i7 = nodes$ui_release;
+                $i$f$nearestAncestor64DMado = nodes$ui_release;
                 delegatableNode = count$iv$iv;
                 includeSelf$iv2 = includeSelf$iv;
-                i = arr;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
-                i7 = nodes$ui_release;
+                $i$f$nearestAncestor64DMado = nodes$ui_release;
                 delegatableNode = count$iv$iv;
                 Intrinsics.reifiedOperationMarker(3, "T");
-                it = node$iv$iv3;
-                i14 = 0;
-                i5 = it;
+                it = node$iv$iv2;
+                i11 = 0;
+                i2 = it;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
-                count$iv$iv3 = 0;
-                if (count$iv$iv3 != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                $i$f$isKindH91voCI$ui_release = 0;
+                if ($i$f$isKindH91voCI$ui_release != 0 && node$iv$iv2 instanceof DelegatingNode) {
                 } else {
                 }
                 includeSelf$iv2 = includeSelf$iv;
-                i = arr;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
-                node$iv$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
-                nodes$ui_release = i7;
+                node$iv$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv$iv);
+                nodes$ui_release = $i$f$nearestAncestor64DMado;
                 count$iv$iv = delegatableNode;
                 includeSelf$iv = includeSelf$iv2;
-                arr = i;
+                $i$f$visitAncestorsYYKmho = i8;
                 obj = obj2;
-                if (node$iv$iv3 instanceof DelegatingNode) {
+                if (node$iv$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv3 = 0;
-                i5 = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                $i$f$isKindH91voCI$ui_release = 0;
+                i2 = 0;
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     it = node$iv$iv$iv;
-                    i4 = 0;
+                    i5 = 0;
                     count$iv$iv2 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
@@ -1665,63 +1665,63 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     includeSelf$iv2 = includeSelf$iv;
-                    i = arr;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     includeSelf$iv = includeSelf$iv2;
-                    arr = i;
+                    $i$f$visitAncestorsYYKmho = i8;
                     obj = obj2;
-                    count$iv$iv3++;
+                    $i$f$isKindH91voCI$ui_release++;
                     includeSelf$iv2 = includeSelf$iv;
-                    if (count$iv$iv3 == 1) {
+                    if ($i$f$isKindH91voCI$ui_release == 1) {
                     } else {
                     }
                     if ((MutableVector)stack$iv$iv == 0) {
                     } else {
                     }
-                    count$iv$iv2 = count$iv$iv3;
-                    i = arr;
+                    count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     stack$iv$iv = $i$f$mutableVectorOf;
-                    node4 = node$iv$iv3;
-                    i16 = stack$iv$iv;
-                    if ((Modifier.Node)node4 != null && (MutableVector)i16 != 0) {
+                    node4 = node$iv$iv2;
+                    i13 = stack$iv$iv;
+                    if ((Modifier.Node)node4 != null && (MutableVector)i13 != 0) {
                     }
                     includeSelf$iv = stack$iv$iv;
                     if ((MutableVector)includeSelf$iv != 0) {
                     }
-                    count$iv$iv3 = count$iv$iv2;
+                    $i$f$isKindH91voCI$ui_release = count$iv$iv2;
                     (MutableVector)includeSelf$iv.add(it);
-                    i16 = stack$iv$iv;
-                    if ((MutableVector)(MutableVector)i16 != 0) {
+                    i13 = stack$iv$iv;
+                    if ((MutableVector)(MutableVector)i13 != 0) {
                     }
-                    node$iv$iv3 = $i$f$mutableVectorOf;
-                    (MutableVector)(MutableVector)i16.add((Modifier.Node)node4);
-                    count$iv$iv2 = count$iv$iv3;
-                    i2 = 0;
-                    i8 = i15;
-                    i = arr;
+                    node$iv$iv2 = $i$f$mutableVectorOf;
+                    (MutableVector)(MutableVector)i13.add((Modifier.Node)node4);
+                    count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                    i4 = 0;
+                    i6 = i12;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                    count$iv$iv3 = $i$f$mutableVectorOf;
-                    node$iv$iv3 = it;
-                    i = arr;
+                    $i$f$isKindH91voCI$ui_release = $i$f$mutableVectorOf;
+                    node$iv$iv2 = it;
+                    i8 = $i$f$visitAncestorsYYKmho;
                     obj2 = obj;
                     mask$iv$iv = 0;
                     this_$iv$iv$iv = 1;
                 }
-                if (count$iv$iv3 == 1) {
+                if ($i$f$isKindH91voCI$ui_release == 1) {
                 } else {
                 }
-                nodes$ui_release = i7;
+                nodes$ui_release = $i$f$nearestAncestor64DMado;
                 count$iv$iv = delegatableNode;
                 includeSelf$iv = includeSelf$iv2;
-                arr = i;
+                $i$f$visitAncestorsYYKmho = i8;
                 obj = obj2;
                 it = node$iv$iv$iv;
-                i4 = 0;
+                i5 = 0;
                 count$iv$iv2 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
@@ -1731,61 +1731,61 @@ public final class DelegatableNodeKt {
                 } else {
                 }
                 includeSelf$iv2 = includeSelf$iv;
-                i = arr;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
                 mask$iv$iv = 0;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 includeSelf$iv = includeSelf$iv2;
-                arr = i;
+                $i$f$visitAncestorsYYKmho = i8;
                 obj = obj2;
-                count$iv$iv3++;
+                $i$f$isKindH91voCI$ui_release++;
                 includeSelf$iv2 = includeSelf$iv;
-                if (count$iv$iv3 == 1) {
+                if ($i$f$isKindH91voCI$ui_release == 1) {
                 } else {
                 }
                 if ((MutableVector)stack$iv$iv == 0) {
                 } else {
                 }
-                count$iv$iv2 = count$iv$iv3;
-                i = arr;
+                count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
                 mask$iv$iv = 0;
                 stack$iv$iv = $i$f$mutableVectorOf;
-                node4 = node$iv$iv3;
-                i16 = stack$iv$iv;
-                if ((Modifier.Node)node4 != null && (MutableVector)i16 != 0) {
+                node4 = node$iv$iv2;
+                i13 = stack$iv$iv;
+                if ((Modifier.Node)node4 != null && (MutableVector)i13 != 0) {
                 }
                 includeSelf$iv = stack$iv$iv;
                 if ((MutableVector)includeSelf$iv != 0) {
                 }
-                count$iv$iv3 = count$iv$iv2;
+                $i$f$isKindH91voCI$ui_release = count$iv$iv2;
                 (MutableVector)includeSelf$iv.add(it);
-                i16 = stack$iv$iv;
-                if ((MutableVector)(MutableVector)i16 != 0) {
+                i13 = stack$iv$iv;
+                if ((MutableVector)(MutableVector)i13 != 0) {
                 }
-                node$iv$iv3 = $i$f$mutableVectorOf;
-                (MutableVector)(MutableVector)i16.add((Modifier.Node)node4);
-                count$iv$iv2 = count$iv$iv3;
-                i2 = 0;
-                i8 = i15;
-                i = arr;
+                node$iv$iv2 = $i$f$mutableVectorOf;
+                (MutableVector)(MutableVector)i13.add((Modifier.Node)node4);
+                count$iv$iv2 = $i$f$isKindH91voCI$ui_release;
+                i4 = 0;
+                i6 = i12;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
                 $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[16], 0);
-                count$iv$iv3 = $i$f$mutableVectorOf;
-                node$iv$iv3 = it;
-                i = arr;
+                $i$f$isKindH91voCI$ui_release = $i$f$mutableVectorOf;
+                node$iv$iv2 = it;
+                i8 = $i$f$visitAncestorsYYKmho;
                 obj2 = obj;
                 mask$iv$iv = 0;
                 this_$iv$iv$iv = 1;
-                count$iv$iv3 = 1;
+                $i$f$isKindH91voCI$ui_release = 1;
             }
             return 0;
         }
-        int i20 = nodes$ui_release;
+        int i17 = nodes$ui_release;
         androidx.compose.ui.node.DelegatableNode delegatableNode3 = count$iv$iv;
-        int i10 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        int $i$f$nearestAncestor64DMado2 = 0;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv;
     }
 
     private static final Modifier.Node pop(MutableVector<Modifier.Node> $this$pop) {
@@ -1827,8 +1827,8 @@ public final class DelegatableNodeKt {
     }
 
     public static final LayoutCoordinates requireLayoutCoordinates(androidx.compose.ui.node.DelegatableNode $this$requireLayoutCoordinates) {
-        String str;
-        String str2;
+        String $i$a$CheckPreconditionDelegatableNodeKt$requireLayoutCoordinates$1;
+        String $i$a$CheckPreconditionDelegatableNodeKt$requireLayoutCoordinates$2;
         int i = 0;
         if (!$this$requireLayoutCoordinates.getNode().isAttached()) {
             int i3 = 0;
@@ -1916,8 +1916,8 @@ public final class DelegatableNodeKt {
             }
         }
         int node3 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1 = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1;
     }
 
     public static void visitAncestors$default(androidx.compose.ui.node.DelegatableNode $this$visitAncestors_u24default, int mask, boolean includeSelf, Function1 block, int i5, Object object6) {
@@ -1976,38 +1976,38 @@ public final class DelegatableNodeKt {
         int mask$iv2;
         int capacity$iv$iv$iv;
         androidx.compose.ui.node.DelegatableNode delegatableNode;
-        int $this$visitAncestors$iv;
-        int i;
-        Modifier.Node node$iv;
+        int $this$visitAncestors$iv2;
+        int i7;
+        Modifier.Node node$iv2;
         androidx.compose.ui.node.LayoutNode layout$iv;
         Modifier.Node head$ui_release;
-        int i7;
-        int i2;
-        Modifier.Node node;
-        int i3;
+        int i10;
+        int i6;
+        Modifier.Node node2;
+        int i9;
         int stack$iv;
-        Modifier.Node node$iv2;
+        Modifier.Node node$iv;
         Object obj;
         String this_$iv$iv2;
-        Modifier.Node node2;
-        int i10;
+        Modifier.Node node;
+        int i;
         int i11;
         Modifier.Node node$iv$iv;
-        int i8;
+        int i3;
         int mask$iv;
         int this_$iv$iv;
-        int i9;
-        int i6;
-        androidx.compose.ui.node.DelegatableNode $this$visitAncestors$iv2;
-        int i4;
+        int i2;
         int i5;
+        androidx.compose.ui.node.DelegatableNode $this$visitAncestors$iv;
+        int i4;
+        int i8;
         delegatableNode = $this$visitAncestors_u2dY_u2dYKmho;
-        i = 0;
+        i7 = 0;
         if (!delegatableNode.getNode().isAttached()) {
         } else {
             if (includeSelf) {
             } else {
-                node$iv = delegatableNode.getNode().getParent$ui_release();
+                node$iv2 = delegatableNode.getNode().getParent$ui_release();
             }
             layout$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode);
             while (layout$iv != null) {
@@ -2017,75 +2017,75 @@ public final class DelegatableNodeKt {
                 obj = block;
                 i11 = nodes$ui_release;
                 mask$iv = mask$iv2;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
                 layout$iv = layout$iv.getParent$ui_release();
                 nodes$ui_release = layout$iv.getNodes$ui_release();
                 if (layout$iv != null && nodes$ui_release != null) {
                 } else {
                 }
                 tail$ui_release = 0;
-                node$iv = tail$ui_release;
+                node$iv2 = tail$ui_release;
                 nodes$ui_release = i11;
                 mask$iv2 = mask$iv;
-                delegatableNode = $this$visitAncestors$iv2;
-                i = i4;
+                delegatableNode = $this$visitAncestors$iv;
+                i7 = i4;
                 nodes$ui_release = layout$iv.getNodes$ui_release();
                 if (nodes$ui_release != null) {
                 } else {
                 }
                 tail$ui_release = nodes$ui_release.getTail$ui_release();
-                while (node$iv != null) {
+                while (node$iv2 != null) {
                     if (kindSet$ui_release &= mask$iv2 != 0) {
                     } else {
                     }
                     obj = block;
                     i11 = nodes$ui_release;
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    node$iv = node$iv.getParent$ui_release();
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    node$iv2 = node$iv2.getParent$ui_release();
                     nodes$ui_release = i11;
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitAncestors$iv2;
-                    i = i4;
-                    i2 = 0;
-                    i3 = 0;
+                    delegatableNode = $this$visitAncestors$iv;
+                    i7 = i4;
+                    i6 = 0;
+                    i9 = 0;
                     stack$iv = 0;
-                    int i17 = 0;
-                    node$iv2 = node;
-                    while (node$iv2 != null) {
+                    int i16 = 0;
+                    node$iv = node2;
+                    while (node$iv != null) {
                         Intrinsics.reifiedOperationMarker(3, "T");
-                        if (node$iv2 instanceof Object != null) {
+                        if (node$iv instanceof Object != null) {
                         } else {
                         }
                         obj = block;
-                        node2 = 0;
+                        node = 0;
                         if (kindSet$ui_release2 &= type != 0) {
                         } else {
                         }
                         this_$iv$iv2 = 0;
-                        if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
+                        if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                         } else {
                         }
                         mask$iv = mask$iv2;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
-                        node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
+                        node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                         nodes$ui_release = i11;
                         mask$iv2 = mask$iv;
-                        delegatableNode = $this$visitAncestors$iv2;
-                        i = i4;
-                        if (node$iv2 instanceof DelegatingNode) {
+                        delegatableNode = $this$visitAncestors$iv;
+                        i7 = i4;
+                        if (node$iv instanceof DelegatingNode) {
                         } else {
                         }
                         this_$iv$iv2 = 0;
-                        i10 = 0;
-                        node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                        i = 0;
+                        node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                         while (node$iv$iv != null) {
                             nodes$ui_release = node$iv$iv;
-                            i8 = 0;
-                            i9 = 0;
+                            i3 = 0;
+                            i2 = 0;
                             if (kindSet$ui_release3 &= type != 0) {
                             } else {
                             }
@@ -2094,50 +2094,50 @@ public final class DelegatableNodeKt {
                             } else {
                             }
                             mask$iv = mask$iv2;
-                            $this$visitAncestors$iv2 = delegatableNode;
-                            i4 = i;
+                            $this$visitAncestors$iv = delegatableNode;
+                            i4 = i7;
                             capacity$iv$iv$iv = 0;
                             node$iv$iv = node$iv$iv.getChild$ui_release();
                             mask$iv2 = mask$iv;
-                            delegatableNode = $this$visitAncestors$iv2;
-                            i = i4;
+                            delegatableNode = $this$visitAncestors$iv;
+                            i7 = i4;
                             mask$iv = mask$iv2;
                             if (this_$iv$iv2++ == 1) {
                             } else {
                             }
-                            int i14 = stack$iv;
-                            if ((MutableVector)i14 == 0) {
+                            int i13 = stack$iv;
+                            if ((MutableVector)i13 == 0) {
                             } else {
                             }
-                            $this$visitAncestors$iv2 = delegatableNode;
-                            i4 = i;
-                            $this$visitAncestors$iv = i14;
+                            $this$visitAncestors$iv = delegatableNode;
+                            i4 = i7;
+                            $this$visitAncestors$iv2 = i13;
                             capacity$iv$iv$iv = 0;
-                            stack$iv = $this$visitAncestors$iv;
-                            delegatableNode = node$iv2;
-                            int i16 = stack$iv;
-                            if ((Modifier.Node)delegatableNode != null && (MutableVector)i16 != 0) {
+                            stack$iv = $this$visitAncestors$iv2;
+                            delegatableNode = node$iv;
+                            int i15 = stack$iv;
+                            if ((Modifier.Node)delegatableNode != null && (MutableVector)i15 != 0) {
                             }
-                            i = stack$iv;
-                            if ((MutableVector)i != 0) {
+                            i7 = stack$iv;
+                            if ((MutableVector)i7 != 0) {
                             }
-                            (MutableVector)i.add(nodes$ui_release);
-                            i16 = stack$iv;
-                            if ((MutableVector)(MutableVector)i16 != 0) {
+                            (MutableVector)i7.add(nodes$ui_release);
+                            i15 = stack$iv;
+                            if ((MutableVector)(MutableVector)i15 != 0) {
                             }
-                            node$iv2 = i;
-                            (MutableVector)(MutableVector)i16.add((Modifier.Node)delegatableNode);
-                            i9 = i15;
+                            node$iv = i7;
+                            (MutableVector)(MutableVector)i15.add((Modifier.Node)delegatableNode);
+                            i2 = i14;
                             int $i$f$mutableVectorOf = 16;
-                            i6 = 0;
-                            $this$visitAncestors$iv2 = delegatableNode;
-                            i4 = i;
-                            i5 = $i$f$mutableVectorOf;
-                            $this$visitAncestors$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                            i = $this$visitAncestors$iv;
-                            node$iv2 = nodes$ui_release;
-                            $this$visitAncestors$iv2 = delegatableNode;
-                            i4 = i;
+                            i5 = 0;
+                            $this$visitAncestors$iv = delegatableNode;
+                            i4 = i7;
+                            i8 = $i$f$mutableVectorOf;
+                            $this$visitAncestors$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                            i7 = $this$visitAncestors$iv2;
+                            node$iv = nodes$ui_release;
+                            $this$visitAncestors$iv = delegatableNode;
+                            i4 = i7;
                             capacity$iv$iv$iv = 0;
                             this_$iv$iv = 1;
                         }
@@ -2146,11 +2146,11 @@ public final class DelegatableNodeKt {
                         }
                         nodes$ui_release = i11;
                         mask$iv2 = mask$iv;
-                        delegatableNode = $this$visitAncestors$iv2;
-                        i = i4;
+                        delegatableNode = $this$visitAncestors$iv;
+                        i7 = i4;
                         nodes$ui_release = node$iv$iv;
-                        i8 = 0;
-                        i9 = 0;
+                        i3 = 0;
+                        i2 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -2159,95 +2159,95 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         mask$iv = mask$iv2;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
                         mask$iv2 = mask$iv;
-                        delegatableNode = $this$visitAncestors$iv2;
-                        i = i4;
+                        delegatableNode = $this$visitAncestors$iv;
+                        i7 = i4;
                         mask$iv = mask$iv2;
                         if (this_$iv$iv2++ == 1) {
                         } else {
                         }
-                        i14 = stack$iv;
-                        if ((MutableVector)(MutableVector)i14 == 0) {
+                        i13 = stack$iv;
+                        if ((MutableVector)(MutableVector)i13 == 0) {
                         } else {
                         }
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
-                        $this$visitAncestors$iv = i14;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
+                        $this$visitAncestors$iv2 = i13;
                         capacity$iv$iv$iv = 0;
-                        stack$iv = $this$visitAncestors$iv;
-                        delegatableNode = node$iv2;
-                        i16 = stack$iv;
-                        if ((Modifier.Node)delegatableNode != null && (MutableVector)i16 != 0) {
+                        stack$iv = $this$visitAncestors$iv2;
+                        delegatableNode = node$iv;
+                        i15 = stack$iv;
+                        if ((Modifier.Node)delegatableNode != null && (MutableVector)i15 != 0) {
                         }
-                        i = stack$iv;
-                        if ((MutableVector)i != 0) {
+                        i7 = stack$iv;
+                        if ((MutableVector)i7 != 0) {
                         }
-                        (MutableVector)i.add(nodes$ui_release);
-                        i16 = stack$iv;
-                        if ((MutableVector)(MutableVector)i16 != 0) {
+                        (MutableVector)i7.add(nodes$ui_release);
+                        i15 = stack$iv;
+                        if ((MutableVector)(MutableVector)i15 != 0) {
                         }
-                        node$iv2 = i;
-                        (MutableVector)(MutableVector)i16.add((Modifier.Node)delegatableNode);
-                        i9 = i15;
+                        node$iv = i7;
+                        (MutableVector)(MutableVector)i15.add((Modifier.Node)delegatableNode);
+                        i2 = i14;
                         $i$f$mutableVectorOf = 16;
-                        i6 = 0;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
-                        i5 = $i$f$mutableVectorOf;
-                        $this$visitAncestors$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i = $this$visitAncestors$iv;
-                        node$iv2 = nodes$ui_release;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
+                        i5 = 0;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
+                        i8 = $i$f$mutableVectorOf;
+                        $this$visitAncestors$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i7 = $this$visitAncestors$iv2;
+                        node$iv = nodes$ui_release;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv = 1;
                         this_$iv$iv2 = 1;
-                        block.invoke(node$iv2);
+                        block.invoke(node$iv);
                         i11 = nodes$ui_release;
                         mask$iv = mask$iv2;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
                     }
                     obj = block;
                     i11 = nodes$ui_release;
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv2 instanceof Object != null) {
+                    if (node$iv instanceof Object != null) {
                     } else {
                     }
                     obj = block;
-                    node2 = 0;
+                    node = 0;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
                     this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
+                    if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                     nodes$ui_release = i11;
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitAncestors$iv2;
-                    i = i4;
-                    if (node$iv2 instanceof DelegatingNode) {
+                    delegatableNode = $this$visitAncestors$iv;
+                    i7 = i4;
+                    if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv$iv2 = 0;
-                    i10 = 0;
-                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                    i = 0;
+                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
                         nodes$ui_release = node$iv$iv;
-                        i8 = 0;
-                        i9 = 0;
+                        i3 = 0;
+                        i2 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -2256,50 +2256,50 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         mask$iv = mask$iv2;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
                         mask$iv2 = mask$iv;
-                        delegatableNode = $this$visitAncestors$iv2;
-                        i = i4;
+                        delegatableNode = $this$visitAncestors$iv;
+                        i7 = i4;
                         mask$iv = mask$iv2;
                         if (this_$iv$iv2++ == 1) {
                         } else {
                         }
-                        i14 = stack$iv;
-                        if ((MutableVector)(MutableVector)(MutableVector)i14 == 0) {
+                        i13 = stack$iv;
+                        if ((MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                         } else {
                         }
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
-                        $this$visitAncestors$iv = i14;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
+                        $this$visitAncestors$iv2 = i13;
                         capacity$iv$iv$iv = 0;
-                        stack$iv = $this$visitAncestors$iv;
-                        delegatableNode = node$iv2;
-                        i16 = stack$iv;
-                        if ((Modifier.Node)delegatableNode != null && (MutableVector)i16 != 0) {
+                        stack$iv = $this$visitAncestors$iv2;
+                        delegatableNode = node$iv;
+                        i15 = stack$iv;
+                        if ((Modifier.Node)delegatableNode != null && (MutableVector)i15 != 0) {
                         }
-                        i = stack$iv;
-                        if ((MutableVector)i != 0) {
+                        i7 = stack$iv;
+                        if ((MutableVector)i7 != 0) {
                         }
-                        (MutableVector)i.add(nodes$ui_release);
-                        i16 = stack$iv;
-                        if ((MutableVector)(MutableVector)i16 != 0) {
+                        (MutableVector)i7.add(nodes$ui_release);
+                        i15 = stack$iv;
+                        if ((MutableVector)(MutableVector)i15 != 0) {
                         }
-                        node$iv2 = i;
-                        (MutableVector)(MutableVector)i16.add((Modifier.Node)delegatableNode);
-                        i9 = i15;
+                        node$iv = i7;
+                        (MutableVector)(MutableVector)i15.add((Modifier.Node)delegatableNode);
+                        i2 = i14;
                         $i$f$mutableVectorOf = 16;
-                        i6 = 0;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
-                        i5 = $i$f$mutableVectorOf;
-                        $this$visitAncestors$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i = $this$visitAncestors$iv;
-                        node$iv2 = nodes$ui_release;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
+                        i5 = 0;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
+                        i8 = $i$f$mutableVectorOf;
+                        $this$visitAncestors$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i7 = $this$visitAncestors$iv2;
+                        node$iv = nodes$ui_release;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv = 1;
                     }
@@ -2308,11 +2308,11 @@ public final class DelegatableNodeKt {
                     }
                     nodes$ui_release = i11;
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitAncestors$iv2;
-                    i = i4;
+                    delegatableNode = $this$visitAncestors$iv;
+                    i7 = i4;
                     nodes$ui_release = node$iv$iv;
-                    i8 = 0;
-                    i9 = 0;
+                    i3 = 0;
+                    i2 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -2321,114 +2321,114 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitAncestors$iv2;
-                    i = i4;
+                    delegatableNode = $this$visitAncestors$iv;
+                    i7 = i4;
                     mask$iv = mask$iv2;
                     if (this_$iv$iv2++ == 1) {
                     } else {
                     }
-                    i14 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i14 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    $this$visitAncestors$iv = i14;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    $this$visitAncestors$iv2 = i13;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitAncestors$iv;
-                    delegatableNode = node$iv2;
-                    i16 = stack$iv;
-                    if ((Modifier.Node)delegatableNode != null && (MutableVector)i16 != 0) {
+                    stack$iv = $this$visitAncestors$iv2;
+                    delegatableNode = node$iv;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)delegatableNode != null && (MutableVector)i15 != 0) {
                     }
-                    i = stack$iv;
-                    if ((MutableVector)i != 0) {
+                    i7 = stack$iv;
+                    if ((MutableVector)i7 != 0) {
                     }
-                    (MutableVector)i.add(nodes$ui_release);
-                    i16 = stack$iv;
-                    if ((MutableVector)(MutableVector)i16 != 0) {
+                    (MutableVector)i7.add(nodes$ui_release);
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i;
-                    (MutableVector)(MutableVector)i16.add((Modifier.Node)delegatableNode);
-                    i9 = i15;
+                    node$iv = i7;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)delegatableNode);
+                    i2 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i6 = 0;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    i5 = $i$f$mutableVectorOf;
-                    $this$visitAncestors$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i = $this$visitAncestors$iv;
-                    node$iv2 = nodes$ui_release;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    i5 = 0;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    i8 = $i$f$mutableVectorOf;
+                    $this$visitAncestors$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i7 = $this$visitAncestors$iv2;
+                    node$iv = nodes$ui_release;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv = 1;
                     this_$iv$iv2 = 1;
-                    block.invoke(node$iv2);
+                    block.invoke(node$iv);
                     i11 = nodes$ui_release;
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                 }
                 obj = block;
                 i11 = nodes$ui_release;
                 mask$iv = mask$iv2;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
                 if (kindSet$ui_release &= mask$iv2 != 0) {
                 } else {
                 }
                 obj = block;
                 i11 = nodes$ui_release;
                 mask$iv = mask$iv2;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
-                node$iv = node$iv.getParent$ui_release();
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
+                node$iv2 = node$iv2.getParent$ui_release();
                 nodes$ui_release = i11;
                 mask$iv2 = mask$iv;
-                delegatableNode = $this$visitAncestors$iv2;
-                i = i4;
-                i2 = 0;
-                i3 = 0;
+                delegatableNode = $this$visitAncestors$iv;
+                i7 = i4;
+                i6 = 0;
+                i9 = 0;
                 stack$iv = 0;
-                i17 = 0;
-                node$iv2 = node;
-                while (node$iv2 != null) {
+                i16 = 0;
+                node$iv = node2;
+                while (node$iv != null) {
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv2 instanceof Object != null) {
+                    if (node$iv instanceof Object != null) {
                     } else {
                     }
                     obj = block;
-                    node2 = 0;
+                    node = 0;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
                     this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
+                    if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                     nodes$ui_release = i11;
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitAncestors$iv2;
-                    i = i4;
-                    if (node$iv2 instanceof DelegatingNode) {
+                    delegatableNode = $this$visitAncestors$iv;
+                    i7 = i4;
+                    if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv$iv2 = 0;
-                    i10 = 0;
-                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                    i = 0;
+                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
                         nodes$ui_release = node$iv$iv;
-                        i8 = 0;
-                        i9 = 0;
+                        i3 = 0;
+                        i2 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -2437,50 +2437,50 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         mask$iv = mask$iv2;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
                         mask$iv2 = mask$iv;
-                        delegatableNode = $this$visitAncestors$iv2;
-                        i = i4;
+                        delegatableNode = $this$visitAncestors$iv;
+                        i7 = i4;
                         mask$iv = mask$iv2;
                         if (this_$iv$iv2++ == 1) {
                         } else {
                         }
-                        i14 = stack$iv;
-                        if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i14 == 0) {
+                        i13 = stack$iv;
+                        if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                         } else {
                         }
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
-                        $this$visitAncestors$iv = i14;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
+                        $this$visitAncestors$iv2 = i13;
                         capacity$iv$iv$iv = 0;
-                        stack$iv = $this$visitAncestors$iv;
-                        delegatableNode = node$iv2;
-                        i16 = stack$iv;
-                        if ((Modifier.Node)delegatableNode != null && (MutableVector)i16 != 0) {
+                        stack$iv = $this$visitAncestors$iv2;
+                        delegatableNode = node$iv;
+                        i15 = stack$iv;
+                        if ((Modifier.Node)delegatableNode != null && (MutableVector)i15 != 0) {
                         }
-                        i = stack$iv;
-                        if ((MutableVector)i != 0) {
+                        i7 = stack$iv;
+                        if ((MutableVector)i7 != 0) {
                         }
-                        (MutableVector)i.add(nodes$ui_release);
-                        i16 = stack$iv;
-                        if ((MutableVector)(MutableVector)i16 != 0) {
+                        (MutableVector)i7.add(nodes$ui_release);
+                        i15 = stack$iv;
+                        if ((MutableVector)(MutableVector)i15 != 0) {
                         }
-                        node$iv2 = i;
-                        (MutableVector)(MutableVector)i16.add((Modifier.Node)delegatableNode);
-                        i9 = i15;
+                        node$iv = i7;
+                        (MutableVector)(MutableVector)i15.add((Modifier.Node)delegatableNode);
+                        i2 = i14;
                         $i$f$mutableVectorOf = 16;
-                        i6 = 0;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
-                        i5 = $i$f$mutableVectorOf;
-                        $this$visitAncestors$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i = $this$visitAncestors$iv;
-                        node$iv2 = nodes$ui_release;
-                        $this$visitAncestors$iv2 = delegatableNode;
-                        i4 = i;
+                        i5 = 0;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
+                        i8 = $i$f$mutableVectorOf;
+                        $this$visitAncestors$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i7 = $this$visitAncestors$iv2;
+                        node$iv = nodes$ui_release;
+                        $this$visitAncestors$iv = delegatableNode;
+                        i4 = i7;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv = 1;
                     }
@@ -2489,11 +2489,11 @@ public final class DelegatableNodeKt {
                     }
                     nodes$ui_release = i11;
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitAncestors$iv2;
-                    i = i4;
+                    delegatableNode = $this$visitAncestors$iv;
+                    i7 = i4;
                     nodes$ui_release = node$iv$iv;
-                    i8 = 0;
-                    i9 = 0;
+                    i3 = 0;
+                    i2 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -2502,95 +2502,95 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitAncestors$iv2;
-                    i = i4;
+                    delegatableNode = $this$visitAncestors$iv;
+                    i7 = i4;
                     mask$iv = mask$iv2;
                     if (this_$iv$iv2++ == 1) {
                     } else {
                     }
-                    i14 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i14 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    $this$visitAncestors$iv = i14;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    $this$visitAncestors$iv2 = i13;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitAncestors$iv;
-                    delegatableNode = node$iv2;
-                    i16 = stack$iv;
-                    if ((Modifier.Node)delegatableNode != null && (MutableVector)i16 != 0) {
+                    stack$iv = $this$visitAncestors$iv2;
+                    delegatableNode = node$iv;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)delegatableNode != null && (MutableVector)i15 != 0) {
                     }
-                    i = stack$iv;
-                    if ((MutableVector)i != 0) {
+                    i7 = stack$iv;
+                    if ((MutableVector)i7 != 0) {
                     }
-                    (MutableVector)i.add(nodes$ui_release);
-                    i16 = stack$iv;
-                    if ((MutableVector)(MutableVector)i16 != 0) {
+                    (MutableVector)i7.add(nodes$ui_release);
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i;
-                    (MutableVector)(MutableVector)i16.add((Modifier.Node)delegatableNode);
-                    i9 = i15;
+                    node$iv = i7;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)delegatableNode);
+                    i2 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i6 = 0;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    i5 = $i$f$mutableVectorOf;
-                    $this$visitAncestors$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i = $this$visitAncestors$iv;
-                    node$iv2 = nodes$ui_release;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    i5 = 0;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    i8 = $i$f$mutableVectorOf;
+                    $this$visitAncestors$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i7 = $this$visitAncestors$iv2;
+                    node$iv = nodes$ui_release;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv = 1;
                     this_$iv$iv2 = 1;
-                    block.invoke(node$iv2);
+                    block.invoke(node$iv);
                     i11 = nodes$ui_release;
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                 }
                 obj = block;
                 i11 = nodes$ui_release;
                 mask$iv = mask$iv2;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
                 Intrinsics.reifiedOperationMarker(3, "T");
-                if (node$iv2 instanceof Object != null) {
+                if (node$iv instanceof Object != null) {
                 } else {
                 }
                 obj = block;
-                node2 = 0;
+                node = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
                 this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
+                if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
                 mask$iv = mask$iv2;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
-                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
+                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                 nodes$ui_release = i11;
                 mask$iv2 = mask$iv;
-                delegatableNode = $this$visitAncestors$iv2;
-                i = i4;
-                if (node$iv2 instanceof DelegatingNode) {
+                delegatableNode = $this$visitAncestors$iv;
+                i7 = i4;
+                if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
                 this_$iv$iv2 = 0;
-                i10 = 0;
-                node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                i = 0;
+                node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
                     nodes$ui_release = node$iv$iv;
-                    i8 = 0;
-                    i9 = 0;
+                    i3 = 0;
+                    i2 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -2599,50 +2599,50 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     mask$iv = mask$iv2;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitAncestors$iv2;
-                    i = i4;
+                    delegatableNode = $this$visitAncestors$iv;
+                    i7 = i4;
                     mask$iv = mask$iv2;
                     if (this_$iv$iv2++ == 1) {
                     } else {
                     }
-                    i14 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i14 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    $this$visitAncestors$iv = i14;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    $this$visitAncestors$iv2 = i13;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitAncestors$iv;
-                    delegatableNode = node$iv2;
-                    i16 = stack$iv;
-                    if ((Modifier.Node)delegatableNode != null && (MutableVector)i16 != 0) {
+                    stack$iv = $this$visitAncestors$iv2;
+                    delegatableNode = node$iv;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)delegatableNode != null && (MutableVector)i15 != 0) {
                     }
-                    i = stack$iv;
-                    if ((MutableVector)i != 0) {
+                    i7 = stack$iv;
+                    if ((MutableVector)i7 != 0) {
                     }
-                    (MutableVector)i.add(nodes$ui_release);
-                    i16 = stack$iv;
-                    if ((MutableVector)(MutableVector)i16 != 0) {
+                    (MutableVector)i7.add(nodes$ui_release);
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i;
-                    (MutableVector)(MutableVector)i16.add((Modifier.Node)delegatableNode);
-                    i9 = i15;
+                    node$iv = i7;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)delegatableNode);
+                    i2 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i6 = 0;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
-                    i5 = $i$f$mutableVectorOf;
-                    $this$visitAncestors$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i = $this$visitAncestors$iv;
-                    node$iv2 = nodes$ui_release;
-                    $this$visitAncestors$iv2 = delegatableNode;
-                    i4 = i;
+                    i5 = 0;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
+                    i8 = $i$f$mutableVectorOf;
+                    $this$visitAncestors$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i7 = $this$visitAncestors$iv2;
+                    node$iv = nodes$ui_release;
+                    $this$visitAncestors$iv = delegatableNode;
+                    i4 = i7;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv = 1;
                 }
@@ -2651,11 +2651,11 @@ public final class DelegatableNodeKt {
                 }
                 nodes$ui_release = i11;
                 mask$iv2 = mask$iv;
-                delegatableNode = $this$visitAncestors$iv2;
-                i = i4;
+                delegatableNode = $this$visitAncestors$iv;
+                i7 = i4;
                 nodes$ui_release = node$iv$iv;
-                i8 = 0;
-                i9 = 0;
+                i3 = 0;
+                i2 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -2664,117 +2664,117 @@ public final class DelegatableNodeKt {
                 } else {
                 }
                 mask$iv = mask$iv2;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
                 mask$iv2 = mask$iv;
-                delegatableNode = $this$visitAncestors$iv2;
-                i = i4;
+                delegatableNode = $this$visitAncestors$iv;
+                i7 = i4;
                 mask$iv = mask$iv2;
                 if (this_$iv$iv2++ == 1) {
                 } else {
                 }
-                i14 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i14 == 0) {
+                i13 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                 } else {
                 }
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
-                $this$visitAncestors$iv = i14;
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
+                $this$visitAncestors$iv2 = i13;
                 capacity$iv$iv$iv = 0;
-                stack$iv = $this$visitAncestors$iv;
-                delegatableNode = node$iv2;
-                i16 = stack$iv;
-                if ((Modifier.Node)delegatableNode != null && (MutableVector)i16 != 0) {
+                stack$iv = $this$visitAncestors$iv2;
+                delegatableNode = node$iv;
+                i15 = stack$iv;
+                if ((Modifier.Node)delegatableNode != null && (MutableVector)i15 != 0) {
                 }
-                i = stack$iv;
-                if ((MutableVector)i != 0) {
+                i7 = stack$iv;
+                if ((MutableVector)i7 != 0) {
                 }
-                (MutableVector)i.add(nodes$ui_release);
-                i16 = stack$iv;
-                if ((MutableVector)(MutableVector)i16 != 0) {
+                (MutableVector)i7.add(nodes$ui_release);
+                i15 = stack$iv;
+                if ((MutableVector)(MutableVector)i15 != 0) {
                 }
-                node$iv2 = i;
-                (MutableVector)(MutableVector)i16.add((Modifier.Node)delegatableNode);
-                i9 = i15;
+                node$iv = i7;
+                (MutableVector)(MutableVector)i15.add((Modifier.Node)delegatableNode);
+                i2 = i14;
                 $i$f$mutableVectorOf = 16;
-                i6 = 0;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
-                i5 = $i$f$mutableVectorOf;
-                $this$visitAncestors$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i = $this$visitAncestors$iv;
-                node$iv2 = nodes$ui_release;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
+                i5 = 0;
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
+                i8 = $i$f$mutableVectorOf;
+                $this$visitAncestors$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i7 = $this$visitAncestors$iv2;
+                node$iv = nodes$ui_release;
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
                 capacity$iv$iv$iv = 0;
                 this_$iv$iv = 1;
                 this_$iv$iv2 = 1;
-                block.invoke(node$iv2);
+                block.invoke(node$iv);
                 i11 = nodes$ui_release;
                 mask$iv = mask$iv2;
-                $this$visitAncestors$iv2 = delegatableNode;
-                i4 = i;
+                $this$visitAncestors$iv = delegatableNode;
+                i4 = i7;
             }
         }
-        int i19 = nodes$ui_release;
-        int i20 = mask$iv2;
-        int i12 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        int i18 = nodes$ui_release;
+        int i19 = mask$iv2;
+        int $i$f$visitAncestorsYYKmho = 0;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv;
     }
 
     public static void visitAncestors-Y-YKmho$default(androidx.compose.ui.node.DelegatableNode $this$visitAncestors_u2dY_u2dYKmho_u24default, int type, boolean includeSelf, Function1 block, int i5, Object object6) {
         int includeSelf2;
         Modifier.Node tail$ui_release;
-        int i8;
+        int $i$f$visitAncestorsYYKmho;
         int capacity$iv$iv$iv;
-        Modifier.Node node3;
+        Modifier.Node node;
         int mask$iv2;
         androidx.compose.ui.node.DelegatableNode delegatableNode;
-        Modifier.Node node$iv;
+        Modifier.Node node$iv2;
         androidx.compose.ui.node.LayoutNode layout$iv;
         Modifier.Node head$ui_release;
         int i7;
-        int i4;
-        Modifier.Node node;
+        int i8;
+        Modifier.Node node3;
         int i9;
         int stack$iv;
-        Modifier.Node node$iv2;
+        Modifier.Node node$iv;
         Object obj;
         String this_$iv$iv;
         Modifier.Node node2;
-        int i;
+        int i2;
         Modifier.Node node$iv$iv;
-        int i11;
-        int i3;
-        int this_$iv$iv2;
-        int i10;
         int i6;
+        int $i$f$visitAncestorsYYKmho2;
+        int this_$iv$iv2;
+        int i4;
+        int i;
         Modifier.Node mask$iv;
         androidx.compose.ui.node.DelegatableNode delegatableNode2;
-        int i2;
+        int i3;
         int obj28;
         includeSelf2 = i5 & 2 != 0 ? 0 : includeSelf;
-        node3 = type;
+        node = type;
         delegatableNode = $this$visitAncestors_u2dY_u2dYKmho_u24default;
-        final int i18 = 0;
+        final int i15 = 0;
         if (!delegatableNode.getNode().isAttached()) {
         } else {
             if (includeSelf2 != 0) {
             } else {
-                node$iv = delegatableNode.getNode().getParent$ui_release();
+                node$iv2 = delegatableNode.getNode().getParent$ui_release();
             }
             layout$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode);
             while (layout$iv != null) {
-                if (aggregateChildKindSet$ui_release &= node3 != 0) {
+                if (aggregateChildKindSet$ui_release &= node != 0) {
                 } else {
                 }
                 obj = block;
                 obj28 = includeSelf2;
-                i3 = i8;
-                mask$iv = node3;
+                $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
                 layout$iv = layout$iv.getParent$ui_release();
                 includeSelf2 = layout$iv.getNodes$ui_release();
@@ -2782,38 +2782,38 @@ public final class DelegatableNodeKt {
                 } else {
                 }
                 tail$ui_release = 0;
-                node$iv = tail$ui_release;
+                node$iv2 = tail$ui_release;
                 includeSelf2 = obj28;
-                i8 = i3;
-                node3 = mask$iv;
+                $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                node = mask$iv;
                 delegatableNode = delegatableNode2;
                 includeSelf2 = layout$iv.getNodes$ui_release();
                 if (includeSelf2 != null) {
                 } else {
                 }
                 tail$ui_release = includeSelf2.getTail$ui_release();
-                while (node$iv != null) {
-                    if (kindSet$ui_release &= node3 != 0) {
+                while (node$iv2 != null) {
+                    if (kindSet$ui_release &= node != 0) {
                     } else {
                     }
                     obj = block;
                     obj28 = includeSelf2;
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    node$iv = node$iv.getParent$ui_release();
+                    node$iv2 = node$iv2.getParent$ui_release();
                     includeSelf2 = obj28;
-                    i8 = i3;
-                    node3 = mask$iv;
+                    $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                    node = mask$iv;
                     delegatableNode = delegatableNode2;
-                    i4 = 0;
+                    i8 = 0;
                     i9 = 0;
                     stack$iv = 0;
-                    int i19 = 0;
-                    node$iv2 = node;
-                    while (node$iv2 != null) {
+                    int i16 = 0;
+                    node$iv = node3;
+                    while (node$iv != null) {
                         Intrinsics.reifiedOperationMarker(3, "T");
-                        if (node$iv2 instanceof Object != null) {
+                        if (node$iv instanceof Object != null) {
                         } else {
                         }
                         obj = block;
@@ -2822,27 +2822,27 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         this_$iv$iv = 0;
-                        if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                        if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                         } else {
                         }
-                        i3 = i8;
-                        mask$iv = node3;
+                        $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
-                        node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                        node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                         includeSelf2 = obj28;
-                        i8 = i3;
-                        node3 = mask$iv;
+                        $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                        node = mask$iv;
                         delegatableNode = delegatableNode2;
-                        if (node$iv2 instanceof DelegatingNode) {
+                        if (node$iv instanceof DelegatingNode) {
                         } else {
                         }
                         this_$iv$iv = 0;
-                        i = 0;
-                        node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                        i2 = 0;
+                        node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                         while (node$iv$iv != null) {
                             includeSelf2 = node$iv$iv;
-                            i11 = 0;
-                            i10 = 0;
+                            i6 = 0;
+                            i4 = 0;
                             if (kindSet$ui_release3 &= type != 0) {
                             } else {
                             }
@@ -2850,50 +2850,50 @@ public final class DelegatableNodeKt {
                             if (this_$iv$iv2 != 0) {
                             } else {
                             }
-                            i3 = i8;
-                            mask$iv = node3;
+                            $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                            mask$iv = node;
                             delegatableNode2 = delegatableNode;
                             capacity$iv$iv$iv = 0;
                             node$iv$iv = node$iv$iv.getChild$ui_release();
-                            i8 = i3;
-                            node3 = mask$iv;
+                            $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                            node = mask$iv;
                             delegatableNode = delegatableNode2;
-                            i3 = i8;
+                            $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
                             if (this_$iv$iv++ == 1) {
                             } else {
                             }
-                            int i15 = stack$iv;
-                            if ((MutableVector)i15 == 0) {
+                            int i12 = stack$iv;
+                            if ((MutableVector)i12 == 0) {
                             } else {
                             }
-                            mask$iv = node3;
+                            mask$iv = node;
                             delegatableNode2 = delegatableNode;
-                            mask$iv2 = i15;
+                            mask$iv2 = i12;
                             capacity$iv$iv$iv = 0;
                             stack$iv = mask$iv2;
-                            node3 = node$iv2;
-                            int i17 = stack$iv;
-                            if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                            node = node$iv;
+                            int i14 = stack$iv;
+                            if ((Modifier.Node)node != null && (MutableVector)i14 != 0) {
                             }
                             delegatableNode = stack$iv;
                             if ((MutableVector)delegatableNode != 0) {
                             }
                             (MutableVector)delegatableNode.add(includeSelf2);
-                            i17 = stack$iv;
-                            if ((MutableVector)(MutableVector)i17 != 0) {
+                            i14 = stack$iv;
+                            if ((MutableVector)(MutableVector)i14 != 0) {
                             }
-                            node$iv2 = delegatableNode;
-                            (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                            i10 = i16;
+                            node$iv = delegatableNode;
+                            (MutableVector)(MutableVector)i14.add((Modifier.Node)node);
+                            i4 = i13;
                             int $i$f$mutableVectorOf = 16;
-                            i6 = 0;
-                            mask$iv = node3;
+                            i = 0;
+                            mask$iv = node;
                             delegatableNode2 = delegatableNode;
-                            i2 = $i$f$mutableVectorOf;
+                            i3 = $i$f$mutableVectorOf;
                             mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                             delegatableNode = mask$iv2;
-                            node$iv2 = includeSelf2;
-                            mask$iv = node3;
+                            node$iv = includeSelf2;
+                            mask$iv = node;
                             delegatableNode2 = delegatableNode;
                             capacity$iv$iv$iv = 0;
                             this_$iv$iv2 = 1;
@@ -2902,12 +2902,12 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         includeSelf2 = obj28;
-                        i8 = i3;
-                        node3 = mask$iv;
+                        $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                        node = mask$iv;
                         delegatableNode = delegatableNode2;
                         includeSelf2 = node$iv$iv;
-                        i11 = 0;
-                        i10 = 0;
+                        i6 = 0;
+                        i4 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -2915,67 +2915,67 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv2 != 0) {
                         } else {
                         }
-                        i3 = i8;
-                        mask$iv = node3;
+                        $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        i8 = i3;
-                        node3 = mask$iv;
+                        $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                        node = mask$iv;
                         delegatableNode = delegatableNode2;
-                        i3 = i8;
+                        $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
                         if (this_$iv$iv++ == 1) {
                         } else {
                         }
-                        i15 = stack$iv;
-                        if ((MutableVector)(MutableVector)i15 == 0) {
+                        i12 = stack$iv;
+                        if ((MutableVector)(MutableVector)i12 == 0) {
                         } else {
                         }
-                        mask$iv = node3;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
-                        mask$iv2 = i15;
+                        mask$iv2 = i12;
                         capacity$iv$iv$iv = 0;
                         stack$iv = mask$iv2;
-                        node3 = node$iv2;
-                        i17 = stack$iv;
-                        if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                        node = node$iv;
+                        i14 = stack$iv;
+                        if ((Modifier.Node)node != null && (MutableVector)i14 != 0) {
                         }
                         delegatableNode = stack$iv;
                         if ((MutableVector)delegatableNode != 0) {
                         }
                         (MutableVector)delegatableNode.add(includeSelf2);
-                        i17 = stack$iv;
-                        if ((MutableVector)(MutableVector)i17 != 0) {
+                        i14 = stack$iv;
+                        if ((MutableVector)(MutableVector)i14 != 0) {
                         }
-                        node$iv2 = delegatableNode;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                        i10 = i16;
+                        node$iv = delegatableNode;
+                        (MutableVector)(MutableVector)i14.add((Modifier.Node)node);
+                        i4 = i13;
                         $i$f$mutableVectorOf = 16;
-                        i6 = 0;
-                        mask$iv = node3;
+                        i = 0;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
-                        i2 = $i$f$mutableVectorOf;
+                        i3 = $i$f$mutableVectorOf;
                         mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                         delegatableNode = mask$iv2;
-                        node$iv2 = includeSelf2;
-                        mask$iv = node3;
+                        node$iv = includeSelf2;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv2 = 1;
                         this_$iv$iv = 1;
-                        block.invoke(node$iv2);
+                        block.invoke(node$iv);
                         obj28 = includeSelf2;
-                        i3 = i8;
-                        mask$iv = node3;
+                        $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
                     }
                     obj = block;
                     obj28 = includeSelf2;
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv2 instanceof Object != null) {
+                    if (node$iv instanceof Object != null) {
                     } else {
                     }
                     obj = block;
@@ -2984,27 +2984,27 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     this_$iv$iv = 0;
-                    if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                    if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                     includeSelf2 = obj28;
-                    i8 = i3;
-                    node3 = mask$iv;
+                    $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                    node = mask$iv;
                     delegatableNode = delegatableNode2;
-                    if (node$iv2 instanceof DelegatingNode) {
+                    if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv$iv = 0;
-                    i = 0;
-                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                    i2 = 0;
+                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
                         includeSelf2 = node$iv$iv;
-                        i11 = 0;
-                        i10 = 0;
+                        i6 = 0;
+                        i4 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -3012,50 +3012,50 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv2 != 0) {
                         } else {
                         }
-                        i3 = i8;
-                        mask$iv = node3;
+                        $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        i8 = i3;
-                        node3 = mask$iv;
+                        $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                        node = mask$iv;
                         delegatableNode = delegatableNode2;
-                        i3 = i8;
+                        $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
                         if (this_$iv$iv++ == 1) {
                         } else {
                         }
-                        i15 = stack$iv;
-                        if ((MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                        i12 = stack$iv;
+                        if ((MutableVector)(MutableVector)(MutableVector)i12 == 0) {
                         } else {
                         }
-                        mask$iv = node3;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
-                        mask$iv2 = i15;
+                        mask$iv2 = i12;
                         capacity$iv$iv$iv = 0;
                         stack$iv = mask$iv2;
-                        node3 = node$iv2;
-                        i17 = stack$iv;
-                        if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                        node = node$iv;
+                        i14 = stack$iv;
+                        if ((Modifier.Node)node != null && (MutableVector)i14 != 0) {
                         }
                         delegatableNode = stack$iv;
                         if ((MutableVector)delegatableNode != 0) {
                         }
                         (MutableVector)delegatableNode.add(includeSelf2);
-                        i17 = stack$iv;
-                        if ((MutableVector)(MutableVector)i17 != 0) {
+                        i14 = stack$iv;
+                        if ((MutableVector)(MutableVector)i14 != 0) {
                         }
-                        node$iv2 = delegatableNode;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                        i10 = i16;
+                        node$iv = delegatableNode;
+                        (MutableVector)(MutableVector)i14.add((Modifier.Node)node);
+                        i4 = i13;
                         $i$f$mutableVectorOf = 16;
-                        i6 = 0;
-                        mask$iv = node3;
+                        i = 0;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
-                        i2 = $i$f$mutableVectorOf;
+                        i3 = $i$f$mutableVectorOf;
                         mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                         delegatableNode = mask$iv2;
-                        node$iv2 = includeSelf2;
-                        mask$iv = node3;
+                        node$iv = includeSelf2;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv2 = 1;
@@ -3064,12 +3064,12 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     includeSelf2 = obj28;
-                    i8 = i3;
-                    node3 = mask$iv;
+                    $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                    node = mask$iv;
                     delegatableNode = delegatableNode2;
                     includeSelf2 = node$iv$iv;
-                    i11 = 0;
-                    i10 = 0;
+                    i6 = 0;
+                    i4 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -3077,86 +3077,86 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv2 != 0) {
                     } else {
                     }
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    i8 = i3;
-                    node3 = mask$iv;
+                    $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                    node = mask$iv;
                     delegatableNode = delegatableNode2;
-                    i3 = i8;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
                     if (this_$iv$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                    i12 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i12 == 0) {
                     } else {
                     }
-                    mask$iv = node3;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    mask$iv2 = i15;
+                    mask$iv2 = i12;
                     capacity$iv$iv$iv = 0;
                     stack$iv = mask$iv2;
-                    node3 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                    node = node$iv;
+                    i14 = stack$iv;
+                    if ((Modifier.Node)node != null && (MutableVector)i14 != 0) {
                     }
                     delegatableNode = stack$iv;
                     if ((MutableVector)delegatableNode != 0) {
                     }
                     (MutableVector)delegatableNode.add(includeSelf2);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i14 = stack$iv;
+                    if ((MutableVector)(MutableVector)i14 != 0) {
                     }
-                    node$iv2 = delegatableNode;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                    i10 = i16;
+                    node$iv = delegatableNode;
+                    (MutableVector)(MutableVector)i14.add((Modifier.Node)node);
+                    i4 = i13;
                     $i$f$mutableVectorOf = 16;
-                    i6 = 0;
-                    mask$iv = node3;
+                    i = 0;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    i2 = $i$f$mutableVectorOf;
+                    i3 = $i$f$mutableVectorOf;
                     mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                     delegatableNode = mask$iv2;
-                    node$iv2 = includeSelf2;
-                    mask$iv = node3;
+                    node$iv = includeSelf2;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv2 = 1;
                     this_$iv$iv = 1;
-                    block.invoke(node$iv2);
+                    block.invoke(node$iv);
                     obj28 = includeSelf2;
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                 }
                 obj = block;
                 obj28 = includeSelf2;
-                i3 = i8;
-                mask$iv = node3;
+                $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
-                if (kindSet$ui_release &= node3 != 0) {
+                if (kindSet$ui_release &= node != 0) {
                 } else {
                 }
                 obj = block;
                 obj28 = includeSelf2;
-                i3 = i8;
-                mask$iv = node3;
+                $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
-                node$iv = node$iv.getParent$ui_release();
+                node$iv2 = node$iv2.getParent$ui_release();
                 includeSelf2 = obj28;
-                i8 = i3;
-                node3 = mask$iv;
+                $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                node = mask$iv;
                 delegatableNode = delegatableNode2;
-                i4 = 0;
+                i8 = 0;
                 i9 = 0;
                 stack$iv = 0;
-                i19 = 0;
-                node$iv2 = node;
-                while (node$iv2 != null) {
+                i16 = 0;
+                node$iv = node3;
+                while (node$iv != null) {
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv2 instanceof Object != null) {
+                    if (node$iv instanceof Object != null) {
                     } else {
                     }
                     obj = block;
@@ -3165,27 +3165,27 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     this_$iv$iv = 0;
-                    if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                    if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                     includeSelf2 = obj28;
-                    i8 = i3;
-                    node3 = mask$iv;
+                    $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                    node = mask$iv;
                     delegatableNode = delegatableNode2;
-                    if (node$iv2 instanceof DelegatingNode) {
+                    if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv$iv = 0;
-                    i = 0;
-                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                    i2 = 0;
+                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
                         includeSelf2 = node$iv$iv;
-                        i11 = 0;
-                        i10 = 0;
+                        i6 = 0;
+                        i4 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -3193,50 +3193,50 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv2 != 0) {
                         } else {
                         }
-                        i3 = i8;
-                        mask$iv = node3;
+                        $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        i8 = i3;
-                        node3 = mask$iv;
+                        $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                        node = mask$iv;
                         delegatableNode = delegatableNode2;
-                        i3 = i8;
+                        $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
                         if (this_$iv$iv++ == 1) {
                         } else {
                         }
-                        i15 = stack$iv;
-                        if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                        i12 = stack$iv;
+                        if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i12 == 0) {
                         } else {
                         }
-                        mask$iv = node3;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
-                        mask$iv2 = i15;
+                        mask$iv2 = i12;
                         capacity$iv$iv$iv = 0;
                         stack$iv = mask$iv2;
-                        node3 = node$iv2;
-                        i17 = stack$iv;
-                        if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                        node = node$iv;
+                        i14 = stack$iv;
+                        if ((Modifier.Node)node != null && (MutableVector)i14 != 0) {
                         }
                         delegatableNode = stack$iv;
                         if ((MutableVector)delegatableNode != 0) {
                         }
                         (MutableVector)delegatableNode.add(includeSelf2);
-                        i17 = stack$iv;
-                        if ((MutableVector)(MutableVector)i17 != 0) {
+                        i14 = stack$iv;
+                        if ((MutableVector)(MutableVector)i14 != 0) {
                         }
-                        node$iv2 = delegatableNode;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                        i10 = i16;
+                        node$iv = delegatableNode;
+                        (MutableVector)(MutableVector)i14.add((Modifier.Node)node);
+                        i4 = i13;
                         $i$f$mutableVectorOf = 16;
-                        i6 = 0;
-                        mask$iv = node3;
+                        i = 0;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
-                        i2 = $i$f$mutableVectorOf;
+                        i3 = $i$f$mutableVectorOf;
                         mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                         delegatableNode = mask$iv2;
-                        node$iv2 = includeSelf2;
-                        mask$iv = node3;
+                        node$iv = includeSelf2;
+                        mask$iv = node;
                         delegatableNode2 = delegatableNode;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv2 = 1;
@@ -3245,12 +3245,12 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     includeSelf2 = obj28;
-                    i8 = i3;
-                    node3 = mask$iv;
+                    $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                    node = mask$iv;
                     delegatableNode = delegatableNode2;
                     includeSelf2 = node$iv$iv;
-                    i11 = 0;
-                    i10 = 0;
+                    i6 = 0;
+                    i4 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -3258,67 +3258,67 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv2 != 0) {
                     } else {
                     }
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    i8 = i3;
-                    node3 = mask$iv;
+                    $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                    node = mask$iv;
                     delegatableNode = delegatableNode2;
-                    i3 = i8;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
                     if (this_$iv$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                    i12 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i12 == 0) {
                     } else {
                     }
-                    mask$iv = node3;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    mask$iv2 = i15;
+                    mask$iv2 = i12;
                     capacity$iv$iv$iv = 0;
                     stack$iv = mask$iv2;
-                    node3 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                    node = node$iv;
+                    i14 = stack$iv;
+                    if ((Modifier.Node)node != null && (MutableVector)i14 != 0) {
                     }
                     delegatableNode = stack$iv;
                     if ((MutableVector)delegatableNode != 0) {
                     }
                     (MutableVector)delegatableNode.add(includeSelf2);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i14 = stack$iv;
+                    if ((MutableVector)(MutableVector)i14 != 0) {
                     }
-                    node$iv2 = delegatableNode;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                    i10 = i16;
+                    node$iv = delegatableNode;
+                    (MutableVector)(MutableVector)i14.add((Modifier.Node)node);
+                    i4 = i13;
                     $i$f$mutableVectorOf = 16;
-                    i6 = 0;
-                    mask$iv = node3;
+                    i = 0;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    i2 = $i$f$mutableVectorOf;
+                    i3 = $i$f$mutableVectorOf;
                     mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                     delegatableNode = mask$iv2;
-                    node$iv2 = includeSelf2;
-                    mask$iv = node3;
+                    node$iv = includeSelf2;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv2 = 1;
                     this_$iv$iv = 1;
-                    block.invoke(node$iv2);
+                    block.invoke(node$iv);
                     obj28 = includeSelf2;
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                 }
                 obj = block;
                 obj28 = includeSelf2;
-                i3 = i8;
-                mask$iv = node3;
+                $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
                 Intrinsics.reifiedOperationMarker(3, "T");
-                if (node$iv2 instanceof Object != null) {
+                if (node$iv instanceof Object != null) {
                 } else {
                 }
                 obj = block;
@@ -3327,27 +3327,27 @@ public final class DelegatableNodeKt {
                 } else {
                 }
                 this_$iv$iv = 0;
-                if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                i3 = i8;
-                mask$iv = node3;
+                $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
-                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                 includeSelf2 = obj28;
-                i8 = i3;
-                node3 = mask$iv;
+                $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                node = mask$iv;
                 delegatableNode = delegatableNode2;
-                if (node$iv2 instanceof DelegatingNode) {
+                if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
                 this_$iv$iv = 0;
-                i = 0;
-                node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                i2 = 0;
+                node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
                     includeSelf2 = node$iv$iv;
-                    i11 = 0;
-                    i10 = 0;
+                    i6 = 0;
+                    i4 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -3355,50 +3355,50 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv2 != 0) {
                     } else {
                     }
-                    i3 = i8;
-                    mask$iv = node3;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    i8 = i3;
-                    node3 = mask$iv;
+                    $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                    node = mask$iv;
                     delegatableNode = delegatableNode2;
-                    i3 = i8;
+                    $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
                     if (this_$iv$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                    i12 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i12 == 0) {
                     } else {
                     }
-                    mask$iv = node3;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    mask$iv2 = i15;
+                    mask$iv2 = i12;
                     capacity$iv$iv$iv = 0;
                     stack$iv = mask$iv2;
-                    node3 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                    node = node$iv;
+                    i14 = stack$iv;
+                    if ((Modifier.Node)node != null && (MutableVector)i14 != 0) {
                     }
                     delegatableNode = stack$iv;
                     if ((MutableVector)delegatableNode != 0) {
                     }
                     (MutableVector)delegatableNode.add(includeSelf2);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i14 = stack$iv;
+                    if ((MutableVector)(MutableVector)i14 != 0) {
                     }
-                    node$iv2 = delegatableNode;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                    i10 = i16;
+                    node$iv = delegatableNode;
+                    (MutableVector)(MutableVector)i14.add((Modifier.Node)node);
+                    i4 = i13;
                     $i$f$mutableVectorOf = 16;
-                    i6 = 0;
-                    mask$iv = node3;
+                    i = 0;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
-                    i2 = $i$f$mutableVectorOf;
+                    i3 = $i$f$mutableVectorOf;
                     mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                     delegatableNode = mask$iv2;
-                    node$iv2 = includeSelf2;
-                    mask$iv = node3;
+                    node$iv = includeSelf2;
+                    mask$iv = node;
                     delegatableNode2 = delegatableNode;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv2 = 1;
@@ -3407,12 +3407,12 @@ public final class DelegatableNodeKt {
                 } else {
                 }
                 includeSelf2 = obj28;
-                i8 = i3;
-                node3 = mask$iv;
+                $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                node = mask$iv;
                 delegatableNode = delegatableNode2;
                 includeSelf2 = node$iv$iv;
-                i11 = 0;
-                i10 = 0;
+                i6 = 0;
+                i4 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -3420,66 +3420,66 @@ public final class DelegatableNodeKt {
                 if (this_$iv$iv2 != 0) {
                 } else {
                 }
-                i3 = i8;
-                mask$iv = node3;
+                $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                i8 = i3;
-                node3 = mask$iv;
+                $i$f$visitAncestorsYYKmho = $i$f$visitAncestorsYYKmho2;
+                node = mask$iv;
                 delegatableNode = delegatableNode2;
-                i3 = i8;
+                $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
                 if (this_$iv$iv++ == 1) {
                 } else {
                 }
-                i15 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                i12 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i12 == 0) {
                 } else {
                 }
-                mask$iv = node3;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
-                mask$iv2 = i15;
+                mask$iv2 = i12;
                 capacity$iv$iv$iv = 0;
                 stack$iv = mask$iv2;
-                node3 = node$iv2;
-                i17 = stack$iv;
-                if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                node = node$iv;
+                i14 = stack$iv;
+                if ((Modifier.Node)node != null && (MutableVector)i14 != 0) {
                 }
                 delegatableNode = stack$iv;
                 if ((MutableVector)delegatableNode != 0) {
                 }
                 (MutableVector)delegatableNode.add(includeSelf2);
-                i17 = stack$iv;
-                if ((MutableVector)(MutableVector)i17 != 0) {
+                i14 = stack$iv;
+                if ((MutableVector)(MutableVector)i14 != 0) {
                 }
-                node$iv2 = delegatableNode;
-                (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                i10 = i16;
+                node$iv = delegatableNode;
+                (MutableVector)(MutableVector)i14.add((Modifier.Node)node);
+                i4 = i13;
                 $i$f$mutableVectorOf = 16;
-                i6 = 0;
-                mask$iv = node3;
+                i = 0;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
-                i2 = $i$f$mutableVectorOf;
+                i3 = $i$f$mutableVectorOf;
                 mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                 delegatableNode = mask$iv2;
-                node$iv2 = includeSelf2;
-                mask$iv = node3;
+                node$iv = includeSelf2;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
                 capacity$iv$iv$iv = 0;
                 this_$iv$iv2 = 1;
                 this_$iv$iv = 1;
-                block.invoke(node$iv2);
+                block.invoke(node$iv);
                 obj28 = includeSelf2;
-                i3 = i8;
-                mask$iv = node3;
+                $i$f$visitAncestorsYYKmho2 = $i$f$visitAncestorsYYKmho;
+                mask$iv = node;
                 delegatableNode2 = delegatableNode;
             }
         }
         obj28 = includeSelf2;
-        int i21 = i8;
+        int i18 = $i$f$visitAncestorsYYKmho;
         int includeSelf3 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv;
     }
 
     public static final void visitChildren(androidx.compose.ui.node.DelegatableNode $this$visitChildren, int mask, Function1<? super Modifier.Node, Unit> block) {
@@ -3521,49 +3521,49 @@ public final class DelegatableNodeKt {
             }
         }
         int child = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitChildren called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitChildren$1 = new IllegalStateException("visitChildren called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitChildren$1;
     }
 
     public static final <T> void visitChildren-6rFNWt0(androidx.compose.ui.node.DelegatableNode $this$visitChildren_u2d6rFNWt0, int type, Function1<? super T, Unit> block) {
-        int i3;
-        int i13;
+        int i2;
+        int $i$f$visitChildren6rFNWt0;
         Object obj;
         int capacity$iv$iv$iv;
         int mask$iv;
         Modifier.Node[] objArr2;
-        MutableVector $this$visitChildren$iv;
-        int i5;
+        MutableVector $this$visitChildren$iv2;
+        int i;
         int node;
-        int node$iv;
+        int node$iv2;
         Modifier.Node[] arr;
-        int i9;
+        int i3;
         Object obj4;
         int count$iv;
         int this_$iv$iv2;
-        int i7;
+        int i5;
         Modifier.Node[] objArr;
         int i8;
         int stack$iv;
-        Modifier.Node[] node$iv2;
+        Modifier.Node[] node$iv;
         Modifier.Node[] objArr3;
-        int i11;
-        Modifier.Node node$iv$iv;
-        int i6;
         int i4;
+        Modifier.Node node$iv$iv;
+        int $i$f$visitChildren6rFNWt02;
+        int i6;
         Object mask$iv2;
         int this_$iv$iv;
-        int i12;
+        int i9;
+        int i7;
+        Modifier.Node[] $this$visitChildren$iv;
+        int i11;
         int i10;
-        Modifier.Node[] $this$visitChildren$iv2;
-        int i;
-        int i2;
         objArr2 = $this$visitChildren_u2d6rFNWt0;
-        i5 = 0;
+        i = 0;
         if (!objArr2.getNode().isAttached()) {
         } else {
-            int i18 = 0;
-            node$iv = 0;
+            int i14 = 0;
+            node$iv2 = 0;
             MutableVector mutableVector3 = new MutableVector(new Modifier.Node[16], 0);
             Modifier.Node child$ui_release = objArr2.getNode().getChild$ui_release();
             if (child$ui_release == null) {
@@ -3572,48 +3572,48 @@ public final class DelegatableNodeKt {
                 mutableVector3.add(child$ui_release);
             }
             while (mutableVector3.isNotEmpty()) {
-                int i19 = 0;
+                int i15 = 0;
                 count$iv = 1;
                 node = mutableVector3.removeAt(size -= count$iv);
                 if (aggregateChildKindSet$ui_release &= obj == 0) {
                 } else {
                 }
-                node$iv = node;
-                while (node$iv != 0) {
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
-                    int i15 = count$iv;
+                node$iv2 = node;
+                while (node$iv2 != 0) {
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
+                    int $i$f$visitChildren6rFNWt04 = count$iv;
                     Object obj3 = block;
-                    node$iv = node$iv.getChild$ui_release();
-                    i9 = mask$iv4;
-                    i3 = i6;
+                    node$iv2 = node$iv2.getChild$ui_release();
+                    i3 = mask$iv4;
+                    i2 = $i$f$visitChildren6rFNWt02;
                     obj = mask$iv2;
                 }
-                i6 = i3;
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
+                $i$f$visitChildren6rFNWt02 = i2;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
                 Object obj2 = block;
-                i9 = mask$iv3;
+                i3 = mask$iv3;
                 obj = mask$iv2;
                 if (kindSet$ui_release &= obj != null) {
                 } else {
                 }
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
-                i15 = count$iv;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
+                $i$f$visitChildren6rFNWt04 = count$iv;
                 obj3 = block;
-                node$iv = node$iv.getChild$ui_release();
-                i9 = mask$iv4;
-                i3 = i6;
+                node$iv2 = node$iv2.getChild$ui_release();
+                i3 = mask$iv4;
+                i2 = $i$f$visitChildren6rFNWt02;
                 obj = mask$iv2;
-                i7 = 0;
+                i5 = 0;
                 i8 = 0;
                 stack$iv = 0;
-                int i21 = 0;
-                node$iv2 = objArr;
-                while (node$iv2 != null) {
+                int i17 = 0;
+                node$iv = objArr;
+                while (node$iv != null) {
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv2 instanceof Object != null) {
+                    if (node$iv instanceof Object != null) {
                     } else {
                     }
                     obj4 = block;
@@ -3622,32 +3622,32 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
+                    if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    i6 = i3;
+                    $i$f$visitChildren6rFNWt02 = i2;
                     mask$iv2 = obj;
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
-                    i13 = 1;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
+                    $i$f$visitChildren6rFNWt0 = 1;
                     mask$iv = 0;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                    count$iv = i13;
-                    i9 = mask$iv;
-                    i3 = i6;
+                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    count$iv = $i$f$visitChildren6rFNWt0;
+                    i3 = mask$iv;
+                    i2 = $i$f$visitChildren6rFNWt02;
                     obj = mask$iv2;
-                    objArr2 = $this$visitChildren$iv2;
-                    i5 = i;
-                    if (node$iv2 instanceof DelegatingNode) {
+                    objArr2 = $this$visitChildren$iv;
+                    i = i11;
+                    if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv$iv2 = 0;
-                    i11 = 0;
-                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                    i4 = 0;
+                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
-                        Modifier.Node node2 = node$iv$iv;
-                        i4 = 0;
-                        i12 = 0;
+                        Modifier.Node $i$f$visitChildren6rFNWt05 = node$iv$iv;
+                        i6 = 0;
+                        i9 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -3656,67 +3656,67 @@ public final class DelegatableNodeKt {
                         } else {
                         }
                         mask$iv2 = obj;
-                        $this$visitChildren$iv2 = objArr2;
-                        i = i5;
+                        $this$visitChildren$iv = objArr2;
+                        i11 = i;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        i3 = i6;
+                        i2 = $i$f$visitChildren6rFNWt02;
                         obj = mask$iv2;
-                        objArr2 = $this$visitChildren$iv2;
-                        i5 = i;
+                        objArr2 = $this$visitChildren$iv;
+                        i = i11;
                         mask$iv2 = obj;
                         if (this_$iv$iv2++ == 1) {
                         } else {
                         }
-                        int i16 = stack$iv;
-                        if ((MutableVector)i16 == 0) {
+                        int i12 = stack$iv;
+                        if ((MutableVector)i12 == 0) {
                         } else {
                         }
-                        $this$visitChildren$iv2 = objArr2;
-                        i = i5;
-                        $this$visitChildren$iv = i16;
+                        $this$visitChildren$iv = objArr2;
+                        i11 = i;
+                        $this$visitChildren$iv2 = i12;
                         capacity$iv$iv$iv = 0;
-                        stack$iv = $this$visitChildren$iv;
-                        objArr2 = node$iv2;
+                        stack$iv = $this$visitChildren$iv2;
+                        objArr2 = node$iv;
                         MutableVector mutableVector = stack$iv;
                         if ((Modifier.Node)objArr2 != null && (MutableVector)mutableVector != null) {
                         }
-                        i5 = stack$iv;
-                        if ((MutableVector)i5 != null) {
+                        i = stack$iv;
+                        if ((MutableVector)i != null) {
                         }
-                        (MutableVector)i5.add(node2);
+                        (MutableVector)i.add($i$f$visitChildren6rFNWt05);
                         mutableVector = stack$iv;
                         if ((MutableVector)(MutableVector)mutableVector != null) {
                         }
-                        node$iv2 = i5;
+                        node$iv = i;
                         (MutableVector)(MutableVector)mutableVector.add((Modifier.Node)objArr2);
-                        i12 = i17;
+                        i9 = i13;
                         int $i$f$mutableVectorOf = 16;
-                        i10 = 0;
-                        $this$visitChildren$iv2 = objArr2;
-                        i = i5;
-                        i2 = $i$f$mutableVectorOf;
-                        $this$visitChildren$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i5 = $this$visitChildren$iv;
-                        node$iv2 = node2;
-                        $this$visitChildren$iv2 = objArr2;
-                        i = i5;
+                        i7 = 0;
+                        $this$visitChildren$iv = objArr2;
+                        i11 = i;
+                        i10 = $i$f$mutableVectorOf;
+                        $this$visitChildren$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i = $this$visitChildren$iv2;
+                        node$iv = $i$f$visitChildren6rFNWt05;
+                        $this$visitChildren$iv = objArr2;
+                        i11 = i;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv = 1;
                     }
-                    i13 = 1;
-                    if (this_$iv$iv2 == i13) {
+                    $i$f$visitChildren6rFNWt0 = 1;
+                    if (this_$iv$iv2 == $i$f$visitChildren6rFNWt0) {
                     } else {
                     }
-                    count$iv = i13;
-                    i9 = mask$iv;
-                    i3 = i6;
+                    count$iv = $i$f$visitChildren6rFNWt0;
+                    i3 = mask$iv;
+                    i2 = $i$f$visitChildren6rFNWt02;
                     obj = mask$iv2;
-                    objArr2 = $this$visitChildren$iv2;
-                    i5 = i;
-                    node2 = node$iv$iv;
-                    i4 = 0;
-                    i12 = 0;
+                    objArr2 = $this$visitChildren$iv;
+                    i = i11;
+                    $i$f$visitChildren6rFNWt05 = node$iv$iv;
+                    i6 = 0;
+                    i9 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -3725,70 +3725,70 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     mask$iv2 = obj;
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    i3 = i6;
+                    i2 = $i$f$visitChildren6rFNWt02;
                     obj = mask$iv2;
-                    objArr2 = $this$visitChildren$iv2;
-                    i5 = i;
+                    objArr2 = $this$visitChildren$iv;
+                    i = i11;
                     mask$iv2 = obj;
                     if (this_$iv$iv2++ == 1) {
                     } else {
                     }
-                    i16 = stack$iv;
-                    if ((MutableVector)(MutableVector)i16 == 0) {
+                    i12 = stack$iv;
+                    if ((MutableVector)(MutableVector)i12 == 0) {
                     } else {
                     }
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
-                    $this$visitChildren$iv = i16;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
+                    $this$visitChildren$iv2 = i12;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitChildren$iv;
-                    objArr2 = node$iv2;
+                    stack$iv = $this$visitChildren$iv2;
+                    objArr2 = node$iv;
                     mutableVector = stack$iv;
                     if ((Modifier.Node)objArr2 != null && (MutableVector)mutableVector != null) {
                     }
-                    i5 = stack$iv;
-                    if ((MutableVector)i5 != null) {
+                    i = stack$iv;
+                    if ((MutableVector)i != null) {
                     }
-                    (MutableVector)i5.add(node2);
+                    (MutableVector)i.add($i$f$visitChildren6rFNWt05);
                     mutableVector = stack$iv;
                     if ((MutableVector)(MutableVector)mutableVector != null) {
                     }
-                    node$iv2 = i5;
+                    node$iv = i;
                     (MutableVector)(MutableVector)mutableVector.add((Modifier.Node)objArr2);
-                    i12 = i17;
+                    i9 = i13;
                     $i$f$mutableVectorOf = 16;
-                    i10 = 0;
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
-                    i2 = $i$f$mutableVectorOf;
-                    $this$visitChildren$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i5 = $this$visitChildren$iv;
-                    node$iv2 = node2;
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
+                    i7 = 0;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
+                    i10 = $i$f$mutableVectorOf;
+                    $this$visitChildren$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i = $this$visitChildren$iv2;
+                    node$iv = $i$f$visitChildren6rFNWt05;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv = 1;
                     this_$iv$iv2 = 1;
-                    block.invoke(node$iv2);
-                    i6 = i3;
+                    block.invoke(node$iv);
+                    $i$f$visitChildren6rFNWt02 = i2;
                     mask$iv2 = obj;
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
-                    i13 = 1;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
+                    $i$f$visitChildren6rFNWt0 = 1;
                     mask$iv = 0;
                 }
-                i6 = i3;
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
+                $i$f$visitChildren6rFNWt02 = i2;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
                 Object obj5 = block;
-                i9 = mask$iv6;
+                i3 = mask$iv6;
                 obj = mask$iv2;
                 Intrinsics.reifiedOperationMarker(3, "T");
-                if (node$iv2 instanceof Object != null) {
+                if (node$iv instanceof Object != null) {
                 } else {
                 }
                 obj4 = block;
@@ -3797,32 +3797,32 @@ public final class DelegatableNodeKt {
                 } else {
                 }
                 this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
+                if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                i6 = i3;
+                $i$f$visitChildren6rFNWt02 = i2;
                 mask$iv2 = obj;
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
-                i13 = 1;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
+                $i$f$visitChildren6rFNWt0 = 1;
                 mask$iv = 0;
-                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                count$iv = i13;
-                i9 = mask$iv;
-                i3 = i6;
+                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                count$iv = $i$f$visitChildren6rFNWt0;
+                i3 = mask$iv;
+                i2 = $i$f$visitChildren6rFNWt02;
                 obj = mask$iv2;
-                objArr2 = $this$visitChildren$iv2;
-                i5 = i;
-                if (node$iv2 instanceof DelegatingNode) {
+                objArr2 = $this$visitChildren$iv;
+                i = i11;
+                if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
                 this_$iv$iv2 = 0;
-                i11 = 0;
-                node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                i4 = 0;
+                node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
-                    node2 = node$iv$iv;
-                    i4 = 0;
-                    i12 = 0;
+                    $i$f$visitChildren6rFNWt05 = node$iv$iv;
+                    i6 = 0;
+                    i9 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -3831,67 +3831,67 @@ public final class DelegatableNodeKt {
                     } else {
                     }
                     mask$iv2 = obj;
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    i3 = i6;
+                    i2 = $i$f$visitChildren6rFNWt02;
                     obj = mask$iv2;
-                    objArr2 = $this$visitChildren$iv2;
-                    i5 = i;
+                    objArr2 = $this$visitChildren$iv;
+                    i = i11;
                     mask$iv2 = obj;
                     if (this_$iv$iv2++ == 1) {
                     } else {
                     }
-                    i16 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)i16 == 0) {
+                    i12 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)i12 == 0) {
                     } else {
                     }
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
-                    $this$visitChildren$iv = i16;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
+                    $this$visitChildren$iv2 = i12;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitChildren$iv;
-                    objArr2 = node$iv2;
+                    stack$iv = $this$visitChildren$iv2;
+                    objArr2 = node$iv;
                     mutableVector = stack$iv;
                     if ((Modifier.Node)objArr2 != null && (MutableVector)mutableVector != null) {
                     }
-                    i5 = stack$iv;
-                    if ((MutableVector)i5 != null) {
+                    i = stack$iv;
+                    if ((MutableVector)i != null) {
                     }
-                    (MutableVector)i5.add(node2);
+                    (MutableVector)i.add($i$f$visitChildren6rFNWt05);
                     mutableVector = stack$iv;
                     if ((MutableVector)(MutableVector)mutableVector != null) {
                     }
-                    node$iv2 = i5;
+                    node$iv = i;
                     (MutableVector)(MutableVector)mutableVector.add((Modifier.Node)objArr2);
-                    i12 = i17;
+                    i9 = i13;
                     $i$f$mutableVectorOf = 16;
-                    i10 = 0;
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
-                    i2 = $i$f$mutableVectorOf;
-                    $this$visitChildren$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i5 = $this$visitChildren$iv;
-                    node$iv2 = node2;
-                    $this$visitChildren$iv2 = objArr2;
-                    i = i5;
+                    i7 = 0;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
+                    i10 = $i$f$mutableVectorOf;
+                    $this$visitChildren$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i = $this$visitChildren$iv2;
+                    node$iv = $i$f$visitChildren6rFNWt05;
+                    $this$visitChildren$iv = objArr2;
+                    i11 = i;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv = 1;
                 }
-                i13 = 1;
-                if (this_$iv$iv2 == i13) {
+                $i$f$visitChildren6rFNWt0 = 1;
+                if (this_$iv$iv2 == $i$f$visitChildren6rFNWt0) {
                 } else {
                 }
-                count$iv = i13;
-                i9 = mask$iv;
-                i3 = i6;
+                count$iv = $i$f$visitChildren6rFNWt0;
+                i3 = mask$iv;
+                i2 = $i$f$visitChildren6rFNWt02;
                 obj = mask$iv2;
-                objArr2 = $this$visitChildren$iv2;
-                i5 = i;
-                node2 = node$iv$iv;
-                i4 = 0;
-                i12 = 0;
+                objArr2 = $this$visitChildren$iv;
+                i = i11;
+                $i$f$visitChildren6rFNWt05 = node$iv$iv;
+                i6 = 0;
+                i9 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -3900,75 +3900,75 @@ public final class DelegatableNodeKt {
                 } else {
                 }
                 mask$iv2 = obj;
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                i3 = i6;
+                i2 = $i$f$visitChildren6rFNWt02;
                 obj = mask$iv2;
-                objArr2 = $this$visitChildren$iv2;
-                i5 = i;
+                objArr2 = $this$visitChildren$iv;
+                i = i11;
                 mask$iv2 = obj;
                 if (this_$iv$iv2++ == 1) {
                 } else {
                 }
-                i16 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i16 == 0) {
+                i12 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i12 == 0) {
                 } else {
                 }
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
-                $this$visitChildren$iv = i16;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
+                $this$visitChildren$iv2 = i12;
                 capacity$iv$iv$iv = 0;
-                stack$iv = $this$visitChildren$iv;
-                objArr2 = node$iv2;
+                stack$iv = $this$visitChildren$iv2;
+                objArr2 = node$iv;
                 mutableVector = stack$iv;
                 if ((Modifier.Node)objArr2 != null && (MutableVector)mutableVector != null) {
                 }
-                i5 = stack$iv;
-                if ((MutableVector)i5 != null) {
+                i = stack$iv;
+                if ((MutableVector)i != null) {
                 }
-                (MutableVector)i5.add(node2);
+                (MutableVector)i.add($i$f$visitChildren6rFNWt05);
                 mutableVector = stack$iv;
                 if ((MutableVector)(MutableVector)mutableVector != null) {
                 }
-                node$iv2 = i5;
+                node$iv = i;
                 (MutableVector)(MutableVector)mutableVector.add((Modifier.Node)objArr2);
-                i12 = i17;
+                i9 = i13;
                 $i$f$mutableVectorOf = 16;
-                i10 = 0;
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
-                i2 = $i$f$mutableVectorOf;
-                $this$visitChildren$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i5 = $this$visitChildren$iv;
-                node$iv2 = node2;
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
+                i7 = 0;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
+                i10 = $i$f$mutableVectorOf;
+                $this$visitChildren$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i = $this$visitChildren$iv2;
+                node$iv = $i$f$visitChildren6rFNWt05;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
                 capacity$iv$iv$iv = 0;
                 this_$iv$iv = 1;
                 this_$iv$iv2 = 1;
-                block.invoke(node$iv2);
-                i6 = i3;
+                block.invoke(node$iv);
+                $i$f$visitChildren6rFNWt02 = i2;
                 mask$iv2 = obj;
-                $this$visitChildren$iv2 = objArr2;
-                i = i5;
-                i13 = 1;
+                $this$visitChildren$iv = objArr2;
+                i11 = i;
+                $i$f$visitChildren6rFNWt0 = 1;
                 mask$iv = 0;
                 DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector3, node);
             }
         }
-        int i22 = i3;
+        int i18 = i2;
         Object obj6 = obj;
-        int i14 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitChildren called on an unattached node".toString());
-        throw illegalStateException;
+        int $i$f$visitChildren6rFNWt03 = 0;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitChildren$1$iv = new IllegalStateException("visitChildren called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitChildren$1$iv;
     }
 
     public static final void visitLocalAncestors(androidx.compose.ui.node.DelegatableNode $this$visitLocalAncestors, int mask, Function1<? super Modifier.Node, Unit> block) {
         Modifier.Node next;
         int i;
-        String str;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalAncestors$1;
         final int i2 = 0;
         i = 0;
         if (!$this$visitLocalAncestors.getNode().isAttached()) {
@@ -3985,60 +3985,60 @@ public final class DelegatableNodeKt {
     }
 
     public static final <T> void visitLocalAncestors-6rFNWt0(androidx.compose.ui.node.DelegatableNode $this$visitLocalAncestors_u2d6rFNWt0, int type, Function1<? super T, Unit> block) {
-        int i3;
-        int capacity$iv$iv$iv;
-        Modifier.Node node3;
-        int mask$iv;
-        int i2;
-        Modifier.Node next$iv;
+        int $i$f$visitLocalAncestors6rFNWt02;
+        int $i$f$visitLocalAncestors6rFNWt03;
+        Modifier.Node node2;
+        int mask$iv2;
         int i4;
-        String str2;
+        Modifier.Node next$iv;
+        int i5;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalAncestors$1$iv;
         String str;
         int i7;
         int stack$iv;
         Modifier.Node node$iv;
         Object obj;
         int count$iv;
-        Modifier.Node node;
+        Modifier.Node node3;
         int i8;
-        Modifier.Node node2;
+        Modifier.Node node;
         Modifier.Node node$iv$iv;
-        int i10;
         int i9;
+        int $i$f$visitLocalAncestors6rFNWt0;
         int this_$iv$iv;
-        int i5;
-        int i11;
-        Modifier.Node mask$iv2;
         int i;
         int i6;
-        i3 = 0;
-        node3 = type;
-        i2 = $this$visitLocalAncestors_u2d6rFNWt0;
-        final int i17 = 0;
-        i4 = 0;
-        if (!i2.getNode().isAttached()) {
-            int i18 = 0;
-            str2 = "visitLocalAncestors called on an unattached node";
-            str = str2;
-            InlineClassHelperKt.throwIllegalStateException(str2);
+        Modifier.Node mask$iv;
+        int i2;
+        int i3;
+        $i$f$visitLocalAncestors6rFNWt02 = 0;
+        node2 = type;
+        i4 = $this$visitLocalAncestors_u2d6rFNWt0;
+        final int i13 = 0;
+        i5 = 0;
+        if (!i4.getNode().isAttached()) {
+            int i14 = 0;
+            $i$a$CheckPreconditionDelegatableNodeKt$visitLocalAncestors$1$iv = "visitLocalAncestors called on an unattached node";
+            str = $i$a$CheckPreconditionDelegatableNodeKt$visitLocalAncestors$1$iv;
+            InlineClassHelperKt.throwIllegalStateException($i$a$CheckPreconditionDelegatableNodeKt$visitLocalAncestors$1$iv);
         }
-        next$iv = i2.getNode().getParent$ui_release();
+        next$iv = i4.getNode().getParent$ui_release();
         while (next$iv != null) {
-            if (kindSet$ui_release &= node3 != 0) {
+            if (kindSet$ui_release &= node2 != 0) {
             } else {
             }
             obj = block;
-            i9 = i3;
-            mask$iv2 = node3;
-            i = i2;
+            $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+            mask$iv = node2;
+            i2 = i4;
             next$iv = next$iv.getParent$ui_release();
-            i3 = i9;
-            node3 = mask$iv2;
-            i2 = i;
-            str2 = 0;
+            $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+            node2 = mask$iv;
+            i4 = i2;
+            $i$a$CheckPreconditionDelegatableNodeKt$visitLocalAncestors$1$iv = 0;
             i7 = 0;
             stack$iv = 0;
-            int i19 = 0;
+            int i15 = 0;
             node$iv = str;
             while (node$iv != null) {
                 Intrinsics.reifiedOperationMarker(3, "T");
@@ -4046,7 +4046,7 @@ public final class DelegatableNodeKt {
                 } else {
                 }
                 obj = block;
-                node = 0;
+                node3 = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
@@ -4054,13 +4054,13 @@ public final class DelegatableNodeKt {
                 if (count$iv != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                i9 = i3;
-                mask$iv2 = node3;
-                i = i2;
+                $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+                mask$iv = node2;
+                i2 = i4;
                 node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                i3 = i9;
-                node3 = mask$iv2;
-                i2 = i;
+                $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+                node2 = mask$iv;
+                i4 = i2;
                 if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
@@ -4068,9 +4068,9 @@ public final class DelegatableNodeKt {
                 i8 = 0;
                 node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
-                    node2 = node$iv$iv;
-                    i10 = 0;
-                    i5 = 0;
+                    node = node$iv$iv;
+                    i9 = 0;
+                    i = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -4078,63 +4078,63 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv != 0) {
                     } else {
                     }
-                    i9 = i3;
-                    mask$iv2 = node3;
-                    i = i2;
-                    capacity$iv$iv$iv = 0;
+                    $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+                    mask$iv = node2;
+                    i2 = i4;
+                    $i$f$visitLocalAncestors6rFNWt03 = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    i3 = i9;
-                    node3 = mask$iv2;
-                    i2 = i;
-                    i9 = i3;
+                    $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+                    node2 = mask$iv;
+                    i4 = i2;
+                    $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
                     if (count$iv++ == 1) {
                     } else {
                     }
-                    int i13 = stack$iv;
-                    if ((MutableVector)i13 == 0) {
+                    int i10 = stack$iv;
+                    if ((MutableVector)i10 == 0) {
                     } else {
                     }
-                    mask$iv2 = node3;
-                    i = i2;
-                    mask$iv = i13;
-                    capacity$iv$iv$iv = 0;
-                    stack$iv = mask$iv;
-                    node3 = node$iv;
-                    int i16 = stack$iv;
-                    if ((Modifier.Node)node3 != null && (MutableVector)i16 != 0) {
+                    mask$iv = node2;
+                    i2 = i4;
+                    mask$iv2 = i10;
+                    $i$f$visitLocalAncestors6rFNWt03 = 0;
+                    stack$iv = mask$iv2;
+                    node2 = node$iv;
+                    int i12 = stack$iv;
+                    if ((Modifier.Node)node2 != null && (MutableVector)i12 != 0) {
                     }
-                    i2 = stack$iv;
-                    if ((MutableVector)i2 != 0) {
+                    i4 = stack$iv;
+                    if ((MutableVector)i4 != 0) {
                     }
-                    (MutableVector)i2.add(node2);
-                    i16 = stack$iv;
-                    if ((MutableVector)(MutableVector)i16 != 0) {
+                    (MutableVector)i4.add(node);
+                    i12 = stack$iv;
+                    if ((MutableVector)(MutableVector)i12 != 0) {
                     }
-                    node$iv = i2;
-                    (MutableVector)(MutableVector)i16.add((Modifier.Node)node3);
-                    i5 = i14;
+                    node$iv = i4;
+                    (MutableVector)(MutableVector)i12.add((Modifier.Node)node2);
+                    i = i11;
                     int $i$f$mutableVectorOf = 16;
-                    i11 = 0;
-                    mask$iv2 = node3;
-                    i = i2;
-                    i6 = $i$f$mutableVectorOf;
-                    mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i2 = mask$iv;
-                    node$iv = node2;
-                    mask$iv2 = node3;
-                    i = i2;
-                    capacity$iv$iv$iv = 0;
+                    i6 = 0;
+                    mask$iv = node2;
+                    i2 = i4;
+                    i3 = $i$f$mutableVectorOf;
+                    mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i4 = mask$iv2;
+                    node$iv = node;
+                    mask$iv = node2;
+                    i2 = i4;
+                    $i$f$visitLocalAncestors6rFNWt03 = 0;
                     this_$iv$iv = 1;
                 }
                 if (count$iv == 1) {
                 } else {
                 }
-                i3 = i9;
-                node3 = mask$iv2;
-                i2 = i;
-                node2 = node$iv$iv;
-                i10 = 0;
-                i5 = 0;
+                $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+                node2 = mask$iv;
+                i4 = i2;
+                node = node$iv$iv;
+                i9 = 0;
+                i = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -4142,69 +4142,69 @@ public final class DelegatableNodeKt {
                 if (this_$iv$iv != 0) {
                 } else {
                 }
-                i9 = i3;
-                mask$iv2 = node3;
-                i = i2;
-                capacity$iv$iv$iv = 0;
+                $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+                mask$iv = node2;
+                i2 = i4;
+                $i$f$visitLocalAncestors6rFNWt03 = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                i3 = i9;
-                node3 = mask$iv2;
-                i2 = i;
-                i9 = i3;
+                $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+                node2 = mask$iv;
+                i4 = i2;
+                $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
                 if (count$iv++ == 1) {
                 } else {
                 }
-                i13 = stack$iv;
-                if ((MutableVector)(MutableVector)i13 == 0) {
+                i10 = stack$iv;
+                if ((MutableVector)(MutableVector)i10 == 0) {
                 } else {
                 }
-                mask$iv2 = node3;
-                i = i2;
-                mask$iv = i13;
-                capacity$iv$iv$iv = 0;
-                stack$iv = mask$iv;
-                node3 = node$iv;
-                i16 = stack$iv;
-                if ((Modifier.Node)node3 != null && (MutableVector)i16 != 0) {
+                mask$iv = node2;
+                i2 = i4;
+                mask$iv2 = i10;
+                $i$f$visitLocalAncestors6rFNWt03 = 0;
+                stack$iv = mask$iv2;
+                node2 = node$iv;
+                i12 = stack$iv;
+                if ((Modifier.Node)node2 != null && (MutableVector)i12 != 0) {
                 }
-                i2 = stack$iv;
-                if ((MutableVector)i2 != 0) {
+                i4 = stack$iv;
+                if ((MutableVector)i4 != 0) {
                 }
-                (MutableVector)i2.add(node2);
-                i16 = stack$iv;
-                if ((MutableVector)(MutableVector)i16 != 0) {
+                (MutableVector)i4.add(node);
+                i12 = stack$iv;
+                if ((MutableVector)(MutableVector)i12 != 0) {
                 }
-                node$iv = i2;
-                (MutableVector)(MutableVector)i16.add((Modifier.Node)node3);
-                i5 = i14;
+                node$iv = i4;
+                (MutableVector)(MutableVector)i12.add((Modifier.Node)node2);
+                i = i11;
                 $i$f$mutableVectorOf = 16;
-                i11 = 0;
-                mask$iv2 = node3;
-                i = i2;
-                i6 = $i$f$mutableVectorOf;
-                mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i2 = mask$iv;
-                node$iv = node2;
-                mask$iv2 = node3;
-                i = i2;
-                capacity$iv$iv$iv = 0;
+                i6 = 0;
+                mask$iv = node2;
+                i2 = i4;
+                i3 = $i$f$mutableVectorOf;
+                mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i4 = mask$iv2;
+                node$iv = node;
+                mask$iv = node2;
+                i2 = i4;
+                $i$f$visitLocalAncestors6rFNWt03 = 0;
                 this_$iv$iv = 1;
                 count$iv = 1;
                 block.invoke(node$iv);
-                i9 = i3;
-                mask$iv2 = node3;
-                i = i2;
+                $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+                mask$iv = node2;
+                i2 = i4;
             }
             obj = block;
-            i9 = i3;
-            mask$iv2 = node3;
-            i = i2;
+            $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+            mask$iv = node2;
+            i2 = i4;
             Intrinsics.reifiedOperationMarker(3, "T");
             if (node$iv instanceof Object != null) {
             } else {
             }
             obj = block;
-            node = 0;
+            node3 = 0;
             if (kindSet$ui_release2 &= type != 0) {
             } else {
             }
@@ -4212,13 +4212,13 @@ public final class DelegatableNodeKt {
             if (count$iv != 0 && node$iv instanceof DelegatingNode) {
             } else {
             }
-            i9 = i3;
-            mask$iv2 = node3;
-            i = i2;
+            $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+            mask$iv = node2;
+            i2 = i4;
             node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-            i3 = i9;
-            node3 = mask$iv2;
-            i2 = i;
+            $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+            node2 = mask$iv;
+            i4 = i2;
             if (node$iv instanceof DelegatingNode) {
             } else {
             }
@@ -4226,9 +4226,9 @@ public final class DelegatableNodeKt {
             i8 = 0;
             node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
             while (node$iv$iv != null) {
-                node2 = node$iv$iv;
-                i10 = 0;
-                i5 = 0;
+                node = node$iv$iv;
+                i9 = 0;
+                i = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -4236,63 +4236,63 @@ public final class DelegatableNodeKt {
                 if (this_$iv$iv != 0) {
                 } else {
                 }
-                i9 = i3;
-                mask$iv2 = node3;
-                i = i2;
-                capacity$iv$iv$iv = 0;
+                $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+                mask$iv = node2;
+                i2 = i4;
+                $i$f$visitLocalAncestors6rFNWt03 = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                i3 = i9;
-                node3 = mask$iv2;
-                i2 = i;
-                i9 = i3;
+                $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+                node2 = mask$iv;
+                i4 = i2;
+                $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
                 if (count$iv++ == 1) {
                 } else {
                 }
-                i13 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)i13 == 0) {
+                i10 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)i10 == 0) {
                 } else {
                 }
-                mask$iv2 = node3;
-                i = i2;
-                mask$iv = i13;
-                capacity$iv$iv$iv = 0;
-                stack$iv = mask$iv;
-                node3 = node$iv;
-                i16 = stack$iv;
-                if ((Modifier.Node)node3 != null && (MutableVector)i16 != 0) {
+                mask$iv = node2;
+                i2 = i4;
+                mask$iv2 = i10;
+                $i$f$visitLocalAncestors6rFNWt03 = 0;
+                stack$iv = mask$iv2;
+                node2 = node$iv;
+                i12 = stack$iv;
+                if ((Modifier.Node)node2 != null && (MutableVector)i12 != 0) {
                 }
-                i2 = stack$iv;
-                if ((MutableVector)i2 != 0) {
+                i4 = stack$iv;
+                if ((MutableVector)i4 != 0) {
                 }
-                (MutableVector)i2.add(node2);
-                i16 = stack$iv;
-                if ((MutableVector)(MutableVector)i16 != 0) {
+                (MutableVector)i4.add(node);
+                i12 = stack$iv;
+                if ((MutableVector)(MutableVector)i12 != 0) {
                 }
-                node$iv = i2;
-                (MutableVector)(MutableVector)i16.add((Modifier.Node)node3);
-                i5 = i14;
+                node$iv = i4;
+                (MutableVector)(MutableVector)i12.add((Modifier.Node)node2);
+                i = i11;
                 $i$f$mutableVectorOf = 16;
-                i11 = 0;
-                mask$iv2 = node3;
-                i = i2;
-                i6 = $i$f$mutableVectorOf;
-                mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i2 = mask$iv;
-                node$iv = node2;
-                mask$iv2 = node3;
-                i = i2;
-                capacity$iv$iv$iv = 0;
+                i6 = 0;
+                mask$iv = node2;
+                i2 = i4;
+                i3 = $i$f$mutableVectorOf;
+                mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i4 = mask$iv2;
+                node$iv = node;
+                mask$iv = node2;
+                i2 = i4;
+                $i$f$visitLocalAncestors6rFNWt03 = 0;
                 this_$iv$iv = 1;
             }
             if (count$iv == 1) {
             } else {
             }
-            i3 = i9;
-            node3 = mask$iv2;
-            i2 = i;
-            node2 = node$iv$iv;
-            i10 = 0;
-            i5 = 0;
+            $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+            node2 = mask$iv;
+            i4 = i2;
+            node = node$iv$iv;
+            i9 = 0;
+            i = 0;
             if (kindSet$ui_release3 &= type != 0) {
             } else {
             }
@@ -4300,64 +4300,64 @@ public final class DelegatableNodeKt {
             if (this_$iv$iv != 0) {
             } else {
             }
-            i9 = i3;
-            mask$iv2 = node3;
-            i = i2;
-            capacity$iv$iv$iv = 0;
+            $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+            mask$iv = node2;
+            i2 = i4;
+            $i$f$visitLocalAncestors6rFNWt03 = 0;
             node$iv$iv = node$iv$iv.getChild$ui_release();
-            i3 = i9;
-            node3 = mask$iv2;
-            i2 = i;
-            i9 = i3;
+            $i$f$visitLocalAncestors6rFNWt02 = $i$f$visitLocalAncestors6rFNWt0;
+            node2 = mask$iv;
+            i4 = i2;
+            $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
             if (count$iv++ == 1) {
             } else {
             }
-            i13 = stack$iv;
-            if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
+            i10 = stack$iv;
+            if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i10 == 0) {
             } else {
             }
-            mask$iv2 = node3;
-            i = i2;
-            mask$iv = i13;
-            capacity$iv$iv$iv = 0;
-            stack$iv = mask$iv;
-            node3 = node$iv;
-            i16 = stack$iv;
-            if ((Modifier.Node)node3 != null && (MutableVector)i16 != 0) {
+            mask$iv = node2;
+            i2 = i4;
+            mask$iv2 = i10;
+            $i$f$visitLocalAncestors6rFNWt03 = 0;
+            stack$iv = mask$iv2;
+            node2 = node$iv;
+            i12 = stack$iv;
+            if ((Modifier.Node)node2 != null && (MutableVector)i12 != 0) {
             }
-            i2 = stack$iv;
-            if ((MutableVector)i2 != 0) {
+            i4 = stack$iv;
+            if ((MutableVector)i4 != 0) {
             }
-            (MutableVector)i2.add(node2);
-            i16 = stack$iv;
-            if ((MutableVector)(MutableVector)i16 != 0) {
+            (MutableVector)i4.add(node);
+            i12 = stack$iv;
+            if ((MutableVector)(MutableVector)i12 != 0) {
             }
-            node$iv = i2;
-            (MutableVector)(MutableVector)i16.add((Modifier.Node)node3);
-            i5 = i14;
+            node$iv = i4;
+            (MutableVector)(MutableVector)i12.add((Modifier.Node)node2);
+            i = i11;
             $i$f$mutableVectorOf = 16;
-            i11 = 0;
-            mask$iv2 = node3;
-            i = i2;
-            i6 = $i$f$mutableVectorOf;
-            mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-            i2 = mask$iv;
-            node$iv = node2;
-            mask$iv2 = node3;
-            i = i2;
-            capacity$iv$iv$iv = 0;
+            i6 = 0;
+            mask$iv = node2;
+            i2 = i4;
+            i3 = $i$f$mutableVectorOf;
+            mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+            i4 = mask$iv2;
+            node$iv = node;
+            mask$iv = node2;
+            i2 = i4;
+            $i$f$visitLocalAncestors6rFNWt03 = 0;
             this_$iv$iv = 1;
             count$iv = 1;
             block.invoke(node$iv);
-            i9 = i3;
-            mask$iv2 = node3;
-            i = i2;
+            $i$f$visitLocalAncestors6rFNWt0 = $i$f$visitLocalAncestors6rFNWt02;
+            mask$iv = node2;
+            i2 = i4;
         }
     }
 
     public static final void visitLocalDescendants(androidx.compose.ui.node.DelegatableNode $this$visitLocalDescendants, int mask, Function1<? super Modifier.Node, Unit> block) {
         Modifier.Node next$iv;
-        String str;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv;
         final int i = 0;
         final Object obj = $this$visitLocalDescendants;
         final int i2 = 0;
@@ -4381,7 +4381,7 @@ public final class DelegatableNodeKt {
 
     public static final void visitLocalDescendants(androidx.compose.ui.node.DelegatableNode $this$visitLocalDescendants, int mask, boolean includeSelf, Function1<? super Modifier.Node, Unit> block) {
         Modifier.Node next;
-        String str;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1;
         final int i = 0;
         int i2 = 0;
         if (!$this$visitLocalDescendants.getNode().isAttached()) {
@@ -4406,7 +4406,7 @@ public final class DelegatableNodeKt {
 
     public static void visitLocalDescendants$default(androidx.compose.ui.node.DelegatableNode $this$visitLocalDescendants_u24default, int mask, boolean includeSelf, Function1 block, int i5, Object object6) {
         Modifier.Node next;
-        String str;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1;
         int obj4;
         if (i5 &= 2 != 0) {
             obj4 = 0;
@@ -4434,51 +4434,51 @@ public final class DelegatableNodeKt {
     }
 
     public static final <T> void visitLocalDescendants-6rFNWt0(androidx.compose.ui.node.DelegatableNode $this$visitLocalDescendants_u2d6rFNWt0, int type, Function1<? super T, Unit> block) {
-        int i7;
-        int i10;
+        int i9;
+        int i5;
         Object obj;
-        int mask$iv3;
+        int mask$iv2;
         int capacity$iv$iv$iv;
-        int mask$iv;
-        Modifier.Node node4;
-        int $this$visitLocalDescendants$iv;
-        int i11;
+        int mask$iv3;
+        Modifier.Node node2;
+        int $this$visitLocalDescendants$iv2;
+        int i10;
         int count$iv;
-        int this_$iv$iv;
+        int this_$iv$iv2;
         Modifier.Node next$iv$iv;
-        String str2;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv$iv;
         String str;
-        Modifier.Node node3;
-        int i8;
+        Modifier.Node node;
+        int i11;
         int stack$iv;
         Modifier.Node node$iv;
-        int i9;
-        int i2;
-        Modifier.Node node;
-        int i6;
-        Modifier.Node node$iv$iv;
-        int i5;
-        Object mask$iv2;
-        int this_$iv$iv2;
-        Object obj2;
-        int i;
-        int i12;
-        Modifier.Node $this$visitLocalDescendants$iv2;
-        Modifier.Node node2;
-        int i3;
-        int i13;
+        int $i$f$visitLocalDescendants6rFNWt0;
+        int $i$f$visitLocalDescendants6rFNWt02;
+        Modifier.Node node4;
         int i4;
+        Modifier.Node node$iv$iv;
+        int i8;
+        Object mask$iv;
+        int this_$iv$iv;
+        Object obj2;
+        int i7;
+        int i3;
+        Modifier.Node $this$visitLocalDescendants$iv;
+        Modifier.Node node3;
+        int i;
+        int i6;
+        int i2;
         obj = type;
-        node4 = $this$visitLocalDescendants_u2d6rFNWt0;
-        final int i18 = count$iv;
-        final Modifier.Node node6 = node4;
-        final int i19 = 0;
-        int i20 = 0;
+        node2 = $this$visitLocalDescendants_u2d6rFNWt0;
+        final int i16 = count$iv;
+        final Modifier.Node node6 = node2;
+        final int i17 = 0;
+        int i18 = 0;
         if (!node6.getNode().isAttached()) {
-            int i21 = 0;
-            str2 = "visitLocalDescendants called on an unattached node";
-            str = str2;
-            InlineClassHelperKt.throwIllegalStateException(str2);
+            int i19 = 0;
+            $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv$iv = "visitLocalDescendants called on an unattached node";
+            str = $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv$iv;
+            InlineClassHelperKt.throwIllegalStateException($i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv$iv);
         }
         Modifier.Node node8 = node6.getNode();
         if (aggregateChildKindSet$ui_release &= obj != 0) {
@@ -4487,412 +4487,412 @@ public final class DelegatableNodeKt {
                 if (kindSet$ui_release &= obj != 0) {
                 } else {
                 }
-                i9 = i7;
-                mask$iv2 = obj;
-                $this$visitLocalDescendants$iv2 = node4;
-                i3 = i11;
-                mask$iv = count$iv;
+                $i$f$visitLocalDescendants6rFNWt0 = i9;
+                mask$iv = obj;
+                $this$visitLocalDescendants$iv = node2;
+                i = i10;
+                mask$iv3 = count$iv;
                 next$iv$iv = next$iv$iv.getChild$ui_release();
-                count$iv = mask$iv;
-                i7 = i9;
-                obj = mask$iv2;
-                node4 = $this$visitLocalDescendants$iv2;
-                i11 = i3;
+                count$iv = mask$iv3;
+                i9 = $i$f$visitLocalDescendants6rFNWt0;
+                obj = mask$iv;
+                node2 = $this$visitLocalDescendants$iv;
+                i10 = i;
                 str = 0;
-                i8 = 0;
+                i11 = 0;
                 stack$iv = 0;
-                int i22 = 0;
-                node$iv = node3;
+                int i20 = 0;
+                node$iv = node;
                 while (node$iv != null) {
-                    i9 = i7;
+                    $i$f$visitLocalDescendants6rFNWt0 = i9;
                     Intrinsics.reifiedOperationMarker(3, "T");
                     if (node$iv instanceof Object != null) {
                     } else {
                     }
-                    i10 = block;
-                    node = 0;
+                    i5 = block;
+                    node4 = 0;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv = 0;
-                    if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
+                    this_$iv$iv2 = 0;
+                    if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    mask$iv2 = obj;
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
-                    mask$iv3 = 0;
+                    mask$iv = obj;
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
+                    mask$iv2 = 0;
                     node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                    count$iv = mask$iv3;
-                    i7 = i9;
-                    obj = mask$iv2;
-                    node4 = $this$visitLocalDescendants$iv2;
-                    i11 = i3;
+                    count$iv = mask$iv2;
+                    i9 = $i$f$visitLocalDescendants6rFNWt0;
+                    obj = mask$iv;
+                    node2 = $this$visitLocalDescendants$iv;
+                    i10 = i;
                     if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv$iv = 0;
-                    i6 = 0;
+                    this_$iv$iv2 = 0;
+                    i4 = 0;
                     node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
-                        i10 = node$iv$iv;
-                        i5 = 0;
-                        i = 0;
+                        i5 = node$iv$iv;
+                        i8 = 0;
+                        i7 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
-                        this_$iv$iv2 = 0;
-                        if (this_$iv$iv2 != 0) {
+                        this_$iv$iv = 0;
+                        if (this_$iv$iv != 0) {
                         } else {
                         }
-                        mask$iv2 = obj;
-                        $this$visitLocalDescendants$iv2 = node4;
-                        i3 = i11;
+                        mask$iv = obj;
+                        $this$visitLocalDescendants$iv = node2;
+                        i = i10;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        obj = mask$iv2;
-                        node4 = $this$visitLocalDescendants$iv2;
-                        i11 = i3;
-                        mask$iv2 = obj;
-                        if (this_$iv$iv++ == 1) {
+                        obj = mask$iv;
+                        node2 = $this$visitLocalDescendants$iv;
+                        i10 = i;
+                        mask$iv = obj;
+                        if (this_$iv$iv2++ == 1) {
                         } else {
                         }
+                        int i13 = stack$iv;
+                        if ((MutableVector)i13 == 0) {
+                        } else {
+                        }
+                        $this$visitLocalDescendants$iv = node2;
+                        i = i10;
+                        $this$visitLocalDescendants$iv2 = i13;
+                        capacity$iv$iv$iv = 0;
+                        stack$iv = $this$visitLocalDescendants$iv2;
+                        node2 = node$iv;
                         int i15 = stack$iv;
-                        if ((MutableVector)i15 == 0) {
-                        } else {
+                        if ((Modifier.Node)node2 != null && (MutableVector)i15 != 0) {
                         }
-                        $this$visitLocalDescendants$iv2 = node4;
-                        i3 = i11;
-                        $this$visitLocalDescendants$iv = i15;
-                        capacity$iv$iv$iv = 0;
-                        stack$iv = $this$visitLocalDescendants$iv;
-                        node4 = node$iv;
-                        int i17 = stack$iv;
-                        if ((Modifier.Node)node4 != null && (MutableVector)i17 != 0) {
+                        i10 = stack$iv;
+                        if ((MutableVector)i10 != 0) {
                         }
-                        i11 = stack$iv;
-                        if ((MutableVector)i11 != 0) {
+                        (MutableVector)i10.add(i5);
+                        i15 = stack$iv;
+                        if ((MutableVector)(MutableVector)i15 != 0) {
                         }
-                        (MutableVector)i11.add(i10);
-                        i17 = stack$iv;
-                        if ((MutableVector)(MutableVector)i17 != 0) {
-                        }
-                        node$iv = i11;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)node4);
-                        i = i16;
-                        int $i$f$mutableVectorOf = 16;
-                        i12 = 0;
-                        $this$visitLocalDescendants$iv2 = node4;
-                        i3 = i11;
-                        i4 = $i$f$mutableVectorOf;
-                        $this$visitLocalDescendants$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i11 = $this$visitLocalDescendants$iv;
                         node$iv = i10;
-                        $this$visitLocalDescendants$iv2 = node4;
-                        i3 = i11;
+                        (MutableVector)(MutableVector)i15.add((Modifier.Node)node2);
+                        i7 = i14;
+                        int $i$f$mutableVectorOf = 16;
+                        i3 = 0;
+                        $this$visitLocalDescendants$iv = node2;
+                        i = i10;
+                        i2 = $i$f$mutableVectorOf;
+                        $this$visitLocalDescendants$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i10 = $this$visitLocalDescendants$iv2;
+                        node$iv = i5;
+                        $this$visitLocalDescendants$iv = node2;
+                        i = i10;
                         capacity$iv$iv$iv = 0;
-                        this_$iv$iv2 = 1;
+                        this_$iv$iv = 1;
                     }
-                    if (this_$iv$iv == 1) {
+                    if (this_$iv$iv2 == 1) {
                     } else {
                     }
-                    count$iv = mask$iv3;
-                    i7 = i9;
-                    obj = mask$iv2;
-                    node4 = $this$visitLocalDescendants$iv2;
-                    i11 = i3;
-                    i10 = node$iv$iv;
-                    i5 = 0;
-                    i = 0;
+                    count$iv = mask$iv2;
+                    i9 = $i$f$visitLocalDescendants6rFNWt0;
+                    obj = mask$iv;
+                    node2 = $this$visitLocalDescendants$iv;
+                    i10 = i;
+                    i5 = node$iv$iv;
+                    i8 = 0;
+                    i7 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    mask$iv2 = obj;
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
+                    mask$iv = obj;
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    obj = mask$iv2;
-                    node4 = $this$visitLocalDescendants$iv2;
-                    i11 = i3;
-                    mask$iv2 = obj;
-                    if (this_$iv$iv++ == 1) {
+                    obj = mask$iv;
+                    node2 = $this$visitLocalDescendants$iv;
+                    i10 = i;
+                    mask$iv = obj;
+                    if (this_$iv$iv2++ == 1) {
                     } else {
                     }
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)i13 == 0) {
+                    } else {
+                    }
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
+                    $this$visitLocalDescendants$iv2 = i13;
+                    capacity$iv$iv$iv = 0;
+                    stack$iv = $this$visitLocalDescendants$iv2;
+                    node2 = node$iv;
                     i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)i15 == 0) {
-                    } else {
+                    if ((Modifier.Node)node2 != null && (MutableVector)i15 != 0) {
                     }
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
-                    $this$visitLocalDescendants$iv = i15;
-                    capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitLocalDescendants$iv;
-                    node4 = node$iv;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)node4 != null && (MutableVector)i17 != 0) {
+                    i10 = stack$iv;
+                    if ((MutableVector)i10 != 0) {
                     }
-                    i11 = stack$iv;
-                    if ((MutableVector)i11 != 0) {
+                    (MutableVector)i10.add(i5);
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    (MutableVector)i11.add(i10);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
-                    }
-                    node$iv = i11;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node4);
-                    i = i16;
-                    $i$f$mutableVectorOf = 16;
-                    i12 = 0;
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
-                    i4 = $i$f$mutableVectorOf;
-                    $this$visitLocalDescendants$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i11 = $this$visitLocalDescendants$iv;
                     node$iv = i10;
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)node2);
+                    i7 = i14;
+                    $i$f$mutableVectorOf = 16;
+                    i3 = 0;
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
+                    i2 = $i$f$mutableVectorOf;
+                    $this$visitLocalDescendants$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i10 = $this$visitLocalDescendants$iv2;
+                    node$iv = i5;
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
                     capacity$iv$iv$iv = 0;
-                    this_$iv$iv2 = 1;
                     this_$iv$iv = 1;
+                    this_$iv$iv2 = 1;
                     block.invoke(node$iv);
-                    mask$iv2 = obj;
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
-                    mask$iv3 = 0;
+                    mask$iv = obj;
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
+                    mask$iv2 = 0;
                 }
-                i9 = i7;
-                mask$iv2 = obj;
-                $this$visitLocalDescendants$iv2 = node4;
-                i3 = i11;
-                mask$iv = count$iv;
-                i9 = i7;
+                $i$f$visitLocalDescendants6rFNWt0 = i9;
+                mask$iv = obj;
+                $this$visitLocalDescendants$iv = node2;
+                i = i10;
+                mask$iv3 = count$iv;
+                $i$f$visitLocalDescendants6rFNWt0 = i9;
                 Intrinsics.reifiedOperationMarker(3, "T");
                 if (node$iv instanceof Object != null) {
                 } else {
                 }
-                i10 = block;
-                node = 0;
+                i5 = block;
+                node4 = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
+                this_$iv$iv2 = 0;
+                if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                mask$iv2 = obj;
-                $this$visitLocalDescendants$iv2 = node4;
-                i3 = i11;
-                mask$iv3 = 0;
+                mask$iv = obj;
+                $this$visitLocalDescendants$iv = node2;
+                i = i10;
+                mask$iv2 = 0;
                 node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                count$iv = mask$iv3;
-                i7 = i9;
-                obj = mask$iv2;
-                node4 = $this$visitLocalDescendants$iv2;
-                i11 = i3;
+                count$iv = mask$iv2;
+                i9 = $i$f$visitLocalDescendants6rFNWt0;
+                obj = mask$iv;
+                node2 = $this$visitLocalDescendants$iv;
+                i10 = i;
                 if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                i6 = 0;
+                this_$iv$iv2 = 0;
+                i4 = 0;
                 node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
-                    i10 = node$iv$iv;
-                    i5 = 0;
-                    i = 0;
+                    i5 = node$iv$iv;
+                    i8 = 0;
+                    i7 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    mask$iv2 = obj;
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
+                    mask$iv = obj;
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    obj = mask$iv2;
-                    node4 = $this$visitLocalDescendants$iv2;
-                    i11 = i3;
-                    mask$iv2 = obj;
-                    if (this_$iv$iv++ == 1) {
+                    obj = mask$iv;
+                    node2 = $this$visitLocalDescendants$iv;
+                    i10 = i;
+                    mask$iv = obj;
+                    if (this_$iv$iv2++ == 1) {
                     } else {
                     }
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)i13 == 0) {
+                    } else {
+                    }
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
+                    $this$visitLocalDescendants$iv2 = i13;
+                    capacity$iv$iv$iv = 0;
+                    stack$iv = $this$visitLocalDescendants$iv2;
+                    node2 = node$iv;
                     i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)i15 == 0) {
-                    } else {
+                    if ((Modifier.Node)node2 != null && (MutableVector)i15 != 0) {
                     }
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
-                    $this$visitLocalDescendants$iv = i15;
-                    capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitLocalDescendants$iv;
-                    node4 = node$iv;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)node4 != null && (MutableVector)i17 != 0) {
+                    i10 = stack$iv;
+                    if ((MutableVector)i10 != 0) {
                     }
-                    i11 = stack$iv;
-                    if ((MutableVector)i11 != 0) {
+                    (MutableVector)i10.add(i5);
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    (MutableVector)i11.add(i10);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
-                    }
-                    node$iv = i11;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node4);
-                    i = i16;
-                    $i$f$mutableVectorOf = 16;
-                    i12 = 0;
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
-                    i4 = $i$f$mutableVectorOf;
-                    $this$visitLocalDescendants$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i11 = $this$visitLocalDescendants$iv;
                     node$iv = i10;
-                    $this$visitLocalDescendants$iv2 = node4;
-                    i3 = i11;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)node2);
+                    i7 = i14;
+                    $i$f$mutableVectorOf = 16;
+                    i3 = 0;
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
+                    i2 = $i$f$mutableVectorOf;
+                    $this$visitLocalDescendants$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i10 = $this$visitLocalDescendants$iv2;
+                    node$iv = i5;
+                    $this$visitLocalDescendants$iv = node2;
+                    i = i10;
                     capacity$iv$iv$iv = 0;
-                    this_$iv$iv2 = 1;
+                    this_$iv$iv = 1;
                 }
-                if (this_$iv$iv == 1) {
+                if (this_$iv$iv2 == 1) {
                 } else {
                 }
-                count$iv = mask$iv3;
-                i7 = i9;
-                obj = mask$iv2;
-                node4 = $this$visitLocalDescendants$iv2;
-                i11 = i3;
-                i10 = node$iv$iv;
-                i5 = 0;
-                i = 0;
+                count$iv = mask$iv2;
+                i9 = $i$f$visitLocalDescendants6rFNWt0;
+                obj = mask$iv;
+                node2 = $this$visitLocalDescendants$iv;
+                i10 = i;
+                i5 = node$iv$iv;
+                i8 = 0;
+                i7 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0) {
+                this_$iv$iv = 0;
+                if (this_$iv$iv != 0) {
                 } else {
                 }
-                mask$iv2 = obj;
-                $this$visitLocalDescendants$iv2 = node4;
-                i3 = i11;
+                mask$iv = obj;
+                $this$visitLocalDescendants$iv = node2;
+                i = i10;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                obj = mask$iv2;
-                node4 = $this$visitLocalDescendants$iv2;
-                i11 = i3;
-                mask$iv2 = obj;
-                if (this_$iv$iv++ == 1) {
+                obj = mask$iv;
+                node2 = $this$visitLocalDescendants$iv;
+                i10 = i;
+                mask$iv = obj;
+                if (this_$iv$iv2++ == 1) {
                 } else {
                 }
+                i13 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
+                } else {
+                }
+                $this$visitLocalDescendants$iv = node2;
+                i = i10;
+                $this$visitLocalDescendants$iv2 = i13;
+                capacity$iv$iv$iv = 0;
+                stack$iv = $this$visitLocalDescendants$iv2;
+                node2 = node$iv;
                 i15 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
-                } else {
+                if ((Modifier.Node)node2 != null && (MutableVector)i15 != 0) {
                 }
-                $this$visitLocalDescendants$iv2 = node4;
-                i3 = i11;
-                $this$visitLocalDescendants$iv = i15;
-                capacity$iv$iv$iv = 0;
-                stack$iv = $this$visitLocalDescendants$iv;
-                node4 = node$iv;
-                i17 = stack$iv;
-                if ((Modifier.Node)node4 != null && (MutableVector)i17 != 0) {
+                i10 = stack$iv;
+                if ((MutableVector)i10 != 0) {
                 }
-                i11 = stack$iv;
-                if ((MutableVector)i11 != 0) {
+                (MutableVector)i10.add(i5);
+                i15 = stack$iv;
+                if ((MutableVector)(MutableVector)i15 != 0) {
                 }
-                (MutableVector)i11.add(i10);
-                i17 = stack$iv;
-                if ((MutableVector)(MutableVector)i17 != 0) {
-                }
-                node$iv = i11;
-                (MutableVector)(MutableVector)i17.add((Modifier.Node)node4);
-                i = i16;
-                $i$f$mutableVectorOf = 16;
-                i12 = 0;
-                $this$visitLocalDescendants$iv2 = node4;
-                i3 = i11;
-                i4 = $i$f$mutableVectorOf;
-                $this$visitLocalDescendants$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i11 = $this$visitLocalDescendants$iv;
                 node$iv = i10;
-                $this$visitLocalDescendants$iv2 = node4;
-                i3 = i11;
+                (MutableVector)(MutableVector)i15.add((Modifier.Node)node2);
+                i7 = i14;
+                $i$f$mutableVectorOf = 16;
+                i3 = 0;
+                $this$visitLocalDescendants$iv = node2;
+                i = i10;
+                i2 = $i$f$mutableVectorOf;
+                $this$visitLocalDescendants$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i10 = $this$visitLocalDescendants$iv2;
+                node$iv = i5;
+                $this$visitLocalDescendants$iv = node2;
+                i = i10;
                 capacity$iv$iv$iv = 0;
-                this_$iv$iv2 = 1;
                 this_$iv$iv = 1;
+                this_$iv$iv2 = 1;
                 block.invoke(node$iv);
-                mask$iv2 = obj;
-                $this$visitLocalDescendants$iv2 = node4;
-                i3 = i11;
-                mask$iv3 = 0;
+                mask$iv = obj;
+                $this$visitLocalDescendants$iv = node2;
+                i = i10;
+                mask$iv2 = 0;
             }
-            i2 = i7;
+            $i$f$visitLocalDescendants6rFNWt02 = i9;
             obj2 = obj;
-            node2 = node4;
-            i13 = i11;
+            node3 = node2;
+            i6 = i10;
         } else {
-            i2 = i7;
+            $i$f$visitLocalDescendants6rFNWt02 = i9;
             obj2 = obj;
-            node2 = node4;
-            i13 = i11;
+            node3 = node2;
+            i6 = i10;
         }
     }
 
     public static final <T> void visitSelfAndAncestors-5BbP62I(androidx.compose.ui.node.DelegatableNode $this$visitSelfAndAncestors_u2d5BbP62I, int type, int untilType, Function1<? super T, Unit> block) {
         int nodes$ui_release;
         Modifier.Node tail$ui_release;
-        int i;
+        int i2;
         Object obj;
-        Modifier.Node node;
+        Modifier.Node node2;
         int self2;
         int capacity$iv$iv$iv;
-        int i4;
-        int mask$iv;
+        int i;
+        int mask$iv2;
         int i6;
         Modifier.Node node$iv;
         androidx.compose.ui.node.LayoutNode layout$iv;
         Modifier.Node head$ui_release;
-        int i9;
+        int i11;
         int i5;
-        Modifier.Node node$iv2;
+        Modifier.Node node$iv3;
         int count$iv;
         int this_$iv;
-        int i8;
+        int i4;
         int stack$iv;
-        Modifier.Node node$iv3;
+        Modifier.Node node$iv2;
+        int $i$f$visitSelfAndAncestors5BbP62I;
+        Modifier.Node node;
         int i7;
-        Modifier.Node node2;
-        int i10;
         Modifier.Node node$iv$iv;
-        int i13;
+        int i8;
         Modifier.Node self;
         int this_$iv$iv;
-        int i11;
-        int i12;
-        int mask$iv2;
-        int i2;
+        int i9;
         int i3;
-        i4 = type | untilType;
+        int mask$iv;
+        int i10;
+        int i12;
+        i = type | untilType;
         i6 = 1;
         final androidx.compose.ui.node.DelegatableNode delegatableNode = $this$visitSelfAndAncestors_u2d5BbP62I;
-        final int i18 = 0;
+        final int i16 = 0;
         if (!delegatableNode.getNode().isAttached()) {
         } else {
             node$iv = delegatableNode.getNode();
             layout$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode);
             while (layout$iv != null) {
-                if (aggregateChildKindSet$ui_release &= i4 != 0) {
+                if (aggregateChildKindSet$ui_release &= i != 0) {
                 } else {
                 }
-                i7 = nodes$ui_release;
-                self = node;
-                mask$iv2 = i4;
-                i2 = i6;
+                $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
+                self = node2;
+                mask$iv = i;
+                i10 = i6;
                 layout$iv = layout$iv.getParent$ui_release();
                 nodes$ui_release = layout$iv.getNodes$ui_release();
                 if (layout$iv != null && nodes$ui_release != null) {
@@ -4900,28 +4900,28 @@ public final class DelegatableNodeKt {
                 }
                 tail$ui_release = 0;
                 node$iv = tail$ui_release;
-                nodes$ui_release = i7;
-                node = self;
-                i4 = mask$iv2;
-                i6 = i2;
+                nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                node2 = self;
+                i = mask$iv;
+                i6 = i10;
                 nodes$ui_release = layout$iv.getNodes$ui_release();
                 if (nodes$ui_release != null) {
                 } else {
                 }
                 tail$ui_release = nodes$ui_release.getTail$ui_release();
                 while (node$iv != null) {
-                    i7 = nodes$ui_release;
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
+                    $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
                     node$iv = node$iv.getParent$ui_release();
-                    nodes$ui_release = i7;
-                    node = self;
-                    i4 = mask$iv2;
-                    i6 = i2;
-                    i9 = node$iv;
+                    nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                    node2 = self;
+                    i = mask$iv;
+                    i6 = i10;
+                    i11 = node$iv;
                     i5 = 0;
-                    i8 = 0;
+                    i4 = 0;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
@@ -4929,49 +4929,49 @@ public final class DelegatableNodeKt {
                     if (this_$iv != 0) {
                     } else {
                     }
-                    i7 = nodes$ui_release;
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i8 = 0;
+                    $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
+                    i4 = 0;
                     stack$iv = 0;
-                    int i19 = 0;
-                    node$iv2 = node$iv3;
-                    while (node$iv2 != null) {
-                        i7 = nodes$ui_release;
+                    int i17 = 0;
+                    node$iv3 = node$iv2;
+                    while (node$iv3 != null) {
+                        $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
                         Intrinsics.reifiedOperationMarker(3, "T");
-                        if (node$iv2 instanceof Object != null) {
+                        if (node$iv3 instanceof Object != null) {
                         } else {
                         }
                         obj = block;
-                        node2 = 0;
+                        node = 0;
                         if (kindSet$ui_release4 &= type != 0) {
                         } else {
                         }
                         count$iv = 0;
-                        if (count$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                        if (count$iv != 0 && node$iv3 instanceof DelegatingNode) {
                         } else {
                         }
-                        self = node;
-                        mask$iv2 = i4;
-                        i2 = i6;
-                        i = 1;
+                        self = node2;
+                        mask$iv = i;
+                        i10 = i6;
+                        i2 = 1;
                         self2 = 0;
-                        node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                        nodes$ui_release = i7;
-                        node = self;
-                        i4 = mask$iv2;
-                        i6 = i2;
-                        if (node$iv2 instanceof DelegatingNode) {
+                        node$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                        nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                        node2 = self;
+                        i = mask$iv;
+                        i6 = i10;
+                        if (node$iv3 instanceof DelegatingNode) {
                         } else {
                         }
                         count$iv = 0;
-                        i10 = 0;
-                        node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                        i7 = 0;
+                        node$iv$iv = (DelegatingNode)node$iv3.getDelegate$ui_release();
                         while (node$iv$iv != null) {
                             Modifier.Node node3 = node$iv$iv;
-                            i13 = 0;
-                            i11 = 0;
+                            i8 = 0;
+                            i9 = 0;
                             if (kindSet$ui_release5 &= type != 0) {
                             } else {
                             }
@@ -4979,52 +4979,52 @@ public final class DelegatableNodeKt {
                             if (this_$iv$iv != 0) {
                             } else {
                             }
-                            self = node;
-                            mask$iv2 = i4;
-                            i2 = i6;
+                            self = node2;
+                            mask$iv = i;
+                            i10 = i6;
                             capacity$iv$iv$iv = 0;
                             node$iv$iv = node$iv$iv.getChild$ui_release();
                             obj = block;
-                            node = self;
-                            i4 = mask$iv2;
-                            i6 = i2;
-                            self = node;
+                            node2 = self;
+                            i = mask$iv;
+                            i6 = i10;
+                            self = node2;
                             if (count$iv++ == 1) {
                             } else {
                             }
-                            int i15 = stack$iv;
-                            if ((MutableVector)i15 == 0) {
+                            int i13 = stack$iv;
+                            if ((MutableVector)i13 == 0) {
                             } else {
                             }
-                            mask$iv2 = i4;
-                            i2 = i6;
-                            mask$iv = i15;
+                            mask$iv = i;
+                            i10 = i6;
+                            mask$iv2 = i13;
                             capacity$iv$iv$iv = 0;
-                            stack$iv = mask$iv;
-                            i4 = node$iv2;
-                            int i17 = stack$iv;
-                            if ((Modifier.Node)i4 != null && (MutableVector)i17 != 0) {
+                            stack$iv = mask$iv2;
+                            i = node$iv3;
+                            int i15 = stack$iv;
+                            if ((Modifier.Node)i != null && (MutableVector)i15 != 0) {
                             }
                             i6 = stack$iv;
                             if ((MutableVector)i6 != 0) {
                             }
                             (MutableVector)i6.add(node3);
-                            i17 = stack$iv;
-                            if ((MutableVector)(MutableVector)i17 != 0) {
+                            i15 = stack$iv;
+                            if ((MutableVector)(MutableVector)i15 != 0) {
                             }
-                            node$iv2 = i6;
-                            (MutableVector)(MutableVector)i17.add((Modifier.Node)i4);
-                            i11 = i16;
+                            node$iv3 = i6;
+                            (MutableVector)(MutableVector)i15.add((Modifier.Node)i);
+                            i9 = i14;
                             int $i$f$mutableVectorOf = 16;
-                            i12 = 0;
-                            mask$iv2 = i4;
-                            i2 = i6;
-                            i3 = $i$f$mutableVectorOf;
-                            mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                            i6 = mask$iv;
-                            node$iv2 = node3;
-                            mask$iv2 = i4;
-                            i2 = i6;
+                            i3 = 0;
+                            mask$iv = i;
+                            i10 = i6;
+                            i12 = $i$f$mutableVectorOf;
+                            mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                            i6 = mask$iv2;
+                            node$iv3 = node3;
+                            mask$iv = i;
+                            i10 = i6;
                             capacity$iv$iv$iv = 0;
                             this_$iv$iv = 1;
                         }
@@ -5032,13 +5032,13 @@ public final class DelegatableNodeKt {
                         if (count$iv == 1) {
                         } else {
                         }
-                        nodes$ui_release = i7;
-                        node = self;
-                        i4 = mask$iv2;
-                        i6 = i2;
+                        nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                        node2 = self;
+                        i = mask$iv;
+                        i6 = i10;
                         node3 = node$iv$iv;
-                        i13 = 0;
-                        i11 = 0;
+                        i8 = 0;
+                        i9 = 0;
                         if (kindSet$ui_release5 &= type != 0) {
                         } else {
                         }
@@ -5046,100 +5046,100 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv != 0) {
                         } else {
                         }
-                        self = node;
-                        mask$iv2 = i4;
-                        i2 = i6;
+                        self = node2;
+                        mask$iv = i;
+                        i10 = i6;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
                         obj = block;
-                        node = self;
-                        i4 = mask$iv2;
-                        i6 = i2;
-                        self = node;
+                        node2 = self;
+                        i = mask$iv;
+                        i6 = i10;
+                        self = node2;
                         if (count$iv++ == 1) {
                         } else {
                         }
-                        i15 = stack$iv;
-                        if ((MutableVector)(MutableVector)i15 == 0) {
+                        i13 = stack$iv;
+                        if ((MutableVector)(MutableVector)i13 == 0) {
                         } else {
                         }
-                        mask$iv2 = i4;
-                        i2 = i6;
-                        mask$iv = i15;
+                        mask$iv = i;
+                        i10 = i6;
+                        mask$iv2 = i13;
                         capacity$iv$iv$iv = 0;
-                        stack$iv = mask$iv;
-                        i4 = node$iv2;
-                        i17 = stack$iv;
-                        if ((Modifier.Node)i4 != null && (MutableVector)i17 != 0) {
+                        stack$iv = mask$iv2;
+                        i = node$iv3;
+                        i15 = stack$iv;
+                        if ((Modifier.Node)i != null && (MutableVector)i15 != 0) {
                         }
                         i6 = stack$iv;
                         if ((MutableVector)i6 != 0) {
                         }
                         (MutableVector)i6.add(node3);
-                        i17 = stack$iv;
-                        if ((MutableVector)(MutableVector)i17 != 0) {
+                        i15 = stack$iv;
+                        if ((MutableVector)(MutableVector)i15 != 0) {
                         }
-                        node$iv2 = i6;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)i4);
-                        i11 = i16;
+                        node$iv3 = i6;
+                        (MutableVector)(MutableVector)i15.add((Modifier.Node)i);
+                        i9 = i14;
                         $i$f$mutableVectorOf = 16;
-                        i12 = 0;
-                        mask$iv2 = i4;
-                        i2 = i6;
-                        i3 = $i$f$mutableVectorOf;
-                        mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i6 = mask$iv;
-                        node$iv2 = node3;
-                        mask$iv2 = i4;
-                        i2 = i6;
+                        i3 = 0;
+                        mask$iv = i;
+                        i10 = i6;
+                        i12 = $i$f$mutableVectorOf;
+                        mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i6 = mask$iv2;
+                        node$iv3 = node3;
+                        mask$iv = i;
+                        i10 = i6;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv = 1;
                         count$iv = 1;
-                        block.invoke(node$iv2);
-                        self = node;
-                        mask$iv2 = i4;
-                        i2 = i6;
-                        i = 1;
+                        block.invoke(node$iv3);
+                        self = node2;
+                        mask$iv = i;
+                        i10 = i6;
+                        i2 = 1;
                         self2 = 0;
                     }
-                    i7 = nodes$ui_release;
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i7 = nodes$ui_release;
+                    $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
+                    $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv2 instanceof Object != null) {
+                    if (node$iv3 instanceof Object != null) {
                     } else {
                     }
                     obj = block;
-                    node2 = 0;
+                    node = 0;
                     if (kindSet$ui_release4 &= type != 0) {
                     } else {
                     }
                     count$iv = 0;
-                    if (count$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                    if (count$iv != 0 && node$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i = 1;
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
+                    i2 = 1;
                     self2 = 0;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                    nodes$ui_release = i7;
-                    node = self;
-                    i4 = mask$iv2;
-                    i6 = i2;
-                    if (node$iv2 instanceof DelegatingNode) {
+                    node$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                    node2 = self;
+                    i = mask$iv;
+                    i6 = i10;
+                    if (node$iv3 instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv = 0;
-                    i10 = 0;
-                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                    i7 = 0;
+                    node$iv$iv = (DelegatingNode)node$iv3.getDelegate$ui_release();
                     while (node$iv$iv != null) {
                         node3 = node$iv$iv;
-                        i13 = 0;
-                        i11 = 0;
+                        i8 = 0;
+                        i9 = 0;
                         if (kindSet$ui_release5 &= type != 0) {
                         } else {
                         }
@@ -5147,52 +5147,52 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv != 0) {
                         } else {
                         }
-                        self = node;
-                        mask$iv2 = i4;
-                        i2 = i6;
+                        self = node2;
+                        mask$iv = i;
+                        i10 = i6;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
                         obj = block;
-                        node = self;
-                        i4 = mask$iv2;
-                        i6 = i2;
-                        self = node;
+                        node2 = self;
+                        i = mask$iv;
+                        i6 = i10;
+                        self = node2;
                         if (count$iv++ == 1) {
                         } else {
                         }
-                        i15 = stack$iv;
-                        if ((MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                        i13 = stack$iv;
+                        if ((MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                         } else {
                         }
-                        mask$iv2 = i4;
-                        i2 = i6;
-                        mask$iv = i15;
+                        mask$iv = i;
+                        i10 = i6;
+                        mask$iv2 = i13;
                         capacity$iv$iv$iv = 0;
-                        stack$iv = mask$iv;
-                        i4 = node$iv2;
-                        i17 = stack$iv;
-                        if ((Modifier.Node)i4 != null && (MutableVector)i17 != 0) {
+                        stack$iv = mask$iv2;
+                        i = node$iv3;
+                        i15 = stack$iv;
+                        if ((Modifier.Node)i != null && (MutableVector)i15 != 0) {
                         }
                         i6 = stack$iv;
                         if ((MutableVector)i6 != 0) {
                         }
                         (MutableVector)i6.add(node3);
-                        i17 = stack$iv;
-                        if ((MutableVector)(MutableVector)i17 != 0) {
+                        i15 = stack$iv;
+                        if ((MutableVector)(MutableVector)i15 != 0) {
                         }
-                        node$iv2 = i6;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)i4);
-                        i11 = i16;
+                        node$iv3 = i6;
+                        (MutableVector)(MutableVector)i15.add((Modifier.Node)i);
+                        i9 = i14;
                         $i$f$mutableVectorOf = 16;
-                        i12 = 0;
-                        mask$iv2 = i4;
-                        i2 = i6;
-                        i3 = $i$f$mutableVectorOf;
-                        mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i6 = mask$iv;
-                        node$iv2 = node3;
-                        mask$iv2 = i4;
-                        i2 = i6;
+                        i3 = 0;
+                        mask$iv = i;
+                        i10 = i6;
+                        i12 = $i$f$mutableVectorOf;
+                        mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i6 = mask$iv2;
+                        node$iv3 = node3;
+                        mask$iv = i;
+                        i10 = i6;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv = 1;
                     }
@@ -5200,13 +5200,13 @@ public final class DelegatableNodeKt {
                     if (count$iv == 1) {
                     } else {
                     }
-                    nodes$ui_release = i7;
-                    node = self;
-                    i4 = mask$iv2;
-                    i6 = i2;
+                    nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                    node2 = self;
+                    i = mask$iv;
+                    i6 = i10;
                     node3 = node$iv$iv;
-                    i13 = 0;
-                    i11 = 0;
+                    i8 = 0;
+                    i9 = 0;
                     if (kindSet$ui_release5 &= type != 0) {
                     } else {
                     }
@@ -5214,85 +5214,85 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv != 0) {
                     } else {
                     }
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     obj = block;
-                    node = self;
-                    i4 = mask$iv2;
-                    i6 = i2;
-                    self = node;
+                    node2 = self;
+                    i = mask$iv;
+                    i6 = i10;
+                    self = node2;
                     if (count$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    mask$iv = i15;
+                    mask$iv = i;
+                    i10 = i6;
+                    mask$iv2 = i13;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = mask$iv;
-                    i4 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)i4 != null && (MutableVector)i17 != 0) {
+                    stack$iv = mask$iv2;
+                    i = node$iv3;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)i != null && (MutableVector)i15 != 0) {
                     }
                     i6 = stack$iv;
                     if ((MutableVector)i6 != 0) {
                     }
                     (MutableVector)i6.add(node3);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i6;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)i4);
-                    i11 = i16;
+                    node$iv3 = i6;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)i);
+                    i9 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i12 = 0;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i3 = $i$f$mutableVectorOf;
-                    mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i6 = mask$iv;
-                    node$iv2 = node3;
-                    mask$iv2 = i4;
-                    i2 = i6;
+                    i3 = 0;
+                    mask$iv = i;
+                    i10 = i6;
+                    i12 = $i$f$mutableVectorOf;
+                    mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i6 = mask$iv2;
+                    node$iv3 = node3;
+                    mask$iv = i;
+                    i10 = i6;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv = 1;
                     count$iv = 1;
-                    block.invoke(node$iv2);
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i = 1;
+                    block.invoke(node$iv3);
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
+                    i2 = 1;
                     self2 = 0;
                     this_$iv = 1;
-                    i8 = 0;
+                    i4 = 0;
                     if (kindSet$ui_release3 &= untilType != 0) {
                     } else {
                     }
                     this_$iv = 0;
                     this_$iv = 1;
                 }
-                i7 = nodes$ui_release;
-                self = node;
-                mask$iv2 = i4;
-                i2 = i6;
-                i7 = nodes$ui_release;
-                self = node;
-                mask$iv2 = i4;
-                i2 = i6;
+                $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
+                self = node2;
+                mask$iv = i;
+                i10 = i6;
+                $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
+                self = node2;
+                mask$iv = i;
+                i10 = i6;
                 node$iv = node$iv.getParent$ui_release();
-                nodes$ui_release = i7;
-                node = self;
-                i4 = mask$iv2;
-                i6 = i2;
-                i9 = node$iv;
+                nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                node2 = self;
+                i = mask$iv;
+                i6 = i10;
+                i11 = node$iv;
                 i5 = 0;
-                i8 = 0;
+                i4 = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
@@ -5300,49 +5300,49 @@ public final class DelegatableNodeKt {
                 if (this_$iv != 0) {
                 } else {
                 }
-                i7 = nodes$ui_release;
-                self = node;
-                mask$iv2 = i4;
-                i2 = i6;
-                i8 = 0;
+                $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
+                self = node2;
+                mask$iv = i;
+                i10 = i6;
+                i4 = 0;
                 stack$iv = 0;
-                i19 = 0;
-                node$iv2 = node$iv3;
-                while (node$iv2 != null) {
-                    i7 = nodes$ui_release;
+                i17 = 0;
+                node$iv3 = node$iv2;
+                while (node$iv3 != null) {
+                    $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    if (node$iv2 instanceof Object != null) {
+                    if (node$iv3 instanceof Object != null) {
                     } else {
                     }
                     obj = block;
-                    node2 = 0;
+                    node = 0;
                     if (kindSet$ui_release4 &= type != 0) {
                     } else {
                     }
                     count$iv = 0;
-                    if (count$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                    if (count$iv != 0 && node$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i = 1;
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
+                    i2 = 1;
                     self2 = 0;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                    nodes$ui_release = i7;
-                    node = self;
-                    i4 = mask$iv2;
-                    i6 = i2;
-                    if (node$iv2 instanceof DelegatingNode) {
+                    node$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                    node2 = self;
+                    i = mask$iv;
+                    i6 = i10;
+                    if (node$iv3 instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv = 0;
-                    i10 = 0;
-                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                    i7 = 0;
+                    node$iv$iv = (DelegatingNode)node$iv3.getDelegate$ui_release();
                     while (node$iv$iv != null) {
                         node3 = node$iv$iv;
-                        i13 = 0;
-                        i11 = 0;
+                        i8 = 0;
+                        i9 = 0;
                         if (kindSet$ui_release5 &= type != 0) {
                         } else {
                         }
@@ -5350,52 +5350,52 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv != 0) {
                         } else {
                         }
-                        self = node;
-                        mask$iv2 = i4;
-                        i2 = i6;
+                        self = node2;
+                        mask$iv = i;
+                        i10 = i6;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
                         obj = block;
-                        node = self;
-                        i4 = mask$iv2;
-                        i6 = i2;
-                        self = node;
+                        node2 = self;
+                        i = mask$iv;
+                        i6 = i10;
+                        self = node2;
                         if (count$iv++ == 1) {
                         } else {
                         }
-                        i15 = stack$iv;
-                        if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                        i13 = stack$iv;
+                        if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                         } else {
                         }
-                        mask$iv2 = i4;
-                        i2 = i6;
-                        mask$iv = i15;
+                        mask$iv = i;
+                        i10 = i6;
+                        mask$iv2 = i13;
                         capacity$iv$iv$iv = 0;
-                        stack$iv = mask$iv;
-                        i4 = node$iv2;
-                        i17 = stack$iv;
-                        if ((Modifier.Node)i4 != null && (MutableVector)i17 != 0) {
+                        stack$iv = mask$iv2;
+                        i = node$iv3;
+                        i15 = stack$iv;
+                        if ((Modifier.Node)i != null && (MutableVector)i15 != 0) {
                         }
                         i6 = stack$iv;
                         if ((MutableVector)i6 != 0) {
                         }
                         (MutableVector)i6.add(node3);
-                        i17 = stack$iv;
-                        if ((MutableVector)(MutableVector)i17 != 0) {
+                        i15 = stack$iv;
+                        if ((MutableVector)(MutableVector)i15 != 0) {
                         }
-                        node$iv2 = i6;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)i4);
-                        i11 = i16;
+                        node$iv3 = i6;
+                        (MutableVector)(MutableVector)i15.add((Modifier.Node)i);
+                        i9 = i14;
                         $i$f$mutableVectorOf = 16;
-                        i12 = 0;
-                        mask$iv2 = i4;
-                        i2 = i6;
-                        i3 = $i$f$mutableVectorOf;
-                        mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i6 = mask$iv;
-                        node$iv2 = node3;
-                        mask$iv2 = i4;
-                        i2 = i6;
+                        i3 = 0;
+                        mask$iv = i;
+                        i10 = i6;
+                        i12 = $i$f$mutableVectorOf;
+                        mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i6 = mask$iv2;
+                        node$iv3 = node3;
+                        mask$iv = i;
+                        i10 = i6;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv = 1;
                     }
@@ -5403,13 +5403,13 @@ public final class DelegatableNodeKt {
                     if (count$iv == 1) {
                     } else {
                     }
-                    nodes$ui_release = i7;
-                    node = self;
-                    i4 = mask$iv2;
-                    i6 = i2;
+                    nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                    node2 = self;
+                    i = mask$iv;
+                    i6 = i10;
                     node3 = node$iv$iv;
-                    i13 = 0;
-                    i11 = 0;
+                    i8 = 0;
+                    i9 = 0;
                     if (kindSet$ui_release5 &= type != 0) {
                     } else {
                     }
@@ -5417,100 +5417,100 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv != 0) {
                     } else {
                     }
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     obj = block;
-                    node = self;
-                    i4 = mask$iv2;
-                    i6 = i2;
-                    self = node;
+                    node2 = self;
+                    i = mask$iv;
+                    i6 = i10;
+                    self = node2;
                     if (count$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    mask$iv = i15;
+                    mask$iv = i;
+                    i10 = i6;
+                    mask$iv2 = i13;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = mask$iv;
-                    i4 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)i4 != null && (MutableVector)i17 != 0) {
+                    stack$iv = mask$iv2;
+                    i = node$iv3;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)i != null && (MutableVector)i15 != 0) {
                     }
                     i6 = stack$iv;
                     if ((MutableVector)i6 != 0) {
                     }
                     (MutableVector)i6.add(node3);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i6;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)i4);
-                    i11 = i16;
+                    node$iv3 = i6;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)i);
+                    i9 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i12 = 0;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i3 = $i$f$mutableVectorOf;
-                    mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i6 = mask$iv;
-                    node$iv2 = node3;
-                    mask$iv2 = i4;
-                    i2 = i6;
+                    i3 = 0;
+                    mask$iv = i;
+                    i10 = i6;
+                    i12 = $i$f$mutableVectorOf;
+                    mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i6 = mask$iv2;
+                    node$iv3 = node3;
+                    mask$iv = i;
+                    i10 = i6;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv = 1;
                     count$iv = 1;
-                    block.invoke(node$iv2);
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i = 1;
+                    block.invoke(node$iv3);
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
+                    i2 = 1;
                     self2 = 0;
                 }
-                i7 = nodes$ui_release;
-                self = node;
-                mask$iv2 = i4;
-                i2 = i6;
-                i7 = nodes$ui_release;
+                $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
+                self = node2;
+                mask$iv = i;
+                i10 = i6;
+                $i$f$visitSelfAndAncestors5BbP62I = nodes$ui_release;
                 Intrinsics.reifiedOperationMarker(3, "T");
-                if (node$iv2 instanceof Object != null) {
+                if (node$iv3 instanceof Object != null) {
                 } else {
                 }
                 obj = block;
-                node2 = 0;
+                node = 0;
                 if (kindSet$ui_release4 &= type != 0) {
                 } else {
                 }
                 count$iv = 0;
-                if (count$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                if (count$iv != 0 && node$iv3 instanceof DelegatingNode) {
                 } else {
                 }
-                self = node;
-                mask$iv2 = i4;
-                i2 = i6;
-                i = 1;
+                self = node2;
+                mask$iv = i;
+                i10 = i6;
+                i2 = 1;
                 self2 = 0;
-                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                nodes$ui_release = i7;
-                node = self;
-                i4 = mask$iv2;
-                i6 = i2;
-                if (node$iv2 instanceof DelegatingNode) {
+                node$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                node2 = self;
+                i = mask$iv;
+                i6 = i10;
+                if (node$iv3 instanceof DelegatingNode) {
                 } else {
                 }
                 count$iv = 0;
-                i10 = 0;
-                node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                i7 = 0;
+                node$iv$iv = (DelegatingNode)node$iv3.getDelegate$ui_release();
                 while (node$iv$iv != null) {
                     node3 = node$iv$iv;
-                    i13 = 0;
-                    i11 = 0;
+                    i8 = 0;
+                    i9 = 0;
                     if (kindSet$ui_release5 &= type != 0) {
                     } else {
                     }
@@ -5518,52 +5518,52 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv != 0) {
                     } else {
                     }
-                    self = node;
-                    mask$iv2 = i4;
-                    i2 = i6;
+                    self = node2;
+                    mask$iv = i;
+                    i10 = i6;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     obj = block;
-                    node = self;
-                    i4 = mask$iv2;
-                    i6 = i2;
-                    self = node;
+                    node2 = self;
+                    i = mask$iv;
+                    i6 = i10;
+                    self = node2;
                     if (count$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    mask$iv = i15;
+                    mask$iv = i;
+                    i10 = i6;
+                    mask$iv2 = i13;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = mask$iv;
-                    i4 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)i4 != null && (MutableVector)i17 != 0) {
+                    stack$iv = mask$iv2;
+                    i = node$iv3;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)i != null && (MutableVector)i15 != 0) {
                     }
                     i6 = stack$iv;
                     if ((MutableVector)i6 != 0) {
                     }
                     (MutableVector)i6.add(node3);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i6;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)i4);
-                    i11 = i16;
+                    node$iv3 = i6;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)i);
+                    i9 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i12 = 0;
-                    mask$iv2 = i4;
-                    i2 = i6;
-                    i3 = $i$f$mutableVectorOf;
-                    mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i6 = mask$iv;
-                    node$iv2 = node3;
-                    mask$iv2 = i4;
-                    i2 = i6;
+                    i3 = 0;
+                    mask$iv = i;
+                    i10 = i6;
+                    i12 = $i$f$mutableVectorOf;
+                    mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i6 = mask$iv2;
+                    node$iv3 = node3;
+                    mask$iv = i;
+                    i10 = i6;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv = 1;
                 }
@@ -5571,13 +5571,13 @@ public final class DelegatableNodeKt {
                 if (count$iv == 1) {
                 } else {
                 }
-                nodes$ui_release = i7;
-                node = self;
-                i4 = mask$iv2;
-                i6 = i2;
+                nodes$ui_release = $i$f$visitSelfAndAncestors5BbP62I;
+                node2 = self;
+                i = mask$iv;
+                i6 = i10;
                 node3 = node$iv$iv;
-                i13 = 0;
-                i11 = 0;
+                i8 = 0;
+                i9 = 0;
                 if (kindSet$ui_release5 &= type != 0) {
                 } else {
                 }
@@ -5585,63 +5585,63 @@ public final class DelegatableNodeKt {
                 if (this_$iv$iv != 0) {
                 } else {
                 }
-                self = node;
-                mask$iv2 = i4;
-                i2 = i6;
+                self = node2;
+                mask$iv = i;
+                i10 = i6;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
                 obj = block;
-                node = self;
-                i4 = mask$iv2;
-                i6 = i2;
-                self = node;
+                node2 = self;
+                i = mask$iv;
+                i6 = i10;
+                self = node2;
                 if (count$iv++ == 1) {
                 } else {
                 }
-                i15 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                i13 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                 } else {
                 }
-                mask$iv2 = i4;
-                i2 = i6;
-                mask$iv = i15;
+                mask$iv = i;
+                i10 = i6;
+                mask$iv2 = i13;
                 capacity$iv$iv$iv = 0;
-                stack$iv = mask$iv;
-                i4 = node$iv2;
-                i17 = stack$iv;
-                if ((Modifier.Node)i4 != null && (MutableVector)i17 != 0) {
+                stack$iv = mask$iv2;
+                i = node$iv3;
+                i15 = stack$iv;
+                if ((Modifier.Node)i != null && (MutableVector)i15 != 0) {
                 }
                 i6 = stack$iv;
                 if ((MutableVector)i6 != 0) {
                 }
                 (MutableVector)i6.add(node3);
-                i17 = stack$iv;
-                if ((MutableVector)(MutableVector)i17 != 0) {
+                i15 = stack$iv;
+                if ((MutableVector)(MutableVector)i15 != 0) {
                 }
-                node$iv2 = i6;
-                (MutableVector)(MutableVector)i17.add((Modifier.Node)i4);
-                i11 = i16;
+                node$iv3 = i6;
+                (MutableVector)(MutableVector)i15.add((Modifier.Node)i);
+                i9 = i14;
                 $i$f$mutableVectorOf = 16;
-                i12 = 0;
-                mask$iv2 = i4;
-                i2 = i6;
-                i3 = $i$f$mutableVectorOf;
-                mask$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i6 = mask$iv;
-                node$iv2 = node3;
-                mask$iv2 = i4;
-                i2 = i6;
+                i3 = 0;
+                mask$iv = i;
+                i10 = i6;
+                i12 = $i$f$mutableVectorOf;
+                mask$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i6 = mask$iv2;
+                node$iv3 = node3;
+                mask$iv = i;
+                i10 = i6;
                 capacity$iv$iv$iv = 0;
                 this_$iv$iv = 1;
                 count$iv = 1;
-                block.invoke(node$iv2);
-                self = node;
-                mask$iv2 = i4;
-                i2 = i6;
-                i = 1;
+                block.invoke(node$iv3);
+                self = node2;
+                mask$iv = i;
+                i10 = i6;
+                i2 = 1;
                 self2 = 0;
                 this_$iv = 1;
-                i8 = 0;
+                i4 = 0;
                 if (kindSet$ui_release3 &= untilType != 0) {
                 } else {
                 }
@@ -5649,978 +5649,978 @@ public final class DelegatableNodeKt {
                 this_$iv = 1;
             }
         }
-        int i20 = nodes$ui_release;
-        Modifier.Node node8 = node;
-        int i14 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        int i18 = nodes$ui_release;
+        Modifier.Node node8 = node2;
+        int $i$f$visitSelfAndAncestors5BbP62I2 = 0;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv;
     }
 
     public static final <T> void visitSelfAndChildren-6rFNWt0(androidx.compose.ui.node.DelegatableNode $this$visitSelfAndChildren_u2d6rFNWt0, int type, Function1<? super T, Unit> block) {
         Object obj3;
-        int i9;
-        int i3;
-        Object obj4;
+        int i2;
+        int $i$f$visitSelfAndChildren6rFNWt02;
+        Object $i$f$visitSelfAndChildren6rFNWt0;
+        int mask$iv;
         int mask$iv3;
-        int mask$iv2;
-        Object obj2;
-        int $this$visitChildren$iv2;
-        int i;
-        int stack$iv;
-        Modifier.Node node$iv3;
-        int node;
-        int this_$iv$iv;
+        Object obj;
+        int $this$visitChildren$iv;
+        int i3;
+        int stack$iv2;
+        Modifier.Node node$iv4;
+        int node2;
+        int this_$iv$iv2;
         int count$iv2;
         int count$iv;
-        int i5;
-        Object node$iv4;
-        int mutableVector;
-        int node$iv;
         int i7;
-        Modifier.Node node$iv$iv;
-        Modifier.Node[] arr;
-        Modifier.Node node2;
-        int i6;
-        MutableVector this_$iv$iv3;
-        int stack$iv2;
-        int node$iv2;
-        int i4;
-        int i8;
-        Object obj;
-        int i12;
+        Object node$iv;
+        int mutableVector;
+        int node$iv3;
+        int i9;
         Modifier.Node node$iv$iv2;
-        int i14;
-        Object mask$iv;
-        int this_$iv$iv2;
-        int i10;
+        Modifier.Node[] arr;
+        Modifier.Node node;
+        int i8;
+        MutableVector this_$iv$iv3;
+        int stack$iv;
+        int node$iv2;
         int i11;
-        Object $this$visitChildren$iv;
-        int i13;
-        int i2;
-        i3 = 0;
+        int $i$f$visitSelfAndChildren6rFNWt03;
+        Object obj2;
+        int i10;
+        Modifier.Node node$iv$iv;
+        int i4;
+        Object mask$iv2;
+        int this_$iv$iv;
+        int i5;
+        int i6;
+        Object $this$visitChildren$iv2;
+        int i;
+        int i12;
+        $i$f$visitSelfAndChildren6rFNWt02 = 0;
+        int i19 = 0;
+        stack$iv2 = 0;
         int i22 = 0;
-        stack$iv = 0;
-        int i25 = 0;
-        node$iv3 = node4;
+        node$iv4 = node4;
         String str2 = "T";
-        i5 = 0;
-        while (node$iv3 != null) {
+        i7 = 0;
+        while (node$iv4 != null) {
             Intrinsics.reifiedOperationMarker(3, str2);
-            if (node$iv3 instanceof Object != null) {
+            if (node$iv4 instanceof Object != null) {
             } else {
             }
             count$iv2 = 0;
             if (kindSet$ui_release &= type != 0) {
             } else {
             }
-            this_$iv$iv = i5;
-            if (this_$iv$iv != 0 && node$iv3 instanceof DelegatingNode) {
+            this_$iv$iv2 = i7;
+            if (this_$iv$iv2 != 0 && node$iv4 instanceof DelegatingNode) {
             } else {
             }
-            i8 = i3;
-            node$iv3 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-            i3 = i8;
+            $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
+            node$iv4 = DelegatableNodeKt.access$pop((MutableVector)stack$iv2);
+            $i$f$visitSelfAndChildren6rFNWt02 = $i$f$visitSelfAndChildren6rFNWt03;
             str2 = "T";
-            i5 = 0;
-            if (node$iv3 instanceof DelegatingNode) {
+            i7 = 0;
+            if (node$iv4 instanceof DelegatingNode) {
             } else {
             }
-            this_$iv$iv = 0;
-            i7 = 0;
-            node$iv$iv = (DelegatingNode)node$iv3.getDelegate$ui_release();
-            while (node$iv$iv != null) {
-                node2 = node$iv$iv;
-                i6 = 0;
-                stack$iv2 = 0;
+            this_$iv$iv2 = 0;
+            i9 = 0;
+            node$iv$iv2 = (DelegatingNode)node$iv4.getDelegate$ui_release();
+            while (node$iv$iv2 != null) {
+                node = node$iv$iv2;
+                i8 = 0;
+                stack$iv = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv3 = i5;
+                this_$iv$iv3 = i7;
                 if (this_$iv$iv3 != 0) {
                 } else {
                 }
-                i8 = i3;
-                node$iv$iv = node$iv$iv.getChild$ui_release();
-                i3 = i8;
+                $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
+                node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+                $i$f$visitSelfAndChildren6rFNWt02 = $i$f$visitSelfAndChildren6rFNWt03;
                 mutableVector = 1;
-                if (this_$iv$iv++ == mutableVector) {
+                if (this_$iv$iv2++ == mutableVector) {
                 } else {
                 }
-                if ((MutableVector)stack$iv == 0) {
+                if ((MutableVector)stack$iv2 == 0) {
                 } else {
                 }
-                i8 = i3;
-                stack$iv = this_$iv$iv3;
-                i3 = node$iv3;
-                mutableVector = stack$iv;
-                if ((Modifier.Node)i3 != null && (MutableVector)mutableVector != null) {
+                $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
+                stack$iv2 = this_$iv$iv3;
+                $i$f$visitSelfAndChildren6rFNWt02 = node$iv4;
+                mutableVector = stack$iv2;
+                if ((Modifier.Node)$i$f$visitSelfAndChildren6rFNWt02 != null && (MutableVector)mutableVector != null) {
                 }
-                mutableVector = stack$iv;
+                mutableVector = stack$iv2;
                 if ((MutableVector)mutableVector != null) {
                 }
-                (MutableVector)mutableVector.add(node2);
-                mutableVector = stack$iv;
+                (MutableVector)mutableVector.add(node);
+                mutableVector = stack$iv2;
                 if ((MutableVector)(MutableVector)mutableVector != null) {
                 }
-                node$iv3 = 0;
-                (MutableVector)(MutableVector)mutableVector.add((Modifier.Node)i3);
-                int i27 = 0;
+                node$iv4 = 0;
+                (MutableVector)(MutableVector)mutableVector.add((Modifier.Node)$i$f$visitSelfAndChildren6rFNWt02);
+                int i24 = 0;
                 node$iv2 = 0;
-                i8 = i3;
-                mutableVector = new MutableVector(new Modifier.Node[16], i5);
-                i3 = mutableVector;
+                $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
+                mutableVector = new MutableVector(new Modifier.Node[16], i7);
+                $i$f$visitSelfAndChildren6rFNWt02 = mutableVector;
                 this_$iv$iv3 = mutableVector;
-                node$iv3 = node2;
-                i8 = i3;
+                node$iv4 = node;
+                $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
                 this_$iv$iv3 = mutableVector;
             }
-            if (this_$iv$iv == 1) {
+            if (this_$iv$iv2 == 1) {
             } else {
             }
-            i3 = i8;
-            node2 = node$iv$iv;
-            i6 = 0;
-            stack$iv2 = 0;
+            $i$f$visitSelfAndChildren6rFNWt02 = $i$f$visitSelfAndChildren6rFNWt03;
+            node = node$iv$iv2;
+            i8 = 0;
+            stack$iv = 0;
             if (kindSet$ui_release3 &= type != 0) {
             } else {
             }
-            this_$iv$iv3 = i5;
+            this_$iv$iv3 = i7;
             if (this_$iv$iv3 != 0) {
             } else {
             }
-            i8 = i3;
-            node$iv$iv = node$iv$iv.getChild$ui_release();
-            i3 = i8;
+            $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
+            node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+            $i$f$visitSelfAndChildren6rFNWt02 = $i$f$visitSelfAndChildren6rFNWt03;
             mutableVector = 1;
-            if (this_$iv$iv++ == mutableVector) {
+            if (this_$iv$iv2++ == mutableVector) {
             } else {
             }
-            if ((MutableVector)stack$iv == 0) {
+            if ((MutableVector)stack$iv2 == 0) {
             } else {
             }
-            i8 = i3;
-            stack$iv = this_$iv$iv3;
-            i3 = node$iv3;
-            mutableVector = stack$iv;
-            if ((Modifier.Node)i3 != null && (MutableVector)mutableVector != null) {
+            $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
+            stack$iv2 = this_$iv$iv3;
+            $i$f$visitSelfAndChildren6rFNWt02 = node$iv4;
+            mutableVector = stack$iv2;
+            if ((Modifier.Node)$i$f$visitSelfAndChildren6rFNWt02 != null && (MutableVector)mutableVector != null) {
             }
-            mutableVector = stack$iv;
+            mutableVector = stack$iv2;
             if ((MutableVector)mutableVector != null) {
             }
-            (MutableVector)mutableVector.add(node2);
-            mutableVector = stack$iv;
+            (MutableVector)mutableVector.add(node);
+            mutableVector = stack$iv2;
             if ((MutableVector)(MutableVector)mutableVector != null) {
             }
-            node$iv3 = 0;
-            (MutableVector)(MutableVector)mutableVector.add((Modifier.Node)i3);
-            i27 = 0;
+            node$iv4 = 0;
+            (MutableVector)(MutableVector)mutableVector.add((Modifier.Node)$i$f$visitSelfAndChildren6rFNWt02);
+            i24 = 0;
             node$iv2 = 0;
-            i8 = i3;
-            mutableVector = new MutableVector(new Modifier.Node[16], i5);
-            i3 = mutableVector;
+            $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
+            mutableVector = new MutableVector(new Modifier.Node[16], i7);
+            $i$f$visitSelfAndChildren6rFNWt02 = mutableVector;
             this_$iv$iv3 = mutableVector;
-            node$iv3 = node2;
-            i8 = i3;
+            node$iv4 = node;
+            $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
             this_$iv$iv3 = mutableVector;
-            this_$iv$iv = mutableVector;
-            block.invoke(node$iv3);
-            i8 = i3;
+            this_$iv$iv2 = mutableVector;
+            block.invoke(node$iv4);
+            $i$f$visitSelfAndChildren6rFNWt03 = $i$f$visitSelfAndChildren6rFNWt02;
         }
-        int i29 = i3;
-        obj2 = $this$visitSelfAndChildren_u2d6rFNWt0;
-        i = 0;
-        if (!obj2.getNode().isAttached()) {
+        int $i$f$visitSelfAndChildren6rFNWt06 = $i$f$visitSelfAndChildren6rFNWt02;
+        obj = $this$visitSelfAndChildren_u2d6rFNWt0;
+        i3 = 0;
+        if (!obj.getNode().isAttached()) {
         } else {
-            int i24 = 0;
-            node$iv = 0;
-            MutableVector mutableVector3 = new MutableVector(new Modifier.Node[16], i5);
-            Modifier.Node child$ui_release = obj2.getNode().getChild$ui_release();
+            int i21 = 0;
+            node$iv3 = 0;
+            MutableVector mutableVector3 = new MutableVector(new Modifier.Node[16], i7);
+            Modifier.Node child$ui_release = obj.getNode().getChild$ui_release();
             if (child$ui_release == null) {
-                DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector3, obj2.getNode());
+                DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector3, obj.getNode());
             } else {
                 mutableVector3.add(child$ui_release);
             }
             while (mutableVector3.isNotEmpty()) {
-                int i26 = 0;
-                i4 = 1;
-                node = mutableVector3.removeAt(size--);
-                if (aggregateChildKindSet$ui_release &= obj4 == 0) {
+                int i23 = 0;
+                i11 = 1;
+                node2 = mutableVector3.removeAt(size--);
+                if (aggregateChildKindSet$ui_release &= $i$f$visitSelfAndChildren6rFNWt0 == 0) {
                 } else {
                 }
-                node$iv = node;
-                while (node$iv != null) {
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    int mask$iv4 = i5;
-                    int i16 = 1;
-                    node$iv = node$iv.getChild$ui_release();
+                node$iv3 = node2;
+                while (node$iv3 != null) {
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    int mask$iv4 = i7;
+                    int i14 = 1;
+                    node$iv3 = node$iv3.getChild$ui_release();
                     obj3 = block;
-                    obj4 = mask$iv;
+                    $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
                     count$iv2 = 3;
                 }
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                int mask$iv7 = i5;
-                int i18 = 1;
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                int mask$iv7 = i7;
+                int i16 = 1;
                 obj3 = block;
-                obj4 = mask$iv;
+                $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
                 count$iv2 = 3;
-                if (kindSet$ui_release2 &= obj4 != 0) {
+                if (kindSet$ui_release2 &= $i$f$visitSelfAndChildren6rFNWt0 != 0) {
                 } else {
                 }
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                mask$iv4 = i5;
-                i16 = 1;
-                node$iv = node$iv.getChild$ui_release();
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                mask$iv4 = i7;
+                i14 = 1;
+                node$iv3 = node$iv3.getChild$ui_release();
                 obj3 = block;
-                obj4 = mask$iv;
+                $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
                 count$iv2 = 3;
-                node2 = 0;
+                node = 0;
                 this_$iv$iv3 = 0;
-                stack$iv2 = 0;
-                int i28 = 0;
-                node$iv4 = node$iv2;
-                while (node$iv4 != null) {
+                stack$iv = 0;
+                int i25 = 0;
+                node$iv = node$iv2;
+                while (node$iv != null) {
                     Intrinsics.reifiedOperationMarker(count$iv2, str2);
-                    if (node$iv4 instanceof Object != null) {
+                    if (node$iv instanceof Object != null) {
                     } else {
                     }
-                    obj = 0;
+                    obj2 = 0;
                     if (kindSet$ui_release4 &= type != 0) {
                     } else {
                     }
                     count$iv = 0;
-                    if (count$iv != 0 && node$iv4 instanceof DelegatingNode) {
+                    if (count$iv != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    mask$iv = obj4;
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    i9 = 1;
-                    mask$iv3 = 0;
-                    node$iv4 = DelegatableNodeKt.access$pop((MutableVector)stack$iv2);
+                    mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    i2 = 1;
+                    mask$iv = 0;
+                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                     obj3 = block;
-                    obj4 = mask$iv;
-                    obj2 = $this$visitChildren$iv;
-                    i = i13;
+                    $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
+                    obj = $this$visitChildren$iv2;
+                    i3 = i;
                     count$iv2 = 3;
-                    if (node$iv4 instanceof DelegatingNode) {
+                    if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv = 0;
-                    i12 = 0;
-                    node$iv$iv2 = (DelegatingNode)node$iv4.getDelegate$ui_release();
-                    while (node$iv$iv2 != null) {
-                        Modifier.Node node3 = node$iv$iv2;
-                        i14 = 0;
-                        i10 = 0;
+                    i10 = 0;
+                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
+                    while (node$iv$iv != null) {
+                        Modifier.Node node3 = node$iv$iv;
+                        i4 = 0;
+                        i5 = 0;
                         if (kindSet$ui_release5 &= type != 0) {
                         } else {
                         }
-                        this_$iv$iv2 = 0;
-                        if (this_$iv$iv2 != 0) {
+                        this_$iv$iv = 0;
+                        if (this_$iv$iv != 0) {
                         } else {
                         }
-                        mask$iv = obj4;
-                        $this$visitChildren$iv = obj2;
-                        i13 = i;
-                        mask$iv2 = 0;
-                        node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+                        mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
+                        $this$visitChildren$iv2 = obj;
+                        i = i3;
+                        mask$iv3 = 0;
+                        node$iv$iv = node$iv$iv.getChild$ui_release();
                         obj3 = block;
-                        obj4 = mask$iv;
-                        obj2 = $this$visitChildren$iv;
-                        i = i13;
-                        mask$iv = obj4;
+                        $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
+                        obj = $this$visitChildren$iv2;
+                        i3 = i;
+                        mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
                         if (count$iv++ == 1) {
                         } else {
                         }
-                        int i20 = stack$iv2;
-                        if ((MutableVector)i20 == 0) {
+                        int i17 = stack$iv;
+                        if ((MutableVector)i17 == 0) {
                         } else {
                         }
-                        $this$visitChildren$iv = obj2;
-                        i13 = i;
-                        $this$visitChildren$iv2 = i20;
-                        mask$iv2 = 0;
-                        stack$iv2 = $this$visitChildren$iv2;
-                        obj2 = node$iv4;
-                        int i23 = stack$iv2;
-                        if ((Modifier.Node)obj2 != null && (MutableVector)i23 != 0) {
+                        $this$visitChildren$iv2 = obj;
+                        i = i3;
+                        $this$visitChildren$iv = i17;
+                        mask$iv3 = 0;
+                        stack$iv = $this$visitChildren$iv;
+                        obj = node$iv;
+                        int i20 = stack$iv;
+                        if ((Modifier.Node)obj != null && (MutableVector)i20 != 0) {
                         }
-                        i = stack$iv2;
-                        if ((MutableVector)i != 0) {
+                        i3 = stack$iv;
+                        if ((MutableVector)i3 != 0) {
                         }
-                        (MutableVector)i.add(node3);
-                        i23 = stack$iv2;
-                        if ((MutableVector)(MutableVector)i23 != 0) {
+                        (MutableVector)i3.add(node3);
+                        i20 = stack$iv;
+                        if ((MutableVector)(MutableVector)i20 != 0) {
                         }
-                        node$iv4 = i;
-                        (MutableVector)(MutableVector)i23.add((Modifier.Node)obj2);
-                        i10 = i21;
+                        node$iv = i3;
+                        (MutableVector)(MutableVector)i20.add((Modifier.Node)obj);
+                        i5 = i18;
                         int $i$f$mutableVectorOf = 16;
-                        i11 = 0;
-                        $this$visitChildren$iv = obj2;
-                        i13 = i;
-                        i2 = $i$f$mutableVectorOf;
-                        $this$visitChildren$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i = $this$visitChildren$iv2;
-                        node$iv4 = node3;
-                        $this$visitChildren$iv = obj2;
-                        i13 = i;
-                        mask$iv2 = 0;
-                        this_$iv$iv2 = 1;
+                        i6 = 0;
+                        $this$visitChildren$iv2 = obj;
+                        i = i3;
+                        i12 = $i$f$mutableVectorOf;
+                        $this$visitChildren$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i3 = $this$visitChildren$iv;
+                        node$iv = node3;
+                        $this$visitChildren$iv2 = obj;
+                        i = i3;
+                        mask$iv3 = 0;
+                        this_$iv$iv = 1;
                     }
-                    mask$iv3 = 0;
+                    mask$iv = 0;
                     if (count$iv == 1) {
                     } else {
                     }
                     obj3 = block;
-                    obj4 = mask$iv;
-                    obj2 = $this$visitChildren$iv;
-                    i = i13;
+                    $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
+                    obj = $this$visitChildren$iv2;
+                    i3 = i;
                     count$iv2 = 3;
-                    node3 = node$iv$iv2;
-                    i14 = 0;
-                    i10 = 0;
+                    node3 = node$iv$iv;
+                    i4 = 0;
+                    i5 = 0;
                     if (kindSet$ui_release5 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    mask$iv = obj4;
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    mask$iv2 = 0;
-                    node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+                    mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    mask$iv3 = 0;
+                    node$iv$iv = node$iv$iv.getChild$ui_release();
                     obj3 = block;
-                    obj4 = mask$iv;
-                    obj2 = $this$visitChildren$iv;
-                    i = i13;
-                    mask$iv = obj4;
+                    $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
+                    obj = $this$visitChildren$iv2;
+                    i3 = i;
+                    mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
                     if (count$iv++ == 1) {
                     } else {
                     }
-                    i20 = stack$iv2;
-                    if ((MutableVector)(MutableVector)i20 == 0) {
+                    i17 = stack$iv;
+                    if ((MutableVector)(MutableVector)i17 == 0) {
                     } else {
                     }
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    $this$visitChildren$iv2 = i20;
-                    mask$iv2 = 0;
-                    stack$iv2 = $this$visitChildren$iv2;
-                    obj2 = node$iv4;
-                    i23 = stack$iv2;
-                    if ((Modifier.Node)obj2 != null && (MutableVector)i23 != 0) {
-                    }
-                    i = stack$iv2;
-                    if ((MutableVector)i != 0) {
-                    }
-                    (MutableVector)i.add(node3);
-                    i23 = stack$iv2;
-                    if ((MutableVector)(MutableVector)i23 != 0) {
-                    }
-                    node$iv4 = i;
-                    (MutableVector)(MutableVector)i23.add((Modifier.Node)obj2);
-                    i10 = i21;
-                    $i$f$mutableVectorOf = 16;
-                    i11 = 0;
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    i2 = $i$f$mutableVectorOf;
-                    $this$visitChildren$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i = $this$visitChildren$iv2;
-                    node$iv4 = node3;
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    mask$iv2 = 0;
-                    this_$iv$iv2 = 1;
-                    count$iv = 1;
-                    obj3.invoke(node$iv4);
-                    mask$iv = obj4;
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    i9 = 1;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    $this$visitChildren$iv = i17;
                     mask$iv3 = 0;
+                    stack$iv = $this$visitChildren$iv;
+                    obj = node$iv;
+                    i20 = stack$iv;
+                    if ((Modifier.Node)obj != null && (MutableVector)i20 != 0) {
+                    }
+                    i3 = stack$iv;
+                    if ((MutableVector)i3 != 0) {
+                    }
+                    (MutableVector)i3.add(node3);
+                    i20 = stack$iv;
+                    if ((MutableVector)(MutableVector)i20 != 0) {
+                    }
+                    node$iv = i3;
+                    (MutableVector)(MutableVector)i20.add((Modifier.Node)obj);
+                    i5 = i18;
+                    $i$f$mutableVectorOf = 16;
+                    i6 = 0;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    i12 = $i$f$mutableVectorOf;
+                    $this$visitChildren$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i3 = $this$visitChildren$iv;
+                    node$iv = node3;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    mask$iv3 = 0;
+                    this_$iv$iv = 1;
+                    count$iv = 1;
+                    obj3.invoke(node$iv);
+                    mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    i2 = 1;
+                    mask$iv = 0;
                 }
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                int i17 = 1;
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                int i15 = 1;
                 obj3 = block;
-                i5 = mask$iv6;
-                obj4 = mask$iv;
+                i7 = mask$iv6;
+                $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
                 count$iv2 = 3;
                 Intrinsics.reifiedOperationMarker(count$iv2, str2);
-                if (node$iv4 instanceof Object != null) {
+                if (node$iv instanceof Object != null) {
                 } else {
                 }
-                obj = 0;
+                obj2 = 0;
                 if (kindSet$ui_release4 &= type != 0) {
                 } else {
                 }
                 count$iv = 0;
-                if (count$iv != 0 && node$iv4 instanceof DelegatingNode) {
+                if (count$iv != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                mask$iv = obj4;
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                i9 = 1;
-                mask$iv3 = 0;
-                node$iv4 = DelegatableNodeKt.access$pop((MutableVector)stack$iv2);
+                mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                i2 = 1;
+                mask$iv = 0;
+                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
                 obj3 = block;
-                obj4 = mask$iv;
-                obj2 = $this$visitChildren$iv;
-                i = i13;
+                $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
+                obj = $this$visitChildren$iv2;
+                i3 = i;
                 count$iv2 = 3;
-                if (node$iv4 instanceof DelegatingNode) {
+                if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
                 count$iv = 0;
-                i12 = 0;
-                node$iv$iv2 = (DelegatingNode)node$iv4.getDelegate$ui_release();
-                while (node$iv$iv2 != null) {
-                    node3 = node$iv$iv2;
-                    i14 = 0;
-                    i10 = 0;
+                i10 = 0;
+                node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
+                while (node$iv$iv != null) {
+                    node3 = node$iv$iv;
+                    i4 = 0;
+                    i5 = 0;
                     if (kindSet$ui_release5 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    mask$iv = obj4;
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    mask$iv2 = 0;
-                    node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+                    mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    mask$iv3 = 0;
+                    node$iv$iv = node$iv$iv.getChild$ui_release();
                     obj3 = block;
-                    obj4 = mask$iv;
-                    obj2 = $this$visitChildren$iv;
-                    i = i13;
-                    mask$iv = obj4;
+                    $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
+                    obj = $this$visitChildren$iv2;
+                    i3 = i;
+                    mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
                     if (count$iv++ == 1) {
                     } else {
                     }
-                    i20 = stack$iv2;
-                    if ((MutableVector)(MutableVector)(MutableVector)i20 == 0) {
+                    i17 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)i17 == 0) {
                     } else {
                     }
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    $this$visitChildren$iv2 = i20;
-                    mask$iv2 = 0;
-                    stack$iv2 = $this$visitChildren$iv2;
-                    obj2 = node$iv4;
-                    i23 = stack$iv2;
-                    if ((Modifier.Node)obj2 != null && (MutableVector)i23 != 0) {
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    $this$visitChildren$iv = i17;
+                    mask$iv3 = 0;
+                    stack$iv = $this$visitChildren$iv;
+                    obj = node$iv;
+                    i20 = stack$iv;
+                    if ((Modifier.Node)obj != null && (MutableVector)i20 != 0) {
                     }
-                    i = stack$iv2;
-                    if ((MutableVector)i != 0) {
+                    i3 = stack$iv;
+                    if ((MutableVector)i3 != 0) {
                     }
-                    (MutableVector)i.add(node3);
-                    i23 = stack$iv2;
-                    if ((MutableVector)(MutableVector)i23 != 0) {
+                    (MutableVector)i3.add(node3);
+                    i20 = stack$iv;
+                    if ((MutableVector)(MutableVector)i20 != 0) {
                     }
-                    node$iv4 = i;
-                    (MutableVector)(MutableVector)i23.add((Modifier.Node)obj2);
-                    i10 = i21;
+                    node$iv = i3;
+                    (MutableVector)(MutableVector)i20.add((Modifier.Node)obj);
+                    i5 = i18;
                     $i$f$mutableVectorOf = 16;
-                    i11 = 0;
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    i2 = $i$f$mutableVectorOf;
-                    $this$visitChildren$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i = $this$visitChildren$iv2;
-                    node$iv4 = node3;
-                    $this$visitChildren$iv = obj2;
-                    i13 = i;
-                    mask$iv2 = 0;
-                    this_$iv$iv2 = 1;
+                    i6 = 0;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    i12 = $i$f$mutableVectorOf;
+                    $this$visitChildren$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i3 = $this$visitChildren$iv;
+                    node$iv = node3;
+                    $this$visitChildren$iv2 = obj;
+                    i = i3;
+                    mask$iv3 = 0;
+                    this_$iv$iv = 1;
                 }
-                mask$iv3 = 0;
+                mask$iv = 0;
                 if (count$iv == 1) {
                 } else {
                 }
                 obj3 = block;
-                obj4 = mask$iv;
-                obj2 = $this$visitChildren$iv;
-                i = i13;
+                $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
+                obj = $this$visitChildren$iv2;
+                i3 = i;
                 count$iv2 = 3;
-                node3 = node$iv$iv2;
-                i14 = 0;
-                i10 = 0;
+                node3 = node$iv$iv;
+                i4 = 0;
+                i5 = 0;
                 if (kindSet$ui_release5 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0) {
+                this_$iv$iv = 0;
+                if (this_$iv$iv != 0) {
                 } else {
                 }
-                mask$iv = obj4;
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                mask$iv2 = 0;
-                node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+                mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                mask$iv3 = 0;
+                node$iv$iv = node$iv$iv.getChild$ui_release();
                 obj3 = block;
-                obj4 = mask$iv;
-                obj2 = $this$visitChildren$iv;
-                i = i13;
-                mask$iv = obj4;
+                $i$f$visitSelfAndChildren6rFNWt0 = mask$iv2;
+                obj = $this$visitChildren$iv2;
+                i3 = i;
+                mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
                 if (count$iv++ == 1) {
                 } else {
                 }
-                i20 = stack$iv2;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i20 == 0) {
+                i17 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i17 == 0) {
                 } else {
                 }
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                $this$visitChildren$iv2 = i20;
-                mask$iv2 = 0;
-                stack$iv2 = $this$visitChildren$iv2;
-                obj2 = node$iv4;
-                i23 = stack$iv2;
-                if ((Modifier.Node)obj2 != null && (MutableVector)i23 != 0) {
-                }
-                i = stack$iv2;
-                if ((MutableVector)i != 0) {
-                }
-                (MutableVector)i.add(node3);
-                i23 = stack$iv2;
-                if ((MutableVector)(MutableVector)i23 != 0) {
-                }
-                node$iv4 = i;
-                (MutableVector)(MutableVector)i23.add((Modifier.Node)obj2);
-                i10 = i21;
-                $i$f$mutableVectorOf = 16;
-                i11 = 0;
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                i2 = $i$f$mutableVectorOf;
-                $this$visitChildren$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i = $this$visitChildren$iv2;
-                node$iv4 = node3;
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                mask$iv2 = 0;
-                this_$iv$iv2 = 1;
-                count$iv = 1;
-                obj3.invoke(node$iv4);
-                mask$iv = obj4;
-                $this$visitChildren$iv = obj2;
-                i13 = i;
-                i9 = 1;
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                $this$visitChildren$iv = i17;
                 mask$iv3 = 0;
-                DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector3, node);
+                stack$iv = $this$visitChildren$iv;
+                obj = node$iv;
+                i20 = stack$iv;
+                if ((Modifier.Node)obj != null && (MutableVector)i20 != 0) {
+                }
+                i3 = stack$iv;
+                if ((MutableVector)i3 != 0) {
+                }
+                (MutableVector)i3.add(node3);
+                i20 = stack$iv;
+                if ((MutableVector)(MutableVector)i20 != 0) {
+                }
+                node$iv = i3;
+                (MutableVector)(MutableVector)i20.add((Modifier.Node)obj);
+                i5 = i18;
+                $i$f$mutableVectorOf = 16;
+                i6 = 0;
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                i12 = $i$f$mutableVectorOf;
+                $this$visitChildren$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i3 = $this$visitChildren$iv;
+                node$iv = node3;
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                mask$iv3 = 0;
+                this_$iv$iv = 1;
+                count$iv = 1;
+                obj3.invoke(node$iv);
+                mask$iv2 = $i$f$visitSelfAndChildren6rFNWt0;
+                $this$visitChildren$iv2 = obj;
+                i = i3;
+                i2 = 1;
+                mask$iv = 0;
+                DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector3, node2);
             }
         }
-        Object obj6 = obj4;
-        int i15 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitChildren called on an unattached node".toString());
-        throw illegalStateException;
+        Object obj5 = $i$f$visitSelfAndChildren6rFNWt0;
+        int i13 = 0;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitChildren$1$iv = new IllegalStateException("visitChildren called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitChildren$1$iv;
     }
 
     public static final <T> void visitSelfAndLocalDescendants-6rFNWt0(androidx.compose.ui.node.DelegatableNode $this$visitSelfAndLocalDescendants_u2d6rFNWt0, int type, Function1<? super T, Unit> block) {
-        int i5;
-        int includeSelf$iv2;
+        int i;
+        int includeSelf$iv;
         int capacity$iv$iv$iv;
-        Modifier.Node node3;
-        int $this$visitLocalDescendants$iv2;
-        int i12;
-        Modifier.Node next$iv;
-        String str;
-        String str2;
         Modifier.Node node4;
-        int i10;
+        int $this$visitLocalDescendants$iv2;
+        int i13;
+        Modifier.Node next$iv;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv;
+        String str;
+        Modifier.Node node;
+        int i2;
         int stack$iv;
         Modifier.Node node$iv;
         Object obj;
         Object obj2;
-        String this_$iv$iv;
-        Modifier.Node node;
-        int i13;
-        int i4;
+        String this_$iv$iv2;
+        Modifier.Node node2;
+        int i5;
+        int i9;
         int i6;
         Modifier.Node node$iv$iv;
-        int i8;
-        int includeSelf$iv;
-        int this_$iv$iv2;
-        int i2;
-        int i;
-        int i9;
-        Modifier.Node $this$visitLocalDescendants$iv;
-        Modifier.Node node2;
-        int i11;
-        int i7;
+        int i4;
+        int includeSelf$iv2;
+        int this_$iv$iv;
         int i3;
-        node3 = $this$visitSelfAndLocalDescendants_u2d6rFNWt0;
-        i12 = type;
+        int i10;
+        int i11;
+        Modifier.Node $this$visitLocalDescendants$iv;
+        Modifier.Node node3;
+        int i12;
+        int i7;
+        int i8;
+        node4 = $this$visitSelfAndLocalDescendants_u2d6rFNWt0;
+        i13 = type;
         final int i18 = 0;
         int i19 = 0;
-        if (!node3.getNode().isAttached()) {
+        if (!node4.getNode().isAttached()) {
             int i20 = 0;
-            str = "visitLocalDescendants called on an unattached node";
-            str2 = str;
-            InlineClassHelperKt.throwIllegalStateException(str);
+            $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv = "visitLocalDescendants called on an unattached node";
+            str = $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv;
+            InlineClassHelperKt.throwIllegalStateException($i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv);
         }
-        Modifier.Node node6 = node3.getNode();
-        if (aggregateChildKindSet$ui_release &= i12 != 0) {
+        Modifier.Node node6 = node4.getNode();
+        if (aggregateChildKindSet$ui_release &= i13 != 0) {
             next$iv = node6;
             while (next$iv != null) {
-                if (kindSet$ui_release &= i12 != 0) {
+                if (kindSet$ui_release &= i13 != 0) {
                 } else {
                 }
                 obj = block;
-                i4 = i5;
-                includeSelf$iv = includeSelf$iv2;
-                $this$visitLocalDescendants$iv = node3;
-                i11 = i12;
-                next$iv = next$iv.getChild$ui_release();
-                i5 = i4;
+                i9 = i;
                 includeSelf$iv2 = includeSelf$iv;
-                node3 = $this$visitLocalDescendants$iv;
-                i12 = i11;
-                str2 = 0;
-                i10 = 0;
+                $this$visitLocalDescendants$iv = node4;
+                i12 = i13;
+                next$iv = next$iv.getChild$ui_release();
+                i = i9;
+                includeSelf$iv = includeSelf$iv2;
+                node4 = $this$visitLocalDescendants$iv;
+                i13 = i12;
+                str = 0;
+                i2 = 0;
                 stack$iv = 0;
                 int i21 = 0;
-                node$iv = node4;
+                node$iv = node;
                 while (node$iv != null) {
                     Intrinsics.reifiedOperationMarker(3, "T");
                     if (node$iv instanceof Object != null) {
                     } else {
                     }
                     obj = block;
-                    node = 0;
+                    node2 = 0;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv = 0;
-                    if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
+                    this_$iv$iv2 = 0;
+                    if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    includeSelf$iv = includeSelf$iv2;
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
-                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                    i5 = i4;
                     includeSelf$iv2 = includeSelf$iv;
-                    node3 = $this$visitLocalDescendants$iv;
-                    i12 = i11;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
+                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    i = i9;
+                    includeSelf$iv = includeSelf$iv2;
+                    node4 = $this$visitLocalDescendants$iv;
+                    i13 = i12;
                     if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv$iv = 0;
-                    i13 = 0;
+                    this_$iv$iv2 = 0;
+                    i5 = 0;
                     node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
-                        i5 = node$iv$iv;
-                        i8 = 0;
-                        i = 0;
+                        i = node$iv$iv;
+                        i4 = 0;
+                        i10 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
-                        this_$iv$iv2 = 0;
-                        if (this_$iv$iv2 != 0) {
+                        this_$iv$iv = 0;
+                        if (this_$iv$iv != 0) {
                         } else {
                         }
-                        includeSelf$iv = includeSelf$iv2;
-                        $this$visitLocalDescendants$iv = node3;
-                        i11 = i12;
+                        includeSelf$iv2 = includeSelf$iv;
+                        $this$visitLocalDescendants$iv = node4;
+                        i12 = i13;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        includeSelf$iv2 = includeSelf$iv;
-                        node3 = $this$visitLocalDescendants$iv;
-                        i12 = i11;
                         includeSelf$iv = includeSelf$iv2;
-                        if (this_$iv$iv++ == 1) {
+                        node4 = $this$visitLocalDescendants$iv;
+                        i13 = i12;
+                        includeSelf$iv2 = includeSelf$iv;
+                        if (this_$iv$iv2++ == 1) {
                         } else {
                         }
                         int i15 = stack$iv;
                         if ((MutableVector)i15 == 0) {
                         } else {
                         }
-                        $this$visitLocalDescendants$iv = node3;
-                        i11 = i12;
+                        $this$visitLocalDescendants$iv = node4;
+                        i12 = i13;
                         $this$visitLocalDescendants$iv2 = i15;
                         capacity$iv$iv$iv = 0;
                         stack$iv = $this$visitLocalDescendants$iv2;
-                        node3 = node$iv;
+                        node4 = node$iv;
                         int i17 = stack$iv;
-                        if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                        if ((Modifier.Node)node4 != null && (MutableVector)i17 != 0) {
                         }
-                        i12 = stack$iv;
-                        if ((MutableVector)i12 != 0) {
+                        i13 = stack$iv;
+                        if ((MutableVector)i13 != 0) {
                         }
-                        (MutableVector)i12.add(i5);
+                        (MutableVector)i13.add(i);
                         i17 = stack$iv;
                         if ((MutableVector)(MutableVector)i17 != 0) {
                         }
-                        node$iv = i12;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                        i = i16;
+                        node$iv = i13;
+                        (MutableVector)(MutableVector)i17.add((Modifier.Node)node4);
+                        i10 = i16;
                         int $i$f$mutableVectorOf = 16;
-                        i9 = 0;
-                        $this$visitLocalDescendants$iv = node3;
-                        i11 = i12;
-                        i3 = $i$f$mutableVectorOf;
+                        i11 = 0;
+                        $this$visitLocalDescendants$iv = node4;
+                        i12 = i13;
+                        i8 = $i$f$mutableVectorOf;
                         $this$visitLocalDescendants$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i12 = $this$visitLocalDescendants$iv2;
-                        node$iv = i5;
-                        $this$visitLocalDescendants$iv = node3;
-                        i11 = i12;
+                        i13 = $this$visitLocalDescendants$iv2;
+                        node$iv = i;
+                        $this$visitLocalDescendants$iv = node4;
+                        i12 = i13;
                         capacity$iv$iv$iv = 0;
-                        this_$iv$iv2 = 1;
+                        this_$iv$iv = 1;
                     }
-                    if (this_$iv$iv == 1) {
+                    if (this_$iv$iv2 == 1) {
                     } else {
                     }
-                    i5 = i4;
-                    includeSelf$iv2 = includeSelf$iv;
-                    node3 = $this$visitLocalDescendants$iv;
-                    i12 = i11;
-                    i5 = node$iv$iv;
-                    i8 = 0;
-                    i = 0;
+                    i = i9;
+                    includeSelf$iv = includeSelf$iv2;
+                    node4 = $this$visitLocalDescendants$iv;
+                    i13 = i12;
+                    i = node$iv$iv;
+                    i4 = 0;
+                    i10 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    includeSelf$iv = includeSelf$iv2;
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
+                    includeSelf$iv2 = includeSelf$iv;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    includeSelf$iv2 = includeSelf$iv;
-                    node3 = $this$visitLocalDescendants$iv;
-                    i12 = i11;
                     includeSelf$iv = includeSelf$iv2;
-                    if (this_$iv$iv++ == 1) {
+                    node4 = $this$visitLocalDescendants$iv;
+                    i13 = i12;
+                    includeSelf$iv2 = includeSelf$iv;
+                    if (this_$iv$iv2++ == 1) {
                     } else {
                     }
                     i15 = stack$iv;
                     if ((MutableVector)(MutableVector)i15 == 0) {
                     } else {
                     }
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
                     $this$visitLocalDescendants$iv2 = i15;
                     capacity$iv$iv$iv = 0;
                     stack$iv = $this$visitLocalDescendants$iv2;
-                    node3 = node$iv;
+                    node4 = node$iv;
                     i17 = stack$iv;
-                    if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                    if ((Modifier.Node)node4 != null && (MutableVector)i17 != 0) {
                     }
-                    i12 = stack$iv;
-                    if ((MutableVector)i12 != 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)i13 != 0) {
                     }
-                    (MutableVector)i12.add(i5);
+                    (MutableVector)i13.add(i);
                     i17 = stack$iv;
                     if ((MutableVector)(MutableVector)i17 != 0) {
                     }
-                    node$iv = i12;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                    i = i16;
+                    node$iv = i13;
+                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node4);
+                    i10 = i16;
                     $i$f$mutableVectorOf = 16;
-                    i9 = 0;
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
-                    i3 = $i$f$mutableVectorOf;
+                    i11 = 0;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
+                    i8 = $i$f$mutableVectorOf;
                     $this$visitLocalDescendants$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i12 = $this$visitLocalDescendants$iv2;
-                    node$iv = i5;
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
+                    i13 = $this$visitLocalDescendants$iv2;
+                    node$iv = i;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
                     capacity$iv$iv$iv = 0;
-                    this_$iv$iv2 = 1;
                     this_$iv$iv = 1;
+                    this_$iv$iv2 = 1;
                     block.invoke(node$iv);
-                    i4 = i5;
-                    includeSelf$iv = includeSelf$iv2;
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
+                    i9 = i;
+                    includeSelf$iv2 = includeSelf$iv;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
                 }
                 obj = block;
-                i4 = i5;
-                includeSelf$iv = includeSelf$iv2;
-                $this$visitLocalDescendants$iv = node3;
-                i11 = i12;
+                i9 = i;
+                includeSelf$iv2 = includeSelf$iv;
+                $this$visitLocalDescendants$iv = node4;
+                i12 = i13;
                 Intrinsics.reifiedOperationMarker(3, "T");
                 if (node$iv instanceof Object != null) {
                 } else {
                 }
                 obj = block;
-                node = 0;
+                node2 = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
+                this_$iv$iv2 = 0;
+                if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                includeSelf$iv = includeSelf$iv2;
-                $this$visitLocalDescendants$iv = node3;
-                i11 = i12;
-                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                i5 = i4;
                 includeSelf$iv2 = includeSelf$iv;
-                node3 = $this$visitLocalDescendants$iv;
-                i12 = i11;
+                $this$visitLocalDescendants$iv = node4;
+                i12 = i13;
+                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                i = i9;
+                includeSelf$iv = includeSelf$iv2;
+                node4 = $this$visitLocalDescendants$iv;
+                i13 = i12;
                 if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                i13 = 0;
+                this_$iv$iv2 = 0;
+                i5 = 0;
                 node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
-                    i5 = node$iv$iv;
-                    i8 = 0;
-                    i = 0;
+                    i = node$iv$iv;
+                    i4 = 0;
+                    i10 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    includeSelf$iv = includeSelf$iv2;
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
+                    includeSelf$iv2 = includeSelf$iv;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    includeSelf$iv2 = includeSelf$iv;
-                    node3 = $this$visitLocalDescendants$iv;
-                    i12 = i11;
                     includeSelf$iv = includeSelf$iv2;
-                    if (this_$iv$iv++ == 1) {
+                    node4 = $this$visitLocalDescendants$iv;
+                    i13 = i12;
+                    includeSelf$iv2 = includeSelf$iv;
+                    if (this_$iv$iv2++ == 1) {
                     } else {
                     }
                     i15 = stack$iv;
                     if ((MutableVector)(MutableVector)(MutableVector)i15 == 0) {
                     } else {
                     }
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
                     $this$visitLocalDescendants$iv2 = i15;
                     capacity$iv$iv$iv = 0;
                     stack$iv = $this$visitLocalDescendants$iv2;
-                    node3 = node$iv;
+                    node4 = node$iv;
                     i17 = stack$iv;
-                    if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                    if ((Modifier.Node)node4 != null && (MutableVector)i17 != 0) {
                     }
-                    i12 = stack$iv;
-                    if ((MutableVector)i12 != 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)i13 != 0) {
                     }
-                    (MutableVector)i12.add(i5);
+                    (MutableVector)i13.add(i);
                     i17 = stack$iv;
                     if ((MutableVector)(MutableVector)i17 != 0) {
                     }
-                    node$iv = i12;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                    i = i16;
+                    node$iv = i13;
+                    (MutableVector)(MutableVector)i17.add((Modifier.Node)node4);
+                    i10 = i16;
                     $i$f$mutableVectorOf = 16;
-                    i9 = 0;
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
-                    i3 = $i$f$mutableVectorOf;
+                    i11 = 0;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
+                    i8 = $i$f$mutableVectorOf;
                     $this$visitLocalDescendants$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i12 = $this$visitLocalDescendants$iv2;
-                    node$iv = i5;
-                    $this$visitLocalDescendants$iv = node3;
-                    i11 = i12;
+                    i13 = $this$visitLocalDescendants$iv2;
+                    node$iv = i;
+                    $this$visitLocalDescendants$iv = node4;
+                    i12 = i13;
                     capacity$iv$iv$iv = 0;
-                    this_$iv$iv2 = 1;
+                    this_$iv$iv = 1;
                 }
-                if (this_$iv$iv == 1) {
+                if (this_$iv$iv2 == 1) {
                 } else {
                 }
-                i5 = i4;
-                includeSelf$iv2 = includeSelf$iv;
-                node3 = $this$visitLocalDescendants$iv;
-                i12 = i11;
-                i5 = node$iv$iv;
-                i8 = 0;
-                i = 0;
+                i = i9;
+                includeSelf$iv = includeSelf$iv2;
+                node4 = $this$visitLocalDescendants$iv;
+                i13 = i12;
+                i = node$iv$iv;
+                i4 = 0;
+                i10 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0) {
+                this_$iv$iv = 0;
+                if (this_$iv$iv != 0) {
                 } else {
                 }
-                includeSelf$iv = includeSelf$iv2;
-                $this$visitLocalDescendants$iv = node3;
-                i11 = i12;
+                includeSelf$iv2 = includeSelf$iv;
+                $this$visitLocalDescendants$iv = node4;
+                i12 = i13;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                includeSelf$iv2 = includeSelf$iv;
-                node3 = $this$visitLocalDescendants$iv;
-                i12 = i11;
                 includeSelf$iv = includeSelf$iv2;
-                if (this_$iv$iv++ == 1) {
+                node4 = $this$visitLocalDescendants$iv;
+                i13 = i12;
+                includeSelf$iv2 = includeSelf$iv;
+                if (this_$iv$iv2++ == 1) {
                 } else {
                 }
                 i15 = stack$iv;
                 if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
                 } else {
                 }
-                $this$visitLocalDescendants$iv = node3;
-                i11 = i12;
+                $this$visitLocalDescendants$iv = node4;
+                i12 = i13;
                 $this$visitLocalDescendants$iv2 = i15;
                 capacity$iv$iv$iv = 0;
                 stack$iv = $this$visitLocalDescendants$iv2;
-                node3 = node$iv;
+                node4 = node$iv;
                 i17 = stack$iv;
-                if ((Modifier.Node)node3 != null && (MutableVector)i17 != 0) {
+                if ((Modifier.Node)node4 != null && (MutableVector)i17 != 0) {
                 }
-                i12 = stack$iv;
-                if ((MutableVector)i12 != 0) {
+                i13 = stack$iv;
+                if ((MutableVector)i13 != 0) {
                 }
-                (MutableVector)i12.add(i5);
+                (MutableVector)i13.add(i);
                 i17 = stack$iv;
                 if ((MutableVector)(MutableVector)i17 != 0) {
                 }
-                node$iv = i12;
-                (MutableVector)(MutableVector)i17.add((Modifier.Node)node3);
-                i = i16;
+                node$iv = i13;
+                (MutableVector)(MutableVector)i17.add((Modifier.Node)node4);
+                i10 = i16;
                 $i$f$mutableVectorOf = 16;
-                i9 = 0;
-                $this$visitLocalDescendants$iv = node3;
-                i11 = i12;
-                i3 = $i$f$mutableVectorOf;
+                i11 = 0;
+                $this$visitLocalDescendants$iv = node4;
+                i12 = i13;
+                i8 = $i$f$mutableVectorOf;
                 $this$visitLocalDescendants$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i12 = $this$visitLocalDescendants$iv2;
-                node$iv = i5;
-                $this$visitLocalDescendants$iv = node3;
-                i11 = i12;
+                i13 = $this$visitLocalDescendants$iv2;
+                node$iv = i;
+                $this$visitLocalDescendants$iv = node4;
+                i12 = i13;
                 capacity$iv$iv$iv = 0;
-                this_$iv$iv2 = 1;
                 this_$iv$iv = 1;
+                this_$iv$iv2 = 1;
                 block.invoke(node$iv);
-                i4 = i5;
-                includeSelf$iv = includeSelf$iv2;
-                $this$visitLocalDescendants$iv = node3;
-                i11 = i12;
+                i9 = i;
+                includeSelf$iv2 = includeSelf$iv;
+                $this$visitLocalDescendants$iv = node4;
+                i12 = i13;
             }
             obj2 = block;
-            i6 = i5;
-            i2 = includeSelf$iv2;
-            node2 = node3;
-            i7 = i12;
+            i6 = i;
+            i3 = includeSelf$iv;
+            node3 = node4;
+            i7 = i13;
         } else {
             obj2 = block;
-            i6 = i5;
-            i2 = includeSelf$iv2;
-            node2 = node3;
-            i7 = i12;
+            i6 = i;
+            i3 = includeSelf$iv;
+            node3 = node4;
+            i7 = i13;
         }
     }
 
@@ -6628,7 +6628,7 @@ public final class DelegatableNodeKt {
         Modifier.Node child$ui_release;
         int i2;
         androidx.compose.ui.node.LayoutNode layout;
-        String str;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitSubtree$1;
         int i;
         Modifier.Node node;
         final int i3 = 0;
@@ -6670,47 +6670,47 @@ public final class DelegatableNodeKt {
     }
 
     public static final <T> void visitSubtree-6rFNWt0(androidx.compose.ui.node.DelegatableNode $this$visitSubtree_u2d6rFNWt0, int type, Function1<? super T, Unit> block) {
-        int i12;
-        int i11;
-        int mask$iv2;
+        int i13;
+        int i7;
+        int mask$iv;
         int capacity$iv$iv$iv;
         androidx.compose.ui.node.DelegatableNode delegatableNode;
-        MutableVector $this$visitSubtree$iv2;
-        int i3;
+        MutableVector $this$visitSubtree$iv;
+        int i2;
         Modifier.Node child$ui_release;
-        int i7;
-        androidx.compose.ui.node.LayoutNode layout$iv;
-        String str;
-        String node$iv;
         int i9;
-        Modifier.Node node;
-        int i10;
+        androidx.compose.ui.node.LayoutNode layout$iv;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitSubtree$1$iv;
+        String node$iv;
+        int i5;
+        Modifier.Node node2;
+        int i6;
         int stack$iv;
         Modifier.Node node$iv2;
         Object obj;
-        int this_$iv$iv;
-        Modifier.Node node2;
-        int i13;
-        int i4;
-        Modifier.Node node$iv$iv;
-        int i5;
-        int mask$iv;
         int this_$iv$iv2;
-        int i6;
-        int i2;
-        androidx.compose.ui.node.DelegatableNode $this$visitSubtree$iv;
+        Modifier.Node node;
+        int i12;
+        int i11;
+        Modifier.Node node$iv$iv;
+        int i4;
+        int mask$iv2;
+        int this_$iv$iv;
+        int i10;
+        int i3;
+        androidx.compose.ui.node.DelegatableNode $this$visitSubtree$iv2;
         int i8;
         int i;
-        i12 = 0;
-        mask$iv2 = type;
+        i13 = 0;
+        mask$iv = type;
         delegatableNode = $this$visitSubtree_u2d6rFNWt0;
-        i3 = 0;
+        i2 = 0;
         int i17 = 0;
         if (!delegatableNode.getNode().isAttached()) {
             int i18 = 0;
-            str = "visitSubtree called on an unattached node";
-            node$iv = str;
-            InlineClassHelperKt.throwIllegalStateException(str);
+            $i$a$CheckPreconditionDelegatableNodeKt$visitSubtree$1$iv = "visitSubtree called on an unattached node";
+            node$iv = $i$a$CheckPreconditionDelegatableNodeKt$visitSubtree$1$iv;
+            InlineClassHelperKt.throwIllegalStateException($i$a$CheckPreconditionDelegatableNodeKt$visitSubtree$1$iv);
         }
         child$ui_release = delegatableNode.getNode().getChild$ui_release();
         layout$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode);
@@ -6720,714 +6720,714 @@ public final class DelegatableNodeKt {
             } else {
             }
             node$iv = child$ui_release;
-            if (aggregateChildKindSet$ui_release &= mask$iv2 != 0) {
+            if (aggregateChildKindSet$ui_release &= mask$iv != 0) {
             } else {
             }
             obj = block;
-            i4 = i12;
-            mask$iv = mask$iv2;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
+            i11 = i13;
+            mask$iv2 = mask$iv;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
             child$ui_release = null;
             nestedVectorStack.push(layout$iv.get_children$ui_release());
             if (nestedVectorStack.isNotEmpty()) {
             } else {
             }
-            i11 = 0;
-            layout$iv = i11;
-            i12 = i4;
-            mask$iv2 = mask$iv;
-            delegatableNode = $this$visitSubtree$iv;
-            i3 = i8;
-            i11 = nestedVectorStack.pop();
+            i7 = 0;
+            layout$iv = i7;
+            i13 = i11;
+            mask$iv = mask$iv2;
+            delegatableNode = $this$visitSubtree$iv2;
+            i2 = i8;
+            i7 = nestedVectorStack.pop();
             while (node$iv != null) {
-                if (kindSet$ui_release &= mask$iv2 != 0) {
+                if (kindSet$ui_release &= mask$iv != 0) {
                 } else {
                 }
                 obj = block;
-                i4 = i12;
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
-                node$iv = node$iv.getChild$ui_release();
-                i12 = i4;
+                i11 = i13;
                 mask$iv2 = mask$iv;
-                delegatableNode = $this$visitSubtree$iv;
-                i3 = i8;
-                i9 = 0;
-                i10 = 0;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
+                node$iv = node$iv.getChild$ui_release();
+                i13 = i11;
+                mask$iv = mask$iv2;
+                delegatableNode = $this$visitSubtree$iv2;
+                i2 = i8;
+                i5 = 0;
+                i6 = 0;
                 stack$iv = 0;
                 int i19 = 0;
-                node$iv2 = node;
+                node$iv2 = node2;
                 while (node$iv2 != null) {
                     Intrinsics.reifiedOperationMarker(3, "T");
                     if (node$iv2 instanceof Object != null) {
                     } else {
                     }
                     obj = block;
-                    node2 = 0;
+                    node = 0;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv = 0;
-                    if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                    this_$iv$iv2 = 0;
+                    if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
                     } else {
                     }
-                    mask$iv = mask$iv2;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                    i12 = i4;
                     mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitSubtree$iv;
-                    i3 = i8;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
+                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    i13 = i11;
+                    mask$iv = mask$iv2;
+                    delegatableNode = $this$visitSubtree$iv2;
+                    i2 = i8;
                     if (node$iv2 instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv$iv = 0;
-                    i13 = 0;
+                    this_$iv$iv2 = 0;
+                    i12 = 0;
                     node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
                     while (node$iv$iv != null) {
-                        i12 = node$iv$iv;
-                        i5 = 0;
-                        i6 = 0;
+                        i13 = node$iv$iv;
+                        i4 = 0;
+                        i10 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
-                        this_$iv$iv2 = 0;
-                        if (this_$iv$iv2 != 0) {
+                        this_$iv$iv = 0;
+                        if (this_$iv$iv != 0) {
                         } else {
                         }
-                        mask$iv = mask$iv2;
-                        $this$visitSubtree$iv = delegatableNode;
-                        i8 = i3;
+                        mask$iv2 = mask$iv;
+                        $this$visitSubtree$iv2 = delegatableNode;
+                        i8 = i2;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        mask$iv2 = mask$iv;
-                        delegatableNode = $this$visitSubtree$iv;
-                        i3 = i8;
                         mask$iv = mask$iv2;
-                        if (this_$iv$iv++ == 1) {
+                        delegatableNode = $this$visitSubtree$iv2;
+                        i2 = i8;
+                        mask$iv2 = mask$iv;
+                        if (this_$iv$iv2++ == 1) {
                         } else {
                         }
                         int i15 = stack$iv;
                         if ((MutableVector)i15 == 0) {
                         } else {
                         }
-                        $this$visitSubtree$iv = delegatableNode;
-                        i8 = i3;
-                        $this$visitSubtree$iv2 = i15;
+                        $this$visitSubtree$iv2 = delegatableNode;
+                        i8 = i2;
+                        $this$visitSubtree$iv = i15;
                         capacity$iv$iv$iv = 0;
-                        stack$iv = $this$visitSubtree$iv2;
+                        stack$iv = $this$visitSubtree$iv;
                         delegatableNode = node$iv2;
                         MutableVector mutableVector2 = stack$iv;
                         if ((Modifier.Node)delegatableNode != null && (MutableVector)mutableVector2 != null) {
                         }
-                        i3 = stack$iv;
-                        if ((MutableVector)i3 != null) {
+                        i2 = stack$iv;
+                        if ((MutableVector)i2 != null) {
                         }
-                        (MutableVector)i3.add(i12);
+                        (MutableVector)i2.add(i13);
                         mutableVector2 = stack$iv;
                         if ((MutableVector)(MutableVector)mutableVector2 != null) {
                         }
-                        node$iv2 = i3;
+                        node$iv2 = i2;
                         (MutableVector)(MutableVector)mutableVector2.add((Modifier.Node)delegatableNode);
-                        i6 = i16;
+                        i10 = i16;
                         int $i$f$mutableVectorOf = 16;
-                        i2 = 0;
-                        $this$visitSubtree$iv = delegatableNode;
-                        i8 = i3;
+                        i3 = 0;
+                        $this$visitSubtree$iv2 = delegatableNode;
+                        i8 = i2;
                         i = $i$f$mutableVectorOf;
-                        $this$visitSubtree$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i3 = $this$visitSubtree$iv2;
-                        node$iv2 = i12;
-                        $this$visitSubtree$iv = delegatableNode;
-                        i8 = i3;
+                        $this$visitSubtree$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i2 = $this$visitSubtree$iv;
+                        node$iv2 = i13;
+                        $this$visitSubtree$iv2 = delegatableNode;
+                        i8 = i2;
                         capacity$iv$iv$iv = 0;
-                        this_$iv$iv2 = 1;
+                        this_$iv$iv = 1;
                     }
-                    if (this_$iv$iv == 1) {
+                    if (this_$iv$iv2 == 1) {
                     } else {
                     }
-                    i12 = i4;
-                    mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitSubtree$iv;
-                    i3 = i8;
-                    i12 = node$iv$iv;
-                    i5 = 0;
-                    i6 = 0;
+                    i13 = i11;
+                    mask$iv = mask$iv2;
+                    delegatableNode = $this$visitSubtree$iv2;
+                    i2 = i8;
+                    i13 = node$iv$iv;
+                    i4 = 0;
+                    i10 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    mask$iv = mask$iv2;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    mask$iv2 = mask$iv;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitSubtree$iv;
-                    i3 = i8;
                     mask$iv = mask$iv2;
-                    if (this_$iv$iv++ == 1) {
+                    delegatableNode = $this$visitSubtree$iv2;
+                    i2 = i8;
+                    mask$iv2 = mask$iv;
+                    if (this_$iv$iv2++ == 1) {
                     } else {
                     }
                     i15 = stack$iv;
                     if ((MutableVector)(MutableVector)i15 == 0) {
                     } else {
                     }
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
-                    $this$visitSubtree$iv2 = i15;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
+                    $this$visitSubtree$iv = i15;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitSubtree$iv2;
+                    stack$iv = $this$visitSubtree$iv;
                     delegatableNode = node$iv2;
                     mutableVector2 = stack$iv;
                     if ((Modifier.Node)delegatableNode != null && (MutableVector)mutableVector2 != null) {
                     }
-                    i3 = stack$iv;
-                    if ((MutableVector)i3 != null) {
+                    i2 = stack$iv;
+                    if ((MutableVector)i2 != null) {
                     }
-                    (MutableVector)i3.add(i12);
+                    (MutableVector)i2.add(i13);
                     mutableVector2 = stack$iv;
                     if ((MutableVector)(MutableVector)mutableVector2 != null) {
                     }
-                    node$iv2 = i3;
+                    node$iv2 = i2;
                     (MutableVector)(MutableVector)mutableVector2.add((Modifier.Node)delegatableNode);
-                    i6 = i16;
+                    i10 = i16;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    i3 = 0;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     i = $i$f$mutableVectorOf;
-                    $this$visitSubtree$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i3 = $this$visitSubtree$iv2;
-                    node$iv2 = i12;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    $this$visitSubtree$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i2 = $this$visitSubtree$iv;
+                    node$iv2 = i13;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     capacity$iv$iv$iv = 0;
-                    this_$iv$iv2 = 1;
                     this_$iv$iv = 1;
+                    this_$iv$iv2 = 1;
                     block.invoke(node$iv2);
-                    i4 = i12;
-                    mask$iv = mask$iv2;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    i11 = i13;
+                    mask$iv2 = mask$iv;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                 }
                 obj = block;
-                i4 = i12;
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                i11 = i13;
+                mask$iv2 = mask$iv;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 Intrinsics.reifiedOperationMarker(3, "T");
                 if (node$iv2 instanceof Object != null) {
                 } else {
                 }
                 obj = block;
-                node2 = 0;
+                node = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                this_$iv$iv2 = 0;
+                if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
-                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                i12 = i4;
                 mask$iv2 = mask$iv;
-                delegatableNode = $this$visitSubtree$iv;
-                i3 = i8;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
+                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                i13 = i11;
+                mask$iv = mask$iv2;
+                delegatableNode = $this$visitSubtree$iv2;
+                i2 = i8;
                 if (node$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                i13 = 0;
+                this_$iv$iv2 = 0;
+                i12 = 0;
                 node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
                 while (node$iv$iv != null) {
-                    i12 = node$iv$iv;
-                    i5 = 0;
-                    i6 = 0;
+                    i13 = node$iv$iv;
+                    i4 = 0;
+                    i10 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    mask$iv = mask$iv2;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    mask$iv2 = mask$iv;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitSubtree$iv;
-                    i3 = i8;
                     mask$iv = mask$iv2;
-                    if (this_$iv$iv++ == 1) {
+                    delegatableNode = $this$visitSubtree$iv2;
+                    i2 = i8;
+                    mask$iv2 = mask$iv;
+                    if (this_$iv$iv2++ == 1) {
                     } else {
                     }
                     i15 = stack$iv;
                     if ((MutableVector)(MutableVector)(MutableVector)i15 == 0) {
                     } else {
                     }
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
-                    $this$visitSubtree$iv2 = i15;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
+                    $this$visitSubtree$iv = i15;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitSubtree$iv2;
+                    stack$iv = $this$visitSubtree$iv;
                     delegatableNode = node$iv2;
                     mutableVector2 = stack$iv;
                     if ((Modifier.Node)delegatableNode != null && (MutableVector)mutableVector2 != null) {
                     }
-                    i3 = stack$iv;
-                    if ((MutableVector)i3 != null) {
+                    i2 = stack$iv;
+                    if ((MutableVector)i2 != null) {
                     }
-                    (MutableVector)i3.add(i12);
+                    (MutableVector)i2.add(i13);
                     mutableVector2 = stack$iv;
                     if ((MutableVector)(MutableVector)mutableVector2 != null) {
                     }
-                    node$iv2 = i3;
+                    node$iv2 = i2;
                     (MutableVector)(MutableVector)mutableVector2.add((Modifier.Node)delegatableNode);
-                    i6 = i16;
+                    i10 = i16;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    i3 = 0;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     i = $i$f$mutableVectorOf;
-                    $this$visitSubtree$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i3 = $this$visitSubtree$iv2;
-                    node$iv2 = i12;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    $this$visitSubtree$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i2 = $this$visitSubtree$iv;
+                    node$iv2 = i13;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     capacity$iv$iv$iv = 0;
-                    this_$iv$iv2 = 1;
+                    this_$iv$iv = 1;
                 }
-                if (this_$iv$iv == 1) {
+                if (this_$iv$iv2 == 1) {
                 } else {
                 }
-                i12 = i4;
-                mask$iv2 = mask$iv;
-                delegatableNode = $this$visitSubtree$iv;
-                i3 = i8;
-                i12 = node$iv$iv;
-                i5 = 0;
-                i6 = 0;
+                i13 = i11;
+                mask$iv = mask$iv2;
+                delegatableNode = $this$visitSubtree$iv2;
+                i2 = i8;
+                i13 = node$iv$iv;
+                i4 = 0;
+                i10 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0) {
+                this_$iv$iv = 0;
+                if (this_$iv$iv != 0) {
                 } else {
                 }
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                mask$iv2 = mask$iv;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                mask$iv2 = mask$iv;
-                delegatableNode = $this$visitSubtree$iv;
-                i3 = i8;
                 mask$iv = mask$iv2;
-                if (this_$iv$iv++ == 1) {
+                delegatableNode = $this$visitSubtree$iv2;
+                i2 = i8;
+                mask$iv2 = mask$iv;
+                if (this_$iv$iv2++ == 1) {
                 } else {
                 }
                 i15 = stack$iv;
                 if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
                 } else {
                 }
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
-                $this$visitSubtree$iv2 = i15;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
+                $this$visitSubtree$iv = i15;
                 capacity$iv$iv$iv = 0;
-                stack$iv = $this$visitSubtree$iv2;
+                stack$iv = $this$visitSubtree$iv;
                 delegatableNode = node$iv2;
                 mutableVector2 = stack$iv;
                 if ((Modifier.Node)delegatableNode != null && (MutableVector)mutableVector2 != null) {
                 }
-                i3 = stack$iv;
-                if ((MutableVector)i3 != null) {
+                i2 = stack$iv;
+                if ((MutableVector)i2 != null) {
                 }
-                (MutableVector)i3.add(i12);
+                (MutableVector)i2.add(i13);
                 mutableVector2 = stack$iv;
                 if ((MutableVector)(MutableVector)mutableVector2 != null) {
                 }
-                node$iv2 = i3;
+                node$iv2 = i2;
                 (MutableVector)(MutableVector)mutableVector2.add((Modifier.Node)delegatableNode);
-                i6 = i16;
+                i10 = i16;
                 $i$f$mutableVectorOf = 16;
-                i2 = 0;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                i3 = 0;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 i = $i$f$mutableVectorOf;
-                $this$visitSubtree$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i3 = $this$visitSubtree$iv2;
-                node$iv2 = i12;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                $this$visitSubtree$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i2 = $this$visitSubtree$iv;
+                node$iv2 = i13;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 capacity$iv$iv$iv = 0;
-                this_$iv$iv2 = 1;
                 this_$iv$iv = 1;
+                this_$iv$iv2 = 1;
                 block.invoke(node$iv2);
-                i4 = i12;
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                i11 = i13;
+                mask$iv2 = mask$iv;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
             }
             obj = block;
-            i4 = i12;
-            mask$iv = mask$iv2;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
-            if (kindSet$ui_release &= mask$iv2 != 0) {
+            i11 = i13;
+            mask$iv2 = mask$iv;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
+            if (kindSet$ui_release &= mask$iv != 0) {
             } else {
             }
             obj = block;
-            i4 = i12;
-            mask$iv = mask$iv2;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
-            node$iv = node$iv.getChild$ui_release();
-            i12 = i4;
+            i11 = i13;
             mask$iv2 = mask$iv;
-            delegatableNode = $this$visitSubtree$iv;
-            i3 = i8;
-            i9 = 0;
-            i10 = 0;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
+            node$iv = node$iv.getChild$ui_release();
+            i13 = i11;
+            mask$iv = mask$iv2;
+            delegatableNode = $this$visitSubtree$iv2;
+            i2 = i8;
+            i5 = 0;
+            i6 = 0;
             stack$iv = 0;
             i19 = 0;
-            node$iv2 = node;
+            node$iv2 = node2;
             while (node$iv2 != null) {
                 Intrinsics.reifiedOperationMarker(3, "T");
                 if (node$iv2 instanceof Object != null) {
                 } else {
                 }
                 obj = block;
-                node2 = 0;
+                node = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                this_$iv$iv2 = 0;
+                if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
-                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                i12 = i4;
                 mask$iv2 = mask$iv;
-                delegatableNode = $this$visitSubtree$iv;
-                i3 = i8;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
+                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                i13 = i11;
+                mask$iv = mask$iv2;
+                delegatableNode = $this$visitSubtree$iv2;
+                i2 = i8;
                 if (node$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                this_$iv$iv = 0;
-                i13 = 0;
+                this_$iv$iv2 = 0;
+                i12 = 0;
                 node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
                 while (node$iv$iv != null) {
-                    i12 = node$iv$iv;
-                    i5 = 0;
-                    i6 = 0;
+                    i13 = node$iv$iv;
+                    i4 = 0;
+                    i10 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = 0;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = 0;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    mask$iv = mask$iv2;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    mask$iv2 = mask$iv;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    mask$iv2 = mask$iv;
-                    delegatableNode = $this$visitSubtree$iv;
-                    i3 = i8;
                     mask$iv = mask$iv2;
-                    if (this_$iv$iv++ == 1) {
+                    delegatableNode = $this$visitSubtree$iv2;
+                    i2 = i8;
+                    mask$iv2 = mask$iv;
+                    if (this_$iv$iv2++ == 1) {
                     } else {
                     }
                     i15 = stack$iv;
                     if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
                     } else {
                     }
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
-                    $this$visitSubtree$iv2 = i15;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
+                    $this$visitSubtree$iv = i15;
                     capacity$iv$iv$iv = 0;
-                    stack$iv = $this$visitSubtree$iv2;
+                    stack$iv = $this$visitSubtree$iv;
                     delegatableNode = node$iv2;
                     mutableVector2 = stack$iv;
                     if ((Modifier.Node)delegatableNode != null && (MutableVector)mutableVector2 != null) {
                     }
-                    i3 = stack$iv;
-                    if ((MutableVector)i3 != null) {
+                    i2 = stack$iv;
+                    if ((MutableVector)i2 != null) {
                     }
-                    (MutableVector)i3.add(i12);
+                    (MutableVector)i2.add(i13);
                     mutableVector2 = stack$iv;
                     if ((MutableVector)(MutableVector)mutableVector2 != null) {
                     }
-                    node$iv2 = i3;
+                    node$iv2 = i2;
                     (MutableVector)(MutableVector)mutableVector2.add((Modifier.Node)delegatableNode);
-                    i6 = i16;
+                    i10 = i16;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    i3 = 0;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     i = $i$f$mutableVectorOf;
-                    $this$visitSubtree$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i3 = $this$visitSubtree$iv2;
-                    node$iv2 = i12;
-                    $this$visitSubtree$iv = delegatableNode;
-                    i8 = i3;
+                    $this$visitSubtree$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i2 = $this$visitSubtree$iv;
+                    node$iv2 = i13;
+                    $this$visitSubtree$iv2 = delegatableNode;
+                    i8 = i2;
                     capacity$iv$iv$iv = 0;
-                    this_$iv$iv2 = 1;
+                    this_$iv$iv = 1;
                 }
-                if (this_$iv$iv == 1) {
+                if (this_$iv$iv2 == 1) {
                 } else {
                 }
-                i12 = i4;
-                mask$iv2 = mask$iv;
-                delegatableNode = $this$visitSubtree$iv;
-                i3 = i8;
-                i12 = node$iv$iv;
-                i5 = 0;
-                i6 = 0;
+                i13 = i11;
+                mask$iv = mask$iv2;
+                delegatableNode = $this$visitSubtree$iv2;
+                i2 = i8;
+                i13 = node$iv$iv;
+                i4 = 0;
+                i10 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0) {
+                this_$iv$iv = 0;
+                if (this_$iv$iv != 0) {
                 } else {
                 }
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                mask$iv2 = mask$iv;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                mask$iv2 = mask$iv;
-                delegatableNode = $this$visitSubtree$iv;
-                i3 = i8;
                 mask$iv = mask$iv2;
-                if (this_$iv$iv++ == 1) {
+                delegatableNode = $this$visitSubtree$iv2;
+                i2 = i8;
+                mask$iv2 = mask$iv;
+                if (this_$iv$iv2++ == 1) {
                 } else {
                 }
                 i15 = stack$iv;
                 if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
                 } else {
                 }
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
-                $this$visitSubtree$iv2 = i15;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
+                $this$visitSubtree$iv = i15;
                 capacity$iv$iv$iv = 0;
-                stack$iv = $this$visitSubtree$iv2;
+                stack$iv = $this$visitSubtree$iv;
                 delegatableNode = node$iv2;
                 mutableVector2 = stack$iv;
                 if ((Modifier.Node)delegatableNode != null && (MutableVector)mutableVector2 != null) {
                 }
-                i3 = stack$iv;
-                if ((MutableVector)i3 != null) {
+                i2 = stack$iv;
+                if ((MutableVector)i2 != null) {
                 }
-                (MutableVector)i3.add(i12);
+                (MutableVector)i2.add(i13);
                 mutableVector2 = stack$iv;
                 if ((MutableVector)(MutableVector)mutableVector2 != null) {
                 }
-                node$iv2 = i3;
+                node$iv2 = i2;
                 (MutableVector)(MutableVector)mutableVector2.add((Modifier.Node)delegatableNode);
-                i6 = i16;
+                i10 = i16;
                 $i$f$mutableVectorOf = 16;
-                i2 = 0;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                i3 = 0;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 i = $i$f$mutableVectorOf;
-                $this$visitSubtree$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i3 = $this$visitSubtree$iv2;
-                node$iv2 = i12;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                $this$visitSubtree$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i2 = $this$visitSubtree$iv;
+                node$iv2 = i13;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 capacity$iv$iv$iv = 0;
-                this_$iv$iv2 = 1;
                 this_$iv$iv = 1;
+                this_$iv$iv2 = 1;
                 block.invoke(node$iv2);
-                i4 = i12;
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                i11 = i13;
+                mask$iv2 = mask$iv;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
             }
             obj = block;
-            i4 = i12;
-            mask$iv = mask$iv2;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
+            i11 = i13;
+            mask$iv2 = mask$iv;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
             Intrinsics.reifiedOperationMarker(3, "T");
             if (node$iv2 instanceof Object != null) {
             } else {
             }
             obj = block;
-            node2 = 0;
+            node = 0;
             if (kindSet$ui_release2 &= type != 0) {
             } else {
             }
-            this_$iv$iv = 0;
-            if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+            this_$iv$iv2 = 0;
+            if (this_$iv$iv2 != 0 && node$iv2 instanceof DelegatingNode) {
             } else {
             }
-            mask$iv = mask$iv2;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
-            node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-            i12 = i4;
             mask$iv2 = mask$iv;
-            delegatableNode = $this$visitSubtree$iv;
-            i3 = i8;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
+            node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+            i13 = i11;
+            mask$iv = mask$iv2;
+            delegatableNode = $this$visitSubtree$iv2;
+            i2 = i8;
             if (node$iv2 instanceof DelegatingNode) {
             } else {
             }
-            this_$iv$iv = 0;
-            i13 = 0;
+            this_$iv$iv2 = 0;
+            i12 = 0;
             node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
             while (node$iv$iv != null) {
-                i12 = node$iv$iv;
-                i5 = 0;
-                i6 = 0;
+                i13 = node$iv$iv;
+                i4 = 0;
+                i10 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
-                this_$iv$iv2 = 0;
-                if (this_$iv$iv2 != 0) {
+                this_$iv$iv = 0;
+                if (this_$iv$iv != 0) {
                 } else {
                 }
-                mask$iv = mask$iv2;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                mask$iv2 = mask$iv;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                mask$iv2 = mask$iv;
-                delegatableNode = $this$visitSubtree$iv;
-                i3 = i8;
                 mask$iv = mask$iv2;
-                if (this_$iv$iv++ == 1) {
+                delegatableNode = $this$visitSubtree$iv2;
+                i2 = i8;
+                mask$iv2 = mask$iv;
+                if (this_$iv$iv2++ == 1) {
                 } else {
                 }
                 i15 = stack$iv;
                 if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
                 } else {
                 }
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
-                $this$visitSubtree$iv2 = i15;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
+                $this$visitSubtree$iv = i15;
                 capacity$iv$iv$iv = 0;
-                stack$iv = $this$visitSubtree$iv2;
+                stack$iv = $this$visitSubtree$iv;
                 delegatableNode = node$iv2;
                 mutableVector2 = stack$iv;
                 if ((Modifier.Node)delegatableNode != null && (MutableVector)mutableVector2 != null) {
                 }
-                i3 = stack$iv;
-                if ((MutableVector)i3 != null) {
+                i2 = stack$iv;
+                if ((MutableVector)i2 != null) {
                 }
-                (MutableVector)i3.add(i12);
+                (MutableVector)i2.add(i13);
                 mutableVector2 = stack$iv;
                 if ((MutableVector)(MutableVector)mutableVector2 != null) {
                 }
-                node$iv2 = i3;
+                node$iv2 = i2;
                 (MutableVector)(MutableVector)mutableVector2.add((Modifier.Node)delegatableNode);
-                i6 = i16;
+                i10 = i16;
                 $i$f$mutableVectorOf = 16;
-                i2 = 0;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                i3 = 0;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 i = $i$f$mutableVectorOf;
-                $this$visitSubtree$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i3 = $this$visitSubtree$iv2;
-                node$iv2 = i12;
-                $this$visitSubtree$iv = delegatableNode;
-                i8 = i3;
+                $this$visitSubtree$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i2 = $this$visitSubtree$iv;
+                node$iv2 = i13;
+                $this$visitSubtree$iv2 = delegatableNode;
+                i8 = i2;
                 capacity$iv$iv$iv = 0;
-                this_$iv$iv2 = 1;
+                this_$iv$iv = 1;
             }
-            if (this_$iv$iv == 1) {
+            if (this_$iv$iv2 == 1) {
             } else {
             }
-            i12 = i4;
-            mask$iv2 = mask$iv;
-            delegatableNode = $this$visitSubtree$iv;
-            i3 = i8;
-            i12 = node$iv$iv;
-            i5 = 0;
-            i6 = 0;
+            i13 = i11;
+            mask$iv = mask$iv2;
+            delegatableNode = $this$visitSubtree$iv2;
+            i2 = i8;
+            i13 = node$iv$iv;
+            i4 = 0;
+            i10 = 0;
             if (kindSet$ui_release3 &= type != 0) {
             } else {
             }
-            this_$iv$iv2 = 0;
-            if (this_$iv$iv2 != 0) {
+            this_$iv$iv = 0;
+            if (this_$iv$iv != 0) {
             } else {
             }
-            mask$iv = mask$iv2;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
+            mask$iv2 = mask$iv;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
             capacity$iv$iv$iv = 0;
             node$iv$iv = node$iv$iv.getChild$ui_release();
-            mask$iv2 = mask$iv;
-            delegatableNode = $this$visitSubtree$iv;
-            i3 = i8;
             mask$iv = mask$iv2;
-            if (this_$iv$iv++ == 1) {
+            delegatableNode = $this$visitSubtree$iv2;
+            i2 = i8;
+            mask$iv2 = mask$iv;
+            if (this_$iv$iv2++ == 1) {
             } else {
             }
             i15 = stack$iv;
             if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
             } else {
             }
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
-            $this$visitSubtree$iv2 = i15;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
+            $this$visitSubtree$iv = i15;
             capacity$iv$iv$iv = 0;
-            stack$iv = $this$visitSubtree$iv2;
+            stack$iv = $this$visitSubtree$iv;
             delegatableNode = node$iv2;
             mutableVector2 = stack$iv;
             if ((Modifier.Node)delegatableNode != null && (MutableVector)mutableVector2 != null) {
             }
-            i3 = stack$iv;
-            if ((MutableVector)i3 != null) {
+            i2 = stack$iv;
+            if ((MutableVector)i2 != null) {
             }
-            (MutableVector)i3.add(i12);
+            (MutableVector)i2.add(i13);
             mutableVector2 = stack$iv;
             if ((MutableVector)(MutableVector)mutableVector2 != null) {
             }
-            node$iv2 = i3;
+            node$iv2 = i2;
             (MutableVector)(MutableVector)mutableVector2.add((Modifier.Node)delegatableNode);
-            i6 = i16;
+            i10 = i16;
             $i$f$mutableVectorOf = 16;
-            i2 = 0;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
+            i3 = 0;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
             i = $i$f$mutableVectorOf;
-            $this$visitSubtree$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-            i3 = $this$visitSubtree$iv2;
-            node$iv2 = i12;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
+            $this$visitSubtree$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+            i2 = $this$visitSubtree$iv;
+            node$iv2 = i13;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
             capacity$iv$iv$iv = 0;
-            this_$iv$iv2 = 1;
             this_$iv$iv = 1;
+            this_$iv$iv2 = 1;
             block.invoke(node$iv2);
-            i4 = i12;
-            mask$iv = mask$iv2;
-            $this$visitSubtree$iv = delegatableNode;
-            i8 = i3;
+            i11 = i13;
+            mask$iv2 = mask$iv;
+            $this$visitSubtree$iv2 = delegatableNode;
+            i8 = i2;
             node$iv = layout$iv.getNodes$ui_release().getHead$ui_release();
         }
     }
 
     public static final void visitSubtreeIf(androidx.compose.ui.node.DelegatableNode $this$visitSubtreeIf, int mask, Function1<? super Modifier.Node, Boolean> block) {
         Modifier.Node node2;
-        String str;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitSubtreeIf$1;
         int node;
         Modifier.Node[] booleanValue;
         final int i = 0;
@@ -7468,135 +7468,135 @@ public final class DelegatableNodeKt {
     }
 
     public static final <T> void visitSubtreeIf-6rFNWt0(androidx.compose.ui.node.DelegatableNode $this$visitSubtreeIf_u2d6rFNWt0, int type, Function1<? super T, Boolean> block) {
-        int i8;
-        int i14;
-        int i13;
-        Object obj2;
-        Object obj3;
-        int mask$iv3;
+        int i7;
+        int $i$f$visitSubtreeIf6rFNWt03;
+        int i3;
+        Object $i$f$visitSubtreeIf6rFNWt02;
+        Object obj;
         int mask$iv;
         int mask$iv4;
+        int mask$iv3;
         int capacity$iv$iv$iv;
-        Modifier.Node[] objArr2;
+        Modifier.Node[] objArr;
         int $this$visitSubtreeIf$iv2;
         int i;
         Modifier.Node node;
-        String str2;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitSubtreeIf$1$iv;
         int this_$iv$iv;
         String str;
-        Modifier.Node[] node$iv;
-        int i11;
-        Modifier.Node[] objArr3;
-        int i12;
-        Modifier.Node[] objArr;
-        int i9;
-        int stack$iv;
         Modifier.Node[] node$iv2;
-        int i3;
-        int i10;
+        int i9;
+        Modifier.Node[] objArr2;
+        int i6;
+        Modifier.Node[] objArr3;
+        int i2;
+        int stack$iv;
+        Modifier.Node[] node$iv;
+        int i8;
+        int $i$f$visitSubtreeIf6rFNWt0;
         boolean booleanValue;
         Modifier.Node node$iv$iv;
         int i4;
         Object mask$iv2;
         int this_$iv$iv2;
+        int i12;
         int i5;
-        int i7;
         Modifier.Node[] $this$visitSubtreeIf$iv;
-        int i6;
-        int i2;
-        i8 = 0;
-        obj3 = type;
-        objArr2 = $this$visitSubtreeIf_u2d6rFNWt0;
+        int i10;
+        int i11;
+        i7 = 0;
+        obj = type;
+        objArr = $this$visitSubtreeIf_u2d6rFNWt0;
         i = 0;
-        int i18 = 0;
-        if (!objArr2.getNode().isAttached()) {
-            int i20 = 0;
-            str2 = "visitSubtreeIf called on an unattached node";
-            str = str2;
-            InlineClassHelperKt.throwIllegalStateException(str2);
+        int i16 = 0;
+        if (!objArr.getNode().isAttached()) {
+            int i18 = 0;
+            $i$a$CheckPreconditionDelegatableNodeKt$visitSubtreeIf$1$iv = "visitSubtreeIf called on an unattached node";
+            str = $i$a$CheckPreconditionDelegatableNodeKt$visitSubtreeIf$1$iv;
+            InlineClassHelperKt.throwIllegalStateException($i$a$CheckPreconditionDelegatableNodeKt$visitSubtreeIf$1$iv);
         }
         int value$iv$iv = 0;
         this_$iv$iv = 0;
         MutableVector mutableVector = new MutableVector(new Modifier.Node[16], 0);
-        Modifier.Node child$ui_release = objArr2.getNode().getChild$ui_release();
+        Modifier.Node child$ui_release = objArr.getNode().getChild$ui_release();
         if (child$ui_release == null) {
-            DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector, objArr2.getNode());
+            DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector, objArr.getNode());
         } else {
             mutableVector.add(child$ui_release);
         }
         while (mutableVector.isNotEmpty()) {
             node = mutableVector.removeAt(size -= this_$iv$iv);
-            if (aggregateChildKindSet$ui_release &= obj3 != 0) {
+            if (aggregateChildKindSet$ui_release &= obj != 0) {
             } else {
             }
-            i10 = i8;
-            mask$iv2 = obj3;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            mask$iv3 = i11;
+            $i$f$visitSubtreeIf6rFNWt0 = i7;
+            mask$iv2 = obj;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            mask$iv = i9;
             DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector, node);
-            i11 = mask$iv3;
-            i8 = i10;
-            obj3 = mask$iv2;
-            objArr2 = $this$visitSubtreeIf$iv;
-            i = i6;
-            node$iv = node;
-            while (node$iv != null) {
-                if (kindSet$ui_release &= obj3 == 0) {
+            i9 = mask$iv;
+            i7 = $i$f$visitSubtreeIf6rFNWt0;
+            obj = mask$iv2;
+            objArr = $this$visitSubtreeIf$iv;
+            i = i10;
+            node$iv2 = node;
+            while (node$iv2 != null) {
+                if (kindSet$ui_release &= obj == 0) {
                     break loop_8;
                 } else {
                 }
-                i10 = i8;
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i14 = this_$iv$iv;
-                mask$iv = i11;
-                node$iv = node$iv.getChild$ui_release();
-                this_$iv$iv = i14;
-                i11 = mask$iv;
-                i8 = i10;
-                obj3 = mask$iv2;
-                objArr2 = $this$visitSubtreeIf$iv;
-                i = i6;
-                i12 = 0;
-                i9 = 0;
+                $i$f$visitSubtreeIf6rFNWt0 = i7;
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                $i$f$visitSubtreeIf6rFNWt03 = this_$iv$iv;
+                mask$iv4 = i9;
+                node$iv2 = node$iv2.getChild$ui_release();
+                this_$iv$iv = $i$f$visitSubtreeIf6rFNWt03;
+                i9 = mask$iv4;
+                i7 = $i$f$visitSubtreeIf6rFNWt0;
+                obj = mask$iv2;
+                objArr = $this$visitSubtreeIf$iv;
+                i = i10;
+                i6 = 0;
+                i2 = 0;
                 stack$iv = 0;
-                int i22 = 0;
-                node$iv2 = objArr;
-                while (node$iv2 != null) {
+                int i20 = 0;
+                node$iv = objArr3;
+                while (node$iv != null) {
                     Intrinsics.reifiedOperationMarker(3, "T");
-                    obj2 = block;
-                    i11 = 0;
+                    $i$f$visitSubtreeIf6rFNWt02 = block;
+                    i9 = 0;
                     if (kindSet$ui_release2 &= type != 0) {
                     } else {
                     }
                     this_$iv$iv = 0;
-                    if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                    if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    mask$iv2 = obj3;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
-                    i13 = 1;
-                    mask$iv4 = 0;
-                    node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                    this_$iv$iv = i13;
-                    i11 = mask$iv4;
-                    i8 = i10;
-                    obj3 = mask$iv2;
-                    objArr2 = $this$visitSubtreeIf$iv;
-                    i = i6;
-                    if (node$iv2 instanceof DelegatingNode) {
+                    mask$iv2 = obj;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
+                    i3 = 1;
+                    mask$iv3 = 0;
+                    node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                    this_$iv$iv = i3;
+                    i9 = mask$iv3;
+                    i7 = $i$f$visitSubtreeIf6rFNWt0;
+                    obj = mask$iv2;
+                    objArr = $this$visitSubtreeIf$iv;
+                    i = i10;
+                    if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv$iv = 0;
                     booleanValue = 0;
-                    node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                    node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
                         Modifier.Node node2 = node$iv$iv;
                         i4 = 0;
-                        i5 = 0;
+                        i12 = 0;
                         if (kindSet$ui_release3 &= type != 0) {
                         } else {
                         }
@@ -7604,68 +7604,68 @@ public final class DelegatableNodeKt {
                         if (this_$iv$iv2 != 0) {
                         } else {
                         }
-                        mask$iv2 = obj3;
-                        $this$visitSubtreeIf$iv = objArr2;
-                        i6 = i;
+                        mask$iv2 = obj;
+                        $this$visitSubtreeIf$iv = objArr;
+                        i10 = i;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        obj2 = block;
-                        obj3 = mask$iv2;
-                        objArr2 = $this$visitSubtreeIf$iv;
-                        i = i6;
-                        mask$iv2 = obj3;
+                        $i$f$visitSubtreeIf6rFNWt02 = block;
+                        obj = mask$iv2;
+                        objArr = $this$visitSubtreeIf$iv;
+                        i = i10;
+                        mask$iv2 = obj;
                         if (this_$iv$iv++ == 1) {
                         } else {
                         }
-                        int i15 = stack$iv;
-                        if ((MutableVector)i15 == 0) {
+                        int i13 = stack$iv;
+                        if ((MutableVector)i13 == 0) {
                         } else {
                         }
-                        $this$visitSubtreeIf$iv = objArr2;
-                        i6 = i;
-                        $this$visitSubtreeIf$iv2 = i15;
+                        $this$visitSubtreeIf$iv = objArr;
+                        i10 = i;
+                        $this$visitSubtreeIf$iv2 = i13;
                         capacity$iv$iv$iv = 0;
                         stack$iv = $this$visitSubtreeIf$iv2;
-                        objArr2 = node$iv2;
-                        int i17 = stack$iv;
-                        if ((Modifier.Node)objArr2 != null && (MutableVector)i17 != 0) {
+                        objArr = node$iv;
+                        int i15 = stack$iv;
+                        if ((Modifier.Node)objArr != null && (MutableVector)i15 != 0) {
                         }
                         i = stack$iv;
                         if ((MutableVector)i != 0) {
                         }
                         (MutableVector)i.add(node2);
-                        i17 = stack$iv;
-                        if ((MutableVector)(MutableVector)i17 != 0) {
+                        i15 = stack$iv;
+                        if ((MutableVector)(MutableVector)i15 != 0) {
                         }
-                        node$iv2 = i;
-                        (MutableVector)(MutableVector)i17.add((Modifier.Node)objArr2);
-                        i5 = i16;
+                        node$iv = i;
+                        (MutableVector)(MutableVector)i15.add((Modifier.Node)objArr);
+                        i12 = i14;
                         int $i$f$mutableVectorOf = 16;
-                        i7 = 0;
-                        $this$visitSubtreeIf$iv = objArr2;
-                        i6 = i;
-                        i2 = $i$f$mutableVectorOf;
+                        i5 = 0;
+                        $this$visitSubtreeIf$iv = objArr;
+                        i10 = i;
+                        i11 = $i$f$mutableVectorOf;
                         $this$visitSubtreeIf$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                         i = $this$visitSubtreeIf$iv2;
-                        node$iv2 = node2;
-                        $this$visitSubtreeIf$iv = objArr2;
-                        i6 = i;
+                        node$iv = node2;
+                        $this$visitSubtreeIf$iv = objArr;
+                        i10 = i;
                         capacity$iv$iv$iv = 0;
                         this_$iv$iv2 = 1;
                     }
-                    i13 = 1;
-                    if (this_$iv$iv == i13) {
+                    i3 = 1;
+                    if (this_$iv$iv == i3) {
                     } else {
                     }
-                    this_$iv$iv = i13;
-                    i11 = mask$iv4;
-                    i8 = i10;
-                    obj3 = mask$iv2;
-                    objArr2 = $this$visitSubtreeIf$iv;
-                    i = i6;
+                    this_$iv$iv = i3;
+                    i9 = mask$iv3;
+                    i7 = $i$f$visitSubtreeIf6rFNWt0;
+                    obj = mask$iv2;
+                    objArr = $this$visitSubtreeIf$iv;
+                    i = i10;
                     node2 = node$iv$iv;
                     i4 = 0;
-                    i5 = 0;
+                    i12 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -7673,104 +7673,104 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv2 != 0) {
                     } else {
                     }
-                    mask$iv2 = obj3;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
+                    mask$iv2 = obj;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    obj2 = block;
-                    obj3 = mask$iv2;
-                    objArr2 = $this$visitSubtreeIf$iv;
-                    i = i6;
-                    mask$iv2 = obj3;
+                    $i$f$visitSubtreeIf6rFNWt02 = block;
+                    obj = mask$iv2;
+                    objArr = $this$visitSubtreeIf$iv;
+                    i = i10;
+                    mask$iv2 = obj;
                     if (this_$iv$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)i15 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
-                    $this$visitSubtreeIf$iv2 = i15;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
+                    $this$visitSubtreeIf$iv2 = i13;
                     capacity$iv$iv$iv = 0;
                     stack$iv = $this$visitSubtreeIf$iv2;
-                    objArr2 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)objArr2 != null && (MutableVector)i17 != 0) {
+                    objArr = node$iv;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)objArr != null && (MutableVector)i15 != 0) {
                     }
                     i = stack$iv;
                     if ((MutableVector)i != 0) {
                     }
                     (MutableVector)i.add(node2);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)objArr2);
-                    i5 = i16;
+                    node$iv = i;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)objArr);
+                    i12 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i7 = 0;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
-                    i2 = $i$f$mutableVectorOf;
+                    i5 = 0;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
+                    i11 = $i$f$mutableVectorOf;
                     $this$visitSubtreeIf$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                     i = $this$visitSubtreeIf$iv2;
-                    node$iv2 = node2;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
+                    node$iv = node2;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv2 = 1;
                     this_$iv$iv = 1;
-                    i11 = 0;
-                    i10 = i8;
-                    mask$iv2 = obj3;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
-                    i13 = 1;
-                    mask$iv4 = 0;
+                    i9 = 0;
+                    $i$f$visitSubtreeIf6rFNWt0 = i7;
+                    mask$iv2 = obj;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
+                    i3 = 1;
+                    mask$iv3 = 0;
                 }
-                i10 = i8;
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                mask$iv = i11;
-                i3 = i14;
+                $i$f$visitSubtreeIf6rFNWt0 = i7;
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                mask$iv4 = i9;
+                i8 = $i$f$visitSubtreeIf6rFNWt03;
                 Intrinsics.reifiedOperationMarker(3, "T");
-                if (node$iv2 instanceof Object != null) {
+                if (node$iv instanceof Object != null) {
                 } else {
                 }
-                obj2 = block;
-                i11 = 0;
+                $i$f$visitSubtreeIf6rFNWt02 = block;
+                i9 = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
                 this_$iv$iv = 0;
-                if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i13 = 1;
-                mask$iv4 = 0;
-                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                this_$iv$iv = i13;
-                i11 = mask$iv4;
-                i8 = i10;
-                obj3 = mask$iv2;
-                objArr2 = $this$visitSubtreeIf$iv;
-                i = i6;
-                if (node$iv2 instanceof DelegatingNode) {
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                i3 = 1;
+                mask$iv3 = 0;
+                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                this_$iv$iv = i3;
+                i9 = mask$iv3;
+                i7 = $i$f$visitSubtreeIf6rFNWt0;
+                obj = mask$iv2;
+                objArr = $this$visitSubtreeIf$iv;
+                i = i10;
+                if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
                 this_$iv$iv = 0;
                 booleanValue = 0;
-                node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
                     node2 = node$iv$iv;
                     i4 = 0;
-                    i5 = 0;
+                    i12 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -7778,68 +7778,68 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv2 != 0) {
                     } else {
                     }
-                    mask$iv2 = obj3;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
+                    mask$iv2 = obj;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    obj2 = block;
-                    obj3 = mask$iv2;
-                    objArr2 = $this$visitSubtreeIf$iv;
-                    i = i6;
-                    mask$iv2 = obj3;
+                    $i$f$visitSubtreeIf6rFNWt02 = block;
+                    obj = mask$iv2;
+                    objArr = $this$visitSubtreeIf$iv;
+                    i = i10;
+                    mask$iv2 = obj;
                     if (this_$iv$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
-                    $this$visitSubtreeIf$iv2 = i15;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
+                    $this$visitSubtreeIf$iv2 = i13;
                     capacity$iv$iv$iv = 0;
                     stack$iv = $this$visitSubtreeIf$iv2;
-                    objArr2 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)objArr2 != null && (MutableVector)i17 != 0) {
+                    objArr = node$iv;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)objArr != null && (MutableVector)i15 != 0) {
                     }
                     i = stack$iv;
                     if ((MutableVector)i != 0) {
                     }
                     (MutableVector)i.add(node2);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)objArr2);
-                    i5 = i16;
+                    node$iv = i;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)objArr);
+                    i12 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i7 = 0;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
-                    i2 = $i$f$mutableVectorOf;
+                    i5 = 0;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
+                    i11 = $i$f$mutableVectorOf;
                     $this$visitSubtreeIf$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                     i = $this$visitSubtreeIf$iv2;
-                    node$iv2 = node2;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
+                    node$iv = node2;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv2 = 1;
                 }
-                i13 = 1;
-                if (this_$iv$iv == i13) {
+                i3 = 1;
+                if (this_$iv$iv == i3) {
                 } else {
                 }
-                this_$iv$iv = i13;
-                i11 = mask$iv4;
-                i8 = i10;
-                obj3 = mask$iv2;
-                objArr2 = $this$visitSubtreeIf$iv;
-                i = i6;
+                this_$iv$iv = i3;
+                i9 = mask$iv3;
+                i7 = $i$f$visitSubtreeIf6rFNWt0;
+                obj = mask$iv2;
+                objArr = $this$visitSubtreeIf$iv;
+                i = i10;
                 node2 = node$iv$iv;
                 i4 = 0;
-                i5 = 0;
+                i12 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -7847,131 +7847,131 @@ public final class DelegatableNodeKt {
                 if (this_$iv$iv2 != 0) {
                 } else {
                 }
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                obj2 = block;
-                obj3 = mask$iv2;
-                objArr2 = $this$visitSubtreeIf$iv;
-                i = i6;
-                mask$iv2 = obj3;
+                $i$f$visitSubtreeIf6rFNWt02 = block;
+                obj = mask$iv2;
+                objArr = $this$visitSubtreeIf$iv;
+                i = i10;
+                mask$iv2 = obj;
                 if (this_$iv$iv++ == 1) {
                 } else {
                 }
-                i15 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                i13 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                 } else {
                 }
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                $this$visitSubtreeIf$iv2 = i15;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                $this$visitSubtreeIf$iv2 = i13;
                 capacity$iv$iv$iv = 0;
                 stack$iv = $this$visitSubtreeIf$iv2;
-                objArr2 = node$iv2;
-                i17 = stack$iv;
-                if ((Modifier.Node)objArr2 != null && (MutableVector)i17 != 0) {
+                objArr = node$iv;
+                i15 = stack$iv;
+                if ((Modifier.Node)objArr != null && (MutableVector)i15 != 0) {
                 }
                 i = stack$iv;
                 if ((MutableVector)i != 0) {
                 }
                 (MutableVector)i.add(node2);
-                i17 = stack$iv;
-                if ((MutableVector)(MutableVector)i17 != 0) {
+                i15 = stack$iv;
+                if ((MutableVector)(MutableVector)i15 != 0) {
                 }
-                node$iv2 = i;
-                (MutableVector)(MutableVector)i17.add((Modifier.Node)objArr2);
-                i5 = i16;
+                node$iv = i;
+                (MutableVector)(MutableVector)i15.add((Modifier.Node)objArr);
+                i12 = i14;
                 $i$f$mutableVectorOf = 16;
-                i7 = 0;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i2 = $i$f$mutableVectorOf;
+                i5 = 0;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                i11 = $i$f$mutableVectorOf;
                 $this$visitSubtreeIf$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                 i = $this$visitSubtreeIf$iv2;
-                node$iv2 = node2;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
+                node$iv = node2;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
                 capacity$iv$iv$iv = 0;
                 this_$iv$iv2 = 1;
                 this_$iv$iv = 1;
-                i11 = 0;
-                i10 = i8;
-                if (!(Boolean)block.invoke(node$iv2).booleanValue()) {
+                i9 = 0;
+                $i$f$visitSubtreeIf6rFNWt0 = i7;
+                if (!(Boolean)block.invoke(node$iv).booleanValue()) {
                 } else {
                 }
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i13 = 1;
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                i3 = 1;
+                mask$iv3 = 0;
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                $i$f$visitSubtreeIf6rFNWt03 = 1;
                 mask$iv4 = 0;
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i14 = 1;
-                mask$iv = 0;
-                i3 = 0;
+                i8 = 0;
             }
-            i10 = i8;
-            mask$iv2 = obj3;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            mask$iv3 = i11;
-            if (kindSet$ui_release &= obj3 != 0) {
+            $i$f$visitSubtreeIf6rFNWt0 = i7;
+            mask$iv2 = obj;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            mask$iv = i9;
+            if (kindSet$ui_release &= obj != 0) {
             } else {
             }
-            i10 = i8;
-            mask$iv2 = obj3;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            i14 = this_$iv$iv;
-            mask$iv = i11;
-            node$iv = node$iv.getChild$ui_release();
-            this_$iv$iv = i14;
-            i11 = mask$iv;
-            i8 = i10;
-            obj3 = mask$iv2;
-            objArr2 = $this$visitSubtreeIf$iv;
-            i = i6;
-            i12 = 0;
-            i9 = 0;
+            $i$f$visitSubtreeIf6rFNWt0 = i7;
+            mask$iv2 = obj;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            $i$f$visitSubtreeIf6rFNWt03 = this_$iv$iv;
+            mask$iv4 = i9;
+            node$iv2 = node$iv2.getChild$ui_release();
+            this_$iv$iv = $i$f$visitSubtreeIf6rFNWt03;
+            i9 = mask$iv4;
+            i7 = $i$f$visitSubtreeIf6rFNWt0;
+            obj = mask$iv2;
+            objArr = $this$visitSubtreeIf$iv;
+            i = i10;
+            i6 = 0;
+            i2 = 0;
             stack$iv = 0;
-            i22 = 0;
-            node$iv2 = objArr;
-            while (node$iv2 != null) {
+            i20 = 0;
+            node$iv = objArr3;
+            while (node$iv != null) {
                 Intrinsics.reifiedOperationMarker(3, "T");
-                obj2 = block;
-                i11 = 0;
+                $i$f$visitSubtreeIf6rFNWt02 = block;
+                i9 = 0;
                 if (kindSet$ui_release2 &= type != 0) {
                 } else {
                 }
                 this_$iv$iv = 0;
-                if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+                if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i13 = 1;
-                mask$iv4 = 0;
-                node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-                this_$iv$iv = i13;
-                i11 = mask$iv4;
-                i8 = i10;
-                obj3 = mask$iv2;
-                objArr2 = $this$visitSubtreeIf$iv;
-                i = i6;
-                if (node$iv2 instanceof DelegatingNode) {
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                i3 = 1;
+                mask$iv3 = 0;
+                node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+                this_$iv$iv = i3;
+                i9 = mask$iv3;
+                i7 = $i$f$visitSubtreeIf6rFNWt0;
+                obj = mask$iv2;
+                objArr = $this$visitSubtreeIf$iv;
+                i = i10;
+                if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
                 this_$iv$iv = 0;
                 booleanValue = 0;
-                node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+                node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
                     node2 = node$iv$iv;
                     i4 = 0;
-                    i5 = 0;
+                    i12 = 0;
                     if (kindSet$ui_release3 &= type != 0) {
                     } else {
                     }
@@ -7979,68 +7979,68 @@ public final class DelegatableNodeKt {
                     if (this_$iv$iv2 != 0) {
                     } else {
                     }
-                    mask$iv2 = obj3;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
+                    mask$iv2 = obj;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
                     capacity$iv$iv$iv = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    obj2 = block;
-                    obj3 = mask$iv2;
-                    objArr2 = $this$visitSubtreeIf$iv;
-                    i = i6;
-                    mask$iv2 = obj3;
+                    $i$f$visitSubtreeIf6rFNWt02 = block;
+                    obj = mask$iv2;
+                    objArr = $this$visitSubtreeIf$iv;
+                    i = i10;
+                    mask$iv2 = obj;
                     if (this_$iv$iv++ == 1) {
                     } else {
                     }
-                    i15 = stack$iv;
-                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                    i13 = stack$iv;
+                    if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                     } else {
                     }
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
-                    $this$visitSubtreeIf$iv2 = i15;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
+                    $this$visitSubtreeIf$iv2 = i13;
                     capacity$iv$iv$iv = 0;
                     stack$iv = $this$visitSubtreeIf$iv2;
-                    objArr2 = node$iv2;
-                    i17 = stack$iv;
-                    if ((Modifier.Node)objArr2 != null && (MutableVector)i17 != 0) {
+                    objArr = node$iv;
+                    i15 = stack$iv;
+                    if ((Modifier.Node)objArr != null && (MutableVector)i15 != 0) {
                     }
                     i = stack$iv;
                     if ((MutableVector)i != 0) {
                     }
                     (MutableVector)i.add(node2);
-                    i17 = stack$iv;
-                    if ((MutableVector)(MutableVector)i17 != 0) {
+                    i15 = stack$iv;
+                    if ((MutableVector)(MutableVector)i15 != 0) {
                     }
-                    node$iv2 = i;
-                    (MutableVector)(MutableVector)i17.add((Modifier.Node)objArr2);
-                    i5 = i16;
+                    node$iv = i;
+                    (MutableVector)(MutableVector)i15.add((Modifier.Node)objArr);
+                    i12 = i14;
                     $i$f$mutableVectorOf = 16;
-                    i7 = 0;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
-                    i2 = $i$f$mutableVectorOf;
+                    i5 = 0;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
+                    i11 = $i$f$mutableVectorOf;
                     $this$visitSubtreeIf$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                     i = $this$visitSubtreeIf$iv2;
-                    node$iv2 = node2;
-                    $this$visitSubtreeIf$iv = objArr2;
-                    i6 = i;
+                    node$iv = node2;
+                    $this$visitSubtreeIf$iv = objArr;
+                    i10 = i;
                     capacity$iv$iv$iv = 0;
                     this_$iv$iv2 = 1;
                 }
-                i13 = 1;
-                if (this_$iv$iv == i13) {
+                i3 = 1;
+                if (this_$iv$iv == i3) {
                 } else {
                 }
-                this_$iv$iv = i13;
-                i11 = mask$iv4;
-                i8 = i10;
-                obj3 = mask$iv2;
-                objArr2 = $this$visitSubtreeIf$iv;
-                i = i6;
+                this_$iv$iv = i3;
+                i9 = mask$iv3;
+                i7 = $i$f$visitSubtreeIf6rFNWt0;
+                obj = mask$iv2;
+                objArr = $this$visitSubtreeIf$iv;
+                i = i10;
                 node2 = node$iv$iv;
                 i4 = 0;
-                i5 = 0;
+                i12 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -8048,112 +8048,112 @@ public final class DelegatableNodeKt {
                 if (this_$iv$iv2 != 0) {
                 } else {
                 }
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                obj2 = block;
-                obj3 = mask$iv2;
-                objArr2 = $this$visitSubtreeIf$iv;
-                i = i6;
-                mask$iv2 = obj3;
+                $i$f$visitSubtreeIf6rFNWt02 = block;
+                obj = mask$iv2;
+                objArr = $this$visitSubtreeIf$iv;
+                i = i10;
+                mask$iv2 = obj;
                 if (this_$iv$iv++ == 1) {
                 } else {
                 }
-                i15 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                i13 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                 } else {
                 }
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                $this$visitSubtreeIf$iv2 = i15;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                $this$visitSubtreeIf$iv2 = i13;
                 capacity$iv$iv$iv = 0;
                 stack$iv = $this$visitSubtreeIf$iv2;
-                objArr2 = node$iv2;
-                i17 = stack$iv;
-                if ((Modifier.Node)objArr2 != null && (MutableVector)i17 != 0) {
+                objArr = node$iv;
+                i15 = stack$iv;
+                if ((Modifier.Node)objArr != null && (MutableVector)i15 != 0) {
                 }
                 i = stack$iv;
                 if ((MutableVector)i != 0) {
                 }
                 (MutableVector)i.add(node2);
-                i17 = stack$iv;
-                if ((MutableVector)(MutableVector)i17 != 0) {
+                i15 = stack$iv;
+                if ((MutableVector)(MutableVector)i15 != 0) {
                 }
-                node$iv2 = i;
-                (MutableVector)(MutableVector)i17.add((Modifier.Node)objArr2);
-                i5 = i16;
+                node$iv = i;
+                (MutableVector)(MutableVector)i15.add((Modifier.Node)objArr);
+                i12 = i14;
                 $i$f$mutableVectorOf = 16;
-                i7 = 0;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i2 = $i$f$mutableVectorOf;
+                i5 = 0;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                i11 = $i$f$mutableVectorOf;
                 $this$visitSubtreeIf$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                 i = $this$visitSubtreeIf$iv2;
-                node$iv2 = node2;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
+                node$iv = node2;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
                 capacity$iv$iv$iv = 0;
                 this_$iv$iv2 = 1;
                 this_$iv$iv = 1;
-                i11 = 0;
-                i10 = i8;
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i13 = 1;
-                mask$iv4 = 0;
+                i9 = 0;
+                $i$f$visitSubtreeIf6rFNWt0 = i7;
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                i3 = 1;
+                mask$iv3 = 0;
             }
-            i10 = i8;
-            mask$iv2 = obj3;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            mask$iv = i11;
-            i3 = i14;
-            if (i3 != 0) {
+            $i$f$visitSubtreeIf6rFNWt0 = i7;
+            mask$iv2 = obj;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            mask$iv4 = i9;
+            i8 = $i$f$visitSubtreeIf6rFNWt03;
+            if (i8 != 0) {
             } else {
             }
-            i11 = mask$iv;
-            i8 = i10;
-            obj3 = mask$iv2;
-            objArr2 = $this$visitSubtreeIf$iv;
-            i = i6;
+            i9 = mask$iv4;
+            i7 = $i$f$visitSubtreeIf6rFNWt0;
+            obj = mask$iv2;
+            objArr = $this$visitSubtreeIf$iv;
+            i = i10;
             Intrinsics.reifiedOperationMarker(3, "T");
-            if (node$iv2 instanceof Object != null) {
+            if (node$iv instanceof Object != null) {
             } else {
             }
-            obj2 = block;
-            i11 = 0;
+            $i$f$visitSubtreeIf6rFNWt02 = block;
+            i9 = 0;
             if (kindSet$ui_release2 &= type != 0) {
             } else {
             }
             this_$iv$iv = 0;
-            if (this_$iv$iv != 0 && node$iv2 instanceof DelegatingNode) {
+            if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
             } else {
             }
-            mask$iv2 = obj3;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            i13 = 1;
-            mask$iv4 = 0;
-            node$iv2 = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
-            this_$iv$iv = i13;
-            i11 = mask$iv4;
-            i8 = i10;
-            obj3 = mask$iv2;
-            objArr2 = $this$visitSubtreeIf$iv;
-            i = i6;
-            if (node$iv2 instanceof DelegatingNode) {
+            mask$iv2 = obj;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            i3 = 1;
+            mask$iv3 = 0;
+            node$iv = DelegatableNodeKt.access$pop((MutableVector)stack$iv);
+            this_$iv$iv = i3;
+            i9 = mask$iv3;
+            i7 = $i$f$visitSubtreeIf6rFNWt0;
+            obj = mask$iv2;
+            objArr = $this$visitSubtreeIf$iv;
+            i = i10;
+            if (node$iv instanceof DelegatingNode) {
             } else {
             }
             this_$iv$iv = 0;
             booleanValue = 0;
-            node$iv$iv = (DelegatingNode)node$iv2.getDelegate$ui_release();
+            node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
             while (node$iv$iv != null) {
                 node2 = node$iv$iv;
                 i4 = 0;
-                i5 = 0;
+                i12 = 0;
                 if (kindSet$ui_release3 &= type != 0) {
                 } else {
                 }
@@ -8161,68 +8161,68 @@ public final class DelegatableNodeKt {
                 if (this_$iv$iv2 != 0) {
                 } else {
                 }
-                mask$iv2 = obj3;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
+                mask$iv2 = obj;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
                 capacity$iv$iv$iv = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                obj2 = block;
-                obj3 = mask$iv2;
-                objArr2 = $this$visitSubtreeIf$iv;
-                i = i6;
-                mask$iv2 = obj3;
+                $i$f$visitSubtreeIf6rFNWt02 = block;
+                obj = mask$iv2;
+                objArr = $this$visitSubtreeIf$iv;
+                i = i10;
+                mask$iv2 = obj;
                 if (this_$iv$iv++ == 1) {
                 } else {
                 }
-                i15 = stack$iv;
-                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+                i13 = stack$iv;
+                if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
                 } else {
                 }
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                $this$visitSubtreeIf$iv2 = i15;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                $this$visitSubtreeIf$iv2 = i13;
                 capacity$iv$iv$iv = 0;
                 stack$iv = $this$visitSubtreeIf$iv2;
-                objArr2 = node$iv2;
-                i17 = stack$iv;
-                if ((Modifier.Node)objArr2 != null && (MutableVector)i17 != 0) {
+                objArr = node$iv;
+                i15 = stack$iv;
+                if ((Modifier.Node)objArr != null && (MutableVector)i15 != 0) {
                 }
                 i = stack$iv;
                 if ((MutableVector)i != 0) {
                 }
                 (MutableVector)i.add(node2);
-                i17 = stack$iv;
-                if ((MutableVector)(MutableVector)i17 != 0) {
+                i15 = stack$iv;
+                if ((MutableVector)(MutableVector)i15 != 0) {
                 }
-                node$iv2 = i;
-                (MutableVector)(MutableVector)i17.add((Modifier.Node)objArr2);
-                i5 = i16;
+                node$iv = i;
+                (MutableVector)(MutableVector)i15.add((Modifier.Node)objArr);
+                i12 = i14;
                 $i$f$mutableVectorOf = 16;
-                i7 = 0;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
-                i2 = $i$f$mutableVectorOf;
+                i5 = 0;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
+                i11 = $i$f$mutableVectorOf;
                 $this$visitSubtreeIf$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                 i = $this$visitSubtreeIf$iv2;
-                node$iv2 = node2;
-                $this$visitSubtreeIf$iv = objArr2;
-                i6 = i;
+                node$iv = node2;
+                $this$visitSubtreeIf$iv = objArr;
+                i10 = i;
                 capacity$iv$iv$iv = 0;
                 this_$iv$iv2 = 1;
             }
-            i13 = 1;
-            if (this_$iv$iv == i13) {
+            i3 = 1;
+            if (this_$iv$iv == i3) {
             } else {
             }
-            this_$iv$iv = i13;
-            i11 = mask$iv4;
-            i8 = i10;
-            obj3 = mask$iv2;
-            objArr2 = $this$visitSubtreeIf$iv;
-            i = i6;
+            this_$iv$iv = i3;
+            i9 = mask$iv3;
+            i7 = $i$f$visitSubtreeIf6rFNWt0;
+            obj = mask$iv2;
+            objArr = $this$visitSubtreeIf$iv;
+            i = i10;
             node2 = node$iv$iv;
             i4 = 0;
-            i5 = 0;
+            i12 = 0;
             if (kindSet$ui_release3 &= type != 0) {
             } else {
             }
@@ -8230,71 +8230,71 @@ public final class DelegatableNodeKt {
             if (this_$iv$iv2 != 0) {
             } else {
             }
-            mask$iv2 = obj3;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
+            mask$iv2 = obj;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
             capacity$iv$iv$iv = 0;
             node$iv$iv = node$iv$iv.getChild$ui_release();
-            obj2 = block;
-            obj3 = mask$iv2;
-            objArr2 = $this$visitSubtreeIf$iv;
-            i = i6;
-            mask$iv2 = obj3;
+            $i$f$visitSubtreeIf6rFNWt02 = block;
+            obj = mask$iv2;
+            objArr = $this$visitSubtreeIf$iv;
+            i = i10;
+            mask$iv2 = obj;
             if (this_$iv$iv++ == 1) {
             } else {
             }
-            i15 = stack$iv;
-            if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i15 == 0) {
+            i13 = stack$iv;
+            if ((MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)(MutableVector)i13 == 0) {
             } else {
             }
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            $this$visitSubtreeIf$iv2 = i15;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            $this$visitSubtreeIf$iv2 = i13;
             capacity$iv$iv$iv = 0;
             stack$iv = $this$visitSubtreeIf$iv2;
-            objArr2 = node$iv2;
-            i17 = stack$iv;
-            if ((Modifier.Node)objArr2 != null && (MutableVector)i17 != 0) {
+            objArr = node$iv;
+            i15 = stack$iv;
+            if ((Modifier.Node)objArr != null && (MutableVector)i15 != 0) {
             }
             i = stack$iv;
             if ((MutableVector)i != 0) {
             }
             (MutableVector)i.add(node2);
-            i17 = stack$iv;
-            if ((MutableVector)(MutableVector)i17 != 0) {
+            i15 = stack$iv;
+            if ((MutableVector)(MutableVector)i15 != 0) {
             }
-            node$iv2 = i;
-            (MutableVector)(MutableVector)i17.add((Modifier.Node)objArr2);
-            i5 = i16;
+            node$iv = i;
+            (MutableVector)(MutableVector)i15.add((Modifier.Node)objArr);
+            i12 = i14;
             $i$f$mutableVectorOf = 16;
-            i7 = 0;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            i2 = $i$f$mutableVectorOf;
+            i5 = 0;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            i11 = $i$f$mutableVectorOf;
             $this$visitSubtreeIf$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
             i = $this$visitSubtreeIf$iv2;
-            node$iv2 = node2;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
+            node$iv = node2;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
             capacity$iv$iv$iv = 0;
             this_$iv$iv2 = 1;
             this_$iv$iv = 1;
-            i11 = 0;
-            i10 = i8;
-            if (!(Boolean)block.invoke(node$iv2).booleanValue()) {
+            i9 = 0;
+            $i$f$visitSubtreeIf6rFNWt0 = i7;
+            if (!(Boolean)block.invoke(node$iv).booleanValue()) {
             } else {
             }
-            mask$iv2 = obj3;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            i13 = 1;
+            mask$iv2 = obj;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            i3 = 1;
+            mask$iv3 = 0;
+            mask$iv2 = obj;
+            $this$visitSubtreeIf$iv = objArr;
+            i10 = i;
+            $i$f$visitSubtreeIf6rFNWt03 = 1;
             mask$iv4 = 0;
-            mask$iv2 = obj3;
-            $this$visitSubtreeIf$iv = objArr2;
-            i6 = i;
-            i14 = 1;
-            mask$iv = 0;
-            i3 = 0;
+            i8 = 0;
         }
     }
 }

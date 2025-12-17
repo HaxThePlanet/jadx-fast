@@ -74,17 +74,17 @@ public final class MetadataRepo {
     }
 
     private void constructIndex(MetadataList metadataList) {
-        int i2;
-        androidx.emoji2.text.TypefaceEmojiRasterizer typefaceEmojiRasterizer;
         int i3;
-        char[] mEmojiCharArray;
+        androidx.emoji2.text.TypefaceEmojiRasterizer typefaceEmojiRasterizer;
         int i;
-        i2 = 0;
-        while (i2 < metadataList.listLength()) {
-            typefaceEmojiRasterizer = new TypefaceEmojiRasterizer(this, i2);
-            Character.toChars(typefaceEmojiRasterizer.getId(), this.mEmojiCharArray, i2 * 2);
+        char[] mEmojiCharArray;
+        int i2;
+        i3 = 0;
+        while (i3 < metadataList.listLength()) {
+            typefaceEmojiRasterizer = new TypefaceEmojiRasterizer(this, i3);
+            Character.toChars(typefaceEmojiRasterizer.getId(), this.mEmojiCharArray, i3 * 2);
             put(typefaceEmojiRasterizer);
-            i2++;
+            i3++;
         }
     }
 

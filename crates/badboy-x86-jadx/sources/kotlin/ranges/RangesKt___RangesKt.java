@@ -369,8 +369,8 @@ class RangesKt___RangesKt extends kotlin.ranges.RangesKt__RangesKt {
 
     public static final <T extends Comparable<? super T>> T coerceIn(T $this$coerceIn, kotlin.ranges.ClosedFloatingPointRange<T> range) {
         Object endInclusive;
-        boolean lessThanOrEquals;
         boolean lessThanOrEquals2;
+        boolean lessThanOrEquals;
         Intrinsics.checkNotNullParameter($this$coerceIn, "<this>");
         Intrinsics.checkNotNullParameter(range, "range");
         if (range.isEmpty()) {
@@ -1160,16 +1160,16 @@ class RangesKt___RangesKt extends kotlin.ranges.RangesKt__RangesKt {
     }
 
     public static final Byte toByteExactOrNull(int $this$toByteExactOrNull) {
-        int i2;
-        int valueOf;
         int i;
-        i = 0;
+        int valueOf;
+        int i2;
+        i2 = 0;
         if (-128 <= $this$toByteExactOrNull && $this$toByteExactOrNull < 128) {
             if ($this$toByteExactOrNull < 128) {
-                i = 1;
+                i2 = 1;
             }
         }
-        if (i != 0) {
+        if (i2 != 0) {
             valueOf = Byte.valueOf((byte)$this$toByteExactOrNull);
         } else {
             valueOf = 0;
@@ -1197,16 +1197,16 @@ class RangesKt___RangesKt extends kotlin.ranges.RangesKt__RangesKt {
     }
 
     public static final Byte toByteExactOrNull(short $this$toByteExactOrNull) {
-        int i;
-        int valueOf;
         int i2;
-        i2 = 0;
+        int valueOf;
+        int i;
+        i = 0;
         if (-128 <= $this$toByteExactOrNull && $this$toByteExactOrNull < 128) {
             if ($this$toByteExactOrNull < 128) {
-                i2 = 1;
+                i = 1;
             }
         }
-        if (i2 != 0) {
+        if (i != 0) {
             valueOf = Byte.valueOf((byte)$this$toByteExactOrNull);
         } else {
             valueOf = 0;
@@ -1345,16 +1345,16 @@ class RangesKt___RangesKt extends kotlin.ranges.RangesKt__RangesKt {
     }
 
     public static final Short toShortExactOrNull(int $this$toShortExactOrNull) {
-        int i;
-        int valueOf;
         int i2;
-        i2 = 0;
+        int valueOf;
+        int i;
+        i = 0;
         if (-32768 <= $this$toShortExactOrNull && $this$toShortExactOrNull < 32768) {
             if ($this$toShortExactOrNull < 32768) {
-                i2 = 1;
+                i = 1;
             }
         }
-        if (i2 != 0) {
+        if (i != 0) {
             valueOf = Short.valueOf((short)$this$toShortExactOrNull);
         } else {
             valueOf = 0;
@@ -1365,15 +1365,15 @@ class RangesKt___RangesKt extends kotlin.ranges.RangesKt__RangesKt {
     public static final Short toShortExactOrNull(long $this$toShortExactOrNull) {
         int cmp;
         int valueOf;
-        int i;
         int i2;
-        i = 0;
-        if (Long.compare(i3, $this$toShortExactOrNull) <= 0 && Long.compare($this$toShortExactOrNull, i2) < 0) {
-            if (Long.compare($this$toShortExactOrNull, i2) < 0) {
-                i = 1;
+        int i;
+        i2 = 0;
+        if (Long.compare(i3, $this$toShortExactOrNull) <= 0 && Long.compare($this$toShortExactOrNull, i) < 0) {
+            if (Long.compare($this$toShortExactOrNull, i) < 0) {
+                i2 = 1;
             }
         }
-        if (i != 0) {
+        if (i2 != 0) {
             valueOf = Short.valueOf((short)i4);
         } else {
             valueOf = 0;

@@ -3,21 +3,21 @@ package androidx.core.math;
 /* loaded from: classes5.dex */
 public class MathUtils {
     public static int addExact(int x, int y) {
+        int i3;
         int i;
         int i2;
-        int i3;
         final int i4 = x + y;
-        i = 1;
+        i3 = 1;
         int i5 = 0;
-        i2 = x >= 0 ? i : i5;
-        i3 = y >= 0 ? i : i5;
-        if (i2 == i3) {
-            i2 = x >= 0 ? i : i5;
+        i = x >= 0 ? i3 : i5;
+        i2 = y >= 0 ? i3 : i5;
+        if (i == i2) {
+            i = x >= 0 ? i3 : i5;
             if (i4 >= 0) {
             } else {
-                i = i5;
+                i3 = i5;
             }
-            if (i2 != i) {
+            if (i != i3) {
             } else {
             }
             ArithmeticException arithmeticException = new ArithmeticException("integer overflow");
@@ -29,21 +29,21 @@ public class MathUtils {
     public static long addExact(long x, long y) {
         int cmp;
         int i3;
-        int i2;
         int i;
+        int i2;
         final int i4 = x + obj10;
         cmp = 0;
-        i2 = 1;
+        i = 1;
         final int i5 = 0;
-        i3 = Long.compare(x, cmp) >= 0 ? i2 : i5;
-        i = Long.compare(obj10, cmp) >= 0 ? i2 : i5;
-        if (i3 == i) {
-            i3 = Long.compare(x, cmp) >= 0 ? i2 : i5;
+        i3 = Long.compare(x, cmp) >= 0 ? i : i5;
+        i2 = Long.compare(obj10, cmp) >= 0 ? i : i5;
+        if (i3 == i2) {
+            i3 = Long.compare(x, cmp) >= 0 ? i : i5;
             if (Long.compare(i4, cmp) >= 0) {
             } else {
-                i2 = i5;
+                i = i5;
             }
-            if (i3 != i2) {
+            if (i3 != i) {
             } else {
             }
             ArithmeticException arithmeticException = new ArithmeticException("integer overflow");
@@ -184,21 +184,21 @@ public class MathUtils {
     }
 
     public static int subtractExact(int x, int y) {
-        int i;
         int i2;
         int i3;
+        int i;
         final int i4 = x - y;
-        i = 1;
+        i2 = 1;
         int i5 = 0;
-        i2 = x < 0 ? i : i5;
-        i3 = y < 0 ? i : i5;
-        if (i2 != i3) {
-            i2 = x < 0 ? i : i5;
+        i3 = x < 0 ? i2 : i5;
+        i = y < 0 ? i2 : i5;
+        if (i3 != i) {
+            i3 = x < 0 ? i2 : i5;
             if (i4 < 0) {
             } else {
-                i = i5;
+                i2 = i5;
             }
-            if (i2 != i) {
+            if (i3 != i2) {
             } else {
             }
             ArithmeticException arithmeticException = new ArithmeticException("integer overflow");
@@ -209,22 +209,22 @@ public class MathUtils {
 
     public static long subtractExact(long x, long y) {
         int cmp;
-        int i3;
-        int i;
         int i2;
+        int i;
+        int i3;
         final int i4 = x - obj10;
         cmp = 0;
         i = 1;
         final int i5 = 0;
-        i3 = Long.compare(x, cmp) < 0 ? i : i5;
-        i2 = Long.compare(obj10, cmp) < 0 ? i : i5;
-        if (i3 != i2) {
-            i3 = Long.compare(x, cmp) < 0 ? i : i5;
+        i2 = Long.compare(x, cmp) < 0 ? i : i5;
+        i3 = Long.compare(obj10, cmp) < 0 ? i : i5;
+        if (i2 != i3) {
+            i2 = Long.compare(x, cmp) < 0 ? i : i5;
             if (Long.compare(i4, cmp) < 0) {
             } else {
                 i = i5;
             }
-            if (i3 != i) {
+            if (i2 != i) {
             } else {
             }
             ArithmeticException arithmeticException = new ArithmeticException("integer overflow");

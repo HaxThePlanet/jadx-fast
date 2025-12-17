@@ -10,12 +10,12 @@ import kotlin.Metadata;
 @Metadata(d1 = "\u0000\u0016\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0008\n\u0002\u0008\u0002\u001a\u001d\u0010\u0000\u001a\u00020\u00012\u0006\u0010\u0002\u001a\u00020\u00032\u0006\u0010\u0004\u001a\u00020\u0005H\u0001¢\u0006\u0002\u0010\u0006¨\u0006\u0007", d2 = {"rememberLazyListBeyondBoundsState", "Landroidx/compose/foundation/lazy/layout/LazyLayoutBeyondBoundsState;", "state", "Landroidx/compose/foundation/lazy/LazyListState;", "beyondBoundsItemCount", "", "(Landroidx/compose/foundation/lazy/LazyListState;ILandroidx/compose/runtime/Composer;I)Landroidx/compose/foundation/lazy/layout/LazyLayoutBeyondBoundsState;", "foundation_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
 public final class LazyListBeyondBoundsModifierKt {
     public static final LazyLayoutBeyondBoundsState rememberLazyListBeyondBoundsState(androidx.compose.foundation.lazy.LazyListState state, int beyondBoundsItemCount, Composer $composer, int $changed) {
-        int changed;
-        int i;
-        boolean traceInProgress;
-        int i2;
-        String str;
         int changed2;
+        int i2;
+        boolean traceInProgress;
+        int i;
+        String str;
+        int changed;
         Object empty;
         Object lazyListBeyondBoundsState;
         int i3 = -1877443446;
@@ -28,7 +28,7 @@ public final class LazyListBeyondBoundsModifierKt {
         int i9 = 4;
         if (i5 ^= 6 > i9) {
             if (!$composer.changed(state)) {
-                i = $changed & 6 == i9 ? i7 : i2;
+                i2 = $changed & 6 == i9 ? i7 : i;
             } else {
             }
         } else {
@@ -37,7 +37,7 @@ public final class LazyListBeyondBoundsModifierKt {
         if (i10 ^= 48 > i11) {
             if (!$composer.changed(beyondBoundsItemCount)) {
                 if ($changed & 48 == i11) {
-                    i2 = i7;
+                    i = i7;
                 }
             } else {
             }
@@ -47,7 +47,7 @@ public final class LazyListBeyondBoundsModifierKt {
         int i8 = 0;
         Object rememberedValue = composer.rememberedValue();
         int i12 = 0;
-        if (i |= i2 == 0) {
+        if (i2 |= i == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 empty = 0;
                 lazyListBeyondBoundsState = new LazyListBeyondBoundsState(state, beyondBoundsItemCount);

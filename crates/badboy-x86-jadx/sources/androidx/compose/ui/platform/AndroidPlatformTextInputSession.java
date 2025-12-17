@@ -69,52 +69,52 @@ public final class AndroidPlatformTextInputSession implements androidx.compose.u
     @Override // androidx.compose.ui.platform.PlatformTextInputSessionScope
     public final boolean isReadyForConnection() {
         Object currentSession-impl;
-        int i;
         int i2;
+        int i;
         currentSession-impl = SessionMutex.getCurrentSession-impl(this.methodSessionMutex);
-        i = 0;
-        i2 = 1;
-        if (currentSession-impl != null && (InputMethodSession)currentSession-impl.isActive() == i2) {
-            i2 = 1;
-            if (currentSession-impl.isActive() == i2) {
-                i = i2;
+        i2 = 0;
+        i = 1;
+        if (currentSession-impl != null && (InputMethodSession)currentSession-impl.isActive() == i) {
+            i = 1;
+            if (currentSession-impl.isActive() == i) {
+                i2 = i;
             }
         }
-        return i;
+        return i2;
     }
 
     public Object startInputMethod(androidx.compose.ui.platform.PlatformTextInputMethodRequest platformTextInputMethodRequest, Continuation<?> continuation2) {
-        boolean anon3;
-        int i2;
+        boolean anon2;
         int i;
+        int i3;
         androidx.compose.ui.platform.AndroidPlatformTextInputSession label;
         AtomicReference methodSessionMutex;
-        androidx.compose.ui.platform.AndroidPlatformTextInputSession.startInputMethod.2 anon2;
+        androidx.compose.ui.platform.AndroidPlatformTextInputSession.startInputMethod.2 anon3;
         androidx.compose.ui.platform.AndroidPlatformTextInputSession.startInputMethod.3 anon;
-        int i3;
+        int i2;
         Object obj8;
         Object obj9;
-        anon3 = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof AndroidPlatformTextInputSession.startInputMethod.1 && label2 &= i != 0) {
-            anon3 = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label2 &= i != 0) {
-                anon3.label = obj9 -= i;
+        anon2 = continuation2;
+        i3 = Integer.MIN_VALUE;
+        if (continuation2 instanceof AndroidPlatformTextInputSession.startInputMethod.1 && label2 &= i3 != 0) {
+            anon2 = continuation2;
+            i3 = Integer.MIN_VALUE;
+            if (label2 &= i3 != 0) {
+                anon2.label = obj9 -= i3;
             } else {
-                anon3 = new AndroidPlatformTextInputSession.startInputMethod.1(this, continuation2);
+                anon2 = new AndroidPlatformTextInputSession.startInputMethod.1(this, continuation2);
             }
         } else {
         }
-        obj9 = anon3.result;
+        obj9 = anon2.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (label) {
             case 0:
                 ResultKt.throwOnFailure(obj9);
                 label = this;
-                anon2 = new AndroidPlatformTextInputSession.startInputMethod.2(platformTextInputMethodRequest, label);
+                anon3 = new AndroidPlatformTextInputSession.startInputMethod.2(platformTextInputMethodRequest, label);
                 anon = new AndroidPlatformTextInputSession.startInputMethod.3(label, 0);
-                anon3.label = 1;
+                anon2.label = 1;
                 return cOROUTINE_SUSPENDED;
             case 1:
                 ResultKt.throwOnFailure(obj9);

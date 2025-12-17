@@ -11,9 +11,9 @@ import kotlin.Metadata;
 public final class LazySemanticsKt {
     public static final LazyLayoutSemanticState rememberLazyGridSemanticState(androidx.compose.foundation.lazy.grid.LazyGridState state, boolean reverseScrolling, Composer $composer, int $changed) {
         int changed;
-        int i2;
-        boolean traceInProgress;
         int i;
+        boolean traceInProgress;
+        int i2;
         String str;
         int changed2;
         Object empty;
@@ -28,7 +28,7 @@ public final class LazySemanticsKt {
         int i9 = 4;
         if (i5 ^= 6 > i9) {
             if (!$composer.changed(state)) {
-                i2 = $changed & 6 == i9 ? i7 : i;
+                i = $changed & 6 == i9 ? i7 : i2;
             } else {
             }
         } else {
@@ -37,7 +37,7 @@ public final class LazySemanticsKt {
         if (i10 ^= 48 > i11) {
             if (!$composer.changed(reverseScrolling)) {
                 if ($changed & 48 == i11) {
-                    i = i7;
+                    i2 = i7;
                 }
             } else {
             }
@@ -47,7 +47,7 @@ public final class LazySemanticsKt {
         int i8 = 0;
         Object rememberedValue = composer.rememberedValue();
         int i12 = 0;
-        if (i2 |= i == 0) {
+        if (i |= i2 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 empty = 0;
                 anon = new LazySemanticsKt.rememberLazyGridSemanticState.1.1(state);

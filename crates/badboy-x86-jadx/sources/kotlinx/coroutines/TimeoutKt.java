@@ -62,21 +62,21 @@ public final class TimeoutKt {
     public static final <T> Object withTimeoutOrNull(long l, Function2<? super kotlinx.coroutines.CoroutineScope, ? super Continuation<? super T>, ? extends Object> function22, Continuation<? super T> continuation3) {
         boolean anon;
         int element;
-        int i2;
+        int i;
         int objectRef;
         kotlinx.coroutines.TimeoutKt.withTimeoutOrNull.1 time;
-        int i;
+        int i2;
         kotlinx.coroutines.TimeoutCoroutine timeoutCoroutine;
         Object obj7;
         Object obj8;
         Object obj10;
         anon = obj10;
-        i2 = Integer.MIN_VALUE;
-        if (obj10 instanceof TimeoutKt.withTimeoutOrNull.1 && label &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (obj10 instanceof TimeoutKt.withTimeoutOrNull.1 && label &= i != 0) {
             anon = obj10;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj10 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj10 -= i;
             } else {
                 anon = new TimeoutKt.withTimeoutOrNull.1(obj10);
             }
@@ -93,7 +93,7 @@ public final class TimeoutKt {
                 anon.L$1 = objectRef;
                 anon.J$0 = l;
                 anon.label = 1;
-                i = 0;
+                i2 = 0;
                 timeoutCoroutine = new TimeoutCoroutine(l, function22, (Continuation)anon);
                 objectRef.element = timeoutCoroutine;
                 obj7 = TimeoutKt.setupTimeout(timeoutCoroutine, continuation3);

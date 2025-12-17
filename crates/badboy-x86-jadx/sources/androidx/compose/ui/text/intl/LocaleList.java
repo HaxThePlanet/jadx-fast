@@ -48,12 +48,12 @@ public final class LocaleList implements Collection<androidx.compose.ui.text.int
     public LocaleList(String languageTags) {
         int index$iv$iv2;
         int index$iv$iv;
-        Object obj3;
-        Object obj;
-        int i;
-        ArrayList list;
         Object obj2;
+        Object obj;
         int i2;
+        ArrayList list;
+        Object obj3;
+        int i;
         String locale;
         String[] strArr = new String[1];
         int i6 = 0;
@@ -65,8 +65,8 @@ public final class LocaleList implements Collection<androidx.compose.ui.text.int
         int i9 = 0;
         index$iv$iv2 = 0;
         while (index$iv$iv2 < list2.size()) {
-            i = 0;
             i2 = 0;
+            i = 0;
             (Collection)arrayList.add(StringsKt.trim((CharSequence)(String)list2.get(index$iv$iv2)).toString());
             index$iv$iv2++;
         }
@@ -77,8 +77,8 @@ public final class LocaleList implements Collection<androidx.compose.ui.text.int
         int i10 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list3.size()) {
-            i = 0;
             i2 = 0;
+            i = 0;
             locale = new Locale((String)list3.get(index$iv$iv));
             (Collection)arrayList2.add(locale);
             index$iv$iv++;

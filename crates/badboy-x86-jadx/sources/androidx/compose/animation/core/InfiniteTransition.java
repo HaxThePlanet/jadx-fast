@@ -259,10 +259,10 @@ public final class InfiniteTransition {
     public final void run$animation_core_release(Composer $composer, int $changed) {
         int invalid$iv;
         int $dirty;
-        int i2;
+        int i;
         int traceInProgress2;
         boolean traceInProgress;
-        int i3;
+        int i2;
         Object mutableStateOf$default;
         boolean refreshChildNeeded;
         String str;
@@ -270,14 +270,14 @@ public final class InfiniteTransition {
         Object rememberedValue2;
         int empty2;
         int empty;
-        int i;
+        int i3;
         invalid$iv = -318043801;
         final Composer obj11 = $composer.startRestartGroup(invalid$iv);
         ComposerKt.sourceInformation(obj11, "C(run)172@7001L67:InfiniteTransition.kt#pdpnli");
         refreshChildNeeded = 2;
         if ($changed & 6 == 0) {
-            i2 = obj11.changedInstance(this) ? 4 : refreshChildNeeded;
-            $dirty |= i2;
+            i = obj11.changedInstance(this) ? 4 : refreshChildNeeded;
+            $dirty |= i;
         }
         if ($dirty & 3 == refreshChildNeeded) {
             if (!obj11.getSkipping()) {
@@ -291,10 +291,10 @@ public final class InfiniteTransition {
                 rememberedValue = 0;
                 rememberedValue2 = str.rememberedValue();
                 empty2 = 0;
-                i = 0;
+                i3 = 0;
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
                     empty = 0;
-                    str.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i, i, refreshChildNeeded, i));
+                    str.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i3, i3, refreshChildNeeded, i3));
                 } else {
                     mutableStateOf$default = rememberedValue2;
                 }
@@ -311,7 +311,7 @@ public final class InfiniteTransition {
                         if (!obj11.changedInstance(this)) {
                             if (rememberedValue == Composer.Companion.getEmpty()) {
                                 empty2 = 0;
-                                empty = new InfiniteTransition.run.1.1((MutableState)mutableStateOf$default, this, i);
+                                empty = new InfiniteTransition.run.1.1((MutableState)mutableStateOf$default, this, i3);
                                 refreshChildNeeded.updateRememberedValue((Function2)empty);
                             } else {
                                 empty = rememberedValue;

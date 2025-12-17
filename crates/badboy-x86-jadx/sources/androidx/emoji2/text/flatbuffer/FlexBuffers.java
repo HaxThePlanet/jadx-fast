@@ -116,15 +116,15 @@ public class FlexBuffers {
 
         @Override // androidx.emoji2.text.flatbuffer.FlexBuffers$Sized
         public byte[] getBytes() {
-            int i2;
-            byte b;
             int i;
+            byte b;
+            int i2;
             final int size = size();
             final byte[] bArr = new byte[size];
-            i2 = 0;
-            while (i2 < size) {
-                bArr[i2] = this.bb.get(end += i2);
-                i2++;
+            i = 0;
+            while (i < size) {
+                bArr[i] = this.bb.get(end += i);
+                i++;
             }
             return bArr;
         }
@@ -395,8 +395,8 @@ public class FlexBuffers {
         @Override // androidx.emoji2.text.flatbuffer.FlexBuffers$Vector
         public StringBuilder toString(StringBuilder builder) {
             int i;
-            int str;
-            String str2;
+            int str2;
+            String str;
             builder.append("{ ");
             final int size = size();
             i = 0;
@@ -660,31 +660,31 @@ public class FlexBuffers {
         }
 
         public boolean isFloat() {
-            int i2;
-            int type;
             int i;
+            int type;
+            int i2;
             if (this.type != 3) {
                 if (this.type == 8) {
-                    i2 = 1;
+                    i = 1;
                 } else {
-                    i2 = 0;
+                    i = 0;
                 }
             } else {
             }
-            return i2;
+            return i;
         }
 
         public boolean isInt() {
             int type;
-            int i2;
             int i;
+            int i2;
             if (this.type != 1) {
                 if (this.type == 6) {
                 } else {
-                    i2 = 0;
+                    i = 0;
                 }
             }
-            return i2;
+            return i;
         }
 
         public boolean isIntOrUInt() {
@@ -940,32 +940,32 @@ public class FlexBuffers {
     }
 
     static boolean isTypedVector(int type) {
-        int i;
         int i2;
+        int i;
         if (type >= 11) {
             if (type > 15) {
-                i2 = type == 36 ? 1 : 0;
+                i = type == 36 ? 1 : 0;
             } else {
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     static boolean isTypedVectorElementType(int type) {
-        int i2;
         int i;
+        int i2;
         if (type >= 1) {
             if (type > 4) {
                 if (type == 26) {
                 } else {
-                    i2 = 0;
+                    i = 0;
                 }
             } else {
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     private static double readDouble(androidx.emoji2.text.flatbuffer.ReadBuf buff, int end, int byteWidth) {

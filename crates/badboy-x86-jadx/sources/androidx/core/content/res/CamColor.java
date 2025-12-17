@@ -38,14 +38,14 @@ public class CamColor {
         int bestdL;
         int bestdE;
         int bestCam;
-        androidx.core.content.res.CamColor cmp;
+        androidx.core.content.res.CamColor cmp2;
         int viewedInSrgb;
         float lStarFromInt;
         float f;
         int camClipped;
         int color;
         int distance;
-        int cmp2;
+        int cmp;
         low = 0;
         high = 1120403456;
         mid = 0;
@@ -98,9 +98,9 @@ public class CamColor {
     }
 
     static void fromColorInViewingConditions(int color, androidx.core.content.res.ViewingConditions viewingConditions, float[] outCamColor, float[] outM3HCT) {
+        int i2;
         int i3;
         int i;
-        int i2;
         int i11 = color;
         CamUtils.xyzFromInt(i11, outM3HCT);
         int[] iArr = outM3HCT;
@@ -140,8 +140,8 @@ public class CamColor {
         int i82 = 1078530011;
         i64 /= i82;
         int i150 = 1135869952;
-        i = Float.compare(i65, i148) < 0 ? i65 + i150 : cmp3 >= 0 ? i65 - i150 : i65;
-        int i152 = i;
+        i3 = Float.compare(i65, i148) < 0 ? i65 + i150 : cmp3 >= 0 ? i65 - i150 : i65;
+        int i152 = i3;
         i83 /= i49;
         nbb *= i147;
         final int i135 = i6;
@@ -155,8 +155,8 @@ public class CamColor {
         int i134 = i65;
         i39 *= flRoot;
         int i22 = i152;
-        i2 = Double.compare(d16, l10) < 0 ? i22 + i150 : i22;
-        int i52 = i2;
+        i = Double.compare(d16, l10) < 0 ? i22 + i150 : i22;
+        int i52 = i;
         int i66 = i40;
         f9 *= i41;
         i44 *= ncb;
@@ -171,7 +171,7 @@ public class CamColor {
         flRoot2 *= i31;
         aw2 += i163;
         int i160 = 1065353216;
-        i3 = 1110405192;
+        i2 = 1110405192;
         int i161 = i8;
         outM3HCT[i136] = i22;
         outM3HCT[i138] = i31;
@@ -212,23 +212,23 @@ public class CamColor {
 
     static int toColor(float hue, float chroma, float lstar, androidx.core.content.res.ViewingConditions viewingConditions) {
         int cmp;
-        float i;
+        float i3;
         float mid;
         long l;
         int low;
         int isFirstLoop;
         int answer;
         androidx.core.content.res.CamColor camByJ;
+        int i;
         int i2;
-        int i3;
         int obj8;
         if (Double.compare(d, l) >= 0 && Double.compare(d2, l) > 0) {
             if (Double.compare(d2, l) > 0) {
                 if (Double.compare(d3, l) >= 0) {
                 } else {
-                    if (Float.compare(hue, i) < 0) {
+                    if (Float.compare(hue, i3) < 0) {
                     } else {
-                        i = Math.min(1135869952, hue);
+                        i3 = Math.min(1135869952, hue);
                     }
                     obj8 = chroma;
                     mid = chroma;
@@ -236,17 +236,17 @@ public class CamColor {
                     isFirstLoop = 1;
                     answer = 0;
                     while (Float.compare(f, i6) >= 0) {
-                        camByJ = CamColor.findCamByJ(i, mid, lstar);
-                        i2 = 1073741824;
+                        camByJ = CamColor.findCamByJ(i3, mid, lstar);
+                        i = 1073741824;
                         if (camByJ == null) {
                         } else {
                         }
                         answer = camByJ;
                         low = mid;
-                        mid = low + i3;
+                        mid = low + i2;
                         obj8 = mid;
                         isFirstLoop = 0;
-                        mid = low + i3;
+                        mid = low + i2;
                     }
                     if (answer == 0) {
                         return CamUtils.intFromLStar(lstar);

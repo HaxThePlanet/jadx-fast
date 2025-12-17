@@ -500,12 +500,12 @@ final class EmojiProcessor {
     private void initExclusions(Set<int[]> set) {
         Object next;
         String string;
-        int i2;
-        int length2;
-        Object obj;
-        String str;
         int i;
         int length;
+        Object obj;
+        String str;
+        int i2;
+        int length2;
         int i3;
         int i4;
         androidx.emoji2.text.EmojiProcessor.MarkExclusionCallback markExclusionCallback;
@@ -574,9 +574,9 @@ final class EmojiProcessor {
 
     int getEmojiEnd(java.lang.CharSequence charSequence, int offset) {
         boolean z;
-        int length2;
-        Object[] spans;
         int length;
+        Object[] spans;
+        int length2;
         Object charSequence2;
         if (offset >= 0) {
             if (offset >= charSequence.length()) {
@@ -649,9 +649,9 @@ final class EmojiProcessor {
 
     int getEmojiStart(java.lang.CharSequence charSequence, int offset) {
         boolean z;
-        int length;
-        Object[] spans;
         int length2;
+        Object[] spans;
+        int length;
         Object charSequence2;
         if (offset >= 0) {
             if (offset >= charSequence.length()) {
@@ -679,19 +679,19 @@ final class EmojiProcessor {
         Object spannable;
         int spannable2;
         boolean z;
-        boolean unprecomputeTextOnModificationSpannable;
-        Object unprecomputeTextOnModificationSpannable2;
+        boolean unprecomputeTextOnModificationSpannable2;
+        Object unprecomputeTextOnModificationSpannable;
         Object charSequence2;
-        int i3;
-        int index;
+        int i5;
         int index2;
+        int index;
         Class<androidx.emoji2.text.EmojiSpan> obj;
         int i4;
         int spanStart;
         int i;
         int spanEnd;
+        int i3;
         int i2;
-        int i5;
         Object obj10;
         int obj11;
         int obj12;
@@ -703,54 +703,54 @@ final class EmojiProcessor {
         spannable2 = 0;
         if (!z2) {
             if (charSequence instanceof Spannable) {
-                unprecomputeTextOnModificationSpannable = new UnprecomputeTextOnModificationSpannable((Spannable)charSequence);
-                spannable2 = unprecomputeTextOnModificationSpannable;
+                unprecomputeTextOnModificationSpannable2 = new UnprecomputeTextOnModificationSpannable((Spannable)charSequence);
+                spannable2 = unprecomputeTextOnModificationSpannable2;
             } else {
                 if (charSequence instanceof Spanned && (Spanned)charSequence.nextSpanTransition(start + -1, end + 1, EmojiSpan.class) <= end) {
                     if ((Spanned)charSequence.nextSpanTransition(start + -1, end + 1, EmojiSpan.class) <= end) {
-                        unprecomputeTextOnModificationSpannable2 = new UnprecomputeTextOnModificationSpannable(charSequence);
-                        spannable2 = unprecomputeTextOnModificationSpannable2;
+                        unprecomputeTextOnModificationSpannable = new UnprecomputeTextOnModificationSpannable(charSequence);
+                        spannable2 = unprecomputeTextOnModificationSpannable;
                     }
                 }
             }
         } else {
         }
-        unprecomputeTextOnModificationSpannable = spannable2.getSpans(start, end, EmojiSpan.class);
-        if (spannable2 != 0 && (EmojiSpan[])unprecomputeTextOnModificationSpannable != null && unprecomputeTextOnModificationSpannable.length > 0) {
-            unprecomputeTextOnModificationSpannable = spannable2.getSpans(start, end, EmojiSpan.class);
-            if ((EmojiSpan[])(EmojiSpan[])unprecomputeTextOnModificationSpannable != null) {
-                if (unprecomputeTextOnModificationSpannable.length > 0) {
+        unprecomputeTextOnModificationSpannable2 = spannable2.getSpans(start, end, EmojiSpan.class);
+        if (spannable2 != 0 && (EmojiSpan[])unprecomputeTextOnModificationSpannable2 != null && unprecomputeTextOnModificationSpannable2.length > 0) {
+            unprecomputeTextOnModificationSpannable2 = spannable2.getSpans(start, end, EmojiSpan.class);
+            if ((EmojiSpan[])(EmojiSpan[])unprecomputeTextOnModificationSpannable2 != null) {
+                if (unprecomputeTextOnModificationSpannable2.length > 0) {
                     try {
-                        index = 0;
-                        while (index < unprecomputeTextOnModificationSpannable.length) {
-                            obj = (EmojiSpan[])(EmojiSpan[])unprecomputeTextOnModificationSpannable[index];
+                        index2 = 0;
+                        while (index2 < unprecomputeTextOnModificationSpannable2.length) {
+                            obj = (EmojiSpan[])(EmojiSpan[])unprecomputeTextOnModificationSpannable2[index2];
                             spanStart = spannable2.getSpanStart(obj);
                             if (spanStart != obj12) {
                             }
                             obj11 = i6;
-                            obj12 = i5;
-                            index++;
+                            obj12 = i2;
+                            index2++;
                             spannable2.removeSpan(obj);
                         }
-                        obj = unprecomputeTextOnModificationSpannable[index];
+                        obj = unprecomputeTextOnModificationSpannable2[index2];
                         spanStart = spannable2.getSpanStart(obj);
                         if (spanStart != obj12) {
                         }
                         spannable2.removeSpan(obj);
                         obj11 = i6;
-                        obj12 = i5;
-                        index++;
-                        index2 = obj11;
+                        obj12 = i2;
+                        index2++;
+                        index = obj11;
                         i4 = obj12;
-                        index2 = start;
+                        index = start;
                         i4 = end;
-                        if (index2 != i4) {
+                        if (index != i4) {
                         }
-                        if (index2 >= charSequence.length()) {
+                        if (index >= charSequence.length()) {
                         } else {
                         }
                         charSequence2 = charSequence;
-                        i2 = replaceAll;
+                        i3 = replaceAll;
                         if (maxEmojiCount != Integer.MAX_VALUE && spannable2 != 0) {
                         } else {
                         }
@@ -764,7 +764,7 @@ final class EmojiProcessor {
                         i = maxEmojiCount;
                         EmojiProcessor.EmojiProcessAddSpanCallback emojiProcessAddSpanCallback = new EmojiProcessor.EmojiProcessAddSpanCallback(spannable2, this.mSpanFactory);
                         Object obj5 = charSequence;
-                        obj10 = this.process(obj5, index2, i4, i, replaceAll, emojiProcessAddSpanCallback);
+                        obj10 = this.process(obj5, index, i4, i, replaceAll, emojiProcessAddSpanCallback);
                         if (obj10 != null && z2) {
                         }
                         if (z2) {
@@ -786,7 +786,7 @@ final class EmojiProcessor {
                         start = obj4;
                         end = obj5;
                         charSequence2 = charSequence;
-                        i2 = replaceAll;
+                        i3 = replaceAll;
                         if (z2) {
                         }
                         (SpannableBuilder)charSequence2.endBatchEdit();
@@ -795,7 +795,7 @@ final class EmojiProcessor {
                     }
                     if (obj1 == null) {
                     } else {
-                        charSequence = unprecomputeTextOnModificationSpannable2;
+                        charSequence = unprecomputeTextOnModificationSpannable;
                         (SpannableBuilder)charSequence.endBatchEdit();
                     }
                     throw spannable;

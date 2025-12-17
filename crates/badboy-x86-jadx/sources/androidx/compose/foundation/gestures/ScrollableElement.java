@@ -124,33 +124,33 @@ final class ScrollableElement extends ModifierNodeElement<androidx.compose.found
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
         int i;
+        int i4;
         int i2;
         int i3;
-        int i4;
         OverscrollEffect overscrollEffect = this.overscrollEffect;
-        i4 = 0;
+        i3 = 0;
         if (overscrollEffect != null) {
             i = overscrollEffect.hashCode();
         } else {
-            i = i4;
+            i = i3;
         }
         androidx.compose.foundation.gestures.FlingBehavior flingBehavior = this.flingBehavior;
         if (flingBehavior != null) {
-            i2 = flingBehavior.hashCode();
+            i4 = flingBehavior.hashCode();
         } else {
-            i2 = i4;
+            i4 = i3;
         }
         MutableInteractionSource interactionSource = this.interactionSource;
         if (interactionSource != null) {
-            i3 = interactionSource.hashCode();
+            i2 = interactionSource.hashCode();
         } else {
-            i3 = i4;
+            i2 = i3;
         }
         androidx.compose.foundation.gestures.BringIntoViewSpec bringIntoViewSpec = this.bringIntoViewSpec;
         if (bringIntoViewSpec != null) {
-            i4 = bringIntoViewSpec.hashCode();
+            i3 = bringIntoViewSpec.hashCode();
         }
-        return result6 += i4;
+        return result6 += i3;
     }
 
     @Override // androidx.compose.ui.node.ModifierNodeElement

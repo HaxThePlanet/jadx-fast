@@ -18,16 +18,16 @@ final class MapDraggableAnchors<T>  implements androidx.compose.material.Draggab
     }
 
     public T closestAnchor(float position) {
-        Object next;
+        Object next2;
         int key;
-        boolean next2;
+        boolean next;
         int compare;
         float f;
         int i;
         float f2;
         Iterator iterator = (Iterable)this.anchors.entrySet().iterator();
         if (!iterator.hasNext()) {
-            next = key;
+            next2 = key;
         } else {
             if (iterator.hasNext()) {
                 compare = 0;
@@ -41,13 +41,13 @@ final class MapDraggableAnchors<T>  implements androidx.compose.material.Draggab
                     f2 = Math.abs(position - floatValue2);
                     if (iterator.hasNext()) {
                     }
-                    next = next4;
+                    next2 = next4;
                     f = f2;
                 } while (Float.compare(f, f2) > 0);
             }
         }
-        if ((Map.Entry)next != null) {
-            key = (Map.Entry)next.getKey();
+        if ((Map.Entry)next2 != null) {
+            key = (Map.Entry)next2.getKey();
         }
         return key;
     }
@@ -58,11 +58,11 @@ final class MapDraggableAnchors<T>  implements androidx.compose.material.Draggab
         boolean floatValue;
         int compare;
         int delta2;
-        int i2;
-        int cmp2;
         int i;
-        int delta;
         int cmp;
+        int i2;
+        int delta;
+        int cmp2;
         Iterator iterator = (Iterable)this.anchors.entrySet().iterator();
         if (!iterator.hasNext()) {
             next = key;
@@ -71,20 +71,20 @@ final class MapDraggableAnchors<T>  implements androidx.compose.material.Draggab
                 compare = 0;
                 floatValue = (Number)(Map.Entry)iterator.next().getValue().floatValue();
                 delta2 = searchUpwards ? floatValue - position : position - floatValue;
-                i2 = 0;
-                i = 2139095040;
-                if (Float.compare(delta2, i2) < 0) {
-                    delta2 = i;
+                i = 0;
+                i2 = 2139095040;
+                if (Float.compare(delta2, i) < 0) {
+                    delta2 = i2;
                 }
                 Object next3 = iterator.next();
-                cmp2 = 0;
+                cmp = 0;
                 float floatValue2 = (Number)(Map.Entry)next3.getValue().floatValue();
                 do {
                     next3 = iterator.next();
-                    cmp2 = 0;
+                    cmp = 0;
                     floatValue2 = (Number)(Map.Entry)next3.getValue().floatValue();
                     delta = position - floatValue2;
-                    if (Float.compare(delta, i2) < 0) {
+                    if (Float.compare(delta, i) < 0) {
                     }
                     if (Float.compare(delta2, delta) > 0) {
                     }
@@ -92,7 +92,7 @@ final class MapDraggableAnchors<T>  implements androidx.compose.material.Draggab
                     }
                     next = next3;
                     delta2 = delta;
-                    delta = i;
+                    delta = i2;
                     delta = floatValue2 - position;
                 } while (searchUpwards);
             }

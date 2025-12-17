@@ -63,24 +63,24 @@ public final class Platform_commonKt {
 
     public static final SerialDescriptor[] compactArray(List<? extends SerialDescriptor> $this$compactArray) {
         int $this$toTypedArray$iv;
-        int i2;
         int i;
+        int i2;
         boolean empty;
         int arr;
-        i2 = 0;
+        i = 0;
         empty = i3;
         arr = 0;
         if ((Collection)empty) {
             if ((Collection)empty.isEmpty()) {
-                i = 1;
+                i2 = 1;
             } else {
-                i = arr;
+                i2 = arr;
             }
         } else {
         }
-        $this$toTypedArray$iv = i == 0 ? $this$compactArray : 0;
+        $this$toTypedArray$iv = i2 == 0 ? $this$compactArray : 0;
         if ($this$toTypedArray$iv != 0) {
-            i2 = 0;
+            i = 0;
             if ((SerialDescriptor[])(Collection)$this$toTypedArray$iv.toArray(new SerialDescriptor[arr]) == null) {
                 $this$toTypedArray$iv = Platform_commonKt.EMPTY_DESCRIPTOR_ARRAY;
             }
@@ -92,9 +92,9 @@ public final class Platform_commonKt {
     public static final <T, K> int elementsHashCodeBy(Iterable<? extends T> $this$elementsHashCodeBy, Function1<? super T, ? extends K> selector) {
         int accumulator$iv;
         Object next;
-        int i4;
-        Object obj;
         int i3;
+        Object obj;
+        int i4;
         int i;
         int i2;
         Intrinsics.checkNotNullParameter($this$elementsHashCodeBy, "<this>");
@@ -104,7 +104,7 @@ public final class Platform_commonKt {
         accumulator$iv = i6;
         final Iterator iterator = $this$elementsHashCodeBy.iterator();
         while (iterator.hasNext()) {
-            i3 = 0;
+            i4 = 0;
             Object invoke = selector.invoke(iterator.next());
             if (invoke != null) {
             } else {

@@ -127,21 +127,21 @@ public final class ResultKt {
     }
 
     private static final <T, R> Object runCatching(T $this$runCatching, Function1<? super T, ? extends R> block) {
-        Object constructor-impl;
-        kotlin.Result.Companion constructor-impl2;
+        Object constructor-impl2;
+        kotlin.Result.Companion constructor-impl;
         Intrinsics.checkNotNullParameter(block, "block");
         kotlin.Result.Companion companion = Result.Companion;
-        constructor-impl = Result.constructor-impl(block.invoke($this$runCatching));
-        return constructor-impl;
+        constructor-impl2 = Result.constructor-impl(block.invoke($this$runCatching));
+        return constructor-impl2;
     }
 
     private static final <R> Object runCatching(Function0<? extends R> block) {
-        Object constructor-impl;
-        kotlin.Result.Companion constructor-impl2;
+        Object constructor-impl2;
+        kotlin.Result.Companion constructor-impl;
         Intrinsics.checkNotNullParameter(block, "block");
         kotlin.Result.Companion companion = Result.Companion;
-        constructor-impl = Result.constructor-impl(block.invoke());
-        return constructor-impl;
+        constructor-impl2 = Result.constructor-impl(block.invoke());
+        return constructor-impl2;
     }
 
     public static final void throwOnFailure(Object $this$throwOnFailure) {

@@ -50,11 +50,11 @@ public abstract class PrimitiveSpreadBuilder<T>  {
     protected final T toArray(T values, T result) {
         int dstIndex;
         int copyValuesFrom;
-        int i;
+        int i3;
         int i2;
         Object obj;
         int size;
-        int i3;
+        int i;
         Intrinsics.checkNotNullParameter(values, "values");
         Intrinsics.checkNotNullParameter(result, "result");
         dstIndex = 0;

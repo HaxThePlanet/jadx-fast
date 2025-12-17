@@ -29,47 +29,47 @@ public final class LayoutKt {
 
     public static final int LargeDimension = 32767;
     public static final void Layout(Modifier modifier, androidx.compose.ui.layout.MeasurePolicy measurePolicy, Composer $composer, int $changed, int i5) {
-        boolean valueOf2;
-        Integer valueOf;
+        boolean valueOf;
+        Integer valueOf2;
         androidx.compose.ui.Modifier.Companion modifier2;
         int $i$f$Layout;
-        valueOf2 = $composer;
-        valueOf = 0;
-        ComposerKt.sourceInformationMarkerStart(valueOf2, 544976794, "CC(Layout)P(1)124@4836L23,127@4987L385:Layout.kt#80mrfh");
+        valueOf = $composer;
+        valueOf2 = 0;
+        ComposerKt.sourceInformationMarkerStart(valueOf, 544976794, "CC(Layout)P(1)124@4836L23,127@4987L385:Layout.kt#80mrfh");
         if (i5 & 1 != 0) {
             modifier2 = Modifier.Companion;
         } else {
             modifier2 = modifier;
         }
-        int currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(valueOf2, 0);
+        int currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(valueOf, 0);
         final int i4 = 6;
         final int i6 = 0;
-        ComposerKt.sourceInformationMarkerStart(valueOf2, 1405779621, "CC(ReusableComposeNode):Composables.kt#9igjgp");
+        ComposerKt.sourceInformationMarkerStart(valueOf, 1405779621, "CC(ReusableComposeNode):Composables.kt#9igjgp");
         if (!applier instanceof Applier) {
             ComposablesKt.invalidApplier();
         }
-        valueOf2.startReusableNode();
-        if (valueOf2.getInserting()) {
-            valueOf2.createNode(ComposeUiNode.Companion.getConstructor());
+        valueOf.startReusableNode();
+        if (valueOf.getInserting()) {
+            valueOf.createNode(ComposeUiNode.Companion.getConstructor());
         } else {
-            valueOf2.useNode();
+            valueOf.useNode();
         }
-        Composer constructor-impl = Updater.constructor-impl(valueOf2);
+        Composer constructor-impl = Updater.constructor-impl(valueOf);
         int i8 = 0;
         Updater.set-impl(constructor-impl, measurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-        Updater.set-impl(constructor-impl, valueOf2.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-        Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(valueOf2, modifier2), ComposeUiNode.Companion.getSetModifier());
+        Updater.set-impl(constructor-impl, valueOf.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+        Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(valueOf, modifier2), ComposeUiNode.Companion.getSetModifier());
         final int i9 = 0;
         final Composer composer = constructor-impl;
         final int i10 = 0;
         if (!composer.getInserting()) {
-            $i$f$Layout = valueOf;
+            $i$f$Layout = valueOf2;
             if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                 composer.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                 constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
             }
         } else {
-            $i$f$Layout = valueOf;
+            $i$f$Layout = valueOf2;
         }
         $composer.endNode();
         ComposerKt.sourceInformationMarkerEnd($composer);
@@ -83,7 +83,7 @@ public final class LayoutKt {
         int i;
         boolean changed;
         Object empty;
-        Object measurePolicy2;
+        Object $i$a$CacheLayoutKt$Layout$3;
         androidx.compose.ui.Modifier.Companion modifier3;
         final Composer composer2 = $composer;
         int i2 = $changed;
@@ -113,7 +113,7 @@ public final class LayoutKt {
                 int i19 = 0;
                 composer3.updateRememberedValue(MultiContentMeasurePolicyKt.createMeasurePolicy(valueOf));
             } else {
-                measurePolicy2 = rememberedValue2;
+                $i$a$CacheLayoutKt$Layout$3 = rememberedValue2;
             }
         } else {
         }
@@ -135,7 +135,7 @@ public final class LayoutKt {
         Composer constructor-impl = Updater.constructor-impl(composer2);
         int i25 = 0;
         final int i27 = i5;
-        Updater.set-impl(constructor-impl, (MeasurePolicy)measurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+        Updater.set-impl(constructor-impl, (MeasurePolicy)$i$a$CacheLayoutKt$Layout$3, ComposeUiNode.Companion.getSetMeasurePolicy());
         Updater.set-impl(constructor-impl, composer2.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
         int i26 = 0;
         final Composer obj21 = constructor-impl;
@@ -213,26 +213,26 @@ public final class LayoutKt {
     public static final void MultiMeasureLayout(Modifier modifier, Function2<? super Composer, ? super Integer, Unit> content, androidx.compose.ui.layout.MeasurePolicy measurePolicy, Composer $composer, int $changed, int i6) {
         int traceInProgress;
         boolean currentCompositeKeyHash;
-        int $dirty;
-        Object obj;
         int $dirty2;
+        Object obj2;
+        int $dirty;
         Object modifier2;
         Composer composer;
         int materializeModifier;
         boolean traceInProgress2;
         Object currentCompositionLocalMap;
-        int i9;
-        int i5;
-        int i2;
-        int constructor$ui_release;
+        int i3;
         int i7;
-        int i;
-        Composer constructor-impl;
         int i8;
+        int constructor$ui_release;
+        int i2;
+        int i9;
+        Composer constructor-impl;
+        int i;
         Function2 setCompositeKeyHash;
         int i4;
-        int i3;
-        Object obj2;
+        int i5;
+        Object obj;
         Object obj18;
         int obj21;
         final Object obj3 = content;
@@ -241,36 +241,36 @@ public final class LayoutKt {
         traceInProgress = 1949933075;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(MultiMeasureLayout)P(2)248@9618L23,252@9770L491:Layout.kt#80mrfh");
-        $dirty = $changed;
+        $dirty2 = $changed;
         materializeModifier = i6 & 1;
         if (materializeModifier != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
             currentCompositionLocalMap = modifier;
         } else {
             if (i14 & 6 == 0) {
-                i9 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i9;
+                i3 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i3;
             } else {
                 currentCompositionLocalMap = modifier;
             }
         }
         if (i6 & 2 != 0) {
-            $dirty |= 48;
+            $dirty2 |= 48;
         } else {
             if (i14 & 48 == 0) {
-                i5 = restartGroup.changedInstance(obj3) ? 32 : 16;
-                $dirty |= i5;
+                i7 = restartGroup.changedInstance(obj3) ? 32 : 16;
+                $dirty2 |= i7;
             }
         }
         if (i6 & 4 != 0) {
-            $dirty |= 384;
+            $dirty2 |= 384;
         } else {
             if (i14 & 384 == 0) {
-                i2 = restartGroup.changed(obj4) ? 256 : 128;
-                $dirty |= i2;
+                i8 = restartGroup.changed(obj4) ? 256 : 128;
+                $dirty2 |= i8;
             }
         }
-        int i16 = $dirty;
+        int i16 = $dirty2;
         if (i16 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (materializeModifier != 0) {
@@ -282,7 +282,7 @@ public final class LayoutKt {
                     ComposerKt.traceEventStart(traceInProgress, i16, -1, "androidx.compose.ui.layout.MultiMeasureLayout (Layout.kt:247)");
                 }
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                i = 0;
+                i9 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -294,16 +294,16 @@ public final class LayoutKt {
                     restartGroup.useNode();
                 }
                 constructor-impl = Updater.constructor-impl(restartGroup);
-                i8 = 0;
+                i = 0;
                 Updater.set-impl(constructor-impl, obj4, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 Updater.init-impl(constructor-impl, (Function1)LayoutKt.MultiMeasureLayout.1.1.INSTANCE);
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, modifier2), ComposeUiNode.Companion.getSetModifier());
                 i4 = 0;
                 obj18 = constructor-impl;
-                i3 = 0;
+                i5 = 0;
                 if (!obj18.getInserting()) {
-                    obj2 = modifier2;
+                    obj = modifier2;
                     if (!Intrinsics.areEqual(obj18.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         obj18.updateRememberedValue(Integer.valueOf(obj21));
                         constructor-impl.apply(Integer.valueOf(obj21), ComposeUiNode.Companion.getSetCompositeKeyHash());
@@ -312,7 +312,7 @@ public final class LayoutKt {
                     }
                 } else {
                     obj21 = currentCompositeKeyHash;
-                    obj2 = modifier2;
+                    obj = modifier2;
                 }
                 obj3.invoke(restartGroup, Integer.valueOf(i11 &= 14));
                 restartGroup.endNode();
@@ -320,16 +320,16 @@ public final class LayoutKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = obj2;
+                obj2 = obj;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj = currentCompositionLocalMap;
+                obj2 = currentCompositionLocalMap;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new LayoutKt.MultiMeasureLayout.2(obj, obj3, obj4, i14, i6);
+            traceInProgress = new LayoutKt.MultiMeasureLayout.2(obj2, obj3, obj4, i14, i6);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }

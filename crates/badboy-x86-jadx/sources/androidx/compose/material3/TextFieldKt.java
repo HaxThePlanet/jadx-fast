@@ -70,26 +70,26 @@ public final class TextFieldKt {
     }
 
     public static final void TextField(TextFieldValue value, Function1<? super TextFieldValue, Unit> onValueChange, Modifier modifier, boolean enabled, boolean readOnly, TextStyle textStyle, Function2<? super Composer, ? super Integer, Unit> label, Function2<? super Composer, ? super Integer, Unit> placeholder, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function2<? super Composer, ? super Integer, Unit> trailingIcon, Function2<? super Composer, ? super Integer, Unit> prefix, Function2<? super Composer, ? super Integer, Unit> suffix, Function2<? super Composer, ? super Integer, Unit> supportingText, boolean isError, VisualTransformation visualTransformation, KeyboardOptions keyboardOptions, KeyboardActions keyboardActions, boolean singleLine, int maxLines, int minLines, MutableInteractionSource interactionSource, Shape shape, androidx.compose.material3.TextFieldColors colors, Composer $composer, int $changed, int $changed1, int $changed2, int i28) {
-        Object obj7;
-        Object obj10;
-        Object obj2;
-        Object obj4;
         Object obj15;
-        Object obj19;
+        Object obj5;
+        Object obj11;
+        Object obj13;
+        Object obj18;
+        Object obj10;
         boolean z;
-        Object obj8;
-        Object obj;
-        Object obj12;
-        boolean z2;
-        int i3;
-        int i18;
         Object obj6;
-        Object obj3;
         Object obj14;
+        Object obj17;
+        boolean z3;
+        int i29;
+        int i19;
+        Object obj19;
+        Object obj2;
+        Object obj20;
         int skipping;
-        int i54;
-        int i37;
-        Object colors2;
+        int i27;
+        int i47;
+        Object colors3;
         int defaultsInvalid;
         int this_$iv;
         int placeholder2;
@@ -97,261 +97,261 @@ public final class TextFieldKt {
         int traceInProgress;
         int rememberedValue;
         long focused;
-        int leadingIcon3;
-        Object leadingIcon4;
+        int leadingIcon2;
+        Object leadingIcon3;
         ScopeUpdateScope endRestartGroup;
-        int trailingIcon2;
+        int trailingIcon3;
         boolean traceInProgress2;
-        Object str2;
-        Object modifier2;
+        Object $i$a$CacheTextFieldKt$TextField$interactionSource$2;
+        Object modifier4;
         boolean $composer2;
         int $dirty3;
         boolean $dirty;
         int $dirty1;
         Object $dirty12;
-        int $dirty22;
-        Object $dirty2;
-        int i12;
-        Object obj17;
-        int i63;
+        int $dirty2;
+        Object $dirty22;
+        int i52;
+        Object obj12;
+        int i48;
         Object str;
-        int modifier4;
+        int modifier2;
         boolean l;
-        int i51;
-        boolean z3;
-        int i25;
-        int i64;
-        Object obj5;
+        int i49;
+        boolean z2;
+        int i44;
+        int i42;
+        Object obj9;
         Object textStyle4;
         int modifier3;
-        int i60;
-        int prefix2;
-        int i13;
+        int i36;
+        int prefix3;
+        int i57;
         int prefix4;
         int isError4;
-        Object obj9;
+        Object obj;
         Object label2;
-        int colors3;
-        Object obj20;
+        int colors2;
+        Object obj3;
         VisualTransformation visualTransformation2;
         int suffix2;
         KeyboardOptions keyboardOptions2;
-        int i59;
+        int i2;
         int supportingText2;
         KeyboardActions enabled2;
-        int i14;
-        int i;
-        boolean visualTransformation4;
-        Object visualTransformation3;
+        int i41;
+        int i10;
+        boolean visualTransformation3;
+        Object visualTransformation4;
         int readOnly2;
-        int changed2;
-        int keyboardOptions4;
-        int i5;
-        int i2;
-        int i48;
-        int changed3;
-        Object isError2;
-        int isError3;
+        int changed;
         int keyboardOptions3;
-        int i29;
+        int i59;
+        int i46;
+        int i31;
+        int changed5;
+        Object isError3;
+        int isError2;
+        int keyboardOptions4;
+        int i15;
         KeyboardActions keyboardActions3;
         int keyboardActions2;
-        int i27;
+        int i39;
         int singleLine2;
         Shape singleLine3;
-        int i6;
-        int maxLines3;
-        androidx.compose.material3.TextFieldColors maxLines2;
+        int i35;
+        int maxLines2;
+        androidx.compose.material3.TextFieldColors maxLines3;
         int minLines2;
-        int i53;
-        int i9;
-        int i15;
-        int changed5;
+        int i7;
+        int i8;
+        int i64;
+        int changed4;
         Object interactionSource2;
         int interactionSource3;
-        int i50;
-        int i17;
-        Object i36;
-        int changed4;
-        int obj13;
-        int placeholder3;
-        int changed;
-        int obj18;
-        Composer leadingIcon2;
-        int i45;
-        int obj11;
-        int trailingIcon3;
-        int i39;
-        int obj16;
-        int prefix3;
+        int i63;
         int i33;
-        int i34;
+        Object i58;
+        int changed2;
+        int obj7;
+        int placeholder3;
+        int changed3;
+        int obj16;
+        Composer leadingIcon4;
+        int i32;
+        int obj4;
+        int trailingIcon2;
+        int i20;
+        int obj8;
+        int prefix2;
         int i26;
-        int i46;
-        int i61;
+        int i40;
+        int i3;
+        int i25;
+        int i62;
         TextStyle textStyle3;
         int i4;
-        int i31;
-        int i10;
-        int i55;
-        int i65;
-        int i56;
-        int i57;
-        int i7;
-        int i52;
-        boolean changed6;
-        int i32;
-        int i24;
-        int i47;
-        int i43;
-        int i35;
-        int i16;
-        int i21;
-        int i62;
-        int i8;
-        int i19;
-        int i38;
-        int i30;
+        int i53;
+        int i13;
         int i11;
-        int i22;
-        int i49;
+        int i;
+        int i37;
+        int i21;
+        int i34;
+        int i51;
+        boolean changed6;
         int i23;
-        int i58;
-        int i40;
-        int i20;
-        int i41;
-        int i42;
-        int i44;
+        int i9;
+        int i55;
+        int i18;
+        int i43;
+        int i14;
+        int i24;
+        int i54;
+        int i65;
+        int i45;
+        int i16;
+        int i6;
+        int i5;
+        int i56;
+        int i50;
+        int i60;
+        int i61;
+        int i17;
+        int i12;
+        int i30;
+        int i38;
+        int i22;
         ScopeUpdateScope scopeUpdateScope;
         int obj70;
         int obj71;
         Shape obj72;
         int i66 = $changed;
         int i86 = $changed1;
-        trailingIcon2 = $changed2;
+        trailingIcon3 = $changed2;
         int i95 = i28;
         Composer restartGroup = $composer.startRestartGroup(-1268528240);
         ComposerKt.sourceInformation(restartGroup, "C(TextField)P(21,11,10,1,14,19,6,12,7,20,13,17,18,3,22,5,4,16,8,9,2,15)357@19138L7,373@19934L5,374@19989L8,386@20569L1961,386@20482L2048:TextField.kt#uh7d8r");
         $dirty3 = $changed;
         $dirty1 = $changed1;
-        $dirty22 = $changed2;
+        $dirty2 = $changed2;
         if (i95 & 1 != 0) {
             $dirty3 |= 6;
-            obj20 = value;
+            obj3 = value;
         } else {
             if (i66 & 6 == 0) {
-                i12 = restartGroup.changed(value) ? 4 : 2;
-                $dirty3 |= i12;
+                i52 = restartGroup.changed(value) ? 4 : 2;
+                $dirty3 |= i52;
             } else {
-                obj20 = value;
+                obj3 = value;
             }
         }
         if (i95 & 2 != 0) {
             $dirty3 |= 48;
-            obj17 = onValueChange;
+            obj12 = onValueChange;
         } else {
             if (i66 & 48 == 0) {
-                i60 = restartGroup.changedInstance(onValueChange) ? 32 : 16;
-                $dirty3 |= i60;
+                i36 = restartGroup.changedInstance(onValueChange) ? 32 : 16;
+                $dirty3 |= i36;
             } else {
-                obj17 = onValueChange;
+                obj12 = onValueChange;
             }
         }
-        i13 = i95 & 4;
+        i57 = i95 & 4;
         int i106 = 128;
-        if (i13 != 0) {
+        if (i57 != 0) {
             $dirty3 |= 384;
             str = modifier;
         } else {
             if (i66 & 384 == 0) {
-                i59 = restartGroup.changed(modifier) ? 256 : i106;
-                $dirty3 |= i59;
+                i2 = restartGroup.changed(modifier) ? 256 : i106;
+                $dirty3 |= i2;
             } else {
                 str = modifier;
             }
         }
         supportingText2 = i95 & 8;
-        changed2 = 1024;
+        changed = 1024;
         if (supportingText2 != 0) {
             $dirty3 |= 3072;
             l = enabled;
         } else {
             if (i66 & 3072 == 0) {
-                i29 = restartGroup.changed(enabled) ? i14 : changed2;
-                $dirty3 |= i29;
+                i15 = restartGroup.changed(enabled) ? i41 : changed;
+                $dirty3 |= i15;
             } else {
                 l = enabled;
             }
         }
         int i109 = i95 & 16;
-        i6 = 8192;
+        i35 = 8192;
         if (i109 != 0) {
             $dirty3 |= 24576;
-            z3 = readOnly;
+            z2 = readOnly;
         } else {
             if (i66 & 24576 == 0) {
-                i53 = restartGroup.changed(readOnly) ? i27 : i6;
-                $dirty3 |= i53;
+                i7 = restartGroup.changed(readOnly) ? i39 : i35;
+                $dirty3 |= i7;
             } else {
-                z3 = readOnly;
+                z2 = readOnly;
             }
         }
-        i9 = 196608;
-        i17 = 65536;
-        if (i66 & i9 == 0) {
+        i8 = 196608;
+        i33 = 65536;
+        if (i66 & i8 == 0) {
             if (i95 & 32 == 0) {
-                changed4 = restartGroup.changed(textStyle) ? 131072 : i17;
+                changed2 = restartGroup.changed(textStyle) ? 131072 : i33;
             } else {
-                obj5 = textStyle;
+                obj9 = textStyle;
             }
-            $dirty3 |= changed4;
+            $dirty3 |= changed2;
         } else {
-            obj5 = textStyle;
+            obj9 = textStyle;
         }
         int i121 = i95 & 64;
-        changed = 1572864;
+        changed3 = 1572864;
         if (i121 != 0) {
-            $dirty3 |= changed;
-            obj9 = label;
+            $dirty3 |= changed3;
+            obj = label;
         } else {
-            if (i66 & changed == 0) {
-                i39 = restartGroup.changedInstance(label) ? 1048576 : 524288;
-                $dirty3 |= i39;
+            if (i66 & changed3 == 0) {
+                i20 = restartGroup.changedInstance(label) ? 1048576 : 524288;
+                $dirty3 |= i20;
             } else {
-                obj9 = label;
+                obj = label;
             }
         }
         int i67 = i95 & 128;
         int i122 = 12582912;
-        i33 = 4194304;
+        i26 = 4194304;
         if (i67 != 0) {
             $dirty3 |= i122;
-            i34 = i67;
-            obj7 = placeholder;
+            i40 = i67;
+            obj15 = placeholder;
         } else {
             if ($changed & i122 == 0) {
-                i34 = i67;
-                i26 = restartGroup.changedInstance(placeholder) ? 8388608 : i33;
-                $dirty3 |= i26;
+                i40 = i67;
+                i3 = restartGroup.changedInstance(placeholder) ? 8388608 : i26;
+                $dirty3 |= i3;
             } else {
-                i34 = i67;
-                obj7 = placeholder;
+                i40 = i67;
+                obj15 = placeholder;
             }
         }
         int i68 = i95 & 256;
         int i124 = 100663296;
         if (i68 != 0) {
             $dirty3 |= i124;
-            i46 = i68;
-            obj10 = leadingIcon;
+            i25 = i68;
+            obj5 = leadingIcon;
         } else {
             if ($changed & i124 == 0) {
-                i46 = i68;
-                i61 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
-                $dirty3 |= i61;
+                i25 = i68;
+                i62 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
+                $dirty3 |= i62;
             } else {
-                i46 = i68;
-                obj10 = leadingIcon;
+                i25 = i68;
+                obj5 = leadingIcon;
             }
         }
         int i69 = i95 & 512;
@@ -359,74 +359,74 @@ public final class TextFieldKt {
         if (i69 != 0) {
             $dirty3 |= textStyle3;
             i4 = i69;
-            obj2 = trailingIcon;
+            obj11 = trailingIcon;
         } else {
             if ($changed & textStyle3 == 0) {
                 i4 = i69;
-                i31 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
-                $dirty3 |= i31;
+                i53 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
+                $dirty3 |= i53;
             } else {
                 i4 = i69;
-                obj2 = trailingIcon;
+                obj11 = trailingIcon;
             }
         }
         int i70 = i95 & 1024;
         if (i70 != 0) {
             $dirty1 |= 6;
-            i10 = i70;
-            obj4 = prefix;
+            i13 = i70;
+            obj13 = prefix;
         } else {
             if (i86 & 6 == 0) {
-                i10 = i70;
-                i55 = restartGroup.changedInstance(prefix) ? 4 : 2;
-                $dirty1 |= i55;
+                i13 = i70;
+                i11 = restartGroup.changedInstance(prefix) ? 4 : 2;
+                $dirty1 |= i11;
             } else {
-                i10 = i70;
-                obj4 = prefix;
+                i13 = i70;
+                obj13 = prefix;
             }
         }
         int i71 = i95 & 2048;
         if (i71 != 0) {
             $dirty1 |= 48;
-            i65 = i71;
-            obj15 = suffix;
+            i = i71;
+            obj18 = suffix;
         } else {
             if (i86 & 48 == 0) {
-                i65 = i71;
-                i56 = restartGroup.changedInstance(suffix) ? 32 : 16;
-                $dirty1 |= i56;
+                i = i71;
+                i37 = restartGroup.changedInstance(suffix) ? 32 : 16;
+                $dirty1 |= i37;
             } else {
-                i65 = i71;
-                obj15 = suffix;
+                i = i71;
+                obj18 = suffix;
             }
         }
         int i72 = i95 & 4096;
         if (i72 != 0) {
             $dirty1 |= 384;
-            i57 = i72;
-            obj19 = supportingText;
+            i21 = i72;
+            obj10 = supportingText;
         } else {
-            i57 = i72;
+            i21 = i72;
             if (i86 & 384 == 0) {
-                i7 = restartGroup.changedInstance(supportingText) ? 256 : i106;
-                $dirty1 |= i7;
+                i34 = restartGroup.changedInstance(supportingText) ? 256 : i106;
+                $dirty1 |= i34;
             } else {
-                obj19 = supportingText;
+                obj10 = supportingText;
             }
         }
         int i74 = i95 & 8192;
         if (i74 != 0) {
             $dirty1 |= 3072;
-            i52 = i74;
+            i51 = i74;
             z = isError;
         } else {
-            i52 = i74;
+            i51 = i74;
             if (i86 & 3072 == 0) {
                 if (restartGroup.changed(isError)) {
                 } else {
-                    i14 = changed2;
+                    i41 = changed;
                 }
-                $dirty1 |= i14;
+                $dirty1 |= i41;
             } else {
                 z = isError;
             }
@@ -434,153 +434,153 @@ public final class TextFieldKt {
         int i75 = i95 & 16384;
         if (i75 != 0) {
             $dirty1 |= 24576;
-            i = i75;
-            obj8 = visualTransformation;
+            i10 = i75;
+            obj6 = visualTransformation;
         } else {
-            i = i75;
+            i10 = i75;
             if (i86 & 24576 == 0) {
                 if (restartGroup.changed(visualTransformation)) {
                 } else {
-                    i27 = i6;
+                    i39 = i35;
                 }
-                $dirty1 |= i27;
+                $dirty1 |= i39;
             } else {
-                obj8 = visualTransformation;
+                obj6 = visualTransformation;
             }
         }
-        keyboardOptions4 = i95 & i107;
-        if (keyboardOptions4 != 0) {
-            $dirty1 |= i9;
-            obj = keyboardOptions;
+        keyboardOptions3 = i95 & i107;
+        if (keyboardOptions3 != 0) {
+            $dirty1 |= i8;
+            obj14 = keyboardOptions;
         } else {
-            if (i86 & i9 == 0) {
-                i27 = restartGroup.changed(keyboardOptions) ? 131072 : i17;
-                $dirty1 |= i27;
+            if (i86 & i8 == 0) {
+                i39 = restartGroup.changed(keyboardOptions) ? 131072 : i33;
+                $dirty1 |= i39;
             } else {
-                obj = keyboardOptions;
+                obj14 = keyboardOptions;
             }
         }
-        int i110 = i95 & i17;
+        int i110 = i95 & i33;
         if (i110 != 0) {
-            $dirty1 |= changed;
-            obj12 = keyboardActions;
+            $dirty1 |= changed3;
+            obj17 = keyboardActions;
         } else {
-            if (i86 & changed == 0) {
-                i6 = restartGroup.changed(keyboardActions) ? 1048576 : 524288;
-                $dirty1 |= i6;
+            if (i86 & changed3 == 0) {
+                i35 = restartGroup.changed(keyboardActions) ? 1048576 : 524288;
+                $dirty1 |= i35;
             } else {
-                obj12 = keyboardActions;
+                obj17 = keyboardActions;
             }
         }
         int i112 = i95 & i111;
         if (i112 != 0) {
             $dirty1 |= i122;
-            z2 = singleLine;
+            z3 = singleLine;
         } else {
             if (i86 & i122 == 0) {
-                i9 = restartGroup.changed(singleLine) ? 8388608 : i33;
-                $dirty1 |= i9;
+                i8 = restartGroup.changed(singleLine) ? 8388608 : i26;
+                $dirty1 |= i8;
             } else {
-                z2 = singleLine;
+                z3 = singleLine;
             }
         }
         if (i86 & i115 == 0) {
             if (i95 & i116 == 0) {
-                i15 = restartGroup.changed(maxLines) ? 67108864 : 33554432;
+                i64 = restartGroup.changed(maxLines) ? 67108864 : 33554432;
             } else {
-                i3 = maxLines;
+                i29 = maxLines;
             }
-            $dirty1 |= i15;
+            $dirty1 |= i64;
         } else {
-            i3 = maxLines;
+            i29 = maxLines;
         }
         interactionSource2 = i95 & i117;
         if (interactionSource2 != 0) {
             $dirty1 |= textStyle3;
-            i18 = minLines;
+            i19 = minLines;
         } else {
             if (i86 & textStyle3 == 0) {
-                i17 = restartGroup.changed(minLines) ? 536870912 : 268435456;
-                $dirty1 |= i17;
+                i33 = restartGroup.changed(minLines) ? 536870912 : 268435456;
+                $dirty1 |= i33;
             } else {
-                i18 = minLines;
+                i19 = minLines;
             }
         }
-        i36 = i95 & i120;
-        if (i36 != 0) {
-            $dirty22 |= 6;
-            obj6 = interactionSource;
+        i58 = i95 & i120;
+        if (i58 != 0) {
+            $dirty2 |= 6;
+            obj19 = interactionSource;
         } else {
-            if (trailingIcon2 & 6 == 0) {
-                i48 = restartGroup.changed(interactionSource) ? 4 : 2;
-                $dirty22 |= i48;
+            if (trailingIcon3 & 6 == 0) {
+                i31 = restartGroup.changed(interactionSource) ? 4 : 2;
+                $dirty2 |= i31;
             } else {
-                obj6 = interactionSource;
+                obj19 = interactionSource;
             }
         }
-        if (trailingIcon2 & 48 == 0) {
+        if (trailingIcon3 & 48 == 0) {
             if (i95 & i108 == 0) {
                 minLines2 = restartGroup.changed(shape) ? 32 : 16;
             } else {
-                obj3 = shape;
+                obj2 = shape;
             }
-            $dirty22 |= minLines2;
+            $dirty2 |= minLines2;
         } else {
-            obj3 = shape;
+            obj2 = shape;
         }
-        if (trailingIcon2 & 384 == 0) {
-            if (i95 & i33 == 0) {
-                i45 = restartGroup.changed(colors) ? 256 : i106;
+        if (trailingIcon3 & 384 == 0) {
+            if (i95 & i26 == 0) {
+                i32 = restartGroup.changed(colors) ? 256 : i106;
             } else {
-                obj14 = colors;
+                obj20 = colors;
             }
-            $dirty22 |= i45;
+            $dirty2 |= i32;
         } else {
-            obj14 = colors;
+            obj20 = colors;
         }
-        if ($dirty3 & suffix2 == 306783378 && i82 &= $dirty1 == 306783378 && $dirty22 & 147 == 146) {
+        if ($dirty3 & suffix2 == 306783378 && i82 &= $dirty1 == 306783378 && $dirty2 & 147 == 146) {
             if (i82 &= $dirty1 == 306783378) {
-                if ($dirty22 & 147 == 146) {
+                if ($dirty2 & 147 == 146) {
                     if (!restartGroup.getSkipping()) {
                         restartGroup.startDefaults();
                         if ($changed & 1 != 0) {
                             if (restartGroup.getDefaultsInvalid()) {
-                                if (i13 != 0) {
+                                if (i57 != 0) {
                                     str = defaultsInvalid;
                                 }
                                 if (supportingText2 != 0) {
                                     l = defaultsInvalid;
                                 }
                                 if (i109 != 0) {
-                                    z3 = defaultsInvalid;
+                                    z2 = defaultsInvalid;
                                 }
                                 if (i95 & 32 != 0) {
-                                    i13 = 6;
+                                    i57 = 6;
                                     suffix2 = 0;
                                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                                     $dirty3 &= traceInProgress;
-                                    obj5 = this_$iv;
-                                }
-                                if (i121 != 0) {
                                     obj9 = this_$iv;
                                 }
-                                placeholder2 = i34 != 0 ? 0 : placeholder;
-                                leadingIcon3 = i46 != 0 ? 0 : leadingIcon;
-                                trailingIcon2 = i4 != 0 ? 0 : trailingIcon;
-                                prefix4 = i10 != 0 ? 0 : prefix;
-                                suffix2 = i65 != 0 ? 0 : suffix;
-                                supportingText2 = i57 != 0 ? 0 : supportingText;
-                                isError3 = i52 != 0 ? 0 : isError;
-                                if (i != 0) {
-                                    visualTransformation3 = VisualTransformation.Companion.getNone();
-                                } else {
-                                    visualTransformation3 = visualTransformation;
+                                if (i121 != 0) {
+                                    obj = this_$iv;
                                 }
-                                if (keyboardOptions4 != 0) {
-                                    keyboardOptions4 = KeyboardOptions.Companion.getDefault();
+                                placeholder2 = i40 != 0 ? 0 : placeholder;
+                                leadingIcon2 = i25 != 0 ? 0 : leadingIcon;
+                                trailingIcon3 = i4 != 0 ? 0 : trailingIcon;
+                                prefix4 = i13 != 0 ? 0 : prefix;
+                                suffix2 = i != 0 ? 0 : suffix;
+                                supportingText2 = i21 != 0 ? 0 : supportingText;
+                                isError2 = i51 != 0 ? 0 : isError;
+                                if (i10 != 0) {
+                                    visualTransformation4 = VisualTransformation.Companion.getNone();
                                 } else {
-                                    keyboardOptions4 = keyboardOptions;
+                                    visualTransformation4 = visualTransformation;
+                                }
+                                if (keyboardOptions3 != 0) {
+                                    keyboardOptions3 = KeyboardOptions.Companion.getDefault();
+                                } else {
+                                    keyboardOptions3 = keyboardOptions;
                                 }
                                 if (i110 != 0) {
                                     keyboardActions3 = KeyboardActions.Companion.getDefault();
@@ -589,111 +589,111 @@ public final class TextFieldKt {
                                 }
                                 singleLine2 = i112 != 0 ? 0 : singleLine;
                                 if (i95 & i113 != 0) {
-                                    maxLines3 = singleLine2 != 0 ? 1 : 0x7fffffff /* Unknown resource */;
+                                    maxLines2 = singleLine2 != 0 ? 1 : 0x7fffffff /* Unknown resource */;
                                     $dirty1 &= minLines2;
                                 } else {
-                                    maxLines3 = maxLines;
+                                    maxLines2 = maxLines;
                                 }
                                 minLines2 = interactionSource2 != 0 ? 1 : minLines;
-                                interactionSource3 = i36 != 0 ? 0 : interactionSource;
+                                interactionSource3 = i58 != 0 ? 0 : interactionSource;
                                 obj70 = placeholder2;
                                 int placeholder4 = 6;
                                 if (i95 & i118 != 0) {
-                                    obj71 = leadingIcon3;
-                                    leadingIcon4 = TextFieldDefaults.INSTANCE.getShape(restartGroup, placeholder4);
-                                    $dirty22 &= -113;
+                                    obj71 = leadingIcon2;
+                                    leadingIcon3 = TextFieldDefaults.INSTANCE.getShape(restartGroup, placeholder4);
+                                    $dirty2 &= -113;
                                 } else {
-                                    obj71 = leadingIcon3;
-                                    leadingIcon4 = shape;
+                                    obj71 = leadingIcon2;
+                                    leadingIcon3 = shape;
                                 }
-                                if (i95 & i33 != 0) {
-                                    obj13 = obj70;
-                                    obj18 = obj71;
-                                    i46 = obj72;
-                                    $dirty22 = i88;
-                                    obj11 = trailingIcon2;
-                                    obj16 = prefix4;
-                                    i36 = obj9;
-                                    i33 = suffix2;
-                                    i34 = supportingText2;
-                                    prefix2 = isError3;
+                                if (i95 & i26 != 0) {
+                                    obj7 = obj70;
+                                    obj16 = obj71;
+                                    i25 = obj72;
+                                    $dirty2 = i88;
+                                    obj4 = trailingIcon3;
+                                    obj8 = prefix4;
+                                    i58 = obj;
+                                    i26 = suffix2;
+                                    i40 = supportingText2;
+                                    prefix3 = isError2;
                                     rememberedValue = interactionSource3;
                                     label2 = colors4;
-                                    colors2 = obj5;
-                                    interactionSource2 = visualTransformation3;
-                                    isError2 = keyboardOptions4;
+                                    colors3 = obj9;
+                                    interactionSource2 = visualTransformation4;
+                                    isError3 = keyboardOptions3;
                                     textStyle4 = str;
-                                    visualTransformation4 = z3;
+                                    visualTransformation3 = z2;
                                 } else {
-                                    obj13 = obj70;
-                                    obj18 = obj71;
-                                    i46 = obj72;
-                                    obj11 = trailingIcon2;
-                                    colors2 = obj5;
-                                    obj16 = prefix4;
-                                    i36 = obj9;
-                                    i33 = suffix2;
-                                    i34 = supportingText2;
-                                    prefix2 = isError3;
+                                    obj7 = obj70;
+                                    obj16 = obj71;
+                                    i25 = obj72;
+                                    obj4 = trailingIcon3;
+                                    colors3 = obj9;
+                                    obj8 = prefix4;
+                                    i58 = obj;
+                                    i26 = suffix2;
+                                    i40 = supportingText2;
+                                    prefix3 = isError2;
                                     rememberedValue = interactionSource3;
                                     label2 = colors;
                                     textStyle4 = str;
-                                    interactionSource2 = visualTransformation3;
-                                    isError2 = keyboardOptions4;
-                                    visualTransformation4 = z3;
+                                    interactionSource2 = visualTransformation4;
+                                    isError3 = keyboardOptions3;
+                                    visualTransformation3 = z2;
                                 }
                             } else {
                                 restartGroup.skipToGroupEnd();
                                 if (i95 & 32 != 0) {
-                                    $dirty3 &= i54;
+                                    $dirty3 &= i27;
                                 }
                                 if (i77 &= i95 != 0) {
-                                    $dirty1 &= i37;
+                                    $dirty1 &= i47;
                                 }
                                 if (i78 &= i95 != 0) {
-                                    $dirty22 &= -113;
+                                    $dirty2 &= -113;
                                 }
-                                if (i95 & i33 != 0) {
-                                    obj13 = placeholder;
-                                    obj18 = leadingIcon;
-                                    obj11 = trailingIcon;
-                                    obj16 = prefix;
-                                    i33 = suffix;
-                                    i34 = supportingText;
-                                    prefix2 = isError;
+                                if (i95 & i26 != 0) {
+                                    obj7 = placeholder;
+                                    obj16 = leadingIcon;
+                                    obj4 = trailingIcon;
+                                    obj8 = prefix;
+                                    i26 = suffix;
+                                    i40 = supportingText;
+                                    prefix3 = isError;
                                     interactionSource2 = visualTransformation;
-                                    isError2 = keyboardOptions;
+                                    isError3 = keyboardOptions;
                                     keyboardActions3 = keyboardActions;
                                     singleLine2 = singleLine;
-                                    maxLines3 = maxLines;
+                                    maxLines2 = maxLines;
                                     minLines2 = minLines;
                                     rememberedValue = interactionSource;
-                                    i46 = shape;
-                                    $dirty22 = i81;
-                                    visualTransformation4 = z3;
-                                    colors2 = obj5;
-                                    i36 = obj9;
+                                    i25 = shape;
+                                    $dirty2 = i81;
+                                    visualTransformation3 = z2;
+                                    colors3 = obj9;
+                                    i58 = obj;
                                     label2 = colors;
                                     textStyle4 = str;
                                 } else {
-                                    obj13 = placeholder;
-                                    obj18 = leadingIcon;
-                                    obj11 = trailingIcon;
-                                    obj16 = prefix;
-                                    i33 = suffix;
-                                    i34 = supportingText;
-                                    prefix2 = isError;
+                                    obj7 = placeholder;
+                                    obj16 = leadingIcon;
+                                    obj4 = trailingIcon;
+                                    obj8 = prefix;
+                                    i26 = suffix;
+                                    i40 = supportingText;
+                                    prefix3 = isError;
                                     interactionSource2 = visualTransformation;
-                                    isError2 = keyboardOptions;
+                                    isError3 = keyboardOptions;
                                     keyboardActions3 = keyboardActions;
                                     singleLine2 = singleLine;
-                                    maxLines3 = maxLines;
+                                    maxLines2 = maxLines;
                                     minLines2 = minLines;
                                     rememberedValue = interactionSource;
-                                    i46 = shape;
-                                    visualTransformation4 = z3;
-                                    colors2 = obj5;
-                                    i36 = obj9;
+                                    i25 = shape;
+                                    visualTransformation3 = z2;
+                                    colors3 = obj9;
+                                    i58 = obj;
                                     label2 = colors;
                                     textStyle4 = str;
                                 }
@@ -709,7 +709,7 @@ public final class TextFieldKt {
                         if (rememberedValue == 0) {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, -508240559, "CC(remember):TextField.kt#9igjgp");
                             str = restartGroup;
-                            z3 = 0;
+                            z2 = 0;
                             obj70 = rememberedValue;
                             rememberedValue = str.rememberedValue();
                             suffix2 = 0;
@@ -718,84 +718,84 @@ public final class TextFieldKt {
                                 int i94 = 0;
                                 str.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                             } else {
-                                str2 = rememberedValue;
+                                $i$a$CacheTextFieldKt$TextField$interactionSource$2 = rememberedValue;
                             }
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            i50 = str2;
+                            i63 = $i$a$CacheTextFieldKt$TextField$interactionSource$2;
                         } else {
-                            i50 = obj70;
+                            i63 = obj70;
                         }
                         restartGroup.endReplaceGroup();
                         restartGroup.startReplaceGroup(-508235100);
                         ComposerKt.sourceInformation(restartGroup, "*381@20307L25");
-                        focused = colors2.getColor-0d7_KjU();
+                        focused = colors3.getColor-0d7_KjU();
                         int i101 = 0;
-                        i25 = 0;
-                        i5 = Long.compare(l2, i126) != 0 ? 1 : 0;
-                        if (i5 != 0) {
+                        i44 = 0;
+                        i59 = Long.compare(l2, i126) != 0 ? 1 : 0;
+                        if (i59 != 0) {
                         } else {
-                            i25 = 0;
+                            i44 = 0;
                             obj71 = focused;
-                            focused = label2.textColor-XeAY9LY$material3_release(l, prefix2, (Boolean)FocusInteractionKt.collectIsFocusedAsState((InteractionSource)i50, restartGroup, 0).getValue().booleanValue());
+                            focused = label2.textColor-XeAY9LY$material3_release(l, prefix3, (Boolean)FocusInteractionKt.collectIsFocusedAsState((InteractionSource)i63, restartGroup, 0).getValue().booleanValue());
                         }
                         restartGroup.endReplaceGroup();
-                        textStyle3 = new TextStyle(focused, i10, 0, i57, 0, 0, 0, 0, 0, 0, obj46, 0, 0, 0, 0, obj51, 0, 0, 0, 0, 0, 0, obj58, 0, 0, 0, 0, 0, 0, 16777214, 0);
+                        textStyle3 = new TextStyle(focused, i13, 0, i21, 0, 0, 0, 0, 0, 0, obj46, 0, 0, 0, 0, obj51, 0, 0, 0, 0, 0, 0, obj58, 0, 0, 0, 0, 0, 0, 16777214, 0);
                         boolean z4 = l;
-                        TextFieldKt.TextField.3 anon = new TextFieldKt.TextField.3(textStyle4, prefix2, label2, obj20, obj17, z4, visualTransformation4, colors2.merge(textStyle3), isError2, keyboardActions3, singleLine2, maxLines3, minLines2, interactionSource2, i50, i36, obj13, obj18, obj11, obj16, i33, i34, i46);
+                        TextFieldKt.TextField.3 anon = new TextFieldKt.TextField.3(textStyle4, prefix3, label2, obj3, obj12, z4, visualTransformation3, colors3.merge(textStyle3), isError3, keyboardActions3, singleLine2, maxLines2, minLines2, interactionSource2, i63, i58, obj7, obj16, obj4, obj8, i26, i40, i25);
                         CompositionLocalKt.CompositionLocalProvider(TextSelectionColorsKt.getLocalTextSelectionColors().provides(label2.getTextSelectionColors()), (Function2)ComposableLambdaKt.rememberComposableLambda(-1163788208, true, anon, restartGroup, 54), restartGroup, $stable |= 48);
                         if (ComposerKt.isTraceInProgress()) {
                             ComposerKt.traceEventEnd();
                         }
                         str = textStyle4;
-                        keyboardOptions2 = isError2;
-                        i2 = maxLines3;
-                        keyboardOptions3 = minLines2;
+                        keyboardOptions2 = isError3;
+                        i46 = maxLines2;
+                        keyboardOptions4 = minLines2;
                         visualTransformation2 = interactionSource2;
-                        i63 = obj13;
-                        i51 = obj11;
-                        i64 = obj16;
-                        modifier3 = i33;
+                        i48 = obj7;
+                        i49 = obj4;
+                        i42 = obj8;
+                        modifier3 = i26;
                         placeholder3 = $dirty3;
-                        trailingIcon3 = $dirty1;
-                        prefix3 = $dirty22;
-                        maxLines2 = label2;
-                        $dirty = visualTransformation4;
+                        trailingIcon2 = $dirty1;
+                        prefix2 = $dirty2;
+                        maxLines3 = label2;
+                        $dirty = visualTransformation3;
                         readOnly2 = singleLine2;
-                        $dirty2 = i36;
-                        singleLine3 = i46;
-                        $dirty12 = colors2;
+                        $dirty22 = i58;
+                        singleLine3 = i25;
+                        $dirty12 = colors3;
                         textStyle2 = restartGroup;
-                        colors3 = prefix2;
+                        colors2 = prefix3;
                         $composer2 = z4;
                         enabled2 = keyboardActions3;
-                        isError4 = i34;
+                        isError4 = i40;
                         keyboardActions2 = obj70;
                     } else {
                         restartGroup.skipToGroupEnd();
-                        i63 = placeholder;
-                        obj18 = leadingIcon;
+                        i48 = placeholder;
+                        obj16 = leadingIcon;
                         isError4 = supportingText;
                         visualTransformation2 = visualTransformation;
                         keyboardOptions2 = keyboardOptions;
                         enabled2 = keyboardActions;
                         readOnly2 = singleLine;
-                        i2 = maxLines;
-                        keyboardOptions3 = minLines;
+                        i46 = maxLines;
+                        keyboardOptions4 = minLines;
                         keyboardActions2 = interactionSource;
                         singleLine3 = shape;
-                        maxLines2 = colors;
+                        maxLines3 = colors;
                         textStyle2 = restartGroup;
                         placeholder3 = $dirty3;
-                        trailingIcon3 = $dirty1;
-                        prefix3 = $dirty22;
+                        trailingIcon2 = $dirty1;
+                        prefix2 = $dirty2;
                         $composer2 = l;
-                        $dirty = z3;
-                        $dirty12 = obj5;
-                        $dirty2 = obj9;
-                        i51 = trailingIcon;
-                        i64 = prefix;
+                        $dirty = z2;
+                        $dirty12 = obj9;
+                        $dirty22 = obj;
+                        i49 = trailingIcon;
+                        i42 = prefix;
                         modifier3 = suffix;
-                        colors3 = isError;
+                        colors2 = isError;
                     }
                 } else {
                 }
@@ -805,169 +805,169 @@ public final class TextFieldKt {
         }
         endRestartGroup = textStyle2.endRestartGroup();
         if (endRestartGroup != null) {
-            leadingIcon2 = composer;
-            textStyle2 = new TextFieldKt.TextField.4(value, onValueChange, str, $composer2, $dirty, $dirty12, $dirty2, i63, obj18, i51, i64, modifier3, isError4, colors3, visualTransformation2, keyboardOptions2, enabled2, readOnly2, i2, keyboardOptions3, keyboardActions2, singleLine3, maxLines2, $changed, $changed1, $changed2, i95);
+            leadingIcon4 = composer;
+            textStyle2 = new TextFieldKt.TextField.4(value, onValueChange, str, $composer2, $dirty, $dirty12, $dirty22, i48, obj16, i49, i42, modifier3, isError4, colors2, visualTransformation2, keyboardOptions2, enabled2, readOnly2, i46, keyboardOptions4, keyboardActions2, singleLine3, maxLines3, $changed, $changed1, $changed2, i95);
             endRestartGroup.updateScope((Function2)textStyle2);
         } else {
-            modifier2 = str;
-            modifier4 = obj18;
-            leadingIcon2 = textStyle2;
+            modifier4 = str;
+            modifier2 = obj16;
+            leadingIcon4 = textStyle2;
         }
     }
 
     public static final void TextField(String value, Function1<? super String, Unit> onValueChange, Modifier modifier, boolean enabled, boolean readOnly, TextStyle textStyle, Function2<? super Composer, ? super Integer, Unit> label, Function2<? super Composer, ? super Integer, Unit> placeholder, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function2<? super Composer, ? super Integer, Unit> trailingIcon, Function2<? super Composer, ? super Integer, Unit> prefix, Function2<? super Composer, ? super Integer, Unit> suffix, Function2<? super Composer, ? super Integer, Unit> supportingText, boolean isError, VisualTransformation visualTransformation, KeyboardOptions keyboardOptions, KeyboardActions keyboardActions, boolean singleLine, int maxLines, int minLines, MutableInteractionSource interactionSource, Shape shape, androidx.compose.material3.TextFieldColors colors, Composer $composer, int $changed, int $changed1, int $changed2, int i28) {
-        Object obj6;
-        Object obj10;
-        Object obj4;
-        Object obj11;
-        Object obj13;
-        Object obj16;
-        boolean z;
         Object obj5;
-        Object obj3;
-        Object obj20;
-        boolean z3;
-        int i43;
-        int i57;
-        Object obj9;
         Object obj;
+        Object obj18;
         Object obj15;
+        Object obj17;
+        Object obj4;
+        boolean z;
+        Object obj14;
+        Object obj12;
+        Object obj10;
+        boolean z2;
+        int i37;
+        int i16;
+        Object obj3;
+        Object obj9;
+        Object obj2;
         int skipping;
-        int i24;
-        int i30;
-        Object colors3;
+        int i38;
+        int i46;
+        Object colors2;
         int defaultsInvalid;
         int this_$iv;
-        int placeholder3;
+        int placeholder2;
         Composer textStyle3;
         int traceInProgress;
         int rememberedValue;
         long focused;
-        int leadingIcon3;
-        Object leadingIcon4;
+        int leadingIcon4;
+        Object leadingIcon3;
         ScopeUpdateScope endRestartGroup;
         int trailingIcon2;
         boolean traceInProgress2;
-        Object str2;
-        Object modifier3;
+        Object $i$a$CacheTextFieldKt$TextField$interactionSource$1;
+        Object modifier2;
         boolean $composer2;
         int $dirty;
         boolean $dirty3;
-        int $dirty12;
-        Object $dirty1;
+        int $dirty1;
+        Object $dirty12;
         int $dirty2;
         Object $dirty22;
-        int i18;
-        Object obj7;
-        int i53;
+        int i10;
+        Object obj16;
+        int i25;
         Object str;
-        int modifier2;
+        int modifier3;
         boolean l;
-        int i42;
-        boolean z2;
-        int i45;
-        int i64;
-        Object obj12;
+        int i17;
+        boolean z3;
+        int i12;
+        int i58;
+        Object obj8;
         Object textStyle4;
         int modifier4;
-        int i56;
+        int i51;
         int prefix4;
-        int i41;
-        int prefix3;
-        int isError4;
-        Object obj18;
+        int i5;
+        int prefix2;
+        int isError3;
+        Object obj20;
         Object label2;
-        int colors2;
-        Object obj8;
-        VisualTransformation visualTransformation3;
+        int colors3;
+        Object obj11;
+        VisualTransformation visualTransformation2;
         int suffix2;
-        KeyboardOptions keyboardOptions4;
-        int i31;
+        KeyboardOptions keyboardOptions2;
+        int i65;
         int supportingText2;
         KeyboardActions enabled2;
-        int i16;
-        int i8;
-        boolean visualTransformation2;
+        int i13;
+        int i64;
+        boolean visualTransformation3;
         Object visualTransformation4;
         int readOnly2;
-        int changed5;
+        int changed2;
         int keyboardOptions3;
-        int i19;
-        int i5;
-        int i10;
-        int changed3;
-        Object isError3;
-        int isError2;
-        int keyboardOptions2;
-        int i34;
+        int i18;
+        int i8;
+        int i26;
+        int changed4;
+        Object isError2;
+        int isError4;
+        int keyboardOptions4;
+        int i62;
         KeyboardActions keyboardActions3;
         int keyboardActions2;
-        int i50;
-        int singleLine3;
-        Shape singleLine2;
-        int i63;
-        int maxLines2;
-        androidx.compose.material3.TextFieldColors maxLines3;
+        int i42;
+        int singleLine2;
+        Shape singleLine3;
+        int i41;
+        int maxLines3;
+        androidx.compose.material3.TextFieldColors maxLines2;
         int minLines2;
-        int i21;
-        int i20;
-        int i6;
-        int changed2;
-        Object interactionSource3;
-        int interactionSource2;
-        int i59;
-        int i62;
-        Object i37;
-        int changed6;
-        int obj19;
-        int placeholder2;
-        int changed4;
-        int obj14;
-        Composer leadingIcon2;
-        int i7;
-        int obj2;
-        int trailingIcon3;
-        int i38;
-        int obj17;
-        int prefix2;
-        int i48;
-        int i3;
-        int i35;
-        int i25;
-        int i39;
-        TextStyle textStyle2;
-        int i54;
-        int i32;
-        int i65;
-        int i;
-        int i36;
-        int i12;
-        int i55;
-        int i17;
-        int i47;
-        boolean changed;
-        int i51;
-        int i26;
-        int i23;
-        int i49;
-        int i15;
-        int i27;
-        int i52;
-        int i13;
-        int i22;
-        int i46;
-        int i4;
-        int i40;
-        int i61;
-        int i58;
-        int i9;
-        int i11;
-        int i60;
         int i2;
-        int i44;
-        int i33;
-        int i14;
+        int i52;
+        int i7;
+        int changed3;
+        Object interactionSource2;
+        int interactionSource3;
+        int i6;
+        int i61;
+        Object i33;
+        int changed;
+        int obj19;
+        int placeholder3;
+        int changed6;
+        int obj7;
+        Composer leadingIcon2;
+        int i34;
+        int obj13;
+        int trailingIcon3;
+        int i35;
+        int obj6;
+        int prefix3;
+        int i53;
+        int i21;
+        int i63;
+        int i39;
+        int i45;
+        TextStyle textStyle2;
+        int i47;
+        int i30;
+        int i54;
+        int i60;
+        int i48;
+        int i49;
+        int i43;
+        int i11;
+        int i36;
+        boolean changed5;
+        int i40;
+        int i22;
+        int i55;
+        int i56;
+        int i24;
         int i29;
+        int i9;
+        int i20;
+        int i23;
+        int i31;
+        int i4;
+        int i32;
+        int i59;
+        int i27;
+        int i57;
+        int i50;
+        int i3;
+        int i;
+        int i14;
+        int i19;
+        int i44;
+        int i15;
         ScopeUpdateScope scopeUpdateScope;
         int obj70;
         int obj71;
@@ -979,346 +979,346 @@ public final class TextFieldKt {
         Composer restartGroup = $composer.startRestartGroup(-676242365);
         ComposerKt.sourceInformation(restartGroup, "C(TextField)P(21,11,10,1,14,19,6,12,7,20,13,17,18,3,22,5,4,16,8,9,2,15)201@10573L7,217@11369L5,218@11424L8,230@12004L1956,230@11917L2043:TextField.kt#uh7d8r");
         $dirty = $changed;
-        $dirty12 = $changed1;
+        $dirty1 = $changed1;
         $dirty2 = $changed2;
         if (i95 & 1 != 0) {
             $dirty |= 6;
-            obj8 = value;
+            obj11 = value;
         } else {
             if (i66 & 6 == 0) {
-                i18 = restartGroup.changed(value) ? 4 : 2;
-                $dirty |= i18;
+                i10 = restartGroup.changed(value) ? 4 : 2;
+                $dirty |= i10;
             } else {
-                obj8 = value;
+                obj11 = value;
             }
         }
         if (i95 & 2 != 0) {
             $dirty |= 48;
-            obj7 = onValueChange;
+            obj16 = onValueChange;
         } else {
             if (i66 & 48 == 0) {
-                i56 = restartGroup.changedInstance(onValueChange) ? 32 : 16;
-                $dirty |= i56;
+                i51 = restartGroup.changedInstance(onValueChange) ? 32 : 16;
+                $dirty |= i51;
             } else {
-                obj7 = onValueChange;
+                obj16 = onValueChange;
             }
         }
-        i41 = i95 & 4;
+        i5 = i95 & 4;
         int i106 = 128;
-        if (i41 != 0) {
+        if (i5 != 0) {
             $dirty |= 384;
             str = modifier;
         } else {
             if (i66 & 384 == 0) {
-                i31 = restartGroup.changed(modifier) ? 256 : i106;
-                $dirty |= i31;
+                i65 = restartGroup.changed(modifier) ? 256 : i106;
+                $dirty |= i65;
             } else {
                 str = modifier;
             }
         }
         supportingText2 = i95 & 8;
-        changed5 = 1024;
+        changed2 = 1024;
         if (supportingText2 != 0) {
             $dirty |= 3072;
             l = enabled;
         } else {
             if (i66 & 3072 == 0) {
-                i34 = restartGroup.changed(enabled) ? i16 : changed5;
-                $dirty |= i34;
+                i62 = restartGroup.changed(enabled) ? i13 : changed2;
+                $dirty |= i62;
             } else {
                 l = enabled;
             }
         }
         int i109 = i95 & 16;
-        i63 = 8192;
+        i41 = 8192;
         if (i109 != 0) {
             $dirty |= 24576;
-            z2 = readOnly;
+            z3 = readOnly;
         } else {
             if (i66 & 24576 == 0) {
-                i21 = restartGroup.changed(readOnly) ? i50 : i63;
-                $dirty |= i21;
+                i2 = restartGroup.changed(readOnly) ? i42 : i41;
+                $dirty |= i2;
             } else {
-                z2 = readOnly;
+                z3 = readOnly;
             }
         }
-        i20 = 196608;
-        i62 = 65536;
-        if (i66 & i20 == 0) {
+        i52 = 196608;
+        i61 = 65536;
+        if (i66 & i52 == 0) {
             if (i95 & 32 == 0) {
-                changed6 = restartGroup.changed(textStyle) ? 131072 : i62;
+                changed = restartGroup.changed(textStyle) ? 131072 : i61;
             } else {
-                obj12 = textStyle;
+                obj8 = textStyle;
             }
-            $dirty |= changed6;
+            $dirty |= changed;
         } else {
-            obj12 = textStyle;
+            obj8 = textStyle;
         }
         int i121 = i95 & 64;
-        changed4 = 1572864;
+        changed6 = 1572864;
         if (i121 != 0) {
-            $dirty |= changed4;
-            obj18 = label;
+            $dirty |= changed6;
+            obj20 = label;
         } else {
-            if (i66 & changed4 == 0) {
-                i38 = restartGroup.changedInstance(label) ? 1048576 : 524288;
-                $dirty |= i38;
+            if (i66 & changed6 == 0) {
+                i35 = restartGroup.changedInstance(label) ? 1048576 : 524288;
+                $dirty |= i35;
             } else {
-                obj18 = label;
+                obj20 = label;
             }
         }
         int i67 = i95 & 128;
         int i122 = 12582912;
-        i48 = 4194304;
+        i53 = 4194304;
         if (i67 != 0) {
             $dirty |= i122;
-            i3 = i67;
-            obj6 = placeholder;
+            i21 = i67;
+            obj5 = placeholder;
         } else {
             if ($changed & i122 == 0) {
-                i3 = i67;
-                i35 = restartGroup.changedInstance(placeholder) ? 8388608 : i48;
-                $dirty |= i35;
+                i21 = i67;
+                i63 = restartGroup.changedInstance(placeholder) ? 8388608 : i53;
+                $dirty |= i63;
             } else {
-                i3 = i67;
-                obj6 = placeholder;
+                i21 = i67;
+                obj5 = placeholder;
             }
         }
         int i68 = i95 & 256;
         int i124 = 100663296;
         if (i68 != 0) {
             $dirty |= i124;
-            i25 = i68;
-            obj10 = leadingIcon;
+            i39 = i68;
+            obj = leadingIcon;
         } else {
             if ($changed & i124 == 0) {
-                i25 = i68;
-                i39 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
-                $dirty |= i39;
+                i39 = i68;
+                i45 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
+                $dirty |= i45;
             } else {
-                i25 = i68;
-                obj10 = leadingIcon;
+                i39 = i68;
+                obj = leadingIcon;
             }
         }
         int i69 = i95 & 512;
         textStyle2 = 805306368;
         if (i69 != 0) {
             $dirty |= textStyle2;
-            i54 = i69;
-            obj4 = trailingIcon;
+            i47 = i69;
+            obj18 = trailingIcon;
         } else {
             if ($changed & textStyle2 == 0) {
-                i54 = i69;
-                i32 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
-                $dirty |= i32;
+                i47 = i69;
+                i30 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
+                $dirty |= i30;
             } else {
-                i54 = i69;
-                obj4 = trailingIcon;
+                i47 = i69;
+                obj18 = trailingIcon;
             }
         }
         int i70 = i95 & 1024;
         if (i70 != 0) {
-            $dirty12 |= 6;
-            i65 = i70;
-            obj11 = prefix;
+            $dirty1 |= 6;
+            i54 = i70;
+            obj15 = prefix;
         } else {
             if (i86 & 6 == 0) {
-                i65 = i70;
-                i = restartGroup.changedInstance(prefix) ? 4 : 2;
-                $dirty12 |= i;
+                i54 = i70;
+                i60 = restartGroup.changedInstance(prefix) ? 4 : 2;
+                $dirty1 |= i60;
             } else {
-                i65 = i70;
-                obj11 = prefix;
+                i54 = i70;
+                obj15 = prefix;
             }
         }
         int i71 = i95 & 2048;
         if (i71 != 0) {
-            $dirty12 |= 48;
-            i36 = i71;
-            obj13 = suffix;
+            $dirty1 |= 48;
+            i48 = i71;
+            obj17 = suffix;
         } else {
             if (i86 & 48 == 0) {
-                i36 = i71;
-                i12 = restartGroup.changedInstance(suffix) ? 32 : 16;
-                $dirty12 |= i12;
+                i48 = i71;
+                i49 = restartGroup.changedInstance(suffix) ? 32 : 16;
+                $dirty1 |= i49;
             } else {
-                i36 = i71;
-                obj13 = suffix;
+                i48 = i71;
+                obj17 = suffix;
             }
         }
         int i72 = i95 & 4096;
         if (i72 != 0) {
-            $dirty12 |= 384;
-            i55 = i72;
-            obj16 = supportingText;
+            $dirty1 |= 384;
+            i43 = i72;
+            obj4 = supportingText;
         } else {
-            i55 = i72;
+            i43 = i72;
             if (i86 & 384 == 0) {
-                i17 = restartGroup.changedInstance(supportingText) ? 256 : i106;
-                $dirty12 |= i17;
+                i11 = restartGroup.changedInstance(supportingText) ? 256 : i106;
+                $dirty1 |= i11;
             } else {
-                obj16 = supportingText;
+                obj4 = supportingText;
             }
         }
         int i74 = i95 & 8192;
         if (i74 != 0) {
-            $dirty12 |= 3072;
-            i47 = i74;
+            $dirty1 |= 3072;
+            i36 = i74;
             z = isError;
         } else {
-            i47 = i74;
+            i36 = i74;
             if (i86 & 3072 == 0) {
                 if (restartGroup.changed(isError)) {
                 } else {
-                    i16 = changed5;
+                    i13 = changed2;
                 }
-                $dirty12 |= i16;
+                $dirty1 |= i13;
             } else {
                 z = isError;
             }
         }
         int i75 = i95 & 16384;
         if (i75 != 0) {
-            $dirty12 |= 24576;
-            i8 = i75;
-            obj5 = visualTransformation;
+            $dirty1 |= 24576;
+            i64 = i75;
+            obj14 = visualTransformation;
         } else {
-            i8 = i75;
+            i64 = i75;
             if (i86 & 24576 == 0) {
                 if (restartGroup.changed(visualTransformation)) {
                 } else {
-                    i50 = i63;
+                    i42 = i41;
                 }
-                $dirty12 |= i50;
+                $dirty1 |= i42;
             } else {
-                obj5 = visualTransformation;
+                obj14 = visualTransformation;
             }
         }
         keyboardOptions3 = i95 & i107;
         if (keyboardOptions3 != 0) {
-            $dirty12 |= i20;
-            obj3 = keyboardOptions;
+            $dirty1 |= i52;
+            obj12 = keyboardOptions;
         } else {
-            if (i86 & i20 == 0) {
-                i50 = restartGroup.changed(keyboardOptions) ? 131072 : i62;
-                $dirty12 |= i50;
+            if (i86 & i52 == 0) {
+                i42 = restartGroup.changed(keyboardOptions) ? 131072 : i61;
+                $dirty1 |= i42;
             } else {
-                obj3 = keyboardOptions;
+                obj12 = keyboardOptions;
             }
         }
-        int i110 = i95 & i62;
+        int i110 = i95 & i61;
         if (i110 != 0) {
-            $dirty12 |= changed4;
-            obj20 = keyboardActions;
+            $dirty1 |= changed6;
+            obj10 = keyboardActions;
         } else {
-            if (i86 & changed4 == 0) {
-                i63 = restartGroup.changed(keyboardActions) ? 1048576 : 524288;
-                $dirty12 |= i63;
+            if (i86 & changed6 == 0) {
+                i41 = restartGroup.changed(keyboardActions) ? 1048576 : 524288;
+                $dirty1 |= i41;
             } else {
-                obj20 = keyboardActions;
+                obj10 = keyboardActions;
             }
         }
         int i112 = i95 & i111;
         if (i112 != 0) {
-            $dirty12 |= i122;
-            z3 = singleLine;
+            $dirty1 |= i122;
+            z2 = singleLine;
         } else {
             if (i86 & i122 == 0) {
-                i20 = restartGroup.changed(singleLine) ? 8388608 : i48;
-                $dirty12 |= i20;
+                i52 = restartGroup.changed(singleLine) ? 8388608 : i53;
+                $dirty1 |= i52;
             } else {
-                z3 = singleLine;
+                z2 = singleLine;
             }
         }
         if (i86 & i115 == 0) {
             if (i95 & i116 == 0) {
-                i6 = restartGroup.changed(maxLines) ? 67108864 : 33554432;
+                i7 = restartGroup.changed(maxLines) ? 67108864 : 33554432;
             } else {
-                i43 = maxLines;
+                i37 = maxLines;
             }
-            $dirty12 |= i6;
+            $dirty1 |= i7;
         } else {
-            i43 = maxLines;
+            i37 = maxLines;
         }
-        interactionSource3 = i95 & i117;
-        if (interactionSource3 != 0) {
-            $dirty12 |= textStyle2;
-            i57 = minLines;
+        interactionSource2 = i95 & i117;
+        if (interactionSource2 != 0) {
+            $dirty1 |= textStyle2;
+            i16 = minLines;
         } else {
             if (i86 & textStyle2 == 0) {
-                i62 = restartGroup.changed(minLines) ? 536870912 : 268435456;
-                $dirty12 |= i62;
+                i61 = restartGroup.changed(minLines) ? 536870912 : 268435456;
+                $dirty1 |= i61;
             } else {
-                i57 = minLines;
+                i16 = minLines;
             }
         }
-        i37 = i95 & i120;
-        if (i37 != 0) {
+        i33 = i95 & i120;
+        if (i33 != 0) {
             $dirty2 |= 6;
-            obj9 = interactionSource;
+            obj3 = interactionSource;
         } else {
             if (trailingIcon2 & 6 == 0) {
-                i10 = restartGroup.changed(interactionSource) ? 4 : 2;
-                $dirty2 |= i10;
+                i26 = restartGroup.changed(interactionSource) ? 4 : 2;
+                $dirty2 |= i26;
             } else {
-                obj9 = interactionSource;
+                obj3 = interactionSource;
             }
         }
         if (trailingIcon2 & 48 == 0) {
             if (i95 & i108 == 0) {
                 minLines2 = restartGroup.changed(shape) ? 32 : 16;
             } else {
-                obj = shape;
+                obj9 = shape;
             }
             $dirty2 |= minLines2;
         } else {
-            obj = shape;
+            obj9 = shape;
         }
         if (trailingIcon2 & 384 == 0) {
-            if (i95 & i48 == 0) {
-                i7 = restartGroup.changed(colors) ? 256 : i106;
+            if (i95 & i53 == 0) {
+                i34 = restartGroup.changed(colors) ? 256 : i106;
             } else {
-                obj15 = colors;
+                obj2 = colors;
             }
-            $dirty2 |= i7;
+            $dirty2 |= i34;
         } else {
-            obj15 = colors;
+            obj2 = colors;
         }
-        if ($dirty & suffix2 == 306783378 && i82 &= $dirty12 == 306783378 && $dirty2 & 147 == 146) {
-            if (i82 &= $dirty12 == 306783378) {
+        if ($dirty & suffix2 == 306783378 && i82 &= $dirty1 == 306783378 && $dirty2 & 147 == 146) {
+            if (i82 &= $dirty1 == 306783378) {
                 if ($dirty2 & 147 == 146) {
                     if (!restartGroup.getSkipping()) {
                         restartGroup.startDefaults();
                         if ($changed & 1 != 0) {
                             if (restartGroup.getDefaultsInvalid()) {
-                                if (i41 != 0) {
+                                if (i5 != 0) {
                                     str = defaultsInvalid;
                                 }
                                 if (supportingText2 != 0) {
                                     l = defaultsInvalid;
                                 }
                                 if (i109 != 0) {
-                                    z2 = defaultsInvalid;
+                                    z3 = defaultsInvalid;
                                 }
                                 if (i95 & 32 != 0) {
-                                    i41 = 6;
+                                    i5 = 6;
                                     suffix2 = 0;
                                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                                     $dirty &= traceInProgress;
-                                    obj12 = this_$iv;
+                                    obj8 = this_$iv;
                                 }
                                 if (i121 != 0) {
-                                    obj18 = this_$iv;
+                                    obj20 = this_$iv;
                                 }
-                                placeholder3 = i3 != 0 ? 0 : placeholder;
-                                leadingIcon3 = i25 != 0 ? 0 : leadingIcon;
-                                trailingIcon2 = i54 != 0 ? 0 : trailingIcon;
-                                prefix3 = i65 != 0 ? 0 : prefix;
-                                suffix2 = i36 != 0 ? 0 : suffix;
-                                supportingText2 = i55 != 0 ? 0 : supportingText;
-                                isError2 = i47 != 0 ? 0 : isError;
-                                if (i8 != 0) {
+                                placeholder2 = i21 != 0 ? 0 : placeholder;
+                                leadingIcon4 = i39 != 0 ? 0 : leadingIcon;
+                                trailingIcon2 = i47 != 0 ? 0 : trailingIcon;
+                                prefix2 = i54 != 0 ? 0 : prefix;
+                                suffix2 = i48 != 0 ? 0 : suffix;
+                                supportingText2 = i43 != 0 ? 0 : supportingText;
+                                isError4 = i36 != 0 ? 0 : isError;
+                                if (i64 != 0) {
                                     visualTransformation4 = VisualTransformation.Companion.getNone();
                                 } else {
                                     visualTransformation4 = visualTransformation;
@@ -1333,113 +1333,113 @@ public final class TextFieldKt {
                                 } else {
                                     keyboardActions3 = keyboardActions;
                                 }
-                                singleLine3 = i112 != 0 ? 0 : singleLine;
+                                singleLine2 = i112 != 0 ? 0 : singleLine;
                                 if (i95 & i113 != 0) {
-                                    maxLines2 = singleLine3 != 0 ? 1 : 0x7fffffff /* Unknown resource */;
-                                    $dirty12 &= minLines2;
+                                    maxLines3 = singleLine2 != 0 ? 1 : 0x7fffffff /* Unknown resource */;
+                                    $dirty1 &= minLines2;
                                 } else {
-                                    maxLines2 = maxLines;
+                                    maxLines3 = maxLines;
                                 }
-                                minLines2 = interactionSource3 != 0 ? 1 : minLines;
-                                interactionSource2 = i37 != 0 ? 0 : interactionSource;
-                                obj70 = placeholder3;
+                                minLines2 = interactionSource2 != 0 ? 1 : minLines;
+                                interactionSource3 = i33 != 0 ? 0 : interactionSource;
+                                obj70 = placeholder2;
                                 int placeholder4 = 6;
                                 if (i95 & i118 != 0) {
-                                    obj71 = leadingIcon3;
-                                    leadingIcon4 = TextFieldDefaults.INSTANCE.getShape(restartGroup, placeholder4);
+                                    obj71 = leadingIcon4;
+                                    leadingIcon3 = TextFieldDefaults.INSTANCE.getShape(restartGroup, placeholder4);
                                     $dirty2 &= -113;
                                 } else {
-                                    obj71 = leadingIcon3;
-                                    leadingIcon4 = shape;
+                                    obj71 = leadingIcon4;
+                                    leadingIcon3 = shape;
                                 }
-                                if (i95 & i48 != 0) {
+                                if (i95 & i53 != 0) {
                                     obj19 = obj70;
-                                    obj14 = obj71;
-                                    i25 = obj72;
+                                    obj7 = obj71;
+                                    i39 = obj72;
                                     $dirty2 = i88;
-                                    obj2 = trailingIcon2;
-                                    obj17 = prefix3;
-                                    i37 = obj18;
-                                    i48 = suffix2;
-                                    i3 = supportingText2;
-                                    prefix4 = isError2;
-                                    rememberedValue = interactionSource2;
+                                    obj13 = trailingIcon2;
+                                    obj6 = prefix2;
+                                    i33 = obj20;
+                                    i53 = suffix2;
+                                    i21 = supportingText2;
+                                    prefix4 = isError4;
+                                    rememberedValue = interactionSource3;
                                     label2 = colors4;
-                                    colors3 = obj12;
-                                    interactionSource3 = visualTransformation4;
-                                    isError3 = keyboardOptions3;
+                                    colors2 = obj8;
+                                    interactionSource2 = visualTransformation4;
+                                    isError2 = keyboardOptions3;
                                     textStyle4 = str;
-                                    visualTransformation2 = z2;
+                                    visualTransformation3 = z3;
                                 } else {
                                     obj19 = obj70;
-                                    obj14 = obj71;
-                                    i25 = obj72;
-                                    obj2 = trailingIcon2;
-                                    colors3 = obj12;
-                                    obj17 = prefix3;
-                                    i37 = obj18;
-                                    i48 = suffix2;
-                                    i3 = supportingText2;
-                                    prefix4 = isError2;
-                                    rememberedValue = interactionSource2;
+                                    obj7 = obj71;
+                                    i39 = obj72;
+                                    obj13 = trailingIcon2;
+                                    colors2 = obj8;
+                                    obj6 = prefix2;
+                                    i33 = obj20;
+                                    i53 = suffix2;
+                                    i21 = supportingText2;
+                                    prefix4 = isError4;
+                                    rememberedValue = interactionSource3;
                                     label2 = colors;
                                     textStyle4 = str;
-                                    interactionSource3 = visualTransformation4;
-                                    isError3 = keyboardOptions3;
-                                    visualTransformation2 = z2;
+                                    interactionSource2 = visualTransformation4;
+                                    isError2 = keyboardOptions3;
+                                    visualTransformation3 = z3;
                                 }
                             } else {
                                 restartGroup.skipToGroupEnd();
                                 if (i95 & 32 != 0) {
-                                    $dirty &= i24;
+                                    $dirty &= i38;
                                 }
                                 if (i77 &= i95 != 0) {
-                                    $dirty12 &= i30;
+                                    $dirty1 &= i46;
                                 }
                                 if (i78 &= i95 != 0) {
                                     $dirty2 &= -113;
                                 }
-                                if (i95 & i48 != 0) {
+                                if (i95 & i53 != 0) {
                                     obj19 = placeholder;
-                                    obj14 = leadingIcon;
-                                    obj2 = trailingIcon;
-                                    obj17 = prefix;
-                                    i48 = suffix;
-                                    i3 = supportingText;
+                                    obj7 = leadingIcon;
+                                    obj13 = trailingIcon;
+                                    obj6 = prefix;
+                                    i53 = suffix;
+                                    i21 = supportingText;
                                     prefix4 = isError;
-                                    interactionSource3 = visualTransformation;
-                                    isError3 = keyboardOptions;
+                                    interactionSource2 = visualTransformation;
+                                    isError2 = keyboardOptions;
                                     keyboardActions3 = keyboardActions;
-                                    singleLine3 = singleLine;
-                                    maxLines2 = maxLines;
+                                    singleLine2 = singleLine;
+                                    maxLines3 = maxLines;
                                     minLines2 = minLines;
                                     rememberedValue = interactionSource;
-                                    i25 = shape;
+                                    i39 = shape;
                                     $dirty2 = i81;
-                                    visualTransformation2 = z2;
-                                    colors3 = obj12;
-                                    i37 = obj18;
+                                    visualTransformation3 = z3;
+                                    colors2 = obj8;
+                                    i33 = obj20;
                                     label2 = colors;
                                     textStyle4 = str;
                                 } else {
                                     obj19 = placeholder;
-                                    obj14 = leadingIcon;
-                                    obj2 = trailingIcon;
-                                    obj17 = prefix;
-                                    i48 = suffix;
-                                    i3 = supportingText;
+                                    obj7 = leadingIcon;
+                                    obj13 = trailingIcon;
+                                    obj6 = prefix;
+                                    i53 = suffix;
+                                    i21 = supportingText;
                                     prefix4 = isError;
-                                    interactionSource3 = visualTransformation;
-                                    isError3 = keyboardOptions;
+                                    interactionSource2 = visualTransformation;
+                                    isError2 = keyboardOptions;
                                     keyboardActions3 = keyboardActions;
-                                    singleLine3 = singleLine;
-                                    maxLines2 = maxLines;
+                                    singleLine2 = singleLine;
+                                    maxLines3 = maxLines;
                                     minLines2 = minLines;
                                     rememberedValue = interactionSource;
-                                    i25 = shape;
-                                    visualTransformation2 = z2;
-                                    colors3 = obj12;
-                                    i37 = obj18;
+                                    i39 = shape;
+                                    visualTransformation3 = z3;
+                                    colors2 = obj8;
+                                    i33 = obj20;
                                     label2 = colors;
                                     textStyle4 = str;
                                 }
@@ -1448,14 +1448,14 @@ public final class TextFieldKt {
                         }
                         restartGroup.endDefaults();
                         if (ComposerKt.isTraceInProgress()) {
-                            ComposerKt.traceEventStart(-676242365, $dirty, $dirty12, "androidx.compose.material3.TextField (TextField.kt:219)");
+                            ComposerKt.traceEventStart(-676242365, $dirty, $dirty1, "androidx.compose.material3.TextField (TextField.kt:219)");
                         }
                         restartGroup.startReplaceGroup(-508515290);
                         ComposerKt.sourceInformation(restartGroup, "221@11518L39");
                         if (rememberedValue == 0) {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, -508514639, "CC(remember):TextField.kt#9igjgp");
                             str = restartGroup;
-                            z2 = 0;
+                            z3 = 0;
                             obj70 = rememberedValue;
                             rememberedValue = str.rememberedValue();
                             suffix2 = 0;
@@ -1464,84 +1464,84 @@ public final class TextFieldKt {
                                 int i94 = 0;
                                 str.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                             } else {
-                                str2 = rememberedValue;
+                                $i$a$CacheTextFieldKt$TextField$interactionSource$1 = rememberedValue;
                             }
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            i59 = str2;
+                            i6 = $i$a$CacheTextFieldKt$TextField$interactionSource$1;
                         } else {
-                            i59 = obj70;
+                            i6 = obj70;
                         }
                         restartGroup.endReplaceGroup();
                         restartGroup.startReplaceGroup(-508509180);
                         ComposerKt.sourceInformation(restartGroup, "*225@11742L25");
-                        focused = colors3.getColor-0d7_KjU();
+                        focused = colors2.getColor-0d7_KjU();
                         int i101 = 0;
-                        i45 = 0;
-                        i19 = Long.compare(l2, i126) != 0 ? 1 : 0;
-                        if (i19 != 0) {
+                        i12 = 0;
+                        i18 = Long.compare(l2, i126) != 0 ? 1 : 0;
+                        if (i18 != 0) {
                         } else {
-                            i45 = 0;
+                            i12 = 0;
                             obj71 = focused;
-                            focused = label2.textColor-XeAY9LY$material3_release(l, prefix4, (Boolean)FocusInteractionKt.collectIsFocusedAsState((InteractionSource)i59, restartGroup, 0).getValue().booleanValue());
+                            focused = label2.textColor-XeAY9LY$material3_release(l, prefix4, (Boolean)FocusInteractionKt.collectIsFocusedAsState((InteractionSource)i6, restartGroup, 0).getValue().booleanValue());
                         }
                         restartGroup.endReplaceGroup();
-                        textStyle2 = new TextStyle(focused, i65, 0, i55, 0, 0, 0, 0, 0, 0, obj46, 0, 0, 0, 0, obj51, 0, 0, 0, 0, 0, 0, obj58, 0, 0, 0, 0, 0, 0, 16777214, 0);
+                        textStyle2 = new TextStyle(focused, i54, 0, i43, 0, 0, 0, 0, 0, 0, obj46, 0, 0, 0, 0, obj51, 0, 0, 0, 0, 0, 0, obj58, 0, 0, 0, 0, 0, 0, 16777214, 0);
                         boolean z4 = l;
-                        TextFieldKt.TextField.1 anon = new TextFieldKt.TextField.1(textStyle4, prefix4, label2, obj8, obj7, z4, visualTransformation2, colors3.merge(textStyle2), isError3, keyboardActions3, singleLine3, maxLines2, minLines2, interactionSource3, i59, i37, obj19, obj14, obj2, obj17, i48, i3, i25);
+                        TextFieldKt.TextField.1 anon = new TextFieldKt.TextField.1(textStyle4, prefix4, label2, obj11, obj16, z4, visualTransformation3, colors2.merge(textStyle2), isError2, keyboardActions3, singleLine2, maxLines3, minLines2, interactionSource2, i6, i33, obj19, obj7, obj13, obj6, i53, i21, i39);
                         CompositionLocalKt.CompositionLocalProvider(TextSelectionColorsKt.getLocalTextSelectionColors().provides(label2.getTextSelectionColors()), (Function2)ComposableLambdaKt.rememberComposableLambda(1859145987, true, anon, restartGroup, 54), restartGroup, $stable |= 48);
                         if (ComposerKt.isTraceInProgress()) {
                             ComposerKt.traceEventEnd();
                         }
                         str = textStyle4;
-                        keyboardOptions4 = isError3;
-                        i5 = maxLines2;
-                        keyboardOptions2 = minLines2;
-                        visualTransformation3 = interactionSource3;
-                        i53 = obj19;
-                        i42 = obj2;
-                        i64 = obj17;
-                        modifier4 = i48;
-                        placeholder2 = $dirty;
-                        trailingIcon3 = $dirty12;
-                        prefix2 = $dirty2;
-                        maxLines3 = label2;
-                        $dirty3 = visualTransformation2;
-                        readOnly2 = singleLine3;
-                        $dirty22 = i37;
-                        singleLine2 = i25;
-                        $dirty1 = colors3;
+                        keyboardOptions2 = isError2;
+                        i8 = maxLines3;
+                        keyboardOptions4 = minLines2;
+                        visualTransformation2 = interactionSource2;
+                        i25 = obj19;
+                        i17 = obj13;
+                        i58 = obj6;
+                        modifier4 = i53;
+                        placeholder3 = $dirty;
+                        trailingIcon3 = $dirty1;
+                        prefix3 = $dirty2;
+                        maxLines2 = label2;
+                        $dirty3 = visualTransformation3;
+                        readOnly2 = singleLine2;
+                        $dirty22 = i33;
+                        singleLine3 = i39;
+                        $dirty12 = colors2;
                         textStyle3 = restartGroup;
-                        colors2 = prefix4;
+                        colors3 = prefix4;
                         $composer2 = z4;
                         enabled2 = keyboardActions3;
-                        isError4 = i3;
+                        isError3 = i21;
                         keyboardActions2 = obj70;
                     } else {
                         restartGroup.skipToGroupEnd();
-                        i53 = placeholder;
-                        obj14 = leadingIcon;
-                        isError4 = supportingText;
-                        visualTransformation3 = visualTransformation;
-                        keyboardOptions4 = keyboardOptions;
+                        i25 = placeholder;
+                        obj7 = leadingIcon;
+                        isError3 = supportingText;
+                        visualTransformation2 = visualTransformation;
+                        keyboardOptions2 = keyboardOptions;
                         enabled2 = keyboardActions;
                         readOnly2 = singleLine;
-                        i5 = maxLines;
-                        keyboardOptions2 = minLines;
+                        i8 = maxLines;
+                        keyboardOptions4 = minLines;
                         keyboardActions2 = interactionSource;
-                        singleLine2 = shape;
-                        maxLines3 = colors;
+                        singleLine3 = shape;
+                        maxLines2 = colors;
                         textStyle3 = restartGroup;
-                        placeholder2 = $dirty;
-                        trailingIcon3 = $dirty12;
-                        prefix2 = $dirty2;
+                        placeholder3 = $dirty;
+                        trailingIcon3 = $dirty1;
+                        prefix3 = $dirty2;
                         $composer2 = l;
-                        $dirty3 = z2;
-                        $dirty1 = obj12;
-                        $dirty22 = obj18;
-                        i42 = trailingIcon;
-                        i64 = prefix;
+                        $dirty3 = z3;
+                        $dirty12 = obj8;
+                        $dirty22 = obj20;
+                        i17 = trailingIcon;
+                        i58 = prefix;
                         modifier4 = suffix;
-                        colors2 = isError;
+                        colors3 = isError;
                     }
                 } else {
                 }
@@ -1552,148 +1552,148 @@ public final class TextFieldKt {
         endRestartGroup = textStyle3.endRestartGroup();
         if (endRestartGroup != null) {
             leadingIcon2 = composer;
-            textStyle3 = new TextFieldKt.TextField.2(value, onValueChange, str, $composer2, $dirty3, $dirty1, $dirty22, i53, obj14, i42, i64, modifier4, isError4, colors2, visualTransformation3, keyboardOptions4, enabled2, readOnly2, i5, keyboardOptions2, keyboardActions2, singleLine2, maxLines3, $changed, $changed1, $changed2, i95);
+            textStyle3 = new TextFieldKt.TextField.2(value, onValueChange, str, $composer2, $dirty3, $dirty12, $dirty22, i25, obj7, i17, i58, modifier4, isError3, colors3, visualTransformation2, keyboardOptions2, enabled2, readOnly2, i8, keyboardOptions4, keyboardActions2, singleLine3, maxLines2, $changed, $changed1, $changed2, i95);
             endRestartGroup.updateScope((Function2)textStyle3);
         } else {
-            modifier3 = str;
-            modifier2 = obj14;
+            modifier2 = str;
+            modifier3 = obj7;
             leadingIcon2 = textStyle3;
         }
     }
 
     public static final void TextFieldLayout(Modifier modifier, Function2<? super Composer, ? super Integer, Unit> textField, Function2<? super Composer, ? super Integer, Unit> label, Function3<? super Modifier, ? super Composer, ? super Integer, Unit> placeholder, Function2<? super Composer, ? super Integer, Unit> leading, Function2<? super Composer, ? super Integer, Unit> trailing, Function2<? super Composer, ? super Integer, Unit> prefix, Function2<? super Composer, ? super Integer, Unit> suffix, boolean singleLine, float animationProgress, Function2<? super Composer, ? super Integer, Unit> container, Function2<? super Composer, ? super Integer, Unit> supporting, PaddingValues paddingValues, Composer $composer, int $changed, int $changed1) {
-        int i26;
-        int i11;
-        int i8;
-        int i16;
-        int i22;
-        int i5;
-        int i33;
-        boolean traceInProgress;
-        Object endRestartGroup;
         int i19;
-        Object it$iv;
-        Object valueOf7;
-        Object valueOf4;
-        Object valueOf8;
-        Modifier heightIn-VpY3zN4$default;
-        Integer maybeCachedBoxMeasurePolicy2;
-        Object valueOf3;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv5;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv7;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
-        Object obj2;
-        kotlin.jvm.functions.Function0 factory$iv$iv;
-        Composer $changed$iv;
-        boolean traceInProgress2;
+        int i26;
+        int i6;
         int i2;
         int i17;
-        Integer currentCompositionLocalMap2;
-        int valueOf2;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv4;
+        int i24;
+        int i5;
+        boolean traceInProgress2;
+        Object endRestartGroup;
+        int i31;
+        Object it$iv;
+        Object valueOf4;
         Object valueOf6;
+        Object valueOf5;
+        Modifier heightIn-VpY3zN4$default;
+        Integer maybeCachedBoxMeasurePolicy;
+        Object valueOf7;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv5;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv4;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv;
+        Object obj5;
+        kotlin.jvm.functions.Function0 factory$iv$iv;
+        Composer $changed$iv;
+        boolean traceInProgress;
+        int i27;
+        int i30;
+        Integer currentCompositionLocalMap;
+        int valueOf2;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv3;
+        Object valueOf8;
         String $composer$iv;
-        Object obj;
-        Composer composer6;
-        Composer composer;
-        Object currentCompositionLocalMap;
-        Integer currentCompositionLocalMap8;
+        Object obj2;
+        Composer composer4;
+        Composer composer5;
+        Object currentCompositionLocalMap8;
         Integer currentCompositionLocalMap7;
-        Integer maybeCachedBoxMeasurePolicy4;
+        Integer currentCompositionLocalMap4;
+        Integer maybeCachedBoxMeasurePolicy2;
         Integer maybeCachedBoxMeasurePolicy6;
         Object obj4;
         int $composer$iv2;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap6;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap3;
         Composer materialized$iv$iv;
-        int i28;
+        int i3;
         Object then;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv6;
-        Composer composer8;
-        Object currentCompositionLocalMap4;
+        Composer composer3;
+        Object currentCompositionLocalMap5;
         int materializeModifier;
         int constructor-impl;
         int iNSTANCE;
-        Object obj5;
-        Composer composer9;
-        int valueOf;
-        Composer composer11;
-        androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy7;
+        Object obj3;
+        Composer composer8;
+        int valueOf3;
+        Composer composer2;
+        androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy3;
         Object materialized$iv$iv2;
         float $this$coerceAtLeast_u2dYgX7TsA$iv;
-        BoxScopeInstance maybeCachedBoxMeasurePolicy3;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv3;
+        BoxScopeInstance maybeCachedBoxMeasurePolicy4;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv7;
         float $this$dp$iv;
-        int maybeCachedBoxMeasurePolicy;
+        int maybeCachedBoxMeasurePolicy7;
         int iNSTANCE2;
-        int valueOf5;
-        Composer composer3;
-        Composer composer10;
-        Object currentCompositionLocalMap5;
+        int valueOf;
+        Composer composer6;
+        Composer composer7;
+        Object currentCompositionLocalMap6;
         int topStart;
-        int $i$f$cache;
-        Integer currentCompositionLocalMap3;
+        int $i$f$cache2;
+        Integer currentCompositionLocalMap2;
         int maybeCachedBoxMeasurePolicy5;
         Object restartGroup;
-        Composer composer7;
+        Composer composer;
         int valueOf9;
-        Object obj3;
+        Object obj;
         int $dirty12;
         Modifier modifier3;
         int $dirty1;
-        int i3;
-        int $dirty2;
+        int i10;
         int $dirty;
-        int i31;
-        int i21;
-        int i23;
-        int i12;
+        int $dirty2;
+        int i15;
+        int i8;
+        int i16;
+        int i7;
         androidx.compose.material3.TextFieldMeasurePolicy field;
         int companion;
-        int currentCompositeKeyHash4;
-        int $i$f$cache2;
-        int i34;
-        int i6;
+        int currentCompositeKeyHash2;
+        int $i$f$cache;
+        int i21;
+        int i;
         kotlin.jvm.functions.Function0 function0;
-        int i14;
-        int i30;
-        Composer composer2;
-        int i10;
-        Composer composer5;
+        int i23;
+        int i25;
+        Composer composer9;
+        int i32;
+        Composer composer10;
         Modifier modifier4;
-        int i24;
+        int i22;
         androidx.compose.runtime.CompositionLocalMap localMap$iv;
         Modifier modifier2;
-        int i20;
-        Object layoutDirection;
         int i29;
-        int i4;
-        int i25;
-        kotlin.jvm.functions.Function0 currentCompositeKeyHash2;
-        float f4;
+        Object layoutDirection;
+        int i33;
+        int i13;
+        int $i$a$LayoutTextFieldKt$TextFieldLayout$1;
+        kotlin.jvm.functions.Function0 currentCompositeKeyHash4;
+        float f2;
         Modifier currentCompositeKeyHash5;
         float endPadding;
-        float currentCompositeKeyHash3;
-        Composer currentCompositeKeyHash;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
-        float f;
-        int i13;
-        int i7;
-        kotlin.jvm.functions.Function0 f2;
-        float constructor-impl2;
-        int i18;
-        int i9;
-        int i15;
-        int localMap$iv$iv2;
+        float currentCompositeKeyHash;
+        Composer currentCompositeKeyHash3;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
         float f3;
-        float measurePolicy$iv;
-        Composer composer4;
-        int i32;
-        int i;
-        androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv2;
+        int i14;
+        int i12;
+        kotlin.jvm.functions.Function0 f;
+        float constructor-impl2;
+        int i11;
+        int i28;
+        int i9;
+        int localMap$iv$iv;
+        float f4;
+        float measurePolicy$iv2;
+        Composer composer11;
+        int i20;
+        int i18;
+        androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
         androidx.compose.runtime.CompositionLocalMap map;
         Composer composer12;
-        int i27;
+        int i4;
         ScopeUpdateScope scopeUpdateScope;
         Alignment obj74;
         Object obj6 = modifier;
@@ -1701,116 +1701,116 @@ public final class TextFieldKt {
         materializeModifier = trailing;
         iNSTANCE = prefix;
         final Object obj8 = suffix;
-        maybeCachedBoxMeasurePolicy7 = singleLine;
+        maybeCachedBoxMeasurePolicy3 = singleLine;
         $this$dp$iv = animationProgress;
         iNSTANCE2 = container;
-        int i181 = $changed;
-        int i183 = $changed1;
+        int i177 = $changed;
+        int i179 = $changed1;
         restartGroup = $composer.startRestartGroup(-1830307184);
         ComposerKt.sourceInformation(restartGroup, "C(TextFieldLayout)P(4,11,2,6,3,12,7,9,8!2,10)455@23228L147,458@23423L7,459@23435L4118:TextField.kt#uh7d8r");
-        obj74 = i36;
-        if (i181 & 6 == 0) {
-            i21 = restartGroup.changed(obj6) ? 4 : 2;
-            $dirty2 = obj74 | i21;
+        obj74 = i35;
+        if (i177 & 6 == 0) {
+            i8 = restartGroup.changed(obj6) ? 4 : 2;
+            $dirty = obj74 | i8;
         } else {
-            $dirty2 = obj74;
+            $dirty = obj74;
         }
-        if (i181 & 48 == 0) {
-            i23 = restartGroup.changedInstance(textField) ? 32 : 16;
-            $dirty2 |= i23;
+        if (i177 & 48 == 0) {
+            i16 = restartGroup.changedInstance(textField) ? 32 : 16;
+            $dirty |= i16;
         }
-        if (i181 & 384 == 0) {
-            i12 = restartGroup.changedInstance(label) ? 256 : 128;
-            $dirty2 |= i12;
+        if (i177 & 384 == 0) {
+            i7 = restartGroup.changedInstance(label) ? 256 : 128;
+            $dirty |= i7;
         }
-        if (i181 & 3072 == 0) {
-            i26 = restartGroup.changedInstance(placeholder) ? 2048 : 1024;
-            $dirty2 |= i26;
+        if (i177 & 3072 == 0) {
+            i19 = restartGroup.changedInstance(placeholder) ? 2048 : 1024;
+            $dirty |= i19;
         }
-        if (i181 & 24576 == 0) {
-            i11 = restartGroup.changedInstance($composer$iv2) ? 16384 : 8192;
-            $dirty2 |= i11;
+        if (i177 & 24576 == 0) {
+            i26 = restartGroup.changedInstance($composer$iv2) ? 16384 : 8192;
+            $dirty |= i26;
         }
-        if (i38 &= i181 == 0) {
-            i8 = restartGroup.changedInstance(materializeModifier) ? 131072 : 65536;
-            $dirty2 |= i8;
+        if (i37 &= i177 == 0) {
+            i6 = restartGroup.changedInstance(materializeModifier) ? 131072 : 65536;
+            $dirty |= i6;
         }
-        if (i39 &= i181 == 0) {
-            i16 = restartGroup.changedInstance(iNSTANCE) ? 1048576 : 524288;
-            $dirty2 |= i16;
+        if (i38 &= i177 == 0) {
+            i2 = restartGroup.changedInstance(iNSTANCE) ? 1048576 : 524288;
+            $dirty |= i2;
         }
-        if (i40 &= i181 == 0) {
-            i22 = restartGroup.changedInstance(obj8) ? 8388608 : 4194304;
-            $dirty2 |= i22;
+        if (i39 &= i177 == 0) {
+            i17 = restartGroup.changedInstance(obj8) ? 8388608 : 4194304;
+            $dirty |= i17;
         }
-        if (i41 &= i181 == 0) {
-            i5 = restartGroup.changed(maybeCachedBoxMeasurePolicy7) ? 67108864 : 33554432;
-            $dirty2 |= i5;
+        if (i40 &= i177 == 0) {
+            i24 = restartGroup.changed(maybeCachedBoxMeasurePolicy3) ? 67108864 : 33554432;
+            $dirty |= i24;
         }
-        if (i42 &= i181 == 0) {
-            i33 = restartGroup.changed($this$dp$iv) ? 536870912 : 268435456;
-            $dirty2 |= i33;
+        if (i41 &= i177 == 0) {
+            i5 = restartGroup.changed($this$dp$iv) ? 536870912 : 268435456;
+            $dirty |= i5;
         }
-        traceInProgress = $dirty2;
-        if (i183 & 6 == 0) {
-            $dirty = restartGroup.changedInstance(iNSTANCE2) ? 4 : 2;
-            $dirty1 |= $dirty;
+        traceInProgress2 = $dirty;
+        if (i179 & 6 == 0) {
+            $dirty2 = restartGroup.changedInstance(iNSTANCE2) ? 4 : 2;
+            $dirty1 |= $dirty2;
         }
-        if (i183 & 48 == 0) {
-            i31 = restartGroup.changedInstance(supporting) ? 32 : 16;
-            $dirty1 |= i31;
+        if (i179 & 48 == 0) {
+            i15 = restartGroup.changedInstance(supporting) ? 32 : 16;
+            $dirty1 |= i15;
         }
-        if (i183 & 384 == 0) {
-            i31 = restartGroup.changed(paddingValues) ? 256 : 128;
-            $dirty1 |= i31;
+        if (i179 & 384 == 0) {
+            i15 = restartGroup.changed(paddingValues) ? 256 : 128;
+            $dirty1 |= i15;
         } else {
-            obj3 = paddingValues;
+            obj = paddingValues;
         }
         $dirty12 = $dirty1;
-        if (traceInProgress & $dirty13 == 306783378 && $dirty12 & 147 == 146) {
+        if (traceInProgress2 & $dirty13 == 306783378 && $dirty12 & 147 == 146) {
             if ($dirty12 & 147 == 146) {
                 if (!restartGroup.getSkipping()) {
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(-1830307184, traceInProgress, $dirty12, "androidx.compose.material3.TextFieldLayout (TextField.kt:453)");
+                        ComposerKt.traceEventStart(-1830307184, traceInProgress2, $dirty12, "androidx.compose.material3.TextFieldLayout (TextField.kt:453)");
                     }
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -1052646361, "CC(remember):TextField.kt#9igjgp");
-                    int i187 = 1;
-                    i3 = traceInProgress;
-                    i2 = i87 &= traceInProgress == 67108864 ? i187 : 0;
-                    i19 = i3 & i164 == 536870912 ? i187 : 0;
-                    i17 = $dirty12 & 896 == 256 ? i187 : 0;
+                    int i183 = 1;
+                    i10 = traceInProgress2;
+                    i27 = i86 &= traceInProgress2 == 67108864 ? i183 : 0;
+                    i31 = i10 & i161 == 536870912 ? i183 : 0;
+                    i30 = $dirty12 & 896 == 256 ? i183 : 0;
                     Composer composer13 = restartGroup;
-                    $i$f$cache = 0;
+                    $i$f$cache2 = 0;
                     it$iv = composer13.rememberedValue();
-                    int i192 = 0;
-                    if (i44 |= i17 == 0) {
-                        $i$f$cache2 = $i$f$cache;
+                    int i188 = 0;
+                    if (i43 |= i30 == 0) {
+                        $i$f$cache = $i$f$cache2;
                         if (it$iv == Composer.Companion.getEmpty()) {
-                            $i$f$cache = 0;
+                            $i$f$cache2 = 0;
                             companion = it$iv;
-                            it$iv = new TextFieldMeasurePolicy(maybeCachedBoxMeasurePolicy7, $this$dp$iv, obj3);
+                            it$iv = new TextFieldMeasurePolicy(maybeCachedBoxMeasurePolicy3, $this$dp$iv, obj);
                             composer13.updateRememberedValue(it$iv);
                         } else {
                             companion = it$iv;
                         }
                     } else {
-                        $i$f$cache2 = $i$f$cache;
+                        $i$f$cache = $i$f$cache2;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    int i167 = 0;
-                    int i191 = 0;
+                    int i164 = 0;
+                    int i187 = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
-                    valueOf7 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection());
+                    valueOf4 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection());
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     $changed$iv = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, $changed$iv);
-                    currentCompositeKeyHash4 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                    currentCompositionLocalMap3 = restartGroup.getCurrentCompositionLocalMap();
-                    i34 = i137;
+                    currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
+                    currentCompositionLocalMap2 = restartGroup.getCurrentCompositionLocalMap();
+                    i21 = i136;
                     materialized$iv$iv2 = ComposedModifierKt.materializeModifier(restartGroup, obj6);
                     kotlin.jvm.functions.Function0 function02 = constructor2;
-                    i6 = 0;
-                    i30 = $dirty12;
+                    i = 0;
+                    i25 = $dirty12;
                     $dirty12 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $dirty12);
                     if (!applier5 instanceof Applier) {
@@ -1825,32 +1825,32 @@ public final class TextFieldKt {
                     }
                     function0 = factory$iv$iv;
                     Composer constructor-impl6 = Updater.constructor-impl(restartGroup);
-                    int i194 = 0;
-                    composer5 = restartGroup;
+                    int i190 = 0;
+                    composer10 = restartGroup;
                     Updater.set-impl(constructor-impl6, (MeasurePolicy)(TextFieldMeasurePolicy)it$iv, ComposeUiNode.Companion.getSetMeasurePolicy());
-                    Updater.set-impl(constructor-impl6, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    Updater.set-impl(constructor-impl6, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                     valueOf9 = 0;
                     Composer composer20 = constructor-impl6;
-                    i24 = 0;
+                    i22 = 0;
                     if (!composer20.getInserting()) {
-                        localMap$iv = currentCompositionLocalMap3;
-                        i20 = valueOf9;
-                        if (!Intrinsics.areEqual(composer20.rememberedValue(), Integer.valueOf(currentCompositeKeyHash4))) {
-                            composer20.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash4));
-                            constructor-impl6.apply(Integer.valueOf(currentCompositeKeyHash4), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                        localMap$iv = currentCompositionLocalMap2;
+                        i29 = valueOf9;
+                        if (!Intrinsics.areEqual(composer20.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
+                            composer20.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
+                            constructor-impl6.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer7 = composer20;
+                            composer = composer20;
                         }
                     } else {
-                        localMap$iv = currentCompositionLocalMap3;
-                        i20 = valueOf9;
+                        localMap$iv = currentCompositionLocalMap2;
+                        i29 = valueOf9;
                     }
                     Updater.set-impl(constructor-impl6, materialized$iv$iv2, ComposeUiNode.Companion.getSetModifier());
-                    obj4 = composer5;
+                    obj4 = composer10;
                     maybeCachedBoxMeasurePolicy5 = 0;
-                    i10 = i82;
+                    i32 = i81;
                     ComposerKt.sourceInformationMarkerStart(obj4, -1362557328, "C465@23754L11,550@26868L187:TextField.kt#uh7d8r");
-                    iNSTANCE2.invoke(obj4, Integer.valueOf(i30 & 14));
+                    iNSTANCE2.invoke(obj4, Integer.valueOf(i25 & 14));
                     obj4.startReplaceGroup(1341517187);
                     ComposerKt.sourceInformation(obj4, "468@23818L219");
                     restartGroup = "C73@3429L9:Box.kt#2w3rfo";
@@ -1861,20 +1861,20 @@ public final class TextFieldKt {
                         Modifier then4 = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Leading").then(TextFieldImplKt.getIconDefaultSizeModifier());
                         Alignment center2 = Alignment.Companion.getCenter();
                         layoutDirection = modifier4;
-                        i4 = 0;
-                        i25 = maybeCachedBoxMeasurePolicy5;
+                        i13 = 0;
+                        $i$a$LayoutTextFieldKt$TextFieldLayout$1 = maybeCachedBoxMeasurePolicy5;
                         ComposerKt.sourceInformationMarkerStart(obj4, 733328855, str3);
-                        int i179 = 0;
-                        maybeCachedBoxMeasurePolicy6 = BoxKt.maybeCachedBoxMeasurePolicy(center2, i179);
-                        f4 = 0;
+                        int i175 = 0;
+                        maybeCachedBoxMeasurePolicy6 = BoxKt.maybeCachedBoxMeasurePolicy(center2, i175);
+                        f2 = 0;
                         currentCompositeKeyHash5 = center2;
                         ComposerKt.sourceInformationMarkerStart(obj4, -1323940314, $changed$iv);
                         endPadding = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
-                        currentCompositionLocalMap5 = obj4.getCurrentCompositionLocalMap();
-                        currentCompositeKeyHash = i179;
-                        i13 = then4;
+                        currentCompositionLocalMap6 = obj4.getCurrentCompositionLocalMap();
+                        currentCompositeKeyHash3 = i175;
+                        i14 = then4;
                         kotlin.jvm.functions.Function0 function08 = constructor7;
-                        localMap$iv$iv = 0;
+                        localMap$iv$iv2 = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, -692256719, $dirty12);
                         if (!applier8 instanceof Applier) {
                             ComposablesKt.invalidApplier();
@@ -1883,41 +1883,41 @@ public final class TextFieldKt {
                         if (obj4.getInserting()) {
                             obj4.createNode(function08);
                         } else {
-                            factory$iv$iv$iv3 = function08;
+                            factory$iv$iv$iv7 = function08;
                             obj4.useNode();
                         }
-                        i7 = factory$iv$iv$iv3;
+                        i12 = factory$iv$iv$iv7;
                         Composer constructor-impl9 = Updater.constructor-impl(obj4);
-                        int i229 = 0;
+                        int i225 = 0;
                         Updater.set-impl(constructor-impl9, maybeCachedBoxMeasurePolicy6, ComposeUiNode.Companion.getSetMeasurePolicy());
-                        Updater.set-impl(constructor-impl9, currentCompositionLocalMap5, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                        int i241 = 0;
+                        Updater.set-impl(constructor-impl9, currentCompositionLocalMap6, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                        int i237 = 0;
                         Composer composer23 = constructor-impl9;
-                        int i242 = 0;
+                        int i238 = 0;
                         if (!composer23.getInserting()) {
-                            measurePolicy$iv = maybeCachedBoxMeasurePolicy6;
-                            composer4 = currentCompositionLocalMap5;
+                            measurePolicy$iv2 = maybeCachedBoxMeasurePolicy6;
+                            composer11 = currentCompositionLocalMap6;
                             if (!Intrinsics.areEqual(composer23.rememberedValue(), Integer.valueOf(endPadding))) {
                                 composer23.updateRememberedValue(Integer.valueOf(endPadding));
                                 constructor-impl9.apply(Integer.valueOf(endPadding), ComposeUiNode.Companion.getSetCompositeKeyHash());
                             } else {
-                                composer10 = composer23;
+                                composer7 = composer23;
                             }
                         } else {
-                            measurePolicy$iv = maybeCachedBoxMeasurePolicy6;
-                            composer4 = currentCompositionLocalMap5;
+                            measurePolicy$iv2 = maybeCachedBoxMeasurePolicy6;
+                            composer11 = currentCompositionLocalMap6;
                         }
                         Updater.set-impl(constructor-impl9, ComposedModifierKt.materializeModifier(obj4, then4), ComposeUiNode.Companion.getSetModifier());
                         Composer composer19 = obj4;
                         ComposerKt.sourceInformationMarkerStart(composer19, -2146769399, restartGroup);
                         iNSTANCE2 = BoxScopeInstance.INSTANCE;
-                        i231 |= 6;
-                        localMap$iv$iv2 = 0;
-                        f3 = i108;
-                        i = i152;
-                        $this$dp$iv = i15;
+                        i227 |= 6;
+                        localMap$iv$iv = 0;
+                        f4 = i107;
+                        i18 = i149;
+                        $this$dp$iv = i9;
                         ComposerKt.sourceInformationMarkerStart($this$dp$iv, -948431736, "C472@24010L9:TextField.kt#uh7d8r");
-                        $composer$iv2.invoke($this$dp$iv, Integer.valueOf(i109 &= 14));
+                        $composer$iv2.invoke($this$dp$iv, Integer.valueOf(i108 &= 14));
                         ComposerKt.sourceInformationMarkerEnd($this$dp$iv);
                         ComposerKt.sourceInformationMarkerEnd(composer19);
                         obj4.endNode();
@@ -1925,7 +1925,7 @@ public final class TextFieldKt {
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                     } else {
-                        i25 = maybeCachedBoxMeasurePolicy5;
+                        $i$a$LayoutTextFieldKt$TextFieldLayout$1 = maybeCachedBoxMeasurePolicy5;
                     }
                     obj4.endReplaceGroup();
                     obj4.startReplaceGroup(1341526310);
@@ -1933,12 +1933,12 @@ public final class TextFieldKt {
                     Modifier then2 = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Trailing").then(TextFieldImplKt.getIconDefaultSizeModifier());
                     Alignment center = Alignment.Companion.getCenter();
                     ComposerKt.sourceInformationMarkerStart(obj4, 733328855, str3);
-                    valueOf5 = 0;
-                    i4 = 0;
+                    valueOf = 0;
+                    i13 = 0;
                     ComposerKt.sourceInformationMarkerStart(obj4, -1323940314, $changed$iv);
-                    currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
-                    currentCompositionLocalMap6 = obj4.getCurrentCompositionLocalMap();
-                    f4 = center;
+                    currentCompositeKeyHash4 = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
+                    currentCompositionLocalMap3 = obj4.getCurrentCompositionLocalMap();
+                    f2 = center;
                     Modifier materializeModifier5 = ComposedModifierKt.materializeModifier(obj4, then2);
                     endPadding = then2;
                     kotlin.jvm.functions.Function0 function04 = constructor3;
@@ -1948,12 +1948,12 @@ public final class TextFieldKt {
                         then2 = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Trailing").then(TextFieldImplKt.getIconDefaultSizeModifier());
                         center = Alignment.Companion.getCenter();
                         ComposerKt.sourceInformationMarkerStart(obj4, 733328855, str3);
-                        valueOf5 = 0;
-                        i4 = 0;
+                        valueOf = 0;
+                        i13 = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, -1323940314, $changed$iv);
-                        currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
-                        currentCompositionLocalMap6 = obj4.getCurrentCompositionLocalMap();
-                        f4 = center;
+                        currentCompositeKeyHash4 = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
+                        currentCompositionLocalMap3 = obj4.getCurrentCompositionLocalMap();
+                        f2 = center;
                         materializeModifier5 = ComposedModifierKt.materializeModifier(obj4, then2);
                         endPadding = then2;
                         function04 = constructor3;
@@ -1966,43 +1966,43 @@ public final class TextFieldKt {
                         if (obj4.getInserting()) {
                             obj4.createNode(function04);
                         } else {
-                            factory$iv$iv$iv4 = function04;
+                            factory$iv$iv$iv3 = function04;
                             obj4.useNode();
                         }
-                        currentCompositeKeyHash = factory$iv$iv$iv4;
+                        currentCompositeKeyHash3 = factory$iv$iv$iv3;
                         Composer constructor-impl7 = Updater.constructor-impl(obj4);
-                        int i208 = 0;
-                        i18 = i147;
-                        Updater.set-impl(constructor-impl7, BoxKt.maybeCachedBoxMeasurePolicy(center, valueOf5), ComposeUiNode.Companion.getSetMeasurePolicy());
-                        Updater.set-impl(constructor-impl7, currentCompositionLocalMap6, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                        int i215 = 0;
+                        int i204 = 0;
+                        i11 = i146;
+                        Updater.set-impl(constructor-impl7, BoxKt.maybeCachedBoxMeasurePolicy(center, valueOf), ComposeUiNode.Companion.getSetMeasurePolicy());
+                        Updater.set-impl(constructor-impl7, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                        int i211 = 0;
                         Composer composer22 = constructor-impl7;
-                        int i232 = 0;
+                        int i228 = 0;
                         if (!composer22.getInserting()) {
-                            localMap$iv$iv2 = currentCompositionLocalMap6;
-                            f3 = valueOf5;
-                            if (!Intrinsics.areEqual(composer22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
-                                composer22.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
-                                constructor-impl7.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                            localMap$iv$iv = currentCompositionLocalMap3;
+                            f4 = valueOf;
+                            if (!Intrinsics.areEqual(composer22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash4))) {
+                                composer22.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash4));
+                                constructor-impl7.apply(Integer.valueOf(currentCompositeKeyHash4), ComposeUiNode.Companion.getSetCompositeKeyHash());
                             } else {
-                                composer3 = composer22;
+                                composer6 = composer22;
                             }
                         } else {
-                            localMap$iv$iv2 = currentCompositionLocalMap6;
-                            f3 = valueOf5;
+                            localMap$iv$iv = currentCompositionLocalMap3;
+                            f4 = valueOf;
                         }
                         Updater.set-impl(constructor-impl7, materializeModifier5, ComposeUiNode.Companion.getSetModifier());
                         Composer composer18 = obj4;
                         $this$dp$iv = 0;
                         ComposerKt.sourceInformationMarkerStart(composer18, -2146769399, restartGroup);
                         iNSTANCE2 = BoxScopeInstance.INSTANCE;
-                        i210 |= 6;
-                        i9 = 0;
-                        i15 = i96;
-                        composer4 = materializeModifier5;
-                        materialized$iv$iv2 = i7;
+                        i206 |= 6;
+                        i28 = 0;
+                        i9 = i95;
+                        composer11 = materializeModifier5;
+                        materialized$iv$iv2 = i12;
                         ComposerKt.sourceInformationMarkerStart(materialized$iv$iv2, -948147001, "C480@24297L10:TextField.kt#uh7d8r");
-                        materializeModifier.invoke(materialized$iv$iv2, Integer.valueOf(i97 &= 14));
+                        materializeModifier.invoke(materialized$iv$iv2, Integer.valueOf(i96 &= 14));
                         ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv2);
                         ComposerKt.sourceInformationMarkerEnd(composer18);
                         obj4.endNode();
@@ -2011,47 +2011,47 @@ public final class TextFieldKt {
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                     }
                     obj4.endReplaceGroup();
-                    $composer$iv = PaddingKt.calculateStartPadding(obj3, (LayoutDirection)valueOf7);
-                    materialized$iv$iv = PaddingKt.calculateEndPadding(obj3, valueOf7);
+                    $composer$iv = PaddingKt.calculateStartPadding(obj, (LayoutDirection)valueOf4);
+                    materialized$iv$iv = PaddingKt.calculateEndPadding(obj, valueOf4);
                     if (leading != null) {
-                        int i150 = 0;
-                        int i160 = 0;
+                        int i148 = 0;
+                        int i157 = 0;
                         iNSTANCE2 = 0;
-                        $this$coerceAtLeast_u2dYgX7TsA$iv = Dp.constructor-impl(RangesKt.coerceAtLeast(Dp.constructor-impl($composer$iv - horizontalIconPadding2), Dp.constructor-impl((float)i151)));
+                        $this$coerceAtLeast_u2dYgX7TsA$iv = Dp.constructor-impl(RangesKt.coerceAtLeast(Dp.constructor-impl($composer$iv - horizontalIconPadding2), Dp.constructor-impl((float)$i$f$minus5rwHm242)));
                     } else {
                         $this$coerceAtLeast_u2dYgX7TsA$iv = $composer$iv;
                     }
-                    f4 = $this$coerceAtLeast_u2dYgX7TsA$iv;
+                    f2 = $this$coerceAtLeast_u2dYgX7TsA$iv;
                     if (materializeModifier != null) {
-                        int i148 = 0;
-                        int i158 = 0;
+                        int i147 = 0;
+                        int i155 = 0;
                         iNSTANCE2 = 0;
-                        currentCompositeKeyHash3 = $this$coerceAtLeast_u2dYgX7TsA$iv;
+                        currentCompositeKeyHash = $this$coerceAtLeast_u2dYgX7TsA$iv;
                     } else {
-                        currentCompositeKeyHash3 = materialized$iv$iv;
+                        currentCompositeKeyHash = materialized$iv$iv;
                     }
-                    f2 = currentCompositeKeyHash3;
+                    f = currentCompositeKeyHash;
                     obj4.startReplaceGroup(1341556924);
                     ComposerKt.sourceInformation(obj4, "501@25056L309");
-                    maybeCachedBoxMeasurePolicy = 0;
+                    maybeCachedBoxMeasurePolicy7 = 0;
                     if (iNSTANCE != null) {
-                        layoutDirection = valueOf7;
-                        int i177 = 0;
-                        Modifier padding-qDBjuR0$default4 = PaddingKt.padding-qDBjuR0$default(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Prefix"), TextFieldImplKt.getMinTextLineHeight(), 0, 2, maybeCachedBoxMeasurePolicy), maybeCachedBoxMeasurePolicy, i177, 3, maybeCachedBoxMeasurePolicy), f4, 0, TextFieldImplKt.getPrefixSuffixTextPadding(), 0, 10, 0);
-                        iNSTANCE2 = i177;
+                        layoutDirection = valueOf4;
+                        int i174 = 0;
+                        Modifier padding-qDBjuR0$default4 = PaddingKt.padding-qDBjuR0$default(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Prefix"), TextFieldImplKt.getMinTextLineHeight(), 0, 2, maybeCachedBoxMeasurePolicy7), maybeCachedBoxMeasurePolicy7, i174, 3, maybeCachedBoxMeasurePolicy7), f2, 0, TextFieldImplKt.getPrefixSuffixTextPadding(), 0, 10, 0);
+                        iNSTANCE2 = i174;
                         maybeCachedBoxMeasurePolicy5 = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, 733328855, str3);
                         Alignment topStart5 = Alignment.Companion.getTopStart();
-                        f3 = $composer$iv;
-                        maybeCachedBoxMeasurePolicy4 = BoxKt.maybeCachedBoxMeasurePolicy(topStart5, false);
+                        f4 = $composer$iv;
+                        maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart5, false);
                         currentCompositeKeyHash5 = 0;
-                        measurePolicy$iv = materialized$iv$iv;
+                        measurePolicy$iv2 = materialized$iv$iv;
                         ComposerKt.sourceInformationMarkerStart(obj4, -1323940314, $changed$iv);
-                        currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
-                        currentCompositionLocalMap4 = obj4.getCurrentCompositionLocalMap();
-                        localMap$iv$iv = padding-qDBjuR0$default4;
+                        currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
+                        currentCompositionLocalMap5 = obj4.getCurrentCompositionLocalMap();
+                        localMap$iv$iv2 = padding-qDBjuR0$default4;
                         kotlin.jvm.functions.Function0 function05 = constructor4;
-                        currentCompositeKeyHash = 0;
+                        currentCompositeKeyHash3 = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, -692256719, $dirty12);
                         if (!applier4 instanceof Applier) {
                             ComposablesKt.invalidApplier();
@@ -2060,42 +2060,42 @@ public final class TextFieldKt {
                         if (obj4.getInserting()) {
                             obj4.createNode(function05);
                         } else {
-                            factory$iv$iv$iv2 = function05;
+                            factory$iv$iv$iv = function05;
                             obj4.useNode();
                         }
-                        i13 = factory$iv$iv$iv2;
+                        i14 = factory$iv$iv$iv;
                         Composer constructor-impl5 = Updater.constructor-impl(obj4);
-                        int i226 = 0;
-                        composer4 = topStart5;
-                        Updater.set-impl(constructor-impl5, maybeCachedBoxMeasurePolicy4, ComposeUiNode.Companion.getSetMeasurePolicy());
-                        Updater.set-impl(constructor-impl5, currentCompositionLocalMap4, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                        int i240 = 0;
+                        int i222 = 0;
+                        composer11 = topStart5;
+                        Updater.set-impl(constructor-impl5, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                        Updater.set-impl(constructor-impl5, currentCompositionLocalMap5, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                        int i236 = 0;
                         Composer composer27 = constructor-impl5;
-                        int i247 = 0;
+                        int i243 = 0;
                         if (!composer27.getInserting()) {
-                            measurePolicy$iv2 = maybeCachedBoxMeasurePolicy4;
-                            map = currentCompositionLocalMap4;
-                            if (!Intrinsics.areEqual(composer27.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
-                                composer27.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
-                                constructor-impl5.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                            measurePolicy$iv = maybeCachedBoxMeasurePolicy2;
+                            map = currentCompositionLocalMap5;
+                            if (!Intrinsics.areEqual(composer27.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                                composer27.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                                constructor-impl5.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                             } else {
-                                composer8 = composer27;
+                                composer3 = composer27;
                             }
                         } else {
-                            measurePolicy$iv2 = maybeCachedBoxMeasurePolicy4;
-                            map = currentCompositionLocalMap4;
+                            measurePolicy$iv = maybeCachedBoxMeasurePolicy2;
+                            map = currentCompositionLocalMap5;
                         }
                         Updater.set-impl(constructor-impl5, ComposedModifierKt.materializeModifier(obj4, padding-qDBjuR0$default4), ComposeUiNode.Companion.getSetModifier());
                         Composer composer17 = obj4;
                         ComposerKt.sourceInformationMarkerStart(composer17, -2146769399, restartGroup);
-                        maybeCachedBoxMeasurePolicy3 = BoxScopeInstance.INSTANCE;
-                        i228 |= 6;
-                        i32 = 0;
-                        i = i75;
-                        i27 = i125;
-                        materialized$iv$iv = i15;
+                        maybeCachedBoxMeasurePolicy4 = BoxScopeInstance.INSTANCE;
+                        i224 |= 6;
+                        i20 = 0;
+                        i18 = i74;
+                        i4 = i124;
+                        materialized$iv$iv = i9;
                         ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, -947113399, "C507@25339L8:TextField.kt#uh7d8r");
-                        iNSTANCE.invoke(materialized$iv$iv, Integer.valueOf(i76 &= 14));
+                        iNSTANCE.invoke(materialized$iv$iv, Integer.valueOf(i75 &= 14));
                         ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv);
                         ComposerKt.sourceInformationMarkerEnd(composer17);
                         obj4.endNode();
@@ -2103,30 +2103,30 @@ public final class TextFieldKt {
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                     } else {
-                        layoutDirection = valueOf7;
-                        f3 = $composer$iv;
-                        measurePolicy$iv = materialized$iv$iv;
+                        layoutDirection = valueOf4;
+                        f4 = $composer$iv;
+                        measurePolicy$iv2 = materialized$iv$iv;
                     }
                     obj4.endReplaceGroup();
                     obj4.startReplaceGroup(1341568890);
                     ComposerKt.sourceInformation(obj4, "511@25430L307");
                     if (obj8 != null) {
-                        int i142 = 0;
-                        int i122 = 0;
-                        Modifier padding-qDBjuR0$default3 = PaddingKt.padding-qDBjuR0$default(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Suffix"), TextFieldImplKt.getMinTextLineHeight(), 0, 2, i142), i142, i122, 3, i142), TextFieldImplKt.getPrefixSuffixTextPadding(), 0, f2, 0, 10, 0);
-                        endPadding = f2;
-                        int i105 = i122;
+                        int i141 = 0;
+                        int i121 = 0;
+                        Modifier padding-qDBjuR0$default3 = PaddingKt.padding-qDBjuR0$default(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Suffix"), TextFieldImplKt.getMinTextLineHeight(), 0, 2, i141), i141, i121, 3, i141), TextFieldImplKt.getPrefixSuffixTextPadding(), 0, f, 0, 10, 0);
+                        endPadding = f;
+                        int i104 = i121;
                         ComposerKt.sourceInformationMarkerStart(obj4, 733328855, str3);
                         Alignment topStart4 = Alignment.Companion.getTopStart();
                         maybeCachedBoxMeasurePolicy5 = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, -1323940314, $changed$iv);
                         currentCompositeKeyHash5 = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
-                        currentCompositionLocalMap7 = obj4.getCurrentCompositionLocalMap();
-                        currentCompositeKeyHash = i123;
+                        currentCompositionLocalMap4 = obj4.getCurrentCompositionLocalMap();
+                        currentCompositeKeyHash3 = i122;
                         Modifier materializeModifier4 = ComposedModifierKt.materializeModifier(obj4, padding-qDBjuR0$default3);
-                        i13 = padding-qDBjuR0$default3;
+                        i14 = padding-qDBjuR0$default3;
                         kotlin.jvm.functions.Function0 function07 = constructor6;
-                        localMap$iv$iv = 0;
+                        localMap$iv$iv2 = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, -692256719, $dirty12);
                         if (!applier3 instanceof Applier) {
                             ComposablesKt.invalidApplier();
@@ -2135,41 +2135,41 @@ public final class TextFieldKt {
                         if (obj4.getInserting()) {
                             obj4.createNode(function07);
                         } else {
-                            factory$iv$iv$iv = function07;
+                            factory$iv$iv$iv4 = function07;
                             obj4.useNode();
                         }
-                        f2 = factory$iv$iv$iv;
+                        f = factory$iv$iv$iv4;
                         Composer constructor-impl4 = Updater.constructor-impl(obj4);
-                        int i223 = 0;
-                        composer4 = topStart4;
+                        int i219 = 0;
+                        composer11 = topStart4;
                         Updater.set-impl(constructor-impl4, BoxKt.maybeCachedBoxMeasurePolicy(topStart4, false), ComposeUiNode.Companion.getSetMeasurePolicy());
-                        Updater.set-impl(constructor-impl4, currentCompositionLocalMap7, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                        int i239 = 0;
+                        Updater.set-impl(constructor-impl4, currentCompositionLocalMap4, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                        int i235 = 0;
                         Composer composer26 = constructor-impl4;
-                        int i246 = 0;
+                        int i242 = 0;
                         if (!composer26.getInserting()) {
-                            measurePolicy$iv2 = currentCompositionLocalMap7;
+                            measurePolicy$iv = currentCompositionLocalMap4;
                             if (!Intrinsics.areEqual(composer26.rememberedValue(), Integer.valueOf(currentCompositeKeyHash5))) {
                                 composer26.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash5));
                                 constructor-impl4.apply(Integer.valueOf(currentCompositeKeyHash5), ComposeUiNode.Companion.getSetCompositeKeyHash());
                             } else {
-                                composer11 = composer26;
+                                composer2 = composer26;
                             }
                         } else {
-                            measurePolicy$iv2 = currentCompositionLocalMap7;
+                            measurePolicy$iv = currentCompositionLocalMap4;
                         }
                         Updater.set-impl(constructor-impl4, materializeModifier4, ComposeUiNode.Companion.getSetModifier());
                         Composer composer16 = obj4;
                         materializeModifier = 0;
                         ComposerKt.sourceInformationMarkerStart(composer16, -2146769399, restartGroup);
                         iNSTANCE = BoxScopeInstance.INSTANCE;
-                        i225 |= 6;
-                        i32 = 0;
-                        i = i68;
+                        i221 |= 6;
+                        i20 = 0;
+                        i18 = i67;
                         composer12 = materializeModifier4;
-                        materialized$iv$iv = i15;
+                        materialized$iv$iv = i9;
                         ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, -946744375, "C517@25711L8:TextField.kt#uh7d8r");
-                        obj8.invoke(materialized$iv$iv, Integer.valueOf(i69 &= 14));
+                        obj8.invoke(materialized$iv$iv, Integer.valueOf(i68 &= 14));
                         ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv);
                         ComposerKt.sourceInformationMarkerEnd(composer16);
                         obj4.endNode();
@@ -2177,28 +2177,28 @@ public final class TextFieldKt {
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                     } else {
-                        endPadding = f2;
+                        endPadding = f;
                     }
                     obj4.endReplaceGroup();
                     obj4.startReplaceGroup(1341581092);
                     ComposerKt.sourceInformation(obj4, "522@25802L574");
                     if (label != null) {
-                        int i141 = 0;
-                        int i119 = 0;
-                        Modifier padding-qDBjuR0$default2 = PaddingKt.padding-qDBjuR0$default(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Label"), DpKt.lerp-Md-fbLM(TextFieldImplKt.getMinTextLineHeight(), TextFieldImplKt.getMinFocusedLabelLineHeight(), animationProgress), 0, 2, i141), i141, i119, 3, i141), f4, 0, endPadding, 0, 10, 0);
-                        int i102 = i119;
+                        int i140 = 0;
+                        int i118 = 0;
+                        Modifier padding-qDBjuR0$default2 = PaddingKt.padding-qDBjuR0$default(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Label"), DpKt.lerp-Md-fbLM(TextFieldImplKt.getMinTextLineHeight(), TextFieldImplKt.getMinFocusedLabelLineHeight(), animationProgress), 0, 2, i140), i140, i118, 3, i140), f2, 0, endPadding, 0, 10, 0);
+                        int i101 = i118;
                         ComposerKt.sourceInformationMarkerStart(obj4, 733328855, str3);
                         Alignment topStart3 = Alignment.Companion.getTopStart();
-                        valueOf = 0;
+                        valueOf3 = 0;
                         maybeCachedBoxMeasurePolicy5 = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, -1323940314, $changed$iv);
                         currentCompositeKeyHash5 = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
-                        currentCompositionLocalMap8 = obj4.getCurrentCompositionLocalMap();
-                        currentCompositeKeyHash = i120;
+                        currentCompositionLocalMap7 = obj4.getCurrentCompositionLocalMap();
+                        currentCompositeKeyHash3 = i119;
                         Modifier materializeModifier3 = ComposedModifierKt.materializeModifier(obj4, padding-qDBjuR0$default2);
-                        i13 = padding-qDBjuR0$default2;
+                        i14 = padding-qDBjuR0$default2;
                         kotlin.jvm.functions.Function0 function06 = constructor5;
-                        localMap$iv$iv = 0;
+                        localMap$iv$iv2 = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, -692256719, $dirty12);
                         if (!applier2 instanceof Applier) {
                             ComposablesKt.invalidApplier();
@@ -2207,43 +2207,43 @@ public final class TextFieldKt {
                         if (obj4.getInserting()) {
                             obj4.createNode(function06);
                         } else {
-                            factory$iv$iv$iv7 = function06;
+                            factory$iv$iv$iv5 = function06;
                             obj4.useNode();
                         }
-                        f2 = factory$iv$iv$iv7;
+                        f = factory$iv$iv$iv5;
                         Composer constructor-impl3 = Updater.constructor-impl(obj4);
-                        int i219 = 0;
-                        composer4 = topStart3;
-                        Updater.set-impl(constructor-impl3, BoxKt.maybeCachedBoxMeasurePolicy(topStart3, valueOf), ComposeUiNode.Companion.getSetMeasurePolicy());
-                        Updater.set-impl(constructor-impl3, currentCompositionLocalMap8, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                        int i237 = 0;
+                        int i215 = 0;
+                        composer11 = topStart3;
+                        Updater.set-impl(constructor-impl3, BoxKt.maybeCachedBoxMeasurePolicy(topStart3, valueOf3), ComposeUiNode.Companion.getSetMeasurePolicy());
+                        Updater.set-impl(constructor-impl3, currentCompositionLocalMap7, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                        int i233 = 0;
                         Composer composer25 = constructor-impl3;
-                        int i245 = 0;
+                        int i241 = 0;
                         if (!composer25.getInserting()) {
-                            measurePolicy$iv2 = currentCompositionLocalMap8;
-                            map = valueOf;
+                            measurePolicy$iv = currentCompositionLocalMap7;
+                            map = valueOf3;
                             if (!Intrinsics.areEqual(composer25.rememberedValue(), Integer.valueOf(currentCompositeKeyHash5))) {
                                 composer25.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash5));
                                 constructor-impl3.apply(Integer.valueOf(currentCompositeKeyHash5), ComposeUiNode.Companion.getSetCompositeKeyHash());
                             } else {
-                                composer9 = composer25;
+                                composer8 = composer25;
                             }
                         } else {
-                            measurePolicy$iv2 = currentCompositionLocalMap8;
-                            map = valueOf;
+                            measurePolicy$iv = currentCompositionLocalMap7;
+                            map = valueOf3;
                         }
                         Updater.set-impl(constructor-impl3, materializeModifier3, ComposeUiNode.Companion.getSetModifier());
                         Composer composer15 = obj4;
                         materializeModifier = 0;
                         ComposerKt.sourceInformationMarkerStart(composer15, -2146769399, restartGroup);
                         iNSTANCE = BoxScopeInstance.INSTANCE;
-                        i221 |= 6;
-                        i32 = 0;
-                        i = i62;
-                        i27 = materializeModifier3;
-                        materialized$iv$iv = i15;
+                        i217 |= 6;
+                        i20 = 0;
+                        i18 = i61;
+                        i4 = materializeModifier3;
+                        materialized$iv$iv = i9;
                         ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, -946109526, "C535@26351L7:TextField.kt#uh7d8r");
-                        label.invoke(materialized$iv$iv, Integer.valueOf(i63 &= 14));
+                        label.invoke(materialized$iv$iv, Integer.valueOf(i62 &= 14));
                         ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv);
                         ComposerKt.sourceInformationMarkerEnd(composer15);
                         obj4.endNode();
@@ -2251,47 +2251,47 @@ public final class TextFieldKt {
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                     } else {
-                        obj = label;
+                        obj2 = label;
                         $this$dp$iv = animationProgress;
                     }
                     obj4.endReplaceGroup();
-                    int i139 = 0;
+                    int i138 = 0;
                     if (prefix == null) {
-                        f = f4;
+                        f3 = f2;
                     } else {
-                        i28 = 0;
-                        f = constructor-impl;
+                        i3 = 0;
+                        f3 = constructor-impl;
                     }
                     if (obj8 == null) {
                         constructor-impl2 = endPadding;
                     } else {
-                        i28 = 0;
+                        i3 = 0;
                         constructor-impl2 = Dp.constructor-impl((float)heightIn-VpY3zN4$default);
                     }
-                    Modifier padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default((Modifier)Modifier.Companion, TextFieldImplKt.getMinTextLineHeight(), 0, 2, i139), i139, false, 3, i139), f, 0, constructor-impl2, 0, 10, 0);
+                    Modifier padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default((Modifier)Modifier.Companion, TextFieldImplKt.getMinTextLineHeight(), 0, 2, i138), i138, false, 3, i138), f3, 0, constructor-impl2, 0, 10, 0);
                     obj4.startReplaceGroup(1341611627);
                     ComposerKt.sourceInformation(obj4, "548@26778L63");
                     if (placeholder != null) {
-                        placeholder.invoke(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Hint").then(padding-qDBjuR0$default), obj4, Integer.valueOf(i128 &= 112));
+                        placeholder.invoke(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Hint").then(padding-qDBjuR0$default), obj4, Integer.valueOf(i127 &= 112));
                     } else {
-                        obj5 = placeholder;
+                        obj3 = placeholder;
                     }
                     obj4.endReplaceGroup();
                     Modifier then3 = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "TextField").then(padding-qDBjuR0$default);
-                    int i126 = i187;
-                    maybeCachedBoxMeasurePolicy7 = 384;
+                    int i125 = i183;
+                    maybeCachedBoxMeasurePolicy3 = 384;
                     iNSTANCE2 = 0;
                     ComposerKt.sourceInformationMarkerStart(obj4, 733328855, str3);
                     modifier3 = padding-qDBjuR0$default;
-                    maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(Alignment.Companion.getTopStart(), i126);
+                    maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(Alignment.Companion.getTopStart(), i125);
                     currentCompositeKeyHash5 = 0;
                     ComposerKt.sourceInformationMarkerStart(obj4, -1323940314, $changed$iv);
-                    currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
-                    currentCompositionLocalMap = obj4.getCurrentCompositionLocalMap();
-                    localMap$iv$iv = i126;
-                    i7 = then3;
+                    currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(obj4, 0);
+                    currentCompositionLocalMap8 = obj4.getCurrentCompositionLocalMap();
+                    localMap$iv$iv2 = i125;
+                    i12 = then3;
                     kotlin.jvm.functions.Function0 function09 = constructor8;
-                    i13 = 0;
+                    i14 = 0;
                     ComposerKt.sourceInformationMarkerStart(obj4, -692256719, $dirty12);
                     if (!applier7 instanceof Applier) {
                         ComposablesKt.invalidApplier();
@@ -2303,38 +2303,38 @@ public final class TextFieldKt {
                         factory$iv$iv$iv6 = function09;
                         obj4.useNode();
                     }
-                    i18 = factory$iv$iv$iv6;
+                    i11 = factory$iv$iv$iv6;
                     Composer constructor-impl8 = Updater.constructor-impl(obj4);
-                    int i234 = 0;
-                    Updater.set-impl(constructor-impl8, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
-                    Updater.set-impl(constructor-impl8, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                    int i243 = 0;
+                    int i230 = 0;
+                    Updater.set-impl(constructor-impl8, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
+                    Updater.set-impl(constructor-impl8, currentCompositionLocalMap8, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    int i239 = 0;
                     Composer composer24 = constructor-impl8;
-                    int i244 = 0;
+                    int i240 = 0;
                     if (!composer24.getInserting()) {
-                        measurePolicy$iv2 = maybeCachedBoxMeasurePolicy2;
-                        map = currentCompositionLocalMap;
-                        if (!Intrinsics.areEqual(composer24.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                            composer24.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
-                            constructor-impl8.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                        measurePolicy$iv = maybeCachedBoxMeasurePolicy;
+                        map = currentCompositionLocalMap8;
+                        if (!Intrinsics.areEqual(composer24.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
+                            composer24.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
+                            constructor-impl8.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer6 = composer24;
+                            composer4 = composer24;
                         }
                     } else {
-                        measurePolicy$iv2 = maybeCachedBoxMeasurePolicy2;
-                        map = currentCompositionLocalMap;
+                        measurePolicy$iv = maybeCachedBoxMeasurePolicy;
+                        map = currentCompositionLocalMap8;
                     }
                     Updater.set-impl(constructor-impl8, ComposedModifierKt.materializeModifier(obj4, then3), ComposeUiNode.Companion.getSetModifier());
                     Composer composer14 = obj4;
                     ComposerKt.sourceInformationMarkerStart(composer14, -2146769399, restartGroup);
                     iNSTANCE = BoxScopeInstance.INSTANCE;
-                    i236 |= 6;
-                    i32 = 0;
-                    i = i49;
-                    i27 = i116;
-                    $composer$iv2 = composer4;
+                    i232 |= 6;
+                    i20 = 0;
+                    i18 = i48;
+                    i4 = i115;
+                    $composer$iv2 = composer11;
                     ComposerKt.sourceInformationMarkerStart($composer$iv2, -945435834, "C554@27030L11:TextField.kt#uh7d8r");
-                    textField.invoke($composer$iv2, Integer.valueOf(i50 &= 14));
+                    textField.invoke($composer$iv2, Integer.valueOf(i49 &= 14));
                     ComposerKt.sourceInformationMarkerEnd($composer$iv2);
                     ComposerKt.sourceInformationMarkerEnd(composer14);
                     obj4.endNode();
@@ -2344,17 +2344,17 @@ public final class TextFieldKt {
                     obj4.startReplaceGroup(1341622624);
                     ComposerKt.sourceInformation(obj4, "559@27167L317");
                     if (supporting != null) {
-                        int i140 = 0;
-                        Modifier padding = PaddingKt.padding(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Supporting"), TextFieldImplKt.getMinSupportingTextLineHeight(), 0, 2, i140), i140, false, 3, i140), TextFieldDefaults.supportingTextPadding-a9UjIt4$material3_release$default(TextFieldDefaults.INSTANCE, 0, 0, 0, 0, 15, 0));
-                        $composer$iv2 = i189;
+                        int i139 = 0;
+                        Modifier padding = PaddingKt.padding(SizeKt.wrapContentHeight$default(SizeKt.heightIn-VpY3zN4$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Supporting"), TextFieldImplKt.getMinSupportingTextLineHeight(), 0, 2, i139), i139, false, 3, i139), TextFieldDefaults.supportingTextPadding-a9UjIt4$material3_release$default(TextFieldDefaults.INSTANCE, 0, 0, 0, 0, 15, 0));
+                        $composer$iv2 = i185;
                         materializeModifier = 0;
                         ComposerKt.sourceInformationMarkerStart(obj4, 733328855, str3);
                         Alignment topStart2 = Alignment.Companion.getTopStart();
                         topStart = 0;
                         obj74 = topStart2;
                         ComposerKt.sourceInformationMarkerStart(obj4, -1323940314, $changed$iv);
-                        currentCompositionLocalMap2 = obj4.getCurrentCompositionLocalMap();
-                        i31 = currentCompositeKeyHash6;
+                        currentCompositionLocalMap = obj4.getCurrentCompositionLocalMap();
+                        i15 = currentCompositeKeyHash6;
                         Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(obj4, padding);
                         modifier4 = padding;
                         kotlin.jvm.functions.Function0 function03 = constructor;
@@ -2367,40 +2367,40 @@ public final class TextFieldKt {
                         if (obj4.getInserting()) {
                             obj4.createNode(function03);
                         } else {
-                            factory$iv$iv$iv5 = function03;
+                            factory$iv$iv$iv2 = function03;
                             obj4.useNode();
                         }
                         Composer constructor-impl10 = Updater.constructor-impl(obj4);
-                        int i193 = 0;
-                        currentCompositeKeyHash2 = factory$iv$iv$iv5;
+                        int i189 = 0;
+                        currentCompositeKeyHash4 = factory$iv$iv$iv2;
                         Updater.set-impl(constructor-impl10, BoxKt.maybeCachedBoxMeasurePolicy(topStart2, false), ComposeUiNode.Companion.getSetMeasurePolicy());
-                        Updater.set-impl(constructor-impl10, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                        int i196 = 0;
+                        Updater.set-impl(constructor-impl10, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                        int i192 = 0;
                         Composer composer21 = constructor-impl10;
-                        int i202 = 0;
+                        int i198 = 0;
                         if (!composer21.getInserting()) {
-                            localMap$iv$iv = currentCompositionLocalMap2;
-                            if (!Intrinsics.areEqual(composer21.rememberedValue(), Integer.valueOf(i31))) {
-                                composer21.updateRememberedValue(Integer.valueOf(i31));
-                                constructor-impl10.apply(Integer.valueOf(i31), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                            localMap$iv$iv2 = currentCompositionLocalMap;
+                            if (!Intrinsics.areEqual(composer21.rememberedValue(), Integer.valueOf(i15))) {
+                                composer21.updateRememberedValue(Integer.valueOf(i15));
+                                constructor-impl10.apply(Integer.valueOf(i15), ComposeUiNode.Companion.getSetCompositeKeyHash());
                             } else {
-                                composer = composer21;
+                                composer5 = composer21;
                             }
                         } else {
-                            localMap$iv$iv = currentCompositionLocalMap2;
+                            localMap$iv$iv2 = currentCompositionLocalMap;
                         }
                         Updater.set-impl(constructor-impl10, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                         $changed$iv = obj4;
                         valueOf2 = 0;
                         ComposerKt.sourceInformationMarkerStart($changed$iv, -2146769399, restartGroup);
                         restartGroup = BoxScopeInstance.INSTANCE;
-                        i186 |= 6;
-                        composer2 = $changed$iv;
-                        i24 = 0;
-                        i29 = i56;
+                        i182 |= 6;
+                        composer9 = $changed$iv;
+                        i22 = 0;
+                        i33 = i55;
                         currentCompositeKeyHash5 = materializeModifier2;
                         ComposerKt.sourceInformationMarkerStart($changed$iv, -945015195, "C565@27454L12:TextField.kt#uh7d8r");
-                        supporting.invoke($changed$iv, Integer.valueOf(i57 &= 14));
+                        supporting.invoke($changed$iv, Integer.valueOf(i56 &= 14));
                         ComposerKt.sourceInformationMarkerEnd($changed$iv);
                         ComposerKt.sourceInformationMarkerEnd($changed$iv);
                         obj4.endNode();
@@ -2408,30 +2408,30 @@ public final class TextFieldKt {
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                         ComposerKt.sourceInformationMarkerEnd(obj4);
                     } else {
-                        obj2 = supporting;
+                        obj5 = supporting;
                     }
                     obj4.endReplaceGroup();
                     ComposerKt.sourceInformationMarkerEnd(obj4);
-                    composer5.endNode();
-                    ComposerKt.sourceInformationMarkerEnd(composer5);
-                    ComposerKt.sourceInformationMarkerEnd(composer5);
+                    composer10.endNode();
+                    ComposerKt.sourceInformationMarkerEnd(composer10);
+                    ComposerKt.sourceInformationMarkerEnd(composer10);
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
                 } else {
                     restartGroup.skipToGroupEnd();
-                    obj2 = supporting;
-                    i3 = traceInProgress;
-                    composer5 = restartGroup;
-                    i30 = $dirty12;
+                    obj5 = supporting;
+                    i10 = traceInProgress2;
+                    composer10 = restartGroup;
+                    i25 = $dirty12;
                 }
             } else {
             }
         } else {
         }
-        endRestartGroup = composer5.endRestartGroup();
+        endRestartGroup = composer10.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new TextFieldKt.TextFieldLayout.2(modifier, textField, label, placeholder, leading, trailing, prefix, obj8, singleLine, $this$dp$iv, container, obj2, obj3, $changed, $changed1);
+            endRestartGroup = new TextFieldKt.TextFieldLayout.2(modifier, textField, label, placeholder, leading, trailing, prefix, obj8, singleLine, $this$dp$iv, container, obj5, obj, $changed, $changed1);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
@@ -2457,17 +2457,17 @@ public final class TextFieldKt {
     }
 
     private static final int calculateHeight-mKXJcVc(int textFieldHeight, int labelHeight, int leadingHeight, int trailingHeight, int prefixHeight, int suffixHeight, int placeholderHeight, int supportingHeight, float animationProgress, long constraints, float density, PaddingValues paddingValues) {
-        int i;
-        int lerp;
         int i3;
-        int i4;
+        int lerp;
         int i2;
+        int i4;
+        int i;
         final float f = animationProgress;
         int i5 = 0;
-        i = labelHeight > 0 ? 1 : i5;
-        i3 = 0;
+        i3 = labelHeight > 0 ? 1 : i5;
+        i2 = 0;
         arg0$iv *= paddingValues;
-        if (i != 0) {
+        if (i3 != 0) {
             i4 = 0;
             lerp = MathHelpersKt.lerp(arg0$iv3 *= paddingValues, arg0$iv2, f);
         } else {
@@ -2494,24 +2494,24 @@ public final class TextFieldKt {
     private static final void placeWithLabel(Placeable.PlacementScope $this$placeWithLabel, int width, int totalHeight, Placeable textfieldPlaceable, Placeable labelPlaceable, Placeable placeholderPlaceable, Placeable leadingPlaceable, Placeable trailingPlaceable, Placeable prefixPlaceable, Placeable suffixPlaceable, Placeable containerPlaceable, Placeable supportingPlaceable, boolean singleLine, int labelEndPosition, int textPosition, float animationProgress, float density) {
         Alignment.Vertical centerVertically;
         int textHorizontalPosition;
-        Placeable.PlacementScope roundToInt2;
+        Placeable.PlacementScope roundToInt;
         int centerVertically2;
         int zero-nOcc-ac;
-        long roundToInt;
-        Placeable.PlacementScope placementScope2;
+        long roundToInt2;
         Placeable.PlacementScope placementScope;
-        Placeable placeable2;
+        Placeable.PlacementScope placementScope2;
         Placeable placeable;
+        Placeable placeable2;
         int widthOrZero;
-        int i5;
+        int i2;
         int align2;
         int align;
         int height;
-        int i;
-        int i2;
         int i3;
-        int i6;
         int i4;
+        int i5;
+        int i6;
+        int i;
         int i7;
         Placeable.PlacementScope.place-70tqf50$default($this$placeWithLabel, containerPlaceable, IntOffset.Companion.getZero-nOcc-ac(), obj4, 0, 2);
         int i8 = totalHeight - heightOrZero;
@@ -2519,25 +2519,25 @@ public final class TextFieldKt {
             Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, leadingPlaceable, 0, Alignment.Companion.getCenterVertically().align(leadingPlaceable.getHeight(), i8), 0, 4, 0);
         }
         if (labelPlaceable != null) {
-            placeable2 = labelPlaceable;
+            placeable = labelPlaceable;
             centerVertically = 0;
             if (singleLine) {
-                roundToInt2 = Alignment.Companion.getCenterVertically().align(placeable2.getHeight(), i8);
+                roundToInt = Alignment.Companion.getCenterVertically().align(placeable.getHeight(), i8);
             } else {
-                roundToInt2 = MathKt.roundToInt(textFieldPadding *= density);
+                roundToInt = MathKt.roundToInt(textFieldPadding *= density);
             }
-            Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, placeable2, TextFieldImplKt.widthOrZero(leadingPlaceable), roundToInt2 - roundToInt, 0, 4, 0);
+            Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, placeable, TextFieldImplKt.widthOrZero(leadingPlaceable), roundToInt - roundToInt2, 0, 4, 0);
         }
         if (prefixPlaceable != null) {
             Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, prefixPlaceable, TextFieldImplKt.widthOrZero(leadingPlaceable), textPosition, 0, 4, 0);
         }
-        i5 = widthOrZero2 + centerVertically2;
-        Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, textfieldPlaceable, i5, textPosition, 0, 4, 0);
+        i2 = widthOrZero2 + centerVertically2;
+        Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, textfieldPlaceable, i2, textPosition, 0, 4, 0);
         if (placeholderPlaceable != null) {
-            Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, placeholderPlaceable, i5, textPosition, 0, 4, 0);
-            textHorizontalPosition = i5;
+            Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, placeholderPlaceable, i2, textPosition, 0, 4, 0);
+            textHorizontalPosition = i2;
         } else {
-            textHorizontalPosition = i5;
+            textHorizontalPosition = i2;
         }
         if (suffixPlaceable != null) {
             Placeable.PlacementScope.placeRelative$default($this$placeWithLabel, suffixPlaceable, centerVertically2 - zero-nOcc-ac, textPosition, 0, 4, 0);
@@ -2557,25 +2557,25 @@ public final class TextFieldKt {
         int widthOrZero;
         Placeable placeable2;
         int height2;
-        int i5;
+        int i9;
         Placeable placeWithoutLabel$calculateVerticalPosition;
         int height;
         int widthOrZero2;
-        int i6;
+        int i10;
         int placeWithoutLabel$calculateVerticalPosition2;
         int placeWithoutLabel$calculateVerticalPosition3;
+        int i6;
         int i;
-        int i7;
-        int i2;
+        int i5;
         int textHorizontalPosition;
-        int i8;
+        int i4;
         Placeable.PlacementScope placementScope;
         Placeable placeable;
-        int i9;
+        int i7;
         int align;
-        int i10;
+        int i8;
+        int i2;
         int i3;
-        int i4;
         placeable2 = placeholderPlaceable;
         Placeable placeable3 = prefixPlaceable;
         final Placeable placeable4 = suffixPlaceable;
@@ -2590,14 +2590,14 @@ public final class TextFieldKt {
             Placeable.PlacementScope.placeRelative$default($this$placeWithoutLabel, placeable3, TextFieldImplKt.widthOrZero(leadingPlaceable), TextFieldKt.placeWithoutLabel$calculateVerticalPosition(z, i15, roundToInt, placeable3), 0, 4, 0);
         }
         placeWithoutLabel$calculateVerticalPosition = textPlaceable;
-        i6 = i12;
-        Placeable.PlacementScope.placeRelative$default($this$placeWithoutLabel, placeWithoutLabel$calculateVerticalPosition, i6, TextFieldKt.placeWithoutLabel$calculateVerticalPosition(z, i15, roundToInt, placeWithoutLabel$calculateVerticalPosition), 0, 4, 0);
-        i5 = i6;
+        i10 = i12;
+        Placeable.PlacementScope.placeRelative$default($this$placeWithoutLabel, placeWithoutLabel$calculateVerticalPosition, i10, TextFieldKt.placeWithoutLabel$calculateVerticalPosition(z, i15, roundToInt, placeWithoutLabel$calculateVerticalPosition), 0, 4, 0);
+        i9 = i10;
         if (placeable2 != null) {
-            Placeable.PlacementScope.placeRelative$default($this$placeWithoutLabel, placeable2, i5, TextFieldKt.placeWithoutLabel$calculateVerticalPosition(z, i15, roundToInt, placeable2), 0, 4, 0);
-            textHorizontalPosition = i5;
+            Placeable.PlacementScope.placeRelative$default($this$placeWithoutLabel, placeable2, i9, TextFieldKt.placeWithoutLabel$calculateVerticalPosition(z, i15, roundToInt, placeable2), 0, 4, 0);
+            textHorizontalPosition = i9;
         } else {
-            textHorizontalPosition = i5;
+            textHorizontalPosition = i9;
         }
         if (placeable4 != null) {
             Placeable.PlacementScope.placeRelative$default($this$placeWithoutLabel, placeable4, i11 - width3, TextFieldKt.placeWithoutLabel$calculateVerticalPosition(z, i15, roundToInt, placeable4), 0, 4, 0);

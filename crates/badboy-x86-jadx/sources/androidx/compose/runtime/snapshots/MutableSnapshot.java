@@ -63,28 +63,28 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
 
     private final void abandon() {
         Object contains;
-        int i7;
+        int i8;
         MutableScatterSet modified$runtime_release;
         int snapshotId$runtime_release2;
         int i;
         MutableScatterSet cmp;
         int current;
         Object[] elements;
-        MutableScatterSet set2;
+        MutableScatterSet set;
         int i2;
         long[] metadata;
-        int i9;
+        int i5;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
         int i3;
-        int i4;
-        MutableScatterSet set;
-        int i5;
+        int i7;
+        MutableScatterSet set2;
+        int i6;
         long l;
         Object obj;
-        int i6;
-        int i8;
+        int i9;
+        int i4;
         MutableScatterSet modified;
         androidx.compose.runtime.snapshots.StateRecord firstStateRecord;
         int snapshotId$runtime_release;
@@ -95,13 +95,13 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             contains.setModified(0);
             cmp = modified$runtime_release;
             i2 = 0;
-            metadata = set2.metadata;
+            metadata = set.metadata;
             length += -2;
-            if (0 <= i9) {
+            if (0 <= i5) {
             } else {
                 modified = modified$runtime_release;
-                set = cmp;
-                i5 = current;
+                set2 = cmp;
+                i6 = current;
             }
         } else {
             modified = modified$runtime_release;
@@ -138,7 +138,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
     }
 
     private final void validateNotApplied() {
-        String str;
+        String $i$a$CheckPreconditionMutableSnapshot$validateNotApplied$1;
         final int i2 = 0;
         if (applied ^= 1 == 0) {
             int i3 = 0;
@@ -148,22 +148,22 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
 
     private final void validateNotAppliedOrPinned() {
         boolean this_$iv;
-        int i;
-        int str;
-        int i2;
         int i3;
+        int $i$a$CheckPreconditionMutableSnapshot$validateNotAppliedOrPinned$1;
+        int i;
+        int i2;
         if (this.applied) {
-            str = 0;
-            i3 = 0;
-            this_$iv = Snapshot.access$getPinningTrackingHandle$p((Snapshot)this) >= 0 ? i : i3;
+            $i$a$CheckPreconditionMutableSnapshot$validateNotAppliedOrPinned$1 = 0;
+            i2 = 0;
+            this_$iv = Snapshot.access$getPinningTrackingHandle$p((Snapshot)this) >= 0 ? i3 : i2;
             if (this_$iv != 0) {
             } else {
-                i = i3;
+                i3 = i2;
             }
         } else {
         }
         int i4 = 0;
-        if (i == 0) {
+        if (i3 == 0) {
             int i5 = 0;
             PreconditionsKt.throwIllegalStateException("Unsupported operation on a disposed or applied snapshot");
         }
@@ -172,11 +172,11 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
     public final <T> T advance$runtime_release(Function0<? extends T> block) {
         boolean applied$runtime_release;
         androidx.compose.runtime.snapshots.SnapshotIdSet range;
-        int i2;
-        int i3;
-        Unit iNSTANCE;
-        androidx.compose.runtime.snapshots.SnapshotIdSet set;
         int i;
+        int i2;
+        Unit $i$a$SyncMutableSnapshot$advance$1$1;
+        androidx.compose.runtime.snapshots.SnapshotIdSet set;
+        int i3;
         final int i4 = 0;
         recordPrevious$runtime_release(getId());
         Object invoke = block.invoke();
@@ -192,7 +192,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
                 SnapshotKt.access$setNextSnapshotId$p(i9 + 1);
                 setId$runtime_release(i9);
                 SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(getId()));
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SyncMutableSnapshot$advance$1$1 = Unit.INSTANCE;
                 setInvalid$runtime_release(SnapshotKt.addRange(getInvalid$runtime_release(), applied$runtime_release + 1, getId()));
                 synchronized (lock) {
                     i6 = 0;
@@ -203,7 +203,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
                     SnapshotKt.access$setNextSnapshotId$p(i9 + 1);
                     setId$runtime_release(i9);
                     SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(getId()));
-                    iNSTANCE = Unit.INSTANCE;
+                    $i$a$SyncMutableSnapshot$advance$1$1 = Unit.INSTANCE;
                     setInvalid$runtime_release(SnapshotKt.addRange(getInvalid$runtime_release(), applied$runtime_release + 1, getId()));
                 }
             }
@@ -215,16 +215,16 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
     public final void advance$runtime_release() {
         boolean applied$runtime_release;
         androidx.compose.runtime.snapshots.SnapshotIdSet range;
-        int i;
-        int i2;
-        Object iNSTANCE;
-        androidx.compose.runtime.snapshots.SnapshotIdSet set;
         int i3;
+        int i2;
+        Object $i$a$SyncMutableSnapshot$advance$1$1$iv;
+        androidx.compose.runtime.snapshots.SnapshotIdSet set;
+        int i;
         final Object obj = this;
         final int i4 = 0;
         obj.recordPrevious$runtime_release(obj.getId());
         int i5 = 0;
-        Unit iNSTANCE2 = Unit.INSTANCE;
+        Unit $i$a$Advance$runtime_releaseMutableSnapshot$advance$2 = Unit.INSTANCE;
         final int i6 = 0;
         if (!obj.getApplied$runtime_release() && !obj.getDisposed$runtime_release()) {
             if (!obj.getDisposed$runtime_release()) {
@@ -236,7 +236,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
                 SnapshotKt.access$setNextSnapshotId$p(i10 + 1);
                 obj.setId$runtime_release(i10);
                 SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(obj.getId()));
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SyncMutableSnapshot$advance$1$1$iv = Unit.INSTANCE;
                 obj.setInvalid$runtime_release(SnapshotKt.addRange(obj.getInvalid$runtime_release(), applied$runtime_release + 1, obj.getId()));
                 synchronized (lock) {
                     i7 = 0;
@@ -247,7 +247,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
                     SnapshotKt.access$setNextSnapshotId$p(i10 + 1);
                     obj.setId$runtime_release(i10);
                     SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(obj.getId()));
-                    iNSTANCE = Unit.INSTANCE;
+                    $i$a$SyncMutableSnapshot$advance$1$1$iv = Unit.INSTANCE;
                     obj.setInvalid$runtime_release(SnapshotKt.addRange(obj.getInvalid$runtime_release(), applied$runtime_release + 1, obj.getId()));
                 }
             }
@@ -256,51 +256,51 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
 
     @Override // androidx.compose.runtime.snapshots.Snapshot
     public androidx.compose.runtime.snapshots.SnapshotApplyResult apply() {
-        int i$iv$iv2;
+        int i$iv$iv;
         MutableScatterSet $this$maskEmptyOrDeleted$iv$iv$iv;
         int j$iv$iv;
-        int index$iv2;
+        int index$iv;
         androidx.compose.runtime.snapshots.SnapshotIdSet clear;
-        List observers;
+        List observers2;
         int index$iv$iv;
         int value$iv$iv$iv;
-        int i5;
+        int i2;
         MutableScatterSet globalModified;
         int $i$f$sync;
         Object wrapIntoSet;
         int modifiedSet;
         int empty;
-        Unit iNSTANCE;
+        Unit $i$a$SyncMutableSnapshot$apply$1;
         androidx.compose.runtime.snapshots.MutableSnapshot size;
-        Object index$iv;
+        Object index$iv2;
         Object innerApplyLocked$runtime_release;
         MutableScatterSet modified$runtime_release;
-        List i$iv$iv;
-        int slot$iv$iv;
-        int i8;
-        androidx.compose.runtime.snapshots.SnapshotIdSet observers2;
+        List i$iv$iv2;
+        int slot$iv$iv2;
         int i3;
-        int i2;
+        androidx.compose.runtime.snapshots.SnapshotIdSet observers;
+        int i6;
+        int i9;
         int i4;
-        long slot$iv$iv2;
+        long slot$iv$iv;
         int $i$f$forEach;
         MutableScatterSet modified;
         int i10;
         int i7;
-        int i9;
-        int i6;
+        int i8;
+        int i5;
         int cmp;
         int i;
         final androidx.compose.runtime.snapshots.MutableSnapshot mutableSnapshot = this;
         $this$maskEmptyOrDeleted$iv$iv$iv = mutableSnapshot.getModified$runtime_release();
-        i$iv$iv2 = 0;
+        i$iv$iv = 0;
         if ($this$maskEmptyOrDeleted$iv$iv$iv != null) {
-            index$iv2 = SnapshotKt.access$optimisticMerges((MutableSnapshot)SnapshotKt.access$getCurrentGlobalSnapshot$p().get(), mutableSnapshot, SnapshotKt.access$getOpenSnapshots$p().clear((GlobalSnapshot)SnapshotKt.access$getCurrentGlobalSnapshot$p().get().getId()));
+            index$iv = SnapshotKt.access$optimisticMerges((MutableSnapshot)SnapshotKt.access$getCurrentGlobalSnapshot$p().get(), mutableSnapshot, SnapshotKt.access$getOpenSnapshots$p().clear((GlobalSnapshot)SnapshotKt.access$getCurrentGlobalSnapshot$p().get().getId()));
         } else {
-            index$iv2 = i$iv$iv2;
+            index$iv = i$iv$iv;
         }
         int i22 = 0;
-        observers = CollectionsKt.emptyList();
+        observers2 = CollectionsKt.emptyList();
         globalModified = 0;
         int i26 = 0;
         wrapIntoSet = SnapshotKt.getLock();
@@ -310,42 +310,42 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         synchronized (wrapIntoSet) {
             if ($this$maskEmptyOrDeleted$iv$iv$iv.getSize() == 0) {
                 mutableSnapshot.closeLocked$runtime_release();
-                index$iv = SnapshotKt.access$getCurrentGlobalSnapshot$p().get();
-                SnapshotKt.access$takeNewGlobalSnapshot((Snapshot)(GlobalSnapshot)index$iv, SnapshotKt.access$getEmptyLambda$p());
-                innerApplyLocked$runtime_release = index$iv.getModified$runtime_release();
+                index$iv2 = SnapshotKt.access$getCurrentGlobalSnapshot$p().get();
+                SnapshotKt.access$takeNewGlobalSnapshot((Snapshot)(GlobalSnapshot)index$iv2, SnapshotKt.access$getEmptyLambda$p());
+                innerApplyLocked$runtime_release = index$iv2.getModified$runtime_release();
                 if (innerApplyLocked$runtime_release != null && innerApplyLocked$runtime_release.isNotEmpty()) {
                     if (innerApplyLocked$runtime_release.isNotEmpty()) {
                         globalModified = innerApplyLocked$runtime_release;
-                        observers = modified$runtime_release;
+                        observers2 = modified$runtime_release;
                     }
                 }
             } else {
-                index$iv = SnapshotKt.access$getCurrentGlobalSnapshot$p().get();
-                innerApplyLocked$runtime_release = mutableSnapshot.innerApplyLocked$runtime_release(SnapshotKt.access$getNextSnapshotId$p(), index$iv2, SnapshotKt.access$getOpenSnapshots$p().clear((GlobalSnapshot)index$iv.getId()));
+                index$iv2 = SnapshotKt.access$getCurrentGlobalSnapshot$p().get();
+                innerApplyLocked$runtime_release = mutableSnapshot.innerApplyLocked$runtime_release(SnapshotKt.access$getNextSnapshotId$p(), index$iv, SnapshotKt.access$getOpenSnapshots$p().clear((GlobalSnapshot)index$iv2.getId()));
                 if (!Intrinsics.areEqual(innerApplyLocked$runtime_release, SnapshotApplyResult.Success.INSTANCE)) {
                     return innerApplyLocked$runtime_release;
                 }
                 mutableSnapshot.closeLocked$runtime_release();
-                SnapshotKt.access$takeNewGlobalSnapshot((Snapshot)index$iv, SnapshotKt.access$getEmptyLambda$p());
-                mutableSnapshot.setModified(i$iv$iv2);
-                index$iv.setModified(i$iv$iv2);
+                SnapshotKt.access$takeNewGlobalSnapshot((Snapshot)index$iv2, SnapshotKt.access$getEmptyLambda$p());
+                mutableSnapshot.setModified(i$iv$iv);
+                index$iv2.setModified(i$iv$iv);
                 globalModified = observers3;
-                observers = i$iv$iv;
+                observers2 = i$iv$iv2;
             }
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SyncMutableSnapshot$apply$1 = Unit.INSTANCE;
             mutableSnapshot.applied = true;
             wrapIntoSet = ScatterSetWrapperKt.wrapIntoSet((ScatterSet)globalModified);
             if (globalModified != null && !(Collection)wrapIntoSet.isEmpty()) {
             }
             if ($this$maskEmptyOrDeleted$iv$iv$iv != null && $this$maskEmptyOrDeleted$iv$iv$iv.isNotEmpty()) {
                 if ($this$maskEmptyOrDeleted$iv$iv$iv.isNotEmpty()) {
-                    empty = observers;
-                    iNSTANCE = 0;
-                    index$iv = 0;
-                    while (index$iv < empty.size()) {
-                        slot$iv$iv = 0;
-                        (Function2)empty.get(index$iv).invoke(ScatterSetWrapperKt.wrapIntoSet((ScatterSet)$this$maskEmptyOrDeleted$iv$iv$iv), mutableSnapshot);
-                        index$iv++;
+                    empty = observers2;
+                    $i$a$SyncMutableSnapshot$apply$1 = 0;
+                    index$iv2 = 0;
+                    while (index$iv2 < empty.size()) {
+                        slot$iv$iv2 = 0;
+                        (Function2)empty.get(index$iv2).invoke(ScatterSetWrapperKt.wrapIntoSet((ScatterSet)$this$maskEmptyOrDeleted$iv$iv$iv), mutableSnapshot);
+                        index$iv2++;
                     }
                 }
             }
@@ -358,39 +358,39 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             final int i31 = 7;
             final long l = -9187201950435737472L;
             synchronized (lock) {
-                observers2 = 0;
+                observers = 0;
                 innerApplyLocked$runtime_release = set7;
-                i3 = 0;
-                slot$iv$iv = i$iv$iv.metadata;
+                i6 = 0;
+                slot$iv$iv2 = i$iv$iv2.metadata;
                 length2 += -2;
-                if (0 <= i8) {
+                if (0 <= i3) {
                 } else {
                     modified = $this$maskEmptyOrDeleted$iv$iv$iv;
-                    i10 = index$iv2;
-                    i9 = modifiedSet;
+                    i10 = index$iv;
+                    i8 = modifiedSet;
                 }
                 if (modified != null) {
-                    i$iv$iv2 = modified;
+                    i$iv$iv = modified;
                     modifiedSet = 0;
                     innerApplyLocked$runtime_release = $i$f$sync.metadata;
                     length += -2;
                     if (0 <= modified$runtime_release) {
                     } else {
                         $i$f$forEach = $this$maskEmptyOrDeleted$iv$iv$iv;
-                        i7 = index$iv2;
-                        observers2 = observers;
-                        i3 = globalModified;
+                        i7 = index$iv;
+                        observers = observers2;
+                        i6 = globalModified;
                     }
                     try {
-                        observers2 = obj4;
-                        i3 = obj5;
-                        observers2 = observers;
-                        i3 = globalModified;
+                        observers = obj4;
+                        i6 = obj5;
+                        observers = observers2;
+                        i6 = globalModified;
                         List merged = mutableSnapshot.merged;
                         if (merged != null) {
                         }
                         $this$maskEmptyOrDeleted$iv$iv$iv = 0;
-                        index$iv2 = 0;
+                        index$iv = 0;
                     } catch (Throwable th) {
                     }
                     throw th;
@@ -400,13 +400,13 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         }
         wrapIntoSet = ScatterSetWrapperKt.wrapIntoSet((ScatterSet)globalModified);
         if (!(Collection)wrapIntoSet.isEmpty()) {
-            empty = observers;
-            iNSTANCE = 0;
-            index$iv = 0;
-            while (index$iv < empty.size()) {
-                slot$iv$iv = 0;
-                (Function2)empty.get(index$iv).invoke(wrapIntoSet, mutableSnapshot);
-                index$iv++;
+            empty = observers2;
+            $i$a$SyncMutableSnapshot$apply$1 = 0;
+            index$iv2 = 0;
+            while (index$iv2 < empty.size()) {
+                slot$iv$iv2 = 0;
+                (Function2)empty.get(index$iv2).invoke(wrapIntoSet, mutableSnapshot);
+                index$iv2++;
             }
         }
     }
@@ -479,25 +479,25 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
     @Override // androidx.compose.runtime.snapshots.Snapshot
     public boolean hasPendingChanges() {
         MutableScatterSet modified$runtime_release;
-        int i2;
         int i;
+        int i2;
         modified$runtime_release = getModified$runtime_release();
-        i2 = 0;
-        i = 1;
-        if (modified$runtime_release != null && modified$runtime_release.isNotEmpty() == i) {
-            i = 1;
-            if (modified$runtime_release.isNotEmpty() == i) {
-                i2 = i;
+        i = 0;
+        i2 = 1;
+        if (modified$runtime_release != null && modified$runtime_release.isNotEmpty() == i2) {
+            i2 = 1;
+            if (modified$runtime_release.isNotEmpty() == i2) {
+                i = i2;
             }
         }
-        return i2;
+        return i;
     }
 
     public final androidx.compose.runtime.snapshots.SnapshotApplyResult innerApplyLocked$runtime_release(int snapshotId, Map<androidx.compose.runtime.snapshots.StateRecord, ? extends androidx.compose.runtime.snapshots.StateRecord> optimisticMerges, androidx.compose.runtime.snapshots.SnapshotIdSet invalidSnapshots) {
         int first2;
         int arrayList2;
-        ArrayList arrayList;
-        int arrayList3;
+        ArrayList arrayList3;
+        int arrayList;
         boolean firstStateRecord;
         ArrayList list;
         androidx.compose.runtime.snapshots.SnapshotIdSet $this$fastForEach$iv;
@@ -506,27 +506,27 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         int j$iv$iv;
         Object[] index$iv;
         MutableScatterSet $this$innerApplyLocked_u24lambda_u2419_u24lambda_u2415;
-        int i7;
+        int i6;
         long[] metadata;
-        int i8;
+        int i;
         int i$iv$iv;
         long slot$iv$iv;
         Object lock;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         Object[] objArr;
-        int i;
-        MutableScatterSet set2;
-        int statesToRemove;
-        long l;
-        int i6;
         int i2;
         MutableScatterSet set;
-        int mergedRecords;
+        int statesToRemove;
+        long l;
         int i3;
+        int i7;
+        MutableScatterSet set2;
+        int mergedRecords;
         int i4;
+        int i5;
         androidx.compose.runtime.snapshots.SnapshotIdSet start;
         androidx.compose.runtime.snapshots.StateRecord first;
-        int i5;
+        int i8;
         final Object obj = this;
         list = optimisticMerges;
         first2 = 0;
@@ -535,16 +535,16 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         bitCount$iv$iv = 0;
         index$iv2 = modified$runtime_release;
         $this$innerApplyLocked_u24lambda_u2419_u24lambda_u2415 = index$iv2;
-        i7 = 0;
+        i6 = 0;
         metadata = $this$innerApplyLocked_u24lambda_u2419_u24lambda_u2415.metadata;
         length += -2;
-        if (0 <= i8) {
+        if (0 <= i) {
         } else {
             start = $this$fastForEach$iv;
-            set2 = index$iv2;
+            set = index$iv2;
             $this$maskEmptyOrDeleted$iv$iv$iv = j$iv$iv;
             objArr = index$iv;
-            set = $this$innerApplyLocked_u24lambda_u2419_u24lambda_u2415;
+            set2 = $this$innerApplyLocked_u24lambda_u2419_u24lambda_u2415;
             mergedRecords = first2;
             statesToRemove = bitCount$iv$iv;
         }
@@ -555,17 +555,17 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             index$iv2 = 0;
             index$iv = first2;
             while (index$iv < bitCount$iv$iv.size()) {
-                i7 = $this$innerApplyLocked_u24lambda_u2419_u24lambda_u2415;
+                i6 = $this$innerApplyLocked_u24lambda_u2419_u24lambda_u2415;
                 metadata = null;
-                i8 = component1;
+                i = component1;
                 i$iv$iv = component2;
                 (StateRecord)i$iv$iv.setSnapshotId$runtime_release(obj.getId());
                 slot$iv$iv = 0L;
                 lock = SnapshotKt.getLock();
                 $this$maskEmptyOrDeleted$iv$iv$iv = 0;
                 objArr = i9;
-                i$iv$iv.setNext$runtime_release((StateObject)i8.getFirstStateRecord());
-                i8.prependStateRecord(i$iv$iv);
+                i$iv$iv.setNext$runtime_release((StateObject)i.getFirstStateRecord());
+                i.prependStateRecord(i$iv$iv);
                 first2 = Unit.INSTANCE;
                 index$iv++;
             }
@@ -577,7 +577,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             int i11 = 0;
             index$iv2 = 0;
             while (index$iv2 < i10.size()) {
-                i7 = 0;
+                i6 = 0;
                 modified$runtime_release.remove((StateObject)i10.get(index$iv2));
                 index$iv2++;
             }
@@ -601,7 +601,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
     public void nestedDeactivated$runtime_release(androidx.compose.runtime.snapshots.Snapshot snapshot) {
         int i;
         int snapshots;
-        String str;
+        String $i$a$RequirePreconditionMutableSnapshot$nestedDeactivated$1;
         i = this.snapshots > 0 ? 1 : 0;
         final int i3 = 0;
         if (i == 0) {
@@ -645,7 +645,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         final int i2 = 0;
         int i3 = 0;
         this.previousIds = this.previousIds.set(id);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SyncMutableSnapshot$recordPrevious$1 = Unit.INSTANCE;
         return;
         synchronized (lock) {
             i = 0;
@@ -653,7 +653,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             i2 = 0;
             i3 = 0;
             this.previousIds = this.previousIds.set(id);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SyncMutableSnapshot$recordPrevious$1 = Unit.INSTANCE;
         }
     }
 
@@ -664,7 +664,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         final int i2 = 0;
         int i3 = 0;
         this.previousIds = this.previousIds.or(snapshots);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SyncMutableSnapshot$recordPreviousList$1 = Unit.INSTANCE;
         return;
         synchronized (lock) {
             i = 0;
@@ -672,7 +672,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             i2 = 0;
             i3 = 0;
             this.previousIds = this.previousIds.or(snapshots);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SyncMutableSnapshot$recordPreviousList$1 = Unit.INSTANCE;
         }
     }
 
@@ -686,19 +686,19 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
 
     @Override // androidx.compose.runtime.snapshots.Snapshot
     public final void recordPreviousPinnedSnapshots$runtime_release(int[] handles) {
-        int i2;
         int i;
+        int i2;
         int[] plus;
         final int i3 = 0;
-        i2 = handles.length == 0 ? i : i3;
-        if (i2 != 0) {
+        i = handles.length == 0 ? i2 : i3;
+        if (i != 0) {
         }
         int[] previousPinnedSnapshots = this.previousPinnedSnapshots;
         if (previousPinnedSnapshots.length == 0) {
         } else {
-            i = i3;
+            i2 = i3;
         }
-        if (i != 0) {
+        if (i2 != 0) {
             plus = handles;
         } else {
             plus = ArraysKt.plus(previousPinnedSnapshots, handles);
@@ -749,8 +749,8 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         Function1 writeObserver$runtime_release;
         int i2;
         androidx.compose.runtime.snapshots.SnapshotIdSet range;
-        Function1 function1;
         Function1 function12;
+        Function1 function1;
         validateNotDisposed$runtime_release();
         validateNotAppliedOrPinned();
         final androidx.compose.runtime.snapshots.MutableSnapshot mutableSnapshot = this;
@@ -768,8 +768,8 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         final androidx.compose.runtime.snapshots.MutableSnapshot mutableSnapshot2 = this;
         mutableSnapshot2.setInvalid$runtime_release(invalid$runtime_release.set(i2));
         final int i18 = i5;
-        NestedMutableSnapshot nestedMutableSnapshot2 = new NestedMutableSnapshot(i2, SnapshotKt.addRange(invalid$runtime_release, id2++, i2), SnapshotKt.mergedReadObserver$default(readObserver, mutableSnapshot2.getReadObserver$runtime_release(), false, 4, 0), SnapshotKt.access$mergedWriteObserver(writeObserver, mutableSnapshot2.getWriteObserver$runtime_release()), mutableSnapshot2);
-        androidx.compose.runtime.snapshots.NestedMutableSnapshot nestedMutableSnapshot = nestedMutableSnapshot2;
+        NestedMutableSnapshot nestedMutableSnapshot = new NestedMutableSnapshot(i2, SnapshotKt.addRange(invalid$runtime_release, id2++, i2), SnapshotKt.mergedReadObserver$default(readObserver, mutableSnapshot2.getReadObserver$runtime_release(), false, 4, 0), SnapshotKt.access$mergedWriteObserver(writeObserver, mutableSnapshot2.getWriteObserver$runtime_release()), mutableSnapshot2);
+        androidx.compose.runtime.snapshots.NestedMutableSnapshot $i$a$Advance$runtime_releaseMutableSnapshot$takeNestedMutableSnapshot$1 = nestedMutableSnapshot;
         int i8 = 0;
         synchronized (lock) {
             validateNotDisposed$runtime_release();
@@ -789,8 +789,8 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             mutableSnapshot2 = this;
             mutableSnapshot2.setInvalid$runtime_release(invalid$runtime_release.set(i2));
             i18 = i5;
-            nestedMutableSnapshot2 = new NestedMutableSnapshot(i2, SnapshotKt.addRange(invalid$runtime_release, id2++, i2), SnapshotKt.mergedReadObserver$default(readObserver, mutableSnapshot2.getReadObserver$runtime_release(), false, 4, 0), SnapshotKt.access$mergedWriteObserver(writeObserver, mutableSnapshot2.getWriteObserver$runtime_release()), mutableSnapshot2);
-            nestedMutableSnapshot = nestedMutableSnapshot2;
+            nestedMutableSnapshot = new NestedMutableSnapshot(i2, SnapshotKt.addRange(invalid$runtime_release, id2++, i2), SnapshotKt.mergedReadObserver$default(readObserver, mutableSnapshot2.getReadObserver$runtime_release(), false, 4, 0), SnapshotKt.access$mergedWriteObserver(writeObserver, mutableSnapshot2.getWriteObserver$runtime_release()), mutableSnapshot2);
+            $i$a$Advance$runtime_releaseMutableSnapshot$takeNestedMutableSnapshot$1 = nestedMutableSnapshot;
             i8 = 0;
         }
         if (!mutableSnapshot.getDisposed$runtime_release()) {
@@ -802,7 +802,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             SnapshotKt.access$setNextSnapshotId$p(i13 + 1);
             mutableSnapshot.setId$runtime_release(i13);
             SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(mutableSnapshot.getId()));
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SyncMutableSnapshot$advance$1$1$iv = Unit.INSTANCE;
             mutableSnapshot.setInvalid$runtime_release(SnapshotKt.addRange(mutableSnapshot.getInvalid$runtime_release(), lock + 1, mutableSnapshot.getId()));
             synchronized (lock2) {
                 i9 = 0;
@@ -813,11 +813,11 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
                 SnapshotKt.access$setNextSnapshotId$p(i13 + 1);
                 mutableSnapshot.setId$runtime_release(i13);
                 SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(mutableSnapshot.getId()));
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SyncMutableSnapshot$advance$1$1$iv = Unit.INSTANCE;
                 mutableSnapshot.setInvalid$runtime_release(SnapshotKt.addRange(mutableSnapshot.getInvalid$runtime_release(), lock + 1, mutableSnapshot.getId()));
             }
         }
-        return (MutableSnapshot)nestedMutableSnapshot2;
+        return (MutableSnapshot)nestedMutableSnapshot;
     }
 
     public androidx.compose.runtime.snapshots.Snapshot takeNestedSnapshot(Function1<Object, Unit> readObserver) {
@@ -842,8 +842,8 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
         i = SnapshotKt.access$getNextSnapshotId$p();
         SnapshotKt.access$setNextSnapshotId$p(i + 1);
         SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(i));
-        NestedReadonlySnapshot nestedReadonlySnapshot2 = new NestedReadonlySnapshot(i, SnapshotKt.addRange(getInvalid$runtime_release(), id2 + 1, i), SnapshotKt.mergedReadObserver$default(readObserver, getReadObserver$runtime_release(), false, 4, 0), (Snapshot)this);
-        androidx.compose.runtime.snapshots.NestedReadonlySnapshot nestedReadonlySnapshot = nestedReadonlySnapshot2;
+        NestedReadonlySnapshot nestedReadonlySnapshot = new NestedReadonlySnapshot(i, SnapshotKt.addRange(getInvalid$runtime_release(), id2 + 1, i), SnapshotKt.mergedReadObserver$default(readObserver, getReadObserver$runtime_release(), false, 4, 0), (Snapshot)this);
+        androidx.compose.runtime.snapshots.NestedReadonlySnapshot $i$a$Advance$runtime_releaseMutableSnapshot$takeNestedSnapshot$1 = nestedReadonlySnapshot;
         int i8 = 0;
         synchronized (lock) {
             validateNotDisposed$runtime_release();
@@ -859,8 +859,8 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             i = SnapshotKt.access$getNextSnapshotId$p();
             SnapshotKt.access$setNextSnapshotId$p(i + 1);
             SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(i));
-            nestedReadonlySnapshot2 = new NestedReadonlySnapshot(i, SnapshotKt.addRange(getInvalid$runtime_release(), id2 + 1, i), SnapshotKt.mergedReadObserver$default(readObserver, getReadObserver$runtime_release(), false, 4, 0), (Snapshot)this);
-            nestedReadonlySnapshot = nestedReadonlySnapshot2;
+            nestedReadonlySnapshot = new NestedReadonlySnapshot(i, SnapshotKt.addRange(getInvalid$runtime_release(), id2 + 1, i), SnapshotKt.mergedReadObserver$default(readObserver, getReadObserver$runtime_release(), false, 4, 0), (Snapshot)this);
+            $i$a$Advance$runtime_releaseMutableSnapshot$takeNestedSnapshot$1 = nestedReadonlySnapshot;
             i8 = 0;
         }
         if (!snapshot2.getDisposed$runtime_release()) {
@@ -872,7 +872,7 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
             SnapshotKt.access$setNextSnapshotId$p(i12 + 1);
             snapshot2.setId$runtime_release(i12);
             SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(snapshot2.getId()));
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SyncMutableSnapshot$advance$1$1$iv = Unit.INSTANCE;
             snapshot2.setInvalid$runtime_release(SnapshotKt.addRange(snapshot2.getInvalid$runtime_release(), lock + 1, snapshot2.getId()));
             synchronized (lock2) {
                 i9 = 0;
@@ -883,10 +883,10 @@ public class MutableSnapshot extends androidx.compose.runtime.snapshots.Snapshot
                 SnapshotKt.access$setNextSnapshotId$p(i12 + 1);
                 snapshot2.setId$runtime_release(i12);
                 SnapshotKt.access$setOpenSnapshots$p(SnapshotKt.access$getOpenSnapshots$p().set(snapshot2.getId()));
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SyncMutableSnapshot$advance$1$1$iv = Unit.INSTANCE;
                 snapshot2.setInvalid$runtime_release(SnapshotKt.addRange(snapshot2.getInvalid$runtime_release(), lock + 1, snapshot2.getId()));
             }
         }
-        return (Snapshot)nestedReadonlySnapshot2;
+        return (Snapshot)nestedReadonlySnapshot;
     }
 }

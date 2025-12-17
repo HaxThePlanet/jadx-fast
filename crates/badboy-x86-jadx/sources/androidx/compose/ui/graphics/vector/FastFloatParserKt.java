@@ -250,106 +250,106 @@ public final class FastFloatParserKt {
 
     public static final long nextFloat(String s, int start, int end) {
         int compareUnsigned;
-        char charAt2;
+        char charAt6;
         int compareUnsigned2;
-        int i;
-        int i4;
-        int i23;
-        int l;
+        int i2;
+        int i24;
+        int i21;
+        int l3;
         int significand2;
         int significand5;
-        char charAt6;
-        int i7;
-        int cmp2;
-        int charAt5;
-        int i27;
+        char charAt5;
+        int i17;
+        int cmp;
         int charAt;
+        int i11;
+        int charAt3;
         char c5;
         int tooManyDigits;
-        int i16;
+        int i25;
         int lz;
-        int i13;
-        int charAt3;
+        int i;
+        int charAt2;
         int index;
-        char c2;
-        int i26;
-        int f2;
-        int i11;
-        float f;
+        char c3;
         int i10;
+        int f2;
+        int i20;
+        float f;
+        int i12;
         int $this$isDigit$iv2;
-        long l3;
+        long l;
         int digitCount;
         int exponent;
-        int i18;
-        int i15;
+        int i3;
+        int i4;
         int $this$isDigit$iv;
-        int i17;
-        int retryIndex;
-        int constructor-impl;
-        int i22;
-        int retryIndex2;
-        char c;
-        int digits;
-        int i8;
         int i5;
-        long l2;
-        int i28;
-        int significand3;
-        int upperBit;
-        int cmp;
-        char c3;
-        int i14;
-        int i25;
-        int i9;
+        int retryIndex2;
+        int constructor-impl;
+        int i26;
+        int retryIndex;
+        char c2;
+        int digits;
+        int i7;
         int i6;
+        long l4;
+        int i27;
+        int significand4;
+        int upperBit;
+        int cmp2;
+        char c;
+        int i16;
+        int i23;
+        int i14;
+        int i15;
         int exponentStartIndex;
         int exponentEndIndex;
-        int i24;
-        int i19;
-        char significand;
+        int i28;
+        int i9;
+        char significand3;
         char c4;
         long charAt4;
         int exponentNumber;
         int significandStartIndex;
-        int significand4;
+        int significand;
         int mantissa;
-        int i21;
-        int i2;
-        int i12;
-        int i20;
-        int i3;
-        long l4;
+        int i8;
+        int i18;
+        int i19;
+        int i22;
+        int i13;
+        long l2;
         Object obj = s;
         final int i31 = start;
         compareUnsigned = end;
-        l = 4294967295L;
-        i13 = 32;
+        l3 = 4294967295L;
+        i = 32;
         if (i31 == compareUnsigned) {
             int i86 = 0;
             return i67 |= i91;
         }
         index = start;
-        i18 = obj.charAt(index) == 45 ? 1 : 0;
-        i15 = 46;
-        retryIndex2 = 10;
-        if (i18 != 0) {
+        i3 = obj.charAt(index) == 45 ? 1 : 0;
+        i4 = 46;
+        retryIndex = 10;
+        if (i3 != 0) {
             index++;
             if (index == compareUnsigned) {
                 int i92 = 0;
                 return i49 |= i94;
             }
-            c2 = obj.charAt(index);
-            i5 = 0;
-            l = (char)i47 < retryIndex2 ? 1 : 0;
-            if (l == 0 && c2 != i15) {
-                if (c2 != i15) {
+            c3 = obj.charAt(index);
+            i6 = 0;
+            l3 = (char)i47 < retryIndex ? 1 : 0;
+            if (l3 == 0 && c3 != i4) {
+                if (c3 != i4) {
                     int i69 = 0;
                     return i87 | i93;
                 }
             }
         } else {
-            l2 = l;
+            l4 = l3;
         }
         significand2 = 0;
         digits = index;
@@ -357,41 +357,41 @@ public final class FastFloatParserKt {
         int i111 = 10;
         while (index != compareUnsigned) {
             int i123 = 0;
-            if ((char)i73 < retryIndex2) {
+            if ((char)i73 < retryIndex) {
             } else {
             }
-            i13 = 0;
-            i25 = 1;
-            significand2 = i28 + l3;
+            i = 0;
+            i23 = 1;
+            significand2 = i27 + l;
             index++;
             if (index < length) {
             } else {
             }
-            charAt3 = 0;
-            c2 = charAt3;
-            i13 = i6;
+            charAt2 = 0;
+            c3 = charAt2;
+            i = i15;
             i111 = 10;
-            charAt3 = obj.charAt(index);
-            i13 = 1;
+            charAt2 = obj.charAt(index);
+            i = 1;
         }
-        i6 = i13;
-        i9 = 1;
+        i15 = i;
+        i14 = 1;
         int i75 = index;
         exponent = 0;
         exponentStartIndex = index;
         int i125 = 16;
-        i19 = 0;
-        if (index != compareUnsigned && c2 == i15) {
-            if (c2 == i15) {
+        i9 = 0;
+        if (index != compareUnsigned && c3 == i4) {
+            if (c3 == i4) {
                 exponentNumber = 48;
                 while (compareUnsigned - index >= 4) {
                     $this$isDigit$iv2 = 0;
                     i64 |= i105;
-                    i15 = significand2 - l25;
-                    if (Long.compare(i12, i19) != 0) {
+                    i4 = significand2 - l25;
+                    if (Long.compare(i19, i9) != 0) {
                     } else {
                     }
-                    i3 = significand2;
+                    i13 = significand2;
                     digits = (int)significand2;
                     if (digits >= 0) {
                         break;
@@ -399,46 +399,46 @@ public final class FastFloatParserKt {
                     i66 += l26;
                     index += 4;
                     digits = significandStartIndex;
-                    i15 = 46;
-                    retryIndex2 = 10;
+                    i4 = 46;
+                    retryIndex = 10;
                     exponentNumber = 48;
                     digits = -1;
-                    i3 = significand2;
+                    i13 = significand2;
                 }
-                significand4 = significand2;
+                significand = significand2;
                 significandStartIndex = digits;
                 if (index < length) {
-                    charAt5 = obj.charAt(index);
+                    charAt = obj.charAt(index);
                 } else {
-                    charAt5 = 0;
+                    charAt = 0;
                 }
-                c2 = charAt5;
-                i27 = significand4;
+                c3 = charAt;
+                i11 = significand;
                 while (index != compareUnsigned) {
-                    i15 = 0;
+                    i4 = 0;
                     if ((char)i110 < 10) {
                     } else {
                     }
                     $this$isDigit$iv2 = 0;
-                    significand4 = i27;
-                    significand7 += i15;
+                    significand = i11;
+                    significand7 += i4;
                     index++;
                     if (index < length) {
                     } else {
                     }
                     $this$isDigit$iv2 = 0;
-                    c2 = $this$isDigit$iv2;
+                    c3 = $this$isDigit$iv2;
                     $this$isDigit$iv2 = obj.charAt(index);
-                    $this$isDigit$iv2 = i9;
+                    $this$isDigit$iv2 = i14;
                 }
-                significand4 = i27;
+                significand = i11;
                 digitCount -= exponent;
-                significand2 = significand4;
-                i11 = exponentEndIndex;
+                significand2 = significand;
+                i20 = exponentEndIndex;
             } else {
                 significandStartIndex = digits;
                 exponentNumber = 48;
-                i11 = exponentEndIndex;
+                i20 = exponentEndIndex;
             }
         } else {
         }
@@ -449,16 +449,16 @@ public final class FastFloatParserKt {
         }
         int significand10 = significand2;
         significand5 = 0;
-        if (c2 | 32 == 101) {
+        if (c3 | 32 == 101) {
             index++;
             if (index < length) {
-                charAt = obj.charAt(index);
+                charAt3 = obj.charAt(index);
             } else {
-                charAt = 0;
+                charAt3 = 0;
             }
-            i26 = charAt == 45 ? i9 : 0;
-            if (i26 == 0) {
-                if (charAt == 43) {
+            i10 = charAt3 == 45 ? i14 : 0;
+            if (i10 == 0) {
+                if (charAt3 == 43) {
                     index++;
                 }
             } else {
@@ -482,169 +482,169 @@ public final class FastFloatParserKt {
                 $this$isDigit$iv = 0;
                 c5 = $this$isDigit$iv;
                 $this$isDigit$iv = obj.charAt(index);
-                significand5 = i17;
-                $this$isDigit$iv = i9;
+                significand5 = i5;
+                $this$isDigit$iv = i14;
             }
-            significand = c5;
-            if (i26 != 0) {
+            significand3 = c5;
+            if (i10 != 0) {
                 significand5 = -significand5;
             }
             exponent += significand5;
-            c2 = significand;
+            c3 = significand3;
         }
         tooManyDigits = 0;
         if (digitCount > 19) {
-            c2 = obj.charAt(significandStartIndex);
+            c3 = obj.charAt(significandStartIndex);
             while (index != compareUnsigned) {
                 digits = exponentNumber;
-                if (c2 != digits) {
+                if (c3 != digits) {
                 } else {
                 }
-                retryIndex = 46;
-                if (c2 == digits) {
+                retryIndex2 = 46;
+                if (c3 == digits) {
                 }
-                retryIndex2++;
-                if (retryIndex2 < length) {
+                retryIndex++;
+                if (retryIndex < length) {
                 } else {
                 }
                 charAt4 = 0;
-                c2 = charAt4;
+                c3 = charAt4;
                 exponentNumber = digits;
-                retryIndex = 19;
-                charAt4 = obj.charAt(retryIndex2);
+                retryIndex2 = 19;
+                charAt4 = obj.charAt(retryIndex);
                 digitCount--;
-                if (c2 == 46) {
+                if (c3 == 46) {
                 }
             }
             if (digitCount > 19) {
                 tooManyDigits = 1;
-                significand = 0;
-                c2 = obj.charAt(significandStartIndex);
-                retryIndex2 = 1000000000000000000L;
-                while (retryIndex != i75) {
-                    if (Long.compareUnsigned(ULong.constructor-impl(significand), significand5) < 0) {
+                significand3 = 0;
+                c3 = obj.charAt(significandStartIndex);
+                retryIndex = 1000000000000000000L;
+                while (retryIndex2 != i75) {
+                    if (Long.compareUnsigned(ULong.constructor-impl(significand3), significand5) < 0) {
                         break;
                     }
-                    significand = i32 + retryIndex2;
-                    retryIndex++;
-                    if (retryIndex < length) {
+                    significand3 = i32 + retryIndex;
+                    retryIndex2++;
+                    if (retryIndex2 < length) {
                     } else {
                     }
-                    charAt2 = 0;
-                    c2 = charAt2;
+                    charAt6 = 0;
+                    c3 = charAt6;
                     compareUnsigned = end;
                     significand5 = exponentNumber;
-                    retryIndex2 = 1000000000000000000L;
-                    charAt2 = obj.charAt(retryIndex);
+                    retryIndex = 1000000000000000000L;
+                    charAt6 = obj.charAt(retryIndex2);
                 }
                 exponentNumber = significand5;
-                if (Long.compareUnsigned(ULong.constructor-impl(significand), significand5) >= 0) {
+                if (Long.compareUnsigned(ULong.constructor-impl(significand3), significand5) >= 0) {
                     exponent = i34 + exponentNumber;
-                    i = tooManyDigits;
-                    i7 = significand;
+                    i2 = tooManyDigits;
+                    i17 = significand3;
                 } else {
-                    c2 = charAt6;
-                    while (compareUnsigned2 != i11) {
-                        if (Long.compareUnsigned(ULong.constructor-impl(significand), charAt6) < 0) {
+                    c3 = charAt5;
+                    while (compareUnsigned2 != i20) {
+                        if (Long.compareUnsigned(ULong.constructor-impl(significand3), charAt5) < 0) {
                             break;
                         }
-                        significand = i33 + l27;
-                        compareUnsigned2 = retryIndex + 1;
+                        significand3 = i33 + l27;
+                        compareUnsigned2 = retryIndex2 + 1;
                         if (compareUnsigned2 < length) {
                         } else {
                         }
-                        charAt6 = 0;
-                        c2 = charAt6;
-                        retryIndex2 = 1000000000000000000L;
-                        charAt6 = obj.charAt(compareUnsigned2);
+                        charAt5 = 0;
+                        c3 = charAt5;
+                        retryIndex = 1000000000000000000L;
+                        charAt5 = obj.charAt(compareUnsigned2);
                     }
-                    retryIndex = compareUnsigned2;
+                    retryIndex2 = compareUnsigned2;
                     exponent = retryIndex3 + exponentNumber;
-                    i = tooManyDigits;
-                    i7 = significand;
+                    i2 = tooManyDigits;
+                    i17 = significand3;
                 }
             } else {
                 exponentNumber = significand5;
-                i = tooManyDigits;
-                i7 = significand10;
+                i2 = tooManyDigits;
+                i17 = significand10;
             }
         } else {
             exponentNumber = significand5;
-            i = tooManyDigits;
-            i7 = significand10;
+            i2 = tooManyDigits;
+            i17 = significand10;
         }
         if (-10 <= exponent && exponent < 11) {
-            constructor-impl = exponent < 11 ? i9 : 0;
+            constructor-impl = exponent < 11 ? i14 : 0;
         } else {
         }
         if (constructor-impl != 0) {
-            if (i == 0) {
-                c4 = c2;
-                i8 = i11;
-                if (Long.compareUnsigned(ULong.constructor-impl(i7), retryIndex2) <= 0) {
-                    float f4 = (float)i7;
+            if (i2 == 0) {
+                c4 = c3;
+                i7 = i20;
+                if (Long.compareUnsigned(ULong.constructor-impl(i17), retryIndex) <= 0) {
+                    float f4 = (float)i17;
                     if (exponent < 0) {
                         f4 /= f;
                     } else {
                         f4 *= f;
                     }
-                    i10 = i18 != 0 ? -f2 : f2;
+                    i12 = i3 != 0 ? -f2 : f2;
                     int i96 = 0;
-                    int i113 = i7;
-                    int i70 = i;
+                    int i113 = i17;
+                    int i70 = i2;
                     return i119 | i36;
                 }
-                significand3 = i7;
-                i16 = i;
+                significand4 = i17;
+                i25 = i2;
             } else {
-                significand3 = i7;
-                c4 = c2;
-                i8 = i11;
-                i16 = i;
+                significand4 = i17;
+                c4 = c3;
+                i7 = i20;
+                i25 = i2;
             }
         } else {
-            significand3 = i7;
-            c4 = c2;
-            i8 = i11;
-            i16 = i;
+            significand4 = i17;
+            c4 = c3;
+            i7 = i20;
+            i25 = i2;
         }
-        if (Long.compare(significand3, i19) == 0) {
-            i4 = i18 != 0 ? -2147483648 : 0;
+        if (Long.compare(significand4, i9) == 0) {
+            i24 = i3 != 0 ? -2147483648 : 0;
             int i51 = 0;
             return i77 | i97;
         }
         if (-126 <= exponent && exponent < 128) {
-            i14 = exponent < 128 ? i9 : 0;
+            i16 = exponent < 128 ? i14 : 0;
         } else {
         }
         String str = "this as java.lang.String…ing(startIndex, endIndex)";
-        if (i14 == 0) {
+        if (i16 == 0) {
             String substring3 = obj.substring(i31, index);
             Intrinsics.checkNotNullExpressionValue(substring3, str);
             int i58 = 0;
             return i85 | i99;
         }
         long l11 = ULongArray.get-s-VKNKU(FastFloatParserKt.Mantissa64, exponent + 325);
-        int numberOfLeadingZeros = Long.numberOfLeadingZeros(significand3);
-        int i98 = significand3 << numberOfLeadingZeros;
+        int numberOfLeadingZeros = Long.numberOfLeadingZeros(significand4);
+        int i98 = significand4 << numberOfLeadingZeros;
         int significand9 = 0;
-        int i117 = i98 & l2;
-        int i130 = i98 >>> i6;
-        int i134 = l11 & l2;
-        int i137 = l11 >>> i6;
+        int i117 = i98 & l4;
+        int i130 = i98 >>> i15;
+        int i134 = l11 & l4;
+        int i137 = l11 >>> i15;
         final int i141 = i117 * i137;
         i149 += i151;
-        int i118 = i16;
+        int i118 = i25;
         int i120 = 63;
         int i53 = (int)i52;
         int i131 = i150 >>> i71;
-        i2 = 511;
-        if (Long.compare(i20, i2) != 0) {
-            i2 = 1;
-            if (Long.compare(i135, i19) == 0 && Long.compare(i20, i2) == 0) {
-                if (Long.compare(i20, i2) == 0) {
+        i18 = 511;
+        if (Long.compare(i22, i18) != 0) {
+            i18 = 1;
+            if (Long.compare(i135, i9) == 0 && Long.compare(i22, i18) == 0) {
+                if (Long.compare(i22, i18) == 0) {
                     upperBit = i53;
-                    l4 = l11;
+                    l2 = l11;
                     String substring = obj.substring(i31, index);
                     Intrinsics.checkNotNullExpressionValue(substring, str);
                     int i54 = 0;
@@ -657,11 +657,11 @@ public final class FastFloatParserKt {
                     long l34 = l11;
                     int i115 = i53;
                     int i84 = i122 - adjustedExponent;
-                    if (Long.compare(i84, i2) >= 0) {
-                        if (Long.compare(i84, i24) > 0) {
+                    if (Long.compare(i84, i18) >= 0) {
+                        if (Long.compare(i84, i28) > 0) {
                         } else {
-                            if (i18 != 0) {
-                                i19 = Long.MIN_VALUE;
+                            if (i3 != 0) {
+                                i9 = Long.MIN_VALUE;
                             }
                         }
                         int i124 = 0;
@@ -677,7 +677,7 @@ public final class FastFloatParserKt {
             return i128 | i39;
         }
         upperBit = i53;
-        l4 = l11;
+        l2 = l11;
     }
 
     private static final long pack(int index, float value) {

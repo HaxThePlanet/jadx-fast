@@ -21,57 +21,57 @@ public interface PaddingValues {
         }
 
         private Absolute(float left, float top, float right, float bottom) {
-            int i;
+            int i2;
             int i4;
             int i3;
-            int i2;
+            int i;
             super();
             this.left = left;
             this.top = top;
             this.right = right;
             this.bottom = bottom;
             int i9 = 0;
-            i2 = 1;
+            i = 1;
             final int i10 = 0;
-            i = Float.compare(left2, i9) >= 0 ? i2 : i10;
-            if (i == 0) {
+            i2 = Float.compare(left2, i9) >= 0 ? i : i10;
+            if (i2 == 0) {
             } else {
-                i4 = Float.compare(top2, i9) >= 0 ? i2 : i10;
+                i4 = Float.compare(top2, i9) >= 0 ? i : i10;
                 if (i4 == 0) {
                 } else {
-                    i3 = Float.compare(right2, i9) >= 0 ? i2 : i10;
+                    i3 = Float.compare(right2, i9) >= 0 ? i : i10;
                     if (i3 == 0) {
                     } else {
                         if (Float.compare(bottom2, i9) >= 0) {
                         } else {
-                            i2 = i10;
+                            i = i10;
                         }
-                        if (i2 == 0) {
+                        if (i == 0) {
                         } else {
                         }
                         int i7 = 0;
-                        IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("Bottom padding must be non-negative".toString());
-                        throw illegalArgumentException3;
+                        IllegalArgumentException $i$a$RequirePaddingValues$Absolute$4 = new IllegalArgumentException("Bottom padding must be non-negative".toString());
+                        throw $i$a$RequirePaddingValues$Absolute$4;
                     }
                     int i8 = 0;
-                    IllegalArgumentException illegalArgumentException4 = new IllegalArgumentException("Right padding must be non-negative".toString());
-                    throw illegalArgumentException4;
+                    IllegalArgumentException $i$a$RequirePaddingValues$Absolute$3 = new IllegalArgumentException("Right padding must be non-negative".toString());
+                    throw $i$a$RequirePaddingValues$Absolute$3;
                 }
                 int i6 = 0;
-                IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("Top padding must be non-negative".toString());
-                throw illegalArgumentException2;
+                IllegalArgumentException $i$a$RequirePaddingValues$Absolute$2 = new IllegalArgumentException("Top padding must be non-negative".toString());
+                throw $i$a$RequirePaddingValues$Absolute$2;
             }
             int i5 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Left padding must be non-negative".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequirePaddingValues$Absolute$1 = new IllegalArgumentException("Left padding must be non-negative".toString());
+            throw $i$a$RequirePaddingValues$Absolute$1;
         }
 
         public Absolute(float f, float f2, float f3, float f4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
-            float f8;
-            float f9;
-            float f7;
             float f5;
             float f6;
+            float f7;
+            float f8;
+            float f9;
             float obj7;
             float obj8;
             float obj9;
@@ -79,9 +79,9 @@ public interface PaddingValues {
             int obj12;
             if (i5 & 1 != 0) {
                 obj12 = 0;
-                f9 = obj7;
+                f6 = obj7;
             } else {
-                f9 = f;
+                f6 = f;
             }
             if (i5 & 2 != 0) {
                 obj8 = 0;
@@ -91,17 +91,17 @@ public interface PaddingValues {
             }
             if (i5 & 4 != 0) {
                 obj8 = 0;
-                f5 = obj9;
+                f8 = obj9;
             } else {
-                f5 = f3;
+                f8 = f3;
             }
             if (i5 & 8 != 0) {
                 obj8 = 0;
-                f6 = obj10;
+                f9 = obj10;
             } else {
-                f6 = f4;
+                f9 = f4;
             }
-            super(f9, f7, f5, f6, 0);
+            super(f6, f7, f8, f9, 0);
         }
 
         public Absolute(float f, float f2, float f3, float f4, DefaultConstructorMarker defaultConstructorMarker5) {

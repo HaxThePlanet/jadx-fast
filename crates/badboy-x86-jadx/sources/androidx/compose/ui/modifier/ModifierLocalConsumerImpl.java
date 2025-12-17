@@ -18,9 +18,9 @@ final class ModifierLocalConsumerImpl extends InspectorValueInfo implements andr
 
     @Override // androidx.compose.ui.platform.InspectorValueInfo
     public boolean equals(Object other) {
-        boolean consumer2;
+        boolean consumer;
         int i;
-        Function1 consumer;
+        Function1 consumer2;
         if (other instanceof ModifierLocalConsumerImpl && obj.consumer == this.consumer) {
             i = obj.consumer == this.consumer ? 1 : 0;
         } else {

@@ -63,30 +63,30 @@ class TypefaceCompatBaseImpl {
     private static <T> T findBestFont(T[] tArr, int targetWeight, boolean isTargetItalic, androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor<T> typefaceCompatBaseImpl$StyleExtractor4) {
         int best;
         int bestScore;
-        int i;
-        Object obj;
-        int i2;
         int i3;
+        Object obj;
+        int i;
+        int i2;
         best = 0;
         bestScore = Integer.MAX_VALUE;
         final int i4 = 0;
-        i = i4;
-        while (i < tArr.length) {
-            obj = tArr[i];
+        i3 = i4;
+        while (i3 < tArr.length) {
+            obj = tArr[i3];
             if (styleExtractor4.isItalic(obj) == isTargetItalic) {
             } else {
             }
-            i3 = 1;
-            i7 += i3;
+            i2 = 1;
+            i7 += i2;
             if (best != 0) {
             } else {
             }
             best = obj;
-            bestScore = i2;
-            i++;
-            if (bestScore > i2) {
+            bestScore = i;
+            i3++;
+            if (bestScore > i) {
             }
-            i3 = i4;
+            i2 = i4;
         }
         return best;
     }

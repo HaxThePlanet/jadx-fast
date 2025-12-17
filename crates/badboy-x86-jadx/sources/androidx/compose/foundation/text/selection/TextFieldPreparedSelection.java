@@ -59,14 +59,14 @@ public final class TextFieldPreparedSelection extends androidx.compose.foundatio
 
     private final int jumpByPagesOffset(TextLayoutResultProxy $this$jumpByPagesOffset, int pagesAmount) {
         Object innerTextFieldCoordinates;
-        int i;
+        int i2;
         LayoutCoordinates decorationBoxCoordinates;
         int localBoundingBoxOf$default;
-        int i2;
         int i3;
+        int i;
         innerTextFieldCoordinates = $this$jumpByPagesOffset.getInnerTextFieldCoordinates();
         if (innerTextFieldCoordinates != null) {
-            i = 0;
+            i2 = 0;
             decorationBoxCoordinates = $this$jumpByPagesOffset.getDecorationBoxCoordinates();
             if (decorationBoxCoordinates != null) {
                 localBoundingBoxOf$default = LayoutCoordinates.localBoundingBoxOf$default(decorationBoxCoordinates, innerTextFieldCoordinates, false, 2, 0);
@@ -122,25 +122,25 @@ public final class TextFieldPreparedSelection extends androidx.compose.foundatio
 
     @Override // androidx.compose.foundation.text.selection.BaseTextPreparedSelection
     public final androidx.compose.foundation.text.selection.TextFieldPreparedSelection moveCursorDownByPage() {
-        int i2;
-        int jumpByPagesOffset;
         int i;
+        int jumpByPagesOffset;
+        int i2;
         TextLayoutResultProxy layoutResultProxy;
         final int i3 = 0;
         final Object obj2 = this;
         final int i4 = 0;
         jumpByPagesOffset = 1;
-        i2 = (CharSequence)(BaseTextPreparedSelection)this.getText$foundation_release().length() > 0 ? jumpByPagesOffset : 0;
-        i2 = obj2;
-        i = 0;
-        layoutResultProxy = i2.layoutResultProxy;
-        if (i2 != 0 && layoutResultProxy != null) {
-            i2 = obj2;
-            i = 0;
-            layoutResultProxy = i2.layoutResultProxy;
+        i = (CharSequence)(BaseTextPreparedSelection)this.getText$foundation_release().length() > 0 ? jumpByPagesOffset : 0;
+        i = obj2;
+        i2 = 0;
+        layoutResultProxy = i.layoutResultProxy;
+        if (i != 0 && layoutResultProxy != null) {
+            i = obj2;
+            i2 = 0;
+            layoutResultProxy = i.layoutResultProxy;
             if (layoutResultProxy != null) {
                 layoutResultProxy = 0;
-                i2.setCursor((TextFieldPreparedSelection)(TextFieldPreparedSelection)i2.jumpByPagesOffset(layoutResultProxy, jumpByPagesOffset));
+                i.setCursor((TextFieldPreparedSelection)(TextFieldPreparedSelection)i.jumpByPagesOffset(layoutResultProxy, jumpByPagesOffset));
             }
         }
         Intrinsics.checkNotNull(obj2, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");

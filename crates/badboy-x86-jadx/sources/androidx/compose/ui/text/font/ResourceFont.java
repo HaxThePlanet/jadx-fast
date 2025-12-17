@@ -28,9 +28,9 @@ public final class ResourceFont implements androidx.compose.ui.text.font.Font {
 
     public ResourceFont(int i, androidx.compose.ui.text.font.FontWeight fontWeight2, int i3, androidx.compose.ui.text.font.FontVariation.Settings fontVariation$Settings4, int i5, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
         androidx.compose.ui.text.font.FontWeight fontWeight;
-        int i4;
-        androidx.compose.ui.text.font.FontVariation.Settings set;
         int i2;
+        androidx.compose.ui.text.font.FontVariation.Settings set;
+        int i4;
         androidx.compose.ui.text.font.FontWeight obj9;
         int obj10;
         androidx.compose.ui.text.font.FontVariation.Settings obj11;
@@ -41,9 +41,9 @@ public final class ResourceFont implements androidx.compose.ui.text.font.Font {
             fontWeight = fontWeight2;
         }
         if (i6 & 4 != 0) {
-            i4 = obj10;
+            i2 = obj10;
         } else {
-            i4 = i3;
+            i2 = i3;
         }
         if (i6 & 8 != 0) {
             set = obj11;
@@ -51,11 +51,11 @@ public final class ResourceFont implements androidx.compose.ui.text.font.Font {
             set = settings4;
         }
         if (i6 & 16 != 0) {
-            i2 = obj12;
+            i4 = obj12;
         } else {
-            i2 = i5;
+            i4 = i5;
         }
-        super(i, fontWeight, i4, set, i2, 0);
+        super(i, fontWeight, i2, set, i4, 0);
     }
 
     public ResourceFont(int i, androidx.compose.ui.text.font.FontWeight fontWeight2, int i3, androidx.compose.ui.text.font.FontVariation.Settings fontVariation$Settings4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {

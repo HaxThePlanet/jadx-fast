@@ -44,49 +44,49 @@ public final class AndroidMenu_androidKt {
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility. Use overload with parameters for shape, color, elevation, and border.", replaceWith = @ReplaceWith(...))
     public static final void DropdownMenu-4kj-_NE(boolean expanded, Function0 onDismissRequest, Modifier modifier, long offset, ScrollState scrollState, PopupProperties properties, Function3 content, Composer $composer, int $changed, int i10) {
-        int traceInProgress2;
+        int traceInProgress;
         int defaultsInvalid;
-        Object modifier2;
-        int modifier3;
+        Object modifier3;
+        int modifier2;
         Composer restartGroup;
         int $dirty;
-        int i18;
-        int i2;
-        int rememberScrollState;
-        boolean traceInProgress;
-        Object obj5;
-        Object $this$dp$iv;
-        long l2;
-        int i3;
-        int i11;
-        long l;
-        Object obj8;
-        Object obj2;
-        int i14;
-        Object obj3;
-        boolean z;
-        Object obj;
         int i7;
-        int changed;
-        Object i8;
-        Object obj6;
-        int i4;
-        Object obj4;
-        int i5;
-        int i16;
-        Object i9;
+        int i6;
+        int rememberScrollState;
+        boolean traceInProgress2;
         Object obj7;
+        Object $this$dp$iv;
+        long l;
+        int i8;
+        int i16;
+        long l2;
+        Object obj;
+        Object obj5;
+        int i17;
+        Object obj4;
+        boolean z;
+        Object obj3;
+        int i11;
+        int changed;
+        Object i15;
+        Object obj8;
+        int i;
+        Object obj2;
+        int i12;
+        int i18;
+        Object i13;
+        Object obj6;
         PopupProperties popupProperties;
         int containerColor;
-        int i12;
+        int i3;
         int tonalElevation-D9Ej5fM;
         int shadowElevation-D9Ej5fM;
-        int i6;
-        int i;
+        int i4;
+        int i14;
         Composer composer;
-        int i17;
-        int i13;
-        int i15;
+        int i5;
+        int i2;
+        int i9;
         int obj36;
         final int i46 = i10;
         restartGroup = $changed.startRestartGroup(-1137929566);
@@ -97,21 +97,21 @@ public final class AndroidMenu_androidKt {
             z = expanded;
         } else {
             if (i46 & 6 == 0) {
-                i18 = restartGroup.changed(expanded) ? 4 : 2;
-                $dirty |= i18;
+                i7 = restartGroup.changed(expanded) ? 4 : 2;
+                $dirty |= i7;
             } else {
                 z = expanded;
             }
         }
         if (obj38 & 2 != 0) {
             $dirty |= 48;
-            obj = onDismissRequest;
+            obj3 = onDismissRequest;
         } else {
             if (i46 & 48 == 0) {
-                i2 = restartGroup.changedInstance(onDismissRequest) ? 32 : 16;
-                $dirty |= i2;
+                i6 = restartGroup.changedInstance(onDismissRequest) ? 32 : 16;
+                $dirty |= i6;
             } else {
-                obj = onDismissRequest;
+                obj3 = onDismissRequest;
             }
         }
         rememberScrollState = obj38 & 4;
@@ -120,139 +120,139 @@ public final class AndroidMenu_androidKt {
             $this$dp$iv = modifier;
         } else {
             if (i46 & 384 == 0) {
-                i3 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i3;
+                i8 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i8;
             } else {
                 $this$dp$iv = modifier;
             }
         }
-        i11 = obj38 & 8;
-        if (i11 != 0) {
+        i16 = obj38 & 8;
+        if (i16 != 0) {
             $dirty |= 3072;
-            l = offset;
+            l2 = offset;
         } else {
             if (i46 & 3072 == 0) {
-                i14 = restartGroup.changed(offset) ? 2048 : 1024;
-                $dirty |= i14;
+                i17 = restartGroup.changed(offset) ? 2048 : 1024;
+                $dirty |= i17;
             } else {
-                l = offset;
+                l2 = offset;
             }
         }
         if (i46 & 24576 == 0) {
             if (obj38 & 16 == 0) {
                 changed = restartGroup.changed(properties) ? 16384 : 8192;
             } else {
-                obj3 = properties;
+                obj4 = properties;
             }
             $dirty |= changed;
         } else {
-            obj3 = properties;
+            obj4 = properties;
         }
-        i8 = obj38 & 32;
+        i15 = obj38 & 32;
         int i47 = 196608;
-        if (i8 != 0) {
+        if (i15 != 0) {
             $dirty |= i47;
-            obj6 = content;
+            obj8 = content;
         } else {
             if (i47 &= i46 == 0) {
-                i4 = restartGroup.changed(content) ? 131072 : 65536;
-                $dirty |= i4;
+                i = restartGroup.changed(content) ? 131072 : 65536;
+                $dirty |= i;
             } else {
-                obj6 = content;
+                obj8 = content;
             }
         }
-        i5 = 1572864;
+        i12 = 1572864;
         if (obj38 & 64 != 0) {
-            $dirty |= i5;
-            obj4 = $composer;
+            $dirty |= i12;
+            obj2 = $composer;
         } else {
-            if (i46 & i5 == 0) {
-                i5 = restartGroup.changedInstance($composer) ? 1048576 : 524288;
-                $dirty |= i5;
+            if (i46 & i12 == 0) {
+                i12 = restartGroup.changedInstance($composer) ? 1048576 : 524288;
+                $dirty |= i12;
             } else {
-                obj4 = $composer;
+                obj2 = $composer;
             }
         }
         if (i51 &= $dirty == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i16 = -57345;
+                i18 = -57345;
                 if (i46 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (rememberScrollState != 0) {
-                            modifier2 = Modifier.Companion;
+                            modifier3 = Modifier.Companion;
                         } else {
-                            modifier2 = $this$dp$iv;
+                            modifier3 = $this$dp$iv;
                         }
-                        if (i11 != 0) {
+                        if (i16 != 0) {
                             int i34 = 0;
-                            i11 = 0;
-                            obj36 = i16;
-                            l = rememberScrollState;
+                            i16 = 0;
+                            obj36 = i18;
+                            l2 = rememberScrollState;
                         } else {
-                            obj36 = i16;
+                            obj36 = i18;
                         }
                         if (obj38 & 16 != 0) {
                             int i30 = 0;
                             $dirty &= obj36;
-                            obj3 = rememberScrollState;
+                            obj4 = rememberScrollState;
                         }
-                        if (i8 != 0) {
+                        if (i15 != 0) {
                             popupProperties = new PopupProperties(1, 0, 0, 0, 14, 0);
-                            i8 = modifier2;
-                            obj6 = l;
-                            i9 = obj3;
-                            obj7 = popupProperties;
-                            modifier3 = -1137929566;
+                            i15 = modifier3;
+                            obj8 = l2;
+                            i13 = obj4;
+                            obj6 = popupProperties;
+                            modifier2 = -1137929566;
                         } else {
-                            i8 = modifier2;
-                            i9 = obj3;
-                            obj7 = obj6;
-                            modifier3 = -1137929566;
-                            obj6 = l;
+                            i15 = modifier3;
+                            i13 = obj4;
+                            obj6 = obj8;
+                            modifier2 = -1137929566;
+                            obj8 = l2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj38 & 16 != 0) {
-                            $dirty &= i16;
+                            $dirty &= i18;
                         }
-                        i8 = $this$dp$iv;
-                        i9 = obj3;
-                        obj7 = obj6;
-                        modifier3 = -1137929566;
-                        obj6 = l;
+                        i15 = $this$dp$iv;
+                        i13 = obj4;
+                        obj6 = obj8;
+                        modifier2 = -1137929566;
+                        obj8 = l2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(modifier3, $dirty, -1, "androidx.compose.material3.DropdownMenu (AndroidMenu.android.kt:123)");
+                    ComposerKt.traceEventStart(modifier2, $dirty, -1, "androidx.compose.material3.DropdownMenu (AndroidMenu.android.kt:123)");
                 }
                 int i32 = 6;
-                AndroidMenu_androidKt.DropdownMenu-IlH_yew(z, obj, i8, obj6, obj4, i9, obj7, MenuDefaults.INSTANCE.getShape(restartGroup, i32), MenuDefaults.INSTANCE.getContainerColor(restartGroup, i32), i12, MenuDefaults.INSTANCE.getTonalElevation-D9Ej5fM(), MenuDefaults.INSTANCE.getShadowElevation-D9Ej5fM(), 0, $composer, restartGroup, i26 | i42);
+                AndroidMenu_androidKt.DropdownMenu-IlH_yew(z, obj3, i15, obj8, obj2, i13, obj6, MenuDefaults.INSTANCE.getShape(restartGroup, i32), MenuDefaults.INSTANCE.getContainerColor(restartGroup, i32), i3, MenuDefaults.INSTANCE.getTonalElevation-D9Ej5fM(), MenuDefaults.INSTANCE.getShadowElevation-D9Ej5fM(), 0, $composer, restartGroup, i26 | i42);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = i8;
-                l2 = obj6;
-                obj8 = i9;
-                obj2 = obj7;
-                i7 = $dirty;
+                obj7 = i15;
+                l = obj8;
+                obj = i13;
+                obj5 = obj6;
+                i11 = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
-                obj5 = $this$dp$iv;
-                l2 = l;
-                obj8 = obj3;
-                obj2 = obj6;
-                i7 = $dirty;
+                obj7 = $this$dp$iv;
+                l = l2;
+                obj = obj4;
+                obj5 = obj8;
+                i11 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new AndroidMenu_androidKt.DropdownMenu.3(expanded, onDismissRequest, obj5, l2, i11, obj8, obj2, $composer, i46, obj38);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new AndroidMenu_androidKt.DropdownMenu.3(expanded, onDismissRequest, obj7, l, i16, obj, obj5, $composer, i46, obj38);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
@@ -261,40 +261,40 @@ public final class AndroidMenu_androidKt {
         int traceInProgress2;
         Composer restartGroup;
         int $dirty2;
-        int i11;
-        int i4;
-        Object obj5;
+        int i6;
+        int i17;
+        Object obj2;
         Object modifier2;
-        Object obj;
+        Object obj5;
         long l;
         boolean traceInProgress;
-        int i12;
+        int i19;
         int $this$dp$iv;
         long l2;
         Object obj7;
-        int i10;
+        int i5;
         boolean z;
         Object obj6;
-        int i19;
         int i7;
+        int i;
         int $dirty;
-        Object obj4;
+        Object obj;
         int i18;
         Object obj3;
-        int i5;
-        boolean rememberScrollState;
-        int i15;
-        int i13;
-        int i8;
-        int i;
-        int i6;
         int i14;
-        int i2;
-        Object obj2;
-        Composer composer;
-        int i17;
-        int i16;
+        boolean rememberScrollState;
+        int i8;
+        int i13;
         int i3;
+        int i10;
+        int i2;
+        int i4;
+        int i15;
+        Object obj4;
+        Composer composer;
+        int i11;
+        int i12;
+        int i16;
         final int i37 = i9;
         traceInProgress2 = 354826666;
         restartGroup = $changed.startRestartGroup(traceInProgress2);
@@ -305,8 +305,8 @@ public final class AndroidMenu_androidKt {
             z = expanded;
         } else {
             if (i37 & 6 == 0) {
-                i11 = restartGroup.changed(expanded) ? 4 : 2;
-                $dirty2 |= i11;
+                i6 = restartGroup.changed(expanded) ? 4 : 2;
+                $dirty2 |= i6;
             } else {
                 z = expanded;
             }
@@ -316,8 +316,8 @@ public final class AndroidMenu_androidKt {
             obj6 = onDismissRequest;
         } else {
             if (i37 & 48 == 0) {
-                i4 = restartGroup.changedInstance(onDismissRequest) ? 32 : 16;
-                $dirty2 |= i4;
+                i17 = restartGroup.changedInstance(onDismissRequest) ? 32 : 16;
+                $dirty2 |= i17;
             } else {
                 obj6 = onDismissRequest;
             }
@@ -325,13 +325,13 @@ public final class AndroidMenu_androidKt {
         int i26 = obj36 & 4;
         if (i26 != 0) {
             $dirty2 |= 384;
-            obj = modifier;
+            obj5 = modifier;
         } else {
             if (i37 & 384 == 0) {
-                i12 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i12;
+                i19 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i19;
             } else {
-                obj = modifier;
+                obj5 = modifier;
             }
         }
         $this$dp$iv = obj36 & 8;
@@ -340,32 +340,32 @@ public final class AndroidMenu_androidKt {
             l2 = offset;
         } else {
             if (i37 & 3072 == 0) {
-                i19 = restartGroup.changed(offset) ? 2048 : 1024;
-                $dirty2 |= i19;
+                i7 = restartGroup.changed(offset) ? 2048 : 1024;
+                $dirty2 |= i7;
             } else {
                 l2 = offset;
             }
         }
-        i7 = obj36 & 16;
-        if (i7 != 0) {
+        i = obj36 & 16;
+        if (i != 0) {
             $dirty2 |= 24576;
-            obj4 = content;
+            obj = content;
         } else {
             if (i37 & 24576 == 0) {
                 i18 = restartGroup.changed(content) ? 16384 : 8192;
                 $dirty2 |= i18;
             } else {
-                obj4 = content;
+                obj = content;
             }
         }
-        i5 = 196608;
+        i14 = 196608;
         if (obj36 & 32 != 0) {
-            $dirty2 |= i5;
+            $dirty2 |= i14;
             obj3 = $composer;
         } else {
-            if (i37 & i5 == 0) {
-                i5 = restartGroup.changedInstance($composer) ? 131072 : 65536;
-                $dirty2 |= i5;
+            if (i37 & i14 == 0) {
+                i14 = restartGroup.changedInstance($composer) ? 131072 : 65536;
+                $dirty2 |= i14;
             } else {
                 obj3 = $composer;
             }
@@ -375,45 +375,45 @@ public final class AndroidMenu_androidKt {
                 if (i26 != 0) {
                     modifier2 = Modifier.Companion;
                 } else {
-                    modifier2 = obj;
+                    modifier2 = obj5;
                 }
                 if ($this$dp$iv != 0) {
                     int i35 = 0;
                     rememberScrollState = 0;
-                    l2 = obj;
+                    l2 = obj5;
                 }
-                if (i7 != 0) {
+                if (i != 0) {
                     rememberScrollState = new PopupProperties(1, 0, 0, 0, 14, 0);
-                    i15 = rememberScrollState;
+                    i8 = rememberScrollState;
                 } else {
-                    i15 = obj4;
+                    i8 = obj;
                 }
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.DropdownMenu (AndroidMenu.android.kt:158)");
                 }
                 int i20 = 0;
-                i7 = modifier2;
-                obj4 = l2;
-                AndroidMenu_androidKt.DropdownMenu-IlH_yew(z, obj6, i7, obj4, obj3, ScrollKt.rememberScrollState(i20, restartGroup, i20, 1), i15, 0, 0, i, 0, 0, 0, obj3, restartGroup, i24 | i34);
+                i = modifier2;
+                obj = l2;
+                AndroidMenu_androidKt.DropdownMenu-IlH_yew(z, obj6, i, obj, obj3, ScrollKt.rememberScrollState(i20, restartGroup, i20, 1), i8, 0, 0, i10, 0, 0, 0, obj3, restartGroup, i24 | i34);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = i7;
-                l = obj4;
-                obj7 = i15;
+                obj2 = i;
+                l = obj;
+                obj7 = i8;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
-                obj5 = obj;
+                obj2 = obj5;
                 l = l2;
-                obj7 = obj4;
+                obj7 = obj;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
             $dirty = $dirty2;
-            traceInProgress2 = new AndroidMenu_androidKt.DropdownMenu.4(expanded, onDismissRequest, obj5, l, $this$dp$iv, obj7, $composer, i37, obj36);
+            traceInProgress2 = new AndroidMenu_androidKt.DropdownMenu.4(expanded, onDismissRequest, obj2, l, $this$dp$iv, obj7, $composer, i37, obj36);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         } else {
             $dirty = $dirty2;
@@ -423,13 +423,13 @@ public final class AndroidMenu_androidKt {
     public static final void DropdownMenu-IlH_yew(boolean expanded, Function0<Unit> onDismissRequest, Modifier modifier, long offset, ScrollState scrollState, PopupProperties properties, Shape shape, long containerColor, float tonalElevation, float shadowElevation, BorderStroke border, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i16) {
         int traceInProgress;
         Object endRestartGroup;
-        Object mutableTransitionState;
+        Object $i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1;
         Object expandedState2;
-        int i19;
+        int i23;
+        float f5;
         float f4;
-        float f;
-        Object obj3;
-        Object i24;
+        Object obj6;
+        Object i2;
         int this_$iv;
         int invalid$iv;
         Object restartGroup;
@@ -438,74 +438,74 @@ public final class AndroidMenu_androidKt {
         Object $dirty;
         int skipping;
         int defaultsInvalid;
-        Object modifier3;
-        int modifier2;
-        long l2;
+        Object modifier2;
+        int modifier3;
+        long l;
         int shape2;
         int defaultMenuProperties;
         boolean traceInProgress2;
-        int i12;
-        Object i8;
+        int i18;
+        Object i15;
         boolean z;
-        int i25;
+        int i21;
         Object rememberScrollState;
         int str;
         Object tonalElevation2;
-        Object obj6;
-        int i10;
+        Object obj4;
+        int i12;
         int $i$f$cache;
         Object rememberedValue;
-        int i20;
-        Object obj2;
-        Object obj8;
-        long offset3;
-        long i2;
         int i9;
-        float f3;
+        Object obj7;
+        Object obj2;
+        long offset2;
+        long i7;
+        int i;
+        float f;
         int containerColor2;
-        int i6;
+        int i11;
         Object $i$f$getDp;
-        float offset2;
-        long l;
+        float offset3;
+        long $i$a$CacheAndroidMenu_androidKt$DropdownMenu$popupPositionProvider$1;
         int empty;
-        int i21;
-        int obj10;
+        int i20;
+        int obj8;
         int shadowElevation2;
         Object dropdownMenuPositionProvider;
-        Object obj9;
-        int i4;
+        Object obj10;
+        int i8;
         int companion;
-        int i23;
-        int i5;
+        int i22;
+        int i6;
         boolean changed;
         Composer composer;
         int i13;
+        int i3;
         int i17;
-        int i11;
-        int i7;
+        int i24;
         int changed2;
         int center-SzJe1aQ;
-        int $dirty4;
         int $dirty2;
+        int $dirty4;
         int changed3;
         int $dirty1;
         int $dirty12;
-        int i22;
-        int i18;
-        int i;
+        int i5;
         int i14;
-        int i15;
+        int i10;
+        int i25;
+        int i19;
         int changedInstance;
-        Object obj7;
+        Object obj3;
         MutableTransitionState expandedState;
-        Object obj11;
-        Object obj5;
+        Object obj9;
         Object obj;
-        long l3;
+        Object obj11;
+        long l2;
         float f2;
-        float f5;
-        int i3;
-        Object obj4;
+        float f3;
+        int i4;
+        Object obj5;
         ScopeUpdateScope scopeUpdateScope;
         int obj42;
         Object obj43;
@@ -527,21 +527,21 @@ public final class AndroidMenu_androidKt {
             z = expanded;
         } else {
             if (i66 & 6 == 0) {
-                i20 = restartGroup.changed(expanded) ? 4 : 2;
-                $dirty3 |= i20;
+                i9 = restartGroup.changed(expanded) ? 4 : 2;
+                $dirty3 |= i9;
             } else {
                 z = expanded;
             }
         }
         if (traceInProgress & 2 != 0) {
             $dirty3 |= 48;
-            obj2 = onDismissRequest;
+            obj7 = onDismissRequest;
         } else {
             if (i66 & 48 == 0) {
-                i9 = restartGroup.changedInstance(onDismissRequest) ? 32 : 16;
-                $dirty3 |= i9;
+                i = restartGroup.changedInstance(onDismissRequest) ? 32 : 16;
+                $dirty3 |= i;
             } else {
-                obj2 = onDismissRequest;
+                obj7 = onDismissRequest;
             }
         }
         containerColor2 = traceInProgress & 4;
@@ -550,8 +550,8 @@ public final class AndroidMenu_androidKt {
             $i$f$getDp = modifier;
         } else {
             if (i66 & 384 == 0) {
-                i21 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty3 |= i21;
+                i20 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty3 |= i20;
             } else {
                 $i$f$getDp = modifier;
             }
@@ -559,13 +559,13 @@ public final class AndroidMenu_androidKt {
         shadowElevation2 = traceInProgress & 8;
         if (shadowElevation2 != 0) {
             $dirty3 |= 3072;
-            offset3 = offset;
+            offset2 = offset;
         } else {
             if (i66 & 3072 == 0) {
-                i5 = restartGroup.changed(offset) ? 2048 : 1024;
-                $dirty3 |= i5;
+                i6 = restartGroup.changed(offset) ? 2048 : 1024;
+                $dirty3 |= i6;
             } else {
-                offset3 = offset;
+                offset2 = offset;
             }
         }
         if (i66 & 24576 == 0) {
@@ -579,16 +579,16 @@ public final class AndroidMenu_androidKt {
             rememberScrollState = properties;
         }
         i13 = traceInProgress & 32;
-        i17 = 196608;
+        i3 = 196608;
         if (i13 != 0) {
-            $dirty3 |= i17;
-            obj9 = shape;
+            $dirty3 |= i3;
+            obj10 = shape;
         } else {
-            if (i66 & i17 == 0) {
-                i11 = restartGroup.changed(shape) ? 131072 : 65536;
-                $dirty3 |= i11;
+            if (i66 & i3 == 0) {
+                i17 = restartGroup.changed(shape) ? 131072 : 65536;
+                $dirty3 |= i17;
             } else {
-                obj9 = shape;
+                obj10 = shape;
             }
         }
         if (i66 & i67 == 0) {
@@ -603,202 +603,202 @@ public final class AndroidMenu_androidKt {
         }
         if (i66 & i68 == 0) {
             if (traceInProgress & 128 == 0) {
-                $dirty4 = $dirty3;
-                i19 = i37;
+                $dirty2 = $dirty3;
+                i23 = i37;
                 changed3 = restartGroup.changed(tonalElevation) ? 8388608 : 4194304;
             } else {
-                $dirty4 = $dirty3;
-                i19 = i37;
+                $dirty2 = $dirty3;
+                i23 = i37;
                 $dirty5 = tonalElevation;
             }
-            $dirty4 |= changed3;
+            $dirty2 |= changed3;
         } else {
-            $dirty2 = $dirty3;
-            i19 = i37;
+            $dirty4 = $dirty3;
+            i23 = i37;
             $dirty5 = tonalElevation;
         }
-        $dirty1 = i19;
+        $dirty1 = i23;
         int $dirty13 = traceInProgress & 256;
         int i69 = 100663296;
         if ($dirty13 != 0) {
-            $dirty2 |= i69;
-            i22 = $dirty13;
-            f4 = border;
+            $dirty4 |= i69;
+            i5 = $dirty13;
+            f5 = border;
         } else {
             if (i66 & i69 == 0) {
-                i22 = $dirty13;
-                i18 = restartGroup.changed(border) ? 67108864 : 33554432;
-                $dirty2 |= i18;
+                i5 = $dirty13;
+                i14 = restartGroup.changed(border) ? 67108864 : 33554432;
+                $dirty4 |= i14;
             } else {
-                i22 = $dirty13;
-                f4 = border;
+                i5 = $dirty13;
+                f5 = border;
             }
         }
         int i29 = traceInProgress & 512;
         int i71 = 805306368;
         if (i29 != 0) {
-            $dirty2 |= i71;
-            i = i29;
-            f = content;
+            $dirty4 |= i71;
+            i10 = i29;
+            f4 = content;
         } else {
             if (i66 & i71 == 0) {
-                i = i29;
-                i14 = restartGroup.changed(content) ? 536870912 : 268435456;
-                $dirty2 |= i14;
+                i10 = i29;
+                i25 = restartGroup.changed(content) ? 536870912 : 268435456;
+                $dirty4 |= i25;
             } else {
-                i = i29;
-                f = content;
+                i10 = i29;
+                f4 = content;
             }
         }
         int i30 = traceInProgress & 1024;
         if (i30 != 0) {
             $dirty1 |= 6;
-            i15 = i30;
-            obj3 = $composer;
+            i19 = i30;
+            obj6 = $composer;
         } else {
             if (obj56 & 6 == 0) {
-                i15 = i30;
+                i19 = i30;
                 changedInstance = restartGroup.changed($composer) ? 4 : 2;
                 $dirty1 |= changedInstance;
             } else {
-                i15 = i30;
-                obj3 = $composer;
+                i19 = i30;
+                obj6 = $composer;
             }
         }
         if (traceInProgress & 2048 != 0) {
             $dirty1 |= 48;
         } else {
             if (obj56 & 48 == 0) {
-                i4 = restartGroup.changedInstance($changed) ? 32 : 16;
-                $dirty1 |= i4;
+                i8 = restartGroup.changedInstance($changed) ? 32 : 16;
+                $dirty1 |= i8;
             } else {
-                i24 = $changed;
+                i2 = $changed;
             }
         }
         this_$iv = $dirty1;
-        if ($dirty2 & companion == 306783378 && this_$iv & 19 == 18) {
+        if ($dirty4 & companion == 306783378 && this_$iv & 19 == 18) {
             if (this_$iv & 19 == 18) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
-                    i23 = -57345;
+                    i22 = -57345;
                     obj54 = -3670017;
                     if (i66 & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
                             if (containerColor2 != 0) {
-                                modifier3 = Modifier.Companion;
+                                modifier2 = Modifier.Companion;
                             } else {
-                                modifier3 = $i$f$getDp;
+                                modifier2 = $i$f$getDp;
                             }
                             if (shadowElevation2 != 0) {
                                 int i63 = 0;
                                 shadowElevation2 = 0;
-                                offset3 = DpKt.DpOffset-YgX7TsA(Dp.constructor-impl((float)i61), Dp.constructor-impl((float)$i$f$getDp));
+                                offset2 = DpKt.DpOffset-YgX7TsA(Dp.constructor-impl((float)i61), Dp.constructor-impl((float)$i$f$getDp));
                             }
                             if (traceInProgress & 16 != 0) {
                                 defaultMenuProperties = 0;
                                 rememberScrollState = ScrollKt.rememberScrollState(defaultMenuProperties, restartGroup, defaultMenuProperties, 1);
-                                $dirty2 &= i23;
+                                $dirty4 &= i22;
                             }
                             if (i13 != 0) {
-                                obj9 = defaultMenuProperties;
+                                obj10 = defaultMenuProperties;
                             }
                             int i60 = 6;
                             if (traceInProgress & 64 != 0) {
                                 shape2 = MenuDefaults.INSTANCE.getShape(restartGroup, i60);
-                                $dirty2 &= obj54;
+                                $dirty4 &= obj54;
                             } else {
                                 shape2 = tonalElevation2;
                             }
                             if (traceInProgress & 128 != 0) {
                                 containerColor2 = MenuDefaults.INSTANCE.getContainerColor(restartGroup, i60);
-                                $dirty2 &= i10;
+                                $dirty4 &= i12;
                             } else {
                                 containerColor2 = tonalElevation;
                             }
-                            if (i22 != 0) {
+                            if (i5 != 0) {
                                 tonalElevation2 = MenuDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
                             } else {
                                 tonalElevation2 = border;
                             }
-                            if (i != 0) {
+                            if (i10 != 0) {
                                 shadowElevation2 = MenuDefaults.INSTANCE.getShadowElevation-D9Ej5fM();
                             } else {
                                 shadowElevation2 = content;
                             }
-                            if (i15 != 0) {
-                                obj7 = modifier3;
-                                obj = shape2;
-                                obj5 = rememberScrollState;
+                            if (i19 != 0) {
+                                obj3 = modifier2;
+                                obj11 = shape2;
+                                obj = rememberScrollState;
                                 f2 = tonalElevation2;
-                                l3 = containerColor2;
-                                f5 = shadowElevation2;
-                                i3 = i23;
-                                modifier2 = $dirty2;
+                                l2 = containerColor2;
+                                f3 = shadowElevation2;
+                                i4 = i22;
+                                modifier3 = $dirty4;
                             } else {
-                                i3 = $composer;
-                                obj7 = modifier3;
-                                obj = shape2;
-                                obj5 = rememberScrollState;
+                                i4 = $composer;
+                                obj3 = modifier2;
+                                obj11 = shape2;
+                                obj = rememberScrollState;
                                 f2 = tonalElevation2;
-                                l3 = containerColor2;
-                                f5 = shadowElevation2;
-                                modifier2 = $dirty2;
+                                l2 = containerColor2;
+                                f3 = shadowElevation2;
+                                modifier3 = $dirty4;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
                             if (traceInProgress & 16 != 0) {
-                                $dirty2 &= i23;
+                                $dirty4 &= i22;
                             }
                             if (traceInProgress & 64 != 0) {
-                                $dirty2 &= obj54;
+                                $dirty4 &= obj54;
                             }
                             if (traceInProgress & 128 != 0) {
-                                modifier2 = $dirty2 & i36;
-                                l3 = tonalElevation;
+                                modifier3 = $dirty4 & i36;
+                                l2 = tonalElevation;
                                 f2 = border;
-                                f5 = content;
-                                i3 = $composer;
-                                obj5 = rememberScrollState;
-                                obj = tonalElevation2;
-                                obj7 = $i$f$getDp;
+                                f3 = content;
+                                i4 = $composer;
+                                obj = rememberScrollState;
+                                obj11 = tonalElevation2;
+                                obj3 = $i$f$getDp;
                             } else {
-                                l3 = tonalElevation;
+                                l2 = tonalElevation;
                                 f2 = border;
-                                f5 = content;
-                                i3 = $composer;
-                                obj5 = rememberScrollState;
-                                obj = tonalElevation2;
-                                obj7 = $i$f$getDp;
-                                modifier2 = $dirty2;
+                                f3 = content;
+                                i4 = $composer;
+                                obj = rememberScrollState;
+                                obj11 = tonalElevation2;
+                                obj3 = $i$f$getDp;
+                                modifier3 = $dirty4;
                             }
                         }
                     } else {
                     }
                     restartGroup.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(1431928300, modifier2, this_$iv, "androidx.compose.material3.DropdownMenu (AndroidMenu.android.kt:54)");
+                        ComposerKt.traceEventStart(1431928300, modifier3, this_$iv, "androidx.compose.material3.DropdownMenu (AndroidMenu.android.kt:54)");
                     }
                     str = "CC(remember):AndroidMenu.android.kt#9igjgp";
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 1468213501, str);
-                    i8 = 0;
+                    i15 = 0;
                     rememberedValue = restartGroup;
-                    i6 = 0;
+                    i11 = 0;
                     Object rememberedValue3 = rememberedValue.rememberedValue();
                     dropdownMenuPositionProvider = 0;
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         obj42 = i26;
                         obj54 = this_$iv;
-                        mutableTransitionState = new MutableTransitionState(false);
-                        rememberedValue.updateRememberedValue(mutableTransitionState);
+                        $i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1 = new MutableTransitionState(false);
+                        rememberedValue.updateRememberedValue($i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1);
                     } else {
                         obj54 = this_$iv;
-                        i5 = 0;
-                        mutableTransitionState = rememberedValue3;
+                        i6 = 0;
+                        $i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1 = rememberedValue3;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    (MutableTransitionState)mutableTransitionState.setTargetState(Boolean.valueOf(z));
-                    if (!(Boolean)mutableTransitionState.getCurrentState().booleanValue()) {
-                        if ((Boolean)mutableTransitionState.getTargetState().booleanValue()) {
+                    (MutableTransitionState)$i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1.setTargetState(Boolean.valueOf(z));
+                    if (!(Boolean)$i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1.getCurrentState().booleanValue()) {
+                        if ((Boolean)$i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1.getTargetState().booleanValue()) {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 1468219494, str);
                             invalid$iv = 0;
                             Composer composer2 = restartGroup;
@@ -807,12 +807,12 @@ public final class AndroidMenu_androidKt {
                             empty = 0;
                             if (rememberedValue2 == Composer.Companion.getEmpty()) {
                                 dropdownMenuPositionProvider = 0;
-                                expandedState = mutableTransitionState;
+                                expandedState = $i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1;
                                 obj42 = invalid$iv;
                                 obj43 = $i$f$cache;
                                 composer2.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(TransformOrigin.box-impl(TransformOrigin.Companion.getCenter-SzJe1aQ()), 0, 2, 0));
                             } else {
-                                expandedState = mutableTransitionState;
+                                expandedState = $i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1;
                                 obj42 = invalid$iv;
                                 obj43 = $i$f$cache;
                                 expandedState2 = rememberedValue2;
@@ -824,65 +824,65 @@ public final class AndroidMenu_androidKt {
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
                             this_$iv = consume;
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 1468224270, str);
-                            i12 = modifier2 & 7168 == 2048 ? 1 : i5;
+                            i18 = modifier3 & 7168 == 2048 ? 1 : i6;
                             Composer composer3 = restartGroup;
                             int i53 = 0;
                             rememberedValue = composer3.rememberedValue();
                             int i62 = 0;
-                            if (i12 |= changed4 == 0) {
+                            if (i18 |= changed4 == 0) {
                                 if (rememberedValue == Composer.Companion.getEmpty()) {
                                     int i64 = 0;
                                     obj45 = this_$iv;
                                     AndroidMenu_androidKt.DropdownMenu.popupPositionProvider.1.1 density = new AndroidMenu_androidKt.DropdownMenu.popupPositionProvider.1.1((MutableState)expandedState2);
-                                    obj43 = offset3;
+                                    obj43 = offset2;
                                     obj42 = dropdownMenuPositionProvider;
                                     super(obj43, scrollState, obj45, 0, (Function2)density, 4, 0);
-                                    l = obj43;
+                                    $i$a$CacheAndroidMenu_androidKt$DropdownMenu$popupPositionProvider$1 = obj43;
                                     this_$iv = obj45;
                                     composer3.updateRememberedValue(obj42);
                                 } else {
-                                    l = offset3;
-                                    offset3 = rememberedValue;
+                                    $i$a$CacheAndroidMenu_androidKt$DropdownMenu$popupPositionProvider$1 = offset2;
+                                    offset2 = rememberedValue;
                                 }
                             } else {
                             }
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            changedInstance = new AndroidMenu_androidKt.DropdownMenu.1(obj7, expandedState, expandedState2, obj5, obj, l3, obj34, f2, f5, i3, $changed);
+                            changedInstance = new AndroidMenu_androidKt.DropdownMenu.1(obj3, expandedState, expandedState2, obj, obj11, l2, obj34, f2, f3, i4, $changed);
                             obj46 = restartGroup;
-                            AndroidPopup_androidKt.Popup((PopupPositionProvider)(DropdownMenuPositionProvider)offset3, obj2, obj9, (Function2)ComposableLambdaKt.rememberComposableLambda(2126968933, true, changedInstance, restartGroup, 54), obj46, i49 |= i56, 0);
+                            AndroidPopup_androidKt.Popup((PopupPositionProvider)(DropdownMenuPositionProvider)offset2, obj7, obj10, (Function2)ComposableLambdaKt.rememberComposableLambda(2126968933, true, changedInstance, restartGroup, 54), obj46, i49 |= i56, 0);
                             composer = obj46;
                         } else {
-                            expandedState = mutableTransitionState;
+                            expandedState = $i$a$CacheAndroidMenu_androidKt$DropdownMenu$expandedState$1;
                             composer = restartGroup;
-                            l = offset3;
+                            $i$a$CacheAndroidMenu_androidKt$DropdownMenu$popupPositionProvider$1 = offset2;
                         }
                     } else {
                     }
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    $dirty2 = modifier2;
-                    l2 = l;
-                    $dirty = obj7;
-                    rememberScrollState = obj5;
-                    obj8 = obj;
-                    i2 = l3;
-                    f3 = f2;
-                    offset2 = f5;
-                    obj10 = i3;
-                    obj6 = obj9;
+                    $dirty4 = modifier3;
+                    l = $i$a$CacheAndroidMenu_androidKt$DropdownMenu$popupPositionProvider$1;
+                    $dirty = obj3;
+                    rememberScrollState = obj;
+                    obj2 = obj11;
+                    i7 = l2;
+                    f = f2;
+                    offset3 = f3;
+                    obj8 = i4;
+                    obj4 = obj10;
                 } else {
                     restartGroup.skipToGroupEnd();
-                    f3 = border;
-                    obj10 = $composer;
+                    f = border;
+                    obj8 = $composer;
                     obj54 = this_$iv;
                     composer = restartGroup;
-                    obj8 = tonalElevation2;
-                    l2 = offset3;
+                    obj2 = tonalElevation2;
+                    l = offset2;
                     $dirty = $i$f$getDp;
-                    i2 = tonalElevation;
-                    offset2 = content;
-                    obj6 = obj9;
+                    i7 = tonalElevation;
+                    offset3 = content;
+                    obj4 = obj10;
                 }
             } else {
             }
@@ -891,7 +891,7 @@ public final class AndroidMenu_androidKt {
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
             $dirty12 = obj54;
-            endRestartGroup = new AndroidMenu_androidKt.DropdownMenu.2(expanded, onDismissRequest, $dirty, l2, z, rememberScrollState, obj6, obj8, i2, obj10, f3, offset2, obj10, $changed, i66, obj56, obj57);
+            endRestartGroup = new AndroidMenu_androidKt.DropdownMenu.2(expanded, onDismissRequest, $dirty, l, z, rememberScrollState, obj4, obj2, i7, obj10, f, offset3, obj8, $changed, i66, obj56, obj57);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         } else {
             $dirty12 = obj54;
@@ -899,120 +899,120 @@ public final class AndroidMenu_androidKt {
     }
 
     public static final void DropdownMenuItem(Function2<? super Composer, ? super Integer, Unit> text, Function0<Unit> onClick, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function2<? super Composer, ? super Integer, Unit> trailingIcon, boolean enabled, androidx.compose.material3.MenuItemColors colors, PaddingValues contentPadding, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i12) {
-        Object obj7;
-        Object obj6;
+        Object obj4;
+        Object obj5;
         boolean traceInProgress;
         int contentPadding2;
         int defaultsInvalid;
         int itemColors;
         PaddingValues contentPadding3;
         Object restartGroup;
-        int $dirty2;
         int $dirty;
-        int i;
+        int $dirty2;
         int i3;
-        Object obj;
-        int i13;
+        int i6;
+        Object obj12;
+        int i10;
         boolean traceInProgress2;
         Object str;
-        Object obj4;
-        int i8;
+        Object obj;
+        int i11;
         Object obj3;
-        Object obj11;
-        boolean z;
-        int i14;
-        Object obj2;
-        Object obj12;
         Object obj8;
-        int i15;
-        int obj5;
-        Object obj10;
-        int i16;
+        boolean z;
+        int i;
         Object obj9;
+        Object obj11;
+        Object obj7;
+        int i14;
+        int obj10;
+        Object obj2;
+        int i7;
+        Object obj6;
         boolean enabled2;
-        int i2;
+        int i8;
         Object colors2;
         int changed;
         int i9;
-        int i6;
-        int i7;
-        int i4;
+        int i13;
+        int i16;
         int i5;
-        int i10;
+        int i4;
+        int i2;
         Composer composer;
-        int i11;
+        int i15;
         final int i50 = $changed;
         final int i51 = i12;
         restartGroup = $composer.startRestartGroup(1826340448);
         ComposerKt.sourceInformation(restartGroup, "C(DropdownMenuItem)P(7,6,5,4,8,2)194@8925L12,180@6505L319:AndroidMenu.android.kt#uh7d8r");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i51 & 1 != 0) {
-            $dirty2 |= 6;
-            obj10 = text;
+            $dirty |= 6;
+            obj2 = text;
         } else {
             if (i50 & 6 == 0) {
-                i = restartGroup.changedInstance(text) ? 4 : 2;
-                $dirty2 |= i;
+                i3 = restartGroup.changedInstance(text) ? 4 : 2;
+                $dirty |= i3;
             } else {
-                obj10 = text;
+                obj2 = text;
             }
         }
         if (i51 & 2 != 0) {
-            $dirty2 |= 48;
-            obj9 = onClick;
+            $dirty |= 48;
+            obj6 = onClick;
         } else {
             if (i50 & 48 == 0) {
-                i3 = restartGroup.changedInstance(onClick) ? 32 : 16;
-                $dirty2 |= i3;
+                i6 = restartGroup.changedInstance(onClick) ? 32 : 16;
+                $dirty |= i6;
             } else {
-                obj9 = onClick;
+                obj6 = onClick;
             }
         }
-        i13 = i51 & 4;
-        if (i13 != 0) {
-            $dirty2 |= 384;
+        i10 = i51 & 4;
+        if (i10 != 0) {
+            $dirty |= 384;
             str = modifier;
         } else {
             if (i50 & 384 == 0) {
-                i8 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i8;
+                i11 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i11;
             } else {
                 str = modifier;
             }
         }
         int i45 = i51 & 8;
         if (i45 != 0) {
-            $dirty2 |= 3072;
-            obj11 = leadingIcon;
+            $dirty |= 3072;
+            obj8 = leadingIcon;
         } else {
             if (i50 & 3072 == 0) {
-                i14 = restartGroup.changedInstance(leadingIcon) ? 2048 : 1024;
-                $dirty2 |= i14;
+                i = restartGroup.changedInstance(leadingIcon) ? 2048 : 1024;
+                $dirty |= i;
             } else {
-                obj11 = leadingIcon;
+                obj8 = leadingIcon;
             }
         }
         int i47 = i51 & 16;
         if (i47 != 0) {
-            $dirty2 |= 24576;
-            obj12 = trailingIcon;
+            $dirty |= 24576;
+            obj11 = trailingIcon;
         } else {
             if (i50 & 24576 == 0) {
-                i15 = restartGroup.changedInstance(trailingIcon) ? 16384 : 8192;
-                $dirty2 |= i15;
+                i14 = restartGroup.changedInstance(trailingIcon) ? 16384 : 8192;
+                $dirty |= i14;
             } else {
-                obj12 = trailingIcon;
+                obj11 = trailingIcon;
             }
         }
         int i49 = i51 & 32;
         int i52 = 196608;
         if (i49 != 0) {
-            $dirty2 |= i52;
+            $dirty |= i52;
             enabled2 = enabled;
         } else {
             if (i52 &= i50 == 0) {
-                i2 = restartGroup.changed(enabled) ? 131072 : 65536;
-                $dirty2 |= i2;
+                i8 = restartGroup.changed(enabled) ? 131072 : 65536;
+                $dirty |= i8;
             } else {
                 enabled2 = enabled;
             }
@@ -1023,150 +1023,150 @@ public final class AndroidMenu_androidKt {
             } else {
                 colors2 = colors;
             }
-            $dirty2 |= changed;
+            $dirty |= changed;
         } else {
             colors2 = colors;
         }
         int i18 = i51 & 128;
         int i57 = 12582912;
         if (i18 != 0) {
-            $dirty2 |= i57;
+            $dirty |= i57;
             i9 = i18;
-            obj7 = contentPadding;
+            obj4 = contentPadding;
         } else {
             if (i50 & i57 == 0) {
                 i9 = i18;
-                i6 = restartGroup.changed(contentPadding) ? 8388608 : 4194304;
-                $dirty2 |= i6;
+                i13 = restartGroup.changed(contentPadding) ? 8388608 : 4194304;
+                $dirty |= i13;
             } else {
                 i9 = i18;
-                obj7 = contentPadding;
+                obj4 = contentPadding;
             }
         }
         int i19 = i51 & 256;
         int i59 = 100663296;
         if (i19 != 0) {
-            $dirty2 |= i59;
-            i7 = i19;
-            obj6 = interactionSource;
+            $dirty |= i59;
+            i16 = i19;
+            obj5 = interactionSource;
         } else {
             if (i50 & i59 == 0) {
-                i7 = i19;
-                i4 = restartGroup.changed(interactionSource) ? 67108864 : 33554432;
-                $dirty2 |= i4;
+                i16 = i19;
+                i5 = restartGroup.changed(interactionSource) ? 67108864 : 33554432;
+                $dirty |= i5;
             } else {
-                i7 = i19;
-                obj6 = interactionSource;
+                i16 = i19;
+                obj5 = interactionSource;
             }
         }
-        final int obj32 = $dirty2;
-        if ($dirty2 & i5 == 38347922) {
+        final int obj32 = $dirty;
+        if ($dirty & i4 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i30 = -3670017;
                 if (i50 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i13 != 0) {
+                        if (i10 != 0) {
                             str = defaultsInvalid;
                         }
                         if (i45 != 0) {
-                            obj11 = defaultsInvalid;
+                            obj8 = defaultsInvalid;
                         }
                         if (i47 != 0) {
-                            obj12 = defaultsInvalid;
+                            obj11 = defaultsInvalid;
                         }
                         if (i49 != 0) {
                             enabled2 = defaultsInvalid;
                         }
                         if (i51 & 64 != 0) {
-                            $dirty = obj32 & i30;
+                            $dirty2 = obj32 & i30;
                             colors2 = itemColors;
                         } else {
-                            $dirty = obj32;
+                            $dirty2 = obj32;
                         }
                         if (i9 != 0) {
                             contentPadding3 = MenuDefaults.INSTANCE.getDropdownMenuItemContentPadding();
                         } else {
                             contentPadding3 = contentPadding;
                         }
-                        if (i7 != 0) {
-                            i5 = contentPadding3;
-                            i10 = i13;
-                            changed = obj12;
+                        if (i16 != 0) {
+                            i4 = contentPadding3;
+                            i2 = i10;
+                            changed = obj11;
                             i9 = enabled2;
-                            i7 = colors2;
+                            i16 = colors2;
                             contentPadding2 = 1826340448;
                             enabled2 = str;
-                            colors2 = obj11;
+                            colors2 = obj8;
                         } else {
-                            i10 = interactionSource;
-                            i5 = contentPadding3;
-                            changed = obj12;
+                            i2 = interactionSource;
+                            i4 = contentPadding3;
+                            changed = obj11;
                             i9 = enabled2;
-                            i7 = colors2;
+                            i16 = colors2;
                             contentPadding2 = 1826340448;
                             enabled2 = str;
-                            colors2 = obj11;
+                            colors2 = obj8;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i51 & 64 != 0) {
-                            i5 = contentPadding;
-                            i10 = interactionSource;
-                            $dirty = i29;
-                            changed = obj12;
+                            i4 = contentPadding;
+                            i2 = interactionSource;
+                            $dirty2 = i29;
+                            changed = obj11;
                             i9 = enabled2;
-                            i7 = colors2;
+                            i16 = colors2;
                             contentPadding2 = 1826340448;
                             enabled2 = str;
-                            colors2 = obj11;
+                            colors2 = obj8;
                         } else {
-                            i5 = contentPadding;
-                            i10 = interactionSource;
-                            $dirty = obj32;
-                            changed = obj12;
+                            i4 = contentPadding;
+                            i2 = interactionSource;
+                            $dirty2 = obj32;
+                            changed = obj11;
                             i9 = enabled2;
-                            i7 = colors2;
+                            i16 = colors2;
                             contentPadding2 = 1826340448;
                             enabled2 = str;
-                            colors2 = obj11;
+                            colors2 = obj8;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(contentPadding2, $dirty, -1, "androidx.compose.material3.DropdownMenuItem (AndroidMenu.android.kt:179)");
+                    ComposerKt.traceEventStart(contentPadding2, $dirty2, -1, "androidx.compose.material3.DropdownMenuItem (AndroidMenu.android.kt:179)");
                 }
-                MenuKt.DropdownMenuItemContent(obj10, obj9, enabled2, colors2, changed, i9, i7, i5, i10, restartGroup, i27 | i43);
+                MenuKt.DropdownMenuItemContent(obj2, obj6, enabled2, colors2, changed, i9, i16, i4, i2, restartGroup, i27 | i43);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i16 = $dirty;
-                obj = enabled2;
-                obj4 = colors2;
+                i7 = $dirty2;
+                obj12 = enabled2;
+                obj = colors2;
                 obj3 = changed;
                 z = i9;
-                obj2 = i7;
-                obj8 = i5;
-                obj5 = i10;
+                obj9 = i16;
+                obj7 = i4;
+                obj10 = i2;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj5 = interactionSource;
-                i16 = obj32;
+                obj10 = interactionSource;
+                i7 = obj32;
                 composer = restartGroup;
-                obj = str;
-                obj4 = obj11;
-                obj3 = obj12;
+                obj12 = str;
+                obj = obj8;
+                obj3 = obj11;
                 z = enabled2;
-                obj2 = colors2;
-                obj8 = contentPadding;
+                obj9 = colors2;
+                obj7 = contentPadding;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new AndroidMenu_androidKt.DropdownMenuItem.1(text, onClick, obj, obj4, obj3, z, obj2, obj8, obj5, i50, i51);
+            traceInProgress = new AndroidMenu_androidKt.DropdownMenuItem.1(text, onClick, obj12, obj, obj3, z, obj9, obj7, obj10, i50, i51);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }

@@ -79,52 +79,52 @@ public final class DateRangePickerKt {
         boolean traceInProgress2;
         Object dateFormatter2;
         int obj3;
-        Object obj5;
+        Object obj4;
         int skipping;
         int defaultsInvalid;
-        Object dateFormatter$default;
+        Object $i$a$CacheDateRangePickerKt$DateRangePicker$1;
         boolean colors2;
-        Object calendarModel;
+        Object $i$a$CacheDateRangePickerKt$DateRangePicker$calendarModel$1;
         Object $composer2;
-        int $dirty;
-        Object $dirty2;
         int $dirty3;
-        int i17;
-        Object obj6;
-        int i6;
+        Object $dirty2;
+        int $dirty;
+        int i4;
+        Object obj2;
+        int i11;
         boolean traceInProgress;
         Object str;
         boolean z;
         int rememberComposableLambda;
-        int i7;
-        int i13;
-        Object obj7;
-        int i9;
-        Composer composer2;
+        int i2;
+        int i17;
+        Object obj6;
+        int i12;
+        Composer composer;
         boolean changedInstance;
         Object title2;
-        int i12;
+        int i9;
         int title3;
-        Object obj4;
-        Object obj;
-        int i2;
-        int i3;
+        Object obj7;
+        Object obj5;
+        int i15;
+        int i8;
         boolean showModeToggle2;
-        int i14;
+        int i6;
         Object value;
         Object rememberedValue;
         int changed;
-        float constructor-impl;
+        float $i$f$minus5rwHm24;
         androidx.compose.runtime.internal.ComposableLambda companion;
-        Composer composer;
-        int i4;
-        Object obj2;
-        int i15;
-        Object iNSTANCE;
+        Composer composer2;
+        int i13;
+        Object obj;
         int i;
-        int i11;
+        Object iNSTANCE;
         int i5;
-        int i8;
+        int i3;
+        int i14;
+        int i7;
         int i16;
         boolean obj28;
         int obj34;
@@ -133,23 +133,23 @@ public final class DateRangePickerKt {
         final int i48 = $changed;
         Composer restartGroup = $composer.startRestartGroup(650830774);
         ComposerKt.sourceInformation(restartGroup, "C(DateRangePicker)P(5,3,1,6,2,4)95@4412L47,96@4500L185,102@4729L352,112@5169L8,114@5206L15,115@5246L62,132@5955L5,136@6111L1139,116@5313L1937:DateRangePicker.kt#uh7d8r");
-        $dirty = $changed;
+        $dirty3 = $changed;
         if (i10 & 1 != 0) {
-            $dirty |= 6;
+            $dirty3 |= 6;
         } else {
             if (i48 & 6 == 0) {
-                i17 = restartGroup.changed(obj3) ? 4 : 2;
-                $dirty |= i17;
+                i4 = restartGroup.changed(obj3) ? 4 : 2;
+                $dirty3 |= i4;
             }
         }
-        i6 = i10 & 2;
-        if (i6 != 0) {
-            $dirty |= 48;
+        i11 = i10 & 2;
+        if (i11 != 0) {
+            $dirty3 |= 48;
             str = modifier;
         } else {
             if (i48 & 48 == 0) {
-                i7 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i7;
+                i2 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty3 |= i2;
             } else {
                 str = modifier;
             }
@@ -161,44 +161,44 @@ public final class DateRangePickerKt {
                 } else {
                     changedInstance = restartGroup.changedInstance(traceInProgress2);
                 }
-                i13 = changedInstance != null ? 256 : 128;
+                i17 = changedInstance != null ? 256 : 128;
             } else {
             }
-            $dirty |= i13;
+            $dirty3 |= i17;
         }
-        i9 = i10 & 8;
-        if (i9 != 0) {
-            $dirty |= 3072;
+        i12 = i10 & 8;
+        if (i12 != 0) {
+            $dirty3 |= 3072;
             title2 = title;
         } else {
             if (i48 & 3072 == 0) {
-                i12 = restartGroup.changedInstance(title) ? 2048 : 1024;
-                $dirty |= i12;
+                i9 = restartGroup.changedInstance(title) ? 2048 : 1024;
+                $dirty3 |= i9;
             } else {
                 title2 = title;
             }
         }
         int i50 = i10 & 16;
         if (i50 != 0) {
-            $dirty |= 24576;
-            obj = headline;
+            $dirty3 |= 24576;
+            obj5 = headline;
         } else {
             if (i48 & 24576 == 0) {
-                i2 = restartGroup.changedInstance(headline) ? 16384 : 8192;
-                $dirty |= i2;
+                i15 = restartGroup.changedInstance(headline) ? 16384 : 8192;
+                $dirty3 |= i15;
             } else {
-                obj = headline;
+                obj5 = headline;
             }
         }
-        i3 = i10 & 32;
+        i8 = i10 & 32;
         int i54 = 196608;
-        if (i3 != 0) {
-            $dirty |= i54;
+        if (i8 != 0) {
+            $dirty3 |= i54;
             showModeToggle2 = showModeToggle;
         } else {
             if (i54 &= i48 == 0) {
-                i14 = restartGroup.changed(showModeToggle) ? 131072 : 65536;
-                $dirty |= i14;
+                i6 = restartGroup.changed(showModeToggle) ? 131072 : 65536;
+                $dirty3 |= i6;
             } else {
                 showModeToggle2 = showModeToggle;
             }
@@ -209,64 +209,64 @@ public final class DateRangePickerKt {
             } else {
                 value = colors;
             }
-            $dirty |= changed;
+            $dirty3 |= changed;
         } else {
             value = colors;
         }
-        if (i59 &= $dirty == 599186) {
+        if (i59 &= $dirty3 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 obj34 = -3670017;
                 String str4 = "CC(remember):DateRangePicker.kt#9igjgp";
                 if (i48 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i6 != 0) {
+                        if (i11 != 0) {
                             str = defaultsInvalid;
                         }
                         if (i10 & 4 != 0) {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, -1454781303, str4);
-                            i6 = restartGroup;
-                            obj2 = 0;
-                            Object rememberedValue2 = i6.rememberedValue();
-                            i15 = 0;
+                            i11 = restartGroup;
+                            obj = 0;
+                            Object rememberedValue2 = i11.rememberedValue();
+                            i = 0;
                             obj28 = i32;
                             if (rememberedValue2 == Composer.Companion.getEmpty()) {
                                 int i33 = 0;
-                                i6.updateRememberedValue(DatePickerDefaults.dateFormatter$default(DatePickerDefaults.INSTANCE, 0, 0, 0, 7, 0));
+                                i11.updateRememberedValue(DatePickerDefaults.dateFormatter$default(DatePickerDefaults.INSTANCE, 0, 0, 0, 7, 0));
                             } else {
-                                dateFormatter$default = rememberedValue2;
+                                $i$a$CacheDateRangePickerKt$DateRangePicker$1 = rememberedValue2;
                             }
-                            dateFormatter2 = dateFormatter$default;
+                            dateFormatter2 = $i$a$CacheDateRangePickerKt$DateRangePicker$1;
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            $dirty &= -897;
+                            $dirty3 &= -897;
                         } else {
                             dateFormatter2 = dateFormatter;
                         }
-                        if (i9 != 0) {
+                        if (i12 != 0) {
                             DateRangePickerKt.DateRangePicker.2 anon2 = new DateRangePickerKt.DateRangePicker.2(obj3);
-                            obj28 = $dirty;
-                            title2 = dateFormatter$default;
+                            obj28 = $dirty3;
+                            title2 = $i$a$CacheDateRangePickerKt$DateRangePicker$1;
                         } else {
-                            obj28 = $dirty;
-                            $dirty3 = 1;
-                            i9 = 54;
+                            obj28 = $dirty3;
+                            $dirty = 1;
+                            i12 = 54;
                         }
                         if (i50 != 0) {
                             DateRangePickerKt.DateRangePicker.3 anon = new DateRangePickerKt.DateRangePicker.3(obj3, dateFormatter2);
-                            obj = dateFormatter$default;
+                            obj5 = $i$a$CacheDateRangePickerKt$DateRangePicker$1;
                         }
-                        if (i3 != 0) {
-                            showModeToggle2 = dateFormatter$default;
+                        if (i8 != 0) {
+                            showModeToggle2 = $i$a$CacheDateRangePickerKt$DateRangePicker$1;
                         }
                         if (i10 & 64 != 0) {
-                            $dirty = obj28 & obj34;
+                            $dirty3 = obj28 & obj34;
                             showModeToggle2 = colors3;
                             colors2 = z2;
-                            obj4 = title2;
+                            obj7 = title2;
                             title2 = str;
                         } else {
-                            $dirty = obj28;
-                            obj4 = title2;
+                            $dirty3 = obj28;
+                            obj7 = title2;
                             colors2 = showModeToggle2;
                             showModeToggle2 = value;
                             title2 = str;
@@ -274,18 +274,18 @@ public final class DateRangePickerKt {
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i10 & 4 != 0) {
-                            $dirty &= -897;
+                            $dirty3 &= -897;
                         }
                         if (i10 & 64 != 0) {
                             dateFormatter2 = dateFormatter;
-                            $dirty = i37;
-                            obj4 = title2;
+                            $dirty3 = i37;
+                            obj7 = title2;
                             colors2 = showModeToggle2;
                             showModeToggle2 = value;
                             title2 = str;
                         } else {
                             dateFormatter2 = dateFormatter;
-                            obj4 = title2;
+                            obj7 = title2;
                             colors2 = showModeToggle2;
                             showModeToggle2 = value;
                             title2 = str;
@@ -295,21 +295,21 @@ public final class DateRangePickerKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(650830774, $dirty, -1, "androidx.compose.material3.DateRangePicker (DateRangePicker.kt:113)");
+                    ComposerKt.traceEventStart(650830774, $dirty3, -1, "androidx.compose.material3.DateRangePicker (DateRangePicker.kt:113)");
                 }
                 Locale defaultLocale = CalendarLocale_androidKt.defaultLocale(restartGroup, 0);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1454754600, str4);
-                composer2 = restartGroup;
+                composer = restartGroup;
                 int i52 = 0;
-                rememberedValue = composer2.rememberedValue();
+                rememberedValue = composer.rememberedValue();
                 int i60 = 0;
                 if (!restartGroup.changed(defaultLocale)) {
                     obj28 = colors2;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int showModeToggle3 = 0;
-                        composer2.updateRememberedValue(CalendarModel_androidKt.createCalendarModel(defaultLocale));
+                        composer.updateRememberedValue(CalendarModel_androidKt.createCalendarModel(defaultLocale));
                     } else {
-                        calendarModel = rememberedValue;
+                        $i$a$CacheDateRangePickerKt$DateRangePicker$calendarModel$1 = rememberedValue;
                     }
                 } else {
                     obj28 = colors2;
@@ -319,40 +319,40 @@ public final class DateRangePickerKt {
                 ComposerKt.sourceInformation(restartGroup, "122@5491L323");
                 if (obj28 != null) {
                     DateRangePickerKt.DateRangePicker.4 anon4 = new DateRangePickerKt.DateRangePicker.4(obj3);
-                    i3 = rememberComposableLambda;
+                    i8 = rememberComposableLambda;
                 } else {
-                    i3 = rememberComposableLambda;
+                    i8 = rememberComposableLambda;
                 }
                 restartGroup.endReplaceGroup();
                 int i61 = 0;
-                DateRangePickerKt.DateRangePicker.5 anon3 = new DateRangePickerKt.DateRangePicker.5(obj3, (CalendarModel)calendarModel, dateFormatter2, showModeToggle2);
-                DatePickerKt.DateEntryContainer-au3_HiA(title2, obj4, obj, i3, showModeToggle2, TypographyKt.getValue(DatePickerModalTokens.INSTANCE.getRangeSelectionHeaderHeadlineFont(), restartGroup, 6), Dp.constructor-impl(rangeSelectionHeaderContainerHeight-D9Ej5fM - headerHeightOffset), (Function2)ComposableLambdaKt.rememberComposableLambda(-57534331, true, anon3, restartGroup, 54), restartGroup, i22 | obj3);
+                DateRangePickerKt.DateRangePicker.5 anon3 = new DateRangePickerKt.DateRangePicker.5(obj3, (CalendarModel)$i$a$CacheDateRangePickerKt$DateRangePicker$calendarModel$1, dateFormatter2, showModeToggle2);
+                DatePickerKt.DateEntryContainer-au3_HiA(title2, obj7, obj5, i8, showModeToggle2, TypographyKt.getValue(DatePickerModalTokens.INSTANCE.getRangeSelectionHeaderHeadlineFont(), restartGroup, 6), Dp.constructor-impl(rangeSelectionHeaderContainerHeight-D9Ej5fM - headerHeightOffset), (Function2)ComposableLambdaKt.rememberComposableLambda(-57534331, true, anon3, restartGroup, 54), restartGroup, i22 | obj3);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                title3 = $dirty;
-                $dirty2 = calendarModel2;
+                title3 = $dirty3;
+                $dirty2 = calendarModel;
                 z = obj28;
-                obj5 = title2;
-                obj7 = showModeToggle2;
-                $composer2 = obj2;
-                obj6 = obj;
+                obj4 = title2;
+                obj6 = showModeToggle2;
+                $composer2 = obj;
+                obj2 = obj5;
             } else {
                 restartGroup.skipToGroupEnd();
-                composer = restartGroup;
-                title3 = $dirty;
-                obj5 = str;
+                composer2 = restartGroup;
+                title3 = $dirty3;
+                obj4 = str;
                 $dirty2 = title2;
                 z = showModeToggle2;
-                obj7 = value;
+                obj6 = value;
                 $composer2 = traceInProgress2;
-                obj6 = obj;
+                obj2 = obj5;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new DateRangePickerKt.DateRangePicker.6(state, obj5, $composer2, $dirty2, obj6, z, obj7, i48, i10);
+            traceInProgress2 = new DateRangePickerKt.DateRangePicker.6(state, obj4, $composer2, $dirty2, obj2, z, obj6, i48, i10);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
@@ -363,120 +363,120 @@ public final class DateRangePickerKt {
         int skipping;
         boolean traceInProgress2;
         Integer columnMeasurePolicy;
-        Composer composer2;
+        Composer composer;
         Object restartGroup;
         Modifier materializeModifier;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         int $dirty;
-        Object obj7;
         Object obj8;
-        Object obj4;
-        Object obj2;
+        Object obj7;
+        Object obj;
+        Object obj5;
         int horizontalAlignment$iv;
-        Object obj9;
-        int i11;
+        Object obj6;
+        int i13;
+        Object obj2;
+        int i14;
+        int i8;
         Object obj3;
         int i15;
-        int i5;
-        Object obj;
-        int i6;
-        Object obj6;
-        int i;
-        int i13;
+        Object obj9;
         int i16;
-        int i17;
-        Object obj5;
+        int i;
+        int i5;
+        int i4;
+        Object obj4;
         boolean changedInstance;
-        int i2;
-        int i18;
-        int i8;
+        int i19;
+        int i10;
+        int i17;
         CalendarMonth calendar;
         int monthsListState;
-        int i7;
-        int i12;
-        int i9;
-        int i19;
+        int i11;
+        int i2;
+        int i6;
+        int i3;
         androidx.compose.foundation.layout.Arrangement.Vertical vertical;
         Modifier modifier;
-        int i4;
-        int i10;
-        int i14;
-        kotlin.jvm.functions.Function0 function0;
+        int i18;
         int i20;
-        int i3;
+        int i9;
+        kotlin.jvm.functions.Function0 function0;
+        int i12;
+        int i7;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
-        Composer composer;
+        Composer composer2;
         ColumnScopeInstance columnScopeInstance;
         int obj45;
         materializeModifier = displayedMonthMillis;
-        obj8 = yearRange;
-        obj4 = dateFormatter;
-        obj2 = selectableDates;
-        obj9 = $composer;
+        obj7 = yearRange;
+        obj = dateFormatter;
+        obj5 = selectableDates;
+        obj6 = $composer;
         traceInProgress = obj46;
         restartGroup = $changed.startRestartGroup(-787063721);
         ComposerKt.sourceInformation(restartGroup, "C(DateRangePickerContent)P(8,7,3,4,5!1,9,2,6)718@31942L87,719@32034L648:DateRangePicker.kt#uh7d8r");
         if (traceInProgress & 6 == 0) {
-            i11 = restartGroup.changed(selectedStartDateMillis) ? 4 : 2;
-            $dirty |= i11;
+            i13 = restartGroup.changed(selectedStartDateMillis) ? 4 : 2;
+            $dirty |= i13;
         } else {
-            obj7 = selectedStartDateMillis;
+            obj8 = selectedStartDateMillis;
         }
         if (traceInProgress & 48 == 0) {
-            i15 = restartGroup.changed(selectedEndDateMillis) ? 32 : 16;
-            $dirty |= i15;
+            i14 = restartGroup.changed(selectedEndDateMillis) ? 32 : 16;
+            $dirty |= i14;
         } else {
-            obj3 = selectedEndDateMillis;
+            obj2 = selectedEndDateMillis;
         }
         if (traceInProgress & 384 == 0) {
-            i5 = restartGroup.changed(materializeModifier) ? 256 : 128;
-            $dirty |= i5;
+            i8 = restartGroup.changed(materializeModifier) ? 256 : 128;
+            $dirty |= i8;
         }
         if (traceInProgress & 3072 == 0) {
-            i6 = restartGroup.changedInstance(onDisplayedMonthChange) ? 2048 : 1024;
-            $dirty |= i6;
+            i15 = restartGroup.changedInstance(onDisplayedMonthChange) ? 2048 : 1024;
+            $dirty |= i15;
         } else {
-            obj = onDisplayedMonthChange;
+            obj3 = onDisplayedMonthChange;
         }
         if (traceInProgress & 24576 == 0) {
-            i = restartGroup.changedInstance(calendarModel) ? 16384 : 8192;
-            $dirty |= i;
+            i16 = restartGroup.changedInstance(calendarModel) ? 16384 : 8192;
+            $dirty |= i16;
         } else {
-            obj6 = calendarModel;
+            obj9 = calendarModel;
         }
         if (i71 &= traceInProgress == 0) {
-            i13 = restartGroup.changedInstance(obj8) ? 131072 : 65536;
-            $dirty |= i13;
+            i = restartGroup.changedInstance(obj7) ? 131072 : 65536;
+            $dirty |= i;
         }
         if (i72 &= traceInProgress == 0) {
-            i16 = restartGroup.changedInstance(obj4) ? 1048576 : 524288;
-            $dirty |= i16;
+            i5 = restartGroup.changedInstance(obj) ? 1048576 : 524288;
+            $dirty |= i5;
         }
         if (i73 &= traceInProgress == 0) {
             if (i76 &= traceInProgress == 0) {
-                changedInstance = restartGroup.changed(obj2);
+                changedInstance = restartGroup.changed(obj5);
             } else {
-                changedInstance = restartGroup.changedInstance(obj2);
+                changedInstance = restartGroup.changedInstance(obj5);
             }
-            i17 = changedInstance != null ? 8388608 : 4194304;
-            $dirty |= i17;
+            i4 = changedInstance != null ? 8388608 : 4194304;
+            $dirty |= i4;
         }
         if (i74 &= traceInProgress == 0) {
-            i2 = restartGroup.changed(colors) ? 67108864 : 33554432;
-            $dirty |= i2;
+            i19 = restartGroup.changed(colors) ? 67108864 : 33554432;
+            $dirty |= i19;
         } else {
-            obj5 = colors;
+            obj4 = colors;
         }
         if (traceInProgress & i78 == 0) {
-            i18 = restartGroup.changed(obj9) ? 536870912 : 268435456;
-            $dirty |= i18;
+            i10 = restartGroup.changed(obj6) ? 536870912 : 268435456;
+            $dirty |= i10;
         }
-        if ($dirty & i8 == 306783378) {
+        if ($dirty & i17 == 306783378) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(-787063721, $dirty, -1, "androidx.compose.material3.DateRangePickerContent (DateRangePicker.kt:715)");
                 }
-                CalendarMonth month = obj8.getMonth(materializeModifier);
+                CalendarMonth month = obj7.getMonth(materializeModifier);
                 int i67 = 0;
                 calendar = month;
                 Modifier padding-VpY3zN4$default = PaddingKt.padding-VpY3zN4$default((Modifier)Modifier.Companion, DatePickerKt.getDatePickerHorizontalPadding(), 0, 2, 0);
@@ -484,16 +484,16 @@ public final class DateRangePickerKt {
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -483455358, "CC(Column)P(2,3,1)85@4251L61,86@4317L133:Column.kt#2w3rfo");
                 androidx.compose.foundation.layout.Arrangement.Vertical top = Arrangement.INSTANCE.getTop();
                 androidx.compose.ui.Alignment.Horizontal start = Alignment.Companion.getStart();
-                i12 = i38;
+                i2 = i38;
                 columnMeasurePolicy = ColumnKt.columnMeasurePolicy(top, start, restartGroup, i80 | i85);
-                i9 = 0;
-                i19 = i41;
+                i6 = 0;
+                i3 = i41;
                 vertical = top;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 obj45 = currentCompositeKeyHash;
                 modifier = padding-VpY3zN4$default;
                 kotlin.jvm.functions.Function0 function02 = constructor;
-                i10 = 0;
+                i20 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -515,48 +515,48 @@ public final class DateRangePickerKt {
                 int i87 = 0;
                 if (!composer3.getInserting()) {
                     measurePolicy$iv = columnMeasurePolicy;
-                    composer = restartGroup;
+                    composer2 = restartGroup;
                     if (!Intrinsics.areEqual(composer3.rememberedValue(), Integer.valueOf(obj45))) {
                         composer3.updateRememberedValue(Integer.valueOf(obj45));
                         constructor-impl.apply(Integer.valueOf(obj45), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer3;
+                        composer = composer3;
                     }
                 } else {
                     measurePolicy$iv = columnMeasurePolicy;
-                    composer = restartGroup;
+                    composer2 = restartGroup;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, padding-VpY3zN4$default), ComposeUiNode.Companion.getSetModifier());
-                skipping = composer;
+                skipping = composer2;
                 restartGroup = 0;
-                i4 = i24;
+                i18 = i24;
                 ComposerKt.sourceInformationMarkerStart(skipping, -384862393, "C87@4365L9:Column.kt#2w3rfo");
-                i20 = i48 | 6;
-                obj5 = skipping;
-                i3 = 0;
+                i12 = i48 | 6;
+                obj4 = skipping;
+                i7 = 0;
                 columnScopeInstance = iNSTANCE;
-                ComposerKt.sourceInformationMarkerStart(obj5, 556336155, "C720@32122L31,721@32162L514:DateRangePicker.kt#uh7d8r");
-                DatePickerKt.WeekDays(obj9, obj8, obj5, i26 |= i51);
+                ComposerKt.sourceInformationMarkerStart(obj4, 556336155, "C720@32122L31,721@32162L514:DateRangePicker.kt#uh7d8r");
+                DatePickerKt.WeekDays(obj6, obj7, obj4, i26 |= i51);
                 monthsListState = $dirty;
                 androidx.compose.ui.Alignment.Horizontal horizontal = start;
-                DateRangePickerKt.VerticalMonthsList(LazyListStateKt.rememberLazyListState(month.indexIn(obj4), i67, restartGroup, i67, 2), selectedStartDateMillis, obj3, obj, obj6, obj8, obj4, obj2, colors, obj9, obj5, i36 | i66);
-                ComposerKt.sourceInformationMarkerEnd(obj5);
+                DateRangePickerKt.VerticalMonthsList(LazyListStateKt.rememberLazyListState(month.indexIn(obj), i67, restartGroup, i67, 2), selectedStartDateMillis, obj2, obj3, obj9, obj7, obj, obj5, colors, obj6, obj4, i36 | i66);
+                ComposerKt.sourceInformationMarkerEnd(obj4);
                 ComposerKt.sourceInformationMarkerEnd(skipping);
-                composer.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                ComposerKt.sourceInformationMarkerEnd(composer);
+                composer2.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                ComposerKt.sourceInformationMarkerEnd(composer2);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                composer = restartGroup;
+                composer2 = restartGroup;
                 monthsListState = $dirty;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
             traceInProgress = new DateRangePickerKt.DateRangePickerContent.2(selectedStartDateMillis, selectedEndDateMillis, displayedMonthMillis, currentCompositionLocalMap, onDisplayedMonthChange, calendarModel, yearRange, dateFormatter, selectableDates, colors, $composer, obj46);
             endRestartGroup.updateScope((Function2)traceInProgress);
@@ -598,138 +598,138 @@ public final class DateRangePickerKt {
     }
 
     private static final void SwitchableDateEntryContent-RN-2D1Q(Long selectedStartDateMillis, Long selectedEndDateMillis, long displayedMonthMillis, int displayMode, Function2<? super Long, ? super Long, Unit> onDatesSelectionChange, Function1<? super Long, Unit> onDisplayedMonthChange, CalendarModel calendarModel, IntRange yearRange, androidx.compose.material3.DatePickerFormatter dateFormatter, androidx.compose.material3.SelectableDates selectableDates, androidx.compose.material3.DatePickerColors colors, Composer $composer, int $changed, int $changed1) {
-        Object obj;
+        Object obj2;
         int traceInProgress2;
         boolean traceInProgress;
         Object endRestartGroup;
-        int $dirty2;
-        int $dirty1;
-        Object obj7;
-        int i12;
-        Object obj6;
-        Object obj8;
-        int i5;
-        Object obj2;
-        int i6;
-        long l;
-        int i15;
-        Object obj5;
-        int i4;
-        int i2;
-        Object obj9;
-        int i14;
-        Object obj3;
-        Composer restartGroup;
-        int i10;
-        int i;
-        int i3;
-        Object obj4;
         int $dirty;
-        int i8;
-        int i16;
+        int $dirty1;
+        Object obj5;
+        int i14;
+        Object obj6;
+        Object obj;
+        int i4;
+        Object obj7;
+        int i15;
+        long l;
+        int i10;
+        Object obj9;
         int i9;
+        int i;
+        Object obj3;
+        int i16;
+        Object obj8;
+        Composer restartGroup;
+        int i12;
+        int i13;
+        int i2;
+        Object obj4;
+        int $dirty2;
+        int i5;
+        int i11;
+        int i3;
         Composer composer;
         boolean changedInstance;
-        int i7;
+        int i6;
         int semantics$default;
-        int i11;
-        int i13;
+        int i7;
+        int i8;
         androidx.compose.material3.DisplayMode box-impl;
         int obj32;
-        obj5 = selectableDates;
-        i10 = $changed1;
+        obj9 = selectableDates;
+        i12 = $changed1;
         restartGroup = $changed.startRestartGroup(-532789335);
         ComposerKt.sourceInformation(restartGroup, "C(SwitchableDateEntryContent)P(9,8,4,3:c#material3.DisplayMode,5,6!1,10,2,7)672@30082L1249,664@29854L1477:DateRangePicker.kt#uh7d8r");
-        if (i10 & 6 == 0) {
-            i5 = restartGroup.changed(selectedStartDateMillis) ? 4 : 2;
-            $dirty2 |= i5;
+        if (i12 & 6 == 0) {
+            i4 = restartGroup.changed(selectedStartDateMillis) ? 4 : 2;
+            $dirty |= i4;
         } else {
-            obj7 = selectedStartDateMillis;
+            obj5 = selectedStartDateMillis;
         }
-        if (i10 & 48 == 0) {
-            i6 = restartGroup.changed(selectedEndDateMillis) ? 32 : 16;
-            $dirty2 |= i6;
+        if (i12 & 48 == 0) {
+            i15 = restartGroup.changed(selectedEndDateMillis) ? 32 : 16;
+            $dirty |= i15;
         } else {
-            obj2 = selectedEndDateMillis;
+            obj7 = selectedEndDateMillis;
         }
-        if (i10 & 384 == 0) {
-            i4 = restartGroup.changed(displayedMonthMillis) ? 256 : 128;
-            $dirty2 |= i4;
+        if (i12 & 384 == 0) {
+            i9 = restartGroup.changed(displayedMonthMillis) ? 256 : 128;
+            $dirty |= i9;
         } else {
             l = displayedMonthMillis;
         }
-        if (i10 & 3072 == 0) {
-            i2 = restartGroup.changed(onDatesSelectionChange) ? 2048 : 1024;
-            $dirty2 |= i2;
+        if (i12 & 3072 == 0) {
+            i = restartGroup.changed(onDatesSelectionChange) ? 2048 : 1024;
+            $dirty |= i;
         } else {
-            i = onDatesSelectionChange;
+            i13 = onDatesSelectionChange;
         }
-        if (i10 & 24576 == 0) {
-            i14 = restartGroup.changedInstance(onDisplayedMonthChange) ? 16384 : 8192;
-            $dirty2 |= i14;
+        if (i12 & 24576 == 0) {
+            i16 = restartGroup.changedInstance(onDisplayedMonthChange) ? 16384 : 8192;
+            $dirty |= i16;
         } else {
-            obj9 = onDisplayedMonthChange;
+            obj3 = onDisplayedMonthChange;
         }
-        if (i30 &= i10 == 0) {
-            i3 = restartGroup.changedInstance(calendarModel) ? 131072 : 65536;
-            $dirty2 |= i3;
+        if (i30 &= i12 == 0) {
+            i2 = restartGroup.changedInstance(calendarModel) ? 131072 : 65536;
+            $dirty |= i2;
         } else {
-            obj3 = calendarModel;
+            obj8 = calendarModel;
         }
-        if (i32 &= i10 == 0) {
-            i8 = restartGroup.changedInstance(yearRange) ? 1048576 : 524288;
-            $dirty2 |= i8;
+        if (i32 &= i12 == 0) {
+            i5 = restartGroup.changedInstance(yearRange) ? 1048576 : 524288;
+            $dirty |= i5;
         } else {
             obj4 = yearRange;
         }
-        if (i10 & i34 == 0) {
-            i16 = restartGroup.changedInstance(dateFormatter) ? 8388608 : 4194304;
-            $dirty2 |= i16;
+        if (i12 & i34 == 0) {
+            i11 = restartGroup.changedInstance(dateFormatter) ? 8388608 : 4194304;
+            $dirty |= i11;
         } else {
             obj6 = dateFormatter;
         }
-        if (i10 & i35 == 0) {
-            if (i10 & i38 == 0) {
-                changedInstance = restartGroup.changed(obj5);
+        if (i12 & i35 == 0) {
+            if (i12 & i38 == 0) {
+                changedInstance = restartGroup.changed(obj9);
             } else {
-                changedInstance = restartGroup.changedInstance(obj5);
+                changedInstance = restartGroup.changedInstance(obj9);
             }
-            i9 = changedInstance != null ? 67108864 : 33554432;
-            $dirty2 |= i9;
+            i3 = changedInstance != null ? 67108864 : 33554432;
+            $dirty |= i3;
         }
-        if (i10 & i36 == 0) {
-            i7 = restartGroup.changed(colors) ? 536870912 : 268435456;
-            $dirty2 |= i7;
+        if (i12 & i36 == 0) {
+            i6 = restartGroup.changed(colors) ? 536870912 : 268435456;
+            $dirty |= i6;
         } else {
-            obj = colors;
+            obj2 = colors;
         }
         if (obj34 & 6 == 0) {
-            i11 = restartGroup.changed($composer) ? 4 : 2;
-            $dirty1 |= i11;
+            i7 = restartGroup.changed($composer) ? 4 : 2;
+            $dirty1 |= i7;
         } else {
-            obj8 = $composer;
+            obj = $composer;
         }
-        if ($dirty2 & i40 == 306783378 && $dirty1 & 3 == 2) {
+        if ($dirty & i40 == 306783378 && $dirty1 & 3 == 2) {
             if ($dirty1 & 3 == 2) {
                 if (!restartGroup.getSkipping()) {
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(-532789335, $dirty2, $dirty1, "androidx.compose.material3.SwitchableDateEntryContent (DateRangePicker.kt:661)");
+                        ComposerKt.traceEventStart(-532789335, $dirty, $dirty1, "androidx.compose.material3.SwitchableDateEntryContent (DateRangePicker.kt:661)");
                     }
                     int i26 = 0;
                     int $dirty3 = 0;
-                    i10 = 1;
-                    i13 = $dirty1;
-                    DateRangePickerKt.SwitchableDateEntryContent.2 anon = new DateRangePickerKt.SwitchableDateEntryContent.2(selectedStartDateMillis, obj2, l, obj6, obj9, obj3, obj4, obj6, obj5, colors, obj8);
-                    obj2 = restartGroup;
-                    CrossfadeKt.Crossfade(DisplayMode.box-impl(i), SemanticsModifierKt.semantics$default((Modifier)Modifier.Companion, false, (Function1)DateRangePickerKt.SwitchableDateEntryContent.1.INSTANCE, i10, 0), (FiniteAnimationSpec)AnimationSpecKt.spring$default(i26, i26, $dirty3, 7, $dirty3), 0, (Function3)ComposableLambdaKt.rememberComposableLambda(-1026642619, i10, anon, restartGroup, 54), obj2, i21 | 24960, 8);
-                    composer = obj2;
+                    i12 = 1;
+                    i8 = $dirty1;
+                    DateRangePickerKt.SwitchableDateEntryContent.2 anon = new DateRangePickerKt.SwitchableDateEntryContent.2(selectedStartDateMillis, obj7, l, obj6, obj3, obj8, obj4, obj6, obj9, colors, obj);
+                    obj7 = restartGroup;
+                    CrossfadeKt.Crossfade(DisplayMode.box-impl(i13), SemanticsModifierKt.semantics$default((Modifier)Modifier.Companion, false, (Function1)DateRangePickerKt.SwitchableDateEntryContent.1.INSTANCE, i12, 0), (FiniteAnimationSpec)AnimationSpecKt.spring$default(i26, i26, $dirty3, 7, $dirty3), 0, (Function3)ComposableLambdaKt.rememberComposableLambda(-1026642619, i12, anon, restartGroup, 54), obj7, i21 | 24960, 8);
+                    composer = obj7;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
                 } else {
                     restartGroup.skipToGroupEnd();
-                    $dirty = $dirty2;
-                    i13 = $dirty1;
+                    $dirty2 = $dirty;
+                    i8 = $dirty1;
                     composer = restartGroup;
                 }
             } else {
@@ -738,119 +738,119 @@ public final class DateRangePickerKt {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            obj32 = $dirty;
-            endRestartGroup = new DateRangePickerKt.SwitchableDateEntryContent.3(selectedStartDateMillis, selectedEndDateMillis, displayedMonthMillis, obj6, i, onDisplayedMonthChange, calendarModel, yearRange, dateFormatter, selectableDates, colors, $composer, $changed1, obj34);
+            obj32 = $dirty2;
+            endRestartGroup = new DateRangePickerKt.SwitchableDateEntryContent.3(selectedStartDateMillis, selectedEndDateMillis, displayedMonthMillis, obj6, i13, onDisplayedMonthChange, calendarModel, yearRange, dateFormatter, selectableDates, colors, $composer, $changed1, obj34);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         } else {
-            obj32 = $dirty;
+            obj32 = $dirty2;
         }
     }
 
     private static final void VerticalMonthsList(LazyListState lazyListState, Long selectedStartDateMillis, Long selectedEndDateMillis, Function2<? super Long, ? super Long, Unit> onDatesSelectionChange, Function1<? super Long, Unit> onDisplayedMonthChange, CalendarModel calendarModel, IntRange yearRange, androidx.compose.material3.DatePickerFormatter dateFormatter, androidx.compose.material3.SelectableDates selectableDates, androidx.compose.material3.DatePickerColors colors, Composer $composer, int $changed) {
         int traceInProgress2;
-        Object rememberedValue2;
+        Object rememberedValue;
         int i2;
         Object anon;
         int empty;
-        Object obj3;
-        int $dirty;
-        Function1 i5;
-        int i15;
-        Object obj9;
-        Object obj4;
-        int i17;
-        Object obj6;
-        Object obj5;
-        int i3;
-        Object obj7;
-        Object obj;
-        int i10;
         Object obj2;
-        int i7;
-        int i12;
-        int i8;
+        int $dirty;
+        Function1 i8;
+        int i13;
+        Object obj6;
+        Object obj4;
         int i4;
-        int i11;
+        Object obj7;
+        Object obj5;
+        int i7;
+        Object obj3;
+        Object obj9;
+        int i16;
+        Object obj8;
+        int i6;
+        int i17;
+        int i10;
+        int i3;
+        int i5;
         Object today;
         boolean changedInstance;
-        Object obj8;
-        int rememberedValue;
-        int i16;
+        Object obj;
+        int rememberedValue2;
+        int i11;
         boolean skipping;
         boolean traceInProgress;
-        int i14;
+        int i12;
         int str;
-        int i13;
+        int i15;
+        int i14;
         int i;
-        int i6;
         boolean z;
         int i9;
         Object companion;
         obj5 = calendarModel;
         obj4 = yearRange;
-        obj = dateFormatter;
-        rememberedValue = $changed;
+        obj9 = dateFormatter;
+        rememberedValue2 = $changed;
         traceInProgress2 = 1257365001;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(VerticalMonthsList)P(3,8,7,4,5!1,9,2,6)756@33410L158,762@33630L5,762@33637L3748,762@33573L3812,839@37420L228,839@37390L258:DateRangePicker.kt#uh7d8r");
-        if (rememberedValue & 6 == 0) {
-            i15 = restartGroup.changed(lazyListState) ? 4 : 2;
-            $dirty |= i15;
+        if (rememberedValue2 & 6 == 0) {
+            i13 = restartGroup.changed(lazyListState) ? 4 : 2;
+            $dirty |= i13;
         }
-        if (rememberedValue & 48 == 0) {
-            i17 = restartGroup.changed(selectedStartDateMillis) ? 32 : 16;
-            $dirty |= i17;
+        if (rememberedValue2 & 48 == 0) {
+            i4 = restartGroup.changed(selectedStartDateMillis) ? 32 : 16;
+            $dirty |= i4;
         } else {
-            obj9 = selectedStartDateMillis;
+            obj6 = selectedStartDateMillis;
         }
-        if (rememberedValue & 384 == 0) {
-            i3 = restartGroup.changed(selectedEndDateMillis) ? 256 : 128;
-            $dirty |= i3;
-        } else {
-            obj6 = selectedEndDateMillis;
-        }
-        if (rememberedValue & 3072 == 0) {
-            i10 = restartGroup.changedInstance(onDatesSelectionChange) ? 2048 : 1024;
-            $dirty |= i10;
-        } else {
-            obj7 = onDatesSelectionChange;
-        }
-        if (rememberedValue & 24576 == 0) {
-            i7 = restartGroup.changedInstance(onDisplayedMonthChange) ? 16384 : 8192;
+        if (rememberedValue2 & 384 == 0) {
+            i7 = restartGroup.changed(selectedEndDateMillis) ? 256 : 128;
             $dirty |= i7;
         } else {
-            obj2 = onDisplayedMonthChange;
+            obj7 = selectedEndDateMillis;
         }
-        if (i33 &= rememberedValue == 0) {
-            i12 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
-            $dirty |= i12;
-        }
-        if (i34 &= rememberedValue == 0) {
-            i8 = restartGroup.changedInstance(obj4) ? 1048576 : 524288;
-            $dirty |= i8;
-        }
-        if (i35 &= rememberedValue == 0) {
-            if (i39 &= rememberedValue == 0) {
-                changedInstance = restartGroup.changed(obj);
-            } else {
-                changedInstance = restartGroup.changedInstance(obj);
-            }
-            i4 = changedInstance != null ? 8388608 : 4194304;
-            $dirty |= i4;
-        }
-        if (i36 &= rememberedValue == 0) {
-            i11 = restartGroup.changed(selectableDates) ? 67108864 : 33554432;
-            $dirty |= i11;
+        if (rememberedValue2 & 3072 == 0) {
+            i16 = restartGroup.changedInstance(onDatesSelectionChange) ? 2048 : 1024;
+            $dirty |= i16;
         } else {
-            obj8 = selectableDates;
+            obj3 = onDatesSelectionChange;
         }
-        if (i37 &= rememberedValue == 0) {
-            i13 = restartGroup.changed(colors) ? 536870912 : 268435456;
-            $dirty |= i13;
+        if (rememberedValue2 & 24576 == 0) {
+            i6 = restartGroup.changedInstance(onDisplayedMonthChange) ? 16384 : 8192;
+            $dirty |= i6;
+        } else {
+            obj8 = onDisplayedMonthChange;
+        }
+        if (i33 &= rememberedValue2 == 0) {
+            i17 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
+            $dirty |= i17;
+        }
+        if (i34 &= rememberedValue2 == 0) {
+            i10 = restartGroup.changedInstance(obj4) ? 1048576 : 524288;
+            $dirty |= i10;
+        }
+        if (i35 &= rememberedValue2 == 0) {
+            if (i39 &= rememberedValue2 == 0) {
+                changedInstance = restartGroup.changed(obj9);
+            } else {
+                changedInstance = restartGroup.changedInstance(obj9);
+            }
+            i3 = changedInstance != null ? 8388608 : 4194304;
+            $dirty |= i3;
+        }
+        if (i36 &= rememberedValue2 == 0) {
+            i5 = restartGroup.changed(selectableDates) ? 67108864 : 33554432;
+            $dirty |= i5;
+        } else {
+            obj = selectableDates;
+        }
+        if (i37 &= rememberedValue2 == 0) {
+            i15 = restartGroup.changed(colors) ? 536870912 : 268435456;
+            $dirty |= i15;
         } else {
             today = colors;
         }
-        if ($dirty & i == 306783378) {
+        if ($dirty & i14 == 306783378) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.VerticalMonthsList (DateRangePicker.kt:753)");
@@ -858,59 +858,59 @@ public final class DateRangePickerKt {
                 String str3 = "CC(remember):DateRangePicker.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -2140165432, str3);
                 Composer composer = restartGroup;
-                i6 = 0;
-                rememberedValue2 = composer.rememberedValue();
+                i = 0;
+                rememberedValue = composer.rememberedValue();
                 i9 = 0;
                 if (!restartGroup.changed(obj4)) {
-                    if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        rememberedValue = 0;
-                        companion = rememberedValue2;
+                    if (rememberedValue == Composer.Companion.getEmpty()) {
+                        rememberedValue2 = 0;
+                        companion = rememberedValue;
                         composer.updateRememberedValue(obj5.getMonth(obj4.getFirst(), 1));
                     } else {
-                        companion = rememberedValue2;
+                        companion = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                i14 = $dirty;
+                i12 = $dirty;
                 Object obj12 = obj4;
-                DateRangePickerKt.VerticalMonthsList.1 firstMonth = new DateRangePickerKt.VerticalMonthsList.1(obj9, obj6, onDatesSelectionChange, lazyListState, obj12, obj5, (CalendarMonth)rememberedValue2, obj, colors, obj5.getToday(), obj8);
+                DateRangePickerKt.VerticalMonthsList.1 firstMonth = new DateRangePickerKt.VerticalMonthsList.1(obj6, obj7, onDatesSelectionChange, lazyListState, obj12, obj5, (CalendarMonth)rememberedValue, obj9, colors, obj5.getToday(), obj);
                 obj4 = obj12;
-                obj9 = 1;
-                TextKt.ProvideTextStyle(TypographyKt.getValue(DatePickerModalTokens.INSTANCE.getDateLabelTextFont(), restartGroup, 6), (Function2)ComposableLambdaKt.rememberComposableLambda(1090773432, obj9, firstMonth, restartGroup, 54), restartGroup, 48);
+                obj6 = 1;
+                TextKt.ProvideTextStyle(TypographyKt.getValue(DatePickerModalTokens.INSTANCE.getDateLabelTextFont(), restartGroup, 6), (Function2)ComposableLambdaKt.rememberComposableLambda(1090773432, obj6, firstMonth, restartGroup, 54), restartGroup, 48);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -2140037042, str3);
                 int i25 = 0;
-                i2 = i14 & 14 == 4 ? obj9 : i25;
-                i16 = i28 &= i14 == 16384 ? obj9 : i25;
-                obj = restartGroup;
-                obj8 = 0;
-                rememberedValue = obj.rememberedValue();
+                i2 = i12 & 14 == 4 ? obj6 : i25;
+                i11 = i28 &= i12 == 16384 ? obj6 : i25;
+                obj9 = restartGroup;
+                obj = 0;
+                rememberedValue2 = obj9.rememberedValue();
                 skipping = 0;
                 if (i22 |= changedInstance3 == 0) {
-                    if (rememberedValue == Composer.Companion.getEmpty()) {
-                        i = 0;
+                    if (rememberedValue2 == Composer.Companion.getEmpty()) {
+                        i14 = 0;
                         anon = new DateRangePickerKt.VerticalMonthsList.2.1(lazyListState, onDisplayedMonthChange, obj5, obj4, 0);
-                        obj.updateRememberedValue((Function2)anon);
+                        obj9.updateRememberedValue((Function2)anon);
                     } else {
-                        obj3 = lazyListState;
-                        anon = rememberedValue;
+                        obj2 = lazyListState;
+                        anon = rememberedValue2;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                EffectsKt.LaunchedEffect(obj3, (Function2)anon, restartGroup, i14 & 14);
+                EffectsKt.LaunchedEffect(obj2, (Function2)anon, restartGroup, i12 & 14);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i14 = $dirty;
+                i12 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new DateRangePickerKt.VerticalMonthsList.3(obj3, selectedStartDateMillis, selectedEndDateMillis, onDatesSelectionChange, onDisplayedMonthChange, calendarModel, yearRange, dateFormatter, selectableDates, colors, $changed);
+            traceInProgress2 = new DateRangePickerKt.VerticalMonthsList.3(obj2, selectedStartDateMillis, selectedEndDateMillis, onDatesSelectionChange, onDisplayedMonthChange, calendarModel, yearRange, dateFormatter, selectableDates, colors, $changed);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
@@ -956,28 +956,28 @@ public final class DateRangePickerKt {
         float width-impl;
         float px-0680j_4;
         int startX;
-        int i3;
-        int i9;
+        int i7;
+        int i2;
         int endX;
-        float f2;
+        float f;
         LayoutDirection layoutDirection;
-        int size-NH-jbRc4;
+        int size-NH-jbRc2;
         int y;
         float itemContainerWidth;
-        int i4;
-        long size-NH-jbRc;
-        long size-NH-jbRc2;
+        int i6;
         long size-NH-jbRc3;
-        float f;
+        long size-NH-jbRc;
+        long size-NH-jbRc4;
+        float f2;
         DrawScope drawScope;
         long l;
         long l2;
-        int i8;
-        int i6;
-        int i;
+        int i3;
+        int i4;
         int i5;
-        int i2;
-        int i7;
+        int i8;
+        int i9;
+        int i;
         width-impl = $this$drawRangeBackground_u2dmxwnekA;
         px-0680j_4 = width-impl.toPx-0680j_4(DatePickerKt.getRecommendedSizeForAccessibility());
         float px-0680j_42 = width-impl.toPx-0680j_4(DatePickerKt.getRecommendedSizeForAccessibility());
@@ -995,32 +995,32 @@ public final class DateRangePickerKt {
         int i22 = 0;
         int i27 = 0;
         int y-impl2 = IntOffset.getY-impl(gridEndCoordinates-nOcc-ac);
-        i3 = selectedRangeInfo.getFirstIsSelectionStart() ? px-0680j_4 / f4 : 0;
+        i7 = selectedRangeInfo.getFirstIsSelectionStart() ? px-0680j_4 / f4 : 0;
         i30 += i13;
-        f2 = selectedRangeInfo.getLastIsSelectionEnd() ? px-0680j_4 / f4 : px-0680j_4;
-        i9 = width-impl.getLayoutDirection() == LayoutDirection.Rtl ? i4 : 0;
-        if (i9 != 0) {
+        f = selectedRangeInfo.getLastIsSelectionEnd() ? px-0680j_4 / f4 : px-0680j_4;
+        i2 = width-impl.getLayoutDirection() == LayoutDirection.Rtl ? i6 : 0;
+        if (i2 != 0) {
             startX = width-impl6 - startX;
             endX = layoutDirection - endX;
         }
         if (y-impl == y-impl2) {
-            size-NH-jbRc4 = endX - startX;
+            size-NH-jbRc2 = endX - startX;
         } else {
-            if (i9 != 0) {
-                size-NH-jbRc4 = -startX;
+            if (i2 != 0) {
+                size-NH-jbRc2 = -startX;
             } else {
                 width-impl5 -= startX;
             }
         }
         DrawScope drawScope2 = color;
-        DrawScope.drawRect-n-J9OG0$default((DrawScope)width-impl, drawScope2, obj20, OffsetKt.Offset(startX, i31), obj22, SizeKt.Size(size-NH-jbRc4, px-0680j_43), obj24, 0, 0, 0);
+        DrawScope.drawRect-n-J9OG0$default((DrawScope)width-impl, drawScope2, obj20, OffsetKt.Offset(startX, i31), obj22, SizeKt.Size(size-NH-jbRc2, px-0680j_43), obj24, 0, 0, 0);
         if (y-impl != y-impl2) {
             i35--;
             while (y > 0) {
                 DrawScope.drawRect-n-J9OG0$default((DrawScope)width-impl, color, obj33, OffsetKt.Offset(0, i10 += i31), obj35, SizeKt.Size(Size.getWidth-impl($this$drawRangeBackground_u2dmxwnekA.getSize-NH-jbRc()), px-0680j_43), obj37, 0, 0, 0);
                 y--;
                 width-impl = $this$drawRangeBackground_u2dmxwnekA;
-                px-0680j_4 = i4;
+                px-0680j_4 = i6;
             }
             itemContainerWidth = px-0680j_4;
             int itemContainerWidth2 = 0;
@@ -1029,7 +1029,7 @@ public final class DateRangePickerKt {
             } else {
                 width-impl = Size.getWidth-impl($this$drawRangeBackground_u2dmxwnekA.getSize-NH-jbRc());
             }
-            if (i9 != 0) {
+            if (i2 != 0) {
                 px-0680j_4 = endX - width-impl3;
             } else {
                 px-0680j_4 = endX;
@@ -1045,48 +1045,48 @@ public final class DateRangePickerKt {
     }
 
     public static final androidx.compose.material3.DateRangePickerState rememberDateRangePickerState-IlFM19s(Long initialSelectedStartDateMillis, Long initialSelectedEndDateMillis, Long initialDisplayedMonthMillis, IntRange yearRange, int initialDisplayMode, androidx.compose.material3.SelectableDates selectableDates, Composer $composer, int $changed, int i9) {
-        int i5;
-        int i13;
+        int i11;
+        int i4;
         int i2;
         int yearRange2;
         int picker-jFl-4v0;
-        int i;
+        int i6;
         int allDates;
         boolean traceInProgress;
         String str;
-        int changed3;
-        int i10;
-        boolean changed2;
-        int i6;
-        int changed5;
-        int i11;
-        int changed;
         int changed4;
+        int i5;
+        boolean changed;
+        int i3;
+        int changed5;
+        int i8;
+        int changed3;
+        int changed2;
         int empty;
         Object anon;
-        int i3;
-        int i12;
         int i7;
+        int i;
+        int i10;
         IntRange intRange;
-        int i8;
+        int i12;
         androidx.compose.material3.SelectableDates date;
-        int i4;
+        int i13;
         final Composer composer2 = $composer;
         final int i41 = $changed;
         int i14 = -2012087461;
         ComposerKt.sourceInformationMarkerStart(composer2, i14, "C(rememberDateRangePickerState)P(3,2,1,5,0:c#material3.DisplayMode)262@11757L15,263@11866L435,263@11784L517:DateRangePicker.kt#uh7d8r");
-        i3 = i9 & 1 != 0 ? i5 : initialSelectedStartDateMillis;
-        i12 = i9 & 2 != 0 ? i13 : initialSelectedEndDateMillis;
-        i7 = i9 & 4 != 0 ? i2 : initialDisplayedMonthMillis;
+        i7 = i9 & 1 != 0 ? i11 : initialSelectedStartDateMillis;
+        i = i9 & 2 != 0 ? i4 : initialSelectedEndDateMillis;
+        i10 = i9 & 4 != 0 ? i2 : initialDisplayedMonthMillis;
         if (i9 & 8 != 0) {
             intRange = yearRange2;
         } else {
             intRange = yearRange;
         }
         if (i9 & 16 != 0) {
-            i8 = picker-jFl-4v0;
+            i12 = picker-jFl-4v0;
         } else {
-            i8 = initialDisplayMode;
+            i12 = initialDisplayMode;
         }
         int i16 = 32;
         if (i9 & 32 != 0) {
@@ -1104,31 +1104,31 @@ public final class DateRangePickerKt {
         int i35 = 4;
         empty = 1;
         if (i27 ^= 6 > i35) {
-            if (!composer2.changed(i3)) {
-                i10 = i41 & 6 == i35 ? empty : i23;
+            if (!composer2.changed(i7)) {
+                i5 = i41 & 6 == i35 ? empty : i23;
             } else {
             }
         } else {
         }
         if (i36 ^= 48 > i16) {
-            if (!composer2.changed(i12)) {
-                i = i41 & 48 == i16 ? empty : i23;
+            if (!composer2.changed(i)) {
+                i6 = i41 & 48 == i16 ? empty : i23;
             } else {
             }
         } else {
         }
         int i37 = 256;
         if (i28 ^= 384 > i37) {
-            if (!composer2.changed(i7)) {
-                i6 = i41 & 384 == i37 ? empty : i23;
+            if (!composer2.changed(i10)) {
+                i3 = i41 & 384 == i37 ? empty : i23;
             } else {
             }
         } else {
         }
         int i38 = 16384;
         if (i30 ^= 24576 > i38) {
-            if (!composer2.changed(i8)) {
-                i11 = i41 & 24576 == i38 ? empty : i23;
+            if (!composer2.changed(i12)) {
+                i8 = i41 & 24576 == i38 ? empty : i23;
             } else {
             }
         } else {
@@ -1151,8 +1151,8 @@ public final class DateRangePickerKt {
         final int i42 = 0;
         if (i21 |= changedInstance == null) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                i4 = 0;
-                anon = new DateRangePickerKt.rememberDateRangePickerState.1.1(i3, i12, i7, intRange, i8, date, defaultLocale);
+                i13 = 0;
+                anon = new DateRangePickerKt.rememberDateRangePickerState.1.1(i7, i, i10, intRange, i12, date, defaultLocale);
                 composer.updateRememberedValue((Function0)anon);
             } else {
                 anon = rememberedValue;
@@ -1168,20 +1168,20 @@ public final class DateRangePickerKt {
     }
 
     private static final void updateDateSelection(long dateInMillis, Long currentStartDateMillis, Long currentEndDateMillis, Function2<? super Long, ? super Long, Unit> onDatesSelectionChange) {
-        Long valueOf;
-        int valueOf2;
-        valueOf = 0;
+        Long valueOf2;
+        int valueOf;
+        valueOf2 = 0;
         if (currentEndDateMillis == null) {
             if (onDatesSelectionChange != null) {
                 if (currentEndDateMillis != null && onDatesSelectionChange != null) {
                     if (onDatesSelectionChange != null) {
-                        obj7.invoke(Long.valueOf(dateInMillis), valueOf);
+                        obj7.invoke(Long.valueOf(dateInMillis), valueOf2);
                     } else {
                         if (currentEndDateMillis != null && Long.compare(dateInMillis, longValue) >= 0) {
                             if (Long.compare(dateInMillis, longValue) >= 0) {
                                 obj7.invoke(currentEndDateMillis, Long.valueOf(dateInMillis));
                             } else {
-                                obj7.invoke(Long.valueOf(dateInMillis), valueOf);
+                                obj7.invoke(Long.valueOf(dateInMillis), valueOf2);
                             }
                         } else {
                         }

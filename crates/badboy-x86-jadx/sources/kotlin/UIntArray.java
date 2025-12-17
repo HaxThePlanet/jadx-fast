@@ -86,9 +86,9 @@ public final class UIntArray implements Collection<kotlin.UInt>, KMappedMarker {
         int i2;
         boolean next;
         int it;
-        int i3;
-        boolean contains;
         int i;
+        boolean contains;
+        int i3;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = elements;
         final int i4 = 0;
@@ -97,12 +97,12 @@ public final class UIntArray implements Collection<kotlin.UInt>, KMappedMarker {
             iterator = obj.iterator();
             while (iterator.hasNext()) {
                 Object obj3 = next;
-                i3 = 0;
                 i = 0;
+                i3 = 0;
                 if (obj3 instanceof UInt && ArraysKt.contains(arg0, (UInt)obj3.unbox-impl())) {
                 } else {
                 }
-                it = i;
+                it = i3;
                 if (ArraysKt.contains(arg0, (UInt)obj3.unbox-impl())) {
                 } else {
                 }

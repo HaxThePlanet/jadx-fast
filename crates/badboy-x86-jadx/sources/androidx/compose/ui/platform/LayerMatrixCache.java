@@ -33,23 +33,23 @@ public final class LayerMatrixCache<T>  {
 
     public final float[] calculateInverseMatrix-bWbORWo(T target) {
         float[] inverseMatrixCache;
-        int i;
+        int i2;
         float[] fArr;
         boolean isInverseDirty;
-        int i2;
-        i = 0;
+        int i;
+        i2 = 0;
         if (this.inverseMatrixCache == null) {
-            i2 = 0;
-            this.inverseMatrixCache = Matrix.constructor-impl$default(i, 1, i);
+            i = 0;
+            this.inverseMatrixCache = Matrix.constructor-impl$default(i2, 1, i2);
         }
         if (this.isInverseDirty) {
             this.isInverseValid = InvertMatrixKt.invertTo-JiSxe2E(calculateMatrix-GrdbGEg(target), inverseMatrixCache);
             this.isInverseDirty = false;
         }
         if (this.isInverseValid) {
-            i = inverseMatrixCache;
+            i2 = inverseMatrixCache;
         }
-        return i;
+        return i2;
     }
 
     public final float[] calculateMatrix-GrdbGEg(T target) {

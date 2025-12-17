@@ -383,20 +383,20 @@ public final class RecordingInputConnection implements InputConnection {
 
     @Override // android.view.inputmethod.InputConnection
     public boolean requestCursorUpdates(int cursorUpdateMode) {
-        int i7;
+        int i4;
         int includeInsertionMarker;
         int sDK_INT;
         int includeCharacterBounds;
-        int i3;
-        int includeEditorBounds;
-        int includeLineBounds;
-        int includeLineBounds2;
-        int i;
         int i5;
-        int i4;
-        int sDK_INT2;
-        int i2;
+        int includeEditorBounds;
+        int includeLineBounds2;
+        int includeLineBounds;
         int i6;
+        int i;
+        int i3;
+        int sDK_INT2;
+        int i7;
+        int i2;
         final int i8 = 0;
         boolean isActive = obj.isActive;
         final int i10 = 0;
@@ -404,45 +404,45 @@ public final class RecordingInputConnection implements InputConnection {
             int i9 = 0;
             sDK_INT = 0;
             final int i13 = 1;
-            i7 = cursorUpdateMode & 1 != 0 ? i13 : sDK_INT;
-            i3 = cursorUpdateMode & 2 != 0 ? i13 : sDK_INT;
+            i4 = cursorUpdateMode & 1 != 0 ? i13 : sDK_INT;
+            i5 = cursorUpdateMode & 2 != 0 ? i13 : sDK_INT;
             if (Build.VERSION.SDK_INT >= 33) {
-                i = cursorUpdateMode & 16 != 0 ? i13 : sDK_INT;
-                includeInsertionMarker = i;
-                i5 = cursorUpdateMode & 8 != 0 ? i13 : sDK_INT;
-                includeCharacterBounds = i5;
-                i4 = cursorUpdateMode & 4 != 0 ? i13 : sDK_INT;
-                int includeEditorBounds2 = i4;
+                i6 = cursorUpdateMode & 16 != 0 ? i13 : sDK_INT;
+                includeInsertionMarker = i6;
+                i = cursorUpdateMode & 8 != 0 ? i13 : sDK_INT;
+                includeCharacterBounds = i;
+                i3 = cursorUpdateMode & 4 != 0 ? i13 : sDK_INT;
+                int includeEditorBounds2 = i3;
                 int i20 = 34;
                 if (Build.VERSION.SDK_INT >= i20 && cursorUpdateMode & 32 != 0) {
                     if (cursorUpdateMode & 32 != 0) {
                         sDK_INT = i13;
                     }
-                    includeLineBounds = sDK_INT;
+                    includeLineBounds2 = sDK_INT;
                 }
-                if (includeInsertionMarker == 0 && includeCharacterBounds == 0 && includeEditorBounds2 == 0 && includeLineBounds == 0) {
+                if (includeInsertionMarker == 0 && includeCharacterBounds == 0 && includeEditorBounds2 == 0 && includeLineBounds2 == 0) {
                     if (includeCharacterBounds == 0) {
                         if (includeEditorBounds2 == 0) {
-                            if (includeLineBounds == 0) {
+                            if (includeLineBounds2 == 0) {
                                 includeInsertionMarker = 1;
                                 includeCharacterBounds = 1;
                                 int includeEditorBounds3 = 1;
                                 if (Build.VERSION.SDK_INT >= i20) {
-                                    i2 = includeEditorBounds3;
-                                    i6 = includeLineBounds3;
+                                    i7 = includeEditorBounds3;
+                                    i2 = includeLineBounds3;
                                     includeEditorBounds = includeInsertionMarker;
-                                    includeLineBounds2 = includeCharacterBounds;
+                                    includeLineBounds = includeCharacterBounds;
                                 } else {
-                                    i2 = includeEditorBounds3;
-                                    i6 = includeLineBounds;
+                                    i7 = includeEditorBounds3;
+                                    i2 = includeLineBounds2;
                                     includeEditorBounds = includeInsertionMarker;
-                                    includeLineBounds2 = includeCharacterBounds;
+                                    includeLineBounds = includeCharacterBounds;
                                 }
                             } else {
-                                i2 = includeEditorBounds2;
-                                i6 = includeLineBounds;
+                                i7 = includeEditorBounds2;
+                                i2 = includeLineBounds2;
                                 includeEditorBounds = includeInsertionMarker;
-                                includeLineBounds2 = includeCharacterBounds;
+                                includeLineBounds = includeCharacterBounds;
                             }
                         } else {
                         }
@@ -451,12 +451,12 @@ public final class RecordingInputConnection implements InputConnection {
                 } else {
                 }
             } else {
-                i2 = i15;
-                i6 = includeLineBounds;
+                i7 = i15;
+                i2 = includeLineBounds2;
                 includeEditorBounds = includeInsertionMarker;
-                includeLineBounds2 = includeCharacterBounds;
+                includeLineBounds = includeCharacterBounds;
             }
-            this.eventCallback.onRequestCursorAnchorInfo(i7, i3, includeEditorBounds, includeLineBounds2, i2, i6);
+            this.eventCallback.onRequestCursorAnchorInfo(i4, i5, includeEditorBounds, includeLineBounds, i7, i2);
             return i13;
         }
         return isActive;

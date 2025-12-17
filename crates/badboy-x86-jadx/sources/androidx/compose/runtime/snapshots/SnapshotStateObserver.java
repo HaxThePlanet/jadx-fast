@@ -99,103 +99,103 @@ public final class SnapshotStateObserver {
         }
 
         private final void clearObsoleteStateReads(Object scope) {
-            Object currentToken3;
+            Object currentToken;
             int currentToken2;
-            Object currentToken4;
+            Object currentToken3;
             int $i$f$removeIf;
             MutableObjectIntMap map;
-            int i6;
+            int i2;
             long[] metadata;
-            int i9;
+            int i3;
             int i$iv$iv;
             long slot$iv$iv;
             int $this$maskEmptyOrDeleted$iv$iv$iv;
-            int i7;
+            int i9;
             int j$iv$iv;
             int value$iv$iv$iv;
-            int i8;
+            int i6;
             long l;
-            int i3;
-            int i10;
-            int i;
-            int i5;
-            int i2;
             int i4;
-            int currentToken;
+            int i7;
+            int i10;
+            int i5;
+            int i;
+            int i8;
+            int currentToken4;
             final Object obj = this;
             currentToken2 = obj.currentToken;
             final MutableObjectIntMap currentScopeReads = obj.currentScopeReads;
             if (currentScopeReads != null) {
-                i6 = 0;
+                i2 = 0;
                 metadata = map.metadata;
                 length += -2;
-                if (0 <= i9) {
+                if (0 <= i3) {
                 } else {
-                    currentToken = currentToken2;
+                    currentToken4 = currentToken2;
                     i5 = $i$f$removeIf;
-                    currentToken3 = scope;
+                    currentToken = scope;
                 }
             } else {
-                currentToken = currentToken2;
-                currentToken3 = scope;
+                currentToken4 = currentToken2;
+                currentToken = scope;
             }
         }
 
         private final void recordRead(Object value, int currentToken, Object currentScope, MutableObjectIntMap<Object> recordedValues) {
-            int i8;
+            int i5;
             boolean z;
             ScopeMap valueToScopes;
             int i$iv$iv;
             Object obj;
             int constructor-impl;
             DerivedState.Record currentRecord;
-            int i5;
+            int i4;
             androidx.collection.ObjectIntMap dependencies;
             ScopeMap dependencyToDerivedStates;
             int $this$maskEmptyOrDeleted$iv$iv$iv;
-            int i9;
+            int i8;
             int j$iv$iv;
             androidx.collection.ObjectIntMap map;
-            int i7;
-            long[] metadata;
             int i3;
+            long[] metadata;
+            int i10;
             long slot$iv$iv;
             Object[] $this$maskEmptyOrDeleted$iv$iv$iv2;
             androidx.collection.ObjectIntMap map2;
-            int i6;
+            int i7;
             androidx.collection.ObjectIntMap this_$iv;
-            int i10;
+            int i;
             long l;
             int i2;
-            int i4;
+            int i6;
             androidx.compose.runtime.snapshots.ReaderKind.Companion companion;
-            int i;
+            int i9;
             final Object obj2 = this;
             final Object obj3 = value;
-            i8 = currentToken;
+            i5 = currentToken;
             if (obj2.deriveStateScopeCount > 0) {
             }
-            final int i11 = recordedValues.put(obj3, i8, -1);
-            if (obj3 instanceof DerivedState && i11 != i8) {
-                if (i11 != i8) {
+            final int i11 = recordedValues.put(obj3, i5, -1);
+            if (obj3 instanceof DerivedState && i11 != i5) {
+                if (i11 != i5) {
                     currentRecord = (DerivedState)obj3.getCurrentRecord();
                     (Map)obj2.recordedDerivedStateValues.put(obj3, currentRecord.getCurrentValue());
                     dependencyToDerivedStates = obj2.dependencyToDerivedStates;
                     dependencyToDerivedStates.removeScope(obj3);
                     $this$maskEmptyOrDeleted$iv$iv$iv = dependencies;
                     map = $this$maskEmptyOrDeleted$iv$iv$iv;
-                    i7 = 0;
+                    i3 = 0;
                     metadata = map.metadata;
                     length += -2;
-                    if (0 <= i5) {
+                    if (0 <= i4) {
                     } else {
                         this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv;
-                        i10 = i9;
+                        i = i8;
                         $this$maskEmptyOrDeleted$iv$iv$iv2 = j$iv$iv;
                         map2 = map;
                     }
                 } else {
-                    i3 = 2;
+                    i10 = 2;
                 }
             } else {
             }
@@ -203,7 +203,7 @@ public final class SnapshotStateObserver {
                 if (obj3 instanceof StateObjectImpl) {
                     androidx.compose.runtime.snapshots.ReaderKind.Companion companion2 = ReaderKind.Companion;
                     constructor-impl = 0;
-                    (StateObjectImpl)obj3.recordReadIn-h_f27i8$runtime_release(ReaderKind.constructor-impl(i3));
+                    (StateObjectImpl)obj3.recordReadIn-h_f27i8$runtime_release(ReaderKind.constructor-impl(i10));
                 }
                 obj2.valueToScopes.add(obj3, currentScope);
             } else {
@@ -231,24 +231,24 @@ public final class SnapshotStateObserver {
 
         public final void clearScopeObservations(Object scope) {
             Object remove;
-            Object obj2;
+            Object obj;
             int i$iv$iv;
             long slot$iv$iv;
             long j$iv$iv;
-            int i;
-            int i2;
-            Object recordedValues;
-            Object obj;
-            long l;
-            int i3;
             int i4;
+            int i3;
+            Object recordedValues;
+            Object obj2;
+            long l;
+            int i2;
+            int i;
             int i5;
             final Object obj3 = this;
             final Object obj4 = scope;
             remove = obj3.scopeToValues.remove(obj4);
             if ((MutableObjectIntMap)remove == null) {
             }
-            obj2 = remove;
+            obj = remove;
             final int i12 = 0;
             final int i13 = 0;
             final long[] metadata = obj5.metadata;
@@ -256,7 +256,7 @@ public final class SnapshotStateObserver {
             if (0 <= i14) {
             } else {
                 recordedValues = remove;
-                obj = obj2;
+                obj2 = obj;
             }
         }
 
@@ -274,28 +274,28 @@ public final class SnapshotStateObserver {
 
         public final void notifyInvalidatedScopes() {
             Object cmp;
-            MutableScatterSet invalidated2;
+            MutableScatterSet invalidated;
             int i$iv$iv;
             long slot$iv$iv;
             long j$iv$iv;
             int i;
-            int i3;
-            MutableScatterSet invalidated;
-            long l;
             int i2;
+            MutableScatterSet invalidated2;
+            long l;
+            int i3;
             int i4;
             cmp = this;
-            invalidated2 = cmp.invalidated;
-            final MutableScatterSet set = invalidated2;
+            invalidated = cmp.invalidated;
+            final MutableScatterSet set = invalidated;
             final int i12 = 0;
             final int i13 = 0;
             final long[] metadata = set2.metadata;
             length += -2;
             if (0 <= i14) {
             } else {
-                invalidated = invalidated2;
+                invalidated2 = invalidated;
             }
-            invalidated.clear();
+            invalidated2.clear();
         }
 
         public final void observe(Object scope, Function1<Object, Unit> readObserver, Function0<Unit> block) {
@@ -324,18 +324,18 @@ public final class SnapshotStateObserver {
             int scope;
             int value2;
             ScopeMap dependencyToDerivedStates;
-            boolean this_$iv4;
+            boolean this_$iv;
             HashMap value$iv$iv$iv$iv;
             Object valueToScopes;
             boolean value$iv2;
-            int value$iv3;
+            int value$iv;
             Object obj3;
             Object i$iv;
-            int j$iv$iv$iv5;
+            int j$iv$iv$iv2;
             androidx.collection.ScatterSet value$iv$iv$iv$iv3;
             boolean element$iv$iv;
-            String j$iv$iv$iv2;
-            int j$iv$iv$iv6;
+            String j$iv$iv$iv7;
+            int j$iv$iv$iv4;
             int $i$f$isFull;
             long elements;
             Object[] value$iv$iv$iv$iv2;
@@ -343,66 +343,66 @@ public final class SnapshotStateObserver {
             long[] m$iv$iv$iv;
             int lastIndex$iv$iv$iv;
             int i$iv$iv$iv;
-            int i13;
-            int this_$iv2;
-            int i14;
+            int i2;
+            int this_$iv4;
+            int i3;
             ScopeMap $i$f$forEachIndex;
             ScopeMap this_$iv$iv$iv;
-            int i10;
-            int i5;
-            long slot$iv$iv$iv;
-            HashMap map;
-            HashMap k$iv$iv;
-            Object $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-            int i6;
-            int i8;
-            int i15;
-            Object[] slot$iv$iv$iv3;
-            int hasValues;
+            int i4;
             int i;
+            long slot$iv$iv$iv2;
+            HashMap map2;
+            HashMap k$iv$iv;
+            Object $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
+            int i14;
+            int i13;
+            int i15;
+            Object[] slot$iv$iv$iv;
+            int hasValues;
+            int i6;
             ScopeMap valueToScopes2;
             int value;
-            int j$iv$iv$iv;
-            int j$iv$iv$iv3;
-            int slot$iv$iv$iv4;
-            Object value$iv;
-            int $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
-            int $this$forEach$iv$iv;
+            int j$iv$iv$iv5;
+            int j$iv$iv$iv8;
+            int slot$iv$iv$iv6;
+            Object value$iv3;
+            int $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
+            int $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1;
             Object obj5;
-            long[] lArr;
+            long[] lArr2;
             SnapshotMutationPolicy structuralEqualityPolicy2;
-            long this_$iv;
-            long slot$iv$iv$iv6;
+            long this_$iv2;
+            long slot$iv$iv$iv3;
             int previousValue;
-            Object $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-            int i16;
-            int policy2;
+            Object $this$maskEmptyOrDeleted$iv$iv$iv$iv5;
+            int i5;
+            int policy;
             Object obj4;
             int index$iv$iv$iv;
-            int $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
-            int j$iv$iv$iv7;
-            int i9;
-            long[] slot$iv$iv$iv2;
+            int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            int j$iv$iv$iv;
+            int i16;
+            long[] slot$iv$iv$iv4;
             SnapshotMutationPolicy structuralEqualityPolicy;
-            SnapshotMutationPolicy j$iv$iv$iv4;
-            int $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-            Object obj;
-            ScopeMap map2;
-            int i7;
+            SnapshotMutationPolicy j$iv$iv$iv6;
+            int $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
             Object obj6;
-            Object policy;
-            int i12;
-            Object[] objArr;
+            ScopeMap map;
+            int i7;
             Object obj2;
-            long[] lArr2;
-            long slot$iv$iv$iv5;
-            String $this$maskEmptyOrDeleted$iv$iv$iv$iv5;
-            int i3;
-            int i2;
+            Object policy2;
             int i11;
+            Object[] objArr;
+            Object obj;
+            long[] lArr;
+            long slot$iv$iv$iv5;
+            String $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+            int i10;
+            int i9;
+            int i8;
             SnapshotMutationPolicy snapshotMutationPolicy;
-            int j$iv$iv$iv8;
-            int i4;
+            int j$iv$iv$iv3;
+            int i12;
             final Object obj7 = this;
             scope = 0;
             dependencyToDerivedStates = obj7.dependencyToDerivedStates;
@@ -410,236 +410,236 @@ public final class SnapshotStateObserver {
             valueToScopes = obj7.valueToScopes;
             final MutableScatterSet invalidated = obj7.invalidated;
             i$iv = changes;
-            j$iv$iv$iv5 = 0;
-            final int i84 = 2;
+            j$iv$iv$iv2 = 0;
+            final int i83 = 2;
             final long l = -9187201950435737472L;
-            final int i85 = 1;
+            final int i84 = 1;
             if (i$iv instanceof ScatterSetWrapper) {
                 value$iv$iv$iv$iv3 = (ScatterSetWrapper)i$iv.getSet$runtime_release();
-                i13 = 0;
-                i14 = 128;
+                i2 = 0;
+                i3 = 128;
                 this_$iv3 = value$iv$iv$iv$iv3;
-                int i86 = 0;
-                i10 = 255;
+                int i85 = 0;
+                i4 = 255;
                 m$iv$iv$iv = this_$iv3.metadata;
-                i5 = 7;
+                i = 7;
                 if (0 <= length2 += -2) {
                 } else {
                     valueToScopes2 = valueToScopes;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv = i$iv;
-                    i6 = j$iv$iv$iv5;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = i$iv;
+                    i14 = j$iv$iv$iv2;
                     obj4 = value$iv$iv$iv$iv3;
-                    slot$iv$iv$iv3 = value$iv$iv$iv$iv2;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = this_$iv3;
-                    slot$iv$iv$iv2 = m$iv$iv$iv;
+                    slot$iv$iv$iv = value$iv$iv$iv$iv2;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = this_$iv3;
+                    slot$iv$iv$iv4 = m$iv$iv$iv;
                 }
                 $i$f$forEachIndex = dependencyToDerivedStates;
-                map = value$iv$iv$iv$iv;
+                map2 = value$iv$iv$iv$iv;
             } else {
                 valueToScopes2 = valueToScopes;
-                i6 = j$iv$iv$iv5;
-                i14 = 128;
-                i10 = 255;
-                i5 = 7;
+                i14 = j$iv$iv$iv2;
+                i3 = 128;
+                i4 = 255;
+                i = 7;
                 i$iv = 0;
-                j$iv$iv$iv5 = (Iterable)i$iv.iterator();
-                while (j$iv$iv$iv5.hasNext()) {
-                    element$iv$iv = j$iv$iv$iv5.next();
-                    j$iv$iv$iv2 = element$iv$iv;
+                j$iv$iv$iv2 = (Iterable)i$iv.iterator();
+                while (j$iv$iv$iv2.hasNext()) {
+                    element$iv$iv = j$iv$iv$iv2.next();
+                    j$iv$iv$iv7 = element$iv$iv;
                     elements = 0;
                     androidx.compose.runtime.snapshots.ReaderKind.Companion companion = ReaderKind.Companion;
                     m$iv$iv$iv = 0;
-                    if (j$iv$iv$iv2 instanceof StateObjectImpl && !(StateObjectImpl)j$iv$iv$iv2.isReadIn-h_f27i8$runtime_release(ReaderKind.constructor-impl(i84))) {
+                    if (j$iv$iv$iv7 instanceof StateObjectImpl && !(StateObjectImpl)j$iv$iv$iv7.isReadIn-h_f27i8$runtime_release(ReaderKind.constructor-impl(i83))) {
                     } else {
                     }
-                    if (dependencyToDerivedStates.contains(j$iv$iv$iv2)) {
+                    if (dependencyToDerivedStates.contains(j$iv$iv$iv7)) {
                     } else {
                     }
-                    this_$iv2 = scope;
+                    this_$iv4 = scope;
                     this_$iv$iv$iv = dependencyToDerivedStates;
                     k$iv$iv = value$iv$iv$iv$iv;
-                    $this$forEach$iv$iv = valueToScopes;
-                    slot$iv$iv$iv4 = i$iv;
-                    value$iv = j$iv$iv$iv5;
-                    lArr = element$iv$iv;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                    slot$iv$iv$iv6 = i$iv;
+                    value$iv3 = j$iv$iv$iv2;
+                    lArr2 = element$iv$iv;
                     value = elements;
                     dependencyToDerivedStates = valueToScopes2;
                     value$iv$iv$iv$iv = 0;
-                    obj3 = dependencyToDerivedStates.getMap().get(j$iv$iv$iv2);
+                    obj3 = dependencyToDerivedStates.getMap().get(j$iv$iv$iv7);
                     if (obj3 != null) {
                     } else {
                     }
-                    this_$iv2 = dependencyToDerivedStates;
-                    i8 = value$iv$iv$iv$iv;
-                    i = obj3;
-                    value$iv3 = 8;
+                    this_$iv4 = dependencyToDerivedStates;
+                    i13 = value$iv$iv$iv$iv;
+                    i6 = obj3;
+                    value$iv = 8;
                     dependencyToDerivedStates = this_$iv$iv$iv;
                     value$iv$iv$iv$iv = k$iv$iv;
-                    i$iv = slot$iv$iv$iv4;
-                    j$iv$iv$iv5 = value$iv;
-                    valueToScopes = $this$forEach$iv$iv;
+                    i$iv = slot$iv$iv$iv6;
+                    j$iv$iv$iv2 = value$iv3;
+                    valueToScopes = $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1;
                     if (obj3 instanceof MutableScatterSet != null) {
                     } else {
                     }
-                    this_$iv2 = dependencyToDerivedStates;
-                    i8 = value$iv$iv$iv$iv;
-                    value$iv3 = 8;
+                    this_$iv4 = dependencyToDerivedStates;
+                    i13 = value$iv$iv$iv$iv;
+                    value$iv = 8;
                     value$iv$iv$iv$iv = 0;
                     invalidated.add(obj3);
                     scope = 1;
                     i$iv = obj3;
-                    j$iv$iv$iv5 = 0;
+                    j$iv$iv$iv2 = 0;
                     value$iv$iv$iv$iv2 = 0;
                     this_$iv3 = elements.metadata;
                     length += -2;
                     if (0 <= m$iv$iv$iv) {
                     } else {
                     }
-                    this_$iv2 = dependencyToDerivedStates;
-                    i8 = value$iv$iv$iv$iv;
-                    i = obj3;
-                    value$iv3 = 8;
+                    this_$iv4 = dependencyToDerivedStates;
+                    i13 = value$iv$iv$iv$iv;
+                    i6 = obj3;
+                    value$iv = 8;
                     i$iv$iv$iv = 0;
-                    long hasValues3 = j$iv$iv$iv;
+                    long hasValues3 = j$iv$iv$iv5;
                     while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv7, l) != 0) {
                         i15 = 8;
                         int i20 = i19 - 8;
                         dependencyToDerivedStates = 0;
                         while (dependencyToDerivedStates < i20) {
                             i$iv$iv$iv = 0;
-                            if (Long.compare(i23, i14) < 0) {
+                            if (Long.compare(i23, i3) < 0) {
                             } else {
                             }
                             value$iv$iv$iv$iv = 0;
                             if (value$iv$iv$iv$iv != 0) {
                             } else {
                             }
-                            j$iv$iv$iv = dependencyToDerivedStates;
-                            slot$iv$iv$iv3 >>= obj3;
-                            dependencyToDerivedStates = j$iv$iv$iv + 1;
+                            j$iv$iv$iv5 = dependencyToDerivedStates;
+                            slot$iv$iv$iv >>= obj3;
+                            dependencyToDerivedStates = j$iv$iv$iv5 + 1;
                             i$iv$iv$iv = 0;
-                            j$iv$iv$iv = dependencyToDerivedStates;
-                            j$iv$iv$iv3 = 0;
+                            j$iv$iv$iv5 = dependencyToDerivedStates;
+                            j$iv$iv$iv8 = 0;
                             invalidated.add(i$iv.elements[i24 += dependencyToDerivedStates]);
-                            slot$iv$iv$iv = 1;
-                            value$iv$iv$iv$iv = i85;
+                            slot$iv$iv$iv2 = 1;
+                            value$iv$iv$iv$iv = i84;
                         }
-                        j$iv$iv$iv = dependencyToDerivedStates;
-                        scope = slot$iv$iv$iv;
+                        j$iv$iv$iv5 = dependencyToDerivedStates;
+                        scope = slot$iv$iv$iv2;
                         if (lastIndex$iv$iv$iv == m$iv$iv$iv) {
                             break loop_216;
                         } else {
                         }
                         lastIndex$iv$iv$iv++;
-                        dependencyToDerivedStates = this_$iv2;
-                        value$iv$iv$iv$iv = i8;
-                        obj3 = i;
+                        dependencyToDerivedStates = this_$iv4;
+                        value$iv$iv$iv$iv = i13;
+                        obj3 = i6;
                         i$iv$iv$iv = 0;
-                        hasValues3 = j$iv$iv$iv;
-                        value$iv3 = 8;
-                        scope = slot$iv$iv$iv;
+                        hasValues3 = j$iv$iv$iv5;
+                        value$iv = 8;
+                        scope = slot$iv$iv$iv2;
                         i$iv$iv$iv = 0;
-                        if (Long.compare(i23, i14) < 0) {
+                        if (Long.compare(i23, i3) < 0) {
                         } else {
                         }
                         value$iv$iv$iv$iv = 0;
                         if (value$iv$iv$iv$iv != 0) {
                         } else {
                         }
-                        j$iv$iv$iv = dependencyToDerivedStates;
-                        slot$iv$iv$iv3 >>= obj3;
-                        dependencyToDerivedStates = j$iv$iv$iv + 1;
+                        j$iv$iv$iv5 = dependencyToDerivedStates;
+                        slot$iv$iv$iv >>= obj3;
+                        dependencyToDerivedStates = j$iv$iv$iv5 + 1;
                         i$iv$iv$iv = 0;
-                        j$iv$iv$iv = dependencyToDerivedStates;
-                        j$iv$iv$iv3 = 0;
+                        j$iv$iv$iv5 = dependencyToDerivedStates;
+                        j$iv$iv$iv8 = 0;
                         invalidated.add(element$iv$iv[i24 += dependencyToDerivedStates]);
-                        slot$iv$iv$iv = 1;
-                        value$iv$iv$iv$iv = i85;
+                        slot$iv$iv$iv2 = 1;
+                        value$iv$iv$iv$iv = i84;
                     }
-                    value$iv3 = 8;
-                    scope = slot$iv$iv$iv;
+                    value$iv = 8;
+                    scope = slot$iv$iv$iv2;
                     if (lastIndex$iv$iv$iv != m$iv$iv$iv) {
                     } else {
                     }
                     lastIndex$iv$iv$iv++;
-                    dependencyToDerivedStates = this_$iv2;
-                    value$iv$iv$iv$iv = i8;
-                    obj3 = i;
+                    dependencyToDerivedStates = this_$iv4;
+                    value$iv$iv$iv$iv = i13;
+                    obj3 = i6;
                     i15 = 8;
                     i20 = i19 - 8;
                     dependencyToDerivedStates = 0;
                     while (dependencyToDerivedStates < i20) {
                         i$iv$iv$iv = 0;
-                        if (Long.compare(i23, i14) < 0) {
+                        if (Long.compare(i23, i3) < 0) {
                         } else {
                         }
                         value$iv$iv$iv$iv = 0;
                         if (value$iv$iv$iv$iv != 0) {
                         } else {
                         }
-                        j$iv$iv$iv = dependencyToDerivedStates;
-                        slot$iv$iv$iv3 >>= obj3;
-                        dependencyToDerivedStates = j$iv$iv$iv + 1;
+                        j$iv$iv$iv5 = dependencyToDerivedStates;
+                        slot$iv$iv$iv >>= obj3;
+                        dependencyToDerivedStates = j$iv$iv$iv5 + 1;
                         i$iv$iv$iv = 0;
-                        j$iv$iv$iv = dependencyToDerivedStates;
-                        j$iv$iv$iv3 = 0;
+                        j$iv$iv$iv5 = dependencyToDerivedStates;
+                        j$iv$iv$iv8 = 0;
                         invalidated.add(element$iv$iv[i24 += dependencyToDerivedStates]);
-                        slot$iv$iv$iv = 1;
-                        value$iv$iv$iv$iv = i85;
+                        slot$iv$iv$iv2 = 1;
+                        value$iv$iv$iv$iv = i84;
                     }
-                    j$iv$iv$iv = dependencyToDerivedStates;
+                    j$iv$iv$iv5 = dependencyToDerivedStates;
                     if (i20 == 8) {
                     } else {
                     }
-                    scope = slot$iv$iv$iv;
-                    scope = slot$iv$iv$iv;
+                    scope = slot$iv$iv$iv2;
+                    scope = slot$iv$iv$iv2;
                     i$iv$iv$iv = 0;
-                    if (Long.compare(i23, i14) < 0) {
+                    if (Long.compare(i23, i3) < 0) {
                     } else {
                     }
                     value$iv$iv$iv$iv = 0;
                     if (value$iv$iv$iv$iv != 0) {
                     } else {
                     }
-                    j$iv$iv$iv = dependencyToDerivedStates;
-                    slot$iv$iv$iv3 >>= obj3;
-                    dependencyToDerivedStates = j$iv$iv$iv + 1;
+                    j$iv$iv$iv5 = dependencyToDerivedStates;
+                    slot$iv$iv$iv >>= obj3;
+                    dependencyToDerivedStates = j$iv$iv$iv5 + 1;
                     i$iv$iv$iv = 0;
-                    j$iv$iv$iv = dependencyToDerivedStates;
-                    j$iv$iv$iv3 = 0;
+                    j$iv$iv$iv5 = dependencyToDerivedStates;
+                    j$iv$iv$iv8 = 0;
                     invalidated.add(element$iv$iv[i24 += dependencyToDerivedStates]);
-                    slot$iv$iv$iv = 1;
-                    value$iv$iv$iv$iv = i85;
+                    slot$iv$iv$iv2 = 1;
+                    value$iv$iv$iv$iv = i84;
                     value$iv$iv$iv$iv2 = dependencyToDerivedStates;
                     this_$iv3 = 0;
-                    m$iv$iv$iv = value$iv$iv$iv$iv2.getMap().get(j$iv$iv$iv2);
+                    m$iv$iv$iv = value$iv$iv$iv$iv2.getMap().get(j$iv$iv$iv7);
                     if (m$iv$iv$iv != null) {
                     } else {
                     }
-                    this_$iv2 = scope;
+                    this_$iv4 = scope;
                     this_$iv$iv$iv = dependencyToDerivedStates;
                     k$iv$iv = value$iv$iv$iv$iv;
-                    $this$forEach$iv$iv = valueToScopes;
-                    slot$iv$iv$iv4 = i$iv;
-                    value$iv = j$iv$iv$iv5;
-                    lArr = element$iv$iv;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                    slot$iv$iv$iv6 = i$iv;
+                    value$iv3 = j$iv$iv$iv2;
+                    lArr2 = element$iv$iv;
                     value = elements;
-                    j$iv$iv$iv = value$iv$iv$iv$iv2;
+                    j$iv$iv$iv5 = value$iv$iv$iv$iv2;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
                     if (m$iv$iv$iv instanceof MutableScatterSet != null) {
                     } else {
                     }
-                    this_$iv2 = scope;
+                    this_$iv4 = scope;
                     this_$iv$iv$iv = dependencyToDerivedStates;
-                    $this$forEach$iv$iv = valueToScopes;
-                    slot$iv$iv$iv4 = i$iv;
-                    value$iv = j$iv$iv$iv5;
-                    lArr = element$iv$iv;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                    slot$iv$iv$iv6 = i$iv;
+                    value$iv3 = j$iv$iv$iv2;
+                    lArr2 = element$iv$iv;
                     value = elements;
-                    j$iv$iv$iv = value$iv$iv$iv$iv2;
+                    j$iv$iv$iv5 = value$iv$iv$iv$iv2;
                     i7 = this_$iv3;
-                    Object hasValues5 = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
+                    Object hasValues5 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
                     dependencyToDerivedStates = 0;
                     valueToScopes = value$iv$iv$iv$iv.get((DerivedState)hasValues5);
                     if (hasValues5.getPolicy() == null) {
@@ -647,51 +647,51 @@ public final class SnapshotStateObserver {
                     if (!i$iv.equivalent(hasValues5.getCurrentRecord().getCurrentValue(), valueToScopes)) {
                     } else {
                     }
-                    slot$iv$iv$iv = dependencyToDerivedStates;
+                    slot$iv$iv$iv2 = dependencyToDerivedStates;
                     k$iv$iv = value$iv$iv$iv$iv;
-                    slot$iv$iv$iv6 = valueToScopes;
-                    j$iv$iv$iv3 = i$iv;
+                    slot$iv$iv$iv3 = valueToScopes;
+                    j$iv$iv$iv8 = i$iv;
                     obj7.statesToReread.add(hasValues5);
-                    scope = this_$iv2;
-                    j$iv$iv$iv5 = valueToScopes2;
+                    scope = this_$iv4;
+                    j$iv$iv$iv2 = valueToScopes2;
                     element$iv$iv = 0;
-                    elements = j$iv$iv$iv5.getMap().get(hasValues5);
+                    elements = j$iv$iv$iv2.getMap().get(hasValues5);
                     if (elements != null) {
                     } else {
                     }
-                    slot$iv$iv$iv = dependencyToDerivedStates;
+                    slot$iv$iv$iv2 = dependencyToDerivedStates;
                     k$iv$iv = value$iv$iv$iv$iv;
-                    slot$iv$iv$iv6 = valueToScopes;
-                    j$iv$iv$iv3 = i$iv;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = j$iv$iv$iv5;
+                    slot$iv$iv$iv3 = valueToScopes;
+                    j$iv$iv$iv8 = i$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = j$iv$iv$iv2;
                     obj5 = elements;
                     if (elements instanceof MutableScatterSet != null) {
                     } else {
                     }
-                    slot$iv$iv$iv = dependencyToDerivedStates;
+                    slot$iv$iv$iv2 = dependencyToDerivedStates;
                     k$iv$iv = value$iv$iv$iv$iv;
-                    slot$iv$iv$iv6 = valueToScopes;
-                    j$iv$iv$iv3 = i$iv;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = j$iv$iv$iv5;
+                    slot$iv$iv$iv3 = valueToScopes;
+                    j$iv$iv$iv8 = i$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = j$iv$iv$iv2;
                     value$iv$iv$iv$iv = 0;
                     invalidated.add(elements);
-                    this_$iv2 = valueToScopes;
+                    this_$iv4 = valueToScopes;
                     value$iv$iv$iv$iv2 = elements;
                     this_$iv3 = 0;
                     i$iv$iv$iv = 0;
-                    slot$iv$iv$iv = dependencyToDerivedStates;
-                    long[] metadata = lastIndex$iv$iv$iv.metadata;
+                    slot$iv$iv$iv2 = dependencyToDerivedStates;
+                    long[] $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$12 = lastIndex$iv$iv$iv.metadata;
                     k$iv$iv = value$iv$iv$iv$iv;
                     recordedDerivedStateValues += -2;
                     if (0 <= value$iv$iv$iv$iv) {
                     } else {
                     }
-                    slot$iv$iv$iv6 = valueToScopes;
-                    j$iv$iv$iv3 = i$iv;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = j$iv$iv$iv5;
+                    slot$iv$iv$iv3 = valueToScopes;
+                    j$iv$iv$iv8 = i$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = j$iv$iv$iv2;
                     obj5 = elements;
-                    this_$iv = value$iv$iv$iv$iv2;
-                    i = 0;
+                    this_$iv2 = value$iv$iv$iv$iv2;
+                    i6 = 0;
                     long policy3 = l5;
                     while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv11, l) != 0) {
                         i15 = 8;
@@ -699,25 +699,25 @@ public final class SnapshotStateObserver {
                         i$iv = 0;
                         while (i$iv < elements) {
                             int i48 = 0;
-                            if (Long.compare(i88, i14) < 0) {
+                            if (Long.compare(i87, i3) < 0) {
                             } else {
                             }
-                            j$iv$iv$iv5 = 0;
-                            if (j$iv$iv$iv5 != 0) {
+                            j$iv$iv$iv2 = 0;
+                            if (j$iv$iv$iv2 != 0) {
                             } else {
                             }
-                            slot$iv$iv$iv6 = valueToScopes;
-                            slot$iv$iv$iv3 >>= previousValue2;
+                            slot$iv$iv$iv3 = valueToScopes;
+                            slot$iv$iv$iv >>= previousValue2;
                             i$iv++;
-                            valueToScopes = slot$iv$iv$iv6;
-                            i = 0;
-                            slot$iv$iv$iv6 = valueToScopes;
+                            valueToScopes = slot$iv$iv$iv3;
+                            i6 = 0;
+                            slot$iv$iv$iv3 = valueToScopes;
                             previousValue = 0;
                             invalidated.add(value$iv$iv$iv$iv2.elements[i49 += i$iv]);
-                            this_$iv2 = 1;
-                            j$iv$iv$iv5 = i85;
+                            this_$iv4 = 1;
+                            j$iv$iv$iv2 = i84;
                         }
-                        slot$iv$iv$iv6 = valueToScopes;
+                        slot$iv$iv$iv3 = valueToScopes;
                         if (elements == 8) {
                             break loop_187;
                         }
@@ -726,112 +726,112 @@ public final class SnapshotStateObserver {
                         } else {
                         }
                         dependencyToDerivedStates++;
-                        i$iv = j$iv$iv$iv3;
-                        j$iv$iv$iv5 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                        i$iv = j$iv$iv$iv8;
+                        j$iv$iv$iv2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
                         elements = obj5;
-                        value$iv$iv$iv$iv2 = this_$iv;
-                        valueToScopes = slot$iv$iv$iv6;
-                        i = 0;
+                        value$iv$iv$iv$iv2 = this_$iv2;
+                        valueToScopes = slot$iv$iv$iv3;
+                        i6 = 0;
                         policy3 = l5;
-                        slot$iv$iv$iv6 = valueToScopes;
+                        slot$iv$iv$iv3 = valueToScopes;
                         i48 = 0;
-                        if (Long.compare(i88, i14) < 0) {
+                        if (Long.compare(i87, i3) < 0) {
                         } else {
                         }
-                        j$iv$iv$iv5 = 0;
-                        if (j$iv$iv$iv5 != 0) {
+                        j$iv$iv$iv2 = 0;
+                        if (j$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        slot$iv$iv$iv6 = valueToScopes;
-                        slot$iv$iv$iv3 >>= previousValue2;
+                        slot$iv$iv$iv3 = valueToScopes;
+                        slot$iv$iv$iv >>= previousValue2;
                         i$iv++;
-                        valueToScopes = slot$iv$iv$iv6;
-                        i = 0;
-                        slot$iv$iv$iv6 = valueToScopes;
+                        valueToScopes = slot$iv$iv$iv3;
+                        i6 = 0;
+                        slot$iv$iv$iv3 = valueToScopes;
                         previousValue = 0;
                         invalidated.add(m$iv$iv$iv[i49 += i$iv]);
-                        this_$iv2 = 1;
-                        j$iv$iv$iv5 = i85;
+                        this_$iv4 = 1;
+                        j$iv$iv$iv2 = i84;
                     }
-                    slot$iv$iv$iv6 = valueToScopes;
+                    slot$iv$iv$iv3 = valueToScopes;
                     if (dependencyToDerivedStates != value$iv$iv$iv$iv) {
                     } else {
                     }
                     dependencyToDerivedStates++;
-                    i$iv = j$iv$iv$iv3;
-                    j$iv$iv$iv5 = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                    i$iv = j$iv$iv$iv8;
+                    j$iv$iv$iv2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv4;
                     elements = obj5;
-                    value$iv$iv$iv$iv2 = this_$iv;
-                    valueToScopes = slot$iv$iv$iv6;
+                    value$iv$iv$iv$iv2 = this_$iv2;
+                    valueToScopes = slot$iv$iv$iv3;
                     i15 = 8;
                     elements = i39 - 8;
                     i$iv = 0;
                     while (i$iv < elements) {
                         i48 = 0;
-                        if (Long.compare(i88, i14) < 0) {
+                        if (Long.compare(i87, i3) < 0) {
                         } else {
                         }
-                        j$iv$iv$iv5 = 0;
-                        if (j$iv$iv$iv5 != 0) {
+                        j$iv$iv$iv2 = 0;
+                        if (j$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        slot$iv$iv$iv6 = valueToScopes;
-                        slot$iv$iv$iv3 >>= previousValue2;
+                        slot$iv$iv$iv3 = valueToScopes;
+                        slot$iv$iv$iv >>= previousValue2;
                         i$iv++;
-                        valueToScopes = slot$iv$iv$iv6;
-                        i = 0;
-                        slot$iv$iv$iv6 = valueToScopes;
+                        valueToScopes = slot$iv$iv$iv3;
+                        i6 = 0;
+                        slot$iv$iv$iv3 = valueToScopes;
                         previousValue = 0;
                         invalidated.add(m$iv$iv$iv[i49 += i$iv]);
-                        this_$iv2 = 1;
-                        j$iv$iv$iv5 = i85;
+                        this_$iv4 = 1;
+                        j$iv$iv$iv2 = i84;
                     }
-                    slot$iv$iv$iv6 = valueToScopes;
+                    slot$iv$iv$iv3 = valueToScopes;
                     if (elements == 8) {
                     }
                     i48 = 0;
-                    if (Long.compare(i88, i14) < 0) {
+                    if (Long.compare(i87, i3) < 0) {
                     } else {
                     }
-                    j$iv$iv$iv5 = 0;
-                    if (j$iv$iv$iv5 != 0) {
+                    j$iv$iv$iv2 = 0;
+                    if (j$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    slot$iv$iv$iv6 = valueToScopes;
-                    slot$iv$iv$iv3 >>= previousValue2;
+                    slot$iv$iv$iv3 = valueToScopes;
+                    slot$iv$iv$iv >>= previousValue2;
                     i$iv++;
-                    valueToScopes = slot$iv$iv$iv6;
-                    i = 0;
-                    slot$iv$iv$iv6 = valueToScopes;
+                    valueToScopes = slot$iv$iv$iv3;
+                    i6 = 0;
+                    slot$iv$iv$iv3 = valueToScopes;
                     previousValue = 0;
                     invalidated.add(m$iv$iv$iv[i49 += i$iv]);
-                    this_$iv2 = 1;
-                    j$iv$iv$iv5 = i85;
+                    this_$iv4 = 1;
+                    j$iv$iv$iv2 = i84;
                     i$iv = SnapshotStateKt.structuralEqualityPolicy();
                     lastIndex$iv$iv$iv = m$iv$iv$iv;
                     i$iv$iv$iv = 0;
-                    this_$iv2 = scope;
-                    slot$iv$iv$iv = 0;
-                    Object k$iv$iv2 = obj15;
+                    this_$iv4 = scope;
+                    slot$iv$iv$iv2 = 0;
+                    Object k$iv$iv2 = obj14;
                     this_$iv$iv$iv = dependencyToDerivedStates;
                     long[] dependencyToDerivedStates2 = k$iv$iv2.metadata;
-                    i8 = k$iv$iv2;
+                    i13 = k$iv$iv2;
                     this_$iv$iv$iv2 += -2;
                     if (0 <= i21) {
                     } else {
                     }
-                    $this$forEach$iv$iv = valueToScopes;
-                    slot$iv$iv$iv4 = i$iv;
-                    value$iv = j$iv$iv$iv5;
-                    lArr = element$iv$iv;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                    slot$iv$iv$iv6 = i$iv;
+                    value$iv3 = j$iv$iv$iv2;
+                    lArr2 = element$iv$iv;
                     value = elements;
-                    j$iv$iv$iv = value$iv$iv$iv$iv2;
+                    j$iv$iv$iv5 = value$iv$iv$iv$iv2;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                    obj = lastIndex$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                    obj6 = lastIndex$iv$iv$iv;
                     k$iv$iv = value$iv$iv$iv$iv;
-                    scope = this_$iv2;
-                    j$iv$iv$iv3 = 0;
+                    scope = this_$iv4;
+                    j$iv$iv$iv8 = 0;
                     long $i$f$forEach = l3;
                     while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv10, l) != 0) {
                         i15 = 8;
@@ -839,218 +839,218 @@ public final class SnapshotStateObserver {
                         i$iv = 0;
                         while (i$iv < elements) {
                             int i45 = 0;
-                            if (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv3, i14) < 0) {
+                            if (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv4, i3) < 0) {
                             } else {
                             }
-                            j$iv$iv$iv5 = 0;
-                            if (j$iv$iv$iv5 != 0) {
+                            j$iv$iv$iv2 = 0;
+                            if (j$iv$iv$iv2 != 0) {
                             } else {
                             }
-                            $this$forEach$iv$iv = valueToScopes;
+                            $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
                             obj5 = i$iv;
-                            lArr = element$iv$iv;
+                            lArr2 = element$iv$iv;
                             i7 = this_$iv3;
-                            $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                            obj = lastIndex$iv$iv$iv;
+                            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                            obj6 = lastIndex$iv$iv$iv;
                             hasValues >>= element$iv$iv2;
                             i$iv = obj5 + 1;
-                            valueToScopes = $this$forEach$iv$iv;
-                            element$iv$iv = lArr;
-                            m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                            lastIndex$iv$iv$iv = obj;
+                            valueToScopes = $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1;
+                            element$iv$iv = lArr2;
+                            m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                            lastIndex$iv$iv$iv = obj6;
                             this_$iv3 = i7;
                             i46 += i$iv;
                             value$iv$iv$iv$iv2 = i47;
-                            j$iv$iv$iv3 = 0;
-                            $this$forEach$iv$iv = valueToScopes;
-                            valueToScopes = obj17;
-                            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = 0;
+                            j$iv$iv$iv8 = 0;
+                            $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                            valueToScopes = obj16;
+                            $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = 0;
                             obj5 = i$iv;
                             Intrinsics.checkNotNull((DerivedState)valueToScopes, "null cannot be cast to non-null type androidx.compose.runtime.DerivedState<kotlin.Any?>");
-                            Object obj11 = value$iv$iv$iv$iv.get(valueToScopes);
+                            Object obj10 = value$iv$iv$iv$iv.get(valueToScopes);
                             if (valueToScopes.getPolicy() == null) {
                             }
-                            slot$iv$iv$iv6 = i47;
-                            lArr = element$iv$iv;
-                            element$iv$iv = this_$iv;
-                            if (!element$iv$iv.equivalent(valueToScopes.getCurrentRecord().getCurrentValue(), obj11)) {
+                            slot$iv$iv$iv3 = i47;
+                            lArr2 = element$iv$iv;
+                            element$iv$iv = this_$iv2;
+                            if (!element$iv$iv.equivalent(valueToScopes.getCurrentRecord().getCurrentValue(), obj10)) {
                             } else {
                             }
-                            previousValue = obj11;
-                            policy = element$iv$iv;
-                            obj6 = value$iv$iv$iv$iv2;
+                            previousValue = obj10;
+                            policy2 = element$iv$iv;
+                            obj2 = value$iv$iv$iv$iv2;
                             i7 = this_$iv3;
-                            $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                            obj = lastIndex$iv$iv$iv;
+                            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                            obj6 = lastIndex$iv$iv$iv;
                             obj7.statesToReread.add(valueToScopes);
-                            j$iv$iv$iv5 = valueToScopes2;
-                            this_$iv = 0;
-                            previousValue = obj11;
-                            i$iv = j$iv$iv$iv5.getMap().get(valueToScopes);
+                            j$iv$iv$iv2 = valueToScopes2;
+                            this_$iv2 = 0;
+                            previousValue = obj10;
+                            i$iv = j$iv$iv$iv2.getMap().get(valueToScopes);
                             if (i$iv != null) {
                             } else {
                             }
-                            policy2 = i$iv;
-                            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv5;
-                            policy = element$iv$iv;
-                            obj6 = value$iv$iv$iv$iv2;
+                            policy = i$iv;
+                            $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv2;
+                            policy2 = element$iv$iv;
+                            obj2 = value$iv$iv$iv$iv2;
                             i7 = this_$iv3;
-                            $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                            obj = lastIndex$iv$iv$iv;
-                            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv5;
+                            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                            obj6 = lastIndex$iv$iv$iv;
+                            $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv2;
                             if (i$iv instanceof MutableScatterSet != null) {
                             } else {
                             }
-                            policy2 = i$iv;
-                            policy = element$iv$iv;
-                            obj6 = value$iv$iv$iv$iv2;
+                            policy = i$iv;
+                            policy2 = element$iv$iv;
+                            obj2 = value$iv$iv$iv$iv2;
                             i7 = this_$iv3;
-                            $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                            obj = lastIndex$iv$iv$iv;
-                            j$iv$iv$iv5 = 0;
+                            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                            obj6 = lastIndex$iv$iv$iv;
+                            j$iv$iv$iv2 = 0;
                             invalidated.add(i$iv);
-                            this_$iv2 = element$iv$iv;
-                            Object obj12 = i$iv;
-                            i16 = 0;
-                            policy2 = i$iv;
+                            this_$iv4 = element$iv$iv;
+                            Object obj11 = i$iv;
+                            i5 = 0;
+                            policy = i$iv;
                             index$iv$iv$iv = 0;
                             Object k$iv$iv4 = obj4;
                             long[] this_$iv$iv2 = k$iv$iv4.metadata;
-                            j$iv$iv$iv7 = k$iv$iv4;
+                            j$iv$iv$iv = k$iv$iv4;
                             this_$iv$iv$iv5 += -2;
                             if (0 <= i$iv) {
                             } else {
                             }
-                            policy = element$iv$iv;
-                            obj6 = value$iv$iv$iv$iv2;
+                            policy2 = element$iv$iv;
+                            obj2 = value$iv$iv$iv$iv2;
                             i7 = this_$iv3;
-                            $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                            obj = lastIndex$iv$iv$iv;
-                            map2 = 0;
+                            $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                            obj6 = lastIndex$iv$iv$iv;
+                            map = 0;
                             long index$iv$iv2 = l8;
                             while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv14, l) != 0) {
                                 i15 = 8;
-                                value$iv$iv$iv$iv2 = i77 - 8;
+                                value$iv$iv$iv$iv2 = i76 - 8;
                                 this_$iv3 = 0;
                                 while (this_$iv3 < value$iv$iv$iv$iv2) {
-                                    map2 = 0;
-                                    if (Long.compare(i82, i14) < 0) {
+                                    map = 0;
+                                    if (Long.compare(i81, i3) < 0) {
                                     } else {
                                     }
                                     m$iv$iv$iv = 0;
                                     if (m$iv$iv$iv != 0) {
                                     } else {
                                     }
-                                    policy = element$iv$iv;
-                                    slot$iv$iv$iv2 >>= policy5;
+                                    policy2 = element$iv$iv;
+                                    slot$iv$iv$iv4 >>= policy5;
                                     this_$iv3++;
-                                    element$iv$iv = policy;
-                                    map2 = 0;
-                                    policy = element$iv$iv;
-                                    i12 = 0;
-                                    invalidated.add(obj12.elements[i83 += this_$iv3]);
-                                    this_$iv2 = 1;
-                                    m$iv$iv$iv = i85;
+                                    element$iv$iv = policy2;
+                                    map = 0;
+                                    policy2 = element$iv$iv;
+                                    i11 = 0;
+                                    invalidated.add(obj11.elements[i82 += this_$iv3]);
+                                    this_$iv4 = 1;
+                                    m$iv$iv$iv = i84;
                                 }
-                                policy = element$iv$iv;
+                                policy2 = element$iv$iv;
                                 if (value$iv$iv$iv$iv2 == 8) {
                                     break loop_148;
                                 }
-                                if (j$iv$iv$iv5 == i$iv) {
+                                if (j$iv$iv$iv2 == i$iv) {
                                     break loop_148;
                                 } else {
                                 }
-                                j$iv$iv$iv5++;
-                                m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                                lastIndex$iv$iv$iv = obj;
+                                j$iv$iv$iv2++;
+                                m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                                lastIndex$iv$iv$iv = obj6;
                                 this_$iv3 = i7;
-                                value$iv$iv$iv$iv2 = obj6;
-                                element$iv$iv = policy;
-                                map2 = 0;
+                                value$iv$iv$iv$iv2 = obj2;
+                                element$iv$iv = policy2;
+                                map = 0;
                                 index$iv$iv2 = l8;
-                                policy = element$iv$iv;
-                                map2 = 0;
-                                if (Long.compare(i82, i14) < 0) {
+                                policy2 = element$iv$iv;
+                                map = 0;
+                                if (Long.compare(i81, i3) < 0) {
                                 } else {
                                 }
                                 m$iv$iv$iv = 0;
                                 if (m$iv$iv$iv != 0) {
                                 } else {
                                 }
-                                policy = element$iv$iv;
-                                slot$iv$iv$iv2 >>= policy5;
+                                policy2 = element$iv$iv;
+                                slot$iv$iv$iv4 >>= policy5;
                                 this_$iv3++;
-                                element$iv$iv = policy;
-                                map2 = 0;
-                                policy = element$iv$iv;
-                                i12 = 0;
-                                invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                                this_$iv2 = 1;
-                                m$iv$iv$iv = i85;
+                                element$iv$iv = policy2;
+                                map = 0;
+                                policy2 = element$iv$iv;
+                                i11 = 0;
+                                invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                                this_$iv4 = 1;
+                                m$iv$iv$iv = i84;
                             }
-                            policy = element$iv$iv;
-                            if (j$iv$iv$iv5 != i$iv) {
+                            policy2 = element$iv$iv;
+                            if (j$iv$iv$iv2 != i$iv) {
                             } else {
                             }
-                            j$iv$iv$iv5++;
-                            m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                            lastIndex$iv$iv$iv = obj;
+                            j$iv$iv$iv2++;
+                            m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                            lastIndex$iv$iv$iv = obj6;
                             this_$iv3 = i7;
-                            value$iv$iv$iv$iv2 = obj6;
-                            element$iv$iv = policy;
+                            value$iv$iv$iv$iv2 = obj2;
+                            element$iv$iv = policy2;
                             i15 = 8;
-                            value$iv$iv$iv$iv2 = i77 - 8;
+                            value$iv$iv$iv$iv2 = i76 - 8;
                             this_$iv3 = 0;
                             while (this_$iv3 < value$iv$iv$iv$iv2) {
-                                map2 = 0;
-                                if (Long.compare(i82, i14) < 0) {
+                                map = 0;
+                                if (Long.compare(i81, i3) < 0) {
                                 } else {
                                 }
                                 m$iv$iv$iv = 0;
                                 if (m$iv$iv$iv != 0) {
                                 } else {
                                 }
-                                policy = element$iv$iv;
-                                slot$iv$iv$iv2 >>= policy5;
+                                policy2 = element$iv$iv;
+                                slot$iv$iv$iv4 >>= policy5;
                                 this_$iv3++;
-                                element$iv$iv = policy;
-                                map2 = 0;
-                                policy = element$iv$iv;
-                                i12 = 0;
-                                invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                                this_$iv2 = 1;
-                                m$iv$iv$iv = i85;
+                                element$iv$iv = policy2;
+                                map = 0;
+                                policy2 = element$iv$iv;
+                                i11 = 0;
+                                invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                                this_$iv4 = 1;
+                                m$iv$iv$iv = i84;
                             }
-                            policy = element$iv$iv;
+                            policy2 = element$iv$iv;
                             if (value$iv$iv$iv$iv2 == 8) {
                             }
-                            map2 = 0;
-                            if (Long.compare(i82, i14) < 0) {
+                            map = 0;
+                            if (Long.compare(i81, i3) < 0) {
                             } else {
                             }
                             m$iv$iv$iv = 0;
                             if (m$iv$iv$iv != 0) {
                             } else {
                             }
-                            policy = element$iv$iv;
-                            slot$iv$iv$iv2 >>= policy5;
+                            policy2 = element$iv$iv;
+                            slot$iv$iv$iv4 >>= policy5;
                             this_$iv3++;
-                            element$iv$iv = policy;
-                            map2 = 0;
-                            policy = element$iv$iv;
-                            i12 = 0;
-                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                            this_$iv2 = 1;
-                            m$iv$iv$iv = i85;
+                            element$iv$iv = policy2;
+                            map = 0;
+                            policy2 = element$iv$iv;
+                            i11 = 0;
+                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                            this_$iv4 = 1;
+                            m$iv$iv$iv = i84;
                             structuralEqualityPolicy2 = SnapshotStateKt.structuralEqualityPolicy();
-                            j$iv$iv$iv5 = i85;
+                            j$iv$iv$iv2 = i84;
                         }
-                        $this$forEach$iv$iv = valueToScopes;
+                        $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
                         obj5 = i$iv;
-                        lArr = element$iv$iv;
+                        lArr2 = element$iv$iv;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
                         if (elements == 8) {
                             break loop_135;
                         }
@@ -1060,689 +1060,689 @@ public final class SnapshotStateObserver {
                         }
                         dependencyToDerivedStates++;
                         elements = value;
-                        value$iv$iv$iv$iv2 = j$iv$iv$iv;
-                        i$iv = slot$iv$iv$iv4;
-                        j$iv$iv$iv5 = value$iv;
-                        valueToScopes = $this$forEach$iv$iv;
-                        element$iv$iv = lArr;
-                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                        lastIndex$iv$iv$iv = obj;
+                        value$iv$iv$iv$iv2 = j$iv$iv$iv5;
+                        i$iv = slot$iv$iv$iv6;
+                        j$iv$iv$iv2 = value$iv3;
+                        valueToScopes = $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1;
+                        element$iv$iv = lArr2;
+                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                        lastIndex$iv$iv$iv = obj6;
                         this_$iv3 = i7;
-                        j$iv$iv$iv3 = 0;
+                        j$iv$iv$iv8 = 0;
                         $i$f$forEach = l3;
-                        $this$forEach$iv$iv = valueToScopes;
-                        lArr = element$iv$iv;
+                        $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                        lArr2 = element$iv$iv;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
                         i45 = 0;
-                        if (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv3, i14) < 0) {
+                        if (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv4, i3) < 0) {
                         } else {
                         }
-                        j$iv$iv$iv5 = 0;
-                        if (j$iv$iv$iv5 != 0) {
+                        j$iv$iv$iv2 = 0;
+                        if (j$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        $this$forEach$iv$iv = valueToScopes;
+                        $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
                         obj5 = i$iv;
-                        lArr = element$iv$iv;
+                        lArr2 = element$iv$iv;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
                         hasValues >>= element$iv$iv2;
                         i$iv = obj5 + 1;
-                        valueToScopes = $this$forEach$iv$iv;
-                        element$iv$iv = lArr;
-                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                        lastIndex$iv$iv$iv = obj;
+                        valueToScopes = $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1;
+                        element$iv$iv = lArr2;
+                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                        lastIndex$iv$iv$iv = obj6;
                         this_$iv3 = i7;
                         i46 += i$iv;
                         value$iv$iv$iv$iv2 = i47;
-                        j$iv$iv$iv3 = 0;
-                        $this$forEach$iv$iv = valueToScopes;
-                        valueToScopes = obj17;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = 0;
+                        j$iv$iv$iv8 = 0;
+                        $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                        valueToScopes = obj16;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = 0;
                         obj5 = i$iv;
-                        Intrinsics.checkNotNull((DerivedState)valueToScopes, $this$maskEmptyOrDeleted$iv$iv$iv$iv5);
-                        obj11 = value$iv$iv$iv$iv.get(valueToScopes);
+                        Intrinsics.checkNotNull((DerivedState)valueToScopes, $this$maskEmptyOrDeleted$iv$iv$iv$iv2);
+                        obj10 = value$iv$iv$iv$iv.get(valueToScopes);
                         if (valueToScopes.getPolicy() == null) {
                         }
-                        slot$iv$iv$iv6 = i47;
-                        lArr = element$iv$iv;
-                        element$iv$iv = this_$iv;
-                        if (!element$iv$iv.equivalent(valueToScopes.getCurrentRecord().getCurrentValue(), obj11)) {
+                        slot$iv$iv$iv3 = i47;
+                        lArr2 = element$iv$iv;
+                        element$iv$iv = this_$iv2;
+                        if (!element$iv$iv.equivalent(valueToScopes.getCurrentRecord().getCurrentValue(), obj10)) {
                         } else {
                         }
-                        previousValue = obj11;
-                        policy = element$iv$iv;
-                        obj6 = value$iv$iv$iv$iv2;
+                        previousValue = obj10;
+                        policy2 = element$iv$iv;
+                        obj2 = value$iv$iv$iv$iv2;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
                         obj7.statesToReread.add(valueToScopes);
-                        j$iv$iv$iv5 = valueToScopes2;
-                        this_$iv = 0;
-                        previousValue = obj11;
-                        i$iv = j$iv$iv$iv5.getMap().get(valueToScopes);
+                        j$iv$iv$iv2 = valueToScopes2;
+                        this_$iv2 = 0;
+                        previousValue = obj10;
+                        i$iv = j$iv$iv$iv2.getMap().get(valueToScopes);
                         if (i$iv != null) {
                         } else {
                         }
-                        policy2 = i$iv;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv5;
-                        policy = element$iv$iv;
-                        obj6 = value$iv$iv$iv$iv2;
+                        policy = i$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv2;
+                        policy2 = element$iv$iv;
+                        obj2 = value$iv$iv$iv$iv2;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv5;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv2;
                         if (i$iv instanceof MutableScatterSet != null) {
                         } else {
                         }
-                        policy2 = i$iv;
-                        policy = element$iv$iv;
-                        obj6 = value$iv$iv$iv$iv2;
+                        policy = i$iv;
+                        policy2 = element$iv$iv;
+                        obj2 = value$iv$iv$iv$iv2;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
-                        j$iv$iv$iv5 = 0;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
+                        j$iv$iv$iv2 = 0;
                         invalidated.add(i$iv);
-                        this_$iv2 = element$iv$iv;
-                        obj12 = i$iv;
-                        i16 = 0;
-                        policy2 = i$iv;
+                        this_$iv4 = element$iv$iv;
+                        obj11 = i$iv;
+                        i5 = 0;
+                        policy = i$iv;
                         index$iv$iv$iv = 0;
                         k$iv$iv4 = obj4;
                         this_$iv$iv2 = k$iv$iv4.metadata;
-                        j$iv$iv$iv7 = k$iv$iv4;
+                        j$iv$iv$iv = k$iv$iv4;
                         this_$iv$iv$iv5 += -2;
                         if (0 <= i$iv) {
                         } else {
                         }
-                        policy = element$iv$iv;
-                        obj6 = value$iv$iv$iv$iv2;
+                        policy2 = element$iv$iv;
+                        obj2 = value$iv$iv$iv$iv2;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
-                        map2 = 0;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
+                        map = 0;
                         index$iv$iv2 = l8;
                         while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv14, l) != 0) {
                             i15 = 8;
-                            value$iv$iv$iv$iv2 = i77 - 8;
+                            value$iv$iv$iv$iv2 = i76 - 8;
                             this_$iv3 = 0;
                             while (this_$iv3 < value$iv$iv$iv$iv2) {
-                                map2 = 0;
-                                if (Long.compare(i82, i14) < 0) {
+                                map = 0;
+                                if (Long.compare(i81, i3) < 0) {
                                 } else {
                                 }
                                 m$iv$iv$iv = 0;
                                 if (m$iv$iv$iv != 0) {
                                 } else {
                                 }
-                                policy = element$iv$iv;
-                                slot$iv$iv$iv2 >>= policy5;
+                                policy2 = element$iv$iv;
+                                slot$iv$iv$iv4 >>= policy5;
                                 this_$iv3++;
-                                element$iv$iv = policy;
-                                map2 = 0;
-                                policy = element$iv$iv;
-                                i12 = 0;
-                                invalidated.add(obj12.elements[i83 += this_$iv3]);
-                                this_$iv2 = 1;
-                                m$iv$iv$iv = i85;
+                                element$iv$iv = policy2;
+                                map = 0;
+                                policy2 = element$iv$iv;
+                                i11 = 0;
+                                invalidated.add(obj11.elements[i82 += this_$iv3]);
+                                this_$iv4 = 1;
+                                m$iv$iv$iv = i84;
                             }
-                            policy = element$iv$iv;
+                            policy2 = element$iv$iv;
                             if (value$iv$iv$iv$iv2 == 8) {
                                 break loop_148;
                             }
-                            if (j$iv$iv$iv5 == i$iv) {
+                            if (j$iv$iv$iv2 == i$iv) {
                                 break loop_148;
                             } else {
                             }
-                            j$iv$iv$iv5++;
-                            m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                            lastIndex$iv$iv$iv = obj;
+                            j$iv$iv$iv2++;
+                            m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                            lastIndex$iv$iv$iv = obj6;
                             this_$iv3 = i7;
-                            value$iv$iv$iv$iv2 = obj6;
-                            element$iv$iv = policy;
-                            map2 = 0;
+                            value$iv$iv$iv$iv2 = obj2;
+                            element$iv$iv = policy2;
+                            map = 0;
                             index$iv$iv2 = l8;
-                            policy = element$iv$iv;
-                            map2 = 0;
-                            if (Long.compare(i82, i14) < 0) {
+                            policy2 = element$iv$iv;
+                            map = 0;
+                            if (Long.compare(i81, i3) < 0) {
                             } else {
                             }
                             m$iv$iv$iv = 0;
                             if (m$iv$iv$iv != 0) {
                             } else {
                             }
-                            policy = element$iv$iv;
-                            slot$iv$iv$iv2 >>= policy5;
+                            policy2 = element$iv$iv;
+                            slot$iv$iv$iv4 >>= policy5;
                             this_$iv3++;
-                            element$iv$iv = policy;
-                            map2 = 0;
-                            policy = element$iv$iv;
-                            i12 = 0;
-                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                            this_$iv2 = 1;
-                            m$iv$iv$iv = i85;
+                            element$iv$iv = policy2;
+                            map = 0;
+                            policy2 = element$iv$iv;
+                            i11 = 0;
+                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                            this_$iv4 = 1;
+                            m$iv$iv$iv = i84;
                         }
-                        policy = element$iv$iv;
-                        if (j$iv$iv$iv5 != i$iv) {
+                        policy2 = element$iv$iv;
+                        if (j$iv$iv$iv2 != i$iv) {
                         } else {
                         }
-                        j$iv$iv$iv5++;
-                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                        lastIndex$iv$iv$iv = obj;
+                        j$iv$iv$iv2++;
+                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                        lastIndex$iv$iv$iv = obj6;
                         this_$iv3 = i7;
-                        value$iv$iv$iv$iv2 = obj6;
-                        element$iv$iv = policy;
+                        value$iv$iv$iv$iv2 = obj2;
+                        element$iv$iv = policy2;
                         i15 = 8;
-                        value$iv$iv$iv$iv2 = i77 - 8;
+                        value$iv$iv$iv$iv2 = i76 - 8;
                         this_$iv3 = 0;
                         while (this_$iv3 < value$iv$iv$iv$iv2) {
-                            map2 = 0;
-                            if (Long.compare(i82, i14) < 0) {
+                            map = 0;
+                            if (Long.compare(i81, i3) < 0) {
                             } else {
                             }
                             m$iv$iv$iv = 0;
                             if (m$iv$iv$iv != 0) {
                             } else {
                             }
-                            policy = element$iv$iv;
-                            slot$iv$iv$iv2 >>= policy5;
+                            policy2 = element$iv$iv;
+                            slot$iv$iv$iv4 >>= policy5;
                             this_$iv3++;
-                            element$iv$iv = policy;
-                            map2 = 0;
-                            policy = element$iv$iv;
-                            i12 = 0;
-                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                            this_$iv2 = 1;
-                            m$iv$iv$iv = i85;
+                            element$iv$iv = policy2;
+                            map = 0;
+                            policy2 = element$iv$iv;
+                            i11 = 0;
+                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                            this_$iv4 = 1;
+                            m$iv$iv$iv = i84;
                         }
-                        policy = element$iv$iv;
+                        policy2 = element$iv$iv;
                         if (value$iv$iv$iv$iv2 == 8) {
                         }
-                        map2 = 0;
-                        if (Long.compare(i82, i14) < 0) {
+                        map = 0;
+                        if (Long.compare(i81, i3) < 0) {
                         } else {
                         }
                         m$iv$iv$iv = 0;
                         if (m$iv$iv$iv != 0) {
                         } else {
                         }
-                        policy = element$iv$iv;
-                        slot$iv$iv$iv2 >>= policy5;
+                        policy2 = element$iv$iv;
+                        slot$iv$iv$iv4 >>= policy5;
                         this_$iv3++;
-                        element$iv$iv = policy;
-                        map2 = 0;
-                        policy = element$iv$iv;
-                        i12 = 0;
-                        invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                        this_$iv2 = 1;
-                        m$iv$iv$iv = i85;
+                        element$iv$iv = policy2;
+                        map = 0;
+                        policy2 = element$iv$iv;
+                        i11 = 0;
+                        invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                        this_$iv4 = 1;
+                        m$iv$iv$iv = i84;
                         structuralEqualityPolicy2 = SnapshotStateKt.structuralEqualityPolicy();
-                        j$iv$iv$iv5 = i85;
+                        j$iv$iv$iv2 = i84;
                     }
-                    $this$forEach$iv$iv = valueToScopes;
-                    lArr = element$iv$iv;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                    lArr2 = element$iv$iv;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                    obj = lastIndex$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                    obj6 = lastIndex$iv$iv$iv;
                     if (dependencyToDerivedStates != i21) {
                     } else {
                     }
                     dependencyToDerivedStates++;
                     elements = value;
-                    value$iv$iv$iv$iv2 = j$iv$iv$iv;
-                    i$iv = slot$iv$iv$iv4;
-                    j$iv$iv$iv5 = value$iv;
-                    valueToScopes = $this$forEach$iv$iv;
-                    element$iv$iv = lArr;
-                    m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                    lastIndex$iv$iv$iv = obj;
+                    value$iv$iv$iv$iv2 = j$iv$iv$iv5;
+                    i$iv = slot$iv$iv$iv6;
+                    j$iv$iv$iv2 = value$iv3;
+                    valueToScopes = $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1;
+                    element$iv$iv = lArr2;
+                    m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                    lastIndex$iv$iv$iv = obj6;
                     this_$iv3 = i7;
                     i15 = 8;
                     elements = i36 - 8;
                     i$iv = 0;
                     while (i$iv < elements) {
                         i45 = 0;
-                        if (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv3, i14) < 0) {
+                        if (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv4, i3) < 0) {
                         } else {
                         }
-                        j$iv$iv$iv5 = 0;
-                        if (j$iv$iv$iv5 != 0) {
+                        j$iv$iv$iv2 = 0;
+                        if (j$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        $this$forEach$iv$iv = valueToScopes;
+                        $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
                         obj5 = i$iv;
-                        lArr = element$iv$iv;
+                        lArr2 = element$iv$iv;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
                         hasValues >>= element$iv$iv2;
                         i$iv = obj5 + 1;
-                        valueToScopes = $this$forEach$iv$iv;
-                        element$iv$iv = lArr;
-                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                        lastIndex$iv$iv$iv = obj;
+                        valueToScopes = $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1;
+                        element$iv$iv = lArr2;
+                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                        lastIndex$iv$iv$iv = obj6;
                         this_$iv3 = i7;
                         i46 += i$iv;
                         value$iv$iv$iv$iv2 = i47;
-                        j$iv$iv$iv3 = 0;
-                        $this$forEach$iv$iv = valueToScopes;
-                        valueToScopes = obj17;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = 0;
+                        j$iv$iv$iv8 = 0;
+                        $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                        valueToScopes = obj16;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = 0;
                         obj5 = i$iv;
-                        Intrinsics.checkNotNull((DerivedState)valueToScopes, $this$maskEmptyOrDeleted$iv$iv$iv$iv5);
-                        obj11 = value$iv$iv$iv$iv.get(valueToScopes);
+                        Intrinsics.checkNotNull((DerivedState)valueToScopes, $this$maskEmptyOrDeleted$iv$iv$iv$iv2);
+                        obj10 = value$iv$iv$iv$iv.get(valueToScopes);
                         if (valueToScopes.getPolicy() == null) {
                         }
-                        slot$iv$iv$iv6 = i47;
-                        lArr = element$iv$iv;
-                        element$iv$iv = this_$iv;
-                        if (!element$iv$iv.equivalent(valueToScopes.getCurrentRecord().getCurrentValue(), obj11)) {
+                        slot$iv$iv$iv3 = i47;
+                        lArr2 = element$iv$iv;
+                        element$iv$iv = this_$iv2;
+                        if (!element$iv$iv.equivalent(valueToScopes.getCurrentRecord().getCurrentValue(), obj10)) {
                         } else {
                         }
-                        previousValue = obj11;
-                        policy = element$iv$iv;
-                        obj6 = value$iv$iv$iv$iv2;
+                        previousValue = obj10;
+                        policy2 = element$iv$iv;
+                        obj2 = value$iv$iv$iv$iv2;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
                         obj7.statesToReread.add(valueToScopes);
-                        j$iv$iv$iv5 = valueToScopes2;
-                        this_$iv = 0;
-                        previousValue = obj11;
-                        i$iv = j$iv$iv$iv5.getMap().get(valueToScopes);
+                        j$iv$iv$iv2 = valueToScopes2;
+                        this_$iv2 = 0;
+                        previousValue = obj10;
+                        i$iv = j$iv$iv$iv2.getMap().get(valueToScopes);
                         if (i$iv != null) {
                         } else {
                         }
-                        policy2 = i$iv;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv5;
-                        policy = element$iv$iv;
-                        obj6 = value$iv$iv$iv$iv2;
+                        policy = i$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv2;
+                        policy2 = element$iv$iv;
+                        obj2 = value$iv$iv$iv$iv2;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv5;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv2;
                         if (i$iv instanceof MutableScatterSet != null) {
                         } else {
                         }
-                        policy2 = i$iv;
-                        policy = element$iv$iv;
-                        obj6 = value$iv$iv$iv$iv2;
+                        policy = i$iv;
+                        policy2 = element$iv$iv;
+                        obj2 = value$iv$iv$iv$iv2;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
-                        j$iv$iv$iv5 = 0;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
+                        j$iv$iv$iv2 = 0;
                         invalidated.add(i$iv);
-                        this_$iv2 = element$iv$iv;
-                        obj12 = i$iv;
-                        i16 = 0;
-                        policy2 = i$iv;
+                        this_$iv4 = element$iv$iv;
+                        obj11 = i$iv;
+                        i5 = 0;
+                        policy = i$iv;
                         index$iv$iv$iv = 0;
                         k$iv$iv4 = obj4;
                         this_$iv$iv2 = k$iv$iv4.metadata;
-                        j$iv$iv$iv7 = k$iv$iv4;
+                        j$iv$iv$iv = k$iv$iv4;
                         this_$iv$iv$iv5 += -2;
                         if (0 <= i$iv) {
                         } else {
                         }
-                        policy = element$iv$iv;
-                        obj6 = value$iv$iv$iv$iv2;
+                        policy2 = element$iv$iv;
+                        obj2 = value$iv$iv$iv$iv2;
                         i7 = this_$iv3;
-                        $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                        obj = lastIndex$iv$iv$iv;
-                        map2 = 0;
+                        $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                        obj6 = lastIndex$iv$iv$iv;
+                        map = 0;
                         index$iv$iv2 = l8;
                         while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv14, l) != 0) {
                             i15 = 8;
-                            value$iv$iv$iv$iv2 = i77 - 8;
+                            value$iv$iv$iv$iv2 = i76 - 8;
                             this_$iv3 = 0;
                             while (this_$iv3 < value$iv$iv$iv$iv2) {
-                                map2 = 0;
-                                if (Long.compare(i82, i14) < 0) {
+                                map = 0;
+                                if (Long.compare(i81, i3) < 0) {
                                 } else {
                                 }
                                 m$iv$iv$iv = 0;
                                 if (m$iv$iv$iv != 0) {
                                 } else {
                                 }
-                                policy = element$iv$iv;
-                                slot$iv$iv$iv2 >>= policy5;
+                                policy2 = element$iv$iv;
+                                slot$iv$iv$iv4 >>= policy5;
                                 this_$iv3++;
-                                element$iv$iv = policy;
-                                map2 = 0;
-                                policy = element$iv$iv;
-                                i12 = 0;
-                                invalidated.add(obj12.elements[i83 += this_$iv3]);
-                                this_$iv2 = 1;
-                                m$iv$iv$iv = i85;
+                                element$iv$iv = policy2;
+                                map = 0;
+                                policy2 = element$iv$iv;
+                                i11 = 0;
+                                invalidated.add(obj11.elements[i82 += this_$iv3]);
+                                this_$iv4 = 1;
+                                m$iv$iv$iv = i84;
                             }
-                            policy = element$iv$iv;
+                            policy2 = element$iv$iv;
                             if (value$iv$iv$iv$iv2 == 8) {
                                 break loop_148;
                             }
-                            if (j$iv$iv$iv5 == i$iv) {
+                            if (j$iv$iv$iv2 == i$iv) {
                                 break loop_148;
                             } else {
                             }
-                            j$iv$iv$iv5++;
-                            m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                            lastIndex$iv$iv$iv = obj;
+                            j$iv$iv$iv2++;
+                            m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                            lastIndex$iv$iv$iv = obj6;
                             this_$iv3 = i7;
-                            value$iv$iv$iv$iv2 = obj6;
-                            element$iv$iv = policy;
-                            map2 = 0;
+                            value$iv$iv$iv$iv2 = obj2;
+                            element$iv$iv = policy2;
+                            map = 0;
                             index$iv$iv2 = l8;
-                            policy = element$iv$iv;
-                            map2 = 0;
-                            if (Long.compare(i82, i14) < 0) {
+                            policy2 = element$iv$iv;
+                            map = 0;
+                            if (Long.compare(i81, i3) < 0) {
                             } else {
                             }
                             m$iv$iv$iv = 0;
                             if (m$iv$iv$iv != 0) {
                             } else {
                             }
-                            policy = element$iv$iv;
-                            slot$iv$iv$iv2 >>= policy5;
+                            policy2 = element$iv$iv;
+                            slot$iv$iv$iv4 >>= policy5;
                             this_$iv3++;
-                            element$iv$iv = policy;
-                            map2 = 0;
-                            policy = element$iv$iv;
-                            i12 = 0;
-                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                            this_$iv2 = 1;
-                            m$iv$iv$iv = i85;
+                            element$iv$iv = policy2;
+                            map = 0;
+                            policy2 = element$iv$iv;
+                            i11 = 0;
+                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                            this_$iv4 = 1;
+                            m$iv$iv$iv = i84;
                         }
-                        policy = element$iv$iv;
-                        if (j$iv$iv$iv5 != i$iv) {
+                        policy2 = element$iv$iv;
+                        if (j$iv$iv$iv2 != i$iv) {
                         } else {
                         }
-                        j$iv$iv$iv5++;
-                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                        lastIndex$iv$iv$iv = obj;
+                        j$iv$iv$iv2++;
+                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                        lastIndex$iv$iv$iv = obj6;
                         this_$iv3 = i7;
-                        value$iv$iv$iv$iv2 = obj6;
-                        element$iv$iv = policy;
+                        value$iv$iv$iv$iv2 = obj2;
+                        element$iv$iv = policy2;
                         i15 = 8;
-                        value$iv$iv$iv$iv2 = i77 - 8;
+                        value$iv$iv$iv$iv2 = i76 - 8;
                         this_$iv3 = 0;
                         while (this_$iv3 < value$iv$iv$iv$iv2) {
-                            map2 = 0;
-                            if (Long.compare(i82, i14) < 0) {
+                            map = 0;
+                            if (Long.compare(i81, i3) < 0) {
                             } else {
                             }
                             m$iv$iv$iv = 0;
                             if (m$iv$iv$iv != 0) {
                             } else {
                             }
-                            policy = element$iv$iv;
-                            slot$iv$iv$iv2 >>= policy5;
+                            policy2 = element$iv$iv;
+                            slot$iv$iv$iv4 >>= policy5;
                             this_$iv3++;
-                            element$iv$iv = policy;
-                            map2 = 0;
-                            policy = element$iv$iv;
-                            i12 = 0;
-                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                            this_$iv2 = 1;
-                            m$iv$iv$iv = i85;
+                            element$iv$iv = policy2;
+                            map = 0;
+                            policy2 = element$iv$iv;
+                            i11 = 0;
+                            invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                            this_$iv4 = 1;
+                            m$iv$iv$iv = i84;
                         }
-                        policy = element$iv$iv;
+                        policy2 = element$iv$iv;
                         if (value$iv$iv$iv$iv2 == 8) {
                         }
-                        map2 = 0;
-                        if (Long.compare(i82, i14) < 0) {
+                        map = 0;
+                        if (Long.compare(i81, i3) < 0) {
                         } else {
                         }
                         m$iv$iv$iv = 0;
                         if (m$iv$iv$iv != 0) {
                         } else {
                         }
-                        policy = element$iv$iv;
-                        slot$iv$iv$iv2 >>= policy5;
+                        policy2 = element$iv$iv;
+                        slot$iv$iv$iv4 >>= policy5;
                         this_$iv3++;
-                        element$iv$iv = policy;
-                        map2 = 0;
-                        policy = element$iv$iv;
-                        i12 = 0;
-                        invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                        this_$iv2 = 1;
-                        m$iv$iv$iv = i85;
+                        element$iv$iv = policy2;
+                        map = 0;
+                        policy2 = element$iv$iv;
+                        i11 = 0;
+                        invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                        this_$iv4 = 1;
+                        m$iv$iv$iv = i84;
                         structuralEqualityPolicy2 = SnapshotStateKt.structuralEqualityPolicy();
-                        j$iv$iv$iv5 = i85;
+                        j$iv$iv$iv2 = i84;
                     }
-                    $this$forEach$iv$iv = valueToScopes;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
                     obj5 = i$iv;
-                    lArr = element$iv$iv;
+                    lArr2 = element$iv$iv;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                    obj = lastIndex$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                    obj6 = lastIndex$iv$iv$iv;
                     if (elements == 8) {
                     }
                     i45 = 0;
-                    if (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv3, i14) < 0) {
+                    if (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv4, i3) < 0) {
                     } else {
                     }
-                    j$iv$iv$iv5 = 0;
-                    if (j$iv$iv$iv5 != 0) {
+                    j$iv$iv$iv2 = 0;
+                    if (j$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    $this$forEach$iv$iv = valueToScopes;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
                     obj5 = i$iv;
-                    lArr = element$iv$iv;
+                    lArr2 = element$iv$iv;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                    obj = lastIndex$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                    obj6 = lastIndex$iv$iv$iv;
                     hasValues >>= element$iv$iv2;
                     i$iv = obj5 + 1;
-                    valueToScopes = $this$forEach$iv$iv;
-                    element$iv$iv = lArr;
-                    m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                    lastIndex$iv$iv$iv = obj;
+                    valueToScopes = $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1;
+                    element$iv$iv = lArr2;
+                    m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                    lastIndex$iv$iv$iv = obj6;
                     this_$iv3 = i7;
                     i46 += i$iv;
                     value$iv$iv$iv$iv2 = i47;
-                    j$iv$iv$iv3 = 0;
-                    $this$forEach$iv$iv = valueToScopes;
-                    valueToScopes = obj17;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = 0;
+                    j$iv$iv$iv8 = 0;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                    valueToScopes = obj16;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv4 = 0;
                     obj5 = i$iv;
-                    Intrinsics.checkNotNull((DerivedState)valueToScopes, $this$maskEmptyOrDeleted$iv$iv$iv$iv5);
-                    obj11 = value$iv$iv$iv$iv.get(valueToScopes);
+                    Intrinsics.checkNotNull((DerivedState)valueToScopes, $this$maskEmptyOrDeleted$iv$iv$iv$iv2);
+                    obj10 = value$iv$iv$iv$iv.get(valueToScopes);
                     if (valueToScopes.getPolicy() == null) {
                     }
-                    slot$iv$iv$iv6 = i47;
-                    lArr = element$iv$iv;
-                    element$iv$iv = this_$iv;
-                    if (!element$iv$iv.equivalent(valueToScopes.getCurrentRecord().getCurrentValue(), obj11)) {
+                    slot$iv$iv$iv3 = i47;
+                    lArr2 = element$iv$iv;
+                    element$iv$iv = this_$iv2;
+                    if (!element$iv$iv.equivalent(valueToScopes.getCurrentRecord().getCurrentValue(), obj10)) {
                     } else {
                     }
-                    previousValue = obj11;
-                    policy = element$iv$iv;
-                    obj6 = value$iv$iv$iv$iv2;
+                    previousValue = obj10;
+                    policy2 = element$iv$iv;
+                    obj2 = value$iv$iv$iv$iv2;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                    obj = lastIndex$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                    obj6 = lastIndex$iv$iv$iv;
                     obj7.statesToReread.add(valueToScopes);
-                    j$iv$iv$iv5 = valueToScopes2;
-                    this_$iv = 0;
-                    previousValue = obj11;
-                    i$iv = j$iv$iv$iv5.getMap().get(valueToScopes);
+                    j$iv$iv$iv2 = valueToScopes2;
+                    this_$iv2 = 0;
+                    previousValue = obj10;
+                    i$iv = j$iv$iv$iv2.getMap().get(valueToScopes);
                     if (i$iv != null) {
                     } else {
                     }
-                    policy2 = i$iv;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv5;
-                    policy = element$iv$iv;
-                    obj6 = value$iv$iv$iv$iv2;
+                    policy = i$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv2;
+                    policy2 = element$iv$iv;
+                    obj2 = value$iv$iv$iv$iv2;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                    obj = lastIndex$iv$iv$iv;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv5;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                    obj6 = lastIndex$iv$iv$iv;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv5 = j$iv$iv$iv2;
                     if (i$iv instanceof MutableScatterSet != null) {
                     } else {
                     }
-                    policy2 = i$iv;
-                    policy = element$iv$iv;
-                    obj6 = value$iv$iv$iv$iv2;
+                    policy = i$iv;
+                    policy2 = element$iv$iv;
+                    obj2 = value$iv$iv$iv$iv2;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                    obj = lastIndex$iv$iv$iv;
-                    j$iv$iv$iv5 = 0;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                    obj6 = lastIndex$iv$iv$iv;
+                    j$iv$iv$iv2 = 0;
                     invalidated.add(i$iv);
-                    this_$iv2 = element$iv$iv;
-                    obj12 = i$iv;
-                    i16 = 0;
-                    policy2 = i$iv;
+                    this_$iv4 = element$iv$iv;
+                    obj11 = i$iv;
+                    i5 = 0;
+                    policy = i$iv;
                     index$iv$iv$iv = 0;
                     k$iv$iv4 = obj4;
                     this_$iv$iv2 = k$iv$iv4.metadata;
-                    j$iv$iv$iv7 = k$iv$iv4;
+                    j$iv$iv$iv = k$iv$iv4;
                     this_$iv$iv$iv5 += -2;
                     if (0 <= i$iv) {
                     } else {
                     }
-                    policy = element$iv$iv;
-                    obj6 = value$iv$iv$iv$iv2;
+                    policy2 = element$iv$iv;
+                    obj2 = value$iv$iv$iv$iv2;
                     i7 = this_$iv3;
-                    $this$maskEmptyOrDeleted$iv$iv$iv$iv6 = m$iv$iv$iv;
-                    obj = lastIndex$iv$iv$iv;
-                    map2 = 0;
+                    $this$maskEmptyOrDeleted$iv$iv$iv$iv3 = m$iv$iv$iv;
+                    obj6 = lastIndex$iv$iv$iv;
+                    map = 0;
                     index$iv$iv2 = l8;
                     while (Long.compare($this$maskEmptyOrDeleted$iv$iv$iv$iv14, l) != 0) {
                         i15 = 8;
-                        value$iv$iv$iv$iv2 = i77 - 8;
+                        value$iv$iv$iv$iv2 = i76 - 8;
                         this_$iv3 = 0;
                         while (this_$iv3 < value$iv$iv$iv$iv2) {
-                            map2 = 0;
-                            if (Long.compare(i82, i14) < 0) {
+                            map = 0;
+                            if (Long.compare(i81, i3) < 0) {
                             } else {
                             }
                             m$iv$iv$iv = 0;
                             if (m$iv$iv$iv != 0) {
                             } else {
                             }
-                            policy = element$iv$iv;
-                            slot$iv$iv$iv2 >>= policy5;
+                            policy2 = element$iv$iv;
+                            slot$iv$iv$iv4 >>= policy5;
                             this_$iv3++;
-                            element$iv$iv = policy;
-                            map2 = 0;
-                            policy = element$iv$iv;
-                            i12 = 0;
-                            invalidated.add(obj12.elements[i83 += this_$iv3]);
-                            this_$iv2 = 1;
-                            m$iv$iv$iv = i85;
+                            element$iv$iv = policy2;
+                            map = 0;
+                            policy2 = element$iv$iv;
+                            i11 = 0;
+                            invalidated.add(obj11.elements[i82 += this_$iv3]);
+                            this_$iv4 = 1;
+                            m$iv$iv$iv = i84;
                         }
-                        policy = element$iv$iv;
+                        policy2 = element$iv$iv;
                         if (value$iv$iv$iv$iv2 == 8) {
                             break loop_148;
                         }
-                        if (j$iv$iv$iv5 == i$iv) {
+                        if (j$iv$iv$iv2 == i$iv) {
                             break loop_148;
                         } else {
                         }
-                        j$iv$iv$iv5++;
-                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                        lastIndex$iv$iv$iv = obj;
+                        j$iv$iv$iv2++;
+                        m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                        lastIndex$iv$iv$iv = obj6;
                         this_$iv3 = i7;
-                        value$iv$iv$iv$iv2 = obj6;
-                        element$iv$iv = policy;
-                        map2 = 0;
+                        value$iv$iv$iv$iv2 = obj2;
+                        element$iv$iv = policy2;
+                        map = 0;
                         index$iv$iv2 = l8;
-                        policy = element$iv$iv;
-                        map2 = 0;
-                        if (Long.compare(i82, i14) < 0) {
+                        policy2 = element$iv$iv;
+                        map = 0;
+                        if (Long.compare(i81, i3) < 0) {
                         } else {
                         }
                         m$iv$iv$iv = 0;
                         if (m$iv$iv$iv != 0) {
                         } else {
                         }
-                        policy = element$iv$iv;
-                        slot$iv$iv$iv2 >>= policy5;
+                        policy2 = element$iv$iv;
+                        slot$iv$iv$iv4 >>= policy5;
                         this_$iv3++;
-                        element$iv$iv = policy;
-                        map2 = 0;
-                        policy = element$iv$iv;
-                        i12 = 0;
-                        invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                        this_$iv2 = 1;
-                        m$iv$iv$iv = i85;
+                        element$iv$iv = policy2;
+                        map = 0;
+                        policy2 = element$iv$iv;
+                        i11 = 0;
+                        invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                        this_$iv4 = 1;
+                        m$iv$iv$iv = i84;
                     }
-                    policy = element$iv$iv;
-                    if (j$iv$iv$iv5 != i$iv) {
+                    policy2 = element$iv$iv;
+                    if (j$iv$iv$iv2 != i$iv) {
                     } else {
                     }
-                    j$iv$iv$iv5++;
-                    m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv6;
-                    lastIndex$iv$iv$iv = obj;
+                    j$iv$iv$iv2++;
+                    m$iv$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv3;
+                    lastIndex$iv$iv$iv = obj6;
                     this_$iv3 = i7;
-                    value$iv$iv$iv$iv2 = obj6;
-                    element$iv$iv = policy;
+                    value$iv$iv$iv$iv2 = obj2;
+                    element$iv$iv = policy2;
                     i15 = 8;
-                    value$iv$iv$iv$iv2 = i77 - 8;
+                    value$iv$iv$iv$iv2 = i76 - 8;
                     this_$iv3 = 0;
                     while (this_$iv3 < value$iv$iv$iv$iv2) {
-                        map2 = 0;
-                        if (Long.compare(i82, i14) < 0) {
+                        map = 0;
+                        if (Long.compare(i81, i3) < 0) {
                         } else {
                         }
                         m$iv$iv$iv = 0;
                         if (m$iv$iv$iv != 0) {
                         } else {
                         }
-                        policy = element$iv$iv;
-                        slot$iv$iv$iv2 >>= policy5;
+                        policy2 = element$iv$iv;
+                        slot$iv$iv$iv4 >>= policy5;
                         this_$iv3++;
-                        element$iv$iv = policy;
-                        map2 = 0;
-                        policy = element$iv$iv;
-                        i12 = 0;
-                        invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                        this_$iv2 = 1;
-                        m$iv$iv$iv = i85;
+                        element$iv$iv = policy2;
+                        map = 0;
+                        policy2 = element$iv$iv;
+                        i11 = 0;
+                        invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                        this_$iv4 = 1;
+                        m$iv$iv$iv = i84;
                     }
-                    policy = element$iv$iv;
+                    policy2 = element$iv$iv;
                     if (value$iv$iv$iv$iv2 == 8) {
                     }
-                    map2 = 0;
-                    if (Long.compare(i82, i14) < 0) {
+                    map = 0;
+                    if (Long.compare(i81, i3) < 0) {
                     } else {
                     }
                     m$iv$iv$iv = 0;
                     if (m$iv$iv$iv != 0) {
                     } else {
                     }
-                    policy = element$iv$iv;
-                    slot$iv$iv$iv2 >>= policy5;
+                    policy2 = element$iv$iv;
+                    slot$iv$iv$iv4 >>= policy5;
                     this_$iv3++;
-                    element$iv$iv = policy;
-                    map2 = 0;
-                    policy = element$iv$iv;
-                    i12 = 0;
-                    invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv4[i83 += this_$iv3]);
-                    this_$iv2 = 1;
-                    m$iv$iv$iv = i85;
+                    element$iv$iv = policy2;
+                    map = 0;
+                    policy2 = element$iv$iv;
+                    i11 = 0;
+                    invalidated.add($this$maskEmptyOrDeleted$iv$iv$iv$iv[i82 += this_$iv3]);
+                    this_$iv4 = 1;
+                    m$iv$iv$iv = i84;
                     structuralEqualityPolicy2 = SnapshotStateKt.structuralEqualityPolicy();
-                    j$iv$iv$iv5 = i85;
+                    j$iv$iv$iv2 = i84;
                     companion = ReaderKind.Companion;
                     m$iv$iv$iv = 0;
-                    if (!(StateObjectImpl)j$iv$iv$iv2.isReadIn-h_f27i8$runtime_release(ReaderKind.constructor-impl(i84))) {
+                    if (!(StateObjectImpl)j$iv$iv$iv7.isReadIn-h_f27i8$runtime_release(ReaderKind.constructor-impl(i83))) {
                     } else {
                     }
                     this_$iv$iv$iv = dependencyToDerivedStates;
                     k$iv$iv = value$iv$iv$iv$iv;
-                    $this$forEach$iv$iv = valueToScopes;
-                    slot$iv$iv$iv4 = i$iv;
-                    value$iv = j$iv$iv$iv5;
-                    lArr = element$iv$iv;
-                    value$iv3 = 8;
+                    $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                    slot$iv$iv$iv6 = i$iv;
+                    value$iv3 = j$iv$iv$iv2;
+                    lArr2 = element$iv$iv;
+                    value$iv = 8;
                 }
-                i13 = scope;
+                i2 = scope;
                 $i$f$forEachIndex = dependencyToDerivedStates;
-                map = value$iv$iv$iv$iv;
-                $this$forEach$iv$iv = valueToScopes;
-                slot$iv$iv$iv4 = i$iv;
+                map2 = value$iv$iv$iv$iv;
+                $i$a$ForEachScopeOfSnapshotStateObserver$ObservedScopeMap$recordInvalidation$1$1 = valueToScopes;
+                slot$iv$iv$iv6 = i$iv;
             }
             MutableVector statesToReread2 = obj7.statesToReread;
             value$iv$iv$iv$iv = 0;
@@ -1753,11 +1753,11 @@ public final class SnapshotStateObserver {
                 valueToScopes = statesToReread2.getSize();
                 if (valueToScopes > 0) {
                     i$iv = 0;
-                    j$iv$iv$iv2 = null;
+                    j$iv$iv$iv7 = null;
                     obj7.rereadDerivedState((DerivedState)statesToReread2.getContent()[i$iv]);
                     while (i$iv++ >= valueToScopes) {
-                        j$iv$iv$iv2 = null;
-                        obj7.rereadDerivedState((DerivedState)j$iv$iv$iv5[i$iv]);
+                        j$iv$iv$iv7 = null;
+                        obj7.rereadDerivedState((DerivedState)j$iv$iv$iv2[i$iv]);
                     }
                 }
                 obj7.statesToReread.clear();
@@ -1786,49 +1786,49 @@ public final class SnapshotStateObserver {
         public final void removeScopeIf(Function1<Object, Boolean> predicate) {
             int index$iv;
             MutableScatterMap m$iv$iv;
-            int $this$maskEmptyOrDeleted$iv$iv$iv2;
+            int $this$maskEmptyOrDeleted$iv$iv$iv3;
             int m$iv$iv2;
             int j$iv$iv;
             int i$iv$iv;
             long value$iv$iv$iv2;
-            int i3;
-            int $this$maskEmptyOrDeleted$iv$iv$iv;
-            int i16;
-            int j$iv$iv3;
-            int i8;
-            Object obj;
+            int i10;
+            int $this$maskEmptyOrDeleted$iv$iv$iv2;
+            int i11;
+            int j$iv$iv2;
+            int i5;
+            Object obj2;
             Object obj4;
-            int i15;
+            int i2;
             Object obj5;
             long l;
             int value$iv$iv$iv;
-            int i;
+            int i3;
             int i4;
-            int i17;
+            int i7;
             int cmp;
-            int i9;
-            int i5;
-            int i13;
+            int i;
             int i12;
+            int i14;
+            int i6;
             Object invoke;
             boolean booleanValue;
-            int i11;
-            int i6;
-            int i2;
+            int i9;
+            int i17;
+            int i8;
             int $i$f$removeIf;
             Object[] objArr;
             MutableScatterMap this_$iv$iv;
-            int i14;
+            int i16;
             int[] iArr;
-            Object obj2;
-            long[] lArr;
-            long slot$iv$iv;
-            long $this$maskEmptyOrDeleted$iv$iv$iv3;
-            int i7;
-            int $i$f$forEachIndexed;
+            Object obj;
             long[] lArr2;
-            int j$iv$iv2;
-            int i10;
+            long slot$iv$iv;
+            long $this$maskEmptyOrDeleted$iv$iv$iv;
+            int i13;
+            int $i$f$forEachIndexed;
+            long[] lArr;
+            int j$iv$iv3;
+            int i15;
             final Object obj3 = this;
             final MutableScatterMap scopeToValues = obj3.scopeToValues;
             m$iv$iv = scopeToValues;
@@ -1839,75 +1839,75 @@ public final class SnapshotStateObserver {
                 obj4 = predicate;
                 $i$f$removeIf = index$iv;
                 this_$iv$iv = m$iv$iv;
-                $i$f$forEachIndexed = $this$maskEmptyOrDeleted$iv$iv$iv2;
-                lArr2 = m$iv$iv2;
+                $i$f$forEachIndexed = $this$maskEmptyOrDeleted$iv$iv$iv3;
+                lArr = m$iv$iv2;
             }
         }
 
         public final void rereadDerivedState(DerivedState<?> derivedState) {
-            ScopeMap this_$iv2;
-            int i3;
-            Object value$iv2;
-            Object it;
+            ScopeMap this_$iv;
             int i;
+            Object value$iv;
+            Object it;
+            int i2;
             int i$iv$iv$iv;
             long l;
             int index$iv$iv$iv;
             Object[] elements;
             Object obj;
-            int i2;
+            int i8;
             long[] metadata;
             long slot$iv$iv$iv;
-            ScopeMap this_$iv;
-            int i4;
-            int cmp;
+            ScopeMap this_$iv2;
             int i5;
-            long l2;
+            int cmp;
             int i7;
-            int i8;
-            Object obj2;
-            Object value$iv;
-            Object obj3;
+            long l2;
+            int i4;
             int i6;
+            Object obj2;
+            Object value$iv2;
+            Object obj3;
             int i9;
+            int i3;
             final Object obj4 = this;
             final Object obj5 = derivedState;
             final MutableScatterMap scopeToValues = obj4.scopeToValues;
             int id = SnapshotKt.currentSnapshot().getId();
-            this_$iv2 = obj4.valueToScopes;
-            i3 = 0;
-            value$iv2 = this_$iv2.getMap().get(obj5);
-            if (value$iv2 != null) {
-                if (value$iv2 instanceof MutableScatterSet != null) {
-                    it = value$iv2;
-                    i2 = 0;
+            this_$iv = obj4.valueToScopes;
+            i = 0;
+            value$iv = this_$iv.getMap().get(obj5);
+            if (value$iv != null) {
+                if (value$iv instanceof MutableScatterSet != null) {
+                    it = value$iv;
+                    i8 = 0;
                     metadata = obj.metadata;
                     length += -2;
-                    if (0 <= i) {
+                    if (0 <= i2) {
                     } else {
-                        this_$iv = this_$iv2;
-                        i4 = i3;
-                        value$iv = value$iv2;
+                        this_$iv2 = this_$iv;
+                        i5 = i;
+                        value$iv2 = value$iv;
                         obj3 = it;
-                        i5 = index$iv$iv$iv;
+                        i7 = index$iv$iv$iv;
                     }
                 } else {
-                    this_$iv = this_$iv2;
-                    i4 = i3;
-                    this_$iv2 = value$iv;
-                    i3 = 0;
-                    if ((MutableObjectIntMap)scopeToValues.get(this_$iv2) == null) {
-                        value$iv2 = new MutableObjectIntMap(0, 1, 0);
-                        i = 0;
-                        scopeToValues.set(this_$iv2, value$iv2);
+                    this_$iv2 = this_$iv;
+                    i5 = i;
+                    this_$iv = value$iv2;
+                    i = 0;
+                    if ((MutableObjectIntMap)scopeToValues.get(this_$iv) == null) {
+                        value$iv = new MutableObjectIntMap(0, 1, 0);
+                        i2 = 0;
+                        scopeToValues.set(this_$iv, value$iv);
                         it = Unit.INSTANCE;
                     }
-                    obj4.recordRead(obj5, id, this_$iv2, value$iv2);
+                    obj4.recordRead(obj5, id, this_$iv, value$iv);
                 }
             } else {
-                this_$iv = this_$iv2;
-                i4 = i3;
-                value$iv = value$iv2;
+                this_$iv2 = this_$iv;
+                i5 = i;
+                value$iv2 = value$iv;
             }
         }
     }
@@ -1965,15 +1965,15 @@ public final class SnapshotStateObserver {
 
     private final void addChanges(Set<? extends Object> set) {
         Object obj;
-        List listOf;
         List listOf2;
+        List listOf;
         obj = this.pendingChanges.get();
         while (obj == null) {
-            listOf = set;
+            listOf2 = set;
             obj = this.pendingChanges.get();
-            listOf = CollectionsKt.plus((Collection)obj, (Iterable)CollectionsKt.listOf(set));
+            listOf2 = CollectionsKt.plus((Collection)obj, (Iterable)CollectionsKt.listOf(set));
             Set[] arr = new Set[2];
-            listOf = CollectionsKt.listOf(obj, set);
+            listOf2 = CollectionsKt.listOf(obj, set);
         }
         report();
         KotlinNothingValueException kotlinNothingValueException = new KotlinNothingValueException();
@@ -1984,18 +1984,18 @@ public final class SnapshotStateObserver {
         int hasValues;
         int changes;
         boolean sendingNotifications;
-        int i2;
-        MutableVector observedScopeMaps;
         int i5;
-        Unit iNSTANCE;
-        MutableVector observedScopeMaps2;
+        MutableVector observedScopeMaps;
         int i4;
+        Unit $i$a$SynchronizedSnapshotStateObserver$forEachScopeMap$1$iv;
+        MutableVector observedScopeMaps2;
+        int i3;
         int size;
         int i$iv$iv;
         Object[] content;
         Object obj;
         int i;
-        int i3;
+        int i2;
         final Object obj2 = this;
         MutableVector observedScopeMaps3 = obj2.observedScopeMaps;
         changes = 0;
@@ -2061,40 +2061,40 @@ public final class SnapshotStateObserver {
             while (i$iv++ >= size) {
                 block.invoke(content[i$iv]);
             }
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedSnapshotStateObserver$forEachScopeMap$1 = Unit.INSTANCE;
         }
     }
 
     private final Set<Object> removeChanges() {
         Object obj;
         Object result;
-        int i;
+        int _new;
         boolean z;
         int subList;
         boolean size;
         int i2;
-        int i3;
+        int i;
         obj = this.pendingChanges.get();
+        int i3 = 0;
         int i4 = 0;
-        int i5 = 0;
         while (obj == null) {
             result = obj5;
             i2 = 1;
-            i3 = 2;
-            if ((List)obj.size() == i3) {
+            i = 2;
+            if ((List)obj.size() == i) {
             } else {
             }
-            if ((List)obj.size() > i3) {
+            if ((List)obj.size() > i) {
             } else {
             }
-            i = subList;
+            _new = subList;
             obj = this.pendingChanges.get();
+            i3 = 0;
             i4 = 0;
-            i5 = 0;
             subList = (List)obj.subList(i2, (List)obj.size());
             subList = (List)obj.get(i2);
             result = obj;
-            i = 0;
+            _new = 0;
         }
         return 0;
     }
@@ -2127,7 +2127,7 @@ public final class SnapshotStateObserver {
             }
             ArraysKt.fill(observedScopeMaps2.getContent(), 0, size - gap$iv, size);
             observedScopeMaps2.setSize(size - gap$iv);
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedSnapshotStateObserver$removeScopeMapIf$1 = Unit.INSTANCE;
         }
     }
 
@@ -2163,7 +2163,7 @@ public final class SnapshotStateObserver {
                 i = 0;
                 (SnapshotStateObserver.ObservedScopeMap)content[i$iv$iv].clear();
             }
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedSnapshotStateObserver$forEachScopeMap$1$iv = Unit.INSTANCE;
         }
     }
 
@@ -2200,7 +2200,7 @@ public final class SnapshotStateObserver {
             try {
                 ArraysKt.fill(observedScopeMaps2.getContent(), 0, size - gap$iv$iv, size);
                 observedScopeMaps2.setSize(size - gap$iv$iv);
-                Unit iNSTANCE = Unit.INSTANCE;
+                Unit $i$a$SynchronizedSnapshotStateObserver$removeScopeMapIf$1$iv = Unit.INSTANCE;
                 throw th;
             }
         }
@@ -2239,7 +2239,7 @@ public final class SnapshotStateObserver {
             try {
                 ArraysKt.fill(observedScopeMaps2.getContent(), 0, size - gap$iv$iv, size);
                 observedScopeMaps2.setSize(size - gap$iv$iv);
-                Unit iNSTANCE = Unit.INSTANCE;
+                Unit $i$a$SynchronizedSnapshotStateObserver$removeScopeMapIf$1$iv = Unit.INSTANCE;
                 throw th;
             }
         }
@@ -2252,7 +2252,7 @@ public final class SnapshotStateObserver {
     public final <T> void observeReads(T scope, Function1<? super T, Unit> onValueChangedForScope, Function0<Unit> block) {
         int cmp;
         int i;
-        String string;
+        String $i$a$RequirePreconditionSnapshotStateObserver$observeReads$1;
         StringBuilder append;
         String str;
         MutableVector observedScopeMaps = this.observedScopeMaps;

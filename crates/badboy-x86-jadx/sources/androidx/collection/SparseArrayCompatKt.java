@@ -60,14 +60,14 @@ public final class SparseArrayCompatKt {
     }
 
     public static final <E> void commonClear(androidx.collection.SparseArrayCompat<E> $this$commonClear) {
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$commonClear, "<this>");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$commonClear.size) {
-            $this$commonClear.values[i2] = 0;
-            i2++;
+        i = 0;
+        while (i < $this$commonClear.size) {
+            $this$commonClear.values[i] = 0;
+            i++;
         }
         int i4 = 0;
         $this$commonClear.size = i4;
@@ -183,14 +183,14 @@ public final class SparseArrayCompatKt {
 
     public static final <E> void commonPut(androidx.collection.SparseArrayCompat<E> $this$commonPut, int key, E value) {
         int i;
-        int size2;
+        int size;
         boolean binarySearch;
         int idealIntArraySize;
-        int values;
         int values2;
+        int values;
         Object copyOf;
         String str;
-        int size;
+        int size2;
         Intrinsics.checkNotNullParameter($this$commonPut, "<this>");
         int i2 = 0;
         i = ContainerHelpersKt.binarySearch($this$commonPut.keys, $this$commonPut.size, key);
@@ -237,14 +237,14 @@ public final class SparseArrayCompatKt {
         Object obj;
         int i2;
         int i$iv;
-        Object[] values;
-        int size2;
+        Object[] values2;
+        int size;
         boolean binarySearch;
         int idealIntArraySize;
-        int values2;
+        int values;
         Object copyOf;
         String str;
-        int size;
+        int size2;
         Intrinsics.checkNotNullParameter($this$commonPutAll, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
         int i3 = 0;
@@ -302,8 +302,8 @@ public final class SparseArrayCompatKt {
         int size2;
         boolean binarySearch;
         int idealIntArraySize;
-        int values2;
         int values;
+        int values2;
         Object copyOf;
         String str;
         int size;

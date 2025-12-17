@@ -53,99 +53,99 @@ public final class NavigationRailItemColors {
     }
 
     public final androidx.compose.material3.NavigationRailItemColors copy-4JmcsL4(long selectedIconColor, long selectedTextColor, long selectedIndicatorColor, long unselectedIconColor, long unselectedTextColor, long disabledIconColor, long disabledTextColor) {
-        int $this$isSpecified$iv$iv3;
-        int $this$isSpecified$iv$iv5;
+        int $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$2;
+        int $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$3;
+        int $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$4;
         int $this$isSpecified$iv$iv;
         int $this$isSpecified$iv$iv2;
-        int $this$isSpecified$iv$iv6;
-        int $this$isSpecified$iv$iv4;
-        int disabledTextColor2;
-        int i4;
-        long l;
+        int $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$7;
+        int i;
         long l3;
         long l2;
-        long i5;
+        long l;
         long i2;
-        long i;
+        long i4;
         long i3;
+        long i5;
         final Object obj = this;
         int i6 = selectedIconColor;
         int i7 = 0;
         int i27 = 0;
         int i34 = 16;
-        i4 = 1;
+        i = 1;
         final int i35 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i14, i34) != 0 ? i4 : i35;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l = i6;
+        $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$1 = Long.compare(i14, i34) != 0 ? i : i35;
+        if ($i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$1 != 0) {
+            l3 = i6;
         } else {
             int i26 = 0;
-            l = $this$isSpecified$iv$iv3;
+            l3 = $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = selectedIndicatorColor;
         int i8 = 0;
         int i28 = 0;
-        $this$isSpecified$iv$iv5 = Long.compare(i15, i34) != 0 ? i4 : i35;
-        if ($this$isSpecified$iv$iv5 != 0) {
-            l3 = $this$takeOrElse_u2dDxMtmZc$iv;
+        $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$2 = Long.compare(i15, i34) != 0 ? i : i35;
+        if ($i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$2 != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i25 = 0;
-            l3 = $this$isSpecified$iv$iv5;
+            l2 = $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = unselectedTextColor;
         int i9 = 0;
         int i29 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i16, i34) != 0 ? i4 : i35;
-        if ($this$isSpecified$iv$iv != 0) {
-            l2 = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$3 = Long.compare(i16, i34) != 0 ? i : i35;
+        if ($i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$3 != 0) {
+            l = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i24 = 0;
-            l2 = $this$isSpecified$iv$iv;
+            l = $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = disabledTextColor;
         int i10 = 0;
         int i30 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i17, i34) != 0 ? i4 : i35;
-        if ($this$isSpecified$iv$iv2 != 0) {
-            i5 = $this$takeOrElse_u2dDxMtmZc$iv3;
+        $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$4 = Long.compare(i17, i34) != 0 ? i : i35;
+        if ($i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$4 != 0) {
+            i2 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i23 = 0;
-            i5 = $this$isSpecified$iv$iv2;
+            i2 = $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv4 = obj37;
         int i11 = 0;
         int i31 = 0;
-        $this$isSpecified$iv$iv6 = Long.compare(i18, i34) != 0 ? i4 : i35;
-        if ($this$isSpecified$iv$iv6 != 0) {
-            i2 = $this$takeOrElse_u2dDxMtmZc$iv4;
+        $this$isSpecified$iv$iv = Long.compare(i18, i34) != 0 ? i : i35;
+        if ($this$isSpecified$iv$iv != 0) {
+            i4 = $this$takeOrElse_u2dDxMtmZc$iv4;
         } else {
             int i22 = 0;
-            i2 = $this$isSpecified$iv$iv6;
+            i4 = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv5 = obj39;
         int i12 = 0;
         int i32 = 0;
-        $this$isSpecified$iv$iv4 = Long.compare(i19, i34) != 0 ? i4 : i35;
-        if ($this$isSpecified$iv$iv4 != 0) {
-            i = $this$takeOrElse_u2dDxMtmZc$iv5;
+        $this$isSpecified$iv$iv2 = Long.compare(i19, i34) != 0 ? i : i35;
+        if ($this$isSpecified$iv$iv2 != 0) {
+            i3 = $this$takeOrElse_u2dDxMtmZc$iv5;
         } else {
             int i21 = 0;
-            i = $this$isSpecified$iv$iv4;
+            i3 = $this$isSpecified$iv$iv2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv6 = obj41;
         int i13 = 0;
         int i33 = 0;
-        if (Long.compare(disabledTextColor2, i34) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$7, i34) != 0) {
         } else {
-            i4 = i35;
+            i = i35;
         }
-        if (i4 != 0) {
-            i3 = $this$takeOrElse_u2dDxMtmZc$iv6;
+        if (i != 0) {
+            i5 = $this$takeOrElse_u2dDxMtmZc$iv6;
         } else {
             int i20 = 0;
-            i3 = disabledTextColor2;
+            i5 = $i$a$TakeOrElseDxMtmZcNavigationRailItemColors$copy$7;
         }
-        NavigationRailItemColors navigationRailItemColors = new NavigationRailItemColors(l, obj14, l3, obj16, l2, obj18, i5, obj20, i2, obj22, i, obj24, i3, obj26, 0);
+        NavigationRailItemColors navigationRailItemColors = new NavigationRailItemColors(l3, obj14, l2, obj16, l, obj18, i2, obj20, i4, obj22, i3, obj24, i5, obj26, 0);
         return navigationRailItemColors;
     }
 

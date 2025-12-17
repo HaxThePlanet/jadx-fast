@@ -50,25 +50,25 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
 
     public boolean containsAll(Collection<? extends Object> elements) {
         boolean iterator;
-        int i2;
+        int i;
         boolean next;
         boolean it;
-        int i;
+        int i2;
         androidx.compose.runtime.snapshots.SnapshotStateMap map;
         final Object obj = elements;
         final int i3 = 0;
-        i2 = 1;
+        i = 1;
         if (obj instanceof Collection != null && (Collection)(Iterable)obj.isEmpty()) {
             if ((Collection)obj.isEmpty()) {
             } else {
                 iterator = obj.iterator();
                 for (Object next : iterator) {
-                    i = 0;
+                    i2 = 0;
                 }
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public androidx.compose.runtime.snapshots.StateMapMutableValuesIterator<K, V> iterator() {
@@ -89,8 +89,8 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
     public boolean removeAll(Collection<? extends Object> elements) {
         int it$iv$iv$iv$iv;
         int modification$runtime_release;
-        int set4;
-        Set set3;
+        int set3;
+        Set set2;
         androidx.compose.runtime.snapshots.StateRecord set;
         androidx.compose.runtime.snapshots.SnapshotStateMap newMap$iv$iv;
         int removed$iv;
@@ -106,17 +106,17 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
         androidx.compose.runtime.snapshots.Snapshot snapshot$iv$iv$iv$iv;
         androidx.compose.runtime.snapshots.SnapshotStateMap this_$iv;
         androidx.compose.runtime.snapshots.StateRecord current;
-        int i4;
-        Object lock;
         int i6;
-        int i2;
-        int $this$mutate_u24lambda_u2415$iv$iv;
-        int i5;
-        Object obj;
-        int i3;
+        Object lock;
         int i;
-        int set2;
-        set3 = CollectionsKt.toSet((Iterable)elements);
+        int i4;
+        int $this$mutate_u24lambda_u2415$iv$iv;
+        int i3;
+        Object obj;
+        int i5;
+        int i2;
+        int set4;
+        set2 = CollectionsKt.toSet((Iterable)elements);
         final int i11 = 0;
         final androidx.compose.runtime.snapshots.SnapshotStateMap map4 = newMap$iv$iv;
         final int i12 = 0;
@@ -132,9 +132,9 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
         Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.SnapshotStateMap.StateMapStateRecord<K of androidx.compose.runtime.snapshots.SnapshotStateMap, V of androidx.compose.runtime.snapshots.SnapshotStateMap>");
         snapshot$iv$iv$iv$iv = 0;
         current = SnapshotKt.current((StateRecord)(SnapshotStateMap.StateMapStateRecord)firstStateRecord);
-        i4 = 0;
+        i6 = 0;
         oldMap$iv$iv = map$runtime_release;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedSnapshotStateMap$mutate$1$iv$iv = Unit.INSTANCE;
         Intrinsics.checkNotNull(oldMap$iv$iv);
         builder = oldMap$iv$iv.builder();
         map = 0;
@@ -150,9 +150,9 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
             Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.SnapshotStateMap.StateMapStateRecord<K of androidx.compose.runtime.snapshots.SnapshotStateMap, V of androidx.compose.runtime.snapshots.SnapshotStateMap>");
             snapshot$iv$iv$iv$iv = 0;
             current = SnapshotKt.current((StateRecord)(SnapshotStateMap.StateMapStateRecord)firstStateRecord);
-            i4 = 0;
+            i6 = 0;
             oldMap$iv$iv = map$runtime_release;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedSnapshotStateMap$mutate$1$iv$iv = Unit.INSTANCE;
             Intrinsics.checkNotNull(oldMap$iv$iv);
             builder = oldMap$iv$iv.builder();
             map = 0;
@@ -162,7 +162,7 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
             next = iterator.next();
             snapshot$iv$iv$iv$iv = 0;
             current = newMap$iv$iv;
-            if (set3.contains((Map.Entry)next.getValue())) {
+            if (set2.contains((Map.Entry)next.getValue())) {
             } else {
             }
             newMap$iv$iv = current;
@@ -174,7 +174,7 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
         PersistentMap build = builder.build();
         if (!Intrinsics.areEqual(build, oldMap$iv$iv)) {
         } else {
-            set2 = set3;
+            set4 = set2;
         }
         return removed$iv;
     }
@@ -183,8 +183,8 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
         int it$iv$iv$iv$iv;
         int modification$runtime_release;
         int set2;
-        Set set;
-        androidx.compose.runtime.snapshots.StateRecord set3;
+        Set set4;
+        androidx.compose.runtime.snapshots.StateRecord set;
         androidx.compose.runtime.snapshots.SnapshotStateMap newMap$iv$iv;
         int removed$iv;
         int result$iv$iv;
@@ -199,17 +199,17 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
         androidx.compose.runtime.snapshots.Snapshot snapshot$iv$iv$iv$iv;
         androidx.compose.runtime.snapshots.SnapshotStateMap this_$iv;
         androidx.compose.runtime.snapshots.StateRecord current;
-        int i5;
-        Object lock;
         int i2;
+        Object lock;
         int i;
-        int $this$mutate_u24lambda_u2415$iv$iv;
-        int i4;
-        Object obj;
         int i6;
+        int $this$mutate_u24lambda_u2415$iv$iv;
         int i3;
-        int set4;
-        set = CollectionsKt.toSet((Iterable)elements);
+        Object obj;
+        int i5;
+        int i4;
+        int set3;
+        set4 = CollectionsKt.toSet((Iterable)elements);
         final int i11 = 0;
         final androidx.compose.runtime.snapshots.SnapshotStateMap map4 = newMap$iv$iv;
         final int i12 = 0;
@@ -225,9 +225,9 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
         Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.SnapshotStateMap.StateMapStateRecord<K of androidx.compose.runtime.snapshots.SnapshotStateMap, V of androidx.compose.runtime.snapshots.SnapshotStateMap>");
         snapshot$iv$iv$iv$iv = 0;
         current = SnapshotKt.current((StateRecord)(SnapshotStateMap.StateMapStateRecord)firstStateRecord);
-        i5 = 0;
+        i2 = 0;
         oldMap$iv$iv = map$runtime_release;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedSnapshotStateMap$mutate$1$iv$iv = Unit.INSTANCE;
         Intrinsics.checkNotNull(oldMap$iv$iv);
         builder = oldMap$iv$iv.builder();
         map = 0;
@@ -243,9 +243,9 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
             Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.SnapshotStateMap.StateMapStateRecord<K of androidx.compose.runtime.snapshots.SnapshotStateMap, V of androidx.compose.runtime.snapshots.SnapshotStateMap>");
             snapshot$iv$iv$iv$iv = 0;
             current = SnapshotKt.current((StateRecord)(SnapshotStateMap.StateMapStateRecord)firstStateRecord);
-            i5 = 0;
+            i2 = 0;
             oldMap$iv$iv = map$runtime_release;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedSnapshotStateMap$mutate$1$iv$iv = Unit.INSTANCE;
             Intrinsics.checkNotNull(oldMap$iv$iv);
             builder = oldMap$iv$iv.builder();
             map = 0;
@@ -255,7 +255,7 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
             next2 = iterator.next();
             snapshot$iv$iv$iv$iv = 0;
             current = newMap$iv$iv;
-            if (!set.contains((Map.Entry)next2.getValue())) {
+            if (!set4.contains((Map.Entry)next2.getValue())) {
             } else {
             }
             newMap$iv$iv = current;
@@ -267,7 +267,7 @@ final class SnapshotMapValueSet<K, V>  extends androidx.compose.runtime.snapshot
         PersistentMap build = builder.build();
         if (!Intrinsics.areEqual(build, oldMap$iv$iv)) {
         } else {
-            set4 = set;
+            set3 = set4;
         }
         return removed$iv;
     }

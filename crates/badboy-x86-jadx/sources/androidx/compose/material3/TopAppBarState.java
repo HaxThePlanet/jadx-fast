@@ -75,18 +75,18 @@ public final class TopAppBarState {
     }
 
     public final float getOverlappedFraction() {
-        int i;
         int i2;
-        int heightOffsetLimit2;
-        float heightOffsetLimit;
-        i2 = 0;
-        heightOffsetLimit2 = 1;
-        i = Float.compare(heightOffsetLimit3, i2) == 0 ? heightOffsetLimit2 : 0;
-        if (i == 0) {
-            i2 = i - i3;
+        int i;
+        int heightOffsetLimit;
+        float heightOffsetLimit2;
+        i = 0;
+        heightOffsetLimit = 1;
+        i2 = Float.compare(heightOffsetLimit3, i) == 0 ? heightOffsetLimit : 0;
+        if (i2 == 0) {
+            i = i2 - i3;
         } else {
         }
-        return i2;
+        return i;
     }
 
     public final void setContentOffset(float <set-?>) {

@@ -47,48 +47,48 @@ public final class IconButtonKt {
         int consume;
         Object obj;
         Object companion;
-        int i12;
+        int i14;
         Object modifier3;
-        int str;
+        int $i$a$LayoutBoxKt$Box$1$iv;
         boolean z2;
         Object obj2;
         int interactionSource2;
         Composer composer2;
         Integer valueOf;
-        int i11;
-        int i17;
+        int i12;
+        int i7;
         boolean traceInProgress2;
-        int i9;
-        boolean str2;
-        int i5;
+        int i13;
+        boolean str;
+        int i10;
         androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy;
         Object function0;
-        int i10;
-        int i7;
+        int i11;
+        int i15;
         int skipping;
-        int i;
+        int i6;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         boolean z;
-        int i6;
-        int i13;
         int i2;
-        Alignment alignment;
-        int i3;
-        Composer composer3;
-        int i14;
         int i16;
-        BoxScopeInstance boxScopeInstance;
-        androidx.compose.ui.Modifier.Companion modifier4;
-        int i15;
-        Modifier modifier2;
-        Composer composer;
+        int i;
+        Alignment alignment;
         int i4;
+        Composer composer3;
+        int i3;
+        int i9;
+        BoxScopeInstance boxScopeInstance;
+        androidx.compose.ui.Modifier.Companion modifier2;
+        int i5;
+        Modifier modifier4;
+        Composer composer;
+        int $i$a$LayoutBoxKt$Box$1$iv2;
         int obj30;
         Modifier obj31;
         Function0 obj32;
         int obj34;
         final Object obj3 = content;
-        final int i37 = $changed;
+        final int i36 = $changed;
         traceInProgress = -111063634;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(IconButton)P(4,3,1,2)71@3004L70,63@2710L623:IconButton.kt#jmzs0o");
@@ -97,35 +97,35 @@ public final class IconButtonKt {
             $dirty |= 6;
             obj = onClick;
         } else {
-            if (i37 & 6 == 0) {
-                i12 = restartGroup.changedInstance(onClick) ? 4 : 2;
-                $dirty |= i12;
+            if (i36 & 6 == 0) {
+                i14 = restartGroup.changedInstance(onClick) ? 4 : 2;
+                $dirty |= i14;
             } else {
                 obj = onClick;
             }
         }
-        int i30 = i8 & 2;
-        if (i30 != 0) {
+        int i29 = i8 & 2;
+        if (i29 != 0) {
             $dirty |= 48;
             obj2 = modifier;
         } else {
-            if (i37 & 48 == 0) {
-                i17 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i17;
+            if (i36 & 48 == 0) {
+                i7 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i7;
             } else {
                 obj2 = modifier;
             }
         }
-        i9 = i8 & 4;
-        if (i9 != 0) {
+        i13 = i8 & 4;
+        if (i13 != 0) {
             $dirty |= 384;
-            str2 = enabled;
+            str = enabled;
         } else {
-            if (i37 & 384 == 0) {
-                i5 = restartGroup.changed(enabled) ? 256 : 128;
-                $dirty |= i5;
+            if (i36 & 384 == 0) {
+                i10 = restartGroup.changed(enabled) ? 256 : 128;
+                $dirty |= i10;
             } else {
-                str2 = enabled;
+                str = enabled;
             }
         }
         maybeCachedBoxMeasurePolicy = i8 & 8;
@@ -133,9 +133,9 @@ public final class IconButtonKt {
             $dirty |= 3072;
             function0 = interactionSource;
         } else {
-            if (i37 & 3072 == 0) {
-                i10 = restartGroup.changed(interactionSource) ? 2048 : 1024;
-                $dirty |= i10;
+            if (i36 & 3072 == 0) {
+                i11 = restartGroup.changed(interactionSource) ? 2048 : 1024;
+                $dirty |= i11;
             } else {
                 function0 = interactionSource;
             }
@@ -143,34 +143,269 @@ public final class IconButtonKt {
         if (i8 & 16 != 0) {
             $dirty |= 24576;
         } else {
-            if (i37 & 24576 == 0) {
-                i7 = restartGroup.changedInstance(obj3) ? 16384 : 8192;
-                $dirty |= i7;
+            if (i36 & 24576 == 0) {
+                i15 = restartGroup.changedInstance(obj3) ? 16384 : 8192;
+                $dirty |= i15;
             }
         }
         if ($dirty & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
-                if (i30 != 0) {
+                if (i29 != 0) {
                     modifier3 = Modifier.Companion;
                 } else {
                     modifier3 = obj2;
                 }
-                z = i9 != 0 ? obj2 : str2;
+                z = i13 != 0 ? obj2 : str;
                 interactionSource2 = maybeCachedBoxMeasurePolicy != 0 ? 0 : function0;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.IconButton (IconButton.kt:62)");
                 }
-                i = interactionSource2;
-                Modifier clickable-O2vRcR0$default = ClickableKt.clickable-O2vRcR0$default(InteractiveComponentSizeKt.minimumInteractiveComponentSize(modifier3), i, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, IconButtonKt.RippleRadius, 0, function0, restartGroup, 54), z, 0, Role.box-impl(Role.Companion.getButton-o7Vup1c()), obj, 8, 0);
+                i6 = interactionSource2;
+                Modifier clickable-O2vRcR0$default = ClickableKt.clickable-O2vRcR0$default(InteractiveComponentSizeKt.minimumInteractiveComponentSize(modifier3), i6, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, IconButtonKt.RippleRadius, 0, function0, restartGroup, 54), z, 0, Role.box-impl(Role.Companion.getButton-o7Vup1c()), obj, 8, 0);
                 Alignment center = Alignment.Companion.getCenter();
                 valueOf = 48;
-                i9 = 0;
+                i13 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 skipping = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 obj30 = currentCompositeKeyHash;
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, clickable-O2vRcR0$default);
                 obj31 = clickable-O2vRcR0$default;
+                obj32 = constructor;
+                i16 = 0;
+                alignment = center;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
+                if (!applier instanceof Applier) {
+                    ComposablesKt.invalidApplier();
+                }
+                restartGroup.startReusableNode();
+                if (restartGroup.getInserting()) {
+                    restartGroup.createNode(obj32);
+                } else {
+                    factory$iv$iv$iv = obj32;
+                    restartGroup.useNode();
+                }
+                Composer constructor-impl = Updater.constructor-impl(restartGroup);
+                int i50 = 0;
+                obj32 = factory$iv$iv$iv;
+                Updater.set-impl(constructor-impl, BoxKt.maybeCachedBoxMeasurePolicy(center, false), ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i51 = 0;
+                Composer composer5 = constructor-impl;
+                int i53 = 0;
+                if (!composer5.getInserting()) {
+                    modifier2 = modifier3;
+                    i5 = valueOf;
+                    if (!Intrinsics.areEqual(composer5.rememberedValue(), Integer.valueOf(obj30))) {
+                        composer5.updateRememberedValue(Integer.valueOf(obj30));
+                        constructor-impl.apply(Integer.valueOf(obj30), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    } else {
+                        composer2 = composer5;
+                    }
+                } else {
+                    modifier2 = modifier3;
+                    i5 = valueOf;
+                }
+                Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
+                Composer composer4 = restartGroup;
+                $i$a$LayoutBoxKt$Box$1$iv = 0;
+                i4 = i21;
+                ComposerKt.sourceInformationMarkerStart(composer4, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
+                i34 |= 6;
+                composer3 = composer4;
+                i9 = 0;
+                boxScopeInstance = iNSTANCE;
+                modifier4 = materializeModifier;
+                ComposerKt.sourceInformationMarkerStart(composer4, -1682424830, "C76@3243L84:IconButton.kt#jmzs0o");
+                if (z) {
+                    composer4.startReplaceGroup(1885392311);
+                    ComposerKt.sourceInformation(composer4, "75@3200L7");
+                    composer3 = 0;
+                    obj34 = i26;
+                    $i$a$LayoutBoxKt$Box$1$iv2 = $i$a$LayoutBoxKt$Box$1$iv;
+                    ComposerKt.sourceInformationMarkerStart(composer4, 2023513938, "CC:CompositionLocal.kt#9igjgp");
+                    ComposerKt.sourceInformationMarkerEnd(composer4);
+                    floatValue = (Number)composer4.consume((CompositionLocal)ContentAlphaKt.getLocalContentAlpha()).floatValue();
+                } else {
+                    $i$a$LayoutBoxKt$Box$1$iv2 = $i$a$LayoutBoxKt$Box$1$iv;
+                    composer4.startReplaceGroup(1885393144);
+                    ComposerKt.sourceInformation(composer4, "75@3226L8");
+                    floatValue = ContentAlpha.INSTANCE.getDisabled(composer4, 6);
+                }
+                composer4.endReplaceGroup();
+                CompositionLocalKt.CompositionLocalProvider(ContentAlphaKt.getLocalContentAlpha().provides(Float.valueOf(floatValue)), obj3, composer4, $stable |= i3);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                restartGroup.endNode();
+                ComposerKt.sourceInformationMarkerEnd(restartGroup);
+                ComposerKt.sourceInformationMarkerEnd(restartGroup);
+                ComposerKt.sourceInformationMarkerEnd(restartGroup);
+                if (ComposerKt.isTraceInProgress()) {
+                    ComposerKt.traceEventEnd();
+                }
+                i12 = i6;
+                z2 = z;
+                companion = modifier2;
+            } else {
+                restartGroup.skipToGroupEnd();
+                i2 = $dirty;
+                companion = obj2;
+                z2 = str;
+                i12 = function0;
+            }
+        } else {
+        }
+        ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
+        if (endRestartGroup != null) {
+            traceInProgress = new IconButtonKt.IconButton.2(onClick, companion, z2, i12, obj3, i36, i8);
+            endRestartGroup.updateScope((Function2)traceInProgress);
+        }
+    }
+
+    public static final void IconToggleButton(boolean checked, Function1<? super Boolean, Unit> onCheckedChange, Modifier modifier, boolean enabled, MutableInteractionSource interactionSource, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
+        int traceInProgress;
+        Function0 factory$iv$iv$iv;
+        float floatValue;
+        int $dirty;
+        int consume;
+        boolean z2;
+        int i12;
+        Object obj3;
+        Object obj;
+        boolean valueOf;
+        int $i$a$LayoutBoxKt$Box$1$iv;
+        int i4;
+        boolean z;
+        Object modifier2;
+        Composer composer;
+        Object obj5;
+        Object obj2;
+        boolean traceInProgress2;
+        int i10;
+        int str;
+        boolean maybeCachedBoxMeasurePolicy;
+        int i3;
+        int i11;
+        int $dirty2;
+        Object obj6;
+        int i;
+        int i8;
+        boolean currentCompositeKeyHash;
+        int currentCompositionLocalMap;
+        Object obj4;
+        int i13;
+        boolean z3;
+        int i6;
+        Alignment alignment;
+        int i2;
+        int i7;
+        Composer composer2;
+        int i5;
+        BoxScopeInstance boxScopeInstance;
+        int $changed$iv;
+        Object obj7;
+        Modifier modifier3;
+        Composer composer3;
+        int $i$a$LayoutBoxKt$Box$1$iv2;
+        Object obj31;
+        Function0 obj32;
+        int obj33;
+        int obj35;
+        final Object obj9 = content;
+        final int i34 = $changed;
+        traceInProgress = -54657793;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        ComposerKt.sourceInformation(restartGroup, "C(IconToggleButton)P(!1,5,4,2,3)116@4932L70,107@4612L645:IconButton.kt#jmzs0o");
+        $dirty = $changed;
+        if (i9 & 1 != 0) {
+            $dirty |= 6;
+            z2 = checked;
+        } else {
+            if (i34 & 6 == 0) {
+                i12 = restartGroup.changed(checked) ? 4 : 2;
+                $dirty |= i12;
+            } else {
+                z2 = checked;
+            }
+        }
+        if (i9 & 2 != 0) {
+            $dirty |= 48;
+            obj3 = onCheckedChange;
+        } else {
+            if (i34 & 48 == 0) {
+                i4 = restartGroup.changedInstance(onCheckedChange) ? 32 : 16;
+                $dirty |= i4;
+            } else {
+                obj3 = onCheckedChange;
+            }
+        }
+        int i27 = i9 & 4;
+        if (i27 != 0) {
+            $dirty |= 384;
+            obj5 = modifier;
+        } else {
+            if (i34 & 384 == 0) {
+                i10 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i10;
+            } else {
+                obj5 = modifier;
+            }
+        }
+        str = i9 & 8;
+        if (str != null) {
+            $dirty |= 3072;
+            maybeCachedBoxMeasurePolicy = enabled;
+        } else {
+            if (i34 & 3072 == 0) {
+                i3 = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty |= i3;
+            } else {
+                maybeCachedBoxMeasurePolicy = enabled;
+            }
+        }
+        i11 = i9 & 16;
+        if (i11 != 0) {
+            $dirty |= 24576;
+            obj6 = interactionSource;
+        } else {
+            if (i34 & 24576 == 0) {
+                i = restartGroup.changed(interactionSource) ? 16384 : 8192;
+                $dirty |= i;
+            } else {
+                obj6 = interactionSource;
+            }
+        }
+        int i45 = 196608;
+        if (i9 & 32 != 0) {
+            $dirty |= i45;
+        } else {
+            if (i34 & i45 == 0) {
+                i8 = restartGroup.changedInstance(obj9) ? 131072 : 65536;
+                $dirty |= i8;
+            }
+        }
+        if (i41 &= $dirty == 74898) {
+            if (!restartGroup.getSkipping()) {
+                if (i27 != 0) {
+                    modifier2 = Modifier.Companion;
+                } else {
+                    modifier2 = obj5;
+                }
+                z3 = str != null ? obj5 : maybeCachedBoxMeasurePolicy;
+                obj4 = i11 != 0 ? obj5 : obj6;
+                if (ComposerKt.isTraceInProgress()) {
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.IconToggleButton (IconButton.kt:106)");
+                }
+                Modifier toggleable-O2vRcR0 = ToggleableKt.toggleable-O2vRcR0(InteractiveComponentSizeKt.minimumInteractiveComponentSize(modifier2), z2, obj4, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, IconButtonKt.RippleRadius, 0, obj6, restartGroup, 54), z3, Role.box-impl(Role.Companion.getCheckbox-o7Vup1c()), obj3);
+                Alignment center = Alignment.Companion.getCenter();
+                valueOf = 48;
+                int i33 = 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
+                obj6 = 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, toggleable-O2vRcR0);
+                obj31 = toggleable-O2vRcR0;
                 obj32 = constructor;
                 i13 = 0;
                 alignment = center;
@@ -186,251 +421,16 @@ public final class IconButtonKt {
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                int i51 = 0;
+                int i48 = 0;
                 obj32 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, BoxKt.maybeCachedBoxMeasurePolicy(center, false), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i52 = 0;
-                Composer composer5 = constructor-impl;
-                int i54 = 0;
-                if (!composer5.getInserting()) {
-                    modifier4 = modifier3;
-                    i15 = valueOf;
-                    if (!Intrinsics.areEqual(composer5.rememberedValue(), Integer.valueOf(obj30))) {
-                        composer5.updateRememberedValue(Integer.valueOf(obj30));
-                        constructor-impl.apply(Integer.valueOf(obj30), ComposeUiNode.Companion.getSetCompositeKeyHash());
-                    } else {
-                        composer2 = composer5;
-                    }
-                } else {
-                    modifier4 = modifier3;
-                    i15 = valueOf;
-                }
-                Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                Composer composer4 = restartGroup;
-                str = 0;
-                i3 = i22;
-                ComposerKt.sourceInformationMarkerStart(composer4, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i35 |= 6;
-                composer3 = composer4;
-                i16 = 0;
-                boxScopeInstance = iNSTANCE;
-                modifier2 = materializeModifier;
-                ComposerKt.sourceInformationMarkerStart(composer4, -1682424830, "C76@3243L84:IconButton.kt#jmzs0o");
-                if (z) {
-                    composer4.startReplaceGroup(1885392311);
-                    ComposerKt.sourceInformation(composer4, "75@3200L7");
-                    composer3 = 0;
-                    obj34 = i27;
-                    i4 = str;
-                    ComposerKt.sourceInformationMarkerStart(composer4, 2023513938, "CC:CompositionLocal.kt#9igjgp");
-                    ComposerKt.sourceInformationMarkerEnd(composer4);
-                    floatValue = (Number)composer4.consume((CompositionLocal)ContentAlphaKt.getLocalContentAlpha()).floatValue();
-                } else {
-                    i4 = str;
-                    composer4.startReplaceGroup(1885393144);
-                    ComposerKt.sourceInformation(composer4, "75@3226L8");
-                    floatValue = ContentAlpha.INSTANCE.getDisabled(composer4, 6);
-                }
-                composer4.endReplaceGroup();
-                CompositionLocalKt.CompositionLocalProvider(ContentAlphaKt.getLocalContentAlpha().provides(Float.valueOf(floatValue)), obj3, composer4, $stable |= i14);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                restartGroup.endNode();
-                ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventEnd();
-                }
-                i11 = i;
-                z2 = z;
-                companion = modifier4;
-            } else {
-                restartGroup.skipToGroupEnd();
-                i6 = $dirty;
-                companion = obj2;
-                z2 = str2;
-                i11 = function0;
-            }
-        } else {
-        }
-        ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
-        if (endRestartGroup != null) {
-            traceInProgress = new IconButtonKt.IconButton.2(onClick, companion, z2, i11, obj3, i37, i8);
-            endRestartGroup.updateScope((Function2)traceInProgress);
-        }
-    }
-
-    public static final void IconToggleButton(boolean checked, Function1<? super Boolean, Unit> onCheckedChange, Modifier modifier, boolean enabled, MutableInteractionSource interactionSource, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
-        int traceInProgress;
-        Function0 factory$iv$iv$iv;
-        float floatValue;
-        int $dirty;
-        int consume;
-        boolean z3;
-        int i4;
-        Object obj;
-        Object obj2;
-        boolean valueOf;
-        int str2;
-        int i;
-        boolean z2;
-        Object modifier3;
-        Composer composer;
-        Object obj3;
-        Object obj5;
-        boolean traceInProgress2;
-        int i5;
-        int str;
-        boolean maybeCachedBoxMeasurePolicy;
-        int i10;
-        int i8;
-        int $dirty2;
-        Object obj7;
-        int i7;
-        int i2;
-        boolean currentCompositeKeyHash;
-        int currentCompositionLocalMap;
-        Object obj4;
-        int i6;
-        boolean z;
-        int i13;
-        Alignment alignment;
-        int i14;
-        int i11;
-        Composer composer2;
-        int i12;
-        BoxScopeInstance boxScopeInstance;
-        int $changed$iv;
-        Object obj6;
-        Modifier modifier2;
-        Composer composer3;
-        int i3;
-        Object obj31;
-        Function0 obj32;
-        int obj33;
-        int obj35;
-        final Object obj9 = content;
-        final int i35 = $changed;
-        traceInProgress = -54657793;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
-        ComposerKt.sourceInformation(restartGroup, "C(IconToggleButton)P(!1,5,4,2,3)116@4932L70,107@4612L645:IconButton.kt#jmzs0o");
-        $dirty = $changed;
-        if (i9 & 1 != 0) {
-            $dirty |= 6;
-            z3 = checked;
-        } else {
-            if (i35 & 6 == 0) {
-                i4 = restartGroup.changed(checked) ? 4 : 2;
-                $dirty |= i4;
-            } else {
-                z3 = checked;
-            }
-        }
-        if (i9 & 2 != 0) {
-            $dirty |= 48;
-            obj = onCheckedChange;
-        } else {
-            if (i35 & 48 == 0) {
-                i = restartGroup.changedInstance(onCheckedChange) ? 32 : 16;
-                $dirty |= i;
-            } else {
-                obj = onCheckedChange;
-            }
-        }
-        int i28 = i9 & 4;
-        if (i28 != 0) {
-            $dirty |= 384;
-            obj3 = modifier;
-        } else {
-            if (i35 & 384 == 0) {
-                i5 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i5;
-            } else {
-                obj3 = modifier;
-            }
-        }
-        str = i9 & 8;
-        if (str != null) {
-            $dirty |= 3072;
-            maybeCachedBoxMeasurePolicy = enabled;
-        } else {
-            if (i35 & 3072 == 0) {
-                i10 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty |= i10;
-            } else {
-                maybeCachedBoxMeasurePolicy = enabled;
-            }
-        }
-        i8 = i9 & 16;
-        if (i8 != 0) {
-            $dirty |= 24576;
-            obj7 = interactionSource;
-        } else {
-            if (i35 & 24576 == 0) {
-                i7 = restartGroup.changed(interactionSource) ? 16384 : 8192;
-                $dirty |= i7;
-            } else {
-                obj7 = interactionSource;
-            }
-        }
-        int i46 = 196608;
-        if (i9 & 32 != 0) {
-            $dirty |= i46;
-        } else {
-            if (i35 & i46 == 0) {
-                i2 = restartGroup.changedInstance(obj9) ? 131072 : 65536;
-                $dirty |= i2;
-            }
-        }
-        if (i42 &= $dirty == 74898) {
-            if (!restartGroup.getSkipping()) {
-                if (i28 != 0) {
-                    modifier3 = Modifier.Companion;
-                } else {
-                    modifier3 = obj3;
-                }
-                z = str != null ? obj3 : maybeCachedBoxMeasurePolicy;
-                obj4 = i8 != 0 ? obj3 : obj7;
-                if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.IconToggleButton (IconButton.kt:106)");
-                }
-                Modifier toggleable-O2vRcR0 = ToggleableKt.toggleable-O2vRcR0(InteractiveComponentSizeKt.minimumInteractiveComponentSize(modifier3), z3, obj4, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, IconButtonKt.RippleRadius, 0, obj7, restartGroup, 54), z, Role.box-impl(Role.Companion.getCheckbox-o7Vup1c()), obj);
-                Alignment center = Alignment.Companion.getCenter();
-                valueOf = 48;
-                int i34 = 0;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
-                obj7 = 0;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, toggleable-O2vRcR0);
-                obj31 = toggleable-O2vRcR0;
-                obj32 = constructor;
-                i6 = 0;
-                alignment = center;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
-                if (!applier instanceof Applier) {
-                    ComposablesKt.invalidApplier();
-                }
-                restartGroup.startReusableNode();
-                if (restartGroup.getInserting()) {
-                    restartGroup.createNode(obj32);
-                } else {
-                    factory$iv$iv$iv = obj32;
-                    restartGroup.useNode();
-                }
-                Composer constructor-impl = Updater.constructor-impl(restartGroup);
                 int i49 = 0;
-                obj32 = factory$iv$iv$iv;
-                Updater.set-impl(constructor-impl, BoxKt.maybeCachedBoxMeasurePolicy(center, false), ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i50 = 0;
                 Composer composer4 = constructor-impl;
-                int i52 = 0;
+                int i51 = 0;
                 if (!composer4.getInserting()) {
                     $changed$iv = valueOf;
-                    obj6 = modifier3;
+                    obj7 = modifier2;
                     if (!Intrinsics.areEqual(composer4.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer4.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
@@ -439,38 +439,38 @@ public final class IconButtonKt {
                     }
                 } else {
                     $changed$iv = valueOf;
-                    obj6 = modifier3;
+                    obj7 = modifier2;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                z3 = restartGroup;
-                str2 = 0;
-                i14 = i19;
-                ComposerKt.sourceInformationMarkerStart(z3, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i31 |= 6;
-                composer2 = z3;
-                i12 = 0;
+                z2 = restartGroup;
+                $i$a$LayoutBoxKt$Box$1$iv = 0;
+                i2 = i18;
+                ComposerKt.sourceInformationMarkerStart(z2, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
+                i30 |= 6;
+                composer2 = z2;
+                i5 = 0;
                 boxScopeInstance = iNSTANCE;
-                modifier2 = materializeModifier;
-                ComposerKt.sourceInformationMarkerStart(z3, 1341775822, "C121@5167L84:IconButton.kt#jmzs0o");
-                if (z) {
-                    z3.startReplaceGroup(-2034925461);
-                    ComposerKt.sourceInformation(z3, "120@5124L7");
+                modifier3 = materializeModifier;
+                ComposerKt.sourceInformationMarkerStart(z2, 1341775822, "C121@5167L84:IconButton.kt#jmzs0o");
+                if (z3) {
+                    z2.startReplaceGroup(-2034925461);
+                    ComposerKt.sourceInformation(z2, "120@5124L7");
                     composer2 = 0;
-                    obj33 = i22;
-                    i3 = str2;
-                    ComposerKt.sourceInformationMarkerStart(z3, 2023513938, "CC:CompositionLocal.kt#9igjgp");
-                    ComposerKt.sourceInformationMarkerEnd(z3);
-                    floatValue = (Number)z3.consume((CompositionLocal)ContentAlphaKt.getLocalContentAlpha()).floatValue();
+                    obj33 = i21;
+                    $i$a$LayoutBoxKt$Box$1$iv2 = $i$a$LayoutBoxKt$Box$1$iv;
+                    ComposerKt.sourceInformationMarkerStart(z2, 2023513938, "CC:CompositionLocal.kt#9igjgp");
+                    ComposerKt.sourceInformationMarkerEnd(z2);
+                    floatValue = (Number)z2.consume((CompositionLocal)ContentAlphaKt.getLocalContentAlpha()).floatValue();
                 } else {
-                    i3 = str2;
-                    z3.startReplaceGroup(-2034924628);
-                    ComposerKt.sourceInformation(z3, "120@5150L8");
-                    floatValue = ContentAlpha.INSTANCE.getDisabled(z3, 6);
+                    $i$a$LayoutBoxKt$Box$1$iv2 = $i$a$LayoutBoxKt$Box$1$iv;
+                    z2.startReplaceGroup(-2034924628);
+                    ComposerKt.sourceInformation(z2, "120@5150L8");
+                    floatValue = ContentAlpha.INSTANCE.getDisabled(z2, 6);
                 }
-                z3.endReplaceGroup();
-                CompositionLocalKt.CompositionLocalProvider(ContentAlphaKt.getLocalContentAlpha().provides(Float.valueOf(floatValue)), obj9, z3, $stable |= i11);
-                ComposerKt.sourceInformationMarkerEnd(z3);
-                ComposerKt.sourceInformationMarkerEnd(z3);
+                z2.endReplaceGroup();
+                CompositionLocalKt.CompositionLocalProvider(ContentAlphaKt.getLocalContentAlpha().provides(Float.valueOf(floatValue)), obj9, z2, $stable |= i7);
+                ComposerKt.sourceInformationMarkerEnd(z2);
+                ComposerKt.sourceInformationMarkerEnd(z2);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -478,22 +478,22 @@ public final class IconButtonKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = obj4;
-                z2 = z;
-                obj2 = obj6;
+                obj2 = obj4;
+                z = z3;
+                obj = obj7;
             } else {
                 restartGroup.skipToGroupEnd();
                 obj35 = $dirty;
-                obj2 = obj3;
-                z2 = maybeCachedBoxMeasurePolicy;
-                obj5 = obj7;
+                obj = obj5;
+                z = maybeCachedBoxMeasurePolicy;
+                obj2 = obj6;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
             $dirty2 = obj35;
-            traceInProgress = new IconButtonKt.IconToggleButton.2(checked, onCheckedChange, obj2, z2, obj5, obj9, i35, i9);
+            traceInProgress = new IconButtonKt.IconToggleButton.2(checked, onCheckedChange, obj, z, obj2, obj9, i34, i9);
             endRestartGroup.updateScope((Function2)traceInProgress);
         } else {
             $dirty2 = obj35;

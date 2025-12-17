@@ -108,8 +108,8 @@ public final class LegacyAdaptingPlatformTextInputModifierNode extends Modifier.
 
     @Override // androidx.compose.ui.Modifier$Node
     public final void setServiceAdapter(androidx.compose.foundation.text.input.internal.LegacyPlatformTextInputServiceAdapter serviceAdapter) {
-        boolean serviceAdapter3;
         boolean serviceAdapter2;
+        boolean serviceAdapter3;
         Object obj;
         if (isAttached()) {
             this.serviceAdapter.stopInput();

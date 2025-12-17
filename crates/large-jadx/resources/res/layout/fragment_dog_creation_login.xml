@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/fragment_dog_creation_login_0"
+    android:background="@color/welcome_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:navigationIcon="@drawable/ic_back_arrow_green_toolbar"
+        app:titleTextColor="@color/darkGray"
+        style="@style/WelcomeScreenToolbar"/>
+    <include
+        android:id="@+id/layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        layout="@layout/fragment_login_email"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

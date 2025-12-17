@@ -80,8 +80,8 @@ public final class HandwritingGesture_androidKt {
         int end;
         int codePointAtEnd;
         int codePointBeforeStart;
-        boolean whitespaceExceptNewline;
         boolean whitespaceExceptNewline2;
+        boolean whitespaceExceptNewline;
         start = TextRange.getStart-impl($this$adjustHandwritingDeleteGestureRange_u2d72CqOWE);
         end = TextRange.getEnd-impl($this$adjustHandwritingDeleteGestureRange_u2d72CqOWE);
         if (start > 0) {
@@ -312,49 +312,49 @@ public final class HandwritingGesture_androidKt {
 
     private static final boolean isBiDiBoundary(TextLayoutResult $this$isBiDiBoundary, int offset) {
         int lineEnd$default;
-        int i2;
         int i;
+        int i2;
         final int lineForOffset = $this$isBiDiBoundary.getLineForOffset(offset);
-        i2 = 1;
+        i = 1;
         final int i4 = 0;
         if (offset != $this$isBiDiBoundary.getLineStart(lineForOffset)) {
             if (offset == TextLayoutResult.getLineEnd$default($this$isBiDiBoundary, lineForOffset, i4, 2, 0)) {
             } else {
                 if ($this$isBiDiBoundary.getBidiRunDirection(offset) != $this$isBiDiBoundary.getBidiRunDirection(offset + -1)) {
                 } else {
-                    i2 = i4;
+                    i = i4;
                 }
             }
-            return i2;
+            return i;
         }
         if ($this$isBiDiBoundary.getParagraphDirection(offset) != $this$isBiDiBoundary.getBidiRunDirection(offset)) {
         } else {
-            i2 = i4;
+            i = i4;
         }
-        return i2;
+        return i;
     }
 
     private static final boolean isNewline(int $this$isNewline) {
-        int i2;
         int i;
+        int i2;
         final int type = Character.getType($this$isNewline);
         if (type != 14 && type != 13) {
             if (type != 13) {
                 if ($this$isNewline == 10) {
-                    i = 1;
+                    i2 = 1;
                 } else {
-                    i = 0;
+                    i2 = 0;
                 }
             } else {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     private static final boolean isPunctuation(int $this$isPunctuation) {
-        int i;
         int i2;
+        int i;
         final int type = Character.getType($this$isPunctuation);
         if (type != 23 && type != 20 && type != 22 && type != 30 && type != 29 && type != 24) {
             if (type != 20) {
@@ -363,9 +363,9 @@ public final class HandwritingGesture_androidKt {
                         if (type != 29) {
                             if (type != 24) {
                                 if (type == 21) {
-                                    i = 1;
+                                    i2 = 1;
                                 } else {
-                                    i = 0;
+                                    i2 = 0;
                                 }
                             } else {
                             }
@@ -379,7 +379,7 @@ public final class HandwritingGesture_androidKt {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     private static final boolean isWhitespace(int $this$isWhitespace) {

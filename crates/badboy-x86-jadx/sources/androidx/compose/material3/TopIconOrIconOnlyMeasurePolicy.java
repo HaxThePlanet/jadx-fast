@@ -78,14 +78,14 @@ final class TopIconOrIconOnlyMeasurePolicy implements MeasurePolicy {
         int maxIntrinsicHeight;
         int index$iv$iv;
         int index$iv$iv2;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         Object obj8;
         boolean it;
         int it2;
-        Object layoutId;
-        String layoutId2;
+        Object layoutId2;
+        String layoutId;
         String str;
         final Object obj3 = this;
         final int i2 = width;
@@ -94,10 +94,10 @@ final class TopIconOrIconOnlyMeasurePolicy implements MeasurePolicy {
         int i5 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < obj6.size()) {
-            obj = obj2;
+            obj2 = obj;
             i = 0;
             it2 = 0;
-            if (Intrinsics.areEqual(TextFieldImplKt.getLayoutId((IntrinsicMeasurable)obj), "icon")) {
+            if (Intrinsics.areEqual(TextFieldImplKt.getLayoutId((IntrinsicMeasurable)obj2), "icon")) {
                 break;
             } else {
             }
@@ -112,68 +112,68 @@ final class TopIconOrIconOnlyMeasurePolicy implements MeasurePolicy {
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, List<? extends Measurable> measurables, long constraints) {
         Object obj2;
         float f2;
-        Placeable measure-BRTryo02;
-        Placeable measure-BRTryo03;
-        MeasureResult labelPlaceable;
         Placeable measure-BRTryo0;
-        int i11;
+        Placeable measure-BRTryo02;
+        MeasureResult labelPlaceable;
+        Placeable measure-BRTryo03;
+        int i8;
         int iconPlaceable2;
-        Placeable indicatorRipplePlaceable;
+        Placeable indicatorRipplePlaceable2;
         long iconPlaceable;
-        int indicatorRipplePlaceable2;
-        Placeable indicatorHeight;
+        int indicatorRipplePlaceable;
+        Placeable indicatorHeight2;
         Placeable animatedIndicatorWidth;
-        int indicatorPlaceable;
+        int indicatorPlaceable3;
         int index$iv$iv;
         float f;
         Placeable constrain-N9IONVI;
         long l;
         int indicatorToLabelVerticalPadding;
-        int i3;
-        float indicatorVerticalPadding;
         int i;
-        float topIconItemVerticalPadding;
-        int index$iv$iv4;
-        int i14;
-        int index$iv$iv3;
-        int index$iv$iv2;
-        int i7;
-        int size;
-        int i12;
-        int i2;
+        float indicatorVerticalPadding;
         int i6;
-        int i13;
-        int indicatorHeight2;
+        float topIconItemVerticalPadding;
+        int index$iv$iv2;
+        int i12;
+        int index$iv$iv4;
+        int index$iv$iv3;
         int i10;
-        int i8;
+        int size;
+        int i13;
+        int i9;
         int i5;
+        int i3;
+        int indicatorHeight;
+        int i7;
         int i4;
+        int i14;
+        int i11;
+        int indicatorPlaceable;
         int indicatorPlaceable2;
-        int indicatorPlaceable3;
         Placeable placeable2;
         Placeable placeable;
-        int i9;
+        int i2;
         long l2;
         final Object obj = this;
         obj2 = $this$measure_u2d3p2s80s;
         final long copy-Zbe2FdA$default = Constraints.copy-Zbe2FdA$default(constraints, obj3, 0, 0, 0, 0, 10);
-        i11 = 0;
+        i8 = 0;
         float f3 = f2;
         int i25 = 0;
         index$iv$iv = 0;
         indicatorToLabelVerticalPadding = "Collection contains no element matching the predicate.";
         while (index$iv$iv < f3.size()) {
-            i = i3;
-            i14 = 0;
+            i6 = i;
             i12 = 0;
-            if (Intrinsics.areEqual(LayoutIdKt.getLayoutId((Measurable)i), "icon")) {
+            i13 = 0;
+            if (Intrinsics.areEqual(LayoutIdKt.getLayoutId((Measurable)i6), "icon")) {
                 break;
             } else {
             }
             index$iv$iv++;
             obj2 = $this$measure_u2d3p2s80s;
-            f2 = i2;
-            i11 = i6;
+            f2 = i9;
+            i8 = i5;
             indicatorToLabelVerticalPadding = "Collection contains no element matching the predicate.";
         }
         NoSuchElementException noSuchElementException = new NoSuchElementException(indicatorToLabelVerticalPadding);

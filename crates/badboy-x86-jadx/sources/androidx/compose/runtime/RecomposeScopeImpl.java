@@ -37,20 +37,20 @@ public final class RecomposeScopeImpl implements androidx.compose.runtime.ScopeU
 
         public final void adoptAnchoredScopes$runtime_release(androidx.compose.runtime.SlotWriter slots, List<androidx.compose.runtime.Anchor> anchors, androidx.compose.runtime.RecomposeScopeOwner newOwner) {
             boolean empty;
-            int i;
+            int i2;
             int index$iv;
             int size;
-            Object obj;
             Object obj2;
-            int i2;
+            Object obj;
+            int i;
             int slot;
             boolean z;
             if (!(Collection)anchors.isEmpty()) {
                 empty = anchors;
-                i = 0;
+                i2 = 0;
                 index$iv = 0;
                 while (index$iv < empty.size()) {
-                    i2 = 0;
+                    i = 0;
                     if (slot instanceof RecomposeScopeImpl) {
                     } else {
                     }
@@ -65,50 +65,50 @@ public final class RecomposeScopeImpl implements androidx.compose.runtime.ScopeU
 
         public final boolean hasAnchoredRecomposeScopes$runtime_release(androidx.compose.runtime.SlotTable slots, List<androidx.compose.runtime.Anchor> anchors) {
             int $this$fastAny$iv;
+            int i5;
             int i4;
-            int i2;
             Object obj5;
-            int i3;
+            int i2;
             int index$iv$iv;
             int size;
-            int i;
-            Object obj2;
-            Object obj;
-            int i5;
-            int it;
             int i6;
+            Object obj;
+            Object obj2;
+            int i;
+            int it;
+            int i3;
             boolean ownsAnchor;
             final Object obj3 = slots;
-            i4 = 0;
+            i5 = 0;
             if (!(Collection)anchors.isEmpty()) {
-                i2 = 0;
+                i4 = 0;
                 obj5 = obj4;
-                i3 = 0;
+                i2 = 0;
                 index$iv$iv = 0;
-                i = 1;
+                i6 = 1;
                 while (index$iv$iv < obj5.size()) {
-                    i5 = 0;
-                    Object obj6 = obj;
-                    i6 = 0;
+                    i = 0;
+                    Object obj6 = obj2;
+                    i3 = 0;
                     if (obj3.ownsAnchor((Anchor)obj6) && slot$runtime_release instanceof RecomposeScopeImpl) {
                     } else {
                     }
-                    it = i4;
+                    it = i5;
                     index$iv$iv++;
-                    i = 1;
+                    i6 = 1;
                     if (slot$runtime_release instanceof RecomposeScopeImpl) {
                     } else {
                     }
-                    it = i;
+                    it = i6;
                 }
-                $this$fastAny$iv = i4;
+                $this$fastAny$iv = i5;
                 if ($this$fastAny$iv != 0) {
-                    i4 = i;
+                    i5 = i6;
                 } else {
                 }
             } else {
             }
-            return i4;
+            return i5;
         }
     }
     static {
@@ -210,55 +210,55 @@ public final class RecomposeScopeImpl implements androidx.compose.runtime.ScopeU
         int instanceToken;
         int j$iv$iv$iv;
         int $i$f$isFull;
-        MutableObjectIntMap map2;
-        int i2;
+        MutableObjectIntMap map;
+        int i4;
         Object[] keys;
         int[] values;
-        MutableObjectIntMap map;
-        int i9;
+        MutableObjectIntMap map2;
+        int i8;
         long[] metadata;
-        int i11;
-        int i$iv$iv$iv;
         int i12;
+        int i$iv$iv$iv;
+        int i;
         long slot$iv$iv$iv;
         MutableObjectIntMap $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i;
+        int i11;
         int cmp;
-        int i4;
-        int i5;
+        int $i$a$LetRecomposeScopeImpl$end$1;
+        int i9;
         Object obj;
-        int i13;
+        int i2;
+        int i5;
         int i3;
+        int i10;
         int i6;
         int i7;
-        int i8;
-        int i10;
         final Object obj2 = this;
-        final int i14 = token;
+        final int i13 = token;
         final MutableObjectIntMap trackedInstances = obj2.trackedInstances;
         if (trackedInstances != null) {
             instanceToken = 0;
             if (!obj2.getSkipped$runtime_release()) {
                 j$iv$iv$iv = trackedInstances;
-                map2 = j$iv$iv$iv;
-                i2 = 0;
-                i9 = 0;
-                metadata = map.metadata;
+                map = j$iv$iv$iv;
+                i4 = 0;
+                i8 = 0;
+                metadata = map2.metadata;
                 length += -2;
-                i12 = 0;
-                if (0 <= i11) {
+                i = 0;
+                if (0 <= i12) {
                 } else {
-                    i4 = instanceToken;
+                    $i$a$LetRecomposeScopeImpl$end$1 = instanceToken;
                     $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
-                    i = $i$f$isFull;
+                    i11 = $i$f$isFull;
                 }
-                if (i12 != 0) {
-                    anon = new RecomposeScopeImpl.end.1.2(obj2, i14, trackedInstances);
+                if (i != 0) {
+                    anon = new RecomposeScopeImpl.end.1.2(obj2, i13, trackedInstances);
                 } else {
                     anon = 0;
                 }
             } else {
-                i4 = instanceToken;
+                $i$a$LetRecomposeScopeImpl$end$1 = instanceToken;
             }
         } else {
             anon = 0;
@@ -372,66 +372,66 @@ public final class RecomposeScopeImpl implements androidx.compose.runtime.ScopeU
 
     @Override // androidx.compose.runtime.ScopeUpdateScope
     public final boolean isInvalidFor(Object instances) {
-        Object obj4;
-        boolean checkDerivedStateChanged;
-        int cmp2;
-        int checkDerivedStateChanged2;
-        MutableScatterMap trackedDependencies;
-        int trackedDependencies2;
+        Object obj;
+        boolean checkDerivedStateChanged2;
+        int cmp;
+        int checkDerivedStateChanged;
+        MutableScatterMap trackedDependencies2;
+        int trackedDependencies;
         boolean notEmpty;
         long j$iv$iv$iv;
         int $i$f$isFull;
         Object obj2;
-        int i6;
+        int i2;
         Object[] elements;
-        Object obj;
-        int i4;
+        Object obj3;
+        int i;
         long[] metadata;
-        int i5;
+        int i3;
         int i$iv$iv$iv;
         long slot$iv$iv$iv;
         MutableScatterMap $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int cmp;
+        int cmp2;
         int $i$f$any;
         long l;
-        Object obj3;
-        int i3;
+        Object obj4;
+        int i4;
         Object it;
-        int i;
-        int i2;
+        int i5;
+        int i6;
         final Object obj5 = this;
-        obj4 = instances;
-        cmp2 = 1;
-        if (obj4 == null) {
-            return cmp2;
+        obj = instances;
+        cmp = 1;
+        if (obj == null) {
+            return cmp;
         }
-        trackedDependencies = obj5.trackedDependencies;
-        if (trackedDependencies == null) {
-            return cmp2;
+        trackedDependencies2 = obj5.trackedDependencies;
+        if (trackedDependencies2 == null) {
+            return cmp;
         }
-        if (obj4 instanceof DerivedState) {
-            checkDerivedStateChanged2 = obj5.checkDerivedStateChanged((DerivedState)obj4, trackedDependencies);
+        if (obj instanceof DerivedState) {
+            checkDerivedStateChanged = obj5.checkDerivedStateChanged((DerivedState)obj, trackedDependencies2);
         } else {
-            if (obj4 instanceof ScatterSet != null) {
-                if ((ScatterSet)obj4.isNotEmpty()) {
+            if (obj instanceof ScatterSet != null) {
+                if ((ScatterSet)obj.isNotEmpty()) {
                     obj2 = notEmpty;
-                    i6 = 0;
-                    i4 = 0;
-                    metadata = obj.metadata;
+                    i2 = 0;
+                    i = 0;
+                    metadata = obj3.metadata;
                     length += -2;
-                    if (0 <= i5) {
+                    if (0 <= i3) {
                     } else {
                         $i$f$any = $i$f$isFull;
-                        obj4 = 0;
+                        obj = 0;
                     }
-                    checkDerivedStateChanged2 = obj4 != null ? 1 : 0;
+                    checkDerivedStateChanged = obj != null ? 1 : 0;
                 } else {
                 }
             } else {
-                checkDerivedStateChanged2 = 1;
+                checkDerivedStateChanged = 1;
             }
         }
-        return checkDerivedStateChanged2;
+        return checkDerivedStateChanged;
     }
 
     @Override // androidx.compose.runtime.ScopeUpdateScope
@@ -440,7 +440,7 @@ public final class RecomposeScopeImpl implements androidx.compose.runtime.ScopeU
         final int i = 0;
         int i2 = 0;
         this.observer = observer;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedRecomposeScopeImpl$observe$1 = Unit.INSTANCE;
         RecomposeScopeImpl.observe.2 lock$iv = new RecomposeScopeImpl.observe.2(this, observer);
         return (CompositionObserverHandle)lock$iv;
         synchronized (obj) {
@@ -448,7 +448,7 @@ public final class RecomposeScopeImpl implements androidx.compose.runtime.ScopeU
             i = 0;
             i2 = 0;
             this.observer = observer;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedRecomposeScopeImpl$observe$1 = Unit.INSTANCE;
             lock$iv = new RecomposeScopeImpl.observe.2(this, observer);
             return (CompositionObserverHandle)lock$iv;
         }
@@ -511,45 +511,45 @@ public final class RecomposeScopeImpl implements androidx.compose.runtime.ScopeU
         Object obj2;
         Object obj;
         androidx.compose.runtime.RecomposeScopeOwner recomposeScopeOwner;
-        int i;
-        MutableObjectIntMap map2;
-        int i2;
+        int i5;
+        MutableObjectIntMap map;
+        int i4;
         int j$iv$iv;
         MutableObjectIntMap $i$f$isFull;
-        int i5;
+        int i6;
         Object[] keys;
         int[] values;
-        MutableObjectIntMap map3;
-        int i8;
+        MutableObjectIntMap map2;
+        int i;
         long[] metadata;
         int i3;
         int i$iv$iv;
         long slot$iv$iv;
         long l;
-        MutableObjectIntMap map;
+        MutableObjectIntMap map3;
         int cmp;
         long l2;
-        int i4;
-        int i6;
         int i7;
+        int i2;
+        int i8;
         obj = this;
         $this$maskEmptyOrDeleted$iv$iv$iv = obj.owner;
-        i = 0;
+        i5 = 0;
         $this$maskEmptyOrDeleted$iv$iv$iv = obj.trackedInstances;
         if ($this$maskEmptyOrDeleted$iv$iv$iv != null && $this$maskEmptyOrDeleted$iv$iv$iv != null) {
-            i = 0;
+            i5 = 0;
             $this$maskEmptyOrDeleted$iv$iv$iv = obj.trackedInstances;
             if ($this$maskEmptyOrDeleted$iv$iv$iv != null) {
-                i2 = 0;
+                i4 = 0;
                 obj.setRereading(true);
-                $i$f$isFull = map2;
-                i5 = 0;
-                i8 = 0;
-                metadata = map3.metadata;
+                $i$f$isFull = map;
+                i6 = 0;
+                i = 0;
+                metadata = map2.metadata;
                 length += -2;
                 if (0 <= i3) {
                 } else {
-                    map = $i$f$isFull;
+                    map3 = $i$f$isFull;
                 }
                 try {
                     this.setRereading(false);

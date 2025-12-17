@@ -27,9 +27,9 @@ public final class AndroidPathMeasure implements androidx.compose.ui.graphics.Pa
     @Override // androidx.compose.ui.graphics.PathMeasure
     public long getPosition-tuRUvjQ(float distance) {
         float[] positionArray;
-        float[] tangentArray;
-        long unspecified-F1C5BW0;
         float[] tangentArray2;
+        long unspecified-F1C5BW0;
+        float[] tangentArray;
         int i;
         int i2 = 2;
         if (this.positionArray == null) {

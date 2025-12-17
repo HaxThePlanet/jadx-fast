@@ -37,14 +37,14 @@ public final class StateFlowKt {
     }
 
     public static final <T> kotlinx.coroutines.flow.Flow<T> fuseStateFlow(kotlinx.coroutines.flow.StateFlow<? extends T> $this$fuseStateFlow, CoroutineContext context, int capacity, BufferOverflow onBufferOverflow) {
-        int aSSERTIONS_ENABLED;
+        int $i$a$AssertStateFlowKt$fuseStateFlow$1;
         int i;
         int i2;
         final int i4 = 0;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i3 = 0;
-            aSSERTIONS_ENABLED = capacity != -1 ? i : i4;
-            if (aSSERTIONS_ENABLED == 0) {
+            $i$a$AssertStateFlowKt$fuseStateFlow$1 = capacity != -1 ? i : i4;
+            if ($i$a$AssertStateFlowKt$fuseStateFlow$1 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();

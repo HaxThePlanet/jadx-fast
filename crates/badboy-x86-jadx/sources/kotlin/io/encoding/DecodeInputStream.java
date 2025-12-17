@@ -94,14 +94,14 @@ final class DecodeInputStream extends InputStream {
 
     private final void shiftByteBufferToStartIfNeeded() {
         int i;
-        int byteBufferStartIndex2;
         int byteBufferStartIndex;
+        int byteBufferStartIndex2;
         int byteBufferEndIndex;
         int i2;
         if (i4 *= 3 > length -= byteBufferEndIndex2) {
             i2 = 0;
             ArraysKt.copyInto(this.byteBuffer, this.byteBuffer, i2, this.byteBufferStartIndex, this.byteBufferEndIndex);
-            this.byteBufferEndIndex = byteBufferEndIndex3 -= byteBufferStartIndex2;
+            this.byteBufferEndIndex = byteBufferEndIndex3 -= byteBufferStartIndex;
             this.byteBufferStartIndex = i2;
         }
     }
@@ -143,13 +143,13 @@ final class DecodeInputStream extends InputStream {
         String str;
         int isEOF;
         int length2;
-        int i3;
+        int i2;
         int symbolsNeeded;
         int dstOffset;
         int symbolBufferLength;
-        int i;
+        int i3;
         int decodeSymbolBufferInto;
-        int i2;
+        int i;
         byte[] symbolBuffer;
         byte b;
         Intrinsics.checkNotNullParameter(destination, "destination");
@@ -179,9 +179,9 @@ final class DecodeInputStream extends InputStream {
                             if (symbolsNeeded > 0) {
                             }
                             symbolBufferLength = 0;
-                            i = Math.min(symbolBuffer2.length, symbolsNeeded);
+                            i3 = Math.min(symbolBuffer2.length, symbolsNeeded);
                             while (!this.isEOF) {
-                                if (symbolBufferLength < i) {
+                                if (symbolBufferLength < i3) {
                                 }
                                 decodeSymbolBufferInto = readNextSymbol();
                                 this.symbolBuffer[symbolBufferLength] = (byte)decodeSymbolBufferInto;
@@ -193,14 +193,14 @@ final class DecodeInputStream extends InputStream {
                             if (!this.isEOF) {
                             } else {
                             }
-                            i2 = i9;
+                            i = i9;
                             symbolsNeeded -= symbolBufferLength;
                             dstOffset += decodeSymbolBufferInto;
-                            if (symbolBufferLength == i) {
+                            if (symbolBufferLength == i3) {
                             } else {
                             }
-                            i2 = isEOF;
-                            if (symbolBufferLength < i) {
+                            i = isEOF;
+                            if (symbolBufferLength < i3) {
                             }
                             decodeSymbolBufferInto = readNextSymbol();
                             this.symbolBuffer[symbolBufferLength] = (byte)decodeSymbolBufferInto;
@@ -212,11 +212,11 @@ final class DecodeInputStream extends InputStream {
                         if (dstOffset == offset && this.isEOF) {
                             if (this.isEOF) {
                             } else {
-                                i3 = dstOffset - offset;
+                                i2 = dstOffset - offset;
                             }
                         } else {
                         }
-                        return i3;
+                        return i2;
                     }
                     IOException iOException = new IOException("The input stream is closed.");
                     throw iOException;

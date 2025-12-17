@@ -42,11 +42,11 @@ public final class LayoutInflaterCompat {
     private static void forceSetFactory2(LayoutInflater inflater, LayoutInflater.Factory2 factory) {
         boolean sCheckedField;
         Field sLayoutInflaterFactory2Field2;
-        String str;
-        Field sLayoutInflaterFactory2Field;
         String str2;
+        Field sLayoutInflaterFactory2Field;
+        String str;
         String name;
-        str = "; inflation may have unexpected results.";
+        str2 = "; inflation may have unexpected results.";
         final String str3 = "LayoutInflaterCompatHC";
         if (!LayoutInflaterCompat.sCheckedField) {
             sCheckedField = 1;

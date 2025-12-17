@@ -68,18 +68,18 @@ public final class SlotTreeKt {
         Field[] declaredFields;
         int i3;
         int length;
-        int i4;
+        int i;
         int i2;
         Field field;
         boolean it;
-        int i;
+        int i4;
         String name2;
         declaredFields = $this$accessibleField.getDeclaredFields();
         i3 = 0;
-        i4 = 0;
-        while (i4 < declaredFields.length) {
-            i = 0;
-            i4++;
+        i = 0;
+        while (i < declaredFields.length) {
+            i4 = 0;
+            i++;
         }
         field = i2;
         if (field != null) {
@@ -127,70 +127,70 @@ public final class SlotTreeKt {
 
     private static final List<androidx.compose.ui.tooling.data.ParameterInformation> extractParameterInfo(List<? extends Object> data, androidx.compose.ui.tooling.data.SourceInformationContext context) {
         boolean accessibleField;
-        int i5;
+        int i4;
         Field element$iv$iv;
         Object str4;
-        int i15;
+        int i6;
         Iterator iterator;
         Class class;
         List emptyList;
         Object element$iv;
-        int recomposeScope;
+        int recomposeScope2;
         Object sortedIndex;
-        int i3;
-        int i4;
+        int i13;
         int i8;
+        int i;
         boolean startsWith$default;
-        int i6;
-        int i2;
-        String str;
+        int i5;
+        int i14;
+        String str2;
         int it;
-        int i12;
+        int i9;
         boolean endsWith$default;
-        int intValue;
-        String str3;
         int intValue2;
+        String str3;
+        int intValue;
         Object obj2;
         Field[] declaredFields;
         int parameter;
         ArrayList arrayList;
-        int i14;
+        int i11;
         Field[] substring;
-        int i13;
+        int i2;
         Field field;
         Object block;
-        int i7;
+        int i15;
         Class cls;
         Field blockField;
-        Object recomposeScope2;
+        Object recomposeScope;
         androidx.compose.ui.tooling.data.ParameterInformation parameterInformation;
-        String str2;
+        String str;
         Object obj;
-        int i9;
-        int i;
         int i10;
+        int i3;
+        int i7;
         String inlineClass;
-        int i11;
+        int i12;
         if (!(Collection)data.isEmpty()) {
             str4 = 0;
             iterator = (Iterable)data.iterator();
-            i8 = 0;
-            i2 = 0;
+            i = 0;
+            i14 = 0;
             while (iterator.hasNext()) {
                 Object obj3 = element$iv;
-                i12 = 0;
-                if (obj3 != null && StringsKt.endsWith$default(obj3.getClass().getName(), ".RecomposeScopeImpl", i2, 2, i8)) {
+                i9 = 0;
+                if (obj3 != null && StringsKt.endsWith$default(obj3.getClass().getName(), ".RecomposeScopeImpl", i14, 2, i)) {
                 } else {
                 }
-                it = i2;
-                i8 = 0;
-                i2 = 0;
-                if (StringsKt.endsWith$default(obj3.getClass().getName(), ".RecomposeScopeImpl", i2, 2, i8)) {
+                it = i14;
+                i = 0;
+                i14 = 0;
+                if (StringsKt.endsWith$default(obj3.getClass().getName(), ".RecomposeScopeImpl", i14, 2, i)) {
                 } else {
                 }
                 it = 1;
             }
-            element$iv = i8;
+            element$iv = i;
             if (element$iv != null) {
                 accessibleField = SlotTreeKt.accessibleField(element$iv.getClass(), "block");
                 if (accessibleField != null) {
@@ -203,43 +203,43 @@ public final class SlotTreeKt {
                         if (accessibleField2 != null) {
                             Object obj4 = accessibleField2.get(str4);
                             Intrinsics.checkNotNull(obj4, str8);
-                            intValue2 = (Integer)obj4.intValue();
+                            intValue = (Integer)obj4.intValue();
                         } else {
-                            intValue2 = i2;
+                            intValue = i14;
                         }
                         if (accessibleField3 != null) {
                             obj2 = accessibleField3.get(str4);
                             Intrinsics.checkNotNull(obj2, str8);
-                            intValue = (Integer)obj2.intValue();
+                            intValue2 = (Integer)obj2.intValue();
                         } else {
-                            intValue = i2;
+                            intValue2 = i14;
                         }
                         parameter = 0;
                         arrayList = new ArrayList();
                         substring = declaredFields;
                         final int i22 = 0;
-                        i4 = i2;
-                        while (i4 < substring.length) {
-                            field = substring[i4];
+                        i8 = i14;
+                        while (i8 < substring.length) {
+                            field = substring[i8];
                             block = field;
-                            i7 = 0;
+                            i15 = 0;
                             int blockField3 = 2;
                             int blockClass = 0;
                             int recomposeScope3 = 0;
                             if (StringsKt.startsWith$default(field.getName(), "$", recomposeScope3, blockField3, blockClass) && !StringsKt.startsWith$default(field.getName(), "$$", recomposeScope3, blockField3, blockClass) && !StringsKt.startsWith$default(field.getName(), "$jacoco", recomposeScope3, blockField3, blockClass)) {
                             } else {
                             }
-                            i5 = recomposeScope3;
-                            if (i5 != 0) {
+                            i4 = recomposeScope3;
+                            if (i4 != 0) {
                             } else {
                             }
                             element$iv$iv = block;
-                            i4++;
-                            i2 = recomposeScope3;
+                            i8++;
+                            i14 = recomposeScope3;
                             class = cls;
                             accessibleField = blockField;
-                            element$iv = recomposeScope2;
-                            i8 = 0;
+                            element$iv = recomposeScope;
+                            i = 0;
                             (Collection)arrayList.add(block);
                             if (!StringsKt.startsWith$default(field.getName(), "$$", recomposeScope3, blockField3, blockClass)) {
                             } else {
@@ -247,7 +247,7 @@ public final class SlotTreeKt {
                             if (!StringsKt.startsWith$default(field.getName(), "$jacoco", recomposeScope3, blockField3, blockClass)) {
                             } else {
                             }
-                            i5 = 1;
+                            i4 = 1;
                         }
                         Field blockField4 = accessibleField;
                         Class cls2 = class;
@@ -262,76 +262,76 @@ public final class SlotTreeKt {
                             }
                         } else {
                         }
-                        i6 = recomposeScope;
-                        while (i6 < sortedWith.size()) {
-                            i2 = i6;
+                        i5 = recomposeScope2;
+                        while (i5 < sortedWith.size()) {
+                            i14 = i5;
                             declaredFields = null;
-                            if (i2 < emptyList.size()) {
+                            if (i14 < emptyList.size()) {
                             } else {
                             }
                             substring = 0;
-                            parameter = new Parameter(i2, substring, 2, substring);
+                            parameter = new Parameter(i14, substring, 2, substring);
                             if (parameter.getSortedIndex() < sortedWith.size()) {
                             } else {
                             }
                             block = str4;
-                            i6++;
+                            i5++;
                             str4 = block;
-                            recomposeScope = 0;
+                            recomposeScope2 = 0;
                             sortedIndex = sortedWith.get(parameter.getSortedIndex());
                             int i17 = 1;
                             (Field)sortedIndex.setAccessible(i17);
-                            if (i23 & intValue2 != 0) {
+                            if (i23 & intValue != 0) {
                             } else {
                             }
-                            i9 = 0;
-                            i13 = 1;
+                            i10 = 0;
+                            i2 = 1;
                             i19++;
                             i26 >>= arrayList;
                             block = str4;
                             if (field & 3 == 3) {
                             } else {
                             }
-                            i = 0;
+                            i3 = 0;
                             if (field & 3 == 0) {
                             } else {
                             }
-                            i15 = 0;
+                            i6 = 0;
                             if (field & 4 == 0) {
                             } else {
                             }
-                            i11 = 0;
+                            i12 = 0;
                             substring = sortedIndex.getName().substring(1);
                             Intrinsics.checkNotNullExpressionValue(substring, "this as java.lang.String).substring(startIndex)");
-                            if (i15 != 0 && i9 == 0) {
+                            if (i6 != 0 && i10 == 0) {
                             } else {
                             }
-                            i10 = 0;
-                            parameterInformation = new ParameterInformation(substring, sortedIndex.get(str4), i9, i, i10, parameter.getInlineClass(), i11);
+                            i7 = 0;
+                            parameterInformation = new ParameterInformation(substring, sortedIndex.get(str4), i10, i3, i7, parameter.getInlineClass(), i12);
                             (List)arrayList2.add(parameterInformation);
-                            if (i9 == 0) {
+                            if (i10 == 0) {
                             } else {
                             }
+                            i7 = 1;
+                            i12 = 1;
+                            i6 = 1;
+                            i3 = 1;
                             i10 = 1;
-                            i11 = 1;
-                            i15 = 1;
-                            i = 1;
-                            i9 = 1;
-                            parameter = emptyList.get(i2);
-                            i14 = 2;
+                            parameter = emptyList.get(i14);
+                            i11 = 2;
                             substring = 0;
                         }
                         return arrayList2;
                     }
                     blockField = accessibleField;
                     block = str4;
-                    recomposeScope2 = element$iv;
+                    recomposeScope = element$iv;
                 } else {
                     blockField = accessibleField;
-                    recomposeScope2 = element$iv;
+                    recomposeScope = element$iv;
                 }
             } else {
-                recomposeScope2 = element$iv;
+                recomposeScope = element$iv;
             }
         }
         return CollectionsKt.emptyList();
@@ -387,40 +387,40 @@ public final class SlotTreeKt {
         androidx.compose.ui.tooling.data.SourceInformationContext inline;
         int it;
         androidx.compose.ui.tooling.data.Group callGroup;
-        Object node3;
+        Object node;
         int node2;
-        int i2;
+        int i4;
         List modifierInfo;
         Object $i$f$reduce;
         Iterable data;
         boolean iterator;
-        int i6;
-        int i5;
+        int i3;
+        int i;
         androidx.compose.ui.tooling.data.Group group;
         List list;
         int name;
         ArrayList arrayList;
         Object parameterInfo;
         Object accumulator$iv;
-        int i7;
-        int location2;
+        int i2;
+        int location;
         boolean next;
         int length;
-        int i;
+        int i7;
         int box;
-        Iterator location;
+        Iterator location2;
         boolean next2;
-        Object node;
+        Object node3;
         IntRect g;
         List list2;
-        int i4;
-        int i3;
+        int i6;
+        int i5;
         inline = parentContext;
         final Object key = $this$getGroup.getKey();
         String sourceInfo = $this$getGroup.getSourceInfo();
         int i9 = 0;
         if (sourceInfo != null) {
-            i2 = 0;
+            i4 = 0;
             it = SlotTreeKt.sourceInformationContextOf(sourceInfo, inline);
         } else {
             it = i9;
@@ -444,65 +444,65 @@ public final class SlotTreeKt {
         }
         if (node2 instanceof LayoutInfo) {
             $i$f$reduce = SlotTreeKt.boundsOfLayoutNode((LayoutInfo)node2);
-            i6 = 1;
+            i3 = 1;
             int i12 = 0;
-            if (i16 != 0 && i16.isCall() == i6) {
-                i7 = i16.isCall() == i6 ? i6 : i12;
+            if (i16 != 0 && i16.isCall() == i3) {
+                i2 = i16.isCall() == i3 ? i3 : i12;
             } else {
             }
-            if (i7 != 0 && inline != null) {
+            if (i2 != 0 && inline != null) {
                 if (inline != null) {
-                    location2 = inline.nextSourceLocation();
+                    location = inline.nextSourceLocation();
                 } else {
-                    location2 = i8;
+                    location = i8;
                 }
             } else {
             }
             if (node2 != null) {
                 callGroup = new NodeGroup(key, node2, $i$f$reduce, (Collection)list7, list, (Collection)list8);
-                node = node2;
+                node3 = node2;
                 list2 = list;
-                i5 = location2;
+                i = location;
             } else {
-                node = node2;
+                node3 = node2;
                 list2 = list;
-                node3 = i8;
+                node = i8;
                 if (i16 != 0) {
                     name = i16.getName();
                 } else {
-                    name = node3;
+                    name = node;
                 }
                 if (i16 != 0) {
                     length = i16.getName();
                 } else {
-                    length = node3;
+                    length = node;
                 }
                 if ((CharSequence)length != 0) {
                     if ((CharSequence)length.length() == 0) {
-                        i = i6;
+                        i7 = i3;
                     } else {
-                        i = i12;
+                        i7 = i12;
                     }
                 } else {
                 }
-                if (i == 0) {
-                    if (bottom -= location <= 0) {
-                        if (right -= location > 0) {
-                            node3 = $this$getGroup.getIdentity();
+                if (i7 == 0) {
+                    if (bottom -= location2 <= 0) {
+                        if (right -= location2 > 0) {
+                            node = $this$getGroup.getIdentity();
                         } else {
                         }
                     } else {
                     }
                 } else {
                 }
-                if (i16 != 0 && i16.isInline() == i6) {
-                    if (i16.isInline() == i6) {
+                if (i16 != 0 && i16.isInline() == i3) {
+                    if (i16.isInline() == i3) {
                     } else {
-                        i6 = i4;
+                        i3 = i6;
                     }
                 } else {
                 }
-                callGroup = new CallGroup(key, name, $i$f$reduce, location2, node3, SlotTreeKt.extractParameterInfo(list7, i16), (Collection)list7, (Collection)list8, i6);
+                callGroup = new CallGroup(key, name, $i$f$reduce, location, node, SlotTreeKt.extractParameterInfo(list7, i16), (Collection)list7, (Collection)list8, i3);
             }
             return callGroup;
         } else {
@@ -513,9 +513,9 @@ public final class SlotTreeKt {
                 int i11 = 0;
                 arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)list4, 10));
                 box = 0;
-                location = list4.iterator();
-                for (Object next2 : location) {
-                    i4 = 0;
+                location2 = list4.iterator();
+                for (Object next2 : location2) {
+                    i6 = 0;
                     (Collection)arrayList.add((Group)next2.getBox());
                 }
                 int i10 = 0;
@@ -707,23 +707,23 @@ public final class SlotTreeKt {
 
     private static final void parseParameters$ensureIndexes(Ref.IntRef lastAdded, List<Integer> expectedSortedIndex, int index) {
         int i6;
-        int i5;
-        int i4;
-        int i3;
         int i;
+        int i4;
+        int i5;
         int i2;
+        int i3;
         Integer valueOf;
         int i7 = index - element;
         if (i7 > 0) {
             i6 = 4;
-            i5 = i7 < i6 ? i6 : i7;
+            i = i7 < i6 ? i6 : i7;
             i4 = 0;
-            while (i4 < i5) {
-                i2 = 0;
+            while (i4 < i) {
+                i3 = 0;
                 expectedSortedIndex.add(Integer.valueOf(i8++));
                 i4++;
             }
-            lastAdded.element = element2 += i5;
+            lastAdded.element = element2 += i;
         }
     }
 
@@ -840,40 +840,40 @@ public final class SlotTreeKt {
         boolean number;
         int sourceInformationContextOf$parseLocation;
         int sourceFile2;
-        int i4;
+        int i7;
         int mr;
-        String packageHash;
+        String packageHash2;
         int callName;
         int sourceFile;
         int substringAfterLast;
         int parameters;
-        int i3;
-        String i6;
         int i5;
-        int packageHash2;
-        int i7;
-        int i;
-        int i2;
+        String i6;
         int i8;
+        int packageHash;
+        int i4;
+        int i2;
+        int i;
+        int i3;
         int isInline;
         int length;
         final java.lang.CharSequence charSequence = information;
         Ref.ObjectRef objectRef = new Ref.ObjectRef();
         final Ref.ObjectRef objectRef2 = objectRef;
-        packageHash = 0;
+        packageHash2 = 0;
         sourceFile = 0;
-        objectRef2.element = Regex.find$default(SlotTreeKt.tokenizer, (CharSequence)charSequence, packageHash, 2, sourceFile);
+        objectRef2.element = Regex.find$default(SlotTreeKt.tokenizer, (CharSequence)charSequence, packageHash2, 2, sourceFile);
         ArrayList arrayList = new ArrayList();
         final ArrayList list = arrayList;
-        i = equal;
-        i8 = i4;
+        i2 = equal;
+        i3 = i7;
         isInline = callName;
-        i2 = i13;
+        i = i13;
         parameters = substringAfterLast;
         while (objectRef2.element != null) {
             Object element = objectRef2.element;
             Intrinsics.checkNotNull(element);
-            i4 = element;
+            i7 = element;
             sourceInformationContextOf$parseLocation = SlotTreeKt.sourceInformationContextOf$parseLocation(objectRef2);
             if (sourceInformationContextOf$parseLocation != null) {
             }
@@ -881,36 +881,36 @@ public final class SlotTreeKt {
             (List)list.add(sourceInformationContextOf$parseLocation);
             SlotTreeKt.sourceInformationContextOf$next$4(objectRef2);
             SlotTreeKt.sourceInformationContextOf$next$4(objectRef2);
-            i = sourceInformationContextOf$parseLocation;
-            SlotTreeKt.sourceInformationContextOf$next$4(objectRef2);
             i2 = sourceInformationContextOf$parseLocation;
-            if (i8 != 0) {
+            SlotTreeKt.sourceInformationContextOf$next$4(objectRef2);
+            i = sourceInformationContextOf$parseLocation;
+            if (i3 != 0) {
             }
             SlotTreeKt.sourceInformationContextOf$next$4(objectRef2);
-            i8 = sourceInformationContextOf$parseLocation;
+            i3 = sourceInformationContextOf$parseLocation;
             parameters = callName;
             isInline = 1;
-            if (i8 != 0) {
+            if (i3 != 0) {
             }
             SlotTreeKt.sourceInformationContextOf$next$4(objectRef2);
-            i8 = sourceInformationContextOf$parseLocation;
+            i3 = sourceInformationContextOf$parseLocation;
             isInline = 1;
         }
         sourceFile2 = i6;
-        mr = packageHash2;
+        mr = packageHash;
         if (sourceFile2 == null) {
             if (parent != null) {
                 sourceFile = parent.getSourceFile();
             }
-            i5 = sourceFile;
+            i8 = sourceFile;
         } else {
-            i5 = sourceFile2;
+            i8 = sourceFile2;
         }
         if (sourceFile2 != null) {
-            i7 = mr;
+            i4 = mr;
         } else {
         }
-        SourceInformationContext sourceInformationContext = new SourceInformationContext(parameters, i5, i7, list, i, i2, i8, isInline);
+        SourceInformationContext sourceInformationContext = new SourceInformationContext(parameters, i8, i4, list, i2, i, i3, isInline);
         return sourceInformationContext;
     }
 

@@ -92,30 +92,30 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
 
     private final Object processDragCancel(Continuation<? super Unit> continuation) {
         boolean anon;
+        int i2;
+        Object $i$a$LetDragGestureNode$processDragCancel$22;
         int i;
-        Object cOROUTINE_SUSPENDED;
-        int i4;
         Object l$0;
         Object interaction;
-        int i2;
+        int $i$a$LetDragGestureNode$processDragCancel$2;
         MutableInteractionSource interactionSource;
         DragInteraction.Cancel cancel;
         int i3;
         Object obj9;
         anon = continuation;
-        i4 = Integer.MIN_VALUE;
-        if (continuation instanceof DragGestureNode.processDragCancel.1 && label &= i4 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation instanceof DragGestureNode.processDragCancel.1 && label &= i != 0) {
             anon = continuation;
-            i4 = Integer.MIN_VALUE;
-            if (label &= i4 != 0) {
-                anon.label = obj9 -= i4;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj9 -= i;
             } else {
                 anon = new DragGestureNode.processDragCancel.1(this, continuation);
             }
         } else {
         }
         obj9 = anon.result;
-        cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
+        $i$a$LetDragGestureNode$processDragCancel$22 = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (label2) {
             case 0:
                 ResultKt.throwOnFailure(obj9);
@@ -125,13 +125,13 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
                 cancel = new DragInteraction.Cancel(interaction);
                 anon.L$0 = l$0;
                 anon.label = 1;
-                return cOROUTINE_SUSPENDED;
-                cOROUTINE_SUSPENDED = i2;
+                return $i$a$LetDragGestureNode$processDragCancel$22;
+                $i$a$LetDragGestureNode$processDragCancel$22 = $i$a$LetDragGestureNode$processDragCancel$2;
                 l$0.dragInteraction = 0;
                 l$0.onDragStopped-TH1AsA0(Velocity.Companion.getZero-9UxMQ8M());
                 return Unit.INSTANCE;
             case 1:
-                cOROUTINE_SUSPENDED = 0;
+                $i$a$LetDragGestureNode$processDragCancel$22 = 0;
                 l$0 = anon.L$0;
                 ResultKt.throwOnFailure(obj9);
                 break;
@@ -139,17 +139,17 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
                 obj9 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj9;
         }
-        i2 = cOROUTINE_SUSPENDED;
+        $i$a$LetDragGestureNode$processDragCancel$2 = $i$a$LetDragGestureNode$processDragCancel$22;
     }
 
     private final Object processDragStart(androidx.compose.foundation.gestures.DragEvent.DragStarted dragEvent$DragStarted, Continuation<? super Unit> continuation2) {
         boolean anon;
-        int i3;
-        Object cOROUTINE_SUSPENDED;
         int i;
-        Object l$1;
+        Object cOROUTINE_SUSPENDED;
+        int i3;
+        Object _this;
         Object event;
-        Object l$0;
+        Object _this2;
         int interactionSource;
         MutableInteractionSource interactionSource2;
         DragInteraction.Cancel cancel;
@@ -157,12 +157,12 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
         int obj9;
         Object obj10;
         anon = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof DragGestureNode.processDragStart.1 && label &= i != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation2 instanceof DragGestureNode.processDragStart.1 && label &= i3 != 0) {
             anon = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj10 -= i;
+            i3 = Integer.MIN_VALUE;
+            if (label &= i3 != 0) {
+                anon.label = obj10 -= i3;
             } else {
                 anon = new DragGestureNode.processDragStart.1(this, continuation2);
             }
@@ -173,33 +173,33 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
         switch (label2) {
             case 0:
                 ResultKt.throwOnFailure(obj10);
-                l$0 = this;
-                obj9 = l$0.dragInteraction;
-                interactionSource2 = l$0.interactionSource;
+                _this2 = this;
+                obj9 = _this2.dragInteraction;
+                interactionSource2 = _this2.interactionSource;
                 cancel = new DragInteraction.Cancel(obj9);
-                anon.L$0 = l$0;
+                anon.L$0 = _this2;
                 anon.L$1 = dragStarted;
                 anon.label = 1;
                 return cOROUTINE_SUSPENDED;
                 obj9 = interactionSource;
                 obj9 = new DragInteraction.Start();
-                interactionSource = l$0.interactionSource;
-                anon.L$0 = l$0;
-                anon.L$1 = l$1;
+                interactionSource = _this2.interactionSource;
+                anon.L$0 = _this2;
+                anon.L$1 = _this;
                 anon.L$2 = obj9;
                 anon.label = 2;
                 return cOROUTINE_SUSPENDED;
-                cOROUTINE_SUSPENDED = l$1;
-                event = l$0;
-                l$0 = event;
-                l$1 = cOROUTINE_SUSPENDED;
-                l$0.dragInteraction = obj9;
-                l$0.onDragStarted-k-4lQ0M(l$1.getStartPoint-F1C5BW0());
+                cOROUTINE_SUSPENDED = _this;
+                event = _this2;
+                _this2 = event;
+                _this = cOROUTINE_SUSPENDED;
+                _this2.dragInteraction = obj9;
+                _this2.onDragStarted-k-4lQ0M(_this.getStartPoint-F1C5BW0());
                 return Unit.INSTANCE;
             case 1:
                 obj9 = 0;
-                l$1 = anon.L$1;
-                l$0 = anon.L$0;
+                _this = anon.L$1;
+                _this2 = anon.L$0;
                 ResultKt.throwOnFailure(obj10);
                 break;
             case 2:
@@ -207,10 +207,10 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
                 cOROUTINE_SUSPENDED = anon.L$1;
                 event = anon.L$0;
                 ResultKt.throwOnFailure(obj10);
-                l$0 = event;
-                l$1 = cOROUTINE_SUSPENDED;
-                l$0.dragInteraction = obj9;
-                l$0.onDragStarted-k-4lQ0M(l$1.getStartPoint-F1C5BW0());
+                _this2 = event;
+                _this = cOROUTINE_SUSPENDED;
+                _this2.dragInteraction = obj9;
+                _this2.onDragStarted-k-4lQ0M(_this.getStartPoint-F1C5BW0());
                 return Unit.INSTANCE;
             default:
                 obj9 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
@@ -220,15 +220,15 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
 
     private final Object processDragStop(androidx.compose.foundation.gestures.DragEvent.DragStopped dragEvent$DragStopped, Continuation<? super Unit> continuation2) {
         boolean anon;
-        int i3;
+        int i2;
         Object event;
         int i;
         Object l$0;
         Object interaction;
-        int i2;
+        int $i$a$LetDragGestureNode$processDragStop$2;
         MutableInteractionSource interactionSource;
         DragInteraction.Stop stop;
-        int i4;
+        int i3;
         Object obj9;
         Object obj10;
         anon = continuation2;
@@ -257,7 +257,7 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
                 anon.label = 1;
                 return event;
                 event = dragStopped;
-                obj9 = i2;
+                obj9 = $i$a$LetDragGestureNode$processDragStop$2;
                 l$0.dragInteraction = 0;
                 l$0.onDragStopped-TH1AsA0(obj9.getVelocity-9UxMQ8M());
                 return Unit.INSTANCE;
@@ -271,7 +271,7 @@ public abstract class DragGestureNode extends DelegatingNode implements PointerI
                 obj9 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj9;
         }
-        i2 = obj9;
+        $i$a$LetDragGestureNode$processDragStop$2 = obj9;
         obj9 = event;
     }
 

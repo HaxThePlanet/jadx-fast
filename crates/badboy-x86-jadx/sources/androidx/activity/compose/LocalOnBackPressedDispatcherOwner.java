@@ -31,48 +31,48 @@ public final class LocalOnBackPressedDispatcherOwner {
         boolean traceInProgress;
         int innerContext$iv;
         String str;
-        int i3;
         int i;
-        Object consume;
+        int i3;
         Object consume2;
+        Object consume;
         int i4 = -2068013981;
         ComposerKt.sourceInformationMarkerStart($composer, i4, "C(<get-current>)50@2099L7:BackHandler.kt#q1dkbc");
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i4, $changed, -1, "androidx.activity.compose.LocalOnBackPressedDispatcherOwner.<get-current> (BackHandler.kt:50)");
         }
         innerContext$iv = 0;
-        i3 = 0;
-        consume = 2023513938;
+        i = 0;
+        consume2 = 2023513938;
         final String str5 = "CC:CompositionLocal.kt#9igjgp";
-        ComposerKt.sourceInformationMarkerStart($composer, consume, str5);
+        ComposerKt.sourceInformationMarkerStart($composer, consume2, str5);
         ComposerKt.sourceInformationMarkerEnd($composer);
         if ((OnBackPressedDispatcherOwner)$composer.consume((CompositionLocal)LocalOnBackPressedDispatcherOwner.LocalOnBackPressedDispatcherOwner) == null) {
             $composer.startReplaceGroup(544166745);
             ComposerKt.sourceInformation($composer, "51@2136L7");
             innerContext$iv = 0;
-            i3 = 0;
-            ComposerKt.sourceInformationMarkerStart($composer, consume, str5);
+            i = 0;
+            ComposerKt.sourceInformationMarkerStart($composer, consume2, str5);
             ComposerKt.sourceInformationMarkerEnd($composer);
-            consume2 = ViewTreeOnBackPressedDispatcherOwner.get((View)$composer.consume((CompositionLocal)AndroidCompositionLocals_androidKt.getLocalView()));
+            consume = ViewTreeOnBackPressedDispatcherOwner.get((View)$composer.consume((CompositionLocal)AndroidCompositionLocals_androidKt.getLocalView()));
             $composer.endReplaceGroup();
         } else {
             $composer.startReplaceGroup(544164296);
             $composer.endReplaceGroup();
         }
-        if (consume2 == null) {
+        if (consume == null) {
             $composer.startReplaceGroup(544168748);
             ComposerKt.sourceInformation($composer, "*52@2259L7");
             int i7 = 0;
-            i = 0;
-            ComposerKt.sourceInformationMarkerStart($composer, consume, str5);
+            i3 = 0;
+            ComposerKt.sourceInformationMarkerStart($composer, consume2, str5);
             ComposerKt.sourceInformationMarkerEnd($composer);
             i2 = 0;
-            innerContext$iv = consume;
+            innerContext$iv = consume2;
             while (innerContext$iv instanceof ContextWrapper) {
                 innerContext$iv = (ContextWrapper)innerContext$iv.getBaseContext();
             }
-            innerContext$iv = i3;
-            consume2 = innerContext$iv;
+            innerContext$iv = i;
+            consume = innerContext$iv;
             $composer.endReplaceGroup();
         } else {
             $composer.startReplaceGroup(544164377);
@@ -82,7 +82,7 @@ public final class LocalOnBackPressedDispatcherOwner {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return consume2;
+        return consume;
     }
 
     public final ProvidedValue<OnBackPressedDispatcherOwner> provides(OnBackPressedDispatcherOwner dispatcherOwner) {

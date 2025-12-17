@@ -21,19 +21,19 @@ public final class FontListFontFamilyTypefaceAdapterKt {
 
     private static final Pair<List<androidx.compose.ui.text.font.Font>, Object> firstImmediatelyAvailable(List<? extends androidx.compose.ui.text.font.Font> $this$firstImmediatelyAvailable, androidx.compose.ui.text.font.TypefaceRequest typefaceRequest, androidx.compose.ui.text.font.AsyncTypefaceCache asyncTypefaceCache, androidx.compose.ui.text.font.PlatformFontLoader platformFontLoader, Function1<? super androidx.compose.ui.text.font.TypefaceRequest, ? extends Object> createDefaultTypeface) {
         int i2;
-        int i3;
+        int i;
         Object constructor-impl;
         int permanentFailure-impl;
-        Object obj3;
-        Object obj;
-        Object synchronizedObject;
+        Object obj2;
+        Object $i$a$RunCachedBlockingFontListFontFamilyTypefaceAdapterKt$firstImmediatelyAvailable$result$2;
+        Object $i$a$RunCachedBlockingFontListFontFamilyTypefaceAdapterKt$firstImmediatelyAvailable$result$1;
         int companion;
-        int i;
+        int i3;
         Object blocking;
         int string;
         androidx.compose.ui.text.font.AsyncTypefaceCache.Key key;
         int str;
-        Object obj2;
+        Object obj;
         int asyncFontsToLoad;
         int idx;
         int i4;
@@ -43,36 +43,36 @@ public final class FontListFontFamilyTypefaceAdapterKt {
         asyncFontsToLoad = i2;
         idx = permanentFailure-impl;
         while (idx < $this$firstImmediatelyAvailable.size()) {
-            obj3 = obj4;
-            int loadingStrategy-PKNRLFQ = (Font)obj3.getLoadingStrategy-PKNRLFQ();
-            i2 = asyncTypefaceCache.get-1ASDuI8(obj3, platformFontLoader2);
+            obj2 = obj3;
+            int loadingStrategy-PKNRLFQ = (Font)obj2.getLoadingStrategy-PKNRLFQ();
+            i2 = asyncTypefaceCache.get-1ASDuI8(obj2, platformFontLoader2);
             idx++;
             if (asyncFontsToLoad == 0) {
             } else {
             }
-            asyncFontsToLoad.add(obj3);
+            asyncFontsToLoad.add(obj2);
             androidx.compose.ui.text.font.Font[] arr = new Font[1];
             asyncFontsToLoad = permanentFailure-impl;
             permanentFailure-impl = asyncTypefaceCache;
             i4 = 0;
-            obj = AsyncTypefaceCache.access$getCacheLock$p(permanentFailure-impl);
+            $i$a$RunCachedBlockingFontListFontFamilyTypefaceAdapterKt$firstImmediatelyAvailable$result$2 = AsyncTypefaceCache.access$getCacheLock$p(permanentFailure-impl);
             companion = 0;
             i2 = 0;
-            string = new AsyncTypefaceCache.Key(obj3, platformFontLoader2.getCacheKey());
+            string = new AsyncTypefaceCache.Key(obj2, platformFontLoader2.getCacheKey());
             if ((AsyncTypefaceCache.AsyncTypefaceResult)AsyncTypefaceCache.access$getResultCache$p(permanentFailure-impl).get(string) == null) {
             }
             if (str != null) {
             } else {
             }
-            Unit iNSTANCE2 = Unit.INSTANCE;
+            Unit $i$a$SynchronizedAsyncTypefaceCache$runCachedBlocking$1$iv2 = Unit.INSTANCE;
             int lock$iv$iv2 = 0;
             kotlin.Result.Companion companion2 = Result.Companion;
             int i5 = 0;
-            constructor-impl = Result.constructor-impl(platformFontLoader2.loadBlocking(obj3));
+            constructor-impl = Result.constructor-impl(platformFontLoader2.loadBlocking(obj2));
             if (Result.isFailure-impl(constructor-impl)) {
             }
             i2 = 0;
-            AsyncTypefaceCache.put$default(permanentFailure-impl, obj3, platformFontLoader2, constructor-impl, false, 8, 0);
+            AsyncTypefaceCache.put$default(permanentFailure-impl, obj2, platformFontLoader2, constructor-impl, false, 8, 0);
             constructor-impl = 0;
             unbox-impl = str.unbox-impl();
             str = AsyncTypefaceCache.access$getPermanentCache$p(permanentFailure-impl).get(string);

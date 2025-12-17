@@ -357,10 +357,10 @@ public class ShortcutManagerCompat {
         int next;
         List id;
         Object systemService;
-        List singletonList;
+        List singletonList2;
         boolean next2;
         Object dynamicShortcuts;
-        List singletonList2;
+        List singletonList;
         int size2;
         List list;
         int size;

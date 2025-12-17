@@ -59,9 +59,9 @@ public final class CheckboxKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
-            int ordinal2;
             int ordinal3;
+            int ordinal2;
+            int ordinal;
             int[] iArr = new int[values.length];
             iArr[ToggleableState.On.ordinal()] = 1;
             iArr[ToggleableState.Off.ordinal()] = 2;
@@ -83,49 +83,49 @@ public final class CheckboxKt {
     public static final void Checkbox(boolean checked, Function1<? super Boolean, Unit> onCheckedChange, Modifier modifier, boolean enabled, androidx.compose.material3.CheckboxColors colors, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i9) {
         int i4;
         Object invalid$iv;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int $dirty;
         Object $dirty2;
-        int i5;
-        int i;
-        int companion;
-        int colors3;
-        boolean traceInProgress2;
+        int i12;
         int i2;
+        int companion;
+        int colors2;
+        boolean traceInProgress;
+        int i3;
         boolean z;
         int skipping;
         int defaultsInvalid;
         Object obj2;
         Object rememberedValue;
-        Object obj4;
-        Object obj;
-        int i10;
         Object obj3;
-        int i7;
-        boolean enabled2;
-        int i6;
-        Object colors2;
-        int changed;
-        Object i12;
-        Object obj5;
-        int i3;
-        Object empty;
+        Object obj;
+        int i5;
+        Object obj4;
         int i11;
+        boolean enabled2;
+        int i;
+        Object colors3;
+        int changed;
+        Object i10;
+        Object obj5;
         int i8;
+        Object empty;
+        int i6;
+        int i7;
         int obj19;
         final boolean z2 = checked;
         final Object obj6 = onCheckedChange;
         final int i27 = $changed;
-        traceInProgress = -1406741137;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = -1406741137;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(Checkbox)P(!1,5,4,2)96@4296L8,99@4370L356:Checkbox.kt#uh7d8r");
         $dirty = $changed;
         if (i9 & 1 != 0) {
             $dirty |= 6;
         } else {
             if (i27 & 6 == 0) {
-                i5 = restartGroup.changed(z2) ? 4 : 2;
-                $dirty |= i5;
+                i12 = restartGroup.changed(z2) ? 4 : 2;
+                $dirty |= i12;
             }
         }
         rememberedValue = 32;
@@ -133,8 +133,8 @@ public final class CheckboxKt {
             $dirty |= 48;
         } else {
             if (i27 & 48 == 0) {
-                i = restartGroup.changedInstance(obj6) ? rememberedValue : 16;
-                $dirty |= i;
+                i2 = restartGroup.changedInstance(obj6) ? rememberedValue : 16;
+                $dirty |= i2;
             }
         }
         companion = i9 & 4;
@@ -143,8 +143,8 @@ public final class CheckboxKt {
             obj = modifier;
         } else {
             if (i27 & 384 == 0) {
-                i10 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i10;
+                i5 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i5;
             } else {
                 obj = modifier;
             }
@@ -155,8 +155,8 @@ public final class CheckboxKt {
             enabled2 = enabled;
         } else {
             if (i27 & 3072 == 0) {
-                i6 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty |= i6;
+                i = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty |= i;
             } else {
                 enabled2 = enabled;
             }
@@ -165,21 +165,21 @@ public final class CheckboxKt {
             if (i9 & 16 == 0) {
                 changed = restartGroup.changed(colors) ? 16384 : 8192;
             } else {
-                colors2 = colors;
+                colors3 = colors;
             }
             $dirty |= changed;
         } else {
-            colors2 = colors;
+            colors3 = colors;
         }
-        i12 = i9 & 32;
+        i10 = i9 & 32;
         int i35 = 196608;
-        if (i12 != 0) {
+        if (i10 != 0) {
             $dirty |= i35;
             obj5 = interactionSource;
         } else {
             if (i35 &= i27 == 0) {
-                i3 = restartGroup.changed(interactionSource) ? 131072 : 65536;
-                $dirty |= i3;
+                i8 = restartGroup.changed(interactionSource) ? 131072 : 65536;
+                $dirty |= i8;
             } else {
                 obj5 = interactionSource;
             }
@@ -198,16 +198,16 @@ public final class CheckboxKt {
                         }
                         if (i9 & 16 != 0) {
                             $dirty &= empty;
-                            colors2 = colors3;
+                            colors3 = colors2;
                         }
-                        if (i12 != 0) {
-                            obj5 = colors3;
-                            i12 = colors2;
-                            colors2 = enabled2;
+                        if (i10 != 0) {
+                            obj5 = colors2;
+                            i10 = colors3;
+                            colors3 = enabled2;
                             enabled2 = obj;
                         } else {
-                            i12 = colors2;
-                            colors2 = enabled2;
+                            i10 = colors3;
+                            colors3 = enabled2;
                             enabled2 = obj;
                         }
                     } else {
@@ -215,36 +215,36 @@ public final class CheckboxKt {
                         if (i9 & 16 != 0) {
                             $dirty &= empty;
                         }
-                        i12 = colors2;
-                        colors2 = enabled2;
+                        i10 = colors3;
+                        colors3 = enabled2;
                         enabled2 = obj;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.Checkbox (Checkbox.kt:98)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.Checkbox (Checkbox.kt:98)");
                 }
                 restartGroup.startReplaceGroup(1046936362);
                 ComposerKt.sourceInformation(restartGroup, "103@4507L29");
                 if (obj6 != null) {
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 1046937763, "CC(remember):Checkbox.kt#9igjgp");
                     int i25 = 1;
-                    i4 = $dirty & 112 == rememberedValue ? i25 : i2;
+                    i4 = $dirty & 112 == rememberedValue ? i25 : i3;
                     if ($dirty & 14 == 4) {
-                        i2 = i25;
+                        i3 = i25;
                     }
-                    i4 |= i2;
-                    traceInProgress2 = restartGroup;
+                    i4 |= i3;
+                    traceInProgress = restartGroup;
                     defaultsInvalid = 0;
-                    rememberedValue = traceInProgress2.rememberedValue();
+                    rememberedValue = traceInProgress.rememberedValue();
                     int i31 = 0;
                     if (i16 == 0) {
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             empty = 0;
                             obj19 = i16;
                             invalid$iv = new CheckboxKt.Checkbox.1.1(obj6, z2);
-                            traceInProgress2.updateRememberedValue((Function0)invalid$iv);
+                            traceInProgress.updateRememberedValue((Function0)invalid$iv);
                         } else {
                             obj19 = i16;
                             invalid$iv = rememberedValue;
@@ -252,132 +252,132 @@ public final class CheckboxKt {
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    obj3 = invalid$iv;
+                    obj4 = invalid$iv;
                 } else {
-                    obj3 = invalid$iv;
+                    obj4 = invalid$iv;
                 }
                 restartGroup.endReplaceGroup();
-                CheckboxKt.TriStateCheckbox(ToggleableStateKt.ToggleableState(z2), obj3, enabled2, colors2, i12, obj5, restartGroup, i19 | i24, 0);
+                CheckboxKt.TriStateCheckbox(ToggleableStateKt.ToggleableState(z2), obj4, enabled2, colors3, i10, obj5, restartGroup, i19 | i24, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i7 = $dirty;
+                i11 = $dirty;
                 $dirty2 = enabled2;
-                z = colors2;
-                obj2 = i12;
-                obj4 = obj5;
+                z = colors3;
+                obj2 = i10;
+                obj3 = obj5;
             } else {
                 restartGroup.skipToGroupEnd();
-                i7 = $dirty;
+                i11 = $dirty;
                 $dirty2 = obj;
                 z = enabled2;
-                obj2 = colors2;
-                obj4 = obj5;
+                obj2 = colors3;
+                obj3 = obj5;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new CheckboxKt.Checkbox.2(z2, obj6, $dirty2, z, obj2, obj4, i27, i9);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new CheckboxKt.Checkbox.2(z2, obj6, $dirty2, z, obj2, obj3, i27, i9);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     private static final void CheckboxImpl(boolean enabled, ToggleableState value, Modifier modifier, androidx.compose.material3.CheckboxColors colors, Composer $composer, int $changed) {
-        int i4;
+        int i2;
         int $changed$iv$iv;
-        int i7;
+        int i16;
         Float initialValue$iv$iv;
-        Object obj2;
+        Object $i$a$CacheCheckboxKt$CheckboxImpl$1;
         Object empty;
-        boolean traceInProgress3;
-        int i12;
-        int i8;
+        boolean traceInProgress2;
+        int i7;
+        int i15;
         int $composer2;
-        Transition $this$animateValue$iv$iv;
+        Transition $this$animateValue$iv$iv2;
         int $dirty2;
         int $dirty;
-        boolean traceInProgress2;
-        Transition $this$animateValue$iv$iv2;
-        int i9;
-        int i;
-        int i17;
-        int i14;
+        boolean traceInProgress;
+        Transition $this$animateValue$iv$iv3;
+        int i8;
+        int i4;
+        int i12;
+        int i10;
         int it;
         androidx.compose.runtime.State boxColor$material3_release;
         androidx.compose.runtime.State borderColor$material3_release;
         Modifier requiredSize-3ABfNKs;
-        int i18;
-        Object obj3;
+        int i17;
+        Object $i$a$CacheCheckboxKt$CheckboxImpl$checkCache$1;
         Composer composer;
-        int i3;
-        boolean traceInProgress;
+        int i5;
+        boolean traceInProgress3;
         Object rememberedValue;
         int checkDrawingCache;
-        int i10;
+        int i13;
         Transition companion;
+        int i3;
+        int i14;
+        int i18;
+        int $changed$iv$iv2;
+        Transition transition2;
+        Object obj2;
+        Composer $composer3;
+        int i9;
+        int i;
+        Transition transition;
+        Transition $this$animateValue$iv$iv;
+        Float num;
         int i11;
         int i6;
-        int i16;
-        int $changed$iv$iv2;
-        Transition transition;
-        Object obj;
-        Composer $composer3;
-        int i13;
-        int i2;
-        Transition transition2;
-        Transition $this$animateValue$iv$iv3;
-        Float num;
-        int i5;
-        int i15;
         String str;
         androidx.compose.material3.CheckboxKt.CheckboxImpl.1.1 anon;
-        androidx.compose.runtime.State state;
-        androidx.compose.runtime.State state3;
         androidx.compose.runtime.State state2;
-        androidx.compose.runtime.State checkDrawFraction;
         androidx.compose.runtime.State state4;
-        Object obj4;
+        androidx.compose.runtime.State state3;
+        androidx.compose.runtime.State checkDrawFraction;
+        androidx.compose.runtime.State state;
+        Object obj;
         Float obj43;
         final boolean z = enabled;
-        final Object obj5 = value;
-        final Object obj6 = modifier;
-        final Object obj7 = colors;
-        i12 = $changed;
-        traceInProgress3 = 2007131616;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress3);
+        final Object obj3 = value;
+        final Object obj4 = modifier;
+        final Object obj5 = colors;
+        i7 = $changed;
+        traceInProgress2 = 2007131616;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(CheckboxImpl)P(1,3,2)272@12420L23,274@12491L499,291@13057L514,306@13593L32,307@13654L21,308@13702L24,309@13756L27,310@13866L538,310@13788L616:Checkbox.kt#uh7d8r");
         rememberedValue = 2;
-        if (i12 & 6 == 0) {
-            i9 = restartGroup.changed(z) ? 4 : rememberedValue;
-            $dirty2 |= i9;
+        if (i7 & 6 == 0) {
+            i8 = restartGroup.changed(z) ? 4 : rememberedValue;
+            $dirty2 |= i8;
         }
-        if (i12 & 48 == 0) {
-            i = restartGroup.changed(obj5) ? 32 : 16;
-            $dirty2 |= i;
+        if (i7 & 48 == 0) {
+            i4 = restartGroup.changed(obj3) ? 32 : 16;
+            $dirty2 |= i4;
         }
-        if (i12 & 384 == 0) {
-            i17 = restartGroup.changed(obj6) ? 256 : 128;
-            $dirty2 |= i17;
+        if (i7 & 384 == 0) {
+            i12 = restartGroup.changed(obj4) ? 256 : 128;
+            $dirty2 |= i12;
         }
-        if (i12 & 3072 == 0) {
-            i14 = restartGroup.changed(obj7) ? 2048 : 1024;
-            $dirty2 |= i14;
+        if (i7 & 3072 == 0) {
+            i10 = restartGroup.changed(obj5) ? 2048 : 1024;
+            $dirty2 |= i10;
         }
         final int i105 = $dirty2;
         if (i105 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress3, i105, -1, "androidx.compose.material3.CheckboxImpl (Checkbox.kt:271)");
+                    ComposerKt.traceEventStart(traceInProgress2, i105, -1, "androidx.compose.material3.CheckboxImpl (Checkbox.kt:271)");
                 }
-                Transition transition3 = TransitionKt.updateTransition(obj5, 0, restartGroup, i19 &= 14, rememberedValue);
+                Transition transition3 = TransitionKt.updateTransition(obj3, 0, restartGroup, i19 &= 14, rememberedValue);
                 androidx.compose.material3.CheckboxKt.CheckboxImpl.checkDrawFraction.1 iNSTANCE3 = CheckboxKt.CheckboxImpl.checkDrawFraction.1.INSTANCE;
                 int i106 = 0;
                 int i107 = 0;
                 String str6 = "CC(animateFloat)P(2)1966@80444L78:Transition.kt#pdpnli";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1338768149, str6);
-                i16 = 57344;
-                $this$animateValue$iv$iv2 = transition6;
+                i18 = 57344;
+                $this$animateValue$iv$iv3 = transition6;
                 int i109 = i82;
                 int i110 = 0;
                 String str10 = "CC(animateValue)P(3,2)1883@77007L32,1884@77062L31,1885@77118L23,1887@77154L89:Transition.kt#pdpnli";
@@ -389,22 +389,22 @@ public final class CheckboxKt {
                 ComposerKt.sourceInformation(transition4, str4);
                 String $composer4 = "androidx.compose.material3.CheckboxImpl.<anonymous> (Checkbox.kt:283)";
                 if (ComposerKt.isTraceInProgress()) {
-                    $this$animateValue$iv$iv3 = $this$animateValue$iv$iv2;
+                    $this$animateValue$iv$iv = $this$animateValue$iv$iv3;
                     ComposerKt.traceEventStart(1800065638, i115 & 112, -1, $composer4);
                 } else {
-                    $this$animateValue$iv$iv3 = $this$animateValue$iv$iv2;
+                    $this$animateValue$iv$iv = $this$animateValue$iv$iv3;
                 }
-                i5 = 0;
-                i15 = 1065353216;
+                i11 = 0;
+                i6 = 1065353216;
                 switch (i29) {
                     case 1:
-                        i8 = i15;
+                        i15 = i6;
                         break;
                     case 2:
-                        i8 = i5;
+                        i15 = i11;
                         break;
                     case 3:
-                        i8 = i15;
+                        i15 = i6;
                         break;
                     default:
                         NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
@@ -414,7 +414,7 @@ public final class CheckboxKt {
                     ComposerKt.traceEventEnd();
                 }
                 transition4.endReplaceGroup();
-                i2 = 0;
+                i = 0;
                 Composer initialValue$iv$iv3 = composer5;
                 int it2 = 1800065638;
                 initialValue$iv$iv3.startReplaceGroup(it2);
@@ -428,13 +428,13 @@ public final class CheckboxKt {
                 }
                 switch (i21) {
                     case 1:
-                        i4 = i15;
+                        i2 = i6;
                         break;
                     case 2:
-                        i4 = i5;
+                        i2 = i11;
                         break;
                     case 3:
-                        i4 = i15;
+                        i2 = i6;
                         break;
                     default:
                         NoWhenBranchMatchedException noWhenBranchMatchedException4 = new NoWhenBranchMatchedException();
@@ -449,13 +449,13 @@ public final class CheckboxKt {
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 androidx.compose.material3.CheckboxKt.CheckboxImpl.checkCenterGravitationShiftFraction.1 iNSTANCE2 = CheckboxKt.CheckboxImpl.checkCenterGravitationShiftFraction.1.INSTANCE;
                 checkDrawingCache = 0;
-                i11 = 0;
+                i3 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1338768149, str6);
                 i24 |= i35;
-                $this$animateValue$iv$iv = companion;
-                i6 = 0;
+                $this$animateValue$iv$iv2 = companion;
+                i14 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -142660079, str10);
-                Object currentState = $this$animateValue$iv$iv.getCurrentState();
+                Object currentState = $this$animateValue$iv$iv2.getCurrentState();
                 Composer composer3 = restartGroup;
                 int i100 = 0;
                 composer3.startReplaceGroup(-1426969489);
@@ -463,24 +463,24 @@ public final class CheckboxKt {
                 ComposerKt.sourceInformation(composer3, str11);
                 if (ComposerKt.isTraceInProgress()) {
                     $changed$iv$iv2 = $changed$iv$iv;
-                    transition = $this$animateValue$iv$iv;
-                    obj = currentState;
+                    transition2 = $this$animateValue$iv$iv2;
+                    obj2 = currentState;
                     ComposerKt.traceEventStart(-1426969489, i66 &= 112, -1, "androidx.compose.material3.CheckboxImpl.<anonymous> (Checkbox.kt:300)");
                 } else {
                     $changed$iv$iv2 = $changed$iv$iv;
-                    transition = $this$animateValue$iv$iv;
-                    obj = currentState;
+                    transition2 = $this$animateValue$iv$iv2;
+                    obj2 = currentState;
                     it = -1;
                 }
                 switch (i25) {
                     case 1:
-                        i7 = i5;
+                        i16 = i11;
                         break;
                     case 2:
-                        i7 = i5;
+                        i16 = i11;
                         break;
                     case 3:
-                        i7 = i15;
+                        i16 = i6;
                         break;
                     default:
                         NoWhenBranchMatchedException noWhenBranchMatchedException2 = new NoWhenBranchMatchedException();
@@ -490,7 +490,7 @@ public final class CheckboxKt {
                     ComposerKt.traceEventEnd();
                 }
                 composer3.endReplaceGroup();
-                initialValue$iv$iv = Float.valueOf(i7);
+                initialValue$iv$iv = Float.valueOf(i16);
                 Composer composer4 = restartGroup;
                 int i101 = 0;
                 int i59 = -1426969489;
@@ -508,7 +508,7 @@ public final class CheckboxKt {
                     case 2:
                         break;
                     case 3:
-                        i5 = i15;
+                        i11 = i6;
                         break;
                     default:
                         NoWhenBranchMatchedException noWhenBranchMatchedException3 = new NoWhenBranchMatchedException();
@@ -534,42 +534,42 @@ public final class CheckboxKt {
                     checkDrawingCache = new CheckDrawingCache(0, 0, 0, 7, 0);
                     composer2.updateRememberedValue(checkDrawingCache);
                 } else {
-                    obj3 = rememberedValue2;
+                    $i$a$CacheCheckboxKt$CheckboxImpl$checkCache$1 = rememberedValue2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                $dirty = obj7.checkmarkColor$material3_release(obj5, restartGroup, i54 |= i62);
-                boxColor$material3_release = obj7.boxColor$material3_release(z, obj5, restartGroup, i64 |= i73);
-                borderColor$material3_release = obj7.borderColor$material3_release(z, obj5, restartGroup, i75 |= i91);
+                $dirty = obj5.checkmarkColor$material3_release(obj3, restartGroup, i54 |= i62);
+                boxColor$material3_release = obj5.boxColor$material3_release(z, obj3, restartGroup, i64 |= i73);
+                borderColor$material3_release = obj5.borderColor$material3_release(z, obj3, restartGroup, i75 |= i91);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 974837696, "CC(remember):Checkbox.kt#9igjgp");
                 composer = restartGroup;
-                i3 = 0;
+                i5 = 0;
                 rememberedValue = composer.rememberedValue();
-                i10 = 0;
+                i13 = 0;
                 if (i97 |= changed9 == 0) {
                     checkDrawFraction = empty;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int checkDrawFraction2 = 0;
-                        anon = new CheckboxKt.CheckboxImpl.1.1(boxColor$material3_release, borderColor$material3_release, $dirty, checkDrawFraction, state5, (CheckDrawingCache)obj3);
+                        anon = new CheckboxKt.CheckboxImpl.1.1(boxColor$material3_release, borderColor$material3_release, $dirty, checkDrawFraction, state5, (CheckDrawingCache)$i$a$CacheCheckboxKt$CheckboxImpl$checkCache$1);
                         composer.updateRememberedValue((Function1)anon);
                     } else {
-                        state4 = state5;
-                        state2 = $dirty;
-                        state = boxColor$material3_release;
-                        state3 = borderColor$material3_release;
-                        obj2 = rememberedValue;
+                        state = state5;
+                        state3 = $dirty;
+                        state2 = boxColor$material3_release;
+                        state4 = borderColor$material3_release;
+                        $i$a$CacheCheckboxKt$CheckboxImpl$1 = rememberedValue;
                     }
                 } else {
                     checkDrawFraction = empty;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.requiredSize-3ABfNKs(SizeKt.wrapContentSize$default(obj6, Alignment.Companion.getCenter(), false, 2, 0), CheckboxKt.CheckboxSize), (Function1)obj2, restartGroup, 0);
+                CanvasKt.Canvas(SizeKt.requiredSize-3ABfNKs(SizeKt.wrapContentSize$default(obj4, Alignment.Companion.getCenter(), false, 2, 0), CheckboxKt.CheckboxSize), (Function1)$i$a$CacheCheckboxKt$CheckboxImpl$1, restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
                 if (endRestartGroup != null) {
-                    traceInProgress3 = new CheckboxKt.CheckboxImpl.2(z, obj5, obj6, obj7, $changed);
-                    endRestartGroup.updateScope((Function2)traceInProgress3);
+                    traceInProgress2 = new CheckboxKt.CheckboxImpl.2(z, obj3, obj4, obj5, $changed);
+                    endRestartGroup.updateScope((Function2)traceInProgress2);
                 }
             }
             restartGroup.skipToGroupEnd();
@@ -580,34 +580,34 @@ public final class CheckboxKt {
     public static final void TriStateCheckbox(ToggleableState state, Function0<Unit> onClick, Modifier modifier, boolean enabled, androidx.compose.material3.CheckboxColors colors, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i9) {
         int companion;
         int $dirty2;
-        Object traceInProgress;
-        Object obj4;
+        Object traceInProgress2;
+        Object obj5;
         Modifier minimumInteractiveComponentSize;
         Object obj6;
-        Object obj3;
-        int i3;
+        Object obj;
+        int i8;
         int i5;
-        boolean colors3;
+        boolean colors2;
         int $dirty;
         Object modifier2;
-        Object colors2;
-        Object obj5;
-        boolean traceInProgress2;
-        int i4;
-        Object obj;
-        int str;
-        boolean z;
-        int i2;
-        Object constructor-impl;
-        int i7;
-        int changed;
-        int i8;
-        Object interactionSource2;
-        int i6;
-        boolean defaultsInvalid;
+        Object colors3;
+        Object obj4;
+        boolean traceInProgress;
         int i;
         Object obj7;
+        int str;
+        boolean z;
+        int i4;
+        Object $i$f$divU2uoSUM;
+        int i2;
+        int changed;
+        int i3;
+        Object interactionSource2;
+        int i7;
+        boolean defaultsInvalid;
+        int i6;
         Object obj2;
+        Object obj3;
         final int i24 = $changed;
         companion = -1608358065;
         final Composer restartGroup = $composer.startRestartGroup(companion);
@@ -618,8 +618,8 @@ public final class CheckboxKt {
             obj6 = state;
         } else {
             if (i24 & 6 == 0) {
-                i3 = restartGroup.changed(state) ? 4 : 2;
-                $dirty2 |= i3;
+                i8 = restartGroup.changed(state) ? 4 : 2;
+                $dirty2 |= i8;
             } else {
                 obj6 = state;
             }
@@ -635,13 +635,13 @@ public final class CheckboxKt {
         int i16 = i9 & 4;
         if (i16 != 0) {
             $dirty2 |= 384;
-            colors2 = modifier;
+            colors3 = modifier;
         } else {
             if (i24 & 384 == 0) {
-                i4 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i4;
+                i = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i;
             } else {
-                colors2 = modifier;
+                colors3 = modifier;
             }
         }
         str = i9 & 8;
@@ -650,8 +650,8 @@ public final class CheckboxKt {
             z = enabled;
         } else {
             if (i24 & 3072 == 0) {
-                i2 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty2 |= i2;
+                i4 = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty2 |= i4;
             } else {
                 z = enabled;
             }
@@ -660,21 +660,21 @@ public final class CheckboxKt {
             if (i9 & 16 == 0) {
                 changed = restartGroup.changed(colors) ? 16384 : 8192;
             } else {
-                constructor-impl = colors;
+                $i$f$divU2uoSUM = colors;
             }
             $dirty2 |= changed;
         } else {
-            constructor-impl = colors;
+            $i$f$divU2uoSUM = colors;
         }
-        i8 = i9 & 32;
+        i3 = i9 & 32;
         int i31 = 196608;
-        if (i8 != 0) {
+        if (i3 != 0) {
             $dirty2 |= i31;
             interactionSource2 = interactionSource;
         } else {
             if (i31 &= i24 == 0) {
-                i6 = restartGroup.changed(interactionSource) ? 131072 : 65536;
-                $dirty2 |= i6;
+                i7 = restartGroup.changed(interactionSource) ? 131072 : 65536;
+                $dirty2 |= i7;
             } else {
                 interactionSource2 = interactionSource;
             }
@@ -682,44 +682,44 @@ public final class CheckboxKt {
         if (i33 &= $dirty2 == 74898) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i = -57345;
+                i6 = -57345;
                 if (i24 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i16 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = colors2;
+                            modifier2 = colors3;
                         }
                         if (str != null) {
-                            z = colors2;
+                            z = colors3;
                         }
                         if (i9 & 16 != 0) {
-                            $dirty2 &= i;
-                            constructor-impl = colors2;
+                            $dirty2 &= i6;
+                            $i$f$divU2uoSUM = colors3;
                         }
-                        if (i8 != 0) {
-                            obj7 = modifier2;
-                            obj4 = colors2;
-                            obj2 = constructor-impl;
+                        if (i3 != 0) {
+                            obj2 = modifier2;
+                            obj5 = colors3;
+                            obj3 = $i$f$divU2uoSUM;
                             $dirty = $dirty2;
                             $dirty2 = z;
                         } else {
-                            obj7 = modifier2;
-                            obj2 = constructor-impl;
-                            obj4 = interactionSource2;
+                            obj2 = modifier2;
+                            obj3 = $i$f$divU2uoSUM;
+                            obj5 = interactionSource2;
                             $dirty = $dirty2;
                             $dirty2 = z;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i9 & 16 != 0) {
-                            $dirty2 &= i;
+                            $dirty2 &= i6;
                         }
                         $dirty = $dirty2;
-                        obj7 = colors2;
+                        obj2 = colors3;
                         $dirty2 = z;
-                        obj2 = constructor-impl;
-                        obj4 = interactionSource2;
+                        obj3 = $i$f$divU2uoSUM;
+                        obj5 = interactionSource2;
                     }
                 } else {
                 }
@@ -733,11 +733,11 @@ public final class CheckboxKt {
                     int i28 = 0;
                     z = $dirty;
                     $dirty = $dirty2;
-                    companion = ToggleableKt.triStateToggleable-O2vRcR0((Modifier)Modifier.Companion, obj6, obj4, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, Dp.constructor-impl(stateLayerSize-D9Ej5fM / f), 0, interactionSource2, restartGroup, 54), $dirty, Role.box-impl(Role.Companion.getCheckbox-o7Vup1c()), onClick);
-                    interactionSource2 = obj4;
+                    companion = ToggleableKt.triStateToggleable-O2vRcR0((Modifier)Modifier.Companion, obj6, obj5, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, Dp.constructor-impl(stateLayerSize-D9Ej5fM / f), 0, interactionSource2, restartGroup, 54), $dirty, Role.box-impl(Role.Companion.getCheckbox-o7Vup1c()), onClick);
+                    interactionSource2 = obj5;
                     $dirty2 = $dirty;
                 } else {
-                    interactionSource2 = obj4;
+                    interactionSource2 = obj5;
                     z = $dirty;
                     companion = Modifier.Companion;
                 }
@@ -747,29 +747,29 @@ public final class CheckboxKt {
                 } else {
                     minimumInteractiveComponentSize = Modifier.Companion;
                 }
-                Object obj9 = obj2;
-                CheckboxKt.CheckboxImpl($dirty2, state, PaddingKt.padding-3ABfNKs(obj7.then(minimumInteractiveComponentSize).then(companion), CheckboxKt.CheckboxDefaultPadding), obj9, restartGroup, i13 | i20);
+                Object obj9 = obj3;
+                CheckboxKt.CheckboxImpl($dirty2, state, PaddingKt.padding-3ABfNKs(obj2.then(minimumInteractiveComponentSize).then(companion), CheckboxKt.CheckboxDefaultPadding), obj9, restartGroup, i13 | i20);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = obj9;
-                i7 = z;
-                obj3 = obj7;
-                colors3 = $dirty2;
-                obj = interactionSource2;
+                obj4 = obj9;
+                i2 = z;
+                obj = obj2;
+                colors2 = $dirty2;
+                obj7 = interactionSource2;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj3 = colors2;
-                colors3 = z;
-                obj5 = constructor-impl;
-                i7 = $dirty2;
-                obj = interactionSource2;
+                obj = colors3;
+                colors2 = z;
+                obj4 = $i$f$divU2uoSUM;
+                i2 = $dirty2;
+                obj7 = interactionSource2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            companion = new CheckboxKt.TriStateCheckbox.1(state, onClick, obj3, colors3, obj5, obj, i24, i9);
+            companion = new CheckboxKt.TriStateCheckbox.1(state, onClick, obj, colors2, obj4, obj7, i24, i9);
             endRestartGroup.updateScope((Function2)companion);
         }
     }
@@ -796,29 +796,29 @@ public final class CheckboxKt {
 
     private static final void drawBox-1wkBAMs(DrawScope $this$drawBox_u2d1wkBAMs, long boxColor, long borderColor, float radius, float strokeWidth) {
         Fill iNSTANCE;
-        int i7;
+        int i;
         Object obj;
         DrawScope drawScope;
-        int i12;
-        long l6;
-        long l2;
-        Fill fill;
-        int i3;
-        int i8;
-        int i;
-        int i11;
         int i6;
-        Object obj2;
         long l5;
         long l4;
-        long l3;
+        Fill fill;
+        int i12;
+        int i11;
+        int i8;
+        int i7;
+        int i3;
+        Object obj2;
+        long l6;
         long l;
+        long l3;
+        long l2;
         Stroke stroke;
         int i9;
-        int i4;
         int i2;
-        int i10;
         int i5;
+        int i4;
+        int i10;
         final float f = obj45;
         final int i29 = obj46 / i13;
         int i16 = 0;
@@ -832,11 +832,11 @@ public final class CheckboxKt {
             DrawScope.drawRoundRect-u-Aw5IA$default($this$drawBox_u2d1wkBAMs, boxColor, obj12, 0, obj14, SizeKt.Size(width-impl, width-impl), obj16, CornerRadiusKt.CornerRadius$default(f, i24, i26, i22), obj18, (DrawStyle)Fill.INSTANCE, 0);
         } else {
             float f2 = (float)i26;
-            i10 = 224;
-            i5 = 0;
+            i4 = 224;
+            i10 = 0;
             i9 = 0;
-            i4 = 0;
             i2 = 0;
+            i5 = 0;
             obj2 = $this$drawBox_u2d1wkBAMs;
             DrawScope.drawRoundRect-u-Aw5IA$default(obj2, boxColor, obj27, OffsetKt.Offset(i14, i14), obj29, SizeKt.Size(width-impl - i27, width-impl - i17), obj31, CornerRadiusKt.CornerRadius$default(Math.max(i24, f - i14), i24, i26, i22), obj33, (DrawStyle)Fill.INSTANCE, i9);
             DrawScope.drawRoundRect-u-Aw5IA$default(obj2, radius, obj27, OffsetKt.Offset(i29, i29), obj29, SizeKt.Size(width-impl - i14, width-impl - i14), obj31, CornerRadiusKt.CornerRadius$default(f - i29, i24, i26, i22), obj33, (DrawStyle)stroke2, i9);

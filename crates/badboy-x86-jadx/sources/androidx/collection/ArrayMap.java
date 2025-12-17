@@ -94,20 +94,20 @@ public class ArrayMap<K, V>  extends androidx.collection.SimpleArrayMap<K, V> im
         @Override // java.util.Set
         public int hashCode() {
             int result;
-            int i2;
-            Object keyAt;
             int i;
+            Object keyAt;
+            int i2;
             result = 0;
             size--;
-            while (i2 >= 0) {
-                keyAt = this.this$0.keyAt(i2);
+            while (i >= 0) {
+                keyAt = this.this$0.keyAt(i);
                 if (keyAt == null) {
                 } else {
                 }
-                i = keyAt.hashCode();
-                result += i;
-                i2--;
-                i = 0;
+                i2 = keyAt.hashCode();
+                result += i2;
+                i--;
+                i2 = 0;
             }
             return result;
         }
@@ -161,18 +161,18 @@ public class ArrayMap<K, V>  extends androidx.collection.SimpleArrayMap<K, V> im
 
         public <T> T[] toArray(T[] tArr) {
             int instance;
-            int i2;
             int i;
+            int i2;
             Object keyAt;
             Object obj4;
             final int size = size();
             if (tArr.length < size) {
                 obj4 = instance;
             }
-            i2 = 0;
-            while (i2 < size) {
-                obj4[i2] = this.this$0.keyAt(i2);
-                i2++;
+            i = 0;
+            while (i < size) {
+                obj4[i] = this.this$0.keyAt(i);
+                i++;
             }
             if (obj4.length > size) {
                 obj4[size] = 0;
@@ -435,18 +435,18 @@ public class ArrayMap<K, V>  extends androidx.collection.SimpleArrayMap<K, V> im
 
         public <T> T[] toArray(T[] tArr) {
             int instance;
-            int i;
             int i2;
+            int i;
             Object valueAt;
             Object obj4;
             final int size = size();
             if (tArr.length < size) {
                 obj4 = instance;
             }
-            i = 0;
-            while (i < size) {
-                obj4[i] = this.this$0.valueAt(i);
-                i++;
+            i2 = 0;
+            while (i2 < size) {
+                obj4[i2] = this.this$0.valueAt(i2);
+                i2++;
             }
             if (obj4.length > size) {
                 obj4[size] = 0;
@@ -521,14 +521,14 @@ public class ArrayMap<K, V>  extends androidx.collection.SimpleArrayMap<K, V> im
     }
 
     public Set<Map.Entry<K, V>> entrySet() {
-        androidx.collection.ArrayMap.EntrySet entrySet2;
         androidx.collection.ArrayMap.EntrySet entrySet;
+        androidx.collection.ArrayMap.EntrySet entrySet2;
         if (this.mEntrySet == null) {
-            entrySet = new ArrayMap.EntrySet(this);
-            this.mEntrySet = entrySet;
-            entrySet2 = entrySet;
+            entrySet2 = new ArrayMap.EntrySet(this);
+            this.mEntrySet = entrySet2;
+            entrySet = entrySet2;
         }
-        return entrySet2;
+        return entrySet;
     }
 
     public V get(Object key) {
@@ -536,14 +536,14 @@ public class ArrayMap<K, V>  extends androidx.collection.SimpleArrayMap<K, V> im
     }
 
     public Set<K> keySet() {
-        androidx.collection.ArrayMap.KeySet keySet2;
         androidx.collection.ArrayMap.KeySet keySet;
+        androidx.collection.ArrayMap.KeySet keySet2;
         if (this.mKeySet == null) {
-            keySet = new ArrayMap.KeySet(this);
-            this.mKeySet = keySet;
-            keySet2 = keySet;
+            keySet2 = new ArrayMap.KeySet(this);
+            this.mKeySet = keySet2;
+            keySet = keySet2;
         }
-        return keySet2;
+        return keySet;
     }
 
     public void putAll(Map<? extends K, ? extends V> map) {
@@ -573,21 +573,21 @@ public class ArrayMap<K, V>  extends androidx.collection.SimpleArrayMap<K, V> im
     }
 
     public boolean retainAll(Collection<?> collection) {
-        int i;
         int i2;
+        int i;
         boolean contains;
-        size2 -= i2;
-        while (i >= 0) {
-            if (!collection.contains(keyAt(i))) {
+        size2 -= i;
+        while (i2 >= 0) {
+            if (!collection.contains(keyAt(i2))) {
             }
-            i--;
-            removeAt(i);
+            i2--;
+            removeAt(i2);
         }
         if (size() != size()) {
         } else {
-            i2 = 0;
+            i = 0;
         }
-        return i2;
+        return i;
     }
 
     public Collection<V> values() {

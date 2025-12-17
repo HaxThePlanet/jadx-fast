@@ -19,19 +19,19 @@ public final class ActivityResultRegistryKt {
         androidx.activity.result.ActivityResultRegistry currentOnResult;
         boolean traceInProgress;
         Object realLauncher;
-        Object activityResultRegistry;
-        String str;
         Object activityResultRegistry2;
+        String str;
+        Object activityResultRegistry;
         Object invalid$iv;
-        Object empty3;
-        Object invalid$iv2;
-        int empty2;
-        Object activityResultLauncherHolder;
+        Object empty2;
+        Object invalid$iv3;
         int empty;
-        int invalid$iv3;
+        Object activityResultLauncherHolder;
+        int empty3;
+        int invalid$iv2;
         androidx.compose.runtime.State state;
-        androidx.activity.compose.ActivityResultLauncherHolder activity;
-        androidx.activity.result.ActivityResultRegistry activity2;
+        androidx.activity.compose.ActivityResultLauncherHolder activity2;
+        androidx.activity.result.ActivityResultRegistry activity;
         Object obj = contract;
         Composer composer = $composer;
         final int i23 = $changed;
@@ -46,7 +46,7 @@ public final class ActivityResultRegistryKt {
         ActivityResultRegistryOwner current = LocalActivityResultRegistryOwner.INSTANCE.getCurrent(composer4, 6);
         if (current == null) {
         } else {
-            activityResultRegistry2 = current.getActivityResultRegistry();
+            activityResultRegistry = current.getActivityResultRegistry();
             String str4 = "CC(remember):ActivityResultRegistry.kt#9igjgp";
             ComposerKt.sourceInformationMarkerStart(composer4, -316131648, str4);
             int i10 = 0;
@@ -55,7 +55,7 @@ public final class ActivityResultRegistryKt {
             Object rememberedValue = composer3.rememberedValue();
             int i24 = 0;
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                empty2 = 0;
+                empty = 0;
                 activityResultLauncherHolder = new ActivityResultLauncherHolder();
                 composer3.updateRememberedValue(activityResultLauncherHolder);
             } else {
@@ -70,13 +70,13 @@ public final class ActivityResultRegistryKt {
             Object rememberedValue2 = composer5.rememberedValue();
             int i26 = 0;
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                empty = 0;
-                invalid$iv3 = i16;
-                invalid$iv2 = new ManagedActivityResultLauncher((ActivityResultLauncherHolder)invalid$iv, SnapshotStateKt.rememberUpdatedState(obj, composer, i23 & 14));
-                composer5.updateRememberedValue(invalid$iv2);
+                empty3 = 0;
+                invalid$iv2 = i16;
+                invalid$iv3 = new ManagedActivityResultLauncher((ActivityResultLauncherHolder)invalid$iv, SnapshotStateKt.rememberUpdatedState(obj, composer, i23 & 14));
+                composer5.updateRememberedValue(invalid$iv3);
             } else {
-                invalid$iv3 = i16;
-                invalid$iv2 = rememberedValue2;
+                invalid$iv2 = i16;
+                invalid$iv3 = rememberedValue2;
             }
             ComposerKt.sourceInformationMarkerEnd(composer4);
             ComposerKt.sourceInformationMarkerStart(composer4, -316120958, str4);
@@ -84,38 +84,38 @@ public final class ActivityResultRegistryKt {
             int i25 = 0;
             Object rememberedValue3 = composer6.rememberedValue();
             int i27 = 0;
-            if (changed2 |= empty3 == 0) {
+            if (changed2 |= empty2 == 0) {
                 if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                    invalid$iv3 = 0;
-                    empty3 = rememberUpdatedState;
-                    activityResultRegistry2 = realLauncher;
+                    invalid$iv2 = 0;
+                    empty2 = rememberUpdatedState;
+                    activityResultRegistry = realLauncher;
                     androidx.activity.compose.ActivityResultLauncherHolder key = invalid$iv;
-                    androidx.activity.result.ActivityResultRegistry activity3 = activity2;
-                    ActivityResultRegistryKt.rememberLauncherForActivityResult.1.1 currentOnResult2 = new ActivityResultRegistryKt.rememberLauncherForActivityResult.1.1(key, activity3, activityResultRegistry2, obj, empty3);
+                    androidx.activity.result.ActivityResultRegistry activity3 = activity;
+                    ActivityResultRegistryKt.rememberLauncherForActivityResult.1.1 currentOnResult2 = new ActivityResultRegistryKt.rememberLauncherForActivityResult.1.1(key, activity3, activityResultRegistry, obj, empty2);
                     currentOnResult = activity5;
-                    activity = key;
-                    realLauncher = activityResultRegistry2;
-                    state = empty3;
+                    activity2 = key;
+                    realLauncher = activityResultRegistry;
+                    state = empty2;
                     composer6.updateRememberedValue((Function1)currentOnResult2);
                 } else {
                     state = rememberUpdatedState;
-                    currentOnResult = activityResultRegistry2;
-                    activity = invalid$iv;
-                    activityResultRegistry = rememberedValue3;
+                    currentOnResult = activityResultRegistry;
+                    activity2 = invalid$iv;
+                    activityResultRegistry2 = rememberedValue3;
                 }
             } else {
             }
             ComposerKt.sourceInformationMarkerEnd(composer4);
-            EffectsKt.DisposableEffect(currentOnResult, realLauncher, contract, (Function1)activityResultRegistry, composer4, i6 & 896);
+            EffectsKt.DisposableEffect(currentOnResult, realLauncher, contract, (Function1)activityResultRegistry2, composer4, i6 & 896);
             if (ComposerKt.isTraceInProgress()) {
                 ComposerKt.traceEventEnd();
             }
             ComposerKt.sourceInformationMarkerEnd($composer);
-            return (ManagedActivityResultLauncher)invalid$iv2;
+            return (ManagedActivityResultLauncher)invalid$iv3;
         }
         androidx.compose.runtime.State currentOnResult4 = rememberUpdatedState;
         int currentOnResult3 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("No ActivityResultRegistryOwner was provided via LocalActivityResultRegistryOwner".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckNotNullActivityResultRegistryKt$rememberLauncherForActivityResult$activityResultRegistry$1 = new IllegalStateException("No ActivityResultRegistryOwner was provided via LocalActivityResultRegistryOwner".toString());
+        throw $i$a$CheckNotNullActivityResultRegistryKt$rememberLauncherForActivityResult$activityResultRegistry$1;
     }
 }

@@ -207,7 +207,7 @@ public interface MeasureScope extends androidx.compose.ui.layout.IntrinsicMeasur
     public androidx.compose.ui.layout.MeasureResult layout(int width, int height, Map<androidx.compose.ui.layout.AlignmentLine, Integer> alignmentLines, Function1<? super androidx.compose.ui.layout.RulerScope, Unit> rulers, Function1<? super androidx.compose.ui.layout.Placeable.PlacementScope, Unit> placementBlock) {
         int i2;
         int i;
-        String string;
+        String $i$a$CheckPreconditionLookaheadDelegateKt$checkMeasuredSize$1$iv;
         StringBuilder append;
         String str;
         int i3 = 0;

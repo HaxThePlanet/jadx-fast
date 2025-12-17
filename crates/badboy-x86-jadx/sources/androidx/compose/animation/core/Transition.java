@@ -82,27 +82,27 @@ public final class Transition<S>  {
         }
 
         public final State<T> animate(Function1<? super androidx.compose.animation.core.Transition.Segment<S>, ? extends androidx.compose.animation.core.FiniteAnimationSpec<T>> transitionSpec, Function1<? super S, ? extends T> targetValueByState) {
-            androidx.compose.animation.core.Transition.DeferredAnimation.DeferredAnimationData deferredAnimationData;
-            androidx.compose.animation.core.Transition this$0;
             androidx.compose.animation.core.Transition.DeferredAnimation.DeferredAnimationData deferredAnimationData2;
+            androidx.compose.animation.core.Transition this$0;
+            androidx.compose.animation.core.Transition.DeferredAnimation.DeferredAnimationData deferredAnimationData;
             int i;
             androidx.compose.animation.core.Transition.TransitionAnimationState animation;
             androidx.compose.animation.core.TwoWayConverter typeConverter;
             String label;
             if (getData$animation_core_release() == null) {
                 Transition.TransitionAnimationState transitionAnimationState = new Transition.TransitionAnimationState(this.this$0, targetValueByState.invoke(this.this$0.getCurrentState()), AnimationStateKt.createZeroVectorFrom(this.typeConverter, targetValueByState.invoke(this.this$0.getCurrentState())), this.typeConverter, this.label);
-                deferredAnimationData = new Transition.DeferredAnimation.DeferredAnimationData(this, transitionAnimationState, transitionSpec, targetValueByState);
-                deferredAnimationData2 = deferredAnimationData;
+                deferredAnimationData2 = new Transition.DeferredAnimation.DeferredAnimationData(this, transitionAnimationState, transitionSpec, targetValueByState);
+                deferredAnimationData = deferredAnimationData2;
                 i = 0;
-                setData$animation_core_release(deferredAnimationData2);
-                this.this$0.addAnimation$animation_core_release(deferredAnimationData2.getAnimation());
+                setData$animation_core_release(deferredAnimationData);
+                this.this$0.addAnimation$animation_core_release(deferredAnimationData.getAnimation());
             }
-            androidx.compose.animation.core.Transition.DeferredAnimation.DeferredAnimationData deferredAnimationData4 = deferredAnimationData;
+            androidx.compose.animation.core.Transition.DeferredAnimation.DeferredAnimationData deferredAnimationData4 = deferredAnimationData2;
             int i2 = 0;
             deferredAnimationData4.setTargetValueByState(targetValueByState);
             deferredAnimationData4.setTransitionSpec(transitionSpec);
             deferredAnimationData4.updateAnimationStates(this.this$0.getSegment());
-            return (State)deferredAnimationData;
+            return (State)deferredAnimationData2;
         }
 
         public final androidx.compose.animation.core.Transition.DeferredAnimation.DeferredAnimationData<S, T, V, T, V> getData$animation_core_release() {
@@ -126,11 +126,11 @@ public final class Transition<S>  {
         }
 
         public final void setupSeeking$animation_core_release() {
-            Object invoke;
+            Object invoke3;
             int i;
             androidx.compose.animation.core.Transition.TransitionAnimationState animation;
+            Object invoke;
             Object invoke2;
-            Object invoke3;
             Function1 transitionSpec;
             final androidx.compose.animation.core.Transition.DeferredAnimation.DeferredAnimationData data$animation_core_release = getData$animation_core_release();
             if (data$animation_core_release != null) {
@@ -177,19 +177,19 @@ public final class Transition<S>  {
 
         @Override // androidx.compose.animation.core.Transition$Segment
         public int hashCode() {
-            int i2;
             int i;
+            int i2;
             Object initialState = getInitialState();
             if (initialState != null) {
-                i2 = initialState.hashCode();
+                i = initialState.hashCode();
             } else {
-                i2 = i;
+                i = i2;
             }
             final Object targetState = getTargetState();
             if (targetState != null) {
-                i = targetState.hashCode();
+                i2 = targetState.hashCode();
             }
-            return i3 += i;
+            return i3 += i2;
         }
     }
 
@@ -538,8 +538,8 @@ public final class Transition<S>  {
 
         @Override // androidx.compose.runtime.State
         public final void updateInitialValue$animation_core_release() {
-            boolean useOnlyInitialValue2;
-            int useOnlyInitialValue;
+            boolean useOnlyInitialValue;
+            int useOnlyInitialValue2;
             int cmp;
             long playTimeNanos;
             final androidx.compose.animation.core.SeekableTransitionState.SeekingAnimationState initialValueState = this.initialValueState;
@@ -556,8 +556,8 @@ public final class Transition<S>  {
             getAnimation().setMutableInitialValue$animation_core_release(valueFromNanos);
             setDurationNanos$animation_core_release(getAnimation().getDurationNanos());
             int i3 = 0;
-            useOnlyInitialValue = Float.compare(resetSnapValue$animation_core_release, i2) == 0 ? 1 : i3;
-            if (useOnlyInitialValue == 0) {
+            useOnlyInitialValue2 = Float.compare(resetSnapValue$animation_core_release, i2) == 0 ? 1 : i3;
+            if (useOnlyInitialValue2 == 0) {
                 if (this.useOnlyInitialValue) {
                     setValue$animation_core_release(valueFromNanos);
                 } else {
@@ -577,12 +577,12 @@ public final class Transition<S>  {
         public final void updateTargetValue$animation_core_release(T targetValue, androidx.compose.animation.core.FiniteAnimationSpec<T> animationSpec) {
             boolean useOnlyInitialValue;
             boolean equal;
-            int i2;
+            int i;
             Object value;
             int targetValue2;
             Object valueFromNanos;
             long durationNanos;
-            int i;
+            int i2;
             int resetSnapValue$animation_core_release2;
             long i3;
             float resetSnapValue$animation_core_release;
@@ -607,15 +607,15 @@ public final class Transition<S>  {
             setTargetValue(targetValue);
             setAnimationSpec(animationSpec);
             int i6 = -1069547520;
-            i2 = Float.compare(resetSnapValue$animation_core_release3, i6) == 0 ? valueFromNanos : i5;
-            if (i2 != 0) {
+            i = Float.compare(resetSnapValue$animation_core_release3, i6) == 0 ? valueFromNanos : i5;
+            if (i != 0) {
                 value = targetValue;
             } else {
                 value = getValue();
             }
             updateAnimation(value, finished$animation_core_release ^= valueFromNanos);
-            i = Float.compare(resetSnapValue$animation_core_release5, i6) == 0 ? valueFromNanos : i5;
-            setFinished$animation_core_release(i);
+            i2 = Float.compare(resetSnapValue$animation_core_release5, i6) == 0 ? valueFromNanos : i5;
+            setFinished$animation_core_release(i2);
             if (Float.compare(resetSnapValue$animation_core_release6, i3) >= 0) {
                 resetSnapValue$animation_core_release = getResetSnapValue$animation_core_release();
                 setValue$animation_core_release(getAnimation().getValueFromNanos((long)i8));
@@ -744,22 +744,22 @@ public final class Transition<S>  {
     private final void onChildAnimationUpdated() {
         boolean maxDurationNanos;
         int $this$fastForEach$iv;
-        int i2;
+        int i;
         int index$iv;
         int size;
         Object obj2;
         Object obj;
-        int i;
+        int i2;
         long lastSeekedTimeNanos;
         setUpdateChildrenNeeded(true);
         if (isSeeking()) {
             maxDurationNanos = 0;
             SnapshotStateList _animations = this._animations;
-            i2 = 0;
+            i = 0;
             index$iv = 0;
             while (index$iv < (List)_animations.size()) {
                 obj = obj2;
-                i = 0;
+                i2 = 0;
                 maxDurationNanos = Math.max(maxDurationNanos, obj1);
                 obj.seekTo$animation_core_release(this.lastSeekedTimeNanos);
                 index$iv++;
@@ -769,26 +769,26 @@ public final class Transition<S>  {
     }
 
     private final void resetAnimations() {
-        int index$iv;
         int index$iv2;
-        Object obj2;
+        int index$iv;
         Object obj;
+        Object obj2;
         int i;
         SnapshotStateList _animations = this._animations;
         int i2 = 0;
-        index$iv = 0;
-        while (index$iv < (List)_animations.size()) {
+        index$iv2 = 0;
+        while (index$iv2 < (List)_animations.size()) {
             i = 0;
-            (Transition.TransitionAnimationState)_animations.get(index$iv).resetAnimation$animation_core_release();
-            index$iv++;
+            (Transition.TransitionAnimationState)_animations.get(index$iv2).resetAnimation$animation_core_release();
+            index$iv2++;
         }
         SnapshotStateList $this$fastForEach$iv = this._transitions;
         int i3 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < (List)$this$fastForEach$iv.size()) {
+        index$iv = 0;
+        while (index$iv < (List)$this$fastForEach$iv.size()) {
             i = 0;
-            (Transition)$this$fastForEach$iv.get(index$iv2).resetAnimations();
-            index$iv2++;
+            (Transition)$this$fastForEach$iv.get(index$iv).resetAnimations();
+            index$iv++;
         }
     }
 
@@ -825,21 +825,21 @@ public final class Transition<S>  {
         int traceInProgress2;
         int $dirty;
         int i4;
-        int i2;
+        int i3;
         int traceInProgress;
-        int i6;
+        int i5;
         boolean changedInstance;
         kotlinx.coroutines.CoroutineScope coroutineScope;
         Object compositionScopedCoroutineScopeCanceller;
         int str;
-        Object rememberedValue;
-        int i5;
-        Object empty;
-        Object anon;
         Object rememberedValue2;
-        int i3;
+        int i6;
         Object empty2;
-        EmptyCoroutineContext iNSTANCE;
+        Object anon;
+        Object rememberedValue;
+        int i2;
+        Object empty;
+        EmptyCoroutineContext $i$a$RememberCoroutineScopeEffectsKt$rememberCoroutineScope$1;
         final Object obj = this;
         final Object obj2 = targetState;
         final int i7 = $changed;
@@ -856,8 +856,8 @@ public final class Transition<S>  {
             $dirty |= i4;
         }
         if (i7 & 48 == 0) {
-            i2 = restartGroup.changed(obj) ? 32 : 16;
-            $dirty |= i2;
+            i3 = restartGroup.changed(obj) ? 32 : 16;
+            $dirty |= i3;
         }
         if ($dirty & 19 == 18) {
             if (!restartGroup.getSkipping()) {
@@ -878,34 +878,34 @@ public final class Transition<S>  {
                                 ComposerKt.sourceInformationMarkerStart(restartGroup, 773894976, "CC(rememberCoroutineScope)489@20472L144:Effects.kt#9igjgp");
                                 ComposerKt.sourceInformationMarkerStart(restartGroup, -954363344, "CC(remember):Effects.kt#9igjgp");
                                 int i19 = 0;
-                                empty = restartGroup;
+                                empty2 = restartGroup;
                                 int i20 = 0;
-                                rememberedValue2 = empty.rememberedValue();
-                                i3 = 0;
-                                if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                                    empty2 = 0;
+                                rememberedValue = empty2.rememberedValue();
+                                i2 = 0;
+                                if (rememberedValue == Composer.Companion.getEmpty()) {
+                                    empty = 0;
                                     int i21 = 0;
                                     compositionScopedCoroutineScopeCanceller = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
-                                    empty.updateRememberedValue(compositionScopedCoroutineScopeCanceller);
+                                    empty2.updateRememberedValue(compositionScopedCoroutineScopeCanceller);
                                 } else {
-                                    compositionScopedCoroutineScopeCanceller = rememberedValue2;
+                                    compositionScopedCoroutineScopeCanceller = rememberedValue;
                                 }
                                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                                 coroutineScope = (CompositionScopedCoroutineScopeCanceller)compositionScopedCoroutineScopeCanceller.getCoroutineScope();
                                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                                 ComposerKt.sourceInformationMarkerStart(restartGroup, 335896763, "CC(remember):Transition.kt#9igjgp");
-                                i6 = $dirty & 112 == 32 ? 1 : 0;
+                                i5 = $dirty & 112 == 32 ? 1 : 0;
                                 traceInProgress = restartGroup;
                                 str = 0;
-                                rememberedValue = traceInProgress.rememberedValue();
-                                i5 = 0;
-                                if (changedInstance2 |= i6 == 0) {
-                                    if (rememberedValue == Composer.Companion.getEmpty()) {
-                                        empty = 0;
+                                rememberedValue2 = traceInProgress.rememberedValue();
+                                i6 = 0;
+                                if (changedInstance2 |= i5 == 0) {
+                                    if (rememberedValue2 == Composer.Companion.getEmpty()) {
+                                        empty2 = 0;
                                         anon = new Transition.animateTo.1.1(coroutineScope, obj);
                                         traceInProgress.updateRememberedValue((Function1)anon);
                                     } else {
-                                        anon = rememberedValue;
+                                        anon = rememberedValue2;
                                     }
                                 } else {
                                 }
@@ -941,26 +941,26 @@ public final class Transition<S>  {
     }
 
     public final void clearInitialAnimations$animation_core_release() {
-        int index$iv;
         int index$iv2;
-        Object obj;
+        int index$iv;
         Object obj2;
+        Object obj;
         int i;
         SnapshotStateList _animations = this._animations;
         int i2 = 0;
-        index$iv = 0;
-        while (index$iv < (List)_animations.size()) {
+        index$iv2 = 0;
+        while (index$iv2 < (List)_animations.size()) {
             i = 0;
-            (Transition.TransitionAnimationState)_animations.get(index$iv).clearInitialAnimation$animation_core_release();
-            index$iv++;
+            (Transition.TransitionAnimationState)_animations.get(index$iv2).clearInitialAnimation$animation_core_release();
+            index$iv2++;
         }
         SnapshotStateList $this$fastForEach$iv = this._transitions;
         int i3 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < (List)$this$fastForEach$iv.size()) {
+        index$iv = 0;
+        while (index$iv < (List)$this$fastForEach$iv.size()) {
             i = 0;
-            (Transition)$this$fastForEach$iv.get(index$iv2).clearInitialAnimations$animation_core_release();
-            index$iv2++;
+            (Transition)$this$fastForEach$iv.get(index$iv).clearInitialAnimations$animation_core_release();
+            index$iv++;
         }
     }
 
@@ -974,55 +974,55 @@ public final class Transition<S>  {
 
     public final boolean getHasInitialValueAnimations() {
         int $this$fastAny$iv;
-        int i5;
+        int i6;
         SnapshotStateList list;
-        int i;
+        int i3;
         int index$iv$iv;
         int size;
-        int i2;
-        int i6;
-        Object obj;
-        Object obj2;
-        int i3;
-        int it;
         int i4;
+        int i;
+        Object obj2;
+        Object obj;
+        int i2;
+        int it;
+        int i5;
         androidx.compose.animation.core.SeekableTransitionState.SeekingAnimationState initialValueState$animation_core_release;
-        i5 = 0;
+        i6 = 0;
         list = _animations;
-        i = 0;
+        i3 = 0;
         index$iv$iv = 0;
-        i2 = 0;
-        i6 = 1;
+        i4 = 0;
+        i = 1;
         while (index$iv$iv < list.size()) {
-            i3 = 0;
-            i4 = 0;
+            i2 = 0;
+            i5 = 0;
             if ((Transition.TransitionAnimationState)list.get(index$iv$iv).getInitialValueState$animation_core_release() != null) {
             } else {
             }
-            it = i2;
+            it = i4;
             index$iv$iv++;
-            i2 = 0;
-            i6 = 1;
-            it = i6;
+            i4 = 0;
+            i = 1;
+            it = i;
         }
-        $this$fastAny$iv = i2;
+        $this$fastAny$iv = i4;
         if ($this$fastAny$iv == 0) {
-            i5 = 0;
+            i6 = 0;
             list = _transitions;
-            i = 0;
+            i3 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
-                i3 = 0;
-                i4 = 0;
+                i2 = 0;
+                i5 = 0;
                 index$iv$iv++;
             }
-            $this$fastAny$iv = i2;
+            $this$fastAny$iv = i4;
             if ($this$fastAny$iv != 0) {
-                i2 = i6;
+                i4 = i;
             }
         } else {
         }
-        return i2;
+        return i4;
     }
 
     public final String getLabel() {
@@ -1094,8 +1094,8 @@ public final class Transition<S>  {
     }
 
     public final void onFrame$animation_core_release(long frameTimeNanos, float durationScale) {
-        int i;
         int i2;
+        int i;
         long roundToLong;
         double d;
         if (Long.compare(startTimeNanos$animation_core_release, l) == 0) {
@@ -1104,8 +1104,8 @@ public final class Transition<S>  {
         int i3 = frameTimeNanos - startTimeNanos$animation_core_release2;
         int i4 = 0;
         final int i5 = 0;
-        i = Float.compare(obj13, i4) == 0 ? i2 : i5;
-        if (i != 0) {
+        i2 = Float.compare(obj13, i4) == 0 ? i : i5;
+        if (i2 != 0) {
             roundToLong = i3;
         } else {
             roundToLong = MathKt.roundToLong(d2 /= d);
@@ -1113,7 +1113,7 @@ public final class Transition<S>  {
         setPlayTimeNanos(roundToLong);
         if (Float.compare(obj13, i4) == 0) {
         } else {
-            i2 = i5;
+            i = i5;
         }
         onFrame$animation_core_release(roundToLong, obj7);
     }
@@ -1122,10 +1122,10 @@ public final class Transition<S>  {
         int running$animation_core_release;
         int allFinished;
         int i;
-        int index$iv2;
         int index$iv;
-        Object obj2;
+        int index$iv2;
         Object obj;
+        Object obj2;
         int i2;
         boolean finished$animation_core_release;
         Object currentState;
@@ -1141,31 +1141,31 @@ public final class Transition<S>  {
         allFinished = 1;
         SnapshotStateList _animations = this._animations;
         int i5 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < (List)_animations.size()) {
-            obj = obj2;
-            i2 = 0;
-            if (!(Transition.TransitionAnimationState)obj.isFinished$animation_core_release()) {
-            }
-            if (!obj.isFinished$animation_core_release()) {
-            }
-            index$iv2++;
-            allFinished = 0;
-            obj.onPlayTimeChanged$animation_core_release(scaledPlayTimeNanos, scaleToEnd);
-        }
-        SnapshotStateList $this$fastForEach$iv = this._transitions;
-        int i6 = 0;
         index$iv = 0;
-        while (index$iv < (List)$this$fastForEach$iv.size()) {
-            obj = obj2;
+        while (index$iv < (List)_animations.size()) {
+            obj2 = obj;
             i2 = 0;
-            if (!Intrinsics.areEqual((Transition)obj.getTargetState(), obj.getCurrentState())) {
+            if (!(Transition.TransitionAnimationState)obj2.isFinished$animation_core_release()) {
             }
-            if (!Intrinsics.areEqual(obj.getTargetState(), obj.getCurrentState())) {
+            if (!obj2.isFinished$animation_core_release()) {
             }
             index$iv++;
             allFinished = 0;
-            obj.onFrame$animation_core_release(scaledPlayTimeNanos, scaleToEnd);
+            obj2.onPlayTimeChanged$animation_core_release(scaledPlayTimeNanos, scaleToEnd);
+        }
+        SnapshotStateList $this$fastForEach$iv = this._transitions;
+        int i6 = 0;
+        index$iv2 = 0;
+        while (index$iv2 < (List)$this$fastForEach$iv.size()) {
+            obj2 = obj;
+            i2 = 0;
+            if (!Intrinsics.areEqual((Transition)obj2.getTargetState(), obj2.getCurrentState())) {
+            }
+            if (!Intrinsics.areEqual(obj2.getTargetState(), obj2.getCurrentState())) {
+            }
+            index$iv2++;
+            allFinished = 0;
+            obj2.onFrame$animation_core_release(scaledPlayTimeNanos, scaleToEnd);
         }
         if (allFinished != 0) {
             onTransitionEnd$animation_core_release();
@@ -1176,8 +1176,8 @@ public final class Transition<S>  {
         boolean transitionState;
         Object targetState;
         int index$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         int i;
         setStartTimeNanos$animation_core_release(Long.MIN_VALUE);
         if (transitionState2 instanceof MutableTransitionState) {
@@ -1225,8 +1225,8 @@ public final class Transition<S>  {
     public final void resetAnimationFraction$animation_core_release(float fraction) {
         int index$iv2;
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         SnapshotStateList _animations = this._animations;
         int i2 = 0;
@@ -1251,11 +1251,11 @@ public final class Transition<S>  {
         boolean transitionState;
         int index$iv2;
         int index$iv;
-        Object obj2;
-        Object obj3;
-        int i;
         Object obj;
+        Object obj3;
         int i2;
+        Object obj2;
+        int i;
         boolean currentState;
         Object targetState2;
         setStartTimeNanos$animation_core_release(Long.MIN_VALUE);
@@ -1281,21 +1281,21 @@ public final class Transition<S>  {
         int i5 = 0;
         index$iv2 = 0;
         while (index$iv2 < (List)_transitions.size()) {
-            obj3 = obj2;
-            i = 0;
-            Intrinsics.checkNotNull((Transition)obj3, "null cannot be cast to non-null type androidx.compose.animation.core.Transition<kotlin.Any>");
-            obj = obj3;
+            obj3 = obj;
             i2 = 0;
-            if (obj.isSeeking()) {
+            Intrinsics.checkNotNull((Transition)obj3, "null cannot be cast to non-null type androidx.compose.animation.core.Transition<kotlin.Any>");
+            obj2 = obj3;
+            i = 0;
+            if (obj2.isSeeking()) {
             }
             index$iv2++;
-            obj.seek(obj.getCurrentState(), obj.getTargetState(), playTimeNanos);
+            obj2.seek(obj2.getCurrentState(), obj2.getTargetState(), playTimeNanos);
         }
         SnapshotStateList $this$fastForEach$iv = this._animations;
         int i6 = 0;
         index$iv = 0;
         while (index$iv < (List)$this$fastForEach$iv.size()) {
-            i = 0;
+            i2 = 0;
             (Transition.TransitionAnimationState)$this$fastForEach$iv.get(index$iv).seekTo$animation_core_release(playTimeNanos);
             index$iv++;
         }
@@ -1303,10 +1303,10 @@ public final class Transition<S>  {
     }
 
     public final void seekAnimations$animation_core_release(long playTimeNanos) {
-        int index$iv2;
         int index$iv;
-        Object obj2;
+        int index$iv2;
         Object obj;
+        Object obj2;
         int i;
         boolean equal;
         Object currentState;
@@ -1317,30 +1317,30 @@ public final class Transition<S>  {
         setUpdateChildrenNeeded(false);
         SnapshotStateList _animations = this._animations;
         int i3 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < (List)_animations.size()) {
+        index$iv = 0;
+        while (index$iv < (List)_animations.size()) {
             i = 0;
-            (Transition.TransitionAnimationState)_animations.get(index$iv2).seekTo$animation_core_release(playTimeNanos);
-            index$iv2++;
+            (Transition.TransitionAnimationState)_animations.get(index$iv).seekTo$animation_core_release(playTimeNanos);
+            index$iv++;
         }
         SnapshotStateList $this$fastForEach$iv = this._transitions;
         int i4 = 0;
-        index$iv = 0;
-        while (index$iv < (List)$this$fastForEach$iv.size()) {
-            obj = obj2;
+        index$iv2 = 0;
+        while (index$iv2 < (List)$this$fastForEach$iv.size()) {
+            obj2 = obj;
             i = 0;
-            if (!Intrinsics.areEqual((Transition)obj.getTargetState(), obj.getCurrentState())) {
+            if (!Intrinsics.areEqual((Transition)obj2.getTargetState(), obj2.getCurrentState())) {
             }
-            index$iv++;
-            obj.seekAnimations$animation_core_release(playTimeNanos);
+            index$iv2++;
+            obj2.seekAnimations$animation_core_release(playTimeNanos);
         }
     }
 
     public final void setInitialAnimations$animation_core_release(androidx.compose.animation.core.SeekableTransitionState.SeekingAnimationState animationState) {
         int index$iv;
         int index$iv2;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         SnapshotStateList _animations = this._animations;
         int i2 = 0;
@@ -1393,12 +1393,12 @@ public final class Transition<S>  {
         int index$iv$iv;
         Object obj;
         Object obj2;
-        int i;
-        String anim;
-        String str2;
         int i2;
-        StringBuilder append;
+        String anim;
         String str;
+        int i;
+        StringBuilder append;
+        String str2;
         final int i3 = 0;
         int i4 = 0;
         accumulator$iv = str3;
@@ -1406,8 +1406,8 @@ public final class Transition<S>  {
         final int i5 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i = 0;
             i2 = 0;
+            i = 0;
             StringBuilder stringBuilder = new StringBuilder();
             accumulator$iv = anim;
             index$iv$iv++;
@@ -1416,26 +1416,26 @@ public final class Transition<S>  {
     }
 
     public final void updateInitialValues$animation_core_release() {
-        int index$iv;
         int index$iv2;
+        int index$iv;
         Object obj2;
         Object obj;
         int i;
         SnapshotStateList _animations = this._animations;
         int i2 = 0;
-        index$iv = 0;
-        while (index$iv < (List)_animations.size()) {
+        index$iv2 = 0;
+        while (index$iv2 < (List)_animations.size()) {
             i = 0;
-            (Transition.TransitionAnimationState)_animations.get(index$iv).updateInitialValue$animation_core_release();
-            index$iv++;
+            (Transition.TransitionAnimationState)_animations.get(index$iv2).updateInitialValue$animation_core_release();
+            index$iv2++;
         }
         SnapshotStateList $this$fastForEach$iv = this._transitions;
         int i3 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < (List)$this$fastForEach$iv.size()) {
+        index$iv = 0;
+        while (index$iv < (List)$this$fastForEach$iv.size()) {
             i = 0;
-            (Transition)$this$fastForEach$iv.get(index$iv2).updateInitialValues$animation_core_release();
-            index$iv2++;
+            (Transition)$this$fastForEach$iv.get(index$iv).updateInitialValues$animation_core_release();
+            index$iv++;
         }
     }
 

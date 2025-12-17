@@ -157,12 +157,12 @@ public final class FlowLayoutBuildingBlocks {
         IntIntPair ellipsisSize-F35zm-w$foundation_layout_release;
         androidx.compose.foundation.layout.FlowLayoutOverflow.OverflowType second-impl;
         boolean z;
-        long unbox-impl;
+        long unbox-impl3;
         int i3;
         IntIntPair intIntPair;
         int maxItemsInMainAxis;
         long unbox-impl2;
-        long unbox-impl3;
+        long unbox-impl;
         Object obj = this;
         final int i32 = nextIndexInLine;
         final int i33 = totalCrossAxisSize;
@@ -187,7 +187,7 @@ public final class FlowLayoutBuildingBlocks {
             int i17 = 0;
             i11 -= i34;
             int second-impl5 = IntIntPair.getSecond-impl(lineIndex.unbox-impl());
-            FlowLayoutBuildingBlocks.WrapInfo wrapInfo4 = new FlowLayoutBuildingBlocks.WrapInfo(i35, obj.getWrapInfo-OpUlnko(nextItemHasNext, 0, IntIntPair.constructor-impl(Constraints.getMaxWidth-impl(obj.constraints), i12), unbox-impl, IntIntPair.box-impl(IntIntPair.constructor-impl(first-impl -= mainAxisSpacing, second-impl5)), i33 + 1, currentLineCrossAxisSize + i34, false, true).isLastItemInContainer());
+            FlowLayoutBuildingBlocks.WrapInfo wrapInfo4 = new FlowLayoutBuildingBlocks.WrapInfo(i35, obj.getWrapInfo-OpUlnko(nextItemHasNext, 0, IntIntPair.constructor-impl(Constraints.getMaxWidth-impl(obj.constraints), i12), unbox-impl3, IntIntPair.box-impl(IntIntPair.constructor-impl(first-impl -= mainAxisSpacing, second-impl5)), i33 + 1, currentLineCrossAxisSize + i34, false, true).isLastItemInContainer());
             return wrapInfo4;
         }
         int totalContainerCrossAxisSize = currentLineCrossAxisSize + i4;

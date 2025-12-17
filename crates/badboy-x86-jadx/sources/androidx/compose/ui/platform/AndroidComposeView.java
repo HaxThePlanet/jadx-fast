@@ -272,13 +272,13 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             int booleanValue;
             Class declaredMethod;
             int invoke;
-            int i2;
+            int i;
             String arr;
             Class[] valueOf;
             Class tYPE;
-            int i;
+            int i2;
             booleanValue = 0;
-            i2 = 0;
+            i = 0;
             if (AndroidComposeView.access$getSystemPropertiesClass$cp() == null) {
                 AndroidComposeView.access$setSystemPropertiesClass$cp(Class.forName("android.os.SystemProperties"));
                 Class cls = AndroidComposeView.access$getSystemPropertiesClass$cp();
@@ -288,20 +288,20 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                         valueOf[booleanValue] = String.class;
                         valueOf[1] = Boolean.TYPE;
                         declaredMethod = cls.getDeclaredMethod("getBoolean", valueOf);
-                        declaredMethod = i2;
+                        declaredMethod = i;
                         AndroidComposeView.access$setGetBooleanMethod$cp(declaredMethod);
                         Method method = AndroidComposeView.access$getGetBooleanMethod$cp();
                         if (method != null) {
                         } else {
                         }
-                        invoke = method.invoke(i2, /* result */);
-                        invoke = i2;
+                        invoke = method.invoke(i, /* result */);
+                        invoke = i;
                         if (invoke instanceof Boolean) {
                         }
-                        i2 = invoke;
-                        if (i2 != 0) {
+                        i = invoke;
+                        if (i != 0) {
                         }
-                        booleanValue = i2.booleanValue();
+                        booleanValue = i.booleanValue();
                         return booleanValue;
                     }
                 } else {
@@ -745,24 +745,24 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     }
 
     private final int handleMotionEvent-8iAsVTc(MotionEvent motionEvent) {
-        int i7;
+        int i9;
         int pointerId;
         Object obj2;
-        int i9;
-        Object obj;
-        MotionEvent previousMotionEvent;
-        int previousMotionEvent2;
-        int i5;
         int i8;
-        int toolType;
-        int pointerInputEventProcessor2;
-        long l;
-        int i2;
+        Object obj;
+        MotionEvent previousMotionEvent2;
+        int previousMotionEvent;
+        int i7;
         int i3;
-        int eventTime;
-        int i6;
-        int i4;
+        int toolType;
         int pointerInputEventProcessor;
+        long l;
+        int i4;
+        int i6;
+        int eventTime;
+        int i2;
+        int i5;
+        int pointerInputEventProcessor2;
         MotionEvent lastEvent;
         int i;
         long eventTime2;
@@ -778,54 +778,54 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         Trace.beginSection("AndroidOwner:onTouch");
         final int i16 = 0;
         final int i17 = actionMasked;
-        previousMotionEvent = obj3.previousMotionEvent;
-        pointerInputEventProcessor = 3;
-        if (previousMotionEvent != null && previousMotionEvent.getToolType(i14) == pointerInputEventProcessor) {
-            i5 = previousMotionEvent.getToolType(i14) == pointerInputEventProcessor ? i10 : i14;
+        previousMotionEvent2 = obj3.previousMotionEvent;
+        pointerInputEventProcessor2 = 3;
+        if (previousMotionEvent2 != null && previousMotionEvent2.getToolType(i14) == pointerInputEventProcessor2) {
+            i7 = previousMotionEvent2.getToolType(i14) == pointerInputEventProcessor2 ? i10 : i14;
         } else {
         }
-        final int i18 = i5;
-        i8 = 10;
-        if (previousMotionEvent != null) {
-            if (obj3.hasChangedDevices(motionEvent2, previousMotionEvent)) {
-                if (obj3.isDevicePressEvent(previousMotionEvent)) {
+        final int i18 = i7;
+        i3 = 10;
+        if (previousMotionEvent2 != null) {
+            if (obj3.hasChangedDevices(motionEvent2, previousMotionEvent2)) {
+                if (obj3.isDevicePressEvent(previousMotionEvent2)) {
                     obj3.pointerInputEventProcessor.processCancel();
-                    lastEvent = previousMotionEvent;
-                    i7 = i8;
+                    lastEvent = previousMotionEvent2;
+                    i9 = i3;
                 } else {
-                    if (previousMotionEvent.getActionMasked() != i8 && i18 != 0) {
+                    if (previousMotionEvent2.getActionMasked() != i3 && i18 != 0) {
                         if (i18 != 0) {
-                            i7 = i19;
-                            AndroidComposeView.sendSimulatedEvent$default(obj3, previousMotionEvent, 10, previousMotionEvent.getEventTime(), obj5, 0, 8);
-                            lastEvent = previousMotionEvent;
+                            i9 = i19;
+                            AndroidComposeView.sendSimulatedEvent$default(obj3, previousMotionEvent2, 10, previousMotionEvent2.getEventTime(), obj5, 0, 8);
+                            lastEvent = previousMotionEvent2;
                         } else {
-                            lastEvent = previousMotionEvent;
-                            i7 = i8;
+                            lastEvent = previousMotionEvent2;
+                            i9 = i3;
                         }
                     } else {
                     }
                 }
             } else {
-                lastEvent = previousMotionEvent;
-                i7 = i8;
+                lastEvent = previousMotionEvent2;
+                i9 = i3;
             }
         } else {
             try {
-                lastEvent = previousMotionEvent;
-                i7 = i8;
-                if (motionEvent2.getToolType(i14) == pointerInputEventProcessor) {
+                lastEvent = previousMotionEvent2;
+                i9 = i3;
+                if (motionEvent2.getToolType(i14) == pointerInputEventProcessor2) {
                 } else {
                 }
-                i9 = 1;
-                i9 = i14;
+                i8 = 1;
+                i8 = i14;
                 int i11 = 9;
                 if (i18 == 0) {
                 } else {
                 }
-                if (i9 != 0) {
+                if (i8 != 0) {
                 } else {
                 }
-                if (i17 != pointerInputEventProcessor) {
+                if (i17 != pointerInputEventProcessor2) {
                 } else {
                 }
                 if (i17 != i11) {
@@ -834,25 +834,25 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 if (isInBounds(motionEvent)) {
                 } else {
                 }
-                i4 = i11;
+                i5 = i11;
                 AndroidComposeView.sendSimulatedEvent$default(this, motionEvent2, 9, motionEvent2.getEventTime(), obj5, 0, 8);
-                i4 = i11;
+                i5 = i11;
                 obj = this;
-                i4 = i11;
+                i5 = i11;
                 obj = this;
-                i4 = i11;
+                i5 = i11;
                 obj = this;
-                i4 = i11;
+                i5 = i11;
                 obj = this;
-                i4 = i11;
+                i5 = i11;
                 obj = this;
             } catch (Throwable th) {
             }
             lastEvent.recycle();
-            previousMotionEvent2 = obj.previousMotionEvent;
-            if (previousMotionEvent2 != null && previousMotionEvent2.getAction() == i7) {
+            previousMotionEvent = obj.previousMotionEvent;
+            if (previousMotionEvent != null && previousMotionEvent.getAction() == i9) {
                 try {
-                    if (previousMotionEvent2.getAction() == i7) {
+                    if (previousMotionEvent.getAction() == i9) {
                     } else {
                     }
                     pointerId = 1;
@@ -888,8 +888,8 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
 
     private final boolean hasChangedDevices(MotionEvent event, MotionEvent lastEvent) {
         int source;
-        int toolType;
         int toolType2;
+        int toolType;
         if (lastEvent.getSource() == event.getSource()) {
             source = 0;
             if (lastEvent.getToolType(source) != event.getToolType(source)) {
@@ -947,14 +947,14 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         int i;
         float rawY;
         float rawX;
-        float naN4;
+        float naN2;
         int eventInvalid;
         boolean index;
         int pointerCount;
         int i2;
         int validMotionEvent;
-        float naN2;
         float naN;
+        float naN4;
         boolean infinite;
         naN3 = event.getX();
         final int i3 = 0;
@@ -964,9 +964,9 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         } else {
         }
         if (i != 0) {
-            naN4 = event.getY();
-            if (!Float.isInfinite(naN4) && !Float.isNaN(naN4)) {
-                i = !Float.isNaN(naN4) ? i4 : i3;
+            naN2 = event.getY();
+            if (!Float.isInfinite(naN2) && !Float.isNaN(naN2)) {
+                i = !Float.isNaN(naN2) ? i4 : i3;
             } else {
             }
             if (i != 0) {
@@ -995,8 +995,8 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         if (eventInvalid == 0) {
             index = 1;
             while (index < event.getPointerCount()) {
-                naN = event.getX(index);
-                if (!Float.isInfinite(naN) && !Float.isNaN(naN)) {
+                naN4 = event.getX(index);
+                if (!Float.isInfinite(naN4) && !Float.isNaN(naN4)) {
                 } else {
                 }
                 validMotionEvent = i3;
@@ -1007,8 +1007,8 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 if (i2 == 0) {
                 }
                 index++;
-                naN2 = event.getY(index);
-                if (!Float.isInfinite(naN2) && !Float.isNaN(naN2)) {
+                naN = event.getY(index);
+                if (!Float.isInfinite(naN) && !Float.isNaN(naN)) {
                 } else {
                 }
                 validMotionEvent = i3;
@@ -1019,11 +1019,11 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 } else {
                 }
                 i2 = i3;
-                if (!Float.isNaN(naN2)) {
+                if (!Float.isNaN(naN)) {
                 } else {
                 }
                 validMotionEvent = i4;
-                if (!Float.isNaN(naN)) {
+                if (!Float.isNaN(naN4)) {
                 } else {
                 }
                 validMotionEvent = i4;
@@ -1045,38 +1045,38 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     }
 
     private final boolean isInBounds(MotionEvent motionEvent) {
-        int i2;
-        int cmp2;
-        int cmp;
-        int i3;
         int i;
+        int cmp;
+        int cmp2;
+        int i2;
+        int i3;
         final float f = motionEvent.getX();
         final float f2 = motionEvent.getY();
-        i2 = 0;
-        i = 1;
+        i = 0;
+        i3 = 1;
         final int i4 = 0;
-        if (Float.compare(i2, f) <= 0 && Float.compare(f, f4) <= 0) {
-            i3 = Float.compare(f, f4) <= 0 ? i : i4;
+        if (Float.compare(i, f) <= 0 && Float.compare(f, f4) <= 0) {
+            i2 = Float.compare(f, f4) <= 0 ? i3 : i4;
         } else {
         }
-        if (i3 != 0) {
-            if (Float.compare(i2, f2) <= 0 && Float.compare(f2, f3) <= 0) {
-                i2 = Float.compare(f2, f3) <= 0 ? i : i4;
+        if (i2 != 0) {
+            if (Float.compare(i, f2) <= 0 && Float.compare(f2, f3) <= 0) {
+                i = Float.compare(f2, f3) <= 0 ? i3 : i4;
             } else {
             }
-            if (i2 != 0) {
+            if (i != 0) {
             } else {
-                i = i4;
+                i3 = i4;
             }
         } else {
         }
-        return i;
+        return i3;
     }
 
     private final boolean isPositionChanged(MotionEvent event) {
         int i;
-        int pointerCount;
         int pointerCount2;
+        int pointerCount;
         float rawY;
         i = 1;
         if (event.getPointerCount() != i) {
@@ -1085,13 +1085,13 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         MotionEvent previousMotionEvent = this.previousMotionEvent;
         if (previousMotionEvent != null && previousMotionEvent.getPointerCount() == event.getPointerCount()) {
             if (previousMotionEvent.getPointerCount() == event.getPointerCount()) {
-                pointerCount2 = 0;
-                pointerCount = Float.compare(rawX, rawX2) == 0 ? i : pointerCount2;
-                if (pointerCount != 0) {
-                    pointerCount = Float.compare(rawY2, rawY) == 0 ? i : pointerCount2;
-                    if (pointerCount == 0) {
+                pointerCount = 0;
+                pointerCount2 = Float.compare(rawX, rawX2) == 0 ? i : pointerCount;
+                if (pointerCount2 != 0) {
+                    pointerCount2 = Float.compare(rawY2, rawY) == 0 ? i : pointerCount;
+                    if (pointerCount2 == 0) {
                     } else {
-                        i = pointerCount2;
+                        i = pointerCount;
                     }
                 } else {
                 }
@@ -1160,8 +1160,8 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 }
             }
             int direction = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("Invalid focus direction".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckNotNullAndroidComposeView$onMoveFocusInChildren$direction$1 = new IllegalStateException("Invalid focus direction".toString());
+            throw $i$a$CheckNotNullAndroidComposeView$onMoveFocusInChildren$direction$1;
         }
         return 0;
     }
@@ -1203,8 +1203,8 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         ViewParent viewParent;
         Object view;
         Object obj;
-        float f;
         float f3;
+        float f;
         float f2;
         long l;
         int i;
@@ -1223,7 +1223,7 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 int i3 = 0;
                 int i6 = 1;
                 view.getLocationInWindow(this.tmpPositionArray);
-                this.windowPosition = OffsetKt.Offset(obj - f, f3 - f2);
+                this.windowPosition = OffsetKt.Offset(obj - f3, f - f2);
             }
         }
     }
@@ -1298,8 +1298,8 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             this$0.sendMotionEvent-8iAsVTc(previousMotionEvent);
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("The ACTION_HOVER_EXIT event was not cleared.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckAndroidComposeView$sendHoverExitEvent$1$1 = new IllegalStateException("The ACTION_HOVER_EXIT event was not cleared.".toString());
+        throw $i$a$CheckAndroidComposeView$sendHoverExitEvent$1$1;
     }
 
     private final int sendMotionEvent-8iAsVTc(MotionEvent motionEvent) {
@@ -1349,16 +1349,16 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
 
     private final void sendSimulatedEvent(MotionEvent motionEvent, int action, long eventTime, boolean forceHover) {
         int i3;
+        int i4;
         int i2;
-        int i;
         int actionIndex;
         int buttonState;
         int pointerProperties;
-        int i4;
+        int i;
         long downTime;
         MotionEvent.PointerCoords pointerCoords;
-        long l;
         long l2;
+        long l;
         float f;
         int localToScreen-MK-Hz9U;
         float y-impl;
@@ -1388,31 +1388,31 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             i3++;
         }
         final MotionEvent.PointerCoords[] arr2 = new MotionEvent.PointerCoords[i7];
-        i2 = buttonState;
-        while (i2 < i7) {
+        i4 = buttonState;
+        while (i4 < i7) {
             pointerProperties = new MotionEvent.PointerCoords();
-            arr2[i2] = pointerProperties;
-            i2++;
+            arr2[i4] = pointerProperties;
+            i4++;
         }
-        i = 0;
-        while (i < i7) {
+        i2 = 0;
+        while (i2 < i7) {
             if (actionIndex >= 0) {
             } else {
             }
-            i4 = buttonState;
-            i4 += i;
-            obj2.getPointerProperties(pointerProperties, arr[i]);
-            pointerCoords = arr2[i];
+            i = buttonState;
+            i += i2;
+            obj2.getPointerProperties(pointerProperties, arr[i2]);
+            pointerCoords = arr2[i2];
             obj2.getPointerCoords(pointerProperties, pointerCoords);
             f = pointerCoords.y;
             localToScreen-MK-Hz9U = obj.localToScreen-MK-Hz9U(OffsetKt.Offset(pointerCoords.x, f));
             pointerCoords.x = Offset.getX-impl(localToScreen-MK-Hz9U);
             pointerCoords.y = Offset.getY-impl(localToScreen-MK-Hz9U);
-            i++;
-            if (i < actionIndex) {
+            i2++;
+            if (i2 < actionIndex) {
             } else {
             }
-            i4 = i5;
+            i = i5;
         }
         if (obj28 != null) {
         } else {
@@ -1420,11 +1420,11 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         }
         long eventTime2 = obj2.getEventTime();
         if (Long.compare(downTime, eventTime2) == 0) {
-            l = eventTime;
+            l2 = eventTime;
         } else {
-            l = downTime;
+            l2 = downTime;
         }
-        MotionEvent obtain = MotionEvent.obtain(l, eventTime2, eventTime, localToScreen-MK-Hz9U, action, i7, arr, arr2, obj2.getMetaState(), buttonState, obj2.getXPrecision(), obj2.getYPrecision(), obj2.getDeviceId(), obj2.getEdgeFlags());
+        MotionEvent obtain = MotionEvent.obtain(l2, eventTime2, eventTime, localToScreen-MK-Hz9U, action, i7, arr, arr2, obj2.getMetaState(), buttonState, obj2.getXPrecision(), obj2.getYPrecision(), obj2.getDeviceId(), obj2.getEdgeFlags());
         PointerInputEvent convertToPointerInputEvent$ui_release = obj.motionEventAdapter.convertToPointerInputEvent$ui_release(obtain, (PositionCalculator)obj);
         Intrinsics.checkNotNull(convertToPointerInputEvent$ui_release);
         obj.pointerInputEventProcessor.process-BIzXfog(convertToPointerInputEvent$ui_release, (PositionCalculator)obj, i5);
@@ -1488,18 +1488,18 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         getLocationOnScreen(this.tmpPositionArray);
         long globalPosition = this.globalPosition;
         int i3 = 0;
-        int x-impl = IntOffset.getX-impl(globalPosition);
+        int $i$f$component1Impl = IntOffset.getX-impl(globalPosition);
         int i4 = 0;
         int y-impl = IntOffset.getY-impl(globalPosition);
         i = 0;
         final int i6 = 1;
-        if (x-impl == this.tmpPositionArray[i]) {
+        if ($i$f$component1Impl == this.tmpPositionArray[i]) {
             this.globalPosition = IntOffsetKt.IntOffset(this.tmpPositionArray[i], this.tmpPositionArray[i6]);
             measurePassDelegate$ui_release = Integer.MAX_VALUE;
-            if (y-impl != this.tmpPositionArray[i6] && x-impl != measurePassDelegate$ui_release && y-impl != measurePassDelegate$ui_release) {
+            if (y-impl != this.tmpPositionArray[i6] && $i$f$component1Impl != measurePassDelegate$ui_release && y-impl != measurePassDelegate$ui_release) {
                 this.globalPosition = IntOffsetKt.IntOffset(this.tmpPositionArray[i], this.tmpPositionArray[i6]);
                 measurePassDelegate$ui_release = Integer.MAX_VALUE;
-                if (x-impl != measurePassDelegate$ui_release) {
+                if ($i$f$component1Impl != measurePassDelegate$ui_release) {
                     if (y-impl != measurePassDelegate$ui_release) {
                         positionChanged = 1;
                         getRoot().getLayoutDelegate$ui_release().getMeasurePassDelegate$ui_release().notifyChildrenUsingCoordinatesWhilePlacing();
@@ -1984,8 +1984,8 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         FocusDirection box-impl;
         int previous-dhqQ-8s;
         boolean escape-EK5gGoQ;
-        boolean equals-impl02;
-        int equals-impl0;
+        boolean equals-impl0;
+        int equals-impl02;
         long directionDown-EK5gGoQ;
         long key-ZmokQxo = KeyEvent_androidKt.getKey-ZmokQxo(keyEvent);
         if (Key.equals-impl0(key-ZmokQxo, obj1)) {
@@ -2002,9 +2002,9 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 if (Key.equals-impl0(key-ZmokQxo, obj1)) {
                     box-impl = FocusDirection.box-impl(FocusDirection.Companion.getLeft-dhqQ-8s());
                 } else {
-                    equals-impl0 = 1;
+                    equals-impl02 = 1;
                     if (Key.equals-impl0(key-ZmokQxo, obj1)) {
-                        escape-EK5gGoQ = equals-impl0;
+                        escape-EK5gGoQ = equals-impl02;
                     } else {
                         escape-EK5gGoQ = Key.equals-impl0(key-ZmokQxo, obj1);
                     }
@@ -2012,7 +2012,7 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                         box-impl = FocusDirection.box-impl(FocusDirection.Companion.getUp-dhqQ-8s());
                     } else {
                         if (Key.equals-impl0(key-ZmokQxo, obj1)) {
-                            escape-EK5gGoQ = equals-impl0;
+                            escape-EK5gGoQ = equals-impl02;
                         } else {
                             escape-EK5gGoQ = Key.equals-impl0(key-ZmokQxo, obj1);
                         }
@@ -2020,12 +2020,12 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                             box-impl = FocusDirection.box-impl(FocusDirection.Companion.getDown-dhqQ-8s());
                         } else {
                             if (Key.equals-impl0(key-ZmokQxo, obj1)) {
-                                equals-impl02 = equals-impl0;
+                                equals-impl0 = equals-impl02;
                             } else {
-                                equals-impl02 = Key.equals-impl0(key-ZmokQxo, obj1);
+                                equals-impl0 = Key.equals-impl0(key-ZmokQxo, obj1);
                             }
-                            if (equals-impl02) {
-                                escape-EK5gGoQ = equals-impl0;
+                            if (equals-impl0) {
+                                escape-EK5gGoQ = equals-impl02;
                             } else {
                                 escape-EK5gGoQ = Key.equals-impl0(key-ZmokQxo, obj1);
                             }
@@ -2034,9 +2034,9 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                             } else {
                                 if (Key.equals-impl0(key-ZmokQxo, obj1)) {
                                 } else {
-                                    equals-impl0 = Key.equals-impl0(key-ZmokQxo, obj1);
+                                    equals-impl02 = Key.equals-impl0(key-ZmokQxo, obj1);
                                 }
-                                if (equals-impl0 != 0) {
+                                if (equals-impl02 != 0) {
                                     box-impl = FocusDirection.box-impl(FocusDirection.Companion.getExit-dhqQ-8s());
                                 } else {
                                     box-impl = 0;
@@ -2058,19 +2058,19 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     @Override // android.view.ViewGroup
     public void getFocusedRect(Rect rect) {
         Unit $this$getFocusedRect_u24lambda_u249;
-        int i;
-        int $this$fastRoundToInt$iv;
         int i2;
+        int $this$fastRoundToInt$iv;
+        int i;
         Rect onFetchFocusRect = onFetchFocusRect();
         if (onFetchFocusRect != null) {
-            i = 0;
+            i2 = 0;
             int i3 = 0;
             rect.left = Math.round(onFetchFocusRect.getLeft());
             int i4 = 0;
             rect.top = Math.round(onFetchFocusRect.getTop());
             int i5 = 0;
             rect.right = Math.round(onFetchFocusRect.getRight());
-            i2 = 0;
+            i = 0;
             rect.bottom = Math.round(onFetchFocusRect.getBottom());
             $this$getFocusedRect_u24lambda_u249 = Unit.INSTANCE;
         } else {
@@ -2274,27 +2274,27 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     @Override // android.view.ViewGroup
     public void measureAndLayout(boolean sendPointerUpdate) {
         boolean hasPendingMeasureOrLayout;
-        int i;
-        Object iNSTANCE;
-        int i4;
+        int i2;
+        Object $i$a$TraceAndroidComposeView$measureAndLayout$1;
+        int i3;
         Function0 resendMotionEventOnLayout;
         boolean measureAndLayout;
         MeasureAndLayoutDelegate measureAndLayoutDelegate;
-        int i3;
-        int i2;
+        int i4;
+        int i;
         if (!this.measureAndLayoutDelegate.getHasPendingMeasureOrLayout()) {
             if (this.measureAndLayoutDelegate.getHasPendingOnPositionedCallbacks()) {
-                i = 0;
+                i2 = 0;
                 Trace.beginSection("AndroidOwner:measureAndLayout");
                 int i5 = 0;
-                i4 = 0;
-                resendMotionEventOnLayout = sendPointerUpdate ? this.resendMotionEventOnLayout : i4;
+                i3 = 0;
+                resendMotionEventOnLayout = sendPointerUpdate ? this.resendMotionEventOnLayout : i3;
                 if (this.measureAndLayoutDelegate.measureAndLayout(resendMotionEventOnLayout)) {
                     requestLayout();
                 }
-                MeasureAndLayoutDelegate.dispatchOnPositionedCallbacks$default(this.measureAndLayoutDelegate, false, 1, i4);
+                MeasureAndLayoutDelegate.dispatchOnPositionedCallbacks$default(this.measureAndLayoutDelegate, false, 1, i3);
                 dispatchPendingInteropLayoutCallbacks();
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$TraceAndroidComposeView$measureAndLayout$1 = Unit.INSTANCE;
                 Trace.endSection();
             }
         } else {
@@ -2304,8 +2304,8 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     @Override // android.view.ViewGroup
     public void measureAndLayout-0kLqBqw(LayoutNode layoutNode, long constraints) {
         boolean hasPendingMeasureOrLayout;
-        int i2;
         int i;
+        int i2;
         int i3;
         final int i4 = 0;
         Trace.beginSection("AndroidOwner:measureAndLayout");
@@ -2315,7 +2315,7 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             MeasureAndLayoutDelegate.dispatchOnPositionedCallbacks$default(this.measureAndLayoutDelegate, false, 1, 0);
             dispatchPendingInteropLayoutCallbacks();
         }
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$TraceAndroidComposeView$measureAndLayout$2 = Unit.INSTANCE;
         Trace.endSection();
     }
 
@@ -2360,13 +2360,13 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     @Override // android.view.ViewGroup
     protected void onAttachedToWindow() {
         boolean autofillSupported;
-        int lifecycleOwner2;
+        int lifecycleOwner;
         int i2;
-        AutofillCallback iNSTANCE2;
+        AutofillCallback iNSTANCE;
         int lifecycle;
-        Object lifecycleOwner;
+        Object lifecycleOwner2;
         Object viewTreeOwners;
-        int iNSTANCE;
+        int iNSTANCE2;
         Object onViewTreeOwnersAvailable;
         int keyboard-aOaMEAU;
         int i;
@@ -2381,7 +2381,7 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         if (autofillSupported() && autofillSupported != null) {
             autofillSupported = this._autofill;
             if (autofillSupported != null) {
-                lifecycleOwner2 = 0;
+                lifecycleOwner = 0;
                 AutofillCallback.INSTANCE.register(autofillSupported);
             }
         }
@@ -2410,23 +2410,23 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             } else {
                 if (savedStateRegistryOwner == null) {
                 } else {
-                    lifecycleOwner = viewTreeOwners2.getLifecycleOwner();
-                    lifecycleOwner = lifecycleOwner.getLifecycle();
-                    if (viewTreeOwners2 != null && lifecycleOwner != null && lifecycleOwner != null) {
-                        lifecycleOwner = viewTreeOwners2.getLifecycleOwner();
-                        if (lifecycleOwner != null) {
-                            lifecycleOwner = lifecycleOwner.getLifecycle();
-                            if (lifecycleOwner != null) {
-                                lifecycleOwner.removeObserver((LifecycleObserver)this);
+                    lifecycleOwner2 = viewTreeOwners2.getLifecycleOwner();
+                    lifecycleOwner2 = lifecycleOwner2.getLifecycle();
+                    if (viewTreeOwners2 != null && lifecycleOwner2 != null && lifecycleOwner2 != null) {
+                        lifecycleOwner2 = viewTreeOwners2.getLifecycleOwner();
+                        if (lifecycleOwner2 != null) {
+                            lifecycleOwner2 = lifecycleOwner2.getLifecycle();
+                            if (lifecycleOwner2 != null) {
+                                lifecycleOwner2.removeObserver((LifecycleObserver)this);
                             }
                         }
                     }
                     lifecycleOwner3.getLifecycle().addObserver((LifecycleObserver)this);
-                    lifecycleOwner = new AndroidComposeView.ViewTreeOwners(lifecycleOwner3, savedStateRegistryOwner);
-                    set_viewTreeOwners(lifecycleOwner);
+                    lifecycleOwner2 = new AndroidComposeView.ViewTreeOwners(lifecycleOwner3, savedStateRegistryOwner);
+                    set_viewTreeOwners(lifecycleOwner2);
                     onViewTreeOwnersAvailable = this.onViewTreeOwnersAvailable;
                     if (onViewTreeOwnersAvailable != null) {
-                        onViewTreeOwnersAvailable.invoke(lifecycleOwner);
+                        onViewTreeOwnersAvailable.invoke(lifecycleOwner2);
                     }
                     this.onViewTreeOwnersAvailable = 0;
                 }
@@ -2513,9 +2513,9 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         Object viewTreeOwners;
         int lifecycle;
         int iNSTANCE;
-        int i;
-        boolean autofillSupported;
         int i2;
+        boolean autofillSupported;
+        int i;
         AutofillCallback iNSTANCE2;
         super.onDetachedFromWindow();
         getSnapshotObserver().stopObserving$ui_release();
@@ -2541,7 +2541,7 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             if (autofillSupported() && autofillSupported != null) {
                 autofillSupported = this._autofill;
                 if (autofillSupported != null) {
-                    i2 = 0;
+                    i = 0;
                     AutofillCallback.INSTANCE.unregister(autofillSupported);
                 }
             }
@@ -2567,10 +2567,10 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         boolean observationClearRequested;
         androidx.compose.ui.platform.AndroidViewsHandler size;
         MutableVector i;
-        int i2;
+        int i3;
         Object this_$iv;
         MutableVector endApplyChangesListeners;
-        int i3;
+        int i2;
         final int i4 = 0;
         if (this.observationClearRequested) {
             getSnapshotObserver().clearInvalidObservations$ui_release();
@@ -2582,23 +2582,23 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
         }
         while (this.endApplyChangesListeners.isNotEmpty()) {
             size = this.endApplyChangesListeners.getSize();
-            i2 = 0;
-            while (i2 < size) {
+            i3 = 0;
+            while (i3 < size) {
                 int i5 = 0;
-                this_$iv = this.endApplyChangesListeners.getContent()[i2];
-                this.endApplyChangesListeners.set(i2, 0);
+                this_$iv = this.endApplyChangesListeners.getContent()[i3];
+                this.endApplyChangesListeners.set(i3, 0);
                 if ((Function0)this_$iv != null) {
                 }
-                i2++;
+                i3++;
                 (Function0)this_$iv.invoke();
             }
             this.endApplyChangesListeners.removeRange(i4, size);
             i5 = 0;
-            this_$iv = this.endApplyChangesListeners.getContent()[i2];
-            this.endApplyChangesListeners.set(i2, 0);
+            this_$iv = this.endApplyChangesListeners.getContent()[i3];
+            this.endApplyChangesListeners.set(i3, 0);
             if ((Function0)this_$iv != null) {
             }
-            i2++;
+            i3++;
             (Function0)this_$iv.invoke();
         }
     }
@@ -2623,14 +2623,14 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         androidx.compose.ui.platform.AndroidViewsHandler _androidViewsHandler;
         Function0 resendMotionEventOnLayout;
-        int i;
         int i2;
+        int i;
         this.measureAndLayoutDelegate.measureAndLayout(this.resendMotionEventOnLayout);
         this.onMeasureConstraints = 0;
         updatePositionCacheAndDispatch();
         if (this._androidViewsHandler != null) {
-            i2 = 0;
-            getAndroidViewsHandler$ui_release().layout(i2, i2, r - l, b - t);
+            i = 0;
+            getAndroidViewsHandler$ui_release().layout(i, i, r - l, b - t);
         }
     }
 
@@ -2689,7 +2689,7 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             try {
                 int i16 = 1073741824;
                 obj.getAndroidViewsHandler$ui_release().measure(View.MeasureSpec.makeMeasureSpec(obj.getRoot().getWidth(), i16), View.MeasureSpec.makeMeasureSpec(obj.getRoot().getHeight(), i16));
-                Unit iNSTANCE = Unit.INSTANCE;
+                Unit $i$a$TraceAndroidComposeView$onMeasure$1 = Unit.INSTANCE;
                 Trace.endSection();
                 i = heightMeasureSpec;
                 Trace.endSection();
@@ -2789,19 +2789,19 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
 
     @Override // android.view.ViewGroup
     public void onWindowFocusChanged(boolean hasWindowFocus) {
-        int i2;
         int i;
+        int i2;
         boolean showLayoutBounds;
         this._windowInfo.setWindowFocused(hasWindowFocus);
         this.keyboardModifiersRequireUpdate = true;
         super.onWindowFocusChanged(hasWindowFocus);
-        i2 = AndroidComposeView.Companion.access$getIsShowingLayoutBounds(AndroidComposeView.Companion);
-        i = 0;
-        if (hasWindowFocus && getShowLayoutBounds() != i2) {
-            i2 = AndroidComposeView.Companion.access$getIsShowingLayoutBounds(AndroidComposeView.Companion);
-            i = 0;
-            if (getShowLayoutBounds() != i2) {
-                setShowLayoutBounds(i2);
+        i = AndroidComposeView.Companion.access$getIsShowingLayoutBounds(AndroidComposeView.Companion);
+        i2 = 0;
+        if (hasWindowFocus && getShowLayoutBounds() != i) {
+            i = AndroidComposeView.Companion.access$getIsShowingLayoutBounds(AndroidComposeView.Companion);
+            i2 = 0;
+            if (getShowLayoutBounds() != i) {
+                setShowLayoutBounds(i);
                 invalidateDescendants();
             }
         }
@@ -2900,11 +2900,11 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     public boolean sendKeyEvent-ZmokQxo(KeyEvent keyEvent) {
         int i;
         boolean dispatchInterceptedSoftKeyboardEvent-ZmokQxo;
-        int i3;
         int i2;
+        int i3;
         if (!getFocusOwner().dispatchInterceptedSoftKeyboardEvent-ZmokQxo(keyEvent)) {
-            i2 = 0;
-            if (FocusOwner.dispatchKeyEvent-YhN2O0w$default(getFocusOwner(), keyEvent, i2, 2, i2)) {
+            i3 = 0;
+            if (FocusOwner.dispatchKeyEvent-YhN2O0w$default(getFocusOwner(), keyEvent, i3, 2, i3)) {
                 i = 1;
             } else {
                 i = 0;
@@ -2931,37 +2931,37 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
     @Override // android.view.ViewGroup
     public void setCoroutineContext(CoroutineContext value) {
         Object stack$iv$iv;
-        int node$iv$iv;
-        int i3;
+        int node$iv$iv5;
+        int i;
         CoroutineContext context;
-        int this_$iv$iv$iv2;
+        int this_$iv$iv$iv;
         Modifier.Node next$iv$iv;
         int capacity$iv$iv$iv$iv;
         Modifier.Node count$iv$iv;
         int count$iv$iv2;
         boolean z;
         Modifier.Node child$ui_release;
-        int i4;
+        int i8;
         LayoutNode layout$iv$iv;
-        String str;
-        Modifier.Node node$iv$iv5;
-        int i6;
-        Modifier.Node node;
-        int i5;
-        int node$iv$iv4;
-        int node$iv$iv2;
-        Modifier.Node node$iv$iv3;
-        Modifier.Node headModifierNode;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitSubtree$1$iv$iv;
+        Modifier.Node node$iv$iv;
+        int i3;
         Modifier.Node node2;
+        int i7;
+        int node$iv$iv3;
+        int node$iv$iv4;
+        Modifier.Node node$iv$iv2;
+        Modifier.Node headModifierNode;
+        Modifier.Node node;
         Modifier.Node node$iv$iv$iv;
         Modifier.Node node3;
-        int i2;
-        int this_$iv$iv$iv;
-        int i7;
         int i9;
+        int this_$iv$iv$iv2;
+        int i5;
+        int i4;
         Modifier.Node node$iv$iv6;
-        int i8;
-        int i;
+        int i2;
+        int i6;
         stack$iv$iv = this;
         stack$iv$iv.coroutineContext = value;
         count$iv$iv = stack$iv$iv.getRoot().getNodes$ui_release().getHead$ui_release();
@@ -2969,9 +2969,9 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             (SuspendingPointerInputModifierNode)count$iv$iv.resetPointerInputHandler();
         }
         int i12 = 0;
-        int constructor-impl = NodeKind.constructor-impl(16);
+        int $i$f$getPointerInputOLwlOKw = NodeKind.constructor-impl(16);
         int i14 = 0;
-        final int i15 = constructor-impl;
+        final int i15 = $i$f$getPointerInputOLwlOKw;
         final Modifier.Node node7 = node6;
         final int i16 = 0;
         int i17 = 0;
@@ -2986,7 +2986,7 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             if (child$ui_release == null) {
             } else {
             }
-            node$iv$iv5 = child$ui_release;
+            node$iv$iv = child$ui_release;
             if (aggregateChildKindSet$ui_release &= i15 != 0) {
             } else {
             }
@@ -2996,102 +2996,102 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             if (nestedVectorStack.isNotEmpty()) {
             } else {
             }
-            i3 = 0;
-            layout$iv$iv = i3;
+            i = 0;
+            layout$iv$iv = i;
             stack$iv$iv = this;
             context = value;
             count$iv$iv = headModifierNode;
-            i3 = nestedVectorStack.pop();
-            while (node$iv$iv5 != null) {
+            i = nestedVectorStack.pop();
+            while (node$iv$iv != null) {
                 if (kindSet$ui_release &= i15 != 0) {
                 } else {
                 }
                 headModifierNode = count$iv$iv;
-                node$iv$iv5 = node$iv$iv5.getChild$ui_release();
+                node$iv$iv = node$iv$iv.getChild$ui_release();
                 stack$iv$iv = this;
                 context = value;
                 count$iv$iv = headModifierNode;
-                i6 = 0;
-                i5 = 0;
-                node$iv$iv4 = 0;
+                i3 = 0;
+                i7 = 0;
+                node$iv$iv3 = 0;
                 int i19 = 0;
-                stack$iv$iv = node$iv$iv3;
+                stack$iv$iv = node$iv$iv2;
                 while (stack$iv$iv != null) {
                     if (stack$iv$iv instanceof PointerInputModifierNode) {
                     } else {
                     }
                     Modifier.Node node4 = stack$iv$iv;
                     int i11 = 0;
-                    node2 = node4;
-                    if (kindSet$ui_release2 &= constructor-impl != 0) {
+                    node = node4;
+                    if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
                     } else {
                     }
                     count$iv$iv2 = 0;
                     if (count$iv$iv2 != 0 && stack$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv4);
+                    stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv3);
                     context = value;
                     count$iv$iv = headModifierNode;
                     if (stack$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv$iv2 = 0;
-                    node2 = 0;
+                    node = 0;
                     node$iv$iv$iv = (DelegatingNode)stack$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         node3 = node$iv$iv$iv;
-                        i2 = 0;
-                        i7 = 0;
-                        if (kindSet$ui_release3 &= constructor-impl != 0) {
+                        i9 = 0;
+                        i5 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getPointerInputOLwlOKw != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv = 0;
-                        if (this_$iv$iv$iv != 0) {
+                        this_$iv$iv$iv2 = 0;
+                        if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
                         node$iv$iv6 = stack$iv$iv;
                         next$iv$iv = node3;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        this_$iv$iv$iv2 = 1;
+                        this_$iv$iv$iv = 1;
                         count$iv$iv2++;
-                        if (count$iv$iv2 == this_$iv$iv$iv2) {
+                        if (count$iv$iv2 == this_$iv$iv$iv) {
                         } else {
                         }
-                        if (node$iv$iv4 == 0) {
+                        if (node$iv$iv3 == 0) {
                         } else {
                         }
                         node$iv$iv6 = stack$iv$iv;
-                        i8 = count$iv$iv2;
+                        i2 = count$iv$iv2;
                         capacity$iv$iv$iv$iv = 0;
-                        node$iv$iv = node$iv$iv4;
+                        node$iv$iv5 = node$iv$iv3;
                         Modifier.Node node5 = node$iv$iv6;
                         if (node5 != null) {
                         } else {
                         }
-                        node$iv$iv2 = node$iv$iv6;
-                        if (node$iv$iv != 0) {
+                        node$iv$iv4 = node$iv$iv6;
+                        if (node$iv$iv5 != 0) {
                         } else {
                         }
                         next$iv$iv = node3;
-                        node$iv$iv4 = node$iv$iv;
+                        node$iv$iv3 = node$iv$iv5;
                         stack$iv$iv = theNode$iv$iv;
-                        count$iv$iv2 = i8;
-                        node$iv$iv.add(node3);
-                        if (node$iv$iv != 0) {
+                        count$iv$iv2 = i2;
+                        node$iv$iv5.add(node3);
+                        if (node$iv$iv5 != 0) {
                         }
-                        node$iv$iv2 = 0;
-                        node$iv$iv.add(node5);
-                        this_$iv$iv$iv = 0;
+                        node$iv$iv4 = 0;
+                        node$iv$iv5.add(node5);
+                        this_$iv$iv$iv2 = 0;
                         int i10 = 16;
-                        i9 = 0;
+                        i4 = 0;
                         node$iv$iv6 = stack$iv$iv;
-                        i8 = count$iv$iv2;
-                        i = i10;
-                        node$iv$iv = new MutableVector(new Modifier.Node[i10], 0);
+                        i2 = count$iv$iv2;
+                        i6 = i10;
+                        node$iv$iv5 = new MutableVector(new Modifier.Node[i10], 0);
                         stack$iv$iv = node3;
                         next$iv$iv = node3;
-                        this_$iv$iv$iv = this_$iv$iv$iv2;
+                        this_$iv$iv$iv2 = this_$iv$iv$iv;
                     }
                     node$iv$iv6 = stack$iv$iv;
                     if (count$iv$iv2 == 1) {
@@ -3102,64 +3102,64 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                     count$iv$iv = headModifierNode;
                     stack$iv$iv = node$iv$iv6;
                     node3 = node$iv$iv$iv;
-                    i2 = 0;
-                    i7 = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    i9 = 0;
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getPointerInputOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0) {
+                    this_$iv$iv$iv2 = 0;
+                    if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
                     node$iv$iv6 = stack$iv$iv;
                     next$iv$iv = node3;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    this_$iv$iv$iv2 = 1;
+                    this_$iv$iv$iv = 1;
                     count$iv$iv2++;
-                    if (count$iv$iv2 == this_$iv$iv$iv2) {
+                    if (count$iv$iv2 == this_$iv$iv$iv) {
                     } else {
                     }
-                    if (node$iv$iv4 == 0) {
+                    if (node$iv$iv3 == 0) {
                     } else {
                     }
                     node$iv$iv6 = stack$iv$iv;
-                    i8 = count$iv$iv2;
+                    i2 = count$iv$iv2;
                     capacity$iv$iv$iv$iv = 0;
-                    node$iv$iv = node$iv$iv4;
+                    node$iv$iv5 = node$iv$iv3;
                     node5 = node$iv$iv6;
                     if (node5 != null) {
                     } else {
                     }
-                    node$iv$iv2 = node$iv$iv6;
-                    if (node$iv$iv != 0) {
+                    node$iv$iv4 = node$iv$iv6;
+                    if (node$iv$iv5 != 0) {
                     } else {
                     }
                     next$iv$iv = node3;
-                    node$iv$iv4 = node$iv$iv;
+                    node$iv$iv3 = node$iv$iv5;
                     stack$iv$iv = theNode$iv$iv;
-                    count$iv$iv2 = i8;
-                    node$iv$iv.add(node3);
-                    if (node$iv$iv != 0) {
+                    count$iv$iv2 = i2;
+                    node$iv$iv5.add(node3);
+                    if (node$iv$iv5 != 0) {
                     }
-                    node$iv$iv2 = 0;
-                    node$iv$iv.add(node5);
-                    this_$iv$iv$iv = 0;
+                    node$iv$iv4 = 0;
+                    node$iv$iv5.add(node5);
+                    this_$iv$iv$iv2 = 0;
                     i10 = 16;
-                    i9 = 0;
+                    i4 = 0;
                     node$iv$iv6 = stack$iv$iv;
-                    i8 = count$iv$iv2;
-                    i = i10;
-                    node$iv$iv = new MutableVector(new Modifier.Node[i10], 0);
+                    i2 = count$iv$iv2;
+                    i6 = i10;
+                    node$iv$iv5 = new MutableVector(new Modifier.Node[i10], 0);
                     stack$iv$iv = node3;
                     next$iv$iv = node3;
-                    this_$iv$iv$iv = this_$iv$iv$iv2;
-                    count$iv$iv2 = this_$iv$iv$iv2;
-                    this_$iv$iv$iv2 = stack$iv$iv;
-                    node$iv$iv3 = 0;
+                    this_$iv$iv$iv2 = this_$iv$iv$iv;
+                    count$iv$iv2 = this_$iv$iv$iv;
+                    this_$iv$iv$iv = stack$iv$iv;
+                    node$iv$iv2 = 0;
                     headModifierNode = count$iv$iv;
-                    if (this_$iv$iv$iv2 instanceof SuspendingPointerInputModifierNode) {
+                    if (this_$iv$iv$iv instanceof SuspendingPointerInputModifierNode) {
                     }
-                    (SuspendingPointerInputModifierNode)(PointerInputModifierNode)this_$iv$iv$iv2.resetPointerInputHandler();
+                    (SuspendingPointerInputModifierNode)(PointerInputModifierNode)this_$iv$iv$iv.resetPointerInputHandler();
                 }
                 headModifierNode = count$iv$iv;
                 if (stack$iv$iv instanceof PointerInputModifierNode) {
@@ -3167,76 +3167,76 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 }
                 node4 = stack$iv$iv;
                 i11 = 0;
-                node2 = node4;
-                if (kindSet$ui_release2 &= constructor-impl != 0) {
+                node = node4;
+                if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
                 } else {
                 }
                 count$iv$iv2 = 0;
                 if (count$iv$iv2 != 0 && stack$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv4);
+                stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv3);
                 context = value;
                 count$iv$iv = headModifierNode;
                 if (stack$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
                 count$iv$iv2 = 0;
-                node2 = 0;
+                node = 0;
                 node$iv$iv$iv = (DelegatingNode)stack$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     node3 = node$iv$iv$iv;
-                    i2 = 0;
-                    i7 = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    i9 = 0;
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getPointerInputOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0) {
+                    this_$iv$iv$iv2 = 0;
+                    if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
                     node$iv$iv6 = stack$iv$iv;
                     next$iv$iv = node3;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    this_$iv$iv$iv2 = 1;
+                    this_$iv$iv$iv = 1;
                     count$iv$iv2++;
-                    if (count$iv$iv2 == this_$iv$iv$iv2) {
+                    if (count$iv$iv2 == this_$iv$iv$iv) {
                     } else {
                     }
-                    if (node$iv$iv4 == 0) {
+                    if (node$iv$iv3 == 0) {
                     } else {
                     }
                     node$iv$iv6 = stack$iv$iv;
-                    i8 = count$iv$iv2;
+                    i2 = count$iv$iv2;
                     capacity$iv$iv$iv$iv = 0;
-                    node$iv$iv = node$iv$iv4;
+                    node$iv$iv5 = node$iv$iv3;
                     node5 = node$iv$iv6;
                     if (node5 != null) {
                     } else {
                     }
-                    node$iv$iv2 = node$iv$iv6;
-                    if (node$iv$iv != 0) {
+                    node$iv$iv4 = node$iv$iv6;
+                    if (node$iv$iv5 != 0) {
                     } else {
                     }
                     next$iv$iv = node3;
-                    node$iv$iv4 = node$iv$iv;
+                    node$iv$iv3 = node$iv$iv5;
                     stack$iv$iv = theNode$iv$iv;
-                    count$iv$iv2 = i8;
-                    node$iv$iv.add(node3);
-                    if (node$iv$iv != 0) {
+                    count$iv$iv2 = i2;
+                    node$iv$iv5.add(node3);
+                    if (node$iv$iv5 != 0) {
                     }
-                    node$iv$iv2 = 0;
-                    node$iv$iv.add(node5);
-                    this_$iv$iv$iv = 0;
+                    node$iv$iv4 = 0;
+                    node$iv$iv5.add(node5);
+                    this_$iv$iv$iv2 = 0;
                     i10 = 16;
-                    i9 = 0;
+                    i4 = 0;
                     node$iv$iv6 = stack$iv$iv;
-                    i8 = count$iv$iv2;
-                    i = i10;
-                    node$iv$iv = new MutableVector(new Modifier.Node[i10], 0);
+                    i2 = count$iv$iv2;
+                    i6 = i10;
+                    node$iv$iv5 = new MutableVector(new Modifier.Node[i10], 0);
                     stack$iv$iv = node3;
                     next$iv$iv = node3;
-                    this_$iv$iv$iv = this_$iv$iv$iv2;
+                    this_$iv$iv$iv2 = this_$iv$iv$iv;
                 }
                 node$iv$iv6 = stack$iv$iv;
                 if (count$iv$iv2 == 1) {
@@ -3247,155 +3247,155 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 count$iv$iv = headModifierNode;
                 stack$iv$iv = node$iv$iv6;
                 node3 = node$iv$iv$iv;
-                i2 = 0;
-                i7 = 0;
-                if (kindSet$ui_release3 &= constructor-impl != 0) {
+                i9 = 0;
+                i5 = 0;
+                if (kindSet$ui_release3 &= $i$f$getPointerInputOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv$iv = 0;
-                if (this_$iv$iv$iv != 0) {
+                this_$iv$iv$iv2 = 0;
+                if (this_$iv$iv$iv2 != 0) {
                 } else {
                 }
                 node$iv$iv6 = stack$iv$iv;
                 next$iv$iv = node3;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                this_$iv$iv$iv2 = 1;
+                this_$iv$iv$iv = 1;
                 count$iv$iv2++;
-                if (count$iv$iv2 == this_$iv$iv$iv2) {
+                if (count$iv$iv2 == this_$iv$iv$iv) {
                 } else {
                 }
-                if (node$iv$iv4 == 0) {
+                if (node$iv$iv3 == 0) {
                 } else {
                 }
                 node$iv$iv6 = stack$iv$iv;
-                i8 = count$iv$iv2;
+                i2 = count$iv$iv2;
                 capacity$iv$iv$iv$iv = 0;
-                node$iv$iv = node$iv$iv4;
+                node$iv$iv5 = node$iv$iv3;
                 node5 = node$iv$iv6;
                 if (node5 != null) {
                 } else {
                 }
-                node$iv$iv2 = node$iv$iv6;
-                if (node$iv$iv != 0) {
+                node$iv$iv4 = node$iv$iv6;
+                if (node$iv$iv5 != 0) {
                 } else {
                 }
                 next$iv$iv = node3;
-                node$iv$iv4 = node$iv$iv;
+                node$iv$iv3 = node$iv$iv5;
                 stack$iv$iv = theNode$iv$iv;
-                count$iv$iv2 = i8;
-                node$iv$iv.add(node3);
-                if (node$iv$iv != 0) {
+                count$iv$iv2 = i2;
+                node$iv$iv5.add(node3);
+                if (node$iv$iv5 != 0) {
                 }
-                node$iv$iv2 = 0;
-                node$iv$iv.add(node5);
-                this_$iv$iv$iv = 0;
+                node$iv$iv4 = 0;
+                node$iv$iv5.add(node5);
+                this_$iv$iv$iv2 = 0;
                 i10 = 16;
-                i9 = 0;
+                i4 = 0;
                 node$iv$iv6 = stack$iv$iv;
-                i8 = count$iv$iv2;
-                i = i10;
-                node$iv$iv = new MutableVector(new Modifier.Node[i10], 0);
+                i2 = count$iv$iv2;
+                i6 = i10;
+                node$iv$iv5 = new MutableVector(new Modifier.Node[i10], 0);
                 stack$iv$iv = node3;
                 next$iv$iv = node3;
-                this_$iv$iv$iv = this_$iv$iv$iv2;
-                count$iv$iv2 = this_$iv$iv$iv2;
-                this_$iv$iv$iv2 = stack$iv$iv;
-                node$iv$iv3 = 0;
+                this_$iv$iv$iv2 = this_$iv$iv$iv;
+                count$iv$iv2 = this_$iv$iv$iv;
+                this_$iv$iv$iv = stack$iv$iv;
+                node$iv$iv2 = 0;
                 headModifierNode = count$iv$iv;
-                if (this_$iv$iv$iv2 instanceof SuspendingPointerInputModifierNode) {
+                if (this_$iv$iv$iv instanceof SuspendingPointerInputModifierNode) {
                 }
-                (SuspendingPointerInputModifierNode)(PointerInputModifierNode)this_$iv$iv$iv2.resetPointerInputHandler();
+                (SuspendingPointerInputModifierNode)(PointerInputModifierNode)this_$iv$iv$iv.resetPointerInputHandler();
             }
             headModifierNode = count$iv$iv;
             if (kindSet$ui_release &= i15 != 0) {
             } else {
             }
             headModifierNode = count$iv$iv;
-            node$iv$iv5 = node$iv$iv5.getChild$ui_release();
+            node$iv$iv = node$iv$iv.getChild$ui_release();
             stack$iv$iv = this;
             context = value;
             count$iv$iv = headModifierNode;
-            i6 = 0;
-            i5 = 0;
-            node$iv$iv4 = 0;
+            i3 = 0;
+            i7 = 0;
+            node$iv$iv3 = 0;
             i19 = 0;
-            stack$iv$iv = node$iv$iv3;
+            stack$iv$iv = node$iv$iv2;
             while (stack$iv$iv != null) {
                 if (stack$iv$iv instanceof PointerInputModifierNode) {
                 } else {
                 }
                 node4 = stack$iv$iv;
                 i11 = 0;
-                node2 = node4;
-                if (kindSet$ui_release2 &= constructor-impl != 0) {
+                node = node4;
+                if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
                 } else {
                 }
                 count$iv$iv2 = 0;
                 if (count$iv$iv2 != 0 && stack$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv4);
+                stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv3);
                 context = value;
                 count$iv$iv = headModifierNode;
                 if (stack$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
                 count$iv$iv2 = 0;
-                node2 = 0;
+                node = 0;
                 node$iv$iv$iv = (DelegatingNode)stack$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     node3 = node$iv$iv$iv;
-                    i2 = 0;
-                    i7 = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    i9 = 0;
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getPointerInputOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0) {
+                    this_$iv$iv$iv2 = 0;
+                    if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
                     node$iv$iv6 = stack$iv$iv;
                     next$iv$iv = node3;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    this_$iv$iv$iv2 = 1;
+                    this_$iv$iv$iv = 1;
                     count$iv$iv2++;
-                    if (count$iv$iv2 == this_$iv$iv$iv2) {
+                    if (count$iv$iv2 == this_$iv$iv$iv) {
                     } else {
                     }
-                    if (node$iv$iv4 == 0) {
+                    if (node$iv$iv3 == 0) {
                     } else {
                     }
                     node$iv$iv6 = stack$iv$iv;
-                    i8 = count$iv$iv2;
+                    i2 = count$iv$iv2;
                     capacity$iv$iv$iv$iv = 0;
-                    node$iv$iv = node$iv$iv4;
+                    node$iv$iv5 = node$iv$iv3;
                     node5 = node$iv$iv6;
                     if (node5 != null) {
                     } else {
                     }
-                    node$iv$iv2 = node$iv$iv6;
-                    if (node$iv$iv != 0) {
+                    node$iv$iv4 = node$iv$iv6;
+                    if (node$iv$iv5 != 0) {
                     } else {
                     }
                     next$iv$iv = node3;
-                    node$iv$iv4 = node$iv$iv;
+                    node$iv$iv3 = node$iv$iv5;
                     stack$iv$iv = theNode$iv$iv;
-                    count$iv$iv2 = i8;
-                    node$iv$iv.add(node3);
-                    if (node$iv$iv != 0) {
+                    count$iv$iv2 = i2;
+                    node$iv$iv5.add(node3);
+                    if (node$iv$iv5 != 0) {
                     }
-                    node$iv$iv2 = 0;
-                    node$iv$iv.add(node5);
-                    this_$iv$iv$iv = 0;
+                    node$iv$iv4 = 0;
+                    node$iv$iv5.add(node5);
+                    this_$iv$iv$iv2 = 0;
                     i10 = 16;
-                    i9 = 0;
+                    i4 = 0;
                     node$iv$iv6 = stack$iv$iv;
-                    i8 = count$iv$iv2;
-                    i = i10;
-                    node$iv$iv = new MutableVector(new Modifier.Node[i10], 0);
+                    i2 = count$iv$iv2;
+                    i6 = i10;
+                    node$iv$iv5 = new MutableVector(new Modifier.Node[i10], 0);
                     stack$iv$iv = node3;
                     next$iv$iv = node3;
-                    this_$iv$iv$iv = this_$iv$iv$iv2;
+                    this_$iv$iv$iv2 = this_$iv$iv$iv;
                 }
                 node$iv$iv6 = stack$iv$iv;
                 if (count$iv$iv2 == 1) {
@@ -3406,64 +3406,64 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
                 count$iv$iv = headModifierNode;
                 stack$iv$iv = node$iv$iv6;
                 node3 = node$iv$iv$iv;
-                i2 = 0;
-                i7 = 0;
-                if (kindSet$ui_release3 &= constructor-impl != 0) {
+                i9 = 0;
+                i5 = 0;
+                if (kindSet$ui_release3 &= $i$f$getPointerInputOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv$iv = 0;
-                if (this_$iv$iv$iv != 0) {
+                this_$iv$iv$iv2 = 0;
+                if (this_$iv$iv$iv2 != 0) {
                 } else {
                 }
                 node$iv$iv6 = stack$iv$iv;
                 next$iv$iv = node3;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                this_$iv$iv$iv2 = 1;
+                this_$iv$iv$iv = 1;
                 count$iv$iv2++;
-                if (count$iv$iv2 == this_$iv$iv$iv2) {
+                if (count$iv$iv2 == this_$iv$iv$iv) {
                 } else {
                 }
-                if (node$iv$iv4 == 0) {
+                if (node$iv$iv3 == 0) {
                 } else {
                 }
                 node$iv$iv6 = stack$iv$iv;
-                i8 = count$iv$iv2;
+                i2 = count$iv$iv2;
                 capacity$iv$iv$iv$iv = 0;
-                node$iv$iv = node$iv$iv4;
+                node$iv$iv5 = node$iv$iv3;
                 node5 = node$iv$iv6;
                 if (node5 != null) {
                 } else {
                 }
-                node$iv$iv2 = node$iv$iv6;
-                if (node$iv$iv != 0) {
+                node$iv$iv4 = node$iv$iv6;
+                if (node$iv$iv5 != 0) {
                 } else {
                 }
                 next$iv$iv = node3;
-                node$iv$iv4 = node$iv$iv;
+                node$iv$iv3 = node$iv$iv5;
                 stack$iv$iv = theNode$iv$iv;
-                count$iv$iv2 = i8;
-                node$iv$iv.add(node3);
-                if (node$iv$iv != 0) {
+                count$iv$iv2 = i2;
+                node$iv$iv5.add(node3);
+                if (node$iv$iv5 != 0) {
                 }
-                node$iv$iv2 = 0;
-                node$iv$iv.add(node5);
-                this_$iv$iv$iv = 0;
+                node$iv$iv4 = 0;
+                node$iv$iv5.add(node5);
+                this_$iv$iv$iv2 = 0;
                 i10 = 16;
-                i9 = 0;
+                i4 = 0;
                 node$iv$iv6 = stack$iv$iv;
-                i8 = count$iv$iv2;
-                i = i10;
-                node$iv$iv = new MutableVector(new Modifier.Node[i10], 0);
+                i2 = count$iv$iv2;
+                i6 = i10;
+                node$iv$iv5 = new MutableVector(new Modifier.Node[i10], 0);
                 stack$iv$iv = node3;
                 next$iv$iv = node3;
-                this_$iv$iv$iv = this_$iv$iv$iv2;
-                count$iv$iv2 = this_$iv$iv$iv2;
-                this_$iv$iv$iv2 = stack$iv$iv;
-                node$iv$iv3 = 0;
+                this_$iv$iv$iv2 = this_$iv$iv$iv;
+                count$iv$iv2 = this_$iv$iv$iv;
+                this_$iv$iv$iv = stack$iv$iv;
+                node$iv$iv2 = 0;
                 headModifierNode = count$iv$iv;
-                if (this_$iv$iv$iv2 instanceof SuspendingPointerInputModifierNode) {
+                if (this_$iv$iv$iv instanceof SuspendingPointerInputModifierNode) {
                 }
-                (SuspendingPointerInputModifierNode)(PointerInputModifierNode)this_$iv$iv$iv2.resetPointerInputHandler();
+                (SuspendingPointerInputModifierNode)(PointerInputModifierNode)this_$iv$iv$iv.resetPointerInputHandler();
             }
             headModifierNode = count$iv$iv;
             if (stack$iv$iv instanceof PointerInputModifierNode) {
@@ -3471,76 +3471,76 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             }
             node4 = stack$iv$iv;
             i11 = 0;
-            node2 = node4;
-            if (kindSet$ui_release2 &= constructor-impl != 0) {
+            node = node4;
+            if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
             } else {
             }
             count$iv$iv2 = 0;
             if (count$iv$iv2 != 0 && stack$iv$iv instanceof DelegatingNode) {
             } else {
             }
-            stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv4);
+            stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv3);
             context = value;
             count$iv$iv = headModifierNode;
             if (stack$iv$iv instanceof DelegatingNode) {
             } else {
             }
             count$iv$iv2 = 0;
-            node2 = 0;
+            node = 0;
             node$iv$iv$iv = (DelegatingNode)stack$iv$iv.getDelegate$ui_release();
             while (node$iv$iv$iv != null) {
                 node3 = node$iv$iv$iv;
-                i2 = 0;
-                i7 = 0;
-                if (kindSet$ui_release3 &= constructor-impl != 0) {
+                i9 = 0;
+                i5 = 0;
+                if (kindSet$ui_release3 &= $i$f$getPointerInputOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv$iv = 0;
-                if (this_$iv$iv$iv != 0) {
+                this_$iv$iv$iv2 = 0;
+                if (this_$iv$iv$iv2 != 0) {
                 } else {
                 }
                 node$iv$iv6 = stack$iv$iv;
                 next$iv$iv = node3;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                this_$iv$iv$iv2 = 1;
+                this_$iv$iv$iv = 1;
                 count$iv$iv2++;
-                if (count$iv$iv2 == this_$iv$iv$iv2) {
+                if (count$iv$iv2 == this_$iv$iv$iv) {
                 } else {
                 }
-                if (node$iv$iv4 == 0) {
+                if (node$iv$iv3 == 0) {
                 } else {
                 }
                 node$iv$iv6 = stack$iv$iv;
-                i8 = count$iv$iv2;
+                i2 = count$iv$iv2;
                 capacity$iv$iv$iv$iv = 0;
-                node$iv$iv = node$iv$iv4;
+                node$iv$iv5 = node$iv$iv3;
                 node5 = node$iv$iv6;
                 if (node5 != null) {
                 } else {
                 }
-                node$iv$iv2 = node$iv$iv6;
-                if (node$iv$iv != 0) {
+                node$iv$iv4 = node$iv$iv6;
+                if (node$iv$iv5 != 0) {
                 } else {
                 }
                 next$iv$iv = node3;
-                node$iv$iv4 = node$iv$iv;
+                node$iv$iv3 = node$iv$iv5;
                 stack$iv$iv = theNode$iv$iv;
-                count$iv$iv2 = i8;
-                node$iv$iv.add(node3);
-                if (node$iv$iv != 0) {
+                count$iv$iv2 = i2;
+                node$iv$iv5.add(node3);
+                if (node$iv$iv5 != 0) {
                 }
-                node$iv$iv2 = 0;
-                node$iv$iv.add(node5);
-                this_$iv$iv$iv = 0;
+                node$iv$iv4 = 0;
+                node$iv$iv5.add(node5);
+                this_$iv$iv$iv2 = 0;
                 i10 = 16;
-                i9 = 0;
+                i4 = 0;
                 node$iv$iv6 = stack$iv$iv;
-                i8 = count$iv$iv2;
-                i = i10;
-                node$iv$iv = new MutableVector(new Modifier.Node[i10], 0);
+                i2 = count$iv$iv2;
+                i6 = i10;
+                node$iv$iv5 = new MutableVector(new Modifier.Node[i10], 0);
                 stack$iv$iv = node3;
                 next$iv$iv = node3;
-                this_$iv$iv$iv = this_$iv$iv$iv2;
+                this_$iv$iv$iv2 = this_$iv$iv$iv;
             }
             node$iv$iv6 = stack$iv$iv;
             if (count$iv$iv2 == 1) {
@@ -3551,65 +3551,65 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
             count$iv$iv = headModifierNode;
             stack$iv$iv = node$iv$iv6;
             node3 = node$iv$iv$iv;
-            i2 = 0;
-            i7 = 0;
-            if (kindSet$ui_release3 &= constructor-impl != 0) {
+            i9 = 0;
+            i5 = 0;
+            if (kindSet$ui_release3 &= $i$f$getPointerInputOLwlOKw != 0) {
             } else {
             }
-            this_$iv$iv$iv = 0;
-            if (this_$iv$iv$iv != 0) {
+            this_$iv$iv$iv2 = 0;
+            if (this_$iv$iv$iv2 != 0) {
             } else {
             }
             node$iv$iv6 = stack$iv$iv;
             next$iv$iv = node3;
             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-            this_$iv$iv$iv2 = 1;
+            this_$iv$iv$iv = 1;
             count$iv$iv2++;
-            if (count$iv$iv2 == this_$iv$iv$iv2) {
+            if (count$iv$iv2 == this_$iv$iv$iv) {
             } else {
             }
-            if (node$iv$iv4 == 0) {
+            if (node$iv$iv3 == 0) {
             } else {
             }
             node$iv$iv6 = stack$iv$iv;
-            i8 = count$iv$iv2;
+            i2 = count$iv$iv2;
             capacity$iv$iv$iv$iv = 0;
-            node$iv$iv = node$iv$iv4;
+            node$iv$iv5 = node$iv$iv3;
             node5 = node$iv$iv6;
             if (node5 != null) {
             } else {
             }
-            node$iv$iv2 = node$iv$iv6;
-            if (node$iv$iv != 0) {
+            node$iv$iv4 = node$iv$iv6;
+            if (node$iv$iv5 != 0) {
             } else {
             }
             next$iv$iv = node3;
-            node$iv$iv4 = node$iv$iv;
+            node$iv$iv3 = node$iv$iv5;
             stack$iv$iv = theNode$iv$iv;
-            count$iv$iv2 = i8;
-            node$iv$iv.add(node3);
-            if (node$iv$iv != 0) {
+            count$iv$iv2 = i2;
+            node$iv$iv5.add(node3);
+            if (node$iv$iv5 != 0) {
             }
-            node$iv$iv2 = 0;
-            node$iv$iv.add(node5);
-            this_$iv$iv$iv = 0;
+            node$iv$iv4 = 0;
+            node$iv$iv5.add(node5);
+            this_$iv$iv$iv2 = 0;
             i10 = 16;
-            i9 = 0;
+            i4 = 0;
             node$iv$iv6 = stack$iv$iv;
-            i8 = count$iv$iv2;
-            i = i10;
-            node$iv$iv = new MutableVector(new Modifier.Node[i10], 0);
+            i2 = count$iv$iv2;
+            i6 = i10;
+            node$iv$iv5 = new MutableVector(new Modifier.Node[i10], 0);
             stack$iv$iv = node3;
             next$iv$iv = node3;
-            this_$iv$iv$iv = this_$iv$iv$iv2;
-            count$iv$iv2 = this_$iv$iv$iv2;
-            this_$iv$iv$iv2 = stack$iv$iv;
-            node$iv$iv3 = 0;
+            this_$iv$iv$iv2 = this_$iv$iv$iv;
+            count$iv$iv2 = this_$iv$iv$iv;
+            this_$iv$iv$iv = stack$iv$iv;
+            node$iv$iv2 = 0;
             headModifierNode = count$iv$iv;
-            if (this_$iv$iv$iv2 instanceof SuspendingPointerInputModifierNode) {
+            if (this_$iv$iv$iv instanceof SuspendingPointerInputModifierNode) {
             }
-            (SuspendingPointerInputModifierNode)(PointerInputModifierNode)this_$iv$iv$iv2.resetPointerInputHandler();
-            node$iv$iv5 = layout$iv$iv.getNodes$ui_release().getHead$ui_release();
+            (SuspendingPointerInputModifierNode)(PointerInputModifierNode)this_$iv$iv$iv.resetPointerInputHandler();
+            node$iv$iv = layout$iv$iv.getNodes$ui_release().getHead$ui_release();
         }
     }
 
@@ -3640,20 +3640,20 @@ public final class AndroidComposeView extends ViewGroup implements Owner, androi
 
     public Object textInputSession(Function2<? super androidx.compose.ui.platform.PlatformTextInputSessionScope, ? super Continuation<?>, ? extends Object> function2, Continuation<?> continuation2) {
         boolean anon2;
-        int i;
         int i2;
+        int i;
         int label;
         AtomicReference textInputSessionMutex;
         androidx.compose.ui.platform.AndroidComposeView.textInputSession.2 anon;
         Object obj6;
         Object obj7;
         anon2 = continuation2;
-        i2 = Integer.MIN_VALUE;
-        if (continuation2 instanceof AndroidComposeView.textInputSession.1 && label2 &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation2 instanceof AndroidComposeView.textInputSession.1 && label2 &= i != 0) {
             anon2 = continuation2;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon2.label = obj7 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon2.label = obj7 -= i;
             } else {
                 anon2 = new AndroidComposeView.textInputSession.1(this, continuation2);
             }

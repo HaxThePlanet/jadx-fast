@@ -439,21 +439,21 @@ public final class GraphicsViewLayer implements androidx.compose.ui.graphics.lay
         Object pictureCanvasHolder;
         Object prevCanvas$iv;
         androidx.compose.ui.graphics.layer.ViewLayer viewLayer;
-        int i2;
+        int i5;
         int i4;
         Canvas beginRecording;
         long l;
         Canvas internalCanvas;
         AndroidCanvas androidCanvas;
-        int i5;
+        int i3;
         CanvasDrawScope pictureDrawScope;
         long size-ozmzZPI;
         int i;
-        int i3;
+        int i2;
         Density density2;
         LayoutDirection layoutDirection2;
-        Canvas canvas2;
         Canvas canvas;
+        Canvas canvas2;
         long l2;
         CanvasHolder this_$iv;
         prevCanvas$iv = this;
@@ -468,7 +468,7 @@ public final class GraphicsViewLayer implements androidx.compose.ui.graphics.lay
         prevCanvas$iv.viewLayer.setVisibility(0);
         prevCanvas$iv.recordDrawingOperations();
         pictureCanvasHolder = prevCanvas$iv.picture;
-        i2 = pictureCanvasHolder;
+        i5 = pictureCanvasHolder;
         i4 = 0;
         pictureCanvasHolder = prevCanvas$iv.pictureCanvasHolder;
         if (prevCanvas$iv.viewLayer.isAttachedToWindow() && pictureCanvasHolder != null && pictureCanvasHolder != null) {
@@ -477,14 +477,14 @@ public final class GraphicsViewLayer implements androidx.compose.ui.graphics.lay
             prevCanvas$iv.recordDrawingOperations();
             pictureCanvasHolder = prevCanvas$iv.picture;
             if (pictureCanvasHolder != null) {
-                i2 = pictureCanvasHolder;
+                i5 = pictureCanvasHolder;
                 i4 = 0;
                 pictureCanvasHolder = prevCanvas$iv.pictureCanvasHolder;
                 if (pictureCanvasHolder != null) {
                     l = 0;
-                    pictureCanvasHolder.getAndroidCanvas().setInternalCanvas(i2.beginRecording(IntSize.getWidth-impl(prevCanvas$iv.size), IntSize.getHeight-impl(prevCanvas$iv.size)));
+                    pictureCanvasHolder.getAndroidCanvas().setInternalCanvas(i5.beginRecording(IntSize.getWidth-impl(prevCanvas$iv.size), IntSize.getHeight-impl(prevCanvas$iv.size)));
                     androidCanvas = pictureCanvasHolder.getAndroidCanvas();
-                    i5 = 0;
+                    i3 = 0;
                     pictureDrawScope = prevCanvas$iv.pictureDrawScope;
                     if (pictureDrawScope != null) {
                         i = 0;
@@ -500,16 +500,16 @@ public final class GraphicsViewLayer implements androidx.compose.ui.graphics.lay
                         function1.invoke(pictureDrawScope);
                         androidCanvas.restore();
                         pictureCanvasHolder = pictureDrawScope.getDrawParams();
-                        i3 = 0;
+                        i2 = 0;
                         Density density3 = density5;
                         pictureCanvasHolder.setDensity(density3);
                         density2 = density3;
                         LayoutDirection prevDensity$iv = layoutDirection4;
                         pictureCanvasHolder.setLayoutDirection(prevDensity$iv);
                         layoutDirection2 = prevDensity$iv;
-                        Canvas prevLayoutDirection$iv = canvas;
+                        Canvas prevLayoutDirection$iv = canvas2;
                         pictureCanvasHolder.setCanvas(prevLayoutDirection$iv);
-                        canvas2 = prevLayoutDirection$iv;
+                        canvas = prevLayoutDirection$iv;
                         pictureCanvasHolder.setSize-uvyYCjk(drawParams.component4-NH-jbRc());
                     } else {
                         this_$iv = pictureCanvasHolder;
@@ -517,7 +517,7 @@ public final class GraphicsViewLayer implements androidx.compose.ui.graphics.lay
                     this_$iv.getAndroidCanvas().setInternalCanvas(pictureCanvasHolder.getAndroidCanvas().getInternalCanvas());
                     pictureCanvasHolder = Unit.INSTANCE;
                 }
-                i2.endRecording();
+                i5.endRecording();
             }
         }
     }
@@ -550,23 +550,23 @@ public final class GraphicsViewLayer implements androidx.compose.ui.graphics.lay
 
     @Override // androidx.compose.ui.graphics.layer.GraphicsLayerImpl
     public void setClip(boolean value) {
-        int i2;
-        boolean outlineIsProvided;
         int i;
         boolean outlineIsProvided2;
+        int i2;
+        boolean outlineIsProvided;
         final int i3 = 1;
         if (value != null && !this.outlineIsProvided) {
-            i = !this.outlineIsProvided ? i3 : i2;
+            i2 = !this.outlineIsProvided ? i3 : i;
         } else {
         }
-        this.clipToBounds = i;
+        this.clipToBounds = i2;
         this.clipBoundsInvalidated = i3;
         if (value != null && this.outlineIsProvided) {
             if (this.outlineIsProvided) {
-                i2 = i3;
+                i = i3;
             }
         }
-        this.viewLayer.setClipToOutline(i2);
+        this.viewLayer.setClipToOutline(i);
     }
 
     @Override // androidx.compose.ui.graphics.layer.GraphicsLayerImpl

@@ -26,8 +26,8 @@ class WrappedDrawableApi21 extends androidx.core.graphics.drawable.WrappedDrawab
 
     private void findAndCacheIsProjectedDrawableMethod() {
         Method sIsProjectedDrawableMethod;
-        String str2;
         String str;
+        String str2;
         if (WrappedDrawableApi21.sIsProjectedDrawableMethod == null) {
             WrappedDrawableApi21.sIsProjectedDrawableMethod = Drawable.class.getDeclaredMethod("isProjected", new Class[0]);
         }

@@ -17,7 +17,7 @@ public final class LazyListSemanticsKt {
         String str;
         int changed2;
         Object empty;
-        Object obj;
+        Object $i$a$CacheLazyListSemanticsKt$rememberLazyListSemanticState$1;
         int i3 = 596174919;
         ComposerKt.sourceInformationMarkerStart($composer, i3, "C(rememberLazyListSemanticState)P(1)27@961L107:LazyListSemantics.kt#428nma");
         if (ComposerKt.isTraceInProgress()) {
@@ -52,7 +52,7 @@ public final class LazyListSemanticsKt {
                 int i13 = 0;
                 composer.updateRememberedValue(LazyLayoutSemanticStateKt.LazyLayoutSemanticState(state, isVertical));
             } else {
-                obj = rememberedValue;
+                $i$a$CacheLazyListSemanticsKt$rememberLazyListSemanticState$1 = rememberedValue;
             }
         } else {
         }
@@ -61,6 +61,6 @@ public final class LazyListSemanticsKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (LazyLayoutSemanticState)obj;
+        return (LazyLayoutSemanticState)$i$a$CacheLazyListSemanticsKt$rememberLazyListSemanticState$1;
     }
 }

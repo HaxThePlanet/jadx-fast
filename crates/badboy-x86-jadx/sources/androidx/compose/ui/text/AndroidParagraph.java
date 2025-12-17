@@ -75,10 +75,10 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
     }
 
     private AndroidParagraph(AndroidParagraphIntrinsics paragraphIntrinsics, int maxLines, boolean ellipsis, long constraints) {
-        int i14;
-        int i19;
+        int i10;
+        int i17;
         int style;
-        ShaderBrushSpan[] shaderBrushSpans;
+        ShaderBrushSpan[] shaderBrushSpans2;
         java.lang.CharSequence charSequence;
         int spanStart;
         int maxLines2;
@@ -90,7 +90,7 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
         int i8;
         int spanEnd;
         int end2;
-        int i15;
+        int i9;
         float alpha;
         Object[] spans;
         float line;
@@ -98,40 +98,40 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
         int eND;
         TextLayout firstLayout2;
         AndroidTextPaint textPaint$ui_text_release;
-        int i;
-        int i17;
+        int i5;
+        int i19;
         int lineBaseline;
         Rect isPlaceholderSpanTruncated;
         int lineEllipsisOffset;
         ArrayList arrayList;
-        int i7;
+        int i12;
         int lineTop;
-        Object[] i2;
-        int i18;
+        Object[] i;
+        int i14;
         boolean ellipsis2;
         Brush height;
         TextLayout firstLayout;
         androidx.compose.ui.text.TextStyle textStyle;
-        int i12;
+        int i13;
+        int i2;
         int i3;
-        int i10;
         int $this$placeholderRects_u24lambda_u245;
         float horizontalPosition;
-        int i13;
+        int i4;
         ShaderBrushSpan[] objArr;
-        ShaderBrushSpan[] shaderBrushSpans2;
+        ShaderBrushSpan[] shaderBrushSpans;
         Iterator it;
-        int i16;
+        int i7;
         int i6;
         ResolvedTextDirection bidiRunDirection;
         int end;
         float f;
         int start;
-        int i4;
-        int i5;
+        int i16;
+        int i18;
         int verticalAlign;
-        int i9;
         int i11;
+        int i15;
         androidx.compose.ui.text.TextStyle span;
         int heightPx;
         final Object obj = this;
@@ -140,15 +140,15 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
         obj.maxLines = maxLines;
         obj.ellipsis = ellipsis;
         obj.constraints = constraints;
-        int i30 = 1;
+        int i29 = 1;
         if (Constraints.getMinHeight-impl(obj.constraints) == 0 && Constraints.getMinWidth-impl(obj.constraints) == 0) {
-            i14 = Constraints.getMinWidth-impl(obj.constraints) == 0 ? i30 : 0;
+            i10 = Constraints.getMinWidth-impl(obj.constraints) == 0 ? i29 : 0;
         } else {
         }
-        if (i14 == 0) {
+        if (i10 == 0) {
         } else {
-            i19 = obj.maxLines >= i30 ? i30 : 0;
-            if (i19 == 0) {
+            i17 = obj.maxLines >= i29 ? i29 : 0;
+            if (i17 == 0) {
             } else {
                 androidx.compose.ui.text.TextStyle style2 = obj.paragraphIntrinsics.getStyle();
                 if (AndroidParagraph_androidKt.access$shouldAttachIndentationFixSpan(style2, obj.ellipsis)) {
@@ -157,31 +157,31 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
                     charSequence$ui_text_release = obj.paragraphIntrinsics.getCharSequence$ui_text_release();
                 }
                 obj.charSequence = charSequence$ui_text_release;
-                i15 = TextAlign.equals-impl0(style2.getTextAlign-e0LSkKk(), TextAlign.Companion.getJustify-e0LSkKk()) ? i30 : 0;
+                i9 = TextAlign.equals-impl0(style2.getTextAlign-e0LSkKk(), TextAlign.Companion.getJustify-e0LSkKk()) ? i29 : 0;
                 arrayList = AndroidParagraph_androidKt.access$toLayoutHyphenationFrequency--3fSNIE(style2.getParagraphStyle$ui_text_release().getHyphens-vmbZdU8());
-                i7 = AndroidParagraph_androidKt.access$toLayoutBreakStrategy-xImikfE(LineBreak.getStrategy-fcGXIks(style2.getLineBreak-rAG3T2k()));
-                i2 = AndroidParagraph_androidKt.access$toLayoutLineBreakStyle-hpcqdu8(LineBreak.getStrictness-usljTpc(style2.getLineBreak-rAG3T2k()));
-                i18 = AndroidParagraph_androidKt.access$toLayoutLineBreakWordStyle-wPN0Rpw(LineBreak.getWordBreak-jp8hJ3c(style2.getLineBreak-rAG3T2k()));
-                final int i31 = 0;
-                eND = obj.ellipsis ? TextUtils.TruncateAt.END : i31;
+                i12 = AndroidParagraph_androidKt.access$toLayoutBreakStrategy-xImikfE(LineBreak.getStrategy-fcGXIks(style2.getLineBreak-rAG3T2k()));
+                i = AndroidParagraph_androidKt.access$toLayoutLineBreakStyle-hpcqdu8(LineBreak.getStrictness-usljTpc(style2.getLineBreak-rAG3T2k()));
+                i14 = AndroidParagraph_androidKt.access$toLayoutLineBreakWordStyle-wPN0Rpw(LineBreak.getWordBreak-jp8hJ3c(style2.getLineBreak-rAG3T2k()));
+                final int i30 = 0;
+                eND = obj.ellipsis ? TextUtils.TruncateAt.END : i30;
                 textStyle = style2;
                 style = i22;
-                alignment = i15;
+                alignment = i9;
                 int justificationMode = eND;
-                firstLayout2 = obj.constructTextLayout(style, alignment, justificationMode, obj.maxLines, arrayList, i7, i2, i18);
+                firstLayout2 = obj.constructTextLayout(style, alignment, justificationMode, obj.maxLines, arrayList, i12, i, i14);
                 if (obj.ellipsis) {
-                    i12 = style;
-                    i10 = alignment;
-                    if (firstLayout2.getHeight() > Constraints.getMaxHeight-impl(obj.constraints) && obj.maxLines > i30) {
-                        if (obj.maxLines > i30) {
+                    i13 = style;
+                    i3 = alignment;
+                    if (firstLayout2.getHeight() > Constraints.getMaxHeight-impl(obj.constraints) && obj.maxLines > i29) {
+                        if (obj.maxLines > i29) {
                             ellipsis2 = maxLines2;
                             if (ellipsis2 >= 0 && ellipsis2 != obj.maxLines) {
                                 if (ellipsis2 != obj.maxLines) {
                                     firstLayout = textLayout;
-                                    firstLayout2 = obj.constructTextLayout(i12, i10, justificationMode, RangesKt.coerceAtLeast(ellipsis2, i30), arrayList, i7, i2, i18);
+                                    firstLayout2 = obj.constructTextLayout(i13, i3, justificationMode, RangesKt.coerceAtLeast(ellipsis2, i29), arrayList, i12, i, i14);
                                 } else {
-                                    style = i12;
-                                    alignment = i10;
+                                    style = i13;
+                                    alignment = i3;
                                     firstLayout2 = firstLayout;
                                 }
                             } else {
@@ -189,8 +189,8 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
                             obj.layout = firstLayout2;
                         } else {
                             firstLayout = firstLayout2;
-                            style = i12;
-                            alignment = i10;
+                            style = i13;
+                            alignment = i3;
                             obj.layout = firstLayout;
                         }
                     } else {
@@ -198,38 +198,38 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
                 } else {
                     firstLayout = firstLayout2;
                 }
-                i3 = style;
+                i2 = style;
                 $this$placeholderRects_u24lambda_u245 = alignment;
                 iterator = obj.getHeight();
-                i13 = justificationMode;
+                i4 = justificationMode;
                 obj.getTextPaint$ui_text_release().setBrush-12SF9DM(textStyle.getBrush(), SizeKt.Size(obj.getWidth(), iterator), iterator);
-                shaderBrushSpans = obj.getShaderBrushSpans(obj.layout);
-                if (shaderBrushSpans != null) {
-                    iterator = ArrayIteratorKt.iterator(shaderBrushSpans);
+                shaderBrushSpans2 = obj.getShaderBrushSpans(obj.layout);
+                if (shaderBrushSpans2 != null) {
+                    iterator = ArrayIteratorKt.iterator(shaderBrushSpans2);
                     for (ShaderBrushSpan alpha : iterator) {
                         alpha.setSize-uvyYCjk(SizeKt.Size(obj.getWidth(), obj.getHeight()));
-                        shaderBrushSpans = objArr;
+                        shaderBrushSpans2 = objArr;
                         iterator = it;
                     }
-                    shaderBrushSpans2 = shaderBrushSpans;
+                    shaderBrushSpans = shaderBrushSpans2;
                 } else {
-                    shaderBrushSpans2 = shaderBrushSpans;
+                    shaderBrushSpans = shaderBrushSpans2;
                 }
                 charSequence = obj.charSequence;
                 i8 = 0;
                 if (!charSequence instanceof Spanned) {
                     $this$map$iv = CollectionsKt.emptyList();
                 } else {
-                    i7 = 0;
-                    spans = (Spanned)charSequence.getSpans(i7, charSequence.length(), PlaceholderSpan.class);
+                    i12 = 0;
+                    spans = (Spanned)charSequence.getSpans(i12, charSequence.length(), PlaceholderSpan.class);
                     textPaint$ui_text_release = 0;
                     arrayList = new ArrayList(spans.length);
-                    i2 = spans;
-                    i18 = 0;
-                    firstLayout = i7;
-                    while (firstLayout < i2.length) {
+                    i = spans;
+                    i14 = 0;
+                    firstLayout = i12;
+                    while (firstLayout < i.length) {
                         lineTop = textStyle;
-                        i3 = 0;
+                        i2 = 0;
                         $this$placeholderRects_u24lambda_u245 = charSequence;
                         spanStart = (Spanned)$this$placeholderRects_u24lambda_u245.getSpanStart((PlaceholderSpan)lineTop);
                         spanEnd = (Spanned)$this$placeholderRects_u24lambda_u245.getSpanEnd(lineTop);
@@ -237,41 +237,41 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
                         if (line >= obj.maxLines) {
                         } else {
                         }
-                        i = 0;
+                        i5 = 0;
                         if (obj.layout.getLineEllipsisCount(line) > 0 && spanEnd > obj.layout.getLineEllipsisOffset(line)) {
                         } else {
                         }
-                        i17 = 0;
+                        i19 = 0;
                         if (spanEnd > obj.layout.getLineEnd(line)) {
                         } else {
                         }
                         lineBaseline = 0;
                         start = spanStart;
                         end = spanEnd;
-                        i5 = line;
-                        i9 = lineBaseline;
+                        i18 = line;
+                        i11 = lineBaseline;
                         span = lineTop;
-                        isPlaceholderSpanTruncated = i31;
+                        isPlaceholderSpanTruncated = i30;
                         (Collection)arrayList.add(isPlaceholderSpanTruncated);
                         firstLayout++;
                         charSequence = $this$placeholderRects_u24lambda_u245;
-                        i8 = i13;
-                        spans = shaderBrushSpans2;
+                        i8 = i4;
+                        spans = shaderBrushSpans;
                         textPaint$ui_text_release = it;
-                        i7 = 0;
+                        i12 = 0;
                         end = spanEnd;
                         horizontalPosition2 -= f3;
                         end2 = 1;
                         f = horizontalPosition;
                         start = spanStart;
                         TextLayout start3 = obj.layout;
-                        i4 = 0;
-                        i9 = lineBaseline;
-                        int i34 = 2;
+                        i16 = 0;
+                        i11 = lineBaseline;
+                        int i33 = 2;
                         lineBaseline = lineTop.getFontMetrics();
-                        i11 = 0;
+                        i15 = 0;
                         f9 += verticalAlign;
-                        i5 = line;
+                        i18 = line;
                         isPlaceholderSpanTruncated = new Rect(f, lineTop, f4 += f, f2 += lineTop);
                         span = lineTop;
                         lineTop = lineBaseline - f8;
@@ -285,31 +285,31 @@ public final class AndroidParagraph implements androidx.compose.ui.text.Paragrap
                         horizontalPosition = obj.getHorizontalPosition(spanStart, true);
                         start = spanStart;
                         end = spanEnd;
-                        i5 = line;
-                        i9 = lineBaseline;
+                        i18 = line;
+                        i11 = lineBaseline;
                         span = lineTop;
                         lineBaseline = 1;
                         if (spanEnd > obj.layout.getLineEllipsisOffset(line)) {
                         } else {
                         }
-                        i17 = 1;
-                        i = 1;
+                        i19 = 1;
+                        i5 = 1;
                     }
                     $this$placeholderRects_u24lambda_u245 = charSequence;
-                    i13 = i8;
-                    shaderBrushSpans2 = spans;
+                    i4 = i8;
+                    shaderBrushSpans = spans;
                     it = textPaint$ui_text_release;
                     $this$map$iv = arrayList;
                 }
                 obj.placeholderRects = $this$map$iv;
             }
             int i20 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("maxLines should be greater than 0".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireAndroidParagraph$2 = new IllegalArgumentException("maxLines should be greater than 0".toString());
+            throw $i$a$RequireAndroidParagraph$2;
         }
         int i21 = 0;
-        IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("Setting Constraints.minWidth and Constraints.minHeight is not supported, these should be the default zero values instead.".toString());
-        throw illegalArgumentException2;
+        IllegalArgumentException $i$a$RequireAndroidParagraph$1 = new IllegalArgumentException("Setting Constraints.minWidth and Constraints.minHeight is not supported, these should be the default zero values instead.".toString());
+        throw $i$a$RequireAndroidParagraph$1;
     }
 
     public AndroidParagraph(AndroidParagraphIntrinsics androidParagraphIntrinsics, int i2, boolean z3, long l4, DefaultConstructorMarker defaultConstructorMarker5) {

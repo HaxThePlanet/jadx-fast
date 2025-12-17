@@ -30,17 +30,17 @@ final class LazyStaggeredGridItemProviderImpl implements androidx.compose.founda
     @Override // androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemProvider
     public void Item(int index, Object key, Composer $composer, int $changed) {
         int i2;
-        int i4;
-        int i6;
         int i3;
+        int i;
+        int i5;
         Object obj;
         int skipping;
         boolean traceInProgress;
-        int i;
+        int i6;
         int str;
         androidx.compose.foundation.lazy.layout.LazyLayoutPinnedItemList pinnedItems$foundation_release;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i5;
+        int i4;
         int obj8;
         Object obj9;
         int obj10;
@@ -48,16 +48,16 @@ final class LazyStaggeredGridItemProviderImpl implements androidx.compose.founda
         final Composer restartGroup = $composer.startRestartGroup(i2);
         ComposerKt.sourceInformation(restartGroup, "C(Item)77@3151L171,77@3097L225:LazyStaggeredGridItemProvider.kt#fzvcnm");
         if ($changed & 6 == 0) {
-            i4 = restartGroup.changed(index) ? 4 : 2;
-            obj10 |= i4;
+            i3 = restartGroup.changed(index) ? 4 : 2;
+            obj10 |= i3;
         }
         if ($changed & 48 == 0) {
-            i6 = restartGroup.changedInstance(key) ? 32 : 16;
-            obj10 |= i6;
+            i = restartGroup.changedInstance(key) ? 32 : 16;
+            obj10 |= i;
         }
         if ($changed & 384 == 0) {
-            i3 = restartGroup.changed(this) ? 256 : 128;
-            obj10 |= i3;
+            i5 = restartGroup.changed(this) ? 256 : 128;
+            obj10 |= i5;
         }
         if (obj10 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
@@ -71,14 +71,14 @@ final class LazyStaggeredGridItemProviderImpl implements androidx.compose.founda
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i = index;
+                i6 = index;
                 obj = key;
             }
         } else {
         }
         obj8 = restartGroup.endRestartGroup();
         if (obj8 != null) {
-            obj9 = new LazyStaggeredGridItemProviderImpl.Item.2(this, i, obj, $changed);
+            obj9 = new LazyStaggeredGridItemProviderImpl.Item.2(this, i6, obj, $changed);
             obj8.updateScope((Function2)obj9);
         }
     }

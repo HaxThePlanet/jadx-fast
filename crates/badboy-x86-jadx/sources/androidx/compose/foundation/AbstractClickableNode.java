@@ -149,64 +149,64 @@ public abstract class AbstractClickableNode extends DelegatingNode implements Po
     private final void emitHoverEnter() {
         HoverInteraction.Enter hoverInteraction;
         MutableInteractionSource interactionSource;
-        int i4;
+        int i3;
         kotlinx.coroutines.CoroutineScope coroutineScope;
         int i;
-        int i5;
+        int i4;
         androidx.compose.foundation.AbstractClickableNode.emitHoverEnter.1.1 anon;
-        int i3;
         int i2;
+        int i5;
         hoverInteraction = new HoverInteraction.Enter();
         interactionSource = this.interactionSource;
         if (this.hoverInteraction == null && interactionSource != null) {
             hoverInteraction = new HoverInteraction.Enter();
             interactionSource = this.interactionSource;
             if (interactionSource != null) {
+                i3 = 0;
                 i4 = 0;
-                i5 = 0;
-                AbstractClickableNode.emitHoverEnter.1.1 anon2 = new AbstractClickableNode.emitHoverEnter.1.1(interactionSource, hoverInteraction, i5);
-                BuildersKt.launch$default(getCoroutineScope(), 0, i5, (Function2)anon2, 3, 0);
+                AbstractClickableNode.emitHoverEnter.1.1 anon2 = new AbstractClickableNode.emitHoverEnter.1.1(interactionSource, hoverInteraction, i4);
+                BuildersKt.launch$default(getCoroutineScope(), 0, i4, (Function2)anon2, 3, 0);
             }
             this.hoverInteraction = hoverInteraction;
         }
     }
 
     private final void emitHoverExit() {
-        int i;
+        int i4;
         HoverInteraction.Exit exit;
         MutableInteractionSource interactionSource;
-        int i4;
         int i3;
+        int i5;
         kotlinx.coroutines.CoroutineScope coroutineScope;
         int i2;
-        int i5;
+        int i;
         androidx.compose.foundation.AbstractClickableNode.emitHoverExit.1.1.1 anon;
-        int i6;
         int i7;
+        int i6;
         final HoverInteraction.Enter hoverInteraction = this.hoverInteraction;
-        i = 0;
+        i4 = 0;
         exit = new HoverInteraction.Exit(hoverInteraction);
         interactionSource = this.interactionSource;
-        i4 = 0;
+        i3 = 0;
         if (hoverInteraction != null && interactionSource != null) {
-            i = 0;
+            i4 = 0;
             exit = new HoverInteraction.Exit(hoverInteraction);
             interactionSource = this.interactionSource;
-            i4 = 0;
+            i3 = 0;
             if (interactionSource != null) {
-                i3 = 0;
-                AbstractClickableNode.emitHoverExit.1.1.1 anon2 = new AbstractClickableNode.emitHoverExit.1.1.1(interactionSource, exit, i4);
+                i5 = 0;
+                AbstractClickableNode.emitHoverExit.1.1.1 anon2 = new AbstractClickableNode.emitHoverExit.1.1.1(interactionSource, exit, i3);
                 BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)anon2, 3, 0);
             }
-            this.hoverInteraction = i4;
+            this.hoverInteraction = i3;
         }
     }
 
     private final void initializeIndicationAndInteractionSourceIfNeeded() {
         int i;
-        MutableInteractionSource interactionSource;
-        DelegatableNode create;
         MutableInteractionSource interactionSource2;
+        DelegatableNode create;
+        MutableInteractionSource interactionSource;
         if (this.indicationNode != null) {
         }
         androidx.compose.foundation.IndicationNodeFactory indicationNodeFactory = this.indicationNodeFactory;
@@ -266,12 +266,12 @@ public abstract class AbstractClickableNode extends DelegatingNode implements Po
     protected final void disposeInteractions() {
         int i2;
         java.util.Collection values;
-        int i;
+        int i3;
         Object iterator;
         boolean next;
-        PressInteraction.Cancel cancel2;
-        int i3;
         PressInteraction.Cancel cancel;
+        int i;
+        PressInteraction.Cancel cancel2;
         MutableInteractionSource interactionSource = this.interactionSource;
         i2 = 0;
         PressInteraction.Press pressInteraction = this.pressInteraction;
@@ -279,22 +279,22 @@ public abstract class AbstractClickableNode extends DelegatingNode implements Po
             i2 = 0;
             pressInteraction = this.pressInteraction;
             if (pressInteraction != null) {
-                i = 0;
+                i3 = 0;
                 iterator = new PressInteraction.Cancel(pressInteraction);
                 interactionSource.tryEmit((Interaction)iterator);
             }
             HoverInteraction.Enter hoverInteraction = this.hoverInteraction;
             if (hoverInteraction != null) {
-                i = 0;
+                i3 = 0;
                 iterator = new HoverInteraction.Exit(hoverInteraction);
                 interactionSource.tryEmit((Interaction)iterator);
             }
-            i = 0;
+            i3 = 0;
             iterator = (Iterable)this.currentKeyPressInteractions.values().iterator();
             for (Object next : iterator) {
-                i3 = 0;
-                cancel = new PressInteraction.Cancel((PressInteraction.Press)next);
-                interactionSource.tryEmit((Interaction)cancel);
+                i = 0;
+                cancel2 = new PressInteraction.Cancel((PressInteraction.Press)next);
+                interactionSource.tryEmit((Interaction)cancel2);
             }
         }
         int i4 = 0;
@@ -366,21 +366,21 @@ public abstract class AbstractClickableNode extends DelegatingNode implements Po
 
     @Override // androidx.compose.ui.node.DelegatingNode
     public final void onCancelPointerInput() {
-        int i;
-        HoverInteraction.Enter hoverInteraction;
         int i2;
-        HoverInteraction.Exit exit2;
+        HoverInteraction.Enter hoverInteraction;
+        int i;
         HoverInteraction.Exit exit;
+        HoverInteraction.Exit exit2;
         MutableInteractionSource interactionSource = this.interactionSource;
-        i = 0;
+        i2 = 0;
         hoverInteraction = this.hoverInteraction;
         if (interactionSource != null && hoverInteraction != null) {
-            i = 0;
+            i2 = 0;
             hoverInteraction = this.hoverInteraction;
             if (hoverInteraction != null) {
-                i2 = 0;
-                exit2 = new HoverInteraction.Exit(hoverInteraction);
-                interactionSource.tryEmit((Interaction)exit2);
+                i = 0;
+                exit = new HoverInteraction.Exit(hoverInteraction);
+                interactionSource.tryEmit((Interaction)exit);
             }
         }
         this.hoverInteraction = 0;
@@ -421,18 +421,18 @@ public abstract class AbstractClickableNode extends DelegatingNode implements Po
     public final boolean onKeyEvent-ZmokQxo(KeyEvent event) {
         PressInteraction.Press click-ZmokQxo;
         boolean press-ZmokQxo;
-        int i4;
-        Object interactionSource;
-        Object interactionSource2;
-        long coroutineScope;
-        int i;
-        androidx.compose.foundation.AbstractClickableNode.onKeyEvent.1 anon;
         int i5;
-        int i2;
+        Object interactionSource2;
+        Object interactionSource;
+        long coroutineScope;
+        int i4;
+        androidx.compose.foundation.AbstractClickableNode.onKeyEvent.1 anon;
+        int i;
         int i3;
+        int i2;
         initializeIndicationAndInteractionSourceIfNeeded();
-        i4 = 1;
-        interactionSource = 0;
+        i5 = 1;
+        interactionSource2 = 0;
         final int i6 = 0;
         if (this.enabled && Clickable_androidKt.isPress-ZmokQxo(event)) {
             if (Clickable_androidKt.isPress-ZmokQxo(event)) {
@@ -440,34 +440,34 @@ public abstract class AbstractClickableNode extends DelegatingNode implements Po
                     click-ZmokQxo = new PressInteraction.Press(this.centerOffset, obj5, i6);
                     this.currentKeyPressInteractions.put(Key.box-impl(KeyEvent_androidKt.getKey-ZmokQxo(event)), click-ZmokQxo);
                     if (this.interactionSource != null) {
-                        interactionSource = new AbstractClickableNode.onKeyEvent.1(this, click-ZmokQxo, i6);
-                        BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)interactionSource, 3, 0);
+                        interactionSource2 = new AbstractClickableNode.onKeyEvent.1(this, click-ZmokQxo, i6);
+                        BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)interactionSource2, 3, 0);
                     }
                 } else {
-                    i4 = interactionSource;
+                    i5 = interactionSource2;
                 }
             } else {
                 if (this.enabled && Clickable_androidKt.isClick-ZmokQxo(event)) {
                     if (Clickable_androidKt.isClick-ZmokQxo(event)) {
                         Object remove = this.currentKeyPressInteractions.remove(Key.box-impl(KeyEvent_androidKt.getKey-ZmokQxo(event)));
-                        interactionSource = 0;
+                        interactionSource2 = 0;
                         if ((PressInteraction.Press)remove != null && this.interactionSource != null) {
-                            interactionSource = 0;
+                            interactionSource2 = 0;
                             if (this.interactionSource != null) {
-                                interactionSource2 = new AbstractClickableNode.onKeyEvent.2.1(this, (PressInteraction.Press)remove, i6);
-                                BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)interactionSource2, 3, 0);
+                                interactionSource = new AbstractClickableNode.onKeyEvent.2.1(this, (PressInteraction.Press)remove, i6);
+                                BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)interactionSource, 3, 0);
                             }
                         }
                         this.onClick.invoke();
                     } else {
-                        i4 = interactionSource;
+                        i5 = interactionSource2;
                     }
                 } else {
                 }
             }
         } else {
         }
-        return i4;
+        return i5;
     }
 
     @Override // androidx.compose.ui.node.DelegatingNode
@@ -477,9 +477,9 @@ public abstract class AbstractClickableNode extends DelegatingNode implements Po
         int coroutineScope;
         float coroutineScope2;
         float f;
-        int i3;
-        androidx.compose.foundation.AbstractClickableNode.onPointerEvent.1 anon;
         int i;
+        androidx.compose.foundation.AbstractClickableNode.onPointerEvent.1 anon;
+        int i3;
         int i2;
         long center-ozmzZPI = IntSizeKt.getCenter-ozmzZPI(bounds);
         coroutineScope = 0;
@@ -526,8 +526,8 @@ public abstract class AbstractClickableNode extends DelegatingNode implements Po
     protected final void updateCommon-QzZPfjk(MutableInteractionSource interactionSource, androidx.compose.foundation.IndicationNodeFactory indicationNodeFactory, boolean enabled, String onClickLabel, Role role, Function0<Unit> onClick) {
         int isIndicationNodeDirty;
         boolean enabled2;
-        boolean equal2;
         boolean equal;
+        boolean equal2;
         boolean it;
         androidx.compose.foundation.FocusableNode focusableNode;
         boolean lazilyCreateIndication;

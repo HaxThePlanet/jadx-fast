@@ -131,8 +131,8 @@ public final class TimePickerKt {
     static {
         int i$iv;
         int i4;
+        int i;
         int i2;
-        int i3;
         int i16 = 0;
         TimePickerKt.OuterCircleSizeRadius = Dp.constructor-impl((float)i5);
         int i17 = 0;
@@ -164,7 +164,7 @@ public final class TimePickerKt {
         final int i27 = 0;
         i$iv = 0;
         while (i$iv < hours2._size) {
-            i2 = 0;
+            i = 0;
             mutableIntList.add(i28 += i14);
             i$iv++;
         }
@@ -175,35 +175,35 @@ public final class TimePickerKt {
 
     private static final void CircularLayout-uFdPcIQ(Modifier modifier, float radius, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i6) {
         int traceInProgress;
-        int i7;
+        int i3;
         int $dirty2;
         Object obj;
         int $dirty;
         Object modifier2;
-        float valueOf;
-        int valueOf2;
+        float valueOf2;
+        int valueOf;
         int currentCompositeKeyHash;
         boolean traceInProgress2;
         Object str;
-        int i8;
-        int i3;
-        int i;
+        int i5;
+        int i9;
+        int i4;
         int currentCompositionLocalMap;
         int materializeModifier;
         Function0 constructor;
         int empty;
-        int i4;
+        int i;
         Object anon;
         int i2;
-        int i9;
+        int i7;
         Composer composer;
-        int i5;
+        int i8;
         boolean inserting;
         int obj19;
         Object obj22;
-        valueOf = radius;
+        valueOf2 = radius;
         final Object obj3 = content;
-        valueOf2 = $changed;
+        valueOf = $changed;
         traceInProgress = 1548175696;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(CircularLayout)P(1,2:c#ui.unit.Dp)1871@72466L1666,1871@72419L1713:TimePicker.kt#uh7d8r");
@@ -213,9 +213,9 @@ public final class TimePickerKt {
             $dirty2 |= 6;
             str = modifier;
         } else {
-            if (valueOf2 & 6 == 0) {
-                i8 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i8;
+            if (valueOf & 6 == 0) {
+                i5 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i5;
             } else {
                 str = modifier;
             }
@@ -224,17 +224,17 @@ public final class TimePickerKt {
         if (i6 & 2 != 0) {
             $dirty2 |= 48;
         } else {
-            if (valueOf2 & 48 == 0) {
-                i3 = restartGroup.changed(valueOf) ? currentCompositionLocalMap : 16;
-                $dirty2 |= i3;
+            if (valueOf & 48 == 0) {
+                i9 = restartGroup.changed(valueOf2) ? currentCompositionLocalMap : 16;
+                $dirty2 |= i9;
             }
         }
         if (i6 & 4 != 0) {
             $dirty2 |= 384;
         } else {
-            if (valueOf2 & 384 == 0) {
-                i = restartGroup.changedInstance(obj3) ? 256 : 128;
-                $dirty2 |= i;
+            if (valueOf & 384 == 0) {
+                i4 = restartGroup.changedInstance(obj3) ? 256 : 128;
+                $dirty2 |= i4;
             }
         }
         int i21 = $dirty2;
@@ -250,15 +250,15 @@ public final class TimePickerKt {
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -328610546, "CC(remember):TimePicker.kt#9igjgp");
                 int i17 = 0;
-                i7 = i21 & 112 == currentCompositionLocalMap ? 1 : i17;
+                i3 = i21 & 112 == currentCompositionLocalMap ? 1 : i17;
                 Composer composer2 = restartGroup;
                 int i22 = 0;
                 Object rememberedValue2 = composer2.rememberedValue();
                 int i24 = 0;
-                if (i7 == 0) {
+                if (i3 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        anon = new TimePickerKt.CircularLayout.1.1(valueOf);
+                        anon = new TimePickerKt.CircularLayout.1.1(valueOf2);
                         composer2.updateRememberedValue((MeasurePolicy)anon);
                     } else {
                         anon = rememberedValue2;
@@ -283,18 +283,18 @@ public final class TimePickerKt {
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                i9 = 0;
+                i7 = 0;
                 Updater.set-impl(constructor-impl, (MeasurePolicy)anon, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i4 = 0;
+                i = 0;
                 composer = constructor-impl;
-                i5 = 0;
+                i8 = 0;
                 if (!composer.getInserting()) {
                     if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        valueOf2 = composer;
+                        valueOf = composer;
                     }
                 } else {
                 }
@@ -324,36 +324,36 @@ public final class TimePickerKt {
         int traceInProgress;
         int $dirty;
         boolean changedInstance;
+        int i;
         int i4;
-        int i3;
         int rememberComposableLambda;
         boolean traceInProgress2;
-        int i2;
+        int i3;
         int str;
-        int i;
+        int i2;
         traceInProgress = -934561141;
         final Composer obj8 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj8, "C(ClockDisplayNumbers)P(1)1128@47738L5,1131@47873L775,1127@47654L994:TimePicker.kt#uh7d8r");
-        i2 = 2;
+        i3 = 2;
         if ($changed & 6 == 0) {
             if ($changed & 8 == 0) {
                 changedInstance = obj8.changed(state);
             } else {
                 changedInstance = obj8.changedInstance(state);
             }
-            i4 = changedInstance != null ? 4 : i2;
-            $dirty |= i4;
+            i = changedInstance != null ? 4 : i3;
+            $dirty |= i;
         }
         if ($changed & 48 == 0) {
-            i3 = obj8.changed(colors) ? 32 : 16;
-            $dirty |= i3;
+            i4 = obj8.changed(colors) ? 32 : 16;
+            $dirty |= i4;
         }
         if ($dirty & 19 == 18) {
             if (!obj8.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.ClockDisplayNumbers (TimePicker.kt:1126)");
                 }
-                ProvidedValue[] arr = new ProvidedValue[i2];
+                ProvidedValue[] arr = new ProvidedValue[i3];
                 arr[0] = TextKt.getLocalTextStyle().provides(TypographyKt.getValue(TimePickerTokens.INSTANCE.getTimeSelectorLabelTextFont(), obj8, 6));
                 int i7 = 1;
                 arr[i7] = CompositionLocalsKt.getLocalLayoutDirection().provides(LayoutDirection.Ltr);
@@ -376,9 +376,9 @@ public final class TimePickerKt {
 
     public static final void ClockFace(androidx.compose.material3.AnalogTimePickerState state, androidx.compose.material3.TimePickerColors colors, boolean autoSwitchToMinute, Composer $composer, int $changed) {
         int traceInProgress2;
-        int i6;
         int i5;
         int i3;
+        int i6;
         boolean clockFaceValues;
         boolean traceInProgress;
         int drawSelector;
@@ -392,16 +392,16 @@ public final class TimePickerKt {
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(ClockFace)P(2,1)1521@60272L2018,1513@59878L2412:TimePicker.kt#uh7d8r");
         if ($changed & 6 == 0) {
-            i6 = restartGroup.changedInstance(state) ? 4 : 2;
-            obj12 |= i6;
-        }
-        if ($changed & 48 == 0) {
-            i5 = restartGroup.changed(colors) ? 32 : 16;
+            i5 = restartGroup.changedInstance(state) ? 4 : 2;
             obj12 |= i5;
         }
-        if ($changed & 384 == 0) {
-            i3 = restartGroup.changed(autoSwitchToMinute) ? 256 : 128;
+        if ($changed & 48 == 0) {
+            i3 = restartGroup.changed(colors) ? 32 : 16;
             obj12 |= i3;
+        }
+        if ($changed & 384 == 0) {
+            i6 = restartGroup.changed(autoSwitchToMinute) ? 256 : 128;
+            obj12 |= i6;
         }
         if (obj12 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
@@ -429,265 +429,265 @@ public final class TimePickerKt {
 
     private static final void ClockText(Modifier modifier, androidx.compose.material3.AnalogTimePickerState state, int value, boolean autoSwitchToMinute, Composer $composer, int $changed) {
         Object maxDist;
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
         int $dirty2;
-        boolean traceInProgress2;
-        Object invalid$iv;
+        boolean traceInProgress;
+        Object invalid$iv2;
         boolean center$delegate;
         Function0 factory$iv$iv$iv;
-        kotlinx.coroutines.CoroutineScope coroutineScope;
+        kotlinx.coroutines.CoroutineScope coroutineScope2;
         Integer currentCompositionLocalMap;
-        Object it$iv2;
+        Object it$iv;
         boolean selected;
-        Composer i26;
-        int empty5;
-        int i5;
-        int i22;
-        int i18;
-        int i28;
-        int str2;
+        Composer i;
+        int empty2;
+        int i19;
+        int i36;
+        int i35;
+        int i17;
+        int str3;
         Object mutableStateOf$default;
         Object compositionCoroutineScope;
-        Object it$iv3;
+        Object it$iv2;
         float valueOf;
-        Composer composer;
-        Object empty3;
+        Composer composer2;
+        Object $i$a$CacheTimePickerKt$ClockText$parentCenter$2;
         Object $changed$iv2;
         boolean $this$cache$iv;
-        int i8;
-        Object empty4;
+        int i20;
+        Object empty3;
         int i2;
         Object it$iv4;
-        int empty2;
-        Object obj4;
-        int text;
-        int i4;
-        int changed;
+        int empty4;
         Object obj;
+        int text;
+        int i13;
+        int changed;
+        Object obj3;
         Alignment scope;
         MeasurePolicy maybeCachedBoxMeasurePolicy;
         boolean z2;
         Modifier modifier3;
         Object empty;
         Composer parentCenter$delegate;
-        int i6;
-        String str4;
+        int i3;
+        String str2;
         Modifier clearAndSetSemantics;
         long zero-F1C5BW0;
-        String str;
-        Object obj3;
-        String str3;
-        int invalid$iv2;
+        String str4;
         Object obj2;
+        String str;
+        int invalid$iv;
+        Object obj4;
         int companion;
-        int i20;
+        int i31;
         int minute;
         long inserting;
         int $changed$iv;
-        int i13;
-        Object it$iv;
-        int i14;
-        int i35;
-        int i;
-        int i37;
-        int i27;
-        int i9;
+        int i28;
+        Object it$iv3;
         int i23;
-        int i30;
-        int i31;
-        int i36;
+        int i4;
+        int i14;
+        int i5;
         int i7;
-        int i3;
+        int i21;
+        int i6;
         int i10;
-        int i12;
-        int i32;
-        int i25;
-        TextStyle value2;
-        Composer composer2;
+        int i27;
+        int i22;
         int i15;
-        int i16;
-        int i17;
-        int i19;
-        boolean z;
-        kotlinx.coroutines.CoroutineScope coroutineScope2;
-        int i33;
-        Function0 function0;
+        int i12;
+        int i8;
         int i11;
-        int i24;
+        int i30;
         int i34;
+        TextStyle value2;
+        Composer composer;
+        int i33;
+        int i24;
+        int i32;
+        int $i$a$LayoutBoxKt$Box$1$iv;
+        boolean z;
+        kotlinx.coroutines.CoroutineScope coroutineScope;
+        int i16;
+        Function0 function0;
+        int i18;
+        int i29;
+        int i9;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         float f;
         Modifier modifier2;
-        int i29;
-        int i21;
+        int i25;
+        int i26;
         Composer composer3;
         BoxScopeInstance obj59;
-        it$iv2 = state;
-        i26 = value;
+        it$iv = state;
+        i = value;
         changed = $changed;
-        traceInProgress = -206784607;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = -206784607;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(ClockText)P(1,2,3)1639@64421L5,*1640@64463L7,1641@64513L40,1642@64578L43,1643@64638L24,1645@64700L142,1665@65318L163,1670@65563L503,1659@65093L1182:TimePicker.kt#uh7d8r");
-        i8 = 2;
+        i20 = 2;
         if (changed & 6 == 0) {
-            i5 = restartGroup.changed(modifier) ? 4 : i8;
-            $dirty |= i5;
+            i19 = restartGroup.changed(modifier) ? 4 : i20;
+            $dirty |= i19;
         } else {
-            obj = modifier;
+            obj3 = modifier;
         }
         if (changed & 48 == 0) {
-            i22 = restartGroup.changedInstance(it$iv2) ? 32 : 16;
-            $dirty |= i22;
+            i36 = restartGroup.changedInstance(it$iv) ? 32 : 16;
+            $dirty |= i36;
         }
         if (changed & 384 == 0) {
-            i18 = restartGroup.changed(i26) ? 256 : 128;
-            $dirty |= i18;
+            i35 = restartGroup.changed(i) ? 256 : 128;
+            $dirty |= i35;
         }
         if (changed & 3072 == 0) {
-            i28 = restartGroup.changed(autoSwitchToMinute) ? 2048 : 1024;
-            $dirty |= i28;
+            i17 = restartGroup.changed(autoSwitchToMinute) ? 2048 : 1024;
+            $dirty |= i17;
         } else {
             z2 = autoSwitchToMinute;
         }
-        final int i83 = $dirty;
-        if (i83 & 1171 == 1170) {
+        final int i80 = $dirty;
+        if (i80 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i83, -1, "androidx.compose.material3.ClockText (TimePicker.kt:1638)");
+                    ComposerKt.traceEventStart(traceInProgress2, i80, -1, "androidx.compose.material3.ClockText (TimePicker.kt:1638)");
                 }
-                int i84 = 6;
-                int i38 = 0;
-                int i50 = 0;
+                int i81 = 6;
+                int i37 = 0;
+                int i47 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i39 = 0;
+                int i38 = 0;
                 float $this$ClockText_u24lambda_u2427 = (Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(TimePickerKt.MaxDistance);
                 String str6 = "CC(remember):TimePicker.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 297230880, str6);
-                int i41 = 0;
+                int i39 = 0;
                 Composer composer5 = restartGroup;
-                int i73 = 0;
+                int i70 = 0;
                 Object rememberedValue3 = composer5.rememberedValue();
-                int i85 = 0;
-                obj59 = i84;
-                int i81 = 0;
+                int i82 = 0;
+                obj59 = i81;
+                int i78 = 0;
                 if (rememberedValue3 == Composer.Companion.getEmpty()) {
                     empty = 0;
-                    invalid$iv2 = i41;
-                    composer5.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(Offset.box-impl(Offset.Companion.getZero-F1C5BW0()), i81, i8, i81));
+                    invalid$iv = i39;
+                    composer5.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(Offset.box-impl(Offset.Companion.getZero-F1C5BW0()), i78, i20, i78));
                 } else {
-                    invalid$iv2 = i41;
-                    invalid$iv = rememberedValue3;
+                    invalid$iv = i39;
+                    invalid$iv2 = rememberedValue3;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 297232963, str6);
-                int i66 = 0;
+                int i63 = 0;
                 Composer composer6 = restartGroup;
-                int i77 = 0;
+                int i74 = 0;
                 Object rememberedValue5 = composer6.rememberedValue();
-                int i86 = 0;
+                int i83 = 0;
                 if (rememberedValue5 == Composer.Companion.getEmpty()) {
-                    str = str6;
-                    invalid$iv2 = i63;
-                    composer6.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(IntOffset.box-impl(IntOffset.Companion.getZero-nOcc-ac()), i81, 2, i81));
+                    str4 = str6;
+                    invalid$iv = i60;
+                    composer6.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(IntOffset.box-impl(IntOffset.Companion.getZero-nOcc-ac()), i78, 2, i78));
                 } else {
-                    str = str6;
+                    str4 = str6;
                     mutableStateOf$default = rememberedValue5;
                 }
                 Object obj6 = mutableStateOf$default;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i57 = i51;
-                int i67 = 0;
+                int i54 = i48;
+                int i64 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 773894976, "CC(rememberCoroutineScope)489@20472L144:Effects.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -954363344, "CC(remember):Effects.kt#9igjgp");
                 Composer composer9 = restartGroup;
-                int i93 = 0;
+                int i90 = 0;
                 Object rememberedValue4 = composer9.rememberedValue();
-                int i95 = 0;
-                int i99 = i52;
+                int i92 = 0;
+                int i96 = i49;
                 if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                    int i98 = 0;
-                    i37 = i56;
-                    $changed$iv = i57;
+                    int i95 = 0;
+                    i5 = i53;
+                    $changed$iv = i54;
                     $changed$iv2 = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
                     composer9.updateRememberedValue($changed$iv2);
                 } else {
-                    $changed$iv = i57;
+                    $changed$iv = i54;
                     $changed$iv2 = rememberedValue4;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 kotlinx.coroutines.CoroutineScope coroutineScope4 = coroutineScope3;
-                String str12 = str;
-                String localString$default3 = CalendarLocale_jvmKt.toLocalString$default(i26, 0, 0, false, 7, 0);
-                if (TimePickerSelectionMode.equals-impl0(it$iv2.getSelection-yecRtBI(), TimePickerSelectionMode.Companion.getMinute-yecRtBI())) {
-                    selected = Intrinsics.areEqual(CalendarLocale_jvmKt.toLocalString$default(it$iv2.getMinute(), 0, 0, false, 7, 0), localString$default3);
+                String str12 = str4;
+                String localString$default3 = CalendarLocale_jvmKt.toLocalString$default(i, 0, 0, false, 7, 0);
+                if (TimePickerSelectionMode.equals-impl0(it$iv.getSelection-yecRtBI(), TimePickerSelectionMode.Companion.getMinute-yecRtBI())) {
+                    selected = Intrinsics.areEqual(CalendarLocale_jvmKt.toLocalString$default(it$iv.getMinute(), 0, 0, false, 7, 0), localString$default3);
                 } else {
-                    selected = Intrinsics.areEqual(CalendarLocale_jvmKt.toLocalString$default(it$iv2.getHour(), 0, 0, false, 7, 0), localString$default3);
+                    selected = Intrinsics.areEqual(CalendarLocale_jvmKt.toLocalString$default(it$iv.getHour(), 0, 0, false, 7, 0), localString$default3);
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 297256763, str12);
                 Composer composer8 = restartGroup;
-                int i91 = 0;
+                int i88 = 0;
                 Alignment alignment = center;
-                it$iv3 = composer8.rememberedValue();
-                int i96 = 0;
-                int i100 = i70;
-                if (it$iv3 == Composer.Companion.getEmpty()) {
-                    empty4 = 0;
-                    it$iv = it$iv3;
-                    it$iv3 = new TimePickerKt.ClockText.1.1((MutableState)obj6, (MutableState)invalid$iv);
-                    composer8.updateRememberedValue((Function1)it$iv3);
+                it$iv2 = composer8.rememberedValue();
+                int i93 = 0;
+                int i97 = i67;
+                if (it$iv2 == Composer.Companion.getEmpty()) {
+                    empty3 = 0;
+                    it$iv3 = it$iv2;
+                    it$iv2 = new TimePickerKt.ClockText.1.1((MutableState)obj6, (MutableState)invalid$iv2);
+                    composer8.updateRememberedValue((Function1)it$iv2);
                 } else {
-                    it$iv = it$iv3;
+                    it$iv3 = it$iv2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i76 = 0;
-                Modifier focusable$default = FocusableKt.focusable$default(OnGloballyPositionedModifierKt.onGloballyPositioned(SizeKt.size-3ABfNKs(InteractiveComponentSizeKt.minimumInteractiveComponentSize(obj), TimePickerKt.MinimumInteractiveSize), (Function1)it$iv3), false, i76, 3, i76);
+                int i73 = 0;
+                Modifier focusable$default = FocusableKt.focusable$default(OnGloballyPositionedModifierKt.onGloballyPositioned(SizeKt.size-3ABfNKs(InteractiveComponentSizeKt.minimumInteractiveComponentSize(obj3), TimePickerKt.MinimumInteractiveSize), (Function1)it$iv2), false, i73, 3, i73);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 297264943, str12);
-                i2 = i83 & 7168 == 2048 ? 1 : 0;
+                i2 = i80 & 7168 == 2048 ? 1 : 0;
                 $this$cache$iv = restartGroup;
-                int i94 = 0;
+                int i91 = 0;
                 Object rememberedValue2 = $this$cache$iv.rememberedValue();
-                int i97 = 0;
-                if (i62 | changed6 == 0) {
+                int i94 = 0;
+                if (i59 | changed6 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        it$iv = 0;
+                        it$iv3 = 0;
                         modifier3 = modifier4;
-                        obj3 = rememberedValue2;
+                        obj2 = rememberedValue2;
                         scope = alignment;
-                        str3 = localString$default3;
+                        str = localString$default3;
                         text = 1;
-                        maxDist = new TimePickerKt.ClockText.2.1(selected, coroutineScope4, it$iv2, $this$ClockText_u24lambda_u2427, z2, invalid$iv, obj6);
+                        maxDist = new TimePickerKt.ClockText.2.1(selected, coroutineScope4, it$iv, $this$ClockText_u24lambda_u2427, z2, invalid$iv2, obj6);
                         $this$cache$iv.updateRememberedValue((Function1)maxDist);
                     } else {
                         modifier3 = focusable$default;
-                        coroutineScope = coroutineScope4;
-                        obj4 = obj6;
+                        coroutineScope2 = coroutineScope4;
+                        obj = obj6;
                         scope = alignment;
                         valueOf = $this$ClockText_u24lambda_u2427;
-                        it$iv4 = invalid$iv;
+                        it$iv4 = invalid$iv2;
                         center$delegate = selected;
                         parentCenter$delegate = $this$cache$iv;
-                        maxDist = obj3;
-                        str3 = localString$default3;
+                        maxDist = obj2;
+                        str = localString$default3;
                         text = 1;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i48 = 48;
-                i8 = 0;
+                int i46 = 48;
+                i20 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
-                i6 = 0;
+                i3 = 0;
                 z = center$delegate;
-                coroutineScope2 = coroutineScope;
+                coroutineScope = coroutineScope2;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, SemanticsModifierKt.semantics(modifier3, text, (Function1)maxDist));
-                i33 = currentCompositeKeyHash;
+                i16 = currentCompositeKeyHash;
                 Function0 function02 = constructor;
-                i11 = 0;
+                i18 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -700,22 +700,22 @@ public final class TimePickerKt {
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                int i87 = 0;
+                int i84 = 0;
                 function0 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, BoxKt.maybeCachedBoxMeasurePolicy(scope, false), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i89 = 0;
+                int i86 = 0;
                 Composer composer11 = constructor-impl;
                 companion = 0;
                 inserting = composer11.getInserting();
                 if (!inserting) {
                     localMap$iv$iv = currentCompositionLocalMap;
                     f = valueOf;
-                    if (!Intrinsics.areEqual(composer11.rememberedValue(), Integer.valueOf(i33))) {
-                        composer11.updateRememberedValue(Integer.valueOf(i33));
-                        constructor-impl.apply(Integer.valueOf(i33), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    if (!Intrinsics.areEqual(composer11.rememberedValue(), Integer.valueOf(i16))) {
+                        composer11.updateRememberedValue(Integer.valueOf(i16));
+                        constructor-impl.apply(Integer.valueOf(i16), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer11;
+                        composer2 = composer11;
                     }
                 } else {
                     localMap$iv$iv = currentCompositionLocalMap;
@@ -723,38 +723,38 @@ public final class TimePickerKt {
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer4 = restartGroup;
-                empty5 = 0;
+                empty2 = 0;
                 modifier2 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer4, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i55 |= 6;
-                composer2 = composer4;
-                i29 = 0;
+                i52 |= 6;
+                composer = composer4;
+                i25 = 0;
                 obj59 = iNSTANCE2;
-                i21 = i46;
+                i26 = i44;
                 ComposerKt.sourceInformationMarkerStart(composer4, 1481062706, "C1688@66158L48,1686@66083L186:TimePicker.kt#uh7d8r");
                 ComposerKt.sourceInformationMarkerStart(composer4, 879062471, str12);
                 $dirty2 = str15;
                 Composer composer10 = composer4;
-                int i90 = 0;
-                it$iv2 = composer10.rememberedValue();
-                int i92 = 0;
+                int i87 = 0;
+                it$iv = composer10.rememberedValue();
+                int i89 = 0;
                 if (!composer4.changed($dirty2)) {
-                    i19 = empty5;
-                    if (it$iv2 == Composer.Companion.getEmpty()) {
-                        int i49 = 0;
-                        obj2 = it$iv2;
-                        it$iv2 = new TimePickerKt.ClockText.3.1.1($dirty2);
-                        composer10.updateRememberedValue((Function1)it$iv2);
+                    $i$a$LayoutBoxKt$Box$1$iv = empty2;
+                    if (it$iv == Composer.Companion.getEmpty()) {
+                        int $i$a$LayoutBoxKt$Box$1$iv2 = 0;
+                        obj4 = it$iv;
+                        it$iv = new TimePickerKt.ClockText.3.1.1($dirty2);
+                        composer10.updateRememberedValue((Function1)it$iv);
                     } else {
-                        obj2 = it$iv2;
-                        i26 = composer10;
+                        obj4 = it$iv;
+                        i = composer10;
                     }
                 } else {
-                    i19 = empty5;
+                    $i$a$LayoutBoxKt$Box$1$iv = empty2;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer2);
-                TextKt.Text--4IGK_g(str3, SemanticsModifierKt.clearAndSetSemantics((Modifier)Modifier.Companion, (Function1)it$iv2), 0, str3, 0, inserting, 0, 0, 0, 0, i30, 0, false, 0, obj30, 0, 0, 0, 0, 0, TypographyKt.getValue(TimePickerTokens.INSTANCE.getClockDialLabelTextFont(), restartGroup, i84));
-                ComposerKt.sourceInformationMarkerEnd(composer2);
+                ComposerKt.sourceInformationMarkerEnd(composer);
+                TextKt.Text--4IGK_g(str, SemanticsModifierKt.clearAndSetSemantics((Modifier)Modifier.Companion, (Function1)it$iv), 0, str, 0, inserting, 0, 0, 0, 0, i10, 0, false, 0, obj30, 0, 0, 0, 0, 0, TypographyKt.getValue(TimePickerTokens.INSTANCE.getClockDialLabelTextFont(), restartGroup, i81));
+                ComposerKt.sourceInformationMarkerEnd(composer);
                 ComposerKt.sourceInformationMarkerEnd(composer4);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -770,8 +770,8 @@ public final class TimePickerKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TimePickerKt.ClockText.4(obj, state, value, autoSwitchToMinute, $changed);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new TimePickerKt.ClockText.4(obj3, state, value, autoSwitchToMinute, $changed);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -807,67 +807,67 @@ public final class TimePickerKt {
         boolean clearAndSetSemantics;
         int traceInProgress2;
         int $dirty;
-        int i12;
-        int contentAlignment$iv;
+        int i9;
+        int contentAlignment$iv2;
         boolean traceInProgress;
-        int propagateMinConstraints$iv2;
+        int propagateMinConstraints$iv;
         long measurePolicy$iv2;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         int materialized$iv$iv3;
         long constructor;
         int $composer$iv;
-        Composer composer2;
+        Composer composer;
         Object rememberedValue;
-        androidx.compose.ui.text.font.FontWeight contentAlignment$iv2;
+        androidx.compose.ui.text.font.FontWeight contentAlignment$iv;
         int $composer2;
-        int i7;
-        int i4;
-        int propagateMinConstraints$iv3;
+        int i;
+        int i6;
+        int propagateMinConstraints$iv2;
         int i5;
-        int materialized$iv$iv;
+        int materialized$iv$iv2;
         int factory$iv$iv$iv;
-        Object alignment2;
-        int $composer$iv3;
+        Object alignment;
+        int $composer$iv2;
         int measurePolicy$iv;
         int localMap$iv$iv;
-        int propagateMinConstraints$iv;
-        androidx.compose.ui.graphics.drawscope.DrawStyle materialized$iv$iv2;
+        int propagateMinConstraints$iv3;
+        androidx.compose.ui.graphics.drawscope.DrawStyle materialized$iv$iv;
         TextStyle textStyle;
-        Composer $composer$iv2;
+        Composer $composer$iv3;
         int contentAlignment$iv3;
+        int i10;
         int i3;
-        int i;
-        int i14;
-        int i15;
-        int i6;
-        int i16;
-        int currentCompositeKeyHash;
-        int i8;
-        int i2;
-        Modifier modifier$iv;
-        int i9;
         int i11;
+        int i12;
+        int i15;
+        int i2;
+        int currentCompositeKeyHash;
+        int i4;
+        int i7;
+        Modifier modifier$iv;
+        int i14;
+        int i8;
         BoxScopeInstance boxScopeInstance;
-        int i13;
+        int i16;
         Function0 function0;
-        Composer composer;
+        Composer composer2;
         MeasurePolicy measurePolicy;
         androidx.compose.runtime.CompositionLocalMap map;
-        int i10;
+        int i13;
         Modifier modifier2;
-        Alignment alignment;
+        Alignment alignment2;
         Composer obj50;
         final Object obj = modifier;
         final int i17 = $changed;
         traceInProgress2 = 2100674302;
         Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(DisplaySeparator)1326@54104L7,1335@54375L172:TimePicker.kt#uh7d8r");
-        propagateMinConstraints$iv2 = 2;
+        propagateMinConstraints$iv = 2;
         if (i17 & 6 == 0) {
-            i12 = restartGroup.changed(obj) ? 4 : propagateMinConstraints$iv2;
-            $dirty |= i12;
+            i9 = restartGroup.changed(obj) ? 4 : propagateMinConstraints$iv;
+            $dirty |= i9;
         }
-        if ($dirty & 3 == propagateMinConstraints$iv2) {
+        if ($dirty & 3 == propagateMinConstraints$iv) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.DisplaySeparator (TimePicker.kt:1324)");
@@ -879,19 +879,19 @@ public final class TimePickerKt {
                 LineHeightStyle lineHeightStyle = new LineHeightStyle(LineHeightStyle.Alignment.Companion.getCenter-PIaL0Z0(), LineHeightStyle.Trim.Companion.getBoth-EVpEnUU(), 0);
                 clearAndSetSemantics = SemanticsModifierKt.clearAndSetSemantics(obj, (Function1)TimePickerKt.DisplaySeparator.1.INSTANCE);
                 Alignment center = Alignment.Companion.getCenter();
-                i14 = i22;
-                i15 = 0;
+                i11 = i22;
+                i12 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 int i24 = 0;
                 MeasurePolicy maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(center, i24);
-                i16 = 0;
+                i2 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
                 currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, clearAndSetSemantics);
                 constructor = ComposeUiNode.Companion.getConstructor();
                 rememberedValue = 6;
-                i2 = 0;
+                i7 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -915,7 +915,7 @@ public final class TimePickerKt {
                         obj50.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = obj50;
+                        composer = obj50;
                     }
                 } else {
                     modifier$iv = clearAndSetSemantics;
@@ -924,23 +924,23 @@ public final class TimePickerKt {
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 i18 &= 14;
                 Composer composer4 = restartGroup;
-                i9 = 0;
+                i14 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer4, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i11 = i42 | 6;
+                i8 = i42 | 6;
                 Composer composer5 = composer4;
                 boxScopeInstance = iNSTANCE2;
-                i13 = 0;
+                i16 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer5, -789568360, "C1336@54520L5,1336@54471L70:TimePicker.kt#uh7d8r");
-                alignment2 = alignment3;
-                $composer$iv2 = composer5;
+                alignment = alignment3;
+                $composer$iv3 = composer5;
                 function0 = function02;
                 measurePolicy = measurePolicy2;
                 map = map2;
-                i10 = i55;
+                i13 = i55;
                 modifier2 = modifier4;
-                alignment = alignment4;
-                TextKt.Text--4IGK_g(":", 0, ColorSchemeKt.getValue(TimeInputTokens.INSTANCE.getTimeFieldSeparatorColor(), composer5, i5), currentCompositionLocalMap, 0, constructor, 0, 0, 0, 0, 0, 0, false, 0, alignment2, 0, 0, 0, 0, 0, TextStyle.copy-p1EtxEg$default((TextStyle)restartGroup.consume((CompositionLocal)TextKt.getLocalTextStyle()), 0, obj10, 0, obj12, 0, 0, 0, 0, 0, 0, obj19, 0, 0, 0, 0, obj24, 0, 0, 0, TextAlign.Companion.getCenter-e0LSkKk(), 0, 0, obj31, 0, 0, lineHeightStyle));
-                ComposerKt.sourceInformationMarkerEnd($composer$iv2);
+                alignment2 = alignment4;
+                TextKt.Text--4IGK_g(":", 0, ColorSchemeKt.getValue(TimeInputTokens.INSTANCE.getTimeFieldSeparatorColor(), composer5, i5), currentCompositionLocalMap, 0, constructor, 0, 0, 0, 0, 0, 0, false, 0, alignment, 0, 0, 0, 0, 0, TextStyle.copy-p1EtxEg$default((TextStyle)restartGroup.consume((CompositionLocal)TextKt.getLocalTextStyle()), 0, obj10, 0, obj12, 0, 0, 0, 0, 0, 0, obj19, 0, 0, 0, 0, obj24, 0, 0, 0, TextAlign.Companion.getCenter-e0LSkKk(), 0, 0, obj31, 0, 0, lineHeightStyle));
+                ComposerKt.sourceInformationMarkerEnd($composer$iv3);
                 ComposerKt.sourceInformationMarkerEnd(composer4);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -956,8 +956,8 @@ public final class TimePickerKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            contentAlignment$iv = new TimePickerKt.DisplaySeparator.3(obj, i17);
-            endRestartGroup.updateScope((Function2)contentAlignment$iv);
+            contentAlignment$iv2 = new TimePickerKt.DisplaySeparator.3(obj, i17);
+            endRestartGroup.updateScope((Function2)contentAlignment$iv2);
         }
     }
 
@@ -968,59 +968,59 @@ public final class TimePickerKt {
         Function0 factory$iv$iv$iv2;
         Composer restartGroup;
         int $dirty;
-        int i;
-        int i9;
-        boolean valueOf2;
+        int i5;
+        int i10;
+        boolean $i$a$LayoutColumnKt$Column$1$iv;
         boolean traceInProgress;
         boolean valueOf3;
         boolean changedInstance;
         int str;
         Composer composer2;
-        Composer composer5;
-        Integer valueOf4;
+        Composer composer3;
         Integer valueOf;
+        Integer valueOf2;
         Object maybeCachedBoxMeasurePolicy;
         androidx.compose.ui.Alignment.Horizontal start;
         MeasurePolicy columnMeasurePolicy;
-        int i8;
-        int i21;
+        int i9;
+        int i6;
         Modifier materializeModifier;
         Object currentCompositionLocalMap;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2;
         int currentCompositeKeyHash;
-        int i15;
+        int i7;
         int i3;
         androidx.compose.foundation.layout.Arrangement.HorizontalOrVertical horizontalOrVertical;
         Function0 function0;
-        int i2;
         int i4;
-        int i11;
+        int i12;
+        int i22;
+        int i15;
         int i16;
-        int i13;
-        Composer composer4;
-        int i19;
+        Composer composer;
+        int i11;
         ColumnScopeInstance columnScopeInstance;
         int $changed$iv;
-        int i20;
-        Composer composer;
-        int i12;
-        int i17;
-        int i6;
-        androidx.compose.ui.Modifier.Companion companion;
-        int i14;
+        int i19;
+        Composer composer5;
+        int i21;
         int i18;
+        int i2;
+        androidx.compose.ui.Modifier.Companion companion;
+        int i8;
+        int i17;
         Alignment alignment;
-        Modifier modifier;
+        Modifier modifier2;
         TimePickerTokens iNSTANCE;
-        int i5;
+        int i13;
         Function0 function02;
-        int i22;
+        int i20;
         BoxScopeInstance boxScopeInstance;
         Composer $composer2;
-        int i10;
-        Modifier modifier2;
-        Composer composer3;
-        int i7;
+        int i14;
+        Modifier modifier;
+        Composer composer4;
+        int i;
         int obj52;
         final Object obj = state;
         final Object obj2 = colors;
@@ -1034,12 +1034,12 @@ public final class TimePickerKt {
             } else {
                 changedInstance = restartGroup.changedInstance(obj);
             }
-            i = changedInstance != null ? 4 : 2;
-            $dirty |= i;
+            i5 = changedInstance != null ? 4 : 2;
+            $dirty |= i5;
         }
         if (i23 & 48 == 0) {
-            i9 = restartGroup.changed(obj2) ? 32 : 16;
-            $dirty |= i9;
+            i10 = restartGroup.changed(obj2) ? 32 : 16;
+            $dirty |= i10;
         }
         if ($dirty & 19 == 18) {
             if (!restartGroup.getSkipping()) {
@@ -1048,17 +1048,17 @@ public final class TimePickerKt {
                 }
                 androidx.compose.foundation.layout.Arrangement.HorizontalOrVertical center = Arrangement.INSTANCE.getCenter();
                 valueOf3 = 48;
-                valueOf = 0;
+                valueOf2 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -483455358, "CC(Column)P(2,3,1)85@4251L61,86@4317L133:Column.kt#2w3rfo");
                 maybeCachedBoxMeasurePolicy = Modifier.Companion;
-                i21 = 0;
+                i6 = 0;
                 currentCompositionLocalMap = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, currentCompositionLocalMap);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
                 horizontalOrVertical = center;
                 Function0 function03 = constructor2;
                 i3 = 0;
-                i4 = $dirty;
+                i12 = $dirty;
                 $dirty = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $dirty);
                 if (!applier instanceof Applier) {
@@ -1074,7 +1074,7 @@ public final class TimePickerKt {
                 function0 = factory$iv$iv$iv;
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
                 int i61 = 0;
-                composer4 = restartGroup;
+                composer = restartGroup;
                 Updater.set-impl(constructor-impl, ColumnKt.columnMeasurePolicy((Arrangement.Vertical)center, Alignment.Companion.getStart(), restartGroup, i53 |= i56), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i62 = 0;
@@ -1082,7 +1082,7 @@ public final class TimePickerKt {
                 int i63 = 0;
                 if (!composer7.getInserting()) {
                     $changed$iv = valueOf3;
-                    i20 = valueOf;
+                    i19 = valueOf2;
                     if (!Intrinsics.areEqual(composer7.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer7.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
@@ -1091,82 +1091,82 @@ public final class TimePickerKt {
                     }
                 } else {
                     $changed$iv = valueOf3;
-                    i20 = valueOf;
+                    i19 = valueOf2;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, (Modifier)maybeCachedBoxMeasurePolicy), ComposeUiNode.Companion.getSetModifier());
-                Composer composer6 = composer4;
-                i16 = i27;
+                Composer composer6 = composer;
+                i15 = i27;
                 ComposerKt.sourceInformationMarkerStart(composer6, -384862393, "C87@4365L9:Column.kt#2w3rfo");
                 i47 |= 6;
-                i19 = 0;
+                i11 = 0;
                 columnScopeInstance = iNSTANCE3;
-                i12 = i41;
-                valueOf2 = i13;
-                ComposerKt.sourceInformationMarkerStart(valueOf2, -1556019140, "C1088@46329L34:TimePicker.kt#uh7d8r");
-                TimePickerKt.ClockDisplayNumbers(obj, obj2, valueOf2, i28 |= restartGroup);
-                valueOf2.startReplaceGroup(919638492);
-                ComposerKt.sourceInformation(valueOf2, "1090@46407L437");
+                i21 = i41;
+                $i$a$LayoutColumnKt$Column$1$iv = i16;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutColumnKt$Column$1$iv, -1556019140, "C1088@46329L34:TimePicker.kt#uh7d8r");
+                TimePickerKt.ClockDisplayNumbers(obj, obj2, $i$a$LayoutColumnKt$Column$1$iv, i28 |= restartGroup);
+                $i$a$LayoutColumnKt$Column$1$iv.startReplaceGroup(919638492);
+                ComposerKt.sourceInformation($i$a$LayoutColumnKt$Column$1$iv, "1090@46407L437");
                 if (!obj.is24hour()) {
                     Modifier padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default((Modifier)Modifier.Companion, 0, TimePickerKt.PeriodToggleMargin, 0, 0, 13, 0);
-                    i13 = 0;
-                    i17 = i36;
-                    i6 = str;
-                    ComposerKt.sourceInformationMarkerStart(valueOf2, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
+                    i16 = 0;
+                    i18 = i36;
+                    i2 = str;
+                    ComposerKt.sourceInformationMarkerStart($i$a$LayoutColumnKt$Column$1$iv, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                     Alignment topStart = Alignment.Companion.getTopStart();
-                    valueOf4 = 0;
+                    valueOf = 0;
                     companion = maybeCachedBoxMeasurePolicy;
-                    i18 = 0;
+                    i17 = 0;
                     alignment = topStart;
-                    ComposerKt.sourceInformationMarkerStart(valueOf2, -1323940314, currentCompositionLocalMap);
+                    ComposerKt.sourceInformationMarkerStart($i$a$LayoutColumnKt$Column$1$iv, -1323940314, currentCompositionLocalMap);
                     obj52 = currentCompositeKeyHash2;
-                    Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(valueOf2, padding-qDBjuR0$default);
-                    modifier = padding-qDBjuR0$default;
+                    Modifier materializeModifier2 = ComposedModifierKt.materializeModifier($i$a$LayoutColumnKt$Column$1$iv, padding-qDBjuR0$default);
+                    modifier2 = padding-qDBjuR0$default;
                     Function0 function04 = constructor;
-                    i15 = 0;
-                    ComposerKt.sourceInformationMarkerStart(valueOf2, -692256719, $dirty);
+                    i7 = 0;
+                    ComposerKt.sourceInformationMarkerStart($i$a$LayoutColumnKt$Column$1$iv, -692256719, $dirty);
                     if (!applier2 instanceof Applier) {
                         ComposablesKt.invalidApplier();
                     }
-                    valueOf2.startReusableNode();
-                    if (valueOf2.getInserting()) {
-                        valueOf2.createNode(function04);
+                    $i$a$LayoutColumnKt$Column$1$iv.startReusableNode();
+                    if ($i$a$LayoutColumnKt$Column$1$iv.getInserting()) {
+                        $i$a$LayoutColumnKt$Column$1$iv.createNode(function04);
                     } else {
                         factory$iv$iv$iv2 = function04;
-                        valueOf2.useNode();
+                        $i$a$LayoutColumnKt$Column$1$iv.useNode();
                     }
-                    Composer constructor-impl2 = Updater.constructor-impl(valueOf2);
+                    Composer constructor-impl2 = Updater.constructor-impl($i$a$LayoutColumnKt$Column$1$iv);
                     int i60 = 0;
                     function02 = factory$iv$iv$iv2;
-                    Updater.set-impl(constructor-impl2, BoxKt.maybeCachedBoxMeasurePolicy(topStart, valueOf4), ComposeUiNode.Companion.getSetMeasurePolicy());
-                    Updater.set-impl(constructor-impl2, valueOf2.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    Updater.set-impl(constructor-impl2, BoxKt.maybeCachedBoxMeasurePolicy(topStart, valueOf), ComposeUiNode.Companion.getSetMeasurePolicy());
+                    Updater.set-impl(constructor-impl2, $i$a$LayoutColumnKt$Column$1$iv.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                     int i70 = 0;
                     Composer composer9 = constructor-impl2;
                     int i71 = 0;
                     if (!composer9.getInserting()) {
-                        $composer2 = valueOf2;
-                        i10 = valueOf4;
+                        $composer2 = $i$a$LayoutColumnKt$Column$1$iv;
+                        i14 = valueOf;
                         if (!Intrinsics.areEqual(composer9.rememberedValue(), Integer.valueOf(obj52))) {
                             composer9.updateRememberedValue(Integer.valueOf(obj52));
                             constructor-impl2.apply(Integer.valueOf(obj52), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer5 = composer9;
+                            composer3 = composer9;
                         }
                     } else {
-                        $composer2 = valueOf2;
-                        i10 = valueOf4;
+                        $composer2 = $i$a$LayoutColumnKt$Column$1$iv;
+                        i14 = valueOf;
                     }
                     Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                     $dirty = $composer2;
-                    i11 = i34;
+                    i22 = i34;
                     ComposerKt.sourceInformationMarkerStart($dirty, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                     i50 |= 6;
                     Composer composer8 = $dirty;
-                    i22 = 0;
+                    i20 = 0;
                     boxScopeInstance = iNSTANCE4;
-                    modifier2 = materializeModifier2;
+                    modifier = materializeModifier2;
                     ComposerKt.sourceInformationMarkerStart($dirty, -743649264, "C1091@46484L346:TimePicker.kt#uh7d8r");
-                    i7 = i42;
-                    TimePickerKt.HorizontalPeriodToggle(SizeKt.size-VpY3zN4((Modifier)Modifier.Companion, TimePickerTokens.INSTANCE.getPeriodSelectorHorizontalContainerWidth-D9Ej5fM(), TimePickerTokens.INSTANCE.getPeriodSelectorHorizontalContainerHeight-D9Ej5fM()), obj, obj2, $dirty, i40 |= valueOf2);
+                    i = i42;
+                    TimePickerKt.HorizontalPeriodToggle(SizeKt.size-VpY3zN4((Modifier)Modifier.Companion, TimePickerTokens.INSTANCE.getPeriodSelectorHorizontalContainerWidth-D9Ej5fM(), TimePickerTokens.INSTANCE.getPeriodSelectorHorizontalContainerHeight-D9Ej5fM()), obj, obj2, $dirty, i40 |= $i$a$LayoutColumnKt$Column$1$iv);
                     ComposerKt.sourceInformationMarkerEnd($dirty);
                     ComposerKt.sourceInformationMarkerEnd($dirty);
                     $composer2.endNode();
@@ -1174,28 +1174,28 @@ public final class TimePickerKt {
                     ComposerKt.sourceInformationMarkerEnd($composer2);
                     ComposerKt.sourceInformationMarkerEnd($composer2);
                 } else {
-                    $composer2 = valueOf2;
-                    i6 = str;
+                    $composer2 = $i$a$LayoutColumnKt$Column$1$iv;
+                    i2 = str;
                     companion = maybeCachedBoxMeasurePolicy;
                 }
                 $composer2.endReplaceGroup();
                 ComposerKt.sourceInformationMarkerEnd($composer2);
                 ComposerKt.sourceInformationMarkerEnd(composer6);
-                composer4.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
+                composer.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer);
+                ComposerKt.sourceInformationMarkerEnd(composer);
+                ComposerKt.sourceInformationMarkerEnd(composer);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                composer4 = restartGroup;
-                i4 = $dirty;
+                composer = restartGroup;
+                i12 = $dirty;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer4.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
             restartGroup = new TimePickerKt.HorizontalClockDisplay.2(obj, obj2, i23);
             endRestartGroup.updateScope((Function2)restartGroup);
@@ -1204,22 +1204,22 @@ public final class TimePickerKt {
 
     private static final void HorizontalPeriodToggle(Modifier modifier, androidx.compose.material3.TimePickerState state, androidx.compose.material3.TimePickerColors colors, Composer $composer, int $changed) {
         Shape value;
-        int i3;
+        int i4;
         boolean changedInstance;
         int i;
-        int i2;
+        int i3;
         int skipping;
         boolean traceInProgress;
-        Object obj2;
+        Object obj;
         int str;
         Object obj3;
-        Object obj;
+        Object obj2;
         androidx.compose.material3.TimePickerKt.HorizontalPeriodToggle.measurePolicy.1.1 time;
         int empty;
-        androidx.compose.foundation.shape.CornerBasedShape cornerBasedShape2;
-        Object iNSTANCE;
         androidx.compose.foundation.shape.CornerBasedShape cornerBasedShape;
-        int i4;
+        Object iNSTANCE;
+        androidx.compose.foundation.shape.CornerBasedShape cornerBasedShape2;
+        int i2;
         boolean obj9;
         Object obj10;
         int obj12;
@@ -1227,8 +1227,8 @@ public final class TimePickerKt {
         final Composer restartGroup = $composer.startRestartGroup(value);
         ComposerKt.sourceInformation(restartGroup, "C(HorizontalPeriodToggle)P(1,2)1160@48810L1014,1188@49871L5,1190@49902L206:TimePicker.kt#uh7d8r");
         if ($changed & 6 == 0) {
-            i3 = restartGroup.changed(modifier) ? 4 : 2;
-            obj12 |= i3;
+            i4 = restartGroup.changed(modifier) ? 4 : 2;
+            obj12 |= i4;
         }
         if ($changed & 48 == 0) {
             if ($changed & 64 == 0) {
@@ -1240,8 +1240,8 @@ public final class TimePickerKt {
             obj12 |= i;
         }
         if ($changed & 384 == 0) {
-            i2 = restartGroup.changed(colors) ? 256 : 128;
-            obj12 |= i2;
+            i3 = restartGroup.changed(colors) ? 256 : 128;
+            obj12 |= i3;
         }
         if (obj12 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
@@ -1269,72 +1269,72 @@ public final class TimePickerKt {
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                obj2 = modifier;
+                obj = modifier;
                 obj3 = state;
-                obj = colors;
+                obj2 = colors;
             }
         } else {
         }
         obj9 = restartGroup.endRestartGroup();
         if (obj9 != null) {
-            obj10 = new TimePickerKt.HorizontalPeriodToggle.1(obj2, obj3, obj, $changed);
+            obj10 = new TimePickerKt.HorizontalPeriodToggle.1(obj, obj3, obj2, $changed);
             obj9.updateScope((Function2)obj10);
         }
     }
 
     public static final void HorizontalTimePicker(androidx.compose.material3.AnalogTimePickerState state, Modifier modifier, androidx.compose.material3.TimePickerColors colors, boolean autoSwitchToMinute, Composer $composer, int $changed, int i7) {
-        int traceInProgress2;
+        int traceInProgress;
         Function0 factory$iv$iv$iv;
         int $dirty2;
         Object $dirty;
-        int i6;
-        Object obj;
-        Object modifier3;
-        boolean traceInProgress;
-        int valueOf;
-        Object colors2;
-        Composer composer2;
-        Integer valueOf2;
         int i10;
+        Object obj2;
+        Object modifier2;
+        boolean traceInProgress2;
+        int valueOf2;
+        Object colors2;
+        Composer composer;
+        Integer valueOf;
+        int i5;
         Object obj3;
         int changed;
-        int i2;
+        int i4;
         boolean skipping;
         int defaultsInvalid;
         int currentCompositionLocalMap;
-        Object obj2;
+        Object obj;
         androidx.compose.foundation.layout.Arrangement.Horizontal start;
         MeasurePolicy rowMeasurePolicy;
-        int i5;
-        int i4;
-        int i9;
-        int i12;
-        int i8;
         int i11;
-        androidx.compose.ui.Alignment.Vertical vertical;
-        int i3;
-        Function0 function0;
         int i;
+        int i12;
+        int i2;
+        int i6;
+        int i3;
+        androidx.compose.ui.Alignment.Vertical vertical;
+        int i8;
+        Function0 function0;
+        int i9;
         RowScopeInstance rowScopeInstance;
         int $changed$iv;
-        Modifier modifier2;
-        Composer composer;
+        Modifier modifier3;
+        Composer composer2;
         int obj29;
         Object obj30;
         int obj32;
         final Object obj5 = state;
         final boolean z2 = autoSwitchToMinute;
-        valueOf = $changed;
-        traceInProgress2 = 1432307537;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        valueOf2 = $changed;
+        traceInProgress = 1432307537;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(HorizontalTimePicker)P(3,2,1)945@40787L8,948@40837L309:TimePicker.kt#uh7d8r");
         $dirty2 = $changed;
         if (i7 & 1 != 0) {
             $dirty2 |= 6;
         } else {
-            if (valueOf & 6 == 0) {
-                i6 = restartGroup.changedInstance(obj5) ? 4 : 2;
-                $dirty2 |= i6;
+            if (valueOf2 & 6 == 0) {
+                i10 = restartGroup.changedInstance(obj5) ? 4 : 2;
+                $dirty2 |= i10;
             }
         }
         int i29 = i7 & 2;
@@ -1342,14 +1342,14 @@ public final class TimePickerKt {
             $dirty2 |= 48;
             colors2 = modifier;
         } else {
-            if (valueOf & 48 == 0) {
-                i10 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i10;
+            if (valueOf2 & 48 == 0) {
+                i5 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i5;
             } else {
                 colors2 = modifier;
             }
         }
-        if (valueOf & 384 == 0) {
+        if (valueOf2 & 384 == 0) {
             if (i7 & 4 == 0) {
                 changed = restartGroup.changed(colors) ? 256 : 128;
             } else {
@@ -1362,55 +1362,55 @@ public final class TimePickerKt {
         if (i7 & 8 != 0) {
             $dirty2 |= 3072;
         } else {
-            if (valueOf & 3072 == 0) {
-                i2 = restartGroup.changed(z2) ? 2048 : 1024;
-                $dirty2 |= i2;
+            if (valueOf2 & 3072 == 0) {
+                i4 = restartGroup.changed(z2) ? 2048 : 1024;
+                $dirty2 |= i4;
             }
         }
         if ($dirty2 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i36 = 6;
-                if (valueOf & 1 != 0) {
+                if (valueOf2 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i29 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = colors2;
+                            modifier2 = colors2;
                         }
                         if (i7 & 4 != 0) {
                             $dirty2 &= -897;
-                            obj2 = modifier3;
+                            obj = modifier2;
                             obj3 = colors2;
                         } else {
-                            obj2 = modifier3;
+                            obj = modifier2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i7 & 4 != 0) {
                             $dirty2 &= -897;
                         }
-                        obj2 = colors2;
+                        obj = colors2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.HorizontalTimePicker (TimePicker.kt:947)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.HorizontalTimePicker (TimePicker.kt:947)");
                 }
-                Modifier padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default(obj2, 0, 0, 0, TimePickerKt.ClockFaceBottomMargin, 7, 0);
+                Modifier padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default(obj, 0, 0, 0, TimePickerKt.ClockFaceBottomMargin, 7, 0);
                 androidx.compose.ui.Alignment.Vertical centerVertically = Alignment.Companion.getCenterVertically();
-                valueOf2 = 384;
+                valueOf = 384;
                 skipping = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
-                i4 = 0;
-                i9 = $dirty2;
+                i = 0;
+                i12 = $dirty2;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 obj29 = currentCompositeKeyHash;
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, padding-qDBjuR0$default);
                 obj30 = padding-qDBjuR0$default;
                 Function0 function02 = constructor;
-                i12 = 0;
+                i2 = 0;
                 vertical = centerVertically;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
@@ -1432,28 +1432,28 @@ public final class TimePickerKt {
                 Composer composer5 = constructor-impl;
                 int i53 = 0;
                 if (!composer5.getInserting()) {
-                    $changed$iv = valueOf2;
+                    $changed$iv = valueOf;
                     if (!Intrinsics.areEqual(composer5.rememberedValue(), Integer.valueOf(obj29))) {
                         composer5.updateRememberedValue(Integer.valueOf(obj29));
                         constructor-impl.apply(Integer.valueOf(obj29), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer5;
+                        composer = composer5;
                     }
                 } else {
-                    $changed$iv = valueOf2;
+                    $changed$iv = valueOf;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer3 = restartGroup;
-                valueOf = 0;
-                i8 = i16;
+                valueOf2 = 0;
+                i6 = i16;
                 ComposerKt.sourceInformationMarkerStart(composer3, -407918630, "C100@5047L9:Row.kt#2w3rfo");
                 i33 |= 6;
                 Composer composer4 = composer3;
-                i = 0;
+                i9 = 0;
                 rowScopeInstance = iNSTANCE;
-                modifier2 = materializeModifier;
+                modifier3 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer3, 157723300, "C952@40982L37,953@41028L59,954@41096L44:TimePicker.kt#uh7d8r");
-                TimePickerKt.HorizontalClockDisplay((TimePickerState)obj5, obj3, composer3, i22 |= i3);
+                TimePickerKt.HorizontalClockDisplay((TimePickerState)obj5, obj3, composer3, i22 |= i8);
                 SpacerKt.Spacer(SizeKt.width-3ABfNKs((Modifier)Modifier.Companion, TimePickerKt.ClockDisplayBottomMargin), composer3, i36);
                 TimePickerKt.ClockFace(obj5, obj3, z2, composer3, i18 |= i28);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
@@ -1465,89 +1465,89 @@ public final class TimePickerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $dirty = obj2;
-                obj = obj3;
+                $dirty = obj;
+                obj2 = obj3;
             } else {
                 restartGroup.skipToGroupEnd();
-                i9 = $dirty2;
+                i12 = $dirty2;
                 $dirty = colors2;
-                obj = obj3;
+                obj2 = obj3;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new TimePickerKt.HorizontalTimePicker.2(obj5, $dirty, obj, z2, $changed, i7);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new TimePickerKt.HorizontalTimePicker.2(obj5, $dirty, obj2, z2, $changed, i7);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     private static final void PeriodToggleImpl(Modifier modifier, androidx.compose.material3.TimePickerState state, androidx.compose.material3.TimePickerColors colors, MeasurePolicy measurePolicy, Shape startShape, Shape endShape, Composer $composer, int $changed) {
         int $changed2;
-        int i10;
+        int i13;
         Object it$iv;
         int changedInstance;
-        int traceInProgress2;
+        int traceInProgress;
         Object factory$iv$iv3;
         Object contentDescription;
         Object obj4;
-        int $dirty2;
-        Composer composer2;
-        Object valueOf;
-        int i8;
-        boolean changedInstance2;
-        int i15;
-        int i6;
-        int i16;
-        int i11;
-        Object obj2;
+        int $dirty;
         Composer composer;
-        Object empty2;
-        int i21;
-        int afternoon;
-        boolean traceInProgress;
+        Object valueOf;
+        int i9;
+        boolean changedInstance2;
+        int i19;
+        int i20;
+        int i7;
+        int i5;
         Object obj;
+        Composer composer2;
+        Object empty;
+        int i6;
+        int afternoon;
+        boolean traceInProgress2;
+        Object obj2;
         int str;
         Object obj3;
         Object anon;
-        int i5;
+        int i16;
         Function3 lambda-2$material3_release;
-        long factory$iv$iv;
-        int empty;
-        int i18;
-        Shape shape;
-        int i;
-        int i7;
-        int i20;
-        Composer.Companion currentCompositeKeyHash;
+        long factory$iv$iv2;
+        int empty2;
         int i2;
-        int i4;
-        int i9;
-        androidx.compose.foundation.BorderStroke borderStroke;
-        int i12;
-        androidx.compose.material3.TimePickerKt.PeriodToggleImpl.2.1.1 time;
-        int i3;
-        int $dirty;
+        Shape shape;
+        int i18;
+        int i21;
+        int i10;
+        Composer.Companion currentCompositeKeyHash;
         int i17;
+        int i14;
+        int i4;
+        androidx.compose.foundation.BorderStroke borderStroke;
+        int i11;
+        androidx.compose.material3.TimePickerKt.PeriodToggleImpl.2.1.1 time;
+        int i12;
+        int $dirty2;
+        int i;
         Composer.Companion companion;
-        Function0 factory$iv$iv2;
+        Function0 factory$iv$iv;
         String str2;
         Modifier fillMaxSize$default;
         long periodSelectorBorderColor-0d7_KjU;
-        int i19;
-        int i13;
-        int i14;
+        int i3;
+        int i15;
+        int i8;
         String obj45;
         obj4 = modifier;
         final Object obj5 = state;
         valueOf = measurePolicy;
         final int i47 = $changed;
-        traceInProgress2 = 1374241901;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 1374241901;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(PeriodToggleImpl)P(3,5!1,2,4)1258@51953L5,1259@52008L41,1263@52129L128,1260@52054L1189:TimePicker.kt#uh7d8r");
         if (i47 & 6 == 0) {
-            i8 = restartGroup.changed(obj4) ? 4 : 2;
-            $dirty2 |= i8;
+            i9 = restartGroup.changed(obj4) ? 4 : 2;
+            $dirty |= i9;
         }
         if (i47 & 48 == 0) {
             if (i47 & 64 == 0) {
@@ -1555,35 +1555,35 @@ public final class TimePickerKt {
             } else {
                 changedInstance2 = restartGroup.changedInstance(obj5);
             }
-            i15 = changedInstance2 ? 32 : 16;
-            $dirty2 |= i15;
+            i19 = changedInstance2 ? 32 : 16;
+            $dirty |= i19;
         }
         if (i47 & 384 == 0) {
-            i6 = restartGroup.changed(colors) ? 256 : 128;
-            $dirty2 |= i6;
+            i20 = restartGroup.changed(colors) ? 256 : 128;
+            $dirty |= i20;
         } else {
             obj3 = colors;
         }
         if (i47 & 3072 == 0) {
-            i16 = restartGroup.changed(valueOf) ? 2048 : 1024;
-            $dirty2 |= i16;
+            i7 = restartGroup.changed(valueOf) ? 2048 : 1024;
+            $dirty |= i7;
         }
         if (i47 & 24576 == 0) {
-            i11 = restartGroup.changed(startShape) ? 16384 : 8192;
-            $dirty2 |= i11;
+            i5 = restartGroup.changed(startShape) ? 16384 : 8192;
+            $dirty |= i5;
         } else {
-            obj = startShape;
+            obj2 = startShape;
         }
         if (i36 &= i47 == 0) {
-            i21 = restartGroup.changed(endShape) ? 131072 : 65536;
-            $dirty2 |= i21;
+            i6 = restartGroup.changed(endShape) ? 131072 : 65536;
+            $dirty |= i6;
         } else {
-            obj2 = endShape;
+            obj = endShape;
         }
-        if (i48 &= $dirty2 == 74898) {
+        if (i48 &= $dirty == 74898) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.PeriodToggleImpl (TimePicker.kt:1254)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.PeriodToggleImpl (TimePicker.kt:1254)");
                 }
                 androidx.compose.foundation.BorderStroke borderStroke2 = BorderStrokeKt.BorderStroke-cXLIe8U(TimePickerTokens.INSTANCE.getPeriodSelectorOutlineWidth-D9Ej5fM(), obj3.getPeriodSelectorBorderColor-0d7_KjU());
                 int i54 = 6;
@@ -1595,31 +1595,31 @@ public final class TimePickerKt {
                 String str11 = "CC(remember):TimePicker.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -2132305224, str11);
                 obj45 = restartGroup;
-                int i69 = 0;
-                int i70 = i54;
+                int i68 = 0;
+                int i69 = i54;
                 Object rememberedValue2 = obj45.rememberedValue();
-                int i71 = 0;
+                int i70 = 0;
                 if (!restartGroup.changed(string-2EP1pXo)) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         int i46 = 0;
                         anon = new TimePickerKt.PeriodToggleImpl.1.1(string-2EP1pXo);
                         obj45.updateRememberedValue((Function1)anon);
                     } else {
-                        composer = obj45;
+                        composer2 = obj45;
                         anon = rememberedValue2;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i38 = 1;
-                i20 = 0;
+                i10 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
                 androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, BorderKt.border(SelectableGroupKt.selectableGroup(SemanticsModifierKt.semantics$default(obj4, false, (Function1)anon, i38, 0)), borderStroke2, (Shape)(CornerBasedShape)value));
                 Function0 function0 = constructor;
-                i2 = 0;
-                i9 = i38;
+                i17 = 0;
+                i4 = i38;
                 borderStroke = borderStroke2;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
@@ -1635,44 +1635,44 @@ public final class TimePickerKt {
                 int i40 = 0;
                 Updater.set-impl(constructor-impl, valueOf, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i72 = 0;
+                int i71 = 0;
                 Composer composer5 = constructor-impl;
-                int i74 = 0;
+                int i73 = 0;
                 if (!composer5.getInserting()) {
-                    $dirty = $dirty2;
+                    $dirty2 = $dirty;
                     if (!Intrinsics.areEqual(composer5.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer5.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer5;
+                        composer = composer5;
                     }
                 } else {
-                    $dirty = $dirty2;
+                    $dirty2 = $dirty;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 factory$iv$iv3 = function0;
-                factory$iv$iv = restartGroup;
-                $dirty2 = 0;
-                ComposerKt.sourceInformationMarkerStart(factory$iv$iv, 822309452, "C1274@52547L29,1271@52427L283,1279@52723L219,1288@53072L28,1285@52955L272:TimePicker.kt#uh7d8r");
-                ComposerKt.sourceInformationMarkerStart(factory$iv$iv, -250565484, str11);
-                i12 = i23;
-                if ($dirty & 112 != 32) {
-                    if ($dirty & 64 != 0 && restartGroup.changedInstance(obj5)) {
+                factory$iv$iv2 = restartGroup;
+                $dirty = 0;
+                ComposerKt.sourceInformationMarkerStart(factory$iv$iv2, 822309452, "C1274@52547L29,1271@52427L283,1279@52723L219,1288@53072L28,1285@52955L272:TimePicker.kt#uh7d8r");
+                ComposerKt.sourceInformationMarkerStart(factory$iv$iv2, -250565484, str11);
+                i11 = i23;
+                if ($dirty2 & 112 != 32) {
+                    if ($dirty2 & 64 != 0 && restartGroup.changedInstance(obj5)) {
                         if (restartGroup.changedInstance(obj5)) {
-                            i10 = i9;
+                            i13 = i4;
                         } else {
-                            i10 = 0;
+                            i13 = 0;
                         }
                     } else {
                     }
                 } else {
                 }
-                Composer composer4 = factory$iv$iv;
-                int i73 = 0;
+                Composer composer4 = factory$iv$iv2;
+                int i72 = 0;
                 it$iv = composer4.rememberedValue();
-                i17 = 0;
-                if (i10 == 0) {
-                    factory$iv$iv2 = factory$iv$iv3;
+                i = 0;
+                if (i13 == 0) {
+                    factory$iv$iv = factory$iv$iv3;
                     if (it$iv == Composer.Companion.getEmpty()) {
                         factory$iv$iv3 = 0;
                         companion = it$iv;
@@ -1682,35 +1682,35 @@ public final class TimePickerKt {
                         companion = it$iv;
                     }
                 } else {
-                    factory$iv$iv2 = factory$iv$iv3;
+                    factory$iv$iv = factory$iv$iv3;
                 }
-                ComposerKt.sourceInformationMarkerEnd(factory$iv$iv);
-                empty2 = materializeModifier;
+                ComposerKt.sourceInformationMarkerEnd(factory$iv$iv2);
+                empty = materializeModifier;
                 String str3 = string-2EP1pXo;
                 valueOf = currentCompositionLocalMap;
-                TimePickerKt.ToggleItem(afternoon2 ^= 1, obj, (Function0)it$iv, obj3, ComposableSingletons.TimePickerKt.INSTANCE.getLambda-1$material3_release(), factory$iv$iv, i25 |= i45);
-                int i56 = i9;
+                TimePickerKt.ToggleItem(afternoon2 ^= 1, obj2, (Function0)it$iv, obj3, ComposableSingletons.TimePickerKt.INSTANCE.getLambda-1$material3_release(), factory$iv$iv2, i25 |= i45);
+                int i56 = i4;
                 int i49 = 0;
-                SpacerKt.Spacer(BackgroundKt.background-bw27NRU$default(SizeKt.fillMaxSize$default(ZIndexModifierKt.zIndex(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Spacer"), 1073741824), 0, i56, 0), colors.getPeriodSelectorBorderColor-0d7_KjU(), obj35, 0, 2), factory$iv$iv, i49);
-                ComposerKt.sourceInformationMarkerStart(factory$iv$iv, -250548685, str11);
-                if ($dirty & 112 != 32) {
-                    if ($dirty & 64 != 0 && restartGroup.changedInstance(obj5)) {
+                SpacerKt.Spacer(BackgroundKt.background-bw27NRU$default(SizeKt.fillMaxSize$default(ZIndexModifierKt.zIndex(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Spacer"), 1073741824), 0, i56, 0), colors.getPeriodSelectorBorderColor-0d7_KjU(), obj35, 0, 2), factory$iv$iv2, i49);
+                ComposerKt.sourceInformationMarkerStart(factory$iv$iv2, -250548685, str11);
+                if ($dirty2 & 112 != 32) {
+                    if ($dirty2 & 64 != 0 && restartGroup.changedInstance(obj5)) {
                         if (restartGroup.changedInstance(obj5)) {
-                            i5 = i56;
+                            i16 = i56;
                         } else {
-                            i5 = i4;
+                            i16 = i14;
                         }
                     } else {
                     }
                 } else {
                 }
-                Composer composer3 = factory$iv$iv;
+                Composer composer3 = factory$iv$iv2;
                 int i53 = 0;
                 Object rememberedValue3 = composer3.rememberedValue();
                 int i57 = 0;
-                if (i5 == 0) {
+                if (i16 == 0) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                        empty = 0;
+                        empty2 = 0;
                         obj45 = str3;
                         contentDescription = new TimePickerKt.PeriodToggleImpl.2.2.1(obj5);
                         composer3.updateRememberedValue((Function0)contentDescription);
@@ -1720,9 +1720,9 @@ public final class TimePickerKt {
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(factory$iv$iv);
-                TimePickerKt.ToggleItem(obj5.isAfternoon(), obj2, (Function0)contentDescription, colors, ComposableSingletons.TimePickerKt.INSTANCE.getLambda-2$material3_release(), factory$iv$iv, i31 | obj4);
-                ComposerKt.sourceInformationMarkerEnd(factory$iv$iv);
+                ComposerKt.sourceInformationMarkerEnd(factory$iv$iv2);
+                TimePickerKt.ToggleItem(obj5.isAfternoon(), obj, (Function0)contentDescription, colors, ComposableSingletons.TimePickerKt.INSTANCE.getLambda-2$material3_release(), factory$iv$iv2, i31 | obj4);
+                ComposerKt.sourceInformationMarkerEnd(factory$iv$iv2);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -1731,14 +1731,14 @@ public final class TimePickerKt {
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                $dirty = $dirty2;
+                $dirty2 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new TimePickerKt.PeriodToggleImpl.3(modifier, obj5, colors, measurePolicy, startShape, endShape, i47);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new TimePickerKt.PeriodToggleImpl.3(modifier, obj5, colors, measurePolicy, startShape, endShape, i47);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
@@ -1746,17 +1746,17 @@ public final class TimePickerKt {
         int traceInProgress2;
         int $dirty;
         boolean changedInstance;
-        int i4;
+        int i;
         androidx.compose.material3.TimePickerDefaults iNSTANCE;
         int companion;
         boolean traceInProgress;
+        int i2;
         int i3;
-        int i5;
         int changed;
         int defaultsInvalid;
         Object state2;
-        int i;
-        int i2;
+        int i4;
+        int i5;
         Object obj9;
         Object obj10;
         traceInProgress2 = -760850373;
@@ -1772,8 +1772,8 @@ public final class TimePickerKt {
                 } else {
                     changedInstance = obj11.changedInstance(state);
                 }
-                i4 = changedInstance != null ? 4 : 2;
-                $dirty |= i4;
+                i = changedInstance != null ? 4 : 2;
+                $dirty |= i;
             }
         }
         companion = i6 & 2;
@@ -1781,16 +1781,16 @@ public final class TimePickerKt {
             $dirty |= 48;
         } else {
             if ($changed & 48 == 0) {
-                i3 = obj11.changed(modifier) ? 32 : 16;
-                $dirty |= i3;
+                i2 = obj11.changed(modifier) ? 32 : 16;
+                $dirty |= i2;
             }
         }
         if ($changed & 384 == 0) {
             if (i6 & 4 == 0 && obj11.changed(colors)) {
-                i5 = obj11.changed(colors) ? 256 : 128;
+                i3 = obj11.changed(colors) ? 256 : 128;
             } else {
             }
-            $dirty |= i5;
+            $dirty |= i3;
         }
         if ($dirty & 147 == 146) {
             if (!obj11.getSkipping()) {
@@ -1830,125 +1830,125 @@ public final class TimePickerKt {
             obj9.updateScope((Function2)companion);
         } else {
             state2 = state;
-            i = $changed;
+            i4 = $changed;
         }
     }
 
     private static final void TimeInputImpl(Modifier modifier, androidx.compose.material3.TimePickerColors colors, androidx.compose.material3.TimePickerState state, Composer $composer, int $changed) {
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Object anon;
-        Function0 factory$iv$iv$iv2;
-        Modifier size-VpY3zN4;
         Function0 factory$iv$iv$iv;
+        Modifier size-VpY3zN4;
+        Function0 factory$iv$iv$iv2;
         int $dirty;
         Integer maybeCachedBoxMeasurePolicy;
-        int i35;
-        int i33;
-        int i24;
-        Composer $changed$iv;
-        boolean traceInProgress;
-        int changedInstance;
+        int i27;
         int i;
-        boolean changedInstance3;
-        int valueOf2;
-        int changedInstance2;
+        int i18;
+        Composer $changed$iv;
+        boolean traceInProgress2;
+        int changedInstance;
+        int i15;
+        boolean changedInstance2;
+        int valueOf;
+        int changedInstance3;
         Composer composer3;
         Modifier materializeModifier;
         Object anon2;
-        androidx.compose.foundation.layout.Arrangement.Horizontal valueOf;
+        androidx.compose.foundation.layout.Arrangement.Horizontal valueOf2;
         Alignment $changed2;
         Object rowMeasurePolicy;
-        Composer composer4;
+        Composer composer2;
         int minuteValue$delegate;
-        int i30;
+        int i5;
         MutableState empty2;
-        int i4;
+        int i10;
         Object currentCompositionLocalMap2;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         Object empty;
-        int i5;
+        int i34;
         int companion;
-        int i13;
-        int i3;
         int i29;
+        int i16;
+        int i17;
         int currentCompositeKeyHash;
         androidx.compose.ui.Alignment.Vertical vertical;
-        int i27;
-        Modifier modifier3;
-        int i16;
-        Function0 function0;
-        int i9;
-        int i28;
-        int i12;
-        int i18;
+        int i2;
+        Modifier modifier4;
+        int i33;
+        Function0 function02;
+        int i13;
+        int i38;
+        int i31;
+        int i22;
         TextStyle textStyle;
-        int i8;
-        int i37;
+        int i28;
+        int i32;
         RowScopeInstance rowScopeInstance;
         androidx.compose.foundation.layout.Arrangement.Horizontal horizontalArrangement$iv;
         MeasurePolicy measurePolicy;
-        Modifier modifier4;
-        Composer composer2;
+        Modifier modifier3;
+        Composer composer4;
         MutableState mutableState;
         int timeSelectorContentColor-vNxB06k$material3_release;
-        int i25;
-        int i21;
-        int i15;
+        int i26;
+        int i7;
+        int i23;
         Modifier modifier2;
         TimeInputTokens iNSTANCE;
-        int i7;
-        Function0 function02;
         int i14;
+        Function0 function0;
+        int i11;
         BoxScopeInstance boxScopeInstance;
         Object measurePolicy$iv;
         Composer $composer2;
         Composer composer;
-        int i10;
-        int i36;
-        int i32;
-        int i26;
-        int i38;
+        int i3;
+        int i30;
+        int i24;
+        int i12;
+        int i35;
         int center-e0LSkKk;
-        int i31;
-        int i11;
-        int i22;
-        int i20;
-        int i17;
-        int i19;
-        int i34;
         int i6;
-        int i23;
-        int i2;
+        int i36;
+        int i25;
+        int i8;
+        int i19;
+        int i20;
+        int i9;
+        int i37;
+        int i21;
+        int i4;
         int obj74;
         final Object obj = modifier;
         final Object obj2 = colors;
         final Object obj3 = state;
         final int i86 = $changed;
-        traceInProgress2 = -475657989;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -475657989;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(TimeInputImpl)P(1)965@41356L112,965@41304L164,969@41552L104,969@41500L156,972@41661L4502:TimePicker.kt#uh7d8r");
         if (i86 & 6 == 0) {
-            i35 = restartGroup.changed(obj) ? 4 : 2;
-            $dirty |= i35;
+            i27 = restartGroup.changed(obj) ? 4 : 2;
+            $dirty |= i27;
         }
         if (i86 & 48 == 0) {
-            i33 = restartGroup.changed(obj2) ? 32 : 16;
-            $dirty |= i33;
+            i = restartGroup.changed(obj2) ? 32 : 16;
+            $dirty |= i;
         }
         materializeModifier = 256;
         if (i86 & 384 == 0) {
             if (i86 & 512 == 0) {
-                changedInstance3 = restartGroup.changed(obj3);
+                changedInstance2 = restartGroup.changed(obj3);
             } else {
-                changedInstance3 = restartGroup.changedInstance(obj3);
+                changedInstance2 = restartGroup.changedInstance(obj3);
             }
-            i24 = changedInstance3 ? materializeModifier : 128;
-            $dirty |= i24;
+            i18 = changedInstance2 ? materializeModifier : 128;
+            $dirty |= i18;
         }
         if ($dirty & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.TimeInputImpl (TimePicker.kt:963)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.TimeInputImpl (TimePicker.kt:963)");
                 }
                 int i39 = 0;
                 String str3 = "CC(remember):TimePicker.kt#9igjgp";
@@ -1956,9 +1956,9 @@ public final class TimePickerKt {
                 if ($dirty & 896 != materializeModifier) {
                     if ($dirty & 512 != 0 && restartGroup.changedInstance(obj3)) {
                         if (restartGroup.changedInstance(obj3)) {
-                            i = 1;
+                            i15 = 1;
                         } else {
-                            i = i39;
+                            i15 = i39;
                         }
                     } else {
                     }
@@ -1968,7 +1968,7 @@ public final class TimePickerKt {
                 int i92 = 0;
                 Object rememberedValue2 = composer7.rememberedValue();
                 int i97 = 0;
-                if (i == 0) {
+                if (i15 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         empty2 = 0;
                         anon2 = new TimePickerKt.TimeInputImpl.hourValue.2.1(obj3);
@@ -1984,9 +1984,9 @@ public final class TimePickerKt {
                 if ($dirty & 896 != 256) {
                     if ($dirty & 512 != 0 && restartGroup.changedInstance(obj3)) {
                         if (restartGroup.changedInstance(obj3)) {
-                            i4 = i103;
+                            i10 = i103;
                         } else {
-                            i4 = i39;
+                            i10 = i39;
                         }
                     } else {
                     }
@@ -1996,7 +1996,7 @@ public final class TimePickerKt {
                 int i71 = 0;
                 Object rememberedValue4 = composer6.rememberedValue();
                 int i89 = 0;
-                if (i4 == 0) {
+                if (i10 == 0) {
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new TimePickerKt.TimeInputImpl.minuteValue.2.1(obj3);
@@ -2008,24 +2008,24 @@ public final class TimePickerKt {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 MutableState mutableState2 = rememberSaveable;
-                i30 = $dirty;
+                i5 = $dirty;
                 int i94 = i103;
                 int i90 = 0;
                 Modifier padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default(obj, 0, 0, 0, TimePickerKt.TimeInputBottomPadding, 7, 0);
                 androidx.compose.ui.Alignment.Vertical top = Alignment.Companion.getTop();
                 int i60 = 384;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
-                valueOf = Arrangement.INSTANCE.getStart();
-                rowMeasurePolicy = RowKt.rowMeasurePolicy(valueOf, top, restartGroup, i79 |= i101);
+                valueOf2 = Arrangement.INSTANCE.getStart();
+                rowMeasurePolicy = RowKt.rowMeasurePolicy(valueOf2, top, restartGroup, i79 |= i101);
                 companion = 0;
                 currentCompositionLocalMap2 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, currentCompositionLocalMap2);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
                 vertical = top;
                 Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(restartGroup, padding-qDBjuR0$default);
-                modifier3 = padding-qDBjuR0$default;
+                modifier4 = padding-qDBjuR0$default;
                 Function0 function03 = constructor2;
-                i27 = 0;
+                i2 = 0;
                 $changed$iv = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $changed$iv);
                 if (!applier instanceof Applier) {
@@ -2035,110 +2035,110 @@ public final class TimePickerKt {
                 if (restartGroup.getInserting()) {
                     restartGroup.createNode(function03);
                 } else {
-                    factory$iv$iv$iv2 = function03;
+                    factory$iv$iv$iv = function03;
                     restartGroup.useNode();
                 }
-                function0 = factory$iv$iv$iv2;
+                function02 = factory$iv$iv$iv;
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
                 int i108 = 0;
-                i8 = i64;
+                i28 = i64;
                 Updater.set-impl(constructor-impl, rowMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i109 = 0;
                 Composer composer9 = constructor-impl;
                 int i110 = 0;
                 if (!composer9.getInserting()) {
-                    horizontalArrangement$iv = valueOf;
+                    horizontalArrangement$iv = valueOf2;
                     measurePolicy = rowMeasurePolicy;
                     if (!Intrinsics.areEqual(composer9.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer9.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer4 = composer9;
+                        composer2 = composer9;
                     }
                 } else {
-                    horizontalArrangement$iv = valueOf;
+                    horizontalArrangement$iv = valueOf2;
                     measurePolicy = rowMeasurePolicy;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
-                valueOf2 = restartGroup;
-                i18 = i45;
-                ComposerKt.sourceInformationMarkerStart(valueOf2, -407918630, "C100@5047L9:Row.kt#2w3rfo");
-                Composer composer8 = valueOf2;
-                i37 = 0;
+                valueOf = restartGroup;
+                i22 = i45;
+                ComposerKt.sourceInformationMarkerStart(valueOf, -407918630, "C100@5047L9:Row.kt#2w3rfo");
+                Composer composer8 = valueOf;
+                i32 = 0;
                 rowScopeInstance = iNSTANCE2;
-                modifier4 = materializeModifier2;
-                ComposerKt.sourceInformationMarkerStart(valueOf2, -1328966913, "C977@41861L5,986@42225L3553,982@42004L3774:TimePicker.kt#uh7d8r");
-                TextStyle copy-p1EtxEg$default = TextStyle.copy-p1EtxEg$default(TypographyKt.getValue(TimeInputTokens.INSTANCE.getTimeFieldLabelTextFont(), valueOf2, 6), obj2.timeSelectorContentColor-vNxB06k$material3_release(true), obj41, 0, obj43, 0, 0, 0, 0, 0, 0, obj50, 0, 0, 0, 0, obj55, 0, 0, 0, TextAlign.Companion.getCenter-e0LSkKk(), 0, 0, obj62, 0, 0, 0);
+                modifier3 = materializeModifier2;
+                ComposerKt.sourceInformationMarkerStart(valueOf, -1328966913, "C977@41861L5,986@42225L3553,982@42004L3774:TimePicker.kt#uh7d8r");
+                TextStyle copy-p1EtxEg$default = TextStyle.copy-p1EtxEg$default(TypographyKt.getValue(TimeInputTokens.INSTANCE.getTimeFieldLabelTextFont(), valueOf, 6), obj2.timeSelectorContentColor-vNxB06k$material3_release(true), obj41, 0, obj43, 0, 0, 0, 0, 0, 0, obj50, 0, 0, 0, 0, obj55, 0, 0, 0, TextAlign.Companion.getCenter-e0LSkKk(), 0, 0, obj62, 0, 0, 0);
                 $dirty = new ProvidedValue[2];
                 obj74 = i74;
                 textStyle = copy-p1EtxEg$default;
                 int i75 = 1;
                 $dirty[i75] = CompositionLocalsKt.getLocalLayoutDirection().provides(LayoutDirection.Ltr);
                 TimePickerKt.TimeInputImpl.1.1 anon3 = new TimePickerKt.TimeInputImpl.1.1(RememberSaveableKt.rememberSaveable(new Object[i39], TextFieldValue.Companion.getSaver(), 0, (Function0)anon2, restartGroup, 0, 4), obj3, obj2, mutableState2);
-                i13 = i84;
+                i29 = i84;
                 mutableState = mutableState2;
-                CompositionLocalKt.CompositionLocalProvider($dirty, (Function2)ComposableLambdaKt.rememberComposableLambda(1306700887, i75, anon3, valueOf2, 54), valueOf2, $stable |= 48);
-                valueOf2.startReplaceGroup(511443242);
-                ComposerKt.sourceInformation(valueOf2, "1073@45823L324");
+                CompositionLocalKt.CompositionLocalProvider($dirty, (Function2)ComposableLambdaKt.rememberComposableLambda(1306700887, i75, anon3, valueOf, 54), valueOf, $stable |= 48);
+                valueOf.startReplaceGroup(511443242);
+                ComposerKt.sourceInformation(valueOf, "1073@45823L324");
                 if (!obj3.is24hour()) {
                     Modifier padding-qDBjuR0$default2 = PaddingKt.padding-qDBjuR0$default((Modifier)Modifier.Companion, TimePickerKt.PeriodToggleMargin, 0, 0, 0, 14, 0);
-                    ComposerKt.sourceInformationMarkerStart(valueOf2, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
+                    ComposerKt.sourceInformationMarkerStart(valueOf, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                     timeSelectorContentColor-vNxB06k$material3_release = i55;
                     maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(Alignment.Companion.getTopStart(), false);
-                    i21 = 0;
-                    i15 = i76;
-                    ComposerKt.sourceInformationMarkerStart(valueOf2, -1323940314, currentCompositionLocalMap2);
-                    i3 = currentCompositeKeyHash2;
+                    i7 = 0;
+                    i23 = i76;
+                    ComposerKt.sourceInformationMarkerStart(valueOf, -1323940314, currentCompositionLocalMap2);
+                    i16 = currentCompositeKeyHash2;
                     modifier2 = padding-qDBjuR0$default2;
                     int i105 = 6;
                     Function0 function04 = constructor;
-                    i29 = 0;
-                    ComposerKt.sourceInformationMarkerStart(valueOf2, -692256719, $changed$iv);
+                    i17 = 0;
+                    ComposerKt.sourceInformationMarkerStart(valueOf, -692256719, $changed$iv);
                     if (!applier2 instanceof Applier) {
                         ComposablesKt.invalidApplier();
                     }
-                    valueOf2.startReusableNode();
-                    if (valueOf2.getInserting()) {
-                        valueOf2.createNode(function04);
+                    valueOf.startReusableNode();
+                    if (valueOf.getInserting()) {
+                        valueOf.createNode(function04);
                     } else {
-                        factory$iv$iv$iv = function04;
-                        valueOf2.useNode();
+                        factory$iv$iv$iv2 = function04;
+                        valueOf.useNode();
                     }
-                    Composer constructor-impl2 = Updater.constructor-impl(valueOf2);
+                    Composer constructor-impl2 = Updater.constructor-impl(valueOf);
                     int i107 = 0;
-                    function02 = factory$iv$iv$iv;
+                    function0 = factory$iv$iv$iv2;
                     Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                    Updater.set-impl(constructor-impl2, valueOf2.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    Updater.set-impl(constructor-impl2, valueOf.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                     int i116 = 0;
                     Composer composer11 = constructor-impl2;
                     int i118 = 0;
                     if (!composer11.getInserting()) {
                         measurePolicy$iv = maybeCachedBoxMeasurePolicy;
-                        $composer2 = valueOf2;
-                        if (!Intrinsics.areEqual(composer11.rememberedValue(), Integer.valueOf(i3))) {
-                            composer11.updateRememberedValue(Integer.valueOf(i3));
-                            constructor-impl2.apply(Integer.valueOf(i3), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                        $composer2 = valueOf;
+                        if (!Intrinsics.areEqual(composer11.rememberedValue(), Integer.valueOf(i16))) {
+                            composer11.updateRememberedValue(Integer.valueOf(i16));
+                            constructor-impl2.apply(Integer.valueOf(i16), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
                             composer3 = composer11;
                         }
                     } else {
                         measurePolicy$iv = maybeCachedBoxMeasurePolicy;
-                        $composer2 = valueOf2;
+                        $composer2 = valueOf;
                     }
-                    Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier(valueOf2, padding-qDBjuR0$default2), ComposeUiNode.Companion.getSetModifier());
+                    Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier(valueOf, padding-qDBjuR0$default2), ComposeUiNode.Companion.getSetModifier());
                     Composer composer5 = $composer2;
-                    i12 = i51;
+                    i31 = i51;
                     ComposerKt.sourceInformationMarkerStart(composer5, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                     int i106 = 6;
-                    i14 = 0;
+                    i11 = 0;
                     boxScopeInstance = iNSTANCE4;
-                    i10 = i61;
+                    i3 = i61;
                     $changed$iv = composer10;
                     ComposerKt.sourceInformationMarkerStart($changed$iv, -415465671, "C1074@45891L242:TimePicker.kt#uh7d8r");
-                    i36 = i68;
-                    i9 = 6;
-                    TimePickerKt.VerticalPeriodToggle(SizeKt.size-VpY3zN4((Modifier)Modifier.Companion, TimeInputTokens.INSTANCE.getPeriodSelectorContainerWidth-D9Ej5fM(), TimeInputTokens.INSTANCE.getPeriodSelectorContainerHeight-D9Ej5fM()), obj3, obj2, $changed$iv, i58 |= valueOf2);
+                    i30 = i68;
+                    i13 = 6;
+                    TimePickerKt.VerticalPeriodToggle(SizeKt.size-VpY3zN4((Modifier)Modifier.Companion, TimeInputTokens.INSTANCE.getPeriodSelectorContainerWidth-D9Ej5fM(), TimeInputTokens.INSTANCE.getPeriodSelectorContainerHeight-D9Ej5fM()), obj3, obj2, $changed$iv, i58 |= valueOf);
                     ComposerKt.sourceInformationMarkerEnd($changed$iv);
                     ComposerKt.sourceInformationMarkerEnd(composer5);
                     $composer2.endNode();
@@ -2146,11 +2146,11 @@ public final class TimePickerKt {
                     ComposerKt.sourceInformationMarkerEnd($composer2);
                     ComposerKt.sourceInformationMarkerEnd($composer2);
                 } else {
-                    $composer2 = valueOf2;
+                    $composer2 = valueOf;
                 }
                 $composer2.endReplaceGroup();
                 ComposerKt.sourceInformationMarkerEnd($composer2);
-                ComposerKt.sourceInformationMarkerEnd(valueOf2);
+                ComposerKt.sourceInformationMarkerEnd(valueOf);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -2160,7 +2160,7 @@ public final class TimePickerKt {
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i30 = $dirty;
+                i5 = $dirty;
             }
         } else {
         }
@@ -2197,32 +2197,32 @@ public final class TimePickerKt {
 
     public static final void TimePicker-mT9BvqQ(androidx.compose.material3.TimePickerState state, Modifier modifier, androidx.compose.material3.TimePickerColors colors, int layoutType, Composer $composer, int $changed, int i7) {
         int traceInProgress2;
+        int i9;
         int i6;
-        int i8;
-        int $dirty3;
-        Object $dirty2;
         int $dirty;
-        int i10;
         Object $dirty4;
+        int $dirty3;
+        int i5;
+        Object $dirty2;
         int modifier4;
         Object modifier2;
         boolean changedInstance;
-        int i3;
-        int changed2;
-        int i5;
+        int i8;
+        int changed;
+        int i4;
         Object $i$f$cache;
         boolean traceInProgress;
-        int i2;
+        int i3;
         Object obj;
         int modifier3;
         Object layoutType2;
-        int changed;
-        int i4;
+        int changed2;
+        int i10;
         int changed3;
         boolean skipping;
         int defaultsInvalid;
-        int i9;
         int i;
+        int i2;
         State rememberAccessibilityServiceState;
         Object empty;
         Object analogTimePickerState;
@@ -2231,10 +2231,10 @@ public final class TimePickerKt {
         traceInProgress2 = -619286452;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(TimePicker)P(3,2!,1:c#material3.TimePickerLayoutType)218@11441L8,219@11509L12,221@11558L35,222@11616L48:TimePicker.kt#uh7d8r");
-        $dirty3 = $changed;
-        changed2 = 4;
+        $dirty = $changed;
+        changed = 4;
         if (i7 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty |= 6;
         } else {
             if (i17 & 6 == 0) {
                 if (i17 & 8 == 0) {
@@ -2242,29 +2242,29 @@ public final class TimePickerKt {
                 } else {
                     changedInstance = restartGroup.changedInstance(obj2);
                 }
-                i10 = changedInstance != null ? changed2 : 2;
-                $dirty3 |= i10;
+                i5 = changedInstance != null ? changed : 2;
+                $dirty |= i5;
             }
         }
         int i13 = i7 & 2;
         if (i13 != 0) {
-            $dirty3 |= 48;
+            $dirty |= 48;
             $i$f$cache = modifier;
         } else {
             if (i17 & 48 == 0) {
-                i2 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty3 |= i2;
+                i3 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i3;
             } else {
                 $i$f$cache = modifier;
             }
         }
         if (i17 & 384 == 0) {
             if (i7 & 4 == 0) {
-                changed = restartGroup.changed(colors) ? 256 : 128;
+                changed2 = restartGroup.changed(colors) ? 256 : 128;
             } else {
                 obj = colors;
             }
-            $dirty3 |= changed;
+            $dirty |= changed2;
         } else {
             obj = colors;
         }
@@ -2272,13 +2272,13 @@ public final class TimePickerKt {
             if (i7 & 8 == 0) {
                 changed3 = restartGroup.changed(layoutType) ? 2048 : 1024;
             } else {
-                i4 = layoutType;
+                i10 = layoutType;
             }
-            $dirty3 |= changed3;
+            $dirty |= changed3;
         } else {
-            i4 = layoutType;
+            i10 = layoutType;
         }
-        if ($dirty3 & 1171 == 1170) {
+        if ($dirty & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i17 & 1 != 0) {
@@ -2291,32 +2291,32 @@ public final class TimePickerKt {
                         defaultsInvalid = 6;
                         if (i7 & 4 != 0) {
                             $i$f$cache = TimePickerDefaults.INSTANCE.colors(restartGroup, defaultsInvalid);
-                            $dirty3 &= -897;
+                            $dirty &= -897;
                         } else {
                             $i$f$cache = obj;
                         }
                         if (i7 & 8 != 0) {
                             modifier4 = $dirty5;
-                            $dirty = layoutType-sDNSZnc;
+                            $dirty3 = layoutType-sDNSZnc;
                             layoutType2 = obj4;
-                            i4 = $i$f$cache;
+                            i10 = $i$f$cache;
                         } else {
                             layoutType2 = modifier2;
-                            modifier4 = $dirty3;
-                            $dirty = i4;
-                            i4 = $i$f$cache;
+                            modifier4 = $dirty;
+                            $dirty3 = i10;
+                            i10 = $i$f$cache;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i7 & 4 != 0) {
-                            $dirty3 &= -897;
+                            $dirty &= -897;
                         }
                         if (i7 & 8 != 0) {
-                            $dirty3 &= -7169;
+                            $dirty &= -7169;
                         }
-                        modifier4 = $dirty3;
-                        $dirty = i4;
-                        i4 = obj;
+                        modifier4 = $dirty;
+                        $dirty3 = i10;
+                        i10 = obj;
                         layoutType2 = $i$f$cache;
                     }
                 } else {
@@ -2325,14 +2325,14 @@ public final class TimePickerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress2, modifier4, -1, "androidx.compose.material3.TimePicker (TimePicker.kt:220)");
                 }
-                i6 = 0;
-                rememberAccessibilityServiceState = AccessibilityServiceStateProvider_androidKt.rememberAccessibilityServiceState(i6, i6, restartGroup, i6, 3);
+                i9 = 0;
+                rememberAccessibilityServiceState = AccessibilityServiceStateProvider_androidKt.rememberAccessibilityServiceState(i9, i9, restartGroup, i9, 3);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -2089091954, "CC(remember):TimePicker.kt#9igjgp");
                 int i29 = 1;
-                if (modifier4 & 14 != changed2) {
+                if (modifier4 & 14 != changed) {
                     if (modifier4 & 8 != 0 && restartGroup.changed(obj2)) {
                         if (restartGroup.changed(obj2)) {
-                            i6 = i29;
+                            i9 = i29;
                         }
                     }
                 } else {
@@ -2341,7 +2341,7 @@ public final class TimePickerKt {
                 int i22 = 0;
                 Object rememberedValue = composer.rememberedValue();
                 int i30 = 0;
-                if (i6 == 0) {
+                if (i9 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         analogTimePickerState = new AnalogTimePickerState(obj2);
@@ -2353,36 +2353,36 @@ public final class TimePickerKt {
                 }
                 $i$f$cache = analogTimePickerState;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                if (TimePickerLayoutType.equals-impl0($dirty, TimePickerLayoutType.Companion.getVertical-QJTpgSE())) {
+                if (TimePickerLayoutType.equals-impl0($dirty3, TimePickerLayoutType.Companion.getVertical-QJTpgSE())) {
                     restartGroup.startReplaceGroup(-337235422);
                     ComposerKt.sourceInformation(restartGroup, "224@11728L178");
-                    TimePickerKt.VerticalTimePicker((AnalogTimePickerState)$i$f$cache, layoutType2, i4, i29 ^= z2, restartGroup, i8 | i5, 0);
+                    TimePickerKt.VerticalTimePicker((AnalogTimePickerState)$i$f$cache, layoutType2, i10, i29 ^= z2, restartGroup, i6 | i4, 0);
                     restartGroup.endReplaceGroup();
                 } else {
                     restartGroup.startReplaceGroup(-337036960);
                     ComposerKt.sourceInformation(restartGroup, "231@11928L180");
-                    TimePickerKt.HorizontalTimePicker($i$f$cache, layoutType2, i4, i29 ^= z, restartGroup, i8 | i5, 0);
+                    TimePickerKt.HorizontalTimePicker($i$f$cache, layoutType2, i10, i29 ^= z, restartGroup, i6 | i4, 0);
                     restartGroup.endReplaceGroup();
                 }
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i3 = $dirty;
-                $dirty2 = layoutType2;
+                i8 = $dirty3;
+                $dirty4 = layoutType2;
                 modifier3 = modifier4;
-                $dirty4 = i4;
+                $dirty2 = i10;
             } else {
                 restartGroup.skipToGroupEnd();
-                $dirty4 = obj;
-                i3 = i4;
-                modifier3 = $dirty3;
-                $dirty2 = $i$f$cache;
+                $dirty2 = obj;
+                i8 = i10;
+                modifier3 = $dirty;
+                $dirty4 = $i$f$cache;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new TimePickerKt.TimePicker.1(obj2, $dirty2, $dirty4, i3, i17, i7);
+            traceInProgress2 = new TimePickerKt.TimePicker.1(obj2, $dirty4, $dirty2, i8, i17, i7);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
@@ -2393,239 +2393,239 @@ public final class TimePickerKt {
     }
 
     private static final void TimePickerTextField-1vLObsk(Modifier modifier, TextFieldValue value, Function1<? super TextFieldValue, Unit> onValueChange, androidx.compose.material3.TimePickerState state, int selection, KeyboardOptions keyboardOptions, KeyboardActions keyboardActions, androidx.compose.material3.TimePickerColors colors, Composer $composer, int $changed, int i11) {
-        Object mutableInteractionSource;
-        int i14;
-        Object invalid$iv2;
+        Object $i$a$CacheTimePickerKt$TimePickerTextField$interactionSource$1;
+        int i41;
+        Object invalid$iv3;
         Function0 factory$iv$iv$iv;
-        int i56;
+        int i62;
         int hourForDisplay;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int this_$iv;
         Object box-impl;
         int skipping;
-        boolean traceInProgress2;
-        Object obj4;
-        int $composer$iv2;
-        Integer currentCompositionLocalMap2;
+        boolean traceInProgress;
+        Object $i$a$CacheTimePickerKt$TimePickerTextField$focusRequester$1;
+        int $composer$iv3;
+        Integer currentCompositionLocalMap;
         Object it$iv;
-        int i69;
-        int changedInstance2;
+        int i67;
+        int changedInstance;
         boolean columnMeasurePolicy;
-        Composer composer6;
+        Composer composer4;
         int m3c_time_picker_hour;
-        androidx.compose.material3.TimePickerState $composer2;
-        int i33;
-        Composer composer2;
-        int $dirty;
+        androidx.compose.material3.TimePickerState $composer3;
+        int i71;
+        Composer composer7;
+        int $dirty2;
         int this_$iv2;
-        Object currentCompositionLocalMap;
-        int $dirty4;
-        int i25;
-        Composer composer3;
+        Object currentCompositionLocalMap2;
+        int $dirty;
+        int i52;
+        Composer composer2;
         Object valueOf;
-        int i7;
+        int i42;
         Object obj3;
         int m3c_time_picker_minute_text_field;
-        Object invalid$iv3;
-        Object obj;
-        int $dirty2;
+        Object invalid$iv;
+        Object obj6;
+        int $dirty3;
         Object contentDescription2;
-        int i35;
-        int i4;
+        int i79;
+        int i15;
         Object measurePolicy$iv;
         Object rememberedValue;
-        int i41;
-        boolean changedInstance;
-        int i17;
-        int i8;
-        int str3;
-        int i42;
-        int i74;
-        Object $composer3;
-        Composer composer4;
+        int i48;
+        boolean changedInstance2;
+        int i70;
+        int i36;
+        int str2;
+        int i3;
+        int i57;
+        Object $composer2;
+        Composer composer3;
         Object empty;
-        int $dirty3;
-        int i65;
+        int $dirty4;
+        int i45;
         int materialized$iv$iv;
         Object anon;
         Object horizontalAlignment$iv;
         int contentAlignment$iv;
         Object focusRequester;
-        int i72;
+        int i51;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i75;
+        int i60;
         Composer propagateMinConstraints$iv;
         Composer composer5;
         int contentDescription;
-        int $composer$iv3;
+        int $composer$iv2;
         MeasurePolicy measurePolicy$iv2;
         int interactionSource;
-        int i48;
+        int i21;
+        int i20;
+        int i55;
         int i73;
-        int i82;
-        int i62;
         int currentCompositeKeyHash;
         Function0 function0;
-        int i76;
-        int i30;
-        androidx.compose.runtime.CompositionLocalMap map2;
-        MeasurePolicy localMap$iv$iv2;
-        int i57;
-        int i68;
+        int i;
+        int i28;
+        androidx.compose.runtime.CompositionLocalMap map;
+        MeasurePolicy localMap$iv$iv;
+        int i9;
+        int i40;
         String string-2EP1pXo;
         Modifier clearAndSetSemantics;
-        long value3;
-        int i77;
-        int i55;
-        int i54;
-        int i40;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
+        long value2;
+        int i43;
         int i58;
-        Function0 function02;
+        int i7;
+        int i31;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
         int i32;
-        int i52;
-        int i9;
-        int i79;
-        int i37;
-        int i45;
-        Object obj6;
+        Function0 function02;
+        int i33;
+        int i53;
+        int i46;
+        int i38;
+        int i30;
+        int i10;
+        Object obj;
         Composer.Companion companion;
         MeasurePolicy measurePolicy;
-        boolean invalid$iv;
-        int i21;
-        int i78;
-        int i64;
-        int i23;
-        int i;
-        TextStyle value2;
-        Composer composer;
-        int i59;
-        int i13;
-        int i15;
-        ColumnScopeInstance columnScopeInstance;
-        int i60;
+        boolean invalid$iv2;
+        int i61;
         int i27;
-        androidx.compose.runtime.CompositionLocalMap map;
+        int i63;
+        int i14;
+        int i47;
+        TextStyle value3;
+        Composer composer6;
+        int i2;
+        int i5;
+        int i8;
+        ColumnScopeInstance columnScopeInstance;
+        int i6;
+        int i49;
+        androidx.compose.runtime.CompositionLocalMap map2;
         Composer $composer$iv;
         androidx.compose.material3.TextFieldColors field;
         boolean z;
         androidx.compose.foundation.layout.Arrangement.Vertical vertical;
         androidx.compose.ui.Alignment.Horizontal horizontal;
         Modifier modifier2;
-        String str;
-        int i53;
-        int i43;
-        int i22;
-        int i63;
-        int i66;
-        int i29;
-        int i70;
-        int i34;
-        int i18;
-        int i61;
-        int i44;
-        int i38;
-        int i80;
-        int i67;
-        int i51;
-        int i50;
-        int i28;
-        int i10;
-        int i12;
-        int i39;
-        int i19;
-        int i46;
-        int i26;
-        int i24;
-        int i49;
-        int i47;
-        int i5;
+        String str3;
+        int i56;
+        int i35;
+        int i13;
         int i16;
-        Composer composer7;
+        int i37;
+        int i24;
+        int i50;
+        int i39;
+        int i54;
         int i81;
-        int i6;
-        int i31;
-        int i36;
-        int i20;
-        int i3;
-        int i2;
-        Object obj7;
-        Object obj2;
-        int i71;
+        int i25;
+        int i4;
+        int i23;
+        int i69;
+        int i80;
+        int i12;
+        int i82;
+        int i64;
+        int i19;
+        int i29;
+        int i59;
+        int i76;
+        int i26;
+        int i75;
+        int i34;
+        int i68;
+        int i74;
+        int i44;
+        Composer composer;
+        int i65;
+        int i78;
+        int i17;
+        int i77;
+        int i72;
+        int i66;
+        int i18;
         Object obj5;
-        String str2;
+        Object obj2;
+        int i22;
+        Object obj4;
+        String str;
         Modifier obj117;
         androidx.compose.foundation.layout.Arrangement.Vertical obj118;
         Modifier obj120;
-        traceInProgress = modifier;
+        traceInProgress2 = modifier;
         box-impl = value;
-        Object obj8 = state;
-        i7 = selection;
-        Object obj9 = colors;
-        invalid$iv2 = $changed;
+        Object obj7 = state;
+        i42 = selection;
+        Object obj8 = colors;
+        invalid$iv3 = $changed;
         rememberedValue = i11;
         Composer restartGroup = $composer.startRestartGroup(1299172990);
         ComposerKt.sourceInformation(restartGroup, "C(TimePickerTextField)P(3,7,4,6,5:c#material3.TimePickerSelectionMode,2,1)1762@68219L39,1763@68284L29,1765@68374L243,1771@68670L3410,1857@72118L103,1857@72086L135:TimePicker.kt#uh7d8r");
-        $dirty2 = $changed;
+        $dirty3 = $changed;
         final int i275 = 4;
         final int i276 = 2;
         if (rememberedValue & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty3 |= 6;
         } else {
-            if (invalid$iv2 & 6 == 0) {
-                i35 = restartGroup.changed(traceInProgress) ? i275 : i276;
-                $dirty2 |= i35;
+            if (invalid$iv3 & 6 == 0) {
+                i79 = restartGroup.changed(traceInProgress2) ? i275 : i276;
+                $dirty3 |= i79;
             }
         }
         if (rememberedValue & 2 != 0) {
-            $dirty2 |= 48;
+            $dirty3 |= 48;
         } else {
-            if (invalid$iv2 & 48 == 0) {
-                i4 = restartGroup.changed(box-impl) ? 32 : 16;
-                $dirty2 |= i4;
+            if (invalid$iv3 & 48 == 0) {
+                i15 = restartGroup.changed(box-impl) ? 32 : 16;
+                $dirty3 |= i15;
             }
         }
         if (rememberedValue & 4 != 0) {
-            $dirty2 |= 384;
+            $dirty3 |= 384;
             measurePolicy$iv = onValueChange;
         } else {
-            if (invalid$iv2 & 384 == 0) {
-                i41 = restartGroup.changedInstance(onValueChange) ? 256 : 128;
-                $dirty2 |= i41;
+            if (invalid$iv3 & 384 == 0) {
+                i48 = restartGroup.changedInstance(onValueChange) ? 256 : 128;
+                $dirty3 |= i48;
             } else {
                 measurePolicy$iv = onValueChange;
             }
         }
         if (rememberedValue & 8 != 0) {
-            $dirty2 |= 3072;
+            $dirty3 |= 3072;
         } else {
-            if (invalid$iv2 & 3072 == 0) {
-                if (invalid$iv2 & 4096 == 0) {
-                    changedInstance = restartGroup.changed(obj8);
+            if (invalid$iv3 & 3072 == 0) {
+                if (invalid$iv3 & 4096 == 0) {
+                    changedInstance2 = restartGroup.changed(obj7);
                 } else {
-                    changedInstance = restartGroup.changedInstance(obj8);
+                    changedInstance2 = restartGroup.changedInstance(obj7);
                 }
-                i17 = changedInstance != null ? 2048 : 1024;
-                $dirty2 |= i17;
+                i70 = changedInstance2 ? 2048 : 1024;
+                $dirty3 |= i70;
             }
         }
         if (rememberedValue & 16 != 0) {
-            $dirty2 |= 24576;
+            $dirty3 |= 24576;
         } else {
-            if (invalid$iv2 & 24576 == 0) {
-                i8 = restartGroup.changed(i7) ? 16384 : 8192;
-                $dirty2 |= i8;
+            if (invalid$iv3 & 24576 == 0) {
+                i36 = restartGroup.changed(i42) ? 16384 : 8192;
+                $dirty3 |= i36;
             }
         }
-        str3 = rememberedValue & 32;
+        str2 = rememberedValue & 32;
         int i170 = 196608;
-        if (str3 != null) {
-            $dirty2 |= i170;
+        if (str2 != null) {
+            $dirty3 |= i170;
             empty = keyboardOptions;
         } else {
-            if (i170 &= invalid$iv2 == 0) {
-                i65 = restartGroup.changed(keyboardOptions) ? 131072 : 65536;
-                $dirty2 |= i65;
+            if (i170 &= invalid$iv3 == 0) {
+                i45 = restartGroup.changed(keyboardOptions) ? 131072 : 65536;
+                $dirty3 |= i45;
             } else {
                 empty = keyboardOptions;
             }
@@ -2633,27 +2633,27 @@ public final class TimePickerKt {
         anon = rememberedValue & 64;
         int i181 = 1572864;
         if (anon != 0) {
-            $dirty2 |= i181;
+            $dirty3 |= i181;
             horizontalAlignment$iv = keyboardActions;
         } else {
-            if (i181 &= invalid$iv2 == 0) {
+            if (i181 &= invalid$iv3 == 0) {
                 contentAlignment$iv = restartGroup.changed(keyboardActions) ? 1048576 : 524288;
-                $dirty2 |= contentAlignment$iv;
+                $dirty3 |= contentAlignment$iv;
             } else {
                 horizontalAlignment$iv = keyboardActions;
             }
         }
         if (rememberedValue & 128 != 0) {
-            i42 = 12582912;
-            $dirty2 |= i42;
+            i3 = 12582912;
+            $dirty3 |= i3;
         } else {
         }
-        if (i168 &= $dirty2 == 4793490) {
+        if (i168 &= $dirty3 == 4793490) {
             if (!restartGroup.getSkipping()) {
-                if (str3 != null) {
-                    obj7 = skipping;
+                if (str2 != null) {
+                    obj5 = skipping;
                 } else {
-                    obj7 = empty;
+                    obj5 = empty;
                 }
                 if (anon != 0) {
                     obj2 = skipping;
@@ -2661,7 +2661,7 @@ public final class TimePickerKt {
                     obj2 = horizontalAlignment$iv;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1299172990, $dirty2, -1, "androidx.compose.material3.TimePickerTextField (TimePicker.kt:1761)");
+                    ComposerKt.traceEventStart(1299172990, $dirty3, -1, "androidx.compose.material3.TimePickerTextField (TimePicker.kt:1761)");
                 }
                 String str17 = "CC(remember):TimePicker.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 882970966, str17);
@@ -2674,7 +2674,7 @@ public final class TimePickerKt {
                     int i83 = 0;
                     composer13.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                 } else {
-                    mutableInteractionSource = rememberedValue4;
+                    $i$a$CacheTimePickerKt$TimePickerTextField$interactionSource$1 = rememberedValue4;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 882973036, str17);
@@ -2688,7 +2688,7 @@ public final class TimePickerKt {
                     focusRequester = new FocusRequester();
                     composer14.updateRememberedValue(focusRequester);
                 } else {
-                    obj4 = rememberedValue5;
+                    $i$a$CacheTimePickerKt$TimePickerTextField$focusRequester$1 = rememberedValue5;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i173 = 1;
@@ -2717,41 +2717,41 @@ public final class TimePickerKt {
                 int i258 = i256;
                 int i261 = i258;
                 int i265 = i261;
-                i43 = i265;
-                i63 = i43;
-                i29 = i63;
-                i34 = i29;
-                i61 = i34;
-                i38 = i61;
-                i67 = i38;
-                i50 = i67;
-                i10 = i50;
-                i39 = i10;
-                i46 = i39;
-                i24 = i46;
-                i47 = i24;
-                i16 = i47;
-                i71 = i274;
+                i35 = i265;
+                i16 = i35;
+                i24 = i16;
+                i39 = i24;
+                i81 = i39;
+                i4 = i81;
+                i69 = i4;
+                i12 = i69;
+                i64 = i12;
+                i29 = i64;
+                i76 = i29;
+                i75 = i76;
+                i68 = i75;
+                i44 = i68;
+                i22 = i274;
                 String str15 = str62;
                 Composer composer19 = restartGroup;
                 int $composer4 = 16384;
-                androidx.compose.material3.TextFieldColors colors-0hiis_0 = OutlinedTextFieldDefaults.INSTANCE.colors-0hiis_0(obj9.timeSelectorContentColor-vNxB06k$material3_release(i185), i173, 0, i185, 0, i195, 0, i201, obj9.timeSelectorContainerColor-vNxB06k$material3_release(i173), obj21, obj9.timeSelectorContainerColor-vNxB06k$material3_release(i173), obj23, 0, i209, 0, i211, 0, i213, 0, i215, 0, 0, str29, 0, i223, 0, i225, 0, i228, 0, i230, 0, i233, 0, i236, 0, i238, 0, i244, 0, i246, 0, i248, 0, i250, 0, i252, 0, i254, 0, i256);
+                androidx.compose.material3.TextFieldColors colors-0hiis_0 = OutlinedTextFieldDefaults.INSTANCE.colors-0hiis_0(obj8.timeSelectorContentColor-vNxB06k$material3_release(i185), i173, 0, i185, 0, i195, 0, i201, obj8.timeSelectorContainerColor-vNxB06k$material3_release(i173), obj21, obj8.timeSelectorContainerColor-vNxB06k$material3_release(i173), obj23, 0, i209, 0, i211, 0, i213, 0, i215, 0, 0, str29, 0, i223, 0, i225, 0, i228, 0, i230, 0, i233, 0, i236, 0, i238, 0, i244, 0, i246, 0, i248, 0, i250, 0, i252, 0, i254, 0, i256);
                 Composer composer15 = composer19;
-                boolean equals-impl04 = TimePickerSelectionMode.equals-impl0(i7, obj8.getSelection-yecRtBI());
-                i48 = i176;
-                i73 = 0;
+                boolean equals-impl04 = TimePickerSelectionMode.equals-impl0(i42, obj7.getSelection-yecRtBI());
+                i21 = i176;
+                i20 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer15, -483455358, "CC(Column)P(2,3,1)85@4251L61,86@4317L133:Column.kt#2w3rfo");
                 androidx.compose.foundation.layout.Arrangement.Vertical top = Arrangement.INSTANCE.getTop();
                 androidx.compose.ui.Alignment.Horizontal start = Alignment.Companion.getStart();
                 columnMeasurePolicy = ColumnKt.columnMeasurePolicy(top, start, composer15, i188 | i197);
-                i62 = 0;
-                obj117 = obj4;
+                i73 = 0;
+                obj117 = $i$a$CacheTimePickerKt$TimePickerTextField$focusRequester$1;
                 ComposerKt.sourceInformationMarkerStart(composer15, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(composer15, 0);
-                currentCompositionLocalMap = composer15.getCurrentCompositionLocalMap();
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier(composer15, traceInProgress);
+                currentCompositionLocalMap2 = composer15.getCurrentCompositionLocalMap();
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier(composer15, traceInProgress2);
                 Function0 function03 = constructor;
-                i30 = 0;
+                i28 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer15, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -2764,127 +2764,127 @@ public final class TimePickerKt {
                     composer15.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(composer15);
-                i72 = 0;
+                i51 = 0;
                 function0 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, columnMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i75 = 0;
+                Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                i60 = 0;
                 composer5 = constructor-impl;
                 int i204 = 0;
                 if (!composer5.getInserting()) {
                     measurePolicy$iv2 = columnMeasurePolicy;
-                    map2 = currentCompositionLocalMap;
+                    map = currentCompositionLocalMap2;
                     if (!Intrinsics.areEqual(composer5.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer5.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer5;
+                        composer7 = composer5;
                     }
                 } else {
                     measurePolicy$iv2 = columnMeasurePolicy;
-                    map2 = currentCompositionLocalMap;
+                    map = currentCompositionLocalMap2;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer8 = composer15;
-                i57 = 0;
+                i9 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer8, -384862393, "C87@4365L9:Column.kt#2w3rfo");
-                i68 = i126 | 6;
-                $dirty = $dirty2;
+                i40 = i126 | 6;
+                $dirty2 = $dirty3;
                 Composer $dirty6 = composer8;
                 columnScopeInstance = iNSTANCE4;
-                i60 = 0;
-                i27 = i86;
+                i6 = 0;
+                i49 = i86;
                 ComposerKt.sourceInformationMarkerStart($dirty6, -2071429233, "C1788@69244L240,1796@69494L2047,1845@71677L244,1852@71988L5,1853@72059L5,1842@71551L523:TimePicker.kt#uh7d8r");
                 $dirty6.startReplaceGroup(2011386807);
                 ComposerKt.sourceInformation($dirty6, "1773@68737L450");
                 if (!equals-impl04) {
-                    if (TimePickerSelectionMode.equals-impl0(i7, TimePickerSelectionMode.Companion.getHour-yecRtBI())) {
-                        i33 = hourForDisplay;
+                    if (TimePickerSelectionMode.equals-impl0(i42, TimePickerSelectionMode.Companion.getHour-yecRtBI())) {
+                        i71 = hourForDisplay;
                     } else {
-                        i33 = hourForDisplay;
+                        i71 = hourForDisplay;
                     }
-                    i56 = $dirty;
-                    composer7 = composer15;
-                    $composer$iv = i75;
-                    map = map2;
-                    $composer3 = obj117;
+                    i62 = $dirty2;
+                    composer = composer15;
+                    $composer$iv = i60;
+                    map2 = map;
+                    $composer2 = obj117;
                     obj117 = materializeModifier;
-                    localMap$iv$iv2 = measurePolicy$iv2;
+                    localMap$iv$iv = measurePolicy$iv2;
                     materialized$iv$iv = 0;
-                    TimePickerKt.TimeSelector-SAnMeKU(SizeKt.size-VpY3zN4((Modifier)Modifier.Companion, TimeInputTokens.INSTANCE.getTimeFieldContainerWidth-D9Ej5fM(), TimeInputTokens.INSTANCE.getTimeFieldContainerHeight-D9Ej5fM()), i33, state, i7, obj9, $dirty6, i94 |= i72);
-                    $composer$iv2 = i7;
-                    composer6 = $dirty6;
+                    TimePickerKt.TimeSelector-SAnMeKU(SizeKt.size-VpY3zN4((Modifier)Modifier.Companion, TimeInputTokens.INSTANCE.getTimeFieldContainerWidth-D9Ej5fM(), TimeInputTokens.INSTANCE.getTimeFieldContainerHeight-D9Ej5fM()), i71, state, i42, obj8, $dirty6, i94 |= i51);
+                    $composer$iv3 = i42;
+                    composer4 = $dirty6;
                 } else {
                     $composer$iv = composer8;
-                    i56 = $dirty;
-                    $composer$iv2 = i7;
-                    composer6 = $dirty6;
-                    composer7 = composer15;
-                    map = map2;
-                    $composer3 = obj117;
+                    i62 = $dirty2;
+                    $composer$iv3 = i42;
+                    composer4 = $dirty6;
+                    composer = composer15;
+                    map2 = map;
+                    $composer2 = obj117;
                     obj117 = materializeModifier;
-                    localMap$iv$iv2 = measurePolicy$iv2;
+                    localMap$iv$iv = measurePolicy$iv2;
                     materialized$iv$iv = 0;
                 }
-                composer6.endReplaceGroup();
-                if (TimePickerSelectionMode.equals-impl0($composer$iv2, TimePickerSelectionMode.Companion.getMinute-yecRtBI())) {
+                composer4.endReplaceGroup();
+                if (TimePickerSelectionMode.equals-impl0($composer$iv3, TimePickerSelectionMode.Companion.getMinute-yecRtBI())) {
                     androidx.compose.material3.internal.Strings.Companion companion20 = Strings.Companion;
-                    i25 = 0;
+                    i52 = 0;
                     this_$iv2 = Strings.constructor-impl(R.string.m3c_time_picker_minute_text_field);
                 } else {
                     androidx.compose.material3.internal.Strings.Companion companion19 = Strings.Companion;
-                    i25 = 0;
+                    i52 = 0;
                     this_$iv2 = m3c_time_picker_minute_text_field;
                 }
-                String string-2EP1pXo2 = Strings_androidKt.getString-2EP1pXo(this_$iv2, composer6, materialized$iv$iv);
+                String string-2EP1pXo2 = Strings_androidKt.getString-2EP1pXo(this_$iv2, composer4, materialized$iv$iv);
                 Modifier visible = TimePickerKt.visible((Modifier)Modifier.Companion, equals-impl04);
                 int i219 = i143;
                 int i220 = 0;
-                ComposerKt.sourceInformationMarkerStart(composer6, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
+                ComposerKt.sourceInformationMarkerStart(composer4, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 Alignment topStart = Alignment.Companion.getTopStart();
                 int i150 = 0;
                 MeasurePolicy maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i150);
-                ComposerKt.sourceInformationMarkerStart(composer6, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
-                int currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(composer6, 0);
-                currentCompositionLocalMap2 = composer6.getCurrentCompositionLocalMap();
-                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(composer6, visible);
-                i54 = i140;
+                ComposerKt.sourceInformationMarkerStart(composer4, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
+                int currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(composer4, 0);
+                currentCompositionLocalMap = composer4.getCurrentCompositionLocalMap();
+                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(composer4, visible);
+                i7 = i140;
                 valueOf = constructor2;
                 int i227 = 0;
-                ComposerKt.sourceInformationMarkerStart(composer6, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
+                ComposerKt.sourceInformationMarkerStart(composer4, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                composer6.startReusableNode();
-                if (composer6.getInserting()) {
-                    composer6.createNode(valueOf);
+                composer4.startReusableNode();
+                if (composer4.getInserting()) {
+                    composer4.createNode(valueOf);
                 } else {
-                    composer6.useNode();
+                    composer4.useNode();
                 }
-                Composer constructor-impl2 = Updater.constructor-impl(composer6);
+                Composer constructor-impl2 = Updater.constructor-impl(composer4);
                 int i151 = 0;
-                composer = composer6;
+                composer6 = composer4;
                 Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl2, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i202 = 0;
                 Composer composer16 = constructor-impl2;
                 int i205 = 0;
                 if (!composer16.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap2;
+                    localMap$iv$iv2 = currentCompositionLocalMap;
                     function02 = valueOf;
                     if (!Intrinsics.areEqual(composer16.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
                         composer16.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
                         constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer16;
+                        composer2 = composer16;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap2;
+                    localMap$iv$iv2 = currentCompositionLocalMap;
                     function02 = valueOf;
                 }
                 Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                 int i231 = i107 & 14;
-                Composer composer9 = composer;
+                Composer composer9 = composer6;
                 ComposerKt.sourceInformationMarkerStart(composer9, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 int i234 = i142 | 6;
                 Composer composer11 = composer9;
@@ -2892,23 +2892,23 @@ public final class TimePickerKt {
                 int i237 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer11, -1024044049, "C1803@69837L48,1807@70087L7,1814@70388L11,1815@70456L11,1819@70616L915,1797@69540L1991:TimePicker.kt#uh7d8r");
                 ComposerKt.sourceInformationMarkerStart(composer11, -1002857443, str15);
-                invalid$iv3 = composer11.changed(string-2EP1pXo2);
+                invalid$iv = composer11.changed(string-2EP1pXo2);
                 Composer composer12 = composer11;
                 int i203 = 0;
                 it$iv = composer12.rememberedValue();
                 int i206 = 0;
-                if (!invalid$iv3) {
-                    invalid$iv = invalid$iv3;
+                if (!invalid$iv) {
+                    invalid$iv2 = invalid$iv;
                     if (it$iv == Composer.Companion.getEmpty()) {
-                        invalid$iv3 = 0;
-                        obj6 = it$iv;
+                        invalid$iv = 0;
+                        obj = it$iv;
                         it$iv = new TimePickerKt.TimePickerTextField.1.1.1.1(string-2EP1pXo2);
                         composer12.updateRememberedValue((Function1)it$iv);
                     } else {
-                        obj6 = it$iv;
+                        obj = it$iv;
                     }
                 } else {
-                    invalid$iv = invalid$iv3;
+                    invalid$iv2 = invalid$iv;
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer11);
                 int contentDescription3 = 1;
@@ -2924,113 +2924,113 @@ public final class TimePickerKt {
                 objArr[3] = TuplesKt.to(0.9f, Color.box-impl(MaterialTheme.INSTANCE.getColorScheme(composer11, 6).getPrimary-0d7_KjU()));
                 objArr[i275] = TuplesKt.to(0.9f, Color.box-impl(Color.Companion.getTransparent-0d7_KjU()));
                 objArr[5] = TuplesKt.to(1f, Color.box-impl(Color.Companion.getTransparent-0d7_KjU()));
-                TimePickerKt.TimePickerTextField.1.1.2 anon2 = new TimePickerKt.TimePickerTextField.1.1.2(box-impl, (MutableInteractionSource)mutableInteractionSource, colors-0hiis_0);
+                TimePickerKt.TimePickerTextField.1.1.2 anon2 = new TimePickerKt.TimePickerTextField.1.1.2(box-impl, (MutableInteractionSource)$i$a$CacheTimePickerKt$TimePickerTextField$interactionSource$1, colors-0hiis_0);
                 int i96 = i239;
                 int i242 = i200;
                 propagateMinConstraints$iv = composer11;
                 Modifier modifier4 = materializeModifier2;
                 modifier2 = obj117;
                 vertical = obj118;
-                i14 = i96;
-                str = str14;
+                i41 = i96;
+                str3 = str14;
                 field = field3;
-                obj5 = obj11;
+                obj4 = obj10;
                 z = z4;
                 horizontal = horizontal2;
                 measurePolicy$iv = obj2;
                 int $dirty5 = 0;
-                androidx.compose.runtime.CompositionLocalMap textFieldColors2 = localMap$iv$iv;
+                androidx.compose.runtime.CompositionLocalMap textFieldColors2 = localMap$iv$iv2;
                 Function0 focusRequester5 = function02;
                 Modifier localMap$iv$iv3 = obj120;
                 Alignment factory$iv$iv$iv2 = alignment;
-                BasicTextFieldKt.BasicTextField(value, onValueChange, SemanticsModifierKt.semantics$default(SizeKt.size-VpY3zN4(FocusRequesterModifierKt.focusRequester((Modifier)Modifier.Companion, $composer3), TimeInputTokens.INSTANCE.getTimeFieldContainerWidth-D9Ej5fM(), TimeInputTokens.INSTANCE.getTimeFieldContainerHeight-D9Ej5fM()), false, (Function1)it$iv, contentDescription3, 0), true, false, (TextStyle)composer11.consume((CompositionLocal)TextKt.getLocalTextStyle()), obj7, measurePolicy$iv, true, 0, 0, 0, 0, mutableInteractionSource, Brush.Companion.verticalGradient-8A-3gB4$default(Brush.Companion, objArr, 0, 0, 0, 14, 0), (Function3)ComposableLambdaKt.rememberComposableLambda(825138052, i96, anon2, composer11, 54), propagateMinConstraints$iv, i136 |= i162, 199680, 7696);
+                BasicTextFieldKt.BasicTextField(value, onValueChange, SemanticsModifierKt.semantics$default(SizeKt.size-VpY3zN4(FocusRequesterModifierKt.focusRequester((Modifier)Modifier.Companion, $composer2), TimeInputTokens.INSTANCE.getTimeFieldContainerWidth-D9Ej5fM(), TimeInputTokens.INSTANCE.getTimeFieldContainerHeight-D9Ej5fM()), false, (Function1)it$iv, contentDescription3, 0), true, false, (TextStyle)composer11.consume((CompositionLocal)TextKt.getLocalTextStyle()), obj5, measurePolicy$iv, true, 0, 0, 0, 0, $i$a$CacheTimePickerKt$TimePickerTextField$interactionSource$1, Brush.Companion.verticalGradient-8A-3gB4$default(Brush.Companion, objArr, 0, 0, 0, 14, 0), (Function3)ComposableLambdaKt.rememberComposableLambda(825138052, i96, anon2, composer11, 54), propagateMinConstraints$iv, i136 |= i162, 199680, 7696);
                 ComposerKt.sourceInformationMarkerEnd(propagateMinConstraints$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer9);
+                composer6.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer6);
+                ComposerKt.sourceInformationMarkerEnd(composer6);
+                ComposerKt.sourceInformationMarkerEnd(composer6);
+                i42 = selection;
+                if (TimePickerSelectionMode.equals-impl0(i42, TimePickerSelectionMode.Companion.getHour-yecRtBI())) {
+                    androidx.compose.material3.internal.Strings.Companion companion9 = Strings.Companion;
+                    i67 = 0;
+                    this_$iv = Strings.constructor-impl(R.string.m3c_time_picker_hour);
+                } else {
+                    androidx.compose.material3.internal.Strings.Companion companion8 = Strings.Companion;
+                    i67 = 0;
+                    this_$iv = m3c_time_picker_hour;
+                }
+                Composer composer10 = composer6;
+                int i180 = 0;
+                int i114 = 6;
+                TextKt.Text--4IGK_g(Strings_androidKt.getString-2EP1pXo(this_$iv, composer10, i180), SemanticsModifierKt.clearAndSetSemantics(OffsetKt.offset-VpY3zN4$default((Modifier)Modifier.Companion, 0, TimePickerKt.SupportLabelTop, i41, $dirty5), (Function1)TimePickerKt.TimePickerTextField.1.2.INSTANCE), ColorSchemeKt.getValue(TimeInputTokens.INSTANCE.getTimeFieldSupportingTextColor(), composer10, i114), 0, 0, i7, 0, 0, 0, 0, 0, 0, false, 0, maybeCachedBoxMeasurePolicy, 0, 0, 0, 0, 0, TypographyKt.getValue(TimeInputTokens.INSTANCE.getTimeFieldSupportingTextFont(), composer10, i114));
+                ComposerKt.sourceInformationMarkerEnd(composer6);
+                ComposerKt.sourceInformationMarkerEnd($composer$iv);
                 composer.endNode();
                 ComposerKt.sourceInformationMarkerEnd(composer);
                 ComposerKt.sourceInformationMarkerEnd(composer);
                 ComposerKt.sourceInformationMarkerEnd(composer);
-                i7 = selection;
-                if (TimePickerSelectionMode.equals-impl0(i7, TimePickerSelectionMode.Companion.getHour-yecRtBI())) {
-                    androidx.compose.material3.internal.Strings.Companion companion9 = Strings.Companion;
-                    i69 = 0;
-                    this_$iv = Strings.constructor-impl(R.string.m3c_time_picker_hour);
-                } else {
-                    androidx.compose.material3.internal.Strings.Companion companion8 = Strings.Companion;
-                    i69 = 0;
-                    this_$iv = m3c_time_picker_hour;
-                }
-                Composer composer10 = composer;
-                int i180 = 0;
-                int i114 = 6;
-                TextKt.Text--4IGK_g(Strings_androidKt.getString-2EP1pXo(this_$iv, composer10, i180), SemanticsModifierKt.clearAndSetSemantics(OffsetKt.offset-VpY3zN4$default((Modifier)Modifier.Companion, 0, TimePickerKt.SupportLabelTop, i14, $dirty5), (Function1)TimePickerKt.TimePickerTextField.1.2.INSTANCE), ColorSchemeKt.getValue(TimeInputTokens.INSTANCE.getTimeFieldSupportingTextColor(), composer10, i114), 0, 0, i54, 0, 0, 0, 0, 0, 0, false, 0, maybeCachedBoxMeasurePolicy, 0, 0, 0, 0, 0, TypographyKt.getValue(TimeInputTokens.INSTANCE.getTimeFieldSupportingTextFont(), composer10, i114));
-                ComposerKt.sourceInformationMarkerEnd(composer);
-                ComposerKt.sourceInformationMarkerEnd($composer$iv);
-                composer7.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer7);
-                ComposerKt.sourceInformationMarkerEnd(composer7);
-                ComposerKt.sourceInformationMarkerEnd(composer7);
-                composer4 = composer7;
-                ComposerKt.sourceInformationMarkerStart(composer4, 883095798, str15);
-                $dirty4 = obj117;
-                if ($dirty4 & 7168 != 2048) {
-                    if ($dirty4 & 4096 != 0) {
-                        if (composer4.changedInstance(state)) {
-                            empty = i14;
+                composer3 = composer;
+                ComposerKt.sourceInformationMarkerStart(composer3, 883095798, str15);
+                $dirty = obj117;
+                if ($dirty & 7168 != 2048) {
+                    if ($dirty & 4096 != 0) {
+                        if (composer3.changedInstance(state)) {
+                            empty = i41;
                         } else {
                             empty = i180;
                         }
                     } else {
-                        $composer2 = state;
+                        $composer3 = state;
                     }
                 } else {
-                    $composer2 = state;
+                    $composer3 = state;
                 }
-                if (i116 &= $dirty4 == 16384) {
+                if (i116 &= $dirty == 16384) {
                 } else {
-                    i14 = i180;
+                    i41 = i180;
                 }
-                i14 |= empty;
-                skipping = composer4;
+                i41 |= empty;
+                skipping = composer3;
                 int i149 = 0;
                 rememberedValue = skipping.rememberedValue();
-                str3 = 0;
+                str2 = 0;
                 if (i84 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         obj117 = i84;
-                        anon = new TimePickerKt.TimePickerTextField.2.1($composer2, i7, obj5, $dirty5);
+                        anon = new TimePickerKt.TimePickerTextField.2.1($composer3, i42, obj4, $dirty5);
                         skipping.updateRememberedValue((Function2)anon);
                     } else {
                         obj117 = i84;
                         anon = rememberedValue;
-                        invalid$iv2 = obj5;
+                        invalid$iv3 = obj4;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                EffectsKt.LaunchedEffect(TimePickerSelectionMode.box-impl(state.getSelection-yecRtBI()), (Function2)anon, composer4, 0);
+                ComposerKt.sourceInformationMarkerEnd(composer3);
+                EffectsKt.LaunchedEffect(TimePickerSelectionMode.box-impl(state.getSelection-yecRtBI()), (Function2)anon, composer3, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = measurePolicy$iv;
+                obj6 = measurePolicy$iv;
             } else {
                 restartGroup.skipToGroupEnd();
-                composer4 = restartGroup;
-                $composer2 = obj8;
-                $dirty4 = $dirty2;
+                composer3 = restartGroup;
+                $composer3 = obj7;
+                $dirty = $dirty3;
                 contentDescription2 = empty;
-                obj = horizontalAlignment$iv;
+                obj6 = horizontalAlignment$iv;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer4.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer3.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty3 = $dirty4;
-            invalid$iv2 = new TimePickerKt.TimePickerTextField.3(modifier, value, onValueChange, $composer2, i7, contentDescription2, obj, colors, $changed, i11);
-            endRestartGroup.updateScope((Function2)invalid$iv2);
+            $dirty4 = $dirty;
+            invalid$iv3 = new TimePickerKt.TimePickerTextField.3(modifier, value, onValueChange, $composer3, i42, contentDescription2, obj6, colors, $changed, i11);
+            endRestartGroup.updateScope((Function2)invalid$iv3);
         } else {
-            $dirty3 = $dirty4;
+            $dirty4 = $dirty;
             obj3 = contentDescription2;
         }
     }
@@ -3043,132 +3043,132 @@ public final class TimePickerKt {
     }
 
     private static final void TimeSelector-SAnMeKU(Modifier modifier, int value, androidx.compose.material3.TimePickerState state, int selection, androidx.compose.material3.TimePickerColors colors, Composer $composer, int $changed) {
-        Object traceInProgress;
+        Object traceInProgress2;
         Object anon;
         Object it$iv;
-        Object empty;
-        int i12;
-        int this_$iv;
-        int i5;
-        Object obj2;
-        int i17;
-        int $dirty3;
-        boolean $dirty;
-        boolean traceInProgress2;
-        int i2;
-        int changedInstance2;
-        int i7;
-        int i15;
-        int timeSelectorContentColor-vNxB06k$material3_release;
+        Object empty2;
         int i6;
-        boolean changedInstance;
-        int i13;
-        int i4;
+        int this_$iv;
+        int i16;
+        Object obj;
         int i3;
+        int $dirty2;
+        boolean $dirty;
+        boolean traceInProgress;
+        int i8;
+        int changedInstance;
+        int i5;
+        int i9;
+        int timeSelectorContentColor-vNxB06k$material3_release;
+        int i2;
+        boolean changedInstance2;
+        int i7;
+        int i10;
+        int i14;
         int m3c_time_picker_hour_selection;
         Composer $composer2;
         androidx.compose.material3.TimePickerKt.TimeSelector.2.1 $i$f$cache;
-        Composer composer2;
         Composer composer4;
-        Object empty2;
-        int $dirty2;
+        Composer composer2;
+        Object empty;
+        int $dirty3;
         Shape selected;
         long selectorContentDescription;
         long timeSelectorContainerColor-vNxB06k$material3_release;
-        int i14;
-        Composer composer3;
-        int i8;
-        int companion;
-        Object obj;
-        int i16;
-        int companion2;
-        androidx.compose.runtime.internal.ComposableLambda composableLambda;
+        int i13;
         Composer composer;
-        int i;
-        int i9;
+        int i15;
+        int companion2;
+        Object obj2;
+        int i17;
+        int companion;
+        androidx.compose.runtime.internal.ComposableLambda composableLambda;
+        Composer composer3;
+        int i12;
         int i11;
-        int i10;
+        int i4;
+        int i;
         Shape obj33;
-        empty = modifier;
-        obj2 = state;
-        i17 = selection;
-        traceInProgress = colors;
+        empty2 = modifier;
+        obj = state;
+        i3 = selection;
+        traceInProgress2 = colors;
         final int i31 = $changed;
-        i12 = -1148055889;
-        $composer2 = $composer.startRestartGroup(i12);
+        i6 = -1148055889;
+        $composer2 = $composer.startRestartGroup(i6);
         ComposerKt.sourceInformation($composer2, "C(TimeSelector)P(1,4,3,2:c#material3.TimePickerSelectionMode)1351@54864L214,1363@55302L124,1373@55637L5,1367@55446L117,1375@55682L497,1361@55218L961:TimePicker.kt#uh7d8r");
         if (i31 & 6 == 0) {
-            i15 = $composer2.changed(empty) ? 4 : 2;
-            $dirty3 |= i15;
+            i9 = $composer2.changed(empty2) ? 4 : 2;
+            $dirty2 |= i9;
         }
         if (i31 & 48 == 0) {
-            i6 = $composer2.changed(value) ? 32 : 16;
-            $dirty3 |= i6;
+            i2 = $composer2.changed(value) ? 32 : 16;
+            $dirty2 |= i2;
         } else {
             timeSelectorContentColor-vNxB06k$material3_release = value;
         }
         if (i31 & 384 == 0) {
             if (i31 & 512 == 0) {
-                changedInstance = $composer2.changed(obj2);
+                changedInstance2 = $composer2.changed(obj);
             } else {
-                changedInstance = $composer2.changedInstance(obj2);
+                changedInstance2 = $composer2.changedInstance(obj);
             }
-            i13 = changedInstance != null ? 256 : 128;
-            $dirty3 |= i13;
+            i7 = changedInstance2 ? 256 : 128;
+            $dirty2 |= i7;
         }
         if (i31 & 3072 == 0) {
-            i4 = $composer2.changed(i17) ? 2048 : 1024;
-            $dirty3 |= i4;
+            i10 = $composer2.changed(i3) ? 2048 : 1024;
+            $dirty2 |= i10;
         }
         if (i31 & 24576 == 0) {
-            i3 = $composer2.changed(traceInProgress) ? 16384 : 8192;
-            $dirty3 |= i3;
+            i14 = $composer2.changed(traceInProgress2) ? 16384 : 8192;
+            $dirty2 |= i14;
         }
-        $dirty2 = $dirty3;
-        if ($dirty2 & 9363 == 9362) {
+        $dirty3 = $dirty2;
+        if ($dirty3 & 9363 == 9362) {
             if (!$composer2.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i12, $dirty2, -1, "androidx.compose.material3.TimeSelector (TimePicker.kt:1348)");
+                    ComposerKt.traceEventStart(i6, $dirty3, -1, "androidx.compose.material3.TimeSelector (TimePicker.kt:1348)");
                 }
-                boolean equals-impl02 = TimePickerSelectionMode.equals-impl0(obj2.getSelection-yecRtBI(), i17);
-                if (TimePickerSelectionMode.equals-impl0(i17, TimePickerSelectionMode.Companion.getHour-yecRtBI())) {
+                boolean equals-impl02 = TimePickerSelectionMode.equals-impl0(obj.getSelection-yecRtBI(), i3);
+                if (TimePickerSelectionMode.equals-impl0(i3, TimePickerSelectionMode.Companion.getHour-yecRtBI())) {
                     androidx.compose.material3.internal.Strings.Companion companion5 = Strings.Companion;
-                    i2 = 0;
+                    i8 = 0;
                     this_$iv = Strings.constructor-impl(R.string.m3c_time_picker_hour_selection);
                 } else {
                     androidx.compose.material3.internal.Strings.Companion companion4 = Strings.Companion;
-                    i2 = 0;
+                    i8 = 0;
                     this_$iv = m3c_time_picker_hour_selection;
                 }
                 String str3 = string-2EP1pXo;
-                timeSelectorContainerColor-vNxB06k$material3_release = traceInProgress.timeSelectorContainerColor-vNxB06k$material3_release(equals-impl02);
+                timeSelectorContainerColor-vNxB06k$material3_release = traceInProgress2.timeSelectorContainerColor-vNxB06k$material3_release(equals-impl02);
                 String str2 = "CC(remember):TimePicker.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart($composer2, 1840519339, str2);
-                composer3 = $composer2;
+                composer = $composer2;
                 int i36 = 0;
-                Object rememberedValue = composer3.rememberedValue();
+                Object rememberedValue = composer.rememberedValue();
                 int i38 = 0;
                 if (!$composer2.changed(str3)) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int i35 = 0;
                         anon = new TimePickerKt.TimeSelector.1.1(str3);
-                        composer3.updateRememberedValue((Function1)anon);
+                        composer.updateRememberedValue((Function1)anon);
                     } else {
                         anon = rememberedValue;
-                        composer4 = composer3;
+                        composer2 = composer;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd($composer2);
                 int i32 = 1;
                 ComposerKt.sourceInformationMarkerStart($composer2, 1840523940, str2);
-                i5 = $dirty2 & 7168 == 2048 ? i32 : 0;
-                if ($dirty2 & 896 != 256) {
-                    if ($dirty2 & 512 != 0 && $composer2.changedInstance(obj2)) {
-                        if ($composer2.changedInstance(obj2)) {
-                            i7 = 1;
+                i16 = $dirty3 & 7168 == 2048 ? i32 : 0;
+                if ($dirty3 & 896 != 256) {
+                    if ($dirty3 & 512 != 0 && $composer2.changedInstance(obj)) {
+                        if ($composer2.changedInstance(obj)) {
+                            i5 = 1;
                         } else {
-                            i7 = 0;
+                            i5 = 0;
                         }
                     } else {
                     }
@@ -3178,72 +3178,72 @@ public final class TimePickerKt {
                 int i34 = 0;
                 it$iv = composer5.rememberedValue();
                 int i37 = 0;
-                if (i5 |= i7 == 0) {
+                if (i16 |= i5 == 0) {
                     if (it$iv == Composer.Companion.getEmpty()) {
-                        empty = 0;
-                        obj = it$iv;
-                        it$iv = new TimePickerKt.TimeSelector.2.1(i17, obj2);
+                        empty2 = 0;
+                        obj2 = it$iv;
+                        it$iv = new TimePickerKt.TimeSelector.2.1(i3, obj);
                         composer5.updateRememberedValue((Function0)it$iv);
                     } else {
-                        obj = it$iv;
+                        obj2 = it$iv;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd($composer2);
-                TimePickerKt.TimeSelector.3 anon2 = new TimePickerKt.TimeSelector.3(i17, obj2, value, traceInProgress.timeSelectorContentColor-vNxB06k$material3_release(equals-impl02), m3c_time_picker_hour_selection);
-                i12 = str3;
-                i10 = $dirty;
-                composer = $composer2;
-                SurfaceKt.Surface-d85dljk(equals-impl02, (Function0)it$iv, SemanticsModifierKt.semantics(empty, i32, (Function1)anon), false, ShapesKt.getValue(TimePickerTokens.INSTANCE.getTimeSelectorContainerShape(), $composer2, 6), timeSelectorContainerColor-vNxB06k$material3_release, timeSelectorContainerColor-vNxB06k$material3_release, 0, composer3, 0, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-1477282471, true, anon2, $composer2, 54), composer, 0);
-                composer2 = composer;
+                TimePickerKt.TimeSelector.3 anon2 = new TimePickerKt.TimeSelector.3(i3, obj, value, traceInProgress2.timeSelectorContentColor-vNxB06k$material3_release(equals-impl02), m3c_time_picker_hour_selection);
+                i6 = str3;
+                i = $dirty;
+                composer3 = $composer2;
+                SurfaceKt.Surface-d85dljk(equals-impl02, (Function0)it$iv, SemanticsModifierKt.semantics(empty2, i32, (Function1)anon), false, ShapesKt.getValue(TimePickerTokens.INSTANCE.getTimeSelectorContainerShape(), $composer2, 6), timeSelectorContainerColor-vNxB06k$material3_release, timeSelectorContainerColor-vNxB06k$material3_release, 0, composer, 0, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-1477282471, true, anon2, $composer2, 54), composer3, 0);
+                composer4 = composer3;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 $composer2.skipToGroupEnd();
-                composer2 = $composer2;
-                i10 = $dirty2;
+                composer4 = $composer2;
+                i = $dirty3;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer4.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TimePickerKt.TimeSelector.4(modifier, value, state, selection, colors, i31);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new TimePickerKt.TimeSelector.4(modifier, value, state, selection, colors, i31);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     private static final void ToggleItem(boolean checked, Shape shape, Function0<Unit> onClick, androidx.compose.material3.TimePickerColors colors, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int traceInProgress;
         Object restartGroup;
-        int $dirty2;
-        int i5;
-        Object obj3;
-        int i10;
-        int i2;
-        int i6;
-        Object obj;
         int $dirty;
-        int i4;
         int i9;
-        Object obj2;
+        Object obj;
+        int i10;
+        int i6;
         int i3;
+        Object obj3;
+        int $dirty2;
+        int i2;
+        int i8;
+        Object obj2;
+        int i7;
         boolean skipping;
         boolean traceInProgress2;
         int str;
-        int i11;
         int i12;
-        int i8;
+        int i5;
+        int i4;
         androidx.compose.foundation.layout.PaddingValues paddingValues;
         int empty;
-        int i7;
+        int i11;
         Object anon;
         Composer composer;
         Composer composer2;
         int companion;
         int i;
-        long l;
         long l2;
+        long l;
         final boolean z = checked;
         final Object obj5 = colors;
         final int i14 = $changed;
@@ -3252,48 +3252,48 @@ public final class TimePickerKt {
         ComposerKt.sourceInformation(restartGroup, "C(ToggleItem)P(!1,4,3)1310@53677L22,1316@53868L124,1308@53569L429:TimePicker.kt#uh7d8r");
         i10 = 4;
         if (i14 & 6 == 0) {
-            i5 = restartGroup.changed(z) ? i10 : 2;
-            $dirty2 |= i5;
+            i9 = restartGroup.changed(z) ? i10 : 2;
+            $dirty |= i9;
         }
         if (i14 & 48 == 0) {
-            i6 = restartGroup.changed(shape) ? 32 : 16;
-            $dirty2 |= i6;
+            i3 = restartGroup.changed(shape) ? 32 : 16;
+            $dirty |= i3;
         } else {
-            obj3 = shape;
+            obj = shape;
         }
         if (i14 & 384 == 0) {
-            i4 = restartGroup.changedInstance(onClick) ? 256 : 128;
-            $dirty2 |= i4;
+            i2 = restartGroup.changedInstance(onClick) ? 256 : 128;
+            $dirty |= i2;
         } else {
-            obj = onClick;
+            obj3 = onClick;
         }
         if (i14 & 3072 == 0) {
-            i9 = restartGroup.changed(obj5) ? 2048 : 1024;
-            $dirty2 |= i9;
+            i8 = restartGroup.changed(obj5) ? 2048 : 1024;
+            $dirty |= i8;
         }
         if (i14 & 24576 == 0) {
-            i3 = restartGroup.changedInstance(content) ? 16384 : 8192;
-            $dirty2 |= i3;
+            i7 = restartGroup.changedInstance(content) ? 16384 : 8192;
+            $dirty |= i7;
         } else {
             obj2 = content;
         }
-        if ($dirty2 & 9363 == 9362) {
+        if ($dirty & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.ToggleItem (TimePicker.kt:1304)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.ToggleItem (TimePicker.kt:1304)");
                 }
                 long periodSelectorContentColor-vNxB06k$material3_release = obj5.periodSelectorContentColor-vNxB06k$material3_release(z);
                 long periodSelectorContainerColor-vNxB06k$material3_release = obj5.periodSelectorContainerColor-vNxB06k$material3_release(z);
                 int i29 = 0;
-                i8 = z ? i29 : 1065353216;
+                i4 = z ? i29 : 1065353216;
                 int i35 = 1;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -857429536, "CC(remember):TimePicker.kt#9igjgp");
-                i2 = $dirty2 & 14 == i10 ? i35 : 0;
+                i6 = $dirty & 14 == i10 ? i35 : 0;
                 Composer composer3 = restartGroup;
                 int i38 = 0;
                 Object rememberedValue = composer3.rememberedValue();
                 int i39 = 0;
-                if (i2 == 0) {
+                if (i6 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new TimePickerKt.ToggleItem.1.1(z);
@@ -3307,10 +3307,10 @@ public final class TimePickerKt {
                 int i33 = 0;
                 float f = (float)i16;
                 Composer composer4 = restartGroup;
-                l2 = periodSelectorContainerColor-vNxB06k$material3_release;
-                l = periodSelectorContentColor-vNxB06k$material3_release;
+                l = periodSelectorContainerColor-vNxB06k$material3_release;
+                l2 = periodSelectorContentColor-vNxB06k$material3_release;
                 composer2 = composer4;
-                ButtonKt.TextButton(onClick, SemanticsModifierKt.semantics$default(SizeKt.fillMaxSize$default(ZIndexModifierKt.zIndex((Modifier)Modifier.Companion, i8), i29, i35, 0), false, (Function1)anon, 1, 0), false, obj3, ButtonDefaults.INSTANCE.textButtonColors-ro_MJ88(periodSelectorContainerColor-vNxB06k$material3_release, obj2, periodSelectorContentColor-vNxB06k$material3_release, str, 0, f, 0), 0, 0, PaddingKt.PaddingValues-0680j_4(Dp.constructor-impl(f)), 0, content, composer2, i20 | i26, 356);
+                ButtonKt.TextButton(onClick, SemanticsModifierKt.semantics$default(SizeKt.fillMaxSize$default(ZIndexModifierKt.zIndex((Modifier)Modifier.Companion, i4), i29, i35, 0), false, (Function1)anon, 1, 0), false, obj, ButtonDefaults.INSTANCE.textButtonColors-ro_MJ88(periodSelectorContainerColor-vNxB06k$material3_release, obj2, periodSelectorContentColor-vNxB06k$material3_release, str, 0, f, 0), 0, 0, PaddingKt.PaddingValues-0680j_4(Dp.constructor-impl(f)), 0, content, composer2, i20 | i26, 356);
                 composer = composer2;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
@@ -3323,80 +3323,80 @@ public final class TimePickerKt {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty = $dirty2;
+            $dirty2 = $dirty;
             traceInProgress = new TimePickerKt.ToggleItem.2(z, shape, onClick, obj5, content, i14);
             endRestartGroup.updateScope((Function2)traceInProgress);
         } else {
-            $dirty = $dirty2;
+            $dirty2 = $dirty;
         }
     }
 
     private static final void VerticalClockDisplay(androidx.compose.material3.TimePickerState state, androidx.compose.material3.TimePickerColors colors, Composer $composer, int $changed) {
-        int traceInProgress2;
-        Function0 factory$iv$iv$iv;
-        Modifier size-VpY3zN4;
+        int traceInProgress;
         Function0 factory$iv$iv$iv2;
+        Modifier size-VpY3zN4;
+        Function0 factory$iv$iv$iv;
         Composer restartGroup;
         int $dirty;
-        int i13;
-        int i10;
+        int i6;
+        int i22;
+        boolean $i$a$LayoutRowKt$Row$1$iv;
+        boolean traceInProgress2;
         boolean valueOf3;
-        boolean traceInProgress;
-        boolean valueOf2;
         boolean changedInstance;
         int str;
         Composer composer5;
-        Composer composer2;
-        Integer valueOf4;
+        Composer composer;
         Integer valueOf;
+        Integer valueOf2;
         Object maybeCachedBoxMeasurePolicy;
         androidx.compose.ui.Alignment.Vertical top;
         MeasurePolicy rowMeasurePolicy;
-        int i21;
-        int i11;
-        Modifier materializeModifier;
-        Object currentCompositionLocalMap;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2;
-        int currentCompositeKeyHash;
-        int i16;
+        int i12;
         int i8;
+        Modifier materializeModifier;
+        Object currentCompositionLocalMap2;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
+        int currentCompositeKeyHash;
+        int i2;
+        int i19;
         androidx.compose.foundation.layout.Arrangement.HorizontalOrVertical horizontalOrVertical;
-        Function0 function02;
-        int i15;
+        Function0 function0;
+        int i;
         int i18;
-        int i3;
-        int i5;
         int i9;
-        Composer composer3;
-        int i20;
+        int i21;
+        int i16;
+        Composer composer4;
+        int i10;
         RowScopeInstance rowScopeInstance;
         int $changed$iv;
-        int i22;
-        Composer composer;
-        int i2;
-        int i6;
-        int i;
-        androidx.compose.ui.Modifier.Companion companion;
-        int i4;
+        int i11;
+        Composer composer2;
+        int i5;
+        int i13;
         int i7;
+        androidx.compose.ui.Modifier.Companion companion;
+        int i3;
+        int i20;
         Alignment alignment;
-        Modifier modifier;
+        Modifier modifier2;
         TimePickerTokens iNSTANCE;
         int i14;
-        Function0 function0;
-        int i19;
+        Function0 function02;
+        int i17;
         BoxScopeInstance boxScopeInstance;
         Composer $composer2;
-        int i12;
-        Modifier modifier2;
-        Composer composer4;
-        int i17;
+        int i4;
+        Modifier modifier;
+        Composer composer3;
+        int i15;
         int obj52;
         final Object obj = state;
         final Object obj2 = colors;
         final int i23 = $changed;
-        traceInProgress2 = 2054675515;
-        restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 2054675515;
+        restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(VerticalClockDisplay)P(1)1107@46965L585:TimePicker.kt#uh7d8r");
         if (i23 & 6 == 0) {
             if (i23 & 8 == 0) {
@@ -3404,30 +3404,30 @@ public final class TimePickerKt {
             } else {
                 changedInstance = restartGroup.changedInstance(obj);
             }
-            i13 = changedInstance != null ? 4 : 2;
-            $dirty |= i13;
+            i6 = changedInstance != null ? 4 : 2;
+            $dirty |= i6;
         }
         if (i23 & 48 == 0) {
-            i10 = restartGroup.changed(obj2) ? 32 : 16;
-            $dirty |= i10;
+            i22 = restartGroup.changed(obj2) ? 32 : 16;
+            $dirty |= i22;
         }
         if ($dirty & 19 == 18) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.VerticalClockDisplay (TimePicker.kt:1106)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.VerticalClockDisplay (TimePicker.kt:1106)");
                 }
                 androidx.compose.foundation.layout.Arrangement.HorizontalOrVertical center = Arrangement.INSTANCE.getCenter();
-                valueOf2 = 48;
-                valueOf = 0;
+                valueOf3 = 48;
+                valueOf2 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
                 maybeCachedBoxMeasurePolicy = Modifier.Companion;
-                i11 = 0;
-                currentCompositionLocalMap = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, currentCompositionLocalMap);
+                i8 = 0;
+                currentCompositionLocalMap2 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
+                ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, currentCompositionLocalMap2);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
                 horizontalOrVertical = center;
                 Function0 function03 = constructor2;
-                i8 = 0;
+                i19 = 0;
                 i18 = $dirty;
                 $dirty = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $dirty);
@@ -3438,21 +3438,21 @@ public final class TimePickerKt {
                 if (restartGroup.getInserting()) {
                     restartGroup.createNode(function03);
                 } else {
-                    factory$iv$iv$iv = function03;
+                    factory$iv$iv$iv2 = function03;
                     restartGroup.useNode();
                 }
-                function02 = factory$iv$iv$iv;
+                function0 = factory$iv$iv$iv2;
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
                 int i61 = 0;
-                composer3 = restartGroup;
+                composer4 = restartGroup;
                 Updater.set-impl(constructor-impl, RowKt.rowMeasurePolicy((Arrangement.Horizontal)center, Alignment.Companion.getTop(), restartGroup, i53 |= i56), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i62 = 0;
                 Composer composer7 = constructor-impl;
                 int i63 = 0;
                 if (!composer7.getInserting()) {
-                    $changed$iv = valueOf2;
-                    i22 = valueOf;
+                    $changed$iv = valueOf3;
+                    i11 = valueOf2;
                     if (!Intrinsics.areEqual(composer7.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer7.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
@@ -3460,83 +3460,83 @@ public final class TimePickerKt {
                         composer5 = composer7;
                     }
                 } else {
-                    $changed$iv = valueOf2;
-                    i22 = valueOf;
+                    $changed$iv = valueOf3;
+                    i11 = valueOf2;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, (Modifier)maybeCachedBoxMeasurePolicy), ComposeUiNode.Companion.getSetModifier());
-                Composer composer6 = composer3;
-                i5 = i27;
+                Composer composer6 = composer4;
+                i21 = i27;
                 ComposerKt.sourceInformationMarkerStart(composer6, -407918630, "C100@5047L9:Row.kt#2w3rfo");
                 i47 |= 6;
-                i20 = 0;
+                i10 = 0;
                 rowScopeInstance = iNSTANCE3;
-                i2 = i41;
-                valueOf3 = i9;
-                ComposerKt.sourceInformationMarkerStart(valueOf3, -519240274, "C1108@47023L34:TimePicker.kt#uh7d8r");
-                TimePickerKt.ClockDisplayNumbers(obj, obj2, valueOf3, i28 |= restartGroup);
-                valueOf3.startReplaceGroup(-709485014);
-                ComposerKt.sourceInformation(valueOf3, "1110@47101L433");
+                i5 = i41;
+                $i$a$LayoutRowKt$Row$1$iv = i16;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutRowKt$Row$1$iv, -519240274, "C1108@47023L34:TimePicker.kt#uh7d8r");
+                TimePickerKt.ClockDisplayNumbers(obj, obj2, $i$a$LayoutRowKt$Row$1$iv, i28 |= restartGroup);
+                $i$a$LayoutRowKt$Row$1$iv.startReplaceGroup(-709485014);
+                ComposerKt.sourceInformation($i$a$LayoutRowKt$Row$1$iv, "1110@47101L433");
                 if (!obj.is24hour()) {
                     Modifier padding-qDBjuR0$default = PaddingKt.padding-qDBjuR0$default((Modifier)Modifier.Companion, TimePickerKt.PeriodToggleMargin, 0, 0, 0, 14, 0);
-                    i9 = 0;
-                    i6 = i36;
-                    i = str;
-                    ComposerKt.sourceInformationMarkerStart(valueOf3, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
-                    Alignment topStart = Alignment.Companion.getTopStart();
-                    valueOf4 = 0;
-                    companion = maybeCachedBoxMeasurePolicy;
-                    i7 = 0;
-                    alignment = topStart;
-                    ComposerKt.sourceInformationMarkerStart(valueOf3, -1323940314, currentCompositionLocalMap);
-                    obj52 = currentCompositeKeyHash2;
-                    Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(valueOf3, padding-qDBjuR0$default);
-                    modifier = padding-qDBjuR0$default;
-                    Function0 function04 = constructor;
                     i16 = 0;
-                    ComposerKt.sourceInformationMarkerStart(valueOf3, -692256719, $dirty);
+                    i13 = i36;
+                    i7 = str;
+                    ComposerKt.sourceInformationMarkerStart($i$a$LayoutRowKt$Row$1$iv, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
+                    Alignment topStart = Alignment.Companion.getTopStart();
+                    valueOf = 0;
+                    companion = maybeCachedBoxMeasurePolicy;
+                    i20 = 0;
+                    alignment = topStart;
+                    ComposerKt.sourceInformationMarkerStart($i$a$LayoutRowKt$Row$1$iv, -1323940314, currentCompositionLocalMap2);
+                    obj52 = currentCompositeKeyHash2;
+                    Modifier materializeModifier2 = ComposedModifierKt.materializeModifier($i$a$LayoutRowKt$Row$1$iv, padding-qDBjuR0$default);
+                    modifier2 = padding-qDBjuR0$default;
+                    Function0 function04 = constructor;
+                    i2 = 0;
+                    ComposerKt.sourceInformationMarkerStart($i$a$LayoutRowKt$Row$1$iv, -692256719, $dirty);
                     if (!applier2 instanceof Applier) {
                         ComposablesKt.invalidApplier();
                     }
-                    valueOf3.startReusableNode();
-                    if (valueOf3.getInserting()) {
-                        valueOf3.createNode(function04);
+                    $i$a$LayoutRowKt$Row$1$iv.startReusableNode();
+                    if ($i$a$LayoutRowKt$Row$1$iv.getInserting()) {
+                        $i$a$LayoutRowKt$Row$1$iv.createNode(function04);
                     } else {
-                        factory$iv$iv$iv2 = function04;
-                        valueOf3.useNode();
+                        factory$iv$iv$iv = function04;
+                        $i$a$LayoutRowKt$Row$1$iv.useNode();
                     }
-                    Composer constructor-impl2 = Updater.constructor-impl(valueOf3);
+                    Composer constructor-impl2 = Updater.constructor-impl($i$a$LayoutRowKt$Row$1$iv);
                     int i60 = 0;
-                    function0 = factory$iv$iv$iv2;
-                    Updater.set-impl(constructor-impl2, BoxKt.maybeCachedBoxMeasurePolicy(topStart, valueOf4), ComposeUiNode.Companion.getSetMeasurePolicy());
-                    Updater.set-impl(constructor-impl2, valueOf3.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    function02 = factory$iv$iv$iv;
+                    Updater.set-impl(constructor-impl2, BoxKt.maybeCachedBoxMeasurePolicy(topStart, valueOf), ComposeUiNode.Companion.getSetMeasurePolicy());
+                    Updater.set-impl(constructor-impl2, $i$a$LayoutRowKt$Row$1$iv.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                     int i70 = 0;
                     Composer composer9 = constructor-impl2;
                     int i71 = 0;
                     if (!composer9.getInserting()) {
-                        $composer2 = valueOf3;
-                        i12 = valueOf4;
+                        $composer2 = $i$a$LayoutRowKt$Row$1$iv;
+                        i4 = valueOf;
                         if (!Intrinsics.areEqual(composer9.rememberedValue(), Integer.valueOf(obj52))) {
                             composer9.updateRememberedValue(Integer.valueOf(obj52));
                             constructor-impl2.apply(Integer.valueOf(obj52), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer2 = composer9;
+                            composer = composer9;
                         }
                     } else {
-                        $composer2 = valueOf3;
-                        i12 = valueOf4;
+                        $composer2 = $i$a$LayoutRowKt$Row$1$iv;
+                        i4 = valueOf;
                     }
                     Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                     $dirty = $composer2;
-                    i3 = i34;
+                    i9 = i34;
                     ComposerKt.sourceInformationMarkerStart($dirty, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                     i50 |= 6;
                     Composer composer8 = $dirty;
-                    i19 = 0;
+                    i17 = 0;
                     boxScopeInstance = iNSTANCE4;
-                    modifier2 = materializeModifier2;
+                    modifier = materializeModifier2;
                     ComposerKt.sourceInformationMarkerStart($dirty, 204292100, "C1111@47180L340:TimePicker.kt#uh7d8r");
-                    i17 = i42;
-                    TimePickerKt.VerticalPeriodToggle(SizeKt.size-VpY3zN4((Modifier)Modifier.Companion, TimePickerTokens.INSTANCE.getPeriodSelectorVerticalContainerWidth-D9Ej5fM(), TimePickerTokens.INSTANCE.getPeriodSelectorVerticalContainerHeight-D9Ej5fM()), obj, obj2, $dirty, i40 |= valueOf3);
+                    i15 = i42;
+                    TimePickerKt.VerticalPeriodToggle(SizeKt.size-VpY3zN4((Modifier)Modifier.Companion, TimePickerTokens.INSTANCE.getPeriodSelectorVerticalContainerWidth-D9Ej5fM(), TimePickerTokens.INSTANCE.getPeriodSelectorVerticalContainerHeight-D9Ej5fM()), obj, obj2, $dirty, i40 |= $i$a$LayoutRowKt$Row$1$iv);
                     ComposerKt.sourceInformationMarkerEnd($dirty);
                     ComposerKt.sourceInformationMarkerEnd($dirty);
                     $composer2.endNode();
@@ -3544,28 +3544,28 @@ public final class TimePickerKt {
                     ComposerKt.sourceInformationMarkerEnd($composer2);
                     ComposerKt.sourceInformationMarkerEnd($composer2);
                 } else {
-                    $composer2 = valueOf3;
-                    i = str;
+                    $composer2 = $i$a$LayoutRowKt$Row$1$iv;
+                    i7 = str;
                     companion = maybeCachedBoxMeasurePolicy;
                 }
                 $composer2.endReplaceGroup();
                 ComposerKt.sourceInformationMarkerEnd($composer2);
                 ComposerKt.sourceInformationMarkerEnd(composer6);
-                composer3.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer3);
-                ComposerKt.sourceInformationMarkerEnd(composer3);
-                ComposerKt.sourceInformationMarkerEnd(composer3);
+                composer4.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                composer3 = restartGroup;
+                composer4 = restartGroup;
                 i18 = $dirty;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer3.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer4.endRestartGroup();
         if (endRestartGroup != null) {
             restartGroup = new TimePickerKt.VerticalClockDisplay.2(obj, obj2, i23);
             endRestartGroup.updateScope((Function2)restartGroup);
@@ -3576,7 +3576,7 @@ public final class TimePickerKt {
         Shape value;
         int i;
         boolean changedInstance;
-        int i4;
+        int i2;
         int i3;
         int skipping;
         boolean traceInProgress;
@@ -3589,7 +3589,7 @@ public final class TimePickerKt {
         androidx.compose.foundation.shape.CornerBasedShape cornerBasedShape;
         Object iNSTANCE;
         androidx.compose.foundation.shape.CornerBasedShape cornerBasedShape2;
-        int i2;
+        int i4;
         boolean obj9;
         Object obj10;
         int obj12;
@@ -3606,8 +3606,8 @@ public final class TimePickerKt {
             } else {
                 changedInstance = restartGroup.changedInstance(state);
             }
-            i4 = changedInstance != null ? 32 : 16;
-            obj12 |= i4;
+            i2 = changedInstance != null ? 32 : 16;
+            obj12 |= i2;
         }
         if ($changed & 384 == 0) {
             i3 = restartGroup.changed(colors) ? 256 : 128;
@@ -3653,92 +3653,92 @@ public final class TimePickerKt {
     }
 
     public static final void VerticalTimePicker(androidx.compose.material3.AnalogTimePickerState state, Modifier modifier, androidx.compose.material3.TimePickerColors colors, boolean autoSwitchToMinute, Composer $composer, int $changed, int i7) {
-        int traceInProgress2;
+        int traceInProgress;
         Function0 factory$iv$iv$iv;
-        int $dirty;
-        Object $dirty2;
+        int $dirty2;
+        Object $dirty;
         int i11;
-        Object obj3;
+        Object obj;
         Object modifier2;
         int valueOf;
-        Object colors2;
-        boolean traceInProgress;
-        Composer composer2;
+        Object colors3;
+        boolean traceInProgress2;
+        Composer composer;
         Object centerHorizontally;
         int i2;
-        Object obj2;
-        int colors3;
+        Object obj3;
+        int colors2;
         int changed;
-        int i;
+        int i4;
         boolean currentCompositeKeyHash;
         int defaultsInvalid;
         int currentCompositionLocalMap;
-        int i6;
-        int i9;
+        int i12;
+        int i8;
         androidx.compose.foundation.layout.Arrangement.Vertical top;
         MeasurePolicy columnMeasurePolicy;
-        int i8;
-        int i4;
         int i13;
-        int i5;
-        int i12;
-        Object obj;
+        int i6;
+        int i9;
+        int i;
         int i10;
+        Object obj2;
+        int i5;
         Function0 function0;
         int i3;
         ColumnScopeInstance columnScopeInstance;
         androidx.compose.ui.Alignment.Horizontal horizontalAlignment$iv;
         Modifier modifier3;
-        Composer composer;
+        Composer composer2;
         int obj29;
         Object obj30;
         int obj32;
         final Object obj5 = state;
         final boolean z2 = autoSwitchToMinute;
         valueOf = $changed;
-        traceInProgress2 = 1249591487;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 1249591487;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(VerticalTimePicker)P(3,2,1)927@40188L8,930@40238L379:TimePicker.kt#uh7d8r");
-        $dirty = $changed;
+        $dirty2 = $changed;
         if (i7 & 1 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
         } else {
             if (valueOf & 6 == 0) {
                 i11 = restartGroup.changedInstance(obj5) ? 4 : 2;
-                $dirty |= i11;
+                $dirty2 |= i11;
             }
         }
         int i30 = i7 & 2;
         if (i30 != 0) {
-            $dirty |= 48;
-            colors2 = modifier;
+            $dirty2 |= 48;
+            colors3 = modifier;
         } else {
             if (valueOf & 48 == 0) {
                 i2 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i2;
+                $dirty2 |= i2;
             } else {
-                colors2 = modifier;
+                colors3 = modifier;
             }
         }
         if (valueOf & 384 == 0) {
             if (i7 & 4 == 0) {
                 changed = restartGroup.changed(colors) ? 256 : 128;
             } else {
-                obj2 = colors;
+                obj3 = colors;
             }
-            $dirty |= changed;
+            $dirty2 |= changed;
         } else {
-            obj2 = colors;
+            obj3 = colors;
         }
         if (i7 & 8 != 0) {
-            $dirty |= 3072;
+            $dirty2 |= 3072;
         } else {
             if (valueOf & 3072 == 0) {
-                i = restartGroup.changed(z2) ? 2048 : 1024;
-                $dirty |= i;
+                i4 = restartGroup.changed(z2) ? 2048 : 1024;
+                $dirty2 |= i4;
             }
         }
-        if ($dirty & 1171 == 1170) {
+        if ($dirty2 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i41 = 6;
@@ -3747,38 +3747,38 @@ public final class TimePickerKt {
                         if (i30 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = colors2;
+                            modifier2 = colors3;
                         }
                         if (i7 & 4 != 0) {
-                            $dirty &= -897;
-                            obj2 = colors2;
+                            $dirty2 &= -897;
+                            obj3 = colors3;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i7 & 4 != 0) {
-                            $dirty &= -897;
+                            $dirty2 &= -897;
                         }
-                        modifier2 = colors2;
+                        modifier2 = colors3;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.VerticalTimePicker (TimePicker.kt:929)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.VerticalTimePicker (TimePicker.kt:929)");
                 }
                 Modifier semantics$default = SemanticsModifierKt.semantics$default(modifier2, false, (Function1)TimePickerKt.VerticalTimePicker.1.INSTANCE, 1, 0);
                 centerHorizontally = Alignment.Companion.getCenterHorizontally();
-                i6 = 384;
-                i9 = 0;
+                i12 = 384;
+                i8 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -483455358, "CC(Column)P(2,3,1)85@4251L61,86@4317L133:Column.kt#2w3rfo");
-                i4 = 0;
+                i6 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                obj29 = $dirty;
+                obj29 = $dirty2;
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, semantics$default);
                 obj30 = semantics$default;
                 Function0 function02 = constructor;
-                i13 = 0;
+                i9 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -3804,7 +3804,7 @@ public final class TimePickerKt {
                         composer5.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer5;
+                        composer = composer5;
                     }
                 } else {
                     horizontalAlignment$iv = centerHorizontally;
@@ -3812,7 +3812,7 @@ public final class TimePickerKt {
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer3 = restartGroup;
                 valueOf = 0;
-                i5 = i17;
+                i = i17;
                 ComposerKt.sourceInformationMarkerStart(composer3, -384862393, "C87@4365L9:Column.kt#2w3rfo");
                 i36 |= 6;
                 Composer composer4 = composer3;
@@ -3820,9 +3820,9 @@ public final class TimePickerKt {
                 columnScopeInstance = iNSTANCE2;
                 modifier3 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer3, 1628603633, "C934@40388L35,935@40432L60,936@40501L44,937@40554L57:TimePicker.kt#uh7d8r");
-                TimePickerKt.VerticalClockDisplay((TimePickerState)obj5, obj2, composer3, i22 |= i10);
+                TimePickerKt.VerticalClockDisplay((TimePickerState)obj5, obj3, composer3, i22 |= i5);
                 SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, TimePickerKt.ClockDisplayBottomMargin), composer3, i41);
-                TimePickerKt.ClockFace(obj5, obj2, z2, composer3, i19 |= i28);
+                TimePickerKt.ClockFace(obj5, obj3, z2, composer3, i19 |= i28);
                 SpacerKt.Spacer(SizeKt.height-3ABfNKs((Modifier)Modifier.Companion, TimePickerKt.ClockFaceBottomMargin), composer3, 6);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
@@ -3833,21 +3833,21 @@ public final class TimePickerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj3 = obj2;
-                $dirty2 = obj;
-                colors3 = obj29;
+                obj = obj3;
+                $dirty = obj2;
+                colors2 = obj29;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj3 = obj2;
-                colors3 = $dirty;
-                $dirty2 = colors2;
+                obj = obj3;
+                colors2 = $dirty2;
+                $dirty = colors3;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new TimePickerKt.VerticalTimePicker.3(obj5, $dirty2, obj3, z2, $changed, i7);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new TimePickerKt.VerticalTimePicker.3(obj5, $dirty, obj, z2, $changed, i7);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
@@ -4030,7 +4030,7 @@ public final class TimePickerKt {
         }
         int i2 = 0;
         int i3 = 0;
-        float constructor-impl = Dp.constructor-impl(arg0$iv2 + arg0$iv);
+        float $i$f$plus5rwHm24 = Dp.constructor-impl(arg0$iv2 + arg0$iv);
         int i7 = 0;
         int i12 = 0;
         int i11 = 0;
@@ -4085,13 +4085,13 @@ public final class TimePickerKt {
 
     private static final Object onTap-rOwcSBo(androidx.compose.material3.AnalogTimePickerState analogTimePickerState, float f2, float f3, float f4, boolean z5, long l6, Continuation<? super Unit> continuation7) {
         boolean anon;
-        int i;
         int i3;
-        int label;
         int i2;
-        int rint2;
+        int label;
+        int i;
+        int rint;
         double d;
-        double rint;
+        double rint2;
         boolean obj8;
         Object obj9;
         int obj10;
@@ -4099,12 +4099,12 @@ public final class TimePickerKt {
         float obj12;
         Object obj15;
         anon = obj15;
-        i3 = Integer.MIN_VALUE;
-        if (obj15 instanceof TimePickerKt.onTap.1 && label2 &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (obj15 instanceof TimePickerKt.onTap.1 && label2 &= i2 != 0) {
             anon = obj15;
-            i3 = Integer.MIN_VALUE;
-            if (label2 &= i3 != 0) {
-                anon.label = obj15 -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label2 &= i2 != 0) {
+                anon.label = obj15 -= i2;
             } else {
                 anon = new TimePickerKt.onTap.1(obj15);
             }
@@ -4119,9 +4119,9 @@ public final class TimePickerKt {
                 obj11 = TimePickerKt.atan(f3 - obj11, f2 - f);
                 int i5 = 1037465424;
                 d = 1084227584;
-                i2 = obj11;
+                i = obj11;
                 int i6 = 1057360530;
-                i2 = obj11;
+                i = obj11;
                 TimePickerKt.moveSelector-d3b8Pxo((TimePickerState)analogTimePickerState, f2, f3, f4, l6);
                 anon.L$0 = analogTimePickerState;
                 anon.Z$0 = label;
@@ -4163,14 +4163,14 @@ public final class TimePickerKt {
     }
 
     public static final androidx.compose.material3.TimePickerState rememberTimePickerState(int initialHour, int initialMinute, boolean is24Hour, Composer $composer, int $changed, int i6) {
-        int i3;
-        int i;
-        boolean traceInProgress;
         int i2;
+        int i3;
+        boolean traceInProgress;
+        int i4;
         String str;
         int changed2;
         boolean changed;
-        int i4;
+        int i;
         int changed3;
         boolean z;
         Object empty;
@@ -4187,9 +4187,9 @@ public final class TimePickerKt {
             obj13 = 0;
         }
         int i9 = 4;
-        i2 = 0;
+        i4 = 0;
         if (i6 & 4 != 0) {
-            z = i;
+            z = i3;
         } else {
             z = is24Hour;
         }
@@ -4200,7 +4200,7 @@ public final class TimePickerKt {
         int i19 = 1;
         if (i14 ^= 6 > i9) {
             if (!$composer.changed(obj12)) {
-                i3 = i21 & 6 == i9 ? i19 : i2;
+                i2 = i21 & 6 == i9 ? i19 : i4;
             } else {
             }
         } else {
@@ -4208,7 +4208,7 @@ public final class TimePickerKt {
         int i22 = 32;
         if (i15 ^= 48 > i22) {
             if (!$composer.changed(obj13)) {
-                i4 = i21 & 48 == i22 ? i19 : i2;
+                i = i21 & 48 == i22 ? i19 : i4;
             } else {
             }
         } else {
@@ -4217,7 +4217,7 @@ public final class TimePickerKt {
         if (i16 ^= 384 > i23) {
             if (!$composer.changed(z)) {
                 if (i21 & 384 == i23) {
-                    i2 = i19;
+                    i4 = i19;
                 }
             } else {
             }
@@ -4227,7 +4227,7 @@ public final class TimePickerKt {
         int i17 = 0;
         Object rememberedValue = composer.rememberedValue();
         int i24 = 0;
-        if (i10 |= i2 == 0) {
+        if (i10 |= i4 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 empty = 0;
                 anon = new TimePickerKt.rememberTimePickerState.state.1.1(obj12, obj13, z);
@@ -4242,19 +4242,19 @@ public final class TimePickerKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (TimePickerState)(TimePickerStateImpl)RememberSaveableKt.rememberSaveable(new Object[i2], TimePickerStateImpl.Companion.Saver(), 0, (Function0)anon, $composer, 0, 4);
+        return (TimePickerState)(TimePickerStateImpl)RememberSaveableKt.rememberSaveable(new Object[i4], TimePickerStateImpl.Companion.Saver(), 0, (Function0)anon, $composer, 0, 4);
     }
 
     private static final void timeInputOnChange-z7XvuPQ(int selection, androidx.compose.material3.TimePickerState state, TextFieldValue value, TextFieldValue prevValue, int max, Function1<? super TextFieldValue, Unit> onNewValue) {
         int i;
         int charAt;
         boolean minute-yecRtBI;
-        Object value2;
-        int valueOf;
         Object value3;
+        int valueOf;
+        Object value2;
         long selection-d9O1mEE;
-        long l2;
         long l;
+        long l2;
         int i2;
         int obj12;
         if (Intrinsics.areEqual(value.getText(), prevValue.getText())) {
@@ -4271,12 +4271,12 @@ public final class TimePickerKt {
             }
             onNewValue.invoke(TextFieldValue.copy-3r_uNRQ$default(value, "", 0, obj6, 0, 6));
         }
-        value3 = value;
-        if (value3.getText().length() == 3 && TextRange.getStart-impl(value3.getSelection-d9O1mEE()) == i3) {
-            if (TextRange.getStart-impl(value3.getSelection-d9O1mEE()) == i3) {
-                obj12 = CharsKt.digitToInt(value3.getText().charAt(valueOf));
+        value2 = value;
+        if (value2.getText().length() == 3 && TextRange.getStart-impl(value2.getSelection-d9O1mEE()) == i3) {
+            if (TextRange.getStart-impl(value2.getSelection-d9O1mEE()) == i3) {
+                obj12 = CharsKt.digitToInt(value2.getText().charAt(valueOf));
             } else {
-                obj12 = Integer.parseInt(value3.getText());
+                obj12 = Integer.parseInt(value2.getText());
             }
         } else {
         }
@@ -4291,14 +4291,14 @@ public final class TimePickerKt {
             } else {
                 state.setMinute(obj12);
             }
-            if (value3.getText().length() <= 2) {
-                value2 = value3;
+            if (value2.getText().length() <= 2) {
+                value3 = value2;
             } else {
-                value3 = TextFieldValue.copy-3r_uNRQ$default(value3, String.valueOf(value3.getText().charAt(valueOf)), 0, selection-d9O1mEE, 0, 6);
+                value2 = TextFieldValue.copy-3r_uNRQ$default(value2, String.valueOf(value2.getText().charAt(valueOf)), 0, selection-d9O1mEE, 0, 6);
             }
-            onNewValue.invoke(value3);
+            onNewValue.invoke(value2);
         } else {
-            value2 = value3;
+            value3 = value2;
         }
     }
 

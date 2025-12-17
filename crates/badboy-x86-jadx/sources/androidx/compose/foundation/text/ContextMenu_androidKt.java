@@ -23,14 +23,14 @@ import kotlin.jvm.functions.Function2;
 public final class ContextMenu_androidKt {
     public static final void ContextMenuArea(TextFieldSelectionState selectionState, boolean enabled, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int invalid$iv;
-        int i;
+        int i4;
         int i2;
-        int i5;
+        int i7;
         boolean skipping;
         boolean traceInProgress;
         int $this$cache$iv;
         kotlin.jvm.functions.Function1 contextMenuBuilder;
-        int i6;
+        int i;
         boolean z;
         Object obj;
         int empty2;
@@ -38,8 +38,8 @@ public final class ContextMenu_androidKt {
         int i3;
         Object contextMenuState;
         Object anon;
-        int i7;
-        int i4;
+        int i5;
+        int i6;
         boolean obj12;
         Object obj13;
         int obj14;
@@ -47,16 +47,16 @@ public final class ContextMenu_androidKt {
         final Composer restartGroup = $composer.startRestartGroup(invalid$iv);
         ComposerKt.sourceInformation(restartGroup, "C(ContextMenuArea)P(2,1)52@2019L31,55@2155L17,53@2095L214:ContextMenu.android.kt#423gt5");
         if ($changed & 6 == 0) {
-            i = restartGroup.changedInstance(selectionState) ? 4 : 2;
-            obj14 |= i;
+            i4 = restartGroup.changedInstance(selectionState) ? 4 : 2;
+            obj14 |= i4;
         }
         if ($changed & 48 == 0) {
             i2 = restartGroup.changed(enabled) ? 32 : 16;
             obj14 |= i2;
         }
         if ($changed & 384 == 0) {
-            i5 = restartGroup.changedInstance(content) ? 256 : 128;
-            obj14 |= i5;
+            i7 = restartGroup.changedInstance(content) ? 256 : 128;
+            obj14 |= i7;
         }
         if (obj14 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
@@ -72,8 +72,8 @@ public final class ContextMenu_androidKt {
                 int i20 = 0;
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     empty2 = 0;
-                    i4 = 0;
-                    contextMenuState = new ContextMenuState(i4, 1, i4);
+                    i6 = 0;
+                    contextMenuState = new ContextMenuState(i6, 1, i6);
                     composer.updateRememberedValue(contextMenuState);
                 } else {
                     contextMenuState = rememberedValue;
@@ -114,34 +114,34 @@ public final class ContextMenu_androidKt {
 
     public static final void ContextMenuArea(SelectionManager manager, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int invalid$iv;
-        int i7;
         int i2;
+        int i6;
         int skipping;
         boolean traceInProgress;
         int $this$cache$iv;
         kotlin.jvm.functions.Function1 contextMenuBuilder;
-        int i5;
-        int i6;
-        int empty;
+        int i7;
+        int i;
         int empty2;
+        int empty;
         Object obj;
         Object contextMenuState;
         Object anon;
-        int i3;
         int i4;
-        int i;
+        int i3;
+        int i5;
         Object obj12;
         int obj13;
         invalid$iv = 605522716;
         final Composer restartGroup = $composer.startRestartGroup(invalid$iv);
         ComposerKt.sourceInformation(restartGroup, "C(ContextMenuArea)P(1)67@2449L31,70@2585L17,68@2525L180:ContextMenu.android.kt#423gt5");
         if ($changed & 6 == 0) {
-            i7 = restartGroup.changedInstance(manager) ? 4 : 2;
-            obj13 |= i7;
+            i2 = restartGroup.changedInstance(manager) ? 4 : 2;
+            obj13 |= i2;
         }
         if ($changed & 48 == 0) {
-            i2 = restartGroup.changedInstance(content) ? 32 : 16;
-            obj13 |= i2;
+            i6 = restartGroup.changedInstance(content) ? 32 : 16;
+            obj13 |= i6;
         }
         if (obj13 & 19 == 18) {
             if (!restartGroup.getSkipping()) {
@@ -156,9 +156,9 @@ public final class ContextMenu_androidKt {
                 Object rememberedValue = composer.rememberedValue();
                 int i17 = 0;
                 if (rememberedValue == Composer.Companion.getEmpty()) {
-                    empty = 0;
-                    i = 0;
-                    contextMenuState = new ContextMenuState(i, 1, i);
+                    empty2 = 0;
+                    i5 = 0;
+                    contextMenuState = new ContextMenuState(i5, 1, i5);
                     composer.updateRememberedValue(contextMenuState);
                 } else {
                     contextMenuState = rememberedValue;
@@ -172,7 +172,7 @@ public final class ContextMenu_androidKt {
                 Object rememberedValue2 = composer2.rememberedValue();
                 int i18 = 0;
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                    empty2 = 0;
+                    empty = 0;
                     anon = new ContextMenu_androidKt.ContextMenuArea.5.1((ContextMenuState)invalid$iv);
                     composer2.updateRememberedValue((Function0)anon);
                 } else {
@@ -198,34 +198,34 @@ public final class ContextMenu_androidKt {
 
     public static final void ContextMenuArea(TextFieldSelectionManager manager, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int invalid$iv;
-        int i6;
-        int i3;
+        int i2;
+        int i;
         int skipping;
         boolean traceInProgress;
         int $this$cache$iv;
         kotlin.jvm.functions.Function1 contextMenuBuilder;
-        int i5;
+        int i3;
         boolean enabled;
         int empty2;
         int empty;
         Object obj;
         Object contextMenuState;
         Object anon;
+        int i5;
         int i4;
-        int i;
-        int i2;
+        int i6;
         Object obj12;
         int obj13;
         invalid$iv = -1985516685;
         final Composer restartGroup = $composer.startRestartGroup(invalid$iv);
         ComposerKt.sourceInformation(restartGroup, "C(ContextMenuArea)P(1)36@1552L31,39@1688L17,37@1628L215:ContextMenu.android.kt#423gt5");
         if ($changed & 6 == 0) {
-            i6 = restartGroup.changedInstance(manager) ? 4 : 2;
-            obj13 |= i6;
+            i2 = restartGroup.changedInstance(manager) ? 4 : 2;
+            obj13 |= i2;
         }
         if ($changed & 48 == 0) {
-            i3 = restartGroup.changedInstance(content) ? 32 : 16;
-            obj13 |= i3;
+            i = restartGroup.changedInstance(content) ? 32 : 16;
+            obj13 |= i;
         }
         if (obj13 & 19 == 18) {
             if (!restartGroup.getSkipping()) {
@@ -241,8 +241,8 @@ public final class ContextMenu_androidKt {
                 int i16 = 0;
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     empty2 = 0;
-                    i2 = 0;
-                    contextMenuState = new ContextMenuState(i2, 1, i2);
+                    i6 = 0;
+                    contextMenuState = new ContextMenuState(i6, 1, i6);
                     composer.updateRememberedValue(contextMenuState);
                 } else {
                     contextMenuState = rememberedValue;

@@ -36,10 +36,10 @@ public final class LongSparseArrayKt {
         int newSize$iv;
         long[] keys;
         Object[] values;
-        int i$iv2;
         int i$iv;
-        Object obj2;
+        int i$iv2;
         Object obj;
+        Object obj2;
         Intrinsics.checkNotNullParameter($this$commonAppend, "<this>");
         int i = 0;
         if ($this$commonAppend.size != 0 && Long.compare(key, l) <= 0) {
@@ -54,18 +54,18 @@ public final class LongSparseArrayKt {
                 newSize$iv = 0;
                 keys = garbage.keys;
                 values = garbage.values;
-                i$iv2 = 0;
-                while (i$iv2 < garbage.size) {
-                    obj2 = values[i$iv2];
-                    if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv2 != newSize$iv) {
+                i$iv = 0;
+                while (i$iv < garbage.size) {
+                    obj = values[i$iv];
+                    if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv != newSize$iv) {
                     }
-                    i$iv2++;
-                    if (i$iv2 != newSize$iv) {
+                    i$iv++;
+                    if (i$iv != newSize$iv) {
                     }
                     newSize$iv++;
-                    keys[newSize$iv] = keys[i$iv2];
-                    values[newSize$iv] = obj2;
-                    values[i$iv2] = 0;
+                    keys[newSize$iv] = keys[i$iv];
+                    values[newSize$iv] = obj;
+                    values[i$iv] = 0;
                 }
                 garbage.garbage = false;
                 garbage.size = newSize$iv;
@@ -166,9 +166,9 @@ public final class LongSparseArrayKt {
     }
 
     public static final <E> E commonGet(androidx.collection.LongSparseArray<E> $this$commonGet, long key, E defaultValue) {
-        Object obj;
-        int size;
         Object obj2;
+        int size;
+        Object obj;
         Intrinsics.checkNotNullParameter($this$commonGet, "<this>");
         int i = 0;
         final Object obj3 = $this$commonGet;
@@ -176,31 +176,31 @@ public final class LongSparseArrayKt {
         int binarySearch = ContainerHelpersKt.binarySearch(obj3.keys, obj3.size, key);
         if (binarySearch >= 0) {
             if (obj3.values[binarySearch] == LongSparseArrayKt.access$getDELETED$p()) {
-                obj = obj9;
+                obj2 = obj9;
             } else {
-                obj = obj3.values[binarySearch];
+                obj2 = obj3.values[binarySearch];
             }
         } else {
         }
-        return obj;
+        return obj2;
     }
 
     public static final <T extends E, E> T commonGetInternal(androidx.collection.LongSparseArray<E> $this$commonGetInternal, long key, T defaultValue) {
-        Object obj;
-        int size;
         Object obj2;
+        int size;
+        Object obj;
         Intrinsics.checkNotNullParameter($this$commonGetInternal, "<this>");
         int i = 0;
         int binarySearch = ContainerHelpersKt.binarySearch($this$commonGetInternal.keys, $this$commonGetInternal.size, key);
         if (binarySearch >= 0) {
             if ($this$commonGetInternal.values[binarySearch] == LongSparseArrayKt.access$getDELETED$p()) {
-                obj = obj7;
+                obj2 = obj7;
             } else {
-                obj = $this$commonGetInternal.values[binarySearch];
+                obj2 = $this$commonGetInternal.values[binarySearch];
             }
         } else {
         }
-        return obj;
+        return obj2;
     }
 
     public static final <E> int commonIndexOfKey(androidx.collection.LongSparseArray<E> $this$commonIndexOfKey, long key) {
@@ -210,10 +210,10 @@ public final class LongSparseArrayKt {
         int newSize$iv;
         long[] keys;
         Object[] values;
-        int i$iv;
         int i$iv2;
-        Object obj2;
+        int i$iv;
         Object obj;
+        Object obj2;
         Intrinsics.checkNotNullParameter($this$commonIndexOfKey, "<this>");
         int i2 = 0;
         if ($this$commonIndexOfKey.garbage) {
@@ -222,18 +222,18 @@ public final class LongSparseArrayKt {
             newSize$iv = 0;
             keys = garbage.keys;
             values = garbage.values;
-            i$iv2 = 0;
-            while (i$iv2 < garbage.size) {
-                obj2 = values[i$iv2];
-                if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv2 != newSize$iv) {
+            i$iv = 0;
+            while (i$iv < garbage.size) {
+                obj = values[i$iv];
+                if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv != newSize$iv) {
                 }
-                i$iv2++;
-                if (i$iv2 != newSize$iv) {
+                i$iv++;
+                if (i$iv != newSize$iv) {
                 }
                 newSize$iv++;
-                keys[newSize$iv] = keys[i$iv2];
-                values[newSize$iv] = obj2;
-                values[i$iv2] = 0;
+                keys[newSize$iv] = keys[i$iv];
+                values[newSize$iv] = obj;
+                values[i$iv] = 0;
             }
             garbage.garbage = false;
             garbage.size = newSize$iv;
@@ -250,8 +250,8 @@ public final class LongSparseArrayKt {
         long[] keys;
         Object[] values;
         int i$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         Intrinsics.checkNotNullParameter($this$commonIndexOfValue, "<this>");
         int i3 = 0;
         if ($this$commonIndexOfValue.garbage) {
@@ -262,15 +262,15 @@ public final class LongSparseArrayKt {
             values = garbage.values;
             i$iv = 0;
             while (i$iv < garbage.size) {
-                obj = values[i$iv];
-                if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv != newSize$iv) {
+                obj2 = values[i$iv];
+                if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv != newSize$iv) {
                 }
                 i$iv++;
                 if (i$iv != newSize$iv) {
                 }
                 newSize$iv++;
                 keys[newSize$iv] = keys[i$iv];
-                values[newSize$iv] = obj;
+                values[newSize$iv] = obj2;
                 values[i$iv] = 0;
             }
             garbage.garbage = false;
@@ -294,9 +294,9 @@ public final class LongSparseArrayKt {
 
     public static final <E> long commonKeyAt(androidx.collection.LongSparseArray<E> $this$commonKeyAt, int index) {
         int size2;
-        int i2;
-        boolean garbage;
         int i;
+        boolean garbage;
+        int i2;
         int size;
         int newSize$iv;
         long[] keys;
@@ -308,14 +308,14 @@ public final class LongSparseArrayKt {
         int i3 = 0;
         int i4 = 0;
         if (index >= 0 && index < $this$commonKeyAt.size) {
-            i2 = index < $this$commonKeyAt.size ? 1 : i4;
+            i = index < $this$commonKeyAt.size ? 1 : i4;
         } else {
         }
-        if (i2 == 0) {
+        if (i == 0) {
         } else {
             if ($this$commonKeyAt.garbage) {
                 garbage = $this$commonKeyAt;
-                i = 0;
+                i2 = 0;
                 newSize$iv = 0;
                 keys = garbage.keys;
                 values = garbage.values;
@@ -346,19 +346,19 @@ public final class LongSparseArrayKt {
     public static final <E> void commonPut(androidx.collection.LongSparseArray<E> $this$commonPut, long key, E value) {
         int index;
         Object[] values2;
-        int size2;
+        int size;
         boolean binarySearch;
         int idealLongArraySize;
         int values3;
         int copyOf;
-        int size;
+        int size2;
         int newSize$iv;
         long[] keys;
         Object[] values;
-        int i$iv;
         int i$iv2;
-        Object obj2;
+        int i$iv;
         Object obj;
+        Object obj2;
         Intrinsics.checkNotNullParameter($this$commonPut, "<this>");
         int i = 0;
         index = ContainerHelpersKt.binarySearch($this$commonPut.keys, $this$commonPut.size, key);
@@ -379,18 +379,18 @@ public final class LongSparseArrayKt {
                     newSize$iv = 0;
                     keys = obj3.keys;
                     values = obj3.values;
-                    i$iv2 = 0;
-                    while (i$iv2 < obj3.size) {
-                        obj2 = values[i$iv2];
-                        if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv2 != newSize$iv) {
+                    i$iv = 0;
+                    while (i$iv < obj3.size) {
+                        obj = values[i$iv];
+                        if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv != newSize$iv) {
                         }
-                        i$iv2++;
-                        if (i$iv2 != newSize$iv) {
+                        i$iv++;
+                        if (i$iv != newSize$iv) {
                         }
                         newSize$iv++;
-                        keys[newSize$iv] = keys[i$iv2];
-                        values[newSize$iv] = obj2;
-                        values[i$iv2] = 0;
+                        keys[newSize$iv] = keys[i$iv];
+                        values[newSize$iv] = obj;
+                        values[i$iv] = 0;
                     }
                     obj3.garbage = false;
                     obj3.size = newSize$iv;
@@ -400,11 +400,11 @@ public final class LongSparseArrayKt {
             if ($this$commonPut.size >= keys7.length) {
                 idealLongArraySize = ContainerHelpersKt.idealLongArraySize(size5++);
                 long[] copyOf2 = Arrays.copyOf($this$commonPut.keys, idealLongArraySize);
-                size = "copyOf(this, newSize)";
-                Intrinsics.checkNotNullExpressionValue(copyOf2, size);
+                size2 = "copyOf(this, newSize)";
+                Intrinsics.checkNotNullExpressionValue(copyOf2, size2);
                 $this$commonPut.keys = copyOf2;
                 copyOf = Arrays.copyOf($this$commonPut.values, idealLongArraySize);
-                Intrinsics.checkNotNullExpressionValue(copyOf, size);
+                Intrinsics.checkNotNullExpressionValue(copyOf, size2);
                 $this$commonPut.values = copyOf;
             }
             if (newSize -= index != 0) {
@@ -418,20 +418,20 @@ public final class LongSparseArrayKt {
     }
 
     public static final <E> void commonPutAll(androidx.collection.LongSparseArray<E> $this$commonPutAll, androidx.collection.LongSparseArray<? extends E> other) {
-        int i3;
         int i2;
         int i;
+        int i3;
         long keyAt;
         Object valueAt;
         Intrinsics.checkNotNullParameter($this$commonPutAll, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
         int i4 = 0;
-        i3 = 0;
-        while (i3 < other.size()) {
-            i2 = i3;
-            i = 0;
-            $this$commonPutAll.put(other.keyAt(i2), obj6);
-            i3++;
+        i2 = 0;
+        while (i2 < other.size()) {
+            i = i2;
+            i3 = 0;
+            $this$commonPutAll.put(other.keyAt(i), obj6);
+            i2++;
         }
     }
 
@@ -475,8 +475,8 @@ public final class LongSparseArrayKt {
     }
 
     public static final <E> void commonRemoveAt(androidx.collection.LongSparseArray<E> $this$commonRemoveAt, int index) {
-        Object obj2;
         Object obj;
+        Object obj2;
         Intrinsics.checkNotNullParameter($this$commonRemoveAt, "<this>");
         int i = 0;
         if ($this$commonRemoveAt.values[index] != LongSparseArrayKt.access$getDELETED$p()) {
@@ -513,9 +513,9 @@ public final class LongSparseArrayKt {
 
     public static final <E> void commonSetValueAt(androidx.collection.LongSparseArray<E> $this$commonSetValueAt, int index, E value) {
         int size2;
-        int i;
-        boolean garbage;
         int i2;
+        boolean garbage;
+        int i;
         int size;
         int newSize$iv;
         long[] keys;
@@ -527,14 +527,14 @@ public final class LongSparseArrayKt {
         int i3 = 0;
         int i4 = 0;
         if (index >= 0 && index < $this$commonSetValueAt.size) {
-            i = index < $this$commonSetValueAt.size ? 1 : i4;
+            i2 = index < $this$commonSetValueAt.size ? 1 : i4;
         } else {
         }
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
             if ($this$commonSetValueAt.garbage) {
                 garbage = $this$commonSetValueAt;
-                i2 = 0;
+                i = 0;
                 newSize$iv = 0;
                 keys = garbage.keys;
                 values = garbage.values;
@@ -569,10 +569,10 @@ public final class LongSparseArrayKt {
         int newSize$iv;
         long[] keys;
         Object[] values;
-        int i$iv;
         int i$iv2;
-        Object obj;
+        int i$iv;
         Object obj2;
+        Object obj;
         Intrinsics.checkNotNullParameter($this$commonSize, "<this>");
         int i2 = 0;
         if ($this$commonSize.garbage) {
@@ -581,18 +581,18 @@ public final class LongSparseArrayKt {
             newSize$iv = 0;
             keys = garbage.keys;
             values = garbage.values;
-            i$iv2 = 0;
-            while (i$iv2 < garbage.size) {
-                obj = values[i$iv2];
-                if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv2 != newSize$iv) {
+            i$iv = 0;
+            while (i$iv < garbage.size) {
+                obj2 = values[i$iv];
+                if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv != newSize$iv) {
                 }
-                i$iv2++;
-                if (i$iv2 != newSize$iv) {
+                i$iv++;
+                if (i$iv != newSize$iv) {
                 }
                 newSize$iv++;
-                keys[newSize$iv] = keys[i$iv2];
-                values[newSize$iv] = obj;
-                values[i$iv2] = 0;
+                keys[newSize$iv] = keys[i$iv];
+                values[newSize$iv] = obj2;
+                values[i$iv] = 0;
             }
             garbage.garbage = false;
             garbage.size = newSize$iv;
@@ -637,42 +637,42 @@ public final class LongSparseArrayKt {
 
     public static final <E> E commonValueAt(androidx.collection.LongSparseArray<E> $this$commonValueAt, int index) {
         int size;
-        int i2;
-        boolean garbage;
         int i;
+        boolean garbage;
+        int i2;
         int size2;
         int newSize$iv;
         long[] keys;
         Object[] values;
         int i$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         Intrinsics.checkNotNullParameter($this$commonValueAt, "<this>");
         int i3 = 0;
         int i4 = 0;
         if (index >= 0 && index < $this$commonValueAt.size) {
-            i2 = index < $this$commonValueAt.size ? 1 : i4;
+            i = index < $this$commonValueAt.size ? 1 : i4;
         } else {
         }
-        if (i2 == 0) {
+        if (i == 0) {
         } else {
             if ($this$commonValueAt.garbage) {
                 garbage = $this$commonValueAt;
-                i = 0;
+                i2 = 0;
                 newSize$iv = 0;
                 keys = garbage.keys;
                 values = garbage.values;
                 i$iv = 0;
                 while (i$iv < garbage.size) {
-                    obj2 = values[i$iv];
-                    if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv != newSize$iv) {
+                    obj = values[i$iv];
+                    if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv != newSize$iv) {
                     }
                     i$iv++;
                     if (i$iv != newSize$iv) {
                     }
                     newSize$iv++;
                     keys[newSize$iv] = keys[i$iv];
-                    values[newSize$iv] = obj2;
+                    values[newSize$iv] = obj;
                     values[i$iv] = 0;
                 }
                 garbage.garbage = i4;

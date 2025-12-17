@@ -13,13 +13,13 @@ import kotlinx.serialization.descriptors.SerialDescriptor;
 public abstract class NamedValueDecoder extends kotlinx.serialization.internal.TaggedDecoder<String> {
     @Override // kotlinx.serialization.internal.TaggedDecoder
     protected String composeName(String parentName, String childName) {
-        int i2;
-        Object string;
         int i;
+        Object string;
+        int i2;
         Intrinsics.checkNotNullParameter(parentName, "parentName");
         Intrinsics.checkNotNullParameter(childName, "childName");
-        i2 = (CharSequence)parentName.length() == 0 ? 1 : 0;
-        if (i2 != 0) {
+        i = (CharSequence)parentName.length() == 0 ? 1 : 0;
+        if (i != 0) {
             string = childName;
         } else {
             StringBuilder stringBuilder = new StringBuilder();
@@ -59,14 +59,14 @@ public abstract class NamedValueDecoder extends kotlinx.serialization.internal.T
     protected final String renderTagStack() {
         String joinToString$default;
         ArrayList list;
-        String str;
         String str2;
-        int i3;
-        int i2;
-        int i4;
+        String str;
         int i5;
-        int i6;
+        int i2;
         int i;
+        int i6;
+        int i4;
+        int i3;
         if (getTagStack$kotlinx_serialization_core().isEmpty()) {
             joinToString$default = "$";
         } else {

@@ -118,15 +118,15 @@ class Encoding {
 
     static void writeAll(InputStream is, OutputStream os, FileLock lock) throws IOException {
         boolean valid;
-        int i2;
-        int read;
         int i;
+        int read;
+        int i2;
         int i3 = 0;
         if (lock != null && lock.isValid()) {
-            i2 = lock.isValid() ? 1 : i3;
+            i = lock.isValid() ? 1 : i3;
         } else {
         }
-        if (i2 == 0) {
+        if (i == 0) {
         } else {
             byte[] bArr = new byte[512];
             read = is.read(bArr);

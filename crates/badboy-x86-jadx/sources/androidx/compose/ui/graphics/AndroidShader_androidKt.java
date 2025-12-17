@@ -58,14 +58,14 @@ public final class AndroidShader_androidKt {
 
     public static final float[] makeTransparentStops(List<Float> stops, List<androidx.compose.ui.graphics.Color> colors, int numTransparentColors) {
         int floatArray;
-        int floatValue;
-        float floatValue3;
+        int floatValue2;
+        float floatValue;
         int newStopsIndex;
-        int i;
-        int i2;
-        long unbox-impl;
-        float floatValue2;
         int i3;
+        int i;
+        long unbox-impl;
+        float floatValue3;
+        int i2;
         if (numTransparentColors == 0) {
             if (stops != null) {
                 floatArray = CollectionsKt.toFloatArray((Collection)stops);
@@ -78,40 +78,40 @@ public final class AndroidShader_androidKt {
         int i5 = 0;
         final int i6 = 0;
         if (stops != null) {
-            floatValue3 = (Number)stops.get(i6).floatValue();
+            floatValue = (Number)stops.get(i6).floatValue();
         } else {
-            floatValue3 = i5;
+            floatValue = i5;
         }
-        fArr[i6] = floatValue3;
+        fArr[i6] = floatValue;
         newStopsIndex = 1;
-        i2 = 1;
-        while (i2 < CollectionsKt.getLastIndex(colors)) {
+        i = 1;
+        while (i < CollectionsKt.getLastIndex(colors)) {
             if (stops != null) {
             } else {
             }
-            f /= i3;
-            i3 = newStopsIndex + 1;
-            fArr[newStopsIndex] = floatValue2;
+            f /= i2;
+            i2 = newStopsIndex + 1;
+            fArr[newStopsIndex] = floatValue3;
             if (Float.compare(alpha-impl, i5) == 0) {
             } else {
             }
-            i = i6;
-            if (i != 0) {
+            i3 = i6;
+            if (i3 != 0) {
             } else {
             }
-            newStopsIndex = i3;
-            i2++;
-            newStopsIndex = i3 + 1;
-            fArr[i3] = floatValue2;
-            i = 1;
-            floatValue2 = (Number)stops.get(i2).floatValue();
+            newStopsIndex = i2;
+            i++;
+            newStopsIndex = i2 + 1;
+            fArr[i2] = floatValue3;
+            i3 = 1;
+            floatValue3 = (Number)stops.get(i).floatValue();
         }
         if (stops != null) {
-            floatValue = (Number)stops.get(CollectionsKt.getLastIndex(colors)).floatValue();
+            floatValue2 = (Number)stops.get(CollectionsKt.getLastIndex(colors)).floatValue();
         } else {
-            floatValue = 1065353216;
+            floatValue2 = 1065353216;
         }
-        fArr[newStopsIndex] = floatValue;
+        fArr[newStopsIndex] = floatValue2;
         return fArr;
     }
 

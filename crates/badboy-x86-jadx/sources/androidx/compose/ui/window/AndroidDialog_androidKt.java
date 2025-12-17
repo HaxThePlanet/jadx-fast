@@ -30,39 +30,39 @@ public final class AndroidDialog_androidKt {
         int density;
         int $dirty;
         Object $dirty2;
-        int i9;
+        int i12;
         int traceInProgress2;
         boolean traceInProgress;
         int view;
-        Object anon2;
+        Object $i$a$CacheAndroidDialog_androidKt$Dialog$1;
         Object empty;
-        int i5;
+        int i11;
         Object properties2;
         Object obj;
-        int i4;
-        int i12;
-        int i3;
+        int i8;
+        int i;
+        int i10;
         boolean skipping;
         Object rememberSaveable;
-        int i;
-        int i13;
         int i2;
+        int i9;
+        int i4;
         Object rememberedValue;
-        int i11;
+        int i5;
         Object dialogProperties;
         Object anon;
         int layoutDirection;
-        int i8;
-        int i10;
+        int i7;
+        int i13;
         Composer.Companion companion;
         Composer.Companion companion2;
-        int i7;
+        int i3;
         androidx.compose.ui.window.DialogWrapper dialogWrapper;
         Object obj2;
         Object obj24;
         final Object obj3 = onDismissRequest;
         obj = content;
-        i4 = $changed;
+        i8 = $changed;
         density = -2032877254;
         final Composer restartGroup = $composer.startRestartGroup(density);
         ComposerKt.sourceInformation(restartGroup, "C(Dialog)P(1,2)167@7096L7,168@7135L7,169@7190L7,170@7220L28,171@7275L29,172@7324L38,173@7380L616,194@8027L129,194@8002L154,203@8173L182,203@8162L193:AndroidDialog.android.kt#2oxthz");
@@ -70,20 +70,20 @@ public final class AndroidDialog_androidKt {
         if (i6 & 1 != 0) {
             $dirty |= 6;
         } else {
-            if (i4 & 6 == 0) {
-                i9 = restartGroup.changedInstance(obj3) ? 4 : 2;
-                $dirty |= i9;
+            if (i8 & 6 == 0) {
+                i12 = restartGroup.changedInstance(obj3) ? 4 : 2;
+                $dirty |= i12;
             }
         }
         traceInProgress2 = i6 & 2;
-        i5 = 32;
+        i11 = 32;
         if (traceInProgress2 != 0) {
             $dirty |= 48;
             properties2 = properties;
         } else {
-            if (i4 & 48 == 0) {
-                i12 = restartGroup.changed(properties) ? i5 : 16;
-                $dirty |= i12;
+            if (i8 & 48 == 0) {
+                i = restartGroup.changed(properties) ? i11 : 16;
+                $dirty |= i;
             } else {
                 properties2 = properties;
             }
@@ -91,9 +91,9 @@ public final class AndroidDialog_androidKt {
         if (i6 & 4 != 0) {
             $dirty |= 384;
         } else {
-            if (i4 & 384 == 0) {
-                i3 = restartGroup.changedInstance(obj) ? 256 : 128;
-                $dirty |= i3;
+            if (i8 & 384 == 0) {
+                i10 = restartGroup.changedInstance(obj) ? 256 : 128;
+                $dirty |= i10;
             }
         }
         if ($dirty & 147 == 146) {
@@ -124,7 +124,7 @@ public final class AndroidDialog_androidKt {
                 Object obj5 = consume;
                 int i25 = 0;
                 int i38 = i25;
-                i10 = i45;
+                i13 = i45;
                 String str3 = "CC(remember):AndroidDialog.android.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -464840651, str3);
                 Composer composer2 = restartGroup;
@@ -135,16 +135,16 @@ public final class AndroidDialog_androidKt {
                 if (changed3 |= changed4 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         companion2 = 0;
-                        int i21 = i5;
+                        int i21 = i11;
                         layoutDirection = $dirty;
                         DialogWrapper density2 = new DialogWrapper(obj3, properties2, $changed$iv, (LayoutDirection)obj5, this_$iv, obj24);
-                        i7 = 0;
-                        AndroidDialog_androidKt.Dialog.dialog.1.1.1 anon3 = new AndroidDialog_androidKt.Dialog.dialog.1.1.1(SnapshotStateKt.rememberUpdatedState(obj, restartGroup, i34 &= 14));
+                        i3 = 0;
+                        AndroidDialog_androidKt.Dialog.dialog.1.1.1 anon2 = new AndroidDialog_androidKt.Dialog.dialog.1.1.1(SnapshotStateKt.rememberUpdatedState(obj, restartGroup, i34 &= 14));
                         obj2 = $changed$iv;
-                        density2.setContent(ComposablesKt.rememberCompositionContext(restartGroup, i25), (Function2)ComposableLambdaKt.composableLambdaInstance(488261145, true, anon3));
+                        density2.setContent(ComposablesKt.rememberCompositionContext(restartGroup, i25), (Function2)ComposableLambdaKt.composableLambdaInstance(488261145, true, anon2));
                         composer2.updateRememberedValue(density2);
                     } else {
-                        i5 = this_$iv;
+                        i11 = this_$iv;
                         obj2 = $changed$iv;
                         density = rememberedValue2;
                         empty = obj5;
@@ -164,20 +164,20 @@ public final class AndroidDialog_androidKt {
                 if (!restartGroup.changedInstance((DialogWrapper)density)) {
                     if (dialogProperties == Composer.Companion.getEmpty()) {
                         obj24 = i20;
-                        anon2 = new AndroidDialog_androidKt.Dialog.1.1(density);
-                        composer.updateRememberedValue((Function1)anon2);
+                        $i$a$CacheAndroidDialog_androidKt$Dialog$1 = new AndroidDialog_androidKt.Dialog.1.1(density);
+                        composer.updateRememberedValue((Function1)$i$a$CacheAndroidDialog_androidKt$Dialog$1);
                     } else {
-                        anon2 = dialogProperties;
+                        $i$a$CacheAndroidDialog_androidKt$Dialog$1 = dialogProperties;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                EffectsKt.DisposableEffect(density, (Function1)anon2, restartGroup, 0);
+                EffectsKt.DisposableEffect(density, (Function1)$i$a$CacheAndroidDialog_androidKt$Dialog$1, restartGroup, 0);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -464815709, str3);
-                i = layoutDirection & 14 == 4 ? 1 : 0;
-                i13 = layoutDirection & 112 == 32 ? 1 : 0;
+                i2 = layoutDirection & 14 == 4 ? 1 : 0;
+                i9 = layoutDirection & 112 == 32 ? 1 : 0;
                 skipping = restartGroup;
-                i2 = 0;
+                i4 = 0;
                 rememberedValue = skipping.rememberedValue();
                 int i41 = 0;
                 if (i18 |= changed2 == 0) {
@@ -225,22 +225,22 @@ public final class AndroidDialog_androidKt {
         Object obj;
         boolean traceInProgress;
         Integer valueOf;
-        Composer composer2;
-        int i3;
+        Composer composer;
+        int i9;
         int i6;
         boolean skipping;
         int currentCompositeKeyHash;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         Modifier materializeModifier;
         Function0 constructor;
+        int i2;
+        int i3;
         int i8;
         int i4;
-        int i2;
-        int i7;
-        Composer composer;
+        Composer composer2;
         int i;
         androidx.compose.ui.window.AndroidDialog_androidKt.DialogLayout.1 measurePolicy$iv;
-        int i9;
+        int i7;
         Object obj21;
         int obj23;
         final Object obj2 = content;
@@ -256,8 +256,8 @@ public final class AndroidDialog_androidKt {
             obj = modifier;
         } else {
             if (i10 & 6 == 0) {
-                i3 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i3;
+                i9 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i9;
             } else {
                 obj = modifier;
             }
@@ -285,7 +285,7 @@ public final class AndroidDialog_androidKt {
                 skipping = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                i4 = 0;
+                i3 = 0;
                 obj23 = $dirty;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
@@ -298,24 +298,24 @@ public final class AndroidDialog_androidKt {
                     restartGroup.useNode();
                 }
                 $dirty = Updater.constructor-impl(restartGroup);
-                i2 = 0;
+                i8 = 0;
                 Updater.set-impl($dirty, (MeasurePolicy)iNSTANCE, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl($dirty, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i7 = 0;
-                composer = $dirty;
+                i4 = 0;
+                composer2 = $dirty;
                 i = 0;
-                if (!composer.getInserting()) {
+                if (!composer2.getInserting()) {
                     measurePolicy$iv = iNSTANCE;
-                    i9 = valueOf;
-                    if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                    i7 = valueOf;
+                    if (!Intrinsics.areEqual(composer2.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer2.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         $dirty.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer;
+                        composer = composer2;
                     }
                 } else {
                     measurePolicy$iv = iNSTANCE;
-                    i9 = valueOf;
+                    i7 = valueOf;
                 }
                 Updater.set-impl($dirty, ComposedModifierKt.materializeModifier(restartGroup, modifier2), ComposeUiNode.Companion.getSetModifier());
                 obj2.invoke(restartGroup, Integer.valueOf(i12 &= 14));

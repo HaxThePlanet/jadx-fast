@@ -152,27 +152,27 @@ public final class EasingFunctionsKt {
     }
 
     private static final float EaseInElastic$lambda$0(float fraction) {
-        float i;
+        float i2;
         int cmp;
-        double i3;
-        int i2;
-        i2 = 0;
-        cmp = Float.compare(fraction, i) == 0 ? i3 : i2;
+        double i;
+        int i3;
+        i3 = 0;
+        cmp = Float.compare(fraction, i2) == 0 ? i : i3;
         if (cmp != 0) {
         } else {
-            cmp = Float.compare(fraction, i);
+            cmp = Float.compare(fraction, i2);
             if (cmp == 0) {
             } else {
-                i3 = i2;
+                i = i3;
             }
-            if (i3 != 0) {
+            if (i != 0) {
             } else {
                 int i7 = 1092616192;
-                i2 = 1093402624;
-                i = (float)i6;
+                i3 = 1093402624;
+                i2 = (float)i6;
             }
         }
-        return i;
+        return i2;
     }
 
     private static final float EaseInOutBounce$lambda$5(float fraction) {
@@ -194,43 +194,43 @@ public final class EasingFunctionsKt {
     private static final float EaseInOutElastic$lambda$2(float fraction) {
         int i2;
         int cmp;
-        int i5;
-        int i4;
         int i3;
         int i;
+        int i4;
+        int i5;
         double d2;
         double d;
         final long l = 4608967030507783303L;
         i2 = 0;
-        i4 = 1;
-        i3 = 0;
-        i5 = Float.compare(fraction, i2) == 0 ? i4 : i3;
-        if (i5 != 0) {
+        i = 1;
+        i4 = 0;
+        i3 = Float.compare(fraction, i2) == 0 ? i : i4;
+        if (i3 != 0) {
         } else {
-            i5 = 1065353216;
-            i = Float.compare(fraction, i5) == 0 ? i4 : i3;
-            if (i != 0) {
-                i2 = i5;
+            i3 = 1065353216;
+            i5 = Float.compare(fraction, i3) == 0 ? i : i4;
+            if (i5 != 0) {
+                i2 = i3;
             } else {
                 if (Float.compare(i2, fraction) <= 0 && Float.compare(fraction, i6) <= 0) {
                     if (Float.compare(fraction, i6) <= 0) {
                     } else {
-                        i4 = i3;
+                        i = i4;
                     }
                 } else {
                 }
                 int i7 = 1093795840;
-                i3 = 1092616192;
+                i4 = 1092616192;
                 int i14 = 1073741824;
                 int i17 = 1101004800;
-                if (i4 != 0) {
-                    i5 = (double)i14;
-                    i15 -= i3;
-                    i2 = (float)i3;
+                if (i != 0) {
+                    i3 = (double)i14;
+                    i15 -= i4;
+                    i2 = (float)i4;
                 } else {
                     d = (double)i14;
                     i21 -= i7;
-                    f += i5;
+                    f += i3;
                 }
             }
         }
@@ -264,27 +264,27 @@ public final class EasingFunctionsKt {
     }
 
     private static final float EaseOutElastic$lambda$1(float fraction) {
-        float i;
+        float i2;
         int cmp;
+        int i3;
+        double i;
         int i4;
-        double i3;
-        int i2;
-        i3 = 0;
-        cmp = Float.compare(fraction, i) == 0 ? i4 : i3;
+        i = 0;
+        cmp = Float.compare(fraction, i2) == 0 ? i3 : i;
         if (cmp != 0) {
         } else {
-            i = 1065353216;
-            if (Float.compare(fraction, i) == 0) {
+            i2 = 1065353216;
+            if (Float.compare(fraction, i2) == 0) {
             } else {
-                i4 = i3;
+                i3 = i;
             }
-            if (i4 != 0) {
+            if (i3 != 0) {
             } else {
-                i2 = 1061158912;
-                i = (float)cmp;
+                i4 = 1061158912;
+                i2 = (float)cmp;
             }
         }
-        return i;
+        return i2;
     }
 
     public static final androidx.compose.animation.core.Easing getEase() {

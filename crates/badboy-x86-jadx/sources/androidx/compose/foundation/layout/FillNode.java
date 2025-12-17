@@ -38,9 +38,9 @@ final class FillNode extends Modifier.Node implements LayoutModifierNode {
         int minWidth;
         int minHeight;
         boolean hasBoundedWidth-impl;
-        int maxWidth-impl2;
-        androidx.compose.foundation.layout.Direction minWidth-impl;
         int maxWidth-impl;
+        androidx.compose.foundation.layout.Direction minWidth-impl;
+        int maxWidth-impl2;
         boolean hasBoundedHeight-impl;
         int maxHeight-impl2;
         androidx.compose.foundation.layout.Direction minHeight-impl;
@@ -50,10 +50,10 @@ final class FillNode extends Modifier.Node implements LayoutModifierNode {
         if (Constraints.getHasBoundedWidth-impl(constraints) && this.direction != Direction.Vertical) {
             if (this.direction != Direction.Vertical) {
                 int i4 = 0;
-                minWidth = maxWidth-impl2;
+                minWidth = maxWidth-impl;
             } else {
                 minWidth = Constraints.getMinWidth-impl(constraints);
-                maxWidth-impl2 = Constraints.getMaxWidth-impl(constraints);
+                maxWidth-impl = Constraints.getMaxWidth-impl(constraints);
             }
         } else {
         }
@@ -69,7 +69,7 @@ final class FillNode extends Modifier.Node implements LayoutModifierNode {
             }
         } else {
         }
-        Placeable measure-BRTryo0 = measurable.measure-BRTryo0(ConstraintsKt.Constraints(minWidth, maxWidth-impl2, minHeight, maxHeight-impl2));
+        Placeable measure-BRTryo0 = measurable.measure-BRTryo0(ConstraintsKt.Constraints(minWidth, maxWidth-impl, minHeight, maxHeight-impl2));
         FillNode.measure.1 anon = new FillNode.measure.1(measure-BRTryo0);
         return MeasureScope.layout$default($this$measure_u2d3p2s80s, measure-BRTryo0.getWidth(), measure-BRTryo0.getHeight(), 0, (Function1)anon, 4, 0);
     }

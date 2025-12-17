@@ -37,8 +37,8 @@ public final class ShadowKt {
 
     public static Modifier shadow-s4CzXII$default(Modifier modifier, float f2, Shape shape3, boolean z4, long l5, long l6, int i7, Object object8) {
         Shape rectangleShape;
-        int i;
         int i2;
+        int i;
         float f;
         long defaultShadowColor;
         long defaultShadowColor2;
@@ -48,10 +48,10 @@ public final class ShadowKt {
             rectangleShape = shape3;
         }
         if (obj15 & 4 != 0) {
-            i2 = 0;
-            i = Dp.compareTo-0680j_4(f2, Dp.constructor-impl((float)i5)) > 0 ? 1 : 0;
+            i = 0;
+            i2 = Dp.compareTo-0680j_4(f2, Dp.constructor-impl((float)i5)) > 0 ? 1 : 0;
         } else {
-            i = z4;
+            i2 = z4;
         }
         if (obj15 & 8 != 0) {
             defaultShadowColor = GraphicsLayerScopeKt.getDefaultShadowColor();
@@ -63,7 +63,7 @@ public final class ShadowKt {
         } else {
             defaultShadowColor2 = i7;
         }
-        return ShadowKt.shadow-s4CzXII(modifier, f2, rectangleShape, i, defaultShadowColor, object8);
+        return ShadowKt.shadow-s4CzXII(modifier, f2, rectangleShape, i2, defaultShadowColor, object8);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Replace with shadow which accepts ambientColor and spotColor parameters", replaceWith = @ReplaceWith(...))

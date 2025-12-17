@@ -132,7 +132,7 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
 
         public static final void setInt-A6tL2VI(androidx.compose.runtime.changelist.Operations arg0, int parameter, int value) {
             int i;
-            String string;
+            String $i$a$CheckPreconditionOperations$WriteScope$setInt$1$1;
             StringBuilder append;
             String intParamName-w8GmfQM;
             final androidx.compose.runtime.changelist.Operations operations = arg0;
@@ -154,7 +154,7 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
 
         public static final <T> void setObject-DKhxnng(androidx.compose.runtime.changelist.Operations arg0, int parameter, T value) {
             int i;
-            String string;
+            String $i$a$CheckPreconditionOperations$WriteScope$setObject$1$1;
             StringBuilder append;
             String objectParamName-31yXWZQ;
             final androidx.compose.runtime.changelist.Operations operations = arg0;
@@ -274,25 +274,25 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
 
     private final String currentOpToDebugString(androidx.compose.runtime.changelist.Operations.OpIterator $this$currentOpToDebugString, String linePrefix) {
         androidx.compose.runtime.changelist.Operation operation;
-        int objects2;
+        int objects;
         StringBuilder stringBuilder;
         String string;
         StringBuilder sb2;
-        int i;
+        int i4;
         int isFirstParam;
         String indent;
-        int objects;
+        int objects2;
         int constructor-impl;
-        int i3;
+        int i2;
         String int-w8GmfQM;
         int append;
         String str;
         String intParamName-w8GmfQM;
         StringBuilder sb;
-        int i4;
-        androidx.compose.runtime.changelist.Operation operation2;
+        int i;
         androidx.compose.runtime.changelist.Operation operation3;
-        int i2;
+        androidx.compose.runtime.changelist.Operation operation2;
+        int i3;
         final Object obj = this;
         final Object obj2 = $this$currentOpToDebugString;
         final String str2 = linePrefix;
@@ -300,23 +300,23 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
         if (operation.getInts() == 0 && operation.getObjects() == 0) {
             if (operation.getObjects() == 0) {
                 string = operation.getName();
-                operation3 = operation;
+                operation2 = operation;
             } else {
                 stringBuilder = new StringBuilder();
                 sb2 = stringBuilder;
-                i = 0;
+                i4 = 0;
                 sb2.append(operation.getName());
                 sb2.append('(');
                 int i6 = 0;
                 isFirstParam = 1;
                 indent = obj.indent(str2);
-                i3 = 0;
+                i2 = 0;
                 int-w8GmfQM = " = ";
                 String str4 = ", ";
                 str = "append('\\n')";
-                while (i3 < operation.getInts()) {
-                    i4 = 0;
-                    constructor-impl = Operation.IntParameter.constructor-impl(i3);
+                while (i2 < operation.getInts()) {
+                    i = 0;
+                    constructor-impl = Operation.IntParameter.constructor-impl(i2);
                     if (isFirstParam == 0) {
                     } else {
                     }
@@ -326,7 +326,7 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
                     sb2.append(operation.intParamName-w8GmfQM(constructor-impl));
                     sb2.append(int-w8GmfQM);
                     sb2.append(obj2.getInt-w8GmfQM(constructor-impl));
-                    i3++;
+                    i2++;
                     int-w8GmfQM = " = ";
                     str4 = ", ";
                     str = "append('\\n')";
@@ -347,13 +347,13 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
                     sb2.append(obj.formatOpArgumentToString(obj2.getObject-31yXWZQ(constructor-impl2), indent));
                     constructor-impl++;
                     stringBuilder = sb;
-                    i = i4;
-                    operation = operation2;
-                    isFirstParam = i2;
+                    i4 = i;
+                    operation = operation3;
+                    isFirstParam = i3;
                     sb2.append(str4);
                 }
-                operation3 = operation;
-                i4 = i;
+                operation2 = operation;
+                i = i4;
                 Intrinsics.checkNotNullExpressionValue(sb2.append('\n'), str);
                 sb2.append(str2);
                 sb2.append(")");
@@ -538,9 +538,9 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
 
     @Override // androidx.compose.runtime.changelist.OperationsDebugStringFormattable
     public final void pop() {
-        int i;
         int i2;
         int i3;
+        int i;
         int intArgs;
         Object[] intArgsSize;
         int objectArgsSize;
@@ -552,21 +552,21 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
             int i6 = 0;
             this.opCodes[this.opCodesSize] = i6;
             int i5 = 0;
-            i2 = i5;
-            while (i2 < operation.getObjects()) {
-                i3 = i2;
+            i3 = i5;
+            while (i3 < operation.getObjects()) {
+                i = i3;
                 intArgs = 0;
                 this.objectArgsSize = objectArgsSize2--;
                 this.objectArgs[this.objectArgsSize] = i6;
-                i2++;
+                i3++;
             }
-            i = i5;
-            while (i < operation.getInts()) {
-                i2 = i;
-                i3 = 0;
+            i2 = i5;
+            while (i2 < operation.getInts()) {
+                i3 = i2;
+                i = 0;
                 this.intArgsSize = intArgsSize2--;
                 this.intArgs[this.intArgsSize] = i5;
-                i++;
+                i2++;
             }
         }
         NoSuchElementException op = new NoSuchElementException("Cannot pop(), because the stack is empty.");
@@ -579,9 +579,9 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
         int otherObjIdx;
         int thisIntIdx;
         int otherIntIdx;
-        int i3;
         int i;
         int i2;
+        int i3;
         int i4;
         Object[] objectArgs;
         Object intArgs;
@@ -599,27 +599,27 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
             int i8 = 0;
             otherObjIdx = other.objectArgsSize;
             int i12 = 0;
-            i3 = i12;
-            while (i3 < operation.getObjects()) {
-                i = i3;
+            i = i12;
+            while (i < operation.getObjects()) {
+                i2 = i;
                 i4 = 0;
                 thisObjIdx--;
                 other.objectArgs[otherObjIdx--] = this.objectArgs[thisObjIdx];
                 this.objectArgs[thisObjIdx] = i9;
-                i3++;
+                i++;
             }
             int i10 = 0;
             thisIntIdx = this.intArgsSize;
             int i11 = 0;
             otherIntIdx = other.intArgsSize;
-            i2 = i12;
-            while (i2 < operation.getInts()) {
-                i4 = i2;
+            i3 = i12;
+            while (i3 < operation.getInts()) {
+                i4 = i3;
                 objectArgs = 0;
                 thisIntIdx--;
                 other.intArgs[otherIntIdx--] = this.intArgs[thisIntIdx];
                 this.intArgs[thisIntIdx] = i12;
-                i2++;
+                i3++;
             }
             this.objectArgsSize = objectArgsSize -= objects2;
             this.intArgsSize = intArgsSize -= ints2;
@@ -632,7 +632,7 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
     public final void push(androidx.compose.runtime.changelist.Operation operation) {
         int objects;
         int i;
-        String string;
+        String $i$a$RequirePreconditionOperations$push$1;
         StringBuilder append;
         String str;
         if (operation.getInts() == 0 && operation.getObjects() == 0) {
@@ -650,55 +650,55 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
 
     public final void push(androidx.compose.runtime.changelist.Operation operation, Function1<? super androidx.compose.runtime.changelist.Operations.WriteScope, Unit> args) {
         Object missingObjects;
-        int i11;
-        int i8;
-        int i3;
+        int i7;
+        int i10;
+        int i;
         StringBuilder append;
-        int missingObjectCount2;
-        int i6;
+        int missingObjectCount;
+        int i2;
         int missingIntCount;
         String string;
         String str;
-        int missingObjectCount;
+        int missingObjectCount2;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i5;
+        int i8;
         String intParamName-w8GmfQM;
-        int i7;
-        int i;
-        int i2;
         int i9;
         int i4;
-        int i10;
+        int i6;
+        int i5;
+        int i11;
+        int i3;
         missingObjects = this;
         final Object obj = operation;
         final int i12 = 0;
         pushOp(operation);
         args.invoke(Operations.WriteScope.box-impl(Operations.WriteScope.constructor-impl(missingObjects)));
-        missingObjectCount2 = 1;
+        missingObjectCount = 1;
         if (Operations.access$getPushedIntMask$p(missingObjects) == Operations.access$createExpectedArgMask(missingObjects, obj.getInts()) && Operations.access$getPushedObjectMask$p(missingObjects) == Operations.access$createExpectedArgMask(missingObjects, obj.getObjects())) {
-            i8 = Operations.access$getPushedObjectMask$p(missingObjects) == Operations.access$createExpectedArgMask(missingObjects, obj.getObjects()) ? missingObjectCount2 : 0;
+            i10 = Operations.access$getPushedObjectMask$p(missingObjects) == Operations.access$createExpectedArgMask(missingObjects, obj.getObjects()) ? missingObjectCount : 0;
         } else {
         }
         int i13 = 0;
-        if (i8 == 0) {
-            i6 = 0;
+        if (i10 == 0) {
+            i2 = 0;
             missingIntCount = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i14 = 0;
-            i5 = 0;
+            i8 = 0;
             intParamName-w8GmfQM = ", ";
-            while (i5 < obj.getInts()) {
-                i7 = i5;
-                i = 0;
-                if (i16 &= i9 != 0 && missingIntCount > 0) {
+            while (i8 < obj.getInts()) {
+                i9 = i8;
+                i4 = 0;
+                if (i16 &= i5 != 0 && missingIntCount > 0) {
                 }
-                i5++;
+                i8++;
                 intParamName-w8GmfQM = ", ";
                 if (missingIntCount > 0) {
                 }
-                sb2.append(obj.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i7)));
+                sb2.append(obj.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i9)));
                 missingIntCount++;
                 sb2.append(intParamName-w8GmfQM);
             }
@@ -707,26 +707,26 @@ public final class Operations extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i7 = 0;
-            missingObjectCount2 = i15;
-            missingObjectCount = 0;
-            while (missingObjectCount < obj.getObjects()) {
-                i2 = missingObjectCount;
-                i9 = 0;
-                if (i17 &= i10 != 0 && missingIntCount > 0) {
+            i9 = 0;
+            missingObjectCount = i15;
+            missingObjectCount2 = 0;
+            while (missingObjectCount2 < obj.getObjects()) {
+                i6 = missingObjectCount2;
+                i5 = 0;
+                if (i17 &= i3 != 0 && missingIntCount > 0) {
                 }
-                missingObjectCount++;
+                missingObjectCount2++;
                 missingObjects = this;
                 if (missingIntCount > 0) {
                 }
-                sb.append(obj.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i2)));
-                missingObjectCount2++;
+                sb.append(obj.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i6)));
+                missingObjectCount++;
                 sb.append(intParamName-w8GmfQM);
             }
             String string2 = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(string2, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(obj).append(". Not all arguments were provided. Missing ").append(missingIntCount).append(" int arguments (").append(string).append(") and ").append(missingObjectCount2).append(" object arguments (").append(string2).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(obj).append(". Not all arguments were provided. Missing ").append(missingIntCount).append(" int arguments (").append(string).append(") and ").append(missingObjectCount).append(" object arguments (").append(string2).append(").").toString());
         }
     }
 

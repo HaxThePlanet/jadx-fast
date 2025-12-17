@@ -54,10 +54,9 @@ public final class TextInputServiceAndroid implements androidx.compose.ui.text.i
     private static enum TextInputCommand {
 
         StartInput,
-        StartInput,
-        StartInput,
-        StartInput,
-        StartInput;
+        StopInput,
+        ShowKeyboard,
+        HideKeyboard;
         private static final androidx.compose.ui.text.input.TextInputServiceAndroid.TextInputCommand[] $values() {
             return /* result */;
         }
@@ -68,10 +67,10 @@ public final class TextInputServiceAndroid implements androidx.compose.ui.text.i
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal2;
-            int ordinal;
-            int ordinal4;
             int ordinal3;
+            int ordinal4;
+            int ordinal;
+            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[TextInputServiceAndroid.TextInputCommand.StartInput.ordinal()] = 1;
             iArr[TextInputServiceAndroid.TextInputCommand.StopInput.ordinal()] = 2;
@@ -278,8 +277,8 @@ public final class TextInputServiceAndroid implements androidx.compose.ui.text.i
     public void notifyFocusedRect(Rect rect) {
         boolean focusedRect;
         int roundToInt;
-        int roundToInt2;
         int roundToInt3;
+        int roundToInt2;
         Rect rect2 = new Rect(MathKt.roundToInt(rect.getLeft()), MathKt.roundToInt(rect.getTop()), MathKt.roundToInt(rect.getRight()), MathKt.roundToInt(rect.getBottom()));
         this.focusedRect = rect2;
         focusedRect = this.focusedRect;
@@ -287,8 +286,8 @@ public final class TextInputServiceAndroid implements androidx.compose.ui.text.i
             focusedRect = this.focusedRect;
             if (focusedRect != null) {
                 roundToInt = 0;
-                roundToInt3 = new Rect(focusedRect);
-                this.view.requestRectangleOnScreen(roundToInt3);
+                roundToInt2 = new Rect(focusedRect);
+                this.view.requestRectangleOnScreen(roundToInt2);
             }
         }
     }
@@ -323,12 +322,12 @@ public final class TextInputServiceAndroid implements androidx.compose.ui.text.i
 
     @Override // androidx.compose.ui.text.input.PlatformTextInputService
     public void updateState(androidx.compose.ui.text.input.TextFieldValue oldValue, androidx.compose.ui.text.input.TextFieldValue newValue) {
-        int i2;
+        int i;
         boolean equal;
         int inputMethodManager;
         int i3;
         TextRange composition-MzsxiRA2;
-        int i;
+        int i2;
         boolean max-impl2;
         int min-impl;
         boolean max-impl;
@@ -337,27 +336,27 @@ public final class TextInputServiceAndroid implements androidx.compose.ui.text.i
         i3 = 1;
         if (TextRange.equals-impl0(this.state.getSelection-d9O1mEE(), obj1)) {
             if (!Intrinsics.areEqual(this.state.getComposition-MzsxiRA(), newValue.getComposition-MzsxiRA())) {
-                i2 = i3;
+                i = i3;
             } else {
-                i2 = inputMethodManager;
+                i = inputMethodManager;
             }
         } else {
         }
         this.state = newValue;
-        i = 0;
+        i2 = 0;
         min-impl = this.ics.size();
-        while (i < min-impl) {
-            max-impl = (WeakReference)this.ics.get(i).get();
+        while (i2 < min-impl) {
+            max-impl = (WeakReference)this.ics.get(i2).get();
             if ((RecordingInputConnection)max-impl == null) {
             } else {
             }
             (RecordingInputConnection)max-impl.setMTextFieldValue$ui_release(newValue);
-            i++;
+            i2++;
         }
         this.cursorAnchorInfoController.invalidate();
         max-impl2 = Intrinsics.areEqual(oldValue, newValue);
-        if (max-impl2 && i2 != 0) {
-            if (i2 != 0) {
+        if (max-impl2 && i != 0) {
+            if (i != 0) {
                 TextRange composition-MzsxiRA4 = this.state.getComposition-MzsxiRA();
                 if (composition-MzsxiRA4 != null) {
                     min-impl = TextRange.getMin-impl(composition-MzsxiRA4.unbox-impl());

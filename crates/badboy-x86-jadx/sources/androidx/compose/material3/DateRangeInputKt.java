@@ -43,283 +43,283 @@ public final class DateRangeInputKt {
     public static final void DateRangeInputContent(Long selectedStartDateMillis, Long selectedEndDateMillis, Function2<? super Long, ? super Long, Unit> onDatesSelectionChange, CalendarModel calendarModel, IntRange yearRange, androidx.compose.material3.DatePickerFormatter dateFormatter, androidx.compose.material3.SelectableDates selectableDates, androidx.compose.material3.DatePickerColors colors, Composer $composer, int $changed) {
         Composer composer2;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv;
-        int i25;
-        int i3;
+        int i11;
+        int i24;
         Object it$iv;
         boolean traceInProgress;
         Object endRangeText;
-        int empty2;
-        Object dateInputFormat;
-        Object obj2;
+        int empty;
+        Object $i$a$CacheDateRangeInputKt$DateRangeInputContent$dateInputFormat$1;
+        Object $i$a$CacheDateRangeInputKt$DateRangeInputContent$dateInputValidator$1;
         boolean valueOf;
         Object anon;
-        Composer composer3;
+        Composer composer;
         Object $dirty2;
-        Object $composer3;
-        int i19;
+        Object $composer2;
+        int i27;
         int $dirty;
         int endDateInput-J2x2o4M;
-        int i;
-        int i18;
-        int i22;
+        int i2;
         int i17;
+        int i9;
+        int i3;
+        Object obj2;
         Object obj;
-        Object obj4;
         int defaultLocale;
         boolean traceInProgress2;
         androidx.compose.material3.DatePickerColors date;
-        int i2;
-        int i21;
+        int i22;
+        int i8;
         Object verticalAlignment$iv;
         boolean changedInstance;
         int changed;
-        int i8;
-        int i30;
-        int str4;
-        int empty;
+        int i25;
+        int i14;
+        int str;
+        int empty2;
         Object obj3;
-        int i15;
-        int i4;
-        Object dateInputValidator;
-        int i24;
-        Object i29;
-        Object i14;
         int i20;
-        DateInputFormat dateInputFormat3;
-        androidx.compose.ui.Alignment.Vertical dateInputFormat2;
+        int i19;
+        Object dateInputValidator;
+        int i5;
         Object i28;
-        int i16;
-        Object string-2EP1pXo3;
-        String string-2EP1pXo;
-        String string-2EP1pXo2;
+        Object i12;
+        int i26;
+        DateInputFormat dateInputFormat2;
+        androidx.compose.ui.Alignment.Vertical dateInputFormat;
+        Object i7;
+        int i6;
+        Object string-2EP1pXo;
+        String string-2EP1pXo3;
         String string-2EP1pXo4;
+        String string-2EP1pXo2;
         int startRangeText;
         int currentCompositeKeyHash;
-        int i5;
-        int i6;
+        int i31;
+        int i21;
         androidx.compose.runtime.CompositionLocalMap map;
         Modifier modifier;
-        Composer composer;
+        Composer composer3;
         String pattern;
-        int i26;
-        int i10;
         int i13;
+        int i16;
+        int i15;
         kotlin.jvm.functions.Function0 function0;
-        int i31;
-        int i7;
+        int i23;
+        int i10;
         androidx.compose.foundation.layout.Arrangement.HorizontalOrVertical horizontalArrangement$iv;
         RowScopeInstance rowScopeInstance;
-        String str2;
-        int i9;
-        int i23;
-        int i27;
-        int i12;
+        String str4;
+        int i18;
+        int i29;
+        int i30;
+        int i;
         Composer $composer$iv;
-        Object obj5;
+        Object obj4;
         Composer.Companion companion;
-        Composer $composer2;
-        int i11;
-        String str;
+        Composer $composer3;
+        int i4;
+        String str2;
         String str3;
         Modifier obj60;
         endRangeText = selectedStartDateMillis;
         obj3 = selectedEndDateMillis;
-        final Object obj8 = onDatesSelectionChange;
+        final Object obj7 = onDatesSelectionChange;
         $dirty2 = calendarModel;
         endDateInput-J2x2o4M = dateFormatter;
         traceInProgress = $changed;
         anon = -607499086;
-        $composer3 = $composer.startRestartGroup(anon);
-        ComposerKt.sourceInformation($composer3, "C(DateRangeInputContent)P(6,5,3!1,7,2,4)45@1775L15,47@1825L75,48@1928L45,49@2008L44,50@2086L45,51@2160L50,53@2248L530,70@2991L2331:DateRangeInput.kt#uh7d8r");
+        $composer2 = $composer.startRestartGroup(anon);
+        ComposerKt.sourceInformation($composer2, "C(DateRangeInputContent)P(6,5,3!1,7,2,4)45@1775L15,47@1825L75,48@1928L45,49@2008L44,50@2086L45,51@2160L50,53@2248L530,70@2991L2331:DateRangeInput.kt#uh7d8r");
         if (traceInProgress & 6 == 0) {
-            i = $composer3.changed(endRangeText) ? 4 : 2;
-            $dirty |= i;
+            i2 = $composer2.changed(endRangeText) ? 4 : 2;
+            $dirty |= i2;
         }
         if (traceInProgress & 48 == 0) {
-            i18 = $composer3.changed(obj3) ? 32 : 16;
-            $dirty |= i18;
-        }
-        if (traceInProgress & 384 == 0) {
-            i22 = $composer3.changedInstance(obj8) ? 256 : 128;
-            $dirty |= i22;
-        }
-        if (traceInProgress & 3072 == 0) {
-            i17 = $composer3.changedInstance($dirty2) ? 2048 : 1024;
+            i17 = $composer2.changed(obj3) ? 32 : 16;
             $dirty |= i17;
         }
-        if (traceInProgress & 24576 == 0) {
-            i2 = $composer3.changedInstance(yearRange) ? 16384 : 8192;
-            $dirty |= i2;
-        } else {
-            obj = yearRange;
+        if (traceInProgress & 384 == 0) {
+            i9 = $composer2.changedInstance(obj7) ? 256 : 128;
+            $dirty |= i9;
         }
-        int i88 = 262144;
+        if (traceInProgress & 3072 == 0) {
+            i3 = $composer2.changedInstance($dirty2) ? 2048 : 1024;
+            $dirty |= i3;
+        }
+        if (traceInProgress & 24576 == 0) {
+            i22 = $composer2.changedInstance(yearRange) ? 16384 : 8192;
+            $dirty |= i22;
+        } else {
+            obj2 = yearRange;
+        }
+        int i87 = 262144;
         if (i75 &= traceInProgress == 0) {
-            if (traceInProgress & i88 == 0) {
-                changedInstance = $composer3.changed(endDateInput-J2x2o4M);
+            if (traceInProgress & i87 == 0) {
+                changedInstance = $composer2.changed(endDateInput-J2x2o4M);
             } else {
-                changedInstance = $composer3.changedInstance(endDateInput-J2x2o4M);
+                changedInstance = $composer2.changedInstance(endDateInput-J2x2o4M);
             }
-            i21 = changedInstance != null ? 131072 : 65536;
-            $dirty |= i21;
+            i8 = changedInstance != null ? 131072 : 65536;
+            $dirty |= i8;
         }
         if (i76 &= traceInProgress == 0) {
-            i15 = $composer3.changed(selectableDates) ? 1048576 : 524288;
-            $dirty |= i15;
+            i20 = $composer2.changed(selectableDates) ? 1048576 : 524288;
+            $dirty |= i20;
         } else {
             verticalAlignment$iv = selectableDates;
         }
-        if (traceInProgress & i102 == 0) {
-            i4 = $composer3.changed(colors) ? 8388608 : 4194304;
-            $dirty |= i4;
+        if (traceInProgress & i101 == 0) {
+            i19 = $composer2.changed(colors) ? 8388608 : 4194304;
+            $dirty |= i19;
         } else {
-            obj4 = colors;
+            obj = colors;
         }
-        if ($dirty & i24 == 4793490) {
-            if (!$composer3.getSkipping()) {
+        if ($dirty & i5 == 4793490) {
+            if (!$composer2.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(anon, $dirty, -1, "androidx.compose.material3.DateRangeInputContent (DateRangeInput.kt:43)");
                 }
-                defaultLocale = CalendarLocale_androidKt.defaultLocale($composer3, 0);
+                defaultLocale = CalendarLocale_androidKt.defaultLocale($composer2, 0);
                 String str12 = "CC(remember):DateRangeInput.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart($composer3, 998328518, str12);
-                Composer composer8 = $composer3;
-                i14 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, 998328518, str12);
+                Composer composer8 = $composer2;
+                i12 = 0;
                 Object rememberedValue3 = composer8.rememberedValue();
-                i28 = 0;
-                if (!$composer3.changed(defaultLocale)) {
+                i7 = 0;
+                if (!$composer2.changed(defaultLocale)) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         int i48 = 0;
                         composer8.updateRememberedValue($dirty2.getDateInputFormat(defaultLocale));
                     } else {
-                        dateInputFormat = rememberedValue3;
+                        $i$a$CacheDateRangeInputKt$DateRangeInputContent$dateInputFormat$1 = rememberedValue3;
                         composer2 = composer8;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd($composer3);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
                 androidx.compose.material3.internal.Strings.Companion companion2 = Strings.Companion;
                 int i80 = 0;
-                int i81 = 0;
+                int $i$f$getDateInputInvalidForPattern8iCLdWM = 0;
                 androidx.compose.material3.internal.Strings.Companion companion3 = Strings.Companion;
-                int i90 = 0;
+                int i89 = 0;
                 androidx.compose.material3.internal.Strings.Companion companion4 = Strings.Companion;
-                int i91 = 0;
+                int i90 = 0;
                 androidx.compose.material3.internal.Strings.Companion companion5 = Strings.Companion;
-                int i92 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer3, 998342509, str12);
-                if (i82 &= $dirty != 131072) {
-                    if ($dirty & i29 != 0 && $composer3.changed(endDateInput-J2x2o4M)) {
-                        if ($composer3.changed(endDateInput-J2x2o4M)) {
-                            i8 = 1;
+                int i91 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, 998342509, str12);
+                if (i81 &= $dirty != 131072) {
+                    if ($dirty & i28 != 0 && $composer2.changed(endDateInput-J2x2o4M)) {
+                        if ($composer2.changed(endDateInput-J2x2o4M)) {
+                            i25 = 1;
                         } else {
-                            i8 = 0;
+                            i25 = 0;
                         }
                     } else {
                     }
                 } else {
                 }
-                Composer composer7 = $composer3;
-                int i94 = 0;
+                Composer composer7 = $composer2;
+                int i93 = 0;
                 Object rememberedValue = composer7.rememberedValue();
-                int i106 = 0;
-                if (changed2 |= i8 == 0) {
-                    dateInputFormat3 = dateInputFormat;
+                int i105 = 0;
+                if (changed2 |= i25 == 0) {
+                    dateInputFormat2 = $i$a$CacheDateRangeInputKt$DateRangeInputContent$dateInputFormat$1;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
-                        int dateInputFormat4 = 0;
-                        dateInputValidator = new DateInputValidator(obj, verticalAlignment$iv, dateInputFormat3, endDateInput-J2x2o4M, Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_input_invalid_for_pattern), $composer3, i81), Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_input_invalid_year_range), $composer3, i81), Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_input_invalid_not_allowed), $composer3, i81), Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_range_input_invalid_range_input), $composer3, i81), 0, 0, 768, 0);
+                        int dateInputFormat3 = 0;
+                        dateInputValidator = new DateInputValidator(obj2, verticalAlignment$iv, dateInputFormat2, endDateInput-J2x2o4M, Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_input_invalid_for_pattern), $composer2, $i$f$getDateInputInvalidForPattern8iCLdWM), Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_input_invalid_year_range), $composer2, $i$f$getDateInputInvalidForPattern8iCLdWM), Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_input_invalid_not_allowed), $composer2, $i$f$getDateInputInvalidForPattern8iCLdWM), Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_range_input_invalid_range_input), $composer2, $i$f$getDateInputInvalidForPattern8iCLdWM), 0, 0, 768, 0);
                         composer7.updateRememberedValue(dateInputValidator);
                     } else {
-                        obj2 = rememberedValue;
+                        $i$a$CacheDateRangeInputKt$DateRangeInputContent$dateInputValidator$1 = rememberedValue;
                     }
                 } else {
-                    dateInputFormat3 = dateInputFormat;
+                    dateInputFormat2 = $i$a$CacheDateRangeInputKt$DateRangeInputContent$dateInputFormat$1;
                 }
-                obj = obj2;
-                ComposerKt.sourceInformationMarkerEnd($composer3);
-                androidx.compose.material3.DateInputValidator date2 = obj;
+                obj2 = $i$a$CacheDateRangeInputKt$DateRangeInputContent$dateInputValidator$1;
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                androidx.compose.material3.DateInputValidator date2 = obj2;
                 int i49 = 0;
                 date2.setCurrentStartDateMillis$material3_release(endRangeText);
                 date2.setCurrentEndDateMillis$material3_release(obj3);
                 Modifier padding = PaddingKt.padding((Modifier)Modifier.Companion, DateInputKt.getInputTextFieldPadding());
                 valueOf = Arrangement.INSTANCE.spacedBy-0680j_4(DateRangeInputKt.TextFieldSpacing);
-                i24 = i66;
-                i29 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer3, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
+                i5 = i66;
+                i28 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
                 androidx.compose.ui.Alignment.Vertical top = Alignment.Companion.getTop();
-                androidx.compose.ui.layout.MeasurePolicy rowMeasurePolicy = RowKt.rowMeasurePolicy((Arrangement.Horizontal)valueOf, top, $composer3, i84 |= i96);
-                i16 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer3, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($composer3, 0);
-                androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap = $composer3.getCurrentCompositionLocalMap();
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier($composer3, padding);
-                i6 = padding;
+                androidx.compose.ui.layout.MeasurePolicy rowMeasurePolicy = RowKt.rowMeasurePolicy((Arrangement.Horizontal)valueOf, top, $composer2, i83 |= i95);
+                i6 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($composer2, 0);
+                androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap = $composer2.getCurrentCompositionLocalMap();
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier($composer2, padding);
+                i21 = padding;
                 kotlin.jvm.functions.Function0 function02 = constructor;
-                i10 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer3, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
+                i16 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer2, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                $composer3.startReusableNode();
-                if ($composer3.getInserting()) {
-                    $composer3.createNode(function02);
+                $composer2.startReusableNode();
+                if ($composer2.getInserting()) {
+                    $composer2.createNode(function02);
                 } else {
                     factory$iv$iv$iv = function02;
-                    $composer3.useNode();
+                    $composer2.useNode();
                 }
-                Composer constructor-impl = Updater.constructor-impl($composer3);
-                int i105 = 0;
+                Composer constructor-impl = Updater.constructor-impl($composer2);
+                int i104 = 0;
                 function0 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, rowMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i107 = 0;
+                int i106 = 0;
                 Composer composer9 = constructor-impl;
-                int i108 = 0;
+                int i107 = 0;
                 if (!composer9.getInserting()) {
                     horizontalArrangement$iv = valueOf;
                     if (!Intrinsics.areEqual(composer9.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer9.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer9;
+                        composer = composer9;
                     }
                 } else {
                     horizontalArrangement$iv = valueOf;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                i26 = i37 & 14;
-                Composer composer4 = $composer3;
-                i13 = 0;
+                i13 = i37 & 14;
+                Composer composer4 = $composer2;
+                i15 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer4, -407918630, "C100@5047L9:Row.kt#2w3rfo");
-                i31 = i51 | 6;
+                i23 = i51 | 6;
                 verticalAlignment$iv = composer4;
                 rowScopeInstance = iNSTANCE;
-                i7 = 0;
+                i10 = 0;
                 ComposerKt.sourceInformationMarkerStart(verticalAlignment$iv, -1199006788, "C75@3252L56,88@3849L203,79@3446L218,86@3692L62,76@3317L972,98@4317L54,110@4882L199,102@4509L190,108@4727L62,99@4380L936:DateRangeInput.kt#uh7d8r");
-                String upperCase = dateInputFormat3.getPatternWithDelimiters().toUpperCase(Locale.ROOT);
+                String upperCase = dateInputFormat2.getPatternWithDelimiters().toUpperCase(Locale.ROOT);
                 Intrinsics.checkNotNullExpressionValue(upperCase, "this as java.lang.String).toUpperCase(Locale.ROOT)");
                 androidx.compose.material3.internal.Strings.Companion companion11 = Strings.Companion;
-                int i109 = 0;
+                int i108 = 0;
                 String string-2EP1pXo6 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_range_picker_start_headline), verticalAlignment$iv, 0);
                 ComposerKt.sourceInformationMarkerStart(verticalAlignment$iv, 1485363141, str12);
-                i25 = $dirty & 896 == 256 ? 1 : 0;
-                i3 = $dirty & 112 == 32 ? 1 : 0;
+                i11 = $dirty & 896 == 256 ? 1 : 0;
+                i24 = $dirty & 112 == 32 ? 1 : 0;
                 Composer composer5 = verticalAlignment$iv;
-                int i103 = 0;
+                int i102 = 0;
                 it$iv = composer5.rememberedValue();
-                int i116 = 0;
-                if (i113 | i3 == 0) {
-                    $composer2 = $composer3;
+                int i115 = 0;
+                if (i112 | i24 == 0) {
+                    $composer3 = $composer2;
                     if (it$iv == Composer.Companion.getEmpty()) {
-                        $composer3 = 0;
-                        obj5 = it$iv;
-                        it$iv = new DateRangeInputKt.DateRangeInputContent.2.1.1(obj8, obj3);
+                        $composer2 = 0;
+                        obj4 = it$iv;
+                        it$iv = new DateRangeInputKt.DateRangeInputContent.2.1.1(obj7, obj3);
                         composer5.updateRememberedValue((Function1)it$iv);
                     } else {
-                        obj5 = it$iv;
+                        obj4 = it$iv;
                     }
                 } else {
-                    $composer2 = $composer3;
+                    $composer3 = $composer2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(verticalAlignment$iv);
                 DateRangeInputKt.DateRangeInputContent.2.2 anon2 = new DateRangeInputKt.DateRangeInputContent.2.2(string-2EP1pXo6, upperCase);
@@ -328,34 +328,34 @@ public final class DateRangeInputKt {
                 DateRangeInputKt.DateRangeInputContent.2.3 anon3 = new DateRangeInputKt.DateRangeInputContent.2.3(upperCase);
                 companion = 1794048;
                 modifier = materializeModifier;
-                empty = 0;
-                obj4 = dateInputFormat3;
+                empty2 = 0;
+                obj = dateInputFormat2;
                 pattern = str14;
-                dateInputFormat2 = vertical2;
-                $composer$iv = $composer2;
+                dateInputFormat = vertical2;
+                $composer$iv = $composer3;
                 map = currentCompositionLocalMap;
                 startRangeText = rowMeasurePolicy;
                 Long num2 = selectedStartDateMillis;
-                DateInputKt.DateInputTextField-tQNruF0(RowScope.weight$default(rowScopeInstance, (Modifier)Modifier.Companion, 1056964608, false, 2, 0), num2, (Function1)it$iv, calendarModel, (Function2)ComposableLambdaKt.rememberComposableLambda(801434508, startRangeText2, anon2, verticalAlignment$iv, i53), (Function2)ComposableLambdaKt.rememberComposableLambda(665407211, startRangeText2, anon3, verticalAlignment$iv, i53), InputIdentifier.Companion.getStartDateInput-J2x2o4M(), (DateInputValidator)obj, obj4, defaultLocale, obj4, verticalAlignment$iv, i46 |= i54, i55 &= 14);
+                DateInputKt.DateInputTextField-tQNruF0(RowScope.weight$default(rowScopeInstance, (Modifier)Modifier.Companion, 1056964608, false, 2, 0), num2, (Function1)it$iv, calendarModel, (Function2)ComposableLambdaKt.rememberComposableLambda(801434508, startRangeText2, anon2, verticalAlignment$iv, i53), (Function2)ComposableLambdaKt.rememberComposableLambda(665407211, startRangeText2, anon3, verticalAlignment$iv, i53), InputIdentifier.Companion.getStartDateInput-J2x2o4M(), (DateInputValidator)obj2, obj, defaultLocale, obj, verticalAlignment$iv, i46 |= i54, i55 &= 14);
                 androidx.compose.material3.internal.Strings.Companion companion9 = Strings.Companion;
                 int i57 = 0;
-                String string-2EP1pXo5 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_range_picker_end_headline), verticalAlignment$iv, empty);
+                String string-2EP1pXo5 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_date_range_picker_end_headline), verticalAlignment$iv, empty2);
                 Modifier weight$default = RowScope.weight$default(rowScopeInstance, (Modifier)Modifier.Companion, 1056964608, false, 2, 0);
                 ComposerKt.sourceInformationMarkerStart(verticalAlignment$iv, 1485396193, str12);
-                int i59 = i117;
-                i19 = i59 & 896 == 256 ? 1 : empty;
+                int i59 = i116;
+                i27 = i59 & 896 == 256 ? 1 : empty2;
                 if (i59 & 14 == 4) {
-                    empty = 1;
+                    empty2 = 1;
                 }
                 Composer composer6 = verticalAlignment$iv;
                 int i70 = 0;
                 Object rememberedValue4 = composer6.rememberedValue();
-                int i100 = 0;
-                if (i19 |= empty == 0) {
+                int i99 = 0;
+                if (i27 |= empty2 == 0) {
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                        empty = 0;
+                        empty2 = 0;
                         obj60 = weight$default;
-                        anon = new DateRangeInputKt.DateRangeInputContent.2.4.1(obj8, num2);
+                        anon = new DateRangeInputKt.DateRangeInputContent.2.4.1(obj7, num2);
                         composer6.updateRememberedValue((Function1)anon);
                     } else {
                         obj60 = weight$default;
@@ -364,14 +364,14 @@ public final class DateRangeInputKt {
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(verticalAlignment$iv);
-                obj3 = str;
+                obj3 = str2;
                 DateRangeInputKt.DateRangeInputContent.2.5 anon4 = new DateRangeInputKt.DateRangeInputContent.2.5(string-2EP1pXo5, obj3);
                 int i71 = 54;
-                int i86 = 1;
+                int i85 = 1;
                 DateRangeInputKt.DateRangeInputContent.2.6 anon5 = new DateRangeInputKt.DateRangeInputContent.2.6(obj3);
-                str2 = string-2EP1pXo5;
-                i11 = i59;
-                DateInputKt.DateInputTextField-tQNruF0(obj60, selectedEndDateMillis, (Function1)anon, calendarModel, (Function2)ComposableLambdaKt.rememberComposableLambda(911487285, i86, anon4, verticalAlignment$iv, i71), (Function2)ComposableLambdaKt.rememberComposableLambda(-961726252, i86, anon5, verticalAlignment$iv, i71), InputIdentifier.Companion.getEndDateInput-J2x2o4M(), obj, obj4, defaultLocale, colors, verticalAlignment$iv, i87 |= i73, i74 & 14);
+                str4 = string-2EP1pXo5;
+                i4 = i59;
+                DateInputKt.DateInputTextField-tQNruF0(obj60, selectedEndDateMillis, (Function1)anon, calendarModel, (Function2)ComposableLambdaKt.rememberComposableLambda(911487285, i85, anon4, verticalAlignment$iv, i71), (Function2)ComposableLambdaKt.rememberComposableLambda(-961726252, i85, anon5, verticalAlignment$iv, i71), InputIdentifier.Companion.getEndDateInput-J2x2o4M(), obj2, obj, defaultLocale, colors, verticalAlignment$iv, i86 |= i73, i74 & 14);
                 ComposerKt.sourceInformationMarkerEnd(verticalAlignment$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer4);
                 $composer$iv.endNode();
@@ -382,15 +382,15 @@ public final class DateRangeInputKt {
                     ComposerKt.traceEventEnd();
                 }
             } else {
-                $composer3.skipToGroupEnd();
-                $composer$iv = $composer3;
-                i11 = $dirty;
+                $composer2.skipToGroupEnd();
+                $composer$iv = $composer2;
+                i4 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = $composer$iv.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new DateRangeInputKt.DateRangeInputContent.3(selectedStartDateMillis, selectedEndDateMillis, obj8, calendarModel, yearRange, dateFormatter, selectableDates, colors, $changed);
+            traceInProgress = new DateRangeInputKt.DateRangeInputContent.3(selectedStartDateMillis, selectedEndDateMillis, obj7, calendarModel, yearRange, dateFormatter, selectableDates, colors, $changed);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }

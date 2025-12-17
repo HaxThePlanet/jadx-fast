@@ -199,11 +199,11 @@ public final class SaversKt {
 
     public static final <T extends Saver<Original, Saveable>, Original, Saveable, Result> Result restore(Saveable value, T saver) {
         boolean equal;
-        int i;
+        int $i$a$LetSaversKt$restore$1;
         Object $this$restore_u24lambda_u243_u24lambda_u242;
         Object obj;
         String str;
-        final int i2 = 0;
+        final int i = 0;
         if (Intrinsics.areEqual(value, false) && !saver instanceof NonNullValueClassSaver) {
             if (!saver instanceof NonNullValueClassSaver) {
                 return 0;
@@ -211,14 +211,14 @@ public final class SaversKt {
         }
         if (value != null) {
             equal = value;
+            int i3 = 0;
             int i4 = 0;
-            int i5 = 0;
             $this$restore_u24lambda_u243_u24lambda_u242 = (Saver)saver.restore(value);
             Intrinsics.reifiedOperationMarker(1, "Result");
             obj = $this$restore_u24lambda_u243_u24lambda_u242;
-            i = $this$restore_u24lambda_u243_u24lambda_u242;
+            $i$a$LetSaversKt$restore$1 = $this$restore_u24lambda_u243_u24lambda_u242;
         }
-        return i;
+        return $i$a$LetSaversKt$restore$1;
     }
 
     public static final <T> T save(T value) {
@@ -227,13 +227,13 @@ public final class SaversKt {
 
     public static final <T extends Saver<Original, Saveable>, Original, Saveable> Object save(Original value, T saver, SaverScope scope) {
         int i;
-        int i2;
-        Object $this$save_u24lambda_u241_u24lambda_u240;
         int i3;
+        Object $this$save_u24lambda_u241_u24lambda_u240;
+        int i2;
         if (value != null) {
             i = value;
-            i2 = 0;
             i3 = 0;
+            i2 = 0;
             if (saver.save(scope, value) == null) {
                 $this$save_u24lambda_u241_u24lambda_u240 = false;
             }

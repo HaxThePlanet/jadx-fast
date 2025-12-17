@@ -23,11 +23,11 @@ public class PlatformImplementations {
         public static final Method getSuppressed = null;
         static {
             int i2;
-            int i3;
             int i;
-            Method method;
-            int it;
+            int i3;
             Method method2;
+            int it;
+            Method method;
             int name;
             int str2;
             boolean equal;
@@ -38,27 +38,27 @@ public class PlatformImplementations {
             final Method[] methods = obj.getMethods();
             Intrinsics.checkNotNull(methods);
             i2 = 0;
-            i3 = i2;
-            while (i3 < methods.length) {
-                method2 = method;
+            i = i2;
+            while (i < methods.length) {
+                method = method2;
                 name = 0;
                 str2 = i2;
-                i3++;
-                Class[] parameterTypes = method2.getParameterTypes();
+                i++;
+                Class[] parameterTypes = method.getParameterTypes();
                 Intrinsics.checkNotNullExpressionValue(parameterTypes, "getParameterTypes(...)");
                 str2 = 1;
             }
-            it = i;
+            it = i3;
             while (i2 < methods.length) {
-                i3 = methods[i2];
-                method2 = 0;
-                if (Intrinsics.areEqual(i3.getName(), "getSuppressed") != 0) {
+                i = methods[i2];
+                method = 0;
+                if (Intrinsics.areEqual(i.getName(), "getSuppressed") != 0) {
                     break;
                 } else {
                 }
                 i2++;
             }
-            int i4 = i3;
+            int i4 = i;
         }
     }
     public void addSuppressed(Throwable cause, Throwable exception) {

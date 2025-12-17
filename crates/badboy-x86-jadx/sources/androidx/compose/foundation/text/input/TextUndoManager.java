@@ -46,11 +46,11 @@ public final class TextUndoManager {
 
     public TextUndoManager(TextUndoOperation textUndoOperation, UndoManager undoManager2, int i3, DefaultConstructorMarker defaultConstructorMarker4) {
         UndoManager undoManager;
-        int i4;
         int i;
-        int i6;
-        int i2;
         int i5;
+        int i2;
+        int i6;
+        int i4;
         int obj7;
         UndoManager obj8;
         obj7 = i3 & 1 != 0 ? 0 : obj7;

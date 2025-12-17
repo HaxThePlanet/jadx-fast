@@ -15,39 +15,39 @@ public final class TextDrawStyleKt {
     }
 
     public static final androidx.compose.ui.text.style.TextForegroundStyle lerp(androidx.compose.ui.text.style.TextForegroundStyle start, androidx.compose.ui.text.style.TextForegroundStyle stop, float fraction) {
-        Object lerpDiscrete2;
-        boolean z;
-        boolean z2;
         Object lerpDiscrete;
+        boolean z2;
+        boolean z;
+        Object lerpDiscrete2;
         long lerp;
         float color-0d7_KjU;
         if (!start instanceof BrushStyle && !stop instanceof BrushStyle) {
             if (!stop instanceof BrushStyle) {
-                lerpDiscrete2 = TextForegroundStyle.Companion.from-8_81llA(ColorKt.lerp-jxsXWHM(start.getColor-0d7_KjU(), obj2, stop.getColor-0d7_KjU()));
+                lerpDiscrete = TextForegroundStyle.Companion.from-8_81llA(ColorKt.lerp-jxsXWHM(start.getColor-0d7_KjU(), obj2, stop.getColor-0d7_KjU()));
             } else {
                 if (start instanceof BrushStyle && stop instanceof BrushStyle) {
                     if (stop instanceof BrushStyle) {
-                        lerpDiscrete2 = TextForegroundStyle.Companion.from((Brush)SpanStyleKt.lerpDiscrete((BrushStyle)start.getBrush(), (BrushStyle)stop.getBrush(), fraction), MathHelpersKt.lerp(start.getAlpha(), stop.getAlpha(), fraction));
+                        lerpDiscrete = TextForegroundStyle.Companion.from((Brush)SpanStyleKt.lerpDiscrete((BrushStyle)start.getBrush(), (BrushStyle)stop.getBrush(), fraction), MathHelpersKt.lerp(start.getAlpha(), stop.getAlpha(), fraction));
                     } else {
-                        lerpDiscrete2 = SpanStyleKt.lerpDiscrete(start, stop, fraction);
+                        lerpDiscrete = SpanStyleKt.lerpDiscrete(start, stop, fraction);
                     }
                 } else {
                 }
             }
         } else {
         }
-        return lerpDiscrete2;
+        return lerpDiscrete;
     }
 
     public static final long modulate-DxMtmZc(long $this$modulate_u2dDxMtmZc, float alpha) {
         int alpha-impl;
         long $this$modulate_u2dDxMtmZc2;
         int i;
+        int i5;
+        int i4;
+        int i6;
         int i3;
         int i2;
-        int i5;
-        int i6;
-        int i4;
         long obj9;
         if (!Float.isNaN(obj11)) {
             if (Float.compare(obj11, i7) >= 0) {

@@ -306,8 +306,8 @@ public class AccessibilityWindowInfoCompat {
     }
 
     public String toString() {
-        int i;
         int i2;
+        int i;
         StringBuilder stringBuilder = new StringBuilder();
         Rect rect = new Rect();
         getBoundsInScreen(rect);
@@ -319,13 +319,13 @@ public class AccessibilityWindowInfoCompat {
         stringBuilder.append(", focused=").append(isFocused());
         stringBuilder.append(", active=").append(isActive());
         final int i4 = 0;
-        i = getParent() != null ? i2 : i4;
-        stringBuilder.append(", hasParent=").append(i);
+        i2 = getParent() != null ? i : i4;
+        stringBuilder.append(", hasParent=").append(i2);
         if (getChildCount() > 0) {
         } else {
-            i2 = i4;
+            i = i4;
         }
-        stringBuilder.append(", hasChildren=").append(i2);
+        stringBuilder.append(", hasChildren=").append(i);
         stringBuilder.append(", transitionTime=").append(getTransitionTimeMillis());
         stringBuilder.append(", locales=").append(getLocales());
         stringBuilder.append(']');

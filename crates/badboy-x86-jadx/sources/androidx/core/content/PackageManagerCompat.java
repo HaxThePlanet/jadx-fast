@@ -33,26 +33,26 @@ public final class PackageManagerCompat {
     public @interface UnusedAppRestrictionsStatus {
     }
     public static boolean areUnusedAppRestrictionsAvailable(PackageManager packageManager) {
-        int i3;
         int i4;
-        int i2;
         int i;
-        i4 = 1;
+        int i3;
+        int i2;
+        i = 1;
         final int i5 = 0;
         int i6 = 30;
-        i3 = Build.VERSION.SDK_INT >= i6 ? i4 : i5;
-        i2 = Build.VERSION.SDK_INT < i6 ? i4 : i5;
-        i = PackageManagerCompat.getPermissionRevocationVerifierApp(packageManager) != null ? i4 : i5;
-        if (i3 == 0) {
-            if (i2 != 0 && i != 0) {
-                if (i != 0) {
+        i4 = Build.VERSION.SDK_INT >= i6 ? i : i5;
+        i3 = Build.VERSION.SDK_INT < i6 ? i : i5;
+        i2 = PackageManagerCompat.getPermissionRevocationVerifierApp(packageManager) != null ? i : i5;
+        if (i4 == 0) {
+            if (i3 != 0 && i2 != 0) {
+                if (i2 != 0) {
                 } else {
-                    i4 = i5;
+                    i = i5;
                 }
             } else {
             }
         }
-        return i4;
+        return i;
     }
 
     public static String getPermissionRevocationVerifierApp(PackageManager packageManager) {

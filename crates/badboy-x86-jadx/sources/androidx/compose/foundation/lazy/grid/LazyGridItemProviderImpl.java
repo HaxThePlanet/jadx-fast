@@ -29,14 +29,14 @@ final class LazyGridItemProviderImpl implements androidx.compose.foundation.lazy
 
     @Override // androidx.compose.foundation.lazy.grid.LazyGridItemProvider
     public void Item(int index, Object key, Composer $composer, int $changed) {
-        int i5;
         int i6;
-        int i4;
+        int i;
+        int i5;
         int i3;
         Object obj;
         int skipping;
         boolean traceInProgress;
-        int i;
+        int i4;
         int str;
         androidx.compose.foundation.lazy.layout.LazyLayoutPinnedItemList pinnedItems$foundation_release;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
@@ -44,16 +44,16 @@ final class LazyGridItemProviderImpl implements androidx.compose.foundation.lazy
         int obj8;
         Object obj9;
         int obj10;
-        i5 = 1493551140;
-        final Composer restartGroup = $composer.startRestartGroup(i5);
+        i6 = 1493551140;
+        final Composer restartGroup = $composer.startRestartGroup(i6);
         ComposerKt.sourceInformation(restartGroup, "C(Item)75@2938L162,75@2884L216:LazyGridItemProvider.kt#7791vq");
         if ($changed & 6 == 0) {
-            i6 = restartGroup.changed(index) ? 4 : 2;
-            obj10 |= i6;
+            i = restartGroup.changed(index) ? 4 : 2;
+            obj10 |= i;
         }
         if ($changed & 48 == 0) {
-            i4 = restartGroup.changedInstance(key) ? 32 : 16;
-            obj10 |= i4;
+            i5 = restartGroup.changedInstance(key) ? 32 : 16;
+            obj10 |= i5;
         }
         if ($changed & 384 == 0) {
             i3 = restartGroup.changed(this) ? 256 : 128;
@@ -62,23 +62,23 @@ final class LazyGridItemProviderImpl implements androidx.compose.foundation.lazy
         if (obj10 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i5, obj10, -1, "androidx.compose.foundation.lazy.grid.LazyGridItemProviderImpl.Item (LazyGridItemProvider.kt:74)");
+                    ComposerKt.traceEventStart(i6, obj10, -1, "androidx.compose.foundation.lazy.grid.LazyGridItemProviderImpl.Item (LazyGridItemProvider.kt:74)");
                 }
                 LazyGridItemProviderImpl.Item.1 anon = new LazyGridItemProviderImpl.Item.1(this, index);
-                LazyLayoutPinnableItemKt.LazyLayoutPinnableItem(key, index, this.state.getPinnedItems$foundation_release(), (Function2)ComposableLambdaKt.rememberComposableLambda(726189336, true, anon, restartGroup, 54), restartGroup, i5 | i11);
+                LazyLayoutPinnableItemKt.LazyLayoutPinnableItem(key, index, this.state.getPinnedItems$foundation_release(), (Function2)ComposableLambdaKt.rememberComposableLambda(726189336, true, anon, restartGroup, 54), restartGroup, i6 | i11);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i = index;
+                i4 = index;
                 obj = key;
             }
         } else {
         }
         obj8 = restartGroup.endRestartGroup();
         if (obj8 != null) {
-            obj9 = new LazyGridItemProviderImpl.Item.2(this, i, obj, $changed);
+            obj9 = new LazyGridItemProviderImpl.Item.2(this, i4, obj, $changed);
             obj8.updateScope((Function2)obj9);
         }
     }

@@ -23,10 +23,10 @@ public final class SavedStateDecoder_androidKt {
     public static final <T> T decodeFormatSpecificTypesOnPlatform(androidx.savedstate.serialization.SavedStateDecoder $this$decodeFormatSpecificTypesOnPlatform, DeserializationStrategy<? extends T> strategy) {
         kotlinx.serialization.descriptors.SerialDescriptor descriptor;
         android.os.Parcelable parcelableArr;
-        boolean equal;
         boolean equal2;
-        boolean nullablePolymorphicSparseParcelableArrayDescriptor;
         boolean equal3;
+        boolean nullablePolymorphicSparseParcelableArrayDescriptor;
+        boolean equal;
         int length;
         Class javaClass;
         Intrinsics.checkNotNullParameter($this$decodeFormatSpecificTypesOnPlatform, "<this>");

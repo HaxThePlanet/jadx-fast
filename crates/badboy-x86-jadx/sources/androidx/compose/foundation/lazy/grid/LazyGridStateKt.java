@@ -28,34 +28,34 @@ public final class LazyGridStateKt {
     }
 
     public static final androidx.compose.foundation.lazy.grid.LazyGridState rememberLazyGridState(int initialFirstVisibleItemIndex, int initialFirstVisibleItemScrollOffset, androidx.compose.foundation.lazy.grid.LazyGridPrefetchStrategy prefetchStrategy, Composer $composer, int $changed, int i6) {
-        int i7;
         int i4;
-        int i;
+        int i5;
+        int i3;
         int invalid$iv;
         boolean traceInProgress;
         boolean changed;
         int changed2;
-        int i5;
-        boolean changedInstance;
-        int i3;
-        int i10;
         int i2;
+        boolean changedInstance;
+        int i9;
+        int i7;
+        int i10;
         Object obj;
         int str;
         Object rememberedValue;
-        int i9;
+        int i;
         Object anon;
-        Object obj2;
+        Object $i$a$CacheLazyGridStateKt$rememberLazyGridState$2;
         int i8;
         final Composer composer2 = $composer;
         final int i25 = $changed;
         int i11 = -20335728;
         ComposerKt.sourceInformationMarkerStart(composer2, i11, "C(rememberLazyGridState)97@4208L39,99@4361L161,99@4279L243:LazyGridState.kt#7791vq");
-        i10 = i6 & 1 != 0 ? i7 : initialFirstVisibleItemIndex;
-        i2 = i6 & 2 != 0 ? i4 : initialFirstVisibleItemScrollOffset;
+        i7 = i6 & 1 != 0 ? i4 : initialFirstVisibleItemIndex;
+        i10 = i6 & 2 != 0 ? i5 : initialFirstVisibleItemScrollOffset;
         int i12 = 4;
         String str3 = "CC(remember):LazyGridState.kt#9igjgp";
-        i3 = 0;
+        i9 = 0;
         int i23 = 1;
         if (i6 & 4 != 0) {
             ComposerKt.sourceInformationMarkerStart(composer2, -890184503, str3);
@@ -63,12 +63,12 @@ public final class LazyGridStateKt {
             Composer composer3 = $composer;
             str = 0;
             rememberedValue = composer3.rememberedValue();
-            i9 = 0;
+            i = 0;
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 int i30 = 0;
-                composer3.updateRememberedValue(LazyGridPrefetchStrategyKt.LazyGridPrefetchStrategy$default(i3, i23, 0));
+                composer3.updateRememberedValue(LazyGridPrefetchStrategyKt.LazyGridPrefetchStrategy$default(i9, i23, 0));
             } else {
-                obj2 = rememberedValue;
+                $i$a$CacheLazyGridStateKt$rememberLazyGridState$2 = rememberedValue;
             }
             ComposerKt.sourceInformationMarkerEnd(composer2);
             obj = invalid$iv;
@@ -80,16 +80,16 @@ public final class LazyGridStateKt {
         }
         ComposerKt.sourceInformationMarkerStart(composer2, -890179485, str3);
         if (i18 ^= 6 > i12) {
-            if (!composer2.changed(i10)) {
-                i = i25 & 6 == i12 ? i23 : i3;
+            if (!composer2.changed(i7)) {
+                i3 = i25 & 6 == i12 ? i23 : i9;
             } else {
             }
         } else {
         }
         int i27 = 32;
         if (i19 ^= 48 > i27) {
-            if (!composer2.changed(i2)) {
-                i5 = i25 & 48 == i27 ? i23 : i3;
+            if (!composer2.changed(i10)) {
+                i2 = i25 & 48 == i27 ? i23 : i9;
             } else {
             }
         } else {
@@ -98,7 +98,7 @@ public final class LazyGridStateKt {
         if (i20 ^= 384 > i28) {
             if (!composer2.changedInstance(obj)) {
                 if (i25 & 384 == i28) {
-                    i3 = i23;
+                    i9 = i23;
                 }
             } else {
             }
@@ -108,10 +108,10 @@ public final class LazyGridStateKt {
         int i21 = 0;
         Object rememberedValue2 = composer.rememberedValue();
         int i29 = 0;
-        if (i13 |= i3 == 0) {
+        if (i13 |= i9 == 0) {
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
                 rememberedValue = 0;
-                anon = new LazyGridStateKt.rememberLazyGridState.3.1(i10, i2, obj);
+                anon = new LazyGridStateKt.rememberLazyGridState.3.1(i7, i10, obj);
                 composer.updateRememberedValue((Function0)anon);
             } else {
                 anon = rememberedValue2;

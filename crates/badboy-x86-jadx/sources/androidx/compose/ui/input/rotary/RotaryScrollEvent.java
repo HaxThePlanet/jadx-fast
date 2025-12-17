@@ -24,20 +24,20 @@ public final class RotaryScrollEvent {
 
     public boolean equals(Object other) {
         int inputDeviceId;
-        int i2;
         int i;
+        int i2;
         int horizontalScrollPixels;
         long uptimeMillis;
-        i2 = 0;
+        i = 0;
         if (other instanceof RotaryScrollEvent) {
-            i = 1;
-            inputDeviceId = Float.compare(verticalScrollPixels, verticalScrollPixels2) == 0 ? i : i2;
+            i2 = 1;
+            inputDeviceId = Float.compare(verticalScrollPixels, verticalScrollPixels2) == 0 ? i2 : i;
             if (inputDeviceId != 0) {
-                inputDeviceId = Float.compare(horizontalScrollPixels2, horizontalScrollPixels) == 0 ? i : i2;
+                inputDeviceId = Float.compare(horizontalScrollPixels2, horizontalScrollPixels) == 0 ? i2 : i;
                 if (inputDeviceId != 0 && Long.compare(horizontalScrollPixels, uptimeMillis) == 0 && obj4.inputDeviceId == this.inputDeviceId) {
                     if (Long.compare(horizontalScrollPixels, uptimeMillis) == 0) {
                         if (obj4.inputDeviceId == this.inputDeviceId) {
-                            i2 = i;
+                            i = i2;
                         } else {
                         }
                     } else {
@@ -48,7 +48,7 @@ public final class RotaryScrollEvent {
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public final float getHorizontalScrollPixels() {

@@ -45,35 +45,35 @@ public final class ParagraphKt {
     }
 
     public static androidx.compose.ui.text.Paragraph Paragraph$default(String string, androidx.compose.ui.text.TextStyle textStyle2, float f3, Density density4, FontFamily.Resolver fontFamily$Resolver5, List list6, List list7, int i8, boolean z9, int i10, Object object11) {
-        int i;
-        int emptyList2;
-        int emptyList;
-        int i4;
-        List list2;
-        List list;
         int i2;
+        int emptyList;
+        int emptyList2;
+        int i;
+        List list;
+        List list2;
         int i3;
+        int i4;
         int i5 = i10;
         if (i5 & 32 != 0) {
-            list2 = emptyList2;
-        } else {
-            list2 = list6;
-        }
-        if (i5 & 64 != 0) {
             list = emptyList;
         } else {
-            list = list7;
+            list = list6;
         }
-        i2 = i5 & 128 != 0 ? i4 : i8;
-        i3 = i5 &= 256 != 0 ? i : z9;
-        return ParagraphKt.Paragraph(string, textStyle2, f3, density4, resolver5, list2, list, i2, i3);
+        if (i5 & 64 != 0) {
+            list2 = emptyList2;
+        } else {
+            list2 = list7;
+        }
+        i3 = i5 & 128 != 0 ? i : i8;
+        i4 = i5 &= 256 != 0 ? i2 : z9;
+        return ParagraphKt.Paragraph(string, textStyle2, f3, density4, resolver5, list, list2, i3, i4);
     }
 
     public static androidx.compose.ui.text.Paragraph Paragraph$default(String string, androidx.compose.ui.text.TextStyle textStyle2, List list3, List list4, int i5, boolean z6, float f7, Density density8, Font.ResourceLoader font$ResourceLoader9, int i10, Object object11) {
         List list;
         List list2;
-        int i;
         int i2;
+        int i;
         List obj11;
         List obj12;
         int obj13;
@@ -88,9 +88,9 @@ public final class ParagraphKt {
         } else {
             list2 = list4;
         }
-        i = i10 & 16 != 0 ? obj13 : i5;
-        i2 = i10 & 32 != 0 ? obj14 : z6;
-        return ParagraphKt.Paragraph(string, textStyle2, list, list2, i, i2, f7, density8, resourceLoader9);
+        i2 = i10 & 16 != 0 ? obj13 : i5;
+        i = i10 & 32 != 0 ? obj14 : z6;
+        return ParagraphKt.Paragraph(string, textStyle2, list, list2, i2, i, f7, density8, resourceLoader9);
     }
 
     public static final androidx.compose.ui.text.Paragraph Paragraph-UdtVg6A(String text, androidx.compose.ui.text.TextStyle style, long constraints, Density density, FontFamily.Resolver fontFamilyResolver, List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.SpanStyle>> spanStyles, List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.Placeholder>> placeholders, int maxLines, boolean ellipsis) {
@@ -99,27 +99,27 @@ public final class ParagraphKt {
 
     public static androidx.compose.ui.text.Paragraph Paragraph-UdtVg6A$default(String string, androidx.compose.ui.text.TextStyle textStyle2, long l3, Density density4, FontFamily.Resolver fontFamily$Resolver5, List list6, List list7, int i8, boolean z9, int i10, Object object11) {
         int i2;
-        int emptyList2;
         int emptyList;
-        int i3;
-        List list2;
-        List list;
-        int i4;
+        int emptyList2;
         int i;
+        List list;
+        List list2;
+        int i4;
+        int i3;
         int i5 = object11;
         if (i5 & 32 != 0) {
-            list2 = emptyList2;
-        } else {
-            list2 = list7;
-        }
-        if (i5 & 64 != 0) {
             list = emptyList;
         } else {
-            list = i8;
+            list = list7;
         }
-        i4 = i5 & 128 != 0 ? i3 : z9;
-        i = i5 &= 256 != 0 ? i2 : i10;
-        return ParagraphKt.Paragraph-UdtVg6A(string, textStyle2, l3, obj5, resolver5, list6, list2, list, i4);
+        if (i5 & 64 != 0) {
+            list2 = emptyList2;
+        } else {
+            list2 = i8;
+        }
+        i4 = i5 & 128 != 0 ? i : z9;
+        i3 = i5 &= 256 != 0 ? i2 : i10;
+        return ParagraphKt.Paragraph-UdtVg6A(string, textStyle2, l3, obj5, resolver5, list6, list, list2, i4);
     }
 
     public static final androidx.compose.ui.text.Paragraph Paragraph-_EkL_-Y(androidx.compose.ui.text.ParagraphIntrinsics paragraphIntrinsics, long constraints, int maxLines, boolean ellipsis) {

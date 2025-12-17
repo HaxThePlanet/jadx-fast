@@ -54,11 +54,11 @@ public final class SerializedCollection implements Externalizable {
     @Override // java.io.Externalizable
     public void readExternal(ObjectInput input) {
         Object build;
-        int i3;
-        Object obj;
         int i2;
+        Object obj;
         int i4;
         int i;
+        int i3;
         Object object;
         Intrinsics.checkNotNullParameter(input, "input");
         byte byte = input.readByte();
@@ -69,24 +69,24 @@ public final class SerializedCollection implements Externalizable {
             int int = input.readInt();
             if (int < 0) {
             } else {
-                i3 = 0;
+                i2 = 0;
                 switch (i5) {
                     case 0:
                         List listBuilder = CollectionsKt.createListBuilder(int);
-                        i2 = 0;
-                        i4 = i3;
-                        i = 0;
+                        i4 = 0;
+                        i = i2;
+                        i3 = 0;
                         listBuilder.add(input.readObject());
-                        i3++;
+                        i2++;
                         build = CollectionsKt.build(listBuilder);
                         break;
                     case 1:
                         Set setBuilder = SetsKt.createSetBuilder(int);
-                        i2 = 0;
-                        i4 = i3;
-                        i = 0;
+                        i4 = 0;
+                        i = i2;
+                        i3 = 0;
                         setBuilder.add(input.readObject());
-                        i3++;
+                        i2++;
                         build = SetsKt.build(setBuilder);
                         break;
                     default:

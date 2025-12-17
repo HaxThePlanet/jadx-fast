@@ -18,10 +18,10 @@ public final class TextPreparedSelectionKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
+            int ordinal3;
             int ordinal2;
             int ordinal4;
-            int ordinal3;
+            int ordinal;
             int[] iArr = new int[values.length];
             iArr[IndexTransformationType.Untransformed.ordinal()] = 1;
             iArr[IndexTransformationType.Deletion.ordinal()] = 2;
@@ -33,9 +33,9 @@ public final class TextPreparedSelectionKt {
     public static final int calculateAdjacentCursorPosition(String transformedText, int cursor, boolean forward, TransformedTextFieldState state) {
         int precedingBreak;
         IndexTransformationType untransformed;
-        boolean collapsed-impl;
-        boolean collapsed-impl2;
         boolean collapsed-impl3;
+        boolean collapsed-impl2;
+        boolean collapsed-impl;
         int start-impl;
         int ordinal;
         final Object obj2 = state;

@@ -17,28 +17,28 @@ public final class SelectableKt {
     public static final Modifier selectable-O2vRcR0(Modifier $this$selectable_u2dO2vRcR0, boolean selected, MutableInteractionSource interactionSource, Indication indication, boolean enabled, Role role, Function0<Unit> onClick) {
         int indication2;
         Object obj2;
-        int i2;
-        boolean z4;
-        Role role3;
-        Function0 function03;
+        int $i$a$ClickableWithIndicationIfNeededSelectableKt$selectable$3;
+        boolean z2;
+        Role role2;
+        Function0 function0;
         Modifier selectableElement;
         boolean z;
         MutableInteractionSource mutableInteractionSource2;
         Object obj;
-        boolean z3;
+        boolean z5;
         Role role4;
         Function0 function02;
-        int i4;
-        androidx.compose.foundation.selection.SelectableElement selectableElement2;
-        boolean z2;
-        MutableInteractionSource mutableInteractionSource;
         int i;
-        boolean z5;
-        Role role2;
-        Function0 function0;
+        androidx.compose.foundation.selection.SelectableElement selectableElement2;
+        boolean z3;
+        MutableInteractionSource mutableInteractionSource;
         int i3;
+        boolean z4;
+        Role role3;
+        Function0 function03;
+        int i2;
         obj2 = indication;
-        final int i6 = 0;
+        final int i5 = 0;
         if (obj2 instanceof IndicationNodeFactory != null) {
             indication2 = 0;
             selectableElement = new SelectableElement(selected, interactionSource, (IndicationNodeFactory)obj2, enabled, role, onClick, 0);
@@ -49,13 +49,13 @@ public final class SelectableKt {
                 selectableElement = selectableElement2;
             } else {
                 if (interactionSource != null) {
-                    int i5 = 0;
+                    int i4 = 0;
                     selectableElement2 = new SelectableElement(selected, interactionSource, 0, enabled, role, onClick, 0);
                     selectableElement = IndicationKt.indication((Modifier)Modifier.Companion, (InteractionSource)interactionSource, obj2).then((Modifier)selectableElement2);
                 } else {
                     indication2 = new SelectableKt.selectable-O2vRcR0$$inlined.clickableWithIndicationIfNeeded.1(obj2, selected, enabled, role, onClick);
-                    i2 = 0;
-                    selectableElement = ComposedModifierKt.composed$default((Modifier)Modifier.Companion, i2, (Function3)indication2, 1, i2);
+                    $i$a$ClickableWithIndicationIfNeededSelectableKt$selectable$3 = 0;
+                    selectableElement = ComposedModifierKt.composed$default((Modifier)Modifier.Companion, $i$a$ClickableWithIndicationIfNeededSelectableKt$selectable$3, (Function3)indication2, 1, $i$a$ClickableWithIndicationIfNeededSelectableKt$selectable$3);
                 }
             }
         }
@@ -63,13 +63,13 @@ public final class SelectableKt {
     }
 
     public static Modifier selectable-O2vRcR0$default(Modifier modifier, boolean z2, MutableInteractionSource mutableInteractionSource3, Indication indication4, boolean z5, Role role6, Function0 function07, int i8, Object object9) {
-        int i2;
         int i;
+        int i2;
         int obj11;
         int obj12;
-        i2 = i8 & 8 != 0 ? obj11 : z5;
-        i = i8 & 16 != 0 ? obj12 : role6;
-        return SelectableKt.selectable-O2vRcR0(modifier, z2, mutableInteractionSource3, indication4, i2, i, function07);
+        i = i8 & 8 != 0 ? obj11 : z5;
+        i2 = i8 & 16 != 0 ? obj12 : role6;
+        return SelectableKt.selectable-O2vRcR0(modifier, z2, mutableInteractionSource3, indication4, i, i2, function07);
     }
 
     public static final Modifier selectable-XHw0xAI(Modifier $this$selectable_u2dXHw0xAI, boolean selected, boolean enabled, Role role, Function0<Unit> onClick) {

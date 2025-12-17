@@ -59,23 +59,23 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
 
     @Override // androidx.compose.ui.graphics.drawscope.DrawScope
     public final void draw-eZhPAX0$ui_release(Canvas canvas, long size, androidx.compose.ui.node.NodeCoordinator coordinator, Modifier.Node drawNode, GraphicsLayer layer) {
-        int kind$iv2;
+        int $i$f$getDrawOLwlOKw;
         int stack$iv;
         Object node$iv;
-        int this_$iv$iv;
-        Object obj2;
+        int this_$iv$iv2;
+        Object obj;
         Canvas canvas2;
         long l;
         androidx.compose.ui.node.NodeCoordinator mutableVector;
         Object node$iv$iv;
-        Object obj;
+        Object obj2;
         int i;
-        int this_$iv$iv2;
+        int this_$iv$iv;
         int i2;
         int i3;
         int kind$iv;
         int i4 = 0;
-        kind$iv2 = NodeKind.constructor-impl(4);
+        $i$f$getDrawOLwlOKw = NodeKind.constructor-impl(4);
         final int i6 = 0;
         stack$iv = 0;
         int i7 = 0;
@@ -84,114 +84,114 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
             if (node$iv instanceof DrawModifierNode) {
             } else {
             }
-            obj2 = 0;
+            obj = 0;
             l = 0;
-            if (kindSet$ui_release &= kind$iv2 != 0) {
+            if (kindSet$ui_release &= $i$f$getDrawOLwlOKw != 0) {
             } else {
             }
-            this_$iv$iv = l;
-            if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
+            this_$iv$iv2 = l;
+            if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
             } else {
             }
-            kind$iv = kind$iv2;
+            kind$iv = $i$f$getDrawOLwlOKw;
             node$iv = DelegatableNodeKt.access$pop(stack$iv);
-            kind$iv2 = kind$iv;
+            $i$f$getDrawOLwlOKw = kind$iv;
             if (node$iv instanceof DelegatingNode) {
             } else {
             }
-            this_$iv$iv = 0;
+            this_$iv$iv2 = 0;
             canvas2 = 0;
             node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
             while (node$iv$iv != null) {
-                obj = node$iv$iv;
+                obj2 = node$iv$iv;
                 i = 0;
                 i2 = 0;
-                if (kindSet$ui_release2 &= kind$iv2 != 0) {
+                if (kindSet$ui_release2 &= $i$f$getDrawOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv2 = l;
-                if (this_$iv$iv2 != 0) {
+                this_$iv$iv = l;
+                if (this_$iv$iv != 0) {
                 } else {
                 }
-                kind$iv = kind$iv2;
+                kind$iv = $i$f$getDrawOLwlOKw;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                kind$iv2 = kind$iv;
+                $i$f$getDrawOLwlOKw = kind$iv;
                 mutableVector = 1;
-                if (this_$iv$iv++ == mutableVector) {
+                if (this_$iv$iv2++ == mutableVector) {
                 } else {
                 }
                 if (stack$iv == 0) {
                 } else {
                 }
-                kind$iv = kind$iv2;
+                kind$iv = $i$f$getDrawOLwlOKw;
                 mutableVector = stack$iv;
                 stack$iv = mutableVector;
-                kind$iv2 = node$iv;
-                if (kind$iv2 != null && stack$iv != null) {
+                $i$f$getDrawOLwlOKw = node$iv;
+                if ($i$f$getDrawOLwlOKw != null && stack$iv != null) {
                 }
                 if (stack$iv != null) {
                 }
-                stack$iv.add(obj);
+                stack$iv.add(obj2);
                 if (stack$iv != null) {
                 }
                 node$iv = 0;
-                stack$iv.add(kind$iv2);
-                this_$iv$iv2 = 0;
+                stack$iv.add($i$f$getDrawOLwlOKw);
+                this_$iv$iv = 0;
                 i3 = 0;
-                kind$iv = kind$iv2;
+                kind$iv = $i$f$getDrawOLwlOKw;
                 mutableVector = new MutableVector(new Modifier.Node[16], l);
-                node$iv = obj;
-                kind$iv = kind$iv2;
-                this_$iv$iv2 = mutableVector;
+                node$iv = obj2;
+                kind$iv = $i$f$getDrawOLwlOKw;
+                this_$iv$iv = mutableVector;
             }
-            if (this_$iv$iv == 1) {
+            if (this_$iv$iv2 == 1) {
             } else {
             }
-            kind$iv2 = kind$iv;
-            obj = node$iv$iv;
+            $i$f$getDrawOLwlOKw = kind$iv;
+            obj2 = node$iv$iv;
             i = 0;
             i2 = 0;
-            if (kindSet$ui_release2 &= kind$iv2 != 0) {
+            if (kindSet$ui_release2 &= $i$f$getDrawOLwlOKw != 0) {
             } else {
             }
-            this_$iv$iv2 = l;
-            if (this_$iv$iv2 != 0) {
+            this_$iv$iv = l;
+            if (this_$iv$iv != 0) {
             } else {
             }
-            kind$iv = kind$iv2;
+            kind$iv = $i$f$getDrawOLwlOKw;
             node$iv$iv = node$iv$iv.getChild$ui_release();
-            kind$iv2 = kind$iv;
+            $i$f$getDrawOLwlOKw = kind$iv;
             mutableVector = 1;
-            if (this_$iv$iv++ == mutableVector) {
+            if (this_$iv$iv2++ == mutableVector) {
             } else {
             }
             if (stack$iv == 0) {
             } else {
             }
-            kind$iv = kind$iv2;
+            kind$iv = $i$f$getDrawOLwlOKw;
             mutableVector = stack$iv;
             stack$iv = mutableVector;
-            kind$iv2 = node$iv;
-            if (kind$iv2 != null && stack$iv != null) {
+            $i$f$getDrawOLwlOKw = node$iv;
+            if ($i$f$getDrawOLwlOKw != null && stack$iv != null) {
             }
             if (stack$iv != null) {
             }
-            stack$iv.add(obj);
+            stack$iv.add(obj2);
             if (stack$iv != null) {
             }
             node$iv = 0;
-            stack$iv.add(kind$iv2);
-            this_$iv$iv2 = 0;
-            i3 = 0;
-            kind$iv = kind$iv2;
-            mutableVector = new MutableVector(new Modifier.Node[16], l);
-            node$iv = obj;
-            kind$iv = kind$iv2;
-            this_$iv$iv2 = mutableVector;
-            this_$iv$iv = mutableVector;
+            stack$iv.add($i$f$getDrawOLwlOKw);
             this_$iv$iv = 0;
+            i3 = 0;
+            kind$iv = $i$f$getDrawOLwlOKw;
+            mutableVector = new MutableVector(new Modifier.Node[16], l);
+            node$iv = obj2;
+            kind$iv = $i$f$getDrawOLwlOKw;
+            this_$iv$iv = mutableVector;
+            this_$iv$iv2 = mutableVector;
+            this_$iv$iv2 = 0;
             this.drawDirect-eZhPAX0$ui_release(canvas, size, mutableVector, drawNode, (DrawModifierNode)node$iv);
-            kind$iv = kind$iv2;
+            kind$iv = $i$f$getDrawOLwlOKw;
         }
     }
 
@@ -219,32 +219,32 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
     public void drawContent() {
         Object requireCoordinator-64DMado;
         int mutableVector;
-        Object $this$drawIntoCanvas$iv2;
+        Object $this$drawIntoCanvas$iv4;
         Modifier.Node $this$drawIntoCanvas$iv;
         int graphicsLayer;
         int $i$f$drawIntoCanvas;
         int constructor-impl;
         Modifier.Node node2;
-        int i3;
+        int i2;
         int stack$iv;
         Modifier.Node node$iv;
         int this_$iv$iv;
         Modifier.Node node;
         int graphicsLayer2;
-        int i2;
+        int i5;
         Modifier.Node node$iv$iv;
         Modifier.Node node3;
-        int i;
-        int this_$iv$iv2;
-        int i4;
-        int i5;
-        Object $this$drawIntoCanvas$iv3;
-        Object $this$drawIntoCanvas$iv4;
         int i6;
+        int this_$iv$iv2;
+        int i3;
         int i7;
+        Object $this$drawIntoCanvas$iv2;
+        Object $this$drawIntoCanvas$iv3;
+        int i;
+        int i4;
         requireCoordinator-64DMado = this;
-        $this$drawIntoCanvas$iv2 = requireCoordinator-64DMado;
-        Canvas canvas = (DrawScope)$this$drawIntoCanvas$iv2.getDrawContext().getCanvas();
+        $this$drawIntoCanvas$iv4 = requireCoordinator-64DMado;
+        Canvas canvas = (DrawScope)$this$drawIntoCanvas$iv4.getDrawContext().getCanvas();
         final int i9 = 0;
         final androidx.compose.ui.node.DrawModifierNode drawNode = requireCoordinator-64DMado.drawNode;
         Intrinsics.checkNotNull(drawNode);
@@ -253,7 +253,7 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
         if (node5 != null) {
             int i10 = 0;
             constructor-impl = NodeKind.constructor-impl(constructor-impl);
-            i3 = 0;
+            i2 = 0;
             stack$iv = 0;
             int i11 = 0;
             node$iv = node2;
@@ -269,12 +269,12 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
                 if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                 } else {
                 }
-                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                i7 = graphicsLayer;
+                $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                i4 = graphicsLayer;
                 node$iv = DelegatableNodeKt.access$pop(stack$iv);
                 requireCoordinator-64DMado = this;
-                $this$drawIntoCanvas$iv2 = $this$drawIntoCanvas$iv4;
-                graphicsLayer = i7;
+                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv3;
+                graphicsLayer = i4;
                 if (node$iv instanceof DelegatingNode) {
                 } else {
                 }
@@ -283,8 +283,8 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
                 node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                 while (node$iv$iv != null) {
                     node3 = node$iv$iv;
-                    i = 0;
-                    i4 = 0;
+                    i6 = 0;
+                    i3 = 0;
                     if (kindSet$ui_release2 &= constructor-impl != 0) {
                     } else {
                     }
@@ -292,23 +292,23 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
                     if (this_$iv$iv2 != 0) {
                     } else {
                     }
-                    $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                    i7 = graphicsLayer;
+                    $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                    i4 = graphicsLayer;
                     $this$drawIntoCanvas$iv = node3;
                     $i$f$drawIntoCanvas = 0;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
                     requireCoordinator-64DMado = this;
-                    $this$drawIntoCanvas$iv2 = $this$drawIntoCanvas$iv4;
-                    graphicsLayer = i7;
-                    i2 = 1;
-                    if (this_$iv$iv++ == i2) {
+                    $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv3;
+                    graphicsLayer = i4;
+                    i5 = 1;
+                    if (this_$iv$iv++ == i5) {
                     } else {
                     }
                     if (stack$iv == 0) {
                     } else {
                     }
-                    $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                    i7 = graphicsLayer;
+                    $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                    i4 = graphicsLayer;
                     $i$f$drawIntoCanvas = 0;
                     mutableVector = stack$iv;
                     stack$iv = mutableVector;
@@ -322,29 +322,29 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
                     stack$iv.add(node3);
                     if (stack$iv != 0) {
                     }
-                    node$iv = $this$drawIntoCanvas$iv2;
+                    node$iv = $this$drawIntoCanvas$iv4;
                     stack$iv.add(requireCoordinator-64DMado);
                     this_$iv$iv2 = 0;
-                    i5 = 0;
-                    $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                    i7 = graphicsLayer;
+                    i7 = 0;
+                    $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                    i4 = graphicsLayer;
                     mutableVector = new MutableVector(new Modifier.Node[16], 0);
                     node$iv = node3;
-                    $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                    i7 = graphicsLayer;
+                    $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                    i4 = graphicsLayer;
                     $this$drawIntoCanvas$iv = node3;
                     $i$f$drawIntoCanvas = 0;
-                    this_$iv$iv2 = i2;
+                    this_$iv$iv2 = i5;
                 }
                 if (this_$iv$iv == 1) {
                 } else {
                 }
                 requireCoordinator-64DMado = this;
-                $this$drawIntoCanvas$iv2 = $this$drawIntoCanvas$iv4;
-                graphicsLayer = i7;
+                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv3;
+                graphicsLayer = i4;
                 node3 = node$iv$iv;
-                i = 0;
-                i4 = 0;
+                i6 = 0;
+                i3 = 0;
                 if (kindSet$ui_release2 &= constructor-impl != 0) {
                 } else {
                 }
@@ -352,23 +352,23 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
                 if (this_$iv$iv2 != 0) {
                 } else {
                 }
-                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                i7 = graphicsLayer;
+                $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                i4 = graphicsLayer;
                 $this$drawIntoCanvas$iv = node3;
                 $i$f$drawIntoCanvas = 0;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
                 requireCoordinator-64DMado = this;
-                $this$drawIntoCanvas$iv2 = $this$drawIntoCanvas$iv4;
-                graphicsLayer = i7;
-                i2 = 1;
-                if (this_$iv$iv++ == i2) {
+                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv3;
+                graphicsLayer = i4;
+                i5 = 1;
+                if (this_$iv$iv++ == i5) {
                 } else {
                 }
                 if (stack$iv == 0) {
                 } else {
                 }
-                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                i7 = graphicsLayer;
+                $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                i4 = graphicsLayer;
                 $i$f$drawIntoCanvas = 0;
                 mutableVector = stack$iv;
                 stack$iv = mutableVector;
@@ -382,38 +382,38 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
                 stack$iv.add(node3);
                 if (stack$iv != 0) {
                 }
-                node$iv = $this$drawIntoCanvas$iv2;
+                node$iv = $this$drawIntoCanvas$iv4;
                 stack$iv.add(requireCoordinator-64DMado);
                 this_$iv$iv2 = 0;
-                i5 = 0;
-                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                i7 = graphicsLayer;
+                i7 = 0;
+                $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                i4 = graphicsLayer;
                 mutableVector = new MutableVector(new Modifier.Node[16], 0);
                 node$iv = node3;
-                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                i7 = graphicsLayer;
+                $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                i4 = graphicsLayer;
                 $this$drawIntoCanvas$iv = node3;
                 $i$f$drawIntoCanvas = 0;
-                this_$iv$iv2 = i2;
-                this_$iv$iv = i2;
+                this_$iv$iv2 = i5;
+                this_$iv$iv = i5;
                 node = 0;
                 requireCoordinator-64DMado.performDraw((DrawModifierNode)node$iv, canvas, requireCoordinator-64DMado.getDrawContext().getGraphicsLayer());
-                $this$drawIntoCanvas$iv4 = $this$drawIntoCanvas$iv2;
-                i7 = graphicsLayer;
+                $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv4;
+                i4 = graphicsLayer;
             }
-            $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv2;
-            i6 = graphicsLayer;
+            $this$drawIntoCanvas$iv2 = $this$drawIntoCanvas$iv4;
+            i = graphicsLayer;
         } else {
-            $this$drawIntoCanvas$iv3 = $this$drawIntoCanvas$iv2;
-            i6 = graphicsLayer;
+            $this$drawIntoCanvas$iv2 = $this$drawIntoCanvas$iv4;
+            i = graphicsLayer;
             int i8 = 0;
             requireCoordinator-64DMado = DelegatableNodeKt.requireCoordinator-64DMado((DelegatableNode)drawNode, NodeKind.constructor-impl(constructor-impl));
             if (requireCoordinator-64DMado.getTail() == drawNode.getNode()) {
                 Intrinsics.checkNotNull(requireCoordinator-64DMado.getWrapped$ui_release());
             } else {
-                $this$drawIntoCanvas$iv2 = requireCoordinator-64DMado;
+                $this$drawIntoCanvas$iv4 = requireCoordinator-64DMado;
             }
-            $this$drawIntoCanvas$iv2.performDraw(canvas, getDrawContext().getGraphicsLayer());
+            $this$drawIntoCanvas$iv4.performDraw(canvas, getDrawContext().getGraphicsLayer());
         }
     }
 
@@ -560,8 +560,8 @@ public final class LayoutNodeDrawScope implements DrawScope, ContentDrawScope {
     @Override // androidx.compose.ui.graphics.drawscope.DrawScope
     public final void performDraw(androidx.compose.ui.node.DrawModifierNode $this$performDraw, Canvas canvas, GraphicsLayer layer) {
         int i = 0;
-        int constructor-impl = NodeKind.constructor-impl(4);
-        final androidx.compose.ui.node.NodeCoordinator requireCoordinator-64DMado = DelegatableNodeKt.requireCoordinator-64DMado((DelegatableNode)$this$performDraw, constructor-impl);
+        int $i$f$getDrawOLwlOKw = NodeKind.constructor-impl(4);
+        final androidx.compose.ui.node.NodeCoordinator requireCoordinator-64DMado = DelegatableNodeKt.requireCoordinator-64DMado((DelegatableNode)$this$performDraw, $i$f$getDrawOLwlOKw);
         requireCoordinator-64DMado.getLayoutNode().getMDrawScope$ui_release().drawDirect-eZhPAX0$ui_release(canvas, IntSizeKt.toSize-ozmzZPI(requireCoordinator-64DMado.getSize-YbymL2g()), obj5, requireCoordinator-64DMado, $this$performDraw);
     }
 

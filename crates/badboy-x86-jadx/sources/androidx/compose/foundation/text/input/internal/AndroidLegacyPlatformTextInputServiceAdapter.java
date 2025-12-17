@@ -138,8 +138,8 @@ public final class AndroidLegacyPlatformTextInputServiceAdapter extends androidx
         TextFieldValue textFieldValue2;
         OffsetMapping map;
         TextLayoutResult textLayoutResult2;
-        Rect rect;
         Rect rect2;
+        Rect rect;
         final androidx.compose.foundation.text.input.internal.LegacyTextInputMethodRequest currentRequest = this.currentRequest;
         if (currentRequest != null) {
             currentRequest.updateTextLayoutResult(textFieldValue, offsetMapping, textLayoutResult, innerTextFieldBounds, decorationBoxBounds);
@@ -147,8 +147,8 @@ public final class AndroidLegacyPlatformTextInputServiceAdapter extends androidx
             textFieldValue2 = textFieldValue;
             map = offsetMapping;
             textLayoutResult2 = textLayoutResult;
-            rect = innerTextFieldBounds;
-            rect2 = decorationBoxBounds;
+            rect2 = innerTextFieldBounds;
+            rect = decorationBoxBounds;
         }
     }
 }

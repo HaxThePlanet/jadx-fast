@@ -32,17 +32,17 @@ final class ConcurrentHashMapParametrizedCache<T>  implements kotlinx.serializat
     }
 
     public Object get-gIAlu-s(KClass<Object> key, List<? extends KType> types) {
-        Object obj;
+        Object $i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv;
         kotlinx.serialization.internal.ParametrizedCacheEntry parametrizedCacheEntry;
         Object ifAbsent;
-        Object obj3;
+        Object $i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv$iv;
         int box-impl;
         Object constructor-impl;
         Object ifAbsent2;
         int i;
         Object next;
         boolean invoke;
-        Object obj2;
+        Object obj;
         int i2;
         kotlinx.serialization.internal.KTypeWrapper kTypeWrapper;
         Intrinsics.checkNotNullParameter(key, "key");
@@ -55,20 +55,20 @@ final class ConcurrentHashMapParametrizedCache<T>  implements kotlinx.serializat
             parametrizedCacheEntry = new ParametrizedCacheEntry();
             int i8 = 0;
             ifAbsent = cache.putIfAbsent(javaClass, parametrizedCacheEntry);
-            obj = ifAbsent == null ? parametrizedCacheEntry : ifAbsent;
+            $i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv = ifAbsent == null ? parametrizedCacheEntry : ifAbsent;
         }
         int i3 = 0;
-        Object obj4 = types;
+        Object obj2 = types;
         int i5 = 0;
-        ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)obj4, 10));
+        ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)obj2, 10));
         box-impl = 0;
-        ifAbsent2 = obj4.iterator();
+        ifAbsent2 = obj2.iterator();
         for (Object next : ifAbsent2) {
             i2 = 0;
             kTypeWrapper = new KTypeWrapper((KType)next);
             (Collection)arrayList.add(kTypeWrapper);
         }
-        ConcurrentHashMap map = ParametrizedCacheEntry.access$getSerializers$p((ParametrizedCacheEntry)obj);
+        ConcurrentHashMap map = ParametrizedCacheEntry.access$getSerializers$p((ParametrizedCacheEntry)$i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv);
         int i6 = 0;
         if ((ConcurrentMap)map.get((List)arrayList) == null) {
             int i10 = 0;
@@ -79,9 +79,9 @@ final class ConcurrentHashMapParametrizedCache<T>  implements kotlinx.serializat
             box-impl = Result.box-impl(constructor-impl);
             int i11 = 0;
             ifAbsent2 = map.putIfAbsent(arrayList, box-impl);
-            obj3 = ifAbsent2 == null ? box-impl : ifAbsent2;
+            $i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv$iv = ifAbsent2 == null ? box-impl : ifAbsent2;
         }
-        Intrinsics.checkNotNullExpressionValue(obj3, "getOrPut(...)");
-        return (Result)obj3.unbox-impl();
+        Intrinsics.checkNotNullExpressionValue($i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv$iv, "getOrPut(...)");
+        return (Result)$i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv$iv.unbox-impl();
     }
 }

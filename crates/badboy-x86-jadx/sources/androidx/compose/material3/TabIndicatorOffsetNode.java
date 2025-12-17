@@ -59,15 +59,15 @@ public final class TabIndicatorOffsetNode extends Modifier.Node implements Layou
         float contentWidth-D9Ej5fM;
         Object widthAnimatable;
         Object offsetAnimatable;
-        float unbox-impl;
         float unbox-impl2;
-        int selectedTabIndex2;
+        float unbox-impl;
+        int selectedTabIndex;
         boolean anon;
-        boolean selectedTabIndex;
-        Object coroutineScope;
-        Dp coroutineScope2;
-        androidx.compose.animation.core.TwoWayConverter vectorConverter2;
-        int vectorConverter;
+        boolean selectedTabIndex2;
+        Object coroutineScope2;
+        Dp coroutineScope;
+        androidx.compose.animation.core.TwoWayConverter vectorConverter;
+        int vectorConverter2;
         int i3;
         int i;
         int i2;
@@ -86,11 +86,11 @@ public final class TabIndicatorOffsetNode extends Modifier.Node implements Layou
         int i7 = 0;
         if (obj.initialWidth != null) {
             if (obj.widthAnimatable == null) {
-                coroutineScope2 = obj.initialWidth;
-                Intrinsics.checkNotNull(coroutineScope2);
-                coroutineScope = new Animatable(coroutineScope2, VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
+                coroutineScope = obj.initialWidth;
+                Intrinsics.checkNotNull(coroutineScope);
+                coroutineScope2 = new Animatable(coroutineScope, VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
                 anon = 0;
-                obj.widthAnimatable = coroutineScope;
+                obj.widthAnimatable = coroutineScope2;
             }
             if (!Dp.equals-impl0(f, (Dp)widthAnimatable.getTargetValue().unbox-impl())) {
                 anon = new TabIndicatorOffsetNode.measure.2(widthAnimatable, f, i7);
@@ -102,34 +102,34 @@ public final class TabIndicatorOffsetNode extends Modifier.Node implements Layou
         float left-D9Ej5fM = (TabPosition)(List)obj.tabPositionsState.getValue().get(obj.selectedTabIndex).getLeft-D9Ej5fM();
         if (obj.initialOffset != null) {
             if (obj.offsetAnimatable == null) {
-                vectorConverter2 = obj.initialOffset;
-                Intrinsics.checkNotNull(vectorConverter2);
-                coroutineScope2 = new Animatable(vectorConverter2, VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
-                selectedTabIndex = 0;
-                obj.offsetAnimatable = coroutineScope2;
+                vectorConverter = obj.initialOffset;
+                Intrinsics.checkNotNull(vectorConverter);
+                coroutineScope = new Animatable(vectorConverter, VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
+                selectedTabIndex2 = 0;
+                obj.offsetAnimatable = coroutineScope;
             }
             if (!Dp.equals-impl0(left-D9Ej5fM, (Dp)offsetAnimatable.getTargetValue().unbox-impl())) {
-                selectedTabIndex = new TabIndicatorOffsetNode.measure.3(offsetAnimatable, left-D9Ej5fM, i7);
-                BuildersKt.launch$default(obj.getCoroutineScope(), 0, 0, (Function2)selectedTabIndex, 3, 0);
+                selectedTabIndex2 = new TabIndicatorOffsetNode.measure.3(offsetAnimatable, left-D9Ej5fM, i7);
+                BuildersKt.launch$default(obj.getCoroutineScope(), 0, 0, (Function2)selectedTabIndex2, 3, 0);
             }
         } else {
             obj.initialOffset = Dp.box-impl(left-D9Ej5fM);
         }
         Animatable offsetAnimatable2 = obj.offsetAnimatable;
         if (offsetAnimatable2 != null) {
-            unbox-impl = (Dp)offsetAnimatable2.getValue().unbox-impl();
+            unbox-impl2 = (Dp)offsetAnimatable2.getValue().unbox-impl();
         } else {
-            unbox-impl = left-D9Ej5fM;
+            unbox-impl2 = left-D9Ej5fM;
         }
         Animatable widthAnimatable2 = obj.widthAnimatable;
         if (widthAnimatable2 != null) {
-            unbox-impl2 = (Dp)widthAnimatable2.getValue().unbox-impl();
+            unbox-impl = (Dp)widthAnimatable2.getValue().unbox-impl();
         } else {
-            unbox-impl2 = f;
+            unbox-impl = f;
         }
-        float f3 = unbox-impl2;
+        float f3 = unbox-impl;
         Placeable placeable = measure-BRTryo0;
-        TabIndicatorOffsetNode.measure.4 anon2 = new TabIndicatorOffsetNode.measure.4(placeable, measureScope2, unbox-impl);
+        TabIndicatorOffsetNode.measure.4 anon2 = new TabIndicatorOffsetNode.measure.4(placeable, measureScope2, unbox-impl2);
         return MeasureScope.layout$default(measureScope2, placeable.getWidth(), placeable.getHeight(), 0, (Function1)anon2, 4, 0);
     }
 

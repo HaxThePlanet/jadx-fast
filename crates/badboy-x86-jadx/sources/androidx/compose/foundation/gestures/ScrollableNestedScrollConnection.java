@@ -33,21 +33,21 @@ final class ScrollableNestedScrollConnection implements NestedScrollConnection {
     }
 
     public Object onPostFling-RZ2iAVY(long l, long l2, Continuation<? super Velocity> continuation3) {
-        int i;
-        Object doFlingAnimation-QWom1Mo;
+        int i2;
+        Object _this;
         androidx.compose.foundation.gestures.ScrollableNestedScrollConnection unbox-impl;
         androidx.compose.foundation.gestures.ScrollingLogic scrollingLogic;
-        int i2;
+        int i;
         boolean obj4;
         int obj5;
         long obj6;
         obj4 = obj8;
-        i = Integer.MIN_VALUE;
-        if (obj8 instanceof ScrollableNestedScrollConnection.onPostFling.1 && obj5 &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (obj8 instanceof ScrollableNestedScrollConnection.onPostFling.1 && obj5 &= i2 != 0) {
             obj4 = obj8;
-            i = Integer.MIN_VALUE;
-            if (obj5 &= i != 0) {
-                obj4.label = obj5 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (obj5 &= i2 != 0) {
+                obj4.label = obj5 -= i2;
             } else {
                 obj4 = new ScrollableNestedScrollConnection.onPostFling.1(this, obj8);
             }
@@ -67,7 +67,7 @@ final class ScrollableNestedScrollConnection implements NestedScrollConnection {
             case 1:
                 obj6 = obj4.J$0;
                 ResultKt.throwOnFailure(obj5);
-                doFlingAnimation-QWom1Mo = obj5;
+                _this = obj5;
                 break;
             default:
                 obj4 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");

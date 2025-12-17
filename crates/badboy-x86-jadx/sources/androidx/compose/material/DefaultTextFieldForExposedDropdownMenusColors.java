@@ -125,82 +125,82 @@ final class DefaultTextFieldForExposedDropdownMenusColors implements androidx.co
 
     @Override // androidx.compose.material.TextFieldColors
     public boolean equals(Object other) {
-        Class class;
         Class class2;
+        Class class;
         final int i = 1;
         if (this == other) {
             return i;
         }
         final int i2 = 0;
         if (other != null) {
-            class2 = other.getClass();
-            if (getClass() != class2) {
+            class = other.getClass();
+            if (getClass() != class) {
             } else {
                 Object obj = other;
-                if (!Color.equals-impl0(this.textColor, class2)) {
+                if (!Color.equals-impl0(this.textColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledTextColor, class2)) {
+                if (!Color.equals-impl0(this.disabledTextColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.cursorColor, class2)) {
+                if (!Color.equals-impl0(this.cursorColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.errorCursorColor, class2)) {
+                if (!Color.equals-impl0(this.errorCursorColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.focusedIndicatorColor, class2)) {
+                if (!Color.equals-impl0(this.focusedIndicatorColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.unfocusedIndicatorColor, class2)) {
+                if (!Color.equals-impl0(this.unfocusedIndicatorColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.errorIndicatorColor, class2)) {
+                if (!Color.equals-impl0(this.errorIndicatorColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledIndicatorColor, class2)) {
+                if (!Color.equals-impl0(this.disabledIndicatorColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.leadingIconColor, class2)) {
+                if (!Color.equals-impl0(this.leadingIconColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledLeadingIconColor, class2)) {
+                if (!Color.equals-impl0(this.disabledLeadingIconColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.errorLeadingIconColor, class2)) {
+                if (!Color.equals-impl0(this.errorLeadingIconColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.trailingIconColor, class2)) {
+                if (!Color.equals-impl0(this.trailingIconColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.focusedTrailingIconColor, class2)) {
+                if (!Color.equals-impl0(this.focusedTrailingIconColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledTrailingIconColor, class2)) {
+                if (!Color.equals-impl0(this.disabledTrailingIconColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.errorTrailingIconColor, class2)) {
+                if (!Color.equals-impl0(this.errorTrailingIconColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.backgroundColor, class2)) {
+                if (!Color.equals-impl0(this.backgroundColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.focusedLabelColor, class2)) {
+                if (!Color.equals-impl0(this.focusedLabelColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.unfocusedLabelColor, class2)) {
+                if (!Color.equals-impl0(this.unfocusedLabelColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledLabelColor, class2)) {
+                if (!Color.equals-impl0(this.disabledLabelColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.errorLabelColor, class2)) {
+                if (!Color.equals-impl0(this.errorLabelColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.placeholderColor, class2)) {
+                if (!Color.equals-impl0(this.placeholderColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledPlaceholderColor, class2)) {
+                if (!Color.equals-impl0(this.disabledPlaceholderColor, class)) {
                     return i2;
                 }
             }
@@ -221,8 +221,8 @@ final class DefaultTextFieldForExposedDropdownMenusColors implements androidx.co
         State rememberUpdatedState;
         Color box-impl;
         int i3;
-        int i;
         int i2;
+        int i;
         int i4 = -1956761869;
         $composer.startReplaceGroup(i4);
         ComposerKt.sourceInformation($composer, "C(indicatorColor)P(!1,2)628@27563L25:ExposedDropdownMenu.android.kt#jmzs0o");

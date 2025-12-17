@@ -39,59 +39,59 @@ import kotlinx.coroutines.CoroutineScope;
 public final class LazyGridKt {
     public static final void LazyGrid(Modifier modifier, androidx.compose.foundation.lazy.grid.LazyGridState state, androidx.compose.foundation.lazy.grid.LazyGridSlotsProvider slots, PaddingValues contentPadding, boolean reverseLayout, boolean isVertical, FlingBehavior flingBehavior, boolean userScrollEnabled, Arrangement.Vertical verticalArrangement, Arrangement.Horizontal horizontalArrangement, Function1<? super androidx.compose.foundation.lazy.grid.LazyGridScope, Unit> content, Composer $composer, int $changed, int $changed1, int i15) {
         Object obj7;
-        Object obj6;
+        Object obj3;
         Object obj9;
-        int i7;
+        int i6;
         Object $dirty1;
         Object composer$iv;
-        Object obj;
+        Object obj2;
         Object compositionCoroutineScope;
         boolean traceInProgress2;
         int defaultsInvalid;
         Object modifier3;
         int modifier2;
         Orientation horizontal;
-        int i13;
+        int i9;
         int $dirty2;
         Object $dirty;
         Object empty;
         int $dirty12;
-        Object obj3;
-        int i9;
+        Object obj4;
+        int i14;
         boolean z2;
-        int i12;
-        Object contentPadding2;
-        boolean contentPadding3;
+        int i11;
+        Object contentPadding3;
+        boolean contentPadding2;
         Object $composer3;
         boolean z;
         boolean traceInProgress;
         boolean $composer2;
         Object flingBehavior2;
-        int i;
-        int i14;
-        int i11;
-        int i4;
-        boolean changedInstance;
-        Object obj10;
-        int i16;
-        Object obj8;
-        int i18;
-        Composer composer;
-        Object obj2;
-        int i3;
+        int i12;
         int i10;
-        int i8;
-        int changed;
-        int i17;
         int i19;
+        int i3;
+        boolean changedInstance;
+        Object obj8;
+        int i16;
+        Object obj5;
         int i5;
-        int i6;
-        Object iNSTANCE;
+        Composer composer;
+        Object obj;
+        int i4;
+        int i18;
+        int i13;
+        int changed;
+        int i7;
+        int i17;
+        int i;
         int i2;
+        Object $i$a$RememberCoroutineScopeEffectsKt$rememberCoroutineScope$1;
+        int i8;
         Function2 rememberLazyGridMeasurePolicy;
         CoroutineScope coroutineScope;
-        Object obj4;
-        Object obj5;
+        Object obj10;
+        Object obj6;
         androidx.compose.foundation.lazy.layout.LazyLayoutSemanticState lazyLayoutSemanticState;
         int obj28;
         Object obj31;
@@ -100,21 +100,21 @@ public final class LazyGridKt {
         Object obj11 = state;
         Object obj12 = slots;
         boolean z4 = isVertical;
-        obj10 = content;
+        obj8 = content;
         i16 = $changed;
         final int i102 = i15;
         Composer restartGroup = $composer.startRestartGroup(-649686062);
         ComposerKt.sourceInformation(restartGroup, "C(LazyGrid)P(5,8,7,1,6,4,2,9,10,3)68@3233L15,78@3657L50,80@3733L51,82@3811L24,83@3883L7,84@3915L269,102@4422L278,110@4770L48,113@4981L7,109@4714L376,118@5151L317,98@4277L1324:LazyGrid.kt#7791vq");
         $dirty2 = $changed;
         $dirty12 = $changed1;
-        i12 = i102 & 1;
-        if (i12 != 0) {
+        i11 = i102 & 1;
+        if (i11 != 0) {
             $dirty2 |= 6;
             flingBehavior2 = modifier;
         } else {
             if (i16 & 6 == 0) {
-                i = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i;
+                i12 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i12;
             } else {
                 flingBehavior2 = modifier;
             }
@@ -123,8 +123,8 @@ public final class LazyGridKt {
             $dirty2 |= 48;
         } else {
             if (i16 & 48 == 0) {
-                i14 = restartGroup.changed(obj11) ? 32 : 16;
-                $dirty2 |= i14;
+                i10 = restartGroup.changed(obj11) ? 32 : 16;
+                $dirty2 |= i10;
             }
         }
         if (i102 & 4 != 0) {
@@ -136,20 +136,20 @@ public final class LazyGridKt {
                 } else {
                     changedInstance = restartGroup.changedInstance(obj12);
                 }
-                i11 = changedInstance != null ? 256 : 128;
-                $dirty2 |= i11;
+                i19 = changedInstance != null ? 256 : 128;
+                $dirty2 |= i19;
             }
         }
-        i4 = i102 & 8;
-        if (i4 != 0) {
+        i3 = i102 & 8;
+        if (i3 != 0) {
             $dirty2 |= 3072;
-            obj8 = contentPadding;
+            obj5 = contentPadding;
         } else {
             if (i16 & 3072 == 0) {
-                i18 = restartGroup.changed(contentPadding) ? 2048 : 1024;
-                $dirty2 |= i18;
+                i5 = restartGroup.changed(contentPadding) ? 2048 : 1024;
+                $dirty2 |= i5;
             } else {
-                obj8 = contentPadding;
+                obj5 = contentPadding;
             }
         }
         int i104 = i102 & 16;
@@ -158,15 +158,15 @@ public final class LazyGridKt {
             z = reverseLayout;
         } else {
             if (i16 & 24576 == 0) {
-                i3 = restartGroup.changed(reverseLayout) ? 16384 : 8192;
-                $dirty2 |= i3;
+                i4 = restartGroup.changed(reverseLayout) ? 16384 : 8192;
+                $dirty2 |= i4;
             } else {
                 z = reverseLayout;
             }
         }
         if (i102 & 32 != 0) {
-            i10 = 196608;
-            $dirty2 |= i10;
+            i18 = 196608;
+            $dirty2 |= i18;
         } else {
         }
         if (i16 & i106 == 0) {
@@ -184,21 +184,21 @@ public final class LazyGridKt {
             $composer2 = userScrollEnabled;
         } else {
             if (i79 &= i16 == 0) {
-                i19 = restartGroup.changed(userScrollEnabled) ? 8388608 : 4194304;
-                $dirty2 |= i19;
+                i17 = restartGroup.changed(userScrollEnabled) ? 8388608 : 4194304;
+                $dirty2 |= i17;
             } else {
                 $composer2 = userScrollEnabled;
             }
         }
         if (i102 & 256 != 0) {
             $dirty2 |= i29;
-            obj6 = verticalArrangement;
+            obj3 = verticalArrangement;
         } else {
             if (i27 &= i16 == 0) {
-                i19 = restartGroup.changed(verticalArrangement) ? 67108864 : 33554432;
-                $dirty2 |= i19;
+                i17 = restartGroup.changed(verticalArrangement) ? 67108864 : 33554432;
+                $dirty2 |= i17;
             } else {
-                obj6 = verticalArrangement;
+                obj3 = verticalArrangement;
             }
         }
         if (i102 & 512 != 0) {
@@ -206,8 +206,8 @@ public final class LazyGridKt {
             obj9 = horizontalArrangement;
         } else {
             if (i23 &= i16 == 0) {
-                i19 = restartGroup.changed(horizontalArrangement) ? 536870912 : 268435456;
-                $dirty2 |= i19;
+                i17 = restartGroup.changed(horizontalArrangement) ? 536870912 : 268435456;
+                $dirty2 |= i17;
             } else {
                 obj9 = horizontalArrangement;
             }
@@ -216,8 +216,8 @@ public final class LazyGridKt {
             $dirty12 |= 6;
         } else {
             if ($changed1 & 6 == 0) {
-                i7 = restartGroup.changedInstance(obj10) ? 4 : 2;
-                $dirty12 |= i7;
+                i6 = restartGroup.changedInstance(obj8) ? 4 : 2;
+                $dirty12 |= i6;
             }
         }
         int i26 = $dirty12;
@@ -227,43 +227,43 @@ public final class LazyGridKt {
                     restartGroup.startDefaults();
                     if (i16 & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
-                            if (i12 != 0) {
+                            if (i11 != 0) {
                                 modifier3 = Modifier.Companion;
                             } else {
                                 modifier3 = flingBehavior2;
                             }
-                            if (i4 != 0) {
+                            if (i3 != 0) {
                                 flingBehavior2 = 0;
-                                contentPadding2 = PaddingKt.PaddingValues-0680j_4(Dp.constructor-impl((float)i51));
+                                contentPadding3 = PaddingKt.PaddingValues-0680j_4(Dp.constructor-impl((float)i51));
                             } else {
-                                contentPadding2 = obj8;
+                                contentPadding3 = obj5;
                             }
                             if (i104 != 0) {
                                 z = 0;
                             }
                             if (i102 & 64 != 0) {
-                                obj8 = modifier3;
+                                obj5 = modifier3;
                                 modifier2 = $dirty4;
-                                $dirty = contentPadding2;
-                                contentPadding3 = z;
-                                obj2 = flingBehavior2;
+                                $dirty = contentPadding3;
+                                contentPadding2 = z;
+                                obj = flingBehavior2;
                             } else {
-                                obj2 = flingBehavior;
-                                obj8 = modifier3;
+                                obj = flingBehavior;
+                                obj5 = modifier3;
                                 modifier2 = $dirty2;
-                                $dirty = contentPadding2;
-                                contentPadding3 = z;
+                                $dirty = contentPadding3;
+                                contentPadding2 = z;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
                             if (i102 & 64 != 0) {
-                                $dirty2 &= i13;
+                                $dirty2 &= i9;
                             }
-                            obj2 = flingBehavior;
+                            obj = flingBehavior;
                             modifier2 = $dirty2;
-                            contentPadding3 = z;
-                            $dirty = obj8;
-                            obj8 = flingBehavior2;
+                            contentPadding2 = z;
+                            $dirty = obj5;
+                            obj5 = flingBehavior2;
                         }
                     } else {
                     }
@@ -273,7 +273,7 @@ public final class LazyGridKt {
                     }
                     int i90 = 0;
                     int i99 = 0;
-                    i17 = i26;
+                    i7 = i26;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 773894976, "CC(rememberCoroutineScope)489@20472L144:Effects.kt#9igjgp");
                     Composer composer2 = restartGroup;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -954363344, "CC(remember):Effects.kt#9igjgp");
@@ -299,20 +299,20 @@ public final class LazyGridKt {
                     int i42 = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    i19 = 57344;
-                    i5 = 458752;
+                    i17 = 57344;
+                    i = 458752;
                     Object obj14 = obj31;
                     Object obj15 = this_$iv;
-                    i6 = modifier2;
-                    boolean z3 = contentPadding3;
+                    i2 = modifier2;
+                    boolean z3 = contentPadding2;
                     Composer composer10 = restartGroup;
                     Function0 graphicsContext = rememberLazyGridItemProviderLambda;
-                    i2 = 6;
+                    i8 = 6;
                     CoroutineScope itemProviderLambda3 = coroutineScope2;
                     androidx.compose.foundation.lazy.grid.LazyGridState coroutineScope3 = state;
                     $dirty1 = lazyGridState2;
                     coroutineScope = itemProviderLambda3;
-                    obj4 = obj15;
+                    obj10 = obj15;
                     horizontal = isVertical ? Orientation.Vertical : Orientation.Horizontal;
                     Function0 function03 = function0;
                     boolean z5 = z3;
@@ -330,27 +330,27 @@ public final class LazyGridKt {
                     Composer composer8 = composer5;
                     Orientation orientation3 = orientation5;
                     Composer composer9 = composer6;
-                    FlingBehavior flingBehavior3 = obj2;
+                    FlingBehavior flingBehavior3 = obj;
                     boolean $composer6 = orientation4;
                     Composer reverseLayout4 = composer9;
                     $composer2 = orientation3;
-                    LazyLayoutKt.LazyLayout(function03, ScrollingContainerKt.scrollingContainer(LazyLayoutBeyondBoundsModifierLocalKt.lazyLayoutBeyondBoundsModifier(LazyLayoutSemanticsKt.lazyLayoutSemantics(obj8.then((Modifier)$dirty1.getRemeasurementModifier$foundation_release()).then((Modifier)$dirty1.getAwaitLayoutModifier$foundation_release()), function03, orientation2, reverseLayout2, userScrollEnabled, z5, composer7, i53 | i58), LazyGridBeyondBoundsModifierKt.rememberLazyGridBeyondBoundsState($dirty1, composer5, itemProviderLambda2 &= 14), $dirty1.getBeyondBoundsInfo$foundation_release(), orientation4, (LayoutDirection)composer5.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()), orientation5, userScrollEnabled, composer8, i60 | i71).then($dirty1.getItemAnimator$foundation_release().getModifier()), (ScrollableState)$dirty1, orientation3, userScrollEnabled, $composer6, flingBehavior3, $dirty1.getInternalInteractionSource$foundation_release(), 0, composer9, i56 | i76, 64), $dirty1.getPrefetchState$foundation_release(), LazyGridKt.rememberLazyGridMeasurePolicy(graphicsContext, coroutineScope3, slots, obj14, z3, z4, horizontalArrangement, verticalArrangement, itemProviderLambda3, obj15, composer10, i38 | i50), reverseLayout4, 0, 0);
+                    LazyLayoutKt.LazyLayout(function03, ScrollingContainerKt.scrollingContainer(LazyLayoutBeyondBoundsModifierLocalKt.lazyLayoutBeyondBoundsModifier(LazyLayoutSemanticsKt.lazyLayoutSemantics(obj5.then((Modifier)$dirty1.getRemeasurementModifier$foundation_release()).then((Modifier)$dirty1.getAwaitLayoutModifier$foundation_release()), function03, orientation2, reverseLayout2, userScrollEnabled, z5, composer7, i53 | i58), LazyGridBeyondBoundsModifierKt.rememberLazyGridBeyondBoundsState($dirty1, composer5, itemProviderLambda2 &= 14), $dirty1.getBeyondBoundsInfo$foundation_release(), orientation4, (LayoutDirection)composer5.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()), orientation5, userScrollEnabled, composer8, i60 | i71).then($dirty1.getItemAnimator$foundation_release().getModifier()), (ScrollableState)$dirty1, orientation3, userScrollEnabled, $composer6, flingBehavior3, $dirty1.getInternalInteractionSource$foundation_release(), 0, composer9, i56 | i76, 64), $dirty1.getPrefetchState$foundation_release(), LazyGridKt.rememberLazyGridMeasurePolicy(graphicsContext, coroutineScope3, slots, obj14, z3, z4, horizontalArrangement, verticalArrangement, itemProviderLambda3, obj15, composer10, i38 | i50), reverseLayout4, 0, 0);
                     composer = reverseLayout4;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
                     $composer3 = flingBehavior2;
-                    obj = obj8;
-                    obj3 = obj5;
+                    obj2 = obj5;
+                    obj4 = obj6;
                     z2 = z;
                 } else {
                     restartGroup.skipToGroupEnd();
-                    i17 = i26;
+                    i7 = i26;
                     $dirty1 = obj11;
-                    i6 = $dirty2;
+                    i2 = $dirty2;
                     composer = restartGroup;
-                    obj = flingBehavior2;
-                    obj3 = obj8;
+                    obj2 = flingBehavior2;
+                    obj4 = obj5;
                     $composer3 = flingBehavior;
                     z2 = z;
                 }
@@ -360,43 +360,43 @@ public final class LazyGridKt {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty1 = new LazyGridKt.LazyGrid.1(obj, state, slots, obj3, z2, isVertical, $composer3, userScrollEnabled, verticalArrangement, horizontalArrangement, obj10, i16, $changed1, i102);
+            $dirty1 = new LazyGridKt.LazyGrid.1(obj2, state, slots, obj4, z2, isVertical, $composer3, userScrollEnabled, verticalArrangement, horizontalArrangement, obj8, i16, $changed1, i102);
             endRestartGroup.updateScope((Function2)$dirty1);
         }
     }
 
     private static final Function2<LazyLayoutMeasureScope, Constraints, MeasureResult> rememberLazyGridMeasurePolicy(Function0<? extends androidx.compose.foundation.lazy.grid.LazyGridItemProvider> itemProviderLambda, androidx.compose.foundation.lazy.grid.LazyGridState state, androidx.compose.foundation.lazy.grid.LazyGridSlotsProvider slots, PaddingValues contentPadding, boolean reverseLayout, boolean isVertical, Arrangement.Horizontal horizontalArrangement, Arrangement.Vertical verticalArrangement, CoroutineScope coroutineScope, GraphicsContext graphicsContext, Composer $composer, int $changed) {
-        int changed3;
-        int i3;
+        int changed;
+        int i7;
         boolean traceInProgress;
-        int i5;
         int i9;
-        int i2;
-        boolean z;
-        Object obj7;
-        boolean changed;
-        boolean changed6;
-        boolean changed5;
-        String str;
-        int i6;
-        int i;
         int i10;
-        int changed7;
+        int i8;
+        boolean z2;
+        Object obj3;
+        boolean changed5;
+        boolean changed7;
+        boolean changed3;
+        String str;
+        int i;
+        int i2;
+        int i3;
+        int changed6;
         Object it$iv2;
         int changed4;
-        int i4;
-        Object obj2;
+        int i5;
+        Object obj7;
         boolean it$iv;
-        Object obj;
-        boolean z2;
-        boolean changed2;
-        Function0 i8;
-        Object obj6;
-        Object obj3;
-        Object obj5;
-        CoroutineScope coroutineScope2;
         Object obj4;
-        int i7;
+        boolean z;
+        boolean changed2;
+        Function0 i6;
+        Object obj6;
+        Object obj5;
+        Object obj2;
+        CoroutineScope coroutineScope2;
+        Object obj;
+        int i4;
         final Composer composer = $composer;
         final int i11 = $changed;
         int i12 = -1585069765;
@@ -406,20 +406,20 @@ public final class LazyGridKt {
         }
         ComposerKt.sourceInformationMarkerStart(composer, 1026581015, "CC(remember):LazyGrid.kt#9igjgp");
         int i22 = 32;
-        i6 = 0;
+        i = 0;
         int i30 = 1;
         if (i14 ^= 48 > i22) {
             if (!composer.changed(state)) {
-                i3 = i11 & 48 == i22 ? i30 : i6;
+                i7 = i11 & 48 == i22 ? i30 : i;
             } else {
             }
         } else {
-            obj2 = state;
+            obj7 = state;
         }
         int i31 = 256;
         if (i23 ^= 384 > i31) {
             if (!composer.changed(slots)) {
-                i5 = i11 & 384 == i31 ? i30 : i6;
+                i9 = i11 & 384 == i31 ? i30 : i;
             } else {
             }
         } else {
@@ -428,52 +428,52 @@ public final class LazyGridKt {
         int i32 = 2048;
         if (i24 ^= 3072 > i32) {
             if (!composer.changed(contentPadding)) {
-                i9 = i11 & 3072 == i32 ? i30 : i6;
+                i10 = i11 & 3072 == i32 ? i30 : i;
             } else {
             }
         } else {
-            obj = contentPadding;
+            obj4 = contentPadding;
         }
         int i33 = 16384;
         if (i26 ^= 24576 > i33) {
             if (!composer.changed(reverseLayout)) {
-                i2 = i11 & 24576 == i33 ? i30 : i6;
+                i8 = i11 & 24576 == i33 ? i30 : i;
             } else {
             }
         } else {
-            z2 = reverseLayout;
+            z = reverseLayout;
         }
-        i4 = 196608;
+        i5 = 196608;
         int i38 = 131072;
-        if (i28 ^= i4 > i38) {
+        if (i28 ^= i5 > i38) {
             if (!composer.changed(isVertical)) {
-                i = i4 &= i11 == i38 ? i30 : i6;
+                i2 = i5 &= i11 == i38 ? i30 : i;
             } else {
             }
         } else {
-            z = isVertical;
+            z2 = isVertical;
         }
         int i39 = 1572864;
         int i40 = 1048576;
         if (i35 ^= i39 > i40) {
             if (!composer.changed(horizontalArrangement)) {
-                i10 = i11 & i39 == i40 ? i30 : i6;
+                i3 = i11 & i39 == i40 ? i30 : i;
             } else {
             }
         } else {
-            obj5 = horizontalArrangement;
+            obj2 = horizontalArrangement;
         }
         it$iv = 12582912;
-        i8 = 8388608;
-        if (i37 ^= it$iv > i8) {
+        i6 = 8388608;
+        if (i37 ^= it$iv > i6) {
             if (!composer.changed(verticalArrangement)) {
-                if (i11 & it$iv == i8) {
-                    i6 = i30;
+                if (i11 & it$iv == i6) {
+                    i = i30;
                 }
             } else {
             }
         } else {
-            obj3 = verticalArrangement;
+            obj5 = verticalArrangement;
         }
         Object obj8 = graphicsContext;
         Composer composer2 = $composer;
@@ -482,12 +482,12 @@ public final class LazyGridKt {
         final int i42 = 0;
         if (i20 |= changed8 == 0) {
             if (it$iv2 == Composer.Companion.getEmpty()) {
-                i7 = 0;
-                obj7 = obj10;
-                it$iv2 = new LazyGridKt.rememberLazyGridMeasurePolicy.1.1(obj2, z, obj, z2, itemProviderLambda, obj6, obj3, obj5, coroutineScope, obj8);
+                i4 = 0;
+                obj3 = obj10;
+                it$iv2 = new LazyGridKt.rememberLazyGridMeasurePolicy.1.1(obj7, z2, obj4, z, itemProviderLambda, obj6, obj5, obj2, coroutineScope, obj8);
                 composer2.updateRememberedValue((Function2)it$iv2);
             } else {
-                obj7 = it$iv2;
+                obj3 = it$iv2;
             }
         } else {
         }

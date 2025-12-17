@@ -44,73 +44,73 @@ public final class SegmentedButtonContentMeasurePolicy implements MultiContentMe
     }
 
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, List<? extends List<? extends Measurable>> measurables, long constraints) {
-        int i10;
-        int i4;
+        int i7;
+        int i3;
         ArrayList list;
         Object $this$fastMaxBy$iv2;
-        int valueOf;
+        int valueOf2;
         ArrayList $this$fastMaxBy$iv;
-        int i9;
-        Object valueOf2;
-        Object obj5;
+        int i2;
+        Object valueOf;
+        Object obj3;
         int width;
-        Object obj2;
-        int i5;
-        boolean it;
+        Object obj;
+        int i8;
+        boolean it2;
         int lastIndex;
         int intValue;
-        int i;
-        int it3;
-        Object obj;
+        int i5;
+        int it;
+        Object obj2;
         int maxElem$iv3;
         Object maxElem$iv;
         Object maxElem$iv2;
-        int i$iv;
         int i$iv2;
+        int i$iv;
         int lastIndex2;
-        int it4;
-        Object obj4;
+        int it3;
+        Object obj5;
         int i$iv3;
-        int it2;
-        int $this$fastMaxBy$iv3;
+        int it4;
+        int $i$a$FastMaxBySegmentedButtonContentMeasurePolicy$measure$iconWidth$1;
         Object obj6;
         Object $this$fastMap$iv;
-        int i7;
+        int $i$a$FastMaxBySegmentedButtonContentMeasurePolicy$measure$height$1;
         ArrayList list2;
-        Object obj3;
+        Object obj4;
         Object animatable;
         Integer num;
         androidx.compose.animation.core.TwoWayConverter vectorConverter;
-        int i8;
-        int i3;
-        int i2;
         int i6;
+        int i4;
+        int i;
+        int i9;
         Object obj9 = this;
-        i10 = $this$measure_u2d3p2s80s;
+        i7 = $this$measure_u2d3p2s80s;
         final Object obj13 = measurables;
         final long l = constraints;
-        obj5 = obj14;
-        int i21 = 0;
-        ArrayList arrayList = new ArrayList(obj5.size());
-        obj = obj5;
-        int i30 = 0;
-        i$iv = 0;
-        while (i$iv < obj.size()) {
-            $this$fastMaxBy$iv3 = 0;
-            i7 = 0;
-            (Collection)arrayList.add((Measurable)obj.get(i$iv).measure-BRTryo0(l));
-            i$iv++;
-            obj5 = obj6;
-            i4 = 0;
+        obj3 = obj14;
+        int i20 = 0;
+        ArrayList arrayList = new ArrayList(obj3.size());
+        obj2 = obj3;
+        int i29 = 0;
+        i$iv2 = 0;
+        while (i$iv2 < obj2.size()) {
+            $i$a$FastMaxBySegmentedButtonContentMeasurePolicy$measure$iconWidth$1 = 0;
+            $i$a$FastMaxBySegmentedButtonContentMeasurePolicy$measure$height$1 = 0;
+            (Collection)arrayList.add((Measurable)obj2.get(i$iv2).measure-BRTryo0(l));
+            i$iv2++;
+            obj3 = obj6;
+            i3 = 0;
         }
-        $this$fastMap$iv = obj5;
+        $this$fastMap$iv = obj3;
         ArrayList list5 = list;
-        int i22 = 0;
+        int i21 = 0;
         if (list5.isEmpty()) {
             maxElem$iv2 = 0;
         } else {
-            int i32 = 0;
-            it3 = (Placeable)list5.get(0).getWidth();
+            int i31 = 0;
+            it = (Placeable)list5.get(0).getWidth();
             lastIndex2 = CollectionsKt.getLastIndex(list5);
             if (1 <= lastIndex2) {
             }
@@ -120,48 +120,48 @@ public final class SegmentedButtonContentMeasurePolicy implements MultiContentMe
         } else {
             width = 0;
         }
-        int i31 = width;
-        obj2 = obj15;
-        int i23 = 0;
-        ArrayList arrayList2 = new ArrayList(obj2.size());
-        Object obj12 = obj2;
-        i$iv2 = 0;
-        it4 = 0;
-        while (it4 < obj12.size()) {
-            i7 = 0;
+        int i30 = width;
+        obj = obj15;
+        int i22 = 0;
+        ArrayList arrayList2 = new ArrayList(obj.size());
+        Object obj12 = obj;
+        i$iv = 0;
+        it3 = 0;
+        while (it3 < obj12.size()) {
+            $i$a$FastMaxBySegmentedButtonContentMeasurePolicy$measure$height$1 = 0;
             num = 0;
-            (Collection)arrayList2.add((Measurable)obj12.get(it4).measure-BRTryo0(l));
-            it4++;
+            (Collection)arrayList2.add((Measurable)obj12.get(it3).measure-BRTryo0(l));
+            it3++;
             list = list2;
-            obj2 = obj3;
+            obj = obj4;
         }
-        animatable = obj2;
+        animatable = obj;
         $this$fastMaxBy$iv2 = arrayList2;
-        int i17 = 0;
+        int i16 = 0;
         if ($this$fastMaxBy$iv2.isEmpty()) {
             maxElem$iv3 = 0;
         } else {
-            int i34 = 0;
-            it = (Placeable)$this$fastMaxBy$iv2.get(0).getWidth();
-            it4 = CollectionsKt.getLastIndex($this$fastMaxBy$iv2);
-            if (1 <= it4) {
+            int i33 = 0;
+            it2 = (Placeable)$this$fastMaxBy$iv2.get(0).getWidth();
+            it3 = CollectionsKt.getLastIndex($this$fastMaxBy$iv2);
+            if (1 <= it3) {
             } else {
-                $this$fastMaxBy$iv3 = $this$fastMaxBy$iv2;
+                $i$a$FastMaxBySegmentedButtonContentMeasurePolicy$measure$iconWidth$1 = $this$fastMaxBy$iv2;
             }
         }
         if ((Placeable)maxElem$iv3 != 0) {
-            valueOf = Integer.valueOf((Placeable)maxElem$iv3.getWidth());
+            valueOf2 = Integer.valueOf((Placeable)maxElem$iv3.getWidth());
         } else {
-            valueOf = 0;
+            valueOf2 = 0;
         }
-        int i33 = valueOf;
+        int i32 = valueOf2;
         $this$fastMaxBy$iv = arrayList2;
-        int i18 = 0;
+        int i17 = 0;
         if ($this$fastMaxBy$iv.isEmpty()) {
             maxElem$iv = 0;
         } else {
-            int i36 = 0;
-            it4 = (Placeable)$this$fastMaxBy$iv.get(0).getHeight();
+            int i35 = 0;
+            it3 = (Placeable)$this$fastMaxBy$iv.get(0).getHeight();
             lastIndex = CollectionsKt.getLastIndex($this$fastMaxBy$iv);
             if (1 <= lastIndex) {
             } else {
@@ -169,22 +169,22 @@ public final class SegmentedButtonContentMeasurePolicy implements MultiContentMe
             }
         }
         if ((Placeable)maxElem$iv != null) {
-            i5 = $this$fastMaxBy$iv;
+            i8 = $this$fastMaxBy$iv;
         } else {
-            i5 = 0;
+            i8 = 0;
         }
-        if (i33 != 0) {
-            intValue = i33.intValue();
+        if (i32 != 0) {
+            intValue = i32.intValue();
         } else {
             intValue = 0;
         }
-        if (i31 == 0) {
-            i = i9;
+        if (i30 == 0) {
+            i5 = i2;
         } else {
-            i = 0;
+            i5 = 0;
         }
         if (obj9.initialOffset == null) {
-            obj9.initialOffset = Integer.valueOf(i);
+            obj9.initialOffset = Integer.valueOf(i5);
         } else {
             if (obj9.animatable == null) {
                 Integer initialOffset2 = obj9.initialOffset;
@@ -193,16 +193,16 @@ public final class SegmentedButtonContentMeasurePolicy implements MultiContentMe
                 maxElem$iv = 0;
                 obj9.animatable = animatable;
             }
-            if ((Number)valueOf2.getTargetValue().intValue() != i) {
-                i$iv3 = new SegmentedButtonContentMeasurePolicy.measure.1(valueOf2, i, 0);
+            if ((Number)valueOf.getTargetValue().intValue() != i5) {
+                i$iv3 = new SegmentedButtonContentMeasurePolicy.measure.1(valueOf, i5, 0);
                 BuildersKt.launch$default(obj9.scope, 0, 0, (Function2)i$iv3, 3, 0);
             }
         }
-        int i28 = i5;
-        SegmentedButtonContentMeasurePolicy.measure.2 anon = new SegmentedButtonContentMeasurePolicy.measure.2(list, $this$measure_u2d3p2s80s, obj9, i, (List)arrayList2, i28);
-        int i37 = i;
+        int i27 = i8;
+        SegmentedButtonContentMeasurePolicy.measure.2 anon = new SegmentedButtonContentMeasurePolicy.measure.2(list, $this$measure_u2d3p2s80s, obj9, i5, (List)arrayList2, i27);
+        int i36 = i5;
         ArrayList list6 = arrayList2;
-        return MeasureScope.layout$default($this$measure_u2d3p2s80s, i12 += intValue, i28, 0, (Function1)anon, 4, 0);
+        return MeasureScope.layout$default($this$measure_u2d3p2s80s, i11 += intValue, i27, 0, (Function1)anon, 4, 0);
     }
 
     public final void setAnimatable(Animatable<Integer, AnimationVector1D> <set-?>) {

@@ -20,48 +20,48 @@ import kotlin.jvm.functions.Function2;
 public final class MaterialThemeKt {
     public static final void MaterialTheme(androidx.compose.material.Colors colors, androidx.compose.material.Typography typography, androidx.compose.material.Shapes shapes, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i7) {
         Object anon;
-        int $dirty2;
-        Object $dirty;
-        Object typography3;
+        int $dirty;
+        Object $dirty2;
+        Object typography2;
         Object colors3;
         Object colors2;
         Object shapes2;
         Object obj;
         int changed2;
         Object rippleOrFallbackImplementation-9IZ8Weo;
-        int typography2;
+        int typography3;
         int changed;
         Object shapes3;
         boolean traceInProgress;
         int changed3;
-        int i17;
+        int i6;
         int rememberTextSelectionColors;
-        int iNSTANCE3;
+        int iNSTANCE2;
         int defaultsInvalid;
         int iNSTANCE;
-        int iNSTANCE2;
+        int iNSTANCE3;
         ProvidedValue[] arr;
-        int i11;
-        Object copy-pvPzIIM$default;
-        int i15;
-        int i18;
-        Object obj2;
-        int i6;
-        int i8;
-        int i4;
-        int i;
-        int i3;
-        int i13;
-        int i12;
-        int i14;
-        int i5;
-        int i19;
-        int i20;
         int i9;
-        int i10;
+        Object $i$a$CacheMaterialThemeKt$MaterialTheme$rememberedColors$1;
+        int i17;
         int i16;
-        int i21;
+        Object obj2;
+        int i13;
+        int i8;
+        int i18;
+        int i20;
+        int i3;
+        int i5;
+        int i10;
+        int i;
+        int i14;
+        int i15;
+        int i11;
+        int i12;
         int i2;
+        int i19;
+        int i21;
+        int i4;
         final Object obj4 = content;
         final int i27 = $changed;
         anon = -891417079;
@@ -75,7 +75,7 @@ public final class MaterialThemeKt {
             } else {
                 colors3 = colors;
             }
-            $dirty2 |= changed2;
+            $dirty |= changed2;
         } else {
             colors3 = colors;
         }
@@ -85,7 +85,7 @@ public final class MaterialThemeKt {
             } else {
                 rippleOrFallbackImplementation-9IZ8Weo = typography;
             }
-            $dirty2 |= changed;
+            $dirty |= changed;
         } else {
             rippleOrFallbackImplementation-9IZ8Weo = typography;
         }
@@ -95,59 +95,59 @@ public final class MaterialThemeKt {
             } else {
                 shapes3 = shapes;
             }
-            $dirty2 |= changed3;
+            $dirty |= changed3;
         } else {
             shapes3 = shapes;
         }
         if (i7 & 8 != 0) {
-            $dirty2 |= 3072;
+            $dirty |= 3072;
         } else {
             if (i27 & 3072 == 0) {
-                i17 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
-                $dirty2 |= i17;
+                i6 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
+                $dirty |= i6;
             }
         }
-        if ($dirty2 & 1171 == 1170) {
+        if ($dirty & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i18 = 6;
+                i16 = 6;
                 if (i27 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i7 & 1 != 0) {
-                            colors3 = MaterialTheme.INSTANCE.getColors(restartGroup, i18);
-                            $dirty2 &= -15;
+                            colors3 = MaterialTheme.INSTANCE.getColors(restartGroup, i16);
+                            $dirty &= -15;
                         }
                         if (i7 & 2 != 0) {
-                            rippleOrFallbackImplementation-9IZ8Weo = MaterialTheme.INSTANCE.getTypography(restartGroup, i18);
-                            $dirty2 &= -113;
+                            rippleOrFallbackImplementation-9IZ8Weo = MaterialTheme.INSTANCE.getTypography(restartGroup, i16);
+                            $dirty &= -113;
                         }
                         if (i7 & 4 != 0) {
-                            typography2 = $dirty4;
-                            $dirty = obj7;
+                            typography3 = $dirty4;
+                            $dirty2 = obj7;
                             obj2 = colors3;
                             colors2 = shapes3;
                         } else {
-                            typography2 = $dirty2;
-                            $dirty = obj8;
+                            typography3 = $dirty;
+                            $dirty2 = obj8;
                             obj2 = colors3;
                             colors2 = shapes3;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i7 & 1 != 0) {
-                            $dirty2 &= -15;
+                            $dirty &= -15;
                         }
                         if (i7 & 2 != 0) {
-                            $dirty2 &= -113;
+                            $dirty &= -113;
                         }
                         if (i7 & 4 != 0) {
-                            typography2 = $dirty3;
-                            $dirty = obj6;
+                            typography3 = $dirty3;
+                            $dirty2 = obj6;
                             obj2 = colors3;
                             colors2 = shapes3;
                         } else {
-                            typography2 = $dirty2;
-                            $dirty = obj5;
+                            typography3 = $dirty;
+                            $dirty2 = obj5;
                             obj2 = colors3;
                             colors2 = shapes3;
                         }
@@ -156,7 +156,7 @@ public final class MaterialThemeKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(anon, typography2, -1, "androidx.compose.material.MaterialTheme (MaterialTheme.kt:59)");
+                    ComposerKt.traceEventStart(anon, typography3, -1, "androidx.compose.material.MaterialTheme (MaterialTheme.kt:59)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 586107060, "CC(remember):MaterialTheme.kt#9igjgp");
                 int i23 = 0;
@@ -168,35 +168,35 @@ public final class MaterialThemeKt {
                     int i44 = 0;
                     composer.updateRememberedValue(Colors.copy-pvPzIIM$default(obj2, 0, obj17, 0, obj19, 0, obj21, 0, obj23, 0, obj25, 0, obj27, false, obj29, 0));
                 } else {
-                    copy-pvPzIIM$default = rememberedValue;
+                    $i$a$CacheMaterialThemeKt$MaterialTheme$rememberedColors$1 = rememberedValue;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                anon = copy-pvPzIIM$default;
+                anon = $i$a$CacheMaterialThemeKt$MaterialTheme$rememberedColors$1;
                 int i31 = 0;
                 ColorsKt.updateColorsFrom(anon, obj2);
                 i8 = i45;
                 int i33 = 0;
                 arr = new ProvidedValue[7];
                 arr[i33] = ColorsKt.getLocalColors().provides(anon);
-                i11 = 1;
-                arr[i11] = ContentAlphaKt.getLocalContentAlpha().provides(Float.valueOf(ContentAlpha.INSTANCE.getHigh(restartGroup, i18)));
+                i9 = 1;
+                arr[i9] = ContentAlphaKt.getLocalContentAlpha().provides(Float.valueOf(ContentAlpha.INSTANCE.getHigh(restartGroup, i16)));
                 arr[i47] = IndicationKt.getLocalIndication().provides(RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, 0, 0, rememberedValue, restartGroup, 0));
                 arr[3] = RippleThemeKt.getLocalRippleTheme().provides(CompatRippleTheme.INSTANCE);
                 arr[i26] = ShapesKt.getLocalShapes().provides(colors2);
                 arr[5] = TextSelectionColorsKt.getLocalTextSelectionColors().provides(MaterialTextSelectionColorsKt.rememberTextSelectionColors(anon, restartGroup, i33));
-                arr[i18] = TypographyKt.getLocalTypography().provides($dirty);
-                MaterialThemeKt.MaterialTheme.1 anon2 = new MaterialThemeKt.MaterialTheme.1($dirty, obj4);
-                CompositionLocalKt.CompositionLocalProvider(arr, (Function2)ComposableLambdaKt.rememberComposableLambda(-1740102967, i11, anon2, restartGroup, 54), restartGroup, $stable |= 48);
+                arr[i16] = TypographyKt.getLocalTypography().provides($dirty2);
+                MaterialThemeKt.MaterialTheme.1 anon2 = new MaterialThemeKt.MaterialTheme.1($dirty2, obj4);
+                CompositionLocalKt.CompositionLocalProvider(arr, (Function2)ComposableLambdaKt.rememberComposableLambda(-1740102967, i9, anon2, restartGroup, 54), restartGroup, $stable |= 48);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 obj = colors2;
-                shapes2 = $dirty;
-                typography3 = obj2;
+                shapes2 = $dirty2;
+                typography2 = obj2;
             } else {
                 restartGroup.skipToGroupEnd();
-                i8 = $dirty2;
-                typography3 = colors3;
+                i8 = $dirty;
+                typography2 = colors3;
                 shapes2 = rippleOrFallbackImplementation-9IZ8Weo;
                 obj = shapes3;
             }
@@ -204,7 +204,7 @@ public final class MaterialThemeKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            anon = new MaterialThemeKt.MaterialTheme.2(typography3, shapes2, obj, obj4, i27, i7);
+            anon = new MaterialThemeKt.MaterialTheme.2(typography2, shapes2, obj, obj4, i27, i7);
             endRestartGroup.updateScope((Function2)anon);
         }
     }

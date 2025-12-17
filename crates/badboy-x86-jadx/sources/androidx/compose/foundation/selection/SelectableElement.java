@@ -85,22 +85,22 @@ final class SelectableElement extends ModifierNodeElement<androidx.compose.found
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i2;
         int i3;
+        int i2;
         Role unbox-impl;
         int i;
         MutableInteractionSource interactionSource = this.interactionSource;
         i = 0;
         if (interactionSource != null) {
-            i2 = interactionSource.hashCode();
+            i3 = interactionSource.hashCode();
         } else {
-            i2 = i;
+            i3 = i;
         }
         IndicationNodeFactory indicationNodeFactory = this.indicationNodeFactory;
         if (indicationNodeFactory != null) {
-            i3 = indicationNodeFactory.hashCode();
+            i2 = indicationNodeFactory.hashCode();
         } else {
-            i3 = i;
+            i2 = i;
         }
         unbox-impl = this.role;
         if (unbox-impl != null) {

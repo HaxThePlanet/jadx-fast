@@ -32,7 +32,7 @@ public final class ParagraphStyleKt {
 
     public static final androidx.compose.ui.text.ParagraphStyle fastMerge-j5T8yCg(androidx.compose.ui.text.ParagraphStyle $this$fastMerge_u2dj5T8yCg, int textAlign, int textDirection, long lineHeight, TextIndent textIndent, androidx.compose.ui.text.PlatformParagraphStyle platformStyle, LineHeightStyle lineHeightStyle, int lineBreak, int hyphens, TextMotion textMotion) {
         boolean equal;
-        int i;
+        int i4;
         boolean unspecified--R2X_6o;
         int textAlign-e0LSkKk;
         int textDirection-s_7X-co;
@@ -41,14 +41,14 @@ public final class ParagraphStyleKt {
         boolean z2;
         boolean unspecified--R2X_6o2;
         long lineHeight-XSAIIZE;
-        int i5;
-        int i4;
-        long z;
-        Object obj;
-        Object obj3;
         int i2;
-        int i3;
+        int i5;
+        long z;
+        Object obj3;
         Object obj2;
+        int i;
+        int i3;
+        Object obj;
         final androidx.compose.ui.text.ParagraphStyle paragraphStyle = $this$fastMerge_u2dj5T8yCg;
         final int i6 = textAlign;
         final int i7 = textDirection;
@@ -77,7 +77,7 @@ public final class ParagraphStyleKt {
                                                                 if (!Hyphens.equals-impl0(i9, Hyphens.Companion.getUnspecified-vmbZdU8())) {
                                                                     if (Hyphens.equals-impl0(i9, paragraphStyle.getHyphens-vmbZdU8())) {
                                                                         if (obj7 != null && !Intrinsics.areEqual(obj7, paragraphStyle.getTextMotion())) {
-                                                                            i = !Intrinsics.areEqual(obj7, paragraphStyle.getTextMotion()) ? 1 : 0;
+                                                                            i4 = !Intrinsics.areEqual(obj7, paragraphStyle.getTextMotion()) ? 1 : 0;
                                                                         } else {
                                                                         }
                                                                     } else {
@@ -114,7 +114,7 @@ public final class ParagraphStyleKt {
             }
         } else {
         }
-        if (i == 0) {
+        if (i4 == 0) {
             return paragraphStyle;
         }
         if (TextUnitKt.isUnspecified--R2X_6o(z2)) {
@@ -123,29 +123,29 @@ public final class ParagraphStyleKt {
             z = z2;
         }
         if (obj4 == null) {
-            obj = unspecified--R2X_6o;
+            obj3 = unspecified--R2X_6o;
         } else {
-            obj = obj4;
+            obj3 = obj4;
         }
         if (!TextAlign.equals-impl0(i6, TextAlign.Companion.getUnspecified-e0LSkKk())) {
-            i5 = i6;
+            i2 = i6;
         } else {
-            i5 = textAlign-e0LSkKk;
+            i2 = textAlign-e0LSkKk;
         }
         if (!TextDirection.equals-impl0(i7, TextDirection.Companion.getUnspecified-s_7X-co())) {
-            i4 = i7;
+            i5 = i7;
         } else {
-            i4 = textDirection-s_7X-co;
+            i5 = textDirection-s_7X-co;
         }
         if (obj6 == null) {
-            obj3 = textDirection-s_7X-co;
+            obj2 = textDirection-s_7X-co;
         } else {
-            obj3 = obj6;
+            obj2 = obj6;
         }
         if (!LineBreak.equals-impl0(i8, LineBreak.Companion.getUnspecified-rAG3T2k())) {
-            i2 = i8;
+            i = i8;
         } else {
-            i2 = lineBreak-rAG3T2k;
+            i = lineBreak-rAG3T2k;
         }
         if (!Hyphens.equals-impl0(i9, Hyphens.Companion.getUnspecified-vmbZdU8())) {
             i3 = i9;
@@ -153,11 +153,11 @@ public final class ParagraphStyleKt {
             i3 = textMotion2;
         }
         if (obj7 == null) {
-            obj2 = textMotion2;
+            obj = textMotion2;
         } else {
-            obj2 = obj7;
+            obj = obj7;
         }
-        ParagraphStyle paragraphStyle2 = new ParagraphStyle(i5, i4, z, obj19, obj, ParagraphStyleKt.mergePlatformStyle(paragraphStyle, obj5), obj3, i2, i3, obj2, 0);
+        ParagraphStyle paragraphStyle2 = new ParagraphStyle(i2, i5, z, obj19, obj3, ParagraphStyleKt.mergePlatformStyle(paragraphStyle, obj5), obj2, i, i3, obj, 0);
         return paragraphStyle2;
     }
 

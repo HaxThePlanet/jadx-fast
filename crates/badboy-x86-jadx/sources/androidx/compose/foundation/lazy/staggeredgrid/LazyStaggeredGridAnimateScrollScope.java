@@ -32,11 +32,11 @@ public final class LazyStaggeredGridAnimateScrollScope implements LazyLayoutAnim
     private final int calculateVisibleItemsAverageSize(androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridLayoutInfo layoutInfo) {
         int sum$iv;
         int index$iv$iv;
-        Object obj3;
         Object obj;
-        int i2;
         Object obj2;
         int i;
+        Object obj3;
+        int i2;
         int height-impl;
         Orientation vertical;
         final List visibleItemsInfo = layoutInfo.getVisibleItemsInfo();
@@ -46,17 +46,17 @@ public final class LazyStaggeredGridAnimateScrollScope implements LazyLayoutAnim
         final int i6 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list2.size()) {
-            i2 = 0;
-            obj2 = obj;
             i = 0;
+            obj3 = obj2;
+            i2 = 0;
             vertical = Orientation.Vertical;
             if (layoutInfo.getOrientation() == vertical) {
             } else {
             }
-            height-impl = IntSize.getWidth-impl((LazyStaggeredGridItemInfo)obj2.getSize-YbymL2g());
+            height-impl = IntSize.getWidth-impl((LazyStaggeredGridItemInfo)obj3.getSize-YbymL2g());
             sum$iv += height-impl;
             index$iv$iv++;
-            height-impl = IntSize.getHeight-impl(obj2.getSize-YbymL2g());
+            height-impl = IntSize.getHeight-impl(obj3.getSize-YbymL2g());
         }
         return i3 += mainAxisItemSpacing;
     }
@@ -65,33 +65,33 @@ public final class LazyStaggeredGridAnimateScrollScope implements LazyLayoutAnim
     public float calculateDistanceTo(int targetIndex) {
         int visibleItemsAverageSize;
         int laneCount$foundation_release;
-        int i4;
-        int index$iv$iv;
         int i3;
-        float size;
-        Object obj;
-        Object obj3;
-        int i2;
-        Object obj2;
+        int index$iv$iv;
         int i5;
+        float size;
+        Object obj2;
+        Object obj3;
+        int i4;
+        Object obj;
         int i;
+        int i2;
         androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridLayoutInfo layoutInfo = this.state.getLayoutInfo();
         if (layoutInfo.getVisibleItemsInfo().isEmpty()) {
             return 0;
         }
         int i7 = 0;
         List list = visibleItemsInfo2;
-        i4 = 0;
+        i3 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i2 = 0;
-            i5 = 0;
+            i4 = 0;
+            i = 0;
             if ((LazyStaggeredGridItemInfo)list.get(index$iv$iv).getIndex() == targetIndex) {
             } else {
             }
-            i = 0;
+            i2 = 0;
             index$iv$iv++;
-            i = 1;
+            i2 = 1;
         }
         obj3 = 0;
         Object $this$fastFirstOrNull$iv = obj3;
@@ -105,9 +105,9 @@ public final class LazyStaggeredGridAnimateScrollScope implements LazyLayoutAnim
             } else {
                 visibleItemsAverageSize = IntOffset.getX-impl($this$fastFirstOrNull$iv.getOffset-nOcc-ac());
             }
-            i3 = (float)visibleItemsAverageSize;
+            i5 = (float)visibleItemsAverageSize;
         }
-        return i3;
+        return i5;
     }
 
     @Override // androidx.compose.foundation.lazy.layout.LazyLayoutAnimateScrollScope

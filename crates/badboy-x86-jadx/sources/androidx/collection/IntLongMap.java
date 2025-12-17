@@ -89,12 +89,12 @@ public abstract class IntLongMap {
         Object this_$iv;
         int j$iv$iv;
         long slot$iv$iv;
-        int i4;
-        long l;
-        int i3;
         int i2;
         long l2;
+        int i3;
         int i5;
+        long l;
+        int i4;
         int i;
         String separator2;
         Object obj32;
@@ -163,8 +163,8 @@ public abstract class IntLongMap {
         int valueOf;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i2;
         int i6;
+        int i2;
         int i4;
         long slot$iv$iv;
         long cmp2;
@@ -195,22 +195,22 @@ public abstract class IntLongMap {
     }
 
     public final boolean any(Function2<? super Integer, ? super Long, Boolean> predicate) {
-        int $i$f$any;
+        int $i$f$any2;
         int i$iv$iv;
         int cmp;
         int valueOf;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i;
-        int i3;
+        int i5;
         int i2;
+        int i;
         long slot$iv$iv;
         long cmp2;
-        int i4;
-        long l;
-        int i5;
         int i6;
-        int $i$f$any2;
+        long l;
+        int i4;
+        int i3;
+        int $i$f$any;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
         final Object obj2 = this;
@@ -220,10 +220,10 @@ public abstract class IntLongMap {
         length += -2;
         if (0 <= i9) {
         } else {
-            $i$f$any2 = $i$f$any;
-            i2 = 0;
+            $i$f$any = $i$f$any2;
+            i = 0;
         }
-        return i2;
+        return i;
     }
 
     public final boolean contains(int key) {
@@ -242,15 +242,15 @@ public abstract class IntLongMap {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i;
+        int i3;
         int j$iv$iv;
         int value$iv$iv$iv;
         int i2;
-        long l2;
-        int cmp2;
-        int i3;
         long l;
         int cmp;
+        int i;
+        long l2;
+        int cmp2;
         final Object obj = this;
         final int i4 = 0;
         final int i5 = 0;
@@ -274,15 +274,15 @@ public abstract class IntLongMap {
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i3;
-        int i2;
+        int i5;
+        int i4;
         int $i$f$count;
         int count;
         long l2;
-        int i5;
-        long l;
-        int i4;
         int i;
+        long l;
+        int i3;
+        int i2;
         Object this_$iv;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
@@ -311,12 +311,12 @@ public abstract class IntLongMap {
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         int i;
         int cmp2;
-        int i3;
-        long l;
-        int i4;
-        long l2;
-        int i5;
         int i2;
+        long l2;
+        int i4;
+        long l;
+        int i3;
+        int i5;
         long l3;
         final Object obj = other;
         $this$maskEmptyOrDeleted$iv$iv$iv2 = 1;
@@ -337,10 +337,10 @@ public abstract class IntLongMap {
         length += -2;
         if (0 <= i14) {
         } else {
-            i3 = $this$maskEmptyOrDeleted$iv$iv$iv2;
+            i2 = $this$maskEmptyOrDeleted$iv$iv$iv2;
             i = $i$f$isFull;
         }
-        return i3;
+        return i2;
     }
 
     public final int findKeyIndex(int key) {
@@ -350,23 +350,23 @@ public abstract class IntLongMap {
         int $i$f$h1;
         int probeIndex;
         int metadata$iv;
-        int i12;
-        int i5;
-        int i11;
-        int i2;
-        int i14;
-        int i10;
         int i6;
-        int $this$next$iv;
-        int i4;
-        long l;
         int i3;
+        int i12;
         int i9;
-        int i;
+        int i4;
         int i13;
+        int i;
+        int $this$next$iv;
+        int i11;
+        long l;
         int i7;
-        int numberOfTrailingZeros;
+        int i2;
         int i8;
+        int i10;
+        int i14;
+        int numberOfTrailingZeros;
+        int i5;
         final Object obj = this;
         int i15 = 0;
         i17 *= i20;
@@ -381,62 +381,62 @@ public abstract class IntLongMap {
             int i30 = 0;
             int i33 = 0;
             while (Long.compare(i24, i33) != 0) {
-                i7 = 1;
+                i14 = 1;
                 int i31 = 0;
                 int i45 = 0;
-                i11 = i35 & _capacity;
+                i12 = i35 & _capacity;
                 int i36 = m;
-                i2 = 0;
+                i9 = 0;
                 m = $this$next$iv;
                 i30 = 0;
                 i33 = 0;
-                i7 = 0;
+                i14 = 0;
             }
-            i7 = 0;
-            i14 = key;
+            i14 = 0;
+            i4 = key;
             int i26 = metadata$iv;
-            i13 = 0;
-            $i$f$h1 = i5 & _capacity;
-            $i$f$hash = i9;
-            $i$f$h2 = i;
+            i10 = 0;
+            $i$f$h1 = i3 & _capacity;
+            $i$f$hash = i2;
+            $i$f$h2 = i8;
             long[] metadata = obj.metadata;
-            i12 = 0;
+            i6 = 0;
             int i23 = $i$f$h1 >> 3;
             i27 <<= 3;
-            i40 &= i3;
-            metadata$iv = i29 | i4;
-            i10 = 0;
+            i40 &= i7;
+            metadata$iv = i29 | i11;
+            i13 = 0;
             long l5 = 72340172838076673L;
-            i32 ^= i11;
+            i32 ^= i12;
             l = -9187201950435737472L;
             i16 &= l;
             i31 = 0;
             i45 = 0;
-            i11 = i35 & _capacity;
+            i12 = i35 & _capacity;
             i36 = m;
-            i2 = 0;
+            i9 = 0;
             m = $this$next$iv;
-            i7 = 1;
+            i14 = 1;
         }
-        return i11;
+        return i12;
     }
 
     public final void forEach(Function2<? super Integer, ? super Long, Unit> block) {
-        Object valueOf;
+        Object valueOf2;
         int cmp;
-        int[] valueOf2;
+        int[] valueOf;
         int i$iv;
         long slot$iv;
         long j$iv;
-        int i2;
-        int i4;
+        int i3;
+        int i;
         int $i$f$forEach;
         int[] iArr;
         long l;
-        int i;
-        int i3;
+        int i4;
+        int i2;
         long l2;
-        valueOf = this;
+        valueOf2 = this;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         final int i11 = 0;
@@ -445,20 +445,20 @@ public abstract class IntLongMap {
         if (0 <= i12) {
         } else {
             $i$f$forEach = cmp;
-            iArr = valueOf2;
+            iArr = valueOf;
         }
     }
 
     public final void forEachIndexed(Function1<? super Integer, Unit> block) {
-        int i2;
+        int i;
         long slot;
         int $this$maskEmptyOrDeleted$iv;
-        int i;
+        int i2;
         int j;
-        int i4;
+        int i3;
         Integer valueOf;
         long l;
-        int i3;
+        int i4;
         Intrinsics.checkNotNullParameter(block, "block");
         int i5 = 0;
         final long[] metadata = this.metadata;
@@ -473,11 +473,11 @@ public abstract class IntLongMap {
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
-        int i;
-        int i2;
-        long l;
-        int i3;
         int i4;
+        int i;
+        long l;
+        int i2;
+        int i3;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         int i5 = 0;
@@ -498,8 +498,8 @@ public abstract class IntLongMap {
         int i2;
         int i;
         long l;
-        int i4;
         int i3;
+        int i4;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         int i5 = 0;
@@ -554,16 +554,16 @@ public abstract class IntLongMap {
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i5;
-        int i4;
+        int i6;
+        int i2;
         Object this_$iv;
         int hash;
-        long l;
-        int i2;
         long l2;
-        int i;
         int i3;
-        int i6;
+        long l;
+        int i4;
+        int i5;
+        int i;
         bitCount$iv$iv = 0;
         obj = this;
         final int i13 = 0;
@@ -622,25 +622,25 @@ public abstract class IntLongMap {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated) {
         int obj;
         int i$iv$iv;
-        int i;
+        int i8;
         StringBuilder stringBuilder;
         int $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i2;
+        int i9;
         int index;
         int j$iv$iv;
         int[] keys;
         long slot$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i3;
-        int i4;
-        int i6;
+        int i2;
+        int i5;
+        int i10;
         int i7;
         long l;
-        int i5;
-        int i9;
+        int i4;
+        int i6;
         int[] iArr;
-        int i8;
-        int i10;
+        int i;
+        int i3;
         StringBuilder sb;
         Object obj2 = prefix;
         final Object obj3 = postfix;
@@ -652,7 +652,7 @@ public abstract class IntLongMap {
         stringBuilder = new StringBuilder();
         final StringBuilder sb2 = stringBuilder;
         sb2.append(obj2);
-        i2 = 0;
+        i9 = 0;
         index = this;
         final int i16 = 0;
         final long[] metadata = obj5.metadata;
@@ -660,12 +660,12 @@ public abstract class IntLongMap {
         if (0 <= i17) {
         } else {
             sb = stringBuilder;
-            i6 = $this$maskEmptyOrDeleted$iv$iv$iv2;
+            i10 = $this$maskEmptyOrDeleted$iv$iv$iv2;
             $this$maskEmptyOrDeleted$iv$iv$iv = index;
-            i3 = j$iv$iv;
+            i2 = j$iv$iv;
             iArr = keys;
-            i = limit;
-            index = i2;
+            i8 = limit;
+            index = i9;
             sb2.append(obj3);
         }
         String string = sb.toString();
@@ -677,24 +677,24 @@ public abstract class IntLongMap {
         int invoke;
         int m$iv$iv;
         Object valueOf;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv2;
         int index2;
-        int i;
-        int i7;
+        int i6;
+        int i2;
         int this_$iv;
         Object index;
         int j$iv$iv;
         long slot$iv$iv;
-        Object $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i5;
-        int i3;
-        int i2;
-        int i6;
-        long l2;
-        int i9;
-        long l;
-        int i4;
+        Object $this$maskEmptyOrDeleted$iv$iv$iv;
         int i8;
+        int i3;
+        int $i$a$BuildStringIntLongMap$joinToString$2;
+        int i5;
+        long l2;
+        int i4;
+        long l;
+        int i7;
+        int i;
         Object obj = prefix;
         final Object obj2 = postfix;
         final Object obj3 = transform;
@@ -707,15 +707,15 @@ public abstract class IntLongMap {
         final StringBuilder sb = stringBuilder;
         sb.append(obj);
         index = this;
-        final int i18 = 0;
+        final int i17 = 0;
         long[] metadata = obj4.metadata;
-        final int i19 = i10;
+        final int i18 = i9;
         $i$f$joinToString += -2;
-        if (0 <= i11) {
+        if (0 <= i10) {
         } else {
-            i2 = $this$maskEmptyOrDeleted$iv$iv$iv;
-            $this$maskEmptyOrDeleted$iv$iv$iv2 = index;
-            i5 = j$iv$iv;
+            $i$a$BuildStringIntLongMap$joinToString$2 = $this$maskEmptyOrDeleted$iv$iv$iv2;
+            $this$maskEmptyOrDeleted$iv$iv$iv = index;
+            i8 = j$iv$iv;
             index2 = limit;
             this_$iv = invoke;
             sb.append(obj2);
@@ -730,22 +730,22 @@ public abstract class IntLongMap {
         int m$iv$iv$iv;
         String valueOf;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i5;
+        int i;
         StringBuilder stringBuilder;
-        int i4;
+        int i6;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i8;
+        int i5;
         int i2;
-        int i6;
+        int i4;
         StringBuilder sb;
-        long l;
-        int i;
         long l2;
-        int i3;
         int i7;
+        long l;
+        int i3;
+        int i8;
         String truncated$iv;
         Object obj = prefix;
         final Object obj2 = postfix;
@@ -759,18 +759,18 @@ public abstract class IntLongMap {
         sb2.append(obj);
         index$iv = 0;
         final Object obj4 = this;
+        final int i15 = 0;
         final int i16 = 0;
-        final int i17 = 0;
         long[] metadata = obj5.metadata;
-        final int i18 = i9;
+        final int i17 = i9;
         $i$f$joinToString += -2;
         if (0 <= i10) {
         } else {
             truncated$iv = valueOf;
-            i6 = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            i4 = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
             $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
-            i5 = limit;
+            i = limit;
             sb2.append(obj2);
         }
         String string = sb.toString();
@@ -781,21 +781,21 @@ public abstract class IntLongMap {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, Function2<? super Integer, ? super Long, ? extends java.lang.CharSequence> transform) {
         int invoke;
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i4;
         int i;
         int $i$f$joinToString;
         StringBuilder sb;
         long l2;
-        int i5;
-        long l;
-        int i4;
         int i3;
+        long l;
+        int i2;
+        int i5;
         Object obj = prefix;
         final Object obj3 = postfix;
         final Object obj4 = transform;
@@ -808,8 +808,8 @@ public abstract class IntLongMap {
         sb2.append(obj);
         index$iv = 0;
         final Object obj5 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         Object obj2 = obj6;
         int this_$iv$iv$iv2 = i7;
         long[] $i$f$joinToString2 = obj2.metadata;
@@ -817,9 +817,9 @@ public abstract class IntLongMap {
         this_$iv$iv$iv += -2;
         if (0 <= i6) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
             sb2.append(obj3);
         }
         String string = sb.toString();
@@ -830,21 +830,21 @@ public abstract class IntLongMap {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, Function2<? super Integer, ? super Long, ? extends java.lang.CharSequence> transform) {
         int invoke;
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int i2;
-        int i4;
+        int i3;
         int $i$f$joinToString;
         StringBuilder sb;
-        long l2;
-        int i5;
         long l;
-        int i3;
+        int i5;
+        long l2;
         int i;
+        int i4;
         Object obj = prefix;
         final Object obj3 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
@@ -855,8 +855,8 @@ public abstract class IntLongMap {
         sb2.append(obj);
         index$iv = 0;
         final Object obj4 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         Object obj2 = obj5;
         int this_$iv$iv$iv2 = i7;
         long[] $i$f$joinToString2 = obj2.metadata;
@@ -864,9 +864,9 @@ public abstract class IntLongMap {
         this_$iv$iv$iv += -2;
         if (0 <= i6) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
             sb2.append((CharSequence)"");
         }
         String string = sb.toString();
@@ -883,15 +883,15 @@ public abstract class IntLongMap {
         int index$iv;
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i4;
+        int i2;
         int i5;
         int $i$f$joinToString;
         StringBuilder sb;
-        long l;
-        int i;
         long l2;
         int i3;
-        int i2;
+        long l;
+        int i;
+        int i4;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
         Intrinsics.checkNotNullParameter(obj, "transform");
@@ -902,9 +902,9 @@ public abstract class IntLongMap {
         sb2.append((CharSequence)str5);
         index$iv = 0;
         final Object obj2 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
-        final int i16 = i6;
+        final int i15 = i6;
         Object $i$f$joinToString2 = obj3;
         String this_$iv$iv$iv2 = str5;
         long[] prefix$iv = $i$f$joinToString2.metadata;
@@ -932,14 +932,14 @@ public abstract class IntLongMap {
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int i5;
-        int i2;
         int i;
-        StringBuilder sb;
-        long l2;
-        int i4;
-        long l;
-        int i6;
         int i3;
+        StringBuilder sb;
+        long l;
+        int i4;
+        long l2;
+        int i6;
+        int i2;
         String separator$iv2;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(obj, "transform");
@@ -950,9 +950,9 @@ public abstract class IntLongMap {
         sb2.append((CharSequence)str4);
         index$iv = 0;
         final Object obj2 = this;
+        final int i14 = 0;
         final int i15 = 0;
-        final int i16 = 0;
-        final int i17 = i7;
+        final int i16 = i7;
         Object $i$f$joinToString = obj3;
         String this_$iv$iv$iv2 = str4;
         long[] prefix$iv = $i$f$joinToString.metadata;
@@ -961,7 +961,7 @@ public abstract class IntLongMap {
         if (0 <= i8) {
         } else {
             separator$iv2 = separator$iv;
-            i = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            i3 = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
             $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
             sb2.append((CharSequence)str3);
@@ -985,10 +985,10 @@ public abstract class IntLongMap {
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i5;
+        int i2;
         int i4;
         Object this_$iv;
-        int i2;
+        int i5;
         long l;
         int key;
         int $i$f$forEach;
@@ -1011,7 +1011,7 @@ public abstract class IntLongMap {
             this_$iv = value;
             $i$f$forEach = append;
             iArr = keys;
-            i2 = bitCount$iv$iv;
+            i5 = bitCount$iv$iv;
         }
         String string = append2.append('}').toString();
         Intrinsics.checkNotNullExpressionValue(string, "s.append('}').toString()");

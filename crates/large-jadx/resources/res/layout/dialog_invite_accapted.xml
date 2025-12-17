@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:tag="layout/dialog_invite_accapted_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/delete_icon"
+        android:tag="binding_1"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <TextView
+        android:textSize="18sp"
+        android:textColor="#4c5d56"
+        android:id="@+id/title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/invite.owner.success.header"
+        android:fontFamily="@font/montserrat_bold"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/delete_icon"/>
+    <TextView
+        android:textSize="16sp"
+        android:textColor="#4c5d56"
+        android:id="@+id/message_text"
+        android:tag="binding_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:lineSpacingExtra="0sp"
+        android:fontFamily="sans-serif"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/title_text"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

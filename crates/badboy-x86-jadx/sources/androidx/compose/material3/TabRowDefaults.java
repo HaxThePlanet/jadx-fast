@@ -42,29 +42,29 @@ public final class TabRowDefaults {
 
     @Deprecated(message = "Use SecondaryIndicator instead.", replaceWith = @ReplaceWith(...))
     public final void Indicator-9IZ8Weo(Modifier modifier, float height, long color, Composer $composer, int $changed, int i6) {
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
         Object modifier2;
         Object obj;
         float height2;
-        int i4;
+        int i5;
         int token;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         long l3;
         float activeIndicatorColor;
+        int i7;
         int i3;
-        int i8;
         int defaultsInvalid;
         boolean changed;
-        long l;
-        int i5;
         long l2;
-        int i7;
-        int i2;
+        int i4;
+        long l;
+        int i8;
         int i;
+        int i2;
         final int i17 = i6;
-        traceInProgress2 = 1454716052;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
+        traceInProgress = 1454716052;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(Indicator)P(2,1:c#ui.unit.Dp,0:c#ui.graphics.Color)1202@51501L11,1204@51588L69:TabRow.kt#uh7d8r");
         $dirty = i6;
         int i10 = obj22 & 1;
@@ -73,8 +73,8 @@ public final class TabRowDefaults {
             obj = modifier;
         } else {
             if (i17 & 6 == 0) {
-                i4 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i4;
+                i5 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i5;
             } else {
                 obj = modifier;
             }
@@ -85,21 +85,21 @@ public final class TabRowDefaults {
             activeIndicatorColor = height;
         } else {
             if (i17 & 48 == 0) {
-                i3 = restartGroup.changed(height) ? 32 : 16;
-                $dirty |= i3;
+                i7 = restartGroup.changed(height) ? 32 : 16;
+                $dirty |= i7;
             } else {
                 activeIndicatorColor = height;
             }
         }
         if (i17 & 384 == 0) {
             if (obj22 & 4 == 0) {
-                i8 = restartGroup.changed(color) ? 256 : 128;
+                i3 = restartGroup.changed(color) ? 256 : 128;
             } else {
-                l = color;
+                l2 = color;
             }
-            $dirty |= i8;
+            $dirty |= i3;
         } else {
-            l = color;
+            l2 = color;
         }
         final int i18 = 146;
         if ($dirty & 147 == i18) {
@@ -119,9 +119,9 @@ public final class TabRowDefaults {
                         }
                         if (obj22 & 4 != 0) {
                             $dirty &= -897;
-                            l2 = token;
+                            l = token;
                         } else {
-                            l2 = l;
+                            l = l2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -130,33 +130,33 @@ public final class TabRowDefaults {
                         }
                         modifier2 = obj;
                         height2 = activeIndicatorColor;
-                        l2 = l;
+                        l = l2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.TabRowDefaults.Indicator (TabRow.kt:1203)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.TabRowDefaults.Indicator (TabRow.kt:1203)");
                 }
-                BoxKt.Box(BackgroundKt.background-bw27NRU$default(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier2, 0, 1, 0), height2), l2, i18, 0, 2), restartGroup, 0);
+                BoxKt.Box(BackgroundKt.background-bw27NRU$default(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier2, 0, 1, 0), height2), l, i18, 0, 2), restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                l3 = l2;
-                i5 = $dirty;
+                l3 = l;
+                i4 = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
                 modifier2 = obj;
                 height2 = activeIndicatorColor;
-                l3 = l;
-                i5 = $dirty;
+                l3 = l2;
+                i4 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new TabRowDefaults.Indicator.1(this, modifier2, height2, l3, activeIndicatorColor, i17, obj22);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new TabRowDefaults.Indicator.1(this, modifier2, height2, l3, activeIndicatorColor, i17, obj22);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
@@ -166,23 +166,23 @@ public final class TabRowDefaults {
         Object modifier2;
         Object obj;
         float width2;
-        int i6;
+        int i;
         int activeIndicatorShape;
         boolean traceInProgress2;
-        float f2;
-        float str;
-        long l2;
-        int i;
         float f;
-        Object height2;
-        int i5;
+        float str;
+        long l;
         int i2;
+        float f2;
+        Object height2;
+        int i6;
+        int i4;
         int changed;
         int i3;
-        long l;
+        long l2;
         int color2;
         Object obj2;
-        int i4;
+        int i5;
         int defaultsInvalid;
         final int i16 = i8;
         traceInProgress = -1895596205;
@@ -195,8 +195,8 @@ public final class TabRowDefaults {
             obj = modifier;
         } else {
             if (i16 & 6 == 0) {
-                i6 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i6;
+                i = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i;
             } else {
                 obj = modifier;
             }
@@ -207,8 +207,8 @@ public final class TabRowDefaults {
             str = width;
         } else {
             if (i16 & 48 == 0) {
-                i = restartGroup.changed(width) ? 32 : 16;
-                $dirty |= i;
+                i2 = restartGroup.changed(width) ? 32 : 16;
+                $dirty |= i2;
             } else {
                 str = width;
             }
@@ -216,24 +216,24 @@ public final class TabRowDefaults {
         int i14 = obj25 & 4;
         if (i14 != 0) {
             $dirty |= 384;
-            f = height;
+            f2 = height;
         } else {
             if (i16 & 384 == 0) {
-                i5 = restartGroup.changed(height) ? 256 : 128;
-                $dirty |= i5;
+                i6 = restartGroup.changed(height) ? 256 : 128;
+                $dirty |= i6;
             } else {
-                f = height;
+                f2 = height;
             }
         }
         if (i16 & 3072 == 0) {
             if (obj25 & 8 == 0) {
-                i2 = restartGroup.changed(color) ? 2048 : 1024;
+                i4 = restartGroup.changed(color) ? 2048 : 1024;
             } else {
-                l = color;
+                l2 = color;
             }
-            $dirty |= i2;
+            $dirty |= i4;
         } else {
-            l = color;
+            l2 = color;
         }
         i3 = obj25 & 16;
         if (i3 != 0) {
@@ -241,8 +241,8 @@ public final class TabRowDefaults {
             obj2 = $composer;
         } else {
             if (i16 & 24576 == 0) {
-                i4 = restartGroup.changed($composer) ? 16384 : 8192;
-                $dirty |= i4;
+                i5 = restartGroup.changed($composer) ? 16384 : 8192;
+                $dirty |= i5;
             } else {
                 obj2 = $composer;
             }
@@ -264,11 +264,11 @@ public final class TabRowDefaults {
                             width2 = str;
                         }
                         if (i14 != 0) {
-                            f = activeIndicatorShape;
+                            f2 = activeIndicatorShape;
                         }
                         if (obj25 & 8 != 0) {
                             $dirty &= -7169;
-                            l = activeIndicatorShape;
+                            l2 = activeIndicatorShape;
                         }
                         if (i3 != 0) {
                             obj2 = activeIndicatorShape;
@@ -287,20 +287,20 @@ public final class TabRowDefaults {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.TabRowDefaults.PrimaryIndicator (TabRow.kt:1224)");
                 }
-                SpacerKt.Spacer(BackgroundKt.background-bw27NRU(SizeKt.requiredWidth-3ABfNKs(SizeKt.requiredHeight-3ABfNKs(modifier2, f), width2), l, obj12), restartGroup, 0);
+                SpacerKt.Spacer(BackgroundKt.background-bw27NRU(SizeKt.requiredWidth-3ABfNKs(SizeKt.requiredHeight-3ABfNKs(modifier2, f2), width2), l2, obj12), restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                f2 = f;
-                l2 = l;
+                f = f2;
+                l = l2;
                 height2 = obj2;
                 color2 = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
                 modifier2 = obj;
                 width2 = str;
-                f2 = f;
-                l2 = l;
+                f = f2;
+                l = l2;
                 height2 = obj2;
                 color2 = $dirty;
             }
@@ -308,35 +308,35 @@ public final class TabRowDefaults {
         }
         final ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TabRowDefaults.PrimaryIndicator.1(this, modifier2, width2, f2, l2, i14, height2, i16, obj25);
+            traceInProgress = new TabRowDefaults.PrimaryIndicator.1(this, modifier2, width2, f, l, i14, height2, i16, obj25);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public final void SecondaryIndicator-9IZ8Weo(Modifier modifier, float height, long color, Composer $composer, int $changed, int i6) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
         Object modifier2;
         Object obj;
         float height2;
-        int i5;
+        int i3;
         int value;
-        boolean traceInProgress2;
-        long l3;
+        boolean traceInProgress;
+        long l2;
         float str;
-        int i4;
-        int i;
+        int i8;
+        int i5;
         int defaultsInvalid;
         boolean changed;
-        long l2;
-        int i2;
         long l;
-        int i8;
+        int i;
+        long l3;
+        int i4;
         int i7;
-        int i3;
+        int i2;
         final int i16 = i6;
-        traceInProgress = -1498258020;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
+        traceInProgress2 = -1498258020;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(SecondaryIndicator)P(2,1:c#ui.unit.Dp,0:c#ui.graphics.Color)1245@53068L5,1247@53090L69:TabRow.kt#uh7d8r");
         $dirty = i6;
         int i10 = obj22 & 1;
@@ -345,8 +345,8 @@ public final class TabRowDefaults {
             obj = modifier;
         } else {
             if (i16 & 6 == 0) {
-                i5 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i5;
+                i3 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i3;
             } else {
                 obj = modifier;
             }
@@ -357,21 +357,21 @@ public final class TabRowDefaults {
             str = height;
         } else {
             if (i16 & 48 == 0) {
-                i4 = restartGroup.changed(height) ? 32 : 16;
-                $dirty |= i4;
+                i8 = restartGroup.changed(height) ? 32 : 16;
+                $dirty |= i8;
             } else {
                 str = height;
             }
         }
         if (i16 & 384 == 0) {
             if (obj22 & 4 == 0) {
-                i = restartGroup.changed(color) ? 256 : 128;
+                i5 = restartGroup.changed(color) ? 256 : 128;
             } else {
-                l2 = color;
+                l = color;
             }
-            $dirty |= i;
+            $dirty |= i5;
         } else {
-            l2 = color;
+            l = color;
         }
         final int i17 = 146;
         if ($dirty & 147 == i17) {
@@ -391,9 +391,9 @@ public final class TabRowDefaults {
                         }
                         if (obj22 & 4 != 0) {
                             $dirty &= -897;
-                            l = value;
+                            l3 = value;
                         } else {
-                            l = l2;
+                            l3 = l;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -402,33 +402,33 @@ public final class TabRowDefaults {
                         }
                         modifier2 = obj;
                         height2 = str;
-                        l = l2;
+                        l3 = l;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.TabRowDefaults.SecondaryIndicator (TabRow.kt:1246)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.TabRowDefaults.SecondaryIndicator (TabRow.kt:1246)");
                 }
-                BoxKt.Box(BackgroundKt.background-bw27NRU$default(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier2, 0, 1, 0), height2), l, i17, 0, 2), restartGroup, 0);
+                BoxKt.Box(BackgroundKt.background-bw27NRU$default(SizeKt.height-3ABfNKs(SizeKt.fillMaxWidth$default(modifier2, 0, 1, 0), height2), l3, i17, 0, 2), restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                l3 = l;
-                i2 = $dirty;
+                l2 = l3;
+                i = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
                 modifier2 = obj;
                 height2 = str;
-                l3 = l2;
-                i2 = $dirty;
+                l2 = l;
+                i = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new TabRowDefaults.SecondaryIndicator.1(this, modifier2, height2, l3, str, i16, obj22);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new TabRowDefaults.SecondaryIndicator.1(this, modifier2, height2, l2, str, i16, obj22);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 

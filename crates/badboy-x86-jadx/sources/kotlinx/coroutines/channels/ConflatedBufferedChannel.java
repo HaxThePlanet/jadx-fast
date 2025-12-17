@@ -53,8 +53,8 @@ public class ConflatedBufferedChannel<E>  extends kotlinx.coroutines.channels.Bu
 
     static <E> Object send$suspendImpl(kotlinx.coroutines.channels.ConflatedBufferedChannel<E> $this, E element, Continuation<? super Unit> $completion) {
         Object onUndeliveredElement;
-        int i2;
         int i;
+        int i2;
         Object trySendImpl-Mj0NB7M = $this.trySendImpl-Mj0NB7M(element, true);
         final int i4 = 0;
         if (trySendImpl-Mj0NB7M instanceof ChannelResult.Closed) {
@@ -63,8 +63,8 @@ public class ConflatedBufferedChannel<E>  extends kotlinx.coroutines.channels.Bu
             onUndeliveredElement = $this.onUndeliveredElement;
             if (onUndeliveredElement == null) {
             } else {
-                i = 0;
-                onUndeliveredElement = OnUndeliveredElementKt.callUndeliveredElementCatchingException$default(onUndeliveredElement, element, i, 2, i);
+                i2 = 0;
+                onUndeliveredElement = OnUndeliveredElementKt.callUndeliveredElementCatchingException$default(onUndeliveredElement, element, i2, 2, i2);
                 if (onUndeliveredElement != null) {
                     int i6 = 0;
                     ExceptionsKt.addSuppressed((Throwable)onUndeliveredElement, $this.getSendException());
@@ -117,53 +117,53 @@ public class ConflatedBufferedChannel<E>  extends kotlinx.coroutines.channels.Bu
 
     private final Object trySendDropOldest-JP2dKIU(E element) {
         int $i$f$sendImpl;
-        int $i$f$sendImpl3;
+        int $i$f$sendImpl2;
         Object segment$iv;
         kotlinx.coroutines.internal.Symbol symbol;
-        Object obj2;
+        Object obj3;
         int i4;
-        int i2;
-        int i5;
+        int i6;
+        int i7;
         boolean z;
         long andIncrement;
-        int i6;
-        long l2;
+        int i2;
+        long l;
         Object obj;
-        Object obj3;
-        int i;
+        Object obj2;
         int i3;
-        int i7;
-        int $i$f$sendImpl2;
+        int i5;
+        int i;
+        int $i$f$sendImpl3;
         final Object obj4 = this;
         final kotlinx.coroutines.internal.Symbol symbol2 = bUFFERED;
         $i$f$sendImpl = 0;
         segment$iv = BufferedChannel.access$getSendSegment$FU$p().get((BufferedChannel)obj4);
         andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement((BufferedChannel)obj4);
-        i2 = 0;
+        i6 = 0;
         l8 &= l5;
         z = BufferedChannel.access$isClosedForSend0((BufferedChannel)obj4, andIncrement);
-        i6 = i5 / l6;
-        i4 = (int)i12;
-        while (Long.compare(l2, i6) != 0) {
-            obj2 = BufferedChannel.access$findSegmentSend((BufferedChannel)obj4, i6, obj13);
-            segment$iv = obj2;
-            i7 = $i$f$sendImpl;
-            obj = obj2;
-            i = i4;
+        i2 = i7 / l6;
+        i4 = (int)i11;
+        while (Long.compare(l, i2) != 0) {
+            obj3 = BufferedChannel.access$findSegmentSend((BufferedChannel)obj4, i2, obj13);
+            segment$iv = obj3;
+            i = $i$f$sendImpl;
+            obj = obj3;
+            i3 = i4;
             segment$iv = obj;
-            $i$f$sendImpl = i7;
+            $i$f$sendImpl = i;
             andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement((BufferedChannel)obj4);
-            i2 = 0;
+            i6 = 0;
             l8 &= l5;
             z = BufferedChannel.access$isClosedForSend0((BufferedChannel)obj4, andIncrement);
-            i6 = i5 / l6;
-            i4 = (int)i12;
-            obj2 = segment$iv;
-            obj2.cleanPrev();
-            i7 = $i$f$sendImpl;
-            obj = obj2;
+            i2 = i7 / l6;
+            i4 = (int)i11;
+            obj3 = segment$iv;
+            obj3.cleanPrev();
+            i = $i$f$sendImpl;
+            obj = obj3;
         }
-        int i13 = 0;
+        int i12 = 0;
         return ChannelResult.Companion.closed-JP2dKIU(obj4.getSendException());
     }
 

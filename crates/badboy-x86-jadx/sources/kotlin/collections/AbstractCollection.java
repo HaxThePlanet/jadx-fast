@@ -28,24 +28,24 @@ public abstract class AbstractCollection<E>  implements Collection<E>, KMappedMa
 
     public boolean contains(E element) {
         boolean iterator;
-        int i;
+        int i2;
         boolean next;
         boolean it;
-        int i2;
+        int i;
         final Object obj = this;
         final int i3 = 0;
-        i = 0;
+        i2 = 0;
         if (obj instanceof Collection != null && (Collection)(Iterable)obj.isEmpty()) {
             if ((Collection)obj.isEmpty()) {
             } else {
                 iterator = obj.iterator();
                 for (Object next : iterator) {
-                    i2 = 0;
+                    i = 0;
                 }
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     public boolean containsAll(Collection<? extends Object> elements) {

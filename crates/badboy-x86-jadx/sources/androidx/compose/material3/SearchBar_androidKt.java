@@ -135,54 +135,54 @@ public final class SearchBar_androidKt {
     }
 
     public static final void DockedSearchBar-EQC0FA8(Function2<? super Composer, ? super Integer, Unit> inputField, boolean expanded, Function1<? super Boolean, Unit> onExpandedChange, Modifier modifier, Shape shape, androidx.compose.material3.SearchBarColors colors, float tonalElevation, float shadowElevation, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i12) {
-        int i13;
-        int traceInProgress2;
-        Object shape4;
-        int defaultsInvalid;
-        Object shape3;
-        int i;
-        int i5;
-        Object obj3;
-        int $composer2;
-        boolean traceInProgress;
-        Object $composer3;
-        int $dirty3;
-        int tonalElevation3;
-        float tonalElevation2;
-        Object $dirty4;
-        int i8;
-        int i2;
         int i6;
-        int $dirty;
-        Object obj2;
-        float f;
-        float f4;
+        int traceInProgress;
+        Object shape3;
+        int defaultsInvalid;
+        Object shape2;
+        int i16;
+        int i7;
         Object obj;
+        int $composer2;
+        boolean traceInProgress2;
+        Object $composer4;
+        int $dirty;
+        int tonalElevation2;
+        float tonalElevation3;
+        Object $dirty3;
+        int i14;
+        int i3;
+        int i;
+        int $dirty4;
+        Object obj3;
+        float f4;
+        float f2;
+        Object obj2;
         float modifier2;
-        int i9;
+        int i2;
         Object colors2;
         Object colors-dgg9oW8;
         int changed;
         Object obj4;
-        Composer $composer4;
-        Composer shape2;
+        Composer $composer3;
+        Composer shape4;
         int changed2;
         float containerColor-0d7_KjU;
-        int i11;
+        int i8;
         int anon;
-        int i14;
+        int i5;
         int $dirty2;
-        int i7;
-        float f2;
+        int i4;
+        float f;
         float f3;
-        int i3;
+        int i9;
         int i15;
         Composer composer;
-        int i16;
-        int i4;
+        int i11;
+        int i13;
         int i10;
         Object obj30;
-        obj3 = inputField;
+        obj = inputField;
         final boolean z = expanded;
         final Object obj5 = onExpandedChange;
         final Object obj7 = content;
@@ -190,41 +190,41 @@ public final class SearchBar_androidKt {
         final int i44 = i12;
         $composer2 = $composer.startRestartGroup(1209217899);
         ComposerKt.sourceInformation($composer2, "C(DockedSearchBar)P(3,2,5,4,7!1,8:c#ui.unit.Dp,6:c#ui.unit.Dp)287@13410L11,288@13471L8,296@13752L38,300@13946L831,293@13658L1119,325@14815L27,325@14783L59:SearchBar.android.kt#uh7d8r");
-        $dirty3 = $changed;
+        $dirty = $changed;
         if (i44 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty |= 6;
         } else {
             if (i43 & 6 == 0) {
-                i8 = $composer2.changedInstance(obj3) ? 4 : 2;
-                $dirty3 |= i8;
+                i14 = $composer2.changedInstance(obj) ? 4 : 2;
+                $dirty |= i14;
             }
         }
         if (i44 & 2 != 0) {
-            $dirty3 |= 48;
+            $dirty |= 48;
         } else {
             if (i43 & 48 == 0) {
-                i2 = $composer2.changed(z) ? 32 : 16;
-                $dirty3 |= i2;
+                i3 = $composer2.changed(z) ? 32 : 16;
+                $dirty |= i3;
             }
         }
         if (i44 & 4 != 0) {
-            $dirty3 |= 384;
+            $dirty |= 384;
         } else {
             if (i43 & 384 == 0) {
-                i6 = $composer2.changedInstance(obj5) ? 256 : 128;
-                $dirty3 |= i6;
+                i = $composer2.changedInstance(obj5) ? 256 : 128;
+                $dirty |= i;
             }
         }
-        $dirty = i44 & 8;
-        if ($dirty != 0) {
-            $dirty3 |= 3072;
-            obj = modifier;
+        $dirty4 = i44 & 8;
+        if ($dirty4 != 0) {
+            $dirty |= 3072;
+            obj2 = modifier;
         } else {
             if (i43 & 3072 == 0) {
-                i9 = $composer2.changed(modifier) ? 2048 : 1024;
-                $dirty3 |= i9;
+                i2 = $composer2.changed(modifier) ? 2048 : 1024;
+                $dirty |= i2;
             } else {
-                obj = modifier;
+                obj2 = modifier;
             }
         }
         if (i43 & 24576 == 0) {
@@ -233,7 +233,7 @@ public final class SearchBar_androidKt {
             } else {
                 colors2 = shape;
             }
-            $dirty3 |= changed;
+            $dirty |= changed;
         } else {
             colors2 = shape;
         }
@@ -243,19 +243,19 @@ public final class SearchBar_androidKt {
             } else {
                 obj4 = colors;
             }
-            $dirty3 |= changed2;
+            $dirty |= changed2;
         } else {
             obj4 = colors;
         }
-        i3 = i44 & 64;
+        i9 = i44 & 64;
         int i52 = 1572864;
-        if (i3 != 0) {
-            $dirty3 |= i52;
+        if (i9 != 0) {
+            $dirty |= i52;
             containerColor-0d7_KjU = tonalElevation;
         } else {
             if (i52 &= i43 == 0) {
-                i11 = $composer2.changed(tonalElevation) ? 1048576 : 524288;
-                $dirty3 |= i11;
+                i8 = $composer2.changed(tonalElevation) ? 1048576 : 524288;
+                $dirty |= i8;
             } else {
                 containerColor-0d7_KjU = tonalElevation;
             }
@@ -263,112 +263,112 @@ public final class SearchBar_androidKt {
         anon = i44 & 128;
         i15 = 12582912;
         if (anon != 0) {
-            $dirty3 |= i15;
-            f = shadowElevation;
+            $dirty |= i15;
+            f4 = shadowElevation;
         } else {
             if (i43 & i15 == 0) {
-                i14 = $composer2.changed(shadowElevation) ? 8388608 : 4194304;
-                $dirty3 |= i14;
+                i5 = $composer2.changed(shadowElevation) ? 8388608 : 4194304;
+                $dirty |= i5;
             } else {
-                f = shadowElevation;
+                f4 = shadowElevation;
             }
         }
         int i54 = 100663296;
         if (i44 & 256 != 0) {
-            $dirty3 |= i54;
+            $dirty |= i54;
         } else {
             if (i43 & i54 == 0) {
-                i13 = $composer2.changedInstance(obj7) ? 67108864 : 33554432;
-                $dirty3 |= i13;
+                i6 = $composer2.changedInstance(obj7) ? 67108864 : 33554432;
+                $dirty |= i6;
             }
         }
-        $dirty2 = $dirty3;
-        if (i18 &= $dirty3 == 38347922) {
+        $dirty2 = $dirty;
+        if (i18 &= $dirty == 38347922) {
             if (!$composer2.getSkipping()) {
                 $composer2.startDefaults();
                 int i34 = -458753;
-                i7 = -57345;
+                i4 = -57345;
                 if (i43 & 1 != 0) {
                     if ($composer2.getDefaultsInvalid()) {
-                        if ($dirty != 0) {
-                            obj = defaultsInvalid;
+                        if ($dirty4 != 0) {
+                            obj2 = defaultsInvalid;
                         }
                         if (i44 & 16 != 0) {
-                            shape3 = SearchBarDefaults.INSTANCE.getDockedShape($composer2, 6);
-                            $dirty = $dirty2 & i7;
+                            shape2 = SearchBarDefaults.INSTANCE.getDockedShape($composer2, 6);
+                            $dirty4 = $dirty2 & i4;
                         } else {
-                            shape3 = colors2;
-                            $dirty = $dirty2;
+                            shape2 = colors2;
+                            $dirty4 = $dirty2;
                         }
                         if (i44 & 32 != 0) {
-                            i7 = $composer2;
+                            i4 = $composer2;
                             $composer2 = i10;
-                            colors-dgg9oW8 = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, containerColor-0d7_KjU, 0, $dirty2, i7);
-                            $composer4 = i7;
-                            $dirty &= i34;
+                            colors-dgg9oW8 = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, containerColor-0d7_KjU, 0, $dirty2, i4);
+                            $composer3 = i4;
+                            $dirty4 &= i34;
                         } else {
-                            $composer4 = $composer2;
+                            $composer3 = $composer2;
                             $composer2 = anon;
                             colors-dgg9oW8 = colors;
                         }
-                        if (i3 != 0) {
-                            tonalElevation2 = SearchBarDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
+                        if (i9 != 0) {
+                            tonalElevation3 = SearchBarDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
                         } else {
-                            tonalElevation2 = tonalElevation;
+                            tonalElevation3 = tonalElevation;
                         }
                         if ($composer2 != 0) {
-                            colors2 = shape3;
-                            shape4 = searchBarColors2;
+                            colors2 = shape2;
+                            shape3 = searchBarColors2;
                             f3 = $composer2;
-                            f2 = tonalElevation2;
-                            tonalElevation3 = $dirty;
+                            f = tonalElevation3;
+                            tonalElevation2 = $dirty4;
                         } else {
-                            colors2 = shape3;
-                            shape4 = searchBarColors;
-                            f2 = tonalElevation2;
-                            tonalElevation3 = $dirty;
-                            f3 = f;
+                            colors2 = shape2;
+                            shape3 = searchBarColors;
+                            f = tonalElevation3;
+                            tonalElevation2 = $dirty4;
+                            f3 = f4;
                         }
                     } else {
                         $composer2.skipToGroupEnd();
                         if (i44 & 16 != 0) {
-                            $dirty2 = i;
+                            $dirty2 = i16;
                         }
                         if (i44 & 32 != 0) {
-                            tonalElevation3 = i25;
-                            f3 = f;
-                            shape4 = obj4;
-                            f2 = containerColor-0d7_KjU;
-                            $composer4 = $composer2;
+                            tonalElevation2 = i25;
+                            f3 = f4;
+                            shape3 = obj4;
+                            f = containerColor-0d7_KjU;
+                            $composer3 = $composer2;
                         } else {
-                            f3 = f;
-                            shape4 = obj4;
-                            f2 = containerColor-0d7_KjU;
-                            tonalElevation3 = $dirty2;
-                            $composer4 = $composer2;
+                            f3 = f4;
+                            shape3 = obj4;
+                            f = containerColor-0d7_KjU;
+                            tonalElevation2 = $dirty2;
+                            $composer3 = $composer2;
                         }
                     }
                 } else {
                 }
-                $composer4.endDefaults();
+                $composer3.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1209217899, tonalElevation3, -1, "androidx.compose.material3.DockedSearchBar (SearchBar.android.kt:292)");
+                    ComposerKt.traceEventStart(1209217899, tonalElevation2, -1, "androidx.compose.material3.DockedSearchBar (SearchBar.android.kt:292)");
                 }
-                SearchBar_androidKt.DockedSearchBar.1 anon2 = new SearchBar_androidKt.DockedSearchBar.1(obj3, z, shape4, obj7);
-                composer = $composer4;
+                SearchBar_androidKt.DockedSearchBar.1 anon2 = new SearchBar_androidKt.DockedSearchBar.1(obj, z, shape3, obj7);
+                composer = $composer3;
                 Object $composer5 = colors2;
-                SurfaceKt.Surface-T9BRK9s(SizeKt.width-3ABfNKs(ZIndexModifierKt.zIndex(obj, 1065353216), SearchBar_androidKt.SearchBarMinWidth), $composer5, shape4.getContainerColor-0d7_KjU(), anon, ColorSchemeKt.contentColorFor-ek8zF_U(shape4.getContainerColor-0d7_KjU(), f, $composer4), i7, f2, f3, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(878471280, true, anon2, $composer4, 54), composer);
-                shape2 = composer;
-                ComposerKt.sourceInformationMarkerStart(shape2, -994322031, "CC(remember):SearchBar.android.kt#9igjgp");
-                if (tonalElevation3 & 896 == 256) {
+                SurfaceKt.Surface-T9BRK9s(SizeKt.width-3ABfNKs(ZIndexModifierKt.zIndex(obj2, 1065353216), SearchBar_androidKt.SearchBarMinWidth), $composer5, shape3.getContainerColor-0d7_KjU(), anon, ColorSchemeKt.contentColorFor-ek8zF_U(shape3.getContainerColor-0d7_KjU(), f4, $composer3), i4, f, f3, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(878471280, true, anon2, $composer3, 54), composer);
+                shape4 = composer;
+                ComposerKt.sourceInformationMarkerStart(shape4, -994322031, "CC(remember):SearchBar.android.kt#9igjgp");
+                if (tonalElevation2 & 896 == 256) {
                 } else {
-                    i5 = 0;
+                    i7 = 0;
                 }
-                Composer composer2 = shape2;
+                Composer composer2 = shape4;
                 int i33 = 0;
                 Object rememberedValue = composer2.rememberedValue();
                 int i41 = 0;
-                if (i5 == 0) {
+                if (i7 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         containerColor-0d7_KjU = 0;
                         anon = new SearchBar_androidKt.DockedSearchBar.2.1(obj5);
@@ -378,331 +378,331 @@ public final class SearchBar_androidKt {
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(shape2);
-                BackHandlerKt.BackHandler(z, (Function0)anon, shape2, i21 &= 14, 0);
+                ComposerKt.sourceInformationMarkerEnd(shape4);
+                BackHandlerKt.BackHandler(z, (Function0)anon, shape4, i21 &= 14, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj2 = obj30;
-                $dirty2 = tonalElevation3;
-                $composer3 = obj;
-                f4 = f2;
+                obj3 = obj30;
+                $dirty2 = tonalElevation2;
+                $composer4 = obj2;
+                f2 = f;
                 modifier2 = f3;
-                $dirty4 = colors2;
+                $dirty3 = colors2;
             } else {
                 $composer2.skipToGroupEnd();
-                obj2 = obj4;
-                shape2 = $composer2;
-                $composer3 = obj;
-                modifier2 = f;
-                f4 = containerColor-0d7_KjU;
-                $dirty4 = colors2;
+                obj3 = obj4;
+                shape4 = $composer2;
+                $composer4 = obj2;
+                modifier2 = f4;
+                f2 = containerColor-0d7_KjU;
+                $dirty3 = colors2;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = shape2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = shape4.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new SearchBar_androidKt.DockedSearchBar.3(inputField, z, obj5, $composer3, $dirty4, obj2, f4, modifier2, obj7, i43, i44);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new SearchBar_androidKt.DockedSearchBar.3(inputField, z, obj5, $composer4, $dirty3, obj3, f2, modifier2, obj7, i43, i44);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     @Deprecated(message = "Use overload which takes inputField as a parameter", replaceWith = @ReplaceWith(...))
     public static final void DockedSearchBar-eWTbjVg(String query, Function1<? super String, Unit> onQueryChange, Function1<? super String, Unit> onSearch, boolean active, Function1<? super Boolean, Unit> onActiveChange, Modifier modifier, boolean enabled, Function2<? super Composer, ? super Integer, Unit> placeholder, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function2<? super Composer, ? super Integer, Unit> trailingIcon, Shape shape, androidx.compose.material3.SearchBarColors colors, float tonalElevation, float shadowElevation, MutableInteractionSource interactionSource, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i20) {
-        Object obj8;
-        Object obj4;
-        Object obj11;
-        Object obj2;
-        float f4;
-        float f5;
         Object obj3;
+        Object obj10;
+        Object obj9;
+        Object obj4;
+        float f2;
+        float f5;
+        Object obj12;
         int modifier3;
         Object endRestartGroup;
         int defaultsInvalid;
         Object modifier4;
         boolean traceInProgress;
-        int i19;
+        int i29;
         int leadingIcon2;
         boolean traceInProgress2;
-        int $dirty;
-        int $dirty1;
-        Object $dirty13;
-        int i9;
-        int i11;
+        int $dirty2;
+        int $dirty13;
+        Object $dirty12;
+        int i7;
+        int i17;
         Object obj6;
-        Object obj7;
+        Object obj13;
         int shadowElevation3;
         boolean z2;
         boolean modifier2;
         Object obj14;
-        Object obj;
+        Object obj5;
         Object shape2;
-        Object obj9;
-        Object obj12;
-        int i4;
-        Composer $dirty2;
+        Object obj7;
+        Object obj2;
+        int i5;
+        Composer $dirty;
         int dockedShape;
         boolean z;
         int tonalElevation2;
         float f;
         Shape shadowElevation2;
-        float f3;
-        int i28;
-        Object obj13;
+        float f4;
+        int i15;
+        Object obj8;
         androidx.compose.material3.SearchBarColors searchBarColors;
-        float $composer3;
-        int $composer2;
-        Object obj5;
-        float f2;
-        Object obj10;
+        float $composer2;
+        int $composer3;
+        Object obj;
+        float f3;
+        Object obj11;
         int colors2;
         Object placeholder2;
-        int i16;
-        int i25;
-        int i26;
+        int i13;
+        int i12;
+        int i4;
         int changed4;
-        Object i3;
+        Object i6;
         int i;
-        Function1 i29;
-        int changed;
-        int $dirty12;
-        int i21;
-        boolean i6;
-        int i23;
-        int i22;
-        int i7;
+        Function1 i24;
+        int changed2;
+        int $dirty1;
+        int i8;
+        boolean i14;
+        int i27;
+        int i2;
+        int i28;
         int enabled2;
         boolean $dirty15;
         int $dirty14;
-        int i17;
-        int i12;
-        int i27;
-        int i24;
-        int changed2;
+        int i19;
+        int i3;
+        int i22;
         int i18;
+        int changed;
+        int i9;
         Composer composer2;
+        int i23;
+        int i16;
+        int i26;
+        int i25;
         int i10;
-        int i13;
-        int i14;
-        int i5;
-        int i15;
-        int i2;
-        int i8;
+        int i11;
+        int i21;
         int changed3;
         ScopeUpdateScope scopeUpdateScope;
         Composer composer;
         int obj51;
         int i30 = $changed;
         int i40 = $changed1;
-        i19 = i20;
+        i29 = i20;
         Composer restartGroup = $composer.startRestartGroup(1299054533);
         ComposerKt.sourceInformation(restartGroup, "C(DockedSearchBar)P(11,8,9!1,7,6,3,10,5,15,13!1,14:c#ui.unit.Dp,12:c#ui.unit.Dp,4)818@37222L11,819@37283L8,826@37565L591,825@37527L894:SearchBar.android.kt#uh7d8r");
-        $dirty = $changed;
-        if (i19 & 1 != 0) {
-            $dirty |= 6;
-            obj13 = query;
+        $dirty2 = $changed;
+        if (i29 & 1 != 0) {
+            $dirty2 |= 6;
+            obj8 = query;
         } else {
             if (i30 & 6 == 0) {
-                i9 = restartGroup.changed(query) ? 4 : 2;
-                $dirty |= i9;
+                i7 = restartGroup.changed(query) ? 4 : 2;
+                $dirty2 |= i7;
             } else {
-                obj13 = query;
+                obj8 = query;
             }
         }
-        if (i19 & 2 != 0) {
-            $dirty |= 48;
-            obj5 = onQueryChange;
+        if (i29 & 2 != 0) {
+            $dirty2 |= 48;
+            obj = onQueryChange;
         } else {
             if (i30 & 48 == 0) {
-                i11 = restartGroup.changedInstance(onQueryChange) ? 32 : 16;
-                $dirty |= i11;
+                i17 = restartGroup.changedInstance(onQueryChange) ? 32 : 16;
+                $dirty2 |= i17;
             } else {
-                obj5 = onQueryChange;
+                obj = onQueryChange;
             }
         }
-        if (i19 & 4 != 0) {
-            $dirty |= 384;
+        if (i29 & 4 != 0) {
+            $dirty2 |= 384;
             obj6 = onSearch;
         } else {
             if (i30 & 384 == 0) {
-                i16 = restartGroup.changedInstance(onSearch) ? 256 : 128;
-                $dirty |= i16;
+                i13 = restartGroup.changedInstance(onSearch) ? 256 : 128;
+                $dirty2 |= i13;
             } else {
                 obj6 = onSearch;
             }
         }
-        changed = 1024;
-        if (i19 & 8 != 0) {
-            $dirty |= 3072;
+        changed2 = 1024;
+        if (i29 & 8 != 0) {
+            $dirty2 |= 3072;
             z2 = active;
         } else {
             if (i30 & 3072 == 0) {
-                i25 = restartGroup.changed(active) ? i : changed;
-                $dirty |= i25;
+                i12 = restartGroup.changed(active) ? i : changed2;
+                $dirty2 |= i12;
             } else {
                 z2 = active;
             }
         }
-        i22 = 8192;
-        if (i19 & 16 != 0) {
-            $dirty |= 24576;
-            obj = onActiveChange;
+        i2 = 8192;
+        if (i29 & 16 != 0) {
+            $dirty2 |= 24576;
+            obj5 = onActiveChange;
         } else {
             if (i30 & 24576 == 0) {
-                i7 = restartGroup.changedInstance(onActiveChange) ? i21 : i22;
-                $dirty |= i7;
+                i28 = restartGroup.changedInstance(onActiveChange) ? i8 : i2;
+                $dirty2 |= i28;
             } else {
-                obj = onActiveChange;
+                obj5 = onActiveChange;
             }
         }
-        int i88 = i19 & 32;
-        i27 = 65536;
-        i24 = 196608;
+        int i88 = i29 & 32;
+        i22 = 65536;
+        i18 = 196608;
         if (i88 != 0) {
-            $dirty |= i24;
-            obj12 = modifier;
+            $dirty2 |= i18;
+            obj2 = modifier;
         } else {
-            if (i30 & i24 == 0) {
-                i18 = restartGroup.changed(modifier) ? i17 : i27;
-                $dirty |= i18;
+            if (i30 & i18 == 0) {
+                i9 = restartGroup.changed(modifier) ? i19 : i22;
+                $dirty2 |= i9;
             } else {
-                obj12 = modifier;
+                obj2 = modifier;
             }
         }
-        int i89 = i19 & 64;
-        i10 = 1572864;
+        int i89 = i29 & 64;
+        i23 = 1572864;
         if (i89 != 0) {
-            $dirty |= i10;
+            $dirty2 |= i23;
             z = enabled;
         } else {
-            if (i30 & i10 == 0) {
-                i13 = restartGroup.changed(enabled) ? 1048576 : 524288;
-                $dirty |= i13;
+            if (i30 & i23 == 0) {
+                i16 = restartGroup.changed(enabled) ? 1048576 : 524288;
+                $dirty2 |= i16;
             } else {
                 z = enabled;
             }
         }
-        i28 = i19 & 128;
-        i14 = 12582912;
-        if (i28 != 0) {
-            $dirty |= i14;
-            obj10 = placeholder;
+        i15 = i29 & 128;
+        i26 = 12582912;
+        if (i15 != 0) {
+            $dirty2 |= i26;
+            obj11 = placeholder;
         } else {
-            if (i30 & i14 == 0) {
-                i5 = restartGroup.changedInstance(placeholder) ? 8388608 : 4194304;
-                $dirty |= i5;
+            if (i30 & i26 == 0) {
+                i25 = restartGroup.changedInstance(placeholder) ? 8388608 : 4194304;
+                $dirty2 |= i25;
             } else {
-                obj10 = placeholder;
+                obj11 = placeholder;
             }
         }
-        leadingIcon2 = i19 & 256;
-        i15 = 100663296;
+        leadingIcon2 = i29 & 256;
+        i10 = 100663296;
         if (leadingIcon2 != 0) {
-            $dirty |= i15;
-            obj8 = leadingIcon;
+            $dirty2 |= i10;
+            obj3 = leadingIcon;
         } else {
-            if (i30 & i15 == 0) {
-                i15 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
-                $dirty |= i15;
+            if (i30 & i10 == 0) {
+                i10 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
+                $dirty2 |= i10;
             } else {
-                obj8 = leadingIcon;
+                obj3 = leadingIcon;
             }
         }
-        int i31 = i19 & 512;
+        int i31 = i29 & 512;
         int i90 = 805306368;
         if (i31 != 0) {
-            $dirty |= i90;
-            i2 = i31;
-            obj4 = trailingIcon;
+            $dirty2 |= i90;
+            i11 = i31;
+            obj10 = trailingIcon;
         } else {
             if ($changed & i90 == 0) {
-                i2 = i31;
-                i8 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
-                $dirty |= i8;
+                i11 = i31;
+                i21 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
+                $dirty2 |= i21;
             } else {
-                i2 = i31;
-                obj4 = trailingIcon;
+                i11 = i31;
+                obj10 = trailingIcon;
             }
         }
         if (i40 & 6 == 0) {
-            if (i19 & 1024 == 0) {
-                i26 = restartGroup.changed(shape) ? 4 : 2;
+            if (i29 & 1024 == 0) {
+                i4 = restartGroup.changed(shape) ? 4 : 2;
             } else {
-                obj11 = shape;
+                obj9 = shape;
             }
-            $dirty1 |= i26;
+            $dirty13 |= i4;
         } else {
-            obj11 = shape;
+            obj9 = shape;
         }
         if (i40 & 48 == 0) {
-            if (i19 & 2048 == 0) {
-                changed2 = restartGroup.changed(colors) ? 32 : 16;
+            if (i29 & 2048 == 0) {
+                changed = restartGroup.changed(colors) ? 32 : 16;
             } else {
-                obj2 = colors;
+                obj4 = colors;
             }
-            $dirty1 |= changed2;
+            $dirty13 |= changed;
         } else {
-            obj2 = colors;
+            obj4 = colors;
         }
-        int i76 = i19 & 4096;
+        int i76 = i29 & 4096;
         if (i76 != 0) {
-            $dirty1 |= 384;
-            f4 = tonalElevation;
+            $dirty13 |= 384;
+            f2 = tonalElevation;
         } else {
             if (i40 & 384 == 0) {
-                i13 = restartGroup.changed(tonalElevation) ? 256 : 128;
-                $dirty1 |= i13;
+                i16 = restartGroup.changed(tonalElevation) ? 256 : 128;
+                $dirty13 |= i16;
             } else {
-                f4 = tonalElevation;
+                f2 = tonalElevation;
             }
         }
-        int i77 = i19 & 8192;
+        int i77 = i29 & 8192;
         if (i77 != 0) {
-            $dirty1 |= 3072;
+            $dirty13 |= 3072;
             f5 = shadowElevation;
         } else {
             if (i40 & 3072 == 0) {
                 if (restartGroup.changed(shadowElevation)) {
                 } else {
-                    i = changed;
+                    i = changed2;
                 }
-                $dirty1 |= i;
+                $dirty13 |= i;
             } else {
                 f5 = shadowElevation;
             }
         }
-        shadowElevation3 = i19 & 16384;
+        shadowElevation3 = i29 & 16384;
         if (shadowElevation3 != 0) {
-            $dirty1 |= 24576;
-            obj3 = interactionSource;
+            $dirty13 |= 24576;
+            obj12 = interactionSource;
         } else {
             if (i40 & 24576 == 0) {
                 if (restartGroup.changed(interactionSource)) {
                 } else {
-                    i21 = i22;
+                    i8 = i2;
                 }
-                $dirty1 |= i21;
+                $dirty13 |= i8;
             } else {
-                obj3 = interactionSource;
+                obj12 = interactionSource;
             }
         }
-        if (i19 & i85 != 0) {
-            $dirty12 = $dirty16;
-            $dirty13 = content;
+        if (i29 & i85 != 0) {
+            $dirty1 = $dirty16;
+            $dirty12 = content;
         } else {
-            if (i40 & i24 == 0) {
+            if (i40 & i18 == 0) {
                 if (restartGroup.changedInstance(content)) {
                 } else {
-                    i17 = i27;
+                    i19 = i22;
                 }
-                $dirty12 = obj51 | i17;
+                $dirty1 = obj51 | i19;
             } else {
-                $dirty13 = content;
-                $dirty12 = obj51;
+                $dirty12 = content;
+                $dirty1 = obj51;
             }
         }
-        if ($dirty & i6 == 306783378 && $dirty12 & i35 == 74898) {
-            if ($dirty12 & i35 == 74898) {
+        if ($dirty2 & i14 == 306783378 && $dirty1 & i35 == 74898) {
+            if ($dirty1 & i35 == 74898) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
                     int i41 = 6;
@@ -711,142 +711,142 @@ public final class SearchBar_androidKt {
                             if (i88 != 0) {
                                 modifier4 = Modifier.Companion;
                             } else {
-                                modifier4 = obj12;
+                                modifier4 = obj2;
                             }
-                            i6 = i89 != 0 ? obj12 : z;
-                            if (i28 != 0) {
-                                obj10 = obj12;
+                            i14 = i89 != 0 ? obj2 : z;
+                            if (i15 != 0) {
+                                obj11 = obj2;
                             }
                             leadingIcon2 = leadingIcon2 != 0 ? 0 : leadingIcon;
-                            i22 = i2 != 0 ? obj12 : trailingIcon;
-                            if (i19 & 1024 != 0) {
+                            i2 = i11 != 0 ? obj2 : trailingIcon;
+                            if (i29 & 1024 != 0) {
                                 $dirty14 = $dirty17;
-                                $dirty12 = dockedShape;
+                                $dirty1 = dockedShape;
                             } else {
-                                $dirty14 = $dirty12;
-                                $dirty12 = shape;
+                                $dirty14 = $dirty1;
+                                $dirty1 = shape;
                             }
-                            if (i19 & 2048 != 0) {
-                                i12 = shadowElevation3;
-                                $composer2 = i83;
-                                $dirty = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, shadowElevation3, 0, obj, restartGroup);
+                            if (i29 & 2048 != 0) {
+                                i3 = shadowElevation3;
+                                $composer3 = i83;
+                                $dirty2 = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, shadowElevation3, 0, obj5, restartGroup);
                                 $dirty14 &= -113;
                             } else {
-                                i12 = shadowElevation3;
-                                $dirty2 = restartGroup;
-                                $composer2 = $dirty;
-                                $dirty = colors;
+                                i3 = shadowElevation3;
+                                $dirty = restartGroup;
+                                $composer3 = $dirty2;
+                                $dirty2 = colors;
                             }
                             if (i76 != 0) {
-                                $dirty13 = SearchBarDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
+                                $dirty12 = SearchBarDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
                             } else {
-                                $dirty13 = tonalElevation;
+                                $dirty12 = tonalElevation;
                             }
                             if (i77 != 0) {
                                 shadowElevation3 = SearchBarDefaults.INSTANCE.getShadowElevation-D9Ej5fM();
                             } else {
                                 shadowElevation3 = shadowElevation;
                             }
-                            if (i12 != 0) {
-                                i27 = leadingIcon2;
-                                f = $dirty13;
-                                f3 = shadowElevation3;
-                                changed2 = i79;
-                                i17 = obj10;
-                                obj9 = $dirty12;
-                                i24 = i22;
+                            if (i3 != 0) {
+                                i22 = leadingIcon2;
+                                f = $dirty12;
+                                f4 = shadowElevation3;
+                                changed = i79;
+                                i19 = obj11;
+                                obj7 = $dirty1;
+                                i18 = i2;
                                 obj14 = modifier4;
-                                placeholder2 = $dirty;
+                                placeholder2 = $dirty2;
                                 modifier3 = $dirty14;
-                                $dirty15 = i6;
+                                $dirty15 = i14;
                             } else {
-                                changed2 = interactionSource;
+                                changed = interactionSource;
                                 obj14 = modifier4;
-                                i27 = leadingIcon2;
-                                f = $dirty13;
-                                f3 = shadowElevation3;
-                                i17 = obj10;
-                                obj9 = $dirty12;
-                                i24 = i22;
+                                i22 = leadingIcon2;
+                                f = $dirty12;
+                                f4 = shadowElevation3;
+                                i19 = obj11;
+                                obj7 = $dirty1;
+                                i18 = i2;
                                 modifier3 = $dirty14;
-                                placeholder2 = $dirty;
-                                $dirty15 = i6;
+                                placeholder2 = $dirty2;
+                                $dirty15 = i14;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
-                            if (i19 & 1024 != 0) {
-                                $dirty12 &= -15;
+                            if (i29 & 1024 != 0) {
+                                $dirty1 &= -15;
                             }
-                            if (i19 & 2048 != 0) {
-                                modifier3 = $dirty12 & -113;
-                                i27 = leadingIcon;
-                                i24 = trailingIcon;
-                                obj9 = shape;
-                                f3 = shadowElevation;
-                                changed2 = interactionSource;
-                                obj14 = obj12;
+                            if (i29 & 2048 != 0) {
+                                modifier3 = $dirty1 & -113;
+                                i22 = leadingIcon;
+                                i18 = trailingIcon;
+                                obj7 = shape;
+                                f4 = shadowElevation;
+                                changed = interactionSource;
+                                obj14 = obj2;
                                 $dirty15 = z;
-                                $dirty2 = restartGroup;
-                                i17 = obj10;
+                                $dirty = restartGroup;
+                                i19 = obj11;
                                 placeholder2 = colors;
                                 f = tonalElevation;
-                                $composer2 = $dirty;
+                                $composer3 = $dirty2;
                             } else {
-                                i27 = leadingIcon;
-                                i24 = trailingIcon;
-                                obj9 = shape;
-                                f3 = shadowElevation;
-                                changed2 = interactionSource;
-                                obj14 = obj12;
+                                i22 = leadingIcon;
+                                i18 = trailingIcon;
+                                obj7 = shape;
+                                f4 = shadowElevation;
+                                changed = interactionSource;
+                                obj14 = obj2;
                                 $dirty15 = z;
-                                $dirty2 = restartGroup;
-                                i17 = obj10;
-                                modifier3 = $dirty12;
+                                $dirty = restartGroup;
+                                i19 = obj11;
+                                modifier3 = $dirty1;
                                 placeholder2 = colors;
                                 f = tonalElevation;
-                                $composer2 = $dirty;
+                                $composer3 = $dirty2;
                             }
                         }
                     } else {
                     }
-                    $dirty2.endDefaults();
+                    $dirty.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(1299054533, $composer2, modifier3, "androidx.compose.material3.DockedSearchBar (SearchBar.android.kt:825)");
+                        ComposerKt.traceEventStart(1299054533, $composer3, modifier3, "androidx.compose.material3.DockedSearchBar (SearchBar.android.kt:825)");
                     }
-                    SearchBar_androidKt.DockedSearchBar.4 anon = new SearchBar_androidKt.DockedSearchBar.4(placeholder2, obj13, onQueryChange, onSearch, active, onActiveChange, $dirty15, i17, i27, i24, changed2);
-                    Composer $dirty4 = $dirty2;
+                    SearchBar_androidKt.DockedSearchBar.4 anon = new SearchBar_androidKt.DockedSearchBar.4(placeholder2, obj8, onQueryChange, onSearch, active, onActiveChange, $dirty15, i19, i22, i18, changed);
+                    Composer $dirty4 = $dirty;
                     androidx.compose.material3.SearchBarColors $composer4 = placeholder2;
-                    i23 = i49;
-                    SearchBar_androidKt.DockedSearchBar-EQC0FA8((Function2)ComposableLambdaKt.rememberComposableLambda(-303118761, true, anon, $dirty2, 54), active, onActiveChange, obj14, obj9, $composer4, f, f3, content, $dirty4, i48 | leadingIcon2, 0);
+                    i27 = i49;
+                    SearchBar_androidKt.DockedSearchBar-EQC0FA8((Function2)ComposableLambdaKt.rememberComposableLambda(-303118761, true, anon, $dirty, 54), active, onActiveChange, obj14, obj7, $composer4, f, f4, content, $dirty4, i48 | leadingIcon2, 0);
                     composer2 = $dirty4;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    obj7 = obj14;
-                    $composer3 = f;
-                    f2 = f3;
+                    obj13 = obj14;
+                    $composer2 = f;
+                    f3 = f4;
                     searchBarColors = searchBarColors2;
                     modifier2 = $dirty15;
-                    i4 = i27;
-                    tonalElevation2 = i24;
-                    colors2 = changed2;
+                    i5 = i22;
+                    tonalElevation2 = i18;
+                    colors2 = changed;
                     enabled2 = modifier3;
-                    shadowElevation2 = obj9;
-                    shape2 = i17;
+                    shadowElevation2 = obj7;
+                    shape2 = i19;
                 } else {
                     restartGroup.skipToGroupEnd();
                     shadowElevation2 = shape;
                     searchBarColors = colors;
-                    f2 = shadowElevation;
-                    i23 = $dirty;
-                    obj7 = obj12;
+                    f3 = shadowElevation;
+                    i27 = $dirty2;
+                    obj13 = obj2;
                     modifier2 = z;
                     composer2 = restartGroup;
-                    shape2 = obj10;
-                    enabled2 = $dirty12;
-                    i4 = leadingIcon;
+                    shape2 = obj11;
+                    enabled2 = $dirty1;
+                    i5 = leadingIcon;
                     tonalElevation2 = trailingIcon;
-                    $composer3 = tonalElevation;
+                    $composer2 = tonalElevation;
                     colors2 = interactionSource;
                 }
             } else {
@@ -855,350 +855,350 @@ public final class SearchBar_androidKt {
         }
         endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new SearchBar_androidKt.DockedSearchBar.5(query, onQueryChange, onSearch, active, onActiveChange, obj7, modifier2, shape2, i4, tonalElevation2, shadowElevation2, searchBarColors, $composer3, f2, colors2, content, $changed, $changed1, i19);
+            endRestartGroup = new SearchBar_androidKt.DockedSearchBar.5(query, onQueryChange, onSearch, active, onActiveChange, obj13, modifier2, shape2, i5, tonalElevation2, shadowElevation2, searchBarColors, $composer2, f3, colors2, content, $changed, $changed1, i29);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
 
     @Deprecated(message = "Use overload which takes inputField as a parameter", replaceWith = @ReplaceWith(...))
     public static final void SearchBar-WuY5d9Q(String query, Function1<? super String, Unit> onQueryChange, Function1<? super String, Unit> onSearch, boolean active, Function1<? super Boolean, Unit> onActiveChange, Modifier modifier, boolean enabled, Function2<? super Composer, ? super Integer, Unit> placeholder, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function2<? super Composer, ? super Integer, Unit> trailingIcon, Shape shape, androidx.compose.material3.SearchBarColors colors, float tonalElevation, float shadowElevation, WindowInsets windowInsets, MutableInteractionSource interactionSource, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i21) {
-        Object obj8;
         Object obj11;
-        Object obj4;
-        Object obj13;
-        float f;
-        float f2;
+        Object obj7;
         Object obj3;
-        boolean modifier2;
+        Object obj;
+        float f2;
+        float f4;
+        Object obj6;
+        boolean modifier3;
         Object endRestartGroup;
         int defaultsInvalid;
-        Object modifier3;
-        int traceInProgress2;
-        int i16;
+        Object modifier4;
+        int traceInProgress;
+        int i14;
         int leadingIcon2;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int $dirty;
-        int $dirty14;
-        Object $dirty1;
+        int $dirty12;
+        Object $dirty14;
         Object tonalElevation2;
         int i;
-        int i11;
+        int i29;
         Object obj9;
-        Object obj6;
-        float shadowElevation2;
-        boolean z3;
-        boolean modifier4;
-        Object windowInsets4;
-        Object windowInsets2;
         Object obj5;
+        float shadowElevation3;
+        boolean z;
+        boolean modifier2;
+        Object windowInsets5;
+        Object windowInsets4;
+        Object obj2;
         Object shape3;
         Shape shape2;
-        Object obj2;
-        int i9;
+        Object obj4;
+        int i6;
         int inputFieldShape;
         Composer $dirty2;
         boolean z2;
         int tonalElevation3;
-        float f5;
-        Object shadowElevation3;
-        int i10;
         float f3;
-        Object obj;
-        Object windowInsets3;
-        WindowInsets windowInsets5;
+        Object shadowElevation2;
+        int i3;
+        float f;
         Object obj10;
-        float f4;
+        Object windowInsets3;
+        WindowInsets windowInsets2;
+        Object obj12;
+        float f5;
         float $composer3;
         int $composer2;
-        Object obj12;
-        Object obj7;
-        int i28;
-        int i23;
-        int i12;
-        int changed;
+        Object obj13;
+        Object obj8;
+        int i4;
+        int i26;
+        int i2;
+        int changed3;
         int colors2;
         androidx.compose.material3.SearchBarColors searchBarColors;
-        int changed3;
-        int i15;
-        int $dirty12;
-        int i6;
-        int i29;
-        int i19;
-        int i18;
-        int i17;
-        int i2;
-        int $dirty13;
-        int i4;
-        int enabled2;
-        int i7;
-        boolean z;
-        int i3;
-        int i27;
         int changed2;
-        int i20;
-        int i24;
-        Composer composer;
         int i8;
-        int i14;
+        int $dirty1;
+        int i24;
+        int i23;
+        int i20;
+        int i17;
+        int i5;
+        int i15;
+        int $dirty13;
+        int i27;
+        int enabled2;
+        int i9;
+        boolean z3;
+        int i7;
+        int i19;
+        int changed;
+        int i18;
+        int i10;
+        Composer composer;
+        int i12;
+        int i11;
+        int i16;
+        int i22;
         int i13;
         int i25;
-        int i5;
-        int i22;
-        int i26;
+        int i28;
         int changed4;
         ScopeUpdateScope scopeUpdateScope;
         Composer composer2;
         int obj53;
         int i30 = $changed;
         int i43 = $changed1;
-        i16 = i21;
+        i14 = i21;
         Composer restartGroup = $composer.startRestartGroup(1001512593);
         ComposerKt.sourceInformation(restartGroup, "C(SearchBar)P(11,8,9!1,7,6,3,10,5,15,13!1,14:c#ui.unit.Dp,12:c#ui.unit.Dp,16,4)737@34012L15,738@34077L8,741@34258L12,746@34418L591,745@34386L925:SearchBar.android.kt#uh7d8r");
         $dirty = $changed;
-        if (i16 & 1 != 0) {
+        if (i14 & 1 != 0) {
             $dirty |= 6;
-            obj = query;
+            obj10 = query;
         } else {
             if (i30 & 6 == 0) {
                 i = restartGroup.changed(query) ? 4 : 2;
                 $dirty |= i;
             } else {
-                obj = query;
+                obj10 = query;
             }
         }
-        if (i16 & 2 != 0) {
+        if (i14 & 2 != 0) {
             $dirty |= 48;
-            obj10 = onQueryChange;
+            obj12 = onQueryChange;
         } else {
             if (i30 & 48 == 0) {
-                i11 = restartGroup.changedInstance(onQueryChange) ? 32 : 16;
-                $dirty |= i11;
+                i29 = restartGroup.changedInstance(onQueryChange) ? 32 : 16;
+                $dirty |= i29;
             } else {
-                obj10 = onQueryChange;
+                obj12 = onQueryChange;
             }
         }
-        if (i16 & 4 != 0) {
+        if (i14 & 4 != 0) {
             $dirty |= 384;
             obj9 = onSearch;
         } else {
             if (i30 & 384 == 0) {
-                i28 = restartGroup.changedInstance(onSearch) ? 256 : 128;
-                $dirty |= i28;
+                i4 = restartGroup.changedInstance(onSearch) ? 256 : 128;
+                $dirty |= i4;
             } else {
                 obj9 = onSearch;
             }
         }
         int i94 = 1024;
-        if (i16 & 8 != 0) {
+        if (i14 & 8 != 0) {
             $dirty |= 3072;
-            z3 = active;
+            z = active;
         } else {
             if (i30 & 3072 == 0) {
-                i23 = restartGroup.changed(active) ? changed3 : i94;
-                $dirty |= i23;
+                i26 = restartGroup.changed(active) ? changed2 : i94;
+                $dirty |= i26;
             } else {
-                z3 = active;
+                z = active;
             }
         }
-        i18 = 16384;
-        if (i16 & 16 != 0) {
+        i17 = 16384;
+        if (i14 & 16 != 0) {
             $dirty |= 24576;
-            obj5 = onActiveChange;
+            obj2 = onActiveChange;
         } else {
             if (i30 & 24576 == 0) {
-                i17 = restartGroup.changedInstance(onActiveChange) ? i18 : i6;
-                $dirty |= i17;
+                i5 = restartGroup.changedInstance(onActiveChange) ? i17 : i24;
+                $dirty |= i5;
             } else {
-                obj5 = onActiveChange;
+                obj2 = onActiveChange;
             }
         }
-        $dirty13 = i16 & 32;
-        i3 = 65536;
-        i27 = 196608;
+        $dirty13 = i14 & 32;
+        i7 = 65536;
+        i19 = 196608;
         if ($dirty13 != 0) {
-            $dirty |= i27;
-            obj2 = modifier;
+            $dirty |= i19;
+            obj4 = modifier;
         } else {
-            if (i30 & i27 == 0) {
-                i20 = restartGroup.changed(modifier) ? i4 : i3;
-                $dirty |= i20;
+            if (i30 & i19 == 0) {
+                i18 = restartGroup.changed(modifier) ? i27 : i7;
+                $dirty |= i18;
             } else {
-                obj2 = modifier;
+                obj4 = modifier;
             }
         }
-        i24 = i16 & 64;
+        i10 = i14 & 64;
         int i96 = 1572864;
-        if (i24 != 0) {
+        if (i10 != 0) {
             $dirty |= i96;
             z2 = enabled;
         } else {
             if (i30 & i96 == 0) {
-                i14 = restartGroup.changed(enabled) ? 1048576 : 524288;
-                $dirty |= i14;
+                i11 = restartGroup.changed(enabled) ? 1048576 : 524288;
+                $dirty |= i11;
             } else {
                 z2 = enabled;
             }
         }
-        i10 = i16 & 128;
-        i13 = 12582912;
-        if (i10 != 0) {
+        i3 = i14 & 128;
+        i16 = 12582912;
+        if (i3 != 0) {
+            $dirty |= i16;
+            obj13 = placeholder;
+        } else {
+            if (i30 & i16 == 0) {
+                i22 = restartGroup.changedInstance(placeholder) ? 8388608 : 4194304;
+                $dirty |= i22;
+            } else {
+                obj13 = placeholder;
+            }
+        }
+        leadingIcon2 = i14 & 256;
+        i13 = 100663296;
+        if (leadingIcon2 != 0) {
             $dirty |= i13;
-            obj12 = placeholder;
+            obj11 = leadingIcon;
         } else {
             if (i30 & i13 == 0) {
-                i25 = restartGroup.changedInstance(placeholder) ? 8388608 : 4194304;
-                $dirty |= i25;
+                i13 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
+                $dirty |= i13;
             } else {
-                obj12 = placeholder;
+                obj11 = leadingIcon;
             }
         }
-        leadingIcon2 = i16 & 256;
-        i5 = 100663296;
-        if (leadingIcon2 != 0) {
-            $dirty |= i5;
-            obj8 = leadingIcon;
-        } else {
-            if (i30 & i5 == 0) {
-                i5 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
-                $dirty |= i5;
-            } else {
-                obj8 = leadingIcon;
-            }
-        }
-        int i31 = i16 & 512;
+        int i31 = i14 & 512;
         int i97 = 805306368;
         if (i31 != 0) {
             $dirty |= i97;
-            i22 = i31;
-            obj11 = trailingIcon;
+            i25 = i31;
+            obj7 = trailingIcon;
         } else {
             if ($changed & i97 == 0) {
-                i22 = i31;
-                i26 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
-                $dirty |= i26;
+                i25 = i31;
+                i28 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
+                $dirty |= i28;
             } else {
-                i22 = i31;
-                obj11 = trailingIcon;
+                i25 = i31;
+                obj7 = trailingIcon;
             }
         }
         if (i43 & 6 == 0) {
-            if (i16 & 1024 == 0) {
-                i12 = restartGroup.changed(shape) ? 4 : 2;
+            if (i14 & 1024 == 0) {
+                i2 = restartGroup.changed(shape) ? 4 : 2;
             } else {
-                obj4 = shape;
+                obj3 = shape;
             }
-            $dirty14 |= i12;
+            $dirty12 |= i2;
         } else {
-            obj4 = shape;
+            obj3 = shape;
         }
         if (i43 & 48 == 0) {
-            if (i16 & 2048 == 0) {
-                i8 = restartGroup.changed(colors) ? 32 : 16;
+            if (i14 & 2048 == 0) {
+                i12 = restartGroup.changed(colors) ? 32 : 16;
             } else {
-                obj13 = colors;
+                obj = colors;
             }
-            $dirty14 |= i8;
+            $dirty12 |= i12;
         } else {
-            obj13 = colors;
+            obj = colors;
         }
-        int i83 = i16 & 4096;
+        int i83 = i14 & 4096;
         if (i83 != 0) {
-            $dirty14 |= 384;
-            f = tonalElevation;
+            $dirty12 |= 384;
+            f2 = tonalElevation;
         } else {
             if (i43 & 384 == 0) {
-                i14 = restartGroup.changed(tonalElevation) ? 256 : 128;
-                $dirty14 |= i14;
+                i11 = restartGroup.changed(tonalElevation) ? 256 : 128;
+                $dirty12 |= i11;
             } else {
-                f = tonalElevation;
+                f2 = tonalElevation;
             }
         }
-        shadowElevation2 = i16 & 8192;
-        if (shadowElevation2 != 0) {
-            $dirty14 |= 3072;
-            f2 = shadowElevation;
+        shadowElevation3 = i14 & 8192;
+        if (shadowElevation3 != 0) {
+            $dirty12 |= 3072;
+            f4 = shadowElevation;
         } else {
             if (i43 & 3072 == 0) {
                 if (restartGroup.changed(shadowElevation)) {
                 } else {
-                    changed3 = i94;
+                    changed2 = i94;
                 }
-                $dirty14 |= changed3;
+                $dirty12 |= changed2;
             } else {
-                f2 = shadowElevation;
+                f4 = shadowElevation;
             }
         }
         if (i43 & 24576 == 0) {
-            if (i16 & 16384 == 0) {
+            if (i14 & 16384 == 0) {
                 if (restartGroup.changed(windowInsets)) {
-                    i6 = i18;
+                    i24 = i17;
                 }
             } else {
-                obj3 = windowInsets;
+                obj6 = windowInsets;
             }
-            $dirty14 |= i6;
+            $dirty12 |= i24;
         } else {
-            obj3 = windowInsets;
+            obj6 = windowInsets;
         }
-        i15 = i16 & i93;
-        if (i15 != 0) {
-            $dirty12 = $dirty15;
-            $dirty1 = interactionSource;
+        i8 = i14 & i93;
+        if (i8 != 0) {
+            $dirty1 = $dirty15;
+            $dirty14 = interactionSource;
         } else {
-            if (i43 & i27 == 0) {
+            if (i43 & i19 == 0) {
                 if (restartGroup.changed(interactionSource)) {
                 } else {
-                    i4 = i3;
+                    i27 = i7;
                 }
-                $dirty12 = obj53 | i4;
+                $dirty1 = obj53 | i27;
             } else {
-                $dirty1 = interactionSource;
-                $dirty12 = obj53;
+                $dirty14 = interactionSource;
+                $dirty1 = obj53;
             }
         }
-        if (i16 & i3 != 0) {
-            $dirty12 |= i96;
+        if (i14 & i7 != 0) {
+            $dirty1 |= i96;
             tonalElevation2 = content;
         } else {
             if (i43 & i96 == 0) {
-                i29 = restartGroup.changedInstance(content) ? 1048576 : 524288;
-                $dirty12 |= i29;
+                i23 = restartGroup.changedInstance(content) ? 1048576 : 524288;
+                $dirty1 |= i23;
             } else {
                 tonalElevation2 = content;
             }
         }
-        if ($dirty & i19 == 306783378 && $dirty12 & i35 == 599186) {
-            if ($dirty12 & i35 == 599186) {
+        if ($dirty & i20 == 306783378 && $dirty1 & i35 == 599186) {
+            if ($dirty1 & i35 == 599186) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
                     int i44 = 6;
                     if ($changed & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
                             if ($dirty13 != 0) {
-                                modifier3 = Modifier.Companion;
+                                modifier4 = Modifier.Companion;
                             } else {
-                                modifier3 = obj2;
+                                modifier4 = obj4;
                             }
-                            i19 = i24 != 0 ? obj2 : z2;
-                            if (i10 != 0) {
-                                obj12 = obj2;
+                            i20 = i10 != 0 ? obj4 : z2;
+                            if (i3 != 0) {
+                                obj13 = obj4;
                             }
                             leadingIcon2 = leadingIcon2 != 0 ? 0 : leadingIcon;
-                            i18 = i22 != 0 ? obj2 : trailingIcon;
-                            if (i16 & 1024 != 0) {
+                            i17 = i25 != 0 ? obj4 : trailingIcon;
+                            if (i14 & 1024 != 0) {
                                 $dirty13 = $dirty16;
-                                $dirty12 = inputFieldShape;
+                                $dirty1 = inputFieldShape;
                             } else {
-                                $dirty13 = $dirty12;
-                                $dirty12 = shape;
+                                $dirty13 = $dirty1;
+                                $dirty1 = shape;
                             }
-                            if (i16 & 2048 != 0) {
-                                i7 = shadowElevation2;
+                            if (i14 & 2048 != 0) {
+                                i9 = shadowElevation3;
                                 $composer2 = i90;
-                                $dirty = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, shadowElevation2, 0, obj5, restartGroup);
+                                $dirty = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, shadowElevation3, 0, obj2, restartGroup);
                                 $dirty13 &= -113;
                             } else {
-                                i7 = shadowElevation2;
+                                i9 = shadowElevation3;
                                 $dirty2 = restartGroup;
                                 $composer2 = $dirty;
                                 $dirty = colors;
@@ -1208,81 +1208,81 @@ public final class SearchBar_androidKt {
                             } else {
                                 tonalElevation2 = tonalElevation;
                             }
-                            if (i7 != 0) {
-                                shadowElevation2 = SearchBarDefaults.INSTANCE.getShadowElevation-D9Ej5fM();
+                            if (i9 != 0) {
+                                shadowElevation3 = SearchBarDefaults.INSTANCE.getShadowElevation-D9Ej5fM();
                             } else {
-                                shadowElevation2 = shadowElevation;
+                                shadowElevation3 = shadowElevation;
                             }
-                            if (i16 & 16384 != 0) {
-                                windowInsets4 = SearchBarDefaults.INSTANCE.getWindowInsets($dirty2, i44);
-                                $dirty13 &= obj5;
+                            if (i14 & 16384 != 0) {
+                                windowInsets5 = SearchBarDefaults.INSTANCE.getWindowInsets($dirty2, i44);
+                                $dirty13 &= obj2;
                             } else {
-                                windowInsets4 = windowInsets;
+                                windowInsets5 = windowInsets;
                             }
-                            if (i15 != 0) {
-                                i27 = leadingIcon2;
+                            if (i8 != 0) {
+                                i19 = leadingIcon2;
                                 searchBarColors = $dirty;
-                                f5 = tonalElevation2;
-                                f3 = shadowElevation2;
-                                windowInsets5 = windowInsets4;
-                                i24 = i88;
-                                i3 = obj12;
-                                shape2 = $dirty12;
-                                z = i19;
-                                changed2 = i18;
-                                windowInsets2 = modifier3;
-                                modifier2 = $dirty13;
+                                f3 = tonalElevation2;
+                                f = shadowElevation3;
+                                windowInsets2 = windowInsets5;
+                                i10 = i88;
+                                i7 = obj13;
+                                shape2 = $dirty1;
+                                z3 = i20;
+                                changed = i17;
+                                windowInsets4 = modifier4;
+                                modifier3 = $dirty13;
                             } else {
-                                i24 = interactionSource;
-                                i27 = leadingIcon2;
+                                i10 = interactionSource;
+                                i19 = leadingIcon2;
                                 searchBarColors = $dirty;
-                                f5 = tonalElevation2;
-                                f3 = shadowElevation2;
-                                windowInsets5 = windowInsets4;
-                                i3 = obj12;
-                                shape2 = $dirty12;
-                                z = i19;
-                                changed2 = i18;
-                                windowInsets2 = modifier3;
-                                modifier2 = $dirty13;
+                                f3 = tonalElevation2;
+                                f = shadowElevation3;
+                                windowInsets2 = windowInsets5;
+                                i7 = obj13;
+                                shape2 = $dirty1;
+                                z3 = i20;
+                                changed = i17;
+                                windowInsets4 = modifier4;
+                                modifier3 = $dirty13;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
-                            if (i16 & 1024 != 0) {
-                                $dirty12 &= -15;
+                            if (i14 & 1024 != 0) {
+                                $dirty1 &= -15;
                             }
-                            if (i16 & 2048 != 0) {
-                                $dirty12 &= -113;
+                            if (i14 & 2048 != 0) {
+                                $dirty1 &= -113;
                             }
-                            if (i16 & 16384 != 0) {
-                                modifier2 = $dirty12 & i39;
-                                i27 = leadingIcon;
-                                changed2 = trailingIcon;
+                            if (i14 & 16384 != 0) {
+                                modifier3 = $dirty1 & i39;
+                                i19 = leadingIcon;
+                                changed = trailingIcon;
                                 shape2 = shape;
                                 searchBarColors = colors;
-                                f3 = shadowElevation;
-                                windowInsets5 = windowInsets;
-                                i24 = interactionSource;
-                                windowInsets2 = obj2;
-                                z = z2;
+                                f = shadowElevation;
+                                windowInsets2 = windowInsets;
+                                i10 = interactionSource;
+                                windowInsets4 = obj4;
+                                z3 = z2;
                                 $dirty2 = restartGroup;
-                                i3 = obj12;
-                                f5 = tonalElevation;
+                                i7 = obj13;
+                                f3 = tonalElevation;
                                 $composer2 = $dirty;
                             } else {
-                                i27 = leadingIcon;
-                                changed2 = trailingIcon;
+                                i19 = leadingIcon;
+                                changed = trailingIcon;
                                 shape2 = shape;
                                 searchBarColors = colors;
-                                f3 = shadowElevation;
-                                windowInsets5 = windowInsets;
-                                i24 = interactionSource;
-                                windowInsets2 = obj2;
-                                z = z2;
+                                f = shadowElevation;
+                                windowInsets2 = windowInsets;
+                                i10 = interactionSource;
+                                windowInsets4 = obj4;
+                                z3 = z2;
                                 $dirty2 = restartGroup;
-                                i3 = obj12;
-                                modifier2 = $dirty12;
-                                f5 = tonalElevation;
+                                i7 = obj13;
+                                modifier3 = $dirty1;
+                                f3 = tonalElevation;
                                 $composer2 = $dirty;
                             }
                         }
@@ -1290,45 +1290,45 @@ public final class SearchBar_androidKt {
                     }
                     $dirty2.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(1001512593, $composer2, modifier2, "androidx.compose.material3.SearchBar (SearchBar.android.kt:745)");
+                        ComposerKt.traceEventStart(1001512593, $composer2, modifier3, "androidx.compose.material3.SearchBar (SearchBar.android.kt:745)");
                     }
-                    SearchBar_androidKt.SearchBar.4 anon = new SearchBar_androidKt.SearchBar.4(searchBarColors, query, obj10, onSearch, active, onActiveChange, z, i3, i27, changed2, i24);
+                    SearchBar_androidKt.SearchBar.4 anon = new SearchBar_androidKt.SearchBar.4(searchBarColors, query, obj12, onSearch, active, onActiveChange, z3, i7, i19, changed, i10);
                     Composer $dirty4 = $dirty2;
                     androidx.compose.material3.SearchBarColors $composer4 = searchBarColors;
-                    i2 = i53;
-                    SearchBar_androidKt.SearchBar-Y92LkZI((Function2)ComposableLambdaKt.rememberComposableLambda(-1158111311, true, anon, $dirty2, 54), active, onActiveChange, windowInsets2, shape2, $composer4, f5, f3, windowInsets5, content, $dirty4, i52 | leadingIcon2, 0);
+                    i15 = i53;
+                    SearchBar_androidKt.SearchBar-Y92LkZI((Function2)ComposableLambdaKt.rememberComposableLambda(-1158111311, true, anon, $dirty2, 54), active, onActiveChange, windowInsets4, shape2, $composer4, f3, f, windowInsets2, content, $dirty4, i52 | leadingIcon2, 0);
                     composer = $dirty4;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    obj6 = windowInsets2;
-                    f4 = f5;
-                    $composer3 = f3;
-                    obj7 = windowInsets5;
+                    obj5 = windowInsets4;
+                    f5 = f3;
+                    $composer3 = f;
+                    obj8 = windowInsets2;
                     windowInsets3 = searchBarColors2;
-                    modifier4 = z;
-                    i9 = i27;
-                    tonalElevation3 = changed2;
-                    colors2 = i24;
-                    enabled2 = modifier2;
-                    shadowElevation3 = shape2;
-                    shape3 = i3;
+                    modifier2 = z3;
+                    i6 = i19;
+                    tonalElevation3 = changed;
+                    colors2 = i10;
+                    enabled2 = modifier3;
+                    shadowElevation2 = shape2;
+                    shape3 = i7;
                 } else {
                     restartGroup.skipToGroupEnd();
-                    shadowElevation3 = shape;
+                    shadowElevation2 = shape;
                     windowInsets3 = colors;
-                    f4 = tonalElevation;
+                    f5 = tonalElevation;
                     colors2 = interactionSource;
-                    i2 = $dirty;
-                    obj6 = obj2;
-                    modifier4 = z2;
+                    i15 = $dirty;
+                    obj5 = obj4;
+                    modifier2 = z2;
                     composer = restartGroup;
-                    shape3 = obj12;
-                    enabled2 = $dirty12;
-                    i9 = leadingIcon;
+                    shape3 = obj13;
+                    enabled2 = $dirty1;
+                    i6 = leadingIcon;
                     tonalElevation3 = trailingIcon;
                     $composer3 = shadowElevation;
-                    obj7 = windowInsets;
+                    obj8 = windowInsets;
                 }
             } else {
             }
@@ -1336,304 +1336,304 @@ public final class SearchBar_androidKt {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new SearchBar_androidKt.SearchBar.5(query, onQueryChange, onSearch, active, onActiveChange, obj6, modifier4, shape3, i9, tonalElevation3, shadowElevation3, windowInsets3, f4, $composer3, obj7, colors2, content, $changed, $changed1, i16);
+            endRestartGroup = new SearchBar_androidKt.SearchBar.5(query, onQueryChange, onSearch, active, onActiveChange, obj5, modifier2, shape3, i6, tonalElevation3, shadowElevation2, windowInsets3, f5, $composer3, obj8, colors2, content, $changed, $changed1, i14);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
 
     public static final void SearchBar-Y92LkZI(Function2<? super Composer, ? super Integer, Unit> inputField, boolean expanded, Function1<? super Boolean, Unit> onExpandedChange, Modifier modifier, Shape shape, androidx.compose.material3.SearchBarColors colors, float tonalElevation, float shadowElevation, WindowInsets windowInsets, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i13) {
-        Object obj3;
+        Object obj2;
         boolean traceInProgress2;
         int modifier4;
-        Object mutableFloatStateOf;
-        Object obj15;
+        Object $i$a$CacheSearchBar_androidKt$SearchBar$finalBackProgress$1;
+        Object obj5;
         Object mutableStateOf$default2;
-        Object it$iv2;
-        Object obj;
-        int i10;
+        Object it$iv;
+        Object $i$a$CacheSearchBar_androidKt$SearchBar$mutatorMutex$1;
+        int i2;
         int defaultsInvalid;
-        Object modifier2;
-        int $dirty3;
+        Object modifier3;
+        int $dirty;
         Object $dirty2;
-        int windowInsets3;
+        int windowInsets2;
         boolean traceInProgress;
-        boolean $this$cache$iv;
+        boolean $this$cache$iv2;
         int invalid$iv;
-        int i;
+        int i19;
+        int i10;
         int i22;
-        int i4;
         Object str;
-        Object tonalElevation3;
+        Object tonalElevation5;
         Object tonalElevation4;
-        Object $this$cache$iv2;
-        Object i12;
-        int i11;
+        Object $this$cache$iv;
+        Object i7;
         int i18;
+        int i8;
         Object currentBackEvent;
         int shadowElevation2;
         int $i$f$cache;
         int inputFieldShape;
-        Object obj2;
-        Object obj4;
-        int it$iv;
-        int i20;
-        int i21;
-        Object obj6;
+        Object obj15;
+        Object obj12;
+        int it$iv2;
+        int i6;
+        int i5;
+        Object obj14;
         float $dirty5;
         Object obj13;
-        int modifier3;
+        int modifier2;
         float $composer2;
-        int changed;
+        int changed3;
+        Object obj4;
         Object obj9;
-        Object obj14;
         Object obj11;
         Composer shape2;
         int changed2;
-        float f2;
-        Object obj16;
+        float f4;
+        Object obj;
         String colors3;
-        androidx.compose.material3.SearchBar_androidKt.SearchBar.2.1 i19;
-        int i7;
+        androidx.compose.material3.SearchBar_androidKt.SearchBar.2.1 $i$a$CacheSearchBar_androidKt$SearchBar$2;
+        int i;
         Object empty2;
         int empty;
         float tonalElevation2;
         float f;
-        Object obj8;
+        Object obj3;
         Object shadowElevation3;
         float f3;
-        Object i14;
+        Object i11;
         Composer.Companion companion;
         Object mutableStateOf$default;
         androidx.compose.material3.SearchBar_androidKt.SearchBar.2.1 anon;
-        int i15;
-        int i9;
+        int i3;
+        int i21;
         Object mutatorMutex;
-        int i8;
-        Object i6;
-        Object $dirty;
-        int changed3;
-        int i2;
+        int i17;
+        Object i12;
+        Object $dirty3;
+        int changed;
+        int i14;
         int colors2;
-        Function1 i3;
-        Object tonalElevation5;
+        Function1 i15;
+        Object tonalElevation3;
         int $dirty4;
         Object firstBackEvent;
-        float f4;
-        Object i5;
-        Object obj7;
-        Function3 windowInsets2;
+        float f2;
+        Object i20;
         Object obj10;
+        Function3 windowInsets3;
+        Object obj8;
         Composer composer;
-        Object obj5;
-        int i23;
+        Object obj6;
+        int i9;
         int i16;
-        int i17;
-        Object obj12;
+        int i4;
+        Object obj7;
         Object obj33;
         Object obj34;
         Object obj35;
         int obj36;
-        $this$cache$iv = expanded;
-        i19 = $changed;
-        final int i107 = i13;
+        $this$cache$iv2 = expanded;
+        $i$a$CacheSearchBar_androidKt$SearchBar$2 = $changed;
+        final int i104 = i13;
         Composer restartGroup = $composer.startRestartGroup(1444649673);
         ComposerKt.sourceInformation(restartGroup, "C(SearchBar)P(3,2,5,4,7!1,8:c#ui.unit.Dp,6:c#ui.unit.Dp,9)171@8255L15,172@8320L8,175@8501L12,178@8596L64,179@8689L43,180@8758L51,181@8837L51,183@8919L638,183@8894L663,199@9582L27,200@9656L1062,200@9614L1104,226@10724L458:SearchBar.android.kt#uh7d8r");
-        $dirty3 = $changed;
-        if (i107 & 1 != 0) {
-            $dirty3 |= 6;
-            obj8 = inputField;
+        $dirty = $changed;
+        if (i104 & 1 != 0) {
+            $dirty |= 6;
+            obj3 = inputField;
         } else {
-            if (i19 & 6 == 0) {
-                i22 = restartGroup.changedInstance(inputField) ? 4 : 2;
-                $dirty3 |= i22;
+            if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & 6 == 0) {
+                i10 = restartGroup.changedInstance(inputField) ? 4 : 2;
+                $dirty |= i10;
             } else {
-                obj8 = inputField;
+                obj3 = inputField;
             }
         }
-        if (i107 & 2 != 0) {
-            $dirty3 |= 48;
+        if (i104 & 2 != 0) {
+            $dirty |= 48;
         } else {
-            if (i19 & 48 == 0) {
-                i4 = restartGroup.changed($this$cache$iv) ? 32 : 16;
-                $dirty3 |= i4;
+            if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & 48 == 0) {
+                i22 = restartGroup.changed($this$cache$iv2) ? 32 : 16;
+                $dirty |= i22;
             }
         }
-        if (i107 & 4 != 0) {
-            $dirty3 |= 384;
+        if (i104 & 4 != 0) {
+            $dirty |= 384;
             str = onExpandedChange;
         } else {
-            if (i19 & 384 == 0) {
-                i18 = restartGroup.changedInstance(onExpandedChange) ? 256 : 128;
-                $dirty3 |= i18;
+            if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & 384 == 0) {
+                i8 = restartGroup.changedInstance(onExpandedChange) ? 256 : 128;
+                $dirty |= i8;
             } else {
                 str = onExpandedChange;
             }
         }
-        shadowElevation2 = i107 & 8;
+        shadowElevation2 = i104 & 8;
         if (shadowElevation2 != 0) {
-            $dirty3 |= 3072;
-            obj2 = modifier;
+            $dirty |= 3072;
+            obj15 = modifier;
         } else {
-            if (i19 & 3072 == 0) {
-                i21 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty3 |= i21;
+            if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & 3072 == 0) {
+                i5 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty |= i5;
             } else {
-                obj2 = modifier;
+                obj15 = modifier;
             }
         }
-        if (i19 & 24576 == 0) {
-            if (i107 & 16 == 0) {
-                changed = restartGroup.changed(shape) ? 16384 : 8192;
+        if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & 24576 == 0) {
+            if (i104 & 16 == 0) {
+                changed3 = restartGroup.changed(shape) ? 16384 : 8192;
             } else {
-                obj6 = shape;
+                obj14 = shape;
             }
-            $dirty3 |= changed;
+            $dirty |= changed3;
         } else {
-            obj6 = shape;
+            obj14 = shape;
         }
-        if (i97 &= i19 == 0) {
-            if (i107 & 32 == 0) {
+        if (i94 &= $i$a$CacheSearchBar_androidKt$SearchBar$2 == 0) {
+            if (i104 & 32 == 0) {
                 changed2 = restartGroup.changed(colors) ? 131072 : 65536;
             } else {
-                obj9 = colors;
+                obj4 = colors;
             }
-            $dirty3 |= changed2;
+            $dirty |= changed2;
         } else {
-            obj9 = colors;
+            obj4 = colors;
         }
-        i14 = i107 & 64;
-        int i100 = 1572864;
-        if (i14 != 0) {
-            $dirty3 |= i100;
-            f2 = tonalElevation;
+        i11 = i104 & 64;
+        int i97 = 1572864;
+        if (i11 != 0) {
+            $dirty |= i97;
+            f4 = tonalElevation;
         } else {
-            if (i100 &= i19 == 0) {
-                i15 = restartGroup.changed(tonalElevation) ? 1048576 : 524288;
-                $dirty3 |= i15;
+            if (i97 &= $i$a$CacheSearchBar_androidKt$SearchBar$2 == 0) {
+                i3 = restartGroup.changed(tonalElevation) ? 1048576 : 524288;
+                $dirty |= i3;
             } else {
-                f2 = tonalElevation;
+                f4 = tonalElevation;
             }
         }
-        shadowElevation3 = i107 & 128;
-        i9 = 12582912;
+        shadowElevation3 = i104 & 128;
+        i21 = 12582912;
         if (shadowElevation3 != 0) {
-            $dirty3 |= i9;
+            $dirty |= i21;
             tonalElevation2 = shadowElevation;
         } else {
-            if (i19 & i9 == 0) {
-                i8 = restartGroup.changed(shadowElevation) ? 8388608 : 4194304;
-                $dirty3 |= i8;
+            if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & i21 == 0) {
+                i17 = restartGroup.changed(shadowElevation) ? 8388608 : 4194304;
+                $dirty |= i17;
             } else {
                 tonalElevation2 = shadowElevation;
             }
         }
-        if (i19 & i110 == 0) {
-            if (i107 & 256 == 0) {
-                changed3 = restartGroup.changed(windowInsets) ? 67108864 : 33554432;
+        if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & i107 == 0) {
+            if (i104 & 256 == 0) {
+                changed = restartGroup.changed(windowInsets) ? 67108864 : 33554432;
             } else {
-                tonalElevation3 = windowInsets;
+                tonalElevation5 = windowInsets;
             }
-            $dirty3 |= changed3;
+            $dirty |= changed;
         } else {
-            tonalElevation3 = windowInsets;
+            tonalElevation5 = windowInsets;
         }
-        i2 = 805306368;
-        if (i107 & 512 != 0) {
-            $dirty3 |= i2;
-            obj3 = content;
+        i14 = 805306368;
+        if (i104 & 512 != 0) {
+            $dirty |= i14;
+            obj2 = content;
         } else {
-            if (i19 & i2 == 0) {
-                i2 = restartGroup.changedInstance(content) ? 536870912 : 268435456;
-                $dirty3 |= i2;
+            if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & i14 == 0) {
+                i14 = restartGroup.changedInstance(content) ? 536870912 : 268435456;
+                $dirty |= i14;
             } else {
-                obj3 = content;
+                obj2 = content;
             }
         }
-        colors2 = $dirty3;
-        if ($dirty3 & i112 == 306783378) {
+        colors2 = $dirty;
+        if ($dirty & i109 == 306783378) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                windowInsets3 = -458753;
+                windowInsets2 = -458753;
                 $dirty4 = -57345;
-                if (i19 & 1 != 0) {
+                if ($i$a$CacheSearchBar_androidKt$SearchBar$2 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (shadowElevation2 != 0) {
-                            modifier2 = Modifier.Companion;
+                            modifier3 = Modifier.Companion;
                         } else {
-                            modifier2 = obj2;
+                            modifier3 = obj15;
                         }
-                        i20 = 6;
-                        if (i107 & 16 != 0) {
+                        i6 = 6;
+                        if (i104 & 16 != 0) {
                             colors2 = inputFieldShape;
-                            $dirty4 = obj6;
+                            $dirty4 = obj14;
                         } else {
                             $dirty4 = colors2;
-                            colors2 = obj6;
+                            colors2 = obj14;
                         }
-                        int i84 = i107 & 32;
-                        if (i84 != 0) {
-                            windowInsets3 = f4;
-                            i7 = 256;
-                            str = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, i84, 0, obj6, restartGroup);
-                            $dirty4 &= i6;
+                        int i81 = i104 & 32;
+                        if (i81 != 0) {
+                            windowInsets2 = f2;
+                            i = 256;
+                            str = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, i81, 0, obj14, restartGroup);
+                            $dirty4 &= i12;
                         } else {
-                            windowInsets3 = i20;
-                            i7 = 256;
+                            windowInsets2 = i6;
+                            i = 256;
                             str = colors;
                         }
-                        if (i14 != 0) {
-                            tonalElevation3 = SearchBarDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
+                        if (i11 != 0) {
+                            tonalElevation5 = SearchBarDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
                         } else {
-                            tonalElevation3 = tonalElevation;
+                            tonalElevation5 = tonalElevation;
                         }
                         if (shadowElevation3 != 0) {
                             shadowElevation2 = SearchBarDefaults.INSTANCE.getShadowElevation-D9Ej5fM();
                         } else {
                             shadowElevation2 = tonalElevation2;
                         }
-                        if (i107 & 256 != 0) {
-                            obj13 = modifier2;
-                            obj10 = windowInsets3;
-                            obj16 = str;
-                            f = tonalElevation3;
+                        if (i104 & 256 != 0) {
+                            obj13 = modifier3;
+                            obj8 = windowInsets2;
+                            obj = str;
+                            f = tonalElevation5;
                             f3 = shadowElevation2;
-                            modifier4 = obj2;
+                            modifier4 = obj15;
                             obj11 = colors2;
                         } else {
-                            obj10 = windowInsets;
-                            obj13 = modifier2;
-                            obj16 = str;
-                            f = tonalElevation3;
+                            obj8 = windowInsets;
+                            obj13 = modifier3;
+                            obj = str;
+                            f = tonalElevation5;
                             f3 = shadowElevation2;
                             obj11 = colors2;
                             modifier4 = $dirty4;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        if (i107 & 16 != 0) {
-                            colors2 = i10;
+                        if (i104 & 16 != 0) {
+                            colors2 = i2;
                         }
-                        if (i107 & 32 != 0) {
-                            colors2 &= windowInsets3;
+                        if (i104 & 32 != 0) {
+                            colors2 &= windowInsets2;
                         }
-                        if (i107 & 256 != 0) {
-                            modifier4 = colors2 & i53;
-                            obj10 = tonalElevation3;
+                        if (i104 & 256 != 0) {
+                            modifier4 = colors2 & i50;
+                            obj8 = tonalElevation5;
                             f3 = tonalElevation2;
-                            i7 = 256;
-                            f = f2;
-                            obj16 = obj9;
-                            obj11 = obj6;
-                            obj13 = obj2;
+                            i = 256;
+                            f = f4;
+                            obj = obj4;
+                            obj11 = obj14;
+                            obj13 = obj15;
                         } else {
-                            obj10 = tonalElevation3;
+                            obj8 = tonalElevation5;
                             f3 = tonalElevation2;
                             modifier4 = colors2;
-                            i7 = 256;
-                            f = f2;
-                            obj16 = obj9;
-                            obj11 = obj6;
-                            obj13 = obj2;
+                            i = 256;
+                            f = f4;
+                            obj = obj4;
+                            obj11 = obj14;
+                            obj13 = obj15;
                         }
                     }
                 } else {
@@ -1644,174 +1644,174 @@ public final class SearchBar_androidKt {
                 }
                 String str3 = "CC(remember):SearchBar.android.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 626005896, str3);
-                int i55 = 0;
+                int i52 = 0;
                 Composer composer4 = restartGroup;
                 $i$f$cache = 0;
                 Object rememberedValue = composer4.rememberedValue();
-                int i108 = 0;
-                int i111 = modifier4;
+                int i105 = 0;
+                int i108 = modifier4;
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     empty2 = 0;
-                    colors2 = $this$cache$iv ? 1065353216 : 0;
-                    obj33 = i55;
+                    colors2 = $this$cache$iv2 ? 1065353216 : 0;
+                    obj33 = i52;
                     obj34 = $i$f$cache;
                     composer4.updateRememberedValue(AnimatableKt.Animatable$default(colors2, 0, 2, 0));
                 } else {
-                    obj33 = i55;
+                    obj33 = i52;
                     obj34 = $i$f$cache;
                     $dirty2 = rememberedValue;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 626008851, str3);
-                int i57 = 0;
+                int i54 = 0;
                 Composer composer5 = restartGroup;
-                int i81 = 0;
+                int i78 = 0;
                 Object rememberedValue2 = composer5.rememberedValue();
-                int i102 = 0;
+                int i99 = 0;
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                    int i50 = 0;
+                    int i47 = 0;
                     composer5.updateRememberedValue(PrimitiveSnapshotStateKt.mutableFloatStateOf(2143289344));
                 } else {
-                    mutableFloatStateOf = rememberedValue2;
+                    $i$a$CacheSearchBar_androidKt$SearchBar$finalBackProgress$1 = rememberedValue2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 626011067, str3);
                 invalid$iv = 0;
                 Composer composer6 = restartGroup;
-                int i82 = 0;
+                int i79 = 0;
                 Object rememberedValue3 = composer6.rememberedValue();
-                int i103 = 0;
-                obj34 = mutableFloatStateOf;
+                int i100 = 0;
+                obj34 = $i$a$CacheSearchBar_androidKt$SearchBar$finalBackProgress$1;
                 if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                    obj35 = i48;
+                    obj35 = i46;
                     obj36 = invalid$iv;
                     invalid$iv = 0;
                     composer6.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(invalid$iv, invalid$iv, 2, invalid$iv));
                 } else {
                     obj36 = invalid$iv;
-                    obj15 = rememberedValue3;
+                    obj5 = rememberedValue3;
                 }
-                $this$cache$iv2 = obj15;
+                $this$cache$iv = obj5;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 626013595, str3);
                 Composer composer2 = restartGroup;
-                int i83 = 0;
+                int i80 = 0;
                 Object rememberedValue4 = composer2.rememberedValue();
-                int i104 = 0;
-                obj35 = i28;
+                int i101 = 0;
+                obj35 = i27;
                 if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                    obj36 = i46;
-                    firstBackEvent = $this$cache$iv2;
-                    $this$cache$iv2 = 0;
-                    composer2.updateRememberedValue(SnapshotStateKt.mutableStateOf$default($this$cache$iv2, $this$cache$iv2, 2, $this$cache$iv2));
+                    obj36 = i45;
+                    firstBackEvent = $this$cache$iv;
+                    $this$cache$iv = 0;
+                    composer2.updateRememberedValue(SnapshotStateKt.mutableStateOf$default($this$cache$iv, $this$cache$iv, 2, $this$cache$iv));
                 } else {
-                    firstBackEvent = $this$cache$iv2;
+                    firstBackEvent = $this$cache$iv;
                     mutableStateOf$default2 = rememberedValue4;
                 }
                 Object $i$f$cache2 = mutableStateOf$default2;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 626016806, str3);
                 anon = 1;
-                i = i111 & 112 == 32 ? anon : i12;
+                i19 = i108 & 112 == 32 ? anon : i7;
                 Composer composer3 = restartGroup;
-                i3 = 0;
-                it$iv2 = composer3.rememberedValue();
-                i5 = 0;
-                if (changedInstance |= i == 0) {
-                    if (it$iv2 == Composer.Companion.getEmpty()) {
-                        obj7 = 0;
+                i15 = 0;
+                it$iv = composer3.rememberedValue();
+                i20 = 0;
+                if (changedInstance |= i19 == 0) {
+                    if (it$iv == Composer.Companion.getEmpty()) {
+                        obj10 = 0;
                         obj33 = obj13;
-                        obj35 = obj16;
-                        modifier3 = i111;
-                        $dirty = obj5;
+                        obj35 = obj;
+                        modifier2 = i108;
+                        $dirty3 = obj6;
                         colors3 = str3;
                         obj34 = obj11;
-                        it$iv2 = new SearchBar_androidKt.SearchBar.1.1($dirty2, expanded, obj34, firstBackEvent, (MutableState)$i$f$cache2, 0);
-                        composer3.updateRememberedValue((Function2)it$iv2);
+                        it$iv = new SearchBar_androidKt.SearchBar.1.1($dirty2, expanded, obj34, firstBackEvent, (MutableState)$i$f$cache2, 0);
+                        composer3.updateRememberedValue((Function2)it$iv);
                     } else {
                         obj33 = obj13;
-                        obj35 = obj16;
-                        modifier3 = i111;
-                        $dirty = it$iv2;
+                        obj35 = obj;
+                        modifier2 = i108;
+                        $dirty3 = it$iv;
                         colors3 = str3;
                         str = obj34;
                         obj34 = obj11;
                         shape2 = composer3;
-                        $this$cache$iv = expanded;
+                        $this$cache$iv2 = expanded;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                EffectsKt.LaunchedEffect(Boolean.valueOf(expanded), (Function2)it$iv2, restartGroup, i62 &= 14);
+                EffectsKt.LaunchedEffect(Boolean.valueOf(expanded), (Function2)it$iv, restartGroup, i59 &= 14);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 626037411, colors3);
                 Composer composer7 = restartGroup;
-                int i86 = 0;
+                int i83 = 0;
                 Object rememberedValue5 = composer7.rememberedValue();
-                int i105 = 0;
-                obj36 = i32;
+                int i102 = 0;
+                obj36 = i31;
                 if (rememberedValue5 == Composer.Companion.getEmpty()) {
-                    int i33 = 0;
+                    int i32 = 0;
                     mutatorMutex = new MutatorMutex();
                     composer7.updateRememberedValue(mutatorMutex);
                 } else {
-                    obj = rememberedValue5;
+                    $i$a$CacheSearchBar_androidKt$SearchBar$mutatorMutex$1 = rememberedValue5;
                 }
-                Object obj20 = obj;
+                Object obj19 = $i$a$CacheSearchBar_androidKt$SearchBar$mutatorMutex$1;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 626040814, colors3);
-                i11 = modifier3 & 896 == 256 ? anon : 0;
+                i18 = modifier2 & 896 == 256 ? anon : 0;
                 Composer composer8 = restartGroup;
-                int i87 = 0;
+                int i84 = 0;
                 Object rememberedValue6 = composer8.rememberedValue();
-                f2 = 0;
-                if (changedInstance2 |= i11 == 0) {
+                f4 = 0;
+                if (changedInstance2 |= i18 == 0) {
                     if (rememberedValue6 == Composer.Companion.getEmpty()) {
-                        int i106 = 0;
-                        anon = new SearchBar_androidKt.SearchBar.2.1((MutatorMutex)obj20, str, $dirty2, onExpandedChange, firstBackEvent, $i$f$cache2, 0);
-                        obj12 = obj20;
+                        int i103 = 0;
+                        anon = new SearchBar_androidKt.SearchBar.2.1((MutatorMutex)obj19, str, $dirty2, onExpandedChange, firstBackEvent, $i$f$cache2, 0);
+                        obj7 = obj19;
                         composer8.updateRememberedValue((Function2)anon);
                     } else {
-                        i19 = rememberedValue6;
-                        obj12 = obj20;
+                        $i$a$CacheSearchBar_androidKt$SearchBar$2 = rememberedValue6;
+                        obj7 = obj19;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                PredictiveBackHandlerKt.PredictiveBackHandler($this$cache$iv, (Function2)i19, restartGroup, i36 &= 14, 0);
-                i9 = obj33;
-                changed3 = obj34;
-                Object obj21 = obj35;
-                f4 = f3;
+                PredictiveBackHandlerKt.PredictiveBackHandler($this$cache$iv2, (Function2)$i$a$CacheSearchBar_androidKt$SearchBar$2, restartGroup, i35 &= 14, 0);
+                i21 = obj33;
+                changed = obj34;
+                Object obj20 = obj35;
+                f2 = f3;
                 shadowElevation3 = firstBackEvent;
-                obj7 = obj10;
+                obj10 = obj8;
                 float firstBackEvent2 = f;
-                SearchBar_androidKt.SearchBarImpl-j1jLAyQ($dirty2, str, shadowElevation3, $i$f$cache2, i9, obj8, changed3, obj21, firstBackEvent2, f4, obj7, content, restartGroup, i43 | i77, i45 | i79, 0);
-                tonalElevation5 = shadowElevation3;
+                SearchBar_androidKt.SearchBarImpl-j1jLAyQ($dirty2, str, shadowElevation3, $i$f$cache2, i21, obj3, changed, obj20, firstBackEvent2, f2, obj10, content, restartGroup, i42 | i74, i44 | i76, 0);
+                tonalElevation3 = shadowElevation3;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                currentBackEvent = changed3;
-                obj4 = obj21;
-                $composer2 = f4;
-                obj14 = obj7;
-                colors2 = modifier3;
+                currentBackEvent = changed;
+                obj12 = obj20;
+                $composer2 = f2;
+                obj9 = obj10;
+                colors2 = modifier2;
                 $dirty5 = f5;
-                tonalElevation4 = i9;
+                tonalElevation4 = i21;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj14 = tonalElevation3;
-                tonalElevation4 = obj2;
-                obj4 = obj18;
-                currentBackEvent = obj6;
+                obj9 = tonalElevation5;
+                tonalElevation4 = obj15;
+                obj12 = obj17;
+                currentBackEvent = obj14;
                 composer = restartGroup;
-                $dirty5 = f2;
+                $dirty5 = f4;
                 $composer2 = tonalElevation2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new SearchBar_androidKt.SearchBar.3(inputField, $this$cache$iv, onExpandedChange, tonalElevation4, currentBackEvent, obj4, $dirty5, $composer2, obj14, content, $changed, i107);
+            traceInProgress2 = new SearchBar_androidKt.SearchBar.3(inputField, $this$cache$iv2, onExpandedChange, tonalElevation4, currentBackEvent, obj12, $dirty5, $composer2, obj9, content, $changed, i104);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
@@ -1819,80 +1819,80 @@ public final class SearchBar_androidKt {
     public static final void SearchBarImpl-j1jLAyQ(Animatable<Float, AnimationVector1D> animationProgress, MutableFloatState finalBackProgress, MutableState<BackEventCompat> firstBackEvent, MutableState<BackEventCompat> currentBackEvent, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> inputField, Shape shape, androidx.compose.material3.SearchBarColors colors, float tonalElevation, float shadowElevation, WindowInsets windowInsets, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i16) {
         Object traceInProgress;
         Object endRestartGroup;
-        Object obj3;
+        Object obj;
         boolean skipping;
         int defaultsInvalid;
         Object modifier2;
         int modifier3;
-        int i7;
+        int i17;
         Object derivedStateOf;
         int rememberComposableLambda;
-        int i4;
-        int i5;
+        int i14;
+        int i24;
         int $dirty2;
         Object colors-dgg9oW8;
-        Shape colors3;
+        Shape colors2;
         Object shape2;
-        Object surface3;
-        Object obj4;
-        float f3;
-        float colors2;
-        float tonalElevation3;
-        Object tonalElevation2;
-        int i18;
-        int i15;
-        int i9;
-        int i22;
-        int i10;
+        Object surface;
+        Object obj2;
+        float f4;
+        float colors3;
+        float tonalElevation2;
+        Object tonalElevation3;
+        int i12;
+        int i21;
+        int i;
+        int i13;
+        int i3;
         int inputFieldShape;
         float shadowElevation2;
         Object shadowElevation3;
         Object defaultInputFieldShape;
-        int i;
-        boolean changedInstance2;
-        Object windowInsets3;
+        int i20;
+        boolean changedInstance;
+        Object windowInsets4;
         float windowInsets2;
         Object shadowElevation4;
-        float f;
+        float f2;
         Object $composer2;
-        Object windowInsets4;
-        Object obj;
+        Object windowInsets3;
+        Object obj3;
         Object rememberedValue;
         int changed3;
-        int i19;
         int i25;
-        int changedInstance;
-        float f2;
-        int i8;
-        int i24;
-        int i2;
+        int i19;
+        int changedInstance2;
+        float f3;
+        int i9;
+        int i22;
+        int i18;
+        Object obj4;
+        float f;
         Object obj5;
-        float f4;
-        Object obj2;
         Object animatedShape;
         Composer $this$cache$iv;
-        int i23;
+        int i10;
         int empty;
         Object obj6;
-        int i21;
+        int i4;
         int fullScreenShape;
-        int i12;
-        int i20;
-        int surface;
+        int i5;
+        int i6;
+        int surface3;
         androidx.compose.runtime.internal.ComposableLambda surface2;
         int $dirty1;
         int changed;
-        int i11;
+        int i7;
         int shape3;
         int companion;
         int changed2;
-        int i17;
-        int i13;
-        int i14;
+        int i11;
+        int i23;
+        int i2;
         Composer composer;
-        int i6;
+        int i8;
         int $dirty;
-        int i3;
+        int i15;
         boolean changed4;
         ScopeUpdateScope scopeUpdateScope;
         androidx.compose.ui.Modifier.Companion obj31;
@@ -1914,34 +1914,34 @@ public final class SearchBar_androidKt {
         } else {
             if (empty & 6 == 0) {
                 if (empty & 8 == 0) {
-                    changedInstance2 = restartGroup.changed(traceInProgress);
+                    changedInstance = restartGroup.changed(traceInProgress);
                 } else {
-                    changedInstance2 = restartGroup.changedInstance(traceInProgress);
+                    changedInstance = restartGroup.changedInstance(traceInProgress);
                 }
-                i18 = changedInstance2 ? 4 : 2;
-                $dirty2 |= i18;
+                i12 = changedInstance != null ? 4 : 2;
+                $dirty2 |= i12;
             }
         }
         if (i76 & 2 != 0) {
             $dirty2 |= 48;
-            obj5 = finalBackProgress;
+            obj4 = finalBackProgress;
         } else {
             if (empty & 48 == 0) {
-                i15 = restartGroup.changed(finalBackProgress) ? 32 : 16;
-                $dirty2 |= i15;
+                i21 = restartGroup.changed(finalBackProgress) ? 32 : 16;
+                $dirty2 |= i21;
             } else {
-                obj5 = finalBackProgress;
+                obj4 = finalBackProgress;
             }
         }
         if (i76 & 4 != 0) {
             $dirty2 |= 384;
-            obj2 = firstBackEvent;
+            obj5 = firstBackEvent;
         } else {
             if (empty & 384 == 0) {
-                i9 = restartGroup.changed(firstBackEvent) ? 256 : 128;
-                $dirty2 |= i9;
+                i = restartGroup.changed(firstBackEvent) ? 256 : 128;
+                $dirty2 |= i;
             } else {
-                obj2 = firstBackEvent;
+                obj5 = firstBackEvent;
             }
         }
         if (i76 & 8 != 0) {
@@ -1949,49 +1949,49 @@ public final class SearchBar_androidKt {
             obj6 = currentBackEvent;
         } else {
             if (empty & 3072 == 0) {
-                i22 = restartGroup.changed(currentBackEvent) ? 2048 : 1024;
-                $dirty2 |= i22;
+                i13 = restartGroup.changed(currentBackEvent) ? 2048 : 1024;
+                $dirty2 |= i13;
             } else {
                 obj6 = currentBackEvent;
             }
         }
-        i10 = i76 & 16;
-        if (i10 != 0) {
+        i3 = i76 & 16;
+        if (i3 != 0) {
             $dirty2 |= 24576;
-            windowInsets3 = modifier;
+            windowInsets4 = modifier;
         } else {
             if (empty & 24576 == 0) {
-                i21 = restartGroup.changed(modifier) ? 16384 : 8192;
-                $dirty2 |= i21;
+                i4 = restartGroup.changed(modifier) ? 16384 : 8192;
+                $dirty2 |= i4;
             } else {
-                windowInsets3 = modifier;
+                windowInsets4 = modifier;
             }
         }
-        i12 = 196608;
+        i5 = 196608;
         if (i76 & 32 != 0) {
-            $dirty2 |= i12;
-            obj3 = inputField;
+            $dirty2 |= i5;
+            obj = inputField;
         } else {
-            if (empty & i12 == 0) {
-                i12 = restartGroup.changedInstance(inputField) ? 131072 : 65536;
-                $dirty2 |= i12;
+            if (empty & i5 == 0) {
+                i5 = restartGroup.changedInstance(inputField) ? 131072 : 65536;
+                $dirty2 |= i5;
             } else {
-                obj3 = inputField;
+                obj = inputField;
             }
         }
-        i20 = 1572864;
-        if (empty & i20 == 0) {
+        i6 = 1572864;
+        if (empty & i6 == 0) {
             if (i76 & 64 == 0) {
                 changed = restartGroup.changed(shape) ? 1048576 : 524288;
             } else {
-                obj4 = shape;
+                obj2 = shape;
             }
             $dirty2 |= changed;
         } else {
-            obj4 = shape;
+            obj2 = shape;
         }
-        i11 = 12582912;
-        if (empty & i11 == 0) {
+        i7 = 12582912;
+        if (empty & i7 == 0) {
             if (i76 & 128 == 0) {
                 changed2 = restartGroup.changed(colors) ? 8388608 : 4194304;
             } else {
@@ -2005,43 +2005,43 @@ public final class SearchBar_androidKt {
         int i81 = 100663296;
         if (i49 != 0) {
             $dirty2 |= i81;
-            i17 = i49;
-            f3 = tonalElevation;
+            i11 = i49;
+            f4 = tonalElevation;
         } else {
             if (empty & i81 == 0) {
-                i17 = i49;
-                i13 = restartGroup.changed(tonalElevation) ? 67108864 : 33554432;
-                $dirty2 |= i13;
+                i11 = i49;
+                i23 = restartGroup.changed(tonalElevation) ? 67108864 : 33554432;
+                $dirty2 |= i23;
             } else {
-                i17 = i49;
-                f3 = tonalElevation;
+                i11 = i49;
+                f4 = tonalElevation;
             }
         }
         int i50 = i76 & 512;
         int i84 = 805306368;
         if (i50 != 0) {
             $dirty2 |= i84;
-            i14 = i50;
-            colors2 = shadowElevation;
+            i2 = i50;
+            colors3 = shadowElevation;
         } else {
             if (empty & i84 == 0) {
-                i14 = i50;
-                i6 = restartGroup.changed(shadowElevation) ? 536870912 : 268435456;
-                $dirty2 |= i6;
+                i2 = i50;
+                i8 = restartGroup.changed(shadowElevation) ? 536870912 : 268435456;
+                $dirty2 |= i8;
             } else {
-                i14 = i50;
-                colors2 = shadowElevation;
+                i2 = i50;
+                colors3 = shadowElevation;
             }
         }
         if ($changed1 & 6 == 0) {
             if (i76 & 1024 == 0) {
                 shape3 = restartGroup.changed(windowInsets) ? 4 : 2;
             } else {
-                windowInsets4 = windowInsets;
+                windowInsets3 = windowInsets;
             }
             $dirty1 |= shape3;
         } else {
-            windowInsets4 = windowInsets;
+            windowInsets3 = windowInsets;
         }
         if (i76 & 2048 != 0) {
             $dirty1 |= 48;
@@ -2055,13 +2055,13 @@ public final class SearchBar_androidKt {
             if ($dirty1 & 19 == 18) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
-                    i24 = 6;
+                    i22 = 6;
                     if (empty & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
-                            if (i10 != 0) {
+                            if (i3 != 0) {
                                 modifier2 = Modifier.Companion;
                             } else {
-                                modifier2 = windowInsets3;
+                                modifier2 = windowInsets4;
                             }
                             if (i76 & 64 != 0) {
                                 shape3 = inputFieldShape;
@@ -2071,62 +2071,62 @@ public final class SearchBar_androidKt {
                                 $dirty = $dirty2;
                             }
                             if (i76 & 128 != 0) {
-                                inputFieldShape = i24;
+                                inputFieldShape = i22;
                                 obj31 = modifier2;
                                 modifier3 = changed4;
                                 colors-dgg9oW8 = SearchBarDefaults.INSTANCE.colors-dgg9oW8(0, inputFieldShape, 0, shadowElevation4, restartGroup);
-                                $dirty &= colors2;
+                                $dirty &= colors3;
                             } else {
                                 obj31 = modifier2;
-                                modifier3 = i24;
+                                modifier3 = i22;
                                 colors-dgg9oW8 = colors;
                             }
-                            if (i17 != 0) {
-                                tonalElevation3 = SearchBarDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
+                            if (i11 != 0) {
+                                tonalElevation2 = SearchBarDefaults.INSTANCE.getTonalElevation-D9Ej5fM();
                             } else {
-                                tonalElevation3 = tonalElevation;
+                                tonalElevation2 = tonalElevation;
                             }
-                            if (i14 != 0) {
+                            if (i2 != 0) {
                                 shadowElevation2 = SearchBarDefaults.INSTANCE.getShadowElevation-D9Ej5fM();
                             } else {
                                 shadowElevation2 = shadowElevation;
                             }
                             if (i76 & 1024 != 0) {
-                                f = shadowElevation2;
-                                windowInsets4 = windowInsets5;
-                                i7 = $dirty1;
-                                i2 = $dirty;
+                                f2 = shadowElevation2;
+                                windowInsets3 = windowInsets5;
+                                i17 = $dirty1;
+                                i18 = $dirty;
                                 shadowElevation3 = obj31;
-                                windowInsets2 = tonalElevation3;
-                                tonalElevation2 = colors-dgg9oW8;
-                                colors3 = shape3;
+                                windowInsets2 = tonalElevation2;
+                                tonalElevation3 = colors-dgg9oW8;
+                                colors2 = shape3;
                             } else {
-                                windowInsets4 = windowInsets;
-                                windowInsets2 = tonalElevation3;
-                                f = shadowElevation2;
-                                i7 = $dirty1;
-                                i2 = $dirty;
+                                windowInsets3 = windowInsets;
+                                windowInsets2 = tonalElevation2;
+                                f2 = shadowElevation2;
+                                i17 = $dirty1;
+                                i18 = $dirty;
                                 shadowElevation3 = obj31;
-                                tonalElevation2 = colors-dgg9oW8;
-                                colors3 = shape3;
+                                tonalElevation3 = colors-dgg9oW8;
+                                colors2 = shape3;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
                             if (i76 & 64 != 0) {
-                                $dirty2 &= i4;
+                                $dirty2 &= i14;
                             }
                             if (i76 & 128 != 0) {
-                                $dirty2 &= i5;
+                                $dirty2 &= i24;
                             }
                             if (i76 & 1024 != 0) {
                                 $dirty1 &= -15;
                             }
-                            f = colors2;
-                            tonalElevation2 = obj7;
-                            i2 = $dirty2;
-                            shadowElevation3 = windowInsets3;
-                            i7 = $dirty1;
-                            colors3 = shape;
+                            f2 = colors3;
+                            tonalElevation3 = obj7;
+                            i18 = $dirty2;
+                            shadowElevation3 = windowInsets4;
+                            i17 = $dirty1;
+                            colors2 = shape;
                             windowInsets2 = tonalElevation;
                         }
                     } else {
@@ -2134,11 +2134,11 @@ public final class SearchBar_androidKt {
                     restartGroup.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
                         obj31 = shadowElevation3;
-                        obj33 = windowInsets4;
-                        ComposerKt.traceEventStart(-440333505, i2, i7, "androidx.compose.material3.SearchBarImpl (SearchBar.android.kt:867)");
+                        obj33 = windowInsets3;
+                        ComposerKt.traceEventStart(-440333505, i18, i17, "androidx.compose.material3.SearchBarImpl (SearchBar.android.kt:867)");
                     } else {
                         obj31 = shadowElevation3;
-                        obj33 = windowInsets4;
+                        obj33 = windowInsets3;
                     }
                     int i77 = 0;
                     obj34 = i62;
@@ -2157,8 +2157,8 @@ public final class SearchBar_androidKt {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         obj36 = rememberedValue;
                         obj37 = i74;
-                        SearchBar_androidKt.SearchBarImpl.useFullScreenShape.2.1 anon3 = new SearchBar_androidKt.SearchBarImpl.useFullScreenShape.2.1(traceInProgress);
-                        obj34.updateRememberedValue(SnapshotStateKt.derivedStateOf(SnapshotStateKt.structuralEqualityPolicy(), (Function0)anon3));
+                        SearchBar_androidKt.SearchBarImpl.useFullScreenShape.2.1 $i$a$CacheSearchBar_androidKt$SearchBarImpl$useFullScreenShape$2 = new SearchBar_androidKt.SearchBarImpl.useFullScreenShape.2.1(traceInProgress);
+                        obj34.updateRememberedValue(SnapshotStateKt.derivedStateOf(SnapshotStateKt.structuralEqualityPolicy(), (Function0)$i$a$CacheSearchBar_androidKt$SearchBarImpl$useFullScreenShape$2));
                     } else {
                         $this$cache$iv = obj34;
                         obj36 = rememberedValue;
@@ -2166,9 +2166,9 @@ public final class SearchBar_androidKt {
                     Object $this$cache$iv2 = rememberedValue;
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -1567240190, str3);
-                    if (i73 ^= i20 > 1048576) {
-                        if (!restartGroup.changed(colors3)) {
-                            i19 = i2 & i20 == 1048576 ? 1 : 0;
+                    if (i73 ^= i6 > 1048576) {
+                        if (!restartGroup.changed(colors2)) {
+                            i25 = i18 & i6 == 1048576 ? 1 : 0;
                         } else {
                         }
                     } else {
@@ -2177,11 +2177,11 @@ public final class SearchBar_androidKt {
                     int i78 = 0;
                     Object rememberedValue2 = composer3.rememberedValue();
                     int i80 = 0;
-                    if (obj35 | i19 == 0) {
+                    if (obj35 | i25 == 0) {
                         if (rememberedValue2 == Composer.Companion.getEmpty()) {
                             empty = 0;
-                            if (Intrinsics.areEqual(colors3, defaultInputFieldShape)) {
-                                shape3 = colors3;
+                            if (Intrinsics.areEqual(colors2, defaultInputFieldShape)) {
+                                shape3 = colors2;
                                 obj37 = defaultInputFieldShape;
                                 defaultInputFieldShape = new SearchBar_androidKt.SearchBarImpl.animatedShape.1.1((Density)consume, traceInProgress);
                                 shape2 = new GenericShape((Function3)defaultInputFieldShape);
@@ -2191,66 +2191,66 @@ public final class SearchBar_androidKt {
                             }
                             composer3.updateRememberedValue(shape2);
                         } else {
-                            shape3 = colors3;
+                            shape3 = colors2;
                             obj37 = defaultInputFieldShape;
                             shape2 = rememberedValue2;
                         }
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    SearchBar_androidKt.SearchBarImpl.surface.1 anon2 = new SearchBar_androidKt.SearchBarImpl.surface.1((Shape)shape2, tonalElevation2, windowInsets2, f);
-                    surface3 = ComposableLambdaKt.rememberComposableLambda(-170534294, true, anon2, restartGroup, 54);
+                    SearchBar_androidKt.SearchBarImpl.surface.1 anon2 = new SearchBar_androidKt.SearchBarImpl.surface.1((Shape)shape2, tonalElevation3, windowInsets2, f2);
+                    surface = ComposableLambdaKt.rememberComposableLambda(-170534294, true, anon2, restartGroup, 54);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -1567206741, str3);
-                    i = 0;
+                    i20 = 0;
                     Composer composer2 = restartGroup;
                     int i70 = 0;
                     Object rememberedValue3 = composer2.rememberedValue();
                     int i79 = 0;
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         obj39 = i35;
-                        surface2 = surface3;
-                        surface3 = new SearchBar_androidKt.SearchBarImpl.showContent.2.1(traceInProgress);
-                        composer2.updateRememberedValue(SnapshotStateKt.derivedStateOf(SnapshotStateKt.structuralEqualityPolicy(), (Function0)surface3));
+                        surface2 = surface;
+                        surface = new SearchBar_androidKt.SearchBarImpl.showContent.2.1(traceInProgress);
+                        composer2.updateRememberedValue(SnapshotStateKt.derivedStateOf(SnapshotStateKt.structuralEqualityPolicy(), (Function0)surface));
                     } else {
-                        surface2 = surface3;
+                        surface2 = surface;
                         derivedStateOf = rememberedValue3;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     restartGroup.startReplaceGroup(-1567201454);
                     ComposerKt.sourceInformation(restartGroup, "908@40729L215");
                     if (SearchBar_androidKt.SearchBarImpl_j1jLAyQ$lambda$12((State)derivedStateOf)) {
-                        SearchBar_androidKt.SearchBarImpl.wrappedContent.1 anon = new SearchBar_androidKt.SearchBarImpl.wrappedContent.1(traceInProgress, tonalElevation2, obj8);
-                        i25 = rememberComposableLambda;
+                        SearchBar_androidKt.SearchBarImpl.wrappedContent.1 anon = new SearchBar_androidKt.SearchBarImpl.wrappedContent.1(traceInProgress, tonalElevation3, obj8);
+                        i19 = rememberComposableLambda;
                     } else {
-                        i25 = rememberComposableLambda;
+                        i19 = rememberComposableLambda;
                     }
                     restartGroup.endReplaceGroup();
-                    i10 = obj31;
-                    i20 = obj37;
-                    i3 = i2;
+                    i3 = obj31;
+                    i6 = obj37;
+                    i15 = i18;
                     WindowInsets tonalElevation4 = obj33;
                     Composer $dirty4 = restartGroup;
                     obj6 = obj35;
-                    SearchBar_androidKt.SearchBarLayout(traceInProgress, finalBackProgress, firstBackEvent, obj6, i10, tonalElevation4, inputField, surface2, i25, $dirty4, i34 | i47);
+                    SearchBar_androidKt.SearchBarLayout(traceInProgress, finalBackProgress, firstBackEvent, obj6, i3, tonalElevation4, inputField, surface2, i19, $dirty4, i34 | i47);
                     composer = $dirty4;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
                     animatedShape = tonalElevation4;
-                    obj = surface;
-                    f2 = i11;
+                    obj3 = surface3;
+                    f3 = i7;
                     $composer2 = shape3;
-                    f4 = i17;
-                    windowInsets3 = i10;
+                    f = i11;
+                    windowInsets4 = i3;
                 } else {
                     restartGroup.skipToGroupEnd();
-                    f2 = tonalElevation;
-                    i3 = $dirty2;
-                    f4 = colors2;
+                    f3 = tonalElevation;
+                    i15 = $dirty2;
+                    f = colors3;
                     composer = restartGroup;
-                    animatedShape = windowInsets4;
+                    animatedShape = windowInsets3;
                     $composer2 = shape;
-                    obj = shadowElevation4;
+                    obj3 = shadowElevation4;
                 }
             } else {
             }
@@ -2258,7 +2258,7 @@ public final class SearchBar_androidKt {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new SearchBar_androidKt.SearchBarImpl.1(animationProgress, finalBackProgress, firstBackEvent, currentBackEvent, windowInsets3, inputField, $composer2, obj, f2, f4, animatedShape, obj8, $changed, $changed1, i76);
+            endRestartGroup = new SearchBar_androidKt.SearchBarImpl.1(animationProgress, finalBackProgress, firstBackEvent, currentBackEvent, windowInsets4, inputField, $composer2, obj3, f3, f, animatedShape, obj8, $changed, $changed1, i76);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
@@ -2278,244 +2278,244 @@ public final class SearchBar_androidKt {
     }
 
     private static final void SearchBarLayout(Animatable<Float, AnimationVector1D> animationProgress, MutableFloatState finalBackProgress, MutableState<BackEventCompat> firstBackEvent, MutableState<BackEventCompat> currentBackEvent, Modifier modifier, WindowInsets windowInsets, Function2<? super Composer, ? super Integer, Unit> inputField, Function2<? super Composer, ? super Integer, Unit> surface, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
-        boolean traceInProgress;
-        Object empty2;
+        boolean traceInProgress2;
+        Object $i$a$CacheSearchBar_androidKt$SearchBarLayout$unconsumedInsets$1;
         Object unconsumedInsets;
         kotlin.jvm.functions.Function0 factory$iv$iv;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv3;
         Object $changed$iv;
         Object $i$f$Layout;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv;
-        int $dirty3;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
+        int $dirty2;
         Object $dirty;
         int i2;
         Object str;
         Object mutableWindowInsets;
-        int i4;
+        int i23;
         Object rememberedValue;
-        Integer valueOf;
-        Integer currentCompositionLocalMap2;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv3;
+        Integer valueOf2;
+        Integer currentCompositionLocalMap4;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv;
         int changedInstance2;
         boolean changedInstance;
         int $composer$iv;
         Object it$iv2;
         int empty;
-        Object anon;
-        int i17;
-        int i12;
-        int $dirty2;
-        Composer composer;
-        Integer currentCompositionLocalMap3;
-        Composer composer6;
-        Object currentCompositionLocalMap;
-        int valueOf2;
-        int i27;
-        int i6;
-        int i18;
-        int i19;
+        Object $i$a$CacheSearchBar_androidKt$SearchBarLayout$1;
         int i24;
+        int i5;
+        int $dirty3;
+        Composer composer6;
+        Integer currentCompositionLocalMap3;
+        Composer composer5;
+        Object currentCompositionLocalMap2;
+        int valueOf;
+        int i8;
+        int i22;
+        int i15;
+        int i16;
+        int i17;
         Modifier materializeModifier;
-        boolean traceInProgress2;
-        Object i20;
-        androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy;
+        boolean traceInProgress;
+        Object i14;
+        androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy2;
         int materialized$iv$iv;
-        Composer composer3;
+        Composer composer2;
         Object maybeCachedBoxMeasurePolicy3;
         Object obj;
         int obj6;
-        Composer composer4;
-        Object maybeCachedBoxMeasurePolicy2;
+        Composer composer;
+        Object maybeCachedBoxMeasurePolicy;
         int iNSTANCE;
-        int i;
+        int i12;
+        int i28;
+        Object obj4;
         int i3;
-        Object obj3;
-        int i25;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap4;
-        int i22;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
+        int i18;
         Object currentCompositeKeyHash2;
-        Object obj5;
-        int i16;
-        kotlin.jvm.functions.Function0 function0;
-        int i9;
-        int i21;
-        int i23;
-        Composer composer2;
-        int i5;
+        Object obj3;
+        int i26;
+        kotlin.jvm.functions.Function0 function02;
+        int i7;
+        int i19;
+        int i20;
+        Composer composer3;
+        int i27;
         int companion;
         Object obj2;
         Object it$iv;
         int invalid$iv;
-        int i7;
-        int i13;
-        int i11;
-        int i14;
+        int i21;
+        int i25;
+        int $i$f$setImpl;
+        int i9;
         int i10;
-        int i29;
+        int i11;
         Alignment alignment;
         int currentCompositeKeyHash;
-        Object obj4;
-        int i26;
-        int i15;
-        kotlin.jvm.functions.Function0 function02;
+        Object obj5;
+        int i13;
+        int i4;
+        kotlin.jvm.functions.Function0 function0;
         BoxScopeInstance boxScopeInstance;
-        int i8;
+        int i6;
         Composer $composer2;
         androidx.compose.runtime.CompositionLocalMap map;
         Modifier modifier3;
         Composer composer7;
-        int i28;
+        int i;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
-        androidx.compose.ui.layout.MeasurePolicy measurePolicy;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
-        Composer composer5;
+        androidx.compose.ui.layout.MeasurePolicy measurePolicy;
+        Composer composer4;
         Modifier modifier4;
         Modifier modifier2;
         int obj57;
         $i$f$Layout = animationProgress;
-        maybeCachedBoxMeasurePolicy = modifier;
+        maybeCachedBoxMeasurePolicy2 = modifier;
         materialized$iv$iv = windowInsets;
         obj = inputField;
         obj6 = surface;
-        final int i98 = $changed;
-        traceInProgress = 70029564;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        final int i95 = $changed;
+        traceInProgress2 = 70029564;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(SearchBarLayout)P(!1,3,4,2,6,8,5,7)945@42029L34,950@42191L120,965@42827L5009,946@42068L5768:SearchBar.android.kt#uh7d8r");
-        if (i98 & 6 == 0) {
-            if (i98 & 8 == 0) {
+        if (i95 & 6 == 0) {
+            if (i95 & 8 == 0) {
                 changedInstance = restartGroup.changed($i$f$Layout);
             } else {
                 changedInstance = restartGroup.changedInstance($i$f$Layout);
             }
             i2 = changedInstance != null ? 4 : 2;
-            $dirty3 |= i2;
+            $dirty2 |= i2;
         }
-        if (i98 & 48 == 0) {
-            i3 = restartGroup.changed(finalBackProgress) ? 32 : 16;
-            $dirty3 |= i3;
+        if (i95 & 48 == 0) {
+            i28 = restartGroup.changed(finalBackProgress) ? 32 : 16;
+            $dirty2 |= i28;
         } else {
             str = finalBackProgress;
         }
-        if (i98 & 384 == 0) {
-            i22 = restartGroup.changed(firstBackEvent) ? 256 : 128;
-            $dirty3 |= i22;
+        if (i95 & 384 == 0) {
+            i18 = restartGroup.changed(firstBackEvent) ? 256 : 128;
+            $dirty2 |= i18;
         } else {
-            obj3 = firstBackEvent;
+            obj4 = firstBackEvent;
         }
-        if (i98 & 3072 == 0) {
-            i16 = restartGroup.changed(currentBackEvent) ? 2048 : 1024;
-            $dirty3 |= i16;
+        if (i95 & 3072 == 0) {
+            i26 = restartGroup.changed(currentBackEvent) ? 2048 : 1024;
+            $dirty2 |= i26;
         } else {
             currentCompositeKeyHash2 = currentBackEvent;
         }
-        if (i98 & 24576 == 0) {
-            i27 = restartGroup.changed(maybeCachedBoxMeasurePolicy) ? 16384 : 8192;
-            $dirty3 |= i27;
+        if (i95 & 24576 == 0) {
+            i8 = restartGroup.changed(maybeCachedBoxMeasurePolicy2) ? 16384 : 8192;
+            $dirty2 |= i8;
         }
-        if (i80 &= i98 == 0) {
-            i6 = restartGroup.changed(materialized$iv$iv) ? 131072 : 65536;
-            $dirty3 |= i6;
+        if (i77 &= i95 == 0) {
+            i22 = restartGroup.changed(materialized$iv$iv) ? 131072 : 65536;
+            $dirty2 |= i22;
         }
-        if (i81 &= i98 == 0) {
-            i18 = restartGroup.changedInstance(obj) ? 1048576 : 524288;
-            $dirty3 |= i18;
+        if (i78 &= i95 == 0) {
+            i15 = restartGroup.changedInstance(obj) ? 1048576 : 524288;
+            $dirty2 |= i15;
         }
-        if (i82 &= i98 == 0) {
-            i19 = restartGroup.changedInstance(obj6) ? 8388608 : 4194304;
-            $dirty3 |= i19;
+        if (i79 &= i95 == 0) {
+            i16 = restartGroup.changedInstance(obj6) ? 8388608 : 4194304;
+            $dirty2 |= i16;
         }
-        if (i83 &= i98 == 0) {
-            i24 = restartGroup.changedInstance(content) ? 67108864 : 33554432;
-            $dirty3 |= i24;
+        if (i80 &= i95 == 0) {
+            i17 = restartGroup.changedInstance(content) ? 67108864 : 33554432;
+            $dirty2 |= i17;
         }
-        if (i84 &= $dirty3 == 38347922) {
+        if (i81 &= $dirty2 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty3, -1, "androidx.compose.material3.SearchBarLayout (SearchBar.android.kt:941)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.SearchBarLayout (SearchBar.android.kt:941)");
                 }
                 String str5 = "CC(remember):SearchBar.android.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -660147884, str5);
                 Composer composer10 = restartGroup;
-                int i105 = 0;
+                int i102 = 0;
                 it$iv2 = composer10.rememberedValue();
-                int i108 = 0;
-                int i110 = i31;
+                int i105 = 0;
+                int i107 = i30;
                 if (it$iv2 == Composer.Companion.getEmpty()) {
-                    companion = i39;
+                    companion = i38;
                     it$iv = it$iv2;
                     mutableWindowInsets = new MutableWindowInsets(0, 1, 0);
                     composer10.updateRememberedValue(mutableWindowInsets);
                 } else {
-                    i = 1;
+                    i12 = 1;
                     mutableWindowInsets = it$iv;
                 }
                 unconsumedInsets = mutableWindowInsets;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -660142614, str5);
-                empty = i64 &= $dirty3 == 131072 ? 1 : 0;
+                empty = i62 &= $dirty2 == 131072 ? 1 : 0;
                 Composer composer11 = restartGroup;
-                int i106 = 0;
-                i23 = 0;
+                int i103 = 0;
+                i20 = 0;
                 Object rememberedValue6 = composer11.rememberedValue();
-                int i111 = 0;
+                int i108 = 0;
                 if (empty == 0) {
                     invalid$iv = empty;
                     if (rememberedValue6 == Composer.Companion.getEmpty()) {
                         companion = invalid$iv2;
-                        anon = new SearchBar_androidKt.SearchBarLayout.1.1((MutableWindowInsets)unconsumedInsets, materialized$iv$iv);
-                        composer11.updateRememberedValue((Function1)anon);
+                        $i$a$CacheSearchBar_androidKt$SearchBarLayout$1 = new SearchBar_androidKt.SearchBarLayout.1.1((MutableWindowInsets)unconsumedInsets, materialized$iv$iv);
+                        composer11.updateRememberedValue((Function1)$i$a$CacheSearchBar_androidKt$SearchBarLayout$1);
                     } else {
-                        anon = rememberedValue6;
+                        $i$a$CacheSearchBar_androidKt$SearchBarLayout$1 = rememberedValue6;
                     }
                 } else {
                     invalid$iv = empty;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -660117373, str5);
-                if ($dirty3 & 14 != 4) {
-                    if ($dirty3 & 8 != 0 && restartGroup.changedInstance($i$f$Layout)) {
+                if ($dirty2 & 14 != 4) {
+                    if ($dirty2 & 8 != 0 && restartGroup.changedInstance($i$f$Layout)) {
                         if (restartGroup.changedInstance($i$f$Layout)) {
-                            i4 = 1;
+                            i23 = 1;
                         } else {
-                            i4 = i23;
+                            i23 = i20;
                         }
                     } else {
                     }
                 } else {
                 }
-                i17 = $dirty3 & 7168 == 2048 ? 1 : i23;
-                i12 = $dirty3 & 112 == 32 ? 1 : i23;
-                composer2 = $dirty3 & 896 == 256 ? 1 : i23;
+                i24 = $dirty2 & 7168 == 2048 ? 1 : i20;
+                i5 = $dirty2 & 112 == 32 ? 1 : i20;
+                composer3 = $dirty2 & 896 == 256 ? 1 : i20;
                 Composer composer12 = restartGroup;
-                int i104 = 0;
+                int i101 = 0;
                 rememberedValue = composer12.rememberedValue();
-                int i107 = 0;
-                if (i48 |= composer2 == 0) {
+                int i104 = 0;
+                if (i47 |= composer3 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
-                        i21 = 0;
-                        obj5 = rememberedValue;
-                        i25 = i69;
-                        unconsumedInsets = new SearchBar_androidKt.SearchBarLayout.2.1($i$f$Layout, unconsumedInsets, currentCompositeKeyHash2, finalBackProgress, obj3);
+                        i19 = 0;
+                        obj3 = rememberedValue;
+                        i3 = i67;
+                        unconsumedInsets = new SearchBar_androidKt.SearchBarLayout.2.1($i$f$Layout, unconsumedInsets, currentCompositeKeyHash2, finalBackProgress, obj4);
                         composer12.updateRememberedValue((MeasurePolicy)unconsumedInsets);
                     } else {
-                        i25 = $dirty3;
-                        obj5 = rememberedValue;
+                        i3 = $dirty2;
+                        obj3 = rememberedValue;
                         $dirty = unconsumedInsets;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i32 = i23;
+                int i31 = i20;
                 materializeModifier = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, materializeModifier);
-                currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i23);
-                Modifier materializeModifier4 = ComposedModifierKt.materializeModifier(restartGroup, WindowInsetsPaddingKt.consumeWindowInsets(WindowInsetsPaddingKt.onConsumedWindowInsetsChanged(ZIndexModifierKt.zIndex(maybeCachedBoxMeasurePolicy, 1065353216), (Function1)anon), materialized$iv$iv));
-                i72 |= 6;
+                currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i20);
+                Modifier materializeModifier4 = ComposedModifierKt.materializeModifier(restartGroup, WindowInsetsPaddingKt.consumeWindowInsets(WindowInsetsPaddingKt.onConsumedWindowInsetsChanged(ZIndexModifierKt.zIndex(maybeCachedBoxMeasurePolicy2, 1065353216), (Function1)$i$a$CacheSearchBar_androidKt$SearchBarLayout$1), materialized$iv$iv));
+                i70 |= 6;
                 kotlin.jvm.functions.Function0 function03 = constructor;
-                i16 = 0;
-                i9 = i32;
-                i21 = i40;
+                i26 = 0;
+                i7 = i31;
+                i19 = i39;
                 $i$f$Layout = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $i$f$Layout);
                 if (!applier instanceof Applier) {
@@ -2528,234 +2528,234 @@ public final class SearchBar_androidKt {
                     factory$iv$iv = function03;
                     restartGroup.useNode();
                 }
-                function0 = factory$iv$iv;
+                function02 = factory$iv$iv;
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                int i112 = 0;
+                int i109 = 0;
                 obj2 = $dirty;
                 Updater.set-impl(constructor-impl, (MeasurePolicy)rememberedValue, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                valueOf = 0;
+                valueOf2 = 0;
                 Composer composer13 = constructor-impl;
-                int i114 = 0;
+                int i111 = 0;
                 if (!composer13.getInserting()) {
-                    i11 = valueOf;
-                    i14 = valueOf2;
+                    $i$f$setImpl = valueOf2;
+                    i9 = valueOf;
                     if (!Intrinsics.areEqual(composer13.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
                         composer13.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer13;
+                        composer6 = composer13;
                     }
                 } else {
-                    i11 = valueOf;
-                    i14 = valueOf2;
+                    $i$f$setImpl = valueOf2;
+                    i9 = valueOf;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier4, ComposeUiNode.Companion.getSetModifier());
-                $dirty3 = restartGroup;
-                i5 = i34;
-                ComposerKt.sourceInformationMarkerStart($dirty3, 36789781, "C955@42396L85,956@42494L119:SearchBar.android.kt#uh7d8r");
+                $dirty2 = restartGroup;
+                i27 = i33;
+                ComposerKt.sourceInformationMarkerStart($dirty2, 36789781, "C955@42396L85,956@42494L119:SearchBar.android.kt#uh7d8r");
                 Modifier layoutId = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Surface");
-                int i74 = 1;
-                int i113 = 390;
-                int i115 = 0;
-                i13 = i50;
-                maybeCachedBoxMeasurePolicy = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
-                ComposerKt.sourceInformationMarkerStart($dirty3, 733328855, maybeCachedBoxMeasurePolicy);
+                int i72 = 1;
+                int i110 = 390;
+                int i112 = 0;
+                i25 = i49;
+                maybeCachedBoxMeasurePolicy2 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
+                ComposerKt.sourceInformationMarkerStart($dirty2, 733328855, maybeCachedBoxMeasurePolicy2);
                 Alignment topStart = Alignment.Companion.getTopStart();
-                maybeCachedBoxMeasurePolicy3 = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i74);
-                int i120 = 0;
+                maybeCachedBoxMeasurePolicy3 = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i72);
+                int i117 = 0;
                 Alignment alignment2 = topStart;
-                ComposerKt.sourceInformationMarkerStart($dirty3, -1323940314, materializeModifier);
-                int currentCompositeKeyHash4 = ComposablesKt.getCurrentCompositeKeyHash($dirty3, 0);
-                currentCompositionLocalMap2 = $dirty3.getCurrentCompositionLocalMap();
-                int i121 = i74;
-                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier($dirty3, layoutId);
+                ComposerKt.sourceInformationMarkerStart($dirty2, -1323940314, materializeModifier);
+                int currentCompositeKeyHash4 = ComposablesKt.getCurrentCompositeKeyHash($dirty2, 0);
+                currentCompositionLocalMap4 = $dirty2.getCurrentCompositionLocalMap();
+                int i118 = i72;
+                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier($dirty2, layoutId);
                 Modifier modifier5 = layoutId;
                 kotlin.jvm.functions.Function0 function06 = constructor4;
-                int i123 = 0;
-                ComposerKt.sourceInformationMarkerStart($dirty3, -692256719, $i$f$Layout);
+                int i120 = 0;
+                ComposerKt.sourceInformationMarkerStart($dirty2, -692256719, $i$f$Layout);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                $dirty3.startReusableNode();
-                if ($dirty3.getInserting()) {
-                    $dirty3.createNode(function06);
+                $dirty2.startReusableNode();
+                if ($dirty2.getInserting()) {
+                    $dirty2.createNode(function06);
                 } else {
-                    factory$iv$iv$iv2 = function06;
-                    $dirty3.useNode();
+                    factory$iv$iv$iv3 = function06;
+                    $dirty2.useNode();
                 }
-                kotlin.jvm.functions.Function0 function07 = factory$iv$iv$iv2;
-                Composer constructor-impl2 = Updater.constructor-impl($dirty3);
-                int i129 = 0;
+                kotlin.jvm.functions.Function0 function07 = factory$iv$iv$iv3;
+                Composer constructor-impl2 = Updater.constructor-impl($dirty2);
+                int i126 = 0;
                 modifier3 = materializeModifier4;
                 Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy3, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl2, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i132 = 0;
+                Updater.set-impl(constructor-impl2, currentCompositionLocalMap4, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i129 = 0;
                 Composer composer16 = constructor-impl2;
-                int i136 = 0;
+                int i133 = 0;
                 if (!composer16.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap2;
-                    measurePolicy2 = maybeCachedBoxMeasurePolicy3;
+                    localMap$iv$iv = currentCompositionLocalMap4;
+                    measurePolicy = maybeCachedBoxMeasurePolicy3;
                     if (!Intrinsics.areEqual(composer16.rememberedValue(), Integer.valueOf(currentCompositeKeyHash4))) {
                         composer16.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash4));
                         constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash4), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer16;
+                        composer2 = composer16;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap2;
-                    measurePolicy2 = maybeCachedBoxMeasurePolicy3;
+                    localMap$iv$iv = currentCompositionLocalMap4;
+                    measurePolicy = maybeCachedBoxMeasurePolicy3;
                 }
                 Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
-                Composer composer8 = $dirty3;
-                int i87 = 0;
-                int i130 = i38;
+                Composer composer8 = $dirty2;
+                int i84 = 0;
+                int i127 = i37;
                 $changed$iv = "C73@3429L9:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(composer8, -2146769399, $changed$iv);
                 BoxScopeInstance iNSTANCE4 = BoxScopeInstance.INSTANCE;
-                i134 |= 6;
-                int i138 = 0;
+                i131 |= 6;
+                int i135 = 0;
                 modifier2 = materializeModifier2;
                 Composer materialized$iv$iv2 = composer18;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv2, 1442016074, "C955@42470L9:SearchBar.android.kt#uh7d8r");
-                obj6.invoke(materialized$iv$iv2, Integer.valueOf(i53 &= 14));
+                obj6.invoke(materialized$iv$iv2, Integer.valueOf(i51 &= 14));
                 ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv2);
                 ComposerKt.sourceInformationMarkerEnd(composer8);
-                $dirty3.endNode();
-                ComposerKt.sourceInformationMarkerEnd($dirty3);
-                ComposerKt.sourceInformationMarkerEnd($dirty3);
-                ComposerKt.sourceInformationMarkerEnd($dirty3);
+                $dirty2.endNode();
+                ComposerKt.sourceInformationMarkerEnd($dirty2);
+                ComposerKt.sourceInformationMarkerEnd($dirty2);
+                ComposerKt.sourceInformationMarkerEnd($dirty2);
                 Modifier layoutId2 = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "InputField");
-                int i75 = 1;
-                companion = i88;
-                ComposerKt.sourceInformationMarkerStart($dirty3, 733328855, maybeCachedBoxMeasurePolicy);
+                int i73 = 1;
+                companion = i85;
+                ComposerKt.sourceInformationMarkerStart($dirty2, 733328855, maybeCachedBoxMeasurePolicy2);
                 Alignment topStart3 = Alignment.Companion.getTopStart();
-                maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart3, i75);
+                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart3, i73);
                 i10 = 0;
-                alignment = i75;
-                ComposerKt.sourceInformationMarkerStart($dirty3, -1323940314, materializeModifier);
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($dirty3, 0);
-                currentCompositionLocalMap3 = $dirty3.getCurrentCompositionLocalMap();
-                obj4 = topStart3;
-                Modifier materializeModifier3 = ComposedModifierKt.materializeModifier($dirty3, layoutId2);
-                i15 = layoutId2;
+                alignment = i73;
+                ComposerKt.sourceInformationMarkerStart($dirty2, -1323940314, materializeModifier);
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($dirty2, 0);
+                currentCompositionLocalMap3 = $dirty2.getCurrentCompositionLocalMap();
+                obj5 = topStart3;
+                Modifier materializeModifier3 = ComposedModifierKt.materializeModifier($dirty2, layoutId2);
+                i4 = layoutId2;
                 kotlin.jvm.functions.Function0 function05 = constructor3;
-                i26 = 0;
-                ComposerKt.sourceInformationMarkerStart($dirty3, -692256719, $i$f$Layout);
+                i13 = 0;
+                ComposerKt.sourceInformationMarkerStart($dirty2, -692256719, $i$f$Layout);
                 if (!applier4 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                $dirty3.startReusableNode();
-                if ($dirty3.getInserting()) {
-                    $dirty3.createNode(function05);
+                $dirty2.startReusableNode();
+                if ($dirty2.getInserting()) {
+                    $dirty2.createNode(function05);
                 } else {
-                    factory$iv$iv$iv3 = function05;
-                    $dirty3.useNode();
+                    factory$iv$iv$iv = function05;
+                    $dirty2.useNode();
                 }
-                function02 = factory$iv$iv$iv3;
-                Composer constructor-impl3 = Updater.constructor-impl($dirty3);
-                int i125 = 0;
-                map = i96;
-                Updater.set-impl(constructor-impl3, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                function0 = factory$iv$iv$iv;
+                Composer constructor-impl3 = Updater.constructor-impl($dirty2);
+                int i122 = 0;
+                map = i93;
+                Updater.set-impl(constructor-impl3, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl3, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i131 = 0;
+                int i128 = 0;
                 Composer composer17 = constructor-impl3;
-                int i137 = 0;
+                int i134 = 0;
                 if (!composer17.getInserting()) {
                     localMap$iv$iv2 = currentCompositionLocalMap3;
-                    measurePolicy = maybeCachedBoxMeasurePolicy2;
+                    measurePolicy2 = maybeCachedBoxMeasurePolicy;
                     if (!Intrinsics.areEqual(composer17.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer17.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl3.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer4 = composer17;
+                        composer = composer17;
                     }
                 } else {
                     localMap$iv$iv2 = currentCompositionLocalMap3;
-                    measurePolicy = maybeCachedBoxMeasurePolicy2;
+                    measurePolicy2 = maybeCachedBoxMeasurePolicy;
                 }
                 Updater.set-impl(constructor-impl3, materializeModifier3, ComposeUiNode.Companion.getSetModifier());
-                Composer composer9 = $dirty3;
+                Composer composer9 = $dirty2;
                 obj6 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer9, -2146769399, $changed$iv);
                 iNSTANCE = BoxScopeInstance.INSTANCE;
-                i127 |= 6;
+                i124 |= 6;
                 composer7 = 0;
-                i28 = i58;
+                i = i56;
                 modifier4 = materializeModifier3;
                 materialized$iv$iv = composer15;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, 1442132231, "C957@42587L12:SearchBar.android.kt#uh7d8r");
-                obj.invoke(materialized$iv$iv, Integer.valueOf(i59 &= 14));
+                obj.invoke(materialized$iv$iv, Integer.valueOf(i57 &= 14));
                 ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer9);
-                $dirty3.endNode();
-                ComposerKt.sourceInformationMarkerEnd($dirty3);
-                ComposerKt.sourceInformationMarkerEnd($dirty3);
-                ComposerKt.sourceInformationMarkerEnd($dirty3);
-                $dirty3.startReplaceGroup(-1107184481);
-                ComposerKt.sourceInformation($dirty3, "*960@42668L127");
+                $dirty2.endNode();
+                ComposerKt.sourceInformationMarkerEnd($dirty2);
+                ComposerKt.sourceInformationMarkerEnd($dirty2);
+                ComposerKt.sourceInformationMarkerEnd($dirty2);
+                $dirty2.startReplaceGroup(-1107184481);
+                ComposerKt.sourceInformation($dirty2, "*960@42668L127");
                 if (content == null) {
-                    $composer2 = $dirty3;
+                    $composer2 = $dirty2;
                 } else {
                     Modifier layoutId3 = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "Content");
                     iNSTANCE = 390;
                     companion = 0;
-                    i7 = i77;
-                    ComposerKt.sourceInformationMarkerStart($dirty3, 733328855, maybeCachedBoxMeasurePolicy);
+                    i21 = i75;
+                    ComposerKt.sourceInformationMarkerStart($dirty2, 733328855, maybeCachedBoxMeasurePolicy2);
                     Alignment topStart2 = Alignment.Companion.getTopStart();
-                    i29 = 0;
+                    i11 = 0;
                     alignment = topStart2;
-                    ComposerKt.sourceInformationMarkerStart($dirty3, -1323940314, materializeModifier);
-                    currentCompositionLocalMap = $dirty3.getCurrentCompositionLocalMap();
+                    ComposerKt.sourceInformationMarkerStart($dirty2, -1323940314, materializeModifier);
+                    currentCompositionLocalMap2 = $dirty2.getCurrentCompositionLocalMap();
                     obj57 = currentCompositeKeyHash3;
-                    obj4 = layoutId3;
+                    obj5 = layoutId3;
                     kotlin.jvm.functions.Function0 function04 = constructor2;
                     currentCompositeKeyHash = 0;
-                    ComposerKt.sourceInformationMarkerStart($dirty3, -692256719, $i$f$Layout);
+                    ComposerKt.sourceInformationMarkerStart($dirty2, -692256719, $i$f$Layout);
                     if (!applier3 instanceof Applier) {
                         ComposablesKt.invalidApplier();
                     }
-                    $dirty3.startReusableNode();
-                    if ($dirty3.getInserting()) {
-                        $dirty3.createNode(function04);
+                    $dirty2.startReusableNode();
+                    if ($dirty2.getInserting()) {
+                        $dirty2.createNode(function04);
                     } else {
-                        factory$iv$iv$iv = function04;
-                        $dirty3.useNode();
+                        factory$iv$iv$iv2 = function04;
+                        $dirty2.useNode();
                     }
-                    Composer constructor-impl4 = Updater.constructor-impl($dirty3);
-                    int i109 = 0;
-                    function02 = factory$iv$iv$iv;
+                    Composer constructor-impl4 = Updater.constructor-impl($dirty2);
+                    int i106 = 0;
+                    function0 = factory$iv$iv$iv2;
                     Updater.set-impl(constructor-impl4, BoxKt.maybeCachedBoxMeasurePolicy(topStart2, true), ComposeUiNode.Companion.getSetMeasurePolicy());
-                    Updater.set-impl(constructor-impl4, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                    int i122 = 0;
+                    Updater.set-impl(constructor-impl4, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                    int i119 = 0;
                     Composer composer14 = constructor-impl4;
-                    int i128 = 0;
+                    int i125 = 0;
                     if (!composer14.getInserting()) {
-                        $composer2 = $dirty3;
-                        map = currentCompositionLocalMap;
+                        $composer2 = $dirty2;
+                        map = currentCompositionLocalMap2;
                         if (!Intrinsics.areEqual(composer14.rememberedValue(), Integer.valueOf(obj57))) {
                             composer14.updateRememberedValue(Integer.valueOf(obj57));
                             constructor-impl4.apply(Integer.valueOf(obj57), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer6 = composer14;
+                            composer5 = composer14;
                         }
                     } else {
-                        $composer2 = $dirty3;
-                        map = currentCompositionLocalMap;
+                        $composer2 = $dirty2;
+                        map = currentCompositionLocalMap2;
                     }
-                    Updater.set-impl(constructor-impl4, ComposedModifierKt.materializeModifier($dirty3, layoutId3), ComposeUiNode.Companion.getSetModifier());
-                    $dirty3 = $composer2;
+                    Updater.set-impl(constructor-impl4, ComposedModifierKt.materializeModifier($dirty2, layoutId3), ComposeUiNode.Companion.getSetModifier());
+                    $dirty2 = $composer2;
                     $composer$iv = 0;
-                    ComposerKt.sourceInformationMarkerStart($dirty3, -2146769399, $changed$iv);
-                    i93 |= 6;
-                    composer2 = $dirty3;
-                    i26 = 0;
+                    ComposerKt.sourceInformationMarkerStart($dirty2, -2146769399, $changed$iv);
+                    i90 |= 6;
+                    composer3 = $dirty2;
+                    i13 = 0;
                     boxScopeInstance = iNSTANCE2;
-                    i8 = i42;
-                    ComposerKt.sourceInformationMarkerStart($dirty3, 1302856683, "C961@42768L9:SearchBar.android.kt#uh7d8r");
-                    content.invoke($dirty3, 0);
-                    ComposerKt.sourceInformationMarkerEnd($dirty3);
-                    ComposerKt.sourceInformationMarkerEnd($dirty3);
+                    i6 = i41;
+                    ComposerKt.sourceInformationMarkerStart($dirty2, 1302856683, "C961@42768L9:SearchBar.android.kt#uh7d8r");
+                    content.invoke($dirty2, 0);
+                    ComposerKt.sourceInformationMarkerEnd($dirty2);
+                    ComposerKt.sourceInformationMarkerEnd($dirty2);
                     $composer2.endNode();
                     ComposerKt.sourceInformationMarkerEnd($composer2);
                     ComposerKt.sourceInformationMarkerEnd($composer2);
@@ -2773,14 +2773,14 @@ public final class SearchBar_androidKt {
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i25 = $dirty3;
+                i3 = $dirty2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new SearchBar_androidKt.SearchBarLayout.4(animationProgress, finalBackProgress, firstBackEvent, currentBackEvent, modifier, windowInsets, obj, surface, content, i98);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new SearchBar_androidKt.SearchBarLayout.4(animationProgress, finalBackProgress, firstBackEvent, currentBackEvent, modifier, windowInsets, obj, surface, content, i95);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -2862,19 +2862,19 @@ public final class SearchBar_androidKt {
     }
 
     private static final int calculatePredictiveBackOffsetX-rOvwMX4(long constraints, int minMargin, BackEventCompat currentBackEvent, LayoutDirection layoutDirection, float progress, float predictiveBackMultiplier) {
+        int i4;
+        int i3;
         int i;
         int i2;
-        int i3;
-        int i4;
         int i5 = 0;
         if (layoutDirection != null) {
-            i4 = 1;
-            i2 = Float.compare(obj12, i6) == 0 ? i4 : i5;
-            if (i2 != 0) {
+            i2 = 1;
+            i3 = Float.compare(obj12, i6) == 0 ? i2 : i5;
+            if (i3 != 0) {
             } else {
-                i = layoutDirection.getSwipeEdge() == 0 ? i4 : i3;
+                i4 = layoutDirection.getSwipeEdge() == 0 ? i2 : i;
                 if (progress == LayoutDirection.Ltr) {
-                    i3 = i4;
+                    i = i2;
                 }
             }
             return MathKt.roundToInt(i13 *= f5);

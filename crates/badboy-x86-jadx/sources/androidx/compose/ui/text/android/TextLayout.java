@@ -47,44 +47,44 @@ public final class TextLayout {
     }
 
     public TextLayout(java.lang.CharSequence charSequence, float width, TextPaint textPaint, int alignment, TextUtils.TruncateAt ellipsize, int textDirectionHeuristic, float lineSpacingMultiplier, float lineSpacingExtra, boolean includePadding, boolean fallbackLineSpacing, int maxLines, int breakStrategy, int lineBreakStyle, int lineBreakWordStyle, int hyphenationFrequency, int justificationMode, int[] leftIndents, int[] rightIndents, androidx.compose.ui.text.android.LayoutIntrinsics layoutIntrinsics) {
-        int i11;
+        int i8;
         int boringMetrics;
         Object create;
-        Object obj;
+        Object obj3;
         int ellipsisCount;
         TextPaint end;
-        int i9;
+        int i11;
         long l;
-        int i10;
-        int i8;
-        int i12;
+        int i4;
+        int i;
+        int i6;
         android.text.Layout.Alignment alignment2;
         Object obj6;
         android.text.TextDirectionHeuristic textDirectionHeuristic2;
-        int i2;
+        int i12;
         android.text.Layout.Alignment widthInt;
         Class<androidx.compose.ui.text.android.style.BaselineShiftSpan> cmp;
-        Class<androidx.compose.ui.text.android.style.BaselineShiftSpan> obj2;
+        Class<androidx.compose.ui.text.android.style.BaselineShiftSpan> obj;
         TextUtils.TruncateAt truncateAt;
         int lineHeightSpans;
         int f;
         float textPaint2;
-        float z;
-        int z2;
+        float z2;
+        int z3;
         boolean frameworkTextDir;
-        boolean z3;
-        int i5;
+        boolean z;
+        int i7;
+        int i10;
         int i3;
-        int i4;
-        int i;
+        int i2;
         int[] iArr2;
         int[] iArr;
-        int i6;
-        Class<androidx.compose.ui.text.android.style.BaselineShiftSpan> obj3;
-        int i7;
+        int i9;
+        Class<androidx.compose.ui.text.android.style.BaselineShiftSpan> obj2;
+        int i5;
         android.text.BoringLayout.Metrics metrics;
         final Object obj5 = this;
-        obj = charSequence;
+        obj3 = charSequence;
         f = width;
         super();
         obj5.textPaint = textPaint;
@@ -93,69 +93,69 @@ public final class TextLayout {
         obj5.layoutIntrinsics = layoutIntrinsics;
         Rect rect = new Rect();
         obj5.rect = rect;
-        int length = obj.length();
+        int length = obj3.length();
         frameworkTextDir = TextLayout_androidKt.getTextDirectionHeuristic(textDirectionHeuristic);
         alignment2 = TextAlignmentAdapter.INSTANCE.get(alignment);
         int i17 = 1;
         int i18 = 0;
-        if (obj instanceof Spanned) {
-            i11 = (Spanned)obj.nextSpanTransition(-1, length, BaselineShiftSpan.class) < length ? i17 : i18;
+        if (obj3 instanceof Spanned) {
+            i8 = (Spanned)obj3.nextSpanTransition(-1, length, BaselineShiftSpan.class) < length ? i17 : i18;
         } else {
-            i11 = i18;
+            i8 = i18;
         }
         Trace.beginSection("TextLayout:initLayout");
         android.text.BoringLayout.Metrics boringMetrics2 = obj5.layoutIntrinsics.getBoringMetrics();
         int i19 = (int)f3;
         if (boringMetrics2 != null && Float.compare(maxIntrinsicWidth, f) <= 0) {
             if (Float.compare(maxIntrinsicWidth, f) <= 0) {
-                if (i11 == 0) {
+                if (i8 == 0) {
                     obj5.isBoringLayout = i17;
-                    i9 = i19;
-                    i6 = i17;
-                    i7 = i22;
-                    i10 = boringMetrics2;
-                    boringMetrics = z3;
-                    create = BoringLayoutFactory.INSTANCE.create(obj, obj5.textPaint, i9, i10, alignment2, obj5.includePadding, obj5.fallbackLineSpacing, ellipsize, i9);
-                    metrics = i10;
-                    obj2 = maxLines;
+                    i11 = i19;
+                    i9 = i17;
+                    i5 = i22;
+                    i4 = boringMetrics2;
+                    boringMetrics = z;
+                    create = BoringLayoutFactory.INSTANCE.create(obj3, obj5.textPaint, i11, i4, alignment2, obj5.includePadding, obj5.fallbackLineSpacing, ellipsize, i11);
+                    metrics = i4;
+                    obj = maxLines;
                     textDirectionHeuristic2 = frameworkTextDir;
                 } else {
                     metrics = boringMetrics2;
-                    i7 = length;
-                    i6 = i17;
+                    i5 = length;
+                    i9 = i17;
                     boringMetrics = i18;
-                    i9 = i19;
+                    i11 = i19;
                     obj5.isBoringLayout = boringMetrics;
                     widthInt = alignment2;
-                    create = StaticLayoutFactory.INSTANCE.create(charSequence, obj5.textPaint, i9, 0, charSequence.length(), frameworkTextDir, widthInt, maxLines, ellipsize, (int)f2, lineSpacingMultiplier, lineSpacingExtra, justificationMode, obj5.includePadding, obj5.fallbackLineSpacing, breakStrategy, lineBreakStyle, lineBreakWordStyle, hyphenationFrequency, leftIndents, rightIndents);
+                    create = StaticLayoutFactory.INSTANCE.create(charSequence, obj5.textPaint, i11, 0, charSequence.length(), frameworkTextDir, widthInt, maxLines, ellipsize, (int)f2, lineSpacingMultiplier, lineSpacingExtra, justificationMode, obj5.includePadding, obj5.fallbackLineSpacing, breakStrategy, lineBreakStyle, lineBreakWordStyle, hyphenationFrequency, leftIndents, rightIndents);
                     alignment2 = widthInt;
                 }
             } else {
                 metrics = boringMetrics2;
-                i7 = length;
-                i6 = i17;
+                i5 = length;
+                i9 = i17;
                 boringMetrics = i18;
-                i9 = i19;
+                i11 = i19;
             }
         } else {
         }
         obj5.layout = create;
         Trace.endSection();
-        obj5.lineCount = Math.min(obj5.layout.getLineCount(), obj2);
+        obj5.lineCount = Math.min(obj5.layout.getLineCount(), obj);
         lineCount2--;
-        if (obj5.lineCount < obj2) {
-            i8 = boringMetrics;
+        if (obj5.lineCount < obj) {
+            i = boringMetrics;
         } else {
             if (obj5.layout.getEllipsisCount(i14) <= 0) {
                 if (obj5.layout.getLineEnd(i14) != charSequence.length()) {
-                    i8 = i6;
+                    i = i9;
                 } else {
-                    i8 = boringMetrics;
+                    i = boringMetrics;
                 }
             } else {
             }
         }
-        obj5.didExceedMaxLines = i8;
+        obj5.didExceedMaxLines = i;
         long l2 = TextLayout_androidKt.access$getVerticalPaddings(obj5);
         obj5.lineHeightSpans = TextLayout_androidKt.access$getLineHeightSpans(obj5);
         LineHeightStyleSpan[] lineHeightSpans2 = obj5.lineHeightSpans;
@@ -180,57 +180,57 @@ public final class TextLayout {
     }
 
     public TextLayout(java.lang.CharSequence charSequence, float f2, TextPaint textPaint3, int i4, TextUtils.TruncateAt textUtils$TruncateAt5, int i6, float f7, float f8, boolean z9, boolean z10, int i11, int i12, int i13, int i14, int i15, int i16, int[] i17Arr17, int[] i18Arr18, androidx.compose.ui.text.android.LayoutIntrinsics layoutIntrinsics19, int i20, DefaultConstructorMarker defaultConstructorMarker21) {
-        int layoutIntrinsics;
-        int i24;
-        int i10;
+        int layoutIntrinsics2;
+        int i2;
+        int i23;
         int i9;
-        int i28;
-        int i25;
+        int i17;
+        int i3;
         java.lang.CharSequence charSequence2;
         TextPaint textPaint;
-        int i17;
-        int i26;
         int i19;
-        int i18;
-        int i22;
-        int i2;
-        int i27;
+        int i25;
+        int i10;
         int i;
-        int i3;
-        int i21;
-        int i7;
-        int i5;
+        int i26;
+        int i27;
+        int i18;
         int i29;
+        int i24;
+        int i5;
+        int i7;
+        int i28;
         int i8;
-        int i23;
-        androidx.compose.ui.text.android.LayoutIntrinsics layoutIntrinsics2;
+        int i21;
+        int i22;
+        androidx.compose.ui.text.android.LayoutIntrinsics layoutIntrinsics;
         int i30 = i20;
         final int i45 = 0;
-        i17 = i30 & 8 != 0 ? i45 : i4;
+        i19 = i30 & 8 != 0 ? i45 : i4;
         int i46 = 0;
-        i26 = i30 & 16 != 0 ? i46 : truncateAt5;
-        i19 = i30 & 32 != 0 ? i24 : i6;
-        i18 = i30 & 64 != 0 ? i10 : f7;
-        i22 = i30 & 128 != 0 ? i9 : f8;
-        i2 = i30 & 256 != 0 ? i45 : z9;
-        i27 = i30 & 512 != 0 ? i28 : z10;
-        i = i30 & 1024 != 0 ? i25 : i11;
-        i3 = i30 & 2048 != 0 ? i45 : i12;
-        i21 = i30 & 4096 != 0 ? i45 : i13;
+        i25 = i30 & 16 != 0 ? i46 : truncateAt5;
+        i10 = i30 & 32 != 0 ? i2 : i6;
+        i = i30 & 64 != 0 ? i23 : f7;
+        i26 = i30 & 128 != 0 ? i9 : f8;
+        i27 = i30 & 256 != 0 ? i45 : z9;
+        i18 = i30 & 512 != 0 ? i17 : z10;
+        i29 = i30 & 1024 != 0 ? i3 : i11;
+        i24 = i30 & 2048 != 0 ? i45 : i12;
+        i5 = i30 & 4096 != 0 ? i45 : i13;
         i7 = i30 & 8192 != 0 ? i45 : i14;
-        i5 = i30 & 16384 != 0 ? i45 : i15;
-        i29 = i38 &= i30 != 0 ? i45 : i16;
-        i8 = i40 &= i30 != 0 ? i46 : i17Arr17;
-        i23 = i42 &= i30 != 0 ? i46 : i18Arr18;
+        i28 = i30 & 16384 != 0 ? i45 : i15;
+        i8 = i38 &= i30 != 0 ? i45 : i16;
+        i21 = i40 &= i30 != 0 ? i46 : i17Arr17;
+        i22 = i42 &= i30 != 0 ? i46 : i18Arr18;
         if (i30 &= i44 != 0) {
-            layoutIntrinsics = new LayoutIntrinsics(charSequence, textPaint3, i19);
-            layoutIntrinsics2 = layoutIntrinsics;
+            layoutIntrinsics2 = new LayoutIntrinsics(charSequence, textPaint3, i10);
+            layoutIntrinsics = layoutIntrinsics2;
         } else {
             charSequence2 = charSequence;
             textPaint = textPaint3;
-            layoutIntrinsics2 = layoutIntrinsics19;
+            layoutIntrinsics = layoutIntrinsics19;
         }
-        super(charSequence2, f2, textPaint, i17, i26, i19, i18, i22, i2, i27, i, i3, i21, i7, i5, i29, i8, i23, layoutIntrinsics2);
+        super(charSequence2, f2, textPaint, i19, i25, i10, i, i26, i27, i18, i29, i24, i5, i7, i28, i8, i21, i22, layoutIntrinsics);
     }
 
     public static void getBottomPadding$ui_text_release$annotations() {
@@ -284,47 +284,47 @@ public final class TextLayout {
     public final void fillBoundingBoxes(int startOffset, int endOffset, float[] array, int arrayStart) {
         androidx.compose.ui.text.android.TextLayout textLayout;
         float secondaryUpstream;
-        int i7;
-        int i4;
-        int offset;
-        int i10;
-        int i11;
-        int i6;
         int i9;
         int i;
+        int offset;
+        int i8;
+        int i2;
+        int i5;
+        int i3;
+        int i7;
         int arrayOffset;
         int line;
         int lineStart;
         int lineEnd;
-        int i3;
+        int i10;
         float lineTop;
         float lineBottom;
-        int i2;
-        int i5;
+        int i6;
+        int i11;
         boolean rtlCharAt;
         float left;
-        int i8;
+        int i4;
         int right;
         textLayout = this;
-        i7 = startOffset;
+        i9 = startOffset;
         final int i19 = endOffset;
         final float[] fArr = array;
         int length = textLayout.getText().length();
         offset = 1;
-        i10 = i7 >= 0 ? offset : 0;
-        if (i10 == 0) {
+        i8 = i9 >= 0 ? offset : 0;
+        if (i8 == 0) {
         } else {
-            i11 = i7 < length ? offset : 0;
-            if (i11 == 0) {
+            i2 = i9 < length ? offset : 0;
+            if (i2 == 0) {
             } else {
-                i6 = i19 > i7 ? offset : 0;
-                if (i6 == 0) {
+                i5 = i19 > i9 ? offset : 0;
+                if (i5 == 0) {
                 } else {
-                    i9 = i19 <= length ? offset : 0;
-                    if (i9 == 0) {
+                    i3 = i19 <= length ? offset : 0;
+                    if (i3 == 0) {
                     } else {
-                        i = length2 -= arrayStart >= i20 * 4 ? offset : 0;
-                        if (i == 0) {
+                        i7 = length2 -= arrayStart >= i20 * 4 ? offset : 0;
+                        if (i7 == 0) {
                         } else {
                             int lineForOffset2 = textLayout.getLineForOffset(i19 + -1);
                             HorizontalPositionCache horizontalPositionCache = new HorizontalPositionCache(textLayout);
@@ -333,45 +333,45 @@ public final class TextLayout {
                             }
                         }
                         int i15 = 0;
-                        IllegalArgumentException illegalArgumentException4 = new IllegalArgumentException("array.size - arrayStart must be greater or equal than (endOffset - startOffset) * 4".toString());
-                        throw illegalArgumentException4;
+                        IllegalArgumentException $i$a$RequireTextLayout$fillBoundingBoxes$5 = new IllegalArgumentException("array.size - arrayStart must be greater or equal than (endOffset - startOffset) * 4".toString());
+                        throw $i$a$RequireTextLayout$fillBoundingBoxes$5;
                     }
                     int i14 = 0;
-                    IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("endOffset must be smaller or equal to text length".toString());
-                    throw illegalArgumentException3;
+                    IllegalArgumentException $i$a$RequireTextLayout$fillBoundingBoxes$4 = new IllegalArgumentException("endOffset must be smaller or equal to text length".toString());
+                    throw $i$a$RequireTextLayout$fillBoundingBoxes$4;
                 }
                 int i18 = 0;
-                IllegalArgumentException illegalArgumentException5 = new IllegalArgumentException("endOffset must be greater than startOffset".toString());
-                throw illegalArgumentException5;
+                IllegalArgumentException $i$a$RequireTextLayout$fillBoundingBoxes$3 = new IllegalArgumentException("endOffset must be greater than startOffset".toString());
+                throw $i$a$RequireTextLayout$fillBoundingBoxes$3;
             }
             int i13 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("startOffset must be less than text length".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireTextLayout$fillBoundingBoxes$2 = new IllegalArgumentException("startOffset must be less than text length".toString());
+            throw $i$a$RequireTextLayout$fillBoundingBoxes$2;
         }
         int i12 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("startOffset must be > 0".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireTextLayout$fillBoundingBoxes$1 = new IllegalArgumentException("startOffset must be > 0".toString());
+        throw $i$a$RequireTextLayout$fillBoundingBoxes$1;
     }
 
     public final void fillLineHorizontalBounds$ui_text_release(int lineIndex, float[] array) {
-        int i4;
         int i;
+        int i2;
         int arrayOffset;
         int offset;
         boolean rtlCharAt;
         float left;
         float right;
         int i3;
-        int i2;
+        int i4;
         final int lineStart = getLineStart(lineIndex);
         final int lineEnd = getLineEnd(lineIndex);
         int i7 = 1;
-        i4 = array.length >= i5 * 2 ? i7 : i;
-        if (i4 == 0) {
+        i = array.length >= i5 * 2 ? i7 : i2;
+        if (i == 0) {
         } else {
             HorizontalPositionCache horizontalPositionCache = new HorizontalPositionCache(this);
             if (getParagraphDirection(lineIndex) == i7) {
-                i = i7;
+                i2 = i7;
             }
             arrayOffset = 0;
             offset = lineStart;
@@ -379,10 +379,10 @@ public final class TextLayout {
                 rtlCharAt = isRtlCharAt(offset);
                 int i8 = 0;
                 int i9 = 0;
-                if (i != 0 && !rtlCharAt) {
+                if (i2 != 0 && !rtlCharAt) {
                 } else {
                 }
-                if (i != 0 && rtlCharAt) {
+                if (i2 != 0 && rtlCharAt) {
                 } else {
                 }
                 if (rtlCharAt) {
@@ -409,8 +409,8 @@ public final class TextLayout {
             }
         }
         int cache = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("array.size - arrayStart must be greater or equal than (endOffset - startOffset) * 2".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireTextLayout$fillLineHorizontalBounds$1 = new IllegalArgumentException("array.size - arrayStart must be greater or equal than (endOffset - startOffset) * 2".toString());
+        throw $i$a$RequireTextLayout$fillLineHorizontalBounds$1;
     }
 
     public final int getBottomPadding$ui_text_release() {
@@ -419,10 +419,10 @@ public final class TextLayout {
 
     public final RectF getBoundingBox(int offset) {
         int i;
-        float right;
+        float right2;
         float secondaryHorizontal;
         int left;
-        int right2;
+        int right;
         float f;
         final int lineForOffset = getLineForOffset(offset);
         int i2 = 0;
@@ -430,22 +430,22 @@ public final class TextLayout {
         i = getParagraphDirection(lineForOffset) == i3 ? i3 : i2;
         boolean rtlCharAt = this.layout.isRtlCharAt(offset);
         left = 0;
-        right2 = 0;
+        right = 0;
         if (i != 0 && !rtlCharAt) {
             if (!rtlCharAt) {
-                right = getPrimaryHorizontal(offset, i2);
+                right2 = getPrimaryHorizontal(offset, i2);
                 secondaryHorizontal = getPrimaryHorizontal(offset + 1, i3);
             } else {
                 if (i != 0 && rtlCharAt) {
                     if (rtlCharAt) {
                         secondaryHorizontal = secondaryHorizontal2;
-                        right = f;
+                        right2 = f;
                     } else {
                         if (rtlCharAt) {
                             secondaryHorizontal = primaryHorizontal;
-                            right = f;
+                            right2 = f;
                         } else {
-                            right = getSecondaryHorizontal(offset, i2);
+                            right2 = getSecondaryHorizontal(offset, i2);
                             secondaryHorizontal = getSecondaryHorizontal(offset + 1, i3);
                         }
                     }
@@ -454,7 +454,7 @@ public final class TextLayout {
             }
         } else {
         }
-        RectF rectF = new RectF(right, getLineTop(lineForOffset), secondaryHorizontal, getLineBottom(lineForOffset));
+        RectF rectF = new RectF(right2, getLineTop(lineForOffset), secondaryHorizontal, getLineBottom(lineForOffset));
         return rectF;
     }
 
@@ -705,8 +705,8 @@ public final class TextLayout {
     }
 
     public final void paint(Canvas canvas) {
-        int topPadding2;
         int topPadding;
+        int topPadding2;
         int i;
         if (!canvas.getClipBounds(this.rect)) {
         }

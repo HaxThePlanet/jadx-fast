@@ -66,111 +66,111 @@ public final class ChipColors {
     }
 
     public final androidx.compose.material3.ChipColors copy-FD3wquc(long containerColor, long labelColor, long leadingIconContentColor, long trailingIconContentColor, long disabledContainerColor, long disabledLabelColor, long disabledLeadingIconContentColor, long disabledTrailingIconContentColor) {
-        int $this$isSpecified$iv$iv5;
+        int $i$a$TakeOrElseDxMtmZcChipColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcChipColors$copy$2;
+        int $i$a$TakeOrElseDxMtmZcChipColors$copy$3;
+        int $i$a$TakeOrElseDxMtmZcChipColors$copy$4;
         int $this$isSpecified$iv$iv;
-        int $this$isSpecified$iv$iv7;
         int $this$isSpecified$iv$iv3;
-        int $this$isSpecified$iv$iv6;
         int $this$isSpecified$iv$iv2;
-        int $this$isSpecified$iv$iv4;
-        long disabledTrailingIconContentColor2;
-        int i4;
+        long $i$a$TakeOrElseDxMtmZcChipColors$copy$8;
+        int i;
         long l;
-        long l2;
         long l3;
-        long i5;
-        long i;
-        long i2;
-        long i3;
         long l4;
+        long i2;
+        long i5;
+        long i3;
+        long i4;
+        long l2;
         final Object obj = this;
         int i6 = containerColor;
         int i7 = 0;
         int i30 = 0;
         int i38 = 16;
-        i4 = 1;
+        i = 1;
         final int i39 = 0;
-        $this$isSpecified$iv$iv5 = Long.compare(i15, i38) != 0 ? i4 : i39;
-        if ($this$isSpecified$iv$iv5 != 0) {
+        $i$a$TakeOrElseDxMtmZcChipColors$copy$1 = Long.compare(i15, i38) != 0 ? i : i39;
+        if ($i$a$TakeOrElseDxMtmZcChipColors$copy$1 != 0) {
             l = i6;
         } else {
             int i29 = 0;
-            l = $this$isSpecified$iv$iv5;
+            l = $i$a$TakeOrElseDxMtmZcChipColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = leadingIconContentColor;
         int i8 = 0;
         int i31 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i16, i38) != 0 ? i4 : i39;
-        if ($this$isSpecified$iv$iv != 0) {
-            l2 = $this$takeOrElse_u2dDxMtmZc$iv;
+        $i$a$TakeOrElseDxMtmZcChipColors$copy$2 = Long.compare(i16, i38) != 0 ? i : i39;
+        if ($i$a$TakeOrElseDxMtmZcChipColors$copy$2 != 0) {
+            l3 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i28 = 0;
-            l2 = $this$isSpecified$iv$iv;
+            l3 = $i$a$TakeOrElseDxMtmZcChipColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = disabledContainerColor;
         int i9 = 0;
         int i32 = 0;
-        $this$isSpecified$iv$iv7 = Long.compare(i17, i38) != 0 ? i4 : i39;
-        if ($this$isSpecified$iv$iv7 != 0) {
-            l3 = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $i$a$TakeOrElseDxMtmZcChipColors$copy$3 = Long.compare(i17, i38) != 0 ? i : i39;
+        if ($i$a$TakeOrElseDxMtmZcChipColors$copy$3 != 0) {
+            l4 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i27 = 0;
-            l3 = $this$isSpecified$iv$iv7;
+            l4 = $i$a$TakeOrElseDxMtmZcChipColors$copy$3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = disabledLeadingIconContentColor;
         int i10 = 0;
         int i33 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i18, i38) != 0 ? i4 : i39;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            i5 = $this$takeOrElse_u2dDxMtmZc$iv3;
+        $i$a$TakeOrElseDxMtmZcChipColors$copy$4 = Long.compare(i18, i38) != 0 ? i : i39;
+        if ($i$a$TakeOrElseDxMtmZcChipColors$copy$4 != 0) {
+            i2 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i26 = 0;
-            i5 = $this$isSpecified$iv$iv3;
+            i2 = $i$a$TakeOrElseDxMtmZcChipColors$copy$4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv4 = obj39;
         int i11 = 0;
         int i34 = 0;
-        $this$isSpecified$iv$iv6 = Long.compare(i19, i38) != 0 ? i4 : i39;
-        if ($this$isSpecified$iv$iv6 != 0) {
-            i = $this$takeOrElse_u2dDxMtmZc$iv4;
+        $this$isSpecified$iv$iv = Long.compare(i19, i38) != 0 ? i : i39;
+        if ($this$isSpecified$iv$iv != 0) {
+            i5 = $this$takeOrElse_u2dDxMtmZc$iv4;
         } else {
             int i25 = 0;
-            i = $this$isSpecified$iv$iv6;
+            i5 = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv5 = obj41;
         int i12 = 0;
         int i35 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i20, i38) != 0 ? i4 : i39;
-        if ($this$isSpecified$iv$iv2 != 0) {
-            i2 = $this$takeOrElse_u2dDxMtmZc$iv5;
+        $this$isSpecified$iv$iv3 = Long.compare(i20, i38) != 0 ? i : i39;
+        if ($this$isSpecified$iv$iv3 != 0) {
+            i3 = $this$takeOrElse_u2dDxMtmZc$iv5;
         } else {
             int i24 = 0;
-            i2 = $this$isSpecified$iv$iv2;
+            i3 = $this$isSpecified$iv$iv3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv6 = obj43;
         int i13 = 0;
         int i36 = 0;
-        $this$isSpecified$iv$iv4 = Long.compare(i21, i38) != 0 ? i4 : i39;
-        if ($this$isSpecified$iv$iv4 != 0) {
-            i3 = $this$takeOrElse_u2dDxMtmZc$iv6;
+        $this$isSpecified$iv$iv2 = Long.compare(i21, i38) != 0 ? i : i39;
+        if ($this$isSpecified$iv$iv2 != 0) {
+            i4 = $this$takeOrElse_u2dDxMtmZc$iv6;
         } else {
             int i23 = 0;
-            i3 = $this$isSpecified$iv$iv4;
+            i4 = $this$isSpecified$iv$iv2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv7 = obj45;
         int i14 = 0;
         int i37 = 0;
-        if (Long.compare(disabledTrailingIconContentColor2, i38) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcChipColors$copy$8, i38) != 0) {
         } else {
-            i4 = i39;
+            i = i39;
         }
-        if (i4 != 0) {
-            l4 = $this$takeOrElse_u2dDxMtmZc$iv7;
+        if (i != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv7;
         } else {
             int i22 = 0;
-            l4 = disabledTrailingIconContentColor2;
+            l2 = $i$a$TakeOrElseDxMtmZcChipColors$copy$8;
         }
-        ChipColors chipColors = new ChipColors(l, obj14, l2, obj16, l3, obj18, i5, obj20, i, obj22, i2, obj24, i3, obj26, l4, obj28, 0);
+        ChipColors chipColors = new ChipColors(l, obj14, l3, obj16, l4, obj18, i2, obj20, i5, obj22, i3, obj24, i4, obj26, l2, obj28, 0);
         return chipColors;
     }
 

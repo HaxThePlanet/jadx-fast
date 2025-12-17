@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_program_overview_exam_approved_grid_item_0"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/trick_image_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0">
+        <ImageView
+            android:id="@+id/trick_image"
+            android:tag="binding_1"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintEnd_toEndOf="0"
+            app:layout_constraintStart_toStartOf="0"
+            app:layout_constraintTop_toTopOf="0"/>
+        <ImageView
+            android:id="@+id/status_icon"
+            android:layout_width="@dimen/program_overview_exam_cell_status_icon_size"
+            android:layout_height="@dimen/program_overview_exam_cell_status_icon_size"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toStartOf="0"
+            app:layout_constraintTop_toTopOf="0"
+            app:srcCompat="@drawable/ic_circle_green_checkmark"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/trick_name"
+        android:tag="binding_2"
+        android:layout_width="@dimen/program_overview_exam_cell_item_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/trick_image_container"
+        style="@style/ProgramOverviewExamCellName"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,26 +31,26 @@ public final class RichTooltipColors {
     public static androidx.compose.material3.RichTooltipColors copy-jRlVdoo$default(androidx.compose.material3.RichTooltipColors richTooltipColors, long l2, long l3, long l4, long l5, int i6, Object object7) {
         long l;
         long l6;
-        long l8;
         long l7;
+        long l8;
         long obj10;
         long obj12;
         long obj14;
         l = obj18 & 1 != 0 ? obj10 : l2;
         l6 = obj18 & 2 != 0 ? obj12 : l4;
-        l8 = obj18 & 4 != 0 ? obj14 : i6;
-        l7 = obj18 & 8 != 0 ? obj10 : obj16;
+        l7 = obj18 & 4 != 0 ? obj14 : i6;
+        l8 = obj18 & 8 != 0 ? obj10 : obj16;
         return richTooltipColors.copy-jRlVdoo(l, obj2, l6, obj4);
     }
 
     public final androidx.compose.material3.RichTooltipColors copy-jRlVdoo(long containerColor, long contentColor, long titleContentColor, long actionContentColor) {
-        int $this$isSpecified$iv$iv3;
+        int $i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$2;
         int $this$isSpecified$iv$iv;
-        int $this$isSpecified$iv$iv2;
-        int actionContentColor2;
+        int $i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$4;
         int i;
-        long l;
         long l2;
+        long l;
         long l3;
         long i2;
         final Object obj = this;
@@ -60,37 +60,37 @@ public final class RichTooltipColors {
         int i19 = 16;
         i = 1;
         final int i20 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i8, i19) != 0 ? i : i20;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l = i3;
+        $i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$1 = Long.compare(i8, i19) != 0 ? i : i20;
+        if ($i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$1 != 0) {
+            l2 = i3;
         } else {
             int i14 = 0;
-            l = $this$isSpecified$iv$iv3;
+            l2 = $i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = titleContentColor;
         int i5 = 0;
         int i16 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i9, i19) != 0 ? i : i20;
-        if ($this$isSpecified$iv$iv != 0) {
-            l2 = $this$takeOrElse_u2dDxMtmZc$iv;
+        $i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$2 = Long.compare(i9, i19) != 0 ? i : i20;
+        if ($i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$2 != 0) {
+            l = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i10 = 0;
-            l2 = $this$isSpecified$iv$iv;
+            l = $i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = obj27;
         int i6 = 0;
         int i17 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i11, i19) != 0 ? i : i20;
-        if ($this$isSpecified$iv$iv2 != 0) {
+        $this$isSpecified$iv$iv = Long.compare(i11, i19) != 0 ? i : i20;
+        if ($this$isSpecified$iv$iv != 0) {
             l3 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i12 = 0;
-            l3 = $this$isSpecified$iv$iv2;
+            l3 = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = obj29;
         int i7 = 0;
         int i18 = 0;
-        if (Long.compare(actionContentColor2, i19) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$4, i19) != 0) {
         } else {
             i = i20;
         }
@@ -98,9 +98,9 @@ public final class RichTooltipColors {
             i2 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i13 = 0;
-            i2 = actionContentColor2;
+            i2 = $i$a$TakeOrElseDxMtmZcRichTooltipColors$copy$4;
         }
-        RichTooltipColors richTooltipColors = new RichTooltipColors(l, obj14, l2, obj16, l3, obj18, i2, obj20, 0);
+        RichTooltipColors richTooltipColors = new RichTooltipColors(l2, obj14, l, obj16, l3, obj18, i2, obj20, 0);
         return richTooltipColors;
     }
 

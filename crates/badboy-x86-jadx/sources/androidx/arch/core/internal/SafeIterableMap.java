@@ -246,10 +246,10 @@ public class SafeIterableMap<K, V>  implements Iterable<Map.Entry<K, V>> {
     @Override // java.lang.Iterable
     public boolean equals(Object obj) {
         int i;
-        Object next2;
+        Object next4;
         boolean next3;
         boolean next;
-        Object next4;
+        Object next2;
         boolean equals;
         if (obj == this) {
             return 1;
@@ -265,8 +265,8 @@ public class SafeIterableMap<K, V>  implements Iterable<Map.Entry<K, V>> {
         Iterator iterator = iterator();
         Iterator iterator2 = obj2.iterator();
         while (iterator.hasNext()) {
-            next2 = iterator.next();
-            next4 = iterator2.next();
+            next4 = iterator.next();
+            next2 = iterator2.next();
         }
         if (!iterator.hasNext() && !iterator2.hasNext()) {
             if (!iterator2.hasNext()) {
@@ -346,9 +346,9 @@ public class SafeIterableMap<K, V>  implements Iterable<Map.Entry<K, V>> {
 
     public V remove(K k) {
         boolean iterator;
-        androidx.arch.core.internal.SafeIterableMap.Entry mPrevious3;
         androidx.arch.core.internal.SafeIterableMap.Entry mPrevious2;
-        Object mPrevious;
+        androidx.arch.core.internal.SafeIterableMap.Entry mPrevious;
+        Object mPrevious3;
         final androidx.arch.core.internal.SafeIterableMap.Entry map = get(k);
         int i = 0;
         if (map == null) {
@@ -357,17 +357,17 @@ public class SafeIterableMap<K, V>  implements Iterable<Map.Entry<K, V>> {
         this.mSize = mSize--;
         if (!this.mIterators.isEmpty()) {
             iterator = this.mIterators.keySet().iterator();
-            for (SafeIterableMap.SupportRemove mPrevious : iterator) {
-                mPrevious.supportRemove(map);
+            for (SafeIterableMap.SupportRemove mPrevious3 : iterator) {
+                mPrevious3.supportRemove(map);
             }
         }
         if (map.mPrevious != null) {
-            mPrevious3.mNext = map.mNext;
+            mPrevious2.mNext = map.mNext;
         } else {
             this.mStart = map.mNext;
         }
         if (map.mNext != null) {
-            mPrevious2.mPrevious = map.mPrevious;
+            mPrevious.mPrevious = map.mPrevious;
         } else {
             this.mEnd = map.mPrevious;
         }

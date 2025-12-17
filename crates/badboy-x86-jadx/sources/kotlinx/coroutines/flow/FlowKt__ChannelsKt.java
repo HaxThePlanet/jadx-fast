@@ -51,8 +51,8 @@ final class FlowKt__ChannelsKt {
         ReceiveChannel receiveChannel;
         Object l$1;
         Object channel;
-        Object $this$emitAllImpl;
         Object $this$emitAllImpl2;
+        Object $this$emitAllImpl;
         Object obj;
         Object emit;
         Throwable th;
@@ -78,7 +78,7 @@ final class FlowKt__ChannelsKt {
                 ResultKt.throwOnFailure(obj10);
                 FlowKt.ensureActive(flowCollector);
                 obj8 = 0;
-                $this$emitAllImpl = receiveChannel2.iterator();
+                $this$emitAllImpl2 = receiveChannel2.iterator();
                 break;
             case 1:
                 obj7 = $result.Z$0;
@@ -86,12 +86,12 @@ final class FlowKt__ChannelsKt {
                 obj9 = 0;
                 ResultKt.throwOnFailure(obj10);
                 obj = l$02;
-                $this$emitAllImpl2 = l$12;
+                $this$emitAllImpl = l$12;
                 channel = $continuation;
                 anon = $result;
                 $continuation3 = obj10;
                 anon.L$0 = obj;
-                anon.L$1 = $this$emitAllImpl2;
+                anon.L$1 = $this$emitAllImpl;
                 anon.L$2 = obj8;
                 anon.Z$0 = obj7;
                 anon.label = 2;
@@ -99,19 +99,19 @@ final class FlowKt__ChannelsKt {
                 obj10 = $continuation3;
                 $result = anon;
                 $continuation = channel;
-                l$1 = $this$emitAllImpl2;
-                $this$emitAllImpl = obj8;
+                l$1 = $this$emitAllImpl;
+                $this$emitAllImpl2 = obj8;
                 obj8 = obj9;
                 obj9 = obj7;
                 obj7 = obj;
-                ChannelsKt.cancelConsumed($this$emitAllImpl2, obj9);
+                ChannelsKt.cancelConsumed($this$emitAllImpl, obj9);
                 return Unit.INSTANCE;
             case 2:
                 l$1 = $result.L$1;
                 ResultKt.throwOnFailure(obj10);
                 obj9 = obj7;
                 obj7 = l$0;
-                $this$emitAllImpl = obj8;
+                $this$emitAllImpl2 = obj8;
                 obj8 = th;
                 break;
             default:
@@ -120,18 +120,18 @@ final class FlowKt__ChannelsKt {
         }
         $result.L$0 = obj7;
         $result.L$1 = l$1;
-        $result.L$2 = $this$emitAllImpl;
+        $result.L$2 = $this$emitAllImpl2;
         $result.Z$0 = obj9;
         $result.label = 1;
-        Object next = $this$emitAllImpl.hasNext($result);
+        Object next = $this$emitAllImpl2.hasNext($result);
         if (next == $continuation) {
             return $continuation;
         } else {
             obj = obj7;
             obj7 = obj9;
             obj9 = obj8;
-            obj8 = $this$emitAllImpl;
-            $this$emitAllImpl2 = l$1;
+            obj8 = $this$emitAllImpl2;
+            $this$emitAllImpl = l$1;
             channel = $continuation;
             anon = $result;
             $continuation3 = obj10;

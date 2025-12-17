@@ -26,7 +26,7 @@ public final class NodeKindKt {
     }
 
     public static final void autoInvalidateInsertedNode(Modifier.Node node) {
-        String str;
+        String $i$a$CheckPreconditionNodeKindKt$autoInvalidateInsertedNode$1;
         int i = 0;
         if (!node.isAttached()) {
             int i3 = 0;
@@ -36,18 +36,18 @@ public final class NodeKindKt {
     }
 
     public static final void autoInvalidateNodeIncludingDelegates(Modifier.Node node, int remainingSet, int phase) {
-        int i2;
+        int i;
         Object obj;
         int i3;
         Modifier.Node node$iv;
         Modifier.Node node2;
-        int i;
+        int i2;
         if (node instanceof DelegatingNode) {
             NodeKindKt.autoInvalidateNodeSelf(node, selfKindSet$ui_release &= remainingSet, phase);
             i3 = 0;
             node$iv = (DelegatingNode)node.getDelegate$ui_release();
             while (node$iv != null) {
-                i = 0;
+                i2 = 0;
                 NodeKindKt.autoInvalidateNodeIncludingDelegates(node$iv, i5 &= remainingSet, phase);
                 node$iv = node$iv.getChild$ui_release();
             }
@@ -58,16 +58,16 @@ public final class NodeKindKt {
 
     private static final void autoInvalidateNodeSelf(Modifier.Node node, int selfKindSet, int phase) {
         boolean shouldAutoInvalidate;
+        int value$iv5;
+        int value$iv6;
+        int value$iv7;
+        int value$iv;
+        int value$iv8;
+        int value$iv4;
         int value$iv2;
         int value$iv3;
-        int value$iv6;
-        int value$iv;
-        int value$iv7;
-        int value$iv8;
-        int value$iv5;
-        int value$iv4;
-        int constructor-impl2;
-        int constructor-impl;
+        int $i$f$getFocusEventOLwlOKw;
+        int $i$f$getLayoutOLwlOKw;
         int i;
         if (phase == 0 && !node.getShouldAutoInvalidate()) {
             if (!node.getShouldAutoInvalidate()) {
@@ -78,9 +78,9 @@ public final class NodeKindKt {
         int i29 = 0;
         i = 1;
         final int i46 = 0;
-        value$iv2 = constructor-impl & constructor-impl3 != 0 ? i : i46;
+        value$iv5 = $i$f$getLayoutOLwlOKw & $i$f$getLayoutOLwlOKw2 != 0 ? i : i46;
         LayoutModifierNodeKt.invalidateMeasurement((LayoutModifierNode)node);
-        if (value$iv2 != 0 && node instanceof LayoutModifierNode && phase == i10) {
+        if (value$iv5 != 0 && node instanceof LayoutModifierNode && phase == i10) {
             if (node instanceof LayoutModifierNode) {
                 LayoutModifierNodeKt.invalidateMeasurement((LayoutModifierNode)node);
                 if (phase == i10) {
@@ -91,8 +91,8 @@ public final class NodeKindKt {
         }
         int coordinator = 0;
         int i30 = 0;
-        value$iv3 = i14 & constructor-impl4 != 0 ? i : i46;
-        if (value$iv3 != 0 && node instanceof LayoutAwareModifierNode && phase != i10) {
+        value$iv6 = i14 & $i$f$getLayoutAwareOLwlOKw != 0 ? i : i46;
+        if (value$iv6 != 0 && node instanceof LayoutAwareModifierNode && phase != i10) {
             if (node instanceof LayoutAwareModifierNode) {
                 if (phase != i10) {
                     DelegatableNodeKt.requireLayoutNode((DelegatableNode)node).invalidateMeasurements$ui_release();
@@ -101,8 +101,8 @@ public final class NodeKindKt {
         }
         int i3 = 0;
         int i31 = 0;
-        value$iv6 = i16 & constructor-impl5 != 0 ? i : i46;
-        if (value$iv6 != 0 && node instanceof GlobalPositionAwareModifierNode && phase != i10) {
+        value$iv7 = i16 & $i$f$getGlobalPositionAwareOLwlOKw != 0 ? i : i46;
+        if (value$iv7 != 0 && node instanceof GlobalPositionAwareModifierNode && phase != i10) {
             if (node instanceof GlobalPositionAwareModifierNode) {
                 if (phase != i10) {
                     DelegatableNodeKt.requireLayoutNode((DelegatableNode)node).invalidateOnPositioned$ui_release();
@@ -111,7 +111,7 @@ public final class NodeKindKt {
         }
         int i4 = 0;
         int i32 = 0;
-        value$iv = i18 & constructor-impl6 != 0 ? i : i46;
+        value$iv = i18 & $i$f$getDrawOLwlOKw != 0 ? i : i46;
         if (value$iv != 0 && node instanceof DrawModifierNode) {
             if (node instanceof DrawModifierNode) {
                 DrawModifierNodeKt.invalidateDraw((DrawModifierNode)node);
@@ -119,24 +119,24 @@ public final class NodeKindKt {
         }
         int i5 = 0;
         int i33 = 0;
-        value$iv7 = i20 & constructor-impl7 != 0 ? i : i46;
-        if (value$iv7 != 0 && node instanceof SemanticsModifierNode) {
+        value$iv8 = i20 & $i$f$getSemanticsOLwlOKw != 0 ? i : i46;
+        if (value$iv8 != 0 && node instanceof SemanticsModifierNode) {
             if (node instanceof SemanticsModifierNode) {
                 SemanticsModifierNodeKt.invalidateSemantics((SemanticsModifierNode)node);
             }
         }
         int i6 = 0;
         int i34 = 0;
-        value$iv8 = i22 & constructor-impl8 != 0 ? i : i46;
-        if (value$iv8 != 0 && node instanceof ParentDataModifierNode) {
+        value$iv4 = i22 & $i$f$getParentDataOLwlOKw != 0 ? i : i46;
+        if (value$iv4 != 0 && node instanceof ParentDataModifierNode) {
             if (node instanceof ParentDataModifierNode) {
                 ParentDataModifierNodeKt.invalidateParentData((ParentDataModifierNode)node);
             }
         }
         int i7 = 0;
         int i35 = 0;
-        value$iv5 = i24 & constructor-impl9 != 0 ? i : i46;
-        if (value$iv5 != 0 && node instanceof FocusTargetNode && phase != i10) {
+        value$iv2 = i24 & $i$f$getFocusTargetOLwlOKw != 0 ? i : i46;
+        if (value$iv2 != 0 && node instanceof FocusTargetNode && phase != i10) {
             if (node instanceof FocusTargetNode) {
                 if (phase != i10) {
                     FocusTargetNodeKt.invalidateFocusTarget((FocusTargetNode)node);
@@ -145,8 +145,8 @@ public final class NodeKindKt {
         }
         int i8 = 0;
         int i36 = 0;
-        value$iv4 = i26 & constructor-impl10 != 0 ? i : i46;
-        if (value$iv4 != 0 && node instanceof FocusPropertiesModifierNode && NodeKindKt.specifiesCanFocusProperty((FocusPropertiesModifierNode)node)) {
+        value$iv3 = i26 & $i$f$getFocusPropertiesOLwlOKw != 0 ? i : i46;
+        if (value$iv3 != 0 && node instanceof FocusPropertiesModifierNode && NodeKindKt.specifiesCanFocusProperty((FocusPropertiesModifierNode)node)) {
             if (node instanceof FocusPropertiesModifierNode) {
                 if (NodeKindKt.specifiesCanFocusProperty((FocusPropertiesModifierNode)node)) {
                     if (phase == i10) {
@@ -159,7 +159,7 @@ public final class NodeKindKt {
         }
         int i9 = 0;
         int i27 = 0;
-        if (i12 & constructor-impl2 != 0) {
+        if (i12 & $i$f$getFocusEventOLwlOKw != 0) {
         } else {
             i = i46;
         }
@@ -171,7 +171,7 @@ public final class NodeKindKt {
     }
 
     public static final void autoInvalidateRemovedNode(Modifier.Node node) {
-        String str;
+        String $i$a$CheckPreconditionNodeKindKt$autoInvalidateRemovedNode$1;
         int i = 0;
         if (!node.isAttached()) {
             int i3 = 0;
@@ -181,7 +181,7 @@ public final class NodeKindKt {
     }
 
     public static final void autoInvalidateUpdatedNode(Modifier.Node node) {
-        String str;
+        String $i$a$CheckPreconditionNodeKindKt$autoInvalidateUpdatedNode$1;
         int i = 0;
         if (!node.isAttached()) {
             int i3 = 0;
@@ -191,201 +191,201 @@ public final class NodeKindKt {
     }
 
     public static final int calculateNodeKindSetFrom(Modifier.Element element) {
-        int mask;
-        boolean other$iv7;
-        boolean other$iv2;
+        int $i$f$getAnyOLwlOKw;
         boolean other$iv3;
-        boolean other$iv;
-        boolean other$iv4;
-        boolean other$iv10;
-        boolean other$iv8;
-        boolean other$iv6;
+        boolean other$iv2;
         boolean other$iv5;
+        boolean other$iv10;
+        boolean other$iv7;
         boolean other$iv9;
+        boolean other$iv6;
+        boolean other$iv8;
+        boolean other$iv4;
+        boolean other$iv;
         int i2;
         int i;
         int i3 = 0;
         if (element instanceof LayoutModifier) {
             int i5 = 0;
             i = 0;
-            mask = other$iv7;
+            $i$f$getAnyOLwlOKw = other$iv3;
         }
         if (element instanceof DrawModifier) {
             int i6 = 0;
             i = 0;
-            mask = other$iv2;
+            $i$f$getAnyOLwlOKw = other$iv2;
         }
         if (element instanceof SemanticsModifier) {
             int i14 = 0;
             i = 0;
-            mask = other$iv3;
+            $i$f$getAnyOLwlOKw = other$iv5;
         }
         if (element instanceof PointerInputModifier) {
             int i7 = 0;
             i = 0;
-            mask = other$iv;
+            $i$f$getAnyOLwlOKw = other$iv10;
         }
         if (!element instanceof ModifierLocalConsumer) {
             if (element instanceof ModifierLocalProvider != null) {
                 int i13 = 0;
                 i = 0;
-                mask = other$iv4;
+                $i$f$getAnyOLwlOKw = other$iv7;
             }
         } else {
         }
         if (element instanceof FocusEventModifier) {
             int i8 = 0;
             i = 0;
-            mask = other$iv10;
+            $i$f$getAnyOLwlOKw = other$iv9;
         }
         if (element instanceof FocusOrderModifier) {
             int i9 = 0;
             i = 0;
-            mask = other$iv8;
+            $i$f$getAnyOLwlOKw = other$iv6;
         }
         if (element instanceof OnGloballyPositionedModifier) {
             int i12 = 0;
             i = 0;
-            mask = other$iv6;
+            $i$f$getAnyOLwlOKw = other$iv8;
         }
         if (element instanceof ParentDataModifier) {
             int i10 = 0;
             i = 0;
-            mask = other$iv5;
+            $i$f$getAnyOLwlOKw = other$iv4;
         }
         if (!element instanceof OnPlacedModifier) {
             if (element instanceof OnRemeasuredModifier) {
                 int i11 = 0;
                 i = 0;
-                mask = other$iv9;
+                $i$f$getAnyOLwlOKw = other$iv;
             }
         } else {
         }
-        return mask;
+        return $i$f$getAnyOLwlOKw;
     }
 
     public static final int calculateNodeKindSetFrom(Modifier.Node node) {
-        int i2;
-        int mask;
-        boolean other$iv16;
-        boolean other$iv11;
-        boolean other$iv;
-        boolean other$iv12;
-        boolean other$iv2;
-        boolean other$iv6;
+        int $i$a$GetOrPutNodeKindKt$calculateNodeKindSetFrom$1;
+        int $i$f$getAnyOLwlOKw;
         boolean other$iv17;
-        boolean other$iv14;
-        boolean other$iv7;
         boolean other$iv3;
-        boolean other$iv15;
-        boolean other$iv8;
+        boolean other$iv2;
+        boolean other$iv12;
+        boolean other$iv;
         boolean other$iv10;
-        boolean other$iv13;
+        boolean other$iv15;
+        boolean other$iv7;
         boolean other$iv9;
         boolean other$iv4;
+        boolean other$iv16;
+        boolean other$iv6;
+        boolean other$iv13;
         boolean other$iv5;
+        boolean other$iv14;
+        boolean other$iv11;
+        boolean other$iv8;
         int i;
-        int i3;
+        int i2;
         if (node.getKindSet$ui_release() != 0) {
             return node.getKindSet$ui_release();
         }
         MutableObjectIntMap classToKindSetMap = NodeKindKt.classToKindSetMap;
         final Object classKeyForObject = Actual_jvmKt.classKeyForObject(node);
-        final int i4 = 0;
+        final int i3 = 0;
         final int keyIndex = classToKindSetMap.findKeyIndex(classKeyForObject);
         if (keyIndex >= 0) {
-            i2 = classToKindSetMap.values[keyIndex];
+            $i$a$GetOrPutNodeKindKt$calculateNodeKindSetFrom$1 = classToKindSetMap.values[keyIndex];
         } else {
+            int i4 = 0;
             int i5 = 0;
-            int i6 = 0;
             if (node instanceof LayoutModifierNode) {
-                int i24 = 0;
-                i3 = 0;
-                mask = other$iv11;
+                int i23 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv3;
             }
             if (node instanceof DrawModifierNode) {
-                int i23 = 0;
-                i3 = 0;
-                mask = other$iv;
+                int i22 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv2;
             }
             if (node instanceof SemanticsModifierNode) {
-                int i8 = 0;
-                i3 = 0;
-                mask = other$iv12;
+                int i7 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv12;
             }
             if (node instanceof PointerInputModifierNode) {
-                int i22 = 0;
-                i3 = 0;
-                mask = other$iv2;
+                int i21 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv;
             }
             if (node instanceof ModifierLocalModifierNode) {
-                int i21 = 0;
-                i3 = 0;
-                mask = other$iv6;
+                int i20 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv10;
             }
             if (node instanceof ParentDataModifierNode) {
-                int i9 = 0;
-                i3 = 0;
-                mask = other$iv17;
+                int i8 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv15;
             }
             if (node instanceof LayoutAwareModifierNode) {
-                int i20 = 0;
-                i3 = 0;
-                mask = other$iv14;
+                int i19 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv7;
             }
             if (node instanceof GlobalPositionAwareModifierNode) {
-                int i19 = 0;
-                i3 = 0;
-                mask = other$iv7;
+                int i18 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv9;
             }
             if (node instanceof ApproachLayoutModifierNode) {
-                int i18 = 0;
-                i3 = 0;
-                mask = other$iv3;
+                int i17 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv4;
             }
             if (node instanceof FocusTargetNode) {
-                int i17 = 0;
-                i3 = 0;
-                mask = other$iv15;
+                int i16 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv16;
             }
             if (node instanceof FocusPropertiesModifierNode) {
-                int i10 = 0;
-                i3 = 0;
-                mask = other$iv8;
+                int i9 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv6;
             }
             if (node instanceof FocusEventModifierNode) {
-                int i16 = 0;
-                i3 = 0;
-                mask = other$iv10;
+                int i15 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv13;
             }
             if (node instanceof KeyInputModifierNode) {
-                int i15 = 0;
-                i3 = 0;
-                mask = other$iv13;
+                int i14 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv5;
             }
             if (node instanceof RotaryInputModifierNode) {
-                int i11 = 0;
-                i3 = 0;
-                mask = other$iv9;
+                int i10 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv14;
             }
             if (node instanceof CompositionLocalConsumerModifierNode) {
-                int i14 = 0;
-                i3 = 0;
-                mask = other$iv4;
+                int i13 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv11;
             }
             if (node instanceof SoftKeyboardInterceptionModifierNode) {
-                int i13 = 0;
-                i3 = 0;
-                mask = other$iv5;
+                int i12 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv8;
             }
             if (node instanceof TraversableNode) {
-                int i12 = 0;
-                i3 = 0;
-                mask = other$iv16;
+                int i11 = 0;
+                i2 = 0;
+                $i$f$getAnyOLwlOKw = other$iv17;
             }
-            classToKindSetMap.set(classKeyForObject, mask);
+            classToKindSetMap.set(classKeyForObject, $i$f$getAnyOLwlOKw);
         }
-        return i2;
+        return $i$a$GetOrPutNodeKindKt$calculateNodeKindSetFrom$1;
     }
 
     public static final int calculateNodeKindSetFromIncludingDelegates(Modifier.Node node) {
@@ -422,7 +422,7 @@ public final class NodeKindKt {
     public static final boolean getIncludeSelfInTraversal-H91voCI(int $this$includeSelfInTraversal) {
         int i;
         int i2 = 0;
-        i = constructor-impl &= $this$includeSelfInTraversal != 0 ? 1 : 0;
+        i = $i$f$getLayoutAwareOLwlOKw &= $this$includeSelfInTraversal != 0 ? 1 : 0;
         return i;
     }
 
@@ -442,40 +442,40 @@ public final class NodeKindKt {
 
     private static final void scheduleInvalidationOfAssociatedFocusTargets(FocusPropertiesModifierNode $this$scheduleInvalidationOfAssociatedFocusTargets) {
         androidx.compose.ui.node.DelegatableNode delegatableNode;
-        int $this$visitChildren_u2d6rFNWt0$iv;
+        int $this$visitChildren_u2d6rFNWt0$iv2;
         int capacity$iv$iv$iv$iv;
         Modifier.Node next$iv$iv;
-        int type$iv;
-        int arr2;
+        int $i$f$getFocusTargetOLwlOKw;
+        int $i$f$visitChildren6rFNWt0;
         int node2;
         int node$iv$iv2;
         Modifier.Node[] arr;
-        int i;
+        int i9;
         Modifier.Node[] node$iv$iv;
         int count$iv$iv;
         int this_$iv$iv$iv;
-        int i7;
-        Modifier.Node[] objArr2;
-        int i10;
-        int i9;
-        Modifier.Node[] node$iv$iv3;
+        int i6;
         Modifier.Node[] objArr;
-        int i3;
+        int i;
+        int i7;
+        Modifier.Node[] node$iv$iv3;
+        Modifier.Node[] objArr2;
+        int i4;
         Modifier.Node node$iv$iv$iv;
         Modifier.Node node;
-        int i2;
-        Object $this$visitChildren_u2d6rFNWt0$iv2;
-        int this_$iv$iv$iv2;
-        int i8;
-        int i6;
-        int type$iv2;
         int i5;
-        int i4;
+        Object $this$visitChildren_u2d6rFNWt0$iv;
+        int this_$iv$iv$iv2;
+        int i2;
+        int i3;
+        int type$iv;
+        int i10;
+        int i8;
         delegatableNode = $this$scheduleInvalidationOfAssociatedFocusTargets;
         int i12 = 0;
-        type$iv = NodeKind.constructor-impl(1024);
-        arr2 = 0;
-        final int i14 = type$iv;
+        $i$f$getFocusTargetOLwlOKw = NodeKind.constructor-impl(1024);
+        $i$f$visitChildren6rFNWt0 = 0;
+        final int i14 = $i$f$getFocusTargetOLwlOKw;
         final androidx.compose.ui.node.DelegatableNode delegatableNode2 = delegatableNode;
         final int i15 = 0;
         if (!delegatableNode2.getNode().isAttached()) {
@@ -498,347 +498,347 @@ public final class NodeKindKt {
                 }
                 node$iv$iv2 = node2;
                 while (node$iv$iv2 != 0) {
-                    type$iv2 = type$iv;
-                    i5 = arr2;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
                     int $this$visitChildren_u2d6rFNWt0$iv3 = count$iv$iv;
                     node$iv$iv2 = node$iv$iv2.getChild$ui_release();
-                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                    i = 0;
+                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                    i9 = 0;
                 }
-                $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                type$iv2 = type$iv;
-                i5 = arr2;
-                i = 0;
+                $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
+                i9 = 0;
                 if (kindSet$ui_release &= i14 != null) {
                 } else {
                 }
-                type$iv2 = type$iv;
-                i5 = arr2;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
                 $this$visitChildren_u2d6rFNWt0$iv3 = count$iv$iv;
                 node$iv$iv2 = node$iv$iv2.getChild$ui_release();
-                delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
+                delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                i9 = 0;
+                i6 = 0;
                 i = 0;
                 i7 = 0;
-                i10 = 0;
-                i9 = 0;
                 int i18 = 0;
                 node$iv$iv = node$iv$iv3;
                 while (node$iv$iv != null) {
                     if (node$iv$iv instanceof FocusTargetNode) {
                     } else {
                     }
-                    objArr = 0;
-                    if (kindSet$ui_release2 &= type$iv != 0) {
+                    objArr2 = 0;
+                    if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
                     if (this_$iv$iv$iv != 0 && node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                    type$iv2 = type$iv;
-                    i5 = arr2;
-                    $this$visitChildren_u2d6rFNWt0$iv = 1;
-                    node$iv$iv = DelegatableNodeKt.access$pop(i9);
-                    count$iv$iv = $this$visitChildren_u2d6rFNWt0$iv;
-                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                    type$iv = type$iv2;
-                    arr2 = i5;
+                    $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = 1;
+                    node$iv$iv = DelegatableNodeKt.access$pop(i7);
+                    count$iv$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitChildren6rFNWt0 = i10;
                     if (node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
-                    i3 = 0;
+                    i4 = 0;
                     node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         node = node$iv$iv$iv;
+                        i5 = 0;
                         i2 = 0;
-                        i8 = 0;
-                        if (kindSet$ui_release3 &= type$iv != 0) {
+                        if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv2 = 0;
                         if (this_$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                        type$iv2 = type$iv;
-                        i5 = arr2;
+                        $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                        type$iv = $i$f$getFocusTargetOLwlOKw;
+                        i10 = $i$f$visitChildren6rFNWt0;
                         next$iv$iv = node;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                        type$iv = type$iv2;
-                        arr2 = i5;
-                        $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
+                        delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                        $i$f$getFocusTargetOLwlOKw = type$iv;
+                        $i$f$visitChildren6rFNWt0 = i10;
+                        $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
                         if (this_$iv$iv$iv++ == 1) {
                         } else {
                         }
-                        if (i9 == 0) {
+                        if (i7 == 0) {
                         } else {
                         }
-                        type$iv2 = type$iv;
-                        i5 = arr2;
+                        type$iv = $i$f$getFocusTargetOLwlOKw;
+                        i10 = $i$f$visitChildren6rFNWt0;
                         capacity$iv$iv$iv$iv = 0;
-                        type$iv = i9;
-                        arr2 = node$iv$iv;
-                        if (arr2 != null && type$iv != null) {
+                        $i$f$getFocusTargetOLwlOKw = i7;
+                        $i$f$visitChildren6rFNWt0 = node$iv$iv;
+                        if ($i$f$visitChildren6rFNWt0 != null && $i$f$getFocusTargetOLwlOKw != null) {
                         }
-                        if (type$iv != null) {
+                        if ($i$f$getFocusTargetOLwlOKw != null) {
                         } else {
                         }
                         next$iv$iv = node;
-                        i9 = type$iv;
-                        type$iv.add(node);
-                        if (type$iv != null) {
+                        i7 = $i$f$getFocusTargetOLwlOKw;
+                        $i$f$getFocusTargetOLwlOKw.add(node);
+                        if ($i$f$getFocusTargetOLwlOKw != null) {
                         }
                         node$iv$iv = 0;
-                        type$iv.add(arr2);
-                        i8 = i11;
+                        $i$f$getFocusTargetOLwlOKw.add($i$f$visitChildren6rFNWt0);
+                        i2 = i11;
                         int $i$f$mutableVectorOf = 16;
-                        i6 = 0;
-                        type$iv2 = type$iv;
-                        i5 = arr2;
-                        i4 = $i$f$mutableVectorOf;
-                        type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        i3 = 0;
+                        type$iv = $i$f$getFocusTargetOLwlOKw;
+                        i10 = $i$f$visitChildren6rFNWt0;
+                        i8 = $i$f$mutableVectorOf;
+                        $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                         node$iv$iv = node;
-                        type$iv2 = type$iv;
-                        i5 = arr2;
+                        type$iv = $i$f$getFocusTargetOLwlOKw;
+                        i10 = $i$f$visitChildren6rFNWt0;
                         next$iv$iv = node;
                         this_$iv$iv$iv2 = 1;
                     }
-                    $this$visitChildren_u2d6rFNWt0$iv = 1;
-                    if (this_$iv$iv$iv == $this$visitChildren_u2d6rFNWt0$iv) {
+                    $this$visitChildren_u2d6rFNWt0$iv2 = 1;
+                    if (this_$iv$iv$iv == $this$visitChildren_u2d6rFNWt0$iv2) {
                     } else {
                     }
-                    count$iv$iv = $this$visitChildren_u2d6rFNWt0$iv;
-                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                    type$iv = type$iv2;
-                    arr2 = i5;
+                    count$iv$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitChildren6rFNWt0 = i10;
                     node = node$iv$iv$iv;
+                    i5 = 0;
                     i2 = 0;
-                    i8 = 0;
-                    if (kindSet$ui_release3 &= type$iv != 0) {
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv2 = 0;
                     if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                    type$iv2 = type$iv;
-                    i5 = arr2;
+                    $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
                     next$iv$iv = node;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                    type$iv = type$iv2;
-                    arr2 = i5;
-                    $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
+                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitChildren6rFNWt0 = i10;
+                    $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
                     if (this_$iv$iv$iv++ == 1) {
                     } else {
                     }
-                    if (i9 == 0) {
+                    if (i7 == 0) {
                     } else {
                     }
-                    type$iv2 = type$iv;
-                    i5 = arr2;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
                     capacity$iv$iv$iv$iv = 0;
-                    type$iv = i9;
-                    arr2 = node$iv$iv;
-                    if (arr2 != null && type$iv != null) {
+                    $i$f$getFocusTargetOLwlOKw = i7;
+                    $i$f$visitChildren6rFNWt0 = node$iv$iv;
+                    if ($i$f$visitChildren6rFNWt0 != null && $i$f$getFocusTargetOLwlOKw != null) {
                     }
-                    if (type$iv != null) {
+                    if ($i$f$getFocusTargetOLwlOKw != null) {
                     } else {
                     }
                     next$iv$iv = node;
-                    i9 = type$iv;
-                    type$iv.add(node);
-                    if (type$iv != null) {
+                    i7 = $i$f$getFocusTargetOLwlOKw;
+                    $i$f$getFocusTargetOLwlOKw.add(node);
+                    if ($i$f$getFocusTargetOLwlOKw != null) {
                     }
                     node$iv$iv = 0;
-                    type$iv.add(arr2);
-                    i8 = i11;
+                    $i$f$getFocusTargetOLwlOKw.add($i$f$visitChildren6rFNWt0);
+                    i2 = i11;
                     $i$f$mutableVectorOf = 16;
-                    i6 = 0;
-                    type$iv2 = type$iv;
-                    i5 = arr2;
-                    i4 = $i$f$mutableVectorOf;
-                    type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i3 = 0;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
+                    i8 = $i$f$mutableVectorOf;
+                    $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                     node$iv$iv = node;
-                    type$iv2 = type$iv;
-                    i5 = arr2;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
                     next$iv$iv = node;
                     this_$iv$iv$iv2 = 1;
                     this_$iv$iv$iv = 1;
-                    objArr = 0;
+                    objArr2 = 0;
                     FocusTargetNodeKt.invalidateFocusTarget((FocusTargetNode)node$iv$iv);
-                    $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                    type$iv2 = type$iv;
-                    i5 = arr2;
-                    $this$visitChildren_u2d6rFNWt0$iv = 1;
+                    $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = 1;
                 }
-                $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                type$iv2 = type$iv;
-                i5 = arr2;
-                i = 0;
+                $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
+                i9 = 0;
                 if (node$iv$iv instanceof FocusTargetNode) {
                 } else {
                 }
-                objArr = 0;
-                if (kindSet$ui_release2 &= type$iv != 0) {
+                objArr2 = 0;
+                if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
                 if (this_$iv$iv$iv != 0 && node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                type$iv2 = type$iv;
-                i5 = arr2;
-                $this$visitChildren_u2d6rFNWt0$iv = 1;
-                node$iv$iv = DelegatableNodeKt.access$pop(i9);
-                count$iv$iv = $this$visitChildren_u2d6rFNWt0$iv;
-                delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                type$iv = type$iv2;
-                arr2 = i5;
+                $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
+                $this$visitChildren_u2d6rFNWt0$iv2 = 1;
+                node$iv$iv = DelegatableNodeKt.access$pop(i7);
+                count$iv$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitChildren6rFNWt0 = i10;
                 if (node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
-                i3 = 0;
+                i4 = 0;
                 node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     node = node$iv$iv$iv;
+                    i5 = 0;
                     i2 = 0;
-                    i8 = 0;
-                    if (kindSet$ui_release3 &= type$iv != 0) {
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv2 = 0;
                     if (this_$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                    type$iv2 = type$iv;
-                    i5 = arr2;
+                    $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
                     next$iv$iv = node;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                    type$iv = type$iv2;
-                    arr2 = i5;
-                    $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
+                    delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $i$f$visitChildren6rFNWt0 = i10;
+                    $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
                     if (this_$iv$iv$iv++ == 1) {
                     } else {
                     }
-                    if (i9 == 0) {
+                    if (i7 == 0) {
                     } else {
                     }
-                    type$iv2 = type$iv;
-                    i5 = arr2;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
                     capacity$iv$iv$iv$iv = 0;
-                    type$iv = i9;
-                    arr2 = node$iv$iv;
-                    if (arr2 != null && type$iv != null) {
+                    $i$f$getFocusTargetOLwlOKw = i7;
+                    $i$f$visitChildren6rFNWt0 = node$iv$iv;
+                    if ($i$f$visitChildren6rFNWt0 != null && $i$f$getFocusTargetOLwlOKw != null) {
                     }
-                    if (type$iv != null) {
+                    if ($i$f$getFocusTargetOLwlOKw != null) {
                     } else {
                     }
                     next$iv$iv = node;
-                    i9 = type$iv;
-                    type$iv.add(node);
-                    if (type$iv != null) {
+                    i7 = $i$f$getFocusTargetOLwlOKw;
+                    $i$f$getFocusTargetOLwlOKw.add(node);
+                    if ($i$f$getFocusTargetOLwlOKw != null) {
                     }
                     node$iv$iv = 0;
-                    type$iv.add(arr2);
-                    i8 = i11;
+                    $i$f$getFocusTargetOLwlOKw.add($i$f$visitChildren6rFNWt0);
+                    i2 = i11;
                     $i$f$mutableVectorOf = 16;
-                    i6 = 0;
-                    type$iv2 = type$iv;
-                    i5 = arr2;
-                    i4 = $i$f$mutableVectorOf;
-                    type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    i3 = 0;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
+                    i8 = $i$f$mutableVectorOf;
+                    $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                     node$iv$iv = node;
-                    type$iv2 = type$iv;
-                    i5 = arr2;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i10 = $i$f$visitChildren6rFNWt0;
                     next$iv$iv = node;
                     this_$iv$iv$iv2 = 1;
                 }
-                $this$visitChildren_u2d6rFNWt0$iv = 1;
-                if (this_$iv$iv$iv == $this$visitChildren_u2d6rFNWt0$iv) {
+                $this$visitChildren_u2d6rFNWt0$iv2 = 1;
+                if (this_$iv$iv$iv == $this$visitChildren_u2d6rFNWt0$iv2) {
                 } else {
                 }
-                count$iv$iv = $this$visitChildren_u2d6rFNWt0$iv;
-                delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                type$iv = type$iv2;
-                arr2 = i5;
+                count$iv$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitChildren6rFNWt0 = i10;
                 node = node$iv$iv$iv;
+                i5 = 0;
                 i2 = 0;
-                i8 = 0;
-                if (kindSet$ui_release3 &= type$iv != 0) {
+                if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv2 = 0;
                 if (this_$iv$iv$iv2 != 0) {
                 } else {
                 }
-                $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                type$iv2 = type$iv;
-                i5 = arr2;
+                $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
                 next$iv$iv = node;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                delegatableNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                type$iv = type$iv2;
-                arr2 = i5;
-                $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
+                delegatableNode = $this$visitChildren_u2d6rFNWt0$iv;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $i$f$visitChildren6rFNWt0 = i10;
+                $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
                 if (this_$iv$iv$iv++ == 1) {
                 } else {
                 }
-                if (i9 == 0) {
+                if (i7 == 0) {
                 } else {
                 }
-                type$iv2 = type$iv;
-                i5 = arr2;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
                 capacity$iv$iv$iv$iv = 0;
-                type$iv = i9;
-                arr2 = node$iv$iv;
-                if (arr2 != null && type$iv != null) {
+                $i$f$getFocusTargetOLwlOKw = i7;
+                $i$f$visitChildren6rFNWt0 = node$iv$iv;
+                if ($i$f$visitChildren6rFNWt0 != null && $i$f$getFocusTargetOLwlOKw != null) {
                 }
-                if (type$iv != null) {
+                if ($i$f$getFocusTargetOLwlOKw != null) {
                 } else {
                 }
                 next$iv$iv = node;
-                i9 = type$iv;
-                type$iv.add(node);
-                if (type$iv != null) {
+                i7 = $i$f$getFocusTargetOLwlOKw;
+                $i$f$getFocusTargetOLwlOKw.add(node);
+                if ($i$f$getFocusTargetOLwlOKw != null) {
                 }
                 node$iv$iv = 0;
-                type$iv.add(arr2);
-                i8 = i11;
+                $i$f$getFocusTargetOLwlOKw.add($i$f$visitChildren6rFNWt0);
+                i2 = i11;
                 $i$f$mutableVectorOf = 16;
-                i6 = 0;
-                type$iv2 = type$iv;
-                i5 = arr2;
-                i4 = $i$f$mutableVectorOf;
-                type$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                i3 = 0;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
+                i8 = $i$f$mutableVectorOf;
+                $i$f$getFocusTargetOLwlOKw = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
                 node$iv$iv = node;
-                type$iv2 = type$iv;
-                i5 = arr2;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
                 next$iv$iv = node;
                 this_$iv$iv$iv2 = 1;
                 this_$iv$iv$iv = 1;
-                objArr = 0;
+                objArr2 = 0;
                 FocusTargetNodeKt.invalidateFocusTarget((FocusTargetNode)node$iv$iv);
-                $this$visitChildren_u2d6rFNWt0$iv2 = delegatableNode;
-                type$iv2 = type$iv;
-                i5 = arr2;
-                $this$visitChildren_u2d6rFNWt0$iv = 1;
+                $this$visitChildren_u2d6rFNWt0$iv = delegatableNode;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i10 = $i$f$visitChildren6rFNWt0;
+                $this$visitChildren_u2d6rFNWt0$iv2 = 1;
                 DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector2, node2);
             }
         }
         androidx.compose.ui.node.DelegatableNode delegatableNode3 = delegatableNode;
-        int i19 = type$iv;
+        int i19 = $i$f$getFocusTargetOLwlOKw;
         int $this$visitChildren_u2d6rFNWt0$iv5 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitChildren called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv = new IllegalStateException("visitChildren called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv;
     }
 
     private static final boolean specifiesCanFocusProperty(FocusPropertiesModifierNode $this$specifiesCanFocusProperty) {

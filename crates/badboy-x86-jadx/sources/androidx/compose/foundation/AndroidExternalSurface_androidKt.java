@@ -22,171 +22,171 @@ public final class AndroidExternalSurface_androidKt {
     public static final void AndroidEmbeddedExternalSurface-sv6N_fY(Modifier modifier, boolean isOpaque, long surfaceSize, float[] transform, Function1<? super androidx.compose.foundation.AndroidExternalSurfaceScope, Unit> onInit, Composer $composer, int $changed, int i8) {
         int empty;
         int traceInProgress;
-        int $dirty;
-        Object $dirty2;
-        int modifier3;
+        int $dirty2;
+        Object $dirty;
+        int modifier2;
         boolean traceInProgress2;
         Object state;
-        boolean z2;
+        boolean z;
         Object zero-YbymL2g;
-        int i2;
-        int changed2;
-        long l2;
-        int i12;
-        int i11;
         int i14;
+        int changed2;
+        long l;
+        int i13;
+        int i9;
+        int i12;
         int skipping;
         boolean defaultsInvalid;
-        int i4;
-        int i13;
-        int changed;
-        float[] fArr2;
-        boolean anon;
-        int i7;
-        int i10;
-        Object obj2;
-        int modifier2;
-        boolean changed3;
         int i5;
-        long l;
-        Object obj;
-        int box-impl;
-        int i9;
         int i6;
+        int changed3;
+        float[] fArr;
+        boolean anon;
+        int i4;
+        int i11;
+        Object obj2;
+        int modifier3;
+        boolean changed;
         int i;
-        Object rememberedValue;
-        int i3;
+        long l2;
+        Object obj;
         int box-impl2;
+        int i2;
+        int i7;
+        int i3;
+        Object rememberedValue;
+        int i10;
+        int box-impl;
         int anon2;
         Composer.Companion companion;
         androidx.compose.foundation.AndroidEmbeddedExternalSurfaceState androidEmbeddedExternalSurfaceState;
-        boolean z;
-        float[] fArr;
+        boolean z2;
+        float[] fArr2;
         final Object obj5 = $composer;
         final int i33 = i8;
         traceInProgress = 217541314;
         final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(AndroidEmbeddedExternalSurface)P(1!1,3:c#ui.unit.IntSize,4:c#ui.graphics.Matrix)455@18917L45,458@18999L203,467@19273L485,457@18968L796:AndroidExternalSurface.android.kt#71ulvw");
-        $dirty = i8;
+        $dirty2 = i8;
         int i15 = obj30 & 1;
         if (i15 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
             zero-YbymL2g = modifier;
         } else {
             if (i33 & 6 == 0) {
-                i12 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i12;
+                i13 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i13;
             } else {
                 zero-YbymL2g = modifier;
             }
         }
-        i14 = obj30 & 2;
-        if (i14 != 0) {
-            $dirty |= 48;
+        i12 = obj30 & 2;
+        if (i12 != 0) {
+            $dirty2 |= 48;
             anon = isOpaque;
         } else {
             if (i33 & 48 == 0) {
-                i7 = restartGroup.changed(isOpaque) ? 32 : 16;
-                $dirty |= i7;
+                i4 = restartGroup.changed(isOpaque) ? 32 : 16;
+                $dirty2 |= i4;
             } else {
                 anon = isOpaque;
             }
         }
-        i5 = 256;
+        i = 256;
         if (i33 & 384 == 0) {
             if (obj30 & 4 == 0) {
-                i10 = restartGroup.changed(surfaceSize) ? i5 : 128;
+                i11 = restartGroup.changed(surfaceSize) ? i : 128;
             } else {
-                l = surfaceSize;
+                l2 = surfaceSize;
             }
-            $dirty |= i10;
+            $dirty2 |= i11;
         } else {
-            l = surfaceSize;
+            l2 = surfaceSize;
         }
         int i35 = obj30 & 8;
         if (i35 != 0) {
-            $dirty |= 3072;
+            $dirty2 |= 3072;
         } else {
             if (i33 & 3072 == 0) {
                 if (onInit != null) {
-                    box-impl2 = Matrix.box-impl(onInit);
+                    box-impl = Matrix.box-impl(onInit);
                 } else {
-                    box-impl2 = 0;
+                    box-impl = 0;
                 }
-                i6 = restartGroup.changedInstance(box-impl2) ? 2048 : 1024;
-                $dirty |= i6;
+                i7 = restartGroup.changedInstance(box-impl) ? 2048 : 1024;
+                $dirty2 |= i7;
             }
         }
-        i9 = 16384;
+        i2 = 16384;
         if (obj30 & 16 != 0) {
-            $dirty |= 24576;
+            $dirty2 |= 24576;
         } else {
             if (i33 & 24576 == 0) {
-                i = restartGroup.changedInstance(obj5) ? i9 : 8192;
-                $dirty |= i;
+                i3 = restartGroup.changedInstance(obj5) ? i2 : 8192;
+                $dirty2 |= i3;
             }
         }
-        if ($dirty & 9363 == 9362) {
+        if ($dirty2 & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i33 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i15 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = zero-YbymL2g;
+                            modifier2 = zero-YbymL2g;
                         }
-                        if (i14 != 0) {
+                        if (i12 != 0) {
                             anon = zero-YbymL2g;
                         }
                         if (obj30 & 4 != 0) {
-                            $dirty &= -897;
-                            l = zero-YbymL2g;
+                            $dirty2 &= -897;
+                            l2 = zero-YbymL2g;
                         }
                         if (i35 != 0) {
-                            obj2 = modifier3;
-                            fArr = zero-YbymL2g;
-                            z = anon;
+                            obj2 = modifier2;
+                            fArr2 = zero-YbymL2g;
+                            z2 = anon;
                         } else {
-                            fArr = onInit;
-                            obj2 = modifier3;
-                            z = anon;
+                            fArr2 = onInit;
+                            obj2 = modifier2;
+                            z2 = anon;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj30 & 4 != 0) {
-                            $dirty &= -897;
+                            $dirty2 &= -897;
                         }
-                        fArr = onInit;
+                        fArr2 = onInit;
                         obj2 = zero-YbymL2g;
-                        z = anon;
+                        z2 = anon;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.foundation.AndroidEmbeddedExternalSurface (AndroidExternalSurface.android.kt:454)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.foundation.AndroidEmbeddedExternalSurface (AndroidExternalSurface.android.kt:454)");
                 }
                 empty = 0;
                 androidx.compose.foundation.AndroidEmbeddedExternalSurfaceState rememberAndroidEmbeddedExternalSurfaceState = AndroidExternalSurface_androidKt.rememberAndroidEmbeddedExternalSurfaceState(restartGroup, empty);
                 String str2 = "CC(remember):AndroidExternalSurface.android.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 184051342, str2);
-                if (i28 ^= 384 > i5) {
-                    if (!restartGroup.changed(l)) {
-                        i4 = $dirty & 384 == i5 ? 1 : empty;
+                if (i28 ^= 384 > i) {
+                    if (!restartGroup.changed(l2)) {
+                        i5 = $dirty2 & 384 == i ? 1 : empty;
                     } else {
                     }
                 } else {
                 }
-                i13 = i29 &= $dirty == i9 ? 1 : empty;
+                i6 = i29 &= $dirty2 == i2 ? 1 : empty;
                 Composer composer = restartGroup;
                 int i36 = 0;
                 rememberedValue = composer.rememberedValue();
                 anon2 = 0;
-                if (i20 |= i13 == 0) {
+                if (i20 |= i6 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        anon = new AndroidExternalSurface_androidKt.AndroidEmbeddedExternalSurface.1.1(rememberAndroidEmbeddedExternalSurfaceState, l, obj12, obj5);
+                        anon = new AndroidExternalSurface_androidKt.AndroidEmbeddedExternalSurface.1.1(rememberAndroidEmbeddedExternalSurfaceState, l2, obj12, obj5);
                         composer.updateRememberedValue((Function1)anon);
                     } else {
                         anon = rememberedValue;
@@ -195,32 +195,32 @@ public final class AndroidExternalSurface_androidKt {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 184060392, str2);
-                if (i23 ^= 384 > i5) {
-                    if (!restartGroup.changed(l)) {
-                        i2 = $dirty & 384 == i5 ? 1 : 0;
+                if (i23 ^= 384 > i) {
+                    if (!restartGroup.changed(l2)) {
+                        i14 = $dirty2 & 384 == i ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
-                i11 = $dirty & 112 == 32 ? 1 : 0;
-                if (fArr != null) {
-                    box-impl = Matrix.box-impl(fArr);
+                i9 = $dirty2 & 112 == 32 ? 1 : 0;
+                if (fArr2 != null) {
+                    box-impl2 = Matrix.box-impl(fArr2);
                 } else {
-                    box-impl = 0;
+                    box-impl2 = 0;
                 }
-                i14 = restartGroup;
+                i12 = restartGroup;
                 int i32 = 0;
-                Object rememberedValue2 = i14.rememberedValue();
+                Object rememberedValue2 = i12.rememberedValue();
                 int i37 = 0;
                 if (i25 |= changedInstance3 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         rememberedValue = 0;
-                        anon2 = new AndroidExternalSurface_androidKt.AndroidEmbeddedExternalSurface.3.1(l, obj18, rememberAndroidEmbeddedExternalSurfaceState, z, fArr);
-                        i14.updateRememberedValue((Function1)anon2);
+                        anon2 = new AndroidExternalSurface_androidKt.AndroidEmbeddedExternalSurface.3.1(l2, obj18, rememberAndroidEmbeddedExternalSurfaceState, z2, fArr2);
+                        i12.updateRememberedValue((Function1)anon2);
                     } else {
                         androidEmbeddedExternalSurfaceState = rememberAndroidEmbeddedExternalSurfaceState;
                         state = rememberedValue2;
-                        companion = l;
+                        companion = l2;
                     }
                 } else {
                 }
@@ -229,71 +229,71 @@ public final class AndroidExternalSurface_androidKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                modifier2 = $dirty;
-                $dirty2 = obj4;
-                l2 = companion;
-                z2 = z;
-                fArr2 = fArr;
+                modifier3 = $dirty2;
+                $dirty = obj4;
+                l = companion;
+                z = z2;
+                fArr = fArr2;
             } else {
                 restartGroup.skipToGroupEnd();
-                fArr2 = onInit;
-                modifier2 = $dirty;
-                $dirty2 = zero-YbymL2g;
-                z2 = anon;
-                l2 = l;
+                fArr = onInit;
+                modifier3 = $dirty2;
+                $dirty = zero-YbymL2g;
+                z = anon;
+                l = l2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new AndroidExternalSurface_androidKt.AndroidEmbeddedExternalSurface.4($dirty2, z2, l2, i14, fArr2, obj5, i33, obj30);
+            traceInProgress = new AndroidExternalSurface_androidKt.AndroidEmbeddedExternalSurface.4($dirty, z, l, i12, fArr, obj5, i33, obj30);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void AndroidExternalSurface-58FFMhA(Modifier modifier, boolean isOpaque, long surfaceSize, int zOrder, boolean isSecure, Function1<? super androidx.compose.foundation.AndroidExternalSurfaceScope, Unit> onInit, Composer $composer, int $changed, int i9) {
-        int traceInProgress2;
+        int traceInProgress;
         Object it$iv;
-        int $dirty;
-        Object $dirty2;
-        Object obj;
-        boolean z3;
-        int modifier2;
-        boolean traceInProgress;
-        Object behind-B_4ceCc;
-        long l2;
-        int i5;
-        int changed;
-        int i3;
-        int i14;
-        int i;
-        int i2;
-        int i10;
-        int i11;
-        int i15;
-        int i12;
-        int skipping;
-        boolean defaultsInvalid;
+        int $dirty2;
+        Object $dirty;
+        Object $i$a$CacheAndroidExternalSurface_androidKt$AndroidExternalSurface$3;
         boolean z;
-        boolean z4;
-        int i6;
-        int i4;
-        int $this$cache$iv;
-        boolean changed2;
-        int i17;
+        int modifier2;
+        boolean traceInProgress2;
+        Object behind-B_4ceCc;
         long l3;
         int i13;
-        boolean z2;
-        int i16;
-        int i18;
+        int changed2;
+        int i14;
         int i7;
-        Composer.Companion companion;
+        int i;
+        int i6;
         int i19;
         int i8;
+        int i2;
+        int i18;
+        int skipping;
+        boolean defaultsInvalid;
+        boolean z5;
+        boolean z2;
+        int i5;
+        int i15;
+        int $this$cache$iv;
+        boolean changed;
+        int i12;
+        long l2;
+        int i16;
+        boolean z3;
+        int i4;
+        int i10;
+        int i17;
+        Composer.Companion companion;
+        int i11;
+        int i3;
         int $dirty3;
         long l;
         int companion2;
-        boolean z5;
+        boolean z4;
         androidx.compose.foundation.AndroidExternalSurface_androidKt.AndroidExternalSurface.3.1 obj23;
         long obj24;
         Object obj25;
@@ -301,80 +301,80 @@ public final class AndroidExternalSurface_androidKt {
         int obj27;
         boolean obj28;
         androidx.compose.foundation.AndroidExternalSurface_androidKt.AndroidExternalSurface.2 obj30;
-        final Object obj2 = $composer;
+        final Object obj = $composer;
         final int i43 = i9;
-        traceInProgress2 = 640888974;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
+        traceInProgress = 640888974;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(AndroidExternalSurface)P(2!1,4:c#ui.unit.IntSize,5:c#foundation.AndroidExternalSurfaceZOrder)288@12167L37,291@12241L150,299@12462L774,290@12210L1032:AndroidExternalSurface.android.kt#71ulvw");
-        $dirty = i9;
+        $dirty2 = i9;
         int i23 = obj32 & 1;
         if (i23 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
             behind-B_4ceCc = modifier;
         } else {
             if (i43 & 6 == 0) {
-                i14 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i14;
+                i7 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i7;
             } else {
                 behind-B_4ceCc = modifier;
             }
         }
         i = obj32 & 2;
         if (i != 0) {
-            $dirty |= 48;
-            z = isOpaque;
+            $dirty2 |= 48;
+            z5 = isOpaque;
         } else {
             if (i43 & 48 == 0) {
-                i6 = restartGroup.changed(isOpaque) ? 32 : 16;
-                $dirty |= i6;
+                i5 = restartGroup.changed(isOpaque) ? 32 : 16;
+                $dirty2 |= i5;
             } else {
-                z = isOpaque;
+                z5 = isOpaque;
             }
         }
         if (i43 & 384 == 0) {
             if (obj32 & 4 == 0) {
-                i4 = restartGroup.changed(surfaceSize) ? 256 : 128;
+                i15 = restartGroup.changed(surfaceSize) ? 256 : 128;
             } else {
-                l3 = surfaceSize;
+                l2 = surfaceSize;
             }
-            $dirty |= i4;
+            $dirty2 |= i15;
         } else {
-            l3 = surfaceSize;
+            l2 = surfaceSize;
         }
         $this$cache$iv = obj32 & 8;
         if ($this$cache$iv != 0) {
-            $dirty |= 3072;
-            i16 = isSecure;
+            $dirty2 |= 3072;
+            i4 = isSecure;
         } else {
             if (i43 & 3072 == 0) {
-                i18 = restartGroup.changed(isSecure) ? 2048 : 1024;
-                $dirty |= i18;
+                i10 = restartGroup.changed(isSecure) ? 2048 : 1024;
+                $dirty2 |= i10;
             } else {
-                i16 = isSecure;
+                i4 = isSecure;
             }
         }
-        i7 = obj32 & 16;
-        if (i7 != 0) {
-            $dirty |= 24576;
-            z2 = onInit;
+        i17 = obj32 & 16;
+        if (i17 != 0) {
+            $dirty2 |= 24576;
+            z3 = onInit;
         } else {
             if (i43 & 24576 == 0) {
-                i19 = restartGroup.changed(onInit) ? 16384 : 8192;
-                $dirty |= i19;
+                i11 = restartGroup.changed(onInit) ? 16384 : 8192;
+                $dirty2 |= i11;
             } else {
-                z2 = onInit;
+                z3 = onInit;
             }
         }
         final int i51 = 196608;
         if (obj32 & 32 != 0) {
-            $dirty |= i51;
+            $dirty2 |= i51;
         } else {
             if (i43 & i51 == 0) {
-                i8 = restartGroup.changedInstance(obj2) ? 131072 : 65536;
-                $dirty |= i8;
+                i3 = restartGroup.changedInstance(obj) ? 131072 : 65536;
+                $dirty2 |= i3;
             }
         }
-        if ($dirty & i49 == 74898) {
+        if ($dirty2 & i49 == 74898) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i43 & 1 != 0) {
@@ -385,48 +385,48 @@ public final class AndroidExternalSurface_androidKt {
                             modifier2 = behind-B_4ceCc;
                         }
                         if (i != 0) {
-                            z = behind-B_4ceCc;
+                            z5 = behind-B_4ceCc;
                         }
                         if (obj32 & 4 != 0) {
-                            $dirty &= -897;
-                            l3 = behind-B_4ceCc;
+                            $dirty2 &= -897;
+                            l2 = behind-B_4ceCc;
                         }
                         if ($this$cache$iv != 0) {
-                            i16 = behind-B_4ceCc;
+                            i4 = behind-B_4ceCc;
                         }
-                        if (i7 != 0) {
-                            i17 = modifier2;
-                            z2 = behind-B_4ceCc;
+                        if (i17 != 0) {
+                            i12 = modifier2;
+                            z3 = behind-B_4ceCc;
                         } else {
-                            i17 = modifier2;
+                            i12 = modifier2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj32 & 4 != 0) {
-                            $dirty &= -897;
+                            $dirty2 &= -897;
                         }
-                        i17 = behind-B_4ceCc;
+                        i12 = behind-B_4ceCc;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.foundation.AndroidExternalSurface (AndroidExternalSurface.android.kt:287)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.foundation.AndroidExternalSurface (AndroidExternalSurface.android.kt:287)");
                 }
                 int i20 = 0;
                 androidx.compose.foundation.AndroidExternalSurfaceState rememberAndroidExternalSurfaceState = AndroidExternalSurface_androidKt.rememberAndroidExternalSurfaceState(restartGroup, i20);
                 String str2 = "CC(remember):AndroidExternalSurface.android.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1356109309, str2);
-                i5 = i26 &= $dirty == 131072 ? 1 : i20;
+                i13 = i26 &= $dirty2 == 131072 ? 1 : i20;
                 Composer composer = restartGroup;
                 int i47 = 0;
                 it$iv = composer.rememberedValue();
                 int i50 = 0;
-                if (i5 |= changedInstance == null) {
+                if (i13 |= changedInstance == null) {
                     if (it$iv == Composer.Companion.getEmpty()) {
                         defaultsInvalid = 0;
                         obj25 = it$iv;
-                        it$iv = new AndroidExternalSurface_androidKt.AndroidExternalSurface.1.1(obj2, rememberAndroidExternalSurfaceState);
+                        it$iv = new AndroidExternalSurface_androidKt.AndroidExternalSurface.1.1(obj, rememberAndroidExternalSurfaceState);
                         composer.updateRememberedValue((Function1)it$iv);
                     } else {
                         obj25 = it$iv;
@@ -436,78 +436,78 @@ public final class AndroidExternalSurface_androidKt {
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1356101613, str2);
                 if (i30 ^= 384 > 256) {
-                    if (!restartGroup.changed(l3)) {
-                        i3 = $dirty & 384 == 256 ? 1 : 0;
+                    if (!restartGroup.changed(l2)) {
+                        i14 = $dirty2 & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
-                i10 = $dirty & 112 == 32 ? 1 : 0;
-                i11 = $dirty & 7168 == 2048 ? 1 : 0;
-                i15 = i36 &= $dirty == 16384 ? 1 : 0;
+                i19 = $dirty2 & 112 == 32 ? 1 : 0;
+                i8 = $dirty2 & 7168 == 2048 ? 1 : 0;
+                i2 = i36 &= $dirty2 == 16384 ? 1 : 0;
                 i = restartGroup;
                 int i41 = 0;
                 Object rememberedValue = i.rememberedValue();
                 int i48 = 0;
-                if (i32 |= i15 == 0) {
-                    $dirty3 = $dirty;
+                if (i32 |= i2 == 0) {
+                    $dirty3 = $dirty2;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int $dirty4 = 0;
-                        obj26 = z;
-                        obj24 = l3;
-                        obj28 = z2;
-                        obj27 = i16;
+                        obj26 = z5;
+                        obj24 = l2;
+                        obj28 = z3;
+                        obj27 = i4;
                         obj23 = anon2;
                         super(obj24, obj25, obj26, obj27, obj28);
                         l = obj24;
                         companion = obj26;
                         companion2 = obj27;
-                        z5 = obj28;
+                        z4 = obj28;
                         i.updateRememberedValue((Function1)obj23);
                     } else {
-                        obj = rememberedValue;
-                        companion = z;
-                        l = l3;
-                        z5 = z2;
-                        companion2 = i16;
+                        $i$a$CacheAndroidExternalSurface_androidKt$AndroidExternalSurface$3 = rememberedValue;
+                        companion = z5;
+                        l = l2;
+                        z4 = z3;
+                        companion2 = i4;
                     }
                 } else {
-                    $dirty3 = $dirty;
+                    $dirty3 = $dirty2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                AndroidView_androidKt.AndroidView((Function1)it$iv, i17, (Function1)AndroidExternalSurface_androidKt.AndroidExternalSurface.2.INSTANCE, 0, (Function1)obj, restartGroup, i22 | 384, 8);
+                AndroidView_androidKt.AndroidView((Function1)it$iv, i12, (Function1)AndroidExternalSurface_androidKt.AndroidExternalSurface.2.INSTANCE, 0, (Function1)$i$a$CacheAndroidExternalSurface_androidKt$AndroidExternalSurface$3, restartGroup, i22 | 384, 8);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $dirty2 = i17;
-                z3 = companion;
-                l2 = l;
-                i12 = companion2;
-                z4 = z5;
+                $dirty = i12;
+                z = companion;
+                l3 = l;
+                i18 = companion2;
+                z2 = z4;
             } else {
                 restartGroup.skipToGroupEnd();
-                $dirty3 = $dirty;
-                $dirty2 = behind-B_4ceCc;
-                z3 = z;
-                l2 = l3;
-                z4 = z2;
-                i12 = i16;
+                $dirty3 = $dirty2;
+                $dirty = behind-B_4ceCc;
+                z = z5;
+                l3 = l2;
+                z2 = z3;
+                i18 = i4;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new AndroidExternalSurface_androidKt.AndroidExternalSurface.4($dirty2, z3, l2, i, i12, z4, obj2, i43, obj32);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new AndroidExternalSurface_androidKt.AndroidExternalSurface.4($dirty, z, l3, i, i18, z2, obj, i43, obj32);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     private static final androidx.compose.foundation.AndroidEmbeddedExternalSurfaceState rememberAndroidEmbeddedExternalSurfaceState(Composer $composer, int $changed) {
         boolean traceInProgress;
         String str;
-        Object empty;
+        Object empty2;
         Object androidEmbeddedExternalSurfaceState;
-        int empty2;
+        int empty;
         kotlinx.coroutines.CoroutineScope compositionCoroutineScope;
         Object compositionScopedCoroutineScopeCanceller;
         int i = -1057437053;
@@ -525,7 +525,7 @@ public final class AndroidExternalSurface_androidKt {
         Object rememberedValue2 = composer3.rememberedValue();
         int i12 = 0;
         if (rememberedValue2 == Composer.Companion.getEmpty()) {
-            empty2 = 0;
+            empty = 0;
             int i13 = 0;
             compositionScopedCoroutineScopeCanceller = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, $composer));
             composer3.updateRememberedValue(compositionScopedCoroutineScopeCanceller);
@@ -541,7 +541,7 @@ public final class AndroidExternalSurface_androidKt {
         Object rememberedValue = composer.rememberedValue();
         int i11 = 0;
         if (rememberedValue == Composer.Companion.getEmpty()) {
-            empty = 0;
+            empty2 = 0;
             androidEmbeddedExternalSurfaceState = new AndroidEmbeddedExternalSurfaceState((CompositionScopedCoroutineScopeCanceller)compositionScopedCoroutineScopeCanceller.getCoroutineScope());
             composer.updateRememberedValue(androidEmbeddedExternalSurfaceState);
         } else {

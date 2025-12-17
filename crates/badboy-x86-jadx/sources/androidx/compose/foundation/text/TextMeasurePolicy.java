@@ -31,94 +31,94 @@ final class TextMeasurePolicy implements MeasurePolicy {
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, List<? extends Measurable> measurables, long constraints) {
         ArrayList $this$fastFilter$iv;
         Object box-impl;
-        ArrayList arrayList2;
-        ArrayList list2;
-        int i4;
         ArrayList arrayList;
-        int index$iv$iv3;
-        int size2;
+        ArrayList list2;
+        int i3;
+        ArrayList arrayList2;
         int index$iv$iv2;
+        int size2;
         int index$iv$iv;
+        int index$iv$iv3;
         int size;
         int i7;
-        Object obj2;
+        Object obj;
         int it;
         boolean z;
         Object parentData;
-        int i12;
-        int i5;
-        Object obj;
-        int i8;
-        Object obj3;
-        ArrayList inlineContentMeasurables2;
-        ArrayList inlineContentMeasurables;
-        int i6;
-        ArrayList list;
-        int i3;
-        int i9;
-        int i11;
+        int i4;
         int i2;
+        Object obj3;
+        int i9;
+        Object obj2;
+        ArrayList inlineContentMeasurables;
+        ArrayList inlineContentMeasurables2;
+        int i5;
+        ArrayList list;
+        int i6;
+        int i8;
+        int i12;
+        int i11;
         int i10;
         int i;
         final Object obj4 = this;
         int i13 = measurables;
         int i15 = 0;
-        arrayList2 = new ArrayList(i13.size());
-        i4 = i13;
-        arrayList = 0;
-        index$iv$iv3 = 0;
-        while (index$iv$iv3 < i4.size()) {
-            size = index$iv$iv;
+        arrayList = new ArrayList(i13.size());
+        i3 = i13;
+        arrayList2 = 0;
+        index$iv$iv2 = 0;
+        while (index$iv$iv2 < i3.size()) {
+            size = index$iv$iv3;
             i7 = 0;
             it = 0;
             if (!parentData2 instanceof TextRangeLayoutModifier) {
             }
-            index$iv$iv3++;
-            (Collection)arrayList2.add(size);
+            index$iv$iv2++;
+            (Collection)arrayList.add(size);
         }
         box-impl = obj4.placements.invoke();
         if ((List)box-impl != null) {
-            i4 = 0;
-            arrayList = new ArrayList((List)box-impl.size());
-            index$iv$iv3 = box-impl;
+            i3 = 0;
+            arrayList2 = new ArrayList((List)box-impl.size());
+            index$iv$iv2 = box-impl;
             size2 = 0;
-            index$iv$iv = 0;
-            while (index$iv$iv < index$iv$iv3.size()) {
+            index$iv$iv3 = 0;
+            while (index$iv$iv3 < index$iv$iv2.size()) {
                 z = 0;
                 parentData = it;
-                i5 = 0;
+                i2 = 0;
                 if ((Rect)parentData != null) {
                 } else {
                 }
-                inlineContentMeasurables2 = $this$fastFilter$iv;
-                obj3 = box-impl;
-                i6 = i4;
-                list = arrayList;
-                arrayList2 = 0;
-                if (arrayList2 != null) {
+                inlineContentMeasurables = $this$fastFilter$iv;
+                obj2 = box-impl;
+                i5 = i3;
+                list = arrayList2;
+                arrayList = 0;
+                if (arrayList != null) {
                 }
-                index$iv$iv++;
-                box-impl = obj3;
-                $this$fastFilter$iv = inlineContentMeasurables2;
-                i4 = i6;
-                arrayList = list;
+                index$iv$iv3++;
+                box-impl = obj2;
+                $this$fastFilter$iv = inlineContentMeasurables;
+                i3 = i5;
+                arrayList2 = list;
                 $this$fastFilter$iv = 0;
-                (Collection)list.add(arrayList2);
-                obj = parentData;
-                i8 = 0;
-                inlineContentMeasurables2 = $this$fastFilter$iv;
-                obj3 = box-impl;
-                i6 = i4;
-                list = arrayList;
+                (Collection)list.add(arrayList);
+                obj3 = parentData;
+                i9 = 0;
+                inlineContentMeasurables = $this$fastFilter$iv;
+                obj2 = box-impl;
+                i5 = i3;
+                list = arrayList2;
                 int i19 = 0;
-                arrayList2 = new Pair((Measurable)$this$fastFilter$iv.get(index$iv$iv).measure-BRTryo0(ConstraintsKt.Constraints$default(0, (int)f, 0, (int)f2, 5, 0)), IntOffset.box-impl(IntOffsetKt.IntOffset(Math.round(obj.getLeft()), Math.round(obj.getTop()))));
+                arrayList = new Pair((Measurable)$this$fastFilter$iv.get(index$iv$iv3).measure-BRTryo0(ConstraintsKt.Constraints$default(0, (int)f, 0, (int)f2, 5, 0)), IntOffset.box-impl(IntOffsetKt.IntOffset(Math.round(obj3.getLeft()), Math.round(obj3.getTop()))));
             }
-            inlineContentMeasurables = $this$fastFilter$iv;
-            obj3 = box-impl;
-            i6 = i4;
+            inlineContentMeasurables2 = $this$fastFilter$iv;
+            obj2 = box-impl;
+            i5 = i3;
             list2 = list;
         } else {
-            inlineContentMeasurables = $this$fastFilter$iv;
+            inlineContentMeasurables2 = $this$fastFilter$iv;
             list2 = 0;
         }
         int i14 = measurables;
@@ -126,14 +126,14 @@ final class TextMeasurePolicy implements MeasurePolicy {
         ArrayList arrayList3 = new ArrayList(i14.size());
         int i20 = i14;
         int i21 = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < i20.size()) {
+        index$iv$iv = 0;
+        while (index$iv$iv < i20.size()) {
             i7 = size;
-            obj2 = 0;
+            obj = 0;
             z = 0;
             if (parentData instanceof TextRangeLayoutModifier) {
             }
-            index$iv$iv2++;
+            index$iv$iv++;
             (Collection)arrayList3.add(i7);
         }
         TextMeasurePolicy.measure.1 anon = new TextMeasurePolicy.measure.1(list2, BasicTextKt.access$measureWithTextRangeMeasureConstraints((List)arrayList3, obj4.shouldMeasureLinks));

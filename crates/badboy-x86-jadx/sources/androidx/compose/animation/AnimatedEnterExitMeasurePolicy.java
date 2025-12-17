@@ -89,11 +89,11 @@ final class AnimatedEnterExitMeasurePolicy implements MeasurePolicy {
         int width;
         MutableState targetSize$animation_release;
         IntSize box-impl;
+        Object maxElem$iv3;
+        boolean maxElem$iv;
         Object maxElem$iv2;
-        boolean maxElem$iv3;
-        Object maxElem$iv;
         int maxValue$iv;
-        int it4;
+        int it;
         int index$iv$iv;
         int height;
         int it2;
@@ -101,7 +101,7 @@ final class AnimatedEnterExitMeasurePolicy implements MeasurePolicy {
         int lastIndex;
         Object obj;
         int it3;
-        int it;
+        int it4;
         int i2;
         long l;
         int i;
@@ -124,7 +124,7 @@ final class AnimatedEnterExitMeasurePolicy implements MeasurePolicy {
         int i5 = 0;
         height = 0;
         if (list.isEmpty()) {
-            maxElem$iv2 = maxValue$iv;
+            maxElem$iv3 = maxValue$iv;
         } else {
             int i8 = 0;
             it2 = (Placeable)list.get(height).getWidth();
@@ -132,8 +132,8 @@ final class AnimatedEnterExitMeasurePolicy implements MeasurePolicy {
             if (1 <= lastIndex) {
             }
         }
-        if ((Placeable)maxElem$iv2 != null) {
-            width = (Placeable)maxElem$iv2.getWidth();
+        if ((Placeable)maxElem$iv3 != null) {
+            width = (Placeable)maxElem$iv3.getWidth();
         } else {
             width = height;
         }
@@ -143,12 +143,12 @@ final class AnimatedEnterExitMeasurePolicy implements MeasurePolicy {
         if (list2.isEmpty()) {
         } else {
             int i7 = 0;
-            it4 = (Placeable)list2.get(height).getHeight();
+            it = (Placeable)list2.get(height).getHeight();
             lastIndex = CollectionsKt.getLastIndex(list2);
             if (1 <= lastIndex) {
             }
-            maxValue$iv = maxElem$iv;
-            maxElem$iv3 = i;
+            maxValue$iv = maxElem$iv2;
+            maxElem$iv = i;
         }
         if ((Placeable)maxValue$iv != 0) {
             height = (Placeable)maxValue$iv.getHeight();

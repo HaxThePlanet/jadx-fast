@@ -16,20 +16,20 @@ public final class PersistableBundleKt {
     }
 
     public static final PersistableBundle persistableBundleOf(Pair<String, ? extends Object>... pairs) {
-        int i2;
-        Object obj;
         int i;
+        Object obj;
+        int i2;
         Object component1;
         Object component2;
         PersistableBundle persistableBundle = PersistableBundleApi21ImplKt.createPersistableBundle(pairs.length);
         final Object[] objArr = pairs;
         final int i3 = 0;
-        i2 = 0;
-        while (i2 < objArr.length) {
-            obj = objArr[i2];
-            i = 0;
+        i = 0;
+        while (i < objArr.length) {
+            obj = objArr[i];
+            i2 = 0;
             PersistableBundleApi21ImplKt.putValue(persistableBundle, (String)obj.component1(), obj.component2());
-            i2++;
+            i++;
         }
         return persistableBundle;
     }

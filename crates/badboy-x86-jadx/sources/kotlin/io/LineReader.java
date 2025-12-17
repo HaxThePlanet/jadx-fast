@@ -141,19 +141,19 @@ public final class LineReader {
     }
 
     public final String readLine(InputStream inputStream, Charset charset) {
-        boolean decoder;
+        boolean decoder2;
         int compactBytes;
         int decode;
-        CharsetDecoder decoder2;
-        int nChars2;
+        CharsetDecoder decoder;
         int nChars;
+        int nChars2;
         int read;
+        int i3;
+        int i4;
+        byte[] bytes;
         int i5;
         int i2;
-        byte[] bytes;
-        int i4;
         int i;
-        int i3;
         byte b;
         Intrinsics.checkNotNullParameter(inputStream, "inputStream");
         Intrinsics.checkNotNullParameter(charset, "charset");
@@ -163,92 +163,92 @@ public final class LineReader {
                 if (LineReader.decoder == null) {
                 }
                 Intrinsics.throwUninitializedPropertyAccessException("decoder");
-                decoder2 = i6;
-                if (!Intrinsics.areEqual(decoder2.charset(), charset)) {
+                decoder = i6;
+                if (!Intrinsics.areEqual(decoder.charset(), charset)) {
                 }
                 updateCharset(charset);
                 compactBytes = 0;
-                nChars = 0;
+                nChars2 = 0;
                 read = inputStream.read();
-                i5 = 32;
-                i2 = 10;
-                i = 0;
+                i3 = 32;
+                i4 = 10;
+                i2 = 0;
                 while (read == -1) {
-                    i3 = compactBytes + 1;
+                    i = compactBytes + 1;
                     LineReader.bytes[compactBytes] = (byte)read;
-                    LineReader.byteBuf.limit(i3);
-                    LineReader.charBuf.position(nChars);
-                    nChars = decode;
+                    LineReader.byteBuf.limit(i);
+                    LineReader.charBuf.position(nChars2);
+                    nChars2 = decode;
                     compactBytes = compactBytes();
                     read = inputStream.read();
-                    i5 = 32;
-                    i2 = 10;
-                    i = 0;
-                    compactBytes = i3;
+                    i3 = 32;
+                    i4 = 10;
+                    i2 = 0;
+                    compactBytes = i;
                 }
                 if ((CharSequence)LineReader.sb.length() == 0) {
                 } else {
                 }
-                bytes = i4;
-                bytes = i;
-                if (bytes != 0 && compactBytes == 0 && nChars == 0) {
+                bytes = i5;
+                bytes = i2;
+                if (bytes != 0 && compactBytes == 0 && nChars2 == 0) {
                 }
                 if (compactBytes == 0) {
                 }
-                if (nChars == 0) {
+                if (nChars2 == 0) {
                 }
                 return i6;
-                nChars2 = decodeEndOfInput(compactBytes, nChars);
-                i3 = compactBytes + 1;
+                nChars = decodeEndOfInput(compactBytes, nChars2);
+                i = compactBytes + 1;
                 LineReader.bytes[compactBytes] = (byte)read;
-                if (read != i2) {
+                if (read != i4) {
                 } else {
                 }
-                if (i3 != i5) {
+                if (i != i3) {
                 } else {
                 }
                 if (!LineReader.directEOL) {
                 } else {
                 }
-                compactBytes = i3;
-                LineReader.byteBuf.limit(i3);
-                LineReader.charBuf.position(nChars);
-                nChars = decode;
-                if (nChars > 0) {
-                } else {
-                }
-                if (LineReader.chars[nChars + -1] == i2) {
-                } else {
-                }
-                LineReader.byteBuf.position(i);
-                nChars2 = nChars;
-                compactBytes = i3;
-                nChars2--;
-                if (nChars2 > 0 && LineReader.chars[nChars2 + -1] == i2 && nChars2 > 0 && LineReader.chars[nChars2 + -1] == 13) {
-                }
-                if (LineReader.chars[nChars2 + -1] == i2) {
-                }
-                nChars2--;
+                compactBytes = i;
+                LineReader.byteBuf.limit(i);
+                LineReader.charBuf.position(nChars2);
+                nChars2 = decode;
                 if (nChars2 > 0) {
+                } else {
                 }
-                if (LineReader.chars[nChars2 + -1] == 13) {
+                if (LineReader.chars[nChars2 + -1] == i4) {
+                } else {
                 }
-                nChars2--;
+                LineReader.byteBuf.position(i2);
+                nChars = nChars2;
+                compactBytes = i;
+                nChars--;
+                if (nChars > 0 && LineReader.chars[nChars + -1] == i4 && nChars > 0 && LineReader.chars[nChars + -1] == 13) {
+                }
+                if (LineReader.chars[nChars + -1] == i4) {
+                }
+                nChars--;
+                if (nChars > 0) {
+                }
+                if (LineReader.chars[nChars + -1] == 13) {
+                }
+                nChars--;
                 if ((CharSequence)LineReader.sb.length() == 0) {
                 } else {
                 }
-                i4 = i;
-                if (i4 != 0) {
+                i5 = i2;
+                if (i5 != 0) {
                 }
-                String string2 = new String(LineReader.chars, i, nChars2);
+                String string2 = new String(LineReader.chars, i2, nChars);
                 return string2;
-                LineReader.sb.append(LineReader.chars, i, nChars2);
+                LineReader.sb.append(LineReader.chars, i2, nChars);
                 String string = LineReader.sb.toString();
                 Intrinsics.checkNotNullExpressionValue(string, "toString(...)");
-                if (LineReader.sb.length() > i5) {
+                if (LineReader.sb.length() > i3) {
                 }
                 trimStringBuilder();
-                LineReader.sb.setLength(i);
+                LineReader.sb.setLength(i2);
                 return string;
                 compactBytes = compactBytes();
                 throw inputStream;

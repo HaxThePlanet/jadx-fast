@@ -36,17 +36,17 @@ public final class AbsoluteCutCornerShape extends androidx.compose.foundation.sh
 
     @Override // androidx.compose.foundation.shape.CornerBasedShape
     public Outline createOutline-LjSzlW0(long size, float topStart, float topEnd, float bottomEnd, float bottomStart, LayoutDirection layoutDirection) {
-        int i;
+        int i3;
         Outline rectangle;
         Object rect-uvyYCjk;
         Path path;
         int i2;
         int cornerSize;
-        int i3;
+        int i;
         float height-impl;
         int i7 = 0;
-        i = Float.compare(i6, i7) == 0 ? 1 : 0;
-        if (i != 0) {
+        i3 = Float.compare(i6, i7) == 0 ? 1 : 0;
+        if (i3 != 0) {
             rectangle = new Outline.Rectangle(SizeKt.toRect-uvyYCjk(size));
         } else {
             Path path2 = AndroidPath_androidKt.Path();

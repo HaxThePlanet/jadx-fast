@@ -70,9 +70,9 @@ public abstract class DelegatingNode extends Modifier.Node {
     }
 
     private final void validateDelegateKindSet(int delegateKindSet, Modifier.Node delegateNode) {
-        int value$iv;
+        int $i$f$getLayoutOLwlOKw;
         int i2;
-        int string;
+        int $i$a$CheckPreconditionDelegatingNode$validateDelegateKindSet$1;
         int append;
         int str;
         int i;
@@ -80,11 +80,11 @@ public abstract class DelegatingNode extends Modifier.Node {
         i2 = 2;
         append = 0;
         final int i6 = 0;
-        value$iv = string & constructor-impl != 0 ? i : i6;
-        if (value$iv != 0) {
+        $i$f$getLayoutOLwlOKw = $i$a$CheckPreconditionDelegatingNode$validateDelegateKindSet$1 & $i$f$getLayoutOLwlOKw2 != 0 ? i : i6;
+        if ($i$f$getLayoutOLwlOKw != 0) {
             int i4 = 0;
-            string = 0;
-            if (i2 & value$iv != 0) {
+            $i$a$CheckPreconditionDelegatingNode$validateDelegateKindSet$1 = 0;
+            if (i2 & $i$f$getLayoutOLwlOKw != 0) {
             } else {
                 i = i6;
             }
@@ -103,29 +103,29 @@ public abstract class DelegatingNode extends Modifier.Node {
     protected final <T extends androidx.compose.ui.node.DelegatableNode> T delegate(T delegatableNode) {
         int coordinator$ui_release;
         int node;
-        int i;
-        int parent$ui_release;
         int i6;
-        Modifier.Node equal;
-        String str;
-        boolean value$iv;
-        int i2;
-        int i4;
-        int i5;
+        int parent$ui_release;
         int i3;
+        Modifier.Node equal;
+        String $i$a$CheckPreconditionDelegatingNode$delegate$1;
+        boolean $i$f$getLayoutOLwlOKw;
+        int i4;
+        int i2;
+        int i;
+        int i5;
         final Modifier.Node node2 = delegatableNode.getNode();
         coordinator$ui_release = 1;
         node = 0;
-        i = node2 != delegatableNode ? coordinator$ui_release : node;
+        i6 = node2 != delegatableNode ? coordinator$ui_release : node;
         parent$ui_release = 0;
-        if (i != 0) {
+        if (i6 != 0) {
             if (delegatableNode instanceof Modifier.Node) {
-                i6 = delegatableNode;
+                i3 = delegatableNode;
             } else {
-                i6 = parent$ui_release;
+                i3 = parent$ui_release;
             }
-            if (i6 != 0) {
-                parent$ui_release = i6.getParent$ui_release();
+            if (i3 != 0) {
+                parent$ui_release = i3.getParent$ui_release();
             }
             if (node2 == getNode() && Intrinsics.areEqual(parent$ui_release, this)) {
                 if (Intrinsics.areEqual(parent$ui_release, this)) {
@@ -156,13 +156,13 @@ public abstract class DelegatingNode extends Modifier.Node {
         updateNodeKindSet(kindSet$ui_release2 |= nodeKindSetFromIncludingDelegates, node);
         if (isAttached()) {
             int i10 = 0;
-            i2 = 2;
-            i5 = 0;
-            value$iv = i4 & constructor-impl != 0 ? coordinator$ui_release : node;
-            if (value$iv != 0) {
+            i4 = 2;
+            i = 0;
+            $i$f$getLayoutOLwlOKw = i2 & $i$f$getLayoutOLwlOKw2 != 0 ? coordinator$ui_release : node;
+            if ($i$f$getLayoutOLwlOKw != 0) {
                 int i11 = 0;
-                i4 = 0;
-                if (i2 & value$iv != 0) {
+                i2 = 0;
+                if (i4 & $i$f$getLayoutOLwlOKw != 0) {
                 } else {
                     coordinator$ui_release = node;
                 }
@@ -310,19 +310,19 @@ public abstract class DelegatingNode extends Modifier.Node {
         int prev;
         Modifier.Node it;
         int found;
-        int i5;
+        int i;
         int nodes$ui_release;
         Modifier.Node child$ui_release;
         int node;
         boolean value$iv;
-        int i3;
-        int i;
-        int i4;
+        int i5;
         int i2;
+        int i3;
+        int i4;
         prev = 0;
         it = this.delegate;
         found = 0;
-        i5 = 0;
+        i = 0;
         nodes$ui_release = 0;
         while (it != null) {
             if (it == instance) {
@@ -331,7 +331,7 @@ public abstract class DelegatingNode extends Modifier.Node {
             }
             prev = it;
             it = it.getChild$ui_release();
-            i5 = 0;
+            i = 0;
             nodes$ui_release = 0;
         }
         if (found == 0) {
@@ -341,19 +341,19 @@ public abstract class DelegatingNode extends Modifier.Node {
             updateNodeKindSet(nodeKindSetFromIncludingDelegates, node);
             if (isAttached()) {
                 int i6 = 0;
-                i3 = 2;
-                i4 = 0;
-                value$iv = i & constructor-impl != 0 ? node : nodes$ui_release;
+                i5 = 2;
+                i3 = 0;
+                value$iv = i2 & $i$f$getLayoutOLwlOKw != 0 ? node : nodes$ui_release;
                 int i7 = 0;
-                i = 0;
-                if (value$iv != 0 && i3 & value$iv != 0) {
+                i2 = 0;
+                if (value$iv != 0 && i5 & value$iv != 0) {
                     i7 = 0;
-                    i = 0;
-                    if (i3 & value$iv != 0) {
+                    i2 = 0;
+                    if (i5 & value$iv != 0) {
                         nodes$ui_release = node;
                     }
                     if (nodes$ui_release == 0) {
-                        getNode().updateCoordinator$ui_release(i5);
+                        getNode().updateCoordinator$ui_release(i);
                         DelegatableNodeKt.requireLayoutNode((DelegatableNode)this).getNodes$ui_release().syncCoordinators();
                     }
                 }

@@ -46,10 +46,10 @@ public final class Float16Kt {
     public static final short floatToHalf(float f) {
         int e;
         int m;
-        int i;
+        int i2;
         int outE;
         int outM;
-        int i2;
+        int i;
         final int i3 = 0;
         final int floatToRawIntBits = Float.floatToRawIntBits(f);
         final int i4 = floatToRawIntBits >>> 31;
@@ -60,7 +60,7 @@ public final class Float16Kt {
         outM = 0;
         if (e == i6) {
             outE = 31;
-            m = i != 0 ? 512 : 0;
+            m = i2 != 0 ? 512 : 0;
             outM = m;
         } else {
             e = i9 + 15;
@@ -68,16 +68,16 @@ public final class Float16Kt {
                 outE = 49;
             } else {
                 if (e <= 0) {
-                    i13 >>= i2;
+                    i13 >>= i;
                     if (e >= -10 && m & 4096 != 0) {
-                        i13 >>= i2;
+                        i13 >>= i;
                         if (m & 4096 != 0) {
                             m += 8192;
                         }
-                        outM = i >> 13;
+                        outM = i2 >> 13;
                     }
                 } else {
-                    if (i & 4096 != 0) {
+                    if (i2 & 4096 != 0) {
                         return (short)i17;
                     }
                 }
@@ -87,15 +87,15 @@ public final class Float16Kt {
     }
 
     public static final float halfToFloat(short h) {
-        int i;
+        int i2;
         int outE;
         int outM;
-        int i2;
+        int i;
         final int i3 = 0;
         i4 &= h;
         i6 &= i5;
-        i = 31;
-        i8 &= i;
+        i2 = 31;
+        i8 &= i2;
         final int i15 = i5 & 1023;
         outE = 0;
         outM = 0;
@@ -103,18 +103,18 @@ public final class Float16Kt {
             if (i15 != 0) {
                 int i18 = 0;
                 bits$iv -= f;
-                i2 = i7 == 0 ? o : -o;
-                return i2;
+                i = i7 == 0 ? o : -o;
+                return i;
             }
         } else {
             outM = i15 << 13;
-            if (i9 == i) {
+            if (i9 == i2) {
                 outE = 255;
                 if (outM != 0) {
-                    outM |= i;
+                    outM |= i2;
                 }
             } else {
-                outE = i + 127;
+                outE = i2 + 127;
             }
         }
         int i17 = 0;
@@ -148,12 +148,12 @@ public final class Float16Kt {
     }
 
     private static final int toCompareValue(short value) {
-        int i;
         int i2;
+        int i;
         final int i3 = 0;
         int i4 = 32768;
         final int i5 = 65535;
-        i = value & i4 != 0 ? i4 - i2 : value & i5;
-        return i;
+        i2 = value & i4 != 0 ? i4 - i : value & i5;
+        return i2;
     }
 }

@@ -23,41 +23,41 @@ public final class SliderDefaults {
     }
 
     public final androidx.compose.material.SliderColors colors-q0g_0yA(long thumbColor, long disabledThumbColor, long activeTrackColor, long inactiveTrackColor, long disabledActiveTrackColor, long disabledInactiveTrackColor, long activeTickColor, long inactiveTickColor, long disabledActiveTickColor, long disabledInactiveTickColor, Composer $composer, int $changed, int $changed1, int i14) {
-        int i11;
+        int i5;
         String traceInProgress;
         int colors;
         int colors3;
         int colors2;
+        int copy-wmQWz5c$default5;
+        int copy-wmQWz5c$default3;
         int copy-wmQWz5c$default6;
-        int copy-wmQWz5c$default;
-        int copy-wmQWz5c$default4;
+        long copy-wmQWz5c$default4;
         long copy-wmQWz5c$default2;
-        long copy-wmQWz5c$default3;
-        int i9;
-        int i4;
-        long copy-wmQWz5c$default5;
-        long l10;
         int i12;
-        long l6;
-        long l5;
-        float disabled;
-        long l9;
-        int i5;
-        int i13;
-        long l;
-        int i6;
-        int i8;
-        long l8;
-        int i10;
-        int i3;
-        long l3;
         int i7;
+        long copy-wmQWz5c$default;
         long l4;
-        int i;
-        int i2;
-        long l7;
-        long l2;
+        int i6;
         long l11;
+        long l;
+        float disabled;
+        long l2;
+        int i9;
+        int i11;
+        long l5;
+        int i3;
+        int i;
+        long l8;
+        int i13;
+        int i8;
+        long l9;
+        int i10;
+        long l6;
+        int i4;
+        int i2;
+        long l3;
+        long l7;
+        long l10;
         long obj31;
         int obj33;
         int obj34;
@@ -70,63 +70,63 @@ public final class SliderDefaults {
         int i16 = obj54;
         final int i17 = 436017687;
         ComposerKt.sourceInformationMarkerStart(composer, i17, "C(colors)P(9:c#ui.graphics.Color,6:c#ui.graphics.Color,1:c#ui.graphics.Color,8:c#ui.graphics.Color,3:c#ui.graphics.Color,5:c#ui.graphics.Color,0:c#ui.graphics.Color,7:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.graphics.Color)485@21094L6,486@21160L6,487@21216L8,488@21267L6,489@21332L6,492@21503L6,495@21716L33:Slider.kt#jmzs0o");
-        i4 = 6;
+        i7 = 6;
         if (i16 & 1 != 0) {
-            l6 = copy-wmQWz5c$default5;
+            l11 = copy-wmQWz5c$default;
         } else {
-            l6 = thumbColor;
+            l11 = thumbColor;
         }
         if (i16 & 2 != 0) {
-            l5 = copy-wmQWz5c$default5;
+            l = copy-wmQWz5c$default;
         } else {
-            l5 = activeTrackColor;
+            l = activeTrackColor;
         }
         if (i16 & 4 != 0) {
-            l9 = copy-wmQWz5c$default5;
+            l2 = copy-wmQWz5c$default;
         } else {
-            l9 = disabledActiveTrackColor;
+            l2 = disabledActiveTrackColor;
         }
         if (i16 & 8 != 0) {
-            l = copy-wmQWz5c$default5;
+            l5 = copy-wmQWz5c$default;
         } else {
-            l = activeTickColor;
+            l5 = activeTickColor;
         }
         if (i16 & 16 != 0) {
-            l8 = copy-wmQWz5c$default6;
+            l8 = copy-wmQWz5c$default5;
         } else {
             l8 = disabledActiveTickColor;
         }
         if (i16 & 32 != 0) {
-            l3 = copy-wmQWz5c$default;
+            l9 = copy-wmQWz5c$default3;
         } else {
-            l3 = $composer;
+            l9 = $composer;
         }
         if (i16 & 64 != 0) {
-            l4 = copy-wmQWz5c$default4;
+            l6 = copy-wmQWz5c$default6;
         } else {
-            l4 = $changed1;
+            l6 = $changed1;
         }
         if (i16 & 128 != 0) {
-            l7 = copy-wmQWz5c$default2;
+            l3 = copy-wmQWz5c$default4;
         } else {
-            l7 = obj45;
+            l3 = obj45;
         }
         if (i16 & 256 != 0) {
-            l2 = copy-wmQWz5c$default3;
+            l7 = copy-wmQWz5c$default2;
         } else {
-            l2 = obj47;
+            l7 = obj47;
         }
         if (i16 &= 512 != 0) {
-            l11 = copy-wmQWz5c$default3;
+            l10 = copy-wmQWz5c$default2;
         } else {
-            l11 = obj49;
+            l10 = obj49;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i17, i15, obj53, "androidx.compose.material.SliderDefaults.colors (Slider.kt:500)");
         } else {
-            i9 = obj53;
+            i12 = obj53;
         }
-        DefaultSliderColors defaultSliderColors = new DefaultSliderColors(l6, obj10, l5, obj12, l9, i5, l, i6, l8, i10, l3, i7, l4, i, l7, obj24, l2, obj26, l11, obj28, 0);
+        DefaultSliderColors defaultSliderColors = new DefaultSliderColors(l11, obj10, l, obj12, l2, i9, l5, i3, l8, i13, l9, i10, l6, i4, l3, obj24, l7, obj26, l10, obj28, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

@@ -63,46 +63,46 @@ public final class ScrollableKt {
     }
 
     public static Modifier scrollable$default(Modifier modifier, androidx.compose.foundation.gestures.ScrollableState scrollableState2, androidx.compose.foundation.gestures.Orientation orientation3, OverscrollEffect overscrollEffect4, boolean z5, boolean z6, androidx.compose.foundation.gestures.FlingBehavior flingBehavior7, MutableInteractionSource mutableInteractionSource8, androidx.compose.foundation.gestures.BringIntoViewSpec bringIntoViewSpec9, int i10, Object object11) {
-        int i;
-        int i3;
         int i2;
         int i4;
+        int i3;
         int i5;
+        int i;
         int obj13;
         int i6 = i10;
-        i = i6 & 8 != 0 ? obj13 : z5;
-        i3 = i6 & 16 != 0 ? obj13 : z6;
+        i2 = i6 & 8 != 0 ? obj13 : z5;
+        i4 = i6 & 16 != 0 ? obj13 : z6;
         int i8 = 0;
-        i2 = i6 & 32 != 0 ? i8 : flingBehavior7;
-        i4 = i6 & 64 != 0 ? i8 : mutableInteractionSource8;
-        i5 = i6 & 128 != 0 ? i8 : bringIntoViewSpec9;
-        return ScrollableKt.scrollable(modifier, scrollableState2, orientation3, overscrollEffect4, i, i3, i2, i4, i5);
+        i3 = i6 & 32 != 0 ? i8 : flingBehavior7;
+        i5 = i6 & 64 != 0 ? i8 : mutableInteractionSource8;
+        i = i6 & 128 != 0 ? i8 : bringIntoViewSpec9;
+        return ScrollableKt.scrollable(modifier, scrollableState2, orientation3, overscrollEffect4, i2, i4, i3, i5, i);
     }
 
     public static Modifier scrollable$default(Modifier modifier, androidx.compose.foundation.gestures.ScrollableState scrollableState2, androidx.compose.foundation.gestures.Orientation orientation3, boolean z4, boolean z5, androidx.compose.foundation.gestures.FlingBehavior flingBehavior6, MutableInteractionSource mutableInteractionSource7, int i8, Object object9) {
-        int i2;
-        int i;
         int i3;
         int i4;
+        int i;
+        int i2;
         int obj10;
         int obj11;
-        i2 = i8 & 4 != 0 ? obj10 : z4;
-        i = i8 & 8 != 0 ? obj11 : z5;
+        i3 = i8 & 4 != 0 ? obj10 : z4;
+        i4 = i8 & 8 != 0 ? obj11 : z5;
         obj11 = 0;
-        i3 = i8 & 16 != 0 ? obj11 : flingBehavior6;
-        i4 = i8 & 32 != 0 ? obj11 : mutableInteractionSource7;
-        return ScrollableKt.scrollable(modifier, scrollableState2, orientation3, i2, i, i3, i4);
+        i = i8 & 16 != 0 ? obj11 : flingBehavior6;
+        i2 = i8 & 32 != 0 ? obj11 : mutableInteractionSource7;
+        return ScrollableKt.scrollable(modifier, scrollableState2, orientation3, i3, i4, i, i2);
     }
 
     private static final Object semanticsScrollBy-d-4ec7I(androidx.compose.foundation.gestures.ScrollingLogic scrollingLogic, long l2, Continuation<? super Offset> continuation3) {
         boolean anon;
-        int i3;
+        int i;
         int i2;
         androidx.compose.foundation.gestures.ScrollableKt.semanticsScrollBy.2 label;
         androidx.compose.foundation.gestures.ScrollingLogic scrollingLogic2;
         long l;
         Ref.FloatRef floatRef;
-        int i;
+        int i3;
         Object obj8;
         Object obj9;
         Object obj11;

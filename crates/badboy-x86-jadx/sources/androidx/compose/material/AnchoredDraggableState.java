@@ -169,25 +169,25 @@ public final class AnchoredDraggableState<T>  {
 
     private final T computeTarget(float offset, T currentValue, float velocity) {
         int closestAnchor;
-        float i;
         float i2;
+        float i;
         float f;
         int cmp;
         final androidx.compose.material.DraggableAnchors anchors = getAnchors();
         final float positionOf = anchors.positionOf(currentValue);
         float floatValue = (Number)this.velocityThreshold.invoke().floatValue();
-        i = 1;
-        i2 = 0;
-        closestAnchor = Float.compare(positionOf, offset) == 0 ? i : i2;
+        i2 = 1;
+        i = 0;
+        closestAnchor = Float.compare(positionOf, offset) == 0 ? i2 : i;
         if (closestAnchor == 0) {
             if (Float.isNaN(positionOf)) {
                 closestAnchor = currentValue;
             } else {
                 if (Float.compare(positionOf, offset) < 0) {
                     if (Float.compare(velocity, floatValue) >= 0) {
-                        Intrinsics.checkNotNull(anchors.closestAnchor(offset, i));
+                        Intrinsics.checkNotNull(anchors.closestAnchor(offset, i2));
                     } else {
-                        closestAnchor = anchors.closestAnchor(offset, i);
+                        closestAnchor = anchors.closestAnchor(offset, i2);
                         Intrinsics.checkNotNull(closestAnchor);
                         if (Float.compare(offset, f) < 0) {
                         } else {
@@ -195,11 +195,11 @@ public final class AnchoredDraggableState<T>  {
                     }
                 } else {
                     if (Float.compare(velocity, i3) <= 0) {
-                        Intrinsics.checkNotNull(anchors.closestAnchor(offset, i2));
+                        Intrinsics.checkNotNull(anchors.closestAnchor(offset, i));
                     } else {
-                        closestAnchor = anchors.closestAnchor(offset, i2);
+                        closestAnchor = anchors.closestAnchor(offset, i);
                         Intrinsics.checkNotNull(closestAnchor);
-                        f = Math.abs(positionOf - i2);
+                        f = Math.abs(positionOf - i);
                         if (Float.compare(offset, i8) < 0) {
                             if (Float.compare(f2, f) < 0) {
                             }
@@ -295,42 +295,42 @@ public final class AnchoredDraggableState<T>  {
     }
 
     public final Object anchoredDrag(MutatePriority mutatePriority, Function3<? super androidx.compose.material.AnchoredDragScope, ? super androidx.compose.material.DraggableAnchors<T>, ? super Continuation<? super Unit>, ? extends Object> function32, Continuation<? super Unit> continuation3) {
-        boolean anon;
+        boolean anon2;
         androidx.compose.material.DraggableAnchors closestAnchor;
         float booleanValue;
         MutatePriority booleanValue2;
-        int positionOf2;
-        androidx.compose.material.DraggableAnchors positionOf;
-        androidx.compose.material.AnchoredDraggableState.anchoredDrag.2 anon2;
+        int positionOf;
+        androidx.compose.material.DraggableAnchors positionOf2;
+        androidx.compose.material.AnchoredDraggableState.anchoredDrag.2 anon;
         int i;
         Object obj8;
         Object obj10;
-        anon = continuation3;
+        anon2 = continuation3;
         booleanValue2 = Integer.MIN_VALUE;
         if (continuation3 instanceof AnchoredDraggableState.anchoredDrag.1 && label &= booleanValue2 != 0) {
-            anon = continuation3;
+            anon2 = continuation3;
             booleanValue2 = Integer.MIN_VALUE;
             if (label &= booleanValue2 != 0) {
-                anon.label = obj10 -= booleanValue2;
+                anon2.label = obj10 -= booleanValue2;
             } else {
-                anon = new AnchoredDraggableState.anchoredDrag.1(this, continuation3);
+                anon2 = new AnchoredDraggableState.anchoredDrag.1(this, continuation3);
             }
         } else {
         }
-        obj10 = anon.result;
+        obj10 = anon2.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (positionOf2) {
+        switch (positionOf) {
             case 0:
                 ResultKt.throwOnFailure(obj10);
-                positionOf2 = this;
-                anon2 = new AnchoredDraggableState.anchoredDrag.2(positionOf2, function32, 0);
-                anon.L$0 = positionOf2;
-                anon.label = 1;
+                positionOf = this;
+                anon = new AnchoredDraggableState.anchoredDrag.2(positionOf, function32, 0);
+                anon2.L$0 = positionOf;
+                anon2.label = 1;
                 return cOROUTINE_SUSPENDED;
-                obj8 = positionOf2;
+                obj8 = positionOf;
                 break;
             case 1:
-                obj8 = anon.L$0;
+                obj8 = anon2.L$0;
                 ResultKt.throwOnFailure(obj10);
                 break;
             default:
@@ -349,46 +349,46 @@ public final class AnchoredDraggableState<T>  {
     }
 
     public final Object anchoredDrag(T t, MutatePriority mutatePriority2, Function4<? super androidx.compose.material.AnchoredDragScope, ? super androidx.compose.material.DraggableAnchors<T>, ? super T, ? super Continuation<? super Unit>, ? extends Object> function43, Continuation<? super Unit> continuation4) {
-        boolean anon;
+        boolean anon2;
         float booleanValue;
         Object cOROUTINE_SUSPENDED;
         Object positionOf;
         int label;
         Object anchorFor;
-        androidx.compose.material.AnchoredDraggableState.anchoredDrag.4 anon2;
+        androidx.compose.material.AnchoredDraggableState.anchoredDrag.4 anon;
         int i;
         Object obj9;
         Object obj10;
         float obj11;
         Object obj12;
-        anon = continuation4;
+        anon2 = continuation4;
         positionOf = Integer.MIN_VALUE;
         if (continuation4 instanceof AnchoredDraggableState.anchoredDrag.3 && label2 &= positionOf != 0) {
-            anon = continuation4;
+            anon2 = continuation4;
             positionOf = Integer.MIN_VALUE;
             if (label2 &= positionOf != 0) {
-                anon.label = obj12 -= positionOf;
+                anon2.label = obj12 -= positionOf;
             } else {
-                anon = new AnchoredDraggableState.anchoredDrag.3(this, continuation4);
+                anon2 = new AnchoredDraggableState.anchoredDrag.3(this, continuation4);
             }
         } else {
         }
-        obj12 = anon.result;
+        obj12 = anon2.result;
         cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         final int i3 = 0;
         switch (label) {
             case 0:
                 ResultKt.throwOnFailure(obj12);
                 label = this;
-                anon2 = new AnchoredDraggableState.anchoredDrag.4(label, t, function43, i3);
-                anon.L$0 = label;
-                anon.label = 1;
+                anon = new AnchoredDraggableState.anchoredDrag.4(label, t, function43, i3);
+                anon2.L$0 = label;
+                anon2.label = 1;
                 return cOROUTINE_SUSPENDED;
                 obj9 = label;
                 label.setCurrentValue(t);
                 return Unit.INSTANCE;
             case 1:
-                obj9 = anon.L$0;
+                obj9 = anon2.L$0;
                 ResultKt.throwOnFailure(obj12);
                 break;
             default:
@@ -502,8 +502,8 @@ public final class AnchoredDraggableState<T>  {
             return getOffset();
         }
         int i = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("The offset was read before being initialized. Did you access the offset in a phase before layout, like effects or composition?".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckAnchoredDraggableState$requireOffset$1 = new IllegalStateException("The offset was read before being initialized. Did you access the offset in a phase before layout, like effects or composition?".toString());
+        throw $i$a$CheckAnchoredDraggableState$requireOffset$1;
     }
 
     public final Object settle(float velocity, Continuation<? super Unit> $completion) {

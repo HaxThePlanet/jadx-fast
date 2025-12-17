@@ -23,66 +23,66 @@ import kotlin.collections.CollectionsKt;
 @Metadata(d1 = "\u0000<\n\u0000\n\u0002\u0010\u000b\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0010 \n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\u001a\u0016\u0010\u0004\u001a\u00020\u00012\u000c\u0010\u0005\u001a\u0008\u0012\u0004\u0012\u00020\u00070\u0006H\u0002\u001a\u0018\u0010\u0008\u001a\u00020\t2\u0006\u0010\n\u001a\u00020\u00072\u0006\u0010\u000b\u001a\u00020\u000cH\u0000\u001a\u0018\u0010\r\u001a\u00020\t2\u0006\u0010\n\u001a\u00020\u00072\u0006\u0010\u000b\u001a\u00020\u000cH\u0000\u001a\u000c\u0010\u000e\u001a\u00020\u0001*\u00020\u0007H\u0000\u001a\u0014\u0010\u000f\u001a\n \u0011*\u0004\u0018\u00010\u00100\u0010*\u00020\u0002H\u0002\u001a\u001c\u0010\u0012\u001a\n \u0011*\u0004\u0018\u00010\u00130\u0013*\u00020\u00142\u0006\u0010\u0015\u001a\u00020\u0007H\u0002\"\u0018\u0010\u0000\u001a\u00020\u0001*\u00020\u00028BX\u0082\u0004¢\u0006\u0006\u001a\u0004\u0008\u0000\u0010\u0003¨\u0006\u0016", d2 = {"isLazyCollection", "", "Landroidx/compose/ui/semantics/CollectionInfo;", "(Landroidx/compose/ui/semantics/CollectionInfo;)Z", "calculateIfHorizontallyStacked", "items", "", "Landroidx/compose/ui/semantics/SemanticsNode;", "setCollectionInfo", "", "node", "info", "Landroidx/core/view/accessibility/AccessibilityNodeInfoCompat;", "setCollectionItemInfo", "hasCollectionInfo", "toAccessibilityCollectionInfo", "Landroidx/core/view/accessibility/AccessibilityNodeInfoCompat$CollectionInfoCompat;", "kotlin.jvm.PlatformType", "toAccessibilityCollectionItemInfo", "Landroidx/core/view/accessibility/AccessibilityNodeInfoCompat$CollectionItemInfoCompat;", "Landroidx/compose/ui/semantics/CollectionItemInfo;", "itemNode", "ui_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
 public final class CollectionInfo_androidKt {
     private static final boolean calculateIfHorizontallyStacked(List<SemanticsNode> items) {
-        long unbox-impl2;
-        int i3;
+        long unbox-impl;
         int i;
+        int i2;
         int size;
         Object arrayList;
         Object current$iv;
         int i$iv;
         int lastIndex;
-        Object box-impl;
-        Offset box-impl2;
-        Object unbox-impl;
-        int i2;
+        Object box-impl2;
+        Offset box-impl;
+        Object unbox-impl2;
+        int i3;
         float f;
         long l;
         long y-impl;
-        i = 1;
+        i2 = 1;
         if ((Collection)items.size() < 2) {
-            return i;
+            return i2;
         }
         List list2 = items;
-        i3 = 0;
+        i = 0;
         int i5 = 0;
         if (list2.size() != 0) {
-            if (list2.size() == i) {
+            if (list2.size() == i2) {
                 arrayList = CollectionsKt.emptyList();
             } else {
                 arrayList = new ArrayList();
                 current$iv = list2.get(i5);
                 i$iv = 0;
                 while (i$iv < CollectionsKt.getLastIndex(list2)) {
-                    box-impl = list2.get(i$iv + 1);
-                    Object obj2 = box-impl;
-                    unbox-impl = current$iv;
-                    i2 = 0;
-                    (List)arrayList.add(Offset.box-impl(OffsetKt.Offset(Math.abs(x-impl2 -= x-impl3), Math.abs(y-impl3 -= y-impl))));
-                    current$iv = box-impl;
+                    box-impl2 = list2.get(i$iv + 1);
+                    Object obj2 = box-impl2;
+                    unbox-impl2 = current$iv;
+                    i3 = 0;
+                    (List)arrayList.add(Offset.box-impl(OffsetKt.Offset(Math.abs(x-impl -= x-impl2), Math.abs(y-impl3 -= y-impl))));
+                    current$iv = box-impl2;
                     i$iv++;
                 }
             }
         } else {
         }
-        if ((Collection)arrayList.size() == i) {
-            unbox-impl2 = (Offset)CollectionsKt.first(arrayList).unbox-impl();
+        if ((Collection)arrayList.size() == i2) {
+            unbox-impl = (Offset)CollectionsKt.first(arrayList).unbox-impl();
             int i6 = 0;
             int i7 = 0;
-            if (Float.compare(y-impl2, x-impl) < 0) {
+            if (Float.compare(y-impl2, $i$f$component1Impl) < 0) {
             } else {
-                i = i5;
+                i2 = i5;
             }
-            return i;
+            return i2;
         } else {
             ArrayList list4 = arrayList;
-            i3 = 0;
+            i = 0;
             if (list4.isEmpty()) {
             } else {
                 current$iv = CollectionsKt.first(list4);
                 lastIndex = CollectionsKt.getLastIndex(list4);
                 if (1 <= lastIndex) {
                 }
-                unbox-impl2 = (Offset)current$iv.unbox-impl();
+                unbox-impl = (Offset)current$iv.unbox-impl();
             }
         }
         UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Empty collection can't be reduced.");
@@ -122,11 +122,11 @@ public final class CollectionInfo_androidKt {
         Object replacedChildren$ui_release;
         boolean ifHorizontallyStacked;
         androidx.compose.ui.semantics.SemanticsPropertyKey selectableGroup;
-        int size;
-        int index$iv;
         int size2;
-        Object obj2;
+        int index$iv;
+        int size;
         Object obj;
+        Object obj2;
         int i;
         boolean contains;
         androidx.compose.ui.semantics.SemanticsPropertyKey selected;
@@ -140,26 +140,26 @@ public final class CollectionInfo_androidKt {
             selectableGroup = 0;
             index$iv = 0;
             while (index$iv < replacedChildren$ui_release.size()) {
-                obj = obj2;
+                obj2 = obj;
                 i = 0;
-                if ((SemanticsNode)obj.getConfig().contains(SemanticsProperties.INSTANCE.getSelected())) {
+                if ((SemanticsNode)obj2.getConfig().contains(SemanticsProperties.INSTANCE.getSelected())) {
                 }
                 index$iv++;
-                (List)arrayList.add(obj);
+                (List)arrayList.add(obj2);
             }
         }
         if (!(Collection)arrayList.isEmpty()) {
             ifHorizontallyStacked = CollectionInfo_androidKt.calculateIfHorizontallyStacked(arrayList);
             if (ifHorizontallyStacked) {
-                index$iv = size;
+                index$iv = size2;
             } else {
                 index$iv = (Collection)arrayList.size();
             }
             if (ifHorizontallyStacked) {
-                size = (Collection)arrayList.size();
+                size2 = (Collection)arrayList.size();
             }
-            size2 = 0;
-            info.setCollectionInfo(AccessibilityNodeInfoCompat.CollectionInfoCompat.obtain(index$iv, size, size2, size2));
+            size = 0;
+            info.setCollectionInfo(AccessibilityNodeInfoCompat.CollectionInfoCompat.obtain(index$iv, size2, size, size));
         }
     }
 
@@ -173,11 +173,11 @@ public final class CollectionInfo_androidKt {
         int obtain;
         int index$iv;
         int size;
+        int i3;
         int i;
         int i2;
-        int i3;
-        boolean placeOrder$ui_release;
-        androidx.compose.ui.semantics.SemanticsPropertyKey placeOrder$ui_release2;
+        boolean placeOrder$ui_release2;
+        androidx.compose.ui.semantics.SemanticsPropertyKey placeOrder$ui_release;
         Object orNull2 = SemanticsConfigurationKt.getOrNull(node.getConfig(), SemanticsProperties.INSTANCE.getCollectionItemInfo());
         if ((CollectionItemInfo)orNull2 != null) {
             info.setCollectionItemInfo(CollectionInfo_androidKt.toAccessibilityCollectionItemInfo((CollectionItemInfo)orNull2, node));
@@ -200,14 +200,14 @@ public final class CollectionInfo_androidKt {
             obtain = 0;
             index$iv = 0;
             while (index$iv < replacedChildren$ui_release.size()) {
-                i2 = i;
-                i3 = 0;
-                (List)selectableGroup.add(i2);
-                if ((SemanticsNode)i2.getConfig().contains(SemanticsProperties.INSTANCE.getSelected()) && i2.getLayoutNode$ui_release().getPlaceOrder$ui_release() < node.getLayoutNode$ui_release().getPlaceOrder$ui_release()) {
+                i = i3;
+                i2 = 0;
+                (List)selectableGroup.add(i);
+                if ((SemanticsNode)i.getConfig().contains(SemanticsProperties.INSTANCE.getSelected()) && i.getLayoutNode$ui_release().getPlaceOrder$ui_release() < node.getLayoutNode$ui_release().getPlaceOrder$ui_release()) {
                 }
                 index$iv++;
-                selectableGroup.add(i2);
-                if (i2.getLayoutNode$ui_release().getPlaceOrder$ui_release() < node.getLayoutNode$ui_release().getPlaceOrder$ui_release()) {
+                selectableGroup.add(i);
+                if (i.getLayoutNode$ui_release().getPlaceOrder$ui_release() < node.getLayoutNode$ui_release().getPlaceOrder$ui_release()) {
                 }
                 index++;
             }
@@ -215,8 +215,8 @@ public final class CollectionInfo_androidKt {
                 ifHorizontallyStacked = CollectionInfo_androidKt.calculateIfHorizontallyStacked(selectableGroup);
                 int i4 = 0;
                 index$iv = ifHorizontallyStacked ? i4 : index;
-                i = ifHorizontallyStacked ? index : i4;
-                obtain = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(index$iv, 1, i, 1, false, (Boolean)node.getConfig().getOrElse(SemanticsProperties.INSTANCE.getSelected(), (Function0)CollectionInfo_androidKt.setCollectionItemInfo.itemInfo.1.INSTANCE).booleanValue());
+                i3 = ifHorizontallyStacked ? index : i4;
+                obtain = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(index$iv, 1, i3, 1, false, (Boolean)node.getConfig().getOrElse(SemanticsProperties.INSTANCE.getSelected(), (Function0)CollectionInfo_androidKt.setCollectionItemInfo.itemInfo.1.INSTANCE).booleanValue());
                 if (obtain != null) {
                     info.setCollectionItemInfo(obtain);
                 }

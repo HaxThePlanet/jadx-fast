@@ -109,18 +109,18 @@ public final class ClockDialNode extends DelegatingNode implements PointerInputM
     public final void updateNode-e8ubxrI(androidx.compose.material3.AnalogTimePickerState state, boolean autoSwitchToMinute, int selection) {
         boolean anon;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i3;
-        int i;
-        androidx.compose.material3.ClockDialNode.updateNode.1 anon2;
-        int i4;
         int i2;
+        int i3;
+        androidx.compose.material3.ClockDialNode.updateNode.1 anon2;
+        int i;
+        int i4;
         this.state = state;
         this.autoSwitchToMinute = autoSwitchToMinute;
         if (!TimePickerSelectionMode.equals-impl0(this.selection, selection)) {
             this.selection = selection;
-            i3 = 0;
-            anon = new ClockDialNode.updateNode.1(state, i3);
-            BuildersKt.launch$default(getCoroutineScope(), i3, 0, (Function2)anon, 3, 0);
+            i2 = 0;
+            anon = new ClockDialNode.updateNode.1(state, i2);
+            BuildersKt.launch$default(getCoroutineScope(), i2, 0, (Function2)anon, 3, 0);
         }
     }
 }

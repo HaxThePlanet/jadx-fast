@@ -56,9 +56,9 @@ public final class LazyGridMeasuredItem implements androidx.compose.foundation.l
         int crossAxisSize2;
         int maxMainAxis2;
         int index$iv;
+        int i2;
         int i;
         int i3;
-        int i2;
         int height;
         List list;
         final Object obj = this;
@@ -80,19 +80,19 @@ public final class LazyGridMeasuredItem implements androidx.compose.foundation.l
         obj.span = obj40;
         obj.mainAxisLayoutSize = Integer.MIN_VALUE;
         final int i15 = 0;
-        maxMainAxis2 = i;
-        index$iv = i3;
+        maxMainAxis2 = i2;
+        index$iv = i;
         while (index$iv < obj.placeables.size()) {
-            i3 = i;
-            i2 = 0;
+            i = i2;
+            i3 = 0;
             if (obj.isVertical()) {
             } else {
             }
-            height = (Placeable)i3.getWidth();
+            height = (Placeable)i.getWidth();
             maxMainAxis2 = Math.max(maxMainAxis2, height);
             index$iv++;
             maxMainAxis = list;
-            height = i3.getHeight();
+            height = i.getHeight();
         }
         List $this$fastForEach$iv2 = maxMainAxis;
         obj.mainAxisSize = maxMainAxis2;
@@ -152,44 +152,44 @@ public final class LazyGridMeasuredItem implements androidx.compose.foundation.l
 
     @Override // androidx.compose.foundation.lazy.grid.LazyGridItemInfo
     public final void applyScrollDelta(int delta) {
-        int i3;
+        int i6;
         Object obj2;
         int i2;
+        int it;
+        int i5;
         int it2;
         int i;
-        int it;
-        int i6;
         Object obj;
         int i4;
         int intValue;
         int mainAxis;
-        int i5;
+        int i3;
         if (getNonScrollableItem()) {
         }
         long offset-nOcc-ac = getOffset-nOcc-ac();
         obj2 = this;
         i2 = 0;
         if (obj2.isVertical()) {
-            it2 = IntOffset.getX-impl(offset-nOcc-ac);
+            it = IntOffset.getX-impl(offset-nOcc-ac);
         } else {
-            i = 0;
+            i5 = 0;
             x-impl += delta;
         }
         if (obj2.isVertical()) {
-            i6 = 0;
+            i = 0;
             y-impl += delta;
         } else {
-            it = IntOffset.getY-impl(offset-nOcc-ac);
+            it2 = IntOffset.getY-impl(offset-nOcc-ac);
         }
-        this.offset = IntOffsetKt.IntOffset(it2, it);
-        i3 = 0;
-        while (i3 < getPlaceablesCount()) {
+        this.offset = IntOffsetKt.IntOffset(it, it2);
+        i6 = 0;
+        while (i6 < getPlaceablesCount()) {
             i2 = 0;
-            it2 = this.animator.getAnimation(getKey(), i3);
-            if (it2 != 0) {
+            it = this.animator.getAnimation(getKey(), i6);
+            if (it != 0) {
             }
-            i3++;
-            long rawOffset-nOcc-ac = it2.getRawOffset-nOcc-ac();
+            i6++;
+            long rawOffset-nOcc-ac = it.getRawOffset-nOcc-ac();
             obj = this;
             i4 = 0;
             if (obj.isVertical()) {
@@ -201,8 +201,8 @@ public final class LazyGridMeasuredItem implements androidx.compose.foundation.l
             } else {
             }
             mainAxis = IntOffset.getY-impl(rawOffset-nOcc-ac);
-            it2.setRawOffset--gyyYBs(IntOffsetKt.IntOffset(intValue, mainAxis));
-            i5 = 0;
+            it.setRawOffset--gyyYBs(IntOffsetKt.IntOffset(intValue, mainAxis));
+            i3 = 0;
             y-impl2 += delta;
             intValue = IntOffset.getX-impl(rawOffset-nOcc-ac);
         }
@@ -300,59 +300,59 @@ public final class LazyGridMeasuredItem implements androidx.compose.foundation.l
 
     @Override // androidx.compose.foundation.lazy.grid.LazyGridItemInfo
     public final void place(Placeable.PlacementScope scope) {
-        Object $this$place_u24lambda_u2472;
-        androidx.compose.ui.graphics.layer.GraphicsLayer layer3;
+        Object $this$place_u24lambda_u247;
+        androidx.compose.ui.graphics.layer.GraphicsLayer layer;
         int mainAxis--gyyYBs;
-        int i3;
+        int i4;
         int offset3;
         long offset;
         int y-impl;
         int mainAxisSize;
         androidx.compose.ui.graphics.layer.GraphicsLayer animation;
-        int i;
-        boolean layer;
-        long plus-qkQi6aY;
-        int i6;
-        int i4;
-        int i7;
-        int i5;
         int i2;
+        boolean layer2;
+        long plus-qkQi6aY;
+        int i5;
+        int i3;
+        int i6;
+        int i8;
+        int i;
         int maxMainAxisOffset;
+        LazyLayoutItemAnimation $this$place_u24lambda_u2472;
         LazyLayoutItemAnimation $this$place_u24lambda_u2473;
-        LazyLayoutItemAnimation $this$place_u24lambda_u247;
-        int i9;
+        int i7;
         boolean vertical;
         int x-impl;
-        int i8;
-        androidx.compose.ui.graphics.layer.GraphicsLayer layer2;
+        int i9;
+        androidx.compose.ui.graphics.layer.GraphicsLayer layer3;
         int offset2;
         final Object obj = this;
-        $this$place_u24lambda_u2472 = scope;
+        $this$place_u24lambda_u247 = scope;
         final int i14 = 0;
         mainAxisSize = 0;
-        i3 = obj.mainAxisLayoutSize != Integer.MIN_VALUE ? 1 : mainAxisSize;
-        if (i3 == 0) {
+        i4 = obj.mainAxisLayoutSize != Integer.MIN_VALUE ? 1 : mainAxisSize;
+        if (i4 == 0) {
         } else {
-            i4 = mainAxisSize;
-            while (i4 < obj.getPlaceablesCount()) {
-                i7 = i4;
-                i5 = 0;
-                i3 = obj.placeables.get(i7);
-                mainAxisSize = obj.getMainAxisSize((Placeable)i3);
-                i2 = minMainAxisOffset - mainAxisSize;
+            i3 = mainAxisSize;
+            while (i3 < obj.getPlaceablesCount()) {
+                i6 = i3;
+                i8 = 0;
+                i4 = obj.placeables.get(i6);
+                mainAxisSize = obj.getMainAxisSize((Placeable)i4);
+                i = minMainAxisOffset - mainAxisSize;
                 maxMainAxisOffset = obj.maxMainAxisOffset;
                 offset = obj.getOffset-nOcc-ac();
-                LazyLayoutItemAnimation animation2 = obj.animator.getAnimation(obj.getKey(), i7);
+                LazyLayoutItemAnimation animation2 = obj.animator.getAnimation(obj.getKey(), i6);
                 int i13 = 0;
                 if (animation2 != null) {
                 } else {
                 }
-                $this$place_u24lambda_u247 = $this$place_u24lambda_u2472;
-                layer3 = 0;
+                $this$place_u24lambda_u2473 = $this$place_u24lambda_u247;
+                layer = 0;
                 if (obj.reverseLayout) {
                 } else {
                 }
-                layer2 = layer3;
+                layer3 = layer;
                 offset2 = offset;
                 offset3 = IntOffset.plus-qkQi6aY(offset, mainAxisSize);
                 if (animation2 == null) {
@@ -362,61 +362,61 @@ public final class LazyGridMeasuredItem implements androidx.compose.foundation.l
                 if (obj.isVertical()) {
                 } else {
                 }
-                $this$place_u24lambda_u2472 = $this$place_u24lambda_u247;
-                $this$place_u24lambda_u2473 = animation2;
-                if (layer2 != null) {
+                $this$place_u24lambda_u247 = $this$place_u24lambda_u2473;
+                $this$place_u24lambda_u2472 = animation2;
+                if (layer3 != null) {
                 } else {
                 }
-                Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default($this$place_u24lambda_u2472, i3, offset3, mainAxisSize, 0, 0, 6);
-                i4++;
-                Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default($this$place_u24lambda_u2472, i3, offset3, mainAxisSize, layer2, 0, 4);
-                if (layer2 != null) {
+                Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default($this$place_u24lambda_u247, i4, offset3, mainAxisSize, 0, 0, 6);
+                i3++;
+                Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default($this$place_u24lambda_u247, i4, offset3, mainAxisSize, layer3, 0, 4);
+                if (layer3 != null) {
                 } else {
                 }
-                $this$place_u24lambda_u2473 = animation2;
-                Placeable.PlacementScope.placeWithLayer-aW-9-wM$default($this$place_u24lambda_u247, i3, offset3, mainAxisSize, 0, 0, 6);
-                $this$place_u24lambda_u2473 = animation2;
-                Placeable.PlacementScope.placeWithLayer-aW-9-wM$default($this$place_u24lambda_u247, i3, offset3, mainAxisSize, layer2, 0, 4);
-                layer = offset;
-                i6 = this;
+                $this$place_u24lambda_u2472 = animation2;
+                Placeable.PlacementScope.placeWithLayer-aW-9-wM$default($this$place_u24lambda_u2473, i4, offset3, mainAxisSize, 0, 0, 6);
+                $this$place_u24lambda_u2472 = animation2;
+                Placeable.PlacementScope.placeWithLayer-aW-9-wM$default($this$place_u24lambda_u2473, i4, offset3, mainAxisSize, layer3, 0, 4);
+                layer2 = offset;
+                i5 = this;
+                i7 = 0;
+                if (i5.isVertical()) {
+                } else {
+                }
                 i9 = 0;
-                if (i6.isVertical()) {
-                } else {
-                }
-                i8 = 0;
-                layer2 = layer3;
+                layer3 = layer;
                 i10 -= offset2;
-                if (i6.isVertical()) {
+                if (i5.isVertical()) {
                 } else {
                 }
                 offset2 = offset;
-                y-impl = IntOffset.getY-impl(layer);
-                offset = IntOffsetKt.IntOffset(layer3, y-impl);
-                i8 = 0;
+                y-impl = IntOffset.getY-impl(layer2);
+                offset = IntOffsetKt.IntOffset(layer, y-impl);
+                i9 = 0;
                 offset2 = offset;
                 i12 -= mainAxisSize;
-                layer2 = layer3;
-                layer3 = x-impl;
+                layer3 = layer;
+                layer = x-impl;
                 plus-qkQi6aY = IntOffset.plus-qkQi6aY(offset, mainAxisSize);
-                $this$place_u24lambda_u247 = $this$place_u24lambda_u2472;
-                if (obj.getMainAxis--gyyYBs(offset) <= i2) {
+                $this$place_u24lambda_u2473 = $this$place_u24lambda_u247;
+                if (obj.getMainAxis--gyyYBs(offset) <= i) {
                 } else {
                 }
                 if (obj.getMainAxis--gyyYBs(offset) >= maxMainAxisOffset && obj.getMainAxis--gyyYBs(plus-qkQi6aY) >= maxMainAxisOffset) {
                 }
                 offset = plus-qkQi6aY;
-                layer3 = animation2.getLayer();
+                layer = animation2.getLayer();
                 if (obj.getMainAxis--gyyYBs(plus-qkQi6aY) >= maxMainAxisOffset) {
                 }
                 animation2.cancelPlacementAnimation();
-                if (obj.getMainAxis--gyyYBs(plus-qkQi6aY) > i2) {
+                if (obj.getMainAxis--gyyYBs(plus-qkQi6aY) > i) {
                 } else {
                 }
             }
         }
         int i11 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("position() should be called first".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireLazyGridMeasuredItem$place$1$1 = new IllegalArgumentException("position() should be called first".toString());
+        throw $i$a$RequireLazyGridMeasuredItem$place$1$1;
     }
 
     @Override // androidx.compose.foundation.lazy.grid.LazyGridItemInfo
@@ -426,27 +426,27 @@ public final class LazyGridMeasuredItem implements androidx.compose.foundation.l
 
     @Override // androidx.compose.foundation.lazy.grid.LazyGridItemInfo
     public final void position(int mainAxisOffset, int crossAxisOffset, int layoutWidth, int layoutHeight, int row, int column) {
+        int i;
         int i2;
         int i3;
-        int i;
         boolean layoutDirection;
         int crossAxisSize;
         long l;
-        i2 = isVertical() ? layoutHeight : layoutWidth;
-        this.mainAxisLayoutSize = i2;
-        i3 = isVertical() ? layoutWidth : layoutHeight;
+        i = isVertical() ? layoutHeight : layoutWidth;
+        this.mainAxisLayoutSize = i;
+        i2 = isVertical() ? layoutWidth : layoutHeight;
         if (isVertical() && this.layoutDirection == LayoutDirection.Rtl) {
             if (this.layoutDirection == LayoutDirection.Rtl) {
                 i4 -= crossAxisSize;
             } else {
-                i = crossAxisOffset;
+                i3 = crossAxisOffset;
             }
         } else {
         }
         if (isVertical()) {
-            l = IntOffsetKt.IntOffset(i, mainAxisOffset);
+            l = IntOffsetKt.IntOffset(i3, mainAxisOffset);
         } else {
-            l = IntOffsetKt.IntOffset(mainAxisOffset, i);
+            l = IntOffsetKt.IntOffset(mainAxisOffset, i3);
         }
         this.offset = l;
         this.row = row;

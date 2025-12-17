@@ -237,10 +237,10 @@ public final class XmlVectorParser_androidKt {
     public static final int parseCurrentVectorNode(androidx.compose.ui.graphics.vector.compat.AndroidVectorParser $this$parseCurrentVectorNode, Resources res, AttributeSet attrs, Resources.Theme theme, ImageVector.Builder builder, int nestedGroups) {
         int eventType;
         String str;
-        int i2;
         int i4;
-        int i3;
         int i;
+        int i2;
+        int i3;
         str = "group";
         switch (eventType) {
             case 2:
@@ -252,11 +252,11 @@ public final class XmlVectorParser_androidKt {
                 break;
             case 3:
                 int i8 = 0;
-                i4 = i8;
-                i3 = i4;
-                i = 0;
+                i = i8;
+                i2 = i;
+                i3 = 0;
                 builder.clearGroup();
-                i4++;
+                i++;
                 return i8;
             default:
         }

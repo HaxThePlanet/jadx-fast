@@ -99,24 +99,24 @@ public final class Magnifier_androidKt {
         boolean platformMagnifierSupported$default;
         Modifier then;
         int magnifierElement;
-        int i2;
-        Function1 function1;
+        int i;
         Function1 function12;
-        float f2;
+        Function1 function1;
+        float f;
         boolean z;
         long l;
-        float f;
+        float f2;
         boolean z2;
-        androidx.compose.foundation.PlatformMagnifierFactory factory;
         androidx.compose.foundation.PlatformMagnifierFactory factory2;
-        int i;
+        androidx.compose.foundation.PlatformMagnifierFactory factory;
+        int i2;
         if (Magnifier_androidKt.isPlatformMagnifierSupported$default(0, 1, 0)) {
             if (obj25 == null) {
-                factory2 = platformMagnifierSupported$default;
+                factory = platformMagnifierSupported$default;
             } else {
-                factory2 = obj25;
+                factory = obj25;
             }
-            magnifierElement = new MagnifierElement(sourceCenter, magnifierCenter, onSizeChanged, zoom, useTextDefault, size, obj8, elevation, clippingEnabled, platformMagnifierFactory, factory2, 0);
+            magnifierElement = new MagnifierElement(sourceCenter, magnifierCenter, onSizeChanged, zoom, useTextDefault, size, obj8, elevation, clippingEnabled, platformMagnifierFactory, factory, 0);
             then = $this$magnifier_u2djPUL71Q.then((Modifier)magnifierElement);
         } else {
             then = $this$magnifier_u2djPUL71Q;

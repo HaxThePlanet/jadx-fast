@@ -214,20 +214,20 @@ public final class InnerNodeCoordinator extends androidx.compose.ui.node.NodeCoo
         int withinLayerBounds-k-4lQ0M;
         float distanceInMinimumTouchTarget-tz77jQw;
         boolean z;
-        int i2;
+        int i3;
         boolean infinite;
         int i4;
         long minimumTouchTargetSize-NH-jbRc;
         androidx.compose.ui.node.HitTestResult hitTestResult2;
-        int i5;
-        int i3;
         int i6;
-        MutableVector zSortedChildren;
         int i7;
+        int i5;
+        MutableVector zSortedChildren;
+        int i;
         int size;
         Object[] content;
         int i$iv;
-        int i;
+        int i2;
         final Object obj = this;
         continueHitTest = pointerPosition;
         int i8 = 0;
@@ -236,7 +236,7 @@ public final class InnerNodeCoordinator extends androidx.compose.ui.node.NodeCoo
         final int i11 = 1;
         if (hitTestSource.shouldHitTestChildren(obj.getLayoutNode())) {
             if (obj.withinLayerBounds-k-4lQ0M(continueHitTest)) {
-                i2 = inLayer;
+                i3 = inLayer;
                 i4 = hitTestChildren;
             } else {
                 if (isInLayer) {
@@ -246,10 +246,10 @@ public final class InnerNodeCoordinator extends androidx.compose.ui.node.NodeCoo
                     } else {
                     }
                     if (withinLayerBounds-k-4lQ0M != 0) {
-                        i2 = inLayer;
+                        i3 = inLayer;
                         i4 = hitTestChildren;
                     } else {
-                        i2 = inLayer;
+                        i3 = inLayer;
                         i4 = hitTestChildren;
                     }
                 } else {
@@ -259,15 +259,15 @@ public final class InnerNodeCoordinator extends androidx.compose.ui.node.NodeCoo
         }
         if (i4 != 0) {
             hitTestResult2 = isTouchEvent;
-            i5 = 0;
             i6 = 0;
+            i5 = 0;
             zSortedChildren = obj.getLayoutNode().getZSortedChildren();
-            i7 = 0;
+            i = 0;
             size = zSortedChildren.getSize();
             if (size > 0) {
                 i$iv = inLayer;
                 hitTestChildren = i$iv2;
-                i = 0;
+                i2 = 0;
                 while ((LayoutNode)hitTestChildren.isPlaced()) {
                     z.childHitTest-YqVAtuI(hitTestChildren, continueHitTest, shouldSharePointerInputWithSibling, isTouchEvent, isInLayer);
                     int i9 = 0;
@@ -292,7 +292,7 @@ public final class InnerNodeCoordinator extends androidx.compose.ui.node.NodeCoo
                     z = hitTestSource;
                     continueHitTest = pointerPosition;
                     hitTestChildren = i$iv2;
-                    i = 0;
+                    i2 = 0;
                     inLayer = i10;
                     inLayer = i11;
                     isTouchEvent.acceptHits();
@@ -318,13 +318,13 @@ public final class InnerNodeCoordinator extends androidx.compose.ui.node.NodeCoo
     @Override // androidx.compose.ui.node.NodeCoordinator
     public Placeable measure-BRTryo0(long constraints) {
         long constraints-msEJaDk$ui_release;
-        androidx.compose.ui.node.LayoutNode.UsageByParent this_$iv;
+        androidx.compose.ui.node.LayoutNode.UsageByParent this_$iv2;
         int i$iv$iv;
         Object[] content;
         Object obj;
         int i;
         androidx.compose.ui.node.LayoutNodeLayoutDelegate.MeasurePassDelegate measurePassDelegate$ui_release;
-        androidx.compose.ui.node.LayoutNode.UsageByParent this_$iv2;
+        androidx.compose.ui.node.LayoutNode.UsageByParent this_$iv;
         final androidx.compose.ui.layout.MeasureScope measureScope = this;
         if (measureScope.getForceMeasureWithLookaheadConstraints$ui_release()) {
             androidx.compose.ui.node.LookaheadDelegate lookaheadDelegate = measureScope.getLookaheadDelegate();
@@ -333,9 +333,9 @@ public final class InnerNodeCoordinator extends androidx.compose.ui.node.NodeCoo
         } else {
             constraints-msEJaDk$ui_release = constraints;
         }
-        this_$iv = measureScope;
+        this_$iv2 = measureScope;
         final int i2 = 0;
-        NodeCoordinator.access$setMeasurementConstraints-BRTryo0((NodeCoordinator)this_$iv, constraints-msEJaDk$ui_release);
+        NodeCoordinator.access$setMeasurementConstraints-BRTryo0((NodeCoordinator)this_$iv2, constraints-msEJaDk$ui_release);
         final int i3 = 0;
         int i5 = 0;
         MutableVector mutableVector = measureScope.getLayoutNode().get_children$ui_release();
@@ -346,12 +346,12 @@ public final class InnerNodeCoordinator extends androidx.compose.ui.node.NodeCoo
             i = 0;
             (LayoutNode)mutableVector.getContent()[i$iv$iv].getMeasurePassDelegate$ui_release().setMeasuredByParent$ui_release(LayoutNode.UsageByParent.NotUsed);
             while (i$iv$iv++ >= size) {
-                this_$iv = this_$iv2;
+                this_$iv2 = this_$iv;
                 i = 0;
                 (LayoutNode)content[i$iv$iv].getMeasurePassDelegate$ui_release().setMeasuredByParent$ui_release(LayoutNode.UsageByParent.NotUsed);
             }
         } else {
-            this_$iv2 = this_$iv;
+            this_$iv = this_$iv2;
         }
         int i4 = 0;
         measureScope.setMeasureResult$ui_release(measureScope.getLayoutNode().getMeasurePolicy().measure-3p2s80s((MeasureScope)measureScope, measureScope.getLayoutNode().getChildMeasurables$ui_release(), constraints-msEJaDk$ui_release));

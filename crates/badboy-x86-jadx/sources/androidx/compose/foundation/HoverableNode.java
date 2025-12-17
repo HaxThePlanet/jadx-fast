@@ -38,22 +38,22 @@ final class HoverableNode extends Modifier.Node implements PointerInputModifierN
 
     private final Object emitEnter(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i3;
-        Object cOROUTINE_SUSPENDED;
         int i;
+        Object cOROUTINE_SUSPENDED;
+        int i2;
         Object l$0;
         HoverInteraction.Enter hoverInteraction;
         Object emit;
         HoverInteraction.Enter enter;
-        int i2;
+        int i3;
         Object obj8;
         anon = continuation;
-        i = Integer.MIN_VALUE;
-        if (continuation instanceof HoverableNode.emitEnter.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation instanceof HoverableNode.emitEnter.1 && label &= i2 != 0) {
             anon = continuation;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj8 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj8 -= i2;
             } else {
                 anon = new HoverableNode.emitEnter.1(this, continuation);
             }
@@ -86,16 +86,16 @@ final class HoverableNode extends Modifier.Node implements PointerInputModifierN
 
     private final Object emitExit(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i4;
+        int i2;
         int cOROUTINE_SUSPENDED;
         int i;
         Object l$0;
         Object emit;
         HoverInteraction.Enter hoverInteraction;
         int i3;
-        HoverInteraction.Exit exit2;
         HoverInteraction.Exit exit;
-        int i2;
+        HoverInteraction.Exit exit2;
+        int i4;
         Object obj9;
         anon = continuation;
         i = Integer.MIN_VALUE;
@@ -116,7 +116,7 @@ final class HoverableNode extends Modifier.Node implements PointerInputModifierN
                 ResultKt.throwOnFailure(obj9);
                 l$0 = this;
                 hoverInteraction = l$0.hoverInteraction;
-                exit2 = new HoverInteraction.Exit(hoverInteraction);
+                exit = new HoverInteraction.Exit(hoverInteraction);
                 anon.L$0 = l$0;
                 anon.label = 1;
                 return cOROUTINE_SUSPENDED;
@@ -135,13 +135,13 @@ final class HoverableNode extends Modifier.Node implements PointerInputModifierN
     }
 
     private final void tryEmitExit() {
-        int i;
-        HoverInteraction.Exit exit2;
         int i2;
+        HoverInteraction.Exit exit2;
+        int i;
         HoverInteraction.Exit exit;
         final HoverInteraction.Enter hoverInteraction = this.hoverInteraction;
         if (hoverInteraction != null) {
-            i = 0;
+            i2 = 0;
             exit2 = new HoverInteraction.Exit(hoverInteraction);
             this.interactionSource.tryEmit((Interaction)exit2);
             this.hoverInteraction = 0;
@@ -162,22 +162,22 @@ final class HoverableNode extends Modifier.Node implements PointerInputModifierN
     public void onPointerEvent-H0pRuoY(PointerEvent pointerEvent, PointerEventPass pass, long bounds) {
         PointerEventPass main;
         int exit-7fucELk;
-        int i4;
-        kotlinx.coroutines.CoroutineScope coroutineScope;
         int i;
-        int i3;
-        kotlin.coroutines.jvm.internal.SuspendLambda anon;
-        int i5;
+        kotlinx.coroutines.CoroutineScope coroutineScope;
+        int i4;
         int i2;
+        kotlin.coroutines.jvm.internal.SuspendLambda anon;
+        int i3;
+        int i5;
         if (pass == PointerEventPass.Main) {
             int type-7fucELk = pointerEvent.getType-7fucELk();
-            i4 = 0;
+            i = 0;
             if (PointerEventType.equals-impl0(type-7fucELk, PointerEventType.Companion.getEnter-7fucELk())) {
-                main = new HoverableNode.onPointerEvent.1(this, i4);
+                main = new HoverableNode.onPointerEvent.1(this, i);
                 BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)main, 3, 0);
             } else {
                 if (PointerEventType.equals-impl0(type-7fucELk, PointerEventType.Companion.getExit-7fucELk())) {
-                    main = new HoverableNode.onPointerEvent.2(this, i4);
+                    main = new HoverableNode.onPointerEvent.2(this, i);
                     BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)main, 3, 0);
                 }
             }

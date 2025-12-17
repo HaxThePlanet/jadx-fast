@@ -156,35 +156,35 @@ final class SizeAnimationModifierNode extends androidx.compose.animation.LayoutM
     @Override // androidx.compose.animation.LayoutModifierNodeWithPassThroughIntrinsics
     public final long animateTo-mzRDjE0(long targetSize) {
         int anon;
-        int i6;
+        int i2;
         Object companion;
         kotlin.coroutines.Continuation unbox-impl;
         boolean running;
         int i;
         androidx.compose.animation.SizeAnimationModifierNode.AnimData animData;
         Animatable animatable;
-        IntSize box-impl2;
-        Object vectorConverter;
         IntSize box-impl;
-        int i5;
-        int i2;
-        int i3;
+        Object vectorConverter;
+        IntSize box-impl2;
         int i4;
+        int i3;
+        int i5;
+        int i6;
         final long l2 = targetSize;
         animData = getAnimData();
-        i6 = 1;
+        i2 = 1;
         if (animData != null) {
             companion = animData;
             animatable = 0;
             if (!IntSize.equals-impl0(l2, obj3) && !companion.getAnim().isRunning()) {
                 if (!companion.getAnim().isRunning()) {
                 } else {
-                    i6 = 0;
+                    i2 = 0;
                 }
             } else {
             }
             if (IntSize.equals-impl0(l2, obj3)) {
-                if (i6 != 0) {
+                if (i2 != 0) {
                     companion.setStartSize-ozmzZPI((IntSize)companion.getAnim().getValue().unbox-impl());
                     anon = new SizeAnimationModifierNode.animateTo.data.1.1(companion, l2, obj3, this, 0);
                     BuildersKt.launch$default(getCoroutineScope(), 0, 0, (Function2)anon, 3, 0);
@@ -193,7 +193,7 @@ final class SizeAnimationModifierNode extends androidx.compose.animation.LayoutM
             }
         } else {
             companion = IntSize.Companion;
-            animatable = new Animatable(IntSize.box-impl(l2), VectorConvertersKt.getVectorConverter(companion), IntSize.box-impl(IntSizeKt.IntSize(i6, i6)), 0, 8, 0);
+            animatable = new Animatable(IntSize.box-impl(l2), VectorConvertersKt.getVectorConverter(companion), IntSize.box-impl(IntSizeKt.IntSize(i2, i2)), 0, 8, 0);
             animData = new SizeAnimationModifierNode.AnimData(animatable, l2, obj3, 0);
         }
         setAnimData(animData);
@@ -248,7 +248,7 @@ final class SizeAnimationModifierNode extends androidx.compose.animation.LayoutM
             it = ConstraintsKt.constrain-4WqzIAM(l2, obj9);
         }
         int i = 0;
-        final int i5 = width-impl;
+        final int i5 = $i$f$component1Impl;
         int i2 = 0;
         final int height-impl = IntSize.getHeight-impl(it);
         SizeAnimationModifierNode.measure.2 anon = new SizeAnimationModifierNode.measure.2(obj, l, obj3, i5, height-impl, $this$measure_u2d3p2s80s, placeable);

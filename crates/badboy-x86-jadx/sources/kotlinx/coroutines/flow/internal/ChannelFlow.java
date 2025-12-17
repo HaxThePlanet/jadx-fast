@@ -31,16 +31,16 @@ public abstract class ChannelFlow<T>  implements kotlinx.coroutines.flow.interna
     public final BufferOverflow onBufferOverflow;
     public ChannelFlow(CoroutineContext context, int capacity, BufferOverflow onBufferOverflow) {
         boolean aSSERTIONS_ENABLED;
-        int i2;
         int i;
+        int i2;
         super();
         this.context = context;
         this.capacity = capacity;
         this.onBufferOverflow = onBufferOverflow;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             aSSERTIONS_ENABLED = 0;
-            i2 = this.capacity != -1 ? 1 : 0;
-            if (i2 == 0) {
+            i = this.capacity != -1 ? 1 : 0;
+            if (i == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -75,22 +75,22 @@ public abstract class ChannelFlow<T>  implements kotlinx.coroutines.flow.interna
     }
 
     public Flow<T> fuse(CoroutineContext context, int capacity, BufferOverflow onBufferOverflow) {
-        int aSSERTIONS_ENABLED3;
+        int $i$a$AssertChannelFlow$fuse$1;
         int sum;
-        int i2;
-        int i3;
-        BufferOverflow onBufferOverflow2;
         int i;
-        boolean onBufferOverflow3;
+        int i2;
+        BufferOverflow onBufferOverflow3;
+        int i3;
+        boolean onBufferOverflow2;
         int aSSERTIONS_ENABLED;
-        int aSSERTIONS_ENABLED2;
+        int $i$a$AssertChannelFlow$fuse$2;
         int capacity2;
-        i2 = 1;
-        i3 = 0;
+        i = 1;
+        i2 = 0;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i4 = 0;
-            aSSERTIONS_ENABLED3 = capacity != -1 ? i2 : i3;
-            if (aSSERTIONS_ENABLED3 == 0) {
+            $i$a$AssertChannelFlow$fuse$1 = capacity != -1 ? i : i2;
+            if ($i$a$AssertChannelFlow$fuse$1 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -101,7 +101,7 @@ public abstract class ChannelFlow<T>  implements kotlinx.coroutines.flow.interna
         final int i6 = 0;
         if (onBufferOverflow != BufferOverflow.SUSPEND) {
             sum = capacity;
-            onBufferOverflow2 = onBufferOverflow;
+            onBufferOverflow3 = onBufferOverflow;
         } else {
             capacity2 = -3;
             if (this.capacity == capacity2) {
@@ -118,8 +118,8 @@ public abstract class ChannelFlow<T>  implements kotlinx.coroutines.flow.interna
                         } else {
                             if (DebugKt.getASSERTIONS_ENABLED()) {
                                 int i7 = 0;
-                                aSSERTIONS_ENABLED2 = this.capacity >= 0 ? i2 : i3;
-                                if (aSSERTIONS_ENABLED2 == 0) {
+                                $i$a$AssertChannelFlow$fuse$2 = this.capacity >= 0 ? i : i2;
+                                if ($i$a$AssertChannelFlow$fuse$2 == 0) {
                                 } else {
                                 }
                                 AssertionError assertionError2 = new AssertionError();
@@ -129,9 +129,9 @@ public abstract class ChannelFlow<T>  implements kotlinx.coroutines.flow.interna
                                 aSSERTIONS_ENABLED = 0;
                                 if (capacity >= 0) {
                                 } else {
-                                    i2 = i3;
+                                    i = i2;
                                 }
-                                if (i2 == 0) {
+                                if (i == 0) {
                                 } else {
                                 }
                                 AssertionError assertionError3 = new AssertionError();
@@ -139,22 +139,22 @@ public abstract class ChannelFlow<T>  implements kotlinx.coroutines.flow.interna
                             }
                             if (capacity3 += capacity >= 0) {
                             } else {
-                                sum = i3;
+                                sum = i2;
                             }
                         }
                     }
                 }
             }
-            onBufferOverflow2 = this.onBufferOverflow;
+            onBufferOverflow3 = this.onBufferOverflow;
         }
-        if (Intrinsics.areEqual(plus, this.context) && sum == this.capacity && onBufferOverflow2 == this.onBufferOverflow) {
+        if (Intrinsics.areEqual(plus, this.context) && sum == this.capacity && onBufferOverflow3 == this.onBufferOverflow) {
             if (sum == this.capacity) {
-                if (onBufferOverflow2 == this.onBufferOverflow) {
+                if (onBufferOverflow3 == this.onBufferOverflow) {
                     return (Flow)this;
                 }
             }
         }
-        return (Flow)create(plus, sum, onBufferOverflow2);
+        return (Flow)create(plus, sum, onBufferOverflow3);
     }
 
     public final Function2<ProducerScope<? super T>, Continuation<? super Unit>, Object> getCollectToFun$kotlinx_coroutines_core() {
@@ -176,11 +176,11 @@ public abstract class ChannelFlow<T>  implements kotlinx.coroutines.flow.interna
     @Override // kotlinx.coroutines.flow.internal.FusibleFlow
     public String toString() {
         Object it;
-        int capacity2;
+        int capacity;
         Object onBufferOverflow2;
         int i;
         CoroutineContext iNSTANCE;
-        int capacity;
+        int capacity2;
         BufferOverflow onBufferOverflow;
         ArrayList arrayList = new ArrayList(4);
         String additionalToStringProps = additionalToStringProps();

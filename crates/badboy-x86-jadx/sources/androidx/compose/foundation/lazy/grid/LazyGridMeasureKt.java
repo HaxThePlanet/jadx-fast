@@ -85,21 +85,21 @@ public final class LazyGridMeasureKt {
     }
 
     private static final List<androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem> calculateItemsOffsets(List<androidx.compose.foundation.lazy.grid.LazyGridMeasuredLine> lines, List<androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem> itemsBefore, List<androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem> itemsAfter, int layoutWidth, int layoutHeight, int finalMainAxisOffset, int maxOffset, int firstLineScrollOffset, boolean isVertical, Arrangement.Vertical verticalArrangement, Arrangement.Horizontal horizontalArrangement, boolean reverseLayout, Density density) {
-        ArrayList currentMainAxis;
-        int currentMainAxis2;
+        ArrayList currentMainAxis2;
+        int currentMainAxis;
         boolean $this$fastForEach$iv;
         int i3;
-        int i8;
-        int i12;
+        int i4;
+        int i7;
         boolean empty;
-        int i10;
-        int i;
+        int i11;
+        int i5;
         Object obj3;
         Object index$iv2;
-        int i13;
+        int i8;
         int index$iv;
-        int mainAxisSize2;
-        int i2;
+        int mainAxisSize;
+        int i;
         int index;
         int size;
         int iArr;
@@ -108,31 +108,31 @@ public final class LazyGridMeasureKt {
         int sum$iv;
         int mainAxisSizeWithSpacings;
         int index$iv$iv;
-        int i6;
+        int i2;
         Object reverseAwareOffsetIndices;
-        int i4;
-        int mainAxisSize;
-        int i5;
+        int i6;
+        int mainAxisSize2;
+        int i13;
         Object obj;
+        int i10;
+        int i12;
         int i9;
-        int i11;
-        int i7;
-        currentMainAxis = lines;
+        currentMainAxis2 = lines;
         final int i17 = layoutWidth;
         final int i18 = layoutHeight;
         $this$fastForEach$iv = reverseLayout;
         i3 = isVertical ? i18 : i17;
         final int i24 = i3;
-        i12 = finalMainAxisOffset < Math.min(i24, maxOffset) ? 1 : 0;
-        final int i26 = i12;
+        i7 = finalMainAxisOffset < Math.min(i24, maxOffset) ? 1 : 0;
+        final int i26 = i7;
         if (i26 != 0) {
-            i12 = firstLineScrollOffset == null ? 1 : 0;
-            if (i12 == 0) {
+            i7 = firstLineScrollOffset == null ? 1 : 0;
+            if (i7 == 0) {
             } else {
             }
             int i22 = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("non-zero firstLineScrollOffset".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckLazyGridMeasureKt$calculateItemsOffsets$1 = new IllegalStateException("non-zero firstLineScrollOffset".toString());
+            throw $i$a$CheckLazyGridMeasureKt$calculateItemsOffsets$1;
         }
         last = 0;
         sum$iv = 0;
@@ -140,39 +140,39 @@ public final class LazyGridMeasureKt {
         mainAxisSizeWithSpacings = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list3.size()) {
-            i5 = 0;
-            i9 = 0;
-            i11 = 0;
+            i13 = 0;
+            i10 = 0;
+            i12 = 0;
             sum$iv += iArr;
             index$iv$iv++;
         }
-        i7 = 0;
+        i9 = 0;
         ArrayList $this$fastSumBy$iv = new ArrayList(sum$iv);
         ArrayList list4 = $this$fastSumBy$iv;
         if (i26 != 0) {
             if (itemsBefore.isEmpty() && itemsAfter.isEmpty()) {
-                mainAxisSize2 = itemsAfter.isEmpty() ? 1 : i7;
+                mainAxisSize = itemsAfter.isEmpty() ? 1 : i9;
             } else {
             }
-            if (mainAxisSize2 == 0) {
+            if (mainAxisSize == 0) {
             } else {
-                mainAxisSizeWithSpacings = currentMainAxis.size();
+                mainAxisSizeWithSpacings = currentMainAxis2.size();
                 iArr = new int[mainAxisSizeWithSpacings];
-                i10 = i7;
-                while (i10 < mainAxisSizeWithSpacings) {
-                    iArr[i10] = (LazyGridMeasuredLine)currentMainAxis.get(LazyGridMeasureKt.calculateItemsOffsets$reverseAware(i10, $this$fastForEach$iv, mainAxisSizeWithSpacings)).getMainAxisSize();
-                    i10++;
+                i11 = i9;
+                while (i11 < mainAxisSizeWithSpacings) {
+                    iArr[i11] = (LazyGridMeasuredLine)currentMainAxis2.get(LazyGridMeasureKt.calculateItemsOffsets$reverseAware(i11, $this$fastForEach$iv, mainAxisSizeWithSpacings)).getMainAxisSize();
+                    i11++;
                 }
                 sum$iv = new int[mainAxisSizeWithSpacings];
-                i = i7;
-                while (i < mainAxisSizeWithSpacings) {
-                    sum$iv[i] = i7;
-                    i++;
+                i5 = i9;
+                while (i5 < mainAxisSizeWithSpacings) {
+                    sum$iv[i5] = i9;
+                    i5++;
                 }
                 if (isVertical) {
                     if (verticalArrangement == null) {
                     } else {
-                        i2 = 0;
+                        i = 0;
                         verticalArrangement.arrange(density, i24, iArr, sum$iv);
                         if ($this$fastForEach$iv) {
                             index$iv2 = RangesKt.reversed((IntProgression)ArraysKt.getIndices(sum$iv));
@@ -196,8 +196,8 @@ public final class LazyGridMeasureKt {
                     }
                     Density density2 = density;
                     int i23 = 0;
-                    IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("null verticalArrangement".toString());
-                    throw illegalArgumentException3;
+                    IllegalArgumentException $i$a$RequireNotNullLazyGridMeasureKt$calculateItemsOffsets$3 = new IllegalArgumentException("null verticalArrangement".toString());
+                    throw $i$a$RequireNotNullLazyGridMeasureKt$calculateItemsOffsets$3;
                 }
                 Density density3 = density;
                 if (horizontalArrangement == null) {
@@ -206,39 +206,39 @@ public final class LazyGridMeasureKt {
                     horizontalArrangement.arrange(density, i24, iArr, LayoutDirection.Ltr, sum$iv);
                 }
                 int i14 = 0;
-                IllegalArgumentException illegalArgumentException = new IllegalArgumentException("null horizontalArrangement".toString());
-                throw illegalArgumentException;
+                IllegalArgumentException $i$a$RequireNotNullLazyGridMeasureKt$calculateItemsOffsets$5 = new IllegalArgumentException("null horizontalArrangement".toString());
+                throw $i$a$RequireNotNullLazyGridMeasureKt$calculateItemsOffsets$5;
             }
             int i15 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("no items".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireLazyGridMeasureKt$calculateItemsOffsets$2 = new IllegalArgumentException("no items".toString());
+            throw $i$a$RequireLazyGridMeasureKt$calculateItemsOffsets$2;
         }
         int i16 = 0;
-        currentMainAxis2 = firstLineScrollOffset;
+        currentMainAxis = firstLineScrollOffset;
         Object obj2 = itemsBefore;
         int i19 = 0;
         if (size2-- >= 0) {
         }
-        currentMainAxis = firstLineScrollOffset;
+        currentMainAxis2 = firstLineScrollOffset;
         ArrayList list = lines;
         int i20 = 0;
         index$iv = 0;
         while (index$iv < list.size()) {
             last = iArr;
             sum$iv = 0;
-            LazyGridMeasureKt.addAllFromArray((List)list4, (LazyGridMeasuredLine)last.position(currentMainAxis, i17, i18));
-            currentMainAxis += mainAxisSizeWithSpacings;
+            LazyGridMeasureKt.addAllFromArray((List)list4, (LazyGridMeasuredLine)last.position(currentMainAxis2, i17, i18));
+            currentMainAxis2 += mainAxisSizeWithSpacings;
             index$iv++;
         }
         $this$fastForEach$iv = itemsAfter;
-        i8 = 0;
+        i4 = 0;
         index$iv2 = 0;
         while (index$iv2 < $this$fastForEach$iv.size()) {
             last = iArr;
             sum$iv = 0;
-            (LazyGridMeasuredItem)last.position(currentMainAxis, 0, i17, i18);
+            (LazyGridMeasuredItem)last.position(currentMainAxis2, 0, i17, i18);
             list4.add(last);
-            currentMainAxis += index$iv$iv;
+            currentMainAxis2 += index$iv$iv;
             index$iv2++;
         }
     }
@@ -253,173 +253,173 @@ public final class LazyGridMeasureKt {
         int mainAxisSizeWithSpacings;
         Object size;
         int size2;
-        int i28;
+        int i6;
         Object invoke;
-        Orientation horizontal;
-        List i18;
-        CoroutineScope firstItemIndex;
-        int index$iv3;
+        Orientation horizontal2;
+        List i11;
+        CoroutineScope firstItemIndex2;
+        int index$iv2;
         long l;
-        int index$iv$iv3;
+        int index$iv$iv;
         int measuredLine;
-        int i40;
-        int i21;
+        int i16;
+        int i29;
         int emptyList;
         int andMeasure--hBUhpc2;
-        int i35;
+        int i31;
         androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem andMeasure--hBUhpc;
         int constrainWidth-K40F9xA;
         int constrainHeight-K40F9xA;
         int currentMainAxisOffset;
-        int currentMainAxisOffset3;
         int currentMainAxisOffset2;
-        int i38;
-        int i37;
+        int currentMainAxisOffset3;
+        int i26;
+        int i9;
         boolean height-impl;
         int currentFirstLineIndex2;
         int currentFirstLineIndex;
         int sign;
         float f;
         boolean equals-impl0;
-        Orientation horizontal2;
-        int currentFirstLineScrollOffset;
+        Orientation horizontal;
         int currentFirstLineScrollOffset5;
-        int currentFirstLineScrollOffset2;
+        int currentFirstLineScrollOffset;
         int currentFirstLineScrollOffset3;
+        int currentFirstLineScrollOffset4;
+        int index$iv$iv3;
         int index$iv$iv5;
-        int index$iv$iv;
         int $this$fastRoundToInt$iv;
         int sign2;
-        int i6;
-        int i3;
-        int visibleLinesScrollOffset3;
+        int i24;
+        int i20;
         int visibleLinesScrollOffset2;
-        int items$iv3;
+        int visibleLinesScrollOffset3;
         int items$iv2;
-        int i7;
-        int i8;
-        int i5;
-        int currentFirstLineScrollOffset4;
-        int i22;
+        int items$iv3;
+        int i28;
+        int i30;
+        int i41;
+        int currentFirstLineScrollOffset2;
+        int i13;
         boolean empty;
         Object $this$fastFilter$iv;
+        int i33;
+        int i;
+        int index;
         int i19;
-        int i26;
-        int index2;
-        int i31;
         androidx.compose.foundation.lazy.grid.LazyGridMeasuredLine andMeasure;
         int mainAxisSizeWithSpacings2;
         int layoutWidth;
         int remeasureNeeded;
         int layoutHeight;
         int empty2;
-        int i20;
+        int i35;
         Object firstLine2;
         int toScrollBack;
         int index3;
-        int index;
+        int index2;
         int $i$f$calculateExtraItems;
-        int i16;
+        int i4;
         int companion;
         Object lastOrNull;
-        int i15;
-        int items$iv;
-        int i12;
-        int i13;
-        int i10;
         int i14;
-        int i33;
-        int firstItemIndex3;
-        int index$iv$iv4;
-        int i27;
-        int i29;
-        androidx.compose.foundation.lazy.layout.LazyLayoutKeyIndexMap keyIndexMap;
+        int items$iv;
+        int i10;
+        int i5;
         int i2;
+        int i38;
+        int i3;
+        int firstItemIndex3;
+        int index$iv$iv2;
+        int i32;
+        int i27;
+        androidx.compose.foundation.lazy.layout.LazyLayoutKeyIndexMap keyIndexMap;
+        int i21;
         Object firstLine;
-        int i30;
+        int i8;
         boolean z;
         Object obj;
-        int i17;
-        int i;
-        int index$iv2;
-        int i34;
+        int i37;
+        int i12;
+        int index$iv;
         int i23;
-        ArrayList i36;
-        int i41;
+        int i15;
+        ArrayList i17;
+        int i22;
         long childConstraints-JhjzzOo$foundation_release;
-        int i24;
+        int i18;
         CoroutineScope coroutineScope2;
-        int i4;
+        int i40;
         GraphicsContext context;
         int indexInVisibleLines;
-        int i9;
+        int i34;
         int visibleLinesScrollOffset;
-        int firstItemIndex2;
-        int i11;
-        int index$iv$iv2;
-        int i39;
+        int firstItemIndex;
+        int i7;
+        int index$iv$iv4;
+        int i36;
         androidx.compose.foundation.lazy.layout.LazyLayoutMeasuredItemProvider lazyLayoutMeasuredItemProvider;
-        int index$iv;
+        int index$iv3;
+        int i39;
         int i25;
-        int i32;
         long $this$fastForEach$iv$iv;
-        i31 = itemsCount;
+        i19 = itemsCount;
         mainAxisSizeWithSpacings = measuredLineProvider;
-        i18 = beforeContentPadding;
-        index$iv3 = constraints;
+        i11 = beforeContentPadding;
+        index$iv2 = constraints;
         Object obj4 = obj71;
         int i49 = 0;
-        i38 = i18 >= 0 ? 1 : i49;
-        if (i38 == 0) {
+        i26 = i11 >= 0 ? 1 : i49;
+        if (i26 == 0) {
         } else {
-            i37 = afterContentPadding >= 0 ? 1 : i49;
-            if (i37 == 0) {
+            i9 = afterContentPadding >= 0 ? 1 : i49;
+            if (i9 == 0) {
             } else {
                 ArrayList arrayList2 = new ArrayList();
-                slotsPerLine.onMeasured(0, Constraints.getMinWidth-impl(index$iv3), Constraints.getMinHeight-impl(index$iv3), (List)arrayList2, measuredItemProvider.getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)measuredItemProvider, verticalArrangement, false, pinnedItems, false, 0, 0, placementScopeInvalidator, prefetchInfoRetriever);
+                slotsPerLine.onMeasured(0, Constraints.getMinWidth-impl(index$iv2), Constraints.getMinHeight-impl(index$iv2), (List)arrayList2, measuredItemProvider.getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)measuredItemProvider, verticalArrangement, false, pinnedItems, false, 0, 0, placementScopeInvalidator, prefetchInfoRetriever);
                 long minSizeToFitDisappearingItems-YbymL2g = slotsPerLine.getMinSizeToFitDisappearingItems-YbymL2g();
-                if (i31 <= 0 && !IntSize.equals-impl0(minSizeToFitDisappearingItems-YbymL2g, obj6)) {
+                if (i19 <= 0 && !IntSize.equals-impl0(minSizeToFitDisappearingItems-YbymL2g, obj6)) {
                     arrayList2 = new ArrayList();
-                    slotsPerLine.onMeasured(0, Constraints.getMinWidth-impl(index$iv3), Constraints.getMinHeight-impl(index$iv3), (List)arrayList2, measuredItemProvider.getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)measuredItemProvider, verticalArrangement, false, pinnedItems, false, 0, 0, placementScopeInvalidator, prefetchInfoRetriever);
+                    slotsPerLine.onMeasured(0, Constraints.getMinWidth-impl(index$iv2), Constraints.getMinHeight-impl(index$iv2), (List)arrayList2, measuredItemProvider.getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)measuredItemProvider, verticalArrangement, false, pinnedItems, false, 0, 0, placementScopeInvalidator, prefetchInfoRetriever);
                     minSizeToFitDisappearingItems-YbymL2g = slotsPerLine.getMinSizeToFitDisappearingItems-YbymL2g();
                     if (!IntSize.equals-impl0(minSizeToFitDisappearingItems-YbymL2g, obj6)) {
-                        layoutWidth = ConstraintsKt.constrainWidth-K40F9xA(index$iv3, obj3);
-                        layoutHeight = ConstraintsKt.constrainHeight-K40F9xA(index$iv3, obj3);
+                        layoutWidth = ConstraintsKt.constrainWidth-K40F9xA(index$iv2, obj3);
+                        layoutHeight = ConstraintsKt.constrainHeight-K40F9xA(index$iv2, obj3);
                     }
-                    horizontal2 = verticalArrangement ? Orientation.Vertical : Orientation.Horizontal;
-                    LazyGridMeasureResult lazyGridMeasureResult2 = new LazyGridMeasureResult(0, 0, 0, 0, (MeasureResult)obj4.invoke(Integer.valueOf(layoutWidth), Integer.valueOf(layoutHeight), LazyGridMeasureKt.measureLazyGrid.3.INSTANCE), 0, placementScopeInvalidator, itemAnimator, pinnedItems, layout, CollectionsKt.emptyList(), -i18, mainAxisAvailableSize + afterContentPadding, 0, density, horizontal2, afterContentPadding, spaceBetweenLines);
+                    horizontal = verticalArrangement ? Orientation.Vertical : Orientation.Horizontal;
+                    LazyGridMeasureResult lazyGridMeasureResult2 = new LazyGridMeasureResult(0, 0, 0, 0, (MeasureResult)obj4.invoke(Integer.valueOf(layoutWidth), Integer.valueOf(layoutHeight), LazyGridMeasureKt.measureLazyGrid.3.INSTANCE), 0, placementScopeInvalidator, itemAnimator, pinnedItems, layout, CollectionsKt.emptyList(), -i11, mainAxisAvailableSize + afterContentPadding, 0, density, horizontal, afterContentPadding, spaceBetweenLines);
                     return lazyGridMeasureResult2;
                 }
                 int i65 = 0;
                 $this$fastRoundToInt$iv = Math.round(scrollToBeConsumed);
                 i57 -= $this$fastRoundToInt$iv;
-                if (firstVisibleLineIndex == 0 && currentFirstLineScrollOffset < 0) {
-                    if (currentFirstLineScrollOffset < 0) {
-                        $this$fastRoundToInt$iv += currentFirstLineScrollOffset;
-                        currentFirstLineScrollOffset = 0;
+                if (firstVisibleLineIndex == 0 && currentFirstLineScrollOffset5 < 0) {
+                    if (currentFirstLineScrollOffset5 < 0) {
+                        $this$fastRoundToInt$iv += currentFirstLineScrollOffset5;
+                        currentFirstLineScrollOffset5 = 0;
                     }
                 }
                 ArrayDeque arrayDeque = new ArrayDeque();
-                i19 = spaceBetweenLines < 0 ? spaceBetweenLines : i49;
-                i66 += i19;
+                i33 = spaceBetweenLines < 0 ? spaceBetweenLines : i49;
+                i66 += i33;
                 int i67 = mainAxisAvailableSize;
-                currentFirstLineScrollOffset += i8;
-                while (currentFirstLineScrollOffset5 < 0) {
+                currentFirstLineScrollOffset5 += i30;
+                while (currentFirstLineScrollOffset < 0) {
                     if (currentFirstLineIndex2 > 0) {
                     }
-                    i26 = currentFirstLineIndex2 + -1;
-                    andMeasure = mainAxisSizeWithSpacings.getAndMeasure(i26);
+                    i = currentFirstLineIndex2 + -1;
+                    andMeasure = mainAxisSizeWithSpacings.getAndMeasure(i);
                     arrayDeque.add(i49, andMeasure);
-                    currentFirstLineScrollOffset5 += mainAxisSizeWithSpacings2;
-                    currentFirstLineIndex2 = i26;
+                    currentFirstLineScrollOffset += mainAxisSizeWithSpacings2;
+                    currentFirstLineIndex2 = i;
                 }
-                if (currentFirstLineScrollOffset5 < i8) {
-                    $this$fastRoundToInt$iv += currentFirstLineScrollOffset5;
-                    currentFirstLineScrollOffset5 = i8;
+                if (currentFirstLineScrollOffset < i30) {
+                    $this$fastRoundToInt$iv += currentFirstLineScrollOffset;
+                    currentFirstLineScrollOffset = i30;
                 }
-                index2 = currentFirstLineIndex2;
+                index = currentFirstLineIndex2;
                 int coerceAtLeast = RangesKt.coerceAtLeast(i67 + afterContentPadding, i49);
-                currentMainAxisOffset = -currentFirstLineScrollOffset2;
+                currentMainAxisOffset = -currentFirstLineScrollOffset3;
                 remeasureNeeded = 0;
                 measuredLine = i72;
                 empty2 = currentFirstLineIndex2;
@@ -427,7 +427,7 @@ public final class LazyGridMeasureKt {
                     if (currentMainAxisOffset >= coerceAtLeast) {
                     } else {
                     }
-                    index2++;
+                    index++;
                     currentMainAxisOffset += mainAxisSizeWithSpacings5;
                     measuredLine++;
                     currentFirstLineIndex2 = empty2;
@@ -437,72 +437,72 @@ public final class LazyGridMeasureKt {
                     currentFirstLineIndex2 = empty2;
                 }
                 currentFirstLineIndex = empty2;
-                while (index2 < i31) {
-                    measuredLine = mainAxisSizeWithSpacings.getAndMeasure(index2);
+                while (index < i19) {
+                    measuredLine = mainAxisSizeWithSpacings.getAndMeasure(index);
                     currentMainAxisOffset += mainAxisSizeWithSpacings6;
-                    if (currentMainAxisOffset2 <= i8) {
+                    if (currentMainAxisOffset3 <= i30) {
                     } else {
                     }
-                    toScrollBack = currentMainAxisOffset2;
+                    toScrollBack = currentMainAxisOffset3;
                     empty2 = currentFirstLineIndex;
                     arrayDeque.add(measuredLine);
                     currentFirstLineIndex = empty2;
-                    index2++;
+                    index++;
                     currentMainAxisOffset = toScrollBack;
                     measuredLine = indexInVisibleLines;
-                    toScrollBack = currentMainAxisOffset2;
+                    toScrollBack = currentMainAxisOffset3;
                     empty2 = currentFirstLineIndex;
-                    if ((LazyGridMeasuredItem)ArraysKt.last(measuredLine.getItems()).getIndex() != i31 + -1) {
+                    if ((LazyGridMeasuredItem)ArraysKt.last(measuredLine.getItems()).getIndex() != i19 + -1) {
                     } else {
                     }
-                    currentFirstLineScrollOffset2 -= mainAxisSizeWithSpacings4;
+                    currentFirstLineScrollOffset3 -= mainAxisSizeWithSpacings4;
                     remeasureNeeded = i56;
-                    currentFirstLineIndex = currentMainAxisOffset2;
+                    currentFirstLineIndex = currentMainAxisOffset3;
                 }
                 indexInVisibleLines = measuredLine;
-                i20 = currentFirstLineIndex;
+                i35 = currentFirstLineIndex;
                 if (currentMainAxisOffset < i67) {
-                    i40 = i67 - currentMainAxisOffset;
-                    currentFirstLineScrollOffset2 -= i40;
-                    currentMainAxisOffset += i40;
-                    currentFirstLineIndex = i20;
-                    while (currentFirstLineScrollOffset2 < i18) {
+                    i16 = i67 - currentMainAxisOffset;
+                    currentFirstLineScrollOffset3 -= i16;
+                    currentMainAxisOffset += i16;
+                    currentFirstLineIndex = i35;
+                    while (currentFirstLineScrollOffset3 < i11) {
                         int toScrollBack2 = currentFirstLineIndex + -1;
                         androidx.compose.foundation.lazy.grid.LazyGridMeasuredLine andMeasure2 = mainAxisSizeWithSpacings.getAndMeasure(toScrollBack2);
                         arrayDeque.add(0, andMeasure2);
-                        currentFirstLineScrollOffset2 += mainAxisSizeWithSpacings3;
-                        currentFirstLineIndex = i20;
-                        i40 = toScrollBack;
-                        currentMainAxisOffset3 = i15;
+                        currentFirstLineScrollOffset3 += mainAxisSizeWithSpacings3;
+                        currentFirstLineIndex = i35;
+                        i16 = toScrollBack;
+                        currentMainAxisOffset2 = i14;
                     }
-                    toScrollBack = i40;
-                    i15 = currentMainAxisOffset3;
+                    toScrollBack = i16;
+                    i14 = currentMainAxisOffset2;
                     $this$fastRoundToInt$iv += toScrollBack;
-                    if (currentFirstLineScrollOffset2 < 0) {
-                        currentMainAxisOffset = i15 + currentFirstLineScrollOffset2;
-                        currentFirstLineScrollOffset2 = 0;
-                        i9 = currentFirstLineIndex;
-                        i21 = $this$fastRoundToInt$iv;
+                    if (currentFirstLineScrollOffset3 < 0) {
+                        currentMainAxisOffset = i14 + currentFirstLineScrollOffset3;
+                        currentFirstLineScrollOffset3 = 0;
+                        i34 = currentFirstLineIndex;
+                        i29 = $this$fastRoundToInt$iv;
                     } else {
-                        i9 = currentFirstLineIndex;
-                        i21 = $this$fastRoundToInt$iv;
-                        currentMainAxisOffset = i15;
+                        i34 = currentFirstLineIndex;
+                        i29 = $this$fastRoundToInt$iv;
+                        currentMainAxisOffset = i14;
                     }
                 } else {
-                    i21 = $this$fastRoundToInt$iv;
-                    i9 = i20;
+                    i29 = $this$fastRoundToInt$iv;
+                    i34 = i35;
                 }
                 int i59 = 0;
                 int i60 = 0;
-                if (MathKt.getSign(Math.round(scrollToBeConsumed)) == MathKt.getSign(i21) && Math.abs(Math.round(scrollToBeConsumed)) >= Math.abs(i21)) {
+                if (MathKt.getSign(Math.round(scrollToBeConsumed)) == MathKt.getSign(i29) && Math.abs(Math.round(scrollToBeConsumed)) >= Math.abs(i29)) {
                     i60 = 0;
-                    f = Math.abs(Math.round(scrollToBeConsumed)) >= Math.abs(i21) ? (float)i21 : scrollToBeConsumed;
+                    f = Math.abs(Math.round(scrollToBeConsumed)) >= Math.abs(i29) ? (float)i29 : scrollToBeConsumed;
                 } else {
                 }
-                i6 = currentFirstLineScrollOffset2 >= 0 ? 1 : 0;
-                if (i6 == 0) {
+                i24 = currentFirstLineScrollOffset3 >= 0 ? 1 : 0;
+                if (i24 == 0) {
                 } else {
-                    i3 = -currentFirstLineScrollOffset2;
+                    i20 = -currentFirstLineScrollOffset3;
                     firstLine2 = arrayDeque.first();
                     Object firstOrNull = ArraysKt.firstOrNull((LazyGridMeasuredLine)firstLine2.getItems());
                     if ((LazyGridMeasuredItem)firstOrNull != null) {
@@ -519,239 +519,239 @@ public final class LazyGridMeasureKt {
                         if (lastOrNull != null) {
                             lastOrNull = ArraysKt.lastOrNull(lastOrNull);
                             if ((LazyGridMeasuredItem)(LazyGridMeasuredItem)lastOrNull != null) {
-                                index = (LazyGridMeasuredItem)(LazyGridMeasuredItem)lastOrNull.getIndex();
+                                index2 = (LazyGridMeasuredItem)(LazyGridMeasuredItem)lastOrNull.getIndex();
                             } else {
-                                index = 0;
+                                index2 = 0;
                             }
                         } else {
                         }
                     } else {
                     }
-                    i11 = index;
+                    i7 = index2;
                     int i76 = 0;
                     items$iv = 0;
                     int i83 = 0;
-                    final int i110 = i21;
+                    final int i110 = i29;
                     emptyList = coroutineScope.size();
-                    int index$iv$iv7 = currentFirstLineScrollOffset2;
-                    currentFirstLineScrollOffset3 = i114;
-                    while (currentFirstLineScrollOffset3 < emptyList) {
-                        int i50 = i10;
-                        andMeasure--hBUhpc2 = (Number)i50.get(currentFirstLineScrollOffset3).intValue();
-                        i30 = 0;
-                        i17 = andMeasure--hBUhpc2;
+                    int index$iv$iv7 = currentFirstLineScrollOffset3;
+                    currentFirstLineScrollOffset4 = i114;
+                    while (currentFirstLineScrollOffset4 < emptyList) {
+                        int i50 = i2;
+                        andMeasure--hBUhpc2 = (Number)i50.get(currentFirstLineScrollOffset4).intValue();
+                        i8 = 0;
+                        i37 = andMeasure--hBUhpc2;
                         int i98 = 0;
-                        if (i17 >= 0) {
+                        if (i37 >= 0) {
                         } else {
                         }
-                        index$iv$iv2 = currentFirstLineScrollOffset3;
-                        index$iv$iv5 = visibleLinesScrollOffset;
-                        firstItemIndex2 = i3;
-                        visibleLinesScrollOffset2 = i17;
-                        visibleLinesScrollOffset3 = 0;
-                        if (visibleLinesScrollOffset3 != 0) {
+                        index$iv$iv4 = currentFirstLineScrollOffset4;
+                        index$iv$iv3 = visibleLinesScrollOffset;
+                        firstItemIndex = i20;
+                        visibleLinesScrollOffset3 = i37;
+                        visibleLinesScrollOffset2 = 0;
+                        if (visibleLinesScrollOffset2 != 0) {
                         } else {
                         }
-                        index$iv2 = andMeasure--hBUhpc2;
-                        i10 = i4;
-                        i3 = firstItemIndex2;
-                        visibleLinesScrollOffset = index$iv$iv5;
-                        currentFirstLineScrollOffset3 = i51;
-                        emptyList = i2;
+                        index$iv = andMeasure--hBUhpc2;
+                        i2 = i40;
+                        i20 = firstItemIndex;
+                        visibleLinesScrollOffset = index$iv$iv3;
+                        currentFirstLineScrollOffset4 = i51;
+                        emptyList = i21;
                         int spanOf = mainAxisSizeWithSpacings.spanOf(andMeasure--hBUhpc2);
                         if (items$iv == 0) {
                         } else {
                         }
-                        visibleLinesScrollOffset3 = items$iv;
-                        visibleLinesScrollOffset3.add(measuredItemProvider.getAndMeasure--hBUhpc(andMeasure--hBUhpc2, 0, spanOf, mainAxisSizeWithSpacings.childConstraints-JhjzzOo$foundation_release(0, spanOf)));
-                        items$iv = visibleLinesScrollOffset3;
+                        visibleLinesScrollOffset2 = items$iv;
+                        visibleLinesScrollOffset2.add(measuredItemProvider.getAndMeasure--hBUhpc(andMeasure--hBUhpc2, 0, spanOf, mainAxisSizeWithSpacings.childConstraints-JhjzzOo$foundation_release(0, spanOf)));
+                        items$iv = visibleLinesScrollOffset2;
                         ArrayList arrayList3 = new ArrayList();
-                        visibleLinesScrollOffset3 = items$iv;
-                        index$iv$iv2 = currentFirstLineScrollOffset3;
-                        firstItemIndex2 = i3;
-                        if (i17 < visibleLinesScrollOffset) {
+                        visibleLinesScrollOffset2 = items$iv;
+                        index$iv$iv4 = currentFirstLineScrollOffset4;
+                        firstItemIndex = i20;
+                        if (i37 < visibleLinesScrollOffset) {
                         } else {
                         }
-                        visibleLinesScrollOffset3 = 1;
+                        visibleLinesScrollOffset2 = 1;
                     }
-                    i39 = currentFirstLineScrollOffset3;
-                    int i107 = i10;
-                    index$iv$iv = visibleLinesScrollOffset;
+                    i36 = currentFirstLineScrollOffset4;
+                    int i107 = i2;
+                    index$iv$iv5 = visibleLinesScrollOffset;
                     if (items$iv == 0) {
                         $i$f$calculateExtraItems = emptyList;
                     } else {
                         $i$f$calculateExtraItems = items$iv;
                     }
-                    i14 = 0;
+                    i38 = 0;
                     int i91 = i52;
-                    i35 = coroutineScope.size();
-                    index$iv$iv4 = i61;
-                    items$iv3 = i115;
-                    while (items$iv3 < i35) {
-                        int i53 = i12;
-                        andMeasure--hBUhpc = (Number)i53.get(items$iv3).intValue();
-                        i17 = 0;
+                    i31 = coroutineScope.size();
+                    index$iv$iv2 = i61;
+                    items$iv2 = i115;
+                    while (items$iv2 < i31) {
+                        int i53 = i10;
+                        andMeasure--hBUhpc = (Number)i53.get(items$iv2).intValue();
+                        i37 = 0;
+                        i22 = 0;
+                        int minOffset = i15;
+                        if (i7 + 1 <= minOffset && minOffset < i19) {
+                        } else {
+                        }
+                        items$iv3 = 0;
+                        if (items$iv3 != 0) {
+                        } else {
+                        }
+                        index$iv3 = andMeasure--hBUhpc;
                         i41 = 0;
-                        int minOffset = i23;
-                        if (i11 + 1 <= minOffset && minOffset < i31) {
-                        } else {
-                        }
-                        items$iv2 = 0;
-                        if (items$iv2 != 0) {
-                        } else {
-                        }
-                        index$iv = andMeasure--hBUhpc;
-                        i5 = 0;
-                        items$iv3 = childConstraints-JhjzzOo$foundation_release + 1;
-                        i35 = i30;
-                        i12 = index$iv2;
-                        i8 = i39;
+                        items$iv2 = childConstraints-JhjzzOo$foundation_release + 1;
+                        i31 = i8;
+                        i10 = index$iv;
+                        i30 = i36;
                         int spanOf2 = mainAxisSizeWithSpacings.spanOf(andMeasure--hBUhpc);
-                        if (index$iv$iv4 == 0) {
+                        if (index$iv$iv2 == 0) {
                         } else {
                         }
-                        items$iv2 = index$iv$iv4;
-                        items$iv2.add(measuredItemProvider.getAndMeasure--hBUhpc(andMeasure--hBUhpc, 0, spanOf2, mainAxisSizeWithSpacings.childConstraints-JhjzzOo$foundation_release(0, spanOf2)));
-                        index$iv$iv4 = items$iv2;
-                        items$iv2 = new ArrayList();
-                        if (minOffset < i31) {
+                        items$iv3 = index$iv$iv2;
+                        items$iv3.add(measuredItemProvider.getAndMeasure--hBUhpc(andMeasure--hBUhpc, 0, spanOf2, mainAxisSizeWithSpacings.childConstraints-JhjzzOo$foundation_release(0, spanOf2)));
+                        index$iv$iv2 = items$iv3;
+                        items$iv3 = new ArrayList();
+                        if (minOffset < i19) {
                         } else {
                         }
-                        items$iv2 = 1;
+                        items$iv3 = 1;
                     }
-                    int i102 = items$iv3;
-                    int i111 = i8;
-                    int i99 = i12;
+                    int i102 = items$iv2;
+                    int i111 = i30;
+                    int i99 = i10;
                     int minOffset2 = 0;
-                    if (index$iv$iv4 == 0) {
-                        i13 = i35;
+                    if (index$iv$iv2 == 0) {
+                        i5 = i31;
                     } else {
-                        i13 = index$iv$iv4;
+                        i5 = index$iv$iv2;
                     }
-                    if (i18 <= 0) {
+                    if (i11 <= 0) {
                         if (spaceBetweenLines < 0) {
-                            i35 = 0;
-                            currentFirstLineScrollOffset4 = index$iv$iv7;
-                            while (i35 < arrayDeque.size()) {
-                                mainAxisSizeWithSpacings = (LazyGridMeasuredLine)arrayDeque.get(i35).getMainAxisSizeWithSpacings();
-                                currentFirstLineScrollOffset4 -= index$iv$iv4;
+                            i31 = 0;
+                            currentFirstLineScrollOffset2 = index$iv$iv7;
+                            while (i31 < arrayDeque.size()) {
+                                mainAxisSizeWithSpacings = (LazyGridMeasuredLine)arrayDeque.get(i31).getMainAxisSizeWithSpacings();
+                                currentFirstLineScrollOffset2 -= index$iv$iv2;
                                 firstLine2 = obj2;
-                                i35++;
+                                i31++;
                                 mainAxisSizeWithSpacings = measuredLineProvider;
                             }
                             size = firstLine2;
                         } else {
-                            currentFirstLineScrollOffset4 = index$iv$iv7;
+                            currentFirstLineScrollOffset2 = index$iv$iv7;
                             size = firstLine2;
                         }
                     } else {
                     }
                     if (verticalArrangement) {
-                        i33 = constrainWidth-K40F9xA;
+                        i3 = constrainWidth-K40F9xA;
                     } else {
-                        i33 = constrainWidth-K40F9xA;
+                        i3 = constrainWidth-K40F9xA;
                     }
                     if (verticalArrangement) {
-                        i27 = constrainHeight-K40F9xA;
+                        i32 = constrainHeight-K40F9xA;
                     } else {
-                        i27 = constrainHeight-K40F9xA;
+                        i32 = constrainHeight-K40F9xA;
                     }
                     int i87 = currentMainAxisOffset;
                     int i92 = i67;
-                    List itemsOffsets = LazyGridMeasureKt.calculateItemsOffsets((List)arrayDeque, $i$f$calculateExtraItems, i13, i33, i27, i87, i92, i3, verticalArrangement, horizontalArrangement, reverseLayout, density, itemAnimator);
-                    int extraItemsAfter = i33;
+                    List itemsOffsets = LazyGridMeasureKt.calculateItemsOffsets((List)arrayDeque, $i$f$calculateExtraItems, i5, i3, i32, i87, i92, i20, verticalArrangement, horizontalArrangement, reverseLayout, density, itemAnimator);
+                    int extraItemsAfter = i3;
                     int i54 = i92;
                     int i103 = i87;
-                    int i100 = currentFirstLineScrollOffset4;
-                    int i80 = i27;
+                    int i100 = currentFirstLineScrollOffset2;
+                    int i80 = i32;
                     slotsPerLine.onMeasured((int)f, extraItemsAfter, i80, itemsOffsets, measuredItemProvider.getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)measuredItemProvider, verticalArrangement, false, pinnedItems, false, i100, i103, placementScopeInvalidator, prefetchInfoRetriever);
-                    i7 = extraItemsAfter;
-                    i22 = i80;
+                    i28 = extraItemsAfter;
+                    i13 = i80;
                     int i68 = i103;
                     long minSizeToFitDisappearingItems-YbymL2g2 = slotsPerLine.getMinSizeToFitDisappearingItems-YbymL2g();
-                    firstItemIndex3 = index$iv$iv;
-                    if (!IntSize.equals-impl0(minSizeToFitDisappearingItems-YbymL2g2, i31)) {
-                        equals-impl0 = verticalArrangement ? i22 : i7;
-                        index$iv$iv = ConstraintsKt.constrainWidth-K40F9xA(index$iv3, obj3);
-                        i7 = verticalArrangement ? i29 : index$iv$iv;
-                        if (i7 != equals-impl0) {
-                            i22 = itemsOffsets;
+                    firstItemIndex3 = index$iv$iv5;
+                    if (!IntSize.equals-impl0(minSizeToFitDisappearingItems-YbymL2g2, i19)) {
+                        equals-impl0 = verticalArrangement ? i13 : i28;
+                        index$iv$iv5 = ConstraintsKt.constrainWidth-K40F9xA(index$iv2, obj3);
+                        i28 = verticalArrangement ? i27 : index$iv$iv5;
+                        if (i28 != equals-impl0) {
+                            i13 = itemsOffsets;
                             companion = 0;
                             firstLine = size;
-                            size = i22.size();
-                            index$iv3 = keyIndexMap;
-                            while (index$iv3 < size) {
+                            size = i13.size();
+                            index$iv2 = keyIndexMap;
+                            while (index$iv2 < size) {
                                 z = false;
-                                (LazyGridMeasuredItem)i22.get(index$iv3).updateMainAxisLayoutSize(i7);
-                                index$iv3++;
+                                (LazyGridMeasuredItem)i13.get(index$iv2).updateMainAxisLayoutSize(i28);
+                                index$iv2++;
                                 size = keyIndexMap;
                             }
                         } else {
                             firstLine = size;
                         }
-                        i16 = index$iv$iv;
+                        i4 = index$iv$iv5;
                     } else {
                         firstLine = size;
-                        i16 = i7;
-                        i29 = i22;
+                        i4 = i28;
+                        i27 = i13;
                     }
-                    int i47 = i11;
+                    int i47 = i7;
                     if (i47 == itemsCount + -1) {
                         if (i68 > i54) {
-                            index$iv$iv3 = 1;
+                            index$iv$iv = 1;
                         } else {
-                            index$iv$iv3 = 0;
+                            index$iv$iv = 0;
                         }
                     } else {
                     }
                     LazyGridMeasureKt.measureLazyGrid.6 anon = new LazyGridMeasureKt.measureLazyGrid.6(itemsOffsets, graphicsContext);
-                    invoke = obj4.invoke(Integer.valueOf(i16), Integer.valueOf(i29), anon);
-                    if ($i$f$calculateExtraItems.isEmpty() && i13.isEmpty()) {
+                    invoke = obj4.invoke(Integer.valueOf(i4), Integer.valueOf(i27), anon);
+                    if ($i$f$calculateExtraItems.isEmpty() && i5.isEmpty()) {
                         if (i113.isEmpty()) {
                             obj = invoke;
-                            i24 = index$iv$iv3;
+                            i18 = index$iv$iv;
                             $this$fastFilter$iv = itemsOffsets;
                         } else {
                             List list = itemsOffsets;
-                            i31 = 0;
+                            i19 = 0;
                             obj = invoke;
                             ArrayList arrayList = new ArrayList(list.size());
-                            i = 0;
-                            i36 = arrayList;
+                            i12 = 0;
+                            i17 = arrayList;
                             size2 = list.size();
-                            i24 = index$iv$iv3;
-                            index$iv$iv3 = i34;
-                            while (index$iv$iv3 < size2) {
-                                coroutineScope2 = i34;
+                            i18 = index$iv$iv;
+                            index$iv$iv = i23;
+                            while (index$iv$iv < size2) {
+                                coroutineScope2 = i23;
                                 context = null;
-                                i25 = 0;
+                                i39 = 0;
                                 int index4 = (LazyGridMeasuredItem)coroutineScope2.getIndex();
                                 int $this$fastForEach$iv$iv2 = firstItemIndex3;
                                 if ($this$fastForEach$iv$iv2 <= index4 && index4 <= i47) {
                                 } else {
                                 }
-                                i28 = 0;
-                                if (i28 != 0) {
+                                i6 = 0;
+                                if (i6 != 0) {
                                 } else {
                                 }
                                 firstItemIndex3 = $this$fastForEach$iv$iv2;
-                                firstItemIndex = coroutineScope2;
-                                index$iv$iv3++;
-                                size2 = i32;
-                                i18 = $this$fastForEach$iv$iv;
+                                firstItemIndex2 = coroutineScope2;
+                                index$iv$iv++;
+                                size2 = i25;
+                                i11 = $this$fastForEach$iv$iv;
                                 firstItemIndex3 = $this$fastForEach$iv$iv2;
-                                (Collection)i36.add(coroutineScope2);
+                                (Collection)i17.add(coroutineScope2);
                                 if (index4 <= i47) {
                                 } else {
                                 }
-                                i28 = 1;
+                                i6 = 1;
                             }
-                            $this$fastForEach$iv$iv = i18;
+                            $this$fastForEach$iv$iv = i11;
                             $this$fastFilter$iv = invoke;
                         }
                     } else {
                     }
-                    horizontal = verticalArrangement ? Orientation.Vertical : Orientation.Horizontal;
+                    horizontal2 = verticalArrangement ? Orientation.Vertical : Orientation.Horizontal;
                     List list3 = itemsOffsets;
                     long l4 = l3;
                     int i95 = i47;
@@ -761,19 +761,19 @@ public final class LazyGridMeasureKt {
                     int currentMainAxisOffset5 = firstItemIndex3;
                     int firstItemIndex4 = i74;
                     ArrayDeque index5 = arrayDeque;
-                    LazyGridMeasureResult lazyGridMeasureResult = new LazyGridMeasureResult(firstLine, i100, i24, f, obj, remeasureNeeded, placementScopeInvalidator, itemAnimator, pinnedItems, layout, $this$fastFilter$iv, -i18, mainAxisAvailableSize + afterContentPadding, itemsCount, density, horizontal, afterContentPadding, spaceBetweenLines);
+                    LazyGridMeasureResult lazyGridMeasureResult = new LazyGridMeasureResult(firstLine, i100, i18, f, obj, remeasureNeeded, placementScopeInvalidator, itemAnimator, pinnedItems, layout, $this$fastFilter$iv, -i11, mainAxisAvailableSize + afterContentPadding, itemsCount, density, horizontal2, afterContentPadding, spaceBetweenLines);
                     return lazyGridMeasureResult;
                 }
                 int i44 = 0;
-                IllegalArgumentException illegalArgumentException = new IllegalArgumentException("negative initial offset".toString());
-                throw illegalArgumentException;
+                IllegalArgumentException $i$a$RequireLazyGridMeasureKt$measureLazyGrid$4 = new IllegalArgumentException("negative initial offset".toString());
+                throw $i$a$RequireLazyGridMeasureKt$measureLazyGrid$4;
             }
             int i45 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("negative afterContentPadding".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireLazyGridMeasureKt$measureLazyGrid$2 = new IllegalArgumentException("negative afterContentPadding".toString());
+            throw $i$a$RequireLazyGridMeasureKt$measureLazyGrid$2;
         }
         int i46 = 0;
-        IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("negative beforeContentPadding".toString());
-        throw illegalArgumentException3;
+        IllegalArgumentException $i$a$RequireLazyGridMeasureKt$measureLazyGrid$1 = new IllegalArgumentException("negative beforeContentPadding".toString());
+        throw $i$a$RequireLazyGridMeasureKt$measureLazyGrid$1;
     }
 }

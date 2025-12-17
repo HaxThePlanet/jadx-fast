@@ -244,12 +244,12 @@ public final class AsyncTypefaceCache {
 
     public final Object runCached(androidx.compose.ui.text.font.Font font, androidx.compose.ui.text.font.PlatformFontLoader platformFontLoader2, boolean z3, Function1<? super Continuation<Object>, ? extends Object> function14, Continuation<Object> continuation5) {
         boolean anon;
-        int i3;
         int i;
-        Object obj2;
         int i2;
-        Unit iNSTANCE;
         Object obj;
+        int i3;
+        Unit $i$a$SynchronizedAsyncTypefaceCache$runCached$2;
+        Object obj2;
         androidx.compose.ui.text.font.AsyncTypefaceCache.AsyncTypefaceResult box-impl;
         Object obj8;
         Object obj9;
@@ -257,12 +257,12 @@ public final class AsyncTypefaceCache {
         Object obj11;
         Object obj12;
         anon = continuation5;
-        i = Integer.MIN_VALUE;
-        if (continuation5 instanceof AsyncTypefaceCache.runCached.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation5 instanceof AsyncTypefaceCache.runCached.1 && label &= i2 != 0) {
             anon = continuation5;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj12 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj12 -= i2;
             } else {
                 anon = new AsyncTypefaceCache.runCached.1(this, continuation5);
             }
@@ -273,16 +273,16 @@ public final class AsyncTypefaceCache {
         switch (label2) {
             case 0:
                 ResultKt.throwOnFailure(obj12);
-                obj2 = this;
+                obj = this;
                 AsyncTypefaceCache.Key key = new AsyncTypefaceCache.Key(font, platformFontLoader2.getCacheKey());
                 obj9 = key;
-                obj8 = obj2.cacheLock;
-                i2 = 0;
+                obj8 = obj.cacheLock;
+                i3 = 0;
                 int i5 = 0;
-                obj = obj2.permanentCache.get(obj9);
-                return obj.unbox-impl();
-                iNSTANCE = Unit.INSTANCE;
-                anon.L$0 = obj2;
+                obj2 = obj.permanentCache.get(obj9);
+                return obj2.unbox-impl();
+                $i$a$SynchronizedAsyncTypefaceCache$runCached$2 = Unit.INSTANCE;
+                anon.L$0 = obj;
                 anon.L$1 = obj9;
                 anon.Z$0 = z3;
                 anon.label = 1;
@@ -290,7 +290,7 @@ public final class AsyncTypefaceCache {
             case 1:
                 obj9 = anon.L$1;
                 ResultKt.throwOnFailure(obj12);
-                obj2 = obj10;
+                obj = obj10;
                 obj10 = obj8;
                 obj8 = obj12;
                 break;
@@ -300,11 +300,11 @@ public final class AsyncTypefaceCache {
         }
         obj11 = obj8;
         int i4 = 0;
-        SynchronizedObject cacheLock = obj2.cacheLock;
+        SynchronizedObject cacheLock = obj.cacheLock;
         int i6 = 0;
         int i7 = 0;
         synchronized (cacheLock) {
-            obj2.permanentCache.put(obj9, AsyncTypefaceCache.AsyncTypefaceResult.box-impl(obj2.PermanentFailure));
+            obj.permanentCache.put(obj9, AsyncTypefaceCache.AsyncTypefaceResult.box-impl(obj.PermanentFailure));
             obj9 = Unit.INSTANCE;
             return obj8;
         }
@@ -323,7 +323,7 @@ public final class AsyncTypefaceCache {
             if (obj != null) {
                 return obj.unbox-impl();
             }
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedAsyncTypefaceCache$runCachedBlocking$1 = Unit.INSTANCE;
             Object invoke = block.invoke();
             final int i7 = 0;
             AsyncTypefaceCache.put$default(this, font, platformFontLoader, invoke, false, 8, 0);

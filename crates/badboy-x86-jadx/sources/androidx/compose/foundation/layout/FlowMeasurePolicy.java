@@ -35,10 +35,10 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
     private final androidx.compose.foundation.layout.FlowLayoutOverflowState overflow;
     private final androidx.compose.foundation.layout.Arrangement.Vertical verticalArrangement;
     private FlowMeasurePolicy(boolean isHorizontal, androidx.compose.foundation.layout.Arrangement.Horizontal horizontalArrangement, androidx.compose.foundation.layout.Arrangement.Vertical verticalArrangement, float mainAxisSpacing, androidx.compose.foundation.layout.CrossAxisAlignment crossAxisAlignment, float crossAxisArrangementSpacing, int maxItemsInMainAxis, int maxLines, androidx.compose.foundation.layout.FlowLayoutOverflowState overflow) {
-        kotlin.jvm.internal.Lambda iNSTANCE4;
-        kotlin.jvm.internal.Lambda iNSTANCE2;
-        kotlin.jvm.internal.Lambda iNSTANCE3;
         kotlin.jvm.internal.Lambda iNSTANCE;
+        kotlin.jvm.internal.Lambda iNSTANCE4;
+        kotlin.jvm.internal.Lambda iNSTANCE3;
+        kotlin.jvm.internal.Lambda iNSTANCE2;
         super();
         this.isHorizontal = isHorizontal;
         this.horizontalArrangement = horizontalArrangement;
@@ -50,17 +50,17 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
         this.maxLines = maxLines;
         this.overflow = overflow;
         if (isHorizontal()) {
-            iNSTANCE4 = FlowMeasurePolicy.maxMainAxisIntrinsicItemSize.1.INSTANCE;
+            iNSTANCE = FlowMeasurePolicy.maxMainAxisIntrinsicItemSize.1.INSTANCE;
         } else {
-            iNSTANCE4 = FlowMeasurePolicy.maxMainAxisIntrinsicItemSize.2.INSTANCE;
+            iNSTANCE = FlowMeasurePolicy.maxMainAxisIntrinsicItemSize.2.INSTANCE;
         }
-        this.maxMainAxisIntrinsicItemSize = iNSTANCE4;
+        this.maxMainAxisIntrinsicItemSize = iNSTANCE;
         if (isHorizontal()) {
-            iNSTANCE2 = FlowMeasurePolicy.maxCrossAxisIntrinsicItemSize.1.INSTANCE;
+            iNSTANCE4 = FlowMeasurePolicy.maxCrossAxisIntrinsicItemSize.1.INSTANCE;
         } else {
-            iNSTANCE2 = FlowMeasurePolicy.maxCrossAxisIntrinsicItemSize.2.INSTANCE;
+            iNSTANCE4 = FlowMeasurePolicy.maxCrossAxisIntrinsicItemSize.2.INSTANCE;
         }
-        this.maxCrossAxisIntrinsicItemSize = iNSTANCE2;
+        this.maxCrossAxisIntrinsicItemSize = iNSTANCE4;
         if (isHorizontal()) {
             iNSTANCE3 = FlowMeasurePolicy.minCrossAxisIntrinsicItemSize.1.INSTANCE;
         } else {
@@ -68,11 +68,11 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
         }
         this.minCrossAxisIntrinsicItemSize = iNSTANCE3;
         if (isHorizontal()) {
-            iNSTANCE = FlowMeasurePolicy.minMainAxisIntrinsicItemSize.1.INSTANCE;
+            iNSTANCE2 = FlowMeasurePolicy.minMainAxisIntrinsicItemSize.1.INSTANCE;
         } else {
-            iNSTANCE = FlowMeasurePolicy.minMainAxisIntrinsicItemSize.2.INSTANCE;
+            iNSTANCE2 = FlowMeasurePolicy.minMainAxisIntrinsicItemSize.2.INSTANCE;
         }
-        this.minMainAxisIntrinsicItemSize = iNSTANCE;
+        this.minMainAxisIntrinsicItemSize = iNSTANCE2;
     }
 
     public FlowMeasurePolicy(boolean z, androidx.compose.foundation.layout.Arrangement.Horizontal arrangement$Horizontal2, androidx.compose.foundation.layout.Arrangement.Vertical arrangement$Vertical3, float f4, androidx.compose.foundation.layout.CrossAxisAlignment crossAxisAlignment5, float f6, int i7, int i8, androidx.compose.foundation.layout.FlowLayoutOverflowState flowLayoutOverflowState9, DefaultConstructorMarker defaultConstructorMarker10) {
@@ -253,10 +253,10 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
     }
 
     public int maxIntrinsicHeight(IntrinsicMeasureScope $this$maxIntrinsicHeight, List<? extends List<? extends IntrinsicMeasurable>> measurables, int width) {
+        Object firstOrNull;
         Object firstOrNull3;
-        Object firstOrNull2;
         int intrinsicCrossAxisSize;
-        int firstOrNull;
+        int firstOrNull2;
         int roundToPx-0680j_4;
         int firstOrNull4;
         int horizontal;
@@ -269,26 +269,26 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
         final List list = measurables;
         Object orNull = CollectionsKt.getOrNull(list, 1);
         if ((List)orNull != null) {
-            firstOrNull = CollectionsKt.firstOrNull((List)orNull);
+            firstOrNull2 = CollectionsKt.firstOrNull((List)orNull);
         } else {
-            firstOrNull = firstOrNull4;
+            firstOrNull2 = firstOrNull4;
         }
         Object orNull2 = CollectionsKt.getOrNull(list, 2);
         if ((List)orNull2 != null) {
             firstOrNull4 = CollectionsKt.firstOrNull((List)orNull2);
         }
-        obj.overflow.setOverflowMeasurables--hBUhpc$foundation_layout_release(firstOrNull, firstOrNull4, obj.isHorizontal(), ConstraintsKt.Constraints$default(0, width, 0, 0, 13, 0));
+        obj.overflow.setOverflowMeasurables--hBUhpc$foundation_layout_release(firstOrNull2, firstOrNull4, obj.isHorizontal(), ConstraintsKt.Constraints$default(0, width, 0, 0, 13, 0));
         if (obj.isHorizontal()) {
             if ((List)CollectionsKt.firstOrNull(list) == null) {
-                firstOrNull3 = CollectionsKt.emptyList();
+                firstOrNull = CollectionsKt.emptyList();
             }
-            intrinsicCrossAxisSize = obj.intrinsicCrossAxisSize(firstOrNull3, width, obj2.roundToPx-0680j_4(obj.mainAxisSpacing), obj2.roundToPx-0680j_4(obj.crossAxisArrangementSpacing), obj.maxItemsInMainAxis, obj.maxLines, obj.overflow);
+            intrinsicCrossAxisSize = obj.intrinsicCrossAxisSize(firstOrNull, width, obj2.roundToPx-0680j_4(obj.mainAxisSpacing), obj2.roundToPx-0680j_4(obj.crossAxisArrangementSpacing), obj.maxItemsInMainAxis, obj.maxLines, obj.overflow);
             i = width;
         } else {
             if ((List)CollectionsKt.firstOrNull(list) == null) {
-                firstOrNull2 = CollectionsKt.emptyList();
+                firstOrNull3 = CollectionsKt.emptyList();
             }
-            intrinsicCrossAxisSize = obj.maxIntrinsicMainAxisSize(firstOrNull2, width, obj2.roundToPx-0680j_4(obj.mainAxisSpacing));
+            intrinsicCrossAxisSize = obj.maxIntrinsicMainAxisSize(firstOrNull3, width, obj2.roundToPx-0680j_4(obj.mainAxisSpacing));
         }
         return intrinsicCrossAxisSize;
     }
@@ -298,12 +298,12 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
     }
 
     public int maxIntrinsicWidth(IntrinsicMeasureScope $this$maxIntrinsicWidth, List<? extends List<? extends IntrinsicMeasurable>> measurables, int height) {
+        Object firstOrNull2;
         Object firstOrNull;
-        Object firstOrNull4;
         int maxIntrinsicMainAxisSize;
         int firstOrNull3;
         int roundToPx-0680j_4;
-        int firstOrNull2;
+        int firstOrNull4;
         boolean horizontal;
         long maxItemsInMainAxis;
         int maxLines;
@@ -316,23 +316,23 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
         if ((List)orNull != null) {
             firstOrNull3 = CollectionsKt.firstOrNull((List)orNull);
         } else {
-            firstOrNull3 = firstOrNull2;
+            firstOrNull3 = firstOrNull4;
         }
         Object orNull2 = CollectionsKt.getOrNull(list, 2);
         if ((List)orNull2 != null) {
-            firstOrNull2 = CollectionsKt.firstOrNull((List)orNull2);
+            firstOrNull4 = CollectionsKt.firstOrNull((List)orNull2);
         }
-        obj.overflow.setOverflowMeasurables--hBUhpc$foundation_layout_release(firstOrNull3, firstOrNull2, obj.isHorizontal(), ConstraintsKt.Constraints$default(0, 0, 0, height, 7, 0));
+        obj.overflow.setOverflowMeasurables--hBUhpc$foundation_layout_release(firstOrNull3, firstOrNull4, obj.isHorizontal(), ConstraintsKt.Constraints$default(0, 0, 0, height, 7, 0));
         if (obj.isHorizontal()) {
+            if ((List)CollectionsKt.firstOrNull(list) == null) {
+                firstOrNull2 = CollectionsKt.emptyList();
+            }
+            maxIntrinsicMainAxisSize = obj.maxIntrinsicMainAxisSize(firstOrNull2, height, obj2.roundToPx-0680j_4(obj.mainAxisSpacing));
+        } else {
             if ((List)CollectionsKt.firstOrNull(list) == null) {
                 firstOrNull = CollectionsKt.emptyList();
             }
-            maxIntrinsicMainAxisSize = obj.maxIntrinsicMainAxisSize(firstOrNull, height, obj2.roundToPx-0680j_4(obj.mainAxisSpacing));
-        } else {
-            if ((List)CollectionsKt.firstOrNull(list) == null) {
-                firstOrNull4 = CollectionsKt.emptyList();
-            }
-            maxIntrinsicMainAxisSize = obj.intrinsicCrossAxisSize(firstOrNull4, height, obj2.roundToPx-0680j_4(obj.mainAxisSpacing), obj2.roundToPx-0680j_4(obj.crossAxisArrangementSpacing), obj.maxItemsInMainAxis, obj.maxLines, obj.overflow);
+            maxIntrinsicMainAxisSize = obj.intrinsicCrossAxisSize(firstOrNull, height, obj2.roundToPx-0680j_4(obj.mainAxisSpacing), obj2.roundToPx-0680j_4(obj.crossAxisArrangementSpacing), obj.maxItemsInMainAxis, obj.maxLines, obj.overflow);
         }
         return maxIntrinsicMainAxisSize;
     }
@@ -428,13 +428,13 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
 
     public int minIntrinsicWidth(IntrinsicMeasureScope $this$minIntrinsicWidth, List<? extends List<? extends IntrinsicMeasurable>> measurables, int height) {
         Object firstOrNull;
-        Object firstOrNull4;
+        Object firstOrNull2;
         int minIntrinsicMainAxisSize;
-        int firstOrNull3;
+        int firstOrNull4;
         int i;
-        int firstOrNull2;
-        int roundToPx-0680j_4;
+        int firstOrNull3;
         int roundToPx-0680j_42;
+        int roundToPx-0680j_4;
         int maxItemsInMainAxis;
         int maxLines;
         androidx.compose.foundation.layout.FlowLayoutOverflowState overflow;
@@ -443,15 +443,15 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
         final List list = measurables;
         Object orNull = CollectionsKt.getOrNull(list, 1);
         if ((List)orNull != null) {
-            firstOrNull3 = CollectionsKt.firstOrNull((List)orNull);
+            firstOrNull4 = CollectionsKt.firstOrNull((List)orNull);
         } else {
-            firstOrNull3 = firstOrNull2;
+            firstOrNull4 = firstOrNull3;
         }
         Object orNull2 = CollectionsKt.getOrNull(list, 2);
         if ((List)orNull2 != null) {
-            firstOrNull2 = CollectionsKt.firstOrNull((List)orNull2);
+            firstOrNull3 = CollectionsKt.firstOrNull((List)orNull2);
         }
-        obj.overflow.setOverflowMeasurables--hBUhpc$foundation_layout_release(firstOrNull3, firstOrNull2, obj.isHorizontal(), ConstraintsKt.Constraints$default(0, 0, 0, height, 7, 0));
+        obj.overflow.setOverflowMeasurables--hBUhpc$foundation_layout_release(firstOrNull4, firstOrNull3, obj.isHorizontal(), ConstraintsKt.Constraints$default(0, 0, 0, height, 7, 0));
         if (obj.isHorizontal()) {
             if ((List)CollectionsKt.firstOrNull(list) == null) {
                 firstOrNull = CollectionsKt.emptyList();
@@ -459,9 +459,9 @@ final class FlowMeasurePolicy implements MultiContentMeasurePolicy, androidx.com
             minIntrinsicMainAxisSize = obj.minIntrinsicMainAxisSize(firstOrNull, height, obj2.roundToPx-0680j_4(obj.mainAxisSpacing), obj2.roundToPx-0680j_4(obj.crossAxisArrangementSpacing), obj.maxItemsInMainAxis, obj.maxLines, obj.overflow);
         } else {
             if ((List)CollectionsKt.firstOrNull(list) == null) {
-                firstOrNull4 = CollectionsKt.emptyList();
+                firstOrNull2 = CollectionsKt.emptyList();
             }
-            minIntrinsicMainAxisSize = obj.intrinsicCrossAxisSize(firstOrNull4, height, obj2.roundToPx-0680j_4(obj.mainAxisSpacing), obj2.roundToPx-0680j_4(obj.crossAxisArrangementSpacing), obj.maxItemsInMainAxis, obj.maxLines, obj.overflow);
+            minIntrinsicMainAxisSize = obj.intrinsicCrossAxisSize(firstOrNull2, height, obj2.roundToPx-0680j_4(obj.mainAxisSpacing), obj2.roundToPx-0680j_4(obj.crossAxisArrangementSpacing), obj.maxItemsInMainAxis, obj.maxLines, obj.overflow);
         }
         return minIntrinsicMainAxisSize;
     }

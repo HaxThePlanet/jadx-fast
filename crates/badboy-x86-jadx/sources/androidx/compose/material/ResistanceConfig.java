@@ -58,9 +58,9 @@ public final class ResistanceConfig {
     }
 
     public boolean equals(Object other) {
-        int i2;
         int i;
         int i3;
+        int i2;
         final int i4 = 1;
         if (this == other) {
             return i4;
@@ -69,16 +69,16 @@ public final class ResistanceConfig {
         if (!other instanceof ResistanceConfig) {
             return i5;
         }
-        i2 = Float.compare(basis, basis2) == 0 ? i4 : i5;
-        if (i2 == 0) {
-            return i5;
-        }
-        i = Float.compare(factorAtMin, factorAtMin2) == 0 ? i4 : i5;
+        i = Float.compare(basis, basis2) == 0 ? i4 : i5;
         if (i == 0) {
             return i5;
         }
-        i3 = Float.compare(factorAtMax, factorAtMax2) == 0 ? i4 : i5;
+        i3 = Float.compare(factorAtMin, factorAtMin2) == 0 ? i4 : i5;
         if (i3 == 0) {
+            return i5;
+        }
+        i2 = Float.compare(factorAtMax, factorAtMax2) == 0 ? i4 : i5;
+        if (i2 == 0) {
             return i5;
         }
         return i4;

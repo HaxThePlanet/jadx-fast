@@ -12,27 +12,27 @@ public final class SubSequence<T>  implements kotlin.sequences.Sequence<T>, kotl
     private final kotlin.sequences.Sequence<T> sequence;
     private final int startIndex;
     public SubSequence(kotlin.sequences.Sequence<? extends T> sequence, int startIndex, int endIndex) {
-        int i3;
-        int i;
         int i2;
+        int i;
+        int i3;
         Intrinsics.checkNotNullParameter(sequence, "sequence");
         super();
         this.sequence = sequence;
         this.startIndex = startIndex;
         this.endIndex = endIndex;
-        i2 = 1;
+        i3 = 1;
         int i7 = 0;
-        i3 = this.startIndex >= 0 ? i2 : i7;
-        if (i3 == 0) {
+        i2 = this.startIndex >= 0 ? i3 : i7;
+        if (i2 == 0) {
         } else {
-            i = this.endIndex >= 0 ? i2 : i7;
+            i = this.endIndex >= 0 ? i3 : i7;
             if (i == 0) {
             } else {
                 if (this.endIndex >= this.startIndex) {
                 } else {
-                    i2 = i7;
+                    i3 = i7;
                 }
-                if (i2 == 0) {
+                if (i3 == 0) {
                 } else {
                 }
                 int i5 = 0;

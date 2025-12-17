@@ -73,29 +73,29 @@ public final class FontRequest {
 
     public String toString() {
         int i;
-        String str2;
+        String str;
         String j;
         int j2;
         int size;
-        String str;
+        String str2;
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder stringBuilder2 = new StringBuilder();
         stringBuilder.append(stringBuilder2.append("FontRequest {mProviderAuthority: ").append(this.mProviderAuthority).append(", mProviderPackage: ").append(this.mProviderPackage).append(", mQuery: ").append(this.mQuery).append(", mCertificates:").toString());
         i = 0;
         while (i < this.mCertificates.size()) {
             stringBuilder.append(" [");
-            str2 = this.mCertificates.get(i);
+            str = this.mCertificates.get(i);
             j2 = 0;
-            while (j2 < (List)str2.size()) {
+            while (j2 < (List)str.size()) {
                 stringBuilder.append(" \"");
-                stringBuilder.append(Base64.encodeToString((byte[])str2.get(j2), 0));
+                stringBuilder.append(Base64.encodeToString((byte[])str.get(j2), 0));
                 stringBuilder.append("\"");
                 j2++;
             }
             stringBuilder.append(" ]");
             i++;
             stringBuilder.append(" \"");
-            stringBuilder.append(Base64.encodeToString((byte[])str2.get(j2), 0));
+            stringBuilder.append(Base64.encodeToString((byte[])str.get(j2), 0));
             stringBuilder.append("\"");
             j2++;
         }

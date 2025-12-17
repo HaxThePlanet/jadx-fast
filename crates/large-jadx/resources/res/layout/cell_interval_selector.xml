@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_interval_selector_0"
+    android:background="@drawable/ripple_effect_white_rectangle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="260dp">
+    <TextView
+        android:textSize="16sp"
+        android:textColor="@color/darkGray"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical"
+        android:id="@android:id/text1"
+        android:tag="binding_1"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/listPreferredItemHeightSmall"
+        android:drawablePadding="20dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

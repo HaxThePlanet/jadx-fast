@@ -17,97 +17,97 @@ import kotlin.jvm.internal.Intrinsics;
 public final class SemanticsNodeKt {
     public static final androidx.compose.ui.semantics.SemanticsNode SemanticsNode(LayoutNode layoutNode, boolean mergingEnabled) {
         Object this_$iv;
-        Modifier.Node node$iv$iv$iv2;
+        Modifier.Node node$iv$iv$iv;
         int capacity$iv$iv$iv$iv$iv;
-        int i11;
-        int count$iv$iv$iv2;
+        int i3;
+        int $i$f$getSemanticsOLwlOKw;
         int it$iv;
-        MutableVector count$iv$iv$iv3;
+        MutableVector count$iv$iv$iv;
         int stack$iv$iv$iv2;
-        int theNode$iv$iv$iv;
-        NodeChain i5;
-        int i;
-        Modifier.Node node$iv$iv$iv$iv2;
-        Modifier.Node node6;
+        int $i$f$headH91voCI$ui_release2;
+        NodeChain i7;
         int i8;
+        Modifier.Node node$iv$iv$iv$iv2;
+        Modifier.Node node3;
+        int i5;
+        Modifier.Node node5;
+        int i6;
         Modifier.Node node2;
-        int i10;
-        Modifier.Node node4;
-        int i4;
-        int node$iv$iv$iv;
+        int i;
+        int node$iv$iv$iv2;
         Modifier.Node stack$iv$iv$iv;
         NodeChain this_$iv2;
         int type$iv;
-        int i7;
-        Modifier.Node node7;
-        int i12;
-        Modifier.Node node$iv$iv$iv$iv;
-        Modifier.Node node3;
-        int i13;
+        int $i$f$isKindH91voCI$ui_release;
         Modifier.Node node;
+        int i11;
+        Modifier.Node node$iv$iv$iv$iv;
+        Modifier.Node node4;
+        int i4;
+        Modifier.Node node7;
         int this_$iv$iv$iv$iv;
-        int i6;
-        int i2;
-        int count$iv$iv$iv;
         int i9;
-        int i3;
-        Modifier.Node node5;
+        int i10;
+        int count$iv$iv$iv2;
+        int $i$f$headH91voCI$ui_release;
+        int i2;
+        Modifier.Node node6;
         this_$iv = layoutNode.getNodes$ui_release();
+        int i13 = 0;
+        $i$f$getSemanticsOLwlOKw = NodeKind.constructor-impl(8);
         int i15 = 0;
-        count$iv$iv$iv2 = NodeKind.constructor-impl(8);
-        int i17 = 0;
-        final int i18 = count$iv$iv$iv2;
+        final int i16 = $i$f$getSemanticsOLwlOKw;
         final NodeChain nodeChain2 = nodeChain;
-        final int i19 = 0;
-        if (i20 &= i18 != 0) {
-            i = 0;
+        final int i17 = 0;
+        if (i18 &= i16 != 0) {
+            i8 = 0;
             node$iv$iv$iv$iv2 = nodeChain2.getHead$ui_release();
             while (node$iv$iv$iv$iv2 != null) {
-                node6 = node$iv$iv$iv$iv2;
-                i8 = 0;
-                if (kindSet$ui_release &= i18 == 0) {
+                node3 = node$iv$iv$iv$iv2;
+                i5 = 0;
+                if (kindSet$ui_release &= i16 == 0) {
                     break;
                 } else {
                 }
                 this_$iv2 = this_$iv;
-                type$iv = count$iv$iv$iv2;
-                i9 = stack$iv$iv$iv2;
+                type$iv = $i$f$getSemanticsOLwlOKw;
+                $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
                 node$iv$iv$iv$iv2 = node$iv$iv$iv$iv2.getChild$ui_release();
                 this_$iv = this_$iv2;
-                count$iv$iv$iv2 = type$iv;
-                stack$iv$iv$iv2 = i9;
-                i10 = 0;
-                i4 = 0;
-                node$iv$iv$iv = 0;
-                int i21 = 0;
+                $i$f$getSemanticsOLwlOKw = type$iv;
+                stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
+                i6 = 0;
+                i = 0;
+                node$iv$iv$iv2 = 0;
+                int i19 = 0;
                 this_$iv2 = this_$iv;
-                this_$iv = node5;
+                this_$iv = node6;
                 while (this_$iv != null) {
-                    type$iv = count$iv$iv$iv2;
+                    type$iv = $i$f$getSemanticsOLwlOKw;
                     it$iv = this_$iv;
-                    int i22 = 0;
-                    i12 = it$iv;
+                    int i20 = 0;
+                    i11 = it$iv;
                     if (kindSet$ui_release2 &= type$iv != 0) {
                     } else {
                     }
-                    i7 = 0;
-                    if (i7 != 0 && this_$iv instanceof DelegatingNode) {
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    if ($i$f$isKindH91voCI$ui_release != 0 && this_$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    i9 = stack$iv$iv$iv2;
-                    this_$iv = DelegatableNodeKt.access$pop(node$iv$iv$iv);
-                    count$iv$iv$iv2 = type$iv;
-                    stack$iv$iv$iv2 = i9;
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                    this_$iv = DelegatableNodeKt.access$pop(node$iv$iv$iv2);
+                    $i$f$getSemanticsOLwlOKw = type$iv;
+                    stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
                     if (this_$iv instanceof DelegatingNode) {
                     } else {
                     }
                     it$iv = 0;
-                    i12 = 0;
+                    i11 = 0;
                     node$iv$iv$iv$iv = (DelegatingNode)this_$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv$iv != null) {
-                        node3 = node$iv$iv$iv$iv;
-                        i13 = 0;
-                        i6 = 0;
+                        node4 = node$iv$iv$iv$iv;
+                        i4 = 0;
+                        i9 = 0;
                         if (kindSet$ui_release3 &= type$iv != 0) {
                         } else {
                         }
@@ -115,65 +115,65 @@ public final class SemanticsNodeKt {
                         if (this_$iv$iv$iv$iv != 0) {
                         } else {
                         }
-                        i9 = stack$iv$iv$iv2;
-                        node$iv$iv$iv2 = node3;
-                        theNode$iv$iv$iv = node$iv$iv$iv;
-                        stack$iv$iv$iv = node;
+                        $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                        node$iv$iv$iv = node4;
+                        $i$f$headH91voCI$ui_release2 = node$iv$iv$iv2;
+                        stack$iv$iv$iv = node7;
                         node$iv$iv$iv$iv = node$iv$iv$iv$iv.getChild$ui_release();
                         this_$iv = stack$iv$iv$iv;
-                        node$iv$iv$iv = theNode$iv$iv$iv;
-                        stack$iv$iv$iv2 = i9;
+                        node$iv$iv$iv2 = $i$f$headH91voCI$ui_release2;
+                        stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
                         it$iv++;
-                        node = this_$iv;
+                        node7 = this_$iv;
                         if (it$iv == 1) {
                         } else {
                         }
-                        if (node$iv$iv$iv == 0) {
+                        if (node$iv$iv$iv2 == 0) {
                         } else {
                         }
-                        count$iv$iv$iv = it$iv;
-                        i9 = stack$iv$iv$iv2;
+                        count$iv$iv$iv2 = it$iv;
+                        $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
                         capacity$iv$iv$iv$iv$iv = 0;
-                        count$iv$iv$iv3 = node$iv$iv$iv;
-                        Modifier.Node node9 = node;
+                        count$iv$iv$iv = node$iv$iv$iv2;
+                        Modifier.Node node9 = node7;
                         if (node9 != null) {
                         } else {
                         }
-                        stack$iv$iv$iv = node;
-                        if (count$iv$iv$iv3 != null) {
+                        stack$iv$iv$iv = node7;
+                        if (count$iv$iv$iv != null) {
                         } else {
                         }
-                        node$iv$iv$iv2 = node3;
-                        theNode$iv$iv$iv = count$iv$iv$iv3;
-                        it$iv = count$iv$iv$iv;
-                        count$iv$iv$iv3.add(node3);
-                        if (count$iv$iv$iv3 != null) {
+                        node$iv$iv$iv = node4;
+                        $i$f$headH91voCI$ui_release2 = count$iv$iv$iv;
+                        it$iv = count$iv$iv$iv2;
+                        count$iv$iv$iv.add(node4);
+                        if (count$iv$iv$iv != null) {
                         }
                         stack$iv$iv$iv = 0;
-                        count$iv$iv$iv3.add(node9);
-                        i6 = i14;
+                        count$iv$iv$iv.add(node9);
+                        i9 = i12;
                         int $i$f$mutableVectorOf = 16;
-                        i2 = 0;
-                        count$iv$iv$iv = it$iv;
-                        i9 = stack$iv$iv$iv2;
-                        i3 = $i$f$mutableVectorOf;
-                        count$iv$iv$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i9 = stack$iv$iv$iv2;
-                        theNode$iv$iv$iv = node$iv$iv$iv;
-                        stack$iv$iv$iv = node$iv$iv$iv2;
+                        i10 = 0;
+                        count$iv$iv$iv2 = it$iv;
+                        $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                        i2 = $i$f$mutableVectorOf;
+                        count$iv$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                        $i$f$headH91voCI$ui_release2 = node$iv$iv$iv2;
+                        stack$iv$iv$iv = node$iv$iv$iv;
                         this_$iv$iv$iv$iv = 1;
                     }
-                    node = this_$iv;
+                    node7 = this_$iv;
                     if (it$iv == 1) {
                     } else {
                     }
-                    this_$iv = node;
-                    count$iv$iv$iv2 = type$iv;
-                    this_$iv = node;
-                    stack$iv$iv$iv2 = i9;
-                    node3 = node$iv$iv$iv$iv;
-                    i13 = 0;
-                    i6 = 0;
+                    this_$iv = node7;
+                    $i$f$getSemanticsOLwlOKw = type$iv;
+                    this_$iv = node7;
+                    stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
+                    node4 = node$iv$iv$iv$iv;
+                    i4 = 0;
+                    i9 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
@@ -181,82 +181,82 @@ public final class SemanticsNodeKt {
                     if (this_$iv$iv$iv$iv != 0) {
                     } else {
                     }
-                    i9 = stack$iv$iv$iv2;
-                    node$iv$iv$iv2 = node3;
-                    theNode$iv$iv$iv = node$iv$iv$iv;
-                    stack$iv$iv$iv = node;
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                    node$iv$iv$iv = node4;
+                    $i$f$headH91voCI$ui_release2 = node$iv$iv$iv2;
+                    stack$iv$iv$iv = node7;
                     node$iv$iv$iv$iv = node$iv$iv$iv$iv.getChild$ui_release();
                     this_$iv = stack$iv$iv$iv;
-                    node$iv$iv$iv = theNode$iv$iv$iv;
-                    stack$iv$iv$iv2 = i9;
+                    node$iv$iv$iv2 = $i$f$headH91voCI$ui_release2;
+                    stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
                     it$iv++;
-                    node = this_$iv;
+                    node7 = this_$iv;
                     if (it$iv == 1) {
                     } else {
                     }
-                    if (node$iv$iv$iv == 0) {
+                    if (node$iv$iv$iv2 == 0) {
                     } else {
                     }
-                    count$iv$iv$iv = it$iv;
-                    i9 = stack$iv$iv$iv2;
+                    count$iv$iv$iv2 = it$iv;
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
                     capacity$iv$iv$iv$iv$iv = 0;
-                    count$iv$iv$iv3 = node$iv$iv$iv;
-                    node9 = node;
+                    count$iv$iv$iv = node$iv$iv$iv2;
+                    node9 = node7;
                     if (node9 != null) {
                     } else {
                     }
-                    stack$iv$iv$iv = node;
-                    if (count$iv$iv$iv3 != null) {
+                    stack$iv$iv$iv = node7;
+                    if (count$iv$iv$iv != null) {
                     } else {
                     }
-                    node$iv$iv$iv2 = node3;
-                    theNode$iv$iv$iv = count$iv$iv$iv3;
-                    it$iv = count$iv$iv$iv;
-                    count$iv$iv$iv3.add(node3);
-                    if (count$iv$iv$iv3 != null) {
+                    node$iv$iv$iv = node4;
+                    $i$f$headH91voCI$ui_release2 = count$iv$iv$iv;
+                    it$iv = count$iv$iv$iv2;
+                    count$iv$iv$iv.add(node4);
+                    if (count$iv$iv$iv != null) {
                     }
                     stack$iv$iv$iv = 0;
-                    count$iv$iv$iv3.add(node9);
-                    i6 = i14;
+                    count$iv$iv$iv.add(node9);
+                    i9 = i12;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    count$iv$iv$iv = it$iv;
-                    i9 = stack$iv$iv$iv2;
-                    i3 = $i$f$mutableVectorOf;
-                    count$iv$iv$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i9 = stack$iv$iv$iv2;
-                    theNode$iv$iv$iv = node$iv$iv$iv;
-                    stack$iv$iv$iv = node$iv$iv$iv2;
+                    i10 = 0;
+                    count$iv$iv$iv2 = it$iv;
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                    i2 = $i$f$mutableVectorOf;
+                    count$iv$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                    $i$f$headH91voCI$ui_release2 = node$iv$iv$iv2;
+                    stack$iv$iv$iv = node$iv$iv$iv;
                     this_$iv$iv$iv$iv = 1;
-                    i7 = 1;
+                    $i$f$isKindH91voCI$ui_release = 1;
                 }
-                type$iv = count$iv$iv$iv2;
-                i9 = stack$iv$iv$iv2;
-                type$iv = count$iv$iv$iv2;
+                type$iv = $i$f$getSemanticsOLwlOKw;
+                $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                type$iv = $i$f$getSemanticsOLwlOKw;
                 it$iv = this_$iv;
-                i22 = 0;
-                i12 = it$iv;
+                i20 = 0;
+                i11 = it$iv;
                 if (kindSet$ui_release2 &= type$iv != 0) {
                 } else {
                 }
-                i7 = 0;
-                if (i7 != 0 && this_$iv instanceof DelegatingNode) {
+                $i$f$isKindH91voCI$ui_release = 0;
+                if ($i$f$isKindH91voCI$ui_release != 0 && this_$iv instanceof DelegatingNode) {
                 } else {
                 }
-                i9 = stack$iv$iv$iv2;
-                this_$iv = DelegatableNodeKt.access$pop(node$iv$iv$iv);
-                count$iv$iv$iv2 = type$iv;
-                stack$iv$iv$iv2 = i9;
+                $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                this_$iv = DelegatableNodeKt.access$pop(node$iv$iv$iv2);
+                $i$f$getSemanticsOLwlOKw = type$iv;
+                stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
                 if (this_$iv instanceof DelegatingNode) {
                 } else {
                 }
                 it$iv = 0;
-                i12 = 0;
+                i11 = 0;
                 node$iv$iv$iv$iv = (DelegatingNode)this_$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv$iv != null) {
-                    node3 = node$iv$iv$iv$iv;
-                    i13 = 0;
-                    i6 = 0;
+                    node4 = node$iv$iv$iv$iv;
+                    i4 = 0;
+                    i9 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
@@ -264,65 +264,65 @@ public final class SemanticsNodeKt {
                     if (this_$iv$iv$iv$iv != 0) {
                     } else {
                     }
-                    i9 = stack$iv$iv$iv2;
-                    node$iv$iv$iv2 = node3;
-                    theNode$iv$iv$iv = node$iv$iv$iv;
-                    stack$iv$iv$iv = node;
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                    node$iv$iv$iv = node4;
+                    $i$f$headH91voCI$ui_release2 = node$iv$iv$iv2;
+                    stack$iv$iv$iv = node7;
                     node$iv$iv$iv$iv = node$iv$iv$iv$iv.getChild$ui_release();
                     this_$iv = stack$iv$iv$iv;
-                    node$iv$iv$iv = theNode$iv$iv$iv;
-                    stack$iv$iv$iv2 = i9;
+                    node$iv$iv$iv2 = $i$f$headH91voCI$ui_release2;
+                    stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
                     it$iv++;
-                    node = this_$iv;
+                    node7 = this_$iv;
                     if (it$iv == 1) {
                     } else {
                     }
-                    if (node$iv$iv$iv == 0) {
+                    if (node$iv$iv$iv2 == 0) {
                     } else {
                     }
-                    count$iv$iv$iv = it$iv;
-                    i9 = stack$iv$iv$iv2;
+                    count$iv$iv$iv2 = it$iv;
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
                     capacity$iv$iv$iv$iv$iv = 0;
-                    count$iv$iv$iv3 = node$iv$iv$iv;
-                    node9 = node;
+                    count$iv$iv$iv = node$iv$iv$iv2;
+                    node9 = node7;
                     if (node9 != null) {
                     } else {
                     }
-                    stack$iv$iv$iv = node;
-                    if (count$iv$iv$iv3 != null) {
+                    stack$iv$iv$iv = node7;
+                    if (count$iv$iv$iv != null) {
                     } else {
                     }
-                    node$iv$iv$iv2 = node3;
-                    theNode$iv$iv$iv = count$iv$iv$iv3;
-                    it$iv = count$iv$iv$iv;
-                    count$iv$iv$iv3.add(node3);
-                    if (count$iv$iv$iv3 != null) {
+                    node$iv$iv$iv = node4;
+                    $i$f$headH91voCI$ui_release2 = count$iv$iv$iv;
+                    it$iv = count$iv$iv$iv2;
+                    count$iv$iv$iv.add(node4);
+                    if (count$iv$iv$iv != null) {
                     }
                     stack$iv$iv$iv = 0;
-                    count$iv$iv$iv3.add(node9);
-                    i6 = i14;
+                    count$iv$iv$iv.add(node9);
+                    i9 = i12;
                     $i$f$mutableVectorOf = 16;
-                    i2 = 0;
-                    count$iv$iv$iv = it$iv;
-                    i9 = stack$iv$iv$iv2;
-                    i3 = $i$f$mutableVectorOf;
-                    count$iv$iv$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i9 = stack$iv$iv$iv2;
-                    theNode$iv$iv$iv = node$iv$iv$iv;
-                    stack$iv$iv$iv = node$iv$iv$iv2;
+                    i10 = 0;
+                    count$iv$iv$iv2 = it$iv;
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                    i2 = $i$f$mutableVectorOf;
+                    count$iv$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                    $i$f$headH91voCI$ui_release2 = node$iv$iv$iv2;
+                    stack$iv$iv$iv = node$iv$iv$iv;
                     this_$iv$iv$iv$iv = 1;
                 }
-                node = this_$iv;
+                node7 = this_$iv;
                 if (it$iv == 1) {
                 } else {
                 }
-                this_$iv = node;
-                count$iv$iv$iv2 = type$iv;
-                this_$iv = node;
-                stack$iv$iv$iv2 = i9;
-                node3 = node$iv$iv$iv$iv;
-                i13 = 0;
-                i6 = 0;
+                this_$iv = node7;
+                $i$f$getSemanticsOLwlOKw = type$iv;
+                this_$iv = node7;
+                stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
+                node4 = node$iv$iv$iv$iv;
+                i4 = 0;
+                i9 = 0;
                 if (kindSet$ui_release3 &= type$iv != 0) {
                 } else {
                 }
@@ -330,68 +330,68 @@ public final class SemanticsNodeKt {
                 if (this_$iv$iv$iv$iv != 0) {
                 } else {
                 }
-                i9 = stack$iv$iv$iv2;
-                node$iv$iv$iv2 = node3;
-                theNode$iv$iv$iv = node$iv$iv$iv;
-                stack$iv$iv$iv = node;
+                $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                node$iv$iv$iv = node4;
+                $i$f$headH91voCI$ui_release2 = node$iv$iv$iv2;
+                stack$iv$iv$iv = node7;
                 node$iv$iv$iv$iv = node$iv$iv$iv$iv.getChild$ui_release();
                 this_$iv = stack$iv$iv$iv;
-                node$iv$iv$iv = theNode$iv$iv$iv;
-                stack$iv$iv$iv2 = i9;
+                node$iv$iv$iv2 = $i$f$headH91voCI$ui_release2;
+                stack$iv$iv$iv2 = $i$f$headH91voCI$ui_release;
                 it$iv++;
-                node = this_$iv;
+                node7 = this_$iv;
                 if (it$iv == 1) {
                 } else {
                 }
-                if (node$iv$iv$iv == 0) {
+                if (node$iv$iv$iv2 == 0) {
                 } else {
                 }
-                count$iv$iv$iv = it$iv;
-                i9 = stack$iv$iv$iv2;
+                count$iv$iv$iv2 = it$iv;
+                $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
                 capacity$iv$iv$iv$iv$iv = 0;
-                count$iv$iv$iv3 = node$iv$iv$iv;
-                node9 = node;
+                count$iv$iv$iv = node$iv$iv$iv2;
+                node9 = node7;
                 if (node9 != null) {
                 } else {
                 }
-                stack$iv$iv$iv = node;
-                if (count$iv$iv$iv3 != null) {
+                stack$iv$iv$iv = node7;
+                if (count$iv$iv$iv != null) {
                 } else {
                 }
-                node$iv$iv$iv2 = node3;
-                theNode$iv$iv$iv = count$iv$iv$iv3;
-                it$iv = count$iv$iv$iv;
-                count$iv$iv$iv3.add(node3);
-                if (count$iv$iv$iv3 != null) {
+                node$iv$iv$iv = node4;
+                $i$f$headH91voCI$ui_release2 = count$iv$iv$iv;
+                it$iv = count$iv$iv$iv2;
+                count$iv$iv$iv.add(node4);
+                if (count$iv$iv$iv != null) {
                 }
                 stack$iv$iv$iv = 0;
-                count$iv$iv$iv3.add(node9);
-                i6 = i14;
+                count$iv$iv$iv.add(node9);
+                i9 = i12;
                 $i$f$mutableVectorOf = 16;
-                i2 = 0;
-                count$iv$iv$iv = it$iv;
-                i9 = stack$iv$iv$iv2;
-                i3 = $i$f$mutableVectorOf;
-                count$iv$iv$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i9 = stack$iv$iv$iv2;
-                theNode$iv$iv$iv = node$iv$iv$iv;
-                stack$iv$iv$iv = node$iv$iv$iv2;
+                i10 = 0;
+                count$iv$iv$iv2 = it$iv;
+                $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                i2 = $i$f$mutableVectorOf;
+                count$iv$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+                $i$f$headH91voCI$ui_release2 = node$iv$iv$iv2;
+                stack$iv$iv$iv = node$iv$iv$iv;
                 this_$iv$iv$iv$iv = 1;
-                i7 = 1;
+                $i$f$isKindH91voCI$ui_release = 1;
             }
             this_$iv2 = this_$iv;
-            type$iv = count$iv$iv$iv2;
-            i9 = stack$iv$iv$iv2;
-            i11 = 0;
+            type$iv = $i$f$getSemanticsOLwlOKw;
+            $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
+            i3 = 0;
         } else {
             this_$iv2 = this_$iv;
-            type$iv = count$iv$iv$iv2;
-            i9 = stack$iv$iv$iv2;
+            type$iv = $i$f$getSemanticsOLwlOKw;
+            $i$f$headH91voCI$ui_release = stack$iv$iv$iv2;
         }
-        Intrinsics.checkNotNull(i11);
+        Intrinsics.checkNotNull(i3);
         androidx.compose.ui.semantics.SemanticsConfiguration collapsedSemantics$ui_release = layoutNode.getCollapsedSemantics$ui_release();
         Intrinsics.checkNotNull(collapsedSemantics$ui_release);
-        SemanticsNode semanticsNode = new SemanticsNode((SemanticsModifierNode)i11.getNode(), mergingEnabled, layoutNode, collapsedSemantics$ui_release);
+        SemanticsNode semanticsNode = new SemanticsNode((SemanticsModifierNode)i3.getNode(), mergingEnabled, layoutNode, collapsedSemantics$ui_release);
         return semanticsNode;
     }
 
@@ -442,94 +442,94 @@ public final class SemanticsNodeKt {
         Object this_$iv2;
         int capacity$iv$iv$iv$iv$iv;
         Modifier.Node next$iv$iv$iv;
-        Modifier.Node count$iv$iv$iv2;
-        int count$iv$iv$iv;
-        int count$iv$iv$iv3;
-        int stack$iv$iv$iv;
-        int theNode$iv$iv$iv;
-        NodeChain i11;
-        int i6;
-        Modifier.Node node$iv$iv$iv$iv;
-        Modifier.Node node3;
-        int i9;
-        Modifier.Node node2;
-        int i12;
-        Modifier.Node node;
-        int i5;
-        int node$iv$iv$iv;
-        int stack$iv$iv$iv2;
-        NodeChain this_$iv;
-        int type$iv;
+        Modifier.Node count$iv$iv$iv;
+        int $i$f$getSemanticsOLwlOKw;
+        int count$iv$iv$iv2;
+        int $i$f$firstFromHeadALcG6gQ$ui_release2;
+        int $i$f$firstFromHeadALcG6gQ$ui_release;
+        NodeChain i6;
         int i3;
-        boolean it;
-        int i8;
-        Modifier.Node node$iv$iv$iv$iv2;
+        Modifier.Node node$iv$iv$iv$iv;
+        Modifier.Node node5;
+        int i2;
         Modifier.Node node4;
         int i;
+        Modifier.Node node;
+        int i4;
+        int node$iv$iv$iv;
+        int stack$iv$iv$iv;
+        NodeChain this_$iv;
+        int type$iv;
+        int $i$f$isKindH91voCI$ui_release;
+        boolean it;
+        int i9;
+        Modifier.Node node$iv$iv$iv$iv2;
+        Modifier.Node node3;
+        int i7;
         Modifier.Node node6;
         int this_$iv$iv$iv$iv;
-        int i2;
         int i10;
-        int count$iv$iv$iv4;
-        int i7;
-        int i4;
-        Modifier.Node node5;
+        int i5;
+        int count$iv$iv$iv3;
+        int $i$f$firstFromHeadALcG6gQ$ui_release3;
+        int i8;
+        Modifier.Node node2;
         this_$iv2 = $this$outerMergingSemantics.getNodes$ui_release();
-        int i14 = 0;
-        count$iv$iv$iv = NodeKind.constructor-impl(8);
-        final int i16 = 0;
-        final int i17 = count$iv$iv$iv;
+        int i12 = 0;
+        $i$f$getSemanticsOLwlOKw = NodeKind.constructor-impl(8);
+        final int i14 = 0;
+        final int i15 = $i$f$getSemanticsOLwlOKw;
         final NodeChain nodeChain2 = nodeChain;
-        final int i18 = 0;
-        if (i19 &= i17 != 0) {
-            i6 = 0;
+        final int i16 = 0;
+        if (i17 &= i15 != 0) {
+            i3 = 0;
             node$iv$iv$iv$iv = nodeChain2.getHead$ui_release();
             while (node$iv$iv$iv$iv != null) {
-                node3 = node$iv$iv$iv$iv;
-                i9 = 0;
-                if (kindSet$ui_release &= i17 == 0) {
+                node5 = node$iv$iv$iv$iv;
+                i2 = 0;
+                if (kindSet$ui_release &= i15 == 0) {
                     break;
                 } else {
                 }
                 this_$iv = this_$iv2;
-                type$iv = count$iv$iv$iv;
-                i7 = stack$iv$iv$iv;
+                type$iv = $i$f$getSemanticsOLwlOKw;
+                $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
                 node$iv$iv$iv$iv = node$iv$iv$iv$iv.getChild$ui_release();
                 this_$iv2 = this_$iv;
-                count$iv$iv$iv = type$iv;
-                stack$iv$iv$iv = i7;
-                i12 = 0;
-                i5 = 0;
+                $i$f$getSemanticsOLwlOKw = type$iv;
+                $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
+                i = 0;
+                i4 = 0;
                 node$iv$iv$iv = 0;
-                int i20 = 0;
+                int i18 = 0;
                 this_$iv = this_$iv2;
-                this_$iv2 = node5;
+                this_$iv2 = node2;
                 while (this_$iv2 != null) {
-                    type$iv = count$iv$iv$iv;
-                    count$iv$iv$iv2 = this_$iv2;
-                    int i21 = 0;
-                    i8 = count$iv$iv$iv2;
+                    type$iv = $i$f$getSemanticsOLwlOKw;
+                    count$iv$iv$iv = this_$iv2;
+                    int i19 = 0;
+                    i9 = count$iv$iv$iv;
                     if (kindSet$ui_release2 &= type$iv != 0) {
                     } else {
                     }
-                    i3 = 0;
-                    if (i3 != 0 && this_$iv2 instanceof DelegatingNode) {
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    if ($i$f$isKindH91voCI$ui_release != 0 && this_$iv2 instanceof DelegatingNode) {
                     } else {
                     }
-                    i7 = stack$iv$iv$iv;
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
                     this_$iv2 = DelegatableNodeKt.access$pop(node$iv$iv$iv);
-                    count$iv$iv$iv = type$iv;
-                    stack$iv$iv$iv = i7;
+                    $i$f$getSemanticsOLwlOKw = type$iv;
+                    $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
                     if (this_$iv2 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv$iv2 = 0;
-                    i8 = 0;
+                    count$iv$iv$iv = 0;
+                    i9 = 0;
                     node$iv$iv$iv$iv2 = (DelegatingNode)this_$iv2.getDelegate$ui_release();
                     while (node$iv$iv$iv$iv2 != null) {
-                        node4 = node$iv$iv$iv$iv2;
-                        i = 0;
-                        i2 = 0;
+                        node3 = node$iv$iv$iv$iv2;
+                        i7 = 0;
+                        i10 = 0;
                         if (kindSet$ui_release3 &= type$iv != 0) {
                         } else {
                         }
@@ -537,65 +537,65 @@ public final class SemanticsNodeKt {
                         if (this_$iv$iv$iv$iv != 0) {
                         } else {
                         }
-                        i7 = stack$iv$iv$iv;
-                        next$iv$iv$iv = node4;
-                        theNode$iv$iv$iv = node$iv$iv$iv;
-                        stack$iv$iv$iv2 = node6;
+                        $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                        next$iv$iv$iv = node3;
+                        $i$f$firstFromHeadALcG6gQ$ui_release = node$iv$iv$iv;
+                        stack$iv$iv$iv = node6;
                         node$iv$iv$iv$iv2 = node$iv$iv$iv$iv2.getChild$ui_release();
-                        this_$iv2 = stack$iv$iv$iv2;
-                        node$iv$iv$iv = theNode$iv$iv$iv;
-                        stack$iv$iv$iv = i7;
-                        count$iv$iv$iv2++;
+                        this_$iv2 = stack$iv$iv$iv;
+                        node$iv$iv$iv = $i$f$firstFromHeadALcG6gQ$ui_release;
+                        $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
+                        count$iv$iv$iv++;
                         node6 = this_$iv2;
-                        if (count$iv$iv$iv2 == 1) {
+                        if (count$iv$iv$iv == 1) {
                         } else {
                         }
                         if (node$iv$iv$iv == 0) {
                         } else {
                         }
-                        count$iv$iv$iv4 = count$iv$iv$iv2;
-                        i7 = stack$iv$iv$iv;
+                        count$iv$iv$iv3 = count$iv$iv$iv;
+                        $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
                         capacity$iv$iv$iv$iv$iv = 0;
-                        count$iv$iv$iv3 = node$iv$iv$iv;
+                        count$iv$iv$iv2 = node$iv$iv$iv;
                         Modifier.Node node7 = node6;
                         if (node7 != null) {
                         } else {
                         }
-                        stack$iv$iv$iv2 = node6;
-                        if (count$iv$iv$iv3 != 0) {
+                        stack$iv$iv$iv = node6;
+                        if (count$iv$iv$iv2 != 0) {
                         } else {
                         }
-                        next$iv$iv$iv = node4;
-                        theNode$iv$iv$iv = count$iv$iv$iv3;
-                        count$iv$iv$iv2 = count$iv$iv$iv4;
-                        count$iv$iv$iv3.add(node4);
-                        if (count$iv$iv$iv3 != 0) {
+                        next$iv$iv$iv = node3;
+                        $i$f$firstFromHeadALcG6gQ$ui_release = count$iv$iv$iv2;
+                        count$iv$iv$iv = count$iv$iv$iv3;
+                        count$iv$iv$iv2.add(node3);
+                        if (count$iv$iv$iv2 != 0) {
                         }
-                        stack$iv$iv$iv2 = 0;
-                        count$iv$iv$iv3.add(node7);
-                        i2 = i13;
+                        stack$iv$iv$iv = 0;
+                        count$iv$iv$iv2.add(node7);
+                        i10 = i11;
                         int $i$f$mutableVectorOf = 16;
-                        i10 = 0;
-                        count$iv$iv$iv4 = count$iv$iv$iv2;
-                        i7 = stack$iv$iv$iv;
-                        i4 = $i$f$mutableVectorOf;
-                        count$iv$iv$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        i7 = stack$iv$iv$iv;
-                        theNode$iv$iv$iv = node$iv$iv$iv;
-                        stack$iv$iv$iv2 = next$iv$iv$iv;
+                        i5 = 0;
+                        count$iv$iv$iv3 = count$iv$iv$iv;
+                        $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                        i8 = $i$f$mutableVectorOf;
+                        count$iv$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                        $i$f$firstFromHeadALcG6gQ$ui_release = node$iv$iv$iv;
+                        stack$iv$iv$iv = next$iv$iv$iv;
                         this_$iv$iv$iv$iv = 1;
                     }
                     node6 = this_$iv2;
-                    if (count$iv$iv$iv2 == 1) {
+                    if (count$iv$iv$iv == 1) {
                     } else {
                     }
                     this_$iv2 = node6;
-                    count$iv$iv$iv = type$iv;
+                    $i$f$getSemanticsOLwlOKw = type$iv;
                     this_$iv2 = node6;
-                    stack$iv$iv$iv = i7;
-                    node4 = node$iv$iv$iv$iv2;
-                    i = 0;
-                    i2 = 0;
+                    $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
+                    node3 = node$iv$iv$iv$iv2;
+                    i7 = 0;
+                    i10 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
@@ -603,85 +603,85 @@ public final class SemanticsNodeKt {
                     if (this_$iv$iv$iv$iv != 0) {
                     } else {
                     }
-                    i7 = stack$iv$iv$iv;
-                    next$iv$iv$iv = node4;
-                    theNode$iv$iv$iv = node$iv$iv$iv;
-                    stack$iv$iv$iv2 = node6;
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                    next$iv$iv$iv = node3;
+                    $i$f$firstFromHeadALcG6gQ$ui_release = node$iv$iv$iv;
+                    stack$iv$iv$iv = node6;
                     node$iv$iv$iv$iv2 = node$iv$iv$iv$iv2.getChild$ui_release();
-                    this_$iv2 = stack$iv$iv$iv2;
-                    node$iv$iv$iv = theNode$iv$iv$iv;
-                    stack$iv$iv$iv = i7;
-                    count$iv$iv$iv2++;
+                    this_$iv2 = stack$iv$iv$iv;
+                    node$iv$iv$iv = $i$f$firstFromHeadALcG6gQ$ui_release;
+                    $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
+                    count$iv$iv$iv++;
                     node6 = this_$iv2;
-                    if (count$iv$iv$iv2 == 1) {
+                    if (count$iv$iv$iv == 1) {
                     } else {
                     }
                     if (node$iv$iv$iv == 0) {
                     } else {
                     }
-                    count$iv$iv$iv4 = count$iv$iv$iv2;
-                    i7 = stack$iv$iv$iv;
+                    count$iv$iv$iv3 = count$iv$iv$iv;
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
                     capacity$iv$iv$iv$iv$iv = 0;
-                    count$iv$iv$iv3 = node$iv$iv$iv;
+                    count$iv$iv$iv2 = node$iv$iv$iv;
                     node7 = node6;
                     if (node7 != null) {
                     } else {
                     }
-                    stack$iv$iv$iv2 = node6;
-                    if (count$iv$iv$iv3 != 0) {
+                    stack$iv$iv$iv = node6;
+                    if (count$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    next$iv$iv$iv = node4;
-                    theNode$iv$iv$iv = count$iv$iv$iv3;
-                    count$iv$iv$iv2 = count$iv$iv$iv4;
-                    count$iv$iv$iv3.add(node4);
-                    if (count$iv$iv$iv3 != 0) {
+                    next$iv$iv$iv = node3;
+                    $i$f$firstFromHeadALcG6gQ$ui_release = count$iv$iv$iv2;
+                    count$iv$iv$iv = count$iv$iv$iv3;
+                    count$iv$iv$iv2.add(node3);
+                    if (count$iv$iv$iv2 != 0) {
                     }
-                    stack$iv$iv$iv2 = 0;
-                    count$iv$iv$iv3.add(node7);
-                    i2 = i13;
+                    stack$iv$iv$iv = 0;
+                    count$iv$iv$iv2.add(node7);
+                    i10 = i11;
                     $i$f$mutableVectorOf = 16;
-                    i10 = 0;
-                    count$iv$iv$iv4 = count$iv$iv$iv2;
-                    i7 = stack$iv$iv$iv;
-                    i4 = $i$f$mutableVectorOf;
-                    count$iv$iv$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i7 = stack$iv$iv$iv;
-                    theNode$iv$iv$iv = node$iv$iv$iv;
-                    stack$iv$iv$iv2 = next$iv$iv$iv;
+                    i5 = 0;
+                    count$iv$iv$iv3 = count$iv$iv$iv;
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                    i8 = $i$f$mutableVectorOf;
+                    count$iv$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                    $i$f$firstFromHeadALcG6gQ$ui_release = node$iv$iv$iv;
+                    stack$iv$iv$iv = next$iv$iv$iv;
                     this_$iv$iv$iv$iv = 1;
-                    i3 = 1;
-                    i3 = 0;
-                    i8 = 0;
-                    i7 = stack$iv$iv$iv;
+                    $i$f$isKindH91voCI$ui_release = 1;
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    i9 = 0;
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
                 }
-                type$iv = count$iv$iv$iv;
-                i7 = stack$iv$iv$iv;
-                type$iv = count$iv$iv$iv;
-                count$iv$iv$iv2 = this_$iv2;
-                i21 = 0;
-                i8 = count$iv$iv$iv2;
+                type$iv = $i$f$getSemanticsOLwlOKw;
+                $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                type$iv = $i$f$getSemanticsOLwlOKw;
+                count$iv$iv$iv = this_$iv2;
+                i19 = 0;
+                i9 = count$iv$iv$iv;
                 if (kindSet$ui_release2 &= type$iv != 0) {
                 } else {
                 }
-                i3 = 0;
-                if (i3 != 0 && this_$iv2 instanceof DelegatingNode) {
+                $i$f$isKindH91voCI$ui_release = 0;
+                if ($i$f$isKindH91voCI$ui_release != 0 && this_$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                i7 = stack$iv$iv$iv;
+                $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
                 this_$iv2 = DelegatableNodeKt.access$pop(node$iv$iv$iv);
-                count$iv$iv$iv = type$iv;
-                stack$iv$iv$iv = i7;
+                $i$f$getSemanticsOLwlOKw = type$iv;
+                $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
                 if (this_$iv2 instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv$iv2 = 0;
-                i8 = 0;
+                count$iv$iv$iv = 0;
+                i9 = 0;
                 node$iv$iv$iv$iv2 = (DelegatingNode)this_$iv2.getDelegate$ui_release();
                 while (node$iv$iv$iv$iv2 != null) {
-                    node4 = node$iv$iv$iv$iv2;
-                    i = 0;
-                    i2 = 0;
+                    node3 = node$iv$iv$iv$iv2;
+                    i7 = 0;
+                    i10 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
@@ -689,65 +689,65 @@ public final class SemanticsNodeKt {
                     if (this_$iv$iv$iv$iv != 0) {
                     } else {
                     }
-                    i7 = stack$iv$iv$iv;
-                    next$iv$iv$iv = node4;
-                    theNode$iv$iv$iv = node$iv$iv$iv;
-                    stack$iv$iv$iv2 = node6;
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                    next$iv$iv$iv = node3;
+                    $i$f$firstFromHeadALcG6gQ$ui_release = node$iv$iv$iv;
+                    stack$iv$iv$iv = node6;
                     node$iv$iv$iv$iv2 = node$iv$iv$iv$iv2.getChild$ui_release();
-                    this_$iv2 = stack$iv$iv$iv2;
-                    node$iv$iv$iv = theNode$iv$iv$iv;
-                    stack$iv$iv$iv = i7;
-                    count$iv$iv$iv2++;
+                    this_$iv2 = stack$iv$iv$iv;
+                    node$iv$iv$iv = $i$f$firstFromHeadALcG6gQ$ui_release;
+                    $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
+                    count$iv$iv$iv++;
                     node6 = this_$iv2;
-                    if (count$iv$iv$iv2 == 1) {
+                    if (count$iv$iv$iv == 1) {
                     } else {
                     }
                     if (node$iv$iv$iv == 0) {
                     } else {
                     }
-                    count$iv$iv$iv4 = count$iv$iv$iv2;
-                    i7 = stack$iv$iv$iv;
+                    count$iv$iv$iv3 = count$iv$iv$iv;
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
                     capacity$iv$iv$iv$iv$iv = 0;
-                    count$iv$iv$iv3 = node$iv$iv$iv;
+                    count$iv$iv$iv2 = node$iv$iv$iv;
                     node7 = node6;
                     if (node7 != null) {
                     } else {
                     }
-                    stack$iv$iv$iv2 = node6;
-                    if (count$iv$iv$iv3 != 0) {
+                    stack$iv$iv$iv = node6;
+                    if (count$iv$iv$iv2 != 0) {
                     } else {
                     }
-                    next$iv$iv$iv = node4;
-                    theNode$iv$iv$iv = count$iv$iv$iv3;
-                    count$iv$iv$iv2 = count$iv$iv$iv4;
-                    count$iv$iv$iv3.add(node4);
-                    if (count$iv$iv$iv3 != 0) {
+                    next$iv$iv$iv = node3;
+                    $i$f$firstFromHeadALcG6gQ$ui_release = count$iv$iv$iv2;
+                    count$iv$iv$iv = count$iv$iv$iv3;
+                    count$iv$iv$iv2.add(node3);
+                    if (count$iv$iv$iv2 != 0) {
                     }
-                    stack$iv$iv$iv2 = 0;
-                    count$iv$iv$iv3.add(node7);
-                    i2 = i13;
+                    stack$iv$iv$iv = 0;
+                    count$iv$iv$iv2.add(node7);
+                    i10 = i11;
                     $i$f$mutableVectorOf = 16;
-                    i10 = 0;
-                    count$iv$iv$iv4 = count$iv$iv$iv2;
-                    i7 = stack$iv$iv$iv;
-                    i4 = $i$f$mutableVectorOf;
-                    count$iv$iv$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    i7 = stack$iv$iv$iv;
-                    theNode$iv$iv$iv = node$iv$iv$iv;
-                    stack$iv$iv$iv2 = next$iv$iv$iv;
+                    i5 = 0;
+                    count$iv$iv$iv3 = count$iv$iv$iv;
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                    i8 = $i$f$mutableVectorOf;
+                    count$iv$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                    $i$f$firstFromHeadALcG6gQ$ui_release = node$iv$iv$iv;
+                    stack$iv$iv$iv = next$iv$iv$iv;
                     this_$iv$iv$iv$iv = 1;
                 }
                 node6 = this_$iv2;
-                if (count$iv$iv$iv2 == 1) {
+                if (count$iv$iv$iv == 1) {
                 } else {
                 }
                 this_$iv2 = node6;
-                count$iv$iv$iv = type$iv;
+                $i$f$getSemanticsOLwlOKw = type$iv;
                 this_$iv2 = node6;
-                stack$iv$iv$iv = i7;
-                node4 = node$iv$iv$iv$iv2;
-                i = 0;
-                i2 = 0;
+                $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
+                node3 = node$iv$iv$iv$iv2;
+                i7 = 0;
+                i10 = 0;
                 if (kindSet$ui_release3 &= type$iv != 0) {
                 } else {
                 }
@@ -755,68 +755,68 @@ public final class SemanticsNodeKt {
                 if (this_$iv$iv$iv$iv != 0) {
                 } else {
                 }
-                i7 = stack$iv$iv$iv;
-                next$iv$iv$iv = node4;
-                theNode$iv$iv$iv = node$iv$iv$iv;
-                stack$iv$iv$iv2 = node6;
+                $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                next$iv$iv$iv = node3;
+                $i$f$firstFromHeadALcG6gQ$ui_release = node$iv$iv$iv;
+                stack$iv$iv$iv = node6;
                 node$iv$iv$iv$iv2 = node$iv$iv$iv$iv2.getChild$ui_release();
-                this_$iv2 = stack$iv$iv$iv2;
-                node$iv$iv$iv = theNode$iv$iv$iv;
-                stack$iv$iv$iv = i7;
-                count$iv$iv$iv2++;
+                this_$iv2 = stack$iv$iv$iv;
+                node$iv$iv$iv = $i$f$firstFromHeadALcG6gQ$ui_release;
+                $i$f$firstFromHeadALcG6gQ$ui_release2 = $i$f$firstFromHeadALcG6gQ$ui_release3;
+                count$iv$iv$iv++;
                 node6 = this_$iv2;
-                if (count$iv$iv$iv2 == 1) {
+                if (count$iv$iv$iv == 1) {
                 } else {
                 }
                 if (node$iv$iv$iv == 0) {
                 } else {
                 }
-                count$iv$iv$iv4 = count$iv$iv$iv2;
-                i7 = stack$iv$iv$iv;
+                count$iv$iv$iv3 = count$iv$iv$iv;
+                $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
                 capacity$iv$iv$iv$iv$iv = 0;
-                count$iv$iv$iv3 = node$iv$iv$iv;
+                count$iv$iv$iv2 = node$iv$iv$iv;
                 node7 = node6;
                 if (node7 != null) {
                 } else {
                 }
-                stack$iv$iv$iv2 = node6;
-                if (count$iv$iv$iv3 != 0) {
+                stack$iv$iv$iv = node6;
+                if (count$iv$iv$iv2 != 0) {
                 } else {
                 }
-                next$iv$iv$iv = node4;
-                theNode$iv$iv$iv = count$iv$iv$iv3;
-                count$iv$iv$iv2 = count$iv$iv$iv4;
-                count$iv$iv$iv3.add(node4);
-                if (count$iv$iv$iv3 != 0) {
+                next$iv$iv$iv = node3;
+                $i$f$firstFromHeadALcG6gQ$ui_release = count$iv$iv$iv2;
+                count$iv$iv$iv = count$iv$iv$iv3;
+                count$iv$iv$iv2.add(node3);
+                if (count$iv$iv$iv2 != 0) {
                 }
-                stack$iv$iv$iv2 = 0;
-                count$iv$iv$iv3.add(node7);
-                i2 = i13;
+                stack$iv$iv$iv = 0;
+                count$iv$iv$iv2.add(node7);
+                i10 = i11;
                 $i$f$mutableVectorOf = 16;
-                i10 = 0;
-                count$iv$iv$iv4 = count$iv$iv$iv2;
-                i7 = stack$iv$iv$iv;
-                i4 = $i$f$mutableVectorOf;
-                count$iv$iv$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                i7 = stack$iv$iv$iv;
-                theNode$iv$iv$iv = node$iv$iv$iv;
-                stack$iv$iv$iv2 = next$iv$iv$iv;
+                i5 = 0;
+                count$iv$iv$iv3 = count$iv$iv$iv;
+                $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                i8 = $i$f$mutableVectorOf;
+                count$iv$iv$iv2 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+                $i$f$firstFromHeadALcG6gQ$ui_release = node$iv$iv$iv;
+                stack$iv$iv$iv = next$iv$iv$iv;
                 this_$iv$iv$iv$iv = 1;
-                i3 = 1;
-                i3 = 0;
-                i8 = 0;
-                i7 = stack$iv$iv$iv;
+                $i$f$isKindH91voCI$ui_release = 1;
+                $i$f$isKindH91voCI$ui_release = 0;
+                i9 = 0;
+                $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
             }
             this_$iv = this_$iv2;
-            type$iv = count$iv$iv$iv;
-            i7 = stack$iv$iv$iv;
-            count$iv$iv$iv2 = 0;
+            type$iv = $i$f$getSemanticsOLwlOKw;
+            $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
+            count$iv$iv$iv = 0;
         } else {
             this_$iv = this_$iv2;
-            type$iv = count$iv$iv$iv;
-            i7 = stack$iv$iv$iv;
+            type$iv = $i$f$getSemanticsOLwlOKw;
+            $i$f$firstFromHeadALcG6gQ$ui_release3 = $i$f$firstFromHeadALcG6gQ$ui_release2;
         }
-        return (SemanticsModifierNode)count$iv$iv$iv2;
+        return (SemanticsModifierNode)count$iv$iv$iv;
     }
 
     private static final androidx.compose.ui.semantics.Role getRole(androidx.compose.ui.semantics.SemanticsNode $this$role) {

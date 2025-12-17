@@ -21,18 +21,18 @@ class GroupingKt__GroupingJVMKt {
         int value;
         Object next;
         Object keyOf;
-        Object obj2;
-        Ref.IntRef intRef;
+        Object obj;
+        Ref.IntRef intRef2;
         int key;
         Object obj4;
         Object obj3;
-        Object obj;
-        int i4;
-        int i2;
-        int i;
-        Object intRef2;
-        Object $this$eachCount_u24lambda_u242_u24lambda_u241;
+        Object obj2;
         int i3;
+        int i4;
+        int i;
+        Object intRef;
+        Object $this$eachCount_u24lambda_u242_u24lambda_u241;
+        int i2;
         Intrinsics.checkNotNullParameter($this$eachCount, "<this>");
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         mutableMapEntry = 0;
@@ -42,29 +42,29 @@ class GroupingKt__GroupingJVMKt {
         while (sourceIterator.hasNext()) {
             next = sourceIterator.next();
             keyOf = obj5.keyOf(next);
-            obj2 = (Map)linkedHashMap.get(keyOf);
-            if (obj2 == null && !linkedHashMap.containsKey(keyOf)) {
+            obj = (Map)linkedHashMap.get(keyOf);
+            if (obj == null && !linkedHashMap.containsKey(keyOf)) {
             } else {
             }
             key = 0;
             obj3 = keyOf;
-            obj = next;
-            i4 = 0;
+            obj2 = next;
+            i3 = 0;
             if (key != null) {
             } else {
             }
-            intRef2 = obj4;
-            i2 = 1;
-            intRef = intRef2;
+            intRef = obj4;
+            i4 = 1;
+            intRef2 = intRef;
             i = 0;
-            i3 = 0;
+            i2 = 0;
             Ref.IntRef intRef3 = intRef4;
             intRef3.element = $this$foldTo$iv++;
-            linkedHashMap.put(keyOf, intRef);
+            linkedHashMap.put(keyOf, intRef2);
             obj6 = $this$eachCount;
             valueOf = $this$eachCount_u24lambda_u242_u24lambda_u241;
-            i2 = 0;
-            intRef2 = new Ref.IntRef();
+            i4 = 0;
+            intRef = new Ref.IntRef();
             if (!linkedHashMap.containsKey(keyOf)) {
             } else {
             }

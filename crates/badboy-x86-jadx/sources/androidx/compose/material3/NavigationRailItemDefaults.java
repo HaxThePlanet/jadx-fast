@@ -40,22 +40,22 @@ public final class NavigationRailItemDefaults {
         androidx.compose.material3.tokens.ColorSchemeKeyTokens activeIndicatorColor;
         int inactiveIconColor;
         int inactiveLabelTextColor;
+        int i;
         int i5;
-        int i3;
         int traceInProgress;
         long copy-wmQWz5c$default;
-        int i;
+        int i2;
         int i6;
-        int i4;
-        long l6;
-        long l;
-        long l7;
+        int i7;
         long l4;
         long l5;
         long l3;
-        int i2;
+        long l6;
+        long l7;
+        long l;
+        int i3;
         long l2;
-        int i7;
+        int i4;
         long obj22;
         int obj24;
         int obj25;
@@ -68,34 +68,34 @@ public final class NavigationRailItemDefaults {
         ComposerKt.sourceInformationMarkerStart(composer, i8, "C(colors)P(3:c#ui.graphics.Color,4:c#ui.graphics.Color,2:c#ui.graphics.Color,5:c#ui.graphics.Color,6:c#ui.graphics.Color,0:c#ui.graphics.Color,1:c#ui.graphics.Color)325@14138L5,326@14222L5,327@14303L5,328@14386L5,329@14474L5,333@14705L11:NavigationRail.kt#uh7d8r");
         int i9 = 6;
         if (obj38 & 1 != 0) {
-            l6 = copy-wmQWz5c$default;
-        } else {
-            l6 = selectedIconColor;
-        }
-        if (obj38 & 2 != 0) {
-            l = copy-wmQWz5c$default;
-        } else {
-            l = indicatorColor;
-        }
-        if (obj38 & 4 != 0) {
-            l7 = copy-wmQWz5c$default;
-        } else {
-            l7 = unselectedTextColor;
-        }
-        if (obj38 & 8 != 0) {
             l4 = copy-wmQWz5c$default;
         } else {
-            l4 = disabledTextColor;
+            l4 = selectedIconColor;
         }
-        if (obj38 & 16 != 0) {
+        if (obj38 & 2 != 0) {
             l5 = copy-wmQWz5c$default;
         } else {
-            l5 = $changed;
+            l5 = indicatorColor;
         }
-        if (obj38 & 32 != 0) {
+        if (obj38 & 4 != 0) {
             l3 = copy-wmQWz5c$default;
         } else {
-            l3 = obj32;
+            l3 = unselectedTextColor;
+        }
+        if (obj38 & 8 != 0) {
+            l6 = copy-wmQWz5c$default;
+        } else {
+            l6 = disabledTextColor;
+        }
+        if (obj38 & 16 != 0) {
+            l7 = copy-wmQWz5c$default;
+        } else {
+            l7 = $changed;
+        }
+        if (obj38 & 32 != 0) {
+            l = copy-wmQWz5c$default;
+        } else {
+            l = obj32;
         }
         if (obj38 & 64 != 0) {
             l2 = copy-wmQWz5c$default;
@@ -111,7 +111,7 @@ public final class NavigationRailItemDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultNavigationRailItemColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, i9)).copy-4JmcsL4(l6, obj8, l, obj10, l7, obj12, l4);
+        return this.getDefaultNavigationRailItemColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, i9)).copy-4JmcsL4(l4, obj8, l5, obj10, l3, obj12, l6);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Use overload with disabledIconColor and disabledTextColor")
@@ -120,44 +120,44 @@ public final class NavigationRailItemDefaults {
         androidx.compose.material3.tokens.ColorSchemeKeyTokens activeLabelTextColor;
         androidx.compose.material3.tokens.ColorSchemeKeyTokens activeIndicatorColor;
         int inactiveIconColor;
-        int value2;
+        int value;
         boolean traceInProgress;
         int str;
-        long value;
+        long value2;
         int i;
-        long l2;
-        long l;
-        long l5;
         long l3;
+        long l;
+        long l2;
         long l4;
+        long l5;
         final Composer composer = obj33;
         int i2 = 1621601574;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(colors)P(1:c#ui.graphics.Color,2:c#ui.graphics.Color,0:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color)370@16602L5,371@16686L5,372@16767L5,373@16850L5,374@16938L5:NavigationRail.kt#uh7d8r");
         str = 6;
         if (obj35 & 1 != 0) {
-            l2 = value;
+            l3 = value2;
         } else {
-            l2 = selectedIconColor;
+            l3 = selectedIconColor;
         }
         if (obj35 & 2 != 0) {
-            l = value;
+            l = value2;
         } else {
             l = indicatorColor;
         }
         if (obj35 & 4 != 0) {
-            l5 = value;
+            l2 = value2;
         } else {
-            l5 = unselectedTextColor;
+            l2 = unselectedTextColor;
         }
         if (obj35 & 8 != 0) {
-            l3 = value;
-        } else {
-            l3 = $changed;
-        }
-        if (obj35 & 16 != 0) {
             l4 = value2;
         } else {
-            l4 = obj31;
+            l4 = $changed;
+        }
+        if (obj35 & 16 != 0) {
+            l5 = value;
+        } else {
+            l5 = obj31;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj34, -1, "androidx.compose.material3.NavigationRailItemDefaults.colors (NavigationRail.kt:376)");
@@ -170,7 +170,7 @@ public final class NavigationRailItemDefaults {
         final int obj25 = i5;
         final int obj26 = i6;
         final int i11 = 0;
-        NavigationRailItemColors navigationRailItemColors = new NavigationRailItemColors(l2, obj8, l, obj10, l5, obj12, l3, obj14, l4, obj16, Color.copy-wmQWz5c$default(l3, selectedTextColor, obj25, obj26, 0, i9, obj29), i9, Color.copy-wmQWz5c$default(l4, selectedTextColor, obj25, obj26, 0, i11, obj29), i11, 0);
+        NavigationRailItemColors navigationRailItemColors = new NavigationRailItemColors(l3, obj8, l, obj10, l2, obj12, l4, obj14, l5, obj16, Color.copy-wmQWz5c$default(l4, selectedTextColor, obj25, obj26, 0, i9, obj29), i9, Color.copy-wmQWz5c$default(l5, selectedTextColor, obj25, obj26, 0, i11, obj29), i11, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -181,26 +181,26 @@ public final class NavigationRailItemDefaults {
     public final androidx.compose.material3.NavigationRailItemColors getDefaultNavigationRailItemColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultNavigationRailItemColors) {
         androidx.compose.material3.NavigationRailItemColors defaultNavigationRailItemColorsCached$material3_release;
         androidx.compose.material3.NavigationRailItemColors navigationRailItemColors;
-        int i2;
+        int i7;
         long token;
+        long token3;
         long token4;
         long token2;
-        long token3;
-        long copy-wmQWz5c$default2;
         long copy-wmQWz5c$default;
-        int i3;
+        long copy-wmQWz5c$default2;
         int i4;
-        int i6;
+        int i2;
+        int i8;
+        int i3;
         int i;
         int i5;
-        int i8;
-        int i7;
+        int i6;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultNavigationRailItemColors;
         if (colorScheme.getDefaultNavigationRailItemColorsCached$material3_release() == null) {
-            i3 = 0;
-            i6 = 0;
-            navigationRailItemColors = new NavigationRailItemColors(ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getActiveIconColor()), obj4, ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getActiveLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getActiveIndicatorColor()), obj8, ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getInactiveIconColor()), obj10, ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getInactiveLabelTextColor()), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getInactiveIconColor()), obj14, 1052938076, i3, 0, i6, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getInactiveLabelTextColor()), i3, 1052938076, i6, 0, 0, 14), i3, 0);
-            i2 = 0;
+            i4 = 0;
+            i8 = 0;
+            navigationRailItemColors = new NavigationRailItemColors(ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getActiveIconColor()), obj4, ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getActiveLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getActiveIndicatorColor()), obj8, ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getInactiveIconColor()), obj10, ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getInactiveLabelTextColor()), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getInactiveIconColor()), obj14, 1052938076, i4, 0, i8, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, NavigationRailTokens.INSTANCE.getInactiveLabelTextColor()), i4, 1052938076, i8, 0, 0, 14), i4, 0);
+            i7 = 0;
             colorScheme.setDefaultNavigationRailItemColorsCached$material3_release(navigationRailItemColors);
         }
         return defaultNavigationRailItemColorsCached$material3_release;

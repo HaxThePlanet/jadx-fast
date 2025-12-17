@@ -61,97 +61,97 @@ public final class SnackbarHostKt {
         int traceInProgress2;
         int size;
         Object items;
-        int $dirty;
-        Object obj4;
         int $dirty3;
+        Object obj4;
+        int $dirty;
         Object modifier2;
         int $i$f$fastForEach;
-        Object obj3;
-        int i14;
+        Object obj;
+        int $i$a$LayoutBoxKt$Box$1$iv;
         Integer valueOf;
-        int i19;
-        int i13;
+        int i14;
+        int i15;
         boolean traceInProgress;
         List mutableList;
-        Composer composer2;
+        Composer composer;
         Object topStart;
         Object str;
         int fastFilterNotNull;
-        int i7;
-        int i11;
-        int maybeCachedBoxMeasurePolicy;
         int i8;
-        Object rememberedValue;
-        int i18;
+        int i21;
+        int maybeCachedBoxMeasurePolicy;
         int i16;
-        int i22;
+        Object rememberedValue;
+        int i10;
+        int i;
+        int i17;
         Object empty;
         int currentCompositeKeyHash;
         Object fadeInFadeOutState;
-        androidx.compose.runtime.CompositionLocalMap index$iv$iv2;
+        androidx.compose.runtime.CompositionLocalMap index$iv$iv;
         Modifier materializeModifier;
-        int index$iv$iv;
+        int index$iv$iv2;
         Function0 constructor;
-        int i15;
-        int i12;
-        int i10;
+        int i13;
+        int i2;
         int i3;
-        int $dirty2;
-        int i20;
-        Object keys;
         int i9;
+        int $dirty2;
+        int i4;
+        Object keys;
+        int i5;
         Object obj2;
-        int i17;
+        int i7;
         BoxScopeInstance boxScopeInstance;
         int $i$f$Box;
         Alignment alignment;
-        Composer composer;
-        int i4;
-        int i21;
-        int i;
-        int i5;
+        Composer composer2;
+        int i11;
+        int i12;
+        int i19;
+        int i18;
         List $this$fastForEach$iv;
-        int i2;
-        Object obj;
+        int i20;
+        Object obj3;
         int obj37;
         items = current;
-        i14 = $changed;
+        $i$a$LayoutBoxKt$Box$1$iv = $changed;
         traceInProgress2 = -1316639904;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(FadeInFadeOutWithScale)P(1,2)328@12730L48,393@15387L162:SnackbarHost.kt#uh7d8r");
-        $dirty = $changed;
+        $dirty3 = $changed;
         if (i6 & 1 != 0) {
-            $dirty |= 6;
+            $dirty3 |= 6;
         } else {
-            if (i14 & 6 == 0) {
-                i19 = restartGroup.changed(items) ? 4 : 2;
-                $dirty |= i19;
+            if ($i$a$LayoutBoxKt$Box$1$iv & 6 == 0) {
+                i14 = restartGroup.changed(items) ? 4 : 2;
+                $dirty3 |= i14;
             }
         }
-        i13 = i6 & 2;
-        if (i13 != 0) {
-            $dirty |= 48;
+        i15 = i6 & 2;
+        if (i15 != 0) {
+            $dirty3 |= 48;
             str = modifier;
         } else {
-            if (i14 & 48 == 0) {
-                i7 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i7;
+            if ($i$a$LayoutBoxKt$Box$1$iv & 48 == 0) {
+                i8 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty3 |= i8;
             } else {
                 str = modifier;
             }
         }
         if (i6 & 4 != 0) {
-            $dirty |= 384;
+            $dirty3 |= 384;
         } else {
-            if (i14 & 384 == 0) {
-                i11 = restartGroup.changedInstance(content) ? 256 : 128;
-                $dirty |= i11;
+            if ($i$a$LayoutBoxKt$Box$1$iv & 384 == 0) {
+                i21 = restartGroup.changedInstance(content) ? 256 : 128;
+                $dirty3 |= i21;
             }
         }
-        maybeCachedBoxMeasurePolicy = $dirty;
+        maybeCachedBoxMeasurePolicy = $dirty3;
         if (maybeCachedBoxMeasurePolicy & 147 == 146) {
             if (!restartGroup.getSkipping()) {
-                if (i13 != 0) {
+                if (i15 != 0) {
                     modifier2 = Modifier.Companion;
                 } else {
                     modifier2 = str;
@@ -160,11 +160,11 @@ public final class SnackbarHostKt {
                     ComposerKt.traceEventStart(traceInProgress2, maybeCachedBoxMeasurePolicy, -1, "androidx.compose.material3.FadeInFadeOutWithScale (SnackbarHost.kt:327)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1256815738, "CC(remember):SnackbarHost.kt#9igjgp");
-                int i24 = 0;
+                int i23 = 0;
                 Composer composer4 = restartGroup;
                 fastFilterNotNull = 0;
                 rememberedValue = composer4.rememberedValue();
-                i16 = 0;
+                i = 0;
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     empty = 0;
                     fadeInFadeOutState = new FadeInFadeOutState();
@@ -179,16 +179,16 @@ public final class SnackbarHostKt {
                 if (!Intrinsics.areEqual(items, (FadeInFadeOutState)invalid$iv.getCurrent())) {
                     invalid$iv.setCurrent(items);
                     List items2 = invalid$iv.getItems();
-                    int i44 = 0;
+                    int i43 = 0;
                     ArrayList arrayList = new ArrayList(items2.size());
                     List list = items2;
-                    int i49 = 0;
-                    index$iv$iv = 0;
-                    while (index$iv$iv < list.size()) {
-                        i10 = 0;
-                        i20 = 0;
-                        (Collection)arrayList.add((SnackbarData)(FadeInFadeOutAnimationItem)list.get(index$iv$iv).getKey());
-                        index$iv$iv++;
+                    int i48 = 0;
+                    index$iv$iv2 = 0;
+                    while (index$iv$iv2 < list.size()) {
+                        i3 = 0;
+                        i4 = 0;
+                        (Collection)arrayList.add((SnackbarData)(FadeInFadeOutAnimationItem)list.get(index$iv$iv2).getKey());
+                        index$iv$iv2++;
                     }
                     mutableList = CollectionsKt.toMutableList((Collection)(List)arrayList);
                     if (!mutableList.contains(items)) {
@@ -196,42 +196,42 @@ public final class SnackbarHostKt {
                     }
                     invalid$iv.getItems().clear();
                     rememberedValue = invalid$iv.getItems();
-                    i16 = 0;
+                    i = 0;
                     empty = fastFilterNotNull;
                     fadeInFadeOutState = 0;
-                    index$iv$iv2 = 0;
-                    while (index$iv$iv2 < empty.size()) {
-                        i12 = 0;
-                        int i35 = i15;
-                        i10 = 0;
-                        SnackbarHostKt.FadeInFadeOutWithScale.1.1 $dirty4 = new SnackbarHostKt.FadeInFadeOutWithScale.1.1((SnackbarData)i35, items, mutableList, invalid$iv);
-                        FadeInFadeOutAnimationItem $this$fastMapTo$iv = new FadeInFadeOutAnimationItem(i35, (Function3)ComposableLambdaKt.rememberComposableLambda(-1654683077, true, $dirty4, restartGroup, 54));
+                    index$iv$iv = 0;
+                    while (index$iv$iv < empty.size()) {
+                        i2 = 0;
+                        int i34 = i13;
+                        i3 = 0;
+                        SnackbarHostKt.FadeInFadeOutWithScale.1.1 $dirty4 = new SnackbarHostKt.FadeInFadeOutWithScale.1.1((SnackbarData)i34, items, mutableList, invalid$iv);
+                        FadeInFadeOutAnimationItem $this$fastMapTo$iv = new FadeInFadeOutAnimationItem(i34, (Function3)ComposableLambdaKt.rememberComposableLambda(-1654683077, true, $dirty4, restartGroup, 54));
                         (Collection)rememberedValue.add($this$fastMapTo$iv);
-                        index$iv$iv2++;
+                        index$iv$iv++;
                         items = current;
-                        i14 = $changed;
-                        fastFilterNotNull = i3;
-                        maybeCachedBoxMeasurePolicy = i20;
+                        $i$a$LayoutBoxKt$Box$1$iv = $changed;
+                        fastFilterNotNull = i9;
+                        maybeCachedBoxMeasurePolicy = i4;
                         mutableList = keys;
-                        i16 = i9;
+                        i = i5;
                     }
                     keys = mutableList;
-                    i3 = fastFilterNotNull;
+                    i9 = fastFilterNotNull;
                     $dirty2 = maybeCachedBoxMeasurePolicy;
-                    i9 = i16;
+                    i5 = i;
                     items = rememberedValue;
                 } else {
                     $dirty2 = maybeCachedBoxMeasurePolicy;
                 }
                 restartGroup.endReplaceGroup();
-                i26 &= 14;
+                i25 &= 14;
                 valueOf = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 topStart = Alignment.Companion.getTopStart();
-                i18 = 0;
+                i10 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                i10 = 0;
+                i3 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -243,12 +243,12 @@ public final class SnackbarHostKt {
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                int i51 = i32;
+                int i50 = i31;
                 Updater.set-impl(constructor-impl, BoxKt.maybeCachedBoxMeasurePolicy(topStart, false), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i50 = 0;
+                int i49 = 0;
                 Composer composer6 = constructor-impl;
-                int i52 = 0;
+                int i51 = 0;
                 if (!composer6.getInserting()) {
                     $i$f$Box = valueOf;
                     alignment = topStart;
@@ -256,7 +256,7 @@ public final class SnackbarHostKt {
                         composer6.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer6;
+                        composer = composer6;
                     }
                 } else {
                     $i$f$Box = valueOf;
@@ -264,42 +264,42 @@ public final class SnackbarHostKt {
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, modifier2), ComposeUiNode.Companion.getSetModifier());
                 Composer composer3 = restartGroup;
-                i9 = i29;
+                i5 = i28;
                 ComposerKt.sourceInformationMarkerStart(composer3, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i41 |= 6;
-                i17 = 0;
+                i40 |= 6;
+                i7 = 0;
                 boxScopeInstance = iNSTANCE;
-                i4 = i36;
-                i14 = composer5;
-                ComposerKt.sourceInformationMarkerStart(i14, -1643979990, "C394@15425L21:SnackbarHost.kt#uh7d8r");
-                invalid$iv.setScope(ComposablesKt.getCurrentRecomposeScope(i14, 0));
-                i14.startReplaceGroup(1748085441);
-                ComposerKt.sourceInformation(i14, "");
+                i11 = i35;
+                $i$a$LayoutBoxKt$Box$1$iv = composer5;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -1643979990, "C394@15425L21:SnackbarHost.kt#uh7d8r");
+                invalid$iv.setScope(ComposablesKt.getCurrentRecomposeScope($i$a$LayoutBoxKt$Box$1$iv, 0));
+                $i$a$LayoutBoxKt$Box$1$iv.startReplaceGroup(1748085441);
+                ComposerKt.sourceInformation($i$a$LayoutBoxKt$Box$1$iv, "");
                 obj2 = invalid$iv;
                 size = invalid$iv.getItems().size();
-                i21 = i33;
-                $i$f$fastForEach = i15;
+                i12 = i32;
+                $i$f$fastForEach = i13;
                 while ($i$f$fastForEach < size) {
-                    int i53 = i15;
-                    i5 = 0;
+                    int i52 = i13;
+                    i18 = 0;
                     Object obj5 = component1;
-                    i14.startMovableGroup(1201076541, (SnackbarData)obj5);
-                    ComposerKt.sourceInformation(i14, "395@15520L19,395@15512L27");
-                    SnackbarHostKt.FadeInFadeOutWithScale.2.1.1 anon = new SnackbarHostKt.FadeInFadeOutWithScale.2.1.1(obj3, obj5);
-                    obj = obj5;
-                    i53.component2().invoke(ComposableLambdaKt.rememberComposableLambda(-1135367807, true, anon, i14, 54), i14, 6);
-                    i14.endMovableGroup();
-                    $i$f$fastForEach = i + 1;
-                    i13 = obj37;
-                    obj3 = content;
+                    $i$a$LayoutBoxKt$Box$1$iv.startMovableGroup(1201076541, (SnackbarData)obj5);
+                    ComposerKt.sourceInformation($i$a$LayoutBoxKt$Box$1$iv, "395@15520L19,395@15512L27");
+                    SnackbarHostKt.FadeInFadeOutWithScale.2.1.1 anon = new SnackbarHostKt.FadeInFadeOutWithScale.2.1.1(obj, obj5);
+                    obj3 = obj5;
+                    i52.component2().invoke(ComposableLambdaKt.rememberComposableLambda(-1135367807, true, anon, $i$a$LayoutBoxKt$Box$1$iv, 54), $i$a$LayoutBoxKt$Box$1$iv, 6);
+                    $i$a$LayoutBoxKt$Box$1$iv.endMovableGroup();
+                    $i$f$fastForEach = i19 + 1;
+                    i15 = obj37;
+                    obj = content;
                     items = $this$fastForEach$iv;
-                    size = i2;
+                    size = i20;
                 }
                 $this$fastForEach$iv = items;
-                i = $i$f$fastForEach;
-                obj37 = i13;
-                i14.endReplaceGroup();
-                ComposerKt.sourceInformationMarkerEnd(i14);
+                i19 = $i$f$fastForEach;
+                obj37 = i15;
+                $i$a$LayoutBoxKt$Box$1$iv.endReplaceGroup();
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -327,24 +327,24 @@ public final class SnackbarHostKt {
         int currentSnackbarData;
         int $dirty;
         int $dirty2;
-        Object modifier3;
-        Object obj2;
         Object modifier4;
-        int i7;
-        int lambda-1$material3_release;
-        boolean traceInProgress;
         Object obj;
         Object modifier2;
-        int i;
-        int i2;
+        int i5;
+        int lambda-1$material3_release;
+        boolean traceInProgress;
         Object obj3;
+        Object modifier3;
+        int i7;
+        int i2;
+        Object obj2;
+        int i4;
         int i8;
         int i3;
         int i9;
-        int i5;
         Object empty;
         Object anon;
-        int i4;
+        int i;
         final int i12 = $changed;
         currentSnackbarData = 464178177;
         final Composer restartGroup = $composer.startRestartGroup(currentSnackbarData);
@@ -352,54 +352,54 @@ public final class SnackbarHostKt {
         $dirty = $changed;
         if (i6 & 1 != 0) {
             $dirty |= 6;
-            obj2 = hostState;
+            obj = hostState;
         } else {
             if (i12 & 6 == 0) {
-                i7 = restartGroup.changed(hostState) ? 4 : 2;
-                $dirty |= i7;
+                i5 = restartGroup.changed(hostState) ? 4 : 2;
+                $dirty |= i5;
             } else {
-                obj2 = hostState;
+                obj = hostState;
             }
         }
         lambda-1$material3_release = i6 & 2;
         if (lambda-1$material3_release != 0) {
             $dirty |= 48;
-            modifier2 = modifier;
+            modifier3 = modifier;
         } else {
             if (i12 & 48 == 0) {
-                i = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i;
+                i7 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i7;
             } else {
-                modifier2 = modifier;
+                modifier3 = modifier;
             }
         }
         i2 = i6 & 4;
         if (i2 != 0) {
             $dirty |= 384;
-            obj3 = snackbar;
+            obj2 = snackbar;
         } else {
             if (i12 & 384 == 0) {
-                i8 = restartGroup.changedInstance(snackbar) ? 256 : 128;
-                $dirty |= i8;
+                i4 = restartGroup.changedInstance(snackbar) ? 256 : 128;
+                $dirty |= i4;
             } else {
-                obj3 = snackbar;
+                obj2 = snackbar;
             }
         }
         final int i24 = $dirty;
         if (i24 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (lambda-1$material3_release != 0) {
-                    modifier3 = Modifier.Companion;
+                    modifier4 = Modifier.Companion;
                 } else {
-                    modifier3 = modifier2;
+                    modifier4 = modifier3;
                 }
                 if (i2 != 0) {
-                    obj3 = lambda-1$material3_release;
+                    obj2 = lambda-1$material3_release;
                 }
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(currentSnackbarData, i24, -1, "androidx.compose.material3.SnackbarHost (SnackbarHost.kt:221)");
                 }
-                currentSnackbarData = obj2.getCurrentSnackbarData();
+                currentSnackbarData = obj.getCurrentSnackbarData();
                 int i14 = 0;
                 int i18 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
@@ -409,7 +409,7 @@ public final class SnackbarHostKt {
                 Composer composer = restartGroup;
                 int i22 = 0;
                 Object rememberedValue = composer.rememberedValue();
-                i5 = 0;
+                i9 = 0;
                 if (changed2 |= changedInstance == null) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
@@ -422,25 +422,25 @@ public final class SnackbarHostKt {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 EffectsKt.LaunchedEffect(currentSnackbarData, (Function2)anon, restartGroup, 0);
-                i2 = modifier3;
-                SnackbarHostKt.FadeInFadeOutWithScale(obj2.getCurrentSnackbarData(), i2, obj3, restartGroup, i23 |= i19, 0);
+                i2 = modifier4;
+                SnackbarHostKt.FadeInFadeOutWithScale(obj.getCurrentSnackbarData(), i2, obj2, restartGroup, i23 |= i19, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                modifier2 = i2;
-                obj = obj3;
+                modifier3 = i2;
+                obj3 = obj2;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj = obj3;
+                obj3 = obj2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            currentSnackbarData = new SnackbarHostKt.SnackbarHost.2(obj2, modifier2, obj, i12, i6);
+            currentSnackbarData = new SnackbarHostKt.SnackbarHost.2(obj, modifier3, obj3, i12, i6);
             endRestartGroup.updateScope((Function2)currentSnackbarData);
         } else {
-            modifier4 = modifier2;
+            modifier2 = modifier3;
         }
     }
 
@@ -467,12 +467,12 @@ public final class SnackbarHostKt {
         int i;
         int changed;
         androidx.compose.material3.SnackbarHostKt.animatedOpacity.1 anon;
-        int i2;
-        Object obj;
-        int i4;
         int i3;
-        int i5;
+        Object $i$a$CacheSnackbarHostKt$animatedOpacity$alpha$1;
         int i7;
+        int i5;
+        int i2;
+        int i4;
         boolean z = visible;
         final Composer composer2 = $composer;
         final int i19 = $changed;
@@ -495,20 +495,20 @@ public final class SnackbarHostKt {
         int i20 = 0;
         if (rememberedValue == Composer.Companion.getEmpty()) {
             int i25 = 0;
-            i4 = 0;
-            i3 = !z ? 1065353216 : i4;
-            composer.updateRememberedValue(AnimatableKt.Animatable$default(i3, i4, 2, 0));
+            i7 = 0;
+            i5 = !z ? 1065353216 : i7;
+            composer.updateRememberedValue(AnimatableKt.Animatable$default(i5, i7, 2, 0));
         } else {
-            obj = rememberedValue;
+            $i$a$CacheSnackbarHostKt$animatedOpacity$alpha$1 = rememberedValue;
         }
-        Animatable invalid$iv = obj;
+        Animatable invalid$iv = $i$a$CacheSnackbarHostKt$animatedOpacity$alpha$1;
         ComposerKt.sourceInformationMarkerEnd(composer2);
         ComposerKt.sourceInformationMarkerStart(composer2, 2104082004, str3);
         int i21 = 1;
         int i22 = 32;
         if (i16 ^= 48 > i22) {
             if (!composer2.changed(z)) {
-                i = i19 & 48 == i22 ? i21 : i2;
+                i = i19 & 48 == i22 ? i21 : i3;
             } else {
             }
         } else {
@@ -517,7 +517,7 @@ public final class SnackbarHostKt {
         if (i17 ^= 384 > i23) {
             if (!composer2.changed(anon)) {
                 if (i19 & 384 == i23) {
-                    i2 = i21;
+                    i3 = i21;
                 }
             } else {
             }
@@ -527,9 +527,9 @@ public final class SnackbarHostKt {
         int i26 = 0;
         Object rememberedValue2 = composer3.rememberedValue();
         int i27 = 0;
-        if (i12 |= i2 == 0) {
+        if (i12 |= i3 == 0) {
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                i7 = 0;
+                i4 = 0;
                 alpha = new SnackbarHostKt.animatedOpacity.2.1(invalid$iv, z, animation, anon, 0);
                 composer3.updateRememberedValue((Function2)alpha);
             } else {
@@ -551,12 +551,12 @@ public final class SnackbarHostKt {
         boolean traceInProgress;
         String str;
         boolean changed;
-        int i2;
-        Object animatable;
-        int empty;
-        int i;
-        Object anon;
         int i3;
+        Object $i$a$CacheSnackbarHostKt$animatedScale$scale$1;
+        int empty;
+        int i2;
+        Object anon;
+        int i;
         int i4 = 1966809761;
         ComposerKt.sourceInformationMarkerStart($composer, i4, "C(animatedScale)429@16538L51,430@16618L85,430@16594L109:SnackbarHost.kt#uh7d8r");
         if (ComposerKt.isTraceInProgress()) {
@@ -575,15 +575,15 @@ public final class SnackbarHostKt {
             empty = !visible ? 1065353216 : 1061997773;
             composer.updateRememberedValue(AnimatableKt.Animatable$default(empty, 0, 2, i19));
         } else {
-            animatable = rememberedValue;
+            $i$a$CacheSnackbarHostKt$animatedScale$scale$1 = rememberedValue;
         }
-        Animatable invalid$iv = animatable;
+        Animatable invalid$iv = $i$a$CacheSnackbarHostKt$animatedScale$scale$1;
         ComposerKt.sourceInformationMarkerEnd($composer);
         ComposerKt.sourceInformationMarkerStart($composer, 1433333017, str3);
         int i14 = 32;
         if (i13 ^= 48 > i14) {
             if (!$composer.changed(visible)) {
-                i2 = $changed & 48 == i14 ? 1 : 0;
+                i3 = $changed & 48 == i14 ? 1 : 0;
             } else {
             }
         } else {

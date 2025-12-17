@@ -47,28 +47,28 @@ public final class PaddingValuesImpl implements androidx.compose.foundation.layo
                     } else {
                     }
                     int i7 = 0;
-                    IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("Bottom padding must be non-negative".toString());
-                    throw illegalArgumentException3;
+                    IllegalArgumentException $i$a$RequirePaddingValuesImpl$4 = new IllegalArgumentException("Bottom padding must be non-negative".toString());
+                    throw $i$a$RequirePaddingValuesImpl$4;
                 }
                 int i8 = 0;
-                IllegalArgumentException illegalArgumentException4 = new IllegalArgumentException("End padding must be non-negative".toString());
-                throw illegalArgumentException4;
+                IllegalArgumentException $i$a$RequirePaddingValuesImpl$3 = new IllegalArgumentException("End padding must be non-negative".toString());
+                throw $i$a$RequirePaddingValuesImpl$3;
             }
             int i6 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("Top padding must be non-negative".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequirePaddingValuesImpl$2 = new IllegalArgumentException("Top padding must be non-negative".toString());
+            throw $i$a$RequirePaddingValuesImpl$2;
         }
         int i5 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Start padding must be non-negative".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequirePaddingValuesImpl$1 = new IllegalArgumentException("Start padding must be non-negative".toString());
+        throw $i$a$RequirePaddingValuesImpl$1;
     }
 
     public PaddingValuesImpl(float f, float f2, float f3, float f4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
         float f9;
-        float f7;
-        float f5;
-        float f8;
         float f6;
+        float f8;
+        float f5;
+        float f7;
         float obj7;
         float obj8;
         float obj9;
@@ -76,29 +76,29 @@ public final class PaddingValuesImpl implements androidx.compose.foundation.layo
         int obj12;
         if (i5 & 1 != 0) {
             obj12 = 0;
-            f7 = obj7;
+            f6 = obj7;
         } else {
-            f7 = f;
+            f6 = f;
         }
         if (i5 & 2 != 0) {
             obj8 = 0;
-            f5 = obj8;
+            f8 = obj8;
         } else {
-            f5 = f2;
+            f8 = f2;
         }
         if (i5 & 4 != 0) {
             obj8 = 0;
-            f8 = obj9;
+            f5 = obj9;
         } else {
-            f8 = f3;
+            f5 = f3;
         }
         if (i5 & 8 != 0) {
             obj8 = 0;
-            f6 = obj10;
+            f7 = obj10;
         } else {
-            f6 = f4;
+            f7 = f4;
         }
-        super(f7, f5, f8, f6, 0);
+        super(f6, f8, f5, f7, 0);
     }
 
     public PaddingValuesImpl(float f, float f2, float f3, float f4, DefaultConstructorMarker defaultConstructorMarker5) {

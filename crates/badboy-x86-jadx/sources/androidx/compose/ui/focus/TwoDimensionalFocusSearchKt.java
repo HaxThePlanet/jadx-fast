@@ -25,10 +25,10 @@ public final class TwoDimensionalFocusSearchKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal4;
-            int ordinal;
             int ordinal2;
+            int ordinal4;
             int ordinal3;
+            int ordinal;
             int[] iArr = new int[values.length];
             iArr[FocusStateImpl.ActiveParent.ordinal()] = 1;
             iArr[FocusStateImpl.Active.ordinal()] = 2;
@@ -51,12 +51,12 @@ public final class TwoDimensionalFocusSearchKt {
             } else {
                 return activeFocusNode;
             }
-            IllegalStateException illegalStateException2 = new IllegalStateException("ActiveParent must have a focusedChild".toString());
-            throw illegalStateException2;
+            IllegalStateException illegalStateException = new IllegalStateException("ActiveParent must have a focusedChild".toString());
+            throw illegalStateException;
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Searching for active node in inactive hierarchy".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckTwoDimensionalFocusSearchKt$activeNode$1 = new IllegalStateException("Searching for active node in inactive hierarchy".toString());
+        throw $i$a$CheckTwoDimensionalFocusSearchKt$activeNode$1;
     }
 
     private static final boolean beamBeats-I7lrPNg(Rect source, Rect rect1, Rect rect2, int direction) {
@@ -89,19 +89,19 @@ public final class TwoDimensionalFocusSearchKt {
     }
 
     private static final boolean beamBeats_I7lrPNg$inSourceBeam(Rect $this$beamBeats_I7lrPNg_u24inSourceBeam, int $direction, Rect $source) {
-        int equals-impl0;
-        int cmp;
         int equals-impl02;
+        int cmp;
+        int equals-impl0;
         int i;
         float bottom;
         i = 1;
         if (FocusDirection.equals-impl0($direction, FocusDirection.Companion.getLeft-dhqQ-8s())) {
-            equals-impl0 = i;
+            equals-impl02 = i;
         } else {
-            equals-impl0 = FocusDirection.equals-impl0($direction, FocusDirection.Companion.getRight-dhqQ-8s());
+            equals-impl02 = FocusDirection.equals-impl0($direction, FocusDirection.Companion.getRight-dhqQ-8s());
         }
         final int i2 = 0;
-        if (equals-impl0 != 0) {
+        if (equals-impl02 != 0) {
             if (Float.compare(bottom2, bottom) > 0 && Float.compare(top, bottom) < 0) {
                 if (Float.compare(top, bottom) < 0) {
                 } else {
@@ -112,11 +112,11 @@ public final class TwoDimensionalFocusSearchKt {
             return i;
         } else {
             if (FocusDirection.equals-impl0($direction, FocusDirection.Companion.getUp-dhqQ-8s())) {
-                equals-impl02 = i;
+                equals-impl0 = i;
             } else {
-                equals-impl02 = FocusDirection.equals-impl0($direction, FocusDirection.Companion.getDown-dhqQ-8s());
+                equals-impl0 = FocusDirection.equals-impl0($direction, FocusDirection.Companion.getDown-dhqQ-8s());
             }
-            if (equals-impl02 == 0) {
+            if (equals-impl0 == 0) {
             } else {
                 if (Float.compare(right, bottom) > 0 && Float.compare(left, bottom) < 0) {
                     if (Float.compare(left, bottom) < 0) {
@@ -227,43 +227,43 @@ public final class TwoDimensionalFocusSearchKt {
         MutableVector mutableVector;
         Modifier.Node next$iv$iv;
         int capacity$iv$iv$iv$iv;
-        int i11;
-        int count$iv$iv2;
-        int count$iv$iv;
-        Object $this$visitChildren_u2d6rFNWt0$iv2;
-        int node2;
-        int node$iv$iv;
-        Modifier.Node[] arr;
-        int i9;
-        Object node$iv$iv2;
         int i3;
-        int i5;
+        int $i$f$getFocusTargetOLwlOKw;
+        int count$iv$iv;
+        Object $this$visitChildren_u2d6rFNWt0$iv;
+        int node2;
+        int node$iv$iv2;
+        Modifier.Node[] arr;
         int i10;
-        Object obj;
-        int i2;
-        int i8;
         Object node$iv$iv3;
         int i7;
+        int i8;
+        int i4;
+        Object obj;
+        int i9;
+        int i2;
+        Object node$iv$iv;
+        int i;
         int type$iv;
         Modifier.Node node$iv$iv$iv;
         Modifier.Node node;
-        int i6;
+        int i11;
         int this_$iv$iv$iv;
-        int i4;
-        int count$iv$iv3;
-        Object $this$visitChildren_u2d6rFNWt0$iv;
-        int i;
+        int i6;
+        int count$iv$iv2;
+        Object $this$visitChildren_u2d6rFNWt0$iv2;
+        int i5;
         mutableVector = accessibleChildren;
         int i16 = 0;
-        count$iv$iv2 = NodeKind.constructor-impl(1024);
+        $i$f$getFocusTargetOLwlOKw = NodeKind.constructor-impl(1024);
         final int i18 = 0;
-        final int i19 = count$iv$iv2;
-        final Object obj2 = $this$visitChildren_u2d6rFNWt0$iv2;
+        final int i19 = $i$f$getFocusTargetOLwlOKw;
+        final Object obj2 = $this$visitChildren_u2d6rFNWt0$iv;
         final int i20 = 0;
         if (!obj2.getNode().isAttached()) {
         } else {
             int i21 = 0;
-            node$iv$iv = 0;
+            node$iv$iv2 = 0;
             MutableVector mutableVector3 = new MutableVector(new Modifier.Node[16], 0);
             Modifier.Node child$ui_release = obj2.getNode().getChild$ui_release();
             if (child$ui_release == null) {
@@ -273,68 +273,68 @@ public final class TwoDimensionalFocusSearchKt {
             }
             while (mutableVector3.isNotEmpty()) {
                 int i22 = 0;
-                i3 = 1;
-                node2 = mutableVector3.removeAt(size -= i3);
+                i7 = 1;
+                node2 = mutableVector3.removeAt(size -= i7);
                 if (aggregateChildKindSet$ui_release &= i19 == 0) {
                 } else {
                 }
-                node$iv$iv = node2;
-                while (node$iv$iv != null) {
-                    type$iv = count$iv$iv2;
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                    int i15 = i3;
-                    node$iv$iv = node$iv$iv.getChild$ui_release();
-                    i9 = 0;
+                node$iv$iv2 = node2;
+                while (node$iv$iv2 != null) {
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                    int i15 = i7;
+                    node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+                    i10 = 0;
                     mutableVector = accessibleChildren;
                 }
-                type$iv = count$iv$iv2;
-                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                 mutableVector = accessibleChildren;
-                i9 = 0;
+                i10 = 0;
                 if (kindSet$ui_release &= i19 != 0) {
                 } else {
                 }
-                type$iv = count$iv$iv2;
-                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                i15 = i3;
-                node$iv$iv = node$iv$iv.getChild$ui_release();
-                i9 = 0;
-                mutableVector = accessibleChildren;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                i15 = i7;
+                node$iv$iv2 = node$iv$iv2.getChild$ui_release();
                 i10 = 0;
+                mutableVector = accessibleChildren;
+                i4 = 0;
+                i9 = 0;
                 i2 = 0;
-                i8 = 0;
                 int i23 = 0;
-                node$iv$iv2 = node$iv$iv3;
-                while (node$iv$iv2 != null) {
-                    if (node$iv$iv2 instanceof FocusTargetNode) {
+                node$iv$iv3 = node$iv$iv;
+                while (node$iv$iv3 != null) {
+                    if (node$iv$iv3 instanceof FocusTargetNode) {
                     } else {
                     }
-                    type$iv = count$iv$iv2;
-                    i5 = 0;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    i8 = 0;
                     if (kindSet$ui_release2 &= type$iv != 0) {
                     } else {
                     }
-                    count$iv$iv2 = 0;
-                    if (count$iv$iv2 != 0 && node$iv$iv2 instanceof DelegatingNode) {
+                    $i$f$getFocusTargetOLwlOKw = 0;
+                    if ($i$f$getFocusTargetOLwlOKw != 0 && node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                    i11 = 1;
-                    node$iv$iv2 = DelegatableNodeKt.access$pop(i8);
-                    i3 = i11;
-                    count$iv$iv2 = type$iv;
                     $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                    i3 = 1;
+                    node$iv$iv3 = DelegatableNodeKt.access$pop(i2);
+                    i7 = i3;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
                     mutableVector = accessibleChildren;
-                    if (node$iv$iv2 instanceof DelegatingNode) {
+                    if (node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv2 = 0;
-                    i7 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
+                    $i$f$getFocusTargetOLwlOKw = 0;
+                    i = 0;
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
                         node = node$iv$iv$iv;
+                        i11 = 0;
                         i6 = 0;
-                        i4 = 0;
                         if (kindSet$ui_release3 &= type$iv != 0) {
                         } else {
                         }
@@ -342,59 +342,59 @@ public final class TwoDimensionalFocusSearchKt {
                         if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                        $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                         next$iv$iv = node;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         mutableVector = accessibleChildren;
-                        $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
-                        count$iv$iv2++;
-                        if (count$iv$iv2 == 1) {
-                        } else {
-                        }
-                        if (i8 == 0) {
-                        } else {
-                        }
-                        count$iv$iv3 = count$iv$iv2;
                         $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                        $i$f$getFocusTargetOLwlOKw++;
+                        if ($i$f$getFocusTargetOLwlOKw == 1) {
+                        } else {
+                        }
+                        if (i2 == 0) {
+                        } else {
+                        }
+                        count$iv$iv2 = $i$f$getFocusTargetOLwlOKw;
+                        $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                         capacity$iv$iv$iv$iv = 0;
-                        count$iv$iv = i8;
-                        $this$visitChildren_u2d6rFNWt0$iv2 = node$iv$iv2;
-                        if ($this$visitChildren_u2d6rFNWt0$iv2 != null && count$iv$iv != 0) {
+                        count$iv$iv = i2;
+                        $this$visitChildren_u2d6rFNWt0$iv = node$iv$iv3;
+                        if ($this$visitChildren_u2d6rFNWt0$iv != null && count$iv$iv != 0) {
                         }
                         if (count$iv$iv != 0) {
                         } else {
                         }
                         next$iv$iv = node;
-                        i8 = count$iv$iv;
-                        count$iv$iv2 = count$iv$iv3;
+                        i2 = count$iv$iv;
+                        $i$f$getFocusTargetOLwlOKw = count$iv$iv2;
                         count$iv$iv.add(node);
                         if (count$iv$iv != 0) {
                         }
-                        node$iv$iv2 = 0;
-                        count$iv$iv.add($this$visitChildren_u2d6rFNWt0$iv2);
+                        node$iv$iv3 = 0;
+                        count$iv$iv.add($this$visitChildren_u2d6rFNWt0$iv);
                         this_$iv$iv$iv = i14;
                         int $i$f$mutableVectorOf = 16;
-                        i4 = 0;
-                        count$iv$iv3 = count$iv$iv2;
-                        $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                        i = $i$f$mutableVectorOf;
+                        i6 = 0;
+                        count$iv$iv2 = $i$f$getFocusTargetOLwlOKw;
+                        $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                        i5 = $i$f$mutableVectorOf;
                         count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        node$iv$iv2 = node;
-                        $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                        node$iv$iv3 = node;
+                        $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                         next$iv$iv = node;
                         this_$iv$iv$iv = 1;
                     }
-                    i11 = 1;
-                    if (count$iv$iv2 == i11) {
+                    i3 = 1;
+                    if ($i$f$getFocusTargetOLwlOKw == i3) {
                     } else {
                     }
-                    i3 = i11;
-                    count$iv$iv2 = type$iv;
-                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                    i7 = i3;
+                    $i$f$getFocusTargetOLwlOKw = type$iv;
+                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
                     mutableVector = accessibleChildren;
                     node = node$iv$iv$iv;
+                    i11 = 0;
                     i6 = 0;
-                    i4 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
@@ -402,101 +402,101 @@ public final class TwoDimensionalFocusSearchKt {
                     if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                     next$iv$iv = node;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     mutableVector = accessibleChildren;
-                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
-                    count$iv$iv2++;
-                    if (count$iv$iv2 == 1) {
-                    } else {
-                    }
-                    if (i8 == 0) {
-                    } else {
-                    }
-                    count$iv$iv3 = count$iv$iv2;
                     $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                    $i$f$getFocusTargetOLwlOKw++;
+                    if ($i$f$getFocusTargetOLwlOKw == 1) {
+                    } else {
+                    }
+                    if (i2 == 0) {
+                    } else {
+                    }
+                    count$iv$iv2 = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                     capacity$iv$iv$iv$iv = 0;
-                    count$iv$iv = i8;
-                    $this$visitChildren_u2d6rFNWt0$iv2 = node$iv$iv2;
-                    if ($this$visitChildren_u2d6rFNWt0$iv2 != null && count$iv$iv != 0) {
+                    count$iv$iv = i2;
+                    $this$visitChildren_u2d6rFNWt0$iv = node$iv$iv3;
+                    if ($this$visitChildren_u2d6rFNWt0$iv != null && count$iv$iv != 0) {
                     }
                     if (count$iv$iv != 0) {
                     } else {
                     }
                     next$iv$iv = node;
-                    i8 = count$iv$iv;
-                    count$iv$iv2 = count$iv$iv3;
+                    i2 = count$iv$iv;
+                    $i$f$getFocusTargetOLwlOKw = count$iv$iv2;
                     count$iv$iv.add(node);
                     if (count$iv$iv != 0) {
                     }
-                    node$iv$iv2 = 0;
-                    count$iv$iv.add($this$visitChildren_u2d6rFNWt0$iv2);
+                    node$iv$iv3 = 0;
+                    count$iv$iv.add($this$visitChildren_u2d6rFNWt0$iv);
                     this_$iv$iv$iv = i14;
                     $i$f$mutableVectorOf = 16;
-                    i4 = 0;
-                    count$iv$iv3 = count$iv$iv2;
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                    i = $i$f$mutableVectorOf;
+                    i6 = 0;
+                    count$iv$iv2 = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                    i5 = $i$f$mutableVectorOf;
                     count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv2 = node;
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                    node$iv$iv3 = node;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                     next$iv$iv = node;
                     this_$iv$iv$iv = 1;
-                    count$iv$iv2 = 1;
-                    i5 = node$iv$iv2;
-                    i7 = 0;
-                    if ((FocusTargetNode)i5.isAttached()) {
+                    $i$f$getFocusTargetOLwlOKw = 1;
+                    i8 = node$iv$iv3;
+                    i = 0;
+                    if ((FocusTargetNode)i8.isAttached()) {
                     } else {
                     }
-                    type$iv = count$iv$iv2;
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                    i11 = 1;
-                    if (DelegatableNodeKt.requireLayoutNode((DelegatableNode)i5).isDeactivated()) {
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                    i3 = 1;
+                    if (DelegatableNodeKt.requireLayoutNode((DelegatableNode)i8).isDeactivated()) {
                     } else {
                     }
-                    if (i5.fetchFocusProperties$ui_release().getCanFocus()) {
+                    if (i8.fetchFocusProperties$ui_release().getCanFocus()) {
                     } else {
                     }
-                    type$iv = count$iv$iv2;
-                    TwoDimensionalFocusSearchKt.collectAccessibleChildren((DelegatableNode)i5, mutableVector);
-                    mutableVector.add(i5);
-                    type$iv = count$iv$iv2;
-                    type$iv = count$iv$iv2;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    TwoDimensionalFocusSearchKt.collectAccessibleChildren((DelegatableNode)i8, mutableVector);
+                    mutableVector.add(i8);
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
+                    type$iv = $i$f$getFocusTargetOLwlOKw;
                 }
-                type$iv = count$iv$iv2;
-                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                 mutableVector = accessibleChildren;
-                i9 = 0;
-                if (node$iv$iv2 instanceof FocusTargetNode) {
+                i10 = 0;
+                if (node$iv$iv3 instanceof FocusTargetNode) {
                 } else {
                 }
-                type$iv = count$iv$iv2;
-                i5 = 0;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                i8 = 0;
                 if (kindSet$ui_release2 &= type$iv != 0) {
                 } else {
                 }
-                count$iv$iv2 = 0;
-                if (count$iv$iv2 != 0 && node$iv$iv2 instanceof DelegatingNode) {
+                $i$f$getFocusTargetOLwlOKw = 0;
+                if ($i$f$getFocusTargetOLwlOKw != 0 && node$iv$iv3 instanceof DelegatingNode) {
                 } else {
                 }
-                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                i11 = 1;
-                node$iv$iv2 = DelegatableNodeKt.access$pop(i8);
-                i3 = i11;
-                count$iv$iv2 = type$iv;
                 $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                i3 = 1;
+                node$iv$iv3 = DelegatableNodeKt.access$pop(i2);
+                i7 = i3;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
                 mutableVector = accessibleChildren;
-                if (node$iv$iv2 instanceof DelegatingNode) {
+                if (node$iv$iv3 instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv2 = 0;
-                i7 = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
+                $i$f$getFocusTargetOLwlOKw = 0;
+                i = 0;
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
                     node = node$iv$iv$iv;
+                    i11 = 0;
                     i6 = 0;
-                    i4 = 0;
                     if (kindSet$ui_release3 &= type$iv != 0) {
                     } else {
                     }
@@ -504,59 +504,59 @@ public final class TwoDimensionalFocusSearchKt {
                     if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                     next$iv$iv = node;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     mutableVector = accessibleChildren;
-                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
-                    count$iv$iv2++;
-                    if (count$iv$iv2 == 1) {
-                    } else {
-                    }
-                    if (i8 == 0) {
-                    } else {
-                    }
-                    count$iv$iv3 = count$iv$iv2;
                     $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                    $i$f$getFocusTargetOLwlOKw++;
+                    if ($i$f$getFocusTargetOLwlOKw == 1) {
+                    } else {
+                    }
+                    if (i2 == 0) {
+                    } else {
+                    }
+                    count$iv$iv2 = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                     capacity$iv$iv$iv$iv = 0;
-                    count$iv$iv = i8;
-                    $this$visitChildren_u2d6rFNWt0$iv2 = node$iv$iv2;
-                    if ($this$visitChildren_u2d6rFNWt0$iv2 != null && count$iv$iv != 0) {
+                    count$iv$iv = i2;
+                    $this$visitChildren_u2d6rFNWt0$iv = node$iv$iv3;
+                    if ($this$visitChildren_u2d6rFNWt0$iv != null && count$iv$iv != 0) {
                     }
                     if (count$iv$iv != 0) {
                     } else {
                     }
                     next$iv$iv = node;
-                    i8 = count$iv$iv;
-                    count$iv$iv2 = count$iv$iv3;
+                    i2 = count$iv$iv;
+                    $i$f$getFocusTargetOLwlOKw = count$iv$iv2;
                     count$iv$iv.add(node);
                     if (count$iv$iv != 0) {
                     }
-                    node$iv$iv2 = 0;
-                    count$iv$iv.add($this$visitChildren_u2d6rFNWt0$iv2);
+                    node$iv$iv3 = 0;
+                    count$iv$iv.add($this$visitChildren_u2d6rFNWt0$iv);
                     this_$iv$iv$iv = i14;
                     $i$f$mutableVectorOf = 16;
-                    i4 = 0;
-                    count$iv$iv3 = count$iv$iv2;
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                    i = $i$f$mutableVectorOf;
+                    i6 = 0;
+                    count$iv$iv2 = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                    i5 = $i$f$mutableVectorOf;
                     count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv2 = node;
-                    $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                    node$iv$iv3 = node;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                     next$iv$iv = node;
                     this_$iv$iv$iv = 1;
                 }
-                i11 = 1;
-                if (count$iv$iv2 == i11) {
+                i3 = 1;
+                if ($i$f$getFocusTargetOLwlOKw == i3) {
                 } else {
                 }
-                i3 = i11;
-                count$iv$iv2 = type$iv;
-                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                i7 = i3;
+                $i$f$getFocusTargetOLwlOKw = type$iv;
+                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
                 mutableVector = accessibleChildren;
                 node = node$iv$iv$iv;
+                i11 = 0;
                 i6 = 0;
-                i4 = 0;
                 if (kindSet$ui_release3 &= type$iv != 0) {
                 } else {
                 }
@@ -564,79 +564,79 @@ public final class TwoDimensionalFocusSearchKt {
                 if (this_$iv$iv$iv != 0) {
                 } else {
                 }
-                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                 next$iv$iv = node;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 mutableVector = accessibleChildren;
-                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
-                count$iv$iv2++;
-                if (count$iv$iv2 == 1) {
-                } else {
-                }
-                if (i8 == 0) {
-                } else {
-                }
-                count$iv$iv3 = count$iv$iv2;
                 $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                $i$f$getFocusTargetOLwlOKw++;
+                if ($i$f$getFocusTargetOLwlOKw == 1) {
+                } else {
+                }
+                if (i2 == 0) {
+                } else {
+                }
+                count$iv$iv2 = $i$f$getFocusTargetOLwlOKw;
+                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                 capacity$iv$iv$iv$iv = 0;
-                count$iv$iv = i8;
-                $this$visitChildren_u2d6rFNWt0$iv2 = node$iv$iv2;
-                if ($this$visitChildren_u2d6rFNWt0$iv2 != null && count$iv$iv != 0) {
+                count$iv$iv = i2;
+                $this$visitChildren_u2d6rFNWt0$iv = node$iv$iv3;
+                if ($this$visitChildren_u2d6rFNWt0$iv != null && count$iv$iv != 0) {
                 }
                 if (count$iv$iv != 0) {
                 } else {
                 }
                 next$iv$iv = node;
-                i8 = count$iv$iv;
-                count$iv$iv2 = count$iv$iv3;
+                i2 = count$iv$iv;
+                $i$f$getFocusTargetOLwlOKw = count$iv$iv2;
                 count$iv$iv.add(node);
                 if (count$iv$iv != 0) {
                 }
-                node$iv$iv2 = 0;
-                count$iv$iv.add($this$visitChildren_u2d6rFNWt0$iv2);
+                node$iv$iv3 = 0;
+                count$iv$iv.add($this$visitChildren_u2d6rFNWt0$iv);
                 this_$iv$iv$iv = i14;
                 $i$f$mutableVectorOf = 16;
-                i4 = 0;
-                count$iv$iv3 = count$iv$iv2;
-                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                i = $i$f$mutableVectorOf;
+                i6 = 0;
+                count$iv$iv2 = $i$f$getFocusTargetOLwlOKw;
+                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                i5 = $i$f$mutableVectorOf;
                 count$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv2 = node;
-                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
+                node$iv$iv3 = node;
+                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
                 next$iv$iv = node;
                 this_$iv$iv$iv = 1;
-                count$iv$iv2 = 1;
-                i5 = node$iv$iv2;
-                i7 = 0;
-                if ((FocusTargetNode)i5.isAttached()) {
+                $i$f$getFocusTargetOLwlOKw = 1;
+                i8 = node$iv$iv3;
+                i = 0;
+                if ((FocusTargetNode)i8.isAttached()) {
                 } else {
                 }
-                type$iv = count$iv$iv2;
-                $this$visitChildren_u2d6rFNWt0$iv = $this$visitChildren_u2d6rFNWt0$iv2;
-                i11 = 1;
-                if (DelegatableNodeKt.requireLayoutNode((DelegatableNode)i5).isDeactivated()) {
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                $this$visitChildren_u2d6rFNWt0$iv2 = $this$visitChildren_u2d6rFNWt0$iv;
+                i3 = 1;
+                if (DelegatableNodeKt.requireLayoutNode((DelegatableNode)i8).isDeactivated()) {
                 } else {
                 }
-                if (i5.fetchFocusProperties$ui_release().getCanFocus()) {
+                if (i8.fetchFocusProperties$ui_release().getCanFocus()) {
                 } else {
                 }
-                type$iv = count$iv$iv2;
-                TwoDimensionalFocusSearchKt.collectAccessibleChildren((DelegatableNode)i5, mutableVector);
-                mutableVector.add(i5);
-                type$iv = count$iv$iv2;
-                type$iv = count$iv$iv2;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                TwoDimensionalFocusSearchKt.collectAccessibleChildren((DelegatableNode)i8, mutableVector);
+                mutableVector.add(i8);
+                type$iv = $i$f$getFocusTargetOLwlOKw;
+                type$iv = $i$f$getFocusTargetOLwlOKw;
                 DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector3, node2);
             }
         }
-        int i24 = count$iv$iv2;
+        int i24 = $i$f$getFocusTargetOLwlOKw;
         int i12 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitChildren called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv = new IllegalStateException("visitChildren called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv;
     }
 
     private static final androidx.compose.ui.focus.FocusTargetNode findBestCandidate-4WY_MpI(MutableVector<androidx.compose.ui.focus.FocusTargetNode> $this$findBestCandidate_u2d4WY_MpI, Rect focusRect, int direction) {
-        int bestCandidate;
-        Rect bestCandidate2;
+        int bestCandidate2;
+        Rect bestCandidate;
         float f;
         int i$iv;
         Object[] content;
@@ -648,8 +648,8 @@ public final class TwoDimensionalFocusSearchKt {
         int i9 = 0;
         int i10 = 1;
         if (FocusDirection.equals-impl0(direction, FocusDirection.Companion.getLeft-dhqQ-8s())) {
-            bestCandidate2 = focusRect.translate(width += f, i9);
-            bestCandidate = 0;
+            bestCandidate = focusRect.translate(width += f, i9);
+            bestCandidate2 = 0;
             Object obj2 = $this$findBestCandidate_u2d4WY_MpI;
             int i11 = 0;
             final int size = obj2.getSize();
@@ -663,23 +663,23 @@ public final class TwoDimensionalFocusSearchKt {
                     if (i$iv++ < size) {
                     }
                     eligibleForFocusSearch = FocusTraversalKt.focusRect(obj);
-                    if (TwoDimensionalFocusSearchKt.isBetterCandidate-I7lrPNg(eligibleForFocusSearch, bestCandidate2, focusRect, direction)) {
+                    if (TwoDimensionalFocusSearchKt.isBetterCandidate-I7lrPNg(eligibleForFocusSearch, bestCandidate, focusRect, direction)) {
                     }
-                    bestCandidate2 = eligibleForFocusSearch;
-                    bestCandidate = obj;
+                    bestCandidate = eligibleForFocusSearch;
+                    bestCandidate2 = obj;
                 } while (FocusTraversalKt.isEligibleForFocusSearch((FocusTargetNode)obj));
             }
-            return bestCandidate;
+            return bestCandidate2;
         } else {
             if (FocusDirection.equals-impl0(direction, FocusDirection.Companion.getRight-dhqQ-8s())) {
-                bestCandidate2 = focusRect.translate(-i4, i9);
+                bestCandidate = focusRect.translate(-i4, i9);
             } else {
                 if (FocusDirection.equals-impl0(direction, FocusDirection.Companion.getUp-dhqQ-8s())) {
-                    bestCandidate2 = focusRect.translate(i9, height2 += f);
+                    bestCandidate = focusRect.translate(i9, height2 += f);
                 } else {
                     if (!FocusDirection.equals-impl0(direction, FocusDirection.Companion.getDown-dhqQ-8s())) {
                     } else {
-                        bestCandidate2 = focusRect.translate(i9, -i6);
+                        bestCandidate = focusRect.translate(i9, -i6);
                     }
                 }
             }
@@ -689,32 +689,32 @@ public final class TwoDimensionalFocusSearchKt {
     }
 
     public static final boolean findChildCorrespondingToFocusEnter--OM-vw8(androidx.compose.ui.focus.FocusTargetNode $this$findChildCorrespondingToFocusEnter_u2d_u2dOM_u2dvw8, int direction, Function1<? super androidx.compose.ui.focus.FocusTargetNode, Boolean> onFound) {
-        MutableVector mutableVector;
+        MutableVector mutableVector2;
         int right-dhqQ-8s;
         int invoke;
         Rect bottomRight;
-        boolean equals-impl0;
+        boolean equals-impl02;
         Object index$iv$iv;
-        int equals-impl02;
+        int equals-impl0;
         int it;
-        MutableVector mutableVector2;
+        MutableVector mutableVector;
         int invoke2;
         Object obj;
         int i2 = 0;
         MutableVector mutableVector3 = new MutableVector(new FocusTargetNode[16], 0);
         TwoDimensionalFocusSearchKt.collectAccessibleChildren((DelegatableNode)$this$findChildCorrespondingToFocusEnter_u2d_u2dOM_u2dvw8, mutableVector3);
-        equals-impl0 = 1;
-        if (mutableVector3.getSize() <= equals-impl0) {
-            mutableVector = mutableVector3;
+        equals-impl02 = 1;
+        if (mutableVector3.getSize() <= equals-impl02) {
+            mutableVector2 = mutableVector3;
             invoke = 0;
-            if (mutableVector.isEmpty()) {
+            if (mutableVector2.isEmpty()) {
                 index$iv$iv = 0;
             } else {
                 invoke2 = 0;
                 index$iv$iv = obj;
             }
             if ((FocusTargetNode)index$iv$iv != null) {
-                mutableVector = 0;
+                mutableVector2 = 0;
                 it = (Boolean)onFound.invoke((FocusTargetNode)index$iv$iv).booleanValue();
             }
             return it;
@@ -725,24 +725,24 @@ public final class TwoDimensionalFocusSearchKt {
             right-dhqQ-8s = direction;
         }
         if (FocusDirection.equals-impl0(right-dhqQ-8s, FocusDirection.Companion.getRight-dhqQ-8s())) {
-            equals-impl02 = equals-impl0;
+            equals-impl0 = equals-impl02;
         } else {
-            equals-impl02 = FocusDirection.equals-impl0(right-dhqQ-8s, FocusDirection.Companion.getDown-dhqQ-8s());
+            equals-impl0 = FocusDirection.equals-impl0(right-dhqQ-8s, FocusDirection.Companion.getDown-dhqQ-8s());
         }
-        if (equals-impl02 != 0) {
+        if (equals-impl0 != 0) {
             bottomRight = TwoDimensionalFocusSearchKt.topLeft(FocusTraversalKt.focusRect($this$findChildCorrespondingToFocusEnter_u2d_u2dOM_u2dvw8));
             androidx.compose.ui.focus.FocusTargetNode bestCandidate-4WY_MpI = TwoDimensionalFocusSearchKt.findBestCandidate-4WY_MpI(mutableVector3, bottomRight, right-dhqQ-8s);
             if (bestCandidate-4WY_MpI != null) {
-                mutableVector2 = 0;
+                mutableVector = 0;
                 it = (Boolean)onFound.invoke(bestCandidate-4WY_MpI).booleanValue();
             }
             return it;
         } else {
             if (FocusDirection.equals-impl0(right-dhqQ-8s, FocusDirection.Companion.getLeft-dhqQ-8s())) {
             } else {
-                equals-impl0 = FocusDirection.equals-impl0(right-dhqQ-8s, FocusDirection.Companion.getUp-dhqQ-8s());
+                equals-impl02 = FocusDirection.equals-impl0(right-dhqQ-8s, FocusDirection.Companion.getUp-dhqQ-8s());
             }
-            if (!equals-impl0) {
+            if (!equals-impl02) {
             } else {
                 bottomRight = TwoDimensionalFocusSearchKt.bottomRight(FocusTraversalKt.focusRect($this$findChildCorrespondingToFocusEnter_u2d_u2dOM_u2dvw8));
             }
@@ -768,30 +768,30 @@ public final class TwoDimensionalFocusSearchKt {
 
     private static final boolean isBetterCandidate-I7lrPNg(Rect proposedCandidate, Rect currentCandidate, Rect focusedRect, int direction) {
         boolean betterCandidate_I7lrPNg$isCandidate;
-        int i;
         int i2;
-        long betterCandidate_I7lrPNg$weightedDistance;
+        int i;
         long betterCandidate_I7lrPNg$weightedDistance2;
-        i = 0;
+        long betterCandidate_I7lrPNg$weightedDistance;
+        i2 = 0;
         if (!TwoDimensionalFocusSearchKt.isBetterCandidate_I7lrPNg$isCandidate(proposedCandidate, direction, focusedRect)) {
         } else {
-            i2 = 1;
+            i = 1;
             if (!TwoDimensionalFocusSearchKt.isBetterCandidate_I7lrPNg$isCandidate(currentCandidate, direction, focusedRect)) {
-                i = i2;
+                i2 = i;
             } else {
                 if (TwoDimensionalFocusSearchKt.beamBeats-I7lrPNg(focusedRect, proposedCandidate, currentCandidate, direction)) {
-                    i = i2;
+                    i2 = i;
                 } else {
                     if (TwoDimensionalFocusSearchKt.beamBeats-I7lrPNg(focusedRect, currentCandidate, proposedCandidate, direction)) {
                     } else {
-                        if (Long.compare(betterCandidate_I7lrPNg$weightedDistance, betterCandidate_I7lrPNg$weightedDistance2) < 0) {
-                            i = i2;
+                        if (Long.compare(betterCandidate_I7lrPNg$weightedDistance2, betterCandidate_I7lrPNg$weightedDistance) < 0) {
+                            i2 = i;
                         }
                     }
                 }
             }
         }
-        return i;
+        return i2;
     }
 
     private static final boolean isBetterCandidate_I7lrPNg$isCandidate(Rect $this$isBetterCandidate_I7lrPNg_u24isCandidate, int $direction, Rect $focusedRect) {
@@ -885,10 +885,10 @@ public final class TwoDimensionalFocusSearchKt {
         boolean equals-impl0;
         int i2;
         int down-dhqQ-8s;
-        int i3;
+        int i;
         boolean equals-impl02;
         float f;
-        int i;
+        int i3;
         if (FocusDirection.equals-impl0($direction, FocusDirection.Companion.getLeft-dhqQ-8s())) {
             equals-impl0 = equals-impl02;
         } else {
@@ -897,7 +897,7 @@ public final class TwoDimensionalFocusSearchKt {
         int i8 = 2;
         if (equals-impl0) {
             f = (float)i8;
-            i5 -= i3;
+            i5 -= i;
             return i2;
         } else {
             if (FocusDirection.equals-impl0($direction, FocusDirection.Companion.getUp-dhqQ-8s())) {
@@ -907,7 +907,7 @@ public final class TwoDimensionalFocusSearchKt {
             if (!equals-impl02) {
             } else {
                 f = (float)i8;
-                i4 -= i3;
+                i4 -= i;
             }
         }
         IllegalStateException illegalStateException = new IllegalStateException("This function should only be used for 2-D focus search".toString());
@@ -922,416 +922,416 @@ public final class TwoDimensionalFocusSearchKt {
 
     private static final boolean searchChildren-4C6V_qg(androidx.compose.ui.focus.FocusTargetNode $this$searchChildren_u2d4C6V_qg, Rect focusedItem, int direction, Function1<? super androidx.compose.ui.focus.FocusTargetNode, Boolean> onFound) {
         MutableVector capacity$iv;
-        MutableVector branches$iv$iv;
-        Modifier.Node child$iv$iv;
+        MutableVector $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
         Modifier.Node child$iv$iv2;
-        int i2;
-        Object node$iv$iv2;
-        int node2;
+        Modifier.Node child$iv$iv;
+        int i9;
+        Object node$iv$iv;
+        int node3;
         int count$iv$iv;
-        int this_$iv$iv$iv;
+        int this_$iv$iv$iv2;
         int node$iv$iv3;
         int size;
-        int i6;
+        int i5;
         Object obj2;
-        int i3;
-        int i8;
-        Object node$iv$iv;
-        int i9;
+        int i4;
+        int i6;
+        Object node$iv$iv2;
+        int i;
         Object obj;
         int attached;
         Modifier.Node node$iv$iv$iv;
-        Modifier.Node node3;
-        int i5;
+        Modifier.Node node2;
+        int i2;
         MutableVector $this$searchChildren_4C6V_qg_u24lambda_u243;
-        int this_$iv$iv$iv2;
-        int i7;
-        int i;
-        MutableVector branches$iv$iv2;
+        int this_$iv$iv$iv;
+        int i3;
+        int i8;
+        MutableVector branches$iv$iv;
         Modifier.Node node;
-        int i4;
+        int i7;
         final Rect rect = focusedItem;
         final int i10 = direction;
         final Function1 function1 = onFound;
         int i13 = 0;
-        i2 = 0;
-        MutableVector mutableVector2 = new MutableVector(new FocusTargetNode[16], i2);
+        i9 = 0;
+        MutableVector mutableVector2 = new MutableVector(new FocusTargetNode[16], i9);
         int i14 = 0;
         int i15 = 0;
-        int constructor-impl = NodeKind.constructor-impl(1024);
+        int $i$f$getFocusTargetOLwlOKw = NodeKind.constructor-impl(1024);
         int i17 = 0;
-        final int i18 = constructor-impl;
+        final int i18 = $i$f$getFocusTargetOLwlOKw;
         final DelegatableNode delegatableNode2 = delegatableNode;
         final int i19 = 0;
         if (!delegatableNode2.getNode().isAttached()) {
         } else {
-            node2 = 0;
+            node3 = 0;
             node$iv$iv3 = 0;
             int i22 = i14;
-            branches$iv$iv = new MutableVector(new Modifier.Node[16], i2);
-            child$iv$iv = delegatableNode2.getNode().getChild$ui_release();
-            if (child$iv$iv == null) {
-                DelegatableNodeKt.access$addLayoutNodeChildren(branches$iv$iv, delegatableNode2.getNode());
+            $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = new MutableVector(new Modifier.Node[16], i9);
+            child$iv$iv2 = delegatableNode2.getNode().getChild$ui_release();
+            if (child$iv$iv2 == null) {
+                DelegatableNodeKt.access$addLayoutNodeChildren($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1, delegatableNode2.getNode());
             } else {
-                branches$iv$iv.add(child$iv$iv);
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(child$iv$iv2);
             }
             count$iv$iv = 1;
-            while (branches$iv$iv.isNotEmpty()) {
+            while ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.isNotEmpty()) {
                 int i20 = 0;
-                node2 = branches$iv$iv.removeAt(size + -1);
+                node3 = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.removeAt(size + -1);
                 if (aggregateChildKindSet$ui_release &= i18 == 0) {
                 } else {
                 }
-                node$iv$iv3 = node2;
+                node$iv$iv3 = node3;
                 while (node$iv$iv3 != null) {
                     $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
                     node$iv$iv3 = node$iv$iv3.getChild$ui_release();
-                    i2 = 0;
+                    i9 = 0;
                     count$iv$iv = 1;
                 }
                 $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
-                i2 = 0;
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
+                i9 = 0;
                 count$iv$iv = 1;
                 if (kindSet$ui_release &= i18 != 0) {
                 } else {
                 }
                 $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
                 node$iv$iv3 = node$iv$iv3.getChild$ui_release();
-                i2 = 0;
+                i9 = 0;
                 count$iv$iv = 1;
+                i5 = 0;
+                i4 = 0;
                 i6 = 0;
-                i3 = 0;
-                i8 = 0;
                 int i23 = 0;
-                node$iv$iv2 = node$iv$iv;
-                while (node$iv$iv2 != null) {
-                    if (node$iv$iv2 instanceof FocusTargetNode) {
+                node$iv$iv = node$iv$iv2;
+                while (node$iv$iv != null) {
+                    if (node$iv$iv instanceof FocusTargetNode) {
                     } else {
                     }
                     obj = 0;
-                    if (kindSet$ui_release2 &= constructor-impl != 0) {
-                    } else {
-                    }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0 && node$iv$iv2 instanceof DelegatingNode) {
-                    } else {
-                    }
-                    $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    node$iv$iv2 = DelegatableNodeKt.access$pop(i8);
-                    capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
-                    branches$iv$iv = branches$iv$iv2;
-                    child$iv$iv = node;
-                    count$iv$iv = 1;
-                    if (node$iv$iv2 instanceof DelegatingNode) {
-                    } else {
-                    }
-                    this_$iv$iv$iv = 0;
-                    attached = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
-                    while (node$iv$iv$iv != null) {
-                        node3 = node$iv$iv$iv;
-                        i5 = 0;
-                        i7 = 0;
-                        if (kindSet$ui_release3 &= constructor-impl != 0) {
-                        } else {
-                        }
-                        this_$iv$iv$iv2 = 0;
-                        if (this_$iv$iv$iv2 != 0) {
-                        } else {
-                        }
-                        $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                        branches$iv$iv2 = branches$iv$iv;
-                        node = child$iv$iv;
-                        child$iv$iv2 = node3;
-                        node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
-                        branches$iv$iv = branches$iv$iv2;
-                        child$iv$iv = node;
-                        $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                        if (this_$iv$iv$iv++ == 1) {
-                        } else {
-                        }
-                        if (i8 == 0) {
-                        } else {
-                        }
-                        branches$iv$iv2 = branches$iv$iv;
-                        node = child$iv$iv;
-                        branches$iv$iv = i8;
-                        capacity$iv = node$iv$iv2;
-                        if (capacity$iv != null && branches$iv$iv != 0) {
-                        }
-                        if (branches$iv$iv != 0) {
-                        } else {
-                        }
-                        child$iv$iv2 = node3;
-                        i8 = branches$iv$iv;
-                        branches$iv$iv.add(node3);
-                        if (branches$iv$iv != 0) {
-                        }
-                        node$iv$iv2 = child$iv$iv;
-                        branches$iv$iv.add(capacity$iv);
-                        i7 = i12;
-                        int $i$f$mutableVectorOf = 16;
-                        i = 0;
-                        branches$iv$iv2 = branches$iv$iv;
-                        node = child$iv$iv;
-                        i4 = $i$f$mutableVectorOf;
-                        branches$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        node$iv$iv2 = node3;
-                        branches$iv$iv2 = branches$iv$iv;
-                        node = child$iv$iv;
-                        child$iv$iv2 = node3;
-                        this_$iv$iv$iv2 = 1;
-                    }
-                    if (this_$iv$iv$iv == 1) {
-                    } else {
-                    }
-                    capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
-                    branches$iv$iv = branches$iv$iv2;
-                    child$iv$iv = node;
-                    count$iv$iv = 1;
-                    node3 = node$iv$iv$iv;
-                    i5 = 0;
-                    i7 = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv2 = 0;
-                    if (this_$iv$iv$iv2 != 0) {
+                    if (this_$iv$iv$iv2 != 0 && node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
                     $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    child$iv$iv2 = node3;
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    node$iv$iv = DelegatableNodeKt.access$pop(i6);
+                    capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = branches$iv$iv;
+                    child$iv$iv2 = node;
+                    count$iv$iv = 1;
+                    if (node$iv$iv instanceof DelegatingNode) {
+                    } else {
+                    }
+                    this_$iv$iv$iv2 = 0;
+                    attached = 0;
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
+                    while (node$iv$iv$iv != null) {
+                        node2 = node$iv$iv$iv;
+                        i2 = 0;
+                        i3 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
+                        } else {
+                        }
+                        this_$iv$iv$iv = 0;
+                        if (this_$iv$iv$iv != 0) {
+                        } else {
+                        }
+                        $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
+                        branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                        node = child$iv$iv2;
+                        child$iv$iv = node2;
+                        node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
+                        capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
+                        $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = branches$iv$iv;
+                        child$iv$iv2 = node;
+                        $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
+                        if (this_$iv$iv$iv2++ == 1) {
+                        } else {
+                        }
+                        if (i6 == 0) {
+                        } else {
+                        }
+                        branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                        node = child$iv$iv2;
+                        $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = i6;
+                        capacity$iv = node$iv$iv;
+                        if (capacity$iv != null && $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
+                        }
+                        if ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
+                        } else {
+                        }
+                        child$iv$iv = node2;
+                        i6 = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                        $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(node2);
+                        if ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
+                        }
+                        node$iv$iv = child$iv$iv2;
+                        $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(capacity$iv);
+                        i3 = i12;
+                        int $i$f$mutableVectorOf = 16;
+                        i8 = 0;
+                        branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                        node = child$iv$iv2;
+                        i7 = $i$f$mutableVectorOf;
+                        $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        node$iv$iv = node2;
+                        branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                        node = child$iv$iv2;
+                        child$iv$iv = node2;
+                        this_$iv$iv$iv = 1;
+                    }
+                    if (this_$iv$iv$iv2 == 1) {
+                    } else {
+                    }
+                    capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = branches$iv$iv;
+                    child$iv$iv2 = node;
+                    count$iv$iv = 1;
+                    node2 = node$iv$iv$iv;
+                    i2 = 0;
+                    i3 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
+                    } else {
+                    }
+                    this_$iv$iv$iv = 0;
+                    if (this_$iv$iv$iv != 0) {
+                    } else {
+                    }
+                    $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    child$iv$iv = node2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
-                    branches$iv$iv = branches$iv$iv2;
-                    child$iv$iv = node;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = branches$iv$iv;
+                    child$iv$iv2 = node;
                     $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                    if (this_$iv$iv$iv++ == 1) {
+                    if (this_$iv$iv$iv2++ == 1) {
                     } else {
                     }
-                    if (i8 == 0) {
+                    if (i6 == 0) {
                     } else {
                     }
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    branches$iv$iv = i8;
-                    capacity$iv = node$iv$iv2;
-                    if (capacity$iv != null && branches$iv$iv != 0) {
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = i6;
+                    capacity$iv = node$iv$iv;
+                    if (capacity$iv != null && $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
                     }
-                    if (branches$iv$iv != 0) {
+                    if ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
                     } else {
                     }
-                    child$iv$iv2 = node3;
-                    i8 = branches$iv$iv;
-                    branches$iv$iv.add(node3);
-                    if (branches$iv$iv != 0) {
+                    child$iv$iv = node2;
+                    i6 = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(node2);
+                    if ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
                     }
-                    node$iv$iv2 = child$iv$iv;
-                    branches$iv$iv.add(capacity$iv);
-                    i7 = i12;
+                    node$iv$iv = child$iv$iv2;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(capacity$iv);
+                    i3 = i12;
                     $i$f$mutableVectorOf = 16;
-                    i = 0;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    i4 = $i$f$mutableVectorOf;
-                    branches$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv2 = node3;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    child$iv$iv2 = node3;
-                    this_$iv$iv$iv2 = 1;
+                    i8 = 0;
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    i7 = $i$f$mutableVectorOf;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv = node2;
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    child$iv$iv = node2;
                     this_$iv$iv$iv = 1;
-                    this_$iv$iv$iv = node$iv$iv2;
+                    this_$iv$iv$iv2 = 1;
+                    this_$iv$iv$iv2 = node$iv$iv;
                     obj = 0;
-                    if ((FocusTargetNode)this_$iv$iv$iv.isAttached()) {
+                    if ((FocusTargetNode)this_$iv$iv$iv2.isAttached()) {
                     }
                     $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    capacity$iv.add(this_$iv$iv$iv);
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    capacity$iv.add(this_$iv$iv$iv2);
                 }
                 $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
-                i2 = 0;
-                if (node$iv$iv2 instanceof FocusTargetNode) {
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
+                i9 = 0;
+                if (node$iv$iv instanceof FocusTargetNode) {
                 } else {
                 }
                 obj = 0;
-                if (kindSet$ui_release2 &= constructor-impl != 0) {
-                } else {
-                }
-                this_$iv$iv$iv = 0;
-                if (this_$iv$iv$iv != 0 && node$iv$iv2 instanceof DelegatingNode) {
-                } else {
-                }
-                $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
-                node$iv$iv2 = DelegatableNodeKt.access$pop(i8);
-                capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
-                branches$iv$iv = branches$iv$iv2;
-                child$iv$iv = node;
-                count$iv$iv = 1;
-                if (node$iv$iv2 instanceof DelegatingNode) {
-                } else {
-                }
-                this_$iv$iv$iv = 0;
-                attached = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv2.getDelegate$ui_release();
-                while (node$iv$iv$iv != null) {
-                    node3 = node$iv$iv$iv;
-                    i5 = 0;
-                    i7 = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
-                    } else {
-                    }
-                    this_$iv$iv$iv2 = 0;
-                    if (this_$iv$iv$iv2 != 0) {
-                    } else {
-                    }
-                    $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    child$iv$iv2 = node3;
-                    node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
-                    branches$iv$iv = branches$iv$iv2;
-                    child$iv$iv = node;
-                    $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                    if (this_$iv$iv$iv++ == 1) {
-                    } else {
-                    }
-                    if (i8 == 0) {
-                    } else {
-                    }
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    branches$iv$iv = i8;
-                    capacity$iv = node$iv$iv2;
-                    if (capacity$iv != null && branches$iv$iv != 0) {
-                    }
-                    if (branches$iv$iv != 0) {
-                    } else {
-                    }
-                    child$iv$iv2 = node3;
-                    i8 = branches$iv$iv;
-                    branches$iv$iv.add(node3);
-                    if (branches$iv$iv != 0) {
-                    }
-                    node$iv$iv2 = child$iv$iv;
-                    branches$iv$iv.add(capacity$iv);
-                    i7 = i12;
-                    $i$f$mutableVectorOf = 16;
-                    i = 0;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    i4 = $i$f$mutableVectorOf;
-                    branches$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                    node$iv$iv2 = node3;
-                    branches$iv$iv2 = branches$iv$iv;
-                    node = child$iv$iv;
-                    child$iv$iv2 = node3;
-                    this_$iv$iv$iv2 = 1;
-                }
-                if (this_$iv$iv$iv == 1) {
-                } else {
-                }
-                capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
-                branches$iv$iv = branches$iv$iv2;
-                child$iv$iv = node;
-                count$iv$iv = 1;
-                node3 = node$iv$iv$iv;
-                i5 = 0;
-                i7 = 0;
-                if (kindSet$ui_release3 &= constructor-impl != 0) {
+                if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv2 = 0;
-                if (this_$iv$iv$iv2 != 0) {
+                if (this_$iv$iv$iv2 != 0 && node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
                 $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
-                child$iv$iv2 = node3;
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
+                node$iv$iv = DelegatableNodeKt.access$pop(i6);
+                capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = branches$iv$iv;
+                child$iv$iv2 = node;
+                count$iv$iv = 1;
+                if (node$iv$iv instanceof DelegatingNode) {
+                } else {
+                }
+                this_$iv$iv$iv2 = 0;
+                attached = 0;
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
+                while (node$iv$iv$iv != null) {
+                    node2 = node$iv$iv$iv;
+                    i2 = 0;
+                    i3 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
+                    } else {
+                    }
+                    this_$iv$iv$iv = 0;
+                    if (this_$iv$iv$iv != 0) {
+                    } else {
+                    }
+                    $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    child$iv$iv = node2;
+                    node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
+                    capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = branches$iv$iv;
+                    child$iv$iv2 = node;
+                    $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
+                    if (this_$iv$iv$iv2++ == 1) {
+                    } else {
+                    }
+                    if (i6 == 0) {
+                    } else {
+                    }
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = i6;
+                    capacity$iv = node$iv$iv;
+                    if (capacity$iv != null && $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
+                    }
+                    if ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
+                    } else {
+                    }
+                    child$iv$iv = node2;
+                    i6 = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(node2);
+                    if ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
+                    }
+                    node$iv$iv = child$iv$iv2;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(capacity$iv);
+                    i3 = i12;
+                    $i$f$mutableVectorOf = 16;
+                    i8 = 0;
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    i7 = $i$f$mutableVectorOf;
+                    $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                    node$iv$iv = node2;
+                    branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                    node = child$iv$iv2;
+                    child$iv$iv = node2;
+                    this_$iv$iv$iv = 1;
+                }
+                if (this_$iv$iv$iv2 == 1) {
+                } else {
+                }
+                capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = branches$iv$iv;
+                child$iv$iv2 = node;
+                count$iv$iv = 1;
+                node2 = node$iv$iv$iv;
+                i2 = 0;
+                i3 = 0;
+                if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
+                } else {
+                }
+                this_$iv$iv$iv = 0;
+                if (this_$iv$iv$iv != 0) {
+                } else {
+                }
+                $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
+                child$iv$iv = node2;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 capacity$iv = $this$searchChildren_4C6V_qg_u24lambda_u243;
-                branches$iv$iv = branches$iv$iv2;
-                child$iv$iv = node;
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = branches$iv$iv;
+                child$iv$iv2 = node;
                 $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                if (this_$iv$iv$iv++ == 1) {
+                if (this_$iv$iv$iv2++ == 1) {
                 } else {
                 }
-                if (i8 == 0) {
+                if (i6 == 0) {
                 } else {
                 }
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
-                branches$iv$iv = i8;
-                capacity$iv = node$iv$iv2;
-                if (capacity$iv != null && branches$iv$iv != 0) {
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = i6;
+                capacity$iv = node$iv$iv;
+                if (capacity$iv != null && $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
                 }
-                if (branches$iv$iv != 0) {
+                if ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
                 } else {
                 }
-                child$iv$iv2 = node3;
-                i8 = branches$iv$iv;
-                branches$iv$iv.add(node3);
-                if (branches$iv$iv != 0) {
+                child$iv$iv = node2;
+                i6 = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(node2);
+                if ($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 != 0) {
                 }
-                node$iv$iv2 = child$iv$iv;
-                branches$iv$iv.add(capacity$iv);
-                i7 = i12;
+                node$iv$iv = child$iv$iv2;
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1.add(capacity$iv);
+                i3 = i12;
                 $i$f$mutableVectorOf = 16;
-                i = 0;
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
-                i4 = $i$f$mutableVectorOf;
-                branches$iv$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                node$iv$iv2 = node3;
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
-                child$iv$iv2 = node3;
-                this_$iv$iv$iv2 = 1;
+                i8 = 0;
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
+                i7 = $i$f$mutableVectorOf;
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                node$iv$iv = node2;
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
+                child$iv$iv = node2;
                 this_$iv$iv$iv = 1;
-                this_$iv$iv$iv = node$iv$iv2;
+                this_$iv$iv$iv2 = 1;
+                this_$iv$iv$iv2 = node$iv$iv;
                 obj = 0;
-                if ((FocusTargetNode)this_$iv$iv$iv.isAttached()) {
+                if ((FocusTargetNode)this_$iv$iv$iv2.isAttached()) {
                 }
                 $this$searchChildren_4C6V_qg_u24lambda_u243 = capacity$iv;
-                branches$iv$iv2 = branches$iv$iv;
-                node = child$iv$iv;
-                capacity$iv.add(this_$iv$iv$iv);
-                DelegatableNodeKt.access$addLayoutNodeChildren(branches$iv$iv, node2);
+                branches$iv$iv = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+                node = child$iv$iv2;
+                capacity$iv.add(this_$iv$iv$iv2);
+                DelegatableNodeKt.access$addLayoutNodeChildren($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1, node3);
             }
             MutableVector $this$searchChildren_4C6V_qg_u24lambda_u2433 = capacity$iv;
-            MutableVector mutableVector6 = branches$iv$iv;
-            Modifier.Node node7 = child$iv$iv;
+            MutableVector mutableVector6 = $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1;
+            Modifier.Node node7 = child$iv$iv2;
             MutableVector mutableVector = mutableVector4;
             while (mutableVector.isNotEmpty()) {
-                branches$iv$iv = TwoDimensionalFocusSearchKt.findBestCandidate-4WY_MpI(mutableVector, rect, i10);
-                i9 = 1;
-                mutableVector.remove(branches$iv$iv);
+                $i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1 = TwoDimensionalFocusSearchKt.findBestCandidate-4WY_MpI(mutableVector, rect, i10);
+                i = 1;
+                mutableVector.remove($i$a$ApplyTwoDimensionalFocusSearchKt$searchChildren$children$1);
             }
             return 0;
         }
         MutableVector mutableVector5 = capacity$iv;
         int i21 = i14;
         int $this$searchChildren_4C6V_qg_u24lambda_u2432 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitChildren called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv = new IllegalStateException("visitChildren called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv;
     }
 
     private static final Rect topLeft(Rect $this$topLeft) {
@@ -1341,8 +1341,8 @@ public final class TwoDimensionalFocusSearchKt {
 
     public static final Boolean twoDimensionalFocusSearch-sMXa3k8(androidx.compose.ui.focus.FocusTargetNode $this$twoDimensionalFocusSearch_u2dsMXa3k8, int direction, Rect previouslyFocusedRect, Function1<? super androidx.compose.ui.focus.FocusTargetNode, Boolean> onFound) {
         Object valueOf;
-        Rect focusRect;
         Rect focusRect2;
+        Rect focusRect;
         switch (i2) {
             case 1:
                 androidx.compose.ui.focus.FocusTargetNode activeChild = FocusTraversalKt.getActiveChild($this$twoDimensionalFocusSearch_u2dsMXa3k8);
@@ -1351,14 +1351,14 @@ public final class TwoDimensionalFocusSearchKt {
                 throw noWhenBranchMatchedException2;
                 IllegalStateException illegalStateException = new IllegalStateException(str.toString());
                 throw illegalStateException;
-                focusRect = FocusTraversalKt.focusRect(activeChild);
-                focusRect = previouslyFocusedRect;
-                return Boolean.valueOf(TwoDimensionalFocusSearchKt.generateAndSearchChildren-4C6V_qg($this$twoDimensionalFocusSearch_u2dsMXa3k8, focusRect, direction, onFound));
-                Boolean twoDimensionalFocusSearch-sMXa3k8 = TwoDimensionalFocusSearchKt.twoDimensionalFocusSearch-sMXa3k8(activeChild, direction, previouslyFocusedRect, onFound);
-                return twoDimensionalFocusSearch-sMXa3k8;
-                focusRect2 = FocusTraversalKt.focusRect(TwoDimensionalFocusSearchKt.activeNode(activeChild));
+                focusRect2 = FocusTraversalKt.focusRect(activeChild);
                 focusRect2 = previouslyFocusedRect;
                 return Boolean.valueOf(TwoDimensionalFocusSearchKt.generateAndSearchChildren-4C6V_qg($this$twoDimensionalFocusSearch_u2dsMXa3k8, focusRect2, direction, onFound));
+                Boolean twoDimensionalFocusSearch-sMXa3k8 = TwoDimensionalFocusSearchKt.twoDimensionalFocusSearch-sMXa3k8(activeChild, direction, previouslyFocusedRect, onFound);
+                return twoDimensionalFocusSearch-sMXa3k8;
+                focusRect = FocusTraversalKt.focusRect(TwoDimensionalFocusSearchKt.activeNode(activeChild));
+                focusRect = previouslyFocusedRect;
+                return Boolean.valueOf(TwoDimensionalFocusSearchKt.generateAndSearchChildren-4C6V_qg($this$twoDimensionalFocusSearch_u2dsMXa3k8, focusRect, direction, onFound));
                 IllegalStateException focusedChild = new IllegalStateException(str.toString());
                 throw focusedChild;
             case 2:

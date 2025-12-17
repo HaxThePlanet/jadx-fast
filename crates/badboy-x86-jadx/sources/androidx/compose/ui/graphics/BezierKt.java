@@ -21,11 +21,11 @@ public final class BezierKt {
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal3;
-            int ordinal2;
-            int ordinal4;
-            int ordinal5;
             int ordinal7;
+            int ordinal4;
+            int ordinal2;
+            int ordinal3;
+            int ordinal5;
             int ordinal6;
             int[] iArr = new int[values.length];
             iArr[PathSegment.Type.Move.ordinal()] = 1;
@@ -83,8 +83,8 @@ public final class BezierKt {
         float[] fArr;
         float minY;
         float maxY;
-        int i2;
         int i;
+        int i2;
         final int i3 = p0y;
         final int i4 = p1y;
         final int i5 = p2y;
@@ -101,12 +101,12 @@ public final class BezierKt {
         int i21 = 0;
         minY = Math.min(i3, i6);
         maxY = Math.max(i3, i6);
-        i2 = 0;
-        while (i2 < quadraticRoots += index$iv) {
-            float evaluateCubic = BezierKt.evaluateCubic(i3, i4, i5, i6, fArr[i2]);
+        i = 0;
+        while (i < quadraticRoots += index$iv) {
+            float evaluateCubic = BezierKt.evaluateCubic(i3, i4, i5, i6, fArr[i]);
             minY = Math.min(minY, evaluateCubic);
             maxY = Math.max(maxY, evaluateCubic);
-            i2++;
+            i++;
             fArr = roots;
         }
         return FloatFloatPair.constructor-impl(minY, maxY);
@@ -122,20 +122,20 @@ public final class BezierKt {
     public static final long computeHorizontalBounds(androidx.compose.ui.graphics.PathSegment segment, float[] roots, int index) {
         float minX;
         float maxX;
-        int i;
         int i2;
+        int i;
         float[] evaluateX;
         int i4 = 0;
-        i2 = 0;
-        minX = Math.min(segment.getPoints()[i2], BezierKt.getEndX(segment));
-        int i5 = 0;
-        maxX = Math.max(segment.getPoints()[i2], BezierKt.getEndX(segment));
         i = 0;
-        while (i < BezierKt.findDerivativeRoots(segment, true, roots, index)) {
-            evaluateX = BezierKt.evaluateX(segment, roots[i]);
+        minX = Math.min(segment.getPoints()[i], BezierKt.getEndX(segment));
+        int i5 = 0;
+        maxX = Math.max(segment.getPoints()[i], BezierKt.getEndX(segment));
+        i2 = 0;
+        while (i2 < BezierKt.findDerivativeRoots(segment, true, roots, index)) {
+            evaluateX = BezierKt.evaluateX(segment, roots[i2]);
             minX = Math.min(minX, evaluateX);
             maxX = Math.max(maxX, evaluateX);
-            i++;
+            i2++;
         }
         return FloatFloatPair.constructor-impl(minX, maxX);
     }
@@ -151,20 +151,20 @@ public final class BezierKt {
     public static final long computeVerticalBounds(androidx.compose.ui.graphics.PathSegment segment, float[] roots, int index) {
         float minY;
         float maxY;
-        int i;
         int i2;
+        int i;
         float[] evaluateY;
         int i4 = 0;
-        i2 = 1;
-        minY = Math.min(segment.getPoints()[i2], BezierKt.getEndY(segment));
+        i = 1;
+        minY = Math.min(segment.getPoints()[i], BezierKt.getEndY(segment));
         int i5 = 0;
-        maxY = Math.max(segment.getPoints()[i2], BezierKt.getEndY(segment));
-        i = 0;
-        while (i < BezierKt.findDerivativeRoots(segment, false, roots, index)) {
-            evaluateY = BezierKt.evaluateY(segment, roots[i]);
+        maxY = Math.max(segment.getPoints()[i], BezierKt.getEndY(segment));
+        i2 = 0;
+        while (i2 < BezierKt.findDerivativeRoots(segment, false, roots, index)) {
+            evaluateY = BezierKt.evaluateY(segment, roots[i2]);
             minY = Math.min(minY, evaluateY);
             maxY = Math.max(maxY, evaluateY);
-            i++;
+            i2++;
         }
         return FloatFloatPair.constructor-impl(minY, maxY);
     }
@@ -188,12 +188,12 @@ public final class BezierKt {
         float[] src;
         int i2;
         float f;
-        int i;
+        int i6;
+        int i5;
         int i3;
         int i4;
-        int i5;
         int $this$fastCoerceAtMost$iv$iv;
-        int i6;
+        int i;
         int cmp;
         final int cubicExtremaY = BezierKt.findCubicExtremaY(cubic, tmpRoot);
         if (cubicExtremaY == 0) {
@@ -205,22 +205,22 @@ public final class BezierKt {
             src = cubic;
             i2 = 0;
             while (i2 < cubicExtremaY) {
-                i3 = 0;
-                i4 = 1065353216;
                 i5 = 0;
+                i3 = 1065353216;
+                i4 = 0;
                 int i10 = 0;
-                if (Float.compare($this$fastCoerceAtMost$iv$iv, i3) < 0) {
+                if (Float.compare($this$fastCoerceAtMost$iv$iv, i5) < 0) {
                 }
-                i6 = 0;
-                if (Float.compare($this$fastCoerceAtMost$iv$iv, i4) > 0) {
+                i = 0;
+                if (Float.compare($this$fastCoerceAtMost$iv$iv, i3) > 0) {
                 }
                 lastT = $this$fastCoerceAtMost$iv$iv;
                 BezierKt.splitCubicAt(src, dstOffset, dst, dstOffset, $this$fastCoerceAtMost$iv$iv);
                 src = dst;
                 dstOffset += 6;
                 i2++;
-                $this$fastCoerceAtMost$iv$iv = i4;
                 $this$fastCoerceAtMost$iv$iv = i3;
+                $this$fastCoerceAtMost$iv$iv = i5;
             }
         }
         return cubicExtremaY;
@@ -292,16 +292,16 @@ public final class BezierKt {
     }
 
     public static final float evaluateY(androidx.compose.ui.graphics.PathSegment segment, float t) {
-        float i2;
         float i;
+        float i2;
         float evaluateQuadratic;
         int i3;
         final float[] points2 = segment.getPoints();
-        i = 5;
+        i2 = 5;
         evaluateQuadratic = 2143289344;
         i3 = 3;
         final int i5 = 1;
-        switch (i2) {
+        switch (i) {
             case 1:
                 evaluateQuadratic = points2[i5];
                 break;
@@ -309,12 +309,12 @@ public final class BezierKt {
                 evaluateQuadratic = BezierKt.evaluateLine(points2[i5], points2[i3], t);
                 break;
             case 3:
-                evaluateQuadratic = BezierKt.evaluateQuadratic(points2[i5], points2[i3], points2[i], t);
+                evaluateQuadratic = BezierKt.evaluateQuadratic(points2[i5], points2[i3], points2[i2], t);
                 break;
             case 4:
                 break;
             case 5:
-                evaluateQuadratic = BezierKt.evaluateCubic(points2[i5], points2[i3], points2[i], points2[7], t);
+                evaluateQuadratic = BezierKt.evaluateCubic(points2[i5], points2[i3], points2[i2], points2[7], t);
                 break;
             case 6:
                 break;
@@ -335,20 +335,20 @@ public final class BezierKt {
     }
 
     private static final int findDerivativeRoots(androidx.compose.ui.graphics.PathSegment segment, boolean horizontal, float[] roots, int index) {
-        int i7;
-        int d0;
-        int i;
-        int i2;
-        int i4;
-        int index$iv;
-        int i6;
-        int i5;
         int i3;
+        int d0;
+        int i6;
+        int i4;
+        int i5;
+        int index$iv;
+        int i7;
+        int i2;
+        int i;
         int i8;
         final int i9 = horizontal ^ 1;
         final float[] points = segment.getPoints();
         d0 = 0;
-        switch (i7) {
+        switch (i3) {
             case 1:
                 break;
             case 2:
@@ -356,8 +356,8 @@ public final class BezierKt {
             case 3:
                 float f = (float)i10;
                 i14 *= f;
-                i = 0;
-                d0 = BezierKt.access$writeValidRootInUnitRange(i24 /= i4, roots, index);
+                i6 = 0;
+                d0 = BezierKt.access$writeValidRootInUnitRange(i24 /= i5, roots, index);
                 break;
             case 4:
                 break;
@@ -366,10 +366,10 @@ public final class BezierKt {
                 i12 *= i17;
                 i22 *= i17;
                 i27 *= i17;
-                int quadraticRoots = BezierKt.findQuadraticRoots(i7, i, i2, roots, index);
+                int quadraticRoots = BezierKt.findQuadraticRoots(i3, i6, i4, roots, index);
                 int i30 = 1073741824;
                 i29 *= i30;
-                i5 = 0;
+                i2 = 0;
                 quadraticRoots += index$iv;
                 break;
             case 6:
@@ -386,18 +386,18 @@ public final class BezierKt {
     public static final float findFirstCubicRoot(float p0, float p1, float p2, float p3) {
         int b$iv;
         int $i$f$closeTo;
-        int cmp;
-        int i4;
-        int i3;
-        int cmp6;
-        int cmp4;
-        float i5;
-        int cmp5;
-        int cmp2;
         int cmp3;
-        int i2;
-        int i;
+        int i4;
         int i6;
+        int cmp6;
+        int cmp5;
+        float i3;
+        int cmp4;
+        int cmp;
+        int cmp2;
+        int i5;
+        int i;
+        int i2;
         int $this$fastCoerceAtMost$iv$iv;
         int i7 = p0;
         final int i9 = p1;
@@ -411,39 +411,39 @@ public final class BezierKt {
         long l5 = l2;
         i69 += d7;
         long l7 = 4502148214488346440L;
-        i2 = 1;
+        i5 = 1;
         final int i91 = 0;
-        b$iv = Double.compare(d13, l7) < 0 ? i2 : i91;
-        i5 = 1065353216;
+        b$iv = Double.compare(d13, l7) < 0 ? i5 : i91;
+        i3 = 1065353216;
         int i87 = 0;
         final int i88 = 2143289344;
         if (b$iv != 0) {
             int i35 = 0;
-            $i$f$closeTo = Double.compare(d17, l7) < 0 ? i2 : i91;
+            $i$f$closeTo = Double.compare(d17, l7) < 0 ? i5 : i91;
             if ($i$f$closeTo != 0) {
                 int i41 = 0;
                 if (Double.compare(d15, l7) < 0) {
                 } else {
-                    i2 = i91;
+                    i5 = i91;
                 }
-                if (i2 != 0) {
+                if (i5 != 0) {
                     return i88;
                 }
                 float f8 = (float)i47;
                 int i56 = 0;
                 if (Float.compare(f8, i87) < 0) {
-                    i5 = Float.compare(f8, i94) >= 0 ? i87 : i88;
+                    i3 = Float.compare(f8, i94) >= 0 ? i87 : i88;
                 } else {
-                    if (Float.compare(f8, i5) > 0) {
-                        if (Float.compare(f8, cmp) <= 0) {
+                    if (Float.compare(f8, i3) > 0) {
+                        if (Float.compare(f8, cmp3) <= 0) {
                         } else {
-                            i5 = i88;
+                            i3 = i88;
                         }
                     } else {
-                        i5 = f8;
+                        i3 = f8;
                     }
                 }
-                return i5;
+                return i3;
             }
             int i93 = -1251999744;
             double sqrt3 = Math.sqrt(i42 -= i74);
@@ -454,8 +454,8 @@ public final class BezierKt {
             if (Float.compare(f6, i87) < 0) {
                 i4 = Float.compare(f6, i93) >= 0 ? i87 : i88;
             } else {
-                if (Float.compare(f6, i5) > 0) {
-                    i4 = Float.compare(f6, i96) <= 0 ? i5 : i88;
+                if (Float.compare(f6, i3) > 0) {
+                    i4 = Float.compare(f6, i96) <= 0 ? i3 : i88;
                 } else {
                     i4 = f6;
                 }
@@ -466,18 +466,18 @@ public final class BezierKt {
             float f7 = (float)i40;
             int i45 = 0;
             if (Float.compare(f7, i87) < 0) {
-                i5 = Float.compare(f7, i93) >= 0 ? i87 : i88;
+                i3 = Float.compare(f7, i93) >= 0 ? i87 : i88;
             } else {
-                if (Float.compare(f7, i5) > 0) {
+                if (Float.compare(f7, i3) > 0) {
                     if (Float.compare(f7, i96) <= 0) {
                     } else {
-                        i5 = i88;
+                        i3 = i88;
                     }
                 } else {
-                    i5 = f7;
+                    i3 = f7;
                 }
             }
-            return i5;
+            return i3;
         }
         int i92 = -1251999744;
         int i95 = 1065353223;
@@ -519,8 +519,8 @@ public final class BezierKt {
             if (Float.compare(f, i87) < 0) {
                 i = Float.compare(f, i92) >= 0 ? i87 : i88;
             } else {
-                if (Float.compare(f, i5) > 0) {
-                    i = Float.compare(f, i95) <= 0 ? i5 : i88;
+                if (Float.compare(f, i3) > 0) {
+                    i = Float.compare(f, i95) <= 0 ? i3 : i88;
                 } else {
                     i = f;
                 }
@@ -531,87 +531,87 @@ public final class BezierKt {
             float f2 = (float)i19;
             int i26 = 0;
             if (Float.compare(f2, i87) < 0) {
-                i6 = Float.compare(f2, i92) >= 0 ? i87 : i88;
+                i2 = Float.compare(f2, i92) >= 0 ? i87 : i88;
             } else {
-                if (Float.compare(f2, i5) > 0) {
-                    i6 = Float.compare(f2, i95) <= 0 ? i5 : i88;
+                if (Float.compare(f2, i3) > 0) {
+                    i2 = Float.compare(f2, i95) <= 0 ? i3 : i88;
                 } else {
-                    i6 = f2;
+                    i2 = f2;
                 }
             }
-            if (!Float.isNaN(i6)) {
-                return i6;
+            if (!Float.isNaN(i2)) {
+                return i2;
             }
             float f3 = (float)i21;
             int i27 = 0;
             if (Float.compare(f3, i87) < 0) {
-                i5 = Float.compare(f3, i92) >= 0 ? i87 : i88;
+                i3 = Float.compare(f3, i92) >= 0 ? i87 : i88;
             } else {
-                if (Float.compare(f3, i5) > 0) {
+                if (Float.compare(f3, i3) > 0) {
                     if (Float.compare(f3, i95) <= 0) {
                     } else {
-                        i5 = i88;
+                        i3 = i88;
                     }
                 } else {
-                    i5 = f3;
+                    i3 = f3;
                 }
             }
-            return i5;
+            return i3;
         }
         int b2 = b;
         int i110 = c;
         if (Double.compare(i83, i106) == 0) {
         } else {
-            i2 = i91;
+            i5 = i91;
         }
-        if (i2 != 0) {
+        if (i5 != 0) {
             int i22 = -fastCbrt;
             i51 -= f5;
             int i28 = 0;
             if (Float.compare(i52, i87) < 0) {
-                i3 = Float.compare(i52, i92) >= 0 ? i87 : i88;
+                i6 = Float.compare(i52, i92) >= 0 ? i87 : i88;
             } else {
-                if (Float.compare(i52, i5) > 0) {
-                    i3 = Float.compare(i52, i95) <= 0 ? i5 : i88;
+                if (Float.compare(i52, i3) > 0) {
+                    i6 = Float.compare(i52, i95) <= 0 ? i3 : i88;
                 } else {
-                    i3 = i52;
+                    i6 = i52;
                 }
             }
-            if (!Float.isNaN(i3)) {
-                return i3;
+            if (!Float.isNaN(i6)) {
+                return i6;
             }
             i29 -= f9;
             int i53 = 0;
             if (Float.compare(i30, i87) < 0) {
-                i5 = Float.compare(i30, i92) >= 0 ? i87 : i88;
+                i3 = Float.compare(i30, i92) >= 0 ? i87 : i88;
             } else {
-                if (Float.compare(i30, i5) > 0) {
+                if (Float.compare(i30, i3) > 0) {
                     if (Float.compare(i30, i95) <= 0) {
                     } else {
-                        i5 = i88;
+                        i3 = i88;
                     }
                 } else {
-                    i5 = i30;
+                    i3 = i30;
                 }
             }
-            return i5;
+            return i3;
         }
         double sqrt2 = Math.sqrt(i83);
         float f12 = (float)i64;
         int i65 = 0;
         if (Float.compare(f12, i87) < 0) {
-            i5 = Float.compare(f12, i92) >= 0 ? i87 : i88;
+            i3 = Float.compare(f12, i92) >= 0 ? i87 : i88;
         } else {
-            if (Float.compare(f12, i5) > 0) {
+            if (Float.compare(f12, i3) > 0) {
                 if (Float.compare(f12, i95) <= 0) {
                 } else {
-                    i5 = i88;
+                    i3 = i88;
                 }
             } else {
-                i5 = f12;
+                i3 = f12;
             }
         }
-        return i5;
+        return i3;
     }
 
     private static final float findFirstLineRoot(float p0, float p1) {
@@ -640,22 +640,22 @@ public final class BezierKt {
     }
 
     private static final float findFirstQuadraticRoot(float p0, float p1, float p2) {
+        int cmp;
+        int i3;
+        int i;
+        int i4;
         int cmp2;
         int i2;
-        int i;
-        int i3;
-        int cmp;
-        int i4;
         double d = (double)obj;
         final double d2 = (double)obj2;
         final double d3 = (double)obj3;
         long l = 4611686018427387904L;
         i21 += d3;
         int i29 = 0;
-        i = Double.compare(i22, i23) == 0 ? i3 : i29;
+        i = Double.compare(i22, i23) == 0 ? i4 : i29;
         final int i30 = 1065353223;
         final int i31 = -1251999744;
-        i4 = 1065353216;
+        i2 = 1065353216;
         final int i32 = 0;
         final int i33 = 2143289344;
         if (i == 0) {
@@ -665,85 +665,85 @@ public final class BezierKt {
             float f2 = (float)i10;
             int i14 = 0;
             if (Float.compare(f2, i32) < 0) {
-                i2 = Float.compare(f2, i31) >= 0 ? i32 : i33;
+                i3 = Float.compare(f2, i31) >= 0 ? i32 : i33;
             } else {
-                if (Float.compare(f2, i4) > 0) {
-                    i2 = Float.compare(f2, i30) <= 0 ? i4 : i33;
+                if (Float.compare(f2, i2) > 0) {
+                    i3 = Float.compare(f2, i30) <= 0 ? i2 : i33;
                 } else {
-                    i2 = f2;
+                    i3 = f2;
                 }
             }
-            if (!Float.isNaN(i2)) {
-                return i2;
+            if (!Float.isNaN(i3)) {
+                return i3;
             }
             float f3 = (float)i12;
             int i15 = 0;
             if (Float.compare(f3, i32) < 0) {
-                i4 = Float.compare(f3, i31) >= 0 ? i32 : i33;
+                i2 = Float.compare(f3, i31) >= 0 ? i32 : i33;
             } else {
-                if (Float.compare(f3, i4) > 0) {
+                if (Float.compare(f3, i2) > 0) {
                     if (Float.compare(f3, i30) <= 0) {
                     } else {
-                        i4 = i33;
+                        i2 = i33;
                     }
                 } else {
-                    i4 = f3;
+                    i2 = f3;
                 }
             }
-            return i4;
+            return i2;
         }
         double a = d;
         if (Double.compare(d2, d3) == 0) {
         } else {
-            i3 = i29;
+            i4 = i29;
         }
-        if (i3 == 0) {
+        if (i4 == 0) {
             float f = (float)i7;
             int i13 = 0;
             if (Float.compare(f, i32) < 0) {
-                i4 = Float.compare(f, i31) >= 0 ? i32 : i33;
+                i2 = Float.compare(f, i31) >= 0 ? i32 : i33;
             } else {
-                if (Float.compare(f, i4) > 0) {
+                if (Float.compare(f, i2) > 0) {
                     if (Float.compare(f, i30) <= 0) {
                     } else {
-                        i4 = i33;
+                        i2 = i33;
                     }
                 } else {
-                    i4 = f;
+                    i2 = f;
                 }
             }
-            return i4;
+            return i2;
         }
         return i33;
     }
 
     public static final float findFirstRoot(androidx.compose.ui.graphics.PathSegment segment, float fraction) {
         int i6;
-        int i4;
-        int i;
         int i5;
-        int firstQuadraticRoot;
-        int i2;
         int i3;
+        int i;
+        int firstQuadraticRoot;
+        int i4;
+        int i2;
         int cmp;
         final float[] points2 = segment.getPoints();
-        i4 = 4;
-        i = 2;
-        i5 = 0;
+        i5 = 4;
+        i3 = 2;
+        i = 0;
         firstQuadraticRoot = 2143289344;
         switch (i6) {
             case 1:
                 break;
             case 2:
                 f3 -= fraction;
-                i = 0;
-                i8 /= i9;
-                i2 = 0;
                 i3 = 0;
-                firstQuadraticRoot = i3;
-                i3 = 1065353216;
-                firstQuadraticRoot = i3;
-                firstQuadraticRoot = i5;
+                i8 /= i9;
+                i4 = 0;
+                i2 = 0;
+                firstQuadraticRoot = i2;
+                i2 = 1065353216;
+                firstQuadraticRoot = i2;
+                firstQuadraticRoot = i;
                 break;
             case 3:
                 firstQuadraticRoot = BezierKt.findFirstQuadraticRoot(f -= fraction, f7 -= fraction, f4 -= fraction);
@@ -780,57 +780,57 @@ public final class BezierKt {
 
     private static final int findQuadraticRoots(float p0, float p1, float p2, float[] roots, int index) {
         int validRootInUnitRange;
-        int a2;
+        int a;
         float f;
-        int i;
+        int i4;
         double i3;
         int cmp;
         long l2;
         int i2;
         int rootCount;
-        int i4;
+        int i;
         long l;
         double d;
-        double a;
+        double a2;
         final float[] fArr = roots;
         final int i5 = index;
         double d2 = (double)obj;
-        i3 = (double)i;
+        i3 = (double)i4;
         final double d3 = (double)obj2;
         l2 = 4611686018427387904L;
         i18 += d3;
         rootCount = 0;
         l = l2;
-        i2 = Double.compare(i19, i20) == 0 ? 1 : i4;
+        i2 = Double.compare(i19, i20) == 0 ? 1 : i;
         if (i2 == 0) {
             l2 = -sqrt;
             i14 += d;
-            a = d2;
+            a2 = d2;
             rootCount += validRootInUnitRange2;
             rootCount2 += validRootInUnitRange3;
             validRootInUnitRange = 1;
             if (rootCount > validRootInUnitRange) {
-                a2 = fArr[i5];
+                a = fArr[i5];
                 f = fArr[i5 + 1];
-                if (Float.compare(a2, f) > 0) {
+                if (Float.compare(a, f) > 0) {
                     fArr[i5] = f;
-                    fArr[i5 + 1] = a2;
+                    fArr[i5 + 1] = a;
                 } else {
-                    if (Float.compare(a2, f) == 0) {
-                        i4 = validRootInUnitRange;
+                    if (Float.compare(a, f) == 0) {
+                        i = validRootInUnitRange;
                     }
-                    if (i4 != 0) {
+                    if (i != 0) {
                         rootCount--;
                     }
                 }
             }
         } else {
-            a = d2;
+            a2 = d2;
             d = i3;
             if (Double.compare(d, d3) == 0) {
-                i4 = validRootInUnitRange;
+                i = validRootInUnitRange;
             }
-            if (i4 == 0) {
+            if (i == 0) {
                 rootCount += validRootInUnitRange;
             }
         }
@@ -968,9 +968,9 @@ public final class BezierKt {
         int direction;
         int cmp;
         int swap;
-        int i2;
-        int $this$closeTo$iv;
         int i;
+        int $this$closeTo$iv;
+        int i2;
         y0 = points[offset + 1];
         y3 = points[offset + 7];
         direction = 1;
@@ -979,7 +979,7 @@ public final class BezierKt {
             y0 = cmp;
             direction = -1;
         }
-        i2 = 0;
+        i = 0;
         if (Float.compare(y, y0) >= 0) {
             if (Float.compare(y, y3) >= 0) {
             } else {
@@ -989,7 +989,7 @@ public final class BezierKt {
                 int i12 = points[offset + 6];
                 int i13 = 0;
                 if (Float.compare(x, f3) < 0) {
-                    return i2;
+                    return i;
                 }
                 int i14 = 0;
                 if (Float.compare(x, f6) > 0) {
@@ -998,31 +998,31 @@ public final class BezierKt {
                 int y32 = points[offset + 7];
                 float firstCubicRoot = BezierKt.findFirstCubicRoot(y02 - y, i17 - y, i19 - y, y32 - y);
                 if (Float.isNaN(firstCubicRoot)) {
-                    return i2;
+                    return i;
                 }
                 float evaluateCubic = BezierKt.evaluateCubic(i6, i8, i10, i12, firstCubicRoot);
                 int i25 = 0;
-                i = 1;
-                $this$closeTo$iv = Float.compare(f8, i27) < 0 ? i : i2;
+                i2 = 1;
+                $this$closeTo$iv = Float.compare(f8, i27) < 0 ? i2 : i;
                 if ($this$closeTo$iv != 0) {
-                    $this$closeTo$iv = Float.compare(x, i12) == 0 ? i : i2;
+                    $this$closeTo$iv = Float.compare(x, i12) == 0 ? i2 : i;
                     if ($this$closeTo$iv != 0) {
                         if (Float.compare(y, y32) == 0) {
                         } else {
-                            i = i2;
+                            i2 = i;
                         }
-                        if (i == 0) {
+                        if (i2 == 0) {
                         }
                     }
-                    return i2;
+                    return i;
                 }
                 if (Float.compare(evaluateCubic, x) < 0) {
-                    i2 = direction;
+                    i = direction;
                 }
             }
-            return i2;
+            return i;
         }
-        return i2;
+        return i;
     }
 
     private static final int monotonicQuadraticWinding(float[] points, int offset, float x, float y, float[] tmpRoots) {
@@ -1036,9 +1036,9 @@ public final class BezierKt {
         int evaluateQuadratic;
         int i3;
         int $this$closeTo$iv;
-        int i2;
-        float[] fArr;
         int i;
+        float[] fArr;
+        int i2;
         y0 = points[offset + 1];
         y2 = points[offset + 5];
         direction = 1;
@@ -1063,16 +1063,16 @@ public final class BezierKt {
                     evaluateQuadratic = BezierKt.evaluateQuadratic(points[i4], points[i17], points[cmp2], tmpRoots[i4]);
                 }
                 int i22 = 0;
-                i = 1;
-                $this$closeTo$iv = Float.compare(f, i25) < 0 ? i : i4;
+                i2 = 1;
+                $this$closeTo$iv = Float.compare(f, i25) < 0 ? i2 : i4;
                 if ($this$closeTo$iv != 0) {
-                    cmp2 = Float.compare(x, i15) == 0 ? i : i4;
+                    cmp2 = Float.compare(x, i15) == 0 ? i2 : i4;
                     if (cmp2 != 0) {
                         if (Float.compare(y, y22) == 0) {
                         } else {
-                            i = i4;
+                            i2 = i4;
                         }
-                        if (i == 0) {
+                        if (i2 == 0) {
                         }
                     }
                     return i4;

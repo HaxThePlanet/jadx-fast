@@ -36,27 +36,27 @@ public final class NavigationDrawerItemDefaults {
         int i;
         long transparent-0d7_KjU;
         long l3;
+        long l6;
+        long l7;
         long l8;
+        long l;
         long l2;
         long l4;
-        long l6;
         long l5;
-        long l7;
-        long l;
         final Composer composer = obj42;
         int i2 = obj44;
         final int i4 = -1574983348;
         ComposerKt.sourceInformationMarkerStart(composer, i4, "C(colors)P(1:c#ui.graphics.Color,5:c#ui.graphics.Color,2:c#ui.graphics.Color,6:c#ui.graphics.Color,3:c#ui.graphics.Color,7:c#ui.graphics.Color,0:c#ui.graphics.Color,4:c#ui.graphics.Color)1014@42017L5,1016@42159L5,1017@42244L5,1018@42330L5,1019@42420L5:NavigationDrawer.kt#uh7d8r");
         int i5 = 6;
         if (i2 & 1 != 0) {
-            l6 = transparent-0d7_KjU;
+            l = transparent-0d7_KjU;
         } else {
-            l6 = selectedContainerColor;
+            l = selectedContainerColor;
         }
         if (i2 & 2 != 0) {
-            l5 = transparent-0d7_KjU;
+            l2 = transparent-0d7_KjU;
         } else {
-            l5 = selectedIconColor;
+            l2 = selectedIconColor;
         }
         if (i2 & 4 != 0) {
             l3 = transparent-0d7_KjU;
@@ -64,28 +64,28 @@ public final class NavigationDrawerItemDefaults {
             l3 = selectedTextColor;
         }
         if (i2 & 8 != 0) {
-            l8 = transparent-0d7_KjU;
+            l6 = transparent-0d7_KjU;
         } else {
-            l8 = selectedBadgeColor;
+            l6 = selectedBadgeColor;
         }
         if (i2 & 16 != 0) {
-            l2 = transparent-0d7_KjU;
+            l7 = transparent-0d7_KjU;
         } else {
-            l2 = $composer;
+            l7 = $composer;
         }
         if (i2 & 32 != 0) {
-            l4 = value;
+            l8 = value;
         } else {
-            l4 = i11;
+            l8 = i11;
         }
-        l7 = i2 & 64 != 0 ? str : obj38;
-        l = i2 &= 128 != 0 ? str : obj40;
+        l4 = i2 & 64 != 0 ? str : obj38;
+        l5 = i2 &= 128 != 0 ? str : obj40;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i4, obj43, -1, "androidx.compose.material3.NavigationDrawerItemDefaults.colors (NavigationDrawer.kt:1023)");
         } else {
             i = obj43;
         }
-        DefaultDrawerItemsColor defaultDrawerItemsColor = new DefaultDrawerItemsColor(l3, obj9, l8, obj11, l2, obj13, l4, obj15, l6, obj17, l5, obj19, l7, obj21, l, obj23, 0);
+        DefaultDrawerItemsColor defaultDrawerItemsColor = new DefaultDrawerItemsColor(l3, obj9, l6, obj11, l7, obj13, l8, obj15, l, obj17, l2, obj19, l4, obj21, l5, obj23, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

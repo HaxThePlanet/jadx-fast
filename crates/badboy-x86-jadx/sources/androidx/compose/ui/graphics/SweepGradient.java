@@ -38,28 +38,28 @@ public final class SweepGradient extends androidx.compose.ui.graphics.ShaderBrus
     @Override // androidx.compose.ui.graphics.ShaderBrush
     public Shader createShader-uvyYCjk(long size) {
         long center-uvyYCjk;
-        int i;
+        int i3;
         float width-impl;
         long height-impl;
+        int i;
         int i2;
-        int i3;
         float center;
         if (OffsetKt.isUnspecified-k-4lQ0M(this.center)) {
             center-uvyYCjk = SizeKt.getCenter-uvyYCjk(size);
         } else {
             int i4 = 2139095040;
-            i3 = 0;
-            i = Float.compare(x-impl, i4) == 0 ? i2 : i3;
-            if (i != 0) {
+            i2 = 0;
+            i3 = Float.compare(x-impl, i4) == 0 ? i : i2;
+            if (i3 != 0) {
                 width-impl = Size.getWidth-impl(size);
             } else {
                 width-impl = Offset.getX-impl(this.center);
             }
             if (Float.compare(center, i4) == 0) {
             } else {
-                i2 = i3;
+                i = i2;
             }
-            if (i2 != 0) {
+            if (i != 0) {
                 height-impl = Size.getHeight-impl(size);
             } else {
                 height-impl = Offset.getY-impl(this.center);

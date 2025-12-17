@@ -28,15 +28,15 @@ class NumbersKt__FloorDivModKt extends kotlin.NumbersKt__BigIntegersKt {
     }
 
     private static final int floorDiv(byte $this$floorDiv, short other) {
-        int i2;
         int i;
-        i2 = $this$floorDiv / other;
-        if ($this$floorDiv ^ other < 0 && i2 * other != $this$floorDiv) {
-            if (i2 * other != $this$floorDiv) {
-                i2--;
+        int i2;
+        i = $this$floorDiv / other;
+        if ($this$floorDiv ^ other < 0 && i * other != $this$floorDiv) {
+            if (i * other != $this$floorDiv) {
+                i--;
             }
         }
-        return i2;
+        return i;
     }
 
     private static final int floorDiv(int $this$floorDiv, byte other) {
@@ -88,15 +88,15 @@ class NumbersKt__FloorDivModKt extends kotlin.NumbersKt__BigIntegersKt {
     }
 
     private static final int floorDiv(short $this$floorDiv, int other) {
-        int i;
         int i2;
-        i = $this$floorDiv / other;
-        if ($this$floorDiv ^ other < 0 && i * other != $this$floorDiv) {
-            if (i * other != $this$floorDiv) {
-                i--;
+        int i;
+        i2 = $this$floorDiv / other;
+        if ($this$floorDiv ^ other < 0 && i2 * other != $this$floorDiv) {
+            if (i2 * other != $this$floorDiv) {
+                i2--;
             }
         }
-        return i;
+        return i2;
     }
 
     private static final int floorDiv(short $this$floorDiv, short other) {
@@ -112,14 +112,14 @@ class NumbersKt__FloorDivModKt extends kotlin.NumbersKt__BigIntegersKt {
     }
 
     private static final long floorDiv(byte $this$floorDiv, long other) {
-        long cmp2;
+        long cmp;
         int i;
-        int cmp;
-        cmp2 = (long)$this$floorDiv;
-        i = cmp2 / other;
-        if (Long.compare(i2, i3) < 0 && Long.compare(cmp, cmp2) != 0) {
-            if (Long.compare(cmp, cmp2) != 0) {
-                i += cmp2;
+        int cmp2;
+        cmp = (long)$this$floorDiv;
+        i = cmp / other;
+        if (Long.compare(i2, i3) < 0 && Long.compare(cmp2, cmp) != 0) {
+            if (Long.compare(cmp2, cmp) != 0) {
+                i += cmp;
             }
         }
         return i;
@@ -191,14 +191,14 @@ class NumbersKt__FloorDivModKt extends kotlin.NumbersKt__BigIntegersKt {
     }
 
     private static final long floorDiv(short $this$floorDiv, long other) {
-        long cmp;
+        long cmp2;
         int i;
-        int cmp2;
-        cmp = (long)$this$floorDiv;
-        i = cmp / other;
-        if (Long.compare(i2, i3) < 0 && Long.compare(cmp2, cmp) != 0) {
-            if (Long.compare(cmp2, cmp) != 0) {
-                i += cmp;
+        int cmp;
+        cmp2 = (long)$this$floorDiv;
+        i = cmp2 / other;
+        if (Long.compare(i2, i3) < 0 && Long.compare(cmp, cmp2) != 0) {
+            if (Long.compare(cmp, cmp2) != 0) {
+                i += cmp2;
             }
         }
         return i;
@@ -229,13 +229,13 @@ class NumbersKt__FloorDivModKt extends kotlin.NumbersKt__BigIntegersKt {
         int cmp;
         int i2;
         int i;
-        double signum2;
         double signum;
+        double signum2;
         final int i3 = $this$mod % obj11;
         final int i5 = 0;
         cmp = Double.compare(i3, i4) == 0 ? i : i5;
         if (cmp == 0) {
-            if (Double.compare(signum2, signum) == 0) {
+            if (Double.compare(signum, signum2) == 0) {
             } else {
                 i = i5;
             }
@@ -268,43 +268,43 @@ class NumbersKt__FloorDivModKt extends kotlin.NumbersKt__BigIntegersKt {
     }
 
     private static final double mod(float $this$mod, double other) {
-        int i2;
-        int cmp;
         int i;
-        double signum2;
+        int cmp;
+        int i2;
         double signum;
+        double signum2;
         d %= other;
         final int i4 = 0;
-        cmp = Double.compare(i2, i3) == 0 ? i : i4;
+        cmp = Double.compare(i, i3) == 0 ? i2 : i4;
         if (cmp == 0) {
-            if (Double.compare(signum2, signum) == 0) {
+            if (Double.compare(signum, signum2) == 0) {
             } else {
-                i = i4;
+                i2 = i4;
             }
-            if (i == 0) {
-                i2 += other;
+            if (i2 == 0) {
+                i += other;
             }
         }
-        return i2;
+        return i;
     }
 
     private static final float mod(float $this$mod, float other) {
         int cmp;
-        int i;
         int i2;
+        int i;
         float signum;
         final int i3 = $this$mod % other;
         final int i5 = 0;
-        cmp = Float.compare(i3, i4) == 0 ? i2 : i5;
+        cmp = Float.compare(i3, i4) == 0 ? i : i5;
         if (cmp == 0) {
             if (Float.compare(signum2, signum) == 0) {
             } else {
-                i2 = i5;
+                i = i5;
             }
-            i = i2 == 0 ? i3 + other : i3;
+            i2 = i == 0 ? i3 + other : i3;
         } else {
         }
-        return i;
+        return i2;
     }
 
     private static final int mod(byte $this$mod, int other) {

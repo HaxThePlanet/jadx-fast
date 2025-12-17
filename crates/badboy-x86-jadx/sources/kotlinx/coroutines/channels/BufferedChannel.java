@@ -118,31 +118,31 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
         private final Object hasNextOnNoWaiterSuspend(kotlinx.coroutines.channels.ChannelSegment<E> segment, int index, long r, Continuation<? super Boolean> $completion) {
             Function1 onUndeliveredElement;
-            int i4;
+            int i2;
             int id$iv$iv;
             int cmp;
-            Continuation updCellResult$iv$iv2;
+            Continuation updCellResult$iv$iv;
             kotlinx.coroutines.channels.BufferedChannel buf;
-            Object segment$iv$iv;
+            Object segment$iv$iv2;
             kotlinx.coroutines.channels.ChannelSegment channelSegment;
             int i$iv$iv;
-            Object segment$iv$iv2;
+            Object segment$iv$iv;
             long bindCancellationFun;
             Object closedForReceive;
-            int i2;
             int i;
+            int i4;
             long r$iv$iv;
             int i3;
             int $i$f$suspendCancellableCoroutineReusable;
             Continuation continuation;
             int sendersCounter$kotlinx_coroutines_core;
-            Object updCellResult$iv$iv;
+            Object updCellResult$iv$iv2;
             final Object obj2 = this;
             kotlinx.coroutines.channels.BufferedChannel this$0 = obj2.this$0;
             id$iv$iv = 0;
-            updCellResult$iv$iv2 = obj30;
+            updCellResult$iv$iv = obj30;
             final int i8 = 0;
-            CancellableContinuationImpl orCreateCancellableContinuation = CancellableContinuationKt.getOrCreateCancellableContinuation(IntrinsicsKt.intercepted(updCellResult$iv$iv2));
+            CancellableContinuationImpl orCreateCancellableContinuation = CancellableContinuationKt.getOrCreateCancellableContinuation(IntrinsicsKt.intercepted(updCellResult$iv$iv));
             final CancellableContinuationImpl cancellableContinuationImpl = orCreateCancellableContinuation;
             final int i9 = 0;
             BufferedChannel.BufferedChannelIterator.access$setContinuation$p(obj2, cancellableContinuationImpl);
@@ -152,61 +152,61 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             if (obj5 == BufferedChannelKt.access$getSUSPEND$p()) {
                 BufferedChannel.access$prepareReceiverForSuspension(buf2, (Waiter)obj2, segment, index);
                 $i$f$suspendCancellableCoroutineReusable = id$iv$iv;
-                continuation = updCellResult$iv$iv2;
+                continuation = updCellResult$iv$iv;
             } else {
                 i$iv$iv = index;
-                i2 = 1;
+                i = 1;
                 if (obj5 == BufferedChannelKt.access$getFAILED$p() && Long.compare(r, sendersCounter$kotlinx_coroutines_core2) < 0) {
                     if (Long.compare(r, sendersCounter$kotlinx_coroutines_core2) < 0) {
                         segment.cleanPrev();
                     }
-                    i = 0;
-                    segment$iv$iv2 = BufferedChannel.access$getReceiveSegment$FU$p().get(buf2);
+                    i4 = 0;
+                    segment$iv$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(buf2);
                     while (buf2.isClosedForReceive()) {
                         r$iv$iv = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(buf2);
                         closedForReceive = BufferedChannelKt.SEGMENT_SIZE;
                         bindCancellationFun = r$iv$iv / l3;
                         $i$f$suspendCancellableCoroutineReusable = id$iv$iv;
-                        continuation = updCellResult$iv$iv2;
-                        segment$iv$iv = segment$iv$iv2;
-                        segment$iv$iv2 = r$iv$iv;
+                        continuation = updCellResult$iv$iv;
+                        segment$iv$iv2 = segment$iv$iv;
+                        segment$iv$iv = r$iv$iv;
                         i$iv$iv = sendersCounter$kotlinx_coroutines_core;
                         r$iv$iv = l2;
                         id$iv$iv = 0;
-                        updCellResult$iv$iv2 = BufferedChannel.access$updateCellReceive(buf2, segment$iv$iv, i$iv$iv, segment$iv$iv2, bindCancellationFun);
-                        if (Long.compare(segment$iv$iv2, sendersCounter$kotlinx_coroutines_core) < 0) {
+                        updCellResult$iv$iv = BufferedChannel.access$updateCellReceive(buf2, segment$iv$iv2, i$iv$iv, segment$iv$iv, bindCancellationFun);
+                        if (Long.compare(segment$iv$iv, sendersCounter$kotlinx_coroutines_core) < 0) {
                         }
                         i$iv$iv = index;
-                        segment$iv$iv2 = segment$iv$iv;
+                        segment$iv$iv = segment$iv$iv2;
                         id$iv$iv = $i$f$suspendCancellableCoroutineReusable;
-                        updCellResult$iv$iv2 = continuation;
-                        segment$iv$iv = segment;
-                        segment$iv$iv.cleanPrev();
+                        updCellResult$iv$iv = continuation;
+                        segment$iv$iv2 = segment;
+                        segment$iv$iv2.cleanPrev();
                         cmp = BufferedChannel.access$findSegmentReceive(buf2, bindCancellationFun, closedForReceive);
-                        segment$iv$iv2 = cmp;
+                        segment$iv$iv = cmp;
                         id$iv$iv = $i$f$suspendCancellableCoroutineReusable;
-                        updCellResult$iv$iv2 = continuation;
+                        updCellResult$iv$iv = continuation;
                     }
                     onUndeliveredElement = 0;
                     BufferedChannel.BufferedChannelIterator.access$onClosedHasNextNoWaiterSuspend(obj2);
                     $i$f$suspendCancellableCoroutineReusable = id$iv$iv;
-                    continuation = updCellResult$iv$iv2;
+                    continuation = updCellResult$iv$iv;
                 }
                 $i$f$suspendCancellableCoroutineReusable = id$iv$iv;
-                continuation = updCellResult$iv$iv2;
+                continuation = updCellResult$iv$iv;
                 segment.cleanPrev();
                 id$iv$iv = obj5;
-                updCellResult$iv$iv2 = 0;
+                updCellResult$iv$iv = 0;
                 BufferedChannel.BufferedChannelIterator.access$setReceiveResult$p(obj2, id$iv$iv);
-                segment$iv$iv = 0;
-                BufferedChannel.BufferedChannelIterator.access$setContinuation$p(obj2, segment$iv$iv);
+                segment$iv$iv2 = 0;
+                BufferedChannel.BufferedChannelIterator.access$setContinuation$p(obj2, segment$iv$iv2);
                 onUndeliveredElement = this$0.onUndeliveredElement;
                 if (onUndeliveredElement != null) {
                     bindCancellationFun = OnUndeliveredElementKt.bindCancellationFun(onUndeliveredElement, id$iv$iv, cancellableContinuationImpl.getContext());
                 } else {
-                    bindCancellationFun = segment$iv$iv;
+                    bindCancellationFun = segment$iv$iv2;
                 }
-                cancellableContinuationImpl.resume(Boxing.boxBoolean(i2), bindCancellationFun);
+                cancellableContinuationImpl.resume(Boxing.boxBoolean(i), bindCancellationFun);
             }
             Object result = orCreateCancellableContinuation.getResult();
             if (result == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
@@ -262,9 +262,9 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             long i$iv;
             Object cmp;
             int waiter$iv;
-            int i;
-            Object obj;
             int i2;
+            Object obj;
+            int i;
             long l2;
             int i3;
             long l;
@@ -274,7 +274,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             segment$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(obj2.this$0);
             while (buf.isClosedForReceive()) {
                 r$iv = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(buf);
-                i = r$iv / l4;
+                i2 = r$iv / l4;
                 i4 = i$iv;
                 i$iv = l;
                 r$iv = segment$iv;
@@ -286,9 +286,9 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 }
                 segment$iv = cmp;
                 buf = waiter$iv;
-                waiter$iv = i2;
+                waiter$iv = i;
                 cmp.cleanPrev();
-                cmp = BufferedChannel.access$findSegmentReceive(buf, i, obj10);
+                cmp = BufferedChannel.access$findSegmentReceive(buf, i2, obj10);
                 segment$iv = cmp;
             }
             int i7 = 0;
@@ -317,8 +317,8 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 throw StackTraceRecoveryKt.recoverStackTrace(BufferedChannel.access$getReceiveException(this.this$0));
             }
             int i2 = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("`hasNext()` has not been invoked".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckBufferedChannel$BufferedChannelIterator$next$1 = new IllegalStateException("`hasNext()` has not been invoked".toString());
+            throw $i$a$CheckBufferedChannel$BufferedChannelIterator$next$1;
         }
 
         @Deprecated(level = DeprecationLevel.HIDDEN, message = "Since 1.3.0, binary compatibility with versions <= 1.2.x")
@@ -700,39 +700,39 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Object segmentBufferEnd;
         int next;
         Object obj;
-        int i3;
+        int i4;
         Object segment;
         long andIncrement;
         long sendersCounter$kotlinx_coroutines_core;
-        int i2;
         int i;
-        int i4;
+        int i2;
+        int i3;
         boolean cellExpandBuffer;
         if (isRendezvousOrUnlimited()) {
         }
         segment = segmentBufferEnd;
         andIncrement = BufferedChannel.bufferEnd$FU.getAndIncrement(this);
-        i3 = andIncrement / l;
-        i2 = 0;
-        i = 1;
-        i4 = 0;
+        i4 = andIncrement / l;
+        i = 0;
+        i2 = 1;
+        i3 = 0;
         while (Long.compare(sendersCounter$kotlinx_coroutines_core, andIncrement) <= 0) {
             obj = this;
-            BufferedChannel.incCompletedExpandBufferAttempts$default(this, i4, obj12, i);
+            BufferedChannel.incCompletedExpandBufferAttempts$default(this, i3, obj12, i2);
             andIncrement = BufferedChannel.bufferEnd$FU.getAndIncrement(this);
-            i3 = andIncrement / l;
-            i2 = 0;
-            i = 1;
-            i4 = 0;
-            segmentBufferEnd = this.findSegmentBufferEnd(i3, obj3, segment);
+            i4 = andIncrement / l;
+            i = 0;
+            i2 = 1;
+            i3 = 0;
+            segmentBufferEnd = this.findSegmentBufferEnd(i4, obj3, segment);
             segment = segmentBufferEnd;
         }
-        if (Long.compare(l2, i3) < 0 && segment.getNext() != null) {
+        if (Long.compare(l2, i4) < 0 && segment.getNext() != null) {
             if (segment.getNext() != null) {
-                moveSegmentBufferEndToSpecifiedOrLast(i3, obj3);
+                moveSegmentBufferEndToSpecifiedOrLast(i4, obj3);
             }
         }
-        BufferedChannel.incCompletedExpandBufferAttempts$default(this, i4, obj12, i);
+        BufferedChannel.incCompletedExpandBufferAttempts$default(this, i3, obj12, i2);
     }
 
     private final kotlinx.coroutines.channels.ChannelSegment<E> findSegmentBufferEnd(long id, kotlinx.coroutines.channels.ChannelSegment<E> startFrom, long currentBufferEndCounter) {
@@ -742,11 +742,11 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Object segmentInternal;
         int to$iv$iv;
         boolean tryIncPointers$kotlinx_coroutines_core;
-        int i5;
         int i2;
+        int i;
         Object obj;
         Segment i3;
-        int i;
+        int i5;
         long l;
         int i4;
         final Object obj2 = this;
@@ -756,15 +756,15 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         segmentInternal = ConcurrentLinkedListKt.findSegmentInternal((Segment)currentBufferEndCounter, segment2, obj7);
         while (!SegmentOrClosed.isClosed-impl(segmentInternal)) {
             Segment segment-impl2 = SegmentOrClosed.getSegment-impl(segmentInternal);
-            i5 = 0;
             i2 = 0;
-            obj = bufferEndSegment$FU.get(obj2);
             i = 0;
+            obj = bufferEndSegment$FU.get(obj2);
+            i5 = 0;
             while (Long.compare(l, l6) >= 0) {
                 if (segment-impl2.decPointers$kotlinx_coroutines_core()) {
                 }
                 obj = bufferEndSegment$FU.get(obj2);
-                i = 0;
+                i5 = 0;
                 segment-impl2.remove();
             }
             if (!segment-impl2.tryIncPointers$kotlinx_coroutines_core()) {
@@ -795,14 +795,14 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         if (SegmentOrClosed.isClosed-impl(obj3)) {
             obj2.completeCloseOrCancel();
             moveSegmentBufferEndToSpecifiedOrLast(id, startFrom);
-            BufferedChannel.incCompletedExpandBufferAttempts$default(obj2, i9, i2, 1);
+            BufferedChannel.incCompletedExpandBufferAttempts$default(obj2, i9, i, 1);
         } else {
-            i = segment-impl;
+            i5 = segment-impl;
             if (Long.compare(l2, segment2) > 0) {
                 if (BufferedChannel.bufferEnd$FU.compareAndSet(obj2, i6 += obj21, cmp)) {
                     obj2.incCompletedExpandBufferAttempts(i7 -= obj21);
                 } else {
-                    BufferedChannel.incCompletedExpandBufferAttempts$default(obj2, i9, i2, 1);
+                    BufferedChannel.incCompletedExpandBufferAttempts$default(obj2, i9, i, 1);
                 }
             } else {
                 if (DebugKt.getASSERTIONS_ENABLED()) {
@@ -814,7 +814,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                     AssertionError assertionError = new AssertionError();
                     throw assertionError;
                 }
-                i3 = i;
+                i3 = i5;
             }
         }
         return i3;
@@ -824,27 +824,27 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Segment segment;
         int segment-impl;
         boolean aSSERTIONS_ENABLED;
-        int i;
+        int i5;
         boolean rendezvousOrUnlimited;
         int cmp;
-        int i3;
+        int i4;
         Object segmentInternal;
         Segment sendersCounter$kotlinx_coroutines_core;
         long l;
-        int i4;
+        int i;
         int tryIncPointers$kotlinx_coroutines_core;
-        int i5;
+        int i3;
         Object obj;
         int i2;
         segment = id;
         final Object obj2 = obj17;
         AtomicReferenceFieldUpdater receiveSegment$FU = BufferedChannel.receiveSegment$FU;
-        i3 = 0;
+        i4 = 0;
         segmentInternal = ConcurrentLinkedListKt.findSegmentInternal((Segment)obj2, segment, obj1);
         while (!SegmentOrClosed.isClosed-impl(segmentInternal)) {
             sendersCounter$kotlinx_coroutines_core = SegmentOrClosed.getSegment-impl(segmentInternal);
             tryIncPointers$kotlinx_coroutines_core = 0;
-            i5 = 0;
+            i3 = 0;
             obj = receiveSegment$FU.get(this);
             i2 = 0;
             while (Long.compare(l, l2) >= 0) {
@@ -879,7 +879,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             segment = 1;
         }
         int i6 = 0;
-        i = 0;
+        i5 = 0;
         if (SegmentOrClosed.isClosed-impl(segmentInternal)) {
             completeCloseOrCancel();
             if (Long.compare(cmp, sendersCounter$kotlinx_coroutines_core) < 0) {
@@ -890,10 +890,10 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             if (!isRendezvousOrUnlimited() && Long.compare(id, i7) <= 0) {
                 if (Long.compare(id, i7) <= 0) {
                     rendezvousOrUnlimited = BufferedChannel.bufferEndSegment$FU;
-                    i3 = 0;
+                    i4 = 0;
                     sendersCounter$kotlinx_coroutines_core = 0;
                     l = rendezvousOrUnlimited.get(this);
-                    i4 = 0;
+                    i = 0;
                     while (Long.compare(l10, obj) < 0) {
                         if ((Segment)segment-impl.tryIncPointers$kotlinx_coroutines_core()) {
                             break;
@@ -905,7 +905,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                         if ((Segment)segment-impl.decPointers$kotlinx_coroutines_core()) {
                         }
                         l = rendezvousOrUnlimited.get(this);
-                        i4 = 0;
+                        i = 0;
                         (Segment)segment-impl.remove();
                     }
                 }
@@ -925,41 +925,41 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                     AssertionError assertionError = new AssertionError();
                     throw assertionError;
                 }
-                i = segment-impl;
+                i5 = segment-impl;
             }
         }
-        return i;
+        return i5;
     }
 
     private final kotlinx.coroutines.channels.ChannelSegment<E> findSegmentSend(long id, kotlinx.coroutines.channels.ChannelSegment<E> startFrom) {
         Segment segment;
         int segment-impl;
         boolean aSSERTIONS_ENABLED;
-        int i;
+        int i4;
         int cmp;
         Object segmentInternal;
         Segment receiversCounter$kotlinx_coroutines_core;
         long l;
-        int i3;
         int i2;
+        int i;
         Object obj;
-        int i4;
+        int i3;
         segment = id;
         final Object obj2 = obj17;
         AtomicReferenceFieldUpdater sendSegment$FU = BufferedChannel.sendSegment$FU;
         segmentInternal = ConcurrentLinkedListKt.findSegmentInternal((Segment)obj2, segment, obj1);
         while (!SegmentOrClosed.isClosed-impl(segmentInternal)) {
             receiversCounter$kotlinx_coroutines_core = SegmentOrClosed.getSegment-impl(segmentInternal);
-            i3 = 0;
             i2 = 0;
+            i = 0;
             obj = sendSegment$FU.get(this);
-            i4 = 0;
+            i3 = 0;
             while (Long.compare(l, l2) >= 0) {
                 if (receiversCounter$kotlinx_coroutines_core.decPointers$kotlinx_coroutines_core()) {
                 }
                 segment = id;
                 obj = sendSegment$FU.get(this);
-                i4 = 0;
+                i3 = 0;
                 receiversCounter$kotlinx_coroutines_core.remove();
             }
             if (!receiversCounter$kotlinx_coroutines_core.tryIncPointers$kotlinx_coroutines_core()) {
@@ -986,7 +986,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             segment = 1;
         }
         int i5 = 0;
-        i = 0;
+        i4 = 0;
         if (SegmentOrClosed.isClosed-impl(segmentInternal)) {
             completeCloseOrCancel();
             if (Long.compare(cmp, receiversCounter$kotlinx_coroutines_core) < 0) {
@@ -1009,10 +1009,10 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                     AssertionError assertionError = new AssertionError();
                     throw assertionError;
                 }
-                i = segment-impl;
+                i4 = segment-impl;
             }
         }
-        return i;
+        return i4;
     }
 
     private final Object getAndUpdate$atomicfu(AtomicReferenceFieldUpdater atomicReferenceFieldUpdater, Function1<Object, ? extends Object> function12, Object object3) {
@@ -1056,12 +1056,12 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     private final void incCompletedExpandBufferAttempts(long nAttempts) {
         int $this$ebPauseExpandBuffers$iv;
-        int i2;
-        int cmp;
         int i;
+        int cmp;
+        int i2;
         final Object obj = this;
         int i3 = 0;
-        i2 = 0;
+        i = 0;
         final long l4 = 4611686018427387904L;
         final int i6 = 0;
         final int i5 = 1;
@@ -1148,29 +1148,29 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     private final boolean isClosed(long sendersAndCloseStatusCur, boolean isClosedForReceive) {
         int $this$sendersCloseStatus$iv;
+        int i;
         int i3;
         int i2;
-        int i;
         final int i8 = 0;
         final int i9 = 60;
         long l = 1152921504606846975L;
-        i3 = 1;
-        i2 = 0;
+        i = 1;
+        i3 = 0;
         switch ($this$sendersCloseStatus$iv) {
             case 0:
-                i3 = i2;
+                i = i3;
                 break;
             case 1:
-                i3 = i2;
+                i = i3;
                 break;
             case 2:
                 int i5 = 0;
-                completeClose(i & l);
-                i3 = i2;
+                completeClose(i2 & l);
+                i = i3;
                 break;
             case 3:
                 int i6 = 0;
-                completeCancel(i2 & l);
+                completeCancel(i3 & l);
                 break;
             default:
                 StringBuilder stringBuilder = new StringBuilder();
@@ -1178,7 +1178,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 IllegalStateException illegalStateException = new IllegalStateException(stringBuilder.append("unexpected close status: ").append((int)i12).toString().toString());
                 throw illegalStateException;
         }
-        return i3;
+        return i;
     }
 
     public static void isClosedForReceive$annotations() {
@@ -1270,14 +1270,14 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     }
 
     private final void markCancellationStarted() {
-        Object obj;
+        Object $i$a$Update$atomicfuBufferedChannel$markCancellationStarted$1;
         boolean compareAndSet;
         long cur;
         long l;
         int $i$f$getSendersCounter;
         long l2;
         final AtomicLongFieldUpdater sendersAndCloseStatus$FU = BufferedChannel.sendersAndCloseStatus$FU;
-        final Object obj2 = this;
+        final Object obj = this;
         final int i2 = 0;
         long l3 = sendersAndCloseStatus$FU.get(this);
         long l4 = l3;
@@ -1293,14 +1293,14 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     }
 
     private final void markCancelled() {
-        Object obj;
+        Object $i$a$Update$atomicfuBufferedChannel$markCancelled$1;
         boolean compareAndSet;
         long cur;
         int $this$sendersCounter$iv;
         int $i$f$getSendersCounter;
         long l;
         final AtomicLongFieldUpdater sendersAndCloseStatus$FU = BufferedChannel.sendersAndCloseStatus$FU;
-        final Object obj2 = this;
+        final Object obj = this;
         final int i2 = 0;
         long l2 = sendersAndCloseStatus$FU.get(this);
         int i = 0;
@@ -1313,38 +1313,38 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     }
 
     private final void markClosed() {
-        Object obj;
+        Object $i$a$Update$atomicfuBufferedChannel$markClosed$1;
         boolean compareAndSet;
         long cur;
-        long l;
         long l3;
+        long l;
         int i;
         long l2;
         final AtomicLongFieldUpdater sendersAndCloseStatus$FU = BufferedChannel.sendersAndCloseStatus$FU;
-        final Object obj3 = this;
+        final Object obj2 = this;
         final int i3 = 0;
         while (/* condition */) {
             int i5 = 0;
-            l = BufferedChannelKt.access$constructSendersAndCloseStatus(l2 & l3, l3);
+            l3 = BufferedChannelKt.access$constructSendersAndCloseStatus(l2 & l, l);
             long l4 = sendersAndCloseStatus$FU.get(this);
             long l5 = l4;
             int i2 = 0;
             int i6 = 0;
-            l3 = 1152921504606846975L;
+            l = 1152921504606846975L;
             int i4 = 0;
-            l = BufferedChannelKt.access$constructSendersAndCloseStatus(l2 & l3, l3);
+            l3 = BufferedChannelKt.access$constructSendersAndCloseStatus(l2 & l, l);
         }
     }
 
     private final void moveSegmentBufferEndToSpecifiedOrLast(long id, kotlinx.coroutines.channels.ChannelSegment<E> startFrom) {
         Object segment;
         kotlinx.coroutines.internal.ConcurrentLinkedListNode bufferEndSegment$FU;
-        int i;
         int i4;
-        Object obj;
-        int i2;
-        int tryIncPointers$kotlinx_coroutines_core;
         int i3;
+        Object obj;
+        int i;
+        int tryIncPointers$kotlinx_coroutines_core;
+        int i2;
         long l;
         segment = obj13;
         while (Long.compare(l2, id) < 0) {
@@ -1365,17 +1365,17 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 segment = bufferEndSegment$FU;
             }
             bufferEndSegment$FU = BufferedChannel.bufferEndSegment$FU;
-            i = 0;
             i4 = 0;
+            i3 = 0;
             obj = bufferEndSegment$FU.get(this);
-            i2 = 0;
-            i3 = 1;
+            i = 0;
+            i2 = 1;
             while (Long.compare(l3, l) >= 0) {
                 if ((Segment)segment.decPointers$kotlinx_coroutines_core()) {
                 }
                 obj = bufferEndSegment$FU.get(this);
-                i2 = 0;
-                i3 = 1;
+                i = 0;
+                i2 = 1;
                 (Segment)segment.remove();
             }
             if (!(Segment)segment.tryIncPointers$kotlinx_coroutines_core()) {
@@ -1389,10 +1389,10 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             (Segment)segment.remove();
             if (obj.decPointers$kotlinx_coroutines_core()) {
             }
-            if (i3 == 0) {
+            if (i2 == 0) {
             }
             obj.remove();
-            i3 = 0;
+            i2 = 0;
             bufferEndSegment$FU = segment.getNext();
             if ((ChannelSegment)(ChannelSegment)bufferEndSegment$FU == 0) {
             } else {
@@ -1427,14 +1427,14 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     private final Object onClosedSend(E element, Continuation<? super Unit> $completion) {
         Object it;
         int sendException;
-        int i;
-        CancellableContinuationImpl cancellableContinuationImpl2;
         int i2;
+        CancellableContinuationImpl cancellableContinuationImpl2;
+        int i;
         int constructor-impl;
         Object constructor-impl2;
-        boolean rECOVER_STACK_TRACES2;
-        Throwable th;
         boolean rECOVER_STACK_TRACES;
+        Throwable th;
+        boolean rECOVER_STACK_TRACES2;
         CancellableContinuationImpl cancellableContinuationImpl;
         int i3 = 0;
         int i4 = 0;
@@ -1443,11 +1443,11 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         CancellableContinuationImpl cancellableContinuationImpl4 = cancellableContinuationImpl3;
         int i6 = 0;
         it = this.onUndeliveredElement;
-        i2 = 0;
-        it = OnUndeliveredElementKt.callUndeliveredElementCatchingException$default(it, element, i2, 2, i2);
+        i = 0;
+        it = OnUndeliveredElementKt.callUndeliveredElementCatchingException$default(it, element, i, 2, i);
         if (it != null && it != null) {
-            i2 = 0;
-            it = OnUndeliveredElementKt.callUndeliveredElementCatchingException$default(it, element, i2, 2, i2);
+            i = 0;
+            it = OnUndeliveredElementKt.callUndeliveredElementCatchingException$default(it, element, i, 2, i);
             if (it != null) {
                 sendException = 0;
                 ExceptionsKt.addSuppressed((Throwable)it, getSendException());
@@ -1562,24 +1562,24 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     static <E> Object receive$suspendImpl(kotlinx.coroutines.channels.BufferedChannel<E> $this, Continuation<? super E> $completion) {
         Object segment$iv;
-        int i2;
-        long andIncrement;
         int i;
-        Object cmp2;
-        int cmp;
+        long andIncrement;
+        int i2;
+        Object cmp;
+        int cmp2;
         final Object obj = $this;
         final int i4 = 0;
         segment$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(obj);
         while (!obj.isClosedForReceive()) {
             andIncrement = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(obj);
-            i = andIncrement / l;
-            i2 = (int)i5;
-            cmp2 = BufferedChannel.access$updateCellReceive(obj, segment$iv, i2, andIncrement, obj4);
+            i2 = andIncrement / l;
+            i = (int)i5;
+            cmp = BufferedChannel.access$updateCellReceive(obj, segment$iv, i, andIncrement, obj4);
             if (Long.compare(andIncrement, sendersCounter$kotlinx_coroutines_core) < 0) {
             }
             segment$iv.cleanPrev();
-            cmp2 = BufferedChannel.access$findSegmentReceive(obj, i, obj8);
-            segment$iv = cmp2;
+            cmp = BufferedChannel.access$findSegmentReceive(obj, i2, obj8);
+            segment$iv = cmp;
         }
         int i$iv = 0;
         throw StackTraceRecoveryKt.recoverStackTrace($this.getReceiveException());
@@ -1587,19 +1587,19 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     static <E> Object receiveCatching-JP2dKIU$suspendImpl(kotlinx.coroutines.channels.BufferedChannel<E> bufferedChannel, Continuation<? super kotlinx.coroutines.channels.ChannelResult<? extends E>> continuation2) {
         boolean anon;
-        int i2;
-        Object closed-JP2dKIU;
-        int i3;
+        int i;
+        Object $i$a$ReceiveImplBufferedChannel$receiveCatching$5;
+        int i4;
         Object $this;
         int updCellResult$iv;
         Object segment$iv;
         int closeCause;
         long andIncrement;
-        int i;
+        int i3;
         int id$iv;
         kotlinx.coroutines.internal.Symbol symbol;
         long cmp;
-        int i4;
+        int i2;
         int obj13;
         Object obj14;
         anon = continuation2;
@@ -1621,33 +1621,33 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             case 0:
                 ResultKt.throwOnFailure(obj14);
                 $this = bufferedChannel;
-                i = $this;
+                i3 = $this;
                 obj13 = 0;
-                segment$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(i);
-                int i6 = 0;
-                closed-JP2dKIU = ChannelResult.Companion.closed-JP2dKIU($this.getCloseCause());
-                andIncrement = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(i);
+                segment$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(i3);
+                int i5 = 0;
+                $i$a$ReceiveImplBufferedChannel$receiveCatching$5 = ChannelResult.Companion.closed-JP2dKIU($this.getCloseCause());
+                andIncrement = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(i3);
                 id$iv = andIncrement / l;
-                closeCause = (int)i10;
-                cmp = BufferedChannel.access$findSegmentReceive(i, id$iv, symbol);
+                closeCause = (int)i9;
+                cmp = BufferedChannel.access$findSegmentReceive(i3, id$iv, symbol);
                 id$iv = segment$iv;
                 id$iv = segment$iv;
-                updCellResult$iv = BufferedChannel.access$updateCellReceive(i, id$iv, closeCause, andIncrement, obj11);
+                updCellResult$iv = BufferedChannel.access$updateCellReceive(i3, id$iv, closeCause, andIncrement, obj11);
                 id$iv.cleanPrev();
                 segment$iv = id$iv;
                 buf.label = 1;
                 return cOROUTINE_SUSPENDED;
-                i2 = i;
+                i = i3;
                 id$iv.cleanPrev();
-                int i8 = 0;
-                closed-JP2dKIU = $this;
-                return closed-JP2dKIU;
                 int i7 = 0;
+                $i$a$ReceiveImplBufferedChannel$receiveCatching$5 = $this;
+                return $i$a$ReceiveImplBufferedChannel$receiveCatching$5;
+                int i6 = 0;
                 IllegalStateException illegalStateException = new IllegalStateException("unexpected".toString());
                 throw illegalStateException;
             case 1:
                 obj13 = 0;
-                i2 = 0;
+                i = 0;
                 ResultKt.throwOnFailure(obj14);
                 $this = (ChannelResult)obj14.unbox-impl();
                 break;
@@ -1655,17 +1655,17 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 obj13 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj13;
         }
-        closed-JP2dKIU = $this;
+        $i$a$ReceiveImplBufferedChannel$receiveCatching$5 = $this;
     }
 
     private final Object receiveCatchingOnNoWaiterSuspend-GKJJFZk(kotlinx.coroutines.channels.ChannelSegment<E> channelSegment, int i2, long l3, Continuation<? super kotlinx.coroutines.channels.ChannelResult<? extends E>> continuation4) {
         Object obj;
-        int i6;
+        int i3;
         boolean anon;
-        int i8;
+        int i9;
         kotlinx.coroutines.channels.BufferedChannel buf;
         Object result;
-        kotlinx.coroutines.channels.ReceiveCatching obj2;
+        kotlinx.coroutines.channels.ReceiveCatching _this;
         int i7;
         Object cOROUTINE_SUSPENDED;
         int cmp;
@@ -1673,18 +1673,18 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         int segment$iv$iv;
         Object onUndeliveredElement;
         Object context;
-        int i9;
+        int i6;
         CancellableContinuationImpl cancellableContinuationImpl;
-        int i4;
+        int i11;
         CancellableContinuationImpl orCreateCancellableContinuation;
-        int i;
+        int i4;
         kotlinx.coroutines.channels.ReceiveCatching receiveCatching;
         kotlinx.coroutines.internal.Symbol bindCancellationFun;
-        int i3;
+        int i5;
         long andIncrement;
         int i10;
-        int i11;
-        int i5;
+        int i8;
+        int i;
         Object obj21;
         Object obj22;
         int obj23;
@@ -1709,89 +1709,89 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         switch (label3) {
             case 0:
                 ResultKt.throwOnFailure(cOROUTINE_SUSPENDED);
-                obj2 = this;
+                _this = this;
                 int i15 = i2;
-                Object obj3 = channelSegment;
+                Object obj2 = channelSegment;
                 long l = l3;
-                anon.L$0 = obj2;
-                anon.L$1 = obj3;
+                anon.L$0 = _this;
+                anon.L$1 = obj2;
                 anon.I$0 = i15;
                 anon.J$0 = l;
                 anon.label = 1;
-                i4 = 0;
+                i11 = 0;
                 orCreateCancellableContinuation = CancellableContinuationKt.getOrCreateCancellableContinuation(IntrinsicsKt.intercepted((Continuation)anon));
                 cancellableContinuationImpl = orCreateCancellableContinuation;
-                i = 0;
+                i4 = 0;
                 Intrinsics.checkNotNull(cancellableContinuationImpl, "null cannot be cast to non-null type kotlinx.coroutines.CancellableContinuationImpl<kotlinx.coroutines.channels.ChannelResult<E of kotlinx.coroutines.channels.BufferedChannel.receiveCatchingOnNoWaiterSuspend_GKJJFZk$lambda$35>>");
                 receiveCatching = new ReceiveCatching(cancellableContinuationImpl);
-                i3 = 0;
+                i5 = 0;
                 obj23 = i15;
-                obj22 = obj3;
+                obj22 = obj2;
                 obj24 = l;
-                obj21 = obj4;
+                obj21 = obj3;
                 j$0 = BufferedChannel.access$updateCellReceive(obj21, obj22, obj23, obj24, continuation4);
                 context = obj21;
                 onUndeliveredElement = obj22;
                 BufferedChannel.access$prepareReceiverForSuspension(context, (Waiter)receiveCatching, onUndeliveredElement, obj23);
-                i11 = cOROUTINE_SUSPENDED;
-                i10 = i3;
+                i8 = cOROUTINE_SUSPENDED;
+                i10 = i5;
                 onUndeliveredElement.cleanPrev();
                 j$0 = 0;
                 segment$iv$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(context);
                 segment$iv$iv = 0;
-                BufferedChannel.access$onClosedReceiveCatchingOnNoWaiterSuspend(obj2, (CancellableContinuation)cancellableContinuationImpl);
-                i11 = cOROUTINE_SUSPENDED;
-                i10 = i3;
+                BufferedChannel.access$onClosedReceiveCatchingOnNoWaiterSuspend(_this, (CancellableContinuation)cancellableContinuationImpl);
+                i8 = cOROUTINE_SUSPENDED;
+                i10 = i5;
                 andIncrement = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(context);
-                i10 = i3;
+                i10 = i5;
                 bindCancellationFun = andIncrement / l2;
-                i11 = cOROUTINE_SUSPENDED;
-                i5 = j$0;
+                i8 = cOROUTINE_SUSPENDED;
+                i = j$0;
                 obj23 = i14;
-                cmp = BufferedChannel.access$findSegmentReceive(context, bindCancellationFun, i3);
-                i3 = i10;
-                cOROUTINE_SUSPENDED = i11;
-                j$0 = i5;
+                cmp = BufferedChannel.access$findSegmentReceive(context, bindCancellationFun, i5);
+                i5 = i10;
+                cOROUTINE_SUSPENDED = i8;
+                j$0 = i;
                 segment$iv$iv = cmp;
                 cOROUTINE_SUSPENDED = BufferedChannel.access$updateCellReceive(context, segment$iv$iv, obj23, andIncrement, continuation4);
                 bindCancellationFun = receiveCatching;
                 bindCancellationFun = 0;
                 BufferedChannel.access$prepareReceiverForSuspension(context, bindCancellationFun, segment$iv$iv, obj23);
-                obj2 = 0;
+                _this = 0;
                 segment$iv$iv.cleanPrev();
-                i3 = i10;
-                cOROUTINE_SUSPENDED = i11;
-                j$0 = i5;
+                i5 = i10;
+                cOROUTINE_SUSPENDED = i8;
+                j$0 = i;
                 segment$iv$iv.cleanPrev();
                 j$0 = 0;
-                onUndeliveredElement = obj2.onUndeliveredElement;
+                onUndeliveredElement = _this.onUndeliveredElement;
                 bindCancellationFun = OnUndeliveredElementKt.bindCancellationFun(onUndeliveredElement, cOROUTINE_SUSPENDED, cancellableContinuationImpl.getContext());
                 bindCancellationFun = 0;
                 cancellableContinuationImpl.resume(ChannelResult.box-impl(ChannelResult.Companion.success-JP2dKIU(cOROUTINE_SUSPENDED)), bindCancellationFun);
                 int i12 = 0;
                 IllegalStateException illegalStateException2 = new IllegalStateException("unexpected".toString());
                 throw illegalStateException2;
-                i11 = cOROUTINE_SUSPENDED;
-                i10 = i3;
+                i8 = cOROUTINE_SUSPENDED;
+                i10 = i5;
                 onUndeliveredElement.cleanPrev();
                 cOROUTINE_SUSPENDED = 0;
-                onUndeliveredElement = obj2.onUndeliveredElement;
+                onUndeliveredElement = _this.onUndeliveredElement;
                 bindCancellationFun = OnUndeliveredElementKt.bindCancellationFun(onUndeliveredElement, j$0, cancellableContinuationImpl.getContext());
                 bindCancellationFun = 0;
                 cancellableContinuationImpl.resume(ChannelResult.box-impl(ChannelResult.Companion.success-JP2dKIU(j$0)), bindCancellationFun);
                 result = orCreateCancellableContinuation.getResult();
                 DebugProbesKt.probeCoroutineSuspended((Continuation)anon);
                 return cOROUTINE_SUSPENDED2;
-                i6 = i9;
+                i3 = i6;
                 break;
             case 1:
-                i6 = 0;
+                i3 = 0;
                 j$0 = anon.J$0;
                 int i$0 = anon.I$0;
                 Object l$1 = anon.L$1;
                 Object l$0 = anon.L$0;
                 ResultKt.throwOnFailure(cOROUTINE_SUSPENDED);
-                i11 = result;
+                i8 = result;
                 break;
             default:
                 IllegalStateException illegalStateException = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
@@ -1803,10 +1803,10 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     private final <R> R receiveImpl(Object waiter, Function1<? super E, ? extends R> onElementRetrieved, Function3<? super kotlinx.coroutines.channels.ChannelSegment<E>, ? super Integer, ? super Long, ? extends R> onSuspend, Function0<? extends R> onClosed, Function3<? super kotlinx.coroutines.channels.ChannelSegment<E>, ? super Integer, ? super Long, ? extends R> onNoWaiterSuspend) {
         Object obj2;
         Object segment;
-        int i;
+        int i2;
         long andIncrement;
         Object cmp;
-        int i2;
+        int i;
         long l;
         int cmp2;
         int obj3;
@@ -1818,14 +1818,14 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         segment = BufferedChannel.access$getReceiveSegment$FU$p().get(this);
         while (isClosedForReceive()) {
             andIncrement = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(this);
-            i2 = andIncrement / l2;
-            i = (int)i4;
-            l = BufferedChannel.access$updateCellReceive(this, segment, i, andIncrement, obj4);
+            i = andIncrement / l2;
+            i2 = (int)i4;
+            l = BufferedChannel.access$updateCellReceive(this, segment, i2, andIncrement, obj4);
             obj4 = onSuspend;
             if (Long.compare(andIncrement, sendersCounter$kotlinx_coroutines_core) < 0) {
             }
             segment.cleanPrev();
-            cmp = BufferedChannel.access$findSegmentReceive(this, i2, obj8);
+            cmp = BufferedChannel.access$findSegmentReceive(this, i, obj8);
             segment = cmp;
         }
         return onClosed.invoke();
@@ -1835,15 +1835,15 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Object obj;
         int iNSTANCE;
         Object segment;
-        int i2;
-        long andIncrement;
-        Object cmp2;
-        kotlinx.coroutines.channels.BufferedChannel.receiveImpl.1 buf;
-        int i;
-        Object obj2;
-        int cmp;
-        int obj3;
         int i3;
+        long andIncrement;
+        Object cmp;
+        kotlinx.coroutines.channels.BufferedChannel.receiveImpl.1 buf;
+        int i2;
+        Object obj2;
+        int cmp2;
+        int obj3;
+        int i;
         Object invoke;
         Object obj5;
         if (object8 != null) {
@@ -1857,15 +1857,15 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             segment = BufferedChannel.access$getReceiveSegment$FU$p().get($this);
             while ($this.isClosedForReceive()) {
                 andIncrement = BufferedChannel.access$getReceivers$FU$p().getAndIncrement($this);
-                i = andIncrement / l;
-                i2 = (int)i5;
-                obj2 = BufferedChannel.access$updateCellReceive($this, segment, i2, andIncrement, obj4);
+                i2 = andIncrement / l;
+                i3 = (int)i5;
+                obj2 = BufferedChannel.access$updateCellReceive($this, segment, i3, andIncrement, obj4);
                 obj5 = onSuspend;
                 if (Long.compare(andIncrement, sendersCounter$kotlinx_coroutines_core) < 0) {
                 }
                 segment.cleanPrev();
-                cmp2 = BufferedChannel.access$findSegmentReceive($this, i, obj9);
-                segment = cmp2;
+                cmp = BufferedChannel.access$findSegmentReceive($this, i2, obj9);
+                segment = cmp;
             }
             return onClosed.invoke();
         }
@@ -1881,11 +1881,11 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         long andIncrement;
         kotlinx.coroutines.channels.BufferedChannel buf;
         kotlinx.coroutines.channels.ChannelSegment channelSegment;
-        int i;
-        int i2;
-        Object cmp;
-        Unit iNSTANCE;
         int i3;
+        int i;
+        Object cmp;
+        Unit $i$a$ReceiveImpl$defaultBufferedChannel$receiveImplOnNoWaiter$1;
+        int i2;
         kotlinx.coroutines.channels.BufferedChannel buf2 = this;
         final Waiter waiter2 = onElementRetrieved;
         final Object obj = onClosed;
@@ -1900,17 +1900,17 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 if (Long.compare(r, sendersCounter$kotlinx_coroutines_core) < 0) {
                     buf.cleanPrev();
                 }
-                i = 0;
+                i3 = 0;
                 segment$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(buf2);
                 while (buf2.isClosedForReceive()) {
                     andIncrement = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(buf2);
-                    i2 = andIncrement / l;
+                    i = andIncrement / l;
                     closedForReceive = (int)i5;
                     cmp = BufferedChannel.access$updateCellReceive(buf2, segment$iv, closedForReceive, andIncrement, obj4);
                     if (Long.compare(andIncrement, sendersCounter$kotlinx_coroutines_core2) < 0) {
                     }
                     segment$iv.cleanPrev();
-                    cmp = BufferedChannel.access$findSegmentReceive(buf2, i2, obj13);
+                    cmp = BufferedChannel.access$findSegmentReceive(buf2, i, obj13);
                     segment$iv = cmp;
                 }
                 obj25.invoke();
@@ -1932,13 +1932,13 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         long sendersCounter$kotlinx_coroutines_core2;
         long cancellableContinuationImpl;
         Object i$iv$iv;
-        kotlinx.coroutines.channels.BufferedChannel buf2;
-        Object buf;
+        kotlinx.coroutines.channels.BufferedChannel buf;
+        Object buf2;
         int bindCancellationFun;
-        int i;
+        int i2;
         int $i$f$suspendCancellableCoroutineReusable;
         Continuation continuation;
-        int i2;
+        int i;
         CancellableContinuationImpl cancellableContinuationImpl2;
         int sendersCounter$kotlinx_coroutines_core;
         final kotlinx.coroutines.channels.BufferedChannel buf3 = this;
@@ -1955,24 +1955,24 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             BufferedChannel.access$prepareReceiverForSuspension(buf4, (Waiter)cancellableContinuationImpl3, segment, index);
             $i$f$suspendCancellableCoroutineReusable = id$iv$iv;
             continuation = context;
-            i2 = updCellResult$iv$iv;
+            i = updCellResult$iv$iv;
             cancellableContinuationImpl2 = orCreateCancellableContinuation;
         } else {
-            buf = segment;
+            buf2 = segment;
             i$iv$iv2 = index;
             bindCancellationFun = 0;
             if (obj == BufferedChannelKt.access$getFAILED$p() && Long.compare(r, sendersCounter$kotlinx_coroutines_core2) < 0) {
                 if (Long.compare(r, sendersCounter$kotlinx_coroutines_core2) < 0) {
-                    buf.cleanPrev();
+                    buf2.cleanPrev();
                 }
-                i = 0;
+                i2 = 0;
                 segment$iv$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(buf4);
                 while (buf4.isClosedForReceive()) {
                     sendersCounter$kotlinx_coroutines_core2 = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(buf4);
                     $i$f$suspendCancellableCoroutineReusable = id$iv$iv;
                     continuation = context;
                     id$iv$iv = sendersCounter$kotlinx_coroutines_core2 / $i$f$suspendCancellableCoroutineReusable2;
-                    i2 = updCellResult$iv$iv;
+                    i = updCellResult$iv$iv;
                     cancellableContinuationImpl2 = orCreateCancellableContinuation;
                     i$iv$iv2 = i$iv$iv;
                     updCellResult$iv$iv = BufferedChannel.access$updateCellReceive(buf4, segment$iv$iv, i$iv$iv2, sendersCounter$kotlinx_coroutines_core2, obj11);
@@ -1981,28 +1981,28 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                     i$iv$iv2 = index;
                     id$iv$iv = $i$f$suspendCancellableCoroutineReusable;
                     context = continuation;
-                    updCellResult$iv$iv = i2;
+                    updCellResult$iv$iv = i;
                     orCreateCancellableContinuation = cancellableContinuationImpl2;
                     segment$iv$iv.cleanPrev();
                     cmp = BufferedChannel.access$findSegmentReceive(buf4, id$iv$iv, context);
                     segment$iv$iv = cmp;
                     id$iv$iv = $i$f$suspendCancellableCoroutineReusable;
                     context = continuation;
-                    updCellResult$iv$iv = i2;
+                    updCellResult$iv$iv = i;
                     orCreateCancellableContinuation = cancellableContinuationImpl2;
                 }
                 sendersCounter$kotlinx_coroutines_core2 = 0;
                 BufferedChannel.access$onClosedReceiveOnNoWaiterSuspend(buf3, (CancellableContinuation)cancellableContinuationImpl3);
                 $i$f$suspendCancellableCoroutineReusable = id$iv$iv;
                 continuation = context;
-                i2 = updCellResult$iv$iv;
+                i = updCellResult$iv$iv;
                 cancellableContinuationImpl2 = orCreateCancellableContinuation;
             }
             $i$f$suspendCancellableCoroutineReusable = id$iv$iv;
             continuation = context;
-            i2 = updCellResult$iv$iv;
+            i = updCellResult$iv$iv;
             cancellableContinuationImpl2 = orCreateCancellableContinuation;
-            buf.cleanPrev();
+            buf2.cleanPrev();
             id$iv$iv = obj;
             context = 0;
             Function1 onUndeliveredElement = buf3.onUndeliveredElement;
@@ -2025,30 +2025,30 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     private final void registerSelectForReceive(SelectInstance<?> select, Object ignoredParam) {
         Object segment$iv;
-        int i2;
+        int i3;
         kotlinx.coroutines.channels.ChannelSegment cmp;
         Object obj;
         kotlinx.coroutines.channels.ChannelSegment channelSegment;
-        int i3;
+        int i;
         long andIncrement;
         SelectInstance selectInstance;
-        int i;
+        int i2;
         SelectInstance obj13;
         final int i4 = 0;
         segment$iv = BufferedChannel.access$getReceiveSegment$FU$p().get(this);
         while (isClosedForReceive()) {
             andIncrement = BufferedChannel.access$getReceivers$FU$p().getAndIncrement(this);
-            i = andIncrement / l;
-            i3 = (int)i6;
+            i2 = andIncrement / l;
+            i = (int)i6;
             channelSegment = segment$iv;
             selectInstance = obj13;
-            obj13 = BufferedChannel.access$updateCellReceive(this, channelSegment, i3, andIncrement, obj7);
+            obj13 = BufferedChannel.access$updateCellReceive(this, channelSegment, i, andIncrement, obj7);
             if (Long.compare(andIncrement, sendersCounter$kotlinx_coroutines_core) < 0) {
             }
             segment$iv = channelSegment;
             obj13 = selectInstance;
             channelSegment.cleanPrev();
-            cmp = BufferedChannel.access$findSegmentReceive(this, i, obj10);
+            cmp = BufferedChannel.access$findSegmentReceive(this, i2, obj10);
             channelSegment = segment$iv;
         }
         cmp = 0;
@@ -2273,43 +2273,43 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     }
 
     static <E> Object send$suspendImpl(kotlinx.coroutines.channels.BufferedChannel<E> $this, E element, Continuation<? super Unit> $completion) {
-        int $i$f$sendImpl;
+        int $i$f$sendImpl2;
         Object segment$iv;
-        int i3;
+        int i;
         Object aSSERTIONS_ENABLED;
         int $i$f$getSendersCounter;
         boolean z;
         long andIncrement;
-        int i4;
+        int i3;
         int cOROUTINE_SUSPENDED2;
         Object cOROUTINE_SUSPENDED;
-        int i;
+        int i4;
         Object obj;
         int i2;
         Continuation continuation;
-        int $i$f$sendImpl2;
+        int $i$f$sendImpl;
         final Object obj2 = $this;
-        $i$f$sendImpl = 0;
+        $i$f$sendImpl2 = 0;
         segment$iv = BufferedChannel.access$getSendSegment$FU$p().get(obj2);
         andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj2);
         int i8 = 0;
         $i$f$getSendersCounter = l & l4;
         z = BufferedChannel.access$isClosedForSend0(obj2, andIncrement);
-        i4 = $i$f$getSendersCounter / l2;
-        i3 = (int)i6;
-        while (Long.compare(cOROUTINE_SUSPENDED2, i4) != 0) {
-            aSSERTIONS_ENABLED = BufferedChannel.access$findSegmentSend(obj2, i4, obj12);
+        i3 = $i$f$getSendersCounter / l2;
+        i = (int)i6;
+        while (Long.compare(cOROUTINE_SUSPENDED2, i3) != 0) {
+            aSSERTIONS_ENABLED = BufferedChannel.access$findSegmentSend(obj2, i3, obj12);
             segment$iv = aSSERTIONS_ENABLED;
-            $i$f$sendImpl2 = $i$f$sendImpl;
             $i$f$sendImpl = $i$f$sendImpl2;
+            $i$f$sendImpl2 = $i$f$sendImpl;
             andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj2);
             i8 = 0;
             $i$f$getSendersCounter = l & l4;
             z = BufferedChannel.access$isClosedForSend0(obj2, andIncrement);
-            i4 = $i$f$getSendersCounter / l2;
-            i3 = (int)i6;
+            i3 = $i$f$getSendersCounter / l2;
+            i = (int)i6;
             segment$iv.cleanPrev();
-            $i$f$sendImpl2 = $i$f$sendImpl;
+            $i$f$sendImpl = $i$f$sendImpl2;
         }
         aSSERTIONS_ENABLED = 0;
         cOROUTINE_SUSPENDED2 = $this.onClosedSend(element, $completion);
@@ -2320,16 +2320,16 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     }
 
     static <E> Object sendBroadcast$suspendImpl(kotlinx.coroutines.channels.BufferedChannel<E> $this, E element, Continuation<? super Boolean> $completion) {
-        int i2;
+        int i3;
         Object segment$iv;
         Continuation id$iv;
         long l2;
-        int i;
+        int i2;
         kotlinx.coroutines.channels.ChannelSegment cmp;
         CancellableContinuationImpl cancellableContinuationImpl;
         boolean z;
         int i$iv;
-        int i3;
+        int i;
         Object constructor-impl;
         int companion;
         long l;
@@ -2345,8 +2345,8 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         final CancellableContinuationImpl cancellableContinuationImpl4 = cancellableContinuationImpl3;
         final int i10 = 0;
         constructor-impl = 0;
-        i2 = obj.onUndeliveredElement == null ? i$iv : constructor-impl;
-        if (i2 == 0) {
+        i3 = obj.onUndeliveredElement == null ? i$iv : constructor-impl;
+        if (i3 == 0) {
         } else {
             BufferedChannel.SendBroadcast sendBroadcast = new BufferedChannel.SendBroadcast((CancellableContinuation)cancellableContinuationImpl4);
             final int i11 = 0;
@@ -2364,7 +2364,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 segment$iv = cmp;
                 cmp = s$iv;
                 s$iv = id$iv;
-                id$iv = i3;
+                id$iv = i;
                 i$iv = companion;
                 andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj);
                 i7 = 0;
@@ -2387,25 +2387,25 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             return result;
         }
         int segment$iv2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("the `onUndeliveredElement` feature is unsupported for `sendBroadcast(e)`".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckBufferedChannel$sendBroadcast$2$1 = new IllegalStateException("the `onUndeliveredElement` feature is unsupported for `sendBroadcast(e)`".toString());
+        throw $i$a$CheckBufferedChannel$sendBroadcast$2$1;
     }
 
     public static Object sendImpl$default(kotlinx.coroutines.channels.BufferedChannel $this, Object element, Object waiter, Function0 onRendezvousOrBuffered, Function2 onSuspend, Function0 onClosed, Function4 onNoWaiterSuspend, int i8, Object object9) {
         int iNSTANCE;
         Object segment;
-        int i4;
+        int i2;
         kotlinx.coroutines.channels.ChannelSegment cmp;
         int i3;
         int $i$f$getSendersCounter;
-        long l2;
+        long l;
         Object obj;
         boolean z;
         kotlinx.coroutines.channels.BufferedChannel.sendImpl.1 buf;
         long andIncrement;
+        int i4;
+        long l2;
         int i;
-        long l;
-        int i2;
         final Object obj3 = $this;
         if (object9 != null) {
         } else {
@@ -2418,27 +2418,27 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             segment = BufferedChannel.access$getSendSegment$FU$p().get(obj3);
             andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj3);
             int i6 = 0;
-            l2 = 1152921504606846975L;
-            $i$f$getSendersCounter = l3 & l2;
+            l = 1152921504606846975L;
+            $i$f$getSendersCounter = l3 & l;
             z = BufferedChannel.access$isClosedForSend0(obj3, andIncrement);
-            i = $i$f$getSendersCounter / l4;
-            i4 = (int)i5;
-            while (Long.compare(l, i) != 0) {
-                cmp = BufferedChannel.access$findSegmentSend(obj3, i, obj13);
+            i4 = $i$f$getSendersCounter / l4;
+            i2 = (int)i5;
+            while (Long.compare(l2, i4) != 0) {
+                cmp = BufferedChannel.access$findSegmentSend(obj3, i4, obj13);
                 segment = cmp;
                 obj = waiter;
-                i2 = element;
-                l = onSuspend;
+                i = element;
+                l2 = onSuspend;
                 andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj3);
                 i6 = 0;
-                l2 = 1152921504606846975L;
-                $i$f$getSendersCounter = l3 & l2;
+                l = 1152921504606846975L;
+                $i$f$getSendersCounter = l3 & l;
                 z = BufferedChannel.access$isClosedForSend0(obj3, andIncrement);
-                i = $i$f$getSendersCounter / l4;
-                i4 = (int)i5;
+                i4 = $i$f$getSendersCounter / l4;
+                i2 = (int)i5;
                 segment.cleanPrev();
-                i2 = element;
-                l = onSuspend;
+                i = element;
+                l2 = onSuspend;
             }
             return onClosed.invoke();
         }
@@ -2454,20 +2454,20 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Object segment$iv2;
         kotlinx.coroutines.channels.ChannelSegment cmp;
         int channelSegment;
-        int iNSTANCE;
+        int $i$a$SendImpl$defaultBufferedChannel$sendImplOnNoWaiter$1;
         int i2;
         Object $i$f$getSendersCounter;
         long l;
         Object i$iv;
-        int i4;
         int i;
+        int i3;
         long andIncrement;
         int i5;
         int receiversCounter$kotlinx_coroutines_core;
         final int i12 = 0;
         final Object obj = this;
         String str = "unexpected";
-        switch (i4) {
+        switch (i) {
             case 0:
                 channelSegment = index;
                 i$iv = onRendezvousOrBuffered;
@@ -2498,13 +2498,13 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 break;
             default:
                 segment.cleanPrev();
-                i = 0;
+                i3 = 0;
                 segment$iv = BufferedChannel.access$getSendSegment$FU$p().get(obj);
                 andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj);
                 int i10 = 0;
                 l = 1152921504606846975L;
                 $i$f$getSendersCounter = l2 & l;
-                i4 = BufferedChannel.access$isClosedForSend0(obj, andIncrement);
+                i = BufferedChannel.access$isClosedForSend0(obj, andIncrement);
                 i5 = $i$f$getSendersCounter / l3;
                 cmp = BufferedChannel.access$findSegmentSend(obj, i5, obj14);
                 obj25.invoke();
@@ -2524,7 +2524,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 i2 = 0;
                 BufferedChannel.access$prepareSenderForSuspension(obj, i2, segment$iv, cmp);
                 int i9 = 0;
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SendImpl$defaultBufferedChannel$sendImplOnNoWaiter$1 = Unit.INSTANCE;
                 onClosed.invoke();
                 segment$iv.cleanPrev();
                 onClosed.invoke();
@@ -2534,9 +2534,9 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     }
 
     private final Object sendOnNoWaiterSuspend(kotlinx.coroutines.channels.ChannelSegment<E> segment, int index, E element, long s, Continuation<? super Unit> $completion) {
-        Object cont2;
+        Object cont;
         CancellableContinuationImpl i$iv$iv;
-        int i3;
+        int i2;
         kotlinx.coroutines.channels.BufferedChannel buf;
         Object segment$iv$iv2;
         Object segment$iv$iv;
@@ -2547,14 +2547,14 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Object id$iv$iv;
         long constructor-impl;
         CancellableContinuationImpl cmp;
-        int i5;
-        Object iNSTANCE;
         int i;
-        CancellableContinuationImpl cont;
+        Object iNSTANCE;
+        int i3;
+        CancellableContinuationImpl cont2;
         long l;
         Object s$iv$iv;
         int receiversCounter$kotlinx_coroutines_core;
-        int i2;
+        int i5;
         final kotlinx.coroutines.channels.BufferedChannel buf2 = this;
         final int i13 = 0;
         final int i14 = 0;
@@ -2569,7 +2569,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             case 0:
                 i$iv$iv2 = index;
                 segment.cleanPrev();
-                cont2 = 0;
+                cont = 0;
                 kotlin.Result.Companion companion = Result.Companion;
                 (Continuation)i$iv$iv.resumeWith(Result.constructor-impl(Unit.INSTANCE));
                 Object result = orCreateCancellableContinuation.getResult();
@@ -2578,7 +2578,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             case 1:
                 segment$iv$iv2 = segment;
                 i$iv$iv2 = index;
-                cont2 = 0;
+                cont = 0;
                 kotlin.Result.Companion companion2 = Result.Companion;
                 (Continuation)i$iv$iv.resumeWith(Result.constructor-impl(Unit.INSTANCE));
                 result = orCreateCancellableContinuation.getResult();
@@ -2597,7 +2597,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 throw cont4;
             case 4:
                 segment.cleanPrev();
-                cont2 = 0;
+                cont = 0;
                 BufferedChannel.access$onClosedSendOnNoWaiterSuspend(buf2, i11, (CancellableContinuation)i$iv$iv);
                 segment$iv$iv2 = segment;
                 i$iv$iv2 = index;
@@ -2606,59 +2606,59 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 return result;
             default:
                 segment.cleanPrev();
-                i = 0;
+                i3 = 0;
                 segment$iv$iv = BufferedChannel.access$getSendSegment$FU$p().get(obj);
                 long andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj);
                 int i10 = 0;
                 l2 &= l4;
                 closed$iv$iv = BufferedChannel.access$isClosedForSend0(obj, andIncrement);
-                cont = i$iv$iv;
+                cont2 = i$iv$iv;
                 l = andIncrement;
                 id$iv$iv = $this$sendersCounter$iv$iv$iv / sendersAndCloseStatusCur$iv$iv;
                 s$iv$iv = $this$sendersCounter$iv$iv$iv;
                 cmp = BufferedChannel.access$findSegmentSend(obj, id$iv$iv, obj7);
                 cmp = 0;
-                BufferedChannel.access$onClosedSendOnNoWaiterSuspend(buf2, i11, (CancellableContinuation)cont);
+                BufferedChannel.access$onClosedSendOnNoWaiterSuspend(buf2, i11, (CancellableContinuation)cont2);
                 segment$iv$iv2 = segment;
                 i$iv$iv2 = index;
-                i$iv$iv = cont;
+                i$iv$iv = cont2;
                 segment$iv$iv = cmp;
                 s$iv$iv = id$iv$iv;
-                id$iv$iv = i2;
-                i5 = closed$iv$iv;
-                closed$iv$iv = cont2;
+                id$iv$iv = i5;
+                i = closed$iv$iv;
+                closed$iv$iv = cont;
                 segment$iv$iv.cleanPrev();
                 segment$iv$iv.cleanPrev();
-                cont2 = 0;
-                BufferedChannel.access$onClosedSendOnNoWaiterSuspend(buf2, i11, (CancellableContinuation)cont);
+                cont = 0;
+                BufferedChannel.access$onClosedSendOnNoWaiterSuspend(buf2, i11, (CancellableContinuation)cont2);
                 segment$iv$iv2 = segment;
                 i$iv$iv2 = index;
                 int i17 = i8;
                 IllegalStateException illegalStateException = new IllegalStateException(iNSTANCE.toString());
                 throw illegalStateException;
                 segment$iv$iv.onSlotCleaned();
-                cont2 = 0;
-                BufferedChannel.access$onClosedSendOnNoWaiterSuspend(buf2, i11, (CancellableContinuation)cont);
+                cont = 0;
+                BufferedChannel.access$onClosedSendOnNoWaiterSuspend(buf2, i11, (CancellableContinuation)cont2);
                 segment$iv$iv2 = segment;
                 i$iv$iv2 = index;
-                i3 = cont;
-                i3 = 0;
-                BufferedChannel.access$prepareSenderForSuspension(obj, i3, segment$iv$iv, closed$iv$iv);
-                cont2 = 0;
+                i2 = cont2;
+                i2 = 0;
+                BufferedChannel.access$prepareSenderForSuspension(obj, i2, segment$iv$iv, closed$iv$iv);
+                cont = 0;
                 segment$iv$iv2 = segment;
                 i$iv$iv2 = index;
                 kotlin.Result.Companion companion4 = Result.Companion;
                 receiversCounter$kotlinx_coroutines_core = i9;
-                (Continuation)cont.resumeWith(Result.constructor-impl(Unit.INSTANCE));
+                (Continuation)cont2.resumeWith(Result.constructor-impl(Unit.INSTANCE));
                 segment$iv$iv2 = segment;
                 i$iv$iv2 = index;
                 segment$iv$iv.cleanPrev();
                 kotlin.Result.Companion companion3 = Result.Companion;
                 receiversCounter$kotlinx_coroutines_core = i7;
-                (Continuation)cont.resumeWith(Result.constructor-impl(Unit.INSTANCE));
+                (Continuation)cont2.resumeWith(Result.constructor-impl(Unit.INSTANCE));
                 segment$iv$iv2 = segment;
                 i$iv$iv2 = index;
-                i$iv$iv = cont;
+                i$iv$iv = cont2;
                 result = orCreateCancellableContinuation.getResult();
                 DebugProbesKt.probeCoroutineSuspended(obj33);
                 return result;
@@ -2677,8 +2677,8 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     private final boolean tryResumeReceiver(Object $this$tryResumeReceiver, E element) {
         boolean tryResumeHasNext;
         int bindCancellationFun;
-        Object onUndeliveredElement2;
-        Function1 onUndeliveredElement;
+        Object onUndeliveredElement;
+        Function1 onUndeliveredElement2;
         if ($this$tryResumeReceiver instanceof SelectInstance != null) {
             tryResumeHasNext = (SelectInstance)$this$tryResumeReceiver.trySelect(this, element);
             return tryResumeHasNext;
@@ -2687,9 +2687,9 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             if ($this$tryResumeReceiver instanceof ReceiveCatching) {
                 Intrinsics.checkNotNull($this$tryResumeReceiver, "null cannot be cast to non-null type kotlinx.coroutines.channels.ReceiveCatching<E of kotlinx.coroutines.channels.BufferedChannel>");
                 Object obj = $this$tryResumeReceiver;
-                onUndeliveredElement = this.onUndeliveredElement;
-                if (onUndeliveredElement != null) {
-                    bindCancellationFun = OnUndeliveredElementKt.bindCancellationFun(onUndeliveredElement, element, obj8.cont.getContext());
+                onUndeliveredElement2 = this.onUndeliveredElement;
+                if (onUndeliveredElement2 != null) {
+                    bindCancellationFun = OnUndeliveredElementKt.bindCancellationFun(onUndeliveredElement2, element, obj8.cont.getContext());
                 }
                 tryResumeHasNext = BufferedChannelKt.access$tryResume0((CancellableContinuation)obj2.cont, ChannelResult.box-impl(ChannelResult.Companion.success-JP2dKIU(element)), bindCancellationFun);
             } else {
@@ -2702,9 +2702,9 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                     } else {
                         Intrinsics.checkNotNull($this$tryResumeReceiver, "null cannot be cast to non-null type kotlinx.coroutines.CancellableContinuation<E of kotlinx.coroutines.channels.BufferedChannel>");
                         Object obj5 = $this$tryResumeReceiver;
-                        onUndeliveredElement2 = this.onUndeliveredElement;
-                        if (onUndeliveredElement2 != null) {
-                            bindCancellationFun = OnUndeliveredElementKt.bindCancellationFun(onUndeliveredElement2, element, (CancellableContinuation)$this$tryResumeReceiver.getContext());
+                        onUndeliveredElement = this.onUndeliveredElement;
+                        if (onUndeliveredElement != null) {
+                            bindCancellationFun = OnUndeliveredElementKt.bindCancellationFun(onUndeliveredElement, element, (CancellableContinuation)$this$tryResumeReceiver.getContext());
                         }
                         tryResumeHasNext = BufferedChannelKt.access$tryResume0((CancellableContinuation)$this$tryResumeReceiver, element, bindCancellationFun);
                     }
@@ -2855,10 +2855,10 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     private final int updateCellSend(kotlinx.coroutines.channels.ChannelSegment<E> segment, int index, E element, long s, Object waiter, boolean closed) {
         boolean casState$kotlinx_coroutines_core;
-        int i2;
+        int i;
         boolean bufferOrRendezvousSend;
         boolean andSetState$kotlinx_coroutines_core;
-        int i;
+        int i2;
         segment.storeElement$kotlinx_coroutines_core(index, element);
         if (obj12 != null) {
             Object obj = obj12;
@@ -2879,16 +2879,16 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Object state$kotlinx_coroutines_core = obj7.getState$kotlinx_coroutines_core(obj8);
         casState$kotlinx_coroutines_core = 1;
         if (state$kotlinx_coroutines_core == null) {
-            i = 0;
+            i2 = 0;
             if (bufferOrRendezvousSend(obj10)) {
-                if (obj7.casState$kotlinx_coroutines_core(obj8, i, BufferedChannelKt.BUFFERED)) {
+                if (obj7.casState$kotlinx_coroutines_core(obj8, i2, BufferedChannelKt.BUFFERED)) {
                     return casState$kotlinx_coroutines_core;
                 }
             } else {
                 if (obj12 == null) {
                     return 3;
                 }
-                if (obj7.casState$kotlinx_coroutines_core(obj8, i, obj12)) {
+                if (obj7.casState$kotlinx_coroutines_core(obj8, i2, obj12)) {
                     return 2;
                 }
             }
@@ -2898,14 +2898,14 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 if (tryResumeReceiver(state$kotlinx_coroutines_core, obj9)) {
                     obj7.setState$kotlinx_coroutines_core(obj8, BufferedChannelKt.access$getDONE_RCV$p());
                     onReceiveDequeued();
-                    i2 = 0;
+                    i = 0;
                 } else {
                     if (obj7.getAndSetState$kotlinx_coroutines_core(obj8, BufferedChannelKt.access$getINTERRUPTED_RCV$p()) != BufferedChannelKt.access$getINTERRUPTED_RCV$p()) {
                         obj7.onCancelledRequest(obj8, casState$kotlinx_coroutines_core);
                     }
-                    i2 = 5;
+                    i = 5;
                 }
-                return i2;
+                return i;
             }
         }
         return updateCellSendSlow(obj7, obj8, obj9, obj10, obj10, obj12);
@@ -2913,44 +2913,44 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     private final int updateCellSendSlow(kotlinx.coroutines.channels.ChannelSegment<E> segment, int index, E element, long s, Object waiter, boolean closed) {
         Object state$kotlinx_coroutines_core;
-        boolean casState$kotlinx_coroutines_core;
-        boolean aSSERTIONS_ENABLED;
+        boolean casState$kotlinx_coroutines_core2;
+        boolean $i$a$AssertBufferedChannel$updateCellSendSlow$1;
         Object waiter2;
         int i2;
-        int casState$kotlinx_coroutines_core2;
+        int casState$kotlinx_coroutines_core;
         boolean bufferOrRendezvousSend;
         kotlinx.coroutines.internal.Symbol cHANNEL_CLOSED;
         kotlinx.coroutines.internal.Symbol tryResumeReceiver;
         int i;
         state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(index);
-        casState$kotlinx_coroutines_core = 4;
+        casState$kotlinx_coroutines_core2 = 4;
         i2 = 0;
-        casState$kotlinx_coroutines_core2 = 1;
+        casState$kotlinx_coroutines_core = 1;
         while (state$kotlinx_coroutines_core == null) {
             i = 0;
             state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(index);
-            casState$kotlinx_coroutines_core = 4;
+            casState$kotlinx_coroutines_core2 = 4;
             i2 = 0;
-            casState$kotlinx_coroutines_core2 = 1;
+            casState$kotlinx_coroutines_core = 1;
         }
-        return casState$kotlinx_coroutines_core2;
+        return casState$kotlinx_coroutines_core;
     }
 
     private final void updateReceiversCounterIfLower(long value) {
         AtomicLongFieldUpdater receivers$FU;
         Object obj;
-        long l;
         long l2;
+        long l;
         int i;
         long obj11;
         final Object obj2 = this;
         final int i2 = 0;
-        l = BufferedChannel.receivers$FU.get(this);
+        l2 = BufferedChannel.receivers$FU.get(this);
         i = 0;
-        while (Long.compare(l, obj11) >= 0) {
-            l2 = obj11;
-            obj11 = l2;
-            l = receivers$FU2.get(this);
+        while (Long.compare(l2, obj11) >= 0) {
+            l = obj11;
+            obj11 = l;
+            l2 = receivers$FU2.get(this);
             i = 0;
         }
     }
@@ -2958,25 +2958,25 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     private final void updateSendersCounterIfLower(long value) {
         boolean compareAndSet;
         Object obj;
-        long l;
         long l2;
+        long l;
+        int i2;
         int i;
         int i3;
-        int i2;
         int i4;
         final Object obj2 = this;
         final int i5 = 0;
-        l = BufferedChannel.sendersAndCloseStatus$FU.get(this);
-        i3 = 0;
+        l2 = BufferedChannel.sendersAndCloseStatus$FU.get(this);
+        i = 0;
         int i6 = 0;
-        i2 = $this$sendersCounter$iv;
-        while (Long.compare(i2, value) >= 0) {
+        i3 = $this$sendersCounter$iv;
+        while (Long.compare(i3, value) >= 0) {
             int i7 = 0;
-            i = 60;
-            l = sendersAndCloseStatus$FU.get(this);
-            i3 = 0;
+            i2 = 60;
+            l2 = sendersAndCloseStatus$FU.get(this);
+            i = 0;
             i6 = 0;
-            i2 = $this$sendersCounter$iv;
+            i3 = $this$sendersCounter$iv;
         }
     }
 
@@ -3009,34 +3009,34 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     @Override // kotlinx.coroutines.channels.Channel
     public final void checkSegmentStructureInvariants() {
-        int i6;
         int i2;
+        int i;
         Object segment;
         kotlinx.coroutines.channels.ChannelSegment channelSegment;
         Iterator interruptedOrClosedCells;
-        int i4;
+        int i3;
         kotlinx.coroutines.internal.ConcurrentLinkedListNode prev;
         ArrayList arrayList;
-        int i;
-        int i5;
+        int i4;
+        int i6;
         Object obj;
         long l;
         Object minElem$iv;
-        long it;
+        long it2;
         int state$kotlinx_coroutines_core;
         Object next;
-        boolean equal4;
-        boolean equal;
         boolean equal2;
-        int equal3;
-        long it2;
-        int i3;
+        boolean equal3;
+        boolean equal;
+        int equal4;
+        long it;
+        int i5;
         int cmp;
         int i10 = 0;
         int i13 = 1;
         if (isRendezvousOrUnlimited()) {
-            i6 = BufferedChannel.bufferEndSegment$FU.get(this) == BufferedChannelKt.access$getNULL_SEGMENT$p() ? i13 : i10;
-            if (i6 == 0) {
+            i2 = BufferedChannel.bufferEndSegment$FU.get(this) == BufferedChannelKt.access$getNULL_SEGMENT$p() ? i13 : i10;
+            if (i2 == 0) {
             } else {
                 kotlinx.coroutines.channels.ChannelSegment[] arr = new ChannelSegment[3];
                 arr[i10] = BufferedChannel.receiveSegment$FU.get(this);
@@ -3048,15 +3048,15 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 state$kotlinx_coroutines_core = (Iterable)CollectionsKt.listOf(arr).iterator();
                 while (state$kotlinx_coroutines_core.hasNext()) {
                     next = state$kotlinx_coroutines_core.next();
-                    i3 = 0;
+                    i5 = 0;
                     if ((ChannelSegment)next != BufferedChannelKt.access$getNULL_SEGMENT$p()) {
                     } else {
                     }
-                    it2 = i10;
-                    if (it2 != 0) {
+                    it = i10;
+                    if (it != 0) {
                     }
                     (Collection)arrayList.add(next);
-                    it2 = i13;
+                    it = i13;
                 }
                 int i8 = 0;
                 interruptedOrClosedCells = (Iterable)(List)arrayList.iterator();
@@ -3065,22 +3065,22 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                     if (!interruptedOrClosedCells.hasNext()) {
                     } else {
                         state$kotlinx_coroutines_core = 0;
-                        it = obj8.id;
+                        it2 = obj8.id;
                         Object next6 = interruptedOrClosedCells.next();
-                        i3 = 0;
-                        it2 = obj9.id;
+                        i5 = 0;
+                        it = obj9.id;
                         do {
                             next6 = interruptedOrClosedCells.next();
-                            i3 = 0;
-                            it2 = obj9.id;
+                            i5 = 0;
+                            it = obj9.id;
                             if (interruptedOrClosedCells.hasNext()) {
                             }
                             minElem$iv = next6;
-                            it = it2;
-                        } while (Long.compare(it, it2) > 0);
+                            it2 = it;
+                        } while (Long.compare(it2, it) > 0);
                     }
-                    i2 = (ChannelSegment)minElem$iv.getPrev() == null ? i13 : i10;
-                    if (i2 == 0) {
+                    i = (ChannelSegment)minElem$iv.getPrev() == null ? i13 : i10;
+                    if (i == 0) {
                     } else {
                         segment = minElem$iv;
                         while (segment.getNext() != null) {
@@ -3089,39 +3089,39 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                             if ((ChannelSegment)next3.getPrev() != null) {
                             } else {
                             }
-                            i4 = i13;
+                            i3 = i13;
                             interruptedOrClosedCells = 0;
-                            i = 0;
-                            while (i < BufferedChannelKt.SEGMENT_SIZE) {
-                                state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(i);
-                                i++;
+                            i4 = 0;
+                            while (i4 < BufferedChannelKt.SEGMENT_SIZE) {
+                                state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(i4);
+                                i4++;
                                 if (Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_RCV$p())) {
                                 } else {
                                 }
-                                equal = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_SEND$p());
-                                if (equal) {
+                                equal3 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_SEND$p());
+                                if (equal3) {
                                 } else {
                                 }
-                                equal2 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.getCHANNEL_CLOSED());
-                                it2 = "Check failed.";
+                                equal = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.getCHANNEL_CLOSED());
+                                it = "Check failed.";
                                 if (Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getPOISONED$p())) {
                                 } else {
                                 }
-                                equal3 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getDONE_RCV$p());
-                                if (segment.getElement$kotlinx_coroutines_core(i) == null) {
+                                equal4 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getDONE_RCV$p());
+                                if (segment.getElement$kotlinx_coroutines_core(i4) == null) {
                                 } else {
                                 }
-                                equal4 = i10;
+                                equal2 = i10;
+                                equal2 = i13;
                                 equal4 = i13;
-                                equal3 = i13;
-                                if (segment.getElement$kotlinx_coroutines_core(i) == null) {
+                                if (segment.getElement$kotlinx_coroutines_core(i4) == null) {
                                 } else {
                                 }
-                                equal4 = i10;
+                                equal2 = i10;
                                 interruptedOrClosedCells++;
-                                equal4 = i13;
                                 equal2 = i13;
                                 equal = i13;
+                                equal3 = i13;
                             }
                             arrayList = segment.getNext();
                             Intrinsics.checkNotNull(arrayList);
@@ -3129,49 +3129,49 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                             if (segment != BufferedChannel.receiveSegment$FU.get(this) && segment != BufferedChannel.sendSegment$FU.get(this)) {
                             } else {
                             }
-                            i5 = i13;
+                            i6 = i13;
                             if (segment != BufferedChannel.sendSegment$FU.get(this)) {
                             } else {
                             }
                             if (segment == BufferedChannel.bufferEndSegment$FU.get(this)) {
                             } else {
                             }
-                            i5 = i10;
-                            state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(i);
-                            i++;
+                            i6 = i10;
+                            state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(i4);
+                            i4++;
                             if (Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_RCV$p())) {
                             } else {
                             }
-                            equal = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_SEND$p());
-                            if (equal) {
+                            equal3 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_SEND$p());
+                            if (equal3) {
                             } else {
                             }
-                            equal2 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.getCHANNEL_CLOSED());
-                            it2 = "Check failed.";
+                            equal = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.getCHANNEL_CLOSED());
+                            it = "Check failed.";
                             if (Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getPOISONED$p())) {
                             } else {
                             }
-                            equal3 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getDONE_RCV$p());
-                            if (segment.getElement$kotlinx_coroutines_core(i) == null) {
+                            equal4 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getDONE_RCV$p());
+                            if (segment.getElement$kotlinx_coroutines_core(i4) == null) {
                             } else {
                             }
-                            equal4 = i10;
+                            equal2 = i10;
+                            equal2 = i13;
                             equal4 = i13;
-                            equal3 = i13;
-                            if (segment.getElement$kotlinx_coroutines_core(i) == null) {
+                            if (segment.getElement$kotlinx_coroutines_core(i4) == null) {
                             } else {
                             }
-                            equal4 = i10;
+                            equal2 = i10;
                             interruptedOrClosedCells++;
-                            equal4 = i13;
                             equal2 = i13;
                             equal = i13;
+                            equal3 = i13;
                             kotlinx.coroutines.internal.ConcurrentLinkedListNode next4 = segment.getNext();
                             Intrinsics.checkNotNull(next4);
                             if ((ChannelSegment)next4.getPrev() == segment) {
                             } else {
                             }
-                            i4 = i10;
+                            i3 = i10;
                         }
                     }
                     int segment2 = 0;
@@ -3187,8 +3187,8 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             IllegalStateException illegalStateException5 = new IllegalStateException(stringBuilder2.append("bufferEndSegment must be NULL_SEGMENT for rendezvous and unlimited channels; they do not manipulate it.\nChannel state: ").append(this).toString().toString());
             throw illegalStateException5;
         }
-        i6 = Long.compare(channelSegment, l) <= 0 ? i13 : i10;
-        if (i6 == 0) {
+        i2 = Long.compare(channelSegment, l) <= 0 ? i13 : i10;
+        if (i2 == 0) {
         } else {
         }
         int $i$f$minByOrThrow = 0;
@@ -3224,17 +3224,17 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     @Override // kotlinx.coroutines.channels.Channel
     protected final void dropFirstElementUntilTheSpecifiedCellIsInTheBuffer(long globalCellIndex) {
-        boolean conflatedDropOldest;
+        boolean $i$a$AssertBufferedChannel$dropFirstElementUntilTheSpecifiedCellIsInTheBuffer$1;
         Object segment;
         boolean compareAndSet;
-        long l;
-        Object segmentReceive;
-        long i4;
         long l2;
+        Object segmentReceive;
+        long i;
+        long l;
         int onUndeliveredElement;
         int i3;
         int i2;
-        int i;
+        int i4;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i5 = 0;
             if (!isConflatedDropOldest()) {
@@ -3244,22 +3244,22 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             throw assertionError;
         }
         segment = BufferedChannel.receiveSegment$FU.get(this);
-        i4 = BufferedChannel.receivers$FU.get(this);
+        i = BufferedChannel.receivers$FU.get(this);
         while (Long.compare(globalCellIndex, l4) < 0) {
             segmentReceive = this;
-            l = segmentReceive;
-            i4 = BufferedChannel.receivers$FU.get(this);
-            i2 = i4 / l5;
+            l2 = segmentReceive;
+            i = BufferedChannel.receivers$FU.get(this);
+            i2 = i / l5;
             onUndeliveredElement = segment.id;
             segmentReceive = segment;
-            l2 = i4;
-            Object cellReceive = l.updateCellReceive(segmentReceive, (int)i8, l2, onUndeliveredElement);
+            l = i;
+            Object cellReceive = l2.updateCellReceive(segmentReceive, (int)i8, l, onUndeliveredElement);
             segmentReceive.cleanPrev();
-            onUndeliveredElement = l.onUndeliveredElement;
+            onUndeliveredElement = l2.onUndeliveredElement;
             segment = segmentReceive;
-            i = 0;
-            onUndeliveredElement = OnUndeliveredElementKt.callUndeliveredElementCatchingException$default(onUndeliveredElement, cellReceive, i, 2, i);
-            if (Long.compare(i4, sendersCounter$kotlinx_coroutines_core) < 0) {
+            i4 = 0;
+            onUndeliveredElement = OnUndeliveredElementKt.callUndeliveredElementCatchingException$default(onUndeliveredElement, cellReceive, i4, 2, i4);
+            if (Long.compare(i, sendersCounter$kotlinx_coroutines_core) < 0) {
             }
             segmentReceive.cleanPrev();
             segmentReceive = findSegmentReceive(i2, obj9);
@@ -3340,21 +3340,21 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         int segmentReceive;
         Object obj;
         long receiversCounter$kotlinx_coroutines_core;
-        int i3;
-        long sendersCounter$kotlinx_coroutines_core;
         int i;
+        long sendersCounter$kotlinx_coroutines_core;
         int i2;
+        int i3;
         segment = BufferedChannel.receiveSegment$FU.get(this);
         receiversCounter$kotlinx_coroutines_core = getReceiversCounter$kotlinx_coroutines_core();
         obj = 0;
         while (Long.compare(sendersCounter$kotlinx_coroutines_core, receiversCounter$kotlinx_coroutines_core) <= 0) {
-            i = receiversCounter$kotlinx_coroutines_core / l2;
+            i2 = receiversCounter$kotlinx_coroutines_core / l2;
             segment.cleanPrev();
             BufferedChannel.receivers$FU.compareAndSet(this, receiversCounter$kotlinx_coroutines_core, obj4);
             segment = BufferedChannel.receiveSegment$FU.get(this);
             receiversCounter$kotlinx_coroutines_core = getReceiversCounter$kotlinx_coroutines_core();
             obj = 0;
-            segmentReceive = findSegmentReceive(i, obj10);
+            segmentReceive = findSegmentReceive(i2, obj10);
             segment = segmentReceive;
         }
         return obj;
@@ -3364,8 +3364,8 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Object obj;
         int i;
         boolean z;
-        kotlinx.coroutines.internal.Symbol symbol2;
         kotlinx.coroutines.internal.Symbol symbol;
+        kotlinx.coroutines.internal.Symbol symbol2;
         if (AbstractResolvableFuture.SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(BufferedChannel.closeHandler$FU, this, 0, handler)) {
         }
         Object obj2 = this;
@@ -3454,13 +3454,13 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
 
     protected void registerSelectForSend(SelectInstance<?> select, Object element) {
         Object segment$iv;
-        int i;
+        int i2;
         int element$iv;
         SelectInstance selectInstance;
         int $this$sendersCounter$iv$iv;
         boolean z;
         long andIncrement;
-        int i2;
+        int i;
         int iNSTANCE;
         int element$iv2;
         final Object obj = this;
@@ -3473,10 +3473,10 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         int i4 = 0;
         l &= l2;
         z = BufferedChannel.access$isClosedForSend0(obj, andIncrement);
-        i2 = $this$sendersCounter$iv$iv / l3;
-        i = (int)i6;
-        while (Long.compare(l5, i2) != 0) {
-            iNSTANCE = BufferedChannel.access$findSegmentSend(obj, i2, obj13);
+        i = $this$sendersCounter$iv$iv / l3;
+        i2 = (int)i6;
+        while (Long.compare(l5, i) != 0) {
+            iNSTANCE = BufferedChannel.access$findSegmentSend(obj, i, obj13);
             segment$iv = iNSTANCE;
             element$iv2 = element$iv;
             element$iv = element$iv2;
@@ -3484,8 +3484,8 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             i4 = 0;
             l &= l2;
             z = BufferedChannel.access$isClosedForSend0(obj, andIncrement);
-            i2 = $this$sendersCounter$iv$iv / l3;
-            i = (int)i6;
+            i = $this$sendersCounter$iv$iv / l3;
+            i2 = (int)i6;
             segment$iv.cleanPrev();
             element$iv2 = element$iv;
         }
@@ -3505,14 +3505,14 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         Object segment;
         int i;
         int cmp;
-        Object obj;
-        int $i$f$getSendersCounter;
-        long l;
         Object obj2;
+        int $i$f$getSendersCounter;
+        long l2;
+        Object obj;
         boolean z;
         long andIncrement;
         int i2;
-        long l2;
+        long l;
         int i3;
         Object obj5;
         final Object obj3 = this;
@@ -3520,28 +3520,28 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         segment = BufferedChannel.access$getSendSegment$FU$p().get(obj3);
         andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj3);
         int i5 = 0;
-        l = 1152921504606846975L;
-        $i$f$getSendersCounter = l3 & l;
+        l2 = 1152921504606846975L;
+        $i$f$getSendersCounter = l3 & l2;
         z = BufferedChannel.access$isClosedForSend0(obj3, andIncrement);
         i2 = $i$f$getSendersCounter / l4;
         i = (int)i4;
-        while (Long.compare(l2, i2) != 0) {
+        while (Long.compare(l, i2) != 0) {
             cmp = BufferedChannel.access$findSegmentSend(obj3, i2, obj12);
             segment = cmp;
-            obj2 = waiter;
+            obj = waiter;
             i3 = element;
-            l2 = onSuspend;
+            l = onSuspend;
             obj5 = onNoWaiterSuspend;
             andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(obj3);
             i5 = 0;
-            l = 1152921504606846975L;
-            $i$f$getSendersCounter = l3 & l;
+            l2 = 1152921504606846975L;
+            $i$f$getSendersCounter = l3 & l2;
             z = BufferedChannel.access$isClosedForSend0(obj3, andIncrement);
             i2 = $i$f$getSendersCounter / l4;
             i = (int)i4;
             segment.cleanPrev();
             i3 = element;
-            l2 = onSuspend;
+            l = onSuspend;
             obj5 = onNoWaiterSuspend;
         }
         return onClosed.invoke();
@@ -3559,29 +3559,29 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         String $this$sendersCloseStatus$iv;
         Object segment;
         int append;
-        boolean equal;
-        boolean equal4;
-        boolean equal2;
         boolean equal5;
         boolean equal3;
+        boolean equal4;
+        boolean equal2;
+        boolean equal;
         int str;
-        Iterator i3;
+        Iterator i;
         ArrayList sEGMENT_SIZE;
-        int i2;
+        int i3;
         Object minElem$iv;
-        long it3;
-        int i;
+        long it;
+        int i2;
         Iterator iterator;
         Object next;
         boolean it2;
-        int it;
-        int cmp2;
+        int it3;
+        int cmp4;
         kotlinx.coroutines.channels.ChannelSegment channelSegment;
         int string2;
+        int cmp2;
         int cmp;
         int cmp5;
         int cmp3;
-        int cmp4;
         int i4;
         string = this;
         StringBuilder stringBuilder2 = new StringBuilder();
@@ -3601,45 +3601,45 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         kotlinx.coroutines.channels.ChannelSegment[] arr = new ChannelSegment[3];
         int i14 = 0;
         arr[i14] = BufferedChannel.receiveSegment$FU.get(string);
-        i2 = 1;
-        arr[i2] = BufferedChannel.sendSegment$FU.get(string);
+        i3 = 1;
+        arr[i3] = BufferedChannel.sendSegment$FU.get(string);
         arr[2] = BufferedChannel.bufferEndSegment$FU.get(string);
         int i11 = 0;
         ArrayList arrayList = new ArrayList();
-        i = 0;
+        i2 = 0;
         iterator = (Iterable)CollectionsKt.listOf(arr).iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            cmp2 = 0;
+            cmp4 = 0;
             if ((ChannelSegment)next != BufferedChannelKt.access$getNULL_SEGMENT$p()) {
             } else {
             }
-            it = i14;
-            if (it != 0) {
+            it3 = i14;
+            if (it3 != 0) {
             }
             (Collection)arrayList.add(next);
-            it = i2;
+            it3 = i3;
         }
         int i8 = 0;
-        i3 = (Iterable)(List)arrayList.iterator();
-        if (!i3.hasNext()) {
+        i = (Iterable)(List)arrayList.iterator();
+        if (!i.hasNext()) {
         } else {
-            if (!i3.hasNext()) {
+            if (!i.hasNext()) {
             } else {
-                i = 0;
-                it3 = obj4.id;
-                Object next3 = i3.next();
-                it = 0;
+                i2 = 0;
+                it = obj4.id;
+                Object next3 = i.next();
+                it3 = 0;
                 it2 = obj6.id;
-                while (Long.compare(it3, it2) > 0) {
+                while (Long.compare(it, it2) > 0) {
                     minElem$iv = next3;
-                    it3 = it2;
-                    if (i3.hasNext() != null) {
+                    it = it2;
+                    if (i.hasNext() != null) {
                     }
-                    i4 = i2;
+                    i4 = i3;
                     string = this;
-                    next3 = i3.next();
-                    it = 0;
+                    next3 = i.next();
+                    it3 = 0;
                     it2 = obj6.id;
                 }
             }
@@ -3647,11 +3647,11 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             long sendersCounter$kotlinx_coroutines_core = string.getSendersCounter$kotlinx_coroutines_core();
             segment = obj5;
             while (/* condition */) {
-                while (i3 < sEGMENT_SIZE) {
-                    string2 = i2;
+                while (i < sEGMENT_SIZE) {
+                    string2 = i3;
                     i16 += l2;
-                    Object state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(i3);
-                    Object element$kotlinx_coroutines_core = segment.getElement$kotlinx_coroutines_core(i3);
+                    Object state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(i);
+                    Object element$kotlinx_coroutines_core = segment.getElement$kotlinx_coroutines_core(i);
                     i4 = string2;
                     if (state$kotlinx_coroutines_core instanceof CancellableContinuation) {
                     } else {
@@ -3678,34 +3678,34 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                     if (state$kotlinx_coroutines_core == null) {
                     } else {
                     }
-                    equal = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getIN_BUFFER$p());
-                    if (equal) {
-                    } else {
-                    }
-                    equal4 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getDONE_RCV$p());
-                    if (equal4) {
-                    } else {
-                    }
-                    equal2 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getPOISONED$p());
-                    if (equal2) {
-                    } else {
-                    }
-                    equal5 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_RCV$p());
+                    equal5 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getIN_BUFFER$p());
                     if (equal5) {
                     } else {
                     }
-                    equal3 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_SEND$p());
+                    equal3 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getDONE_RCV$p());
                     if (equal3) {
+                    } else {
+                    }
+                    equal4 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getPOISONED$p());
+                    if (equal4) {
+                    } else {
+                    }
+                    equal2 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_RCV$p());
+                    if (equal2) {
+                    } else {
+                    }
+                    equal = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_SEND$p());
+                    if (equal) {
                     } else {
                     }
                     append = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.getCHANNEL_CLOSED());
                     if (append == 0) {
                     }
-                    i3++;
+                    i++;
                     append = 44;
                     string = this;
-                    sEGMENT_SIZE = i;
-                    i2 = i4;
+                    sEGMENT_SIZE = i2;
+                    i3 = i4;
                     string2 = state$kotlinx_coroutines_core.toString();
                     if (element$kotlinx_coroutines_core != null) {
                     } else {
@@ -3715,11 +3715,11 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                     StringBuilder stringBuilder4 = new StringBuilder();
                     stringBuilder2.append(stringBuilder4.append('(').append(string2).append(',').append(element$kotlinx_coroutines_core).append("),").toString());
                     append = i4;
-                    equal3 = i4;
-                    equal5 = i4;
+                    equal = i4;
                     equal2 = i4;
                     equal4 = i4;
-                    equal = i4;
+                    equal3 = i4;
+                    equal5 = i4;
                     string2 = "resuming_sender";
                     append = i4;
                     StringBuilder stringBuilder5 = new StringBuilder();
@@ -3763,17 +3763,17 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 append = 44;
                 segment = string;
                 string = this;
-                i2 = i4;
-                i3 = 0;
+                i3 = i4;
+                i = 0;
                 sEGMENT_SIZE = BufferedChannelKt.SEGMENT_SIZE;
-                string2 = i2;
+                string2 = i3;
                 i16 += l2;
                 if (Long.compare(minElem$iv, sendersCounter$kotlinx_coroutines_core) >= 0) {
                     break;
                 } else {
                 }
-                state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(i3);
-                element$kotlinx_coroutines_core = segment.getElement$kotlinx_coroutines_core(i3);
+                state$kotlinx_coroutines_core = segment.getState$kotlinx_coroutines_core(i);
+                element$kotlinx_coroutines_core = segment.getElement$kotlinx_coroutines_core(i);
                 i4 = string2;
                 if (state$kotlinx_coroutines_core instanceof CancellableContinuation) {
                 } else {
@@ -3800,34 +3800,34 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 if (state$kotlinx_coroutines_core == null) {
                 } else {
                 }
-                equal = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getIN_BUFFER$p());
-                if (equal) {
-                } else {
-                }
-                equal4 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getDONE_RCV$p());
-                if (equal4) {
-                } else {
-                }
-                equal2 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getPOISONED$p());
-                if (equal2) {
-                } else {
-                }
-                equal5 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_RCV$p());
+                equal5 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getIN_BUFFER$p());
                 if (equal5) {
                 } else {
                 }
-                equal3 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_SEND$p());
+                equal3 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getDONE_RCV$p());
                 if (equal3) {
+                } else {
+                }
+                equal4 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getPOISONED$p());
+                if (equal4) {
+                } else {
+                }
+                equal2 = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_RCV$p());
+                if (equal2) {
+                } else {
+                }
+                equal = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.access$getINTERRUPTED_SEND$p());
+                if (equal) {
                 } else {
                 }
                 append = Intrinsics.areEqual(state$kotlinx_coroutines_core, BufferedChannelKt.getCHANNEL_CLOSED());
                 if (append == 0) {
                 }
-                i3++;
+                i++;
                 append = 44;
                 string = this;
-                sEGMENT_SIZE = i;
-                i2 = i4;
+                sEGMENT_SIZE = i2;
+                i3 = i4;
                 string2 = state$kotlinx_coroutines_core.toString();
                 if (element$kotlinx_coroutines_core != null) {
                 } else {
@@ -3837,11 +3837,11 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 stringBuilder4 = new StringBuilder();
                 stringBuilder2.append(stringBuilder4.append('(').append(string2).append(',').append(element$kotlinx_coroutines_core).append("),").toString());
                 append = i4;
-                equal3 = i4;
-                equal5 = i4;
+                equal = i4;
                 equal2 = i4;
                 equal4 = i4;
-                equal = i4;
+                equal3 = i4;
+                equal5 = i4;
                 string2 = "resuming_sender";
                 append = i4;
                 stringBuilder5 = new StringBuilder();
@@ -3900,21 +3900,21 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         boolean rendezvousOrUnlimited;
         Object segment;
         String hexAddress2;
-        Iterator iterator;
-        ArrayList str;
-        String str3;
-        int hexAddress;
-        int i;
-        Object minElem$iv;
-        long it;
-        int i2;
         Iterator iterator2;
+        ArrayList str2;
+        String str;
+        int hexAddress;
+        int i2;
+        Object minElem$iv;
+        long it3;
+        int i;
+        Iterator iterator;
         Object next;
-        boolean it2;
-        int it3;
+        boolean it;
+        int it2;
         int valueOf;
         kotlinx.coroutines.channels.ChannelSegment string;
-        String str2;
+        String str3;
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder stringBuilder2 = new StringBuilder();
         int i9 = 0;
@@ -3949,78 +3949,78 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         arr[2] = BufferedChannel.bufferEndSegment$FU.get(this);
         int i8 = 0;
         ArrayList arrayList = new ArrayList();
-        i2 = 0;
-        iterator2 = (Iterable)CollectionsKt.listOf(arr).iterator();
-        while (iterator2.hasNext()) {
-            next = iterator2.next();
+        i = 0;
+        iterator = (Iterable)CollectionsKt.listOf(arr).iterator();
+        while (iterator.hasNext()) {
+            next = iterator.next();
             valueOf = 0;
             if ((ChannelSegment)next != BufferedChannelKt.access$getNULL_SEGMENT$p()) {
             } else {
             }
-            it3 = i10;
-            if (it3 != 0) {
+            it2 = i10;
+            if (it2 != 0) {
             }
             (Collection)arrayList.add(next);
-            it3 = i13;
+            it2 = i13;
         }
         int i5 = 0;
-        iterator = (Iterable)(List)arrayList.iterator();
-        if (!iterator.hasNext()) {
+        iterator2 = (Iterable)(List)arrayList.iterator();
+        if (!iterator2.hasNext()) {
         } else {
-            if (!iterator.hasNext()) {
+            if (!iterator2.hasNext()) {
             } else {
-                i2 = 0;
-                it = obj7.id;
-                Object next4 = iterator.next();
-                it3 = 0;
-                it2 = obj9.id;
+                i = 0;
+                it3 = obj7.id;
+                Object next4 = iterator2.next();
+                it2 = 0;
+                it = obj9.id;
                 do {
-                    next4 = iterator.next();
-                    it3 = 0;
-                    it2 = obj9.id;
-                    if (iterator.hasNext() != null) {
+                    next4 = iterator2.next();
+                    it2 = 0;
+                    it = obj9.id;
+                    if (iterator2.hasNext() != null) {
                     }
                     minElem$iv = next4;
-                    it = it2;
-                } while (Long.compare(it, it2) > 0);
+                    it3 = it;
+                } while (Long.compare(it3, it) > 0);
             }
             int i6 = 0;
             segment = obj8;
             StringBuilder stringBuilder5 = new StringBuilder();
             while (segment.isRemoved()) {
-                str3 = "*";
+                str = "*";
                 kotlinx.coroutines.internal.ConcurrentLinkedListNode prev = segment.getPrev();
                 if ((ChannelSegment)prev != null) {
                 } else {
                 }
                 hexAddress = minElem$iv;
-                stringBuilder.append(stringBuilder5.append(DebugStringsKt.getHexAddress(segment)).append("=[").append(str3).append(segment.id).append(",prev=").append(hexAddress).append(i7).toString());
-                i = i10;
-                while (i < BufferedChannelKt.SEGMENT_SIZE) {
-                    it = i;
-                    i2 = 0;
-                    it2 = segment.getState$kotlinx_coroutines_core(it);
-                    if (it2 instanceof CancellableContinuation) {
+                stringBuilder.append(stringBuilder5.append(DebugStringsKt.getHexAddress(segment)).append("=[").append(str).append(segment.id).append(",prev=").append(hexAddress).append(i7).toString());
+                i2 = i10;
+                while (i2 < BufferedChannelKt.SEGMENT_SIZE) {
+                    it3 = i2;
+                    i = 0;
+                    it = segment.getState$kotlinx_coroutines_core(it3);
+                    if (it instanceof CancellableContinuation) {
                     } else {
                     }
-                    if (it2 instanceof SelectInstance != null) {
+                    if (it instanceof SelectInstance != null) {
                     } else {
                     }
-                    if (it2 instanceof ReceiveCatching) {
+                    if (it instanceof ReceiveCatching) {
                     } else {
                     }
-                    if (it2 instanceof BufferedChannel.SendBroadcast) {
+                    if (it instanceof BufferedChannel.SendBroadcast) {
                     } else {
                     }
-                    if (it2 instanceof WaiterEB) {
+                    if (it instanceof WaiterEB) {
                     } else {
                     }
-                    valueOf = String.valueOf(it2);
+                    valueOf = String.valueOf(it);
                     StringBuilder stringBuilder8 = new StringBuilder();
-                    stringBuilder.append(stringBuilder8.append('[').append(it).append("]=(").append(valueOf).append(i7).append(segment.getElement$kotlinx_coroutines_core(it)).append("),").toString());
-                    i++;
+                    stringBuilder.append(stringBuilder8.append('[').append(it3).append("]=(").append(valueOf).append(i7).append(segment.getElement$kotlinx_coroutines_core(it3)).append("),").toString());
+                    i2++;
                     StringBuilder stringBuilder7 = new StringBuilder();
-                    valueOf = stringBuilder7.append("EB(").append(it2).append(')').toString();
+                    valueOf = stringBuilder7.append("EB(").append(it).append(')').toString();
                     valueOf = "send(broadcast)";
                     valueOf = "receiveCatching";
                     valueOf = "select";
@@ -4031,37 +4031,37 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
                 if ((ChannelSegment)next2 != null) {
                 }
                 stringBuilder.append(stringBuilder6.append("next=").append(minElem$iv).append("]  ").toString());
-                iterator = segment.getNext();
-                if ((ChannelSegment)iterator != null) {
+                iterator2 = segment.getNext();
+                if ((ChannelSegment)iterator2 != null) {
                 }
-                segment = iterator;
+                segment = iterator2;
                 stringBuilder5 = new StringBuilder();
-                str3 = "";
+                str = "";
                 minElem$iv = DebugStringsKt.getHexAddress((ChannelSegment)next2);
-                it = i;
-                i2 = 0;
-                it2 = segment.getState$kotlinx_coroutines_core(it);
-                if (it2 instanceof CancellableContinuation) {
+                it3 = i2;
+                i = 0;
+                it = segment.getState$kotlinx_coroutines_core(it3);
+                if (it instanceof CancellableContinuation) {
                 } else {
                 }
-                if (it2 instanceof SelectInstance != null) {
+                if (it instanceof SelectInstance != null) {
                 } else {
                 }
-                if (it2 instanceof ReceiveCatching) {
+                if (it instanceof ReceiveCatching) {
                 } else {
                 }
-                if (it2 instanceof BufferedChannel.SendBroadcast) {
+                if (it instanceof BufferedChannel.SendBroadcast) {
                 } else {
                 }
-                if (it2 instanceof WaiterEB) {
+                if (it instanceof WaiterEB) {
                 } else {
                 }
-                valueOf = String.valueOf(it2);
+                valueOf = String.valueOf(it);
                 stringBuilder8 = new StringBuilder();
-                stringBuilder.append(stringBuilder8.append('[').append(it).append("]=(").append(valueOf).append(i7).append(segment.getElement$kotlinx_coroutines_core(it)).append("),").toString());
-                i++;
+                stringBuilder.append(stringBuilder8.append('[').append(it3).append("]=(").append(valueOf).append(i7).append(segment.getElement$kotlinx_coroutines_core(it3)).append("),").toString());
+                i2++;
                 stringBuilder7 = new StringBuilder();
-                valueOf = stringBuilder7.append("EB(").append(it2).append(')').toString();
+                valueOf = stringBuilder7.append("EB(").append(it).append(')').toString();
                 valueOf = "send(broadcast)";
                 valueOf = "receiveCatching";
                 valueOf = "select";
@@ -4078,17 +4078,17 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
     public Object tryReceive-PtdJZtk() {
         Object globalIndex;
         int i2;
-        Object closed-JP2dKIU;
+        Object $i$a$ReceiveImpl$defaultBufferedChannel$tryReceive$3;
         int cmp;
         Object success-JP2dKIU;
-        int i;
+        int i3;
         Throwable closeCause;
         int i4;
         Object obj;
         long l;
         kotlinx.coroutines.channels.ChannelResult.Companion companion;
         Object segment$iv;
-        int i3;
+        int i;
         final Object obj2 = this;
         final long l7 = BufferedChannel.sendersAndCloseStatus$FU.get(obj2);
         if (obj2.isClosedForReceive0(l7)) {
@@ -4111,7 +4111,7 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             obj = BufferedChannel.access$updateCellReceive(obj2, globalIndex, i2, l5, closeCause);
             l = l5;
             segment$iv = globalIndex;
-            i3 = i2;
+            i = i2;
             if (Long.compare(l, sendersCounter$kotlinx_coroutines_core) < 0) {
             }
             globalIndex = segment$iv;
@@ -4120,19 +4120,19 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             globalIndex = cmp;
         }
         int i6 = 0;
-        closed-JP2dKIU = ChannelResult.Companion.closed-JP2dKIU(obj2.getCloseCause());
-        return closed-JP2dKIU;
+        $i$a$ReceiveImpl$defaultBufferedChannel$tryReceive$3 = ChannelResult.Companion.closed-JP2dKIU(obj2.getCloseCause());
+        return $i$a$ReceiveImpl$defaultBufferedChannel$tryReceive$3;
     }
 
     public Object trySend-JP2dKIU(E element) {
-        Object segment$iv2;
-        Object obj;
         Object segment$iv;
-        int i2;
-        int i;
-        Object segm;
-        int i5;
+        Object obj;
+        Object $i$a$SendImpl$defaultBufferedChannel$trySend$3;
         int i3;
+        int i2;
+        Object $i$a$SendImpl$defaultBufferedChannel$trySend$1;
+        int i;
+        int i5;
         boolean z;
         long andIncrement;
         int i4;
@@ -4144,29 +4144,29 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         }
         final kotlinx.coroutines.internal.Symbol symbol2 = symbol;
         int i6 = 0;
-        segment$iv2 = BufferedChannel.access$getSendSegment$FU$p().get(this);
+        segment$iv = BufferedChannel.access$getSendSegment$FU$p().get(this);
         andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(this);
-        i = 0;
+        i2 = 0;
         l6 &= l3;
         z = BufferedChannel.access$isClosedForSend0(this, andIncrement);
-        i4 = i3 / l4;
-        i2 = (int)i7;
+        i4 = i5 / l4;
+        i3 = (int)i7;
         while (Long.compare(l, i4) != 0) {
             obj = BufferedChannel.access$findSegmentSend(this, i4, obj12);
-            segment$iv2 = obj;
-            segment$iv2 = obj;
+            segment$iv = obj;
+            segment$iv = obj;
             andIncrement = BufferedChannel.access$getSendersAndCloseStatus$FU$p().getAndIncrement(this);
-            i = 0;
+            i2 = 0;
             l6 &= l3;
             z = BufferedChannel.access$isClosedForSend0(this, andIncrement);
-            i4 = i3 / l4;
-            i2 = (int)i7;
-            obj = segment$iv2;
+            i4 = i5 / l4;
+            i3 = (int)i7;
+            obj = segment$iv;
             obj.cleanPrev();
         }
         int i8 = 0;
-        segment$iv = ChannelResult.Companion.closed-JP2dKIU(getSendException());
-        return segment$iv;
+        $i$a$SendImpl$defaultBufferedChannel$trySend$3 = ChannelResult.Companion.closed-JP2dKIU(getSendException());
+        return $i$a$SendImpl$defaultBufferedChannel$trySend$3;
     }
 
     @Override // kotlinx.coroutines.channels.Channel
@@ -4175,36 +4175,36 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         AtomicLongFieldUpdater completedExpandBuffersAndPauseFlag$FU;
         int $i$f$getEbPauseExpandBuffers;
         Object obj;
-        long bufferEndCounter;
+        long bufferEndCounter3;
         int ebCompletedAndBit;
-        int $this$ebCompletedCounter$iv2;
-        long l;
-        int it;
-        int cmp;
-        int i;
-        long ebCompleted;
-        long bufferEndCounter4;
-        Object bufferEndCounter3;
-        long bufferEndCounter2;
         int $this$ebCompletedCounter$iv;
         long l3;
-        int $i$f$getEbCompletedCounter;
-        int i3;
-        int i2;
+        int it;
+        int cmp;
         int i5;
-        int i4;
+        long ebCompleted;
+        long bufferEndCounter4;
+        Object bufferEndCounter2;
+        long bufferEndCounter;
+        int $this$ebCompletedCounter$iv2;
         long l4;
+        int $i$f$getEbCompletedCounter;
+        int i4;
+        int i;
+        int i2;
+        int i3;
+        long l;
         long l2;
         if (this.isRendezvousOrUnlimited()) {
         }
-        while (Long.compare(bufferEndCounter, globalIndex) > 0) {
+        while (Long.compare(bufferEndCounter3, globalIndex) > 0) {
             obj = this;
         }
         final int i12 = 0;
         ebCompletedAndBit = i12;
         ebCompleted = 4611686018427387903L;
         while (ebCompletedAndBit < BufferedChannelKt.access$getEXPAND_BUFFER_COMPLETION_WAIT_ITERATIONS$p()) {
-            l = ebCompletedAndBit;
+            l3 = ebCompletedAndBit;
             it = 0;
             bufferEndCounter4 = obj.getBufferEndCounter();
             int i11 = 0;
@@ -4212,45 +4212,45 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
             ebCompleted = 4611686018427387903L;
         }
         completedExpandBuffersAndPauseFlag$FU = BufferedChannel.completedExpandBuffersAndPauseFlag$FU;
-        bufferEndCounter3 = this;
+        bufferEndCounter2 = this;
         final int i16 = 0;
         long l5 = completedExpandBuffersAndPauseFlag$FU.get(obj);
-        bufferEndCounter2 = 0;
+        bufferEndCounter = 0;
         int i17 = 0;
         $i$f$getEbCompletedCounter = 1;
-        while (completedExpandBuffersAndPauseFlag$FU.compareAndSet(obj, l5, l) != 0) {
-            l4 = ebCompleted;
+        while (completedExpandBuffersAndPauseFlag$FU.compareAndSet(obj, l5, l3) != 0) {
+            l = ebCompleted;
             obj = this;
             l5 = completedExpandBuffersAndPauseFlag$FU.get(obj);
-            bufferEndCounter2 = 0;
+            bufferEndCounter = 0;
             i17 = 0;
             $i$f$getEbCompletedCounter = 1;
         }
-        bufferEndCounter3 = obj.getBufferEndCounter();
-        bufferEndCounter2 = BufferedChannel.completedExpandBuffersAndPauseFlag$FU.get(obj);
+        bufferEndCounter2 = obj.getBufferEndCounter();
+        bufferEndCounter = BufferedChannel.completedExpandBuffersAndPauseFlag$FU.get(obj);
         int i7 = 0;
         i9 &= ebCompleted;
         int i8 = 0;
-        while (Long.compare(i3, i2) != 0) {
+        while (Long.compare(i4, i) != 0) {
             $i$f$getEbPauseExpandBuffers = $i$f$getEbCompletedCounter;
-            if (Long.compare(bufferEndCounter3, $this$ebCompletedCounter$iv2) != 0) {
+            if (Long.compare(bufferEndCounter2, $this$ebCompletedCounter$iv) != 0) {
             }
-            l4 = ebCompleted;
+            l = ebCompleted;
             if ($i$f$getEbPauseExpandBuffers == 0) {
             } else {
             }
-            ebCompletedAndBit = bufferEndCounter2;
+            ebCompletedAndBit = bufferEndCounter;
             obj = this;
-            ebCompleted = l4;
-            bufferEndCounter3 = obj.getBufferEndCounter();
-            bufferEndCounter2 = BufferedChannel.completedExpandBuffersAndPauseFlag$FU.get(obj);
+            ebCompleted = l;
+            bufferEndCounter2 = obj.getBufferEndCounter();
+            bufferEndCounter = BufferedChannel.completedExpandBuffersAndPauseFlag$FU.get(obj);
             i7 = 0;
             i9 &= ebCompleted;
             i8 = 0;
             $i$f$getEbPauseExpandBuffers = i12;
-            BufferedChannel.completedExpandBuffersAndPauseFlag$FU.compareAndSet(this, bufferEndCounter2, l);
-            ebCompleted = l4;
-            if (Long.compare(bufferEndCounter3, it) != 0) {
+            BufferedChannel.completedExpandBuffersAndPauseFlag$FU.compareAndSet(this, bufferEndCounter, l3);
+            ebCompleted = l;
+            if (Long.compare(bufferEndCounter2, it) != 0) {
             }
         }
         AtomicLongFieldUpdater completedExpandBuffersAndPauseFlag$FU3 = BufferedChannel.completedExpandBuffersAndPauseFlag$FU;
@@ -4258,16 +4258,16 @@ public class BufferedChannel<E>  implements kotlinx.coroutines.channels.Channel<
         final int i18 = 0;
         long l6 = completedExpandBuffersAndPauseFlag$FU3.get(obj);
         $i$f$getEbCompletedCounter = 0;
-        i4 = 0;
-        l4 = ebCompleted;
-        while (completedExpandBuffersAndPauseFlag$FU3.compareAndSet(obj, l6, l)) {
+        i3 = 0;
+        l = ebCompleted;
+        while (completedExpandBuffersAndPauseFlag$FU3.compareAndSet(obj, l6, l3)) {
             obj = this;
-            $this$ebCompletedCounter$iv2 = i15;
-            ebCompleted = l4;
+            $this$ebCompletedCounter$iv = i15;
+            ebCompleted = l;
             l6 = completedExpandBuffersAndPauseFlag$FU3.get(obj);
             $i$f$getEbCompletedCounter = 0;
-            i4 = 0;
-            l4 = ebCompleted;
+            i3 = 0;
+            l = ebCompleted;
         }
     }
 }

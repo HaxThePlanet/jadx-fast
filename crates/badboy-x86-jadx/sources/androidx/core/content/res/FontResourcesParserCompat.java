@@ -147,19 +147,19 @@ public class FontResourcesParserCompat {
 
     public static androidx.core.content.res.FontResourcesParserCompat.FamilyResourceEntry parse(XmlPullParser parser, Resources resources) throws XmlPullParserException, IOException {
         int next;
-        int i2;
         int i;
+        int i2;
         next = parser.next();
-        i2 = next;
-        i = 2;
-        while (next != i) {
-            if (i2 != 1) {
+        i = next;
+        i2 = 2;
+        while (next != i2) {
+            if (i != 1) {
             }
             next = parser.next();
-            i2 = next;
-            i = 2;
+            i = next;
+            i2 = 2;
         }
-        if (i2 != i) {
+        if (i != i2) {
         } else {
             return FontResourcesParserCompat.readFamilies(parser, resources);
         }
@@ -168,10 +168,10 @@ public class FontResourcesParserCompat {
     }
 
     public static List<List<byte[]>> readCerts(Resources resources, int certsId) {
-        List byteArrayList;
+        List byteArrayList2;
         int i;
         int resourceId;
-        List byteArrayList2;
+        List byteArrayList;
         if (certsId == 0) {
             return Collections.emptyList();
         }
@@ -181,11 +181,11 @@ public class FontResourcesParserCompat {
             return Collections.emptyList();
         }
         ArrayList arrayList = new ArrayList();
-        byteArrayList = 0;
-        if (FontResourcesParserCompat.getType(typedArray, byteArrayList) == 1) {
+        byteArrayList2 = 0;
+        if (FontResourcesParserCompat.getType(typedArray, byteArrayList2) == 1) {
             i = 0;
             while (i < typedArray.length()) {
-                resourceId = typedArray.getResourceId(i, byteArrayList);
+                resourceId = typedArray.getResourceId(i, byteArrayList2);
                 if (resourceId != 0) {
                 }
                 i++;
@@ -259,15 +259,15 @@ public class FontResourcesParserCompat {
         int fontFamilyFont_android_ttcIndex;
         int fontFamilyFont_android_fontVariationSettings;
         int fontFamilyFont_android_font;
-        int i2;
         int i;
+        int i2;
         TypedArray attributes = resources.obtainAttributes(Xml.asAttributeSet(parser), R.styleable.FontFamilyFont);
         fontFamilyFont_fontWeight = attributes.hasValue(R.styleable.FontFamilyFont_fontWeight) ? R.styleable.FontFamilyFont_fontWeight : R.styleable.FontFamilyFont_android_fontWeight;
         fontFamilyFont_fontStyle = attributes.hasValue(R.styleable.FontFamilyFont_fontStyle) ? R.styleable.FontFamilyFont_fontStyle : R.styleable.FontFamilyFont_android_fontStyle;
         next = 0;
         if (1 == attributes.getInt(fontFamilyFont_fontStyle, next)) {
         } else {
-            i2 = next;
+            i = next;
         }
         fontFamilyFont_android_ttcIndex = attributes.hasValue(R.styleable.FontFamilyFont_ttcIndex) ? R.styleable.FontFamilyFont_ttcIndex : R.styleable.FontFamilyFont_android_ttcIndex;
         fontFamilyFont_android_fontVariationSettings = attributes.hasValue(R.styleable.FontFamilyFont_fontVariationSettings) ? R.styleable.FontFamilyFont_fontVariationSettings : R.styleable.FontFamilyFont_android_fontVariationSettings;
@@ -277,7 +277,7 @@ public class FontResourcesParserCompat {
         while (parser.next() != 3) {
             FontResourcesParserCompat.skip(parser);
         }
-        FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry = new FontResourcesParserCompat.FontFileResourceEntry(attributes.getString(i6), attributes.getInt(fontFamilyFont_fontWeight, 400), i2, attributes.getString(fontFamilyFont_android_fontVariationSettings), attributes.getInt(fontFamilyFont_android_ttcIndex, next), attributes.getResourceId(i6, next));
+        FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry = new FontResourcesParserCompat.FontFileResourceEntry(attributes.getString(i6), attributes.getInt(fontFamilyFont_fontWeight, 400), i, attributes.getString(fontFamilyFont_android_fontVariationSettings), attributes.getInt(fontFamilyFont_android_ttcIndex, next), attributes.getResourceId(i6, next));
         return fontFileResourceEntry;
     }
 

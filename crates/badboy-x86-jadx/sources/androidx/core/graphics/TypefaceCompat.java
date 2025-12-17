@@ -105,13 +105,13 @@ public class TypefaceCompat {
     public static Typeface createFromResourcesFamilyXml(Context context, FontResourcesParserCompat.FamilyResourceEntry entry, Resources resources, int id, String path, int cookie, int style, ResourcesCompat.FontCallback fontCallback, Handler handler, boolean isRequestFromLayoutInflator) {
         Typeface providerEntry;
         Typeface systemFontFamily;
-        int i;
+        int i4;
         int timeout;
         List resourceUid;
         int fallbackRequest;
         Context context2;
         int fetchStrategy;
-        int i4;
+        int i;
         int i2;
         int i3;
         Handler handler2;
@@ -127,17 +127,17 @@ public class TypefaceCompat {
                 }
                 return systemFontFamily;
             }
-            i = 1;
+            i4 = 1;
             fallbackRequest = 0;
             if (isRequestFromLayoutInflator) {
                 if (obj.getFetchStrategy() == 0) {
                 } else {
-                    i = fallbackRequest;
+                    i4 = fallbackRequest;
                 }
             } else {
                 if (fontCallback2 == null) {
                 } else {
-                    i = fallbackRequest;
+                    i4 = fallbackRequest;
                 }
             }
             if (isRequestFromLayoutInflator) {
@@ -151,7 +151,7 @@ public class TypefaceCompat {
             } else {
                 fetchStrategy = resourceUid;
             }
-            providerEntry = FontsContractCompat.requestFont(context, fetchStrategy, style, i, i3, ResourcesCompat.FontCallback.getHandler(handler3), resourcesCallbackAdapter);
+            providerEntry = FontsContractCompat.requestFont(context, fetchStrategy, style, i4, i3, ResourcesCompat.FontCallback.getHandler(handler3), resourcesCallbackAdapter);
         } else {
             providerEntry = TypefaceCompat.sTypefaceCompatImpl.createFromFontFamilyFilesResourceEntry(context, (FontResourcesParserCompat.FontFamilyFilesResourceEntry)entry, resources, style);
             if (fontCallback2 != null) {

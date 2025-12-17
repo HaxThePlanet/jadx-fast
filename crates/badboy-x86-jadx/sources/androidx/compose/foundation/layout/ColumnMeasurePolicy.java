@@ -57,8 +57,8 @@ public final class ColumnMeasurePolicy implements MeasurePolicy, androidx.compos
     private final int getCrossAxisPosition(Placeable placeable, androidx.compose.foundation.layout.RowColumnParentData parentData, int crossAxisLayoutSize, int beforeCrossAxisAlignmentLine, LayoutDirection layoutDirection) {
         androidx.compose.foundation.layout.CrossAxisAlignment crossAxisAlignment;
         int align$foundation_layout_release;
-        int i;
         int i2;
+        int i;
         if (parentData != null) {
             crossAxisAlignment = parentData.getCrossAxisAlignment();
         } else {

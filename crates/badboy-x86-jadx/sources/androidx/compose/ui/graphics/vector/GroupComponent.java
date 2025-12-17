@@ -86,22 +86,22 @@ public final class GroupComponent extends androidx.compose.ui.graphics.vector.VN
 
     private final void markTintForColor-8_81llA(long color) {
         int $this$isSpecified$iv;
-        int i2;
-        int cmp;
         int i;
+        int cmp;
+        int i2;
         if (!this.isTintable) {
         }
-        i2 = 0;
+        i = 0;
         cmp = 16;
         final int i4 = 0;
-        $this$isSpecified$iv = Long.compare(i3, cmp) != 0 ? i : i4;
+        $this$isSpecified$iv = Long.compare(i3, cmp) != 0 ? i2 : i4;
         if ($this$isSpecified$iv != 0) {
-            i2 = 0;
+            i = 0;
             if (Long.compare($this$isSpecified$iv, cmp) == 0) {
             } else {
-                i = i4;
+                i2 = i4;
             }
-            if (i != 0) {
+            if (i2 != 0) {
                 this.tintColor = color;
             } else {
                 if (!VectorKt.rgbEqual--OWjLjI(this.tintColor, obj1)) {
@@ -170,26 +170,26 @@ public final class GroupComponent extends androidx.compose.ui.graphics.vector.VN
     public void draw(DrawScope $this$draw) {
         DrawScope drawScope2;
         DrawScope drawScope;
-        Object obj3;
+        Object obj2;
         float[] groupMatrix;
         Matrix box-impl;
         int index$iv;
-        int i;
-        boolean willClipPath;
-        Object obj2;
-        Object obj;
         int i2;
-        DrawScope $this$draw_u24lambda_u247_u24lambda_u246_u24lambda_u245;
+        boolean willClipPath;
+        Object obj3;
+        Object obj;
         int i3;
-        obj3 = this;
+        DrawScope $this$draw_u24lambda_u247_u24lambda_u246_u24lambda_u245;
+        int i;
+        obj2 = this;
         int i4 = 0;
-        if (obj3.isMatrixDirty) {
-            obj3.updateMatrix();
-            obj3.isMatrixDirty = i4;
+        if (obj2.isMatrixDirty) {
+            obj2.updateMatrix();
+            obj2.isMatrixDirty = i4;
         }
-        if (obj3.isClipPathDirty) {
-            obj3.updateClipPath();
-            obj3.isClipPathDirty = i4;
+        if (obj2.isClipPathDirty) {
+            obj2.updateClipPath();
+            obj2.isClipPathDirty = i4;
         }
         final DrawScope drawScope5 = $this$draw;
         final int i6 = 0;
@@ -198,7 +198,7 @@ public final class GroupComponent extends androidx.compose.ui.graphics.vector.VN
         drawContext.getCanvas().save();
         DrawTransform transform = drawContext.getTransform();
         int i8 = 0;
-        groupMatrix = obj3.groupMatrix;
+        groupMatrix = obj2.groupMatrix;
         int i10 = 0;
         if (groupMatrix != null) {
             if (groupMatrix != null) {
@@ -206,26 +206,26 @@ public final class GroupComponent extends androidx.compose.ui.graphics.vector.VN
             } else {
                 box-impl = i10;
             }
-            i = 0;
+            i2 = 0;
             transform.transform-58bKbWc(box-impl.unbox-impl());
         }
-        Path it = obj3.clipPath;
-        if (obj3.getWillClipPath() && it != null) {
+        Path it = obj2.clipPath;
+        if (obj2.getWillClipPath() && it != null) {
             if (it != null) {
                 DrawTransform.clipPath-mtrdD-E$default(transform, it, i4, 2, i10);
             }
         }
         drawScope2 = drawScope5;
         int i5 = 0;
-        List children = obj3.children;
+        List children = obj2.children;
         int i9 = 0;
         index$iv = 0;
         while (index$iv < children.size()) {
-            i2 = 0;
             i3 = 0;
+            i = 0;
             (VNode)children.get(index$iv).draw($this$draw);
             index$iv++;
-            obj3 = this;
+            obj2 = this;
             drawScope2 = $this$draw_u24lambda_u247_u24lambda_u246_u24lambda_u245;
         }
         DrawScope drawScope4 = $this$draw;
@@ -312,31 +312,31 @@ public final class GroupComponent extends androidx.compose.ui.graphics.vector.VN
 
     @Override // androidx.compose.ui.graphics.vector.VNode
     public final void move(int from, int to, int count) {
-        int i2;
-        int current;
-        int i;
         int i3;
+        int current;
+        int i2;
+        int i;
         Object children2;
         List children;
-        i2 = 0;
+        i3 = 0;
         if (from > to) {
             int i4 = 0;
             current = to;
-            while (i2 < count) {
-                i = i2;
-                i3 = 0;
+            while (i3 < count) {
+                i2 = i3;
+                i = 0;
                 this.children.remove(from);
                 this.children.add(current, (VNode)this.children.get(from));
                 current++;
-                i2++;
+                i3++;
             }
         } else {
-            while (i2 < count) {
-                current = i2;
-                i = 0;
+            while (i3 < count) {
+                current = i3;
+                i2 = 0;
                 this.children.remove(from);
                 this.children.add(to + -1, (VNode)this.children.get(from));
-                i2++;
+                i3++;
             }
         }
         invalidate();
@@ -344,18 +344,18 @@ public final class GroupComponent extends androidx.compose.ui.graphics.vector.VN
 
     @Override // androidx.compose.ui.graphics.vector.VNode
     public final void remove(int index, int count) {
-        int i4;
-        int i2;
         int i;
-        int children;
         int i3;
-        i4 = 0;
-        while (i4 < count) {
-            i2 = i4;
-            i = 0;
+        int i2;
+        int children;
+        int i4;
+        i = 0;
+        while (i < count) {
+            i3 = i;
+            i2 = 0;
             if (index < this.children.size()) {
             }
-            i4++;
+            i++;
             (VNode)this.children.get(index).setInvalidateListener$ui_release(0);
             this.children.remove(index);
         }

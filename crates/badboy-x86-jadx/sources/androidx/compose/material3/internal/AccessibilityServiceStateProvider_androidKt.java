@@ -24,20 +24,20 @@ public final class AccessibilityServiceStateProvider_androidKt {
     private static final String SwitchAccessActivityName = "SwitchAccess";
     private static final void ObserveState(LifecycleOwner lifecycleOwner, Function1<? super Lifecycle.Event, Unit> handleEvent, Function0<Unit> onDispose, Composer $composer, int $changed, int i6) {
         int traceInProgress;
-        int i9;
+        int i3;
         int $dirty;
-        int i7;
+        int i5;
         int iNSTANCE;
         boolean traceInProgress2;
-        int i2;
-        int i3;
-        Object lifecycleOwner2;
-        int i;
-        int rememberedValue;
-        int i8;
-        int i5;
-        boolean skipping;
         int i4;
+        int i;
+        Object lifecycleOwner2;
+        int i7;
+        int rememberedValue;
+        int i9;
+        int i2;
+        boolean skipping;
+        int i8;
         int anon;
         Object obj9;
         Object obj10;
@@ -49,28 +49,28 @@ public final class AccessibilityServiceStateProvider_androidKt {
             $dirty |= 6;
         } else {
             if ($changed & 6 == 0) {
-                i7 = obj11.changedInstance(lifecycleOwner) ? 4 : 2;
-                $dirty |= i7;
+                i5 = obj11.changedInstance(lifecycleOwner) ? 4 : 2;
+                $dirty |= i5;
             }
         }
         iNSTANCE = i6 & 2;
-        i3 = 32;
+        i = 32;
         if (iNSTANCE != null) {
             $dirty |= 48;
         } else {
             if ($changed & 48 == 0) {
-                i = obj11.changedInstance(handleEvent) ? i3 : 16;
-                $dirty |= i;
+                i7 = obj11.changedInstance(handleEvent) ? i : 16;
+                $dirty |= i7;
             }
         }
         rememberedValue = i6 & 4;
-        i8 = 256;
+        i9 = 256;
         if (rememberedValue != 0) {
             $dirty |= 384;
         } else {
             if ($changed & 384 == 0) {
-                i5 = obj11.changedInstance(onDispose) ? i8 : 128;
-                $dirty |= i5;
+                i2 = obj11.changedInstance(onDispose) ? i9 : 128;
+                $dirty |= i2;
             }
         }
         if ($dirty & 147 == 146) {
@@ -86,15 +86,15 @@ public final class AccessibilityServiceStateProvider_androidKt {
                 }
                 ComposerKt.sourceInformationMarkerStart(obj11, 1591666214, "CC(remember):AccessibilityServiceStateProvider.android.kt#9igjgp");
                 int i16 = 1;
-                i9 = $dirty & 112 == i3 ? i16 : i2;
-                if ($dirty & 896 == i8) {
-                    i2 = i16;
+                i3 = $dirty & 112 == i ? i16 : i4;
+                if ($dirty & 896 == i9) {
+                    i4 = i16;
                 }
                 iNSTANCE = obj11;
-                i3 = 0;
+                i = 0;
                 rememberedValue = iNSTANCE.rememberedValue();
-                i8 = 0;
-                if (i12 |= i2 == 0) {
+                i9 = 0;
+                if (i12 |= i4 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         skipping = 0;
                         anon = new AccessibilityServiceStateProvider_androidKt.ObserveState.3.1(lifecycleOwner, obj9, obj10);
@@ -120,7 +120,7 @@ public final class AccessibilityServiceStateProvider_androidKt {
             obj9.updateScope((Function2)iNSTANCE);
         } else {
             lifecycleOwner2 = lifecycleOwner;
-            i4 = $changed;
+            i8 = $changed;
         }
     }
 
@@ -129,28 +129,28 @@ public final class AccessibilityServiceStateProvider_androidKt {
     }
 
     public static final State<Boolean> rememberAccessibilityServiceState(boolean listenToTouchExplorationState, boolean listenToSwitchAccessState, Composer $composer, int $changed, int i5) {
-        boolean changed;
+        boolean changed2;
+        int i4;
         int i;
-        int i3;
         int i2;
         boolean traceInProgress;
         String str;
         int i6;
         int i7;
-        int i4;
-        int changed2;
-        int empty2;
-        Object empty3;
+        int i3;
+        int changed;
+        int empty;
+        Object empty2;
         Object anon2;
-        Object empty;
+        Object empty3;
         Object anon;
         Object listener;
         final Composer composer3 = $composer;
         final int i24 = $changed;
         int i8 = -1771705152;
         ComposerKt.sourceInformationMarkerStart(composer3, i8, "C(rememberAccessibilityServiceState)P(1)47@1997L7,52@2152L157,57@2374L7,58@2405L144,63@2571L45,56@2315L307:AccessibilityServiceStateProvider.android.kt#mqatfk");
-        i7 = i5 & 1 != 0 ? i3 : listenToTouchExplorationState;
-        i4 = i5 & 2 != 0 ? i2 : listenToSwitchAccessState;
+        i7 = i5 & 1 != 0 ? i : listenToTouchExplorationState;
+        i3 = i5 & 2 != 0 ? i2 : listenToSwitchAccessState;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, i24, -1, "androidx.compose.material3.internal.rememberAccessibilityServiceState (AccessibilityServiceStateProvider.android.kt:46)");
         }
@@ -169,14 +169,14 @@ public final class AccessibilityServiceStateProvider_androidKt {
         int i30 = 1;
         if (i10 ^= 6 > i25) {
             if (!composer3.changed(i7)) {
-                i = i24 & 6 == i25 ? i30 : i6;
+                i4 = i24 & 6 == i25 ? i30 : i6;
             } else {
             }
         } else {
         }
         int i31 = 32;
         if (i26 ^= 48 > i31) {
-            if (!composer3.changed(i4)) {
+            if (!composer3.changed(i3)) {
                 if (i24 & 48 == i31) {
                     i6 = i30;
                 }
@@ -187,11 +187,11 @@ public final class AccessibilityServiceStateProvider_androidKt {
         Composer composer = $composer;
         int i27 = 0;
         Object rememberedValue3 = composer.rememberedValue();
-        empty3 = 0;
-        if (i |= i6 == 0) {
+        empty2 = 0;
+        if (i4 |= i6 == 0) {
             if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                empty = 0;
-                listener = new Listener(i7, i4);
+                empty3 = 0;
+                listener = new Listener(i7, i3);
                 composer.updateRememberedValue(listener);
             } else {
                 listener = rememberedValue3;
@@ -207,10 +207,10 @@ public final class AccessibilityServiceStateProvider_androidKt {
         Composer composer4 = $composer;
         int i22 = 0;
         Object rememberedValue2 = composer4.rememberedValue();
-        empty2 = 0;
+        empty = 0;
         if (changed4 |= changedInstance2 == 0) {
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                empty3 = 0;
+                empty2 = 0;
                 anon = new AccessibilityServiceStateProvider_androidKt.rememberAccessibilityServiceState.1.1(listener, obj3);
                 composer4.updateRememberedValue((Function1)anon);
             } else {
@@ -226,7 +226,7 @@ public final class AccessibilityServiceStateProvider_androidKt {
         int i29 = 0;
         if (changed3 |= changedInstance == null) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                empty2 = 0;
+                empty = 0;
                 anon2 = new AccessibilityServiceStateProvider_androidKt.rememberAccessibilityServiceState.2.1(listener, obj3);
                 composer2.updateRememberedValue((Function0)anon2);
             } else {

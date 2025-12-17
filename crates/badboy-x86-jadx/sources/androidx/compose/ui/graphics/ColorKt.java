@@ -18,66 +18,66 @@ public final class ColorKt {
 
     public static final long UnspecifiedColor = 16L;
     public static final long Color(float red, float green, float blue, float alpha, ColorSpace colorSpace) {
-        int i10;
+        int i11;
         int out$iv;
-        int m$iv;
+        int m$iv2;
         short s3;
-        int i8;
-        int out$iv3;
         int i12;
-        int i13;
-        short s;
         int out$iv2;
         int i;
-        String str2;
+        int i8;
+        short s;
+        int out$iv3;
+        int i7;
+        String $i$a$RequirePreconditionColorKt$Color$1;
         int e$iv3;
-        int $this$fastCoerceAtMost$iv$iv;
-        int $this$fastCoerceAtMost$iv$iv3;
-        String str;
-        int e$iv;
-        float $this$fastCoerceAtMost$iv$iv6;
         int $this$fastCoerceAtMost$iv$iv7;
+        int $this$fastCoerceAtMost$iv$iv2;
+        String $i$a$RequirePreconditionColorKt$Color$2;
+        int e$iv;
+        float $this$fastCoerceAtMost$iv$iv3;
         int $this$fastCoerceAtMost$iv$iv5;
+        int $this$fastCoerceAtMost$iv$iv4;
         int e$iv2;
-        float $this$fastCoerceAtMost$iv$iv4;
-        int i4;
+        float $this$fastCoerceAtMost$iv$iv6;
+        int i14;
         int $this$fastCoerceAtLeast$iv$iv;
-        float $this$fastCoerceAtMost$iv$iv2;
-        int m$iv2;
-        int outE$iv3;
-        int i5;
+        float $this$fastCoerceAtMost$iv$iv;
+        int m$iv;
+        int outE$iv2;
+        int i2;
         short s2;
         int m$iv3;
-        int outE$iv;
+        int outE$iv3;
         int outM$iv;
-        int outE$iv2;
+        int outE$iv;
         int outM$iv3;
         int outM$iv2;
-        int i3;
-        int i6;
+        int i5;
         int i9;
-        int i2;
-        int i11;
-        int i7;
-        int i14;
+        int i13;
+        int i6;
+        int i3;
+        int i10;
+        int i4;
         final Object obj = colorSpace;
         int i18 = 32;
-        i12 = 1056964608;
+        i = 1056964608;
         int i15 = 0;
         int i51 = 1065353216;
         int i78 = 0;
         int i106 = 0;
-        if (obj.isSrgb() && Float.compare($this$fastCoerceAtMost$iv$iv3, i15) < 0) {
+        if (obj.isSrgb() && Float.compare($this$fastCoerceAtMost$iv$iv2, i15) < 0) {
             i15 = 0;
             i51 = 1065353216;
             i78 = 0;
             i106 = 0;
-            if (Float.compare($this$fastCoerceAtMost$iv$iv3, i15) < 0) {
-                $this$fastCoerceAtMost$iv$iv3 = i15;
+            if (Float.compare($this$fastCoerceAtMost$iv$iv2, i15) < 0) {
+                $this$fastCoerceAtMost$iv$iv2 = i15;
             }
             int i107 = 0;
-            if (Float.compare($this$fastCoerceAtMost$iv$iv3, i51) > 0) {
-                $this$fastCoerceAtMost$iv$iv3 = i51;
+            if (Float.compare($this$fastCoerceAtMost$iv$iv2, i51) > 0) {
+                $this$fastCoerceAtMost$iv$iv2 = i51;
             }
             int minimumValue$iv = 1132396544;
             int i62 = 0;
@@ -95,39 +95,39 @@ public final class ColorKt {
             int i64 = 1065353216;
             int i92 = 0;
             int i119 = 0;
-            if (Float.compare($this$fastCoerceAtMost$iv$iv7, i54) < 0) {
-                $this$fastCoerceAtMost$iv$iv7 = i54;
+            if (Float.compare($this$fastCoerceAtMost$iv$iv5, i54) < 0) {
+                $this$fastCoerceAtMost$iv$iv5 = i54;
             }
             int i120 = 0;
-            if (Float.compare($this$fastCoerceAtMost$iv$iv7, i64) > 0) {
-                $this$fastCoerceAtMost$iv$iv7 = i64;
+            if (Float.compare($this$fastCoerceAtMost$iv$iv5, i64) > 0) {
+                $this$fastCoerceAtMost$iv$iv5 = i64;
             }
             int i57 = 0;
             int i65 = 1065353216;
             int i93 = 0;
             int i121 = 0;
-            if (Float.compare($this$fastCoerceAtMost$iv$iv5, i57) < 0) {
-                $this$fastCoerceAtMost$iv$iv5 = i57;
+            if (Float.compare($this$fastCoerceAtMost$iv$iv4, i57) < 0) {
+                $this$fastCoerceAtMost$iv$iv4 = i57;
             }
             int i122 = 0;
-            if (Float.compare($this$fastCoerceAtMost$iv$iv5, i65) > 0) {
-                $this$fastCoerceAtMost$iv$iv5 = i65;
+            if (Float.compare($this$fastCoerceAtMost$iv$iv4, i65) > 0) {
+                $this$fastCoerceAtMost$iv$iv4 = i65;
             }
             long constructor-impl3 = ULong.constructor-impl((long)i17);
             return Color.constructor-impl(ULong.constructor-impl(constructor-impl3 << i18));
         }
         int i58 = 0;
-        i = 1;
-        i10 = obj.getComponentCount() == 3 ? i : i58;
+        i7 = 1;
+        i11 = obj.getComponentCount() == 3 ? i7 : i58;
         int i48 = 0;
-        if (i10 == 0) {
+        if (i11 == 0) {
             int i88 = 0;
             InlineClassHelperKt.throwIllegalArgumentException("Color only works with ColorSpaces with 3 components");
         }
         int id$ui_graphics_release = obj.getId$ui_graphics_release();
-        i13 = id$ui_graphics_release != -1 ? i : i58;
+        i8 = id$ui_graphics_release != -1 ? i7 : i58;
         int i82 = 0;
-        if (i13 == 0) {
+        if (i8 == 0) {
             int i105 = 0;
             InlineClassHelperKt.throwIllegalArgumentException("Unknown color space, please use a color space in ColorSpaces");
         }
@@ -135,51 +135,51 @@ public final class ColorKt {
         float maxValue3 = obj.getMaxValue(i58);
         int i113 = 0;
         int i127 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv2, minValue2) < 0) {
-            $this$fastCoerceAtMost$iv$iv2 = minValue2;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv, minValue2) < 0) {
+            $this$fastCoerceAtMost$iv$iv = minValue2;
         }
         int i128 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv2, maxValue3) > 0) {
-            $this$fastCoerceAtMost$iv$iv2 = maxValue3;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv, maxValue3) > 0) {
+            $this$fastCoerceAtMost$iv$iv = maxValue3;
         }
         int i50 = 0;
-        int floatToRawIntBits3 = Float.floatToRawIntBits($this$fastCoerceAtMost$iv$iv2);
+        int floatToRawIntBits3 = Float.floatToRawIntBits($this$fastCoerceAtMost$iv$iv);
         int i94 = floatToRawIntBits3 >>> 31;
-        i5 = 255;
-        i114 &= i5;
+        i2 = 255;
+        i114 &= i2;
         int i129 = 8388607;
         m$iv3 = floatToRawIntBits3 & i129;
-        outE$iv2 = 0;
+        outE$iv = 0;
         outM$iv2 = 0;
         final int i134 = 8388608;
-        m$iv = -10;
-        i9 = 512;
-        i8 = 31;
-        if (e$iv2 == i5) {
-            outE$iv2 = 31;
-            i11 = m$iv3 != 0 ? i9 : i58;
-            outM$iv2 = i11;
-            i2 = i12;
-            s = (short)out$iv3;
+        m$iv2 = -10;
+        i13 = 512;
+        i12 = 31;
+        if (e$iv2 == i2) {
+            outE$iv = 31;
+            i3 = m$iv3 != 0 ? i13 : i58;
+            outM$iv2 = i3;
+            i6 = i;
+            s = (short)out$iv2;
         } else {
             e$iv2 = i137 + 15;
-            if (e$iv2 >= i8) {
-                outE$iv2 = 49;
-                i2 = i12;
+            if (e$iv2 >= i12) {
+                outE$iv = 49;
+                i6 = i;
             } else {
                 if (e$iv2 <= 0) {
-                    if (e$iv2 >= m$iv) {
-                        m$iv3 = i138 >> i7;
-                        i2 = i12;
+                    if (e$iv2 >= m$iv2) {
+                        m$iv3 = i138 >> i10;
+                        i6 = i;
                         if (m$iv3 & 4096 != 0) {
                             m$iv3 += 8192;
                         }
                         outM$iv2 = m$iv3 >> 13;
                     } else {
-                        i2 = i12;
+                        i6 = i;
                     }
                 } else {
-                    i2 = i12;
+                    i6 = i;
                     if (m$iv3 & 4096 != 0) {
                         s = (short)i59;
                     } else {
@@ -187,58 +187,58 @@ public final class ColorKt {
                 }
             }
         }
-        float minValue = obj.getMinValue(i);
-        float maxValue2 = obj.getMaxValue(i);
+        float minValue = obj.getMinValue(i7);
+        float maxValue2 = obj.getMaxValue(i7);
         int i95 = 0;
         int i123 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv4, minValue) < 0) {
-            $this$fastCoerceAtMost$iv$iv4 = minValue;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv6, minValue) < 0) {
+            $this$fastCoerceAtMost$iv$iv6 = minValue;
         }
         int i124 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv4, maxValue2) > 0) {
-            $this$fastCoerceAtMost$iv$iv4 = maxValue2;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv6, maxValue2) > 0) {
+            $this$fastCoerceAtMost$iv$iv6 = maxValue2;
         }
         int i36 = 0;
-        int floatToRawIntBits = Float.floatToRawIntBits($this$fastCoerceAtMost$iv$iv4);
+        int floatToRawIntBits = Float.floatToRawIntBits($this$fastCoerceAtMost$iv$iv6);
         int i83 = floatToRawIntBits >>> 31;
-        i96 &= i5;
-        m$iv2 = floatToRawIntBits & i129;
-        outE$iv = 0;
+        i96 &= i2;
+        m$iv = floatToRawIntBits & i129;
+        outE$iv3 = 0;
         outM$iv3 = 0;
-        if (e$iv == i5) {
-            outE$iv = 31;
-            i6 = m$iv2 != 0 ? i9 : 0;
-            outM$iv3 = i6;
-            i3 = i;
-            i14 = i129;
-            s2 = (short)out$iv2;
+        if (e$iv == i2) {
+            outE$iv3 = 31;
+            i9 = m$iv != 0 ? i13 : 0;
+            outM$iv3 = i9;
+            i5 = i7;
+            i4 = i129;
+            s2 = (short)out$iv3;
         } else {
             e$iv = i132 + 15;
-            if (e$iv >= i8) {
-                outE$iv = 49;
-                i3 = i;
-                i14 = i129;
+            if (e$iv >= i12) {
+                outE$iv3 = 49;
+                i5 = i7;
+                i4 = i129;
             } else {
                 if (e$iv <= 0) {
-                    if (e$iv >= m$iv) {
-                        m$iv2 = i133 >> i7;
-                        i3 = i;
-                        if (m$iv2 & 4096 != 0) {
-                            m$iv2 += 8192;
+                    if (e$iv >= m$iv2) {
+                        m$iv = i133 >> i10;
+                        i5 = i7;
+                        if (m$iv & 4096 != 0) {
+                            m$iv += 8192;
                         }
-                        outM$iv3 = m$iv2 >> 13;
-                        i14 = i129;
+                        outM$iv3 = m$iv >> 13;
+                        i4 = i129;
                     } else {
-                        i3 = i;
-                        i14 = i129;
+                        i5 = i7;
+                        i4 = i129;
                     }
                 } else {
-                    i3 = i;
-                    if (m$iv2 & 4096 != 0) {
-                        i14 = i129;
+                    i5 = i7;
+                    if (m$iv & 4096 != 0) {
+                        i4 = i129;
                         s2 = (short)i131;
                     } else {
-                        i14 = i129;
+                        i4 = i129;
                     }
                 }
             }
@@ -248,44 +248,44 @@ public final class ColorKt {
         float maxValue = obj.getMaxValue(i37);
         int i84 = 0;
         int i115 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv6, minValue3) < 0) {
-            $this$fastCoerceAtMost$iv$iv6 = minValue3;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv3, minValue3) < 0) {
+            $this$fastCoerceAtMost$iv$iv3 = minValue3;
         }
         int i116 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv6, maxValue) > 0) {
-            $this$fastCoerceAtMost$iv$iv6 = maxValue;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv3, maxValue) > 0) {
+            $this$fastCoerceAtMost$iv$iv3 = maxValue;
         }
         int i38 = 0;
-        int floatToRawIntBits2 = Float.floatToRawIntBits($this$fastCoerceAtMost$iv$iv6);
+        int floatToRawIntBits2 = Float.floatToRawIntBits($this$fastCoerceAtMost$iv$iv3);
         int i66 = floatToRawIntBits2 >>> 31;
-        i85 &= i5;
-        i4 = floatToRawIntBits2 & i14;
-        outE$iv3 = 0;
+        i85 &= i2;
+        i14 = floatToRawIntBits2 & i4;
+        outE$iv2 = 0;
         outM$iv = 0;
-        if (e$iv3 == i5) {
-            outE$iv3 = 31;
-            if (i4 != 0) {
+        if (e$iv3 == i2) {
+            outE$iv2 = 31;
+            if (i14 != 0) {
             } else {
-                i9 = 0;
+                i13 = 0;
             }
-            outM$iv = i9;
+            outM$iv = i13;
             s3 = (short)out$iv;
         } else {
-            e$iv3 = i5 + 15;
-            if (e$iv3 >= i8) {
-                outE$iv3 = 49;
+            e$iv3 = i2 + 15;
+            if (e$iv3 >= i12) {
+                outE$iv2 = 49;
             } else {
                 if (e$iv3 <= 0) {
                     i22 >>= i28;
-                    if (e$iv3 >= m$iv && m$iv & 4096 != 0) {
+                    if (e$iv3 >= m$iv2 && m$iv2 & 4096 != 0) {
                         i22 >>= i28;
-                        if (m$iv & 4096 != 0) {
-                            m$iv += 8192;
+                        if (m$iv2 & 4096 != 0) {
+                            m$iv2 += 8192;
                         }
-                        outM$iv = i4 >> 13;
+                        outM$iv = i14 >> 13;
                     }
                 } else {
-                    if (i4 & 4096 != 0) {
+                    if (i14 & 4096 != 0) {
                         s3 = (short)i30;
                     } else {
                     }
@@ -297,12 +297,12 @@ public final class ColorKt {
         long l3 = alpha;
         int i67 = 0;
         int i97 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv, i19) < 0) {
-            $this$fastCoerceAtMost$iv$iv = i19;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv7, i19) < 0) {
+            $this$fastCoerceAtMost$iv$iv7 = i19;
         }
         int i98 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv, i39) > 0) {
-            $this$fastCoerceAtMost$iv$iv = i39;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv7, i39) > 0) {
+            $this$fastCoerceAtMost$iv$iv7 = i39;
         }
         int i68 = 65535;
         return Color.constructor-impl(ULong.constructor-impl(i44 |= i73));
@@ -341,37 +341,37 @@ public final class ColorKt {
     }
 
     public static final long UncheckedColor(float red, float green, float blue, float alpha, ColorSpace colorSpace) {
-        int m$iv2;
-        int out$iv3;
-        int i5;
-        int out$iv2;
-        short s3;
-        int e$iv3;
-        int e$iv;
-        int e$iv2;
         int m$iv;
-        int i6;
-        int i7;
-        short s;
+        int out$iv;
+        int i9;
+        int out$iv3;
         short s2;
+        int e$iv2;
+        int e$iv;
+        int e$iv3;
         int m$iv3;
+        int i8;
+        int i;
+        short s;
+        short s3;
+        int m$iv2;
+        int outE$iv;
         int outE$iv3;
         int outE$iv2;
-        int outE$iv;
-        int outM$iv3;
         int outM$iv;
         int outM$iv2;
-        int out$iv;
-        int i;
+        int outM$iv3;
+        int out$iv2;
         int i2;
-        int i8;
-        int i9;
-        int i3;
         int i10;
+        int i3;
+        int i7;
         int i4;
+        int i5;
+        int i6;
         final int i11 = alpha;
         int i23 = 32;
-        i5 = 16;
+        i9 = 16;
         int i40 = 1056964608;
         if (colorSpace.isSrgb()) {
             int i18 = 1132396544;
@@ -381,51 +381,51 @@ public final class ColorKt {
         int argb = 0;
         int floatToRawIntBits3 = Float.floatToRawIntBits(red);
         int i59 = floatToRawIntBits3 >>> 31;
-        i7 = 255;
-        i65 &= i7;
+        i = 255;
+        i65 &= i;
         int i69 = 8388607;
-        m$iv3 = floatToRawIntBits3 & i69;
-        outE$iv = 0;
-        outM$iv2 = 0;
+        m$iv2 = floatToRawIntBits3 & i69;
+        outE$iv2 = 0;
+        outM$iv3 = 0;
         final int i87 = 8388608;
         final int i88 = -10;
-        i2 = 512;
+        i10 = 512;
         final int i89 = 0;
-        m$iv2 = 31;
-        if (e$iv2 == i7) {
-            outE$iv = 31;
-            i8 = m$iv3 != 0 ? i2 : i89;
-            outM$iv2 = i8;
-            i9 = i5;
-            i10 = i40;
-            s3 = (short)out$iv2;
+        m$iv = 31;
+        if (e$iv3 == i) {
+            outE$iv2 = 31;
+            i3 = m$iv2 != 0 ? i10 : i89;
+            outM$iv3 = i3;
+            i7 = i9;
+            i5 = i40;
+            s2 = (short)out$iv3;
         } else {
-            e$iv2 = i91 + 15;
-            if (e$iv2 >= m$iv2) {
-                outE$iv = 49;
-                i9 = i5;
-                i10 = i40;
+            e$iv3 = i91 + 15;
+            if (e$iv3 >= m$iv) {
+                outE$iv2 = 49;
+                i7 = i9;
+                i5 = i40;
             } else {
-                if (e$iv2 <= 0) {
-                    if (e$iv2 >= i88) {
-                        m$iv3 = i92 >> i3;
-                        i9 = i5;
-                        if (m$iv3 & 4096 != 0) {
-                            m$iv3 += 8192;
+                if (e$iv3 <= 0) {
+                    if (e$iv3 >= i88) {
+                        m$iv2 = i92 >> i4;
+                        i7 = i9;
+                        if (m$iv2 & 4096 != 0) {
+                            m$iv2 += 8192;
                         }
-                        outM$iv2 = m$iv3 >> 13;
-                        i10 = i40;
+                        outM$iv3 = m$iv2 >> 13;
+                        i5 = i40;
                     } else {
-                        i9 = i5;
-                        i10 = i40;
+                        i7 = i9;
+                        i5 = i40;
                     }
                 } else {
-                    i9 = i5;
-                    if (m$iv3 & 4096 != 0) {
-                        i10 = i40;
-                        s3 = (short)i42;
+                    i7 = i9;
+                    if (m$iv2 & 4096 != 0) {
+                        i5 = i40;
+                        s2 = (short)i42;
                     } else {
-                        i10 = i40;
+                        i5 = i40;
                     }
                 }
             }
@@ -433,39 +433,39 @@ public final class ColorKt {
         int i12 = 0;
         int floatToRawIntBits = Float.floatToRawIntBits(green);
         int i43 = floatToRawIntBits >>> 31;
-        i60 &= i7;
-        m$iv = floatToRawIntBits & i69;
-        outE$iv3 = 0;
-        outM$iv3 = 0;
-        if (e$iv3 == i7) {
-            outE$iv3 = 31;
-            i = m$iv != 0 ? i2 : i89;
-            outM$iv3 = i;
-            i4 = i69;
-            s2 = (short)i73;
+        i60 &= i;
+        m$iv3 = floatToRawIntBits & i69;
+        outE$iv = 0;
+        outM$iv = 0;
+        if (e$iv2 == i) {
+            outE$iv = 31;
+            i2 = m$iv3 != 0 ? i10 : i89;
+            outM$iv = i2;
+            i6 = i69;
+            s3 = (short)i73;
         } else {
-            e$iv3 = i + 15;
-            if (e$iv3 >= m$iv2) {
-                outE$iv3 = 49;
-                i4 = i69;
+            e$iv2 = i2 + 15;
+            if (e$iv2 >= m$iv) {
+                outE$iv = 49;
+                i6 = i69;
             } else {
-                if (e$iv3 <= 0) {
-                    if (e$iv3 >= i88) {
-                        m$iv = i80 >> i3;
-                        if (m$iv & 4096 != 0) {
-                            m$iv += 8192;
+                if (e$iv2 <= 0) {
+                    if (e$iv2 >= i88) {
+                        m$iv3 = i80 >> i4;
+                        if (m$iv3 & 4096 != 0) {
+                            m$iv3 += 8192;
                         }
-                        outM$iv3 = m$iv >> 13;
-                        i4 = i69;
+                        outM$iv = m$iv3 >> 13;
+                        i6 = i69;
                     } else {
-                        i4 = i69;
+                        i6 = i69;
                     }
                 } else {
-                    if (m$iv & 4096 != 0) {
-                        i4 = i69;
-                        s2 = (short)i70;
+                    if (m$iv3 & 4096 != 0) {
+                        i6 = i69;
+                        s3 = (short)i70;
                     } else {
-                        i4 = i69;
+                        i6 = i69;
                     }
                 }
             }
@@ -473,34 +473,34 @@ public final class ColorKt {
         int i13 = 0;
         int floatToRawIntBits2 = Float.floatToRawIntBits(blue);
         int i44 = floatToRawIntBits2 >>> 31;
-        i61 &= i7;
-        i6 = floatToRawIntBits2 & i4;
-        outE$iv2 = 0;
-        outM$iv = 0;
-        if (e$iv == i7) {
-            outE$iv2 = 31;
-            if (i6 != 0) {
+        i61 &= i;
+        i8 = floatToRawIntBits2 & i6;
+        outE$iv3 = 0;
+        outM$iv2 = 0;
+        if (e$iv == i) {
+            outE$iv3 = 31;
+            if (i8 != 0) {
             } else {
-                i2 = i89;
+                i10 = i89;
             }
-            outM$iv = i2;
-            s = (short)out$iv3;
+            outM$iv2 = i10;
+            s = (short)out$iv;
         } else {
-            e$iv = i7 + 15;
-            if (e$iv >= m$iv2) {
-                outE$iv2 = 49;
+            e$iv = i + 15;
+            if (e$iv >= m$iv) {
+                outE$iv3 = 49;
             } else {
                 if (e$iv <= 0) {
-                    i27 >>= i7;
-                    if (e$iv >= i88 && m$iv2 & 4096 != 0) {
-                        i27 >>= i7;
-                        if (m$iv2 & 4096 != 0) {
-                            m$iv2 += 8192;
+                    i27 >>= i;
+                    if (e$iv >= i88 && m$iv & 4096 != 0) {
+                        i27 >>= i;
+                        if (m$iv & 4096 != 0) {
+                            m$iv += 8192;
                         }
-                        outM$iv = i6 >> 13;
+                        outM$iv2 = i8 >> 13;
                     }
                 } else {
-                    if (i6 & 4096 != 0) {
+                    if (i8 & 4096 != 0) {
                         s = (short)i68;
                     } else {
                     }
@@ -537,48 +537,48 @@ public final class ColorKt {
     }
 
     public static final long compositeOver--OWjLjI(long $this$compositeOver_u2d_u2dOWjLjI, long background) {
-        int i4;
-        int i9;
-        int i6;
-        int i;
-        int i7;
         int i5;
+        int i9;
+        int i7;
         int i3;
-        int i10;
+        int i4;
+        int i6;
         int i2;
+        int i;
         int i8;
+        int i10;
         final long convert-vNxB06k = Color.convert-vNxB06k($this$compositeOver_u2d_u2dOWjLjI, obj2);
         float alpha-impl = Color.getAlpha-impl(obj20);
         final float alpha-impl2 = Color.getAlpha-impl(convert-vNxB06k);
-        i4 = 1065353216;
+        i5 = 1065353216;
         i12 += alpha-impl2;
         int i14 = 0;
         i9 = 0;
-        i7 = 1;
+        i4 = 1;
         final int i22 = 0;
-        i6 = Float.compare(i13, i9) == 0 ? i7 : i22;
-        if (i6 != 0) {
-            i = i9;
+        i7 = Float.compare(i13, i9) == 0 ? i4 : i22;
+        if (i7 != 0) {
+            i3 = i9;
         } else {
             i20 /= i13;
         }
         int i15 = 0;
-        i3 = Float.compare(i13, i9) == 0 ? i7 : i22;
-        if (i3 != 0) {
-            i10 = i9;
+        i2 = Float.compare(i13, i9) == 0 ? i4 : i22;
+        if (i2 != 0) {
+            i = i9;
         } else {
             i24 /= i13;
         }
         int i16 = 0;
         if (Float.compare(i13, i9) == 0) {
         } else {
-            i7 = i22;
+            i4 = i22;
         }
-        if (i7 != 0) {
+        if (i4 != 0) {
         } else {
             i18 /= i13;
         }
-        return ColorKt.UncheckedColor(i, i10, i9, i13, Color.getColorSpace-impl(obj20));
+        return ColorKt.UncheckedColor(i3, i, i9, i13, Color.getColorSpace-impl(obj20));
     }
 
     private static final float[] getComponents-8_81llA(long $this$getComponents_u2d8_81llA) {
@@ -632,7 +632,7 @@ public final class ColorKt {
     }
 
     public static final float luminance-8_81llA(long $this$luminance_u2d8_81llA) {
-        long rgb-xdoWZVw;
+        long $i$a$RequirePreconditionColorKt$luminance$1;
         StringBuilder append;
         String string-impl;
         float $this$fastCoerceAtLeast$iv$iv;

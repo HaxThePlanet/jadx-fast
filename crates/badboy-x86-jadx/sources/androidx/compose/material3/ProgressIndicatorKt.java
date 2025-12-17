@@ -100,41 +100,41 @@ public final class ProgressIndicatorKt {
 
     @Deprecated(message = "Use the overload that takes `progress` as a lambda", replaceWith = @ReplaceWith(...))
     public static final void CircularProgressIndicator-DUhRLBM(float progress, Modifier modifier, long color, float strokeWidth, long trackColor, int strokeCap, Composer $composer, int $changed, int i9) {
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int defaultsInvalid;
         int circularStrokeWidth-D9Ej5fM;
         int iNSTANCE;
         int i13;
-        int i5;
+        int i4;
         Object $composer2;
         int $dirty2;
         long $dirty;
-        int i4;
-        int i3;
-        boolean traceInProgress2;
-        float f;
+        int i5;
+        int i6;
+        boolean traceInProgress;
+        float f2;
         int str;
         Object obj;
         long l;
-        int i7;
+        int i14;
         long circularColor;
-        int i6;
+        int i3;
         int empty;
         int changed2;
         int anon;
-        float f2;
+        float f;
         int modifier2;
         Object strokeWidth2;
-        int i14;
+        int i10;
         long trackColor2;
         int changed;
-        int i8;
         int i;
-        int i2;
-        int i10;
+        int i7;
+        int i15;
+        int i8;
         int i11;
         Composer composer;
-        int i15;
+        int i2;
         int i12;
         final float f3 = progress;
         final int i37 = obj31;
@@ -145,18 +145,18 @@ public final class ProgressIndicatorKt {
             $dirty2 |= 6;
         } else {
             if (i37 & 6 == 0) {
-                i4 = restartGroup.changed(f3) ? 4 : 2;
-                $dirty2 |= i4;
+                i5 = restartGroup.changed(f3) ? 4 : 2;
+                $dirty2 |= i5;
             }
         }
-        i3 = obj32 & 2;
-        if (i3 != 0) {
+        i6 = obj32 & 2;
+        if (i6 != 0) {
             $dirty2 |= 48;
             obj = modifier;
         } else {
             if (i37 & 48 == 0) {
-                i7 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i7;
+                i14 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i14;
             } else {
                 obj = modifier;
             }
@@ -174,13 +174,13 @@ public final class ProgressIndicatorKt {
         anon = obj32 & 8;
         if (anon != 0) {
             $dirty2 |= 3072;
-            f2 = trackColor;
+            f = trackColor;
         } else {
             if (i37 & 3072 == 0) {
-                i14 = restartGroup.changed(trackColor) ? 2048 : 1024;
-                $dirty2 |= i14;
+                i10 = restartGroup.changed(trackColor) ? 2048 : 1024;
+                $dirty2 |= i10;
             } else {
-                f2 = trackColor;
+                f = trackColor;
             }
         }
         if (i37 & 24576 == 0) {
@@ -193,17 +193,17 @@ public final class ProgressIndicatorKt {
         } else {
             trackColor2 = strokeCap;
         }
-        i8 = obj32 & 32;
+        i = obj32 & 32;
         int i41 = 196608;
-        if (i8 != 0) {
+        if (i != 0) {
             $dirty2 |= i41;
-            i = $changed;
+            i7 = $changed;
         } else {
             if (i41 &= i37 == 0) {
-                i2 = restartGroup.changed($changed) ? 131072 : 65536;
-                $dirty2 |= i2;
+                i15 = restartGroup.changed($changed) ? 131072 : 65536;
+                $dirty2 |= i15;
             } else {
-                i = $changed;
+                i7 = $changed;
             }
         }
         int i43 = 74899;
@@ -213,34 +213,34 @@ public final class ProgressIndicatorKt {
                 str = -57345;
                 if (i37 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i3 != 0) {
+                        if (i6 != 0) {
                             obj = defaultsInvalid;
                         }
-                        i3 = 6;
+                        i6 = 6;
                         if (obj32 & 4 != 0) {
-                            circularColor = ProgressIndicatorDefaults.INSTANCE.getCircularColor(restartGroup, i3);
+                            circularColor = ProgressIndicatorDefaults.INSTANCE.getCircularColor(restartGroup, i6);
                             $dirty2 &= -897;
                         }
                         if (anon != 0) {
-                            f2 = circularStrokeWidth-D9Ej5fM;
+                            f = circularStrokeWidth-D9Ej5fM;
                         }
                         if (obj32 & 16 != 0) {
-                            trackColor2 = ProgressIndicatorDefaults.INSTANCE.getCircularTrackColor(restartGroup, i3);
+                            trackColor2 = ProgressIndicatorDefaults.INSTANCE.getCircularTrackColor(restartGroup, i6);
                             $dirty2 &= str;
                         }
-                        if (i8 != 0) {
-                            i10 = circularDeterminateStrokeCap-KaPHkGw;
-                            i8 = f2;
-                            i = trackColor2;
+                        if (i != 0) {
+                            i8 = circularDeterminateStrokeCap-KaPHkGw;
+                            i = f;
+                            i7 = trackColor2;
                             i13 = -1472321743;
                             strokeWidth2 = obj;
                             trackColor2 = circularColor;
                         } else {
-                            i8 = f2;
-                            i10 = i;
+                            i = f;
+                            i8 = i7;
                             i13 = -1472321743;
                             strokeWidth2 = obj;
-                            i = trackColor2;
+                            i7 = trackColor2;
                             trackColor2 = circularColor;
                         }
                     } else {
@@ -250,18 +250,18 @@ public final class ProgressIndicatorKt {
                         }
                         if (obj32 & 16 != 0) {
                             $dirty2 = i19;
-                            i8 = f2;
-                            i10 = i;
+                            i = f;
+                            i8 = i7;
                             i13 = -1472321743;
                             strokeWidth2 = obj;
-                            i = trackColor2;
+                            i7 = trackColor2;
                             trackColor2 = circularColor;
                         } else {
-                            i8 = f2;
-                            i10 = i;
+                            i = f;
+                            i8 = i7;
                             i13 = -1472321743;
                             strokeWidth2 = obj;
-                            i = trackColor2;
+                            i7 = trackColor2;
                             trackColor2 = circularColor;
                         }
                     }
@@ -272,12 +272,12 @@ public final class ProgressIndicatorKt {
                     ComposerKt.traceEventStart(i13, $dirty2, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:735)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -291425076, "CC(remember):ProgressIndicator.kt#9igjgp");
-                i5 = $dirty2 & 14 == 4 ? 1 : 0;
+                i4 = $dirty2 & 14 == 4 ? 1 : 0;
                 Composer composer2 = restartGroup;
                 int i33 = 0;
                 Object rememberedValue = composer2.rememberedValue();
                 circularColor = 0;
-                if (i5 == 0) {
+                if (i4 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new ProgressIndicatorKt.CircularProgressIndicator.7.1(f3);
@@ -288,32 +288,32 @@ public final class ProgressIndicatorKt {
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ProgressIndicatorKt.CircularProgressIndicator-IyT6zlY((Function0)anon, strokeWidth2, trackColor2, obj13, i8, i, i43, i10, 0, restartGroup);
+                ProgressIndicatorKt.CircularProgressIndicator-IyT6zlY((Function0)anon, strokeWidth2, trackColor2, obj13, i, i7, i43, i8, 0, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 $composer2 = strokeWidth2;
-                f = i8;
-                l = i;
-                i6 = i10;
+                f2 = i;
+                l = i7;
+                i3 = i8;
                 modifier2 = $dirty2;
                 $dirty = trackColor2;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
                 $composer2 = obj;
-                f = f2;
+                f2 = f;
                 modifier2 = $dirty2;
                 $dirty = circularColor;
                 l = trackColor2;
-                i6 = i;
+                i3 = i7;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ProgressIndicatorKt.CircularProgressIndicator.8(f3, $composer2, $dirty, i3, f, l, circularColor, i6, i37, obj32);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ProgressIndicatorKt.CircularProgressIndicator.8(f3, $composer2, $dirty, i6, f2, l, circularColor, i3, i37, obj32);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -321,40 +321,40 @@ public final class ProgressIndicatorKt {
     public static final void CircularProgressIndicator-DUhRLBM(Function0 progress, Modifier modifier, long color, float strokeWidth, long trackColor, int strokeCap, Composer $composer, int $changed, int i9) {
         int traceInProgress2;
         int defaultsInvalid;
-        Object modifier2;
-        int modifier4;
+        Object modifier4;
+        int modifier2;
         Object restartGroup;
         int $dirty2;
         Object $dirty;
-        int i6;
+        int i;
         int circularStrokeWidth-D9Ej5fM;
         int circularDeterminateStrokeCap-KaPHkGw;
         boolean traceInProgress;
-        long l2;
-        Object str;
-        int i7;
-        long circularColor;
-        float f;
-        long l4;
-        int changed2;
-        float f2;
-        int i8;
-        Object obj;
-        int i10;
         long l3;
+        Object str;
+        int i3;
+        long circularColor;
+        float f2;
+        long l;
+        int changed;
+        float f;
+        int i6;
+        Object obj;
+        int i11;
+        long l4;
         Object trackColor2;
         int modifier3;
         long l5;
-        int changed;
-        int i3;
+        int changed2;
+        int i5;
+        int i10;
+        long i8;
         int i2;
-        long i4;
-        int i;
         float circularIndicatorTrackGapSize-D9Ej5fM;
         Composer composer;
-        int i11;
-        int i5;
-        long l;
+        int i4;
+        int i7;
+        long l2;
         final int i35 = obj33;
         restartGroup = i9.startRestartGroup(-761680467);
         ComposerKt.sourceInformation(restartGroup, "C(CircularProgressIndicator)P(2,1,0:c#ui.graphics.Color,4:c#ui.unit.Dp,5:c#ui.graphics.Color,3:c#ui.graphics.StrokeCap)529@21735L13,531@21869L29,534@21991L217:ProgressIndicator.kt#uh7d8r");
@@ -364,8 +364,8 @@ public final class ProgressIndicatorKt {
             obj = progress;
         } else {
             if (i35 & 6 == 0) {
-                i6 = restartGroup.changedInstance(progress) ? 4 : 2;
-                $dirty2 |= i6;
+                i = restartGroup.changedInstance(progress) ? 4 : 2;
+                $dirty2 |= i;
             } else {
                 obj = progress;
             }
@@ -376,55 +376,55 @@ public final class ProgressIndicatorKt {
             str = modifier;
         } else {
             if (i35 & 48 == 0) {
-                i7 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i7;
+                i3 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i3;
             } else {
                 str = modifier;
             }
         }
         if (i35 & 384 == 0) {
             if (obj34 & 4 == 0) {
-                changed2 = restartGroup.changed(color) ? 256 : 128;
+                changed = restartGroup.changed(color) ? 256 : 128;
             } else {
                 circularColor = color;
             }
-            $dirty2 |= changed2;
+            $dirty2 |= changed;
         } else {
             circularColor = color;
         }
         int i33 = obj34 & 8;
         if (i33 != 0) {
             $dirty2 |= 3072;
-            f2 = trackColor;
+            f = trackColor;
         } else {
             if (i35 & 3072 == 0) {
-                i10 = restartGroup.changed(trackColor) ? 2048 : 1024;
-                $dirty2 |= i10;
+                i11 = restartGroup.changed(trackColor) ? 2048 : 1024;
+                $dirty2 |= i11;
             } else {
-                f2 = trackColor;
+                f = trackColor;
             }
         }
         if (i35 & 24576 == 0) {
             if (obj34 & 16 == 0) {
-                changed = restartGroup.changed(strokeCap) ? 16384 : 8192;
+                changed2 = restartGroup.changed(strokeCap) ? 16384 : 8192;
             } else {
-                l3 = strokeCap;
+                l4 = strokeCap;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed2;
         } else {
-            l3 = strokeCap;
+            l4 = strokeCap;
         }
         int i38 = obj34 & 32;
         int i39 = 196608;
         if (i38 != 0) {
             $dirty2 |= i39;
-            i3 = $changed;
+            i5 = $changed;
         } else {
             if (i39 &= i35 == 0) {
-                i2 = restartGroup.changed($changed) ? 131072 : 65536;
-                $dirty2 |= i2;
+                i10 = restartGroup.changed($changed) ? 131072 : 65536;
+                $dirty2 |= i10;
             } else {
-                i3 = $changed;
+                i5 = $changed;
             }
         }
         if (i41 &= $dirty2 == 74898) {
@@ -434,9 +434,9 @@ public final class ProgressIndicatorKt {
                 if (i35 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (circularDeterminateStrokeCap-KaPHkGw != 0) {
-                            modifier2 = Modifier.Companion;
+                            modifier4 = Modifier.Companion;
                         } else {
-                            modifier2 = str;
+                            modifier4 = str;
                         }
                         str = 6;
                         if (obj34 & 4 != 0) {
@@ -444,26 +444,26 @@ public final class ProgressIndicatorKt {
                             $dirty2 &= -897;
                         }
                         if (i33 != 0) {
-                            f2 = circularStrokeWidth-D9Ej5fM;
+                            f = circularStrokeWidth-D9Ej5fM;
                         }
                         if (obj34 & 16 != 0) {
                             $dirty2 &= i42;
-                            l3 = circularDeterminateStrokeCap-KaPHkGw;
+                            l4 = circularDeterminateStrokeCap-KaPHkGw;
                         }
                         if (i38 != 0) {
-                            i = circularDeterminateStrokeCap-KaPHkGw;
-                            i3 = f2;
-                            i4 = l3;
-                            trackColor2 = modifier2;
+                            i2 = circularDeterminateStrokeCap-KaPHkGw;
+                            i5 = f;
+                            i8 = l4;
+                            trackColor2 = modifier4;
                             l5 = circularColor;
-                            modifier4 = -761680467;
+                            modifier2 = -761680467;
                         } else {
-                            i4 = l3;
-                            i = i3;
-                            trackColor2 = modifier2;
+                            i8 = l4;
+                            i2 = i5;
+                            trackColor2 = modifier4;
                             l5 = circularColor;
-                            i3 = f2;
-                            modifier4 = -761680467;
+                            i5 = f;
+                            modifier2 = -761680467;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -472,117 +472,117 @@ public final class ProgressIndicatorKt {
                         }
                         if (obj34 & 16 != 0) {
                             $dirty2 = i21;
-                            i4 = l3;
-                            i = i3;
-                            modifier4 = -761680467;
+                            i8 = l4;
+                            i2 = i5;
+                            modifier2 = -761680467;
                             trackColor2 = str;
                             l5 = circularColor;
-                            i3 = f2;
+                            i5 = f;
                         } else {
-                            i4 = l3;
-                            i = i3;
-                            modifier4 = -761680467;
+                            i8 = l4;
+                            i2 = i5;
+                            modifier2 = -761680467;
                             trackColor2 = str;
                             l5 = circularColor;
-                            i3 = f2;
+                            i5 = f;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(modifier4, $dirty2, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:533)");
+                    ComposerKt.traceEventStart(modifier2, $dirty2, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:533)");
                 }
-                ProgressIndicatorKt.CircularProgressIndicator-IyT6zlY(obj, trackColor2, l5, i38, i3, i4, obj16, i, ProgressIndicatorDefaults.INSTANCE.getCircularIndicatorTrackGapSize-D9Ej5fM(), restartGroup);
+                ProgressIndicatorKt.CircularProgressIndicator-IyT6zlY(obj, trackColor2, l5, i38, i5, i8, obj16, i2, ProgressIndicatorDefaults.INSTANCE.getCircularIndicatorTrackGapSize-D9Ej5fM(), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 modifier3 = $dirty2;
                 $dirty = obj3;
-                l2 = l5;
-                f = i3;
-                l4 = i4;
-                i8 = i;
+                l3 = l5;
+                f2 = i5;
+                l = i8;
+                i6 = i2;
             } else {
                 restartGroup.skipToGroupEnd();
                 modifier3 = $dirty2;
                 $dirty = str;
-                l2 = circularColor;
-                l4 = l;
+                l3 = circularColor;
+                l = l2;
                 composer = restartGroup;
-                f = f2;
-                i8 = i3;
+                f2 = f;
+                i6 = i5;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ProgressIndicatorKt.CircularProgressIndicator.1(progress, $dirty, l2, str, f, l4, i33, i8, i35, obj34);
+            traceInProgress2 = new ProgressIndicatorKt.CircularProgressIndicator.1(progress, $dirty, l3, str, f2, l, i33, i6, i35, obj34);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void CircularProgressIndicator-IyT6zlY(Function0<Float> progress, Modifier modifier, long color, float strokeWidth, long trackColor, int strokeCap, float gapSize, Composer $composer, int $changed, int i10) {
         boolean traceInProgress2;
-        int i3;
+        int i7;
         Object invalid$iv;
-        Object obj;
-        int obj2;
-        int $dirty;
-        Object $dirty2;
-        long $dirty3;
+        Object $i$a$CacheProgressIndicatorKt$CircularProgressIndicator$3;
+        int obj;
+        int $dirty3;
+        Object $dirty;
+        long $dirty2;
         int i;
-        long l3;
+        long l2;
         int circularDeterminateTrackColor;
-        int companion2;
+        int companion;
         int circularStrokeWidth-D9Ej5fM;
         int skipping;
         int defaultsInvalid;
-        Object obj3;
+        Object obj2;
         float modifier2;
-        int i9;
-        int i23;
-        long l2;
+        int i2;
+        int i6;
+        long l;
         boolean traceInProgress;
-        int changed3;
+        int changed4;
         long l6;
         long l5;
-        int i17;
-        int changed4;
-        float f2;
-        int str;
-        Object anon;
-        boolean changed5;
-        float empty;
-        int i2;
-        float i4;
-        int i24;
-        int i19;
-        int i5;
-        int i7;
-        int i11;
-        int i15;
-        int i18;
-        int i22;
-        int changed2;
+        int i4;
         int changed;
-        int rememberedValue;
-        int i6;
-        int i21;
-        int i8;
-        int i13;
-        Composer.Companion companion;
-        int i16;
-        int i12;
+        float f;
+        int str;
+        Object $i$a$CacheProgressIndicatorKt$CircularProgressIndicator$2;
+        boolean changed3;
+        float empty;
+        int i19;
+        float i8;
         int i14;
+        int i15;
+        int i13;
+        int i9;
+        int i3;
+        int i21;
+        int i11;
+        int i17;
+        int changed5;
+        int changed2;
+        int rememberedValue;
+        int i22;
+        int i16;
+        int i5;
+        int i20;
+        Composer.Companion companion2;
+        int i23;
+        int i12;
+        int i18;
         androidx.compose.material3.ProgressIndicatorKt.CircularProgressIndicator.3.1 color2;
         Object coercedProgress;
-        int i20;
-        float f;
+        int i24;
         float f3;
-        long l;
-        Stroke stroke;
+        float f2;
         long l4;
+        Stroke stroke;
+        long l3;
         boolean obj32;
         int obj33;
         int obj34;
@@ -591,139 +591,139 @@ public final class ProgressIndicatorKt {
         int obj37;
         int obj38;
         int obj39;
-        obj2 = progress;
+        obj = progress;
         final int i39 = obj41;
         traceInProgress2 = -1798883595;
         final Composer restartGroup = i10.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(CircularProgressIndicator)P(3,2,0:c#ui.graphics.Color,5:c#ui.unit.Dp,6:c#ui.graphics.Color,4:c#ui.graphics.StrokeCap,1:c#ui.unit.Dp)575@23884L13,577@24018L29,581@24237L31,*582@24304L7,585@24446L102,589@24600L709,583@24373L936:ProgressIndicator.kt#uh7d8r");
-        $dirty = obj41;
+        $dirty3 = obj41;
         if (obj42 & 1 != 0) {
-            $dirty |= 6;
+            $dirty3 |= 6;
         } else {
             if (i39 & 6 == 0) {
-                i = restartGroup.changedInstance(obj2) ? 4 : 2;
-                $dirty |= i;
+                i = restartGroup.changedInstance(obj) ? 4 : 2;
+                $dirty3 |= i;
             }
         }
-        companion2 = obj42 & 2;
-        if (companion2 != 0) {
-            $dirty |= 48;
-            obj3 = modifier;
+        companion = obj42 & 2;
+        if (companion != 0) {
+            $dirty3 |= 48;
+            obj2 = modifier;
         } else {
             if (i39 & 48 == 0) {
-                i9 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i9;
+                i2 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty3 |= i2;
             } else {
-                obj3 = modifier;
+                obj2 = modifier;
             }
         }
         if (i39 & 384 == 0) {
             if (obj42 & 4 == 0) {
-                i23 = restartGroup.changed(color) ? 256 : 128;
+                i6 = restartGroup.changed(color) ? 256 : 128;
             } else {
                 l5 = color;
             }
-            $dirty |= i23;
+            $dirty3 |= i6;
         } else {
             l5 = color;
         }
         int i30 = obj42 & 8;
         if (i30 != 0) {
-            $dirty |= 3072;
-            i4 = trackColor;
+            $dirty3 |= 3072;
+            i8 = trackColor;
         } else {
             if (i39 & 3072 == 0) {
-                i19 = restartGroup.changed(trackColor) ? 2048 : 1024;
-                $dirty |= i19;
+                i15 = restartGroup.changed(trackColor) ? 2048 : 1024;
+                $dirty3 |= i15;
             } else {
-                i4 = trackColor;
+                i8 = trackColor;
             }
         }
         if (i39 & 24576 == 0) {
             if (obj42 & 16 == 0) {
-                changed4 = restartGroup.changed(strokeCap) ? 16384 : 8192;
+                changed = restartGroup.changed(strokeCap) ? 16384 : 8192;
             } else {
                 l6 = strokeCap;
             }
-            $dirty |= changed4;
+            $dirty3 |= changed;
         } else {
             l6 = strokeCap;
         }
         str = obj42 & 32;
-        i8 = 196608;
+        i5 = 196608;
         if (str != null) {
-            $dirty |= i8;
+            $dirty3 |= i5;
             rememberedValue = $composer;
         } else {
-            if (i39 & i8 == 0) {
-                i13 = restartGroup.changed($composer) ? 131072 : 65536;
-                $dirty |= i13;
+            if (i39 & i5 == 0) {
+                i20 = restartGroup.changed($composer) ? 131072 : 65536;
+                $dirty3 |= i20;
             } else {
                 rememberedValue = $composer;
             }
         }
         int i62 = obj42 & 64;
-        i16 = 1572864;
+        i23 = 1572864;
         if (i62 != 0) {
-            $dirty |= i16;
+            $dirty3 |= i23;
             empty = $changed;
         } else {
-            if (i39 & i16 == 0) {
+            if (i39 & i23 == 0) {
                 i12 = restartGroup.changed($changed) ? 1048576 : 524288;
-                $dirty |= i12;
+                $dirty3 |= i12;
             } else {
                 empty = $changed;
             }
         }
-        if ($dirty & i14 == 599186) {
+        if ($dirty3 & i18 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i42 = -57345;
                 if (i39 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (companion2 != 0) {
-                            obj3 = companion2;
+                        if (companion != 0) {
+                            obj2 = companion;
                         }
                         int i28 = 6;
                         if (obj42 & 4 != 0) {
                             color2 = ProgressIndicatorDefaults.INSTANCE.getCircularColor(restartGroup, i28);
-                            $dirty &= -897;
+                            $dirty3 &= -897;
                         } else {
                             color2 = color;
                         }
                         if (i30 != 0) {
-                            i4 = circularStrokeWidth-D9Ej5fM;
+                            i8 = circularStrokeWidth-D9Ej5fM;
                         }
                         if (obj42 & 16 != 0) {
-                            $dirty &= i42;
+                            $dirty3 &= i42;
                             l6 = circularDeterminateTrackColor;
                         }
                         if (str != null) {
                             rememberedValue = circularDeterminateTrackColor;
                         }
                         if (i62 != 0) {
-                            skipping = $dirty;
-                            f = circularDeterminateTrackColor;
-                            i20 = rememberedValue;
-                            $dirty3 = color2;
+                            skipping = $dirty3;
+                            f3 = circularDeterminateTrackColor;
+                            i24 = rememberedValue;
+                            $dirty2 = color2;
                         } else {
-                            skipping = $dirty;
-                            f = empty;
-                            i20 = rememberedValue;
-                            $dirty3 = color2;
+                            skipping = $dirty3;
+                            f3 = empty;
+                            i24 = rememberedValue;
+                            $dirty2 = color2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj42 & 4 != 0) {
-                            $dirty &= -897;
+                            $dirty3 &= -897;
                         }
                         if (obj42 & 16 != 0) {
-                            $dirty &= i42;
+                            $dirty3 &= i42;
                         }
-                        skipping = $dirty;
-                        f = empty;
-                        i20 = rememberedValue;
-                        $dirty3 = color;
+                        skipping = $dirty3;
+                        f3 = empty;
+                        i24 = rememberedValue;
+                        $dirty2 = color;
                     }
                 } else {
                 }
@@ -733,19 +733,19 @@ public final class ProgressIndicatorKt {
                 }
                 String str4 = "CC(remember):ProgressIndicator.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -291619137, str4);
-                i3 = skipping & 14 == 4 ? 1 : 0;
+                i7 = skipping & 14 == 4 ? 1 : 0;
                 Composer composer2 = restartGroup;
                 int i56 = 0;
                 Object rememberedValue2 = composer2.rememberedValue();
                 int i63 = 0;
-                if (i3 == 0) {
+                if (i7 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        obj32 = i3;
-                        invalid$iv = new ProgressIndicatorKt.CircularProgressIndicator.coercedProgress.1.1(obj2);
+                        obj32 = i7;
+                        invalid$iv = new ProgressIndicatorKt.CircularProgressIndicator.coercedProgress.1.1(obj);
                         composer2.updateRememberedValue((Function0)invalid$iv);
                     } else {
-                        obj32 = i3;
+                        obj32 = i7;
                         invalid$iv = rememberedValue2;
                     }
                 } else {
@@ -756,157 +756,157 @@ public final class ProgressIndicatorKt {
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i37 = 0;
-                super((Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(i4), 0, i20, 0, 0, 26, 0);
+                super((Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(i8), 0, i24, 0, 0, 26, 0);
                 Stroke $this$CircularProgressIndicator_IyT6zlY_u24lambda_u247 = stroke2;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -291612378, str4);
-                changed5 = restartGroup.changed((Function0)invalid$iv);
+                changed3 = restartGroup.changed((Function0)invalid$iv);
                 Composer composer = restartGroup;
                 int i46 = 0;
                 Object rememberedValue3 = composer.rememberedValue();
-                i14 = 0;
-                if (!changed5) {
-                    obj32 = changed5;
+                i18 = 0;
+                if (!changed3) {
+                    obj32 = changed3;
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         obj33 = invalid$iv2;
-                        anon = new ProgressIndicatorKt.CircularProgressIndicator.2.1(invalid$iv);
-                        composer.updateRememberedValue((Function1)anon);
+                        $i$a$CacheProgressIndicatorKt$CircularProgressIndicator$2 = new ProgressIndicatorKt.CircularProgressIndicator.2.1(invalid$iv);
+                        composer.updateRememberedValue((Function1)$i$a$CacheProgressIndicatorKt$CircularProgressIndicator$2);
                     } else {
-                        anon = rememberedValue3;
+                        $i$a$CacheProgressIndicatorKt$CircularProgressIndicator$2 = rememberedValue3;
                     }
                 } else {
-                    obj32 = changed5;
+                    obj32 = changed3;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                i2 = 1;
+                i19 = 1;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -291606843, str4);
-                i11 = i48 &= skipping == 131072 ? i2 : 0;
-                i15 = i50 &= skipping == 1048576 ? i2 : 0;
-                i18 = skipping & 7168 == 2048 ? i2 : 0;
+                i3 = i48 &= skipping == 131072 ? i19 : 0;
+                i21 = i50 &= skipping == 1048576 ? i19 : 0;
+                i11 = skipping & 7168 == 2048 ? i19 : 0;
                 if (i54 ^= 24576 > 16384) {
                     if (!restartGroup.changed(l6)) {
-                        i22 = skipping & 24576 == 16384 ? i2 : 0;
+                        i17 = skipping & 24576 == 16384 ? i19 : 0;
                     } else {
                     }
                 } else {
                 }
                 if (i55 ^= 384 > 256) {
-                    if (!restartGroup.changed($dirty3)) {
+                    if (!restartGroup.changed($dirty2)) {
                         if (skipping & 384 == 256) {
                         } else {
-                            i2 = 0;
+                            i19 = 0;
                         }
                     } else {
                     }
                 } else {
                 }
                 empty = restartGroup;
-                i7 = 0;
+                i9 = 0;
                 rememberedValue = empty.rememberedValue();
-                i8 = 0;
-                if (i35 |= i2 == 0) {
+                i5 = 0;
+                if (i35 |= i19 == 0) {
                     coercedProgress = invalid$iv;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int coercedProgress2 = 0;
-                        color2 = new ProgressIndicatorKt.CircularProgressIndicator.3.1(coercedProgress, i20, f, i4, l6, obj27, $this$CircularProgressIndicator_IyT6zlY_u24lambda_u247, $dirty3, obj30);
+                        color2 = new ProgressIndicatorKt.CircularProgressIndicator.3.1(coercedProgress, i24, f3, i8, l6, obj27, $this$CircularProgressIndicator_IyT6zlY_u24lambda_u247, $dirty2, obj30);
                         empty.updateRememberedValue((Function1)color2);
                     } else {
                         stroke = $this$CircularProgressIndicator_IyT6zlY_u24lambda_u247;
-                        l4 = $dirty3;
-                        l = l6;
-                        f3 = i4;
-                        obj = rememberedValue;
+                        l3 = $dirty2;
+                        l4 = l6;
+                        f2 = i8;
+                        $i$a$CacheProgressIndicatorKt$CircularProgressIndicator$3 = rememberedValue;
                     }
                 } else {
                     coercedProgress = invalid$iv;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.size-3ABfNKs(SemanticsModifierKt.semantics(obj3, i2, (Function1)anon), ProgressIndicatorKt.CircularIndicatorDiameter), (Function1)obj, restartGroup, 0);
+                CanvasKt.Canvas(SizeKt.size-3ABfNKs(SemanticsModifierKt.semantics(obj2, i19, (Function1)$i$a$CacheProgressIndicatorKt$CircularProgressIndicator$2), ProgressIndicatorKt.CircularIndicatorDiameter), (Function1)$i$a$CacheProgressIndicatorKt$CircularProgressIndicator$3, restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i24 = skipping;
-                $dirty2 = obj3;
-                i17 = i20;
-                f2 = f;
-                modifier2 = f3;
-                l2 = l;
-                l3 = l4;
+                i14 = skipping;
+                $dirty = obj2;
+                i4 = i24;
+                f = f3;
+                modifier2 = f2;
+                l = l4;
+                l2 = l3;
             } else {
                 restartGroup.skipToGroupEnd();
-                i24 = $dirty;
-                $dirty2 = obj3;
+                i14 = $dirty3;
+                $dirty = obj2;
                 modifier2 = f4;
-                l3 = color;
-                l2 = l6;
-                f2 = empty;
-                i17 = rememberedValue;
+                l2 = color;
+                l = l6;
+                f = empty;
+                i4 = rememberedValue;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ProgressIndicatorKt.CircularProgressIndicator.4(progress, $dirty2, l3, skipping, modifier2, l2, l6, i17, f2, i39, obj42);
+            traceInProgress2 = new ProgressIndicatorKt.CircularProgressIndicator.4(progress, $dirty, l2, skipping, modifier2, l, l6, i4, f, i39, obj42);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void CircularProgressIndicator-LxG7B9w(Modifier modifier, long color, float strokeWidth, long trackColor, int strokeCap, Composer $composer, int $changed, int i8) {
-        int changed3;
-        int i18;
-        int i4;
-        boolean changed2;
-        boolean traceInProgress;
-        int $dirty3;
-        float $dirty2;
-        Object obj2;
+        int changed4;
+        int i12;
+        int i9;
+        boolean changed;
+        boolean traceInProgress2;
+        int $dirty;
+        float $dirty4;
+        Object $i$a$CacheProgressIndicatorKt$CircularProgressIndicator$5;
         Object empty;
-        Object $dirty;
+        Object $dirty3;
         Object modifier2;
-        long l2;
+        long l4;
         int skipping;
         int defaultsInvalid;
         int circularStrokeWidth-D9Ej5fM;
         int circularIndeterminateTrackColor;
         Object obj;
-        float f2;
-        int i;
-        int i10;
-        long l4;
-        long l;
-        int changed;
-        int i5;
-        int i11;
-        int $dirty4;
-        long circularColor;
-        boolean traceInProgress2;
-        String str;
-        int i19;
-        float infiniteRepeatableSpec;
-        int i2;
-        int i15;
-        int changed4;
-        androidx.compose.runtime.State i16;
-        long size-3ABfNKs;
-        int i7;
-        Composer composer;
-        int i17;
-        int i14;
-        int i12;
-        Composer.Companion companion;
-        int i6;
-        int anon;
-        long l5;
-        int i3;
-        int i9;
-        Stroke stroke;
-        androidx.compose.runtime.State state;
-        androidx.compose.runtime.State state3;
-        androidx.compose.runtime.State state4;
-        androidx.compose.runtime.State state2;
         float f;
-        long l3;
+        int i;
+        int i11;
+        long l5;
+        long l;
+        int changed3;
+        int i7;
+        int i19;
+        int $dirty2;
+        long circularColor;
+        boolean traceInProgress;
+        String str;
+        int i17;
+        float infiniteRepeatableSpec;
+        int i10;
+        int i16;
+        int changed2;
+        androidx.compose.runtime.State i2;
+        long size-3ABfNKs;
+        int i3;
+        Composer composer;
+        int i6;
         int i13;
-        Object obj3;
+        int i4;
+        Composer.Companion companion;
+        int i18;
+        int anon;
+        long l2;
+        int i15;
+        int i5;
+        Stroke stroke;
+        androidx.compose.runtime.State state2;
+        androidx.compose.runtime.State state;
+        androidx.compose.runtime.State state4;
+        androidx.compose.runtime.State state3;
+        float f2;
+        long l3;
+        int i14;
+        Object obj2;
         int obj34;
         int obj35;
         int obj36;
@@ -916,67 +916,67 @@ public final class ProgressIndicatorKt {
         int obj40;
         int obj41;
         final int i42 = obj42;
-        traceInProgress = -115871647;
-        final Composer restartGroup = i8.startRestartGroup(traceInProgress);
+        traceInProgress2 = -115871647;
+        final Composer restartGroup = i8.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(CircularProgressIndicator)P(1,0:c#ui.graphics.Color,3:c#ui.unit.Dp,4:c#ui.graphics.Color,2:c#ui.graphics.StrokeCap)633@26429L13,635@26563L31,*638@26720L7,640@26807L28,643@26972L350,657@27444L208,666@27777L422,679@28240L431,691@28745L628,691@28676L697:ProgressIndicator.kt#uh7d8r");
-        $dirty3 = obj42;
+        $dirty = obj42;
         int i35 = obj43 & 1;
         if (i35 != 0) {
-            $dirty3 |= 6;
+            $dirty |= 6;
             obj = modifier;
         } else {
             if (i42 & 6 == 0) {
                 i = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty3 |= i;
+                $dirty |= i;
             } else {
                 obj = modifier;
             }
         }
         if (i42 & 48 == 0) {
             if (obj43 & 2 == 0) {
-                i10 = restartGroup.changed(color) ? 32 : 16;
+                i11 = restartGroup.changed(color) ? 32 : 16;
             } else {
                 circularColor = color;
             }
-            $dirty3 |= i10;
+            $dirty |= i11;
         } else {
             circularColor = color;
         }
         int i39 = obj43 & 4;
         if (i39 != 0) {
-            $dirty3 |= 384;
+            $dirty |= 384;
             infiniteRepeatableSpec = trackColor;
         } else {
             if (i42 & 384 == 0) {
-                i2 = restartGroup.changed(trackColor) ? 256 : 128;
-                $dirty3 |= i2;
+                i10 = restartGroup.changed(trackColor) ? 256 : 128;
+                $dirty |= i10;
             } else {
                 infiniteRepeatableSpec = trackColor;
             }
         }
         if (i42 & 3072 == 0) {
             if (obj43 & 8 == 0) {
-                i15 = restartGroup.changed(strokeCap) ? 2048 : 1024;
+                i16 = restartGroup.changed(strokeCap) ? 2048 : 1024;
             } else {
                 size-3ABfNKs = strokeCap;
             }
-            $dirty3 |= i15;
+            $dirty |= i16;
         } else {
             size-3ABfNKs = strokeCap;
         }
-        i16 = obj43 & 16;
-        if (i16 != 0) {
-            $dirty3 |= 24576;
-            i5 = $changed;
+        i2 = obj43 & 16;
+        if (i2 != 0) {
+            $dirty |= 24576;
+            i7 = $changed;
         } else {
             if (i42 & 24576 == 0) {
-                i17 = restartGroup.changed($changed) ? 16384 : 8192;
-                $dirty3 |= i17;
+                i6 = restartGroup.changed($changed) ? 16384 : 8192;
+                $dirty |= i6;
             } else {
-                i5 = $changed;
+                i7 = $changed;
             }
         }
-        if ($dirty3 & 9363 == 9362) {
+        if ($dirty & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i42 & 1 != 0) {
@@ -989,85 +989,85 @@ public final class ProgressIndicatorKt {
                         obj = 6;
                         if (obj43 & 2 != 0) {
                             circularColor = ProgressIndicatorDefaults.INSTANCE.getCircularColor(restartGroup, obj);
-                            $dirty3 &= -113;
+                            $dirty &= -113;
                         }
                         if (i39 != 0) {
                             infiniteRepeatableSpec = circularStrokeWidth-D9Ej5fM;
                         }
                         if (obj43 & 8 != 0) {
-                            $dirty3 &= -7169;
+                            $dirty &= -7169;
                             size-3ABfNKs = circularIndeterminateTrackColor;
                         }
-                        if (i16 != 0) {
-                            i11 = $dirty3;
-                            i9 = circularIndeterminateStrokeCap-KaPHkGw;
+                        if (i2 != 0) {
+                            i19 = $dirty;
+                            i5 = circularIndeterminateStrokeCap-KaPHkGw;
                             skipping = circularColor;
-                            $dirty2 = infiniteRepeatableSpec;
-                            l4 = size-3ABfNKs;
+                            $dirty4 = infiniteRepeatableSpec;
+                            l5 = size-3ABfNKs;
                         } else {
-                            i11 = $dirty3;
-                            i9 = i5;
+                            i19 = $dirty;
+                            i5 = i7;
                             skipping = circularColor;
-                            $dirty2 = infiniteRepeatableSpec;
-                            l4 = size-3ABfNKs;
+                            $dirty4 = infiniteRepeatableSpec;
+                            l5 = size-3ABfNKs;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj43 & 2 != 0) {
-                            $dirty3 &= -113;
+                            $dirty &= -113;
                         }
                         if (obj43 & 8 != 0) {
-                            $dirty3 &= -7169;
+                            $dirty &= -7169;
                         }
-                        i11 = $dirty3;
+                        i19 = $dirty;
                         modifier2 = obj;
-                        i9 = i5;
+                        i5 = i7;
                         skipping = circularColor;
-                        $dirty2 = infiniteRepeatableSpec;
-                        l4 = size-3ABfNKs;
+                        $dirty4 = infiniteRepeatableSpec;
+                        l5 = size-3ABfNKs;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i11, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:637)");
+                    ComposerKt.traceEventStart(traceInProgress2, i19, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:637)");
                 }
                 int i43 = 0;
-                int i46 = 0;
+                int i45 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i44 = 0;
-                i3 = 0;
-                Stroke stroke3 = new Stroke((Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4($dirty2), i3, i9, 0, 0, 26, 0);
-                int i45 = 0;
-                int i47 = 0;
-                f = $dirty2;
-                obj37 = i91;
-                int i73 = 0;
-                obj3 = modifier2;
+                i15 = 0;
+                Stroke stroke3 = new Stroke((Density)restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4($dirty4), i15, i5, 0, 0, 26, 0);
+                int $i$a$WithProgressIndicatorKt$CircularProgressIndicator$stroke$2 = 0;
+                int i46 = 0;
+                f2 = $dirty4;
+                obj37 = i90;
+                int i72 = 0;
+                obj2 = modifier2;
                 circularColor = rememberInfiniteTransition;
                 anon = 1;
                 empty = strokeCap3;
                 androidx.compose.runtime.State state6 = animateValue;
                 obj37 = infiniteRepeatable-9IiC70o$default2;
                 androidx.compose.runtime.State state5 = animateFloat3;
-                int i86 = 0;
+                int i85 = 0;
                 obj37 = infiniteRepeatable-9IiC70o$default3;
                 infiniteRepeatableSpec = animateFloat;
-                i16 = animateFloat2;
+                i2 = animateFloat2;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -291474284, "CC(remember):ProgressIndicator.kt#9igjgp");
-                int i79 = 2048;
-                if (i21 ^= 3072 > i79) {
-                    if (!restartGroup.changed(l4)) {
-                        i18 = i11 & 3072 == i79 ? anon : 0;
+                int i78 = 2048;
+                if (i21 ^= 3072 > i78) {
+                    if (!restartGroup.changed(l5)) {
+                        i12 = i19 & 3072 == i78 ? anon : 0;
                     } else {
                     }
                 } else {
                 }
-                i4 = i11 & 896 == 256 ? anon : 0;
-                if (i81 ^= 48 > 32) {
+                i9 = i19 & 896 == 256 ? anon : 0;
+                if (i80 ^= 48 > 32) {
                     if (!restartGroup.changed(skipping)) {
-                        if (i11 & 48 == 32) {
+                        if (i19 & 48 == 32) {
                         } else {
                             anon = 0;
                         }
@@ -1076,97 +1076,97 @@ public final class ProgressIndicatorKt {
                 } else {
                 }
                 composer = restartGroup;
-                i14 = 0;
+                i13 = 0;
                 Object rememberedValue = composer.rememberedValue();
-                i12 = 0;
+                i4 = 0;
                 if (obj34 | anon == 0) {
                     stroke = empty;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int stroke2 = 0;
-                        anon = new ProgressIndicatorKt.CircularProgressIndicator.5.1(l4, i3, stroke, state6, infiniteRepeatableSpec, i16, state5, f, skipping, obj31);
+                        anon = new ProgressIndicatorKt.CircularProgressIndicator.5.1(l5, i15, stroke, state6, infiniteRepeatableSpec, i2, state5, f2, skipping, obj31);
                         composer.updateRememberedValue((Function1)anon);
                     } else {
-                        obj2 = rememberedValue;
-                        state2 = state5;
+                        $i$a$CacheProgressIndicatorKt$CircularProgressIndicator$5 = rememberedValue;
+                        state3 = state5;
                         l3 = skipping;
-                        l5 = l4;
-                        state = state6;
-                        state3 = infiniteRepeatableSpec;
-                        state4 = i16;
+                        l2 = l5;
+                        state2 = state6;
+                        state = infiniteRepeatableSpec;
+                        state4 = i2;
                     }
                 } else {
                     stroke = empty;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.size-3ABfNKs(ProgressSemanticsKt.progressSemantics(obj3), ProgressIndicatorKt.CircularIndicatorDiameter), (Function1)obj2, restartGroup, 0);
+                CanvasKt.Canvas(SizeKt.size-3ABfNKs(ProgressSemanticsKt.progressSemantics(obj2), ProgressIndicatorKt.CircularIndicatorDiameter), (Function1)$i$a$CacheProgressIndicatorKt$CircularProgressIndicator$5, restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i19 = i11;
-                l = l5;
-                f2 = f;
-                l2 = l3;
-                $dirty4 = i13;
-                $dirty = obj3;
+                i17 = i19;
+                l = l2;
+                f = f2;
+                l4 = l3;
+                $dirty2 = i14;
+                $dirty3 = obj2;
             } else {
                 restartGroup.skipToGroupEnd();
-                $dirty4 = i5;
-                l2 = circularColor;
+                $dirty2 = i7;
+                l4 = circularColor;
                 l = size-3ABfNKs;
-                i19 = $dirty3;
-                $dirty = obj;
-                f2 = infiniteRepeatableSpec;
+                i17 = $dirty;
+                $dirty3 = obj;
+                f = infiniteRepeatableSpec;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ProgressIndicatorKt.CircularProgressIndicator.6($dirty, l2, skipping, f2, l, i5, $dirty4, i42, obj43);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ProgressIndicatorKt.CircularProgressIndicator.6($dirty3, l4, skipping, f, l, i7, $dirty2, i42, obj43);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public static final void CircularProgressIndicator-MBs18nI(float progress, Modifier modifier, long color, float strokeWidth, Composer $composer, int $changed, int i7) {
-        boolean traceInProgress2;
-        int $dirty;
-        int i6;
-        Object obj2;
-        Object modifier3;
         boolean traceInProgress;
-        Object color2;
-        long l2;
-        int i5;
-        long l3;
-        float f3;
-        float circularStrokeWidth-D9Ej5fM;
-        float f;
-        int changed;
-        int modifier2;
-        Object obj;
-        float f2;
+        int $dirty;
         int i2;
+        Object obj2;
+        Object modifier2;
+        boolean traceInProgress2;
+        Object color2;
+        long l3;
+        int i3;
+        long l;
+        float f2;
+        float circularStrokeWidth-D9Ej5fM;
+        float f3;
+        int changed;
+        int modifier3;
+        Object obj;
+        float f;
+        int i5;
         boolean defaultsInvalid;
-        float i;
+        float i6;
         long circularTrackColor;
         int circularDeterminateStrokeCap-KaPHkGw;
-        int i3;
         int i4;
-        long l;
+        int i;
+        long l2;
         final int i21 = i7;
-        traceInProgress2 = 402841196;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
+        traceInProgress = 402841196;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(CircularProgressIndicator)P(2,1,0:c#ui.graphics.Color,3:c#ui.unit.Dp)750@30727L13,758@30964L18,753@30818L247:ProgressIndicator.kt#uh7d8r");
         $dirty = i7;
         if (obj27 & 1 != 0) {
             $dirty |= 6;
-            f = progress;
+            f3 = progress;
         } else {
             if (i21 & 6 == 0) {
-                i6 = restartGroup.changed(progress) ? 4 : 2;
-                $dirty |= i6;
+                i2 = restartGroup.changed(progress) ? 4 : 2;
+                $dirty |= i2;
             } else {
-                f = progress;
+                f3 = progress;
             }
         }
         int i12 = obj27 & 2;
@@ -1175,8 +1175,8 @@ public final class ProgressIndicatorKt {
             color2 = modifier;
         } else {
             if (i21 & 48 == 0) {
-                i5 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i5;
+                i3 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i3;
             } else {
                 color2 = modifier;
             }
@@ -1185,22 +1185,22 @@ public final class ProgressIndicatorKt {
             if (obj27 & 4 == 0) {
                 changed = restartGroup.changed(color) ? 256 : 128;
             } else {
-                l3 = color;
+                l = color;
             }
             $dirty |= changed;
         } else {
-            l3 = color;
+            l = color;
         }
         int i22 = obj27 & 8;
         if (i22 != 0) {
             $dirty |= 3072;
-            f2 = $composer;
+            f = $composer;
         } else {
             if (i21 & 3072 == 0) {
-                i2 = restartGroup.changed($composer) ? 2048 : 1024;
-                $dirty |= i2;
+                i5 = restartGroup.changed($composer) ? 2048 : 1024;
+                $dirty |= i5;
             } else {
-                f2 = $composer;
+                f = $composer;
             }
         }
         if ($dirty & 1171 == 1170) {
@@ -1210,130 +1210,130 @@ public final class ProgressIndicatorKt {
                 if (i21 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i12 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = color2;
+                            modifier2 = color2;
                         }
                         if (obj27 & 4 != 0) {
                             color2 = ProgressIndicatorDefaults.INSTANCE.getCircularColor(restartGroup, i24);
                             $dirty &= -897;
                         } else {
-                            color2 = l3;
+                            color2 = l;
                         }
                         if (i22 != 0) {
                             circularStrokeWidth-D9Ej5fM = ProgressIndicatorDefaults.INSTANCE.getCircularStrokeWidth-D9Ej5fM();
-                            obj = modifier3;
-                            f2 = color2;
+                            obj = modifier2;
+                            f = color2;
                         } else {
-                            obj = modifier3;
-                            circularStrokeWidth-D9Ej5fM = f2;
-                            f2 = color2;
+                            obj = modifier2;
+                            circularStrokeWidth-D9Ej5fM = f;
+                            f = color2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj27 & 4 != 0) {
                             $dirty &= -897;
                         }
-                        circularStrokeWidth-D9Ej5fM = f2;
-                        f2 = l;
+                        circularStrokeWidth-D9Ej5fM = f;
+                        f = l2;
                         obj = color2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:753)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:753)");
                 }
-                i = circularStrokeWidth-D9Ej5fM;
-                ProgressIndicatorKt.CircularProgressIndicator-DUhRLBM(f, obj, f2, defaultsInvalid, i, ProgressIndicatorDefaults.INSTANCE.getCircularTrackColor(restartGroup, i24), obj13, ProgressIndicatorDefaults.INSTANCE.getCircularDeterminateStrokeCap-KaPHkGw(), restartGroup);
+                i6 = circularStrokeWidth-D9Ej5fM;
+                ProgressIndicatorKt.CircularProgressIndicator-DUhRLBM(f3, obj, f, defaultsInvalid, i6, ProgressIndicatorDefaults.INSTANCE.getCircularTrackColor(restartGroup, i24), obj13, ProgressIndicatorDefaults.INSTANCE.getCircularDeterminateStrokeCap-KaPHkGw(), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 obj2 = obj;
-                l2 = f2;
-                f3 = i;
-                modifier2 = $dirty;
+                l3 = f;
+                f2 = i6;
+                modifier3 = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
                 obj2 = color2;
-                l2 = l3;
-                f3 = f2;
-                modifier2 = $dirty;
+                l3 = l;
+                f2 = f;
+                modifier3 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ProgressIndicatorKt.CircularProgressIndicator.9(progress, obj2, l2, l3, f3, i21, obj27);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ProgressIndicatorKt.CircularProgressIndicator.9(progress, obj2, l3, l, f2, i21, obj27);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public static final void CircularProgressIndicator-aM-cp0Q(Modifier modifier, long color, float strokeWidth, Composer $composer, int $changed, int i6) {
-        int traceInProgress;
-        int $dirty;
-        Object $dirty2;
+        int traceInProgress2;
+        int $dirty2;
+        Object $dirty;
         Object modifier2;
-        boolean traceInProgress2;
-        long l;
+        boolean traceInProgress;
+        long l3;
         Object circularStrokeWidth-D9Ej5fM;
+        int i3;
         int i;
-        int i4;
         int changed;
         float f;
-        long color3;
+        long color2;
         long l2;
-        int color2;
+        int color3;
         float f2;
         int i2;
         int skipping;
         int defaultsInvalid;
         int circularTrackColor;
         int circularIndeterminateStrokeCap-KaPHkGw;
+        int i4;
         int i5;
-        int i3;
-        long l3;
+        long l;
         final int i15 = i6;
-        traceInProgress = 947193756;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
+        traceInProgress2 = 947193756;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(CircularProgressIndicator)P(1,0:c#ui.graphics.Color,2:c#ui.unit.Dp)767@31299L13,774@31518L18,770@31390L231:ProgressIndicator.kt#uh7d8r");
-        $dirty = i6;
+        $dirty2 = i6;
         int i10 = obj24 & 1;
         if (i10 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
             circularStrokeWidth-D9Ej5fM = modifier;
         } else {
             if (i15 & 6 == 0) {
-                i = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i;
+                i3 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i3;
             } else {
                 circularStrokeWidth-D9Ej5fM = modifier;
             }
         }
         if (i15 & 48 == 0) {
             if (obj24 & 2 == 0) {
-                i4 = restartGroup.changed(color) ? 32 : 16;
+                i = restartGroup.changed(color) ? 32 : 16;
             } else {
-                color3 = color;
+                color2 = color;
             }
-            $dirty |= i4;
+            $dirty2 |= i;
         } else {
-            color3 = color;
+            color2 = color;
         }
         int i14 = obj24 & 4;
         if (i14 != 0) {
-            $dirty |= 384;
+            $dirty2 |= 384;
             f2 = $composer;
         } else {
             if (i15 & 384 == 0) {
                 i2 = restartGroup.changed($composer) ? 256 : 128;
-                $dirty |= i2;
+                $dirty2 |= i2;
             } else {
                 f2 = $composer;
             }
         }
-        if ($dirty & 147 == 146) {
+        if ($dirty2 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i17 = 6;
@@ -1345,89 +1345,89 @@ public final class ProgressIndicatorKt {
                             modifier2 = circularStrokeWidth-D9Ej5fM;
                         }
                         if (obj24 & 2 != 0) {
-                            color3 = ProgressIndicatorDefaults.INSTANCE.getCircularColor(restartGroup, i17);
-                            $dirty &= -113;
+                            color2 = ProgressIndicatorDefaults.INSTANCE.getCircularColor(restartGroup, i17);
+                            $dirty2 &= -113;
                         }
                         if (i14 != 0) {
                             skipping = circularStrokeWidth-D9Ej5fM;
-                            l2 = color3;
-                            color3 = modifier2;
+                            l2 = color2;
+                            color2 = modifier2;
                         } else {
                             skipping = f2;
-                            l2 = color3;
-                            color3 = modifier2;
+                            l2 = color2;
+                            color2 = modifier2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj24 & 2 != 0) {
-                            $dirty &= -113;
+                            $dirty2 &= -113;
                         }
                         skipping = f2;
-                        l2 = color3;
-                        color3 = circularStrokeWidth-D9Ej5fM;
+                        l2 = color2;
+                        color2 = circularStrokeWidth-D9Ej5fM;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:770)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.CircularProgressIndicator (ProgressIndicator.kt:770)");
                 }
-                ProgressIndicatorKt.CircularProgressIndicator-LxG7B9w(color3, l2, f2, skipping, ProgressIndicatorDefaults.INSTANCE.getCircularTrackColor(restartGroup, i17), obj11, ProgressIndicatorDefaults.INSTANCE.getCircularIndeterminateStrokeCap-KaPHkGw(), restartGroup);
+                ProgressIndicatorKt.CircularProgressIndicator-LxG7B9w(color2, l2, f2, skipping, ProgressIndicatorDefaults.INSTANCE.getCircularTrackColor(restartGroup, i17), obj11, ProgressIndicatorDefaults.INSTANCE.getCircularIndeterminateStrokeCap-KaPHkGw(), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                l = l2;
+                l3 = l2;
                 f = skipping;
-                color2 = $dirty;
-                $dirty2 = color3;
+                color3 = $dirty2;
+                $dirty = color2;
             } else {
                 restartGroup.skipToGroupEnd();
-                color2 = $dirty;
-                $dirty2 = circularStrokeWidth-D9Ej5fM;
-                l = l3;
+                color3 = $dirty2;
+                $dirty = circularStrokeWidth-D9Ej5fM;
+                l3 = l;
                 f = f2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ProgressIndicatorKt.CircularProgressIndicator.10($dirty2, l, circularStrokeWidth-D9Ej5fM, f, i15, obj24);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ProgressIndicatorKt.CircularProgressIndicator.10($dirty, l3, circularStrokeWidth-D9Ej5fM, f, i15, obj24);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Use the overload that takes `gapSize`, see `LegacyIndeterminateLinearProgressIndicatorSample` on how to restore the previous behavior", replaceWith = @ReplaceWith(...))
     public static final void LinearProgressIndicator-2cYBFYY(Modifier modifier, long color, long trackColor, int strokeCap, Composer $composer, int $changed, int i7) {
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int $dirty;
         Object $dirty2;
         Object modifier2;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         long l2;
         Object color3;
         int i9;
-        long l3;
         long l4;
+        long l5;
         int linearStrokeCap-KaPHkGw;
         int changed;
-        int i8;
         int i6;
+        int i3;
         boolean changed2;
         long trackColor2;
-        long l5;
+        long l;
         int color2;
-        int i4;
-        int i3;
+        int i;
+        int i8;
         int skipping;
         int defaultsInvalid;
         int i2;
         float linearIndicatorTrackGapSize-D9Ej5fM;
-        int i;
         int i5;
-        long l;
+        int i4;
+        long l3;
         final int i24 = obj27;
-        traceInProgress2 = -476865359;
-        final Composer restartGroup = i7.startRestartGroup(traceInProgress2);
+        traceInProgress = -476865359;
+        final Composer restartGroup = i7.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LinearProgressIndicator)P(1,0:c#ui.graphics.Color,3:c#ui.graphics.Color,2:c#ui.graphics.StrokeCap)214@9497L11,215@9560L16,218@9656L175:ProgressIndicator.kt#uh7d8r");
         $dirty = obj27;
         int i14 = obj28 & 1;
@@ -1446,32 +1446,32 @@ public final class ProgressIndicatorKt {
             if (obj28 & 2 == 0) {
                 changed = restartGroup.changed(color) ? 32 : 16;
             } else {
-                l3 = color;
+                l4 = color;
             }
             $dirty |= changed;
         } else {
-            l3 = color;
+            l4 = color;
         }
         if (i24 & 384 == 0) {
             if (obj28 & 4 == 0) {
-                i8 = restartGroup.changed(strokeCap) ? 256 : 128;
+                i6 = restartGroup.changed(strokeCap) ? 256 : 128;
             } else {
                 trackColor2 = strokeCap;
             }
-            $dirty |= i8;
+            $dirty |= i6;
         } else {
             trackColor2 = strokeCap;
         }
         int i23 = obj28 & 8;
         if (i23 != 0) {
             $dirty |= 3072;
-            i4 = $changed;
+            i = $changed;
         } else {
             if (i24 & 3072 == 0) {
-                i3 = restartGroup.changed($changed) ? 2048 : 1024;
-                $dirty |= i3;
+                i8 = restartGroup.changed($changed) ? 2048 : 1024;
+                $dirty |= i8;
             } else {
-                i4 = $changed;
+                i = $changed;
             }
         }
         final int i27 = 1170;
@@ -1490,7 +1490,7 @@ public final class ProgressIndicatorKt {
                             color3 = ProgressIndicatorDefaults.INSTANCE.getLinearColor(restartGroup, i26);
                             $dirty &= -113;
                         } else {
-                            color3 = l3;
+                            color3 = l4;
                         }
                         if (obj28 & 4 != 0) {
                             trackColor2 = ProgressIndicatorDefaults.INSTANCE.getLinearTrackColor(restartGroup, i26);
@@ -1500,12 +1500,12 @@ public final class ProgressIndicatorKt {
                             i2 = linearStrokeCap-KaPHkGw;
                             skipping = trackColor2;
                             trackColor2 = modifier2;
-                            l5 = color3;
+                            l = color3;
                         } else {
                             skipping = trackColor2;
-                            i2 = i4;
+                            i2 = i;
                             trackColor2 = modifier2;
-                            l5 = color3;
+                            l = color3;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1516,109 +1516,109 @@ public final class ProgressIndicatorKt {
                             $dirty &= -897;
                         }
                         skipping = trackColor2;
-                        i2 = i4;
+                        i2 = i;
                         trackColor2 = color3;
-                        l5 = l3;
+                        l = l4;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:217)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:217)");
                 }
-                ProgressIndicatorKt.LinearProgressIndicator-rIrjwxo(trackColor2, l5, i4, skipping, i27, i2, ProgressIndicatorDefaults.INSTANCE.getLinearIndicatorTrackGapSize-D9Ej5fM(), restartGroup);
+                ProgressIndicatorKt.LinearProgressIndicator-rIrjwxo(trackColor2, l, i, skipping, i27, i2, ProgressIndicatorDefaults.INSTANCE.getLinearIndicatorTrackGapSize-D9Ej5fM(), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                l2 = l5;
-                l4 = skipping;
-                i6 = i2;
+                l2 = l;
+                l5 = skipping;
+                i3 = i2;
                 color2 = $dirty;
                 $dirty2 = trackColor2;
             } else {
                 restartGroup.skipToGroupEnd();
                 color2 = $dirty;
                 $dirty2 = color3;
-                l2 = l3;
-                l4 = l;
-                i6 = i4;
+                l2 = l4;
+                l5 = l3;
+                i3 = i;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ProgressIndicatorKt.LinearProgressIndicator.6($dirty2, l2, color3, l4, linearStrokeCap-KaPHkGw, i6, i24, obj28);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ProgressIndicatorKt.LinearProgressIndicator.6($dirty2, l2, color3, l5, linearStrokeCap-KaPHkGw, i3, i24, obj28);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void LinearProgressIndicator-GJbTh5U(Function0<Float> progress, Modifier modifier, long color, long trackColor, int strokeCap, float gapSize, Function1<? super DrawScope, Unit> drawStopIndicator, Composer $composer, int $changed, int i10) {
-        Object traceInProgress;
-        androidx.compose.material3.ProgressIndicatorKt.LinearProgressIndicator.2.1 it$iv2;
+        Object traceInProgress2;
+        androidx.compose.material3.ProgressIndicatorKt.LinearProgressIndicator.2.1 it$iv;
         Object drawStopIndicator2;
-        Object it$iv;
+        Object it$iv2;
         Object size-VpY3zN4;
         int $dirty2;
         Object $dirty;
-        int i;
-        int i4;
-        boolean traceInProgress2;
-        int empty;
-        Object anon3;
-        int companion4;
+        int i16;
+        int i3;
+        boolean traceInProgress;
+        int empty2;
+        Object $i$a$CacheProgressIndicatorKt$LinearProgressIndicator$coercedProgress$1;
+        int companion3;
         int iNSTANCE;
         int linearIndicatorTrackGapSize-D9Ej5fM;
-        int i7;
+        int i11;
         int changed5;
         long l;
         float str;
-        int i22;
+        int i17;
         Object modifier2;
-        int i13;
-        long l3;
-        int i5;
+        int i4;
+        long l2;
+        int i9;
+        int i;
+        int i2;
+        boolean changed6;
         int i8;
-        int i15;
-        boolean changed4;
-        int i20;
-        int i14;
-        int i6;
-        int i11;
-        int changed2;
-        boolean changed;
-        int changed3;
         int i26;
-        int i23;
+        int i12;
         int i21;
-        int changed6;
+        int changed4;
+        boolean changed3;
+        int changed;
+        int i6;
+        int i13;
+        int i19;
+        int changed2;
         int skipping;
         boolean defaultsInvalid;
-        int i17;
-        int i18;
-        int i19;
-        int i12;
-        long linearColor;
-        float f2;
-        Object anon2;
+        int i20;
         int i25;
+        int i18;
+        int i22;
+        long linearColor;
+        float f;
+        Object anon3;
+        int i15;
         long linearTrackColor;
-        int i2;
-        Object empty2;
+        int i5;
+        Object empty;
         int i24;
-        Composer.Companion companion3;
-        int i9;
-        int i16;
-        int i3;
+        Composer.Companion companion2;
+        int i14;
+        int i7;
+        int i23;
         Composer.Companion companion;
         int changedInstance;
-        int anon4;
-        int companion2;
-        float f;
-        androidx.compose.material3.ProgressIndicatorKt.LinearProgressIndicator.coercedProgress.1.1 anon5;
-        long l2;
-        long l4;
-        androidx.compose.material3.ProgressIndicatorKt.LinearProgressIndicator.2.1 anon;
+        int anon2;
+        int companion4;
+        float f2;
+        androidx.compose.material3.ProgressIndicatorKt.LinearProgressIndicator.coercedProgress.1.1 anon;
+        long l3;
         long l5;
+        androidx.compose.material3.ProgressIndicatorKt.LinearProgressIndicator.2.1 anon4;
+        long l4;
         int obj35;
         Object obj36;
         size-VpY3zN4 = progress;
@@ -1630,63 +1630,63 @@ public final class ProgressIndicatorKt {
             $dirty2 |= 6;
         } else {
             if (i58 & 6 == 0) {
-                i = restartGroup.changedInstance(size-VpY3zN4) ? 4 : 2;
-                $dirty2 |= i;
+                i16 = restartGroup.changedInstance(size-VpY3zN4) ? 4 : 2;
+                $dirty2 |= i16;
             }
         }
-        companion4 = obj45 & 2;
-        if (companion4 != 0) {
+        companion3 = obj45 & 2;
+        if (companion3 != 0) {
             $dirty2 |= 48;
             modifier2 = modifier;
         } else {
             if (i58 & 48 == 0) {
-                i5 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i5;
+                i9 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i9;
             } else {
                 modifier2 = modifier;
             }
         }
         if (i58 & 384 == 0) {
             if (obj45 & 4 == 0) {
-                i8 = restartGroup.changed(color) ? 256 : 128;
+                i = restartGroup.changed(color) ? 256 : 128;
             } else {
                 linearColor = color;
             }
-            $dirty2 |= i8;
+            $dirty2 |= i;
         } else {
             linearColor = color;
         }
         if (i58 & 3072 == 0) {
             if (obj45 & 8 == 0) {
-                i15 = restartGroup.changed(strokeCap) ? 2048 : 1024;
+                i2 = restartGroup.changed(strokeCap) ? 2048 : 1024;
             } else {
                 linearTrackColor = strokeCap;
             }
-            $dirty2 |= i15;
+            $dirty2 |= i2;
         } else {
             linearTrackColor = strokeCap;
         }
-        i20 = obj45 & 16;
-        if (i20 != 0) {
+        i8 = obj45 & 16;
+        if (i8 != 0) {
             $dirty2 |= 24576;
-            i25 = drawStopIndicator;
+            i15 = drawStopIndicator;
         } else {
             if (i58 & 24576 == 0) {
                 i24 = restartGroup.changed(drawStopIndicator) ? 16384 : 8192;
                 $dirty2 |= i24;
             } else {
-                i25 = drawStopIndicator;
+                i15 = drawStopIndicator;
             }
         }
         int i62 = obj45 & 32;
-        i9 = 196608;
+        i14 = 196608;
         if (i62 != 0) {
-            $dirty2 |= i9;
+            $dirty2 |= i14;
             str = $composer;
         } else {
-            if (i58 & i9 == 0) {
-                i16 = restartGroup.changed($composer) ? 131072 : 65536;
-                $dirty2 |= i16;
+            if (i58 & i14 == 0) {
+                i7 = restartGroup.changed($composer) ? 131072 : 65536;
+                $dirty2 |= i7;
             } else {
                 str = $composer;
             }
@@ -1696,20 +1696,20 @@ public final class ProgressIndicatorKt {
             if (obj45 & 64 == 0) {
                 changedInstance = restartGroup.changedInstance($changed) ? 1048576 : 524288;
             } else {
-                traceInProgress = $changed;
+                traceInProgress2 = $changed;
             }
             $dirty2 |= changedInstance;
         } else {
-            traceInProgress = $changed;
+            traceInProgress2 = $changed;
         }
         if ($dirty2 & i64 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                empty2 = "CC(remember):ProgressIndicator.kt#9igjgp";
+                empty = "CC(remember):ProgressIndicator.kt#9igjgp";
                 if (i58 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (companion4 != 0) {
-                            modifier2 = companion4;
+                        if (companion3 != 0) {
+                            modifier2 = companion3;
                         }
                         defaultsInvalid = 6;
                         if (obj45 & 4 != 0) {
@@ -1720,48 +1720,48 @@ public final class ProgressIndicatorKt {
                             linearTrackColor = ProgressIndicatorDefaults.INSTANCE.getLinearTrackColor(restartGroup, defaultsInvalid);
                             $dirty2 &= -7169;
                         }
-                        if (i20 != 0) {
-                            i25 = linearIndicatorTrackGapSize-D9Ej5fM;
+                        if (i8 != 0) {
+                            i15 = linearIndicatorTrackGapSize-D9Ej5fM;
                         }
                         if (i62 != 0) {
                             str = linearIndicatorTrackGapSize-D9Ej5fM;
                         }
                         if (obj45 & 64 != 0) {
-                            ComposerKt.sourceInformationMarkerStart(restartGroup, 1144997616, empty2);
+                            ComposerKt.sourceInformationMarkerStart(restartGroup, 1144997616, empty);
                             if (i35 ^= 384 > 256) {
                                 if (!restartGroup.changed(linearColor)) {
-                                    i7 = $dirty2 & 384 == 256 ? 1 : 0;
+                                    i11 = $dirty2 & 384 == 256 ? 1 : 0;
                                 } else {
                                 }
                             } else {
                             }
-                            i23 = i53 &= $dirty2 == 16384 ? 1 : 0;
-                            i20 = restartGroup;
+                            i13 = i53 &= $dirty2 == 16384 ? 1 : 0;
+                            i8 = restartGroup;
                             defaultsInvalid = 0;
-                            it$iv2 = i20.rememberedValue();
-                            anon4 = 0;
-                            if (i7 |= i23 == 0) {
+                            it$iv = i8.rememberedValue();
+                            anon2 = 0;
+                            if (i11 |= i13 == 0) {
                                 obj35 = $dirty2;
-                                if (it$iv2 == Composer.Companion.getEmpty()) {
+                                if (it$iv == Composer.Companion.getEmpty()) {
                                     $dirty2 = 0;
-                                    obj36 = it$iv2;
-                                    it$iv2 = new ProgressIndicatorKt.LinearProgressIndicator.2.1(linearColor, obj9, i25);
-                                    i20.updateRememberedValue((Function1)it$iv2);
+                                    obj36 = it$iv;
+                                    it$iv = new ProgressIndicatorKt.LinearProgressIndicator.2.1(linearColor, obj9, i15);
+                                    i8.updateRememberedValue((Function1)it$iv);
                                 } else {
-                                    obj36 = it$iv2;
+                                    obj36 = it$iv;
                                 }
                             } else {
                                 obj35 = $dirty2;
                             }
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
                             $dirty2 = obj35 & i28;
-                            f = str;
-                            companion2 = i25;
+                            f2 = str;
+                            companion4 = i15;
                         } else {
                             obj35 = $dirty2;
-                            it$iv2 = $changed;
-                            f = str;
-                            companion2 = i25;
+                            it$iv = $changed;
+                            f2 = str;
+                            companion4 = i15;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1772,11 +1772,11 @@ public final class ProgressIndicatorKt {
                             $dirty2 &= -7169;
                         }
                         if (obj45 & 64 != 0) {
-                            $dirty2 &= i4;
+                            $dirty2 &= i3;
                         }
-                        it$iv2 = $changed;
-                        f = str;
-                        companion2 = i25;
+                        it$iv = $changed;
+                        f2 = str;
+                        companion4 = i15;
                     }
                 } else {
                 }
@@ -1784,172 +1784,172 @@ public final class ProgressIndicatorKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(-339970038, $dirty2, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:152)");
                 }
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 1145005305, empty2);
-                empty = $dirty2 & 14 == 4 ? 1 : 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 1145005305, empty);
+                empty2 = $dirty2 & 14 == 4 ? 1 : 0;
                 Composer composer = restartGroup;
                 int i45 = 0;
                 Object rememberedValue = composer.rememberedValue();
                 int i60 = 0;
-                if (empty == 0) {
-                    obj35 = empty;
+                if (empty2 == 0) {
+                    obj35 = empty2;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         obj36 = invalid$iv;
-                        anon3 = new ProgressIndicatorKt.LinearProgressIndicator.coercedProgress.1.1(size-VpY3zN4);
-                        composer.updateRememberedValue((Function0)anon3);
+                        $i$a$CacheProgressIndicatorKt$LinearProgressIndicator$coercedProgress$1 = new ProgressIndicatorKt.LinearProgressIndicator.coercedProgress.1.1(size-VpY3zN4);
+                        composer.updateRememberedValue((Function0)$i$a$CacheProgressIndicatorKt$LinearProgressIndicator$coercedProgress$1);
                     } else {
-                        anon3 = rememberedValue;
+                        $i$a$CacheProgressIndicatorKt$LinearProgressIndicator$coercedProgress$1 = rememberedValue;
                     }
                 } else {
-                    obj35 = empty;
+                    obj35 = empty2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 1145010240, empty2);
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 1145010240, empty);
                 Composer composer3 = restartGroup;
                 int i61 = 0;
-                it$iv = composer3.rememberedValue();
-                companion3 = 0;
-                if (!restartGroup.changed((Function0)anon3)) {
+                it$iv2 = composer3.rememberedValue();
+                companion2 = 0;
+                if (!restartGroup.changed((Function0)$i$a$CacheProgressIndicatorKt$LinearProgressIndicator$coercedProgress$1)) {
                     obj35 = modifier2;
-                    if (it$iv == Composer.Companion.getEmpty()) {
+                    if (it$iv2 == Composer.Companion.getEmpty()) {
                         modifier2 = 0;
-                        obj36 = it$iv;
-                        it$iv = new ProgressIndicatorKt.LinearProgressIndicator.3.1(anon3);
-                        composer3.updateRememberedValue((Function1)it$iv);
+                        obj36 = it$iv2;
+                        it$iv2 = new ProgressIndicatorKt.LinearProgressIndicator.3.1($i$a$CacheProgressIndicatorKt$LinearProgressIndicator$coercedProgress$1);
+                        composer3.updateRememberedValue((Function1)it$iv2);
                     } else {
-                        obj36 = it$iv;
+                        obj36 = it$iv2;
                     }
                 } else {
                     obj35 = modifier2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                i13 = 1;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 1145016448, empty2);
-                i22 = i38 &= $dirty2 == 16384 ? i13 : 0;
-                i14 = i47 &= $dirty2 == 131072 ? i13 : 0;
+                i4 = 1;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 1145016448, empty);
+                i17 = i38 &= $dirty2 == 16384 ? i4 : 0;
+                i26 = i47 &= $dirty2 == 131072 ? i4 : 0;
                 if (i49 ^= 3072 > 2048) {
                     if (!restartGroup.changed(linearTrackColor)) {
-                        i6 = $dirty2 & 3072 == 2048 ? i13 : 0;
+                        i12 = $dirty2 & 3072 == 2048 ? i4 : 0;
                     } else {
                     }
                 } else {
                 }
                 if (i50 ^= 384 > 256) {
                     if (!restartGroup.changed(linearColor)) {
-                        i11 = $dirty2 & 384 == 256 ? i13 : 0;
+                        i21 = $dirty2 & 384 == 256 ? i4 : 0;
                     } else {
                     }
                 } else {
                 }
                 if (i52 ^= i63 > 1048576) {
-                    if (!restartGroup.changed(it$iv2)) {
+                    if (!restartGroup.changed(it$iv)) {
                         if ($dirty2 & i63 == 1048576) {
                         } else {
-                            i13 = 0;
+                            i4 = 0;
                         }
                     } else {
                     }
                 } else {
                 }
                 Composer composer2 = restartGroup;
-                i21 = 0;
+                i19 = 0;
                 Object rememberedValue2 = composer2.rememberedValue();
-                i25 = 0;
-                if (i43 |= i13 == 0) {
+                i15 = 0;
+                if (i43 |= i4 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        empty2 = 0;
-                        anon4 = new ProgressIndicatorKt.LinearProgressIndicator.4.1(companion2, f, anon3, linearTrackColor, obj28, linearColor, obj30, it$iv2);
-                        composer2.updateRememberedValue((Function1)anon4);
+                        empty = 0;
+                        anon2 = new ProgressIndicatorKt.LinearProgressIndicator.4.1(companion4, f2, $i$a$CacheProgressIndicatorKt$LinearProgressIndicator$coercedProgress$1, linearTrackColor, obj28, linearColor, obj30, it$iv);
+                        composer2.updateRememberedValue((Function1)anon2);
                     } else {
-                        anon = it$iv2;
-                        anon5 = anon3;
+                        anon4 = it$iv;
+                        anon = $i$a$CacheProgressIndicatorKt$LinearProgressIndicator$coercedProgress$1;
                         drawStopIndicator2 = rememberedValue2;
-                        l4 = linearColor;
-                        l2 = linearTrackColor;
+                        l5 = linearColor;
+                        l3 = linearTrackColor;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.size-VpY3zN4(SemanticsModifierKt.semantics(modifier2.then(ProgressIndicatorKt.IncreaseSemanticsBounds), i13, (Function1)it$iv), ProgressIndicatorKt.LinearIndicatorWidth, ProgressIndicatorKt.LinearIndicatorHeight), (Function1)drawStopIndicator2, restartGroup, 0);
+                CanvasKt.Canvas(SizeKt.size-VpY3zN4(SemanticsModifierKt.semantics(modifier2.then(ProgressIndicatorKt.IncreaseSemanticsBounds), i4, (Function1)it$iv2), ProgressIndicatorKt.LinearIndicatorWidth, ProgressIndicatorKt.LinearIndicatorHeight), (Function1)drawStopIndicator2, restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i2 = $dirty2;
-                i12 = companion2;
-                f2 = f;
-                l3 = l2;
-                l = l4;
-                anon2 = anon;
+                i5 = $dirty2;
+                i22 = companion4;
+                f = f2;
+                l2 = l3;
+                l = l5;
+                anon3 = anon4;
                 $dirty = obj35;
             } else {
                 restartGroup.skipToGroupEnd();
-                f2 = str;
-                l = i21;
-                i2 = $dirty2;
+                f = str;
+                l = i19;
+                i5 = $dirty2;
                 $dirty = modifier2;
-                l3 = l5;
-                anon2 = traceInProgress;
-                i12 = i25;
+                l2 = l4;
+                anon3 = traceInProgress2;
+                i22 = i15;
             }
         } else {
         }
         final ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ProgressIndicatorKt.LinearProgressIndicator.5(progress, $dirty, l, str, l3, i21, i12, f2, anon2, i58, obj45);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ProgressIndicatorKt.LinearProgressIndicator.5(progress, $dirty, l, str, l2, i19, i22, f, anon3, i58, obj45);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public static final void LinearProgressIndicator-RIQooxk(Modifier modifier, long color, long trackColor, Composer $composer, int $changed, int i6) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
         Object $dirty2;
         Object modifier2;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         long l2;
-        Object color3;
-        int i3;
-        long l5;
+        Object color2;
+        int i4;
         long l3;
+        long l;
         int iNSTANCE;
         int changed;
         long trackColor2;
         long l4;
-        int color2;
+        int color3;
         int changed2;
         int defaultsInvalid;
-        long i2;
+        long i;
         int linearStrokeCap-KaPHkGw;
-        int i4;
-        int i;
+        int i3;
+        int i2;
         int i5;
-        long l;
+        long l5;
         final int i18 = obj25;
-        traceInProgress = 585576195;
-        final Composer restartGroup = i6.startRestartGroup(traceInProgress);
+        traceInProgress2 = 585576195;
+        final Composer restartGroup = i6.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(LinearProgressIndicator)P(1,0:c#ui.graphics.Color,2:c#ui.graphics.Color)418@16922L11,419@16985L16,421@17011L146:ProgressIndicator.kt#uh7d8r");
         $dirty = obj25;
         int i10 = obj26 & 1;
         if (i10 != 0) {
             $dirty |= 6;
-            color3 = modifier;
+            color2 = modifier;
         } else {
             if (i18 & 6 == 0) {
-                i3 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i3;
+                i4 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i4;
             } else {
-                color3 = modifier;
+                color2 = modifier;
             }
         }
         if (i18 & 48 == 0) {
             if (obj26 & 2 == 0) {
                 changed = restartGroup.changed(color) ? 32 : 16;
             } else {
-                l5 = color;
+                l3 = color;
             }
             $dirty |= changed;
         } else {
-            l5 = color;
+            l3 = color;
         }
         if (i18 & 384 == 0) {
             if (obj26 & 4 == 0) {
@@ -1969,24 +1969,24 @@ public final class ProgressIndicatorKt {
                         if (i10 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = color3;
+                            modifier2 = color2;
                         }
                         defaultsInvalid = 6;
                         if (obj26 & 2 != 0) {
-                            color3 = ProgressIndicatorDefaults.INSTANCE.getLinearColor(restartGroup, defaultsInvalid);
+                            color2 = ProgressIndicatorDefaults.INSTANCE.getLinearColor(restartGroup, defaultsInvalid);
                             $dirty &= -113;
                         } else {
-                            color3 = l5;
+                            color2 = l3;
                         }
                         if (obj26 & 4 != 0) {
                             $dirty &= -897;
-                            i2 = linearTrackColor;
+                            i = linearTrackColor;
                             trackColor2 = modifier2;
-                            l4 = color3;
+                            l4 = color2;
                         } else {
-                            i2 = trackColor2;
+                            i = trackColor2;
                             trackColor2 = modifier2;
-                            l4 = color3;
+                            l4 = color2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1996,80 +1996,80 @@ public final class ProgressIndicatorKt {
                         if (obj26 & 4 != 0) {
                             $dirty &= -897;
                         }
-                        i2 = trackColor2;
-                        trackColor2 = color3;
-                        l4 = l5;
+                        i = trackColor2;
+                        trackColor2 = color2;
+                        l4 = l3;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:421)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:421)");
                 }
-                ProgressIndicatorKt.LinearProgressIndicator-rIrjwxo(trackColor2, l4, defaultsInvalid, i2, obj11, ProgressIndicatorDefaults.INSTANCE.getLinearStrokeCap-KaPHkGw(), 0, restartGroup);
+                ProgressIndicatorKt.LinearProgressIndicator-rIrjwxo(trackColor2, l4, defaultsInvalid, i, obj11, ProgressIndicatorDefaults.INSTANCE.getLinearStrokeCap-KaPHkGw(), 0, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 l2 = l4;
-                l3 = i2;
-                color2 = $dirty;
+                l = i;
+                color3 = $dirty;
                 $dirty2 = trackColor2;
             } else {
                 restartGroup.skipToGroupEnd();
-                color2 = $dirty;
-                $dirty2 = color3;
-                l2 = l5;
-                l3 = l;
+                color3 = $dirty;
+                $dirty2 = color2;
+                l2 = l3;
+                l = l5;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ProgressIndicatorKt.LinearProgressIndicator.12($dirty2, l2, color3, l3, iNSTANCE, i18, obj26);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ProgressIndicatorKt.LinearProgressIndicator.12($dirty2, l2, color2, l, iNSTANCE, i18, obj26);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     @Deprecated(message = "Use the overload that takes `progress` as a lambda", replaceWith = @ReplaceWith(...))
     public static final void LinearProgressIndicator-_5eSR-E(float progress, Modifier modifier, long color, long trackColor, int strokeCap, Composer $composer, int $changed, int i8) {
-        int i12;
+        int i5;
         Object invalid$iv;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Object $composer2;
         int $dirty;
         long $dirty2;
-        int i7;
+        int i;
         int linearStrokeCap-KaPHkGw;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int companion;
         int iNSTANCE;
-        long l2;
+        long l;
         Object rememberedValue;
         int i9;
-        int i;
-        int i10;
-        int i5;
+        int i6;
+        int i12;
+        int i14;
         boolean changed2;
         boolean changed;
         long linearColor;
         Object obj;
         int modifier2;
         long trackColor2;
-        int i4;
+        int i7;
         int i3;
         int defaultsInvalid;
-        int i6;
-        int i2;
-        int i14;
-        Composer composer;
-        int i11;
         int i13;
-        long l;
+        int i10;
+        int i4;
+        Composer composer;
+        int i2;
+        int i11;
+        long l2;
         int obj24;
         final float f = progress;
         final int i29 = obj31;
-        traceInProgress2 = 905419617;
-        Composer restartGroup = i8.startRestartGroup(traceInProgress2);
+        traceInProgress = 905419617;
+        Composer restartGroup = i8.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LinearProgressIndicator)P(2,1,0:c#ui.graphics.Color,4:c#ui.graphics.Color,3:c#ui.graphics.StrokeCap)385@15871L11,386@15934L16,390@16074L12,389@16030L179:ProgressIndicator.kt#uh7d8r");
         $dirty = obj31;
         int i24 = 4;
@@ -2077,8 +2077,8 @@ public final class ProgressIndicatorKt {
             $dirty |= 6;
         } else {
             if (i29 & 6 == 0) {
-                i7 = restartGroup.changed(f) ? i24 : 2;
-                $dirty |= i7;
+                i = restartGroup.changed(f) ? i24 : 2;
+                $dirty |= i;
             }
         }
         companion = obj32 & 2;
@@ -2095,34 +2095,34 @@ public final class ProgressIndicatorKt {
         }
         if (i29 & 384 == 0) {
             if (obj32 & 4 == 0) {
-                i = restartGroup.changed(color) ? 256 : 128;
+                i6 = restartGroup.changed(color) ? 256 : 128;
             } else {
                 linearColor = color;
             }
-            $dirty |= i;
+            $dirty |= i6;
         } else {
             linearColor = color;
         }
         if (i29 & 3072 == 0) {
             if (obj32 & 8 == 0) {
-                i10 = restartGroup.changed(strokeCap) ? 2048 : 1024;
+                i12 = restartGroup.changed(strokeCap) ? 2048 : 1024;
             } else {
                 trackColor2 = strokeCap;
             }
-            $dirty |= i10;
+            $dirty |= i12;
         } else {
             trackColor2 = strokeCap;
         }
         int i27 = obj32 & 16;
         if (i27 != 0) {
             $dirty |= 24576;
-            i4 = $changed;
+            i7 = $changed;
         } else {
             if (i29 & 24576 == 0) {
                 i3 = restartGroup.changed($changed) ? 16384 : 8192;
                 $dirty |= i3;
             } else {
-                i4 = $changed;
+                i7 = $changed;
             }
         }
         if ($dirty & 9363 == 9362) {
@@ -2143,13 +2143,13 @@ public final class ProgressIndicatorKt {
                             $dirty &= -7169;
                         }
                         if (i27 != 0) {
-                            i6 = linearStrokeCap-KaPHkGw;
-                            i4 = trackColor2;
+                            i13 = linearStrokeCap-KaPHkGw;
+                            i7 = trackColor2;
                             trackColor2 = linearColor;
                             obj = rememberedValue;
                         } else {
-                            i6 = i4;
-                            i4 = trackColor2;
+                            i13 = i7;
+                            i7 = trackColor2;
                             trackColor2 = linearColor;
                             obj = rememberedValue;
                         }
@@ -2161,8 +2161,8 @@ public final class ProgressIndicatorKt {
                         if (obj32 & 8 != 0) {
                             $dirty &= -7169;
                         }
-                        i6 = i4;
-                        i4 = trackColor2;
+                        i13 = i7;
+                        i7 = trackColor2;
                         trackColor2 = linearColor;
                         obj = rememberedValue;
                     }
@@ -2170,92 +2170,92 @@ public final class ProgressIndicatorKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:389)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:389)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1145297734, "CC(remember):ProgressIndicator.kt#9igjgp");
-                i12 = $dirty & 14 == i24 ? 1 : 0;
+                i5 = $dirty & 14 == i24 ? 1 : 0;
                 Composer composer2 = restartGroup;
                 int i25 = 0;
                 rememberedValue = composer2.rememberedValue();
                 int i28 = 0;
-                if (i12 == 0) {
+                if (i5 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         linearColor = 0;
-                        obj24 = i12;
+                        obj24 = i5;
                         invalid$iv = new ProgressIndicatorKt.LinearProgressIndicator.9.1(f);
                         composer2.updateRememberedValue((Function0)invalid$iv);
                     } else {
-                        obj24 = i12;
+                        obj24 = i5;
                         invalid$iv = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ProgressIndicatorKt.LinearProgressIndicator-GJbTh5U((Function0)invalid$iv, obj, trackColor2, obj12, i4, defaultsInvalid, i6, 0, 0, restartGroup);
+                ProgressIndicatorKt.LinearProgressIndicator-GJbTh5U((Function0)invalid$iv, obj, trackColor2, obj12, i7, defaultsInvalid, i13, 0, 0, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 $composer2 = obj;
-                l2 = i4;
-                i5 = i6;
+                l = i7;
+                i14 = i13;
                 modifier2 = $dirty;
                 $dirty2 = trackColor2;
             } else {
                 restartGroup.skipToGroupEnd();
                 modifier2 = $dirty;
-                $dirty2 = l;
+                $dirty2 = l2;
                 composer = restartGroup;
                 $composer2 = rememberedValue;
-                l2 = trackColor2;
-                i5 = i4;
+                l = trackColor2;
+                i14 = i7;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ProgressIndicatorKt.LinearProgressIndicator.10(f, $composer2, $dirty2, companion, l2, rememberedValue, i5, i29, obj32);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ProgressIndicatorKt.LinearProgressIndicator.10(f, $composer2, $dirty2, companion, l, rememberedValue, i14, i29, obj32);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Use the overload that takes `gapSize` and `drawStopIndicator`, see `LegacyLinearProgressIndicatorSample` on how to restore the previous behavior", replaceWith = @ReplaceWith(...))
     public static final void LinearProgressIndicator-_5eSR-E(Function0 progress, Modifier modifier, long color, long trackColor, int strokeCap, Composer $composer, int $changed, int i8) {
-        boolean traceInProgress;
+        boolean traceInProgress2;
         Object restartGroup;
         int $dirty2;
         Object $dirty;
-        int i11;
+        int i2;
         Object modifier2;
-        boolean traceInProgress2;
-        long l3;
+        boolean traceInProgress;
+        long l;
         Object color2;
-        int i6;
-        long l2;
-        long l4;
-        int linearStrokeCap-KaPHkGw;
-        int changed;
-        int i5;
-        int changed2;
         int i7;
+        long l2;
+        long l3;
+        int linearStrokeCap-KaPHkGw;
+        int changed2;
+        int i10;
+        int changed;
+        int i9;
         Object obj;
         long linearTrackColor;
         Object trackColor2;
         int modifier3;
-        long l5;
-        int i10;
-        int i2;
+        long l4;
+        int i11;
+        int i4;
         int skipping;
         int defaultsInvalid;
-        int i4;
-        float linearIndicatorTrackGapSize-D9Ej5fM;
         int i;
+        float linearIndicatorTrackGapSize-D9Ej5fM;
+        int i5;
         Composer composer;
+        int i6;
         int i3;
-        int i9;
-        long l;
+        long l5;
         final int i30 = obj31;
-        traceInProgress = -1796992155;
-        restartGroup = i8.startRestartGroup(traceInProgress);
+        traceInProgress2 = -1796992155;
+        restartGroup = i8.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(LinearProgressIndicator)P(2,1,0:c#ui.graphics.Color,4:c#ui.graphics.Color,3:c#ui.graphics.StrokeCap)96@4380L11,97@4443L16,100@4539L192:ProgressIndicator.kt#uh7d8r");
         $dirty2 = obj31;
         if (obj32 & 1 != 0) {
@@ -2263,8 +2263,8 @@ public final class ProgressIndicatorKt {
             obj = progress;
         } else {
             if (i30 & 6 == 0) {
-                i11 = restartGroup.changedInstance(progress) ? 4 : 2;
-                $dirty2 |= i11;
+                i2 = restartGroup.changedInstance(progress) ? 4 : 2;
+                $dirty2 |= i2;
             } else {
                 obj = progress;
             }
@@ -2275,42 +2275,42 @@ public final class ProgressIndicatorKt {
             color2 = modifier;
         } else {
             if (i30 & 48 == 0) {
-                i6 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i6;
+                i7 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i7;
             } else {
                 color2 = modifier;
             }
         }
         if (i30 & 384 == 0) {
             if (obj32 & 4 == 0) {
-                changed = restartGroup.changed(color) ? 256 : 128;
+                changed2 = restartGroup.changed(color) ? 256 : 128;
             } else {
                 l2 = color;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed2;
         } else {
             l2 = color;
         }
         if (i30 & 3072 == 0) {
             if (obj32 & 8 == 0) {
-                i5 = restartGroup.changed(strokeCap) ? 2048 : 1024;
+                i10 = restartGroup.changed(strokeCap) ? 2048 : 1024;
             } else {
                 linearTrackColor = strokeCap;
             }
-            $dirty2 |= i5;
+            $dirty2 |= i10;
         } else {
             linearTrackColor = strokeCap;
         }
         int i29 = obj32 & 16;
         if (i29 != 0) {
             $dirty2 |= 24576;
-            i10 = $changed;
+            i11 = $changed;
         } else {
             if (i30 & 24576 == 0) {
-                i2 = restartGroup.changed($changed) ? 16384 : 8192;
-                $dirty2 |= i2;
+                i4 = restartGroup.changed($changed) ? 16384 : 8192;
+                $dirty2 |= i4;
             } else {
-                i10 = $changed;
+                i11 = $changed;
             }
         }
         final int i33 = 9362;
@@ -2336,15 +2336,15 @@ public final class ProgressIndicatorKt {
                             $dirty2 &= -7169;
                         }
                         if (i29 != 0) {
-                            i4 = linearStrokeCap-KaPHkGw;
+                            i = linearStrokeCap-KaPHkGw;
                             skipping = linearTrackColor;
                             trackColor2 = modifier2;
-                            l5 = color2;
+                            l4 = color2;
                         } else {
                             skipping = linearTrackColor;
-                            i4 = i10;
+                            i = i11;
                             trackColor2 = modifier2;
-                            l5 = color2;
+                            l4 = color2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -2355,73 +2355,73 @@ public final class ProgressIndicatorKt {
                             $dirty2 &= -7169;
                         }
                         skipping = linearTrackColor;
-                        i4 = i10;
+                        i = i11;
                         trackColor2 = color2;
-                        l5 = l2;
+                        l4 = l2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:99)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:99)");
                 }
-                ProgressIndicatorKt.LinearProgressIndicator-GJbTh5U(obj, trackColor2, l5, i10, skipping, i33, i4, ProgressIndicatorDefaults.INSTANCE.getLinearIndicatorTrackGapSize-D9Ej5fM(), 0, restartGroup);
+                ProgressIndicatorKt.LinearProgressIndicator-GJbTh5U(obj, trackColor2, l4, i11, skipping, i33, i, ProgressIndicatorDefaults.INSTANCE.getLinearIndicatorTrackGapSize-D9Ej5fM(), 0, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 modifier3 = $dirty2;
                 $dirty = obj3;
-                l3 = l5;
-                l4 = skipping;
-                i7 = i4;
+                l = l4;
+                l3 = skipping;
+                i9 = i;
             } else {
                 restartGroup.skipToGroupEnd();
                 modifier3 = $dirty2;
                 $dirty = color2;
-                l3 = l2;
-                l4 = l;
+                l = l2;
+                l3 = l5;
                 composer = restartGroup;
-                i7 = i10;
+                i9 = i11;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ProgressIndicatorKt.LinearProgressIndicator.1(progress, $dirty, l3, color2, l4, linearStrokeCap-KaPHkGw, i7, i30, obj32);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ProgressIndicatorKt.LinearProgressIndicator.1(progress, $dirty, l, color2, l3, linearStrokeCap-KaPHkGw, i9, i30, obj32);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public static final void LinearProgressIndicator-eaDK9VM(float progress, Modifier modifier, long color, long trackColor, Composer $composer, int $changed, int i7) {
-        boolean traceInProgress2;
-        int $dirty;
-        int i3;
-        Object modifier2;
         boolean traceInProgress;
-        Object obj;
+        int $dirty;
+        int i5;
+        Object modifier2;
+        boolean traceInProgress2;
+        Object obj2;
         Object color2;
-        long l6;
-        int i4;
-        long l;
+        long l2;
+        int i3;
+        long l3;
         int linearTrackColor;
-        long l5;
+        long l4;
         int changed;
-        int i;
+        int i4;
         int changed2;
         int defaultsInvalid;
         float f;
-        long l3;
-        Object obj2;
+        long l6;
+        Object obj;
         int modifier3;
-        long l2;
-        long l4;
+        long l5;
+        long l;
         int linearStrokeCap-KaPHkGw;
+        int i;
         int i2;
-        int i5;
         final int i20 = obj25;
-        traceInProgress2 = -372717133;
-        final Composer restartGroup = i7.startRestartGroup(traceInProgress2);
+        traceInProgress = -372717133;
+        final Composer restartGroup = i7.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(LinearProgressIndicator)P(2,1,0:c#ui.graphics.Color,3:c#ui.graphics.Color)403@16462L11,404@16525L16,406@16551L164:ProgressIndicator.kt#uh7d8r");
         $dirty = obj25;
         if (obj26 & 1 != 0) {
@@ -2429,8 +2429,8 @@ public final class ProgressIndicatorKt {
             f = progress;
         } else {
             if (i20 & 6 == 0) {
-                i3 = restartGroup.changed(progress) ? 4 : 2;
-                $dirty |= i3;
+                i5 = restartGroup.changed(progress) ? 4 : 2;
+                $dirty |= i5;
             } else {
                 f = progress;
             }
@@ -2441,8 +2441,8 @@ public final class ProgressIndicatorKt {
             color2 = modifier;
         } else {
             if (i20 & 48 == 0) {
-                i4 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i4;
+                i3 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i3;
             } else {
                 color2 = modifier;
             }
@@ -2451,21 +2451,21 @@ public final class ProgressIndicatorKt {
             if (obj26 & 4 == 0) {
                 changed = restartGroup.changed(color) ? 256 : 128;
             } else {
-                l = color;
+                l3 = color;
             }
             $dirty |= changed;
         } else {
-            l = color;
+            l3 = color;
         }
         if (i20 & 3072 == 0) {
             if (obj26 & 8 == 0) {
-                i = restartGroup.changed($composer) ? 2048 : 1024;
+                i4 = restartGroup.changed($composer) ? 2048 : 1024;
             } else {
-                l3 = $composer;
+                l6 = $composer;
             }
-            $dirty |= i;
+            $dirty |= i4;
         } else {
-            l3 = $composer;
+            l6 = $composer;
         }
         final int i21 = 1170;
         if ($dirty & 1171 == i21) {
@@ -2483,17 +2483,17 @@ public final class ProgressIndicatorKt {
                             color2 = ProgressIndicatorDefaults.INSTANCE.getLinearColor(restartGroup, defaultsInvalid);
                             $dirty &= -897;
                         } else {
-                            color2 = l;
+                            color2 = l3;
                         }
                         if (obj26 & 8 != 0) {
                             $dirty &= -7169;
-                            obj2 = modifier2;
-                            l2 = color2;
-                            l4 = linearTrackColor;
+                            obj = modifier2;
+                            l5 = color2;
+                            l = linearTrackColor;
                         } else {
-                            l4 = l3;
-                            obj2 = modifier2;
-                            l2 = color2;
+                            l = l6;
+                            obj = modifier2;
+                            l5 = color2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -2503,44 +2503,44 @@ public final class ProgressIndicatorKt {
                         if (obj26 & 8 != 0) {
                             $dirty &= -7169;
                         }
-                        l4 = l3;
-                        obj2 = color2;
-                        l2 = l;
+                        l = l6;
+                        obj = color2;
+                        l5 = l3;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:406)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:406)");
                 }
-                ProgressIndicatorKt.LinearProgressIndicator-_5eSR-E(f, obj2, l2, i21, l4, obj13, ProgressIndicatorDefaults.INSTANCE.getLinearStrokeCap-KaPHkGw(), restartGroup);
+                ProgressIndicatorKt.LinearProgressIndicator-_5eSR-E(f, obj, l5, i21, l, obj13, ProgressIndicatorDefaults.INSTANCE.getLinearStrokeCap-KaPHkGw(), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = obj2;
-                l6 = l2;
-                l5 = l4;
+                obj2 = obj;
+                l2 = l5;
+                l4 = l;
                 modifier3 = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj = color2;
-                l6 = l;
-                l5 = l3;
+                obj2 = color2;
+                l2 = l3;
+                l4 = l6;
                 modifier3 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ProgressIndicatorKt.LinearProgressIndicator.11(progress, obj, l6, l, l5, defaultsInvalid, i20, obj26);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ProgressIndicatorKt.LinearProgressIndicator.11(progress, obj2, l2, l3, l4, defaultsInvalid, i20, obj26);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void LinearProgressIndicator-rIrjwxo(Modifier modifier, long color, long trackColor, int strokeCap, float gapSize, Composer $composer, int $changed, int i8) {
-        boolean traceInProgress;
-        int i13;
-        Object obj;
+        boolean traceInProgress2;
+        int i3;
+        Object $i$a$CacheProgressIndicatorKt$LinearProgressIndicator$7;
         int empty;
         Object $composer2;
         int $dirty2;
@@ -2548,47 +2548,47 @@ public final class ProgressIndicatorKt {
         Object modifier2;
         Object linearIndicatorTrackGapSize-D9Ej5fM;
         int iNSTANCE;
-        boolean traceInProgress2;
-        long l;
-        int i19;
-        int i3;
-        int i12;
-        int str;
-        int i17;
-        int changed3;
-        int i4;
-        int changed;
+        boolean traceInProgress;
+        long l2;
         int i;
-        Composer composer;
-        boolean changed2;
-        int changed4;
+        int i6;
+        int i5;
+        int str;
+        int i13;
+        int changed3;
+        int i14;
+        int changed;
+        int i9;
+        Composer composer2;
+        boolean changed4;
+        int changed2;
         int skipping;
         int defaultsInvalid;
-        int i14;
+        int i18;
         float f;
         long linearColor;
         int i2;
         long linearTrackColor;
-        androidx.compose.runtime.State i15;
-        int composer3;
-        Composer composer2;
-        int i5;
-        int i6;
+        androidx.compose.runtime.State i19;
+        int composer;
+        Composer composer3;
+        int i17;
+        int i15;
         int i7;
-        int i18;
-        int i9;
-        Composer.Companion companion;
-        int i16;
-        androidx.compose.material3.ProgressIndicatorKt.LinearProgressIndicator.7.1 anon;
-        int i10;
-        float f2;
-        androidx.compose.runtime.State state2;
-        long l3;
         int i11;
-        androidx.compose.runtime.State state4;
-        long l2;
+        int i10;
+        Composer.Companion companion;
+        int i12;
+        androidx.compose.material3.ProgressIndicatorKt.LinearProgressIndicator.7.1 anon;
+        int i4;
+        float f2;
         androidx.compose.runtime.State state3;
+        long l3;
+        int i16;
+        androidx.compose.runtime.State state4;
+        long l;
         androidx.compose.runtime.State state;
+        androidx.compose.runtime.State state2;
         int obj30;
         int obj31;
         InfiniteTransition obj32;
@@ -2598,8 +2598,8 @@ public final class ProgressIndicatorKt {
         int obj36;
         int obj37;
         final int i42 = obj38;
-        traceInProgress = 567589233;
-        Composer restartGroup = i8.startRestartGroup(traceInProgress);
+        traceInProgress2 = 567589233;
+        Composer restartGroup = i8.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(LinearProgressIndicator)P(2,0:c#ui.graphics.Color,4:c#ui.graphics.Color,3:c#ui.graphics.StrokeCap,1:c#ui.unit.Dp)249@11000L11,250@11063L16,254@11257L28,259@11547L396,272@11995L396,285@12444L400,298@12897L400,315@13472L1839,310@13302L2009:ProgressIndicator.kt#uh7d8r");
         $dirty2 = obj38;
         modifier2 = obj39 & 1;
@@ -2608,52 +2608,52 @@ public final class ProgressIndicatorKt {
             linearIndicatorTrackGapSize-D9Ej5fM = modifier;
         } else {
             if (i42 & 6 == 0) {
-                i19 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i19;
+                i = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i;
             } else {
                 linearIndicatorTrackGapSize-D9Ej5fM = modifier;
             }
         }
         if (i42 & 48 == 0) {
             if (obj39 & 2 == 0) {
-                i3 = restartGroup.changed(color) ? 32 : 16;
+                i6 = restartGroup.changed(color) ? 32 : 16;
             } else {
                 linearColor = color;
             }
-            $dirty2 |= i3;
+            $dirty2 |= i6;
         } else {
             linearColor = color;
         }
         if (i42 & 384 == 0) {
             if (obj39 & 4 == 0) {
-                i12 = restartGroup.changed(strokeCap) ? 256 : 128;
+                i5 = restartGroup.changed(strokeCap) ? 256 : 128;
             } else {
                 linearTrackColor = strokeCap;
             }
-            $dirty2 |= i12;
+            $dirty2 |= i5;
         } else {
             linearTrackColor = strokeCap;
         }
         str = obj39 & 8;
         if (str != null) {
             $dirty2 |= 3072;
-            composer3 = $composer;
+            composer = $composer;
         } else {
             if (i42 & 3072 == 0) {
-                i5 = restartGroup.changed($composer) ? 2048 : 1024;
-                $dirty2 |= i5;
+                i17 = restartGroup.changed($composer) ? 2048 : 1024;
+                $dirty2 |= i17;
             } else {
-                composer3 = $composer;
+                composer = $composer;
             }
         }
-        i18 = obj39 & 16;
-        if (i18 != 0) {
+        i11 = obj39 & 16;
+        if (i11 != 0) {
             $dirty2 |= 24576;
             f = $changed;
         } else {
             if (i42 & 24576 == 0) {
-                i16 = restartGroup.changed($changed) ? 16384 : 8192;
-                $dirty2 |= i16;
+                i12 = restartGroup.changed($changed) ? 16384 : 8192;
+                $dirty2 |= i12;
             } else {
                 f = $changed;
             }
@@ -2678,14 +2678,14 @@ public final class ProgressIndicatorKt {
                             $dirty2 &= -897;
                         }
                         if (str != null) {
-                            composer3 = linearIndicatorTrackGapSize-D9Ej5fM;
+                            composer = linearIndicatorTrackGapSize-D9Ej5fM;
                         }
-                        if (i18 != 0) {
+                        if (i11 != 0) {
                             f2 = linearIndicatorTrackGapSize-D9Ej5fM;
-                            i10 = composer3;
+                            i4 = composer;
                         } else {
                             f2 = f;
-                            i10 = composer3;
+                            i4 = composer;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -2697,13 +2697,13 @@ public final class ProgressIndicatorKt {
                         }
                         modifier2 = linearIndicatorTrackGapSize-D9Ej5fM;
                         f2 = f;
-                        i10 = composer3;
+                        i4 = composer;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:253)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.LinearProgressIndicator (ProgressIndicator.kt:253)");
                 }
                 int i58 = 0;
                 obj30 = rememberInfiniteTransition;
@@ -2717,77 +2717,77 @@ public final class ProgressIndicatorKt {
                 androidx.compose.runtime.State state7 = animateFloat2;
                 int i78 = 0;
                 obj33 = infiniteRepeatable-9IiC70o$default3;
-                i15 = animateFloat3;
-                i11 = 8;
+                i19 = animateFloat3;
+                i16 = 8;
                 obj35 = composer4;
-                composer2 = obj35;
+                composer3 = obj35;
                 androidx.compose.runtime.State state5 = animateFloat4;
-                ComposerKt.sourceInformationMarkerStart(composer2, 1145216297, "CC(remember):ProgressIndicator.kt#9igjgp");
-                i17 = $dirty2 & 7168 == 2048 ? 1 : 0;
+                ComposerKt.sourceInformationMarkerStart(composer3, 1145216297, "CC(remember):ProgressIndicator.kt#9igjgp");
+                i13 = $dirty2 & 7168 == 2048 ? 1 : 0;
                 obj32 = infiniteTransition;
-                i13 = i67 &= $dirty2 == 16384 ? 1 : 0;
+                i3 = i67 &= $dirty2 == 16384 ? 1 : 0;
                 if (i36 ^= 384 > 256) {
-                    if (!composer2.changed(linearTrackColor)) {
-                        i4 = $dirty2 & 384 == 256 ? 1 : 0;
+                    if (!composer3.changed(linearTrackColor)) {
+                        i14 = $dirty2 & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
                 if (i37 ^= 48 > 32) {
-                    if (!composer2.changed(linearColor)) {
-                        i = $dirty2 & 48 == 32 ? 1 : 0;
+                    if (!composer3.changed(linearColor)) {
+                        i9 = $dirty2 & 48 == 32 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
                 i28 |= changed9;
-                composer = composer2;
-                i18 = 0;
-                Object rememberedValue = composer.rememberedValue();
-                i9 = 0;
+                composer2 = composer3;
+                i11 = 0;
+                Object rememberedValue = composer2.rememberedValue();
+                i10 = 0;
                 if (empty == 0) {
                     obj30 = empty;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int invalid$iv = 0;
-                        anon = new ProgressIndicatorKt.LinearProgressIndicator.7.1(i10, f2, state6, linearTrackColor, i11, state7, linearColor, obj27, i15, state5);
-                        composer.updateRememberedValue((Function1)anon);
+                        anon = new ProgressIndicatorKt.LinearProgressIndicator.7.1(i4, f2, state6, linearTrackColor, i16, state7, linearColor, obj27, i19, state5);
+                        composer2.updateRememberedValue((Function1)anon);
                     } else {
-                        obj = rememberedValue;
-                        state2 = state6;
+                        $i$a$CacheProgressIndicatorKt$LinearProgressIndicator$7 = rememberedValue;
+                        state3 = state6;
                         state4 = state7;
-                        l2 = linearColor;
+                        l = linearColor;
                         l3 = linearTrackColor;
-                        state3 = i15;
+                        state = i19;
                     }
                 } else {
                     obj30 = empty;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer2);
-                CanvasKt.Canvas(SizeKt.size-VpY3zN4(ProgressSemanticsKt.progressSemantics(modifier2.then(ProgressIndicatorKt.IncreaseSemanticsBounds)), ProgressIndicatorKt.LinearIndicatorWidth, ProgressIndicatorKt.LinearIndicatorHeight), (Function1)obj, composer2, 0);
+                ComposerKt.sourceInformationMarkerEnd(composer3);
+                CanvasKt.Canvas(SizeKt.size-VpY3zN4(ProgressSemanticsKt.progressSemantics(modifier2.then(ProgressIndicatorKt.IncreaseSemanticsBounds)), ProgressIndicatorKt.LinearIndicatorWidth, ProgressIndicatorKt.LinearIndicatorHeight), (Function1)$i$a$CacheProgressIndicatorKt$LinearProgressIndicator$7, composer3, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 i2 = $dirty2;
                 $composer2 = modifier2;
-                i14 = i10;
+                i18 = i4;
                 f = f2;
-                l = l3;
-                $dirty = l2;
+                l2 = l3;
+                $dirty = l;
             } else {
                 restartGroup.skipToGroupEnd();
                 i2 = $dirty2;
-                $dirty = composer;
-                i14 = composer3;
-                composer2 = restartGroup;
+                $dirty = composer2;
+                i18 = composer;
+                composer3 = restartGroup;
                 $composer2 = linearIndicatorTrackGapSize-D9Ej5fM;
-                l = linearTrackColor;
+                l2 = linearTrackColor;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer3.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ProgressIndicatorKt.LinearProgressIndicator.8($composer2, $dirty, modifier2, l, composer, i14, f, i42, obj39);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ProgressIndicatorKt.LinearProgressIndicator.8($composer2, $dirty, modifier2, l2, composer2, i18, f, i42, obj39);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -2851,78 +2851,78 @@ public final class ProgressIndicatorKt {
     }
 
     private static final void drawIndeterminateCircularIndicator-hrjfTZI(DrawScope $this$drawIndeterminateCircularIndicator_u2dhrjfTZI, float startAngle, float strokeWidth, float sweep, long color, Stroke stroke) {
-        int i2;
+        int i3;
         int butt-KaPHkGw;
         int i;
-        int i3;
+        int i2;
         if (StrokeCap.equals-impl0(obj13.getCap-KaPHkGw(), StrokeCap.Companion.getButt-KaPHkGw())) {
-            i2 = 0;
+            i3 = 0;
         } else {
             i = 0;
             int i7 = 0;
             i4 /= butt-KaPHkGw;
         }
-        ProgressIndicatorKt.drawCircularIndicator-42QJj7c($this$drawIndeterminateCircularIndicator_u2dhrjfTZI, startAngle + i2, Math.max(sweep, 1036831949), color, obj5);
+        ProgressIndicatorKt.drawCircularIndicator-42QJj7c($this$drawIndeterminateCircularIndicator_u2dhrjfTZI, startAngle + i3, Math.max(sweep, 1036831949), color, obj5);
     }
 
     private static final void drawLinearIndicator-qYKTg0g(DrawScope $this$drawLinearIndicator_u2dqYKTg0g, float startFraction, float endFraction, long color, float strokeWidth, int strokeCap) {
-        float i21;
-        int i10;
-        int i9;
-        int i13;
+        float i;
+        int i3;
+        int i22;
+        int i2;
         boolean rangeTo;
-        int i7;
+        int i23;
         float adjustedBarStart;
         float floatValue;
         int cmp;
+        int i9;
+        long l2;
         int i5;
-        long l3;
         int i15;
-        int i23;
-        int i22;
-        int i4;
-        int i19;
-        int i6;
-        int i3;
+        int i20;
+        int i13;
+        int i18;
         int i17;
+        int i4;
+        int i8;
         float adjustedBarStart2;
         float f;
-        int i8;
+        int i19;
         DrawScope drawScope;
-        long l2;
+        long l3;
         long l;
-        int i11;
         int i12;
-        int i18;
-        int i20;
-        int i;
-        int i2;
-        int i14;
+        int i7;
+        int i11;
         int i16;
+        int i21;
+        int i6;
+        int i10;
+        int i14;
         float width-impl = Size.getWidth-impl($this$drawLinearIndicator_u2dqYKTg0g.getSize-NH-jbRc());
         float height-impl = Size.getHeight-impl($this$drawLinearIndicator_u2dqYKTg0g.getSize-NH-jbRc());
-        i21 = (float)i24;
-        final int i25 = height-impl / i21;
-        i10 = $this$drawLinearIndicator_u2dqYKTg0g.getLayoutDirection() == LayoutDirection.Ltr ? 1 : 0;
+        i = (float)i24;
+        final int i25 = height-impl / i;
+        i3 = $this$drawLinearIndicator_u2dqYKTg0g.getLayoutDirection() == LayoutDirection.Ltr ? 1 : 0;
         int i26 = 1065353216;
-        i13 = i10 != 0 ? startFraction : i26 - endFraction;
-        i13 *= width-impl;
-        i9 = i10 != 0 ? endFraction : i26 - startFraction;
-        i9 *= width-impl;
-        i7 = obj46;
-        if (!StrokeCap.equals-impl0(i7, StrokeCap.Companion.getButt-KaPHkGw())) {
+        i2 = i3 != 0 ? startFraction : i26 - endFraction;
+        i2 *= width-impl;
+        i22 = i3 != 0 ? endFraction : i26 - startFraction;
+        i22 *= width-impl;
+        i23 = obj46;
+        if (!StrokeCap.equals-impl0(i23, StrokeCap.Companion.getButt-KaPHkGw())) {
             if (Float.compare(height-impl, width-impl) > 0) {
                 DrawScope.drawLine-NGM6Ib0$default($this$drawLinearIndicator_u2dqYKTg0g, color, obj27, OffsetKt.Offset(i28, i25), obj29, OffsetKt.Offset(i27, i25), obj31, strokeCap, 0, 0, 0, 0);
             } else {
-                i21 = strokeCap / i21;
-                rangeTo = RangesKt.rangeTo(i21, width-impl - i21);
+                i = strokeCap / i;
+                rangeTo = RangesKt.rangeTo(i, width-impl - i);
                 adjustedBarStart = (Number)RangesKt.coerceIn((Comparable)Float.valueOf(i28), rangeTo).floatValue();
                 floatValue = (Number)RangesKt.coerceIn((Comparable)Float.valueOf(i27), rangeTo).floatValue();
-                i5 = 0;
-                if (Float.compare(f2, i5) > 0) {
+                i9 = 0;
+                if (Float.compare(f2, i9) > 0) {
                     adjustedBarStart2 = adjustedBarStart;
                     f = floatValue;
-                    DrawScope.drawLine-NGM6Ib0$default($this$drawLinearIndicator_u2dqYKTg0g, color, floatValue, OffsetKt.Offset(adjustedBarStart, i25), i5, OffsetKt.Offset(floatValue, i25), obj14, strokeCap, i7, 0, 0, 0);
+                    DrawScope.drawLine-NGM6Ib0$default($this$drawLinearIndicator_u2dqYKTg0g, color, floatValue, OffsetKt.Offset(adjustedBarStart, i25), i9, OffsetKt.Offset(floatValue, i25), obj14, strokeCap, i23, 0, 0, 0);
                 } else {
                     adjustedBarStart2 = adjustedBarStart;
                     f = floatValue;

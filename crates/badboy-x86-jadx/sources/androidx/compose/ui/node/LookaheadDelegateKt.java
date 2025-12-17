@@ -10,19 +10,19 @@ public final class LookaheadDelegateKt {
     private static final int MaxLayoutDimension = 16777215;
     private static final int MaxLayoutMask = -16777216;
     public static final void checkMeasuredSize(int width, int height) {
-        int i;
         int i2;
-        String string;
+        int i;
+        String $i$a$CheckPreconditionLookaheadDelegateKt$checkMeasuredSize$1;
         StringBuilder append;
         String str;
         final int i3 = 0;
-        i = -16777216;
-        if (width & i == 0 && i &= height == 0) {
-            i2 = i &= height == 0 ? 1 : 0;
+        i2 = -16777216;
+        if (width & i2 == 0 && i2 &= height == 0) {
+            i = i2 &= height == 0 ? 1 : 0;
         } else {
         }
         int i5 = 0;
-        if (i2 == 0) {
+        if (i == 0) {
             int i6 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             InlineClassHelperKt.throwIllegalStateException(stringBuilder.append("Size(").append(width).append(" x ").append(height).append(") is out of range. Each dimension must be between 0 and 16777215.").toString());

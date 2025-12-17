@@ -157,13 +157,13 @@ public final class UndoManager {
 
     public final TextFieldValue redo() {
         TextFieldValue redoEntry;
-        int i2;
         int i;
+        int i2;
         int length;
         androidx.compose.foundation.text.UndoManager.Entry entry;
         androidx.compose.foundation.text.UndoManager.Entry redoStack = this.redoStack;
         if (redoStack != null) {
-            i2 = 0;
+            i = 0;
             this.redoStack = redoStack.getNext();
             entry = new UndoManager.Entry(this.undoStack, redoStack.getValue());
             this.undoStack = entry;
@@ -195,14 +195,14 @@ public final class UndoManager {
     }
 
     public final TextFieldValue undo() {
-        int value2;
+        int $i$a$LetUndoManager$undo$1$1;
         int i;
         androidx.compose.foundation.text.UndoManager.Entry next;
         TextFieldValue value;
         androidx.compose.foundation.text.UndoManager.Entry redoStack;
         androidx.compose.foundation.text.UndoManager.Entry entry;
         final androidx.compose.foundation.text.UndoManager.Entry undoStack = this.undoStack;
-        value2 = 0;
+        $i$a$LetUndoManager$undo$1$1 = 0;
         i = 0;
         next = undoStack.getNext();
         if (undoStack != null && next != null) {
@@ -214,9 +214,9 @@ public final class UndoManager {
                 this.storedCharacters = storedCharacters -= length;
                 entry = new UndoManager.Entry(this.redoStack, undoStack.getValue());
                 this.redoStack = entry;
-                value2 = next.getValue();
+                $i$a$LetUndoManager$undo$1$1 = next.getValue();
             }
         }
-        return value2;
+        return $i$a$LetUndoManager$undo$1$1;
     }
 }

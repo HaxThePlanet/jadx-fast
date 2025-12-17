@@ -77,31 +77,31 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
     public final androidx.compose.runtime.snapshots.SnapshotIdSet and(androidx.compose.runtime.snapshots.SnapshotIdSet bits) {
         int lowerBound;
         int eMPTY;
-        int index$iv$iv;
-        int i5;
         int index$iv$iv2;
+        int i6;
+        int index$iv$iv;
         int index$iv$iv3;
-        int belowBound;
+        int belowBound2;
         androidx.compose.runtime.snapshots.SnapshotIdSet this_$iv;
-        androidx.compose.runtime.snapshots.SnapshotIdSet previous3;
-        int previous2;
+        androidx.compose.runtime.snapshots.SnapshotIdSet previous;
+        int previous5;
         boolean z;
         int snapshotIdSet;
-        int i7;
-        long i4;
+        int i;
+        long i2;
         androidx.compose.runtime.snapshots.SnapshotIdSet accumulator$iv;
         long l;
-        int[] previous5;
+        int[] previous3;
         int previous4;
-        int[] belowBound2;
-        int previous;
-        int i;
-        int i8;
-        int i6;
-        androidx.compose.runtime.snapshots.SnapshotIdSet set;
-        int i9;
-        int i2;
+        int[] belowBound;
+        int previous2;
+        int i7;
+        int i5;
         int i3;
+        androidx.compose.runtime.snapshots.SnapshotIdSet set;
+        int i8;
+        int i4;
+        int i9;
         final Object obj = this;
         final Object obj2 = bits;
         if (Intrinsics.areEqual(obj2, SnapshotIdSet.EMPTY)) {
@@ -110,11 +110,11 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
         if (Intrinsics.areEqual(obj, SnapshotIdSet.EMPTY)) {
             return SnapshotIdSet.EMPTY;
         }
-        belowBound = 0;
+        belowBound2 = 0;
         if (obj2.lowerBound == obj.lowerBound && obj2.belowBound == obj.belowBound) {
             if (obj2.belowBound == obj.belowBound) {
-                if (Long.compare(eMPTY, belowBound) == 0 && Long.compare(previous2, belowBound) == 0 && obj.belowBound == null) {
-                    if (Long.compare(previous2, belowBound) == 0) {
+                if (Long.compare(eMPTY, belowBound2) == 0 && Long.compare(previous5, belowBound2) == 0 && obj.belowBound == null) {
+                    if (Long.compare(previous5, belowBound2) == 0) {
                         if (obj.belowBound == null) {
                             this_$iv = SnapshotIdSet.EMPTY;
                         } else {
@@ -126,137 +126,137 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
                 } else {
                 }
             } else {
-                i5 = 0;
-                previous2 = 1;
+                i6 = 0;
+                previous5 = 1;
                 snapshotIdSet = 64;
                 if (obj.belowBound == null) {
-                    i4 = 0;
+                    i2 = 0;
                     int i18 = 0;
                     accumulator$iv = eMPTY;
-                    previous5 = i7;
+                    previous3 = i;
                     previous4 = 0;
-                    belowBound2 = SnapshotIdSet.access$getBelowBound$p(previous5);
-                    if (belowBound2 != null) {
-                        while (i5 < belowBound2.length) {
-                            i6 = 0;
+                    belowBound = SnapshotIdSet.access$getBelowBound$p(previous3);
+                    if (belowBound != null) {
+                        while (i6 < belowBound.length) {
+                            i3 = 0;
                             set = accumulator$iv;
-                            i2 = 0;
-                            int i14 = i9;
+                            i4 = 0;
+                            int i14 = i8;
                             if (obj2.get(i14)) {
                             } else {
                             }
-                            previous3 = set;
+                            previous = set;
                             accumulator$iv = set;
-                            i5++;
-                            belowBound = i3;
+                            i6++;
+                            belowBound2 = i9;
                             set = set.set(i14);
                         }
-                        i3 = belowBound;
+                        i9 = belowBound2;
                     } else {
-                        i3 = belowBound;
+                        i9 = belowBound2;
                     }
-                    if (Long.compare(l2, i3) != 0) {
-                        index$iv$iv2 = 0;
-                        while (index$iv$iv2 < snapshotIdSet) {
-                            if (Long.compare(i10, i3) != 0) {
-                            } else {
-                            }
-                            i6 = previous2;
-                            index$iv$iv2++;
-                            previous2 = i6;
-                            previous3 = 0;
-                            i8 = 0;
-                            i6 = previous2;
-                            previous2 = i;
-                            if (obj2.get(previous2)) {
-                            }
-                            accumulator$iv = previous;
-                            previous = z;
-                        }
-                        i6 = previous2;
-                    } else {
-                        i6 = previous2;
-                    }
-                    if (Long.compare(l3, i3) != 0) {
+                    if (Long.compare(l2, i9) != 0) {
                         index$iv$iv = 0;
                         while (index$iv$iv < snapshotIdSet) {
-                            previous3 = 0;
-                            z = belowBound;
-                            previous = 0;
-                            if (Long.compare(i12, i3) != 0 && obj2.get(z)) {
+                            if (Long.compare(i10, i9) != 0) {
+                            } else {
                             }
+                            i3 = previous5;
                             index$iv$iv++;
-                            previous3 = 0;
-                            z = belowBound;
+                            previous5 = i3;
                             previous = 0;
-                            if (obj2.get(z)) {
+                            i5 = 0;
+                            i3 = previous5;
+                            previous5 = i7;
+                            if (obj2.get(previous5)) {
                             }
                             accumulator$iv = previous2;
-                            previous2 = i;
+                            previous2 = z;
+                        }
+                        i3 = previous5;
+                    } else {
+                        i3 = previous5;
+                    }
+                    if (Long.compare(l3, i9) != 0) {
+                        index$iv$iv2 = 0;
+                        while (index$iv$iv2 < snapshotIdSet) {
+                            previous = 0;
+                            z = belowBound2;
+                            previous2 = 0;
+                            if (Long.compare(i12, i9) != 0 && obj2.get(z)) {
+                            }
+                            index$iv$iv2++;
+                            previous = 0;
+                            z = belowBound2;
+                            previous2 = 0;
+                            if (obj2.get(z)) {
+                            }
+                            accumulator$iv = previous5;
+                            previous5 = i7;
                         }
                         this_$iv = accumulator$iv;
                     } else {
                         this_$iv = accumulator$iv;
                     }
                 } else {
-                    i3 = belowBound;
-                    i6 = previous2;
-                    previous3 = 0;
+                    i9 = belowBound2;
+                    i3 = previous5;
+                    previous = 0;
                     int i16 = 0;
-                    previous2 = eMPTY;
+                    previous5 = eMPTY;
                     z = obj3;
-                    i7 = 0;
-                    i4 = SnapshotIdSet.access$getBelowBound$p(z);
-                    if (i4 != null) {
-                        while (i5 < i4.length) {
-                            belowBound2 = 0;
-                            i8 = 0;
+                    i = 0;
+                    i2 = SnapshotIdSet.access$getBelowBound$p(z);
+                    if (i2 != null) {
+                        while (i6 < i2.length) {
+                            belowBound = 0;
+                            i5 = 0;
                             int[] iArr = iArr2;
                             if (obj.get(iArr)) {
                             }
-                            previous2 = previous;
-                            i5++;
+                            previous5 = previous2;
+                            i6++;
                             snapshotIdSet = 64;
-                            previous = i;
+                            previous2 = i7;
                         }
                     }
-                    if (Long.compare(l, i3) != 0) {
+                    if (Long.compare(l, i9) != 0) {
                         index$iv$iv3 = 0;
                         while (index$iv$iv3 < 64) {
                             l = 0;
                             previous4 = snapshotIdSet;
-                            belowBound2 = 0;
-                            if (Long.compare(l, i3) != 0 && obj.get(previous4)) {
+                            belowBound = 0;
+                            if (Long.compare(l, i9) != 0 && obj.get(previous4)) {
                             }
                             index$iv$iv3++;
                             l = 0;
                             previous4 = snapshotIdSet;
-                            belowBound2 = 0;
+                            belowBound = 0;
                             if (obj.get(previous4)) {
                             }
-                            previous2 = previous5;
-                            previous5 = previous;
+                            previous5 = previous3;
+                            previous3 = previous2;
                         }
                     }
-                    if (Long.compare(accumulator$iv, i3) != 0) {
-                        index$iv$iv = 0;
-                        while (index$iv$iv < 64) {
-                            previous5 = 0;
-                            belowBound2 = accumulator$iv;
-                            previous = 0;
-                            if (Long.compare(i19, i3) != 0 && obj.get(belowBound2)) {
+                    if (Long.compare(accumulator$iv, i9) != 0) {
+                        index$iv$iv2 = 0;
+                        while (index$iv$iv2 < 64) {
+                            previous3 = 0;
+                            belowBound = accumulator$iv;
+                            previous2 = 0;
+                            if (Long.compare(i19, i9) != 0 && obj.get(belowBound)) {
                             }
-                            index$iv$iv++;
-                            previous5 = 0;
-                            belowBound2 = accumulator$iv;
-                            previous = 0;
-                            if (obj.get(belowBound2)) {
+                            index$iv$iv2++;
+                            previous3 = 0;
+                            belowBound = accumulator$iv;
+                            previous2 = 0;
+                            if (obj.get(belowBound)) {
                             }
-                            previous2 = previous4;
-                            previous4 = i;
+                            previous5 = previous4;
+                            previous4 = i7;
                         }
                     }
-                    this_$iv = previous2;
+                    this_$iv = previous5;
                 }
             }
         } else {
@@ -268,26 +268,26 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
     public final androidx.compose.runtime.snapshots.SnapshotIdSet andNot(androidx.compose.runtime.snapshots.SnapshotIdSet bits) {
         int lowerBound2;
         long lowerSet;
-        int lowerBound3;
+        int lowerBound;
         androidx.compose.runtime.snapshots.SnapshotIdSet accumulator$iv2;
         androidx.compose.runtime.snapshots.SnapshotIdSet accumulator$iv;
         androidx.compose.runtime.snapshots.SnapshotIdSet this_$iv$iv;
-        int i6;
+        int i2;
         int[] iArr;
-        int[] index$iv$iv2;
-        int index$iv$iv;
-        int i8;
-        int lowerBound;
-        int i3;
+        int[] index$iv$iv;
+        int index$iv$iv2;
+        int i4;
+        int lowerBound3;
+        int i7;
         int previous3;
         long belowBound;
-        int i;
-        int i4;
-        androidx.compose.runtime.snapshots.SnapshotIdSet previous2;
-        int previous;
+        int i6;
+        int i8;
+        androidx.compose.runtime.snapshots.SnapshotIdSet previous;
+        int previous2;
         int i5;
-        int i2;
-        int i7;
+        int i3;
+        int i;
         final androidx.compose.runtime.snapshots.SnapshotIdSet set = this;
         final androidx.compose.runtime.snapshots.SnapshotIdSet set2 = bits;
         if (set2 == SnapshotIdSet.EMPTY) {
@@ -300,51 +300,51 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
             if (set2.belowBound == set.belowBound) {
                 accumulator$iv = new SnapshotIdSet(i10 &= upperSet, obj6, i11 &= lowerSet, obj8, set.lowerBound, set.belowBound);
             } else {
-                lowerBound3 = 0;
+                lowerBound = 0;
                 int i9 = 0;
                 accumulator$iv2 = this;
                 androidx.compose.runtime.snapshots.SnapshotIdSet set3 = lowerSet;
-                i6 = 0;
+                i2 = 0;
                 iArr = SnapshotIdSet.access$getBelowBound$p(set3);
                 if (iArr != null) {
-                    i8 = 0;
-                    while (i8 < iArr.length) {
-                        i4 = 0;
+                    i4 = 0;
+                    while (i4 < iArr.length) {
+                        i8 = 0;
                         i5 = 0;
-                        accumulator$iv2 = previous2;
-                        i8++;
+                        accumulator$iv2 = previous;
+                        i4++;
                     }
                 }
                 previous3 = 0;
-                i4 = 1;
-                lowerBound = 64;
+                i8 = 1;
+                lowerBound3 = 64;
                 if (Long.compare(l, previous3) != 0) {
-                    index$iv$iv = 0;
-                    while (index$iv$iv < lowerBound) {
+                    index$iv$iv2 = 0;
+                    while (index$iv$iv2 < lowerBound3) {
                         if (Long.compare(i15, previous3) != 0) {
                         } else {
                         }
-                        i2 = previous3;
-                        index$iv$iv++;
-                        previous3 = i2;
+                        i3 = previous3;
+                        index$iv$iv2++;
+                        previous3 = i3;
                         i5 = 0;
-                        i2 = previous3;
-                        i7 = 0;
+                        i3 = previous3;
+                        i = 0;
                         accumulator$iv2 = previous3;
                     }
-                    i2 = previous3;
+                    i3 = previous3;
                 } else {
-                    i2 = previous3;
+                    i3 = previous3;
                 }
-                if (Long.compare(belowBound, i2) != 0) {
-                    index$iv$iv2 = 0;
-                    while (index$iv$iv2 < lowerBound) {
-                        if (Long.compare(i12, i2) != 0) {
+                if (Long.compare(belowBound, i3) != 0) {
+                    index$iv$iv = 0;
+                    while (index$iv$iv < lowerBound3) {
+                        if (Long.compare(i12, i3) != 0) {
                         }
-                        index$iv$iv2++;
+                        index$iv$iv++;
+                        i6 = 0;
                         i = 0;
-                        i7 = 0;
-                        accumulator$iv2 = previous;
+                        accumulator$iv2 = previous2;
                     }
                 }
                 accumulator$iv = this_$iv$iv;
@@ -358,16 +358,16 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
     public final androidx.compose.runtime.snapshots.SnapshotIdSet clear(int bit) {
         int belowBound;
         int binarySearch;
-        int i3;
         int i2;
+        int i3;
         int i;
         int i4 = bit - lowerBound;
         belowBound = 0;
-        i3 = 1;
+        i2 = 1;
         i = 64;
         if (i4 >= 0 && i4 < i) {
             if (i4 < i) {
-                i3 <<= i4;
+                i2 <<= i4;
                 if (Long.compare(i, belowBound) != 0) {
                     SnapshotIdSet snapshotIdSet2 = new SnapshotIdSet(this.upperSet, obj7, i9 &= lowerSet, obj9, this.lowerBound, this.belowBound);
                     return snapshotIdSet2;
@@ -375,7 +375,7 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
             } else {
                 if (i4 >= i && i4 < 128) {
                     if (i4 < 128) {
-                        i3 <<= i6;
+                        i2 <<= i6;
                         if (Long.compare(i, belowBound) != 0) {
                             SnapshotIdSet snapshotIdSet3 = new SnapshotIdSet(i7 &= upperSet, obj7, this.lowerSet, obj9, this.lowerBound, this.belowBound);
                             return snapshotIdSet3;
@@ -396,8 +396,8 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
                                     }
                                     int[] iArr = new int[i5];
                                     if (binarySearch > 0) {
-                                        i2 = 0;
-                                        ArraysKt.copyInto(belowBound, iArr, i2, i2, binarySearch);
+                                        i3 = 0;
+                                        ArraysKt.copyInto(belowBound, iArr, i3, i3, binarySearch);
                                     }
                                     if (binarySearch < i5) {
                                         ArraysKt.copyInto(belowBound, iArr, binarySearch, binarySearch + 1, i5 + 1);
@@ -419,16 +419,16 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
     public final androidx.compose.runtime.snapshots.SnapshotIdSet fastFold(androidx.compose.runtime.snapshots.SnapshotIdSet initial, Function2<? super androidx.compose.runtime.snapshots.SnapshotIdSet, ? super Integer, androidx.compose.runtime.snapshots.SnapshotIdSet> operation) {
         Object accumulator;
         int length;
-        int index$iv2;
         int index$iv;
+        int index$iv2;
         int i3;
-        int i5;
         int i2;
-        int i4;
-        Integer valueOf;
-        int cmp;
-        long cmp2;
+        int i5;
         int i;
+        Integer valueOf;
+        int cmp2;
+        long cmp;
+        int i4;
         int valueOf2;
         final Object obj = operation;
         final int i6 = 0;
@@ -440,7 +440,7 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
         if (iArr != null) {
             i3 = 0;
             while (i3 < iArr.length) {
-                i4 = 0;
+                i = 0;
                 accumulator = obj.invoke(accumulator, Integer.valueOf(iArr[i3]));
                 i3++;
             }
@@ -449,22 +449,22 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
         int i11 = 1;
         int i9 = 64;
         if (Long.compare(l, i10) != 0) {
-            index$iv2 = 0;
-            while (index$iv2 < i9) {
-                if (Long.compare(i14, i10) != 0) {
-                }
-                index$iv2++;
-                i = 0;
-                accumulator = obj.invoke(accumulator, Integer.valueOf(i15 += index$iv2));
-            }
-        }
-        if (Long.compare(cmp2, i10) != 0) {
             index$iv = 0;
             while (index$iv < i9) {
-                if (Long.compare(i12, i10) != 0) {
+                if (Long.compare(i14, i10) != 0) {
                 }
                 index$iv++;
-                i = 0;
+                i4 = 0;
+                accumulator = obj.invoke(accumulator, Integer.valueOf(i15 += index$iv));
+            }
+        }
+        if (Long.compare(cmp, i10) != 0) {
+            index$iv2 = 0;
+            while (index$iv2 < i9) {
+                if (Long.compare(i12, i10) != 0) {
+                }
+                index$iv2++;
+                i4 = 0;
                 accumulator = obj.invoke(accumulator, Integer.valueOf(i13 += i16));
             }
         }
@@ -475,20 +475,20 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
         int length;
         int index2;
         int index;
-        int i;
         int i2;
-        Integer valueOf;
-        int valueOf2;
+        int i;
+        Integer valueOf2;
+        int valueOf;
         long valueOf3;
         int i3;
         int i4;
         final int i5 = 0;
         final int[] iArr = SnapshotIdSet.access$getBelowBound$p(this);
         if (iArr != null) {
-            i = 0;
-            while (i < iArr.length) {
-                block.invoke(Integer.valueOf(iArr[i]));
-                i++;
+            i2 = 0;
+            while (i2 < iArr.length) {
+                block.invoke(Integer.valueOf(iArr[i2]));
+                i2++;
             }
         }
         int i7 = 0;
@@ -518,47 +518,47 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
     public final boolean get(int bit) {
         int i4;
         int binarySearch;
+        int i3;
         int i2;
         int i;
-        int i3;
         int i5 = bit - lowerBound;
         int i6 = 0;
         binarySearch = 1;
-        i2 = 1;
-        i = 64;
-        i3 = 0;
-        if (i5 >= 0 && i5 < i) {
-            if (i5 < i) {
+        i3 = 1;
+        i2 = 64;
+        i = 0;
+        if (i5 >= 0 && i5 < i2) {
+            if (i5 < i2) {
                 if (Long.compare(i10, i6) != 0) {
                 } else {
-                    i2 = i3;
+                    i3 = i;
                 }
-                return i2;
+                return i3;
             }
         }
-        if (i5 >= i && i5 < 128) {
+        if (i5 >= i2 && i5 < 128) {
             if (i5 < 128) {
                 if (Long.compare(i8, i6) != 0) {
                 } else {
-                    i2 = i3;
+                    i3 = i;
                 }
-                return i2;
+                return i3;
             }
         }
         if (i5 > 0) {
-            return i3;
+            return i;
         }
         int[] belowBound = this.belowBound;
         if (belowBound != null) {
             i4 = 0;
             if (SnapshotIdSetKt.binarySearch(belowBound, bit) >= 0) {
             } else {
-                i2 = i3;
+                i3 = i;
             }
-            i3 = i2;
+            i = i3;
         } else {
         }
-        return i3;
+        return i;
     }
 
     public Iterator<Integer> iterator() {
@@ -586,31 +586,31 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
     public final androidx.compose.runtime.snapshots.SnapshotIdSet or(androidx.compose.runtime.snapshots.SnapshotIdSet bits) {
         long lowerSet;
         int lowerBound;
-        int[] index$iv$iv;
+        int[] index$iv$iv4;
         int i2;
-        int index$iv$iv4;
         int index$iv$iv2;
+        int index$iv$iv;
         int index$iv$iv3;
         androidx.compose.runtime.snapshots.SnapshotIdSet $i$f$fastFold;
-        androidx.compose.runtime.snapshots.SnapshotIdSet previous2;
-        int accumulator$iv2;
+        androidx.compose.runtime.snapshots.SnapshotIdSet previous;
+        int accumulator$iv;
         long l;
-        int cmp;
-        long cmp2;
-        int[] iArr2;
-        int lowerBound2;
-        int[] accumulator$iv;
-        androidx.compose.runtime.snapshots.SnapshotIdSet set;
-        int previous3;
+        int cmp2;
+        long cmp;
         int[] iArr;
-        int previous;
-        int i6;
-        int i3;
-        int i;
-        int i4;
-        int i8;
-        int i5;
+        int lowerBound2;
+        int[] accumulator$iv2;
+        androidx.compose.runtime.snapshots.SnapshotIdSet set;
+        int previous2;
+        int[] iArr2;
+        int previous3;
         int i7;
+        int i8;
+        int i;
+        int i3;
+        int i4;
+        int i5;
+        int i6;
         final androidx.compose.runtime.snapshots.SnapshotIdSet set2 = this;
         final androidx.compose.runtime.snapshots.SnapshotIdSet set3 = bits;
         if (set3 == SnapshotIdSet.EMPTY) {
@@ -625,94 +625,94 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
             } else {
                 i2 = 0;
                 l = 64;
-                cmp = 0;
+                cmp2 = 0;
                 if (set2.belowBound == null) {
                     lowerBound2 = 0;
                     int i21 = 0;
-                    accumulator$iv = bits;
+                    accumulator$iv2 = bits;
                     set = lowerSet;
-                    previous3 = 0;
-                    iArr = SnapshotIdSet.access$getBelowBound$p(set);
-                    if (iArr != null) {
-                        while (i2 < iArr.length) {
+                    previous2 = 0;
+                    iArr2 = SnapshotIdSet.access$getBelowBound$p(set);
+                    if (iArr2 != null) {
+                        while (i2 < iArr2.length) {
                             i = 0;
                             i5 = 0;
-                            i7 = 1;
-                            accumulator$iv = previous2;
+                            i6 = 1;
+                            accumulator$iv2 = previous;
                             i2++;
                         }
-                        i7 = 1;
+                        i6 = 1;
                     } else {
-                        i7 = 1;
+                        i6 = 1;
                     }
-                    if (Long.compare(l2, cmp) != 0) {
+                    if (Long.compare(l2, cmp2) != 0) {
+                        index$iv$iv2 = 0;
+                        while (index$iv$iv2 < l) {
+                            if (Long.compare(i9, cmp2) != 0) {
+                            }
+                            index$iv$iv2++;
+                            accumulator$iv = 0;
+                            i8 = 0;
+                            accumulator$iv2 = previous3;
+                        }
+                    }
+                    if (Long.compare(l3, cmp2) != 0) {
                         index$iv$iv4 = 0;
                         while (index$iv$iv4 < l) {
-                            if (Long.compare(i9, cmp) != 0) {
+                            if (Long.compare(i11, cmp2) != 0) {
                             }
                             index$iv$iv4++;
-                            accumulator$iv2 = 0;
-                            i3 = 0;
-                            accumulator$iv = previous;
+                            accumulator$iv = 0;
+                            i8 = 0;
+                            accumulator$iv2 = previous3;
                         }
-                    }
-                    if (Long.compare(l3, cmp) != 0) {
-                        index$iv$iv = 0;
-                        while (index$iv$iv < l) {
-                            if (Long.compare(i11, cmp) != 0) {
-                            }
-                            index$iv$iv++;
-                            accumulator$iv2 = 0;
-                            i3 = 0;
-                            accumulator$iv = previous;
-                        }
-                        $i$f$fastFold = accumulator$iv;
+                        $i$f$fastFold = accumulator$iv2;
                     } else {
-                        $i$f$fastFold = accumulator$iv;
+                        $i$f$fastFold = accumulator$iv2;
                     }
                 } else {
-                    i7 = 1;
+                    i6 = 1;
                     int i13 = 0;
                     int i15 = 0;
-                    accumulator$iv2 = this;
+                    accumulator$iv = this;
                     lowerBound2 = lowerSet;
-                    accumulator$iv = 0;
+                    accumulator$iv2 = 0;
                     set = SnapshotIdSet.access$getBelowBound$p(lowerBound2);
                     if (set != null) {
                         while (i2 < set.length) {
-                            i6 = 0;
-                            i4 = 0;
-                            accumulator$iv2 = previous4;
+                            i7 = 0;
+                            i3 = 0;
+                            accumulator$iv = previous4;
                             i2++;
-                            cmp = i3;
+                            cmp2 = i8;
                         }
-                        i3 = cmp;
+                        i8 = cmp2;
                     } else {
-                        i3 = cmp;
+                        i8 = cmp2;
                     }
-                    if (Long.compare(cmp2, i3) != 0) {
-                        index$iv$iv2 = 0;
-                        while (index$iv$iv2 < l) {
-                            if (Long.compare(i16, i3) != 0) {
+                    if (Long.compare(cmp, i8) != 0) {
+                        index$iv$iv = 0;
+                        while (index$iv$iv < l) {
+                            if (Long.compare(i16, i8) != 0) {
                             }
-                            index$iv$iv2++;
-                            iArr2 = 0;
-                            previous = 0;
-                            accumulator$iv2 = previous3;
+                            index$iv$iv++;
+                            iArr = 0;
+                            previous3 = 0;
+                            accumulator$iv = previous2;
                         }
                     }
-                    if (Long.compare(cmp, i3) != 0) {
+                    if (Long.compare(cmp2, i8) != 0) {
                         index$iv$iv3 = 0;
                         while (index$iv$iv3 < l) {
-                            if (Long.compare(i18, i3) != 0) {
+                            if (Long.compare(i18, i8) != 0) {
                             }
                             index$iv$iv3++;
-                            iArr2 = 0;
-                            previous = 0;
-                            accumulator$iv2 = previous3;
+                            iArr = 0;
+                            previous3 = 0;
+                            accumulator$iv = previous2;
                         }
                     }
-                    $i$f$fastFold = index$iv$iv;
+                    $i$f$fastFold = index$iv$iv4;
                 }
             }
         } else {
@@ -729,22 +729,22 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
         int valueOf;
         long l2;
         int newLowerBound;
-        int i8;
+        int i5;
         long arrayList;
-        int[] iArr2;
+        int[] iArr;
         long newLowerSet;
         int newBelowBound;
-        int i4;
+        int i9;
         long newUpperSet;
         int i2;
         long l;
-        int[] iArr;
-        int i5;
-        int i9;
-        int i7;
-        int i;
-        int i3;
+        int[] iArr2;
         int i6;
+        int i7;
+        int i3;
+        int i8;
+        int i;
+        int i4;
         final Object obj = this;
         final int i10 = bit;
         int i11 = i10 - lowerBound;
@@ -782,60 +782,60 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
                                     } else {
                                     }
                                     i2 = belowBound;
-                                    i7 = cmp;
+                                    i3 = cmp;
                                     binarySearch = valueOf;
                                     newLowerSet = newUpperSet;
                                     newUpperSet = 0L;
                                     newLowerBound += 64;
                                     valueOf = binarySearch;
                                     belowBound = i2;
-                                    cmp = i7;
+                                    cmp = i3;
                                     if (newBelowBound == 0) {
                                     } else {
                                     }
                                     i2 = belowBound;
-                                    i7 = cmp;
+                                    i3 = cmp;
                                     belowBound = 0;
                                     while (belowBound < 64) {
                                         cmp = belowBound;
                                         length = 0;
-                                        if (Long.compare(i8, i7) != 0) {
+                                        if (Long.compare(i5, i3) != 0) {
                                         }
                                         belowBound++;
                                         newBelowBound.add(Integer.valueOf(cmp + newLowerBound));
                                     }
                                     cmp = belowBound;
                                     length = 0;
-                                    if (Long.compare(i8, i7) != 0) {
+                                    if (Long.compare(i5, i3) != 0) {
                                     }
                                     belowBound++;
                                     newBelowBound.add(Integer.valueOf(cmp + newLowerBound));
                                     arrayList = new ArrayList();
-                                    i4 = 0;
+                                    i9 = 0;
                                     i2 = belowBound;
                                     belowBound = obj.belowBound;
                                     if (belowBound != null) {
                                     } else {
                                     }
-                                    i7 = cmp;
+                                    i3 = cmp;
                                     newBelowBound = arrayList;
                                     binarySearch = 0;
-                                    i9 = 0;
-                                    i7 = cmp;
-                                    cmp = iArr;
-                                    i8 = 0;
-                                    while (i8 < cmp.length) {
-                                        i6 = 0;
-                                        (List)arrayList.add(Integer.valueOf(cmp[i8]));
-                                        i8++;
+                                    i7 = 0;
+                                    i3 = cmp;
+                                    cmp = iArr2;
+                                    i5 = 0;
+                                    while (i5 < cmp.length) {
+                                        i4 = 0;
+                                        (List)arrayList.add(Integer.valueOf(cmp[i5]));
+                                        i5++;
                                         valueOf = 64;
                                     }
-                                    i6 = 0;
-                                    iArr2.add(Integer.valueOf(cmp[i8]));
-                                    i8++;
+                                    i4 = 0;
+                                    iArr.add(Integer.valueOf(cmp[i5]));
+                                    i5++;
                                     valueOf = 64;
                                 }
-                                i5 = newLowerBound;
+                                i6 = newLowerBound;
                                 l = newLowerSet;
                                 if (newBelowBound != 0) {
                                     if (CollectionsKt.toIntArray((Collection)newBelowBound) == null) {
@@ -843,7 +843,7 @@ public final class SnapshotIdSet implements Iterable<Integer>, KMappedMarker {
                                     }
                                 } else {
                                 }
-                                SnapshotIdSet snapshotIdSet5 = new SnapshotIdSet(newUpperSet, obj18, l, obj20, i5, belowBound);
+                                SnapshotIdSet snapshotIdSet5 = new SnapshotIdSet(newUpperSet, obj18, l, obj20, i6, belowBound);
                                 return snapshotIdSet5.set(i10);
                             }
                         } else {

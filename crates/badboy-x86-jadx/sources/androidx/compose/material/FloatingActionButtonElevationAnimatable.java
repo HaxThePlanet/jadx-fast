@@ -50,23 +50,23 @@ final class FloatingActionButtonElevationAnimatable {
 
     private final Object snapElevation(Continuation<? super Unit> continuation) {
         boolean anon;
-        Throwable th3;
-        Object cOROUTINE_SUSPENDED;
         Throwable th;
-        int targetInteraction;
-        float targetInteraction2;
+        Object cOROUTINE_SUSPENDED;
+        Throwable _this2;
+        int _this;
+        float targetInteraction;
         Object snapTo;
         Dp box-impl;
         int i;
         Throwable th2;
         Object obj9;
         anon = continuation;
-        th = Integer.MIN_VALUE;
-        if (continuation instanceof FloatingActionButtonElevationAnimatable.snapElevation.1 && label &= th != 0) {
+        _this2 = Integer.MIN_VALUE;
+        if (continuation instanceof FloatingActionButtonElevationAnimatable.snapElevation.1 && label &= _this2 != 0) {
             anon = continuation;
-            th = Integer.MIN_VALUE;
-            if (label &= th != 0) {
-                anon.label = obj9 -= th;
+            _this2 = Integer.MIN_VALUE;
+            if (label &= _this2 != 0) {
+                anon.label = obj9 -= _this2;
             } else {
                 anon = new FloatingActionButtonElevationAnimatable.snapElevation.1(this, continuation);
             }
@@ -74,15 +74,15 @@ final class FloatingActionButtonElevationAnimatable {
         }
         obj9 = anon.result;
         cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (targetInteraction) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(obj9);
-                targetInteraction = this;
-                targetInteraction2 = targetInteraction.calculateTarget-u2uoSUM(targetInteraction.targetInteraction);
-                anon.L$0 = targetInteraction;
+                _this = this;
+                targetInteraction = _this.calculateTarget-u2uoSUM(_this.targetInteraction);
+                anon.L$0 = _this;
                 anon.label = 1;
                 return cOROUTINE_SUSPENDED;
-                cOROUTINE_SUSPENDED = targetInteraction;
+                cOROUTINE_SUSPENDED = _this;
                 return Unit.INSTANCE;
             case 1:
                 cOROUTINE_SUSPENDED = anon.L$0;
@@ -99,22 +99,22 @@ final class FloatingActionButtonElevationAnimatable {
         boolean anon;
         Throwable th;
         Object cOROUTINE_SUSPENDED;
-        Throwable th2;
-        Object label;
+        Throwable _this2;
+        Object _this;
         Object animateElevation-rAjV9yQ;
         Animatable animatable;
         Interaction lastTargetInteraction;
         int i;
-        Throwable th3;
+        Throwable th2;
         Object obj9;
         Object obj10;
         anon = continuation2;
-        th2 = Integer.MIN_VALUE;
-        if (continuation2 instanceof FloatingActionButtonElevationAnimatable.animateElevation.1 && label2 &= th2 != 0) {
+        _this2 = Integer.MIN_VALUE;
+        if (continuation2 instanceof FloatingActionButtonElevationAnimatable.animateElevation.1 && label &= _this2 != 0) {
             anon = continuation2;
-            th2 = Integer.MIN_VALUE;
-            if (label2 &= th2 != 0) {
-                anon.label = obj10 -= th2;
+            _this2 = Integer.MIN_VALUE;
+            if (label &= _this2 != 0) {
+                anon.label = obj10 -= _this2;
             } else {
                 anon = new FloatingActionButtonElevationAnimatable.animateElevation.1(this, continuation2);
             }
@@ -122,18 +122,18 @@ final class FloatingActionButtonElevationAnimatable {
         }
         obj10 = anon.result;
         cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (label) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(obj10);
-                label = this;
-                animateElevation-rAjV9yQ = label.calculateTarget-u2uoSUM(interaction);
-                label.targetInteraction = interaction;
-                anon.L$0 = label;
+                _this = this;
+                animateElevation-rAjV9yQ = _this.calculateTarget-u2uoSUM(interaction);
+                _this.targetInteraction = interaction;
+                anon.L$0 = _this;
                 anon.L$1 = interaction;
                 anon.label = 1;
                 return cOROUTINE_SUSPENDED;
-                cOROUTINE_SUSPENDED = label;
-                label.lastTargetInteraction = obj9;
+                cOROUTINE_SUSPENDED = _this;
+                _this.lastTargetInteraction = obj9;
                 return Unit.INSTANCE;
             case 1:
                 obj9 = anon.L$1;
@@ -144,7 +144,7 @@ final class FloatingActionButtonElevationAnimatable {
                 obj9 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj9;
         }
-        label = cOROUTINE_SUSPENDED;
+        _this = cOROUTINE_SUSPENDED;
     }
 
     public final State<Dp> asState() {

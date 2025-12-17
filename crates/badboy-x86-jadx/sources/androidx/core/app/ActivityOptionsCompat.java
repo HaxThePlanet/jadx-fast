@@ -58,14 +58,14 @@ public class ActivityOptionsCompat {
 
         @Override // androidx.core.app.ActivityOptionsCompat
         public androidx.core.app.ActivityOptionsCompat setPendingIntentBackgroundActivityStartMode(int state) {
-            int mActivityOptions2;
             int mActivityOptions;
+            int mActivityOptions2;
             if (Build.VERSION.SDK_INT >= 34) {
                 this.mActivityOptions.setPendingIntentBackgroundActivityStartMode(state);
             } else {
                 if (Build.VERSION.SDK_INT >= 33) {
-                    mActivityOptions2 = state != 2 ? 1 : 0;
-                    this.mActivityOptions.setPendingIntentBackgroundActivityLaunchAllowed(mActivityOptions2);
+                    mActivityOptions = state != 2 ? 1 : 0;
+                    this.mActivityOptions.setPendingIntentBackgroundActivityLaunchAllowed(mActivityOptions);
                 }
             }
             return this;

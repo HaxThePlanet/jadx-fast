@@ -26,24 +26,24 @@ public final class InspectableKt {
         int i;
         int skipping;
         boolean traceInProgress;
-        int str;
+        int str2;
         Object consume;
-        String str2;
+        String str;
         traceInProgress2 = 484868210;
         final Composer obj7 = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(obj7, "C(InInspectionModeOnly)75@2613L7:Inspectable.android.kt#hevd2p");
-        str = 2;
+        str2 = 2;
         if ($changed & 6 == 0) {
-            i = obj7.changedInstance(content) ? 4 : str;
+            i = obj7.changedInstance(content) ? 4 : str2;
             $dirty |= i;
         }
-        if ($dirty & 3 == str) {
+        if ($dirty & 3 == str2) {
             if (!obj7.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.ui.tooling.InInspectionModeOnly (Inspectable.android.kt:74)");
                 }
                 skipping = 0;
-                str = 0;
+                str2 = 0;
                 ComposerKt.sourceInformationMarkerStart(obj7, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(obj7);
                 if ((Boolean)obj7.consume((CompositionLocal)InspectionModeKt.getLocalInspectionMode()).booleanValue()) {
@@ -75,12 +75,12 @@ public final class InspectableKt {
         int $dirty;
         boolean changedInstance;
         int i2;
-        int i;
+        int i3;
         int traceInProgress2;
         boolean traceInProgress;
         int i4;
         int str;
-        int i3;
+        int i;
         store = -1669497937;
         final Composer obj8 = $composer.startRestartGroup(store);
         ComposerKt.sourceInformation(obj8, "C(Inspectable)60@2050L146:Inspectable.android.kt#hevd2p");
@@ -95,8 +95,8 @@ public final class InspectableKt {
             $dirty |= i2;
         }
         if ($changed & 48 == 0) {
-            i = obj8.changedInstance(content) ? 32 : 16;
-            $dirty |= i;
+            i3 = obj8.changedInstance(content) ? 32 : 16;
+            $dirty |= i3;
         }
         if ($dirty & 19 == 18) {
             if (!obj8.getSkipping()) {

@@ -111,39 +111,39 @@ public final class ShapeContainingUtilKt {
     }
 
     private static final boolean isInRoundedRect(Outline.Rounded outline, float x, float y, Path touchPointPath, Path opPath) {
-        float cmp5;
-        int cmp3;
+        float cmp4;
         int cmp2;
+        int cmp5;
         float f;
-        int cmp4;
-        Path path2;
-        boolean withinEllipse-VE1yxkc;
         int cmp;
-        int topLeftX2;
-        int topLeftY;
         Path path;
+        boolean withinEllipse-VE1yxkc;
+        int cmp3;
         int topLeftX;
+        int topLeftY;
+        Path path2;
+        int topLeftX2;
         int i;
-        cmp5 = x;
+        cmp4 = x;
         f = y;
         final Path path3 = opPath;
         final RoundRect roundRect = outline.getRoundRect();
-        if (Float.compare(cmp5, left) >= 0 && Float.compare(cmp5, right) < 0 && Float.compare(f, top) >= 0) {
-            if (Float.compare(cmp5, right) < 0) {
+        if (Float.compare(cmp4, left) >= 0 && Float.compare(cmp4, right) < 0 && Float.compare(f, top) >= 0) {
+            if (Float.compare(cmp4, right) < 0) {
                 if (Float.compare(f, top) >= 0) {
                     if (Float.compare(f, bottom) >= 0) {
-                        path = touchPointPath;
+                        path2 = touchPointPath;
                         return 0;
                     } else {
                         if (!ShapeContainingUtilKt.cornersFit(roundRect)) {
                             if (path3 == null) {
-                                path2 = AndroidPath_androidKt.Path();
+                                path = AndroidPath_androidKt.Path();
                             } else {
-                                path2 = path3;
+                                path = path3;
                             }
                             int i4 = 0;
-                            Path.addRoundRect$default(path2, roundRect, i4, 2, i4);
-                            return ShapeContainingUtilKt.isInPath(path2, cmp5, f, touchPointPath, path3);
+                            Path.addRoundRect$default(path, roundRect, i4, 2, i4);
+                            return ShapeContainingUtilKt.isInPath(path, cmp4, f, touchPointPath, path3);
                         }
                         Path path5 = touchPointPath;
                         int i5 = left2 + x-impl;
@@ -155,33 +155,33 @@ public final class ShapeContainingUtilKt {
                         int i15 = bottom3 - y-impl4;
                         float x-impl4 = CornerRadius.getX-impl(roundRect.getBottomLeftCornerRadius-kKHJgLs());
                         int i16 = left3 + x-impl4;
-                        if (Float.compare(cmp5, i5) < 0 && Float.compare(f, i8) < 0) {
+                        if (Float.compare(cmp4, i5) < 0 && Float.compare(f, i8) < 0) {
                             if (Float.compare(f, i8) < 0) {
-                                withinEllipse-VE1yxkc = ShapeContainingUtilKt.isWithinEllipse-VE1yxkc(cmp5, f, roundRect.getTopLeftCornerRadius-kKHJgLs(), x-impl4, i5);
-                                topLeftX = i5;
+                                withinEllipse-VE1yxkc = ShapeContainingUtilKt.isWithinEllipse-VE1yxkc(cmp4, f, roundRect.getTopLeftCornerRadius-kKHJgLs(), x-impl4, i5);
+                                topLeftX2 = i5;
                                 i = i8;
-                                topLeftX2 = i13;
+                                topLeftX = i13;
                                 topLeftY = i14;
                             } else {
-                                topLeftX = i5;
+                                topLeftX2 = i5;
                                 i = i8;
                                 if (Float.compare(x, i16) < 0 && Float.compare(y, i15) > 0) {
                                     if (Float.compare(y, i15) > 0) {
                                         withinEllipse-VE1yxkc = ShapeContainingUtilKt.isWithinEllipse-VE1yxkc(x, y, roundRect.getBottomLeftCornerRadius-kKHJgLs(), x-impl4, i16);
-                                        topLeftX2 = i13;
+                                        topLeftX = i13;
                                         topLeftY = i14;
                                     } else {
                                         if (Float.compare(x, i11) > 0 && Float.compare(y, i12) < 0) {
                                             if (Float.compare(y, i12) < 0) {
                                                 withinEllipse-VE1yxkc = ShapeContainingUtilKt.isWithinEllipse-VE1yxkc(x, y, roundRect.getTopRightCornerRadius-kKHJgLs(), x-impl4, i11);
-                                                topLeftX2 = i13;
+                                                topLeftX = i13;
                                                 topLeftY = i14;
                                             } else {
                                                 if (Float.compare(x, i13) > 0 && Float.compare(y, i14) > 0) {
                                                     if (Float.compare(y, i14) > 0) {
                                                         withinEllipse-VE1yxkc = ShapeContainingUtilKt.isWithinEllipse-VE1yxkc(x, y, roundRect.getBottomRightCornerRadius-kKHJgLs(), x-impl4, i13);
                                                     } else {
-                                                        topLeftX2 = i13;
+                                                        topLeftX = i13;
                                                         topLeftY = i14;
                                                         withinEllipse-VE1yxkc = 1;
                                                     }
@@ -201,7 +201,7 @@ public final class ShapeContainingUtilKt {
                 }
             }
         }
-        path = touchPointPath;
+        path2 = touchPointPath;
     }
 
     private static final boolean isWithinEllipse-VE1yxkc(float x, float y, long cornerRadius, float centerX, float centerY) {

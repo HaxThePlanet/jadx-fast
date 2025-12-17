@@ -31,34 +31,34 @@ public final class LocksKt {
     private static final <T> T write(ReentrantReadWriteLock $this$write, Function0<? extends T> action) {
         int readHoldCount;
         int i3;
-        int i4;
-        int i;
-        Throwable th;
-        int i2;
         int i5;
+        int i2;
+        Throwable th;
+        int i;
+        int i4;
         Intrinsics.checkNotNullParameter($this$write, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         ReentrantReadWriteLock.ReadLock lock = $this$write.readLock();
-        i4 = 0;
+        i5 = 0;
         if ($this$write.getWriteHoldCount() == 0) {
             readHoldCount = $this$write.getReadHoldCount();
         } else {
-            readHoldCount = i4;
+            readHoldCount = i5;
         }
-        i = i4;
-        while (i < readHoldCount) {
-            th = i;
-            i2 = 0;
+        i2 = i5;
+        while (i2 < readHoldCount) {
+            th = i2;
+            i = 0;
             lock.unlock();
-            i++;
+            i2++;
         }
         ReentrantReadWriteLock.WriteLock lock2 = $this$write.writeLock();
         lock2.lock();
-        while (i4 < readHoldCount) {
-            i2 = i4;
-            i5 = 0;
+        while (i5 < readHoldCount) {
+            i = i5;
+            i4 = 0;
             lock.lock();
-            i4++;
+            i5++;
         }
         lock2.unlock();
         return action.invoke();

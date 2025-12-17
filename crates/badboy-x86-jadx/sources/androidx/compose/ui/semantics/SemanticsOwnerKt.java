@@ -61,15 +61,15 @@ public final class SemanticsOwnerKt {
 
     private static final void getAllSemanticsNodesToMap$findAllSemanticNodesRecursive(Map<Integer, androidx.compose.ui.semantics.SemanticsNode> nodes, boolean $skipDeactivatedNodes, androidx.compose.ui.semantics.SemanticsNode currentNode) {
         int index$iv;
-        int i;
-        int i2;
         int i3;
+        int i2;
+        int i;
         nodes.put(Integer.valueOf(currentNode.getId()), currentNode);
         final List obj9 = SemanticsNode.getChildren$ui_release$default(currentNode, false, false, $skipDeactivatedNodes ^ 1, 3, 0);
         int i4 = 0;
         index$iv = 0;
         while (index$iv < obj9.size()) {
-            i3 = 0;
+            i = 0;
             SemanticsOwnerKt.getAllSemanticsNodesToMap$findAllSemanticNodesRecursive(nodes, $skipDeactivatedNodes, (SemanticsNode)obj9.get(index$iv));
             index$iv++;
         }

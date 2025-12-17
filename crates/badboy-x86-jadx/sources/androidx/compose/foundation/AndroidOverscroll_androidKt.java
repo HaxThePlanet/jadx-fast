@@ -11,10 +11,10 @@ import kotlin.Metadata;
 public final class AndroidOverscroll_androidKt {
     public static final androidx.compose.foundation.OverscrollEffect rememberOverscrollEffect(Composer $composer, int $changed) {
         boolean traceInProgress;
-        String str2;
+        String str;
         int iNSTANCE;
         Object consume;
-        int str;
+        int str2;
         Object rememberedValue;
         int i;
         Object empty;
@@ -27,13 +27,13 @@ public final class AndroidOverscroll_androidKt {
         int i3 = 0;
         int i4 = 0;
         int i9 = 2023513938;
-        str = "CC:CompositionLocal.kt#9igjgp";
-        ComposerKt.sourceInformationMarkerStart($composer, i9, str);
+        str2 = "CC:CompositionLocal.kt#9igjgp";
+        ComposerKt.sourceInformationMarkerStart($composer, i9, str2);
         ComposerKt.sourceInformationMarkerEnd($composer);
         Object this_$iv = consume2;
         int i5 = 6;
         rememberedValue = 0;
-        ComposerKt.sourceInformationMarkerStart($composer, i9, str);
+        ComposerKt.sourceInformationMarkerStart($composer, i9, str2);
         ComposerKt.sourceInformationMarkerEnd($composer);
         Object this_$iv2 = consume;
         if ((OverscrollConfiguration)this_$iv2 != null) {
@@ -41,7 +41,7 @@ public final class AndroidOverscroll_androidKt {
             ComposerKt.sourceInformation($composer, "67@2937L80");
             ComposerKt.sourceInformationMarkerStart($composer, 1852277609, "CC(remember):AndroidOverscroll.android.kt#9igjgp");
             consume = $composer;
-            str = 0;
+            str2 = 0;
             rememberedValue = consume.rememberedValue();
             i = 0;
             if (changed |= changed2 == 0) {

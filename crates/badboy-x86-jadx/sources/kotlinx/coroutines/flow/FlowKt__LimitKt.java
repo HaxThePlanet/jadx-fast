@@ -18,43 +18,43 @@ final class FlowKt__LimitKt {
     }
 
     public static final <T> Object collectWhile(kotlinx.coroutines.flow.Flow<? extends T> flow, Function2<? super T, ? super Continuation<? super Boolean>, ? extends Object> function22, Continuation<? super Unit> continuation3) {
-        boolean anon;
+        boolean anon2;
         Throwable th;
         Object cOROUTINE_SUSPENDED;
         int $i$f$collectWhile;
         int label;
-        Object anon2;
+        Object anon;
         int i;
         int obj5;
         Object obj6;
         Object obj7;
-        anon = continuation3;
+        anon2 = continuation3;
         $i$f$collectWhile = Integer.MIN_VALUE;
         if (continuation3 instanceof FlowKt__LimitKt.collectWhile.1 && label2 &= $i$f$collectWhile != 0) {
-            anon = continuation3;
+            anon2 = continuation3;
             $i$f$collectWhile = Integer.MIN_VALUE;
             if (label2 &= $i$f$collectWhile != 0) {
-                anon.label = obj7 -= $i$f$collectWhile;
+                anon2.label = obj7 -= $i$f$collectWhile;
             } else {
-                anon = new FlowKt__LimitKt.collectWhile.1(continuation3);
+                anon2 = new FlowKt__LimitKt.collectWhile.1(continuation3);
             }
         } else {
         }
-        obj7 = anon.result;
+        obj7 = anon2.result;
         cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (label) {
             case 0:
                 ResultKt.throwOnFailure(obj7);
-                anon2 = new FlowKt__LimitKt.collectWhile.collector.1(function22);
-                anon.L$0 = anon2;
-                anon.label = 1;
+                anon = new FlowKt__LimitKt.collectWhile.collector.1(function22);
+                anon2.L$0 = anon;
+                anon2.label = 1;
                 return cOROUTINE_SUSPENDED;
                 obj5 = label;
-                obj6 = anon2;
+                obj6 = anon;
                 break;
             case 1:
                 obj5 = 0;
-                obj6 = anon.L$0;
+                obj6 = anon2.L$0;
                 ResultKt.throwOnFailure(obj7);
                 break;
             default:
@@ -96,19 +96,19 @@ final class FlowKt__LimitKt {
 
     private static final <T> Object emitAbort$FlowKt__LimitKt(kotlinx.coroutines.flow.FlowCollector<? super T> flowCollector, T t2, Continuation<? super Unit> continuation3) {
         boolean anon;
-        int i2;
         int i;
+        int i2;
         int label;
         Object obj3;
         Object obj4;
         Object obj5;
         anon = continuation3;
-        i = Integer.MIN_VALUE;
-        if (continuation3 instanceof FlowKt__LimitKt.emitAbort.1 && label2 &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation3 instanceof FlowKt__LimitKt.emitAbort.1 && label2 &= i2 != 0) {
             anon = continuation3;
-            i = Integer.MIN_VALUE;
-            if (label2 &= i != 0) {
-                anon.label = obj5 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label2 &= i2 != 0) {
+                anon.label = obj5 -= i2;
             } else {
                 anon = new FlowKt__LimitKt.emitAbort.1(continuation3);
             }

@@ -36,9 +36,9 @@ public final class DisplayCompat {
         }
 
         public static androidx.core.view.DisplayCompat.ModeCompat[] getSupportedModes(Context context, Display display) {
-            boolean physicalSizeEquals;
-            int i2;
             boolean physicalSizeEquals2;
+            int i2;
+            boolean physicalSizeEquals;
             int length;
             Object modeCompat;
             int i;
@@ -59,9 +59,9 @@ public final class DisplayCompat {
                         if (DisplayCompat.Api23Impl.physicalSizeEquals(supportedModes[i2], mode)) {
                         } else {
                         }
-                        physicalSizeEquals2 = new DisplayCompat.ModeCompat(supportedModes[i2], 0);
-                        arr[i2] = physicalSizeEquals2;
-                        physicalSizeEquals2 = new DisplayCompat.ModeCompat(modeCompat, currentDisplaySizeFromWorkarounds);
+                        physicalSizeEquals = new DisplayCompat.ModeCompat(supportedModes[i2], 0);
+                        arr[i2] = physicalSizeEquals;
+                        physicalSizeEquals = new DisplayCompat.ModeCompat(modeCompat, currentDisplaySizeFromWorkarounds);
                     }
                 }
             } else {
@@ -230,14 +230,14 @@ public final class DisplayCompat {
 
     private static boolean isTv(Context context) {
         int currentModeType;
-        int i2;
         int i;
+        int i2;
         Object systemService = context.getSystemService("uimode");
         if (systemService != null && (UiModeManager)systemService.getCurrentModeType() == 4) {
-            i2 = systemService.getCurrentModeType() == 4 ? 1 : 0;
+            i = systemService.getCurrentModeType() == 4 ? 1 : 0;
         } else {
         }
-        return i2;
+        return i;
     }
 
     private static Point parseDisplaySize(String displaySize) throws java.lang.NumberFormatException {

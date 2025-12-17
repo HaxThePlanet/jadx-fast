@@ -35,15 +35,15 @@ public abstract class LazyGridMeasuredLineProvider {
 
     public final long childConstraints-JhjzzOo$foundation_release(int startSlot, int span) {
         int i2;
-        int i;
-        long fixedHeight-OenEA2s;
         int i3;
+        long fixedHeight-OenEA2s;
+        int i;
         int i4 = 1;
         if (span == i4) {
             i2 = this.slots.getSizes()[startSlot];
         } else {
             i7 -= i4;
-            i6 -= i3;
+            i6 -= i;
         }
         int coerceAtLeast = RangesKt.coerceAtLeast(i2, 0);
         if (this.isVertical) {
@@ -57,10 +57,10 @@ public abstract class LazyGridMeasuredLineProvider {
     public abstract androidx.compose.foundation.lazy.grid.LazyGridMeasuredLine createLine(int i, androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem[] lazyGridMeasuredItem2Arr2, List<androidx.compose.foundation.lazy.grid.GridItemSpan> list3, int i4);
 
     public final androidx.compose.foundation.lazy.grid.LazyGridMeasuredLine getAndMeasure(int lineIndex) {
-        int i2;
+        int i;
         int spaceBetweenLines;
         int andMeasure-m8Kt_7k;
-        int i;
+        int i2;
         int it;
         int i3;
         long childConstraints-JhjzzOo$foundation_release;
@@ -70,7 +70,7 @@ public abstract class LazyGridMeasuredLineProvider {
         int size = lineConfiguration.getSpans().size();
         if (size != 0) {
             if (firstItemIndex2 += size == this.gridItemsCount) {
-                spaceBetweenLines = i2;
+                spaceBetweenLines = i;
             } else {
                 spaceBetweenLines = this.spaceBetweenLines;
             }
@@ -79,15 +79,15 @@ public abstract class LazyGridMeasuredLineProvider {
         final int i6 = spaceBetweenLines;
         final androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem[] arr = new LazyGridMeasuredItem[size];
         startSlot = andMeasure-m8Kt_7k;
-        while (i2 < size) {
-            currentLineSpan-impl = GridItemSpan.getCurrentLineSpan-impl((GridItemSpan)lineConfiguration.getSpans().get(i2).unbox-impl());
-            andMeasure-m8Kt_7k = this.measuredItemProvider.getAndMeasure-m8Kt_7k(firstItemIndex + i2, childConstraints-JhjzzOo$foundation_release(startSlot, currentLineSpan-impl), obj7, startSlot, currentLineSpan-impl);
+        while (i < size) {
+            currentLineSpan-impl = GridItemSpan.getCurrentLineSpan-impl((GridItemSpan)lineConfiguration.getSpans().get(i).unbox-impl());
+            andMeasure-m8Kt_7k = this.measuredItemProvider.getAndMeasure-m8Kt_7k(firstItemIndex + i, childConstraints-JhjzzOo$foundation_release(startSlot, currentLineSpan-impl), obj7, startSlot, currentLineSpan-impl);
             int i4 = andMeasure-m8Kt_7k;
             i3 = 0;
             startSlot += currentLineSpan-impl;
             it = Unit.INSTANCE;
-            arr[i2] = andMeasure-m8Kt_7k;
-            i2++;
+            arr[i] = andMeasure-m8Kt_7k;
+            i++;
         }
         return createLine(lineIndex, arr, lineConfiguration.getSpans(), i6);
     }

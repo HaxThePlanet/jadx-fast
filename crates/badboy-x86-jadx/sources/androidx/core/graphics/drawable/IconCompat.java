@@ -301,10 +301,10 @@ public class IconCompat extends CustomVersionedParcelable {
     }
 
     static Bitmap createLegacyIconFromAdaptiveIcon(Bitmap adaptiveIconBitmap, boolean addShadow) {
-        int i3;
         int i;
         int i2;
         int i4;
+        int i3;
         int i7 = (int)i6;
         Bitmap bitmap = Bitmap.createBitmap(i7, i7, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -314,10 +314,10 @@ public class IconCompat extends CustomVersionedParcelable {
         if (addShadow) {
             f3 *= i15;
             paint.setColor(0);
-            i4 = 0;
-            paint.setShadowLayer(i, i4, f5 *= i17, 1023410176);
+            i3 = 0;
+            paint.setShadowLayer(i2, i3, f5 *= i17, 1023410176);
             canvas.drawCircle(i10, i10, i13, paint);
-            paint.setShadowLayer(i, i4, i4, 503316480);
+            paint.setShadowLayer(i2, i3, i3, 503316480);
             canvas.drawCircle(i10, i10, i13, paint);
             paint.clearShadowLayer();
         }
@@ -473,9 +473,9 @@ public class IconCompat extends CustomVersionedParcelable {
         Object context;
         Canvas canvas;
         Object drawable;
-        int intrinsicHeight;
-        Bitmap size;
         int intrinsicHeight2;
+        Bitmap size;
+        int intrinsicHeight;
         int width;
         Bitmap.Config height;
         checkResource(c);
@@ -492,7 +492,7 @@ public class IconCompat extends CustomVersionedParcelable {
                 drawable = ContextCompat.getDrawable(packageContext, this.mInt1);
                 size = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                 int launcherLargeIconSize = (ActivityManager)packageContext.getSystemService("activity").getLauncherLargeIconSize();
-                size = intrinsicHeight2;
+                size = intrinsicHeight;
                 drawable.setBounds(i, i, size.getWidth(), size.getHeight());
                 canvas = new Canvas(size);
                 drawable.draw(canvas);
@@ -520,12 +520,12 @@ public class IconCompat extends CustomVersionedParcelable {
         int i;
         String resPackage;
         String resName;
-        String str2;
+        String str3;
         Resources resources;
-        String str;
+        String str2;
         int identifier;
         int string;
-        String str3;
+        String str;
         mType = this.mObj1;
         String str4 = ":";
         if (this.mType == 2 && this.mObj1 != null && !(String)mType.contains(str4)) {
@@ -540,15 +540,15 @@ public class IconCompat extends CustomVersionedParcelable {
                 String str8 = "/";
                 int i4 = 0;
                 resName = str7.split(str8, i2)[i3];
-                str2 = "IconCompat";
+                str3 = "IconCompat";
                 if ("0_resource_name_obfuscated".equals(resName)) {
-                    Log.i(str2, "Found obfuscated resource, not trying to update resource id for it");
+                    Log.i(str3, "Found obfuscated resource, not trying to update resource id for it");
                 }
                 resPackage = getResPackage();
                 identifier = IconCompat.getResources(context, resPackage).getIdentifier(resName, str7.split(str8, i2)[i4], mType.split(str4, i2)[i4]);
                 if (this.mInt1 != identifier) {
                     StringBuilder stringBuilder = new StringBuilder();
-                    Log.i(str2, stringBuilder.append("Id has changed for ").append(resPackage).append(" ").append(mType).toString());
+                    Log.i(str3, stringBuilder.append("Id has changed for ").append(resPackage).append(" ").append(mType).toString());
                     this.mInt1 = identifier;
                 }
             }

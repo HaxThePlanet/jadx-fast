@@ -12,26 +12,26 @@ import kotlin.jvm.functions.Function1;
 public final class WhileSelectKt {
     public static final Object whileSelect(Function1<? super kotlinx.coroutines.selects.SelectBuilder<? super Boolean>, Unit> function1, Continuation<? super Unit> continuation2) {
         boolean $result;
-        Object $continuation;
-        int i5;
-        kotlinx.coroutines.selects.WhileSelectKt.whileSelect.1 anon;
         Object $continuation2;
         int i3;
-        Object $i$f$select;
-        int i4;
-        Object l$0;
+        kotlinx.coroutines.selects.WhileSelectKt.whileSelect.1 anon;
+        Object $continuation;
         int i;
+        Object $i$f$select;
+        int $i$a$RunSelectKt$select$3$iv;
+        Object l$0;
         int i2;
+        int i4;
         kotlinx.coroutines.selects.WhileSelectKt.whileSelect.1 anon2;
         int obj8;
         Object obj9;
         $result = continuation2;
-        i3 = Integer.MIN_VALUE;
-        if (continuation2 instanceof WhileSelectKt.whileSelect.1 && label &= i3 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation2 instanceof WhileSelectKt.whileSelect.1 && label &= i != 0) {
             $result = continuation2;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                $result.label = obj9 -= i3;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                $result.label = obj9 -= i;
             } else {
                 $result = new WhileSelectKt.whileSelect.1(continuation2);
             }
@@ -48,34 +48,34 @@ public final class WhileSelectKt {
                 obj8 = 0;
                 l$0 = $result.L$0;
                 ResultKt.throwOnFailure(obj9);
-                i = i8;
-                i4 = i6;
-                $i$f$select = $continuation2;
+                i2 = i7;
+                $i$a$RunSelectKt$select$3$iv = i5;
+                $i$f$select = $continuation;
                 anon = $result;
-                $continuation = obj9;
+                $continuation2 = obj9;
                 return Unit.INSTANCE;
-                obj9 = $continuation;
+                obj9 = $continuation2;
                 $result = anon;
-                $continuation2 = $i$f$select;
+                $continuation = $i$f$select;
                 break;
             default:
                 obj8 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj8;
         }
         SelectImplementation selectImplementation = new SelectImplementation($result.getContext());
-        i = 0;
+        i2 = 0;
         l$0.invoke(selectImplementation);
         $result.L$0 = l$0;
         $result.label = 1;
         Object $this$select_u24lambda_u241$iv = selectImplementation.doSelect($result);
-        if ($this$select_u24lambda_u241$iv != $continuation2) {
-            $continuation = obj9;
+        if ($this$select_u24lambda_u241$iv != $continuation) {
+            $continuation2 = obj9;
             obj9 = $this$select_u24lambda_u241$iv;
-            i4 = i7;
-            $i$f$select = $continuation2;
+            $i$a$RunSelectKt$select$3$iv = i6;
+            $i$f$select = $continuation;
             anon = anon2;
         }
-        return $continuation2;
+        return $continuation;
     }
 
     private static final Object whileSelect$$forInline(Function1<? super kotlinx.coroutines.selects.SelectBuilder<? super Boolean>, Unit> builder, Continuation<? super Unit> $completion) {

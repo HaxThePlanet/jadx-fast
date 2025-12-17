@@ -42,15 +42,15 @@ public final class ImageKt {
         androidx.compose.ui.Modifier.Companion companion;
         Alignment center;
         ContentScale fit;
+        int i3;
         int i;
-        int i2;
         boolean traceInProgress;
         String str;
         androidx.compose.ui.Modifier.Companion companion2;
         Alignment alignment2;
         ContentScale contentScale2;
+        int i2;
         int i4;
-        int i3;
         final int i5 = $changed;
         int i6 = -2123228673;
         final Composer composer = $composer;
@@ -70,12 +70,12 @@ public final class ImageKt {
         } else {
             contentScale2 = contentScale;
         }
-        i4 = i10 & 32 != 0 ? i : alpha;
-        i3 = i10 & 64 != 0 ? i2 : colorFilter;
+        i2 = i10 & 32 != 0 ? i3 : alpha;
+        i4 = i10 & 64 != 0 ? i : colorFilter;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i6, i5, -1, "androidx.compose.foundation.Image (Image.kt:95)");
         }
-        ImageKt.Image-5h-nEew(bitmap, contentDescription, companion2, alignment2, contentScale2, i4, i3, FilterQuality.Companion.getLow-f-v9h1I(), composer, i13 | i22, 0);
+        ImageKt.Image-5h-nEew(bitmap, contentDescription, companion2, alignment2, contentScale2, i2, i4, FilterQuality.Companion.getLow-f-v9h1I(), composer, i13 | i22, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -85,44 +85,44 @@ public final class ImageKt {
     public static final void Image(Painter painter, String contentDescription, Modifier modifier, Alignment alignment, ContentScale contentScale, float alpha, ColorFilter colorFilter, Composer $composer, int $changed, int i10) {
         boolean traceInProgress;
         Object modifier2;
-        int $dirty2;
+        int $dirty;
         Object valueOf;
-        int i15;
-        int i8;
-        Object obj5;
+        int i12;
+        int i6;
+        Object obj4;
         int center;
         Object colorFilter2;
         Composer composer;
         Object paint$default;
-        Object obj3;
+        Object obj6;
         Object obj2;
         boolean traceInProgress2;
         Modifier semantics$default;
-        Object companion;
-        Object obj6;
-        int i11;
+        Object companion2;
+        Object obj5;
+        int i;
         float f;
-        int i12;
-        int i7;
-        Object obj;
-        Object obj4;
+        int i13;
         int i14;
+        Object obj;
+        Object obj3;
+        int i7;
         int currentCompositeKeyHash;
         Object materializeModifier;
         Object currentCompositionLocalMap;
-        int $dirty;
-        int i9;
+        int $dirty2;
+        int i2;
         int constructor;
         float f2;
-        int i3;
+        int i8;
         int rememberedValue;
-        int i;
-        int i2;
+        int i3;
         int i4;
-        Composer.Companion companion2;
+        int i11;
+        Composer.Companion companion;
+        int i9;
         int i5;
-        int i13;
-        int i6;
+        int i15;
         boolean inserting;
         Object obj25;
         int obj26;
@@ -133,58 +133,58 @@ public final class ImageKt {
         final int i28 = $changed;
         final Composer restartGroup = $composer.startRestartGroup(1142754848);
         ComposerKt.sourceInformation(restartGroup, "C(Image)P(6,3,5!1,4)255@11931L329:Image.kt#71ulvw");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i10 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
             currentCompositionLocalMap = painter;
         } else {
             if (i28 & 6 == 0) {
-                i15 = restartGroup.changedInstance(painter) ? 4 : 2;
-                $dirty2 |= i15;
+                i12 = restartGroup.changedInstance(painter) ? 4 : 2;
+                $dirty |= i12;
             } else {
                 currentCompositionLocalMap = painter;
             }
         }
         if (i10 & 2 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
         } else {
             if (i28 & 48 == 0) {
-                i8 = restartGroup.changed(valueOf) ? 32 : 16;
-                $dirty2 |= i8;
+                i6 = restartGroup.changed(valueOf) ? 32 : 16;
+                $dirty |= i6;
             }
         }
         int i18 = i10 & 4;
         if (i18 != 0) {
-            $dirty2 |= 384;
-            companion = modifier;
+            $dirty |= 384;
+            companion2 = modifier;
         } else {
             if (i28 & 384 == 0) {
-                i11 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i11;
+                i = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i;
             } else {
-                companion = modifier;
+                companion2 = modifier;
             }
         }
-        i12 = i10 & 8;
-        if (i12 != 0) {
-            $dirty2 |= 3072;
+        i13 = i10 & 8;
+        if (i13 != 0) {
+            $dirty |= 3072;
             obj = alignment;
         } else {
             if (i28 & 3072 == 0) {
-                i14 = restartGroup.changed(alignment) ? 2048 : 1024;
-                $dirty2 |= i14;
+                i7 = restartGroup.changed(alignment) ? 2048 : 1024;
+                $dirty |= i7;
             } else {
                 obj = alignment;
             }
         }
         currentCompositeKeyHash = i10 & 16;
         if (currentCompositeKeyHash != 0) {
-            $dirty2 |= 24576;
+            $dirty |= 24576;
             materializeModifier = contentScale;
         } else {
             if (i28 & 24576 == 0) {
-                i9 = restartGroup.changed(contentScale) ? 16384 : 8192;
-                $dirty2 |= i9;
+                i2 = restartGroup.changed(contentScale) ? 16384 : 8192;
+                $dirty |= i2;
             } else {
                 materializeModifier = contentScale;
             }
@@ -192,57 +192,57 @@ public final class ImageKt {
         constructor = i10 & 32;
         int i34 = 196608;
         if (constructor != null) {
-            $dirty2 |= i34;
+            $dirty |= i34;
             f2 = alpha;
         } else {
             if (i34 &= i28 == 0) {
-                i3 = restartGroup.changed(alpha) ? 131072 : 65536;
-                $dirty2 |= i3;
+                i8 = restartGroup.changed(alpha) ? 131072 : 65536;
+                $dirty |= i8;
             } else {
                 f2 = alpha;
             }
         }
         rememberedValue = i10 & 64;
-        i = 1572864;
+        i3 = 1572864;
         if (rememberedValue != 0) {
-            $dirty2 |= i;
-            obj3 = colorFilter;
+            $dirty |= i3;
+            obj6 = colorFilter;
         } else {
-            if (i28 & i == 0) {
-                i = restartGroup.changed(colorFilter) ? 1048576 : 524288;
-                $dirty2 |= i;
+            if (i28 & i3 == 0) {
+                i3 = restartGroup.changed(colorFilter) ? 1048576 : 524288;
+                $dirty |= i3;
             } else {
-                obj3 = colorFilter;
+                obj6 = colorFilter;
             }
         }
-        if ($dirty2 & i36 == 599186) {
+        if ($dirty & i36 == 599186) {
             if (!restartGroup.getSkipping()) {
                 if (i18 != 0) {
                     modifier2 = Modifier.Companion;
                 } else {
-                    modifier2 = companion;
+                    modifier2 = companion2;
                 }
-                if (i12 != 0) {
+                if (i13 != 0) {
                     obj = center;
                 }
                 if (currentCompositeKeyHash != 0) {
                     materializeModifier = center;
                 }
-                i2 = constructor != null ? center : f2;
-                colorFilter2 = rememberedValue != 0 ? 0 : obj3;
+                i4 = constructor != null ? center : f2;
+                colorFilter2 = rememberedValue != 0 ? 0 : obj6;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1142754848, $dirty2, -1, "androidx.compose.foundation.Image (Image.kt:243)");
+                    ComposerKt.traceEventStart(1142754848, $dirty, -1, "androidx.compose.foundation.Image (Image.kt:243)");
                 }
                 if (valueOf != null) {
                     restartGroup.startReplaceGroup(1040258775);
                     ComposerKt.sourceInformation(restartGroup, "245@11667L103");
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 449199624, "CC(remember):Image.kt#9igjgp");
-                    i7 = $dirty2 & 112 == 32 ? 1 : 0;
+                    i14 = $dirty & 112 == 32 ? 1 : 0;
                     Composer composer2 = restartGroup;
                     f2 = 0;
                     rememberedValue = composer2.rememberedValue();
-                    i4 = 0;
-                    if (i7 == 0) {
+                    i11 = 0;
+                    if (i14 == 0) {
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             traceInProgress2 = 0;
                             currentCompositeKeyHash = new ImageKt.Image.semantics.1.1(valueOf);
@@ -260,17 +260,17 @@ public final class ImageKt {
                     restartGroup.endReplaceGroup();
                     semantics$default = Modifier.Companion;
                 }
-                i4 = colorFilter2;
+                i11 = colorFilter2;
                 f2 = obj;
                 rememberedValue = materializeModifier;
-                paint$default = PainterModifierKt.paint$default(ClipKt.clipToBounds(modifier2.then(semantics$default)), currentCompositionLocalMap, false, f2, rememberedValue, i2, i4, 2, 0);
+                paint$default = PainterModifierKt.paint$default(ClipKt.clipToBounds(modifier2.then(semantics$default)), currentCompositionLocalMap, false, f2, rememberedValue, i4, i11, 2, 0);
                 int i25 = 48;
                 int i27 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 544976794, "CC(Layout)P(1)124@4836L23,127@4987L385:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                companion2 = 6;
-                i5 = 0;
-                obj30 = $dirty2;
+                companion = 6;
+                i9 = 0;
+                obj30 = $dirty;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1405779621, "CC(ReusableComposeNode):Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -286,9 +286,9 @@ public final class ImageKt {
                 Updater.set-impl(constructor-impl, (MeasurePolicy)ImageKt.Image.1.INSTANCE, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, paint$default), ComposeUiNode.Companion.getSetModifier());
-                i13 = 0;
+                i5 = 0;
                 obj27 = constructor-impl;
-                i6 = 0;
+                i15 = 0;
                 if (!obj27.getInserting()) {
                     obj28 = paint$default;
                     if (!Intrinsics.areEqual(obj27.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
@@ -306,39 +306,39 @@ public final class ImageKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = obj25;
+                obj4 = obj25;
                 obj2 = f2;
-                obj6 = rememberedValue;
-                f = i2;
-                obj4 = i4;
+                obj5 = rememberedValue;
+                f = i4;
+                obj3 = i11;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj4 = obj3;
+                obj3 = obj6;
                 obj2 = obj30;
-                obj30 = $dirty2;
-                obj5 = companion;
-                obj6 = materializeModifier;
+                obj30 = $dirty;
+                obj4 = companion2;
+                obj5 = materializeModifier;
                 f = f2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty = obj30;
-            traceInProgress = new ImageKt.Image.2(painter, contentDescription, obj5, obj2, obj6, f, obj4, i28, i10);
+            $dirty2 = obj30;
+            traceInProgress = new ImageKt.Image.2(painter, contentDescription, obj4, obj2, obj5, f, obj3, i28, i10);
             endRestartGroup.updateScope((Function2)traceInProgress);
         } else {
-            $dirty = obj30;
+            $dirty2 = obj30;
         }
     }
 
     public static final void Image(ImageVector imageVector, String contentDescription, Modifier modifier, Alignment alignment, ContentScale contentScale, float alpha, ColorFilter colorFilter, Composer $composer, int $changed, int i10) {
-        androidx.compose.ui.Modifier.Companion companion;
         androidx.compose.ui.Modifier.Companion companion2;
+        androidx.compose.ui.Modifier.Companion companion;
         Alignment alignment2;
         ContentScale contentScale2;
-        int i;
         int i2;
+        int i;
         androidx.compose.ui.Modifier.Companion obj13;
         Alignment obj14;
         ContentScale obj15;
@@ -347,9 +347,9 @@ public final class ImageKt {
         int i3 = 1595907091;
         ComposerKt.sourceInformationMarkerStart(composer, i3, "C(Image)P(5,3,6!1,4)198@9330L34,197@9309L237:Image.kt#71ulvw");
         if (i10 & 4 != 0) {
-            companion2 = obj13;
+            companion = obj13;
         } else {
-            companion2 = modifier;
+            companion = modifier;
         }
         if (i10 & 8 != 0) {
             alignment2 = obj14;
@@ -361,12 +361,12 @@ public final class ImageKt {
         } else {
             contentScale2 = contentScale;
         }
-        i = i10 & 32 != 0 ? obj13 : alpha;
-        i2 = i10 & 64 != 0 ? obj13 : colorFilter;
+        i2 = i10 & 32 != 0 ? obj13 : alpha;
+        i = i10 & 64 != 0 ? obj13 : colorFilter;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i3, i6, -1, "androidx.compose.foundation.Image (Image.kt:197)");
         }
-        ImageKt.Image((Painter)VectorPainterKt.rememberVectorPainter(imageVector, composer, i6 & 14), contentDescription, companion2, alignment2, contentScale2, i, i2, composer, obj13 | obj14, 0);
+        ImageKt.Image((Painter)VectorPainterKt.rememberVectorPainter(imageVector, composer, i6 & 14), contentDescription, companion, alignment2, contentScale2, i2, i, composer, obj13 | obj14, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -384,11 +384,11 @@ public final class ImageKt {
         String str;
         Object obj;
         Object empty;
-        int i3;
-        int i2;
-        int i;
-        int i4;
         int i5;
+        int i;
+        int i2;
+        int i4;
+        int i3;
         final Composer composer2 = $composer;
         final int i31 = $changed;
         int i6 = i11;
@@ -412,9 +412,9 @@ public final class ImageKt {
         alpha2 = i6 & 32 != 0 ? 1065353216 : alpha;
         colorFilter2 = i6 & 64 != 0 ? 0 : colorFilter;
         if (i6 &= 128 != 0) {
-            i2 = defaultFilterQuality-f-v9h1I;
+            i = defaultFilterQuality-f-v9h1I;
         } else {
-            i2 = filterQuality;
+            i = filterQuality;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, i31, -1, "androidx.compose.foundation.Image (Image.kt:152)");
@@ -427,8 +427,8 @@ public final class ImageKt {
         final int i33 = 0;
         if (!composer2.changed(obj3)) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                i5 = 0;
-                composer.updateRememberedValue(BitmapPainterKt.BitmapPainter-QZhYCtY$default(obj3, 0, obj13, 0, obj15, i2));
+                i3 = 0;
+                composer.updateRememberedValue(BitmapPainterKt.BitmapPainter-QZhYCtY$default(obj3, 0, obj13, 0, obj15, i));
             } else {
                 obj = rememberedValue;
             }

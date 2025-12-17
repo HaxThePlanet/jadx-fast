@@ -67,8 +67,8 @@ public final class ParagraphStyle {
         long unspecified-XSAIIZE;
         int textIndent;
         int i5;
-        int i3;
         int i4;
+        int i3;
         int unspecified-rAG3T2k;
         int unspecified-vmbZdU8;
         int i6 = defaultConstructorMarker11;
@@ -89,8 +89,8 @@ public final class ParagraphStyle {
         }
         i5 = 0;
         textIndent = i6 & 8 != 0 ? i5 : platformParagraphStyle5;
-        i3 = i6 & 16 != 0 ? i5 : lineHeightStyle6;
-        i4 = i6 & 32 != 0 ? i5 : i7;
+        i4 = i6 & 16 != 0 ? i5 : lineHeightStyle6;
+        i3 = i6 & 32 != 0 ? i5 : i7;
         if (i6 & 64 != 0) {
             unspecified-rAG3T2k = LineBreak.Companion.getUnspecified-rAG3T2k();
         } else {
@@ -105,7 +105,7 @@ public final class ParagraphStyle {
         } else {
             i5 = i10;
         }
-        super(unspecified-e0LSkKk, unspecified-s_7X-co, unspecified-XSAIIZE, platformParagraphStyle5, textIndent, i3, i4, unspecified-rAG3T2k, unspecified-vmbZdU8, i5, 0);
+        super(unspecified-e0LSkKk, unspecified-s_7X-co, unspecified-XSAIIZE, platformParagraphStyle5, textIndent, i4, i3, unspecified-rAG3T2k, unspecified-vmbZdU8, i5, 0);
     }
 
     public ParagraphStyle(int i, int i2, long l3, TextIndent textIndent4, androidx.compose.ui.text.PlatformParagraphStyle platformParagraphStyle5, LineHeightStyle lineHeightStyle6, int i7, int i8, TextMotion textMotion9, DefaultConstructorMarker defaultConstructorMarker10) {
@@ -129,22 +129,22 @@ public final class ParagraphStyle {
     }
 
     public ParagraphStyle(TextAlign textAlign, TextDirection textDirection2, long l3, TextIndent textIndent4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
-        int i;
-        int i2;
-        long l;
         int i3;
+        int i;
+        long l;
+        int i2;
         TextUnit.Companion obj9;
         long obj11;
         final int i4 = 0;
-        i = defaultConstructorMarker6 & 1 != 0 ? i4 : textAlign;
-        i2 = defaultConstructorMarker6 & 2 != 0 ? i4 : textDirection2;
+        i3 = defaultConstructorMarker6 & 1 != 0 ? i4 : textAlign;
+        i = defaultConstructorMarker6 & 2 != 0 ? i4 : textDirection2;
         if (defaultConstructorMarker6 & 4 != 0) {
             l = obj11;
         } else {
             l = l3;
         }
-        i3 = defaultConstructorMarker6 & 8 != 0 ? i4 : i5;
-        super(i, i2, l, obj5, i3, 0);
+        i2 = defaultConstructorMarker6 & 8 != 0 ? i4 : i5;
+        super(i3, i, l, obj5, i2, 0);
     }
 
     private ParagraphStyle(TextAlign textAlign, TextDirection textDirection, long lineHeight, TextIndent textIndent, androidx.compose.ui.text.PlatformParagraphStyle platformStyle, LineHeightStyle lineHeightStyle) {
@@ -211,29 +211,29 @@ public final class ParagraphStyle {
     }
 
     public ParagraphStyle(TextAlign textAlign, TextDirection textDirection2, long l3, TextIndent textIndent4, androidx.compose.ui.text.PlatformParagraphStyle platformParagraphStyle5, LineHeightStyle lineHeightStyle6, LineBreak lineBreak7, Hyphens hyphens8, int i9, DefaultConstructorMarker defaultConstructorMarker10) {
+        int i;
         int i3;
         int i2;
-        int i;
         int i4;
         int obj6;
         int obj7;
         long obj8;
         int obj10;
-        i2 = 0;
-        obj6 = defaultConstructorMarker10 & 1 != 0 ? i2 : obj6;
-        obj7 = defaultConstructorMarker10 & 2 != 0 ? i2 : obj7;
+        i3 = 0;
+        obj6 = defaultConstructorMarker10 & 1 != 0 ? i3 : obj6;
+        obj7 = defaultConstructorMarker10 & 2 != 0 ? i3 : obj7;
         if (defaultConstructorMarker10 & 4 != 0) {
             obj8 = TextUnit.Companion.getUnspecified-XSAIIZE();
         }
-        obj10 = defaultConstructorMarker10 & 8 != 0 ? i2 : obj10;
-        i3 = defaultConstructorMarker10 & 16 != 0 ? i2 : lineHeightStyle6;
-        i = defaultConstructorMarker10 & 32 != 0 ? i2 : lineBreak7;
-        i4 = defaultConstructorMarker10 & 64 != 0 ? i2 : hyphens8;
+        obj10 = defaultConstructorMarker10 & 8 != 0 ? i3 : obj10;
+        i = defaultConstructorMarker10 & 16 != 0 ? i3 : lineHeightStyle6;
+        i2 = defaultConstructorMarker10 & 32 != 0 ? i3 : lineBreak7;
+        i4 = defaultConstructorMarker10 & 64 != 0 ? i3 : hyphens8;
         if (defaultConstructorMarker10 & 128 != 0) {
         } else {
-            i2 = i9;
+            i3 = i9;
         }
-        super(obj6, obj7, obj8, obj10, obj10, i3, i, i4, i2, 0);
+        super(obj6, obj7, obj8, obj10, obj10, i, i2, i4, i3, 0);
     }
 
     private ParagraphStyle(TextAlign textAlign, TextDirection textDirection, long lineHeight, TextIndent textIndent, androidx.compose.ui.text.PlatformParagraphStyle platformStyle, LineHeightStyle lineHeightStyle, LineBreak lineBreak, Hyphens hyphens, TextMotion textMotion) {
@@ -265,32 +265,32 @@ public final class ParagraphStyle {
     }
 
     public ParagraphStyle(TextAlign textAlign, TextDirection textDirection2, long l3, TextIndent textIndent4, androidx.compose.ui.text.PlatformParagraphStyle platformParagraphStyle5, LineHeightStyle lineHeightStyle6, LineBreak lineBreak7, Hyphens hyphens8, TextMotion textMotion9, int i10, DefaultConstructorMarker defaultConstructorMarker11) {
-        int i2;
-        int i3;
-        int i6;
         int i;
         int i4;
+        int i6;
+        int i2;
+        int i3;
         int i5;
         int obj8;
         int obj9;
         long obj10;
         int i7 = defaultConstructorMarker11;
-        i3 = 0;
-        obj8 = i7 & 1 != 0 ? i3 : obj8;
-        obj9 = i7 & 2 != 0 ? i3 : obj9;
+        i4 = 0;
+        obj8 = i7 & 1 != 0 ? i4 : obj8;
+        obj9 = i7 & 2 != 0 ? i4 : obj9;
         if (i7 & 4 != 0) {
             obj10 = TextUnit.Companion.getUnspecified-XSAIIZE();
         }
-        i2 = i7 & 8 != 0 ? i3 : platformParagraphStyle5;
-        i6 = i7 & 16 != 0 ? i3 : lineHeightStyle6;
-        i = i7 & 32 != 0 ? i3 : lineBreak7;
-        i4 = i7 & 64 != 0 ? i3 : hyphens8;
-        i5 = i7 & 128 != 0 ? i3 : textMotion9;
+        i = i7 & 8 != 0 ? i4 : platformParagraphStyle5;
+        i6 = i7 & 16 != 0 ? i4 : lineHeightStyle6;
+        i2 = i7 & 32 != 0 ? i4 : lineBreak7;
+        i3 = i7 & 64 != 0 ? i4 : hyphens8;
+        i5 = i7 & 128 != 0 ? i4 : textMotion9;
         if (i7 &= 256 != 0) {
         } else {
-            i3 = i10;
+            i4 = i10;
         }
-        super(obj8, obj9, obj10, platformParagraphStyle5, i2, i6, i, i4, i5, i3, 0);
+        super(obj8, obj9, obj10, platformParagraphStyle5, i, i6, i2, i3, i5, i4, 0);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "ParagraphStyle constructors that take nullable TextAlign, TextDirection, LineBreak, and Hyphens are deprecated. Please use a new constructor where these parameters are non-nullable. Null value has been replaced by a special Unspecified object for performance reason.")
@@ -694,34 +694,34 @@ public final class ParagraphStyle {
     }
 
     public int hashCode() {
+        int i2;
         int i4;
         int i;
         int i3;
-        int i2;
         TextIndent textIndent = this.textIndent;
-        i2 = 0;
+        i3 = 0;
         if (textIndent != null) {
-            i4 = textIndent.hashCode();
+            i2 = textIndent.hashCode();
         } else {
-            i4 = i2;
+            i2 = i3;
         }
         androidx.compose.ui.text.PlatformParagraphStyle platformStyle = this.platformStyle;
         if (platformStyle != null) {
-            i = platformStyle.hashCode();
+            i4 = platformStyle.hashCode();
         } else {
-            i = i2;
+            i4 = i3;
         }
         LineHeightStyle lineHeightStyle = this.lineHeightStyle;
         if (lineHeightStyle != null) {
-            i3 = lineHeightStyle.hashCode();
+            i = lineHeightStyle.hashCode();
         } else {
-            i3 = i2;
+            i = i3;
         }
         TextMotion textMotion = this.textMotion;
         if (textMotion != null) {
-            i2 = textMotion.hashCode();
+            i3 = textMotion.hashCode();
         }
-        return result4 += i2;
+        return result4 += i3;
     }
 
     public final androidx.compose.ui.text.ParagraphStyle merge(androidx.compose.ui.text.ParagraphStyle other) {

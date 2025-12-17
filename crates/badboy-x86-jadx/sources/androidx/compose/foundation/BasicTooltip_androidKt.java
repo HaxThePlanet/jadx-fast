@@ -36,10 +36,10 @@ public final class BasicTooltip_androidKt {
     public static final void BasicTooltipBox(PopupPositionProvider positionProvider, Function2<? super Composer, ? super Integer, Unit> tooltip, androidx.compose.foundation.BasicTooltipState state, Modifier modifier, boolean focusable, boolean enableUserInput, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i10) {
         Object compositionCoroutineScope;
         int $composer$iv;
-        int anon;
+        int anon2;
         Object compositionScopedCoroutineScopeCanceller;
         int propagateMinConstraints$iv;
-        Object obj5;
+        Object obj2;
         int $dirty;
         int companion2;
         boolean traceInProgress2;
@@ -47,58 +47,58 @@ public final class BasicTooltip_androidKt {
         boolean visible;
         Object traceInProgress;
         int valueOf;
-        Composer composer3;
+        Composer composer2;
         String str2;
-        int i;
-        Object obj6;
-        Composer composer;
+        int i15;
         Object obj3;
-        int i20;
-        int i16;
-        int str;
-        boolean z3;
+        Composer composer;
         Object obj;
+        int i16;
+        int i6;
+        int str;
+        boolean z;
+        Object obj5;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
-        boolean z2;
+        boolean z3;
         Object obj4;
         int materializeModifier;
-        int i9;
         int i13;
-        boolean anon2;
-        Alignment focusable2;
-        int i17;
-        int i5;
-        boolean z;
-        int i8;
-        Object obj2;
-        int i14;
-        int i11;
-        int i12;
-        Object iNSTANCE;
-        int currentCompositeKeyHash;
         int i7;
-        int i15;
-        int i3;
-        androidx.compose.ui.Modifier.Companion companion;
-        int i2;
-        androidx.compose.ui.layout.MeasurePolicy factory$iv$iv$iv;
-        int i6;
-        int i21;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
-        int i4;
-        BoxScopeInstance boxScopeInstance;
-        int i18;
-        kotlin.jvm.functions.Function0 function0;
-        Composer composer2;
-        int i19;
-        CoroutineScope scope;
+        boolean anon;
+        Alignment focusable2;
+        int i9;
+        int i5;
         boolean z4;
+        int i19;
+        Object obj6;
+        int i;
+        int i14;
+        int i2;
+        Object $i$a$RememberCoroutineScopeEffectsKt$rememberCoroutineScope$1;
+        int currentCompositeKeyHash;
+        int i8;
+        int i20;
+        int i21;
+        androidx.compose.ui.Modifier.Companion companion;
+        int i3;
+        androidx.compose.ui.layout.MeasurePolicy factory$iv$iv$iv;
+        int i17;
+        int i12;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
+        int i11;
+        BoxScopeInstance boxScopeInstance;
+        int i4;
+        kotlin.jvm.functions.Function0 function0;
+        Composer composer3;
+        int i18;
+        CoroutineScope scope;
+        boolean z2;
         Object obj38;
         Alignment obj39;
         int obj40;
         final int i74 = $changed;
-        anon = -868234445;
-        final Composer restartGroup = $composer.startRestartGroup(anon);
+        anon2 = -868234445;
+        final Composer restartGroup = $composer.startRestartGroup(anon2);
         ComposerKt.sourceInformation(restartGroup, "C(BasicTooltipBox)P(4,6,5,3,2,1)75@3416L24,76@3445L451,95@3926L47,95@3902L71:BasicTooltip.android.kt#71ulvw");
         $dirty = $changed;
         if (i10 & 1 != 0) {
@@ -106,78 +106,78 @@ public final class BasicTooltip_androidKt {
             traceInProgress = positionProvider;
         } else {
             if (i74 & 6 == 0) {
-                i = restartGroup.changed(positionProvider) ? 4 : 2;
-                $dirty |= i;
+                i15 = restartGroup.changed(positionProvider) ? 4 : 2;
+                $dirty |= i15;
             } else {
                 traceInProgress = positionProvider;
             }
         }
         if (i10 & 2 != 0) {
             $dirty |= 48;
-            obj6 = tooltip;
+            obj3 = tooltip;
         } else {
             if (i74 & 48 == 0) {
-                i20 = restartGroup.changedInstance(tooltip) ? 32 : 16;
-                $dirty |= i20;
+                i16 = restartGroup.changedInstance(tooltip) ? 32 : 16;
+                $dirty |= i16;
             } else {
-                obj6 = tooltip;
+                obj3 = tooltip;
             }
         }
         if (i10 & 4 != 0) {
             $dirty |= 384;
         } else {
             if (i74 & 384 == 0) {
-                i16 = restartGroup.changed(state) ? 256 : 128;
-                $dirty |= i16;
+                i6 = restartGroup.changed(state) ? 256 : 128;
+                $dirty |= i6;
             }
         }
         str = i10 & 8;
         if (str != null) {
             $dirty |= 3072;
-            obj = modifier;
+            obj5 = modifier;
         } else {
             if (i74 & 3072 == 0) {
-                i9 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty |= i9;
+                i13 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty |= i13;
             } else {
-                obj = modifier;
+                obj5 = modifier;
             }
         }
-        i13 = i10 & 16;
-        if (i13 != 0) {
+        i7 = i10 & 16;
+        if (i7 != 0) {
             $dirty |= 24576;
-            anon2 = focusable;
+            anon = focusable;
         } else {
             if (i74 & 24576 == 0) {
-                i17 = restartGroup.changed(focusable) ? 16384 : 8192;
-                $dirty |= i17;
+                i9 = restartGroup.changed(focusable) ? 16384 : 8192;
+                $dirty |= i9;
             } else {
-                anon2 = focusable;
+                anon = focusable;
             }
         }
         i5 = i10 & 32;
         int i78 = 196608;
         if (i5 != 0) {
             $dirty |= i78;
-            z = enableUserInput;
+            z4 = enableUserInput;
         } else {
             if (i78 &= i74 == 0) {
-                i8 = restartGroup.changed(enableUserInput) ? 131072 : 65536;
-                $dirty |= i8;
+                i19 = restartGroup.changed(enableUserInput) ? 131072 : 65536;
+                $dirty |= i19;
             } else {
-                z = enableUserInput;
+                z4 = enableUserInput;
             }
         }
-        i14 = 1572864;
+        i = 1572864;
         if (i10 & 64 != 0) {
-            $dirty |= i14;
-            obj2 = content;
+            $dirty |= i;
+            obj6 = content;
         } else {
-            if (i74 & i14 == 0) {
-                i14 = restartGroup.changedInstance(content) ? 1048576 : 524288;
-                $dirty |= i14;
+            if (i74 & i == 0) {
+                i = restartGroup.changedInstance(content) ? 1048576 : 524288;
+                $dirty |= i;
             } else {
-                obj2 = content;
+                obj6 = content;
             }
         }
         int i82 = $dirty;
@@ -186,16 +186,16 @@ public final class BasicTooltip_androidKt {
                 if (str != null) {
                     obj4 = companion2;
                 } else {
-                    obj4 = obj;
+                    obj4 = obj5;
                 }
-                if (i13 != 0) {
-                    anon2 = companion2;
+                if (i7 != 0) {
+                    anon = companion2;
                 }
                 if (i5 != 0) {
-                    z = companion2;
+                    z4 = companion2;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(anon, i82, -1, "androidx.compose.foundation.BasicTooltipBox (BasicTooltip.android.kt:74)");
+                    ComposerKt.traceEventStart(anon2, i82, -1, "androidx.compose.foundation.BasicTooltipBox (BasicTooltip.android.kt:74)");
                 }
                 int i75 = 0;
                 int i41 = 0;
@@ -225,14 +225,14 @@ public final class BasicTooltip_androidKt {
                 Alignment topStart = Alignment.Companion.getTopStart();
                 int i67 = 0;
                 measurePolicy$iv = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i67);
-                i12 = 0;
+                i2 = 0;
                 obj39 = topStart;
                 obj40 = $i$f$rememberCoroutineScope;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, obj38);
                 currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 kotlin.jvm.functions.Function0 function02 = constructor;
-                i7 = 0;
+                i8 = 0;
                 companion = companion3;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
@@ -254,128 +254,128 @@ public final class BasicTooltip_androidKt {
                 int i88 = 0;
                 if (!composer8.getInserting()) {
                     localMap$iv$iv = currentCompositionLocalMap;
-                    i4 = valueOf;
+                    i11 = valueOf;
                     if (!Intrinsics.areEqual(composer8.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer8.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer8;
+                        composer2 = composer8;
                     }
                 } else {
                     localMap$iv$iv = currentCompositionLocalMap;
-                    i4 = valueOf;
+                    i11 = valueOf;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, (Modifier)companion3), ComposeUiNode.Companion.getSetModifier());
-                i2 = i25 & 14;
+                i3 = i25 & 14;
                 Composer composer4 = restartGroup;
-                i6 = 0;
+                i17 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer4, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i21 = i43 | 6;
-                boxScopeInstance = iNSTANCE2;
+                i12 = i43 | 6;
+                boxScopeInstance = iNSTANCE;
                 propagateMinConstraints$iv = i67;
                 Composer propagateMinConstraints$iv2 = composer4;
-                i18 = 0;
+                i4 = 0;
                 ComposerKt.sourceInformationMarkerStart(propagateMinConstraints$iv2, 136799737, "C87@3729L161:BasicTooltip.android.kt#71ulvw");
                 if (state.isVisible()) {
                     propagateMinConstraints$iv2.startReplaceGroup(136814616);
                     ComposerKt.sourceInformation(propagateMinConstraints$iv2, "78@3494L215");
-                    composer2 = composer4;
-                    i15 = propagateMinConstraints$iv;
-                    str2 = anon2;
+                    composer3 = composer4;
+                    i20 = propagateMinConstraints$iv;
+                    str2 = anon;
                     function0 = function03;
-                    i19 = 0;
+                    i18 = 0;
                     focusable2 = obj39;
                     factory$iv$iv$iv = measurePolicy$iv;
                     visible = obj40;
-                    BasicTooltip_androidKt.TooltipPopup(positionProvider, state, visible, str2, obj6, propagateMinConstraints$iv2, i48 |= i61);
+                    BasicTooltip_androidKt.TooltipPopup(positionProvider, state, visible, str2, obj3, propagateMinConstraints$iv2, i48 |= i61);
                     scope = visible;
-                    z4 = str2;
+                    z2 = str2;
                     propagateMinConstraints$iv2.endReplaceGroup();
                 } else {
                     scope = obj40;
-                    composer2 = composer4;
-                    i15 = propagateMinConstraints$iv;
+                    composer3 = composer4;
+                    i20 = propagateMinConstraints$iv;
                     composer = propagateMinConstraints$iv2;
-                    z4 = anon2;
+                    z2 = anon;
                     function0 = function03;
-                    i19 = 0;
+                    i18 = 0;
                     focusable2 = obj39;
                     factory$iv$iv$iv = measurePolicy$iv;
                     composer.startReplaceGroup(137044295);
                     composer.endReplaceGroup();
                 }
-                obj5 = state;
+                obj2 = state;
                 companion2 = obj38;
-                anon = z;
-                BasicTooltip_androidKt.WrappedAnchor(anon, obj5, companion2, obj2, composer, i29 | i40, 0);
+                anon2 = z4;
+                BasicTooltip_androidKt.WrappedAnchor(anon2, obj2, companion2, obj6, composer, i29 | i40, 0);
                 ComposerKt.sourceInformationMarkerEnd(composer);
-                ComposerKt.sourceInformationMarkerEnd(composer2);
+                ComposerKt.sourceInformationMarkerEnd(composer3);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 740291627, "CC(remember):BasicTooltip.android.kt#9igjgp");
-                i13 = i82 & 896 == 256 ? 1 : i19;
+                i7 = i82 & 896 == 256 ? 1 : i18;
                 Composer composer5 = restartGroup;
                 int i65 = 0;
                 Object rememberedValue2 = composer5.rememberedValue();
                 int i73 = 0;
-                if (i13 == 0) {
+                if (i7 == 0) {
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                         materializeModifier = 0;
-                        anon2 = new BasicTooltip_androidKt.BasicTooltipBox.2.1(obj5);
-                        composer5.updateRememberedValue((Function1)anon2);
+                        anon = new BasicTooltip_androidKt.BasicTooltipBox.2.1(obj2);
+                        composer5.updateRememberedValue((Function1)anon);
                     } else {
-                        anon2 = rememberedValue2;
+                        anon = rememberedValue2;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                EffectsKt.DisposableEffect(obj5, (Function1)anon2, restartGroup, i54 &= 14);
+                EffectsKt.DisposableEffect(obj2, (Function1)anon, restartGroup, i54 &= 14);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                z2 = anon;
-                obj3 = companion2;
-                z3 = z4;
+                z3 = anon2;
+                obj = companion2;
+                z = z2;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj3 = obj;
-                z3 = anon2;
-                z2 = z;
+                obj = obj5;
+                z = anon;
+                z3 = z4;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            anon = new BasicTooltip_androidKt.BasicTooltipBox.3(positionProvider, tooltip, obj5, obj3, z3, z2, content, i74, i10);
-            endRestartGroup.updateScope((Function2)anon);
+            anon2 = new BasicTooltip_androidKt.BasicTooltipBox.3(positionProvider, tooltip, obj2, obj, z, z3, content, i74, i10);
+            endRestartGroup.updateScope((Function2)anon2);
         }
     }
 
     private static final void TooltipPopup(PopupPositionProvider positionProvider, androidx.compose.foundation.BasicTooltipState state, CoroutineScope scope, boolean focusable, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int stringResource;
         int $dirty2;
-        int i7;
+        int i11;
+        int i;
+        int i6;
         int i3;
-        int i10;
-        int i2;
         int i4;
         int traceInProgress;
         boolean traceInProgress2;
-        int i8;
+        int i5;
         Object obj;
         int $this$cache$iv;
         int $dirty;
         int popupProperties;
         Object anon;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i5;
+        int i10;
         boolean z;
-        int i11;
+        int i7;
         Object empty;
-        int i6;
-        int i;
+        int i2;
+        int i8;
         int i9;
         final Object obj3 = state;
         final Object obj4 = scope;
@@ -385,23 +385,23 @@ public final class BasicTooltip_androidKt {
         final Composer restartGroup = $composer.startRestartGroup(stringResource);
         ComposerKt.sourceInformation(restartGroup, "C(TooltipPopup)P(2,4,3,1)125@4750L44,128@4883L109,134@5060L203,126@4799L464:BasicTooltip.android.kt#71ulvw");
         if (i14 & 6 == 0) {
-            i7 = restartGroup.changed(positionProvider) ? 4 : 2;
-            $dirty2 |= i7;
+            i11 = restartGroup.changed(positionProvider) ? 4 : 2;
+            $dirty2 |= i11;
         } else {
             obj = positionProvider;
         }
         $this$cache$iv = 32;
         if (i14 & 48 == 0) {
-            i3 = restartGroup.changed(obj3) ? $this$cache$iv : 16;
-            $dirty2 |= i3;
+            i = restartGroup.changed(obj3) ? $this$cache$iv : 16;
+            $dirty2 |= i;
         }
         if (i14 & 384 == 0) {
-            i10 = restartGroup.changedInstance(obj4) ? 256 : 128;
-            $dirty2 |= i10;
+            i6 = restartGroup.changedInstance(obj4) ? 256 : 128;
+            $dirty2 |= i6;
         }
         if (i14 & 3072 == 0) {
-            i2 = restartGroup.changed(focusable) ? 2048 : 1024;
-            $dirty2 |= i2;
+            i3 = restartGroup.changed(focusable) ? 2048 : 1024;
+            $dirty2 |= i3;
         } else {
             z = focusable;
         }
@@ -416,13 +416,13 @@ public final class BasicTooltip_androidKt {
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1255640176, "CC(remember):BasicTooltip.android.kt#9igjgp");
                 if ($dirty2 & 112 == $this$cache$iv) {
-                    i8 = 1;
+                    i5 = 1;
                 }
                 Composer composer = restartGroup;
                 int i17 = 0;
                 Object rememberedValue = composer.rememberedValue();
                 int i21 = 0;
-                if (i8 |= changedInstance3 == 0) {
+                if (i5 |= changedInstance3 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new BasicTooltip_androidKt.TooltipPopup.1.1(obj3, obj4);
@@ -455,7 +455,7 @@ public final class BasicTooltip_androidKt {
     }
 
     private static final void WrappedAnchor(boolean enableUserInput, androidx.compose.foundation.BasicTooltipState state, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i7) {
-        int traceInProgress;
+        int traceInProgress2;
         Object compositionCoroutineScope;
         boolean $changed$iv;
         boolean currentCompositionLocalMap;
@@ -464,71 +464,71 @@ public final class BasicTooltip_androidKt {
         int $dirty;
         Object obj3;
         int $dirty2;
-        Object modifier3;
-        int i;
-        Object compositionScopedCoroutineScopeCanceller;
-        Composer composer3;
-        Object coroutineScope2;
-        int i11;
-        int i10;
-        int i13;
-        boolean traceInProgress2;
-        Object anchorSemantics;
-        int i2;
+        Object modifier2;
         int i4;
+        Object compositionScopedCoroutineScopeCanceller;
+        Composer composer2;
+        Object coroutineScope2;
+        int i5;
+        int i12;
+        int i8;
+        boolean traceInProgress;
+        Object anchorSemantics;
+        int i;
+        int i10;
         int i3;
         Alignment topStart;
-        int i5;
+        int i2;
         androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy;
-        int i6;
-        int i8;
-        int i15;
-        Object iNSTANCE;
-        Modifier modifier2;
-        int i12;
-        Object obj;
-        Composer composer2;
-        kotlin.jvm.functions.Function0 function0;
+        int i14;
         int i9;
+        int i11;
+        Object $i$a$RememberCoroutineScopeEffectsKt$rememberCoroutineScope$1;
+        Modifier modifier3;
+        int i15;
+        Object obj;
+        Composer composer;
+        kotlin.jvm.functions.Function0 function0;
+        int i6;
         BoxScopeInstance boxScopeInstance;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         CoroutineScope coroutineScope;
-        int i14;
-        Composer composer;
+        int i13;
+        Composer composer3;
         int obj30;
         String obj32;
         $changed$iv = enableUserInput;
         obj2 = state;
         final Object obj5 = content;
-        i = $changed;
-        traceInProgress = 1712976033;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        i4 = $changed;
+        traceInProgress2 = 1712976033;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(WrappedAnchor)P(1,3,2)108@4208L24,109@4258L38,110@4301L171:BasicTooltip.android.kt#71ulvw");
         $dirty = $changed;
         if (i7 & 1 != 0) {
             $dirty |= 6;
         } else {
-            if (i & 6 == 0) {
-                i11 = restartGroup.changed($changed$iv) ? 4 : 2;
-                $dirty |= i11;
+            if (i4 & 6 == 0) {
+                i5 = restartGroup.changed($changed$iv) ? 4 : 2;
+                $dirty |= i5;
             }
         }
         if (i7 & 2 != 0) {
             $dirty |= 48;
         } else {
-            if (i & 48 == 0) {
-                i10 = restartGroup.changed(obj2) ? 32 : 16;
-                $dirty |= i10;
+            if (i4 & 48 == 0) {
+                i12 = restartGroup.changed(obj2) ? 32 : 16;
+                $dirty |= i12;
             }
         }
-        i13 = i7 & 4;
-        if (i13 != 0) {
+        i8 = i7 & 4;
+        if (i8 != 0) {
             $dirty |= 384;
             anchorSemantics = modifier;
         } else {
-            if (i & 384 == 0) {
-                i2 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i2;
+            if (i4 & 384 == 0) {
+                i = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i;
             } else {
                 anchorSemantics = modifier;
             }
@@ -536,21 +536,21 @@ public final class BasicTooltip_androidKt {
         if (i7 & 8 != 0) {
             $dirty |= 3072;
         } else {
-            if (i & 3072 == 0) {
-                i4 = restartGroup.changedInstance(obj5) ? 2048 : 1024;
-                $dirty |= i4;
+            if (i4 & 3072 == 0) {
+                i10 = restartGroup.changedInstance(obj5) ? 2048 : 1024;
+                $dirty |= i10;
             }
         }
         int i35 = $dirty;
         if (i35 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
-                if (i13 != 0) {
-                    modifier3 = Modifier.Companion;
+                if (i8 != 0) {
+                    modifier2 = Modifier.Companion;
                 } else {
-                    modifier3 = anchorSemantics;
+                    modifier2 = anchorSemantics;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i35, -1, "androidx.compose.foundation.WrappedAnchor (BasicTooltip.android.kt:107)");
+                    ComposerKt.traceEventStart(traceInProgress2, i35, -1, "androidx.compose.foundation.WrappedAnchor (BasicTooltip.android.kt:107)");
                 }
                 int i31 = i16;
                 int i34 = 0;
@@ -575,16 +575,16 @@ public final class BasicTooltip_androidKt {
                 int i32 = 0;
                 String stringResource = StringResources_androidKt.stringResource(R.string.tooltip_label, restartGroup, i32);
                 i3 = i32;
-                i13 = 0;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 i8 = 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
+                i9 = 0;
                 obj32 = stringResource;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 obj30 = currentCompositeKeyHash;
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, BasicTooltip_androidKt.anchorSemantics(BasicTooltip_androidKt.handleGestures(modifier3, $changed$iv, obj2), stringResource, $changed$iv, obj2, coroutineScope2));
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, BasicTooltip_androidKt.anchorSemantics(BasicTooltip_androidKt.handleGestures(modifier2, $changed$iv, obj2), stringResource, $changed$iv, obj2, coroutineScope2));
                 kotlin.jvm.functions.Function0 function02 = constructor;
-                i15 = 0;
+                i11 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -611,7 +611,7 @@ public final class BasicTooltip_androidKt {
                         composer6.updateRememberedValue(Integer.valueOf(obj30));
                         constructor-impl.apply(Integer.valueOf(obj30), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer6;
+                        composer2 = composer6;
                     }
                 } else {
                     localMap$iv$iv = currentCompositionLocalMap;
@@ -620,13 +620,13 @@ public final class BasicTooltip_androidKt {
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 obj2 = restartGroup;
                 int i27 = 0;
-                modifier2 = materializeModifier;
+                modifier3 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(obj2, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 i30 |= 6;
-                composer2 = obj2;
-                i9 = 0;
-                boxScopeInstance = iNSTANCE2;
-                i14 = i22;
+                composer = obj2;
+                i6 = 0;
+                boxScopeInstance = iNSTANCE;
+                i13 = i22;
                 ComposerKt.sourceInformationMarkerStart(obj2, 1506105755, "C113@4461L9:BasicTooltip.android.kt#71ulvw");
                 obj5.invoke(obj2, Integer.valueOf(i18 &= 14));
                 ComposerKt.sourceInformationMarkerEnd(obj2);
@@ -647,8 +647,8 @@ public final class BasicTooltip_androidKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new BasicTooltip_androidKt.WrappedAnchor.2(enableUserInput, state, obj3, obj5, $changed, i7);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new BasicTooltip_androidKt.WrappedAnchor.2(enableUserInput, state, obj3, obj5, $changed, i7);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 

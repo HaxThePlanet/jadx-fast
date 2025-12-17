@@ -52,18 +52,18 @@ final class BackgroundNode extends Modifier.Node implements DrawModifierNode, Ob
         long color;
         long alpha;
         long unspecified-0d7_KjU;
+        int i4;
+        int i3;
         int i5;
         int i;
         int i2;
-        int i4;
-        int i3;
         final Outline outline = getOutline($this$drawOutline);
         if (!Color.equals-impl0(this.color, obj3)) {
             OutlineKt.drawOutline-wDX37Ww$default((DrawScope)$this$drawOutline, outline, this.color, obj3, 0, 0, 0, 0, 60);
         }
         Brush brush = this.brush;
         if (brush != null) {
-            i3 = 0;
+            i2 = 0;
             OutlineKt.drawOutline-hn5TExg$default((DrawScope)$this$drawOutline, outline, brush, this.alpha, 0, 0, 0, 56, 0);
         }
     }
@@ -72,24 +72,24 @@ final class BackgroundNode extends Modifier.Node implements DrawModifierNode, Ob
         Brush brush;
         long l;
         long unspecified-0d7_KjU;
-        long i5;
-        int i6;
         long i7;
-        int i3;
-        androidx.compose.ui.graphics.drawscope.DrawStyle alpha;
-        int i;
-        int i8;
-        int i9;
+        int i5;
+        long i3;
         int i10;
-        int i2;
+        androidx.compose.ui.graphics.drawscope.DrawStyle alpha;
+        int i6;
         int i4;
+        int i8;
+        int i2;
+        int i9;
+        int i;
         if (!Color.equals-impl0(this.color, obj1)) {
             DrawScope.drawRect-n-J9OG0$default((DrawScope)$this$drawRect, this.color, obj3, 0, obj5, 0, obj7, 0, 0, 0);
         }
         brush = this.brush;
         if (brush != null) {
             brush = 0;
-            DrawScope.drawRect-AsUm42w$default((DrawScope)$this$drawRect, brush, 0, i6, 0, i3, this.alpha, 0, 0, 0);
+            DrawScope.drawRect-AsUm42w$default((DrawScope)$this$drawRect, brush, 0, i5, 0, i10, this.alpha, 0, 0, 0);
         }
     }
 

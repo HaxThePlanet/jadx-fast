@@ -62,29 +62,29 @@ final class DefaultDebugIndication implements androidx.compose.foundation.Indica
             Color.Companion isHovered;
             DrawScope drawScope;
             long copy-wmQWz5c$default;
-            int i3;
-            int i4;
-            long size-NH-jbRc;
-            int i9;
             int i5;
-            int i8;
-            int i;
-            int i6;
+            int i3;
+            long size-NH-jbRc;
+            int i4;
             int i7;
             int i2;
+            int i8;
+            int i;
+            int i9;
+            int i6;
             $this$draw.drawContent();
             if (this.isPressed) {
-                i8 = 0;
+                i2 = 0;
+                i3 = 0;
                 i4 = 0;
-                i9 = 0;
-                DrawScope.drawRect-n-J9OG0$default((DrawScope)$this$draw, Color.copy-wmQWz5c$default(Color.Companion.getBlack-0d7_KjU(), obj3, 1050253722, i4, 0, i9, 14), obj3, 0, i4, $this$draw.getSize-NH-jbRc(), i9, 0, i8, 0);
+                DrawScope.drawRect-n-J9OG0$default((DrawScope)$this$draw, Color.copy-wmQWz5c$default(Color.Companion.getBlack-0d7_KjU(), obj3, 1050253722, i3, 0, i4, 14), obj3, 0, i3, $this$draw.getSize-NH-jbRc(), i4, 0, i2, 0);
             } else {
                 if (!this.isHovered) {
                     if (this.isFocused) {
-                        i8 = 0;
+                        i2 = 0;
+                        i3 = 0;
                         i4 = 0;
-                        i9 = 0;
-                        DrawScope.drawRect-n-J9OG0$default((DrawScope)$this$draw, Color.copy-wmQWz5c$default(Color.Companion.getBlack-0d7_KjU(), obj3, 1036831949, i4, 0, i9, 14), obj3, 0, i4, $this$draw.getSize-NH-jbRc(), i9, 0, i8, 0);
+                        DrawScope.drawRect-n-J9OG0$default((DrawScope)$this$draw, Color.copy-wmQWz5c$default(Color.Companion.getBlack-0d7_KjU(), obj3, 1036831949, i3, 0, i4, 14), obj3, 0, i3, $this$draw.getSize-NH-jbRc(), i4, 0, i2, 0);
                     }
                 } else {
                 }

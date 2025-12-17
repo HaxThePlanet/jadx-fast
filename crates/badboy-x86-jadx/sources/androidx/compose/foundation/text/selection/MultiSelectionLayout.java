@@ -28,8 +28,8 @@ final class MultiSelectionLayout implements androidx.compose.foundation.text.sel
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal2;
             int ordinal3;
+            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[CrossStatus.COLLAPSED.ordinal()] = 1;
             iArr[CrossStatus.NOT_CROSSED.ordinal()] = 2;
@@ -88,8 +88,8 @@ final class MultiSelectionLayout implements androidx.compose.foundation.text.sel
 
     private final boolean shouldAnyInfoRecomputeSelection(androidx.compose.foundation.text.selection.MultiSelectionLayout other) {
         int i;
-        Object obj2;
         Object obj;
+        Object obj2;
         boolean recomputeSelection;
         final int i3 = 1;
         if (getSize() != other.getSize()) {
@@ -128,30 +128,30 @@ final class MultiSelectionLayout implements androidx.compose.foundation.text.sel
     public LongObjectMap<androidx.compose.foundation.text.selection.Selection> createSubSelections(androidx.compose.foundation.text.selection.Selection selection) {
         LongObjectMap mutableLongObjectMapOf;
         boolean handlesCrossed;
-        int i;
+        int i2;
         int offset;
         long selectableId;
         Object obj;
         androidx.compose.foundation.text.selection.SelectableInfo lastInfo;
-        androidx.compose.foundation.text.selection.Selection.AnchorInfo start;
-        int i3;
         androidx.compose.foundation.text.selection.Selection.AnchorInfo start2;
+        int i3;
+        androidx.compose.foundation.text.selection.Selection.AnchorInfo start;
         int offset2;
-        int i2;
+        int i;
         androidx.compose.foundation.text.selection.Selection.AnchorInfo anchorInfo;
         Object obj10;
         if (Long.compare(selectableId2, selectableId) == 0) {
             if (selection.getHandlesCrossed()) {
                 if (selection.getStart().getOffset() < selection.getEnd().getOffset()) {
                     if (!selection.getHandlesCrossed() && selection.getStart().getOffset() <= selection.getEnd().getOffset()) {
-                        i = selection.getStart().getOffset() <= selection.getEnd().getOffset() ? 1 : 0;
+                        i2 = selection.getStart().getOffset() <= selection.getEnd().getOffset() ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
             } else {
             }
-            if (i == 0) {
+            if (i2 == 0) {
             } else {
                 mutableLongObjectMapOf = LongObjectMapKt.longObjectMapOf(selection.getStart().getSelectableId(), offset);
                 obj = selection;
@@ -163,27 +163,27 @@ final class MultiSelectionLayout implements androidx.compose.foundation.text.sel
             throw illegalStateException;
         }
         selectableId = mutableLongObjectMapOf;
-        i2 = 0;
+        i = 0;
         Object obj2 = selection;
         int i5 = 0;
         if (obj2.getHandlesCrossed()) {
-            start = obj2.getEnd();
+            start2 = obj2.getEnd();
         } else {
-            start = obj2.getStart();
+            start2 = obj2.getStart();
         }
         offset = this;
         obj = selection;
-        offset.createAndPutSubSelection(selectableId, obj, getFirstInfo(), start.getOffset(), getFirstInfo().getTextLength());
+        offset.createAndPutSubSelection(selectableId, obj, getFirstInfo(), start2.getOffset(), getFirstInfo().getTextLength());
         obj10 = new MultiSelectionLayout.createSubSelections.2.1(this, selectableId, obj);
         forEachMiddleInfo((Function1)obj10);
         obj10 = obj;
         int i6 = 0;
         if (obj10.getHandlesCrossed()) {
-            start2 = obj10.getStart();
+            start = obj10.getStart();
         } else {
-            start2 = obj10.getEnd();
+            start = obj10.getEnd();
         }
-        offset.createAndPutSubSelection(selectableId, obj, getLastInfo(), 0, start2.getOffset());
+        offset.createAndPutSubSelection(selectableId, obj, getLastInfo(), 0, start.getOffset());
     }
 
     public void forEachMiddleInfo(Function1<? super androidx.compose.foundation.text.selection.SelectableInfo, Unit> block) {

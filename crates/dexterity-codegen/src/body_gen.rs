@@ -29,6 +29,7 @@
 
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 use rustc_hash::FxHashMap;
+use tracing::error;
 
 use dexterity_ir::attributes::AFlag;
 use dexterity_ir::instructions::{BinaryOp, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LambdaInfo, LiteralArg};
@@ -1263,6 +1264,12 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
         if *d > 50 { // Limit recursion depth
              // Don't panic, just stop inlining? No, panic unwinds to catch_unwind in main (if added)
              // JADX throws exception.
+             error!(
+                 depth = *d,
+                 limit = 50,
+                 method = %method.name,
+                 "LIMIT_EXCEEDED: Codegen recursion limit reached"
+             );
              *d -= 1;
              panic!("Codegen recursion limit reached (50) in {}", method.name);
         }

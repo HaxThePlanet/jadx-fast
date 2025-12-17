@@ -30,8 +30,8 @@ public final class SetComposingTextCommand implements androidx.compose.ui.text.i
     public void applyTo(androidx.compose.ui.text.input.EditingBuffer buffer) {
         int selectionStart$ui_text_release;
         int i3;
-        int i2;
         int i;
+        int i2;
         int selectionEnd$ui_text_release;
         String text;
         i3 = 1;
@@ -39,15 +39,15 @@ public final class SetComposingTextCommand implements androidx.compose.ui.text.i
         if (buffer.hasComposition$ui_text_release()) {
             selectionStart$ui_text_release = buffer.getCompositionStart$ui_text_release();
             buffer.replace$ui_text_release(buffer.getCompositionStart$ui_text_release(), buffer.getCompositionEnd$ui_text_release(), getText());
-            i2 = (CharSequence)getText().length() > 0 ? i3 : i4;
-            if (i2 != 0) {
+            i = (CharSequence)getText().length() > 0 ? i3 : i4;
+            if (i != 0) {
                 buffer.setComposition$ui_text_release(selectionStart$ui_text_release, length5 += selectionStart$ui_text_release);
             }
         } else {
             selectionStart$ui_text_release = buffer.getSelectionStart$ui_text_release();
             buffer.replace$ui_text_release(buffer.getSelectionStart$ui_text_release(), buffer.getSelectionEnd$ui_text_release(), getText());
-            i2 = (CharSequence)getText().length() > 0 ? i3 : i4;
-            if (i2 != 0) {
+            i = (CharSequence)getText().length() > 0 ? i3 : i4;
+            if (i != 0) {
                 buffer.setComposition$ui_text_release(selectionStart$ui_text_release, length3 += selectionStart$ui_text_release);
             }
         }
@@ -55,9 +55,9 @@ public final class SetComposingTextCommand implements androidx.compose.ui.text.i
         if (this.newCursorPosition > 0) {
             i5 -= i3;
         } else {
-            i = i3 - length;
+            i2 = i3 - length;
         }
-        buffer.setCursor$ui_text_release(RangesKt.coerceIn(i, i4, buffer.getLength$ui_text_release()));
+        buffer.setCursor$ui_text_release(RangesKt.coerceIn(i2, i4, buffer.getLength$ui_text_release()));
     }
 
     @Override // androidx.compose.ui.text.input.EditCommand

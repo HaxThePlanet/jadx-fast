@@ -64,8 +64,8 @@ public final class Updater<T>  {
     }
 
     public static final void set-impl(androidx.compose.runtime.Composer arg0, int value, Function2<? super T, ? super Integer, Unit> block) {
-        boolean valueOf;
-        Integer valueOf2;
+        boolean valueOf2;
+        Integer valueOf;
         final int i = 0;
         final Object obj = arg0;
         final int i2 = 0;

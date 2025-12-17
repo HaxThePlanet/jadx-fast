@@ -26,24 +26,24 @@ public final class AndroidFontLoader implements androidx.compose.ui.text.font.Pl
 
     public Object awaitLoad(androidx.compose.ui.text.font.Font font, Continuation<? super Typeface> continuation2) {
         boolean anon;
-        int i3;
+        int i2;
         Object l$0;
-        int i;
+        int i3;
         int label;
         androidx.compose.ui.text.font.AndroidFont.TypefaceLoader typefaceLoader;
         Object obj;
         Context context;
         Object obj2;
-        int i2;
+        int i;
         Object obj8;
         Object obj9;
         anon = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof AndroidFontLoader.awaitLoad.1 && label2 &= i != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation2 instanceof AndroidFontLoader.awaitLoad.1 && label2 &= i3 != 0) {
             anon = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label2 &= i != 0) {
-                anon.label = obj9 -= i;
+            i3 = Integer.MIN_VALUE;
+            if (label2 &= i3 != 0) {
+                anon.label = obj9 -= i3;
             } else {
                 anon = new AndroidFontLoader.awaitLoad.1(this, continuation2);
             }
@@ -64,8 +64,8 @@ public final class AndroidFontLoader implements androidx.compose.ui.text.font.Pl
                 l$0 = label;
                 return PlatformTypefaces_androidKt.setFontVariationSettings((Typeface)obj, (ResourceFont)obj8.getVariationSettings(), l$0.context);
                 StringBuilder stringBuilder = new StringBuilder();
-                IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Unknown font type: ").append(font).toString());
-                throw illegalArgumentException;
+                IllegalArgumentException _this = new IllegalArgumentException(stringBuilder.append("Unknown font type: ").append(font).toString());
+                throw _this;
             case 1:
                 ResultKt.throwOnFailure(obj9);
                 obj8 = obj9;
@@ -91,13 +91,13 @@ public final class AndroidFontLoader implements androidx.compose.ui.text.font.Pl
     @Override // androidx.compose.ui.text.font.PlatformFontLoader
     public Typeface loadBlocking(androidx.compose.ui.text.font.Font font) {
         Typeface fontVariationSettings;
-        Typeface typeface;
+        Typeface typeface2;
         Object constructor-impl;
         Context variationSettings;
         Object companion;
         boolean failure-impl;
         int i;
-        Typeface typeface2;
+        Typeface typeface;
         Context context;
         if (font instanceof AndroidFont) {
             fontVariationSettings = (AndroidFont)font.getTypefaceLoader().loadBlocking(this.context, (AndroidFont)font);
@@ -105,8 +105,8 @@ public final class AndroidFontLoader implements androidx.compose.ui.text.font.Pl
             if (font instanceof ResourceFont) {
                 int loadingStrategy-PKNRLFQ = font.getLoadingStrategy-PKNRLFQ();
                 if (FontLoadingStrategy.equals-impl0(loadingStrategy-PKNRLFQ, FontLoadingStrategy.Companion.getBlocking-PKNRLFQ())) {
-                    typeface = AndroidFontLoader_androidKt.access$load((ResourceFont)font, this.context);
-                    fontVariationSettings = PlatformTypefaces_androidKt.setFontVariationSettings(typeface, (ResourceFont)font.getVariationSettings(), this.context);
+                    typeface2 = AndroidFontLoader_androidKt.access$load((ResourceFont)font, this.context);
+                    fontVariationSettings = PlatformTypefaces_androidKt.setFontVariationSettings(typeface2, (ResourceFont)font.getVariationSettings(), this.context);
                 } else {
                     if (FontLoadingStrategy.equals-impl0(loadingStrategy-PKNRLFQ, FontLoadingStrategy.Companion.getOptionalLocal-PKNRLFQ())) {
                         kotlin.Result.Companion companion2 = Result.Companion;
@@ -116,7 +116,7 @@ public final class AndroidFontLoader implements androidx.compose.ui.text.font.Pl
                         } else {
                             variationSettings = constructor-impl;
                         }
-                        typeface = variationSettings;
+                        typeface2 = variationSettings;
                     } else {
                         if (FontLoadingStrategy.equals-impl0(loadingStrategy-PKNRLFQ, FontLoadingStrategy.Companion.getAsync-PKNRLFQ())) {
                             UnsupportedOperationException unsupportedOperationException = new UnsupportedOperationException("Unsupported Async font load path");

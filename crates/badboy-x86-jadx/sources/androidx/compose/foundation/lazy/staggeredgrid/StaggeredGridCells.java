@@ -27,8 +27,8 @@ public interface StaggeredGridCells {
             } else {
             }
             int i2 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("invalid minSize".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireStaggeredGridCells$Adaptive$1 = new IllegalArgumentException("invalid minSize".toString());
+            throw $i$a$RequireStaggeredGridCells$Adaptive$1;
         }
 
         public Adaptive(float f, DefaultConstructorMarker defaultConstructorMarker2) {
@@ -75,8 +75,8 @@ public interface StaggeredGridCells {
             } else {
             }
             int i2 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("grid with no rows/columns".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireStaggeredGridCells$Fixed$1 = new IllegalArgumentException("grid with no rows/columns".toString());
+            throw $i$a$RequireStaggeredGridCells$Fixed$1;
         }
 
         @Override // androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells

@@ -57,42 +57,42 @@ public final class HitPathTracker {
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         androidx.compose.ui.input.pointer.NodeParent parent2;
         int merging;
-        int i5;
+        int i2;
         int size2;
         int hitPointerIdsAndNodes2;
         int j$iv$iv;
-        int i;
+        int i4;
         int $i$f$isFull;
         Object metadata;
-        int i7;
+        int i6;
         Object i$iv$iv;
         int slot$iv$iv;
         int size;
         int i$iv;
         Object[] content;
-        int i6;
+        int i3;
         androidx.compose.ui.input.pointer.NodeParent parent;
-        int i2;
+        int i;
         int $i$f$forEach;
         long[] k$iv;
         long l;
-        int i3;
-        int i4;
+        int i5;
+        int i7;
         final Object obj = this;
         hitPointerIdsAndNodes = pointerId;
         parent2 = obj.root;
         obj.hitPointerIdsAndNodes.clear();
         merging = 1;
-        i5 = 0;
+        i2 = 0;
         j$iv$iv = 1;
-        while (i5 < prunePointerIdsAndChangesNotInNodesList.size()) {
-            metadata = prunePointerIdsAndChangesNotInNodesList.get(i5);
-            i7 = 0;
+        while (i2 < prunePointerIdsAndChangesNotInNodesList.size()) {
+            metadata = prunePointerIdsAndChangesNotInNodesList.get(i2);
+            i6 = 0;
             if (merging != 0) {
             } else {
             }
             parent = parent2;
-            i2 = merging;
+            i = merging;
             Node parent3 = new Node((Modifier.Node)metadata);
             int i17 = 0;
             slot$iv$iv = parent3.getPointerIds();
@@ -105,12 +105,12 @@ public final class HitPathTracker {
             (MutableObjectList)i$iv.add(parent3);
             parent.getChildren().add(parent3);
             parent2 = hitPointerIdsAndNodes;
-            i5++;
+            i2++;
             hitPointerIdsAndNodes = pointerId;
             j$iv$iv = 1;
             int i18 = 0;
             content = 0;
-            hitPointerIdsAndNodes = new MutableObjectList(0, j$iv$iv, i7);
+            hitPointerIdsAndNodes = new MutableObjectList(0, j$iv$iv, i6);
             j$iv$iv = 0;
             hitPointerIdsAndNodes2.set(i$iv$iv, slot$iv$iv);
             i$iv = hitPointerIdsAndNodes;
@@ -120,13 +120,13 @@ public final class HitPathTracker {
             if (size > 0) {
             } else {
             }
-            i6 = i7;
-            hitPointerIdsAndNodes2 = i6;
+            i3 = i6;
+            hitPointerIdsAndNodes2 = i3;
             if ((Node)hitPointerIdsAndNodes2 != 0) {
             } else {
             }
             parent = parent2;
-            i2 = merging;
+            i = merging;
             merging = 0;
             (Node)hitPointerIdsAndNodes2.markIsIn();
             hitPointerIdsAndNodes2.getPointerIds().add-0FcD4WY(hitPointerIdsAndNodes);
@@ -137,22 +137,22 @@ public final class HitPathTracker {
             } else {
             }
             parent = parent2;
-            i2 = merging;
+            i = merging;
             (MutableObjectList)content.add(hitPointerIdsAndNodes2);
             parent2 = i12;
-            merging = i2;
+            merging = i;
             int i19 = 0;
-            i6 = 0;
+            i3 = 0;
             parent = parent2;
-            i2 = merging;
-            parent2 = new MutableObjectList(0, j$iv$iv, i7);
+            i = merging;
+            parent2 = new MutableObjectList(0, j$iv$iv, i6);
             j$iv$iv = 0;
             i$iv$iv.set(slot$iv$iv, size);
             content = parent2;
             i$iv = 0;
-            i2 = 0;
+            i = 0;
             while (Intrinsics.areEqual((Node)i$iv$iv.getContent()[i$iv].getModifierNode(), metadata)) {
-                i2 = 0;
+                i = 0;
             }
             if (i$iv++ >= size) {
             } else {
@@ -167,7 +167,7 @@ public final class HitPathTracker {
             hitPointerIdsAndNodes2 = 0;
             metadata = size2.metadata;
             length += -2;
-            if (0 <= i7) {
+            if (0 <= i6) {
             } else {
                 $i$f$forEach = parent2;
                 k$iv = merging;

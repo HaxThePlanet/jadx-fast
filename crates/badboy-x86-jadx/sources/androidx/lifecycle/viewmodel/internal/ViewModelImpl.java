@@ -98,7 +98,7 @@ public final class ViewModelImpl {
         final int i2 = 0;
         int i3 = 0;
         (Collection)ViewModelImpl.access$getCloseables$p(this).add(closeable);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedViewModelImpl$addCloseable$1 = Unit.INSTANCE;
         return;
         synchronized (lock) {
             lock = this.lock;
@@ -106,7 +106,7 @@ public final class ViewModelImpl {
             i2 = 0;
             i3 = 0;
             (Collection)ViewModelImpl.access$getCloseables$p(this).add(closeable);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedViewModelImpl$addCloseable$1 = Unit.INSTANCE;
         }
     }
 
@@ -151,7 +151,7 @@ public final class ViewModelImpl {
                 ViewModelImpl.access$closeWithRuntimeException(this, next);
             }
             ViewModelImpl.access$getCloseables$p(this).clear();
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedViewModelImpl$clear$1 = Unit.INSTANCE;
         }
     }
 

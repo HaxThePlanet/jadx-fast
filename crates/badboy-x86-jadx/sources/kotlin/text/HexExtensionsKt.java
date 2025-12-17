@@ -22,103 +22,103 @@ public final class HexExtensionsKt {
     private static final String UPPER_CASE_HEX_DIGITS = "0123456789ABCDEF";
     static {
         int i3;
-        int i13;
-        int i6;
-        int i14;
-        int i15;
-        int i2;
-        int i9;
-        int i7;
-        int i5;
-        int i12;
-        int i16;
-        int charAt4;
-        int i10;
-        int i;
-        int charAt3;
-        int length;
         int i11;
+        int i2;
+        int i4;
+        int i12;
+        int i5;
+        int i14;
+        int i;
+        int i6;
         int i17;
+        int i9;
+        int charAt4;
+        int i8;
+        int i13;
+        int charAt3;
+        int length2;
+        int i15;
+        int i7;
         char charAt2;
         int charAt;
-        int length2;
-        int i4;
+        int length;
+        int i10;
         char c;
-        int i8;
+        int i16;
         int i18 = 256;
         int[] iArr = new int[i18];
         i3 = 0;
-        i13 = i3;
+        i11 = i3;
         String str = "0123456789abcdef";
-        while (i13 < i18) {
-            iArr[i13] = charAt5 |= i9;
-            i13++;
+        while (i11 < i18) {
+            iArr[i11] = charAt5 |= i14;
+            i11++;
             str = "0123456789abcdef";
         }
         HexExtensionsKt.BYTE_TO_LOWER_CASE_HEX_DIGITS = iArr;
         int[] iArr2 = new int[i18];
-        i6 = i3;
+        i2 = i3;
         String str2 = "0123456789ABCDEF";
-        while (i6 < i18) {
-            iArr2[i6] = charAt6 |= i7;
-            i6++;
+        while (i2 < i18) {
+            iArr2[i2] = charAt6 |= i;
+            i2++;
             str2 = "0123456789ABCDEF";
         }
         HexExtensionsKt.BYTE_TO_UPPER_CASE_HEX_DIGITS = iArr2;
         int[] iArr3 = new int[i18];
-        i14 = i3;
-        while (i14 < i18) {
-            iArr3[i14] = -1;
-            i14++;
+        i4 = i3;
+        while (i4 < i18) {
+            iArr3[i4] = -1;
+            i4++;
         }
         int[] iArr4 = iArr3;
-        i5 = 0;
+        i6 = 0;
         String str3 = str;
         int i24 = 0;
-        i = 0;
-        i11 = i3;
-        while (i11 < (CharSequence)str3.length()) {
-            i8 = 0;
-            iArr4[str3.charAt(i11)] = i;
-            i11++;
-            i = i4;
+        i13 = 0;
+        i15 = i3;
+        while (i15 < (CharSequence)str3.length()) {
+            i16 = 0;
+            iArr4[str3.charAt(i15)] = i13;
+            i15++;
+            i13 = i10;
         }
         String $this$forEachIndexed$iv2 = str2;
         int i25 = 0;
         charAt3 = 0;
-        i17 = i3;
-        while (i17 < (CharSequence)$this$forEachIndexed$iv2.length()) {
-            i8 = 0;
-            iArr4[$this$forEachIndexed$iv2.charAt(i17)] = charAt3;
-            i17++;
-            charAt3 = i4;
+        i7 = i3;
+        while (i7 < (CharSequence)$this$forEachIndexed$iv2.length()) {
+            i16 = 0;
+            iArr4[$this$forEachIndexed$iv2.charAt(i7)] = charAt3;
+            i7++;
+            charAt3 = i10;
         }
         HexExtensionsKt.HEX_DIGITS_TO_DECIMAL = iArr3;
         long[] lArr2 = new long[i18];
-        i15 = i3;
-        while (i15 < i18) {
-            lArr2[i15] = -1;
-            i15++;
+        i12 = i3;
+        while (i12 < i18) {
+            lArr2[i12] = -1;
+            i12++;
         }
         long[] lArr = lArr2;
         int i19 = 0;
         int i22 = 0;
         charAt4 = 0;
-        i10 = i3;
-        while (i10 < (CharSequence)str.length()) {
-            i4 = 0;
-            lArr[str.charAt(i10)] = (long)charAt4;
-            i10++;
-            charAt4 = i17;
+        i8 = i3;
+        while (i8 < (CharSequence)str.length()) {
+            i10 = 0;
+            lArr[str.charAt(i8)] = (long)charAt4;
+            i8++;
+            charAt4 = i7;
         }
         String $this$forEachIndexed$iv = str2;
         int i20 = 0;
-        i12 = 0;
+        i17 = 0;
         while (i3 < (CharSequence)$this$forEachIndexed$iv.length()) {
-            i17 = 0;
-            lArr[$this$forEachIndexed$iv.charAt(i3)] = (long)i12;
+            i7 = 0;
+            lArr[$this$forEachIndexed$iv.charAt(i3)] = (long)i17;
             i3++;
-            i12 = i10;
+            i17 = i8;
         }
         HexExtensionsKt.HEX_DIGITS_TO_LONG_DECIMAL = lArr2;
     }
@@ -135,20 +135,20 @@ public final class HexExtensionsKt {
     }
 
     private static final int checkContainsAt(String $this$checkContainsAt, int index, int endIndex, String part, boolean ignoreCase, String partName) {
-        int i2;
         int i;
+        int i2;
         boolean equals;
         char charAt;
         final int i3 = 0;
-        i2 = (CharSequence)part.length() == 0 ? 1 : 0;
-        if (i2 != 0) {
+        i = (CharSequence)part.length() == 0 ? 1 : 0;
+        if (i != 0) {
             return index;
         }
-        i = 0;
-        while (i < (CharSequence)part.length()) {
-            if (!CharsKt.equals(part.charAt(i), $this$checkContainsAt.charAt(index + i), ignoreCase)) {
+        i2 = 0;
+        while (i2 < (CharSequence)part.length()) {
+            if (!CharsKt.equals(part.charAt(i2), $this$checkContainsAt.charAt(index + i2), ignoreCase)) {
             }
-            i++;
+            i2++;
             HexExtensionsKt.throwNotContainedAt($this$checkContainsAt, index, endIndex, part, partName);
         }
         return length2 += index;
@@ -209,24 +209,24 @@ public final class HexExtensionsKt {
     }
 
     private static final void checkPrefixSuffixNumberOfDigits(String $this$checkPrefixSuffixNumberOfDigits, int startIndex, int endIndex, String prefix, String suffix, boolean ignoreCase, int typeHexLength) {
-        int i2;
-        int i$iv2;
         int i;
+        int i$iv2;
+        int i2;
         int i$iv;
-        int length2;
-        int length;
-        boolean equals;
         int length3;
+        int length2;
+        boolean equals;
+        int length;
         char charAt;
         if (i3 -= length5 <= suffix.length()) {
             HexExtensionsKt.throwInvalidPrefixSuffix($this$checkPrefixSuffixNumberOfDigits, startIndex, endIndex, prefix, suffix);
         }
         String str2 = $this$checkPrefixSuffixNumberOfDigits;
         int i6 = 0;
-        length2 = 1;
-        i2 = (CharSequence)prefix.length() == 0 ? length2 : i$iv;
-        if (i2 != 0) {
-            i = startIndex;
+        length3 = 1;
+        i = (CharSequence)prefix.length() == 0 ? length3 : i$iv;
+        if (i != 0) {
+            i2 = startIndex;
         } else {
             i$iv2 = 0;
             while (i$iv2 < (CharSequence)prefix.length()) {
@@ -241,7 +241,7 @@ public final class HexExtensionsKt {
         String str4 = $this$checkPrefixSuffixNumberOfDigits;
         int i7 = 0;
         if ((CharSequence)suffix.length() == 0) {
-            i$iv = length2;
+            i$iv = length3;
         }
         if (i$iv == 0) {
             i$iv = 0;
@@ -253,7 +253,7 @@ public final class HexExtensionsKt {
             }
             suffix.length();
         }
-        HexExtensionsKt.checkNumberOfDigits($this$checkPrefixSuffixNumberOfDigits, i, i5, typeHexLength);
+        HexExtensionsKt.checkNumberOfDigits($this$checkPrefixSuffixNumberOfDigits, i2, i5, typeHexLength);
     }
 
     private static final void checkZeroDigits(String $this$checkZeroDigits, int startIndex, int endIndex) {
@@ -317,8 +317,8 @@ public final class HexExtensionsKt {
             if (i2 % bytesPerLine == 0) {
                 it = bytesPerLine;
             }
-            i17 += i16;
-            return HexExtensionsKt.checkFormatLength(i12 += i21);
+            i16 += i15;
+            return HexExtensionsKt.checkFormatLength(i12 += i20);
         }
         Object obj = groupSeparatorLength;
         Object obj3 = byteSeparatorLength;
@@ -425,30 +425,30 @@ public final class HexExtensionsKt {
     }
 
     private static final byte[] hexToByteArrayNoLineAndGroupSeparatorSlowPath(String $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath, int startIndex, int endIndex, kotlin.text.HexFormat.BytesHexFormat bytesFormat) {
-        String str4;
+        String str2;
         String bytePrefix;
-        int length2;
-        String byteSeparator;
         int length3;
+        String byteSeparator;
+        int length;
         int byteSeparatorLength;
         int charsPerByte;
         char charAt;
         int $this$checkContainsAt$iv;
         String index$iv;
         int i$iv;
-        String length;
-        int i4;
-        int charIndex;
+        String length2;
         int i;
-        int i7;
-        String str;
-        int i6;
+        int charIndex;
         int i2;
-        String str2;
-        String str3;
-        int i3;
         int i5;
-        str4 = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
+        String str3;
+        int i4;
+        int i6;
+        String str4;
+        String str;
+        int i3;
+        int i7;
+        str2 = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
         final int i8 = endIndex;
         bytePrefix = bytesFormat.getBytePrefix();
         final String byteSuffix = bytesFormat.getByteSuffix();
@@ -463,26 +463,26 @@ public final class HexExtensionsKt {
         boolean ignoreCase$kotlin_stdlib = bytesFormat.getIgnoreCase$kotlin_stdlib();
         final byte[] bArr = new byte[i17];
         int i21 = startIndex;
-        length = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
-        i4 = 0;
-        i7 = 0;
+        length2 = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
+        i = 0;
+        i5 = 0;
         final int i24 = 1;
-        i = (CharSequence)bytePrefix.length() == 0 ? i24 : i7;
-        if (i != 0) {
-            i6 = length5;
-            i2 = charsPerByte;
+        i2 = (CharSequence)bytePrefix.length() == 0 ? i24 : i5;
+        if (i2 != 0) {
+            i4 = length5;
+            i6 = charsPerByte;
             byteSeparatorLength = i21;
         } else {
-            i6 = length5;
-            length3 = (CharSequence)bytePrefix.length();
-            i2 = charsPerByte;
-            charsPerByte = i;
-            while (charsPerByte < length3) {
-                if (!CharsKt.equals(bytePrefix.charAt(charsPerByte), length.charAt(i21 + charsPerByte), ignoreCase$kotlin_stdlib)) {
+            i4 = length5;
+            length = (CharSequence)bytePrefix.length();
+            i6 = charsPerByte;
+            charsPerByte = i2;
+            while (charsPerByte < length) {
+                if (!CharsKt.equals(bytePrefix.charAt(charsPerByte), length2.charAt(i21 + charsPerByte), ignoreCase$kotlin_stdlib)) {
                 }
                 charsPerByte++;
-                length3 = i;
-                HexExtensionsKt.throwNotContainedAt(length, i21, i8, bytePrefix, "byte prefix");
+                length = i2;
+                HexExtensionsKt.throwNotContainedAt(length2, i21, i8, bytePrefix, "byte prefix");
             }
             length6 += i21;
         }
@@ -490,72 +490,72 @@ public final class HexExtensionsKt {
         String string = stringBuilder.append(byteSuffix).append(byteSeparator).append(bytePrefix).toString();
         $this$checkContainsAt$iv = 0;
         while ($this$checkContainsAt$iv < i17 + -1) {
-            bArr[$this$checkContainsAt$iv] = HexExtensionsKt.parseByteAt(str4, byteSeparatorLength);
+            bArr[$this$checkContainsAt$iv] = HexExtensionsKt.parseByteAt(str2, byteSeparatorLength);
             index$iv = byteSeparatorLength + 2;
-            i4 = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
-            i = 0;
+            i = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
+            i2 = 0;
             if ((CharSequence)string.length() == 0) {
             } else {
             }
-            str = i7;
-            if (str != null) {
+            str3 = i5;
+            if (str3 != null) {
             } else {
             }
-            str3 = bytePrefix;
-            length2 = (CharSequence)string.length();
-            str2 = byteSeparator;
-            byteSeparator = str;
-            while (byteSeparator < length2) {
+            str = bytePrefix;
+            length3 = (CharSequence)string.length();
+            str4 = byteSeparator;
+            byteSeparator = str3;
+            while (byteSeparator < length3) {
                 i3 = byteSeparator;
-                String byteIndex = i4;
+                String byteIndex = i;
                 if (!CharsKt.equals(string.charAt(byteSeparator), byteIndex.charAt(index$iv + i3), ignoreCase$kotlin_stdlib)) {
                 }
                 byteSeparator = i3 + 1;
-                i4 = byteIndex;
-                length2 = str;
-                $this$checkContainsAt$iv = i5;
+                i = byteIndex;
+                length3 = str3;
+                $this$checkContainsAt$iv = i7;
                 HexExtensionsKt.throwNotContainedAt(byteIndex, index$iv, i8, string, "byte suffix + byte separator + byte prefix");
             }
             i3 = byteSeparator;
-            i5 = $this$checkContainsAt$iv;
-            $this$checkContainsAt$iv = i4;
+            i7 = $this$checkContainsAt$iv;
+            $this$checkContainsAt$iv = i;
             index$iv = bytePrefix;
             byteSeparatorLength = index$iv;
-            $this$checkContainsAt$iv = i5 + 1;
-            byteSeparator = str2;
-            bytePrefix = str3;
+            $this$checkContainsAt$iv = i7 + 1;
+            byteSeparator = str4;
+            bytePrefix = str;
             i3 = byteSeparator;
-            byteIndex = i4;
+            byteIndex = i;
             if (!CharsKt.equals(string.charAt(byteSeparator), byteIndex.charAt(index$iv + i3), ignoreCase$kotlin_stdlib)) {
             }
             byteSeparator = i3 + 1;
-            i4 = byteIndex;
-            length2 = str;
-            $this$checkContainsAt$iv = i5;
-            HexExtensionsKt.throwNotContainedAt(byteIndex, index$iv, i8, string, length);
-            str3 = bytePrefix;
-            str2 = byteSeparator;
-            i5 = $this$checkContainsAt$iv;
-            str = i24;
+            i = byteIndex;
+            length3 = str3;
+            $this$checkContainsAt$iv = i7;
+            HexExtensionsKt.throwNotContainedAt(byteIndex, index$iv, i8, string, length2);
+            str = bytePrefix;
+            str4 = byteSeparator;
+            i7 = $this$checkContainsAt$iv;
+            str3 = i24;
         }
         String bytePrefix3 = bytePrefix;
         String str12 = byteSeparator;
         int i25 = $this$checkContainsAt$iv;
-        bArr[i17 + -1] = HexExtensionsKt.parseByteAt(str4, byteSeparatorLength);
+        bArr[i17 + -1] = HexExtensionsKt.parseByteAt(str2, byteSeparatorLength);
         int i9 = byteSeparatorLength + 2;
         String str6 = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
         int i23 = 0;
         if ((CharSequence)byteSuffix.length() == 0) {
-            i7 = i24;
+            i5 = i24;
         }
-        if (i7 == 0) {
+        if (i5 == 0) {
             i$iv = 0;
             while (i$iv < (CharSequence)byteSuffix.length()) {
                 if (!CharsKt.equals(byteSuffix.charAt(i$iv), str6.charAt(i9 + i$iv), ignoreCase$kotlin_stdlib)) {
                 }
                 i$iv++;
-                str4 = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
-                byteSeparatorLength = i4;
+                str2 = $this$hexToByteArrayNoLineAndGroupSeparatorSlowPath;
+                byteSeparatorLength = i;
                 HexExtensionsKt.throwNotContainedAt(str6, i9, i8, byteSuffix, "byte suffix");
             }
             charIndex = byteSeparatorLength;
@@ -567,10 +567,10 @@ public final class HexExtensionsKt {
     }
 
     private static final byte[] hexToByteArrayShortByteSeparatorNoPrefixAndSuffix(String $this$hexToByteArrayShortByteSeparatorNoPrefixAndSuffix, int startIndex, int endIndex, kotlin.text.HexFormat.BytesHexFormat bytesFormat) {
-        int length;
         int length2;
+        int length;
         int i$iv;
-        int i2;
+        int i;
         int charIndex;
         int charIndex2;
         int byteIndex;
@@ -578,26 +578,26 @@ public final class HexExtensionsKt {
         int byteIndex2;
         byte byteSeparator;
         boolean ignoreCase$kotlin_stdlib;
-        String str;
         String str3;
-        int i3;
-        int byteSeparatorLength;
-        int i;
+        String str;
         int i5;
+        int byteSeparatorLength;
+        int i2;
+        int i3;
         String str2;
         int i4;
         final String str4 = $this$hexToByteArrayShortByteSeparatorNoPrefixAndSuffix;
         final int i6 = endIndex;
-        length = bytesFormat.getByteSeparator().length();
-        length2 = 0;
+        length2 = bytesFormat.getByteSeparator().length();
+        length = 0;
         i$iv = 1;
-        i2 = length <= i$iv ? i$iv : length2;
-        if (i2 == 0) {
+        i = length2 <= i$iv ? i$iv : length;
+        if (i == 0) {
         } else {
             int i10 = i6 - startIndex;
             charIndex = 0;
             int i11 = 0;
-            if (length == 0 && i10 & 1 != 0) {
+            if (length2 == 0 && i10 & 1 != 0) {
                 if (i10 & 1 != 0) {
                     return i11;
                 }
@@ -617,92 +617,92 @@ public final class HexExtensionsKt {
             }
             i12 += i$iv;
             byte[] bArr2 = new byte[i13];
-            bArr2[length2] = HexExtensionsKt.parseByteAt(str4, charIndex);
+            bArr2[length] = HexExtensionsKt.parseByteAt(str4, charIndex);
             charIndex += i15;
             byteIndex2 = 1;
             while (byteIndex2 < i13) {
-                if (str4.charAt(charIndex2) != bytesFormat.getByteSeparator().charAt(length2)) {
+                if (str4.charAt(charIndex2) != bytesFormat.getByteSeparator().charAt(length)) {
                 } else {
                 }
-                byteSeparatorLength = length;
+                byteSeparatorLength = length2;
                 bArr2[byteIndex2] = HexExtensionsKt.parseByteAt(str4, charIndex2 + 1);
                 charIndex2 += 3;
                 byteIndex2++;
-                length = byteSeparatorLength;
-                length2 = 0;
+                length2 = byteSeparatorLength;
+                length = 0;
                 i$iv = 1;
                 byteSeparator = bytesFormat.getByteSeparator();
-                str3 = $this$hexToByteArrayShortByteSeparatorNoPrefixAndSuffix;
-                i3 = 0;
+                str = $this$hexToByteArrayShortByteSeparatorNoPrefixAndSuffix;
+                i5 = 0;
                 if ((CharSequence)byteSeparator.length() == 0) {
                 } else {
                 }
-                i = length2;
-                if (i == 0) {
+                i2 = length;
+                if (i2 == 0) {
                 } else {
                 }
-                byteSeparatorLength = length;
-                length2 = (CharSequence)byteSeparator.length();
-                i$iv = i5;
-                while (i$iv < length2) {
-                    if (!CharsKt.equals(byteSeparator.charAt(i$iv), str3.charAt(charIndex2 + i$iv), bytesFormat.getIgnoreCase$kotlin_stdlib())) {
+                byteSeparatorLength = length2;
+                length = (CharSequence)byteSeparator.length();
+                i$iv = i3;
+                while (i$iv < length) {
+                    if (!CharsKt.equals(byteSeparator.charAt(i$iv), str.charAt(charIndex2 + i$iv), bytesFormat.getIgnoreCase$kotlin_stdlib())) {
                     }
                     i$iv++;
-                    length = i5;
-                    length2 = i4;
-                    HexExtensionsKt.throwNotContainedAt(str3, charIndex2, i6, byteSeparator, "byte separator");
+                    length2 = i3;
+                    length = i4;
+                    HexExtensionsKt.throwNotContainedAt(str, charIndex2, i6, byteSeparator, "byte separator");
                 }
-                byteSeparatorLength = length;
+                byteSeparatorLength = length2;
                 byteSeparator.length();
-                if (!CharsKt.equals(byteSeparator.charAt(i$iv), str3.charAt(charIndex2 + i$iv), ignoreCase$kotlin_stdlib)) {
+                if (!CharsKt.equals(byteSeparator.charAt(i$iv), str.charAt(charIndex2 + i$iv), ignoreCase$kotlin_stdlib)) {
                 }
                 i$iv++;
-                length = i5;
-                length2 = i4;
-                HexExtensionsKt.throwNotContainedAt(str3, charIndex2, i6, byteSeparator, str);
-                i = i$iv;
+                length2 = i3;
+                length = i4;
+                HexExtensionsKt.throwNotContainedAt(str, charIndex2, i6, byteSeparator, str3);
+                i2 = i$iv;
             }
             return bArr2;
         }
-        int i16 = length;
+        int i16 = length2;
         IllegalArgumentException byteSeparatorLength2 = new IllegalArgumentException("Failed requirement.".toString());
         throw byteSeparatorLength2;
     }
 
     private static final byte[] hexToByteArraySlowPath(String $this$hexToByteArraySlowPath, int startIndex, int endIndex, kotlin.text.HexFormat.BytesHexFormat bytesFormat) {
-        String str;
+        String str3;
         int length2;
         byte[] copyOf;
-        int i$iv3;
-        int parseMaxSize2;
+        int i$iv;
+        int parseMaxSize;
         String partName$iv;
-        int str3;
-        int i3;
+        int str;
+        int i5;
         int bytesPerLine;
-        String str2;
+        String str4;
         int index$iv;
         int $i$f$checkContainsAt2;
-        int length3;
         int length;
+        int length3;
         int $i$f$checkContainsAt;
         int charIndex;
-        int i;
+        int i4;
         int indexInLine2;
         int indexInLine;
         int indexInGroup;
         int i$iv2;
-        int i$iv;
-        String str4;
+        int i$iv3;
+        String str2;
         String partName$iv2;
-        int i6;
+        int i3;
         int indexInLine3;
-        int i5;
-        int i4;
-        int i7;
-        int parseMaxSize;
-        int i8;
+        int i6;
         int i2;
-        str = $this$hexToByteArraySlowPath;
+        int i8;
+        int parseMaxSize2;
+        int i7;
+        int i;
+        str3 = $this$hexToByteArraySlowPath;
         final int i9 = endIndex;
         final String bytePrefix = bytesFormat.getBytePrefix();
         final String byteSuffix = bytesFormat.getByteSuffix();
@@ -711,49 +711,49 @@ public final class HexExtensionsKt {
         final boolean ignoreCase$kotlin_stdlib = bytesFormat.getIgnoreCase$kotlin_stdlib();
         byte[] bArr = new byte[HexExtensionsKt.parsedByteArrayMaxSize(i9 - startIndex, bytesFormat.getBytesPerLine(), bytesFormat.getBytesPerGroup(), groupSeparator.length(), byteSeparator.length(), bytePrefix.length(), byteSuffix.length())];
         charIndex = startIndex;
-        i = 0;
+        i4 = 0;
         indexInLine2 = 0;
         indexInGroup = 0;
         while (charIndex < i9) {
-            str4 = 1;
+            str2 = 1;
             if (indexInLine2 == bytesPerLine) {
             } else {
             }
             if (indexInGroup == $i$f$checkContainsAt2) {
             } else {
             }
-            parseMaxSize = i$iv3;
-            i5 = bytesPerLine;
-            i2 = $i$f$checkContainsAt2;
+            parseMaxSize2 = i$iv;
+            i6 = bytesPerLine;
+            i = $i$f$checkContainsAt2;
             if (indexInGroup != 0) {
             } else {
             }
             indexInLine3 = indexInLine2;
             indexInGroup++;
-            str2 = $this$hexToByteArraySlowPath;
+            str4 = $this$hexToByteArraySlowPath;
             if ((CharSequence)bytePrefix.length() == 0) {
             } else {
             }
-            i$iv = 0;
-            if (i$iv != 0) {
+            i$iv3 = 0;
+            if (i$iv3 != 0) {
             } else {
             }
-            i$iv = 0;
-            i6 = i13;
-            length = (CharSequence)bytePrefix.length();
-            while (i$iv < length) {
-                if (!CharsKt.equals(bytePrefix.charAt(i$iv), str2.charAt(charIndex + i$iv), ignoreCase$kotlin_stdlib)) {
+            i$iv3 = 0;
+            i3 = i13;
+            length3 = (CharSequence)bytePrefix.length();
+            while (i$iv3 < length3) {
+                if (!CharsKt.equals(bytePrefix.charAt(i$iv3), str4.charAt(charIndex + i$iv3), ignoreCase$kotlin_stdlib)) {
                 }
-                i$iv++;
-                length = partName$iv2;
+                i$iv3++;
+                length3 = partName$iv2;
                 indexInLine = indexInLine3;
-                HexExtensionsKt.throwNotContainedAt(str2, charIndex, i9, bytePrefix, "byte prefix");
+                HexExtensionsKt.throwNotContainedAt(str4, charIndex, i9, bytePrefix, "byte prefix");
             }
             indexInLine3 = indexInLine;
             length8 += charIndex;
             if (i9 + -2 < $i$f$checkContainsAt) {
             }
-            bArr[i] = HexExtensionsKt.parseByteAt(str, $i$f$checkContainsAt);
+            bArr[i4] = HexExtensionsKt.parseByteAt(str3, $i$f$checkContainsAt);
             index$iv = $i$f$checkContainsAt + 2;
             String str7 = $this$hexToByteArraySlowPath;
             int i14 = 0;
@@ -770,37 +770,37 @@ public final class HexExtensionsKt {
                 if (!CharsKt.equals(byteSuffix.charAt(i$iv2), str7.charAt(index$iv + i$iv2), ignoreCase$kotlin_stdlib)) {
                 }
                 i$iv2++;
-                length2 = str4;
-                i3 = partName$iv2;
+                length2 = str2;
+                i5 = partName$iv2;
                 HexExtensionsKt.throwNotContainedAt(str7, index$iv, i9, byteSuffix, "byte suffix");
             }
-            partName$iv2 = i3;
-            index$iv = str;
+            partName$iv2 = i5;
+            index$iv = str3;
             charIndex = index$iv;
-            str = $this$hexToByteArraySlowPath;
-            i = partName$iv2;
+            str3 = $this$hexToByteArraySlowPath;
+            i4 = partName$iv2;
             indexInLine2 = indexInLine3;
-            bytesPerLine = i5;
-            i$iv3 = parseMaxSize;
-            $i$f$checkContainsAt2 = i2;
+            bytesPerLine = i6;
+            i$iv = parseMaxSize2;
+            $i$f$checkContainsAt2 = i;
             if (!CharsKt.equals(byteSuffix.charAt(i$iv2), str7.charAt(index$iv + i$iv2), ignoreCase$kotlin_stdlib)) {
             }
             i$iv2++;
-            length2 = str4;
-            i3 = partName$iv2;
+            length2 = str2;
+            i5 = partName$iv2;
             HexExtensionsKt.throwNotContainedAt(str7, index$iv, i9, byteSuffix, str6);
-            partName$iv2 = i3;
-            i$iv2 = str4;
-            HexExtensionsKt.throwInvalidNumberOfDigits(str, $i$f$checkContainsAt, i9, "exactly", 2);
-            if (!CharsKt.equals(bytePrefix.charAt(i$iv), str2.charAt(charIndex + i$iv), ignoreCase$kotlin_stdlib)) {
+            partName$iv2 = i5;
+            i$iv2 = str2;
+            HexExtensionsKt.throwInvalidNumberOfDigits(str3, $i$f$checkContainsAt, i9, "exactly", 2);
+            if (!CharsKt.equals(bytePrefix.charAt(i$iv3), str4.charAt(charIndex + i$iv3), ignoreCase$kotlin_stdlib)) {
             }
-            i$iv++;
-            length = partName$iv2;
+            i$iv3++;
+            length3 = partName$iv2;
             indexInLine = indexInLine3;
-            HexExtensionsKt.throwNotContainedAt(str2, charIndex, i9, bytePrefix, str5);
+            HexExtensionsKt.throwNotContainedAt(str4, charIndex, i9, bytePrefix, str5);
             $i$f$checkContainsAt = charIndex;
             indexInLine3 = indexInLine;
-            i$iv = str4;
+            i$iv3 = str2;
             bytesPerLine = $this$hexToByteArraySlowPath;
             if ((CharSequence)byteSeparator.length() == 0) {
             } else {
@@ -810,13 +810,13 @@ public final class HexExtensionsKt {
             } else {
             }
             i$iv2 = 0;
-            i6 = i12;
-            length3 = (CharSequence)byteSeparator.length();
-            while (i$iv2 < length3) {
+            i3 = i12;
+            length = (CharSequence)byteSeparator.length();
+            while (i$iv2 < length) {
                 if (!CharsKt.equals(byteSeparator.charAt(i$iv2), bytesPerLine.charAt(charIndex + i$iv2), ignoreCase$kotlin_stdlib)) {
                 }
                 i$iv2++;
-                length3 = partName$iv2;
+                length = partName$iv2;
                 indexInLine2 = indexInLine3;
                 HexExtensionsKt.throwNotContainedAt(bytesPerLine, charIndex, i9, byteSeparator, "byte separator");
             }
@@ -827,78 +827,78 @@ public final class HexExtensionsKt {
             if (!CharsKt.equals(byteSeparator.charAt(i$iv2), bytesPerLine.charAt(charIndex + i$iv2), ignoreCase$kotlin_stdlib)) {
             }
             i$iv2++;
-            length3 = partName$iv2;
+            length = partName$iv2;
             indexInLine2 = indexInLine3;
-            HexExtensionsKt.throwNotContainedAt(bytesPerLine, charIndex, i9, byteSeparator, i$iv3);
+            HexExtensionsKt.throwNotContainedAt(bytesPerLine, charIndex, i9, byteSeparator, i$iv);
             $i$f$checkContainsAt2 = charIndex;
             indexInLine3 = indexInLine2;
-            i$iv2 = str4;
-            i6 = $this$hexToByteArraySlowPath;
+            i$iv2 = str2;
+            i3 = $this$hexToByteArraySlowPath;
             indexInLine3 = str11;
             partName$iv2 = 0;
             if ((CharSequence)groupSeparator.length() == 0) {
             } else {
             }
-            i4 = 0;
-            if (i4 != 0) {
+            i2 = 0;
+            if (i2 != 0) {
             } else {
             }
-            parseMaxSize = i$iv3;
-            parseMaxSize2 = i7;
-            while (parseMaxSize2 < (CharSequence)groupSeparator.length()) {
-                i8 = parseMaxSize2;
-                String bytesPerGroup = i6;
-                if (!CharsKt.equals(groupSeparator.charAt(parseMaxSize2), bytesPerGroup.charAt(charIndex + i8), ignoreCase$kotlin_stdlib)) {
+            parseMaxSize2 = i$iv;
+            parseMaxSize = i8;
+            while (parseMaxSize < (CharSequence)groupSeparator.length()) {
+                i7 = parseMaxSize;
+                String bytesPerGroup = i3;
+                if (!CharsKt.equals(groupSeparator.charAt(parseMaxSize), bytesPerGroup.charAt(charIndex + i7), ignoreCase$kotlin_stdlib)) {
                 } else {
                 }
                 partName$iv = indexInLine3;
                 indexInLine3 = partName$iv;
-                parseMaxSize2 = i11;
-                i6 = bytesPerGroup;
-                bytesPerLine = i7;
-                $i$f$checkContainsAt2 = i2;
+                parseMaxSize = i11;
+                i3 = bytesPerGroup;
+                bytesPerLine = i8;
+                $i$f$checkContainsAt2 = i;
                 HexExtensionsKt.throwNotContainedAt(bytesPerGroup, charIndex, i9, groupSeparator, indexInLine3);
             }
-            i8 = parseMaxSize2;
-            i5 = bytesPerLine;
-            i2 = $i$f$checkContainsAt2;
-            $i$f$checkContainsAt2 = i6;
-            i$iv3 = indexInLine3;
+            i7 = parseMaxSize;
+            i6 = bytesPerLine;
+            i = $i$f$checkContainsAt2;
+            $i$f$checkContainsAt2 = i3;
+            i$iv = indexInLine3;
             length6 += charIndex;
             charIndex = bytesPerLine;
             indexInGroup = 0;
-            i8 = parseMaxSize2;
-            bytesPerGroup = i6;
-            if (!CharsKt.equals(groupSeparator.charAt(parseMaxSize2), bytesPerGroup.charAt(charIndex + i8), ignoreCase$kotlin_stdlib)) {
+            i7 = parseMaxSize;
+            bytesPerGroup = i3;
+            if (!CharsKt.equals(groupSeparator.charAt(parseMaxSize), bytesPerGroup.charAt(charIndex + i7), ignoreCase$kotlin_stdlib)) {
             } else {
             }
             partName$iv = indexInLine3;
             indexInLine3 = partName$iv;
-            parseMaxSize2 = i11;
-            i6 = bytesPerGroup;
-            bytesPerLine = i7;
-            $i$f$checkContainsAt2 = i2;
+            parseMaxSize = i11;
+            i3 = bytesPerGroup;
+            bytesPerLine = i8;
+            $i$f$checkContainsAt2 = i;
             HexExtensionsKt.throwNotContainedAt(bytesPerGroup, charIndex, i9, groupSeparator, indexInLine3);
-            parseMaxSize = i$iv3;
-            i5 = bytesPerLine;
-            i2 = $i$f$checkContainsAt2;
+            parseMaxSize2 = i$iv;
+            i6 = bytesPerLine;
+            i = $i$f$checkContainsAt2;
             bytesPerLine = charIndex;
-            i4 = str4;
-            charIndex = HexExtensionsKt.checkNewLineAt(str, charIndex, i9);
+            i2 = str2;
+            charIndex = HexExtensionsKt.checkNewLineAt(str3, charIndex, i9);
             indexInLine2 = 0;
             indexInGroup = 0;
-            parseMaxSize = i$iv3;
-            i5 = bytesPerLine;
-            i2 = $i$f$checkContainsAt2;
+            parseMaxSize2 = i$iv;
+            i6 = bytesPerLine;
+            i = $i$f$checkContainsAt2;
         }
-        int parseMaxSize3 = i$iv3;
+        int parseMaxSize3 = i$iv;
         int i16 = bytesPerLine;
         int i17 = $i$f$checkContainsAt2;
         int i15 = indexInLine2;
-        if (i == bArr.length) {
+        if (i4 == bArr.length) {
             copyOf = bArr;
         } else {
-            Intrinsics.checkNotNullExpressionValue(Arrays.copyOf(bArr, i), "copyOf(...)");
+            Intrinsics.checkNotNullExpressionValue(Arrays.copyOf(bArr, i4), "copyOf(...)");
         }
         return copyOf;
     }
@@ -1089,21 +1089,21 @@ public final class HexExtensionsKt {
 
     private static final int parseInt(String $this$parseInt, int startIndex, int endIndex) {
         int result;
-        int i4;
+        int i3;
         int i;
         String str;
-        int i3;
-        char charAt;
-        int i5;
         int i2;
+        char charAt;
+        int i4;
+        int i5;
         result = 0;
-        i4 = startIndex;
-        while (i4 < endIndex) {
+        i3 = startIndex;
+        while (i3 < endIndex) {
             str = $this$parseInt;
-            i3 = 0;
-            charAt = str.charAt(i4);
-            result = i | i5;
-            i4++;
+            i2 = 0;
+            charAt = str.charAt(i3);
+            result = i | i4;
+            i3++;
         }
         return result;
     }
@@ -1111,47 +1111,47 @@ public final class HexExtensionsKt {
     private static final long parseLong(String $this$parseLong, int startIndex, int endIndex) {
         int result;
         int i2;
-        int i3;
+        int i;
         String str;
         int i4;
         char charAt;
         long l;
         int cmp;
-        int i;
+        int i3;
         result = 0;
         i2 = startIndex;
         while (i2 < endIndex) {
             str = $this$parseLong;
             i4 = 0;
             charAt = str.charAt(i2);
-            result = i3 | l;
+            result = i | l;
             i2++;
         }
         return result;
     }
 
     public static final int parsedByteArrayMaxSize(int stringLength, int bytesPerLine, int bytesPerGroup, int groupSeparatorLength, int byteSeparatorLength, int bytePrefixLength, int byteSuffixLength) {
-        int i2;
-        long charsPerSet;
         int i3;
+        long charsPerSet;
+        int i;
         long groupsPerLine;
         long result;
-        int i;
+        int i2;
         int i4 = stringLength;
         int i7 = bytesPerLine;
         final int i8 = bytesPerGroup;
         final int i9 = groupSeparatorLength;
         final int i10 = byteSeparatorLength;
-        i3 = i4 > 0 ? 1 : 0;
-        if (i3 == 0) {
+        i = i4 > 0 ? 1 : 0;
+        if (i == 0) {
         } else {
             i15 += l9;
             long charsPerSet2 = HexExtensionsKt.charsPerSet(i16, obj9, i8);
             if (i7 <= i8) {
                 groupsPerLine = HexExtensionsKt.charsPerSet(i16, obj9, i7);
             } else {
-                i2 = i7 % i8;
-                if (i2 != 0) {
+                i3 = i7 % i8;
+                if (i3 != 0) {
                     result2 += charsPerSet;
                 }
                 groupsPerLine = result;
@@ -1163,7 +1163,7 @@ public final class HexExtensionsKt {
             numberOfChars -= i13;
             int i14 = i29;
             long wholeElementsPerSet3 = HexExtensionsKt.wholeElementsPerSet(numberOfChars2, charsPerSet, i14);
-            i = Long.compare(numberOfChars3, i19) > 0 ? 1 : 0;
+            i2 = Long.compare(numberOfChars3, i19) > 0 ? 1 : 0;
             return (int)i23;
         }
         IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Failed requirement.".toString());
@@ -1427,71 +1427,71 @@ public final class HexExtensionsKt {
     }
 
     private static final String toHexStringImpl(long $this$toHexStringImpl, kotlin.text.HexFormat.NumberHexFormat numberFormat, String digits, int bits) {
-        int i5;
-        int i11;
+        int i10;
+        int i6;
         int shift;
-        int i2;
-        int i4;
+        int i11;
+        int i8;
         String concatToString$default;
-        int i9;
-        char charAt;
+        int i2;
+        char charAt2;
         boolean removeZeros;
         int charIndex;
-        char charAt2;
-        int i7;
-        int i;
+        char charAt;
+        int i9;
         int i3;
-        int i10;
-        int i8;
-        int i6;
+        int i7;
+        int i4;
+        int i5;
+        int i;
         final Object obj = bits;
-        i2 = 0;
-        i5 = obj28 & 3 == 0 ? 1 : i2;
-        if (i5 == 0) {
+        i11 = 0;
+        i10 = obj28 & 3 == 0 ? 1 : i11;
+        if (i10 == 0) {
         } else {
-            i4 = $this$toHexStringImpl;
+            i8 = $this$toHexStringImpl;
             int i13 = obj28 >> 2;
             final int minLength = digits.getMinLength();
-            int coerceAtLeast = RangesKt.coerceAtLeast(minLength - i13, i2);
+            int coerceAtLeast = RangesKt.coerceAtLeast(minLength - i13, i11);
             final String prefix = digits.getPrefix();
             final String suffix = digits.getSuffix();
             int i19 = 0;
             removeZeros = digits.getRemoveLeadingZeros();
             char[] cArr = new char[HexExtensionsKt.checkFormatLength(i21 += l4)];
             int i23 = 0;
-            charIndex = HexExtensionsKt.toCharArrayIfNotEmpty(prefix, cArr, i2);
+            charIndex = HexExtensionsKt.toCharArrayIfNotEmpty(prefix, cArr, i11);
             if (coerceAtLeast > 0) {
-                ArraysKt.fill(cArr, obj.charAt(i2), charIndex, charIndex + coerceAtLeast);
+                ArraysKt.fill(cArr, obj.charAt(i11), charIndex, charIndex + coerceAtLeast);
                 charIndex += coerceAtLeast;
             }
             int i14 = 0;
             shift = obj28;
-            i7 = i2;
-            while (i7 < i13) {
-                i = i7;
-                i3 = 0;
+            i9 = i11;
+            while (i9 < i13) {
+                i3 = i9;
+                i7 = 0;
                 shift += -4;
                 int i16 = (int)i15;
                 if (removeZeros && i16 == 0 && shift >> 2 >= minLength) {
                 } else {
                 }
-                i9 = 0;
-                if (!i9) {
-                }
-                i7++;
-                i4 = i6;
                 i2 = 0;
+                if (!i2) {
+                }
+                i9++;
+                i8 = i;
+                i11 = 0;
                 cArr[charIndex] = obj.charAt(i16);
-                charIndex = i9;
+                charIndex = i2;
                 if (i16 == 0) {
                 } else {
                 }
                 if (shift >> 2 >= minLength) {
                 } else {
                 }
-                i9 = 1;
+                i2 = 1;
             }
-            int value = i4;
+            int value = i8;
             int charArrayIfNotEmpty = HexExtensionsKt.toCharArrayIfNotEmpty(suffix, cArr, charIndex);
             if (charArrayIfNotEmpty == cArr.length) {
                 concatToString$default = StringsKt.concatToString(cArr);
@@ -1531,37 +1531,37 @@ public final class HexExtensionsKt {
     }
 
     private static final String toHexStringShortByteSeparatorNoPrefixAndSuffix(byte[] $this$toHexStringShortByteSeparatorNoPrefixAndSuffix, int startIndex, int endIndex, kotlin.text.HexFormat.BytesHexFormat bytesFormat, int[] byteToDigits) {
-        int i;
-        int charIndex2;
-        int charIndex;
-        int byteIndex;
-        int byteIndex2;
         int i2;
+        int charIndex;
+        int charIndex2;
+        int byteIndex2;
+        int byteIndex;
+        int i;
         int length = bytesFormat.getByteSeparator().length();
         int i3 = 0;
         if (length <= 1) {
         } else {
-            i = i3;
+            i2 = i3;
         }
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
             int i4 = endIndex - startIndex;
             if (length == 0) {
                 char[] cArr = new char[HexExtensionsKt.checkFormatLength(l2 *= i7)];
-                byteIndex = startIndex;
-                while (byteIndex < endIndex) {
-                    charIndex = HexExtensionsKt.formatByteAt($this$toHexStringShortByteSeparatorNoPrefixAndSuffix, byteIndex, byteToDigits, cArr, charIndex);
-                    byteIndex++;
+                byteIndex2 = startIndex;
+                while (byteIndex2 < endIndex) {
+                    charIndex2 = HexExtensionsKt.formatByteAt($this$toHexStringShortByteSeparatorNoPrefixAndSuffix, byteIndex2, byteToDigits, cArr, charIndex2);
+                    byteIndex2++;
                 }
                 return StringsKt.concatToString(cArr);
             }
             char[] cArr2 = new char[HexExtensionsKt.checkFormatLength(i8 -= i6)];
-            charIndex2 = HexExtensionsKt.formatByteAt($this$toHexStringShortByteSeparatorNoPrefixAndSuffix, startIndex, byteToDigits, cArr2, 0);
-            byteIndex2 = startIndex + 1;
-            while (byteIndex2 < endIndex) {
-                cArr2[charIndex2] = bytesFormat.getByteSeparator().charAt(i3);
-                charIndex2 = HexExtensionsKt.formatByteAt($this$toHexStringShortByteSeparatorNoPrefixAndSuffix, byteIndex2, byteToDigits, cArr2, charIndex2 + 1);
-                byteIndex2++;
+            charIndex = HexExtensionsKt.formatByteAt($this$toHexStringShortByteSeparatorNoPrefixAndSuffix, startIndex, byteToDigits, cArr2, 0);
+            byteIndex = startIndex + 1;
+            while (byteIndex < endIndex) {
+                cArr2[charIndex] = bytesFormat.getByteSeparator().charAt(i3);
+                charIndex = HexExtensionsKt.formatByteAt($this$toHexStringShortByteSeparatorNoPrefixAndSuffix, byteIndex, byteToDigits, cArr2, charIndex + 1);
+                byteIndex++;
             }
             return StringsKt.concatToString(cArr2);
         }
@@ -1576,9 +1576,9 @@ public final class HexExtensionsKt {
         String bytePrefix;
         String byteSuffix;
         int charIndex;
-        int i;
-        int charIndex3;
         int i2;
+        int charIndex3;
+        int i;
         int i3;
         String str;
         final int i4 = endIndex;
@@ -1594,7 +1594,7 @@ public final class HexExtensionsKt {
         indexInLine = 0;
         indexInGroup = 0;
         charIndex = startIndex;
-        i = 1;
+        i2 = 1;
         while (charIndex < i4) {
             if (indexInLine == bytesPerLine) {
             } else {
@@ -1603,24 +1603,24 @@ public final class HexExtensionsKt {
             } else {
             }
             charIndex3 = indexInLine;
-            i2 = indexInGroup;
-            if (i2 != 0) {
+            i = indexInGroup;
+            if (i != 0) {
             }
             String str2 = byteSuffix;
             int i7 = charIndex;
-            indexInGroup = i2 + 1;
+            indexInGroup = i + 1;
             indexInLine = charIndex3 + 1;
             charIndex = i6;
             charIndex2 = i11;
             byteSuffix = byteSuffix3;
             bytePrefix = str;
-            i = 1;
+            i2 = 1;
             charIndex2 = HexExtensionsKt.toCharArrayIfNotEmpty(byteSeparator, byteSuffix5, charIndex2);
             charIndex2 = HexExtensionsKt.toCharArrayIfNotEmpty(groupSeparator, byteSuffix5, charIndex2);
             charIndex3 = indexInLine;
-            i2 = indexInGroup;
+            i = indexInGroup;
             byteSuffix5[charIndex2] = 10;
-            i2 = indexInGroup;
+            i = indexInGroup;
             charIndex2 = i8;
             charIndex3 = indexInLine;
         }
@@ -1629,9 +1629,9 @@ public final class HexExtensionsKt {
         int i10 = charIndex;
         if (charIndex2 == formattedStringLength) {
         } else {
-            i = 0;
+            i2 = 0;
         }
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
             return StringsKt.concatToString(byteSuffix5);
         }

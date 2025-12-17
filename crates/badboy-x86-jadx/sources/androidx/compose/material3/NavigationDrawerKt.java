@@ -80,8 +80,8 @@ public final class NavigationDrawerKt {
     }
 
     public static final void DismissibleDrawerSheet-Snr_uVM(androidx.compose.material3.DrawerState drawerState, Modifier modifier, Shape drawerShape, long drawerContainerColor, long drawerContentColor, float drawerTonalElevation, WindowInsets windowInsets, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        Object obj3;
         Object obj9;
+        Object obj3;
         int traceInProgress;
         int windowInsets3;
         boolean traceInProgress2;
@@ -90,37 +90,37 @@ public final class NavigationDrawerKt {
         int dismissibleDrawerElevation-D9Ej5fM;
         int $dirty2;
         Object $dirty;
-        int i2;
-        int str;
-        Object obj4;
-        Object obj5;
-        long l2;
-        int i5;
         int i6;
+        int str;
         Object obj6;
+        Object obj5;
+        long l3;
+        int i8;
+        int i5;
+        Object obj7;
         long l4;
-        int i;
+        int i3;
         long standardContainerColor;
-        float f;
-        int changed;
+        float f3;
+        int changed2;
         long contentColorFor-ek8zF_U;
         WindowInsets windowInsets2;
-        int i3;
-        int changed2;
-        int i8;
-        float f3;
-        int i4;
         int i7;
         int changed3;
+        int i4;
+        float f;
+        int i;
         int i9;
+        int changed;
+        int i2;
         androidx.compose.material3.NavigationDrawerKt.DismissibleDrawerSheet.2 anon;
-        Object obj7;
-        Object obj8;
+        Object obj4;
         Object obj2;
-        long l3;
-        long l;
-        float f2;
         Object obj;
+        long l;
+        long l2;
+        float f2;
+        Object obj8;
         final Object obj10 = drawerState;
         final int i29 = obj38;
         final int i30 = obj39;
@@ -131,8 +131,8 @@ public final class NavigationDrawerKt {
             $dirty2 |= 6;
         } else {
             if (i29 & 6 == 0) {
-                i2 = restartGroup.changed(obj10) ? 4 : 2;
-                $dirty2 |= i2;
+                i6 = restartGroup.changed(obj10) ? 4 : 2;
+                $dirty2 |= i6;
             }
         }
         int i17 = i30 & 2;
@@ -141,41 +141,41 @@ public final class NavigationDrawerKt {
             obj5 = modifier;
         } else {
             if (i29 & 48 == 0) {
-                i5 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i5;
+                i8 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i8;
             } else {
                 obj5 = modifier;
             }
         }
-        i6 = i30 & 4;
-        if (i6 != 0) {
+        i5 = i30 & 4;
+        if (i5 != 0) {
             $dirty2 |= 384;
-            obj6 = drawerShape;
+            obj7 = drawerShape;
         } else {
             if (i29 & 384 == 0) {
-                i = restartGroup.changed(drawerShape) ? 256 : 128;
-                $dirty2 |= i;
+                i3 = restartGroup.changed(drawerShape) ? 256 : 128;
+                $dirty2 |= i3;
             } else {
-                obj6 = drawerShape;
+                obj7 = drawerShape;
             }
         }
         if (i29 & 3072 == 0) {
             if (i30 & 8 == 0) {
-                changed = restartGroup.changed(drawerContainerColor) ? 2048 : 1024;
+                changed2 = restartGroup.changed(drawerContainerColor) ? 2048 : 1024;
             } else {
                 standardContainerColor = drawerContainerColor;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed2;
         } else {
             standardContainerColor = drawerContainerColor;
         }
         if (i29 & 24576 == 0) {
             if (i30 & 16 == 0) {
-                changed2 = restartGroup.changed(drawerTonalElevation) ? 16384 : 8192;
+                changed3 = restartGroup.changed(drawerTonalElevation) ? 16384 : 8192;
             } else {
                 contentColorFor-ek8zF_U = drawerTonalElevation;
             }
-            $dirty2 |= changed2;
+            $dirty2 |= changed3;
         } else {
             contentColorFor-ek8zF_U = drawerTonalElevation;
         }
@@ -183,35 +183,35 @@ public final class NavigationDrawerKt {
         int i32 = 196608;
         if (i31 != 0) {
             $dirty2 |= i32;
-            f3 = content;
+            f = content;
         } else {
             if (i32 &= i29 == 0) {
-                i4 = restartGroup.changed(content) ? 131072 : 65536;
-                $dirty2 |= i4;
+                i = restartGroup.changed(content) ? 131072 : 65536;
+                $dirty2 |= i;
             } else {
-                f3 = content;
+                f = content;
             }
         }
         if (i29 & i34 == 0) {
             if (i30 & 64 == 0) {
-                changed3 = restartGroup.changed($composer) ? 1048576 : 524288;
+                changed = restartGroup.changed($composer) ? 1048576 : 524288;
             } else {
-                obj3 = $composer;
+                obj9 = $composer;
             }
-            $dirty2 |= changed3;
+            $dirty2 |= changed;
         } else {
-            obj3 = $composer;
+            obj9 = $composer;
         }
-        i9 = 12582912;
+        i2 = 12582912;
         if (i30 & 128 != 0) {
-            $dirty2 |= i9;
-            obj9 = $changed;
+            $dirty2 |= i2;
+            obj3 = $changed;
         } else {
-            if (i29 & i9 == 0) {
-                i9 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
-                $dirty2 |= i9;
+            if (i29 & i2 == 0) {
+                i2 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
+                $dirty2 |= i2;
             } else {
-                obj9 = $changed;
+                obj3 = $changed;
             }
         }
         if ($dirty2 & anon == 4793490) {
@@ -224,12 +224,12 @@ public final class NavigationDrawerKt {
                         if (i17 != 0) {
                             obj5 = defaultsInvalid;
                         }
-                        if (i6 != 0) {
-                            obj6 = defaultsInvalid;
+                        if (i5 != 0) {
+                            obj7 = defaultsInvalid;
                         }
-                        i6 = 6;
+                        i5 = 6;
                         if (i30 & 8 != 0) {
-                            standardContainerColor = DrawerDefaults.INSTANCE.getStandardContainerColor(restartGroup, i6);
+                            standardContainerColor = DrawerDefaults.INSTANCE.getStandardContainerColor(restartGroup, i5);
                             $dirty2 &= -7169;
                         }
                         if (i30 & 16 != 0) {
@@ -237,23 +237,23 @@ public final class NavigationDrawerKt {
                             $dirty2 &= i35;
                         }
                         if (i31 != 0) {
-                            f3 = dismissibleDrawerElevation-D9Ej5fM;
+                            f = dismissibleDrawerElevation-D9Ej5fM;
                         }
                         if (i30 & 64 != 0) {
                             $dirty2 &= str;
-                            obj7 = windowInsets3;
-                            obj8 = obj5;
-                            obj2 = obj6;
-                            l3 = standardContainerColor;
-                            l = contentColorFor-ek8zF_U;
-                            f2 = f3;
+                            obj4 = windowInsets3;
+                            obj2 = obj5;
+                            obj = obj7;
+                            l = standardContainerColor;
+                            l2 = contentColorFor-ek8zF_U;
+                            f2 = f;
                         } else {
-                            obj7 = $composer;
-                            obj8 = obj5;
-                            obj2 = obj6;
-                            l3 = standardContainerColor;
-                            l = contentColorFor-ek8zF_U;
-                            f2 = f3;
+                            obj4 = $composer;
+                            obj2 = obj5;
+                            obj = obj7;
+                            l = standardContainerColor;
+                            l2 = contentColorFor-ek8zF_U;
+                            f2 = f;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -264,20 +264,20 @@ public final class NavigationDrawerKt {
                             $dirty2 &= i35;
                         }
                         if (i30 & 64 != 0) {
-                            obj7 = $composer;
+                            obj4 = $composer;
                             $dirty2 = windowInsets3;
-                            obj8 = obj5;
-                            obj2 = obj6;
-                            l3 = standardContainerColor;
-                            l = contentColorFor-ek8zF_U;
-                            f2 = f3;
+                            obj2 = obj5;
+                            obj = obj7;
+                            l = standardContainerColor;
+                            l2 = contentColorFor-ek8zF_U;
+                            f2 = f;
                         } else {
-                            obj7 = $composer;
-                            obj8 = obj5;
-                            obj2 = obj6;
-                            l3 = standardContainerColor;
-                            l = contentColorFor-ek8zF_U;
-                            f2 = f3;
+                            obj4 = $composer;
+                            obj2 = obj5;
+                            obj = obj7;
+                            l = standardContainerColor;
+                            l2 = contentColorFor-ek8zF_U;
+                            f2 = f;
                         }
                     }
                 } else {
@@ -286,39 +286,39 @@ public final class NavigationDrawerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(1473549901, $dirty2, -1, "androidx.compose.material3.DismissibleDrawerSheet (NavigationDrawer.kt:699)");
                 }
-                anon = new NavigationDrawerKt.DismissibleDrawerSheet.2(obj7, obj8, obj2, l3, obj22, l, obj24, f2, $changed);
+                anon = new NavigationDrawerKt.DismissibleDrawerSheet.2(obj4, obj2, obj, l, obj22, l2, obj24, f2, $changed);
                 NavigationDrawer_androidKt.DrawerPredictiveBackHandler(obj10, (Function3)ComposableLambdaKt.rememberComposableLambda(-807955710, true, anon, restartGroup, 54), restartGroup, i20 |= 48);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i8 = $dirty2;
-                windowInsets2 = obj7;
-                $dirty = obj8;
-                obj4 = obj2;
-                l2 = l3;
-                l4 = l;
-                f = f2;
+                i4 = $dirty2;
+                windowInsets2 = obj4;
+                $dirty = obj2;
+                obj6 = obj;
+                l3 = l;
+                l4 = l2;
+                f3 = f2;
             } else {
                 restartGroup.skipToGroupEnd();
-                i8 = $dirty2;
+                i4 = $dirty2;
                 $dirty = obj5;
-                obj4 = obj6;
-                l2 = standardContainerColor;
+                obj6 = obj7;
+                l3 = standardContainerColor;
                 l4 = contentColorFor-ek8zF_U;
-                f = f3;
+                f3 = f;
                 windowInsets2 = $composer;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new NavigationDrawerKt.DismissibleDrawerSheet.3(obj10, $dirty, obj4, l2, i6, l4, standardContainerColor, f, windowInsets2, $changed, i29, i30);
+            traceInProgress = new NavigationDrawerKt.DismissibleDrawerSheet.3(obj10, $dirty, obj6, l3, i5, l4, standardContainerColor, f3, windowInsets2, $changed, i29, i30);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void DismissibleDrawerSheet-afqeVBk(Modifier modifier, Shape drawerShape, long drawerContainerColor, long drawerContentColor, float drawerTonalElevation, WindowInsets windowInsets, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i10) {
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int windowInsets2;
         int defaultsInvalid;
         int iNSTANCE;
@@ -326,38 +326,38 @@ public final class NavigationDrawerKt {
         Object $composer2;
         int $dirty;
         Object $dirty2;
-        long l3;
-        Object obj5;
-        boolean traceInProgress;
-        int i9;
+        long l2;
+        Object obj4;
+        boolean traceInProgress2;
+        int i5;
         long l;
         int str;
-        Object obj2;
-        int i2;
-        long standardContainerColor;
-        float f;
         Object obj6;
+        int i3;
+        long standardContainerColor;
+        float f2;
+        Object obj3;
         int changed;
         int i6;
-        int changed3;
+        int changed2;
         int i4;
         long contentColorFor-ek8zF_U;
         int windowInsets3;
-        Object obj3;
-        float drawerTonalElevation2;
-        int i8;
-        Object obj4;
-        int changed2;
         Object obj;
-        int i7;
+        float drawerTonalElevation2;
         int i;
-        long l4;
-        float f2;
+        Object obj5;
+        int changed3;
+        Object obj2;
+        int i9;
+        int i7;
+        long l3;
+        float f;
         Composer composer;
         Composer composer2;
-        int i3;
-        int i5;
-        long l2;
+        int i2;
+        int i8;
+        long l4;
         final int i48 = obj36;
         Composer restartGroup = i10.startRestartGroup(-588600583);
         ComposerKt.sourceInformation(restartGroup, "C(DismissibleDrawerSheet)P(5,3,1:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.unit.Dp,6)650@26887L22,651@26943L37,653@27104L12,656@27174L225:NavigationDrawer.kt#uh7d8r");
@@ -365,25 +365,25 @@ public final class NavigationDrawerKt {
         int i26 = obj37 & 1;
         if (i26 != 0) {
             $dirty |= 6;
-            obj5 = modifier;
+            obj4 = modifier;
         } else {
             if (i48 & 6 == 0) {
-                i9 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i9;
+                i5 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i5;
             } else {
-                obj5 = modifier;
+                obj4 = modifier;
             }
         }
         str = obj37 & 2;
         if (str != null) {
             $dirty |= 48;
-            obj2 = drawerShape;
+            obj6 = drawerShape;
         } else {
             if (i48 & 48 == 0) {
-                i2 = restartGroup.changed(drawerShape) ? 32 : 16;
-                $dirty |= i2;
+                i3 = restartGroup.changed(drawerShape) ? 32 : 16;
+                $dirty |= i3;
             } else {
-                obj2 = drawerShape;
+                obj6 = drawerShape;
             }
         }
         if (i48 & 384 == 0) {
@@ -412,46 +412,46 @@ public final class NavigationDrawerKt {
             drawerTonalElevation2 = content;
         } else {
             if (i48 & 24576 == 0) {
-                i8 = restartGroup.changed(content) ? 16384 : 8192;
-                $dirty |= i8;
+                i = restartGroup.changed(content) ? 16384 : 8192;
+                $dirty |= i;
             } else {
                 drawerTonalElevation2 = content;
             }
         }
         if (i50 &= i48 == 0) {
             if (obj37 & 32 == 0) {
-                changed2 = restartGroup.changed($composer) ? 131072 : 65536;
+                changed3 = restartGroup.changed($composer) ? 131072 : 65536;
             } else {
-                obj4 = $composer;
+                obj5 = $composer;
             }
-            $dirty |= changed2;
+            $dirty |= changed3;
         } else {
-            obj4 = $composer;
+            obj5 = $composer;
         }
-        i7 = 1572864;
+        i9 = 1572864;
         if (obj37 & 64 != 0) {
-            $dirty |= i7;
-            obj = $changed;
+            $dirty |= i9;
+            obj2 = $changed;
         } else {
-            if (i48 & i7 == 0) {
-                i7 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
-                $dirty |= i7;
+            if (i48 & i9 == 0) {
+                i9 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
+                $dirty |= i9;
             } else {
-                obj = $changed;
+                obj2 = $changed;
             }
         }
-        if ($dirty & i == 599186) {
+        if ($dirty & i7 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i = -458753;
+                i7 = -458753;
                 int i28 = 6;
                 if (i48 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i26 != 0) {
-                            obj5 = defaultsInvalid;
+                            obj4 = defaultsInvalid;
                         }
                         if (str != null) {
-                            obj2 = defaultsInvalid;
+                            obj6 = defaultsInvalid;
                         }
                         if (obj37 & 4 != 0) {
                             standardContainerColor = DrawerDefaults.INSTANCE.getStandardContainerColor(restartGroup, i28);
@@ -465,22 +465,22 @@ public final class NavigationDrawerKt {
                             drawerTonalElevation2 = dismissibleDrawerElevation-D9Ej5fM;
                         }
                         if (obj37 & 32 != 0) {
-                            $dirty &= i;
-                            obj4 = obj2;
-                            obj = standardContainerColor;
-                            l4 = contentColorFor-ek8zF_U;
-                            f2 = drawerTonalElevation2;
-                            obj3 = windowInsets4;
-                            drawerTonalElevation2 = obj5;
+                            $dirty &= i7;
+                            obj5 = obj6;
+                            obj2 = standardContainerColor;
+                            l3 = contentColorFor-ek8zF_U;
+                            f = drawerTonalElevation2;
+                            obj = windowInsets4;
+                            drawerTonalElevation2 = obj4;
                             windowInsets2 = -588600583;
                         } else {
-                            obj = standardContainerColor;
-                            l4 = contentColorFor-ek8zF_U;
-                            f2 = drawerTonalElevation2;
-                            obj3 = obj4;
+                            obj2 = standardContainerColor;
+                            l3 = contentColorFor-ek8zF_U;
+                            f = drawerTonalElevation2;
+                            obj = obj5;
                             windowInsets2 = -588600583;
-                            drawerTonalElevation2 = obj5;
-                            obj4 = obj2;
+                            drawerTonalElevation2 = obj4;
+                            obj5 = obj6;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -492,21 +492,21 @@ public final class NavigationDrawerKt {
                         }
                         if (obj37 & 32 != 0) {
                             $dirty = i15;
-                            obj = standardContainerColor;
-                            l4 = contentColorFor-ek8zF_U;
-                            f2 = drawerTonalElevation2;
-                            obj3 = obj4;
+                            obj2 = standardContainerColor;
+                            l3 = contentColorFor-ek8zF_U;
+                            f = drawerTonalElevation2;
+                            obj = obj5;
                             windowInsets2 = -588600583;
-                            drawerTonalElevation2 = obj5;
-                            obj4 = obj2;
+                            drawerTonalElevation2 = obj4;
+                            obj5 = obj6;
                         } else {
-                            obj = standardContainerColor;
-                            l4 = contentColorFor-ek8zF_U;
-                            f2 = drawerTonalElevation2;
-                            obj3 = obj4;
+                            obj2 = standardContainerColor;
+                            l3 = contentColorFor-ek8zF_U;
+                            f = drawerTonalElevation2;
+                            obj = obj5;
                             windowInsets2 = -588600583;
-                            drawerTonalElevation2 = obj5;
-                            obj4 = obj2;
+                            drawerTonalElevation2 = obj4;
+                            obj5 = obj6;
                         }
                     }
                 } else {
@@ -515,271 +515,271 @@ public final class NavigationDrawerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(windowInsets2, $dirty, -1, "androidx.compose.material3.DismissibleDrawerSheet (NavigationDrawer.kt:655)");
                 }
-                NavigationDrawerKt.DrawerSheet-7zSek6w(0, obj3, drawerTonalElevation2, obj4, obj, i, l4, obj18, f2, $changed, restartGroup);
+                NavigationDrawerKt.DrawerSheet-7zSek6w(0, obj, drawerTonalElevation2, obj5, obj2, i7, l3, obj18, f, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj6 = obj3;
+                obj3 = obj;
                 $composer2 = drawerTonalElevation2;
-                l3 = obj;
-                l = l4;
-                f = f2;
+                l2 = obj2;
+                l = l3;
+                f2 = f;
                 windowInsets3 = $dirty;
-                $dirty2 = obj4;
+                $dirty2 = obj5;
             } else {
                 restartGroup.skipToGroupEnd();
                 windowInsets3 = $dirty;
-                $dirty2 = obj2;
-                l = l2;
+                $dirty2 = obj6;
+                l = l4;
                 composer2 = restartGroup;
-                $composer2 = obj5;
-                l3 = standardContainerColor;
-                f = drawerTonalElevation2;
-                obj6 = obj4;
+                $composer2 = obj4;
+                l2 = standardContainerColor;
+                f2 = drawerTonalElevation2;
+                obj3 = obj5;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new NavigationDrawerKt.DismissibleDrawerSheet.1($composer2, $dirty2, l3, obj5, l, obj2, f, obj6, $changed, i48, obj37);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new NavigationDrawerKt.DismissibleDrawerSheet.1($composer2, $dirty2, l2, obj4, l, obj6, f2, obj3, $changed, i48, obj37);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void DismissibleNavigationDrawer(Function2<? super Composer, ? super Integer, Unit> drawerContent, Modifier modifier, androidx.compose.material3.DrawerState drawerState, boolean gesturesEnabled, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i8) {
         boolean traceInProgress2;
-        Integer currentCompositionLocalMap3;
-        Function0 factory$iv$iv$iv;
-        Object obj4;
-        Function0 factory$iv$iv$iv3;
-        int $dirty2;
-        Object $dirty;
-        Object it$iv2;
-        Integer maybeCachedBoxMeasurePolicy;
-        boolean valueOf3;
-        int i25;
+        Integer currentCompositionLocalMap;
+        Function0 factory$iv$iv$iv2;
         Object obj6;
-        Object modifier2;
+        Function0 factory$iv$iv$iv3;
+        int $dirty;
+        Object $dirty2;
+        Object it$iv2;
+        Integer maybeCachedBoxMeasurePolicy2;
+        boolean valueOf3;
+        int i9;
+        Object obj2;
+        Object modifier4;
         boolean traceInProgress;
         int changed;
-        int i20;
-        int invalid$iv;
-        Composer composer4;
-        Composer composer3;
-        Object valueOf2;
-        Object currentCompositionLocalMap2;
-        boolean z2;
+        int i27;
+        int invalid$iv2;
+        Composer composer;
+        Composer composer8;
+        Object valueOf;
+        Object currentCompositionLocalMap3;
+        boolean z;
         Object mutableStateOf$default;
         Object compositionCoroutineScope;
-        Object iNSTANCE2;
-        int i37;
+        Object iNSTANCE;
+        int i14;
         Object compositionScopedCoroutineScopeCanceller;
         Object rememberDrawerState;
-        int i22;
-        Function0 factory$iv$iv$iv2;
-        int i36;
+        int i42;
+        Function0 factory$iv$iv$iv;
+        int i19;
         Object it$iv;
         Composer composer9;
-        int changed4;
-        boolean changed3;
-        int i17;
-        Object obj;
-        int valueOf;
-        int empty;
-        Integer currentCompositionLocalMap;
         int changed2;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap4;
-        int i38;
-        boolean maybeCachedBoxMeasurePolicy3;
-        Composer composer2;
-        int i13;
-        Function0 factory$iv$iv;
+        boolean changed4;
         int i40;
-        Object maybeCachedBoxMeasurePolicy2;
-        int i7;
-        int i3;
+        Object obj4;
+        int valueOf2;
+        int empty2;
+        Integer currentCompositionLocalMap4;
+        int changed3;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2;
+        int i29;
+        boolean maybeCachedBoxMeasurePolicy;
+        Composer composer5;
+        int i25;
+        Function0 factory$iv$iv;
+        int i4;
+        Object maybeCachedBoxMeasurePolicy3;
+        int i22;
+        int i18;
         int skipping;
         int defaultsInvalid;
         Modifier materializeModifier;
         Object anon2;
         int materialized$iv$iv;
-        int i10;
-        Object empty2;
-        Object obj2;
-        int i39;
-        Composer.Companion companion;
-        int i29;
-        Object iNSTANCE3;
-        boolean z;
-        int i18;
-        int i42;
+        int i23;
+        Object empty;
+        Object obj5;
+        int i11;
+        Composer.Companion companion3;
+        int i7;
+        Object $i$a$RememberCoroutineScopeEffectsKt$rememberCoroutineScope$1;
+        boolean z2;
+        int i16;
         int i12;
-        int i19;
-        int i15;
-        int i33;
-        int i4;
+        int i39;
+        int i41;
+        int i35;
+        int i;
+        int i13;
         int currentCompositeKeyHash2;
         Alignment alignment;
-        int i14;
-        Modifier modifier4;
+        int i37;
+        Modifier modifier2;
         Function0 function03;
-        int i11;
-        int i41;
+        int i15;
+        int i17;
         Modifier modifier3;
-        int i2;
-        BoxScopeInstance iNSTANCE;
-        int i16;
         int i26;
+        BoxScopeInstance iNSTANCE2;
+        int i33;
+        int i2;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        int i23;
-        int i24;
-        Composer composer8;
-        int i35;
-        Object obj5;
+        int i36;
+        int i31;
+        Composer composer4;
+        int i20;
+        Object obj;
         int currentCompositeKeyHash;
-        int companion2;
+        int companion;
         Object obj7;
         Modifier materialized$iv$iv2;
-        int i;
-        androidx.compose.ui.Modifier.Companion companion3;
+        int i28;
+        androidx.compose.ui.Modifier.Companion companion2;
         Composer composer6;
-        int i5;
-        int i27;
-        int i6;
-        Function0 function0;
-        int i21;
+        int i24;
+        int i32;
+        int i38;
+        Function0 function02;
+        int i30;
         Function0 function04;
         Object obj3;
         int companion5;
         androidx.compose.runtime.CompositionLocalMap localMap$iv;
         androidx.compose.material3.NavigationDrawerKt.DismissibleNavigationDrawer.2.2.1 anon;
-        Composer composer;
-        int invalid$iv2;
-        int i31;
+        Composer composer2;
+        int invalid$iv;
+        int i34;
         int $i$f$Box;
         androidx.compose.ui.Modifier.Companion companion4;
-        Function0 function02;
-        int i34;
-        int i28;
-        Composer composer5;
+        Function0 function0;
+        int i10;
+        int i5;
+        Composer composer3;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i9;
-        int i32;
+        int i6;
+        int i21;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
         androidx.compose.runtime.CompositionLocalMap map;
         Composer composer7;
-        int i30;
+        int i3;
         int obj76;
         String obj77;
         Object obj78;
         Composer obj80;
         Object obj8 = drawerContent;
-        iNSTANCE2 = content;
-        i37 = $changed;
+        iNSTANCE = content;
+        i14 = $changed;
         traceInProgress2 = 398812198;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(DismissibleNavigationDrawer)P(1,4,2,3)434@17575L39,438@17723L34,439@17789L7,440@17812L33,440@17801L44,442@17863L24,443@17913L33,445@17985L7,446@18020L2358:NavigationDrawer.kt#uh7d8r");
-        $dirty2 = $changed;
+        $dirty = $changed;
         int i69 = 2;
         if (i8 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
-            if (i37 & 6 == 0) {
-                i25 = restartGroup.changedInstance(obj8) ? 4 : i69;
-                $dirty2 |= i25;
+            if (i14 & 6 == 0) {
+                i9 = restartGroup.changedInstance(obj8) ? 4 : i69;
+                $dirty |= i9;
             }
         }
         int i62 = i8 & 2;
         if (i62 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
             rememberDrawerState = modifier;
         } else {
-            if (i37 & 48 == 0) {
-                i17 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i17;
+            if (i14 & 48 == 0) {
+                i40 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i40;
             } else {
                 rememberDrawerState = modifier;
             }
         }
-        if (i37 & 384 == 0) {
+        if (i14 & 384 == 0) {
             if (i8 & 4 == 0) {
-                changed2 = restartGroup.changed(drawerState) ? 256 : 128;
+                changed3 = restartGroup.changed(drawerState) ? 256 : 128;
             } else {
-                obj = drawerState;
+                obj4 = drawerState;
             }
-            $dirty2 |= changed2;
+            $dirty |= changed3;
         } else {
-            obj = drawerState;
+            obj4 = drawerState;
         }
-        currentCompositionLocalMap4 = i8 & 8;
-        if (currentCompositionLocalMap4 != 0) {
-            $dirty2 |= 3072;
-            maybeCachedBoxMeasurePolicy3 = gesturesEnabled;
+        currentCompositionLocalMap2 = i8 & 8;
+        if (currentCompositionLocalMap2 != 0) {
+            $dirty |= 3072;
+            maybeCachedBoxMeasurePolicy = gesturesEnabled;
         } else {
-            if (i37 & 3072 == 0) {
-                i7 = restartGroup.changed(gesturesEnabled) ? 2048 : 1024;
-                $dirty2 |= i7;
+            if (i14 & 3072 == 0) {
+                i22 = restartGroup.changed(gesturesEnabled) ? 2048 : 1024;
+                $dirty |= i22;
             } else {
-                maybeCachedBoxMeasurePolicy3 = gesturesEnabled;
+                maybeCachedBoxMeasurePolicy = gesturesEnabled;
             }
         }
         if (i8 & 16 != 0) {
-            $dirty2 |= 24576;
+            $dirty |= 24576;
         } else {
-            if (i37 & 24576 == 0) {
-                i3 = restartGroup.changedInstance(iNSTANCE2) ? 16384 : 8192;
-                $dirty2 |= i3;
+            if (i14 & 24576 == 0) {
+                i18 = restartGroup.changedInstance(iNSTANCE) ? 16384 : 8192;
+                $dirty |= i18;
             }
         }
-        if ($dirty2 & 9363 == 9362) {
+        if ($dirty & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                int i121 = 0;
-                int i124 = 6;
-                if (i37 & 1 != 0) {
+                int i120 = 0;
+                int i123 = 6;
+                if (i14 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i62 != 0) {
-                            modifier2 = Modifier.Companion;
+                            modifier4 = Modifier.Companion;
                         } else {
-                            modifier2 = rememberDrawerState;
+                            modifier4 = rememberDrawerState;
                         }
                         if (i8 & 4 != 0) {
-                            $dirty2 &= -897;
-                            obj = rememberDrawerState;
+                            $dirty &= -897;
+                            obj4 = rememberDrawerState;
                         }
-                        if (currentCompositionLocalMap4 != 0) {
-                            obj2 = modifier2;
-                            z = rememberDrawerState;
+                        if (currentCompositionLocalMap2 != 0) {
+                            obj5 = modifier4;
+                            z2 = rememberDrawerState;
                         } else {
-                            obj2 = modifier2;
-                            z = maybeCachedBoxMeasurePolicy3;
+                            obj5 = modifier4;
+                            z2 = maybeCachedBoxMeasurePolicy;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i8 & 4 != 0) {
-                            $dirty2 &= -897;
+                            $dirty &= -897;
                         }
-                        obj2 = rememberDrawerState;
-                        z = maybeCachedBoxMeasurePolicy3;
+                        obj5 = rememberDrawerState;
+                        z2 = maybeCachedBoxMeasurePolicy;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.DismissibleNavigationDrawer (NavigationDrawer.kt:437)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.DismissibleNavigationDrawer (NavigationDrawer.kt:437)");
                 }
                 String str2 = "CC(remember):NavigationDrawer.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1034571360, str2);
                 int i44 = 0;
-                Composer composer14 = restartGroup;
-                int i97 = 0;
-                Object rememberedValue5 = composer14.rememberedValue();
-                int i119 = 0;
-                obj80 = i124;
+                Composer composer13 = restartGroup;
+                int i96 = 0;
+                Object rememberedValue5 = composer13.rememberedValue();
+                int i118 = 0;
+                obj80 = i123;
                 if (rememberedValue5 == Composer.Companion.getEmpty()) {
-                    empty2 = 0;
-                    composer14.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(false, i121, i69, i121));
+                    empty = 0;
+                    composer13.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(false, i120, i69, i120));
                 } else {
                     obj76 = 0;
                     mutableStateOf$default = rememberedValue5;
@@ -787,27 +787,27 @@ public final class NavigationDrawerKt {
                 Object invalid$iv3 = mutableStateOf$default;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i77 = 0;
-                empty = 0;
+                empty2 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 Object this_$iv = consume;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1034574207, str2);
                 if (i79 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj)) {
-                        i22 = $dirty2 & 384 == 256 ? 1 : obj76;
+                    if (!restartGroup.changed(obj4)) {
+                        i42 = $dirty & 384 == 256 ? 1 : obj76;
                     } else {
                     }
                 } else {
                 }
-                Composer composer17 = restartGroup;
-                int i103 = 0;
-                Object rememberedValue6 = composer17.rememberedValue();
-                int i125 = 0;
-                if (i22 |= changed7 == 0) {
+                Composer composer15 = restartGroup;
+                int i102 = 0;
+                Object rememberedValue6 = composer15.rememberedValue();
+                int i124 = 0;
+                if (i42 |= changed7 == 0) {
                     if (rememberedValue6 == Composer.Companion.getEmpty()) {
-                        empty = 0;
-                        anon2 = new NavigationDrawerKt.DismissibleNavigationDrawer.1.1(obj, this_$iv);
-                        composer17.updateRememberedValue((Function0)anon2);
+                        empty2 = 0;
+                        anon2 = new NavigationDrawerKt.DismissibleNavigationDrawer.1.1(obj4, this_$iv);
+                        composer15.updateRememberedValue((Function0)anon2);
                     } else {
                         anon2 = rememberedValue6;
                     }
@@ -816,21 +816,21 @@ public final class NavigationDrawerKt {
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i81 = obj76;
                 EffectsKt.SideEffect((Function0)anon2, restartGroup, i81);
-                int i91 = i81;
+                int i90 = i81;
                 int i82 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 773894976, "CC(rememberCoroutineScope)489@20472L144:Effects.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -954363344, "CC(remember):Effects.kt#9igjgp");
-                int i105 = 0;
-                Composer composer21 = restartGroup;
-                int i122 = 0;
-                Object rememberedValue7 = composer21.rememberedValue();
-                int i130 = 0;
+                int i104 = 0;
+                Composer composer19 = restartGroup;
+                int i121 = 0;
+                Object rememberedValue7 = composer19.rememberedValue();
+                int i129 = 0;
                 obj78 = this_$iv;
                 if (rememberedValue7 == Composer.Companion.getEmpty()) {
-                    int i132 = 0;
-                    i18 = i72;
+                    int i131 = 0;
+                    i16 = i72;
                     compositionScopedCoroutineScopeCanceller = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
-                    composer21.updateRememberedValue(compositionScopedCoroutineScopeCanceller);
+                    composer19.updateRememberedValue(compositionScopedCoroutineScopeCanceller);
                 } else {
                     compositionScopedCoroutineScopeCanceller = rememberedValue7;
                 }
@@ -840,30 +840,30 @@ public final class NavigationDrawerKt {
                 androidx.compose.material3.internal.Strings.Companion companion11 = Strings.Companion;
                 int i83 = 0;
                 String string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.navigation_menu), restartGroup, 0);
-                int i92 = 0;
-                int i100 = 0;
+                int i91 = 0;
+                int i99 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                i18 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? 1 : 0;
-                Modifier anchoredDraggable$default = AnchoredDraggableKt.anchoredDraggable$default(obj2, obj.getAnchoredDraggableState$material3_release(), Orientation.Horizontal, z, i18, 0, 16, 0);
-                int i101 = i93;
+                i16 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? 1 : 0;
+                Modifier anchoredDraggable$default = AnchoredDraggableKt.anchoredDraggable$default(obj5, obj4.getAnchoredDraggableState$material3_release(), Orientation.Horizontal, z2, i16, 0, 16, 0);
+                int i100 = i92;
                 String str7 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, str7);
                 Alignment topStart3 = Alignment.Companion.getTopStart();
-                int i126 = 0;
-                maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart3, i126);
-                i42 = 0;
-                i12 = i94;
+                int i125 = 0;
+                maybeCachedBoxMeasurePolicy3 = BoxKt.maybeCachedBoxMeasurePolicy(topStart3, i125);
+                i12 = 0;
+                i39 = i93;
                 String $changed$iv5 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, $changed$iv5);
                 currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
+                currentCompositionLocalMap4 = restartGroup.getCurrentCompositionLocalMap();
                 alignment = topStart3;
                 materialized$iv$iv = ComposedModifierKt.materializeModifier(restartGroup, anchoredDraggable$default);
-                modifier4 = anchoredDraggable$default;
+                modifier2 = anchoredDraggable$default;
                 Function0 function06 = constructor2;
-                i14 = 0;
-                i41 = i126;
+                i37 = 0;
+                i17 = i125;
                 String propagateMinConstraints$iv2 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, propagateMinConstraints$iv2);
                 if (!applier3 instanceof Applier) {
@@ -873,158 +873,158 @@ public final class NavigationDrawerKt {
                 if (restartGroup.getInserting()) {
                     restartGroup.createNode(function06);
                 } else {
-                    factory$iv$iv$iv2 = function06;
+                    factory$iv$iv$iv = function06;
                     restartGroup.useNode();
                 }
-                function03 = factory$iv$iv$iv2;
+                function03 = factory$iv$iv$iv;
                 Composer constructor-impl2 = Updater.constructor-impl(restartGroup);
+                int i141 = 0;
+                Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy3, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl2, currentCompositionLocalMap4, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i142 = 0;
-                Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i143 = 0;
-                Composer composer22 = constructor-impl2;
-                int i146 = 0;
-                if (!composer22.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap;
-                    measurePolicy = maybeCachedBoxMeasurePolicy2;
-                    if (!Intrinsics.areEqual(composer22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
-                        composer22.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
+                Composer composer20 = constructor-impl2;
+                int i145 = 0;
+                if (!composer20.getInserting()) {
+                    localMap$iv$iv = currentCompositionLocalMap4;
+                    measurePolicy = maybeCachedBoxMeasurePolicy3;
+                    if (!Intrinsics.areEqual(composer20.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
+                        composer20.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
                         constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer22;
+                        composer5 = composer20;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap;
-                    measurePolicy = maybeCachedBoxMeasurePolicy2;
+                    localMap$iv$iv = currentCompositionLocalMap4;
+                    measurePolicy = maybeCachedBoxMeasurePolicy3;
                 }
                 Updater.set-impl(constructor-impl2, materialized$iv$iv, ComposeUiNode.Companion.getSetModifier());
-                Composer composer15 = restartGroup;
-                i2 = i74;
+                Composer composer14 = restartGroup;
+                i26 = i74;
                 String $changed$iv4 = "C73@3429L9:Box.kt#2w3rfo";
-                ComposerKt.sourceInformationMarkerStart(composer15, -2146769399, $changed$iv4);
-                iNSTANCE = BoxScopeInstance.INSTANCE;
-                i145 |= 6;
-                i23 = 0;
-                i35 = i96;
-                Composer composer16 = composer23;
-                ComposerKt.sourceInformationMarkerStart(composer16, -1218087217, "C477@19117L1255,454@18269L2103:NavigationDrawer.kt#uh7d8r");
-                ComposerKt.sourceInformationMarkerStart(composer16, 99280484, str2);
-                if (i88 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj)) {
-                        i36 = $dirty2 & 384 == 256 ? 1 : 0;
+                ComposerKt.sourceInformationMarkerStart(composer14, -2146769399, $changed$iv4);
+                iNSTANCE2 = BoxScopeInstance.INSTANCE;
+                i144 |= 6;
+                i36 = 0;
+                i20 = i95;
+                Composer $i$a$LayoutBoxKt$Box$1$iv2 = composer21;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv2, -1218087217, "C477@19117L1255,454@18269L2103:NavigationDrawer.kt#uh7d8r");
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv2, 99280484, str2);
+                if (i87 ^= 384 > 256) {
+                    if (!restartGroup.changed(obj4)) {
+                        i19 = $dirty & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
-                Composer composer19 = composer16;
-                int i147 = 0;
-                it$iv = composer19.rememberedValue();
-                int i149 = 0;
-                if (i36 == 0) {
+                Composer composer17 = $i$a$LayoutBoxKt$Box$1$iv2;
+                int i146 = 0;
+                it$iv = composer17.rememberedValue();
+                int i148 = 0;
+                if (i19 == 0) {
                     materialized$iv$iv2 = materialized$iv$iv;
                     if (it$iv == Composer.Companion.getEmpty()) {
                         materialized$iv$iv = 0;
                         obj7 = it$iv;
-                        it$iv = new NavigationDrawerKt.DismissibleNavigationDrawer.2.2.1(obj, (MutableState)invalid$iv3);
-                        composer19.updateRememberedValue((MeasurePolicy)it$iv);
+                        it$iv = new NavigationDrawerKt.DismissibleNavigationDrawer.2.2.1(obj4, (MutableState)invalid$iv3);
+                        composer17.updateRememberedValue((MeasurePolicy)it$iv);
                     } else {
                         obj7 = it$iv;
                     }
                 } else {
                     materialized$iv$iv2 = materialized$iv$iv;
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer16);
-                i26 = 0;
-                ComposerKt.sourceInformationMarkerStart(composer16, -1323940314, $changed$iv5);
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv2);
+                i2 = 0;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv2, -1323940314, $changed$iv5);
                 androidx.compose.ui.Modifier.Companion companion18 = Modifier.Companion;
-                obj5 = invalid$iv3;
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(composer16, 0);
-                currentCompositionLocalMap3 = composer16.getCurrentCompositionLocalMap();
-                companion3 = companion18;
+                obj = invalid$iv3;
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($i$a$LayoutBoxKt$Box$1$iv2, 0);
+                currentCompositionLocalMap = $i$a$LayoutBoxKt$Box$1$iv2.getCurrentCompositionLocalMap();
+                companion2 = companion18;
                 Function0 function07 = constructor3;
-                i = 0;
-                ComposerKt.sourceInformationMarkerStart(composer16, -692256719, propagateMinConstraints$iv2);
+                i28 = 0;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv2, -692256719, propagateMinConstraints$iv2);
                 if (!applier4 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                composer16.startReusableNode();
-                if (composer16.getInserting()) {
-                    composer16.createNode(function07);
+                $i$a$LayoutBoxKt$Box$1$iv2.startReusableNode();
+                if ($i$a$LayoutBoxKt$Box$1$iv2.getInserting()) {
+                    $i$a$LayoutBoxKt$Box$1$iv2.createNode(function07);
                 } else {
                     factory$iv$iv = function07;
-                    composer16.useNode();
+                    $i$a$LayoutBoxKt$Box$1$iv2.useNode();
                 }
-                composer6 = composer16;
+                composer6 = $i$a$LayoutBoxKt$Box$1$iv2;
                 Composer constructor-impl3 = Updater.constructor-impl(composer6);
-                int i150 = 0;
-                function0 = factory$iv$iv;
+                int i149 = 0;
+                function02 = factory$iv$iv;
                 Updater.set-impl(constructor-impl3, (MeasurePolicy)it$iv, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl3, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i151 = 0;
-                Composer composer24 = constructor-impl3;
+                Updater.set-impl(constructor-impl3, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i150 = 0;
+                Composer composer22 = constructor-impl3;
                 companion5 = 0;
-                if (!composer24.getInserting()) {
-                    localMap$iv = currentCompositionLocalMap3;
+                if (!composer22.getInserting()) {
+                    localMap$iv = currentCompositionLocalMap;
                     anon = it$iv;
-                    if (!Intrinsics.areEqual(composer24.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer24.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                    if (!Intrinsics.areEqual(composer22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer22.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl3.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer9 = composer24;
+                        composer9 = composer22;
                     }
                 } else {
-                    localMap$iv = currentCompositionLocalMap3;
+                    localMap$iv = currentCompositionLocalMap;
                     anon = it$iv;
                 }
-                Updater.set-impl(constructor-impl3, ComposedModifierKt.materializeModifier(composer16, (Modifier)companion18), ComposeUiNode.Companion.getSetModifier());
+                Updater.set-impl(constructor-impl3, ComposedModifierKt.materializeModifier($i$a$LayoutBoxKt$Box$1$iv2, (Modifier)companion18), ComposeUiNode.Companion.getSetModifier());
                 rememberDrawerState = composer6;
-                valueOf = 0;
-                i27 = i46;
+                valueOf2 = 0;
+                i32 = i46;
                 ComposerKt.sourceInformationMarkerStart(rememberDrawerState, 285475168, "C457@18361L623,456@18317L741,475@19075L17:NavigationDrawer.kt#uh7d8r");
                 ComposerKt.sourceInformationMarkerStart(rememberDrawerState, -1376263189, str2);
-                if (i116 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj)) {
-                        i20 = $dirty2 & 384 == 256 ? 1 : 0;
+                if (i115 ^= 384 > 256) {
+                    if (!restartGroup.changed(obj4)) {
+                        i27 = $dirty & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
                 i63 |= changedInstance2;
-                Composer composer20 = rememberDrawerState;
-                int i136 = 0;
-                i6 = $dirty2;
-                it$iv2 = composer20.rememberedValue();
-                int i152 = 0;
-                if (invalid$iv == 0) {
-                    invalid$iv2 = invalid$iv;
+                Composer composer18 = rememberDrawerState;
+                int i135 = 0;
+                i38 = $dirty;
+                it$iv2 = composer18.rememberedValue();
+                int i151 = 0;
+                if (invalid$iv2 == 0) {
+                    invalid$iv = invalid$iv2;
                     if (it$iv2 == Composer.Companion.getEmpty()) {
-                        invalid$iv = 0;
+                        invalid$iv2 = 0;
                         obj3 = it$iv2;
-                        it$iv2 = new NavigationDrawerKt.DismissibleNavigationDrawer.2.1.1.1(string-2EP1pXo, obj, coroutineScope2);
-                        composer20.updateRememberedValue((Function1)it$iv2);
+                        it$iv2 = new NavigationDrawerKt.DismissibleNavigationDrawer.2.1.1.1(string-2EP1pXo, obj4, coroutineScope2);
+                        composer18.updateRememberedValue((Function1)it$iv2);
                     } else {
                         obj3 = it$iv2;
                     }
                 } else {
-                    invalid$iv2 = invalid$iv;
+                    invalid$iv = invalid$iv2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(rememberDrawerState);
                 obj77 = string-2EP1pXo;
-                int i117 = 0;
-                Modifier semantics$default = SemanticsModifierKt.semantics$default((Modifier)Modifier.Companion, i117, (Function1)it$iv2, 1, 0);
+                int i116 = 0;
+                Modifier semantics$default = SemanticsModifierKt.semantics$default((Modifier)Modifier.Companion, i116, (Function1)it$iv2, 1, 0);
                 ComposerKt.sourceInformationMarkerStart(rememberDrawerState, 733328855, str7);
                 Alignment topStart = Alignment.Companion.getTopStart();
-                int i137 = i61;
-                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, false);
-                int i153 = 0;
-                int i154 = i65;
+                int i136 = i61;
+                maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart, false);
+                int i152 = 0;
+                int i153 = i65;
                 ComposerKt.sourceInformationMarkerStart(rememberDrawerState, -1323940314, $changed$iv5);
                 int currentCompositeKeyHash4 = ComposablesKt.getCurrentCompositeKeyHash(rememberDrawerState, 0);
-                currentCompositionLocalMap2 = rememberDrawerState.getCurrentCompositionLocalMap();
+                currentCompositionLocalMap3 = rememberDrawerState.getCurrentCompositionLocalMap();
                 Alignment alignment2 = topStart;
                 Modifier modifier5 = semantics$default;
                 Function0 function08 = constructor4;
-                int i155 = 0;
+                int i154 = 0;
                 ComposerKt.sourceInformationMarkerStart(rememberDrawerState, -692256719, propagateMinConstraints$iv2);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -1033,43 +1033,43 @@ public final class NavigationDrawerKt {
                 if (rememberDrawerState.getInserting()) {
                     rememberDrawerState.createNode(function08);
                 } else {
-                    factory$iv$iv$iv = function08;
+                    factory$iv$iv$iv2 = function08;
                     rememberDrawerState.useNode();
                 }
-                function02 = factory$iv$iv$iv;
+                function0 = factory$iv$iv$iv2;
                 Composer constructor-impl = Updater.constructor-impl(rememberDrawerState);
-                int i156 = 0;
+                int i155 = 0;
                 coroutineScope = coroutineScope2;
-                Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i158 = 0;
+                Composer composer24 = constructor-impl;
                 int i159 = 0;
-                Composer composer26 = constructor-impl;
-                int i160 = 0;
-                if (!composer26.getInserting()) {
-                    measurePolicy$iv = maybeCachedBoxMeasurePolicy;
-                    map = currentCompositionLocalMap2;
-                    if (!Intrinsics.areEqual(composer26.rememberedValue(), Integer.valueOf(currentCompositeKeyHash4))) {
-                        composer26.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash4));
+                if (!composer24.getInserting()) {
+                    measurePolicy$iv = maybeCachedBoxMeasurePolicy2;
+                    map = currentCompositionLocalMap3;
+                    if (!Intrinsics.areEqual(composer24.rememberedValue(), Integer.valueOf(currentCompositeKeyHash4))) {
+                        composer24.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash4));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash4), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer4 = composer26;
+                        composer = composer24;
                     }
                 } else {
-                    measurePolicy$iv = maybeCachedBoxMeasurePolicy;
-                    map = currentCompositionLocalMap2;
+                    measurePolicy$iv = maybeCachedBoxMeasurePolicy2;
+                    map = currentCompositionLocalMap3;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(rememberDrawerState, semantics$default), ComposeUiNode.Companion.getSetModifier());
                 Composer composer11 = rememberDrawerState;
                 ComposerKt.sourceInformationMarkerStart(composer11, -2146769399, $changed$iv4);
-                BoxScopeInstance iNSTANCE4 = BoxScopeInstance.INSTANCE;
-                i158 |= 6;
-                i9 = 0;
-                i32 = i50;
-                i30 = i67;
-                Composer composer13 = composer5;
-                ComposerKt.sourceInformationMarkerStart(composer13, 590398649, "C473@19025L15:NavigationDrawer.kt#uh7d8r");
-                obj8.invoke(composer13, Integer.valueOf(i6 & 14));
-                ComposerKt.sourceInformationMarkerEnd(composer13);
+                BoxScopeInstance iNSTANCE3 = BoxScopeInstance.INSTANCE;
+                i157 |= 6;
+                i6 = 0;
+                i21 = i50;
+                i3 = i67;
+                Composer $i$a$LayoutBoxKt$Box$1$iv = composer3;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, 590398649, "C473@19025L15:NavigationDrawer.kt#uh7d8r");
+                obj8.invoke($i$a$LayoutBoxKt$Box$1$iv, Integer.valueOf(i38 & 14));
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer11);
                 rememberDrawerState.endNode();
                 ComposerKt.sourceInformationMarkerEnd(rememberDrawerState);
@@ -1078,13 +1078,13 @@ public final class NavigationDrawerKt {
                 int i52 = propagateMinConstraints$iv;
                 valueOf3 = 0;
                 ComposerKt.sourceInformationMarkerStart(rememberDrawerState, 733328855, str7);
-                valueOf2 = Modifier.Companion;
-                i39 = 0;
+                valueOf = Modifier.Companion;
+                i11 = 0;
                 ComposerKt.sourceInformationMarkerStart(rememberDrawerState, -1323940314, $changed$iv5);
                 obj76 = currentCompositeKeyHash3;
-                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(rememberDrawerState, (Modifier)valueOf2);
+                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(rememberDrawerState, (Modifier)valueOf);
                 Function0 function05 = constructor;
-                i33 = 0;
+                i = 0;
                 ComposerKt.sourceInformationMarkerStart(rememberDrawerState, -692256719, propagateMinConstraints$iv2);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -1097,36 +1097,36 @@ public final class NavigationDrawerKt {
                     rememberDrawerState.useNode();
                 }
                 Composer constructor-impl4 = Updater.constructor-impl(rememberDrawerState);
-                int i140 = 0;
+                int i139 = 0;
                 function04 = factory$iv$iv$iv3;
                 Updater.set-impl(constructor-impl4, BoxKt.maybeCachedBoxMeasurePolicy(Alignment.Companion.getTopStart(), false), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl4, rememberDrawerState.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i141 = 0;
-                Composer composer25 = constructor-impl4;
-                i31 = 0;
-                if (!composer25.getInserting()) {
+                int i140 = 0;
+                Composer composer23 = constructor-impl4;
+                i34 = 0;
+                if (!composer23.getInserting()) {
                     $i$f$Box = valueOf3;
-                    companion4 = valueOf2;
-                    if (!Intrinsics.areEqual(composer25.rememberedValue(), Integer.valueOf(obj76))) {
-                        composer25.updateRememberedValue(Integer.valueOf(obj76));
+                    companion4 = valueOf;
+                    if (!Intrinsics.areEqual(composer23.rememberedValue(), Integer.valueOf(obj76))) {
+                        composer23.updateRememberedValue(Integer.valueOf(obj76));
                         constructor-impl4.apply(Integer.valueOf(obj76), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer25;
+                        composer8 = composer23;
                     }
                 } else {
                     $i$f$Box = valueOf3;
-                    companion4 = valueOf2;
+                    companion4 = valueOf;
                 }
                 Updater.set-impl(constructor-impl4, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                 Composer composer12 = rememberDrawerState;
                 int i68 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer12, -2146769399, $changed$iv4);
-                iNSTANCE2 = BoxScopeInstance.INSTANCE;
-                i129 |= 6;
+                iNSTANCE = BoxScopeInstance.INSTANCE;
+                i128 |= 6;
                 obj80 = composer12;
-                i4 = 0;
+                i13 = 0;
                 modifier3 = materializeModifier2;
-                i24 = i60;
+                i31 = i60;
                 ComposerKt.sourceInformationMarkerStart(composer12, 590454015, "C475@19081L9:NavigationDrawer.kt#uh7d8r");
                 content.invoke(composer12, Integer.valueOf(i54 &= 14));
                 ComposerKt.sourceInformationMarkerEnd(composer12);
@@ -1140,7 +1140,7 @@ public final class NavigationDrawerKt {
                 ComposerKt.sourceInformationMarkerEnd(composer6);
                 ComposerKt.sourceInformationMarkerEnd(composer6);
                 ComposerKt.sourceInformationMarkerEnd(composer6);
-                ComposerKt.sourceInformationMarkerEnd(composer15);
+                ComposerKt.sourceInformationMarkerEnd(composer14);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -1148,22 +1148,22 @@ public final class NavigationDrawerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $dirty = obj2;
-                z2 = z;
-                obj6 = obj;
+                $dirty2 = obj5;
+                z = z2;
+                obj2 = obj4;
             } else {
                 restartGroup.skipToGroupEnd();
-                i6 = $dirty2;
-                obj4 = iNSTANCE2;
-                $dirty = rememberDrawerState;
-                z2 = maybeCachedBoxMeasurePolicy3;
-                obj6 = obj;
+                i38 = $dirty;
+                obj6 = iNSTANCE;
+                $dirty2 = rememberDrawerState;
+                z = maybeCachedBoxMeasurePolicy;
+                obj2 = obj4;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new NavigationDrawerKt.DismissibleNavigationDrawer.3(drawerContent, $dirty, obj6, z2, obj4, $changed, i8);
+            traceInProgress2 = new NavigationDrawerKt.DismissibleNavigationDrawer.3(drawerContent, $dirty2, obj2, z, obj6, $changed, i8);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
@@ -1184,46 +1184,46 @@ public final class NavigationDrawerKt {
 
     public static final void DrawerSheet-7zSek6w(androidx.compose.material3.DrawerPredictiveBackState drawerPredictiveBackState, WindowInsets windowInsets, Modifier modifier, Shape drawerShape, long drawerContainerColor, long drawerContentColor, float drawerTonalElevation, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
         long l;
-        int i9;
-        int traceInProgress2;
+        int i5;
+        int traceInProgress;
         int defaultsInvalid;
         int iNSTANCE;
-        int i4;
-        int i;
-        boolean traceInProgress;
-        int i17;
-        int i5;
+        int i8;
+        int i3;
+        boolean traceInProgress2;
+        int i2;
+        int i15;
         Object $composer2;
         int $dirty;
         Object $dirty2;
-        int i13;
-        int i19;
+        int i17;
+        int i4;
         int str;
-        long l3;
-        Object obj;
-        int i14;
-        Modifier predictiveBackDrawerContainer;
         long l2;
         Object obj3;
         int i6;
-        int i7;
-        int changed;
-        int i8;
+        Modifier predictiveBackDrawerContainer;
+        long l3;
+        Object obj2;
+        int i16;
+        int i18;
+        int changed2;
+        int i12;
         float modifier2;
         long standardContainerColor;
-        int i12;
-        Object obj2;
-        int changed2;
-        long i16;
-        int i2;
+        int i19;
+        Object obj;
+        int changed;
+        long i13;
+        int i9;
         long drawerContentColor2;
         float f;
-        int i18;
         int i10;
+        int i;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i3;
-        int i15;
+        int i14;
+        int i7;
         int obj28;
         int obj29;
         int obj30;
@@ -1243,71 +1243,71 @@ public final class NavigationDrawerKt {
             $dirty |= 6;
         } else {
             if (i48 & 6 == 0) {
-                i13 = restartGroup.changed(obj4) ? 4 : 2;
-                $dirty |= i13;
+                i17 = restartGroup.changed(obj4) ? 4 : 2;
+                $dirty |= i17;
             }
         }
         if (i49 & 2 != 0) {
             $dirty |= 48;
         } else {
             if (i48 & 48 == 0) {
-                i19 = restartGroup.changed(obj5) ? 32 : 16;
-                $dirty |= i19;
+                i4 = restartGroup.changed(obj5) ? 32 : 16;
+                $dirty |= i4;
             }
         }
         str = i49 & 4;
         if (str != null) {
             $dirty |= 384;
-            obj = modifier;
+            obj3 = modifier;
         } else {
             if (i48 & 384 == 0) {
-                i14 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty |= i14;
+                i6 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty |= i6;
             } else {
-                obj = modifier;
+                obj3 = modifier;
             }
         }
         int i43 = i49 & 8;
         if (i43 != 0) {
             $dirty |= 3072;
-            obj3 = drawerShape;
+            obj2 = drawerShape;
         } else {
             if (i48 & 3072 == 0) {
-                i6 = restartGroup.changed(drawerShape) ? 2048 : 1024;
-                $dirty |= i6;
+                i16 = restartGroup.changed(drawerShape) ? 2048 : 1024;
+                $dirty |= i16;
             } else {
-                obj3 = drawerShape;
+                obj2 = drawerShape;
             }
         }
         if (i48 & 24576 == 0) {
             if (i49 & 16 == 0) {
-                i7 = restartGroup.changed(drawerContainerColor) ? 16384 : 8192;
+                i18 = restartGroup.changed(drawerContainerColor) ? 16384 : 8192;
             } else {
                 standardContainerColor = drawerContainerColor;
             }
-            $dirty |= i7;
+            $dirty |= i18;
         } else {
             standardContainerColor = drawerContainerColor;
         }
         if (i47 &= i48 == 0) {
             if (i49 & 32 == 0) {
-                changed2 = restartGroup.changed(drawerTonalElevation) ? 131072 : 65536;
+                changed = restartGroup.changed(drawerTonalElevation) ? 131072 : 65536;
             } else {
                 l = drawerTonalElevation;
             }
-            $dirty |= changed2;
+            $dirty |= changed;
         } else {
             l = drawerTonalElevation;
         }
-        i16 = i49 & 64;
-        i2 = 1572864;
-        if (i16 != 0) {
-            $dirty |= i2;
+        i13 = i49 & 64;
+        i9 = 1572864;
+        if (i13 != 0) {
+            $dirty |= i9;
             modifier2 = $composer;
         } else {
-            if (i48 & i2 == 0) {
-                i2 = restartGroup.changed($composer) ? 1048576 : 524288;
-                $dirty |= i2;
+            if (i48 & i9 == 0) {
+                i9 = restartGroup.changed($composer) ? 1048576 : 524288;
+                $dirty |= i9;
             } else {
                 modifier2 = $composer;
             }
@@ -1317,8 +1317,8 @@ public final class NavigationDrawerKt {
             $dirty |= i32;
         } else {
             if (i48 & i32 == 0) {
-                i9 = restartGroup.changedInstance(obj8) ? 8388608 : 4194304;
-                $dirty |= i9;
+                i5 = restartGroup.changedInstance(obj8) ? 8388608 : 4194304;
+                $dirty |= i5;
             }
         }
         int i51 = i32;
@@ -1330,10 +1330,10 @@ public final class NavigationDrawerKt {
                 if (i48 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (str != null) {
-                            obj = defaultsInvalid;
+                            obj3 = defaultsInvalid;
                         }
                         if (i43 != 0) {
-                            obj3 = defaultsInvalid;
+                            obj2 = defaultsInvalid;
                         }
                         if (i49 & 16 != 0) {
                             standardContainerColor = DrawerDefaults.INSTANCE.getStandardContainerColor(restartGroup, 6);
@@ -1345,16 +1345,16 @@ public final class NavigationDrawerKt {
                         } else {
                             drawerContentColor2 = drawerTonalElevation;
                         }
-                        if (i16 != 0) {
+                        if (i13 != 0) {
                             f = permanentDrawerElevation-D9Ej5fM;
-                            i = i51;
-                            i16 = standardContainerColor;
-                            obj2 = obj3;
+                            i3 = i51;
+                            i13 = standardContainerColor;
+                            obj = obj2;
                         } else {
                             f = modifier2;
-                            i = i51;
-                            i16 = standardContainerColor;
-                            obj2 = obj3;
+                            i3 = i51;
+                            i13 = standardContainerColor;
+                            obj = obj2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1365,15 +1365,15 @@ public final class NavigationDrawerKt {
                             drawerContentColor2 = drawerTonalElevation;
                             $dirty = i31;
                             f = modifier2;
-                            i = i51;
-                            i16 = standardContainerColor;
-                            obj2 = obj3;
+                            i3 = i51;
+                            i13 = standardContainerColor;
+                            obj = obj2;
                         } else {
                             drawerContentColor2 = drawerTonalElevation;
                             f = modifier2;
-                            i = i51;
-                            i16 = standardContainerColor;
-                            obj2 = obj3;
+                            i3 = i51;
+                            i13 = standardContainerColor;
+                            obj = obj2;
                         }
                     }
                 } else {
@@ -1387,86 +1387,86 @@ public final class NavigationDrawerKt {
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i40 = 1;
-                i17 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? i40 : 0;
+                i2 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? i40 : 0;
                 if (drawerPredictiveBackState != null) {
-                    predictiveBackDrawerContainer = NavigationDrawerKt.predictiveBackDrawerContainer((Modifier)Modifier.Companion, drawerPredictiveBackState, i17);
+                    predictiveBackDrawerContainer = NavigationDrawerKt.predictiveBackDrawerContainer((Modifier)Modifier.Companion, drawerPredictiveBackState, i2);
                 } else {
-                    obj3 = drawerPredictiveBackState;
+                    obj2 = drawerPredictiveBackState;
                     predictiveBackDrawerContainer = Modifier.Companion;
                 }
-                i10 = 0;
-                obj28 = obj;
-                NavigationDrawerKt.DrawerSheet.1 anon = new NavigationDrawerKt.DrawerSheet.1(obj3, i17, obj5, obj8);
-                obj29 = i17;
-                SurfaceKt.Surface-T9BRK9s(SizeKt.fillMaxHeight$default(SizeKt.sizeIn-qDBjuR0$default(obj28, NavigationDrawerKt.MinimumDrawerWidth, 0, DrawerDefaults.INSTANCE.getMaximumDrawerWidth-D9Ej5fM(), 0, 10, i10).then(predictiveBackDrawerContainer), 0, i40, 0), obj2, i16, i51, drawerContentColor2, obj18, f, 0, i10, (Function2)ComposableLambdaKt.rememberComposableLambda(669057502, i40, anon, restartGroup, 54), restartGroup);
+                i = 0;
+                obj28 = obj3;
+                NavigationDrawerKt.DrawerSheet.1 anon = new NavigationDrawerKt.DrawerSheet.1(obj2, i2, obj5, obj8);
+                obj29 = i2;
+                SurfaceKt.Surface-T9BRK9s(SizeKt.fillMaxHeight$default(SizeKt.sizeIn-qDBjuR0$default(obj28, NavigationDrawerKt.MinimumDrawerWidth, 0, DrawerDefaults.INSTANCE.getMaximumDrawerWidth-D9Ej5fM(), 0, 10, i).then(predictiveBackDrawerContainer), 0, i40, 0), obj, i13, i51, drawerContentColor2, obj18, f, 0, i, (Function2)ComposableLambdaKt.rememberComposableLambda(669057502, i40, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i12 = $dirty;
+                i19 = $dirty;
                 $composer2 = obj7;
-                $dirty2 = obj2;
-                l3 = i16;
-                l2 = drawerContentColor2;
+                $dirty2 = obj;
+                l2 = i13;
+                l3 = drawerContentColor2;
                 modifier2 = f;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
-                $composer2 = obj;
-                l3 = standardContainerColor;
-                i12 = $dirty;
-                $dirty2 = obj3;
-                l2 = drawerTonalElevation;
+                $composer2 = obj3;
+                l2 = standardContainerColor;
+                i19 = $dirty;
+                $dirty2 = obj2;
+                l3 = drawerTonalElevation;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new NavigationDrawerKt.DrawerSheet.2(drawerPredictiveBackState, obj5, $composer2, $dirty2, l3, obj, l2, obj3, modifier2, obj8, i48, i49);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new NavigationDrawerKt.DrawerSheet.2(drawerPredictiveBackState, obj5, $composer2, $dirty2, l2, obj3, l3, obj2, modifier2, obj8, i48, i49);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void ModalDrawerSheet-Snr_uVM(androidx.compose.material3.DrawerState drawerState, Modifier modifier, Shape drawerShape, long drawerContainerColor, long drawerContentColor, float drawerTonalElevation, WindowInsets windowInsets, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        Object obj6;
-        int traceInProgress2;
+        Object obj4;
+        int traceInProgress;
         int windowInsets2;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int defaultsInvalid;
         int shape;
         int drawerShape2;
         int modalDrawerElevation-D9Ej5fM;
         int $dirty;
         Object $dirty2;
-        int i;
+        int i6;
         int str;
-        Object obj2;
-        Object obj9;
-        long l;
+        Object obj;
+        Object obj10;
+        long l4;
         int i2;
         Object obj7;
-        int changed2;
-        long modalContainerColor;
-        long l2;
         int changed;
+        long modalContainerColor;
+        long l;
+        int changed2;
         long contentColorFor-ek8zF_U;
         float f2;
-        Object obj3;
+        Object obj5;
+        int changed4;
+        int i4;
+        float f;
+        int i;
+        int i5;
+        Object obj8;
         int changed3;
         int i3;
-        float f3;
-        int i4;
-        int i5;
-        Object obj4;
-        int changed4;
-        int i6;
         androidx.compose.material3.NavigationDrawerKt.ModalDrawerSheet.2 anon;
-        Object obj5;
-        Object obj;
-        Object obj8;
+        Object obj6;
+        Object obj2;
+        Object obj9;
+        long l2;
         long l3;
-        long l4;
-        float f;
-        Object obj10;
+        float f3;
+        Object obj3;
         float f4;
         int obj38;
         final Object obj11 = drawerState;
@@ -1479,85 +1479,85 @@ public final class NavigationDrawerKt {
             $dirty |= 6;
         } else {
             if (i28 & 6 == 0) {
-                i = restartGroup.changed(obj11) ? 4 : 2;
-                $dirty |= i;
+                i6 = restartGroup.changed(obj11) ? 4 : 2;
+                $dirty |= i6;
             }
         }
         int i15 = i29 & 2;
         if (i15 != 0) {
             $dirty |= 48;
-            obj9 = modifier;
+            obj10 = modifier;
         } else {
             if (i28 & 48 == 0) {
                 i2 = restartGroup.changed(modifier) ? 32 : 16;
                 $dirty |= i2;
             } else {
-                obj9 = modifier;
+                obj10 = modifier;
             }
         }
         if (i28 & 384 == 0) {
             if (i29 & 4 == 0) {
-                changed2 = restartGroup.changed(drawerShape) ? 256 : 128;
+                changed = restartGroup.changed(drawerShape) ? 256 : 128;
             } else {
                 obj7 = drawerShape;
             }
-            $dirty |= changed2;
+            $dirty |= changed;
         } else {
             obj7 = drawerShape;
         }
         if (i28 & 3072 == 0) {
             if (i29 & 8 == 0) {
-                changed = restartGroup.changed(drawerContainerColor) ? 2048 : 1024;
+                changed2 = restartGroup.changed(drawerContainerColor) ? 2048 : 1024;
             } else {
                 modalContainerColor = drawerContainerColor;
             }
-            $dirty |= changed;
+            $dirty |= changed2;
         } else {
             modalContainerColor = drawerContainerColor;
         }
         if (i28 & 24576 == 0) {
             if (i29 & 16 == 0) {
-                changed3 = restartGroup.changed(drawerTonalElevation) ? 16384 : 8192;
+                changed4 = restartGroup.changed(drawerTonalElevation) ? 16384 : 8192;
             } else {
                 contentColorFor-ek8zF_U = drawerTonalElevation;
             }
-            $dirty |= changed3;
+            $dirty |= changed4;
         } else {
             contentColorFor-ek8zF_U = drawerTonalElevation;
         }
-        i3 = i29 & 32;
+        i4 = i29 & 32;
         int i30 = 196608;
-        if (i3 != 0) {
+        if (i4 != 0) {
             $dirty |= i30;
-            f3 = content;
+            f = content;
         } else {
             if (i30 &= i28 == 0) {
                 i5 = restartGroup.changed(content) ? 131072 : 65536;
                 $dirty |= i5;
             } else {
-                f3 = content;
+                f = content;
             }
         }
         if (i32 &= i28 == 0) {
             if (i29 & 64 == 0) {
-                changed4 = restartGroup.changed($composer) ? 1048576 : 524288;
+                changed3 = restartGroup.changed($composer) ? 1048576 : 524288;
             } else {
-                obj4 = $composer;
+                obj8 = $composer;
             }
-            $dirty |= changed4;
+            $dirty |= changed3;
         } else {
-            obj4 = $composer;
+            obj8 = $composer;
         }
-        i6 = 12582912;
+        i3 = 12582912;
         if (i29 & 128 != 0) {
-            $dirty |= i6;
-            obj6 = $changed;
+            $dirty |= i3;
+            obj4 = $changed;
         } else {
-            if (i28 & i6 == 0) {
-                i6 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
-                $dirty |= i6;
+            if (i28 & i3 == 0) {
+                i3 = restartGroup.changedInstance($changed) ? 8388608 : 4194304;
+                $dirty |= i3;
             } else {
-                obj6 = $changed;
+                obj4 = $changed;
             }
         }
         if ($dirty & anon == 4793490) {
@@ -1568,7 +1568,7 @@ public final class NavigationDrawerKt {
                 if (i28 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i15 != 0) {
-                            obj9 = defaultsInvalid;
+                            obj10 = defaultsInvalid;
                         }
                         str = 6;
                         if (i29 & 4 != 0) {
@@ -1583,24 +1583,24 @@ public final class NavigationDrawerKt {
                             contentColorFor-ek8zF_U = ColorSchemeKt.contentColorFor-ek8zF_U(modalContainerColor, obj7, restartGroup);
                             $dirty &= i35;
                         }
-                        if (i3 != 0) {
-                            f3 = modalDrawerElevation-D9Ej5fM;
+                        if (i4 != 0) {
+                            f = modalDrawerElevation-D9Ej5fM;
                         }
                         if (i29 & 64 != 0) {
                             $dirty &= obj38;
-                            obj5 = windowInsets2;
-                            obj = obj9;
-                            obj8 = obj7;
-                            l3 = modalContainerColor;
-                            l4 = contentColorFor-ek8zF_U;
-                            f = f3;
+                            obj6 = windowInsets2;
+                            obj2 = obj10;
+                            obj9 = obj7;
+                            l2 = modalContainerColor;
+                            l3 = contentColorFor-ek8zF_U;
+                            f3 = f;
                         } else {
-                            obj = obj9;
-                            obj8 = obj7;
-                            l3 = modalContainerColor;
-                            l4 = contentColorFor-ek8zF_U;
-                            f = f3;
-                            obj5 = obj4;
+                            obj2 = obj10;
+                            obj9 = obj7;
+                            l2 = modalContainerColor;
+                            l3 = contentColorFor-ek8zF_U;
+                            f3 = f;
+                            obj6 = obj8;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1615,19 +1615,19 @@ public final class NavigationDrawerKt {
                         }
                         if (i29 & 64 != 0) {
                             $dirty = windowInsets2;
-                            obj = obj9;
-                            obj8 = obj7;
-                            l3 = modalContainerColor;
-                            l4 = contentColorFor-ek8zF_U;
-                            f = f3;
-                            obj5 = obj4;
+                            obj2 = obj10;
+                            obj9 = obj7;
+                            l2 = modalContainerColor;
+                            l3 = contentColorFor-ek8zF_U;
+                            f3 = f;
+                            obj6 = obj8;
                         } else {
-                            obj = obj9;
-                            obj8 = obj7;
-                            l3 = modalContainerColor;
-                            l4 = contentColorFor-ek8zF_U;
-                            f = f3;
-                            obj5 = obj4;
+                            obj2 = obj10;
+                            obj9 = obj7;
+                            l2 = modalContainerColor;
+                            l3 = contentColorFor-ek8zF_U;
+                            f3 = f;
+                            obj6 = obj8;
                         }
                     }
                 } else {
@@ -1636,39 +1636,39 @@ public final class NavigationDrawerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(1513027356, $dirty, -1, "androidx.compose.material3.ModalDrawerSheet (NavigationDrawer.kt:611)");
                 }
-                anon = new NavigationDrawerKt.ModalDrawerSheet.2(obj5, obj, obj8, l3, obj22, l4, obj24, f, $changed);
+                anon = new NavigationDrawerKt.ModalDrawerSheet.2(obj6, obj2, obj9, l2, obj22, l3, obj24, f3, $changed);
                 NavigationDrawer_androidKt.DrawerPredictiveBackHandler(obj11, (Function3)ComposableLambdaKt.rememberComposableLambda(1552342929, true, anon, restartGroup, 54), restartGroup, i18 |= 48);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i4 = $dirty;
-                obj3 = obj5;
-                $dirty2 = obj;
-                obj2 = obj8;
+                i = $dirty;
+                obj5 = obj6;
+                $dirty2 = obj2;
+                obj = obj9;
+                l4 = l2;
                 l = l3;
-                l2 = l4;
-                f2 = f;
+                f2 = f3;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj2 = obj7;
-                i4 = $dirty;
-                $dirty2 = obj9;
-                l = modalContainerColor;
-                l2 = contentColorFor-ek8zF_U;
+                obj = obj7;
+                i = $dirty;
+                $dirty2 = obj10;
+                l4 = modalContainerColor;
+                l = contentColorFor-ek8zF_U;
                 f2 = f4;
-                obj3 = obj4;
+                obj5 = obj8;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new NavigationDrawerKt.ModalDrawerSheet.3(obj11, $dirty2, obj2, l, obj7, l2, obj7, f2, obj3, $changed, i28, i29);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new NavigationDrawerKt.ModalDrawerSheet.3(obj11, $dirty2, obj, l4, obj7, l, obj7, f2, obj5, $changed, i28, i29);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void ModalDrawerSheet-afqeVBk(Modifier modifier, Shape drawerShape, long drawerContainerColor, long drawerContentColor, float drawerTonalElevation, WindowInsets windowInsets, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i10) {
-        int traceInProgress2;
+        int traceInProgress;
         int windowInsets3;
         int defaultsInvalid;
         int shape;
@@ -1677,37 +1677,37 @@ public final class NavigationDrawerKt {
         Object $composer2;
         int $dirty;
         Object $dirty2;
-        int i7;
-        long l;
-        Object obj3;
-        boolean traceInProgress;
-        int i4;
-        Object str;
+        int i6;
         long l2;
+        Object obj3;
+        boolean traceInProgress2;
+        int i2;
+        Object str;
+        long l3;
         int changed3;
         long modalContainerColor;
-        float f2;
-        int changed4;
+        float f;
+        int changed2;
         long contentColorFor-ek8zF_U;
-        Object obj4;
-        int i6;
+        Object obj2;
+        int i3;
         int changed;
-        int i9;
+        int i7;
         float f3;
         Object drawerTonalElevation2;
         int windowInsets2;
-        int i2;
+        int i5;
         Object obj;
-        int changed2;
-        Object obj2;
-        int i3;
-        long i5;
-        long l3;
-        float f;
-        Composer composer;
+        int changed4;
+        Object obj4;
+        int i9;
+        long i;
+        long l;
+        float f2;
         Composer composer2;
+        Composer composer;
+        int i4;
         int i8;
-        int i;
         int obj33;
         final int i51 = obj34;
         Composer restartGroup = i10.startRestartGroup(1001163336);
@@ -1719,8 +1719,8 @@ public final class NavigationDrawerKt {
             obj3 = modifier;
         } else {
             if (i51 & 6 == 0) {
-                i4 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i4;
+                i2 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i2;
             } else {
                 obj3 = modifier;
             }
@@ -1737,11 +1737,11 @@ public final class NavigationDrawerKt {
         }
         if (i51 & 384 == 0) {
             if (obj35 & 4 == 0) {
-                changed4 = restartGroup.changed(drawerContainerColor) ? 256 : 128;
+                changed2 = restartGroup.changed(drawerContainerColor) ? 256 : 128;
             } else {
                 modalContainerColor = drawerContainerColor;
             }
-            $dirty |= changed4;
+            $dirty |= changed2;
         } else {
             modalContainerColor = drawerContainerColor;
         }
@@ -1755,38 +1755,38 @@ public final class NavigationDrawerKt {
         } else {
             contentColorFor-ek8zF_U = drawerTonalElevation;
         }
-        i9 = obj35 & 16;
-        if (i9 != 0) {
+        i7 = obj35 & 16;
+        if (i7 != 0) {
             $dirty |= 24576;
             f3 = content;
         } else {
             if (i51 & 24576 == 0) {
-                i2 = restartGroup.changed(content) ? 16384 : 8192;
-                $dirty |= i2;
+                i5 = restartGroup.changed(content) ? 16384 : 8192;
+                $dirty |= i5;
             } else {
                 f3 = content;
             }
         }
         if (i53 &= i51 == 0) {
             if (obj35 & 32 == 0) {
-                changed2 = restartGroup.changed($composer) ? 131072 : 65536;
+                changed4 = restartGroup.changed($composer) ? 131072 : 65536;
             } else {
                 obj = $composer;
             }
-            $dirty |= changed2;
+            $dirty |= changed4;
         } else {
             obj = $composer;
         }
-        i3 = 1572864;
+        i9 = 1572864;
         if (obj35 & 64 != 0) {
-            $dirty |= i3;
-            obj2 = $changed;
+            $dirty |= i9;
+            obj4 = $changed;
         } else {
-            if (i51 & i3 == 0) {
-                i3 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
-                $dirty |= i3;
+            if (i51 & i9 == 0) {
+                i9 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
+                $dirty |= i9;
             } else {
-                obj2 = $changed;
+                obj4 = $changed;
             }
         }
         if (i58 &= $dirty == 599186) {
@@ -1811,28 +1811,28 @@ public final class NavigationDrawerKt {
                             contentColorFor-ek8zF_U = ColorSchemeKt.contentColorFor-ek8zF_U(modalContainerColor, obj7, restartGroup);
                             $dirty &= -7169;
                         }
-                        if (i9 != 0) {
+                        if (i7 != 0) {
                             f3 = modalDrawerElevation-D9Ej5fM;
                         }
                         if (obj35 & 32 != 0) {
                             $dirty &= obj33;
                             obj = obj3;
-                            obj2 = str;
-                            l3 = contentColorFor-ek8zF_U;
-                            f = f3;
-                            i7 = 1001163336;
+                            obj4 = str;
+                            l = contentColorFor-ek8zF_U;
+                            f2 = f3;
+                            i6 = 1001163336;
                             drawerTonalElevation2 = windowInsets4;
                             windowInsets3 = i59;
-                            i5 = modalContainerColor;
+                            i = modalContainerColor;
                         } else {
-                            obj2 = str;
-                            l3 = contentColorFor-ek8zF_U;
-                            f = f3;
+                            obj4 = str;
+                            l = contentColorFor-ek8zF_U;
+                            f2 = f3;
                             drawerTonalElevation2 = obj;
                             windowInsets3 = i59;
-                            i7 = 1001163336;
+                            i6 = 1001163336;
                             obj = obj3;
-                            i5 = modalContainerColor;
+                            i = modalContainerColor;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1847,202 +1847,202 @@ public final class NavigationDrawerKt {
                         }
                         if (obj35 & 32 != 0) {
                             $dirty = i16;
-                            obj2 = str;
-                            l3 = contentColorFor-ek8zF_U;
-                            f = f3;
+                            obj4 = str;
+                            l = contentColorFor-ek8zF_U;
+                            f2 = f3;
                             drawerTonalElevation2 = obj;
                             windowInsets3 = i59;
-                            i7 = 1001163336;
+                            i6 = 1001163336;
                             obj = obj3;
-                            i5 = modalContainerColor;
+                            i = modalContainerColor;
                         } else {
-                            obj2 = str;
-                            l3 = contentColorFor-ek8zF_U;
-                            f = f3;
+                            obj4 = str;
+                            l = contentColorFor-ek8zF_U;
+                            f2 = f3;
                             drawerTonalElevation2 = obj;
                             windowInsets3 = i59;
-                            i7 = 1001163336;
+                            i6 = 1001163336;
                             obj = obj3;
-                            i5 = modalContainerColor;
+                            i = modalContainerColor;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i7, $dirty, -1, "androidx.compose.material3.ModalDrawerSheet (NavigationDrawer.kt:567)");
+                    ComposerKt.traceEventStart(i6, $dirty, -1, "androidx.compose.material3.ModalDrawerSheet (NavigationDrawer.kt:567)");
                 }
-                NavigationDrawerKt.DrawerSheet-7zSek6w(0, drawerTonalElevation2, obj, obj2, i5, obj16, l3, obj18, f, $changed, restartGroup);
+                NavigationDrawerKt.DrawerSheet-7zSek6w(0, drawerTonalElevation2, obj, obj4, i, obj16, l, obj18, f2, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj4 = drawerTonalElevation2;
+                obj2 = drawerTonalElevation2;
                 $composer2 = obj;
-                l = i5;
-                l2 = l3;
-                f2 = f;
+                l2 = i;
+                l3 = l;
+                f = f2;
                 windowInsets2 = $dirty;
-                $dirty2 = obj2;
+                $dirty2 = obj4;
             } else {
                 restartGroup.skipToGroupEnd();
-                composer2 = restartGroup;
+                composer = restartGroup;
                 $composer2 = obj3;
-                l = modalContainerColor;
-                f2 = f3;
+                l2 = modalContainerColor;
+                f = f3;
                 windowInsets2 = $dirty;
                 $dirty2 = str;
-                l2 = contentColorFor-ek8zF_U;
-                obj4 = obj;
+                l3 = contentColorFor-ek8zF_U;
+                obj2 = obj;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new NavigationDrawerKt.ModalDrawerSheet.1($composer2, $dirty2, l, obj3, l2, modalContainerColor, f2, obj4, $changed, i51, obj35);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new NavigationDrawerKt.ModalDrawerSheet.1($composer2, $dirty2, l2, obj3, l3, modalContainerColor, f, obj2, $changed, i51, obj35);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void ModalNavigationDrawer-FHprtrg(Function2<? super Composer, ? super Integer, Unit> drawerContent, Modifier modifier, androidx.compose.material3.DrawerState drawerState, boolean gesturesEnabled, long scrimColor, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
         Object composer$iv;
-        Function0 factory$iv$iv$iv2;
-        int i37;
-        Object anon3;
-        Object anon2;
-        Object valueOf;
+        Function0 factory$iv$iv$iv;
+        int i31;
+        Object $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$2;
+        Object $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$3;
+        Object $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$6;
         Object semantics$default;
         Object empty;
-        int empty4;
-        boolean traceInProgress;
-        boolean currentCompositionLocalMap;
-        int changed9;
-        int i7;
-        int i8;
         int empty2;
-        Object anon4;
+        boolean traceInProgress2;
+        boolean currentCompositionLocalMap2;
+        int changed;
+        int i20;
+        int i23;
+        int empty3;
+        Object $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$4;
         Object navigationMenu;
         Function0 factory$iv$iv;
-        int changed6;
         int changed3;
-        Object obj8;
+        int changed2;
+        Object obj6;
         int $dirty;
         Object $dirty2;
-        int i4;
-        Object modifier5;
-        Integer currentCompositionLocalMap2;
-        Object obj7;
-        int compositionCoroutineScope;
-        Composer composer2;
-        Object coroutineScope2;
-        boolean z;
-        Object obj;
-        int rememberDrawerState;
-        boolean traceInProgress2;
-        Object empty6;
-        Function0 factory$iv$iv$iv;
-        Object it$iv;
-        int i24;
-        int changed7;
-        long l2;
         int i36;
-        Object obj5;
-        Object empty3;
-        int i33;
-        Object mutableStateOf$default;
-        int i6;
-        int changed8;
-        int i20;
-        int mutableFloatStateOf;
-        int defaultsInvalid;
-        Object empty5;
-        boolean changed5;
-        int changed;
-        int currentCompositeKeyHash3;
-        boolean obj2;
-        int i29;
-        long scrimColor2;
-        int i19;
-        Object anon;
-        Object empty7;
-        int changed4;
+        Object modifier5;
+        Integer currentCompositionLocalMap;
+        Object obj2;
+        int compositionCoroutineScope;
+        Composer composer6;
+        Object coroutineScope2;
         boolean z2;
-        int changed2;
+        Object obj5;
+        int rememberDrawerState;
+        boolean traceInProgress;
+        Object empty6;
+        Function0 factory$iv$iv$iv2;
+        Object it$iv;
+        int i37;
+        int changed7;
+        long l3;
         int i12;
-        int i10;
-        Composer composer;
-        Composer composer3;
-        int i34;
-        int i22;
-        int i3;
-        int i13;
-        Object maybeCachedBoxMeasurePolicy;
-        Object maybeCachedBoxMeasurePolicy2;
-        Modifier materializeModifier;
-        int i26;
-        int companion6;
         Object obj4;
-        Composer.Companion companion2;
-        int i32;
+        Object empty4;
+        int i34;
+        Object mutableStateOf$default;
+        int i30;
+        int changed6;
+        int i15;
+        int $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$minValue$2;
+        int defaultsInvalid;
+        Object $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$anchorsInitialized$2;
+        boolean changed8;
+        int changed9;
+        int currentCompositeKeyHash;
+        boolean obj;
+        int i6;
+        long scrimColor2;
+        int i7;
+        Object $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$1;
+        Object empty5;
+        int changed5;
         boolean z3;
-        int i23;
-        Object iNSTANCE;
-        int i;
-        int companion3;
+        int changed4;
+        int i21;
         int i14;
+        Composer composer5;
+        Composer composer2;
+        int i28;
+        int i25;
+        int i32;
+        int i22;
+        Object maybeCachedBoxMeasurePolicy2;
+        Object maybeCachedBoxMeasurePolicy;
+        Modifier materializeModifier;
+        int i18;
+        int companion2;
+        Object obj7;
+        Composer.Companion companion6;
+        int i3;
+        boolean z;
+        int i11;
+        Object $i$a$RememberCoroutineScopeEffectsKt$rememberCoroutineScope$1;
+        int i4;
+        int companion3;
+        int i13;
         int companion5;
         Composer.Companion companion;
-        int i31;
-        int invalid$iv;
+        int i2;
         int invalid$iv2;
-        Object obj6;
-        int i30;
+        int invalid$iv;
+        Object obj8;
+        int i26;
         int invalid$iv3;
-        long l3;
+        long l2;
         long l;
         Function0 function02;
-        int i27;
+        int i10;
         kotlinx.coroutines.CoroutineScope coroutineScope;
         Alignment alignment;
-        int i38;
+        int i29;
         int currentCompositeKeyHash2;
-        Modifier modifier4;
+        Modifier modifier3;
         Function0 function0;
-        int i18;
+        int i5;
         int i35;
         Object obj3;
         String str;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        int i5;
-        int i15;
-        BoxScopeInstance boxScopeInstance;
-        Modifier modifier2;
-        Composer composer6;
+        int i17;
         int i16;
-        int i11;
-        int currentCompositeKeyHash;
-        int i25;
-        int i21;
+        BoxScopeInstance boxScopeInstance2;
+        Modifier modifier4;
+        Composer composer;
+        int i8;
+        int i24;
+        int currentCompositeKeyHash3;
+        int i;
+        int i38;
         androidx.compose.ui.Modifier.Companion companion4;
         Function0 function03;
-        int i2;
-        int i17;
-        Composer composer5;
+        int i27;
+        int i33;
+        Composer composer3;
         String str2;
-        int i28;
-        BoxScopeInstance boxScopeInstance2;
+        int i19;
+        BoxScopeInstance boxScopeInstance;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
         Composer composer4;
-        Modifier modifier3;
+        Modifier modifier2;
         Composer obj63;
         int obj64;
         Composer obj65;
         int obj66;
         int obj67;
         int obj69;
-        empty3 = $composer;
-        i20 = i9;
+        empty4 = $composer;
+        i15 = i9;
         final Composer restartGroup = $changed.startRestartGroup(-1169303680);
         ComposerKt.sourceInformation(restartGroup, "C(ModalNavigationDrawer)P(1,4,2,3,5:c#ui.graphics.Color)316@12708L39,318@12825L10,321@12893L24,322@12943L33,323@13008L7,324@13046L34,325@13101L45,328@13185L33,328@13174L44,330@13257L7,331@13292L3053:NavigationDrawer.kt#uh7d8r");
         $dirty = i9;
@@ -2050,84 +2050,84 @@ public final class NavigationDrawerKt {
         if (obj71 & 1 != 0) {
             $dirty |= 6;
         } else {
-            if (i20 & 6 == 0) {
-                i4 = restartGroup.changedInstance(drawerContent) ? 4 : i74;
-                $dirty |= i4;
+            if (i15 & 6 == 0) {
+                i36 = restartGroup.changedInstance(drawerContent) ? 4 : i74;
+                $dirty |= i36;
             }
         }
         int i69 = obj71 & 2;
         if (i69 != 0) {
             $dirty |= 48;
-            obj = modifier;
+            obj5 = modifier;
         } else {
-            if (i20 & 48 == 0) {
-                i36 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i36;
+            if (i15 & 48 == 0) {
+                i12 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i12;
             } else {
-                obj = modifier;
+                obj5 = modifier;
             }
         }
-        if (i20 & 384 == 0) {
+        if (i15 & 384 == 0) {
             if (obj71 & 4 == 0) {
-                changed = restartGroup.changed(drawerState) ? 256 : 128;
+                changed9 = restartGroup.changed(drawerState) ? 256 : 128;
             } else {
-                obj5 = drawerState;
+                obj4 = drawerState;
             }
-            $dirty |= changed;
+            $dirty |= changed9;
         } else {
-            obj5 = drawerState;
+            obj4 = drawerState;
         }
-        currentCompositeKeyHash3 = obj71 & 8;
-        if (currentCompositeKeyHash3 != 0) {
+        currentCompositeKeyHash = obj71 & 8;
+        if (currentCompositeKeyHash != 0) {
             $dirty |= 3072;
-            obj2 = gesturesEnabled;
+            obj = gesturesEnabled;
         } else {
-            if (i20 & 3072 == 0) {
-                i29 = restartGroup.changed(gesturesEnabled) ? 2048 : 1024;
-                $dirty |= i29;
+            if (i15 & 3072 == 0) {
+                i6 = restartGroup.changed(gesturesEnabled) ? 2048 : 1024;
+                $dirty |= i6;
             } else {
-                obj2 = gesturesEnabled;
+                obj = gesturesEnabled;
             }
         }
-        if (i20 & 24576 == 0) {
+        if (i15 & 24576 == 0) {
             if (obj71 & 16 == 0) {
-                changed2 = restartGroup.changed(scrimColor) ? 16384 : 8192;
+                changed4 = restartGroup.changed(scrimColor) ? 16384 : 8192;
             } else {
                 scrimColor2 = scrimColor;
             }
-            $dirty |= changed2;
+            $dirty |= changed4;
         } else {
             scrimColor2 = scrimColor;
         }
         if (obj71 & 32 != 0) {
-            i12 = 196608;
-            $dirty |= i12;
+            i21 = 196608;
+            $dirty |= i21;
         } else {
         }
-        if (i126 &= $dirty == 74898) {
+        if (i124 &= $dirty == 74898) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i39 = 6;
-                if (i20 & 1 != 0) {
+                if (i15 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i69 != 0) {
                             modifier5 = Modifier.Companion;
                         } else {
-                            modifier5 = obj;
+                            modifier5 = obj5;
                         }
                         if (obj71 & 4 != 0) {
                             $dirty &= -897;
-                            obj5 = rememberDrawerState;
+                            obj4 = rememberDrawerState;
                         }
-                        if (currentCompositeKeyHash3 != 0) {
-                            obj2 = rememberDrawerState;
+                        if (currentCompositeKeyHash != 0) {
+                            obj = rememberDrawerState;
                         }
                         if (obj71 & 16 != 0) {
                             scrimColor2 = DrawerDefaults.INSTANCE.getScrimColor(restartGroup, i39);
-                            $dirty &= obj;
-                            z3 = obj2;
+                            $dirty &= obj5;
+                            z = obj;
                         } else {
-                            z3 = obj2;
+                            z = obj;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -2136,11 +2136,11 @@ public final class NavigationDrawerKt {
                         }
                         if (obj71 & 16 != 0) {
                             $dirty &= i73;
-                            modifier5 = obj;
-                            z3 = obj2;
+                            modifier5 = obj5;
+                            z = obj;
                         } else {
-                            modifier5 = obj;
-                            z3 = obj2;
+                            modifier5 = obj5;
+                            z = obj;
                         }
                     }
                 } else {
@@ -2149,20 +2149,20 @@ public final class NavigationDrawerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(-1169303680, $dirty, -1, "androidx.compose.material3.ModalNavigationDrawer (NavigationDrawer.kt:320)");
                 }
-                int i100 = i76;
-                int i106 = 0;
-                int i146 = i39;
+                int i98 = i76;
+                int i104 = 0;
+                int i144 = i39;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 773894976, "CC(rememberCoroutineScope)489@20472L144:Effects.kt#9igjgp");
                 Composer composer7 = restartGroup;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -954363344, "CC(remember):Effects.kt#9igjgp");
                 compositionCoroutineScope = 0;
                 Composer composer15 = restartGroup;
-                int i148 = 0;
+                int i146 = 0;
                 Object rememberedValue9 = composer15.rememberedValue();
-                int i151 = 0;
+                int i149 = 0;
                 if (rememberedValue9 == Composer.Companion.getEmpty()) {
                     empty6 = 0;
-                    int i157 = 0;
+                    int i155 = 0;
                     obj64 = compositionCoroutineScope;
                     obj65 = composer7;
                     composer$iv = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, composer7));
@@ -2177,21 +2177,21 @@ public final class NavigationDrawerKt {
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 androidx.compose.material3.internal.Strings.Companion companion7 = Strings.Companion;
                 int i77 = 0;
-                int i101 = 0;
-                int i107 = 0;
+                int i99 = 0;
+                int i105 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 Object this_$iv2 = consume2;
                 String str7 = "CC(remember):NavigationDrawer.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -2145781231, str7);
                 Composer composer16 = restartGroup;
-                int i128 = 0;
+                int i126 = 0;
                 mutableStateOf$default = composer16.rememberedValue();
-                int i149 = 0;
-                obj64 = i103;
+                int i147 = 0;
+                obj64 = i101;
                 if (mutableStateOf$default == Composer.Companion.getEmpty()) {
                     obj65 = mutableStateOf$default;
-                    obj66 = i104;
+                    obj66 = i102;
                     l = scrimColor2;
                     scrimColor2 = 0;
                     composer16.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(false, scrimColor2, 2, scrimColor2));
@@ -2201,77 +2201,77 @@ public final class NavigationDrawerKt {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -2145779460, str7);
-                changed5 = restartGroup.changed((Density)this_$iv2);
+                changed8 = restartGroup.changed((Density)this_$iv2);
                 Composer composer17 = restartGroup;
-                int i116 = 0;
+                int i114 = 0;
                 Object rememberedValue7 = composer17.rememberedValue();
-                int i129 = 0;
-                if (!changed5) {
-                    obj64 = changed5;
+                int i127 = 0;
+                if (!changed8) {
+                    obj64 = changed8;
                     if (rememberedValue7 == Composer.Companion.getEmpty()) {
                         int invalid$iv7 = 0;
                         composer17.updateRememberedValue(PrimitiveSnapshotStateKt.mutableFloatStateOf(0));
                     } else {
-                        mutableFloatStateOf = rememberedValue7;
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$minValue$2 = rememberedValue7;
                     }
                 } else {
-                    obj64 = changed5;
+                    obj64 = changed8;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                obj2 = 0;
+                obj = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -2145776784, str7);
-                if (i118 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj5)) {
-                        i19 = $dirty & 384 == 256 ? 1 : 0;
+                if (i116 ^= 384 > 256) {
+                    if (!restartGroup.changed(obj4)) {
+                        i7 = $dirty & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
-                i19 |= changed15;
+                i7 |= changed15;
                 Composer composer18 = restartGroup;
-                int i147 = 0;
+                int i145 = 0;
                 Object rememberedValue8 = composer18.rememberedValue();
-                int i150 = 0;
-                if (empty7 == 0) {
-                    obj65 = empty7;
+                int i148 = 0;
+                if (empty5 == 0) {
+                    obj65 = empty5;
                     if (rememberedValue8 == Composer.Companion.getEmpty()) {
                         obj66 = invalid$iv8;
-                        anon = new NavigationDrawerKt.ModalNavigationDrawer.1.1(obj5, this_$iv2);
-                        composer18.updateRememberedValue((Function0)anon);
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$1 = new NavigationDrawerKt.ModalNavigationDrawer.1.1(obj4, this_$iv2);
+                        composer18.updateRememberedValue((Function0)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$1);
                     } else {
-                        anon = rememberedValue8;
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$1 = rememberedValue8;
                     }
                 } else {
-                    obj65 = empty7;
+                    obj65 = empty5;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                EffectsKt.SideEffect((Function0)anon, restartGroup, 0);
-                int i130 = 0;
+                EffectsKt.SideEffect((Function0)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$1, restartGroup, 0);
+                int i128 = 0;
                 obj65 = this_$iv2;
-                obj66 = i123;
+                obj66 = i121;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                i = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? 1 : 0;
-                Modifier anchoredDraggable$default = AnchoredDraggableKt.anchoredDraggable$default(SizeKt.fillMaxSize$default(modifier5, 0, 1, 0), obj5.getAnchoredDraggableState$material3_release(), Orientation.Horizontal, z3, i, 0, 16, 0);
-                z2 = z3;
-                companion6 = 0;
-                obj66 = i120;
+                i4 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? 1 : 0;
+                Modifier anchoredDraggable$default = AnchoredDraggableKt.anchoredDraggable$default(SizeKt.fillMaxSize$default(modifier5, 0, 1, 0), obj4.getAnchoredDraggableState$material3_release(), Orientation.Horizontal, z, i4, 0, 16, 0);
+                z3 = z;
+                companion2 = 0;
+                obj66 = i118;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 Alignment topStart2 = Alignment.Companion.getTopStart();
-                int i121 = 0;
-                obj67 = i131;
-                maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart2, i121);
-                i23 = 0;
+                int i119 = 0;
+                obj67 = i129;
+                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart2, i119);
+                i11 = 0;
                 alignment = topStart2;
-                i38 = i121;
+                i29 = i119;
                 String propagateMinConstraints$iv = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, propagateMinConstraints$iv);
                 currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                currentCompositionLocalMap2 = restartGroup.getCurrentCompositionLocalMap();
+                currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(restartGroup, anchoredDraggable$default);
-                modifier4 = anchoredDraggable$default;
+                modifier3 = anchoredDraggable$default;
                 Function0 function04 = constructor;
-                i18 = 0;
+                i5 = 0;
                 Object obj10 = mutableStateOf$default;
                 String anchorsInitialized$delegate2 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, anchorsInitialized$delegate2);
@@ -2282,58 +2282,58 @@ public final class NavigationDrawerKt {
                 if (restartGroup.getInserting()) {
                     restartGroup.createNode(function04);
                 } else {
-                    factory$iv$iv$iv = function04;
+                    factory$iv$iv$iv2 = function04;
                     restartGroup.useNode();
                 }
-                function0 = factory$iv$iv$iv;
+                function0 = factory$iv$iv$iv2;
                 Composer constructor-impl3 = Updater.constructor-impl(restartGroup);
-                int i154 = 0;
-                Updater.set-impl(constructor-impl3, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl3, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i159 = 0;
+                int i152 = 0;
+                Updater.set-impl(constructor-impl3, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl3, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i157 = 0;
                 Composer composer20 = constructor-impl3;
-                int i165 = 0;
+                int i163 = 0;
                 if (!composer20.getInserting()) {
-                    localMap$iv$iv2 = currentCompositionLocalMap2;
-                    measurePolicy = maybeCachedBoxMeasurePolicy2;
+                    localMap$iv$iv2 = currentCompositionLocalMap;
+                    measurePolicy = maybeCachedBoxMeasurePolicy;
                     if (!Intrinsics.areEqual(composer20.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
                         composer20.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
                         constructor-impl3.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer20;
+                        composer5 = composer20;
                     }
                 } else {
-                    localMap$iv$iv2 = currentCompositionLocalMap2;
-                    measurePolicy = maybeCachedBoxMeasurePolicy2;
+                    localMap$iv$iv2 = currentCompositionLocalMap;
+                    measurePolicy = maybeCachedBoxMeasurePolicy;
                 }
                 Updater.set-impl(constructor-impl3, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                 Composer composer11 = restartGroup;
-                i5 = i41;
+                i17 = i41;
                 ComposerKt.sourceInformationMarkerStart(composer11, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 Composer composer19 = composer11;
-                i15 = 0;
-                boxScopeInstance = iNSTANCE2;
-                modifier2 = materializeModifier2;
+                i16 = 0;
+                boxScopeInstance2 = iNSTANCE;
+                modifier4 = materializeModifier2;
                 ComposerKt.sourceInformationMarkerStart(composer11, -1884917117, "C341@13601L17,344@13695L268,352@13988L70,342@13627L473,358@14209L245,364@14486L623,379@15121L1218,355@14109L2230:NavigationDrawer.kt#uh7d8r");
-                int i155 = i42;
+                int i153 = i42;
                 companion5 = i58;
                 ComposerKt.sourceInformationMarkerStart(composer11, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 androidx.compose.ui.Modifier.Companion companion10 = Modifier.Companion;
                 Alignment topStart = Alignment.Companion.getTopStart();
-                i16 = i82;
-                int i83 = 0;
-                i11 = i135;
-                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i83);
-                int i166 = 0;
+                i8 = i81;
+                int $i$a$LayoutBoxKt$Box$1$iv = 0;
+                i24 = i133;
+                maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart, $i$a$LayoutBoxKt$Box$1$iv);
+                int i164 = 0;
                 Alignment alignment2 = topStart;
                 ComposerKt.sourceInformationMarkerStart(composer11, -1323940314, propagateMinConstraints$iv);
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(composer11, 0);
-                currentCompositionLocalMap = composer11.getCurrentCompositionLocalMap();
-                i25 = i83;
+                currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(composer11, 0);
+                currentCompositionLocalMap2 = composer11.getCurrentCompositionLocalMap();
+                i = $i$a$LayoutBoxKt$Box$1$iv;
                 Modifier materializeModifier3 = ComposedModifierKt.materializeModifier(composer11, (Modifier)companion10);
                 companion4 = companion10;
                 Function0 function05 = constructor3;
-                i21 = 0;
+                i38 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer11, -692256719, anchorsInitialized$delegate2);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -2342,42 +2342,42 @@ public final class NavigationDrawerKt {
                 if (composer11.getInserting()) {
                     composer11.createNode(function05);
                 } else {
-                    factory$iv$iv$iv2 = function05;
+                    factory$iv$iv$iv = function05;
                     composer11.useNode();
                 }
-                function03 = factory$iv$iv$iv2;
+                function03 = factory$iv$iv$iv;
                 Composer constructor-impl = Updater.constructor-impl(composer11);
-                int i168 = 0;
-                Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i169 = 0;
+                int i166 = 0;
+                Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i167 = 0;
                 Composer composer22 = constructor-impl;
-                int i170 = 0;
+                int i168 = 0;
                 if (!composer22.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap;
-                    measurePolicy2 = maybeCachedBoxMeasurePolicy;
-                    if (!Intrinsics.areEqual(composer22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer22.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
-                        constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    localMap$iv$iv = currentCompositionLocalMap2;
+                    measurePolicy2 = maybeCachedBoxMeasurePolicy2;
+                    if (!Intrinsics.areEqual(composer22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
+                        composer22.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
+                        constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer22;
+                        composer2 = composer22;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap;
-                    measurePolicy2 = maybeCachedBoxMeasurePolicy;
+                    localMap$iv$iv = currentCompositionLocalMap2;
+                    measurePolicy2 = maybeCachedBoxMeasurePolicy2;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier3, ComposeUiNode.Companion.getSetModifier());
                 Composer composer8 = composer11;
-                int i95 = 0;
-                i17 = i46;
+                int i93 = 0;
+                i33 = i46;
                 ComposerKt.sourceInformationMarkerStart(composer8, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i138 |= 6;
-                i28 = 0;
-                boxScopeInstance2 = iNSTANCE3;
-                modifier3 = materializeModifier3;
-                Composer materialized$iv$iv2 = composer5;
+                i136 |= 6;
+                i19 = 0;
+                boxScopeInstance = iNSTANCE2;
+                modifier2 = materializeModifier3;
+                Composer materialized$iv$iv2 = composer3;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv2, 2020094509, "C341@13607L9:NavigationDrawer.kt#uh7d8r");
-                empty3.invoke(materialized$iv$iv2, Integer.valueOf(i47 &= 14));
+                empty4.invoke(materialized$iv$iv2, Integer.valueOf(i47 &= 14));
                 ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv2);
                 ComposerKt.sourceInformationMarkerEnd(composer8);
                 composer11.endNode();
@@ -2385,147 +2385,147 @@ public final class NavigationDrawerKt {
                 ComposerKt.sourceInformationMarkerEnd(composer11);
                 ComposerKt.sourceInformationMarkerEnd(composer11);
                 ComposerKt.sourceInformationMarkerStart(composer11, -2139013222, str7);
-                i37 = $dirty & 7168 == 2048 ? 1 : 0;
+                i31 = $dirty & 7168 == 2048 ? 1 : 0;
                 if (i61 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj5)) {
-                        i7 = $dirty & 384 == 256 ? 1 : 0;
+                    if (!restartGroup.changed(obj4)) {
+                        i20 = $dirty & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
                 i51 |= changedInstance;
                 Composer composer9 = composer11;
-                int i84 = 0;
+                int i82 = 0;
                 Object rememberedValue4 = composer9.rememberedValue();
-                int i140 = 0;
-                if (empty4 == 0) {
-                    invalid$iv = empty4;
+                int i138 = 0;
+                if (empty2 == 0) {
+                    invalid$iv2 = empty2;
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
                         companion5 = invalid$iv5;
-                        anon3 = new NavigationDrawerKt.ModalNavigationDrawer.2.2.1(z2, obj5, coroutineScope2);
-                        composer9.updateRememberedValue((Function0)anon3);
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$2 = new NavigationDrawerKt.ModalNavigationDrawer.2.2.1(z3, obj4, coroutineScope2);
+                        composer9.updateRememberedValue((Function0)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$2);
                     } else {
-                        anon3 = rememberedValue4;
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$2 = rememberedValue4;
                     }
                 } else {
-                    invalid$iv = empty4;
+                    invalid$iv2 = empty2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer11);
                 ComposerKt.sourceInformationMarkerStart(composer11, -2139004044, str7);
                 if (i62 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj5)) {
-                        i8 = $dirty & 384 == 256 ? 1 : 0;
+                    if (!restartGroup.changed(obj4)) {
+                        i23 = $dirty & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
-                changed10 |= i8;
+                changed10 |= i23;
                 Composer composer10 = composer11;
-                int i85 = 0;
+                int i83 = 0;
                 Object rememberedValue5 = composer10.rememberedValue();
-                int i141 = 0;
+                int i139 = 0;
                 if (empty == 0) {
                     invalid$iv3 = empty;
                     if (rememberedValue5 == Composer.Companion.getEmpty()) {
-                        invalid$iv = invalid$iv4;
-                        anon2 = new NavigationDrawerKt.ModalNavigationDrawer.2.3.1(obj2, obj5, mutableFloatStateOf);
-                        composer10.updateRememberedValue((Function0)anon2);
+                        invalid$iv2 = invalid$iv4;
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$3 = new NavigationDrawerKt.ModalNavigationDrawer.2.3.1(obj, obj4, $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$minValue$2);
+                        composer10.updateRememberedValue((Function0)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$3);
                     } else {
-                        anon2 = rememberedValue5;
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$3 = rememberedValue5;
                     }
                 } else {
                     invalid$iv3 = empty;
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer11);
-                l3 = l;
-                NavigationDrawerKt.Scrim-Bx497Mc(obj5.isOpen(), (Function0)anon3, (Function0)anon2, l3, l, composer11);
+                l2 = l;
+                NavigationDrawerKt.Scrim-Bx497Mc(obj4.isOpen(), (Function0)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$2, (Function0)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$3, l2, l, composer11);
                 ComposerKt.sourceInformationMarkerStart(composer11, -2138996797, str7);
                 if (i64 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj5)) {
-                        empty2 = $dirty & 384 == 256 ? 1 : 0;
+                    if (!restartGroup.changed(obj4)) {
+                        empty3 = $dirty & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
                 Composer composer12 = composer11;
-                int i96 = 0;
+                int i94 = 0;
                 Object rememberedValue10 = composer12.rememberedValue();
-                int i156 = 0;
-                if (empty2 == 0) {
-                    invalid$iv2 = empty2;
+                int i154 = 0;
+                if (empty3 == 0) {
+                    invalid$iv = empty3;
                     if (rememberedValue10 == Composer.Companion.getEmpty()) {
                         companion = invalid$iv6;
-                        anon4 = new NavigationDrawerKt.ModalNavigationDrawer.2.4.1(obj5);
-                        composer12.updateRememberedValue((Function1)anon4);
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$4 = new NavigationDrawerKt.ModalNavigationDrawer.2.4.1(obj4);
+                        composer12.updateRememberedValue((Function1)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$4);
                     } else {
-                        anon4 = rememberedValue10;
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$4 = rememberedValue10;
                     }
                 } else {
-                    invalid$iv2 = empty2;
+                    invalid$iv = empty3;
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer11);
                 ComposerKt.sourceInformationMarkerStart(composer11, -2138987555, str7);
                 String str4 = str9;
-                if (i97 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj5)) {
-                        i6 = $dirty & 384 == 256 ? 1 : 0;
+                if (i95 ^= 384 > 256) {
+                    if (!restartGroup.changed(obj4)) {
+                        i30 = $dirty & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
                 }
                 Composer composer14 = composer11;
-                int i142 = 0;
+                int i140 = 0;
                 it$iv = composer14.rememberedValue();
-                int i160 = 0;
-                if (i86 |= changedInstance3 == 0) {
+                int i158 = 0;
+                if (i84 |= changedInstance3 == 0) {
                     if (it$iv == Composer.Companion.getEmpty()) {
-                        empty3 = 0;
-                        obj6 = it$iv;
-                        it$iv = new NavigationDrawerKt.ModalNavigationDrawer.2.5.1(str4, obj5, coroutineScope2);
+                        empty4 = 0;
+                        obj8 = it$iv;
+                        it$iv = new NavigationDrawerKt.ModalNavigationDrawer.2.5.1(str4, obj4, coroutineScope2);
                         composer14.updateRememberedValue((Function1)it$iv);
                     } else {
-                        obj6 = it$iv;
+                        obj8 = it$iv;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer11);
-                int i143 = 1;
-                semantics$default = SemanticsModifierKt.semantics$default(OffsetKt.offset((Modifier)Modifier.Companion, (Function1)anon4), false, (Function1)it$iv, i143, 0);
+                int i141 = 1;
+                semantics$default = SemanticsModifierKt.semantics$default(OffsetKt.offset((Modifier)Modifier.Companion, (Function1)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$4), false, (Function1)it$iv, i141, 0);
                 ComposerKt.sourceInformationMarkerStart(composer11, -2138966640, str7);
-                if (i89 ^= 384 > 256) {
-                    if (!restartGroup.changed(obj5)) {
-                        i24 = $dirty & 384 == 256 ? i143 : 0;
+                if (i87 ^= 384 > 256) {
+                    if (!restartGroup.changed(obj4)) {
+                        i37 = $dirty & 384 == 256 ? i141 : 0;
                     } else {
                     }
                 } else {
                 }
                 Composer composer13 = composer11;
-                int i99 = 0;
+                int i97 = 0;
                 Object rememberedValue6 = composer13.rememberedValue();
-                int i144 = 0;
-                if (i24 |= changed13 == 0) {
+                int i142 = 0;
+                if (i37 |= changed13 == 0) {
                     obj64 = semantics$default;
                     if (rememberedValue6 == Composer.Companion.getEmpty()) {
                         obj69 = i57;
                         str = str4;
-                        valueOf = new NavigationDrawerKt.ModalNavigationDrawer.2.6.1(obj5, obj10, mutableFloatStateOf, obj2);
-                        composer13.updateRememberedValue((MeasurePolicy)valueOf);
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$6 = new NavigationDrawerKt.ModalNavigationDrawer.2.6.1(obj4, obj10, $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$minValue$2, obj);
+                        composer13.updateRememberedValue((MeasurePolicy)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$6);
                     } else {
                         str = str4;
-                        valueOf = rememberedValue6;
+                        $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$6 = rememberedValue6;
                         navigationMenu = obj10;
                     }
                 } else {
                     obj64 = semantics$default;
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer11);
-                i20 = 0;
+                i15 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer11, -1323940314, propagateMinConstraints$iv);
-                currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(composer11, 0);
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(composer11, 0);
                 obj3 = navigationMenu;
                 obj63 = constructor2;
-                i26 = 0;
-                i14 = $dirty;
+                i18 = 0;
+                i13 = $dirty;
                 ComposerKt.sourceInformationMarkerStart(composer11, -692256719, anchorsInitialized$delegate2);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -2538,24 +2538,24 @@ public final class NavigationDrawerKt {
                     composer11.useNode();
                 }
                 Composer constructor-impl2 = Updater.constructor-impl(composer11);
-                i31 = 0;
+                i2 = 0;
                 function02 = factory$iv$iv;
-                Updater.set-impl(constructor-impl2, (MeasurePolicy)valueOf, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl2, (MeasurePolicy)$i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$6, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl2, composer11.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i30 = 0;
+                i26 = 0;
                 obj63 = constructor-impl2;
-                i27 = 0;
+                i10 = 0;
                 if (!obj63.getInserting()) {
-                    obj69 = valueOf;
+                    obj69 = $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$6;
                     coroutineScope = coroutineScope2;
-                    if (!Intrinsics.areEqual(obj63.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
-                        obj63.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
-                        constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    if (!Intrinsics.areEqual(obj63.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        obj63.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                        constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = obj63;
+                        composer6 = obj63;
                     }
                 } else {
-                    obj69 = valueOf;
+                    obj69 = $i$a$CacheNavigationDrawerKt$ModalNavigationDrawer$2$6;
                     coroutineScope = coroutineScope2;
                 }
                 Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier(composer11, obj64), ComposeUiNode.Companion.getSetModifier());
@@ -2572,24 +2572,24 @@ public final class NavigationDrawerKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj7 = obj5;
-                z = z2;
-                $dirty2 = obj4;
-                l2 = l3;
+                obj2 = obj4;
+                z2 = z3;
+                $dirty2 = obj7;
+                l3 = l2;
             } else {
                 restartGroup.skipToGroupEnd();
-                i14 = $dirty;
-                $dirty2 = obj;
-                obj7 = obj5;
-                z = obj2;
-                l2 = scrimColor2;
+                i13 = $dirty;
+                $dirty2 = obj5;
+                obj2 = obj4;
+                z2 = obj;
+                l3 = scrimColor2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new NavigationDrawerKt.ModalNavigationDrawer.3(obj8, $dirty2, obj7, z, l2, obj5, $composer, i9, obj71);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new NavigationDrawerKt.ModalNavigationDrawer.3(obj6, $dirty2, obj2, z2, l3, obj4, $composer, i9, obj71);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -2622,58 +2622,58 @@ public final class NavigationDrawerKt {
     }
 
     public static final void NavigationDrawerItem(Function2<? super Composer, ? super Integer, Unit> label, boolean selected, Function0<Unit> onClick, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> icon, Function2<? super Composer, ? super Integer, Unit> badge, Shape shape, androidx.compose.material3.NavigationDrawerItemColors colors, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i12) {
-        boolean traceInProgress;
-        int modifier3;
+        boolean traceInProgress2;
+        int modifier2;
         int defaultsInvalid;
-        Object modifier2;
-        Modifier i11;
-        int i6;
-        int i;
-        int $dirty;
-        Object obj12;
+        Object modifier3;
+        Modifier i6;
+        int i15;
+        int i7;
+        int $dirty2;
+        Object obj4;
         Object colors2;
         Object shape2;
-        Object obj2;
-        Object obj;
-        int i8;
+        Object obj12;
         Object obj14;
-        Object obj9;
+        int i11;
+        Object obj8;
+        Object obj3;
+        Object obj10;
+        int i4;
+        int i10;
         Object obj5;
-        int i2;
-        int i7;
-        Object obj4;
-        boolean traceInProgress2;
-        Object obj13;
+        boolean traceInProgress;
+        Object obj6;
         int i14;
         int value;
-        Object navigationDrawerItemColors2;
+        Object navigationDrawerItemColors;
         Object anon;
-        int i19;
-        int i3;
-        int i5;
-        Object obj6;
-        int i13;
         int i9;
-        Object obj8;
-        Composer restartGroup;
-        int i4;
-        Object obj10;
-        int changed;
-        int changed2;
-        int i15;
-        int i10;
+        int i21;
+        int i3;
+        Object obj7;
         int i16;
-        androidx.compose.material3.NavigationDrawerItemColors navigationDrawerItemColors;
-        int i17;
+        int i2;
+        Object obj13;
+        Composer restartGroup;
+        int i8;
+        Object obj2;
+        int changed2;
+        int changed;
+        int i20;
+        int i19;
+        int i5;
+        androidx.compose.material3.NavigationDrawerItemColors navigationDrawerItemColors2;
+        int i13;
         Composer composer2;
         Composer composer;
-        int i18;
-        int i20;
+        int i;
+        int i17;
+        Object obj;
+        Object obj9;
         Object obj11;
-        Object obj7;
-        Object obj3;
-        int $dirty2;
-        int i21;
+        int $dirty;
+        int i18;
         androidx.compose.material3.NavigationDrawerKt.NavigationDrawerItem.2 obj32;
         Object obj33;
         androidx.compose.material3.NavigationDrawerItemColors obj34;
@@ -2681,113 +2681,113 @@ public final class NavigationDrawerKt {
         Object obj36;
         Function2 obj37;
         int obj38;
-        traceInProgress = selected;
+        traceInProgress2 = selected;
         int i27 = $changed;
-        i11 = i12;
+        i6 = i12;
         restartGroup = $composer.startRestartGroup(-1304626543);
         ComposerKt.sourceInformation(restartGroup, "C(NavigationDrawerItem)P(4,7,6,5,2!1,8)925@38341L5,926@38418L8,938@38801L24,940@38886L884,929@38492L1278:NavigationDrawer.kt#uh7d8r");
-        $dirty = $changed;
-        if (i11 & 1 != 0) {
-            $dirty |= 6;
-            obj2 = label;
+        $dirty2 = $changed;
+        if (i6 & 1 != 0) {
+            $dirty2 |= 6;
+            obj12 = label;
         } else {
             if (i27 & 6 == 0) {
-                i2 = restartGroup.changedInstance(label) ? 4 : 2;
-                $dirty |= i2;
+                i4 = restartGroup.changedInstance(label) ? 4 : 2;
+                $dirty2 |= i4;
             } else {
-                obj2 = label;
+                obj12 = label;
             }
         }
-        if (i11 & 2 != 0) {
-            $dirty |= 48;
+        if (i6 & 2 != 0) {
+            $dirty2 |= 48;
         } else {
             if (i27 & 48 == 0) {
-                i7 = restartGroup.changed(traceInProgress) ? 32 : 16;
-                $dirty |= i7;
+                i10 = restartGroup.changed(traceInProgress2) ? 32 : 16;
+                $dirty2 |= i10;
             }
         }
-        if (i11 & 4 != 0) {
-            $dirty |= 384;
-            obj4 = onClick;
+        if (i6 & 4 != 0) {
+            $dirty2 |= 384;
+            obj5 = onClick;
         } else {
             if (i27 & 384 == 0) {
                 i14 = restartGroup.changedInstance(onClick) ? 256 : 128;
-                $dirty |= i14;
+                $dirty2 |= i14;
             } else {
-                obj4 = onClick;
+                obj5 = onClick;
             }
         }
-        value = i11 & 8;
+        value = i6 & 8;
         if (value != null) {
-            $dirty |= 3072;
+            $dirty2 |= 3072;
             anon = modifier;
         } else {
             if (i27 & 3072 == 0) {
-                i3 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty |= i3;
+                i21 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty2 |= i21;
             } else {
                 anon = modifier;
             }
         }
-        i5 = i11 & 16;
-        if (i5 != 0) {
-            $dirty |= 24576;
-            obj6 = icon;
+        i3 = i6 & 16;
+        if (i3 != 0) {
+            $dirty2 |= 24576;
+            obj7 = icon;
         } else {
             if (i27 & 24576 == 0) {
-                i13 = restartGroup.changedInstance(icon) ? 16384 : 8192;
-                $dirty |= i13;
+                i16 = restartGroup.changedInstance(icon) ? 16384 : 8192;
+                $dirty2 |= i16;
             } else {
-                obj6 = icon;
+                obj7 = icon;
             }
         }
-        i9 = i11 & 32;
+        i2 = i6 & 32;
         int i61 = 196608;
-        if (i9 != 0) {
-            $dirty |= i61;
-            obj8 = badge;
+        if (i2 != 0) {
+            $dirty2 |= i61;
+            obj13 = badge;
         } else {
             if (i61 &= i27 == 0) {
-                i4 = restartGroup.changedInstance(badge) ? 131072 : 65536;
-                $dirty |= i4;
+                i8 = restartGroup.changedInstance(badge) ? 131072 : 65536;
+                $dirty2 |= i8;
             } else {
-                obj8 = badge;
+                obj13 = badge;
             }
         }
         if (i63 &= i27 == 0) {
-            if (i11 & 64 == 0) {
-                changed = restartGroup.changed(shape) ? 1048576 : 524288;
+            if (i6 & 64 == 0) {
+                changed2 = restartGroup.changed(shape) ? 1048576 : 524288;
             } else {
-                obj10 = shape;
+                obj2 = shape;
             }
-            $dirty |= changed;
+            $dirty2 |= changed2;
         } else {
-            obj10 = shape;
+            obj2 = shape;
         }
         if (i27 & i66 == 0) {
-            if (i11 & 128 == 0) {
-                changed2 = restartGroup.changed(colors) ? 8388608 : 4194304;
+            if (i6 & 128 == 0) {
+                changed = restartGroup.changed(colors) ? 8388608 : 4194304;
             } else {
-                obj9 = colors;
+                obj3 = colors;
             }
-            $dirty |= changed2;
+            $dirty2 |= changed;
         } else {
-            obj9 = colors;
+            obj3 = colors;
         }
-        int i32 = i11 & 256;
-        i15 = 100663296;
+        int i32 = i6 & 256;
+        i20 = 100663296;
         if (i32 != 0) {
-            $dirty |= i15;
-            obj = interactionSource;
+            $dirty2 |= i20;
+            obj14 = interactionSource;
         } else {
-            if (i27 & i15 == 0) {
-                i15 = restartGroup.changed(interactionSource) ? 67108864 : 33554432;
-                $dirty |= i15;
+            if (i27 & i20 == 0) {
+                i20 = restartGroup.changed(interactionSource) ? 67108864 : 33554432;
+                $dirty2 |= i20;
             } else {
-                obj = interactionSource;
+                obj14 = interactionSource;
             }
         }
-        if ($dirty & i10 == 38347922) {
+        if ($dirty2 & i19 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i33 = -29360129;
@@ -2795,165 +2795,165 @@ public final class NavigationDrawerKt {
                 if ($changed & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (value != null) {
-                            modifier2 = Modifier.Companion;
+                            modifier3 = Modifier.Companion;
                         } else {
-                            modifier2 = anon;
+                            modifier3 = anon;
                         }
-                        obj11 = i5 != 0 ? value : obj6;
-                        obj7 = i9 != 0 ? value : obj8;
-                        if (i11 & 64 != 0) {
-                            obj3 = value;
-                            $dirty2 = $dirty;
+                        obj = i3 != 0 ? value : obj7;
+                        obj9 = i2 != 0 ? value : obj13;
+                        if (i6 & 64 != 0) {
+                            obj11 = value;
+                            $dirty = $dirty2;
                         } else {
-                            obj3 = obj10;
-                            $dirty2 = $dirty;
+                            obj11 = obj2;
+                            $dirty = $dirty2;
                         }
-                        if (i11 & 128 != 0) {
+                        if (i6 & 128 != 0) {
                             composer2 = restartGroup;
-                            i6 = 2;
-                            obj12 = NavigationDrawerItemDefaults.INSTANCE.colors-oq7We08(0, obj9, 0, value, 0, i5, 0, i9, 0, restartGroup, 0);
+                            i15 = 2;
+                            obj4 = NavigationDrawerItemDefaults.INSTANCE.colors-oq7We08(0, obj3, 0, value, 0, i3, 0, i2, 0, restartGroup, 0);
                             restartGroup = composer2;
-                            $dirty2 &= obj38;
+                            $dirty &= obj38;
                         } else {
-                            i6 = 2;
-                            obj12 = colors;
+                            i15 = 2;
+                            obj4 = colors;
                         }
                         if (i32 != 0) {
-                            obj9 = obj12;
-                            i9 = i37;
-                            colors2 = obj3;
-                            i8 = $dirty2;
+                            obj3 = obj4;
+                            i2 = i37;
+                            colors2 = obj11;
+                            i11 = $dirty;
                         } else {
-                            i9 = interactionSource;
-                            obj9 = obj12;
-                            colors2 = obj3;
-                            i8 = $dirty2;
+                            i2 = interactionSource;
+                            obj3 = obj4;
+                            colors2 = obj11;
+                            i11 = $dirty;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        if (i11 & 64 != 0) {
-                            $dirty &= i67;
+                        if (i6 & 64 != 0) {
+                            $dirty2 &= i67;
                         }
-                        if (i11 & 128 != 0) {
-                            i9 = obj;
-                            obj11 = obj6;
-                            obj7 = obj8;
-                            colors2 = obj10;
-                            i6 = 2;
-                            i8 = i30;
-                            modifier2 = anon;
+                        if (i6 & 128 != 0) {
+                            i2 = obj14;
+                            obj = obj7;
+                            obj9 = obj13;
+                            colors2 = obj2;
+                            i15 = 2;
+                            i11 = i30;
+                            modifier3 = anon;
                         } else {
-                            i9 = obj;
-                            modifier2 = anon;
-                            obj11 = obj6;
-                            obj7 = obj8;
-                            i6 = 2;
-                            i8 = $dirty;
-                            colors2 = obj10;
+                            i2 = obj14;
+                            modifier3 = anon;
+                            obj = obj7;
+                            obj9 = obj13;
+                            i15 = 2;
+                            i11 = $dirty2;
+                            colors2 = obj2;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-1304626543, i8, -1, "androidx.compose.material3.NavigationDrawerItem (NavigationDrawer.kt:928)");
+                    ComposerKt.traceEventStart(-1304626543, i11, -1, "androidx.compose.material3.NavigationDrawerItem (NavigationDrawer.kt:928)");
                 }
                 int i54 = 1;
                 int i57 = 0;
                 int i60 = 0;
                 i51 &= 112;
-                obj34 = obj9;
+                obj34 = obj3;
                 obj32 = anon3;
-                super(obj11, obj34, traceInProgress, obj7, label);
+                super(obj, obj34, traceInProgress2, obj9, label);
                 i42 &= i55;
-                i21 = i8;
-                SurfaceKt.Surface-d85dljk(selected, onClick, SizeKt.fillMaxWidth$default(SizeKt.heightIn-VpY3zN4$default(SemanticsModifierKt.semantics$default(modifier2, false, (Function1)NavigationDrawerKt.NavigationDrawerItem.1.INSTANCE, i54, i57), NavigationDrawerTokens.INSTANCE.getActiveIndicatorHeight-D9Ej5fM(), i60, i6, i57), i60, i54, i57), false, colors2, (Color)obj9.containerColor(traceInProgress, restartGroup, i47 |= i52).getValue().unbox-impl(), i43, 0, i52, 0, 0, 0, i9, (Function2)ComposableLambdaKt.rememberComposableLambda(191488423, i54, obj32, restartGroup, 54), restartGroup, i24 | i43);
+                i18 = i11;
+                SurfaceKt.Surface-d85dljk(selected, onClick, SizeKt.fillMaxWidth$default(SizeKt.heightIn-VpY3zN4$default(SemanticsModifierKt.semantics$default(modifier3, false, (Function1)NavigationDrawerKt.NavigationDrawerItem.1.INSTANCE, i54, i57), NavigationDrawerTokens.INSTANCE.getActiveIndicatorHeight-D9Ej5fM(), i60, i15, i57), i60, i54, i57), false, colors2, (Color)obj3.containerColor(traceInProgress2, restartGroup, i47 |= i52).getValue().unbox-impl(), i43, 0, i52, 0, 0, 0, i2, (Function2)ComposableLambdaKt.rememberComposableLambda(191488423, i54, obj32, restartGroup, 54), restartGroup, i24 | i43);
                 composer = restartGroup;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj13 = colors2;
-                i19 = i9;
-                navigationDrawerItemColors2 = navigationDrawerItemColors;
-                shape2 = i17;
-                obj14 = obj11;
-                obj5 = obj7;
+                obj6 = colors2;
+                i9 = i2;
+                navigationDrawerItemColors = navigationDrawerItemColors2;
+                shape2 = i13;
+                obj8 = obj;
+                obj10 = obj9;
             } else {
                 restartGroup.skipToGroupEnd();
-                i21 = $dirty;
-                navigationDrawerItemColors2 = obj9;
+                i18 = $dirty2;
+                navigationDrawerItemColors = obj3;
                 shape2 = anon;
-                obj5 = obj8;
+                obj10 = obj13;
                 composer = restartGroup;
-                obj13 = obj10;
-                i19 = obj;
-                obj14 = obj6;
+                obj6 = obj2;
+                i9 = obj14;
+                obj8 = obj7;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new NavigationDrawerKt.NavigationDrawerItem.3(label, selected, onClick, shape2, obj14, obj5, obj13, navigationDrawerItemColors2, i19, $changed, i12);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new NavigationDrawerKt.NavigationDrawerItem.3(label, selected, onClick, shape2, obj8, obj10, obj6, navigationDrawerItemColors, i9, $changed, i12);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void PermanentDrawerSheet-afqeVBk(Modifier modifier, Shape drawerShape, long drawerContainerColor, long drawerContentColor, float drawerTonalElevation, WindowInsets windowInsets, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i10) {
         String string-2EP1pXo;
-        int windowInsets2;
+        int windowInsets3;
         int defaultsInvalid;
         int iNSTANCE;
         int permanentDrawerElevation-D9Ej5fM;
         Object $composer2;
         int $dirty;
         Object $dirty2;
-        long l4;
+        long l;
         Object anon;
-        Object obj2;
+        Object obj;
         int i4;
         long l3;
         boolean traceInProgress;
         Object str;
-        int i3;
+        int i2;
         long standardContainerColor;
-        float f2;
+        float f;
         Object obj4;
+        int changed;
+        int i5;
         int changed3;
-        int i8;
-        int changed2;
         Object rememberedValue;
         long contentColorFor-ek8zF_U;
-        int windowInsets3;
-        Object obj3;
+        int windowInsets2;
+        Object obj2;
         float semantics$default;
-        int i2;
-        Object obj;
-        int changed;
+        int i6;
         Object obj5;
-        int i;
+        int changed2;
+        Object obj3;
         int i7;
-        long l2;
-        float f;
+        int i;
+        long l4;
+        float f2;
         Composer composer2;
         Composer composer;
-        int i5;
-        int i6;
-        long l;
+        int i3;
+        int i8;
+        long l2;
         int obj35;
-        final int i51 = obj36;
+        final int i50 = obj36;
         Composer restartGroup = i10.startRestartGroup(-1733353241);
         ComposerKt.sourceInformation(restartGroup, "C(PermanentDrawerSheet)P(5,3,1:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.unit.Dp,6)734@30666L22,735@30722L37,737@30881L12,740@30972L33,744@31114L30,741@31010L266:NavigationDrawer.kt#uh7d8r");
         $dirty = obj36;
         int i17 = obj37 & 1;
         if (i17 != 0) {
             $dirty |= 6;
-            obj2 = modifier;
+            obj = modifier;
         } else {
-            if (i51 & 6 == 0) {
+            if (i50 & 6 == 0) {
                 i4 = restartGroup.changed(modifier) ? 4 : 2;
                 $dirty |= i4;
             } else {
-                obj2 = modifier;
+                obj = modifier;
             }
         }
         int i28 = obj37 & 2;
@@ -2961,30 +2961,30 @@ public final class NavigationDrawerKt {
             $dirty |= 48;
             str = drawerShape;
         } else {
-            if (i51 & 48 == 0) {
-                i3 = restartGroup.changed(drawerShape) ? 32 : 16;
-                $dirty |= i3;
+            if (i50 & 48 == 0) {
+                i2 = restartGroup.changed(drawerShape) ? 32 : 16;
+                $dirty |= i2;
             } else {
                 str = drawerShape;
             }
         }
-        if (i51 & 384 == 0) {
+        if (i50 & 384 == 0) {
             if (obj37 & 4 == 0) {
-                changed3 = restartGroup.changed(drawerContainerColor) ? 256 : 128;
+                changed = restartGroup.changed(drawerContainerColor) ? 256 : 128;
             } else {
                 standardContainerColor = drawerContainerColor;
             }
-            $dirty |= changed3;
+            $dirty |= changed;
         } else {
             standardContainerColor = drawerContainerColor;
         }
-        if (i51 & 3072 == 0) {
+        if (i50 & 3072 == 0) {
             if (obj37 & 8 == 0) {
-                i8 = restartGroup.changed(drawerTonalElevation) ? 2048 : 1024;
+                i5 = restartGroup.changed(drawerTonalElevation) ? 2048 : 1024;
             } else {
                 contentColorFor-ek8zF_U = drawerTonalElevation;
             }
-            $dirty |= i8;
+            $dirty |= i5;
         } else {
             contentColorFor-ek8zF_U = drawerTonalElevation;
         }
@@ -2993,44 +2993,44 @@ public final class NavigationDrawerKt {
             $dirty |= 24576;
             semantics$default = content;
         } else {
-            if (i51 & 24576 == 0) {
-                i2 = restartGroup.changed(content) ? 16384 : 8192;
-                $dirty |= i2;
+            if (i50 & 24576 == 0) {
+                i6 = restartGroup.changed(content) ? 16384 : 8192;
+                $dirty |= i6;
             } else {
                 semantics$default = content;
             }
         }
-        if (i54 &= i51 == 0) {
+        if (i53 &= i50 == 0) {
             if (obj37 & 32 == 0) {
-                changed = restartGroup.changed($composer) ? 131072 : 65536;
+                changed2 = restartGroup.changed($composer) ? 131072 : 65536;
             } else {
-                obj = $composer;
+                obj5 = $composer;
             }
-            $dirty |= changed;
+            $dirty |= changed2;
         } else {
-            obj = $composer;
+            obj5 = $composer;
         }
-        i = 1572864;
+        i7 = 1572864;
         if (obj37 & 64 != 0) {
-            $dirty |= i;
-            obj5 = $changed;
+            $dirty |= i7;
+            obj3 = $changed;
         } else {
-            if (i51 & i == 0) {
-                i = restartGroup.changedInstance($changed) ? 1048576 : 524288;
-                $dirty |= i;
+            if (i50 & i7 == 0) {
+                i7 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
+                $dirty |= i7;
             } else {
-                obj5 = $changed;
+                obj3 = $changed;
             }
         }
-        if ($dirty & i7 == 599186) {
+        if ($dirty & i == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i7 = -458753;
+                i = -458753;
                 int i19 = 6;
-                if (i51 & 1 != 0) {
+                if (i50 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i17 != 0) {
-                            obj2 = defaultsInvalid;
+                            obj = defaultsInvalid;
                         }
                         if (i28 != 0) {
                             str = defaultsInvalid;
@@ -3047,20 +3047,20 @@ public final class NavigationDrawerKt {
                             semantics$default = permanentDrawerElevation-D9Ej5fM;
                         }
                         if (obj37 & 32 != 0) {
-                            $dirty &= i7;
-                            obj = str;
-                            obj5 = standardContainerColor;
-                            l2 = contentColorFor-ek8zF_U;
-                            f = semantics$default;
-                            obj3 = windowInsets4;
-                            windowInsets2 = -1733353241;
+                            $dirty &= i;
+                            obj5 = str;
+                            obj3 = standardContainerColor;
+                            l4 = contentColorFor-ek8zF_U;
+                            f2 = semantics$default;
+                            obj2 = windowInsets4;
+                            windowInsets3 = -1733353241;
                         } else {
-                            obj5 = standardContainerColor;
-                            l2 = contentColorFor-ek8zF_U;
-                            f = semantics$default;
-                            obj3 = obj;
-                            windowInsets2 = -1733353241;
-                            obj = str;
+                            obj3 = standardContainerColor;
+                            l4 = contentColorFor-ek8zF_U;
+                            f2 = semantics$default;
+                            obj2 = obj5;
+                            windowInsets3 = -1733353241;
+                            obj5 = str;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -3072,36 +3072,36 @@ public final class NavigationDrawerKt {
                         }
                         if (obj37 & 32 != 0) {
                             $dirty = i14;
-                            obj5 = standardContainerColor;
-                            l2 = contentColorFor-ek8zF_U;
-                            f = semantics$default;
-                            obj3 = obj;
-                            windowInsets2 = -1733353241;
-                            obj = str;
+                            obj3 = standardContainerColor;
+                            l4 = contentColorFor-ek8zF_U;
+                            f2 = semantics$default;
+                            obj2 = obj5;
+                            windowInsets3 = -1733353241;
+                            obj5 = str;
                         } else {
-                            obj5 = standardContainerColor;
-                            l2 = contentColorFor-ek8zF_U;
-                            f = semantics$default;
-                            obj3 = obj;
-                            windowInsets2 = -1733353241;
-                            obj = str;
+                            obj3 = standardContainerColor;
+                            l4 = contentColorFor-ek8zF_U;
+                            f2 = semantics$default;
+                            obj2 = obj5;
+                            windowInsets3 = -1733353241;
+                            obj5 = str;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(windowInsets2, $dirty, -1, "androidx.compose.material3.PermanentDrawerSheet (NavigationDrawer.kt:739)");
+                    ComposerKt.traceEventStart(windowInsets3, $dirty, -1, "androidx.compose.material3.PermanentDrawerSheet (NavigationDrawer.kt:739)");
                 }
                 androidx.compose.material3.internal.Strings.Companion companion = Strings.Companion;
                 int i29 = 0;
-                int i30 = 0;
-                string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.navigation_menu), restartGroup, i30);
+                int $i$f$getNavigationMenu8iCLdWM = 0;
+                string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.navigation_menu), restartGroup, $i$f$getNavigationMenu8iCLdWM);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 391082081, "CC(remember):NavigationDrawer.kt#9igjgp");
                 Composer composer3 = restartGroup;
-                int i50 = 0;
+                int i49 = 0;
                 rememberedValue = composer3.rememberedValue();
-                int i52 = 0;
+                int i51 = 0;
                 if (!restartGroup.changed(string-2EP1pXo)) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         semantics$default = 0;
@@ -3115,122 +3115,122 @@ public final class NavigationDrawerKt {
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                NavigationDrawerKt.DrawerSheet-7zSek6w(0, obj3, SemanticsModifierKt.semantics$default(obj2, i30, (Function1)anon, 1, 0), obj, obj5, i7, l2, obj18, f, $changed, restartGroup);
+                NavigationDrawerKt.DrawerSheet-7zSek6w(0, obj2, SemanticsModifierKt.semantics$default(obj, $i$f$getNavigationMenu8iCLdWM, (Function1)anon, 1, 0), obj5, obj3, i, l4, obj18, f2, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $composer2 = obj2;
-                obj4 = obj3;
-                l4 = obj5;
-                l3 = l2;
-                f2 = f;
-                windowInsets3 = $dirty;
-                $dirty2 = obj;
+                $composer2 = obj;
+                obj4 = obj2;
+                l = obj3;
+                l3 = l4;
+                f = f2;
+                windowInsets2 = $dirty;
+                $dirty2 = obj5;
             } else {
                 restartGroup.skipToGroupEnd();
-                windowInsets3 = $dirty;
+                windowInsets2 = $dirty;
                 $dirty2 = str;
-                l3 = l;
+                l3 = l2;
                 composer = restartGroup;
-                $composer2 = obj2;
-                l4 = standardContainerColor;
-                f2 = semantics$default;
-                obj4 = obj;
+                $composer2 = obj;
+                l = standardContainerColor;
+                f = semantics$default;
+                obj4 = obj5;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            string-2EP1pXo = new NavigationDrawerKt.PermanentDrawerSheet.2($composer2, $dirty2, l4, obj2, l3, str, f2, obj4, $changed, i51, obj37);
+            string-2EP1pXo = new NavigationDrawerKt.PermanentDrawerSheet.2($composer2, $dirty2, l, obj, l3, str, f, obj4, $changed, i50, obj37);
             endRestartGroup.updateScope((Function2)string-2EP1pXo);
         }
     }
 
     public static final void PermanentNavigationDrawer(Function2<? super Composer, ? super Integer, Unit> drawerContent, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i6) {
-        int traceInProgress;
+        int traceInProgress2;
         Function0 factory$iv$iv$iv2;
         Function0 factory$iv$iv$iv;
         Object materialized$iv$iv;
         int $dirty2;
         Object obj;
         int $dirty;
-        Object modifier4;
+        Object modifier5;
         boolean $i$f$Box;
-        int i3;
-        int i8;
-        int i5;
-        boolean traceInProgress2;
-        Composer composer2;
+        int i7;
+        int i;
+        int i22;
+        boolean traceInProgress;
+        Composer composer4;
         Object valueOf2;
         Object maybeCachedBoxMeasurePolicy;
         Object str;
-        Composer composer;
+        Composer composer6;
         Integer valueOf;
-        int i7;
-        int i;
+        int i12;
+        int i17;
         int start;
         androidx.compose.ui.Alignment.Vertical top;
         androidx.compose.ui.layout.MeasurePolicy rowMeasurePolicy;
-        int i18;
-        int i2;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2;
+        int i10;
+        int i8;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2;
         int currentCompositeKeyHash;
         Object obj2;
-        int i21;
+        int i18;
         Modifier modifier2;
         Function0 function02;
-        int i12;
-        int i4;
+        int i9;
+        int i3;
         int i19;
-        int i16;
-        int i13;
+        int i23;
+        int i20;
         int i15;
         RowScopeInstance rowScopeInstance;
         Composer $composer2;
-        int i10;
-        Modifier modifier3;
-        Composer composer6;
-        int i17;
-        int i22;
-        int i9;
-        int i20;
-        Alignment alignment;
-        int i23;
-        Composer composer5;
+        int i13;
+        Modifier modifier4;
+        Composer composer3;
         int i11;
-        Function0 function0;
+        int i4;
+        int i16;
+        int i2;
+        Alignment alignment;
         int i14;
+        Composer composer2;
+        int i21;
+        Function0 function0;
+        int i5;
         BoxScopeInstance boxScopeInstance;
         int propagateMinConstraints$iv;
-        Composer composer4;
-        Modifier modifier5;
-        Composer composer3;
+        Composer composer;
+        Modifier modifier3;
+        Composer composer5;
         int obj48;
         androidx.compose.ui.Modifier.Companion obj50;
         materialized$iv$iv = drawerContent;
         final Object obj3 = content;
-        i3 = $changed;
-        traceInProgress = -276843608;
-        maybeCachedBoxMeasurePolicy = $composer.startRestartGroup(traceInProgress);
+        i7 = $changed;
+        traceInProgress2 = -276843608;
+        maybeCachedBoxMeasurePolicy = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(maybeCachedBoxMeasurePolicy, "C(PermanentNavigationDrawer)P(1,2)532@21415L85:NavigationDrawer.kt#uh7d8r");
         $dirty2 = $changed;
         if (i6 & 1 != 0) {
             $dirty2 |= 6;
         } else {
-            if (i3 & 6 == 0) {
-                i8 = maybeCachedBoxMeasurePolicy.changedInstance(materialized$iv$iv) ? 4 : 2;
-                $dirty2 |= i8;
+            if (i7 & 6 == 0) {
+                i = maybeCachedBoxMeasurePolicy.changedInstance(materialized$iv$iv) ? 4 : 2;
+                $dirty2 |= i;
             }
         }
-        i5 = i6 & 2;
-        if (i5 != 0) {
+        i22 = i6 & 2;
+        if (i22 != 0) {
             $dirty2 |= 48;
             str = modifier;
         } else {
-            if (i3 & 48 == 0) {
-                i7 = maybeCachedBoxMeasurePolicy.changed(modifier) ? 32 : 16;
-                $dirty2 |= i7;
+            if (i7 & 48 == 0) {
+                i12 = maybeCachedBoxMeasurePolicy.changed(modifier) ? 32 : 16;
+                $dirty2 |= i12;
             } else {
                 str = modifier;
             }
@@ -3238,27 +3238,27 @@ public final class NavigationDrawerKt {
         if (i6 & 4 != 0) {
             $dirty2 |= 384;
         } else {
-            if (i3 & 384 == 0) {
-                i = maybeCachedBoxMeasurePolicy.changedInstance(obj3) ? 256 : 128;
-                $dirty2 |= i;
+            if (i7 & 384 == 0) {
+                i17 = maybeCachedBoxMeasurePolicy.changedInstance(obj3) ? 256 : 128;
+                $dirty2 |= i17;
             }
         }
         int i50 = $dirty2;
         if (i50 & 147 == 146) {
             if (!maybeCachedBoxMeasurePolicy.getSkipping()) {
-                if (i5 != 0) {
-                    modifier4 = Modifier.Companion;
+                if (i22 != 0) {
+                    modifier5 = Modifier.Companion;
                 } else {
-                    modifier4 = str;
+                    modifier5 = str;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i50, -1, "androidx.compose.material3.PermanentNavigationDrawer (NavigationDrawer.kt:531)");
+                    ComposerKt.traceEventStart(traceInProgress2, i50, -1, "androidx.compose.material3.PermanentNavigationDrawer (NavigationDrawer.kt:531)");
                 }
-                Modifier fillMaxSize$default = SizeKt.fillMaxSize$default(modifier4, 0, 1, 0);
+                Modifier fillMaxSize$default = SizeKt.fillMaxSize$default(modifier5, 0, 1, 0);
                 int i40 = 0;
                 valueOf = 0;
                 ComposerKt.sourceInformationMarkerStart(maybeCachedBoxMeasurePolicy, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
-                i2 = 0;
+                i8 = 0;
                 String str6 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(maybeCachedBoxMeasurePolicy, -1323940314, str6);
                 int i59 = 0;
@@ -3267,7 +3267,7 @@ public final class NavigationDrawerKt {
                 Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(maybeCachedBoxMeasurePolicy, fillMaxSize$default);
                 modifier2 = fillMaxSize$default;
                 Function0 function03 = constructor;
-                i21 = 0;
+                i18 = 0;
                 String str4 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(maybeCachedBoxMeasurePolicy, -692256719, str4);
                 if (!applier instanceof Applier) {
@@ -3290,16 +3290,16 @@ public final class NavigationDrawerKt {
                 int i63 = 0;
                 if (!composer9.getInserting()) {
                     $composer2 = maybeCachedBoxMeasurePolicy;
-                    i10 = valueOf;
+                    i13 = valueOf;
                     if (!Intrinsics.areEqual(composer9.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer9.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer9;
+                        composer6 = composer9;
                     }
                 } else {
                     $composer2 = maybeCachedBoxMeasurePolicy;
-                    i10 = valueOf;
+                    i13 = valueOf;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                 valueOf2 = $composer2;
@@ -3309,24 +3309,24 @@ public final class NavigationDrawerKt {
                 Composer composer8 = valueOf2;
                 i15 = 0;
                 rowScopeInstance = iNSTANCE;
-                modifier3 = materializeModifier2;
+                modifier4 = materializeModifier2;
                 ComposerKt.sourceInformationMarkerStart(valueOf2, -882916661, "C533@21453L15,534@21477L17:NavigationDrawer.kt#uh7d8r");
                 materialized$iv$iv.invoke(valueOf2, Integer.valueOf(i50 & 14));
-                i16 = i30;
+                i23 = i30;
                 ComposerKt.sourceInformationMarkerStart(valueOf2, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 androidx.compose.ui.Modifier.Companion companion = Modifier.Companion;
                 Alignment topStart = Alignment.Companion.getTopStart();
-                i17 = i38;
+                i11 = i38;
                 $i$f$Box = 0;
-                i22 = i44;
-                i20 = 0;
+                i4 = i44;
+                i2 = 0;
                 alignment = topStart;
                 ComposerKt.sourceInformationMarkerStart(valueOf2, -1323940314, str6);
                 obj48 = currentCompositeKeyHash2;
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(valueOf2, (Modifier)companion);
                 obj50 = companion;
                 Function0 function04 = constructor2;
-                i23 = 0;
+                i14 = 0;
                 ComposerKt.sourceInformationMarkerStart(valueOf2, -692256719, str4);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -3348,36 +3348,36 @@ public final class NavigationDrawerKt {
                 int i66 = 0;
                 if (!composer10.getInserting()) {
                     propagateMinConstraints$iv = $i$f$Box;
-                    composer4 = valueOf2;
+                    composer = valueOf2;
                     if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(obj48))) {
                         composer10.updateRememberedValue(Integer.valueOf(obj48));
                         constructor-impl2.apply(Integer.valueOf(obj48), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer10;
+                        composer4 = composer10;
                     }
                 } else {
                     propagateMinConstraints$iv = $i$f$Box;
-                    composer4 = valueOf2;
+                    composer = valueOf2;
                 }
                 Updater.set-impl(constructor-impl2, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                Composer composer7 = composer4;
-                i3 = 0;
-                i4 = i34;
+                Composer composer7 = composer;
+                i7 = 0;
+                i3 = i34;
                 ComposerKt.sourceInformationMarkerStart(composer7, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 i43 |= 6;
-                composer5 = composer7;
-                i14 = 0;
+                composer2 = composer7;
+                i5 = 0;
                 boxScopeInstance = iNSTANCE2;
-                modifier5 = materializeModifier;
+                modifier3 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer7, -1559720052, "C534@21483L9:NavigationDrawer.kt#uh7d8r");
                 obj3.invoke(composer7, Integer.valueOf(i35 &= 14));
                 ComposerKt.sourceInformationMarkerEnd(composer7);
                 ComposerKt.sourceInformationMarkerEnd(composer7);
-                composer4.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
+                composer.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer);
+                ComposerKt.sourceInformationMarkerEnd(composer);
+                ComposerKt.sourceInformationMarkerEnd(composer);
+                ComposerKt.sourceInformationMarkerEnd(composer);
                 ComposerKt.sourceInformationMarkerEnd(valueOf2);
                 $composer2.endNode();
                 ComposerKt.sourceInformationMarkerEnd($composer2);
@@ -3396,70 +3396,70 @@ public final class NavigationDrawerKt {
         }
         ScopeUpdateScope endRestartGroup = $composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new NavigationDrawerKt.PermanentNavigationDrawer.2(drawerContent, obj, obj3, $changed, i6);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new NavigationDrawerKt.PermanentNavigationDrawer.2(drawerContent, obj, obj3, $changed, i6);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     private static final void Scrim-Bx497Mc(boolean open, Function0<Unit> onClose, Function0<Float> fraction, long color, Composer $composer, int $changed) {
         Object closeDrawer;
-        boolean traceInProgress2;
-        Object anon2;
-        Modifier companion;
-        int $dirty;
-        int i;
-        int i12;
-        int i5;
-        int i4;
-        int skipping;
         boolean traceInProgress;
-        int pointerInput;
         Object anon;
-        int i3;
-        int i9;
+        Modifier companion2;
+        int $dirty;
         int i2;
-        int i7;
-        Composer composer;
+        int i4;
+        int i12;
         int i10;
-        int rememberedValue2;
+        int skipping;
+        boolean traceInProgress2;
+        int $i$f$getCloseDrawer8iCLdWM;
+        Object anon2;
+        int i11;
+        int i5;
+        int i3;
+        int i6;
+        Composer composer;
+        int i7;
+        int rememberedValue;
         int empty;
         int i8;
         Composer composer2;
-        Object rememberedValue;
-        Object companion2;
-        int i6;
-        int companion3;
-        int i11;
-        Composer.Companion companion4;
-        companion = open;
+        Object rememberedValue2;
+        Object companion;
+        int i;
+        int companion4;
+        int i9;
+        Composer.Companion companion3;
+        companion2 = open;
         final Object obj = onClose;
         final Object obj2 = fraction;
         final long l = color;
         final int i13 = obj27;
-        traceInProgress2 = 2106487387;
-        Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
+        traceInProgress = 2106487387;
+        Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(Scrim)P(3,2,1,0:c#ui.graphics.Color)1136@46594L30,1151@47092L39,1151@47041L90:NavigationDrawer.kt#uh7d8r");
         if (i13 & 6 == 0) {
-            i = restartGroup.changed(companion) ? 4 : 2;
-            $dirty |= i;
+            i2 = restartGroup.changed(companion2) ? 4 : 2;
+            $dirty |= i2;
         }
-        i3 = 32;
+        i11 = 32;
         if (i13 & 48 == 0) {
-            i12 = restartGroup.changedInstance(obj) ? i3 : 16;
-            $dirty |= i12;
+            i4 = restartGroup.changedInstance(obj) ? i11 : 16;
+            $dirty |= i4;
         }
         if (i13 & 384 == 0) {
-            i5 = restartGroup.changedInstance(obj2) ? 256 : 128;
-            $dirty |= i5;
+            i12 = restartGroup.changedInstance(obj2) ? 256 : 128;
+            $dirty |= i12;
         }
         if (i13 & 3072 == 0) {
-            i4 = restartGroup.changed(l) ? 2048 : 1024;
-            $dirty |= i4;
+            i10 = restartGroup.changed(l) ? 2048 : 1024;
+            $dirty |= i10;
         }
         if ($dirty & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.Scrim (NavigationDrawer.kt:1135)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.Scrim (NavigationDrawer.kt:1135)");
                 }
                 androidx.compose.material3.internal.Strings.Companion companion5 = Strings.Companion;
                 int i14 = 0;
@@ -3467,69 +3467,69 @@ public final class NavigationDrawerKt {
                 restartGroup.startReplaceGroup(-1784754787);
                 ComposerKt.sourceInformation(restartGroup, "1139@46712L35,1140@46800L187");
                 String str3 = "CC(remember):NavigationDrawer.kt#9igjgp";
-                if (companion) {
+                if (companion2) {
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -1784753370, str3);
-                    i2 = $dirty & 112 == i3 ? 1 : 0;
+                    i3 = $dirty & 112 == i11 ? 1 : 0;
                     Composer composer3 = restartGroup;
-                    companion3 = 0;
+                    companion4 = 0;
                     Object rememberedValue3 = composer3.rememberedValue();
-                    i11 = 0;
-                    if (i2 == 0) {
+                    i9 = 0;
+                    if (i3 == 0) {
                         if (rememberedValue3 == Composer.Companion.getEmpty()) {
                             int i31 = 0;
-                            anon = new NavigationDrawerKt.Scrim.dismissDrawer.1.1(obj, 0);
-                            composer3.updateRememberedValue((Function2)anon);
+                            anon2 = new NavigationDrawerKt.Scrim.dismissDrawer.1.1(obj, 0);
+                            composer3.updateRememberedValue((Function2)anon2);
                         } else {
-                            anon = rememberedValue3;
+                            anon2 = rememberedValue3;
                             composer2 = composer3;
                         }
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -1784750402, str3);
-                    i7 = $dirty & 112 == 32 ? 1 : 0;
+                    i6 = $dirty & 112 == 32 ? 1 : 0;
                     composer = restartGroup;
-                    i10 = 0;
-                    rememberedValue = composer.rememberedValue();
-                    i6 = 0;
-                    if (changed3 |= i7 == 0) {
-                        if (rememberedValue == Composer.Companion.getEmpty()) {
+                    i7 = 0;
+                    rememberedValue2 = composer.rememberedValue();
+                    i = 0;
+                    if (changed3 |= i6 == 0) {
+                        if (rememberedValue2 == Composer.Companion.getEmpty()) {
                             empty = 0;
-                            anon2 = new NavigationDrawerKt.Scrim.dismissDrawer.2.1(string-2EP1pXo, obj);
-                            composer.updateRememberedValue((Function1)anon2);
+                            anon = new NavigationDrawerKt.Scrim.dismissDrawer.2.1(string-2EP1pXo, obj);
+                            composer.updateRememberedValue((Function1)anon);
                         } else {
-                            anon2 = rememberedValue;
+                            anon = rememberedValue2;
                         }
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    companion = SemanticsModifierKt.semantics(SuspendingPointerInputFilterKt.pointerInput((Modifier)Modifier.Companion, obj, (Function2)anon), true, (Function1)anon2);
+                    companion2 = SemanticsModifierKt.semantics(SuspendingPointerInputFilterKt.pointerInput((Modifier)Modifier.Companion, obj, (Function2)anon2), true, (Function1)anon);
                 } else {
-                    companion = Modifier.Companion;
+                    companion2 = Modifier.Companion;
                 }
                 restartGroup.endReplaceGroup();
                 int i24 = 1;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1784741206, str3);
-                i9 = $dirty & 7168 == 2048 ? i24 : 0;
-                rememberedValue = $dirty & 896 == 256 ? i24 : 0;
+                i5 = $dirty & 7168 == 2048 ? i24 : 0;
+                rememberedValue2 = $dirty & 896 == 256 ? i24 : 0;
                 composer = restartGroup;
-                i10 = 0;
-                rememberedValue2 = composer.rememberedValue();
+                i7 = 0;
+                rememberedValue = composer.rememberedValue();
                 i8 = 0;
-                if (i9 |= rememberedValue == 0) {
-                    if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        rememberedValue = 0;
-                        companion2 = string-2EP1pXo;
+                if (i5 |= rememberedValue2 == 0) {
+                    if (rememberedValue == Composer.Companion.getEmpty()) {
+                        rememberedValue2 = 0;
+                        companion = string-2EP1pXo;
                         closeDrawer = new NavigationDrawerKt.Scrim.1.1(l, obj5, obj2);
                         composer.updateRememberedValue((Function1)closeDrawer);
                     } else {
-                        companion2 = string-2EP1pXo;
-                        closeDrawer = rememberedValue2;
+                        companion = string-2EP1pXo;
+                        closeDrawer = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                CanvasKt.Canvas(SizeKt.fillMaxSize$default((Modifier)Modifier.Companion, 0, i24, 0).then(companion), (Function1)closeDrawer, restartGroup, 0);
+                CanvasKt.Canvas(SizeKt.fillMaxSize$default((Modifier)Modifier.Companion, 0, i24, 0).then(companion2), (Function1)closeDrawer, restartGroup, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -3540,8 +3540,8 @@ public final class NavigationDrawerKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new NavigationDrawerKt.Scrim.2(open, obj, obj2, l, obj5, i13);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new NavigationDrawerKt.Scrim.2(open, obj, obj2, l, obj5, i13);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
@@ -3611,23 +3611,23 @@ public final class NavigationDrawerKt {
 
     private static final float calculatePredictiveBackScaleX(GraphicsLayerScope $this$calculatePredictiveBackScaleX, androidx.compose.material3.DrawerPredictiveBackState drawerPredictiveBackState) {
         boolean naN;
-        int i2;
         int i;
+        int i2;
         float f;
         float width-impl = Size.getWidth-impl($this$calculatePredictiveBackScaleX.getSize-NH-jbRc());
         if (!Float.isNaN(width-impl)) {
-            naN = Float.compare(width-impl, i3) == 0 ? i : 0;
+            naN = Float.compare(width-impl, i3) == 0 ? i2 : 0;
             if (naN != 0) {
             } else {
                 if (drawerPredictiveBackState.getSwipeEdgeMatchesDrawer()) {
                 } else {
-                    i = -1;
+                    i2 = -1;
                 }
-                i2 += naN;
+                i += naN;
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     private static final float calculatePredictiveBackScaleY(GraphicsLayerScope $this$calculatePredictiveBackScaleY, androidx.compose.material3.DrawerPredictiveBackState drawerPredictiveBackState) {
@@ -3657,9 +3657,9 @@ public final class NavigationDrawerKt {
 
     public static final androidx.compose.material3.DrawerState rememberDrawerState(androidx.compose.material3.DrawerValue initialValue, Function1<? super androidx.compose.material3.DrawerValue, Boolean> confirmStateChange, Composer $composer, int $changed, int i5) {
         String str;
-        int changed;
-        int i;
         int changed2;
+        int i;
+        int changed;
         Object empty;
         Object anon;
         androidx.compose.material3.NavigationDrawerKt.rememberDrawerState.1 obj9;

@@ -52,14 +52,14 @@ public final class LazyListAnimateScrollScope implements LazyLayoutAnimateScroll
     public float calculateDistanceTo(int targetIndex) {
         int visibleItemsAverageSize;
         int list;
-        int i4;
+        int i3;
         int index$iv$iv;
-        Object obj3;
         Object obj;
+        Object obj3;
         int i2;
         Object obj2;
-        int i3;
         int i;
+        int i4;
         androidx.compose.foundation.lazy.LazyListLayoutInfo layoutInfo = this.state.getLayoutInfo();
         if (layoutInfo.getVisibleItemsInfo().isEmpty()) {
             return 0;
@@ -70,22 +70,22 @@ public final class LazyListAnimateScrollScope implements LazyLayoutAnimateScroll
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
             i2 = 0;
-            i3 = 0;
+            i = 0;
             if ((LazyListItemInfo)list.get(index$iv$iv).getIndex() == targetIndex) {
             } else {
             }
-            i = 0;
+            i4 = 0;
             index$iv$iv++;
-            i = 1;
+            i4 = 1;
         }
-        obj = 0;
-        Object $this$fastFirstOrNull$iv = obj;
+        obj3 = 0;
+        Object $this$fastFirstOrNull$iv = obj3;
         if ((LazyListItemInfo)$this$fastFirstOrNull$iv == null) {
             f -= index$iv$iv;
         } else {
-            i4 = (float)visibleItemsAverageSize;
+            i3 = (float)visibleItemsAverageSize;
         }
-        return i4;
+        return i3;
     }
 
     @Override // androidx.compose.foundation.lazy.layout.LazyLayoutAnimateScrollScope

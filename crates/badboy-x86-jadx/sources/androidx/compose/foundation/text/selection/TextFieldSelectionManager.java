@@ -204,22 +204,22 @@ public final class TextFieldSelectionManager {
         LegacyTextFieldState field;
         int i;
         boolean layoutResultStale;
-        long localToRoot-MK-Hz9U2;
-        Object layoutCoordinates2;
-        long handlePosition-tuRUvjQ$foundation_release;
-        Object layoutCoordinates;
         long localToRoot-MK-Hz9U;
-        long handlePosition-tuRUvjQ$foundation_release2;
-        int y-impl2;
-        Object layoutCoordinates3;
-        int y-impl;
-        long localToRoot-MK-Hz9U3;
         Object layoutCoordinates4;
-        float top2;
+        long handlePosition-tuRUvjQ$foundation_release2;
+        Object layoutCoordinates;
+        long localToRoot-MK-Hz9U3;
+        long handlePosition-tuRUvjQ$foundation_release;
+        int y-impl2;
+        Object layoutCoordinates2;
+        int y-impl;
+        long localToRoot-MK-Hz9U2;
+        Object layoutCoordinates3;
+        float top;
         Object layoutResult2;
         long l;
         Object layoutResult;
-        float top;
+        float top2;
         Object obj = this;
         state = obj.state;
         if (state != null) {
@@ -230,14 +230,14 @@ public final class TextFieldSelectionManager {
             }
             if (state != 0) {
                 int i3 = 0;
-                layoutCoordinates2 = obj.state;
-                layoutCoordinates2 = layoutCoordinates2.getLayoutCoordinates();
-                if (layoutCoordinates2 != null && layoutCoordinates2 != null) {
-                    layoutCoordinates2 = layoutCoordinates2.getLayoutCoordinates();
-                    if (layoutCoordinates2 != null) {
-                        localToRoot-MK-Hz9U2 = layoutCoordinates2.localToRoot-MK-Hz9U(obj.getHandlePosition-tuRUvjQ$foundation_release(true));
+                layoutCoordinates4 = obj.state;
+                layoutCoordinates4 = layoutCoordinates4.getLayoutCoordinates();
+                if (layoutCoordinates4 != null && layoutCoordinates4 != null) {
+                    layoutCoordinates4 = layoutCoordinates4.getLayoutCoordinates();
+                    if (layoutCoordinates4 != null) {
+                        localToRoot-MK-Hz9U = layoutCoordinates4.localToRoot-MK-Hz9U(obj.getHandlePosition-tuRUvjQ$foundation_release(true));
                     } else {
-                        localToRoot-MK-Hz9U2 = Offset.Companion.getZero-F1C5BW0();
+                        localToRoot-MK-Hz9U = Offset.Companion.getZero-F1C5BW0();
                     }
                 } else {
                 }
@@ -246,18 +246,18 @@ public final class TextFieldSelectionManager {
                 if (layoutCoordinates != null && layoutCoordinates != null) {
                     layoutCoordinates = layoutCoordinates.getLayoutCoordinates();
                     if (layoutCoordinates != null) {
-                        localToRoot-MK-Hz9U = layoutCoordinates.localToRoot-MK-Hz9U(obj.getHandlePosition-tuRUvjQ$foundation_release(false));
+                        localToRoot-MK-Hz9U3 = layoutCoordinates.localToRoot-MK-Hz9U(obj.getHandlePosition-tuRUvjQ$foundation_release(false));
                     } else {
-                        localToRoot-MK-Hz9U = Offset.Companion.getZero-F1C5BW0();
+                        localToRoot-MK-Hz9U3 = Offset.Companion.getZero-F1C5BW0();
                     }
                 } else {
                 }
-                layoutCoordinates3 = obj.state;
+                layoutCoordinates2 = obj.state;
                 y-impl = 0;
-                layoutCoordinates3 = layoutCoordinates3.getLayoutCoordinates();
-                if (layoutCoordinates3 != null && layoutCoordinates3 != null) {
-                    layoutCoordinates3 = layoutCoordinates3.getLayoutCoordinates();
-                    if (layoutCoordinates3 != null) {
+                layoutCoordinates2 = layoutCoordinates2.getLayoutCoordinates();
+                if (layoutCoordinates2 != null && layoutCoordinates2 != null) {
+                    layoutCoordinates2 = layoutCoordinates2.getLayoutCoordinates();
+                    if (layoutCoordinates2 != null) {
                         layoutResult2 = state.getLayoutResult();
                         layoutResult2 = layoutResult2.getValue();
                         layoutResult2 = layoutResult2.getCursorRect(obj.offsetMapping.originalToTransformed(TextRange.getStart-impl(obj.getValue$foundation_release().getSelection-d9O1mEE())));
@@ -266,25 +266,25 @@ public final class TextFieldSelectionManager {
                             if (layoutResult2 != null) {
                                 layoutResult2 = layoutResult2.getCursorRect(originalToTransformed);
                                 if (layoutResult2 != null) {
-                                    top2 = layoutResult2.getTop();
+                                    top = layoutResult2.getTop();
                                 } else {
-                                    top2 = y-impl;
+                                    top = y-impl;
                                 }
                             } else {
                             }
                         } else {
                         }
-                        y-impl2 = Offset.getY-impl(layoutCoordinates3.localToRoot-MK-Hz9U(OffsetKt.Offset(y-impl, top2)));
+                        y-impl2 = Offset.getY-impl(layoutCoordinates2.localToRoot-MK-Hz9U(OffsetKt.Offset(y-impl, top)));
                     } else {
                         y-impl2 = y-impl;
                     }
                 } else {
                 }
-                layoutCoordinates4 = obj.state;
-                layoutCoordinates4 = layoutCoordinates4.getLayoutCoordinates();
-                if (layoutCoordinates4 != null && layoutCoordinates4 != null) {
-                    layoutCoordinates4 = layoutCoordinates4.getLayoutCoordinates();
-                    if (layoutCoordinates4 != null) {
+                layoutCoordinates3 = obj.state;
+                layoutCoordinates3 = layoutCoordinates3.getLayoutCoordinates();
+                if (layoutCoordinates3 != null && layoutCoordinates3 != null) {
+                    layoutCoordinates3 = layoutCoordinates3.getLayoutCoordinates();
+                    if (layoutCoordinates3 != null) {
                         layoutResult = state.getLayoutResult();
                         layoutResult = layoutResult.getValue();
                         layoutResult = layoutResult.getCursorRect(obj.offsetMapping.originalToTransformed(TextRange.getEnd-impl(obj.getValue$foundation_release().getSelection-d9O1mEE())));
@@ -293,21 +293,21 @@ public final class TextFieldSelectionManager {
                             if (layoutResult != null) {
                                 layoutResult = layoutResult.getCursorRect(originalToTransformed2);
                                 if (layoutResult != null) {
-                                    top = layoutResult.getTop();
+                                    top2 = layoutResult.getTop();
                                 } else {
-                                    top = y-impl;
+                                    top2 = y-impl;
                                 }
                             } else {
                             }
                         } else {
                         }
-                        y-impl = Offset.getY-impl(layoutCoordinates4.localToRoot-MK-Hz9U(OffsetKt.Offset(y-impl, top)));
+                        y-impl = Offset.getY-impl(layoutCoordinates3.localToRoot-MK-Hz9U(OffsetKt.Offset(y-impl, top2)));
                     } else {
                     }
                 } else {
                 }
                 final int i8 = 0;
-                Rect rect = new Rect(Math.min(Offset.getX-impl(localToRoot-MK-Hz9U2), Offset.getX-impl(localToRoot-MK-Hz9U)), Math.min(y-impl2, y-impl), Math.max(Offset.getX-impl(localToRoot-MK-Hz9U2), Offset.getX-impl(localToRoot-MK-Hz9U)), f5 += i2);
+                Rect rect = new Rect(Math.min(Offset.getX-impl(localToRoot-MK-Hz9U), Offset.getX-impl(localToRoot-MK-Hz9U3)), Math.min(y-impl2, y-impl), Math.max(Offset.getX-impl(localToRoot-MK-Hz9U), Offset.getX-impl(localToRoot-MK-Hz9U3)), f5 += i2);
                 return rect;
             }
         }
@@ -329,13 +329,13 @@ public final class TextFieldSelectionManager {
     private final void setHandleState(HandleState handleState) {
         LegacyTextFieldState state;
         LegacyTextFieldState field;
-        int i2;
         int i;
+        int i2;
         state = this.state;
         if (state != null) {
-            i2 = 0;
-            i = state.getHandleState() == handleState ? 1 : 0;
-            if (i == 0) {
+            i = 0;
+            i2 = state.getHandleState() == handleState ? 1 : 0;
+            if (i2 == 0) {
             } else {
                 state = 0;
             }
@@ -362,24 +362,24 @@ public final class TextFieldSelectionManager {
     private final long updateSelection-8UEBfa8(TextFieldValue value, long currentPosition, boolean isStartOfSelection, boolean isStartHandle, androidx.compose.foundation.text.selection.SelectionAdjustment adjustment, boolean isTouchBasedSelection) {
         int z;
         Object layoutResult;
-        int i3;
+        int i2;
         boolean reversed-impl;
         int start-impl;
-        int previousRawDragOffset2;
+        int previousRawDragOffset;
         boolean collapsed-impl2;
         int i;
         int selection-d9O1mEE;
         int textHandleMove-5zf0vsI;
         Function1 onValueChange;
         int collapsed-impl;
-        int previousRawDragOffset;
-        int i2;
+        int previousRawDragOffset2;
+        int i3;
         Object obj2;
         long l;
-        boolean selectionHandleInVisibleBound2;
-        int rawEndHandleOffset;
+        boolean selectionHandleInVisibleBound3;
+        int $i$a$WithTextFieldSelectionManager$updateSelection$onlyChangeIsReversed$1;
         int selectionHandleInVisibleBound;
-        long selectionHandleInVisibleBound3;
+        long selectionHandleInVisibleBound2;
         final Object obj = this;
         z = obj32;
         layoutResult = obj.state;
@@ -409,19 +409,19 @@ public final class TextFieldSelectionManager {
                 } else {
                 }
                 final androidx.compose.foundation.text.selection.SelectionLayout previousSelectionLayout = obj.previousSelectionLayout;
-                previousRawDragOffset2 = -1;
+                previousRawDragOffset = -1;
                 if (!isStartHandle && previousSelectionLayout != null) {
                     if (previousSelectionLayout != null) {
-                        if (obj.previousRawDragOffset == previousRawDragOffset2) {
-                            i2 = previousRawDragOffset2;
+                        if (obj.previousRawDragOffset == previousRawDragOffset) {
+                            i3 = previousRawDragOffset;
                         } else {
-                            i2 = previousRawDragOffset2;
+                            i3 = previousRawDragOffset;
                         }
                     } else {
                     }
                 } else {
                 }
-                androidx.compose.foundation.text.selection.SelectionLayout textFieldSelectionLayout-RcvT-LA = SelectionLayoutKt.getTextFieldSelectionLayout-RcvT-LA(layoutResult.getValue(), selection-d9O1mEE, textHandleMove-5zf0vsI, i2, l5, obj10, isStartHandle);
+                androidx.compose.foundation.text.selection.SelectionLayout textFieldSelectionLayout-RcvT-LA = SelectionLayoutKt.getTextFieldSelectionLayout-RcvT-LA(layoutResult.getValue(), selection-d9O1mEE, textHandleMove-5zf0vsI, i3, l5, obj10, isStartHandle);
                 if (!textFieldSelectionLayout-RcvT-LA.shouldRecomputeSelection(previousSelectionLayout)) {
                     return value.getSelection-d9O1mEE();
                 }
@@ -441,10 +441,10 @@ public final class TextFieldSelectionManager {
                 if (TextRange.getReversed-impl(l2) != reversed-impl2) {
                     long l3 = l2;
                     int i7 = 0;
-                    rawEndHandleOffset = textHandleMove-5zf0vsI;
-                    i3 = TextRange.equals-impl0(TextRangeKt.TextRange(TextRange.getEnd-impl(l3), TextRange.getStart-impl(l3)), reversed-impl2) ? selectionHandleInVisibleBound : 0;
+                    $i$a$WithTextFieldSelectionManager$updateSelection$onlyChangeIsReversed$1 = textHandleMove-5zf0vsI;
+                    i2 = TextRange.equals-impl0(TextRangeKt.TextRange(TextRange.getEnd-impl(l3), TextRange.getStart-impl(l3)), reversed-impl2) ? selectionHandleInVisibleBound : 0;
                 } else {
-                    rawEndHandleOffset = textHandleMove-5zf0vsI;
+                    $i$a$WithTextFieldSelectionManager$updateSelection$onlyChangeIsReversed$1 = textHandleMove-5zf0vsI;
                     selectionHandleInVisibleBound = 1;
                 }
                 if (TextRange.getCollapsed-impl(l2) && TextRange.getCollapsed-impl(value.getSelection-d9O1mEE())) {
@@ -454,8 +454,8 @@ public final class TextFieldSelectionManager {
                 if (z) {
                     selection-d9O1mEE = (CharSequence)value.getText().length() > 0 ? selectionHandleInVisibleBound : 0;
                     selection-d9O1mEE = obj.hapticFeedBack;
-                    if (selection-d9O1mEE != 0 && i3 == 0 && i == 0 && selection-d9O1mEE != null) {
-                        if (i3 == 0) {
+                    if (selection-d9O1mEE != 0 && i2 == 0 && i == 0 && selection-d9O1mEE != null) {
+                        if (i2 == 0) {
                             if (i == 0) {
                                 selection-d9O1mEE = obj.hapticFeedBack;
                                 if (selection-d9O1mEE != null) {
@@ -534,11 +534,11 @@ public final class TextFieldSelectionManager {
         TextLayoutResultProxy position2;
         long value$foundation_release;
         long selection-d9O1mEE;
-        int i2;
-        int i3;
         int i;
-        androidx.compose.foundation.text.selection.SelectionAdjustment word;
+        int i2;
         int i4;
+        androidx.compose.foundation.text.selection.SelectionAdjustment word;
+        int i3;
         int obj11;
         boolean obj12;
         layoutResult = this.state;
@@ -547,12 +547,12 @@ public final class TextFieldSelectionManager {
             layoutResult = layoutResult.getLayoutResult();
             if (layoutResult != null) {
                 layoutResult = 0;
-                i2 = 2;
+                i = 2;
                 position2 = position;
-                if (!TextRange.contains-impl(getValue$foundation_release().getSelection-d9O1mEE(), i2)) {
+                if (!TextRange.contains-impl(getValue$foundation_release().getSelection-d9O1mEE(), i)) {
                     this.previousRawDragOffset = -1;
                     selection-d9O1mEE = position2;
-                    this.updateSelection-8UEBfa8(getValue$foundation_release(), selection-d9O1mEE, i2, true, 0, SelectionAdjustment.Companion.getWord());
+                    this.updateSelection-8UEBfa8(getValue$foundation_release(), selection-d9O1mEE, i, true, 0, SelectionAdjustment.Companion.getWord());
                     position2 = selection-d9O1mEE;
                 }
             } else {
@@ -603,15 +603,15 @@ public final class TextFieldSelectionManager {
     public final void deselect-_kEHs6E$foundation_release(Offset position) {
         boolean transformedToOriginal;
         int layoutResult;
-        long l;
+        long l2;
         HandleState cursor;
         TextFieldValue copy-3r_uNRQ$default;
         long offsetForPosition-3MmeM6k$default;
         long onValueChange;
-        long l2;
-        int i2;
-        int i3;
+        long l;
         int i;
+        int i3;
+        int i2;
         int i4;
         if (!TextRange.getCollapsed-impl(getValue$foundation_release().getSelection-d9O1mEE())) {
             LegacyTextFieldState state = this.state;
@@ -620,21 +620,21 @@ public final class TextFieldSelectionManager {
             } else {
                 layoutResult = 0;
             }
-            l = layoutResult;
-            if (position != null && l != 0) {
-                if (l != 0) {
-                    transformedToOriginal = this.offsetMapping.transformedToOriginal(TextLayoutResultProxy.getOffsetForPosition-3MmeM6k$default(l, position.unbox-impl(), obj3, 0, 2));
+            l2 = layoutResult;
+            if (position != null && l2 != 0) {
+                if (l2 != 0) {
+                    transformedToOriginal = this.offsetMapping.transformedToOriginal(TextLayoutResultProxy.getOffsetForPosition-3MmeM6k$default(l2, position.unbox-impl(), obj3, 0, 2));
                 } else {
                     transformedToOriginal = TextRange.getMax-impl(getValue$foundation_release().getSelection-d9O1mEE());
                 }
             } else {
             }
-            this.onValueChange.invoke(TextFieldValue.copy-3r_uNRQ$default(getValue$foundation_release(), 0, TextRangeKt.TextRange(transformedToOriginal), i2, 0, 5));
+            this.onValueChange.invoke(TextFieldValue.copy-3r_uNRQ$default(getValue$foundation_release(), 0, TextRangeKt.TextRange(transformedToOriginal), i, 0, 5));
         }
         int newCursorOffset = 0;
         if (position != null) {
-            l = (CharSequence)getValue$foundation_release().getText().length() > 0 ? 1 : newCursorOffset;
-            cursor = l != 0 ? HandleState.Cursor : HandleState.None;
+            l2 = (CharSequence)getValue$foundation_release().getText().length() > 0 ? 1 : newCursorOffset;
+            cursor = l2 != 0 ? HandleState.Cursor : HandleState.None;
         } else {
         }
         setHandleState(cursor);
@@ -947,32 +947,32 @@ public final class TextFieldSelectionManager {
         LegacyTextFieldState inTouchMode;
         int anon;
         androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.selectAll.1 length-impl;
-        int i2;
+        int i;
         androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.copy.1 anon2;
         boolean collapsed-impl;
         boolean clipboardManager;
-        androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.selectAll.1 i;
+        androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.selectAll.1 i2;
         long contentRect;
-        androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.paste.1 field2;
+        androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.paste.1 field;
         androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.cut.1 field3;
-        androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.selectAll.1 field;
+        androidx.compose.foundation.text.selection.TextFieldSelectionManager.showSelectionToolbar.selectAll.1 field2;
         if (getEnabled()) {
             inTouchMode = this.state;
             anon = 1;
-            i2 = 0;
+            i = 0;
             if (inTouchMode != null && !inTouchMode.isInTouchMode()) {
-                enabled = !inTouchMode.isInTouchMode() ? anon : i2;
+                enabled = !inTouchMode.isInTouchMode() ? anon : i;
             } else {
             }
             if (enabled != 0) {
             } else {
                 boolean z = visualTransformation instanceof PasswordVisualTransformation;
-                i = 0;
+                i2 = 0;
                 if (!TextRange.getCollapsed-impl(getValue$foundation_release().getSelection-d9O1mEE()) && !z) {
                     if (!z) {
                         anon2 = new TextFieldSelectionManager.showSelectionToolbar.copy.1(this);
                     } else {
-                        anon2 = i;
+                        anon2 = i2;
                     }
                 } else {
                 }
@@ -982,7 +982,7 @@ public final class TextFieldSelectionManager {
                             collapsed-impl = new TextFieldSelectionManager.showSelectionToolbar.cut.1(this);
                             field3 = collapsed-impl;
                         } else {
-                            field3 = i;
+                            field3 = i2;
                         }
                     } else {
                     }
@@ -993,27 +993,27 @@ public final class TextFieldSelectionManager {
                     if (clipboardManager != null && clipboardManager.hasText() == anon) {
                         if (clipboardManager.hasText() == anon) {
                         } else {
-                            anon = i2;
+                            anon = i;
                         }
                     } else {
                     }
                     if (anon != 0) {
                         anon = new TextFieldSelectionManager.showSelectionToolbar.paste.1(this);
-                        field2 = anon;
+                        field = anon;
                     } else {
-                        field2 = i;
+                        field = i2;
                     }
                 } else {
                 }
                 if (TextRange.getLength-impl(getValue$foundation_release().getSelection-d9O1mEE()) != getValue$foundation_release().getText().length()) {
                     length-impl = new TextFieldSelectionManager.showSelectionToolbar.selectAll.1(this);
-                    field = i;
+                    field2 = i2;
                 } else {
-                    field = i;
+                    field2 = i2;
                 }
                 TextToolbar textToolbar = this.textToolbar;
                 if (textToolbar != null) {
-                    textToolbar.showMenu(getContentRect(), anon2, field2, field3, field);
+                    textToolbar.showMenu(getContentRect(), anon2, field, field3, field2);
                 }
             }
         }

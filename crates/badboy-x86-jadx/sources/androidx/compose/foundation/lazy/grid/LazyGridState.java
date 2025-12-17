@@ -450,15 +450,15 @@ public final class LazyGridState implements ScrollableState {
     public final void requestScrollToItem(int index, int scrollOffset) {
         boolean scrollInProgress;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i3;
+        int i2;
         int i4;
         androidx.compose.foundation.lazy.grid.LazyGridState.requestScrollToItem.1 anon;
         int i;
-        int i2;
+        int i3;
         if (isScrollInProgress()) {
-            i3 = 0;
-            scrollInProgress = new LazyGridState.requestScrollToItem.1(this, i3);
-            BuildersKt.launch$default((LazyGridMeasureResult)this.layoutInfoState.getValue().getCoroutineScope(), i3, 0, (Function2)scrollInProgress, 3, 0);
+            i2 = 0;
+            scrollInProgress = new LazyGridState.requestScrollToItem.1(this, i2);
+            BuildersKt.launch$default((LazyGridMeasureResult)this.layoutInfoState.getValue().getCoroutineScope(), i2, 0, (Function2)scrollInProgress, 3, 0);
         }
         snapToItemIndexInternal$foundation_release(index, scrollOffset, false);
     }
@@ -466,21 +466,21 @@ public final class LazyGridState implements ScrollableState {
     public Object scroll(MutatePriority mutatePriority, Function2<? super ScrollScope, ? super Continuation<? super Unit>, ? extends Object> function22, Continuation<? super Unit> continuation3) {
         boolean anon;
         int i2;
-        int i3;
+        int i;
         Object label;
         Object waitForFirstLayout;
-        int i;
+        int i3;
         Object obj;
         Object obj7;
         Object obj8;
         Object obj9;
         anon = continuation3;
-        i3 = Integer.MIN_VALUE;
-        if (continuation3 instanceof LazyGridState.scroll.1 && label2 &= i3 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof LazyGridState.scroll.1 && label2 &= i != 0) {
             anon = continuation3;
-            i3 = Integer.MIN_VALUE;
-            if (label2 &= i3 != 0) {
-                anon.label = obj9 -= i3;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon.label = obj9 -= i;
             } else {
                 anon = new LazyGridState.scroll.1(this, continuation3);
             }

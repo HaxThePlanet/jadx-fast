@@ -86,8 +86,8 @@ final class BuildersKt__Builders_commonKt {
         int dispatchedCoroutine;
         Function2 coroutine;
         CoroutineContext context2;
-        int i;
         int i2;
+        int i;
         Object threadContext;
         Object undispatchedOrReturn;
         Object obj;
@@ -106,7 +106,7 @@ final class BuildersKt__Builders_commonKt {
                 UndispatchedCoroutine undispatchedCoroutine = new UndispatchedCoroutine(coroutineContext, continuation);
                 kotlinx.coroutines.UndispatchedCoroutine undispatchedCoroutine2 = undispatchedCoroutine;
                 context2 = undispatchedCoroutine2.getContext();
-                i2 = 0;
+                i = 0;
                 dispatchedCoroutine = 0;
                 ThreadContextKt.restoreThreadContext(context2, ThreadContextKt.updateThreadContext(context2, 0));
                 coroutine = block;

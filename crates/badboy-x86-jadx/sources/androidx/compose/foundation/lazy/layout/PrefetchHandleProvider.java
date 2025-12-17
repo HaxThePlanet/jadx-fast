@@ -88,17 +88,17 @@ public final class PrefetchHandleProvider {
                     this.precomposeHandle = PrefetchHandleProvider.access$getSubcomposeLayoutState$p(this.this$0).precompose(key, PrefetchHandleProvider.access$getItemContentFactory$p(this.this$0).getContent(this.index, key, invoke.getContentType(this.index)));
                 }
                 int itemProvider = 0;
-                IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("Request was already composed!".toString());
-                throw illegalArgumentException2;
+                IllegalArgumentException $i$a$RequirePrefetchHandleProvider$HandleAndRequestImpl$performComposition$2 = new IllegalArgumentException("Request was already composed!".toString());
+                throw $i$a$RequirePrefetchHandleProvider$HandleAndRequestImpl$performComposition$2;
             }
             int i2 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Callers should check whether the request is still valid before calling performComposition()".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequirePrefetchHandleProvider$HandleAndRequestImpl$performComposition$1 = new IllegalArgumentException("Callers should check whether the request is still valid before calling performComposition()".toString());
+            throw $i$a$RequirePrefetchHandleProvider$HandleAndRequestImpl$performComposition$1;
         }
 
         private final void performMeasure-BRTryo0(long constraints) {
-            int i2;
             int i3;
+            int i2;
             int i;
             if (this.isCanceled) {
             } else {
@@ -108,24 +108,24 @@ public final class PrefetchHandleProvider {
                     SubcomposeLayoutState.PrecomposedSlotHandle precomposeHandle = this.precomposeHandle;
                     if (precomposeHandle == null) {
                     } else {
-                        i2 = 0;
-                        while (i2 < precomposeHandle.getPlaceablesCount()) {
+                        i3 = 0;
+                        while (i3 < precomposeHandle.getPlaceablesCount()) {
                             i = 0;
-                            precomposeHandle.premeasure-0kLqBqw(i2, constraints);
-                            i2++;
+                            precomposeHandle.premeasure-0kLqBqw(i3, constraints);
+                            i3++;
                         }
                     }
                     int handle = 0;
-                    IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("performComposition() must be called before performMeasure()".toString());
-                    throw illegalArgumentException2;
+                    IllegalArgumentException $i$a$RequireNotNullPrefetchHandleProvider$HandleAndRequestImpl$performMeasure$handle$1 = new IllegalArgumentException("performComposition() must be called before performMeasure()".toString());
+                    throw $i$a$RequireNotNullPrefetchHandleProvider$HandleAndRequestImpl$performMeasure$handle$1;
                 }
                 int i6 = 0;
-                IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("Request was already measured!".toString());
-                throw illegalArgumentException3;
+                IllegalArgumentException $i$a$RequirePrefetchHandleProvider$HandleAndRequestImpl$performMeasure$2 = new IllegalArgumentException("Request was already measured!".toString());
+                throw $i$a$RequirePrefetchHandleProvider$HandleAndRequestImpl$performMeasure$2;
             }
             int i4 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Callers should check whether the request is still valid before calling performMeasure()".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequirePrefetchHandleProvider$HandleAndRequestImpl$performMeasure$1 = new IllegalArgumentException("Callers should check whether the request is still valid before calling performMeasure()".toString());
+            throw $i$a$RequirePrefetchHandleProvider$HandleAndRequestImpl$performMeasure$1;
         }
 
         private final androidx.compose.foundation.lazy.layout.PrefetchHandleProvider.HandleAndRequestImpl.NestedPrefetchController resolveNestedPrefetchStates() {
@@ -147,8 +147,8 @@ public final class PrefetchHandleProvider {
                 return nestedPrefetchController;
             }
             int precomposedSlotHandle = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Should precompose before resolving nested prefetch states".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireNotNullPrefetchHandleProvider$HandleAndRequestImpl$resolveNestedPrefetchStates$precomposedSlotHandle$1 = new IllegalArgumentException("Should precompose before resolving nested prefetch states".toString());
+            throw $i$a$RequireNotNullPrefetchHandleProvider$HandleAndRequestImpl$resolveNestedPrefetchStates$precomposedSlotHandle$1;
         }
 
         private final boolean shouldExecute(androidx.compose.foundation.lazy.layout.PrefetchRequestScope $this$shouldExecute, long average) {
@@ -182,37 +182,37 @@ public final class PrefetchHandleProvider {
 
         @Override // androidx.compose.foundation.lazy.layout.LazyLayoutPrefetchState$PrefetchHandle
         public boolean execute(androidx.compose.foundation.lazy.layout.PrefetchRequestScope $this$execute) {
-            boolean iNSTANCE;
-            Object averageCompositionTimeNanosByContentType;
+            boolean $i$a$TracePrefetchHandleProvider$HandleAndRequestImpl$execute$1$1;
+            Object averageCompositionTimeNanosByContentType2;
             boolean $this$execute_u24lambda_u243;
             boolean hasMoreWork;
-            Object averageMeasureTimeNanosByContentType;
-            boolean hasResolvedNestedPrefetches;
-            int i6;
+            Object averageMeasureTimeNanosByContentType2;
+            boolean $i$a$TracePrefetchHandleProvider$HandleAndRequestImpl$execute$2;
+            int i7;
             long averageMeasureTimeNanos;
-            long l2;
-            long prefetchMetrics;
+            long l;
+            long prefetchMetrics2;
             long averageCompositionTimeNanos;
             int i5;
-            long l3;
-            androidx.compose.foundation.lazy.layout.PrefetchMetrics prefetchMetrics2;
-            int i2;
+            long l2;
+            androidx.compose.foundation.lazy.layout.PrefetchMetrics prefetchMetrics;
+            int i;
             int $i$f$measureNanoTime;
             long nanoTime;
-            int averageMeasureTimeNanosByContentType2;
-            MutableObjectLongMap averageCompositionTimeNanosByContentType2;
+            int averageMeasureTimeNanosByContentType;
+            MutableObjectLongMap averageCompositionTimeNanosByContentType;
             Object obj;
             String str;
+            int i6;
+            long i2;
             int i3;
-            long i7;
             int i4;
-            int i;
-            long l;
+            long l3;
             final Object obj2 = this;
             final androidx.compose.foundation.lazy.layout.PrefetchRequestScope request = $this$execute;
-            i6 = 0;
+            i7 = 0;
             if (!obj2.isValid()) {
-                return i6;
+                return i7;
             }
             Object contentType = (LazyLayoutItemProvider)PrefetchHandleProvider.access$getItemContentFactory$p(obj2.this$0).getItemProvider().invoke().getContentType(obj2.index);
             averageMeasureTimeNanos = 0;
@@ -226,40 +226,40 @@ public final class PrefetchHandleProvider {
                 } else {
                 }
                 if (obj2.shouldExecute(request, averageCompositionTimeNanos)) {
-                    prefetchMetrics2 = obj2.prefetchMetrics;
-                    i2 = 0;
+                    prefetchMetrics = obj2.prefetchMetrics;
+                    i = 0;
                     int i11 = 0;
                     nanoTime = System.nanoTime();
                     int i12 = 0;
-                    i7 = 0;
+                    i2 = 0;
                     Trace.beginSection("compose:lazy:prefetch:compose");
                     int i8 = 0;
                     obj2.performComposition();
-                    iNSTANCE = Unit.INSTANCE;
+                    $i$a$TracePrefetchHandleProvider$HandleAndRequestImpl$execute$1$1 = Unit.INSTANCE;
                     Trace.endSection();
-                    $i$f$measureNanoTime = averageCompositionTimeNanosByContentType2;
+                    $i$f$measureNanoTime = averageCompositionTimeNanosByContentType;
                     if (contentType != null) {
-                        iNSTANCE = contentType;
-                        averageMeasureTimeNanosByContentType2 = 0;
-                        i4 = averageMeasureTimeNanos;
-                        l = averageCompositionTimeNanos;
-                        i = 1;
-                        prefetchMetrics2.getAverageCompositionTimeNanosByContentType().set(contentType, PrefetchMetrics.access$calculateAverageTime(prefetchMetrics2, $i$f$measureNanoTime, nanoTime));
+                        $i$a$TracePrefetchHandleProvider$HandleAndRequestImpl$execute$1$1 = contentType;
+                        averageMeasureTimeNanosByContentType = 0;
+                        i3 = averageMeasureTimeNanos;
+                        l3 = averageCompositionTimeNanos;
+                        i4 = 1;
+                        prefetchMetrics.getAverageCompositionTimeNanosByContentType().set(contentType, PrefetchMetrics.access$calculateAverageTime(prefetchMetrics, $i$f$measureNanoTime, nanoTime));
                     } else {
-                        i4 = averageMeasureTimeNanos;
-                        l = averageCompositionTimeNanos;
-                        i = 1;
+                        i3 = averageMeasureTimeNanos;
+                        l3 = averageCompositionTimeNanos;
+                        i4 = 1;
                     }
-                    PrefetchMetrics.access$setAverageCompositionTimeNanos$p(prefetchMetrics2, PrefetchMetrics.access$calculateAverageTime(prefetchMetrics2, $i$f$measureNanoTime, nanoTime));
-                    if (!obj2.isUrgent && !obj2.hasResolvedNestedPrefetches && Long.compare(availableTimeNanos, i4) > 0) {
+                    PrefetchMetrics.access$setAverageCompositionTimeNanos$p(prefetchMetrics, PrefetchMetrics.access$calculateAverageTime(prefetchMetrics, $i$f$measureNanoTime, nanoTime));
+                    if (!obj2.isUrgent && !obj2.hasResolvedNestedPrefetches && Long.compare(availableTimeNanos, i3) > 0) {
                         if (!obj2.hasResolvedNestedPrefetches) {
-                            if (Long.compare(availableTimeNanos, i4) > 0) {
-                                l2 = 0;
+                            if (Long.compare(availableTimeNanos, i3) > 0) {
+                                l = 0;
                                 Trace.beginSection("compose:lazy:prefetch:resolve-nested");
                                 int i10 = 0;
                                 obj2.nestedPrefetchController = obj2.resolveNestedPrefetchStates();
-                                obj2.hasResolvedNestedPrefetches = i;
-                                hasResolvedNestedPrefetches = Unit.INSTANCE;
+                                obj2.hasResolvedNestedPrefetches = i4;
+                                $i$a$TracePrefetchHandleProvider$HandleAndRequestImpl$execute$2 = Unit.INSTANCE;
                                 Trace.endSection();
                             }
                             return 1;
@@ -269,7 +269,7 @@ public final class PrefetchHandleProvider {
                             averageMeasureTimeNanos = 0;
                             $this$execute_u24lambda_u243 = nestedPrefetchController.executeNestedPrefetches(request);
                         } else {
-                            $this$execute_u24lambda_u243 = i6;
+                            $this$execute_u24lambda_u243 = i7;
                         }
                         if ($this$execute_u24lambda_u243) {
                             return 1;
@@ -285,52 +285,52 @@ public final class PrefetchHandleProvider {
                                 }
                             } else {
                             }
-                            prefetchMetrics = obj2.prefetchMetrics;
+                            prefetchMetrics2 = obj2.prefetchMetrics;
                             averageCompositionTimeNanos = 0;
                             i5 = 0;
                             nanoTime = "compose:lazy:prefetch:measure";
-                            averageMeasureTimeNanosByContentType2 = 0;
+                            averageMeasureTimeNanosByContentType = 0;
                             Trace.beginSection(nanoTime);
                             int i9 = 0;
-                            i3 = i6;
+                            i6 = i7;
                             obj = contentType;
                             obj2.performMeasure-BRTryo0(obj2.constraints);
                             hasMoreWork = Unit.INSTANCE;
                             Trace.endSection();
-                            nanoTime2 -= prefetchMetrics2;
+                            nanoTime2 -= prefetchMetrics;
                             if (obj2.shouldExecute(request, averageMeasureTimeNanos) && obj != null) {
-                                prefetchMetrics = obj2.prefetchMetrics;
+                                prefetchMetrics2 = obj2.prefetchMetrics;
                                 averageCompositionTimeNanos = 0;
                                 i5 = 0;
                                 nanoTime = "compose:lazy:prefetch:measure";
-                                averageMeasureTimeNanosByContentType2 = 0;
+                                averageMeasureTimeNanosByContentType = 0;
                                 Trace.beginSection(nanoTime);
                                 i9 = 0;
-                                i3 = i6;
+                                i6 = i7;
                                 obj = contentType;
                                 obj2.performMeasure-BRTryo0(obj2.constraints);
                                 hasMoreWork = Unit.INSTANCE;
                                 Trace.endSection();
-                                nanoTime2 -= prefetchMetrics2;
+                                nanoTime2 -= prefetchMetrics;
                                 if (obj != null) {
                                     hasMoreWork = obj;
                                     i5 = 0;
-                                    i2 = i4;
-                                    prefetchMetrics.getAverageMeasureTimeNanosByContentType().set(obj, PrefetchMetrics.access$calculateAverageTime(prefetchMetrics, i6, contentType));
+                                    i = i3;
+                                    prefetchMetrics2.getAverageMeasureTimeNanosByContentType().set(obj, PrefetchMetrics.access$calculateAverageTime(prefetchMetrics2, i7, contentType));
                                 }
-                                PrefetchMetrics.access$setAverageMeasureTimeNanos$p(prefetchMetrics, PrefetchMetrics.access$calculateAverageTime(prefetchMetrics, i6, contentType));
-                                return i3;
+                                PrefetchMetrics.access$setAverageMeasureTimeNanos$p(prefetchMetrics2, PrefetchMetrics.access$calculateAverageTime(prefetchMetrics2, i7, contentType));
+                                return i6;
                             }
                             return 1;
                         }
                     }
-                    i3 = i6;
+                    i6 = i7;
                     obj = contentType;
                 }
                 return 1;
             }
-            i4 = averageMeasureTimeNanos;
-            i = 1;
+            i3 = averageMeasureTimeNanos;
+            i4 = 1;
         }
 
         @Override // androidx.compose.foundation.lazy.layout.LazyLayoutPrefetchState$PrefetchHandle

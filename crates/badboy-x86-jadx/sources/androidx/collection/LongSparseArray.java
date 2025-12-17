@@ -163,41 +163,41 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
     }
 
     public E get(long key) {
-        Object obj;
-        int size;
         Object obj2;
+        int size;
+        Object obj;
         final int i = 0;
         final Object obj4 = obj3;
         final int i3 = 0;
         int binarySearch = ContainerHelpersKt.binarySearch(obj4.keys, obj4.size, key);
         if (binarySearch >= 0) {
             if (obj4.values[binarySearch] == LongSparseArrayKt.access$getDELETED$p()) {
-                obj = i2;
-            } else {
-                obj = obj4.values[binarySearch];
-            }
-        } else {
-        }
-        return obj;
-    }
-
-    public E get(long key, E defaultValue) {
-        Object obj2;
-        int size;
-        Object obj;
-        final int i = 0;
-        final Object obj4 = obj3;
-        final int i2 = 0;
-        int binarySearch = ContainerHelpersKt.binarySearch(obj4.keys, obj4.size, key);
-        if (binarySearch >= 0) {
-            if (obj4.values[binarySearch] == LongSparseArrayKt.access$getDELETED$p()) {
-                obj2 = obj10;
+                obj2 = i2;
             } else {
                 obj2 = obj4.values[binarySearch];
             }
         } else {
         }
         return obj2;
+    }
+
+    public E get(long key, E defaultValue) {
+        Object obj;
+        int size;
+        Object obj2;
+        final int i = 0;
+        final Object obj4 = obj3;
+        final int i2 = 0;
+        int binarySearch = ContainerHelpersKt.binarySearch(obj4.keys, obj4.size, key);
+        if (binarySearch >= 0) {
+            if (obj4.values[binarySearch] == LongSparseArrayKt.access$getDELETED$p()) {
+                obj = obj10;
+            } else {
+                obj = obj4.values[binarySearch];
+            }
+        } else {
+        }
+        return obj;
     }
 
     @Override // java.lang.Cloneable
@@ -210,8 +210,8 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
         Object[] values;
         int i$iv$iv2;
         int i$iv$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         Object obj3 = this;
         final int i2 = 0;
         if (obj3.garbage) {
@@ -222,15 +222,15 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
             values = garbage.values;
             i$iv$iv = 0;
             while (i$iv$iv < garbage.size) {
-                obj2 = values[i$iv$iv];
-                if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv$iv != newSize$iv$iv) {
+                obj = values[i$iv$iv];
+                if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv$iv != newSize$iv$iv) {
                 }
                 i$iv$iv++;
                 if (i$iv$iv != newSize$iv$iv) {
                 }
                 newSize$iv$iv++;
                 keys[newSize$iv$iv] = keys[i$iv$iv];
-                values[newSize$iv$iv] = obj2;
+                values[newSize$iv$iv] = obj;
                 values[i$iv$iv] = 0;
             }
             garbage.garbage = false;
@@ -292,17 +292,17 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
 
     @Override // java.lang.Cloneable
     public long keyAt(int index) {
-        int size;
+        int size2;
         int i2;
         boolean garbage;
         int i;
-        int size2;
+        int size;
         int newSize$iv$iv;
         long[] keys;
         Object[] values;
         int i$iv$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         Object obj3 = this;
         final int i3 = 0;
         int i4 = 0;
@@ -320,15 +320,15 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
                 values = garbage.values;
                 i$iv$iv = 0;
                 while (i$iv$iv < garbage.size) {
-                    obj = values[i$iv$iv];
-                    if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv$iv != newSize$iv$iv) {
+                    obj2 = values[i$iv$iv];
+                    if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv$iv != newSize$iv$iv) {
                     }
                     i$iv$iv++;
                     if (i$iv$iv != newSize$iv$iv) {
                     }
                     newSize$iv$iv++;
                     keys[newSize$iv$iv] = keys[i$iv$iv];
-                    values[newSize$iv$iv] = obj;
+                    values[newSize$iv$iv] = obj2;
                     values[i$iv$iv] = 0;
                 }
                 garbage.garbage = i4;
@@ -344,20 +344,20 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
 
     public void put(long key, E value) {
         int index$iv;
-        Object[] values2;
+        Object[] values;
         int size;
         boolean binarySearch;
         int idealLongArraySize;
-        int values;
+        int values2;
         int copyOf;
         int size2;
         int newSize$iv$iv;
         long[] keys;
         Object[] values3;
-        int i$iv$iv;
         int i$iv$iv2;
-        Object obj;
+        int i$iv$iv;
         Object obj2;
+        Object obj;
         final int i = key;
         final Object obj3 = this;
         final int i2 = 0;
@@ -378,18 +378,18 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
                             newSize$iv$iv = 0;
                             keys = obj4.keys;
                             values3 = obj4.values;
-                            i$iv$iv2 = 0;
-                            while (i$iv$iv2 < obj4.size) {
-                                obj = values3[i$iv$iv2];
-                                if (obj != LongSparseArrayKt.access$getDELETED$p() && i$iv$iv2 != newSize$iv$iv) {
+                            i$iv$iv = 0;
+                            while (i$iv$iv < obj4.size) {
+                                obj2 = values3[i$iv$iv];
+                                if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv$iv != newSize$iv$iv) {
                                 }
-                                i$iv$iv2++;
-                                if (i$iv$iv2 != newSize$iv$iv) {
+                                i$iv$iv++;
+                                if (i$iv$iv != newSize$iv$iv) {
                                 }
                                 newSize$iv$iv++;
-                                keys[newSize$iv$iv] = keys[i$iv$iv2];
-                                values3[newSize$iv$iv] = obj;
-                                values3[i$iv$iv2] = 0;
+                                keys[newSize$iv$iv] = keys[i$iv$iv];
+                                values3[newSize$iv$iv] = obj2;
+                                values3[i$iv$iv] = 0;
                             }
                             obj4.garbage = false;
                             obj4.size = newSize$iv$iv;
@@ -420,19 +420,19 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
     }
 
     public void putAll(androidx.collection.LongSparseArray<? extends E> other) {
+        int i2;
         int i3;
         int i;
-        int i2;
         long keyAt;
         Object valueAt;
         Intrinsics.checkNotNullParameter(other, "other");
         final int i4 = 0;
-        i3 = 0;
-        while (i3 < other.size()) {
-            i = i3;
-            i2 = 0;
-            this.put(other.keyAt(i), obj7);
-            i3++;
+        i2 = 0;
+        while (i2 < other.size()) {
+            i3 = i2;
+            i = 0;
+            this.put(other.keyAt(i3), obj7);
+            i2++;
         }
     }
 
@@ -523,9 +523,9 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
 
     public void setValueAt(int index, E value) {
         int size;
-        int i2;
-        boolean garbage;
         int i;
+        boolean garbage;
+        int i2;
         int size2;
         int newSize$iv$iv;
         long[] keys;
@@ -537,14 +537,14 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
         final int i3 = 0;
         int i4 = 0;
         if (index >= 0 && index < obj3.size) {
-            i2 = index < obj3.size ? 1 : i4;
+            i = index < obj3.size ? 1 : i4;
         } else {
         }
-        if (i2 == 0) {
+        if (i == 0) {
         } else {
             if (obj3.garbage) {
                 garbage = obj3;
-                i = 0;
+                i2 = 0;
                 newSize$iv$iv = 0;
                 keys = garbage.keys;
                 values = garbage.values;
@@ -580,8 +580,8 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
         int newSize$iv$iv;
         long[] keys;
         Object[] values;
-        int i$iv$iv2;
         int i$iv$iv;
+        int i$iv$iv2;
         Object obj2;
         Object obj;
         Object obj3 = this;
@@ -592,18 +592,18 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
             newSize$iv$iv = 0;
             keys = garbage.keys;
             values = garbage.values;
-            i$iv$iv = 0;
-            while (i$iv$iv < garbage.size) {
-                obj2 = values[i$iv$iv];
-                if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv$iv != newSize$iv$iv) {
+            i$iv$iv2 = 0;
+            while (i$iv$iv2 < garbage.size) {
+                obj2 = values[i$iv$iv2];
+                if (obj2 != LongSparseArrayKt.access$getDELETED$p() && i$iv$iv2 != newSize$iv$iv) {
                 }
-                i$iv$iv++;
-                if (i$iv$iv != newSize$iv$iv) {
+                i$iv$iv2++;
+                if (i$iv$iv2 != newSize$iv$iv) {
                 }
                 newSize$iv$iv++;
-                keys[newSize$iv$iv] = keys[i$iv$iv];
+                keys[newSize$iv$iv] = keys[i$iv$iv2];
                 values[newSize$iv$iv] = obj2;
-                values[i$iv$iv] = 0;
+                values[i$iv$iv2] = 0;
             }
             garbage.garbage = false;
             garbage.size = newSize$iv$iv;
@@ -653,11 +653,11 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
     }
 
     public E valueAt(int index) {
-        int size2;
-        int i2;
-        boolean garbage;
-        int i;
         int size;
+        int i;
+        boolean garbage;
+        int i2;
+        int size2;
         int newSize$iv$iv;
         long[] keys;
         Object[] values;
@@ -668,14 +668,14 @@ public class LongSparseArray<E>  implements java.lang.Cloneable {
         final int i3 = 0;
         int i4 = 0;
         if (index >= 0 && index < obj3.size) {
-            i2 = index < obj3.size ? 1 : i4;
+            i = index < obj3.size ? 1 : i4;
         } else {
         }
-        if (i2 == 0) {
+        if (i == 0) {
         } else {
             if (obj3.garbage) {
                 garbage = obj3;
-                i = 0;
+                i2 = 0;
                 newSize$iv$iv = 0;
                 keys = garbage.keys;
                 values = garbage.values;

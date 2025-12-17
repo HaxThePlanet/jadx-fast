@@ -44,10 +44,10 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
         AbstractSharedFlowSlot[] curSlots;
         int $this$forEach$iv;
         int i;
-        Unit iNSTANCE;
-        Object slots;
+        Unit $i$a$SynchronizedStateFlowImpl$updateState$1;
+        Object slots2;
         boolean equal;
-        AbstractSharedFlowSlot[] slots2;
+        AbstractSharedFlowSlot[] slots;
         AbstractSharedFlowSlot[] objArr;
         int i2;
         int i3 = 0;
@@ -55,22 +55,22 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
         $this$forEach$iv = 0;
         i = 0;
         int i5 = 0;
-        slots = StateFlowImpl._state$FU.get(this);
+        slots2 = StateFlowImpl._state$FU.get(this);
         int i8 = 0;
         synchronized (this) {
-            if (!Intrinsics.areEqual(slots, expectedState)) {
+            if (!Intrinsics.areEqual(slots2, expectedState)) {
                 return i8;
             }
             final int i11 = 1;
-            if (Intrinsics.areEqual(slots, newState)) {
+            if (Intrinsics.areEqual(slots2, newState)) {
                 return i11;
             }
             StateFlowImpl._state$FU.set(this, newState);
             int curSequence2 = sequence3;
             if (curSequence2 & 1 == 0) {
                 this.sequence = curSequence2++;
-                curSlots = slots2;
-                iNSTANCE = Unit.INSTANCE;
+                curSlots = slots;
+                $i$a$SynchronizedStateFlowImpl$updateState$1 = Unit.INSTANCE;
             }
             this.sequence = curSequence2 + 2;
             return i11;
@@ -79,13 +79,13 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
             AbstractSharedFlowSlot[] objArr2 = curSlots;
             while ((StateFlowSlot[])objArr2 != null) {
                 i = 0;
-                slots = i8;
-                while (slots < objArr2.length) {
-                    objArr = slots2;
+                slots2 = i8;
+                while (slots2 < objArr2.length) {
+                    objArr = slots;
                     i2 = 0;
                     if (objArr != null) {
                     }
-                    slots++;
+                    slots2++;
                     objArr.makePending();
                 }
                 $this$forEach$iv = 0;
@@ -94,32 +94,32 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
                 if (this.sequence != curSequence) {
                 }
                 curSequence = sequence2;
-                curSlots = slots;
-                iNSTANCE = Unit.INSTANCE;
+                curSlots = slots2;
+                $i$a$SynchronizedStateFlowImpl$updateState$1 = Unit.INSTANCE;
                 objArr2 = curSlots;
-                objArr = slots2;
+                objArr = slots;
                 i2 = 0;
                 if (objArr != null) {
                 }
-                slots++;
+                slots2++;
                 objArr.makePending();
             }
             i = 0;
-            slots = i8;
-            while (slots < objArr2.length) {
-                objArr = slots2;
+            slots2 = i8;
+            while (slots2 < objArr2.length) {
+                objArr = slots;
                 i2 = 0;
                 if (objArr != null) {
                 }
-                slots++;
+                slots2++;
                 objArr.makePending();
             }
-            objArr = slots2;
+            objArr = slots;
             i2 = 0;
             if (objArr != null) {
             }
             objArr.makePending();
-            slots++;
+            slots2++;
             $this$forEach$iv = 0;
             i = 0;
             i6 = 0;
@@ -128,8 +128,8 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
             this.sequence = curSequence + 1;
             return i11;
             curSequence = sequence2;
-            curSlots = slots;
-            iNSTANCE = Unit.INSTANCE;
+            curSlots = slots2;
+            $i$a$SynchronizedStateFlowImpl$updateState$1 = Unit.INSTANCE;
             throw th;
             this.sequence = curSequence2 + 2;
             return i11;
@@ -151,8 +151,8 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
         Object l$0;
         Object newState;
         int equal;
-        Object obj2;
         Object obj;
+        Object obj2;
         Object obj11;
         Object obj12;
         anon = continuation2;
@@ -184,8 +184,8 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
                 newState = StateFlowImpl._state$FU.get(l$0);
                 JobKt.ensureActive(l$3);
                 equal = 0;
-                obj2 = 0;
-                obj2 = newState;
+                obj = 0;
+                obj = newState;
                 anon.L$0 = l$0;
                 anon.L$1 = obj11;
                 anon.L$2 = l$2;
@@ -221,8 +221,8 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
                 newState = StateFlowImpl._state$FU.get(l$0);
                 JobKt.ensureActive(l$3);
                 equal = 0;
-                obj2 = 0;
-                obj2 = newState;
+                obj = 0;
+                obj = newState;
                 anon.L$0 = l$0;
                 anon.L$1 = obj11;
                 anon.L$2 = l$2;
@@ -248,12 +248,12 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
                 l$0 = anon.L$0;
                 ResultKt.throwOnFailure(obj12);
                 collector = obj11;
-                obj11 = obj;
+                obj11 = obj2;
                 newState = StateFlowImpl._state$FU.get(l$0);
                 JobKt.ensureActive(l$3);
                 equal = 0;
-                obj2 = 0;
-                obj2 = newState;
+                obj = 0;
+                obj = newState;
                 anon.L$0 = l$0;
                 anon.L$1 = obj11;
                 anon.L$2 = l$2;
@@ -280,11 +280,11 @@ final class StateFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.flow
     }
 
     public boolean compareAndSet(T expect, T update) {
-        kotlinx.coroutines.internal.Symbol nULL;
         kotlinx.coroutines.internal.Symbol nULL2;
-        nULL = expect == null ? NullSurrogateKt.NULL : expect;
-        nULL2 = update == null ? NullSurrogateKt.NULL : update;
-        return updateState(nULL, nULL2);
+        kotlinx.coroutines.internal.Symbol nULL;
+        nULL2 = expect == null ? NullSurrogateKt.NULL : expect;
+        nULL = update == null ? NullSurrogateKt.NULL : update;
+        return updateState(nULL2, nULL);
     }
 
     @Override // kotlinx.coroutines.flow.internal.AbstractSharedFlow

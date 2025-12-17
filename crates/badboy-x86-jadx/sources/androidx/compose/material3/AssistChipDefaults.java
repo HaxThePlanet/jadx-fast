@@ -41,11 +41,11 @@ public final class AssistChipDefaults {
         long l2;
         float flatDisabledOutlineOpacity;
         float f;
+        int i;
         int i7;
-        int i5;
         int i2;
         int i4;
-        int i;
+        int i5;
         final Composer composer = i6;
         int i8 = 382372847;
         ComposerKt.sourceInformationMarkerStart(composer, i8, "C(assistChipBorder)P(0:c#ui.graphics.Color,2:c#ui.graphics.Color,1:c#ui.unit.Dp)1145@54691L5,1147@54789L5:Chip.kt#uh7d8r");
@@ -87,12 +87,12 @@ public final class AssistChipDefaults {
         boolean traceInProgress;
         long l;
         float flatDisabledOutlineOpacity;
-        int i5;
-        int i;
-        int i6;
         int i2;
         int i3;
+        int i6;
         int i4;
+        int i5;
+        int i;
         final Composer composer = i7;
         int i8 = -1458649561;
         ComposerKt.sourceInformationMarkerStart(composer, i8, "C(assistChipBorder)P(3,0:c#ui.graphics.Color,2:c#ui.graphics.Color,1:c#ui.unit.Dp)1118@53518L5,1120@53616L5:Chip.kt#uh7d8r");
@@ -115,7 +115,7 @@ public final class AssistChipDefaults {
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, obj22, -1, "androidx.compose.material3.AssistChipDefaults.assistChipBorder (Chip.kt:1124)");
         } else {
-            i = obj22;
+            i3 = obj22;
         }
         l = enabled ? borderColor2 : disabledBorderColor2;
         if (ComposerKt.isTraceInProgress()) {
@@ -143,65 +143,65 @@ public final class AssistChipDefaults {
     public final androidx.compose.material3.ChipColors assistChipColors-oq7We08(long containerColor, long labelColor, long leadingIconContentColor, long trailingIconContentColor, long disabledContainerColor, long disabledLabelColor, long disabledLeadingIconContentColor, long disabledTrailingIconContentColor, Composer $composer, int $changed, int i11) {
         Color.Companion companion;
         int traceInProgress;
-        int unspecified-0d7_KjU5;
-        int unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU;
-        int unspecified-0d7_KjU3;
-        int unspecified-0d7_KjU6;
         int unspecified-0d7_KjU7;
+        int unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU3;
+        int unspecified-0d7_KjU4;
         int unspecified-0d7_KjU2;
+        int unspecified-0d7_KjU;
+        int unspecified-0d7_KjU6;
         int i;
-        long l4;
-        long l7;
         long l;
-        long l5;
         long l6;
-        long l2;
-        long l8;
+        long l5;
+        long l4;
         long l3;
+        long l7;
+        long l8;
+        long l2;
         final Composer composer = obj39;
         int i2 = obj41;
         int i3 = -391745725;
         ComposerKt.sourceInformationMarkerStart(composer, i3, "C(assistChipColors)P(0:c#ui.graphics.Color,5:c#ui.graphics.Color,6:c#ui.graphics.Color,7:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color)1045@49833L11:Chip.kt#uh7d8r");
         if (i2 & 1 != 0) {
-            l4 = unspecified-0d7_KjU5;
+            l = unspecified-0d7_KjU7;
         } else {
-            l4 = containerColor;
+            l = containerColor;
         }
         if (i2 & 2 != 0) {
-            l7 = unspecified-0d7_KjU4;
+            l6 = unspecified-0d7_KjU5;
         } else {
-            l7 = leadingIconContentColor;
+            l6 = leadingIconContentColor;
         }
         if (i2 & 4 != 0) {
-            l = unspecified-0d7_KjU;
-        } else {
-            l = disabledContainerColor;
-        }
-        if (i2 & 8 != 0) {
             l5 = unspecified-0d7_KjU3;
         } else {
-            l5 = disabledLeadingIconContentColor;
+            l5 = disabledContainerColor;
+        }
+        if (i2 & 8 != 0) {
+            l4 = unspecified-0d7_KjU4;
+        } else {
+            l4 = disabledLeadingIconContentColor;
         }
         if (i2 & 16 != 0) {
-            l6 = unspecified-0d7_KjU6;
+            l3 = unspecified-0d7_KjU2;
         } else {
-            l6 = $composer;
+            l3 = $composer;
         }
         if (i2 & 32 != 0) {
-            l2 = unspecified-0d7_KjU7;
+            l7 = unspecified-0d7_KjU;
         } else {
-            l2 = i11;
+            l7 = i11;
         }
         if (i2 & 64 != 0) {
-            l8 = unspecified-0d7_KjU2;
+            l8 = unspecified-0d7_KjU6;
         } else {
             l8 = obj35;
         }
         if (i2 &= 128 != 0) {
-            l3 = unspecified-0d7_KjU2;
+            l2 = unspecified-0d7_KjU6;
         } else {
-            l3 = obj37;
+            l2 = obj37;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i3, obj40, -1, "androidx.compose.material3.AssistChipDefaults.assistChipColors (Chip.kt:1045)");
@@ -212,17 +212,17 @@ public final class AssistChipDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultAssistChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-FD3wquc(l4, obj7, l7, obj9, l, obj11, l5, obj13);
+        return this.getDefaultAssistChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-FD3wquc(l, obj7, l6, obj9, l5, obj11, l4, obj13);
     }
 
     public final androidx.compose.material3.ChipElevation assistChipElevation-aqJV_2Y(float elevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         AssistChipTokens iNSTANCE;
-        float f4;
-        float f5;
+        float f3;
+        float f;
         float f2;
         float f6;
-        float f;
-        float f3;
+        float f4;
+        float f5;
         float obj12;
         float obj13;
         float obj14;
@@ -230,25 +230,25 @@ public final class AssistChipDefaults {
         final Composer composer = $composer;
         ComposerKt.sourceInformationMarkerStart(composer, i, "C(assistChipElevation)P(2:c#ui.unit.Dp,5:c#ui.unit.Dp,3:c#ui.unit.Dp,4:c#ui.unit.Dp,1:c#ui.unit.Dp,0:c#ui.unit.Dp):Chip.kt#uh7d8r");
         if (i9 & 1 != 0) {
-            f4 = obj12;
+            f3 = obj12;
         } else {
-            f4 = elevation;
+            f3 = elevation;
         }
-        f5 = i9 & 2 != 0 ? obj13 : pressedElevation;
+        f = i9 & 2 != 0 ? obj13 : pressedElevation;
         f2 = i9 & 4 != 0 ? obj14 : focusedElevation;
         f6 = i9 & 8 != 0 ? obj12 : hoveredElevation;
         if (i9 & 16 != 0) {
-            f = obj12;
+            f4 = obj12;
         } else {
-            f = draggedElevation;
+            f4 = draggedElevation;
         }
-        f3 = i9 & 32 != 0 ? obj12 : disabledElevation;
+        f5 = i9 & 32 != 0 ? obj12 : disabledElevation;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.AssistChipDefaults.assistChipElevation (Chip.kt:1098)");
         } else {
             obj14 = $changed;
         }
-        ChipElevation chipElevation = new ChipElevation(f4, f5, f2, f6, f, f3, 0);
+        ChipElevation chipElevation = new ChipElevation(f3, f, f2, f6, f4, f5, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -274,65 +274,65 @@ public final class AssistChipDefaults {
     public final androidx.compose.material3.ChipColors elevatedAssistChipColors-oq7We08(long containerColor, long labelColor, long leadingIconContentColor, long trailingIconContentColor, long disabledContainerColor, long disabledLabelColor, long disabledLeadingIconContentColor, long disabledTrailingIconContentColor, Composer $composer, int $changed, int i11) {
         Color.Companion companion;
         int traceInProgress;
-        int unspecified-0d7_KjU3;
-        int unspecified-0d7_KjU5;
-        int unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU;
-        int unspecified-0d7_KjU7;
-        int unspecified-0d7_KjU6;
         int unspecified-0d7_KjU2;
+        int unspecified-0d7_KjU3;
+        int unspecified-0d7_KjU;
+        int unspecified-0d7_KjU4;
+        int unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU6;
+        int unspecified-0d7_KjU7;
         int i;
-        long l7;
-        long l2;
-        long l;
-        long l3;
-        long l4;
         long l6;
-        long l5;
+        long l2;
+        long l4;
         long l8;
+        long l3;
+        long l7;
+        long l5;
+        long l;
         final Composer composer = obj39;
         int i2 = obj41;
         int i3 = -535762675;
         ComposerKt.sourceInformationMarkerStart(composer, i3, "C(elevatedAssistChipColors)P(0:c#ui.graphics.Color,5:c#ui.graphics.Color,6:c#ui.graphics.Color,7:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color)1189@56785L11:Chip.kt#uh7d8r");
         if (i2 & 1 != 0) {
-            l7 = unspecified-0d7_KjU3;
+            l6 = unspecified-0d7_KjU2;
         } else {
-            l7 = containerColor;
+            l6 = containerColor;
         }
         if (i2 & 2 != 0) {
-            l2 = unspecified-0d7_KjU5;
+            l2 = unspecified-0d7_KjU3;
         } else {
             l2 = leadingIconContentColor;
         }
         if (i2 & 4 != 0) {
-            l = unspecified-0d7_KjU4;
+            l4 = unspecified-0d7_KjU;
         } else {
-            l = disabledContainerColor;
+            l4 = disabledContainerColor;
         }
         if (i2 & 8 != 0) {
-            l3 = unspecified-0d7_KjU;
+            l8 = unspecified-0d7_KjU4;
         } else {
-            l3 = disabledLeadingIconContentColor;
+            l8 = disabledLeadingIconContentColor;
         }
         if (i2 & 16 != 0) {
-            l4 = unspecified-0d7_KjU7;
+            l3 = unspecified-0d7_KjU5;
         } else {
-            l4 = $composer;
+            l3 = $composer;
         }
         if (i2 & 32 != 0) {
-            l6 = unspecified-0d7_KjU6;
+            l7 = unspecified-0d7_KjU6;
         } else {
-            l6 = i11;
+            l7 = i11;
         }
         if (i2 & 64 != 0) {
-            l5 = unspecified-0d7_KjU2;
+            l5 = unspecified-0d7_KjU7;
         } else {
             l5 = obj35;
         }
         if (i2 &= 128 != 0) {
-            l8 = unspecified-0d7_KjU2;
+            l = unspecified-0d7_KjU7;
         } else {
-            l8 = obj37;
+            l = obj37;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i3, obj40, -1, "androidx.compose.material3.AssistChipDefaults.elevatedAssistChipColors (Chip.kt:1189)");
@@ -343,17 +343,17 @@ public final class AssistChipDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return SuggestionChipDefaults.INSTANCE.getDefaultElevatedSuggestionChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-FD3wquc(l7, obj7, l2, obj9, l, obj11, l3, obj13);
+        return SuggestionChipDefaults.INSTANCE.getDefaultElevatedSuggestionChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-FD3wquc(l6, obj7, l2, obj9, l4, obj11, l8, obj13);
     }
 
     public final androidx.compose.material3.ChipElevation elevatedAssistChipElevation-aqJV_2Y(float elevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         AssistChipTokens iNSTANCE;
         float f;
-        float f6;
         float f2;
-        float f5;
-        float f3;
         float f4;
+        float f3;
+        float f6;
+        float f5;
         float obj12;
         float obj13;
         float obj14;
@@ -366,36 +366,36 @@ public final class AssistChipDefaults {
             f = elevation;
         }
         if (i9 & 2 != 0) {
-            f6 = obj13;
+            f2 = obj13;
         } else {
-            f6 = pressedElevation;
+            f2 = pressedElevation;
         }
         if (i9 & 4 != 0) {
-            f2 = obj14;
+            f4 = obj14;
         } else {
-            f2 = focusedElevation;
+            f4 = focusedElevation;
         }
         if (i9 & 8 != 0) {
-            f5 = obj12;
-        } else {
-            f5 = hoveredElevation;
-        }
-        if (i9 & 16 != 0) {
             f3 = obj12;
         } else {
-            f3 = draggedElevation;
+            f3 = hoveredElevation;
+        }
+        if (i9 & 16 != 0) {
+            f6 = obj12;
+        } else {
+            f6 = draggedElevation;
         }
         if (i9 & 32 != 0) {
-            f4 = obj12;
+            f5 = obj12;
         } else {
-            f4 = disabledElevation;
+            f5 = disabledElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.AssistChipDefaults.elevatedAssistChipElevation (Chip.kt:1244)");
         } else {
             obj14 = $changed;
         }
-        ChipElevation chipElevation = new ChipElevation(f, f6, f2, f5, f3, f4, 0);
+        ChipElevation chipElevation = new ChipElevation(f, f2, f4, f3, f6, f5, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -406,29 +406,29 @@ public final class AssistChipDefaults {
     public final androidx.compose.material3.ChipColors getDefaultAssistChipColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultAssistChipColors) {
         androidx.compose.material3.ChipColors defaultAssistChipColorsCached$material3_release;
         androidx.compose.material3.ChipColors chipColors;
-        int i9;
-        long token;
-        long token2;
-        long token3;
-        long transparent-0d7_KjU;
-        long copy-wmQWz5c$default;
-        long copy-wmQWz5c$default2;
-        int i4;
-        long copy-wmQWz5c$default3;
         int i7;
-        int i;
-        int i3;
+        long token3;
+        long token2;
+        long token;
+        long transparent-0d7_KjU;
+        long copy-wmQWz5c$default2;
+        long copy-wmQWz5c$default;
+        int i9;
+        long copy-wmQWz5c$default3;
         int i5;
-        int i2;
+        int i4;
+        int i3;
+        int i;
         int i8;
+        int i2;
         int i6;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultAssistChipColors;
         if (colorScheme.getDefaultAssistChipColorsCached$material3_release() == null) {
-            i4 = 0;
-            i7 = 0;
-            i3 = 0;
-            chipColors = new ChipColors(Color.Companion.getTransparent-0d7_KjU(), obj4, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getIconColor()), obj8, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getIconColor()), obj10, Color.Companion.getTransparent-0d7_KjU(), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledLabelTextColor()), obj14, AssistChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i4, 0, i7, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i4, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i7, 0, i3, 14), i4, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i7, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i3, 0, 0, 14), i7, 0);
             i9 = 0;
+            i5 = 0;
+            i3 = 0;
+            chipColors = new ChipColors(Color.Companion.getTransparent-0d7_KjU(), obj4, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getIconColor()), obj8, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getIconColor()), obj10, Color.Companion.getTransparent-0d7_KjU(), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledLabelTextColor()), obj14, AssistChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i9, 0, i5, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i9, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i5, 0, i3, 14), i9, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i5, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i3, 0, 0, 14), i5, 0);
+            i7 = 0;
             colorScheme.setDefaultAssistChipColorsCached$material3_release(chipColors);
         }
         return defaultAssistChipColorsCached$material3_release;
@@ -437,31 +437,31 @@ public final class AssistChipDefaults {
     public final androidx.compose.material3.ChipColors getDefaultElevatedAssistChipColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultElevatedAssistChipColors) {
         androidx.compose.material3.ChipColors defaultElevatedAssistChipColorsCached$material3_release;
         androidx.compose.material3.ChipColors chipColors;
-        int i5;
+        int i;
         long token2;
         long token3;
         long token;
-        long copy-wmQWz5c$default3;
-        long copy-wmQWz5c$default;
-        int i9;
         long copy-wmQWz5c$default2;
-        int i;
-        long copy-wmQWz5c$default4;
-        int i4;
-        int i8;
-        int i10;
-        int i2;
+        long copy-wmQWz5c$default;
         int i6;
+        long copy-wmQWz5c$default4;
+        int i2;
+        long copy-wmQWz5c$default3;
         int i3;
+        int i4;
+        int i5;
         int i7;
+        int i10;
+        int i9;
+        int i8;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultElevatedAssistChipColors;
         if (colorScheme.getDefaultElevatedAssistChipColorsCached$material3_release() == null) {
-            i9 = 0;
-            i = 0;
-            i4 = 0;
-            i10 = 0;
-            chipColors = new ChipColors(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getElevatedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getIconColor()), obj8, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getIconColor()), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getElevatedDisabledContainerColor()), obj12, AssistChipTokens.INSTANCE.getElevatedDisabledContainerOpacity(), i9, 0, i, 14), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledLabelTextColor()), i9, AssistChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i, 0, i4, 14), i9, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i4, 0, i10, 14), i, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i4, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i10, 0, 0, 14), i4, 0);
+            i6 = 0;
+            i2 = 0;
+            i3 = 0;
             i5 = 0;
+            chipColors = new ChipColors(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getElevatedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getIconColor()), obj8, ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getIconColor()), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getElevatedDisabledContainerColor()), obj12, AssistChipTokens.INSTANCE.getElevatedDisabledContainerOpacity(), i6, 0, i2, 14), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledLabelTextColor()), i6, AssistChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i2, 0, i3, 14), i6, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i2, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i3, 0, i5, 14), i2, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, AssistChipTokens.INSTANCE.getDisabledIconColor()), i3, AssistChipTokens.INSTANCE.getDisabledIconOpacity(), i5, 0, 0, 14), i3, 0);
+            i = 0;
             colorScheme.setDefaultElevatedAssistChipColorsCached$material3_release(chipColors);
         }
         return defaultElevatedAssistChipColorsCached$material3_release;

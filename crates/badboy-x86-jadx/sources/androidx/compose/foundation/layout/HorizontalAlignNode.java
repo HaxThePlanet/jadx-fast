@@ -30,12 +30,12 @@ public final class HorizontalAlignNode extends Modifier.Node implements ParentDa
     public androidx.compose.foundation.layout.RowColumnParentData modifyParentData(Density $this$modifyParentData, Object parentData) {
         Object obj;
         androidx.compose.foundation.layout.RowColumnParentData rowColumnParentData;
-        int i4;
         int i2;
-        int i6;
-        int i3;
-        int i;
         int i5;
+        int i;
+        int i4;
+        int i3;
+        int i6;
         if (parentData instanceof RowColumnParentData != null) {
             obj = parentData;
         } else {

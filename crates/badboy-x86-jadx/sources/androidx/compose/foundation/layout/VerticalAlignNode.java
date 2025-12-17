@@ -30,10 +30,10 @@ public final class VerticalAlignNode extends Modifier.Node implements ParentData
     public androidx.compose.foundation.layout.RowColumnParentData modifyParentData(Density $this$modifyParentData, Object parentData) {
         Object obj;
         androidx.compose.foundation.layout.RowColumnParentData rowColumnParentData;
-        int i;
-        int i6;
-        int i2;
         int i3;
+        int i6;
+        int i;
+        int i2;
         int i5;
         int i4;
         if (parentData instanceof RowColumnParentData != null) {

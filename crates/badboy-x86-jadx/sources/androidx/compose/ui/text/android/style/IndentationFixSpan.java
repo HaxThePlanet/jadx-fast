@@ -18,32 +18,32 @@ public final class IndentationFixSpan implements LeadingMarginSpan {
 
     @Override // android.text.style.LeadingMarginSpan
     public void drawLeadingMargin(Canvas canvas, Paint paint, int left, int dir, int top, int baseline, int bottom, java.lang.CharSequence text, int start, int end, boolean first, Layout layout) {
-        int i3;
+        int i2;
         int lineForOffset;
         int lineEllipsized;
+        int i3;
         int i;
-        int i2;
         int cmp;
         final Layout layout2 = layout;
         if (layout2 != null && paint != null) {
             if (paint != null) {
                 lineForOffset = layout2.getLineForOffset(start);
-                if (lineForOffset == lineCount -= i && TextLayout_androidKt.isLineEllipsized(layout2, lineForOffset)) {
+                if (lineForOffset == lineCount -= i3 && TextLayout_androidKt.isLineEllipsized(layout2, lineForOffset)) {
                     if (TextLayout_androidKt.isLineEllipsized(layout2, lineForOffset)) {
                         ellipsizedLeftPadding += ellipsizedRightPadding;
-                        i2 = 0;
-                        if (Float.compare(lineEllipsized, i2) == 0) {
+                        i = 0;
+                        if (Float.compare(lineEllipsized, i) == 0) {
                         } else {
-                            i = 0;
+                            i3 = 0;
                         }
-                        if (i == 0) {
+                        if (i3 == 0) {
                             Intrinsics.checkNotNull(canvas);
-                            canvas.translate(lineEllipsized, i2);
+                            canvas.translate(lineEllipsized, i);
                         }
                     }
                 }
             } else {
-                i3 = start;
+                i2 = start;
             }
         } else {
         }

@@ -41,39 +41,39 @@ public final class SheetDefaultsKt {
     }
 
     public static final androidx.compose.material3.SheetState rememberSheetState(boolean skipPartiallyExpanded, Function1<? super androidx.compose.material3.SheetValue, Boolean> confirmValueChange, androidx.compose.material3.SheetValue initialValue, boolean skipHiddenState, Composer $composer, int $changed, int i7) {
-        int i10;
+        int i;
         int iNSTANCE;
         int hidden;
-        int i9;
+        int i6;
         boolean traceInProgress;
         String str;
-        boolean changed;
-        int i;
-        int changed4;
-        int i2;
-        boolean changed2;
+        boolean changed3;
         int i8;
-        int changed3;
+        int changed2;
         int i5;
+        boolean changed;
+        int i10;
+        int changed4;
+        int i3;
         int empty;
         Object anon;
-        int i4;
+        int i2;
         androidx.compose.material3.SheetValue sheetValue;
         androidx.compose.material3.SheetDefaultsKt.rememberSheetState.1 anon2;
-        int i3;
-        int i6;
+        int i4;
+        int i9;
         final Composer composer2 = $composer;
         final int i30 = $changed;
         int i11 = 1032784200;
         ComposerKt.sourceInformationMarkerStart(composer2, i11, "C(rememberSheetState)P(3)408@15981L7,420@16374L180,409@16000L554:SheetDefaults.kt#uh7d8r");
-        i4 = i7 & 1 != 0 ? i10 : skipPartiallyExpanded;
+        i2 = i7 & 1 != 0 ? i : skipPartiallyExpanded;
         if (i7 & 2 != 0) {
             anon2 = iNSTANCE;
         } else {
             anon2 = confirmValueChange;
         }
         sheetValue = i7 & 4 != 0 ? hidden : initialValue;
-        i3 = i7 & 8 != 0 ? i9 : skipHiddenState;
+        i4 = i7 & 8 != 0 ? i6 : skipHiddenState;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i11, i30, -1, "androidx.compose.material3.rememberSheetState (SheetDefaults.kt:407)");
         }
@@ -84,11 +84,11 @@ public final class SheetDefaultsKt {
         final Object obj = consume;
         ComposerKt.sourceInformationMarkerStart(composer2, -349419818, "CC(remember):SheetDefaults.kt#9igjgp");
         int i22 = 4;
-        i5 = 0;
+        i3 = 0;
         int i28 = 1;
         if (i15 ^= 6 > i22) {
-            if (!composer2.changed(i4)) {
-                i = i30 & 6 == i22 ? i28 : i5;
+            if (!composer2.changed(i2)) {
+                i8 = i30 & 6 == i22 ? i28 : i3;
             } else {
             }
         } else {
@@ -96,7 +96,7 @@ public final class SheetDefaultsKt {
         int i31 = 256;
         if (i23 ^= 384 > i31) {
             if (!composer2.changed(sheetValue)) {
-                i2 = i30 & 384 == i31 ? i28 : i5;
+                i5 = i30 & 384 == i31 ? i28 : i3;
             } else {
             }
         } else {
@@ -104,16 +104,16 @@ public final class SheetDefaultsKt {
         int i32 = 32;
         if (i24 ^= 48 > i32) {
             if (!composer2.changed(anon2)) {
-                i8 = i30 & 48 == i32 ? i28 : i5;
+                i10 = i30 & 48 == i32 ? i28 : i3;
             } else {
             }
         } else {
         }
         empty = 2048;
         if (i25 ^= 3072 > empty) {
-            if (!composer2.changed(i3)) {
+            if (!composer2.changed(i4)) {
                 if (i30 & 3072 == empty) {
-                    i5 = i28;
+                    i3 = i28;
                 }
             } else {
             }
@@ -123,10 +123,10 @@ public final class SheetDefaultsKt {
         int i26 = 0;
         Object rememberedValue = composer.rememberedValue();
         final int i33 = 0;
-        if (i18 |= i5 == 0) {
+        if (i18 |= i3 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                i6 = 0;
-                anon = new SheetDefaultsKt.rememberSheetState.2.1(i4, obj, sheetValue, anon2, i3);
+                i9 = 0;
+                anon = new SheetDefaultsKt.rememberSheetState.2.1(i2, obj, sheetValue, anon2, i4);
                 composer.updateRememberedValue((Function0)anon);
             } else {
                 anon = rememberedValue;
@@ -138,6 +138,6 @@ public final class SheetDefaultsKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (SheetState)RememberSaveableKt.rememberSaveable(/* result */, SheetState.Companion.Saver(i4, anon2, (Density)obj, i3), 0, (Function0)anon, composer2, 0, 4);
+        return (SheetState)RememberSaveableKt.rememberSaveable(/* result */, SheetState.Companion.Saver(i2, anon2, (Density)obj, i4), 0, (Function0)anon, composer2, 0, 4);
     }
 }

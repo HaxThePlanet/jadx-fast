@@ -67,33 +67,33 @@ public final class DrawScopeKt {
     }
 
     public static void clipRect-rOu3jXo$default(androidx.compose.ui.graphics.drawscope.DrawScope $this$clipRect_u2drOu3jXo_u24default, float left, float top, float right, float bottom, int clipOp, Function1 block, int i8, Object object9) {
-        int i;
         int i2;
-        float f;
-        float f2;
         int i3;
+        float f2;
+        float f;
+        int i;
         int obj8;
         int obj9;
         float obj10;
         float obj11;
         int obj12;
         final int obj15 = i8 & 1;
-        i = obj15 != null ? obj8 : left;
-        i2 = i8 & 2 != 0 ? obj9 : top;
+        i2 = obj15 != null ? obj8 : left;
+        i3 = i8 & 2 != 0 ? obj9 : top;
         if (i8 & 4 != 0) {
-            f = obj10;
+            f2 = obj10;
         } else {
-            f = right;
+            f2 = right;
         }
         if (i8 & 8 != 0) {
-            f2 = obj11;
+            f = obj11;
         } else {
-            f2 = bottom;
+            f = bottom;
         }
         if (i8 & 16 != 0) {
-            i3 = obj12;
+            i = obj12;
         } else {
-            i3 = clipOp;
+            i = clipOp;
         }
         obj8 = 0;
         obj9 = $this$clipRect_u2drOu3jXo_u24default;
@@ -102,7 +102,7 @@ public final class DrawScopeKt {
         obj12 = 0;
         obj11.getCanvas().save();
         final int i4 = 0;
-        obj11.getTransform().clipRect-N_I0leg(i, i2, f, f2, i3);
+        obj11.getTransform().clipRect-N_I0leg(i2, i3, f2, f, i);
         block.invoke(obj9);
         obj11.getCanvas().restore();
         obj11.setSize-uvyYCjk(obj11.getSize-NH-jbRc());

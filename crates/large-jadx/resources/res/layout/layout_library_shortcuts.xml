@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/layout_library_shortcuts_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <include
+        android:id="@+id/trick_shortcut"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/library_trick_item_height"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        layout="@layout/layout_library_shortcut"/>
+    <include
+        android:id="@+id/games_shortcut"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/library_trick_item_height"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/trick_shortcut"
+        layout="@layout/layout_library_shortcut"/>
+    <include
+        android:id="@+id/behavior_shortcut"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/library_trick_item_height"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/games_shortcut"
+        layout="@layout/layout_library_shortcut"/>
+    <include
+        android:id="@+id/article_shortcut"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/library_trick_item_height"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/behavior_shortcut"
+        layout="@layout/layout_library_shortcut"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

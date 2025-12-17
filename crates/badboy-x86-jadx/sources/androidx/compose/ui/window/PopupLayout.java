@@ -92,8 +92,8 @@ public final class PopupLayout extends AbstractComposeView implements ViewRootFo
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
             int ordinal2;
+            int ordinal;
             int[] iArr = new int[values.length];
             iArr[LayoutDirection.Ltr.ordinal()] = 1;
             iArr[LayoutDirection.Rtl.ordinal()] = 2;

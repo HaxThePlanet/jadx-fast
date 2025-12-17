@@ -240,35 +240,35 @@ public final class TextAnnotatedStringNode extends Modifier.Node implements Layo
 
     public TextAnnotatedStringNode(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, Function1 function14, int i5, boolean z6, int i7, int i8, List list9, Function1 function110, androidx.compose.foundation.text.modifiers.SelectionController selectionController11, ColorProducer colorProducer12, Function1 function113, int i14, DefaultConstructorMarker defaultConstructorMarker15) {
         int clip-gIe3tQ8;
+        int i9;
+        int i6;
+        int i3;
+        int i12;
+        int i13;
+        int i4;
+        int i11;
+        int i10;
         int i15;
         int i2;
-        int i9;
-        int i12;
-        int i3;
-        int i10;
-        int i4;
-        int i13;
         int i;
-        int i6;
-        int i11;
         int i16 = i14;
         final int i25 = 0;
-        i2 = i16 & 8 != 0 ? i25 : function14;
+        i6 = i16 & 8 != 0 ? i25 : function14;
         if (i16 & 16 != 0) {
-            i9 = clip-gIe3tQ8;
+            i3 = clip-gIe3tQ8;
         } else {
-            i9 = i5;
+            i3 = i5;
         }
         int i26 = 1;
         i12 = i16 & 32 != 0 ? i26 : z6;
-        i3 = i16 & 64 != 0 ? i15 : i7;
-        i10 = i16 & 128 != 0 ? i26 : i8;
-        i4 = i16 & 256 != 0 ? i25 : list9;
-        i13 = i16 & 512 != 0 ? i25 : function110;
-        i = i16 & 1024 != 0 ? i25 : selectionController11;
-        i6 = i16 & 2048 != 0 ? i25 : colorProducer12;
-        i11 = i16 &= 4096 != 0 ? i25 : function113;
-        super(annotatedString, textStyle2, resolver3, i2, i9, i12, i3, i10, i4, i13, i, i6, i11, 0);
+        i13 = i16 & 64 != 0 ? i9 : i7;
+        i4 = i16 & 128 != 0 ? i26 : i8;
+        i11 = i16 & 256 != 0 ? i25 : list9;
+        i10 = i16 & 512 != 0 ? i25 : function110;
+        i15 = i16 & 1024 != 0 ? i25 : selectionController11;
+        i2 = i16 & 2048 != 0 ? i25 : colorProducer12;
+        i = i16 &= 4096 != 0 ? i25 : function113;
+        super(annotatedString, textStyle2, resolver3, i6, i3, i12, i13, i4, i11, i10, i15, i2, i, 0);
     }
 
     public TextAnnotatedStringNode(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, Function1 function14, int i5, boolean z6, int i7, int i8, List list9, Function1 function110, androidx.compose.foundation.text.modifiers.SelectionController selectionController11, ColorProducer colorProducer12, Function1 function113, DefaultConstructorMarker defaultConstructorMarker14) {
@@ -471,7 +471,7 @@ public final class TextAnnotatedStringNode extends Modifier.Node implements Layo
 
     @Override // androidx.compose.ui.Modifier$Node
     public void draw(ContentDrawScope $this$draw) {
-        int i2;
+        int i6;
         TextDecoration textDecoration;
         Shadow shadow;
         androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle;
@@ -479,28 +479,28 @@ public final class TextAnnotatedStringNode extends Modifier.Node implements Layo
         boolean hasVisualOverflow;
         DrawScope drawScope;
         long unspecified-0d7_KjU;
-        int $this$isSpecified$iv2;
         int $this$isSpecified$iv;
+        int $this$isSpecified$iv2;
         long black-0d7_KjU;
         int text;
         List placeholders;
         androidx.compose.foundation.text.modifiers.TextAnnotatedStringNode.TextSubstitutionValue showingSubstitution;
-        int i6;
+        int i2;
         int links;
         int visible-gIe3tQ8;
         long rect;
-        long i7;
-        int i8;
-        int i4;
+        long i8;
+        int i7;
+        int i9;
         int alpha;
-        int cmp;
-        int i;
-        int i5;
+        int cmp2;
         int i3;
+        int i5;
+        int i4;
         androidx.compose.ui.graphics.Brush brush;
         long l;
-        int cmp2;
-        int i9;
+        int cmp;
+        int i;
         final Object obj = this;
         if (!obj.isAttached()) {
         }
@@ -514,15 +514,15 @@ public final class TextAnnotatedStringNode extends Modifier.Node implements Layo
         final TextLayoutResult textLayoutResult = obj.getLayoutCache((Density)$this$draw).getTextLayoutResult();
         final MultiParagraph multiParagraph = textLayoutResult.getMultiParagraph();
         int i11 = 1;
-        i6 = 0;
+        i2 = 0;
         if (textLayoutResult.getHasVisualOverflow() && !TextOverflow.equals-impl0(obj.overflow, TextOverflow.Companion.getVisible-gIe3tQ8())) {
-            i2 = !TextOverflow.equals-impl0(obj.overflow, TextOverflow.Companion.getVisible-gIe3tQ8()) ? i11 : i6;
+            i6 = !TextOverflow.equals-impl0(obj.overflow, TextOverflow.Companion.getVisible-gIe3tQ8()) ? i11 : i2;
         } else {
         }
-        final int i13 = i2;
+        final int i13 = i6;
         if (i13 != 0) {
             canvas.save();
-            Canvas.clipRect-mtrdD-E$default(canvas, RectKt.Rect-tz77jQw(Offset.Companion.getZero-F1C5BW0(), obj10), i6, 2, 0);
+            Canvas.clipRect-mtrdD-E$default(canvas, RectKt.Rect-tz77jQw(Offset.Companion.getZero-F1C5BW0(), obj10), i2, 2, 0);
         }
         if (obj.style.getTextDecoration() == null) {
             textDecoration = TextDecoration.Companion.getNone();
@@ -538,47 +538,47 @@ public final class TextAnnotatedStringNode extends Modifier.Node implements Layo
         androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle2 = drawStyle;
         androidx.compose.ui.graphics.Brush brush3 = obj.style.getBrush();
         if (brush3 != null) {
-            i3 = i6;
+            i4 = i2;
             black-0d7_KjU = brush3;
-            brush2 = i9;
+            brush2 = i;
             MultiParagraph.paint-hn5TExg$default(multiParagraph, canvas, black-0d7_KjU, obj.style.getAlpha(), shadow2, textDecoration2, drawStyle2, 0, 64, 0);
             brush = black-0d7_KjU;
         } else {
             brush = brush3;
             brush2 = i11;
-            i3 = i6;
+            i4 = i2;
             ColorProducer overrideColor = obj.overrideColor;
             if (overrideColor != null) {
                 unspecified-0d7_KjU = overrideColor.invoke-0d7_KjU();
             } else {
                 unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
             }
-            i4 = 0;
-            cmp = 16;
-            $this$isSpecified$iv2 = Long.compare(unspecified-0d7_KjU, cmp) != 0 ? brush2 : i3;
-            if ($this$isSpecified$iv2 != 0) {
+            i9 = 0;
+            cmp2 = 16;
+            $this$isSpecified$iv = Long.compare(unspecified-0d7_KjU, cmp2) != 0 ? brush2 : i4;
+            if ($this$isSpecified$iv != 0) {
                 black-0d7_KjU = l;
             } else {
-                i4 = 0;
-                $this$isSpecified$iv = Long.compare(color-0d7_KjU, cmp) != 0 ? brush2 : i3;
-                if ($this$isSpecified$iv != 0) {
+                i9 = 0;
+                $this$isSpecified$iv2 = Long.compare(color-0d7_KjU, cmp2) != 0 ? brush2 : i4;
+                if ($this$isSpecified$iv2 != 0) {
                     black-0d7_KjU = obj.style.getColor-0d7_KjU();
                 } else {
                     black-0d7_KjU = Color.Companion.getBlack-0d7_KjU();
                 }
             }
-            MultiParagraph.paint-LG529CI$default(multiParagraph, canvas, black-0d7_KjU, i6, shadow2, textDecoration2, drawStyle2, 0, 32);
+            MultiParagraph.paint-LG529CI$default(multiParagraph, canvas, black-0d7_KjU, i2, shadow2, textDecoration2, drawStyle2, 0, 32);
         }
         if (i13 != 0) {
             canvas.restore();
         }
         showingSubstitution = obj.textSubstitution;
         if (showingSubstitution != null && showingSubstitution.isShowingSubstitution() == brush2) {
-            text = showingSubstitution.isShowingSubstitution() == brush2 ? brush2 : i3;
+            text = showingSubstitution.isShowingSubstitution() == brush2 ? brush2 : i4;
         } else {
         }
         if (text != null) {
-            links = i3;
+            links = i4;
         } else {
             links = TextAnnotatedStringNodeKt.hasLinks(obj.text);
         }
@@ -588,7 +588,7 @@ public final class TextAnnotatedStringNode extends Modifier.Node implements Layo
                 if ((Collection)placeholders.isEmpty()) {
                     text = brush2;
                 } else {
-                    text = i3;
+                    text = i4;
                 }
             } else {
             }

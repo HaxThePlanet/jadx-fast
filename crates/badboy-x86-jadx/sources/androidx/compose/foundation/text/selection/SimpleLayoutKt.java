@@ -18,55 +18,55 @@ import kotlin.jvm.internal.Intrinsics;
 @Metadata(d1 = "\u0000\u001a\n\u0000\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\u001a*\u0010\u0000\u001a\u00020\u00012\u0008\u0008\u0002\u0010\u0002\u001a\u00020\u00032\u0011\u0010\u0004\u001a\r\u0012\u0004\u0012\u00020\u00010\u0005¢\u0006\u0002\u0008\u0006H\u0001¢\u0006\u0002\u0010\u0007¨\u0006\u0008", d2 = {"SimpleLayout", "", "modifier", "Landroidx/compose/ui/Modifier;", "content", "Lkotlin/Function0;", "Landroidx/compose/runtime/Composable;", "(Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V", "foundation_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
 public final class SimpleLayoutKt {
     public static final void SimpleLayout(Modifier modifier, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i5) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
         int valueOf;
         Object modifier2;
         Object obj;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Integer valueOf2;
-        Composer composer;
-        int i;
-        int i9;
+        Composer composer2;
+        int i6;
+        int i8;
         boolean skipping;
         int currentCompositeKeyHash;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         Modifier materializeModifier;
         kotlin.jvm.functions.Function0 constructor;
-        int i2;
         int i3;
-        int i4;
-        Composer composer2;
-        int i6;
         int i7;
-        int i8;
+        int i;
+        Composer composer;
+        int i2;
+        int $i$f$setImpl;
+        int i4;
         Object obj20;
         int obj22;
         final Object obj2 = content;
-        final int i10 = $changed;
-        final int i11 = i5;
-        traceInProgress = -2105228848;
-        Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        final int i9 = $changed;
+        final int i10 = i5;
+        traceInProgress2 = -2105228848;
+        Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(SimpleLayout)P(1)32@1169L592:SimpleLayout.kt#eksfi3");
         $dirty = $changed;
-        valueOf = i11 & 1;
+        valueOf = i10 & 1;
         if (valueOf != 0) {
             $dirty |= 6;
             obj = modifier;
         } else {
-            if (i10 & 6 == 0) {
-                i = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i;
+            if (i9 & 6 == 0) {
+                i6 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i6;
             } else {
                 obj = modifier;
             }
         }
-        if (i11 & 2 != 0) {
+        if (i10 & 2 != 0) {
             $dirty |= 48;
         } else {
-            if (i10 & 48 == 0) {
-                i9 = restartGroup.changedInstance(obj2) ? 32 : 16;
-                $dirty |= i9;
+            if (i9 & 48 == 0) {
+                i8 = restartGroup.changedInstance(obj2) ? 32 : 16;
+                $dirty |= i8;
             }
         }
         if ($dirty & 19 == 18) {
@@ -77,13 +77,13 @@ public final class SimpleLayoutKt {
                     modifier2 = obj;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.foundation.text.selection.SimpleLayout (SimpleLayout.kt:31)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.foundation.text.selection.SimpleLayout (SimpleLayout.kt:31)");
                 }
-                i17 |= i19;
+                i16 |= i18;
                 skipping = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                i3 = 0;
+                i7 = 0;
                 obj22 = $dirty;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
@@ -96,27 +96,27 @@ public final class SimpleLayoutKt {
                     restartGroup.useNode();
                 }
                 $dirty = Updater.constructor-impl(restartGroup);
-                i4 = 0;
+                i = 0;
                 Updater.set-impl($dirty, (MeasurePolicy)SimpleLayoutKt.SimpleLayout.1.INSTANCE, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl($dirty, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 valueOf = 0;
-                composer2 = $dirty;
-                i6 = 0;
-                if (!composer2.getInserting()) {
-                    i7 = valueOf;
-                    i8 = valueOf2;
-                    if (!Intrinsics.areEqual(composer2.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer2.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                composer = $dirty;
+                i2 = 0;
+                if (!composer.getInserting()) {
+                    $i$f$setImpl = valueOf;
+                    i4 = valueOf2;
+                    if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         $dirty.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer2;
+                        composer2 = composer;
                     }
                 } else {
-                    i7 = valueOf;
-                    i8 = valueOf2;
+                    $i$f$setImpl = valueOf;
+                    i4 = valueOf2;
                 }
                 Updater.set-impl($dirty, ComposedModifierKt.materializeModifier(restartGroup, modifier2), ComposeUiNode.Companion.getSetModifier());
-                obj2.invoke(restartGroup, Integer.valueOf(i12 &= 14));
+                obj2.invoke(restartGroup, Integer.valueOf(i11 &= 14));
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -132,7 +132,7 @@ public final class SimpleLayoutKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty = new SimpleLayoutKt.SimpleLayout.2(obj, obj2, i10, i11);
+            $dirty = new SimpleLayoutKt.SimpleLayout.2(obj, obj2, i9, i10);
             endRestartGroup.updateScope((Function2)$dirty);
         }
     }

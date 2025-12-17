@@ -93,9 +93,9 @@ public final class ExtensionsKt {
 
     public static final <E> androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentCollection<E> minus(androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentCollection<? extends E> $this$minus, Iterable<? extends E> elements) {
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentCollection build;
-        androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentCollection.Builder collection;
-        int i;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentCollection.Builder collection2;
+        int i;
+        androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentCollection.Builder collection;
         if (elements instanceof Collection != null) {
             build = $this$minus.removeAll((Collection)elements);
         } else {
@@ -128,17 +128,17 @@ public final class ExtensionsKt {
 
     public static final <E> androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList<E> minus(androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList<? extends E> $this$minus, Iterable<? extends E> elements) {
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList $this$mutate$iv;
-        int i;
-        androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList build;
-        androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder list;
         int i2;
+        androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList build;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder list2;
+        int i;
+        androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder list;
         if (elements instanceof Collection != null) {
             $this$mutate$iv = $this$minus.removeAll((Collection)elements);
         } else {
-            i = 0;
-            androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder builder = $this$minus.builder();
             i2 = 0;
+            androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder builder = $this$minus.builder();
+            i = 0;
             CollectionsKt.removeAll((Collection)(List)builder, elements);
             $this$mutate$iv = build;
         }
@@ -205,9 +205,9 @@ public final class ExtensionsKt {
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet $this$mutate$iv;
         int i;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet build;
-        androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet.Builder set;
-        int i2;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet.Builder set2;
+        int i2;
+        androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet.Builder set;
         if (elements instanceof Collection != null) {
             $this$mutate$iv = $this$minus.removeAll((Collection)elements);
         } else {
@@ -352,17 +352,17 @@ public final class ExtensionsKt {
 
     public static final <E> androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList<E> plus(androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList<? extends E> $this$plus, Iterable<? extends E> elements) {
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList $this$mutate$iv;
-        int i;
+        int i2;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList build;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder list;
-        int i2;
+        int i;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder list2;
         if (elements instanceof Collection != null) {
             $this$mutate$iv = $this$plus.addAll((Collection)elements);
         } else {
-            i = 0;
-            androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder builder = $this$plus.builder();
             i2 = 0;
+            androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList.Builder builder = $this$plus.builder();
+            i = 0;
             CollectionsKt.addAll((Collection)(List)builder, elements);
             $this$mutate$iv = build;
         }
@@ -418,17 +418,17 @@ public final class ExtensionsKt {
 
     public static final <E> androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet<E> plus(androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet<? extends E> $this$plus, Iterable<? extends E> elements) {
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet $this$mutate$iv;
-        int i2;
+        int i;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet build;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet.Builder set2;
-        int i;
+        int i2;
         androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet.Builder set;
         if (elements instanceof Collection != null) {
             $this$mutate$iv = $this$plus.addAll((Collection)elements);
         } else {
-            i2 = 0;
-            androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet.Builder builder = $this$plus.builder();
             i = 0;
+            androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet.Builder builder = $this$plus.builder();
+            i2 = 0;
             CollectionsKt.addAll((Collection)(Set)builder, elements);
             $this$mutate$iv = build;
         }

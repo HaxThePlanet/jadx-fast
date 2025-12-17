@@ -120,8 +120,7 @@ final class MeasuringIntrinsics {
     private static enum IntrinsicMinMax {
 
         Min,
-        Min,
-        Min;
+        Max;
         private static final androidx.compose.ui.layout.MeasuringIntrinsics.IntrinsicMinMax[] $values() {
             return /* result */;
         }
@@ -131,8 +130,7 @@ final class MeasuringIntrinsics {
     private static enum IntrinsicWidthHeight {
 
         Width,
-        Width,
-        Width;
+        Height;
         private static final androidx.compose.ui.layout.MeasuringIntrinsics.IntrinsicWidthHeight[] $values() {
             return /* result */;
         }

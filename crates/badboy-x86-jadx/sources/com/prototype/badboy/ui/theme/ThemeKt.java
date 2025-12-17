@@ -82,13 +82,13 @@ public final class ThemeKt {
         int consume;
         int str;
         Composer composer;
-        int i3;
-        int i4;
+        int i;
+        int i5;
         int skipping;
         int defaultsInvalid;
-        int i5;
-        boolean i2;
-        int i;
+        int i2;
+        boolean i3;
+        int i4;
         Intrinsics.checkNotNullParameter(content, "content");
         context = -1137280325;
         restartGroup = $composer.startRestartGroup(context);
@@ -105,16 +105,16 @@ public final class ThemeKt {
             $dirty |= 48;
         } else {
             if ($changed & 48 == 0) {
-                i3 = restartGroup.changed(dynamicColor) ? 32 : 16;
-                $dirty |= i3;
+                i = restartGroup.changed(dynamicColor) ? 32 : 16;
+                $dirty |= i;
             }
         }
         if (i6 & 4 != 0) {
             $dirty |= 384;
         } else {
             if ($changed & 384 == 0) {
-                i4 = restartGroup.changedInstance(content) ? 256 : 128;
-                $dirty |= i4;
+                i5 = restartGroup.changedInstance(content) ? 256 : 128;
+                $dirty |= i5;
             }
         }
         if ($dirty & 147 == 146) {
@@ -130,12 +130,12 @@ public final class ThemeKt {
                             darkTheme2 = darkTheme;
                         }
                         if (consume != 0) {
-                            i = $dirty;
+                            i4 = $dirty;
                             skipping = darkTheme2;
-                            i2 = consume;
+                            i3 = consume;
                         } else {
-                            i2 = dynamicColor;
-                            i = $dirty;
+                            i3 = dynamicColor;
+                            i4 = $dirty;
                             skipping = darkTheme2;
                         }
                     } else {
@@ -144,24 +144,24 @@ public final class ThemeKt {
                             $dirty &= -15;
                         }
                         skipping = darkTheme;
-                        i2 = dynamicColor;
-                        i = $dirty;
+                        i3 = dynamicColor;
+                        i4 = $dirty;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(context, i, -1, "com.prototype.badboy.ui.theme.BadboyTheme (Theme.kt:41)");
+                    ComposerKt.traceEventStart(context, i4, -1, "com.prototype.badboy.ui.theme.BadboyTheme (Theme.kt:41)");
                 }
                 restartGroup.startReplaceGroup(1196452234);
                 ComposerKt.sourceInformation(restartGroup, "44@1381L7");
-                if (i2 && Build.VERSION.SDK_INT >= 31) {
+                if (i3 && Build.VERSION.SDK_INT >= 31) {
                     if (Build.VERSION.SDK_INT >= 31) {
                         int i11 = 0;
                         darkTheme2 = 0;
                         ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                         ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                        Object obj2 = consume;
+                        Object this_1 = consume;
                         if (skipping) {
                             context = dynamicLightColorScheme;
                         } else {
@@ -179,11 +179,11 @@ public final class ThemeKt {
                     ComposerKt.traceEventEnd();
                 }
                 $dirty2 = skipping;
-                z = i2;
+                z = i3;
             } else {
                 restartGroup.skipToGroupEnd();
                 z = dynamicColor;
-                i = $dirty;
+                i4 = $dirty;
                 composer = restartGroup;
                 $dirty2 = darkTheme;
             }

@@ -18,10 +18,10 @@ public final class ArraySetKt {
     public static final <E> void addAllInternal(androidx.collection.ArraySet<E> $this$addAllInternal, androidx.collection.ArraySet<? extends E> array) {
         int i3;
         Object array$collection;
+        int i5;
         int i4;
         int i;
         int i2;
-        int i5;
         Intrinsics.checkNotNullParameter($this$addAllInternal, "<this>");
         Intrinsics.checkNotNullParameter(array, "array");
         int i6 = 0;
@@ -29,12 +29,12 @@ public final class ArraySetKt {
         $this$addAllInternal.ensureCapacity(i7 += i9);
         if ($this$addAllInternal.get_size$collection() == 0) {
             if (i9 > 0) {
-                i2 = 6;
+                i = 6;
+                i2 = 0;
                 i5 = 0;
                 i4 = 0;
-                i = 0;
-                ArraysKt.copyInto$default(array.getHashes$collection(), $this$addAllInternal.getHashes$collection(), i4, i, i9, i2, i5);
-                ArraysKt.copyInto$default(array.getArray$collection(), $this$addAllInternal.getArray$collection(), i4, i, i9, i2, i5);
+                ArraysKt.copyInto$default(array.getHashes$collection(), $this$addAllInternal.getHashes$collection(), i5, i4, i9, i, i2);
+                ArraysKt.copyInto$default(array.getArray$collection(), $this$addAllInternal.getArray$collection(), i5, i4, i9, i, i2);
                 if ($this$addAllInternal.get_size$collection() != 0) {
                 } else {
                     $this$addAllInternal.set_size$collection(i9);
@@ -72,15 +72,15 @@ public final class ArraySetKt {
         int index;
         int oarray;
         int length;
-        int array$collection2;
+        int array$collection;
         int hashes$collection;
-        Object[] array$collection;
+        Object[] array$collection2;
         Object[] array$collection3;
         int i4;
-        int i2;
+        int i3;
         int length2;
         int i;
-        int i3;
+        int i2;
         final Object obj = $this$addInternal;
         final Object obj2 = element;
         Intrinsics.checkNotNullParameter(obj, "<this>");
@@ -106,24 +106,24 @@ public final class ArraySetKt {
                 hashes$collection = 4;
                 if (i6 >= hashes$collection) {
                 } else {
-                    array$collection2 = hashes$collection;
+                    array$collection = hashes$collection;
                 }
             }
             hashes$collection = obj.getHashes$collection();
-            array$collection = obj.getArray$collection();
-            ArraySetKt.allocArrays(obj, array$collection2);
+            array$collection2 = obj.getArray$collection();
+            ArraySetKt.allocArrays(obj, array$collection);
             if (i6 != obj.get_size$collection()) {
             } else {
                 if (hashes$collection8.length == 0) {
                     oarray = i12;
                 }
                 if (oarray == null) {
-                    oarray = array$collection;
+                    oarray = array$collection2;
                     i4 = 0;
                     ArraysKt.copyInto$default(hashes$collection, obj.getHashes$collection(), 0, i4, hashes$collection.length, 6, 0);
                     ArraysKt.copyInto$default(oarray, obj.getArray$collection(), i4, 0, oarray.length, 6, 0);
                 } else {
-                    oarray = array$collection;
+                    oarray = array$collection2;
                 }
             }
             ConcurrentModificationException concurrentModificationException2 = new ConcurrentModificationException();
@@ -214,26 +214,26 @@ public final class ArraySetKt {
     }
 
     public static final <E> void ensureCapacityInternal(androidx.collection.ArraySet<E> $this$ensureCapacityInternal, int minimumCapacity) {
-        int array$collection;
+        int array$collection2;
         int[] hashes$collection;
         Object[] oarray;
-        Object[] array$collection2;
-        int i2;
+        Object[] array$collection;
+        int i5;
         int i4;
         int i3;
+        int i2;
         int i;
-        int i5;
         Intrinsics.checkNotNullParameter($this$ensureCapacityInternal, "<this>");
         int i6 = 0;
         if (hashes$collection2.length < minimumCapacity) {
-            array$collection = $this$ensureCapacityInternal.getArray$collection();
+            array$collection2 = $this$ensureCapacityInternal.getArray$collection();
             ArraySetKt.allocArrays($this$ensureCapacityInternal, minimumCapacity);
             if ($this$ensureCapacityInternal.get_size$collection() > 0) {
-                i2 = 0;
-                ArraysKt.copyInto$default($this$ensureCapacityInternal.getHashes$collection(), $this$ensureCapacityInternal.getHashes$collection(), 0, i2, $this$ensureCapacityInternal.get_size$collection(), 6, 0);
-                ArraysKt.copyInto$default(array$collection, $this$ensureCapacityInternal.getArray$collection(), i2, 0, $this$ensureCapacityInternal.get_size$collection(), 6, 0);
+                i5 = 0;
+                ArraysKt.copyInto$default($this$ensureCapacityInternal.getHashes$collection(), $this$ensureCapacityInternal.getHashes$collection(), 0, i5, $this$ensureCapacityInternal.get_size$collection(), 6, 0);
+                ArraysKt.copyInto$default(array$collection2, $this$ensureCapacityInternal.getArray$collection(), i5, 0, $this$ensureCapacityInternal.get_size$collection(), 6, 0);
             } else {
-                oarray = array$collection;
+                oarray = array$collection2;
             }
         }
         if ($this$ensureCapacityInternal.get_size$collection() != $this$ensureCapacityInternal.get_size$collection()) {
@@ -269,24 +269,24 @@ public final class ArraySetKt {
 
     public static final <E> int hashCodeInternal(androidx.collection.ArraySet<E> $this$hashCodeInternal) {
         int result;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$hashCodeInternal, "<this>");
         int i3 = 0;
         result = 0;
-        i2 = 0;
-        while (i2 < $this$hashCodeInternal.get_size$collection()) {
-            result += i;
-            i2++;
+        i = 0;
+        while (i < $this$hashCodeInternal.get_size$collection()) {
+            result += i2;
+            i++;
         }
         return result;
     }
 
     public static final <E> int indexOf(androidx.collection.ArraySet<E> $this$indexOf, Object key, int hash) {
         int end;
-        boolean equal;
-        int i;
         boolean equal2;
+        int i;
+        boolean equal;
         Intrinsics.checkNotNullParameter($this$indexOf, "<this>");
         int i2 = $this$indexOf.get_size$collection();
         if (i2 == 0) {
@@ -336,19 +336,19 @@ public final class ArraySetKt {
     }
 
     public static final <E> boolean removeAllInternal(androidx.collection.ArraySet<E> $this$removeAllInternal, androidx.collection.ArraySet<? extends E> array) {
-        int i2;
         int i;
+        int i2;
         Object valueAt;
         Intrinsics.checkNotNullParameter($this$removeAllInternal, "<this>");
         Intrinsics.checkNotNullParameter(array, "array");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < array.get_size$collection()) {
-            $this$removeAllInternal.remove(array.valueAt(i2));
-            i2++;
+        i = 0;
+        while (i < array.get_size$collection()) {
+            $this$removeAllInternal.remove(array.valueAt(i));
+            i++;
         }
-        i = $this$removeAllInternal.get_size$collection() != $this$removeAllInternal.get_size$collection() ? 1 : 0;
-        return i;
+        i2 = $this$removeAllInternal.get_size$collection() != $this$removeAllInternal.get_size$collection() ? 1 : 0;
+        return i2;
     }
 
     public static final <E> boolean removeAllInternal(androidx.collection.ArraySet<E> $this$removeAllInternal, Collection<? extends E> elements) {
@@ -369,15 +369,15 @@ public final class ArraySetKt {
     public static final <E> E removeAtInternal(androidx.collection.ArraySet<E> $this$removeAtInternal, int index) {
         int array$collection2;
         Object[] ohashes;
-        int array$collection;
         int array$collection3;
-        int i4;
-        int i2;
+        int array$collection;
         int i6;
-        int i3;
-        int i5;
+        int i4;
         int i;
+        int i2;
+        int i5;
         int i7;
+        int i3;
         Object[] array$collection4;
         int[] iArr;
         Intrinsics.checkNotNullParameter($this$removeAtInternal, "<this>");
@@ -385,51 +385,51 @@ public final class ArraySetKt {
         final int i14 = $this$removeAtInternal.get_size$collection();
         if (i14 <= 1) {
             $this$removeAtInternal.clear();
-            i6 = index;
+            i = index;
             return $this$removeAtInternal.getArray$collection()[index];
         } else {
-            i = i14 + -1;
-            i4 = 8;
-            if (hashes$collection3.length > i4 && $this$removeAtInternal.get_size$collection() < length /= 3) {
+            i7 = i14 + -1;
+            i6 = 8;
+            if (hashes$collection3.length > i6 && $this$removeAtInternal.get_size$collection() < length /= 3) {
                 if ($this$removeAtInternal.get_size$collection() < length /= 3) {
-                    if ($this$removeAtInternal.get_size$collection() > i4) {
-                        i4 = array$collection + array$collection2;
+                    if ($this$removeAtInternal.get_size$collection() > i6) {
+                        i6 = array$collection3 + array$collection2;
                     } else {
                     }
                     int[] hashes$collection = $this$removeAtInternal.getHashes$collection();
                     array$collection4 = $this$removeAtInternal.getArray$collection();
-                    ArraySetKt.allocArrays($this$removeAtInternal, i4);
+                    ArraySetKt.allocArrays($this$removeAtInternal, i6);
                     if (index > 0) {
-                        i3 = 6;
+                        i2 = 6;
                         i5 = 0;
+                        i6 = 0;
                         i4 = 0;
-                        i2 = 0;
-                        i6 = index;
-                        ArraysKt.copyInto$default(hashes$collection, $this$removeAtInternal.getHashes$collection(), i4, i2, i6, i3, i5);
+                        i = index;
+                        ArraysKt.copyInto$default(hashes$collection, $this$removeAtInternal.getHashes$collection(), i6, i4, i, i2, i5);
                         iArr = hashes$collection;
-                        ArraysKt.copyInto$default(array$collection4, $this$removeAtInternal.getArray$collection(), i4, i2, i6, i3, i5);
+                        ArraysKt.copyInto$default(array$collection4, $this$removeAtInternal.getArray$collection(), i6, i4, i, i2, i5);
                     } else {
-                        i6 = index;
+                        i = index;
                         iArr = hashes$collection;
                         ohashes = array$collection4;
                     }
-                    if (i6 < i) {
-                        ArraysKt.copyInto(iArr, $this$removeAtInternal.getHashes$collection(), index, i6 + 1, i + 1);
-                        ArraysKt.copyInto(ohashes, $this$removeAtInternal.getArray$collection(), index, i6 + 1, i + 1);
+                    if (i < i7) {
+                        ArraysKt.copyInto(iArr, $this$removeAtInternal.getHashes$collection(), index, i + 1, i7 + 1);
+                        ArraysKt.copyInto(ohashes, $this$removeAtInternal.getArray$collection(), index, i + 1, i7 + 1);
                     }
                 } else {
-                    i6 = index;
-                    if (i6 < i) {
-                        ArraysKt.copyInto($this$removeAtInternal.getHashes$collection(), $this$removeAtInternal.getHashes$collection(), index, i6 + 1, i + 1);
-                        ArraysKt.copyInto($this$removeAtInternal.getArray$collection(), $this$removeAtInternal.getArray$collection(), index, i6 + 1, i + 1);
+                    i = index;
+                    if (i < i7) {
+                        ArraysKt.copyInto($this$removeAtInternal.getHashes$collection(), $this$removeAtInternal.getHashes$collection(), index, i + 1, i7 + 1);
+                        ArraysKt.copyInto($this$removeAtInternal.getArray$collection(), $this$removeAtInternal.getArray$collection(), index, i + 1, i7 + 1);
                     }
-                    $this$removeAtInternal.getArray$collection()[i] = 0;
+                    $this$removeAtInternal.getArray$collection()[i7] = 0;
                 }
             } else {
             }
             if (i14 != $this$removeAtInternal.get_size$collection()) {
             } else {
-                $this$removeAtInternal.set_size$collection(i);
+                $this$removeAtInternal.set_size$collection(i7);
             }
         }
         ConcurrentModificationException concurrentModificationException = new ConcurrentModificationException();

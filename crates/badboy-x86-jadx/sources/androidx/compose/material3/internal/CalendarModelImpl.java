@@ -44,7 +44,7 @@ public final class CalendarModelImpl extends androidx.compose.material3.internal
         }
 
         private final DateTimeFormatter getCachedDateTimeFormatter(String pattern, Locale locale, Map<String, Object> cache) {
-            Object decimalStyle2;
+            Object $i$a$GetOrPutCalendarModelImpl$Companion$getCachedDateTimeFormatter$1;
             DateTimeFormatter pattern2;
             DecimalStyle decimalStyle;
             StringBuilder stringBuilder = new StringBuilder();
@@ -56,10 +56,10 @@ public final class CalendarModelImpl extends androidx.compose.material3.internal
                 int i2 = 0;
                 obj.put(string, DateTimeFormatter.ofPattern(pattern, locale).withDecimalStyle(DecimalStyle.of(locale)));
             } else {
-                decimalStyle2 = obj2;
+                $i$a$GetOrPutCalendarModelImpl$Companion$getCachedDateTimeFormatter$1 = obj2;
             }
-            Intrinsics.checkNotNull(decimalStyle2, "null cannot be cast to non-null type java.time.format.DateTimeFormatter");
-            return (DateTimeFormatter)decimalStyle2;
+            Intrinsics.checkNotNull($i$a$GetOrPutCalendarModelImpl$Companion$getCachedDateTimeFormatter$1, "null cannot be cast to non-null type java.time.format.DateTimeFormatter");
+            return (DateTimeFormatter)$i$a$GetOrPutCalendarModelImpl$Companion$getCachedDateTimeFormatter$1;
         }
 
         public final String formatWithPattern(long utcTimeMillis, String pattern, Locale locale, Map<String, Object> cache) {
@@ -78,10 +78,10 @@ public final class CalendarModelImpl extends androidx.compose.material3.internal
     }
 
     public CalendarModelImpl(Locale locale) {
-        int i2;
+        int i;
         DayOfWeek dayOfWeek;
         Pair it;
-        int i;
+        int i2;
         String displayName;
         String displayName2;
         super(locale);
@@ -93,12 +93,12 @@ public final class CalendarModelImpl extends androidx.compose.material3.internal
         ArrayList arrayList = new ArrayList(values.length);
         DayOfWeek[] objArr = values;
         final int i5 = 0;
-        i2 = 0;
-        while (i2 < objArr.length) {
+        i = 0;
+        while (i < objArr.length) {
             DayOfWeek dayOfWeek2 = dayOfWeek;
-            i = 0;
+            i2 = 0;
             (Collection)arrayList.add(TuplesKt.to(dayOfWeek2.getDisplayName(TextStyle.FULL, locale2), dayOfWeek2.getDisplayName(TextStyle.NARROW, locale2)));
-            i2++;
+            i++;
         }
         this.weekdayNames = (List)arrayList;
     }

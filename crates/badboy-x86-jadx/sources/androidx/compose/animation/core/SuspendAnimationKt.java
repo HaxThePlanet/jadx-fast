@@ -38,26 +38,26 @@ public final class SuspendAnimationKt {
     public static final <T, V extends androidx.compose.animation.core.AnimationVector> Object animate(androidx.compose.animation.core.AnimationState<T, V> animationState, androidx.compose.animation.core.Animation<T, V> animation2, long l3, Function1<? super androidx.compose.animation.core.AnimationScope<T, V>, Unit> function14, Continuation<? super Unit> continuation5) {
         Object obj6;
         boolean anon2;
-        int i2;
+        int i3;
         Ref.ObjectRef cmp;
         Object lateInitScope;
-        int i3;
+        int i2;
         Object element;
         Object l$2;
         Object l$1;
         androidx.compose.animation.core.AnimationState animationState2;
         Object l$0;
-        androidx.compose.animation.core.SuspendAnimationKt.animate.6 lastFrameTimeNanos2;
-        Object obj;
+        androidx.compose.animation.core.SuspendAnimationKt.animate.6 lastFrameTimeNanos;
+        Object obj4;
         Ref.ObjectRef objectRef;
-        Object lastFrameTimeNanos;
+        Object lastFrameTimeNanos2;
         Object obj5;
         androidx.compose.animation.core.Animation animation;
         Object velocityVectorFromNanos;
         Object obj3;
         Object obj2;
         float block;
-        Object obj4;
+        Object obj;
         androidx.compose.animation.core.TwoWayConverter typeConverter;
         androidx.compose.animation.core.AnimationVector animationVector;
         long l;
@@ -94,14 +94,14 @@ public final class SuspendAnimationKt {
                 androidx.compose.animation.core.AnimationState animationState3 = continuation5;
                 animation = animation2;
                 int i5 = 0;
-                lastFrameTimeNanos = animation.getValueFromNanos(i5);
+                lastFrameTimeNanos2 = animation.getValueFromNanos(i5);
                 velocityVectorFromNanos = animation.getVelocityVectorFromNanos(i5);
                 objectRef = new Ref.ObjectRef();
-                obj4 = animationState3;
-                lastFrameTimeNanos2 = new SuspendAnimationKt.animate.6(objectRef, lastFrameTimeNanos, animation, velocityVectorFromNanos, obj3, SuspendAnimationKt.getDurationScale(anon2.getContext()), obj4);
+                obj = animationState3;
+                lastFrameTimeNanos = new SuspendAnimationKt.animate.6(objectRef, lastFrameTimeNanos2, animation, velocityVectorFromNanos, obj3, SuspendAnimationKt.getDurationScale(anon2.getContext()), obj);
                 anon2.L$0 = obj3;
                 anon2.L$1 = animation;
-                anon2.L$2 = obj4;
+                anon2.L$2 = obj;
                 anon2.L$3 = objectRef;
                 anon2.label = 1;
                 return cOROUTINE_SUSPENDED;
@@ -109,25 +109,25 @@ public final class SuspendAnimationKt {
                 l$0 = obj3;
                 lateInitScope = objectRef;
                 SuspendAnimationKt.animate.7 anon4 = new SuspendAnimationKt.animate.7(obj3);
-                AnimationScope block2 = new AnimationScope(lastFrameTimeNanos, animation.getTypeConverter(), velocityVectorFromNanos, l, obj19, animation.getTargetValue(), l, obj22, 1, (Function0)anon4);
+                AnimationScope block2 = new AnimationScope(lastFrameTimeNanos2, animation.getTypeConverter(), velocityVectorFromNanos, l, obj19, animation.getTargetValue(), l, obj22, 1, (Function0)anon4);
                 l$1 = block2;
                 l$0 = 0;
                 velocityVectorFromNanos = animation;
-                SuspendAnimationKt.doAnimationFrameWithScale(l$1, l, lastFrameTimeNanos, SuspendAnimationKt.getDurationScale(anon2.getContext()), velocityVectorFromNanos, obj3);
+                SuspendAnimationKt.doAnimationFrameWithScale(l$1, l, lastFrameTimeNanos2, SuspendAnimationKt.getDurationScale(anon2.getContext()), velocityVectorFromNanos, obj3);
                 obj5 = velocityVectorFromNanos;
                 lateInitScope.element = l$1;
-                obj = lateInitScope;
-                Object lateInitScope2 = obj.element;
+                obj4 = lateInitScope;
+                Object lateInitScope2 = obj4.element;
                 Intrinsics.checkNotNull(lateInitScope2);
                 obj27 = durationScale2;
                 obj25 = anon3;
-                obj26 = obj;
+                obj26 = obj4;
                 obj28 = obj5;
                 obj29 = obj3;
                 obj30 = obj2;
                 super(obj26, obj27, obj28, obj29, obj30);
                 lateInitScope = obj26;
-                lastFrameTimeNanos2 = obj27;
+                lastFrameTimeNanos = obj27;
                 l$1 = obj28;
                 l$0 = obj29;
                 l$2 = obj30;
@@ -137,7 +137,7 @@ public final class SuspendAnimationKt {
                 anon2.L$3 = lateInitScope;
                 anon2.label = 2;
                 return cOROUTINE_SUSPENDED;
-                obj = lateInitScope;
+                obj4 = lateInitScope;
                 obj2 = l$2;
                 obj5 = l$1;
                 obj3 = l$0;
@@ -151,21 +151,21 @@ public final class SuspendAnimationKt {
                 break;
             case 2:
                 ResultKt.throwOnFailure(result);
-                obj = lateInitScope;
+                obj4 = lateInitScope;
                 obj2 = l$2;
                 obj5 = l$1;
                 obj3 = l$0;
-                lateInitScope2 = obj.element;
+                lateInitScope2 = obj4.element;
                 Intrinsics.checkNotNull(lateInitScope2);
                 obj27 = durationScale2;
                 obj25 = anon3;
-                obj26 = obj;
+                obj26 = obj4;
                 obj28 = obj5;
                 obj29 = obj3;
                 obj30 = obj2;
                 super(obj26, obj27, obj28, obj29, obj30);
                 lateInitScope = obj26;
-                lastFrameTimeNanos2 = obj27;
+                lastFrameTimeNanos = obj27;
                 l$1 = obj28;
                 l$0 = obj29;
                 l$2 = obj30;
@@ -175,7 +175,7 @@ public final class SuspendAnimationKt {
                 anon2.L$3 = lateInitScope;
                 anon2.label = 2;
                 return cOROUTINE_SUSPENDED;
-                obj = lateInitScope;
+                obj4 = lateInitScope;
                 obj2 = l$2;
                 obj5 = l$1;
                 obj3 = l$0;
@@ -184,7 +184,7 @@ public final class SuspendAnimationKt {
                 IllegalStateException illegalStateException = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw illegalStateException;
         }
-        obj = lateInitScope;
+        obj4 = lateInitScope;
         obj2 = l$2;
         obj5 = l$1;
         obj3 = l$0;
@@ -316,9 +316,9 @@ public final class SuspendAnimationKt {
     }
 
     public static Object animateTo$default(androidx.compose.animation.core.AnimationState animationState, Object object2, androidx.compose.animation.core.AnimationSpec animationSpec3, boolean z4, Function1 function15, Continuation continuation6, int i7, Object object8) {
-        int i;
-        androidx.compose.animation.core.SpringSpec springSpec;
         int i2;
+        androidx.compose.animation.core.SpringSpec springSpec;
+        int i;
         androidx.compose.animation.core.SuspendAnimationKt.animateTo.2 anon;
         androidx.compose.animation.core.SpringSpec obj8;
         int obj9;
@@ -326,18 +326,18 @@ public final class SuspendAnimationKt {
         int obj13;
         if (i7 & 2 != 0) {
             obj13 = 0;
-            i = 0;
+            i2 = 0;
             springSpec = obj8;
         } else {
             springSpec = animationSpec3;
         }
-        i2 = i7 & 4 != 0 ? obj9 : z4;
+        i = i7 & 4 != 0 ? obj9 : z4;
         if (i7 & 8 != 0) {
             anon = obj10;
         } else {
             anon = function15;
         }
-        return SuspendAnimationKt.animateTo(animationState, object2, springSpec, i2, anon, continuation6);
+        return SuspendAnimationKt.animateTo(animationState, object2, springSpec, i, anon, continuation6);
     }
 
     private static final <R, T, V extends androidx.compose.animation.core.AnimationVector> Object callWithFrameNanos(androidx.compose.animation.core.Animation<T, V> $this$callWithFrameNanos, Function1<? super Long, ? extends R> onFrame, Continuation<? super R> $completion) {
@@ -379,7 +379,7 @@ public final class SuspendAnimationKt {
     public static final float getDurationScale(CoroutineContext $this$durationScale) {
         int scaleFactor;
         int i;
-        String str;
+        String $i$a$CheckPreconditionSuspendAnimationKt$durationScale$1;
         kotlin.coroutines.CoroutineContext.Element context = $this$durationScale.get((CoroutineContext.Key)MotionDurationScale.Key);
         if ((MotionDurationScale)context != null) {
             scaleFactor = (MotionDurationScale)context.getScaleFactor();

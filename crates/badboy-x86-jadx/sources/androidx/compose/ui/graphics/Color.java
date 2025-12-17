@@ -170,10 +170,10 @@ public final class Color {
 
         public final long hsl-JlNiLsg(float hue, float saturation, float lightness, float alpha, Rgb colorSpace) {
             int i;
-            int cmp2;
-            int cmp3;
-            int string;
             int cmp;
+            int cmp3;
+            int $i$a$RequirePreconditionColor$Companion$hsl$1;
+            int cmp2;
             int i2;
             int append;
             String str;
@@ -181,16 +181,16 @@ public final class Color {
             i2 = 1;
             int i8 = 0;
             if (Float.compare(i, hue) <= 0 && Float.compare(hue, i4) <= 0) {
-                string = Float.compare(hue, i4) <= 0 ? i2 : i8;
+                $i$a$RequirePreconditionColor$Companion$hsl$1 = Float.compare(hue, i4) <= 0 ? i2 : i8;
             } else {
             }
-            if (string != null) {
+            if ($i$a$RequirePreconditionColor$Companion$hsl$1 != 0) {
                 append = 1065353216;
                 if (Float.compare(i, saturation) <= 0 && Float.compare(saturation, append) <= 0) {
-                    string = Float.compare(saturation, append) <= 0 ? i2 : i8;
+                    $i$a$RequirePreconditionColor$Companion$hsl$1 = Float.compare(saturation, append) <= 0 ? i2 : i8;
                 } else {
                 }
-                if (string != null) {
+                if ($i$a$RequirePreconditionColor$Companion$hsl$1 != 0) {
                     if (Float.compare(i, lightness) <= 0 && Float.compare(lightness, append) <= 0) {
                         i = Float.compare(lightness, append) <= 0 ? i2 : i8;
                     } else {
@@ -214,39 +214,39 @@ public final class Color {
         }
 
         public final long hsv-JlNiLsg(float hue, float saturation, float value, float alpha, Rgb colorSpace) {
-            int i;
-            int cmp3;
-            int cmp;
-            int string;
-            int cmp2;
             int i2;
+            int cmp;
+            int cmp2;
+            int $i$a$RequirePreconditionColor$Companion$hsv$1;
+            int cmp3;
+            int i;
             int append;
             String str;
-            i = 0;
-            int i7 = 1;
             i2 = 0;
-            if (Float.compare(i, hue) <= 0 && Float.compare(hue, i4) <= 0) {
-                string = Float.compare(hue, i4) <= 0 ? i7 : i2;
+            int i7 = 1;
+            i = 0;
+            if (Float.compare(i2, hue) <= 0 && Float.compare(hue, i4) <= 0) {
+                $i$a$RequirePreconditionColor$Companion$hsv$1 = Float.compare(hue, i4) <= 0 ? i7 : i;
             } else {
             }
-            if (string != null) {
+            if ($i$a$RequirePreconditionColor$Companion$hsv$1 != 0) {
                 append = 1065353216;
-                if (Float.compare(i, saturation) <= 0 && Float.compare(saturation, append) <= 0) {
-                    string = Float.compare(saturation, append) <= 0 ? i7 : i2;
+                if (Float.compare(i2, saturation) <= 0 && Float.compare(saturation, append) <= 0) {
+                    $i$a$RequirePreconditionColor$Companion$hsv$1 = Float.compare(saturation, append) <= 0 ? i7 : i;
                 } else {
                 }
-                if (string != null) {
-                    if (Float.compare(i, value) <= 0 && Float.compare(value, append) <= 0) {
-                        i = Float.compare(value, append) <= 0 ? i7 : i2;
+                if ($i$a$RequirePreconditionColor$Companion$hsv$1 != 0) {
+                    if (Float.compare(i2, value) <= 0 && Float.compare(value, append) <= 0) {
+                        i2 = Float.compare(value, append) <= 0 ? i7 : i;
                     } else {
                     }
-                    if (i != 0) {
-                        i2 = i7;
+                    if (i2 != 0) {
+                        i = i7;
                     }
                 }
             }
             int i3 = 0;
-            if (i2 == 0) {
+            if (i == 0) {
                 int i5 = 0;
                 StringBuilder stringBuilder = new StringBuilder();
                 String str3 = ", ";
@@ -375,35 +375,35 @@ public final class Color {
     }
 
     public static long copy-wmQWz5c$default(long l, float f2, float f3, float f4, float f5, int i6, Object object7) {
-        float f;
-        float f6;
-        float f7;
         float f8;
+        float f7;
+        float f6;
+        float f;
         float obj8;
         float obj9;
         float obj10;
         float obj11;
         if (object7 & 1 != 0) {
-            f = obj8;
+            f8 = obj8;
         } else {
-            f = f3;
+            f8 = f3;
         }
         if (object7 & 2 != 0) {
-            f6 = obj9;
+            f7 = obj9;
         } else {
-            f6 = f4;
+            f7 = f4;
         }
         if (object7 & 4 != 0) {
-            f7 = obj10;
+            f6 = obj10;
         } else {
-            f7 = f5;
+            f6 = f5;
         }
         if (object7 & 8 != 0) {
-            f8 = obj11;
+            f = obj11;
         } else {
-            f8 = i6;
+            f = i6;
         }
-        return Color.copy-wmQWz5c(l, obj1, f, f6, f7);
+        return Color.copy-wmQWz5c(l, obj1, f8, f7, f6);
     }
 
     public static boolean equals-impl(long l, Object object2) {
@@ -425,15 +425,15 @@ public final class Color {
     }
 
     public static final float getAlpha-impl(long arg0) {
-        int i;
         int i3;
+        int i;
         int i2;
         if (Long.compare(constructor-impl, i12) == 0) {
-            f /= i3;
+            f /= i;
         } else {
-            f2 /= i3;
+            f2 /= i;
         }
-        return i;
+        return i3;
     }
 
     public static void getBlue$annotations() {
@@ -441,39 +441,39 @@ public final class Color {
 
     public static final float getBlue-impl(long arg0) {
         int h$iv;
-        int i3;
-        int i5;
+        int i2;
         int i;
         int i4;
+        int i5;
         int i6;
         int o$iv;
-        int i2;
+        int i3;
         int outE$iv;
         int outM$iv;
         int $i$f$floatFromBits;
         if (Long.compare(constructor-impl, i16) == 0) {
-            f /= i3;
+            f /= i2;
         } else {
-            i3 = 0;
+            i2 = 0;
             i18 &= s;
-            i19 &= i5;
+            i19 &= i;
             i6 = 31;
             i20 &= i6;
-            i2 = i5 & 1023;
+            i3 = i & 1023;
             outE$iv = 0;
             outM$iv = 0;
-            if (i4 == 0) {
-                if (i2 != 0) {
+            if (i5 == 0) {
+                if (i3 != 0) {
                     int i25 = 0;
                     bits$iv$iv -= $i$f$floatFromBits;
-                    h$iv = i == 0 ? o$iv : $i$f$floatFromBits;
+                    h$iv = i4 == 0 ? o$iv : $i$f$floatFromBits;
                 } else {
                     int i27 = 0;
                     h$iv = $i$f$floatFromBits;
                 }
             } else {
-                outM$iv = i2 << 13;
-                if (i4 == i6) {
+                outM$iv = i3 << 13;
+                if (i5 == i6) {
                     outE$iv = 255;
                     if (outM$iv != 0) {
                         outM$iv |= i6;
@@ -499,45 +499,45 @@ public final class Color {
 
     public static final float getGreen-impl(long arg0) {
         int h$iv;
-        int i6;
-        int i4;
-        int i5;
-        int i;
         int i3;
+        int i;
+        int i4;
+        int i6;
+        int i5;
         int o$iv;
         int i2;
         int outE$iv;
         int outM$iv;
         int $i$f$floatFromBits;
         if (Long.compare(constructor-impl, i16) == 0) {
-            f /= i6;
+            f /= i3;
         } else {
-            i6 = 0;
+            i3 = 0;
             i18 &= s;
-            i19 &= i4;
-            i3 = 31;
-            i20 &= i3;
-            i2 = i4 & 1023;
+            i19 &= i;
+            i5 = 31;
+            i20 &= i5;
+            i2 = i & 1023;
             outE$iv = 0;
             outM$iv = 0;
-            if (i == 0) {
+            if (i6 == 0) {
                 if (i2 != 0) {
                     int i25 = 0;
                     bits$iv$iv -= $i$f$floatFromBits;
-                    h$iv = i5 == 0 ? o$iv : $i$f$floatFromBits;
+                    h$iv = i4 == 0 ? o$iv : $i$f$floatFromBits;
                 } else {
                     int i27 = 0;
                     h$iv = $i$f$floatFromBits;
                 }
             } else {
                 outM$iv = i2 << 13;
-                if (i == i3) {
+                if (i6 == i5) {
                     outE$iv = 255;
                     if (outM$iv != 0) {
-                        outM$iv |= i3;
+                        outM$iv |= i5;
                     }
                 } else {
-                    outE$iv = i3 + 127;
+                    outE$iv = i5 + 127;
                 }
             }
         }
@@ -549,46 +549,46 @@ public final class Color {
 
     public static final float getRed-impl(long arg0) {
         int h$iv;
-        int i;
-        int i4;
-        int i5;
-        int i2;
         int i6;
-        int o$iv;
+        int i4;
+        int i2;
         int i3;
+        int i;
+        int o$iv;
+        int i5;
         int outE$iv;
         int outM$iv;
         int $i$f$floatFromBits;
         int i14 = 48;
         if (Long.compare(constructor-impl, i15) == 0) {
-            f /= i;
+            f /= i6;
         } else {
-            i = 0;
+            i6 = 0;
             i17 &= s;
             i18 &= i4;
-            i6 = 31;
-            i19 &= i6;
-            i3 = i4 & 1023;
+            i = 31;
+            i19 &= i;
+            i5 = i4 & 1023;
             outE$iv = 0;
             outM$iv = 0;
-            if (i2 == 0) {
-                if (i3 != 0) {
+            if (i3 == 0) {
+                if (i5 != 0) {
                     int i24 = 0;
                     bits$iv$iv -= $i$f$floatFromBits;
-                    h$iv = i5 == 0 ? o$iv : $i$f$floatFromBits;
+                    h$iv = i2 == 0 ? o$iv : $i$f$floatFromBits;
                 } else {
                     int i26 = 0;
                     h$iv = $i$f$floatFromBits;
                 }
             } else {
-                outM$iv = i3 << 13;
-                if (i2 == i6) {
+                outM$iv = i5 << 13;
+                if (i3 == i) {
                     outE$iv = 255;
                     if (outM$iv != 0) {
-                        outM$iv |= i6;
+                        outM$iv |= i;
                     }
                 } else {
-                    outE$iv = i6 + 127;
+                    outE$iv = i + 127;
                 }
             }
         }

@@ -170,9 +170,9 @@ public final class Lifecycling {
 
     private final int resolveObserverCallbackType(Class<?> klass) {
         int adapterConstructors;
-        boolean lifecycleParent;
+        boolean lifecycleParent2;
         Object next;
-        Object lifecycleParent2;
+        Object lifecycleParent;
         int observerConstructorType;
         int i = 1;
         if (klass.getCanonicalName() == null) {
@@ -197,17 +197,17 @@ public final class Lifecycling {
             }
             next = Lifecycling.classToAdapters.get(superclass);
             Intrinsics.checkNotNull(next);
-            lifecycleParent = new ArrayList((Collection)next);
-            adapterConstructors = lifecycleParent;
+            lifecycleParent2 = new ArrayList((Collection)next);
+            adapterConstructors = lifecycleParent2;
         }
         Iterator iterator = ArrayIteratorKt.iterator(klass.getInterfaces());
         for (Class next : iterator) {
             Intrinsics.checkNotNull(next);
             if (adapterConstructors == 0) {
             }
-            lifecycleParent2 = Lifecycling.classToAdapters.get(next);
-            Intrinsics.checkNotNull(lifecycleParent2);
-            adapterConstructors.addAll((Collection)lifecycleParent2);
+            lifecycleParent = Lifecycling.classToAdapters.get(next);
+            Intrinsics.checkNotNull(lifecycleParent);
+            adapterConstructors.addAll((Collection)lifecycleParent);
             observerConstructorType = new ArrayList();
             adapterConstructors = observerConstructorType;
         }

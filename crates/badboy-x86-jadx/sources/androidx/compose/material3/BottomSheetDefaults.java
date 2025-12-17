@@ -43,26 +43,26 @@ public final class BottomSheetDefaults {
 
     public final void DragHandle-lgZ2HuY(Modifier modifier, float width, float height, Shape shape, long color, Composer $composer, int $changed, int i8) {
         String string-2EP1pXo;
-        boolean traceInProgress2;
-        int $dirty3;
-        float $dirty;
+        boolean traceInProgress;
+        int $dirty2;
+        float $dirty3;
         Object height2;
-        Object modifier3;
-        float modifier2;
+        Object modifier2;
+        float modifier3;
         Object dockedDragHandleWidth-D9Ej5fM;
         int extraLarge;
         int color2;
-        float $dirty2;
-        int i11;
-        int i;
-        boolean traceInProgress;
+        float $dirty;
+        int i2;
+        int i3;
+        boolean traceInProgress2;
         Object obj;
         float f;
         long width2;
-        int i4;
+        int i5;
         int str;
         float semantics$default;
-        int i5;
+        int i7;
         Object obj2;
         int shape2;
         int changed;
@@ -72,135 +72,135 @@ public final class BottomSheetDefaults {
         int defaultsInvalid;
         Object empty;
         Object anon;
-        int i3;
+        int i10;
+        int i4;
+        int i11;
         int i9;
-        int i6;
-        int i2;
         Object companion;
         Composer composer;
-        int i10;
-        int i7;
-        final int i27 = i8;
+        int i6;
+        int i;
+        final int i26 = i8;
         string-2EP1pXo = -1364277227;
-        traceInProgress2 = $changed.startRestartGroup(string-2EP1pXo);
-        ComposerKt.sourceInformation(traceInProgress2, "C(DragHandle)P(2,4:c#ui.unit.Dp,1:c#ui.unit.Dp,3,0:c#ui.graphics.Color)324@12873L6,325@12955L5,327@13006L51,330@13179L82,335@13326L74,328@13066L334:SheetDefaults.kt#uh7d8r");
-        $dirty3 = i8;
+        traceInProgress = $changed.startRestartGroup(string-2EP1pXo);
+        ComposerKt.sourceInformation(traceInProgress, "C(DragHandle)P(2,4:c#ui.unit.Dp,1:c#ui.unit.Dp,3,0:c#ui.graphics.Color)324@12873L6,325@12955L5,327@13006L51,330@13179L82,335@13326L74,328@13066L334:SheetDefaults.kt#uh7d8r");
+        $dirty2 = i8;
         int i12 = obj31 & 1;
         if (i12 != 0) {
-            $dirty3 |= 6;
+            $dirty2 |= 6;
             dockedDragHandleWidth-D9Ej5fM = modifier;
         } else {
-            if (i27 & 6 == 0) {
-                i11 = traceInProgress2.changed(modifier) ? 4 : 2;
-                $dirty3 |= i11;
+            if (i26 & 6 == 0) {
+                i2 = traceInProgress.changed(modifier) ? 4 : 2;
+                $dirty2 |= i2;
             } else {
                 dockedDragHandleWidth-D9Ej5fM = modifier;
             }
         }
-        i = obj31 & 2;
-        if (i != 0) {
-            $dirty3 |= 48;
+        i3 = obj31 & 2;
+        if (i3 != 0) {
+            $dirty2 |= 48;
             f = width;
         } else {
-            if (i27 & 48 == 0) {
-                i4 = traceInProgress2.changed(width) ? 32 : 16;
-                $dirty3 |= i4;
+            if (i26 & 48 == 0) {
+                i5 = traceInProgress.changed(width) ? 32 : 16;
+                $dirty2 |= i5;
             } else {
                 f = width;
             }
         }
         str = obj31 & 4;
         if (str != null) {
-            $dirty3 |= 384;
+            $dirty2 |= 384;
             semantics$default = height;
         } else {
-            if (i27 & 384 == 0) {
-                i5 = traceInProgress2.changed(height) ? 256 : 128;
-                $dirty3 |= i5;
+            if (i26 & 384 == 0) {
+                i7 = traceInProgress.changed(height) ? 256 : 128;
+                $dirty2 |= i7;
             } else {
                 semantics$default = height;
             }
         }
-        if (i27 & 3072 == 0) {
+        if (i26 & 3072 == 0) {
             if (obj31 & 8 == 0) {
-                changed = traceInProgress2.changed(shape) ? 2048 : 1024;
+                changed = traceInProgress.changed(shape) ? 2048 : 1024;
             } else {
                 obj2 = shape;
             }
-            $dirty3 |= changed;
+            $dirty2 |= changed;
         } else {
             obj2 = shape;
         }
-        if (i27 & 24576 == 0) {
+        if (i26 & 24576 == 0) {
             if (obj31 & 16 == 0) {
-                changed2 = traceInProgress2.changed(color) ? 16384 : 8192;
+                changed2 = traceInProgress.changed(color) ? 16384 : 8192;
             } else {
                 l = color;
             }
-            $dirty3 |= changed2;
+            $dirty2 |= changed2;
         } else {
             l = color;
         }
-        if ($dirty3 & 9363 == 9362) {
-            if (!traceInProgress2.getSkipping()) {
-                traceInProgress2.startDefaults();
-                int i36 = -57345;
-                if (i27 & 1 != 0) {
-                    if (traceInProgress2.getDefaultsInvalid()) {
+        if ($dirty2 & 9363 == 9362) {
+            if (!traceInProgress.getSkipping()) {
+                traceInProgress.startDefaults();
+                int i35 = -57345;
+                if (i26 & 1 != 0) {
+                    if (traceInProgress.getDefaultsInvalid()) {
                         if (i12 != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = dockedDragHandleWidth-D9Ej5fM;
+                            modifier2 = dockedDragHandleWidth-D9Ej5fM;
                         }
-                        if (i != 0) {
+                        if (i3 != 0) {
                             f = dockedDragHandleWidth-D9Ej5fM;
                         }
                         if (str != null) {
                             semantics$default = dockedDragHandleWidth-D9Ej5fM;
                         }
-                        i = 6;
+                        i3 = 6;
                         if (obj31 & 8 != 0) {
-                            $dirty3 &= -7169;
+                            $dirty2 &= -7169;
                             obj2 = extraLarge;
                         }
                         if (obj31 & 16 != 0) {
                             l = value;
                             color2 = $dirty4;
-                            $dirty = semantics$default;
+                            $dirty3 = semantics$default;
                         } else {
-                            color2 = $dirty3;
-                            $dirty = semantics$default;
+                            color2 = $dirty2;
+                            $dirty3 = semantics$default;
                         }
                     } else {
-                        traceInProgress2.skipToGroupEnd();
+                        traceInProgress.skipToGroupEnd();
                         if (obj31 & 8 != 0) {
-                            $dirty3 &= -7169;
+                            $dirty2 &= -7169;
                         }
                         if (obj31 & 16 != 0) {
-                            modifier3 = dockedDragHandleWidth-D9Ej5fM;
+                            modifier2 = dockedDragHandleWidth-D9Ej5fM;
                             color2 = $dirty5;
-                            $dirty = semantics$default;
+                            $dirty3 = semantics$default;
                         } else {
-                            modifier3 = dockedDragHandleWidth-D9Ej5fM;
-                            color2 = $dirty3;
-                            $dirty = semantics$default;
+                            modifier2 = dockedDragHandleWidth-D9Ej5fM;
+                            color2 = $dirty2;
+                            $dirty3 = semantics$default;
                         }
                     }
                 } else {
                 }
-                traceInProgress2.endDefaults();
+                traceInProgress.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(string-2EP1pXo, color2, -1, "androidx.compose.material3.BottomSheetDefaults.DragHandle (SheetDefaults.kt:326)");
                 }
                 androidx.compose.material3.internal.Strings.Companion companion2 = Strings.Companion;
                 int i16 = 0;
-                string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_bottom_sheet_drag_handle_description), traceInProgress2, 0);
-                ComposerKt.sourceInformationMarkerStart(traceInProgress2, 1620989881, "CC(remember):SheetDefaults.kt#9igjgp");
-                Composer composer2 = traceInProgress2;
-                int i38 = 0;
+                string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_bottom_sheet_drag_handle_description), traceInProgress, 0);
+                ComposerKt.sourceInformationMarkerStart(traceInProgress, 1620989881, "CC(remember):SheetDefaults.kt#9igjgp");
+                Composer composer2 = traceInProgress;
+                int i37 = 0;
                 Object rememberedValue = composer2.rememberedValue();
-                int i39 = 0;
-                if (!traceInProgress2.changed(string-2EP1pXo)) {
+                int i38 = 0;
+                if (!traceInProgress.changed(string-2EP1pXo)) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new BottomSheetDefaults.DragHandle.1.1(string-2EP1pXo);
@@ -210,35 +210,35 @@ public final class BottomSheetDefaults {
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
-                int i35 = 1;
-                BottomSheetDefaults.DragHandle.2 anon2 = new BottomSheetDefaults.DragHandle.2(f, $dirty);
-                i3 = -1039573072;
-                SurfaceKt.Surface-T9BRK9s(SemanticsModifierKt.semantics$default(PaddingKt.padding-VpY3zN4$default(modifier3, 0, SheetDefaultsKt.access$getDragHandleVerticalPadding$p(), 1, 0), false, (Function1)anon, i35, 0), obj2, l, obj12, 0, i3, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(i3, i35, anon2, traceInProgress2, 54), traceInProgress2);
+                ComposerKt.sourceInformationMarkerEnd(traceInProgress);
+                int i34 = 1;
+                BottomSheetDefaults.DragHandle.2 anon2 = new BottomSheetDefaults.DragHandle.2(f, $dirty3);
+                i10 = -1039573072;
+                SurfaceKt.Surface-T9BRK9s(SemanticsModifierKt.semantics$default(PaddingKt.padding-VpY3zN4$default(modifier2, 0, SheetDefaultsKt.access$getDragHandleVerticalPadding$p(), 1, 0), false, (Function1)anon, i34, 0), obj2, l, obj12, 0, i10, 0, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(i10, i34, anon2, traceInProgress, 54), traceInProgress);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 obj = obj2;
                 shape2 = color2;
-                $dirty2 = $dirty;
-                height2 = modifier3;
-                modifier2 = f;
+                $dirty = $dirty3;
+                height2 = modifier2;
+                modifier3 = f;
                 width2 = l;
             } else {
-                traceInProgress2.skipToGroupEnd();
-                composer = traceInProgress2;
+                traceInProgress.skipToGroupEnd();
+                composer = traceInProgress;
                 obj = obj2;
-                shape2 = $dirty3;
+                shape2 = $dirty2;
                 height2 = dockedDragHandleWidth-D9Ej5fM;
-                $dirty2 = semantics$default;
-                modifier2 = f;
+                $dirty = semantics$default;
+                modifier3 = f;
                 width2 = l;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            string-2EP1pXo = new BottomSheetDefaults.DragHandle.3(this, height2, modifier2, $dirty2, obj, width2, str, i27, obj31);
+            string-2EP1pXo = new BottomSheetDefaults.DragHandle.3(this, height2, modifier3, $dirty, obj, width2, str, i26, obj31);
             endRestartGroup.updateScope((Function2)string-2EP1pXo);
         }
     }

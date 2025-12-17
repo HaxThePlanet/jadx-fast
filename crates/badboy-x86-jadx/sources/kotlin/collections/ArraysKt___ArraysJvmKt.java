@@ -1315,50 +1315,13 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     public static final <R extends Comparable<? super R>> Byte maxBy(byte[] $this$maxBy, Function1<? super Byte, ? extends R> selector) {
         int i;
-        Byte maxElem$iv;
-        byte maxElem$iv2;
+        Byte maxElem$iv2;
+        byte maxElem$iv;
         int lastIndex;
         Object maxValue$iv;
         Byte valueOf;
         int i$iv;
         byte b;
-        Object invoke;
-        int compareTo;
-        Intrinsics.checkNotNullParameter($this$maxBy, "<this>");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        int i2 = 0;
-        final Object obj = $this$maxBy;
-        final int i3 = 0;
-        lastIndex = 0;
-        i = obj.length == 0 ? 1 : lastIndex;
-        if (i != 0) {
-            maxElem$iv = 0;
-        } else {
-            maxElem$iv2 = obj[lastIndex];
-            lastIndex = ArraysKt.getLastIndex(obj);
-            if (lastIndex == 0) {
-                maxElem$iv = maxValue$iv;
-            } else {
-                maxValue$iv = selector.invoke(Byte.valueOf(maxElem$iv2));
-                if (1 <= lastIndex) {
-                }
-                maxElem$iv = valueOf;
-            }
-        }
-        return maxElem$iv;
-    }
-
-    @Deprecated(message = "Use maxByOrNull instead.", replaceWith = @ReplaceWith(...))
-    @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
-    public static final <R extends Comparable<? super R>> Character maxBy(char[] $this$maxBy, Function1<? super Character, ? extends R> selector) {
-        int i;
-        Character maxElem$iv2;
-        char maxElem$iv;
-        int lastIndex;
-        Object maxValue$iv;
-        Character valueOf;
-        int i$iv;
-        char c;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxBy, "<this>");
@@ -1376,13 +1339,50 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
             if (lastIndex == 0) {
                 maxElem$iv2 = maxValue$iv;
             } else {
-                maxValue$iv = selector.invoke(Character.valueOf(maxElem$iv));
+                maxValue$iv = selector.invoke(Byte.valueOf(maxElem$iv));
                 if (1 <= lastIndex) {
                 }
                 maxElem$iv2 = valueOf;
             }
         }
         return maxElem$iv2;
+    }
+
+    @Deprecated(message = "Use maxByOrNull instead.", replaceWith = @ReplaceWith(...))
+    @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
+    public static final <R extends Comparable<? super R>> Character maxBy(char[] $this$maxBy, Function1<? super Character, ? extends R> selector) {
+        int i;
+        Character maxElem$iv;
+        char maxElem$iv2;
+        int lastIndex;
+        Object maxValue$iv;
+        Character valueOf;
+        int i$iv;
+        char c;
+        Object invoke;
+        int compareTo;
+        Intrinsics.checkNotNullParameter($this$maxBy, "<this>");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        int i2 = 0;
+        final Object obj = $this$maxBy;
+        final int i3 = 0;
+        lastIndex = 0;
+        i = obj.length == 0 ? 1 : lastIndex;
+        if (i != 0) {
+            maxElem$iv = 0;
+        } else {
+            maxElem$iv2 = obj[lastIndex];
+            lastIndex = ArraysKt.getLastIndex(obj);
+            if (lastIndex == 0) {
+                maxElem$iv = maxValue$iv;
+            } else {
+                maxValue$iv = selector.invoke(Character.valueOf(maxElem$iv2));
+                if (1 <= lastIndex) {
+                }
+                maxElem$iv = valueOf;
+            }
+        }
+        return maxElem$iv;
     }
 
     @Deprecated(message = "Use maxByOrNull instead.", replaceWith = @ReplaceWith(...))
@@ -1425,14 +1425,14 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
     @Deprecated(message = "Use maxByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     public static final <R extends Comparable<? super R>> Float maxBy(float[] $this$maxBy, Function1<? super Float, ? extends R> selector) {
-        int i2;
+        int i;
         Float maxElem$iv2;
         int maxElem$iv;
         int lastIndex;
         Object maxValue$iv;
         Float valueOf;
         int i$iv;
-        int i;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxBy, "<this>");
@@ -1441,8 +1441,8 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
         final Object obj = $this$maxBy;
         final int i4 = 0;
         lastIndex = 0;
-        i2 = obj.length == 0 ? 1 : lastIndex;
-        if (i2 != 0) {
+        i = obj.length == 0 ? 1 : lastIndex;
+        if (i != 0) {
             maxElem$iv2 = 0;
         } else {
             maxElem$iv = obj[lastIndex];
@@ -1462,14 +1462,14 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
     @Deprecated(message = "Use maxByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     public static final <R extends Comparable<? super R>> Integer maxBy(int[] $this$maxBy, Function1<? super Integer, ? extends R> selector) {
-        int i2;
-        Integer maxElem$iv;
-        int maxElem$iv2;
+        int i;
+        Integer maxElem$iv2;
+        int maxElem$iv;
         int lastIndex;
         Object maxValue$iv;
         Integer valueOf;
         int i$iv;
-        int i;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxBy, "<this>");
@@ -1478,22 +1478,22 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
         final Object obj = $this$maxBy;
         final int i4 = 0;
         lastIndex = 0;
-        i2 = obj.length == 0 ? 1 : lastIndex;
-        if (i2 != 0) {
-            maxElem$iv = 0;
+        i = obj.length == 0 ? 1 : lastIndex;
+        if (i != 0) {
+            maxElem$iv2 = 0;
         } else {
-            maxElem$iv2 = obj[lastIndex];
+            maxElem$iv = obj[lastIndex];
             lastIndex = ArraysKt.getLastIndex(obj);
             if (lastIndex == 0) {
-                maxElem$iv = maxValue$iv;
+                maxElem$iv2 = maxValue$iv;
             } else {
-                maxValue$iv = selector.invoke(Integer.valueOf(maxElem$iv2));
+                maxValue$iv = selector.invoke(Integer.valueOf(maxElem$iv));
                 if (1 <= lastIndex) {
                 }
-                maxElem$iv = valueOf;
+                maxElem$iv2 = valueOf;
             }
         }
-        return maxElem$iv;
+        return maxElem$iv2;
     }
 
     @Deprecated(message = "Use maxByOrNull instead.", replaceWith = @ReplaceWith(...))
@@ -1785,8 +1785,8 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     public static final <R extends Comparable<? super R>> Byte minBy(byte[] $this$minBy, Function1<? super Byte, ? extends R> selector) {
         int i;
-        Byte minElem$iv;
-        byte minElem$iv2;
+        Byte minElem$iv2;
+        byte minElem$iv;
         int lastIndex;
         Object minValue$iv;
         Byte valueOf;
@@ -1802,28 +1802,28 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
         lastIndex = 0;
         i = obj.length == 0 ? 1 : lastIndex;
         if (i != 0) {
-            minElem$iv = 0;
+            minElem$iv2 = 0;
         } else {
-            minElem$iv2 = obj[lastIndex];
+            minElem$iv = obj[lastIndex];
             lastIndex = ArraysKt.getLastIndex(obj);
             if (lastIndex == 0) {
-                minElem$iv = minValue$iv;
+                minElem$iv2 = minValue$iv;
             } else {
-                minValue$iv = selector.invoke(Byte.valueOf(minElem$iv2));
+                minValue$iv = selector.invoke(Byte.valueOf(minElem$iv));
                 if (1 <= lastIndex) {
                 }
-                minElem$iv = valueOf;
+                minElem$iv2 = valueOf;
             }
         }
-        return minElem$iv;
+        return minElem$iv2;
     }
 
     @Deprecated(message = "Use minByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     public static final <R extends Comparable<? super R>> Character minBy(char[] $this$minBy, Function1<? super Character, ? extends R> selector) {
         int i;
-        Character minElem$iv;
-        char minElem$iv2;
+        Character minElem$iv2;
+        char minElem$iv;
         int lastIndex;
         Object minValue$iv;
         Character valueOf;
@@ -1839,28 +1839,28 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
         lastIndex = 0;
         i = obj.length == 0 ? 1 : lastIndex;
         if (i != 0) {
-            minElem$iv = 0;
+            minElem$iv2 = 0;
         } else {
-            minElem$iv2 = obj[lastIndex];
+            minElem$iv = obj[lastIndex];
             lastIndex = ArraysKt.getLastIndex(obj);
             if (lastIndex == 0) {
-                minElem$iv = minValue$iv;
+                minElem$iv2 = minValue$iv;
             } else {
-                minValue$iv = selector.invoke(Character.valueOf(minElem$iv2));
+                minValue$iv = selector.invoke(Character.valueOf(minElem$iv));
                 if (1 <= lastIndex) {
                 }
-                minElem$iv = valueOf;
+                minElem$iv2 = valueOf;
             }
         }
-        return minElem$iv;
+        return minElem$iv2;
     }
 
     @Deprecated(message = "Use minByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     public static final <R extends Comparable<? super R>> Double minBy(double[] $this$minBy, Function1<? super Double, ? extends R> selector) {
         int i;
-        Double minElem$iv;
-        long minElem$iv2;
+        Double minElem$iv2;
+        long minElem$iv;
         int lastIndex;
         Object minValue$iv;
         Double valueOf;
@@ -1876,20 +1876,20 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
         final int i4 = 0;
         i = obj.length == 0 ? 1 : i4;
         if (i != 0) {
-            minElem$iv = 0;
+            minElem$iv2 = 0;
         } else {
-            minElem$iv2 = obj[i4];
+            minElem$iv = obj[i4];
             lastIndex = ArraysKt.getLastIndex(obj);
             if (lastIndex == 0) {
-                minElem$iv = minValue$iv;
+                minElem$iv2 = minValue$iv;
             } else {
-                minValue$iv = selector.invoke(Double.valueOf(minElem$iv2));
+                minValue$iv = selector.invoke(Double.valueOf(minElem$iv));
                 if (1 <= lastIndex) {
                 }
-                minElem$iv = valueOf;
+                minElem$iv2 = valueOf;
             }
         }
-        return minElem$iv;
+        return minElem$iv2;
     }
 
     @Deprecated(message = "Use minByOrNull instead.", replaceWith = @ReplaceWith(...))
@@ -1932,14 +1932,14 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
     @Deprecated(message = "Use minByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     public static final <R extends Comparable<? super R>> Integer minBy(int[] $this$minBy, Function1<? super Integer, ? extends R> selector) {
-        int i2;
-        Integer minElem$iv2;
-        int minElem$iv;
+        int i;
+        Integer minElem$iv;
+        int minElem$iv2;
         int lastIndex;
         Object minValue$iv;
         Integer valueOf;
         int i$iv;
-        int i;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minBy, "<this>");
@@ -1948,22 +1948,22 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
         final Object obj = $this$minBy;
         final int i4 = 0;
         lastIndex = 0;
-        i2 = obj.length == 0 ? 1 : lastIndex;
-        if (i2 != 0) {
-            minElem$iv2 = 0;
+        i = obj.length == 0 ? 1 : lastIndex;
+        if (i != 0) {
+            minElem$iv = 0;
         } else {
-            minElem$iv = obj[lastIndex];
+            minElem$iv2 = obj[lastIndex];
             lastIndex = ArraysKt.getLastIndex(obj);
             if (lastIndex == 0) {
-                minElem$iv2 = minValue$iv;
+                minElem$iv = minValue$iv;
             } else {
-                minValue$iv = selector.invoke(Integer.valueOf(minElem$iv));
+                minValue$iv = selector.invoke(Integer.valueOf(minElem$iv2));
                 if (1 <= lastIndex) {
                 }
-                minElem$iv2 = valueOf;
+                minElem$iv = valueOf;
             }
         }
-        return minElem$iv2;
+        return minElem$iv;
     }
 
     @Deprecated(message = "Use minByOrNull instead.", replaceWith = @ReplaceWith(...))
@@ -2943,19 +2943,19 @@ class ArraysKt___ArraysJvmKt extends kotlin.collections.ArraysKt__ArraysKt {
 
     private static final BigInteger sumOfBigInteger(float[] $this$sumOf, Function1<? super Float, ? extends BigInteger> selector) {
         BigInteger sum;
-        int i2;
         int i;
+        int i2;
         BigInteger num;
         String str;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         Intrinsics.checkNotNullExpressionValue(BigInteger.valueOf(0), "valueOf(...)");
-        i2 = 0;
-        while (i2 < $this$sumOf.length) {
-            num = sum.add((BigInteger)selector.invoke(Float.valueOf($this$sumOf[i2])));
+        i = 0;
+        while (i < $this$sumOf.length) {
+            num = sum.add((BigInteger)selector.invoke(Float.valueOf($this$sumOf[i])));
             Intrinsics.checkNotNullExpressionValue(num, "add(...)");
             sum = num;
-            i2++;
+            i++;
         }
         return sum;
     }

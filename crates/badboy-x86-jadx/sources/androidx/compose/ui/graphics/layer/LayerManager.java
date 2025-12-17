@@ -89,19 +89,19 @@ public final class LayerManager {
         Handler $i$f$isFull;
         Canvas internalCanvas;
         AndroidCanvas androidCanvas;
-        int i6;
-        Object obj3;
         int i2;
-        Object[] elements;
         Object obj;
-        int i7;
+        int i3;
+        Object[] elements;
+        Object obj3;
+        int i6;
         Object obj2;
         int requiredOsVersion2;
         long slot$iv$iv;
         CanvasHolder $this$maskEmptyOrDeleted$iv$iv$iv2;
         int i5;
         int cmp;
-        int i3;
+        int i7;
         long[] m$iv$iv;
         long l;
         int i;
@@ -131,13 +131,13 @@ public final class LayerManager {
             obj4.persistenceIterationInProgress = postponedReleaseRequests;
             j$iv$iv = obj4.canvasHolder;
             j$iv$iv.getAndroidCanvas().setInternalCanvas(lockHardwareCanvas);
-            i6 = 0;
+            i2 = 0;
             lockHardwareCanvas.save();
             lockHardwareCanvas.clipRect($this$maskEmptyOrDeleted$iv$iv$iv, $this$maskEmptyOrDeleted$iv$iv$iv, postponedReleaseRequests, postponedReleaseRequests);
-            obj3 = layers;
-            i2 = 0;
-            i7 = 0;
-            Object obj5 = obj;
+            obj = layers;
+            i3 = 0;
+            i6 = 0;
+            Object obj5 = obj3;
             $this$maskEmptyOrDeleted$iv$iv$iv = obj5.metadata;
             obj2 = obj5;
             this_$iv$iv += -2;
@@ -145,7 +145,7 @@ public final class LayerManager {
             if (0 <= i8) {
             } else {
                 m$iv$iv = $this$maskEmptyOrDeleted$iv$iv$iv;
-                i3 = content;
+                i7 = content;
                 $this$maskEmptyOrDeleted$iv$iv$iv2 = j$iv$iv;
                 i5 = $i$f$isFull;
             }
@@ -169,7 +169,7 @@ public final class LayerManager {
             surface.unlockCanvasAndPost(lockHardwareCanvas);
         } else {
             requiredOsVersion2 = requiredOsVersion;
-            i3 = content;
+            i7 = content;
         }
     }
 

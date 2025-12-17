@@ -135,18 +135,18 @@ public final class LegacyTextInputMethodRequest implements PlatformTextInputMeth
     @Override // androidx.compose.ui.platform.PlatformTextInputMethodRequest
     public final void notifyFocusedRect(Rect rect) {
         boolean focusedRect;
-        int roundToInt3;
-        int roundToInt;
         int roundToInt2;
+        int roundToInt;
+        int roundToInt3;
         Rect rect2 = new Rect(MathKt.roundToInt(rect.getLeft()), MathKt.roundToInt(rect.getTop()), MathKt.roundToInt(rect.getRight()), MathKt.roundToInt(rect.getBottom()));
         this.focusedRect = rect2;
         focusedRect = this.focusedRect;
         if (this.ics.isEmpty() && focusedRect != null) {
             focusedRect = this.focusedRect;
             if (focusedRect != null) {
-                roundToInt3 = 0;
-                roundToInt2 = new Rect(focusedRect);
-                this.view.requestRectangleOnScreen(roundToInt2);
+                roundToInt2 = 0;
+                roundToInt3 = new Rect(focusedRect);
+                this.view.requestRectangleOnScreen(roundToInt3);
             }
         }
     }
@@ -188,59 +188,59 @@ public final class LegacyTextInputMethodRequest implements PlatformTextInputMeth
         int i;
         boolean equal;
         int inputMethodManager;
-        int i3;
-        TextRange composition-MzsxiRA2;
         int i2;
-        boolean max-impl;
-        int min-impl;
+        TextRange composition-MzsxiRA2;
+        int i3;
         boolean max-impl2;
+        int min-impl;
+        boolean max-impl;
         long composition-MzsxiRA;
         long selection-d9O1mEE;
-        i3 = 1;
+        i2 = 1;
         if (TextRange.equals-impl0(this.state.getSelection-d9O1mEE(), obj1)) {
             if (!Intrinsics.areEqual(this.state.getComposition-MzsxiRA(), newValue.getComposition-MzsxiRA())) {
-                i = i3;
+                i = i2;
             } else {
                 i = inputMethodManager;
             }
         } else {
         }
         this.state = newValue;
-        i2 = 0;
+        i3 = 0;
         min-impl = this.ics.size();
-        while (i2 < min-impl) {
-            max-impl2 = (WeakReference)this.ics.get(i2).get();
-            if ((RecordingInputConnection)max-impl2 == null) {
+        while (i3 < min-impl) {
+            max-impl = (WeakReference)this.ics.get(i3).get();
+            if ((RecordingInputConnection)max-impl == null) {
             } else {
             }
-            (RecordingInputConnection)max-impl2.setTextFieldValue$foundation_release(newValue);
-            i2++;
+            (RecordingInputConnection)max-impl.setTextFieldValue$foundation_release(newValue);
+            i3++;
         }
         this.cursorAnchorInfoController.invalidate();
-        max-impl = Intrinsics.areEqual(oldValue, newValue);
-        if (max-impl && i != 0) {
+        max-impl2 = Intrinsics.areEqual(oldValue, newValue);
+        if (max-impl2 && i != 0) {
             if (i != 0) {
                 TextRange composition-MzsxiRA4 = this.state.getComposition-MzsxiRA();
                 if (composition-MzsxiRA4 != null) {
                     min-impl = TextRange.getMin-impl(composition-MzsxiRA4.unbox-impl());
                 } else {
-                    min-impl = max-impl2;
+                    min-impl = max-impl;
                 }
                 composition-MzsxiRA = this.state.getComposition-MzsxiRA();
                 if (composition-MzsxiRA != null) {
-                    max-impl2 = TextRange.getMax-impl(composition-MzsxiRA.unbox-impl());
+                    max-impl = TextRange.getMax-impl(composition-MzsxiRA.unbox-impl());
                 }
-                this.inputMethodManager.updateSelection(TextRange.getMin-impl(newValue.getSelection-d9O1mEE()), TextRange.getMax-impl(newValue.getSelection-d9O1mEE()), min-impl, max-impl2);
+                this.inputMethodManager.updateSelection(TextRange.getMin-impl(newValue.getSelection-d9O1mEE()), TextRange.getMax-impl(newValue.getSelection-d9O1mEE()), min-impl, max-impl);
             }
         }
         if (oldValue != null) {
-            max-impl = oldValue;
+            max-impl2 = oldValue;
             min-impl = 0;
             composition-MzsxiRA = newValue.getText();
-            if (Intrinsics.areEqual(max-impl.getText(), composition-MzsxiRA)) {
-                if (TextRange.equals-impl0(max-impl.getSelection-d9O1mEE(), composition-MzsxiRA) && !Intrinsics.areEqual(max-impl.getComposition-MzsxiRA(), newValue.getComposition-MzsxiRA())) {
-                    if (!Intrinsics.areEqual(max-impl.getComposition-MzsxiRA(), newValue.getComposition-MzsxiRA())) {
-                        inputMethodManager = i3;
+            if (Intrinsics.areEqual(max-impl2.getText(), composition-MzsxiRA)) {
+                if (TextRange.equals-impl0(max-impl2.getSelection-d9O1mEE(), composition-MzsxiRA) && !Intrinsics.areEqual(max-impl2.getComposition-MzsxiRA(), newValue.getComposition-MzsxiRA())) {
+                    if (!Intrinsics.areEqual(max-impl2.getComposition-MzsxiRA(), newValue.getComposition-MzsxiRA())) {
+                        inputMethodManager = i2;
                     }
                 }
             } else {
@@ -250,12 +250,12 @@ public final class LegacyTextInputMethodRequest implements PlatformTextInputMeth
         if (inputMethodManager != null) {
             restartInputImmediately();
         } else {
-            i3 = 0;
-            while (i3 < this.ics.size()) {
-                min-impl = (WeakReference)this.ics.get(i3).get();
+            i2 = 0;
+            while (i2 < this.ics.size()) {
+                min-impl = (WeakReference)this.ics.get(i2).get();
                 if ((RecordingInputConnection)min-impl != 0) {
                 }
-                i3++;
+                i2++;
                 (RecordingInputConnection)min-impl.updateInputState(this.state, this.inputMethodManager);
             }
         }

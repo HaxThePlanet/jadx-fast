@@ -84,13 +84,13 @@ public final class SelectionAdjustmentKt {
     private static final androidx.compose.foundation.text.selection.Selection expandOneChar(androidx.compose.foundation.text.selection.Selection $this$expandOneChar, androidx.compose.foundation.text.selection.SelectionLayout layout) {
         int followingBreak;
         androidx.compose.foundation.text.selection.Selection $this$expandOneChar2;
-        int i3;
+        int i2;
         int changeOffset;
         androidx.compose.foundation.text.selection.Selection.AnchorInfo changeOffset2;
         int i4;
-        int i;
-        int i2;
+        int i3;
         int i5;
+        int i;
         androidx.compose.foundation.text.selection.Selection obj12;
         final androidx.compose.foundation.text.selection.SelectableInfo currentInfo = layout.getCurrentInfo();
         final String inputText = currentInfo.getInputText();
@@ -118,10 +118,10 @@ public final class SelectionAdjustmentKt {
                 }
             } else {
                 obj12 = layout.getPreviousSelection();
-                i3 = 1;
-                if (obj12 != null && obj12.getHandlesCrossed() == i3) {
-                    i3 = 1;
-                    i4 = obj12.getHandlesCrossed() == i3 ? i3 : i6;
+                i2 = 1;
+                if (obj12 != null && obj12.getHandlesCrossed() == i2) {
+                    i2 = 1;
+                    i4 = obj12.getHandlesCrossed() == i2 ? i2 : i6;
                 } else {
                 }
                 if (obj12 ^= i4 != 0) {
@@ -140,41 +140,41 @@ public final class SelectionAdjustmentKt {
     }
 
     private static final boolean isExpanding(androidx.compose.foundation.text.selection.SelectableInfo $this$isExpanding, int currentRawOffset, boolean isStart) {
-        int i;
         int i2;
+        int i;
         int rawPreviousHandleOffset;
-        i2 = 1;
+        i = 1;
         if ($this$isExpanding.getRawPreviousHandleOffset() == -1) {
-            return i2;
+            return i;
         }
         int i4 = 0;
         if (currentRawOffset == $this$isExpanding.getRawPreviousHandleOffset()) {
             return i4;
         }
-        i = $this$isExpanding.getRawCrossStatus() == CrossStatus.CROSSED ? i2 : i4;
-        if (isStart ^ i != 0) {
+        i2 = $this$isExpanding.getRawCrossStatus() == CrossStatus.CROSSED ? i : i4;
+        if (isStart ^ i2 != 0) {
             if (currentRawOffset < $this$isExpanding.getRawPreviousHandleOffset()) {
             } else {
-                i2 = i4;
+                i = i4;
             }
         } else {
             if (currentRawOffset > $this$isExpanding.getRawPreviousHandleOffset()) {
             } else {
-                i2 = i4;
+                i = i4;
             }
         }
-        return i2;
+        return i;
     }
 
     private static final androidx.compose.foundation.text.selection.Selection.AnchorInfo snapToWordBoundary(androidx.compose.foundation.text.selection.SelectableInfo $this$snapToWordBoundary, int currentLine, int currentOffset, int otherOffset, boolean isStart, boolean crossed) {
         int lineStart;
-        int i2;
-        int lineEnd$default;
         int i5;
-        int i4;
+        int lineEnd$default;
         int i3;
         int i;
+        int i4;
         int i6;
+        int i2;
         long wordBoundary--jx7JFs = $this$snapToWordBoundary.getTextLayoutResult().getWordBoundary--jx7JFs(currentOffset);
         if ($this$snapToWordBoundary.getTextLayoutResult().getLineForOffset(TextRange.getStart-impl(wordBoundary--jx7JFs)) == currentLine) {
             lineStart = TextRange.getStart-impl(wordBoundary--jx7JFs);
@@ -188,13 +188,13 @@ public final class SelectionAdjustmentKt {
         if ($this$snapToWordBoundary.getTextLayoutResult().getLineForOffset(TextRange.getEnd-impl(wordBoundary--jx7JFs)) == currentLine) {
             lineEnd$default = TextRange.getEnd-impl(wordBoundary--jx7JFs);
         } else {
-            i5 = 0;
-            i3 = 2;
-            i = 0;
+            i3 = 0;
+            i4 = 2;
+            i6 = 0;
             if (currentLine >= $this$snapToWordBoundary.getTextLayoutResult().getLineCount()) {
-                lineEnd$default = TextLayoutResult.getLineEnd$default($this$snapToWordBoundary.getTextLayoutResult(), lineCount4--, i, i3, i5);
+                lineEnd$default = TextLayoutResult.getLineEnd$default($this$snapToWordBoundary.getTextLayoutResult(), lineCount4--, i6, i4, i3);
             } else {
-                lineEnd$default = TextLayoutResult.getLineEnd$default($this$snapToWordBoundary.getTextLayoutResult(), currentLine, i, i3, i5);
+                lineEnd$default = TextLayoutResult.getLineEnd$default($this$snapToWordBoundary.getTextLayoutResult(), currentLine, i6, i4, i3);
             }
         }
         if (lineStart == otherOffset) {
@@ -205,30 +205,30 @@ public final class SelectionAdjustmentKt {
         }
         if (isStart ^ crossed != 0) {
             if (currentOffset <= lineEnd$default) {
-                i4 = lineStart;
+                i = lineStart;
             } else {
-                i4 = lineEnd$default;
+                i = lineEnd$default;
             }
         } else {
             if (currentOffset >= lineStart) {
             } else {
             }
         }
-        return $this$snapToWordBoundary.anchorForOffset(i4);
+        return $this$snapToWordBoundary.anchorForOffset(i);
     }
 
     private static final androidx.compose.foundation.text.selection.Selection.AnchorInfo updateSelectionBoundary(androidx.compose.foundation.text.selection.SelectionLayout $this$updateSelectionBoundary, androidx.compose.foundation.text.selection.SelectableInfo info, androidx.compose.foundation.text.selection.Selection.AnchorInfo previousSelectionAnchor) {
-        int rawStartHandleOffset;
-        int startSlot;
         int rawStartHandleOffset2;
+        int startSlot;
+        int rawStartHandleOffset;
         int i;
         int start-impl;
         if ($this$updateSelectionBoundary.isStartHandle()) {
-            rawStartHandleOffset = info.getRawStartHandleOffset();
+            rawStartHandleOffset2 = info.getRawStartHandleOffset();
         } else {
-            rawStartHandleOffset = info.getRawEndHandleOffset();
+            rawStartHandleOffset2 = info.getRawEndHandleOffset();
         }
-        final int i2 = rawStartHandleOffset;
+        final int i2 = rawStartHandleOffset2;
         if ($this$updateSelectionBoundary.isStartHandle()) {
             startSlot = $this$updateSelectionBoundary.getStartSlot();
         } else {
@@ -240,9 +240,9 @@ public final class SelectionAdjustmentKt {
         SelectionAdjustmentKt.updateSelectionBoundary.currentRawLine.2 anon2 = new SelectionAdjustmentKt.updateSelectionBoundary.currentRawLine.2(info, i2);
         final Lazy lazy = LazyKt.lazy(LazyThreadSafetyMode.NONE, (Function0)anon2);
         if ($this$updateSelectionBoundary.isStartHandle()) {
-            i = rawStartHandleOffset2;
+            i = rawStartHandleOffset;
         } else {
-            i = rawStartHandleOffset2;
+            i = rawStartHandleOffset;
         }
         final androidx.compose.foundation.text.selection.SelectionLayout selectionLayout = $this$updateSelectionBoundary;
         androidx.compose.foundation.text.selection.SelectableInfo selectableInfo = info;

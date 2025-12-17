@@ -34,9 +34,9 @@ public final class MutableLongList extends androidx.collection.LongList {
     @Override // androidx.collection.LongList
     public final void add(int index, long element) {
         int i;
-        int _size3;
-        int _size2;
         int _size;
+        int _size2;
+        int _size3;
         i = 0;
         int i3 = 1;
         if (index >= 0 && index <= this._size) {
@@ -70,10 +70,10 @@ public final class MutableLongList extends androidx.collection.LongList {
 
     @Override // androidx.collection.LongList
     public final boolean addAll(int index, androidx.collection.LongList elements) {
-        int _size2;
+        int _size;
         int i;
         int _size3;
-        int _size;
+        int _size2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         int i2 = 1;
         int i3 = 0;
@@ -272,22 +272,22 @@ public final class MutableLongList extends androidx.collection.LongList {
 
     @Override // androidx.collection.LongList
     public final long removeAt(int index) {
-        int i2;
         int i;
-        int _size;
-        Object _size2;
-        i2 = 0;
-        i = 1;
+        int i2;
+        int _size2;
+        Object _size;
+        i = 0;
+        i2 = 1;
         if (index >= 0 && index < this._size) {
             if (index < this._size) {
-                i2 = i;
+                i = i2;
             }
         }
-        if (i2 == 0) {
+        if (i == 0) {
         } else {
             long[] content2 = this.content;
             int i6 = 0;
-            if (index != _size5 -= i) {
+            if (index != _size5 -= i2) {
                 ArraysKt.copyInto(content2, content2, index, index + 1, this._size);
             }
             this._size = _size3--;
@@ -295,7 +295,7 @@ public final class MutableLongList extends androidx.collection.LongList {
         }
         StringBuilder stringBuilder = new StringBuilder();
         int i4 = 0;
-        IndexOutOfBoundsException content = new IndexOutOfBoundsException(stringBuilder.append("Index ").append(index).append(" must be in 0..").append(_size4 -= i).toString());
+        IndexOutOfBoundsException content = new IndexOutOfBoundsException(stringBuilder.append("Index ").append(index).append(" must be in 0..").append(_size4 -= i2).toString());
         throw content;
     }
 
@@ -366,9 +366,9 @@ public final class MutableLongList extends androidx.collection.LongList {
     @Override // androidx.collection.LongList
     public final boolean retainAll(long[] elements) {
         Object obj2;
-        int i3;
         int i2;
         int i;
+        int i3;
         long l;
         Object obj;
         int i4;
@@ -379,11 +379,11 @@ public final class MutableLongList extends androidx.collection.LongList {
         int cmp;
         final Object obj3 = this;
         Intrinsics.checkNotNullParameter(elements, "elements");
-        i3 = 0;
-        i = 1;
-        _size3 -= i;
+        i2 = 0;
+        i3 = 1;
+        _size3 -= i3;
         obj2 = null;
-        while (-1 < i2) {
+        while (-1 < i) {
             obj = elements;
             i4 = 0;
             index$iv = 0;
@@ -394,13 +394,13 @@ public final class MutableLongList extends androidx.collection.LongList {
                 }
                 it = obj2;
                 index$iv++;
-                it = i;
+                it = i3;
             }
-            if (i3 < 0) {
+            if (i2 < 0) {
             }
-            i2--;
+            i--;
             obj2 = null;
-            obj3.removeAt(i2);
+            obj3.removeAt(i);
             i5 = 0;
             if (Long.compare(l2, l) == 0) {
             } else {
@@ -410,14 +410,14 @@ public final class MutableLongList extends androidx.collection.LongList {
             } else {
             }
             index$iv++;
-            i3 = index$iv;
-            it = i;
+            i2 = index$iv;
+            it = i3;
         }
         if (obj3._size != obj3._size) {
         } else {
-            i = obj2;
+            i3 = obj2;
         }
-        return i;
+        return i3;
     }
 
     @Override // androidx.collection.LongList

@@ -205,72 +205,72 @@ public final class Arrangement {
 
         @Override // androidx.compose.foundation.layout.Arrangement$HorizontalOrVertical
         public void arrange(Density $this$arrange, int totalSize, int[] sizes, LayoutDirection layoutDirection, int[] outPositions) {
-            int i10;
-            Function2 intValue;
             int i5;
-            int i8;
+            Function2 intValue;
+            int i7;
+            int i10;
             int index;
             int length;
             int occupied;
-            int lastSpace;
             int lastSpace2;
-            int i7;
+            int lastSpace;
+            int i8;
             boolean rtlMirror;
-            int i4;
-            int i9;
-            int i$iv;
             int i;
-            int i2;
             int i11;
-            int i6;
+            int i$iv;
+            int i9;
             int i3;
+            int i4;
+            int i2;
+            int i6;
             final Object obj = this;
             final int i12 = totalSize;
             final LayoutDirection layoutDirection2 = layoutDirection;
             final int[] iArr = outPositions;
             length = 1;
-            i5 = i10.length == 0 ? length : 0;
-            if (i5 != 0) {
+            i7 = i5.length == 0 ? length : 0;
+            if (i7 != 0) {
             }
             int roundToPx-0680j_4 = $this$arrange.roundToPx-0680j_4(obj.space);
             if (obj.rtlMirror && layoutDirection2 == LayoutDirection.Rtl) {
-                i7 = layoutDirection2 == LayoutDirection.Rtl ? length : 0;
+                i8 = layoutDirection2 == LayoutDirection.Rtl ? length : 0;
             } else {
             }
             final androidx.compose.foundation.layout.Arrangement iNSTANCE = Arrangement.INSTANCE;
             final int i28 = sizes;
             final int i29 = 0;
-            if (i7 == 0) {
+            if (i8 == 0) {
                 length = i28;
-                i4 = 0;
-                i = i31;
-                i$iv = lastSpace;
-                lastSpace2 = occupied;
+                i = 0;
+                i9 = i31;
+                i$iv = lastSpace2;
+                lastSpace = occupied;
                 occupied = 0;
                 while (occupied < length.length) {
-                    i6 = i2;
-                    i3 = 0;
-                    iArr[i] = Math.min(lastSpace2, i12 - i6);
-                    lastSpace2 = i25 + i$iv;
+                    i2 = i3;
+                    i6 = 0;
+                    iArr[i9] = Math.min(lastSpace, i12 - i2);
+                    lastSpace = i25 + i$iv;
                     occupied++;
-                    i10 = sizes;
-                    i = i11;
+                    i5 = sizes;
+                    i9 = i4;
                 }
             } else {
                 length2 -= length;
-                while (-1 < i10) {
-                    i8 = i28[i10];
-                    length = i10;
-                    i4 = 0;
-                    iArr[length] = Math.min(occupied, i12 - i8);
-                    occupied = i18 + lastSpace;
-                    i10 = i9 + -1;
+                while (-1 < i5) {
+                    i10 = i28[i5];
+                    length = i5;
+                    i = 0;
+                    iArr[length] = Math.min(occupied, i12 - i10);
+                    occupied = i18 + lastSpace2;
+                    i5 = i11 + -1;
                 }
-                int i30 = i10;
-                i$iv = lastSpace;
-                lastSpace2 = occupied;
+                int i30 = i5;
+                i$iv = lastSpace2;
+                lastSpace = occupied;
             }
-            lastSpace2 -= i$iv;
+            lastSpace -= i$iv;
             if (obj.alignment != null && occupied2 < i12) {
                 if (occupied2 < i12) {
                     index = 0;
@@ -389,31 +389,31 @@ public final class Arrangement {
     }
 
     private final void forEachIndexed(int[] $this$forEachIndexed, boolean reversed, Function2<? super Integer, ? super Integer, Unit> action) {
-        int i2;
+        int i;
         Integer valueOf3;
-        int i5;
+        int i3;
         Integer valueOf;
         int length;
         int i4;
-        int i;
-        int i3;
+        int i5;
+        int i2;
         Integer valueOf2;
         final int i6 = 0;
         if (!reversed) {
-            i2 = $this$forEachIndexed;
-            i5 = 0;
+            i = $this$forEachIndexed;
+            i3 = 0;
             valueOf = 0;
             i4 = 0;
-            while (i4 < i2.length) {
-                action.invoke(Integer.valueOf(valueOf), Integer.valueOf(i2[i4]));
+            while (i4 < i.length) {
+                action.invoke(Integer.valueOf(valueOf), Integer.valueOf(i[i4]));
                 i4++;
-                valueOf = i3;
+                valueOf = i2;
             }
         } else {
             length2--;
-            while (-1 < i2) {
-                action.invoke(Integer.valueOf(i2), Integer.valueOf($this$forEachIndexed[i2]));
-                i2--;
+            while (-1 < i) {
+                action.invoke(Integer.valueOf(i), Integer.valueOf($this$forEachIndexed[i]));
+                i--;
             }
         }
     }
@@ -492,25 +492,25 @@ public final class Arrangement {
         int current;
         int accumulator$iv;
         int i$iv;
-        int i6;
-        int i4;
-        int i7;
+        int i2;
+        int i;
+        int i8;
         int a;
         int length;
+        int i7;
         int i3;
-        int i;
+        int i4;
         int i5;
-        int i8;
         float f;
-        int i2;
+        int i6;
         int[] iArr = size;
         int i12 = 0;
         accumulator$iv = i9;
-        i6 = i$iv;
-        while (i6 < iArr.length) {
-            i3 = 0;
+        i2 = i$iv;
+        while (i2 < iArr.length) {
+            i7 = 0;
             accumulator$iv = a;
-            i6++;
+            i2++;
         }
         int i10 = 0;
         f2 /= f3;
@@ -518,22 +518,22 @@ public final class Arrangement {
         Object obj = this;
         int i14 = 0;
         if (!reverseInput) {
-            i4 = current2;
-            i7 = 0;
+            i = current2;
+            i8 = 0;
             a = 0;
-            while (i$iv < i4.length) {
-                i8 = 0;
-                i2 = 0;
+            while (i$iv < i.length) {
+                i5 = 0;
+                i6 = 0;
                 outPosition[a] = Math.round(current);
                 current += f;
                 i$iv++;
-                a = i;
+                a = i3;
             }
         } else {
             length3--;
             while (-1 < i$iv) {
                 a = 0;
-                i3 = 0;
+                i7 = 0;
                 outPosition[i$iv] = Math.round(current);
                 current += length;
                 i$iv--;
@@ -544,37 +544,37 @@ public final class Arrangement {
     public final void placeLeftOrTop$foundation_layout_release(int[] size, int[] outPosition, boolean reverseInput) {
         int current;
         int i$iv;
-        int i7;
-        int i;
         int i5;
-        int length;
+        int i7;
         int i6;
+        int length;
+        int i8;
         int i2;
         int i3;
+        int i;
         int i4;
-        int i8;
         current = 0;
         final int i9 = size;
         final Object obj = this;
         final int i10 = 0;
         if (!reverseInput) {
             i$iv = i9;
-            i = 0;
-            i5 = 0;
+            i7 = 0;
             i6 = 0;
-            while (i6 < i$iv.length) {
-                i8 = 0;
-                outPosition[i5] = current;
-                current += i4;
-                i6++;
-                i5 = i3;
+            i8 = 0;
+            while (i8 < i$iv.length) {
+                i4 = 0;
+                outPosition[i6] = current;
+                current += i;
+                i8++;
+                i6 = i3;
             }
         } else {
             length2--;
             while (-1 < i$iv) {
                 length = 0;
                 outPosition[i$iv] = current;
-                current += i7;
+                current += i5;
                 i$iv--;
             }
         }
@@ -584,23 +584,23 @@ public final class Arrangement {
         int current;
         int accumulator$iv;
         int i$iv;
-        int i3;
-        int i;
+        int i2;
         int i4;
+        int i6;
         int a;
         int length;
-        int i7;
-        int i6;
-        int i2;
         int i5;
+        int i3;
+        int i7;
+        int i;
         int[] iArr = size;
         int i10 = 0;
         accumulator$iv = i8;
-        i3 = i$iv;
-        while (i3 < iArr.length) {
-            i7 = 0;
+        i2 = i$iv;
+        while (i2 < iArr.length) {
+            i5 = 0;
             accumulator$iv = a;
-            i3++;
+            i2++;
         }
         int i9 = 0;
         current = totalSize - accumulator$iv;
@@ -608,22 +608,22 @@ public final class Arrangement {
         Object obj = this;
         int i11 = 0;
         if (!reverseInput) {
-            i = iArr2;
-            i4 = 0;
+            i4 = iArr2;
+            i6 = 0;
             a = 0;
-            while (i$iv < i.length) {
-                i5 = 0;
+            while (i$iv < i4.length) {
+                i = 0;
                 outPosition[a] = current;
-                current += i2;
+                current += i7;
                 i$iv++;
-                a = i6;
+                a = i3;
             }
         } else {
             length3--;
             while (-1 < i$iv) {
                 a = 0;
                 outPosition[i$iv] = current;
-                current += i3;
+                current += i2;
                 i$iv--;
             }
         }
@@ -631,68 +631,68 @@ public final class Arrangement {
 
     public final void placeSpaceAround$foundation_layout_release(int totalSize, int[] size, int[] outPosition, boolean reverseInput) {
         int i$iv;
-        int i8;
         int i6;
-        int i12;
-        int i2;
+        int i3;
+        int i;
+        int i11;
         float i13;
         int current;
         int accumulator$iv;
-        int i3;
-        int i11;
-        int i9;
-        int a;
-        int i10;
-        int length;
-        int i14;
-        int i7;
-        int i;
         int i4;
-        int $this$fastRoundToInt$iv;
+        int i7;
+        int i14;
+        int a;
+        int i2;
+        int length;
+        int i12;
+        int i8;
         int i5;
+        int i9;
+        int $this$fastRoundToInt$iv;
+        int i10;
         i$iv = size;
         int[] iArr = size;
         i13 = 0;
         accumulator$iv = i16;
-        i3 = 0;
-        i11 = i3;
-        while (i11 < iArr.length) {
+        i4 = 0;
+        i7 = i4;
+        while (i7 < iArr.length) {
             length = 0;
             accumulator$iv = a;
-            i11++;
+            i7++;
         }
-        i12 = 1;
-        i8 = i$iv.length == 0 ? i12 : i3;
-        if (i8 == 0) {
+        i = 1;
+        i6 = i$iv.length == 0 ? i : i4;
+        if (i6 == 0) {
             f2 /= i13;
         } else {
-            i6 = 0;
+            i3 = 0;
         }
         int i18 = 0;
-        current = i6 / f3;
+        current = i3 / f3;
         int[] iArr2 = size;
         Object obj = this;
         int i20 = 0;
         if (!reverseInput) {
-            i2 = iArr2;
+            i11 = iArr2;
             a = 0;
-            i10 = 0;
-            while (i3 < i2.length) {
-                i4 = 0;
-                i5 = 0;
-                outPosition[i10] = Math.round(current);
+            i2 = 0;
+            while (i4 < i11.length) {
+                i9 = 0;
+                i10 = 0;
+                outPosition[i2] = Math.round(current);
                 current += i15;
-                i3++;
+                i4++;
                 i$iv = size;
-                i10 = i7;
+                i2 = i8;
             }
         } else {
-            length2 -= i12;
+            length2 -= i;
             while (-1 < i$iv) {
                 a = 0;
                 length = 0;
                 outPosition[i$iv] = Math.round(current);
-                current += i10;
+                current += i2;
                 i$iv--;
             }
         }
@@ -701,41 +701,41 @@ public final class Arrangement {
     public final void placeSpaceBetween$foundation_layout_release(int totalSize, int[] size, int[] outPosition, boolean reverseInput) {
         int[] i$iv;
         int i4;
-        int i2;
-        int i5;
+        int i;
+        int i6;
         int current;
         int accumulator$iv;
         int length2;
-        int i6;
-        int i7;
-        int a;
-        int i;
-        int length;
-        int i8;
-        int i9;
+        int i5;
         int i10;
+        int a;
+        int i7;
+        int length;
+        int i11;
+        int i2;
+        int i9;
         int i3;
         int $this$fastRoundToInt$iv;
-        int i11;
+        int i8;
         i$iv = size;
-        i2 = 0;
-        i5 = 1;
-        i4 = i$iv.length == 0 ? i5 : i2;
+        i = 0;
+        i6 = 1;
+        i4 = i$iv.length == 0 ? i6 : i;
         if (i4 != 0) {
         }
         int[] iArr = size;
         int i17 = 0;
         accumulator$iv = i13;
-        i6 = i2;
-        while (i6 < iArr.length) {
+        i5 = i;
+        while (i5 < iArr.length) {
             length = 0;
             accumulator$iv = a;
-            i6++;
+            i5++;
         }
         f2 /= f3;
         current = 0;
-        if (reverseInput && i$iv.length == i5) {
-            if (i$iv.length == i5) {
+        if (reverseInput && i$iv.length == i6) {
+            if (i$iv.length == i6) {
                 current = i16;
             }
         }
@@ -743,25 +743,25 @@ public final class Arrangement {
         Object obj = this;
         int i18 = 0;
         if (!reverseInput) {
-            i5 = iArr2;
+            i6 = iArr2;
             a = 0;
-            i = 0;
-            while (i2 < i5.length) {
+            i7 = 0;
+            while (i < i6.length) {
                 i3 = 0;
-                i11 = 0;
-                outPosition[i] = Math.round(current);
+                i8 = 0;
+                outPosition[i7] = Math.round(current);
                 current += i12;
-                i2++;
+                i++;
                 i$iv = size;
-                i = i9;
+                i7 = i2;
             }
         } else {
-            length3 -= i5;
+            length3 -= i6;
             while (-1 < i$iv) {
                 a = 0;
                 length = 0;
                 outPosition[i$iv] = Math.round(current);
-                current += i;
+                current += i7;
                 i$iv--;
             }
         }
@@ -772,27 +772,27 @@ public final class Arrangement {
         int current;
         int accumulator$iv;
         int i6;
+        int i10;
+        int i2;
+        int a;
         int i4;
         int i9;
-        int a;
-        int i;
-        int i5;
         int length;
-        int i2;
-        int i10;
-        int i3;
-        int i11;
-        int gapSize;
-        int i8;
         int i7;
+        int i;
+        int i8;
+        int i3;
+        int gapSize;
+        int i5;
+        int i11;
         int[] iArr = size;
         int i15 = 0;
         accumulator$iv = i12;
-        i4 = i6;
-        while (i4 < iArr.length) {
-            i5 = 0;
+        i10 = i6;
+        while (i10 < iArr.length) {
+            i9 = 0;
             accumulator$iv = a;
-            i4++;
+            i10++;
         }
         f /= f2;
         int i17 = 0;
@@ -802,26 +802,26 @@ public final class Arrangement {
         int i18 = 0;
         if (!reverseInput) {
             a = iArr3;
-            i = 0;
-            i5 = 0;
+            i4 = 0;
+            i9 = 0;
             while (i6 < a.length) {
+                i3 = 0;
                 i11 = 0;
-                i7 = 0;
-                outPosition[i5] = Math.round(current);
-                i8 = i$iv;
+                outPosition[i9] = Math.round(current);
+                i5 = i$iv;
                 current += i14;
                 i6++;
-                i5 = i10;
-                i$iv = i8;
+                i9 = i;
+                i$iv = i5;
             }
             gapSize = i$iv;
         } else {
             gapSize2--;
             while (-1 < i$iv) {
-                i = 0;
+                i4 = 0;
                 length = 0;
                 outPosition[i$iv] = Math.round(current);
-                current += i5;
+                current += i9;
                 i$iv--;
             }
         }

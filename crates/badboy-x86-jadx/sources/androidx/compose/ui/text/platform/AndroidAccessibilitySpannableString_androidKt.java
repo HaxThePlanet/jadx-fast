@@ -45,11 +45,11 @@ public final class AndroidAccessibilitySpannableString_androidKt {
         Object styleSpan;
         int androidTypefaceStyle-FO1MlWM;
         androidx.compose.ui.text.font.FontFamily fontFamily;
+        int i;
+        int i5;
         int i4;
         int i2;
         int i3;
-        int i;
-        int i5;
         final int i8 = end;
         SpannableExtensions_androidKt.setColor-RPmYEkk((Spannable)$this$setSpanStyle, spanStyle.getColor-0d7_KjU(), obj2, start);
         SpannableExtensions_androidKt.setFontSize-KmRG4DE((Spannable)$this$setSpanStyle, spanStyle.getFontSize-XSAIIZE(), obj2, density, start);
@@ -110,34 +110,34 @@ public final class AndroidAccessibilitySpannableString_androidKt {
         int index$iv3;
         int component2;
         int index$iv2;
-        int index$iv;
+        int index$iv4;
         int component3;
-        int size;
+        int size2;
         Density density2;
         FontFamily.Resolver resolver;
-        int size2;
-        int index$iv4;
+        int size;
+        int index$iv;
         Object clickableSpan;
         boolean linkInteractionListener;
         int start;
         Object uRLSpan;
-        int i15;
-        int i2;
-        int i7;
-        int i3;
-        int i9;
-        int i6;
+        int i5;
         int i12;
-        int i8;
-        int i16;
+        int i9;
         int i14;
         int i;
+        int i7;
+        int i15;
+        int i18;
+        int i17;
+        int i2;
+        int i3;
+        int i6;
+        int i8;
+        int i4;
+        int i16;
         int i10;
         int i13;
-        int i17;
-        int i5;
-        int i4;
-        int i18;
         int i11;
         final Object obj = $this$toAccessibilitySpannableString;
         final Object obj2 = urlSpanCache;
@@ -146,12 +146,12 @@ public final class AndroidAccessibilitySpannableString_androidKt {
         List spanStylesOrNull$ui_text_release = obj.getSpanStylesOrNull$ui_text_release();
         if (spanStylesOrNull$ui_text_release != null) {
             text = 0;
-            index$iv4 = copy-GSF8kmg$default;
-            while (index$iv4 < spanStylesOrNull$ui_text_release.size()) {
+            index$iv = copy-GSF8kmg$default;
+            while (index$iv < spanStylesOrNull$ui_text_release.size()) {
                 Object obj3 = clickableSpan;
                 start = 0;
                 AndroidAccessibilitySpannableString_androidKt.setSpanStyle(str, SpanStyle.copy-GSF8kmg$default((SpanStyle)(AnnotatedString.Range)obj3.component1(), 0, obj16, 0, obj18, 0, 0, 0, 0, 0, 0, obj25, 0, 0, 0, 0, obj30, 0, 0), obj3.component2(), obj3.component3(), density, fontFamilyResolver);
-                index$iv4++;
+                index$iv++;
             }
         }
         int i19 = 0;
@@ -161,33 +161,33 @@ public final class AndroidAccessibilitySpannableString_androidKt {
         density2 = 33;
         while (index$iv2 < ttsAnnotations.size()) {
             Object obj4 = resolver;
-            index$iv4 = 0;
+            index$iv = 0;
             str.setSpan(TtsAnnotationExtensions_androidKt.toSpan((TtsAnnotation)(AnnotatedString.Range)obj4.component1()), obj4.component2(), obj4.component3(), density2);
             index$iv2++;
             density2 = 33;
         }
         List urlAnnotations = obj.getUrlAnnotations(i19, obj.length());
         int i22 = 0;
-        index$iv = 0;
-        while (index$iv < urlAnnotations.size()) {
+        index$iv4 = 0;
+        while (index$iv4 < urlAnnotations.size()) {
             Object obj5 = resolver;
-            index$iv4 = 0;
+            index$iv = 0;
             str.setSpan(obj2.toURLSpan((UrlAnnotation)(AnnotatedString.Range)obj5.component1()), obj5.component2(), obj5.component3(), density2);
-            index$iv++;
+            index$iv4++;
         }
         List linkAnnotations = obj.getLinkAnnotations(i19, obj.length());
         int i20 = 0;
         index$iv3 = 0;
         while (index$iv3 < linkAnnotations.size()) {
-            resolver = size;
-            size2 = 0;
-            index$iv4 = (AnnotatedString.Range)resolver.getItem();
-            if (index$iv4 instanceof LinkAnnotation.Url && (LinkAnnotation)index$iv4.getLinkInteractionListener() == null) {
+            resolver = size2;
+            size = 0;
+            index$iv = (AnnotatedString.Range)resolver.getItem();
+            if (index$iv instanceof LinkAnnotation.Url && (LinkAnnotation)index$iv.getLinkInteractionListener() == null) {
             } else {
             }
             str.setSpan(obj2.toClickableSpan(resolver), resolver.getStart(), resolver.getEnd(), density2);
             index$iv3++;
-            if (index$iv4.getLinkInteractionListener() == null) {
+            if (index$iv.getLinkInteractionListener() == null) {
             } else {
             }
             str.setSpan(obj2.toURLSpan(AndroidAccessibilitySpannableString_androidKt.toUrlLink(resolver)), resolver.getStart(), resolver.getEnd(), density2);

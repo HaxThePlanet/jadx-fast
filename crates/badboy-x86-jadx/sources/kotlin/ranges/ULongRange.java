@@ -121,15 +121,15 @@ public final class ULongRange extends kotlin.ranges.ULongProgression implements 
     public int hashCode() {
         int i2;
         long l;
-        long constructor-impl2;
         long constructor-impl;
+        long constructor-impl2;
         int i;
         long last-s-VKNKU;
         if (isEmpty()) {
             i2 = -1;
         } else {
             i = 32;
-            constructor-impl2 = ULong.constructor-impl(first-s-VKNKU2 >>>= i);
+            constructor-impl = ULong.constructor-impl(first-s-VKNKU2 >>>= i);
             i5 += l;
         }
         return i2;

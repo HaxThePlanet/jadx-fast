@@ -86,9 +86,9 @@ public final class ClassReference implements KClass<Object>, kotlin.jvm.internal
             int substringAfter$default;
             Object method;
             int str;
-            String string2;
-            int i;
             String string;
+            int i;
+            String string2;
             String name;
             Intrinsics.checkNotNullParameter(jClass, "jClass");
             substringAfter$default = 0;
@@ -98,22 +98,22 @@ public final class ClassReference implements KClass<Object>, kotlin.jvm.internal
                     anonymousClass = jClass.getSimpleName();
                     method = jClass.getEnclosingMethod();
                     str = 2;
-                    string2 = 36;
+                    string = 36;
                     if (method != null) {
                         i = 0;
                         Intrinsics.checkNotNull(anonymousClass);
                         StringBuilder stringBuilder2 = new StringBuilder();
-                        method = StringsKt.substringAfter$default(anonymousClass, stringBuilder2.append(method.getName()).append(string2).toString(), substringAfter$default, str, substringAfter$default);
+                        method = StringsKt.substringAfter$default(anonymousClass, stringBuilder2.append(method.getName()).append(string).toString(), substringAfter$default, str, substringAfter$default);
                         if (method == null) {
                             method = jClass.getEnclosingConstructor();
                             if (method != null) {
                                 i = 0;
                                 Intrinsics.checkNotNull(anonymousClass);
                                 StringBuilder stringBuilder3 = new StringBuilder();
-                                substringAfter$default = StringsKt.substringAfter$default(anonymousClass, stringBuilder3.append(method.getName()).append(string2).toString(), substringAfter$default, str, substringAfter$default);
+                                substringAfter$default = StringsKt.substringAfter$default(anonymousClass, stringBuilder3.append(method.getName()).append(string).toString(), substringAfter$default, str, substringAfter$default);
                             } else {
                                 Intrinsics.checkNotNull(anonymousClass);
-                                substringAfter$default = StringsKt.substringAfter$default(anonymousClass, string2, substringAfter$default, str, substringAfter$default);
+                                substringAfter$default = StringsKt.substringAfter$default(anonymousClass, string, substringAfter$default, str, substringAfter$default);
                             }
                         } else {
                             substringAfter$default = method;
@@ -165,17 +165,17 @@ public final class ClassReference implements KClass<Object>, kotlin.jvm.internal
     }
     static {
         int intValue;
-        int i2;
+        int i3;
         Iterator iterator;
-        String next;
-        boolean next3;
-        Object next2;
+        String next3;
+        boolean next2;
+        Object next;
         String second;
-        int i;
+        int i2;
         String string;
         Object obj;
         String first;
-        int i3;
+        int i;
         String it$iv$iv;
         Integer valueOf;
         String fqName;
@@ -212,14 +212,14 @@ public final class ClassReference implements KClass<Object>, kotlin.jvm.internal
         ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)listOf, i18));
         ArrayList list = arrayList;
         int i34 = 0;
-        i2 = 0;
+        i3 = 0;
         Iterator iterator3 = listOf.iterator();
         while (iterator3.hasNext()) {
-            if (i2 < 0) {
+            if (i3 < 0) {
             }
-            i3 = 0;
-            (Collection)list.add(TuplesKt.to((Class)iterator3.next(), Integer.valueOf(i2)));
-            i2 = i;
+            i = 0;
+            (Collection)list.add(TuplesKt.to((Class)iterator3.next(), Integer.valueOf(i3)));
+            i3 = i2;
             CollectionsKt.throwIndexOverflow();
         }
         ClassReference.FUNCTION_CLASSES = MapsKt.toMap((Iterable)(List)list);
@@ -230,8 +230,8 @@ public final class ClassReference implements KClass<Object>, kotlin.jvm.internal
         map2.put("boolean", str37);
         String str58 = "kotlin.Char";
         map2.put("char", str58);
-        next = "kotlin.Byte";
-        map2.put("byte", next);
+        next3 = "kotlin.Byte";
+        map2.put("byte", next3);
         second = "kotlin.Short";
         map2.put("short", second);
         string = "kotlin.Int";
@@ -248,7 +248,7 @@ public final class ClassReference implements KClass<Object>, kotlin.jvm.internal
         int i20 = 0;
         map3.put("java.lang.Boolean", str37);
         map3.put("java.lang.Character", str58);
-        map3.put("java.lang.Byte", next);
+        map3.put("java.lang.Byte", next3);
         map3.put("java.lang.Short", second);
         map3.put("java.lang.Integer", string);
         map3.put("java.lang.Float", first);
@@ -284,8 +284,8 @@ public final class ClassReference implements KClass<Object>, kotlin.jvm.internal
         intValue = 0;
         iterator = (Iterable)values.iterator();
         int i38 = 46;
-        for (Object next : iterator) {
-            String str59 = next;
+        for (Object next3 : iterator) {
+            String str59 = next3;
             it$iv$iv = null;
             StringBuilder stringBuilder2 = new StringBuilder();
             Intrinsics.checkNotNull((String)str59);

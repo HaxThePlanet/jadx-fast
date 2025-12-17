@@ -74,28 +74,28 @@ final class MutableScatterMultiMap<K, V>  {
     }
 
     public static final void put-impl(MutableScatterMap<K, Object> arg0, K key, V value) {
-        int i;
         int i2;
+        int i;
         int values;
         Object[] values2;
         Object mutableListOf;
         final Object obj = arg0;
         final int i3 = 0;
         final int insertIndex = obj.findInsertIndex(key);
-        i = insertIndex < 0 ? 1 : 0;
-        i2 = i != 0 ? 0 : values3[insertIndex];
+        i2 = insertIndex < 0 ? 1 : 0;
+        i = i2 != 0 ? 0 : values3[insertIndex];
         values2 = 0;
-        if (i2 == 0) {
+        if (i == 0) {
             mutableListOf = value;
         } else {
-            if (TypeIntrinsics.isMutableList(i2)) {
-                Intrinsics.checkNotNull(i2, "null cannot be cast to non-null type kotlin.collections.MutableList<V of androidx.compose.runtime.MutableScatterMultiMap.put_impl$lambda$0>");
-                TypeIntrinsics.asMutableList(i2).add(value);
+            if (TypeIntrinsics.isMutableList(i)) {
+                Intrinsics.checkNotNull(i, "null cannot be cast to non-null type kotlin.collections.MutableList<V of androidx.compose.runtime.MutableScatterMultiMap.put_impl$lambda$0>");
+                TypeIntrinsics.asMutableList(i).add(value);
             } else {
                 mutableListOf = CollectionsKt.mutableListOf(/* result */);
             }
         }
-        if (i != 0) {
+        if (i2 != 0) {
             values = ~insertIndex;
             obj.keys[values] = key;
             obj.values[values] = mutableListOf;

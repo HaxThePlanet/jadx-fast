@@ -98,36 +98,36 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     }
 
     public static final boolean contains(java.lang.CharSequence $this$contains, java.lang.CharSequence other, boolean ignoreCase) {
-        int i2;
+        int i3;
         Object $this$contains2;
         Object obj;
-        int i5;
-        boolean z;
         int i4;
-        int i3;
-        int i6;
+        boolean z;
         int i;
+        int i5;
+        int i2;
+        int i6;
         int obj11;
         Intrinsics.checkNotNullParameter($this$contains, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
-        i2 = 1;
+        i3 = 1;
         final int i7 = 0;
         if (other instanceof String != null) {
             obj = other;
             if (StringsKt.indexOf$default($this$contains, (String)other, 0, ignoreCase, 2, 0) >= 0) {
             } else {
-                i2 = i7;
+                i3 = i7;
             }
         } else {
             $this$contains2 = $this$contains;
-            i4 = z3;
-            z = i4;
-            if (StringsKt__StringsKt.indexOf$StringsKt__StringsKt$default($this$contains2, other, 0, $this$contains2.length(), i4, false, 16, 0) >= 0) {
+            i = z3;
+            z = i;
+            if (StringsKt__StringsKt.indexOf$StringsKt__StringsKt$default($this$contains2, other, 0, $this$contains2.length(), i, false, 16, 0) >= 0) {
             } else {
-                i2 = i7;
+                i3 = i7;
             }
         }
-        return i2;
+        return i3;
     }
 
     private static final boolean contains(java.lang.CharSequence $this$contains, kotlin.text.Regex regex) {
@@ -155,8 +155,8 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     public static final boolean contentEqualsIgnoreCaseImpl(java.lang.CharSequence $this$contentEqualsIgnoreCaseImpl, java.lang.CharSequence other) {
         boolean z;
         int i;
-        int length2;
         int length;
+        int length2;
         boolean equals;
         char charAt;
         final int i3 = 1;
@@ -271,21 +271,21 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
         int $this$firstOrNull$iv;
         IntProgression intRange;
         int valueOf;
-        int index;
+        int index2;
         int lastIndexOf$default;
         int length;
-        boolean iterator;
-        int i3;
+        boolean iterator2;
+        int i;
         int i4;
         int it;
         int step;
         Object obj;
-        int index2;
-        Iterator iterator2;
-        Object element$iv2;
+        int index;
+        Iterator iterator;
         Object element$iv;
-        int i;
-        i3 = 0;
+        Object element$iv2;
+        int i3;
+        i = 0;
         if (!ignoreCase && strings.size() == 1) {
             if (strings.size() == 1) {
                 Object obj3 = single;
@@ -303,9 +303,9 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
                 }
                 if (lastIndexOf$default < 0) {
                 } else {
-                    i3 = TuplesKt.to(Integer.valueOf(lastIndexOf$default), obj3);
+                    i = TuplesKt.to(Integer.valueOf(lastIndexOf$default), obj3);
                 }
-                return i3;
+                return i;
             }
         }
         regionMatchesImpl = $this$findAnyOf;
@@ -320,31 +320,31 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
         if (regionMatchesImpl instanceof String != null) {
             $this$firstOrNull$iv = intProgression.getFirst();
             intRange = intProgression.getLast();
-            index = intProgression.getStep();
-            if (index > 0) {
+            index2 = intProgression.getStep();
+            if (index2 > 0) {
                 if ($this$firstOrNull$iv > intRange) {
-                    if (index < 0 && intRange <= $this$firstOrNull$iv) {
+                    if (index2 < 0 && intRange <= $this$firstOrNull$iv) {
                         if (intRange <= $this$firstOrNull$iv) {
-                            index2 = $this$firstOrNull$iv;
+                            index = $this$firstOrNull$iv;
                             while (/* condition */) {
-                                for (Object element$iv : iterator) {
-                                    Object obj4 = element$iv;
-                                    i = 0;
+                                for (Object element$iv2 : iterator2) {
+                                    Object obj4 = element$iv2;
+                                    i3 = 0;
                                 }
-                                element$iv = i3;
-                                $this$firstOrNull$iv = element$iv;
-                                if (index2 != intRange) {
+                                element$iv2 = i;
+                                $this$firstOrNull$iv = element$iv2;
+                                if (index != intRange) {
                                 }
-                                index2 += index;
+                                index += index2;
                                 length = 0;
-                                iterator = (Iterable)strings.iterator();
-                                obj4 = element$iv;
-                                i = 0;
-                                if (StringsKt.regionMatches(obj4, 0, (String)regionMatchesImpl, index2, (String)obj4.length(), ignoreCase)) {
+                                iterator2 = (Iterable)strings.iterator();
+                                obj4 = element$iv2;
+                                i3 = 0;
+                                if (StringsKt.regionMatches(obj4, 0, (String)regionMatchesImpl, index, (String)obj4.length(), ignoreCase)) {
                                 } else {
                                 }
                             }
-                            return TuplesKt.to(Integer.valueOf(index2), (String)$this$firstOrNull$iv);
+                            return TuplesKt.to(Integer.valueOf(index), (String)$this$firstOrNull$iv);
                         }
                     }
                 } else {
@@ -359,29 +359,29 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
                 if ($this$firstOrNull$iv > it) {
                     if (step < 0 && it <= $this$firstOrNull$iv) {
                         if (it <= $this$firstOrNull$iv) {
-                            index = $this$firstOrNull$iv;
+                            index2 = $this$firstOrNull$iv;
                             while (/* condition */) {
-                                for (Object element$iv2 : iterator2) {
-                                    element$iv = element$iv2;
-                                    i = 0;
+                                for (Object element$iv : iterator) {
+                                    element$iv2 = element$iv;
+                                    i3 = 0;
                                     regionMatchesImpl = $this$findAnyOf;
                                 }
-                                element$iv2 = i3;
-                                regionMatchesImpl = element$iv2;
-                                if (index != it) {
+                                element$iv = i;
+                                regionMatchesImpl = element$iv;
+                                if (index2 != it) {
                                 }
-                                index += step;
+                                index2 += step;
                                 regionMatchesImpl = $this$findAnyOf;
-                                index2 = 0;
-                                iterator2 = (Iterable)strings.iterator();
-                                element$iv = element$iv2;
-                                i = 0;
-                                if (StringsKt.regionMatchesImpl((CharSequence)(String)element$iv, 0, $this$findAnyOf, index, element$iv.length(), ignoreCase)) {
+                                index = 0;
+                                iterator = (Iterable)strings.iterator();
+                                element$iv2 = element$iv;
+                                i3 = 0;
+                                if (StringsKt.regionMatchesImpl((CharSequence)(String)element$iv2, 0, $this$findAnyOf, index2, element$iv2.length(), ignoreCase)) {
                                 } else {
                                 }
                                 regionMatchesImpl = $this$findAnyOf;
                             }
-                            return TuplesKt.to(Integer.valueOf(index), (String)regionMatchesImpl);
+                            return TuplesKt.to(Integer.valueOf(index2), (String)regionMatchesImpl);
                         }
                     }
                 } else {
@@ -389,7 +389,7 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
             } else {
             }
         }
-        return i3;
+        return i;
     }
 
     public static Pair findAnyOf$default(java.lang.CharSequence charSequence, Collection collection2, int i3, boolean z4, int i5, Object object6) {
@@ -435,26 +435,26 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     }
 
     public static final boolean hasSurrogatePairAt(java.lang.CharSequence $this$hasSurrogatePairAt, int index) {
-        int i2;
         int i;
+        int i2;
         int highSurrogate;
         Intrinsics.checkNotNullParameter($this$hasSurrogatePairAt, "<this>");
         final int i3 = 0;
         if (index >= 0 && index <= length += -2) {
-            highSurrogate = index <= length += -2 ? i2 : i3;
+            highSurrogate = index <= length += -2 ? i : i3;
         } else {
         }
         if (highSurrogate != 0 && Character.isHighSurrogate($this$hasSurrogatePairAt.charAt(index)) && Character.isLowSurrogate($this$hasSurrogatePairAt.charAt(index + 1))) {
             if (Character.isHighSurrogate($this$hasSurrogatePairAt.charAt(index))) {
                 if (Character.isLowSurrogate($this$hasSurrogatePairAt.charAt(index + 1))) {
                 } else {
-                    i2 = i3;
+                    i = i3;
                 }
             } else {
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     private static final <C extends java.lang.CharSequence & R, R> R ifBlank(C $this$ifBlank, Function0<? extends R> defaultValue) {
@@ -501,13 +501,13 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     public static final int indexOf(java.lang.CharSequence $this$indexOf, String string, int startIndex, boolean ignoreCase) {
         int indexOf$StringsKt__StringsKt$default;
         String str;
-        Object obj2;
         Object obj;
-        int i3;
+        Object obj2;
+        int i;
         int length;
         boolean z;
-        int i;
         int i4;
+        int i3;
         int i2;
         Intrinsics.checkNotNullParameter($this$indexOf, "<this>");
         Intrinsics.checkNotNullParameter(string, "string");
@@ -516,8 +516,8 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
                 indexOf$StringsKt__StringsKt$default = StringsKt__StringsKt.indexOf$StringsKt__StringsKt$default($this$indexOf, (CharSequence)string, startIndex, $this$indexOf.length(), ignoreCase, false, 16, 0);
             } else {
                 indexOf$StringsKt__StringsKt$default = (String)$this$indexOf.indexOf(string, startIndex);
-                obj2 = $this$indexOf;
-                i3 = startIndex;
+                obj = $this$indexOf;
+                i = startIndex;
                 z = ignoreCase;
             }
         } else {
@@ -528,18 +528,18 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     private static final int indexOf$StringsKt__StringsKt(java.lang.CharSequence $this$indexOf, java.lang.CharSequence other, int startIndex, int endIndex, boolean ignoreCase, boolean last) {
         Object obj;
         int coerceAtLeast;
-        boolean z3;
+        boolean z;
         int regionMatchesImpl;
         IntProgression intRange;
         int index;
         int length;
-        boolean z2;
+        boolean z3;
         int last2;
         int step;
         java.lang.CharSequence charSequence;
         int index2;
         int length2;
-        boolean z;
+        boolean z2;
         obj = other;
         final int i3 = startIndex;
         final int i4 = endIndex;
@@ -644,13 +644,13 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     }
 
     public static final int indexOfAny(java.lang.CharSequence $this$indexOfAny, char[] chars, int startIndex, boolean ignoreCase) {
-        int length2;
+        int length;
         int index;
         char charAt;
         int $this$any$iv;
-        int i;
-        int length;
         int i3;
+        int length2;
+        int i;
         char c;
         boolean it;
         int i2;
@@ -698,21 +698,21 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     }
 
     public static final boolean isBlank(java.lang.CharSequence $this$isBlank) {
-        int i2;
         int i;
+        int i2;
         char charAt;
         boolean it;
         int i3;
         Intrinsics.checkNotNullParameter($this$isBlank, "<this>");
         Object obj = $this$isBlank;
         final int i4 = 0;
-        i = i2;
-        while (i < obj.length()) {
+        i2 = i;
+        while (i2 < obj.length()) {
             i3 = 0;
-            i++;
+            i2++;
         }
-        i2 = 1;
-        return i2;
+        i = 1;
+        return i;
     }
 
     private static final boolean isEmpty(java.lang.CharSequence $this$isEmpty) {
@@ -848,12 +848,12 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     }
 
     public static final int lastIndexOfAny(java.lang.CharSequence $this$lastIndexOfAny, char[] chars, int startIndex, boolean ignoreCase) {
-        int length2;
+        int length;
         int index;
         char charAt;
         Object obj;
         int i;
-        int length;
+        int length2;
         int i2;
         int i4;
         char c;
@@ -1208,21 +1208,21 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
 
     public static final String removeSurrounding(String $this$removeSurrounding, java.lang.CharSequence prefix, java.lang.CharSequence suffix) {
         int startsWith$default;
-        int i2;
-        int length;
         int i;
+        int length;
+        int i2;
         Intrinsics.checkNotNullParameter($this$removeSurrounding, "<this>");
         Intrinsics.checkNotNullParameter(prefix, "prefix");
         Intrinsics.checkNotNullParameter(suffix, "suffix");
-        i2 = 0;
-        length = 2;
         i = 0;
-        if ($this$removeSurrounding.length() >= length3 += length && StringsKt.startsWith$default((CharSequence)$this$removeSurrounding, prefix, i2, length, i) && StringsKt.endsWith$default((CharSequence)$this$removeSurrounding, suffix, i2, length, i)) {
-            i2 = 0;
-            length = 2;
+        length = 2;
+        i2 = 0;
+        if ($this$removeSurrounding.length() >= length3 += length && StringsKt.startsWith$default((CharSequence)$this$removeSurrounding, prefix, i, length, i2) && StringsKt.endsWith$default((CharSequence)$this$removeSurrounding, suffix, i, length, i2)) {
             i = 0;
-            if (StringsKt.startsWith$default((CharSequence)$this$removeSurrounding, prefix, i2, length, i)) {
-                if (StringsKt.endsWith$default((CharSequence)$this$removeSurrounding, suffix, i2, length, i)) {
+            length = 2;
+            i2 = 0;
+            if (StringsKt.startsWith$default((CharSequence)$this$removeSurrounding, prefix, i, length, i2)) {
+                if (StringsKt.endsWith$default((CharSequence)$this$removeSurrounding, suffix, i, length, i2)) {
                     String substring = $this$removeSurrounding.substring(prefix.length(), length4 -= length5);
                     Intrinsics.checkNotNullExpressionValue(substring, "substring(...)");
                     return substring;
@@ -1249,8 +1249,8 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     public static final String replaceAfter(String $this$replaceAfter, char delimiter, String replacement, String missingDelimiterValue) {
         Object string;
         Object length;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$replaceAfter, "<this>");
         Intrinsics.checkNotNullParameter(replacement, "replacement");
         Intrinsics.checkNotNullParameter(missingDelimiterValue, "missingDelimiterValue");
@@ -1266,8 +1266,8 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     public static final String replaceAfter(String $this$replaceAfter, String delimiter, String replacement, String missingDelimiterValue) {
         Object string;
         Object length;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$replaceAfter, "<this>");
         Intrinsics.checkNotNullParameter(delimiter, "delimiter");
         Intrinsics.checkNotNullParameter(replacement, "replacement");
@@ -1318,8 +1318,8 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     public static final String replaceAfterLast(String $this$replaceAfterLast, String delimiter, String replacement, String missingDelimiterValue) {
         Object string;
         Object length;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$replaceAfterLast, "<this>");
         Intrinsics.checkNotNullParameter(delimiter, "delimiter");
         Intrinsics.checkNotNullParameter(replacement, "replacement");
@@ -1576,11 +1576,11 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
 
     public static final List<String> split(java.lang.CharSequence $this$split, String[] delimiters, boolean ignoreCase, int limit) {
         int length;
-        int i;
+        int i2;
         Object next;
         int length2;
         int it;
-        int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$split, "<this>");
         Intrinsics.checkNotNullParameter(delimiters, "delimiters");
         if (delimiters.length == 1) {
@@ -1588,9 +1588,9 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
             next = delimiters[length];
             if ((CharSequence)next.length() == 0) {
             } else {
-                i = length;
+                i2 = length;
             }
-            if (i == 0) {
+            if (i2 == 0) {
                 return StringsKt__StringsKt.split$StringsKt__StringsKt($this$split, next, ignoreCase, limit);
             }
         }
@@ -1601,7 +1601,7 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
         int i3 = 0;
         Iterator iterator = obj10.iterator();
         for (Object next : iterator) {
-            i2 = 0;
+            i = 0;
             (Collection)obj12.add(StringsKt.substring(obj, (IntRange)next));
         }
         return (List)obj12;
@@ -1610,9 +1610,9 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     private static final List<String> split$StringsKt__StringsKt(java.lang.CharSequence $this$split, String delimiter, boolean ignoreCase, int limit) {
         int currentOffset;
         int nextIndex;
-        int i2;
-        int coerceAtMost;
         int i;
+        int coerceAtMost;
+        int i2;
         StringsKt.requireNonNegativeLimit(limit);
         int i3 = -1;
         if (StringsKt.indexOf($this$split, delimiter, 0, ignoreCase) != i3) {
@@ -1620,15 +1620,15 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
             } else {
                 if (limit > 0) {
                 } else {
-                    i2 = 0;
+                    i = 0;
                 }
-                if (i2 != 0) {
+                if (i != 0) {
                     coerceAtMost = RangesKt.coerceAtMost(limit, 10);
                 }
                 ArrayList arrayList = new ArrayList(coerceAtMost);
                 arrayList.add($this$split.subSequence(currentOffset, nextIndex).toString());
                 currentOffset = nextIndex + coerceAtMost;
-                while (i2 != 0) {
+                while (i != 0) {
                     if (arrayList.size() != limit + -1) {
                     }
                     if (StringsKt.indexOf($this$split, delimiter, currentOffset, ignoreCase) != i3) {
@@ -2137,9 +2137,9 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
         int startIndex$iv;
         int endIndex$iv;
         int startFound$iv;
-        int i;
-        boolean it;
         int i2;
+        boolean it;
+        int i;
         Intrinsics.checkNotNullParameter($this$trim, "<this>");
         Intrinsics.checkNotNullParameter(chars, "chars");
         Object obj = $this$trim;
@@ -2151,9 +2151,9 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
             if (startFound$iv == 0) {
             } else {
             }
-            i = endIndex$iv;
-            i2 = 0;
-            it = ArraysKt.contains(chars, obj.charAt(i));
+            i2 = endIndex$iv;
+            i = 0;
+            it = ArraysKt.contains(chars, obj.charAt(i2));
             if (startFound$iv != 0) {
                 break;
             } else {
@@ -2168,7 +2168,7 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
             }
             startIndex$iv++;
             startFound$iv = 1;
-            i = startIndex$iv;
+            i2 = startIndex$iv;
         }
         return obj.subSequence(startIndex$iv, endIndex$iv + 1);
     }
@@ -2261,9 +2261,9 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     public static final java.lang.CharSequence trimEnd(java.lang.CharSequence $this$trimEnd) {
         int i3;
         Object subSequence;
-        int i;
-        boolean p0;
         int i2;
+        boolean p0;
+        int i;
         Intrinsics.checkNotNullParameter($this$trimEnd, "<this>");
         Object obj = $this$trimEnd;
         final int i4 = 0;
@@ -2326,9 +2326,9 @@ class StringsKt__StringsKt extends kotlin.text.StringsKt__StringsJVMKt {
     }
 
     public static final String trimEnd(String $this$trimEnd, char... chars) {
-        int i3;
-        Object subSequence;
         int i;
+        Object subSequence;
+        int i3;
         boolean it;
         int i2;
         Intrinsics.checkNotNullParameter($this$trimEnd, "<this>");

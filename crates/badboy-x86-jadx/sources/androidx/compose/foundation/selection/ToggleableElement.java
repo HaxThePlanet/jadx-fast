@@ -85,26 +85,26 @@ final class ToggleableElement extends ModifierNodeElement<androidx.compose.found
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i2;
-        int i3;
-        Role unbox-impl;
         int i;
+        int i2;
+        Role unbox-impl;
+        int i3;
         MutableInteractionSource interactionSource = this.interactionSource;
-        i = 0;
+        i3 = 0;
         if (interactionSource != null) {
-            i2 = interactionSource.hashCode();
+            i = interactionSource.hashCode();
         } else {
-            i2 = i;
+            i = i3;
         }
         IndicationNodeFactory indicationNodeFactory = this.indicationNodeFactory;
         if (indicationNodeFactory != null) {
-            i3 = indicationNodeFactory.hashCode();
+            i2 = indicationNodeFactory.hashCode();
         } else {
-            i3 = i;
+            i2 = i3;
         }
         unbox-impl = this.role;
         if (unbox-impl != null) {
-            i = Role.hashCode-impl(unbox-impl.unbox-impl());
+            i3 = Role.hashCode-impl(unbox-impl.unbox-impl());
         }
         return result4 += i12;
     }

@@ -307,8 +307,8 @@ public final class RenderNodeApi23 implements androidx.compose.ui.platform.Devic
     }
 
     public void record(CanvasHolder canvasHolder, Path clipPath, Function1<? super Canvas, Unit> drawBlock) {
-        int i;
         int i2;
+        int i;
         int i3;
         DisplayListCanvas start = this.renderNode.start(getWidth(), getHeight());
         Object obj = canvasHolder;

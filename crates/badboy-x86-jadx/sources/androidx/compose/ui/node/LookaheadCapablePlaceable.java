@@ -61,158 +61,158 @@ public abstract class LookaheadCapablePlaceable extends Placeable implements and
 
     private final void addRulerReader(androidx.compose.ui.node.LayoutNode layoutNode, Ruler ruler) {
         MutableScatterMap rulerReaders;
-        MutableScatterMap this_$iv2;
-        long[] $i$f$removeIf2;
-        int i2;
-        int i6;
+        MutableScatterMap this_$iv;
+        long[] $i$f$removeIf;
+        int i10;
+        int i3;
         int i$iv$iv2;
         int $i$f$maskEmptyOrDeleted;
-        Object obj;
+        Object $i$a$AlsoMutableScatterMap$getOrPut$1$iv;
         int mutableScatterSet;
         int value$iv$iv$iv;
-        int j$iv$iv4;
+        int j$iv$iv;
         int i$iv$iv;
         long slot$iv$iv3;
-        int i9;
-        int $this$maskEmptyOrDeleted$iv$iv$iv3;
+        int i12;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
         int j$iv$iv3;
         int value$iv$iv$iv2;
         Object[] values;
         MutableScatterMap map;
-        int $i$f$removeIf;
-        int i10;
-        int i;
-        long slot$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int cmp2;
+        int $i$f$removeIf2;
         int i5;
-        long l;
-        int i4;
-        Object obj3;
-        int i12;
-        MutableScatterMap this_$iv;
-        int i8;
-        long[] lArr;
-        Object obj2;
-        long[] lArr2;
+        int i2;
         long slot$iv$iv2;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
-        Object[] objArr;
-        int i7;
-        int j$iv$iv;
-        int i3;
+        int $this$maskEmptyOrDeleted$iv$iv$iv3;
         int cmp;
         int i11;
-        int index$iv;
+        long l;
+        int i7;
+        Object obj2;
+        int i;
+        MutableScatterMap this_$iv2;
+        int i4;
+        long[] lArr;
+        Object obj;
+        long[] lArr2;
+        long slot$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv2;
+        Object[] objArr;
+        int i6;
         int j$iv$iv2;
-        final Object obj4 = this;
-        final Object obj5 = ruler;
-        rulerReaders = obj4.rulerReaders;
+        int i8;
+        int cmp2;
+        int i9;
+        int index$iv;
+        int j$iv$iv4;
+        final Object obj3 = this;
+        final Object obj4 = ruler;
+        rulerReaders = obj3.rulerReaders;
         if (rulerReaders != null) {
-            $i$f$removeIf = 0;
-            i10 = 128;
-            $i$f$removeIf2 = map.metadata;
+            $i$f$removeIf2 = 0;
+            i5 = 128;
+            $i$f$removeIf = map.metadata;
             length += -2;
-            i = 255;
-            if (0 <= i6) {
+            i2 = 255;
+            if (0 <= i3) {
             } else {
-                this_$iv = rulerReaders;
-                lArr = $i$f$removeIf2;
-                $this$maskEmptyOrDeleted$iv$iv$iv = value$iv$iv$iv2;
-                i5 = 7;
+                this_$iv2 = rulerReaders;
+                lArr = $i$f$removeIf;
+                $this$maskEmptyOrDeleted$iv$iv$iv2 = value$iv$iv$iv2;
+                i11 = 7;
                 l = -9187201950435737472L;
             }
         } else {
-            i10 = 128;
-            i = 255;
-            i5 = 7;
+            i5 = 128;
+            i2 = 255;
+            i11 = 7;
             l = -9187201950435737472L;
         }
-        MutableScatterMap rulerReaders2 = obj4.rulerReaders;
+        MutableScatterMap rulerReaders2 = obj3.rulerReaders;
         if (rulerReaders2 != null) {
             i$iv$iv2 = 0;
-            $i$f$maskEmptyOrDeleted = i6.metadata;
+            $i$f$maskEmptyOrDeleted = i3.metadata;
             length2 += -2;
             if (0 <= mutableScatterSet) {
             } else {
-                $i$f$removeIf = $i$f$removeIf2;
+                $i$f$removeIf2 = $i$f$removeIf;
             }
         }
-        i2 = 0;
-        if (obj4.rulerReaders == null) {
-            this_$iv2 = new MutableScatterMap(0, 1, i2);
+        i10 = 0;
+        if (obj3.rulerReaders == null) {
+            this_$iv = new MutableScatterMap(0, 1, i10);
             i$iv$iv2 = 0;
-            obj4.rulerReaders = this_$iv2;
+            obj3.rulerReaders = this_$iv;
         }
-        MutableScatterMap map2 = this_$iv2;
+        MutableScatterMap map2 = this_$iv;
         int i13 = 0;
-        if (map2.get(obj5) == null) {
+        if (map2.get(obj4) == null) {
             int i14 = 0;
-            mutableScatterSet = new MutableScatterSet(0, 1, i2);
+            mutableScatterSet = new MutableScatterSet(0, 1, i10);
             int i15 = 0;
-            map2.set(obj5, mutableScatterSet);
-            obj = mutableScatterSet;
+            map2.set(obj4, mutableScatterSet);
+            $i$a$AlsoMutableScatterMap$getOrPut$1$iv = mutableScatterSet;
         }
         WeakReference weakReference = new WeakReference(layoutNode);
-        (MutableScatterSet)obj.plusAssign(weakReference);
+        (MutableScatterSet)$i$a$AlsoMutableScatterMap$getOrPut$1$iv.plusAssign(weakReference);
     }
 
     private final void captureRulers(androidx.compose.ui.node.PlaceableResult placeableResult) {
         Object cmp;
-        androidx.compose.ui.node.PlaceableResult j$iv$iv3;
-        int newValue;
-        int j$iv$iv4;
+        androidx.compose.ui.node.PlaceableResult j$iv$iv;
+        int newValue2;
+        int j$iv$iv3;
         Function1 index$iv$iv;
-        Object[] mutableObjectFloatMap;
+        Object[] mutableObjectFloatMap2;
         MutableScatterMap keys;
-        int i6;
+        int i;
         Object snapshotObserver;
-        long[] mutableObjectFloatMap2;
-        int i8;
+        long[] mutableObjectFloatMap;
         int i9;
+        int i4;
         int i$iv$iv;
         int i$iv$iv3;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         int j$iv$iv2;
         Object i$iv$iv2;
-        int slot$iv$iv2;
-        int value$iv$iv$iv2;
-        MutableScatterMap value$iv$iv$iv;
+        int slot$iv$iv;
+        int value$iv$iv$iv;
+        MutableScatterMap value$iv$iv$iv2;
         int metadata;
-        int i5;
-        int i7;
+        int i2;
         int i3;
-        int i4;
-        long slot$iv$iv;
-        int cmp3;
-        long l2;
+        int i8;
+        int i6;
+        long slot$iv$iv2;
+        int cmp2;
+        long l;
         MutableScatterMap this_$iv;
         int ruler;
-        long l;
-        int cmp2;
+        long l2;
+        int cmp3;
         MutableObjectFloatMap $i$f$forEachKey;
-        int i2;
+        int i7;
         int remove;
-        int j$iv$iv;
-        int i;
-        float newValue2;
+        int j$iv$iv4;
+        int i5;
+        float newValue;
         cmp = this;
-        j$iv$iv3 = placeableResult;
+        j$iv$iv = placeableResult;
         if (cmp.isPlacingForAlignment) {
         }
-        index$iv$iv = j$iv$iv3.getResult().getRulers();
+        index$iv$iv = j$iv$iv.getResult().getRulers();
         final MutableScatterMap rulerReaders = cmp.rulerReaders;
-        slot$iv$iv2 = 8;
+        slot$iv$iv = 8;
         if (index$iv$iv == null) {
             if (rulerReaders != null) {
-                value$iv$iv$iv = rulerReaders;
+                value$iv$iv$iv2 = rulerReaders;
                 metadata = 0;
-                i7 = 0;
-                mutableObjectFloatMap2 = keys.metadata;
+                i3 = 0;
+                mutableObjectFloatMap = keys.metadata;
                 length += -2;
-                if (0 <= i8) {
+                if (0 <= i9) {
                 } else {
-                    this_$iv = value$iv$iv$iv;
+                    this_$iv = value$iv$iv$iv2;
                 }
                 rulerReaders.clear();
                 this_$iv = index$iv$iv;
@@ -220,60 +220,60 @@ public abstract class LookaheadCapablePlaceable extends Placeable implements and
                 this_$iv = index$iv$iv;
             }
         } else {
-            i5 = 128;
-            i3 = 255;
-            i4 = 7;
-            l = -9187201950435737472L;
-            i6 = 0;
+            i2 = 128;
+            i8 = 255;
+            i6 = 7;
+            l2 = -9187201950435737472L;
+            i = 0;
             if (cmp.rulerValuesCache == null) {
-                mutableObjectFloatMap = new MutableObjectFloatMap(0, 1, i6);
-                i8 = 0;
-                cmp.rulerValuesCache = mutableObjectFloatMap;
+                mutableObjectFloatMap2 = new MutableObjectFloatMap(0, 1, i);
+                i9 = 0;
+                cmp.rulerValuesCache = mutableObjectFloatMap2;
             }
             if (cmp.rulerValues == null) {
-                mutableObjectFloatMap2 = new MutableObjectFloatMap(0, 1, i6);
+                mutableObjectFloatMap = new MutableObjectFloatMap(0, 1, i);
                 $this$maskEmptyOrDeleted$iv$iv$iv = 0;
-                cmp.rulerValues = mutableObjectFloatMap2;
+                cmp.rulerValues = mutableObjectFloatMap;
             } else {
-                i9 = 0;
+                i4 = 0;
                 i$iv$iv3 = 1;
             }
-            mutableObjectFloatMap.putAll((ObjectFloatMap)mutableObjectFloatMap2);
-            mutableObjectFloatMap2.clear();
+            mutableObjectFloatMap2.putAll((ObjectFloatMap)mutableObjectFloatMap);
+            mutableObjectFloatMap.clear();
             snapshotObserver = cmp.getLayoutNode().getOwner$ui_release();
             snapshotObserver = snapshotObserver.getSnapshotObserver();
             if (snapshotObserver != null && snapshotObserver != null) {
                 snapshotObserver = snapshotObserver.getSnapshotObserver();
                 if (snapshotObserver != null) {
-                    i$iv$iv2 = new LookaheadCapablePlaceable.captureRulers.3(j$iv$iv3, cmp);
-                    snapshotObserver.observeReads$ui_release((OwnerScope)j$iv$iv3, LookaheadCapablePlaceable.onCommitAffectingRuler, (Function0)i$iv$iv2);
+                    i$iv$iv2 = new LookaheadCapablePlaceable.captureRulers.3(j$iv$iv, cmp);
+                    snapshotObserver.observeReads$ui_release((OwnerScope)j$iv$iv, LookaheadCapablePlaceable.onCommitAffectingRuler, (Function0)i$iv$iv2);
                 }
             }
             if (rulerReaders != null) {
-                snapshotObserver = mutableObjectFloatMap;
+                snapshotObserver = mutableObjectFloatMap2;
                 $this$maskEmptyOrDeleted$iv$iv$iv = 0;
-                value$iv$iv$iv2 = snapshotObserver;
-                value$iv$iv$iv = 0;
-                metadata = value$iv$iv$iv2.metadata;
+                value$iv$iv$iv = snapshotObserver;
+                value$iv$iv$iv2 = 0;
+                metadata = value$iv$iv$iv.metadata;
                 length2 += -2;
-                if (0 <= i9) {
+                if (0 <= i4) {
                 } else {
                     this_$iv = index$iv$iv;
-                    $i$f$forEachKey = value$iv$iv$iv2;
+                    $i$f$forEachKey = value$iv$iv$iv;
                 }
             } else {
                 this_$iv = index$iv$iv;
             }
-            j$iv$iv3 = mutableObjectFloatMap2;
+            j$iv$iv = mutableObjectFloatMap;
             i$iv$iv = 0;
-            $this$maskEmptyOrDeleted$iv$iv$iv = i8.metadata;
+            $this$maskEmptyOrDeleted$iv$iv$iv = i9.metadata;
             length3 += -2;
             if (0 <= j$iv$iv2) {
             } else {
-                slot$iv$iv = j$iv$iv3;
+                slot$iv$iv2 = j$iv$iv;
                 $i$f$forEachKey = index$iv$iv;
             }
-            mutableObjectFloatMap.clear();
+            mutableObjectFloatMap2.clear();
         }
     }
 
@@ -281,20 +281,20 @@ public abstract class LookaheadCapablePlaceable extends Placeable implements and
         Object p;
         androidx.compose.ui.node.LookaheadCapablePlaceable parent;
         MutableObjectFloatMap rulerValues;
-        int i;
         int i2;
+        int i;
         p = this;
         rulerValues = p.rulerValues;
-        i = 0;
+        i2 = 0;
         while (rulerValues != null) {
-            i2 = 1;
-            if (rulerValues.contains(ruler) == i2) {
+            i = 1;
+            if (rulerValues.contains(ruler) == i) {
             }
             parent = p.getParent();
             p = parent;
             rulerValues = p.rulerValues;
-            i = 0;
-            i = i2;
+            i2 = 0;
+            i2 = i;
         }
         return p;
     }
@@ -334,13 +334,13 @@ public abstract class LookaheadCapablePlaceable extends Placeable implements and
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i6;
-        int j$iv$iv;
-        int i3;
-        int i;
-        long l;
-        int i2;
         int i5;
+        int j$iv$iv;
+        int i6;
+        int i3;
+        long l;
+        int i;
+        int i2;
         int i4;
         int i7;
         Object obj;
@@ -363,21 +363,21 @@ public abstract class LookaheadCapablePlaceable extends Placeable implements and
     public final void captureRulers$ui_release(MeasureResult result) {
         MeasureResult rulerValues;
         MutableScatterMap placeableResult;
-        int i3;
+        int i5;
         Object[] values;
         MutableScatterMap map;
-        int i6;
+        int i2;
         long[] metadata;
-        int i5;
+        int i7;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
-        int i7;
-        int i4;
+        int i3;
+        int i6;
         MutableScatterMap this_$iv;
         long l;
+        int i4;
         int i;
-        int i2;
         final androidx.compose.ui.node.LookaheadCapablePlaceable lookaheadCapablePlaceable = this;
         rulerValues = result;
         if (rulerValues != null) {
@@ -386,11 +386,11 @@ public abstract class LookaheadCapablePlaceable extends Placeable implements and
         } else {
             placeableResult = lookaheadCapablePlaceable.rulerReaders;
             if (placeableResult != null) {
-                i3 = 0;
-                i6 = 0;
+                i5 = 0;
+                i2 = 0;
                 metadata = map.metadata;
                 length += -2;
-                if (0 <= i5) {
+                if (0 <= i7) {
                 } else {
                     this_$iv = placeableResult;
                 }
@@ -530,7 +530,7 @@ public abstract class LookaheadCapablePlaceable extends Placeable implements and
     public MeasureResult layout(int width, int height, Map<AlignmentLine, Integer> alignmentLines, Function1<? super RulerScope, Unit> rulers, Function1<? super Placeable.PlacementScope, Unit> placementBlock) {
         int i2;
         int i;
-        String string;
+        String $i$a$CheckPreconditionLookaheadDelegateKt$checkMeasuredSize$1$iv;
         StringBuilder append;
         String str;
         int i3 = 0;
@@ -573,11 +573,11 @@ public abstract class LookaheadCapablePlaceable extends Placeable implements and
     public final void provideRulerValue(Ruler ruler, float value) {
         MutableObjectFloatMap mutableObjectFloatMap;
         MutableObjectFloatMap num;
-        int i2;
         int i;
+        int i2;
         if (this.rulerValues == null) {
             mutableObjectFloatMap = new MutableObjectFloatMap(0, 1, 0);
-            i2 = 0;
+            i = 0;
             this.rulerValues = mutableObjectFloatMap;
         }
         mutableObjectFloatMap.set(ruler, value);

@@ -31,42 +31,42 @@ public final class ColorSchemeKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal18;
-            int ordinal33;
-            int ordinal7;
-            int ordinal16;
-            int ordinal23;
-            int ordinal15;
-            int ordinal12;
-            int ordinal8;
-            int ordinal2;
-            int ordinal11;
-            int ordinal27;
-            int ordinal28;
-            int ordinal36;
-            int ordinal30;
-            int ordinal32;
-            int ordinal6;
-            int ordinal22;
-            int ordinal26;
-            int ordinal13;
-            int ordinal34;
             int ordinal14;
-            int ordinal4;
-            int ordinal17;
-            int ordinal31;
+            int ordinal27;
             int ordinal;
-            int ordinal3;
-            int ordinal9;
-            int ordinal5;
-            int ordinal29;
-            int ordinal24;
-            int ordinal25;
-            int ordinal10;
-            int ordinal35;
-            int ordinal19;
-            int ordinal20;
+            int ordinal17;
             int ordinal21;
+            int ordinal18;
+            int ordinal25;
+            int ordinal2;
+            int ordinal26;
+            int ordinal24;
+            int ordinal22;
+            int ordinal8;
+            int ordinal31;
+            int ordinal6;
+            int ordinal30;
+            int ordinal33;
+            int ordinal19;
+            int ordinal3;
+            int ordinal36;
+            int ordinal15;
+            int ordinal7;
+            int ordinal23;
+            int ordinal32;
+            int ordinal16;
+            int ordinal20;
+            int ordinal28;
+            int ordinal5;
+            int ordinal9;
+            int ordinal29;
+            int ordinal4;
+            int ordinal13;
+            int ordinal10;
+            int ordinal34;
+            int ordinal35;
+            int ordinal11;
+            int ordinal12;
             int[] iArr = new int[values.length];
             iArr[ColorSchemeKeyTokens.Background.ordinal()] = 1;
             iArr[ColorSchemeKeyTokens.Error.ordinal()] = 2;
@@ -229,13 +229,13 @@ public final class ColorSchemeKt {
     public static final long contentColorFor-ek8zF_U(long backgroundColor, Composer $composer, int $changed) {
         long $this$takeOrElse_u2dDxMtmZc$iv;
         boolean traceInProgress;
-        String str;
-        long unbox-impl;
+        String str2;
+        long $i$a$TakeOrElseDxMtmZcColorSchemeKt$contentColorFor$1;
         ProvidableCompositionLocal localContentColor;
         int i2;
         int i;
         Object consume;
-        String str2;
+        String str;
         int i3 = 509589638;
         ComposerKt.sourceInformationMarkerStart($changed, i3, "C(contentColorFor)P(0:c#ui.graphics.Color):ColorScheme.kt#uh7d8r");
         if (ComposerKt.isTraceInProgress()) {
@@ -245,7 +245,7 @@ public final class ColorSchemeKt {
         ComposerKt.sourceInformation($changed, "*878@39525L11,879@39609L7");
         int i6 = 0;
         i2 = 0;
-        i = Long.compare(unbox-impl, i8) != 0 ? 1 : 0;
+        i = Long.compare($i$a$TakeOrElseDxMtmZcColorSchemeKt$contentColorFor$1, i8) != 0 ? 1 : 0;
         if (i != 0) {
         } else {
             int i7 = 0;
@@ -253,7 +253,7 @@ public final class ColorSchemeKt {
             i = 0;
             ComposerKt.sourceInformationMarkerStart($changed, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             ComposerKt.sourceInformationMarkerEnd($changed);
-            $this$takeOrElse_u2dDxMtmZc$iv = unbox-impl;
+            $this$takeOrElse_u2dDxMtmZc$iv = $i$a$TakeOrElseDxMtmZcColorSchemeKt$contentColorFor$1;
         }
         $changed.endReplaceGroup();
         if (ComposerKt.isTraceInProgress()) {
@@ -823,11 +823,11 @@ public final class ColorSchemeKt {
     }
 
     public static androidx.compose.material3.ColorScheme lightColorScheme-C-Xl9yA$default(long l, long l2, long l3, long l4, long l5, long l6, long l7, long l8, long l9, long l10, long l11, long l12, long l13, long l14, long l15, long l16, long l17, long l18, long l19, long l20, long l21, long l22, long l23, long l24, long l25, long l26, long l27, long l28, long l29, long l30, long l31, long l32, long l33, long l34, long l35, long l36, int i37, int i38, Object object39) {
+        ColorLightTokens iNSTANCE3;
+        int iNSTANCE5;
         ColorLightTokens iNSTANCE;
-        int iNSTANCE4;
-        ColorLightTokens iNSTANCE2;
-        int iNSTANCE3;
-        ColorLightTokens iNSTANCE5;
+        int iNSTANCE2;
+        ColorLightTokens iNSTANCE4;
         long primary-0d7_KjU;
         long onSecondaryContainer-0d7_KjU;
         long tertiary-0d7_KjU;

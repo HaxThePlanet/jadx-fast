@@ -85,99 +85,99 @@ public final class SpannableExtensions_androidKt {
         int i;
         int intersect;
         boolean empty;
-        int size;
+        int size2;
         int end;
         SpanStyle spanStyle;
-        int valueOf;
-        Integer valueOf2;
+        int valueOf3;
+        Integer valueOf4;
         int lastTransitionOffsets;
-        int i2;
-        Integer valueOf3;
-        int index$iv;
-        int mergedSpanStyle;
-        Object valueOf4;
-        Object valueOf5;
-        int index$iv2;
-        int size2;
         int i4;
-        Integer valueOf6;
+        Integer valueOf;
+        int index$iv2;
+        int mergedSpanStyle;
+        Object valueOf6;
+        Object valueOf5;
+        int index$iv;
+        int size;
+        int i2;
+        Integer valueOf2;
         int i3;
         int spanCount;
         i = spanStyles;
         final Object obj = block;
-        valueOf = 0;
+        valueOf3 = 0;
         if (i.size() <= 1) {
             if (!(Collection)i.isEmpty()) {
-                obj.invoke(SpannableExtensions_androidKt.merge(contextFontSpanStyle, (SpanStyle)(AnnotatedString.Range)i.get(valueOf).getItem()), Integer.valueOf((AnnotatedString.Range)i.get(valueOf).getStart()), Integer.valueOf((AnnotatedString.Range)i.get(valueOf).getEnd()));
+                obj.invoke(SpannableExtensions_androidKt.merge(contextFontSpanStyle, (SpanStyle)(AnnotatedString.Range)i.get(valueOf3).getItem()), Integer.valueOf((AnnotatedString.Range)i.get(valueOf3).getStart()), Integer.valueOf((AnnotatedString.Range)i.get(valueOf3).getEnd()));
             } else {
                 spanStyle = contextFontSpanStyle;
             }
         }
         SpanStyle spanStyle2 = contextFontSpanStyle;
-        size = i.size();
-        int i7 = size * 2;
+        size2 = i.size();
+        int i7 = size2 * 2;
         final Integer[] arr = new Integer[i7];
-        i2 = valueOf;
-        while (i2 < i7) {
-            arr[i2] = Integer.valueOf(valueOf);
-            i2++;
+        i4 = valueOf3;
+        while (i4 < i7) {
+            arr[i4] = Integer.valueOf(valueOf3);
+            i4++;
         }
         Integer num = spanStyles;
         int i9 = 0;
-        index$iv = 0;
-        while (index$iv < num.size()) {
-            valueOf5 = valueOf4;
-            index$iv2 = index$iv;
-            size2 = 0;
-            arr[index$iv2] = Integer.valueOf((AnnotatedString.Range)valueOf5.getStart());
-            arr[index$iv2 + size] = Integer.valueOf(valueOf5.getEnd());
-            index$iv++;
+        index$iv2 = 0;
+        while (index$iv2 < num.size()) {
+            valueOf5 = valueOf6;
+            index$iv = index$iv2;
+            size = 0;
+            arr[index$iv] = Integer.valueOf((AnnotatedString.Range)valueOf5.getStart());
+            arr[index$iv + size2] = Integer.valueOf(valueOf5.getEnd());
+            index$iv2++;
         }
         ArraysKt.sort((Comparable[])arr);
         int i8 = 0;
         lastTransitionOffsets = (Number)ArraysKt.first(arr).intValue();
-        while (valueOf < arr.length) {
-            index$iv = arr[valueOf].intValue();
-            if (index$iv == lastTransitionOffsets) {
+        while (valueOf3 < arr.length) {
+            index$iv2 = arr[valueOf3].intValue();
+            if (index$iv2 == lastTransitionOffsets) {
             } else {
             }
             int i10 = 0;
             mergedSpanStyle = contextFontSpanStyle;
-            valueOf4 = spanStyles;
+            valueOf6 = spanStyles;
             valueOf5 = 0;
-            index$iv2 = 0;
-            while (index$iv2 < valueOf4.size()) {
-                valueOf6 = i4;
+            index$iv = 0;
+            while (index$iv < valueOf6.size()) {
+                valueOf2 = i2;
                 i3 = 0;
-                if ((AnnotatedString.Range)valueOf6.getStart() != valueOf6.getEnd() && AnnotatedStringKt.intersect(lastTransitionOffsets, index$iv, valueOf6.getStart(), valueOf6.getEnd())) {
+                if ((AnnotatedString.Range)valueOf2.getStart() != valueOf2.getEnd() && AnnotatedStringKt.intersect(lastTransitionOffsets, index$iv2, valueOf2.getStart(), valueOf2.getEnd())) {
                 }
-                index$iv2++;
+                index$iv++;
                 i = spanStyles;
-                size = spanCount;
-                if (AnnotatedStringKt.intersect(lastTransitionOffsets, index$iv, valueOf6.getStart(), valueOf6.getEnd())) {
+                size2 = spanCount;
+                if (AnnotatedStringKt.intersect(lastTransitionOffsets, index$iv2, valueOf2.getStart(), valueOf2.getEnd())) {
                 }
                 mergedSpanStyle = intersect;
             }
-            spanCount = size;
+            spanCount = size2;
             if (mergedSpanStyle != null) {
             }
             lastTransitionOffsets = i;
-            valueOf++;
+            valueOf3++;
             i = spanStyles;
-            size = spanCount;
-            size = 0;
-            obj.invoke(mergedSpanStyle, Integer.valueOf(lastTransitionOffsets), Integer.valueOf(index$iv));
-            valueOf6 = i4;
+            size2 = spanCount;
+            size2 = 0;
+            obj.invoke(mergedSpanStyle, Integer.valueOf(lastTransitionOffsets), Integer.valueOf(index$iv2));
+            valueOf2 = i2;
             i3 = 0;
-            if ((AnnotatedString.Range)valueOf6.getStart() != valueOf6.getEnd() && AnnotatedStringKt.intersect(lastTransitionOffsets, index$iv, valueOf6.getStart(), valueOf6.getEnd())) {
+            if ((AnnotatedString.Range)valueOf2.getStart() != valueOf2.getEnd() && AnnotatedStringKt.intersect(lastTransitionOffsets, index$iv2, valueOf2.getStart(), valueOf2.getEnd())) {
             }
-            index$iv2++;
+            index$iv++;
             i = spanStyles;
-            size = spanCount;
-            if (AnnotatedStringKt.intersect(lastTransitionOffsets, index$iv, valueOf6.getStart(), valueOf6.getEnd())) {
+            size2 = spanCount;
+            if (AnnotatedStringKt.intersect(lastTransitionOffsets, index$iv2, valueOf2.getStart(), valueOf2.getEnd())) {
             }
             mergedSpanStyle = intersect;
-            spanCount = size;
+            spanCount = size2;
         }
     }
 
@@ -313,48 +313,48 @@ public final class SpannableExtensions_androidKt {
 
     private static final void setFontAttributes(Spannable $this$setFontAttributes, TextStyle contextTextStyle, List<AnnotatedString.Range<SpanStyle>> spanStyles, Function4<? super FontFamily, ? super FontWeight, ? super FontStyle, ? super FontSynthesis, ? extends Typeface> resolveTypeface) {
         SpanStyle spanStyle;
-        int i8;
+        int i3;
         int index$iv$iv;
         Object fontWeight;
         Object fontStyle-4Lr2A7w;
-        FontSynthesis fontSynthesis-ZQGJjVo2;
+        FontSynthesis fontSynthesis-ZQGJjVo;
         Object fontFamily;
-        int i3;
-        int i10;
-        boolean fontSynthesis-ZQGJjVo;
-        int i9;
-        int i4;
-        int i11;
-        int i6;
-        int i5;
-        int i12;
-        int i13;
         int i2;
-        int i;
+        int i9;
+        boolean fontSynthesis-ZQGJjVo2;
         int i7;
+        int i;
+        int i8;
+        int i10;
+        int i4;
+        int i13;
+        int i6;
+        int i11;
+        int i12;
+        int i5;
         int i14 = spanStyles;
         int i15 = 0;
         ArrayList arrayList = new ArrayList(i14.size());
-        i8 = i14;
+        i3 = i14;
         index$iv$iv = 0;
-        final int size2 = i8.size();
+        final int size2 = i3.size();
         while (index$iv$iv < size2) {
             fontStyle-4Lr2A7w = fontWeight;
-            fontSynthesis-ZQGJjVo2 = 0;
+            fontSynthesis-ZQGJjVo = 0;
             fontFamily = fontStyle-4Lr2A7w;
-            i3 = 0;
+            i2 = 0;
             if (!TextPaintExtensions_androidKt.hasFontAttributes((SpanStyle)(AnnotatedString.Range)fontFamily.getItem())) {
             } else {
             }
-            i10 = 1;
-            if (i10 != 0) {
+            i9 = 1;
+            if (i9 != 0) {
             }
             index$iv$iv++;
             (Collection)arrayList.add(fontStyle-4Lr2A7w);
             if ((SpanStyle)fontFamily.getItem().getFontSynthesis-ZQGJjVo() != null) {
             } else {
             }
-            i10 = 0;
+            i9 = 0;
         }
         if (SpannableExtensions_androidKt.hasFontAttributes(contextTextStyle)) {
             spanStyle = new SpanStyle(0, 0, 0, size2, contextTextStyle.getFontWeight(), contextTextStyle.getFontStyle-4Lr2A7w(), contextTextStyle.getFontSynthesis-ZQGJjVo(), contextTextStyle.getFontFamily(), 0, 0, obj13, 0, 0, 0, 0, obj18, 0, 0, 0, 0, 65475, 0);
@@ -413,28 +413,28 @@ public final class SpannableExtensions_androidKt {
     public static final void setLineHeight-KmRG4DE(Spannable $this$setLineHeight_u2dKmRG4DE, long lineHeight, float contextFontSize, Density density, LineHeightStyle lineHeightStyle) {
         boolean lineHeightStyleSpan;
         int last;
-        int length;
         int length2;
-        int i2;
+        int length;
+        int i;
         boolean trimFirstLineTop-impl$ui_text_release;
         boolean trimLastLineBottom-impl$ui_text_release;
         float alignment-PIaL0Z0;
-        int i;
+        int i2;
         final float resolveLineHeightInPx-o2QH7mI = SpannableExtensions_androidKt.resolveLineHeightInPx-o2QH7mI(lineHeight, contextFontSize, density);
         if (!Float.isNaN(resolveLineHeightInPx-o2QH7mI)) {
             int i3 = 1;
-            i = 0;
-            last = (CharSequence)$this$setLineHeight_u2dKmRG4DE.length() == 0 ? i3 : i;
+            i2 = 0;
+            last = (CharSequence)$this$setLineHeight_u2dKmRG4DE.length() == 0 ? i3 : i2;
             if (last == 0) {
                 if (StringsKt.last((CharSequence)$this$setLineHeight_u2dKmRG4DE) == 10) {
                     length4 += i3;
                 } else {
-                    length = $this$setLineHeight_u2dKmRG4DE.length();
+                    length2 = $this$setLineHeight_u2dKmRG4DE.length();
                 }
             } else {
             }
-            lineHeightStyleSpan = new LineHeightStyleSpan(resolveLineHeightInPx-o2QH7mI, 0, length, LineHeightStyle.Trim.isTrimFirstLineTop-impl$ui_text_release(obj13.getTrim-EVpEnUU()), LineHeightStyle.Trim.isTrimLastLineBottom-impl$ui_text_release(obj13.getTrim-EVpEnUU()), obj13.getAlignment-PIaL0Z0());
-            SpannableExtensions_androidKt.setSpan($this$setLineHeight_u2dKmRG4DE, lineHeightStyleSpan, i, $this$setLineHeight_u2dKmRG4DE.length());
+            lineHeightStyleSpan = new LineHeightStyleSpan(resolveLineHeightInPx-o2QH7mI, 0, length2, LineHeightStyle.Trim.isTrimFirstLineTop-impl$ui_text_release(obj13.getTrim-EVpEnUU()), LineHeightStyle.Trim.isTrimLastLineBottom-impl$ui_text_release(obj13.getTrim-EVpEnUU()), obj13.getAlignment-PIaL0Z0());
+            SpannableExtensions_androidKt.setSpan($this$setLineHeight_u2dKmRG4DE, lineHeightStyleSpan, i2, $this$setLineHeight_u2dKmRG4DE.length());
         }
     }
 
@@ -580,8 +580,8 @@ public final class SpannableExtensions_androidKt {
         int length;
         boolean companion;
         float px--R2X_6o;
-        int em-UIouoOA2;
-        boolean em-UIouoOA;
+        int em-UIouoOA;
+        boolean em-UIouoOA2;
         if (textIndent != null) {
             obj = textIndent;
             i = 0;

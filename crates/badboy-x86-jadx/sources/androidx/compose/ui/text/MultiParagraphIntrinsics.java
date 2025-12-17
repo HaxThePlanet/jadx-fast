@@ -36,31 +36,31 @@ public final class MultiParagraphIntrinsics implements androidx.compose.ui.text.
     }
 
     public MultiParagraphIntrinsics(androidx.compose.ui.text.AnnotatedString annotatedString, androidx.compose.ui.text.TextStyle style, List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.Placeholder>> placeholders, Density density, FontFamily.Resolver fontFamilyResolver) {
-        androidx.compose.ui.text.AnnotatedString str2;
+        androidx.compose.ui.text.AnnotatedString str4;
         List list;
-        androidx.compose.ui.text.ParagraphStyle paragraphStyle2;
-        androidx.compose.ui.text.AnnotatedString annotatedString2;
-        int i5;
-        int index$iv$iv$iv;
-        Object obj2;
-        Object obj4;
-        int i4;
-        Object obj3;
-        int i2;
-        int i3;
-        Object obj;
-        int i;
         androidx.compose.ui.text.ParagraphStyle paragraphStyle3;
-        androidx.compose.ui.text.AnnotatedString str3;
+        androidx.compose.ui.text.AnnotatedString annotatedString2;
+        int i4;
+        int index$iv$iv$iv;
+        Object obj;
+        Object obj3;
+        int i5;
+        Object obj4;
+        int i2;
+        int i;
+        Object obj2;
+        int i3;
+        androidx.compose.ui.text.ParagraphStyle paragraphStyle2;
+        androidx.compose.ui.text.AnnotatedString str2;
         String text;
         androidx.compose.ui.text.TextStyle merge;
         List spanStyles;
         List list2;
         Density density2;
         FontFamily.Resolver resolver;
-        androidx.compose.ui.text.AnnotatedString str4;
-        androidx.compose.ui.text.ParagraphStyle paragraphStyle;
         androidx.compose.ui.text.AnnotatedString str;
+        androidx.compose.ui.text.ParagraphStyle paragraphStyle;
+        androidx.compose.ui.text.AnnotatedString str3;
         final Object obj5 = this;
         super();
         obj5.annotatedString = annotatedString;
@@ -69,7 +69,7 @@ public final class MultiParagraphIntrinsics implements androidx.compose.ui.text.
         obj5.minIntrinsicWidth$delegate = LazyKt.lazy(LazyThreadSafetyMode.NONE, (Function0)anon);
         MultiParagraphIntrinsics.maxIntrinsicWidth.2 anon2 = new MultiParagraphIntrinsics.maxIntrinsicWidth.2(obj5);
         obj5.maxIntrinsicWidth$delegate = LazyKt.lazy(LazyThreadSafetyMode.NONE, (Function0)anon2);
-        i5 = 0;
+        i4 = 0;
         final List normalizedParagraphStyles = AnnotatedStringKt.normalizedParagraphStyles(obj5.annotatedString, style.toParagraphStyle());
         final int i6 = 0;
         ArrayList arrayList = new ArrayList(normalizedParagraphStyles.size());
@@ -77,25 +77,25 @@ public final class MultiParagraphIntrinsics implements androidx.compose.ui.text.
         final int i7 = 0;
         index$iv$iv$iv = 0;
         while (index$iv$iv$iv < list5.size()) {
-            i4 = 0;
-            obj3 = obj4;
+            i5 = 0;
+            obj4 = obj3;
             i2 = 0;
-            androidx.compose.ui.text.AnnotatedString str5 = AnnotatedStringKt.access$substringWithoutParagraphStyles(annotatedString2, (AnnotatedString.Range)obj3.getStart(), obj3.getEnd());
+            androidx.compose.ui.text.AnnotatedString str5 = AnnotatedStringKt.access$substringWithoutParagraphStyles(annotatedString2, (AnnotatedString.Range)obj4.getStart(), obj4.getEnd());
             androidx.compose.ui.text.AnnotatedString str6 = str5;
-            obj = obj3;
-            i = 0;
-            str3 = str5;
-            androidx.compose.ui.text.ParagraphStyle paragraphStyle4 = MultiParagraphIntrinsics.access$resolveTextDirection(obj5, (ParagraphStyle)obj.getItem(), paragraphStyle2);
+            obj2 = obj4;
+            i3 = 0;
+            str2 = str5;
+            androidx.compose.ui.text.ParagraphStyle paragraphStyle4 = MultiParagraphIntrinsics.access$resolveTextDirection(obj5, (ParagraphStyle)obj2.getItem(), paragraphStyle3);
             paragraphStyle = paragraphStyle4;
-            str = str6;
-            ParagraphIntrinsicInfo paragraphStyle5 = new ParagraphIntrinsicInfo(ParagraphIntrinsicsKt.ParagraphIntrinsics(str6.getText(), style.merge(paragraphStyle4), str6.getSpanStyles(), MultiParagraphIntrinsicsKt.access$getLocalPlaceholders(obj5.getPlaceholders(), obj.getStart(), obj.getEnd()), density, fontFamilyResolver), obj.getStart(), obj.getEnd());
+            str3 = str6;
+            ParagraphIntrinsicInfo paragraphStyle5 = new ParagraphIntrinsicInfo(ParagraphIntrinsicsKt.ParagraphIntrinsics(str6.getText(), style.merge(paragraphStyle4), str6.getSpanStyles(), MultiParagraphIntrinsicsKt.access$getLocalPlaceholders(obj5.getPlaceholders(), obj2.getStart(), obj2.getEnd()), density, fontFamilyResolver), obj2.getStart(), obj2.getEnd());
             (Collection)arrayList.add(paragraphStyle5);
             index$iv$iv$iv++;
-            str2 = annotatedString;
+            str4 = annotatedString;
             list = placeholders;
-            i5 = i3;
-            paragraphStyle2 = paragraphStyle3;
-            annotatedString2 = str4;
+            i4 = i;
+            paragraphStyle3 = paragraphStyle2;
+            annotatedString2 = str;
         }
         obj5.infoList = (List)arrayList;
     }
@@ -107,16 +107,16 @@ public final class MultiParagraphIntrinsics implements androidx.compose.ui.text.
     private final androidx.compose.ui.text.ParagraphStyle resolveTextDirection(androidx.compose.ui.text.ParagraphStyle style, androidx.compose.ui.text.ParagraphStyle defaultStyle) {
         androidx.compose.ui.text.ParagraphStyle copy-ykzQM6k$default;
         int unspecified-s_7X-co;
-        int i5;
+        int i;
         int textDirection-s_7X-co;
+        int i5;
+        int i2;
+        int i10;
+        int i3;
+        int i9;
         int i7;
         int i8;
-        int i;
-        int i3;
         int i4;
-        int i2;
-        int i9;
-        int i10;
         int i6;
         if (!TextDirection.equals-impl0(style.getTextDirection-s_7X-co(), TextDirection.Companion.getUnspecified-s_7X-co())) {
             copy-ykzQM6k$default = style;
@@ -134,12 +134,12 @@ public final class MultiParagraphIntrinsics implements androidx.compose.ui.text.
     @Override // androidx.compose.ui.text.ParagraphIntrinsics
     public boolean getHasStaleResolvedFonts() {
         int index$iv$iv;
-        int i3;
-        Object obj;
+        int i;
         Object obj2;
+        Object obj;
         int i2;
         boolean it;
-        int i;
+        int i3;
         androidx.compose.ui.text.ParagraphIntrinsics intrinsics;
         final int i4 = 0;
         final List list = infoList;
@@ -147,11 +147,11 @@ public final class MultiParagraphIntrinsics implements androidx.compose.ui.text.
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
             i2 = 0;
-            i = 0;
+            i3 = 0;
             index$iv$iv++;
         }
-        i3 = 0;
-        return i3;
+        i = 0;
+        return i;
     }
 
     public final List<androidx.compose.ui.text.ParagraphIntrinsicInfo> getInfoList$ui_text_release() {

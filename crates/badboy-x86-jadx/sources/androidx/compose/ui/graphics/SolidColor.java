@@ -19,20 +19,20 @@ public final class SolidColor extends androidx.compose.ui.graphics.Brush {
 
     @Override // androidx.compose.ui.graphics.Brush
     public void applyTo-Pq9zytI(long size, androidx.compose.ui.graphics.Paint p, float alpha) {
-        int i2;
+        int i3;
         long copy-wmQWz5c$default;
         android.graphics.Shader shader;
         long value;
-        int i4;
-        long l;
-        int i3;
-        int i6;
         int i5;
+        long l;
+        int i2;
+        int i6;
         int i;
+        int i4;
         int i7 = 1065353216;
         alpha.setAlpha(i7);
-        i2 = Float.compare(obj13, i7) == 0 ? 1 : 0;
-        if (i2 == 0) {
+        i3 = Float.compare(obj13, i7) == 0 ? 1 : 0;
+        if (i3 == 0) {
             copy-wmQWz5c$default = Color.copy-wmQWz5c$default(this.value, obj2, alpha-impl * obj13, 0, 0, 0, 14);
         } else {
             copy-wmQWz5c$default = this.value;

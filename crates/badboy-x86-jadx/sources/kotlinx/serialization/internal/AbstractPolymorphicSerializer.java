@@ -35,10 +35,10 @@ public abstract class AbstractPolymorphicSerializer<T>  implements KSerializer<T
         Object obj;
         boolean decodeSequentially;
         DeserializationStrategy polymorphicSerializer;
-        int i3;
+        int i;
         Object element;
         int i2;
-        int i;
+        int i3;
         int value;
         Intrinsics.checkNotNullParameter(decoder, "decoder");
         SerialDescriptor descriptor = getDescriptor();
@@ -68,8 +68,8 @@ public abstract class AbstractPolymorphicSerializer<T>  implements KSerializer<T
             }
             int i6 = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(stringBuilder.append("Polymorphic value has not been read for class ").append((String)objectRef2.element).toString().toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Polymorphic value has not been read for class ").append((String)objectRef2.element).toString().toString());
+            throw illegalArgumentException;
         }
         StringBuilder stringBuilder2 = new StringBuilder();
         if ((String)objectRef2.element != null) {

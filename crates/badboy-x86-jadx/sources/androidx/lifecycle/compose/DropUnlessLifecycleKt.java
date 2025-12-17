@@ -47,16 +47,16 @@ public final class DropUnlessLifecycleKt {
     }
 
     public static final Function0<Unit> dropUnlessStarted(LifecycleOwner lifecycleOwner, Function0<Unit> block, Composer $composer, int $changed, int i5) {
-        String str;
+        String str2;
         Object obj;
         Object consume;
-        String str2;
+        String str;
         Object obj7;
         int obj11;
         final int i = 1207869935;
         ComposerKt.sourceInformationMarkerStart($composer, i, "C(dropUnlessStarted)P(1)75@3053L7,77@3101L62:DropUnlessLifecycle.kt#2vxrgp");
         if (i5 &= 1 != 0) {
-            str = 6;
+            str2 = 6;
             int i2 = 0;
             ComposerKt.sourceInformationMarkerStart($composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             ComposerKt.sourceInformationMarkerEnd($composer);
@@ -78,9 +78,9 @@ public final class DropUnlessLifecycleKt {
     private static final Function0<Unit> dropUnlessStateIsAtLeast(Lifecycle.State state, LifecycleOwner lifecycleOwner, Function0<Unit> block, Composer $composer, int $changed, int i6) {
         int i2;
         String str;
-        int i3;
-        boolean changed;
         int i;
+        boolean changed;
+        int i3;
         int changed2;
         Object consume;
         String empty;
@@ -91,7 +91,7 @@ public final class DropUnlessLifecycleKt {
         ComposerKt.sourceInformationMarkerStart($composer, i4, "C(dropUnlessStateIsAtLeast)P(2,1)45@1919L7,53@2217L107:DropUnlessLifecycle.kt#2vxrgp");
         if (i6 &= 2 != 0) {
             str = 6;
-            i3 = 0;
+            i = 0;
             ComposerKt.sourceInformationMarkerStart($composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             ComposerKt.sourceInformationMarkerEnd($composer);
             obj7 = consume;
@@ -108,7 +108,7 @@ public final class DropUnlessLifecycleKt {
             int i11 = 4;
             if (i8 ^= 6 > i11) {
                 if (!$composer.changed((Enum)state.ordinal())) {
-                    i = $changed & 6 == i11 ? i2 : i5;
+                    i3 = $changed & 6 == i11 ? i2 : i5;
                 } else {
                 }
             } else {

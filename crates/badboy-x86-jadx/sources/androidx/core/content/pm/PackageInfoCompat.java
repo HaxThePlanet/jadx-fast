@@ -76,10 +76,10 @@ public final class PackageInfoCompat {
     }
 
     public static boolean hasSignatures(PackageManager packageManager, String packageName, Map<byte[], Integer> map3, boolean matchExact) throws PackageManager.NameNotFoundException {
-        Object next;
+        Object next2;
         String str;
         boolean byteArrayContains;
-        Object next2;
+        Object next;
         int size;
         int intValue2;
         int sha256Digests;
@@ -93,15 +93,15 @@ public final class PackageInfoCompat {
         Set keySet = map3.keySet();
         Iterator iterator = keySet.iterator();
         str = "Unsupported certificate type ";
-        for (byte[] next : iterator) {
-            next2 = map3.get(next);
+        for (byte[] next2 : iterator) {
+            next = map3.get(next2);
             str = "Unsupported certificate type ";
         }
         List signatures = PackageInfoCompat.getSignatures(packageManager, packageName);
         int i2 = 1;
         if (!matchExact) {
             Iterator iterator2 = keySet.iterator();
-            for (byte[] next2 : iterator2) {
+            for (byte[] next : iterator2) {
             }
             return i2;
         }

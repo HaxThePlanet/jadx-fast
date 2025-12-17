@@ -33,10 +33,10 @@ public final class FlowLayoutOverflowState {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
-            int ordinal2;
-            int ordinal4;
             int ordinal3;
+            int ordinal2;
+            int ordinal;
+            int ordinal4;
             int[] iArr = new int[values.length];
             iArr[FlowLayoutOverflow.OverflowType.Visible.ordinal()] = 1;
             iArr[FlowLayoutOverflow.OverflowType.Clip.ordinal()] = 2;
@@ -108,26 +108,26 @@ public final class FlowLayoutOverflowState {
 
     public final androidx.compose.foundation.layout.FlowLayoutBuildingBlocks.WrapEllipsisInfo ellipsisInfo$foundation_layout_release(boolean hasNext, int lineIndex, int totalCrossAxisSize) {
         int measurable2;
-        int measurable3;
-        int i3;
+        int measurable;
+        int i4;
         androidx.compose.foundation.layout.FlowLayoutBuildingBlocks.WrapEllipsisInfo wrapEllipsisInfo;
         Placeable placeable;
         Object ellipsisSize;
-        Placeable measurable;
+        Placeable measurable3;
         Object minCrossAxisSizeToShowCollapse;
         long unbox-impl;
         int getOverflowMeasurable;
         Integer valueOf;
-        int i4;
-        int i2;
         int i;
+        int i2;
+        int i3;
         switch (measurable2) {
             case 1:
                 break;
             case 2:
                 break;
             case 3:
-                measurable3 = 0;
+                measurable = 0;
                 placeable = 0;
                 int i5 = 0;
                 minCrossAxisSizeToShowCollapse = 1;
@@ -135,29 +135,29 @@ public final class FlowLayoutOverflowState {
                 minCrossAxisSizeToShowCollapse = this.seeMoreMeasurable;
                 measurable2 = this.seeMoreSize;
                 ellipsisSize = minCrossAxisSizeToShowCollapse;
-                measurable = placeable;
+                measurable3 = placeable;
                 ellipsisSize = minCrossAxisSizeToShowCollapse;
-                measurable = placeable;
+                measurable3 = placeable;
                 minCrossAxisSizeToShowCollapse = this.getOverflowMeasurable;
                 minCrossAxisSizeToShowCollapse = this.collapseMeasurable;
-                measurable3 = minCrossAxisSizeToShowCollapse;
+                measurable = minCrossAxisSizeToShowCollapse;
                 IntIntPair ellipsisSize3 = this.collapseSize;
-                ellipsisSize = measurable3;
+                ellipsisSize = measurable;
                 measurable2 = intIntPair2;
-                measurable = placeable;
-                ellipsisSize = measurable3;
+                measurable3 = placeable;
+                ellipsisSize = measurable;
                 measurable2 = intIntPair;
-                measurable = placeable;
+                measurable3 = placeable;
                 return null;
                 Intrinsics.checkNotNull(measurable2);
-                wrapEllipsisInfo = new FlowLayoutBuildingBlocks.WrapEllipsisInfo(ellipsisSize, measurable, measurable2.unbox-impl(), valueOf, 0, 8, 0);
-                i3 = wrapEllipsisInfo;
+                wrapEllipsisInfo = new FlowLayoutBuildingBlocks.WrapEllipsisInfo(ellipsisSize, measurable3, measurable2.unbox-impl(), valueOf, 0, 8, 0);
+                i4 = wrapEllipsisInfo;
                 break;
             default:
                 NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
                 throw noWhenBranchMatchedException;
         }
-        return i3;
+        return i4;
     }
 
     public final IntIntPair ellipsisSize-F35zm-w$foundation_layout_release(boolean hasNext, int lineIndex, int totalCrossAxisSize) {
@@ -274,39 +274,39 @@ public final class FlowLayoutOverflowState {
     public final void setOverflowMeasurables--hBUhpc$foundation_layout_release(IntrinsicMeasurable seeMoreMeasurable, IntrinsicMeasurable collapseMeasurable, boolean isHorizontal, long constraints) {
         androidx.compose.foundation.layout.LayoutOrientation horizontal;
         IntrinsicMeasurable intrinsicMeasurable;
-        int i2;
+        int i;
         int mainAxisMin;
         int crossAxisMin;
-        int i;
+        int i2;
         horizontal = isHorizontal ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical;
         final long constructor-impl = OrientationIndependentConstraints.constructor-impl(constraints, obj15);
         final int i3 = 0;
         if (seeMoreMeasurable != null) {
             intrinsicMeasurable = seeMoreMeasurable;
-            i2 = 0;
+            i = 0;
             int i5 = 0;
             mainAxisMin = FlowLayoutKt.mainAxisMin(intrinsicMeasurable, isHorizontal, Constraints.getMaxHeight-impl(constructor-impl));
             this.seeMoreSize = IntIntPair.box-impl(IntIntPair.constructor-impl(mainAxisMin, FlowLayoutKt.crossAxisMin(intrinsicMeasurable, isHorizontal, mainAxisMin)));
             if (intrinsicMeasurable instanceof Measurable) {
-                i = intrinsicMeasurable;
+                i2 = intrinsicMeasurable;
             } else {
-                i = i3;
+                i2 = i3;
             }
-            this.seeMoreMeasurable = i;
+            this.seeMoreMeasurable = i2;
             this.seeMorePlaceable = i3;
         }
         if (collapseMeasurable != null) {
             intrinsicMeasurable = collapseMeasurable;
-            i2 = 0;
+            i = 0;
             int i4 = 0;
             mainAxisMin = FlowLayoutKt.mainAxisMin(intrinsicMeasurable, isHorizontal, Constraints.getMaxHeight-impl(constructor-impl));
             this.collapseSize = IntIntPair.box-impl(IntIntPair.constructor-impl(mainAxisMin, FlowLayoutKt.crossAxisMin(intrinsicMeasurable, isHorizontal, mainAxisMin)));
             if (intrinsicMeasurable instanceof Measurable) {
-                i = intrinsicMeasurable;
+                i2 = intrinsicMeasurable;
             } else {
-                i = i3;
+                i2 = i3;
             }
-            this.collapseMeasurable = i;
+            this.collapseMeasurable = i2;
             this.collapsePlaceable = i3;
         }
     }

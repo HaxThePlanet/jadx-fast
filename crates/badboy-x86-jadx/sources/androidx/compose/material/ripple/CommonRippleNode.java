@@ -42,17 +42,17 @@ public final class CommonRippleNode extends androidx.compose.material.ripple.Rip
     public void addRipple-12SF9DM(PressInteraction.Press interaction, long size, float targetRadius) {
         int ripples;
         int box-impl;
-        int i2;
+        int i;
         Object[] keys;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
-        int i5;
-        int i;
-        MutableScatterMap this_$iv;
+        int i2;
         int i3;
-        long l;
+        MutableScatterMap this_$iv;
         int i4;
+        long l;
+        int i5;
         Object obj;
         final Object obj2 = this;
         final Object obj3 = interaction;
@@ -64,7 +64,7 @@ public final class CommonRippleNode extends androidx.compose.material.ripple.Rip
         if (0 <= i15) {
         } else {
             this_$iv = ripples;
-            i3 = i2;
+            i4 = i;
         }
         int i12 = 0;
         if (obj2.getBounded()) {
@@ -82,60 +82,60 @@ public final class CommonRippleNode extends androidx.compose.material.ripple.Rip
     @Override // androidx.compose.material.ripple.RippleNode
     public void drawRipples(DrawScope $this$drawRipples) {
         int i9;
-        Object obj;
+        Object obj3;
         long[] m$iv$iv;
-        int i3;
-        DrawScope alpha;
-        float pressedAlpha;
+        int i4;
         DrawScope alpha2;
+        float pressedAlpha;
+        DrawScope alpha;
         int i$iv$iv;
-        int slot$iv$iv;
+        int slot$iv$iv2;
         int $this$drawRipples_u24lambda_u242_u24lambda_u241;
         float f;
         int i8;
         int lastIndex$iv$iv;
         int i7;
-        int i;
+        int i11;
         MutableScatterMap map2;
-        int i10;
+        int i13;
         Object[] keys;
         Object[] values;
         MutableScatterMap map;
-        int i2;
+        int i3;
         int cmp;
-        long slot$iv$iv2;
-        int i4;
-        int i11;
-        Object obj3;
-        int i12;
-        int i13;
+        long slot$iv$iv;
+        int i;
+        int i14;
+        Object obj2;
+        int i5;
+        int i15;
         long[] m$iv$iv2;
         int lastIndex$iv$iv2;
+        int i12;
+        int i2;
+        Object obj;
+        int i10;
         int i6;
-        int i5;
-        Object obj2;
-        int i14;
-        int i15;
         pressedAlpha = (RippleAlpha)getRippleAlpha().invoke().getPressedAlpha();
         i9 = Float.compare(pressedAlpha, i16) == 0 ? 1 : 0;
         if (i9 == 0) {
-            obj = this;
+            obj3 = this;
             map2 = ripples;
-            i10 = 0;
-            i2 = 0;
+            i13 = 0;
+            i3 = 0;
             m$iv$iv = map.metadata;
             length += -2;
-            if (0 <= i3) {
+            if (0 <= i4) {
             } else {
                 m$iv$iv2 = m$iv$iv;
-                lastIndex$iv$iv = i3;
+                lastIndex$iv$iv = i4;
                 f = pressedAlpha;
-                alpha = $this$drawRipples;
+                alpha2 = $this$drawRipples;
             }
         } else {
-            obj = this;
+            obj3 = this;
             f = pressedAlpha;
-            alpha = $this$drawRipples;
+            alpha2 = $this$drawRipples;
         }
     }
 

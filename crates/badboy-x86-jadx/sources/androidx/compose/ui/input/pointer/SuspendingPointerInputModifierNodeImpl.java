@@ -248,17 +248,17 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
 
         public <T> Object withTimeout(long l, Function2<? super androidx.compose.ui.input.pointer.AwaitPointerEventScope, ? super Continuation<? super T>, ? extends Object> function22, Continuation<? super T> continuation3) {
             boolean anon;
-            int i6;
+            int i;
             int i4;
             int label;
             Object launch$default;
             int pointerAwaiter;
             Object coroutineScope;
-            int i;
-            int i5;
-            androidx.compose.ui.input.pointer.SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeout.job.1 time;
             int i2;
+            int i6;
+            androidx.compose.ui.input.pointer.SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeout.job.1 time;
             int i3;
+            int i5;
             Object obj11;
             Object obj14;
             anon = obj14;
@@ -284,9 +284,9 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
                     kotlin.Result.Companion companion = Result.Companion;
                     PointerEventTimeoutCancellationException pointerEventTimeoutCancellationException = new PointerEventTimeoutCancellationException(l, function22);
                     (Continuation)pointerAwaiter.resumeWith(Result.constructor-impl(ResultKt.createFailure((Throwable)pointerEventTimeoutCancellationException)));
-                    i = 0;
-                    SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeout.job.1 anon2 = new SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeout.job.1(l, function22, label, i);
-                    obj14.L$0 = BuildersKt.launch$default(label.this$0.getCoroutineScope(), i, 0, (Function2)anon2, 3, 0);
+                    i2 = 0;
+                    SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeout.job.1 anon2 = new SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeout.job.1(l, function22, label, i2);
+                    obj14.L$0 = BuildersKt.launch$default(label.this$0.getCoroutineScope(), i2, 0, (Function2)anon2, 3, 0);
                     obj14.label = 1;
                     return cOROUTINE_SUSPENDED;
                 case 1:
@@ -304,18 +304,18 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
 
         public <T> Object withTimeoutOrNull(long l, Function2<? super androidx.compose.ui.input.pointer.AwaitPointerEventScope, ? super Continuation<? super T>, ? extends Object> function22, Continuation<? super T> continuation3) {
             boolean anon;
-            int i;
             int i2;
+            int i;
             int label;
             Object timeout;
             Object obj8;
             anon = obj8;
-            i2 = Integer.MIN_VALUE;
-            if (obj8 instanceof SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeoutOrNull.1 && label2 &= i2 != 0) {
+            i = Integer.MIN_VALUE;
+            if (obj8 instanceof SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeoutOrNull.1 && label2 &= i != 0) {
                 anon = obj8;
-                i2 = Integer.MIN_VALUE;
-                if (label2 &= i2 != 0) {
-                    anon.label = obj8 -= i2;
+                i = Integer.MIN_VALUE;
+                if (label2 &= i != 0) {
+                    anon.label = obj8 -= i;
                 } else {
                     anon = new SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine.withTimeoutOrNull.1(this, obj8);
                 }
@@ -345,9 +345,9 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal3;
-            int ordinal;
             int ordinal2;
+            int ordinal;
+            int ordinal3;
             int[] iArr = new int[values.length];
             iArr[PointerEventPass.Initial.ordinal()] = 1;
             iArr[PointerEventPass.Final.ordinal()] = 2;
@@ -403,16 +403,16 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
     private final void dispatchPointerEvent(androidx.compose.ui.input.pointer.PointerEvent pointerEvent, androidx.compose.ui.input.pointer.PointerEventPass pass) {
         MutableVector this_$iv$iv;
         int ordinal;
-        int size;
+        int size2;
         MutableVector i$iv$iv;
         MutableVector pointerHandlers;
         int i;
-        int size2;
+        int size;
         final Object obj = this;
         final int i2 = 0;
         MutableVector pointerHandlers2 = obj.pointerHandlers;
         int i3 = 0;
-        size = 0;
+        size2 = 0;
         i$iv$iv = obj.dispatchingPointerHandlers;
         i = 0;
         i$iv$iv.addAll(i$iv$iv.getSize(), obj.pointerHandlers);
@@ -421,21 +421,21 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
             i2 = 0;
             pointerHandlers2 = obj.pointerHandlers;
             i3 = 0;
-            size = 0;
+            size2 = 0;
             i$iv$iv = obj.dispatchingPointerHandlers;
             i = 0;
             i$iv$iv.addAll(i$iv$iv.getSize(), obj.pointerHandlers);
         }
         this_$iv$iv = obj.dispatchingPointerHandlers;
         ordinal = 0;
-        size = this_$iv$iv.getSize();
-        if (size > 0) {
+        size2 = this_$iv$iv.getSize();
+        if (size2 > 0) {
             try {
                 i$iv$iv = 0;
-                size2 = 0;
+                size = 0;
                 (SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine)this_$iv$iv.getContent()[i$iv$iv].offerPointerEvent(pointerEvent, pass);
-                while (i$iv$iv++ >= size) {
-                    size2 = 0;
+                while (i$iv$iv++ >= size2) {
+                    size = 0;
                     (SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine)pointerHandlers[i$iv$iv].offerPointerEvent(pointerEvent, pass);
                 }
                 obj.dispatchingPointerHandlers.clear();
@@ -510,7 +510,7 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
         SuspendingPointerInputModifierNodeImpl.access$getPointerHandlers$p(this).add(pointerEventHandlerCoroutine);
         kotlin.Result.Companion companion = Result.Companion;
         ContinuationKt.createCoroutine(block, pointerEventHandlerCoroutine, (Continuation)pointerEventHandlerCoroutine).resumeWith(Result.constructor-impl(Unit.INSTANCE));
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedSuspendingPointerInputModifierNodeImpl$awaitPointerEventScope$2$1 = Unit.INSTANCE;
         SuspendingPointerInputModifierNodeImpl.awaitPointerEventScope.2.2 lock$iv = new SuspendingPointerInputModifierNodeImpl.awaitPointerEventScope.2.2(pointerEventHandlerCoroutine);
         cancellableContinuationImpl2.invokeOnCancellation((Function1)lock$iv);
         Object uCont$iv = cancellableContinuationImpl.getResult();
@@ -529,7 +529,7 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
             SuspendingPointerInputModifierNodeImpl.access$getPointerHandlers$p(this).add(pointerEventHandlerCoroutine);
             companion = Result.Companion;
             ContinuationKt.createCoroutine(block, pointerEventHandlerCoroutine, (Continuation)pointerEventHandlerCoroutine).resumeWith(Result.constructor-impl(Unit.INSTANCE));
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedSuspendingPointerInputModifierNodeImpl$awaitPointerEventScope$2$1 = Unit.INSTANCE;
             lock$iv = new SuspendingPointerInputModifierNodeImpl.awaitPointerEventScope.2.2(pointerEventHandlerCoroutine);
             cancellableContinuationImpl2.invokeOnCancellation((Function1)lock$iv);
             uCont$iv = cancellableContinuationImpl.getResult();
@@ -579,28 +579,28 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
     @Override // androidx.compose.ui.Modifier$Node
     public void onCancelPointerInput() {
         int index$iv$iv;
-        int i;
+        int i7;
         int index$iv$iv2;
-        Object obj3;
-        Object obj;
-        int i5;
         Object obj2;
+        Object obj;
+        int i6;
+        Object obj3;
         int i8;
-        boolean pressed2;
+        boolean pressed;
         androidx.compose.ui.input.pointer.PointerInputChange pointerInputChange;
         long id-J3iCeTQ;
-        long uptimeMillis;
-        long position-F1C5BW0;
-        int i2;
-        float pressure;
         long uptimeMillis2;
-        long position-F1C5BW02;
-        boolean pressed3;
-        boolean pressed;
-        int i4;
-        int i6;
-        int i7;
+        long position-F1C5BW0;
         int i3;
+        float pressure;
+        long uptimeMillis;
+        long position-F1C5BW02;
+        boolean pressed2;
+        boolean pressed3;
+        int i4;
+        int i5;
+        int i;
+        int i2;
         final Object obj4 = this;
         final androidx.compose.ui.input.pointer.PointerEvent lastPointerEvent = obj4.lastPointerEvent;
         if (lastPointerEvent == null) {
@@ -610,12 +610,12 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
         int i12 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i5 = 0;
+            i6 = 0;
             i8 = 0;
             index$iv$iv++;
         }
-        i = 1;
-        if (i != 0) {
+        i7 = 1;
+        if (i7 != 0) {
         }
         List changes2 = lastPointerEvent.getChanges();
         int i10 = 0;
@@ -624,8 +624,8 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
         int i13 = 0;
         index$iv$iv2 = 0;
         while (index$iv$iv2 < list2.size()) {
-            obj2 = null;
-            int i14 = i5;
+            obj3 = null;
+            int i14 = i6;
             int i15 = 0;
             pointerInputChange = new PointerInputChange((PointerInputChange)i14.getId-J3iCeTQ(), obj16, i14.getUptimeMillis(), obj18, i14.getPosition-F1C5BW0(), obj20, 0, i14.getPressure(), i14.getUptimeMillis(), obj24, i14.getPosition-F1C5BW0(), obj26, i14.getPressed(), i14.getPressed(), 0, 0, obj31, 1536, 0);
             i8 = 0;
@@ -655,20 +655,20 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
     public void onPointerEvent-H0pRuoY(androidx.compose.ui.input.pointer.PointerEvent pointerEvent, androidx.compose.ui.input.pointer.PointerEventPass pass, long bounds) {
         androidx.compose.ui.input.pointer.PointerEvent pointerEvent2;
         Job pointerInputJob;
-        int i3;
+        int i;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i4;
+        int i5;
         CoroutineStart uNDISPATCHED;
         androidx.compose.ui.input.pointer.SuspendingPointerInputModifierNodeImpl.onPointerEvent.1 anon;
-        int i;
-        int i2;
-        int index$iv$iv;
         int i6;
+        int i7;
+        int index$iv$iv;
+        int i2;
         Object obj;
         Object obj2;
-        int i5;
+        int i3;
         boolean it;
-        int i7;
+        int i4;
         final Object obj3 = this;
         obj3.boundsSize = bounds;
         if (pass == PointerEventPass.Initial) {
@@ -687,15 +687,15 @@ public final class SuspendingPointerInputModifierNodeImpl extends Modifier.Node 
         int i10 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i5 = 0;
-            i7 = 0;
+            i3 = 0;
+            i4 = 0;
             index$iv$iv++;
         }
-        i6 = 1;
-        if (i6 == 0) {
-            i3 = pointerEvent2;
+        i2 = 1;
+        if (i2 == 0) {
+            i = pointerEvent2;
         }
-        obj3.lastPointerEvent = i3;
+        obj3.lastPointerEvent = i;
     }
 
     @Override // androidx.compose.ui.Modifier$Node

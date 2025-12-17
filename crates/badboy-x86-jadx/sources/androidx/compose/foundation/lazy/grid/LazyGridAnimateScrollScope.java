@@ -84,17 +84,17 @@ public final class LazyGridAnimateScrollScope implements LazyLayoutAnimateScroll
     public float calculateDistanceTo(int targetIndex) {
         int slotsPerLine$foundation_release;
         int lineAverageMainAxisSize;
-        int i6;
-        int index$iv$iv;
-        int i2;
-        float size;
-        int i3;
-        int i;
-        Object obj3;
-        Object obj;
         int i5;
+        int index$iv$iv;
+        int i;
+        float size;
+        int i2;
+        int i6;
+        Object obj;
         Object obj2;
         int i4;
+        Object obj3;
+        int i3;
         final Object obj4 = this;
         final int i7 = targetIndex;
         androidx.compose.foundation.lazy.grid.LazyGridLayoutInfo layoutInfo = obj4.state.getLayoutInfo();
@@ -103,27 +103,27 @@ public final class LazyGridAnimateScrollScope implements LazyLayoutAnimateScroll
         }
         int i9 = 0;
         List list = visibleItemsInfo2;
-        i6 = 0;
+        i5 = 0;
         index$iv$iv = 0;
-        i = 1;
+        i6 = 1;
         while (index$iv$iv < list.size()) {
-            i5 = 0;
             i4 = 0;
+            i3 = 0;
             if ((LazyGridItemInfo)list.get(index$iv$iv).getIndex() == i7) {
             } else {
             }
-            i3 = 0;
+            i2 = 0;
             index$iv$iv++;
-            i = 1;
-            i3 = i;
+            i6 = 1;
+            i2 = i6;
         }
-        obj = 0;
-        Object $this$fastFirstOrNull$iv = obj;
+        obj2 = 0;
+        Object $this$fastFirstOrNull$iv = obj2;
         if ((LazyGridItemInfo)$this$fastFirstOrNull$iv == null) {
             slotsPerLine$foundation_release = obj4.state.getSlotsPerLine$foundation_release();
-            i3 = i7 < obj4.getFirstVisibleItemIndex() ? i : 0;
-            if (i3 != 0) {
-                i = -1;
+            i2 = i7 < obj4.getFirstVisibleItemIndex() ? i6 : 0;
+            if (i2 != 0) {
+                i6 = -1;
             }
             f -= size;
         } else {
@@ -133,9 +133,9 @@ public final class LazyGridAnimateScrollScope implements LazyLayoutAnimateScroll
             } else {
                 slotsPerLine$foundation_release = IntOffset.getX-impl($this$fastFirstOrNull$iv.getOffset-nOcc-ac());
             }
-            i2 = (float)slotsPerLine$foundation_release;
+            i = (float)slotsPerLine$foundation_release;
         }
-        return i2;
+        return i;
     }
 
     @Override // androidx.compose.foundation.lazy.layout.LazyLayoutAnimateScrollScope

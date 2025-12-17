@@ -28,10 +28,10 @@ public final class SelectedRangeInfo {
             int daysFromStartOfWeekToFirstOfMonth;
             int cmp;
             int dayOfMonth;
-            int i3;
+            int i2;
             long startUtcTimeMillis;
             int numberOfDays;
-            int i2;
+            int i3;
             if (Long.compare(utcTimeMillis, startUtcTimeMillis) <= 0) {
                 if (Long.compare(utcTimeMillis2, startUtcTimeMillis) < 0) {
                 } else {
@@ -40,19 +40,19 @@ public final class SelectedRangeInfo {
                     i = Long.compare(utcTimeMillis3, startUtcTimeMillis2) >= 0 ? i7 : dayOfMonth;
                     final int i12 = i;
                     final long endUtcTimeMillis = month.getEndUtcTimeMillis();
-                    i2 = Long.compare(utcTimeMillis4, endUtcTimeMillis) <= 0 ? i7 : dayOfMonth;
+                    i3 = Long.compare(utcTimeMillis4, endUtcTimeMillis) <= 0 ? i7 : dayOfMonth;
                     if (i12 != 0) {
                         i4 -= i7;
                     } else {
                         daysFromStartOfWeekToFirstOfMonth = month.getDaysFromStartOfWeekToFirstOfMonth();
                     }
-                    if (i2 != 0) {
+                    if (i3 != 0) {
                         i6 -= i7;
                     } else {
                         i5 -= i7;
                     }
                 }
-                SelectedRangeInfo selectedRangeInfo = new SelectedRangeInfo(IntOffsetKt.IntOffset(daysFromStartOfWeekToFirstOfMonth % 7, daysFromStartOfWeekToFirstOfMonth / 7), endUtcTimeMillis, IntOffsetKt.IntOffset(i3 % 7, i3 / 7), obj7, i12, i2, 0);
+                SelectedRangeInfo selectedRangeInfo = new SelectedRangeInfo(IntOffsetKt.IntOffset(daysFromStartOfWeekToFirstOfMonth % 7, daysFromStartOfWeekToFirstOfMonth / 7), endUtcTimeMillis, IntOffsetKt.IntOffset(i2 % 7, i2 / 7), obj7, i12, i3, 0);
                 return selectedRangeInfo;
             }
             return null;

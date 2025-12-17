@@ -23,29 +23,29 @@ import kotlinx.coroutines.flow.Flow;
 public final class PredictiveBackHandlerKt {
     public static final void PredictiveBackHandler(boolean enabled, Function2<Flow<BackEventCompat>, ? super Continuation<Unit>, ? extends Object> onBack, Composer $composer, int $changed, int i5) {
         int invalid$iv;
-        Object currentOnBack$delegate;
-        int $dirty;
-        Object $dirty2;
+        Object currentOnBack$delegate2;
+        int $dirty2;
+        Object $dirty;
         boolean enabled2;
         Object this_$iv;
         kotlinx.coroutines.CoroutineScope onBackScope;
-        boolean traceInProgress2;
         boolean traceInProgress;
-        int empty;
-        int i;
-        int i4;
-        boolean skipping;
-        int i2;
-        Object rememberedValue;
-        int i3;
-        int i6;
-        Object rememberedValue3;
+        boolean traceInProgress2;
         int empty2;
-        Object anon;
-        Object predictiveBackHandlerCallback;
+        int i6;
+        int i3;
+        boolean skipping;
+        int i;
         Object rememberedValue2;
+        int i2;
+        int i4;
+        Object rememberedValue;
+        int empty;
+        Object anon;
+        Object $i$a$CachePredictiveBackHandlerKt$PredictiveBackHandler$1;
+        Object rememberedValue3;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        State currentOnBack$delegate2;
+        State currentOnBack$delegate;
         int obj20;
         final Object obj = onBack;
         final int i7 = $changed;
@@ -53,32 +53,32 @@ public final class PredictiveBackHandlerKt {
         invalid$iv = -642000585;
         Composer restartGroup = $composer.startRestartGroup(invalid$iv);
         ComposerKt.sourceInformation(restartGroup, "C(PredictiveBackHandler)78@3130L28,79@3181L24,81@3230L91,86@3419L142,91@3591L38,91@3567L62,*94@3711L7,100@4006L7,102@4068L117,102@4019L166:PredictiveBackHandler.kt#q1dkbc");
-        $dirty = $changed;
+        $dirty2 = $changed;
         int i14 = i8 & 1;
         if (i14 != 0) {
-            $dirty |= 6;
-            traceInProgress2 = enabled;
+            $dirty2 |= 6;
+            traceInProgress = enabled;
         } else {
             if (i7 & 6 == 0) {
-                i = restartGroup.changed(enabled) ? 4 : 2;
-                $dirty |= i;
+                i6 = restartGroup.changed(enabled) ? 4 : 2;
+                $dirty2 |= i6;
             } else {
-                traceInProgress2 = enabled;
+                traceInProgress = enabled;
             }
         }
         if (i8 & 2 != 0) {
-            $dirty |= 48;
+            $dirty2 |= 48;
         } else {
             if (i7 & 48 == 0) {
-                i4 = restartGroup.changedInstance(obj) ? 32 : 16;
-                $dirty |= i4;
+                i3 = restartGroup.changedInstance(obj) ? 32 : 16;
+                $dirty2 |= i3;
             }
         }
-        if ($dirty & 19 == 18) {
+        if ($dirty2 & 19 == 18) {
             if (!restartGroup.getSkipping()) {
-                enabled2 = i14 != 0 ? 1 : traceInProgress2;
+                enabled2 = i14 != 0 ? 1 : traceInProgress;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(invalid$iv, $dirty, -1, "androidx.activity.compose.PredictiveBackHandler (PredictiveBackHandler.kt:76)");
+                    ComposerKt.traceEventStart(invalid$iv, $dirty2, -1, "androidx.activity.compose.PredictiveBackHandler (PredictiveBackHandler.kt:76)");
                 }
                 State rememberUpdatedState = SnapshotStateKt.rememberUpdatedState(obj, restartGroup, i10 &= 14);
                 int i22 = i18;
@@ -88,20 +88,20 @@ public final class PredictiveBackHandlerKt {
                 int i37 = 0;
                 Composer composer5 = restartGroup;
                 int i42 = 0;
-                rememberedValue2 = composer5.rememberedValue();
+                rememberedValue3 = composer5.rememberedValue();
                 int i45 = 0;
-                if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                    empty = 0;
+                if (rememberedValue3 == Composer.Companion.getEmpty()) {
+                    empty2 = 0;
                     int i46 = 0;
-                    currentOnBack$delegate2 = rememberUpdatedState;
-                    currentOnBack$delegate = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
-                    composer5.updateRememberedValue(currentOnBack$delegate);
+                    currentOnBack$delegate = rememberUpdatedState;
+                    currentOnBack$delegate2 = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
+                    composer5.updateRememberedValue(currentOnBack$delegate2);
                 } else {
-                    currentOnBack$delegate2 = rememberUpdatedState;
-                    currentOnBack$delegate = rememberedValue2;
+                    currentOnBack$delegate = rememberUpdatedState;
+                    currentOnBack$delegate2 = rememberedValue3;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                onBackScope = (CompositionScopedCoroutineScopeCanceller)currentOnBack$delegate.getCoroutineScope();
+                onBackScope = (CompositionScopedCoroutineScopeCanceller)currentOnBack$delegate2.getCoroutineScope();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 String str3 = "CC(remember):PredictiveBackHandler.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1140798889, str3);
@@ -111,13 +111,13 @@ public final class PredictiveBackHandlerKt {
                 Object rememberedValue4 = composer.rememberedValue();
                 int i38 = 0;
                 if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                    empty2 = 0;
-                    predictiveBackHandlerCallback = new PredictiveBackHandlerCallback(enabled2, onBackScope, PredictiveBackHandlerKt.PredictiveBackHandler$lambda$0(currentOnBack$delegate2));
-                    composer.updateRememberedValue(predictiveBackHandlerCallback);
+                    empty = 0;
+                    $i$a$CachePredictiveBackHandlerKt$PredictiveBackHandler$1 = new PredictiveBackHandlerCallback(enabled2, onBackScope, PredictiveBackHandlerKt.PredictiveBackHandler$lambda$0(currentOnBack$delegate));
+                    composer.updateRememberedValue($i$a$CachePredictiveBackHandlerKt$PredictiveBackHandler$1);
                 } else {
-                    predictiveBackHandlerCallback = rememberedValue4;
+                    $i$a$CachePredictiveBackHandlerKt$PredictiveBackHandler$1 = rememberedValue4;
                 }
-                invalid$iv = predictiveBackHandlerCallback;
+                invalid$iv = $i$a$CachePredictiveBackHandlerKt$PredictiveBackHandler$1;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1140804988, str3);
                 Composer composer2 = restartGroup;
@@ -126,7 +126,7 @@ public final class PredictiveBackHandlerKt {
                 if (changed2 |= changed3 == 0) {
                     if (composer2.rememberedValue() == Composer.Companion.getEmpty()) {
                         int i43 = 0;
-                        (PredictiveBackHandlerCallback)invalid$iv.setCurrentOnBack(PredictiveBackHandlerKt.PredictiveBackHandler$lambda$0(currentOnBack$delegate2));
+                        (PredictiveBackHandlerCallback)invalid$iv.setCurrentOnBack(PredictiveBackHandlerKt.PredictiveBackHandler$lambda$0(currentOnBack$delegate));
                         invalid$iv.setOnBackScope(onBackScope);
                         composer2.updateRememberedValue(Unit.INSTANCE);
                     } else {
@@ -135,31 +135,31 @@ public final class PredictiveBackHandlerKt {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1140810388, str3);
-                i3 = $dirty & 14 == 4 ? 1 : 0;
+                i2 = $dirty2 & 14 == 4 ? 1 : 0;
                 Composer composer4 = restartGroup;
                 int i40 = 0;
-                rememberedValue3 = composer4.rememberedValue();
+                rememberedValue = composer4.rememberedValue();
                 int i44 = 0;
-                if (changedInstance5 |= i3 == 0) {
-                    if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                        rememberedValue2 = 0;
-                        obj20 = $dirty;
+                if (changedInstance5 |= i2 == 0) {
+                    if (rememberedValue == Composer.Companion.getEmpty()) {
+                        rememberedValue3 = 0;
+                        obj20 = $dirty2;
                         coroutineScope = onBackScope;
-                        $dirty2 = new PredictiveBackHandlerKt.PredictiveBackHandler.2.1(invalid$iv, enabled2, 0);
-                        composer4.updateRememberedValue((Function2)$dirty2);
+                        $dirty = new PredictiveBackHandlerKt.PredictiveBackHandler.2.1(invalid$iv, enabled2, 0);
+                        composer4.updateRememberedValue((Function2)$dirty);
                     } else {
-                        obj20 = $dirty;
+                        obj20 = $dirty2;
                         coroutineScope = onBackScope;
-                        $dirty2 = rememberedValue3;
+                        $dirty = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                EffectsKt.LaunchedEffect(Boolean.valueOf(enabled2), (Function2)$dirty2, restartGroup, obj20 & 14);
+                EffectsKt.LaunchedEffect(Boolean.valueOf(enabled2), (Function2)$dirty, restartGroup, obj20 & 14);
                 OnBackPressedDispatcherOwner current = LocalOnBackPressedDispatcherOwner.INSTANCE.getCurrent(restartGroup, 6);
                 if (current == null) {
                 } else {
-                    $dirty = current.getOnBackPressedDispatcher();
+                    $dirty2 = current.getOnBackPressedDispatcher();
                     int i24 = 0;
                     int i31 = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
@@ -167,40 +167,40 @@ public final class PredictiveBackHandlerKt {
                     this_$iv = consume;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 1140825731, str3);
                     skipping = restartGroup;
-                    i2 = 0;
-                    rememberedValue = skipping.rememberedValue();
-                    i6 = 0;
+                    i = 0;
+                    rememberedValue2 = skipping.rememberedValue();
+                    i4 = 0;
                     if (i19 |= changedInstance3 == 0) {
-                        if (rememberedValue == Composer.Companion.getEmpty()) {
-                            rememberedValue3 = 0;
-                            anon = new PredictiveBackHandlerKt.PredictiveBackHandler.3.1($dirty, this_$iv, invalid$iv);
+                        if (rememberedValue2 == Composer.Companion.getEmpty()) {
+                            rememberedValue = 0;
+                            anon = new PredictiveBackHandlerKt.PredictiveBackHandler.3.1($dirty2, this_$iv, invalid$iv);
                             skipping.updateRememberedValue((Function1)anon);
                         } else {
-                            anon = rememberedValue;
+                            anon = rememberedValue2;
                         }
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    EffectsKt.DisposableEffect(this_$iv, $dirty, (Function1)anon, restartGroup, 0);
+                    EffectsKt.DisposableEffect(this_$iv, $dirty2, (Function1)anon, restartGroup, 0);
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
                     ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
                     if (endRestartGroup != null) {
-                        $dirty = new PredictiveBackHandlerKt.PredictiveBackHandler.4(enabled2, obj, i7, i8);
-                        endRestartGroup.updateScope((Function2)$dirty);
+                        $dirty2 = new PredictiveBackHandlerKt.PredictiveBackHandler.4(enabled2, obj, i7, i8);
+                        endRestartGroup.updateScope((Function2)$dirty2);
                     }
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                obj20 = $dirty;
-                enabled2 = traceInProgress2;
+                obj20 = $dirty2;
+                enabled2 = traceInProgress;
             }
         } else {
         }
         int i9 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("No OnBackPressedDispatcherOwner was provided via LocalOnBackPressedDispatcherOwner".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckNotNullPredictiveBackHandlerKt$PredictiveBackHandler$backDispatcher$1 = new IllegalStateException("No OnBackPressedDispatcherOwner was provided via LocalOnBackPressedDispatcherOwner".toString());
+        throw $i$a$CheckNotNullPredictiveBackHandlerKt$PredictiveBackHandler$backDispatcher$1;
     }
 
     private static final Function2<Flow<BackEventCompat>, Continuation<Unit>, Object> PredictiveBackHandler$lambda$0(State<? extends Function2<Flow<BackEventCompat>, ? super Continuation<Unit>, ? extends Object>> $currentOnBack$delegate) {

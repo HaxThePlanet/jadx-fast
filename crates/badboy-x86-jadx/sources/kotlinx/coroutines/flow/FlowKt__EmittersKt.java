@@ -25,18 +25,18 @@ final class FlowKt__EmittersKt {
 
     private static final <T> Object invokeSafely$FlowKt__EmittersKt(kotlinx.coroutines.flow.FlowCollector<? super T> flowCollector, Function3<? super kotlinx.coroutines.flow.FlowCollector<? super T>, ? super Throwable, ? super Continuation<? super Unit>, ? extends Object> function32, Throwable throwable3, Continuation<? super Unit> continuation4) {
         boolean anon;
-        int i2;
         int i;
+        int i2;
         int invoke;
         Object obj3;
         Object obj6;
         anon = continuation4;
-        i = Integer.MIN_VALUE;
-        if (continuation4 instanceof FlowKt__EmittersKt.invokeSafely.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation4 instanceof FlowKt__EmittersKt.invokeSafely.1 && label &= i2 != 0) {
             anon = continuation4;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj6 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj6 -= i2;
             } else {
                 anon = new FlowKt__EmittersKt.invokeSafely.1(continuation4);
             }

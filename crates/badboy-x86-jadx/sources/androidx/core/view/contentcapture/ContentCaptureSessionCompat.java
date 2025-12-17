@@ -83,25 +83,25 @@ public class ContentCaptureSessionCompat {
     public void notifyViewsAppeared(List<ViewStructure> list) {
         Object viewStructure2;
         int viewStructure;
-        int i;
-        Object mWrappedObj;
-        String mWrappedObj2;
         int i2;
+        Object mWrappedObj2;
+        String mWrappedObj;
+        int i;
         String str;
         if (Build.VERSION.SDK_INT >= 34) {
             ContentCaptureSessionCompat.Api34Impl.notifyViewsAppeared((ContentCaptureSession)this.mWrappedObj, list);
         } else {
             viewStructure2 = ContentCaptureSessionCompat.Api29Impl.newViewStructure((ContentCaptureSession)this.mWrappedObj, this.mView);
-            i2 = 1;
-            ContentCaptureSessionCompat.Api23Impl.getExtras(viewStructure2).putBoolean("TREAT_AS_VIEW_TREE_APPEARING", i2);
+            i = 1;
+            ContentCaptureSessionCompat.Api23Impl.getExtras(viewStructure2).putBoolean("TREAT_AS_VIEW_TREE_APPEARING", i);
             ContentCaptureSessionCompat.Api29Impl.notifyViewAppeared((ContentCaptureSession)this.mWrappedObj, viewStructure2);
-            i = 0;
-            while (i < list.size()) {
-                ContentCaptureSessionCompat.Api29Impl.notifyViewAppeared((ContentCaptureSession)this.mWrappedObj, (ViewStructure)list.get(i));
-                i++;
+            i2 = 0;
+            while (i2 < list.size()) {
+                ContentCaptureSessionCompat.Api29Impl.notifyViewAppeared((ContentCaptureSession)this.mWrappedObj, (ViewStructure)list.get(i2));
+                i2++;
             }
             viewStructure = ContentCaptureSessionCompat.Api29Impl.newViewStructure((ContentCaptureSession)this.mWrappedObj, this.mView);
-            ContentCaptureSessionCompat.Api23Impl.getExtras(viewStructure).putBoolean("TREAT_AS_VIEW_TREE_APPEARED", i2);
+            ContentCaptureSessionCompat.Api23Impl.getExtras(viewStructure).putBoolean("TREAT_AS_VIEW_TREE_APPEARED", i);
             ContentCaptureSessionCompat.Api29Impl.notifyViewAppeared((ContentCaptureSession)this.mWrappedObj, viewStructure);
         }
     }

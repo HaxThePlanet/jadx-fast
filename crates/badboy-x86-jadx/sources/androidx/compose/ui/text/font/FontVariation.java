@@ -228,8 +228,8 @@ public final class FontVariation {
                 return value-impl *= fontScale;
             }
             int i2 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("density must not be null".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireNotNullFontVariation$SettingTextUnit$toVariationValue$1 = new IllegalArgumentException("density must not be null".toString());
+            throw $i$a$RequireNotNullFontVariation$SettingTextUnit$toVariationValue$1;
         }
     }
 
@@ -245,15 +245,15 @@ public final class FontVariation {
         public Settings(androidx.compose.ui.text.font.FontVariation.Setting... settings) {
             int index$iv$iv;
             int i3;
-            int next;
-            boolean next2;
+            int next2;
+            boolean next;
             Object obj;
-            int i;
-            String it2;
-            ArrayList $this$getOrPut$iv$iv$iv;
-            int it;
-            Object size;
             int i2;
+            String it;
+            ArrayList $this$getOrPut$iv$iv$iv;
+            int it2;
+            Object size;
+            int i;
             ArrayList arrayList;
             final Object obj2 = this;
             super();
@@ -262,39 +262,39 @@ public final class FontVariation {
             Object[] objArr2 = objArr;
             int i8 = 0;
             i3 = 0;
-            next = i3;
-            while (next < objArr2.length) {
-                obj = objArr2[next];
+            next2 = i3;
+            while (next2 < objArr2.length) {
+                obj = objArr2[next2];
                 int i13 = 0;
-                it2 = obj.getAxisName();
+                it = obj.getAxisName();
                 LinkedHashMap map2 = linkedHashMap;
-                it = 0;
-                size = map2.get(it2);
+                it2 = 0;
+                size = map2.get(it);
                 if (size == null) {
                 } else {
                 }
                 arrayList = size;
                 (List)arrayList.add(obj);
-                next++;
-                i2 = 0;
+                next2++;
+                i = 0;
                 arrayList = new ArrayList();
-                map2.put(it2, (List)arrayList);
+                map2.put(it, (List)arrayList);
             }
             int i4 = 0;
             ArrayList arrayList3 = new ArrayList();
             int i9 = 0;
             Iterator iterator = (Map)linkedHashMap.entrySet().iterator();
-            i = 1;
+            i2 = 1;
             while (iterator.hasNext()) {
-                next = iterator.next();
-                it2 = 0;
-                it = next.getValue();
-                if ((List)it.size() == i) {
+                next2 = iterator.next();
+                it = 0;
+                it2 = next2.getValue();
+                if ((List)it2.size() == i2) {
                 } else {
                 }
-                i = i3;
-                CollectionsKt.addAll((Collection)arrayList3, (Iterable)it);
-                i = 1;
+                i2 = i3;
+                CollectionsKt.addAll((Collection)arrayList3, (Iterable)it2);
+                i2 = 1;
             }
             ArrayList arrayList2 = new ArrayList((Collection)(List)arrayList3);
             obj2.settings = (List)arrayList2;
@@ -380,8 +380,8 @@ public final class FontVariation {
             return (FontVariation.Setting)settingInt;
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("'GRAD' must be in -1000..1000".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireFontVariation$grade$1 = new IllegalArgumentException("'GRAD' must be in -1000..1000".toString());
+        throw $i$a$RequireFontVariation$grade$1;
     }
 
     public final androidx.compose.ui.text.font.FontVariation.Setting italic(float value) {
@@ -411,8 +411,8 @@ public final class FontVariation {
             return (FontVariation.Setting)settingTextUnit;
         }
         int i = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("'opsz' must be provided in sp units".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireFontVariation$opticalSizing$1 = new IllegalArgumentException("'opsz' must be provided in sp units".toString());
+        throw $i$a$RequireFontVariation$opticalSizing$1;
     }
 
     public final androidx.compose.ui.text.font.FontVariation.Setting slant(float value) {

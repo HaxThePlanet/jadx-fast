@@ -203,7 +203,7 @@ public abstract class EventLoopImplBase extends kotlinx.coroutines.EventLoopImpl
     }
 
     private final void closeQueue() {
-        boolean aSSERTIONS_ENABLED;
+        boolean $i$a$AssertEventLoopImplBase$closeQueue$1;
         Object obj;
         int i;
         boolean lockFreeTaskQueueCore;
@@ -418,33 +418,33 @@ public abstract class EventLoopImplBase extends kotlinx.coroutines.EventLoopImpl
 
     @Override // kotlinx.coroutines.EventLoopImplPlatform
     protected boolean isEmpty() {
-        int empty2;
-        boolean empty;
+        int empty;
+        boolean empty2;
         kotlinx.coroutines.internal.Symbol symbol;
-        empty2 = 0;
+        empty = 0;
         if (!isUnconfinedQueueEmpty()) {
-            return empty2;
+            return empty;
         }
         Object obj = EventLoopImplBase._delayed$FU.get(this);
         if (obj != null && !(EventLoopImplBase.DelayedTaskQueue)obj.isEmpty()) {
             if (!obj.isEmpty()) {
-                return empty2;
+                return empty;
             }
         }
         Object obj3 = EventLoopImplBase._queue$FU.get(this);
         final int i = 1;
         if (obj3 == null) {
-            empty2 = i;
+            empty = i;
         } else {
             if (obj3 instanceof LockFreeTaskQueueCore) {
-                empty2 = (LockFreeTaskQueueCore)obj3.isEmpty();
+                empty = (LockFreeTaskQueueCore)obj3.isEmpty();
             } else {
                 if (obj3 == EventLoop_commonKt.access$getCLOSED_EMPTY$p()) {
-                    empty2 = i;
+                    empty = i;
                 }
             }
         }
-        return empty2;
+        return empty;
     }
 
     @Override // kotlinx.coroutines.EventLoopImplPlatform
@@ -454,15 +454,15 @@ public abstract class EventLoopImplBase extends kotlinx.coroutines.EventLoopImpl
         int enqueueImpl;
         long nanoTime;
         Object obj;
+        int i3;
         int i5;
-        int i2;
         int i;
         ThreadSafeHeapNode firstImpl;
-        int i6;
-        ThreadSafeHeapNode threadSafeHeapNode;
-        int i3;
-        boolean timeToExecute;
         int i4;
+        ThreadSafeHeapNode threadSafeHeapNode;
+        int i6;
+        boolean timeToExecute;
+        int i2;
         final Object obj2 = this;
         atImpl = 0;
         if (obj2.processUnconfinedEvent()) {
@@ -478,19 +478,19 @@ public abstract class EventLoopImplBase extends kotlinx.coroutines.EventLoopImpl
                     nanoTime = System.nanoTime();
                 }
                 obj = obj3;
+                i3 = 0;
                 i5 = 0;
-                i2 = 0;
                 i = 0;
                 timeSource = null;
                 firstImpl = (ThreadSafeHeap)obj.firstImpl();
-                i6 = 0;
+                i4 = 0;
                 synchronized (obj) {
-                    i4 = atImpl;
+                    i2 = atImpl;
                 }
-                if ((EventLoopImplBase.DelayedTask)i6 != 0) {
+                if ((EventLoopImplBase.DelayedTask)i4 != 0) {
                 }
             } else {
-                i4 = atImpl;
+                i2 = atImpl;
             }
         } else {
         }
@@ -499,7 +499,7 @@ public abstract class EventLoopImplBase extends kotlinx.coroutines.EventLoopImpl
             int i7 = 0;
             int i8 = 0;
             dequeue.run();
-            return i4;
+            return i2;
         }
         return obj2.getNextTime();
     }
@@ -533,9 +533,9 @@ public abstract class EventLoopImplBase extends kotlinx.coroutines.EventLoopImpl
     protected final kotlinx.coroutines.DisposableHandle scheduleInvokeOnTimeout(long timeMillis, Runnable block) {
         long iNSTANCE;
         Object delayedRunnableTask;
-        kotlinx.coroutines.EventLoopImplBase.DelayedRunnableTask runnable;
-        Runnable i;
         kotlinx.coroutines.EventLoopImplBase.DelayedRunnableTask runnable2;
+        Runnable i;
+        kotlinx.coroutines.EventLoopImplBase.DelayedRunnableTask runnable;
         final long delayToNanos = EventLoop_commonKt.delayToNanos(timeMillis);
         if (Long.compare(delayToNanos, l) < 0) {
             kotlinx.coroutines.AbstractTimeSource timeSource = AbstractTimeSourceKt.getTimeSource();

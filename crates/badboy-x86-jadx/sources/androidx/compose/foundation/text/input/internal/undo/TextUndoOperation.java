@@ -41,10 +41,10 @@ public final class TextUndoOperation {
 
     private TextUndoOperation(int index, String preText, String postText, long preSelection, long postSelection, long timeInMillis, boolean canMerge) {
         int i2;
-        int i;
+        int i3;
         androidx.compose.foundation.text.input.internal.undo.TextEditType replace;
         int length;
-        int i3;
+        int i;
         super();
         this.index = index;
         this.preText = preText;
@@ -53,30 +53,30 @@ public final class TextUndoOperation {
         this.postSelection = timeInMillis;
         this.timeInMillis = obj11;
         this.canMerge = obj13;
-        i3 = 1;
+        i = 1;
         final int i4 = 0;
-        i2 = (CharSequence)this.preText.length() == 0 ? i3 : i4;
+        i2 = (CharSequence)this.preText.length() == 0 ? i : i4;
         if (i2 != 0) {
-            i2 = (CharSequence)this.postText.length() == 0 ? i3 : i4;
+            i2 = (CharSequence)this.postText.length() == 0 ? i : i4;
             if (i2 != 0) {
             } else {
             }
             IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Either pre or post text must not be empty");
             throw illegalArgumentException;
         }
-        i = (CharSequence)this.preText.length() == 0 ? i3 : i4;
-        if (i != 0) {
-            i = (CharSequence)this.postText.length() > 0 ? i3 : i4;
-            if (i != 0) {
+        i3 = (CharSequence)this.preText.length() == 0 ? i : i4;
+        if (i3 != 0) {
+            i3 = (CharSequence)this.postText.length() > 0 ? i : i4;
+            if (i3 != 0) {
                 replace = TextEditType.Insert;
             } else {
-                length = (CharSequence)this.preText.length() > 0 ? i3 : i4;
+                length = (CharSequence)this.preText.length() > 0 ? i : i4;
                 if (length != 0) {
                     if ((CharSequence)this.postText.length() == 0) {
                     } else {
-                        i3 = i4;
+                        i = i4;
                     }
-                    replace = i3 != 0 ? TextEditType.Delete : TextEditType.Replace;
+                    replace = i != 0 ? TextEditType.Delete : TextEditType.Replace;
                 } else {
                 }
             }
@@ -87,16 +87,16 @@ public final class TextUndoOperation {
 
     public TextUndoOperation(int i, String string2, String string3, long l4, long l5, long l6, boolean z7, int i8, DefaultConstructorMarker defaultConstructorMarker9) {
         long timeNowMillis;
-        int i2;
-        long l;
         int i3;
+        long l;
+        int i2;
         if (obj25 & 32 != 0) {
             l = timeNowMillis;
         } else {
             l = i8;
         }
-        i3 = obj25 & 64 != 0 ? i2 : obj24;
-        super(i, string2, string3, l4, obj7, l6, obj9, l, obj11, i3, 0);
+        i2 = obj25 & 64 != 0 ? i3 : obj24;
+        super(i, string2, string3, l4, obj7, l6, obj9, l, obj11, i2, 0);
     }
 
     public TextUndoOperation(int i, String string2, String string3, long l4, long l5, long l6, boolean z7, DefaultConstructorMarker defaultConstructorMarker8) {

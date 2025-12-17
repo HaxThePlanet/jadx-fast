@@ -67,8 +67,8 @@ public final class PlaceholderExtensions_androidKt {
 
     private static final void setPlaceholder(Spannable $this$setPlaceholder, Placeholder placeholder, int start, int end, Density density) {
         int i;
-        long l3;
         long l2;
+        long l3;
         long l;
         Object[] spans = $this$setPlaceholder.getSpans(start, end, EmojiSpan.class);
         int i2 = 0;
@@ -86,8 +86,8 @@ public final class PlaceholderExtensions_androidKt {
 
     public static final void setPlaceholders(Spannable $this$setPlaceholders, List<AnnotatedString.Range<Placeholder>> placeholders, Density density) {
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         Object component1;
         int component2;
@@ -96,9 +96,9 @@ public final class PlaceholderExtensions_androidKt {
         final int i2 = 0;
         index$iv = 0;
         while (index$iv < obj3.size()) {
-            obj = obj2;
+            obj2 = obj;
             i = 0;
-            PlaceholderExtensions_androidKt.setPlaceholder($this$setPlaceholders, (Placeholder)(AnnotatedString.Range)obj.component1(), obj.component2(), obj.component3(), density);
+            PlaceholderExtensions_androidKt.setPlaceholder($this$setPlaceholders, (Placeholder)(AnnotatedString.Range)obj2.component1(), obj2.component2(), obj2.component3(), density);
             index$iv++;
         }
     }

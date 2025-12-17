@@ -74,12 +74,12 @@ public final class PreviewUtils_androidKt {
     public static final Object[] getPreviewProviderParameters(Class<? extends PreviewParameterProvider<?>> parameterProviderClass, int parameterProviderIndex) {
         int single$iv;
         int found$iv;
-        int i2;
         int i4;
+        int i3;
         int i;
         Constructor next;
         Constructor constructor;
-        int i3;
+        int i2;
         int unwrapIfInline;
         int i5 = 0;
         if (parameterProviderClass != null) {
@@ -87,25 +87,25 @@ public final class PreviewUtils_androidKt {
             int i8 = 0;
             single$iv = 0;
             found$iv = 0;
-            i2 = i5;
-            i4 = 0;
+            i4 = i5;
+            i3 = 0;
             i = 1;
-            while (i2 < constructors.length) {
-                next = constructors[i2];
-                i3 = 0;
+            while (i4 < constructors.length) {
+                next = constructors[i4];
+                i2 = 0;
                 if (parameterTypes.length == 0) {
                 } else {
                 }
                 unwrapIfInline = i5;
-                i2++;
-                i4 = 0;
+                i4++;
+                i3 = 0;
                 i = 1;
                 single$iv = next;
                 found$iv = 1;
                 unwrapIfInline = i;
             }
             if (found$iv == 0) {
-                single$iv = i4;
+                single$iv = i3;
             } else {
             }
             if (single$iv == 0) {
@@ -123,7 +123,7 @@ public final class PreviewUtils_androidKt {
                 int i13 = 0;
                 Iterator iterator = listOf.iterator();
                 for (Object next : iterator) {
-                    i3 = 0;
+                    i2 = 0;
                     (Collection)arrayList.add(PreviewUtils_androidKt.unwrapIfInline(next));
                 }
                 int i10 = 0;
@@ -150,33 +150,33 @@ public final class PreviewUtils_androidKt {
 
     private static final Object unwrapIfInline(Object classToCheck) {
         int $this$any$iv;
-        int i;
-        int length;
         int i3;
-        int i4;
+        int length;
+        int i;
         int i2;
-        java.lang.annotation.Annotation it;
-        boolean it2;
+        int i4;
+        java.lang.annotation.Annotation it2;
+        boolean it;
         int type;
         if (classToCheck != null) {
             java.lang.annotation.Annotation[] annotations = classToCheck.getClass().getAnnotations();
-            i = 0;
             i3 = 0;
-            i4 = i3;
-            i2 = 1;
-            while (i4 < annotations.length) {
+            i = 0;
+            i2 = i;
+            i4 = 1;
+            while (i2 < annotations.length) {
                 type = 0;
-                i4++;
-                i2 = 1;
+                i2++;
+                i4 = 1;
             }
-            $this$any$iv = i3;
+            $this$any$iv = i;
             if ($this$any$iv != 0) {
                 Field[] declaredFields = classToCheck.getClass().getDeclaredFields();
                 int i5 = 0;
-                while (i3 < declaredFields.length) {
-                    i4 = declaredFields[i3];
-                    it2 = false;
-                    i3++;
+                while (i < declaredFields.length) {
+                    i2 = declaredFields[i];
+                    it = false;
+                    i++;
                 }
                 NoSuchElementException noSuchElementException = new NoSuchElementException("Array contains no element matching the predicate.");
                 throw noSuchElementException;

@@ -44,8 +44,8 @@ public final class ComposableMethodKt {
 
     private static final <T> T[] dup(T $this$dup, int count) {
         int nextInt;
-        int i;
         int i2;
+        int i;
         final int i3 = 0;
         int i4 = 0;
         kotlin.ranges.IntRange until = RangesKt.until(i4, count);
@@ -54,8 +54,8 @@ public final class ComposableMethodKt {
         final int i8 = 0;
         final Iterator iterator = until.iterator();
         while (iterator.hasNext()) {
-            i = nextInt;
-            i2 = 0;
+            i2 = nextInt;
+            i = 0;
             (Collection)arrayList.add($this$dup);
         }
         int i5 = 0;
@@ -68,9 +68,9 @@ public final class ComposableMethodKt {
         int i3;
         int index$iv;
         boolean it;
-        int i4;
-        Class<androidx.compose.runtime.Composer> obj;
         int i;
+        Class<androidx.compose.runtime.Composer> obj;
+        int i4;
         int defaultParamCount;
         Class[] parameterTypes = $this$getComposableInfo.getParameterTypes();
         int i5 = 0;
@@ -88,8 +88,8 @@ public final class ComposableMethodKt {
         int changedParamCount = ComposableMethodKt.changedParamCount(index$iv, static ^= i7);
         i9 += changedParamCount;
         int length3 = parameterTypes3.length;
-        i = length3 != i10 ? i7 : i2;
-        if (i != 0) {
+        i4 = length3 != i10 ? i7 : i2;
+        if (i4 != 0) {
             defaultParamCount = ComposableMethodKt.defaultParamCount(index$iv);
         } else {
             defaultParamCount = i2;
@@ -103,45 +103,45 @@ public final class ComposableMethodKt {
 
     public static final androidx.compose.runtime.reflect.ComposableMethod getDeclaredComposableMethod(Class<?> $this$getDeclaredComposableMethod, String methodName, Class<?>... args) throws java.lang.NoSuchMethodException {
         Method declaredMethod;
-        int i;
-        int i5;
+        int i3;
+        int i4;
         int $this$mapTo$iv$iv$iv;
-        int i2;
+        int i5;
         Throwable th;
         int defaultParamCount;
         int tYPE;
-        int i3;
+        int i;
         kotlin.ranges.IntRange intRange;
-        ArrayList arrayList2;
-        int i4;
-        Object[] array;
         ArrayList arrayList;
+        int i2;
+        Object[] array;
+        ArrayList arrayList2;
         int i6;
-        int nextInt2;
-        Iterator nextInt;
-        boolean z2;
+        int nextInt;
+        Iterator nextInt2;
         boolean z;
+        boolean z2;
         int i7;
         final Object obj = $this$getDeclaredComposableMethod;
         final String str = methodName;
         final Object obj2 = args;
-        i5 = 0;
+        i4 = 0;
         SpreadBuilder spreadBuilder = new SpreadBuilder(3);
         spreadBuilder.addSpread(obj2);
         spreadBuilder.add(Composer.class);
         final int i10 = 0;
-        kotlin.ranges.IntRange until = RangesKt.until(i5, ComposableMethodKt.changedParamCount(obj2.length, i5));
+        kotlin.ranges.IntRange until = RangesKt.until(i4, ComposableMethodKt.changedParamCount(obj2.length, i4));
         int i12 = 0;
-        arrayList2 = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)until, 10));
+        arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)until, 10));
         final int i13 = 0;
         final Iterator iterator = until.iterator();
         while (iterator.hasNext()) {
-            nextInt = nextInt2;
-            z2 = 0;
-            (Collection)arrayList2.add(Integer.TYPE);
+            nextInt2 = nextInt;
+            z = 0;
+            (Collection)arrayList.add(Integer.TYPE);
         }
         int i11 = 0;
-        spreadBuilder.addSpread((Collection)(List)arrayList2.toArray(new Class[i5]));
+        spreadBuilder.addSpread((Collection)(List)arrayList.toArray(new Class[i4]));
         declaredMethod = obj.getDeclaredMethod(str, (Class[])spreadBuilder.toArray(new Class[spreadBuilder.size()]));
         if (declaredMethod == null) {
         } else {
@@ -158,10 +158,10 @@ public final class ComposableMethodKt {
         int valueOf;
         String equals;
         String str;
-        int i2;
+        int i;
         equals = $this$getDefaultValue.getName();
         if (equals != null) {
-            i2 = 0;
+            i = 0;
             switch (equals) {
                 case "double":
                     str = "double";
@@ -169,15 +169,15 @@ public final class ComposableMethodKt {
                     valueOf = 0;
                     break;
                 case "int":
-                    valueOf = Integer.valueOf(i2);
+                    valueOf = Integer.valueOf(i);
                     valueOf = 0;
                     break;
                 case "byte":
-                    valueOf = Byte.valueOf(i2);
+                    valueOf = Byte.valueOf(i);
                     valueOf = 0;
                     break;
                 case "char":
-                    valueOf = Character.valueOf(i2);
+                    valueOf = Character.valueOf(i);
                     valueOf = 0;
                     break;
                 case "long":
@@ -186,7 +186,7 @@ public final class ComposableMethodKt {
                     valueOf = 0;
                     break;
                 case "boolean":
-                    valueOf = Boolean.valueOf(i2);
+                    valueOf = Boolean.valueOf(i);
                     valueOf = 0;
                     break;
                 case "float":
@@ -194,7 +194,7 @@ public final class ComposableMethodKt {
                     valueOf = 0;
                     break;
                 case "short":
-                    valueOf = Short.valueOf(i2);
+                    valueOf = Short.valueOf(i);
                     valueOf = 0;
                     break;
                 default:

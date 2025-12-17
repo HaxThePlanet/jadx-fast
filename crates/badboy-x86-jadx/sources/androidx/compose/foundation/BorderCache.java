@@ -131,14 +131,14 @@ final class BorderCache {
         ImageBitmapConfig box-impl;
         int equals-impl0;
         int argb8888-_sVssgQ;
-        int i6;
+        int i2;
         int width-impl;
         int height-impl;
         int i3;
         int i;
-        int i2;
         int i5;
         int i4;
+        int i6;
         androidx.compose.foundation.BorderCache borderCache = this;
         targetImageBitmap = BorderCache.access$getImageBitmap$p(borderCache);
         if (targetImageBitmap != null) {
@@ -147,7 +147,7 @@ final class BorderCache {
             box-impl = equals-impl;
         }
         if (box-impl == null) {
-            equals-impl0 = i6;
+            equals-impl0 = i2;
         } else {
             equals-impl0 = ImageBitmapConfig.equals-impl0(box-impl.unbox-impl(), ImageBitmapConfig.Companion.getArgb8888-_sVssgQ());
         }
@@ -156,7 +156,7 @@ final class BorderCache {
                 equals-impl = ImageBitmapConfig.box-impl(targetImageBitmap.getConfig-_sVssgQ());
             }
             if (ImageBitmapConfig.equals-impl(block, equals-impl)) {
-                i6 = 1;
+                i2 = 1;
             }
         } else {
             i3 = block;
@@ -167,7 +167,7 @@ final class BorderCache {
                 equals-impl0 = (float)width;
                 if (Float.compare(width-impl2, equals-impl0) <= 0) {
                     if (Float.compare(height-impl2, equals-impl0) <= 0) {
-                        if (i6 == 0) {
+                        if (i2 == 0) {
                             ImageBitmap imageBitmap = ImageBitmapKt.ImageBitmap-x__-hDU$default(IntSize.getWidth-impl(borderSize), IntSize.getHeight-impl(borderSize), i3, false, 0, 24, 0);
                             int i9 = 0;
                             BorderCache.access$setImageBitmap$p(borderCache, imageBitmap);
@@ -206,7 +206,7 @@ final class BorderCache {
         int prevSize$iv2 = i8;
         final ImageBitmap imageBitmap3 = targetImageBitmap;
         CanvasDrawScope prevLayoutDirection$iv = canvasDrawScope;
-        DrawScope.drawRect-n-J9OG0$default((DrawScope)canvasDrawScope3, Color.Companion.getBlack-0d7_KjU(), component2, 0, i2, size-ozmzZPI, i4, 0, 0, 0);
+        DrawScope.drawRect-n-J9OG0$default((DrawScope)canvasDrawScope3, Color.Companion.getBlack-0d7_KjU(), component2, 0, i5, size-ozmzZPI, i6, 0, 0, 0);
         obj35.invoke(canvasDrawScope3);
         targetCanvas.restore();
         CanvasDrawScope.DrawParams drawParams3 = canvasDrawScope2.getDrawParams();
@@ -245,31 +245,31 @@ final class BorderCache {
     }
 
     public int hashCode() {
-        int i2;
         int i;
-        int i4;
+        int i2;
         int i3;
-        i = 0;
+        int i4;
+        i2 = 0;
         if (this.imageBitmap == null) {
-            i2 = i;
+            i = i2;
         } else {
-            i2 = this.imageBitmap.hashCode();
+            i = this.imageBitmap.hashCode();
         }
         if (this.canvas == null) {
-            i4 = i;
+            i3 = i2;
         } else {
-            i4 = this.canvas.hashCode();
+            i3 = this.canvas.hashCode();
         }
         if (this.canvasDrawScope == null) {
-            i3 = i;
+            i4 = i2;
         } else {
-            i3 = this.canvasDrawScope.hashCode();
+            i4 = this.canvasDrawScope.hashCode();
         }
         if (this.borderPath == null) {
         } else {
-            i = this.borderPath.hashCode();
+            i2 = this.borderPath.hashCode();
         }
-        return i9 += i;
+        return i9 += i2;
     }
 
     public final Path obtainPath() {

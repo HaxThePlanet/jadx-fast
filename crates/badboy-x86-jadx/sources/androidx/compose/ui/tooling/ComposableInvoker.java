@@ -37,64 +37,64 @@ public final class ComposableInvoker {
     private final boolean areParameterTypesCompatible(Class<?>[] composableMethodTypes, Class<?>[] previewParameterTypes) {
         int $this$all$iv;
         boolean assignableFrom;
-        int length;
+        int length2;
         Iterator iterator;
-        int i2;
+        int i8;
         Object next;
         ArrayList booleanValue;
-        int i8;
-        int i;
-        int i4;
-        int length2;
         int i3;
-        int i5;
-        Object obj;
         int i6;
+        int i4;
+        int length;
+        int i;
+        int i5;
         Object obj2;
         int i7;
+        Object obj;
+        int i2;
         if (i9.length == $this$all$iv.length) {
             int i10 = composableMethodTypes;
             int i11 = 0;
             booleanValue = new ArrayList(i10.length);
-            i8 = i10;
-            i = 0;
+            i3 = i10;
+            i6 = 0;
             i4 = 0;
-            i3 = 0;
-            while (i3 < i8.length) {
-                obj2 = obj;
-                i7 = 0;
+            i = 0;
+            while (i < i3.length) {
+                obj = obj2;
+                i2 = 0;
                 next = $this$all$iv[i4];
-                if (!Intrinsics.areEqual(JvmClassMappingKt.getKotlinClass(obj2), JvmClassMappingKt.getKotlinClass(next))) {
+                if (!Intrinsics.areEqual(JvmClassMappingKt.getKotlinClass(obj), JvmClassMappingKt.getKotlinClass(next))) {
                 } else {
                 }
                 i5 = 1;
                 (Collection)booleanValue.add(Boolean.valueOf(i5));
-                i3++;
+                i++;
                 $this$all$iv = previewParameterTypes;
-                i4 = i6;
-                if (obj2.isAssignableFrom(next)) {
+                i4 = i7;
+                if (obj.isAssignableFrom(next)) {
                 } else {
                 }
                 i5 = 0;
             }
             ArrayList list = booleanValue;
-            length = 0;
+            length2 = 0;
             if (list instanceof Collection != null && (Collection)(Iterable)(List)list.isEmpty()) {
                 if ((Collection)list.isEmpty()) {
                     $this$all$iv = 1;
                 } else {
                     iterator = list.iterator();
                     for (Object next : iterator) {
-                        i8 = 0;
+                        i3 = 0;
                     }
                     $this$all$iv = 1;
                 }
             } else {
             }
-            i2 = $this$all$iv != 0 ? 1 : 0;
+            i8 = $this$all$iv != 0 ? 1 : 0;
         } else {
         }
-        return i2;
+        return i8;
     }
 
     private final int changedParamCount(int realValueParams, int thisParams) {
@@ -130,23 +130,23 @@ public final class ComposableInvoker {
     }
 
     private final Method findCompatibleComposeMethod(Method[] $this$findCompatibleComposeMethod, String methodName, Class<?>... args) {
-        int i2;
+        int i;
         int i3;
         int parameterTypesCompatible;
         Object obj2;
         Object obj;
-        int i;
+        int i4;
         String parameterTypes;
         String copyOf;
-        int i4;
+        int i2;
         Object[] objArr = $this$findCompatibleComposeMethod;
         int i5 = 0;
         final int i6 = 0;
-        i2 = i6;
-        while (i2 < objArr.length) {
-            obj2 = objArr[i2];
+        i = i6;
+        while (i < objArr.length) {
+            obj2 = objArr[i];
             obj = obj2;
-            i = 0;
+            i4 = 0;
             if (!Intrinsics.areEqual(methodName, obj.getName())) {
             } else {
             }
@@ -154,7 +154,7 @@ public final class ComposableInvoker {
             } else {
             }
             i3 = i6;
-            i2++;
+            i++;
             i3 = 1;
             StringBuilder stringBuilder2 = new StringBuilder();
             if (StringsKt.startsWith$default(obj.getName(), stringBuilder2.append(methodName).append('-').toString(), i6, 2, 0) && ComposableInvoker.INSTANCE.areParameterTypesCompatible(obj.getParameterTypes(), (Class[])Arrays.copyOf(args, args.length))) {
@@ -176,18 +176,18 @@ public final class ComposableInvoker {
         Method compatibleComposeMethod;
         int length;
         Object[] array;
-        int i5;
-        Class[] arr;
-        Object obj;
-        Object obj2;
         int i2;
-        String str;
+        Class[] arr;
+        Object obj2;
+        Object obj3;
         int i;
+        String str;
+        int i3;
         Object class;
         Object string;
-        int i3;
+        int i5;
         int nextInt;
-        Object obj3;
+        Object obj;
         int i4;
         final Object obj4 = this;
         int i7 = 0;
@@ -196,21 +196,21 @@ public final class ComposableInvoker {
         Object[] objArr4 = objArr3;
         int i12 = 0;
         final int i14 = 0;
-        i = i14;
+        i3 = i14;
         class = 0;
-        while (i < objArr4.length) {
+        while (i3 < objArr4.length) {
             nextInt = 0;
-            obj3 = i3;
+            obj = i5;
             i4 = 0;
-            if (obj3 != null) {
+            if (obj != null) {
             }
             if (class != null) {
             }
-            i++;
+            i3++;
             class = 0;
-            obj3 = 0;
+            obj = 0;
             (Collection)arrayList.add(class);
-            class = obj3.getClass();
+            class = obj.getClass();
         }
         int i6 = 0;
         Object[] objArr2 = $i$f$toTypedArray;
@@ -222,7 +222,7 @@ public final class ComposableInvoker {
         int i16 = 0;
         Iterator iterator = until.iterator();
         while (iterator.hasNext()) {
-            obj3 = nextInt;
+            obj = nextInt;
             i4 = 0;
             (Collection)arrayList2.add(Integer.TYPE);
         }
@@ -239,10 +239,10 @@ public final class ComposableInvoker {
         int valueOf;
         String equals;
         String str;
-        int i2;
+        int i;
         equals = $this$getDefaultValue.getName();
         if (equals != null) {
-            i2 = 0;
+            i = 0;
             switch (equals) {
                 case "double":
                     str = "double";
@@ -250,15 +250,15 @@ public final class ComposableInvoker {
                     valueOf = 0;
                     break;
                 case "int":
-                    valueOf = Integer.valueOf(i2);
+                    valueOf = Integer.valueOf(i);
                     valueOf = 0;
                     break;
                 case "byte":
-                    valueOf = Byte.valueOf(i2);
+                    valueOf = Byte.valueOf(i);
                     valueOf = 0;
                     break;
                 case "char":
-                    valueOf = Character.valueOf(i2);
+                    valueOf = Character.valueOf(i);
                     valueOf = 0;
                     break;
                 case "long":
@@ -267,7 +267,7 @@ public final class ComposableInvoker {
                     valueOf = 0;
                     break;
                 case "boolean":
-                    valueOf = Boolean.valueOf(i2);
+                    valueOf = Boolean.valueOf(i);
                     valueOf = 0;
                     break;
                 case "float":
@@ -275,7 +275,7 @@ public final class ComposableInvoker {
                     valueOf = 0;
                     break;
                 case "short":
-                    valueOf = Short.valueOf(i2);
+                    valueOf = Short.valueOf(i);
                     valueOf = 0;
                     break;
                 default:
@@ -291,101 +291,101 @@ public final class ComposableInvoker {
         int i5;
         int it2;
         int iNSTANCE;
-        int i8;
         int i10;
-        int i9;
+        int i7;
+        int i3;
         boolean it;
         int i2;
         Class<Composer> obj;
-        int i3;
+        int i9;
         int defaultParamCount;
+        int i;
+        int i8;
+        int i11;
         int i4;
         int i6;
-        int i;
-        int i11;
-        int i7;
         Class[] parameterTypes;
         cls = this;
         final Object obj2 = instance;
         Class[] parameterTypes2 = $this$invokeComposableMethod.getParameterTypes();
         it2 = 0;
-        i8 = -1;
-        if (length2 += i8 >= 0) {
+        i10 = -1;
+        if (length2 += i10 >= 0) {
         } else {
         }
-        int i13 = i8;
-        i9 = obj2 != null ? 1 : 0;
-        int changedParamCount = cls.changedParamCount(i13, i9);
+        int i13 = i10;
+        i3 = obj2 != null ? 1 : 0;
+        int changedParamCount = cls.changedParamCount(i13, i3);
         int length3 = parameterTypes3.length;
-        i3 = length3 != i15 += changedParamCount ? 1 : 0;
-        if (i3 != 0) {
+        i9 = length3 != i15 += changedParamCount ? 1 : 0;
+        if (i9 != 0) {
             defaultParamCount = cls.defaultParamCount(i13);
         } else {
             defaultParamCount = 0;
         }
-        i4 = i18 += defaultParamCount == length3 ? 1 : 0;
-        if (i4 == 0) {
+        i = i18 += defaultParamCount == length3 ? 1 : 0;
+        if (i == 0) {
         } else {
-            int i20 = i8 + 1;
+            int i20 = i10 + 1;
             final int i21 = i20 + changedParamCount;
             final Object[] arr = new Object[length3];
-            i6 = 0;
-            while (i6 < length3) {
-                if (i6 >= 0 && i6 < i13) {
+            i8 = 0;
+            while (i8 < length3) {
+                if (i8 >= 0 && i8 < i13) {
                 } else {
                 }
-                i = 0;
-                i7 = 0;
-                if (i20 <= i6 && i6 < i21) {
+                i11 = 0;
+                i6 = 0;
+                if (i20 <= i8 && i8 < i21) {
                 } else {
                 }
-                cls = i7;
-                if (i21 <= i6 && i6 < length3) {
+                cls = i6;
+                if (i21 <= i8 && i8 < length3) {
                 } else {
                 }
-                i5 = i7;
+                i5 = i6;
                 it2 = 2097151;
-                arr[i6] = it2;
-                i6++;
+                arr[i8] = it2;
+                i8++;
                 cls = this;
-                if (i6 < length3) {
+                if (i8 < length3) {
                 } else {
                 }
                 i5 = 1;
-                it2 = Integer.valueOf(i7);
-                if (i6 < i21) {
+                it2 = Integer.valueOf(i6);
+                if (i8 < i21) {
                 } else {
                 }
                 cls = 1;
                 it2 = composer;
-                if (i6 >= 0 && i6 <= ArraysKt.getLastIndex(args)) {
+                if (i8 >= 0 && i8 <= ArraysKt.getLastIndex(args)) {
                 } else {
                 }
-                int i14 = i6;
-                i11 = 0;
-                i7 = 0;
-                it2 = ComposableInvoker.INSTANCE.getDefaultValue($this$invokeComposableMethod.getParameterTypes()[i6]);
-                if (i6 <= ArraysKt.getLastIndex(args)) {
+                int i14 = i8;
+                i4 = 0;
+                i6 = 0;
+                it2 = ComposableInvoker.INSTANCE.getDefaultValue($this$invokeComposableMethod.getParameterTypes()[i8]);
+                if (i8 <= ArraysKt.getLastIndex(args)) {
                 } else {
                 }
-                it2 = args[i6];
-                i7 = 0;
-                if (i6 < i13) {
+                it2 = args[i8];
+                i6 = 0;
+                if (i8 < i13) {
                 } else {
                 }
-                i = 1;
+                i11 = 1;
             }
             return $this$invokeComposableMethod.invoke(obj2, Arrays.copyOf(arr, arr.length));
         }
         Object obj4 = $this$invokeComposableMethod;
         int i12 = 0;
-        IllegalStateException illegalStateException2 = new IllegalStateException("params don't add up to total params".toString());
-        throw illegalStateException2;
+        IllegalStateException $i$a$CheckComposableInvoker$invokeComposableMethod$1 = new IllegalStateException("params don't add up to total params".toString());
+        throw $i$a$CheckComposableInvoker$invokeComposableMethod$1;
     }
 
     public final void invokeComposable(String className, String methodName, Composer composer, Object... args) {
-        Object copyOf2;
-        Object[] copyOf;
+        Object copyOf;
+        Object[] copyOf2;
         final Class forName = Class.forName(className);
         Method composableMethod = findComposableMethod(forName, methodName, Arrays.copyOf(args, args.length));
         if (composableMethod == null) {

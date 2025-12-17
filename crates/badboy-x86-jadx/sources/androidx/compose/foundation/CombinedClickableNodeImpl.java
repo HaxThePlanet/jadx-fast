@@ -54,30 +54,30 @@ final class CombinedClickableNodeImpl extends androidx.compose.foundation.Abstra
     public Object clickPointerInput(PointerInputScope $this$clickPointerInput, Continuation<? super Unit> $completion) {
         boolean onDoubleClick;
         boolean onLongClick;
-        int i;
         int i2;
+        int i;
         final int i3 = 0;
         if (getEnabled() && this.onDoubleClick != null) {
             if (this.onDoubleClick != null) {
                 onDoubleClick = new CombinedClickableNodeImpl.clickPointerInput.2(this);
-                i = onDoubleClick;
+                i2 = onDoubleClick;
             } else {
-                i = i3;
+                i2 = i3;
             }
         } else {
         }
         if (getEnabled() && this.onLongClick != null) {
             if (this.onLongClick != null) {
                 onLongClick = new CombinedClickableNodeImpl.clickPointerInput.3(this);
-                i2 = onLongClick;
+                i = onLongClick;
             } else {
-                i2 = i3;
+                i = i3;
             }
         } else {
         }
         CombinedClickableNodeImpl.clickPointerInput.4 anon = new CombinedClickableNodeImpl.clickPointerInput.4(this, i3);
         CombinedClickableNodeImpl.clickPointerInput.5 anon2 = new CombinedClickableNodeImpl.clickPointerInput.5(this);
-        Object obj9 = TapGestureDetectorKt.detectTapGestures($this$clickPointerInput, i, i2, (Function3)anon, (Function1)anon2, $completion);
+        Object obj9 = TapGestureDetectorKt.detectTapGestures($this$clickPointerInput, i2, i, (Function3)anon, (Function1)anon2, $completion);
         if (obj9 == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
             return obj9;
         }
@@ -87,31 +87,31 @@ final class CombinedClickableNodeImpl extends androidx.compose.foundation.Abstra
     public void update-nSzSaCc(Function0<Unit> onClick, String onLongClickLabel, Function0<Unit> onLongClick, Function0<Unit> onDoubleClick, MutableInteractionSource interactionSource, androidx.compose.foundation.IndicationNodeFactory indicationNodeFactory, boolean enabled, String onClickLabel, Role role) {
         int resetPointerInputHandling;
         boolean equal;
-        int i2;
-        int i3;
         int i4;
         int i;
+        int i3;
+        int i2;
         resetPointerInputHandling = 0;
         if (!Intrinsics.areEqual(this.onLongClickLabel, onLongClickLabel)) {
             this.onLongClickLabel = onLongClickLabel;
             SemanticsModifierNodeKt.invalidateSemantics((SemanticsModifierNode)this);
         }
-        i4 = 1;
+        i3 = 1;
         int i5 = 0;
-        i2 = this.onLongClick == null ? i4 : i5;
-        i = onLongClick == null ? i4 : i5;
-        if (i2 != i) {
+        i4 = this.onLongClick == null ? i3 : i5;
+        i2 = onLongClick == null ? i3 : i5;
+        if (i4 != i2) {
             disposeInteractions();
             SemanticsModifierNodeKt.invalidateSemantics((SemanticsModifierNode)this);
             resetPointerInputHandling = 1;
         }
         this.onLongClick = onLongClick;
-        i3 = this.onDoubleClick == null ? i4 : i5;
+        i = this.onDoubleClick == null ? i3 : i5;
         if (onDoubleClick == null) {
         } else {
-            i4 = i5;
+            i3 = i5;
         }
-        if (i3 != i4) {
+        if (i != i3) {
             resetPointerInputHandling = 1;
         }
         this.onDoubleClick = onDoubleClick;

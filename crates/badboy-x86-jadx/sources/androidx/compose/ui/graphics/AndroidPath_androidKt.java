@@ -14,8 +14,8 @@ public final class AndroidPath_androidKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal2;
             int ordinal;
+            int ordinal2;
             int[] iArr = new int[values.length];
             iArr[Path.Direction.CounterClockwise.ordinal()] = 1;
             iArr[Path.Direction.Clockwise.ordinal()] = 2;

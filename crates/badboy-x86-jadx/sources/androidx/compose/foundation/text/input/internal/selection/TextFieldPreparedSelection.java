@@ -292,17 +292,17 @@ public final class TextFieldPreparedSelection {
     }
 
     private final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorNextByWord() {
-        int i2;
         int i;
+        int i2;
         int nextWordOffset;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            i2.setCursor((TextFieldPreparedSelection)i2.getNextWordOffset());
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            i.setCursor((TextFieldPreparedSelection)i.getNextWordOffset());
         }
         return this;
     }
@@ -336,17 +336,17 @@ public final class TextFieldPreparedSelection {
     }
 
     private final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorPrevByWord() {
-        int i;
         int i2;
+        int i;
         int previousWordOffset;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
-        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
-        if (i != 0) {
-            i = this;
-            i2 = 0;
-            i.setCursor((TextFieldPreparedSelection)i.getPreviousWordOffset());
+        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
+        if (i2 != 0) {
+            i2 = this;
+            i = 0;
+            i2.setCursor((TextFieldPreparedSelection)i2.getPreviousWordOffset());
         }
         return this;
     }
@@ -380,23 +380,23 @@ public final class TextFieldPreparedSelection {
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection collapseRightOr(Function1<? super androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection, Unit> or) {
-        int i2;
         int i;
+        int i2;
         int collapsed-impl;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            if (TextRange.getCollapsed-impl(i2.selection)) {
-                or.invoke((TextFieldPreparedSelection)i2);
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            if (TextRange.getCollapsed-impl(i.selection)) {
+                or.invoke((TextFieldPreparedSelection)i);
             } else {
-                if (i2.isLtr()) {
-                    i2.setCursor(TextRange.getMax-impl(i2.selection));
+                if (i.isLtr()) {
+                    i.setCursor(TextRange.getMax-impl(i.selection));
                 } else {
-                    i2.setCursor(TextRange.getMin-impl(i2.selection));
+                    i.setCursor(TextRange.getMin-impl(i.selection));
                 }
             }
         }
@@ -409,10 +409,10 @@ public final class TextFieldPreparedSelection {
         TransformedTextFieldState field;
         String str2;
         long selection-d9O1mEE;
+        int i;
         int i2;
         int i4;
         int i3;
-        int i;
         final int i5 = 0;
         str = "";
         if (!TextRange.getCollapsed-impl(getSelection-d9O1mEE())) {
@@ -448,8 +448,8 @@ public final class TextFieldPreparedSelection {
 
     public final int getLineEndByOffset() {
         int lineEndByOffsetForLayout$default;
-        int i2;
         int i;
+        int i2;
         int i3;
         TextLayoutResult textLayoutResult = this.textLayoutResult;
         if (textLayoutResult != null) {
@@ -462,8 +462,8 @@ public final class TextFieldPreparedSelection {
 
     public final int getLineStartByOffset() {
         int lineStartByOffsetForLayout$default;
-        int i2;
         int i;
+        int i2;
         final TextLayoutResult textLayoutResult = this.textLayoutResult;
         if (textLayoutResult != null) {
             lineStartByOffsetForLayout$default = TextFieldPreparedSelection.getLineStartByOffsetForLayout$default(this, textLayoutResult, 0, 1, 0);
@@ -477,9 +477,9 @@ public final class TextFieldPreparedSelection {
 
     public final int getNextWordOffset() {
         int nextWordOffsetForLayout$default;
-        int i3;
         int i2;
         int i;
+        int i3;
         TextLayoutResult textLayoutResult = this.textLayoutResult;
         if (textLayoutResult != null) {
             nextWordOffsetForLayout$default = TextFieldPreparedSelection.getNextWordOffsetForLayout$default(this, textLayoutResult, 0, 1, 0);
@@ -495,8 +495,8 @@ public final class TextFieldPreparedSelection {
 
     public final int getPreviousWordOffset() {
         int prevWordOffsetForLayout$default;
-        int i;
         int i2;
+        int i;
         final TextLayoutResult textLayoutResult = this.textLayoutResult;
         if (textLayoutResult != null) {
             prevWordOffsetForLayout$default = TextFieldPreparedSelection.getPrevWordOffsetForLayout$default(this, textLayoutResult, 0, 1, 0);
@@ -532,18 +532,18 @@ public final class TextFieldPreparedSelection {
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorDownByPage() {
-        int i2;
-        int jumpByPagesOffset;
         int i;
+        int jumpByPagesOffset;
+        int i2;
         final int i3 = 0;
         final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection field = this;
         final int i4 = 0;
         jumpByPagesOffset = 1;
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(field).length() > 0 ? jumpByPagesOffset : 0;
-        if (i2 != 0) {
-            i2 = field;
-            i = 0;
-            i2.setCursor((TextFieldPreparedSelection)i2.jumpByPagesOffset(jumpByPagesOffset));
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(field).length() > 0 ? jumpByPagesOffset : 0;
+        if (i != 0) {
+            i = field;
+            i2 = 0;
+            i.setCursor((TextFieldPreparedSelection)i.jumpByPagesOffset(jumpByPagesOffset));
         }
         return field;
     }
@@ -569,20 +569,20 @@ public final class TextFieldPreparedSelection {
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorLeftByWord() {
-        int i2;
         int i;
+        int i2;
         boolean ltr;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            if ((TextFieldPreparedSelection)i2.isLtr()) {
-                i2.moveCursorPrevByWord();
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            if ((TextFieldPreparedSelection)i.isLtr()) {
+                i.moveCursorPrevByWord();
             } else {
-                i2.moveCursorNextByWord();
+                i.moveCursorNextByWord();
             }
         }
         return this;
@@ -663,29 +663,9 @@ public final class TextFieldPreparedSelection {
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorRightByWord() {
-        int i;
         int i2;
+        int i;
         boolean ltr;
-        final int i3 = 1;
-        final int i4 = 0;
-        TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
-        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
-        if (i != 0) {
-            i = this;
-            i2 = 0;
-            if ((TextFieldPreparedSelection)i.isLtr()) {
-                i.moveCursorNextByWord();
-            } else {
-                i.moveCursorPrevByWord();
-            }
-        }
-        return this;
-    }
-
-    public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorToEnd() {
-        int i2;
-        int i;
-        int length;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
@@ -693,7 +673,27 @@ public final class TextFieldPreparedSelection {
         if (i2 != 0) {
             i2 = this;
             i = 0;
-            (TextFieldPreparedSelection)i2.setCursor(i2.text.length());
+            if ((TextFieldPreparedSelection)i2.isLtr()) {
+                i2.moveCursorNextByWord();
+            } else {
+                i2.moveCursorPrevByWord();
+            }
+        }
+        return this;
+    }
+
+    public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorToEnd() {
+        int i;
+        int i2;
+        int length;
+        final int i3 = 1;
+        final int i4 = 0;
+        TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            (TextFieldPreparedSelection)i.setCursor(i.text.length());
         }
         return this;
     }
@@ -714,17 +714,17 @@ public final class TextFieldPreparedSelection {
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorToLineEnd() {
-        int i2;
         int i;
+        int i2;
         int lineEndByOffset;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            i2.setCursor((TextFieldPreparedSelection)i2.getLineEndByOffset());
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            i.setCursor((TextFieldPreparedSelection)i.getLineEndByOffset());
         }
         return this;
     }
@@ -750,46 +750,46 @@ public final class TextFieldPreparedSelection {
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorToLineRightSide() {
-        int i2;
         int i;
+        int i2;
         boolean ltr;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            if ((TextFieldPreparedSelection)i2.isLtr()) {
-                i2.moveCursorToLineEnd();
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            if ((TextFieldPreparedSelection)i.isLtr()) {
+                i.moveCursorToLineEnd();
             } else {
-                i2.moveCursorToLineStart();
+                i.moveCursorToLineStart();
             }
         }
         return this;
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorToLineStart() {
-        int i2;
         int i;
+        int i2;
         int lineStartByOffset;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            i2.setCursor((TextFieldPreparedSelection)i2.getLineStartByOffset());
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            i.setCursor((TextFieldPreparedSelection)i.getLineStartByOffset());
         }
         return this;
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection moveCursorUpByLine() {
         int i2;
-        int i3;
-        int jumpByLinesOffset;
         int i;
+        int jumpByLinesOffset;
+        int i3;
         if (this.textLayoutResult == null) {
             return this;
         }
@@ -799,7 +799,7 @@ public final class TextFieldPreparedSelection {
         i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(obj).length() > 0 ? 1 : 0;
         if (i2 != 0) {
             i2 = obj;
-            i3 = 0;
+            i = 0;
             TextLayoutResult textLayoutResult2 = i2.textLayoutResult;
             Intrinsics.checkNotNull(textLayoutResult2);
             i2.setCursor((TextFieldPreparedSelection)i2.jumpByLinesOffset(textLayoutResult2, -1));
@@ -824,35 +824,35 @@ public final class TextFieldPreparedSelection {
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection selectAll() {
-        int i2;
         int i;
+        int i2;
         long l;
         final int i3 = 1;
         final int i4 = 0;
         TextFieldPreparedSelection.access$getTextPreparedSelectionState$p(this).resetCachedX();
         final int i5 = 0;
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : i5;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            i2.selection = TextRangeKt.TextRange(i5, i2.text.length());
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(this).length() > 0 ? 1 : i5;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            i.selection = TextRangeKt.TextRange(i5, i.text.length());
         }
         return this;
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection selectMovement() {
-        int i2;
         int i;
+        int i2;
         long l;
         long end-impl;
         final int i3 = 0;
         final androidx.compose.foundation.text.input.internal.selection.TextFieldPreparedSelection field = this;
         final int i4 = 0;
-        i2 = (CharSequence)TextFieldPreparedSelection.access$getText$p(field).length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = field;
-            i = 0;
-            i2.selection = TextRangeKt.TextRange(TextRange.getStart-impl(i2.initialValue.getSelection-d9O1mEE()), TextRange.getEnd-impl(i2.selection));
+        i = (CharSequence)TextFieldPreparedSelection.access$getText$p(field).length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = field;
+            i2 = 0;
+            i.selection = TextRangeKt.TextRange(TextRange.getStart-impl(i.initialValue.getSelection-d9O1mEE()), TextRange.getEnd-impl(i.selection));
         }
         return field;
     }

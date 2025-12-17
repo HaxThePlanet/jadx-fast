@@ -43,94 +43,94 @@ public final class FilterChipDefaults {
     public final androidx.compose.material3.SelectableChipColors elevatedFilterChipColors-XqyqHi0(long containerColor, long labelColor, long iconColor, long disabledContainerColor, long disabledLabelColor, long disabledLeadingIconColor, long disabledTrailingIconColor, long selectedContainerColor, long disabledSelectedContainerColor, long selectedLabelColor, long selectedLeadingIconColor, long selectedTrailingIconColor, Composer $composer, int $changed, int $changed1, int i16) {
         Color.Companion companion;
         String traceInProgress;
-        int unspecified-0d7_KjU7;
-        int unspecified-0d7_KjU3;
-        int unspecified-0d7_KjU10;
-        int unspecified-0d7_KjU2;
         int unspecified-0d7_KjU;
         int unspecified-0d7_KjU11;
+        int unspecified-0d7_KjU3;
+        int unspecified-0d7_KjU2;
+        int unspecified-0d7_KjU10;
         int unspecified-0d7_KjU8;
-        long unspecified-0d7_KjU4;
-        long unspecified-0d7_KjU6;
+        int unspecified-0d7_KjU4;
+        long unspecified-0d7_KjU7;
         long unspecified-0d7_KjU5;
+        long unspecified-0d7_KjU6;
         long unspecified-0d7_KjU9;
         int i2;
         int i;
-        long l3;
-        long l5;
-        long l6;
         long l8;
-        long l10;
-        long l2;
+        long l7;
         long l9;
+        long l10;
         long l;
         long l4;
-        long l7;
-        long l11;
         long l12;
+        long l11;
+        long l6;
+        long l2;
+        long l3;
+        long l5;
         final Composer composer = obj57;
         int i3 = obj60;
         int i4 = -915841711;
         ComposerKt.sourceInformationMarkerStart(composer, i4, "C(elevatedFilterChipColors)P(0:c#ui.graphics.Color,7:c#ui.graphics.Color,6:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color,5:c#ui.graphics.Color,8:c#ui.graphics.Color,4:c#ui.graphics.Color,9:c#ui.graphics.Color,10:c#ui.graphics.Color,11:c#ui.graphics.Color)1465@71739L11:Chip.kt#uh7d8r");
         if (i3 & 1 != 0) {
-            l3 = unspecified-0d7_KjU7;
+            l8 = unspecified-0d7_KjU;
         } else {
-            l3 = containerColor;
+            l8 = containerColor;
         }
         if (i3 & 2 != 0) {
-            l5 = unspecified-0d7_KjU3;
+            l7 = unspecified-0d7_KjU11;
         } else {
-            l5 = iconColor;
+            l7 = iconColor;
         }
         if (i3 & 4 != 0) {
-            l6 = unspecified-0d7_KjU10;
+            l9 = unspecified-0d7_KjU3;
         } else {
-            l6 = disabledLabelColor;
+            l9 = disabledLabelColor;
         }
         if (i3 & 8 != 0) {
-            l8 = unspecified-0d7_KjU2;
+            l10 = unspecified-0d7_KjU2;
         } else {
-            l8 = disabledTrailingIconColor;
+            l10 = disabledTrailingIconColor;
         }
         if (i3 & 16 != 0) {
-            l10 = unspecified-0d7_KjU;
+            l = unspecified-0d7_KjU10;
         } else {
-            l10 = disabledSelectedContainerColor;
+            l = disabledSelectedContainerColor;
         }
         if (i3 & 32 != 0) {
-            l2 = unspecified-0d7_KjU11;
+            l4 = unspecified-0d7_KjU8;
         } else {
-            l2 = selectedLeadingIconColor;
+            l4 = selectedLeadingIconColor;
         }
         if (i3 & 64 != 0) {
-            l9 = unspecified-0d7_KjU8;
+            l12 = unspecified-0d7_KjU4;
         } else {
-            l9 = $composer;
+            l12 = $composer;
         }
         if (i3 & 128 != 0) {
-            l = unspecified-0d7_KjU4;
+            l11 = unspecified-0d7_KjU7;
         } else {
-            l = $changed1;
+            l11 = $changed1;
         }
         if (i3 & 256 != 0) {
-            l4 = unspecified-0d7_KjU6;
+            l6 = unspecified-0d7_KjU5;
         } else {
-            l4 = obj49;
+            l6 = obj49;
         }
         if (i3 & 512 != 0) {
-            l7 = unspecified-0d7_KjU5;
+            l2 = unspecified-0d7_KjU6;
         } else {
-            l7 = obj51;
+            l2 = obj51;
         }
         if (i3 & 1024 != 0) {
-            l11 = unspecified-0d7_KjU9;
+            l3 = unspecified-0d7_KjU9;
         } else {
-            l11 = obj53;
+            l3 = obj53;
         }
         if (i3 &= 2048 != 0) {
-            l12 = unspecified-0d7_KjU9;
+            l5 = unspecified-0d7_KjU9;
         } else {
-            l12 = obj55;
+            l5 = obj55;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i4, obj58, obj59, "androidx.compose.material3.FilterChipDefaults.elevatedFilterChipColors (Chip.kt:1465)");
@@ -142,17 +142,17 @@ public final class FilterChipDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultElevatedFilterChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-daRQuJA(l3, obj7, l5, obj9, l6, obj11, l6, obj13, l8, obj15, l10, obj17, l2);
+        return this.getDefaultElevatedFilterChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-daRQuJA(l8, obj7, l7, obj9, l9, obj11, l9, obj13, l10, obj15, l, obj17, l4);
     }
 
     public final androidx.compose.material3.SelectableChipElevation elevatedFilterChipElevation-aqJV_2Y(float elevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         FilterChipTokens iNSTANCE;
-        float f;
-        float f2;
         float f4;
+        float f;
         float f6;
-        float f5;
         float f3;
+        float f2;
+        float f5;
         float obj12;
         float obj13;
         float obj14;
@@ -160,41 +160,41 @@ public final class FilterChipDefaults {
         final Composer composer = $composer;
         ComposerKt.sourceInformationMarkerStart(composer, i, "C(elevatedFilterChipElevation)P(2:c#ui.unit.Dp,5:c#ui.unit.Dp,3:c#ui.unit.Dp,4:c#ui.unit.Dp,1:c#ui.unit.Dp,0:c#ui.unit.Dp):Chip.kt#uh7d8r");
         if (i9 & 1 != 0) {
-            f = obj12;
+            f4 = obj12;
         } else {
-            f = elevation;
+            f4 = elevation;
         }
         if (i9 & 2 != 0) {
-            f2 = obj13;
+            f = obj13;
         } else {
-            f2 = pressedElevation;
+            f = pressedElevation;
         }
         if (i9 & 4 != 0) {
-            f4 = obj14;
+            f6 = obj14;
         } else {
-            f4 = focusedElevation;
+            f6 = focusedElevation;
         }
         if (i9 & 8 != 0) {
-            f6 = obj12;
-        } else {
-            f6 = hoveredElevation;
-        }
-        if (i9 & 16 != 0) {
-            f5 = obj12;
-        } else {
-            f5 = draggedElevation;
-        }
-        if (i9 & 32 != 0) {
             f3 = obj12;
         } else {
-            f3 = disabledElevation;
+            f3 = hoveredElevation;
+        }
+        if (i9 & 16 != 0) {
+            f2 = obj12;
+        } else {
+            f2 = draggedElevation;
+        }
+        if (i9 & 32 != 0) {
+            f5 = obj12;
+        } else {
+            f5 = disabledElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.FilterChipDefaults.elevatedFilterChipElevation (Chip.kt:1536)");
         } else {
             obj14 = $changed;
         }
-        SelectableChipElevation selectableChipElevation = new SelectableChipElevation(f, f2, f4, f6, f5, f3, 0);
+        SelectableChipElevation selectableChipElevation = new SelectableChipElevation(f4, f, f6, f3, f2, f5, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -214,14 +214,14 @@ public final class FilterChipDefaults {
         long disabledSelectedBorderColor2;
         float flatDisabledUnselectedOutlineOpacity;
         float borderWidth2;
-        int i5;
+        int i2;
         boolean traceInProgress;
         long l;
         int str;
-        int i3;
-        int i;
-        int i2;
         int i4;
+        int i5;
+        int i;
+        int i3;
         final Composer composer = obj30;
         int i6 = obj32;
         int i8 = -1138342447;
@@ -260,7 +260,7 @@ public final class FilterChipDefaults {
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, obj31, -1, "androidx.compose.material3.FilterChipDefaults.filterChipBorder (Chip.kt:1415)");
         } else {
-            i = obj31;
+            i5 = obj31;
         }
         if (enabled) {
             l = selected ? selectedBorderColor2 : borderColor2;
@@ -294,115 +294,115 @@ public final class FilterChipDefaults {
         Color.Companion companion;
         String traceInProgress;
         int unspecified-0d7_KjU11;
-        int unspecified-0d7_KjU10;
-        int unspecified-0d7_KjU9;
+        int unspecified-0d7_KjU4;
+        int unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU6;
         int unspecified-0d7_KjU2;
         int unspecified-0d7_KjU7;
-        int unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU6;
+        int unspecified-0d7_KjU10;
         long unspecified-0d7_KjU3;
-        long unspecified-0d7_KjU5;
+        long unspecified-0d7_KjU9;
         long unspecified-0d7_KjU;
         long unspecified-0d7_KjU8;
-        int i2;
         int i;
-        long l7;
-        long l2;
-        long l3;
-        long l11;
+        int i2;
+        long l10;
         long l4;
         long l5;
-        long l;
-        long l6;
-        long l8;
+        long l2;
         long l12;
+        long l11;
+        long l;
+        long l3;
+        long l6;
         long l9;
-        long l10;
+        long l7;
+        long l8;
         final Composer composer = obj57;
         int i3 = obj60;
         int i4 = -1831479801;
         ComposerKt.sourceInformationMarkerStart(composer, i4, "C(filterChipColors)P(0:c#ui.graphics.Color,7:c#ui.graphics.Color,6:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color,5:c#ui.graphics.Color,8:c#ui.graphics.Color,4:c#ui.graphics.Color,9:c#ui.graphics.Color,10:c#ui.graphics.Color,11:c#ui.graphics.Color)1308@63087L11:Chip.kt#uh7d8r");
         if (i3 & 1 != 0) {
-            l7 = unspecified-0d7_KjU11;
+            l10 = unspecified-0d7_KjU11;
         } else {
-            l7 = containerColor;
+            l10 = containerColor;
         }
         if (i3 & 2 != 0) {
-            l2 = unspecified-0d7_KjU10;
+            l4 = unspecified-0d7_KjU4;
         } else {
-            l2 = iconColor;
+            l4 = iconColor;
         }
         if (i3 & 4 != 0) {
-            l3 = unspecified-0d7_KjU9;
+            l5 = unspecified-0d7_KjU5;
         } else {
-            l3 = disabledLabelColor;
+            l5 = disabledLabelColor;
         }
         if (i3 & 8 != 0) {
-            l11 = unspecified-0d7_KjU2;
+            l2 = unspecified-0d7_KjU6;
         } else {
-            l11 = disabledTrailingIconColor;
+            l2 = disabledTrailingIconColor;
         }
         if (i3 & 16 != 0) {
-            l4 = unspecified-0d7_KjU7;
+            l12 = unspecified-0d7_KjU2;
         } else {
-            l4 = disabledSelectedContainerColor;
+            l12 = disabledSelectedContainerColor;
         }
         if (i3 & 32 != 0) {
-            l5 = unspecified-0d7_KjU4;
+            l11 = unspecified-0d7_KjU7;
         } else {
-            l5 = selectedLeadingIconColor;
+            l11 = selectedLeadingIconColor;
         }
         if (i3 & 64 != 0) {
-            l = unspecified-0d7_KjU6;
+            l = unspecified-0d7_KjU10;
         } else {
             l = $composer;
         }
         if (i3 & 128 != 0) {
-            l6 = unspecified-0d7_KjU3;
+            l3 = unspecified-0d7_KjU3;
         } else {
-            l6 = $changed1;
+            l3 = $changed1;
         }
         if (i3 & 256 != 0) {
-            l8 = unspecified-0d7_KjU5;
+            l6 = unspecified-0d7_KjU9;
         } else {
-            l8 = obj49;
+            l6 = obj49;
         }
         if (i3 & 512 != 0) {
-            l12 = unspecified-0d7_KjU;
+            l9 = unspecified-0d7_KjU;
         } else {
-            l12 = obj51;
+            l9 = obj51;
         }
         if (i3 & 1024 != 0) {
-            l9 = unspecified-0d7_KjU8;
+            l7 = unspecified-0d7_KjU8;
         } else {
-            l9 = obj53;
+            l7 = obj53;
         }
         if (i3 &= 2048 != 0) {
-            l10 = unspecified-0d7_KjU8;
+            l8 = unspecified-0d7_KjU8;
         } else {
-            l10 = obj55;
+            l8 = obj55;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i4, obj58, obj59, "androidx.compose.material3.FilterChipDefaults.filterChipColors (Chip.kt:1308)");
         } else {
-            i2 = obj58;
-            i = obj59;
+            i = obj58;
+            i2 = obj59;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultFilterChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-daRQuJA(l7, obj7, l2, obj9, l3, obj11, l3, obj13, l11, obj15, l4, obj17, l5);
+        return this.getDefaultFilterChipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-daRQuJA(l10, obj7, l4, obj9, l5, obj11, l5, obj13, l2, obj15, l12, obj17, l11);
     }
 
     public final androidx.compose.material3.SelectableChipElevation filterChipElevation-aqJV_2Y(float elevation, float pressedElevation, float focusedElevation, float hoveredElevation, float draggedElevation, float disabledElevation, Composer $composer, int $changed, int i9) {
         FilterChipTokens iNSTANCE;
         float f6;
-        float f2;
-        float f;
-        float f5;
         float f4;
         float f3;
+        float f5;
+        float f;
+        float f2;
         float obj12;
         float obj13;
         float obj14;
@@ -415,14 +415,14 @@ public final class FilterChipDefaults {
             f6 = elevation;
         }
         if (i9 & 2 != 0) {
-            f2 = obj13;
+            f4 = obj13;
         } else {
-            f2 = pressedElevation;
+            f4 = pressedElevation;
         }
         if (i9 & 4 != 0) {
-            f = obj14;
+            f3 = obj14;
         } else {
-            f = focusedElevation;
+            f3 = focusedElevation;
         }
         if (i9 & 8 != 0) {
             f5 = obj12;
@@ -430,17 +430,17 @@ public final class FilterChipDefaults {
             f5 = hoveredElevation;
         }
         if (i9 & 16 != 0) {
-            f4 = obj12;
+            f = obj12;
         } else {
-            f4 = draggedElevation;
+            f = draggedElevation;
         }
-        f3 = i9 & 32 != 0 ? obj12 : disabledElevation;
+        f2 = i9 & 32 != 0 ? obj12 : disabledElevation;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, $changed, -1, "androidx.compose.material3.FilterChipDefaults.filterChipElevation (Chip.kt:1378)");
         } else {
             obj14 = $changed;
         }
-        SelectableChipElevation selectableChipElevation = new SelectableChipElevation(f6, f2, f, f5, f4, f3, 0);
+        SelectableChipElevation selectableChipElevation = new SelectableChipElevation(f6, f4, f3, f5, f, f2, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -451,40 +451,40 @@ public final class FilterChipDefaults {
     public final androidx.compose.material3.SelectableChipColors getDefaultElevatedFilterChipColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultElevatedFilterChipColors) {
         androidx.compose.material3.SelectableChipColors defaultElevatedFilterChipColorsCached$material3_release;
         androidx.compose.material3.SelectableChipColors selectableChipColors;
-        int i6;
-        long token7;
-        long token5;
-        long token3;
-        long copy-wmQWz5c$default4;
-        long copy-wmQWz5c$default2;
         int i;
-        long copy-wmQWz5c$default;
-        int i7;
-        long copy-wmQWz5c$default5;
-        int i5;
+        long token4;
+        long token5;
         long token2;
+        long copy-wmQWz5c$default5;
+        long copy-wmQWz5c$default4;
+        int i10;
+        long copy-wmQWz5c$default2;
         int i8;
         long copy-wmQWz5c$default3;
-        int i10;
-        long token4;
         int i2;
         long token6;
+        int i4;
+        long copy-wmQWz5c$default;
         int i3;
+        long token7;
+        int i6;
         long token;
         int i9;
-        int i4;
+        long token3;
+        int i7;
+        int i5;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultElevatedFilterChipColors;
         if (colorScheme.getDefaultElevatedFilterChipColorsCached$material3_release() == null) {
-            i = 0;
-            i7 = 0;
-            i5 = 0;
-            i8 = 0;
             i10 = 0;
-            i9 = 0;
+            i8 = 0;
             i2 = 0;
+            i4 = 0;
             i3 = 0;
-            selectableChipColors = new SelectableChipColors(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getElevatedUnselectedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLeadingIconColor()), obj8, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLeadingIconColor()), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getElevatedDisabledContainerColor()), obj12, FilterChipTokens.INSTANCE.getElevatedDisabledContainerOpacity(), i, 0, i7, 14), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLabelTextColor()), i, FilterChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i7, 0, i5, 14), i, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLeadingIconColor()), i7, FilterChipTokens.INSTANCE.getDisabledLeadingIconOpacity(), i5, 0, i8, 14), i7, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLeadingIconColor()), i5, FilterChipTokens.INSTANCE.getDisabledLeadingIconOpacity(), i8, 0, i10, 14), i5, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getElevatedSelectedContainerColor()), i8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getElevatedDisabledContainerColor()), i10, FilterChipTokens.INSTANCE.getElevatedDisabledContainerOpacity(), i2, 0, i3, 14), i10, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLabelTextColor()), i2, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLeadingIconColor()), i3, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLeadingIconColor()), i9, 0);
+            i7 = 0;
             i6 = 0;
+            i9 = 0;
+            selectableChipColors = new SelectableChipColors(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getElevatedUnselectedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLeadingIconColor()), obj8, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLeadingIconColor()), obj10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getElevatedDisabledContainerColor()), obj12, FilterChipTokens.INSTANCE.getElevatedDisabledContainerOpacity(), i10, 0, i8, 14), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLabelTextColor()), i10, FilterChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i8, 0, i2, 14), i10, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLeadingIconColor()), i8, FilterChipTokens.INSTANCE.getDisabledLeadingIconOpacity(), i2, 0, i4, 14), i8, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLeadingIconColor()), i2, FilterChipTokens.INSTANCE.getDisabledLeadingIconOpacity(), i4, 0, i3, 14), i2, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getElevatedSelectedContainerColor()), i4, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getElevatedDisabledContainerColor()), i3, FilterChipTokens.INSTANCE.getElevatedDisabledContainerOpacity(), i6, 0, i9, 14), i3, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLabelTextColor()), i6, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLeadingIconColor()), i9, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLeadingIconColor()), i7, 0);
+            i = 0;
             colorScheme.setDefaultElevatedFilterChipColorsCached$material3_release(selectableChipColors);
         }
         return defaultElevatedFilterChipColorsCached$material3_release;
@@ -493,38 +493,38 @@ public final class FilterChipDefaults {
     public final androidx.compose.material3.SelectableChipColors getDefaultFilterChipColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultFilterChipColors) {
         androidx.compose.material3.SelectableChipColors defaultFilterChipColorsCached$material3_release;
         androidx.compose.material3.SelectableChipColors selectableChipColors;
-        int i2;
-        long token3;
-        long token7;
-        long token;
-        long transparent-0d7_KjU;
-        long copy-wmQWz5c$default;
-        long copy-wmQWz5c$default2;
-        int i3;
-        long copy-wmQWz5c$default3;
-        int i9;
-        long token5;
         int i4;
-        long copy-wmQWz5c$default4;
-        int i5;
-        long token2;
-        int i8;
-        long token4;
-        int i6;
+        long token;
+        long token7;
         long token6;
+        long transparent-0d7_KjU;
+        long copy-wmQWz5c$default2;
+        long copy-wmQWz5c$default;
         int i7;
+        long copy-wmQWz5c$default4;
         int i;
+        long token3;
+        int i9;
+        long copy-wmQWz5c$default3;
+        int i8;
+        long token5;
+        int i3;
+        long token4;
+        int i2;
+        long token2;
+        int i5;
+        int i6;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultFilterChipColors;
         if (colorScheme.getDefaultFilterChipColorsCached$material3_release() == null) {
-            i3 = 0;
-            i9 = 0;
-            i4 = 0;
-            i5 = 0;
             i7 = 0;
+            i = 0;
+            i9 = 0;
             i8 = 0;
-            i6 = 0;
-            selectableChipColors = new SelectableChipColors(Color.Companion.getTransparent-0d7_KjU(), obj4, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLeadingIconColor()), obj8, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLeadingIconColor()), obj10, Color.Companion.getTransparent-0d7_KjU(), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLabelTextColor()), obj14, FilterChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i3, 0, i9, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLeadingIconColor()), i3, FilterChipTokens.INSTANCE.getDisabledLeadingIconOpacity(), i9, 0, i4, 14), i3, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLeadingIconColor()), i9, FilterChipTokens.INSTANCE.getDisabledLeadingIconOpacity(), i4, 0, i5, 14), i9, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getFlatSelectedContainerColor()), i4, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getFlatDisabledSelectedContainerColor()), i5, FilterChipTokens.INSTANCE.getFlatDisabledSelectedContainerOpacity(), i8, 0, i6, 14), i5, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLabelTextColor()), i8, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLeadingIconColor()), i6, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLeadingIconColor()), i7, 0);
+            i5 = 0;
+            i3 = 0;
             i2 = 0;
+            selectableChipColors = new SelectableChipColors(Color.Companion.getTransparent-0d7_KjU(), obj4, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLeadingIconColor()), obj8, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getUnselectedLeadingIconColor()), obj10, Color.Companion.getTransparent-0d7_KjU(), obj12, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLabelTextColor()), obj14, FilterChipTokens.INSTANCE.getDisabledLabelTextOpacity(), i7, 0, i, 14), obj14, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLeadingIconColor()), i7, FilterChipTokens.INSTANCE.getDisabledLeadingIconOpacity(), i, 0, i9, 14), i7, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getDisabledLeadingIconColor()), i, FilterChipTokens.INSTANCE.getDisabledLeadingIconOpacity(), i9, 0, i8, 14), i, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getFlatSelectedContainerColor()), i9, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getFlatDisabledSelectedContainerColor()), i8, FilterChipTokens.INSTANCE.getFlatDisabledSelectedContainerOpacity(), i3, 0, i2, 14), i8, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLabelTextColor()), i3, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLeadingIconColor()), i2, ColorSchemeKt.fromToken(colorScheme, FilterChipTokens.INSTANCE.getSelectedLeadingIconColor()), i5, 0);
+            i4 = 0;
             colorScheme.setDefaultFilterChipColorsCached$material3_release(selectableChipColors);
         }
         return defaultFilterChipColorsCached$material3_release;

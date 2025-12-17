@@ -127,7 +127,7 @@ final class SaveableStateHolderImpl implements androidx.compose.runtime.saveable
     }
 
     private final Map<Object, Map<String, List<Object>>> saveAll() {
-        Map map;
+        Map $i$a$IfEmptySaveableStateHolderImpl$saveAll$2;
         Object next;
         Object obj;
         int i;
@@ -140,33 +140,33 @@ final class SaveableStateHolderImpl implements androidx.compose.runtime.saveable
         }
         if (mutableMap.isEmpty()) {
             int i2 = 0;
-            map = 0;
+            $i$a$IfEmptySaveableStateHolderImpl$saveAll$2 = 0;
         } else {
-            map = mutableMap;
+            $i$a$IfEmptySaveableStateHolderImpl$saveAll$2 = mutableMap;
         }
-        return map;
+        return $i$a$IfEmptySaveableStateHolderImpl$saveAll$2;
     }
 
     public void SaveableStateProvider(Object key, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
-        int traceInProgress;
+        int traceInProgress2;
         int beSaved;
         Object registryHolder;
-        Object restartGroup;
+        Object $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1;
         int $dirty;
-        int i4;
-        int i5;
-        int i6;
-        boolean skipping;
-        boolean traceInProgress2;
-        int str;
-        Composer composer;
         int i2;
-        Unit iNSTANCE;
+        int i4;
         int i;
+        boolean skipping;
+        boolean traceInProgress;
+        int str;
         Composer composer2;
-        int i7;
-        Object rememberedValue;
         int i3;
+        Unit iNSTANCE;
+        int i5;
+        Composer composer;
+        int i6;
+        Object rememberedValue;
+        int i7;
         int companion;
         Composer $composer2;
         int obj22;
@@ -174,47 +174,47 @@ final class SaveableStateHolderImpl implements androidx.compose.runtime.saveable
         final Object obj2 = key;
         final Object obj3 = content;
         final int i8 = $changed;
-        traceInProgress = -1198538093;
-        restartGroup = $composer.startRestartGroup(traceInProgress);
-        ComposerKt.sourceInformation(restartGroup, "C(SaveableStateProvider)P(1)76@3032L923:SaveableStateHolder.kt#r2ddri");
+        traceInProgress2 = -1198538093;
+        $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1 = $composer.startRestartGroup(traceInProgress2);
+        ComposerKt.sourceInformation($i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1, "C(SaveableStateProvider)P(1)76@3032L923:SaveableStateHolder.kt#r2ddri");
         if (i8 & 6 == 0) {
-            i4 = restartGroup.changedInstance(obj2) ? 4 : 2;
-            $dirty |= i4;
+            i2 = $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1.changedInstance(obj2) ? 4 : 2;
+            $dirty |= i2;
         }
         if (i8 & 48 == 0) {
-            i5 = restartGroup.changedInstance(obj3) ? 32 : 16;
-            $dirty |= i5;
+            i4 = $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1.changedInstance(obj3) ? 32 : 16;
+            $dirty |= i4;
         }
         if (i8 & 384 == 0) {
-            i6 = restartGroup.changedInstance(obj) ? 256 : 128;
-            $dirty |= i6;
+            i = $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1.changedInstance(obj) ? 256 : 128;
+            $dirty |= i;
         }
         if ($dirty & 147 == 146) {
-            if (!restartGroup.getSkipping()) {
+            if (!$i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.runtime.saveable.SaveableStateHolderImpl.SaveableStateProvider (SaveableStateHolder.kt:75)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.runtime.saveable.SaveableStateHolderImpl.SaveableStateProvider (SaveableStateHolder.kt:75)");
                 }
                 int i9 = $dirty & 14;
                 skipping = 0;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 444418301, "CC(ReusableContent)P(1)149@5444L9:Composables.kt#9igjgp");
-                restartGroup.startReusableGroup(207, obj2);
+                ComposerKt.sourceInformationMarkerStart($i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1, 444418301, "CC(ReusableContent)P(1)149@5444L9:Composables.kt#9igjgp");
+                $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1.startReusableGroup(207, obj2);
                 i15 &= 14;
-                composer = restartGroup;
-                i2 = 0;
-                ComposerKt.sourceInformationMarkerStart(composer, 1358150931, "C77@3088L321,84@3422L150,88@3608L337,88@3585L360:SaveableStateHolder.kt#r2ddri");
-                String str6 = "CC(remember):SaveableStateHolder.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart(composer, -233283229, str6);
+                composer2 = $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1;
+                i3 = 0;
+                ComposerKt.sourceInformationMarkerStart(composer2, 1358150931, "C77@3088L321,84@3422L150,88@3608L337,88@3585L360:SaveableStateHolder.kt#r2ddri");
+                String str5 = "CC(remember):SaveableStateHolder.kt#9igjgp";
+                ComposerKt.sourceInformationMarkerStart(composer2, -233283229, str5);
                 int i18 = 0;
-                Composer composer3 = composer;
+                Composer composer3 = composer2;
                 int i23 = 0;
                 Object rememberedValue2 = composer3.rememberedValue();
                 int i25 = 0;
                 obj22 = i9;
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
                     companion = i10;
-                    androidx.compose.runtime.saveable.SaveableStateRegistry parentSaveableStateRegistry = obj.parentSaveableStateRegistry;
-                    if (parentSaveableStateRegistry != null) {
-                        beSaved = parentSaveableStateRegistry.canBeSaved(obj2);
+                    androidx.compose.runtime.saveable.SaveableStateRegistry $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$registryHolder$1 = obj.parentSaveableStateRegistry;
+                    if ($i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$registryHolder$1 != null) {
+                        beSaved = $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$registryHolder$1.canBeSaved(obj2);
                     } else {
                         beSaved = 1;
                     }
@@ -222,28 +222,28 @@ final class SaveableStateHolderImpl implements androidx.compose.runtime.saveable
                     } else {
                         registryHolder = new SaveableStateHolderImpl.RegistryHolder(obj, obj2);
                         composer3.updateRememberedValue(registryHolder);
-                        ComposerKt.sourceInformationMarkerEnd(composer);
-                        CompositionLocalKt.CompositionLocalProvider(SaveableStateRegistryKt.getLocalSaveableStateRegistry().provides((SaveableStateHolderImpl.RegistryHolder)registryHolder.getRegistry()), obj3, composer, $stable |= i24);
-                        ComposerKt.sourceInformationMarkerStart(composer, -233266573, str6);
-                        composer2 = composer;
+                        ComposerKt.sourceInformationMarkerEnd(composer2);
+                        CompositionLocalKt.CompositionLocalProvider(SaveableStateRegistryKt.getLocalSaveableStateRegistry().provides((SaveableStateHolderImpl.RegistryHolder)registryHolder.getRegistry()), obj3, composer2, $stable |= i24);
+                        ComposerKt.sourceInformationMarkerStart(composer2, -233266573, str5);
+                        composer = composer2;
+                        i6 = 0;
+                        rememberedValue = composer.rememberedValue();
                         i7 = 0;
-                        rememberedValue = composer2.rememberedValue();
-                        i3 = 0;
                         if (i19 |= changedInstance6 == 0) {
-                            $composer2 = restartGroup;
+                            $composer2 = $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1;
                             if (rememberedValue == Composer.Companion.getEmpty()) {
                                 companion = $composer3;
-                                restartGroup = new SaveableStateHolderImpl.SaveableStateProvider.1.1.1(obj, obj2, registryHolder);
-                                composer2.updateRememberedValue((Function1)restartGroup);
+                                $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1 = new SaveableStateHolderImpl.SaveableStateProvider.1.1.1(obj, obj2, registryHolder);
+                                composer.updateRememberedValue((Function1)$i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1);
                             } else {
-                                restartGroup = rememberedValue;
+                                $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1 = rememberedValue;
                             }
                         } else {
-                            $composer2 = restartGroup;
+                            $composer2 = $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1;
                         }
-                        ComposerKt.sourceInformationMarkerEnd(composer);
-                        EffectsKt.DisposableEffect(Unit.INSTANCE, (Function1)restartGroup, composer, 6);
-                        ComposerKt.sourceInformationMarkerEnd(composer);
+                        ComposerKt.sourceInformationMarkerEnd(composer2);
+                        EffectsKt.DisposableEffect(Unit.INSTANCE, (Function1)$i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1, composer2, 6);
+                        ComposerKt.sourceInformationMarkerEnd(composer2);
                         $composer2.endReusableGroup();
                         ComposerKt.sourceInformationMarkerEnd($composer2);
                         if (ComposerKt.isTraceInProgress()) {
@@ -257,15 +257,15 @@ final class SaveableStateHolderImpl implements androidx.compose.runtime.saveable
                 }
                 registryHolder = rememberedValue2;
             } else {
-                restartGroup.skipToGroupEnd();
-                $composer2 = restartGroup;
+                $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1.skipToGroupEnd();
+                $composer2 = $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = $composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            restartGroup = new SaveableStateHolderImpl.SaveableStateProvider.2(obj, obj2, obj3, i8);
-            endRestartGroup.updateScope((Function2)restartGroup);
+            $i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1 = new SaveableStateHolderImpl.SaveableStateProvider.2(obj, obj2, obj3, i8);
+            endRestartGroup.updateScope((Function2)$i$a$CacheSaveableStateHolderImpl$SaveableStateProvider$1$1);
         }
     }
 

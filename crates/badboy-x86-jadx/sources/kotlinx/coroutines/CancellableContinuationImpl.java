@@ -68,15 +68,15 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
     }
 
     private final void callCancelHandler(Function1<? super Throwable, Unit> handler, Throwable cause) {
-        int i2;
-        CoroutineContext obj2;
         int i;
+        CoroutineContext obj2;
+        int i2;
         StringBuilder string;
         String str;
         final Object obj = this;
         final int i3 = 0;
-        i2 = 0;
         i = 0;
+        i2 = 0;
         handler.invoke(cause);
     }
 
@@ -111,8 +111,8 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
             segment.onCancellation($this$index$iv, cause, getContext());
         }
         int i5 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("The index for Segment.onCancellation(..) is broken".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckCancellableContinuationImpl$callSegmentOnCancellation$1 = new IllegalStateException("The index for Segment.onCancellation(..) is broken".toString());
+        throw $i$a$CheckCancellableContinuationImpl$callSegmentOnCancellation$1;
     }
 
     private final boolean cancelLater(Throwable cause) {
@@ -162,28 +162,28 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
 
     private final void invokeOnCancellationImpl(Object handler) {
         boolean aSSERTIONS_ENABLED;
-        int i13;
-        boolean obj;
-        int i;
-        boolean z;
+        int i6;
+        boolean obj4;
+        int i4;
+        boolean z2;
         boolean completedContinuation;
         int cause;
-        Object obj3;
-        boolean z2;
-        int i6;
-        int i9;
-        int i8;
-        int i2;
-        int i7;
-        int i5;
-        Object obj4;
-        int i10;
         Object obj2;
-        int i11;
-        int i12;
+        boolean z;
         int i14;
+        int i10;
+        int i5;
+        int i8;
+        int i7;
+        int i12;
+        Object obj3;
         int i3;
-        int i4;
+        Object obj;
+        int i;
+        int i9;
+        int i2;
+        int i13;
+        int i11;
         final Object obj5 = this;
         final Object obj6 = handler;
         int i15 = 1;
@@ -191,13 +191,13 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
             aSSERTIONS_ENABLED = 0;
             if (obj6 instanceof CancelHandler == null) {
                 if (obj6 instanceof Segment) {
-                    i = i15;
+                    i4 = i15;
                 } else {
-                    i = 0;
+                    i4 = 0;
                 }
             } else {
             }
-            if (i == 0) {
+            if (i4 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -205,25 +205,25 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
         }
         Object obj9 = this;
         final int i16 = 0;
-        obj3 = CancellableContinuationImpl._state$FU.get(obj5);
-        i5 = 0;
-        while (obj3 instanceof Active) {
-            obj3 = _state$FU.get(obj5);
-            i5 = 0;
-            if (obj3 instanceof CancelHandler != null) {
+        obj2 = CancellableContinuationImpl._state$FU.get(obj5);
+        i12 = 0;
+        while (obj2 instanceof Active) {
+            obj2 = _state$FU.get(obj5);
+            i12 = 0;
+            if (obj2 instanceof CancelHandler != null) {
             } else {
             }
-            completedContinuation = obj3 instanceof Segment;
+            completedContinuation = obj2 instanceof Segment;
             String str2 = "null cannot be cast to non-null type kotlinx.coroutines.CancelHandler";
             Intrinsics.checkNotNull(obj6, str2);
             Object obj10 = obj6;
-            completedContinuation = new CompletedContinuation(obj3, (CancelHandler)obj6, 0, 0, 0, 28, 0);
+            completedContinuation = new CompletedContinuation(obj2, (CancelHandler)obj6, 0, 0, 0, 28, 0);
             if (obj11.cancelHandler != null) {
             }
             Intrinsics.checkNotNull(obj6, str2);
             Object obj12 = obj6;
-            obj5.multipleHandlersError(obj6, obj3);
-            obj5.multipleHandlersError(obj6, obj3);
+            obj5.multipleHandlersError(obj6, obj2);
+            obj5.multipleHandlersError(obj6, obj2);
             completedContinuation = i15;
         }
     }
@@ -276,38 +276,38 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
     }
 
     private final void resumeImpl(Object proposedUpdate, int resumeMode, Function1<? super Throwable, Unit> onCancellation) {
-        Object obj2;
+        Object obj;
         int i3;
         boolean z;
+        Object obj2;
         Object obj4;
-        Object obj;
         Object obj3;
-        int i;
-        Function1 function1;
         int i2;
+        Function1 function1;
+        int i;
         Object obj13;
         int obj14;
         Function1 obj15;
         final Object obj5 = this;
         final int i4 = 0;
-        obj2 = CancellableContinuationImpl._state$FU.get(this);
+        obj = CancellableContinuationImpl._state$FU.get(this);
         i3 = 0;
-        while (obj2 instanceof NotCompleted) {
+        while (obj instanceof NotCompleted) {
             obj3 = obj13;
-            i = obj14;
+            i2 = obj14;
             function1 = obj15;
             obj13 = obj3;
-            obj14 = i;
+            obj14 = i2;
             obj15 = function1;
-            obj2 = _state$FU.get(this);
+            obj = _state$FU.get(this);
             i3 = 0;
         }
         Object obj6 = this;
         int i5 = obj14;
         Function1 function12 = obj15;
-        if (!obj2 instanceof CancelledContinuation) {
+        if (!obj instanceof CancelledContinuation) {
         } else {
-            if (!(CancelledContinuation)obj2.makeResumed()) {
+            if (!(CancelledContinuation)obj.makeResumed()) {
             } else {
                 if (function12 != null) {
                     obj14 = 0;
@@ -335,23 +335,23 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
 
     private final Object resumedState(kotlinx.coroutines.NotCompleted state, Object proposedUpdate, int resumeMode, Function1<? super Throwable, Unit> onCancellation, Object idempotent) {
         boolean aSSERTIONS_ENABLED;
-        int aSSERTIONS_ENABLED2;
-        int i3;
+        int $i$a$AssertCancellableContinuationImpl$resumedState$1;
+        int i4;
         Object completedContinuation;
+        int i3;
+        Object obj;
         int i2;
+        Function1 function1;
         Object obj2;
         int i;
-        Function1 function1;
-        Object obj;
         int i5;
-        int i4;
         int i6;
         if (proposedUpdate instanceof CompletedExceptionally) {
-            i2 = 0;
+            i3 = 0;
             if (DebugKt.getASSERTIONS_ENABLED()) {
                 int i7 = 0;
-                aSSERTIONS_ENABLED2 = idempotent == null ? i3 : i2;
-                if (aSSERTIONS_ENABLED2 == 0) {
+                $i$a$AssertCancellableContinuationImpl$resumedState$1 = idempotent == null ? i4 : i3;
+                if ($i$a$AssertCancellableContinuationImpl$resumedState$1 == 0) {
                 } else {
                 }
                 AssertionError assertionError = new AssertionError();
@@ -361,17 +361,17 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
                 aSSERTIONS_ENABLED = 0;
                 if (onCancellation == null) {
                 } else {
-                    i3 = i2;
+                    i4 = i3;
                 }
-                if (i3 == 0) {
+                if (i4 == 0) {
                 } else {
                 }
                 AssertionError assertionError2 = new AssertionError();
                 throw assertionError2;
             }
-            obj2 = completedContinuation;
+            obj = completedContinuation;
             function1 = onCancellation;
-            obj = idempotent;
+            obj2 = idempotent;
         } else {
             if (!DispatchedTaskKt.isCancellableMode(resumeMode) && idempotent == null) {
                 if (idempotent == null) {
@@ -399,20 +399,20 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
     }
 
     private final boolean tryResume() {
-        int i2;
         int i;
+        int i4;
         boolean compareAndSet;
         int $this$index$iv;
-        int i4;
-        int i3;
         int i5;
+        int i2;
+        int i3;
         final Object obj = this;
         final int i6 = 0;
         while (/* condition */) {
             int i12 = 0;
-            i3 = 0;
-            i2 = CancellableContinuationImpl._decisionAndIndex$FU.get(this);
-            i = 0;
+            i2 = 0;
+            i = CancellableContinuationImpl._decisionAndIndex$FU.get(this);
+            i4 = 0;
             int i10 = 0;
         }
         return 0;
@@ -423,8 +423,8 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
         int i;
         boolean z;
         Object obj3;
-        Object obj2;
         Object obj;
+        Object obj2;
         int resumeMode;
         Function1 function1;
         Object obj4;
@@ -436,10 +436,10 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
         obj5 = CancellableContinuationImpl._state$FU.get(this);
         i = 0;
         while (obj5 instanceof NotCompleted) {
-            obj = obj13;
+            obj2 = obj13;
             obj4 = obj14;
             function1 = obj15;
-            obj13 = obj;
+            obj13 = obj2;
             obj15 = function1;
             obj14 = obj4;
             obj5 = _state$FU.get(this);
@@ -471,21 +471,21 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
 
     private final boolean trySuspend() {
         int i6;
-        int i4;
+        int i;
         boolean compareAndSet;
         int $this$index$iv;
-        int i2;
+        int i4;
         int i3;
+        int i2;
         int i5;
-        int i;
         final Object obj = this;
         final int i7 = 0;
         while (/* condition */) {
             int i12 = 0;
-            i2 = 1;
-            i5 = 0;
+            i4 = 1;
+            i2 = 0;
             i6 = CancellableContinuationImpl._decisionAndIndex$FU.get(this);
-            i4 = 0;
+            i = 0;
             int i10 = 0;
         }
         IllegalStateException illegalStateException = new IllegalStateException("Already suspended".toString());
@@ -527,27 +527,27 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
     @Override // kotlinx.coroutines.DispatchedTask
     public boolean cancel(Throwable cause) {
         Object obj2;
-        int i;
-        kotlinx.coroutines.CancelledContinuation cancelledContinuation;
-        boolean z3;
         int i2;
+        kotlinx.coroutines.CancelledContinuation cancelledContinuation;
         boolean z;
-        Object obj;
+        int i;
         boolean z2;
+        Object obj;
+        boolean z3;
         int i3;
         final Object obj3 = this;
         final int i4 = 0;
         obj2 = CancellableContinuationImpl._state$FU.get(this);
-        i = 0;
+        i2 = 0;
         while (!obj2 instanceof NotCompleted) {
             i3 = 1;
             if (obj2 instanceof CancelHandler == null) {
             } else {
             }
-            i2 = i3;
-            cancelledContinuation = new CancelledContinuation((Continuation)this, cause, i2);
+            i = i3;
+            cancelledContinuation = new CancelledContinuation((Continuation)this, cause, i);
             obj2 = _state$FU.get(this);
-            i = 0;
+            i2 = 0;
             if (obj2 instanceof Segment) {
             }
         }
@@ -558,34 +558,34 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
     public void cancelCompletedResult$kotlinx_coroutines_core(Object takenState, Throwable cause) {
         boolean copy$default;
         Object obj;
-        int i11;
-        int i5;
-        int i4;
-        Throwable th2;
         int i;
-        int i12;
         int i6;
-        AtomicReferenceFieldUpdater _state$FU;
-        int i2;
         int i3;
-        int i10;
-        int i9;
         Throwable th;
+        int i9;
+        int i12;
+        int i5;
+        AtomicReferenceFieldUpdater _state$FU;
+        int i10;
+        int i4;
+        int i2;
         int i7;
+        Throwable th2;
         int i8;
+        int i11;
         final Object obj2 = this;
         final Object obj3 = this;
         final int i13 = 0;
         obj = CancellableContinuationImpl._state$FU.get(obj2);
-        i6 = 0;
+        i5 = 0;
         while (!obj instanceof NotCompleted) {
             CompletedContinuation completedContinuation = new CompletedContinuation(obj, 0, 0, 0, cause, 14, 0);
             obj = _state$FU2.get(obj2);
-            i6 = 0;
-            th2 = cause;
+            i5 = 0;
+            th = cause;
         }
-        IllegalStateException illegalStateException2 = new IllegalStateException("Not completed".toString());
-        throw illegalStateException2;
+        IllegalStateException illegalStateException = new IllegalStateException("Not completed".toString());
+        throw illegalStateException;
     }
 
     @Override // kotlinx.coroutines.DispatchedTask
@@ -639,16 +639,16 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
 
     @Override // kotlinx.coroutines.DispatchedTask
     public Throwable getExceptionalResult$kotlinx_coroutines_core(Object state) {
-        int i;
-        Continuation delegate;
         int i3;
+        Continuation delegate;
+        int i;
         Throwable i2;
         boolean rECOVER_STACK_TRACES;
         final Throwable exceptionalResult$kotlinx_coroutines_core = super.getExceptionalResult$kotlinx_coroutines_core(state);
         if (exceptionalResult$kotlinx_coroutines_core != null) {
-            i = 0;
-            delegate = this.delegate;
             i3 = 0;
+            delegate = this.delegate;
+            i = 0;
             if (DebugKt.getRECOVER_STACK_TRACES()) {
                 if (!delegate instanceof CoroutineStackFrame) {
                     i2 = exceptionalResult$kotlinx_coroutines_core;
@@ -668,9 +668,9 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
         boolean cancellableMode;
         Throwable exception$iv;
         kotlinx.coroutines.Job.Key active;
-        boolean rECOVER_STACK_TRACES;
-        Object obj2;
         boolean rECOVER_STACK_TRACES2;
+        Object obj2;
+        boolean rECOVER_STACK_TRACES;
         Object obj;
         final boolean reusable = isReusable();
         if (trySuspend() && getParentHandle() == null) {
@@ -692,7 +692,7 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
             } else {
                 if (!obj4 instanceof CoroutineStackFrame) {
                 } else {
-                    exception$iv = rECOVER_STACK_TRACES;
+                    exception$iv = rECOVER_STACK_TRACES2;
                 }
             }
             throw exception$iv;
@@ -759,34 +759,34 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
 
     public void invokeOnCancellation(Segment<?> segment, int index) {
         boolean compareAndSet;
-        int i3;
-        int i5;
-        int $this$decision$iv;
-        int i4;
         int i2;
+        int i3;
+        int $this$decision$iv;
+        int i5;
+        int i4;
         int i;
         final AtomicIntegerFieldUpdater _decisionAndIndex$FU = CancellableContinuationImpl._decisionAndIndex$FU;
         final Object obj = this;
         final int i6 = 0;
         int i7 = _decisionAndIndex$FU.get(this);
-        i3 = i7;
-        i5 = 0;
+        i2 = i7;
+        i3 = 0;
         int i11 = 0;
         int i13 = 536870911;
         while (i9 &= i13 == i13) {
-            i4 = 1;
+            i5 = 1;
             int i12 = 0;
-            i2 = 0;
+            i4 = 0;
             i7 = _decisionAndIndex$FU.get(this);
-            i3 = i7;
-            i5 = 0;
+            i2 = i7;
+            i3 = 0;
             i11 = 0;
             i13 = 536870911;
-            i4 = 0;
+            i5 = 0;
         }
         int i8 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("invokeOnCancellation should be called at most once".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckCancellableContinuationImpl$invokeOnCancellation$1$1 = new IllegalStateException("invokeOnCancellation should be called at most once".toString());
+        throw $i$a$CheckCancellableContinuationImpl$invokeOnCancellation$1$1;
     }
 
     @Override // kotlinx.coroutines.DispatchedTask
@@ -837,8 +837,8 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
 
     @Override // kotlinx.coroutines.DispatchedTask
     public final boolean resetStateReusable() {
-        int aSSERTIONS_ENABLED3;
-        boolean aSSERTIONS_ENABLED2;
+        int $i$a$AssertCancellableContinuationImpl$resetStateReusable$1;
+        boolean $i$a$AssertCancellableContinuationImpl$resetStateReusable$2;
         int parentHandle;
         boolean aSSERTIONS_ENABLED;
         boolean idempotentResume;
@@ -847,8 +847,8 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
         int i4 = 0;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i = 0;
-            aSSERTIONS_ENABLED3 = this.resumeMode == 2 ? i3 : i4;
-            if (aSSERTIONS_ENABLED3 == 0) {
+            $i$a$AssertCancellableContinuationImpl$resetStateReusable$1 = this.resumeMode == 2 ? i3 : i4;
+            if ($i$a$AssertCancellableContinuationImpl$resetStateReusable$1 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -856,8 +856,8 @@ public class CancellableContinuationImpl<T>  extends kotlinx.coroutines.Dispatch
         }
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i2 = 0;
-            aSSERTIONS_ENABLED2 = getParentHandle() != NonDisposableHandle.INSTANCE ? i3 : i4;
-            if (aSSERTIONS_ENABLED2 == 0) {
+            $i$a$AssertCancellableContinuationImpl$resetStateReusable$2 = getParentHandle() != NonDisposableHandle.INSTANCE ? i3 : i4;
+            if ($i$a$AssertCancellableContinuationImpl$resetStateReusable$2 == 0) {
             } else {
             }
             AssertionError assertionError2 = new AssertionError();

@@ -72,8 +72,8 @@ public final class ApproachMeasureScopeImpl implements androidx.compose.ui.layou
             return lookaheadConstraints-DWUhwKw$ui_release.unbox-impl();
         }
         int i = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Error: Lookahead constraints requested before lookahead measure.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullApproachMeasureScopeImpl$lookaheadConstraints$1 = new IllegalArgumentException("Error: Lookahead constraints requested before lookahead measure.".toString());
+        throw $i$a$RequireNotNullApproachMeasureScopeImpl$lookaheadConstraints$1;
     }
 
     @Override // androidx.compose.ui.layout.ApproachMeasureScope
@@ -97,8 +97,8 @@ public final class ApproachMeasureScopeImpl implements androidx.compose.ui.layou
             return outerCoordinator$ui_release;
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Error: Requesting LookaheadScopeCoordinates is not permitted from outside of a LookaheadScope.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullApproachMeasureScopeImpl$lookaheadScopeCoordinates$1 = new IllegalArgumentException("Error: Requesting LookaheadScopeCoordinates is not permitted from outside of a LookaheadScope.".toString());
+        throw $i$a$RequireNotNullApproachMeasureScopeImpl$lookaheadScopeCoordinates$1;
     }
 
     @Override // androidx.compose.ui.layout.ApproachMeasureScope
@@ -120,19 +120,19 @@ public final class ApproachMeasureScopeImpl implements androidx.compose.ui.layou
     }
 
     public androidx.compose.ui.layout.MeasureResult layout(int width, int height, Map<androidx.compose.ui.layout.AlignmentLine, Integer> alignmentLines, Function1<? super androidx.compose.ui.layout.RulerScope, Unit> rulers, Function1<? super androidx.compose.ui.layout.Placeable.PlacementScope, Unit> placementBlock) {
-        int i;
         int i2;
-        String string;
+        int i;
+        String $i$a$CheckPreconditionLookaheadDelegateKt$checkMeasuredSize$1$iv;
         StringBuilder append;
         String str;
         int i3 = 0;
-        i = -16777216;
-        if (width & i == 0 && i &= height == 0) {
-            i2 = i &= height == 0 ? 1 : 0;
+        i2 = -16777216;
+        if (width & i2 == 0 && i2 &= height == 0) {
+            i = i2 &= height == 0 ? 1 : 0;
         } else {
         }
         int i7 = 0;
-        if (i2 == 0) {
+        if (i == 0) {
             int i8 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             InlineClassHelperKt.throwIllegalStateException(stringBuilder.append("Size(").append(width).append(" x ").append(height).append(") is out of range. Each dimension must be between 0 and 16777215.").toString());

@@ -40,11 +40,11 @@ final class CamUtils {
     }
 
     static int intFromLStar(float lStar) {
-        int i2;
-        int i5;
-        int i6;
         int i3;
         int i4;
+        int i6;
+        int i5;
+        int i2;
         int i;
         if (Float.compare(lStar, i7) < 0) {
             return -16777216;
@@ -53,27 +53,27 @@ final class CamUtils {
             return -1;
         }
         int i11 = 1098907648;
-        i5 = 1122500608;
-        i14 /= i5;
+        i4 = 1122500608;
+        i14 /= i4;
         final int i20 = i15;
         final int i21 = i15;
         final int i22 = 1147261687;
         int i25 = 1;
         final int i26 = 0;
         i6 = Float.compare(lStar, i24) > 0 ? i25 : i26;
-        i3 = i6 != 0 ? i27 * i15 : lStar / i22;
-        i4 = Float.compare(i29, i23) > 0 ? i25 : i26;
-        if (i4 != 0) {
+        i5 = i6 != 0 ? i27 * i15 : lStar / i22;
+        i2 = Float.compare(i29, i23) > 0 ? i25 : i26;
+        if (i2 != 0) {
             i30 *= i21;
         } else {
             i32 /= i22;
         }
-        if (i4 != 0) {
+        if (i2 != 0) {
             i12 *= i20;
         } else {
-            i2 = i5 / i22;
+            i3 = i4 / i22;
         }
-        final int i35 = i2;
+        final int i35 = i3;
         final int i34 = i15;
         return ColorUtils.XYZToColor((double)i17, obj14, (double)i18);
     }

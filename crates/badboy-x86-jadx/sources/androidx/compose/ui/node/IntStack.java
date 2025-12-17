@@ -18,23 +18,23 @@ final class IntStack {
 
     private final boolean compareDiagonal(int a, int b) {
         int i3;
-        int i2;
         int i;
+        int i2;
         final int[] stack = this.stack;
         final int i4 = stack[a];
         final int i5 = stack[b];
         if (i4 >= i5) {
             if (i4 == i5 && stack[a + 1] <= stack[b + 1]) {
                 if (stack[a + 1] <= stack[b + 1]) {
-                    i2 = 1;
+                    i = 1;
                 } else {
-                    i2 = 0;
+                    i = 0;
                 }
             } else {
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     private final int partition(int start, int end, int elSize) {
@@ -125,7 +125,7 @@ final class IntStack {
     public final void sortDiagonals() {
         int i;
         int i2;
-        String str;
+        String $i$a$CheckPreconditionIntStack$sortDiagonals$1;
         final int lastIndex = this.lastIndex;
         final int i4 = 0;
         i = lastIndex % 3 == 0 ? 1 : i4;

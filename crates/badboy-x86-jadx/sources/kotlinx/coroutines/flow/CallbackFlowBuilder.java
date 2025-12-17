@@ -38,18 +38,18 @@ final class CallbackFlowBuilder<T>  extends kotlinx.coroutines.flow.ChannelFlowB
     protected Object collectTo(ProducerScope<? super T> producerScope, Continuation<? super Unit> continuation2) {
         boolean anon;
         int i3;
-        int i2;
-        Object collectTo;
         int i;
+        Object _this;
+        int i2;
         Object obj5;
         Object obj6;
         anon = continuation2;
-        i2 = Integer.MIN_VALUE;
-        if (continuation2 instanceof CallbackFlowBuilder.collectTo.1 && label &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation2 instanceof CallbackFlowBuilder.collectTo.1 && label &= i != 0) {
             anon = continuation2;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj6 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj6 -= i;
             } else {
                 anon = new CallbackFlowBuilder.collectTo.1(this, continuation2);
             }
@@ -57,7 +57,7 @@ final class CallbackFlowBuilder<T>  extends kotlinx.coroutines.flow.ChannelFlowB
         }
         obj6 = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        switch (collectTo) {
+        switch (_this) {
             case 0:
                 ResultKt.throwOnFailure(obj6);
                 anon.L$0 = producerScope;

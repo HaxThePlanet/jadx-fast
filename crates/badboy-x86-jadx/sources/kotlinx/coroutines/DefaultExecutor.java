@@ -119,11 +119,11 @@ public final class DefaultExecutor extends kotlinx.coroutines.EventLoopImplBase 
 
     @Override // kotlinx.coroutines.EventLoopImplBase
     public final void ensureStarted$kotlinx_coroutines_core() {
-        int aSSERTIONS_ENABLED;
-        boolean aSSERTIONS_ENABLED2;
-        int i2;
-        Thread debugStatus;
+        int $i$a$AssertDefaultExecutor$ensureStarted$1;
+        boolean aSSERTIONS_ENABLED;
         int i;
+        Thread debugStatus;
+        int i2;
         final int i4 = 0;
         synchronized (this) {
             try {
@@ -131,24 +131,24 @@ public final class DefaultExecutor extends kotlinx.coroutines.EventLoopImplBase 
                 if (DefaultExecutor._thread == null) {
                 } else {
                 }
-                aSSERTIONS_ENABLED = i2;
-                aSSERTIONS_ENABLED = i4;
-                if (aSSERTIONS_ENABLED == 0) {
+                $i$a$AssertDefaultExecutor$ensureStarted$1 = i;
+                $i$a$AssertDefaultExecutor$ensureStarted$1 = i4;
+                if ($i$a$AssertDefaultExecutor$ensureStarted$1 == 0) {
                 } else {
                 }
                 AssertionError assertionError = new AssertionError();
                 throw assertionError;
-                aSSERTIONS_ENABLED2 = 0;
+                aSSERTIONS_ENABLED = 0;
                 if (DebugKt.getASSERTIONS_ENABLED() && DefaultExecutor.debugStatus != 0) {
                 }
-                aSSERTIONS_ENABLED2 = 0;
+                aSSERTIONS_ENABLED = 0;
                 if (DefaultExecutor.debugStatus != 0) {
                 }
                 if (DefaultExecutor.debugStatus == 3) {
                 } else {
                 }
-                i2 = i4;
-                if (i2 == 0) {
+                i = i4;
+                if (i == 0) {
                 } else {
                 }
                 AssertionError assertionError2 = new AssertionError();
@@ -194,7 +194,7 @@ public final class DefaultExecutor extends kotlinx.coroutines.EventLoopImplBase 
 
     @Override // kotlinx.coroutines.EventLoopImplBase
     public void run() {
-        long shutdownNanos2;
+        long shutdownNanos;
         kotlinx.coroutines.AbstractTimeSource empty;
         boolean parkNanos;
         int iNSTANCE;
@@ -209,7 +209,7 @@ public final class DefaultExecutor extends kotlinx.coroutines.EventLoopImplBase 
         if (timeSource != null) {
             timeSource.registerTimeLoopThread();
         }
-        shutdownNanos2 = Long.MAX_VALUE;
+        shutdownNanos = Long.MAX_VALUE;
         int i2 = 0;
         DefaultExecutor._thread = i2;
         acknowledgeShutdownIfNeeded();
@@ -235,15 +235,15 @@ public final class DefaultExecutor extends kotlinx.coroutines.EventLoopImplBase 
             } else {
             }
             nanoTime = System.nanoTime();
-            if (Long.compare(shutdownNanos2, l) == 0) {
+            if (Long.compare(shutdownNanos, l) == 0) {
             }
-            l = shutdownNanos2 - nanoTime;
+            l = shutdownNanos - nanoTime;
             parkNanos = coerceAtMost;
             Thread.interrupted();
             parkNanos = processNextEvent();
             l = Long.MAX_VALUE;
             i = 0;
-            shutdownNanos2 = Long.MAX_VALUE;
+            shutdownNanos = Long.MAX_VALUE;
             kotlinx.coroutines.AbstractTimeSource timeSource5 = AbstractTimeSourceKt.getTimeSource();
             if (timeSource5 != null) {
             } else {
@@ -254,7 +254,7 @@ public final class DefaultExecutor extends kotlinx.coroutines.EventLoopImplBase 
             LockSupport.parkNanos(this, parkNanos);
             timeSource5.parkNanos(this, parkNanos);
             iNSTANCE = Unit.INSTANCE;
-            shutdownNanos2 = nanoTime + kEEP_ALIVE_NANOS;
+            shutdownNanos = nanoTime + kEEP_ALIVE_NANOS;
             nanoTime = timeSource6.nanoTime();
         }
         DefaultExecutor._thread = i2;

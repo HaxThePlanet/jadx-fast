@@ -26,10 +26,10 @@ public final class TextFieldDefaultsKt {
         boolean traceInProgress;
         State rememberUpdatedState;
         String str;
-        int i2;
-        InteractionSource interactionSource2;
-        int i;
         int i3;
+        InteractionSource interactionSource2;
+        int i2;
+        int i;
         final Composer composer = $composer;
         final int i18 = $changed;
         int i4 = 1097899920;

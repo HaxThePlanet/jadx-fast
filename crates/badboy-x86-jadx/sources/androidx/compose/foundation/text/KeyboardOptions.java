@@ -78,8 +78,8 @@ public final class KeyboardOptions {
 
     public KeyboardOptions(int i, Boolean boolean2, int i3, int i4, PlatformImeOptions platformImeOptions5, Boolean boolean6, LocaleList localeList7, int i8, DefaultConstructorMarker defaultConstructorMarker9) {
         int unspecified-IUNYP9k;
-        int i7;
         int i6;
+        int i7;
         int unspecified-PjHm6EE;
         int unspecified-eUduSuo;
         int i2;
@@ -89,8 +89,8 @@ public final class KeyboardOptions {
         } else {
             unspecified-IUNYP9k = i;
         }
-        i6 = 0;
-        i7 = i8 & 2 != 0 ? i6 : boolean2;
+        i7 = 0;
+        i6 = i8 & 2 != 0 ? i7 : boolean2;
         if (i8 & 4 != 0) {
             unspecified-PjHm6EE = KeyboardType.Companion.getUnspecified-PjHm6EE();
         } else {
@@ -101,13 +101,13 @@ public final class KeyboardOptions {
         } else {
             unspecified-eUduSuo = i4;
         }
-        i2 = i8 & 16 != 0 ? i6 : platformImeOptions5;
-        i5 = i8 & 32 != 0 ? i6 : boolean6;
+        i2 = i8 & 16 != 0 ? i7 : platformImeOptions5;
+        i5 = i8 & 32 != 0 ? i7 : boolean6;
         if (i8 & 64 != 0) {
         } else {
-            i6 = localeList7;
+            i7 = localeList7;
         }
-        super(unspecified-IUNYP9k, i7, unspecified-PjHm6EE, unspecified-eUduSuo, i2, i5, i6, 0);
+        super(unspecified-IUNYP9k, i6, unspecified-PjHm6EE, unspecified-eUduSuo, i2, i5, i7, 0);
     }
 
     public KeyboardOptions(int i, Boolean boolean2, int i3, int i4, PlatformImeOptions platformImeOptions5, Boolean boolean6, LocaleList localeList7, DefaultConstructorMarker defaultConstructorMarker8) {
@@ -119,18 +119,18 @@ public final class KeyboardOptions {
     }
 
     public KeyboardOptions(int i, boolean z2, int i3, int i4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
-        int i7;
+        int i6;
         boolean z;
         int i2;
-        int i6;
+        int i7;
         int obj7;
         boolean obj8;
         int obj9;
         int obj10;
         if (i5 & 1 != 0) {
-            i7 = obj7;
+            i6 = obj7;
         } else {
-            i7 = i;
+            i6 = i;
         }
         if (i5 & 2 != 0) {
             z = obj8;
@@ -143,11 +143,11 @@ public final class KeyboardOptions {
             i2 = i3;
         }
         if (i5 & 8 != 0) {
-            i6 = obj10;
+            i7 = obj10;
         } else {
-            i6 = i4;
+            i7 = i4;
         }
-        super(i7, z, i2, i6, 0);
+        super(i6, z, i2, i7, 0);
     }
 
     private KeyboardOptions(int capitalization, boolean autoCorrect, int keyboardType, int imeAction, PlatformImeOptions platformImeOptions) {
@@ -155,20 +155,20 @@ public final class KeyboardOptions {
     }
 
     public KeyboardOptions(int i, boolean z2, int i3, int i4, PlatformImeOptions platformImeOptions5, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
-        int i7;
+        int i2;
         boolean z;
         int i5;
+        int i7;
         int i8;
-        int i2;
         int obj8;
         boolean obj9;
         int obj10;
         int obj11;
         int obj12;
         if (i6 & 1 != 0) {
-            i7 = obj8;
+            i2 = obj8;
         } else {
-            i7 = i;
+            i2 = i;
         }
         if (i6 & 2 != 0) {
             z = obj9;
@@ -181,12 +181,12 @@ public final class KeyboardOptions {
             i5 = i3;
         }
         if (i6 & 8 != 0) {
-            i8 = obj11;
+            i7 = obj11;
         } else {
-            i8 = i4;
+            i7 = i4;
         }
-        i2 = i6 & 16 != 0 ? obj12 : platformImeOptions5;
-        super(i7, z, i5, i8, i2, 0);
+        i8 = i6 & 16 != 0 ? obj12 : platformImeOptions5;
+        super(i2, z, i5, i7, i8, 0);
     }
 
     private KeyboardOptions(int capitalization, boolean autoCorrect, int keyboardType, int imeAction, PlatformImeOptions platformImeOptions, Boolean showKeyboardOnFocus, LocaleList hintLocales) {
@@ -194,24 +194,24 @@ public final class KeyboardOptions {
     }
 
     public KeyboardOptions(int i, boolean z2, int i3, int i4, PlatformImeOptions platformImeOptions5, Boolean boolean6, LocaleList localeList7, int i8, DefaultConstructorMarker defaultConstructorMarker9) {
-        int i5;
-        int i6;
-        int i2;
-        int i10;
         int i7;
         int i9;
+        int i2;
+        int i10;
+        int i5;
+        int i6;
         int obj10;
         int obj12;
         int obj13;
         if (i8 & 1 != 0) {
-            i5 = obj10;
+            i7 = obj10;
         } else {
-            i5 = i;
+            i7 = i;
         }
         if (i8 & 4 != 0) {
-            i6 = obj12;
+            i9 = obj12;
         } else {
-            i6 = i3;
+            i9 = i3;
         }
         if (i8 & 8 != 0) {
             i2 = obj13;
@@ -220,9 +220,9 @@ public final class KeyboardOptions {
         }
         obj12 = 0;
         i10 = i8 & 16 != 0 ? obj12 : platformImeOptions5;
-        i7 = i8 & 32 != 0 ? obj12 : boolean6;
-        i9 = i8 & 64 != 0 ? obj12 : localeList7;
-        super(i5, z2, i6, i2, i10, i7, i9, 0);
+        i5 = i8 & 32 != 0 ? obj12 : boolean6;
+        i6 = i8 & 64 != 0 ? obj12 : localeList7;
+        super(i7, z2, i9, i2, i10, i5, i6, 0);
     }
 
     @Deprecated(level = DeprecationLevel.WARNING, message = "Please use the new constructor that takes optional autoCorrectEnabled parameter.", replaceWith = @ReplaceWith(...))
@@ -513,13 +513,13 @@ public final class KeyboardOptions {
         PlatformImeOptions platformImeOptions2;
         Boolean showKeyboardOnFocus;
         LocaleList hintLocales;
-        int i3;
+        int $i$a$TakeUnlessKeyboardOptions$fillUnspecifiedValuesWith$1;
         int i2;
-        Boolean bool2;
-        int i4;
-        int i;
-        PlatformImeOptions platformImeOptions;
         Boolean bool;
+        int i;
+        int i3;
+        PlatformImeOptions platformImeOptions;
+        Boolean bool2;
         LocaleList list;
         if (other != null && !other.isCompletelyUnspecified()) {
             if (!other.isCompletelyUnspecified()) {
@@ -528,11 +528,11 @@ public final class KeyboardOptions {
                     if (isCompletelyUnspecified()) {
                         return other;
                     }
-                    int i5 = 0;
-                    i3 = 0;
+                    int i4 = 0;
+                    $i$a$TakeUnlessKeyboardOptions$fillUnspecifiedValuesWith$1 = 0;
                     if (!KeyboardCapitalization.equals-impl0(KeyboardCapitalization.box-impl(this.capitalization).unbox-impl(), KeyboardCapitalization.Companion.getUnspecified-IUNYP9k())) {
                     } else {
-                        box-impl = i3;
+                        box-impl = $i$a$TakeUnlessKeyboardOptions$fillUnspecifiedValuesWith$1;
                     }
                     if (box-impl != 0) {
                         i2 = capitalization;
@@ -540,35 +540,35 @@ public final class KeyboardOptions {
                         i2 = capitalization;
                     }
                     autoCorrectEnabled = this.autoCorrectEnabled;
-                    bool2 = autoCorrectEnabled == null ? autoCorrectEnabled : autoCorrectEnabled;
-                    int i6 = 0;
+                    bool = autoCorrectEnabled == null ? autoCorrectEnabled : autoCorrectEnabled;
+                    int i5 = 0;
                     if (!KeyboardType.equals-impl0(KeyboardType.box-impl(this.keyboardType).unbox-impl(), KeyboardType.Companion.getUnspecified-PjHm6EE())) {
                     } else {
-                        box-impl2 = i3;
+                        box-impl2 = $i$a$TakeUnlessKeyboardOptions$fillUnspecifiedValuesWith$1;
                     }
                     if (box-impl2 != 0) {
-                        i4 = keyboardType;
+                        i = keyboardType;
                     } else {
-                        i4 = keyboardType;
+                        i = keyboardType;
                     }
                     ImeAction box-impl3 = ImeAction.box-impl(this.imeAction);
-                    int i7 = 0;
+                    int i6 = 0;
                     if (!ImeAction.equals-impl0(box-impl3.unbox-impl(), ImeAction.Companion.getUnspecified-eUduSuo())) {
-                        i3 = box-impl3;
+                        $i$a$TakeUnlessKeyboardOptions$fillUnspecifiedValuesWith$1 = box-impl3;
                     }
-                    if (i3 != 0) {
-                        i = imeAction;
+                    if ($i$a$TakeUnlessKeyboardOptions$fillUnspecifiedValuesWith$1 != 0) {
+                        i3 = imeAction;
                     } else {
-                        i = imeAction;
+                        i3 = imeAction;
                     }
                     platformImeOptions2 = this.platformImeOptions;
                     platformImeOptions = platformImeOptions2 == null ? platformImeOptions2 : platformImeOptions2;
                     showKeyboardOnFocus = this.showKeyboardOnFocus;
-                    bool = showKeyboardOnFocus == null ? showKeyboardOnFocus : showKeyboardOnFocus;
+                    bool2 = showKeyboardOnFocus == null ? showKeyboardOnFocus : showKeyboardOnFocus;
                     hintLocales = this.hintLocales;
                     list = hintLocales == null ? hintLocales : hintLocales;
                 }
-                KeyboardOptions keyboardOptions = new KeyboardOptions(i2, bool2, i4, i, platformImeOptions, bool, list, 0);
+                KeyboardOptions keyboardOptions = new KeyboardOptions(i2, bool, i, i3, platformImeOptions, bool2, list, 0);
                 return keyboardOptions;
             }
         }
@@ -646,28 +646,28 @@ public final class KeyboardOptions {
     }
 
     public int hashCode() {
+        int i4;
         int i3;
         int i2;
-        int i4;
         int i;
         Boolean autoCorrectEnabled = this.autoCorrectEnabled;
         i = 0;
         if (autoCorrectEnabled != null) {
-            i3 = autoCorrectEnabled.hashCode();
+            i4 = autoCorrectEnabled.hashCode();
         } else {
-            i3 = i;
+            i4 = i;
         }
         PlatformImeOptions platformImeOptions = this.platformImeOptions;
         if (platformImeOptions != null) {
-            i2 = platformImeOptions.hashCode();
+            i3 = platformImeOptions.hashCode();
         } else {
-            i2 = i;
+            i3 = i;
         }
         Boolean showKeyboardOnFocus = this.showKeyboardOnFocus;
         if (showKeyboardOnFocus != null) {
-            i4 = showKeyboardOnFocus.hashCode();
+            i2 = showKeyboardOnFocus.hashCode();
         } else {
-            i4 = i;
+            i2 = i;
         }
         LocaleList hintLocales = this.hintLocales;
         if (hintLocales != null) {

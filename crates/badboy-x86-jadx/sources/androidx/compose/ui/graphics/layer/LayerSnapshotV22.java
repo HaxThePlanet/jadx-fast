@@ -31,36 +31,36 @@ public final class LayerSnapshotV22 implements androidx.compose.ui.graphics.laye
     }
 
     public Object toBitmap(androidx.compose.ui.graphics.layer.GraphicsLayer graphicsLayer, Continuation<? super Bitmap> continuation2) {
-        Object obj;
-        int i3;
+        Object obj3;
+        int i7;
         boolean anon;
-        int i4;
-        Throwable th;
+        int i3;
+        Throwable th2;
         int i;
         long l;
         Object obj2;
-        Object obj3;
+        Object obj;
         Object cOROUTINE_SUSPENDED;
         Canvas lockCanvas;
         Looper mainLooper;
         androidx.compose.ui.graphics.Canvas canvas;
-        int i5;
+        int i4;
         androidx.compose.ui.graphics.layer.LayerSnapshotV22.toBitmap.1 anon2;
+        int i5;
         int i6;
         int i2;
-        int i7;
         CancellableContinuationImpl cancellableContinuationImpl;
         PorterDuff.Mode cLEAR;
-        obj = continuation2;
-        anon = obj;
-        th = Integer.MIN_VALUE;
-        if (obj instanceof LayerSnapshotV22.toBitmap.1 && label2 &= th != 0) {
-            anon = obj;
-            th = Integer.MIN_VALUE;
-            if (label2 &= th != 0) {
-                anon.label = label -= th;
+        obj3 = continuation2;
+        anon = obj3;
+        th2 = Integer.MIN_VALUE;
+        if (obj3 instanceof LayerSnapshotV22.toBitmap.1 && label2 &= th2 != 0) {
+            anon = obj3;
+            th2 = Integer.MIN_VALUE;
+            if (label2 &= th2 != 0) {
+                anon.label = label -= th2;
             } else {
-                anon = new LayerSnapshotV22.toBitmap.1(this, obj);
+                anon = new LayerSnapshotV22.toBitmap.1(this, obj3);
             }
         } else {
         }
@@ -83,10 +83,10 @@ public final class LayerSnapshotV22 implements androidx.compose.ui.graphics.laye
                 anon.L$3 = (ImageReader)reader;
                 anon.L$4 = anon2;
                 anon.label = i9;
-                i7 = 0;
+                i2 = 0;
                 cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon2), i9);
                 cancellableContinuationImpl.initCancellability();
-                i2 = 0;
+                i6 = 0;
                 LayerSnapshotV22.toBitmap.2.image.1.1 anon4 = new LayerSnapshotV22.toBitmap.2.image.1.1((CancellableContinuation)cancellableContinuationImpl);
                 reader.setOnImageAvailableListener((ImageReader.OnImageAvailableListener)anon4, HandlerCompat.createAsync(mainLooper));
                 Surface surface = reader.getSurface();
@@ -97,27 +97,27 @@ public final class LayerSnapshotV22 implements androidx.compose.ui.graphics.laye
                 Object result2 = cancellableContinuationImpl.getResult();
                 DebugProbesKt.probeCoroutineSuspended((Continuation)anon2);
                 return cOROUTINE_SUSPENDED2;
-                obj3 = instance;
-                i3 = i5;
+                obj = instance;
+                i7 = i4;
                 obj2 = result2;
-                i = i6;
+                i = i5;
                 break;
             case 1:
-                i3 = 0;
+                i7 = 0;
                 i = 0;
                 Object l$4 = anon.L$4;
                 Object l$3 = anon.L$3;
                 Object l$1 = anon.L$1;
                 Object l$0 = anon.L$0;
                 ResultKt.throwOnFailure(result);
-                obj3 = l$2;
+                obj = l$2;
                 obj2 = result;
                 break;
             default:
                 IllegalStateException illegalStateException = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw illegalStateException;
         }
-        AutoCloseableKt.closeFinally(obj3, i8);
+        AutoCloseableKt.closeFinally(obj, i8);
         return LayerSnapshot_androidKt.access$toBitmap((Image)obj2);
     }
 }

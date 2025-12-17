@@ -133,8 +133,8 @@ public abstract class RoundedBitmapDrawable extends Drawable {
     public int getOpacity() {
         int mIsCircular;
         int greaterThanZero;
-        int i;
         int i2;
+        int i;
         if (this.mGravity == 119) {
             if (this.mIsCircular) {
             } else {
@@ -144,7 +144,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
                         if (this.mPaint.getAlpha() >= 255) {
                             if (RoundedBitmapDrawable.isGreaterThanZero(this.mCornerRadius)) {
                             } else {
-                                i = -1;
+                                i2 = -1;
                             }
                         } else {
                         }
@@ -153,7 +153,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
                 } else {
                 }
             }
-            return i;
+            return i2;
         }
         return -3;
     }
@@ -302,13 +302,13 @@ public abstract class RoundedBitmapDrawable extends Drawable {
     void updateDstRect() {
         boolean mIsCircular;
         Object mApplyGravity;
-        int i2;
+        int i4;
         int mBitmapShader;
         Object obj;
-        int i3;
-        int i;
         int i5;
-        int i4;
+        int i;
+        int i3;
+        int i2;
         Rect mDstRect2;
         Object obj2;
         int mGravity;
@@ -317,14 +317,14 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         Rect bounds;
         Rect mDstRect;
         if (this.mApplyGravity) {
-            i2 = 0;
+            i4 = 0;
             if (this.mIsCircular) {
                 i = Math.min(this.mBitmapWidth, this.mBitmapHeight);
                 obj = this;
                 obj.gravityCompatApply(this.mGravity, i, i, getBounds(), this.mDstRect);
                 mIsCircular = Math.min(obj.mDstRect.width(), obj.mDstRect.height());
-                obj.mDstRect.inset(Math.max(i2, i6 /= 2), Math.max(i2, i9 /= 2));
-                obj.mCornerRadius = f2 *= i5;
+                obj.mDstRect.inset(Math.max(i4, i6 /= 2), Math.max(i4, i9 /= 2));
+                obj.mCornerRadius = f2 *= i3;
             } else {
                 obj = this;
                 obj.gravityCompatApply(obj.mGravity, obj.mBitmapWidth, obj.mBitmapHeight, getBounds(), obj.mDstRect);
@@ -336,7 +336,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
                 obj.mBitmapShader.setLocalMatrix(obj.mShaderMatrix);
                 obj.mPaint.setShader(obj.mBitmapShader);
             }
-            obj.mApplyGravity = i2;
+            obj.mApplyGravity = i4;
         } else {
             obj = this;
         }

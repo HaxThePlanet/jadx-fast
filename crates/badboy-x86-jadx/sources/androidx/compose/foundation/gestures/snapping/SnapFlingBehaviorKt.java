@@ -63,24 +63,24 @@ public final class SnapFlingBehaviorKt {
 
     private static final Object animateDecay(ScrollScope scrollScope, float f2, AnimationState<Float, AnimationVector1D> animationState3, DecayAnimationSpec<Float> decayAnimationSpec4, Function1<? super Float, Unit> function15, Continuation<? super androidx.compose.foundation.gestures.snapping.AnimationResult<Float, AnimationVector1D>> continuation6) {
         boolean anon2;
+        int i5;
         int i;
-        int i4;
         Ref.FloatRef floatRef;
         int i2;
-        int i5;
         int i3;
+        int i4;
         androidx.compose.foundation.gestures.snapping.SnapFlingBehaviorKt.animateDecay.2 anon;
         float obj6;
         Object obj7;
         Object obj8;
         Object obj11;
         anon2 = continuation6;
-        i4 = Integer.MIN_VALUE;
-        if (continuation6 instanceof SnapFlingBehaviorKt.animateDecay.1 && label &= i4 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation6 instanceof SnapFlingBehaviorKt.animateDecay.1 && label &= i != 0) {
             anon2 = continuation6;
-            i4 = Integer.MIN_VALUE;
-            if (label &= i4 != 0) {
-                anon2.label = obj11 -= i4;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon2.label = obj11 -= i;
             } else {
                 anon2 = new SnapFlingBehaviorKt.animateDecay.1(continuation6);
             }
@@ -92,14 +92,14 @@ public final class SnapFlingBehaviorKt {
             case 0:
                 ResultKt.throwOnFailure(obj11);
                 floatRef = new Ref.FloatRef();
-                i3 = 1;
-                i2 = i3;
+                i4 = 1;
+                i2 = i4;
                 i2 = 0;
                 anon = new SnapFlingBehaviorKt.animateDecay.2(f2, floatRef, scrollScope, function15);
                 anon2.L$0 = animationState3;
                 anon2.L$1 = floatRef;
                 anon2.F$0 = f2;
-                anon2.label = i3;
+                anon2.label = i4;
                 return cOROUTINE_SUSPENDED;
                 obj6 = f2;
                 obj7 = floatRef;
@@ -128,23 +128,23 @@ public final class SnapFlingBehaviorKt {
     }
 
     private static final Object animateWithTarget(ScrollScope scrollScope, float f2, float f3, AnimationState<Float, AnimationVector1D> animationState4, AnimationSpec<Float> animationSpec5, Function1<? super Float, Unit> function16, Continuation<? super androidx.compose.foundation.gestures.snapping.AnimationResult<Float, AnimationVector1D>> continuation7) {
-        Object obj2;
+        Object obj;
         boolean animateTo;
-        int i3;
-        float f$1;
         int i4;
+        float f$1;
+        int i;
         androidx.compose.foundation.gestures.snapping.SnapFlingBehaviorKt.animateWithTarget.1 $this$animateWithTarget;
         Object l$1;
         Object l$0;
         float f;
-        Object obj;
+        Object obj2;
         Function1 function1;
         Ref.FloatRef floatRef;
         float floatValue;
         Float boxFloat;
-        int i;
         int i5;
         int i2;
+        int i3;
         androidx.compose.foundation.gestures.snapping.SnapFlingBehaviorKt.animateWithTarget.2 anon;
         Object obj17;
         Float obj18;
@@ -152,16 +152,16 @@ public final class SnapFlingBehaviorKt {
         int obj20;
         androidx.compose.foundation.gestures.snapping.SnapFlingBehaviorKt.animateWithTarget.2 obj21;
         androidx.compose.foundation.gestures.snapping.SnapFlingBehaviorKt.animateWithTarget.1 obj22;
-        obj2 = continuation7;
-        animateTo = obj2;
-        i4 = Integer.MIN_VALUE;
-        if (obj2 instanceof SnapFlingBehaviorKt.animateWithTarget.1 && label2 &= i4 != 0) {
-            animateTo = obj2;
-            i4 = Integer.MIN_VALUE;
-            if (label2 &= i4 != 0) {
-                animateTo.label = label -= i4;
+        obj = continuation7;
+        animateTo = obj;
+        i = Integer.MIN_VALUE;
+        if (obj instanceof SnapFlingBehaviorKt.animateWithTarget.1 && label2 &= i != 0) {
+            animateTo = obj;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                animateTo.label = label -= i;
             } else {
-                animateTo = new SnapFlingBehaviorKt.animateWithTarget.1(obj2);
+                animateTo = new SnapFlingBehaviorKt.animateWithTarget.1(obj);
             }
         } else {
         }
@@ -174,22 +174,22 @@ public final class SnapFlingBehaviorKt {
                 Object obj3 = animationState4;
                 floatRef = new Ref.FloatRef();
                 floatValue = (Number)obj3.getVelocity().floatValue();
-                i2 = 1;
-                i = i2;
-                i = 0;
+                i3 = 1;
+                i5 = i3;
+                i5 = 0;
                 anon = new SnapFlingBehaviorKt.animateWithTarget.2(f3, floatRef, scrollScope, function16);
                 animateTo.L$0 = obj3;
                 animateTo.L$1 = floatRef;
                 animateTo.F$0 = f;
                 animateTo.F$1 = floatValue;
-                animateTo.label = i2;
+                animateTo.label = i3;
                 obj22 = animateTo;
                 obj17 = obj3;
                 $this$animateWithTarget = obj22;
                 return cOROUTINE_SUSPENDED;
                 l$1 = floatRef;
                 f$1 = floatValue;
-                obj = l$0;
+                obj2 = l$0;
                 break;
             case 1:
                 f$1 = animateTo.F$1;
@@ -197,7 +197,7 @@ public final class SnapFlingBehaviorKt {
                 ResultKt.throwOnFailure(result);
                 f = f$0;
                 $this$animateWithTarget = animateTo;
-                obj = l$0;
+                obj2 = l$0;
                 break;
             default:
                 androidx.compose.foundation.gestures.snapping.SnapFlingBehaviorKt.animateWithTarget.1 anon2 = animateTo;
@@ -205,7 +205,7 @@ public final class SnapFlingBehaviorKt {
                 throw $result2;
         }
         int i6 = 0;
-        AnimationResult animationResult = new AnimationResult(Boxing.boxFloat(f - element), AnimationStateKt.copy$default(obj, 0, SnapFlingBehaviorKt.coerceToTarget((Number)obj.getVelocity().floatValue(), f$1), 0, boxFloat, false, i2, 0));
+        AnimationResult animationResult = new AnimationResult(Boxing.boxFloat(f - element), AnimationStateKt.copy$default(obj2, 0, SnapFlingBehaviorKt.coerceToTarget((Number)obj2.getVelocity().floatValue(), f$1), 0, boxFloat, false, i3, 0));
         return animationResult;
     }
 
@@ -242,20 +242,20 @@ public final class SnapFlingBehaviorKt {
     }
 
     private static final boolean calculateFinalOffset_Fhqu1e0$isValidDistance(float $this$calculateFinalOffset_Fhqu1e0_u24isValidDistance) {
-        int i;
         int i2;
-        i2 = 1;
+        int i;
+        i = 1;
         final int i5 = 0;
-        i = Float.compare($this$calculateFinalOffset_Fhqu1e0_u24isValidDistance, i3) == 0 ? i2 : i5;
-        if (i == 0) {
-            i = Float.compare($this$calculateFinalOffset_Fhqu1e0_u24isValidDistance, i4) == 0 ? i2 : i5;
-            if (i == 0) {
+        i2 = Float.compare($this$calculateFinalOffset_Fhqu1e0_u24isValidDistance, i3) == 0 ? i : i5;
+        if (i2 == 0) {
+            i2 = Float.compare($this$calculateFinalOffset_Fhqu1e0_u24isValidDistance, i4) == 0 ? i : i5;
+            if (i2 == 0) {
             } else {
-                i2 = i5;
+                i = i5;
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     private static final float coerceToTarget(float $this$coerceToTarget, float target) {
@@ -292,15 +292,15 @@ public final class SnapFlingBehaviorKt {
 
     public static final TargetedFlingBehavior rememberSnapFlingBehavior(androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider snapLayoutInfoProvider, Composer $composer, int $changed) {
         boolean traceInProgress;
-        int i2;
+        int i4;
         String str;
         boolean changed;
-        Object snapFlingBehavior;
+        Object $i$a$CacheSnapFlingBehaviorKt$rememberSnapFlingBehavior$1;
         Object empty;
         androidx.compose.animation.core.SpringSpec spring$default;
-        int i;
+        int i2;
         int i3;
-        int i4;
+        int i;
         int i5 = -1921733134;
         ComposerKt.sourceInformationMarkerStart($composer, i5, "C(rememberSnapFlingBehavior)257@10415L7,258@10485L26,259@10523L340:SnapFlingBehavior.kt#ppz6w6");
         if (ComposerKt.isTraceInProgress()) {
@@ -316,7 +316,7 @@ public final class SnapFlingBehaviorKt {
         if (i12 ^= 6 > i13) {
             if (!$composer.changed(snapLayoutInfoProvider)) {
                 if ($changed & 6 == i13) {
-                    i2 = 1;
+                    i4 = 1;
                 }
             } else {
             }
@@ -329,10 +329,10 @@ public final class SnapFlingBehaviorKt {
         if (i7 |= changed3 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 int i16 = 0;
-                i4 = 0;
-                composer.updateRememberedValue(SnapFlingBehaviorKt.snapFlingBehavior(snapLayoutInfoProvider, rememberSplineBasedDecay, (AnimationSpec)AnimationSpecKt.spring$default(0, 1137180672, i4, 5, i4)));
+                i = 0;
+                composer.updateRememberedValue(SnapFlingBehaviorKt.snapFlingBehavior(snapLayoutInfoProvider, rememberSplineBasedDecay, (AnimationSpec)AnimationSpecKt.spring$default(0, 1137180672, i, 5, i)));
             } else {
-                snapFlingBehavior = rememberedValue;
+                $i$a$CacheSnapFlingBehaviorKt$rememberSnapFlingBehavior$1 = rememberedValue;
             }
         } else {
         }
@@ -341,7 +341,7 @@ public final class SnapFlingBehaviorKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (TargetedFlingBehavior)snapFlingBehavior;
+        return (TargetedFlingBehavior)$i$a$CacheSnapFlingBehaviorKt$rememberSnapFlingBehavior$1;
     }
 
     public static final TargetedFlingBehavior snapFlingBehavior(androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider snapLayoutInfoProvider, DecayAnimationSpec<Float> decayAnimationSpec, AnimationSpec<Float> snapAnimationSpec) {

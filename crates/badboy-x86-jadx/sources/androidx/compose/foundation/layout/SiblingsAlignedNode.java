@@ -37,12 +37,12 @@ public abstract class SiblingsAlignedNode extends Modifier.Node implements Paren
         public Object modifyParentData(Density $this$modifyParentData, Object parentData) {
             Object obj;
             androidx.compose.foundation.layout.RowColumnParentData rowColumnParentData;
-            int i2;
-            int i4;
-            int i6;
-            int i5;
             int i3;
             int i;
+            int i4;
+            int i5;
+            int i6;
+            int i2;
             if (parentData instanceof RowColumnParentData != null) {
                 obj = parentData;
             } else {
@@ -86,12 +86,12 @@ public abstract class SiblingsAlignedNode extends Modifier.Node implements Paren
         public Object modifyParentData(Density $this$modifyParentData, Object parentData) {
             Object obj;
             androidx.compose.foundation.layout.RowColumnParentData rowColumnParentData;
-            int i4;
-            int i;
             int i2;
             int i5;
-            int i3;
             int i6;
+            int i3;
+            int i;
+            int i4;
             if (parentData instanceof RowColumnParentData != null) {
                 obj = parentData;
             } else {

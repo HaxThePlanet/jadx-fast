@@ -141,18 +141,18 @@ public final class ScrollingLogic {
 
     private final long singleAxisVelocity-AH228Gc(long $this$singleAxisVelocity_u2dAH228Gc) {
         int $this$singleAxisVelocity_u2dAH228Gc2;
-        int i;
-        long l;
         int i4;
-        int i5;
+        long l;
         int i2;
+        int i5;
         int i3;
+        int i;
         long obj9;
         final androidx.compose.foundation.gestures.Orientation horizontal = Orientation.Horizontal;
         if (this.orientation == horizontal) {
-            i = $this$singleAxisVelocity_u2dAH228Gc;
-            obj9 = Velocity.copy-OhffZ5M$default(i, obj3, 0, 0, 1);
-            $this$singleAxisVelocity_u2dAH228Gc2 = i;
+            i4 = $this$singleAxisVelocity_u2dAH228Gc;
+            obj9 = Velocity.copy-OhffZ5M$default(i4, obj3, 0, 0, 1);
+            $this$singleAxisVelocity_u2dAH228Gc2 = i4;
         } else {
             obj9 = Velocity.copy-OhffZ5M$default($this$singleAxisVelocity_u2dAH228Gc, horizontal, 0, 0, 2);
         }
@@ -171,20 +171,20 @@ public final class ScrollingLogic {
 
     private final long update-QWom1Mo(long $this$update_u2dQWom1Mo, float newValue) {
         int $this$update_u2dQWom1Mo2;
-        int i2;
-        float f2;
-        float f;
         int i4;
+        float f;
+        float f2;
         int i;
         int i3;
+        int i2;
         long obj9;
         final androidx.compose.foundation.gestures.Orientation horizontal = Orientation.Horizontal;
         if (this.orientation == horizontal) {
-            i2 = $this$update_u2dQWom1Mo;
-            f = obj11;
-            obj9 = Velocity.copy-OhffZ5M$default(i2, obj3, f, 0, 2);
-            $this$update_u2dQWom1Mo2 = i2;
-            f2 = f;
+            i4 = $this$update_u2dQWom1Mo;
+            f2 = obj11;
+            obj9 = Velocity.copy-OhffZ5M$default(i4, obj3, f2, 0, 2);
+            $this$update_u2dQWom1Mo2 = i4;
+            f = f2;
         } else {
             obj9 = Velocity.copy-OhffZ5M$default($this$update_u2dQWom1Mo, horizontal, 0, obj11, 1);
         }
@@ -193,23 +193,23 @@ public final class ScrollingLogic {
 
     public final Object doFlingAnimation-QWom1Mo(long l, Continuation<? super Velocity> continuation2) {
         boolean anon;
-        int i3;
         int i2;
+        int i;
         androidx.compose.foundation.gestures.ScrollingLogic.doFlingAnimation.2 label;
         androidx.compose.foundation.gestures.ScrollingLogic scrollingLogic;
         Ref.LongRef longRef;
         long l2;
-        int i;
+        int i3;
         Object obj9;
         int obj10;
         Object obj11;
         anon = obj11;
-        i2 = Integer.MIN_VALUE;
-        if (obj11 instanceof ScrollingLogic.doFlingAnimation.1 && label2 &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (obj11 instanceof ScrollingLogic.doFlingAnimation.1 && label2 &= i != 0) {
             anon = obj11;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon.label = obj11 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon.label = obj11 -= i;
             } else {
                 anon = new ScrollingLogic.doFlingAnimation.1(this, obj11);
             }
@@ -336,10 +336,10 @@ public final class ScrollingLogic {
         int $this$singleAxisOffset_u2dMK_u2dHz9U2;
         int i5;
         long l;
-        int i2;
-        int i3;
-        int i4;
         int i;
+        int i2;
+        int i4;
+        int i3;
         long obj9;
         final androidx.compose.foundation.gestures.Orientation horizontal = Orientation.Horizontal;
         if (this.orientation == horizontal) {

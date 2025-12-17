@@ -134,21 +134,21 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         public final void clearErrors$runtime_release() {
             Object next;
             Object obj;
-            int i;
-            androidx.compose.runtime.Recomposer.RecomposerErrorState it;
             int i2;
+            androidx.compose.runtime.Recomposer.RecomposerErrorState it;
+            int i;
             final int i3 = 0;
             ArrayList arrayList = new ArrayList();
             final int i4 = 0;
             final int i5 = 0;
             final Iterator iterator = (Iterable)Recomposer.access$get_runningRecomposers$cp().getValue().iterator();
             while (iterator.hasNext()) {
-                i = 0;
                 i2 = 0;
+                i = 0;
                 it = (Recomposer.RecomposerInfoImpl)iterator.next().resetErrorState();
                 if (it != null) {
                 }
-                i2 = 0;
+                i = 0;
                 (Collection)arrayList.add(it);
             }
         }
@@ -156,21 +156,21 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         public final List<androidx.compose.runtime.RecomposerErrorInfo> getCurrentErrors$runtime_release() {
             Object next;
             Object obj;
-            int i2;
-            androidx.compose.runtime.RecomposerErrorInfo it;
             int i;
+            androidx.compose.runtime.RecomposerErrorInfo it;
+            int i2;
             final int i3 = 0;
             ArrayList arrayList = new ArrayList();
             final int i4 = 0;
             final int i5 = 0;
             final Iterator iterator = (Iterable)Recomposer.access$get_runningRecomposers$cp().getValue().iterator();
             while (iterator.hasNext()) {
-                i2 = 0;
                 i = 0;
+                i2 = 0;
                 it = (Recomposer.RecomposerInfoImpl)iterator.next().getCurrentError();
                 if (it != null) {
                 }
-                i = 0;
+                i2 = 0;
                 (Collection)arrayList.add(it);
             }
             return (List)arrayList;
@@ -213,16 +213,16 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             Object next;
             int index$iv;
             int index$iv2;
-            Object obj;
-            int size;
-            int i;
             Object obj2;
+            int size;
             int i2;
+            Object obj;
+            int i;
             Recomposer.access$get_hotReloadEnabled$cp().set(true);
             int i4 = 0;
             Iterator iterator = (Iterable)Recomposer.access$get_runningRecomposers$cp().getValue().iterator();
             for (Object next : iterator) {
-                i = 0;
+                i2 = 0;
                 (Recomposer.RecomposerInfoImpl)next.resetErrorState();
             }
             Intrinsics.checkNotNull(token, "null cannot be cast to non-null type kotlin.collections.List<androidx.compose.runtime.Recomposer.HotReloadable>");
@@ -231,7 +231,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             int i5 = 0;
             index$iv = 0;
             while (index$iv < obj4.size()) {
-                i2 = 0;
+                i = 0;
                 (Recomposer.HotReloadable)obj4.get(index$iv).resetContent();
                 index$iv++;
             }
@@ -239,14 +239,14 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             int i6 = 0;
             index$iv2 = 0;
             while (index$iv2 < $this$fastForEach$iv.size()) {
-                i2 = 0;
+                i = 0;
                 (Recomposer.HotReloadable)$this$fastForEach$iv.get(index$iv2).recompose();
                 index$iv2++;
             }
             int i7 = 0;
             Iterator iterator2 = (Iterable)Recomposer.access$get_runningRecomposers$cp().getValue().iterator();
             for (Object size : iterator2) {
-                obj2 = 0;
+                obj = 0;
                 (Recomposer.RecomposerInfoImpl)size.retryFailedCompositions();
             }
         }
@@ -366,15 +366,15 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         @Override // androidx.compose.runtime.RecomposerInfo
         public final void invalidateGroupsWithKey(int key) {
             int index$iv;
-            int i2;
+            int i;
             int index$iv$iv;
             int size;
-            Object obj;
+            Object obj3;
+            Object obj4;
+            int i2;
             Object obj2;
             int i3;
-            Object obj3;
-            int i;
-            Object obj4;
+            Object obj;
             Object obj5 = Recomposer.access$getStateLock$p(this.this$0);
             int i4 = 0;
             int i7 = 0;
@@ -382,7 +382,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             int i5 = 0;
             ArrayList arrayList = new ArrayList(list.size());
             List list3 = list;
-            i2 = 0;
+            i = 0;
             index$iv$iv = 0;
             synchronized (obj5) {
                 obj5 = Recomposer.access$getStateLock$p(this.this$0);
@@ -392,23 +392,23 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
                 i5 = 0;
                 arrayList = new ArrayList(list.size());
                 list3 = list;
-                i2 = 0;
+                i = 0;
                 index$iv$iv = 0;
             }
             while (index$iv$iv < list3.size()) {
+                i2 = 0;
+                obj2 = obj4;
                 i3 = 0;
-                obj3 = obj2;
-                i = 0;
-                if (obj3 instanceof CompositionImpl) {
+                if (obj2 instanceof CompositionImpl) {
                 } else {
                 }
-                obj4 = 0;
-                if (obj4 != null) {
+                obj = 0;
+                if (obj != null) {
                 }
                 index$iv$iv++;
-                obj3 = 0;
-                (Collection)arrayList.add(obj4);
-                obj4 = obj3;
+                obj2 = 0;
+                (Collection)arrayList.add(obj);
+                obj = obj2;
             }
             ArrayList $this$fastMapNotNull$iv = arrayList;
             int i6 = 0;
@@ -434,17 +434,17 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         }
 
         public final List<androidx.compose.runtime.Recomposer.HotReloadable> saveStateAndDisposeForHotReload() {
-            int index$iv$iv;
             int index$iv$iv2;
-            Object obj;
+            int index$iv$iv;
             Object obj3;
-            int i;
             Object obj4;
-            int i3;
-            Object obj2;
-            androidx.compose.runtime.Recomposer.HotReloadable hotReloadable;
-            androidx.compose.runtime.Recomposer.HotReloadable hotReloadable2;
             int i2;
+            Object obj;
+            int i;
+            Object obj2;
+            androidx.compose.runtime.Recomposer.HotReloadable hotReloadable2;
+            androidx.compose.runtime.Recomposer.HotReloadable hotReloadable;
+            int i3;
             final Object obj5 = this;
             Object obj6 = Recomposer.access$getStateLock$p(obj5.this$0);
             int i4 = 0;
@@ -454,7 +454,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             ArrayList arrayList = new ArrayList(list2.size());
             List list3 = list2;
             int i8 = 0;
-            index$iv$iv = 0;
+            index$iv$iv2 = 0;
             synchronized (obj6) {
                 obj5 = this;
                 obj6 = Recomposer.access$getStateLock$p(obj5.this$0);
@@ -465,37 +465,37 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
                 arrayList = new ArrayList(list2.size());
                 list3 = list2;
                 i8 = 0;
-                index$iv$iv = 0;
+                index$iv$iv2 = 0;
             }
-            while (index$iv$iv < list3.size()) {
+            while (index$iv$iv2 < list3.size()) {
+                i2 = 0;
+                obj = obj4;
                 i = 0;
-                obj4 = obj3;
-                i3 = 0;
-                if (obj4 instanceof CompositionImpl) {
+                if (obj instanceof CompositionImpl) {
                 } else {
                 }
                 obj2 = 0;
                 if (obj2 != null) {
                 }
-                index$iv$iv++;
-                obj4 = 0;
+                index$iv$iv2++;
+                obj = 0;
                 (Collection)arrayList.add(obj2);
-                obj2 = obj4;
+                obj2 = obj;
             }
             ArrayList $this$fastMapNotNull$iv = arrayList;
             int i6 = 0;
             ArrayList arrayList2 = new ArrayList((List)$this$fastMapNotNull$iv.size());
             ArrayList list4 = $this$fastMapNotNull$iv;
             int i9 = 0;
-            index$iv$iv2 = 0;
-            while (index$iv$iv2 < list4.size()) {
-                i = 0;
-                obj2 = 0;
-                hotReloadable = new Recomposer.HotReloadable((CompositionImpl)list4.get(index$iv$iv2));
+            index$iv$iv = 0;
+            while (index$iv$iv < list4.size()) {
                 i2 = 0;
-                hotReloadable.clearContent();
-                (Collection)arrayList2.add(hotReloadable);
-                index$iv$iv2++;
+                obj2 = 0;
+                hotReloadable2 = new Recomposer.HotReloadable((CompositionImpl)list4.get(index$iv$iv));
+                i3 = 0;
+                hotReloadable2.clearContent();
+                (Collection)arrayList2.add(hotReloadable2);
+                index$iv$iv++;
             }
             return (List)arrayList2;
         }
@@ -505,12 +505,11 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
     public static enum State {
 
         ShutDown,
-        ShutDown,
-        ShutDown,
-        ShutDown,
-        ShutDown,
-        ShutDown,
-        ShutDown;
+        ShuttingDown,
+        Inactive,
+        InactivePendingWork,
+        Idle,
+        PendingWork;
         private static final androidx.compose.runtime.Recomposer.State[] $values() {
             return /* result */;
         }
@@ -788,41 +787,41 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         boolean concurrentCompositionsOutstanding;
         androidx.compose.runtime.Recomposer.State inactivePendingWork;
         Object workContinuation;
-        CancellableContinuation i3;
         CancellableContinuation i;
-        int i2;
+        CancellableContinuation i2;
+        int i3;
         int i4 = 0;
-        i3 = 1;
-        i = 0;
+        i = 1;
+        i2 = 0;
         clearKnownCompositionsLocked();
-        MutableScatterSet mutableScatterSet = new MutableScatterSet(i4, i3, i);
+        MutableScatterSet mutableScatterSet = new MutableScatterSet(i4, i, i2);
         this.snapshotInvalidations = mutableScatterSet;
         this.compositionInvalidations.clear();
         this.compositionsAwaitingApply.clear();
         this.compositionValuesAwaitingInsert.clear();
-        this.failedCompositions = i;
+        this.failedCompositions = i2;
         CancellableContinuation workContinuation2 = this.workContinuation;
         if ((Recomposer.State)this._state.getValue().compareTo((Enum)Recomposer.State.ShuttingDown) <= 0 && workContinuation2 != null) {
             clearKnownCompositionsLocked();
-            mutableScatterSet = new MutableScatterSet(i4, i3, i);
+            mutableScatterSet = new MutableScatterSet(i4, i, i2);
             this.snapshotInvalidations = mutableScatterSet;
             this.compositionInvalidations.clear();
             this.compositionsAwaitingApply.clear();
             this.compositionValuesAwaitingInsert.clear();
-            this.failedCompositions = i;
+            this.failedCompositions = i2;
             workContinuation2 = this.workContinuation;
             if (workContinuation2 != null) {
-                CancellableContinuation.DefaultImpls.cancel$default(workContinuation2, i, i3, i);
+                CancellableContinuation.DefaultImpls.cancel$default(workContinuation2, i2, i, i2);
             }
-            this.workContinuation = i;
-            this.errorState = i;
-            return i;
+            this.workContinuation = i2;
+            this.errorState = i2;
+            return i2;
         }
         if (this.errorState != null) {
             inactivePendingWork = Recomposer.State.Inactive;
         } else {
             if (this.runnerJob == null) {
-                MutableScatterSet mutableScatterSet2 = new MutableScatterSet(i4, i3, i);
+                MutableScatterSet mutableScatterSet2 = new MutableScatterSet(i4, i, i2);
                 this.snapshotInvalidations = mutableScatterSet2;
                 this.compositionInvalidations.clear();
                 inactivePendingWork = getHasBroadcastFrameClockAwaitersLocked() ? Recomposer.State.InactivePendingWork : Recomposer.State.Inactive;
@@ -852,83 +851,83 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         this._state.setValue(inactivePendingWork);
         if (inactivePendingWork == Recomposer.State.PendingWork) {
             workContinuation = this.workContinuation;
-            i3 = workContinuation;
-            i2 = 0;
-            this.workContinuation = i;
             i = workContinuation;
+            i3 = 0;
+            this.workContinuation = i2;
+            i2 = workContinuation;
         } else {
         }
-        return i;
+        return i2;
     }
 
     private final void discardUnusedValues() {
         Object emptyList;
-        int i3;
+        int i6;
         int compositionValueStatesAvailable;
         boolean flatten;
         int index$iv;
-        List list;
+        List list3;
         int i;
         ArrayList arrayList;
-        List list3;
+        List list2;
         int component1;
         int index$iv$iv;
         int size;
-        Object obj;
         Object obj2;
-        int i5;
-        ArrayList list2;
-        int i2;
-        Object obj3;
-        int i6;
+        Object obj;
         int i7;
-        int i8;
+        ArrayList list;
+        int i3;
+        Object obj3;
+        int $i$a$SynchronizedRecomposer$discardUnusedValues$unusedValues$1;
+        int i2;
         int i4;
+        int i5;
         final Object obj5 = this;
         Object stateLock = obj5.stateLock;
         synchronized (stateLock) {
             obj5.compositionValuesRemoved.clear();
-            list = flatten;
+            list3 = flatten;
             i = 0;
-            arrayList = new ArrayList(list.size());
-            list3 = list;
+            arrayList = new ArrayList(list3.size());
+            list2 = list3;
             component1 = 0;
             index$iv$iv = 0;
-            while (index$iv$iv < list3.size()) {
-                i5 = 0;
-                i2 = 0;
+            while (index$iv$iv < list2.size()) {
+                i7 = 0;
+                i3 = 0;
                 Object $i$f$synchronized = obj3;
                 (Collection)arrayList.add(TuplesKt.to($i$f$synchronized, obj5.compositionValueStatesAvailable.get($i$f$synchronized)));
                 index$iv$iv++;
-                i3 = i7;
-                compositionValueStatesAvailable = i8;
+                i6 = i2;
+                compositionValueStatesAvailable = i4;
             }
-            i6 = i3;
-            i4 = compositionValueStatesAvailable;
+            $i$a$SynchronizedRecomposer$discardUnusedValues$unusedValues$1 = i6;
+            i5 = compositionValueStatesAvailable;
             emptyList = arrayList;
             obj5.compositionValueStatesAvailable.clear();
             List list4 = emptyList;
-            int i9 = 0;
+            int i8 = 0;
             index$iv = 0;
         }
         try {
             while (index$iv < list4.size()) {
-                int i10 = i;
-                list3 = null;
-                arrayList = i10.component2();
+                int i9 = i;
+                list2 = null;
+                arrayList = i9.component2();
                 if ((MovableContentState)arrayList != null) {
                 }
                 index$iv++;
-                (MovableContentStateReference)(Pair)i10.component1().getComposition$runtime_release().disposeUnusedMovableContent((MovableContentState)arrayList);
+                (MovableContentStateReference)(Pair)i9.component1().getComposition$runtime_release().disposeUnusedMovableContent((MovableContentState)arrayList);
             }
-            i10 = i;
-            list3 = null;
-            arrayList = i10.component2();
+            i9 = i;
+            list2 = null;
+            arrayList = i9.component2();
             if ((MovableContentState)arrayList != null) {
             }
-            (MovableContentStateReference)(Pair)i10.component1().getComposition$runtime_release().disposeUnusedMovableContent((MovableContentState)arrayList);
+            (MovableContentStateReference)(Pair)i9.component1().getComposition$runtime_release().disposeUnusedMovableContent((MovableContentState)arrayList);
             index$iv++;
-            i8 = obj3;
+            i4 = obj3;
             throw th;
         } catch (Throwable th) {
         }
@@ -1031,29 +1030,29 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
     private final boolean getShouldKeepRecomposing() {
         int lock$iv;
         int $this$any$iv;
-        int i;
+        int i2;
         boolean isClosed;
         Object next;
-        int i3;
+        int i;
         boolean it;
-        int i2;
+        int i3;
         Object stateLock = this.stateLock;
         $this$any$iv = 0;
-        i = 0;
+        i2 = 0;
         synchronized (stateLock) {
             stateLock = this.stateLock;
             $this$any$iv = 0;
+            i2 = 0;
+        }
+        i2 = 0;
+        isClosed = this.effectJob.getChildren().iterator();
+        i = 0;
+        for (Object next : isClosed) {
+            i3 = 0;
             i = 0;
         }
-        i = 0;
-        isClosed = this.effectJob.getChildren().iterator();
-        i3 = 0;
-        for (Object next : isClosed) {
-            i2 = 0;
-            i3 = 0;
-        }
         try {
-            $this$any$iv = i3;
+            $this$any$iv = i;
         }
         return lock$iv;
     }
@@ -1063,35 +1062,35 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
     }
 
     private final void performInitialMovableContentInserts(androidx.compose.runtime.ControlledComposition composition) {
-        int i;
-        int i2;
+        int i4;
+        int i3;
         Object stateLock;
         int index$iv$iv;
-        Object obj2;
-        Object obj;
-        int i5;
         Object obj3;
-        int i3;
-        int i4;
+        Object obj2;
+        int i2;
+        Object obj;
+        int i;
+        int $i$a$SynchronizedRecomposer$performInitialMovableContentInserts$1;
         final Object obj4 = this;
         final Object obj5 = composition;
         stateLock = obj4.stateLock;
+        final int i5 = 0;
+        i4 = 0;
         final int i6 = 0;
-        i = 0;
-        final int i7 = 0;
         final List list2 = compositionValuesAwaitingInsert;
-        final int i8 = 0;
+        final int i7 = 0;
         index$iv$iv = 0;
         synchronized (stateLock) {
             while (index$iv$iv < list2.size()) {
-                i5 = 0;
-                i3 = 0;
+                i2 = 0;
+                i = 0;
                 index$iv$iv++;
-                i = i4;
+                i4 = $i$a$SynchronizedRecomposer$performInitialMovableContentInserts$1;
             }
-            i4 = i;
-            i2 = 0;
-            if (i2 == 0) {
+            $i$a$SynchronizedRecomposer$performInitialMovableContentInserts$1 = i4;
+            i3 = 0;
+            if (i3 == 0) {
             }
             Unit iNSTANCE = Unit.INSTANCE;
             ArrayList arrayList = new ArrayList();
@@ -1124,77 +1123,77 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
                 toInsert.add(next);
                 iterator.remove();
             }
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedRecomposer$performInitialMovableContentInserts$fillToInsert$1 = Unit.INSTANCE;
         }
     }
 
     private final List<androidx.compose.runtime.ControlledComposition> performInsertValues(List<androidx.compose.runtime.MovableContentStateReference> references, MutableScatterSet<Object> modifiedValues) {
         Iterator iterator;
-        Object obj4;
-        Object obj;
-        int size4;
+        Object obj5;
+        Object obj2;
+        int size2;
         int size;
-        ArrayList list2;
-        Object i12;
+        ArrayList list;
+        Object i7;
         Object index$iv$iv3;
         HashMap $i$f$fastGroupBy;
-        int size2;
-        int pairs2;
-        ArrayList list;
+        int size4;
+        int pairs;
+        ArrayList list2;
         HashMap hashMap;
         int refs;
         Object key;
-        int i;
-        int index$iv$iv2;
+        int i4;
+        int index$iv$iv;
         int size3;
         Object takeMutableSnapshot;
-        Object obj2;
-        int i2;
+        Object obj4;
+        int i11;
         androidx.compose.runtime.ControlledComposition it3;
         Object $this$getOrPut$iv$iv;
-        int i11;
-        Object obj3;
-        ArrayList index$iv$iv;
-        ArrayList arrayList;
-        int i10;
-        Object obj5;
-        int i6;
-        Iterator it2;
-        ArrayList pairs;
         int i8;
-        int i9;
-        HashMap map;
+        Object obj3;
+        ArrayList index$iv$iv2;
+        ArrayList arrayList;
+        int i;
         Object obj6;
-        Object it;
-        int i4;
+        int i5;
+        Iterator it;
+        ArrayList pairs2;
+        int i12;
+        int i10;
+        HashMap map;
+        Object obj;
+        Object it2;
+        int i9;
         Object $this$fastForEach$iv$iv;
         int item;
-        int i3;
+        int i2;
         int first;
         int second;
-        int i7;
-        int i5;
-        i12 = this;
+        int i6;
+        int i3;
+        i7 = this;
         Object obj7 = references;
         int i14 = 0;
         hashMap = new HashMap(obj7.size());
         key = obj7;
-        i = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < key.size()) {
-            obj2 = takeMutableSnapshot;
-            i2 = 0;
-            int i20 = 0;
-            it3 = (MovableContentStateReference)obj2.getComposition$runtime_release();
-            HashMap map2 = hashMap;
+        i4 = 0;
+        index$iv$iv = 0;
+        while (index$iv$iv < key.size()) {
+            obj4 = takeMutableSnapshot;
             i11 = 0;
+            int i20 = 0;
+            it3 = (MovableContentStateReference)obj4.getComposition$runtime_release();
+            HashMap map2 = hashMap;
+            i8 = 0;
             obj3 = (Map)map2.get(it3);
             if (obj3 == null) {
             } else {
             }
-            index$iv$iv = obj3;
-            (ArrayList)index$iv$iv.add(obj2);
-            index$iv$iv2++;
+            index$iv$iv2 = obj3;
+            (ArrayList)index$iv$iv2.add(obj4);
+            index$iv$iv++;
             int i23 = 0;
             arrayList = new ArrayList();
             map2.put(it3, arrayList);
@@ -1204,223 +1203,223 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             key = next2.getKey();
             Object value = next2.getValue();
             ComposerKt.runtimeCheck(composing ^= i18);
-            i = this;
+            i4 = this;
             size3 = 0;
-            takeMutableSnapshot = Snapshot.Companion.takeMutableSnapshot(i.readObserverOf(key), i.writeObserverOf(key, modifiedValues));
-            obj2 = takeMutableSnapshot;
+            takeMutableSnapshot = Snapshot.Companion.takeMutableSnapshot(i4.readObserverOf(key), i4.writeObserverOf(key, modifiedValues));
+            obj4 = takeMutableSnapshot;
             it3 = 0;
-            i11 = 0;
-            Object stateLock2 = i12.stateLock;
+            i8 = 0;
+            Object stateLock2 = i7.stateLock;
             int i21 = 0;
             int i24 = 0;
-            obj5 = value;
-            i6 = 0;
-            ArrayList arrayList2 = new ArrayList(obj5.size());
-            i8 = 0;
-            size2 = obj5.size();
             obj6 = value;
-            refs = i9;
-            while (refs < size2) {
-                i4 = 0;
+            i5 = 0;
+            ArrayList arrayList2 = new ArrayList(obj6.size());
+            i12 = 0;
+            size4 = obj6.size();
+            obj = value;
+            refs = i10;
+            while (refs < size4) {
+                i9 = 0;
                 second = i28;
-                i3 = 0;
-                (Collection)arrayList2.add(TuplesKt.to(second, RecomposerKt.removeLastMultiValue(i12.compositionValuesRemoved, second.getContent$runtime_release())));
-                refs = i5 + 1;
-                obj4 = $this$fastForEach$iv$iv;
-                size2 = i7;
+                i2 = 0;
+                (Collection)arrayList2.add(TuplesKt.to(second, RecomposerKt.removeLastMultiValue(i7.compositionValuesRemoved, second.getContent$runtime_release())));
+                refs = i3 + 1;
+                obj5 = $this$fastForEach$iv$iv;
+                size4 = i6;
             }
-            $this$fastForEach$iv$iv = obj4;
-            i5 = refs;
+            $this$fastForEach$iv$iv = obj5;
+            i3 = refs;
             ArrayList list4 = arrayList2;
-            list = list4;
+            list2 = list4;
             hashMap = 0;
-            index$iv$iv2 = list4;
+            index$iv$iv = list4;
             obj3 = 0;
-            index$iv$iv = 0;
+            index$iv$iv2 = 0;
             arrayList = list4;
-            obj5 = null;
-            while (index$iv$iv < index$iv$iv2.size()) {
+            obj6 = null;
+            while (index$iv$iv2 < index$iv$iv.size()) {
+                i10 = 0;
                 i9 = 0;
-                i4 = 0;
-                if ((Pair)index$iv$iv2.get(index$iv$iv).getSecond() == null) {
+                if ((Pair)index$iv$iv.get(index$iv$iv2).getSecond() == null) {
                 } else {
                 }
-                it = obj5;
-                index$iv$iv++;
-                obj5 = null;
-                it = 1;
+                it2 = obj6;
+                index$iv$iv2++;
+                obj6 = null;
+                it2 = 1;
             }
-            obj = 1;
-            if (obj == null) {
+            obj2 = 1;
+            if (obj2 == null) {
             } else {
             }
-            pairs = list;
-            list2 = pairs;
-            key.insertMovableContent(list2);
+            pairs2 = list2;
+            list = pairs2;
+            key.insertMovableContent(list);
             Unit toInsert = Unit.INSTANCE;
-            obj2.restoreCurrent((Snapshot)obj2.makeCurrent());
-            i.applyAndCheck(takeMutableSnapshot);
-            i12 = this;
-            iterator = it2;
+            obj4.restoreCurrent((Snapshot)obj4.makeCurrent());
+            i4.applyAndCheck(takeMutableSnapshot);
+            i7 = this;
+            iterator = it;
             $i$f$fastGroupBy = map;
-            ArrayList list5 = list;
+            ArrayList list5 = list2;
             hashMap = 0;
-            index$iv$iv2 = list5;
+            index$iv$iv = list5;
             obj3 = 0;
-            index$iv$iv = 0;
+            index$iv$iv2 = 0;
             arrayList = list5;
-            while (index$iv$iv < index$iv$iv2.size()) {
+            while (index$iv$iv2 < index$iv$iv.size()) {
+                i10 = 0;
                 i9 = 0;
-                i4 = 0;
-                if ((Pair)index$iv$iv2.get(index$iv$iv).getSecond() != null) {
+                if ((Pair)index$iv$iv.get(index$iv$iv2).getSecond() != null) {
                 } else {
                 }
-                it = obj5;
-                index$iv$iv++;
-                it = 1;
+                it2 = obj6;
+                index$iv$iv2++;
+                it2 = 1;
             }
-            obj = 1;
-            if (obj != null) {
+            obj2 = 1;
+            if (obj2 != null) {
             } else {
             }
-            ArrayList list6 = list;
+            ArrayList list6 = list2;
             int i15 = 0;
             ArrayList arrayList3 = new ArrayList(list6.size());
             ArrayList list9 = list6;
             int i22 = 0;
             ArrayList list11 = list6;
-            size4 = list9.size();
-            pairs2 = i10;
-            while (pairs2 < size4) {
-                it = null;
-                i4 = i9;
+            size2 = list9.size();
+            pairs = i;
+            while (pairs < size2) {
+                it2 = null;
+                i9 = i10;
                 $this$fastForEach$iv$iv = 0;
-                if ((Pair)i4.getSecond() == null) {
+                if ((Pair)i9.getSecond() == null) {
                 } else {
                 }
                 first = 0;
                 if (first != 0) {
                 } else {
                 }
-                i3 = size4;
-                second = pairs2;
-                pairs2 = second + 1;
-                size4 = i3;
+                i2 = size2;
+                second = pairs;
+                pairs = second + 1;
+                size2 = i2;
                 $this$fastForEach$iv$iv = 0;
-                i3 = size4;
-                second = pairs2;
+                i2 = size2;
+                second = pairs;
                 (Collection)arrayList3.add(first);
-                first = i4.getFirst();
+                first = i9.getFirst();
             }
-            second = pairs2;
+            second = pairs;
             Object obj8 = stateLock;
             int i19 = 0;
             int i13 = 0;
-            CollectionsKt.addAll((Collection)i12.compositionValuesAwaitingInsert, (Iterable)(List)arrayList3);
-            Unit iNSTANCE = Unit.INSTANCE;
-            ArrayList list8 = pairs;
+            CollectionsKt.addAll((Collection)i7.compositionValuesAwaitingInsert, (Iterable)(List)arrayList3);
+            Unit $i$a$SynchronizedRecomposer$performInsertValues$1$toInsert$3 = Unit.INSTANCE;
+            ArrayList list8 = pairs2;
             hashMap = 0;
-            index$iv$iv2 = new ArrayList(list8.size());
+            index$iv$iv = new ArrayList(list8.size());
             obj3 = list8;
-            index$iv$iv = 0;
-            i6 = list8;
+            index$iv$iv2 = 0;
+            i5 = list8;
             size = obj3.size();
-            i12 = arrayList;
-            while (i12 < size) {
-                i9 = i12;
-                it = arrayList;
-                i4 = 0;
+            i7 = arrayList;
+            while (i7 < size) {
+                i10 = i7;
+                it2 = arrayList;
+                i9 = 0;
                 int i27 = 0;
-                if ((Pair)it.getSecond() != 0) {
+                if ((Pair)it2.getSecond() != 0) {
                 } else {
                 }
-                item = obj5;
+                item = obj6;
                 if (item != null) {
                 } else {
                 }
                 $this$fastForEach$iv$iv = size;
-                i3 = i12;
-                index$iv$iv3 = it;
-                i12 = i3 + 1;
+                i2 = i7;
+                index$iv$iv3 = it2;
+                i7 = i2 + 1;
                 size = $this$fastForEach$iv$iv;
                 $this$fastForEach$iv$iv = size;
-                i3 = i12;
-                (Collection)index$iv$iv2.add(it);
+                i2 = i7;
+                (Collection)index$iv$iv.add(it2);
                 item = 1;
             }
-            i3 = i12;
-            list2 = index$iv$iv2;
-            i9 = i12;
-            it = arrayList;
-            i4 = 0;
+            i2 = i7;
+            list = index$iv$iv;
+            i10 = i7;
+            it2 = arrayList;
+            i9 = 0;
             i27 = 0;
-            if ((Pair)it.getSecond() != 0) {
+            if ((Pair)it2.getSecond() != 0) {
             } else {
             }
-            item = obj5;
+            item = obj6;
             if (item != null) {
             } else {
             }
             $this$fastForEach$iv$iv = size;
-            i3 = i12;
-            index$iv$iv3 = it;
-            i12 = i3 + 1;
+            i2 = i7;
+            index$iv$iv3 = it2;
+            i7 = i2 + 1;
             size = $this$fastForEach$iv$iv;
             $this$fastForEach$iv$iv = size;
-            i3 = i12;
-            (Collection)index$iv$iv2.add(it);
+            i2 = i7;
+            (Collection)index$iv$iv.add(it2);
             item = 1;
-            it = null;
-            i4 = i9;
+            it2 = null;
+            i9 = i10;
             $this$fastForEach$iv$iv = 0;
-            if ((Pair)i4.getSecond() == null) {
+            if ((Pair)i9.getSecond() == null) {
             } else {
             }
             first = 0;
             if (first != 0) {
             } else {
             }
-            i3 = size4;
-            second = pairs2;
-            pairs2 = second + 1;
-            size4 = i3;
+            i2 = size2;
+            second = pairs;
+            pairs = second + 1;
+            size2 = i2;
             $this$fastForEach$iv$iv = 0;
-            i3 = size4;
-            second = pairs2;
+            i2 = size2;
+            second = pairs;
             (Collection)arrayList3.add(first);
-            first = i4.getFirst();
-            pairs = list;
+            first = i9.getFirst();
+            pairs2 = list2;
+            i10 = 0;
             i9 = 0;
-            i4 = 0;
-            if ((Pair)index$iv$iv2.get(index$iv$iv).getSecond() != null) {
+            if ((Pair)index$iv$iv.get(index$iv$iv2).getSecond() != null) {
             } else {
             }
-            it = obj5;
-            if (it == null) {
+            it2 = obj6;
+            if (it2 == null) {
             } else {
             }
-            index$iv$iv++;
-            obj = obj5;
-            it = 1;
+            index$iv$iv2++;
+            obj2 = obj6;
+            it2 = 1;
+            i10 = 0;
             i9 = 0;
-            i4 = 0;
-            if ((Pair)index$iv$iv2.get(index$iv$iv).getSecond() == null) {
+            if ((Pair)index$iv$iv.get(index$iv$iv2).getSecond() == null) {
             } else {
             }
-            it = obj5;
-            if (it == null) {
+            it2 = obj6;
+            if (it2 == null) {
             } else {
             }
-            index$iv$iv++;
-            obj = obj5;
-            it = 1;
-            i4 = 0;
+            index$iv$iv2++;
+            obj2 = obj6;
+            it2 = 1;
+            i9 = 0;
             second = i28;
-            i3 = 0;
-            (Collection)arrayList2.add(TuplesKt.to(second, RecomposerKt.removeLastMultiValue(i12.compositionValuesRemoved, second.getContent$runtime_release())));
-            refs = i5 + 1;
-            obj4 = $this$fastForEach$iv$iv;
-            size2 = i7;
+            i2 = 0;
+            (Collection)arrayList2.add(TuplesKt.to(second, RecomposerKt.removeLastMultiValue(i7.compositionValuesRemoved, second.getContent$runtime_release())));
+            refs = i3 + 1;
+            obj5 = $this$fastForEach$iv$iv;
+            size4 = i6;
         }
         return CollectionsKt.toList((Iterable)$i$f$fastGroupBy.keySet());
     }
@@ -1587,10 +1586,10 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
                     if (Recomposer.access$deriveStateLocked(this) != null) {
                     } else {
                     }
-                    Unit iNSTANCE = Unit.INSTANCE;
+                    Unit $i$a$SynchronizedRecomposer$recordComposerModifications$62 = Unit.INSTANCE;
                     IllegalStateException illegalStateException = new IllegalStateException("called outside of runRecomposeAndApplyChanges".toString());
                     throw illegalStateException;
-                    throw th;
+                    throw $i$a$SynchronizedRecomposer$recordComposerModifications$6;
                     throw $i$f$synchronized;
                 } catch (Throwable th) {
                 }
@@ -1610,8 +1609,8 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         int compareTo;
         int i2;
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         androidx.compose.runtime.Recomposer.State shuttingDown;
         final Object obj4 = this;
@@ -1636,7 +1635,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         int i5 = 0;
         MutableScatterSet mutableScatterSet2 = new MutableScatterSet(0, i19, 0);
         obj4.snapshotInvalidations = mutableScatterSet2;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedRecomposer$recordComposerModifications$2 = Unit.INSTANCE;
         int complete = 1;
         Object stateLock5 = obj4.stateLock;
         int i14 = 0;
@@ -1647,7 +1646,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             i5 = 0;
             mutableScatterSet2 = new MutableScatterSet(0, i19, 0);
             obj4.snapshotInvalidations = mutableScatterSet2;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedRecomposer$recordComposerModifications$2 = Unit.INSTANCE;
             complete = 1;
             stateLock5 = obj4.stateLock;
             i14 = 0;
@@ -1693,7 +1692,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
                 throw illegalStateException;
                 int i3 = 0;
                 throw closeCause;
-                throw th;
+                throw $i$a$SynchronizedRecomposer$registerRunnerJob$1;
             }
         }
     }
@@ -1718,25 +1717,25 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
 
     private final void retryFailedCompositions() {
         Object stateLock2;
-        boolean stateLock;
         boolean stateLock3;
+        boolean stateLock;
         int errorState;
         Throwable th;
-        int iNSTANCE;
-        int iNSTANCE2;
+        int $i$a$SynchronizedRecomposer$retryFailedCompositions$1;
+        int $i$a$SynchronizedRecomposer$retryFailedCompositions$12;
         List list;
         boolean z;
         int i3;
         int i;
-        int index$iv;
         int index$iv2;
+        int index$iv;
         int size;
-        Object obj;
         Object obj2;
+        Object obj;
         int i2;
         stateLock2 = this.stateLock;
         errorState = 0;
-        iNSTANCE = 0;
+        $i$a$SynchronizedRecomposer$retryFailedCompositions$1 = 0;
         final List failedCompositions = this.failedCompositions;
         list = failedCompositions;
         i3 = 0;
@@ -1744,7 +1743,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         synchronized (stateLock2) {
             stateLock2 = this.stateLock;
             errorState = 0;
-            iNSTANCE = 0;
+            $i$a$SynchronizedRecomposer$retryFailedCompositions$1 = 0;
             failedCompositions = this.failedCompositions;
             list = failedCompositions;
             i3 = 0;
@@ -1754,27 +1753,27 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
 
     private final Object runFrameLoop(androidx.compose.runtime.MonotonicFrameClock monotonicFrameClock, androidx.compose.runtime.ProduceFrameSignal produceFrameSignal2, Continuation<? super Unit> continuation3) {
         boolean anon;
-        int i3;
         int i;
+        int i2;
         Object frameSignal;
-        Object l$2;
+        Object _this;
         Object parentFrameClock;
         Object toRecompose;
-        Object arrayList;
+        Object _this2;
         Object toApply;
         Object awaitFrameRequest;
-        int i2;
+        int i3;
         Object obj;
         Object obj9;
         Object obj10;
         Object obj11;
         anon = continuation3;
-        i = Integer.MIN_VALUE;
-        if (continuation3 instanceof Recomposer.runFrameLoop.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation3 instanceof Recomposer.runFrameLoop.1 && label &= i2 != 0) {
             anon = continuation3;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj11 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj11 -= i2;
             } else {
                 anon = new Recomposer.runFrameLoop.1(this, continuation3);
             }
@@ -1787,35 +1786,35 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
                 ResultKt.throwOnFailure(obj11);
                 frameSignal = this;
                 parentFrameClock = new ArrayList();
-                arrayList = new ArrayList();
+                _this2 = new ArrayList();
                 break;
             case 1:
                 obj9 = anon.L$4;
                 obj10 = anon.L$3;
-                l$2 = anon.L$2;
+                _this = anon.L$2;
                 toRecompose = anon.L$1;
                 toApply = anon.L$0;
                 ResultKt.throwOnFailure(obj11);
-                Recomposer.runFrameLoop.2 anon2 = new Recomposer.runFrameLoop.2(toApply, obj10, obj9, l$2);
+                Recomposer.runFrameLoop.2 anon2 = new Recomposer.runFrameLoop.2(toApply, obj10, obj9, _this);
                 anon.L$0 = toApply;
                 anon.L$1 = toRecompose;
-                anon.L$2 = l$2;
+                anon.L$2 = _this;
                 anon.L$3 = obj10;
                 anon.L$4 = obj9;
                 anon.label = 2;
                 return cOROUTINE_SUSPENDED;
-                arrayList = obj9;
+                _this2 = obj9;
                 obj9 = toRecompose;
                 parentFrameClock = obj10;
-                obj10 = l$2;
+                obj10 = _this;
                 frameSignal = obj;
                 break;
             case 2:
                 ResultKt.throwOnFailure(obj11);
-                arrayList = obj9;
+                _this2 = obj9;
                 obj9 = l$1;
                 parentFrameClock = obj10;
-                obj10 = l$22;
+                obj10 = l$2;
                 frameSignal = obj;
                 break;
             default:
@@ -1826,13 +1825,13 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         anon.L$1 = obj9;
         anon.L$2 = obj10;
         anon.L$3 = parentFrameClock;
-        anon.L$4 = arrayList;
+        anon.L$4 = _this2;
         anon.label = 1;
         if (obj10.awaitFrameRequest(frameSignal.stateLock, anon) != cOROUTINE_SUSPENDED) {
             toRecompose = obj9;
-            obj9 = arrayList;
+            obj9 = _this2;
             toApply = frameSignal;
-            l$2 = obj10;
+            _this = obj10;
             obj10 = obj;
         }
         return cOROUTINE_SUSPENDED;
@@ -1866,7 +1865,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         int i3 = 0;
         synchronized (stateLock) {
             this._state.setValue(Recomposer.State.ShuttingDown);
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedRecomposer$cancel$1 = Unit.INSTANCE;
             int i4 = 0;
             Job.DefaultImpls.cancel$default((Job)this.effectJob, i4, 1, i4);
         }
@@ -1875,28 +1874,28 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
     @Override // androidx.compose.runtime.CompositionContext
     public final void close() {
         boolean stateLock;
-        int i;
-        Object iNSTANCE;
         int i2;
+        Object $i$a$SynchronizedRecomposer$close$1;
+        int i;
         if (this.effectJob.complete()) {
             stateLock = this.stateLock;
-            i = 0;
+            i2 = 0;
             int i3 = 0;
             this.isClosed = true;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedRecomposer$close$1 = Unit.INSTANCE;
             synchronized (stateLock) {
                 stateLock = this.stateLock;
-                i = 0;
+                i2 = 0;
                 i3 = 0;
                 this.isClosed = true;
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SynchronizedRecomposer$close$1 = Unit.INSTANCE;
             }
         }
     }
 
     public void composeInitial$runtime_release(androidx.compose.runtime.ControlledComposition composition, Function2<? super androidx.compose.runtime.Composer, ? super Integer, Unit> content) {
-        Object iNSTANCE;
-        Object iNSTANCE2;
+        Object $i$a$ComposingRecomposer$composeInitial$1;
+        Object $i$a$SynchronizedRecomposer$composeInitial$2;
         int compareTo;
         Object obj;
         final boolean composing = composition.isComposing();
@@ -1908,7 +1907,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         final int i12 = 0;
         int i2 = 0;
         composition.composeContent(content);
-        iNSTANCE = Unit.INSTANCE;
+        $i$a$ComposingRecomposer$composeInitial$1 = Unit.INSTANCE;
         mutableSnapshot3.restoreCurrent(mutableSnapshot3.makeCurrent());
         obj3.applyAndCheck(mutableSnapshot2);
         if (!composing) {
@@ -1921,7 +1920,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             if (!getKnownCompositions().contains(composition)) {
                 addKnownCompositionLocked(composition);
             }
-            iNSTANCE2 = Unit.INSTANCE;
+            $i$a$SynchronizedRecomposer$composeInitial$2 = Unit.INSTANCE;
             performInitialMovableContentInserts(composition);
             composition.applyChanges();
             composition.applyLateChanges();
@@ -2090,14 +2089,14 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         final int i = 0;
         int i2 = 0;
         this.compositionValueStatesAvailable.put(reference, data);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedRecomposer$movableContentStateReleased$1 = Unit.INSTANCE;
         return;
         synchronized (stateLock) {
             stateLock = this.stateLock;
             i = 0;
             i2 = 0;
             this.compositionValueStatesAvailable.put(reference, data);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedRecomposer$movableContentStateReleased$1 = Unit.INSTANCE;
         }
     }
 
@@ -2121,14 +2120,14 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         final int i = 0;
         int i2 = 0;
         this.frameClockPaused = true;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedRecomposer$pauseCompositionFrameClock$1 = Unit.INSTANCE;
         return;
         synchronized (stateLock) {
             stateLock = this.stateLock;
             i = 0;
             i2 = 0;
             this.frameClockPaused = true;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedRecomposer$pauseCompositionFrameClock$1 = Unit.INSTANCE;
         }
     }
 
@@ -2199,7 +2198,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
         final int i3 = 0;
         this.compositionInvalidations.remove(composition);
         (Collection)this.compositionsAwaitingApply.remove(composition);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedRecomposer$unregisterComposition$1 = Unit.INSTANCE;
         return;
         synchronized (stateLock) {
             stateLock = this.stateLock;
@@ -2209,7 +2208,7 @@ public final class Recomposer extends androidx.compose.runtime.CompositionContex
             i3 = 0;
             this.compositionInvalidations.remove(composition);
             (Collection)this.compositionsAwaitingApply.remove(composition);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedRecomposer$unregisterComposition$1 = Unit.INSTANCE;
         }
     }
 }

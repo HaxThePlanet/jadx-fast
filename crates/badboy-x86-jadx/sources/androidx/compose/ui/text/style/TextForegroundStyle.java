@@ -95,9 +95,9 @@ public interface TextForegroundStyle {
     public abstract long getColor-0d7_KjU();
 
     public androidx.compose.ui.text.style.TextForegroundStyle merge(androidx.compose.ui.text.style.TextForegroundStyle other) {
+        boolean z;
         boolean z3;
         boolean z2;
-        boolean z;
         Object takeOrElse;
         androidx.compose.ui.graphics.ShaderBrush value;
         float f;

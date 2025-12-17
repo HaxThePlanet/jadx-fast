@@ -185,8 +185,8 @@ public final class TextStreamsKt {
     public static final <T> T useLines(Reader $this$useLines, Function1<? super Sequence<String>, ? extends T> block) {
         Throwable th;
         Object bufferedReader;
-        int apiVersionIsAtLeast2;
-        boolean apiVersionIsAtLeast;
+        int apiVersionIsAtLeast;
+        boolean apiVersionIsAtLeast2;
         Intrinsics.checkNotNullParameter($this$useLines, "<this>");
         Intrinsics.checkNotNullParameter(block, "block");
         int i = 0;

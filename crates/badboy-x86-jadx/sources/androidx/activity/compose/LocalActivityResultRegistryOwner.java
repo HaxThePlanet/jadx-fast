@@ -29,8 +29,8 @@ public final class LocalActivityResultRegistryOwner {
         boolean traceInProgress;
         Object innerContext$iv;
         String str;
-        int i3;
-        boolean i;
+        int i;
+        boolean i3;
         Object consume;
         Object consume2;
         int i4 = 1418020823;
@@ -39,7 +39,7 @@ public final class LocalActivityResultRegistryOwner {
             ComposerKt.traceEventStart(i4, $changed, -1, "androidx.activity.compose.LocalActivityResultRegistryOwner.<get-current> (ActivityResultRegistry.kt:48)");
         }
         innerContext$iv = 0;
-        i = 0;
+        i3 = 0;
         consume = 2023513938;
         final String str4 = "CC:CompositionLocal.kt#9igjgp";
         ComposerKt.sourceInformationMarkerStart($composer, consume, str4);
@@ -48,7 +48,7 @@ public final class LocalActivityResultRegistryOwner {
             $composer.startReplaceGroup(1006590171);
             ComposerKt.sourceInformation($composer, "*48@2022L7");
             int i6 = 0;
-            i3 = 0;
+            i = 0;
             ComposerKt.sourceInformationMarkerStart($composer, consume, str4);
             ComposerKt.sourceInformationMarkerEnd($composer);
             i2 = 0;
@@ -56,7 +56,7 @@ public final class LocalActivityResultRegistryOwner {
             while (innerContext$iv instanceof ContextWrapper) {
                 innerContext$iv = (ContextWrapper)innerContext$iv.getBaseContext();
             }
-            innerContext$iv = i;
+            innerContext$iv = i3;
             consume2 = innerContext$iv;
         } else {
             $composer.startReplaceGroup(1006589303);

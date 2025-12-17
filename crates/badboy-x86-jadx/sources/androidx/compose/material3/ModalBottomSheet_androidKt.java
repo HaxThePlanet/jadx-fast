@@ -42,9 +42,9 @@ public final class ModalBottomSheet_androidKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
+            int ordinal;
             int ordinal2;
             int ordinal3;
-            int ordinal;
             int[] iArr = new int[values.length];
             iArr[SecureFlagPolicy.SecureOff.ordinal()] = 1;
             iArr[SecureFlagPolicy.SecureOn.ordinal()] = 2;
@@ -54,316 +54,316 @@ public final class ModalBottomSheet_androidKt {
     }
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Use constructor with contentWindowInsets parameter.", replaceWith = @ReplaceWith(...))
     public static final void ModalBottomSheet-dYc4hso(Function0 onDismissRequest, Modifier modifier, androidx.compose.material3.SheetState sheetState, float sheetMaxWidth, Shape shape, long containerColor, long contentColor, float tonalElevation, long scrimColor, Function2 dragHandle, WindowInsets windowInsets, androidx.compose.material3.ModalBottomSheetProperties properties, Function3 content, Composer $composer, int $changed, int $changed1, int i17) {
-        int i11;
-        Object i13;
-        int $dirty7;
+        int i2;
+        Object i5;
+        int $dirty3;
         Object endRestartGroup;
         Object windowInsets2;
-        int changed;
+        int changed5;
         WindowInsets skipping;
         int defaultsInvalid;
         int rememberModalBottomSheetState;
         float sheetMaxWidth2;
-        int i9;
-        Object obj6;
+        int i7;
+        Object obj5;
         int str;
-        float f;
-        Object obj3;
-        Object i15;
+        float f2;
+        Object obj6;
+        Object i16;
         int $dirty12;
-        Object $dirty5;
+        Object $dirty4;
         int $dirty13;
         float $composer2;
         Composer $composer4;
-        int $dirty6;
-        long $dirty;
+        int $dirty5;
+        long $dirty7;
         long l2;
-        Object obj5;
+        Object obj;
         Object modifier2;
         boolean changedInstance;
-        long sheetState2;
-        int i21;
-        int i;
-        Object shape2;
-        Object shape4;
-        Object obj2;
-        float f2;
-        long shape3;
-        float tonalElevation3;
-        Object tonalElevation4;
-        Object containerColor2;
-        int i4;
-        float f3;
-        int i7;
-        long l;
-        long contentColor2;
-        long contentColor3;
-        Object obj;
-        Function2 tonalElevation2;
-        int i2;
-        Object obj4;
-        WindowInsets scrimColor2;
         long sheetState3;
-        androidx.compose.material3.ModalBottomSheetProperties modalBottomSheetProperties;
-        int scrimColor3;
-        int i16;
-        int i8;
-        int changed4;
-        androidx.compose.material3.ModalBottomSheet_androidKt.ModalBottomSheet.1 dragHandle2;
-        int i5;
-        int $dirty1;
-        int i14;
-        boolean changed2;
-        int i22;
-        Composer $composer3;
-        int changed5;
-        boolean z;
         int i10;
-        int i19;
-        int $dirty4;
-        int $dirty2;
-        int $dirty3;
+        int i21;
+        Object shape2;
+        Object shape3;
+        Object obj3;
+        float f3;
+        long shape4;
+        float tonalElevation4;
+        Object tonalElevation3;
+        Object containerColor2;
+        int i11;
+        float f;
+        int i22;
+        long l;
+        long contentColor3;
+        long contentColor2;
+        Object obj2;
+        Function2 tonalElevation2;
         int i12;
-        int changed3;
-        int i6;
-        int i18;
-        int i20;
+        Object obj4;
+        WindowInsets scrimColor3;
+        long sheetState2;
+        androidx.compose.material3.ModalBottomSheetProperties modalBottomSheetProperties;
+        int scrimColor2;
+        int i15;
+        int i9;
+        int changed;
+        androidx.compose.material3.ModalBottomSheet_androidKt.ModalBottomSheet.1 dragHandle2;
         int i3;
+        int $dirty1;
+        int i8;
+        boolean changed2;
+        int i20;
+        Composer $composer3;
+        int changed3;
+        boolean z;
+        int i;
+        int i4;
+        int $dirty6;
+        int $dirty;
+        int $dirty2;
+        int i19;
+        int changed4;
+        int i18;
+        int i13;
+        int i6;
+        int i14;
         ScopeUpdateScope scopeUpdateScope;
         float obj29;
         int obj30;
         float obj31;
         int obj44;
-        i11 = obj45;
+        i2 = obj45;
         int i24 = obj46;
         str = obj47;
         $composer4 = i17.startRestartGroup(944867294);
         ComposerKt.sourceInformation($composer4, "C(ModalBottomSheet)P(5,4,10,9:c#ui.unit.Dp,8,0:c#ui.graphics.Color,2:c#ui.graphics.Color,11:c#ui.unit.Dp,7:c#ui.graphics.Color,3,12,6)235@10240L31,237@10371L13,238@10434L14,239@10476L31,241@10584L10,243@10731L12,247@10884L485:ModalBottomSheet.android.kt#uh7d8r");
-        $dirty6 = obj45;
+        $dirty5 = obj45;
         changedInstance = obj46;
         if (str & 1 != 0) {
-            $dirty6 |= 6;
-            obj2 = onDismissRequest;
+            $dirty5 |= 6;
+            obj3 = onDismissRequest;
         } else {
-            if (i11 & 6 == 0) {
-                i4 = $composer4.changedInstance(onDismissRequest) ? 4 : 2;
-                $dirty6 |= i4;
+            if (i2 & 6 == 0) {
+                i11 = $composer4.changedInstance(onDismissRequest) ? 4 : 2;
+                $dirty5 |= i11;
             } else {
-                obj2 = onDismissRequest;
+                obj3 = onDismissRequest;
             }
         }
-        i7 = str & 2;
-        if (i7 != 0) {
-            $dirty6 |= 48;
-            obj = modifier;
+        i22 = str & 2;
+        if (i22 != 0) {
+            $dirty5 |= 48;
+            obj2 = modifier;
         } else {
-            if (i11 & 48 == 0) {
-                i2 = $composer4.changed(modifier) ? 32 : 16;
-                $dirty6 |= i2;
+            if (i2 & 48 == 0) {
+                i12 = $composer4.changed(modifier) ? 32 : 16;
+                $dirty5 |= i12;
             } else {
-                obj = modifier;
+                obj2 = modifier;
             }
         }
-        if (i11 & 384 == 0) {
+        if (i2 & 384 == 0) {
             if (str & 4 == 0) {
-                changed4 = $composer4.changed(sheetState) ? i16 : 128;
+                changed = $composer4.changed(sheetState) ? i15 : 128;
             } else {
                 obj4 = sheetState;
             }
-            $dirty6 |= changed4;
+            $dirty5 |= changed;
         } else {
             obj4 = sheetState;
         }
         dragHandle2 = str & 8;
         if (dragHandle2 != 0) {
-            $dirty6 |= 3072;
-            f2 = sheetMaxWidth;
+            $dirty5 |= 3072;
+            f3 = sheetMaxWidth;
         } else {
-            if (i11 & 3072 == 0) {
-                i5 = $composer4.changed(sheetMaxWidth) ? 2048 : 1024;
-                $dirty6 |= i5;
+            if (i2 & 3072 == 0) {
+                i3 = $composer4.changed(sheetMaxWidth) ? 2048 : 1024;
+                $dirty5 |= i3;
             } else {
-                f2 = sheetMaxWidth;
+                f3 = sheetMaxWidth;
             }
         }
-        if (i11 & 24576 == 0) {
+        if (i2 & 24576 == 0) {
             if (str & 16 == 0) {
                 changed2 = $composer4.changed(shape) ? 16384 : 8192;
             } else {
                 containerColor2 = shape;
             }
-            $dirty6 |= changed2;
+            $dirty5 |= changed2;
         } else {
             containerColor2 = shape;
         }
-        if (i11 & i80 == 0) {
+        if (i2 & i80 == 0) {
             if (str & 32 == 0) {
-                changed5 = $composer4.changed(containerColor) ? 131072 : 65536;
+                changed3 = $composer4.changed(containerColor) ? 131072 : 65536;
             } else {
                 l = containerColor;
             }
-            $dirty6 |= changed5;
+            $dirty5 |= changed3;
         } else {
             l = containerColor;
         }
-        if (i11 & i81 == 0) {
+        if (i2 & i81 == 0) {
             if (str & 64 == 0) {
-                $dirty4 = $dirty6;
+                $dirty6 = $dirty5;
                 z = changedInstance;
-                changed3 = $composer4.changed(tonalElevation) ? 1048576 : 524288;
+                changed4 = $composer4.changed(tonalElevation) ? 1048576 : 524288;
             } else {
-                $dirty4 = $dirty6;
+                $dirty6 = $dirty5;
                 z = changedInstance;
-                $dirty = tonalElevation;
+                $dirty7 = tonalElevation;
             }
-            $dirty4 |= changed3;
+            $dirty6 |= changed4;
         } else {
-            $dirty2 = $dirty6;
+            $dirty = $dirty5;
             z = changedInstance;
-            $dirty = tonalElevation;
+            $dirty7 = tonalElevation;
         }
-        scrimColor3 = str & 128;
-        i6 = 12582912;
-        if (scrimColor3 != 0) {
-            $dirty2 |= i6;
-            f = dragHandle;
+        scrimColor2 = str & 128;
+        i18 = 12582912;
+        if (scrimColor2 != 0) {
+            $dirty |= i18;
+            f2 = dragHandle;
         } else {
-            if (i11 & i6 == 0) {
-                i18 = $composer4.changed(dragHandle) ? 8388608 : 4194304;
-                $dirty2 |= i18;
+            if (i2 & i18 == 0) {
+                i13 = $composer4.changed(dragHandle) ? 8388608 : 4194304;
+                $dirty |= i13;
             } else {
-                f = dragHandle;
+                f2 = dragHandle;
             }
         }
-        if (i11 & i87 == 0) {
+        if (i2 & i87 == 0) {
             if (str & 256 == 0) {
-                i11 = $composer4.changed(windowInsets) ? 67108864 : 33554432;
+                i2 = $composer4.changed(windowInsets) ? 67108864 : 33554432;
             } else {
                 l2 = windowInsets;
             }
-            $dirty2 |= i11;
+            $dirty |= i2;
         } else {
             l2 = windowInsets;
         }
-        i13 = str & 512;
+        i5 = str & 512;
         int i89 = 805306368;
-        if (i13 != 0) {
-            $dirty2 |= i89;
-            i20 = i13;
+        if (i5 != 0) {
+            $dirty |= i89;
+            i6 = i5;
         } else {
             if (obj45 & i89 == 0) {
-                i20 = i13;
-                i3 = $composer4.changedInstance(content) ? 536870912 : 268435456;
-                $dirty2 |= i3;
+                i6 = i5;
+                i14 = $composer4.changedInstance(content) ? 536870912 : 268435456;
+                $dirty |= i14;
             } else {
-                i20 = i13;
-                i13 = content;
+                i6 = i5;
+                i5 = content;
             }
         }
-        $dirty7 = $dirty2;
+        $dirty3 = $dirty;
         if (i24 & 6 == 0) {
             if (str & 1024 == 0) {
-                i14 = $composer4.changed($composer) ? 4 : 2;
+                i8 = $composer4.changed($composer) ? 4 : 2;
             } else {
-                obj3 = $composer;
+                obj6 = $composer;
             }
-            $dirty1 = z | i14;
+            $dirty1 = z | i8;
         } else {
-            obj3 = $composer;
+            obj6 = $composer;
             $dirty1 = z;
         }
-        i15 = str & 2048;
-        if (i15 != 0) {
+        i16 = str & 2048;
+        if (i16 != 0) {
             $dirty1 |= 48;
-            i10 = i15;
+            i = i16;
         } else {
             if (i24 & 48 == 0) {
-                i10 = i15;
-                i22 = $composer4.changed($changed) ? 32 : 16;
-                $dirty1 |= i22;
+                i = i16;
+                i20 = $composer4.changed($changed) ? 32 : 16;
+                $dirty1 |= i20;
             } else {
-                i10 = i15;
-                i15 = $changed;
+                i = i16;
+                i16 = $changed;
             }
         }
         $dirty12 = $dirty1;
         if (str & 4096 != 0) {
             $dirty12 |= 384;
-            obj5 = $changed1;
+            obj = $changed1;
         } else {
             if (i24 & 384 == 0) {
                 if ($composer4.changedInstance($changed1)) {
                 } else {
-                    i16 = 128;
+                    i15 = 128;
                 }
-                $dirty12 |= i16;
+                $dirty12 |= i15;
             } else {
-                obj5 = $changed1;
+                obj = $changed1;
             }
         }
-        if (i63 &= $dirty7 == 306783378 && $dirty12 & 147 == 146) {
+        if (i63 &= $dirty3 == 306783378 && $dirty12 & 147 == 146) {
             if ($dirty12 & 147 == 146) {
                 if (!$composer4.getSkipping()) {
                     $composer4.startDefaults();
-                    i = -3670017;
-                    i8 = -458753;
+                    i21 = -3670017;
+                    i9 = -458753;
                     int i79 = -57345;
                     if (obj45 & 1 != 0) {
                         if ($composer4.getDefaultsInvalid()) {
-                            if (i7 != 0) {
-                                obj = defaultsInvalid;
+                            if (i22 != 0) {
+                                obj2 = defaultsInvalid;
                             }
                             if (str & 4 != 0) {
-                                obj44 = i;
-                                i = 0;
-                                $dirty7 &= -897;
+                                obj44 = i21;
+                                i21 = 0;
+                                $dirty3 &= -897;
                                 obj4 = rememberModalBottomSheetState;
                             } else {
-                                obj44 = i;
+                                obj44 = i21;
                             }
                             if (dragHandle2 != 0) {
                                 sheetMaxWidth2 = BottomSheetDefaults.INSTANCE.getSheetMaxWidth-D9Ej5fM();
                             } else {
-                                sheetMaxWidth2 = f2;
+                                sheetMaxWidth2 = f3;
                             }
                             int i67 = 6;
                             if (str & 16 != 0) {
                                 shape2 = BottomSheetDefaults.INSTANCE.getExpandedShape($composer4, i67);
-                                $dirty7 &= i79;
+                                $dirty3 &= i79;
                             } else {
                                 shape2 = containerColor2;
                             }
                             if (str & 32 != 0) {
                                 containerColor2 = BottomSheetDefaults.INSTANCE.getContainerColor($composer4, i67);
-                                $dirty7 &= i8;
+                                $dirty3 &= i9;
                             } else {
                                 containerColor2 = l;
                             }
                             if (str & 64 != 0) {
-                                contentColor3 = ColorSchemeKt.contentColorFor-ek8zF_U(containerColor2, i7, $composer4);
-                                $dirty7 &= obj44;
+                                contentColor2 = ColorSchemeKt.contentColorFor-ek8zF_U(containerColor2, i22, $composer4);
+                                $dirty3 &= obj44;
                             } else {
-                                contentColor3 = tonalElevation;
+                                contentColor2 = tonalElevation;
                             }
-                            if (scrimColor3 != 0) {
-                                i8 = 0;
-                                tonalElevation3 = Dp.constructor-impl((float)scrimColor3);
+                            if (scrimColor2 != 0) {
+                                i9 = 0;
+                                tonalElevation4 = Dp.constructor-impl((float)scrimColor2);
                             } else {
-                                tonalElevation3 = dragHandle;
+                                tonalElevation4 = dragHandle;
                             }
                             if (str & 256 != 0) {
-                                scrimColor3 = BottomSheetDefaults.INSTANCE.getScrimColor($composer4, 6);
-                                $dirty7 = obj30 & i23;
+                                scrimColor2 = BottomSheetDefaults.INSTANCE.getScrimColor($composer4, 6);
+                                $dirty3 = obj30 & i23;
                             } else {
-                                obj30 = $dirty7;
-                                scrimColor3 = windowInsets;
+                                obj30 = $dirty3;
+                                scrimColor2 = windowInsets;
                             }
-                            if (i20 != 0) {
+                            if (i6 != 0) {
                                 dragHandle2 = ComposableSingletons.ModalBottomSheet_androidKt.INSTANCE.getLambda-1$material3_release();
                             } else {
                                 dragHandle2 = content;
                             }
-                            obj30 = $dirty7;
+                            obj30 = $dirty3;
                             if (str & 1024 != 0) {
                                 obj31 = sheetMaxWidth2;
                                 windowInsets2 = BottomSheetDefaults.INSTANCE.getWindowInsets($composer4, 6);
@@ -372,72 +372,72 @@ public final class ModalBottomSheet_androidKt {
                                 obj31 = sheetMaxWidth2;
                                 windowInsets2 = $composer;
                             }
-                            if (i10 != 0) {
-                                obj2 = obj31;
+                            if (i != 0) {
+                                obj3 = obj31;
                                 $dirty1 = properties2;
-                                obj29 = tonalElevation3;
+                                obj29 = tonalElevation4;
                                 skipping = windowInsets2;
-                                $dirty7 = $dirty12;
-                                tonalElevation4 = shape2;
-                                shape4 = obj4;
-                                sheetState3 = scrimColor3;
-                                i16 = dragHandle2;
+                                $dirty3 = $dirty12;
+                                tonalElevation3 = shape2;
+                                shape3 = obj4;
+                                sheetState2 = scrimColor2;
+                                i15 = dragHandle2;
                                 $dirty13 = obj30;
                             } else {
-                                obj2 = obj31;
+                                obj3 = obj31;
                                 $dirty1 = $changed;
                                 skipping = windowInsets2;
-                                $dirty7 = $dirty12;
-                                obj29 = tonalElevation3;
+                                $dirty3 = $dirty12;
+                                obj29 = tonalElevation4;
                                 $dirty13 = obj30;
-                                tonalElevation4 = shape2;
-                                shape4 = obj4;
-                                sheetState3 = scrimColor3;
-                                i16 = dragHandle2;
+                                tonalElevation3 = shape2;
+                                shape3 = obj4;
+                                sheetState2 = scrimColor2;
+                                i15 = dragHandle2;
                             }
                         } else {
                             $composer4.skipToGroupEnd();
                             if (str & 4 != 0) {
-                                $dirty7 &= -897;
+                                $dirty3 &= -897;
                             }
                             if (str & 16 != 0) {
-                                $dirty7 &= i79;
+                                $dirty3 &= i79;
                             }
                             if (str & 32 != 0) {
-                                $dirty7 &= i8;
+                                $dirty3 &= i9;
                             }
                             if (str & 64 != 0) {
-                                $dirty7 &= i;
+                                $dirty3 &= i21;
                             }
                             if (str & 256 != 0) {
-                                $dirty7 &= i9;
+                                $dirty3 &= i7;
                             }
                             if (str & 1024 != 0) {
                                 obj29 = dragHandle;
-                                i16 = content;
+                                i15 = content;
                                 $dirty1 = $changed;
-                                $dirty13 = $dirty7;
-                                $dirty7 = i31;
-                                obj2 = f2;
-                                tonalElevation4 = containerColor2;
+                                $dirty13 = $dirty3;
+                                $dirty3 = i31;
+                                obj3 = f3;
+                                tonalElevation3 = containerColor2;
                                 containerColor2 = l;
-                                shape4 = obj4;
-                                contentColor3 = tonalElevation;
-                                sheetState3 = windowInsets;
+                                shape3 = obj4;
+                                contentColor2 = tonalElevation;
+                                sheetState2 = windowInsets;
                                 skipping = $composer;
                             } else {
-                                $dirty13 = $dirty7;
-                                $dirty7 = obj29;
+                                $dirty13 = $dirty3;
+                                $dirty3 = obj29;
                                 obj29 = dragHandle;
-                                i16 = content;
+                                i15 = content;
                                 skipping = $composer;
                                 $dirty1 = $changed;
-                                obj2 = f2;
-                                tonalElevation4 = containerColor2;
+                                obj3 = f3;
+                                tonalElevation3 = containerColor2;
                                 containerColor2 = l;
-                                shape4 = obj4;
-                                contentColor3 = tonalElevation;
-                                sheetState3 = windowInsets;
+                                shape3 = obj4;
+                                contentColor2 = tonalElevation;
+                                sheetState2 = windowInsets;
                             }
                         }
                     } else {
@@ -445,46 +445,46 @@ public final class ModalBottomSheet_androidKt {
                     $composer4.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
                         $composer3 = $composer4;
-                        ComposerKt.traceEventStart(944867294, $dirty13, $dirty7, "androidx.compose.material3.ModalBottomSheet (ModalBottomSheet.android.kt:247)");
+                        ComposerKt.traceEventStart(944867294, $dirty13, $dirty3, "androidx.compose.material3.ModalBottomSheet (ModalBottomSheet.android.kt:247)");
                     } else {
                         $composer3 = $composer4;
                     }
                     ModalBottomSheet_androidKt.ModalBottomSheet.1 anon = new ModalBottomSheet_androidKt.ModalBottomSheet.1(skipping);
-                    Object obj8 = obj;
+                    Object obj8 = obj2;
                     float modifier3 = obj29;
-                    ModalBottomSheetKt.ModalBottomSheet-dYc4hso(onDismissRequest, obj8, shape4, obj2, tonalElevation4, containerColor2, i7, contentColor3, obj12, modifier3, sheetState3, scrimColor3, i16, (Function2)anon, $dirty1, obj5, $composer3);
+                    ModalBottomSheetKt.ModalBottomSheet-dYc4hso(onDismissRequest, obj8, shape3, obj3, tonalElevation3, containerColor2, i22, contentColor2, obj12, modifier3, sheetState2, scrimColor2, i15, (Function2)anon, $dirty1, obj, $composer3);
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    i12 = $dirty7;
-                    i19 = $dirty13;
-                    obj6 = obj8;
-                    $dirty5 = shape4;
-                    $composer2 = obj2;
-                    modifier2 = tonalElevation4;
-                    sheetState2 = containerColor2;
-                    shape3 = contentColor3;
-                    f3 = modifier3;
-                    contentColor2 = sheetState3;
-                    tonalElevation2 = i16;
+                    i19 = $dirty3;
+                    i4 = $dirty13;
+                    obj5 = obj8;
+                    $dirty4 = shape3;
+                    $composer2 = obj3;
+                    modifier2 = tonalElevation3;
+                    sheetState3 = containerColor2;
+                    shape4 = contentColor2;
+                    f = modifier3;
+                    contentColor3 = sheetState2;
+                    tonalElevation2 = i15;
                     modalBottomSheetProperties = $dirty1;
-                    scrimColor2 = skipping;
+                    scrimColor3 = skipping;
                 } else {
                     $composer4.skipToGroupEnd();
-                    f3 = dragHandle;
+                    f = dragHandle;
                     modalBottomSheetProperties = $changed;
-                    i19 = $dirty7;
-                    i12 = $dirty12;
+                    i4 = $dirty3;
+                    i19 = $dirty12;
                     $composer3 = $composer4;
-                    $composer2 = f2;
+                    $composer2 = f3;
                     modifier2 = containerColor2;
-                    sheetState2 = l;
-                    obj6 = obj;
-                    $dirty5 = obj4;
-                    shape3 = tonalElevation;
-                    contentColor2 = windowInsets;
+                    sheetState3 = l;
+                    obj5 = obj2;
+                    $dirty4 = obj4;
+                    shape4 = tonalElevation;
+                    contentColor3 = windowInsets;
                     tonalElevation2 = content;
-                    scrimColor2 = $composer;
+                    scrimColor3 = $composer;
                 }
             } else {
             }
@@ -492,33 +492,33 @@ public final class ModalBottomSheet_androidKt {
         }
         endRestartGroup = $composer3.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new ModalBottomSheet_androidKt.ModalBottomSheet.2(onDismissRequest, obj6, $dirty5, $composer2, modifier2, sheetState2, obj2, shape3, containerColor2, f3, contentColor2, obj12, tonalElevation2, scrimColor2, modalBottomSheetProperties, $changed1, obj45, obj46, obj47);
+            endRestartGroup = new ModalBottomSheet_androidKt.ModalBottomSheet.2(onDismissRequest, obj5, $dirty4, $composer2, modifier2, sheetState3, obj3, shape4, containerColor2, f, contentColor3, obj12, tonalElevation2, scrimColor3, modalBottomSheetProperties, $changed1, obj45, obj46, obj47);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
 
     public static final void ModalBottomSheetDialog(Function0<Unit> onDismissRequest, androidx.compose.material3.ModalBottomSheetProperties properties, Animatable<Float, AnimationVector1D> predictiveBackProgress, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
-        int view;
-        Object it$iv;
-        Object compositionCoroutineScope;
-        Object $this$cache$iv;
-        Object compositionScopedCoroutineScopeCanceller;
-        Object traceInProgress;
         int view2;
         Object it$iv2;
+        Object compositionCoroutineScope;
+        Object $this$cache$iv;
+        Object $i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv;
+        Object traceInProgress;
+        int view;
+        Object it$iv;
         Object invalid$iv;
         Object restartGroup;
         int $dirty;
         Object density3;
-        int i6;
-        int i7;
-        int i9;
+        int i10;
+        int i5;
+        int i2;
+        int i8;
         int i;
-        int i3;
-        boolean density;
+        boolean density2;
         boolean traceInProgress2;
         boolean changedInstance;
-        int i2;
+        int i3;
         Object empty;
         kotlinx.coroutines.CoroutineScope coroutineScope;
         int systemInDarkTheme;
@@ -526,37 +526,37 @@ public final class ModalBottomSheet_androidKt {
         int dialogId;
         Composer composer2;
         Object rememberedValue;
-        int i5;
+        int i7;
         Composer composer;
         Object empty2;
-        int i10;
+        int i4;
         Object obj2;
-        Composer.Companion companion3;
-        Object obj;
-        int companion2;
-        Object density2;
+        Composer.Companion companion2;
+        Object obj4;
+        int companion3;
+        Object density;
         int companion;
         androidx.compose.runtime.CompositionContext context;
         State state;
         Object it$iv$iv;
-        int i4;
-        int i8;
+        int i9;
+        int i6;
         androidx.compose.material3.ModalBottomSheetDialogWrapper modalBottomSheetDialogWrapper;
-        Object obj4;
+        Object obj;
         int obj32;
         traceInProgress = predictiveBackProgress;
         obj3 = content;
         final int i32 = $changed;
-        view = 1254951810;
-        restartGroup = $composer.startRestartGroup(view);
+        view2 = 1254951810;
+        restartGroup = $composer.startRestartGroup(view2);
         ComposerKt.sourceInformation(restartGroup, "C(ModalBottomSheetDialog)P(1,3,2)273@11822L7,274@11861L7,275@11916L7,276@11946L28,277@12001L29,278@12050L38,279@12105L24,280@12157L21,282@12204L697,305@12932L129,305@12907L154,314@13078L182,314@13067L193:ModalBottomSheet.android.kt#uh7d8r");
         if (i32 & 6 == 0) {
-            i7 = restartGroup.changedInstance(onDismissRequest) ? 4 : 2;
-            $dirty |= i7;
+            i5 = restartGroup.changedInstance(onDismissRequest) ? 4 : 2;
+            $dirty |= i5;
         }
         if (i32 & 48 == 0) {
-            i9 = restartGroup.changed(properties) ? 32 : 16;
-            $dirty |= i9;
+            i2 = restartGroup.changed(properties) ? 32 : 16;
+            $dirty |= i2;
         }
         if (i32 & 384 == 0) {
             if (i32 & 512 == 0) {
@@ -564,17 +564,17 @@ public final class ModalBottomSheet_androidKt {
             } else {
                 changedInstance = restartGroup.changedInstance(traceInProgress);
             }
-            i = changedInstance != null ? 256 : 128;
-            $dirty |= i;
+            i8 = changedInstance != null ? 256 : 128;
+            $dirty |= i8;
         }
         if (i32 & 3072 == 0) {
-            i3 = restartGroup.changedInstance(obj3) ? 2048 : 1024;
-            $dirty |= i3;
+            i = restartGroup.changedInstance(obj3) ? 2048 : 1024;
+            $dirty |= i;
         }
         if ($dirty & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(view, $dirty, -1, "androidx.compose.material3.ModalBottomSheetDialog (ModalBottomSheet.android.kt:272)");
+                    ComposerKt.traceEventStart(view2, $dirty, -1, "androidx.compose.material3.ModalBottomSheetDialog (ModalBottomSheet.android.kt:272)");
                 }
                 int i22 = 0;
                 int i29 = 0;
@@ -611,10 +611,10 @@ public final class ModalBottomSheet_androidKt {
                     int i51 = 0;
                     it$iv$iv = compositionCoroutineScope;
                     companion = i13;
-                    compositionScopedCoroutineScopeCanceller = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, composer2));
-                    composer4.updateRememberedValue(compositionScopedCoroutineScopeCanceller);
+                    $i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, composer2));
+                    composer4.updateRememberedValue($i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv);
                 } else {
-                    compositionScopedCoroutineScopeCanceller = it$iv$iv;
+                    $i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv = it$iv$iv;
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer2);
                 ComposerKt.sourceInformationMarkerEnd(composer2);
@@ -622,7 +622,7 @@ public final class ModalBottomSheet_androidKt {
                 String str5 = "CC(remember):ModalBottomSheet.android.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(composer2, -1981517173, str5);
                 Composer composer3 = composer2;
-                companion2 = 0;
+                companion3 = 0;
                 Object rememberedValue2 = composer3.rememberedValue();
                 int i50 = 0;
                 if (changed |= changed2 == 0) {
@@ -632,22 +632,22 @@ public final class ModalBottomSheet_androidKt {
                         dialogId = $dirty;
                         obj2 = rememberedValue2;
                         int i31 = 1;
-                        ModalBottomSheetDialogWrapper view3 = new ModalBottomSheetDialogWrapper(onDismissRequest, properties, obj6, restartGroup, this_$iv2, (UUID)rememberSaveable, predictiveBackProgress, (CompositionScopedCoroutineScopeCanceller)compositionScopedCoroutineScopeCanceller.getCoroutineScope(), DarkThemeKt.isSystemInDarkTheme(composer2, 0));
-                        i4 = 0;
+                        ModalBottomSheetDialogWrapper view3 = new ModalBottomSheetDialogWrapper(onDismissRequest, properties, obj6, restartGroup, this_$iv2, (UUID)rememberSaveable, predictiveBackProgress, (CompositionScopedCoroutineScopeCanceller)$i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv.getCoroutineScope(), DarkThemeKt.isSystemInDarkTheme(composer2, 0));
+                        i9 = 0;
                         ModalBottomSheet_androidKt.ModalBottomSheetDialog.dialog.1.1.1 anon = new ModalBottomSheet_androidKt.ModalBottomSheetDialog.dialog.1.1.1(SnapshotStateKt.rememberUpdatedState(obj3, restartGroup, i37 &= 14));
-                        obj4 = obj6;
+                        obj = obj6;
                         view3.setContent(context, (Function2)ComposableLambdaKt.composableLambdaInstance(-1560960657, true, anon));
                         composer3.updateRememberedValue(view3);
                     } else {
                         dialogId = $dirty;
                         density3 = this_$iv2;
-                        density = obj7;
-                        obj4 = this_$iv;
-                        obj2 = view;
+                        density2 = obj7;
+                        obj = this_$iv;
+                        obj2 = view2;
                         composer = composer3;
                         obj3 = context;
-                        view2 = 1;
-                        it$iv = onDismissRequest;
+                        view = 1;
+                        it$iv2 = onDismissRequest;
                         $this$cache$iv = properties;
                     }
                 } else {
@@ -656,37 +656,37 @@ public final class ModalBottomSheet_androidKt {
                 ComposerKt.sourceInformationMarkerStart(composer2, -1981494445, str5);
                 Composer composer5 = composer2;
                 int i44 = 0;
-                it$iv2 = composer5.rememberedValue();
-                companion3 = 0;
-                if (!composer2.changedInstance((ModalBottomSheetDialogWrapper)view)) {
-                    density2 = density3;
-                    if (it$iv2 == Composer.Companion.getEmpty()) {
+                it$iv = composer5.rememberedValue();
+                companion2 = 0;
+                if (!composer2.changedInstance((ModalBottomSheetDialogWrapper)view2)) {
+                    density = density3;
+                    if (it$iv == Composer.Companion.getEmpty()) {
                         density3 = 0;
-                        obj = it$iv2;
-                        it$iv2 = new ModalBottomSheet_androidKt.ModalBottomSheetDialog.1.1(view);
-                        composer5.updateRememberedValue((Function1)it$iv2);
+                        obj4 = it$iv;
+                        it$iv = new ModalBottomSheet_androidKt.ModalBottomSheetDialog.1.1(view2);
+                        composer5.updateRememberedValue((Function1)it$iv);
                     } else {
-                        obj = it$iv2;
+                        obj4 = it$iv;
                     }
                 } else {
-                    density2 = density3;
+                    density = density3;
                 }
                 ComposerKt.sourceInformationMarkerEnd(composer2);
                 empty2 = 0;
-                EffectsKt.DisposableEffect(view, (Function1)it$iv2, composer2, empty2);
+                EffectsKt.DisposableEffect(view2, (Function1)it$iv, composer2, empty2);
                 ComposerKt.sourceInformationMarkerStart(composer2, -1981489720, str5);
-                i6 = dialogId & 14 == 4 ? 1 : empty2;
-                i8 = dialogId & 112 == 32 ? 1 : empty2;
+                i10 = dialogId & 14 == 4 ? 1 : empty2;
+                i6 = dialogId & 112 == 32 ? 1 : empty2;
                 i16 |= changed3;
                 $dirty = composer2;
-                i2 = 0;
+                i3 = 0;
                 rememberedValue = $dirty.rememberedValue();
-                i10 = 0;
+                i4 = 0;
                 if (i17 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty2 = 0;
                         obj32 = i17;
-                        invalid$iv = new ModalBottomSheet_androidKt.ModalBottomSheetDialog.2.1(view, it$iv, $this$cache$iv, restartGroup);
+                        invalid$iv = new ModalBottomSheet_androidKt.ModalBottomSheetDialog.2.1(view2, it$iv2, $this$cache$iv, restartGroup);
                         $dirty.updateRememberedValue((Function0)invalid$iv);
                     } else {
                         obj32 = i17;
@@ -708,8 +708,8 @@ public final class ModalBottomSheet_androidKt {
         }
         ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            view = new ModalBottomSheet_androidKt.ModalBottomSheetDialog.3(it$iv, $this$cache$iv, predictiveBackProgress, content, i32);
-            endRestartGroup.updateScope((Function2)view);
+            view2 = new ModalBottomSheet_androidKt.ModalBottomSheetDialog.3(it$iv2, $this$cache$iv, predictiveBackProgress, content, i32);
+            endRestartGroup.updateScope((Function2)view2);
         }
     }
 

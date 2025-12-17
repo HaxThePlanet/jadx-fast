@@ -26,8 +26,8 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
             initializeStorage(ScatterMapKt.unloadedCapacity(initialCapacity));
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive value.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMutableLongObjectMap$1 = new IllegalArgumentException("Capacity must be a positive value.".toString());
+        throw $i$a$RequireMutableLongObjectMap$1;
     }
 
     public MutableLongObjectMap(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -53,30 +53,30 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
 
     private final int findAbsoluteInsertIndex(long key) {
         Object obj;
-        int m;
         int m2;
+        int m;
         int index;
-        int i12;
+        int i14;
         int metadata$iv;
         int probeIndex;
         int $this$maskEmpty$iv;
-        int i7;
+        int i11;
         int $this$hasNext$iv;
         int $this$next$iv;
-        int i8;
-        int i13;
-        int cmp;
-        int i5;
-        int i14;
-        long l;
-        int i6;
-        int i;
-        int i11;
-        int i3;
-        int i9;
-        int i2;
-        int i4;
         int i10;
+        int i9;
+        int cmp;
+        int i12;
+        int i8;
+        long l;
+        int i13;
+        int i2;
+        int i;
+        int i3;
+        int i4;
+        int i5;
+        int i6;
+        int i7;
         int hash;
         int i20 = 0;
         i21 *= i24;
@@ -85,92 +85,92 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
         int $i$f$h1 = $i$f$hash >>> 7;
         int i26 = 0;
         int $i$f$h2 = $i$f$hash & 127;
-        i12 = $i$f$h1 & m;
+        i14 = $i$f$h1 & m2;
         probeIndex = 0;
         while (/* condition */) {
             int i47 = 0;
             int i51 = 0;
-            i2 = 0;
-            i4 = 1;
+            i5 = 0;
+            i6 = 1;
             while (Long.compare(i34, i51) != 0) {
-                $this$hasNext$iv = i4;
-                i13 = 0;
-                i = 0;
-                $this$get$iv &= i11;
-                int i42 = m2;
-                i5 = 0;
-                m2 = $this$next$iv;
+                $this$hasNext$iv = i6;
+                i9 = 0;
+                i2 = 0;
+                $this$get$iv &= i;
+                int i42 = m;
+                i12 = 0;
+                m = $this$next$iv;
                 i47 = 0;
                 i51 = 0;
-                i2 = 0;
-                i4 = 1;
-                $this$hasNext$iv = i2;
+                i5 = 0;
+                i6 = 1;
+                $this$hasNext$iv = i5;
             }
-            $this$hasNext$iv = i2;
-            int i36 = i9;
-            i8 = 0;
+            $this$hasNext$iv = i5;
+            int i36 = i4;
+            i10 = 0;
             hash = $i$f$hash;
-            i12 = i19 & i11;
+            i14 = i19 & i;
             obj = this;
-            m = i11;
+            m2 = i;
             long[] metadata2 = obj.metadata;
             $this$next$iv = 0;
-            int i46 = i12 >> 3;
+            int i46 = i14 >> 3;
             i48 <<= 3;
             l5 >>>= i49;
-            i11 = m;
-            i3 = i12;
-            i29 |= i14;
-            i13 = 0;
+            i = m2;
+            i3 = i14;
+            i29 |= i8;
+            i9 = 0;
             long l7 = 72340172838076673L;
-            i50 ^= i7;
+            i50 ^= i11;
             l = -9187201950435737472L;
             i31 &= l;
-            i13 = 0;
-            i = 0;
-            $this$get$iv &= i11;
-            i42 = m2;
-            i5 = 0;
-            m2 = $this$next$iv;
-            $this$hasNext$iv = i4;
+            i9 = 0;
+            i2 = 0;
+            $this$get$iv &= i;
+            i42 = m;
+            i12 = 0;
+            m = $this$next$iv;
+            $this$hasNext$iv = i6;
         }
-        return i7;
+        return i11;
     }
 
     private final int findFirstAvailableSlot(int hash1) {
         int probeOffset;
         int probeIndex;
         int metadata$iv;
-        int i4;
-        int $this$maskEmptyOrDeleted$iv;
-        int i6;
-        int i5;
         int i;
+        int $this$maskEmptyOrDeleted$iv;
+        int i2;
+        int i4;
+        int i5;
         int i7;
         long l;
-        int i2;
+        int i6;
         int i3;
         final int _capacity = this._capacity;
         probeOffset = hash1 & _capacity;
         probeIndex = 0;
         long[] metadata = this.metadata;
-        i4 = 0;
+        i = 0;
         int i8 = probeOffset >> 3;
         i10 <<= 3;
         int i9 = metadata$iv;
         int i12 = 0;
         i17 &= i9;
-        $this$maskEmptyOrDeleted$iv = i & l;
+        $this$maskEmptyOrDeleted$iv = i5 & l;
         while (Long.compare($this$maskEmptyOrDeleted$iv, i13) != 0) {
-            probeOffset = i5 & _capacity;
+            probeOffset = i4 & _capacity;
             metadata = this.metadata;
-            i4 = 0;
+            i = 0;
             i8 = probeOffset >> 3;
             i10 <<= 3;
             i9 = metadata$iv;
             i12 = 0;
             i17 &= i9;
-            $this$maskEmptyOrDeleted$iv = i & l;
+            $this$maskEmptyOrDeleted$iv = i5 & l;
         }
         int i20 = 0;
         return $this$lowestBitSet$iv2 &= _capacity;
@@ -185,16 +185,16 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
         long[] lArr;
         long[] lArr2;
         long l;
-        int i2;
-        int i5;
-        int i3;
-        int i4;
         int i;
+        int i5;
+        int i4;
+        int i3;
+        int i2;
         if (capacity == 0) {
             size = ScatterMapKt.EmptyGroup;
         } else {
             lArr = new long[i9 >>= 3];
-            i = 0;
+            i2 = 0;
             ArraysKt.fill$default(lArr, -9187201950435737472L, obj4, 0, 0, 6);
             size = lArr;
         }
@@ -223,57 +223,57 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
 
     private final void removeDeletedMarkers() {
         long[] metadata2;
-        int _capacity2;
-        int removedDeletes;
-        int i9;
-        int $i$f$readRawMetadata;
-        int i3;
-        Object cmp;
         int _capacity;
-        int i8;
-        int i2;
+        int removedDeletes;
         int i;
-        long[] metadata;
-        int i7;
-        int i6;
+        int $i$f$readRawMetadata;
         int i10;
-        int i11;
+        Object cmp;
+        int _capacity2;
         int i5;
-        long[] m;
+        int i7;
+        int i11;
+        long[] metadata;
+        int i6;
         int i4;
+        int i2;
+        int i9;
+        int i8;
+        long[] m;
+        int i3;
         final Object obj = this;
         metadata2 = obj.metadata;
-        _capacity2 = obj._capacity;
+        _capacity = obj._capacity;
         removedDeletes = 0;
-        i9 = 0;
-        while (i9 < _capacity2) {
+        i = 0;
+        while (i < _capacity) {
             int i15 = 0;
-            _capacity = 255;
-            if (Long.compare($i$f$readRawMetadata, i2) == 0) {
+            _capacity2 = 255;
+            if (Long.compare($i$f$readRawMetadata, i7) == 0) {
             } else {
             }
             m = metadata2;
-            i4 = _capacity2;
-            i9++;
+            i3 = _capacity;
+            i++;
             metadata2 = m;
-            _capacity2 = i4;
-            i2 = 128;
+            _capacity = i3;
+            i7 = 128;
             cmp = this;
-            i = 0;
+            i11 = 0;
             metadata = cmp.metadata;
             int i25 = 0;
-            int i27 = i9 >> 3;
+            int i27 = i >> 3;
             i28 <<= 3;
-            i5 = _capacity;
+            i8 = _capacity2;
             metadata[i27] = i21 |= i31;
-            _capacity = cmp._capacity;
+            _capacity2 = cmp._capacity;
             i24 += i26;
-            i7 = 0;
-            i6 = i8 >> 3;
+            i6 = 0;
+            i4 = i5 >> 3;
             i30 <<= 3;
             m = metadata2;
-            i4 = _capacity2;
-            metadata[i6] = i14 |= i11;
+            i3 = _capacity;
+            metadata[i4] = i14 |= i9;
             removedDeletes++;
         }
         long[] m4 = metadata2;
@@ -283,43 +283,43 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
     private final void resizeStorage(int newCapacity) {
         Object obj;
         long[] metadata2;
+        int i10;
         int i11;
-        int i2;
-        int i5;
+        int i7;
         int $i$f$hash;
         int firstAvailableSlot;
-        int i;
+        int i8;
         long[] metadata;
         int $i$f$h2;
-        int i4;
         int i6;
-        int i10;
+        int i;
+        int i2;
+        int i4;
         int i3;
-        int i7;
         long l;
         long[] previousMetadata;
         int i9;
-        int i8;
+        int i5;
         obj = this;
         metadata2 = obj.metadata;
         initializeStorage(newCapacity);
-        i11 = 0;
-        while (i11 < obj._capacity) {
-            i2 = 0;
+        i10 = 0;
+        while (i10 < obj._capacity) {
+            i11 = 0;
             int i21 = 0;
-            i = 255;
+            i8 = 255;
             if (Long.compare($i$f$readRawMetadata, $i$f$h2) < 0) {
             } else {
             }
-            i5 = 0;
-            if (i5 != 0) {
+            i7 = 0;
+            if (i7 != 0) {
             } else {
             }
             previousMetadata = metadata2;
-            i11++;
+            i10++;
             obj = this;
             metadata2 = previousMetadata;
-            i2 = obj.keys[i11];
+            i11 = obj.keys[i10];
             int i23 = 0;
             i24 *= i29;
             $i$f$hash = i25 ^ i30;
@@ -327,26 +327,26 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
             firstAvailableSlot = obj.findFirstAvailableSlot($i$f$hash >>> 7);
             int i31 = 0;
             $i$f$h2 = (long)$i$f$h22;
-            i6 = 0;
-            int i34 = i;
-            i = obj2;
-            metadata = i.metadata;
+            i = 0;
+            int i34 = i8;
+            i8 = obj2;
+            metadata = i8.metadata;
             int i32 = 0;
             int i35 = firstAvailableSlot >> 3;
             i36 <<= 3;
             previousMetadata = metadata2;
             metadata[i35] = i14 |= i39;
-            int _capacity = i._capacity;
+            int _capacity = i8._capacity;
             i20 += i33;
-            i4 = 0;
-            i3 = metadata2 >> 3;
+            i6 = 0;
+            i4 = metadata2 >> 3;
             i38 <<= 3;
             i9 = _capacity;
-            i8 = metadata2;
-            metadata[i3] = i17 |= i10;
-            obj.keys[firstAvailableSlot] = i2;
-            obj.values[firstAvailableSlot] = obj.values[i11];
-            i5 = 1;
+            i5 = metadata2;
+            metadata[i4] = i17 |= i2;
+            obj.keys[firstAvailableSlot] = i11;
+            obj.values[firstAvailableSlot] = obj.values[i10];
+            i7 = 1;
         }
     }
 
@@ -371,12 +371,12 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
         long[] metadata;
         long[] emptyGroup;
         int i;
-        long l2;
         long l;
+        long l2;
         int i6;
+        int i5;
         int i2;
         int i3;
-        int i5;
         int i4;
         final int i7 = 0;
         this._size = i7;
@@ -384,7 +384,7 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
             ArraysKt.fill$default(this.metadata, -9187201950435737472L, obj5, 0, 0, 6);
             metadata = this.metadata;
             emptyGroup = this._capacity;
-            l = 0;
+            l2 = 0;
             i6 = emptyGroup >> 3;
             i11 <<= 3;
             metadata[i6] = i13 |= i4;
@@ -416,17 +416,17 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
     public final void minusAssign(androidx.collection.LongList keys) {
         int i$iv;
         long l;
-        int i;
-        Object obj2;
         int i2;
+        Object obj2;
+        int i;
         Intrinsics.checkNotNullParameter(keys, "keys");
         int i3 = 0;
         final Object obj = keys;
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i = 0;
             i2 = 0;
+            i = 0;
             this.remove(obj.content[i$iv]);
             i$iv++;
         }
@@ -435,33 +435,33 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
     @Override // androidx.collection.LongObjectMap
     public final void minusAssign(androidx.collection.LongSet keys) {
         int cmp;
-        int obj2;
-        Object obj;
+        int obj;
+        Object obj2;
         int $i$f$forEach;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i4;
-        int i2;
+        int i5;
+        int i6;
         int $i$f$minusAssign;
         long l;
         Object this_$iv;
-        int i6;
+        int i8;
+        int i3;
+        int i2;
         int i7;
         int i;
-        int i3;
-        int i8;
-        int i5;
+        int i4;
         Intrinsics.checkNotNullParameter(keys, "keys");
-        obj = keys;
+        obj2 = keys;
         final int i15 = 0;
         final long[] metadata = obj3.metadata;
         length += -2;
         if (0 <= i16) {
         } else {
             $i$f$minusAssign = cmp;
-            this_$iv = obj;
-            i5 = $i$f$forEach;
+            this_$iv = obj2;
+            i4 = $i$f$forEach;
         }
     }
 
@@ -494,23 +494,23 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
     public final void putAll(androidx.collection.LongObjectMap<V> from) {
         int cmp;
         int obj;
-        int i;
+        int i3;
         long[] k$iv;
-        Object v$iv;
-        Object[] values;
         Object v$iv2;
+        Object[] values;
+        Object v$iv;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
+        int i2;
         int i5;
-        int i3;
         Object this_$iv;
         long l;
         int $i$f$forEach;
-        int i6;
-        int i2;
-        long[] lArr;
+        int i;
         int i4;
+        long[] lArr;
+        int i6;
         Object[] objArr;
         Intrinsics.checkNotNullParameter(from, "from");
         cmp = from;
@@ -520,10 +520,10 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
         if (0 <= i14) {
         } else {
             this_$iv = cmp;
-            $i$f$forEach = i;
+            $i$f$forEach = i3;
             lArr = k$iv;
             objArr = values;
-            v$iv = this;
+            v$iv2 = this;
         }
     }
 
@@ -533,20 +533,20 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
-        int i10;
-        int i4;
-        int $this$next$iv$iv;
-        int i3;
-        int i5;
-        int i2;
-        int i8;
-        long l;
-        int i7;
-        int i6;
-        int i12;
         int i9;
-        int i;
+        int i8;
+        int $this$next$iv$iv;
         int i11;
+        int i3;
+        int i7;
+        int i4;
+        long l;
+        int i10;
+        int i12;
+        int i5;
+        int i;
+        int i6;
+        int i2;
         int numberOfTrailingZeros;
         final Object obj = this;
         Object obj2 = obj;
@@ -563,79 +563,79 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
             int i31 = 0;
             int i35 = 0;
             while (Long.compare(i26, i35) != 0) {
-                i12 = 1;
-                i3 = 0;
-                i6 = 0;
+                i5 = 1;
+                i11 = 0;
+                i12 = 0;
                 int i29 = m$iv;
-                i2 = 0;
+                i7 = 0;
                 m$iv = $this$next$iv$iv;
                 i31 = 0;
                 i35 = 0;
-                i12 = 0;
+                i5 = 0;
             }
-            i12 = 0;
-            int i28 = i11;
-            i3 = 0;
+            i5 = 0;
+            int i28 = i2;
+            i11 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i10 & _capacity;
-            m$iv2 = i9;
-            $i$f$hash = i;
+            $i$f$h1 = i9 & _capacity;
+            m$iv2 = i;
+            $i$f$hash = i6;
             long[] metadata = obj2.metadata;
             $this$next$iv$iv = 0;
             int i30 = $i$f$h1 >> 3;
             i32 <<= 3;
             l4 >>>= i33;
-            i16 |= i8;
-            i3 = 0;
+            i16 |= i4;
+            i11 = 0;
             long l5 = 72340172838076673L;
-            i34 ^= i4;
+            i34 ^= i8;
             l = -9187201950435737472L;
             i18 &= l;
-            i3 = 0;
-            i6 = 0;
+            i11 = 0;
+            i12 = 0;
             i29 = m$iv;
-            i2 = 0;
+            i7 = 0;
             m$iv = $this$next$iv$iv;
-            i12 = 1;
+            i5 = 1;
         }
-        if (i4 >= 0) {
-            return obj.removeValueAt(i4);
+        if (i8 >= 0) {
+            return obj.removeValueAt(i8);
         }
         return 0;
     }
 
     public final boolean remove(long key, V value) {
         Object equal;
-        int m$iv;
         int m$iv2;
+        int m$iv;
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
-        int i7;
-        int i4;
-        int $this$hasNext$iv$iv;
-        Object obj;
-        int $this$next$iv$iv;
-        Object obj2;
-        int i5;
-        int i11;
-        int i6;
-        int i12;
-        long l;
-        int i2;
-        int i8;
-        int i3;
-        int i9;
-        int i13;
-        int i;
         int i10;
+        int i13;
+        int $this$hasNext$iv$iv;
+        Object obj2;
+        int $this$next$iv$iv;
+        Object obj;
+        int i9;
+        int i7;
+        int i11;
+        int i8;
+        long l;
+        int i;
+        int i12;
+        int i3;
+        int i6;
+        int i2;
+        int i4;
+        int i5;
         int numberOfTrailingZeros;
         final Object obj3 = this;
         equal = obj3;
-        m$iv = 0;
+        m$iv2 = 0;
         int i19 = 0;
         i20 *= i23;
         $i$f$hash = i21 ^ i24;
@@ -647,74 +647,74 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
         while (/* condition */) {
             int i31 = 0;
             int i35 = 0;
-            i = 0;
-            i10 = 1;
+            i4 = 0;
+            i5 = 1;
             while (Long.compare(i26, i35) != 0) {
-                $this$hasNext$iv$iv = i10;
-                i5 = 0;
-                i8 = 0;
-                int i29 = m$iv2;
-                i6 = 0;
-                m$iv2 = $this$next$iv$iv;
+                $this$hasNext$iv$iv = i5;
+                i9 = 0;
+                i12 = 0;
+                int i29 = m$iv;
+                i11 = 0;
+                m$iv = $this$next$iv$iv;
                 i31 = 0;
                 i35 = 0;
-                i = 0;
-                i10 = 1;
-                $this$hasNext$iv$iv = i;
+                i4 = 0;
+                i5 = 1;
+                $this$hasNext$iv$iv = i4;
             }
-            $this$hasNext$iv$iv = i;
-            int i28 = i13;
-            i5 = 0;
+            $this$hasNext$iv$iv = i4;
+            int i28 = i2;
+            i9 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            obj = obj27;
-            $i$f$h1 = i7 & _capacity;
-            m$iv = i3;
-            $i$f$hash = i9;
+            obj2 = obj27;
+            $i$f$h1 = i10 & _capacity;
+            m$iv2 = i3;
+            $i$f$hash = i6;
             long[] metadata = equal.metadata;
             $this$next$iv$iv = 0;
             int i30 = $i$f$h1 >> 3;
             i32 <<= 3;
             l4 >>>= i33;
-            i16 |= i12;
-            i5 = 0;
+            i16 |= i8;
+            i9 = 0;
             long l5 = 72340172838076673L;
-            i34 ^= i4;
+            i34 ^= i13;
             l = -9187201950435737472L;
             i18 &= l;
-            i5 = 0;
-            i8 = 0;
-            i29 = m$iv2;
-            i6 = 0;
-            m$iv2 = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i10;
+            i9 = 0;
+            i12 = 0;
+            i29 = m$iv;
+            i11 = 0;
+            m$iv = $this$next$iv$iv;
+            $this$hasNext$iv$iv = i5;
         }
-        if (i4 >= 0) {
-            if (Intrinsics.areEqual(obj3.values[i4], obj27)) {
-                obj3.removeValueAt(i4);
-                return i10;
+        if (i13 >= 0) {
+            if (Intrinsics.areEqual(obj3.values[i13], obj27)) {
+                obj3.removeValueAt(i13);
+                return i5;
             }
         } else {
-            obj2 = obj27;
+            obj = obj27;
         }
-        return i;
+        return i4;
     }
 
     public final void removeIf(Function2<? super Long, ? super V, Boolean> predicate) {
-        int $i$f$removeIf2;
+        int $i$f$removeIf;
         int i$iv;
         long slot$iv;
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
         int i3;
-        int i2;
-        long l;
         int i;
+        long l;
+        int i2;
         int i4;
-        int $i$f$removeIf;
+        int $i$f$removeIf2;
         final Object obj = this;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter(obj2, "predicate");
@@ -723,7 +723,7 @@ public final class MutableLongObjectMap<V>  extends androidx.collection.LongObje
         length += -2;
         if (0 <= i6) {
         } else {
-            $i$f$removeIf = $i$f$removeIf2;
+            $i$f$removeIf2 = $i$f$removeIf;
         }
     }
 

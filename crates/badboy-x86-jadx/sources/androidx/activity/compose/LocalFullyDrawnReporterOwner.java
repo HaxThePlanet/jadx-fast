@@ -27,52 +27,52 @@ public final class LocalFullyDrawnReporterOwner {
 
     public final FullyDrawnReporterOwner getCurrent(Composer $composer, int $changed) {
         ProvidableCompositionLocal localView;
-        int i2;
+        int i3;
         boolean traceInProgress;
         int innerContext$iv;
         String str;
-        int i3;
         int i;
-        Object consume2;
+        int i2;
         Object consume;
+        Object consume2;
         int i4 = 540186968;
         ComposerKt.sourceInformationMarkerStart($composer, i4, "C(<get-current>)95@3549L7:ReportDrawn.kt#q1dkbc");
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i4, $changed, -1, "androidx.activity.compose.LocalFullyDrawnReporterOwner.<get-current> (ReportDrawn.kt:95)");
         }
         innerContext$iv = 0;
-        i3 = 0;
-        consume2 = 2023513938;
+        i = 0;
+        consume = 2023513938;
         final String str5 = "CC:CompositionLocal.kt#9igjgp";
-        ComposerKt.sourceInformationMarkerStart($composer, consume2, str5);
+        ComposerKt.sourceInformationMarkerStart($composer, consume, str5);
         ComposerKt.sourceInformationMarkerEnd($composer);
         if ((FullyDrawnReporterOwner)$composer.consume((CompositionLocal)LocalFullyDrawnReporterOwner.LocalFullyDrawnReporterOwner) == null) {
             $composer.startReplaceGroup(-1738308180);
             ComposerKt.sourceInformation($composer, "96@3586L7");
             innerContext$iv = 0;
-            i3 = 0;
-            ComposerKt.sourceInformationMarkerStart($composer, consume2, str5);
+            i = 0;
+            ComposerKt.sourceInformationMarkerStart($composer, consume, str5);
             ComposerKt.sourceInformationMarkerEnd($composer);
-            consume = ViewTreeFullyDrawnReporterOwner.get((View)$composer.consume((CompositionLocal)AndroidCompositionLocals_androidKt.getLocalView()));
+            consume2 = ViewTreeFullyDrawnReporterOwner.get((View)$composer.consume((CompositionLocal)AndroidCompositionLocals_androidKt.getLocalView()));
             $composer.endReplaceGroup();
         } else {
             $composer.startReplaceGroup(-1738310474);
             $composer.endReplaceGroup();
         }
-        if (consume == null) {
+        if (consume2 == null) {
             $composer.startReplaceGroup(-1738306337);
             ComposerKt.sourceInformation($composer, "*97@3699L7");
             int i7 = 0;
-            i = 0;
-            ComposerKt.sourceInformationMarkerStart($composer, consume2, str5);
-            ComposerKt.sourceInformationMarkerEnd($composer);
             i2 = 0;
-            innerContext$iv = consume2;
+            ComposerKt.sourceInformationMarkerStart($composer, consume, str5);
+            ComposerKt.sourceInformationMarkerEnd($composer);
+            i3 = 0;
+            innerContext$iv = consume;
             while (innerContext$iv instanceof ContextWrapper) {
                 innerContext$iv = (ContextWrapper)innerContext$iv.getBaseContext();
             }
-            innerContext$iv = i3;
-            consume = innerContext$iv;
+            innerContext$iv = i;
+            consume2 = innerContext$iv;
             $composer.endReplaceGroup();
         } else {
             $composer.startReplaceGroup(-1738310398);
@@ -82,7 +82,7 @@ public final class LocalFullyDrawnReporterOwner {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return consume;
+        return consume2;
     }
 
     public final ProvidedValue<FullyDrawnReporterOwner> provides(FullyDrawnReporterOwner fullyDrawnReporterOwner) {

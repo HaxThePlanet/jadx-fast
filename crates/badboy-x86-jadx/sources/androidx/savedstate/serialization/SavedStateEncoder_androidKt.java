@@ -19,9 +19,9 @@ public final class SavedStateEncoder_androidKt {
     public static final <T> boolean encodeFormatSpecificTypesOnPlatform(androidx.savedstate.serialization.SavedStateEncoder $this$encodeFormatSpecificTypesOnPlatform, SerializationStrategy<? super T> strategy, T value) {
         kotlinx.serialization.descriptors.SerialDescriptor descriptor;
         Object iNSTANCE;
-        boolean equal;
-        boolean nullablePolymorphicSparseParcelableArrayDescriptor;
         boolean equal4;
+        boolean nullablePolymorphicSparseParcelableArrayDescriptor;
+        boolean equal;
         boolean equal3;
         boolean equal2;
         Object obj2;

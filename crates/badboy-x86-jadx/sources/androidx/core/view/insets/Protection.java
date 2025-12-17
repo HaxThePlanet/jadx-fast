@@ -441,45 +441,45 @@ public abstract class Protection {
     Insets updateLayout() {
         Insets consumed;
         int bottom;
-        int i;
         int i2;
+        int i3;
         boolean occupiesCorners;
         int thickness;
-        int i3;
+        int i;
         consumed = Insets.NONE;
-        i = 0;
+        i2 = 0;
         switch (mSide) {
             case 1:
                 Protection.Attributes.access$100(this.mAttributes, getThickness(mInsetsIgnoringVisibility4.left));
-                consumed = Insets.of(getThickness(inset4.left), i, i, i);
+                consumed = Insets.of(getThickness(inset4.left), i2, i2, i2);
                 break;
             case 2:
                 Protection.Attributes.access$200(this.mAttributes, getThickness(mInsetsIgnoringVisibility.top));
-                consumed = Insets.of(i, getThickness(inset.top), i, i);
+                consumed = Insets.of(i2, getThickness(inset.top), i2, i2);
                 break;
             case 4:
                 Protection.Attributes.access$100(this.mAttributes, getThickness(mInsetsIgnoringVisibility2.right));
-                consumed = Insets.of(i, i, getThickness(inset2.right), i);
+                consumed = Insets.of(i2, i2, getThickness(inset2.right), i2);
                 break;
             case 8:
                 Protection.Attributes.access$200(this.mAttributes, getThickness(mInsetsIgnoringVisibility3.bottom));
-                consumed = Insets.of(i, i, i, getThickness(inset3.bottom));
+                consumed = Insets.of(i2, i2, i2, getThickness(inset3.bottom));
                 break;
             default:
                 bottom = 0;
         }
         if (bottom > 0) {
-            i = 1;
+            i2 = 1;
         }
-        setSystemVisible(i);
+        setSystemVisible(i2);
         int i4 = 0;
-        i3 = bottom > 0 ? i2 : i4;
-        setSystemAlpha(i3);
+        i = bottom > 0 ? i3 : i4;
+        setSystemAlpha(i);
         if (bottom > 0) {
         } else {
-            i2 = i4;
+            i3 = i4;
         }
-        setSystemInsetAmount(i2);
+        setSystemInsetAmount(i3);
         return consumed;
     }
 }

@@ -26,24 +26,24 @@ public final class AnimationVector3D extends androidx.compose.animation.core.Ani
     @Override // androidx.compose.animation.core.AnimationVector
     public boolean equals(Object other) {
         boolean z;
-        int i;
         int i2;
+        int i;
         float f;
-        i = 0;
+        i2 = 0;
         if (other instanceof AnimationVector3D) {
-            i2 = 1;
-            z = Float.compare(f2, f5) == 0 ? i2 : i;
+            i = 1;
+            z = Float.compare(f2, f5) == 0 ? i : i2;
             if (z != 0) {
-                z = Float.compare(f3, f) == 0 ? i2 : i;
+                z = Float.compare(f3, f) == 0 ? i : i2;
                 if (z != 0) {
-                    z = Float.compare(f4, f) == 0 ? i2 : i;
+                    z = Float.compare(f4, f) == 0 ? i : i2;
                     if (z != 0) {
-                        i = i2;
+                        i2 = i;
                     }
                 }
             }
         }
-        return i;
+        return i2;
     }
 
     @Override // androidx.compose.animation.core.AnimationVector

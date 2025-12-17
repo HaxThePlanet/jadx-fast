@@ -75,14 +75,14 @@ public final class ComposerChangeListWriter {
 
     private final void ensureRootStarted() {
         boolean implicitRootStart;
-        int i2;
         int i;
+        int i2;
         if (!this.startedGroup && this.implicitRootStart) {
             if (this.implicitRootStart) {
-                i = 1;
-                ComposerChangeListWriter.pushSlotTableOperationPreamble$default(this, false, i, 0);
+                i2 = 1;
+                ComposerChangeListWriter.pushSlotTableOperationPreamble$default(this, false, i2, 0);
                 this.changeList.pushEnsureRootStarted();
-                this.startedGroup = i;
+                this.startedGroup = i2;
             }
         }
     }
@@ -104,9 +104,9 @@ public final class ComposerChangeListWriter {
     }
 
     private final void pushPendingUpsAndDowns() {
-        int pendingUps2;
-        boolean pendingDownNodes;
         int pendingUps;
+        boolean pendingDownNodes;
+        int pendingUps2;
         if (this.pendingUps > 0) {
             this.changeList.pushUps(this.pendingUps);
             this.pendingUps = 0;
@@ -143,8 +143,8 @@ public final class ComposerChangeListWriter {
         int removeFrom;
         int moveCount2;
         int i;
-        int moveCount3;
         int moveCount;
+        int moveCount3;
         if (this.moveCount > 0) {
             i = -1;
             if (this.removeFrom >= 0) {
@@ -162,7 +162,7 @@ public final class ComposerChangeListWriter {
     private final void realizeOperationLocation(boolean forParent) {
         int currentGroup;
         int changeList;
-        String str;
+        String $i$a$RuntimeCheckComposerChangeListWriter$realizeOperationLocation$1;
         SlotReader reader = getReader();
         if (forParent) {
             currentGroup = reader.getParent();
@@ -224,7 +224,7 @@ public final class ComposerChangeListWriter {
     public final void endCurrentGroup() {
         int changeList;
         int i;
-        String str;
+        String $i$a$RuntimeCheckComposerChangeListWriter$endCurrentGroup$1;
         int parent = getReader().getParent();
         int i2 = -1;
         final int i4 = 1;
@@ -281,7 +281,7 @@ public final class ComposerChangeListWriter {
     }
 
     public final void finalizeComposition() {
-        String str;
+        String $i$a$RuntimeCheckComposerChangeListWriter$finalizeComposition$1;
         pushPendingUpsAndDowns();
         final int i = 0;
         if (!this.startedGroups.isEmpty()) {
@@ -416,15 +416,15 @@ public final class ComposerChangeListWriter {
 
     public final void removeNode(int nodeIndex, int count) {
         int value$iv;
-        int i;
         int i2;
-        String string;
+        int i;
+        String $i$a$RuntimeCheckComposerChangeListWriter$removeNode$1;
         StringBuilder append;
         String str;
         if (count > 0) {
-            i = nodeIndex >= 0 ? 1 : 0;
-            i2 = 0;
-            if (i == 0) {
+            i2 = nodeIndex >= 0 ? 1 : 0;
+            i = 0;
+            if (i2 == 0) {
                 int i3 = 0;
                 StringBuilder stringBuilder = new StringBuilder();
                 ComposerKt.composeImmediateRuntimeError(stringBuilder.append("Invalid remove index ").append(nodeIndex).toString());

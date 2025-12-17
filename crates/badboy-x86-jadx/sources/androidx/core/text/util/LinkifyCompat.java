@@ -92,7 +92,7 @@ public final class LinkifyCompat {
 
     public static boolean addLinks(Spannable text, int mask) {
         int next;
-        int i;
+        int i2;
         int i3;
         int frameworkAddedSpan;
         Object obj;
@@ -100,7 +100,7 @@ public final class LinkifyCompat {
         Pattern aUTOLINK_EMAIL_ADDRESS;
         String[] strArr;
         Linkify.MatchFilter sUrlMatchFilter;
-        int i2;
+        int i;
         int obj10;
         if (LinkifyCompat.shouldAddLinksFallbackToFramework()) {
             return Linkify.addLinks(text, mask);
@@ -112,9 +112,9 @@ public final class LinkifyCompat {
         Object[] spans = text.getSpans(next, text.length(), URLSpan.class);
         final int i5 = 1;
         length2 -= i5;
-        while (i >= 0) {
-            text.removeSpan((URLSpan[])spans[i]);
-            i--;
+        while (i2 >= 0) {
+            text.removeSpan((URLSpan[])spans[i2]);
+            i2--;
         }
         if (mask & 4 != 0) {
             Linkify.addLinks(text, 4);
@@ -289,7 +289,7 @@ public final class LinkifyCompat {
     }
 
     private static void gatherMapLinks(ArrayList<androidx.core.text.util.LinkifyCompat.LinkSpec> arrayList, Spannable s) {
-        String string2;
+        String string;
         int base;
         Throwable indexOf;
         String str;
@@ -297,14 +297,14 @@ public final class LinkifyCompat {
         int length;
         int i;
         Object encode;
-        String string;
+        String string2;
         String str2;
-        string2 = s.toString();
+        string = s.toString();
         base = 0;
-        indexOf = LinkifyCompat.findAddress(string2);
+        indexOf = LinkifyCompat.findAddress(string);
         str = indexOf;
         while (indexOf != null) {
-            indexOf = string2.indexOf(str);
+            indexOf = string.indexOf(str);
             if (indexOf < 0) {
                 break;
             } else {
@@ -313,12 +313,12 @@ public final class LinkifyCompat {
             i = indexOf + length;
             linkSpec.start = base + indexOf;
             linkSpec.end = base + i;
-            string2 = substring;
+            string = substring;
             base += i;
             StringBuilder stringBuilder = new StringBuilder();
             linkSpec.url = stringBuilder.append("geo:0,0?q=").append(URLEncoder.encode(str, "UTF-8")).toString();
             arrayList.add(linkSpec);
-            indexOf = LinkifyCompat.findAddress(string2);
+            indexOf = LinkifyCompat.findAddress(string);
             str = indexOf;
         }
     }
@@ -376,8 +376,8 @@ public final class LinkifyCompat {
         int remove;
         URLSpan frameworkAddedSpan;
         int end;
-        int start;
         int start2;
+        int start;
         Object[] spans = text.getSpans(0, text.length(), URLSpan.class);
         while (i2 < spans.length) {
             obj = (URLSpan[])spans[i2];
@@ -405,10 +405,10 @@ public final class LinkifyCompat {
             if (linkSpec.end <= obj.end) {
             } else {
             }
-            if (end2 -= start3 > end4 -= start2) {
+            if (end2 -= start3 > end4 -= start) {
             } else {
             }
-            if (end3 -= start4 < end5 -= start2) {
+            if (end3 -= start4 < end5 -= start) {
             }
             if (remove != -1) {
             } else {

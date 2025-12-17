@@ -13,11 +13,11 @@ import kotlin.jvm.internal.Ref.IntRef;
 final class FlowKt__CountKt {
     public static final <T> Object count(kotlinx.coroutines.flow.Flow<? extends T> flow, Continuation<? super Integer> continuation2) {
         boolean anon;
-        int i3;
+        int i;
         int i2;
         Ref.IntRef intRef;
         kotlinx.coroutines.flow.FlowKt__CountKt.count.2 anon2;
-        int i;
+        int i3;
         Object obj5;
         Object obj6;
         anon = continuation2;
@@ -58,19 +58,19 @@ final class FlowKt__CountKt {
     public static final <T> Object count(kotlinx.coroutines.flow.Flow<? extends T> flow, Function2<? super T, ? super Continuation<? super Boolean>, ? extends Object> function22, Continuation<? super Integer> continuation3) {
         boolean anon;
         int i;
-        int i3;
+        int i2;
         Ref.IntRef intRef;
         kotlinx.coroutines.flow.FlowKt__CountKt.count.4 anon2;
-        int i2;
+        int i3;
         Object obj5;
         Object obj7;
         anon = continuation3;
-        i3 = Integer.MIN_VALUE;
-        if (continuation3 instanceof FlowKt__CountKt.count.3 && label &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation3 instanceof FlowKt__CountKt.count.3 && label &= i2 != 0) {
             anon = continuation3;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj7 -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj7 -= i2;
             } else {
                 anon = new FlowKt__CountKt.count.3(continuation3);
             }

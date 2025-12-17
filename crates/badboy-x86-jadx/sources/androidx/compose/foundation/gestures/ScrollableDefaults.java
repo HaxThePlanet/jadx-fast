@@ -32,8 +32,8 @@ public final class ScrollableDefaults {
         String str;
         Object empty;
         Object defaultFlingBehavior;
-        int i;
         int i2;
+        int i;
         int i3 = 1107739818;
         ComposerKt.sourceInformationMarkerStart($composer, i3, "C(flingBehavior)571@22168L33,572@22217L75:Scrollable.kt#8bwon0");
         if (ComposerKt.isTraceInProgress()) {
@@ -48,8 +48,8 @@ public final class ScrollableDefaults {
         if (!$composer.changed(rememberSplineBasedDecay)) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 empty = 0;
-                i2 = 0;
-                defaultFlingBehavior = new DefaultFlingBehavior(rememberSplineBasedDecay, i2, 2, i2);
+                i = 0;
+                defaultFlingBehavior = new DefaultFlingBehavior(rememberSplineBasedDecay, i, 2, i);
                 composer.updateRememberedValue(defaultFlingBehavior);
             } else {
                 defaultFlingBehavior = rememberedValue;
@@ -81,17 +81,17 @@ public final class ScrollableDefaults {
 
     public final boolean reverseDirection(LayoutDirection layoutDirection, androidx.compose.foundation.gestures.Orientation orientation, boolean reverseScrolling) {
         int reverseDirection;
-        int i;
         int i2;
+        int i;
         androidx.compose.foundation.gestures.Orientation vertical;
         final int i3 = 1;
-        i = layoutDirection == LayoutDirection.Rtl ? i3 : i2;
-        if (i != 0 && orientation != Orientation.Vertical && reverseScrolling ^ 1 == 0) {
+        i2 = layoutDirection == LayoutDirection.Rtl ? i3 : i;
+        if (i2 != 0 && orientation != Orientation.Vertical && reverseScrolling ^ 1 == 0) {
             if (orientation != Orientation.Vertical) {
                 if (reverseScrolling ^ 1 == 0) {
-                    i2 = i3;
+                    i = i3;
                 }
-                reverseDirection = i2;
+                reverseDirection = i;
             }
         }
         return reverseDirection;

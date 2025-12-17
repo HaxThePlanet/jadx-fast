@@ -56,6 +56,80 @@ fn is_valid_identifier(name: &str) -> bool {
     name.chars().all(|c| (32..=126).contains(&(c as u32)))
 }
 
+/// Sanitize a name to be a valid Java identifier
+/// Converts invalid characters (like hyphens) to valid alternatives
+/// Returns None if the name cannot be sanitized (e.g., empty or all invalid)
+fn sanitize_identifier(name: &str) -> Option<String> {
+    if name.is_empty() {
+        return None;
+    }
+
+    // If already valid, return as-is
+    if is_valid_identifier(name) {
+        return Some(name.to_string());
+    }
+
+    let mut result = String::with_capacity(name.len());
+    let mut chars = name.chars().peekable();
+    let mut prev_was_hyphen = false;
+
+    // Handle first character
+    if let Some(first) = chars.next() {
+        if first.is_alphabetic() || first == '_' || first == '$' {
+            result.push(first);
+        } else if first == '-' {
+            // Skip leading hyphen, capitalize next char
+            prev_was_hyphen = true;
+        } else if first.is_ascii_digit() {
+            // Prefix digit with underscore
+            result.push('_');
+            result.push(first);
+        } else {
+            // Skip other invalid start characters
+            prev_was_hyphen = true;
+        }
+    }
+
+    // Handle remaining characters
+    for c in chars {
+        if c == '-' {
+            // Replace hyphen: capitalize next character (camelCase)
+            prev_was_hyphen = true;
+        } else if c.is_alphanumeric() || c == '_' || c == '$' {
+            if prev_was_hyphen && c.is_alphabetic() {
+                result.push(c.to_ascii_uppercase());
+            } else {
+                result.push(c);
+            }
+            prev_was_hyphen = false;
+        }
+        // Skip other invalid characters
+    }
+
+    // Check if result is valid
+    if result.is_empty() {
+        return None;
+    }
+
+    // Check reserved words - if sanitized name is reserved, prefix with underscore
+    const RESERVED: &[&str] = &[
+        "abstract", "assert", "boolean", "break", "byte", "case", "catch",
+        "char", "class", "const", "continue", "default", "do", "double",
+        "else", "enum", "extends", "false", "final", "finally", "float",
+        "for", "goto", "if", "implements", "import", "instanceof", "int",
+        "interface", "long", "native", "new", "null", "package", "private",
+        "protected", "public", "return", "short", "static", "strictfp",
+        "super", "switch", "synchronized", "this", "throw", "throws",
+        "transient", "true", "try", "void", "volatile", "while", "_",
+    ];
+
+    if RESERVED.contains(&result.as_str()) {
+        result.insert(0, '_');
+    }
+
+    Some(result)
+}
+
 /// Get variable name from debug info by register and instruction offset
 /// (like JADX's DebugInfoApplyVisitor)
 fn get_debug_name(debug_info: Option<&DebugInfo>, reg: u16, insn_offset: u32) -> Option<String> {
@@ -66,10 +140,9 @@ fn get_debug_name(debug_info: Option<&DebugInfo>, reg: u16, insn_offset: u32) ->
            && local_var.start_addr <= insn_offset
            && insn_offset <= local_var.end_addr
         {
-            // Validate name (like JADX's NameMapper.isValidAndPrintable)
-            if is_valid_identifier(&local_var.name) {
-                return Some(local_var.name.clone());
-            }
+            // Sanitize name to ensure valid Java identifier
+            // Handles Kotlin synthetic names with hyphens (e.g., "constructor-impl" -> "constructorImpl")
+            return sanitize_identifier(&local_var.name);
         }
     }
     None
@@ -685,12 +758,15 @@ impl<'a> VarNaming<'a> {
 
         // Convert to lowercase first char (Java convention for variables)
         let mut chars = field_name.chars();
-        if let Some(first) = chars.next() {
+        let base = if let Some(first) = chars.next() {
             let rest: String = chars.collect();
             format!("{}{}", first.to_lowercase(), rest)
         } else {
-            String::new()
-        }
+            return String::new();
+        };
+
+        // Sanitize to handle invalid characters like hyphens
+        sanitize_identifier(&base).unwrap_or_default()
     }
 
     /// Get array variable name from array type
@@ -779,7 +855,8 @@ impl<'a> VarNaming<'a> {
                         let result = format!("{}{}", first.to_lowercase(), rest_str);
                         // Skip very short names
                         if result.len() >= 2 {
-                            return Some(result);
+                            // Sanitize result (may contain Kotlin synthetic hyphens)
+                            return sanitize_identifier(&result);
                         }
                     }
                 }
@@ -797,13 +874,19 @@ impl<'a> VarNaming<'a> {
                 let has_getter_prefix = method_name.starts_with("get") || method_name.starts_with("set")
                     || method_name.starts_with("is") || method_name.starts_with("has");
                 if !has_getter_prefix {
-                    // Use the method name as-is if it's descriptive enough
-                    return Some(method_name.to_string());
+                    // Sanitize method name (may contain Kotlin synthetic hyphens like "constructor-impl")
+                    return sanitize_identifier(method_name);
                 }
             }
         }
 
         None
+    }
+
+    /// Sanitize a name before using it as a variable name
+    /// Public wrapper for use in other modules
+    pub fn sanitize_name(name: &str) -> Option<String> {
+        sanitize_identifier(name)
     }
 }
 
@@ -1605,5 +1688,49 @@ mod tests {
 
         // used_names should be empty initially
         assert!(naming.used_names.is_empty());
+    }
+
+    #[test]
+    fn test_sanitize_identifier() {
+        // Valid identifiers should pass through unchanged
+        assert_eq!(sanitize_identifier("validName"), Some("validName".to_string()));
+        assert_eq!(sanitize_identifier("_underscore"), Some("_underscore".to_string()));
+        assert_eq!(sanitize_identifier("$dollar"), Some("$dollar".to_string()));
+
+        // Hyphens should be converted to camelCase
+        assert_eq!(sanitize_identifier("constructor-impl"), Some("constructorImpl".to_string()));
+        assert_eq!(sanitize_identifier("padding-3ABfNKs"), Some("padding3ABfNKs".to_string()));
+        assert_eq!(sanitize_identifier("lambda-5$app_debug"), Some("lambda5$app_debug".to_string()));
+
+        // Leading digits should get underscore prefix
+        assert_eq!(sanitize_identifier("3value"), Some("_3value".to_string()));
+
+        // Empty and all-invalid should return None
+        assert_eq!(sanitize_identifier(""), None);
+        assert_eq!(sanitize_identifier("---"), None);
+
+        // Reserved words after sanitization should get underscore prefix
+        assert_eq!(sanitize_identifier("class"), Some("_class".to_string()));
+        assert_eq!(sanitize_identifier("int"), Some("_int".to_string()));
+
+        // Multiple hyphens
+        assert_eq!(sanitize_identifier("a-b-c"), Some("aBC".to_string()));
+
+        // Hyphen at start
+        assert_eq!(sanitize_identifier("-leading"), Some("Leading".to_string()));
+    }
+
+    #[test]
+    fn test_sanitize_identifier_kotlin_synthetic() {
+        // Real-world Kotlin synthetic name examples
+        assert_eq!(sanitize_identifier("get-impl"), Some("getImpl".to_string()));
+        assert_eq!(sanitize_identifier("set-impl"), Some("setImpl".to_string()));
+        assert_eq!(sanitize_identifier("box-impl"), Some("boxImpl".to_string()));
+        assert_eq!(sanitize_identifier("unbox-impl"), Some("unboxImpl".to_string()));
+
+        // Inline class bridge methods
+        assert_eq!(sanitize_identifier("equals-impl"), Some("equalsImpl".to_string()));
+        assert_eq!(sanitize_identifier("hashCode-impl"), Some("hashCodeImpl".to_string()));
+        assert_eq!(sanitize_identifier("toString-impl"), Some("toStringImpl".to_string()));
     }
 }

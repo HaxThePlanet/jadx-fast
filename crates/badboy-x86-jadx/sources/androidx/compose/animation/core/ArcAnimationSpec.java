@@ -27,27 +27,27 @@ public final class ArcAnimationSpec<T>  implements androidx.compose.animation.co
     }
 
     public ArcAnimationSpec(int i, int i2, int i3, androidx.compose.animation.core.Easing easing4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
-        int i4;
-        int i7;
         int i6;
+        int i7;
+        int i4;
         androidx.compose.animation.core.Easing easing;
         int obj7;
         int obj8;
         int obj9;
         androidx.compose.animation.core.Easing obj10;
         if (i5 & 1 != 0) {
-            i4 = obj7;
+            i6 = obj7;
         } else {
-            i4 = i;
+            i6 = i;
         }
         i7 = i5 & 2 != 0 ? obj8 : i2;
-        i6 = i5 & 4 != 0 ? obj9 : i3;
+        i4 = i5 & 4 != 0 ? obj9 : i3;
         if (i5 & 8 != 0) {
             easing = obj10;
         } else {
             easing = easing4;
         }
-        super(i4, i7, i6, easing, 0);
+        super(i6, i7, i4, easing, 0);
     }
 
     public ArcAnimationSpec(int i, int i2, int i3, androidx.compose.animation.core.Easing easing4, DefaultConstructorMarker defaultConstructorMarker5) {

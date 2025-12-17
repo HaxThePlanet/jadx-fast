@@ -47,28 +47,28 @@ final class DefaultFloatingActionButtonElevation implements androidx.compose.mat
     }
 
     public State<Dp> elevation(InteractionSource interactionSource, Composer $composer, int $changed) {
-        boolean changed2;
-        int i3;
-        boolean traceInProgress;
-        int changed3;
-        String pressedElevation;
-        int i;
+        boolean changed3;
         int i2;
-        float hoveredElevation;
+        boolean traceInProgress;
         int changed;
-        int i4;
+        String pressedElevation;
+        int i5;
+        int i3;
+        float hoveredElevation;
+        int changed2;
+        int i;
         int focusedElevation;
-        int empty2;
-        Object empty;
+        int empty;
+        Object empty2;
         Object anon2;
         Object empty3;
         Object anon;
         Object floatingActionButtonElevationAnimatable;
         float defaultElevation;
-        float f2;
-        float f3;
         float f;
-        int i5;
+        float f3;
+        float f2;
+        int i4;
         final Object obj = this;
         final Object obj2 = interactionSource;
         final Composer composer = $composer;
@@ -84,7 +84,7 @@ final class DefaultFloatingActionButtonElevation implements androidx.compose.mat
         focusedElevation = 4;
         if (i9 ^= 6 > focusedElevation) {
             if (!composer.changed(obj2)) {
-                i3 = i6 & 6 == focusedElevation ? 1 : 0;
+                i2 = i6 & 6 == focusedElevation ? 1 : 0;
             } else {
             }
         } else {
@@ -92,8 +92,8 @@ final class DefaultFloatingActionButtonElevation implements androidx.compose.mat
         Composer composer4 = $composer;
         int i23 = 0;
         Object rememberedValue3 = composer4.rememberedValue();
-        empty = 0;
-        if (i3 == 0) {
+        empty2 = 0;
+        if (i2 == 0) {
             if (rememberedValue3 == Composer.Companion.getEmpty()) {
                 empty3 = 0;
                 floatingActionButtonElevationAnimatable = new FloatingActionButtonElevationAnimatable(obj.defaultElevation, obj.pressedElevation, obj.hoveredElevation, obj.focusedElevation, 0);
@@ -109,7 +109,7 @@ final class DefaultFloatingActionButtonElevation implements androidx.compose.mat
         int i20 = 32;
         if (i18 ^= 48 > i20) {
             if (!composer.changed(obj)) {
-                i4 = i6 & 48 == i20 ? 1 : 0;
+                i = i6 & 48 == i20 ? 1 : 0;
             } else {
             }
         } else {
@@ -117,11 +117,11 @@ final class DefaultFloatingActionButtonElevation implements androidx.compose.mat
         Composer composer3 = $composer;
         int i21 = 0;
         Object rememberedValue2 = composer3.rememberedValue();
-        empty2 = 0;
+        empty = 0;
         int i24 = 0;
-        if (changedInstance2 |= i4 == 0) {
+        if (changedInstance2 |= i == 0) {
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                empty = 0;
+                empty2 = 0;
                 anon = new DefaultFloatingActionButtonElevation.elevation.1.1(invalid$iv, obj, i24);
                 composer3.updateRememberedValue((Function2)anon);
             } else {
@@ -134,7 +134,7 @@ final class DefaultFloatingActionButtonElevation implements androidx.compose.mat
         ComposerKt.sourceInformationMarkerStart(composer, -1395486551, str2);
         if (i10 ^= 6 > 4) {
             if (!composer.changed(obj2)) {
-                i2 = i6 & 6 == 4 ? 1 : 0;
+                i3 = i6 & 6 == 4 ? 1 : 0;
             } else {
             }
         } else {
@@ -143,9 +143,9 @@ final class DefaultFloatingActionButtonElevation implements androidx.compose.mat
         int i19 = 0;
         Object rememberedValue = composer2.rememberedValue();
         int i22 = 0;
-        if (changedInstance |= i2 == 0) {
+        if (changedInstance |= i3 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                empty2 = 0;
+                empty = 0;
                 anon2 = new DefaultFloatingActionButtonElevation.elevation.2.1(obj2, invalid$iv, i24);
                 composer2.updateRememberedValue((Function2)anon2);
             } else {

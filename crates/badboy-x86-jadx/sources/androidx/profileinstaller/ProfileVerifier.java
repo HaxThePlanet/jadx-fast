@@ -52,7 +52,7 @@ public final class ProfileVerifier {
         }
 
         static androidx.profileinstaller.ProfileVerifier.Cache readFromFile(File file) throws IOException {
-            Throwable th;
+            Throwable th2;
             FileInputStream fileInputStream = new FileInputStream(file);
             DataInputStream dataInputStream = new DataInputStream(fileInputStream);
             DataInputStream inputStream = dataInputStream;
@@ -64,8 +64,8 @@ public final class ProfileVerifier {
         public boolean equals(Object o) {
             int i;
             boolean z;
-            int mResultCode;
             int mResultCode2;
+            int mResultCode;
             long mPackageLastUpdateTime;
             if (this == o) {
                 return 1;
@@ -99,8 +99,8 @@ public final class ProfileVerifier {
         }
 
         void writeOnFile(File file) throws IOException {
-            Throwable th2;
             Throwable th;
+            Throwable th2;
             file.delete();
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream);
@@ -185,22 +185,22 @@ public final class ProfileVerifier {
     }
 
     static androidx.profileinstaller.ProfileVerifier.CompilationStatus writeProfileVerification(Context context, boolean forceVerifyCurrentProfile) {
-        Object resultCode;
-        int i5;
-        int i;
-        boolean exists2;
-        boolean fromFile;
-        int e;
+        Object resultCode2;
+        int i2;
         int i3;
         boolean exists;
+        boolean fromFile;
+        int e;
+        int i4;
+        boolean exists2;
         int currentCache;
-        int i2;
+        int i5;
         int afd;
         Throwable th;
-        int resultCode2;
+        int resultCode;
         long mResultCode;
         long mInstalledCurrentProfileSize;
-        int i4;
+        int i;
         if (forceVerifyCurrentProfile == null && ProfileVerifier.sCompilationStatus != null) {
             if (ProfileVerifier.sCompilationStatus != null) {
                 return ProfileVerifier.sCompilationStatus;
@@ -213,25 +213,25 @@ public final class ProfileVerifier {
             }
             int i7 = 0;
             int i8 = 1;
-            i2 = 0;
+            i5 = 0;
             AssetFileDescriptor assetFileDescriptor = fd;
-            i5 = Long.compare(length, i7) > 0 ? i8 : i2;
+            i2 = Long.compare(length, i7) > 0 ? i8 : i5;
             if (assetFileDescriptor != null) {
                 assetFileDescriptor.close();
             }
-            afd = i5;
+            afd = i2;
             if (Build.VERSION.SDK_INT == 30) {
-                return ProfileVerifier.setCompilationStatus(262144, i2, i2, afd);
+                return ProfileVerifier.setCompilationStatus(262144, i5, i5, afd);
             }
             File file5 = new File("/data/misc/profiles/ref/", context.getPackageName());
             File file = new File(file5, "primary.prof");
             File file6 = file;
             long length2 = file6.length();
             if (file6.exists() != null && Long.compare(length2, i7) > 0) {
-                i = Long.compare(length2, i7) > 0 ? i8 : i2;
+                i3 = Long.compare(length2, i7) > 0 ? i8 : i5;
             } else {
             }
-            final int i11 = i;
+            final int i11 = i3;
             File file7 = new File("/data/misc/profiles/cur/0/", context.getPackageName());
             File file2 = new File(file7, "primary.prof");
             File file8 = file2;
@@ -239,7 +239,7 @@ public final class ProfileVerifier {
             if (file8.exists() != null && Long.compare(l, i7) > 0) {
                 if (Long.compare(l, i7) > 0) {
                     try {
-                        i2 = i8;
+                        i5 = i8;
                         final long packageLastUpdateTime = ProfileVerifier.getPackageLastUpdateTime(context);
                         File file3 = new File(context.getFilesDir(), "profileInstalled");
                         File file4 = file3;
@@ -251,31 +251,31 @@ public final class ProfileVerifier {
                         compilationStatus3 = ProfileVerifier.setCompilationStatus(compilationStatus3, obj10, obj5, i9);
                         return compilationStatus3;
                         e = 2;
-                        resultCode2 = currentCache.mResultCode;
+                        resultCode = currentCache.mResultCode;
                     } catch (Throwable th) {
                     }
-                    if (forceVerifyCurrentProfile != null && i2 != 0 && resultCode2 != i8) {
-                        if (i2 != 0) {
-                            if (resultCode2 != i8) {
-                                resultCode2 = 2;
+                    if (forceVerifyCurrentProfile != null && i5 != 0 && resultCode != i8) {
+                        if (i5 != 0) {
+                            if (resultCode != i8) {
+                                resultCode = 2;
                             }
                         }
                     }
-                    if (currentCache != 0 && currentCache.mResultCode == e && resultCode2 == i8 && Long.compare(length2, mInstalledCurrentProfileSize) < 0) {
+                    if (currentCache != 0 && currentCache.mResultCode == e && resultCode == i8 && Long.compare(length2, mInstalledCurrentProfileSize) < 0) {
                         if (currentCache.mResultCode == e) {
-                            if (resultCode2 == i8) {
+                            if (resultCode == i8) {
                                 if (Long.compare(length2, mInstalledCurrentProfileSize) < 0) {
                                     try {
-                                        i4 = resultCode2;
-                                        i4 = resultCode2;
-                                        ProfileVerifier.Cache cache = new ProfileVerifier.Cache(1, i4, packageLastUpdateTime, obj18, l, obj20);
+                                        i = resultCode;
+                                        i = resultCode;
+                                        ProfileVerifier.Cache cache = new ProfileVerifier.Cache(1, i, packageLastUpdateTime, obj18, l, obj20);
                                     } catch (Throwable th) {
                                     }
                                     if (!currentCache.equals(cache)) {
                                         cache.writeOnFile(file4);
                                     }
-                                    i3 = i4;
-                                    return ProfileVerifier.setCompilationStatus(i3, i11, i2, afd);
+                                    i4 = i;
+                                    return ProfileVerifier.setCompilationStatus(i4, i11, i5, afd);
                                 } else {
                                 }
                             } else {

@@ -121,21 +121,21 @@ final class CompletedContinuation {
     }
 
     public int hashCode() {
-        int i2;
-        int i;
         int i4;
-        int i3;
+        int i;
         int i5;
+        int i3;
+        int i2;
         i = 0;
         if (this.result == null) {
-            i2 = i;
-        } else {
-            i2 = this.result.hashCode();
-        }
-        if (this.cancelHandler == null) {
             i4 = i;
         } else {
-            i4 = this.cancelHandler.hashCode();
+            i4 = this.result.hashCode();
+        }
+        if (this.cancelHandler == null) {
+            i5 = i;
+        } else {
+            i5 = this.cancelHandler.hashCode();
         }
         if (this.onCancellation == null) {
             i3 = i;
@@ -143,9 +143,9 @@ final class CompletedContinuation {
             i3 = this.onCancellation.hashCode();
         }
         if (this.idempotentResume == null) {
-            i5 = i;
+            i2 = i;
         } else {
-            i5 = this.idempotentResume.hashCode();
+            i2 = this.idempotentResume.hashCode();
         }
         if (this.cancelCause == null) {
         } else {

@@ -121,43 +121,43 @@ public final class TextLinkScope {
     }
 
     private final void StyleAnnotation(Object[] keys, Function1<? super androidx.compose.foundation.text.TextAnnotatorScope, Unit> block, Composer $composer, int $changed) {
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int $dirty;
         int i4;
-        int i6;
-        int skipping;
-        boolean traceInProgress;
-        int i3;
-        Composer i2;
         int i5;
+        int skipping;
+        boolean traceInProgress2;
+        int i2;
+        Composer i;
+        int i6;
         int str;
         Object rememberedValue;
-        int i;
+        int i3;
         Object empty;
         Object anon;
-        traceInProgress2 = -2083052099;
-        final Composer obj13 = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -2083052099;
+        final Composer obj13 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(obj13, "C(StyleAnnotation)P(1)238@10311L117,238@10280L148:TextLinkScope.kt#423gt5");
-        i2 = 32;
+        i = 32;
         if ($changed & 48 == 0) {
-            i4 = obj13.changedInstance(block) ? i2 : 16;
+            i4 = obj13.changedInstance(block) ? i : 16;
             $dirty |= i4;
         }
         if ($changed & 384 == 0) {
-            i6 = obj13.changedInstance(this) ? 256 : 128;
-            $dirty |= i6;
+            i5 = obj13.changedInstance(this) ? 256 : 128;
+            $dirty |= i5;
         }
         obj13.startMovableGroup(-416717687, Integer.valueOf(keys.length));
         int i11 = 0;
-        i5 = i11;
-        while (i5 < keys.length) {
-            if (obj13.changedInstance(keys[i5])) {
+        i6 = i11;
+        while (i6 < keys.length) {
+            if (obj13.changedInstance(keys[i6])) {
             } else {
             }
-            i = i11;
-            $dirty |= i;
-            i5++;
-            i = 4;
+            i3 = i11;
+            $dirty |= i3;
+            i6++;
+            i3 = 4;
         }
         obj13.endMovableGroup();
         if ($dirty & 14 == 0) {
@@ -166,22 +166,22 @@ public final class TextLinkScope {
         if ($dirty & 147 == 146) {
             if (!obj13.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.foundation.text.TextLinkScope.StyleAnnotation (TextLinkScope.kt:237)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.foundation.text.TextLinkScope.StyleAnnotation (TextLinkScope.kt:237)");
                 }
                 SpreadBuilder spreadBuilder = new SpreadBuilder(2);
                 spreadBuilder.add(block);
                 spreadBuilder.addSpread(keys);
                 ComposerKt.sourceInformationMarkerStart(obj13, -416714451, "CC(remember):TextLinkScope.kt#9igjgp");
-                i3 = $dirty & 112 == i2 ? 1 : i11;
-                i2 = obj13;
+                i2 = $dirty & 112 == i ? 1 : i11;
+                i = obj13;
                 str = 0;
-                rememberedValue = i2.rememberedValue();
-                i = 0;
-                if (changedInstance2 |= i3 == 0) {
+                rememberedValue = i.rememberedValue();
+                i3 = 0;
+                if (changedInstance2 |= i2 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new TextLinkScope.StyleAnnotation.1.1(this, block);
-                        i2.updateRememberedValue((Function1)anon);
+                        i.updateRememberedValue((Function1)anon);
                     } else {
                         anon = rememberedValue;
                     }
@@ -316,40 +316,40 @@ public final class TextLinkScope {
     }
 
     public final void LinksComposables(Composer $composer, int $changed) {
-        int i8;
+        int i11;
         Composer index$iv2;
         Object invalid$iv;
         Object anon;
         Object collectIsHoveredAsState;
         int traceInProgress2;
-        int $dirty2;
+        int $dirty;
         int $dirty3;
         boolean traceInProgress;
         int it;
         Object isPressed$delegate;
         String $this$cache$iv;
-        int i2;
+        int i6;
         Composer it$iv;
-        int i9;
-        Object $dirty;
+        int i2;
+        Object $dirty2;
         Object styles;
         Object focusedStyle;
         Object hoveredStyle;
         Object pressedStyle;
-        Object obj5;
+        Object obj3;
         int i;
-        Object obj;
+        Object $i$a$CacheTextLinkScope$LinksComposables$1$interactionSource$1;
         List linkAnnotations;
         List list;
-        int i11;
+        int i3;
         int size;
         Object obj2;
-        int i3;
-        Shape shapeForRange;
-        int i4;
-        androidx.compose.ui.Modifier.Companion isFocused$delegate;
-        int i10;
         int i7;
+        Shape shapeForRange;
+        int i8;
+        androidx.compose.ui.Modifier.Companion isFocused$delegate;
+        int i4;
+        int i10;
         int companion;
         int index$iv;
         Composer.Companion pointerHoverIcon$default;
@@ -358,43 +358,43 @@ public final class TextLinkScope {
         State isHovered$delegate2;
         Boolean valueOf2;
         Boolean valueOf;
-        SpanStyle spanStyle4;
         SpanStyle spanStyle;
-        SpanStyle spanStyle3;
+        SpanStyle spanStyle4;
         SpanStyle spanStyle2;
-        Object obj3;
+        SpanStyle spanStyle3;
+        Object obj;
         int i5;
-        int i6;
+        int i9;
         Composer composer;
         int obj37;
-        final Object obj7 = this;
+        final Object obj6 = this;
         final int i24 = $changed;
         traceInProgress2 = 1154651354;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(LinksComposables)153@6783L7,*159@7046L39,169@7474L38,161@7099L449,173@7597L25,174@7670L25,175@7743L25,185@8083L743,177@7782L1044:TextLinkScope.kt#423gt5");
-        i2 = 2;
+        i6 = 2;
         if (i24 & 6 == 0) {
-            it = restartGroup.changedInstance(obj7) ? 4 : i2;
-            $dirty2 |= it;
+            it = restartGroup.changedInstance(obj6) ? 4 : i6;
+            $dirty |= it;
         }
-        i9 = $dirty2;
-        if (i9 & 3 == i2) {
+        i2 = $dirty;
+        if (i2 & 3 == i6) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, i9, -1, "androidx.compose.foundation.text.TextLinkScope.LinksComposables (TextLinkScope.kt:152)");
+                    ComposerKt.traceEventStart(traceInProgress2, i2, -1, "androidx.compose.foundation.text.TextLinkScope.LinksComposables (TextLinkScope.kt:152)");
                 }
                 int i16 = 0;
                 it = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                obj5 = isPressed$delegate;
+                obj3 = isPressed$delegate;
                 list = linkAnnotations;
+                i3 = 0;
                 i11 = 0;
-                i8 = 0;
-                while (i8 < list.size()) {
+                while (i11 < list.size()) {
                     $dirty3 = obj2;
-                    i3 = 0;
-                    shapeForRange = obj7.shapeForRange((AnnotatedString.Range)$dirty3);
+                    i7 = 0;
+                    shapeForRange = obj6.shapeForRange((AnnotatedString.Range)$dirty3);
                     if (shapeForRange != null) {
                     } else {
                     }
@@ -409,14 +409,14 @@ public final class TextLinkScope {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                     } else {
                     }
-                    index$iv = i8;
+                    index$iv = i11;
                     index$iv2 = obj37;
-                    obj = rememberedValue;
-                    Object $this$cache$iv2 = obj;
+                    $i$a$CacheTextLinkScope$LinksComposables$1$interactionSource$1 = rememberedValue;
+                    Object $this$cache$iv2 = $i$a$CacheTextLinkScope$LinksComposables$1$interactionSource$1;
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     int i25 = 0;
-                    obj37 = i9;
-                    $dirty = 2;
+                    obj37 = i2;
+                    $dirty2 = 2;
                     int i29 = 0;
                     obj4 = $this$cache$iv2;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -370992102, str2);
@@ -428,12 +428,12 @@ public final class TextLinkScope {
                     if (i14 == 0) {
                     } else {
                     }
-                    $dirty = 0;
-                    i7 = i14;
-                    invalid$iv = new TextLinkScope.LinksComposables.1.1.1(obj7, $dirty3, obj5);
+                    $dirty2 = 0;
+                    i10 = i14;
+                    invalid$iv = new TextLinkScope.LinksComposables.1.1.1(obj6, $dirty3, obj3);
                     composer2.updateRememberedValue((Function0)invalid$iv);
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    BoxKt.Box(ClickableKt.combinedClickable-XVZzFYc$default(PointerIconKt.pointerHoverIcon$default(HoverableKt.hoverable$default(obj7.textRange(it, $dirty3.getStart(), $dirty3.getEnd()), (MutableInteractionSource)$this$cache$iv2, i29, $dirty, i25), PointerIcon.Companion.getHand(), i29, $dirty, i25), obj4, 0, false, 0, 0, 0, 0, 0, (Function0)invalid$iv, 252, 0), restartGroup, 0);
+                    BoxKt.Box(ClickableKt.combinedClickable-XVZzFYc$default(PointerIconKt.pointerHoverIcon$default(HoverableKt.hoverable$default(obj6.textRange(it, $dirty3.getStart(), $dirty3.getEnd()), (MutableInteractionSource)$this$cache$iv2, i29, $dirty2, i25), PointerIcon.Companion.getHand(), i29, $dirty2, i25), obj4, 0, false, 0, 0, 0, 0, 0, (Function0)invalid$iv, 252, 0), restartGroup, 0);
                     int i20 = 6;
                     collectIsHoveredAsState = HoverInteractionKt.collectIsHoveredAsState((InteractionSource)obj4, restartGroup, i20);
                     State collectIsFocusedAsState = FocusInteractionKt.collectIsFocusedAsState((InteractionSource)obj4, restartGroup, i20);
@@ -442,28 +442,28 @@ public final class TextLinkScope {
                     if (styles != null) {
                     } else {
                     }
-                    spanStyle4 = 0;
+                    spanStyle = 0;
                     focusedStyle = (LinkAnnotation)$dirty3.getItem().getStyles();
                     if (focusedStyle != null) {
                     } else {
                     }
-                    spanStyle = 0;
+                    spanStyle4 = 0;
                     hoveredStyle = (LinkAnnotation)$dirty3.getItem().getStyles();
                     if (hoveredStyle != null) {
                     } else {
                     }
-                    spanStyle3 = 0;
+                    spanStyle2 = 0;
                     pressedStyle = (LinkAnnotation)$dirty3.getItem().getStyles();
                     if (pressedStyle != null) {
                     } else {
                     }
-                    spanStyle2 = 0;
+                    spanStyle3 = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -370971909, str2);
                     Composer composer3 = restartGroup;
-                    i4 = 0;
+                    i8 = 0;
                     State state2 = collectIsFocusedAsState;
                     Object rememberedValue3 = composer3.rememberedValue();
-                    i10 = 0;
+                    i4 = 0;
                     if (changed5 |= i23 == 0) {
                     } else {
                     }
@@ -471,13 +471,13 @@ public final class TextLinkScope {
                     pointerHoverIcon$default = 0;
                     isFocused$delegate = it;
                     isHovered$delegate = rememberedValue3;
-                    anon = new TextLinkScope.LinksComposables.1.2.1(obj7, $dirty3, state2, isHovered$delegate2, collectIsPressedAsState);
+                    anon = new TextLinkScope.LinksComposables.1.2.1(obj6, $dirty3, state2, isHovered$delegate2, collectIsPressedAsState);
                     composer3.updateRememberedValue((Function1)anon);
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    obj7.StyleAnnotation(/* result */, (Function1)anon, restartGroup, i26 &= 896);
-                    i8 = index$iv + 1;
-                    i9 = obj37;
-                    i2 = 2;
+                    obj6.StyleAnnotation(/* result */, (Function1)anon, restartGroup, i26 &= 896);
+                    i11 = index$iv + 1;
+                    i2 = obj37;
+                    i6 = 2;
                     i = 0;
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                     } else {
@@ -488,36 +488,36 @@ public final class TextLinkScope {
                     $this$cache$iv = collectIsPressedAsState;
                     isPressed$delegate = isHovered$delegate2;
                     isHovered$delegate = anon;
-                    spanStyle2 = pressedStyle;
-                    spanStyle3 = hoveredStyle;
-                    spanStyle = focusedStyle;
-                    spanStyle4 = styles;
+                    spanStyle3 = pressedStyle;
+                    spanStyle2 = hoveredStyle;
+                    spanStyle4 = focusedStyle;
+                    spanStyle = styles;
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
                     } else {
                     }
-                    i7 = i14;
+                    i10 = i14;
                     invalid$iv = rememberedValue2;
                     int i28 = 0;
-                    index$iv = i8;
+                    index$iv = i11;
                     obj37.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     isPressed$delegate = 0;
                     if (ClipKt.clip((Modifier)Modifier.Companion, shapeForRange) == null) {
                     }
                 }
-                index$iv = i8;
-                obj37 = i9;
+                index$iv = i11;
+                obj37 = i2;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                obj37 = i9;
+                obj37 = i2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty3 = new TextLinkScope.LinksComposables.2(obj7, i24);
+            $dirty3 = new TextLinkScope.LinksComposables.2(obj6, i24);
             endRestartGroup.updateScope((Function2)$dirty3);
         }
     }
@@ -526,10 +526,10 @@ public final class TextLinkScope {
         AnnotatedString $i$f$buildAnnotatedString;
         AnnotatedString annotatedString;
         AnnotatedString.Builder str;
-        int i;
+        int i3;
         androidx.compose.foundation.text.TextAnnotatorScope textAnnotatorScope;
         SnapshotStateList annotators;
-        int i3;
+        int i;
         int index$iv;
         int size;
         Object obj;
@@ -541,11 +541,11 @@ public final class TextLinkScope {
             int i4 = 0;
             AnnotatedString.Builder builder = new AnnotatedString.Builder(0, 1, 0);
             str = builder;
-            i = 0;
+            i3 = 0;
             str.append(this.initialText);
             textAnnotatorScope = new TextAnnotatorScope(str);
             annotators = this.annotators;
-            i3 = 0;
+            i = 0;
             index$iv = 0;
             while (index$iv < (List)annotators.size()) {
                 i2 = 0;

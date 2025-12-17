@@ -187,8 +187,8 @@ public final class OnBackPressedDispatcher {
 
     public OnBackPressedDispatcher(Runnable fallbackOnBackPressed, Consumer<Boolean> onHasEnabledCallbacksChanged) {
         OnBackInvokedCallback onBackInvokedCallback;
-        Lambda anon4;
-        androidx.activity.OnBackPressedDispatcher.2 anon2;
+        Lambda anon2;
+        androidx.activity.OnBackPressedDispatcher.2 anon4;
         androidx.activity.OnBackPressedDispatcher.3 anon;
         androidx.activity.OnBackPressedDispatcher.4 anon3;
         super();
@@ -198,14 +198,14 @@ public final class OnBackPressedDispatcher {
         this.onBackPressedCallbacks = arrayDeque;
         if (Build.VERSION.SDK_INT >= 33) {
             if (Build.VERSION.SDK_INT >= 34) {
-                anon4 = new OnBackPressedDispatcher.1(this);
-                anon2 = new OnBackPressedDispatcher.2(this);
+                anon2 = new OnBackPressedDispatcher.1(this);
+                anon4 = new OnBackPressedDispatcher.2(this);
                 anon = new OnBackPressedDispatcher.3(this);
                 anon3 = new OnBackPressedDispatcher.4(this);
-                onBackInvokedCallback = OnBackPressedDispatcher.Api34Impl.INSTANCE.createOnBackAnimationCallback((Function1)anon4, (Function1)anon2, (Function0)anon, (Function0)anon3);
+                onBackInvokedCallback = OnBackPressedDispatcher.Api34Impl.INSTANCE.createOnBackAnimationCallback((Function1)anon2, (Function1)anon4, (Function0)anon, (Function0)anon3);
             } else {
-                anon4 = new OnBackPressedDispatcher.5(this);
-                onBackInvokedCallback = OnBackPressedDispatcher.Api33Impl.INSTANCE.createOnBackInvokedCallback((Function0)anon4);
+                anon2 = new OnBackPressedDispatcher.5(this);
+                onBackInvokedCallback = OnBackPressedDispatcher.Api33Impl.INSTANCE.createOnBackInvokedCallback((Function0)anon2);
             }
             this.onBackInvokedCallback = onBackInvokedCallback;
         }
@@ -241,18 +241,18 @@ public final class OnBackPressedDispatcher {
 
     private final void onBackCancelled() {
         Object $this$lastOrNull$iv;
-        int i;
+        int i2;
         ListIterator listIterator;
         Object element$iv;
         boolean it;
-        int i2;
+        int i;
         final int i3 = 0;
         if (this.inProgressCallback == null) {
             ArrayDeque onBackPressedCallbacks = this.onBackPressedCallbacks;
-            i = 0;
+            i2 = 0;
             listIterator = onBackPressedCallbacks.listIterator((List)onBackPressedCallbacks.size());
             while (listIterator.hasPrevious()) {
-                i2 = 0;
+                i = 0;
             }
             element$iv = i3;
             $this$lastOrNull$iv = element$iv;
@@ -336,32 +336,32 @@ public final class OnBackPressedDispatcher {
         ArrayDeque onBackPressedCallbacks;
         int valueOf;
         boolean iterator;
-        int i2;
+        int i;
         boolean next;
         boolean it;
-        int i;
+        int i2;
         onBackPressedCallbacks = this.onBackPressedCallbacks;
         valueOf = 0;
-        i2 = 0;
+        i = 0;
         if (onBackPressedCallbacks instanceof Collection != null && (Collection)(Iterable)onBackPressedCallbacks.isEmpty()) {
             if ((Collection)onBackPressedCallbacks.isEmpty()) {
             } else {
                 iterator = onBackPressedCallbacks.iterator();
                 for (Object next : iterator) {
-                    i = 0;
+                    i2 = 0;
                 }
             }
         } else {
         }
-        this.hasEnabledCallbacks = i2;
+        this.hasEnabledCallbacks = i;
         Consumer onHasEnabledCallbacksChanged = this.onHasEnabledCallbacksChanged;
-        if (i2 != this.hasEnabledCallbacks && onHasEnabledCallbacksChanged != null) {
+        if (i != this.hasEnabledCallbacks && onHasEnabledCallbacksChanged != null) {
             onHasEnabledCallbacksChanged = this.onHasEnabledCallbacksChanged;
             if (onHasEnabledCallbacksChanged != null) {
-                onHasEnabledCallbacksChanged.accept(Boolean.valueOf(i2));
+                onHasEnabledCallbacksChanged.accept(Boolean.valueOf(i));
             }
             if (Build.VERSION.SDK_INT >= 33) {
-                updateBackInvokedCallbackState(i2);
+                updateBackInvokedCallbackState(i);
             }
         }
     }

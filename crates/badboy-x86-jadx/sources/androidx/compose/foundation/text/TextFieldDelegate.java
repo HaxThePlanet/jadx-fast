@@ -87,16 +87,16 @@ public final class TextFieldDelegate {
             boolean copy-wmQWz5c$default;
             Color box-impl;
             long black-0d7_KjU;
-            long l2;
+            long l;
             Canvas canvas2;
             long selection-d9O1mEE;
             OffsetMapping map;
             TextLayoutResult textLayoutResult2;
             Paint paint;
             Object obj;
-            int i;
-            long l;
             int i2;
+            long l2;
+            int i;
             if (!TextRange.getCollapsed-impl(selectionPreviewHighlightRange)) {
                 obj19.setColor-8_81llA(obj20);
                 this.drawHighlight-Le-punE(canvas, selectionPreviewHighlightRange, obj4, highlightPaint, selectionBackgroundColor);
@@ -104,8 +104,8 @@ public final class TextFieldDelegate {
                 if (!TextRange.getCollapsed-impl(offsetMapping)) {
                     int i4 = 0;
                     int i6 = 0;
-                    i = Long.compare(l4, i8) == 0 ? 1 : 0;
-                    if (i == 0) {
+                    i2 = Long.compare(l4, i8) == 0 ? 1 : 0;
+                    if (i2 == 0) {
                     } else {
                         box-impl = 0;
                     }
@@ -118,7 +118,7 @@ public final class TextFieldDelegate {
                     int i3 = 1045220557;
                     map = alpha-impl * i3;
                     obj = obj19;
-                    l = l3;
+                    l2 = l3;
                     obj.setColor-8_81llA(Color.copy-wmQWz5c$default(l3, i4, map, 0, 0, 0, 14));
                     this.drawHighlight-Le-punE(canvas, offsetMapping, map, highlightPaint, selectionBackgroundColor);
                 } else {
@@ -144,10 +144,10 @@ public final class TextFieldDelegate {
             TextStyle style;
             Rect rect;
             float f;
+            int i3;
             int i4;
             int i;
             int i2;
-            int i3;
             if (!hasFocus) {
             }
             int originalToTransformed = offsetMapping.originalToTransformed(TextRange.getMax-impl(value.getSelection-d9O1mEE()));
@@ -158,8 +158,8 @@ public final class TextFieldDelegate {
                     defaultSize = textLayoutResult.getBoundingBox(originalToTransformed + -1);
                 } else {
                     style = textDelegate.getStyle();
-                    i4 = 0;
-                    rect = new Rect(i4, i4, 1065353216, (float)height-impl);
+                    i3 = 0;
+                    rect = new Rect(i3, i3, 1065353216, (float)height-impl);
                     defaultSize = rect;
                 }
             }

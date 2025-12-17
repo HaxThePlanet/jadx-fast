@@ -109,9 +109,8 @@ public final class TextFieldSelectionState {
     public static enum InputType {
 
         None,
-        None,
-        None,
-        None;
+        Touch,
+        Mouse;
         private static final androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.InputType[] $values() {
             return /* result */;
         }
@@ -272,34 +271,34 @@ public final class TextFieldSelectionState {
         public void onDrag-k-4lQ0M(long delta) {
             int z;
             int startOffset;
-            int i4;
-            int offsetForPosition-3MmeM6k2;
+            int i3;
             int offsetForPosition-3MmeM6k;
+            int offsetForPosition-3MmeM6k2;
             int i5;
             SelectionAdjustment word;
             long newSelection;
             androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState this$0;
             androidx.compose.foundation.text.input.internal.selection.TextToolbarState selection;
-            int dragBeginOffsetInText;
+            int dragBeginOffsetInText2;
             int start-impl2;
             int start-impl;
             Handle newMiddle;
             TransformedTextFieldState collapsed-impl;
             long l;
-            long dragBeginOffsetInText2;
+            long dragBeginOffsetInText;
             int selectionStart;
             int intValue;
             int end-impl;
             int i;
             int i2;
-            int i3;
-            int i6;
             int i7;
+            int i4;
+            int i6;
             SelectionAdjustment selectionAdjustment;
             final Object obj = this;
             if (TextFieldSelectionState.access$getEnabled$p(obj.this$0)) {
                 i5 = 0;
-                z = (CharSequence)TextFieldSelectionState.access$getTextFieldState$p(obj.this$0).getVisualText().length() == 0 ? i4 : i5;
+                z = (CharSequence)TextFieldSelectionState.access$getTextFieldState$p(obj.this$0).getVisualText().length() == 0 ? i3 : i5;
                 if (z != 0) {
                     l = delta;
                 } else {
@@ -313,46 +312,46 @@ public final class TextFieldSelectionState {
                     if (obj.dragBeginOffsetInText < 0 && !TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0).isPositionOnText-k-4lQ0M(plus-MK-Hz9U2)) {
                         if (!TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0).isPositionOnText-k-4lQ0M(plus-MK-Hz9U2)) {
                             startOffset = TextLayoutState.getOffsetForPosition-3MmeM6k$default(TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0), obj.dragBeginPosition, obj15, 0, 2);
-                            offsetForPosition-3MmeM6k2 = TextLayoutState.getOffsetForPosition-3MmeM6k$default(TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0), plus-MK-Hz9U2, obj12, 0, 2);
-                            if (startOffset == offsetForPosition-3MmeM6k2) {
+                            offsetForPosition-3MmeM6k = TextLayoutState.getOffsetForPosition-3MmeM6k$default(TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0), plus-MK-Hz9U2, obj12, 0, 2);
+                            if (startOffset == offsetForPosition-3MmeM6k) {
                                 word = SelectionAdjustment.Companion.getNone();
                             } else {
                                 word = SelectionAdjustment.Companion.getWord();
                             }
-                            i3 = startOffset;
-                            i6 = offsetForPosition-3MmeM6k2;
+                            i7 = startOffset;
+                            i4 = offsetForPosition-3MmeM6k;
                             selectionAdjustment = word;
                         } else {
                             intValue = (Number)Integer.valueOf(obj.dragBeginOffsetInText).intValue();
                             end-impl = 0;
                             if (intValue >= 0) {
                             } else {
-                                i4 = i5;
+                                i3 = i5;
                             }
-                            if (i4 != 0) {
+                            if (i3 != 0) {
                             } else {
-                                dragBeginOffsetInText2 = 0;
+                                dragBeginOffsetInText = 0;
                             }
-                            if (dragBeginOffsetInText2 != 0) {
-                                offsetForPosition-3MmeM6k = dragBeginOffsetInText2.intValue();
+                            if (dragBeginOffsetInText != 0) {
+                                offsetForPosition-3MmeM6k2 = dragBeginOffsetInText.intValue();
                             } else {
-                                offsetForPosition-3MmeM6k = TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0).getOffsetForPosition-3MmeM6k(obj.dragBeginPosition, intValue);
+                                offsetForPosition-3MmeM6k2 = TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0).getOffsetForPosition-3MmeM6k(obj.dragBeginPosition, intValue);
                             }
-                            startOffset = offsetForPosition-3MmeM6k;
-                            offsetForPosition-3MmeM6k2 = TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0).getOffsetForPosition-3MmeM6k(plus-MK-Hz9U2, obj12);
-                            if (obj.dragBeginOffsetInText < 0 && startOffset == offsetForPosition-3MmeM6k2) {
-                                if (startOffset == offsetForPosition-3MmeM6k2) {
+                            startOffset = offsetForPosition-3MmeM6k2;
+                            offsetForPosition-3MmeM6k = TextFieldSelectionState.access$getTextLayoutState$p(obj.this$0).getOffsetForPosition-3MmeM6k(plus-MK-Hz9U2, obj12);
+                            if (obj.dragBeginOffsetInText < 0 && startOffset == offsetForPosition-3MmeM6k) {
+                                if (startOffset == offsetForPosition-3MmeM6k) {
                                 }
                             }
                             obj.this$0.updateTextToolbarState(TextToolbarState.Selection);
-                            i3 = startOffset;
-                            i6 = offsetForPosition-3MmeM6k2;
+                            i7 = startOffset;
+                            i4 = offsetForPosition-3MmeM6k;
                             selectionAdjustment = word;
                         }
                     } else {
                     }
                     long selection-d9O1mEE = TextFieldSelectionState.access$getTextFieldState$p(obj.this$0).getVisualText().getSelection-d9O1mEE();
-                    newSelection = TextFieldSelectionState.updateSelection-SsL-Rf8$default(obj.this$0, TextFieldSelectionState.access$getTextFieldState$p(obj.this$0).getVisualText(), i3, i6, false, selectionAdjustment, false, false, 64, 0);
+                    newSelection = TextFieldSelectionState.updateSelection-SsL-Rf8$default(obj.this$0, TextFieldSelectionState.access$getTextFieldState$p(obj.this$0).getVisualText(), i7, i4, false, selectionAdjustment, false, false, 64, 0);
                     if (obj.dragBeginOffsetInText == -1 && !TextRange.getCollapsed-impl(newSelection)) {
                         if (!TextRange.getCollapsed-impl(newSelection)) {
                             obj.dragBeginOffsetInText = TextRange.getStart-impl(newSelection);
@@ -396,18 +395,18 @@ public final class TextFieldSelectionState {
             int selection;
             int i2;
             int i3;
-            int i8;
+            int i4;
             int this$02;
             TextFieldCharSequence textFieldCharSequence;
             int offsetForPosition-3MmeM6k$default;
-            int i9;
-            int i4;
+            int i5;
+            int i8;
             SelectionAdjustment word;
             TextRange textRange;
-            int i7;
-            int i5;
-            int i6;
             int i;
+            int i6;
+            int i7;
+            int i9;
             final Object obj = this;
             long l = startPoint;
             if (!TextFieldSelectionState.access$getEnabled$p(obj.this$0)) {
@@ -609,25 +608,25 @@ public final class TextFieldSelectionState {
     private final Object detectCursorHandleDragGestures(PointerInputScope pointerInputScope, Continuation<? super Unit> continuation2) {
         boolean anon4;
         Object cOROUTINE_SUSPENDED;
-        Ref.LongRef num2;
-        Object obj;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field2;
-        Object obj2;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectCursorHandleDragGestures.3 anon2;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectCursorHandleDragGestures.4 anon3;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectCursorHandleDragGestures.5 anon;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field;
         Ref.LongRef num;
+        Object obj;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field;
+        Object obj3;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectCursorHandleDragGestures.3 anon2;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectCursorHandleDragGestures.4 anon;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectCursorHandleDragGestures.5 anon3;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field2;
+        Ref.LongRef num2;
         int i;
         Object obj11;
         Object obj12;
         anon4 = continuation2;
-        field2 = Integer.MIN_VALUE;
-        if (continuation2 instanceof TextFieldSelectionState.detectCursorHandleDragGestures.1 && label &= field2 != 0) {
+        field = Integer.MIN_VALUE;
+        if (continuation2 instanceof TextFieldSelectionState.detectCursorHandleDragGestures.1 && label &= field != 0) {
             anon4 = continuation2;
-            field2 = Integer.MIN_VALUE;
-            if (label &= field2 != 0) {
-                anon4.label = obj12 -= field2;
+            field = Integer.MIN_VALUE;
+            if (label &= field != 0) {
+                anon4.label = obj12 -= field;
             } else {
                 anon4 = new TextFieldSelectionState.detectCursorHandleDragGestures.1(this, continuation2);
             }
@@ -639,36 +638,36 @@ public final class TextFieldSelectionState {
         switch (label2) {
             case 0:
                 ResultKt.throwOnFailure(obj12);
-                field = this;
+                field2 = this;
                 obj11 = new Ref.LongRef();
                 obj11.element = Offset.Companion.getUnspecified-F1C5BW0();
                 Ref.LongRef longRef = new Ref.LongRef();
-                num = longRef;
-                num.element = Offset.Companion.getUnspecified-F1C5BW0();
-                TextFieldSelectionState.detectCursorHandleDragGestures.2 anon5 = new TextFieldSelectionState.detectCursorHandleDragGestures.2(obj11, field, num);
-                anon2 = new TextFieldSelectionState.detectCursorHandleDragGestures.3(obj11, num, field);
-                anon3 = new TextFieldSelectionState.detectCursorHandleDragGestures.4(obj11, num, field);
-                anon = new TextFieldSelectionState.detectCursorHandleDragGestures.5(num, field, obj11);
-                field3.L$0 = field;
+                num2 = longRef;
+                num2.element = Offset.Companion.getUnspecified-F1C5BW0();
+                TextFieldSelectionState.detectCursorHandleDragGestures.2 anon5 = new TextFieldSelectionState.detectCursorHandleDragGestures.2(obj11, field2, num2);
+                anon2 = new TextFieldSelectionState.detectCursorHandleDragGestures.3(obj11, num2, field2);
+                anon = new TextFieldSelectionState.detectCursorHandleDragGestures.4(obj11, num2, field2);
+                anon3 = new TextFieldSelectionState.detectCursorHandleDragGestures.5(num2, field2, obj11);
+                field3.L$0 = field2;
                 field3.L$1 = obj11;
-                field3.L$2 = num;
+                field3.L$2 = num2;
                 field3.label = 1;
                 return cOROUTINE_SUSPENDED;
                 obj = obj11;
-                obj2 = field;
-                obj11 = num;
+                obj3 = field2;
+                obj11 = num2;
                 break;
             case 1:
                 obj11 = field3.L$2;
                 obj = l$1;
-                obj2 = cOROUTINE_SUSPENDED;
+                obj3 = cOROUTINE_SUSPENDED;
                 ResultKt.throwOnFailure(obj12);
                 break;
             default:
                 obj11 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj11;
         }
-        TextFieldSelectionState.detectCursorHandleDragGestures$onDragStop(obj, obj11, obj2);
+        TextFieldSelectionState.detectCursorHandleDragGestures$onDragStop(obj, obj11, obj3);
         return Unit.INSTANCE;
     }
 
@@ -685,38 +684,38 @@ public final class TextFieldSelectionState {
         Object obj2;
         Object cOROUTINE_SUSPENDED;
         boolean anon2;
-        Handle handle2;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field4;
+        Handle handle;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field;
         Object obj3;
-        Ref.LongRef num;
-        Object obj4;
+        Ref.LongRef num2;
+        Object obj5;
         Ref.LongRef num4;
         Handle selectionStart;
         int i;
-        Object obj5;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field3;
+        Object obj4;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field5;
         Object obj;
         androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectSelectionHandleDragGestures.6 draggingHandle;
         androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectSelectionHandleDragGestures.5 anon;
         Ref.LongRef dragTotalDistance;
         Ref.LongRef num3;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field5;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState field4;
         int handle3;
-        Handle handle;
+        Handle handle2;
         Handle dragBeginPosition2;
         Handle dragBeginPosition;
-        Ref.LongRef num2;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectSelectionHandleDragGestures.3 field;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectSelectionHandleDragGestures.4 field2;
+        Ref.LongRef num;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectSelectionHandleDragGestures.3 field2;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.detectSelectionHandleDragGestures.4 field3;
         obj2 = continuation3;
         anon2 = obj2;
-        num = Integer.MIN_VALUE;
-        if (obj2 instanceof TextFieldSelectionState.detectSelectionHandleDragGestures.1 && label2 &= num != 0) {
+        num2 = Integer.MIN_VALUE;
+        if (obj2 instanceof TextFieldSelectionState.detectSelectionHandleDragGestures.1 && label2 &= num2 != 0) {
             anon2 = obj2;
-            num = Integer.MIN_VALUE;
-            if (label2 &= num != 0) {
-                anon2.label = label -= num;
-                field4 = this;
+            num2 = Integer.MIN_VALUE;
+            if (label2 &= num2 != 0) {
+                anon2.label = label -= num2;
+                field = this;
             } else {
                 anon2 = new TextFieldSelectionState.detectSelectionHandleDragGestures.1(this, obj2);
             }
@@ -728,7 +727,7 @@ public final class TextFieldSelectionState {
         switch (label3) {
             case 0:
                 ResultKt.throwOnFailure(result);
-                field5 = this;
+                field4 = this;
                 Handle obj6 = z2;
                 Ref.LongRef longRef = new Ref.LongRef();
                 longRef.element = Offset.Companion.getUnspecified-F1C5BW0();
@@ -744,32 +743,32 @@ public final class TextFieldSelectionState {
                 num3 = longRef;
                 dragBeginPosition = handle4;
                 handle3 = i;
-                TextFieldSelectionState.detectSelectionHandleDragGestures.2 anon4 = new TextFieldSelectionState.detectSelectionHandleDragGestures.2(num3, field5, handle3, dragBeginPosition, longRef2);
-                TextFieldSelectionState.detectSelectionHandleDragGestures.3 anon5 = new TextFieldSelectionState.detectSelectionHandleDragGestures.3(num3, field5, longRef2);
-                TextFieldSelectionState.detectSelectionHandleDragGestures.4 anon6 = new TextFieldSelectionState.detectSelectionHandleDragGestures.4(num3, field5, longRef2);
+                TextFieldSelectionState.detectSelectionHandleDragGestures.2 anon4 = new TextFieldSelectionState.detectSelectionHandleDragGestures.2(num3, field4, handle3, dragBeginPosition, longRef2);
+                TextFieldSelectionState.detectSelectionHandleDragGestures.3 anon5 = new TextFieldSelectionState.detectSelectionHandleDragGestures.3(num3, field4, longRef2);
+                TextFieldSelectionState.detectSelectionHandleDragGestures.4 anon6 = new TextFieldSelectionState.detectSelectionHandleDragGestures.4(num3, field4, longRef2);
                 i = i2;
-                handle = dragBeginPosition;
+                handle2 = dragBeginPosition;
                 Ref.LongRef handle5 = num3;
                 Ref.LongRef dragBeginPosition3 = longRef2;
-                anon = new TextFieldSelectionState.detectSelectionHandleDragGestures.5(dragBeginPosition3, field5, handle, handle5, i);
-                num2 = dragBeginPosition3;
+                anon = new TextFieldSelectionState.detectSelectionHandleDragGestures.5(dragBeginPosition3, field4, handle2, handle5, i);
+                num = dragBeginPosition3;
                 dragTotalDistance = handle5;
-                dragBeginPosition2 = handle;
-                field10.L$0 = field5;
+                dragBeginPosition2 = handle2;
+                field10.L$0 = field4;
                 field10.L$1 = dragTotalDistance;
-                field10.L$2 = num2;
+                field10.L$2 = num;
                 field10.L$3 = dragBeginPosition2;
                 field10.label = i2;
                 return cOROUTINE_SUSPENDED;
-                obj5 = dragTotalDistance;
-                obj = field5;
+                obj4 = dragTotalDistance;
+                obj = field4;
                 obj3 = dragBeginPosition2;
-                obj4 = num2;
+                obj5 = num;
                 break;
             case 1:
                 obj3 = l$3;
-                obj4 = l$2;
-                obj5 = l$1;
+                obj5 = l$2;
+                obj4 = l$1;
                 obj = cOROUTINE_SUSPENDED;
                 ResultKt.throwOnFailure(result);
                 break;
@@ -780,7 +779,7 @@ public final class TextFieldSelectionState {
         TextFieldSelectionState.detectSelectionHandleDragGestures.6 anon3 = new TextFieldSelectionState.detectSelectionHandleDragGestures.6(obj, obj3);
         TextFieldSelectionStateKt.access$logDebug((Function0)anon3);
         if (obj.getDraggingHandle() == obj3) {
-            TextFieldSelectionState.detectSelectionHandleDragGestures$onDragStop$5(obj5, obj, obj4);
+            TextFieldSelectionState.detectSelectionHandleDragGestures$onDragStop$5(obj4, obj, obj5);
         }
         return Unit.INSTANCE;
     }
@@ -796,37 +795,37 @@ public final class TextFieldSelectionState {
     }
 
     private final Rect getContentRect() {
-        long localToRoot-MK-Hz9U4;
         long localToRoot-MK-Hz9U2;
+        long localToRoot-MK-Hz9U4;
         long handlePosition-tuRUvjQ2;
         long topLeft-F1C5BW0;
         long localToRoot-MK-Hz9U;
         long handlePosition-tuRUvjQ;
-        int y-impl;
         int y-impl2;
-        Object layoutResult;
-        int top2;
-        long localToRoot-MK-Hz9U3;
-        int start-impl;
+        int y-impl;
         Object layoutResult2;
         int top;
+        long localToRoot-MK-Hz9U3;
+        int start-impl;
+        Object layoutResult;
+        int top2;
         long end-impl;
         TextFieldCharSequence visualText = this.textFieldState.getVisualText();
         if (TextRange.getCollapsed-impl(visualText.getSelection-d9O1mEE())) {
             Rect cursorRect = getCursorRect();
             LayoutCoordinates textLayoutCoordinates2 = getTextLayoutCoordinates();
             if (textLayoutCoordinates2 != null) {
-                localToRoot-MK-Hz9U2 = textLayoutCoordinates2.localToRoot-MK-Hz9U(cursorRect.getTopLeft-F1C5BW0());
+                localToRoot-MK-Hz9U4 = textLayoutCoordinates2.localToRoot-MK-Hz9U(cursorRect.getTopLeft-F1C5BW0());
             } else {
-                localToRoot-MK-Hz9U2 = Offset.Companion.getZero-F1C5BW0();
+                localToRoot-MK-Hz9U4 = Offset.Companion.getZero-F1C5BW0();
             }
-            return RectKt.Rect-tz77jQw(localToRoot-MK-Hz9U2, topLeft-F1C5BW0);
+            return RectKt.Rect-tz77jQw(localToRoot-MK-Hz9U4, topLeft-F1C5BW0);
         }
         LayoutCoordinates textLayoutCoordinates = getTextLayoutCoordinates();
         if (textLayoutCoordinates != null) {
-            localToRoot-MK-Hz9U4 = textLayoutCoordinates.localToRoot-MK-Hz9U(getHandlePosition-tuRUvjQ(true));
+            localToRoot-MK-Hz9U2 = textLayoutCoordinates.localToRoot-MK-Hz9U(getHandlePosition-tuRUvjQ(true));
         } else {
-            localToRoot-MK-Hz9U4 = Offset.Companion.getZero-F1C5BW0();
+            localToRoot-MK-Hz9U2 = Offset.Companion.getZero-F1C5BW0();
         }
         LayoutCoordinates textLayoutCoordinates3 = getTextLayoutCoordinates();
         if (textLayoutCoordinates3 != null) {
@@ -835,40 +834,40 @@ public final class TextFieldSelectionState {
             localToRoot-MK-Hz9U = Offset.Companion.getZero-F1C5BW0();
         }
         LayoutCoordinates textLayoutCoordinates4 = getTextLayoutCoordinates();
-        y-impl2 = 0;
+        y-impl = 0;
         if (textLayoutCoordinates4 != null) {
-            layoutResult = this.textLayoutState.getLayoutResult();
-            layoutResult = layoutResult.getCursorRect(TextRange.getStart-impl(visualText.getSelection-d9O1mEE()));
-            if (layoutResult != null && layoutResult != null) {
-                layoutResult = layoutResult.getCursorRect(TextRange.getStart-impl(visualText.getSelection-d9O1mEE()));
-                if (layoutResult != null) {
-                    top2 = layoutResult.getTop();
-                } else {
-                    top2 = y-impl2;
-                }
-            } else {
-            }
-            y-impl = Offset.getY-impl(textLayoutCoordinates4.localToRoot-MK-Hz9U(OffsetKt.Offset(y-impl2, top2)));
-        } else {
-            y-impl = y-impl2;
-        }
-        LayoutCoordinates textLayoutCoordinates5 = getTextLayoutCoordinates();
-        if (textLayoutCoordinates5 != null) {
             layoutResult2 = this.textLayoutState.getLayoutResult();
-            layoutResult2 = layoutResult2.getCursorRect(TextRange.getEnd-impl(visualText.getSelection-d9O1mEE()));
+            layoutResult2 = layoutResult2.getCursorRect(TextRange.getStart-impl(visualText.getSelection-d9O1mEE()));
             if (layoutResult2 != null && layoutResult2 != null) {
-                layoutResult2 = layoutResult2.getCursorRect(TextRange.getEnd-impl(visualText.getSelection-d9O1mEE()));
+                layoutResult2 = layoutResult2.getCursorRect(TextRange.getStart-impl(visualText.getSelection-d9O1mEE()));
                 if (layoutResult2 != null) {
                     top = layoutResult2.getTop();
                 } else {
-                    top = y-impl2;
+                    top = y-impl;
                 }
             } else {
             }
-            y-impl2 = Offset.getY-impl(textLayoutCoordinates5.localToRoot-MK-Hz9U(OffsetKt.Offset(y-impl2, top)));
+            y-impl2 = Offset.getY-impl(textLayoutCoordinates4.localToRoot-MK-Hz9U(OffsetKt.Offset(y-impl, top)));
+        } else {
+            y-impl2 = y-impl;
+        }
+        LayoutCoordinates textLayoutCoordinates5 = getTextLayoutCoordinates();
+        if (textLayoutCoordinates5 != null) {
+            layoutResult = this.textLayoutState.getLayoutResult();
+            layoutResult = layoutResult.getCursorRect(TextRange.getEnd-impl(visualText.getSelection-d9O1mEE()));
+            if (layoutResult != null && layoutResult != null) {
+                layoutResult = layoutResult.getCursorRect(TextRange.getEnd-impl(visualText.getSelection-d9O1mEE()));
+                if (layoutResult != null) {
+                    top2 = layoutResult.getTop();
+                } else {
+                    top2 = y-impl;
+                }
+            } else {
+            }
+            y-impl = Offset.getY-impl(textLayoutCoordinates5.localToRoot-MK-Hz9U(OffsetKt.Offset(y-impl, top2)));
         } else {
         }
-        Rect rect2 = new Rect(Math.min(Offset.getX-impl(localToRoot-MK-Hz9U4), Offset.getX-impl(localToRoot-MK-Hz9U)), Math.min(y-impl, y-impl2), Math.max(Offset.getX-impl(localToRoot-MK-Hz9U4), Offset.getX-impl(localToRoot-MK-Hz9U)), Math.max(Offset.getY-impl(localToRoot-MK-Hz9U4), Offset.getY-impl(localToRoot-MK-Hz9U)));
+        Rect rect2 = new Rect(Math.min(Offset.getX-impl(localToRoot-MK-Hz9U2), Offset.getX-impl(localToRoot-MK-Hz9U)), Math.min(y-impl2, y-impl), Math.max(Offset.getX-impl(localToRoot-MK-Hz9U2), Offset.getX-impl(localToRoot-MK-Hz9U)), Math.max(Offset.getY-impl(localToRoot-MK-Hz9U2), Offset.getY-impl(localToRoot-MK-Hz9U)));
         return rect2;
     }
 
@@ -1085,14 +1084,14 @@ public final class TextFieldSelectionState {
         long start;
         int cursorRect;
         boolean equal;
-        TransformedTextFieldState textFieldState2;
+        TransformedTextFieldState textFieldState;
         int offsetForPosition-k-4lQ0M;
         int newAffinity;
-        TransformedTextFieldState textFieldState;
+        TransformedTextFieldState textFieldState2;
         IndexTransformationType untransformed;
-        boolean collapsed-impl2;
-        boolean collapsed-impl3;
         boolean collapsed-impl;
+        boolean collapsed-impl3;
+        boolean collapsed-impl2;
         int i2;
         int i;
         int start-impl;
@@ -1108,10 +1107,10 @@ public final class TextFieldSelectionState {
             return cursorRect;
         }
         newAffinity = 0;
-        textFieldState = obj.textFieldState;
+        textFieldState2 = obj.textFieldState;
         final int i5 = 0;
-        final long mapFromTransformed--jx7JFs = textFieldState.mapFromTransformed--jx7JFs(offsetForPosition-k-4lQ0M);
-        final long mapToTransformed-GEjPoXI = textFieldState.mapToTransformed-GEjPoXI(mapFromTransformed--jx7JFs);
+        final long mapFromTransformed--jx7JFs = textFieldState2.mapFromTransformed--jx7JFs(offsetForPosition-k-4lQ0M);
+        final long mapToTransformed-GEjPoXI = textFieldState2.mapToTransformed-GEjPoXI(mapFromTransformed--jx7JFs);
         if (TextRange.getCollapsed-impl(mapFromTransformed--jx7JFs) && TextRange.getCollapsed-impl(mapToTransformed-GEjPoXI)) {
             if (TextRange.getCollapsed-impl(mapToTransformed-GEjPoXI)) {
                 untransformed = IndexTransformationType.Untransformed;
@@ -1204,9 +1203,9 @@ public final class TextFieldSelectionState {
 
     private final void showTextToolbar(Rect contentRect) {
         Rect contentRect2;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.showTextToolbar$$inlined.menuItem.1 field2;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.showTextToolbar$$inlined.menuItem.2 field;
-        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.showTextToolbar$$inlined.menuItem.3 field3;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.showTextToolbar$$inlined.menuItem.1 field;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.showTextToolbar$$inlined.menuItem.2 field3;
+        androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.showTextToolbar$$inlined.menuItem.3 field2;
         int anon2;
         androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.showTextToolbar$$inlined.menuItem.1 anon;
         androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.showTextToolbar$$inlined.menuItem.2 anon4;
@@ -1386,9 +1385,9 @@ public final class TextFieldSelectionState {
     public final void copy(boolean cancelSelection) {
         long annotatedString;
         String string;
-        int i3;
         int i4;
         int i;
+        int i3;
         int i2;
         TextFieldCharSequence visualText = this.textFieldState.getVisualText();
         if (TextRange.getCollapsed-impl(visualText.getSelection-d9O1mEE())) {
@@ -1415,10 +1414,10 @@ public final class TextFieldSelectionState {
     public final void cut() {
         long annotatedString;
         String string;
-        int i4;
-        int i2;
         int i;
         int i3;
+        int i2;
+        int i4;
         TextFieldCharSequence visualText = this.textFieldState.getVisualText();
         if (TextRange.getCollapsed-impl(visualText.getSelection-d9O1mEE())) {
         }
@@ -1467,25 +1466,25 @@ public final class TextFieldSelectionState {
     }
 
     public final androidx.compose.foundation.text.input.internal.selection.TextFieldHandleState getCursorHandleState$foundation_release(boolean includePosition) {
-        int i2;
         int i;
+        int i2;
         Object cursorRect;
         boolean cursorHandleInVisibleBounds;
         long bottomCenter-F1C5BW0;
         TextFieldCharSequence visualText = this.textFieldState.getVisualText();
-        i = 1;
+        i2 = 1;
         int i3 = 0;
-        i2 = getDirectDragGestureInitiator() == TextFieldSelectionState.InputType.None ? i : i3;
-        if (getShowCursorHandle() && i2 != 0 && TextRange.getCollapsed-impl(visualText.getSelection-d9O1mEE()) && visualText.shouldShowSelection()) {
-            if (i2 != 0) {
+        i = getDirectDragGestureInitiator() == TextFieldSelectionState.InputType.None ? i2 : i3;
+        if (getShowCursorHandle() && i != 0 && TextRange.getCollapsed-impl(visualText.getSelection-d9O1mEE()) && visualText.shouldShowSelection()) {
+            if (i != 0) {
                 if (TextRange.getCollapsed-impl(visualText.getSelection-d9O1mEE())) {
                     if (visualText.shouldShowSelection()) {
-                        cursorHandleInVisibleBounds = (CharSequence)visualText.length() > 0 ? i : i3;
+                        cursorHandleInVisibleBounds = (CharSequence)visualText.length() > 0 ? i2 : i3;
                         if (cursorHandleInVisibleBounds != 0) {
                             if (getDraggingHandle() != Handle.Cursor) {
                                 if (isCursorHandleInVisibleBounds()) {
                                 } else {
-                                    i = i3;
+                                    i2 = i3;
                                 }
                             }
                         } else {
@@ -1498,7 +1497,7 @@ public final class TextFieldSelectionState {
             }
         } else {
         }
-        if (i == 0) {
+        if (i2 == 0) {
             return TextFieldHandleState.Companion.getHidden();
         }
         if (includePosition) {
@@ -1511,8 +1510,8 @@ public final class TextFieldSelectionState {
     }
 
     public final Rect getCursorRect() {
-        int i;
         int i2;
+        int i;
         TextLayoutResult layoutResult = this.textLayoutState.getLayoutResult();
         if (layoutResult == null) {
             return Rect.Companion.getZero();
@@ -1526,12 +1525,12 @@ public final class TextFieldSelectionState {
         float $this$getCursorRect_u24lambda_u242 = this.density.toPx-0680j_4(TextFieldCursorKt.getDefaultCursorThickness());
         int i5 = 2;
         if (layoutResult.getLayoutInput().getLayoutDirection() == LayoutDirection.Ltr) {
-            left += i2;
+            left += i;
         } else {
-            right -= i2;
+            right -= i;
         }
         float f4 = (float)i5;
-        float coerceAtLeast = RangesKt.coerceAtLeast(RangesKt.coerceAtMost(i, f -= i8), $this$getCursorRect_u24lambda_u242 / f4);
+        float coerceAtLeast = RangesKt.coerceAtLeast(RangesKt.coerceAtMost(i2, f -= i8), $this$getCursorRect_u24lambda_u242 / f4);
         Rect rect = new Rect(coerceAtLeast - i10, cursorRect.getTop(), i6 += coerceAtLeast, cursorRect.getBottom());
         return rect;
     }
@@ -1573,10 +1572,10 @@ public final class TextFieldSelectionState {
         Handle selectionStart;
         androidx.compose.foundation.text.input.internal.selection.TextFieldSelectionState.InputType directDragGestureInitiator;
         Object textLayoutCoordinates;
-        int i2;
+        int i;
         int start-impl;
         Object it;
-        int i;
+        int i2;
         long l;
         final Object obj = this;
         selectionStart = isStartHandle ? Handle.SelectionStart : Handle.SelectionEnd;
@@ -1590,7 +1589,7 @@ public final class TextFieldSelectionState {
         }
         long handlePosition-tuRUvjQ = getHandlePosition-tuRUvjQ(isStartHandle);
         int i4 = 1;
-        i = 0;
+        i2 = 0;
         if (obj.getDirectDragGestureInitiator() == TextFieldSelectionState.InputType.None) {
             if (obj.getDraggingHandle() != selectionStart) {
                 textLayoutCoordinates = obj.getTextLayoutCoordinates();
@@ -1600,16 +1599,16 @@ public final class TextFieldSelectionState {
                     if (textLayoutCoordinates != null) {
                         directDragGestureInitiator = SelectionManagerKt.containsInclusive-Uv8p0NA(textLayoutCoordinates, handlePosition-tuRUvjQ);
                     } else {
-                        directDragGestureInitiator = i;
+                        directDragGestureInitiator = i2;
                     }
                 } else {
                 }
-                i2 = directDragGestureInitiator != 0 ? i4 : i;
+                i = directDragGestureInitiator != 0 ? i4 : i2;
             } else {
             }
         } else {
         }
-        if (i2 == 0) {
+        if (i == 0) {
             return TextFieldHandleState.Companion.getHidden();
         }
         if (!obj.textFieldState.getVisualText().shouldShowSelection()) {
@@ -1618,7 +1617,7 @@ public final class TextFieldSelectionState {
         if (isStartHandle) {
             start-impl = TextRange.getStart-impl(selection-d9O1mEE);
         } else {
-            start-impl = Math.max(end-impl -= i4, i);
+            start-impl = Math.max(end-impl -= i4, i2);
         }
         if (includePosition) {
             it = obj.getTextLayoutCoordinates();
@@ -1626,7 +1625,7 @@ public final class TextFieldSelectionState {
             if (it != null && it != null) {
                 it = SelectionManagerKt.visibleBounds(it);
                 if (it != null) {
-                    i = 0;
+                    i2 = 0;
                     l = it;
                 } else {
                     l = handlePosition-tuRUvjQ;
@@ -1654,20 +1653,20 @@ public final class TextFieldSelectionState {
         boolean anon;
         Throwable th;
         Object l$0;
-        Throwable th2;
+        Throwable _this;
         int label;
         boolean textToolbarState;
         androidx.compose.foundation.text.input.internal.selection.TextToolbarState coroutineScope;
         int i;
-        Throwable th3;
+        Throwable th2;
         Object obj8;
         anon = continuation;
-        th2 = Integer.MIN_VALUE;
-        if (continuation instanceof TextFieldSelectionState.observeChanges.1 && label2 &= th2 != 0) {
+        _this = Integer.MIN_VALUE;
+        if (continuation instanceof TextFieldSelectionState.observeChanges.1 && label2 &= _this != 0) {
             anon = continuation;
-            th2 = Integer.MIN_VALUE;
-            if (label2 &= th2 != 0) {
-                anon.label = obj8 -= th2;
+            _this = Integer.MIN_VALUE;
+            if (label2 &= _this != 0) {
+                anon.label = obj8 -= _this;
             } else {
                 anon = new TextFieldSelectionState.observeChanges.1(this, continuation);
             }
@@ -1709,8 +1708,8 @@ public final class TextFieldSelectionState {
         int i;
         int i4;
         TextFieldEditUndoBehavior neverMerge;
-        int i3;
         int i2;
+        int i3;
         receiveContentConfiguration = this.receiveContentConfiguration;
         if (receiveContentConfiguration != null) {
             receiveContentConfiguration = receiveContentConfiguration.invoke();

@@ -1,0 +1,21 @@
+package app.dogo.com.dogo_android.u;
+
+import android.view.View;
+import android.view.View.OnClickListener;
+
+/* loaded from: classes.dex */
+public final class e implements View.OnClickListener {
+
+    public final app.dogo.com.dogo_android.u.l a;
+    public final app.dogo.com.dogo_android.u.l.e b;
+    public e(app.dogo.com.dogo_android.u.l l, app.dogo.com.dogo_android.u.l.e l$e2) {
+        super();
+        this.a = l;
+        this.b = e2;
+    }
+
+    @Override // android.view.View$OnClickListener
+    public final void onClick(View view) {
+        l.e.d(this.a, this.b, view);
+    }
+}

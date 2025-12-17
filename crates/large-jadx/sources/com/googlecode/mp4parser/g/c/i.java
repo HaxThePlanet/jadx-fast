@@ -1,0 +1,141 @@
+package com.googlecode.mp4parser.g.c;
+
+/* loaded from: classes2.dex */
+public class i {
+
+    public boolean a;
+    public int b;
+    public int c;
+    public boolean d;
+    public boolean e;
+    public boolean f;
+    public int g;
+    public boolean h;
+    public boolean i;
+    public int j;
+    public int k;
+    public int l;
+    public boolean m;
+    public int n;
+    public int o;
+    public boolean p;
+    public int q;
+    public int r;
+    public boolean s;
+    public boolean t;
+    public boolean u;
+    public com.googlecode.mp4parser.g.c.d v;
+    public com.googlecode.mp4parser.g.c.d w;
+    public com.googlecode.mp4parser.g.c.i.a x;
+    public com.googlecode.mp4parser.g.c.a y;
+
+    public static class a {
+
+        public boolean a;
+        public int b;
+        public int c;
+        public int d;
+        public int e;
+        public int f;
+        public int g;
+        public String toString() {
+            StringBuilder stringBuilder = new StringBuilder("BitstreamRestriction{");
+            stringBuilder.append("motion_vectors_over_pic_boundaries_flag=");
+            stringBuilder.append(this.a);
+            stringBuilder.append(", max_bytes_per_pic_denom=");
+            stringBuilder.append(this.b);
+            stringBuilder.append(", max_bits_per_mb_denom=");
+            stringBuilder.append(this.c);
+            stringBuilder.append(", log2_max_mv_length_horizontal=");
+            stringBuilder.append(this.d);
+            stringBuilder.append(", log2_max_mv_length_vertical=");
+            stringBuilder.append(this.e);
+            stringBuilder.append(", num_reorder_frames=");
+            stringBuilder.append(this.f);
+            stringBuilder.append(", max_dec_frame_buffering=");
+            stringBuilder.append(this.g);
+            stringBuilder.append('}');
+            return stringBuilder.toString();
+        }
+    }
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("VUIParameters{\naspect_ratio_info_present_flag=");
+        stringBuilder.append(this.a);
+        String str2 = "\n";
+        stringBuilder.append(str2);
+        stringBuilder.append(", sar_width=");
+        stringBuilder.append(this.b);
+        stringBuilder.append(str2);
+        stringBuilder.append(", sar_height=");
+        stringBuilder.append(this.c);
+        stringBuilder.append(str2);
+        stringBuilder.append(", overscan_info_present_flag=");
+        stringBuilder.append(this.d);
+        stringBuilder.append(str2);
+        stringBuilder.append(", overscan_appropriate_flag=");
+        stringBuilder.append(this.e);
+        stringBuilder.append(str2);
+        stringBuilder.append(", video_signal_type_present_flag=");
+        stringBuilder.append(this.f);
+        stringBuilder.append(str2);
+        stringBuilder.append(", video_format=");
+        stringBuilder.append(this.g);
+        stringBuilder.append(str2);
+        stringBuilder.append(", video_full_range_flag=");
+        stringBuilder.append(this.h);
+        stringBuilder.append(str2);
+        stringBuilder.append(", colour_description_present_flag=");
+        stringBuilder.append(this.i);
+        stringBuilder.append(str2);
+        stringBuilder.append(", colour_primaries=");
+        stringBuilder.append(this.j);
+        stringBuilder.append(str2);
+        stringBuilder.append(", transfer_characteristics=");
+        stringBuilder.append(this.k);
+        stringBuilder.append(str2);
+        stringBuilder.append(", matrix_coefficients=");
+        stringBuilder.append(this.l);
+        stringBuilder.append(str2);
+        stringBuilder.append(", chroma_loc_info_present_flag=");
+        stringBuilder.append(this.m);
+        stringBuilder.append(str2);
+        stringBuilder.append(", chroma_sample_loc_type_top_field=");
+        stringBuilder.append(this.n);
+        stringBuilder.append(str2);
+        stringBuilder.append(", chroma_sample_loc_type_bottom_field=");
+        stringBuilder.append(this.o);
+        stringBuilder.append(str2);
+        stringBuilder.append(", timing_info_present_flag=");
+        stringBuilder.append(this.p);
+        stringBuilder.append(str2);
+        stringBuilder.append(", num_units_in_tick=");
+        stringBuilder.append(this.q);
+        stringBuilder.append(str2);
+        stringBuilder.append(", time_scale=");
+        stringBuilder.append(this.r);
+        stringBuilder.append(str2);
+        stringBuilder.append(", fixed_frame_rate_flag=");
+        stringBuilder.append(this.s);
+        stringBuilder.append(str2);
+        stringBuilder.append(", low_delay_hrd_flag=");
+        stringBuilder.append(this.t);
+        stringBuilder.append(str2);
+        stringBuilder.append(", pic_struct_present_flag=");
+        stringBuilder.append(this.u);
+        stringBuilder.append(str2);
+        stringBuilder.append(", nalHRDParams=");
+        stringBuilder.append(this.v);
+        stringBuilder.append(str2);
+        stringBuilder.append(", vclHRDParams=");
+        stringBuilder.append(this.w);
+        stringBuilder.append(str2);
+        stringBuilder.append(", bitstreamRestriction=");
+        stringBuilder.append(this.x);
+        stringBuilder.append(str2);
+        stringBuilder.append(", aspect_ratio=");
+        stringBuilder.append(this.y);
+        stringBuilder.append(str2);
+        stringBuilder.append('}');
+        return stringBuilder.toString();
+    }
+}

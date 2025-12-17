@@ -56,21 +56,21 @@ public final class ContextMenuPopupPositionProvider_androidKt {
     }
 
     private static final boolean popupFitsBetweenPositionAndStartEdge(int position, int popupLength, int windowLength, boolean closeAffinity) {
-        int i2;
         int i;
-        i2 = 1;
+        int i2;
+        i = 1;
         final int i3 = 0;
         if (closeAffinity) {
             if (popupLength <= position) {
             } else {
-                i2 = i3;
+                i = i3;
             }
         } else {
             if (windowLength - popupLength > position) {
             } else {
-                i2 = i3;
+                i = i3;
             }
         }
-        return i2;
+        return i;
     }
 }

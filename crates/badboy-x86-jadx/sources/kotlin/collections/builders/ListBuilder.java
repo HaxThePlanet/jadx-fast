@@ -255,13 +255,13 @@ public final class ListBuilder<E>  extends AbstractMutableList<E> implements Lis
 
         @Override // kotlin.collections.AbstractMutableList
         public int indexOf(Object element) {
-            int i;
-            boolean equal;
             int i2;
+            boolean equal;
+            int i;
             checkForComodification();
-            i = 0;
-            while (i < this.length) {
-                i++;
+            i2 = 0;
+            while (i2 < this.length) {
+                i2++;
             }
             return -1;
         }
@@ -280,13 +280,13 @@ public final class ListBuilder<E>  extends AbstractMutableList<E> implements Lis
 
         @Override // kotlin.collections.AbstractMutableList
         public int lastIndexOf(Object element) {
-            int i;
-            boolean equal;
             int i2;
+            boolean equal;
+            int i;
             checkForComodification();
             length--;
-            while (i >= 0) {
-                i--;
+            while (i2 >= 0) {
+                i2--;
             }
             return -1;
         }
@@ -487,8 +487,8 @@ public final class ListBuilder<E>  extends AbstractMutableList<E> implements Lis
                 this.expectedModCount = ListBuilder.access$getModCount$p$s-2084097795(this.list);
             }
             int i2 = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("Call next() or previous() before removing element from the iterator.".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckListBuilder$Itr$remove$1 = new IllegalStateException("Call next() or previous() before removing element from the iterator.".toString());
+            throw $i$a$CheckListBuilder$Itr$remove$1;
         }
 
         public void set(E element) {
@@ -500,8 +500,8 @@ public final class ListBuilder<E>  extends AbstractMutableList<E> implements Lis
                 this.list.set(this.lastIndex, element);
             }
             int i2 = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("Call next() or previous() before replacing element from the iterator.".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckListBuilder$Itr$set$1 = new IllegalStateException("Call next() or previous() before replacing element from the iterator.".toString());
+            throw $i$a$CheckListBuilder$Itr$set$1;
         }
     }
     static {
@@ -641,22 +641,22 @@ public final class ListBuilder<E>  extends AbstractMutableList<E> implements Lis
     }
 
     private final int retainOrRemoveAllInternal(int rangeOffset, int rangeLength, Collection<? extends E> elements, boolean retain) {
-        int i4;
+        int i;
         int i2;
         Object[] contains;
-        int i;
-        Object[] backing;
         int i3;
-        i4 = 0;
+        Object[] backing;
+        int i4;
+        i = 0;
         i2 = 0;
-        while (i4 < rangeLength) {
-            if (elements.contains(this.backing[rangeOffset + i4]) == retain) {
+        while (i < rangeLength) {
+            if (elements.contains(this.backing[rangeOffset + i]) == retain) {
             } else {
             }
-            i4++;
-            this.backing[i2 += rangeOffset] = this.backing[i4 += rangeOffset];
-            i2 = i;
-            i4 = i3;
+            i++;
+            this.backing[i2 += rangeOffset] = this.backing[i += rangeOffset];
+            i2 = i3;
+            i = i4;
         }
         int i6 = rangeLength - i2;
         ArraysKt.copyInto(this.backing, this.backing, rangeOffset + i2, rangeOffset + rangeLength, this.length);

@@ -467,17 +467,17 @@ public final class RecordingInputConnection implements InputConnection {
 
     @Override // android.view.inputmethod.InputConnection
     public boolean requestCursorUpdates(int cursorUpdateMode) {
-        int i7;
+        int i;
         int includeInsertionMarker;
         int sDK_INT;
         int includeCharacterBounds;
-        int i4;
+        int i7;
         int includeEditorBounds;
-        int includeLineBounds;
         int includeLineBounds2;
-        int i;
+        int includeLineBounds;
         int i2;
         int i3;
+        int i4;
         int sDK_INT2;
         int i5;
         int i6;
@@ -488,26 +488,26 @@ public final class RecordingInputConnection implements InputConnection {
             int i9 = 0;
             sDK_INT = 0;
             final int i13 = 1;
-            i7 = cursorUpdateMode & 1 != 0 ? i13 : sDK_INT;
-            i4 = cursorUpdateMode & 2 != 0 ? i13 : sDK_INT;
+            i = cursorUpdateMode & 1 != 0 ? i13 : sDK_INT;
+            i7 = cursorUpdateMode & 2 != 0 ? i13 : sDK_INT;
             if (Build.VERSION.SDK_INT >= 33) {
-                i = cursorUpdateMode & 16 != 0 ? i13 : sDK_INT;
-                includeInsertionMarker = i;
-                i2 = cursorUpdateMode & 8 != 0 ? i13 : sDK_INT;
-                includeCharacterBounds = i2;
-                i3 = cursorUpdateMode & 4 != 0 ? i13 : sDK_INT;
-                int includeEditorBounds2 = i3;
+                i2 = cursorUpdateMode & 16 != 0 ? i13 : sDK_INT;
+                includeInsertionMarker = i2;
+                i3 = cursorUpdateMode & 8 != 0 ? i13 : sDK_INT;
+                includeCharacterBounds = i3;
+                i4 = cursorUpdateMode & 4 != 0 ? i13 : sDK_INT;
+                int includeEditorBounds2 = i4;
                 int i20 = 34;
                 if (Build.VERSION.SDK_INT >= i20 && cursorUpdateMode & 32 != 0) {
                     if (cursorUpdateMode & 32 != 0) {
                         sDK_INT = i13;
                     }
-                    includeLineBounds = sDK_INT;
+                    includeLineBounds2 = sDK_INT;
                 }
-                if (includeInsertionMarker == 0 && includeCharacterBounds == 0 && includeEditorBounds2 == 0 && includeLineBounds == 0) {
+                if (includeInsertionMarker == 0 && includeCharacterBounds == 0 && includeEditorBounds2 == 0 && includeLineBounds2 == 0) {
                     if (includeCharacterBounds == 0) {
                         if (includeEditorBounds2 == 0) {
-                            if (includeLineBounds == 0) {
+                            if (includeLineBounds2 == 0) {
                                 includeInsertionMarker = 1;
                                 includeCharacterBounds = 1;
                                 int includeEditorBounds3 = 1;
@@ -515,18 +515,18 @@ public final class RecordingInputConnection implements InputConnection {
                                     i5 = includeEditorBounds3;
                                     i6 = includeLineBounds3;
                                     includeEditorBounds = includeInsertionMarker;
-                                    includeLineBounds2 = includeCharacterBounds;
+                                    includeLineBounds = includeCharacterBounds;
                                 } else {
                                     i5 = includeEditorBounds3;
-                                    i6 = includeLineBounds;
+                                    i6 = includeLineBounds2;
                                     includeEditorBounds = includeInsertionMarker;
-                                    includeLineBounds2 = includeCharacterBounds;
+                                    includeLineBounds = includeCharacterBounds;
                                 }
                             } else {
                                 i5 = includeEditorBounds2;
-                                i6 = includeLineBounds;
+                                i6 = includeLineBounds2;
                                 includeEditorBounds = includeInsertionMarker;
-                                includeLineBounds2 = includeCharacterBounds;
+                                includeLineBounds = includeCharacterBounds;
                             }
                         } else {
                         }
@@ -536,11 +536,11 @@ public final class RecordingInputConnection implements InputConnection {
                 }
             } else {
                 i5 = i15;
-                i6 = includeLineBounds;
+                i6 = includeLineBounds2;
                 includeEditorBounds = includeInsertionMarker;
-                includeLineBounds2 = includeCharacterBounds;
+                includeLineBounds = includeCharacterBounds;
             }
-            this.eventCallback.onRequestCursorAnchorInfo(i7, i4, includeEditorBounds, includeLineBounds2, i5, i6);
+            this.eventCallback.onRequestCursorAnchorInfo(i, i7, includeEditorBounds, includeLineBounds, i5, i6);
             return i13;
         }
         return isActive;

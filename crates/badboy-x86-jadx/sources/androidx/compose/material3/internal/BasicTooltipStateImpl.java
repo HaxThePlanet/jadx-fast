@@ -60,12 +60,12 @@ final class BasicTooltipStateImpl implements TooltipState {
 
     @Override // androidx.compose.material3.TooltipState
     public void onDispose() {
-        int i2;
         int i;
+        int i2;
         final CancellableContinuation job = this.job;
         if (job != null) {
-            i = 0;
-            CancellableContinuation.DefaultImpls.cancel$default(job, i, 1, i);
+            i2 = 0;
+            CancellableContinuation.DefaultImpls.cancel$default(job, i2, 1, i2);
         }
     }
 

@@ -55,20 +55,20 @@ final class MutableSpanStyle {
     }
 
     public MutableSpanStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, int i15, DefaultConstructorMarker defaultConstructorMarker16) {
-        int i10;
-        long unspecified-0d7_KjU;
-        long unspecified-XSAIIZE;
-        int i;
-        Color.Companion companion;
         int i2;
-        int i4;
-        int i7;
-        int i9;
-        int i6;
+        long unspecified-0d7_KjU;
         long unspecified-XSAIIZE2;
+        int i10;
+        Color.Companion companion;
         int i5;
+        int i4;
+        int i9;
         int i3;
         int i8;
+        long unspecified-XSAIIZE;
+        int i6;
+        int i;
+        int i7;
         long unspecified-0d7_KjU2;
         int i11 = obj38;
         if (i11 & 1 != 0) {
@@ -77,31 +77,31 @@ final class MutableSpanStyle {
             unspecified-0d7_KjU = l;
         }
         if (i11 & 2 != 0) {
-            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
-        } else {
-            unspecified-XSAIIZE = fontWeight3;
-        }
-        i = i11 & 4 != 0 ? 0 : fontSynthesis5;
-        i4 = i11 & 8 != 0 ? 0 : fontFamily6;
-        i7 = i11 & 16 != 0 ? 0 : string7;
-        i9 = i11 & 32 != 0 ? 0 : l8;
-        i6 = i11 & 64 != 0 ? 0 : baselineShift9;
-        if (i11 & 128 != 0) {
             unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE2 = textGeometricTransform10;
+            unspecified-XSAIIZE2 = fontWeight3;
         }
-        i5 = i11 & 256 != 0 ? 0 : l12;
-        i3 = i11 & 512 != 0 ? 0 : textDecoration13;
-        i8 = i11 & 1024 != 0 ? 0 : shadow14;
+        i10 = i11 & 4 != 0 ? 0 : fontSynthesis5;
+        i4 = i11 & 8 != 0 ? 0 : fontFamily6;
+        i9 = i11 & 16 != 0 ? 0 : string7;
+        i3 = i11 & 32 != 0 ? 0 : l8;
+        i8 = i11 & 64 != 0 ? 0 : baselineShift9;
+        if (i11 & 128 != 0) {
+            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
+        } else {
+            unspecified-XSAIIZE = textGeometricTransform10;
+        }
+        i6 = i11 & 256 != 0 ? 0 : l12;
+        i = i11 & 512 != 0 ? 0 : textDecoration13;
+        i7 = i11 & 1024 != 0 ? 0 : shadow14;
         if (i11 & 2048 != 0) {
             unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU2 = i15;
         }
-        i2 = i11 & 4096 != 0 ? 0 : obj36;
-        i10 = i11 &= 8192 != 0 ? 0 : obj37;
-        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE, fontSynthesis5, i, i4, i7, i9, i6, unspecified-XSAIIZE2, l12, i5, i3, i8, unspecified-0d7_KjU2, obj36, i2, i10, 0);
+        i5 = i11 & 4096 != 0 ? 0 : obj36;
+        i2 = i11 &= 8192 != 0 ? 0 : obj37;
+        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE2, fontSynthesis5, i10, i4, i9, i3, i8, unspecified-XSAIIZE, l12, i6, i, i7, unspecified-0d7_KjU2, obj36, i5, i2, 0);
     }
 
     public MutableSpanStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, DefaultConstructorMarker defaultConstructorMarker15) {

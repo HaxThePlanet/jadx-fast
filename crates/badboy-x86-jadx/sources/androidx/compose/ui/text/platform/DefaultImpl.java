@@ -25,16 +25,16 @@ final class DefaultImpl implements androidx.compose.ui.text.platform.EmojiCompat
 
     private final State<Boolean> getFontLoadState() {
         Object mutableStateOf$default;
-        int anon2;
-        androidx.compose.ui.text.platform.DefaultImpl.getFontLoadState.initCallback.1 anon;
+        int anon;
+        androidx.compose.ui.text.platform.DefaultImpl.getFontLoadState.initCallback.1 anon2;
         final EmojiCompat emojiCompat = EmojiCompat.get();
-        anon2 = 1;
-        if (emojiCompat.getLoadState() == anon2) {
-            mutableStateOf$default = new ImmutableBool(anon2);
+        anon = 1;
+        if (emojiCompat.getLoadState() == anon) {
+            mutableStateOf$default = new ImmutableBool(anon);
         } else {
             int i3 = 0;
-            anon2 = new DefaultImpl.getFontLoadState.initCallback.1(SnapshotStateKt.mutableStateOf$default(false, i3, 2, i3), this);
-            emojiCompat.registerInitCallback((EmojiCompat.InitCallback)anon2);
+            anon = new DefaultImpl.getFontLoadState.initCallback.1(SnapshotStateKt.mutableStateOf$default(false, i3, 2, i3), this);
+            emojiCompat.registerInitCallback((EmojiCompat.InitCallback)anon);
         }
         return mutableStateOf$default;
     }

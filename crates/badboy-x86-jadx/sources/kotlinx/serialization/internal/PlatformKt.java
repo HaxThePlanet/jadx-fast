@@ -110,10 +110,10 @@ public final class PlatformKt {
         Class[] declaredClasses;
         int single$iv;
         int found$iv;
-        int i3;
-        Class cls2;
-        Class cls;
         int i2;
+        Class cls;
+        Class cls2;
+        int i3;
         boolean equal;
         String str;
         final Object namedCompanionByAnnotation = PlatformKt.findNamedCompanionByAnnotation($this$findInNamedCompanion);
@@ -131,12 +131,12 @@ public final class PlatformKt {
         int i5 = 0;
         single$iv = 0;
         found$iv = 0;
-        i3 = 0;
-        while (i3 < declaredClasses.length) {
-            cls2 = (Object[])declaredClasses[i3];
-            i2 = 0;
-            i3++;
-            single$iv = cls2;
+        i2 = 0;
+        while (i2 < declaredClasses.length) {
+            cls = (Object[])declaredClasses[i2];
+            i3 = 0;
+            i2++;
+            single$iv = cls;
             found$iv = 1;
         }
         if (found$iv == 0) {
@@ -160,31 +160,31 @@ public final class PlatformKt {
     }
 
     private static final <T> Object findNamedCompanionByAnnotation(Class<T> $this$findNamedCompanionByAnnotation) {
-        int i3;
         int i;
+        int i2;
         Class cls;
         Class cls2;
+        int i3;
         int i4;
-        int i2;
         Class[] declaredClasses = $this$findNamedCompanionByAnnotation.getDeclaredClasses();
         Intrinsics.checkNotNullExpressionValue(declaredClasses, "getDeclaredClasses(...)");
         int i5 = 0;
         final int i6 = 0;
-        i3 = i6;
-        i = 0;
-        while (i3 < declaredClasses.length) {
-            i4 = 0;
-            if ((Class)(Object[])declaredClasses[i3].getAnnotation(NamedCompanion.class) != null) {
+        i = i6;
+        i2 = 0;
+        while (i < declaredClasses.length) {
+            i3 = 0;
+            if ((Class)(Object[])declaredClasses[i].getAnnotation(NamedCompanion.class) != null) {
             } else {
             }
-            i2 = i6;
-            i3++;
-            i = 0;
-            i2 = 1;
+            i4 = i6;
+            i++;
+            i2 = 0;
+            i4 = 1;
         }
-        cls = i;
+        cls = i2;
         if ((Class)cls == null) {
-            return i;
+            return i2;
         }
         String simpleName = (Class)cls.getSimpleName();
         Intrinsics.checkNotNullExpressionValue(simpleName, "getSimpleName(...)");
@@ -192,64 +192,64 @@ public final class PlatformKt {
     }
 
     private static final <T> KSerializer<T> findObjectSerializer(Class<T> $this$findObjectSerializer) {
-        int i3;
-        String it;
-        int i8;
-        int equal;
-        int i5;
         int i;
+        String it2;
+        int i9;
+        int equal;
+        int i6;
+        int i5;
         boolean startsWith$default;
+        int single$iv2;
+        int i3;
+        int found$iv;
         int single$iv;
         int i4;
-        int found$iv;
-        int single$iv2;
-        int i9;
         int found$iv2;
         Field field;
-        int it2;
-        int i6;
+        int it;
         int i2;
+        int i8;
         boolean static;
         Object obj;
         int i7;
         Class<KSerializer> name;
-        it = $this$findObjectSerializer.getCanonicalName();
-        i5 = 0;
+        it2 = $this$findObjectSerializer.getCanonicalName();
+        i6 = 0;
         int i10 = 0;
-        if (it != null) {
-            i = 0;
-            i4 = 2;
-            if (!StringsKt.startsWith$default(it, "java.", i10, i4, i5)) {
-                if (StringsKt.startsWith$default(it, "kotlin.", i10, i4, i5)) {
-                    it = 1;
+        if (it2 != null) {
+            i5 = 0;
+            i3 = 2;
+            if (!StringsKt.startsWith$default(it2, "java.", i10, i3, i6)) {
+                if (StringsKt.startsWith$default(it2, "kotlin.", i10, i3, i6)) {
+                    it2 = 1;
                 } else {
-                    it = i10;
+                    it2 = i10;
                 }
             } else {
             }
-            i3 = it == 0 ? 1 : i10;
+            i = it2 == 0 ? 1 : i10;
         } else {
         }
-        if (i3 == 0) {
-            return i5;
+        if (i == 0) {
+            return i6;
         }
         Field[] declaredFields = $this$findObjectSerializer.getDeclaredFields();
         Intrinsics.checkNotNullExpressionValue(declaredFields, "getDeclaredFields(...)");
         int i11 = 0;
-        single$iv = 0;
+        single$iv2 = 0;
         found$iv = 0;
-        i9 = i10;
-        while (i9 < declaredFields.length) {
-            field = (Object[])declaredFields[i9];
+        i4 = i10;
+        while (i4 < declaredFields.length) {
+            field = (Object[])declaredFields[i4];
             Field field2 = field;
-            i2 = 0;
+            i8 = 0;
             if (Intrinsics.areEqual((Field)field2.getName(), "INSTANCE")) {
             } else {
             }
             obj = $this$findObjectSerializer;
-            it2 = i10;
-            i9++;
-            single$iv = field;
+            it = i10;
+            i4++;
+            single$iv2 = field;
             found$iv = 1;
             if (Intrinsics.areEqual(field2.getType(), $this$findObjectSerializer) && Modifier.isStatic(field2.getModifiers())) {
             } else {
@@ -257,33 +257,33 @@ public final class PlatformKt {
             if (Modifier.isStatic(field2.getModifiers())) {
             } else {
             }
-            it2 = 1;
+            it = 1;
         }
         obj = $this$findObjectSerializer;
         if (found$iv == 0) {
-            single$iv = i5;
+            single$iv2 = i6;
         } else {
         }
-        if ((Field)single$iv == 0) {
-            return i5;
+        if ((Field)single$iv2 == 0) {
+            return i6;
         }
         Method[] methods = obj.getMethods();
         Intrinsics.checkNotNullExpressionValue(methods, "getMethods(...)");
         int i12 = 0;
-        single$iv2 = 0;
+        single$iv = 0;
         found$iv2 = 0;
-        i6 = i10;
-        while (i6 < methods.length) {
-            i2 = (Object[])methods[i6];
-            static = i2;
+        i2 = i10;
+        while (i2 < methods.length) {
+            i8 = (Object[])methods[i2];
+            static = i8;
             i7 = 0;
             if (Intrinsics.areEqual((Method)static.getName(), "serializer")) {
             } else {
             }
-            i8 = i10;
-            i6++;
+            i9 = i10;
+            i2++;
             found$iv2 = single$iv3;
-            single$iv2 = i8;
+            single$iv = i9;
             Class[] parameterTypes = static.getParameterTypes();
             Intrinsics.checkNotNullExpressionValue(parameterTypes, "getParameterTypes(...)");
             if (parameterTypes.length == 0) {
@@ -296,21 +296,21 @@ public final class PlatformKt {
             if (Intrinsics.areEqual(static.getReturnType(), KSerializer.class)) {
             } else {
             }
-            i8 = 1;
+            i9 = 1;
             equal = 1;
         }
         if (found$iv2 == 0) {
-            single$iv2 = i5;
+            single$iv = i6;
         } else {
         }
-        if ((Method)single$iv2 == 0) {
-            return i5;
+        if ((Method)single$iv == 0) {
+            return i6;
         }
-        Object invoke = (Method)single$iv2.invoke((Field)single$iv.get(i5), new Object[i10]);
+        Object invoke = (Method)single$iv.invoke((Field)single$iv2.get(i6), new Object[i10]);
         if (invoke instanceof KSerializer) {
-            i5 = invoke;
+            i6 = invoke;
         }
-        return i5;
+        return i6;
     }
 
     public static final <T> T getChecked(T[] $this$getChecked, int index) {
@@ -326,12 +326,12 @@ public final class PlatformKt {
     }
 
     public static final Map<KClass<?>, KSerializer<?>> initBuiltins() {
-        int i;
-        int i6;
-        int i4;
-        int i2;
         int i5;
+        int i2;
         int i3;
+        int i6;
+        int i;
+        int i4;
         Map mapBuilder = MapsKt.createMapBuilder();
         final Map map = mapBuilder;
         final int i7 = 0;
@@ -359,24 +359,24 @@ public final class PlatformKt {
         map.put(Reflection.getOrCreateKotlinClass(Unit.class), BuiltinSerializersKt.serializer(Unit.INSTANCE));
         map.put(Reflection.getOrCreateKotlinClass(Void.class), BuiltinSerializersKt.NothingSerializer());
         int i8 = 0;
-        i = 0;
+        i5 = 0;
         map.put(Reflection.getOrCreateKotlinClass(Duration.class), BuiltinSerializersKt.serializer(Duration.Companion));
         Map $i$f$loadSafe = map;
         int i10 = 0;
         int i11 = 0;
-        i4 = 0;
+        i3 = 0;
         $i$f$loadSafe.put(Reflection.getOrCreateKotlinClass(ULongArray.class), BuiltinSerializersKt.ULongArraySerializer());
         int $i$f$loadSafe2 = 0;
-        i2 = 0;
+        i6 = 0;
         $i$f$loadSafe.put(Reflection.getOrCreateKotlinClass(UIntArray.class), BuiltinSerializersKt.UIntArraySerializer());
         int $i$f$loadSafe3 = 0;
-        i5 = 0;
+        i = 0;
         $i$f$loadSafe.put(Reflection.getOrCreateKotlinClass(UShortArray.class), BuiltinSerializersKt.UShortArraySerializer());
         int $i$f$loadSafe4 = 0;
-        i3 = 0;
+        i4 = 0;
         $i$f$loadSafe.put(Reflection.getOrCreateKotlinClass(UByteArray.class), BuiltinSerializersKt.UByteArraySerializer());
         int i9 = 0;
-        i6 = 0;
+        i2 = 0;
         map.put(Reflection.getOrCreateKotlinClass(Uuid.class), BuiltinSerializersKt.serializer(Uuid.Companion));
         return MapsKt.build(mapBuilder);
     }

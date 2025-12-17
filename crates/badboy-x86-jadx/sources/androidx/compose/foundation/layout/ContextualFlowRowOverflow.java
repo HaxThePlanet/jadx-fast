@@ -41,30 +41,30 @@ public final class ContextualFlowRowOverflow extends androidx.compose.foundation
         }
 
         public final androidx.compose.foundation.layout.ContextualFlowRowOverflow expandOrCollapseIndicator--jt2gSs(Function3<? super androidx.compose.foundation.layout.ContextualFlowRowOverflowScope, ? super Composer, ? super Integer, Unit> expandIndicator, Function3<? super androidx.compose.foundation.layout.ContextualFlowRowOverflowScope, ? super Composer, ? super Integer, Unit> collapseIndicator, int minRowsToShowCollapse, float minHeightToShowCollapse, Composer $composer, int $changed, int i7) {
-            boolean changed3;
-            int i2;
+            boolean changed;
             int i;
+            int i3;
             float minHeightToShowCollapse2;
             int i10;
             boolean traceInProgress;
-            int changed;
-            int i9;
             int changed2;
+            int i4;
+            int changed3;
             Object contextualFlowRowOverflow;
             float str;
             int expandOrCollapseIndicator;
+            int i9;
             int i8;
-            int i4;
-            int i3;
             int i5;
             int i6;
+            int i2;
             final Object obj = expandIndicator;
             final Object obj2 = collapseIndicator;
             final Composer composer = $composer;
             final int i11 = $changed;
             int i12 = 1435293820;
             ComposerKt.sourceInformationMarkerStart(composer, i12, "C(expandOrCollapseIndicator)P(1!1,3,2:c#ui.unit.Dp)*458@20145L7,461@20241L1109:FlowLayoutOverflow.kt#2w3rfo");
-            i8 = i7 & 4 != 0 ? i : minRowsToShowCollapse;
+            i9 = i7 & 4 != 0 ? i3 : minRowsToShowCollapse;
             if (i7 & 8 != 0) {
                 i10 = 0;
                 minHeightToShowCollapse2 = Dp.constructor-impl((float)i19);
@@ -83,10 +83,10 @@ public final class ContextualFlowRowOverflow extends androidx.compose.foundation
             ComposerKt.sourceInformationMarkerStart(composer, 172958269, "CC(remember):FlowLayoutOverflow.kt#9igjgp");
             int i22 = 256;
             expandOrCollapseIndicator = 0;
-            i4 = 1;
+            i8 = 1;
             if (i14 ^= 384 > i22) {
-                if (!composer.changed(i8)) {
-                    i2 = i11 & 384 == i22 ? i4 : expandOrCollapseIndicator;
+                if (!composer.changed(i9)) {
+                    i = i11 & 384 == i22 ? i8 : expandOrCollapseIndicator;
                 } else {
                 }
             } else {
@@ -94,16 +94,16 @@ public final class ContextualFlowRowOverflow extends androidx.compose.foundation
             int i27 = 4;
             if (i23 ^= 6 > i27) {
                 if (!composer.changed(obj)) {
-                    i9 = i11 & 6 == i27 ? i4 : expandOrCollapseIndicator;
+                    i4 = i11 & 6 == i27 ? i8 : expandOrCollapseIndicator;
                 } else {
                 }
             } else {
             }
-            i3 = 32;
-            if (i24 ^= 48 > i3) {
+            i5 = 32;
+            if (i24 ^= 48 > i5) {
                 if (!composer.changed(obj2)) {
-                    if (i11 & 48 == i3) {
-                        expandOrCollapseIndicator = i4;
+                    if (i11 & 48 == i5) {
+                        expandOrCollapseIndicator = i8;
                     }
                 } else {
                 }
@@ -115,10 +115,10 @@ public final class ContextualFlowRowOverflow extends androidx.compose.foundation
             final int i29 = 0;
             if (i16 |= expandOrCollapseIndicator == 0) {
                 if (rememberedValue == Composer.Companion.getEmpty()) {
-                    i6 = 0;
+                    i2 = 0;
                     ContextualFlowRowOverflow.Companion.expandOrCollapseIndicator.1.seeMoreGetter.1 anon = new ContextualFlowRowOverflow.Companion.expandOrCollapseIndicator.1.seeMoreGetter.1(obj);
                     ContextualFlowRowOverflow.Companion.expandOrCollapseIndicator.1.collapseGetter.1 anon2 = new ContextualFlowRowOverflow.Companion.expandOrCollapseIndicator.1.collapseGetter.1(obj2);
-                    contextualFlowRowOverflow = new ContextualFlowRowOverflow(FlowLayoutOverflow.OverflowType.ExpandOrCollapseIndicator, i8, roundToPx-0680j_4, (Function1)anon, (Function1)anon2, 0);
+                    contextualFlowRowOverflow = new ContextualFlowRowOverflow(FlowLayoutOverflow.OverflowType.ExpandOrCollapseIndicator, i9, roundToPx-0680j_4, (Function1)anon, (Function1)anon2, 0);
                     composer2.updateRememberedValue(contextualFlowRowOverflow);
                 } else {
                     contextualFlowRowOverflow = rememberedValue;

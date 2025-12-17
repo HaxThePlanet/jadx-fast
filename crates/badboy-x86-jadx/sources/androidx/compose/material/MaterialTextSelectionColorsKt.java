@@ -18,8 +18,8 @@ public final class MaterialTextSelectionColorsKt {
     private static final float binarySearchForAccessibleSelectionColorAlpha-ysEtTa8(long selectionColor, long textColor, long backgroundColor) {
         int attempts;
         int lowAlpha;
-        int i;
         int i2;
+        int i;
         int cmp2;
         int alpha;
         int cmp;
@@ -29,24 +29,24 @@ public final class MaterialTextSelectionColorsKt {
         float contrastRatio-nb2GgbA;
         attempts = 0;
         lowAlpha = 1045220557;
-        alpha = i;
-        highAlpha = i2;
+        alpha = i2;
+        highAlpha = i;
         while (attempts < 7) {
             i5 -= i6;
-            i2 = 0;
+            i = 0;
             l = 0;
-            if (Float.compare(i2, i) <= 0 && Float.compare(i, i7) <= 0) {
+            if (Float.compare(i, i2) <= 0 && Float.compare(i2, i7) <= 0) {
             }
             if (l == 0) {
             }
-            if (Float.compare(i, i2) < 0) {
+            if (Float.compare(i2, i) < 0) {
             } else {
             }
             lowAlpha = alpha;
-            alpha = i2 / cmp;
+            alpha = i / cmp;
             attempts++;
             highAlpha = cmp2;
-            if (Float.compare(i, i7) <= 0) {
+            if (Float.compare(i2, i7) <= 0) {
             }
             l = 1;
         }
@@ -99,8 +99,8 @@ public final class MaterialTextSelectionColorsKt {
     public static final TextSelectionColors rememberTextSelectionColors(androidx.compose.material.Colors colors, Composer $composer, int $changed) {
         int traceInProgress;
         String str2;
-        int i;
         int i2;
+        int i4;
         long unbox-impl;
         int i5;
         int i3;
@@ -110,14 +110,14 @@ public final class MaterialTextSelectionColorsKt {
         Object textSelectionColors;
         int primary-0d7_KjU;
         int selectionBackgroundColor-ysEtTa8;
-        int i4;
+        int i;
         final Composer composer = $composer;
         int i6 = -721696685;
         ComposerKt.sourceInformationMarkerStart(composer, i6, "C(rememberTextSelectionColors)45@1902L6,47@1930L384:MaterialTextSelectionColors.kt#jmzs0o");
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i6, $changed, -1, "androidx.compose.material.rememberTextSelectionColors (MaterialTextSelectionColors.kt:35)");
         } else {
-            i = $changed;
+            i2 = $changed;
         }
         final long primary-0d7_KjU2 = colors.getPrimary-0d7_KjU();
         final long background-0d7_KjU = colors.getBackground-0d7_KjU();
@@ -126,12 +126,12 @@ public final class MaterialTextSelectionColorsKt {
         Object obj = colors;
         long contentColorFor-4WTKRHQ = ColorsKt.contentColorFor-4WTKRHQ(obj, background-0d7_KjU);
         int i12 = 0;
-        i2 = 0;
+        i4 = 0;
         i3 = Long.compare(unbox-impl, i14) != 0 ? 1 : 0;
         if (i3 != 0) {
             l = contentColorFor-4WTKRHQ;
         } else {
-            i2 = 0;
+            i4 = 0;
             i5 = 6;
             int i16 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");

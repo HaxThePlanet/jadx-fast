@@ -158,8 +158,8 @@ public final class AndroidFontListTypeface implements androidx.compose.ui.text.p
         }
         Context context3 = context;
         int i3 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Could not match font".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckAndroidFontListTypeface$1 = new IllegalStateException("Could not match font".toString());
+        throw $i$a$CheckAndroidFontListTypeface$1;
     }
 
     public AndroidFontListTypeface(FontListFontFamily fontListFontFamily, Context context2, List list3, FontMatcher fontMatcher4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
@@ -198,11 +198,11 @@ public final class AndroidFontListTypeface implements androidx.compose.ui.text.p
                 return (Typeface)synthesizeTypeface-FxwP2eA;
             }
             int i = 0;
-            IllegalStateException illegalStateException2 = new IllegalStateException("Could not load typeface".toString());
-            throw illegalStateException2;
+            IllegalStateException $i$a$CheckNotNullAndroidFontListTypeface$getNativeTypeface$2 = new IllegalStateException("Could not load typeface".toString());
+            throw $i$a$CheckNotNullAndroidFontListTypeface$getNativeTypeface$2;
         }
         int typeface = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Could not load font".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckNotNullAndroidFontListTypeface$getNativeTypeface$1 = new IllegalStateException("Could not load font".toString());
+        throw $i$a$CheckNotNullAndroidFontListTypeface$getNativeTypeface$1;
     }
 }

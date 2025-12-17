@@ -332,27 +332,27 @@ public final class TextFieldLayoutStateCache implements State<TextLayoutResult>,
     }
 
     private final TextLayoutResult computeLayout(TextFieldCharSequence visualText, androidx.compose.foundation.text.input.internal.TextFieldLayoutStateCache.NonMeasureInputs nonMeasureInputs, androidx.compose.foundation.text.input.internal.TextFieldLayoutStateCache.MeasureInputs measureInputs) {
-        int i11;
+        int i8;
         TextRange composition-MzsxiRA;
         SpanStyle spanStyle;
         int max-impl;
-        int i7;
-        int i4;
+        int i9;
+        int i11;
         int i;
+        int i7;
         int i3;
-        int i14;
-        int i10;
-        int i6;
-        int i12;
-        int i8;
+        int i13;
         int i16;
+        int i14;
+        int i12;
+        int i5;
         int i2;
         TextDecoration underline;
-        int i9;
-        int i5;
-        int i17;
-        int i13;
         int i15;
+        int i10;
+        int i17;
+        int i4;
+        int i6;
         final androidx.compose.foundation.text.input.internal.TextFieldLayoutStateCache.MeasureInputs field = measureInputs;
         int i18 = 0;
         AnnotatedString.Builder builder = new AnnotatedString.Builder(0, 1, 0);
@@ -365,9 +365,9 @@ public final class TextFieldLayoutStateCache implements State<TextLayoutResult>,
         }
         if (nonMeasureInputs.getSingleLine()) {
         } else {
-            i11 = Integer.MAX_VALUE;
+            i8 = Integer.MAX_VALUE;
         }
-        return TextMeasurer.measure-xDpz5zY$default(this.obtainTextMeasurer(field), builder.toAnnotatedString(), nonMeasureInputs.getTextStyle(), 0, nonMeasureInputs.getSoftWrap(), i11, 0, field.getConstraints-msEJaDk(), max-impl, field.getLayoutDirection(), field.getDensity(), field.getFontFamilyResolver(), 0, 1060);
+        return TextMeasurer.measure-xDpz5zY$default(this.obtainTextMeasurer(field), builder.toAnnotatedString(), nonMeasureInputs.getTextStyle(), 0, nonMeasureInputs.getSoftWrap(), i8, 0, field.getConstraints-msEJaDk(), max-impl, field.getLayoutDirection(), field.getDensity(), field.getFontFamilyResolver(), 0, 1060);
     }
 
     private final androidx.compose.foundation.text.input.internal.TextFieldLayoutStateCache.MeasureInputs getMeasureInputs() {
@@ -393,16 +393,16 @@ public final class TextFieldLayoutStateCache implements State<TextLayoutResult>,
         TextFieldCharSequence composition-MzsxiRA;
         long constraints-msEJaDk;
         boolean equal;
-        int i4;
+        int i2;
         Snapshot current;
         boolean readOnly;
         int i5;
         int i3;
         Object lock;
-        int i2;
-        int i;
-        TextLayoutResult textLayoutResult;
         int i6;
+        int i4;
+        TextLayoutResult textLayoutResult;
+        int i;
         Object obj3;
         TextFieldCharSequence field;
         obj = this;
@@ -473,17 +473,17 @@ public final class TextFieldLayoutStateCache implements State<TextLayoutResult>,
         int i10 = 0;
         if (!Intrinsics.areEqual(textLayoutResult2, layoutResult)) {
             equal = this;
-            i4 = 0;
+            i2 = 0;
             current = Snapshot.Companion.getCurrent();
             if (!current.getReadOnly()) {
                 i5 = 0;
                 i3 = 0;
                 lock = SnapshotKt.getLock();
-                i2 = 0;
-                i = 0;
+                i6 = 0;
+                i4 = 0;
                 textLayoutResult = $this$getOrComputeLayout_u24lambda_u243_u24lambda_u242_u24lambda_u241;
                 StateRecord writableRecord = SnapshotKt.writableRecord((StateRecord)equal.record, (StateObject)equal, current);
-                i6 = 0;
+                i = 0;
                 (TextFieldLayoutStateCache.CacheRecord)writableRecord.setVisualText((CharSequence)visualText);
                 writableRecord.setComposition-OEnZFl4(visualText.getComposition-MzsxiRA());
                 writableRecord.setSingleLine(field4.getSingleLine());
@@ -503,11 +503,11 @@ public final class TextFieldLayoutStateCache implements State<TextLayoutResult>,
                     i5 = 0;
                     i3 = 0;
                     lock = SnapshotKt.getLock();
-                    i2 = 0;
-                    i = 0;
+                    i6 = 0;
+                    i4 = 0;
                     textLayoutResult = $this$getOrComputeLayout_u24lambda_u243_u24lambda_u242_u24lambda_u241;
                     writableRecord = SnapshotKt.writableRecord((StateRecord)equal.record, (StateObject)equal, current);
-                    i6 = 0;
+                    i = 0;
                     (TextFieldLayoutStateCache.CacheRecord)writableRecord.setVisualText((CharSequence)visualText);
                     writableRecord.setComposition-OEnZFl4(visualText.getComposition-MzsxiRA());
                     writableRecord.setSingleLine(field4.getSingleLine());
@@ -538,12 +538,12 @@ public final class TextFieldLayoutStateCache implements State<TextLayoutResult>,
     private final TextMeasurer obtainTextMeasurer(androidx.compose.foundation.text.input.internal.TextFieldLayoutStateCache.MeasureInputs measureInputs) {
         TextMeasurer textMeasurer2;
         TextMeasurer textMeasurer;
-        int i2;
-        LayoutDirection layoutDirection;
         int i;
+        LayoutDirection layoutDirection;
+        int i2;
         if (this.textMeasurer == null) {
             textMeasurer2 = new TextMeasurer(measureInputs.getFontFamilyResolver(), measureInputs.getDensity(), measureInputs.getLayoutDirection(), 1);
-            i2 = 0;
+            i = 0;
             this.textMeasurer = textMeasurer2;
         }
         return textMeasurer2;
@@ -564,9 +564,9 @@ public final class TextFieldLayoutStateCache implements State<TextLayoutResult>,
     private final void updateCacheIfWritable(Function1<? super androidx.compose.foundation.text.input.internal.TextFieldLayoutStateCache.CacheRecord, Unit> block) {
         boolean readOnly;
         int i2;
-        int i;
-        Object obj;
         int i3;
+        Object obj;
+        int i;
         Throwable th;
         Object invoke;
         final int i4 = 0;
@@ -575,19 +575,19 @@ public final class TextFieldLayoutStateCache implements State<TextLayoutResult>,
             i2 = 0;
             int i5 = 0;
             Object lock = SnapshotKt.getLock();
-            i3 = 0;
+            i = 0;
             th = 0;
             invoke = block.invoke(SnapshotKt.writableRecord((StateRecord)this.record, (StateObject)this, current));
-            i = 0;
+            i3 = 0;
             SnapshotKt.notifyWrite(current, (StateObject)this);
             synchronized (lock) {
                 i2 = 0;
                 i5 = 0;
                 lock = SnapshotKt.getLock();
-                i3 = 0;
+                i = 0;
                 th = 0;
                 invoke = block.invoke(SnapshotKt.writableRecord((StateRecord)this.record, (StateObject)this, current));
-                i = 0;
+                i3 = 0;
                 SnapshotKt.notifyWrite(current, (StateObject)this);
             }
         }

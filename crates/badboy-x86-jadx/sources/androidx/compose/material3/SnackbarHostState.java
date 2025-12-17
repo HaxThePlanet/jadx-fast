@@ -46,8 +46,8 @@ public final class SnackbarHostState {
 
         @Override // androidx.compose.material3.SnackbarData
         public boolean equals(Object other) {
-            Class class2;
             Class class;
+            Class class2;
             final int i = 1;
             if (this == other) {
                 return i;
@@ -107,8 +107,8 @@ public final class SnackbarHostState {
 
         @Override // androidx.compose.material3.SnackbarVisuals
         public boolean equals(Object other) {
-            Class class2;
             Class class;
+            Class class2;
             final int i = 1;
             if (this == other) {
                 return i;
@@ -189,21 +189,21 @@ public final class SnackbarHostState {
     }
 
     public static Object showSnackbar$default(androidx.compose.material3.SnackbarHostState snackbarHostState, String string2, String string3, boolean z4, androidx.compose.material3.SnackbarDuration snackbarDuration5, Continuation continuation6, int i7, Object object8) {
-        int i;
         int i2;
+        int i;
         androidx.compose.material3.SnackbarDuration snackbarDuration;
         int obj8;
         int obj9;
         androidx.compose.material3.SnackbarDuration obj10;
-        i = i7 & 2 != 0 ? obj8 : string3;
-        i2 = i7 & 4 != 0 ? obj9 : z4;
+        i2 = i7 & 2 != 0 ? obj8 : string3;
+        i = i7 & 4 != 0 ? obj9 : z4;
         if (i7 & 8 != 0) {
-            obj8 = i == 0 ? SnackbarDuration.Short : SnackbarDuration.Indefinite;
+            obj8 = i2 == 0 ? SnackbarDuration.Short : SnackbarDuration.Indefinite;
             snackbarDuration = obj10;
         } else {
             snackbarDuration = snackbarDuration5;
         }
-        return snackbarHostState.showSnackbar(string2, i, i2, snackbarDuration, continuation6);
+        return snackbarHostState.showSnackbar(string2, i2, i, snackbarDuration, continuation6);
     }
 
     public final androidx.compose.material3.SnackbarData getCurrentSnackbarData() {
@@ -214,48 +214,48 @@ public final class SnackbarHostState {
 
     public final Object showSnackbar(androidx.compose.material3.SnackbarVisuals snackbarVisuals, Continuation<? super androidx.compose.material3.SnackbarResult> continuation2) {
         Object obj3;
-        int i4;
-        boolean anon4;
+        int i3;
+        boolean anon;
         Object $continuation;
-        int i2;
-        androidx.compose.material3.SnackbarHostState snackbarHostState;
-        int $i$f$withLock2;
         int i7;
-        Object $this$withLock_u24default$iv;
-        int $this$withLock_u24default$iv2;
+        androidx.compose.material3.SnackbarHostState snackbarHostState;
+        int _this;
+        int i4;
+        Object $this$withLock_u24default$iv2;
+        int $this$withLock_u24default$iv;
         Object owner$iv2;
         Object obj;
         Object l$2;
         Object cOROUTINE_SUSPENDED;
-        int i3;
+        int i;
         Object owner$iv;
         int l$1;
         Object obj2;
         int $i$f$withLock;
         Object lock;
         androidx.compose.material3.SnackbarHostState.showSnackbar.2 anon2;
-        int i;
-        androidx.compose.material3.SnackbarHostState.showSnackbar.2 anon;
+        int i2;
+        androidx.compose.material3.SnackbarHostState.showSnackbar.2 anon3;
         int i6;
         CancellableContinuationImpl cancellableContinuationImpl;
         Object obj5;
-        androidx.compose.material3.SnackbarHostState.showSnackbar.2 anon3;
+        androidx.compose.material3.SnackbarHostState.showSnackbar.2 anon4;
         int i5;
         obj3 = continuation2;
-        anon4 = obj3;
-        i7 = Integer.MIN_VALUE;
-        if (obj3 instanceof SnackbarHostState.showSnackbar.2 && label2 &= i7 != 0) {
-            anon4 = obj3;
-            i7 = Integer.MIN_VALUE;
-            if (label2 &= i7 != 0) {
-                anon4.label = label -= i7;
+        anon = obj3;
+        i4 = Integer.MIN_VALUE;
+        if (obj3 instanceof SnackbarHostState.showSnackbar.2 && label2 &= i4 != 0) {
+            anon = obj3;
+            i4 = Integer.MIN_VALUE;
+            if (label2 &= i4 != 0) {
+                anon.label = label -= i4;
                 snackbarHostState = this;
             } else {
-                anon4 = new SnackbarHostState.showSnackbar.2(this, obj3);
+                anon = new SnackbarHostState.showSnackbar.2(this, obj3);
             }
         } else {
         }
-        Object result = anon4.result;
+        Object result = anon.result;
         Object cOROUTINE_SUSPENDED2 = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         int i9 = 1;
         switch (label3) {
@@ -264,54 +264,54 @@ public final class SnackbarHostState {
                 Object obj4 = this;
                 owner$iv2 = obj4.mutex;
                 int i12 = 0;
-                anon4.L$0 = obj4;
-                anon4.L$1 = snackbarVisuals;
-                anon4.L$2 = owner$iv2;
-                anon4.label = i9;
+                anon.L$0 = obj4;
+                anon.L$1 = snackbarVisuals;
+                anon.L$2 = owner$iv2;
+                anon.label = i9;
                 return cOROUTINE_SUSPENDED2;
                 owner$iv = obj4;
-                $i$f$withLock2 = i13;
+                _this = i13;
                 $i$f$withLock = i5;
                 break;
             case 1:
-                $i$f$withLock2 = 0;
-                l$1 = anon4.L$1;
+                _this = 0;
+                l$1 = anon.L$1;
                 ResultKt.throwOnFailure(result);
                 $i$f$withLock = i8;
                 owner$iv2 = l$22;
                 owner$iv = i5;
                 break;
             case 2:
-                $i$f$withLock2 = 0;
-                $this$withLock_u24default$iv2 = 0;
-                i4 = 0;
-                Object l$3 = anon4.L$3;
-                l$2 = anon4.L$2;
-                Object l$12 = anon4.L$1;
-                owner$iv = anon4.L$0;
+                _this = 0;
+                $this$withLock_u24default$iv = 0;
+                i3 = 0;
+                Object l$3 = anon.L$3;
+                l$2 = anon.L$2;
+                Object l$12 = anon.L$1;
+                owner$iv = anon.L$0;
                 ResultKt.throwOnFailure(result);
-                anon3 = anon4;
+                anon4 = anon;
                 $continuation = result;
-                $i$f$withLock = i3;
+                $i$f$withLock = i;
                 owner$iv.setCurrentSnackbarData(0);
                 l$2.unlock($i$f$withLock);
                 return $continuation;
             default:
-                androidx.compose.material3.SnackbarHostState.showSnackbar.2 anon5 = anon4;
+                androidx.compose.material3.SnackbarHostState.showSnackbar.2 anon5 = anon;
                 IllegalStateException illegalStateException = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw illegalStateException;
         }
-        anon2 = anon4;
-        anon4.L$0 = owner$iv;
-        anon4.L$1 = l$1;
-        anon4.L$2 = owner$iv2;
-        anon4.L$3 = anon2;
-        anon4.label = 2;
+        anon2 = anon;
+        anon.L$0 = owner$iv;
+        anon.L$1 = l$1;
+        anon.L$2 = owner$iv2;
+        anon.L$3 = anon2;
+        anon.label = 2;
         i6 = 0;
         cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon2), i9);
         cancellableContinuationImpl.initCancellability();
-        i3 = 0;
-        anon3 = anon4;
+        i = 0;
+        anon4 = anon;
         SnackbarHostState.SnackbarDataImpl $continuation2 = new SnackbarHostState.SnackbarDataImpl(l$1, (CancellableContinuation)cancellableContinuationImpl);
         SnackbarHostState.access$setCurrentSnackbarData(owner$iv, (SnackbarData)$continuation2);
         $continuation = cancellableContinuationImpl.getResult();
@@ -322,8 +322,8 @@ public final class SnackbarHostState {
             return cOROUTINE_SUSPENDED2;
         }
         l$2 = owner$iv2;
-        $this$withLock_u24default$iv2 = lock;
-        i4 = i;
+        $this$withLock_u24default$iv = lock;
+        i3 = i2;
     }
 
     public final Object showSnackbar(String message, String actionLabel, boolean withDismissAction, androidx.compose.material3.SnackbarDuration duration, Continuation<? super androidx.compose.material3.SnackbarResult> $completion) {

@@ -50,8 +50,8 @@ public abstract class CollectionLikeSerializer<Element, Collection, Builder>  ex
             }
         }
         int i4 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Size must be known in advance when using READ_ALL".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireCollectionLikeSerializer$readAll$1 = new IllegalArgumentException("Size must be known in advance when using READ_ALL".toString());
+        throw $i$a$RequireCollectionLikeSerializer$readAll$1;
     }
 
     protected void readElement(CompositeDecoder decoder, int index, Builder builder, boolean checkIndex) {

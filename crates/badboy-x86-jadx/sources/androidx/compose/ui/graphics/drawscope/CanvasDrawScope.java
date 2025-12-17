@@ -426,11 +426,11 @@ public final class CanvasDrawScope implements androidx.compose.ui.graphics.draws
     private final long modulate-5vOe2sY(long $this$modulate_u2d5vOe2sY, float alpha) {
         int alpha-impl;
         long $this$modulate_u2d5vOe2sY2;
-        int i3;
-        int i6;
         int i4;
+        int i3;
         int i;
         int i2;
+        int i6;
         int i5;
         long obj10;
         alpha-impl = Float.compare(obj12, i7) == 0 ? 1 : 0;
@@ -445,13 +445,13 @@ public final class CanvasDrawScope implements androidx.compose.ui.graphics.draws
     private final Paint obtainFillPaint() {
         Paint fillPaint;
         Paint paint;
-        int i;
+        int $i$a$ApplyCanvasDrawScope$obtainFillPaint$1;
         int fill-TiuSbCo;
         if (this.fillPaint == null) {
             paint = fillPaint;
-            int i2 = 0;
+            int i = 0;
             paint.setStyle-k9PVt8s(PaintingStyle.Companion.getFill-TiuSbCo());
-            i = 0;
+            $i$a$ApplyCanvasDrawScope$obtainFillPaint$1 = 0;
             this.fillPaint = paint;
         }
         return fillPaint;
@@ -460,13 +460,13 @@ public final class CanvasDrawScope implements androidx.compose.ui.graphics.draws
     private final Paint obtainStrokePaint() {
         Paint strokePaint;
         Paint paint;
-        int i;
+        int $i$a$ApplyCanvasDrawScope$obtainStrokePaint$1;
         int stroke-TiuSbCo;
         if (this.strokePaint == null) {
             paint = strokePaint;
-            int i2 = 0;
+            int i = 0;
             paint.setStyle-k9PVt8s(PaintingStyle.Companion.getStroke-TiuSbCo());
-            i = 0;
+            $i$a$ApplyCanvasDrawScope$obtainStrokePaint$1 = 0;
             this.strokePaint = paint;
         }
         return strokePaint;
@@ -476,15 +476,15 @@ public final class CanvasDrawScope implements androidx.compose.ui.graphics.draws
         Paint strokePaint;
         Paint paint;
         int i2;
-        boolean pathEffect2;
+        boolean pathEffect;
         int width;
         boolean cap-KaPHkGw;
-        int miter;
+        int miter2;
         boolean equals-impl0;
-        PathEffect pathEffect;
-        int i;
+        PathEffect pathEffect2;
         int i3;
-        float miter2;
+        int i;
+        float miter;
         if (Intrinsics.areEqual(drawStyle, Fill.INSTANCE)) {
             strokePaint = obtainFillPaint();
             return strokePaint;
@@ -493,19 +493,19 @@ public final class CanvasDrawScope implements androidx.compose.ui.graphics.draws
             } else {
                 paint = strokePaint;
                 i2 = 0;
-                i3 = 0;
-                width = Float.compare(strokeWidth, width2) == 0 ? i : i3;
+                i = 0;
+                width = Float.compare(strokeWidth, width2) == 0 ? i3 : i;
                 if (width == 0) {
                     paint.setStrokeWidth((Stroke)drawStyle.getWidth());
                 }
                 if (!StrokeCap.equals-impl0(paint.getStrokeCap-KaPHkGw(), (Stroke)drawStyle.getCap-KaPHkGw())) {
                     paint.setStrokeCap-BeK7IIE((Stroke)drawStyle.getCap-KaPHkGw());
                 }
-                if (Float.compare(strokeMiterLimit, miter2) == 0) {
+                if (Float.compare(strokeMiterLimit, miter) == 0) {
                 } else {
-                    i = i3;
+                    i3 = i;
                 }
-                if (i == 0) {
+                if (i3 == 0) {
                     paint.setStrokeMiterLimit((Stroke)drawStyle.getMiter());
                 }
                 if (!StrokeJoin.equals-impl0(paint.getStrokeJoin-LxFBmk8(), (Stroke)drawStyle.getJoin-LxFBmk8())) {

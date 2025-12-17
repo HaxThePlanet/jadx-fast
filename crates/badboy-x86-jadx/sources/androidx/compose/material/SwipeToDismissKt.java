@@ -29,158 +29,158 @@ public final class SwipeToDismissKt {
 
     public static final void SwipeToDismiss(androidx.compose.material.DismissState state, Modifier modifier, Set<? extends androidx.compose.material.DismissDirection> directions, Function1<? super androidx.compose.material.DismissDirection, ? extends androidx.compose.material.ThresholdConfig> dismissThresholds, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> background, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> dismissContent, Composer $composer, int $changed, int i9) {
         int traceInProgress2;
-        int $dirty;
-        Object obj3;
+        int $dirty2;
+        Object obj6;
         Object obj7;
-        Object obj5;
+        Object obj4;
         Set iNSTANCE;
         boolean traceInProgress;
-        int i;
-        Object obj6;
-        Object modifier2;
-        Object obj11;
-        int i5;
-        int startToEnd;
-        Object obj10;
-        int i4;
-        int i3;
-        Object obj2;
-        int $dirty2;
-        int i8;
-        Object obj8;
         int i2;
+        Object obj11;
+        Object modifier2;
         Object obj;
-        int i7;
+        int i8;
+        int startToEnd;
+        Object obj5;
+        int i;
+        int i4;
+        Object obj2;
+        int $dirty;
+        int i3;
+        Object obj8;
+        int i5;
+        Object obj10;
+        int i6;
         boolean skipping;
         Object set;
-        int i6;
+        int i7;
         Object obj9;
-        Object obj4;
+        Object obj3;
         Function3 function3;
         final int i19 = $changed;
         traceInProgress2 = 634380143;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(SwipeToDismiss)P(5,4,1,3)183@6698L1378,183@6669L1407:SwipeToDismiss.kt#jmzs0o");
-        $dirty = $changed;
+        $dirty2 = $changed;
         iNSTANCE = 2;
         if (i9 & 1 != 0) {
-            $dirty |= 6;
-            obj3 = state;
+            $dirty2 |= 6;
+            obj6 = state;
         } else {
             if (i19 & 6 == 0) {
-                i = restartGroup.changed(state) ? 4 : iNSTANCE;
-                $dirty |= i;
+                i2 = restartGroup.changed(state) ? 4 : iNSTANCE;
+                $dirty2 |= i2;
             } else {
-                obj3 = state;
+                obj6 = state;
             }
         }
         int i16 = i9 & 2;
         if (i16 != 0) {
-            $dirty |= 48;
-            obj11 = modifier;
+            $dirty2 |= 48;
+            obj = modifier;
         } else {
             if (i19 & 48 == 0) {
-                i5 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i5;
+                i8 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i8;
             } else {
-                obj11 = modifier;
+                obj = modifier;
             }
         }
         startToEnd = i9 & 4;
         if (startToEnd != 0) {
-            $dirty |= 384;
-            obj10 = directions;
+            $dirty2 |= 384;
+            obj5 = directions;
         } else {
             if (i19 & 384 == 0) {
-                i4 = restartGroup.changedInstance(directions) ? 256 : 128;
-                $dirty |= i4;
+                i = restartGroup.changedInstance(directions) ? 256 : 128;
+                $dirty2 |= i;
             } else {
-                obj10 = directions;
+                obj5 = directions;
             }
         }
-        i3 = i9 & 8;
-        if (i3 != 0) {
-            $dirty |= 3072;
+        i4 = i9 & 8;
+        if (i4 != 0) {
+            $dirty2 |= 3072;
             obj2 = dismissThresholds;
         } else {
             if (i19 & 3072 == 0) {
-                i8 = restartGroup.changedInstance(dismissThresholds) ? 2048 : 1024;
-                $dirty |= i8;
+                i3 = restartGroup.changedInstance(dismissThresholds) ? 2048 : 1024;
+                $dirty2 |= i3;
             } else {
                 obj2 = dismissThresholds;
             }
         }
         if (i9 & 16 != 0) {
-            $dirty |= 24576;
+            $dirty2 |= 24576;
             obj8 = background;
         } else {
             if (i19 & 24576 == 0) {
-                i2 = restartGroup.changedInstance(background) ? 16384 : 8192;
-                $dirty |= i2;
+                i5 = restartGroup.changedInstance(background) ? 16384 : 8192;
+                $dirty2 |= i5;
             } else {
                 obj8 = background;
             }
         }
-        i7 = 196608;
+        i6 = 196608;
         if (i9 & 32 != 0) {
-            $dirty |= i7;
-            obj = dismissContent;
+            $dirty2 |= i6;
+            obj10 = dismissContent;
         } else {
-            if (i19 & i7 == 0) {
-                i7 = restartGroup.changedInstance(dismissContent) ? 131072 : 65536;
-                $dirty |= i7;
+            if (i19 & i6 == 0) {
+                i6 = restartGroup.changedInstance(dismissContent) ? 131072 : 65536;
+                $dirty2 |= i6;
             } else {
-                obj = dismissContent;
+                obj10 = dismissContent;
             }
         }
-        if (i26 &= $dirty == 74898) {
+        if (i26 &= $dirty2 == 74898) {
             if (!restartGroup.getSkipping()) {
                 if (i16 != 0) {
                     modifier2 = Modifier.Companion;
                 } else {
-                    modifier2 = obj11;
+                    modifier2 = obj;
                 }
-                obj11 = 1;
+                obj = 1;
                 if (startToEnd != 0) {
                     androidx.compose.material.DismissDirection[] arr = new DismissDirection[iNSTANCE];
                     arr[0] = DismissDirection.EndToStart;
-                    arr[obj11] = DismissDirection.StartToEnd;
+                    arr[obj] = DismissDirection.StartToEnd;
                     set = iNSTANCE;
                 } else {
-                    set = obj10;
+                    set = obj5;
                 }
-                if (i3 != 0) {
-                    i6 = iNSTANCE;
+                if (i4 != 0) {
+                    i7 = iNSTANCE;
                 } else {
-                    i6 = obj2;
+                    i7 = obj2;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.SwipeToDismiss (SwipeToDismiss.kt:183)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material.SwipeToDismiss (SwipeToDismiss.kt:183)");
                 }
-                SwipeToDismissKt.SwipeToDismiss.2 anon = new SwipeToDismissKt.SwipeToDismiss.2(set, i6, obj3, obj8, dismissContent);
-                obj5 = set;
-                obj10 = modifier2;
-                BoxWithConstraintsKt.BoxWithConstraints(obj10, 0, false, (Function3)ComposableLambdaKt.rememberComposableLambda(338007641, obj11, anon, restartGroup, 54), restartGroup, i12 | 3072, 6);
+                SwipeToDismissKt.SwipeToDismiss.2 anon = new SwipeToDismissKt.SwipeToDismiss.2(set, i7, obj6, obj8, dismissContent);
+                obj4 = set;
+                obj5 = modifier2;
+                BoxWithConstraintsKt.BoxWithConstraints(obj5, 0, false, (Function3)ComposableLambdaKt.rememberComposableLambda(338007641, obj, anon, restartGroup, 54), restartGroup, i12 | 3072, 6);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj7 = obj10;
-                obj6 = i6;
+                obj7 = obj5;
+                obj11 = i7;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj7 = obj11;
-                obj5 = obj10;
-                obj6 = obj2;
+                obj7 = obj;
+                obj4 = obj5;
+                obj11 = obj2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty2 = $dirty;
-            traceInProgress2 = new SwipeToDismissKt.SwipeToDismiss.3(state, obj7, obj5, obj6, background, dismissContent, i19, i9);
+            $dirty = $dirty2;
+            traceInProgress2 = new SwipeToDismissKt.SwipeToDismiss.3(state, obj7, obj4, obj11, background, dismissContent, i19, i9);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         } else {
-            $dirty2 = $dirty;
+            $dirty = $dirty2;
         }
     }
 

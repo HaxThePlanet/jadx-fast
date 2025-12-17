@@ -74,8 +74,8 @@ public final class TextGeometricTransform {
     }
 
     public boolean equals(Object other) {
-        int i;
         int i2;
+        int i;
         final int i3 = 1;
         if (this == other) {
             return i3;
@@ -84,12 +84,12 @@ public final class TextGeometricTransform {
         if (!other instanceof TextGeometricTransform) {
             return i4;
         }
-        i = Float.compare(scaleX, scaleX2) == 0 ? i3 : i4;
-        if (i == 0) {
+        i2 = Float.compare(scaleX, scaleX2) == 0 ? i3 : i4;
+        if (i2 == 0) {
             return i4;
         }
-        i2 = Float.compare(skewX, skewX2) == 0 ? i3 : i4;
-        if (i2 == 0) {
+        i = Float.compare(skewX, skewX2) == 0 ? i3 : i4;
+        if (i == 0) {
             return i4;
         }
         return i3;

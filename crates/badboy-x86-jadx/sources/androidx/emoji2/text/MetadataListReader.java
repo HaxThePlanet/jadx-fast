@@ -108,13 +108,13 @@ class MetadataListReader {
         }
 
         public void skip(int numOfBytes) throws IOException {
-            int i;
             int i2;
+            int i;
             long l;
             int obj6;
             while (obj6 > 0) {
-                i = (int)skip;
-                obj6 -= i;
+                i2 = (int)skip;
+                obj6 -= i2;
                 this.mPosition = mPosition += l;
             }
         }
@@ -139,15 +139,15 @@ class MetadataListReader {
         }
     }
     private static androidx.emoji2.text.MetadataListReader.OffsetInfo findOffsetInfo(androidx.emoji2.text.MetadataListReader.OpenTypeReader reader) throws IOException {
-        int i2;
         int i3;
+        int i4;
         int metaOffset;
         int tag;
         int unsignedInt2;
-        long unsignedInt;
-        long unsignedInt3;
-        int i4;
         long unsignedInt4;
+        long unsignedInt;
+        int i2;
+        long unsignedInt3;
         int i;
         int i5 = 4;
         reader.skip(i5);
@@ -157,24 +157,24 @@ class MetadataListReader {
         } else {
             reader.skip(6);
             metaOffset = -1;
-            i3 = 0;
-            while (i3 < unsignedShort) {
+            i4 = 0;
+            while (i4 < unsignedShort) {
                 reader.skip(i5);
                 reader.skip(i5);
                 if (1835365473 == reader.readTag()) {
                     break;
                 } else {
                 }
-                i3++;
+                i4++;
             }
             if (Long.compare(metaOffset, unsignedInt2) == 0) {
             } else {
                 reader.skip((int)i11);
                 reader.skip(12);
-                i2 = 0;
-                while (Long.compare(unsignedInt3, unsignedInt2) < 0) {
-                    i3 = reader.readTag();
-                    i2++;
+                i3 = 0;
+                while (Long.compare(unsignedInt, unsignedInt2) < 0) {
+                    i4 = reader.readTag();
+                    i3++;
                 }
             }
             IOException i6 = new IOException(str);

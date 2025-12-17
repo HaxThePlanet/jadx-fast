@@ -54,71 +54,71 @@ public final class FocusRestorerKt {
     }
 
     public static final boolean restoreFocusedChild(androidx.compose.ui.focus.FocusTargetNode $this$restoreFocusedChild) {
-        androidx.compose.ui.node.CompositionLocalConsumerModifierNode this_$iv$iv$iv;
+        androidx.compose.ui.node.CompositionLocalConsumerModifierNode this_$iv$iv$iv3;
         boolean restoreFocusedChild;
         int previouslyFocusedChildHash2;
         androidx.compose.ui.node.CompositionLocalConsumerModifierNode previouslyFocusedChildHash;
         Object stack$iv$iv2;
-        int this_$iv$iv$iv5;
-        int this_$iv$iv$iv3;
+        int this_$iv$iv$iv;
+        int this_$iv$iv$iv2;
         Object localSaveableStateRegistry;
         int i9;
-        Object node$iv$iv6;
+        Object node$iv$iv;
         Modifier.Node node$iv$iv3;
         Object node$iv$iv4;
-        int i11;
-        int intValue;
-        int node2;
-        int node$iv$iv;
-        Modifier.Node[] arr;
         int i3;
-        int i5;
-        int i10;
-        Object obj;
-        int i6;
+        int intValue;
+        int node;
         int node$iv$iv2;
+        Modifier.Node[] arr;
+        int i2;
+        int i5;
+        int i11;
+        Object obj;
+        int i7;
+        int node$iv$iv5;
         Object stack$iv$iv;
-        Object node$iv$iv5;
-        int i;
+        Object node$iv$iv6;
+        int i8;
         Modifier.Node node$iv$iv$iv;
         androidx.compose.ui.node.CompositionLocalConsumerModifierNode $this$visitChildren_u2d6rFNWt0$iv;
-        Modifier.Node node;
-        int i7;
+        Modifier.Node node2;
+        int i6;
         Object this_$iv$iv$iv4;
-        int this_$iv$iv$iv2;
+        int this_$iv$iv$iv5;
         int count$iv$iv;
-        int i8;
-        int i2;
-        Object obj2;
         int i4;
-        this_$iv$iv$iv = $this$restoreFocusedChild;
-        previouslyFocusedChildHash2 = CompositionLocalConsumerModifierNodeKt.currentValueOf((CompositionLocalConsumerModifierNode)this_$iv$iv$iv, (CompositionLocal)SaveableStateRegistryKt.getLocalSaveableStateRegistry());
+        int i10;
+        Object obj2;
+        int i;
+        this_$iv$iv$iv3 = $this$restoreFocusedChild;
+        previouslyFocusedChildHash2 = CompositionLocalConsumerModifierNodeKt.currentValueOf((CompositionLocalConsumerModifierNode)this_$iv$iv$iv3, (CompositionLocal)SaveableStateRegistryKt.getLocalSaveableStateRegistry());
         localSaveableStateRegistry = (SaveableStateRegistry)previouslyFocusedChildHash2.consumeRestored("previouslyFocusedChildHash");
-        if (this_$iv$iv$iv.getPreviouslyFocusedChildHash() == 0 && previouslyFocusedChildHash2 != null && localSaveableStateRegistry != null) {
-            previouslyFocusedChildHash2 = CompositionLocalConsumerModifierNodeKt.currentValueOf((CompositionLocalConsumerModifierNode)this_$iv$iv$iv, (CompositionLocal)SaveableStateRegistryKt.getLocalSaveableStateRegistry());
+        if (this_$iv$iv$iv3.getPreviouslyFocusedChildHash() == 0 && previouslyFocusedChildHash2 != null && localSaveableStateRegistry != null) {
+            previouslyFocusedChildHash2 = CompositionLocalConsumerModifierNodeKt.currentValueOf((CompositionLocalConsumerModifierNode)this_$iv$iv$iv3, (CompositionLocal)SaveableStateRegistryKt.getLocalSaveableStateRegistry());
             if ((SaveableStateRegistry)previouslyFocusedChildHash2 != null) {
                 localSaveableStateRegistry = (SaveableStateRegistry)previouslyFocusedChildHash2.consumeRestored("previouslyFocusedChildHash");
                 if (localSaveableStateRegistry != null) {
-                    i11 = 0;
-                    this_$iv$iv$iv.setPreviouslyFocusedChildHash((Integer)localSaveableStateRegistry.intValue());
+                    i3 = 0;
+                    this_$iv$iv$iv3.setPreviouslyFocusedChildHash((Integer)localSaveableStateRegistry.intValue());
                 }
             }
         }
         i9 = 0;
-        if (this_$iv$iv$iv.getPreviouslyFocusedChildHash() == 0) {
+        if (this_$iv$iv$iv3.getPreviouslyFocusedChildHash() == 0) {
             return i9;
         }
-        previouslyFocusedChildHash = this_$iv$iv$iv;
+        previouslyFocusedChildHash = this_$iv$iv$iv3;
         int i15 = 0;
-        int constructor-impl = NodeKind.constructor-impl(1024);
+        int $i$f$getFocusTargetOLwlOKw = NodeKind.constructor-impl(1024);
         int i17 = 0;
-        final int i18 = constructor-impl;
+        final int i18 = $i$f$getFocusTargetOLwlOKw;
         final androidx.compose.ui.node.CompositionLocalConsumerModifierNode compositionLocalConsumerModifierNode2 = previouslyFocusedChildHash;
         final int i19 = 0;
         if (!compositionLocalConsumerModifierNode2.getNode().isAttached()) {
         } else {
             int i20 = 0;
-            node$iv$iv = 0;
+            node$iv$iv2 = 0;
             MutableVector mutableVector2 = new MutableVector(new Modifier.Node[16], i9);
             Modifier.Node child$ui_release = compositionLocalConsumerModifierNode2.getNode().getChild$ui_release();
             if (child$ui_release == null) {
@@ -128,348 +128,348 @@ public final class FocusRestorerKt {
             }
             while (mutableVector2.isNotEmpty()) {
                 int i21 = 0;
-                i3 = 1;
-                node2 = mutableVector2.removeAt(size -= i3);
+                i2 = 1;
+                node = mutableVector2.removeAt(size -= i2);
                 if (aggregateChildKindSet$ui_release &= i18 == 0) {
                 } else {
                 }
-                node$iv$iv = node2;
-                while (node$iv$iv != null) {
-                    int $this$visitChildren_u2d6rFNWt0$iv2 = i3;
-                    node$iv$iv = node$iv$iv.getChild$ui_release();
-                    this_$iv$iv$iv = $this$restoreFocusedChild;
+                node$iv$iv2 = node;
+                while (node$iv$iv2 != null) {
+                    int $this$visitChildren_u2d6rFNWt0$iv2 = i2;
+                    node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+                    this_$iv$iv$iv3 = $this$restoreFocusedChild;
                     previouslyFocusedChildHash = $this$visitChildren_u2d6rFNWt0$iv;
                     i9 = 0;
                 }
                 $this$visitChildren_u2d6rFNWt0$iv = previouslyFocusedChildHash;
-                this_$iv$iv$iv = $this$restoreFocusedChild;
+                this_$iv$iv$iv3 = $this$restoreFocusedChild;
                 i9 = 0;
                 if (kindSet$ui_release &= i18 != 0) {
                 } else {
                 }
-                $this$visitChildren_u2d6rFNWt0$iv2 = i3;
-                node$iv$iv = node$iv$iv.getChild$ui_release();
-                this_$iv$iv$iv = $this$restoreFocusedChild;
+                $this$visitChildren_u2d6rFNWt0$iv2 = i2;
+                node$iv$iv2 = node$iv$iv2.getChild$ui_release();
+                this_$iv$iv$iv3 = $this$restoreFocusedChild;
                 previouslyFocusedChildHash = $this$visitChildren_u2d6rFNWt0$iv;
                 i9 = 0;
-                i10 = 0;
-                i6 = 0;
-                node$iv$iv2 = 0;
+                i11 = 0;
+                i7 = 0;
+                node$iv$iv5 = 0;
                 int i22 = 0;
-                node$iv$iv6 = node$iv$iv5;
-                while (node$iv$iv6 != null) {
+                node$iv$iv = node$iv$iv6;
+                while (node$iv$iv != null) {
                     int i13 = 0;
-                    if (kindSet$ui_release2 &= constructor-impl != 0) {
+                    if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0 && node$iv$iv6 instanceof DelegatingNode) {
+                    this_$iv$iv$iv3 = 0;
+                    if (this_$iv$iv$iv3 != 0 && node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv$iv$iv3 = 1;
-                    node$iv$iv6 = DelegatableNodeKt.access$pop(node$iv$iv2);
-                    this_$iv$iv$iv = $this$restoreFocusedChild;
-                    i3 = this_$iv$iv$iv3;
+                    this_$iv$iv$iv2 = 1;
+                    node$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv5);
+                    this_$iv$iv$iv3 = $this$restoreFocusedChild;
+                    i2 = this_$iv$iv$iv2;
                     previouslyFocusedChildHash = $this$visitChildren_u2d6rFNWt0$iv;
-                    if (node$iv$iv6 instanceof DelegatingNode) {
+                    if (node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv$iv$iv = 0;
+                    this_$iv$iv$iv3 = 0;
                     i5 = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv6.getDelegate$ui_release();
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node = node$iv$iv$iv;
-                        i7 = 0;
+                        node2 = node$iv$iv$iv;
+                        i6 = 0;
                         count$iv$iv = 0;
-                        if (kindSet$ui_release3 &= constructor-impl != 0) {
+                        if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
-                        this_$iv$iv$iv2 = 0;
-                        if (this_$iv$iv$iv2 != 0) {
+                        this_$iv$iv$iv5 = 0;
+                        if (this_$iv$iv$iv5 != 0) {
                         } else {
                         }
                         this_$iv$iv$iv4 = stack$iv$iv2;
-                        node$iv$iv3 = node;
-                        this_$iv$iv$iv5 = node$iv$iv2;
+                        node$iv$iv3 = node2;
+                        this_$iv$iv$iv = node$iv$iv5;
                         stack$iv$iv = obj2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        node$iv$iv6 = stack$iv$iv;
-                        node$iv$iv2 = this_$iv$iv$iv5;
+                        node$iv$iv = stack$iv$iv;
+                        node$iv$iv5 = this_$iv$iv$iv;
                         stack$iv$iv2 = this_$iv$iv$iv4;
-                        this_$iv$iv$iv++;
+                        this_$iv$iv$iv3++;
                         this_$iv$iv$iv4 = stack$iv$iv2;
-                        if (this_$iv$iv$iv == 1) {
+                        if (this_$iv$iv$iv3 == 1) {
                         } else {
                         }
-                        if (node$iv$iv2 == 0) {
+                        if (node$iv$iv5 == 0) {
                         } else {
                         }
-                        count$iv$iv = this_$iv$iv$iv;
-                        obj2 = node$iv$iv6;
-                        this_$iv$iv$iv5 = node$iv$iv2;
+                        count$iv$iv = this_$iv$iv$iv3;
+                        obj2 = node$iv$iv;
+                        this_$iv$iv$iv = node$iv$iv5;
                         Object obj4 = obj2;
                         if (obj4 != null) {
                         } else {
                         }
                         node$iv$iv4 = obj2;
-                        if (this_$iv$iv$iv5 != null) {
+                        if (this_$iv$iv$iv != null) {
                         } else {
                         }
                         stack$iv$iv = node$iv$iv4;
-                        node$iv$iv3 = node;
-                        this_$iv$iv$iv = count$iv$iv;
+                        node$iv$iv3 = node2;
+                        this_$iv$iv$iv3 = count$iv$iv;
                         stack$iv$iv = node$iv$iv4;
-                        this_$iv$iv$iv5.add(node);
-                        if (this_$iv$iv$iv5 != null) {
+                        this_$iv$iv$iv.add(node2);
+                        if (this_$iv$iv$iv != null) {
                         }
                         node$iv$iv4 = 0;
-                        this_$iv$iv$iv5.add(obj4);
-                        count$iv$iv = this_$iv$iv$iv;
+                        this_$iv$iv$iv.add(obj4);
+                        count$iv$iv = this_$iv$iv$iv3;
                         int count$iv$iv2 = 16;
-                        i8 = 0;
-                        i2 = i14;
-                        obj2 = node$iv$iv6;
-                        i4 = count$iv$iv2;
-                        this_$iv$iv$iv5 = new MutableVector(new Modifier.Node[count$iv$iv2], 0);
-                        this_$iv$iv$iv5 = node$iv$iv2;
+                        i4 = 0;
+                        i10 = i14;
+                        obj2 = node$iv$iv;
+                        i = count$iv$iv2;
+                        this_$iv$iv$iv = new MutableVector(new Modifier.Node[count$iv$iv2], 0);
+                        this_$iv$iv$iv = node$iv$iv5;
                         stack$iv$iv = node$iv$iv3;
-                        this_$iv$iv$iv2 = 1;
+                        this_$iv$iv$iv5 = 1;
                     }
                     this_$iv$iv$iv4 = stack$iv$iv2;
-                    obj2 = node$iv$iv6;
-                    this_$iv$iv$iv3 = 1;
-                    if (this_$iv$iv$iv == this_$iv$iv$iv3) {
+                    obj2 = node$iv$iv;
+                    this_$iv$iv$iv2 = 1;
+                    if (this_$iv$iv$iv3 == this_$iv$iv$iv2) {
                     } else {
                     }
-                    node$iv$iv6 = obj2;
-                    this_$iv$iv$iv = $this$restoreFocusedChild;
-                    i3 = this_$iv$iv$iv3;
+                    node$iv$iv = obj2;
+                    this_$iv$iv$iv3 = $this$restoreFocusedChild;
+                    i2 = this_$iv$iv$iv2;
                     previouslyFocusedChildHash = $this$visitChildren_u2d6rFNWt0$iv;
-                    node$iv$iv6 = obj2;
-                    node = node$iv$iv$iv;
-                    i7 = 0;
+                    node$iv$iv = obj2;
+                    node2 = node$iv$iv$iv;
+                    i6 = 0;
                     count$iv$iv = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv2 = 0;
-                    if (this_$iv$iv$iv2 != 0) {
+                    this_$iv$iv$iv5 = 0;
+                    if (this_$iv$iv$iv5 != 0) {
                     } else {
                     }
                     this_$iv$iv$iv4 = stack$iv$iv2;
-                    node$iv$iv3 = node;
-                    this_$iv$iv$iv5 = node$iv$iv2;
+                    node$iv$iv3 = node2;
+                    this_$iv$iv$iv = node$iv$iv5;
                     stack$iv$iv = obj2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    node$iv$iv6 = stack$iv$iv;
-                    node$iv$iv2 = this_$iv$iv$iv5;
+                    node$iv$iv = stack$iv$iv;
+                    node$iv$iv5 = this_$iv$iv$iv;
                     stack$iv$iv2 = this_$iv$iv$iv4;
-                    this_$iv$iv$iv++;
+                    this_$iv$iv$iv3++;
                     this_$iv$iv$iv4 = stack$iv$iv2;
-                    if (this_$iv$iv$iv == 1) {
+                    if (this_$iv$iv$iv3 == 1) {
                     } else {
                     }
-                    if (node$iv$iv2 == 0) {
+                    if (node$iv$iv5 == 0) {
                     } else {
                     }
-                    count$iv$iv = this_$iv$iv$iv;
-                    obj2 = node$iv$iv6;
-                    this_$iv$iv$iv5 = node$iv$iv2;
+                    count$iv$iv = this_$iv$iv$iv3;
+                    obj2 = node$iv$iv;
+                    this_$iv$iv$iv = node$iv$iv5;
                     obj4 = obj2;
                     if (obj4 != null) {
                     } else {
                     }
                     node$iv$iv4 = obj2;
-                    if (this_$iv$iv$iv5 != null) {
+                    if (this_$iv$iv$iv != null) {
                     } else {
                     }
                     stack$iv$iv = node$iv$iv4;
-                    node$iv$iv3 = node;
-                    this_$iv$iv$iv = count$iv$iv;
+                    node$iv$iv3 = node2;
+                    this_$iv$iv$iv3 = count$iv$iv;
                     stack$iv$iv = node$iv$iv4;
-                    this_$iv$iv$iv5.add(node);
-                    if (this_$iv$iv$iv5 != null) {
+                    this_$iv$iv$iv.add(node2);
+                    if (this_$iv$iv$iv != null) {
                     }
                     node$iv$iv4 = 0;
-                    this_$iv$iv$iv5.add(obj4);
-                    count$iv$iv = this_$iv$iv$iv;
+                    this_$iv$iv$iv.add(obj4);
+                    count$iv$iv = this_$iv$iv$iv3;
                     count$iv$iv2 = 16;
-                    i8 = 0;
-                    i2 = i14;
-                    obj2 = node$iv$iv6;
-                    i4 = count$iv$iv2;
-                    this_$iv$iv$iv5 = new MutableVector(new Modifier.Node[count$iv$iv2], 0);
-                    this_$iv$iv$iv5 = node$iv$iv2;
+                    i4 = 0;
+                    i10 = i14;
+                    obj2 = node$iv$iv;
+                    i = count$iv$iv2;
+                    this_$iv$iv$iv = new MutableVector(new Modifier.Node[count$iv$iv2], 0);
+                    this_$iv$iv$iv = node$iv$iv5;
                     stack$iv$iv = node$iv$iv3;
-                    this_$iv$iv$iv2 = 1;
-                    this_$iv$iv$iv = 1;
-                    i5 = node$iv$iv6;
+                    this_$iv$iv$iv5 = 1;
+                    this_$iv$iv$iv3 = 1;
+                    i5 = node$iv$iv;
                     node$iv$iv$iv = 0;
                     $this$visitChildren_u2d6rFNWt0$iv = previouslyFocusedChildHash;
-                    this_$iv$iv$iv3 = 1;
+                    this_$iv$iv$iv2 = 1;
                     $this$visitChildren_u2d6rFNWt0$iv = previouslyFocusedChildHash;
                 }
                 $this$visitChildren_u2d6rFNWt0$iv = previouslyFocusedChildHash;
-                this_$iv$iv$iv = $this$restoreFocusedChild;
+                this_$iv$iv$iv3 = $this$restoreFocusedChild;
                 i9 = 0;
                 i13 = 0;
-                if (kindSet$ui_release2 &= constructor-impl != 0) {
+                if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv$iv = 0;
-                if (this_$iv$iv$iv != 0 && node$iv$iv6 instanceof DelegatingNode) {
+                this_$iv$iv$iv3 = 0;
+                if (this_$iv$iv$iv3 != 0 && node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                this_$iv$iv$iv3 = 1;
-                node$iv$iv6 = DelegatableNodeKt.access$pop(node$iv$iv2);
-                this_$iv$iv$iv = $this$restoreFocusedChild;
-                i3 = this_$iv$iv$iv3;
+                this_$iv$iv$iv2 = 1;
+                node$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv5);
+                this_$iv$iv$iv3 = $this$restoreFocusedChild;
+                i2 = this_$iv$iv$iv2;
                 previouslyFocusedChildHash = $this$visitChildren_u2d6rFNWt0$iv;
-                if (node$iv$iv6 instanceof DelegatingNode) {
+                if (node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                this_$iv$iv$iv = 0;
+                this_$iv$iv$iv3 = 0;
                 i5 = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv6.getDelegate$ui_release();
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
-                    node = node$iv$iv$iv;
-                    i7 = 0;
+                    node2 = node$iv$iv$iv;
+                    i6 = 0;
                     count$iv$iv = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv$iv2 = 0;
-                    if (this_$iv$iv$iv2 != 0) {
+                    this_$iv$iv$iv5 = 0;
+                    if (this_$iv$iv$iv5 != 0) {
                     } else {
                     }
                     this_$iv$iv$iv4 = stack$iv$iv2;
-                    node$iv$iv3 = node;
-                    this_$iv$iv$iv5 = node$iv$iv2;
+                    node$iv$iv3 = node2;
+                    this_$iv$iv$iv = node$iv$iv5;
                     stack$iv$iv = obj2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    node$iv$iv6 = stack$iv$iv;
-                    node$iv$iv2 = this_$iv$iv$iv5;
+                    node$iv$iv = stack$iv$iv;
+                    node$iv$iv5 = this_$iv$iv$iv;
                     stack$iv$iv2 = this_$iv$iv$iv4;
-                    this_$iv$iv$iv++;
+                    this_$iv$iv$iv3++;
                     this_$iv$iv$iv4 = stack$iv$iv2;
-                    if (this_$iv$iv$iv == 1) {
+                    if (this_$iv$iv$iv3 == 1) {
                     } else {
                     }
-                    if (node$iv$iv2 == 0) {
+                    if (node$iv$iv5 == 0) {
                     } else {
                     }
-                    count$iv$iv = this_$iv$iv$iv;
-                    obj2 = node$iv$iv6;
-                    this_$iv$iv$iv5 = node$iv$iv2;
+                    count$iv$iv = this_$iv$iv$iv3;
+                    obj2 = node$iv$iv;
+                    this_$iv$iv$iv = node$iv$iv5;
                     obj4 = obj2;
                     if (obj4 != null) {
                     } else {
                     }
                     node$iv$iv4 = obj2;
-                    if (this_$iv$iv$iv5 != null) {
+                    if (this_$iv$iv$iv != null) {
                     } else {
                     }
                     stack$iv$iv = node$iv$iv4;
-                    node$iv$iv3 = node;
-                    this_$iv$iv$iv = count$iv$iv;
+                    node$iv$iv3 = node2;
+                    this_$iv$iv$iv3 = count$iv$iv;
                     stack$iv$iv = node$iv$iv4;
-                    this_$iv$iv$iv5.add(node);
-                    if (this_$iv$iv$iv5 != null) {
+                    this_$iv$iv$iv.add(node2);
+                    if (this_$iv$iv$iv != null) {
                     }
                     node$iv$iv4 = 0;
-                    this_$iv$iv$iv5.add(obj4);
-                    count$iv$iv = this_$iv$iv$iv;
+                    this_$iv$iv$iv.add(obj4);
+                    count$iv$iv = this_$iv$iv$iv3;
                     count$iv$iv2 = 16;
-                    i8 = 0;
-                    i2 = i14;
-                    obj2 = node$iv$iv6;
-                    i4 = count$iv$iv2;
-                    this_$iv$iv$iv5 = new MutableVector(new Modifier.Node[count$iv$iv2], 0);
-                    this_$iv$iv$iv5 = node$iv$iv2;
+                    i4 = 0;
+                    i10 = i14;
+                    obj2 = node$iv$iv;
+                    i = count$iv$iv2;
+                    this_$iv$iv$iv = new MutableVector(new Modifier.Node[count$iv$iv2], 0);
+                    this_$iv$iv$iv = node$iv$iv5;
                     stack$iv$iv = node$iv$iv3;
-                    this_$iv$iv$iv2 = 1;
+                    this_$iv$iv$iv5 = 1;
                 }
                 this_$iv$iv$iv4 = stack$iv$iv2;
-                obj2 = node$iv$iv6;
-                this_$iv$iv$iv3 = 1;
-                if (this_$iv$iv$iv == this_$iv$iv$iv3) {
+                obj2 = node$iv$iv;
+                this_$iv$iv$iv2 = 1;
+                if (this_$iv$iv$iv3 == this_$iv$iv$iv2) {
                 } else {
                 }
-                node$iv$iv6 = obj2;
-                this_$iv$iv$iv = $this$restoreFocusedChild;
-                i3 = this_$iv$iv$iv3;
+                node$iv$iv = obj2;
+                this_$iv$iv$iv3 = $this$restoreFocusedChild;
+                i2 = this_$iv$iv$iv2;
                 previouslyFocusedChildHash = $this$visitChildren_u2d6rFNWt0$iv;
-                node$iv$iv6 = obj2;
-                node = node$iv$iv$iv;
-                i7 = 0;
+                node$iv$iv = obj2;
+                node2 = node$iv$iv$iv;
+                i6 = 0;
                 count$iv$iv = 0;
-                if (kindSet$ui_release3 &= constructor-impl != 0) {
+                if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv$iv2 = 0;
-                if (this_$iv$iv$iv2 != 0) {
+                this_$iv$iv$iv5 = 0;
+                if (this_$iv$iv$iv5 != 0) {
                 } else {
                 }
                 this_$iv$iv$iv4 = stack$iv$iv2;
-                node$iv$iv3 = node;
-                this_$iv$iv$iv5 = node$iv$iv2;
+                node$iv$iv3 = node2;
+                this_$iv$iv$iv = node$iv$iv5;
                 stack$iv$iv = obj2;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                node$iv$iv6 = stack$iv$iv;
-                node$iv$iv2 = this_$iv$iv$iv5;
+                node$iv$iv = stack$iv$iv;
+                node$iv$iv5 = this_$iv$iv$iv;
                 stack$iv$iv2 = this_$iv$iv$iv4;
-                this_$iv$iv$iv++;
+                this_$iv$iv$iv3++;
                 this_$iv$iv$iv4 = stack$iv$iv2;
-                if (this_$iv$iv$iv == 1) {
+                if (this_$iv$iv$iv3 == 1) {
                 } else {
                 }
-                if (node$iv$iv2 == 0) {
+                if (node$iv$iv5 == 0) {
                 } else {
                 }
-                count$iv$iv = this_$iv$iv$iv;
-                obj2 = node$iv$iv6;
-                this_$iv$iv$iv5 = node$iv$iv2;
+                count$iv$iv = this_$iv$iv$iv3;
+                obj2 = node$iv$iv;
+                this_$iv$iv$iv = node$iv$iv5;
                 obj4 = obj2;
                 if (obj4 != null) {
                 } else {
                 }
                 node$iv$iv4 = obj2;
-                if (this_$iv$iv$iv5 != null) {
+                if (this_$iv$iv$iv != null) {
                 } else {
                 }
                 stack$iv$iv = node$iv$iv4;
-                node$iv$iv3 = node;
-                this_$iv$iv$iv = count$iv$iv;
+                node$iv$iv3 = node2;
+                this_$iv$iv$iv3 = count$iv$iv;
                 stack$iv$iv = node$iv$iv4;
-                this_$iv$iv$iv5.add(node);
-                if (this_$iv$iv$iv5 != null) {
+                this_$iv$iv$iv.add(node2);
+                if (this_$iv$iv$iv != null) {
                 }
                 node$iv$iv4 = 0;
-                this_$iv$iv$iv5.add(obj4);
-                count$iv$iv = this_$iv$iv$iv;
+                this_$iv$iv$iv.add(obj4);
+                count$iv$iv = this_$iv$iv$iv3;
                 count$iv$iv2 = 16;
-                i8 = 0;
-                i2 = i14;
-                obj2 = node$iv$iv6;
-                i4 = count$iv$iv2;
-                this_$iv$iv$iv5 = new MutableVector(new Modifier.Node[count$iv$iv2], 0);
-                this_$iv$iv$iv5 = node$iv$iv2;
+                i4 = 0;
+                i10 = i14;
+                obj2 = node$iv$iv;
+                i = count$iv$iv2;
+                this_$iv$iv$iv = new MutableVector(new Modifier.Node[count$iv$iv2], 0);
+                this_$iv$iv$iv = node$iv$iv5;
                 stack$iv$iv = node$iv$iv3;
-                this_$iv$iv$iv2 = 1;
-                this_$iv$iv$iv = 1;
-                i5 = node$iv$iv6;
+                this_$iv$iv$iv5 = 1;
+                this_$iv$iv$iv3 = 1;
+                i5 = node$iv$iv;
                 node$iv$iv$iv = 0;
                 $this$visitChildren_u2d6rFNWt0$iv = previouslyFocusedChildHash;
-                this_$iv$iv$iv3 = 1;
+                this_$iv$iv$iv2 = 1;
                 $this$visitChildren_u2d6rFNWt0$iv = previouslyFocusedChildHash;
-                DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector2, node2);
+                DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector2, node);
             }
             return 0;
         }
         androidx.compose.ui.node.CompositionLocalConsumerModifierNode compositionLocalConsumerModifierNode3 = previouslyFocusedChildHash;
         int i12 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitChildren called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv = new IllegalStateException("visitChildren called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv;
     }
 
     public static final boolean saveFocusedChild(androidx.compose.ui.focus.FocusTargetNode $this$saveFocusedChild) {
@@ -477,52 +477,52 @@ public final class FocusRestorerKt {
         androidx.compose.ui.focus.FocusTargetNode focusTargetNode;
         Object stack$iv$iv;
         int $i$f$mutableVectorOf;
-        int $this$visitChildren_u2d6rFNWt0$iv;
-        int i4;
-        Object node$iv$iv;
-        int node$iv$iv3;
-        Modifier.Node node$iv$iv2;
-        int constructor-impl;
+        int $this$visitChildren_u2d6rFNWt0$iv2;
+        int i9;
+        Object node$iv$iv3;
+        int node$iv$iv2;
+        Modifier.Node node$iv$iv4;
+        int $i$f$getFocusTargetOLwlOKw;
         Object type$iv;
         int node;
-        int node$iv$iv4;
-        Modifier.Node[] arr;
-        int i6;
-        Modifier.Node node$iv$iv$iv;
-        int i10;
-        Object obj2;
-        int i5;
-        int node$iv$iv7;
         int node$iv$iv6;
-        Object node$iv$iv5;
-        int i2;
-        int i;
-        androidx.compose.ui.focus.FocusTargetNode $this$visitChildren_u2d6rFNWt0$iv2;
+        Modifier.Node[] arr;
         int i8;
+        Modifier.Node node$iv$iv$iv;
+        int i11;
+        Object obj2;
+        int i4;
+        int node$iv$iv5;
+        int node$iv$iv7;
+        Object node$iv$iv;
         int i7;
+        int i5;
+        androidx.compose.ui.focus.FocusTargetNode $this$visitChildren_u2d6rFNWt0$iv;
+        int i10;
+        int i;
         Object this_$iv$iv$iv2;
         int this_$iv$iv$iv;
         int count$iv$iv2;
-        int i11;
-        int i3;
+        int i2;
+        int i6;
         Object obj;
-        int i9;
+        int i3;
         count$iv$iv = $this$saveFocusedChild;
-        i4 = 0;
+        i9 = 0;
         if (!count$iv$iv.getFocusState().getHasFocus()) {
-            return i4;
+            return i9;
         }
         focusTargetNode = count$iv$iv;
         int i15 = 0;
         int i17 = 0;
-        final int i18 = constructor-impl;
+        final int i18 = $i$f$getFocusTargetOLwlOKw;
         final androidx.compose.ui.focus.FocusTargetNode focusTargetNode2 = focusTargetNode;
         final int i19 = 0;
         if (!focusTargetNode2.getNode().isAttached()) {
         } else {
             int i20 = 0;
-            node$iv$iv4 = 0;
-            MutableVector mutableVector2 = new MutableVector(new Modifier.Node[16], i4);
+            node$iv$iv6 = 0;
+            MutableVector mutableVector2 = new MutableVector(new Modifier.Node[16], i9);
             Modifier.Node child$ui_release = focusTargetNode2.getNode().getChild$ui_release();
             if (child$ui_release == null) {
                 DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector2, focusTargetNode2.getNode());
@@ -531,66 +531,66 @@ public final class FocusRestorerKt {
             }
             while (mutableVector2.isNotEmpty()) {
                 int i21 = 0;
-                i6 = 1;
-                node = mutableVector2.removeAt(size -= i6);
+                i8 = 1;
+                node = mutableVector2.removeAt(size -= i8);
                 if (aggregateChildKindSet$ui_release &= i18 == 0) {
                 } else {
                 }
-                node$iv$iv4 = node;
-                while (node$iv$iv4 != null) {
-                    i8 = constructor-impl;
-                    int $this$visitChildren_u2d6rFNWt0$iv3 = i6;
-                    node$iv$iv4 = node$iv$iv4.getChild$ui_release();
+                node$iv$iv6 = node;
+                while (node$iv$iv6 != null) {
+                    i10 = $i$f$getFocusTargetOLwlOKw;
+                    int $this$visitChildren_u2d6rFNWt0$iv3 = i8;
+                    node$iv$iv6 = node$iv$iv6.getChild$ui_release();
                     count$iv$iv = $this$saveFocusedChild;
-                    focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                    i4 = 0;
+                    focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv;
+                    i9 = 0;
                 }
-                $this$visitChildren_u2d6rFNWt0$iv2 = focusTargetNode;
-                i8 = constructor-impl;
+                $this$visitChildren_u2d6rFNWt0$iv = focusTargetNode;
+                i10 = $i$f$getFocusTargetOLwlOKw;
                 count$iv$iv = $this$saveFocusedChild;
-                i4 = 0;
+                i9 = 0;
                 if (kindSet$ui_release2 &= i18 != 0) {
                 } else {
                 }
-                i8 = constructor-impl;
-                $this$visitChildren_u2d6rFNWt0$iv3 = i6;
-                node$iv$iv4 = node$iv$iv4.getChild$ui_release();
+                i10 = $i$f$getFocusTargetOLwlOKw;
+                $this$visitChildren_u2d6rFNWt0$iv3 = i8;
+                node$iv$iv6 = node$iv$iv6.getChild$ui_release();
                 count$iv$iv = $this$saveFocusedChild;
-                focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv2;
+                focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv;
+                i9 = 0;
+                i11 = 0;
                 i4 = 0;
-                i10 = 0;
-                i5 = 0;
-                node$iv$iv7 = 0;
+                node$iv$iv5 = 0;
                 int i23 = 0;
-                node$iv$iv = node$iv$iv5;
-                while (node$iv$iv != null) {
-                    i2 = i6;
-                    i8 = constructor-impl;
+                node$iv$iv3 = node$iv$iv;
+                while (node$iv$iv3 != null) {
+                    i7 = i8;
+                    i10 = $i$f$getFocusTargetOLwlOKw;
                     int i13 = 0;
-                    if (kindSet$ui_release &= i8 != 0) {
+                    if (kindSet$ui_release &= i10 != 0) {
                     } else {
                     }
                     count$iv$iv = 0;
-                    if (count$iv$iv != 0 && node$iv$iv instanceof DelegatingNode) {
+                    if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
-                    $this$visitChildren_u2d6rFNWt0$iv = i2;
-                    node$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv7);
+                    $this$visitChildren_u2d6rFNWt0$iv2 = i7;
+                    node$iv$iv3 = DelegatableNodeKt.access$pop(node$iv$iv5);
                     count$iv$iv = $this$saveFocusedChild;
-                    i6 = $this$visitChildren_u2d6rFNWt0$iv;
-                    focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                    constructor-impl = i8;
-                    if (node$iv$iv instanceof DelegatingNode) {
+                    i8 = $this$visitChildren_u2d6rFNWt0$iv2;
+                    focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv;
+                    $i$f$getFocusTargetOLwlOKw = i10;
+                    if (node$iv$iv3 instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv$iv = 0;
-                    constructor-impl = 0;
-                    node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
+                    $i$f$getFocusTargetOLwlOKw = 0;
+                    node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        i = node$iv$iv$iv;
-                        i7 = 0;
+                        i5 = node$iv$iv$iv;
+                        i = 0;
                         count$iv$iv2 = 0;
-                        if (kindSet$ui_release3 &= i8 != 0) {
+                        if (kindSet$ui_release3 &= i10 != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -598,160 +598,69 @@ public final class FocusRestorerKt {
                         } else {
                         }
                         this_$iv$iv$iv2 = stack$iv$iv;
-                        node$iv$iv2 = i;
-                        $i$f$mutableVectorOf = node$iv$iv7;
-                        node$iv$iv6 = obj;
+                        node$iv$iv4 = i5;
+                        $i$f$mutableVectorOf = node$iv$iv5;
+                        node$iv$iv7 = obj;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        node$iv$iv = node$iv$iv6;
-                        i2 = 1;
-                        node$iv$iv7 = $i$f$mutableVectorOf;
+                        node$iv$iv3 = node$iv$iv7;
+                        i7 = 1;
+                        node$iv$iv5 = $i$f$mutableVectorOf;
                         stack$iv$iv = this_$iv$iv$iv2;
                         count$iv$iv++;
                         this_$iv$iv$iv2 = stack$iv$iv;
-                        if (count$iv$iv == i2) {
+                        if (count$iv$iv == i7) {
                         } else {
                         }
-                        if (node$iv$iv7 == 0) {
+                        if (node$iv$iv5 == 0) {
                         } else {
                         }
                         count$iv$iv2 = count$iv$iv;
-                        obj = node$iv$iv;
-                        $i$f$mutableVectorOf = node$iv$iv7;
+                        obj = node$iv$iv3;
+                        $i$f$mutableVectorOf = node$iv$iv5;
                         Object obj4 = obj;
                         if (obj4 != null) {
                         } else {
                         }
-                        node$iv$iv3 = obj;
+                        node$iv$iv2 = obj;
                         if ($i$f$mutableVectorOf != 0) {
                         } else {
                         }
-                        node$iv$iv6 = node$iv$iv3;
-                        node$iv$iv2 = i;
+                        node$iv$iv7 = node$iv$iv2;
+                        node$iv$iv4 = i5;
                         count$iv$iv = count$iv$iv2;
-                        node$iv$iv6 = node$iv$iv3;
-                        $i$f$mutableVectorOf.add(i);
+                        node$iv$iv7 = node$iv$iv2;
+                        $i$f$mutableVectorOf.add(i5);
                         if ($i$f$mutableVectorOf != 0) {
                         }
-                        node$iv$iv3 = 0;
+                        node$iv$iv2 = 0;
                         $i$f$mutableVectorOf.add(obj4);
                         count$iv$iv2 = count$iv$iv;
                         int count$iv$iv3 = 16;
-                        i11 = 0;
-                        i3 = i14;
-                        obj = node$iv$iv;
-                        i9 = count$iv$iv3;
+                        i2 = 0;
+                        i6 = i14;
+                        obj = node$iv$iv3;
+                        i3 = count$iv$iv3;
                         $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                        $i$f$mutableVectorOf = node$iv$iv7;
-                        node$iv$iv6 = node$iv$iv2;
-                        this_$iv$iv$iv = i2;
+                        $i$f$mutableVectorOf = node$iv$iv5;
+                        node$iv$iv7 = node$iv$iv4;
+                        this_$iv$iv$iv = i7;
                     }
                     this_$iv$iv$iv2 = stack$iv$iv;
-                    obj = node$iv$iv;
-                    $this$visitChildren_u2d6rFNWt0$iv = 1;
-                    if (count$iv$iv == $this$visitChildren_u2d6rFNWt0$iv) {
+                    obj = node$iv$iv3;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = 1;
+                    if (count$iv$iv == $this$visitChildren_u2d6rFNWt0$iv2) {
                     } else {
                     }
-                    node$iv$iv = obj;
+                    node$iv$iv3 = obj;
                     count$iv$iv = $this$saveFocusedChild;
-                    i6 = $this$visitChildren_u2d6rFNWt0$iv;
-                    focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                    constructor-impl = i8;
-                    node$iv$iv = obj;
-                    i = node$iv$iv$iv;
-                    i7 = 0;
-                    count$iv$iv2 = 0;
-                    if (kindSet$ui_release3 &= i8 != 0) {
-                    } else {
-                    }
-                    this_$iv$iv$iv = 0;
-                    if (this_$iv$iv$iv != 0) {
-                    } else {
-                    }
-                    this_$iv$iv$iv2 = stack$iv$iv;
-                    node$iv$iv2 = i;
-                    $i$f$mutableVectorOf = node$iv$iv7;
-                    node$iv$iv6 = obj;
-                    node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    node$iv$iv = node$iv$iv6;
-                    i2 = 1;
-                    node$iv$iv7 = $i$f$mutableVectorOf;
-                    stack$iv$iv = this_$iv$iv$iv2;
-                    count$iv$iv++;
-                    this_$iv$iv$iv2 = stack$iv$iv;
-                    if (count$iv$iv == i2) {
-                    } else {
-                    }
-                    if (node$iv$iv7 == 0) {
-                    } else {
-                    }
-                    count$iv$iv2 = count$iv$iv;
-                    obj = node$iv$iv;
-                    $i$f$mutableVectorOf = node$iv$iv7;
-                    obj4 = obj;
-                    if (obj4 != null) {
-                    } else {
-                    }
+                    i8 = $this$visitChildren_u2d6rFNWt0$iv2;
+                    focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv;
+                    $i$f$getFocusTargetOLwlOKw = i10;
                     node$iv$iv3 = obj;
-                    if ($i$f$mutableVectorOf != 0) {
-                    } else {
-                    }
-                    node$iv$iv6 = node$iv$iv3;
-                    node$iv$iv2 = i;
-                    count$iv$iv = count$iv$iv2;
-                    node$iv$iv6 = node$iv$iv3;
-                    $i$f$mutableVectorOf.add(i);
-                    if ($i$f$mutableVectorOf != 0) {
-                    }
-                    node$iv$iv3 = 0;
-                    $i$f$mutableVectorOf.add(obj4);
-                    count$iv$iv2 = count$iv$iv;
-                    count$iv$iv3 = 16;
-                    i11 = 0;
-                    i3 = i14;
-                    obj = node$iv$iv;
-                    i9 = count$iv$iv3;
-                    $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                    $i$f$mutableVectorOf = node$iv$iv7;
-                    node$iv$iv6 = node$iv$iv2;
-                    this_$iv$iv$iv = i2;
-                    count$iv$iv = i2;
-                    node$iv$iv$iv = node$iv$iv;
+                    i5 = node$iv$iv$iv;
                     i = 0;
-                    $this$visitChildren_u2d6rFNWt0$iv2 = focusTargetNode;
-                    i8 = constructor-impl;
-                    $this$visitChildren_u2d6rFNWt0$iv = i2;
-                }
-                $this$visitChildren_u2d6rFNWt0$iv2 = focusTargetNode;
-                i8 = constructor-impl;
-                count$iv$iv = $this$saveFocusedChild;
-                i4 = 0;
-                i2 = i6;
-                i8 = constructor-impl;
-                i13 = 0;
-                if (kindSet$ui_release &= i8 != 0) {
-                } else {
-                }
-                count$iv$iv = 0;
-                if (count$iv$iv != 0 && node$iv$iv instanceof DelegatingNode) {
-                } else {
-                }
-                $this$visitChildren_u2d6rFNWt0$iv = i2;
-                node$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv7);
-                count$iv$iv = $this$saveFocusedChild;
-                i6 = $this$visitChildren_u2d6rFNWt0$iv;
-                focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                constructor-impl = i8;
-                if (node$iv$iv instanceof DelegatingNode) {
-                } else {
-                }
-                count$iv$iv = 0;
-                constructor-impl = 0;
-                node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
-                while (node$iv$iv$iv != null) {
-                    i = node$iv$iv$iv;
-                    i7 = 0;
                     count$iv$iv2 = 0;
-                    if (kindSet$ui_release3 &= i8 != 0) {
+                    if (kindSet$ui_release3 &= i10 != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -759,69 +668,160 @@ public final class FocusRestorerKt {
                     } else {
                     }
                     this_$iv$iv$iv2 = stack$iv$iv;
-                    node$iv$iv2 = i;
-                    $i$f$mutableVectorOf = node$iv$iv7;
-                    node$iv$iv6 = obj;
+                    node$iv$iv4 = i5;
+                    $i$f$mutableVectorOf = node$iv$iv5;
+                    node$iv$iv7 = obj;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    node$iv$iv = node$iv$iv6;
-                    i2 = 1;
-                    node$iv$iv7 = $i$f$mutableVectorOf;
+                    node$iv$iv3 = node$iv$iv7;
+                    i7 = 1;
+                    node$iv$iv5 = $i$f$mutableVectorOf;
                     stack$iv$iv = this_$iv$iv$iv2;
                     count$iv$iv++;
                     this_$iv$iv$iv2 = stack$iv$iv;
-                    if (count$iv$iv == i2) {
+                    if (count$iv$iv == i7) {
                     } else {
                     }
-                    if (node$iv$iv7 == 0) {
+                    if (node$iv$iv5 == 0) {
                     } else {
                     }
                     count$iv$iv2 = count$iv$iv;
-                    obj = node$iv$iv;
-                    $i$f$mutableVectorOf = node$iv$iv7;
+                    obj = node$iv$iv3;
+                    $i$f$mutableVectorOf = node$iv$iv5;
                     obj4 = obj;
                     if (obj4 != null) {
                     } else {
                     }
-                    node$iv$iv3 = obj;
+                    node$iv$iv2 = obj;
                     if ($i$f$mutableVectorOf != 0) {
                     } else {
                     }
-                    node$iv$iv6 = node$iv$iv3;
-                    node$iv$iv2 = i;
+                    node$iv$iv7 = node$iv$iv2;
+                    node$iv$iv4 = i5;
                     count$iv$iv = count$iv$iv2;
-                    node$iv$iv6 = node$iv$iv3;
-                    $i$f$mutableVectorOf.add(i);
+                    node$iv$iv7 = node$iv$iv2;
+                    $i$f$mutableVectorOf.add(i5);
                     if ($i$f$mutableVectorOf != 0) {
                     }
-                    node$iv$iv3 = 0;
+                    node$iv$iv2 = 0;
                     $i$f$mutableVectorOf.add(obj4);
                     count$iv$iv2 = count$iv$iv;
                     count$iv$iv3 = 16;
-                    i11 = 0;
-                    i3 = i14;
-                    obj = node$iv$iv;
-                    i9 = count$iv$iv3;
+                    i2 = 0;
+                    i6 = i14;
+                    obj = node$iv$iv3;
+                    i3 = count$iv$iv3;
                     $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                    $i$f$mutableVectorOf = node$iv$iv7;
-                    node$iv$iv6 = node$iv$iv2;
-                    this_$iv$iv$iv = i2;
+                    $i$f$mutableVectorOf = node$iv$iv5;
+                    node$iv$iv7 = node$iv$iv4;
+                    this_$iv$iv$iv = i7;
+                    count$iv$iv = i7;
+                    node$iv$iv$iv = node$iv$iv3;
+                    i5 = 0;
+                    $this$visitChildren_u2d6rFNWt0$iv = focusTargetNode;
+                    i10 = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitChildren_u2d6rFNWt0$iv2 = i7;
+                }
+                $this$visitChildren_u2d6rFNWt0$iv = focusTargetNode;
+                i10 = $i$f$getFocusTargetOLwlOKw;
+                count$iv$iv = $this$saveFocusedChild;
+                i9 = 0;
+                i7 = i8;
+                i10 = $i$f$getFocusTargetOLwlOKw;
+                i13 = 0;
+                if (kindSet$ui_release &= i10 != 0) {
+                } else {
+                }
+                count$iv$iv = 0;
+                if (count$iv$iv != 0 && node$iv$iv3 instanceof DelegatingNode) {
+                } else {
+                }
+                $this$visitChildren_u2d6rFNWt0$iv2 = i7;
+                node$iv$iv3 = DelegatableNodeKt.access$pop(node$iv$iv5);
+                count$iv$iv = $this$saveFocusedChild;
+                i8 = $this$visitChildren_u2d6rFNWt0$iv2;
+                focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv;
+                $i$f$getFocusTargetOLwlOKw = i10;
+                if (node$iv$iv3 instanceof DelegatingNode) {
+                } else {
+                }
+                count$iv$iv = 0;
+                $i$f$getFocusTargetOLwlOKw = 0;
+                node$iv$iv$iv = (DelegatingNode)node$iv$iv3.getDelegate$ui_release();
+                while (node$iv$iv$iv != null) {
+                    i5 = node$iv$iv$iv;
+                    i = 0;
+                    count$iv$iv2 = 0;
+                    if (kindSet$ui_release3 &= i10 != 0) {
+                    } else {
+                    }
+                    this_$iv$iv$iv = 0;
+                    if (this_$iv$iv$iv != 0) {
+                    } else {
+                    }
+                    this_$iv$iv$iv2 = stack$iv$iv;
+                    node$iv$iv4 = i5;
+                    $i$f$mutableVectorOf = node$iv$iv5;
+                    node$iv$iv7 = obj;
+                    node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
+                    node$iv$iv3 = node$iv$iv7;
+                    i7 = 1;
+                    node$iv$iv5 = $i$f$mutableVectorOf;
+                    stack$iv$iv = this_$iv$iv$iv2;
+                    count$iv$iv++;
+                    this_$iv$iv$iv2 = stack$iv$iv;
+                    if (count$iv$iv == i7) {
+                    } else {
+                    }
+                    if (node$iv$iv5 == 0) {
+                    } else {
+                    }
+                    count$iv$iv2 = count$iv$iv;
+                    obj = node$iv$iv3;
+                    $i$f$mutableVectorOf = node$iv$iv5;
+                    obj4 = obj;
+                    if (obj4 != null) {
+                    } else {
+                    }
+                    node$iv$iv2 = obj;
+                    if ($i$f$mutableVectorOf != 0) {
+                    } else {
+                    }
+                    node$iv$iv7 = node$iv$iv2;
+                    node$iv$iv4 = i5;
+                    count$iv$iv = count$iv$iv2;
+                    node$iv$iv7 = node$iv$iv2;
+                    $i$f$mutableVectorOf.add(i5);
+                    if ($i$f$mutableVectorOf != 0) {
+                    }
+                    node$iv$iv2 = 0;
+                    $i$f$mutableVectorOf.add(obj4);
+                    count$iv$iv2 = count$iv$iv;
+                    count$iv$iv3 = 16;
+                    i2 = 0;
+                    i6 = i14;
+                    obj = node$iv$iv3;
+                    i3 = count$iv$iv3;
+                    $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
+                    $i$f$mutableVectorOf = node$iv$iv5;
+                    node$iv$iv7 = node$iv$iv4;
+                    this_$iv$iv$iv = i7;
                 }
                 this_$iv$iv$iv2 = stack$iv$iv;
-                obj = node$iv$iv;
-                $this$visitChildren_u2d6rFNWt0$iv = 1;
-                if (count$iv$iv == $this$visitChildren_u2d6rFNWt0$iv) {
+                obj = node$iv$iv3;
+                $this$visitChildren_u2d6rFNWt0$iv2 = 1;
+                if (count$iv$iv == $this$visitChildren_u2d6rFNWt0$iv2) {
                 } else {
                 }
-                node$iv$iv = obj;
+                node$iv$iv3 = obj;
                 count$iv$iv = $this$saveFocusedChild;
-                i6 = $this$visitChildren_u2d6rFNWt0$iv;
-                focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv2;
-                constructor-impl = i8;
-                node$iv$iv = obj;
-                i = node$iv$iv$iv;
-                i7 = 0;
+                i8 = $this$visitChildren_u2d6rFNWt0$iv2;
+                focusTargetNode = $this$visitChildren_u2d6rFNWt0$iv;
+                $i$f$getFocusTargetOLwlOKw = i10;
+                node$iv$iv3 = obj;
+                i5 = node$iv$iv$iv;
+                i = 0;
                 count$iv$iv2 = 0;
-                if (kindSet$ui_release3 &= i8 != 0) {
+                if (kindSet$ui_release3 &= i10 != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -829,65 +829,65 @@ public final class FocusRestorerKt {
                 } else {
                 }
                 this_$iv$iv$iv2 = stack$iv$iv;
-                node$iv$iv2 = i;
-                $i$f$mutableVectorOf = node$iv$iv7;
-                node$iv$iv6 = obj;
+                node$iv$iv4 = i5;
+                $i$f$mutableVectorOf = node$iv$iv5;
+                node$iv$iv7 = obj;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                node$iv$iv = node$iv$iv6;
-                i2 = 1;
-                node$iv$iv7 = $i$f$mutableVectorOf;
+                node$iv$iv3 = node$iv$iv7;
+                i7 = 1;
+                node$iv$iv5 = $i$f$mutableVectorOf;
                 stack$iv$iv = this_$iv$iv$iv2;
                 count$iv$iv++;
                 this_$iv$iv$iv2 = stack$iv$iv;
-                if (count$iv$iv == i2) {
+                if (count$iv$iv == i7) {
                 } else {
                 }
-                if (node$iv$iv7 == 0) {
+                if (node$iv$iv5 == 0) {
                 } else {
                 }
                 count$iv$iv2 = count$iv$iv;
-                obj = node$iv$iv;
-                $i$f$mutableVectorOf = node$iv$iv7;
+                obj = node$iv$iv3;
+                $i$f$mutableVectorOf = node$iv$iv5;
                 obj4 = obj;
                 if (obj4 != null) {
                 } else {
                 }
-                node$iv$iv3 = obj;
+                node$iv$iv2 = obj;
                 if ($i$f$mutableVectorOf != 0) {
                 } else {
                 }
-                node$iv$iv6 = node$iv$iv3;
-                node$iv$iv2 = i;
+                node$iv$iv7 = node$iv$iv2;
+                node$iv$iv4 = i5;
                 count$iv$iv = count$iv$iv2;
-                node$iv$iv6 = node$iv$iv3;
-                $i$f$mutableVectorOf.add(i);
+                node$iv$iv7 = node$iv$iv2;
+                $i$f$mutableVectorOf.add(i5);
                 if ($i$f$mutableVectorOf != 0) {
                 }
-                node$iv$iv3 = 0;
+                node$iv$iv2 = 0;
                 $i$f$mutableVectorOf.add(obj4);
                 count$iv$iv2 = count$iv$iv;
                 count$iv$iv3 = 16;
-                i11 = 0;
-                i3 = i14;
-                obj = node$iv$iv;
-                i9 = count$iv$iv3;
+                i2 = 0;
+                i6 = i14;
+                obj = node$iv$iv3;
+                i3 = count$iv$iv3;
                 $i$f$mutableVectorOf = new MutableVector(new Modifier.Node[count$iv$iv3], 0);
-                $i$f$mutableVectorOf = node$iv$iv7;
-                node$iv$iv6 = node$iv$iv2;
-                this_$iv$iv$iv = i2;
-                count$iv$iv = i2;
-                node$iv$iv$iv = node$iv$iv;
-                i = 0;
-                $this$visitChildren_u2d6rFNWt0$iv2 = focusTargetNode;
-                i8 = constructor-impl;
-                $this$visitChildren_u2d6rFNWt0$iv = i2;
+                $i$f$mutableVectorOf = node$iv$iv5;
+                node$iv$iv7 = node$iv$iv4;
+                this_$iv$iv$iv = i7;
+                count$iv$iv = i7;
+                node$iv$iv$iv = node$iv$iv3;
+                i5 = 0;
+                $this$visitChildren_u2d6rFNWt0$iv = focusTargetNode;
+                i10 = $i$f$getFocusTargetOLwlOKw;
+                $this$visitChildren_u2d6rFNWt0$iv2 = i7;
                 DelegatableNodeKt.access$addLayoutNodeChildren(mutableVector2, node);
             }
             return 0;
         }
         androidx.compose.ui.focus.FocusTargetNode focusTargetNode3 = focusTargetNode;
         int i12 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitChildren called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv = new IllegalStateException("visitChildren called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitChildren$1$iv$iv;
     }
 }

@@ -170,28 +170,28 @@ public final class TransitionData {
 
     public int hashCode() {
         int i;
-        int i2;
-        int i4;
         int i3;
-        i2 = 0;
+        int i4;
+        int i2;
+        i3 = 0;
         if (this.fade == null) {
-            i = i2;
+            i = i3;
         } else {
             i = this.fade.hashCode();
         }
         if (this.slide == null) {
-            i4 = i2;
+            i4 = i3;
         } else {
             i4 = this.slide.hashCode();
         }
         if (this.changeSize == null) {
-            i3 = i2;
+            i2 = i3;
         } else {
-            i3 = this.changeSize.hashCode();
+            i2 = this.changeSize.hashCode();
         }
         if (this.scale == null) {
         } else {
-            i2 = this.scale.hashCode();
+            i3 = this.scale.hashCode();
         }
         return i10 += i16;
     }

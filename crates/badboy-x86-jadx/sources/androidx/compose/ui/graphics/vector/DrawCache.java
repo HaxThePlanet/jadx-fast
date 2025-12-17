@@ -71,8 +71,8 @@ public final class DrawCache {
     public final void drawCachedImage-FqjB98A(int config, long size, Density density, LayoutDirection layoutDirection, Function1<? super DrawScope, Unit> block) {
         int height-impl;
         int height-impl2;
-        int i4;
         int i;
+        int i4;
         int i2;
         int i3;
         ImageBitmap targetImage;
@@ -130,7 +130,7 @@ public final class DrawCache {
 
     public final void drawInto(DrawScope target, float alpha, ColorFilter colorFilter) {
         int i;
-        String str;
+        String $i$a$CheckPreconditionDrawCache$drawInto$1;
         final Object obj = this;
         final ImageBitmap mCachedImage = obj.mCachedImage;
         i = mCachedImage != null ? 1 : 0;
@@ -139,7 +139,7 @@ public final class DrawCache {
             int i4 = 0;
             InlineClassHelperKt.throwIllegalStateException("drawCachedImage must be invoked first before attempting to draw the result into another destination");
         }
-        DrawScope.drawImage-AZ2fEMs$default(target, mCachedImage, 0, str, obj.size, obj6, 0, obj8, 0, obj10, alpha, 0, colorFilter);
+        DrawScope.drawImage-AZ2fEMs$default(target, mCachedImage, 0, $i$a$CheckPreconditionDrawCache$drawInto$1, obj.size, obj6, 0, obj8, 0, obj10, alpha, 0, colorFilter);
     }
 
     public final ImageBitmap getMCachedImage() {

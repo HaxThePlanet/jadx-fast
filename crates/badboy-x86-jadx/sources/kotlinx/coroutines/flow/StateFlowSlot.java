@@ -58,8 +58,8 @@ final class StateFlowSlot extends AbstractSharedFlowSlot<kotlinx.coroutines.flow
         boolean constructor-impl;
         boolean aSSERTIONS_ENABLED;
         boolean z;
-        Object symbol;
-        kotlinx.coroutines.internal.Symbol symbol2;
+        Object symbol2;
+        kotlinx.coroutines.internal.Symbol symbol;
         int i2 = 0;
         int i3 = 0;
         CancellableContinuationImpl cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted($completion), 1);

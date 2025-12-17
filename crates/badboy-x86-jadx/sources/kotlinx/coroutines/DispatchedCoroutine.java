@@ -39,11 +39,11 @@ public final class DispatchedCoroutine<T>  extends ScopeCoroutine<T> {
     }
 
     private final boolean tryResume() {
-        int i3;
+        int i;
         int i2;
         boolean compareAndSet;
         AtomicIntegerFieldUpdater _decision$FU;
-        int i;
+        int i3;
         final Object obj = this;
         final int i4 = 0;
         while (/* condition */) {

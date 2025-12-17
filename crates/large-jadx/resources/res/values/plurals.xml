@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="challenge.participate.again.after.hours">
+        <item quantity="android:attr/0x01000006">You can participate with another photo in %d hour</item>
+        <item quantity="android:attr/0x01000004">You can participate with another photo in %d hours</item>
+    </plurals>
+    <plurals name="comments.title">
+        <item quantity="android:attr/0x01000006">%d comment</item>
+        <item quantity="android:attr/0x01000004">%d comments</item>
+    </plurals>
+    <plurals name="day.generic.sing.plural">
+        <item quantity="android:attr/0x01000006">day</item>
+        <item quantity="android:attr/0x01000004">days</item>
+    </plurals>
+    <plurals name="days.without.accident">
+        <item quantity="android:attr/0x01000006">&lt;b&gt;%d clean day&lt;/b&gt;</item>
+        <item quantity="android:attr/0x01000004">&lt;b&gt;%d clean days&lt;/b&gt; in a row</item>
+    </plurals>
+    <plurals name="exo_controls_fastforward_by_amount_description">
+        <item quantity="android:attr/0x01000006">Fast forward %d second</item>
+        <item quantity="android:attr/0x01000004">Fast forward %d seconds</item>
+    </plurals>
+    <plurals name="exo_controls_rewind_by_amount_description">
+        <item quantity="android:attr/0x01000006">Rewind %d second</item>
+        <item quantity="android:attr/0x01000004">Rewind %d seconds</item>
+    </plurals>
+    <plurals name="generic.duration.month">
+        <item quantity="android:attr/0x01000006">month</item>
+        <item quantity="android:attr/0x01000004">months</item>
+    </plurals>
+    <plurals name="knowledge.xp.number.of.points">
+        <item quantity="android:attr/0x01000006">%d point</item>
+        <item quantity="android:attr/0x01000004">%d points</item>
+    </plurals>
+    <plurals name="knowledge.xp.number.of.points.90">
+        <item quantity="android:attr/0x01000006">%d point</item>
+        <item quantity="android:attr/0x01000004">%d points</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="android:attr/0x01000006">%d new notification</item>
+        <item quantity="android:attr/0x01000004">%d new notifications</item>
+    </plurals>
+    <plurals name="streak.day">
+        <item quantity="android:attr/0x01000006">%d day</item>
+        <item quantity="android:attr/0x01000004">%d days</item>
+    </plurals>
+    <plurals name="streak.longest.reached">
+        <item quantity="android:attr/0x01000006">You've reached your longest streak of %d day</item>
+        <item quantity="android:attr/0x01000004">You've reached your longest streak of %d days</item>
+    </plurals>
+    <plurals name="streak.longest.record">
+        <item quantity="android:attr/0x01000006">Your longest streak is %d day</item>
+        <item quantity="android:attr/0x01000004">Your longest streak is %d days</item>
+    </plurals>
+    <plurals name="subscription.trial.footer.generic">
+        <item quantity="android:attr/0x01000006">%1$s per %2$s after the %3$d-day trial.</item>
+        <item quantity="android:attr/0x01000004">%1$s per %2$s after the %3$d-days trial.</item>
+    </plurals>
+    <plurals name="subscription.trial.footer.generic.v2">
+        <item quantity="android:attr/0x01000006">%1$d day free then %2$s every %3$s</item>
+        <item quantity="android:attr/0x01000004">First %1$d days free then %2$s every %3$s</item>
+    </plurals>
+    <plurals name="subscription.try.ndays.for.free">
+        <item quantity="android:attr/0x01000006">Try %d day for free</item>
+        <item quantity="android:attr/0x01000004">Try %d days for free</item>
+    </plurals>
+    <plurals name="time.placeholder.hour">
+        <item quantity="android:attr/0x01000006">%d hour</item>
+        <item quantity="android:attr/0x01000004">%d hours</item>
+    </plurals>
+    <plurals name="time.placeholder.min">
+        <item quantity="android:attr/0x01000006">%d minute</item>
+        <item quantity="android:attr/0x01000004">%d minutes</item>
+    </plurals>
+    <plurals name="time.streak.current.steak.in.days">
+        <item quantity="android:attr/0x01000006">%d day</item>
+        <item quantity="android:attr/0x01000004">%d days</item>
+    </plurals>
+    <plurals name="x.new.exams.card">
+        <item quantity="android:attr/0x01000006">%d new</item>
+        <item quantity="android:attr/0x01000004">%d new</item>
+    </plurals>
+</resources>

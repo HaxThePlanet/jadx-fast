@@ -269,8 +269,8 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
         String str;
         String str2;
         Object uninterruptibly;
-        Class append2;
-        StringBuilder append;
+        Class append;
+        StringBuilder append2;
         Throwable cause;
         String userObjectToString;
         builder.append("SUCCESS, result=[").append(userObjectToString(AbstractResolvableFuture.getUninterruptibly(this))).append("]");
@@ -490,15 +490,15 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
     @Override // com.google.common.util.concurrent.ListenableFuture
     public final void addListener(Runnable listener, Executor executor) {
         androidx.concurrent.futures.AbstractResolvableFuture.Listener oldHead;
-        androidx.concurrent.futures.AbstractResolvableFuture.Listener tOMBSTONE2;
         androidx.concurrent.futures.AbstractResolvableFuture.Listener tOMBSTONE;
+        androidx.concurrent.futures.AbstractResolvableFuture.Listener tOMBSTONE2;
         AbstractResolvableFuture.checkNotNull(listener);
         AbstractResolvableFuture.checkNotNull(executor);
         if (this.listeners != AbstractResolvableFuture.Listener.TOMBSTONE) {
-            tOMBSTONE2 = new AbstractResolvableFuture.Listener(listener, executor);
-            tOMBSTONE2.next = oldHead;
-            while (AbstractResolvableFuture.ATOMIC_HELPER.casListeners(this, oldHead, tOMBSTONE2)) {
-                tOMBSTONE2.next = oldHead;
+            tOMBSTONE = new AbstractResolvableFuture.Listener(listener, executor);
+            tOMBSTONE.next = oldHead;
+            while (AbstractResolvableFuture.ATOMIC_HELPER.casListeners(this, oldHead, tOMBSTONE)) {
+                tOMBSTONE.next = oldHead;
             }
         }
         AbstractResolvableFuture.executeListener(listener, executor);
@@ -517,8 +517,8 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
         boolean abstractFuture;
         boolean future;
         String str;
-        int i2;
         int i;
+        int i2;
         boolean z;
         localValue = this.value;
         rValue = 0;
@@ -547,9 +547,9 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
                 if (localValue == null) {
                 } else {
                 }
-                i = i5;
+                i2 = i5;
                 abstractFuture = str;
-                i = i4;
+                i2 = i4;
                 abstractFuture.interruptTask();
             }
         }
@@ -558,20 +558,20 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
 
     public final V get() throws java.lang.InterruptedException, ExecutionException {
         Object localValue;
-        int i2;
+        int i3;
         androidx.concurrent.futures.AbstractResolvableFuture.Waiter oldHead;
         androidx.concurrent.futures.AbstractResolvableFuture.Waiter tOMBSTONE2;
         androidx.concurrent.futures.AbstractResolvableFuture.Waiter tOMBSTONE;
         boolean casWaiters;
+        int i2;
         int i;
-        int i3;
         if (Thread.interrupted()) {
         } else {
             localValue = this.value;
             int i4 = 0;
             final int i5 = 1;
-            i2 = localValue != null ? i5 : i4;
-            if (i2 &= i7 != 0) {
+            i3 = localValue != null ? i5 : i4;
+            if (i3 &= i7 != 0) {
                 return getDoneValue(localValue);
             }
             if (this.waiters != AbstractResolvableFuture.Waiter.TOMBSTONE) {
@@ -586,9 +586,9 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
                     if (localValue != null) {
                     } else {
                     }
-                    i = i4;
+                    i2 = i4;
                     LockSupport.park(this);
-                    i = i5;
+                    i2 = i5;
                 }
                 removeWaiter(tOMBSTONE2);
                 InterruptedException interruptedException = new InterruptedException();
@@ -601,32 +601,32 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
     }
 
     public final V get(long timeout, TimeUnit unit) throws java.lang.InterruptedException, TimeoutException, ExecutionException {
-        String message3;
         String message;
+        String message3;
         String message2;
         long overWaitNanos;
         long convert;
         long remainingNanos;
         Object localValue;
         androidx.concurrent.futures.AbstractResolvableFuture.Waiter oldHead;
-        int i2;
+        int i;
         int tOMBSTONE;
-        int i5;
+        int i2;
         int casWaiters;
         int cmp;
         int append2;
-        StringBuilder append3;
-        int append;
+        StringBuilder append;
+        int append3;
         int i4;
-        int i6;
+        int i7;
         String str;
         int i8;
         long timeoutNanos;
         int cmp2;
-        int i3;
-        int i7;
+        int i5;
+        int i6;
         long nanos;
-        int i;
+        int i3;
         Object obj = this;
         overWaitNanos = timeout;
         final Object obj2 = obj30;
@@ -636,8 +636,8 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
         } else {
             localValue = obj.value;
             tOMBSTONE = 1;
-            i5 = localValue != null ? tOMBSTONE : 0;
-            if (i5 &= i6 != 0) {
+            i2 = localValue != null ? tOMBSTONE : 0;
+            if (i2 &= i7 != 0) {
                 return obj.getDoneValue(localValue);
             }
             casWaiters = 0;
@@ -652,7 +652,7 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
                     tOMBSTONE = new AbstractResolvableFuture.Waiter();
                     tOMBSTONE.setNext(oldHead);
                     while (AbstractResolvableFuture.ATOMIC_HELPER.casWaiters(obj, oldHead, tOMBSTONE)) {
-                        casWaiters = i7;
+                        casWaiters = i6;
                         tOMBSTONE.setNext(oldHead);
                     }
                     LockSupport.parkNanos(obj, remainingNanos);
@@ -663,7 +663,7 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
                         }
                         i4 = 0;
                         LockSupport.parkNanos(obj, remainingNanos);
-                        i4 = i3;
+                        i4 = i5;
                     }
                     obj.removeWaiter(tOMBSTONE);
                     InterruptedException interruptedException2 = new InterruptedException();
@@ -671,53 +671,53 @@ public abstract class AbstractResolvableFuture<V>  implements ListenableFuture<V
                 }
                 return obj.getDoneValue(obj.value);
             }
-            i3 = tOMBSTONE;
-            i7 = casWaiters;
-            while (Long.compare(remainingNanos, i7) > 0) {
+            i5 = tOMBSTONE;
+            i6 = casWaiters;
+            while (Long.compare(remainingNanos, i6) > 0) {
                 localValue = obj.value;
                 if (localValue != null) {
                 } else {
                 }
-                i2 = 0;
+                i = 0;
                 remainingNanos = i8 - oldHead;
-                i2 = i3;
+                i = i5;
             }
             StringBuilder stringBuilder3 = new StringBuilder();
             str = " ";
             final int i15 = i13;
-            if (Long.compare(i14, i7) < 0) {
+            if (Long.compare(i14, i6) < 0) {
                 StringBuilder stringBuilder4 = new StringBuilder();
                 int i9 = -remainingNanos;
                 timeoutNanos = convert;
                 convert = obj2.convert(i9, obj2);
-                overWaitNanos = i - nanos;
-                if (Long.compare(convert, i7) != 0) {
+                overWaitNanos = i3 - nanos;
+                if (Long.compare(convert, i6) != 0) {
                     if (Long.compare(overWaitNanos, i15) > 0) {
-                        cmp2 = i3;
+                        cmp2 = i5;
                     } else {
                         cmp2 = 0;
                     }
                 } else {
                 }
-                if (Long.compare(convert, i7) > 0) {
+                if (Long.compare(convert, i6) > 0) {
                     StringBuilder stringBuilder7 = new StringBuilder();
-                    message = stringBuilder7.append(stringBuilder4.append(stringBuilder3.append("Waited ").append(overWaitNanos).append(str).append(obj2.toString().toLowerCase(Locale.ROOT)).toString()).append(" (plus ").toString()).append(convert).append(str).append(obj2.toString().toLowerCase(Locale.ROOT)).toString();
+                    message3 = stringBuilder7.append(stringBuilder4.append(stringBuilder3.append("Waited ").append(overWaitNanos).append(str).append(obj2.toString().toLowerCase(Locale.ROOT)).toString()).append(" (plus ").toString()).append(convert).append(str).append(obj2.toString().toLowerCase(Locale.ROOT)).toString();
                     if (cmp2 != 0) {
                         StringBuilder stringBuilder8 = new StringBuilder();
-                        i3 = message;
-                        message = stringBuilder8.append(message).append(",").toString();
+                        i5 = message3;
+                        message3 = stringBuilder8.append(message3).append(",").toString();
                     } else {
-                        i3 = message;
+                        i5 = message3;
                     }
                     StringBuilder stringBuilder9 = new StringBuilder();
-                    message3 = stringBuilder9.append(message).append(str).toString();
+                    message = stringBuilder9.append(message3).append(str).toString();
                 }
                 if (cmp2 != 0) {
                     StringBuilder stringBuilder6 = new StringBuilder();
-                    message3 = stringBuilder6.append(message3).append(overWaitNanos).append(" nanoseconds ").toString();
+                    message = stringBuilder6.append(message).append(overWaitNanos).append(" nanoseconds ").toString();
                 }
                 StringBuilder stringBuilder5 = new StringBuilder();
-                message2 = stringBuilder5.append(message3).append("delay)").toString();
+                message2 = stringBuilder5.append(message).append("delay)").toString();
             } else {
                 timeoutNanos = convert;
             }

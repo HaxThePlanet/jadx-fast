@@ -36,37 +36,37 @@ public final class CutCornerShape extends androidx.compose.foundation.shape.Corn
 
     @Override // androidx.compose.foundation.shape.CornerBasedShape
     public Outline createOutline-LjSzlW0(long size, float topStart, float topEnd, float bottomEnd, float bottomStart, LayoutDirection layoutDirection) {
-        int i2;
+        int i4;
         Outline rectangle;
         Object rect-uvyYCjk;
         Path path;
-        int i5;
+        int i2;
         int i6;
-        int i7;
-        int i4;
-        int i3;
         int i;
+        int i3;
+        int i5;
+        int i7;
         float height-impl;
         int i11 = 0;
-        i2 = Float.compare(i10, i11) == 0 ? 1 : 0;
-        if (i2 != 0) {
+        i4 = Float.compare(i10, i11) == 0 ? 1 : 0;
+        if (i4 != 0) {
             rectangle = new Outline.Rectangle(SizeKt.toRect-uvyYCjk(size));
         } else {
             Path path2 = AndroidPath_androidKt.Path();
             path = path2;
-            i5 = 0;
-            i7 = obj14 == LayoutDirection.Ltr ? topEnd : bottomEnd;
-            path.moveTo(i11, i7);
-            path.lineTo(i7, i11);
-            i = obj14 == LayoutDirection.Ltr ? bottomEnd : topEnd;
-            path.lineTo(width-impl -= i, i11);
-            path.lineTo(Size.getWidth-impl(size), i);
-            i4 = obj14 == LayoutDirection.Ltr ? bottomStart : layoutDirection;
-            path.lineTo(Size.getWidth-impl(size), height-impl4 -= i4);
-            path.lineTo(width-impl4 -= i4, Size.getHeight-impl(size));
-            i3 = obj14 == LayoutDirection.Ltr ? layoutDirection : bottomStart;
-            path.lineTo(i3, Size.getHeight-impl(size));
-            path.lineTo(i11, height-impl3 -= i3);
+            i2 = 0;
+            i = obj14 == LayoutDirection.Ltr ? topEnd : bottomEnd;
+            path.moveTo(i11, i);
+            path.lineTo(i, i11);
+            i7 = obj14 == LayoutDirection.Ltr ? bottomEnd : topEnd;
+            path.lineTo(width-impl -= i7, i11);
+            path.lineTo(Size.getWidth-impl(size), i7);
+            i3 = obj14 == LayoutDirection.Ltr ? bottomStart : layoutDirection;
+            path.lineTo(Size.getWidth-impl(size), height-impl4 -= i3);
+            path.lineTo(width-impl4 -= i3, Size.getHeight-impl(size));
+            i5 = obj14 == LayoutDirection.Ltr ? layoutDirection : bottomStart;
+            path.lineTo(i5, Size.getHeight-impl(size));
+            path.lineTo(i11, height-impl3 -= i5);
             path.close();
             rect-uvyYCjk = new Outline.Generic(path2);
             rectangle = rect-uvyYCjk;

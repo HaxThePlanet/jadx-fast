@@ -62,8 +62,8 @@ final class SourceInformationContext {
 
     public final androidx.compose.ui.tooling.data.SourceLocation nextSourceLocation() {
         int nextLocation;
-        int intValue3;
         int intValue;
+        int intValue3;
         int intValue2;
         if (this.nextLocation >= this.locations.size() && this.repeatOffset >= 0) {
             if (this.repeatOffset >= 0) {
@@ -75,23 +75,23 @@ final class SourceInformationContext {
             this.nextLocation = nextLocation3 + 1;
             Object obj = this.locations.get(nextLocation3);
             Integer lineNumber = (SourceLocationInfo)obj.getLineNumber();
-            intValue = -1;
+            intValue3 = -1;
             if (lineNumber != null) {
-                intValue3 = lineNumber.intValue();
+                intValue = lineNumber.intValue();
             } else {
-                intValue3 = intValue;
+                intValue = intValue3;
             }
             Integer offset = obj.getOffset();
             if (offset != null) {
                 intValue2 = offset.intValue();
             } else {
-                intValue2 = intValue;
+                intValue2 = intValue3;
             }
             Integer length = obj.getLength();
             if (length != null) {
-                intValue = length.intValue();
+                intValue3 = length.intValue();
             }
-            SourceLocation sourceLocation = new SourceLocation(intValue3, intValue2, intValue, this.sourceFile, this.packageHash);
+            SourceLocation sourceLocation = new SourceLocation(intValue, intValue2, intValue3, this.sourceFile, this.packageHash);
             return sourceLocation;
         }
         return null;
@@ -99,20 +99,20 @@ final class SourceInformationContext {
 
     public final androidx.compose.ui.tooling.data.SourceLocation sourceLocation(int callIndex, androidx.compose.ui.tooling.data.SourceInformationContext parentContext) {
         int locationIndex;
+        int repeatOffset;
         int repeatOffset2;
-        int repeatOffset3;
         int packageHash;
         Integer valueOf;
-        int repeatOffset;
-        int intValue4;
-        int intValue2;
-        int intValue;
+        int repeatOffset3;
         int intValue3;
+        int intValue2;
+        int intValue4;
+        int intValue;
         String sourceFile;
         if (callIndex >= this.locations.size() && this.repeatOffset >= 0 && this.repeatOffset < this.locations.size()) {
             if (this.repeatOffset >= 0) {
                 if (this.repeatOffset < this.locations.size()) {
-                    locationIndex = repeatOffset2;
+                    locationIndex = repeatOffset;
                 }
             }
         }
@@ -122,21 +122,21 @@ final class SourceInformationContext {
             Integer lineNumber = (SourceLocationInfo)obj.getLineNumber();
             intValue2 = -1;
             if (lineNumber != null) {
-                intValue4 = lineNumber.intValue();
+                intValue3 = lineNumber.intValue();
             } else {
-                intValue4 = intValue2;
+                intValue3 = intValue2;
             }
             Integer offset = obj.getOffset();
             if (offset != null) {
-                intValue = offset.intValue();
+                intValue4 = offset.intValue();
             } else {
-                intValue = intValue2;
+                intValue4 = intValue2;
             }
             Integer length = obj.getLength();
             if (length != null) {
-                intValue3 = length.intValue();
+                intValue = length.intValue();
             } else {
-                intValue3 = intValue2;
+                intValue = intValue2;
             }
             if (this.sourceFile == null) {
                 sourceFile = parentContext != null ? parentContext.sourceFile : valueOf;
@@ -152,7 +152,7 @@ final class SourceInformationContext {
             if (valueOf != null) {
                 intValue2 = valueOf.intValue();
             }
-            SourceLocation sourceLocation = new SourceLocation(intValue4, intValue, intValue3, sourceFile, intValue2);
+            SourceLocation sourceLocation = new SourceLocation(intValue3, intValue4, intValue, sourceFile, intValue2);
             return sourceLocation;
         }
         return valueOf;

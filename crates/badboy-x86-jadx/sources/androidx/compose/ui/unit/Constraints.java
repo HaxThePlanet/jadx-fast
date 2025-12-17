@@ -29,50 +29,50 @@ public final class Constraints {
         }
 
         public final long fitPrioritizingHeight-Zbe2FdA(int minWidth, int maxWidth, int minHeight, int maxHeight) {
-            int i;
             int i2;
+            int i;
             int i3;
             int i4 = 262142;
             final int i5 = Math.min(minHeight, i4);
-            i2 = Integer.MAX_VALUE;
-            if (maxHeight == i2) {
-                i = i2;
+            i = Integer.MAX_VALUE;
+            if (maxHeight == i) {
+                i2 = i;
             } else {
-                i = Math.min(maxHeight, i4);
+                i2 = Math.min(maxHeight, i4);
             }
-            i3 = i == i2 ? i5 : i;
+            i3 = i2 == i ? i5 : i2;
             final int i6 = ConstraintsKt.access$maxAllowedForSize(i3);
-            if (maxWidth == i2) {
+            if (maxWidth == i) {
             } else {
-                i2 = Math.min(i6, maxWidth);
+                i = Math.min(i6, maxWidth);
             }
-            return ConstraintsKt.Constraints(Math.min(i6, minWidth), i2, i5, i);
+            return ConstraintsKt.Constraints(Math.min(i6, minWidth), i, i5, i2);
         }
 
         public final long fitPrioritizingWidth-Zbe2FdA(int minWidth, int maxWidth, int minHeight, int maxHeight) {
             int i;
-            int i3;
             int i2;
+            int i3;
             int i4 = 262142;
             final int i5 = Math.min(minWidth, i4);
-            i3 = Integer.MAX_VALUE;
-            if (maxWidth == i3) {
-                i = i3;
+            i2 = Integer.MAX_VALUE;
+            if (maxWidth == i2) {
+                i = i2;
             } else {
                 i = Math.min(maxWidth, i4);
             }
-            i2 = i == i3 ? i5 : i;
-            final int i6 = ConstraintsKt.access$maxAllowedForSize(i2);
-            if (maxHeight == i3) {
+            i3 = i == i2 ? i5 : i;
+            final int i6 = ConstraintsKt.access$maxAllowedForSize(i3);
+            if (maxHeight == i2) {
             } else {
-                i3 = Math.min(i6, maxHeight);
+                i2 = Math.min(i6, maxHeight);
             }
-            return ConstraintsKt.Constraints(i5, i, Math.min(i6, minHeight), i3);
+            return ConstraintsKt.Constraints(i5, i, Math.min(i6, minHeight), i2);
         }
 
         public final long fixed-JhjzzOo(int width, int height) {
             int i;
-            String string;
+            String $i$a$RequirePreconditionConstraints$Companion$fixed$1;
             StringBuilder append;
             String str;
             if (width >= 0 && height >= 0) {
@@ -90,7 +90,7 @@ public final class Constraints {
 
         public final long fixedHeight-OenEA2s(int height) {
             int i;
-            String string;
+            String $i$a$RequirePreconditionConstraints$Companion$fixedHeight$1;
             StringBuilder append;
             String str;
             int i2 = 0;
@@ -106,7 +106,7 @@ public final class Constraints {
 
         public final long fixedWidth-OenEA2s(int width) {
             int i;
-            String string;
+            String $i$a$RequirePreconditionConstraints$Companion$fixedWidth$1;
             StringBuilder append;
             String str;
             int i2 = 0;
@@ -151,40 +151,40 @@ public final class Constraints {
     }
 
     public static final long copy-Zbe2FdA(long arg0, int minWidth, int maxWidth, int minHeight, int maxHeight) {
-        int i;
         int i2;
-        int string;
-        int append2;
-        String string2;
-        StringBuilder string3;
-        String append;
+        int i;
+        int $i$a$RequirePreconditionConstraints$copy$3;
+        int append;
+        String $i$a$RequirePreconditionConstraints$copy$1;
+        StringBuilder $i$a$RequirePreconditionConstraints$copy$2;
+        String append2;
         String str;
-        i = 1;
+        i2 = 1;
         int i3 = 0;
         if (maxHeight >= 0 && maxWidth >= 0) {
-            i2 = maxWidth >= 0 ? i : i3;
+            i = maxWidth >= 0 ? i2 : i3;
         } else {
         }
         int i6 = 0;
-        if (i2 == 0) {
+        if (i == 0) {
             int i8 = 0;
             StringBuilder stringBuilder2 = new StringBuilder();
             InlineClassHelperKt.throwIllegalArgumentException(stringBuilder2.append("minHeight(").append(maxHeight).append(") and minWidth(").append(maxWidth).append(") must be >= 0").toString());
         }
-        string = minHeight >= maxWidth ? i : i3;
-        append2 = 0;
+        $i$a$RequirePreconditionConstraints$copy$3 = minHeight >= maxWidth ? i2 : i3;
+        append = 0;
         int i7 = 41;
-        if (string == null) {
+        if ($i$a$RequirePreconditionConstraints$copy$3 == 0) {
             int i9 = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             InlineClassHelperKt.throwIllegalArgumentException(stringBuilder3.append("maxWidth(").append(minHeight).append(") must be >= minWidth(").append(maxWidth).append(i7).toString());
         }
         if (obj13 >= maxHeight) {
         } else {
-            i = i3;
+            i2 = i3;
         }
         int i4 = 0;
-        if (i == 0) {
+        if (i2 == 0) {
             int i5 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             InlineClassHelperKt.throwIllegalArgumentException(stringBuilder.append("maxHeight(").append(obj13).append(") must be >= minHeight(").append(maxHeight).append(i7).toString());
@@ -193,35 +193,35 @@ public final class Constraints {
     }
 
     public static long copy-Zbe2FdA$default(long l, int i2, int i3, int i4, int i5, int i6, Object object7) {
-        int i9;
-        int i;
         int i8;
         int i7;
+        int i;
+        int i9;
         int obj8;
         int obj9;
         int obj10;
         int obj11;
         if (object7 & 1 != 0) {
-            i9 = obj8;
+            i8 = obj8;
         } else {
-            i9 = i3;
+            i8 = i3;
         }
         if (object7 & 2 != 0) {
-            i = obj9;
+            i7 = obj9;
         } else {
-            i = i4;
+            i7 = i4;
         }
         if (object7 & 4 != 0) {
-            i8 = obj10;
+            i = obj10;
         } else {
-            i8 = i5;
+            i = i5;
         }
         if (object7 & 8 != 0) {
-            i7 = obj11;
+            i9 = obj11;
         } else {
-            i7 = i6;
+            i9 = i6;
         }
-        return Constraints.copy-Zbe2FdA(l, obj1, i9, i, i8);
+        return Constraints.copy-Zbe2FdA(l, obj1, i8, i7, i);
     }
 
     public static boolean equals-impl(long l, Object object2) {
@@ -249,13 +249,13 @@ public final class Constraints {
     public static final boolean getHasBoundedHeight-impl(long arg0) {
         int i;
         int i2 = 0;
-        int i3 = (int)i7;
-        int i8 = 0;
+        int $i$f$getFocusIndexImpl = (int)i6;
+        int i7 = 0;
         i = 1;
-        i13 += i17;
+        i12 += i16;
+        int i3 = 0;
         int i4 = 0;
-        int i5 = 0;
-        if (i19 &= i11 != 0) {
+        if (i18 &= i10 != 0) {
         } else {
             i = 0;
         }
@@ -265,11 +265,11 @@ public final class Constraints {
     public static final boolean getHasBoundedWidth-impl(long arg0) {
         int i;
         int i2 = 0;
-        int i3 = (int)i9;
-        int i10 = 0;
+        int $i$f$getFocusIndexImpl = (int)i8;
+        int i9 = 0;
         i = 1;
-        int i4 = 0;
-        if (i6 &= i13 != 0) {
+        int i3 = 0;
+        if (i5 &= i12 != 0) {
         } else {
             i = 0;
         }
@@ -280,25 +280,25 @@ public final class Constraints {
     }
 
     public static final boolean getHasFixedHeight-impl(long arg0) {
-        int i2;
         int i;
+        int i2;
         int i3 = 0;
-        int i4 = (int)i8;
-        int i9 = 0;
-        i2 = 1;
-        i14 += i18;
+        int $i$f$getFocusIndexImpl = (int)i7;
+        int i8 = 0;
+        i = 1;
+        i13 += i17;
+        int i4 = 0;
+        i10 -= i;
         int i5 = 0;
-        i11 -= i2;
-        int i6 = 0;
-        int $i$f$minHeightOffsets = i15 + 15;
-        i24 &= i12;
-        final int i26 = 0;
-        i = i25 == 0 ? 0x7fffffff /* Unknown resource */ : i25 + -1;
-        if (i20 &= i12 == i) {
+        int $i$f$minHeightOffsets = i14 + 15;
+        i23 &= i11;
+        final int i25 = 0;
+        i2 = i24 == 0 ? 0x7fffffff /* Unknown resource */ : i24 + -1;
+        if (i19 &= i11 == i2) {
         } else {
-            i2 = 0;
+            i = 0;
         }
-        return i2;
+        return i;
     }
 
     public static void getHasFixedWidth$annotations() {
@@ -308,15 +308,15 @@ public final class Constraints {
         int i2;
         int i;
         int i3 = 0;
-        int i4 = (int)i10;
-        int i11 = 0;
+        int $i$f$getFocusIndexImpl = (int)i9;
+        int i10 = 0;
         i2 = 1;
-        int i5 = 0;
-        i13 -= i2;
-        i19 &= i14;
-        int i26 = 0;
-        i = i20 == 0 ? 0x7fffffff /* Unknown resource */ : i20 + -1;
-        if (i7 &= i14 == i) {
+        int i4 = 0;
+        i12 -= i2;
+        i18 &= i13;
+        int i25 = 0;
+        i = i19 == 0 ? 0x7fffffff /* Unknown resource */ : i19 + -1;
+        if (i6 &= i13 == i) {
         } else {
             i2 = 0;
         }
@@ -326,47 +326,47 @@ public final class Constraints {
     public static final int getMaxHeight-impl(long arg0) {
         int i;
         int i2 = 0;
-        int i3 = (int)i7;
-        int i8 = 0;
-        int i15 = 1;
-        i13 += i21;
+        int $i$f$getFocusIndexImpl = (int)i6;
+        int i7 = 0;
+        int i14 = 1;
+        i12 += i20;
+        int i3 = 0;
         int i4 = 0;
-        int i5 = 0;
-        i17 &= i11;
-        i = i18 == 0 ? 0x7fffffff /* Unknown resource */ : i18 + -1;
+        i16 &= i10;
+        i = i17 == 0 ? 0x7fffffff /* Unknown resource */ : i17 + -1;
         return i;
     }
 
     public static final int getMaxWidth-impl(long arg0) {
         int i;
         int i2 = 0;
-        int i3 = (int)i9;
-        int i10 = 0;
-        final int i18 = 1;
-        int i4 = 0;
-        i6 &= i13;
-        i = i7 == 0 ? 0x7fffffff /* Unknown resource */ : i7 + -1;
+        int $i$f$getFocusIndexImpl = (int)i8;
+        int i9 = 0;
+        final int i17 = 1;
+        int i3 = 0;
+        i5 &= i12;
+        i = i6 == 0 ? 0x7fffffff /* Unknown resource */ : i6 + -1;
         return i;
     }
 
     public static final int getMinHeight-impl(long arg0) {
         int i = 0;
-        int i2 = (int)i6;
-        int i7 = 0;
-        int i14 = 1;
-        i12 += i20;
+        int $i$f$getFocusIndexImpl = (int)i5;
+        int i6 = 0;
+        int i13 = 1;
+        i11 += i19;
+        int i2 = 0;
         int i3 = 0;
-        int i4 = 0;
-        return i16 &= i10;
+        return i15 &= i9;
     }
 
     public static final int getMinWidth-impl(long arg0) {
         int i = 0;
-        int i2 = (int)i8;
-        int i9 = 0;
-        final int i17 = 1;
-        int i3 = 0;
-        return i5 &= i12;
+        int $i$f$getFocusIndexImpl = (int)i7;
+        int i8 = 0;
+        final int i16 = 1;
+        int i2 = 0;
+        return i4 &= i11;
     }
 
     public static void getValue$annotations() {
@@ -382,17 +382,17 @@ public final class Constraints {
     public static final boolean isZero-impl(long arg0) {
         int i;
         int i2 = 0;
-        int i3 = (int)i10;
-        int i11 = 0;
+        int $i$f$getFocusIndexImpl = (int)i9;
+        int i10 = 0;
         i = 1;
-        i15 += i19;
-        int i12 = 0;
-        if (i7 -= i == 0) {
+        i14 += i18;
+        int i11 = 0;
+        if (i6 -= i == 0) {
             return i;
         }
-        int i13 = 0;
-        final int i27 = 0;
-        if (i25 -= i == 0) {
+        int i12 = 0;
+        final int i26 = 0;
+        if (i24 -= i == 0) {
         } else {
             i = 0;
         }
@@ -400,22 +400,22 @@ public final class Constraints {
     }
 
     public static String toString-impl(long arg0) {
-        String valueOf2;
         String valueOf;
+        String valueOf2;
         final int maxWidth-impl = Constraints.getMaxWidth-impl(arg0);
         int i = Integer.MAX_VALUE;
         if (maxWidth-impl == i) {
-            valueOf = valueOf2;
+            valueOf2 = valueOf;
         } else {
-            valueOf = String.valueOf(maxWidth-impl);
+            valueOf2 = String.valueOf(maxWidth-impl);
         }
         final int maxHeight-impl = Constraints.getMaxHeight-impl(arg0);
         if (maxHeight-impl == i) {
         } else {
-            valueOf2 = String.valueOf(maxHeight-impl);
+            valueOf = String.valueOf(maxHeight-impl);
         }
         StringBuilder stringBuilder = new StringBuilder();
-        return stringBuilder.append("Constraints(minWidth = ").append(Constraints.getMinWidth-impl(arg0)).append(", maxWidth = ").append(valueOf).append(", minHeight = ").append(Constraints.getMinHeight-impl(arg0)).append(", maxHeight = ").append(valueOf2).append(')').toString();
+        return stringBuilder.append("Constraints(minWidth = ").append(Constraints.getMinWidth-impl(arg0)).append(", maxWidth = ").append(valueOf2).append(", minHeight = ").append(Constraints.getMinHeight-impl(arg0)).append(", maxHeight = ").append(valueOf).append(')').toString();
     }
 
     public boolean equals(Object object) {

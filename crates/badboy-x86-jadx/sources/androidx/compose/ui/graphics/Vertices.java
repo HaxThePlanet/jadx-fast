@@ -17,8 +17,8 @@ public final class Vertices {
     private final int vertexMode;
     private Vertices(int vertexMode, List<Offset> positions, List<Offset> textureCoordinates, List<androidx.compose.ui.graphics.Color> colors, List<Integer> indices) {
         int index$iv$iv;
-        int i2;
         int i3;
+        int i2;
         Object obj2;
         Object obj;
         int i;
@@ -38,8 +38,8 @@ public final class Vertices {
                     i = 0;
                     index$iv$iv++;
                 }
-                i2 = i3;
-                if (i2 != 0) {
+                i3 = i2;
+                if (i3 != 0) {
                 } else {
                     this.positions = encodePointList(positions);
                     List list2 = textureCoordinates;
@@ -47,9 +47,9 @@ public final class Vertices {
                     this.colors = encodeColorList(colors);
                     int size5 = indices.size();
                     short[] sArr = new short[size5];
-                    while (i3 < size5) {
-                        sArr[i3] = (short)intValue;
-                        i3++;
+                    while (i2 < size5) {
+                        sArr[i2] = (short)intValue;
+                        i2++;
                     }
                     int i9 = indices;
                     this.indices = sArr;

@@ -11,22 +11,22 @@ final class StartedWhileSubscribed implements kotlinx.coroutines.flow.SharingSta
     private final long replayExpiration;
     private final long stopTimeout;
     public StartedWhileSubscribed(long stopTimeout, long replayExpiration) {
-        int i;
         int i2;
+        int i;
         super();
         this.stopTimeout = stopTimeout;
         this.replayExpiration = obj11;
         int i5 = 0;
         final int i6 = 0;
-        i = Long.compare(stopTimeout2, i5) >= 0 ? i2 : i6;
+        i2 = Long.compare(stopTimeout2, i5) >= 0 ? i : i6;
         final String str3 = " ms) cannot be negative";
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
             if (Long.compare(replayExpiration3, i5) >= 0) {
             } else {
-                i2 = i6;
+                i = i6;
             }
-            if (i2 == 0) {
+            if (i == 0) {
             } else {
             }
             int i4 = 0;

@@ -306,7 +306,7 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
         public androidx.compose.ui.layout.MeasureResult layout(int width, int height, Map<androidx.compose.ui.layout.AlignmentLine, Integer> alignmentLines, Function1<? super androidx.compose.ui.layout.RulerScope, Unit> rulers, Function1<? super androidx.compose.ui.layout.Placeable.PlacementScope, Unit> placementBlock) {
             int i;
             int i2;
-            String string;
+            String $i$a$CheckPreconditionLookaheadDelegateKt$checkMeasuredSize$1$iv;
             StringBuilder append;
             String str;
             int i3 = 0;
@@ -515,17 +515,17 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
     private final void markActiveNodesAsReused(boolean deactivate) {
         int slotIdToNode;
         int reusableCount;
-        int i5;
+        int i;
         Snapshot currentThreadSnapshot;
-        int i3;
+        int i2;
         Function1 readObserver;
         Snapshot currentNonObservable;
-        int i;
-        int i2;
+        int i3;
+        int i4;
         Object obj2;
         Object obj;
         boolean mutableStateOf$default;
-        int i4;
+        int i5;
         slotIdToNode = 0;
         this.precomposedCount = slotIdToNode;
         this.precomposeMap.clear();
@@ -533,22 +533,22 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
         if (this.reusableCount != size) {
             this.reusableCount = size;
             reusableCount = Snapshot.Companion;
-            i5 = 0;
+            i = 0;
             currentThreadSnapshot = reusableCount.getCurrentThreadSnapshot();
-            i3 = 0;
+            i2 = 0;
             if (currentThreadSnapshot != null) {
                 readObserver = currentThreadSnapshot.getReadObserver();
             } else {
-                readObserver = i3;
+                readObserver = i2;
             }
-            i = 0;
-            i2 = 0;
-            while (i2 < size) {
-                obj2 = this.root.getFoldedChildren$ui_release().get(i2);
+            i3 = 0;
+            i4 = 0;
+            while (i4 < size) {
+                obj2 = this.root.getFoldedChildren$ui_release().get(i4);
                 obj = this.nodeToNodeState.get((LayoutNode)obj2);
                 if (obj != null && (LayoutNodeSubcompositionsState.NodeState)obj.getActive()) {
                 }
-                i2++;
+                i4++;
                 if (obj.getActive()) {
                 }
                 resetLayoutState(obj2);
@@ -560,7 +560,7 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
                 ReusableComposition composition = obj.getComposition();
                 if (composition != null) {
                 }
-                obj.setActiveState(SnapshotStateKt.mutableStateOf$default(Boolean.valueOf(slotIdToNode), i3, 2, i3));
+                obj.setActiveState(SnapshotStateKt.mutableStateOf$default(Boolean.valueOf(slotIdToNode), i2, 2, i2));
                 composition.deactivate();
             }
             Unit iNSTANCE = Unit.INSTANCE;
@@ -595,14 +595,14 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
         int currentPostLookaheadIndex;
         List childDelegates$ui_release;
         Object postLookaheadPrecomposeSlotHandleMap;
-        int i5;
-        int i2;
+        int i3;
         int i4;
+        int i5;
         int index$iv;
         int size;
-        Object obj;
         Object obj2;
-        int i3;
+        Object obj;
+        int i2;
         childDelegates$ui_release = 1;
         i = this.postLookaheadComposedSlotIds.getSize() >= this.currentPostLookaheadIndex ? childDelegates$ui_release : 0;
         if (i == 0) {
@@ -626,13 +626,13 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
             if ((LayoutNode)obj3 != null) {
                 currentPostLookaheadIndex = 0;
                 childDelegates$ui_release = (LayoutNode)obj3.getMeasurePassDelegate$ui_release().getChildDelegates$ui_release();
+                i3 = 0;
+                i4 = postLookaheadPrecomposeSlotHandleMap;
                 i5 = 0;
-                i2 = postLookaheadPrecomposeSlotHandleMap;
-                i4 = 0;
                 index$iv = 0;
-                while (index$iv < i2.size()) {
-                    i3 = 0;
-                    (LayoutNodeLayoutDelegate.MeasurePassDelegate)i2.get(index$iv).markDetachedFromParentLookaheadPass$ui_release();
+                while (index$iv < i4.size()) {
+                    i2 = 0;
+                    (LayoutNodeLayoutDelegate.MeasurePassDelegate)i4.get(index$iv).markDetachedFromParentLookaheadPass$ui_release();
                     index$iv++;
                 }
                 if (childDelegates$ui_release == null) {
@@ -643,17 +643,17 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
             return childDelegates$ui_release;
         }
         int i7 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Error: currentPostLookaheadIndex cannot be greater than the size of thepostLookaheadComposedSlotIds list.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireLayoutNodeSubcompositionsState$postLookaheadSubcompose$1 = new IllegalArgumentException("Error: currentPostLookaheadIndex cannot be greater than the size of thepostLookaheadComposedSlotIds list.".toString());
+        throw $i$a$RequireLayoutNodeSubcompositionsState$postLookaheadSubcompose$1;
     }
 
     private final void resetLayoutState(LayoutNode $this$resetLayoutState) {
-        LayoutNode.UsageByParent notUsed;
         LayoutNode.UsageByParent notUsed2;
+        LayoutNode.UsageByParent notUsed;
         $this$resetLayoutState.getMeasurePassDelegate$ui_release().setMeasuredByParent$ui_release(LayoutNode.UsageByParent.NotUsed);
         LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate$ui_release = $this$resetLayoutState.getLookaheadPassDelegate$ui_release();
         if (lookaheadPassDelegate$ui_release != null) {
-            notUsed = 0;
+            notUsed2 = 0;
             lookaheadPassDelegate$ui_release.setMeasuredByParent$ui_release(LayoutNode.UsageByParent.NotUsed);
         }
     }
@@ -682,10 +682,10 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
         if (compositionContext == null) {
         } else {
             int i9 = i;
-            LayoutNodeSubcompositionsState.subcompose.3.1.1 anon = new LayoutNodeSubcompositionsState.subcompose.3.1.1(nodeState2, nodeState2.getContent());
+            LayoutNodeSubcompositionsState.subcompose.3.1.1 $i$a$WithoutReadObservationLayoutNodeSubcompositionsState$subcompose$32 = new LayoutNodeSubcompositionsState.subcompose.3.1.1(nodeState2, nodeState2.getContent());
             int i11 = i3;
             Object obj5 = obj;
-            nodeState2.setComposition(obj2.subcomposeInto(nodeState2.getComposition(), node, nodeState2.getForceReuse(), compositionContext, (Function2)ComposableLambdaKt.composableLambdaInstance(-1750409193, true, anon)));
+            nodeState2.setComposition(obj2.subcomposeInto(nodeState2.getComposition(), node, nodeState2.getForceReuse(), compositionContext, (Function2)ComposableLambdaKt.composableLambdaInstance(-1750409193, true, $i$a$WithoutReadObservationLayoutNodeSubcompositionsState$subcompose$32)));
             int i2 = 0;
             nodeState2.setForceReuse(i2);
             LayoutNode.access$setIgnoreRemeasureRequests$p(root, i2);
@@ -695,25 +695,25 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
         int i8 = i;
         int i10 = i3;
         Object obj4 = obj;
-        IllegalStateException illegalStateException = new IllegalStateException("parent composition reference not set".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$WithoutReadObservationLayoutNodeSubcompositionsState$subcompose$3 = new IllegalStateException("parent composition reference not set".toString());
+        throw $i$a$WithoutReadObservationLayoutNodeSubcompositionsState$subcompose$3;
     }
 
     private final void subcompose(LayoutNode node, Object slotId, Function2<? super Composer, ? super Integer, Unit> content) {
         int hasInvalidations;
         boolean forceRecompose;
-        int i2;
+        int i4;
         Object nodeState;
         Object slotId2;
         Function2 lambda-1$ui_release;
         int i;
         int i3;
-        int i4;
+        int i2;
         HashMap nodeToNodeState = this.nodeToNodeState;
         int i5 = 0;
         final Object obj = (Map)nodeToNodeState.get(node);
         if (obj == null) {
-            i2 = 0;
+            i4 = 0;
             nodeState = new LayoutNodeSubcompositionsState.NodeState(slotId, ComposableSingletons.SubcomposeLayoutKt.INSTANCE.getLambda-1$ui_release(), 0, 4, 0);
             nodeToNodeState.put(node, nodeState);
         } else {
@@ -821,41 +821,41 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
     @Override // androidx.compose.runtime.ComposeNodeLifecycleCallback
     public final void disposeOrReuseStartingFromIndex(int startIndex) {
         int iNSTANCE;
-        int i8;
-        int i3;
-        int i;
-        int lastReusableIndex2;
+        int i2;
         int i9;
+        int i5;
+        int lastReusableIndex2;
+        int i;
         Object active;
         int needApplyNotification;
-        int i2;
         int i10;
+        int i8;
         Object slotIdAtIndex;
         androidx.compose.ui.layout.SubcomposeSlotReusePolicy.SlotIdsSet reusableSlotIdsSet;
         Snapshot currentThreadSnapshot;
         int readObserver;
         Snapshot currentNonObservable;
-        int i5;
-        Object obj2;
+        int i11;
         Object obj;
+        Object obj2;
         Object slotId;
         int i6;
-        int i7;
-        int i11;
-        int i12;
+        int i3;
         int i4;
+        int i12;
+        int i7;
         int lastReusableIndex;
         final Object obj3 = this;
         obj3.reusableCount = 0;
-        i15 -= i9;
+        i15 -= i;
         needApplyNotification = 0;
-        if (startIndex <= i) {
+        if (startIndex <= i5) {
             obj3.reusableSlotIdsSet.clear();
-            if (startIndex <= i) {
+            if (startIndex <= i5) {
             }
             obj3.slotReusePolicy.getSlotsToRetain(obj3.reusableSlotIdsSet);
             int i18 = 0;
-            i10 = i;
+            i8 = i5;
             slotIdAtIndex = Snapshot.Companion;
             reusableSlotIdsSet = 0;
             currentThreadSnapshot = slotIdAtIndex.getCurrentThreadSnapshot();
@@ -864,54 +864,54 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
             } else {
                 readObserver = 0;
             }
-            i5 = 0;
-            while (i10 >= i8) {
-                obj2 = obj3.root.getFoldedChildren$ui_release().get(i10);
-                obj = obj3.nodeToNodeState.get((LayoutNode)obj2);
-                Intrinsics.checkNotNull(obj);
-                slotId = (LayoutNodeSubcompositionsState.NodeState)obj.getSlotId();
-                i6 = i9;
+            i11 = 0;
+            while (i8 >= i2) {
+                obj = obj3.root.getFoldedChildren$ui_release().get(i8);
+                obj2 = obj3.nodeToNodeState.get((LayoutNode)obj);
+                Intrinsics.checkNotNull(obj2);
+                slotId = (LayoutNodeSubcompositionsState.NodeState)obj2.getSlotId();
+                i6 = i;
                 if (obj3.reusableSlotIdsSet.contains(slotId)) {
                 } else {
                 }
-                i7 = 0;
+                i3 = 0;
                 iNSTANCE = active.root;
-                i11 = 0;
+                i4 = 0;
                 LayoutNode.access$setIgnoreRemeasureRequests$p(iNSTANCE, i6);
                 i12 = i14;
-                obj3.nodeToNodeState.remove(obj2);
-                ReusableComposition composition = obj.getComposition();
+                obj3.nodeToNodeState.remove(obj);
+                ReusableComposition composition = obj2.getComposition();
                 if (composition != null) {
                 }
-                i4 = i;
-                obj3.root.removeAt$ui_release(i10, 1);
+                i7 = i5;
+                obj3.root.removeAt$ui_release(i8, 1);
                 LayoutNode.access$setIgnoreRemeasureRequests$p(iNSTANCE, false);
                 obj3.slotIdToNode.remove(slotId);
-                i10--;
-                iNSTANCE = i3;
-                i9 = lastReusableIndex2;
-                i = i4;
-                i8 = startIndex;
+                i8--;
+                iNSTANCE = i9;
+                i = lastReusableIndex2;
+                i5 = i7;
+                i2 = startIndex;
                 composition.dispose();
                 obj3.reusableCount = reusableCount++;
-                if (obj.getActive()) {
+                if (obj2.getActive()) {
                 } else {
                 }
-                i3 = iNSTANCE;
-                i4 = i;
+                i9 = iNSTANCE;
+                i7 = i5;
                 lastReusableIndex2 = i6;
-                obj3.resetLayoutState(obj2);
-                obj.setActive(iNSTANCE);
-                i3 = iNSTANCE;
-                i4 = i;
+                obj3.resetLayoutState(obj);
+                obj2.setActive(iNSTANCE);
+                i9 = iNSTANCE;
+                i7 = i5;
                 needApplyNotification = active;
                 lastReusableIndex2 = i6;
             }
-            lastReusableIndex = i;
+            lastReusableIndex = i5;
             iNSTANCE = Unit.INSTANCE;
             slotIdAtIndex.restoreNonObservable(currentThreadSnapshot, slotIdAtIndex.makeCurrentNonObservable(currentThreadSnapshot), readObserver);
         } else {
-            lastReusableIndex = i;
+            lastReusableIndex = i5;
         }
         if (needApplyNotification != 0) {
             Snapshot.Companion.sendApplyNotifications();
@@ -953,23 +953,23 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
 
     @Override // androidx.compose.runtime.ComposeNodeLifecycleCallback
     public final void makeSureStateIsConsistent() {
+        int i3;
         int i;
         int i2;
-        int i3;
         int size = this.root.getFoldedChildren$ui_release().size();
-        i3 = 1;
+        i2 = 1;
         int i9 = 0;
-        i = this.nodeToNodeState.size() == size ? i3 : i9;
-        if (i == 0) {
+        i3 = this.nodeToNodeState.size() == size ? i2 : i9;
+        if (i3 == 0) {
         } else {
-            i2 = i4 -= precomposedCount3 >= 0 ? i3 : i9;
-            if (i2 == 0) {
+            i = i4 -= precomposedCount3 >= 0 ? i2 : i9;
+            if (i == 0) {
             } else {
                 if (this.precomposeMap.size() == this.precomposedCount) {
                 } else {
-                    i3 = i9;
+                    i2 = i9;
                 }
-                if (i3 == 0) {
+                if (i2 == 0) {
                 } else {
                 }
                 int i7 = 0;
@@ -1005,14 +1005,14 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
 
     public final androidx.compose.ui.layout.SubcomposeLayoutState.PrecomposedSlotHandle precompose(Object slotId, Function2<? super Composer, ? super Integer, Unit> content) {
         boolean $this$getOrPut$iv;
-        int i3;
-        Object obj;
-        int i;
-        LayoutNode takeNodeFromReusables;
         int i4;
+        Object obj;
+        int i3;
+        LayoutNode takeNodeFromReusables;
+        int i5;
         Object nodeIndex;
         LayoutNode layoutNode;
-        int i5;
+        int i;
         int i2;
         if (!this.root.isAttached()) {
             LayoutNodeSubcompositionsState.precompose.1 anon = new LayoutNodeSubcompositionsState.precompose.1();
@@ -1022,20 +1022,20 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
         if (!this.slotIdToNode.containsKey(slotId)) {
             this.postLookaheadPrecomposeSlotHandleMap.remove(slotId);
             HashMap precomposeMap = this.precomposeMap;
-            i3 = 0;
+            i4 = 0;
             obj = (Map)precomposeMap.get(slotId);
             if (obj == null) {
-                i = 0;
+                i3 = 0;
                 takeNodeFromReusables = takeNodeFromReusables(slotId);
-                i4 = 1;
+                i5 = 1;
                 if (takeNodeFromReusables != null) {
-                    move(this.root.getFoldedChildren$ui_release().indexOf(takeNodeFromReusables), this.root.getFoldedChildren$ui_release().size(), i4);
-                    this.precomposedCount = precomposedCount += i4;
+                    move(this.root.getFoldedChildren$ui_release().indexOf(takeNodeFromReusables), this.root.getFoldedChildren$ui_release().size(), i5);
+                    this.precomposedCount = precomposedCount += i5;
                     nodeIndex = takeNodeFromReusables;
                 } else {
                     layoutNode = nodeIndex;
-                    i5 = 0;
-                    this.precomposedCount = precomposedCount2 += i4;
+                    i = 0;
+                    this.precomposedCount = precomposedCount2 += i5;
                 }
                 precomposeMap.put(slotId, nodeIndex);
             } else {
@@ -1056,11 +1056,11 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
     public final void setSlotReusePolicy(androidx.compose.ui.layout.SubcomposeSlotReusePolicy value) {
         androidx.compose.ui.layout.SubcomposeSlotReusePolicy slotReusePolicy;
         LayoutNode root;
-        int i2;
         int i4;
         int i;
-        int i3;
         int i5;
+        int i2;
+        int i3;
         if (this.slotReusePolicy != value) {
             this.slotReusePolicy = value;
             markActiveNodesAsReused(false);
@@ -1070,19 +1070,19 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
 
     public final List<androidx.compose.ui.layout.Measurable> subcompose(Object slotId, Function2<? super Composer, ? super Integer, Unit> content) {
         LayoutNode.LayoutState lookaheadMeasuring;
-        int i;
+        int i2;
         int currentIndex2;
         LayoutNode.LayoutState layingOut;
         List childLookaheadMeasurables$ui_release;
         int currentIndex3;
-        String str;
+        String $i$a$CheckPreconditionLayoutNodeSubcompositionsState$subcompose$1;
         Object obj;
         int indexOf;
         Object currentIndex;
         Object takeNodeFromReusables;
+        int i;
         int i3;
-        int i2;
-        String str2;
+        String str;
         makeSureStateIsConsistent();
         LayoutNode.LayoutState layoutState$ui_release = this.root.getLayoutState$ui_release();
         currentIndex2 = 0;
@@ -1091,9 +1091,9 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
             if (layoutState$ui_release != LayoutNode.LayoutState.LayingOut) {
                 if (layoutState$ui_release != LayoutNode.LayoutState.LookaheadMeasuring) {
                     if (layoutState$ui_release == LayoutNode.LayoutState.LookaheadLayingOut) {
-                        i = i6;
+                        i2 = i6;
                     } else {
-                        i = currentIndex2;
+                        i2 = currentIndex2;
                     }
                 } else {
                 }
@@ -1102,7 +1102,7 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
         } else {
         }
         int i7 = 0;
-        if (i == 0) {
+        if (i2 == 0) {
             int i9 = 0;
             InlineClassHelperKt.throwIllegalStateException("subcompose can only be used inside the measure or layout blocks");
         }
@@ -1113,9 +1113,9 @@ public final class LayoutNodeSubcompositionsState implements ComposeNodeLifecycl
             indexOf = 0;
             currentIndex = this.precomposeMap.remove(slotId);
             if ((LayoutNode)currentIndex != null) {
-                i3 = this.precomposedCount > 0 ? i6 : currentIndex2;
-                i2 = 0;
-                if (i3 == 0) {
+                i = this.precomposedCount > 0 ? i6 : currentIndex2;
+                i3 = 0;
+                if (i == 0) {
                     InlineClassHelperKt.throwIllegalStateException("Check failed.");
                 }
                 this.precomposedCount = value$iv2--;

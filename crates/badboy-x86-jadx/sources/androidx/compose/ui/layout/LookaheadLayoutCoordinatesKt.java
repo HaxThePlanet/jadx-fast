@@ -11,33 +11,33 @@ import kotlin.jvm.internal.Intrinsics;
 public final class LookaheadLayoutCoordinatesKt {
     public static final LookaheadDelegate getRootLookaheadDelegate(LookaheadDelegate $this$rootLookaheadDelegate) {
         LayoutNode root;
-        LayoutNode lookaheadRoot$ui_release;
+        LayoutNode lookaheadRoot$ui_release2;
+        int lookaheadRoot$ui_release;
         int lookaheadRoot$ui_release3;
-        int lookaheadRoot$ui_release2;
         root = $this$rootLookaheadDelegate.getLayoutNode();
         LayoutNode parent$ui_release = root.getParent$ui_release();
         while (parent$ui_release != null) {
-            lookaheadRoot$ui_release3 = parent$ui_release.getLookaheadRoot$ui_release();
-            if (lookaheadRoot$ui_release3 != 0) {
+            lookaheadRoot$ui_release = parent$ui_release.getLookaheadRoot$ui_release();
+            if (lookaheadRoot$ui_release != 0) {
             }
             LayoutNode parent$ui_release2 = root.getParent$ui_release();
             if (parent$ui_release2 != null) {
             }
-            Intrinsics.checkNotNull(lookaheadRoot$ui_release2);
-            if (lookaheadRoot$ui_release2.isVirtualLookaheadRoot$ui_release()) {
+            Intrinsics.checkNotNull(lookaheadRoot$ui_release3);
+            if (lookaheadRoot$ui_release3.isVirtualLookaheadRoot$ui_release()) {
             } else {
             }
             LayoutNode parent$ui_release3 = root.getParent$ui_release();
             Intrinsics.checkNotNull(parent$ui_release3);
-            lookaheadRoot$ui_release = parent$ui_release3.getLookaheadRoot$ui_release();
-            Intrinsics.checkNotNull(lookaheadRoot$ui_release);
-            root = lookaheadRoot$ui_release;
+            lookaheadRoot$ui_release2 = parent$ui_release3.getLookaheadRoot$ui_release();
+            Intrinsics.checkNotNull(lookaheadRoot$ui_release2);
+            root = lookaheadRoot$ui_release2;
             parent$ui_release = root.getParent$ui_release();
-            lookaheadRoot$ui_release3 = lookaheadRoot$ui_release2;
-            lookaheadRoot$ui_release = root.getParent$ui_release();
-            Intrinsics.checkNotNull(lookaheadRoot$ui_release);
-            root = lookaheadRoot$ui_release;
-            lookaheadRoot$ui_release2 = parent$ui_release2.getLookaheadRoot$ui_release();
+            lookaheadRoot$ui_release = lookaheadRoot$ui_release3;
+            lookaheadRoot$ui_release2 = root.getParent$ui_release();
+            Intrinsics.checkNotNull(lookaheadRoot$ui_release2);
+            root = lookaheadRoot$ui_release2;
+            lookaheadRoot$ui_release3 = parent$ui_release2.getLookaheadRoot$ui_release();
         }
         LookaheadDelegate lookaheadDelegate = root.getOuterCoordinator$ui_release().getLookaheadDelegate();
         Intrinsics.checkNotNull(lookaheadDelegate);

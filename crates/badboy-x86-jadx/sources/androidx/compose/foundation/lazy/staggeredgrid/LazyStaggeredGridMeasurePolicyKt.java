@@ -25,8 +25,8 @@ public final class LazyStaggeredGridMeasurePolicyKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
             int ordinal2;
+            int ordinal;
             int[] iArr = new int[values.length];
             iArr[Orientation.Vertical.ordinal()] = 1;
             iArr[Orientation.Horizontal.ordinal()] = 2;
@@ -83,34 +83,34 @@ public final class LazyStaggeredGridMeasurePolicyKt {
 
     public static final Function2<LazyLayoutMeasureScope, Constraints, androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureResult> rememberStaggeredGridMeasurePolicy-qKj4JfE(androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState state, Function0<? extends androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemProvider> itemProviderLambda, PaddingValues contentPadding, boolean reverseLayout, Orientation orientation, float mainAxisSpacing, float crossAxisSpacing, CoroutineScope coroutineScope, androidx.compose.foundation.lazy.staggeredgrid.LazyGridStaggeredGridSlotsProvider slots, GraphicsContext graphicsContext, Composer $composer, int $changed) {
         boolean traceInProgress;
-        int changed7;
-        int i6;
-        int i5;
-        int i9;
-        Object obj;
-        Object obj5;
-        boolean changed2;
-        boolean changed3;
-        String str;
-        int i7;
-        float anon;
+        int changed5;
         int i8;
+        int i3;
+        int i10;
+        Object obj3;
+        Object obj2;
+        boolean changed6;
+        boolean changed2;
+        String str;
+        int i4;
+        float anon;
+        int i2;
         Object rememberedValue;
         Object empty;
-        Object obj4;
-        Object obj3;
+        Object obj;
+        Object obj5;
         boolean z;
-        boolean changed;
-        int i;
-        int i4;
-        Object obj2;
-        int changed6;
-        int i10;
-        int i2;
+        boolean changed7;
+        int i6;
+        int i7;
+        Object obj4;
+        int changed3;
+        int i9;
+        int i5;
         boolean changed4;
         float f;
-        boolean changed5;
-        int i3;
+        boolean changed;
+        int i;
         final Composer composer = $composer;
         final int i11 = $changed;
         int i12 = 1630140849;
@@ -121,29 +121,29 @@ public final class LazyStaggeredGridMeasurePolicyKt {
         ComposerKt.sourceInformationMarkerStart(composer, -1650675918, "CC(remember):LazyStaggeredGridMeasurePolicy.kt#9igjgp");
         final Object obj6 = state;
         int i28 = 32;
-        i8 = 0;
+        i2 = 0;
         empty = 1;
         if (i22 ^= 48 > i28) {
             if (!composer.changed(itemProviderLambda)) {
-                i6 = i11 & 48 == i28 ? empty : i8;
+                i8 = i11 & 48 == i28 ? empty : i2;
             } else {
             }
         } else {
-            obj4 = itemProviderLambda;
+            obj = itemProviderLambda;
         }
         int i29 = 256;
         if (i23 ^= 384 > i29) {
             if (!composer.changed(contentPadding)) {
-                i5 = i11 & 384 == i29 ? empty : i8;
+                i3 = i11 & 384 == i29 ? empty : i2;
             } else {
             }
         } else {
-            obj3 = contentPadding;
+            obj5 = contentPadding;
         }
         int i30 = 2048;
         if (i24 ^= 3072 > i30) {
             if (!composer.changed(reverseLayout)) {
-                i9 = i11 & 3072 == i30 ? empty : i8;
+                i10 = i11 & 3072 == i30 ? empty : i2;
             } else {
             }
         } else {
@@ -152,17 +152,17 @@ public final class LazyStaggeredGridMeasurePolicyKt {
         int i31 = 16384;
         if (i26 ^= 24576 > i31) {
             if (!composer.changed(orientation)) {
-                i7 = i11 & 24576 == i31 ? empty : i8;
+                i4 = i11 & 24576 == i31 ? empty : i2;
             } else {
             }
         } else {
-            obj = orientation;
+            obj3 = orientation;
         }
-        i10 = 196608;
+        i9 = 196608;
         int i40 = 131072;
-        if (i33 ^= i10 > i40) {
+        if (i33 ^= i9 > i40) {
             if (!composer.changed(mainAxisSpacing)) {
-                i = i10 &= i11 == i40 ? empty : i8;
+                i6 = i9 &= i11 == i40 ? empty : i2;
             } else {
             }
         } else {
@@ -172,23 +172,23 @@ public final class LazyStaggeredGridMeasurePolicyKt {
         int i42 = 1048576;
         if (i36 ^= i41 > i42) {
             if (!composer.changed(crossAxisSpacing)) {
-                i4 = i11 & i41 == i42 ? empty : i8;
+                i7 = i11 & i41 == i42 ? empty : i2;
             } else {
             }
         } else {
             f = crossAxisSpacing;
         }
-        i2 = 100663296;
+        i5 = 100663296;
         int i43 = 67108864;
-        if (i38 ^= i2 > i43) {
+        if (i38 ^= i5 > i43) {
             if (!composer.changed(slots)) {
-                if (i2 &= i11 == i43) {
-                    i8 = empty;
+                if (i5 &= i11 == i43) {
+                    i2 = empty;
                 }
             } else {
             }
         } else {
-            obj2 = slots;
+            obj4 = slots;
         }
         Object obj8 = graphicsContext;
         Composer composer2 = $composer;
@@ -197,12 +197,12 @@ public final class LazyStaggeredGridMeasurePolicyKt {
         final int i45 = 0;
         if (i20 |= changed9 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                i3 = 0;
-                obj5 = obj7;
-                anon = new LazyStaggeredGridMeasurePolicyKt.rememberStaggeredGridMeasurePolicy.1.1(obj6, obj, obj2, obj4, obj3, z, mainAxisSpacing, coroutineScope, obj8);
+                i = 0;
+                obj2 = obj7;
+                anon = new LazyStaggeredGridMeasurePolicyKt.rememberStaggeredGridMeasurePolicy.1.1(obj6, obj3, obj4, obj, obj5, z, mainAxisSpacing, coroutineScope, obj8);
                 composer2.updateRememberedValue((Function2)anon);
             } else {
-                obj5 = rememberedValue;
+                obj2 = rememberedValue;
             }
         } else {
         }

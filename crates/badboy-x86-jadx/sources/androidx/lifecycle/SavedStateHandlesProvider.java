@@ -52,19 +52,19 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
     @Override // androidx.savedstate.SavedStateRegistry$SavedStateProvider
     public final Bundle consumeRestoredStateForKey(String key) {
         int $this$toTypedArray$iv$iv;
-        Bundle bundle;
-        Bundle initialState$iv;
-        int i4;
-        kotlin.Pair[] $i$f$toTypedArray;
         Bundle bundle2;
+        Bundle initialState$iv;
         int i3;
+        kotlin.Pair[] $i$f$toTypedArray;
+        Bundle bundle;
+        int i;
         int arr;
         Object arrayList;
-        int i2;
+        int i4;
         Bundle constructor-impl;
         int iterator;
         boolean next;
-        int i;
+        int i2;
         Object key2;
         final Object obj = this;
         final Object obj2 = key;
@@ -84,7 +84,7 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
         int i12 = 0;
         if (SavedStateReader.getSavedStateOrNull-impl(SavedStateReader.constructor-impl(restoredState), obj2) == null) {
             Map emptyMap = MapsKt.emptyMap();
-            i4 = 0;
+            i3 = 0;
             if (emptyMap.isEmpty()) {
                 $i$f$toTypedArray = new Pair[0];
             } else {
@@ -94,28 +94,28 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
                 constructor-impl = 0;
                 iterator = map.entrySet().iterator();
                 for (Map.Entry next : iterator) {
-                    i = 0;
+                    i2 = 0;
                     (Collection)arrayList.add(TuplesKt.to((String)next.getKey(), next.getValue()));
                     $this$toTypedArray$iv$iv = 0;
-                    i3 = 0;
+                    i = 0;
                 }
                 int i13 = 0;
                 $i$f$toTypedArray = $this$toTypedArray$iv$iv;
             }
             $this$toTypedArray$iv$iv = BundleKt.bundleOf((Pair[])Arrays.copyOf($i$f$toTypedArray, $i$f$toTypedArray.length));
             arr = 0;
-            i2 = 0;
+            i4 = 0;
             constructor-impl = SavedStateWriter.constructor-impl($this$toTypedArray$iv$iv);
             iterator = 0;
             initialState$iv = $this$toTypedArray$iv$iv;
         }
-        bundle = restoredState;
+        bundle2 = restoredState;
         int i5 = 0;
         int i9 = 0;
-        SavedStateWriter.remove-impl(SavedStateWriter.constructor-impl(bundle), obj2);
+        SavedStateWriter.remove-impl(SavedStateWriter.constructor-impl(bundle2), obj2);
         int i6 = 0;
         int i10 = 0;
-        if (SavedStateReader.isEmpty-impl(SavedStateReader.constructor-impl(bundle))) {
+        if (SavedStateReader.isEmpty-impl(SavedStateReader.constructor-impl(bundle2))) {
             obj.restoredState = 0;
         }
         return initialState$iv;
@@ -124,24 +124,24 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
     @Override // androidx.savedstate.SavedStateRegistry$SavedStateProvider
     public final void performRestore() {
         boolean consumeRestoredStateForKey;
-        int i3;
         int i;
+        int i2;
         Object[] $i$f$toTypedArray;
         kotlin.Pair[] arr;
         Bundle bundleOf;
         ArrayList list;
         ArrayList arrayList;
         Map map;
-        int i2;
+        int i3;
         Iterator constructor-impl;
         boolean next;
-        kotlin.Pair restoredState;
+        kotlin.Pair $i$a$MapSavedStateKt__SavedState_androidKt$savedState$pairs$1$iv;
         Object key;
         Object value;
         if (!this.restored) {
             consumeRestoredStateForKey = this.savedStateRegistry.consumeRestoredStateForKey("androidx.lifecycle.internal.SavedStateHandlesProvider");
             Map emptyMap = MapsKt.emptyMap();
-            i = 0;
+            i2 = 0;
             arr = 0;
             if (emptyMap.isEmpty()) {
                 $i$f$toTypedArray = new Pair[arr];
@@ -149,7 +149,7 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
                 Map map2 = emptyMap;
                 int i5 = 0;
                 arrayList = new ArrayList(map2.size());
-                i2 = 0;
+                i3 = 0;
                 constructor-impl = map2.entrySet().iterator();
                 for (Map.Entry next : constructor-impl) {
                     int i6 = 0;
@@ -160,13 +160,13 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
             }
             bundleOf = BundleKt.bundleOf((Pair[])Arrays.copyOf($i$f$toTypedArray, $i$f$toTypedArray.length));
             arrayList = 0;
-            i2 = 0;
+            i3 = 0;
             constructor-impl = SavedStateWriter.constructor-impl(bundleOf);
             next = 0;
-            restoredState = this.restoredState;
-            if (restoredState != null) {
+            $i$a$MapSavedStateKt__SavedState_androidKt$savedState$pairs$1$iv = this.restoredState;
+            if ($i$a$MapSavedStateKt__SavedState_androidKt$savedState$pairs$1$iv != null) {
                 key = 0;
-                SavedStateWriter.putAll-impl(constructor-impl, restoredState);
+                SavedStateWriter.putAll-impl(constructor-impl, $i$a$MapSavedStateKt__SavedState_androidKt$savedState$pairs$1$iv);
             }
             if (consumeRestoredStateForKey != null) {
                 key = 0;
@@ -182,43 +182,43 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
     public Bundle saveState() {
         Map emptyMap;
         Object[] $i$f$toTypedArray;
-        int i;
+        int i4;
         ArrayList list;
         ArrayList arrayList;
         kotlin.Pair[] arr;
-        int i4;
+        int i3;
         Iterator iterator;
         boolean next;
-        kotlin.Pair pair;
+        kotlin.Pair $i$a$MapSavedStateKt__SavedState_androidKt$savedState$pairs$1$iv;
         Object key;
         Object value;
         Object next2;
-        int i2;
+        int i5;
         Object value2;
         Bundle bundle;
         Map map;
-        int i3;
+        int i2;
         Bundle constructor-impl;
-        int i5;
+        int i;
         boolean empty-impl;
         final Object obj = this;
         emptyMap = MapsKt.emptyMap();
         final int i6 = 0;
-        i = 0;
+        i4 = 0;
         if (emptyMap.isEmpty()) {
-            $i$f$toTypedArray = new Pair[i];
+            $i$f$toTypedArray = new Pair[i4];
         } else {
             Map map2 = emptyMap;
             int i8 = 0;
             arrayList = new ArrayList(map2.size());
-            i4 = 0;
+            i3 = 0;
             iterator = map2.entrySet().iterator();
             for (Map.Entry next : iterator) {
                 int i12 = 0;
                 (Collection)arrayList.add(TuplesKt.to((String)next.getKey(), next.getValue()));
             }
             int i7 = 0;
-            $i$f$toTypedArray = (Collection)(List)arrayList.toArray(new Pair[i]);
+            $i$f$toTypedArray = (Collection)(List)arrayList.toArray(new Pair[i4]);
         }
         Bundle bundleOf = BundleKt.bundleOf((Pair[])Arrays.copyOf($i$f$toTypedArray, $i$f$toTypedArray.length));
         int i9 = 0;
@@ -234,14 +234,14 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
         Iterator iterator2 = obj.getViewModel().getHandles().entrySet().iterator();
         while (iterator2.hasNext()) {
             next2 = iterator2.next();
-            i2 = 0;
-            Bundle state = (SavedStateHandle)next2.getValue().savedStateProvider().saveState();
-            i3 = 0;
             i5 = 0;
+            Bundle state = (SavedStateHandle)next2.getValue().savedStateProvider().saveState();
+            i2 = 0;
+            i = 0;
             if (!SavedStateReader.isEmpty-impl(SavedStateReader.constructor-impl(state))) {
             }
             emptyMap = map;
-            i = 0;
+            i4 = 0;
             SavedStateWriter.putSavedState-impl(constructor-impl2, (String)(Map.Entry)next2.getKey(), state);
         }
         Map initialState$iv2 = emptyMap;

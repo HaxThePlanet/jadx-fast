@@ -125,11 +125,11 @@ final class HorizontalScrollLayoutModifier implements LayoutModifier {
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, Measurable measurable, long constraints) {
         long l;
         long copy-Zbe2FdA$default;
-        int i2;
         int i5;
         int i3;
-        int i;
         int i4;
+        int i;
+        int i2;
         final Object obj = measurable;
         if (obj.maxIntrinsicWidth(Constraints.getMaxHeight-impl(constraints)) < Constraints.getMaxWidth-impl(constraints)) {
             copy-Zbe2FdA$default = constraints;

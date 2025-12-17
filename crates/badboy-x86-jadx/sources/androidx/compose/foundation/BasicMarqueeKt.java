@@ -68,12 +68,12 @@ public final class BasicMarqueeKt {
     private static final AnimationSpec<Float> createMarqueeAnimationSpec-Z4HSEVQ(int iterations, float targetValue, int initialDelayMillis, int delayMillis, float velocity, Density density) {
         Object infiniteRepeatable-9IiC70o$default;
         TweenSpec tweenSpec;
-        int i;
+        int i3;
         long constructor-impl$default;
         long l;
-        int i4;
-        int i3;
         int i2;
+        int i4;
+        int i;
         final int i5 = delayMillis;
         int i6 = 0;
         TweenSpec velocityBasedTween = BasicMarqueeKt.velocityBasedTween(Math.abs(density.toPx-0680j_4(velocity)), targetValue, i5);

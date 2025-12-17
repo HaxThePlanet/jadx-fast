@@ -61,8 +61,8 @@ class FontProvider {
         @Override // androidx.core.provider.FontProvider$ContentQueryWrapper
         public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal) {
             Throwable th;
-            String str2;
             String str3;
+            String str2;
             String[] strArr;
             String str;
             CancellationSignal cancellationSignal2;
@@ -91,11 +91,11 @@ class FontProvider {
 
         @Override // androidx.core.provider.FontProvider$ContentQueryWrapper
         public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal) {
-            Throwable th;
-            String str3;
+            Throwable th2;
             String str;
-            String[] strArr;
             String str2;
+            String[] strArr;
+            String str3;
             CancellationSignal cancellationSignal2;
             if (this.mClient == null) {
                 return null;
@@ -283,20 +283,20 @@ class FontProvider {
         int fileUri;
         Uri id;
         int weight;
-        int int2;
+        int int;
         String columnIndex2;
-        String columnIndex3;
         String columnIndex4;
         String columnIndex5;
+        String columnIndex3;
         ArrayList result;
         Object obj;
         ArrayList arrayList;
-        int int;
+        int int3;
         Cursor moveToNext;
         String[] strArr;
-        int int3;
-        int italicColumnIndex2;
+        int int2;
         int italicColumnIndex;
+        int italicColumnIndex2;
         int resultCodeColumnIndex;
         Uri appendedId;
         long l;
@@ -304,9 +304,9 @@ class FontProvider {
         columnIndex = "result_code";
         weight = "font_italic";
         columnIndex2 = "font_weight";
-        columnIndex3 = "font_ttc_index";
-        columnIndex4 = "file_id";
-        columnIndex5 = "_id";
+        columnIndex4 = "font_ttc_index";
+        columnIndex5 = "file_id";
+        columnIndex3 = "_id";
         String str2 = "content";
         Trace.beginSection("FontProvider.query");
         result = new ArrayList();
@@ -316,10 +316,10 @@ class FontProvider {
         int i2 = 0;
         String[] strArr2 = new String[7];
         int i4 = 0;
-        strArr2[i4] = columnIndex5;
+        strArr2[i4] = columnIndex3;
         int i5 = 1;
-        strArr2[i5] = columnIndex4;
-        strArr2[2] = columnIndex3;
+        strArr2[i5] = columnIndex5;
+        strArr2[2] = columnIndex4;
         strArr2[3] = "font_variation_settings";
         strArr2[4] = columnIndex2;
         strArr2[5] = weight;
@@ -335,54 +335,54 @@ class FontProvider {
             if (cursor.getCount() > 0) {
                 columnIndex = cursor.getColumnIndex(columnIndex);
                 arrayList = new ArrayList();
+                columnIndex5 = cursor.getColumnIndex(columnIndex5);
                 columnIndex4 = cursor.getColumnIndex(columnIndex4);
-                columnIndex3 = cursor.getColumnIndex(columnIndex3);
                 columnIndex2 = cursor.getColumnIndex(columnIndex2);
                 weight = cursor.getColumnIndex(weight);
                 while (cursor.moveToNext()) {
-                    int = -1;
-                    if (columnIndex != int) {
+                    int3 = -1;
+                    if (columnIndex != int3) {
                     } else {
                     }
                     strArr = 0;
-                    if (columnIndex3 != int) {
+                    if (columnIndex4 != int3) {
                     } else {
                     }
-                    int3 = 0;
-                    if (columnIndex4 == int) {
+                    int2 = 0;
+                    if (columnIndex5 == int3) {
                     } else {
                     }
-                    italicColumnIndex = weight;
+                    italicColumnIndex2 = weight;
                     id = appendedId;
-                    if (columnIndex2 != int) {
+                    if (columnIndex2 != int3) {
                     } else {
                     }
-                    int2 = 400;
-                    int resultCodeColumnIndex2 = italicColumnIndex;
-                    if (resultCodeColumnIndex2 != int) {
+                    int = 400;
+                    int resultCodeColumnIndex2 = italicColumnIndex2;
+                    if (resultCodeColumnIndex2 != int3) {
                     } else {
                     }
-                    italicColumnIndex2 = resultCodeColumnIndex2;
+                    italicColumnIndex = resultCodeColumnIndex2;
                     italicColumnIndex3 = 1;
                     arrayList = 0;
-                    arrayList.add(FontsContractCompat.FontInfo.create(id, int3, int2, arrayList, strArr));
-                    weight = italicColumnIndex2;
+                    arrayList.add(FontsContractCompat.FontInfo.create(id, int2, int, arrayList, strArr));
+                    weight = italicColumnIndex;
                     columnIndex = resultCodeColumnIndex;
                     fileUri = 1;
-                    italicColumnIndex2 = resultCodeColumnIndex2;
+                    italicColumnIndex = resultCodeColumnIndex2;
                     italicColumnIndex3 = 1;
                     if (cursor.getInt(resultCodeColumnIndex2) == italicColumnIndex3) {
                     } else {
                     }
                     arrayList = italicColumnIndex3;
-                    int2 = cursor.getInt(columnIndex2);
-                    italicColumnIndex = weight;
+                    int = cursor.getInt(columnIndex2);
+                    italicColumnIndex2 = weight;
                     id = appendedId;
-                    int3 = cursor.getInt(columnIndex3);
+                    int2 = cursor.getInt(columnIndex4);
                     strArr = cursor.getInt(columnIndex);
                 }
                 resultCodeColumnIndex = columnIndex;
-                italicColumnIndex2 = weight;
+                italicColumnIndex = weight;
             }
         }
         if (cursor != null) {

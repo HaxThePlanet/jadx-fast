@@ -31,25 +31,25 @@ public class NodeParent {
         int i$iv;
         Object[] content;
         Object obj;
-        int i;
         int i2;
+        int i;
         changed = 0;
         final MutableVector children = this.children;
         final int i3 = 0;
         final int size = children.getSize();
         if (size > 0) {
             i$iv = 0;
-            i = 0;
+            i2 = 0;
             do {
-                i = 0;
-                i2 = 1;
-                changed = i2;
+                i2 = 0;
+                i = 1;
+                changed = i;
                 if (i$iv++ < size) {
                 }
                 if (changed != 0) {
                 } else {
                 }
-                i2 = 0;
+                i = 0;
             } while (!(Node)children.getContent()[i$iv].buildCache(changes, parentCoordinates, internalPointerEvent, isInBounds));
         }
         return changed;
@@ -99,25 +99,25 @@ public class NodeParent {
         int i$iv;
         Object[] content;
         Object obj;
-        int i2;
         int i;
+        int i2;
         dispatched = 0;
         final MutableVector children = this.children;
         final int i3 = 0;
         final int size = children.getSize();
         if (size > 0) {
             i$iv = 0;
-            i2 = 0;
+            i = 0;
             do {
-                i2 = 0;
-                i = 1;
-                dispatched = i;
+                i = 0;
+                i2 = 1;
+                dispatched = i2;
                 if (i$iv++ < size) {
                 }
                 if (dispatched != 0) {
                 } else {
                 }
-                i = 0;
+                i2 = 0;
             } while (!(Node)children.getContent()[i$iv].dispatchFinalEventPass(internalPointerEvent));
         }
         cleanUpHits(internalPointerEvent);

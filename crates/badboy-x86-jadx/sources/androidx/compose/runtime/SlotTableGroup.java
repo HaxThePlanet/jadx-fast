@@ -91,13 +91,13 @@ final class SlotTableGroup implements CompositionGroup, Iterable<CompositionGrou
 
     public Iterable<Object> getData() {
         Object sourceInformationOf;
-        int table2;
+        int table;
         Object sourceInformationGroupDataIterator;
-        androidx.compose.runtime.SlotTable table;
+        androidx.compose.runtime.SlotTable table2;
         int group;
         sourceInformationOf = this.table.sourceInformationOf(this.group);
         if (sourceInformationOf != null) {
-            table2 = 0;
+            table = 0;
             sourceInformationGroupDataIterator = new SourceInformationGroupDataIterator(this.table, this.group, sourceInformationOf);
         } else {
             sourceInformationOf = new DataIterator(this.table, this.group);
@@ -130,8 +130,8 @@ final class SlotTableGroup implements CompositionGroup, Iterable<CompositionGrou
     @Override // androidx.compose.runtime.tooling.CompositionGroup
     public Object getKey() {
         Object valueOf;
-        int group2;
         int group;
+        int group2;
         if (SlotTableKt.access$hasObjectKey(this.table.getGroups(), this.group)) {
             Intrinsics.checkNotNull(this.table.getSlots()[SlotTableKt.access$objectKeyIndex(this.table.getGroups(), this.group)]);
         } else {
@@ -143,8 +143,8 @@ final class SlotTableGroup implements CompositionGroup, Iterable<CompositionGrou
     @Override // androidx.compose.runtime.tooling.CompositionGroup
     public Object getNode() {
         Object obj;
-        int group2;
         int group;
+        int group2;
         if (SlotTableKt.access$isNode(this.table.getGroups(), this.group)) {
             obj = this.table.getSlots()[SlotTableKt.access$nodeIndex(this.table.getGroups(), this.group)];
         } else {
@@ -169,8 +169,8 @@ final class SlotTableGroup implements CompositionGroup, Iterable<CompositionGrou
     public String getSourceInfo() {
         Object sourceInformationOf;
         int sourceInformation;
-        int group2;
         int group;
+        int group2;
         sourceInformation = 0;
         if (SlotTableKt.access$hasAux(this.table.getGroups(), this.group)) {
             sourceInformationOf = this.table.getSlots()[SlotTableKt.access$auxIndex(this.table.getGroups(), this.group)];
@@ -205,16 +205,16 @@ final class SlotTableGroup implements CompositionGroup, Iterable<CompositionGrou
 
     public Iterator<CompositionGroup> iterator() {
         Object sourceInformationOf;
-        int table;
+        int table2;
         Object sourceInformationGroupIterator;
-        androidx.compose.runtime.SlotTable table2;
+        androidx.compose.runtime.SlotTable table;
         int group2;
         androidx.compose.runtime.AnchoredGroupPath anchoredGroupPath;
         int group;
         validateRead();
         sourceInformationOf = this.table.sourceInformationOf(this.group);
         if (sourceInformationOf != null) {
-            table = 0;
+            table2 = 0;
             anchoredGroupPath = new AnchoredGroupPath(this.group);
             sourceInformationGroupIterator = new SourceInformationGroupIterator(this.table, this.group, sourceInformationOf, (SourceInformationGroupPath)anchoredGroupPath);
         } else {

@@ -35,10 +35,10 @@ final class ViewingConditions {
 
     static androidx.core.content.res.ViewingConditions make(float[] whitepoint, float adaptingLuminance, float backgroundLstar, float surround, boolean discountingIlluminant) {
         float lerp;
-        int i2;
         int i3;
-        int cmp;
         int i;
+        int cmp;
+        int i2;
         long l;
         int i4 = adaptingLuminance;
         final float[][] xYZ_TO_CAM16RGB = CamUtils.XYZ_TO_CAM16RGB;
@@ -60,13 +60,13 @@ final class ViewingConditions {
         }
         int i58 = 1065353216;
         if (discountingIlluminant) {
-            i3 = i58;
+            i = i58;
         } else {
             int i95 = 1119354880;
             i81 *= i63;
         }
-        i = Double.compare(d13, l) > 0 ? i58 : cmp3 < 0 ? 0 : i3;
-        final int i121 = i;
+        i2 = Double.compare(d13, l) > 0 ? i58 : cmp3 < 0 ? 0 : i;
+        final int i121 = i2;
         int i65 = 1120403456;
         int i109 = 3;
         float[] fArr13 = new float[i109];

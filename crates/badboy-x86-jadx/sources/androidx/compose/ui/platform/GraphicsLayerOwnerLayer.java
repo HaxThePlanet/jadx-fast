@@ -102,18 +102,18 @@ public final class GraphicsLayerOwnerLayer implements OwnedLayer, GraphicLayerIn
     private final void clipManually(Canvas canvas) {
         boolean outline;
         boolean tmpPath;
-        int i2;
         int i3;
+        int i2;
         int i4;
         androidx.compose.ui.geometry.RoundRect roundRect;
         int i;
         if (this.graphicsLayer.getClip()) {
             outline = this.graphicsLayer.getOutline();
-            i2 = 0;
-            i3 = 2;
+            i3 = 0;
+            i2 = 2;
             i4 = 0;
             if (outline instanceof Outline.Rectangle) {
-                Canvas.clipRect-mtrdD-E$default(canvas, (Outline.Rectangle)outline.getRect(), i2, i3, i4);
+                Canvas.clipRect-mtrdD-E$default(canvas, (Outline.Rectangle)outline.getRect(), i3, i2, i4);
             } else {
                 if (outline instanceof Outline.Rounded) {
                     if (this.tmpPath == null) {
@@ -121,11 +121,11 @@ public final class GraphicsLayerOwnerLayer implements OwnedLayer, GraphicLayerIn
                         this.tmpPath = AndroidPath_androidKt.Path();
                     }
                     tmpPath.reset();
-                    Path.addRoundRect$default(tmpPath, (Outline.Rounded)outline.getRoundRect(), i4, i3, i4);
-                    Canvas.clipPath-mtrdD-E$default(canvas, tmpPath, i2, i3, i4);
+                    Path.addRoundRect$default(tmpPath, (Outline.Rounded)outline.getRoundRect(), i4, i2, i4);
+                    Canvas.clipPath-mtrdD-E$default(canvas, tmpPath, i3, i2, i4);
                 } else {
                     if (outline instanceof Outline.Generic) {
-                        Canvas.clipPath-mtrdD-E$default(canvas, (Outline.Generic)outline.getPath(), i2, i3, i4);
+                        Canvas.clipPath-mtrdD-E$default(canvas, (Outline.Generic)outline.getPath(), i3, i2, i4);
                     }
                 }
             }
@@ -134,19 +134,19 @@ public final class GraphicsLayerOwnerLayer implements OwnedLayer, GraphicLayerIn
 
     private final float[] getInverseMatrix-3i98HWw() {
         float[] inverseMatrixCache;
-        float[] i;
+        float[] i2;
         float[] fArr;
-        int i2;
-        i = 0;
+        int i;
+        i2 = 0;
         if (this.inverseMatrixCache == null) {
-            i2 = 0;
-            this.inverseMatrixCache = Matrix.constructor-impl$default(i, 1, i);
+            i = 0;
+            this.inverseMatrixCache = Matrix.constructor-impl$default(i2, 1, i2);
         }
         if (InvertMatrixKt.invertTo-JiSxe2E(getMatrix-sQKQjiQ(), inverseMatrixCache)) {
-            i = inverseMatrixCache;
+            i2 = inverseMatrixCache;
         } else {
         }
-        return i;
+        return i2;
     }
 
     private final float[] getMatrix-sQKQjiQ() {
@@ -236,22 +236,22 @@ public final class GraphicsLayerOwnerLayer implements OwnedLayer, GraphicLayerIn
 
     @Override // androidx.compose.ui.node.OwnedLayer
     public void drawLayer(Canvas canvas, GraphicsLayer parentLayer) {
-        int i;
+        int i2;
         CanvasDrawScope scope;
         GraphicsLayer graphicsLayer;
-        long l2;
         long l;
+        long l2;
         long drawBlock;
         Paint softwareLayerPaint;
         android.graphics.Paint frameworkPaint;
         Paint it;
-        int i2;
+        int i;
         float alpha;
         final Canvas nativeCanvas = AndroidCanvas_androidKt.getNativeCanvas(canvas);
         if (nativeCanvas.isHardwareAccelerated()) {
             updateDisplayList();
-            i = Float.compare(shadowElevation, i3) > 0 ? 1 : 0;
-            this.drawnWithEnabledZ = i;
+            i2 = Float.compare(shadowElevation, i3) > 0 ? 1 : 0;
+            this.drawnWithEnabledZ = i2;
             DrawContext drawContext = this.scope.getDrawContext();
             int i4 = 0;
             drawContext.setCanvas(canvas);
@@ -262,11 +262,11 @@ public final class GraphicsLayerOwnerLayer implements OwnedLayer, GraphicLayerIn
             graphicsLayer = (float)y-impl;
             if (Float.compare(alpha2, it) < 0) {
                 if (this.softwareLayerPaint == null) {
-                    i2 = 0;
+                    i = 0;
                     this.softwareLayerPaint = AndroidPaint_androidKt.Paint();
                 }
                 it = softwareLayerPaint;
-                i2 = 0;
+                i = 0;
                 it.setAlpha(this.graphicsLayer.getAlpha());
                 nativeCanvas.saveLayer(scope, graphicsLayer, f += scope, f2 += graphicsLayer, it.asFrameworkPaint());
             } else {
@@ -388,12 +388,12 @@ public final class GraphicsLayerOwnerLayer implements OwnedLayer, GraphicLayerIn
                 this.mutatedFields = i2;
             }
             int i = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("layer should have been released before reuse".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireGraphicsLayerOwnerLayer$reuseLayer$1 = new IllegalArgumentException("layer should have been released before reuse".toString());
+            throw $i$a$RequireGraphicsLayerOwnerLayer$reuseLayer$1;
         }
         int context2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("currently reuse is only supported when we manage the layer lifecycle".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireNotNullGraphicsLayerOwnerLayer$reuseLayer$context$1 = new IllegalArgumentException("currently reuse is only supported when we manage the layer lifecycle".toString());
+        throw $i$a$RequireNotNullGraphicsLayerOwnerLayer$reuseLayer$context$1;
     }
 
     @Override // androidx.compose.ui.node.OwnedLayer
@@ -429,22 +429,22 @@ public final class GraphicsLayerOwnerLayer implements OwnedLayer, GraphicLayerIn
     @Override // androidx.compose.ui.node.OwnedLayer
     public void updateLayerProperties(ReusableGraphicsLayerScope scope) {
         int transformOrigin-SzJe1aQ;
+        int graphicsLayer;
         int graphicsLayer5;
-        int graphicsLayer6;
-        int graphicsLayer9;
-        int graphicsLayer12;
-        int graphicsLayer10;
+        int graphicsLayer4;
+        int graphicsLayer2;
+        int graphicsLayer8;
         int invalidateParentLayer;
         int graphicsLayer7;
-        int graphicsLayer2;
-        int graphicsLayer;
-        int graphicsLayer8;
+        int graphicsLayer6;
         int graphicsLayer13;
-        int graphicsLayer15;
+        int graphicsLayer10;
         int graphicsLayer14;
-        int graphicsLayer4;
-        int graphicsLayer3;
         int graphicsLayer11;
+        int graphicsLayer9;
+        int graphicsLayer3;
+        int graphicsLayer15;
+        int graphicsLayer12;
         int outlineChanged;
         float ambientShadowColor-0d7_KjU;
         boolean outline$ui_release;

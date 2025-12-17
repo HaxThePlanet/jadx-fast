@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_help"
+        android:visible="false"
+        android:orderInCategory="101"
+        android:title="@string/settings.help"
+        app:showAsAction="0x0"/>
+    <item
+        android:id="@+id/action_sound_choose"
+        android:visible="false"
+        android:orderInCategory="100"
+        android:title="@string/settings.clicker.sound"
+        app:showAsAction="0x0"/>
+    <item
+        android:id="@+id/add_new_dog_profile"
+        android:visible="false"
+        android:orderInCategory="99"
+        android:title="@string/dog.new"
+        app:showAsAction="0x2"/>
+    <item
+        android:id="@+id/struggling_button"
+        android:visible="false"
+        android:orderInCategory="98"
+        android:title="@string/trick.training.struggling"
+        app:showAsAction="0x2"/>
+</menu>

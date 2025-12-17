@@ -517,10 +517,10 @@ public final class ViewLayer extends View implements OwnedLayer, GraphicLayerInf
 
     @Override // android.view.View
     public void updateLayerProperties(ReusableGraphicsLayerScope scope) {
-        int i;
+        int i2;
         int scaleX;
         int scaleY;
-        int alpha;
+        int alpha2;
         int translationX;
         int translationY;
         int shadowElevation2;
@@ -528,22 +528,22 @@ public final class ViewLayer extends View implements OwnedLayer, GraphicLayerInf
         int rotationX;
         int rotationY;
         int cameraDistance;
-        int i5;
+        int i;
         long l;
-        int i4;
+        int i5;
         int i6;
-        int i2;
-        boolean shape2;
-        boolean shape;
-        androidx.compose.ui.graphics.Shape rectangleShape;
         int i3;
+        boolean shape;
+        boolean shape2;
+        androidx.compose.ui.graphics.Shape rectangleShape;
+        int i4;
         boolean invalidateParentLayer;
         int matrixCache;
         int iNSTANCE3;
-        int iNSTANCE;
         int iNSTANCE2;
+        int iNSTANCE;
         boolean compositingStrategy--NrFUSI;
-        float alpha2;
+        float alpha;
         int modulateAlpha--NrFUSI;
         float shadowElevation;
         mutatedFields$ui_release |= mutatedFields;
@@ -583,20 +583,20 @@ public final class ViewLayer extends View implements OwnedLayer, GraphicLayerInf
         if (i7 & 2048 != 0) {
             setCameraDistancePx(scope.getCameraDistance());
         }
-        i4 = 0;
+        i5 = 0;
         final int i10 = 1;
-        i5 = getManualClipPath() != null ? i10 : i4;
+        i = getManualClipPath() != null ? i10 : i5;
         if (scope.getClip() && scope.getShape() != RectangleShapeKt.getRectangleShape()) {
-            i6 = scope.getShape() != RectangleShapeKt.getRectangleShape() ? i10 : i4;
+            i6 = scope.getShape() != RectangleShapeKt.getRectangleShape() ? i10 : i5;
         } else {
         }
         final int i13 = i6;
         if (i7 & 24576 != 0) {
             if (scope.getClip() && scope.getShape() == RectangleShapeKt.getRectangleShape()) {
-                i2 = scope.getShape() == RectangleShapeKt.getRectangleShape() ? i10 : i4;
+                i3 = scope.getShape() == RectangleShapeKt.getRectangleShape() ? i10 : i5;
             } else {
             }
-            this.clipToBounds = i2;
+            this.clipToBounds = i3;
             resetClipBounds();
             setClipToOutline(i13);
         }
@@ -604,9 +604,9 @@ public final class ViewLayer extends View implements OwnedLayer, GraphicLayerInf
         if (this.outlineResolver.getCacheIsDirty$ui_release()) {
             updateOutlineResolver();
         }
-        i3 = getManualClipPath() != null ? i10 : i4;
-        if (i5 == i3) {
-            if (i3 != 0 && this.outlineResolver.update-S_szKao(scope.getOutline$ui_release(), scope.getAlpha(), i13, scope.getShadowElevation(), size-NH-jbRc)) {
+        i4 = getManualClipPath() != null ? i10 : i5;
+        if (i == i4) {
+            if (i4 != 0 && this.outlineResolver.update-S_szKao(scope.getOutline$ui_release(), scope.getAlpha(), i13, scope.getShadowElevation(), size-NH-jbRc)) {
                 if (this.outlineResolver.update-S_szKao(scope.getOutline$ui_release(), scope.getAlpha(), i13, scope.getShadowElevation(), size-NH-jbRc)) {
                     invalidate();
                 }
@@ -614,8 +614,8 @@ public final class ViewLayer extends View implements OwnedLayer, GraphicLayerInf
         } else {
         }
         invalidateParentLayer = this.invalidateParentLayer;
-        if (!this.drawnWithZ && Float.compare(elevation, alpha2) > 0 && invalidateParentLayer != null) {
-            if (Float.compare(elevation, alpha2) > 0) {
+        if (!this.drawnWithZ && Float.compare(elevation, alpha) > 0 && invalidateParentLayer != null) {
+            if (Float.compare(elevation, alpha) > 0) {
                 invalidateParentLayer = this.invalidateParentLayer;
                 if (invalidateParentLayer != null) {
                     invalidateParentLayer.invoke();
@@ -641,16 +641,16 @@ public final class ViewLayer extends View implements OwnedLayer, GraphicLayerInf
             shadowElevation = 0;
             if (CompositingStrategy.equals-impl0(compositingStrategy--NrFUSI, CompositingStrategy.Companion.getOffscreen--NrFUSI())) {
                 setLayerType(2, shadowElevation);
-                i4 = i10;
+                i5 = i10;
             } else {
                 if (CompositingStrategy.equals-impl0(compositingStrategy--NrFUSI, CompositingStrategy.Companion.getModulateAlpha--NrFUSI())) {
-                    setLayerType(i4, shadowElevation);
+                    setLayerType(i5, shadowElevation);
                 } else {
-                    setLayerType(i4, shadowElevation);
-                    i4 = i10;
+                    setLayerType(i5, shadowElevation);
+                    i5 = i10;
                 }
             }
-            this.mHasOverlappingRendering = i4;
+            this.mHasOverlappingRendering = i5;
         }
         this.mutatedFields = scope.getMutatedFields$ui_release();
     }

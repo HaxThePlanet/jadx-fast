@@ -52,7 +52,7 @@ public final class ChildLayerDependenciesTracker {
 
     public final boolean onDependencyAdded(androidx.compose.ui.graphics.layer.GraphicsLayer graphicsLayer) {
         Object mutableScatterSetOf;
-        String str;
+        String $i$a$RequirePreconditionChildLayerDependenciesTracker$onDependencyAdded$1;
         int i;
         androidx.compose.ui.graphics.layer.GraphicsLayer dependency;
         int i4 = 0;
@@ -68,12 +68,12 @@ public final class ChildLayerDependenciesTracker {
         } else {
             if (this.dependency != null) {
                 mutableScatterSetOf = ScatterSetKt.mutableScatterSetOf();
-                str = mutableScatterSetOf;
+                $i$a$RequirePreconditionChildLayerDependenciesTracker$onDependencyAdded$1 = mutableScatterSetOf;
                 i = 0;
                 dependency = this.dependency;
                 Intrinsics.checkNotNull(dependency);
-                str.add(dependency);
-                str.add(graphicsLayer);
+                $i$a$RequirePreconditionChildLayerDependenciesTracker$onDependencyAdded$1.add(dependency);
+                $i$a$RequirePreconditionChildLayerDependenciesTracker$onDependencyAdded$1.add(graphicsLayer);
                 this.dependenciesSet = mutableScatterSetOf;
                 this.dependency = i5;
             } else {
@@ -95,25 +95,25 @@ public final class ChildLayerDependenciesTracker {
 
     public final void removeDependencies(Function1<? super androidx.compose.ui.graphics.layer.GraphicsLayer, Unit> block) {
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int set4;
+        int set2;
         int j$iv$iv;
-        int i;
+        int i3;
         androidx.compose.ui.graphics.layer.ChildLayerDependenciesTracker childLayerDependenciesTracker;
-        int i2;
+        int i4;
         Object[] elements;
-        MutableScatterSet set;
-        int i7;
+        MutableScatterSet set3;
+        int i2;
         long[] metadata;
         int i6;
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv2;
-        MutableScatterSet set3;
-        int i3;
+        MutableScatterSet set4;
+        int i7;
         int $i$f$removeDependencies;
-        MutableScatterSet set2;
+        MutableScatterSet set;
         long l;
-        int i4;
+        int i;
         int i5;
         final Object obj = block;
         $this$maskEmptyOrDeleted$iv$iv$iv = 0;
@@ -125,21 +125,21 @@ public final class ChildLayerDependenciesTracker {
         } else {
             childLayerDependenciesTracker = this;
         }
-        set4 = ChildLayerDependenciesTracker.access$getDependenciesSet$p(childLayerDependenciesTracker);
-        if (set4 != null) {
-            i = set4;
+        set2 = ChildLayerDependenciesTracker.access$getDependenciesSet$p(childLayerDependenciesTracker);
+        if (set2 != null) {
+            i3 = set2;
+            i4 = 0;
             i2 = 0;
-            i7 = 0;
-            metadata = set.metadata;
+            metadata = set3.metadata;
             length += -2;
             if (0 <= i6) {
             } else {
                 $i$f$removeDependencies = $this$maskEmptyOrDeleted$iv$iv$iv;
-                set2 = set4;
+                set = set2;
                 $this$maskEmptyOrDeleted$iv$iv$iv2 = j$iv$iv;
-                set3 = i;
+                set4 = i3;
             }
-            set2.clear();
+            set.clear();
         } else {
             $i$f$removeDependencies = $this$maskEmptyOrDeleted$iv$iv$iv;
         }
@@ -147,34 +147,34 @@ public final class ChildLayerDependenciesTracker {
 
     public final void withTracking(Function1<? super androidx.compose.ui.graphics.layer.GraphicsLayer, Unit> onDependencyRemoved, Function0<Unit> block) {
         int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int i7;
         int i2;
-        int i8;
         boolean mutableScatterSetOf;
         MutableScatterSet j$iv$iv;
         MutableScatterSet $i$f$isFull;
         int notEmpty;
-        int i6;
+        int i;
         Object[] elements;
         MutableScatterSet set;
-        int i5;
+        int i6;
         long[] metadata;
         int i3;
         int i$iv$iv;
         long slot$iv$iv;
         MutableScatterSet oldSet;
-        int i;
+        int i8;
         int cmp;
         long l;
         int i4;
-        int i7;
+        int i5;
         final androidx.compose.ui.graphics.layer.ChildLayerDependenciesTracker childLayerDependenciesTracker = this;
         final Object obj = onDependencyRemoved;
         final int i9 = 0;
         ChildLayerDependenciesTracker.access$setOldDependency$p(childLayerDependenciesTracker, ChildLayerDependenciesTracker.access$getDependency$p(childLayerDependenciesTracker));
         MutableScatterSet set2 = ChildLayerDependenciesTracker.access$getDependenciesSet$p(childLayerDependenciesTracker);
-        i2 = 0;
+        i7 = 0;
         if (set2 != null && set2.isNotEmpty() && ChildLayerDependenciesTracker.access$getOldDependenciesSet$p(childLayerDependenciesTracker) == null) {
-            i2 = 0;
+            i7 = 0;
             if (set2.isNotEmpty()) {
                 if (ChildLayerDependenciesTracker.access$getOldDependenciesSet$p(childLayerDependenciesTracker) == null) {
                     notEmpty = 0;
@@ -196,19 +196,19 @@ public final class ChildLayerDependenciesTracker {
             $i$f$isFull = 0;
             if (j$iv$iv.isNotEmpty()) {
                 notEmpty = j$iv$iv;
+                i = 0;
                 i6 = 0;
-                i5 = 0;
                 metadata = set.metadata;
                 length += -2;
                 if (0 <= i3) {
                 } else {
                     oldSet = j$iv$iv;
-                    i = $i$f$isFull;
+                    i8 = $i$f$isFull;
                 }
                 oldSet.clear();
             } else {
                 oldSet = j$iv$iv;
-                i = $i$f$isFull;
+                i8 = $i$f$isFull;
             }
         }
     }

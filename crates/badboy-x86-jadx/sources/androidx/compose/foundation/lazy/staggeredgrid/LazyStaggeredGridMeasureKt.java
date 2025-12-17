@@ -34,64 +34,64 @@ public final class LazyStaggeredGridMeasureKt {
     private static final List<androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem> calculateExtraItems(androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext $this$calculateExtraItems, Function1<? super androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem, Unit> position, Function1<? super Integer, Boolean> filter, boolean beforeVisibleBounds) {
         long spanRange-lOCCd4c;
         List emptyList;
-        int $i$f$calculateExtraItems2;
-        int result;
-        int andMeasure-jy6DScQ;
+        int $i$f$calculateExtraItems;
+        int result2;
+        int andMeasure-jy6DScQ2;
         List index$iv$iv;
         int size;
-        int i2;
+        int i;
         int intValue;
         Object obj;
-        int andMeasure-jy6DScQ2;
+        int andMeasure-jy6DScQ;
         Object itemProvider;
-        int i;
-        Object result2;
-        int $i$f$calculateExtraItems;
+        int i2;
+        Object result;
+        int $i$f$calculateExtraItems2;
         int i3;
         final Object obj2 = $this$calculateExtraItems;
         final Object obj3 = position;
-        $i$f$calculateExtraItems2 = 0;
-        result = 0;
+        $i$f$calculateExtraItems = 0;
+        result2 = 0;
         final List pinnedItems = obj2.getPinnedItems();
         final int i4 = 0;
-        andMeasure-jy6DScQ = 0;
+        andMeasure-jy6DScQ2 = 0;
         if (beforeVisibleBounds) {
             index$iv$iv = pinnedItems;
             size = 0;
             if (size2-- >= 0) {
             } else {
-                $i$f$calculateExtraItems = $i$f$calculateExtraItems2;
+                $i$f$calculateExtraItems2 = $i$f$calculateExtraItems;
             }
         } else {
-            $i$f$calculateExtraItems = $i$f$calculateExtraItems2;
-            andMeasure-jy6DScQ = 0;
+            $i$f$calculateExtraItems2 = $i$f$calculateExtraItems;
+            andMeasure-jy6DScQ2 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < pinnedItems.size()) {
-                intValue = (Number)$i$f$calculateExtraItems2.get(index$iv$iv).intValue();
+                intValue = (Number)$i$f$calculateExtraItems.get(index$iv$iv).intValue();
                 obj = 0;
                 if ((Boolean)spanRange-lOCCd4c.invoke(Integer.valueOf(intValue)).booleanValue()) {
                 } else {
                 }
-                result2 = $i$f$calculateExtraItems2;
-                i = 0;
+                result = $i$f$calculateExtraItems;
+                i2 = 0;
                 index$iv$iv++;
                 spanRange-lOCCd4c = filter;
-                $i$f$calculateExtraItems2 = result2;
-                result2 = $i$f$calculateExtraItems2;
-                if (result == null) {
+                $i$f$calculateExtraItems = result;
+                result = $i$f$calculateExtraItems;
+                if (result2 == null) {
                 }
-                andMeasure-jy6DScQ2 = obj2.getMeasuredItemProvider().getAndMeasure-jy6DScQ(intValue, obj2.getSpanRange-lOCCd4c(obj2.getItemProvider(), intValue, 0));
-                obj3.invoke(andMeasure-jy6DScQ2);
-                result.add(andMeasure-jy6DScQ2);
+                andMeasure-jy6DScQ = obj2.getMeasuredItemProvider().getAndMeasure-jy6DScQ(intValue, obj2.getSpanRange-lOCCd4c(obj2.getItemProvider(), intValue, 0));
+                obj3.invoke(andMeasure-jy6DScQ);
+                result2.add(andMeasure-jy6DScQ);
                 itemProvider = new ArrayList();
-                result = itemProvider;
+                result2 = itemProvider;
             }
-            result2 = $i$f$calculateExtraItems2;
+            result = $i$f$calculateExtraItems;
         }
-        if (result == null) {
+        if (result2 == null) {
             emptyList = CollectionsKt.emptyList();
         } else {
-            emptyList = result;
+            emptyList = result2;
         }
         return emptyList;
     }
@@ -99,25 +99,25 @@ public final class LazyStaggeredGridMeasureKt {
     private static final List<androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem> calculateVisibleItems(androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext $this$calculateVisibleItems, ArrayDeque<androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem>[] measuredItems, int[] itemScrollOffsets, int mainAxisLayoutSize) {
         Object[] objArr;
         long[] lArr;
-        int i$iv;
+        int i$iv2;
         int first;
         int maxInRange-jy6DScQ;
         int result$iv;
-        int i5;
+        int i;
         int min$iv;
-        int i6;
-        int i$iv2;
-        int length;
         int i3;
+        int i$iv;
+        int length;
+        int i4;
         boolean empty;
         int index;
         int i7;
-        long l3;
         long l;
-        int i4;
         long l2;
         int i2;
-        int i;
+        long l3;
+        int i5;
+        int i6;
         objArr = measuredItems;
         lArr = itemScrollOffsets;
         first = 0;
@@ -129,30 +129,30 @@ public final class LazyStaggeredGridMeasureKt {
         }
         ArrayList arrayList = new ArrayList(maxInRange-jy6DScQ);
         while (/* condition */) {
-            while (i6 < length3) {
-                i3 = 0;
-                i6++;
+            while (i3 < length3) {
+                i4 = 0;
+                i3++;
             }
-            i5 = 0;
-            if (i5 != 0) {
+            i = 0;
+            if (i != 0) {
             }
             int[] iArr = measuredItems;
             int i12 = 0;
             result$iv = -1;
             min$iv = Integer.MAX_VALUE;
-            i$iv2 = 0;
-            while (i$iv2 < iArr.length) {
+            i$iv = 0;
+            while (i$iv < iArr.length) {
                 empty = false;
-                Object firstOrNull = iArr[i$iv2].firstOrNull();
+                Object firstOrNull = iArr[i$iv].firstOrNull();
                 if ((LazyStaggeredGridMeasuredItem)firstOrNull != null) {
                 } else {
                 }
                 index = Integer.MAX_VALUE;
                 if (min$iv > index) {
                 }
-                i$iv2++;
+                i$iv++;
                 min$iv = index;
-                result$iv = i$iv2;
+                result$iv = i$iv;
                 index = (LazyStaggeredGridMeasuredItem)firstOrNull.getIndex();
             }
             first = objArr[result$iv].removeFirst();
@@ -167,40 +167,40 @@ public final class LazyStaggeredGridMeasureKt {
             i7 = 0;
             int i14 = 0;
             int i15 = 0;
-            i$iv = (int)i10;
+            i$iv2 = (int)i10;
             first = 0;
-            i4 = 0;
-            while (i$iv < (int)i8) {
+            i2 = 0;
+            while (i$iv2 < (int)i8) {
                 first = 0;
-                itemScrollOffsets[i$iv] = mainAxisSizeWithSpacings += maxInRange-jy6DScQ;
-                i$iv++;
+                itemScrollOffsets[i$iv2] = mainAxisSizeWithSpacings += maxInRange-jy6DScQ;
+                i$iv2++;
             }
             objArr = measuredItems;
             lArr = itemScrollOffsets;
             Object[] objArr2 = measuredItems;
             int i11 = 0;
-            i6 = 0;
+            i3 = 0;
             first = 0;
-            itemScrollOffsets[i$iv] = mainAxisSizeWithSpacings += maxInRange-jy6DScQ;
-            i$iv++;
+            itemScrollOffsets[i$iv2] = mainAxisSizeWithSpacings += maxInRange-jy6DScQ;
+            i$iv2++;
             empty = false;
-            firstOrNull = iArr[i$iv2].firstOrNull();
+            firstOrNull = iArr[i$iv].firstOrNull();
             if ((LazyStaggeredGridMeasuredItem)firstOrNull != null) {
             } else {
             }
             index = Integer.MAX_VALUE;
             if (min$iv > index) {
             }
-            i$iv2++;
+            i$iv++;
             min$iv = index;
-            result$iv = i$iv2;
+            result$iv = i$iv;
             index = (LazyStaggeredGridMeasuredItem)firstOrNull.getIndex();
-            i3 = 0;
-            if (!(Collection)objArr2[i6].isEmpty()) {
+            i4 = 0;
+            if (!(Collection)objArr2[i3].isEmpty()) {
             } else {
             }
-            i6++;
-            i5 = 1;
+            i3++;
+            i = 1;
         }
         int i13 = mainAxisLayoutSize;
         return (List)arrayList;
@@ -216,10 +216,10 @@ public final class LazyStaggeredGridMeasureKt {
 
     private static final void ensureIndicesInRange(androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext $this$ensureIndicesInRange, int[] indices, int itemCount) {
         int i3;
-        int i;
+        int i2;
         int previousItemIndex;
         int assignedToLane;
-        int i2;
+        int i;
         if (length-- >= 0) {
         }
     }
@@ -331,25 +331,25 @@ public final class LazyStaggeredGridMeasureKt {
         int result;
         int min;
         int i;
-        int i4;
         int i2;
         int i3;
+        int i4;
         result = -1;
         min = Integer.MAX_VALUE;
         i = 0;
         while (i < $this$indexOfMinValue.length) {
-            i2 = $this$indexOfMinValue[i];
-            i3 = 0;
-            if (minBound + 1 <= i2 && i2 < min) {
+            i3 = $this$indexOfMinValue[i];
+            i4 = 0;
+            if (minBound + 1 <= i3 && i3 < min) {
             }
-            if (i3 != 0) {
+            if (i4 != 0) {
             }
             i++;
             min = $this$indexOfMinValue[i];
             result = i;
-            if (i2 < min) {
+            if (i3 < min) {
             }
-            i3 = 1;
+            i4 = 1;
         }
         return result;
     }
@@ -366,19 +366,19 @@ public final class LazyStaggeredGridMeasureKt {
         int max;
         int i2;
         int value$iv$iv$iv;
-        int i;
         int i3;
+        int i;
         int i4 = 0;
         max = Integer.MIN_VALUE;
         final int i5 = indexRange;
         final int i6 = 0;
         int i7 = 0;
-        i = 0;
+        i3 = 0;
         value$iv$iv$iv = (int)i11;
         i2 = 0;
-        i3 = 0;
+        i = 0;
         while (value$iv$iv$iv < (int)i12) {
-            i = 0;
+            i3 = 0;
             max = Math.max(max, $this$maxInRange_u2djy6DScQ[value$iv$iv$iv]);
             value$iv$iv$iv++;
         }
@@ -386,1001 +386,1001 @@ public final class LazyStaggeredGridMeasureKt {
     }
 
     private static final androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureResult measure(androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext $this$measure, int initialScrollDelta, int[] initialItemIndices, int[] initialItemOffsets, boolean canRestartMeasure) {
-        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext measuredItem2;
-        int i25;
-        int i17;
+        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext measuredItem;
+        int i41;
+        int i20;
         androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemProvider itemProvider;
         int previousItemIndex2;
-        int initialItemsMeasured2;
-        int i28;
-        int i32;
-        long i15;
-        int maxInRange-jy6DScQ;
-        int i72;
         int initialItemsMeasured;
-        int[] $i$f$debugLog4;
-        int $this$all$iv3;
+        int i46;
+        int i21;
+        long i73;
+        int maxInRange-jy6DScQ;
+        int i47;
+        int initialItemsMeasured3;
+        int[] $i$f$debugLog;
+        int $this$all$iv7;
         float scrollToBeConsumed$foundation_release;
         float f;
+        int[] iArr3;
+        int $this$all$iv;
         int[] iArr;
-        int $this$all$iv6;
-        int[] iArr5;
-        int i26;
-        int i11;
+        int i33;
+        int i40;
         int sign2;
         int indexOfMaxValue;
-        int laneIndex2;
-        int i18;
-        int i24;
-        int i8;
-        int scrollDelta2;
-        boolean constraints-msEJaDk;
-        int[] i$iv4;
-        int scrollDelta4;
-        int i$iv2;
-        int $i$f$debugLog3;
-        int $this$all$iv;
-        int i62;
-        int $i$f$debugLog;
+        int laneIndex3;
+        int i68;
+        int i65;
+        int i78;
         int scrollDelta;
-        int index$iv3;
-        int emptyList;
+        boolean constraints-msEJaDk;
+        int[] i$iv3;
+        int scrollDelta2;
+        int i$iv;
+        int $i$f$debugLog4;
+        int $this$all$iv3;
+        int i58;
+        int $i$f$debugLog3;
+        int scrollDelta4;
         int index$iv4;
-        int i19;
-        int i42;
-        int measuredItem;
-        int i49;
-        int i33;
-        int gaps2;
-        int i$iv5;
-        int[] iArr7;
-        int initialLaneToMeasure5;
-        int i70;
-        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridLaneInfo laneInfo;
+        int emptyList;
+        int index$iv;
+        int i64;
+        int i8;
+        int measuredItem2;
+        int i;
+        int i27;
+        int gaps;
+        int i$iv2;
+        int[] $i$f$forEachNIS5qE8;
         int initialLaneToMeasure2;
+        int i45;
+        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridLaneInfo laneInfo;
+        int initialLaneToMeasure3;
         int sign;
         int itemScrollOffsets;
-        int index$iv$iv$iv2;
-        int initialLaneToMeasure3;
+        int index$iv$iv$iv;
         int initialLaneToMeasure;
-        int i41;
+        int initialLaneToMeasure5;
+        int i67;
         int layoutWidth;
-        int[] offset2;
-        int i3;
-        int i12;
-        int indexOfMinValue$default2;
-        int gapDetected3;
-        int laneIndex;
+        int[] offset;
+        int i43;
+        int i18;
+        int indexOfMinValue$default;
+        int gapDetected2;
+        int laneIndex2;
         int constrainWidth-K40F9xA;
         int constrainHeight-K40F9xA;
         int i57;
         int extraItemOffset;
-        int i27;
-        int i21;
-        int $this$all$iv4;
+        int i75;
+        int i44;
+        int $this$all$iv6;
         int it;
-        int i79;
-        int $this$all$iv2;
-        int it3;
+        int i3;
+        int $this$all$iv5;
+        int it2;
         int beforeVisibleBounds$iv;
-        int i66;
+        int i35;
         int length3;
         int i76;
-        int gaps;
-        int gapDetected2;
+        int gaps2;
+        int gapDetected;
         int layoutHeight;
         String length2;
-        int i50;
-        int i71;
-        int i$iv;
-        int i$iv3;
+        int i7;
+        int i70;
+        int i$iv5;
+        int i$iv4;
         int mainAxisSpacing;
         androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem $this$calculateExtraItems$iv;
         androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext mainAxisSizeWithSpacings;
         boolean equals-impl0;
-        int i10;
-        int i68;
-        int iArr2;
+        int i13;
+        int i77;
+        int iArr5;
         ArrayList height-impl;
         int[] laneToCheckForGaps;
         int $i$f$calculateExtraItems;
-        int i30;
-        int i34;
+        int i53;
+        int i24;
         int remeasureNeeded3;
         int remeasureNeeded;
-        int index;
+        int index2;
         int previousItemIndex;
         int length;
         int visible;
-        int i61;
+        int i16;
         int $i$f$debugLog2;
-        int[] offset;
-        int i78;
+        int[] offset2;
+        int i2;
         int[] beforeVisibleBounds$iv2;
-        int result$iv;
-        int i58;
+        int result$iv2;
+        int i19;
         int measure$lambda$38$hasSpaceBeforeFirst;
         int spanRange;
-        int itemCount2;
-        ArrayDeque spanRange-lOCCd4c;
-        int i;
-        int i7;
+        int itemCount;
+        ArrayDeque spanRange-lOCCd4c2;
+        int i22;
+        int i51;
         int length4;
-        int i44;
-        int i43;
-        long l2;
-        int spanRange-lOCCd4c2;
-        long index$iv2;
-        int i5;
-        int i65;
-        int i36;
-        int it2;
-        int i74;
+        int i56;
+        int i17;
+        long l7;
+        int spanRange-lOCCd4c;
+        long index$iv5;
+        int i52;
+        int i6;
+        int i79;
+        int it3;
+        int i48;
         int size;
         int measure$lambda$38$misalignedStart;
-        int i16;
-        int index2;
-        long l10;
+        int i23;
+        int index;
+        long l13;
+        int i42;
+        int i49;
         int i59;
-        int i69;
-        int i4;
-        int result$iv2;
-        int scrollDelta5;
+        int result$iv;
         int scrollDelta6;
-        long l8;
+        int scrollDelta7;
+        long l11;
         List list;
-        int i56;
-        int $this$all$iv7;
-        int i45;
-        int i37;
+        int i60;
+        int $this$all$iv2;
+        int i69;
+        int i11;
         List $this$fastForEachReversed$iv$iv$iv;
-        int index$iv$iv$iv;
-        int i40;
+        int index$iv$iv$iv2;
+        int i12;
         int scrollDelta3;
         int initialItemsMeasured4;
-        int i51;
-        long l11;
-        int i67;
-        int indexOfMinValue$default;
-        int scrollDelta7;
-        int i29;
-        int i6;
-        int gapDetected;
-        int l;
+        int i14;
+        long l9;
+        int i38;
+        int indexOfMinValue$default2;
+        int scrollDelta5;
+        int i74;
+        int i61;
+        int gapDetected3;
+        int l10;
         float f2;
         float consumedScroll;
-        long l3;
-        long l5;
-        int maxOffsetLane;
-        long l7;
-        int i52;
-        long l4;
-        int $this$all$iv5;
-        int i73;
-        int[] i31;
-        int i60;
-        int remeasureNeeded2;
-        int i35;
-        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem index$iv5;
-        long l9;
-        int i75;
-        long l13;
-        int laneIndex3;
-        long l14;
-        long l15;
-        int itemCount;
+        long l2;
         long l6;
-        int index$iv;
-        int i46;
-        int i38;
-        int i22;
-        int i47;
-        int i53;
-        int i77;
-        long l12;
-        int i9;
-        int i23;
-        int[] iArr4;
-        int[] iArr3;
-        String str;
-        String str2;
-        int i14;
-        int i39;
-        int[] iArr6;
-        int initialItemsMeasured3;
-        int i55;
-        int initialLaneToMeasure4;
-        int i2;
-        int i48;
+        int maxOffsetLane;
+        long l14;
         int i63;
-        int i20;
+        long l15;
+        int $this$all$iv4;
+        int i31;
+        int[] i10;
+        int i4;
+        int remeasureNeeded2;
+        int i9;
+        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem index$iv2;
+        long l3;
+        int i34;
+        long l4;
+        int laneIndex;
+        long l5;
+        long l12;
+        int itemCount2;
+        long l8;
+        int index$iv3;
+        int i36;
+        int i25;
+        int i71;
+        int i30;
+        int i5;
+        int i50;
+        long l;
+        int i37;
+        int i39;
+        int[] iArr2;
+        int[] iArr6;
+        String str2;
+        String str;
+        int i62;
+        int i32;
+        int[] iArr4;
+        int initialItemsMeasured2;
+        int i26;
+        int initialLaneToMeasure4;
+        int i72;
         int i54;
-        int i64;
-        int i13;
+        int i55;
+        int i15;
+        int i28;
+        int i29;
+        int i66;
         int contentPadding;
-        measuredItem2 = $this$measure;
-        i$iv4 = initialItemIndices;
-        iArr7 = initialItemOffsets;
-        final int i245 = 0;
+        measuredItem = $this$measure;
+        i$iv3 = initialItemIndices;
+        $i$f$forEachNIS5qE8 = initialItemOffsets;
+        final int i240 = 0;
         final LazyLayoutMeasureScope lazyLayoutMeasureScope3 = measureScope;
-        final int i246 = 0;
-        itemCount2 = measuredItem2.getItemProvider().getItemCount();
-        if (itemCount2 > 0) {
-            if (measuredItem2.getLaneCount() == 0) {
-                itemCount = itemCount2;
+        final int i241 = 0;
+        itemCount = measuredItem.getItemProvider().getItemCount();
+        if (itemCount > 0) {
+            if (measuredItem.getLaneCount() == 0) {
+                itemCount2 = itemCount;
                 layoutWidth = Constraints.getMinWidth-impl($this$measure.getConstraints-msEJaDk());
                 layoutHeight = Constraints.getMinHeight-impl($this$measure.getConstraints-msEJaDk());
                 ArrayList arrayList = new ArrayList();
                 CoroutineScope coroutineScope = $this$measure.getCoroutineScope();
-                int i136 = 0;
-                $this$measure.getState().getItemAnimator$foundation_release().onMeasured(i136, layoutWidth, layoutHeight, (List)arrayList, $this$measure.getMeasuredItemProvider().getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)$this$measure.getMeasuredItemProvider(), $this$measure.isVertical(), false, $this$measure.getLaneCount(), false, 0, 0, coroutineScope, $this$measure.getGraphicsContext());
+                int i133 = 0;
+                $this$measure.getState().getItemAnimator$foundation_release().onMeasured(i133, layoutWidth, layoutHeight, (List)arrayList, $this$measure.getMeasuredItemProvider().getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)$this$measure.getMeasuredItemProvider(), $this$measure.isVertical(), false, $this$measure.getLaneCount(), false, 0, 0, coroutineScope, $this$measure.getGraphicsContext());
                 long minSizeToFitDisappearingItems-YbymL2g = $this$measure.getState().getItemAnimator$foundation_release().getMinSizeToFitDisappearingItems-YbymL2g();
                 if (!IntSize.equals-impl0(minSizeToFitDisappearingItems-YbymL2g, itemProvider)) {
-                    i34 = layoutWidth;
-                    i61 = layoutHeight;
+                    i24 = layoutWidth;
+                    i16 = layoutHeight;
                 } else {
-                    i34 = layoutWidth;
-                    i61 = layoutHeight;
+                    i24 = layoutWidth;
+                    i16 = layoutHeight;
                 }
-                int i247 = i34;
-                int i253 = i61;
+                int i242 = i24;
+                int i248 = i16;
                 long l23 = l17;
-                LazyStaggeredGridMeasureResult lazyStaggeredGridMeasureResult = new LazyStaggeredGridMeasureResult(initialItemIndices, initialItemOffsets, 0, MeasureScope.layout$default((MeasureScope)lazyLayoutMeasureScope3, i34, i61, 0, (Function1)LazyStaggeredGridMeasureKt.measure.1.1.INSTANCE, 4, 0), 0, $this$measure.isVertical(), 0, $this$measure.getResolvedSlots(), $this$measure.getItemProvider().getSpanProvider(), (Density)lazyLayoutMeasureScope3, itemCount, CollectionsKt.emptyList(), IntSizeKt.IntSize(Constraints.getMinWidth-impl($this$measure.getConstraints-msEJaDk()), Constraints.getMinHeight-impl($this$measure.getConstraints-msEJaDk())), coroutineScope, -beforeContentPadding3, mainAxisAvailableSize4 + afterContentPadding, $this$measure.getBeforeContentPadding(), $this$measure.getAfterContentPadding(), $this$measure.getMainAxisSpacing(), $this$measure.getCoroutineScope(), 0);
+                LazyStaggeredGridMeasureResult lazyStaggeredGridMeasureResult = new LazyStaggeredGridMeasureResult(initialItemIndices, initialItemOffsets, 0, MeasureScope.layout$default((MeasureScope)lazyLayoutMeasureScope3, i24, i16, 0, (Function1)LazyStaggeredGridMeasureKt.measure.1.1.INSTANCE, 4, 0), 0, $this$measure.isVertical(), 0, $this$measure.getResolvedSlots(), $this$measure.getItemProvider().getSpanProvider(), (Density)lazyLayoutMeasureScope3, itemCount2, CollectionsKt.emptyList(), IntSizeKt.IntSize(Constraints.getMinWidth-impl($this$measure.getConstraints-msEJaDk()), Constraints.getMinHeight-impl($this$measure.getConstraints-msEJaDk())), coroutineScope, -beforeContentPadding3, mainAxisAvailableSize4 + afterContentPadding, $this$measure.getBeforeContentPadding(), $this$measure.getAfterContentPadding(), $this$measure.getMainAxisSpacing(), $this$measure.getCoroutineScope(), 0);
                 return lazyStaggeredGridMeasureResult;
             } else {
-                offset2 = Arrays.copyOf(i$iv4, i$iv4.length);
+                offset = Arrays.copyOf(i$iv3, i$iv3.length);
                 length2 = "copyOf(this, size)";
-                Intrinsics.checkNotNullExpressionValue(offset2, length2);
-                laneToCheckForGaps = Arrays.copyOf(iArr7, iArr7.length);
+                Intrinsics.checkNotNullExpressionValue(offset, length2);
+                laneToCheckForGaps = Arrays.copyOf($i$f$forEachNIS5qE8, $i$f$forEachNIS5qE8.length);
                 Intrinsics.checkNotNullExpressionValue(laneToCheckForGaps, length2);
                 remeasureNeeded3 = 0;
-                LazyStaggeredGridMeasureKt.ensureIndicesInRange(measuredItem2, offset2, itemCount2);
+                LazyStaggeredGridMeasureKt.ensureIndicesInRange(measuredItem, offset, itemCount);
                 LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, -previousItemIndex2);
-                int laneCount2 = measuredItem2.getLaneCount();
+                int laneCount2 = measuredItem.getLaneCount();
                 ArrayDeque[] arr = new ArrayDeque[laneCount2];
                 measure$lambda$38$hasSpaceBeforeFirst = 0;
                 while (measure$lambda$38$hasSpaceBeforeFirst < laneCount2) {
-                    spanRange-lOCCd4c = new ArrayDeque(16);
-                    arr[measure$lambda$38$hasSpaceBeforeFirst] = spanRange-lOCCd4c;
+                    spanRange-lOCCd4c2 = new ArrayDeque(16);
+                    arr[measure$lambda$38$hasSpaceBeforeFirst] = spanRange-lOCCd4c2;
                     measure$lambda$38$hasSpaceBeforeFirst++;
                 }
                 LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, -beforeContentPadding7);
-                int i199 = 0;
+                int i195 = 0;
                 $i$f$debugLog2 = -1;
-                i4 = 32;
-                while (LazyStaggeredGridMeasureKt.measure$lambda$38$hasSpaceBeforeFirst(offset2, laneToCheckForGaps, measuredItem2)) {
-                    measure$lambda$38$hasSpaceBeforeFirst = LazyStaggeredGridMeasureKt.indexOfMaxValue(offset2);
-                    l8 = 4294967295L;
+                i59 = 32;
+                while (LazyStaggeredGridMeasureKt.measure$lambda$38$hasSpaceBeforeFirst(offset, laneToCheckForGaps, measuredItem)) {
+                    measure$lambda$38$hasSpaceBeforeFirst = LazyStaggeredGridMeasureKt.indexOfMaxValue(offset);
+                    l11 = 4294967295L;
                     length4 = laneToCheckForGaps.length;
-                    i58 = l10;
-                    i40 = 0;
-                    while (i58 < length4) {
-                        if (offset2[i58] != offset2[measure$lambda$38$hasSpaceBeforeFirst] && laneToCheckForGaps[i58] < laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst]) {
+                    i19 = l13;
+                    i12 = 0;
+                    while (i19 < length4) {
+                        if (offset[i19] != offset[measure$lambda$38$hasSpaceBeforeFirst] && laneToCheckForGaps[i19] < laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst]) {
                         }
-                        i58++;
+                        i19++;
                         previousItemIndex2 = scrollDelta3;
-                        if (laneToCheckForGaps[i58] < laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst]) {
+                        if (laneToCheckForGaps[i19] < laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst]) {
                         }
-                        laneToCheckForGaps[i58] = laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst];
+                        laneToCheckForGaps[i19] = laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst];
                     }
-                    previousItemIndex2 = LazyStaggeredGridMeasureKt.findPreviousItemIndex(measuredItem2, offset2[measure$lambda$38$hasSpaceBeforeFirst], measure$lambda$38$hasSpaceBeforeFirst);
+                    previousItemIndex2 = LazyStaggeredGridMeasureKt.findPreviousItemIndex(measuredItem, offset[measure$lambda$38$hasSpaceBeforeFirst], measure$lambda$38$hasSpaceBeforeFirst);
                     if (previousItemIndex2 < 0) {
                         break;
                     } else {
                     }
-                    spanRange-lOCCd4c = measuredItem2.getSpanRange-lOCCd4c(measuredItem2.getItemProvider(), previousItemIndex2, measure$lambda$38$hasSpaceBeforeFirst);
-                    long l21 = spanRange-lOCCd4c;
-                    int i265 = 0;
-                    l4 = l21;
-                    i35 = context7;
-                    int i277 = 0;
-                    int i279 = 0;
-                    int i281 = 0;
-                    int i288 = 0;
-                    index$iv = 0;
-                    i77 = i153;
-                    if (i47 - i127 != 1) {
+                    spanRange-lOCCd4c2 = measuredItem.getSpanRange-lOCCd4c(measuredItem.getItemProvider(), previousItemIndex2, measure$lambda$38$hasSpaceBeforeFirst);
+                    long l21 = spanRange-lOCCd4c2;
+                    int i260 = 0;
+                    l15 = l21;
+                    i9 = context7;
+                    int i272 = 0;
+                    int i274 = 0;
+                    int i276 = 0;
+                    int i283 = 0;
+                    index$iv3 = 0;
+                    i50 = i150;
+                    if (i30 - i125 != 1) {
                     } else {
                     }
-                    i49 = i40;
+                    i = i12;
+                    if (i != 0) {
+                    } else {
+                    }
+                    scrollDelta6 = i132;
+                    i9 = i67;
+                    i27 = (int)$i$f$getStartImpl3;
+                    measuredItem.getLaneInfo().setLane(previousItemIndex2, i27);
+                    long l22 = spanRange-lOCCd4c2;
+                    androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext context3 = $this$measure;
+                    int i230 = 0;
+                    int i257 = 0;
+                    int i261 = 0;
+                    int i268 = 0;
+                    $this$all$iv4 = 0;
+                    laneIndex = i151;
+                    if (i4 - i129 != 1) {
+                    } else {
+                    }
+                    i49 = i12;
                     if (i49 != 0) {
                     } else {
                     }
-                    scrollDelta5 = i134;
-                    i35 = i41;
-                    i33 = (int)i135;
-                    measuredItem2.getLaneInfo().setLane(previousItemIndex2, i33);
-                    long l22 = spanRange-lOCCd4c;
-                    androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext context3 = $this$measure;
-                    int i235 = 0;
-                    int i262 = 0;
-                    int i266 = 0;
-                    int i273 = 0;
-                    $this$all$iv5 = 0;
-                    laneIndex3 = i154;
-                    if (i60 - i131 != 1) {
-                    } else {
-                    }
-                    i69 = i40;
-                    if (i69 != 0) {
-                    } else {
-                    }
-                    gaps2 = 0;
-                    l11 = spanRange-lOCCd4c;
-                    int i156 = 0;
-                    int i209 = 0;
-                    int i233 = 0;
-                    scrollDelta5 = gaps2;
-                    i58 = 0;
-                    gapDetected = i133;
-                    i$iv5 = i37;
-                    while (i$iv5 < (int)i$iv7) {
-                        i58 = i$iv5;
-                        l10 = 0L;
-                        offset2[i58] = previousItemIndex2;
-                        if (scrollDelta5 == 0) {
+                    gaps = 0;
+                    l9 = spanRange-lOCCd4c2;
+                    int i153 = 0;
+                    int i205 = 0;
+                    int i228 = 0;
+                    scrollDelta6 = gaps;
+                    i19 = 0;
+                    gapDetected3 = i131;
+                    i$iv2 = i11;
+                    while (i$iv2 < (int)i$iv7) {
+                        i19 = i$iv2;
+                        l13 = 0L;
+                        offset[i19] = previousItemIndex2;
+                        if (scrollDelta6 == 0) {
                         } else {
                         }
-                        i4 = scrollDelta5[i58];
-                        i236 += i4;
-                        laneToCheckForGaps[i58] = l8;
-                        if (mainAxisAvailableSize7 += l8 <= 0) {
+                        i59 = scrollDelta6[i19];
+                        i231 += i59;
+                        laneToCheckForGaps[i19] = l11;
+                        if (mainAxisAvailableSize7 += l11 <= 0) {
                         }
-                        i$iv5++;
+                        i$iv2++;
                         remeasureNeeded3 = 1;
-                        i4 = i40;
+                        i59 = i12;
                     }
-                    i$iv4 = initialItemIndices;
-                    iArr7 = initialItemOffsets;
+                    i$iv3 = initialItemIndices;
+                    $i$f$forEachNIS5qE8 = initialItemOffsets;
                     previousItemIndex2 = scrollDelta3;
-                    i4 = 32;
-                    i58 = i$iv5;
-                    l10 = 0L;
-                    offset2[i58] = maxOffsetLane;
-                    if (scrollDelta5 == 0) {
+                    i59 = 32;
+                    i19 = i$iv2;
+                    l13 = 0L;
+                    offset[i19] = maxOffsetLane;
+                    if (scrollDelta6 == 0) {
                     } else {
                     }
-                    i4 = scrollDelta5[i58];
-                    i236 += i4;
-                    laneToCheckForGaps[i58] = l8;
-                    if (mainAxisAvailableSize7 += l8 <= 0) {
+                    i59 = scrollDelta6[i19];
+                    i231 += i59;
+                    laneToCheckForGaps[i19] = l11;
+                    if (mainAxisAvailableSize7 += l11 <= 0) {
                     }
-                    i$iv5++;
+                    i$iv2++;
                     remeasureNeeded3 = 1;
-                    i4 = i40;
-                    gaps2 = measuredItem2.getLaneInfo().getGaps(previousItemIndex2);
-                    i69 = 1;
-                    i33 = -2;
+                    i59 = i12;
+                    gaps = measuredItem.getLaneInfo().getGaps(previousItemIndex2);
                     i49 = 1;
-                    if (offset2[i58] != offset2[measure$lambda$38$hasSpaceBeforeFirst] && laneToCheckForGaps[i58] < laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst]) {
+                    i27 = -2;
+                    i = 1;
+                    if (offset[i19] != offset[measure$lambda$38$hasSpaceBeforeFirst] && laneToCheckForGaps[i19] < laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst]) {
                     }
-                    i58++;
+                    i19++;
                     previousItemIndex2 = scrollDelta3;
-                    if (laneToCheckForGaps[i58] < laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst]) {
+                    if (laneToCheckForGaps[i19] < laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst]) {
                     }
-                    laneToCheckForGaps[i58] = laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst];
+                    laneToCheckForGaps[i19] = laneToCheckForGaps[measure$lambda$38$hasSpaceBeforeFirst];
                 }
                 scrollDelta3 = previousItemIndex2;
-                l8 = 4294967295L;
-                i40 = 0;
+                l11 = 4294967295L;
+                i12 = 0;
                 int scrollDelta8 = 0;
-                int i84 = -beforeContentPadding;
-                if (laneToCheckForGaps[i40] < i84) {
-                    i123 += scrollDelta3;
-                    LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, i84 - i151);
-                    iArr7 = 0;
+                int i83 = -beforeContentPadding;
+                if (laneToCheckForGaps[i12] < i83) {
+                    i121 += scrollDelta3;
+                    LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, i83 - i148);
+                    $i$f$forEachNIS5qE8 = 0;
                 } else {
-                    scrollDelta4 = scrollDelta3;
+                    scrollDelta2 = scrollDelta3;
                 }
-                LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, measuredItem2.getBeforeContentPadding());
-                int i137 = -1;
-                if ($i$f$debugLog2 == i137) {
-                    spanRange = ArraysKt.indexOf(offset2, i40);
+                LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, measuredItem.getBeforeContentPadding());
+                int i134 = -1;
+                if ($i$f$debugLog2 == i134) {
+                    spanRange = ArraysKt.indexOf(offset, i12);
                 } else {
                     spanRange = $i$f$debugLog2;
                 }
                 $i$f$debugLog2 = spanRange;
-                if (spanRange != i137 && LazyStaggeredGridMeasureKt.measure$lambda$38$misalignedStart(offset2, measuredItem2, laneToCheckForGaps, $i$f$debugLog2) && canRestartMeasure) {
+                if (spanRange != i134 && LazyStaggeredGridMeasureKt.measure$lambda$38$misalignedStart(offset, measuredItem, laneToCheckForGaps, $i$f$debugLog2) && canRestartMeasure) {
                     $i$f$debugLog2 = spanRange;
-                    if (LazyStaggeredGridMeasureKt.measure$lambda$38$misalignedStart(offset2, measuredItem2, laneToCheckForGaps, $i$f$debugLog2)) {
+                    if (LazyStaggeredGridMeasureKt.measure$lambda$38$misalignedStart(offset, measuredItem, laneToCheckForGaps, $i$f$debugLog2)) {
                         if (canRestartMeasure) {
-                            measuredItem2.getLaneInfo().reset();
-                            int length10 = offset2.length;
-                            int[] iArr11 = new int[length10];
-                            i = 0;
-                            while (i < length10) {
-                                iArr11[i] = i137;
-                                i++;
+                            measuredItem.getLaneInfo().reset();
+                            int length10 = offset.length;
+                            int[] iArr10 = new int[length10];
+                            i22 = 0;
+                            while (i22 < length10) {
+                                iArr10[i22] = i134;
+                                i22++;
                             }
                             int length5 = laneToCheckForGaps.length;
-                            int[] iArr10 = new int[length5];
-                            i7 = 0;
-                            while (i7 < length5) {
-                                iArr10[i7] = laneToCheckForGaps[$i$f$debugLog2];
-                                i7++;
+                            int[] iArr9 = new int[length5];
+                            i51 = 0;
+                            while (i51 < length5) {
+                                iArr9[i51] = laneToCheckForGaps[$i$f$debugLog2];
+                                i51++;
                             }
-                            return LazyStaggeredGridMeasureKt.measure(measuredItem2, scrollDelta4, iArr11, iArr10, false);
+                            return LazyStaggeredGridMeasureKt.measure(measuredItem, scrollDelta2, iArr10, iArr9, false);
                         }
                     }
                 }
-                offset = Arrays.copyOf(offset2, offset2.length);
-                Intrinsics.checkNotNullExpressionValue(offset, length2);
+                offset2 = Arrays.copyOf(offset, offset.length);
+                Intrinsics.checkNotNullExpressionValue(offset2, length2);
                 int length14 = laneToCheckForGaps.length;
-                int[] iArr12 = new int[length14];
-                i44 = 0;
-                while (i44 < length14) {
-                    iArr12[i44] = -i229;
-                    i44++;
+                int[] iArr11 = new int[length14];
+                i56 = 0;
+                while (i56 < length14) {
+                    iArr11[i56] = -i224;
+                    i56++;
                 }
-                mainAxisSpacing3 += i84;
-                it2 = 0;
-                i43 = RangesKt.coerceAtLeast(mainAxisAvailableSize6 += afterContentPadding4, it2);
-                int i242 = 0;
+                mainAxisSpacing3 += i83;
+                it3 = 0;
+                i17 = RangesKt.coerceAtLeast(mainAxisAvailableSize6 += afterContentPadding4, it3);
+                int i237 = 0;
                 remeasureNeeded2 = remeasureNeeded3;
-                initialItemsMeasured2 = initialItemsMeasured4;
-                initialLaneToMeasure5 = indexOfMinValue$default;
-                while (initialLaneToMeasure5 != -1) {
-                    if (initialItemsMeasured2 < measuredItem2.getLaneCount()) {
+                initialItemsMeasured = initialItemsMeasured4;
+                initialLaneToMeasure2 = indexOfMinValue$default2;
+                while (initialLaneToMeasure2 != -1) {
+                    if (initialItemsMeasured < measuredItem.getLaneCount()) {
                     }
-                    remeasureNeeded3 = offset[initialLaneToMeasure5];
-                    initialLaneToMeasure5 = LazyStaggeredGridMeasureKt.indexOfMinValue(offset, remeasureNeeded3);
-                    initialItemsMeasured2++;
+                    remeasureNeeded3 = offset2[initialLaneToMeasure2];
+                    initialLaneToMeasure2 = LazyStaggeredGridMeasureKt.indexOfMinValue(offset2, remeasureNeeded3);
+                    initialItemsMeasured++;
                     if (remeasureNeeded3 >= 0) {
                     } else {
                     }
-                    initialItemsMeasured4 = initialItemsMeasured2;
-                    indexOfMinValue$default = scrollDelta4;
-                    gapDetected = initialLaneToMeasure5;
+                    initialItemsMeasured4 = initialItemsMeasured;
+                    indexOfMinValue$default2 = scrollDelta2;
+                    gapDetected3 = initialLaneToMeasure2;
+                    iArr2 = offset;
+                    str2 = length2;
                     iArr4 = offset2;
-                    str = length2;
-                    iArr6 = offset;
-                    indexOfMinValue$default = scrollDelta4;
-                    long spanRange-lOCCd4c3 = measuredItem2.getSpanRange-lOCCd4c(measuredItem2.getItemProvider(), remeasureNeeded3, initialLaneToMeasure5);
-                    gapDetected = initialLaneToMeasure5;
-                    androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem andMeasure-jy6DScQ4 = measuredItem2.getMeasuredItemProvider().getAndMeasure-jy6DScQ(remeasureNeeded3, spanRange-lOCCd4c3);
-                    iArr6 = offset;
+                    indexOfMinValue$default2 = scrollDelta2;
+                    long spanRange-lOCCd4c3 = measuredItem.getSpanRange-lOCCd4c(measuredItem.getItemProvider(), remeasureNeeded3, initialLaneToMeasure2);
+                    gapDetected3 = initialLaneToMeasure2;
+                    androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem andMeasure-jy6DScQ4 = measuredItem.getMeasuredItemProvider().getAndMeasure-jy6DScQ(remeasureNeeded3, spanRange-lOCCd4c3);
+                    iArr4 = offset2;
                     long l26 = spanRange-lOCCd4c3;
-                    int i274 = 0;
-                    l6 = context8;
-                    i46 = 0;
-                    i47 = 0;
-                    int i289 = 0;
-                    l12 = l13;
-                    int i295 = 0;
-                    iArr4 = offset2;
-                    str = length2;
+                    int i269 = 0;
+                    l8 = context8;
+                    i36 = 0;
+                    i30 = 0;
+                    int i284 = 0;
+                    l = l4;
                     int i290 = 0;
-                    i14 = i183;
-                    if (i23 - i160 != 1) {
+                    iArr2 = offset;
+                    str2 = length2;
+                    int i285 = 0;
+                    i62 = i179;
+                    if (i39 - i157 != 1) {
                     } else {
                     }
-                    i3 = 0;
-                    if (i3 != 0) {
+                    i43 = 0;
+                    if (i43 != 0) {
                     } else {
                     }
-                    l6 = i162;
-                    i46 = i50;
-                    i12 = (int)i163;
-                    measuredItem2.getLaneInfo().setLane(remeasureNeeded3, i12);
-                    int maxInRange-jy6DScQ3 = LazyStaggeredGridMeasureKt.maxInRange-jy6DScQ(iArr12, spanRange-lOCCd4c3);
-                    i71 = 0;
-                    int i200 = 0;
-                    l9 = l5;
-                    int i270 = 0;
-                    laneIndex3 = spanRange-lOCCd4c3;
-                    i78 = 0;
-                    int i284 = i106;
-                    i28 = (int)i$iv6;
-                    i$iv2 = i73;
-                    while (i$iv2 < i28) {
-                        i78 = i$iv2;
-                        i73 = 0;
-                        iArr12[i78] = mainAxisSizeWithSpacings6 += maxInRange-jy6DScQ3;
-                        iArr6[i78] = remeasureNeeded3;
-                        arr[i78].addLast(andMeasure-jy6DScQ4);
-                        i$iv2++;
-                        i28 = l9;
+                    l8 = i159;
+                    i36 = i7;
+                    i18 = (int)$i$f$getStartImpl4;
+                    measuredItem.getLaneInfo().setLane(remeasureNeeded3, i18);
+                    int maxInRange-jy6DScQ3 = LazyStaggeredGridMeasureKt.maxInRange-jy6DScQ(iArr11, spanRange-lOCCd4c3);
+                    i70 = 0;
+                    int i196 = 0;
+                    l3 = l6;
+                    int i265 = 0;
+                    laneIndex = spanRange-lOCCd4c3;
+                    i2 = 0;
+                    int i279 = i104;
+                    i46 = (int)i$iv6;
+                    i$iv = i31;
+                    while (i$iv < i46) {
+                        i2 = i$iv;
+                        i31 = 0;
+                        iArr11[i2] = mainAxisSizeWithSpacings6 += maxInRange-jy6DScQ3;
+                        iArr4[i2] = remeasureNeeded3;
+                        arr[i2].addLast(andMeasure-jy6DScQ4);
+                        i$iv++;
+                        i46 = l3;
                     }
-                    i71 = i90;
-                    i78 = i$iv2;
-                    if (maxInRange-jy6DScQ3 < i208 && iArr12[(int)i91] <= i208) {
+                    i70 = i89;
+                    i2 = i$iv;
+                    if (maxInRange-jy6DScQ3 < i204 && iArr11[(int)$i$f$getStartImpl2] <= i204) {
                     }
-                    long l16 = laneIndex3;
+                    long l16 = laneIndex;
                     androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext context2 = $this$measure;
-                    int i201 = 0;
-                    l3 = 0;
-                    int i267 = 0;
-                    $this$all$iv5 = 0;
-                    index$iv5 = 0;
-                    i77 = i107;
-                    if (i75 - i88 != 1) {
+                    int i197 = 0;
+                    l2 = 0;
+                    int i262 = 0;
+                    $this$all$iv4 = 0;
+                    index$iv2 = 0;
+                    i50 = i105;
+                    if (i34 - i87 != 1) {
                     } else {
                     }
-                    i32 = 0;
-                    if (i32 != 0) {
+                    i21 = 0;
+                    if (i21 != 0) {
                     } else {
                     }
-                    initialItemsMeasured2 = initialItemsMeasured4;
-                    scrollDelta4 = indexOfMinValue$default;
-                    initialLaneToMeasure5 = gapDetected;
+                    initialItemsMeasured = initialItemsMeasured4;
+                    scrollDelta2 = indexOfMinValue$default2;
+                    initialLaneToMeasure2 = gapDetected3;
+                    offset = iArr2;
+                    length2 = str2;
                     offset2 = iArr4;
-                    length2 = str;
-                    offset = iArr6;
-                    initialItemsMeasured2 = measuredItem2.getLaneCount();
-                    scrollDelta4 = indexOfMinValue$default;
-                    initialLaneToMeasure5 = gapDetected;
+                    initialItemsMeasured = measuredItem.getLaneCount();
+                    scrollDelta2 = indexOfMinValue$default2;
+                    initialLaneToMeasure2 = gapDetected3;
+                    offset = iArr2;
+                    length2 = str2;
                     offset2 = iArr4;
-                    length2 = str;
-                    offset = iArr6;
-                    i32 = 1;
-                    i71 = i90;
-                    i78 = i$iv2;
-                    if (iArr12[(int)i91] <= i208) {
+                    i21 = 1;
+                    i70 = i89;
+                    i2 = i$iv;
+                    if (iArr11[(int)$i$f$getStartImpl2] <= i204) {
                     }
                     andMeasure-jy6DScQ4.setVisible(false);
-                    remeasureNeeded2 = i28;
-                    i78 = i$iv2;
-                    i73 = 0;
-                    iArr12[i78] = mainAxisSizeWithSpacings6 += maxInRange-jy6DScQ3;
-                    iArr6[i78] = remeasureNeeded3;
-                    arr[i78].addLast(andMeasure-jy6DScQ4);
-                    i$iv2++;
-                    i28 = l9;
-                    i12 = -2;
-                    i3 = 1;
+                    remeasureNeeded2 = i46;
+                    i2 = i$iv;
+                    i31 = 0;
+                    iArr11[i2] = mainAxisSizeWithSpacings6 += maxInRange-jy6DScQ3;
+                    iArr4[i2] = remeasureNeeded3;
+                    arr[i2].addLast(andMeasure-jy6DScQ4);
+                    i$iv++;
+                    i46 = l3;
+                    i18 = -2;
+                    i43 = 1;
                 }
-                scrollDelta7 = scrollDelta4;
-                iArr3 = offset2;
-                str2 = length2;
-                int[] iArr18 = offset;
+                scrollDelta5 = scrollDelta2;
+                iArr6 = offset;
+                str = length2;
+                int[] iArr17 = offset2;
                 int scrollDelta9 = 0;
-                $i$f$debugLog3 = 0;
+                $i$f$debugLog4 = 0;
                 while (/* condition */) {
-                    while (index < length2) {
-                        it2 = offset;
+                    while (index2 < length2) {
+                        it3 = offset2;
                         initialItemsMeasured4 = 0;
-                        if (it2 >= i43) {
+                        if (it3 >= i17) {
                         } else {
                         }
-                        gapDetected = 1;
-                        index++;
-                        if (it2 <= 0) {
+                        gapDetected3 = 1;
+                        index2++;
+                        if (it3 <= 0) {
                         } else {
                         }
-                        gapDetected = 0;
+                        gapDetected3 = 0;
                     }
-                    $this$all$iv = 0;
-                    if ($this$all$iv != 0) {
+                    $this$all$iv3 = 0;
+                    if ($this$all$iv3 != 0) {
                         break;
                     } else {
                     }
-                    indexOfMinValue$default2 = LazyStaggeredGridMeasureKt.indexOfMinValue$default(iArr12, 0, 1, 0);
-                    $this$all$iv = ArraysKt.maxOrThrow(iArr18);
-                    length2 = $this$all$iv + 1;
-                    if (length2 >= itemCount2) {
+                    indexOfMinValue$default = LazyStaggeredGridMeasureKt.indexOfMinValue$default(iArr11, 0, 1, 0);
+                    $this$all$iv3 = ArraysKt.maxOrThrow(iArr17);
+                    length2 = $this$all$iv3 + 1;
+                    if (length2 >= itemCount) {
                         break;
                     } else {
                     }
-                    initialItemsMeasured3 = initialItemsMeasured2;
-                    i55 = initialLaneToMeasure5;
-                    l6 = itemCount2;
-                    l12 = i43;
-                    remeasureNeeded = str2;
+                    initialItemsMeasured2 = initialItemsMeasured;
+                    i26 = initialLaneToMeasure2;
+                    l8 = itemCount;
+                    l = i17;
+                    remeasureNeeded = str;
                     int initialItemsMeasured5 = 0;
-                    l11 = -1;
+                    l9 = -1;
                     int[] scrollDelta11 = laneToCheckForGaps;
                     int firstItemOffsets = spanRange;
-                    long spanRange-lOCCd4c5 = measuredItem2.getSpanRange-lOCCd4c(measuredItem2.getItemProvider(), length2, indexOfMinValue$default2);
+                    long spanRange-lOCCd4c5 = measuredItem.getSpanRange-lOCCd4c(measuredItem.getItemProvider(), length2, indexOfMinValue$default);
                     long l19 = spanRange-lOCCd4c5;
-                    int i248 = 0;
-                    l = l19;
-                    l7 = context5;
+                    int i243 = 0;
+                    l10 = l19;
+                    l14 = context5;
+                    int i266 = 0;
                     int i271 = 0;
-                    int i276 = 0;
-                    int i278 = 0;
-                    laneIndex3 = 0;
-                    i77 = $this$all$iv;
-                    int i110 = 0;
-                    index$iv = 0;
-                    if (i47 - i81 != 1) {
+                    int i273 = 0;
+                    laneIndex = 0;
+                    i50 = $this$all$iv3;
+                    int i108 = 0;
+                    index$iv3 = 0;
+                    if (i30 - i81 != 1) {
                     } else {
                     }
-                    i25 = 0;
-                    if (i25 != 0) {
+                    i41 = 0;
+                    if (i41 != 0) {
                     } else {
                     }
-                    l = 0;
-                    l3 = i82;
-                    i17 = (int)i83;
-                    measuredItem2.getLaneInfo().setLane(length2, i17);
+                    l10 = 0;
+                    l2 = i82;
+                    i20 = (int)$i$f$getStartImpl;
+                    measuredItem.getLaneInfo().setLane(length2, i20);
                     androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem andMeasure-jy6DScQ = $this$measure.getMeasuredItemProvider().getAndMeasure-jy6DScQ(length2, spanRange-lOCCd4c5);
-                    maxInRange-jy6DScQ = LazyStaggeredGridMeasureKt.maxInRange-jy6DScQ(iArr12, spanRange-lOCCd4c5);
-                    int i202 = 0;
-                    int i238 = 0;
-                    int i249 = 0;
+                    maxInRange-jy6DScQ = LazyStaggeredGridMeasureKt.maxInRange-jy6DScQ(iArr11, spanRange-lOCCd4c5);
+                    int i198 = 0;
+                    int i233 = 0;
+                    int i244 = 0;
                     long l24 = l20;
-                    int i268 = 0;
+                    int i263 = 0;
                     androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext context9 = context;
-                    $this$all$iv5 = initialLaneToMeasure6;
-                    int i250 = 0;
-                    i75 = i140;
-                    int i141 = 1;
-                    if (maxOffsetLane - i114 != i141) {
+                    $this$all$iv4 = initialLaneToMeasure6;
+                    int i245 = 0;
+                    i34 = i137;
+                    int i138 = 1;
+                    if (maxOffsetLane - i112 != i138) {
                     } else {
                     }
-                    i62 = 0;
-                    if (i62 != 0) {
+                    i58 = 0;
+                    if (i58 != 0) {
                     } else {
                     }
-                    $i$f$debugLog3 = 0;
-                    int i203 = 0;
-                    int i231 = 0;
-                    gapDetected = l2;
-                    int i239 = 0;
-                    initialItemsMeasured4 = indexOfMinValue$default2;
-                    i59 = 0;
-                    index$iv5 = i164;
-                    i70 = (int)i$iv8;
-                    offset2 = i37;
-                    while (offset2 < i70) {
-                        i59 = offset2;
-                        i37 = 0;
-                        if ($i$f$debugLog3 != 0) {
+                    $i$f$debugLog4 = 0;
+                    int i199 = 0;
+                    int i226 = 0;
+                    gapDetected3 = l7;
+                    int i234 = 0;
+                    initialItemsMeasured4 = indexOfMinValue$default;
+                    i42 = 0;
+                    index$iv2 = i160;
+                    i45 = (int)i$iv8;
+                    offset = i11;
+                    while (offset < i45) {
+                        i42 = offset;
+                        i11 = 0;
+                        if ($i$f$debugLog4 != 0) {
                         }
-                        iArr18[i59] = length2;
-                        iArr12[i59] = mainAxisSizeWithSpacings5 += maxInRange-jy6DScQ;
-                        arr[i59].addLast(andMeasure-jy6DScQ);
-                        offset2++;
-                        i70 = gapDetected;
-                        $i$f$debugLog3[i59] = maxInRange-jy6DScQ - i257;
+                        iArr17[i42] = length2;
+                        iArr11[i42] = mainAxisSizeWithSpacings5 += maxInRange-jy6DScQ;
+                        arr[i42].addLast(andMeasure-jy6DScQ);
+                        offset++;
+                        i45 = gapDetected3;
+                        $i$f$debugLog4[i42] = maxInRange-jy6DScQ - i252;
                     }
-                    $this$measure.getLaneInfo().setGaps(length2, $i$f$debugLog3);
-                    if (maxInRange-jy6DScQ < i208) {
+                    $this$measure.getLaneInfo().setGaps(length2, $i$f$debugLog4);
+                    if (maxInRange-jy6DScQ < i204) {
                     } else {
                     }
-                    offset = maxInRange-jy6DScQ;
-                    l10 = $i$f$debugLog3;
-                    it2 = 0;
-                    measuredItem2 = $this$measure;
+                    offset2 = maxInRange-jy6DScQ;
+                    l13 = $i$f$debugLog4;
+                    it3 = 0;
+                    measuredItem = $this$measure;
                     spanRange = firstItemOffsets;
-                    str2 = remeasureNeeded;
+                    str = remeasureNeeded;
                     laneToCheckForGaps = scrollDelta11;
-                    scrollDelta7 = $this$all$iv5;
-                    itemCount2 = l6;
-                    i43 = l12;
-                    initialItemsMeasured2 = initialItemsMeasured3;
-                    initialLaneToMeasure5 = i55;
-                    int[] $i$f$debugLog7 = iArr12;
-                    indexOfMinValue$default2 = 0;
-                    index = 0;
+                    scrollDelta5 = $this$all$iv4;
+                    itemCount = l8;
+                    i17 = l;
+                    initialItemsMeasured = initialItemsMeasured2;
+                    initialLaneToMeasure2 = i26;
+                    int[] $i$f$debugLog7 = iArr11;
+                    indexOfMinValue$default = 0;
+                    index2 = 0;
                     laneInfo = 0;
-                    offset2 = null;
-                    offset = maxInRange-jy6DScQ;
-                    l10 = $i$f$debugLog3;
-                    if (iArr12[(int)offset3] <= i208) {
+                    offset = null;
+                    offset2 = maxInRange-jy6DScQ;
+                    l13 = $i$f$debugLog4;
+                    if (iArr11[(int)offset3] <= i204) {
                     } else {
                     }
-                    it2 = 0;
+                    it3 = 0;
                     andMeasure-jy6DScQ.setVisible(false);
-                    measuredItem2 = $this$measure;
+                    measuredItem = $this$measure;
                     spanRange = firstItemOffsets;
-                    str2 = remeasureNeeded;
+                    str = remeasureNeeded;
                     laneToCheckForGaps = scrollDelta11;
-                    scrollDelta7 = $this$all$iv5;
-                    itemCount2 = l6;
-                    i43 = l12;
-                    initialItemsMeasured2 = initialItemsMeasured3;
-                    initialLaneToMeasure5 = i55;
-                    i59 = offset2;
-                    i37 = 0;
-                    if ($i$f$debugLog3 != 0) {
+                    scrollDelta5 = $this$all$iv4;
+                    itemCount = l8;
+                    i17 = l;
+                    initialItemsMeasured = initialItemsMeasured2;
+                    initialLaneToMeasure2 = i26;
+                    i42 = offset;
+                    i11 = 0;
+                    if ($i$f$debugLog4 != 0) {
                     }
-                    iArr18[i59] = length2;
-                    iArr12[i59] = mainAxisSizeWithSpacings5 += maxInRange-jy6DScQ;
-                    arr[i59].addLast(andMeasure-jy6DScQ);
-                    offset2++;
-                    i70 = gapDetected;
-                    $i$f$debugLog3[i59] = maxInRange-jy6DScQ - i257;
+                    iArr17[i42] = length2;
+                    iArr11[i42] = mainAxisSizeWithSpacings5 += maxInRange-jy6DScQ;
+                    arr[i42].addLast(andMeasure-jy6DScQ);
+                    offset++;
+                    i45 = gapDetected3;
+                    $i$f$debugLog4[i42] = maxInRange-jy6DScQ - i252;
                     if ($this$measure.getLaneInfo().getGaps(length2) == null) {
                     }
-                    $i$f$debugLog3 = new int[$this$measure.getLaneCount()];
-                    i62 = i141;
-                    i17 = -2;
-                    i25 = 1;
+                    $i$f$debugLog4 = new int[$this$measure.getLaneCount()];
+                    i58 = i138;
+                    i20 = -2;
+                    i41 = 1;
                     ArrayDeque[] objArr = arr;
-                    indexOfMinValue$default2 = 0;
-                    index = 0;
-                    while (index < objArr.length) {
+                    indexOfMinValue$default = 0;
+                    index2 = 0;
+                    while (index2 < objArr.length) {
                         initialItemsMeasured4 = 0;
-                        index++;
+                        index2++;
                     }
-                    $this$all$iv = 1;
-                    if ($this$all$iv != 0) {
+                    $this$all$iv3 = 1;
+                    if ($this$all$iv3 != 0) {
                         break;
                     }
                     initialItemsMeasured4 = 0;
-                    if (objArr[index].isEmpty() == 0) {
+                    if (objArr[index2].isEmpty() == 0) {
                     } else {
                     }
-                    index++;
-                    $this$all$iv = 0;
-                    it2 = offset;
+                    index2++;
+                    $this$all$iv3 = 0;
+                    it3 = offset2;
                     initialItemsMeasured4 = 0;
-                    if (it2 >= i43) {
+                    if (it3 >= i17) {
                     } else {
                     }
-                    gapDetected = 1;
-                    if (gapDetected != 0) {
+                    gapDetected3 = 1;
+                    if (gapDetected3 != 0) {
                     } else {
                     }
-                    index++;
-                    $this$all$iv = 1;
-                    if (it2 <= 0) {
+                    index2++;
+                    $this$all$iv3 = 1;
+                    if (it3 <= 0) {
                     } else {
                     }
-                    gapDetected = 0;
+                    gapDetected3 = 0;
                 }
                 int previousItemIndex4 = 0;
-                $i$f$debugLog = 0;
-                while ($i$f$debugLog < arr.length) {
-                    length2 = arr[$i$f$debugLog];
-                    offset = 1;
-                    while (length2.size() > offset) {
+                $i$f$debugLog3 = 0;
+                while ($i$f$debugLog3 < arr.length) {
+                    length2 = arr[$i$f$debugLog3];
+                    offset2 = 1;
+                    while (length2.size() > offset2) {
                         if (!(LazyStaggeredGridMeasuredItem)length2.first().isVisible()) {
                         }
-                        index = length2.removeFirst();
-                        if ((LazyStaggeredGridMeasuredItem)index.getSpan() != offset) {
+                        index2 = length2.removeFirst();
+                        if ((LazyStaggeredGridMeasuredItem)index2.getSpan() != offset2) {
                         } else {
                         }
-                        offset = 0;
-                        if (offset == null) {
+                        offset2 = 0;
+                        if (offset2 == null) {
                         } else {
                         }
-                        gapDetected = offset[$i$f$debugLog];
-                        laneToCheckForGaps[$i$f$debugLog] = i228 -= initialItemsMeasured4;
-                        offset = 1;
-                        gapDetected = 0;
-                        offset = measuredItem2.getLaneInfo().getGaps(index.getIndex());
+                        gapDetected3 = offset2[$i$f$debugLog3];
+                        laneToCheckForGaps[$i$f$debugLog3] = i223 -= initialItemsMeasured4;
+                        offset2 = 1;
+                        gapDetected3 = 0;
+                        offset2 = measuredItem.getLaneInfo().getGaps(index2.getIndex());
                     }
                     Object firstOrNull = length2.firstOrNull();
                     if ((LazyStaggeredGridMeasuredItem)firstOrNull != null) {
                     } else {
                     }
-                    index = -1;
-                    iArr3[$i$f$debugLog] = index;
-                    $i$f$debugLog++;
-                    index = (LazyStaggeredGridMeasuredItem)firstOrNull.getIndex();
+                    index2 = -1;
+                    iArr6[$i$f$debugLog3] = index2;
+                    $i$f$debugLog3++;
+                    index2 = (LazyStaggeredGridMeasuredItem)firstOrNull.getIndex();
                     if (!(LazyStaggeredGridMeasuredItem)length2.first().isVisible()) {
                     }
-                    index = length2.removeFirst();
-                    if ((LazyStaggeredGridMeasuredItem)index.getSpan() != offset) {
+                    index2 = length2.removeFirst();
+                    if ((LazyStaggeredGridMeasuredItem)index2.getSpan() != offset2) {
                     } else {
                     }
-                    offset = 0;
-                    if (offset == null) {
+                    offset2 = 0;
+                    if (offset2 == null) {
                     } else {
                     }
-                    gapDetected = offset[$i$f$debugLog];
-                    laneToCheckForGaps[$i$f$debugLog] = i228 -= initialItemsMeasured4;
-                    gapDetected = 0;
-                    offset = measuredItem2.getLaneInfo().getGaps(index.getIndex());
+                    gapDetected3 = offset2[$i$f$debugLog3];
+                    laneToCheckForGaps[$i$f$debugLog3] = i223 -= initialItemsMeasured4;
+                    gapDetected3 = 0;
+                    offset2 = measuredItem.getLaneInfo().getGaps(index2.getIndex());
                 }
-                int[] laneIndex5 = iArr18;
-                int i165 = 0;
+                int[] laneIndex5 = iArr17;
+                int i161 = 0;
                 previousItemIndex = 0;
                 while (previousItemIndex < laneIndex5.length) {
                     initialItemsMeasured4 = 0;
-                    if (laneIndex5[previousItemIndex] == itemCount2 + -1) {
+                    if (laneIndex5[previousItemIndex] == itemCount + -1) {
                     } else {
                     }
-                    i72 = 0;
+                    i47 = 0;
                     previousItemIndex++;
-                    initialItemsMeasured2 = initialItemsMeasured3;
-                    i72 = 1;
+                    initialItemsMeasured = initialItemsMeasured2;
+                    i47 = 1;
                 }
-                initialItemsMeasured3 = initialItemsMeasured2;
-                initialItemsMeasured = 0;
-                if (initialItemsMeasured != 0) {
-                    LazyStaggeredGridMeasureKt.offsetBy(iArr12, -mainAxisSpacing2);
+                initialItemsMeasured2 = initialItemsMeasured;
+                initialItemsMeasured3 = 0;
+                if (initialItemsMeasured3 != 0) {
+                    LazyStaggeredGridMeasureKt.offsetBy(iArr11, -mainAxisSpacing2);
                 }
-                int i97 = 0;
+                int i95 = 0;
                 int $i$f$debugLog5 = 0;
-                int i116 = 0;
-                i$iv = 0;
-                while (i$iv < $i$f$debugLog4.length) {
-                    it2 = 0;
-                    if ($i$f$debugLog4[i$iv] < measuredItem2.getMainAxisAvailableSize()) {
+                int i114 = 0;
+                i$iv5 = 0;
+                while (i$iv5 < $i$f$debugLog.length) {
+                    it3 = 0;
+                    if ($i$f$debugLog[i$iv5] < measuredItem.getMainAxisAvailableSize()) {
                     } else {
                     }
-                    i8 = 0;
-                    i$iv++;
-                    $i$f$debugLog4 = initialItemsMeasured4;
-                    i8 = 1;
+                    i78 = 0;
+                    i$iv5++;
+                    $i$f$debugLog = initialItemsMeasured4;
+                    i78 = 1;
                 }
-                initialItemsMeasured4 = $i$f$debugLog4;
-                $this$all$iv3 = 1;
-                if ($this$all$iv3 != 0) {
-                    mainAxisAvailableSize3 -= i174;
-                    LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, -measuredItem);
-                    LazyStaggeredGridMeasureKt.offsetBy(iArr12, measuredItem);
-                    gapDetected3 = 0;
+                initialItemsMeasured4 = $i$f$debugLog;
+                $this$all$iv7 = 1;
+                if ($this$all$iv7 != 0) {
+                    mainAxisAvailableSize3 -= i170;
+                    LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, -measuredItem2);
+                    LazyStaggeredGridMeasureKt.offsetBy(iArr11, measuredItem2);
+                    gapDetected2 = 0;
                     while (/* condition */) {
                         while (measure$lambda$38$misalignedStart < length13) {
-                            l3 = 0;
-                            if (iArr2[measure$lambda$38$misalignedStart] < measuredItem2.getBeforeContentPadding()) {
+                            l2 = 0;
+                            if (iArr5[measure$lambda$38$misalignedStart] < measuredItem.getBeforeContentPadding()) {
                             } else {
                             }
-                            i24 = 0;
+                            i65 = 0;
                             measure$lambda$38$misalignedStart++;
                             indexOfMaxValue = maxOffsetLane;
-                            measuredItem = $this$all$iv5;
-                            i24 = 1;
+                            measuredItem2 = $this$all$iv4;
+                            i65 = 1;
                         }
                         maxOffsetLane = indexOfMaxValue;
-                        $this$all$iv5 = measuredItem;
-                        laneIndex2 = 0;
-                        laneIndex2 = LazyStaggeredGridMeasureKt.indexOfMinValue$default(laneToCheckForGaps, 0, 1, 0);
-                        measuredItem = LazyStaggeredGridMeasureKt.indexOfMaxValue(iArr3);
-                        if (laneIndex2 != measuredItem) {
+                        $this$all$iv4 = measuredItem2;
+                        laneIndex3 = 0;
+                        laneIndex3 = LazyStaggeredGridMeasureKt.indexOfMinValue$default(laneToCheckForGaps, 0, 1, 0);
+                        measuredItem2 = LazyStaggeredGridMeasureKt.indexOfMaxValue(iArr6);
+                        if (laneIndex3 != measuredItem2) {
                         }
-                        if (iArr3[laneIndex2] == -1) {
+                        if (iArr6[laneIndex3] == -1) {
                         } else {
                         }
-                        iArr2 = iArr3[laneIndex2];
-                        previousItemIndex = LazyStaggeredGridMeasureKt.findPreviousItemIndex(measuredItem2, iArr2, laneIndex2);
+                        iArr5 = iArr6[laneIndex3];
+                        previousItemIndex = LazyStaggeredGridMeasureKt.findPreviousItemIndex(measuredItem, iArr5, laneIndex3);
                         if (previousItemIndex < 0) {
                             break;
                         } else {
                         }
-                        initialItemsMeasured4 = measuredItem;
-                        gapDetected = gapDetected3;
-                        offset = iArr3;
-                        long spanRange-lOCCd4c4 = measuredItem2.getSpanRange-lOCCd4c(measuredItem2.getItemProvider(), previousItemIndex, laneIndex2);
+                        initialItemsMeasured4 = measuredItem2;
+                        gapDetected3 = gapDetected2;
+                        offset2 = iArr6;
+                        long spanRange-lOCCd4c4 = measuredItem.getSpanRange-lOCCd4c(measuredItem.getItemProvider(), previousItemIndex, laneIndex3);
                         long l29 = spanRange-lOCCd4c4;
-                        int i263 = 0;
-                        l14 = l29;
-                        i22 = context6;
-                        i53 = 0;
-                        int i291 = 0;
-                        int i294 = 0;
-                        int i296 = 0;
-                        i2 = i224;
-                        i23 = 0;
-                        i48 = i225;
-                        if (i297 - i220 != 1) {
-                        } else {
-                        }
+                        int i258 = 0;
+                        l5 = l29;
+                        i71 = context6;
                         i5 = 0;
-                        if (i5 != 0) {
+                        int i286 = 0;
+                        int i289 = 0;
+                        int i291 = 0;
+                        i72 = i219;
+                        i39 = 0;
+                        i54 = i220;
+                        if (i292 - i216 != 1) {
                         } else {
                         }
-                        i22 = i222;
-                        i53 = i16;
-                        i65 = (int)i223;
-                        measuredItem2.getLaneInfo().setLane(previousItemIndex, i65);
-                        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem andMeasure-jy6DScQ2 = measuredItem2.getMeasuredItemProvider().getAndMeasure-jy6DScQ(previousItemIndex, spanRange-lOCCd4c4);
+                        i52 = 0;
+                        if (i52 != 0) {
+                        } else {
+                        }
+                        i71 = i218;
+                        i5 = i23;
+                        i6 = (int)$i$f$getStartImpl5;
+                        measuredItem.getLaneInfo().setLane(previousItemIndex, i6);
+                        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem andMeasure-jy6DScQ2 = measuredItem.getMeasuredItemProvider().getAndMeasure-jy6DScQ(previousItemIndex, spanRange-lOCCd4c4);
                         int maxInRange-jy6DScQ4 = LazyStaggeredGridMeasureKt.maxInRange-jy6DScQ(laneToCheckForGaps, spanRange-lOCCd4c4);
                         long l30 = spanRange-lOCCd4c4;
                         androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext context4 = $this$measure;
-                        int i254 = 0;
-                        int i264 = 0;
+                        int i249 = 0;
+                        int i259 = 0;
+                        int i275 = 0;
+                        int i281 = 0;
                         int i280 = 0;
-                        int i286 = 0;
-                        int i285 = 0;
-                        i77 = i187;
-                        if (i287 - i178 != 1) {
+                        i50 = i183;
+                        if (i282 - i174 != 1) {
                         } else {
                         }
                         i76 = 0;
                         if (i76 != 0) {
                         } else {
                         }
-                        gaps = 0;
-                        int i226 = 0;
-                        l15 = index$iv5;
-                        int i255 = 0;
-                        l3 = gaps;
-                        index$iv = i189;
-                        it2 = 0;
-                        i47 = i190;
-                        i$iv = i6;
-                        while (i$iv < (int)i$iv9) {
-                            it2 = i$iv;
-                            i6 = 0;
-                            if (laneToCheckForGaps[it2] != maxInRange-jy6DScQ4) {
+                        gaps2 = 0;
+                        int i221 = 0;
+                        l12 = index$iv2;
+                        int i250 = 0;
+                        l2 = gaps2;
+                        index$iv3 = i185;
+                        it3 = 0;
+                        i30 = i186;
+                        i$iv5 = i61;
+                        while (i$iv5 < (int)i$iv9) {
+                            it3 = i$iv5;
+                            i61 = 0;
+                            if (laneToCheckForGaps[it3] != maxInRange-jy6DScQ4) {
                             }
-                            arr[it2].addFirst(andMeasure-jy6DScQ2);
-                            offset[it2] = previousItemIndex;
-                            if (l3 == 0) {
+                            arr[it3].addFirst(andMeasure-jy6DScQ2);
+                            offset2[it3] = previousItemIndex;
+                            if (l2 == 0) {
                             } else {
                             }
-                            i18 = l3[it2];
-                            laneToCheckForGaps[it2] = i283 += i18;
-                            i$iv++;
-                            laneIndex2 = l15;
-                            i18 = 0;
-                            gapDetected = 1;
+                            i68 = l2[it3];
+                            laneToCheckForGaps[it3] = i278 += i68;
+                            i$iv5++;
+                            laneIndex3 = l12;
+                            i68 = 0;
+                            gapDetected3 = 1;
                         }
-                        laneIndex3 = laneIndex2;
-                        scrollDelta7 = initialLaneToMeasure7;
-                        iArr3 = offset;
-                        gapDetected3 = gapDetected;
+                        laneIndex = laneIndex3;
+                        scrollDelta5 = initialLaneToMeasure7;
+                        iArr6 = offset2;
+                        gapDetected2 = gapDetected3;
                         indexOfMaxValue = maxOffsetLane;
-                        measuredItem = $this$all$iv5;
-                        i43 = i14;
-                        initialLaneToMeasure5 = i55;
-                        iArr2 = laneToCheckForGaps;
+                        measuredItem2 = $this$all$iv4;
+                        i17 = i62;
+                        initialLaneToMeasure2 = i26;
+                        iArr5 = laneToCheckForGaps;
                         previousItemIndex = 0;
                         measure$lambda$38$misalignedStart = 0;
-                        it2 = i$iv;
-                        i6 = 0;
-                        if (laneToCheckForGaps[it2] != maxInRange-jy6DScQ4) {
+                        it3 = i$iv5;
+                        i61 = 0;
+                        if (laneToCheckForGaps[it3] != maxInRange-jy6DScQ4) {
                         }
-                        arr[it2].addFirst(andMeasure-jy6DScQ2);
-                        offset[it2] = previousItemIndex;
-                        if (l3 == 0) {
+                        arr[it3].addFirst(andMeasure-jy6DScQ2);
+                        offset2[it3] = previousItemIndex;
+                        if (l2 == 0) {
                         } else {
                         }
-                        i18 = l3[it2];
-                        laneToCheckForGaps[it2] = i283 += i18;
-                        i$iv++;
-                        laneIndex2 = l15;
-                        i18 = 0;
-                        gapDetected = 1;
-                        gaps = measuredItem2.getLaneInfo().getGaps(previousItemIndex);
-                        i76 = 1;
-                        i65 = -2;
-                        i5 = 1;
-                        iArr2 = itemCount2;
-                        if (laneToCheckForGaps[laneIndex2] == laneToCheckForGaps[measuredItem]) {
-                        } else {
-                        }
+                        i68 = l2[it3];
+                        laneToCheckForGaps[it3] = i278 += i68;
+                        i$iv5++;
+                        laneIndex3 = l12;
+                        i68 = 0;
                         gapDetected3 = 1;
-                        laneIndex2 = measuredItem;
-                        l3 = 0;
-                        if (iArr2[measure$lambda$38$misalignedStart] < measuredItem2.getBeforeContentPadding()) {
+                        gaps2 = measuredItem.getLaneInfo().getGaps(previousItemIndex);
+                        i76 = 1;
+                        i6 = -2;
+                        i52 = 1;
+                        iArr5 = itemCount;
+                        if (laneToCheckForGaps[laneIndex3] == laneToCheckForGaps[measuredItem2]) {
                         } else {
                         }
-                        i24 = 0;
-                        if (i24 != 0) {
+                        gapDetected2 = 1;
+                        laneIndex3 = measuredItem2;
+                        l2 = 0;
+                        if (iArr5[measure$lambda$38$misalignedStart] < measuredItem.getBeforeContentPadding()) {
+                        } else {
+                        }
+                        i65 = 0;
+                        if (i65 != 0) {
                         } else {
                         }
                         measure$lambda$38$misalignedStart++;
                         indexOfMaxValue = maxOffsetLane;
-                        measuredItem = $this$all$iv5;
-                        laneIndex2 = 1;
-                        i24 = 1;
+                        measuredItem2 = $this$all$iv4;
+                        laneIndex3 = 1;
+                        i65 = 1;
                     }
-                    initialLaneToMeasure4 = initialLaneToMeasure5;
-                    i39 = i43;
-                    initialLaneToMeasure3 = scrollDelta7;
-                    beforeVisibleBounds$iv2 = iArr3;
-                    if (gapDetected3 != 0 && canRestartMeasure) {
+                    initialLaneToMeasure4 = initialLaneToMeasure2;
+                    i32 = i17;
+                    initialLaneToMeasure = scrollDelta5;
+                    beforeVisibleBounds$iv2 = iArr6;
+                    if (gapDetected2 != 0 && canRestartMeasure) {
                         if (canRestartMeasure) {
-                            measuredItem2.getLaneInfo().reset();
-                            return LazyStaggeredGridMeasureKt.measure(measuredItem2, initialLaneToMeasure3, beforeVisibleBounds$iv2, laneToCheckForGaps, false);
+                            measuredItem.getLaneInfo().reset();
+                            return LazyStaggeredGridMeasureKt.measure(measuredItem, initialLaneToMeasure, beforeVisibleBounds$iv2, laneToCheckForGaps, false);
                         }
                     }
-                    $this$all$iv3 = LazyStaggeredGridMeasureKt.indexOfMinValue$default(laneToCheckForGaps, 0, 1, 0);
-                    if (laneToCheckForGaps[$this$all$iv3] < 0) {
-                        initialLaneToMeasure2 = laneToCheckForGaps[$this$all$iv3];
-                        scrollDelta += initialLaneToMeasure2;
-                        LazyStaggeredGridMeasureKt.offsetBy(iArr12, initialLaneToMeasure2);
-                        LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, -initialLaneToMeasure2);
+                    $this$all$iv7 = LazyStaggeredGridMeasureKt.indexOfMinValue$default(laneToCheckForGaps, 0, 1, 0);
+                    if (laneToCheckForGaps[$this$all$iv7] < 0) {
+                        initialLaneToMeasure3 = laneToCheckForGaps[$this$all$iv7];
+                        scrollDelta4 += initialLaneToMeasure3;
+                        LazyStaggeredGridMeasureKt.offsetBy(iArr11, initialLaneToMeasure3);
+                        LazyStaggeredGridMeasureKt.offsetBy(laneToCheckForGaps, -initialLaneToMeasure3);
                     }
                 } else {
-                    initialLaneToMeasure4 = initialLaneToMeasure5;
-                    i39 = i43;
-                    beforeVisibleBounds$iv2 = iArr3;
-                    scrollDelta = initialLaneToMeasure2;
+                    initialLaneToMeasure4 = initialLaneToMeasure2;
+                    i32 = i17;
+                    beforeVisibleBounds$iv2 = iArr6;
+                    scrollDelta4 = initialLaneToMeasure3;
                 }
-                int i98 = 0;
+                int i96 = 0;
                 int $i$f$debugLog6 = 0;
-                int i144 = 0;
-                int i149 = 0;
-                if (MathKt.getSign(Math.round(measuredItem2.getState().getScrollToBeConsumed$foundation_release())) == MathKt.getSign(scrollDelta) && Math.abs(Math.round(measuredItem2.getState().getScrollToBeConsumed$foundation_release())) >= Math.abs(scrollDelta)) {
-                    i149 = 0;
-                    if (Math.abs(Math.round(measuredItem2.getState().getScrollToBeConsumed$foundation_release())) >= Math.abs(scrollDelta)) {
+                int i141 = 0;
+                int i146 = 0;
+                if (MathKt.getSign(Math.round(measuredItem.getState().getScrollToBeConsumed$foundation_release())) == MathKt.getSign(scrollDelta4) && Math.abs(Math.round(measuredItem.getState().getScrollToBeConsumed$foundation_release())) >= Math.abs(scrollDelta4)) {
+                    i146 = 0;
+                    if (Math.abs(Math.round(measuredItem.getState().getScrollToBeConsumed$foundation_release())) >= Math.abs(scrollDelta4)) {
                         f2 = scrollToBeConsumed$foundation_release;
                     } else {
                         f2 = scrollToBeConsumed$foundation_release;
@@ -1389,296 +1389,296 @@ public final class LazyStaggeredGridMeasureKt {
                 }
                 f = f2;
                 int[] copyOf = Arrays.copyOf(laneToCheckForGaps, laneToCheckForGaps.length);
-                Intrinsics.checkNotNullExpressionValue(copyOf, str2);
-                int i166 = 0;
-                i$iv3 = 0;
-                while (i$iv3 < copyOf.length) {
-                    it2 = 0;
-                    copyOf[i$iv3] = -i217;
-                    i$iv3++;
+                Intrinsics.checkNotNullExpressionValue(copyOf, str);
+                int i162 = 0;
+                i$iv4 = 0;
+                while (i$iv4 < copyOf.length) {
+                    it3 = 0;
+                    copyOf[i$iv4] = -i213;
+                    i$iv4++;
                 }
-                int i167 = 0;
-                if (measuredItem2.getBeforeContentPadding() > measuredItem2.getMainAxisSpacing()) {
-                    laneIndex = 0;
-                    while (laneIndex < arr.length) {
-                        length = arr[laneIndex];
-                        i43 = 0;
-                        while (i43 < length.size()) {
-                            i4 = length.get(i43);
-                            l8 = laneIndex;
-                            int[] gaps3 = measuredItem2.getLaneInfo().getGaps((LazyStaggeredGridMeasuredItem)i4.getIndex());
+                int i163 = 0;
+                if (measuredItem.getBeforeContentPadding() > measuredItem.getMainAxisSpacing()) {
+                    laneIndex2 = 0;
+                    while (laneIndex2 < arr.length) {
+                        length = arr[laneIndex2];
+                        i17 = 0;
+                        while (i17 < length.size()) {
+                            i59 = length.get(i17);
+                            l11 = laneIndex2;
+                            int[] gaps3 = measuredItem.getLaneInfo().getGaps((LazyStaggeredGridMeasuredItem)i59.getIndex());
                             if (gaps3 == null) {
                             } else {
                             }
-                            i45 = gaps3[l8];
-                            mainAxisSizeWithSpacings2 += i45;
-                            i37 = gaps3;
-                            laneToCheckForGaps[l8] = i119 -= laneIndex;
-                            beforeVisibleBounds$iv2[l8] = (LazyStaggeredGridMeasuredItem)length.get(i43 + 1).getIndex();
-                            i43++;
-                            scrollDelta = scrollDelta5;
-                            laneIndex = l8;
-                            i45 = 0;
+                            i69 = gaps3[l11];
+                            mainAxisSizeWithSpacings2 += i69;
+                            i11 = gaps3;
+                            laneToCheckForGaps[l11] = i117 -= laneIndex2;
+                            beforeVisibleBounds$iv2[l11] = (LazyStaggeredGridMeasuredItem)length.get(i17 + 1).getIndex();
+                            i17++;
+                            scrollDelta4 = scrollDelta6;
+                            laneIndex2 = l11;
+                            i69 = 0;
                         }
-                        scrollDelta5 = scrollDelta;
-                        l8 = laneIndex;
-                        laneIndex = l8 + 1;
-                        scrollDelta = scrollDelta5;
-                        i4 = length.get(i43);
-                        l8 = laneIndex;
-                        gaps3 = measuredItem2.getLaneInfo().getGaps((LazyStaggeredGridMeasuredItem)i4.getIndex());
+                        scrollDelta6 = scrollDelta4;
+                        l11 = laneIndex2;
+                        laneIndex2 = l11 + 1;
+                        scrollDelta4 = scrollDelta6;
+                        i59 = length.get(i17);
+                        l11 = laneIndex2;
+                        gaps3 = measuredItem.getLaneInfo().getGaps((LazyStaggeredGridMeasuredItem)i59.getIndex());
                         if (gaps3 == null) {
                         } else {
                         }
-                        i45 = gaps3[l8];
-                        mainAxisSizeWithSpacings2 += i45;
-                        i37 = gaps3;
-                        if (i43 != CollectionsKt.getLastIndex((List)length)) {
+                        i69 = gaps3[l11];
+                        mainAxisSizeWithSpacings2 += i69;
+                        i11 = gaps3;
+                        if (i17 != CollectionsKt.getLastIndex((List)length)) {
                         } else {
                         }
-                        if (laneToCheckForGaps[l8] != 0) {
+                        if (laneToCheckForGaps[l11] != 0) {
                         } else {
                         }
-                        if (laneToCheckForGaps[l8] >= laneIndex) {
+                        if (laneToCheckForGaps[l11] >= laneIndex2) {
                         } else {
                         }
-                        laneToCheckForGaps[l8] = i119 -= laneIndex;
-                        beforeVisibleBounds$iv2[l8] = (LazyStaggeredGridMeasuredItem)length.get(i43 + 1).getIndex();
-                        i43++;
-                        scrollDelta = scrollDelta5;
-                        laneIndex = l8;
-                        i45 = 0;
+                        laneToCheckForGaps[l11] = i117 -= laneIndex2;
+                        beforeVisibleBounds$iv2[l11] = (LazyStaggeredGridMeasuredItem)length.get(i17 + 1).getIndex();
+                        i17++;
+                        scrollDelta4 = scrollDelta6;
+                        laneIndex2 = l11;
+                        i69 = 0;
                     }
-                    scrollDelta6 = scrollDelta;
-                    l8 = laneIndex;
+                    scrollDelta7 = scrollDelta4;
+                    l11 = laneIndex2;
                 } else {
-                    scrollDelta6 = scrollDelta;
+                    scrollDelta7 = scrollDelta4;
                 }
                 int scrollDelta10 = 0;
                 beforeContentPadding4 += afterContentPadding2;
-                if (measuredItem2.isVertical()) {
-                    constrainWidth-K40F9xA = Constraints.getMaxWidth-impl(measuredItem2.getConstraints-msEJaDk());
+                if (measuredItem.isVertical()) {
+                    constrainWidth-K40F9xA = Constraints.getMaxWidth-impl(measuredItem.getConstraints-msEJaDk());
                 } else {
-                    constrainWidth-K40F9xA = ConstraintsKt.constrainWidth-K40F9xA(measuredItem2.getConstraints-msEJaDk(), mainAxisSpacing);
+                    constrainWidth-K40F9xA = ConstraintsKt.constrainWidth-K40F9xA(measuredItem.getConstraints-msEJaDk(), mainAxisSpacing);
                 }
-                i63 = constrainWidth-K40F9xA;
-                if (measuredItem2.isVertical()) {
-                    i54 = constrainHeight-K40F9xA;
+                i55 = constrainWidth-K40F9xA;
+                if (measuredItem.isVertical()) {
+                    i28 = constrainHeight-K40F9xA;
                 } else {
-                    i54 = constrainHeight-K40F9xA;
+                    i28 = constrainHeight-K40F9xA;
                 }
-                i57 = measuredItem2.isVertical() ? i54 : i63;
-                int i185 = 0;
-                i193 += afterContentPadding3;
-                int i169 = 0;
+                i57 = measuredItem.isVertical() ? i28 : i55;
+                int i181 = 0;
+                i189 += afterContentPadding3;
+                int i165 = 0;
                 extraItemOffset = copyOf[0];
                 $this$calculateExtraItems$iv = $this$measure;
-                result$iv2 = 0;
-                int i237 = 0;
+                result$iv = 0;
+                int i232 = 0;
                 $this$fastForEachReversed$iv$iv$iv = pinnedItems2;
-                int i251 = 0;
-                i67 = -1;
+                int i246 = 0;
+                i38 = -1;
                 if (size2-- >= 0) {
                 } else {
-                    contentPadding = index$iv3;
-                    l6 = $this$calculateExtraItems$iv;
-                    laneIndex3 = laneToCheckForGaps;
-                    iArr3 = beforeVisibleBounds$iv2;
-                    i47 = spanRange-lOCCd4c2;
-                    $this$all$iv5 = i74;
+                    contentPadding = index$iv4;
+                    l8 = $this$calculateExtraItems$iv;
+                    laneIndex = laneToCheckForGaps;
+                    iArr6 = beforeVisibleBounds$iv2;
+                    i30 = spanRange-lOCCd4c;
+                    $this$all$iv4 = i48;
                     maxOffsetLane = $this$fastForEachReversed$iv$iv$iv;
                 }
-                if (result$iv2 == 0) {
-                    result$iv2 = index$iv3;
+                if (result$iv == 0) {
+                    result$iv = index$iv4;
                 }
-                List visibleItems = LazyStaggeredGridMeasureKt.calculateVisibleItems(measuredItem2, arr, copyOf, i194);
-                int i244 = 0;
-                i79 = i244;
+                List visibleItems = LazyStaggeredGridMeasureKt.calculateVisibleItems(measuredItem, arr, copyOf, i190);
+                int i239 = 0;
+                i3 = i239;
                 $i$f$calculateExtraItems = 0;
                 size = 0;
-                $this$all$iv7 = 0;
+                $this$all$iv2 = 0;
                 emptyList = $this$measure.getPinnedItems().size();
-                final int[] iArr19 = copyOf;
-                itemScrollOffsets = i240;
-                index$iv$iv$iv = i205;
-                result$iv = i51;
+                final int[] iArr18 = copyOf;
+                itemScrollOffsets = i235;
+                index$iv$iv$iv2 = i201;
+                result$iv2 = i14;
                 while (itemScrollOffsets < emptyList) {
                     List list2 = list;
-                    index$iv4 = (Number)list2.get(itemScrollOffsets).intValue();
-                    i67 = 0;
-                    l3 = 0;
-                    index$iv$iv$iv2 = i259;
-                    if (index$iv$iv$iv2 >= itemCount2) {
+                    index$iv = (Number)list2.get(itemScrollOffsets).intValue();
+                    i38 = 0;
+                    l2 = 0;
+                    index$iv$iv$iv = i254;
+                    if (index$iv$iv$iv >= itemCount) {
                     } else {
                     }
                     if (/* condition */) {
                     } else {
                     }
-                    $this$all$iv5 = $i$f$calculateExtraItems;
-                    if (iArr18[lane4] < index$iv$iv$iv2) {
+                    $this$all$iv4 = $i$f$calculateExtraItems;
+                    if (iArr17[lane4] < index$iv$iv$iv) {
                     } else {
                     }
                     beforeVisibleBounds$iv = 0;
                     if (beforeVisibleBounds$iv != 0) {
                     } else {
                     }
-                    index$iv5 = index$iv4;
-                    i75 = mainAxisSizeWithSpacings;
-                    i30 = spanRange;
-                    l6 = itemCount2;
+                    index$iv2 = index$iv;
+                    i34 = mainAxisSizeWithSpacings;
+                    i53 = spanRange;
+                    l8 = itemCount;
                     itemScrollOffsets = maxOffsetLane + 1;
-                    spanRange = i30;
-                    emptyList = i51;
-                    list = i29;
-                    i79 = f2;
-                    $i$f$calculateExtraItems = $this$all$iv5;
-                    mainAxisSizeWithSpacings = i75;
-                    itemCount2 = l6;
-                    i30 = spanRange;
-                    l6 = itemCount2;
-                    if (index$iv$iv$iv == 0) {
+                    spanRange = i53;
+                    emptyList = i14;
+                    list = i74;
+                    i3 = f2;
+                    $i$f$calculateExtraItems = $this$all$iv4;
+                    mainAxisSizeWithSpacings = i34;
+                    itemCount = l8;
+                    i53 = spanRange;
+                    l8 = itemCount;
+                    if (index$iv$iv$iv2 == 0) {
                     } else {
                     }
-                    index$iv$iv$iv2 = index$iv$iv$iv;
-                    beforeVisibleBounds$iv = mainAxisSizeWithSpacings.getMeasuredItemProvider().getAndMeasure-jy6DScQ(index$iv4, mainAxisSizeWithSpacings.getSpanRange-lOCCd4c(mainAxisSizeWithSpacings.getItemProvider(), index$iv4, 0));
-                    l3 = 0;
-                    index$iv5 = index$iv4;
-                    i75 = mainAxisSizeWithSpacings;
-                    index$iv4 = lazyStaggeredGridMeasuredItem2;
-                    index$iv4.position(result$iv, 0, i194);
-                    result$iv += mainAxisSizeWithSpacings;
-                    index$iv$iv$iv2.add(beforeVisibleBounds$iv);
                     index$iv$iv$iv = index$iv$iv$iv2;
-                    ArrayList arrayList3 = new ArrayList();
+                    beforeVisibleBounds$iv = mainAxisSizeWithSpacings.getMeasuredItemProvider().getAndMeasure-jy6DScQ(index$iv, mainAxisSizeWithSpacings.getSpanRange-lOCCd4c(mainAxisSizeWithSpacings.getItemProvider(), index$iv, 0));
+                    l2 = 0;
+                    index$iv2 = index$iv;
+                    i34 = mainAxisSizeWithSpacings;
+                    index$iv = lazyStaggeredGridMeasuredItem2;
+                    index$iv.position(result$iv2, 0, i190);
+                    result$iv2 += mainAxisSizeWithSpacings;
+                    index$iv$iv$iv.add(beforeVisibleBounds$iv);
                     index$iv$iv$iv2 = index$iv$iv$iv;
+                    ArrayList arrayList3 = new ArrayList();
+                    index$iv$iv$iv = index$iv$iv$iv2;
                     beforeVisibleBounds$iv = 1;
-                    index$iv5 = 0;
-                    i75 = lane4;
+                    index$iv2 = 0;
+                    i34 = lane4;
                     int[] lane5 = $i$f$calculateExtraItems3;
-                    $this$all$iv5 = $i$f$calculateExtraItems;
-                    $this$all$iv2 = 0;
-                    while ($this$all$iv2 < lane5.length) {
-                        l12 = 0;
-                        if (lane5[$this$all$iv2] < index$iv$iv$iv2) {
+                    $this$all$iv4 = $i$f$calculateExtraItems;
+                    $this$all$iv5 = 0;
+                    while ($this$all$iv5 < lane5.length) {
+                        l = 0;
+                        if (lane5[$this$all$iv5] < index$iv$iv$iv) {
                         } else {
                         }
-                        it3 = 0;
-                        $this$all$iv2 = i9 + 1;
-                        it3 = 1;
+                        it2 = 0;
+                        $this$all$iv5 = i37 + 1;
+                        it2 = 1;
                     }
                     beforeVisibleBounds$iv = 1;
-                    l12 = 0;
-                    if (l6[$this$all$iv2] < index$iv$iv$iv2) {
+                    l = 0;
+                    if (l8[$this$all$iv5] < index$iv$iv$iv) {
                     } else {
                     }
-                    it3 = 0;
-                    if (it3 == 0) {
+                    it2 = 0;
+                    if (it2 == 0) {
                     } else {
                     }
-                    $this$all$iv2 = i9 + 1;
+                    $this$all$iv5 = i37 + 1;
                     beforeVisibleBounds$iv = 0;
-                    it3 = 1;
-                    f2 = i79;
-                    $this$all$iv5 = $i$f$calculateExtraItems;
+                    it2 = 1;
+                    f2 = i3;
+                    $this$all$iv4 = $i$f$calculateExtraItems;
                     beforeVisibleBounds$iv = 0;
                 }
-                int i269 = itemScrollOffsets;
-                int i260 = i79;
+                int i264 = itemScrollOffsets;
+                int i255 = i3;
                 androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext context10 = mainAxisSizeWithSpacings;
-                int i272 = $i$f$calculateExtraItems;
+                int i267 = $i$f$calculateExtraItems;
                 int $i$f$calculateExtraItems2 = spanRange;
-                int i282 = itemCount2;
+                int i277 = itemCount;
                 List list5 = list;
-                if (index$iv$iv$iv == 0) {
-                    index$iv$iv$iv = emptyList;
+                if (index$iv$iv$iv2 == 0) {
+                    index$iv$iv$iv2 = emptyList;
                 }
                 ArrayList arrayList2 = new ArrayList();
-                (List)arrayList2.addAll((Collection)result$iv2);
+                (List)arrayList2.addAll((Collection)result$iv);
                 arrayList2.addAll((Collection)visibleItems);
-                arrayList2.addAll((Collection)index$iv$iv$iv);
-                int i147 = 0;
+                arrayList2.addAll((Collection)index$iv$iv$iv2);
+                int i144 = 0;
                 ArrayList list6 = arrayList2;
-                measuredItem2.getState().getItemAnimator$foundation_release().onMeasured((int)f, i63, i54, list6, measuredItem2.getMeasuredItemProvider().getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)measuredItem2.getMeasuredItemProvider(), measuredItem2.isVertical(), false, measuredItem2.getLaneCount(), false, ArraysKt.minOrThrow(laneIndex3), maxOrThrow + contentPadding, measuredItem2.getCoroutineScope(), measuredItem2.getGraphicsContext());
-                i66 = i63;
-                i19 = i54;
+                measuredItem.getState().getItemAnimator$foundation_release().onMeasured((int)f, i55, i28, list6, measuredItem.getMeasuredItemProvider().getKeyIndexMap(), (LazyLayoutMeasuredItemProvider)measuredItem.getMeasuredItemProvider(), measuredItem.isVertical(), false, measuredItem.getLaneCount(), false, ArraysKt.minOrThrow(laneIndex), maxOrThrow + contentPadding, measuredItem.getCoroutineScope(), measuredItem.getGraphicsContext());
+                i35 = i55;
+                i64 = i28;
                 ArrayList list4 = list6;
-                long minSizeToFitDisappearingItems-YbymL2g2 = measuredItem2.getState().getItemAnimator$foundation_release().getMinSizeToFitDisappearingItems-YbymL2g();
-                if (!IntSize.equals-impl0(minSizeToFitDisappearingItems-YbymL2g2, itemCount2)) {
-                    i20 = measuredItem2.isVertical() ? i19 : i66;
+                long minSizeToFitDisappearingItems-YbymL2g2 = measuredItem.getState().getItemAnimator$foundation_release().getMinSizeToFitDisappearingItems-YbymL2g();
+                if (!IntSize.equals-impl0(minSizeToFitDisappearingItems-YbymL2g2, itemCount)) {
+                    i15 = measuredItem.isVertical() ? i64 : i35;
                     consumedScroll = f;
-                    i63 = constrainWidth-K40F9xA2;
-                    i54 = constrainHeight-K40F9xA2;
-                    f = measuredItem2.isVertical() ? i54 : i63;
-                    if (f != i20) {
-                        i66 = 0;
-                        index$iv2 = 0;
-                        while (index$iv2 < list4.size()) {
-                            i51 = 0;
-                            (LazyStaggeredGridMeasuredItem)i19.get(index$iv2).updateMainAxisLayoutSize(f);
-                            index$iv2++;
-                            i19 = $this$all$iv7;
+                    i55 = constrainWidth-K40F9xA2;
+                    i28 = constrainHeight-K40F9xA2;
+                    f = measuredItem.isVertical() ? i28 : i55;
+                    if (f != i15) {
+                        i35 = 0;
+                        index$iv5 = 0;
+                        while (index$iv5 < list4.size()) {
+                            i14 = 0;
+                            (LazyStaggeredGridMeasuredItem)i64.get(index$iv5).updateMainAxisLayoutSize(f);
+                            index$iv5++;
+                            i64 = $this$all$iv2;
                         }
-                        $this$all$iv7 = i19;
+                        $this$all$iv2 = i64;
                     }
-                    i64 = i63;
-                    i13 = i54;
+                    i29 = i55;
+                    i66 = i28;
                 } else {
                     consumedScroll = f;
-                    i13 = i19;
-                    i64 = i66;
+                    i66 = i64;
+                    i29 = i35;
                 }
-                i42 = 0;
-                i10 = 0;
-                while (i10 < iArr.length) {
+                i8 = 0;
+                i13 = 0;
+                while (i13 < iArr3.length) {
                     list = null;
-                    if (iArr[i10] > measuredItem2.getMainAxisAvailableSize()) {
+                    if (iArr3[i13] > measuredItem.getMainAxisAvailableSize()) {
                     } else {
                     }
-                    i11 = 0;
-                    i10++;
-                    iArr = $this$all$iv7;
-                    i11 = 1;
+                    i40 = 0;
+                    i13++;
+                    iArr3 = $this$all$iv2;
+                    i40 = 1;
                 }
-                $this$all$iv7 = iArr;
-                $this$all$iv6 = 0;
-                if ($this$all$iv6 == 0) {
-                    i42 = 0;
-                    i10 = 0;
-                    while (i10 < iArr5.length) {
+                $this$all$iv2 = iArr3;
+                $this$all$iv = 0;
+                if ($this$all$iv == 0) {
+                    i8 = 0;
+                    i13 = 0;
+                    while (i13 < iArr.length) {
                         list = null;
-                        if (iArr5[i10] < i282 + -1) {
+                        if (iArr[i13] < i277 + -1) {
                         } else {
                         }
-                        i26 = 0;
-                        i10++;
-                        iArr5 = $this$all$iv7;
-                        i26 = 1;
+                        i33 = 0;
+                        i13++;
+                        iArr = $this$all$iv2;
+                        i33 = 1;
                     }
-                    $this$all$iv7 = iArr5;
-                    $this$all$iv6 = 1;
-                    if ($this$all$iv6 != 0) {
-                        i52 = 1;
+                    $this$all$iv2 = iArr;
+                    $this$all$iv = 1;
+                    if ($this$all$iv != 0) {
+                        i63 = 1;
                     } else {
-                        i52 = 0;
+                        i63 = 0;
                     }
                 } else {
                 }
             }
-            LazyStaggeredGridMeasureKt.measure.1.30 anon = new LazyStaggeredGridMeasureKt.measure.1.30(list4, measuredItem2);
-            int[] iArr15 = iArr3;
-            LazyStaggeredGridMeasureResult lazyStaggeredGridMeasureResult2 = new LazyStaggeredGridMeasureResult(iArr15, laneIndex3, consumedScroll, MeasureScope.layout$default((MeasureScope)lazyLayoutMeasureScope3, i64, i13, 0, (Function1)anon, 4, 0), i52, measuredItem2.isVertical(), remeasureNeeded2, measuredItem2.getResolvedSlots(), measuredItem2.getItemProvider().getSpanProvider(), (Density)lazyLayoutMeasureScope3, i282, visibleItems, IntSizeKt.IntSize(i64, i13), i77, i84, i39, measuredItem2.getBeforeContentPadding(), measuredItem2.getAfterContentPadding(), measuredItem2.getMainAxisSpacing(), measuredItem2.getCoroutineScope(), 0);
-            int[] iArr17 = iArr15;
+            LazyStaggeredGridMeasureKt.measure.1.30 anon = new LazyStaggeredGridMeasureKt.measure.1.30(list4, measuredItem);
+            int[] iArr14 = iArr6;
+            LazyStaggeredGridMeasureResult lazyStaggeredGridMeasureResult2 = new LazyStaggeredGridMeasureResult(iArr14, laneIndex, consumedScroll, MeasureScope.layout$default((MeasureScope)lazyLayoutMeasureScope3, i29, i66, 0, (Function1)anon, 4, 0), i63, measuredItem.isVertical(), remeasureNeeded2, measuredItem.getResolvedSlots(), measuredItem.getItemProvider().getSpanProvider(), (Density)lazyLayoutMeasureScope3, i277, visibleItems, IntSizeKt.IntSize(i29, i66), i50, i83, i32, measuredItem.getBeforeContentPadding(), measuredItem.getAfterContentPadding(), measuredItem.getMainAxisSpacing(), measuredItem.getCoroutineScope(), 0);
+            int[] iArr16 = iArr14;
             return lazyStaggeredGridMeasureResult2;
         }
-        itemCount = itemCount2;
+        itemCount2 = itemCount;
     }
 
     private static final boolean measure$lambda$38$hasSpaceBeforeFirst(int[] firstItemIndices, int[] firstItemOffsets, androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext $this_measure) {
         int lane;
-        int i3;
         int i2;
-        int i4;
         int i;
+        int i3;
+        int i4;
         lane = 0;
         int i6 = 0;
         while (lane < firstItemIndices.length) {
@@ -1689,49 +1689,49 @@ public final class LazyStaggeredGridMeasureKt {
     }
 
     private static final boolean measure$lambda$38$misalignedStart(int[] firstItemIndices, androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext $this_measure, int[] firstItemOffsets, int referenceLane) {
-        int lane;
         int lane2;
+        int lane;
         int length;
-        int i4;
-        int i2;
         int i3;
-        int previousItemIndex;
+        int i2;
+        int i4;
         int previousItemIndex2;
+        int previousItemIndex;
         int i;
-        lane = 0;
-        i4 = -1;
-        i2 = 0;
-        i3 = 1;
-        while (lane < firstItemIndices.length) {
-            if (LazyStaggeredGridMeasureKt.findPreviousItemIndex($this_measure, firstItemIndices[lane], lane) == i4 && firstItemOffsets[lane] != firstItemOffsets[referenceLane]) {
-            } else {
-            }
-            lane++;
-            i4 = -1;
-            i2 = 0;
-            i3 = 1;
-            if (firstItemOffsets[lane] != firstItemOffsets[referenceLane]) {
-            } else {
-            }
-            i2 = i3;
-        }
         lane2 = 0;
+        i3 = -1;
+        i2 = 0;
+        i4 = 1;
         while (lane2 < firstItemIndices.length) {
-            if (LazyStaggeredGridMeasureKt.findPreviousItemIndex($this_measure, firstItemIndices[lane2], lane2) != i4 && firstItemOffsets[lane2] >= firstItemOffsets[referenceLane]) {
+            if (LazyStaggeredGridMeasureKt.findPreviousItemIndex($this_measure, firstItemIndices[lane2], lane2) == i3 && firstItemOffsets[lane2] != firstItemOffsets[referenceLane]) {
             } else {
             }
-            previousItemIndex = i2;
             lane2++;
-            if (firstItemOffsets[lane2] >= firstItemOffsets[referenceLane]) {
+            i3 = -1;
+            i2 = 0;
+            i4 = 1;
+            if (firstItemOffsets[lane2] != firstItemOffsets[referenceLane]) {
             } else {
             }
-            previousItemIndex = i3;
+            i2 = i4;
+        }
+        lane = 0;
+        while (lane < firstItemIndices.length) {
+            if (LazyStaggeredGridMeasureKt.findPreviousItemIndex($this_measure, firstItemIndices[lane], lane) != i3 && firstItemOffsets[lane] >= firstItemOffsets[referenceLane]) {
+            } else {
+            }
+            previousItemIndex2 = i2;
+            lane++;
+            if (firstItemOffsets[lane] >= firstItemOffsets[referenceLane]) {
+            } else {
+            }
+            previousItemIndex2 = i4;
         }
         int lane3 = $this_measure.getLaneInfo().getLane(i2);
-        if (lane3 != 0 && lane3 != i4 && lane3 != -2) {
-            if (lane3 != i4) {
+        if (lane3 != 0 && lane3 != i3 && lane3 != -2) {
+            if (lane3 != i3) {
                 if (lane3 != -2) {
-                    i2 = i3;
+                    i2 = i4;
                 }
             }
         }
@@ -1739,8 +1739,8 @@ public final class LazyStaggeredGridMeasureKt {
     }
 
     public static final androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureResult measureStaggeredGrid-XtK8cYQ(LazyLayoutMeasureScope $this$measureStaggeredGrid_u2dXtK8cYQ, androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState state, List<Integer> pinnedItems, androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemProvider itemProvider, androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridSlots resolvedSlots, long constraints, boolean isVertical, boolean reverseLayout, long contentOffset, int mainAxisAvailableSize, int mainAxisSpacing, int beforeContentPadding, int afterContentPadding, CoroutineScope coroutineScope, GraphicsContext graphicsContext) {
-        int[] iArr;
         int[] iArr2;
+        int[] iArr;
         int laneCount2;
         int[] laneCount;
         int i2;
@@ -1759,10 +1759,10 @@ public final class LazyStaggeredGridMeasureKt {
         int i7 = 0;
         int i8 = 1;
         if (scrollPositionIfTheFirstItemWasMoved$foundation_release.length == lazyStaggeredGridMeasureContext.getLaneCount()) {
-            iArr2 = scrollPositionIfTheFirstItemWasMoved$foundation_release;
+            iArr = scrollPositionIfTheFirstItemWasMoved$foundation_release;
         } else {
             lazyStaggeredGridMeasureContext.getLaneInfo().reset();
-            laneCount2 = iArr2;
+            laneCount2 = iArr;
             i2 = 0;
             lane = 0;
             while (lane < laneCount2.length) {
@@ -1784,9 +1784,9 @@ public final class LazyStaggeredGridMeasureKt {
             }
         }
         if (scrollOffsets.length == lazyStaggeredGridMeasureContext.getLaneCount()) {
-            iArr = scrollOffsets;
+            iArr2 = scrollOffsets;
         } else {
-            laneCount = iArr;
+            laneCount = iArr2;
             i2 = 0;
             lane = 0;
             while (lane < laneCount.length) {
@@ -1804,16 +1804,16 @@ public final class LazyStaggeredGridMeasureKt {
             }
         }
         int i5 = 0;
-        return LazyStaggeredGridMeasureKt.measure(lazyStaggeredGridMeasureContext, Math.round(lazyStaggeredGridState2.getScrollToBeConsumed$foundation_release()), iArr2, iArr, i8);
+        return LazyStaggeredGridMeasureKt.measure(lazyStaggeredGridMeasureContext, Math.round(lazyStaggeredGridState2.getScrollToBeConsumed$foundation_release()), iArr, iArr2, i8);
     }
 
     private static final void offsetBy(int[] $this$offsetBy, int delta) {
-        int i;
         int i2;
-        i = 0;
-        while (i < $this$offsetBy.length) {
-            $this$offsetBy[i] = i3 += delta;
-            i++;
+        int i;
+        i2 = 0;
+        while (i2 < $this$offsetBy.length) {
+            $this$offsetBy[i2] = i3 += delta;
+            i2++;
         }
     }
 

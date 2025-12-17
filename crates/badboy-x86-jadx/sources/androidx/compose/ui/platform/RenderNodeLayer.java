@@ -139,24 +139,24 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
     @Override // androidx.compose.ui.node.OwnedLayer
     public void drawLayer(Canvas canvas, GraphicsLayer parentLayer) {
         boolean drawnWithZ;
-        int i3;
-        float f;
+        int i2;
         float f2;
+        float f;
         Function2 drawBlock;
         int frameworkPaint;
         Paint softwareLayerPaint;
-        int i2;
+        int i;
         androidx.compose.ui.platform.DeviceRenderNode renderNode;
         int it;
-        int i;
+        int i3;
         float alpha;
         final Canvas nativeCanvas = AndroidCanvas_androidKt.getNativeCanvas(canvas);
         if (nativeCanvas.isHardwareAccelerated()) {
             updateDisplayList();
-            if (Float.compare(elevation, i3) > 0) {
-                i2 = 1;
+            if (Float.compare(elevation, i2) > 0) {
+                i = 1;
             }
-            this.drawnWithZ = i2;
+            this.drawnWithZ = i;
             if (this.drawnWithZ) {
                 canvas.enableZ();
             }
@@ -166,20 +166,20 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
             }
         } else {
             drawnWithZ = (float)left;
-            i3 = (float)top;
+            i2 = (float)top;
             if (Float.compare(alpha2, it) < 0) {
                 if (this.softwareLayerPaint == null) {
-                    i = 0;
+                    i3 = 0;
                     this.softwareLayerPaint = AndroidPaint_androidKt.Paint();
                 }
                 it = softwareLayerPaint;
-                i = 0;
+                i3 = 0;
                 it.setAlpha(this.renderNode.getAlpha());
-                nativeCanvas.saveLayer(drawnWithZ, i3, (float)right, (float)bottom, it.asFrameworkPaint());
+                nativeCanvas.saveLayer(drawnWithZ, i2, (float)right, (float)bottom, it.asFrameworkPaint());
             } else {
                 canvas.save();
             }
-            canvas.translate(drawnWithZ, i3);
+            canvas.translate(drawnWithZ, i2);
             canvas.concat-58bKbWc(this.matrixCache.calculateMatrix-GrdbGEg(this.renderNode));
             clipRenderNode(canvas);
             drawBlock = this.drawBlock;
@@ -227,16 +227,16 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
 
     @Override // androidx.compose.ui.node.OwnedLayer
     public boolean isInLayer-k-4lQ0M(long position) {
-        int cmp;
-        int i;
         int cmp2;
+        int i;
+        int cmp;
         final float x-impl = Offset.getX-impl(position);
         final float y-impl = Offset.getY-impl(position);
         if (this.renderNode.getClipToBounds()) {
-            cmp = 0;
-            if (Float.compare(cmp, x-impl) <= 0 && Float.compare(x-impl, f2) < 0 && Float.compare(cmp, y-impl) <= 0 && Float.compare(y-impl, f) < 0) {
+            cmp2 = 0;
+            if (Float.compare(cmp2, x-impl) <= 0 && Float.compare(x-impl, f2) < 0 && Float.compare(cmp2, y-impl) <= 0 && Float.compare(y-impl, f) < 0) {
                 if (Float.compare(x-impl, f2) < 0) {
-                    if (Float.compare(cmp, y-impl) <= 0) {
+                    if (Float.compare(cmp2, y-impl) <= 0) {
                         if (Float.compare(y-impl, f) < 0) {
                         } else {
                             i = 0;
@@ -347,8 +347,8 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
     public void updateDisplayList() {
         boolean hasDisplayList;
         boolean outlineClipSupported;
-        int i;
         int i2;
+        int i;
         androidx.compose.ui.platform.DeviceRenderNode renderNode;
         CanvasHolder canvasHolder;
         androidx.compose.ui.platform.RenderNodeLayer.updateDisplayList.1.1 anon;
@@ -364,7 +364,7 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
                 }
                 Function2 drawBlock = this.drawBlock;
                 if (drawBlock != null) {
-                    i2 = 0;
+                    i = 0;
                     anon = new RenderNodeLayer.updateDisplayList.1.1(drawBlock);
                     this.renderNode.record(this.canvasHolder, hasDisplayList, (Function1)anon);
                 }
@@ -377,28 +377,28 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
     @Override // androidx.compose.ui.node.OwnedLayer
     public void updateLayerProperties(ReusableGraphicsLayerScope scope) {
         int transformOrigin-SzJe1aQ;
-        int i2;
-        boolean outlineClipSupported;
         int i3;
+        boolean outlineClipSupported;
+        int i;
         boolean invalidateParentLayer;
         int matrixCache;
-        int renderNode2;
-        int renderNode11;
-        int renderNode4;
-        int renderNode10;
-        int renderNode7;
-        int renderNode8;
-        int renderNode5;
-        int renderNode13;
-        int renderNode3;
-        int renderNode14;
-        int renderNode6;
+        int renderNode12;
         int renderNode16;
         int renderNode15;
-        int i;
+        int renderNode11;
+        int renderNode2;
         int renderNode;
-        int renderNode12;
+        int renderNode8;
+        int renderNode4;
+        int renderNode10;
+        int renderNode14;
         int renderNode9;
+        int renderNode5;
+        int renderNode6;
+        int i2;
+        int renderNode7;
+        int renderNode13;
+        int renderNode3;
         boolean shape;
         float compositingStrategy--NrFUSI;
         boolean shape2;
@@ -409,10 +409,10 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
         if (i4 & 4096 != 0) {
             this.transformOrigin = scope.getTransformOrigin-SzJe1aQ();
         }
-        i3 = 0;
+        i = 0;
         int i5 = 1;
         if (this.renderNode.getClipToOutline() && !this.outlineResolver.getOutlineClipSupported()) {
-            i2 = !this.outlineResolver.getOutlineClipSupported() ? i5 : i3;
+            i3 = !this.outlineResolver.getOutlineClipSupported() ? i5 : i;
         } else {
         }
         if (i4 & 1 != 0) {
@@ -457,14 +457,14 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
             this.renderNode.setPivotY(pivotFractionY-impl *= rectangleShape);
         }
         if (scope.getClip() && scope.getShape() != RectangleShapeKt.getRectangleShape()) {
-            i = scope.getShape() != RectangleShapeKt.getRectangleShape() ? i5 : i3;
+            i2 = scope.getShape() != RectangleShapeKt.getRectangleShape() ? i5 : i;
         } else {
         }
-        final int i9 = i;
+        final int i9 = i2;
         if (i4 & 24576 != 0) {
             this.renderNode.setClipToOutline(i9);
             if (scope.getClip() && scope.getShape() == RectangleShapeKt.getRectangleShape()) {
-                compositingStrategy--NrFUSI = scope.getShape() == RectangleShapeKt.getRectangleShape() ? i5 : i3;
+                compositingStrategy--NrFUSI = scope.getShape() == RectangleShapeKt.getRectangleShape() ? i5 : i;
             } else {
             }
             this.renderNode.setClipToBounds(compositingStrategy--NrFUSI);
@@ -480,11 +480,11 @@ public final class RenderNodeLayer implements OwnedLayer, GraphicLayerInfo {
         }
         if (i9 != 0 && !this.outlineResolver.getOutlineClipSupported()) {
             if (!this.outlineResolver.getOutlineClipSupported()) {
-                i3 = i5;
+                i = i5;
             }
         }
-        if (i2 == i3) {
-            if (i3 != 0 && this.outlineResolver.update-S_szKao(scope.getOutline$ui_release(), scope.getAlpha(), i9, scope.getShadowElevation(), scope.getSize-NH-jbRc())) {
+        if (i3 == i) {
+            if (i != 0 && this.outlineResolver.update-S_szKao(scope.getOutline$ui_release(), scope.getAlpha(), i9, scope.getShadowElevation(), scope.getSize-NH-jbRc())) {
                 if (this.outlineResolver.update-S_szKao(scope.getOutline$ui_release(), scope.getAlpha(), i9, scope.getShadowElevation(), scope.getSize-NH-jbRc())) {
                     invalidate();
                 } else {

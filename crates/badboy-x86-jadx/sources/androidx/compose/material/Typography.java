@@ -54,69 +54,69 @@ public final class Typography {
     }
 
     public Typography(FontFamily fontFamily, TextStyle textStyle2, TextStyle textStyle3, TextStyle textStyle4, TextStyle textStyle5, TextStyle textStyle6, TextStyle textStyle7, TextStyle textStyle8, TextStyle textStyle9, TextStyle textStyle10, TextStyle textStyle11, TextStyle textStyle12, TextStyle textStyle13, TextStyle textStyle14, int i15, DefaultConstructorMarker defaultConstructorMarker16) {
-        TextStyle copy-p1EtxEg$default5;
-        androidx.compose.ui.text.font.SystemFontFamily default;
-        TextStyle copy-p1EtxEg$default3;
-        TextStyle defaultTextStyle2;
-        TextStyle copy-p1EtxEg$default9;
-        int defaultTextStyle3;
-        TextStyle copy-p1EtxEg$default12;
-        double d;
-        TextStyle copy-p1EtxEg$default11;
-        long defaultTextStyle7;
-        TextStyle copy-p1EtxEg$default6;
-        FontWeight fontWeight;
-        TextStyle copy-p1EtxEg$default13;
-        FontWeight light;
         TextStyle copy-p1EtxEg$default7;
+        androidx.compose.ui.text.font.SystemFontFamily default;
+        TextStyle copy-p1EtxEg$default4;
+        TextStyle defaultTextStyle2;
+        TextStyle copy-p1EtxEg$default2;
+        int defaultTextStyle3;
+        TextStyle copy-p1EtxEg$default10;
+        double d;
+        TextStyle copy-p1EtxEg$default;
+        long defaultTextStyle5;
+        TextStyle copy-p1EtxEg$default13;
+        FontWeight fontWeight;
+        TextStyle copy-p1EtxEg$default9;
+        FontWeight light;
+        TextStyle copy-p1EtxEg$default12;
         int defaultTextStyle;
         int companion2;
-        TextStyle copy-p1EtxEg$default;
-        int i28;
-        TextStyle copy-p1EtxEg$default4;
-        int defaultTextStyle5;
-        TextStyle copy-p1EtxEg$default2;
-        int i4;
-        TextStyle copy-p1EtxEg$default10;
-        long l;
-        long i30;
-        TextStyle copy-p1EtxEg$default8;
-        androidx.compose.ui.text.style.TextGeometricTransform defaultTextStyle6;
-        FontWeight.Companion companion;
-        long i14;
-        int i;
-        int defaultTextStyle4;
-        int i19;
-        int i17;
-        androidx.compose.ui.graphics.drawscope.DrawStyle medium;
-        int i32;
-        int normal;
-        int i21;
-        int i31;
-        int i2;
-        long l2;
-        int i7;
-        int i9;
+        TextStyle copy-p1EtxEg$default3;
         int i6;
-        int i5;
-        int i22;
-        int i10;
-        int i26;
-        int i3;
-        int i33;
-        int i23;
-        int i12;
-        int i29;
-        int i25;
-        int i27;
-        int i20;
-        int i18;
-        int i8;
-        int i13;
+        TextStyle copy-p1EtxEg$default5;
+        int defaultTextStyle6;
+        TextStyle copy-p1EtxEg$default11;
+        int i32;
+        TextStyle copy-p1EtxEg$default6;
+        long l;
+        long i28;
+        TextStyle copy-p1EtxEg$default8;
+        androidx.compose.ui.text.style.TextGeometricTransform defaultTextStyle7;
+        FontWeight.Companion companion;
+        long i27;
         int i11;
-        int i24;
+        int defaultTextStyle4;
         int i16;
+        int i33;
+        androidx.compose.ui.graphics.drawscope.DrawStyle medium;
+        int i7;
+        int normal;
+        int i8;
+        int i23;
+        int i13;
+        long l2;
+        int i3;
+        int i17;
+        int i18;
+        int i19;
+        int i20;
+        int i30;
+        int i10;
+        int i22;
         int i34;
+        int i12;
+        int i9;
+        int i24;
+        int i26;
+        int i5;
+        int i2;
+        int i31;
+        int i21;
+        int i25;
+        int i14;
+        int i;
+        int i4;
+        int i29;
         int i35 = i15;
         if (i35 & 1 != 0) {
             default = FontFamily.Companion.getDefault();
@@ -124,87 +124,87 @@ public final class Typography {
             default = fontFamily;
         }
         if (i35 & 2 != 0) {
-            copy-p1EtxEg$default3 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, obj5, TextUnitKt.getSp(96), obj7, FontWeight.Companion.getLight(), 0, 0, 0, 0, TextUnitKt.getSp(-4613937818241073152L), obj14, 0, 0, 0, 0, obj19, 0, 0, 0, 0, 0, TextUnitKt.getSp(112), obj26, 0, 0, 0);
+            copy-p1EtxEg$default4 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, obj5, TextUnitKt.getSp(96), obj7, FontWeight.Companion.getLight(), 0, 0, 0, 0, TextUnitKt.getSp(-4613937818241073152L), obj14, 0, 0, 0, 0, obj19, 0, 0, 0, 0, 0, TextUnitKt.getSp(112), obj26, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default3 = textStyle2;
+            copy-p1EtxEg$default4 = textStyle2;
         }
         if (i35 & 4 != 0) {
-            copy-p1EtxEg$default9 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, defaultTextStyle7, TextUnitKt.getSp(60), light, FontWeight.Companion.getLight(), 0, 0, 0, 0, TextUnitKt.getSp(-4620693217682128896L), i, 0, 0, 0, 0, i32, 0, 0, 0, 0, 0, TextUnitKt.getSp(72), i9, 0, 0, 0);
+            copy-p1EtxEg$default2 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, defaultTextStyle5, TextUnitKt.getSp(60), light, FontWeight.Companion.getLight(), 0, 0, 0, 0, TextUnitKt.getSp(-4620693217682128896L), i11, 0, 0, 0, 0, i7, 0, 0, 0, 0, 0, TextUnitKt.getSp(72), i17, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default9 = textStyle3;
+            copy-p1EtxEg$default2 = textStyle3;
         }
         int i48 = 0;
         if (i35 & 8 != 0) {
-            copy-p1EtxEg$default12 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, light, TextUnitKt.getSp(48), i28, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(i48), i19, 0, 0, 0, 0, i21, 0, 0, 0, 0, 0, TextUnitKt.getSp(56), i5, 0, 0, 0);
+            copy-p1EtxEg$default10 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, light, TextUnitKt.getSp(48), i6, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(i48), i16, 0, 0, 0, 0, i8, 0, 0, 0, 0, 0, TextUnitKt.getSp(56), i19, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default12 = textStyle4;
+            copy-p1EtxEg$default10 = textStyle4;
         }
         long l5 = 4598175219545276416L;
         if (i35 & 16 != 0) {
-            copy-p1EtxEg$default6 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, defaultTextStyle5, TextUnitKt.getSp(34), l, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(l5), i32, 0, 0, 0, 0, l2, 0, 0, 0, 0, 0, TextUnitKt.getSp(36), i26, 0, 0, 0);
+            copy-p1EtxEg$default13 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, defaultTextStyle6, TextUnitKt.getSp(34), l, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(l5), i7, 0, 0, 0, 0, l2, 0, 0, 0, 0, 0, TextUnitKt.getSp(36), i10, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default6 = textStyle5;
+            copy-p1EtxEg$default13 = textStyle5;
         }
         int i55 = 24;
         if (i35 & 32 != 0) {
-            copy-p1EtxEg$default11 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, l, TextUnitKt.getSp(i55), i, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(i48), i21, 0, 0, 0, 0, i9, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i33, 0, 0, 0);
+            copy-p1EtxEg$default = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, l, TextUnitKt.getSp(i55), i11, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(i48), i8, 0, 0, 0, 0, i17, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i34, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default11 = textStyle6;
+            copy-p1EtxEg$default = textStyle6;
         }
         long l7 = 4594572339843380019L;
-        i30 = 20;
+        i28 = 20;
         if (i35 & 64 != 0) {
-            copy-p1EtxEg$default = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, defaultTextStyle4, TextUnitKt.getSp(i30), i17, FontWeight.Companion.getMedium(), 0, 0, 0, 0, TextUnitKt.getSp(l7), l2, 0, 0, 0, 0, i22, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i29, 0, 0, 0);
+            copy-p1EtxEg$default3 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, defaultTextStyle4, TextUnitKt.getSp(i28), i33, FontWeight.Companion.getMedium(), 0, 0, 0, 0, TextUnitKt.getSp(l7), l2, 0, 0, 0, 0, i20, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i24, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default = textStyle7;
+            copy-p1EtxEg$default3 = textStyle7;
         }
         int i60 = 16;
         if (i35 & 128 != 0) {
-            copy-p1EtxEg$default2 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i17, TextUnitKt.getSp(i60), i32, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(l7), i9, 0, 0, 0, 0, i26, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i27, 0, 0, 0);
+            copy-p1EtxEg$default11 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i33, TextUnitKt.getSp(i60), i7, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(l7), i17, 0, 0, 0, 0, i10, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i5, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default2 = textStyle8;
+            copy-p1EtxEg$default11 = textStyle8;
         }
-        i14 = 14;
+        i27 = 14;
         if (i35 & 256 != 0) {
-            copy-p1EtxEg$default10 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i17, TextUnitKt.getSp(i14), i32, FontWeight.Companion.getMedium(), 0, 0, 0, 0, TextUnitKt.getSp(4591870180066957722L), i9, 0, 0, 0, 0, i26, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i27, 0, 0, 0);
+            copy-p1EtxEg$default6 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i33, TextUnitKt.getSp(i27), i7, FontWeight.Companion.getMedium(), 0, 0, 0, 0, TextUnitKt.getSp(4591870180066957722L), i17, 0, 0, 0, 0, i10, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i5, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default10 = textStyle9;
+            copy-p1EtxEg$default6 = textStyle9;
         }
         if (i35 & 512 != 0) {
-            copy-p1EtxEg$default13 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i17, TextUnitKt.getSp(i60), i32, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(4602678819172646912L), i9, 0, 0, 0, 0, i26, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i27, 0, 0, 0);
+            copy-p1EtxEg$default9 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i33, TextUnitKt.getSp(i60), i7, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(4602678819172646912L), i17, 0, 0, 0, 0, i10, 0, 0, 0, 0, 0, TextUnitKt.getSp(i55), i5, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default13 = textStyle10;
+            copy-p1EtxEg$default9 = textStyle10;
         }
         if (i35 & 1024 != 0) {
-            copy-p1EtxEg$default7 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i17, TextUnitKt.getSp(i14), i32, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(l5), i9, 0, 0, 0, 0, i26, 0, 0, 0, 0, 0, TextUnitKt.getSp(i30), i27, 0, 0, 0);
+            copy-p1EtxEg$default12 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i33, TextUnitKt.getSp(i27), i7, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(l5), i17, 0, 0, 0, 0, i10, 0, 0, 0, 0, 0, TextUnitKt.getSp(i28), i5, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default7 = textStyle11;
+            copy-p1EtxEg$default12 = textStyle11;
         }
         if (i35 & 2048 != 0) {
-            copy-p1EtxEg$default4 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i17, TextUnitKt.getSp(i14), i32, FontWeight.Companion.getMedium(), 0, 0, 0, 0, TextUnitKt.getSp(4608308318706860032L), i9, 0, 0, 0, 0, i26, 0, 0, 0, 0, 0, TextUnitKt.getSp(i60), i27, 0, 0, 0);
+            copy-p1EtxEg$default5 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i33, TextUnitKt.getSp(i27), i7, FontWeight.Companion.getMedium(), 0, 0, 0, 0, TextUnitKt.getSp(4608308318706860032L), i17, 0, 0, 0, 0, i10, 0, 0, 0, 0, 0, TextUnitKt.getSp(i60), i5, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default4 = textStyle12;
+            copy-p1EtxEg$default5 = textStyle12;
         }
         if (i35 & 4096 != 0) {
-            copy-p1EtxEg$default8 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i17, TextUnitKt.getSp(12), i32, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(4600877379321698714L), i9, 0, 0, 0, 0, i26, 0, 0, 0, 0, 0, TextUnitKt.getSp(i60), i27, 0, 0, 0);
+            copy-p1EtxEg$default8 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i33, TextUnitKt.getSp(12), i7, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(4600877379321698714L), i17, 0, 0, 0, 0, i10, 0, 0, 0, 0, 0, TextUnitKt.getSp(i60), i5, 0, 0, 0);
         } else {
             copy-p1EtxEg$default8 = textStyle13;
         }
         if (i35 &= 8192 != 0) {
-            copy-p1EtxEg$default5 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i17, TextUnitKt.getSp(10), i32, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(4609434218613702656L), i9, 0, 0, 0, 0, i26, 0, 0, 0, 0, 0, TextUnitKt.getSp(i60), i27, 0, 0, 0);
+            copy-p1EtxEg$default7 = TextStyle.copy-p1EtxEg$default(TypographyKt.getDefaultTextStyle(), 0, i33, TextUnitKt.getSp(10), i7, FontWeight.Companion.getNormal(), 0, 0, 0, 0, TextUnitKt.getSp(4609434218613702656L), i17, 0, 0, 0, 0, i10, 0, 0, 0, 0, 0, TextUnitKt.getSp(i60), i5, 0, 0, 0);
         } else {
-            copy-p1EtxEg$default5 = textStyle14;
+            copy-p1EtxEg$default7 = textStyle14;
         }
-        super(default, copy-p1EtxEg$default3, copy-p1EtxEg$default9, copy-p1EtxEg$default12, copy-p1EtxEg$default6, copy-p1EtxEg$default11, copy-p1EtxEg$default, copy-p1EtxEg$default2, copy-p1EtxEg$default10, copy-p1EtxEg$default13, copy-p1EtxEg$default7, copy-p1EtxEg$default4, copy-p1EtxEg$default8, copy-p1EtxEg$default5);
+        super(default, copy-p1EtxEg$default4, copy-p1EtxEg$default2, copy-p1EtxEg$default10, copy-p1EtxEg$default13, copy-p1EtxEg$default, copy-p1EtxEg$default3, copy-p1EtxEg$default11, copy-p1EtxEg$default6, copy-p1EtxEg$default9, copy-p1EtxEg$default12, copy-p1EtxEg$default5, copy-p1EtxEg$default8, copy-p1EtxEg$default7);
     }
 
     public static androidx.compose.material.Typography copy$default(androidx.compose.material.Typography typography, TextStyle textStyle2, TextStyle textStyle3, TextStyle textStyle4, TextStyle textStyle5, TextStyle textStyle6, TextStyle textStyle7, TextStyle textStyle8, TextStyle textStyle9, TextStyle textStyle10, TextStyle textStyle11, TextStyle textStyle12, TextStyle textStyle13, TextStyle textStyle14, int i15, Object object16) {
         TextStyle overline;
-        TextStyle textStyle;
-        TextStyle textStyle15;
         TextStyle textStyle16;
-        TextStyle textStyle17;
+        TextStyle textStyle;
         TextStyle textStyle18;
+        TextStyle textStyle17;
+        TextStyle textStyle15;
         TextStyle subtitle1;
         TextStyle subtitle2;
         TextStyle body1;
@@ -216,11 +216,11 @@ public final class Typography {
         if (i & 1 != 0) {
             obj13 = typography.h1;
         }
-        textStyle = i & 2 != 0 ? typography.h2 : textStyle3;
-        textStyle15 = i & 4 != 0 ? typography.h3 : textStyle4;
-        textStyle16 = i & 8 != 0 ? typography.h4 : textStyle5;
+        textStyle16 = i & 2 != 0 ? typography.h2 : textStyle3;
+        textStyle = i & 4 != 0 ? typography.h3 : textStyle4;
+        textStyle18 = i & 8 != 0 ? typography.h4 : textStyle5;
         textStyle17 = i & 16 != 0 ? typography.h5 : textStyle6;
-        textStyle18 = i & 32 != 0 ? typography.h6 : textStyle7;
+        textStyle15 = i & 32 != 0 ? typography.h6 : textStyle7;
         subtitle1 = i & 64 != 0 ? typography.subtitle1 : textStyle8;
         subtitle2 = i & 128 != 0 ? typography.subtitle2 : textStyle9;
         body1 = i & 256 != 0 ? typography.body1 : textStyle10;
@@ -228,7 +228,7 @@ public final class Typography {
         button = i & 1024 != 0 ? typography.button : textStyle12;
         caption = i & 2048 != 0 ? typography.caption : textStyle13;
         overline = i &= 4096 != 0 ? typography.overline : textStyle14;
-        return typography.copy(obj13, textStyle, textStyle15, textStyle16, textStyle17, textStyle18, subtitle1, subtitle2, body1, body2, button, caption, overline);
+        return typography.copy(obj13, textStyle16, textStyle, textStyle18, textStyle17, textStyle15, subtitle1, subtitle2, body1, body2, button, caption, overline);
     }
 
     public final androidx.compose.material.Typography copy(TextStyle h1, TextStyle h2, TextStyle h3, TextStyle h4, TextStyle h5, TextStyle h6, TextStyle subtitle1, TextStyle subtitle2, TextStyle body1, TextStyle body2, TextStyle button, TextStyle caption, TextStyle overline) {

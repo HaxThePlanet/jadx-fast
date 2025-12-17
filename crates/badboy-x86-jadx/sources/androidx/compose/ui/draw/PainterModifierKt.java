@@ -18,17 +18,17 @@ public final class PainterModifierKt {
     }
 
     public static Modifier paint$default(Modifier modifier, Painter painter2, boolean z3, Alignment alignment4, ContentScale contentScale5, float f6, ColorFilter colorFilter7, int i8, Object object9) {
-        int i2;
+        int i;
         Alignment alignment;
         ContentScale contentScale;
-        int i;
+        int i2;
         int i3;
         int obj9;
         Alignment obj10;
         ContentScale obj11;
         int obj12;
         int obj13;
-        i2 = i8 & 2 != 0 ? obj9 : z3;
+        i = i8 & 2 != 0 ? obj9 : z3;
         if (i8 & 4 != 0) {
             alignment = obj10;
         } else {
@@ -39,8 +39,8 @@ public final class PainterModifierKt {
         } else {
             contentScale = contentScale5;
         }
-        i = i8 & 16 != 0 ? obj12 : f6;
+        i2 = i8 & 16 != 0 ? obj12 : f6;
         i3 = i8 & 32 != 0 ? obj13 : colorFilter7;
-        return PainterModifierKt.paint(modifier, painter2, i2, alignment, contentScale, i, i3);
+        return PainterModifierKt.paint(modifier, painter2, i, alignment, contentScale, i2, i3);
     }
 }

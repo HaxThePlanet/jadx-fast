@@ -14,10 +14,9 @@ import kotlinx.coroutines.intrinsics.UndispatchedKt;
 public enum CoroutineStart {
 
     DEFAULT,
-    DEFAULT,
-    DEFAULT,
-    DEFAULT,
-    DEFAULT;
+    LAZY,
+    ATOMIC,
+    UNDISPATCHED;
 
     @Metadata(k = 3, mv = {1, 8, 0}, xi = 48)
     public class WhenMappings {
@@ -25,8 +24,8 @@ public enum CoroutineStart {
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal3;
             int ordinal2;
+            int ordinal3;
             int ordinal4;
             int[] iArr = new int[values.length];
             iArr[CoroutineStart.DEFAULT.ordinal()] = 1;
@@ -67,8 +66,8 @@ public enum CoroutineStart {
         Object obj;
         Continuation continuation;
         int i2;
-        int i;
         int i3;
+        int i;
         switch (i4) {
             case 1:
                 CancellableKt.startCoroutineCancellable$default(block, receiver, completion, 0, 4, 0);

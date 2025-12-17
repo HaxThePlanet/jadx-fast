@@ -71,100 +71,100 @@ final class ThreeLine {
     }
 
     public final void ListItem(Modifier modifier, Function2<? super Composer, ? super Integer, Unit> icon, Function2<? super Composer, ? super Integer, Unit> text, Function2<? super Composer, ? super Integer, Unit> secondaryText, Function2<? super Composer, ? super Integer, Unit> overlineText, Function2<? super Composer, ? super Integer, Unit> trailing, Composer $composer, int $changed, int i9) {
-        Integer valueOf;
+        Integer valueOf2;
         androidx.compose.ui.Alignment.Vertical verticalAlignment$iv2;
         boolean currentCompositionLocalMap;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         String materialized$iv$iv;
-        RowScopeInstance i19;
+        RowScopeInstance i22;
         int $dirty;
         int skipping;
-        Object modifier5;
+        Object modifier4;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
-        Composer composer;
-        androidx.compose.ui.layout.MeasurePolicy $composer2;
         Composer composer3;
+        androidx.compose.ui.layout.MeasurePolicy $composer2;
+        Composer composer4;
         Object maybeCachedBoxMeasurePolicy;
-        Object companion;
+        Object companion2;
         boolean other$iv;
-        int i2;
-        kotlin.jvm.functions.Function0 factory$iv$iv$iv;
-        boolean traceInProgress;
-        Composer composer5;
-        Object padding-qDBjuR0$default;
-        Object valueOf2;
-        int str;
-        int localMap$iv$iv;
-        Object verticalAlignment$iv;
         int i12;
-        int i6;
-        int i14;
-        int i3;
-        int i10;
-        int i26;
-        int i13;
-        androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
-        Object obj;
-        int i15;
-        int i22;
+        kotlin.jvm.functions.Function0 factory$iv$iv$iv;
+        boolean traceInProgress2;
+        Composer composer;
+        Object padding-qDBjuR0$default2;
+        Object valueOf;
+        int str;
+        int localMap$iv$iv3;
+        Object verticalAlignment$iv;
+        int i19;
+        int i2;
+        int i16;
+        int i17;
+        int i;
         int i23;
+        int i15;
+        androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
+        Object obj;
         int i4;
+        int i18;
+        int i13;
+        int i25;
         int currentCompositeKeyHash;
         androidx.compose.runtime.CompositionLocalMap map;
-        int i21;
+        int i3;
         Modifier modifier3;
-        int function02;
-        int i25;
-        androidx.compose.ui.Modifier.Companion companion2;
-        int i11;
-        int i17;
+        int function0;
+        int i20;
+        androidx.compose.ui.Modifier.Companion companion;
+        int i8;
+        int i14;
         kotlin.jvm.functions.Function0 function03;
-        int i;
+        int i5;
         Modifier modifier2;
         androidx.compose.foundation.layout.Arrangement.Horizontal horizontalArrangement$iv;
         java.util.List list;
-        int padding-qDBjuR0$default2;
-        float f;
-        int i24;
-        int i20;
-        int i18;
-        int i8;
+        int padding-qDBjuR0$default;
+        float $i$f$plus5rwHm24;
+        int i21;
+        int i6;
+        int i10;
+        int i26;
         int $changed$iv;
         Composer composer2;
         int weight$default;
         Alignment contentLeftPadding;
         int threeLineTrailingTopPadding;
         Composer trailingRightPadding;
-        int i16;
+        int i11;
+        int i24;
+        kotlin.jvm.functions.Function0 function02;
         int i7;
-        kotlin.jvm.functions.Function0 function0;
-        int i5;
         BoxScopeInstance boxScopeInstance;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv3;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        Modifier modifier4;
-        Composer composer4;
+        Modifier modifier5;
+        Composer composer5;
         Modifier obj56;
         int obj62;
         final Object obj2 = icon;
         final Object obj3 = text;
         final Object obj4 = secondaryText;
         final Object obj5 = overlineText;
-        traceInProgress2 = $changed;
-        i19 = 1749738797;
-        final Composer restartGroup = $composer.startRestartGroup(i19);
+        traceInProgress = $changed;
+        i22 = 1749738797;
+        final Composer restartGroup = $composer.startRestartGroup(i22);
         ComposerKt.sourceInformation(restartGroup, "C(ListItem)P(1!1,4,3)305@11347L1431:ListItem.kt#jmzs0o");
         $dirty = $changed;
-        padding-qDBjuR0$default = i9 & 1;
-        localMap$iv$iv = 2;
-        if (padding-qDBjuR0$default != 0) {
+        padding-qDBjuR0$default2 = i9 & 1;
+        localMap$iv$iv3 = 2;
+        if (padding-qDBjuR0$default2 != 0) {
             $dirty |= 6;
             verticalAlignment$iv = modifier;
         } else {
-            if (traceInProgress2 & 6 == 0) {
-                i12 = restartGroup.changed(modifier) ? 4 : localMap$iv$iv;
-                $dirty |= i12;
+            if (traceInProgress & 6 == 0) {
+                i19 = restartGroup.changed(modifier) ? 4 : localMap$iv$iv3;
+                $dirty |= i19;
             } else {
                 verticalAlignment$iv = modifier;
             }
@@ -172,52 +172,52 @@ final class ThreeLine {
         if (i9 & 2 != 0) {
             $dirty |= 48;
         } else {
-            if (traceInProgress2 & 48 == 0) {
-                i6 = restartGroup.changedInstance(obj2) ? 32 : 16;
-                $dirty |= i6;
+            if (traceInProgress & 48 == 0) {
+                i2 = restartGroup.changedInstance(obj2) ? 32 : 16;
+                $dirty |= i2;
             }
         }
         if (i9 & 4 != 0) {
             $dirty |= 384;
         } else {
-            if (traceInProgress2 & 384 == 0) {
-                i14 = restartGroup.changedInstance(obj3) ? 256 : 128;
-                $dirty |= i14;
+            if (traceInProgress & 384 == 0) {
+                i16 = restartGroup.changedInstance(obj3) ? 256 : 128;
+                $dirty |= i16;
             }
         }
         if (i9 & 8 != 0) {
             $dirty |= 3072;
         } else {
-            if (traceInProgress2 & 3072 == 0) {
-                i3 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
-                $dirty |= i3;
+            if (traceInProgress & 3072 == 0) {
+                i17 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
+                $dirty |= i17;
             }
         }
         if (i9 & 16 != 0) {
             $dirty |= 24576;
         } else {
-            if (traceInProgress2 & 24576 == 0) {
-                i10 = restartGroup.changedInstance(obj5) ? 16384 : 8192;
-                $dirty |= i10;
+            if (traceInProgress & 24576 == 0) {
+                i = restartGroup.changedInstance(obj5) ? 16384 : 8192;
+                $dirty |= i;
             }
         }
         int i64 = 196608;
         if (i9 & 32 != 0) {
             $dirty |= i64;
         } else {
-            if (traceInProgress2 & i64 == 0) {
-                i26 = restartGroup.changedInstance(trailing) ? 131072 : 65536;
-                $dirty |= i26;
+            if (traceInProgress & i64 == 0) {
+                i23 = restartGroup.changedInstance(trailing) ? 131072 : 65536;
+                $dirty |= i23;
             }
         }
-        localMap$iv$iv2 = 1572864;
+        localMap$iv$iv = 1572864;
         if (i9 & 64 != 0) {
-            $dirty |= localMap$iv$iv2;
+            $dirty |= localMap$iv$iv;
             obj = this;
         } else {
-            if (traceInProgress2 & localMap$iv$iv2 == 0) {
-                i13 = restartGroup.changed(this) ? 1048576 : 524288;
-                $dirty |= i13;
+            if (traceInProgress & localMap$iv$iv == 0) {
+                i15 = restartGroup.changed(this) ? 1048576 : 524288;
+                $dirty |= i15;
             } else {
                 obj = this;
             }
@@ -225,166 +225,166 @@ final class ThreeLine {
         final int i71 = $dirty;
         if ($dirty2 &= i71 == 599186) {
             if (!restartGroup.getSkipping()) {
-                if (padding-qDBjuR0$default != 0) {
-                    modifier5 = Modifier.Companion;
+                if (padding-qDBjuR0$default2 != 0) {
+                    modifier4 = Modifier.Companion;
                 } else {
-                    modifier5 = verticalAlignment$iv;
+                    modifier4 = verticalAlignment$iv;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i19, i71, -1, "androidx.compose.material.ThreeLine.ListItem (ListItem.kt:304)");
+                    ComposerKt.traceEventStart(i22, i71, -1, "androidx.compose.material.ThreeLine.ListItem (ListItem.kt:304)");
                 }
-                Modifier heightIn-VpY3zN4$default = SizeKt.heightIn-VpY3zN4$default(modifier5, ThreeLine.MinHeight, 0, localMap$iv$iv, 0);
-                i15 = 0;
-                i22 = 0;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
-                valueOf2 = Arrangement.INSTANCE.getStart();
-                androidx.compose.ui.Alignment.Vertical top = Alignment.Companion.getTop();
-                measurePolicy$iv = RowKt.rowMeasurePolicy(valueOf2, top, restartGroup, i62 |= i66);
+                Modifier heightIn-VpY3zN4$default = SizeKt.heightIn-VpY3zN4$default(modifier4, ThreeLine.MinHeight, 0, localMap$iv$iv3, 0);
                 i4 = 0;
+                i18 = 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
+                valueOf = Arrangement.INSTANCE.getStart();
+                androidx.compose.ui.Alignment.Vertical top = Alignment.Companion.getTop();
+                measurePolicy$iv = RowKt.rowMeasurePolicy(valueOf, top, restartGroup, i62 |= i66);
+                i25 = 0;
                 str = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, str);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                localMap$iv$iv2 = restartGroup.getCurrentCompositionLocalMap();
+                localMap$iv$iv = restartGroup.getCurrentCompositionLocalMap();
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, heightIn-VpY3zN4$default);
                 modifier3 = heightIn-VpY3zN4$default;
-                function02 = constructor;
-                i21 = 0;
+                function0 = constructor;
+                i3 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
                 restartGroup.startReusableNode();
                 if (restartGroup.getInserting()) {
-                    restartGroup.createNode(function02);
+                    restartGroup.createNode(function0);
                 } else {
-                    factory$iv$iv$iv2 = function02;
+                    factory$iv$iv$iv2 = function0;
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
                 int i74 = 0;
                 function03 = factory$iv$iv$iv2;
                 Updater.set-impl(constructor-impl, measurePolicy$iv, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl, localMap$iv$iv2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                Updater.set-impl(constructor-impl, localMap$iv$iv, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i75 = 0;
                 Composer composer7 = constructor-impl;
                 int i76 = 0;
                 if (!composer7.getInserting()) {
-                    horizontalArrangement$iv = valueOf2;
+                    horizontalArrangement$iv = valueOf;
                     if (!Intrinsics.areEqual(composer7.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer7.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer5 = composer7;
+                        composer = composer7;
                     }
                 } else {
-                    horizontalArrangement$iv = valueOf2;
+                    horizontalArrangement$iv = valueOf;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 i43 &= 14;
-                composer = restartGroup;
-                i11 = 0;
-                ComposerKt.sourceInformationMarkerStart(composer, -407918630, "C100@5047L9:Row.kt#2w3rfo");
-                i17 = i53 | 6;
-                padding-qDBjuR0$default = composer;
+                composer3 = restartGroup;
+                i8 = 0;
+                ComposerKt.sourceInformationMarkerStart(composer3, -407918630, "C100@5047L9:Row.kt#2w3rfo");
+                i14 = i53 | 6;
+                padding-qDBjuR0$default2 = composer3;
                 RowScopeInstance rowScopeInstance = iNSTANCE2;
-                i = 0;
+                i5 = 0;
                 modifier2 = materializeModifier;
-                ComposerKt.sourceInformationMarkerStart(padding-qDBjuR0$default, 1135409882, "C327@12321L127,319@11971L477:ListItem.kt#jmzs0o");
+                ComposerKt.sourceInformationMarkerStart(padding-qDBjuR0$default2, 1135409882, "C327@12321L127,319@11971L477:ListItem.kt#jmzs0o");
                 if (obj2 != null) {
-                    padding-qDBjuR0$default.startReplaceGroup(1135402069);
-                    ComposerKt.sourceInformation(padding-qDBjuR0$default, "308@11504L440");
+                    padding-qDBjuR0$default2.startReplaceGroup(1135402069);
+                    ComposerKt.sourceInformation(padding-qDBjuR0$default2, "308@11504L440");
                     int i78 = 0;
-                    f = arg0$iv2;
-                    Modifier padding-qDBjuR0$default3 = PaddingKt.padding-qDBjuR0$default(SizeKt.sizeIn-qDBjuR0$default((Modifier)Modifier.Companion, f, f, 0, 0, 12, 0), ThreeLine.IconLeftPadding, ThreeLine.IconThreeLineVerticalPadding, 0, ThreeLine.IconThreeLineVerticalPadding, 4, 0);
-                    padding-qDBjuR0$default2 = i27;
-                    i20 = 0;
+                    $i$f$plus5rwHm24 = arg0$iv2;
+                    Modifier padding-qDBjuR0$default3 = PaddingKt.padding-qDBjuR0$default(SizeKt.sizeIn-qDBjuR0$default((Modifier)Modifier.Companion, $i$f$plus5rwHm24, $i$f$plus5rwHm24, 0, 0, 12, 0), ThreeLine.IconLeftPadding, ThreeLine.IconThreeLineVerticalPadding, 0, ThreeLine.IconThreeLineVerticalPadding, 4, 0);
+                    padding-qDBjuR0$default = i27;
+                    i6 = 0;
                     $changed$iv = materialized$iv$iv;
-                    ComposerKt.sourceInformationMarkerStart(padding-qDBjuR0$default, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
+                    ComposerKt.sourceInformationMarkerStart(padding-qDBjuR0$default2, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                     int i35 = 0;
-                    composer2 = composer;
+                    composer2 = composer3;
                     Alignment alignment = alignment2;
                     maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(alignment, i35);
-                    i18 = 0;
+                    i10 = 0;
                     weight$default = i35;
-                    ComposerKt.sourceInformationMarkerStart(padding-qDBjuR0$default, -1323940314, str);
-                    currentCompositionLocalMap = padding-qDBjuR0$default.getCurrentCompositionLocalMap();
+                    ComposerKt.sourceInformationMarkerStart(padding-qDBjuR0$default2, -1323940314, str);
+                    currentCompositionLocalMap = padding-qDBjuR0$default2.getCurrentCompositionLocalMap();
                     contentLeftPadding = alignment;
-                    Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(padding-qDBjuR0$default, padding-qDBjuR0$default3);
+                    Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(padding-qDBjuR0$default2, padding-qDBjuR0$default3);
                     obj56 = padding-qDBjuR0$default3;
                     kotlin.jvm.functions.Function0 function04 = constructor2;
                     threeLineTrailingTopPadding = 0;
-                    i7 = currentCompositeKeyHash2;
-                    ComposerKt.sourceInformationMarkerStart(padding-qDBjuR0$default, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
+                    i24 = currentCompositeKeyHash2;
+                    ComposerKt.sourceInformationMarkerStart(padding-qDBjuR0$default2, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                     if (!applier2 instanceof Applier) {
                         ComposablesKt.invalidApplier();
                     }
-                    padding-qDBjuR0$default.startReusableNode();
-                    if (padding-qDBjuR0$default.getInserting()) {
-                        padding-qDBjuR0$default.createNode(function04);
+                    padding-qDBjuR0$default2.startReusableNode();
+                    if (padding-qDBjuR0$default2.getInserting()) {
+                        padding-qDBjuR0$default2.createNode(function04);
                     } else {
                         factory$iv$iv$iv = function04;
-                        padding-qDBjuR0$default.useNode();
+                        padding-qDBjuR0$default2.useNode();
                     }
-                    Composer constructor-impl2 = Updater.constructor-impl(padding-qDBjuR0$default);
+                    Composer constructor-impl2 = Updater.constructor-impl(padding-qDBjuR0$default2);
                     int i73 = 0;
-                    function0 = factory$iv$iv$iv;
+                    function02 = factory$iv$iv$iv;
                     Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                     Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                     int i88 = 0;
                     Composer composer8 = constructor-impl2;
                     int i91 = 0;
                     if (!composer8.getInserting()) {
-                        localMap$iv$iv3 = currentCompositionLocalMap;
+                        localMap$iv$iv2 = currentCompositionLocalMap;
                         measurePolicy = maybeCachedBoxMeasurePolicy;
-                        if (!Intrinsics.areEqual(composer8.rememberedValue(), Integer.valueOf(i7))) {
-                            composer8.updateRememberedValue(Integer.valueOf(i7));
-                            constructor-impl2.apply(Integer.valueOf(i7), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                        if (!Intrinsics.areEqual(composer8.rememberedValue(), Integer.valueOf(i24))) {
+                            composer8.updateRememberedValue(Integer.valueOf(i24));
+                            constructor-impl2.apply(Integer.valueOf(i24), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
-                            composer3 = composer8;
+                            composer4 = composer8;
                         }
                     } else {
-                        localMap$iv$iv3 = currentCompositionLocalMap;
+                        localMap$iv$iv2 = currentCompositionLocalMap;
                         measurePolicy = maybeCachedBoxMeasurePolicy;
                     }
                     Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
-                    composer = padding-qDBjuR0$default;
-                    i2 = 0;
-                    function02 = i38;
-                    ComposerKt.sourceInformationMarkerStart(composer, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
+                    composer3 = padding-qDBjuR0$default2;
+                    i12 = 0;
+                    function0 = i38;
+                    ComposerKt.sourceInformationMarkerStart(composer3, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                     i58 |= 6;
-                    trailingRightPadding = composer;
-                    i5 = 0;
+                    trailingRightPadding = composer3;
+                    i7 = 0;
                     boxScopeInstance = iNSTANCE;
-                    modifier4 = materializeModifier2;
-                    ComposerKt.sourceInformationMarkerStart(composer, -609404916, "C317@11936L6:ListItem.kt#jmzs0o");
-                    obj2.invoke(composer, Integer.valueOf(i39 &= 14));
-                    ComposerKt.sourceInformationMarkerEnd(composer);
-                    ComposerKt.sourceInformationMarkerEnd(composer);
-                    padding-qDBjuR0$default.endNode();
-                    ComposerKt.sourceInformationMarkerEnd(padding-qDBjuR0$default);
-                    ComposerKt.sourceInformationMarkerEnd(padding-qDBjuR0$default);
-                    ComposerKt.sourceInformationMarkerEnd(padding-qDBjuR0$default);
-                    padding-qDBjuR0$default.endReplaceGroup();
+                    modifier5 = materializeModifier2;
+                    ComposerKt.sourceInformationMarkerStart(composer3, -609404916, "C317@11936L6:ListItem.kt#jmzs0o");
+                    obj2.invoke(composer3, Integer.valueOf(i39 &= 14));
+                    ComposerKt.sourceInformationMarkerEnd(composer3);
+                    ComposerKt.sourceInformationMarkerEnd(composer3);
+                    padding-qDBjuR0$default2.endNode();
+                    ComposerKt.sourceInformationMarkerEnd(padding-qDBjuR0$default2);
+                    ComposerKt.sourceInformationMarkerEnd(padding-qDBjuR0$default2);
+                    ComposerKt.sourceInformationMarkerEnd(padding-qDBjuR0$default2);
+                    padding-qDBjuR0$default2.endReplaceGroup();
                 } else {
                     $changed$iv = materialized$iv$iv;
-                    composer2 = composer;
-                    padding-qDBjuR0$default.startReplaceGroup(1135920048);
-                    padding-qDBjuR0$default.endReplaceGroup();
+                    composer2 = composer3;
+                    padding-qDBjuR0$default2.startReplaceGroup(1135920048);
+                    padding-qDBjuR0$default2.endReplaceGroup();
                 }
                 Dp[] arr = new Dp[3];
                 int i45 = 1;
                 arr[i45] = Dp.box-impl(ThreeLine.ThreeLineBaselineSecondOffset);
-                arr[localMap$iv$iv] = Dp.box-impl(ThreeLine.ThreeLineBaselineThirdOffset);
-                i19 = rowScopeInstance;
+                arr[localMap$iv$iv3] = Dp.box-impl(ThreeLine.ThreeLineBaselineThirdOffset);
+                i22 = rowScopeInstance;
                 ThreeLine.ListItem.1.2 anon = new ThreeLine.ListItem.1.2(obj5, obj3, obj4);
-                i24 = padding-qDBjuR0$default;
-                ListItemKt.access$BaselinesOffsetColumn(CollectionsKt.listOf(arr), PaddingKt.padding-qDBjuR0$default(RowScope.weight$default(rowScopeInstance, (Modifier)Modifier.Companion, 1065353216, false, 2, 0), ThreeLine.ContentLeftPadding, 0, ThreeLine.ContentRightPadding, 0, 10, 0), (Function2)ComposableLambdaKt.rememberComposableLambda(-318094245, i45, anon, padding-qDBjuR0$default, 54), i24, 390, 0);
-                Composer composer6 = i24;
+                i21 = padding-qDBjuR0$default2;
+                ListItemKt.access$BaselinesOffsetColumn(CollectionsKt.listOf(arr), PaddingKt.padding-qDBjuR0$default(RowScope.weight$default(rowScopeInstance, (Modifier)Modifier.Companion, 1065353216, false, 2, 0), ThreeLine.ContentLeftPadding, 0, ThreeLine.ContentRightPadding, 0, 10, 0), (Function2)ComposableLambdaKt.rememberComposableLambda(-318094245, i45, anon, padding-qDBjuR0$default2, 54), i21, 390, 0);
+                Composer composer6 = i21;
                 if (trailing != null) {
                     composer6.startReplaceGroup(1136449683);
                     ComposerKt.sourceInformation(composer6, "333@12501L253");
                     int i54 = 0;
-                    i8 = 54;
+                    i26 = 54;
                     verticalAlignment$iv2 = top;
                     verticalAlignment$iv = composer6;
                     $composer2 = measurePolicy2;
@@ -393,7 +393,7 @@ final class ThreeLine {
                     verticalAlignment$iv.endReplaceGroup();
                 } else {
                     verticalAlignment$iv2 = top;
-                    map = localMap$iv$iv2;
+                    map = localMap$iv$iv;
                     verticalAlignment$iv = composer6;
                     $composer2 = measurePolicy$iv;
                     verticalAlignment$iv.startReplaceGroup(1136723568);
@@ -408,17 +408,17 @@ final class ThreeLine {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                companion = companion2;
+                companion2 = companion;
             } else {
                 restartGroup.skipToGroupEnd();
-                companion = verticalAlignment$iv;
+                companion2 = verticalAlignment$iv;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ThreeLine.ListItem.2(obj, companion, obj2, obj3, obj4, obj5, trailing, $changed, i9);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ThreeLine.ListItem.2(obj, companion2, obj2, obj3, obj4, obj5, trailing, $changed, i9);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 }

@@ -24,51 +24,51 @@ public final class ExposedDropdownMenuDefaults {
     }
 
     public final void TrailingIcon(boolean expanded, Function0<Unit> onIconClick, Composer $composer, int $changed, int i5) {
-        int traceInProgress;
-        int $dirty2;
-        boolean $dirty;
-        boolean traceInProgress2;
+        int traceInProgress2;
+        int $dirty;
+        boolean $dirty2;
+        boolean traceInProgress;
         boolean z;
-        int i7;
+        int i4;
         Object obj;
         int clearAndSetSemantics;
-        int i2;
         int i6;
         int i;
+        int i2;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i4;
+        int i7;
         int i3;
-        traceInProgress = 1752693020;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = 1752693020;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(TrailingIcon)298@11657L314,298@11577L394:ExposedDropdownMenu.android.kt#jmzs0o");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i5 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if ($changed & 6 == 0) {
-                i7 = restartGroup.changed(expanded) ? 4 : 2;
-                $dirty2 |= i7;
+                i4 = restartGroup.changed(expanded) ? 4 : 2;
+                $dirty |= i4;
             }
         }
         int i10 = i5 & 2;
         if (i10 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
         } else {
             if ($changed & 48 == 0) {
-                i2 = restartGroup.changedInstance(onIconClick) ? 32 : 16;
-                $dirty2 |= i2;
+                i6 = restartGroup.changedInstance(onIconClick) ? 32 : 16;
+                $dirty |= i6;
             }
         }
-        final int i13 = $dirty2;
+        final int i13 = $dirty;
         if (i13 & 19 == 18) {
             if (!restartGroup.getSkipping()) {
                 if (i10 != 0) {
-                    obj = $dirty;
+                    obj = $dirty2;
                 } else {
                     obj = onIconClick;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i13, -1, "androidx.compose.material.ExposedDropdownMenuDefaults.TrailingIcon (ExposedDropdownMenu.android.kt:293)");
+                    ComposerKt.traceEventStart(traceInProgress2, i13, -1, "androidx.compose.material.ExposedDropdownMenuDefaults.TrailingIcon (ExposedDropdownMenu.android.kt:293)");
                 }
                 ExposedDropdownMenuDefaults.TrailingIcon.3 anon = new ExposedDropdownMenuDefaults.TrailingIcon.3(expanded);
                 IconButtonKt.IconButton(obj, SemanticsModifierKt.clearAndSetSemantics((Modifier)Modifier.Companion, (Function1)ExposedDropdownMenuDefaults.TrailingIcon.2.INSTANCE), false, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-689144648, true, anon, restartGroup, 54), restartGroup, i9 | 24576, 12);
@@ -83,101 +83,101 @@ public final class ExposedDropdownMenuDefaults {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ExposedDropdownMenuDefaults.TrailingIcon.4(this, expanded, obj, $changed, i5);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ExposedDropdownMenuDefaults.TrailingIcon.4(this, expanded, obj, $changed, i5);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public final androidx.compose.material.TextFieldColors outlinedTextFieldColors-DlUQjxs(long textColor, long disabledTextColor, long backgroundColor, long cursorColor, long errorCursorColor, long focusedBorderColor, long unfocusedBorderColor, long disabledBorderColor, long errorBorderColor, long leadingIconColor, long disabledLeadingIconColor, long errorLeadingIconColor, long trailingIconColor, long focusedTrailingIconColor, long disabledTrailingIconColor, long errorTrailingIconColor, long focusedLabelColor, long unfocusedLabelColor, long disabledLabelColor, long errorLabelColor, long placeholderColor, long disabledPlaceholderColor, Composer $composer, int $changed, int $changed1, int $changed2, int i27) {
-        int disabled3;
+        int disabled4;
         boolean traceInProgress;
         int copy-wmQWz5c$default3;
         int iNSTANCE;
         int companion;
         int colors2;
-        int colors;
+        int colors5;
         int high;
+        int disabled3;
         int disabled5;
-        int disabled4;
-        androidx.compose.material.Colors colors5;
+        androidx.compose.material.Colors colors3;
+        int i11;
+        float disabled2;
         int i13;
-        float disabled;
-        int i30;
-        int high2;
-        int disabled6;
-        int colors3;
         int high3;
-        int medium2;
-        int disabled2;
-        int colors4;
+        int disabled;
+        int colors;
+        int high2;
         int medium;
+        int disabled6;
+        int colors4;
+        int medium2;
         int copy-wmQWz5c$default;
-        int i4;
+        int i16;
+        int i22;
         int i6;
-        int i8;
-        int i5;
+        int i32;
         long l5;
         Object consume2;
         String copy-wmQWz5c$default2;
         Object consume;
-        long l;
+        long l2;
         long unbox-impl;
         long transparent-0d7_KjU;
         long cursorColor2;
         float floatValue;
-        int i3;
+        int i;
         long errorCursorColor2;
-        int i16;
-        int i24;
+        int i3;
+        int i23;
         long focusedBorderColor2;
-        int i29;
+        int i4;
+        int i35;
+        long unfocusedBorderColor3;
+        long errorBorderColor2;
+        int i37;
         int i9;
         long unfocusedBorderColor2;
-        long errorBorderColor2;
-        int i19;
         int i28;
-        long unfocusedBorderColor3;
-        int i11;
-        int i18;
-        long l2;
-        int i34;
-        long leadingIconColor4;
-        long leadingIconColor2;
         int i2;
-        long leadingIconColor3;
-        int i35;
-        int i;
-        long errorLeadingIconColor2;
-        int i31;
-        long trailingIconColor4;
-        long trailingIconColor3;
-        int i36;
-        long focusedTrailingIconColor2;
-        int i23;
-        int i25;
-        long trailingIconColor2;
-        int i15;
-        int i22;
-        long errorTrailingIconColor2;
-        int i26;
         long l3;
-        long focusedLabelColor2;
-        int i21;
-        long unfocusedLabelColor4;
-        long unfocusedLabelColor2;
-        int i37;
+        int i8;
+        long leadingIconColor2;
+        long leadingIconColor4;
+        int i17;
+        long leadingIconColor3;
+        int i33;
+        int i29;
+        long errorLeadingIconColor2;
         int i14;
+        long trailingIconColor2;
+        long trailingIconColor3;
+        int i26;
+        long focusedTrailingIconColor2;
+        int i18;
+        int i25;
+        long trailingIconColor4;
+        int i12;
+        int i30;
+        long errorTrailingIconColor2;
+        int i19;
+        long l4;
+        long focusedLabelColor2;
+        int i20;
+        long unfocusedLabelColor2;
+        long unfocusedLabelColor4;
+        int i31;
+        int i24;
         long unfocusedLabelColor3;
+        int i15;
+        int i5;
+        long errorLabelColor2;
+        int i21;
+        long placeholderColor2;
+        int i36;
+        long l;
+        int i34;
         int i10;
         int i7;
-        long errorLabelColor2;
-        int i33;
-        long placeholderColor2;
-        int i12;
-        long l4;
-        int i32;
-        int i20;
-        int i17;
         long obj55;
         float obj57;
         int obj58;
@@ -196,7 +196,7 @@ public final class ExposedDropdownMenuDefaults {
             copy-wmQWz5c$default2 = "CC:CompositionLocal.kt#9igjgp";
             ComposerKt.sourceInformationMarkerStart(composer, i51, copy-wmQWz5c$default2);
             ComposerKt.sourceInformationMarkerEnd(composer);
-            i6 = 6;
+            i22 = 6;
             int i50 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, i51, copy-wmQWz5c$default2);
             ComposerKt.sourceInformationMarkerEnd(composer);
@@ -204,130 +204,130 @@ public final class ExposedDropdownMenuDefaults {
         } else {
             l5 = textColor;
         }
-        i8 = 6;
+        i6 = 6;
         if (i38 & 2 != 0) {
-            l = copy-wmQWz5c$default2;
+            l2 = copy-wmQWz5c$default2;
         } else {
-            l = backgroundColor;
+            l2 = backgroundColor;
         }
         if (i38 & 4 != 0) {
-            l3 = transparent-0d7_KjU;
+            l4 = transparent-0d7_KjU;
         } else {
-            l3 = errorCursorColor;
+            l4 = errorCursorColor;
         }
         if (i38 & 8 != 0) {
-            cursorColor2 = MaterialTheme.INSTANCE.getColors(composer, i8).getPrimary-0d7_KjU();
+            cursorColor2 = MaterialTheme.INSTANCE.getColors(composer, i6).getPrimary-0d7_KjU();
         } else {
             cursorColor2 = unfocusedBorderColor;
         }
         if (i38 & 16 != 0) {
-            errorCursorColor2 = MaterialTheme.INSTANCE.getColors(composer, i8).getError-0d7_KjU();
+            errorCursorColor2 = MaterialTheme.INSTANCE.getColors(composer, i6).getError-0d7_KjU();
         } else {
             errorCursorColor2 = errorBorderColor;
         }
         if (i38 & 32 != 0) {
-            focusedBorderColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i8).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i8), 0, 0, 0, 14);
+            focusedBorderColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i6).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i6), 0, 0, 0, 14);
         } else {
             focusedBorderColor2 = disabledLeadingIconColor;
         }
         if (i38 & 64 != 0) {
-            unfocusedBorderColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i8).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i8), 0, 0, 0, 14);
+            unfocusedBorderColor3 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i6).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i6), 0, 0, 0, 14);
         } else {
-            unfocusedBorderColor2 = trailingIconColor;
+            unfocusedBorderColor3 = trailingIconColor;
         }
         if (i38 & 128 != 0) {
-            obj55 = unfocusedBorderColor2;
-            unfocusedBorderColor3 = obj55;
-            l2 = unfocusedBorderColor2;
+            obj55 = unfocusedBorderColor3;
+            unfocusedBorderColor2 = obj55;
+            l3 = unfocusedBorderColor3;
         } else {
-            unfocusedBorderColor3 = unfocusedBorderColor2;
-            l2 = disabledTrailingIconColor;
+            unfocusedBorderColor2 = unfocusedBorderColor3;
+            l3 = disabledTrailingIconColor;
         }
         if (i38 & 256 != 0) {
-            errorBorderColor2 = MaterialTheme.INSTANCE.getColors(composer, i8).getError-0d7_KjU();
+            errorBorderColor2 = MaterialTheme.INSTANCE.getColors(composer, i6).getError-0d7_KjU();
         } else {
             errorBorderColor2 = focusedLabelColor;
         }
         if (i38 & 512 != 0) {
-            leadingIconColor4 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i8).getOnSurface-0d7_KjU(), disabledTextColor, 1057635697, 0, 0, 0, 14);
+            leadingIconColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i6).getOnSurface-0d7_KjU(), disabledTextColor, 1057635697, 0, 0, 0, 14);
         } else {
-            leadingIconColor4 = disabledLabelColor;
+            leadingIconColor2 = disabledLabelColor;
         }
         if (i38 & 1024 != 0) {
-            obj55 = leadingIconColor4;
-            leadingIconColor2 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i8), 0, 0, 0, 14);
+            obj55 = leadingIconColor2;
+            leadingIconColor4 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i6), 0, 0, 0, 14);
             leadingIconColor3 = obj55;
         } else {
-            leadingIconColor3 = leadingIconColor4;
-            leadingIconColor2 = placeholderColor;
+            leadingIconColor3 = leadingIconColor2;
+            leadingIconColor4 = placeholderColor;
         }
         errorLeadingIconColor2 = i38 & 2048 != 0 ? leadingIconColor3 : $composer;
         if (i38 & 4096 != 0) {
-            trailingIconColor4 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i8).getOnSurface-0d7_KjU(), disabledTextColor, 1057635697, 0, 0, 0, 14);
+            trailingIconColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i6).getOnSurface-0d7_KjU(), disabledTextColor, 1057635697, 0, 0, 0, 14);
         } else {
-            trailingIconColor4 = $changed1;
+            trailingIconColor2 = $changed1;
         }
         if (i38 & 8192 != 0) {
-            focusedTrailingIconColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i8).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i8), 0, 0, 0, 14);
+            focusedTrailingIconColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i6).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i6), 0, 0, 0, 14);
         } else {
             focusedTrailingIconColor2 = i27;
         }
         if (i38 & 16384 != 0) {
-            obj55 = trailingIconColor4;
-            trailingIconColor3 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i8), 0, 0, 0, 14);
-            trailingIconColor2 = obj55;
+            obj55 = trailingIconColor2;
+            trailingIconColor3 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i6), 0, 0, 0, 14);
+            trailingIconColor4 = obj55;
         } else {
-            trailingIconColor2 = trailingIconColor4;
+            trailingIconColor4 = trailingIconColor2;
             trailingIconColor3 = obj83;
         }
         if (i41 &= i38 != 0) {
-            errorTrailingIconColor2 = MaterialTheme.INSTANCE.getColors(composer, i8).getError-0d7_KjU();
+            errorTrailingIconColor2 = MaterialTheme.INSTANCE.getColors(composer, i6).getError-0d7_KjU();
         } else {
             errorTrailingIconColor2 = obj85;
         }
         if (i42 &= i38 != 0) {
-            focusedLabelColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i8).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i8), 0, 0, 0, 14);
+            focusedLabelColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i6).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i6), 0, 0, 0, 14);
         } else {
             focusedLabelColor2 = obj87;
         }
         if (i43 &= i38 != 0) {
-            unfocusedLabelColor4 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i8).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getMedium(composer, i8), 0, 0, 0, 14);
+            unfocusedLabelColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i6).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getMedium(composer, i6), 0, 0, 0, 14);
         } else {
-            unfocusedLabelColor4 = obj89;
+            unfocusedLabelColor2 = obj89;
         }
         if (i44 &= i38 != 0) {
-            obj55 = unfocusedLabelColor4;
-            unfocusedLabelColor2 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i8), 0, 0, 0, 14);
+            obj55 = unfocusedLabelColor2;
+            unfocusedLabelColor4 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i6), 0, 0, 0, 14);
             unfocusedLabelColor3 = obj55;
         } else {
-            unfocusedLabelColor3 = unfocusedLabelColor4;
-            unfocusedLabelColor2 = obj91;
+            unfocusedLabelColor3 = unfocusedLabelColor2;
+            unfocusedLabelColor4 = obj91;
         }
         if (i45 &= i38 != 0) {
-            errorLabelColor2 = MaterialTheme.INSTANCE.getColors(composer, i8).getError-0d7_KjU();
+            errorLabelColor2 = MaterialTheme.INSTANCE.getColors(composer, i6).getError-0d7_KjU();
         } else {
             errorLabelColor2 = obj93;
         }
         if (i46 &= i38 != 0) {
-            placeholderColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i8).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getMedium(composer, i8), 0, 0, 0, 14);
+            placeholderColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i6).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getMedium(composer, i6), 0, 0, 0, 14);
         } else {
             placeholderColor2 = obj95;
         }
         if (i38 &= copy-wmQWz5c$default != 0) {
-            l4 = copy-wmQWz5c$default;
+            l = copy-wmQWz5c$default;
         } else {
-            l4 = obj97;
+            l = obj97;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i39, obj100, obj101, "androidx.compose.material.ExposedDropdownMenuDefaults.outlinedTextFieldColors (ExposedDropdownMenu.android.kt:489)");
         } else {
-            i4 = obj100;
-            i5 = obj101;
+            i16 = obj100;
+            i32 = obj101;
         }
         long l7 = l5;
         long trailingIconColor6 = trailingIconColor3;
         long disabledTrailingIconColor2 = l10;
-        DefaultTextFieldForExposedDropdownMenusColors textColor2 = new DefaultTextFieldForExposedDropdownMenusColors(l7, copy-wmQWz5c$default2, l, unbox-impl, cursorColor2, floatValue, errorCursorColor2, i16, focusedBorderColor2, i29, unfocusedBorderColor3, i19, errorBorderColor2, i11, l2, i34, leadingIconColor3, obj23, leadingIconColor2, i35, errorLeadingIconColor2, i31, disabledTrailingIconColor2, obj29, focusedTrailingIconColor2, i23, trailingIconColor6, i15, errorTrailingIconColor2, i26, l3, obj37, focusedLabelColor2, obj39, unfocusedLabelColor3, i37, unfocusedLabelColor2, i10, errorLabelColor2, i33, placeholderColor2, obj47, l4, i32, 0);
+        DefaultTextFieldForExposedDropdownMenusColors textColor2 = new DefaultTextFieldForExposedDropdownMenusColors(l7, copy-wmQWz5c$default2, l2, unbox-impl, cursorColor2, floatValue, errorCursorColor2, i3, focusedBorderColor2, i4, unfocusedBorderColor2, i37, errorBorderColor2, i28, l3, i8, leadingIconColor3, obj23, leadingIconColor4, i33, errorLeadingIconColor2, i14, disabledTrailingIconColor2, obj29, focusedTrailingIconColor2, i18, trailingIconColor6, i12, errorTrailingIconColor2, i19, l4, obj37, focusedLabelColor2, obj39, unfocusedLabelColor3, i31, unfocusedLabelColor4, i15, errorLabelColor2, i21, placeholderColor2, obj47, l, i34, 0);
         long disabledTrailingIconColor3 = disabledTrailingIconColor2;
         long trailingIconColor5 = l12;
         long l6 = l7;
@@ -339,95 +339,95 @@ public final class ExposedDropdownMenuDefaults {
     }
 
     public final androidx.compose.material.TextFieldColors textFieldColors-DlUQjxs(long textColor, long disabledTextColor, long backgroundColor, long cursorColor, long errorCursorColor, long focusedIndicatorColor, long unfocusedIndicatorColor, long disabledIndicatorColor, long errorIndicatorColor, long leadingIconColor, long disabledLeadingIconColor, long errorLeadingIconColor, long trailingIconColor, long focusedTrailingIconColor, long disabledTrailingIconColor, long errorTrailingIconColor, long focusedLabelColor, long unfocusedLabelColor, long disabledLabelColor, long errorLabelColor, long placeholderColor, long disabledPlaceholderColor, Composer $composer, int $changed, int $changed1, int $changed2, int i27) {
-        int disabled2;
+        int disabled4;
         boolean traceInProgress;
         int copy-wmQWz5c$default3;
         int iNSTANCE;
-        int colors6;
+        int colors;
         int colors3;
-        int colors2;
-        int high;
-        int i37;
-        int disabled5;
-        androidx.compose.material.Colors colors;
-        int i5;
-        float disabled3;
-        int i10;
-        int high3;
-        int disabled4;
         int colors5;
+        int high3;
+        int i14;
+        int disabled2;
+        androidx.compose.material.Colors colors6;
+        int i34;
+        float disabled3;
+        int i36;
         int high2;
-        int medium2;
         int disabled;
         int colors4;
+        int high;
+        int medium2;
+        int disabled5;
+        int colors2;
         int medium;
-        int copy-wmQWz5c$default4;
-        int i12;
-        int i15;
-        int i21;
-        int i17;
-        long l4;
+        int copy-wmQWz5c$default2;
+        int i11;
+        int i;
+        int i5;
+        int i8;
+        long l2;
         Object consume;
-        String copy-wmQWz5c$default2;
+        String copy-wmQWz5c$default4;
         Object consume2;
-        long l5;
+        long l;
         long unbox-impl;
         long copy-wmQWz5c$default;
         long cursorColor2;
         float floatValue;
-        int i23;
+        int i2;
         long errorCursorColor2;
         int i4;
-        int i34;
+        int i15;
         long focusedIndicatorColor2;
-        int i22;
-        int i7;
+        int i28;
+        int i25;
         long unfocusedIndicatorColor3;
         long errorIndicatorColor2;
-        int i24;
-        int i33;
-        long unfocusedIndicatorColor2;
-        int i38;
-        int i31;
-        long l2;
-        int i35;
-        long leadingIconColor4;
-        long leadingIconColor2;
-        int i25;
-        long leadingIconColor3;
-        int i26;
-        int i20;
-        long errorLeadingIconColor2;
-        int i9;
-        long trailingIconColor4;
-        long trailingIconColor3;
-        int i11;
-        long focusedTrailingIconColor2;
-        int i36;
-        int i13;
-        long trailingIconColor2;
-        int i3;
-        int i28;
-        long errorTrailingIconColor2;
-        int i16;
-        long l;
-        long focusedLabelColor2;
-        int i30;
-        long unfocusedLabelColor3;
-        long unfocusedLabelColor2;
-        int i32;
-        int i;
-        long unfocusedLabelColor4;
-        int i8;
         int i29;
-        long errorLabelColor2;
-        int i2;
-        long placeholderColor2;
-        int i6;
-        long l3;
-        int i14;
+        int i30;
+        long unfocusedIndicatorColor2;
+        int i37;
+        int i17;
+        long l5;
+        int i24;
+        long leadingIconColor3;
+        long leadingIconColor2;
+        int i10;
+        long leadingIconColor4;
+        int i31;
+        int i12;
+        long errorLeadingIconColor2;
+        int i35;
+        long trailingIconColor2;
+        long trailingIconColor3;
+        int i7;
+        long focusedTrailingIconColor2;
         int i18;
+        int i21;
+        long trailingIconColor4;
+        int i16;
+        int i9;
+        long errorTrailingIconColor2;
+        int i38;
+        long l3;
+        long focusedLabelColor2;
         int i19;
+        long unfocusedLabelColor4;
+        long unfocusedLabelColor3;
+        int i23;
+        int i22;
+        long unfocusedLabelColor2;
+        int i6;
+        int i26;
+        long errorLabelColor2;
+        int i3;
+        long placeholderColor2;
+        int i13;
+        long l4;
+        int i32;
+        int i20;
+        int i33;
         long obj55;
         float obj57;
         int obj58;
@@ -443,141 +443,141 @@ public final class ExposedDropdownMenuDefaults {
             int i49 = 6;
             int i50 = 0;
             int i52 = 2023513938;
-            copy-wmQWz5c$default2 = "CC:CompositionLocal.kt#9igjgp";
-            ComposerKt.sourceInformationMarkerStart(composer, i52, copy-wmQWz5c$default2);
+            copy-wmQWz5c$default4 = "CC:CompositionLocal.kt#9igjgp";
+            ComposerKt.sourceInformationMarkerStart(composer, i52, copy-wmQWz5c$default4);
             ComposerKt.sourceInformationMarkerEnd(composer);
-            i15 = 6;
+            i = 6;
             int i51 = 0;
-            ComposerKt.sourceInformationMarkerStart(composer, i52, copy-wmQWz5c$default2);
+            ComposerKt.sourceInformationMarkerStart(composer, i52, copy-wmQWz5c$default4);
             ComposerKt.sourceInformationMarkerEnd(composer);
-            l4 = copy-wmQWz5c$default3;
+            l2 = copy-wmQWz5c$default3;
         } else {
-            l4 = textColor;
+            l2 = textColor;
         }
-        i21 = 6;
+        i5 = 6;
         if (i39 & 2 != 0) {
-            l5 = copy-wmQWz5c$default2;
+            l = copy-wmQWz5c$default4;
         } else {
-            l5 = backgroundColor;
+            l = backgroundColor;
         }
         if (i39 & 4 != 0) {
-            l = copy-wmQWz5c$default;
+            l3 = copy-wmQWz5c$default;
         } else {
-            l = errorCursorColor;
+            l3 = errorCursorColor;
         }
         if (i39 & 8 != 0) {
-            cursorColor2 = MaterialTheme.INSTANCE.getColors(composer, i21).getPrimary-0d7_KjU();
+            cursorColor2 = MaterialTheme.INSTANCE.getColors(composer, i5).getPrimary-0d7_KjU();
         } else {
             cursorColor2 = unfocusedIndicatorColor;
         }
         if (i39 & 16 != 0) {
-            errorCursorColor2 = MaterialTheme.INSTANCE.getColors(composer, i21).getError-0d7_KjU();
+            errorCursorColor2 = MaterialTheme.INSTANCE.getColors(composer, i5).getError-0d7_KjU();
         } else {
             errorCursorColor2 = errorIndicatorColor;
         }
         if (i39 & 32 != 0) {
-            focusedIndicatorColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i21).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i21), 0, 0, 0, 14);
+            focusedIndicatorColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i5).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i5), 0, 0, 0, 14);
         } else {
             focusedIndicatorColor2 = disabledLeadingIconColor;
         }
         if (i39 & 64 != 0) {
-            unfocusedIndicatorColor3 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i21).getOnSurface-0d7_KjU(), disabledTextColor, 1054280253, 0, 0, 0, 14);
+            unfocusedIndicatorColor3 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i5).getOnSurface-0d7_KjU(), disabledTextColor, 1054280253, 0, 0, 0, 14);
         } else {
             unfocusedIndicatorColor3 = trailingIconColor;
         }
         if (i39 & 128 != 0) {
             obj55 = unfocusedIndicatorColor3;
             unfocusedIndicatorColor2 = obj55;
-            l2 = unfocusedIndicatorColor3;
+            l5 = unfocusedIndicatorColor3;
         } else {
             unfocusedIndicatorColor2 = unfocusedIndicatorColor3;
-            l2 = disabledTrailingIconColor;
+            l5 = disabledTrailingIconColor;
         }
         if (i39 & 256 != 0) {
-            errorIndicatorColor2 = MaterialTheme.INSTANCE.getColors(composer, i21).getError-0d7_KjU();
+            errorIndicatorColor2 = MaterialTheme.INSTANCE.getColors(composer, i5).getError-0d7_KjU();
         } else {
             errorIndicatorColor2 = focusedLabelColor;
         }
         if (i39 & 512 != 0) {
-            leadingIconColor4 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i21).getOnSurface-0d7_KjU(), disabledTextColor, 1057635697, 0, 0, 0, 14);
+            leadingIconColor3 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i5).getOnSurface-0d7_KjU(), disabledTextColor, 1057635697, 0, 0, 0, 14);
         } else {
-            leadingIconColor4 = disabledLabelColor;
+            leadingIconColor3 = disabledLabelColor;
         }
         if (i39 & 1024 != 0) {
-            obj55 = leadingIconColor4;
-            leadingIconColor2 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i21), 0, 0, 0, 14);
-            leadingIconColor3 = obj55;
+            obj55 = leadingIconColor3;
+            leadingIconColor2 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i5), 0, 0, 0, 14);
+            leadingIconColor4 = obj55;
         } else {
-            leadingIconColor3 = leadingIconColor4;
+            leadingIconColor4 = leadingIconColor3;
             leadingIconColor2 = placeholderColor;
         }
-        errorLeadingIconColor2 = i39 & 2048 != 0 ? leadingIconColor3 : $composer;
+        errorLeadingIconColor2 = i39 & 2048 != 0 ? leadingIconColor4 : $composer;
         if (i39 & 4096 != 0) {
-            trailingIconColor4 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i21).getOnSurface-0d7_KjU(), disabledTextColor, 1057635697, 0, 0, 0, 14);
+            trailingIconColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i5).getOnSurface-0d7_KjU(), disabledTextColor, 1057635697, 0, 0, 0, 14);
         } else {
-            trailingIconColor4 = $changed1;
+            trailingIconColor2 = $changed1;
         }
         if (i39 & 8192 != 0) {
-            focusedTrailingIconColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i21).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i21), 0, 0, 0, 14);
+            focusedTrailingIconColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i5).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i5), 0, 0, 0, 14);
         } else {
             focusedTrailingIconColor2 = i27;
         }
         if (i39 & 16384 != 0) {
-            obj55 = trailingIconColor4;
-            trailingIconColor3 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i21), 0, 0, 0, 14);
-            trailingIconColor2 = obj55;
+            obj55 = trailingIconColor2;
+            trailingIconColor3 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i5), 0, 0, 0, 14);
+            trailingIconColor4 = obj55;
         } else {
-            trailingIconColor2 = trailingIconColor4;
+            trailingIconColor4 = trailingIconColor2;
             trailingIconColor3 = obj83;
         }
         if (i42 &= i39 != 0) {
-            errorTrailingIconColor2 = MaterialTheme.INSTANCE.getColors(composer, i21).getError-0d7_KjU();
+            errorTrailingIconColor2 = MaterialTheme.INSTANCE.getColors(composer, i5).getError-0d7_KjU();
         } else {
             errorTrailingIconColor2 = obj85;
         }
         if (i43 &= i39 != 0) {
-            focusedLabelColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i21).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i21), 0, 0, 0, 14);
+            focusedLabelColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i5).getPrimary-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getHigh(composer, i5), 0, 0, 0, 14);
         } else {
             focusedLabelColor2 = obj87;
         }
         if (i44 &= i39 != 0) {
-            unfocusedLabelColor3 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i21).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getMedium(composer, i21), 0, 0, 0, 14);
+            unfocusedLabelColor4 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i5).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getMedium(composer, i5), 0, 0, 0, 14);
         } else {
-            unfocusedLabelColor3 = obj89;
+            unfocusedLabelColor4 = obj89;
         }
         if (i45 &= i39 != 0) {
-            obj55 = unfocusedLabelColor3;
-            unfocusedLabelColor2 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i21), 0, 0, 0, 14);
-            unfocusedLabelColor4 = obj55;
+            obj55 = unfocusedLabelColor4;
+            unfocusedLabelColor3 = Color.copy-wmQWz5c$default(obj55, disabledTextColor, ContentAlpha.INSTANCE.getDisabled(composer, i5), 0, 0, 0, 14);
+            unfocusedLabelColor2 = obj55;
         } else {
-            unfocusedLabelColor4 = unfocusedLabelColor3;
-            unfocusedLabelColor2 = obj91;
+            unfocusedLabelColor2 = unfocusedLabelColor4;
+            unfocusedLabelColor3 = obj91;
         }
         if (i46 &= i39 != 0) {
-            errorLabelColor2 = MaterialTheme.INSTANCE.getColors(composer, i21).getError-0d7_KjU();
+            errorLabelColor2 = MaterialTheme.INSTANCE.getColors(composer, i5).getError-0d7_KjU();
         } else {
             errorLabelColor2 = obj93;
         }
         if (i47 &= i39 != 0) {
-            placeholderColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i21).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getMedium(composer, i21), 0, 0, 0, 14);
+            placeholderColor2 = Color.copy-wmQWz5c$default(MaterialTheme.INSTANCE.getColors(composer, i5).getOnSurface-0d7_KjU(), disabledTextColor, ContentAlpha.INSTANCE.getMedium(composer, i5), 0, 0, 0, 14);
         } else {
             placeholderColor2 = obj95;
         }
-        if (i39 &= copy-wmQWz5c$default4 != 0) {
-            l3 = copy-wmQWz5c$default4;
+        if (i39 &= copy-wmQWz5c$default2 != 0) {
+            l4 = copy-wmQWz5c$default2;
         } else {
-            l3 = obj97;
+            l4 = obj97;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i40, obj100, obj101, "androidx.compose.material.ExposedDropdownMenuDefaults.textFieldColors (ExposedDropdownMenu.android.kt:389)");
         } else {
-            i12 = obj100;
-            i17 = obj101;
+            i11 = obj100;
+            i8 = obj101;
         }
-        long l7 = l4;
+        long l7 = l2;
         long trailingIconColor6 = trailingIconColor3;
         long disabledTrailingIconColor2 = l10;
-        DefaultTextFieldForExposedDropdownMenusColors textColor2 = new DefaultTextFieldForExposedDropdownMenusColors(l7, copy-wmQWz5c$default2, l5, unbox-impl, cursorColor2, floatValue, errorCursorColor2, i4, focusedIndicatorColor2, i22, unfocusedIndicatorColor2, i24, errorIndicatorColor2, i38, l2, i35, leadingIconColor3, obj23, leadingIconColor2, i26, errorLeadingIconColor2, i9, disabledTrailingIconColor2, obj29, focusedTrailingIconColor2, i36, trailingIconColor6, i3, errorTrailingIconColor2, i16, l, obj37, focusedLabelColor2, obj39, unfocusedLabelColor4, i32, unfocusedLabelColor2, i8, errorLabelColor2, i2, placeholderColor2, obj47, l3, i14, 0);
+        DefaultTextFieldForExposedDropdownMenusColors textColor2 = new DefaultTextFieldForExposedDropdownMenusColors(l7, copy-wmQWz5c$default4, l, unbox-impl, cursorColor2, floatValue, errorCursorColor2, i4, focusedIndicatorColor2, i28, unfocusedIndicatorColor2, i29, errorIndicatorColor2, i37, l5, i24, leadingIconColor4, obj23, leadingIconColor2, i31, errorLeadingIconColor2, i35, disabledTrailingIconColor2, obj29, focusedTrailingIconColor2, i18, trailingIconColor6, i16, errorTrailingIconColor2, i38, l3, obj37, focusedLabelColor2, obj39, unfocusedLabelColor2, i23, unfocusedLabelColor3, i6, errorLabelColor2, i3, placeholderColor2, obj47, l4, i32, 0);
         long disabledTrailingIconColor3 = disabledTrailingIconColor2;
         long trailingIconColor5 = l12;
         long l6 = l7;

@@ -57,23 +57,23 @@ public final class ButtonDefaults {
 
     public final androidx.compose.material.ButtonColors buttonColors-ro_MJ88(long backgroundColor, long contentColor, long disabledBackgroundColor, long disabledContentColor, Composer $composer, int $changed, int i7) {
         androidx.compose.material.Colors colors;
-        int i8;
+        int i9;
         androidx.compose.material.Colors colors2;
         int copy-wmQWz5c$default;
         boolean traceInProgress;
         int str;
         long compositeOver--OWjLjI;
-        long l2;
-        long l4;
-        long l;
-        int i9;
         long l3;
+        long l2;
+        long l;
         int i;
+        long l4;
+        int i6;
         int disabled;
         int i2;
-        int i3;
         int i5;
-        int i6;
+        int i3;
+        int i8;
         int i4;
         final Composer composer = obj31;
         final int i10 = obj32;
@@ -81,14 +81,14 @@ public final class ButtonDefaults {
         ComposerKt.sourceInformationMarkerStart(composer, i11, "C(buttonColors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color)407@16814L6,408@16860L32,409@16949L6,410@17027L6,411@17096L6,412@17152L8:Button.kt#jmzs0o");
         str = 6;
         if (obj33 & 1 != 0) {
-            l2 = compositeOver--OWjLjI;
+            l3 = compositeOver--OWjLjI;
         } else {
-            l2 = backgroundColor;
+            l3 = backgroundColor;
         }
         if (obj33 & 2 != 0) {
-            l4 = compositeOver--OWjLjI;
+            l2 = compositeOver--OWjLjI;
         } else {
-            l4 = disabledBackgroundColor;
+            l2 = disabledBackgroundColor;
         }
         if (obj33 & 4 != 0) {
             l = compositeOver--OWjLjI;
@@ -96,14 +96,14 @@ public final class ButtonDefaults {
             l = $composer;
         }
         if (obj33 & 8 != 0) {
-            l3 = copy-wmQWz5c$default;
+            l4 = copy-wmQWz5c$default;
         } else {
-            l3 = i7;
+            l4 = i7;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i11, i10, -1, "androidx.compose.material.ButtonDefaults.buttonColors (Button.kt:413)");
         }
-        DefaultButtonColors defaultButtonColors = new DefaultButtonColors(l2, obj9, l4, obj11, l, obj13, l3, i, 0);
+        DefaultButtonColors defaultButtonColors = new DefaultButtonColors(l3, obj9, l2, obj11, l, obj13, l4, i6, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -112,46 +112,46 @@ public final class ButtonDefaults {
     }
 
     public final androidx.compose.material.ButtonElevation elevation-R_JCAzs(float defaultElevation, float pressedElevation, float disabledElevation, float hoveredElevation, float focusedElevation, Composer $composer, int $changed, int i8) {
-        int i2;
-        boolean changed4;
-        int $this$dp$iv3;
-        int $this$dp$iv;
-        int $this$dp$iv2;
-        int $this$dp$iv4;
-        int $this$dp$iv5;
-        boolean traceInProgress;
-        int changed;
         int i6;
-        boolean changed3;
-        int i3;
+        boolean changed2;
+        int $this$dp$iv4;
+        int $this$dp$iv3;
+        int $this$dp$iv2;
+        int $this$dp$iv5;
+        int $this$dp$iv;
+        boolean traceInProgress;
         int changed5;
+        int i4;
+        boolean changed4;
+        int i2;
+        int changed3;
         int i;
-        int changed2;
+        int changed;
         int str;
         int empty;
         Object defaultButtonElevation;
-        float f3;
-        float f;
-        float f5;
-        float f2;
         float f4;
+        float f3;
+        float f5;
+        float f;
+        float f2;
         int i5;
-        int i4;
+        int i3;
         final Composer composer = $composer;
         final int i7 = $changed;
         int i9 = -737170518;
         ComposerKt.sourceInformationMarkerStart(composer, i9, "C(elevation)P(0:c#ui.unit.Dp,4:c#ui.unit.Dp,1:c#ui.unit.Dp,3:c#ui.unit.Dp,2:c#ui.unit.Dp)379@15748L497:Button.kt#jmzs0o");
         if (i8 & 1 != 0) {
             str = 0;
-            f3 = $this$dp$iv3;
+            f4 = $this$dp$iv4;
         } else {
-            f3 = defaultElevation;
+            f4 = defaultElevation;
         }
         if (i8 & 2 != 0) {
             str = 0;
-            f = $this$dp$iv;
+            f3 = $this$dp$iv3;
         } else {
-            f = pressedElevation;
+            f3 = pressedElevation;
         }
         if (i8 & 4 != 0) {
             str = 0;
@@ -161,15 +161,15 @@ public final class ButtonDefaults {
         }
         if (i8 & 8 != 0) {
             str = 0;
-            f2 = $this$dp$iv4;
+            f = $this$dp$iv5;
         } else {
-            f2 = hoveredElevation;
+            f = hoveredElevation;
         }
         if (i8 & 16 != 0) {
             str = 0;
-            f4 = $this$dp$iv5;
+            f2 = $this$dp$iv;
         } else {
-            f4 = focusedElevation;
+            f2 = focusedElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i9, i7, -1, "androidx.compose.material.ButtonDefaults.elevation (Button.kt:378)");
@@ -179,16 +179,16 @@ public final class ButtonDefaults {
         empty = 0;
         i5 = 1;
         if (i11 ^= 6 > i16) {
-            if (!composer.changed(f3)) {
-                i2 = i7 & 6 == i16 ? i5 : empty;
+            if (!composer.changed(f4)) {
+                i6 = i7 & 6 == i16 ? i5 : empty;
             } else {
             }
         } else {
         }
         int i27 = 32;
         if (i17 ^= 48 > i27) {
-            if (!composer.changed(f)) {
-                i6 = i7 & 48 == i27 ? i5 : empty;
+            if (!composer.changed(f3)) {
+                i4 = i7 & 48 == i27 ? i5 : empty;
             } else {
             }
         } else {
@@ -196,14 +196,14 @@ public final class ButtonDefaults {
         int i28 = 256;
         if (i18 ^= 384 > i28) {
             if (!composer.changed(f5)) {
-                i3 = i7 & 384 == i28 ? i5 : empty;
+                i2 = i7 & 384 == i28 ? i5 : empty;
             } else {
             }
         } else {
         }
         int i29 = 2048;
         if (i19 ^= 3072 > i29) {
-            if (!composer.changed(f2)) {
+            if (!composer.changed(f)) {
                 i = i7 & 3072 == i29 ? i5 : empty;
             } else {
             }
@@ -211,7 +211,7 @@ public final class ButtonDefaults {
         }
         int i30 = 16384;
         if (i21 ^= 24576 > i30) {
-            if (!composer.changed(f4)) {
+            if (!composer.changed(f2)) {
                 if (i7 & 24576 == i30) {
                     empty = i5;
                 }
@@ -225,8 +225,8 @@ public final class ButtonDefaults {
         final int i32 = 0;
         if (i14 |= empty == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                i4 = 0;
-                defaultButtonElevation = new DefaultButtonElevation(f3, f, f5, f2, f4, 0);
+                i3 = 0;
+                defaultButtonElevation = new DefaultButtonElevation(f4, f3, f5, f, f2, 0);
                 composer2.updateRememberedValue(defaultButtonElevation);
             } else {
                 defaultButtonElevation = rememberedValue;
@@ -243,11 +243,11 @@ public final class ButtonDefaults {
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Use another overload of elevation")
     public final androidx.compose.material.ButtonElevation elevation-yajeYGU(float defaultElevation, float pressedElevation, float disabledElevation, Composer $composer, int $changed, int i6) {
-        int i;
         int i2;
-        float f3;
-        float f;
+        int i;
         float f2;
+        float f;
+        float f3;
         float obj13;
         float obj14;
         float obj15;
@@ -256,22 +256,22 @@ public final class ButtonDefaults {
         final Composer composer = $composer;
         ComposerKt.sourceInformationMarkerStart(composer, i4, "C(elevation)P(0:c#ui.unit.Dp,2:c#ui.unit.Dp,1:c#ui.unit.Dp)350@14616L161:Button.kt#jmzs0o");
         if (i6 & 1 != 0) {
-            i2 = 0;
-            f3 = obj13;
+            i = 0;
+            f2 = obj13;
         } else {
-            f3 = defaultElevation;
+            f2 = defaultElevation;
         }
         if (i6 & 2 != 0) {
-            i = 0;
+            i2 = 0;
             f = obj14;
         } else {
             f = pressedElevation;
         }
         if (i6 & 4 != 0) {
             obj14 = 0;
-            f2 = obj15;
+            f3 = obj15;
         } else {
-            f2 = disabledElevation;
+            f3 = disabledElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i4, i3, -1, "androidx.compose.material.ButtonDefaults.elevation (Button.kt:350)");
@@ -282,7 +282,7 @@ public final class ButtonDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return this.elevation-R_JCAzs(f3, f, f2, Dp.constructor-impl((float)obj13), Dp.constructor-impl((float)obj13), composer, obj13 | obj14, 0);
+        return this.elevation-R_JCAzs(f2, f, f3, Dp.constructor-impl((float)obj13), Dp.constructor-impl((float)obj13), composer, obj13 | obj14, 0);
     }
 
     public final PaddingValues getContentPadding() {
@@ -337,40 +337,40 @@ public final class ButtonDefaults {
         int str;
         long primary-0d7_KjU;
         int i;
-        long l3;
-        long l2;
-        long onSurface-0d7_KjU;
         long l;
-        int i2;
+        long l3;
+        long onSurface-0d7_KjU;
+        long l2;
         int i5;
-        int i7;
         int i3;
+        int i2;
+        int i7;
         int i4;
         final Composer composer = obj26;
         int i8 = -2124406093;
         ComposerKt.sourceInformationMarkerStart(composer, i8, "C(outlinedButtonColors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color)430@17899L6,431@17959L6,432@18027L6,433@18083L8:Button.kt#jmzs0o");
         str = 6;
         if (obj28 & 1 != 0) {
-            l3 = primary-0d7_KjU;
+            l = primary-0d7_KjU;
         } else {
-            l3 = backgroundColor;
+            l = backgroundColor;
         }
         if (obj28 & 2 != 0) {
-            l2 = primary-0d7_KjU;
+            l3 = primary-0d7_KjU;
         } else {
-            l2 = disabledContentColor;
+            l3 = disabledContentColor;
         }
         if (obj28 & 4 != 0) {
-            l = copy-wmQWz5c$default;
+            l2 = copy-wmQWz5c$default;
         } else {
-            l = $changed;
+            l2 = $changed;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, obj27, -1, "androidx.compose.material.ButtonDefaults.outlinedButtonColors (Button.kt:434)");
         } else {
             i = obj27;
         }
-        DefaultButtonColors defaultButtonColors = new DefaultButtonColors(l3, obj8, l2, obj10, l3, obj12, l, i2, 0);
+        DefaultButtonColors defaultButtonColors = new DefaultButtonColors(l, obj8, l3, obj10, l, obj12, l2, i5, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -388,12 +388,12 @@ public final class ButtonDefaults {
         long contentColor2;
         long onSurface-0d7_KjU;
         long l;
-        int i3;
-        int i4;
         int i5;
         int i7;
-        int i2;
         int i;
+        int i2;
+        int i3;
+        int i4;
         final Composer composer = obj24;
         int i8 = 182742216;
         ComposerKt.sourceInformationMarkerStart(composer, i8, "C(textButtonColors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color,2:c#ui.graphics.Color)452@18850L6,453@18918L6,454@18974L8:Button.kt#jmzs0o");
@@ -416,9 +416,9 @@ public final class ButtonDefaults {
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i8, obj25, -1, "androidx.compose.material.ButtonDefaults.textButtonColors (Button.kt:455)");
         } else {
-            i7 = obj25;
+            i2 = obj25;
         }
-        DefaultButtonColors defaultButtonColors = new DefaultButtonColors(l2, obj6, contentColor2, obj8, l2, obj10, l, i3, 0);
+        DefaultButtonColors defaultButtonColors = new DefaultButtonColors(l2, obj6, contentColor2, obj8, l2, obj10, l, i5, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

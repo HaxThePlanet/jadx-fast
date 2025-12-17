@@ -31,11 +31,11 @@ public final class Lab extends androidx.compose.ui.graphics.colorspace.ColorSpac
 
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public float[] fromXyz(float[] v) {
-        float f2;
         float f;
-        double cbrt2;
-        int i;
+        float f2;
         double cbrt;
+        int i;
+        double cbrt2;
         float f3;
         int $this$fastCoerceAtLeast$iv$iv;
         int $this$fastCoerceAtLeast$iv$iv2;
@@ -47,22 +47,22 @@ public final class Lab extends androidx.compose.ui.graphics.colorspace.ColorSpac
         int i11 = 2;
         i12 /= f6;
         int i14 = 1007753895;
-        cbrt2 = 1041055179;
+        cbrt = 1041055179;
         i = 1090072424;
         if (Float.compare(i6, i14) > 0) {
-            f = (float)cbrt;
+            f2 = (float)cbrt2;
         } else {
-            i15 += cbrt2;
+            i15 += cbrt;
         }
         if (Float.compare(i10, i14) > 0) {
             f3 = (float)cbrt3;
         } else {
-            i25 += cbrt2;
+            i25 += cbrt;
         }
         if (Float.compare(i13, i14) > 0) {
-            f2 = (float)cbrt2;
+            f = (float)cbrt;
         } else {
-            f2 = i + cbrt2;
+            f = i + cbrt;
         }
         int i22 = 0;
         int i30 = 1120403456;
@@ -124,8 +124,8 @@ public final class Lab extends androidx.compose.ui.graphics.colorspace.ColorSpac
 
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public long toXy$ui_graphics_release(float v0, float v1, float v2) {
-        int i2;
         int i;
+        int i2;
         int $this$fastCoerceAtLeast$iv$iv;
         int $this$fastCoerceAtMost$iv$iv;
         int i3 = 0;
@@ -155,8 +155,8 @@ public final class Lab extends androidx.compose.ui.graphics.colorspace.ColorSpac
         int i16 = 1045683377;
         int i27 = 1041055179;
         int i29 = 1040416807;
-        i = Float.compare(i13, i16) > 0 ? i21 * i13 : i22 * i29;
-        i2 = Float.compare(i7, i16) > 0 ? i17 * i7 : i18 * i29;
+        i2 = Float.compare(i13, i16) > 0 ? i21 * i13 : i22 * i29;
+        i = Float.compare(i7, i16) > 0 ? i17 * i7 : i18 * i29;
         int i33 = 0;
         return i35 | i36;
     }
@@ -227,29 +227,29 @@ public final class Lab extends androidx.compose.ui.graphics.colorspace.ColorSpac
     public float toZ$ui_graphics_release(float v0, float v1, float v2) {
         int i;
         int i2;
-        int $this$fastCoerceAtMost$iv$iv;
         int $this$fastCoerceAtMost$iv$iv2;
+        int $this$fastCoerceAtMost$iv$iv;
         int i3 = 0;
         int i8 = 1120403456;
         int i20 = 0;
         int i22 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv, i3) < 0) {
-            $this$fastCoerceAtMost$iv$iv = i3;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i3) < 0) {
+            $this$fastCoerceAtMost$iv$iv2 = i3;
         }
         int i23 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv, i8) > 0) {
-            $this$fastCoerceAtMost$iv$iv = i8;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i8) > 0) {
+            $this$fastCoerceAtMost$iv$iv2 = i8;
         }
         int i4 = -1023410176;
         int i9 = 1124073472;
         i2 = 0;
         int i24 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i4) < 0) {
-            $this$fastCoerceAtMost$iv$iv2 = i4;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv, i4) < 0) {
+            $this$fastCoerceAtMost$iv$iv = i4;
         }
         int i25 = 0;
-        if (Float.compare($this$fastCoerceAtMost$iv$iv2, i9) > 0) {
-            $this$fastCoerceAtMost$iv$iv2 = i9;
+        if (Float.compare($this$fastCoerceAtMost$iv$iv, i9) > 0) {
+            $this$fastCoerceAtMost$iv$iv = i9;
         }
         int i13 = i7 - i12;
         if (Float.compare(i13, i16) > 0) {
@@ -263,11 +263,11 @@ public final class Lab extends androidx.compose.ui.graphics.colorspace.ColorSpac
     @Override // androidx.compose.ui.graphics.colorspace.ColorSpace
     public long xyzaToColor-JlNiLsg$ui_graphics_release(float x, float y, float z, float a, androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace) {
         float f;
-        float f2;
+        float f3;
         double cbrt;
         int i;
         double cbrt2;
-        float f3;
+        float f2;
         int $this$fastCoerceAtMost$iv$iv;
         int $this$fastCoerceAtLeast$iv$iv2;
         int $this$fastCoerceAtLeast$iv$iv;
@@ -278,12 +278,12 @@ public final class Lab extends androidx.compose.ui.graphics.colorspace.ColorSpac
         cbrt = 1041055179;
         i = 1090072424;
         if (Float.compare(i2, i8) > 0) {
-            f2 = (float)cbrt2;
+            f3 = (float)cbrt2;
         } else {
             i9 += cbrt;
         }
         if (Float.compare(i4, i8) > 0) {
-            f3 = (float)cbrt3;
+            f2 = (float)cbrt3;
         } else {
             i17 += cbrt;
         }

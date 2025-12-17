@@ -47,21 +47,21 @@ final class AlignmentLineOffsetTextUnitNode extends Modifier.Node implements Lay
 
     @Override // androidx.compose.ui.Modifier$Node
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, Measurable measurable, long constraints) {
-        float unspecified-D9Ej5fM2;
         float unspecified-D9Ej5fM;
+        float unspecified-D9Ej5fM2;
         long before;
         long after;
         if (!TextUnitKt.isUnspecified--R2X_6o(this.before)) {
-            unspecified-D9Ej5fM2 = $this$measure_u2d3p2s80s.toDp-GaN1DYA(this.before);
-        } else {
-            unspecified-D9Ej5fM2 = Dp.Companion.getUnspecified-D9Ej5fM();
-        }
-        if (!TextUnitKt.isUnspecified--R2X_6o(this.after)) {
-            unspecified-D9Ej5fM = $this$measure_u2d3p2s80s.toDp-GaN1DYA(this.after);
+            unspecified-D9Ej5fM = $this$measure_u2d3p2s80s.toDp-GaN1DYA(this.before);
         } else {
             unspecified-D9Ej5fM = Dp.Companion.getUnspecified-D9Ej5fM();
         }
-        return AlignmentLineKt.access$alignmentLineOffsetMeasure-tjqqzMA($this$measure_u2d3p2s80s, this.alignmentLine, unspecified-D9Ej5fM2, unspecified-D9Ej5fM, measurable, constraints);
+        if (!TextUnitKt.isUnspecified--R2X_6o(this.after)) {
+            unspecified-D9Ej5fM2 = $this$measure_u2d3p2s80s.toDp-GaN1DYA(this.after);
+        } else {
+            unspecified-D9Ej5fM2 = Dp.Companion.getUnspecified-D9Ej5fM();
+        }
+        return AlignmentLineKt.access$alignmentLineOffsetMeasure-tjqqzMA($this$measure_u2d3p2s80s, this.alignmentLine, unspecified-D9Ej5fM, unspecified-D9Ej5fM2, measurable, constraints);
     }
 
     @Override // androidx.compose.ui.Modifier$Node

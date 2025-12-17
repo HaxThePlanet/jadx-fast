@@ -170,35 +170,35 @@ public final class WindowInsetsAnimationCompat {
         }
 
         static void buildAnimationMask(androidx.core.view.WindowInsetsCompat targetInsets, androidx.core.view.WindowInsetsCompat currentInsets, int[] showingTypes, int[] hidingTypes) {
-            int i4;
+            int i2;
             Insets insets;
             Insets insets2;
             int i;
-            int bottom3;
-            int bottom;
-            int bottom4;
-            int i2;
-            int i3;
             int bottom2;
-            i4 = 1;
-            while (i4 <= 512) {
-                insets = targetInsets.getInsets(i4);
-                insets2 = currentInsets.getInsets(i4);
-                i3 = 0;
+            int bottom4;
+            int bottom;
+            int i3;
+            int i4;
+            int bottom3;
+            i2 = 1;
+            while (i2 <= 512) {
+                insets = targetInsets.getInsets(i2);
+                insets2 = currentInsets.getInsets(i2);
+                i4 = 0;
                 if (insets.left <= insets2.left && insets.top <= insets2.top && insets.right <= insets2.right) {
                 } else {
                 }
-                i = i2;
+                i = i3;
                 if (insets.left >= insets2.left && insets.top >= insets2.top && insets.right >= insets2.right) {
                 }
-                if (i != i2) {
+                if (i != i3) {
                 }
-                i4 <<= 1;
+                i2 <<= 1;
                 if (i != 0) {
                 } else {
                 }
-                hidingTypes[i3] = i7 |= i4;
-                showingTypes[i3] = i6 |= i4;
+                hidingTypes[i4] = i7 |= i2;
+                showingTypes[i4] = i6 |= i2;
                 if (insets.top >= insets2.top) {
                 }
                 if (insets.right >= insets2.right) {
@@ -206,7 +206,7 @@ public final class WindowInsetsAnimationCompat {
                 if (insets.bottom < insets2.bottom) {
                 } else {
                 }
-                i2 = i3;
+                i3 = i4;
                 if (insets.top <= insets2.top) {
                 } else {
                 }
@@ -216,7 +216,7 @@ public final class WindowInsetsAnimationCompat {
                 if (insets.bottom > insets2.bottom) {
                 } else {
                 }
-                i = i3;
+                i = i4;
             }
         }
 
@@ -360,29 +360,29 @@ public final class WindowInsetsAnimationCompat {
         }
 
         static androidx.core.view.WindowInsetsCompat interpolateInsets(androidx.core.view.WindowInsetsCompat target, androidx.core.view.WindowInsetsCompat starting, float fraction, int typeMask) {
-            int i;
+            int i5;
             Insets insets;
             Insets insets2;
             Insets insetInsets;
-            int i2;
-            int i3;
-            int i5;
-            long l;
             int i4;
+            int i3;
+            int i;
+            long l;
+            int i2;
             int bottom;
             WindowInsetsCompat.Builder builder = new WindowInsetsCompat.Builder(target);
-            i = 1;
-            while (i <= 512) {
-                if (typeMask & i == 0) {
+            i5 = 1;
+            while (i5 <= 512) {
+                if (typeMask & i5 == 0) {
                 } else {
                 }
-                insets = target.getInsets(i);
-                insets2 = starting.getInsets(i);
+                insets = target.getInsets(i5);
+                insets2 = starting.getInsets(i5);
                 int i11 = 1065353216;
                 l = 4602678819172646912L;
-                builder.setInsets(i, WindowInsetsCompat.insetInsets(insets, (int)i14, (int)i17, (int)i22, (int)i4));
-                i <<= 1;
-                builder.setInsets(i, target.getInsets(i));
+                builder.setInsets(i5, WindowInsetsCompat.insetInsets(insets, (int)i14, (int)i17, (int)i22, (int)i2));
+                i5 <<= 1;
+                builder.setInsets(i5, target.getInsets(i5));
             }
             return builder.build();
         }

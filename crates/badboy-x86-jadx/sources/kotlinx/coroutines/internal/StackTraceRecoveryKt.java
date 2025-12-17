@@ -69,23 +69,23 @@ public final class StackTraceRecoveryKt {
         boolean equal;
         int stackTrace;
         Class class;
-        int i2;
+        int i3;
         int i;
-        int i4;
+        int i2;
         java.lang.StackTraceElement stack;
         boolean it;
-        int i3;
+        int i4;
         final Throwable cause = $this$causeAndStacktrace.getCause();
         int i5 = 0;
         if (cause != null && Intrinsics.areEqual(cause.getClass(), $this$causeAndStacktrace.getClass())) {
             if (Intrinsics.areEqual(cause.getClass(), $this$causeAndStacktrace.getClass())) {
                 stackTrace = $this$causeAndStacktrace.getStackTrace();
                 class = stackTrace;
-                i2 = 0;
-                i4 = i5;
-                while (i4 < class.length) {
-                    i3 = 0;
-                    i4++;
+                i3 = 0;
+                i2 = i5;
+                while (i2 < class.length) {
+                    i4 = 0;
+                    i2++;
                 }
                 i = i5;
                 if (i != 0) {
@@ -104,11 +104,11 @@ public final class StackTraceRecoveryKt {
     }
 
     private static final <E extends Throwable> E createFinalException(E cause, E result, ArrayDeque<java.lang.StackTraceElement> resultStackTrace) {
-        int i2;
         int i;
+        int i3;
         java.lang.StackTraceElement stack;
         Object next;
-        int i3;
+        int i2;
         resultStackTrace.addFirst(StackTraceRecoveryKt.ARTIFICIAL_FRAME);
         java.lang.StackTraceElement[] stackTrace = cause.getStackTrace();
         int firstFrameIndex = StackTraceRecoveryKt.firstFrameIndex(stackTrace, StackTraceRecoveryKt.baseContinuationImplClassName);
@@ -118,14 +118,14 @@ public final class StackTraceRecoveryKt {
             return result;
         }
         java.lang.StackTraceElement[] arr = new StackTraceElement[size += firstFrameIndex];
-        i = 0;
-        while (i < firstFrameIndex) {
-            arr[i] = stackTrace[i];
-            i++;
+        i3 = 0;
+        while (i3 < firstFrameIndex) {
+            arr[i3] = stackTrace[i3];
+            i3++;
         }
         Iterator iterator = resultStackTrace.iterator();
         for (StackTraceElement next : iterator) {
-            i2++;
+            i++;
             arr[firstFrameIndex + stack] = next;
         }
         result.setStackTrace(arr);
@@ -165,9 +165,9 @@ public final class StackTraceRecoveryKt {
     }
 
     private static final boolean elementWiseEquals(java.lang.StackTraceElement $this$elementWiseEquals, java.lang.StackTraceElement e) {
-        int lineNumber2;
-        int i;
         int lineNumber;
+        int i;
+        int lineNumber2;
         if ($this$elementWiseEquals.getLineNumber() == e.getLineNumber() && Intrinsics.areEqual($this$elementWiseEquals.getMethodName(), e.getMethodName()) && Intrinsics.areEqual($this$elementWiseEquals.getFileName(), e.getFileName()) != null && Intrinsics.areEqual($this$elementWiseEquals.getClassName(), e.getClassName())) {
             if (Intrinsics.areEqual($this$elementWiseEquals.getMethodName(), e.getMethodName())) {
                 if (Intrinsics.areEqual($this$elementWiseEquals.getFileName(), e.getFileName()) != null) {
@@ -206,16 +206,16 @@ public final class StackTraceRecoveryKt {
     }
 
     private static final void mergeRecoveredTraces(java.lang.StackTraceElement[] recoveredStacktrace, ArrayDeque<java.lang.StackTraceElement> result) {
-        int i;
+        int i2;
         int index$iv;
         int length;
         boolean it;
-        int i2;
+        int i;
         int[] iArr = recoveredStacktrace;
         int i4 = 0;
         index$iv = 0;
         while (index$iv < iArr.length) {
-            i2 = 0;
+            i = 0;
             index$iv++;
         }
         index$iv = -1;
@@ -293,8 +293,8 @@ public final class StackTraceRecoveryKt {
 
     private static final <E extends Throwable> E sanitizeStackTrace(E $this$sanitizeStackTrace) {
         int i2;
-        int i3;
         int i4;
+        int i3;
         int index$iv;
         boolean it;
         int i;
@@ -310,16 +310,16 @@ public final class StackTraceRecoveryKt {
             index$iv = i7;
         }
         int firstFrameIndex = StackTraceRecoveryKt.firstFrameIndex(stackTrace, StackTraceRecoveryKt.baseContinuationImplClassName);
-        i4 = firstFrameIndex == i7 ? i3 : length - firstFrameIndex;
-        i8 -= i4;
+        i3 = firstFrameIndex == i7 ? i4 : length - firstFrameIndex;
+        i8 -= i3;
         java.lang.StackTraceElement[] arr = new StackTraceElement[i9];
-        while (i3 < i9) {
-            if (i3 == 0) {
+        while (i4 < i9) {
+            if (i4 == 0) {
             } else {
             }
             stackTraceRecoveryClassName = stackTrace[i10--];
-            arr[i3] = stackTraceRecoveryClassName;
-            i3++;
+            arr[i4] = stackTraceRecoveryClassName;
+            i4++;
             stackTraceRecoveryClassName = StackTraceRecoveryKt.ARTIFICIAL_FRAME;
         }
         $this$sanitizeStackTrace.setStackTrace(arr);
@@ -340,23 +340,23 @@ public final class StackTraceRecoveryKt {
     public static final <E extends Throwable> E unwrapImpl(E exception) {
         boolean equal;
         Class class;
+        int i2;
         int i3;
-        int i;
         java.lang.StackTraceElement stack;
         boolean it;
-        int i2;
+        int i;
         final Throwable cause = exception.getCause();
         if (cause != null) {
             if (!Intrinsics.areEqual(cause.getClass(), exception.getClass())) {
             } else {
                 java.lang.StackTraceElement[] stackTrace = exception.getStackTrace();
                 int i4 = 0;
-                i = i3;
-                while (i < stackTrace.length) {
-                    i2 = 0;
-                    i++;
+                i3 = i2;
+                while (i3 < stackTrace.length) {
+                    i = 0;
+                    i3++;
                 }
-                if (i3 != 0) {
+                if (i2 != 0) {
                     return cause;
                 }
             }

@@ -215,37 +215,37 @@ public final class EditingBuffer {
     public final void replace(int start, int end, java.lang.CharSequence text) {
         int charAt3;
         int charAt;
-        int charAt4;
         int charAt2;
-        int i2;
+        int charAt4;
         int i;
+        int i2;
         int cMin;
         int j;
         int cMax;
         checkRange(start, end);
         final int i4 = Math.min(start, end);
         final int i5 = Math.max(start, end);
-        i = charAt3;
-        cMin = charAt4;
+        i2 = charAt3;
+        cMin = charAt2;
         while (cMin < i5) {
-            if (i < text.length()) {
+            if (i2 < text.length()) {
             }
-            if (text.charAt(i) == this.gapBuffer.charAt(cMin)) {
+            if (text.charAt(i2) == this.gapBuffer.charAt(cMin)) {
             }
-            i++;
+            i2++;
             cMin++;
         }
         j = charAt;
-        cMax = charAt2;
+        cMax = charAt4;
         while (cMax > i4) {
-            if (j > i) {
+            if (j > i2) {
             }
             if (text.charAt(j + -1) == this.gapBuffer.charAt(cMax + -1)) {
             }
             j--;
             cMax--;
         }
-        this.changeTracker.trackChange(cMin, cMax, j - i);
+        this.changeTracker.trackChange(cMin, cMax, j - i2);
         java.lang.CharSequence charSequence = text;
         PartialGapBuffer.replace$default(this.gapBuffer, i4, i5, charSequence, 0, 0, 24, 0);
         setSelectionStart(obj15 += i4);

@@ -22,12 +22,12 @@ public final class LazySaveableStateHolderKt {
         int this_$iv;
         int i;
         int rememberSaveable;
-        boolean traceInProgress2;
-        int traceInProgress;
+        boolean traceInProgress;
+        int traceInProgress2;
         androidx.compose.runtime.internal.ComposableLambda rememberComposableLambda;
+        int i4;
         int i2;
         int i5;
-        int i4;
         int i3;
         Object empty;
         Object anon;
@@ -35,12 +35,12 @@ public final class LazySaveableStateHolderKt {
         this_$iv = 674185128;
         final Composer restartGroup = $composer.startRestartGroup(this_$iv);
         ComposerKt.sourceInformation(restartGroup, "C(LazySaveableStateHolderProvider)42@2089L7,45@2218L68,43@2114L172,48@2360L92,48@2291L161:LazySaveableStateHolder.kt#wow0x6");
-        traceInProgress = 2;
+        traceInProgress2 = 2;
         if ($changed & 6 == 0) {
-            i = restartGroup.changedInstance(content) ? 4 : traceInProgress;
+            i = restartGroup.changedInstance(content) ? 4 : traceInProgress2;
             obj12 |= i;
         }
-        if (obj12 & 3 == traceInProgress) {
+        if (obj12 & 3 == traceInProgress2) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(this_$iv, obj12, -1, "androidx.compose.foundation.lazy.layout.LazySaveableStateHolderProvider (LazySaveableStateHolder.kt:41)");

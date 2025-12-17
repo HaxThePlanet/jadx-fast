@@ -1,0 +1,36 @@
+package kotlin.ranges;
+
+import kotlin.Metadata;
+import kotlin.jvm.internal.Intrinsics;
+
+/* loaded from: classes5.dex */
+@Metadata(d1 = "\u0000\u001a\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000f\n\u0002\u0010\u0000\n\u0002\u0008\u0006\n\u0002\u0010\u000b\n\u0002\u0008\u0004\u0008f\u0018\u0000*\u000e\u0008\u0000\u0010\u0001*\u0008\u0012\u0004\u0012\u0002H\u00010\u00022\u00020\u0003J\u0016\u0010\t\u001a\u00020\n2\u0006\u0010\u000b\u001a\u00028\u0000H\u0096\u0002¢\u0006\u0002\u0010\u000cJ\u0008\u0010\r\u001a\u00020\nH\u0016R\u0012\u0010\u0004\u001a\u00028\u0000X¦\u0004¢\u0006\u0006\u001a\u0004\u0008\u0005\u0010\u0006R\u0012\u0010\u0007\u001a\u00028\u0000X¦\u0004¢\u0006\u0006\u001a\u0004\u0008\u0008\u0010\u0006¨\u0006\u000e", d2 = {"Lkotlin/ranges/ClosedRange;", "T", "", "", "endInclusive", "getEndInclusive", "()Ljava/lang/Comparable;", "start", "getStart", "contains", "", "value", "(Ljava/lang/Comparable;)Z", "isEmpty", "kotlin-stdlib"}, k = 1, mv = {1, 9, 0}, xi = 48)
+public interface ClosedRange<T extends Comparable<? super T>>  {
+
+    @Metadata(k = 3, mv = {1, 9, 0}, xi = 48)
+    public static final class DefaultImpls {
+        public static <T extends Comparable<? super T>> boolean contains(kotlin.ranges.ClosedRange<T> $this, T value) {
+            int compareTo;
+            int i;
+            Intrinsics.checkNotNullParameter(value, "value");
+            if (value.compareTo($this.getStart()) >= 0 && value.compareTo($this.getEndInclusive()) <= 0) {
+                i = value.compareTo($this.getEndInclusive()) <= 0 ? 1 : 0;
+            } else {
+            }
+            return i;
+        }
+
+        public static <T extends Comparable<? super T>> boolean isEmpty(kotlin.ranges.ClosedRange<T> $this) {
+            int i;
+            i = $this.getStart().compareTo($this.getEndInclusive()) > 0 ? 1 : 0;
+            return i;
+        }
+    }
+    public abstract boolean contains(T t);
+
+    public abstract T getEndInclusive();
+
+    public abstract T getStart();
+
+    public abstract boolean isEmpty();
+}

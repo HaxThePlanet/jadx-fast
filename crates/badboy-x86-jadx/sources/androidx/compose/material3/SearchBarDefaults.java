@@ -69,137 +69,137 @@ public final class SearchBarDefaults {
 
     public final void InputField(String query, Function1<? super String, Unit> onQueryChange, Function1<? super String, Unit> onSearch, boolean expanded, Function1<? super Boolean, Unit> onExpandedChange, Modifier modifier, boolean enabled, Function2<? super Composer, ? super Integer, Unit> placeholder, Function2<? super Composer, ? super Integer, Unit> leadingIcon, Function2<? super Composer, ? super Integer, Unit> trailingIcon, androidx.compose.material3.TextFieldColors colors, MutableInteractionSource interactionSource, Composer $composer, int $changed, int $changed1, int i16) {
         Composer $composer2;
-        Object anon2;
+        Object $i$a$CacheSearchBarDefaults$InputField$3;
         Object merge;
         Object traceInProgress2;
         ScopeUpdateScope endRestartGroup;
-        boolean z;
+        boolean z2;
         String str2;
         Object empty;
-        Object anon;
-        Object obj15;
-        Object obj9;
-        Object obj7;
-        Object obj6;
+        Object $i$a$CacheSearchBarDefaults$InputField$2;
+        Object obj8;
+        Object obj5;
+        Object obj4;
+        Object obj2;
         boolean skipping;
         int defaultsInvalid;
         Object modifier2;
         int modifier3;
-        int i3;
+        int i57;
         boolean enabled2;
         int enabled3;
-        int i22;
-        int i55;
+        int i10;
+        int $i$a$CacheSearchBarDefaults$InputField$interactionSource$1;
+        Object $i$a$CacheSearchBarDefaults$InputField$focusRequester$1;
         Object obj12;
-        Object obj10;
         Object obj3;
         boolean placeholder2;
         Object it$iv;
         boolean $composer3;
         Composer restartGroup;
         int $dirty;
-        Object obj8;
-        Object obj11;
+        Object obj6;
+        Object obj14;
         androidx.compose.material3.TextFieldColors inputFieldColors-ITpI4ow;
         Object colors2;
         Composer placeholder3;
-        int i27;
-        int searchSemantics4;
-        int $dirty14;
-        int $dirty19;
-        androidx.compose.material3.TextFieldColors $dirty16;
-        Object anon3;
-        int i56;
-        Object obj5;
-        int obj13;
-        int i23;
-        int suggestionsAvailableSemantics;
-        int i37;
-        int i20;
-        int i25;
-        Object obj14;
-        int i54;
-        int i39;
-        Object obj2;
-        int i42;
-        Object $dirty112;
-        Object obj4;
-        boolean traceInProgress;
-        boolean z2;
-        int invalid$iv;
-        int i59;
-        int i41;
-        int $dirty110;
-        long $this$takeOrElse_u2dDxMtmZc$iv;
-        int i;
-        int i15;
-        int i32;
-        int $dirty18;
-        int $this$isSpecified$iv$iv;
-        Composer.Companion searchSemantics;
-        int i19;
+        int i30;
         int searchSemantics3;
-        Object focusRequester;
-        int searchSemantics2;
-        int $dirty13;
-        int $dirty17;
-        int i38;
-        int i9;
-        int i7;
-        TextStyle textStyle;
-        int i17;
-        int $dirty1;
-        int i11;
-        int changed2;
-        int i64;
-        boolean changed;
-        int i2;
-        int $dirty15;
-        int i43;
-        int keyboardActions;
-        int i13;
-        int $dirty111;
-        int i60;
-        int i57;
-        int i12;
-        int i51;
         int $dirty12;
+        int $dirty112;
+        androidx.compose.material3.TextFieldColors $dirty14;
+        Object anon;
+        int i6;
+        Object obj7;
+        int obj;
+        int i49;
+        int suggestionsAvailableSemantics;
+        int i4;
+        int i35;
+        int i26;
+        Object obj11;
+        int i48;
+        int i52;
+        Object obj13;
+        int i27;
+        Object $dirty16;
+        Object obj9;
+        boolean traceInProgress;
+        boolean z;
+        int invalid$iv;
+        int i25;
+        int i7;
+        int $dirty13;
+        long $this$takeOrElse_u2dDxMtmZc$iv;
+        int i21;
+        int i40;
+        int i28;
+        int $dirty17;
+        int $i$a$TakeOrElseDxMtmZcSearchBarDefaults$InputField$textColor$1;
+        Composer.Companion searchSemantics;
+        int i54;
+        int searchSemantics2;
+        Object focusRequester;
+        int searchSemantics4;
+        int $dirty1;
+        int $dirty19;
+        int i42;
         int i44;
+        int i55;
+        TextStyle textStyle2;
+        int i9;
+        int $dirty15;
+        int i50;
+        int changed2;
+        int i29;
+        boolean changed;
+        int i47;
+        int $dirty110;
+        int i22;
+        int keyboardActions;
+        int i34;
+        int $dirty111;
+        int i3;
+        int i23;
+        int i37;
+        int i;
+        int $dirty18;
+        int i59;
         Composer composer;
         Composer $composer4;
         int i8;
-        int i5;
-        int i52;
-        int i49;
-        int i4;
-        int textStyle2;
-        int i36;
+        int i43;
         int i62;
-        int i30;
-        int i10;
-        int i50;
-        int i18;
-        int i6;
-        int i34;
-        int i45;
-        int i47;
-        int i24;
-        int i26;
-        int i58;
-        int i21;
-        int i14;
-        int i53;
+        int i51;
+        int i60;
+        int textStyle;
         int i63;
+        int i5;
+        int i38;
+        int i45;
         int i61;
-        int i29;
-        int i40;
-        int i31;
+        int i14;
+        int i20;
         int i33;
+        int i36;
+        int i11;
+        int i12;
+        int i32;
+        int i56;
+        int i58;
+        int i2;
+        int i13;
         int i46;
-        int i35;
-        int i48;
-        int i28;
-        Object obj;
+        int i39;
+        int i19;
+        int i53;
+        int i31;
+        int i18;
+        int i41;
+        int i24;
+        int i15;
+        int i17;
+        Object obj10;
         String str;
         ScopeUpdateScope scopeUpdateScope;
         Object obj83;
@@ -211,322 +211,322 @@ public final class SearchBarDefaults {
         int obj89;
         int obj90;
         traceInProgress2 = onSearch;
-        z = expanded;
+        z2 = expanded;
         empty = onExpandedChange;
-        int i74 = $changed;
-        int i81 = $changed1;
-        i22 = i16;
+        int i73 = $changed;
+        int i80 = $changed1;
+        i10 = i16;
         restartGroup = $composer.startRestartGroup(1451366815);
         ComposerKt.sourceInformation(restartGroup, "C(InputField)P(10,7,8,2,6,5,1,9,4,11)492@23517L18,498@23776L25,499@23837L29,500@23912L7,502@23951L34,503@24030L39,*506@24122L7,521@24685L44,522@24761L378,534@25242L7,537@25496L19,540@25625L1172,510@24250L2557,566@26894L320,566@26869L345:SearchBar.android.kt#uh7d8r");
         $dirty = $changed;
-        if (i22 & 1 != 0) {
+        if (i10 & 1 != 0) {
             $dirty |= 6;
         } else {
-            if (i74 & 6 == 0) {
-                i56 = restartGroup.changed(query) ? 4 : 2;
-                $dirty |= i56;
+            if (i73 & 6 == 0) {
+                i6 = restartGroup.changed(query) ? 4 : 2;
+                $dirty |= i6;
             }
         }
-        if (i22 & 2 != 0) {
+        if (i10 & 2 != 0) {
             $dirty |= 48;
-            obj5 = onQueryChange;
+            obj7 = onQueryChange;
         } else {
-            if (i74 & 48 == 0) {
-                i = restartGroup.changedInstance(onQueryChange) ? 32 : 16;
-                $dirty |= i;
+            if (i73 & 48 == 0) {
+                i21 = restartGroup.changedInstance(onQueryChange) ? 32 : 16;
+                $dirty |= i21;
             } else {
-                obj5 = onQueryChange;
+                obj7 = onQueryChange;
             }
         }
-        if (i22 & 4 != 0) {
+        if (i10 & 4 != 0) {
             $dirty |= 384;
         } else {
-            if (i74 & 384 == 0) {
-                i37 = restartGroup.changedInstance(traceInProgress2) ? 256 : i32;
-                $dirty |= i37;
+            if (i73 & 384 == 0) {
+                i4 = restartGroup.changedInstance(traceInProgress2) ? 256 : i28;
+                $dirty |= i4;
             }
         }
-        if (i22 & 8 != 0) {
+        if (i10 & 8 != 0) {
             $dirty |= 3072;
         } else {
-            if (i74 & 3072 == 0) {
-                i20 = restartGroup.changed(z) ? 2048 : 1024;
-                $dirty |= i20;
+            if (i73 & 3072 == 0) {
+                i35 = restartGroup.changed(z2) ? 2048 : 1024;
+                $dirty |= i35;
             }
         }
-        if (i22 & 16 != 0) {
+        if (i10 & 16 != 0) {
             $dirty |= 24576;
         } else {
-            if (i74 & 24576 == 0) {
-                i25 = restartGroup.changedInstance(empty) ? 16384 : 8192;
-                $dirty |= i25;
+            if (i73 & 24576 == 0) {
+                i26 = restartGroup.changedInstance(empty) ? 16384 : 8192;
+                $dirty |= i26;
             }
         }
-        i54 = i22 & 32;
-        i15 = 196608;
-        if (i54 != 0) {
-            $dirty |= i15;
-            $dirty112 = modifier;
+        i48 = i10 & 32;
+        i40 = 196608;
+        if (i48 != 0) {
+            $dirty |= i40;
+            $dirty16 = modifier;
         } else {
-            if (i74 & i15 == 0) {
-                i19 = restartGroup.changed(modifier) ? 131072 : 65536;
-                $dirty |= i19;
+            if (i73 & i40 == 0) {
+                i54 = restartGroup.changed(modifier) ? 131072 : 65536;
+                $dirty |= i54;
             } else {
-                $dirty112 = modifier;
+                $dirty16 = modifier;
             }
         }
-        searchSemantics3 = i22 & 64;
-        $dirty13 = 1572864;
-        if (searchSemantics3 != 0) {
-            $dirty |= $dirty13;
-            z2 = enabled;
+        searchSemantics2 = i10 & 64;
+        $dirty1 = 1572864;
+        if (searchSemantics2 != 0) {
+            $dirty |= $dirty1;
+            z = enabled;
         } else {
-            if (i74 & $dirty13 == 0) {
-                $dirty17 = restartGroup.changed(enabled) ? 1048576 : 524288;
-                $dirty |= $dirty17;
+            if (i73 & $dirty1 == 0) {
+                $dirty19 = restartGroup.changed(enabled) ? 1048576 : 524288;
+                $dirty |= $dirty19;
             } else {
-                z2 = enabled;
+                z = enabled;
             }
         }
-        $dirty110 = i22 & 128;
-        i38 = 12582912;
-        if ($dirty110 != 0) {
-            $dirty |= i38;
-            obj10 = placeholder;
+        $dirty13 = i10 & 128;
+        i42 = 12582912;
+        if ($dirty13 != 0) {
+            $dirty |= i42;
+            obj12 = placeholder;
         } else {
-            if (i74 & i38 == 0) {
-                i38 = restartGroup.changedInstance(placeholder) ? 8388608 : 4194304;
-                $dirty |= i38;
+            if (i73 & i42 == 0) {
+                i42 = restartGroup.changedInstance(placeholder) ? 8388608 : 4194304;
+                $dirty |= i42;
             } else {
-                obj10 = placeholder;
+                obj12 = placeholder;
             }
         }
-        int i75 = i22 & 256;
-        int i155 = 100663296;
+        int i74 = i10 & 256;
+        int i153 = 100663296;
+        if (i74 != 0) {
+            $dirty |= i153;
+            i44 = i74;
+            obj8 = leadingIcon;
+        } else {
+            if ($changed & i153 == 0) {
+                i44 = i74;
+                i9 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
+                $dirty |= i9;
+            } else {
+                i44 = i74;
+                obj8 = leadingIcon;
+            }
+        }
+        int i75 = i10 & 512;
+        int i155 = 805306368;
         if (i75 != 0) {
             $dirty |= i155;
-            i9 = i75;
-            obj15 = leadingIcon;
+            $dirty15 = i75;
+            obj5 = trailingIcon;
         } else {
             if ($changed & i155 == 0) {
-                i9 = i75;
-                i17 = restartGroup.changedInstance(leadingIcon) ? 67108864 : 33554432;
-                $dirty |= i17;
+                $dirty15 = i75;
+                i50 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
+                $dirty |= i50;
             } else {
-                i9 = i75;
-                obj15 = leadingIcon;
+                $dirty15 = i75;
+                obj5 = trailingIcon;
             }
         }
-        int i76 = i22 & 512;
-        int i157 = 805306368;
-        if (i76 != 0) {
-            $dirty |= i157;
-            $dirty1 = i76;
-            obj9 = trailingIcon;
-        } else {
-            if ($changed & i157 == 0) {
-                $dirty1 = i76;
-                i11 = restartGroup.changedInstance(trailingIcon) ? 536870912 : 268435456;
-                $dirty |= i11;
-            } else {
-                $dirty1 = i76;
-                obj9 = trailingIcon;
-            }
-        }
-        if (i81 & 6 == 0) {
-            if (i22 & 1024 == 0) {
+        if (i80 & 6 == 0) {
+            if (i10 & 1024 == 0) {
                 changed2 = restartGroup.changed(colors) ? 4 : 2;
             } else {
-                obj7 = colors;
+                obj4 = colors;
             }
-            $dirty14 |= changed2;
+            $dirty12 |= changed2;
         } else {
-            obj7 = colors;
+            obj4 = colors;
         }
         obj90 = $dirty;
-        int $dirty4 = i22 & 2048;
+        int $dirty4 = i10 & 2048;
         if ($dirty4 != 0) {
-            $dirty14 |= 48;
-            i64 = $dirty4;
-            obj8 = interactionSource;
+            $dirty12 |= 48;
+            i29 = $dirty4;
+            obj6 = interactionSource;
         } else {
-            if (i81 & 48 == 0) {
-                i64 = $dirty4;
-                $dirty13 = restartGroup.changed(interactionSource) ? 32 : 16;
-                $dirty14 |= $dirty13;
+            if (i80 & 48 == 0) {
+                i29 = $dirty4;
+                $dirty1 = restartGroup.changed(interactionSource) ? 32 : 16;
+                $dirty12 |= $dirty1;
             } else {
-                i64 = $dirty4;
-                obj8 = interactionSource;
+                i29 = $dirty4;
+                obj6 = interactionSource;
             }
         }
-        if (i22 & 4096 != 0) {
-            $dirty14 |= 384;
-            obj6 = this;
+        if (i10 & 4096 != 0) {
+            $dirty12 |= 384;
+            obj2 = this;
         } else {
-            if (i81 & 384 == 0) {
+            if (i80 & 384 == 0) {
                 if (restartGroup.changed(this)) {
-                    i32 = 256;
+                    i28 = 256;
                 }
-                $dirty14 |= i32;
+                $dirty12 |= i28;
             } else {
-                obj6 = this;
+                obj2 = this;
             }
         }
-        if (obj90 & $dirty18 == 306783378 && $dirty14 & 147 == 146) {
-            if ($dirty14 & 147 == 146) {
+        if (obj90 & $dirty17 == 306783378 && $dirty12 & 147 == 146) {
+            if ($dirty12 & 147 == 146) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
                     if ($changed & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
-                            if (i54 != 0) {
+                            if (i48 != 0) {
                                 modifier2 = Modifier.Companion;
                             } else {
-                                modifier2 = $dirty112;
+                                modifier2 = $dirty16;
                             }
-                            enabled2 = searchSemantics3 != 0 ? 1 : z2;
-                            if ($dirty110 != 0) {
-                                obj10 = 0;
+                            enabled2 = searchSemantics2 != 0 ? 1 : z;
+                            if ($dirty13 != 0) {
+                                obj12 = 0;
                             }
-                            i49 = i9 != 0 ? i54 : leadingIcon;
-                            i4 = $dirty1 != 0 ? i54 : trailingIcon;
-                            if (i22 & 1024 != 0) {
-                                i39 = $dirty14;
-                                $dirty13 = i146;
-                                i9 = i152;
-                                i2 = i64;
-                                i43 = i2;
-                                i13 = i43;
-                                i60 = i13;
-                                i51 = i60;
-                                i44 = i51;
-                                i36 = i184;
+                            i51 = i44 != 0 ? i48 : leadingIcon;
+                            i60 = $dirty15 != 0 ? i48 : trailingIcon;
+                            if (i10 & 1024 != 0) {
+                                i52 = $dirty12;
+                                $dirty1 = i144;
+                                i44 = i150;
+                                i47 = i29;
+                                i22 = i47;
+                                i34 = i22;
+                                i3 = i34;
+                                i = i3;
+                                i59 = i;
+                                i63 = i182;
                                 obj83 = modifier2;
                                 obj84 = enabled2;
-                                enabled3 = i181;
+                                enabled3 = i179;
                                 modifier3 = obj90;
                                 composer = restartGroup;
-                                inputFieldColors-ITpI4ow = this.inputFieldColors-ITpI4ow(0, $dirty14, 0, i39, 0, z2, 0, i15, 0, 0, $dirty13, 0, i9, 0, i64, 0, i2, 0);
+                                inputFieldColors-ITpI4ow = this.inputFieldColors-ITpI4ow(0, $dirty12, 0, i52, 0, z, 0, i40, 0, 0, $dirty1, 0, i44, 0, i29, 0, i47, 0);
                                 restartGroup = composer;
-                                $dirty14 = textStyle2 & -15;
+                                $dirty12 = textStyle & -15;
                             } else {
                                 obj83 = modifier2;
                                 obj84 = enabled2;
-                                textStyle2 = $dirty14;
-                                i36 = i64;
+                                textStyle = $dirty12;
+                                i63 = i29;
                                 enabled3 = 4;
                                 modifier3 = obj90;
                                 inputFieldColors-ITpI4ow = colors;
                             }
-                            if (i36 != 0) {
-                                obj2 = obj83;
-                                $dirty17 = i98;
-                                i23 = $dirty14;
-                                $dirty16 = inputFieldColors-ITpI4ow;
-                                colors2 = obj10;
+                            if (i63 != 0) {
+                                obj13 = obj83;
+                                $dirty19 = i97;
+                                i49 = $dirty12;
+                                $dirty14 = inputFieldColors-ITpI4ow;
+                                colors2 = obj12;
                                 placeholder2 = obj84;
                             } else {
-                                obj2 = obj83;
-                                $dirty17 = interactionSource;
-                                i23 = $dirty14;
-                                $dirty16 = inputFieldColors-ITpI4ow;
-                                colors2 = obj10;
+                                obj13 = obj83;
+                                $dirty19 = interactionSource;
+                                i49 = $dirty12;
+                                $dirty14 = inputFieldColors-ITpI4ow;
+                                colors2 = obj12;
                                 placeholder2 = obj84;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
-                            if (i22 & 1024 != 0) {
-                                $dirty14 &= -15;
+                            if (i10 & 1024 != 0) {
+                                $dirty12 &= -15;
                             }
-                            i49 = leadingIcon;
-                            i4 = trailingIcon;
+                            i51 = leadingIcon;
+                            i60 = trailingIcon;
                             modifier3 = obj90;
-                            $dirty17 = obj8;
-                            i23 = $dirty14;
-                            obj2 = $dirty112;
+                            $dirty19 = obj6;
+                            i49 = $dirty12;
+                            obj13 = $dirty16;
                             enabled3 = 4;
-                            $dirty16 = colors;
-                            colors2 = obj10;
-                            placeholder2 = z2;
+                            $dirty14 = colors;
+                            colors2 = obj12;
+                            placeholder2 = z;
                         }
                     } else {
                     }
                     restartGroup.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(1451366815, modifier3, i23, "androidx.compose.material3.SearchBarDefaults.InputField (SearchBar.android.kt:494)");
+                        ComposerKt.traceEventStart(1451366815, modifier3, i49, "androidx.compose.material3.SearchBarDefaults.InputField (SearchBar.android.kt:494)");
                     }
                     restartGroup.startReplaceGroup(-320443616);
                     ComposerKt.sourceInformation(restartGroup, "496@23695L39");
                     String str9 = "CC(remember):SearchBar.android.kt#9igjgp";
-                    if ($dirty17 == 0) {
+                    if ($dirty19 == 0) {
                         ComposerKt.sourceInformationMarkerStart(restartGroup, -320442965, str9);
-                        z2 = 0;
-                        $dirty110 = restartGroup;
-                        i15 = 0;
-                        enabled3 = $dirty110.rememberedValue();
-                        $dirty18 = 0;
+                        z = 0;
+                        $dirty13 = restartGroup;
+                        i40 = 0;
+                        enabled3 = $dirty13.rememberedValue();
+                        $dirty17 = 0;
                         if (enabled3 == Composer.Companion.getEmpty()) {
-                            int i84 = 0;
-                            $dirty110.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                            int i83 = 0;
+                            $dirty13.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                         } else {
-                            i55 = enabled3;
+                            $i$a$CacheSearchBarDefaults$InputField$interactionSource$1 = enabled3;
                         }
                         ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     } else {
-                        i55 = $dirty17;
+                        $i$a$CacheSearchBarDefaults$InputField$interactionSource$1 = $dirty19;
                     }
                     restartGroup.endReplaceGroup();
-                    boolean booleanValue = (Boolean)FocusInteractionKt.collectIsFocusedAsState((InteractionSource)i55, restartGroup, 0).getValue().booleanValue();
+                    boolean booleanValue = (Boolean)FocusInteractionKt.collectIsFocusedAsState((InteractionSource)$i$a$CacheSearchBarDefaults$InputField$interactionSource$1, restartGroup, 0).getValue().booleanValue();
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -320438431, str9);
-                    int i132 = 0;
+                    int i131 = 0;
                     obj83 = restartGroup;
-                    int i141 = 0;
+                    int i139 = 0;
                     Object rememberedValue2 = obj83.rememberedValue();
-                    int i147 = 0;
-                    obj86 = i55;
+                    int i145 = 0;
+                    obj86 = $i$a$CacheSearchBarDefaults$InputField$interactionSource$1;
                     if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                        int i83 = 0;
+                        int i82 = 0;
                         focusRequester = new FocusRequester();
                         obj87 = colors2;
                         obj83.updateRememberedValue(focusRequester);
                     } else {
                         obj87 = colors2;
                         placeholder3 = obj83;
-                        obj12 = rememberedValue2;
+                        $i$a$CacheSearchBarDefaults$InputField$focusRequester$1 = rememberedValue2;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    int i122 = 0;
-                    int i133 = 0;
+                    int i121 = 0;
+                    int i132 = 0;
                     String str3 = "CC:CompositionLocal.kt#9igjgp";
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, str3);
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     androidx.compose.material3.internal.Strings.Companion companion3 = Strings.Companion;
-                    int i134 = 0;
-                    int i135 = 0;
+                    int i133 = 0;
+                    int $i$f$getSearchBarSearch8iCLdWM = 0;
                     androidx.compose.material3.internal.Strings.Companion companion4 = Strings.Companion;
-                    int i148 = 0;
-                    String string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_suggestions_available), restartGroup, i135);
-                    int i142 = 6;
-                    int i149 = 0;
+                    int i146 = 0;
+                    String string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_suggestions_available), restartGroup, $i$f$getSearchBarSearch8iCLdWM);
+                    int i140 = 6;
+                    int i147 = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, str3);
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    int i161 = 0;
-                    obj85 = i93;
-                    $this$isSpecified$iv$iv = Long.compare(l, i164) != 0 ? 1 : 0;
-                    if ($this$isSpecified$iv$iv != 0) {
-                        i27 = 0;
+                    int i159 = 0;
+                    obj85 = i92;
+                    $i$a$TakeOrElseDxMtmZcSearchBarDefaults$InputField$textColor$1 = Long.compare(l, i162) != 0 ? 1 : 0;
+                    if ($i$a$TakeOrElseDxMtmZcSearchBarDefaults$InputField$textColor$1 != 0) {
+                        i30 = 0;
                     } else {
-                        int i151 = 0;
-                        $this$takeOrElse_u2dDxMtmZc$iv = $this$isSpecified$iv$iv;
+                        int i149 = 0;
+                        $this$takeOrElse_u2dDxMtmZc$iv = $i$a$TakeOrElseDxMtmZcSearchBarDefaults$InputField$textColor$1;
                     }
                     String focused = str6;
                     String str7 = str15;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -320411280, focused);
-                    invalid$iv = i112 &= modifier3 == 16384 ? 1 : 0;
+                    invalid$iv = i111 &= modifier3 == 16384 ? 1 : 0;
                     Composer composer2 = restartGroup;
-                    int i136 = 0;
+                    int i134 = 0;
                     obj85 = placeholder2;
                     it$iv = composer2.rememberedValue();
-                    int i144 = 0;
+                    int i142 = 0;
                     if (invalid$iv == 0) {
                         obj84 = invalid$iv;
                         if (it$iv == Composer.Companion.getEmpty()) {
@@ -542,108 +542,108 @@ public final class SearchBarDefaults {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -320408514, focused);
-                    i59 = modifier3 & 7168 == 2048 ? 1 : 0;
+                    i25 = modifier3 & 7168 == 2048 ? 1 : 0;
                     Composer composer3 = restartGroup;
-                    int i125 = 0;
+                    int i124 = 0;
                     Object rememberedValue3 = composer3.rememberedValue();
-                    int i145 = 0;
-                    if (i101 |= changed7 == 0) {
+                    int i143 = 0;
+                    if (i100 |= changed7 == 0) {
                         if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                            obj84 = i73;
-                            anon = new SearchBarDefaults.InputField.2.1(str7, z, string-2EP1pXo, obj12);
-                            composer3.updateRememberedValue((Function1)anon);
+                            obj84 = i72;
+                            $i$a$CacheSearchBarDefaults$InputField$2 = new SearchBarDefaults.InputField.2.1(str7, z2, string-2EP1pXo, $i$a$CacheSearchBarDefaults$InputField$focusRequester$1);
+                            composer3.updateRememberedValue((Function1)$i$a$CacheSearchBarDefaults$InputField$2);
                         } else {
-                            anon = rememberedValue3;
+                            $i$a$CacheSearchBarDefaults$InputField$2 = rememberedValue3;
                         }
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    int i103 = 0;
-                    int i116 = 6;
+                    int i102 = 0;
+                    int i115 = 6;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, str3);
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    textStyle2 = new TextStyle($this$takeOrElse_u2dDxMtmZc$iv, obj44, 0, obj46, 0, 0, 0, 0, 0, 0, obj53, 0, 0, 0, 0, obj58, 0, 0, 0, 0, 0, 0, obj65, 0, 0, 0, 0, 0, 0, 16777214, 0);
-                    merge = (TextStyle)restartGroup.consume((CompositionLocal)TextKt.getLocalTextStyle()).merge(textStyle2);
-                    int i139 = 0;
-                    SolidColor solidColor = new SolidColor($dirty16.cursorColor-vNxB06k$material3_release(i139), 0, i103);
+                    textStyle = new TextStyle($this$takeOrElse_u2dDxMtmZc$iv, obj44, 0, obj46, 0, 0, 0, 0, 0, 0, obj53, 0, 0, 0, 0, obj58, 0, 0, 0, 0, 0, 0, obj65, 0, 0, 0, 0, 0, 0, 16777214, 0);
+                    merge = (TextStyle)restartGroup.consume((CompositionLocal)TextKt.getLocalTextStyle()).merge(textStyle);
+                    int i137 = 0;
+                    SolidColor solidColor = new SolidColor($dirty14.cursorColor-vNxB06k$material3_release(i137), 0, i102);
                     KeyboardOptions keyboardOptions = new KeyboardOptions(0, 0, 0, ImeAction.Companion.getSearch-eUduSuo(), 0, 0, 0, 119, 0);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -320385353, focused);
-                    i41 = modifier3 & 896 == 256 ? 1 : i139;
-                    i42 = modifier3 & 14 == 4 ? 1 : i139;
+                    i7 = modifier3 & 896 == 256 ? 1 : i137;
+                    i27 = modifier3 & 14 == 4 ? 1 : i137;
                     Composer composer4 = restartGroup;
-                    int i128 = 0;
+                    int i127 = 0;
                     Object rememberedValue4 = composer4.rememberedValue();
-                    int i150 = 0;
-                    if (i42 |= i41 == 0) {
-                        textStyle = merge;
+                    int i148 = 0;
+                    if (i27 |= i7 == 0) {
+                        textStyle2 = merge;
                         if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                            obj83 = i69;
-                            anon2 = new SearchBarDefaults.InputField.3.1(traceInProgress2, query);
-                            composer4.updateRememberedValue((Function1)anon2);
+                            obj83 = i68;
+                            $i$a$CacheSearchBarDefaults$InputField$3 = new SearchBarDefaults.InputField.3.1(traceInProgress2, query);
+                            composer4.updateRememberedValue((Function1)$i$a$CacheSearchBarDefaults$InputField$3);
                         } else {
                             str2 = query;
-                            anon2 = rememberedValue4;
+                            $i$a$CacheSearchBarDefaults$InputField$3 = rememberedValue4;
                         }
                     } else {
-                        textStyle = merge;
+                        textStyle2 = merge;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    keyboardActions = new KeyboardActions(0, 0, 0, 0, (Function1)anon2, 0, 47, 0);
-                    obj90 = $dirty16;
-                    super(str2, obj85, obj86, obj87, i49, i4, obj90);
+                    keyboardActions = new KeyboardActions(0, 0, 0, 0, (Function1)$i$a$CacheSearchBarDefaults$InputField$3, 0, 47, 0);
+                    obj90 = $dirty14;
+                    super(str2, obj85, obj86, obj87, i51, i60, obj90);
                     empty = obj85;
-                    int i106 = 1;
-                    i60 = str14;
-                    i57 = i153;
-                    i15 = composer;
-                    $dirty1 = obj12;
-                    i64 = str4;
-                    BasicTextFieldKt.BasicTextField(query, onQueryChange, SemanticsModifierKt.semantics$default(FocusChangedModifierKt.onFocusChanged(FocusRequesterModifierKt.focusRequester(SizeKt.sizeIn-qDBjuR0$default(obj2, SearchBar_androidKt.getSearchBarMinWidth(), SearchBarDefaults.InputFieldHeight, SearchBar_androidKt.access$getSearchBarMaxWidth$p(), 0, 8, 0), (FocusRequester)obj12), (Function1)it$iv), false, (Function1)anon, 1, i103), empty, false, textStyle, keyboardOptions, keyboardActions, true, 0, 0, 0, 0, obj86, (Brush)solidColor, (Function3)ComposableLambdaKt.rememberComposableLambda(-2029278807, i106, anon4, restartGroup, 54), i15, i67 | i90, 196608, 7696);
-                    $composer2 = i15;
+                    int i105 = 1;
+                    i3 = str14;
+                    i23 = i151;
+                    i40 = composer;
+                    $dirty15 = $i$a$CacheSearchBarDefaults$InputField$focusRequester$1;
+                    i29 = str4;
+                    BasicTextFieldKt.BasicTextField(query, onQueryChange, SemanticsModifierKt.semantics$default(FocusChangedModifierKt.onFocusChanged(FocusRequesterModifierKt.focusRequester(SizeKt.sizeIn-qDBjuR0$default(obj13, SearchBar_androidKt.getSearchBarMinWidth(), SearchBarDefaults.InputFieldHeight, SearchBar_androidKt.access$getSearchBarMaxWidth$p(), 0, 8, 0), (FocusRequester)$i$a$CacheSearchBarDefaults$InputField$focusRequester$1), (Function1)it$iv), false, (Function1)$i$a$CacheSearchBarDefaults$InputField$2, 1, i102), empty, false, textStyle2, keyboardOptions, keyboardActions, true, 0, 0, 0, 0, obj86, (Brush)solidColor, (Function3)ComposableLambdaKt.rememberComposableLambda(-2029278807, i105, anon2, restartGroup, 54), i40, i66 | i89, 196608, 7696);
+                    $composer2 = i40;
                     if (!expanded && booleanValue) {
-                        z2 = booleanValue ? i43 : changed;
+                        z = booleanValue ? i22 : changed;
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerStart($composer2, -320340316, focused);
-                    skipping = obj;
-                    i3 = $composer2;
-                    i22 = 0;
-                    Object rememberedValue = i3.rememberedValue();
-                    int i91 = 0;
+                    skipping = obj10;
+                    i57 = $composer2;
+                    i10 = 0;
+                    Object rememberedValue = i57.rememberedValue();
+                    int i90 = 0;
                     if (changed3 |= changedInstance == null) {
                         if (rememberedValue == Composer.Companion.getEmpty()) {
-                            searchSemantics4 = 0;
-                            anon3 = new SearchBarDefaults.InputField.5.1(z2, skipping, 0);
-                            i3.updateRememberedValue((Function2)anon3);
+                            searchSemantics3 = 0;
+                            anon = new SearchBarDefaults.InputField.5.1(z, skipping, 0);
+                            i57.updateRememberedValue((Function2)anon);
                         } else {
-                            anon3 = rememberedValue;
+                            anon = rememberedValue;
                         }
                     } else {
                     }
                     ComposerKt.sourceInformationMarkerEnd($composer2);
-                    EffectsKt.LaunchedEffect(Boolean.valueOf(expanded), (Function2)anon3, $composer2, i72 &= 14);
+                    EffectsKt.LaunchedEffect(Boolean.valueOf(expanded), (Function2)anon, $composer2, i71 &= 14);
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
                     $composer3 = empty;
-                    obj4 = $dirty17;
-                    obj3 = $dirty15;
-                    obj14 = i13;
-                    obj11 = $dirty111;
-                    $dirty19 = i49;
-                    obj13 = i4;
+                    obj9 = $dirty19;
+                    obj3 = $dirty110;
+                    obj11 = i34;
+                    obj14 = $dirty111;
+                    $dirty112 = i51;
+                    obj = i60;
                 } else {
                     restartGroup.skipToGroupEnd();
-                    obj11 = obj10;
-                    obj3 = $dirty112;
-                    obj4 = obj17;
-                    obj13 = trailingIcon;
-                    obj14 = colors;
-                    i7 = obj90;
+                    obj14 = obj12;
+                    obj3 = $dirty16;
+                    obj9 = obj16;
+                    obj = trailingIcon;
+                    obj11 = colors;
+                    i55 = obj90;
                     $composer2 = restartGroup;
-                    i57 = $dirty14;
-                    $composer3 = z2;
-                    $dirty19 = leadingIcon;
+                    i23 = $dirty12;
+                    $composer3 = z;
+                    $dirty112 = leadingIcon;
                 }
             } else {
             }
@@ -652,7 +652,7 @@ public final class SearchBarDefaults {
         endRestartGroup = $composer2.endRestartGroup();
         if (endRestartGroup != null) {
             $composer4 = $composer2;
-            $composer2 = new SearchBarDefaults.InputField.6(this, query, onQueryChange, onSearch, expanded, onExpandedChange, obj3, $composer3, obj11, $dirty19, obj13, obj14, obj4, $changed, $changed1, i16);
+            $composer2 = new SearchBarDefaults.InputField.6(this, query, onQueryChange, onSearch, expanded, onExpandedChange, obj3, $composer3, obj14, $dirty112, obj, obj11, obj9, $changed, $changed1, i16);
             endRestartGroup.updateScope((Function2)$composer2);
         } else {
             $composer4 = $composer2;
@@ -661,57 +661,57 @@ public final class SearchBarDefaults {
 
     @Deprecated(message = "Search bars now take the input field as a parameter. `inputFieldColors` should be passed explicitly to the input field. This parameter will be removed in a future version of the library.", replaceWith = @ReplaceWith(...))
     public final androidx.compose.material3.SearchBarColors colors-Klgx-Pg(long containerColor, long dividerColor, androidx.compose.material3.TextFieldColors inputFieldColors, Composer $composer, int $changed, int i6) {
-        int i17;
-        int i18;
+        int i;
+        int i5;
         boolean traceInProgress;
         int containerColor2;
-        int value;
+        int value2;
         androidx.compose.material3.TextFieldColors inputFieldColors-ITpI4ow;
-        int i5;
-        long value2;
-        int i4;
-        int i2;
-        int i9;
-        androidx.compose.material3.TextFieldColors field;
-        int i11;
-        int i14;
-        int i15;
-        int i10;
-        int i;
-        int i3;
-        int i12;
         int i13;
-        Composer composer;
-        int i16;
-        int i8;
+        long value;
         int i7;
-        long l2;
+        int i16;
+        int i17;
+        androidx.compose.material3.TextFieldColors field;
+        int i2;
+        int i4;
+        int i15;
+        int i12;
+        int i3;
+        int i9;
+        int i11;
+        int i18;
+        Composer composer;
+        int i8;
+        int i10;
+        int i14;
         long l;
+        long l2;
         Composer composer2 = i6;
         ComposerKt.sourceInformationMarkerStart(composer2, -1216168196, "C(colors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color)586@27706L5,587@27773L5,588@27824L18:SearchBar.android.kt#uh7d8r");
-        i5 = 6;
+        i13 = 6;
         if (obj45 & 1 != 0) {
-            l2 = value2;
-        } else {
-            l2 = containerColor;
-        }
-        if (obj45 & 2 != 0) {
             l = value;
         } else {
-            l = inputFieldColors;
+            l = containerColor;
+        }
+        if (obj45 & 2 != 0) {
+            l2 = value2;
+        } else {
+            l2 = inputFieldColors;
         }
         if (obj45 & 4 != 0) {
-            i5 = 57344;
-            i17 = obj44;
+            i13 = 57344;
+            i = obj44;
             field = inputFieldColors-ITpI4ow;
         } else {
-            i17 = obj44;
+            i = obj44;
             field = $changed;
         }
         if (ComposerKt.isTraceInProgress()) {
-            ComposerKt.traceEventStart(-1216168196, i17, -1, "androidx.compose.material3.SearchBarDefaults.colors (SearchBar.android.kt:590)");
+            ComposerKt.traceEventStart(-1216168196, i, -1, "androidx.compose.material3.SearchBarDefaults.colors (SearchBar.android.kt:590)");
         }
-        SearchBarColors searchBarColors = new SearchBarColors(l2, i2, l, i9, field, 0);
+        SearchBarColors searchBarColors = new SearchBarColors(l, i16, l2, i17, field, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -721,10 +721,10 @@ public final class SearchBarDefaults {
 
     public final androidx.compose.material3.SearchBarColors colors-dgg9oW8(long containerColor, long dividerColor, Composer $composer, int $changed, int i5) {
         int containerColor2;
-        int value2;
+        int value;
         boolean traceInProgress;
         int str;
-        long value;
+        long value2;
         long l;
         long l2;
         Composer composer = i5;
@@ -733,12 +733,12 @@ public final class SearchBarDefaults {
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(colors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color)375@16778L5,376@16845L5,381@17019L18:SearchBar.android.kt#uh7d8r");
         str = 6;
         if (obj45 & 1 != 0) {
-            l = value;
+            l = value2;
         } else {
             l = containerColor;
         }
         if (obj45 & 2 != 0) {
-            l2 = value2;
+            l2 = value;
         } else {
             l2 = $composer;
         }
@@ -748,7 +748,7 @@ public final class SearchBarDefaults {
         int i6 = 57344;
         final int i11 = 0;
         final androidx.compose.material3.SearchBarColors searchBarColors = searchBarColors2;
-        super(l, obj9, l2, i11, this.inputFieldColors-ITpI4ow(0, i6, 0, value, 0, obj7, 0, obj9, 0, i11, obj12, 0, obj14, 0, obj16, 0, obj18, 0), 0);
+        super(l, obj9, l2, i11, this.inputFieldColors-ITpI4ow(0, i6, 0, value2, 0, obj7, 0, obj9, 0, i11, obj12, 0, obj14, 0, obj16, 0, obj18, 0), 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -841,8 +841,8 @@ public final class SearchBarDefaults {
         int iNSTANCE;
         int caretColor;
         int localTextSelectionColors;
-        int leadingIconColor;
         int leadingIconColor2;
+        int leadingIconColor;
         int disabledLeadingIconOpacity;
         androidx.compose.material3.tokens.ColorSchemeKeyTokens trailingIconColor2;
         androidx.compose.material3.tokens.ColorSchemeKeyTokens trailingIconColor;
@@ -853,28 +853,28 @@ public final class SearchBarDefaults {
         long disabledTextColor2;
         float disabledInputOpacity;
         long cursorColor2;
-        int i4;
-        int i12;
+        int i11;
+        int i3;
         long focusedLeadingIconColor2;
-        int i5;
-        int i14;
+        int i15;
+        int i;
         int i8;
         long unfocusedLeadingIconColor2;
         long disabledLeadingIconColor2;
-        int i15;
+        int i4;
         long focusedTrailingIconColor2;
-        int i9;
-        int i;
-        long unfocusedTrailingIconColor2;
-        int i6;
-        long disabledTrailingIconColor2;
-        int i7;
-        long placeholderColor2;
-        int i2;
-        int i13;
-        int i3;
+        int i12;
         int i10;
-        int i11;
+        long unfocusedTrailingIconColor2;
+        int i14;
+        long disabledTrailingIconColor2;
+        int i6;
+        long placeholderColor2;
+        int i5;
+        int i7;
+        int i9;
+        int i13;
+        int i2;
         long obj34;
         float obj36;
         int obj37;
@@ -904,8 +904,8 @@ public final class SearchBarDefaults {
             cursorColor2 = focusedLeadingIconColor;
         }
         if (i19 & 8 != 0) {
-            i12 = 0;
-            i5 = 0;
+            i3 = 0;
+            i15 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             selectionColors2 = composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors());
             ComposerKt.sourceInformationMarkerEnd(composer);
@@ -963,23 +963,23 @@ public final class SearchBarDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj57);
-        return this.inputFieldColors-ITpI4ow(l, i33, l, disabledPlaceholderColor2, disabledTextColor2, textColor2, cursorColor2, disabledTextColor2, selectionColors2, focusedLeadingIconColor2, i4, unfocusedLeadingIconColor2, i5, disabledLeadingIconColor2, i62, focusedTrailingIconColor2, obj18, unfocusedTrailingIconColor2);
+        return this.inputFieldColors-ITpI4ow(l, i33, l, disabledPlaceholderColor2, disabledTextColor2, textColor2, cursorColor2, disabledTextColor2, selectionColors2, focusedLeadingIconColor2, i11, unfocusedLeadingIconColor2, i15, disabledLeadingIconColor2, i62, focusedTrailingIconColor2, obj18, unfocusedTrailingIconColor2);
     }
 
     public final androidx.compose.material3.TextFieldColors inputFieldColors-ITpI4ow(long focusedTextColor, long unfocusedTextColor, long disabledTextColor, long cursorColor, TextSelectionColors selectionColors, long focusedLeadingIconColor, long unfocusedLeadingIconColor, long disabledLeadingIconColor, long focusedTrailingIconColor, long unfocusedTrailingIconColor, long disabledTrailingIconColor, long focusedPlaceholderColor, long unfocusedPlaceholderColor, long disabledPlaceholderColor, Composer $composer, int $changed, int $changed1, int i18) {
-        long copy-wmQWz5c$default;
+        long copy-wmQWz5c$default2;
         boolean traceInProgress;
         int consume;
         int value2;
-        int value4;
-        long copy-wmQWz5c$default2;
-        long value;
-        long value3;
+        int value6;
         long copy-wmQWz5c$default3;
-        long value6;
+        long value3;
+        long value4;
+        long copy-wmQWz5c$default;
+        long value;
         long value5;
-        int inputTextColor;
         int inputTextColor2;
+        int inputTextColor;
         int iNSTANCE;
         int caretColor;
         int disabledInputOpacity;
@@ -988,24 +988,24 @@ public final class SearchBarDefaults {
         long unfocusedTextColor2;
         long disabledTextColor2;
         float disabledLeadingIconOpacity;
-        int i5;
-        int i7;
-        int i2;
-        int i6;
-        int i8;
-        long l7;
         int i3;
+        int i5;
+        int i2;
+        int i8;
         int i4;
-        Object obj;
-        long l9;
         long l6;
+        int i6;
+        int i7;
+        Object obj;
         long l8;
-        long l;
         long l4;
+        long l;
+        long l9;
+        long l10;
+        long l7;
+        long l5;
         long l3;
         long l2;
-        long l10;
-        long l5;
         long obj96;
         float obj98;
         int obj99;
@@ -1035,13 +1035,13 @@ public final class SearchBarDefaults {
             disabledTextColor2 = selectionColors;
         }
         if (i11 & 8 != 0) {
-            l7 = disabledLeadingIconOpacity;
+            l6 = disabledLeadingIconOpacity;
         } else {
-            l7 = unfocusedLeadingIconColor;
+            l6 = unfocusedLeadingIconColor;
         }
         if (i11 & 16 != 0) {
             disabledLeadingIconOpacity = 0;
-            i5 = 0;
+            i3 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             ComposerKt.sourceInformationMarkerEnd(composer);
             obj = consume;
@@ -1049,49 +1049,49 @@ public final class SearchBarDefaults {
             obj = focusedTrailingIconColor;
         }
         if (i11 & 32 != 0) {
-            l9 = value2;
+            l8 = value2;
         } else {
-            l9 = unfocusedTrailingIconColor;
+            l8 = unfocusedTrailingIconColor;
         }
         if (i11 & 64 != 0) {
-            l6 = value4;
+            l4 = value6;
         } else {
-            l6 = focusedPlaceholderColor;
+            l4 = focusedPlaceholderColor;
         }
         if (i11 & 128 != 0) {
-            l8 = copy-wmQWz5c$default2;
+            l = copy-wmQWz5c$default3;
         } else {
-            l8 = disabledPlaceholderColor;
+            l = disabledPlaceholderColor;
         }
         if (i11 & 256 != 0) {
-            l = value;
+            l9 = value3;
         } else {
-            l = $changed;
+            l9 = $changed;
         }
         if (i11 & 512 != 0) {
-            l4 = value3;
+            l10 = value4;
         } else {
-            l4 = i18;
+            l10 = i18;
         }
         if (i11 & 1024 != 0) {
-            l3 = copy-wmQWz5c$default3;
+            l7 = copy-wmQWz5c$default;
         } else {
-            l3 = obj115;
+            l7 = obj115;
         }
         if (i11 & 2048 != 0) {
-            l2 = value6;
+            l5 = value;
         } else {
-            l2 = obj117;
+            l5 = obj117;
         }
         if (i11 & 4096 != 0) {
-            l10 = value5;
+            l3 = value5;
         } else {
-            l10 = obj119;
+            l3 = obj119;
         }
         if (i11 &= 8192 != 0) {
-            l5 = copy-wmQWz5c$default;
+            l2 = copy-wmQWz5c$default2;
         } else {
-            l5 = obj121;
+            l2 = obj121;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(-602148837, i9, i10, "androidx.compose.material3.SearchBarDefaults.inputFieldColors (SearchBar.android.kt:437)");
@@ -1106,6 +1106,6 @@ public final class SearchBarDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj123);
-        return iNSTANCE3.colors-0hiis_0(focusedTextColor2, iNSTANCE3, unfocusedTextColor2, i39, disabledTextColor2, focusedTextColor2, 0, unfocusedTextColor2, 0, disabledTextColor2, 0, i49, 0, i7, 0, i6, l7, obj19, 0, i4, obj, 0, obj24, 0, obj26, 0, obj28, 0, obj30, l9, obj32, l6, obj34, l8, obj36, 0, obj38, l, obj40, l4, obj42, l3, obj44, 0, obj46, 0, obj48, 0, obj50, 0, obj52);
+        return iNSTANCE3.colors-0hiis_0(focusedTextColor2, iNSTANCE3, unfocusedTextColor2, i39, disabledTextColor2, focusedTextColor2, 0, unfocusedTextColor2, 0, disabledTextColor2, 0, i49, 0, i5, 0, i8, l6, obj19, 0, i7, obj, 0, obj24, 0, obj26, 0, obj28, 0, obj30, l8, obj32, l4, obj34, l, obj36, 0, obj38, l9, obj40, l10, obj42, l7, obj44, 0, obj46, 0, obj48, 0, obj50, 0, obj52);
     }
 }

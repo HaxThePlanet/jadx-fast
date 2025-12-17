@@ -89,23 +89,23 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
     public boolean buildCache(LongSparseArray<androidx.compose.ui.input.pointer.PointerInputChange> changes, LayoutCoordinates parentCoordinates, androidx.compose.ui.input.pointer.InternalPointerEvent internalPointerEvent, boolean isInBounds) {
         boolean activeHoverEvent-0FcD4WY;
         LayoutCoordinates layoutCoordinates;
-        int i14;
-        boolean childChanged4;
+        int i11;
+        boolean childChanged3;
         int childChanged2;
-        int childChanged3;
+        int childChanged;
         PointerIdArray pointerIds;
         int j;
         Modifier.Node $this$dispatchForKind_u2d6rFNWt0$iv;
         Modifier.Node $this$dispatchForKind_u2d6rFNWt0$iv2;
         int copy-OHpmEuE$default;
-        int i11;
+        int i3;
         int keyAt;
-        int i10;
+        int i12;
         boolean positionChanged;
-        int i16;
+        int i5;
         boolean isIn;
         boolean hasExited;
-        int constructor-impl;
+        int $i$f$getPointerInputOLwlOKw;
         int enter-7fucELk;
         int contains;
         List list;
@@ -117,18 +117,18 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         long layoutCoordinates2;
         int historical;
         Modifier.Node node$iv$iv;
-        Modifier.Node node2;
-        int i12;
-        int this_$iv$iv;
-        int i9;
-        int i5;
-        int i13;
-        boolean childChanged;
         Modifier.Node node;
-        Modifier.Node node3;
-        int i7;
+        int i9;
+        int this_$iv$iv;
+        int i14;
+        int i2;
         int i15;
-        int i6;
+        boolean childChanged4;
+        Modifier.Node node2;
+        Modifier.Node node3;
+        int i;
+        int i10;
+        int i4;
         long historicalChange;
         long localPositionOf-R5De75A;
         int localPositionOf-R5De75A2;
@@ -136,23 +136,23 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         int originalEventPosition-F1C5BW0$ui_release;
         long localPositionOf-R5De75A3;
         long l;
-        int i17;
-        int i3;
+        int i13;
+        int i6;
         ArrayList list2;
-        int i;
-        int i2;
+        int i7;
+        int i16;
         int i8;
-        int i4;
+        int i17;
         final Object obj = this;
         activeHoverEvent-0FcD4WY = changes;
         layoutCoordinates = parentCoordinates;
         final androidx.compose.ui.input.pointer.InternalPointerEvent internalPointerEvent2 = internalPointerEvent;
-        childChanged4 = super.buildCache(changes, parentCoordinates, internalPointerEvent, isInBounds);
+        childChanged3 = super.buildCache(changes, parentCoordinates, internalPointerEvent, isInBounds);
         if (!obj.modifierNode.isAttached()) {
             return 1;
         }
         int i21 = 0;
-        constructor-impl = NodeKind.constructor-impl(16);
+        $i$f$getPointerInputOLwlOKw = NodeKind.constructor-impl(16);
         contains = 0;
         stack$iv = 0;
         int i24 = 0;
@@ -163,18 +163,18 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             } else {
             }
             layoutCoordinates2 = 0;
-            if (kindSet$ui_release &= constructor-impl != 0) {
+            if (kindSet$ui_release &= $i$f$getPointerInputOLwlOKw != 0) {
             } else {
             }
             count$iv = size;
             if (count$iv != 0 && node$iv instanceof DelegatingNode) {
             } else {
             }
-            childChanged = childChanged4;
-            node = $this$dispatchForKind_u2d6rFNWt0$iv;
+            childChanged4 = childChanged3;
+            node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
             node$iv = DelegatableNodeKt.access$pop(stack$iv);
-            childChanged4 = childChanged;
-            $this$dispatchForKind_u2d6rFNWt0$iv = node;
+            childChanged3 = childChanged4;
+            $this$dispatchForKind_u2d6rFNWt0$iv = node2;
             keyAt = 1;
             size = 0;
             if (node$iv instanceof DelegatingNode) {
@@ -184,22 +184,22 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             historical = 0;
             node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
             while (node$iv$iv != null) {
-                node2 = node$iv$iv;
-                i12 = 0;
+                node = node$iv$iv;
                 i9 = 0;
-                if (kindSet$ui_release2 &= constructor-impl != 0) {
+                i14 = 0;
+                if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv = size;
                 if (this_$iv$iv != 0) {
                 } else {
                 }
-                childChanged = childChanged4;
-                node = $this$dispatchForKind_u2d6rFNWt0$iv;
-                $this$dispatchForKind_u2d6rFNWt0$iv2 = node2;
+                childChanged4 = childChanged3;
+                node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
+                $this$dispatchForKind_u2d6rFNWt0$iv2 = node;
                 node$iv$iv = node$iv$iv.getChild$ui_release();
-                childChanged4 = childChanged;
-                $this$dispatchForKind_u2d6rFNWt0$iv = node;
+                childChanged3 = childChanged4;
+                $this$dispatchForKind_u2d6rFNWt0$iv = node2;
                 keyAt = 1;
                 if (count$iv++ == keyAt) {
                 } else {
@@ -207,55 +207,55 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                 if (stack$iv == 0) {
                 } else {
                 }
-                childChanged = childChanged4;
-                node = $this$dispatchForKind_u2d6rFNWt0$iv;
+                childChanged4 = childChanged3;
+                node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
                 childChanged2 = stack$iv;
                 stack$iv = childChanged2;
-                childChanged4 = node$iv;
-                if (childChanged4 != null && stack$iv != 0) {
+                childChanged3 = node$iv;
+                if (childChanged3 != null && stack$iv != 0) {
                 }
                 if (stack$iv != 0) {
                 } else {
                 }
-                $this$dispatchForKind_u2d6rFNWt0$iv2 = node2;
-                stack$iv.add(node2);
+                $this$dispatchForKind_u2d6rFNWt0$iv2 = node;
+                stack$iv.add(node);
                 if (stack$iv != 0) {
                 }
                 node$iv = $this$dispatchForKind_u2d6rFNWt0$iv;
-                stack$iv.add(childChanged4);
+                stack$iv.add(childChanged3);
                 this_$iv$iv = 0;
-                i13 = 0;
-                childChanged = childChanged4;
-                node = $this$dispatchForKind_u2d6rFNWt0$iv;
+                i15 = 0;
+                childChanged4 = childChanged3;
+                node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
                 childChanged2 = new MutableVector(new Modifier.Node[16], size);
-                node$iv = node2;
-                childChanged = childChanged4;
-                node = $this$dispatchForKind_u2d6rFNWt0$iv;
-                $this$dispatchForKind_u2d6rFNWt0$iv2 = node2;
+                node$iv = node;
+                childChanged4 = childChanged3;
+                node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
+                $this$dispatchForKind_u2d6rFNWt0$iv2 = node;
                 this_$iv$iv = keyAt;
             }
             if (count$iv == 1) {
             } else {
             }
-            childChanged4 = childChanged;
-            $this$dispatchForKind_u2d6rFNWt0$iv = node;
+            childChanged3 = childChanged4;
+            $this$dispatchForKind_u2d6rFNWt0$iv = node2;
             keyAt = 1;
-            node2 = node$iv$iv;
-            i12 = 0;
+            node = node$iv$iv;
             i9 = 0;
-            if (kindSet$ui_release2 &= constructor-impl != 0) {
+            i14 = 0;
+            if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
             } else {
             }
             this_$iv$iv = size;
             if (this_$iv$iv != 0) {
             } else {
             }
-            childChanged = childChanged4;
-            node = $this$dispatchForKind_u2d6rFNWt0$iv;
-            $this$dispatchForKind_u2d6rFNWt0$iv2 = node2;
+            childChanged4 = childChanged3;
+            node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
+            $this$dispatchForKind_u2d6rFNWt0$iv2 = node;
             node$iv$iv = node$iv$iv.getChild$ui_release();
-            childChanged4 = childChanged;
-            $this$dispatchForKind_u2d6rFNWt0$iv = node;
+            childChanged3 = childChanged4;
+            $this$dispatchForKind_u2d6rFNWt0$iv = node2;
             keyAt = 1;
             if (count$iv++ == keyAt) {
             } else {
@@ -263,59 +263,59 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             if (stack$iv == 0) {
             } else {
             }
-            childChanged = childChanged4;
-            node = $this$dispatchForKind_u2d6rFNWt0$iv;
+            childChanged4 = childChanged3;
+            node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
             childChanged2 = stack$iv;
             stack$iv = childChanged2;
-            childChanged4 = node$iv;
-            if (childChanged4 != null && stack$iv != 0) {
+            childChanged3 = node$iv;
+            if (childChanged3 != null && stack$iv != 0) {
             }
             if (stack$iv != 0) {
             } else {
             }
-            $this$dispatchForKind_u2d6rFNWt0$iv2 = node2;
-            stack$iv.add(node2);
+            $this$dispatchForKind_u2d6rFNWt0$iv2 = node;
+            stack$iv.add(node);
             if (stack$iv != 0) {
             }
             node$iv = $this$dispatchForKind_u2d6rFNWt0$iv;
-            stack$iv.add(childChanged4);
+            stack$iv.add(childChanged3);
             this_$iv$iv = 0;
-            i13 = 0;
-            childChanged = childChanged4;
-            node = $this$dispatchForKind_u2d6rFNWt0$iv;
+            i15 = 0;
+            childChanged4 = childChanged3;
+            node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
             childChanged2 = new MutableVector(new Modifier.Node[16], size);
-            node$iv = node2;
-            childChanged = childChanged4;
-            node = $this$dispatchForKind_u2d6rFNWt0$iv;
-            $this$dispatchForKind_u2d6rFNWt0$iv2 = node2;
+            node$iv = node;
+            childChanged4 = childChanged3;
+            node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
+            $this$dispatchForKind_u2d6rFNWt0$iv2 = node;
             this_$iv$iv = keyAt;
             count$iv = keyAt;
             count$iv = 0;
             obj.coordinates = PointerInputModifierNodeKt.getLayoutCoordinates((PointerInputModifierNode)node$iv);
-            childChanged = childChanged4;
-            node = $this$dispatchForKind_u2d6rFNWt0$iv;
+            childChanged4 = childChanged3;
+            node2 = $this$dispatchForKind_u2d6rFNWt0$iv;
         }
         node3 = $this$dispatchForKind_u2d6rFNWt0$iv;
-        childChanged3 = 0;
+        childChanged = 0;
         copy-OHpmEuE$default = activeHoverEvent-0FcD4WY.size();
-        while (childChanged3 < copy-OHpmEuE$default) {
-            keyAt = activeHoverEvent-0FcD4WY.keyAt(childChanged3);
+        while (childChanged < copy-OHpmEuE$default) {
+            keyAt = activeHoverEvent-0FcD4WY.keyAt(childChanged);
             node3 = valueAt;
             if (obj.pointerIds.contains(keyAt)) {
             } else {
             }
-            this_$iv$iv = childChanged3;
-            i4 = copy-OHpmEuE$default;
-            childChanged3 = this_$iv$iv + 1;
-            copy-OHpmEuE$default = i4;
+            this_$iv$iv = childChanged;
+            i17 = copy-OHpmEuE$default;
+            childChanged = this_$iv$iv + 1;
+            copy-OHpmEuE$default = i17;
             size = 0;
             contains = (PointerInputChange)node3.getPreviousPosition-F1C5BW0();
             count$iv = node3.getPosition-F1C5BW0();
             if (Offset.isValid-impl(contains) && Offset.isValid-impl(count$iv)) {
             } else {
             }
-            this_$iv$iv = childChanged3;
-            i4 = copy-OHpmEuE$default;
+            this_$iv$iv = childChanged;
+            i17 = copy-OHpmEuE$default;
             if (Offset.isValid-impl(count$iv)) {
             } else {
             }
@@ -323,48 +323,48 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             historical = node3.getHistorical();
             node$iv$iv = 0;
             size = historical.size();
-            this_$iv$iv = childChanged3;
-            j = node2;
+            this_$iv$iv = childChanged;
+            j = node;
             while (j < size) {
-                i13 = node2;
-                i7 = 0;
-                long position-F1C5BW0 = (HistoricalChange)i13.getPosition-F1C5BW0();
+                i15 = node;
+                i = 0;
+                long position-F1C5BW0 = (HistoricalChange)i15.getPosition-F1C5BW0();
                 if (Offset.isValid-impl(position-F1C5BW0)) {
                 } else {
                 }
-                i6 = size;
-                j = i15 + 1;
-                size = i6;
-                copy-OHpmEuE$default = i4;
-                i6 = size;
+                i4 = size;
+                j = i10 + 1;
+                size = i4;
+                copy-OHpmEuE$default = i17;
+                i4 = size;
                 LayoutCoordinates coordinates4 = obj.coordinates;
                 Intrinsics.checkNotNull(coordinates4);
-                historicalChange = new HistoricalChange(i13.getUptimeMillis(), obj28, coordinates4.localPositionOf-R5De75A(layoutCoordinates, position-F1C5BW0), constructor, i13.getOriginalEventPosition-F1C5BW0$ui_release(), localPositionOf-R5De75A3, 0);
+                historicalChange = new HistoricalChange(i15.getUptimeMillis(), obj28, coordinates4.localPositionOf-R5De75A(layoutCoordinates, position-F1C5BW0), constructor, i15.getOriginalEventPosition-F1C5BW0$ui_release(), localPositionOf-R5De75A3, 0);
                 node$iv.add(historicalChange);
             }
-            i4 = copy-OHpmEuE$default;
+            i17 = copy-OHpmEuE$default;
             LayoutCoordinates coordinates = obj.coordinates;
             Intrinsics.checkNotNull(coordinates);
             LayoutCoordinates coordinates2 = obj.coordinates;
             Intrinsics.checkNotNull(coordinates2);
-            obj.relevantChanges.put(keyAt, constructor-impl);
-            i13 = node2;
-            i7 = 0;
-            position-F1C5BW0 = (HistoricalChange)i13.getPosition-F1C5BW0();
+            obj.relevantChanges.put(keyAt, $i$f$getPointerInputOLwlOKw);
+            i15 = node;
+            i = 0;
+            position-F1C5BW0 = (HistoricalChange)i15.getPosition-F1C5BW0();
             if (Offset.isValid-impl(position-F1C5BW0)) {
             } else {
             }
-            i6 = size;
-            j = i15 + 1;
-            size = i6;
-            copy-OHpmEuE$default = i4;
-            i6 = size;
+            i4 = size;
+            j = i10 + 1;
+            size = i4;
+            copy-OHpmEuE$default = i17;
+            i4 = size;
             coordinates4 = obj.coordinates;
             Intrinsics.checkNotNull(coordinates4);
-            historicalChange = new HistoricalChange(i13.getUptimeMillis(), obj28, coordinates4.localPositionOf-R5De75A(layoutCoordinates, position-F1C5BW0), constructor, i13.getOriginalEventPosition-F1C5BW0$ui_release(), localPositionOf-R5De75A3, 0);
+            historicalChange = new HistoricalChange(i15.getUptimeMillis(), obj28, coordinates4.localPositionOf-R5De75A(layoutCoordinates, position-F1C5BW0), constructor, i15.getOriginalEventPosition-F1C5BW0$ui_release(), localPositionOf-R5De75A3, 0);
             node$iv.add(historicalChange);
         }
-        int i25 = childChanged3;
+        int i25 = childChanged;
         if (obj.relevantChanges.isEmpty()) {
             obj.pointerIds.clear();
             obj.getChildren().clear();
@@ -372,17 +372,17 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         }
         int i26 = 1;
         size3--;
-        while (-1 < i10) {
-            if (!activeHoverEvent-0FcD4WY.containsKey(obj.pointerIds.get-_I2yYro(i10))) {
+        while (-1 < i12) {
+            if (!activeHoverEvent-0FcD4WY.containsKey(obj.pointerIds.get-_I2yYro(i12))) {
             }
-            i10--;
-            obj.pointerIds.removeAt(i10);
+            i12--;
+            obj.pointerIds.removeAt(i12);
         }
         ArrayList arrayList = new ArrayList(obj.relevantChanges.size());
-        i11 = 0;
-        while (i11 < obj.relevantChanges.size()) {
-            arrayList.add(obj.relevantChanges.valueAt(i11));
-            i11++;
+        i3 = 0;
+        while (i3 < obj.relevantChanges.size()) {
+            arrayList.add(obj.relevantChanges.valueAt(i3));
+            i3++;
         }
         PointerEvent i20 = new PointerEvent((List)arrayList, internalPointerEvent2);
         list = positionChanged;
@@ -390,7 +390,7 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
             historical = 0;
-            node2 = 0;
+            node = 0;
             index$iv$iv++;
             activeHoverEvent-0FcD4WY = changes;
             layoutCoordinates = parentCoordinates;
@@ -400,23 +400,23 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         if ((PointerInputChange)l2 != 0) {
             if (!isInBounds) {
                 obj.isIn = false;
-                i5 = 1;
+                i2 = 1;
             } else {
-                i14 = 0;
+                i11 = 0;
                 if (!obj.isIn) {
                     if (!(PointerInputChange)l2.getPressed()) {
                         if (l2.getPreviousPressed()) {
                             LayoutCoordinates coordinates3 = obj.coordinates;
                             Intrinsics.checkNotNull(coordinates3);
-                            i5 = 1;
+                            i2 = 1;
                             obj.isIn = outOfBounds-O0kMr_c ^= 1;
                         } else {
-                            i5 = 1;
+                            i2 = 1;
                         }
                     } else {
                     }
                 } else {
-                    i5 = 1;
+                    i2 = 1;
                 }
             }
             if (obj.isIn != obj.wasIn) {
@@ -455,22 +455,22 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             } else {
             }
         } else {
-            i14 = 0;
-            i5 = 1;
+            i11 = 0;
+            i2 = 1;
         }
-        if (!childChanged4 && PointerEventType.equals-impl0(i20.getType-7fucELk(), PointerEventType.Companion.getMove-7fucELk())) {
+        if (!childChanged3 && PointerEventType.equals-impl0(i20.getType-7fucELk(), PointerEventType.Companion.getMove-7fucELk())) {
             if (PointerEventType.equals-impl0(i20.getType-7fucELk(), PointerEventType.Companion.getMove-7fucELk())) {
                 if (obj.hasPositionChanged(obj.pointerEvent, i20)) {
-                    i16 = i5;
+                    i5 = i2;
                 } else {
-                    i16 = i14;
+                    i5 = i11;
                 }
             } else {
             }
         } else {
         }
         obj.pointerEvent = i20;
-        return i16;
+        return i5;
     }
 
     @Override // androidx.compose.ui.input.pointer.NodeParent
@@ -478,14 +478,14 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         androidx.compose.ui.input.pointer.PointerEvent pointerEvent;
         List changes;
         int index$iv;
-        int i2;
+        int i4;
         Object obj;
         Object obj2;
-        int i;
+        int i5;
         int i3;
         int pointerIds;
-        int i5;
-        int i4;
+        int i2;
+        int i;
         androidx.compose.ui.input.pointer.InternalPointerEvent internalPointerEvent2;
         androidx.compose.ui.input.pointer.PointerEvent event;
         List list;
@@ -499,7 +499,7 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         index$iv = 0;
         while (index$iv < pointerEvent.getChanges().size()) {
             obj2 = obj;
-            i = 0;
+            i5 = 0;
             pointerIds = 1;
             pressed ^= pointerIds;
             if (i3 != 0) {
@@ -507,7 +507,7 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             }
             if (i3 != 0 && isIn2 ^= pointerIds != 0) {
             }
-            if (i2 != 0) {
+            if (i4 != 0) {
             } else {
             }
             event = pointerEvent;
@@ -520,7 +520,7 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             obj3.pointerIds.remove-0FcD4WY(obj2.getId-J3iCeTQ());
             if (isIn2 ^= pointerIds != 0) {
             }
-            i2 = pointerIds;
+            i4 = pointerIds;
             if (activeHoverEvent-0FcD4WY ^= pointerIds == 0) {
             } else {
             }
@@ -533,21 +533,21 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
     @Override // androidx.compose.ui.input.pointer.NodeParent
     public void dispatchCancel() {
         Object this_$iv;
-        int i7;
+        int i6;
         int mutableVector;
         int i$iv;
         Object[] content;
         int stack$iv;
         Object obj;
         Modifier.Node node$iv;
-        int this_$iv$iv2;
-        int i5;
+        int this_$iv$iv;
         int i;
-        int i6;
+        int i4;
+        int i5;
         Modifier.Node node$iv$iv;
         Modifier.Node node;
-        int i4;
-        int this_$iv$iv;
+        int i7;
+        int this_$iv$iv2;
         int i3;
         int i2;
         MutableVector children = getChildren();
@@ -555,15 +555,15 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         int size = children.getSize();
         if (size > 0) {
             i$iv = 0;
-            this_$iv$iv2 = 0;
+            this_$iv$iv = 0;
             (Node)children.getContent()[i$iv].dispatchCancel();
             while (i$iv += mutableVector >= size) {
-                this_$iv$iv2 = 0;
+                this_$iv$iv = 0;
                 (Node)content[i$iv].dispatchCancel();
             }
         }
         int i9 = 0;
-        int constructor-impl = NodeKind.constructor-impl(16);
+        int $i$f$getPointerInputOLwlOKw = NodeKind.constructor-impl(16);
         int i11 = 0;
         stack$iv = 0;
         int i12 = 0;
@@ -572,39 +572,39 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             if (node$iv instanceof PointerInputModifierNode) {
             } else {
             }
+            i = 0;
             i5 = 0;
-            i6 = 0;
-            if (kindSet$ui_release &= constructor-impl != 0) {
+            if (kindSet$ui_release &= $i$f$getPointerInputOLwlOKw != 0) {
             } else {
             }
-            this_$iv$iv2 = i6;
-            if (this_$iv$iv2 != 0 && node$iv instanceof DelegatingNode) {
+            this_$iv$iv = i5;
+            if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
             } else {
             }
-            i7 = mutableVector;
+            i6 = mutableVector;
             node$iv = DelegatableNodeKt.access$pop(stack$iv);
-            mutableVector = i7;
+            mutableVector = i6;
             this_$iv = this;
             if (node$iv instanceof DelegatingNode) {
             } else {
             }
-            this_$iv$iv2 = 0;
-            i = 0;
+            this_$iv$iv = 0;
+            i4 = 0;
             node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
             while (node$iv$iv != null) {
                 node = node$iv$iv;
-                i4 = 0;
+                i7 = 0;
                 i3 = 0;
-                if (kindSet$ui_release2 &= constructor-impl != 0) {
+                if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
                 } else {
                 }
-                this_$iv$iv = i6;
-                if (this_$iv$iv != 0) {
+                this_$iv$iv2 = i5;
+                if (this_$iv$iv2 != 0) {
                 }
                 node$iv$iv = node$iv$iv.getChild$ui_release();
                 mutableVector = 1;
                 this_$iv = this;
-                if (this_$iv$iv2++ == mutableVector) {
+                if (this_$iv$iv++ == mutableVector) {
                 } else {
                 }
                 if (stack$iv == 0) {
@@ -622,31 +622,31 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                 }
                 node$iv = mutableVector;
                 stack$iv.add(this_$iv);
-                this_$iv$iv = 0;
+                this_$iv$iv2 = 0;
                 i2 = 0;
-                mutableVector = new MutableVector(new Modifier.Node[16], i6);
+                mutableVector = new MutableVector(new Modifier.Node[16], i5);
                 node$iv = node;
-                this_$iv$iv = mutableVector;
+                this_$iv$iv2 = mutableVector;
             }
-            i7 = 1;
-            if (this_$iv$iv2 == i7) {
+            i6 = 1;
+            if (this_$iv$iv == i6) {
             } else {
             }
-            mutableVector = i7;
+            mutableVector = i6;
             this_$iv = this;
             node = node$iv$iv;
-            i4 = 0;
+            i7 = 0;
             i3 = 0;
-            if (kindSet$ui_release2 &= constructor-impl != 0) {
+            if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
             } else {
             }
-            this_$iv$iv = i6;
-            if (this_$iv$iv != 0) {
+            this_$iv$iv2 = i5;
+            if (this_$iv$iv2 != 0) {
             }
             node$iv$iv = node$iv$iv.getChild$ui_release();
             mutableVector = 1;
             this_$iv = this;
-            if (this_$iv$iv2++ == mutableVector) {
+            if (this_$iv$iv++ == mutableVector) {
             } else {
             }
             if (stack$iv == 0) {
@@ -664,22 +664,22 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
             }
             node$iv = mutableVector;
             stack$iv.add(this_$iv);
-            this_$iv$iv = 0;
+            this_$iv$iv2 = 0;
             i2 = 0;
-            mutableVector = new MutableVector(new Modifier.Node[16], i6);
+            mutableVector = new MutableVector(new Modifier.Node[16], i5);
             node$iv = node;
-            this_$iv$iv = mutableVector;
             this_$iv$iv2 = mutableVector;
-            i5 = 0;
+            this_$iv$iv = mutableVector;
+            i = 0;
             (PointerInputModifierNode)node$iv.onCancelPointerInput();
-            i7 = mutableVector;
+            i6 = mutableVector;
         }
     }
 
     @Override // androidx.compose.ui.input.pointer.NodeParent
     public boolean dispatchFinalEventPass(androidx.compose.ui.input.pointer.InternalPointerEvent internalPointerEvent) {
-        Object this_$iv2;
-        MutableVector this_$iv3;
+        Object this_$iv3;
+        MutableVector this_$iv;
         int $i$f$dispatchIfNeeded2;
         Modifier.Node $i$f$dispatchIfNeeded;
         boolean attached;
@@ -687,30 +687,30 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         androidx.compose.ui.input.pointer.PointerEvent pointerEvent;
         long size-YbymL2g;
         Modifier.Node i$iv;
-        int constructor-impl;
-        int i7;
+        int $i$f$getPointerInputOLwlOKw;
+        int i6;
         int stack$iv;
         Modifier.Node node$iv;
-        int i6;
+        int i;
         int this_$iv$iv;
         Modifier.Node final;
-        int i;
+        int i2;
         Modifier.Node node$iv$iv;
         Modifier.Node node;
-        int i2;
-        int this_$iv$iv2;
-        int i3;
         int i4;
-        Object this_$iv;
+        int this_$iv$iv2;
+        int i7;
+        int i3;
+        Object this_$iv2;
         int i5;
         final Object obj = this;
-        this_$iv2 = this;
+        this_$iv3 = this;
         $i$f$dispatchIfNeeded2 = 0;
         size = 0;
-        if (this_$iv2.relevantChanges.isEmpty()) {
+        if (this_$iv3.relevantChanges.isEmpty()) {
             node$iv = internalPointerEvent;
         } else {
-            if (!this_$iv2.modifierNode.isAttached()) {
+            if (!this_$iv3.modifierNode.isAttached()) {
                 node$iv = internalPointerEvent;
             } else {
                 attached = 0;
@@ -719,8 +719,8 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                 LayoutCoordinates coordinates = obj.coordinates;
                 Intrinsics.checkNotNull(coordinates);
                 int i8 = 0;
-                constructor-impl = NodeKind.constructor-impl(16);
-                i7 = 0;
+                $i$f$getPointerInputOLwlOKw = NodeKind.constructor-impl(16);
+                i6 = 0;
                 stack$iv = 0;
                 int i10 = 0;
                 node$iv = i$iv;
@@ -729,54 +729,54 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                     } else {
                     }
                     final = 0;
-                    if (kindSet$ui_release &= constructor-impl != 0) {
+                    if (kindSet$ui_release &= $i$f$getPointerInputOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv = size;
                     if (this_$iv$iv != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv = this_$iv2;
+                    this_$iv2 = this_$iv3;
                     i5 = $i$f$dispatchIfNeeded2;
                     node$iv = DelegatableNodeKt.access$pop(stack$iv);
-                    this_$iv2 = this_$iv;
+                    this_$iv3 = this_$iv2;
                     $i$f$dispatchIfNeeded2 = i5;
                     if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     this_$iv$iv = 0;
-                    i = 0;
+                    i2 = 0;
                     node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
                         node = node$iv$iv;
-                        i2 = 0;
-                        i3 = 0;
-                        if (kindSet$ui_release2 &= constructor-impl != 0) {
+                        i4 = 0;
+                        i7 = 0;
+                        if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv2 = size;
                         if (this_$iv$iv2 != 0) {
                         } else {
                         }
-                        this_$iv = this_$iv2;
+                        this_$iv2 = this_$iv3;
                         i5 = $i$f$dispatchIfNeeded2;
                         $i$f$dispatchIfNeeded = node;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        this_$iv2 = this_$iv;
+                        this_$iv3 = this_$iv2;
                         $i$f$dispatchIfNeeded2 = i5;
-                        i6 = 1;
-                        if (this_$iv$iv++ == i6) {
+                        i = 1;
+                        if (this_$iv$iv++ == i) {
                         } else {
                         }
                         if (stack$iv == 0) {
                         } else {
                         }
-                        this_$iv = this_$iv2;
+                        this_$iv2 = this_$iv3;
                         i5 = $i$f$dispatchIfNeeded2;
-                        this_$iv3 = stack$iv;
-                        stack$iv = this_$iv3;
-                        this_$iv2 = node$iv;
-                        if (this_$iv2 != null && stack$iv != null) {
+                        this_$iv = stack$iv;
+                        stack$iv = this_$iv;
+                        this_$iv3 = node$iv;
+                        if (this_$iv3 != null && stack$iv != null) {
                         }
                         if (stack$iv != null) {
                         } else {
@@ -786,52 +786,52 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                         if (stack$iv != null) {
                         }
                         node$iv = $i$f$dispatchIfNeeded2;
-                        stack$iv.add(this_$iv2);
+                        stack$iv.add(this_$iv3);
                         this_$iv$iv2 = 0;
-                        i4 = 0;
-                        this_$iv = this_$iv2;
+                        i3 = 0;
+                        this_$iv2 = this_$iv3;
                         i5 = $i$f$dispatchIfNeeded2;
-                        this_$iv3 = new MutableVector(new Modifier.Node[16], size);
+                        this_$iv = new MutableVector(new Modifier.Node[16], size);
                         node$iv = node;
-                        this_$iv = this_$iv2;
+                        this_$iv2 = this_$iv3;
                         i5 = $i$f$dispatchIfNeeded2;
                         $i$f$dispatchIfNeeded = node;
-                        this_$iv$iv2 = i6;
+                        this_$iv$iv2 = i;
                     }
                     if (this_$iv$iv == 1) {
                     } else {
                     }
-                    this_$iv2 = this_$iv;
+                    this_$iv3 = this_$iv2;
                     $i$f$dispatchIfNeeded2 = i5;
                     node = node$iv$iv;
-                    i2 = 0;
-                    i3 = 0;
-                    if (kindSet$ui_release2 &= constructor-impl != 0) {
+                    i4 = 0;
+                    i7 = 0;
+                    if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv2 = size;
                     if (this_$iv$iv2 != 0) {
                     } else {
                     }
-                    this_$iv = this_$iv2;
+                    this_$iv2 = this_$iv3;
                     i5 = $i$f$dispatchIfNeeded2;
                     $i$f$dispatchIfNeeded = node;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    this_$iv2 = this_$iv;
+                    this_$iv3 = this_$iv2;
                     $i$f$dispatchIfNeeded2 = i5;
-                    i6 = 1;
-                    if (this_$iv$iv++ == i6) {
+                    i = 1;
+                    if (this_$iv$iv++ == i) {
                     } else {
                     }
                     if (stack$iv == 0) {
                     } else {
                     }
-                    this_$iv = this_$iv2;
+                    this_$iv2 = this_$iv3;
                     i5 = $i$f$dispatchIfNeeded2;
-                    this_$iv3 = stack$iv;
-                    stack$iv = this_$iv3;
-                    this_$iv2 = node$iv;
-                    if (this_$iv2 != null && stack$iv != null) {
+                    this_$iv = stack$iv;
+                    stack$iv = this_$iv;
+                    this_$iv3 = node$iv;
+                    if (this_$iv3 != null && stack$iv != null) {
                     }
                     if (stack$iv != null) {
                     } else {
@@ -841,48 +841,48 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                     if (stack$iv != null) {
                     }
                     node$iv = $i$f$dispatchIfNeeded2;
-                    stack$iv.add(this_$iv2);
+                    stack$iv.add(this_$iv3);
                     this_$iv$iv2 = 0;
-                    i4 = 0;
-                    this_$iv = this_$iv2;
+                    i3 = 0;
+                    this_$iv2 = this_$iv3;
                     i5 = $i$f$dispatchIfNeeded2;
-                    this_$iv3 = new MutableVector(new Modifier.Node[16], size);
+                    this_$iv = new MutableVector(new Modifier.Node[16], size);
                     node$iv = node;
-                    this_$iv = this_$iv2;
+                    this_$iv2 = this_$iv3;
                     i5 = $i$f$dispatchIfNeeded2;
                     $i$f$dispatchIfNeeded = node;
-                    this_$iv$iv2 = i6;
-                    this_$iv$iv = i6;
+                    this_$iv$iv2 = i;
+                    this_$iv$iv = i;
                     this_$iv$iv = 0;
                     (PointerInputModifierNode)node$iv.onPointerEvent-H0pRuoY(pointerEvent, PointerEventPass.Final, coordinates.getSize-YbymL2g());
-                    this_$iv = this_$iv2;
+                    this_$iv2 = this_$iv3;
                     i5 = $i$f$dispatchIfNeeded2;
                 }
-                this_$iv = this_$iv2;
+                this_$iv2 = this_$iv3;
                 i5 = $i$f$dispatchIfNeeded2;
                 if (obj.modifierNode.isAttached()) {
-                    this_$iv2 = obj.getChildren();
+                    this_$iv3 = obj.getChildren();
                     $i$f$dispatchIfNeeded2 = 0;
-                    size = this_$iv2.getSize();
+                    size = this_$iv3.getSize();
                     if (size > 0) {
                         i$iv = 0;
                         stack$iv = 0;
-                        (Node)this_$iv2.getContent()[i$iv].dispatchFinalEventPass(internalPointerEvent);
-                        i3 = 1;
+                        (Node)this_$iv3.getContent()[i$iv].dispatchFinalEventPass(internalPointerEvent);
+                        i7 = 1;
                         while (i$iv++ >= size) {
                             stack$iv = 0;
-                            (Node)constructor-impl[i$iv].dispatchFinalEventPass(internalPointerEvent);
-                            i3 = 1;
+                            (Node)$i$f$getPointerInputOLwlOKw[i$iv].dispatchFinalEventPass(internalPointerEvent);
+                            i7 = 1;
                         }
                     } else {
                         node$iv = internalPointerEvent;
-                        i3 = 1;
+                        i7 = 1;
                     }
                 } else {
                     node$iv = internalPointerEvent;
-                    i3 = 1;
+                    i7 = 1;
                 }
-                size = i3;
+                size = i7;
             }
         }
         cleanUpHits(internalPointerEvent);
@@ -894,64 +894,64 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
         Object obj;
         int i5;
         int capacity$iv$iv$iv;
-        Object this_$iv3;
-        int this_$iv;
-        boolean attached2;
+        Object this_$iv;
+        int this_$iv2;
+        boolean attached;
         Modifier.Node modifierNode2;
-        int $this$dispatchForKind_u2d6rFNWt0$iv;
         int $this$dispatchForKind_u2d6rFNWt0$iv3;
+        int $this$dispatchForKind_u2d6rFNWt0$iv;
         int $this$dispatchForKind_u2d6rFNWt0$iv2;
         int $i$f$dispatchIfNeeded;
         Modifier.Node $i$f$dispatchIfNeeded2;
         int next$iv;
-        int attached;
+        int attached2;
         boolean z;
-        int i;
+        int i4;
         androidx.compose.ui.input.pointer.PointerEvent pointerEvent;
         long size-YbymL2g;
         Modifier.Node modifierNode;
-        int stack$iv2;
-        int count$iv;
-        int count$iv3;
+        int $i$f$getPointerInputOLwlOKw;
         int count$iv2;
+        int count$iv3;
+        int count$iv;
         int stack$iv;
         Modifier.Node node$iv;
         int node$iv$iv2;
         Modifier.Node node;
-        int i2;
-        int i3;
-        Modifier.Node node$iv$iv;
-        Modifier.Node this_$iv$iv;
-        int i6;
-        Modifier.Node this_$iv$iv2;
-        int i4;
         int i9;
-        Object this_$iv2;
-        int i7;
         int i8;
+        Modifier.Node node$iv$iv;
+        Modifier.Node this_$iv$iv2;
+        int i7;
+        Modifier.Node this_$iv$iv;
+        int i2;
+        int i6;
+        Object this_$iv3;
+        int i;
+        int i3;
         obj = this;
-        this_$iv3 = this;
+        this_$iv = this;
         $i$f$dispatchIfNeeded = 0;
-        i = 0;
-        if (this_$iv3.relevantChanges.isEmpty()) {
+        i4 = 0;
+        if (this_$iv.relevantChanges.isEmpty()) {
             node = internalPointerEvent;
-            $this$dispatchForKind_u2d6rFNWt0$iv2 = i;
+            $this$dispatchForKind_u2d6rFNWt0$iv2 = i4;
             z = isInBounds;
         } else {
-            if (!this_$iv3.modifierNode.isAttached()) {
+            if (!this_$iv.modifierNode.isAttached()) {
                 node = internalPointerEvent;
-                $this$dispatchForKind_u2d6rFNWt0$iv2 = i;
+                $this$dispatchForKind_u2d6rFNWt0$iv2 = i4;
                 z = isInBounds;
             } else {
-                attached = 0;
+                attached2 = 0;
                 pointerEvent = obj.pointerEvent;
                 Intrinsics.checkNotNull(pointerEvent);
                 LayoutCoordinates coordinates = obj.coordinates;
                 Intrinsics.checkNotNull(coordinates);
                 size-YbymL2g = coordinates.getSize-YbymL2g();
                 int i13 = 0;
-                stack$iv2 = NodeKind.constructor-impl(16);
-                count$iv2 = 0;
+                $i$f$getPointerInputOLwlOKw = NodeKind.constructor-impl(16);
+                count$iv = 0;
                 stack$iv = 0;
                 int i15 = 0;
                 node$iv = modifierNode;
@@ -960,42 +960,42 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                     } else {
                     }
                     node = 0;
-                    if (kindSet$ui_release2 &= stack$iv2 != 0) {
+                    if (kindSet$ui_release2 &= $i$f$getPointerInputOLwlOKw != 0) {
                     } else {
                     }
-                    count$iv3 = i;
+                    count$iv3 = i4;
                     if (count$iv3 != 0 && node$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    this_$iv2 = this_$iv3;
-                    i7 = $i$f$dispatchIfNeeded;
+                    this_$iv3 = this_$iv;
+                    i = $i$f$dispatchIfNeeded;
                     node$iv = DelegatableNodeKt.access$pop(stack$iv);
-                    count$iv = i2;
-                    this_$iv3 = this_$iv2;
-                    $i$f$dispatchIfNeeded = i7;
+                    count$iv2 = i9;
+                    this_$iv = this_$iv3;
+                    $i$f$dispatchIfNeeded = i;
                     if (node$iv instanceof DelegatingNode) {
                     } else {
                     }
                     count$iv3 = 0;
-                    i3 = 0;
+                    i8 = 0;
                     node$iv$iv = (DelegatingNode)node$iv.getDelegate$ui_release();
                     while (node$iv$iv != null) {
-                        this_$iv$iv = node$iv$iv;
-                        i6 = 0;
-                        i4 = 0;
-                        if (kindSet$ui_release4 &= stack$iv2 != 0) {
+                        this_$iv$iv2 = node$iv$iv;
+                        i7 = 0;
+                        i2 = 0;
+                        if (kindSet$ui_release4 &= $i$f$getPointerInputOLwlOKw != 0) {
                         } else {
                         }
-                        this_$iv$iv2 = i;
-                        if (this_$iv$iv2 != 0) {
+                        this_$iv$iv = i4;
+                        if (this_$iv$iv != 0) {
                         } else {
                         }
-                        this_$iv2 = this_$iv3;
-                        i7 = $i$f$dispatchIfNeeded;
-                        $i$f$dispatchIfNeeded2 = this_$iv$iv;
+                        this_$iv3 = this_$iv;
+                        i = $i$f$dispatchIfNeeded;
+                        $i$f$dispatchIfNeeded2 = this_$iv$iv2;
                         node$iv$iv = node$iv$iv.getChild$ui_release();
-                        this_$iv3 = this_$iv2;
-                        $i$f$dispatchIfNeeded = i7;
+                        this_$iv = this_$iv3;
+                        $i$f$dispatchIfNeeded = i;
                         node$iv$iv2 = 1;
                         if (count$iv3++ == node$iv$iv2) {
                         } else {
@@ -1003,55 +1003,55 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                         if (stack$iv == 0) {
                         } else {
                         }
-                        this_$iv2 = this_$iv3;
-                        i7 = $i$f$dispatchIfNeeded;
-                        this_$iv = stack$iv;
-                        stack$iv = this_$iv;
-                        this_$iv3 = node$iv;
-                        if (this_$iv3 != null && stack$iv != 0) {
+                        this_$iv3 = this_$iv;
+                        i = $i$f$dispatchIfNeeded;
+                        this_$iv2 = stack$iv;
+                        stack$iv = this_$iv2;
+                        this_$iv = node$iv;
+                        if (this_$iv != null && stack$iv != 0) {
                         }
                         if (stack$iv != 0) {
                         } else {
                         }
-                        $i$f$dispatchIfNeeded2 = this_$iv$iv;
-                        stack$iv.add(this_$iv$iv);
+                        $i$f$dispatchIfNeeded2 = this_$iv$iv2;
+                        stack$iv.add(this_$iv$iv2);
                         if (stack$iv != 0) {
                         }
                         node$iv = $i$f$dispatchIfNeeded;
-                        stack$iv.add(this_$iv3);
-                        this_$iv$iv2 = 0;
-                        i9 = 0;
-                        this_$iv2 = this_$iv3;
-                        i7 = $i$f$dispatchIfNeeded;
-                        this_$iv = new MutableVector(new Modifier.Node[16], i);
-                        node$iv = this_$iv$iv;
-                        this_$iv2 = this_$iv3;
-                        i7 = $i$f$dispatchIfNeeded;
-                        $i$f$dispatchIfNeeded2 = this_$iv$iv;
-                        this_$iv$iv2 = node$iv$iv2;
+                        stack$iv.add(this_$iv);
+                        this_$iv$iv = 0;
+                        i6 = 0;
+                        this_$iv3 = this_$iv;
+                        i = $i$f$dispatchIfNeeded;
+                        this_$iv2 = new MutableVector(new Modifier.Node[16], i4);
+                        node$iv = this_$iv$iv2;
+                        this_$iv3 = this_$iv;
+                        i = $i$f$dispatchIfNeeded;
+                        $i$f$dispatchIfNeeded2 = this_$iv$iv2;
+                        this_$iv$iv = node$iv$iv2;
                     }
                     if (count$iv3 == 1) {
                     } else {
                     }
-                    count$iv = i2;
-                    this_$iv3 = this_$iv2;
-                    $i$f$dispatchIfNeeded = i7;
-                    this_$iv$iv = node$iv$iv;
-                    i6 = 0;
-                    i4 = 0;
-                    if (kindSet$ui_release4 &= stack$iv2 != 0) {
+                    count$iv2 = i9;
+                    this_$iv = this_$iv3;
+                    $i$f$dispatchIfNeeded = i;
+                    this_$iv$iv2 = node$iv$iv;
+                    i7 = 0;
+                    i2 = 0;
+                    if (kindSet$ui_release4 &= $i$f$getPointerInputOLwlOKw != 0) {
                     } else {
                     }
-                    this_$iv$iv2 = i;
-                    if (this_$iv$iv2 != 0) {
+                    this_$iv$iv = i4;
+                    if (this_$iv$iv != 0) {
                     } else {
                     }
-                    this_$iv2 = this_$iv3;
-                    i7 = $i$f$dispatchIfNeeded;
-                    $i$f$dispatchIfNeeded2 = this_$iv$iv;
+                    this_$iv3 = this_$iv;
+                    i = $i$f$dispatchIfNeeded;
+                    $i$f$dispatchIfNeeded2 = this_$iv$iv2;
                     node$iv$iv = node$iv$iv.getChild$ui_release();
-                    this_$iv3 = this_$iv2;
-                    $i$f$dispatchIfNeeded = i7;
+                    this_$iv = this_$iv3;
+                    $i$f$dispatchIfNeeded = i;
                     node$iv$iv2 = 1;
                     if (count$iv3++ == node$iv$iv2) {
                     } else {
@@ -1059,59 +1059,59 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                     if (stack$iv == 0) {
                     } else {
                     }
-                    this_$iv2 = this_$iv3;
-                    i7 = $i$f$dispatchIfNeeded;
-                    this_$iv = stack$iv;
-                    stack$iv = this_$iv;
-                    this_$iv3 = node$iv;
-                    if (this_$iv3 != null && stack$iv != 0) {
+                    this_$iv3 = this_$iv;
+                    i = $i$f$dispatchIfNeeded;
+                    this_$iv2 = stack$iv;
+                    stack$iv = this_$iv2;
+                    this_$iv = node$iv;
+                    if (this_$iv != null && stack$iv != 0) {
                     }
                     if (stack$iv != 0) {
                     } else {
                     }
-                    $i$f$dispatchIfNeeded2 = this_$iv$iv;
-                    stack$iv.add(this_$iv$iv);
+                    $i$f$dispatchIfNeeded2 = this_$iv$iv2;
+                    stack$iv.add(this_$iv$iv2);
                     if (stack$iv != 0) {
                     }
                     node$iv = $i$f$dispatchIfNeeded;
-                    stack$iv.add(this_$iv3);
-                    this_$iv$iv2 = 0;
-                    i9 = 0;
-                    this_$iv2 = this_$iv3;
-                    i7 = $i$f$dispatchIfNeeded;
-                    this_$iv = new MutableVector(new Modifier.Node[16], i);
-                    node$iv = this_$iv$iv;
-                    this_$iv2 = this_$iv3;
-                    i7 = $i$f$dispatchIfNeeded;
-                    $i$f$dispatchIfNeeded2 = this_$iv$iv;
-                    this_$iv$iv2 = node$iv$iv2;
+                    stack$iv.add(this_$iv);
+                    this_$iv$iv = 0;
+                    i6 = 0;
+                    this_$iv3 = this_$iv;
+                    i = $i$f$dispatchIfNeeded;
+                    this_$iv2 = new MutableVector(new Modifier.Node[16], i4);
+                    node$iv = this_$iv$iv2;
+                    this_$iv3 = this_$iv;
+                    i = $i$f$dispatchIfNeeded;
+                    $i$f$dispatchIfNeeded2 = this_$iv$iv2;
+                    this_$iv$iv = node$iv$iv2;
                     count$iv3 = node$iv$iv2;
                     node = 0;
-                    i2 = count$iv;
+                    i9 = count$iv2;
                     (PointerInputModifierNode)node$iv.onPointerEvent-H0pRuoY(pointerEvent, PointerEventPass.Initial, size-YbymL2g);
-                    this_$iv2 = this_$iv3;
-                    i7 = $i$f$dispatchIfNeeded;
+                    this_$iv3 = this_$iv;
+                    i = $i$f$dispatchIfNeeded;
                 }
-                this_$iv2 = this_$iv3;
-                i7 = $i$f$dispatchIfNeeded;
+                this_$iv3 = this_$iv;
+                i = $i$f$dispatchIfNeeded;
                 if (obj.modifierNode.isAttached()) {
-                    attached2 = obj.getChildren();
+                    attached = obj.getChildren();
                     $i$f$dispatchIfNeeded = 0;
-                    modifierNode = attached2.getSize();
+                    modifierNode = attached.getSize();
                     if (modifierNode > 0) {
-                        stack$iv2 = 0;
+                        $i$f$getPointerInputOLwlOKw = 0;
                         stack$iv = 0;
                         node$iv$iv2 = obj.coordinates;
                         Intrinsics.checkNotNull(node$iv$iv2);
-                        (Node)attached2.getContent()[stack$iv2].dispatchMainEventPass(obj.relevantChanges, node$iv$iv2, internalPointerEvent, isInBounds);
-                        i4 = 1;
-                        while (stack$iv2++ >= modifierNode) {
-                            i = 0;
+                        (Node)attached.getContent()[$i$f$getPointerInputOLwlOKw].dispatchMainEventPass(obj.relevantChanges, node$iv$iv2, internalPointerEvent, isInBounds);
+                        i2 = 1;
+                        while ($i$f$getPointerInputOLwlOKw++ >= modifierNode) {
+                            i4 = 0;
                             stack$iv = 0;
                             node$iv$iv2 = obj.coordinates;
                             Intrinsics.checkNotNull(node$iv$iv2);
-                            (Node)count$iv[stack$iv2].dispatchMainEventPass(obj.relevantChanges, node$iv$iv2, internalPointerEvent, isInBounds);
-                            i4 = 1;
+                            (Node)count$iv2[$i$f$getPointerInputOLwlOKw].dispatchMainEventPass(obj.relevantChanges, node$iv$iv2, internalPointerEvent, isInBounds);
+                            i2 = 1;
                         }
                     } else {
                         node = internalPointerEvent;
@@ -1123,164 +1123,164 @@ public final class Node extends androidx.compose.ui.input.pointer.NodeParent {
                 }
                 if (obj.modifierNode.isAttached()) {
                     int i12 = 0;
-                    $i$f$dispatchIfNeeded = NodeKind.constructor-impl(count$iv);
+                    $i$f$dispatchIfNeeded = NodeKind.constructor-impl(count$iv2);
                     modifierNode = 0;
-                    stack$iv2 = 0;
+                    $i$f$getPointerInputOLwlOKw = 0;
                     int i14 = 0;
-                    count$iv = modifierNode2;
-                    while (count$iv != null) {
-                        if (count$iv instanceof PointerInputModifierNode) {
+                    count$iv2 = modifierNode2;
+                    while (count$iv2 != null) {
+                        if (count$iv2 instanceof PointerInputModifierNode) {
                         } else {
                         }
                         stack$iv = 0;
                         if (kindSet$ui_release &= $i$f$dispatchIfNeeded != 0) {
                         } else {
                         }
-                        count$iv2 = 0;
-                        if (count$iv2 != 0 && count$iv instanceof DelegatingNode) {
+                        count$iv = 0;
+                        if (count$iv != 0 && count$iv2 instanceof DelegatingNode) {
                         } else {
                         }
-                        this_$iv$iv2 = modifierNode2;
-                        i9 = $i$f$dispatchIfNeeded;
+                        this_$iv$iv = modifierNode2;
+                        i6 = $i$f$dispatchIfNeeded;
                         i5 = 0;
-                        $this$dispatchForKind_u2d6rFNWt0$iv = 1;
-                        count$iv = DelegatableNodeKt.access$pop(stack$iv2);
+                        $this$dispatchForKind_u2d6rFNWt0$iv3 = 1;
+                        count$iv2 = DelegatableNodeKt.access$pop($i$f$getPointerInputOLwlOKw);
                         obj = this;
-                        modifierNode2 = this_$iv$iv2;
-                        $i$f$dispatchIfNeeded = i9;
-                        if (count$iv instanceof DelegatingNode) {
+                        modifierNode2 = this_$iv$iv;
+                        $i$f$dispatchIfNeeded = i6;
+                        if (count$iv2 instanceof DelegatingNode) {
                         } else {
                         }
-                        count$iv2 = 0;
+                        count$iv = 0;
                         node$iv = null;
-                        node$iv$iv2 = (DelegatingNode)count$iv.getDelegate$ui_release();
+                        node$iv$iv2 = (DelegatingNode)count$iv2.getDelegate$ui_release();
                         while (node$iv$iv2 != 0) {
-                            i2 = node$iv$iv2;
+                            i9 = node$iv$iv2;
                             node$iv$iv = null;
-                            i6 = 0;
+                            i7 = 0;
                             if (kindSet$ui_release3 &= $i$f$dispatchIfNeeded != 0) {
                             } else {
                             }
-                            this_$iv$iv = 0;
-                            if (this_$iv$iv != 0) {
+                            this_$iv$iv2 = 0;
+                            if (this_$iv$iv2 != 0) {
                             } else {
                             }
-                            this_$iv$iv2 = modifierNode2;
-                            i9 = $i$f$dispatchIfNeeded;
-                            next$iv = i2;
+                            this_$iv$iv = modifierNode2;
+                            i6 = $i$f$dispatchIfNeeded;
+                            next$iv = i9;
                             capacity$iv$iv$iv = 0;
                             node$iv$iv2 = node$iv$iv2.getChild$ui_release();
                             obj = this;
-                            modifierNode2 = this_$iv$iv2;
-                            $i$f$dispatchIfNeeded = i9;
-                            if (count$iv2++ == 1) {
+                            modifierNode2 = this_$iv$iv;
+                            $i$f$dispatchIfNeeded = i6;
+                            if (count$iv++ == 1) {
                             } else {
                             }
-                            if (stack$iv2 == 0) {
+                            if ($i$f$getPointerInputOLwlOKw == 0) {
                             } else {
                             }
-                            this_$iv$iv2 = modifierNode2;
-                            i9 = $i$f$dispatchIfNeeded;
+                            this_$iv$iv = modifierNode2;
+                            i6 = $i$f$dispatchIfNeeded;
                             capacity$iv$iv$iv = 0;
-                            $this$dispatchForKind_u2d6rFNWt0$iv3 = stack$iv2;
-                            stack$iv2 = $this$dispatchForKind_u2d6rFNWt0$iv3;
-                            modifierNode2 = count$iv;
-                            if (modifierNode2 != null && stack$iv2 != 0) {
+                            $this$dispatchForKind_u2d6rFNWt0$iv = $i$f$getPointerInputOLwlOKw;
+                            $i$f$getPointerInputOLwlOKw = $this$dispatchForKind_u2d6rFNWt0$iv;
+                            modifierNode2 = count$iv2;
+                            if (modifierNode2 != null && $i$f$getPointerInputOLwlOKw != 0) {
                             }
-                            if (stack$iv2 != 0) {
+                            if ($i$f$getPointerInputOLwlOKw != 0) {
                             } else {
                             }
-                            next$iv = i2;
-                            stack$iv2.add(i2);
-                            if (stack$iv2 != 0) {
+                            next$iv = i9;
+                            $i$f$getPointerInputOLwlOKw.add(i9);
+                            if ($i$f$getPointerInputOLwlOKw != 0) {
                             }
-                            count$iv = $i$f$dispatchIfNeeded;
-                            stack$iv2.add(modifierNode2);
-                            this_$iv$iv = i11;
+                            count$iv2 = $i$f$dispatchIfNeeded;
+                            $i$f$getPointerInputOLwlOKw.add(modifierNode2);
+                            this_$iv$iv2 = i11;
                             int $i$f$mutableVectorOf = 16;
-                            i6 = 0;
-                            this_$iv$iv2 = modifierNode2;
-                            i9 = $i$f$dispatchIfNeeded;
-                            i8 = $i$f$mutableVectorOf;
-                            $this$dispatchForKind_u2d6rFNWt0$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                            count$iv = i2;
-                            this_$iv$iv2 = modifierNode2;
-                            i9 = $i$f$dispatchIfNeeded;
-                            next$iv = i2;
+                            i7 = 0;
+                            this_$iv$iv = modifierNode2;
+                            i6 = $i$f$dispatchIfNeeded;
+                            i3 = $i$f$mutableVectorOf;
+                            $this$dispatchForKind_u2d6rFNWt0$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                            count$iv2 = i9;
+                            this_$iv$iv = modifierNode2;
+                            i6 = $i$f$dispatchIfNeeded;
+                            next$iv = i9;
                             capacity$iv$iv$iv = 0;
-                            this_$iv$iv = 1;
+                            this_$iv$iv2 = 1;
                         }
                         i5 = 0;
-                        if (count$iv2 == 1) {
+                        if (count$iv == 1) {
                         } else {
                         }
                         obj = this;
-                        modifierNode2 = this_$iv$iv2;
-                        $i$f$dispatchIfNeeded = i9;
-                        i2 = node$iv$iv2;
+                        modifierNode2 = this_$iv$iv;
+                        $i$f$dispatchIfNeeded = i6;
+                        i9 = node$iv$iv2;
                         node$iv$iv = null;
-                        i6 = 0;
+                        i7 = 0;
                         if (kindSet$ui_release3 &= $i$f$dispatchIfNeeded != 0) {
                         } else {
                         }
-                        this_$iv$iv = 0;
-                        if (this_$iv$iv != 0) {
+                        this_$iv$iv2 = 0;
+                        if (this_$iv$iv2 != 0) {
                         } else {
                         }
-                        this_$iv$iv2 = modifierNode2;
-                        i9 = $i$f$dispatchIfNeeded;
-                        next$iv = i2;
+                        this_$iv$iv = modifierNode2;
+                        i6 = $i$f$dispatchIfNeeded;
+                        next$iv = i9;
                         capacity$iv$iv$iv = 0;
                         node$iv$iv2 = node$iv$iv2.getChild$ui_release();
                         obj = this;
-                        modifierNode2 = this_$iv$iv2;
-                        $i$f$dispatchIfNeeded = i9;
-                        if (count$iv2++ == 1) {
+                        modifierNode2 = this_$iv$iv;
+                        $i$f$dispatchIfNeeded = i6;
+                        if (count$iv++ == 1) {
                         } else {
                         }
-                        if (stack$iv2 == 0) {
+                        if ($i$f$getPointerInputOLwlOKw == 0) {
                         } else {
                         }
-                        this_$iv$iv2 = modifierNode2;
-                        i9 = $i$f$dispatchIfNeeded;
+                        this_$iv$iv = modifierNode2;
+                        i6 = $i$f$dispatchIfNeeded;
                         capacity$iv$iv$iv = 0;
-                        $this$dispatchForKind_u2d6rFNWt0$iv3 = stack$iv2;
-                        stack$iv2 = $this$dispatchForKind_u2d6rFNWt0$iv3;
-                        modifierNode2 = count$iv;
-                        if (modifierNode2 != null && stack$iv2 != 0) {
+                        $this$dispatchForKind_u2d6rFNWt0$iv = $i$f$getPointerInputOLwlOKw;
+                        $i$f$getPointerInputOLwlOKw = $this$dispatchForKind_u2d6rFNWt0$iv;
+                        modifierNode2 = count$iv2;
+                        if (modifierNode2 != null && $i$f$getPointerInputOLwlOKw != 0) {
                         }
-                        if (stack$iv2 != 0) {
+                        if ($i$f$getPointerInputOLwlOKw != 0) {
                         } else {
                         }
-                        next$iv = i2;
-                        stack$iv2.add(i2);
-                        if (stack$iv2 != 0) {
+                        next$iv = i9;
+                        $i$f$getPointerInputOLwlOKw.add(i9);
+                        if ($i$f$getPointerInputOLwlOKw != 0) {
                         }
-                        count$iv = $i$f$dispatchIfNeeded;
-                        stack$iv2.add(modifierNode2);
-                        this_$iv$iv = i11;
+                        count$iv2 = $i$f$dispatchIfNeeded;
+                        $i$f$getPointerInputOLwlOKw.add(modifierNode2);
+                        this_$iv$iv2 = i11;
                         $i$f$mutableVectorOf = 16;
-                        i6 = 0;
-                        this_$iv$iv2 = modifierNode2;
-                        i9 = $i$f$dispatchIfNeeded;
-                        i8 = $i$f$mutableVectorOf;
-                        $this$dispatchForKind_u2d6rFNWt0$iv3 = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
-                        count$iv = i2;
-                        this_$iv$iv2 = modifierNode2;
-                        i9 = $i$f$dispatchIfNeeded;
-                        next$iv = i2;
+                        i7 = 0;
+                        this_$iv$iv = modifierNode2;
+                        i6 = $i$f$dispatchIfNeeded;
+                        i3 = $i$f$mutableVectorOf;
+                        $this$dispatchForKind_u2d6rFNWt0$iv = new MutableVector(new Modifier.Node[$i$f$mutableVectorOf], 0);
+                        count$iv2 = i9;
+                        this_$iv$iv = modifierNode2;
+                        i6 = $i$f$dispatchIfNeeded;
+                        next$iv = i9;
                         capacity$iv$iv$iv = 0;
-                        this_$iv$iv = 1;
-                        count$iv2 = 1;
+                        this_$iv$iv2 = 1;
+                        count$iv = 1;
                         stack$iv = 0;
-                        (PointerInputModifierNode)count$iv.onPointerEvent-H0pRuoY(pointerEvent, PointerEventPass.Main, size-YbymL2g);
-                        this_$iv$iv2 = modifierNode2;
-                        i9 = $i$f$dispatchIfNeeded;
+                        (PointerInputModifierNode)count$iv2.onPointerEvent-H0pRuoY(pointerEvent, PointerEventPass.Main, size-YbymL2g);
+                        this_$iv$iv = modifierNode2;
+                        i6 = $i$f$dispatchIfNeeded;
                         i5 = 0;
-                        $this$dispatchForKind_u2d6rFNWt0$iv = 1;
+                        $this$dispatchForKind_u2d6rFNWt0$iv3 = 1;
                     }
-                    this_$iv$iv2 = modifierNode2;
-                    i9 = $i$f$dispatchIfNeeded;
+                    this_$iv$iv = modifierNode2;
+                    i6 = $i$f$dispatchIfNeeded;
                     $this$dispatchForKind_u2d6rFNWt0$iv2 = 1;
                 } else {
                     $this$dispatchForKind_u2d6rFNWt0$iv2 = 1;

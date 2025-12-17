@@ -39,21 +39,21 @@ public final class ValidatingOffsetMappingKt {
     }
 
     public static final void throwIfNotValidTransform(TransformedText $this$throwIfNotValidTransform, int originalLength, int limit) {
-        int offset;
         int offset2;
+        int offset;
         int originalToTransformed;
         int transformedToOriginal;
         int length = $this$throwIfNotValidTransform.getText().length();
-        offset = 0;
-        while (offset < Math.min(originalLength, limit)) {
-            ValidatingOffsetMappingKt.validateOriginalToTransformed($this$throwIfNotValidTransform.getOffsetMapping().originalToTransformed(offset), length, offset);
-            offset++;
+        offset2 = 0;
+        while (offset2 < Math.min(originalLength, limit)) {
+            ValidatingOffsetMappingKt.validateOriginalToTransformed($this$throwIfNotValidTransform.getOffsetMapping().originalToTransformed(offset2), length, offset2);
+            offset2++;
         }
         ValidatingOffsetMappingKt.validateOriginalToTransformed($this$throwIfNotValidTransform.getOffsetMapping().originalToTransformed(originalLength), length, originalLength);
-        offset2 = 0;
-        while (offset2 < Math.min(length, limit)) {
-            ValidatingOffsetMappingKt.validateTransformedToOriginal($this$throwIfNotValidTransform.getOffsetMapping().transformedToOriginal(offset2), originalLength, offset2);
-            offset2++;
+        offset = 0;
+        while (offset < Math.min(length, limit)) {
+            ValidatingOffsetMappingKt.validateTransformedToOriginal($this$throwIfNotValidTransform.getOffsetMapping().transformedToOriginal(offset), originalLength, offset);
+            offset++;
         }
         ValidatingOffsetMappingKt.validateTransformedToOriginal($this$throwIfNotValidTransform.getOffsetMapping().transformedToOriginal(length), originalLength, length);
     }

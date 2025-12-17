@@ -41,22 +41,22 @@ public abstract class AbstractMap<K, V>  implements Map<K, V>, KMappedMarker {
         }
 
         public final int entryHashCode$kotlin_stdlib(Map.Entry<?, ?> e) {
-            int i;
             int i2;
+            int i;
             Intrinsics.checkNotNullParameter(e, "e");
             Object obj = e;
             final int i3 = 0;
             Object key = obj.getKey();
             if (key != null) {
-                i = key.hashCode();
+                i2 = key.hashCode();
             } else {
-                i = i2;
+                i2 = i;
             }
             final Object value = obj.getValue();
             if (value != null) {
-                i2 = value.hashCode();
+                i = value.hashCode();
             }
-            return i ^ i2;
+            return i2 ^ i;
         }
 
         public final String entryToString$kotlin_stdlib(Map.Entry<?, ?> e) {
@@ -147,25 +147,25 @@ public abstract class AbstractMap<K, V>  implements Map<K, V>, KMappedMarker {
     @Override // java.util.Map
     public boolean containsValue(Object value) {
         boolean iterator;
-        int i2;
+        int i;
         boolean next;
         boolean it;
-        int i;
+        int i2;
         Object value2;
         final Set entrySet = entrySet();
         final int i3 = 0;
-        i2 = 0;
+        i = 0;
         if (entrySet instanceof Collection != null && (Collection)(Iterable)entrySet.isEmpty()) {
             if ((Collection)entrySet.isEmpty()) {
             } else {
                 iterator = entrySet.iterator();
                 for (Object next : iterator) {
-                    i = 0;
+                    i2 = 0;
                 }
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public final Set<Map.Entry<K, V>> entrySet() {

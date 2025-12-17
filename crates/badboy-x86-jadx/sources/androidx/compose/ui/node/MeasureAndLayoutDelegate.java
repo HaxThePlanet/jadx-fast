@@ -64,10 +64,10 @@ public final class MeasureAndLayoutDelegate {
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal3;
-            int ordinal5;
-            int ordinal2;
             int ordinal4;
+            int ordinal3;
+            int ordinal2;
+            int ordinal5;
             int[] iArr = new int[values.length];
             iArr[LayoutNode.LayoutState.LookaheadMeasuring.ordinal()] = 1;
             iArr[LayoutNode.LayoutState.Measuring.ordinal()] = 2;
@@ -141,8 +141,8 @@ public final class MeasureAndLayoutDelegate {
         androidx.compose.ui.node.LayoutNode.UsageByParent measuredByParentInLookahead$ui_release;
         androidx.compose.ui.node.LayoutNode.UsageByParent inLayoutBlock;
         int i;
-        int i2;
         int i3;
+        int i2;
         final int i5 = 0;
         if (layoutNode.getLookaheadRoot$ui_release() == null) {
             return i5;
@@ -204,40 +204,40 @@ public final class MeasureAndLayoutDelegate {
 
     private final void drainPostponedMeasureRequests() {
         boolean this_$iv;
-        int i3;
+        int i4;
         int size;
         int i$iv;
         Object[] content;
         Object obj;
-        int i5;
+        int i3;
         boolean lookahead;
         androidx.compose.ui.node.LayoutNode node;
-        boolean forced;
+        boolean forced2;
+        int i9;
         int i;
-        int i6;
-        int i4;
+        int i5;
         int i7;
         androidx.compose.ui.node.LayoutNode node2;
-        boolean forced2;
-        int i2;
-        int i8;
-        int i9;
+        boolean forced;
+        int i6;
         int i10;
+        int i8;
+        int i2;
         final Object obj2 = this;
         MutableVector postponedMeasureRequests2 = obj2.postponedMeasureRequests;
-        i3 = 0;
+        i4 = 0;
         size = postponedMeasureRequests2.getSize();
         if (obj2.postponedMeasureRequests.isNotEmpty() && size > 0) {
             postponedMeasureRequests2 = obj2.postponedMeasureRequests;
-            i3 = 0;
+            i4 = 0;
             size = postponedMeasureRequests2.getSize();
             if (size > 0) {
                 i$iv = 0;
                 obj = postponedMeasureRequests2.getContent()[i$iv];
-                i5 = 0;
+                i3 = 0;
                 do {
                     obj = content[i$iv];
-                    i5 = 0;
+                    i3 = 0;
                     if (i$iv++ < size) {
                     }
                     if (!obj.isLookahead()) {
@@ -255,9 +255,9 @@ public final class MeasureAndLayoutDelegate {
         int i$iv$iv;
         Object[] content;
         Object obj;
-        int i;
-        boolean deactivated;
         int i2;
+        boolean deactivated;
+        int i;
         Boolean valueOf;
         final int i3 = 0;
         final MutableVector mutableVector = layoutNode.get_children$ui_release();
@@ -266,21 +266,21 @@ public final class MeasureAndLayoutDelegate {
         if (size > 0) {
             i$iv$iv = 0;
             obj = mutableVector.getContent()[i$iv$iv];
-            i = 0;
-            i2 = 1;
+            i2 = 0;
+            i = 1;
             do {
                 obj = content[i$iv$iv];
-                i = 0;
-                i2 = 1;
+                i2 = 0;
+                i = 1;
                 if (i$iv$iv++ < size) {
                 }
-                if (!obj.isDeactivated() && this.relayoutNodes.contains(obj, i2)) {
+                if (!obj.isDeactivated() && this.relayoutNodes.contains(obj, i)) {
                 }
-                if (this.relayoutNodes.contains(obj, i2)) {
+                if (this.relayoutNodes.contains(obj, i)) {
                 }
                 ensureSubtreeLookaheadReplaced(obj);
                 obj.lookaheadReplace$ui_release();
-            } while (Intrinsics.areEqual((LayoutNode)obj.isPlacedInLookahead(), Boolean.valueOf(i2)));
+            } while (Intrinsics.areEqual((LayoutNode)obj.isPlacedInLookahead(), Boolean.valueOf(i)));
         }
     }
 
@@ -424,8 +424,8 @@ public final class MeasureAndLayoutDelegate {
 
     private final void performMeasureAndLayout(boolean fullPass, Function0<Unit> block) {
         Object value$iv;
-        String str;
-        String str2;
+        String $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2;
+        String $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$3;
         final int i = 0;
         int i4 = 0;
         if (!this.root.isAttached()) {
@@ -652,7 +652,7 @@ public final class MeasureAndLayoutDelegate {
     }
 
     public final void forceMeasureTheSubtree(androidx.compose.ui.node.LayoutNode layoutNode, boolean affectsLookahead) {
-        String str;
+        String $i$a$CheckPreconditionMeasureAndLayoutDelegate$forceMeasureTheSubtree$1;
         if (this.relayoutNodes.isEmpty(affectsLookahead)) {
         }
         int i2 = 0;
@@ -677,7 +677,7 @@ public final class MeasureAndLayoutDelegate {
     }
 
     public final long getMeasureIteration() {
-        String str;
+        String $i$a$RequirePreconditionMeasureAndLayoutDelegate$measureIteration$1;
         final int i = 0;
         if (!this.duringMeasureLayout) {
             int i2 = 0;
@@ -689,20 +689,20 @@ public final class MeasureAndLayoutDelegate {
     public final boolean measureAndLayout(Function0<Unit> onLayout) {
         Object value$iv$iv;
         Object obj;
-        int i;
-        int i7;
+        int i2;
+        int i8;
         androidx.compose.ui.node.DepthSortedSet set;
         int notEmpty;
-        String remeasureAndRelayoutIfNeeded$default;
-        int i3;
+        String $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$1$iv;
         int i5;
+        int i;
         boolean z;
         androidx.compose.ui.node.DepthSortedSetsForDifferentPasses set2;
-        int i2;
-        int rootNodeResized;
         int i6;
+        int rootNodeResized;
         int i4;
-        int i8;
+        int i7;
+        int i3;
         obj = this;
         final Object obj2 = this;
         final int i19 = 0;
@@ -733,22 +733,22 @@ public final class MeasureAndLayoutDelegate {
             z = 0;
             if (obj.relayoutNodes.isNotEmpty()) {
                 set2 = relayoutNodes2;
-                i2 = notEmpty;
-                rootNodeResized = i7;
+                i6 = notEmpty;
+                rootNodeResized = i8;
                 while (set2.isNotEmpty()) {
                     int i13 = 0;
-                    i6 = this_$iv$iv;
-                    if (i6 != 0) {
+                    i4 = this_$iv$iv;
+                    if (i4 != 0) {
                     } else {
                     }
                     set = DepthSortedSetsForDifferentPasses.access$getSet$p(set2);
-                    i7 = set.pop();
-                    i4 = i7;
-                    i8 = 0;
-                    if (i7 == MeasureAndLayoutDelegate.access$getRoot$p(this) && MeasureAndLayoutDelegate.remeasureAndRelayoutIfNeeded$default(obj, i7, i6, false, 4, 0) != null) {
+                    i8 = set.pop();
+                    i7 = i8;
+                    i3 = 0;
+                    if (i8 == MeasureAndLayoutDelegate.access$getRoot$p(this) && MeasureAndLayoutDelegate.remeasureAndRelayoutIfNeeded$default(obj, i8, i4, false, 4, 0) != null) {
                     }
                     obj = this;
-                    if (MeasureAndLayoutDelegate.remeasureAndRelayoutIfNeeded$default(obj, i7, i6, false, 4, 0) != null) {
+                    if (MeasureAndLayoutDelegate.remeasureAndRelayoutIfNeeded$default(obj, i8, i4, false, 4, 0) != null) {
                     }
                     rootNodeResized = 1;
                     set = DepthSortedSetsForDifferentPasses.access$getLookaheadSet$p(set2);
@@ -756,7 +756,7 @@ public final class MeasureAndLayoutDelegate {
                 if (onLayout != null) {
                     onLayout.invoke();
                 }
-                i7 = rootNodeResized;
+                i8 = rootNodeResized;
             }
             obj2.duringMeasureLayout = z;
             obj2.duringFullMeasureLayoutPass = z;
@@ -766,16 +766,16 @@ public final class MeasureAndLayoutDelegate {
             }
         }
         callOnLayoutCompletedListeners();
-        return i7;
+        return i8;
     }
 
     public final void measureAndLayout-0kLqBqw(androidx.compose.ui.node.LayoutNode layoutNode, long constraints) {
         int consistencyChecker;
         boolean layoutPending$ui_release;
-        String str;
+        String $i$a$RequirePreconditionMeasureAndLayoutDelegate$measureAndLayout$2;
         Constraints value$iv$iv;
         int i;
-        String doLookaheadRemeasure-sdFAvZA;
+        String $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2$iv;
         boolean lookaheadLayoutPending$ui_release;
         if (layoutNode.isDeactivated()) {
         }
@@ -841,8 +841,8 @@ public final class MeasureAndLayoutDelegate {
         int i;
         Object value$iv$iv;
         int root;
-        String str;
-        String lookaheadRoot$ui_release;
+        String $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2$iv;
+        String $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$3$iv;
         obj = this;
         i = 0;
         int i4 = 0;
@@ -860,7 +860,7 @@ public final class MeasureAndLayoutDelegate {
                 InlineClassHelperKt.throwIllegalArgumentException("performMeasureAndLayout called with unplaced root");
             }
             root = 1;
-            str = 0;
+            $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2$iv = 0;
             if (value$iv$iv3 ^= root == 0) {
                 int i8 = 0;
                 InlineClassHelperKt.throwIllegalArgumentException("performMeasureAndLayout called during measure layout");
@@ -868,12 +868,12 @@ public final class MeasureAndLayoutDelegate {
             obj.duringMeasureLayout = root;
             obj.duringFullMeasureLayoutPass = false;
             int i3 = 0;
-            str = 0;
+            $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2$iv = 0;
             if (obj.rootConstraints != null && !this.relayoutNodes.isEmpty(root)) {
                 obj.duringMeasureLayout = root;
                 obj.duringFullMeasureLayoutPass = notEmpty;
                 i3 = 0;
-                str = 0;
+                $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2$iv = 0;
                 if (!this.relayoutNodes.isEmpty(root)) {
                     if (this.root.getLookaheadRoot$ui_release() != null) {
                         remeasureOnly(this.root, root);
@@ -881,9 +881,9 @@ public final class MeasureAndLayoutDelegate {
                         remeasureLookaheadRootsInSubtree(this.root);
                     }
                 }
-                remeasureOnly(this.root, str);
-                obj.duringMeasureLayout = str;
-                obj.duringFullMeasureLayoutPass = str;
+                remeasureOnly(this.root, $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2$iv);
+                obj.duringMeasureLayout = $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2$iv;
+                obj.duringFullMeasureLayoutPass = $i$a$RequirePreconditionMeasureAndLayoutDelegate$performMeasureAndLayout$2$iv;
                 value$iv$iv = obj.consistencyChecker;
                 if (value$iv$iv != null) {
                     value$iv$iv.assertConsistent();
@@ -905,13 +905,13 @@ public final class MeasureAndLayoutDelegate {
     public final boolean requestLookaheadRelayout(androidx.compose.ui.node.LayoutNode layoutNode, boolean forced) {
         androidx.compose.ui.node.LayoutTreeConsistencyChecker consistencyChecker;
         boolean lookaheadMeasurePending$ui_release;
-        int i2;
+        int i;
         boolean duringFullMeasureLayoutPass;
         boolean lookaheadMeasurePending$ui_release2;
         int layoutPending$ui_release;
-        int i;
+        int i2;
         Boolean valueOf;
-        i2 = 0;
+        i = 0;
         switch (i3) {
             case 1:
                 consistencyChecker = this.consistencyChecker;
@@ -923,69 +923,18 @@ public final class MeasureAndLayoutDelegate {
                 layoutNode.markLookaheadLayoutPending$ui_release();
                 layoutNode.markLayoutPending$ui_release();
                 consistencyChecker = layoutNode.getParent$ui_release();
-                i = 1;
-                lookaheadMeasurePending$ui_release2 = i;
+                i2 = 1;
                 lookaheadMeasurePending$ui_release2 = i2;
                 lookaheadMeasurePending$ui_release2 = i;
                 lookaheadMeasurePending$ui_release2 = i2;
-                this.relayoutNodes.add(layoutNode, i);
-                layoutPending$ui_release = i;
-                layoutPending$ui_release = i2;
-                layoutPending$ui_release = i;
-                layoutPending$ui_release = i2;
+                lookaheadMeasurePending$ui_release2 = i;
                 this.relayoutNodes.add(layoutNode, i2);
-                i2 = i;
-                break;
-            default:
-                NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
-                throw noWhenBranchMatchedException;
-        }
-        return i2;
-    }
-
-    public final boolean requestLookaheadRemeasure(androidx.compose.ui.node.LayoutNode layoutNode, boolean forced) {
-        int i2;
-        androidx.compose.ui.node.DepthSortedSetsForDifferentPasses canAffectParent;
-        boolean canAffectParentInLookahead;
-        androidx.compose.ui.node.LayoutNode lookaheadMeasurePending$ui_release2;
-        androidx.compose.ui.node.LayoutNode measurePending$ui_release;
-        androidx.compose.ui.node.LayoutTreeConsistencyChecker lookaheadMeasurePending$ui_release;
-        int i;
-        Object postponedRequest;
-        String str;
-        i = 1;
-        final int i4 = 0;
-        i2 = layoutNode.getLookaheadRoot$ui_release() != null ? i : i4;
-        int i5 = 0;
-        if (i2 == 0) {
-            int i6 = 0;
-            InlineClassHelperKt.throwIllegalStateException("Error: requestLookaheadRemeasure cannot be called on a node outside LookaheadScope");
-        }
-        switch (lookaheadMeasurePending$ui_release) {
-            case 1:
-                i = i4;
-                break;
-            case 2:
-                postponedRequest = new MeasureAndLayoutDelegate.PostponedRequest(layoutNode, i, forced);
-                this.postponedMeasureRequests.add(postponedRequest);
-                lookaheadMeasurePending$ui_release = this.consistencyChecker;
-                lookaheadMeasurePending$ui_release.assertConsistent();
-                i = i4;
-                break;
-            case 3:
-                i = i4;
-                layoutNode.markLookaheadMeasurePending$ui_release();
-                layoutNode.markMeasurePending$ui_release();
-                i = i4;
-                lookaheadMeasurePending$ui_release2 = layoutNode.getParent$ui_release();
-                canAffectParentInLookahead = i;
-                canAffectParentInLookahead = i4;
+                layoutPending$ui_release = i2;
+                layoutPending$ui_release = i;
+                layoutPending$ui_release = i2;
+                layoutPending$ui_release = i;
                 this.relayoutNodes.add(layoutNode, i);
-                measurePending$ui_release = layoutNode.getParent$ui_release();
-                canAffectParent = i;
-                canAffectParent = i4;
-                this.relayoutNodes.add(layoutNode, i4);
-                i = i4;
+                i = i2;
                 break;
             default:
                 NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
@@ -994,19 +943,70 @@ public final class MeasureAndLayoutDelegate {
         return i;
     }
 
+    public final boolean requestLookaheadRemeasure(androidx.compose.ui.node.LayoutNode layoutNode, boolean forced) {
+        int i;
+        androidx.compose.ui.node.DepthSortedSetsForDifferentPasses canAffectParent;
+        boolean canAffectParentInLookahead;
+        androidx.compose.ui.node.LayoutNode lookaheadMeasurePending$ui_release2;
+        androidx.compose.ui.node.LayoutNode measurePending$ui_release;
+        androidx.compose.ui.node.LayoutTreeConsistencyChecker lookaheadMeasurePending$ui_release;
+        int i2;
+        Object postponedRequest;
+        String $i$a$CheckPreconditionMeasureAndLayoutDelegate$requestLookaheadRemeasure$1;
+        i2 = 1;
+        final int i4 = 0;
+        i = layoutNode.getLookaheadRoot$ui_release() != null ? i2 : i4;
+        int i5 = 0;
+        if (i == 0) {
+            int i6 = 0;
+            InlineClassHelperKt.throwIllegalStateException("Error: requestLookaheadRemeasure cannot be called on a node outside LookaheadScope");
+        }
+        switch (lookaheadMeasurePending$ui_release) {
+            case 1:
+                i2 = i4;
+                break;
+            case 2:
+                postponedRequest = new MeasureAndLayoutDelegate.PostponedRequest(layoutNode, i2, forced);
+                this.postponedMeasureRequests.add(postponedRequest);
+                lookaheadMeasurePending$ui_release = this.consistencyChecker;
+                lookaheadMeasurePending$ui_release.assertConsistent();
+                i2 = i4;
+                break;
+            case 3:
+                i2 = i4;
+                layoutNode.markLookaheadMeasurePending$ui_release();
+                layoutNode.markMeasurePending$ui_release();
+                i2 = i4;
+                lookaheadMeasurePending$ui_release2 = layoutNode.getParent$ui_release();
+                canAffectParentInLookahead = i2;
+                canAffectParentInLookahead = i4;
+                this.relayoutNodes.add(layoutNode, i2);
+                measurePending$ui_release = layoutNode.getParent$ui_release();
+                canAffectParent = i2;
+                canAffectParent = i4;
+                this.relayoutNodes.add(layoutNode, i4);
+                i2 = i4;
+                break;
+            default:
+                NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
+                throw noWhenBranchMatchedException;
+        }
+        return i2;
+    }
+
     public final void requestOnPositionedCallback(androidx.compose.ui.node.LayoutNode layoutNode) {
         this.onPositionedDispatcher.onNodePositioned(layoutNode);
     }
 
     public final boolean requestRelayout(androidx.compose.ui.node.LayoutNode layoutNode, boolean forced) {
-        boolean measurePending$ui_release2;
+        boolean measurePending$ui_release;
         androidx.compose.ui.node.LayoutTreeConsistencyChecker consistencyChecker;
         int i;
         boolean placedByParent;
         boolean layoutPending$ui_release;
-        int measurePending$ui_release;
+        int measurePending$ui_release2;
         i = 0;
-        switch (measurePending$ui_release2) {
+        switch (measurePending$ui_release) {
             case 1:
                 consistencyChecker = this.consistencyChecker;
                 consistencyChecker.assertConsistent();
@@ -1017,10 +1017,10 @@ public final class MeasureAndLayoutDelegate {
                 layoutNode.markLayoutPending$ui_release();
                 consistencyChecker = layoutNode.getParent$ui_release();
                 placedByParent = 1;
-                measurePending$ui_release = placedByParent;
-                measurePending$ui_release = i;
-                measurePending$ui_release = placedByParent;
-                measurePending$ui_release = i;
+                measurePending$ui_release2 = placedByParent;
+                measurePending$ui_release2 = i;
+                measurePending$ui_release2 = placedByParent;
+                measurePending$ui_release2 = i;
                 this.relayoutNodes.add(layoutNode, i);
                 i = placedByParent;
                 break;
@@ -1032,24 +1032,24 @@ public final class MeasureAndLayoutDelegate {
     }
 
     public final boolean requestRemeasure(androidx.compose.ui.node.LayoutNode layoutNode, boolean forced) {
-        int measurePending$ui_release2;
-        androidx.compose.ui.node.LayoutNode measurePending$ui_release;
+        int measurePending$ui_release;
+        androidx.compose.ui.node.LayoutNode measurePending$ui_release2;
         int relayoutNodes;
         int i;
         int postponedRequest;
         i = 0;
-        switch (measurePending$ui_release2) {
+        switch (measurePending$ui_release) {
             case 1:
                 break;
             case 2:
                 postponedRequest = new MeasureAndLayoutDelegate.PostponedRequest(layoutNode, i, forced);
                 this.postponedMeasureRequests.add(postponedRequest);
-                measurePending$ui_release2 = this.consistencyChecker;
-                measurePending$ui_release2.assertConsistent();
+                measurePending$ui_release = this.consistencyChecker;
+                measurePending$ui_release.assertConsistent();
                 break;
             case 3:
                 layoutNode.markMeasurePending$ui_release();
-                measurePending$ui_release = layoutNode.getParent$ui_release();
+                measurePending$ui_release2 = layoutNode.getParent$ui_release();
                 postponedRequest = 1;
                 relayoutNodes = postponedRequest;
                 relayoutNodes = i;
@@ -1069,7 +1069,7 @@ public final class MeasureAndLayoutDelegate {
         int i;
         long unbox-impl;
         long root;
-        Object lookaheadRoot$ui_release2;
+        Object $i$a$RequirePreconditionMeasureAndLayoutDelegate$updateRootConstraints$1;
         Constraints rootConstraints = this.rootConstraints;
         if (rootConstraints == null) {
             relayoutNodes = i;

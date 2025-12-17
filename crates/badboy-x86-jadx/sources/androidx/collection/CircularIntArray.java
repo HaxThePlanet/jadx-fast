@@ -18,12 +18,12 @@ public final class CircularIntArray {
 
     public CircularIntArray(int minCapacity) {
         int i2;
-        int i;
         int i3;
+        int i;
         super();
         int i7 = 1;
-        i3 = minCapacity >= i7 ? i7 : i2;
-        if (i3 == 0) {
+        i = minCapacity >= i7 ? i7 : i2;
+        if (i == 0) {
         } else {
             i2 = minCapacity <= 1073741824 ? i7 : i2;
             if (i2 == 0) {
@@ -31,18 +31,18 @@ public final class CircularIntArray {
                 if (Integer.bitCount(minCapacity) != i7) {
                     highestOneBit <<= i7;
                 } else {
-                    i = minCapacity;
+                    i3 = minCapacity;
                 }
-                this.capacityBitmask = i + -1;
-                this.elements = new int[i];
+                this.capacityBitmask = i3 + -1;
+                this.elements = new int[i3];
             }
             int i5 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("capacity must be <= 2^30".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireCircularIntArray$2 = new IllegalArgumentException("capacity must be <= 2^30".toString());
+            throw $i$a$RequireCircularIntArray$2;
         }
         int i4 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("capacity must be >= 1".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireCircularIntArray$1 = new IllegalArgumentException("capacity must be >= 1".toString());
+        throw $i$a$RequireCircularIntArray$1;
     }
 
     public CircularIntArray(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {

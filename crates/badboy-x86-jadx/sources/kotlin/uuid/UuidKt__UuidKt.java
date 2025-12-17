@@ -36,28 +36,28 @@ class UuidKt__UuidKt extends kotlin.uuid.UuidKt__UuidJVMKt {
     }
 
     private static final void formatBytesInto$UuidKt__UuidKt(long $this$formatBytesInto, byte[] dst, int dstOffset, int count) {
-        int i6;
-        int dstIndex2;
+        int _long;
         int dstIndex;
-        int i4;
+        int dstIndex2;
+        int i5;
         int i2;
+        int i4;
         int i;
         int i3;
-        int i5;
+        int i6 = 0;
+        _long = $this$formatBytesInto;
         int i7 = 0;
-        i6 = $this$formatBytesInto;
-        int i8 = 0;
-        i9 += count;
-        dstIndex2 = 0;
-        while (dstIndex2 < obj13) {
-            i4 = dstIndex2;
+        i8 += count;
+        dstIndex = 0;
+        while (dstIndex < obj13) {
+            i5 = dstIndex;
             i2 = 0;
-            i3 = HexExtensionsKt.getBYTE_TO_LOWER_CASE_HEX_DIGITS()[(int)i11];
-            dstIndex--;
-            dstOffset[dstIndex3] = (byte)i3;
-            dstOffset[dstIndex3--] = (byte)i12;
-            i6 >>= i5;
-            dstIndex2++;
+            i = HexExtensionsKt.getBYTE_TO_LOWER_CASE_HEX_DIGITS()[(int)i10];
+            dstIndex2--;
+            dstOffset[dstIndex3] = (byte)i;
+            dstOffset[dstIndex3--] = (byte)i11;
+            _long >>= i3;
+            dstIndex++;
         }
     }
 

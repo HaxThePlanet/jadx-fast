@@ -78,8 +78,8 @@ public final class PlaceholderSpan extends ReplacementSpan {
             return this.heightPx;
         }
         int i = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("PlaceholderSpan is not laid out yet.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckPlaceholderSpan$heightPx$1 = new IllegalStateException("PlaceholderSpan is not laid out yet.".toString());
+        throw $i$a$CheckPlaceholderSpan$heightPx$1;
     }
 
     @Override // android.text.style.ReplacementSpan
@@ -112,8 +112,8 @@ public final class PlaceholderSpan extends ReplacementSpan {
                     width *= textSize;
                     break;
                 default:
-                    IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(pxPerSp);
-                    throw illegalArgumentException2;
+                    IllegalArgumentException illegalArgumentException = new IllegalArgumentException(pxPerSp);
+                    throw illegalArgumentException;
             }
             this.widthPx = PlaceholderSpan_androidKt.ceilToInt(i2);
             switch (heightUnit) {
@@ -124,8 +124,8 @@ public final class PlaceholderSpan extends ReplacementSpan {
                     ceilToInt = PlaceholderSpan_androidKt.ceilToInt(height2 *= textSize);
                     break;
                 default:
-                    IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException(pxPerSp);
-                    throw illegalArgumentException3;
+                    IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(pxPerSp);
+                    throw illegalArgumentException2;
             }
             this.heightPx = ceilToInt;
             if (fm != null) {
@@ -149,8 +149,8 @@ public final class PlaceholderSpan extends ReplacementSpan {
                         ceilToInt.descent = ascent5 += heightPx;
                         break;
                     default:
-                        IllegalArgumentException illegalArgumentException4 = new IllegalArgumentException("Unknown verticalAlign.");
-                        throw illegalArgumentException4;
+                        IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("Unknown verticalAlign.");
+                        throw illegalArgumentException3;
                 }
                 ceilToInt.top = Math.min(fontMetrics6.top, ceilToInt.ascent);
                 ceilToInt.bottom = Math.max(fontMetrics7.bottom, ceilToInt.descent);
@@ -158,8 +158,8 @@ public final class PlaceholderSpan extends ReplacementSpan {
             return getWidthPx();
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Invalid fontMetrics: line height can not be negative.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequirePlaceholderSpan$getSize$1 = new IllegalArgumentException("Invalid fontMetrics: line height can not be negative.".toString());
+        throw $i$a$RequirePlaceholderSpan$getSize$1;
     }
 
     @Override // android.text.style.ReplacementSpan
@@ -174,7 +174,7 @@ public final class PlaceholderSpan extends ReplacementSpan {
             return this.widthPx;
         }
         int i = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("PlaceholderSpan is not laid out yet.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckPlaceholderSpan$widthPx$1 = new IllegalStateException("PlaceholderSpan is not laid out yet.".toString());
+        throw $i$a$CheckPlaceholderSpan$widthPx$1;
     }
 }

@@ -198,9 +198,9 @@ public final class LayoutNodeLayoutDelegate {
         private final void markNodeAndSubtreeAsPlaced() {
             int lookaheadMeasurePending$ui_release;
             androidx.compose.ui.node.LayoutNode layoutNode;
+            int i;
             int i2;
             int i3;
-            int i;
             int i$iv$iv;
             int content;
             Object obj;
@@ -236,43 +236,43 @@ public final class LayoutNodeLayoutDelegate {
 
         private final void markSubtreeAsNotPlaced() {
             boolean placed;
-            int i2;
+            int i;
             androidx.compose.ui.node.LayoutNode layoutNode;
             int i5;
             MutableVector mutableVector;
-            int i3;
+            int i2;
             int size;
             int i$iv$iv$iv;
             Object[] content;
             Object obj;
-            int i4;
+            int i3;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate$ui_release;
-            int i;
+            int i4;
             setPlaced(false);
-            i2 = 0;
+            i = 0;
             i5 = 0;
             mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(placed.this$0).get_children$ui_release();
-            i3 = 0;
+            i2 = 0;
             size = mutableVector.getSize();
             if (isPlaced() && size > 0) {
                 setPlaced(false);
-                i2 = 0;
+                i = 0;
                 i5 = 0;
                 mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(placed.this$0).get_children$ui_release();
-                i3 = 0;
+                i2 = 0;
                 size = mutableVector.getSize();
                 if (size > 0) {
                     i$iv$iv$iv = 0;
-                    i4 = 0;
+                    i3 = 0;
                     lookaheadPassDelegate$ui_release = (LayoutNode)mutableVector.getContent()[i$iv$iv$iv].getLayoutDelegate$ui_release().getLookaheadPassDelegate$ui_release();
                     Intrinsics.checkNotNull(lookaheadPassDelegate$ui_release);
-                    i = 0;
+                    i4 = 0;
                     lookaheadPassDelegate$ui_release.markSubtreeAsNotPlaced();
                     while (i$iv$iv$iv++ >= size) {
-                        i4 = 0;
+                        i3 = 0;
                         lookaheadPassDelegate$ui_release = (LayoutNode)content[i$iv$iv$iv].getLayoutDelegate$ui_release().getLookaheadPassDelegate$ui_release();
                         Intrinsics.checkNotNull(lookaheadPassDelegate$ui_release);
-                        i = 0;
+                        i4 = 0;
                         lookaheadPassDelegate$ui_release.markSubtreeAsNotPlaced();
                     }
                 }
@@ -283,13 +283,13 @@ public final class LayoutNodeLayoutDelegate {
             int i$iv$iv;
             Object[] content;
             Object obj;
-            int i;
+            int i4;
             boolean lookaheadMeasurePending$ui_release;
             androidx.compose.ui.node.LayoutNode.UsageByParent inMeasureBlock;
-            int i6;
-            int i5;
+            int i;
             int i2;
-            int i4;
+            int i5;
+            int i6;
             int i3;
             final Object obj2 = this;
             final int i7 = 0;
@@ -299,10 +299,10 @@ public final class LayoutNodeLayoutDelegate {
             if (size > 0) {
                 i$iv$iv = 0;
                 obj = mutableVector.getContent()[i$iv$iv];
-                i = 0;
+                i4 = 0;
                 do {
                     obj = content[i$iv$iv];
-                    i = 0;
+                    i4 = 0;
                     if (i$iv$iv++ < size) {
                     }
                     androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate$ui_release = obj.getLayoutDelegate$ui_release().getLookaheadPassDelegate$ui_release();
@@ -323,8 +323,8 @@ public final class LayoutNodeLayoutDelegate {
         }
 
         private final void onIntrinsicsQueried() {
-            Object intrinsicsUsageByParent$ui_release2;
-            int intrinsicsUsageByParent$ui_release;
+            Object intrinsicsUsageByParent$ui_release;
+            int intrinsicsUsageByParent$ui_release2;
             int $EnumSwitchMapping$0;
             LayoutNode.requestLookaheadRemeasure$ui_release$default(LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0), false, false, false, 7, 0);
             androidx.compose.ui.node.LayoutNode parent$ui_release = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getParent$ui_release();
@@ -332,15 +332,15 @@ public final class LayoutNodeLayoutDelegate {
                 if (LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getIntrinsicsUsageByParent$ui_release() == LayoutNode.UsageByParent.NotUsed) {
                     switch (i) {
                         case 2:
-                            intrinsicsUsageByParent$ui_release = LayoutNode.UsageByParent.InMeasureBlock;
+                            intrinsicsUsageByParent$ui_release2 = LayoutNode.UsageByParent.InMeasureBlock;
                             break;
                         case 3:
-                            intrinsicsUsageByParent$ui_release = LayoutNode.UsageByParent.InLayoutBlock;
+                            intrinsicsUsageByParent$ui_release2 = LayoutNode.UsageByParent.InLayoutBlock;
                             break;
                         default:
-                            intrinsicsUsageByParent$ui_release = parent$ui_release.getIntrinsicsUsageByParent$ui_release();
+                            intrinsicsUsageByParent$ui_release2 = parent$ui_release.getIntrinsicsUsageByParent$ui_release();
                     }
-                    LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).setIntrinsicsUsageByParent$ui_release(intrinsicsUsageByParent$ui_release);
+                    LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).setIntrinsicsUsageByParent$ui_release(intrinsicsUsageByParent$ui_release2);
                 }
             }
         }
@@ -349,7 +349,7 @@ public final class LayoutNodeLayoutDelegate {
             Object lookaheadDelegate;
             boolean lookaheadCoordinatesAccessedDuringModifierPlacement;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate lookaheadLayoutPending$ui_release;
-            String snapshotObserver;
+            String $i$a$RequirePreconditionLayoutNodeLayoutDelegate$LookaheadPassDelegate$placeSelf$1;
             androidx.compose.ui.node.LayoutNode layoutNode;
             int i2;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate.placeSelf.2 anon;
@@ -401,7 +401,7 @@ public final class LayoutNodeLayoutDelegate {
             int i;
             androidx.compose.ui.node.LayoutNode.UsageByParent canMultiMeasure$ui_release;
             int[] $EnumSwitchMapping$0;
-            String str;
+            String $i$a$CheckPreconditionLayoutNodeLayoutDelegate$LookaheadPassDelegate$trackLookaheadMeasurementByParent$1;
             final androidx.compose.ui.node.LayoutNode parent$ui_release = node.getParent$ui_release();
             if (parent$ui_release != null) {
                 if (this.measuredByParent != LayoutNode.UsageByParent.NotUsed) {
@@ -528,9 +528,9 @@ public final class LayoutNodeLayoutDelegate {
             int i$iv$iv$iv;
             Object[] content;
             Object obj;
+            int i2;
             int i;
             int i3;
-            int i2;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate$ui_release;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate layoutDelegate$ui_release;
             androidx.compose.ui.node.LayoutNode $this$updateChildMeasurables$iv;
@@ -550,9 +550,9 @@ public final class LayoutNodeLayoutDelegate {
             if (size3 > 0) {
                 i$iv$iv$iv = 0;
                 obj = mutableVector.getContent()[i$iv$iv$iv];
-                i = i$iv$iv$iv;
-                i3 = 0;
-                while (_childDelegates2.getSize() <= i) {
+                i2 = i$iv$iv$iv;
+                i = 0;
+                while (_childDelegates2.getSize() <= i2) {
                     lookaheadPassDelegate$ui_release = 0;
                     $this$updateChildMeasurables$iv = $this$updateChildMeasurables$iv2;
                     $this$updateChildMeasurables$iv2 = (LayoutNode)obj.getLayoutDelegate$ui_release().getLookaheadPassDelegate$ui_release();
@@ -562,13 +562,13 @@ public final class LayoutNodeLayoutDelegate {
                     }
                     $this$updateChildMeasurables$iv2 = $this$updateChildMeasurables$iv;
                     obj = content[i$iv$iv$iv];
-                    i = i$iv$iv$iv;
-                    i3 = 0;
+                    i2 = i$iv$iv$iv;
+                    i = 0;
                     $this$updateChildMeasurables$iv = $this$updateChildMeasurables$iv2;
-                    i2 = 0;
+                    i3 = 0;
                     lookaheadPassDelegate$ui_release = (LayoutNode)obj.getLayoutDelegate$ui_release().getLookaheadPassDelegate$ui_release();
                     Intrinsics.checkNotNull(lookaheadPassDelegate$ui_release);
-                    _childDelegates2.set(i, lookaheadPassDelegate$ui_release);
+                    _childDelegates2.set(i2, lookaheadPassDelegate$ui_release);
                 }
             } else {
                 $this$updateChildMeasurables$iv = $this$updateChildMeasurables$iv2;
@@ -687,8 +687,8 @@ public final class LayoutNodeLayoutDelegate {
             boolean forceRequest2;
             int i4;
             int i;
-            int i3;
             int i2;
+            int i3;
             androidx.compose.ui.node.LayoutNode parent$ui_release = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getParent$ui_release();
             androidx.compose.ui.node.LayoutNode.UsageByParent intrinsicsUsageByParent$ui_release2 = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getIntrinsicsUsageByParent$ui_release();
             if (parent$ui_release != null && intrinsicsUsageByParent$ui_release2 != LayoutNode.UsageByParent.NotUsed) {
@@ -748,10 +748,10 @@ public final class LayoutNodeLayoutDelegate {
             androidx.compose.ui.node.LayoutNodeLayoutDelegate this$0;
             androidx.compose.ui.node.OwnerSnapshotObserver snapshotObserver;
             androidx.compose.ui.node.LayoutNode layoutNode;
-            int i;
-            androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate.layoutChildren.1 anon;
             int i2;
+            androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate.layoutChildren.1 anon;
             int i3;
+            int i;
             int i4 = 1;
             this.layingOutChildren = i4;
             getAlignmentLines().recalculateQueryOwner();
@@ -817,21 +817,21 @@ public final class LayoutNodeLayoutDelegate {
 
         @Override // androidx.compose.ui.layout.Placeable
         public Placeable measure-BRTryo0(long constraints) {
-            int layoutState$ui_release;
-            Object intrinsicsUsageByParent$ui_release;
             int layoutState$ui_release2;
+            Object intrinsicsUsageByParent$ui_release;
+            int layoutState$ui_release;
             androidx.compose.ui.node.LayoutNode parent$ui_release = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getParent$ui_release();
             if (parent$ui_release != null) {
-                layoutState$ui_release = parent$ui_release.getLayoutState$ui_release();
+                layoutState$ui_release2 = parent$ui_release.getLayoutState$ui_release();
             } else {
-                layoutState$ui_release = layoutState$ui_release2;
+                layoutState$ui_release2 = layoutState$ui_release;
             }
-            if (layoutState$ui_release != LayoutNode.LayoutState.LookaheadMeasuring) {
+            if (layoutState$ui_release2 != LayoutNode.LayoutState.LookaheadMeasuring) {
                 androidx.compose.ui.node.LayoutNode parent$ui_release2 = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getParent$ui_release();
                 if (parent$ui_release2 != null) {
-                    layoutState$ui_release2 = parent$ui_release2.getLayoutState$ui_release();
+                    layoutState$ui_release = parent$ui_release2.getLayoutState$ui_release();
                 }
-                if (layoutState$ui_release2 == LayoutNode.LayoutState.LookaheadLayingOut) {
+                if (layoutState$ui_release == LayoutNode.LayoutState.LookaheadLayingOut) {
                     LayoutNodeLayoutDelegate.access$setDetachedFromParentLookaheadPass$p(this.this$0, false);
                 }
             } else {
@@ -863,44 +863,44 @@ public final class LayoutNodeLayoutDelegate {
         @Override // androidx.compose.ui.layout.Placeable
         public final void notifyChildrenUsingLookaheadCoordinatesWhilePlacing() {
             int childrenAccessingLookaheadCoordinatesDuringPlacement;
-            int i3;
+            int i2;
             MutableVector mutableVector;
-            int i4;
+            int i5;
             int size;
             int i$iv$iv;
             Object[] content;
             Object obj;
-            int i5;
-            androidx.compose.ui.node.LayoutNodeLayoutDelegate layoutDelegate$ui_release;
             int i;
+            androidx.compose.ui.node.LayoutNodeLayoutDelegate layoutDelegate$ui_release;
+            int i3;
             boolean lookaheadCoordinatesAccessedDuringPlacement;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate$ui_release;
-            int i2;
+            int i4;
             boolean lookaheadLayoutPending$ui_release;
-            i3 = 0;
+            i2 = 0;
             mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).get_children$ui_release();
-            i4 = 0;
+            i5 = 0;
             size = mutableVector.getSize();
             if (this.this$0.getChildrenAccessingLookaheadCoordinatesDuringPlacement() > 0 && size > 0) {
-                i3 = 0;
+                i2 = 0;
                 mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).get_children$ui_release();
-                i4 = 0;
+                i5 = 0;
                 size = mutableVector.getSize();
                 if (size > 0) {
                     i$iv$iv = 0;
                     obj = mutableVector.getContent()[i$iv$iv];
-                    i5 = 0;
+                    i = 0;
                     layoutDelegate$ui_release = (LayoutNode)obj.getLayoutDelegate$ui_release();
                     int i6 = 0;
-                    i2 = 1;
+                    i4 = 1;
                     do {
                         obj = content[i$iv$iv];
-                        i5 = 0;
+                        i = 0;
                         layoutDelegate$ui_release = (LayoutNode)obj.getLayoutDelegate$ui_release();
                         i6 = 0;
-                        i2 = 1;
-                        i = i2;
-                        if (i != 0 && !layoutDelegate$ui_release.getLookaheadLayoutPending$ui_release()) {
+                        i4 = 1;
+                        i3 = i4;
+                        if (i3 != 0 && !layoutDelegate$ui_release.getLookaheadLayoutPending$ui_release()) {
                         }
                         lookaheadPassDelegate$ui_release = layoutDelegate$ui_release.getLookaheadPassDelegate$ui_release();
                         if (lookaheadPassDelegate$ui_release != null) {
@@ -910,11 +910,11 @@ public final class LayoutNodeLayoutDelegate {
                         lookaheadPassDelegate$ui_release.notifyChildrenUsingLookaheadCoordinatesWhilePlacing();
                         if (!layoutDelegate$ui_release.getLookaheadLayoutPending$ui_release()) {
                         }
-                        LayoutNode.requestLookaheadRelayout$ui_release$default(obj, i6, i2, 0);
+                        LayoutNode.requestLookaheadRelayout$ui_release$default(obj, i6, i4, 0);
                         if (layoutDelegate$ui_release.getLookaheadCoordinatesAccessedDuringModifierPlacement()) {
                         } else {
                         }
-                        i = i6;
+                        i3 = i6;
                     } while (!layoutDelegate$ui_release.getLookaheadCoordinatesAccessedDuringPlacement());
                 }
             }
@@ -932,7 +932,7 @@ public final class LayoutNodeLayoutDelegate {
         public final void onNodePlaced$ui_release() {
             boolean relayoutWithoutParentInProgress;
             int i;
-            androidx.compose.ui.node.LayoutNode.LayoutState lookaheadLayingOut;
+            androidx.compose.ui.node.LayoutNode.LayoutState $i$a$CheckPreconditionLayoutNodeLayoutDelegate$LookaheadPassDelegate$onNodePlaced$1;
             final int i2 = 1;
             this.onNodePlacedCalled = i2;
             androidx.compose.ui.node.LayoutNode parent$ui_release = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getParent$ui_release();
@@ -982,19 +982,19 @@ public final class LayoutNodeLayoutDelegate {
 
         @Override // androidx.compose.ui.layout.Placeable
         public final boolean remeasure-BRTryo0(long constraints) {
-            int i;
+            int i3;
             boolean lookaheadMeasurePending$ui_release;
             long measuredSize-YbymL2g;
-            String str2;
+            String $i$a$RequirePreconditionLayoutNodeLayoutDelegate$LookaheadPassDelegate$remeasure$1;
             boolean canMultiMeasure$ui_release;
-            int i3;
             int i2;
+            int i;
             int height-impl;
             int height;
-            String str;
-            i = 1;
+            String $i$a$CheckPreconditionLayoutNodeLayoutDelegate$LookaheadPassDelegate$remeasure$3;
+            i3 = 1;
             int i5 = 0;
-            if (deactivated ^= i == 0) {
+            if (deactivated ^= i3 == 0) {
                 int i7 = 0;
                 InlineClassHelperKt.throwIllegalArgumentException("measure is called on a deactivated node");
             }
@@ -1003,27 +1003,27 @@ public final class LayoutNodeLayoutDelegate {
             if (!LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getCanMultiMeasure$ui_release()) {
                 if (parent$ui_release != null && parent$ui_release.getCanMultiMeasure$ui_release()) {
                     if (parent$ui_release.getCanMultiMeasure$ui_release()) {
-                        i3 = i;
+                        i2 = i3;
                     } else {
-                        i3 = i8;
+                        i2 = i8;
                     }
                 } else {
                 }
             } else {
             }
-            LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).setCanMultiMeasure$ui_release(i3);
+            LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).setCanMultiMeasure$ui_release(i2);
             if (!LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getLookaheadMeasurePending$ui_release()) {
                 Constraints lookaheadConstraints = this.lookaheadConstraints;
                 if (lookaheadConstraints == null) {
                     lookaheadMeasurePending$ui_release = i8;
                 } else {
-                    lookaheadMeasurePending$ui_release = Constraints.equals-impl0(lookaheadConstraints.unbox-impl(), i3);
+                    lookaheadMeasurePending$ui_release = Constraints.equals-impl0(lookaheadConstraints.unbox-impl(), i2);
                 }
                 if (!lookaheadMeasurePending$ui_release) {
                 } else {
                     androidx.compose.ui.node.Owner owner$ui_release = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getOwner$ui_release();
                     if (owner$ui_release != null) {
-                        owner$ui_release.forceMeasureTheSubtree(LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0), i);
+                        owner$ui_release.forceMeasureTheSubtree(LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0), i3);
                     }
                 }
                 LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).resetSubtreeIntrinsicsUsage$ui_release();
@@ -1039,11 +1039,11 @@ public final class LayoutNodeLayoutDelegate {
                 int i6 = Integer.MIN_VALUE;
                 measuredSize-YbymL2g = IntSizeKt.IntSize(i6, i6);
             }
-            this.measuredOnce = i;
+            this.measuredOnce = i3;
             androidx.compose.ui.node.LookaheadDelegate lookaheadDelegate = this.this$0.getOuterCoordinator().getLookaheadDelegate();
-            i2 = lookaheadDelegate != null ? i : i8;
+            i = lookaheadDelegate != null ? i3 : i8;
             int i9 = 0;
-            if (i2 == 0) {
+            if (i == 0) {
                 int i10 = 0;
                 InlineClassHelperKt.throwIllegalStateException("Lookahead result from lookaheadRemeasure cannot be null");
             }
@@ -1053,11 +1053,11 @@ public final class LayoutNodeLayoutDelegate {
             if (IntSize.getWidth-impl(measuredSize-YbymL2g) == lookaheadDelegate.getWidth()) {
                 if (IntSize.getHeight-impl(measuredSize-YbymL2g) != lookaheadDelegate.getHeight()) {
                 } else {
-                    i = i8;
+                    i3 = i8;
                 }
             } else {
             }
-            return i;
+            return i3;
         }
 
         @Override // androidx.compose.ui.layout.Placeable
@@ -1290,9 +1290,9 @@ public final class LayoutNodeLayoutDelegate {
             int i$iv$iv$iv;
             Object[] content;
             Object obj;
-            int i;
-            androidx.compose.ui.node.LayoutNodeLayoutDelegate.MeasurePassDelegate measurePassDelegate$ui_release;
             int i2;
+            androidx.compose.ui.node.LayoutNodeLayoutDelegate.MeasurePassDelegate measurePassDelegate$ui_release;
+            int i;
             androidx.compose.ui.node.LayoutNode.UsageByParent measuredByParent;
             LayoutNodeLayoutDelegate.access$setNextChildPlaceOrder$p(obj2.this$0, 0);
             final int i3 = 0;
@@ -1302,9 +1302,9 @@ public final class LayoutNodeLayoutDelegate {
             final int size = mutableVector.getSize();
             if (size > 0) {
                 i$iv$iv$iv = 0;
-                i = 0;
-                measurePassDelegate$ui_release = (LayoutNode)mutableVector.getContent()[i$iv$iv$iv].getMeasurePassDelegate$ui_release();
                 i2 = 0;
+                measurePassDelegate$ui_release = (LayoutNode)mutableVector.getContent()[i$iv$iv$iv].getMeasurePassDelegate$ui_release();
+                i = 0;
                 measurePassDelegate$ui_release.previousPlaceOrder = measurePassDelegate$ui_release.placeOrder;
                 measurePassDelegate$ui_release.placeOrder = Integer.MAX_VALUE;
                 measurePassDelegate$ui_release.isPlacedByParent = inLayoutBlock;
@@ -1313,9 +1313,9 @@ public final class LayoutNodeLayoutDelegate {
                     if (i$iv$iv$iv++ < size) {
                     }
                     inLayoutBlock = 0;
-                    i = 0;
-                    measurePassDelegate$ui_release = (LayoutNode)content[i$iv$iv$iv].getMeasurePassDelegate$ui_release();
                     i2 = 0;
+                    measurePassDelegate$ui_release = (LayoutNode)content[i$iv$iv$iv].getMeasurePassDelegate$ui_release();
+                    i = 0;
                     measurePassDelegate$ui_release.previousPlaceOrder = measurePassDelegate$ui_release.placeOrder;
                     measurePassDelegate$ui_release.placeOrder = Integer.MAX_VALUE;
                     measurePassDelegate$ui_release.isPlacedByParent = inLayoutBlock;
@@ -1347,17 +1347,17 @@ public final class LayoutNodeLayoutDelegate {
 
         private final void markNodeAndSubtreeAsPlaced() {
             boolean lookaheadMeasurePending$ui_release;
-            int i3;
             int i4;
-            androidx.compose.ui.node.NodeCoordinator delegate$iv;
-            int i;
             int i6;
+            androidx.compose.ui.node.NodeCoordinator delegate$iv;
+            int i5;
+            int i2;
             int i$iv$iv;
             boolean lastLayerDrawingWasSkipped$ui_release;
             Object obj;
-            int i2;
+            int i;
             int placeOrder$ui_release;
-            int i5;
+            int i3;
             setPlaced$ui_release(true);
             final androidx.compose.ui.node.LayoutNode layoutNode = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0);
             int i8 = 0;
@@ -1376,12 +1376,12 @@ public final class LayoutNodeLayoutDelegate {
             while (!Intrinsics.areEqual(delegate$iv, layoutNode2.getInnerCoordinator$ui_release().getWrapped$ui_release())) {
                 if (delegate$iv != null) {
                 }
-                i6 = delegate$iv;
+                i2 = delegate$iv;
                 i$iv$iv = 0;
-                if (i6.getLastLayerDrawingWasSkipped$ui_release()) {
+                if (i2.getLastLayerDrawingWasSkipped$ui_release()) {
                 }
                 delegate$iv = delegate$iv.getWrapped$ui_release();
-                i6.invalidateLayer();
+                i2.invalidateLayer();
             }
             int i10 = 0;
             MutableVector mutableVector = layoutNode.get_children$ui_release();
@@ -1390,10 +1390,10 @@ public final class LayoutNodeLayoutDelegate {
             if (size > 0) {
                 i$iv$iv = 0;
                 obj = mutableVector.getContent()[i$iv$iv];
-                i2 = 0;
+                i = 0;
                 do {
                     obj = lastLayerDrawingWasSkipped$ui_release[i$iv$iv];
-                    i2 = 0;
+                    i = 0;
                     if (i$iv$iv++ < size) {
                     }
                     obj.getMeasurePassDelegate$ui_release().markNodeAndSubtreeAsPlaced();
@@ -1407,14 +1407,14 @@ public final class LayoutNodeLayoutDelegate {
             int i3;
             androidx.compose.ui.node.LayoutNode layoutNode;
             androidx.compose.ui.node.NodeCoordinator delegate$iv;
-            int i5;
-            MutableVector mutableVector;
             int i4;
+            MutableVector mutableVector;
+            int i2;
             int size;
             int i$iv$iv$iv;
             Object[] content;
             Object obj;
-            int i2;
+            int i5;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.MeasurePassDelegate measurePassDelegate$ui_release;
             int i;
             if (isPlaced()) {
@@ -1425,22 +1425,22 @@ public final class LayoutNodeLayoutDelegate {
                 while (!Intrinsics.areEqual(delegate$iv, layoutNode2.getInnerCoordinator$ui_release().getWrapped$ui_release())) {
                     if (delegate$iv != null) {
                     }
-                    i4 = 0;
+                    i2 = 0;
                     delegate$iv.releaseLayer();
                     delegate$iv = delegate$iv.getWrapped$ui_release();
                 }
                 i3 = 0;
-                i5 = 0;
-                mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this_$iv.this$0).get_children$ui_release();
                 i4 = 0;
+                mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this_$iv.this$0).get_children$ui_release();
+                i2 = 0;
                 size = mutableVector.getSize();
                 if (size > 0) {
                     i$iv$iv$iv = 0;
-                    i2 = 0;
+                    i5 = 0;
                     i = 0;
                     (LayoutNode)mutableVector.getContent()[i$iv$iv$iv].getMeasurePassDelegate$ui_release().markSubtreeAsNotPlaced();
                     while (i$iv$iv$iv++ >= size) {
-                        i2 = 0;
+                        i5 = 0;
                         i = 0;
                         (LayoutNode)content[i$iv$iv$iv].getMeasurePassDelegate$ui_release().markSubtreeAsNotPlaced();
                     }
@@ -1452,14 +1452,14 @@ public final class LayoutNodeLayoutDelegate {
             int i$iv$iv;
             Object[] content;
             Object obj;
-            int i4;
+            int i2;
             boolean measurePending$ui_release;
             androidx.compose.ui.node.LayoutNode.UsageByParent inMeasureBlock;
             int i6;
             int i;
             int i5;
-            int i2;
             int i3;
+            int i4;
             final Object obj2 = this;
             final int i7 = 0;
             final MutableVector mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(obj2.this$0).get_children$ui_release();
@@ -1468,10 +1468,10 @@ public final class LayoutNodeLayoutDelegate {
             if (size > 0) {
                 i$iv$iv = 0;
                 obj = mutableVector.getContent()[i$iv$iv];
-                i4 = 0;
+                i2 = 0;
                 do {
                     obj = content[i$iv$iv];
-                    i4 = 0;
+                    i2 = 0;
                     if (i$iv$iv++ < size) {
                     }
                     int i9 = 0;
@@ -1511,7 +1511,7 @@ public final class LayoutNodeLayoutDelegate {
         private final void placeOuterCoordinator-MLgxB_4(long position, float zIndex, Function1<? super GraphicsLayerScope, Unit> layerBlock, GraphicsLayer layer) {
             androidx.compose.ui.node.LayoutNodeLayoutDelegate this$0;
             boolean layoutPending$ui_release;
-            String str;
+            String $i$a$RequirePreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$placeOuterCoordinator$1;
             long position2;
             float f;
             Function1 function1;
@@ -1555,31 +1555,31 @@ public final class LayoutNodeLayoutDelegate {
             boolean needsCoordinatesUpdate;
             boolean outMostLookaheadRoot;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate$ui_release;
-            int str;
-            int i;
+            int $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$placeSelf$2;
+            int i2;
             Placeable.PlacementScope placementScope;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate2;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate$ui_release2;
             int layoutDelegate$ui_release;
             int y-impl;
-            int i2;
-            int i6;
-            int i4;
             int i3;
-            androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate;
             int i5;
+            int i;
+            int i4;
+            androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate;
+            int i6;
             final Object obj = this;
             int i7 = 1;
             obj.isPlacedByParent = i7;
             final long l = position;
-            str = 0;
+            $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$placeSelf$2 = 0;
             if (IntOffset.equals-impl0(l, obj5)) {
                 if (obj.needsCoordinatesUpdate) {
                     if (!obj.this$0.getCoordinatesAccessedDuringModifierPlacement() && !obj.this$0.getCoordinatesAccessedDuringPlacement()) {
                         if (!obj.this$0.getCoordinatesAccessedDuringPlacement()) {
                             if (obj.needsCoordinatesUpdate) {
                                 LayoutNodeLayoutDelegate.access$setLayoutPending$p(obj.this$0, i7);
-                                obj.needsCoordinatesUpdate = str;
+                                obj.needsCoordinatesUpdate = $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$placeSelf$2;
                             }
                         } else {
                         }
@@ -1598,15 +1598,15 @@ public final class LayoutNodeLayoutDelegate {
                 } else {
                 }
                 androidx.compose.ui.node.LayoutNodeLayoutDelegate this$06 = obj.this$0;
-                i3 = 0;
+                i4 = 0;
                 lookaheadPassDelegate$ui_release2 = this$06.getLookaheadPassDelegate$ui_release();
                 Intrinsics.checkNotNull(lookaheadPassDelegate$ui_release2);
                 lookaheadPassDelegate = lookaheadPassDelegate$ui_release2;
-                i5 = 0;
+                i6 = 0;
                 androidx.compose.ui.node.LayoutNode parent$ui_release = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this$06).getParent$ui_release();
                 if (parent$ui_release != null) {
                     lookaheadPassDelegate$ui_release2 = 0;
-                    LayoutNodeLayoutDelegate.access$setNextChildLookaheadPlaceOrder$p(parent$ui_release.getLayoutDelegate$ui_release(), str);
+                    LayoutNodeLayoutDelegate.access$setNextChildLookaheadPlaceOrder$p(parent$ui_release.getLayoutDelegate$ui_release(), $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$placeSelf$2);
                 }
                 lookaheadPassDelegate.setPlaceOrder$ui_release(Integer.MAX_VALUE);
                 Placeable.PlacementScope.place$default(outMostLookaheadRoot, (Placeable)lookaheadPassDelegate, IntOffset.getX-impl(l), IntOffset.getY-impl(l), 0, 4, 0);
@@ -1614,11 +1614,11 @@ public final class LayoutNodeLayoutDelegate {
             lookaheadPassDelegate$ui_release = obj.this$0.getLookaheadPassDelegate$ui_release();
             if (lookaheadPassDelegate$ui_release != null && !lookaheadPassDelegate$ui_release.getPlacedOnce$ui_release()) {
                 if (!lookaheadPassDelegate$ui_release.getPlacedOnce$ui_release()) {
-                    str = i7;
+                    $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$placeSelf$2 = i7;
                 }
             }
             int i9 = 0;
-            if (i7 ^= str == 0) {
+            if (i7 ^= $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$placeSelf$2 == 0) {
                 int i10 = 0;
                 InlineClassHelperKt.throwIllegalStateException("Error: Placement happened before lookahead.");
             }
@@ -1630,7 +1630,7 @@ public final class LayoutNodeLayoutDelegate {
             int i;
             androidx.compose.ui.node.LayoutNode.UsageByParent canMultiMeasure$ui_release;
             int[] $EnumSwitchMapping$0;
-            String str;
+            String $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$trackMeasurementByParent$1;
             final androidx.compose.ui.node.LayoutNode parent$ui_release = node.getParent$ui_release();
             if (parent$ui_release != null) {
                 if (this.measuredByParent != LayoutNode.UsageByParent.NotUsed) {
@@ -1741,10 +1741,10 @@ public final class LayoutNodeLayoutDelegate {
             int i$iv$iv$iv;
             Object[] content;
             Object obj;
-            int i;
+            int i3;
             int i2;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.MeasurePassDelegate it;
-            int i3;
+            int i;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate layoutDelegate$ui_release;
             final Object obj2 = this;
             LayoutNodeLayoutDelegate.access$getLayoutNode$p(obj2.this$0).updateChildrenIfDirty$ui_release();
@@ -1761,19 +1761,19 @@ public final class LayoutNodeLayoutDelegate {
             if (size3 > 0) {
                 i$iv$iv$iv = 0;
                 obj = mutableVector.getContent()[i$iv$iv$iv];
-                i = i$iv$iv$iv;
+                i3 = i$iv$iv$iv;
                 i2 = 0;
                 do {
                     obj = content[i$iv$iv$iv];
-                    i = i$iv$iv$iv;
+                    i3 = i$iv$iv$iv;
                     i2 = 0;
-                    i3 = 0;
-                    _childDelegates3.set(i, (LayoutNode)(LayoutNode)obj.getLayoutDelegate$ui_release().getMeasurePassDelegate$ui_release());
+                    i = 0;
+                    _childDelegates3.set(i3, (LayoutNode)(LayoutNode)obj.getLayoutDelegate$ui_release().getMeasurePassDelegate$ui_release());
                     if (i$iv$iv$iv++ < size3) {
                     }
-                    i3 = 0;
+                    i = 0;
                     _childDelegates3.add(obj.getLayoutDelegate$ui_release().getMeasurePassDelegate$ui_release());
-                } while (_childDelegates3.getSize() <= i);
+                } while (_childDelegates3.getSize() <= i3);
             }
             _childDelegates3.removeRange(layoutNode2.getChildren$ui_release().size(), _childDelegates3.getSize());
             obj2.childDelegatesDirty = false;
@@ -1870,8 +1870,8 @@ public final class LayoutNodeLayoutDelegate {
             androidx.compose.ui.node.LayoutNode intrinsicsUsageByParent$ui_release;
             androidx.compose.ui.node.LayoutNode intrinsicsUsingParent;
             boolean forceRequest2;
-            int i;
             int i4;
+            int i;
             int i3;
             int i2;
             androidx.compose.ui.node.LayoutNode parent$ui_release = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getParent$ui_release();
@@ -2004,15 +2004,15 @@ public final class LayoutNodeLayoutDelegate {
         public Placeable measure-BRTryo0(long constraints) {
             Object intrinsicsUsageByParent$ui_release;
             boolean outMostLookaheadRoot;
-            androidx.compose.ui.node.LayoutNode.UsageByParent notUsed;
             androidx.compose.ui.node.LayoutNode.UsageByParent notUsed2;
+            androidx.compose.ui.node.LayoutNode.UsageByParent notUsed;
             if (LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getIntrinsicsUsageByParent$ui_release() == LayoutNode.UsageByParent.NotUsed) {
                 LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).clearSubtreeIntrinsicsUsage$ui_release();
             }
             if (LayoutNodeLayoutDelegateKt.isOutMostLookaheadRoot(LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0))) {
                 outMostLookaheadRoot = this.this$0.getLookaheadPassDelegate$ui_release();
                 Intrinsics.checkNotNull(outMostLookaheadRoot);
-                notUsed = 0;
+                notUsed2 = 0;
                 outMostLookaheadRoot.setMeasuredByParent$ui_release(LayoutNode.UsageByParent.NotUsed);
                 outMostLookaheadRoot.measure-BRTryo0(constraints);
             }
@@ -2023,8 +2023,8 @@ public final class LayoutNodeLayoutDelegate {
 
         @Override // androidx.compose.ui.layout.Placeable
         public final void measureBasedOnLookahead() {
-            Enum measuredByParent$ui_release;
-            long measuredByParent$ui_release2;
+            Enum measuredByParent$ui_release2;
+            long measuredByParent$ui_release;
             Enum inMeasureBlock;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate$ui_release = this.this$0.getLookaheadPassDelegate$ui_release();
             androidx.compose.ui.node.LayoutNode parent$ui_release = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getParent$ui_release();
@@ -2081,43 +2081,43 @@ public final class LayoutNodeLayoutDelegate {
         @Override // androidx.compose.ui.layout.Placeable
         public final void notifyChildrenUsingCoordinatesWhilePlacing() {
             int childrenAccessingCoordinatesDuringPlacement;
-            int i;
+            int i2;
             MutableVector mutableVector;
-            int i5;
+            int i;
             int size;
             int i$iv$iv;
             Object[] content;
             Object obj;
-            int i2;
+            int i3;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate layoutDelegate$ui_release;
             int i4;
             boolean coordinatesAccessedDuringPlacement;
             androidx.compose.ui.node.LayoutNodeLayoutDelegate.MeasurePassDelegate measurePassDelegate$ui_release;
-            int i3;
+            int i5;
             boolean layoutPending$ui_release;
-            i = 0;
+            i2 = 0;
             mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).get_children$ui_release();
-            i5 = 0;
+            i = 0;
             size = mutableVector.getSize();
             if (this.this$0.getChildrenAccessingCoordinatesDuringPlacement() > 0 && size > 0) {
-                i = 0;
+                i2 = 0;
                 mutableVector = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).get_children$ui_release();
-                i5 = 0;
+                i = 0;
                 size = mutableVector.getSize();
                 if (size > 0) {
                     i$iv$iv = 0;
                     obj = mutableVector.getContent()[i$iv$iv];
-                    i2 = 0;
+                    i3 = 0;
                     layoutDelegate$ui_release = (LayoutNode)obj.getLayoutDelegate$ui_release();
                     int i6 = 0;
-                    i3 = 1;
+                    i5 = 1;
                     do {
                         obj = content[i$iv$iv];
-                        i2 = 0;
+                        i3 = 0;
                         layoutDelegate$ui_release = (LayoutNode)obj.getLayoutDelegate$ui_release();
                         i6 = 0;
-                        i3 = 1;
-                        i4 = i3;
+                        i5 = 1;
+                        i4 = i5;
                         if (i4 != 0 && !layoutDelegate$ui_release.getLayoutPending$ui_release()) {
                         }
                         layoutDelegate$ui_release.getMeasurePassDelegate$ui_release().notifyChildrenUsingCoordinatesWhilePlacing();
@@ -2125,7 +2125,7 @@ public final class LayoutNodeLayoutDelegate {
                         }
                         if (!layoutDelegate$ui_release.getLayoutPending$ui_release()) {
                         }
-                        LayoutNode.requestRelayout$ui_release$default(obj, i6, i3, 0);
+                        LayoutNode.requestRelayout$ui_release$default(obj, i6, i5, 0);
                         if (layoutDelegate$ui_release.getCoordinatesAccessedDuringModifierPlacement()) {
                         } else {
                         }
@@ -2149,7 +2149,7 @@ public final class LayoutNodeLayoutDelegate {
             int i;
             boolean relayoutWithoutParentInProgress;
             int i2;
-            androidx.compose.ui.node.NodeCoordinator coordinator$iv;
+            androidx.compose.ui.node.NodeCoordinator $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$onNodePlaced$2;
             androidx.compose.ui.node.NodeCoordinator nodeCoordinator;
             int i3;
             float zIndex;
@@ -2160,12 +2160,12 @@ public final class LayoutNodeLayoutDelegate {
             newZIndex = getInnerCoordinator().getZIndex();
             androidx.compose.ui.node.LayoutNode layoutNode2 = LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0);
             int i8 = 0;
-            coordinator$iv = layoutNode2.getOuterCoordinator$ui_release();
-            while (coordinator$iv != layoutNode2.getInnerCoordinator$ui_release()) {
-                Intrinsics.checkNotNull(coordinator$iv, "null cannot be cast to non-null type androidx.compose.ui.node.LayoutModifierNodeCoordinator");
+            $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$onNodePlaced$2 = layoutNode2.getOuterCoordinator$ui_release();
+            while ($i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$onNodePlaced$2 != layoutNode2.getInnerCoordinator$ui_release()) {
+                Intrinsics.checkNotNull($i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$onNodePlaced$2, "null cannot be cast to non-null type androidx.compose.ui.node.LayoutModifierNodeCoordinator");
                 i3 = 0;
                 newZIndex += zIndex;
-                coordinator$iv = (LayoutModifierNodeCoordinator)coordinator$iv.getWrapped$ui_release();
+                $i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$onNodePlaced$2 = (LayoutModifierNodeCoordinator)$i$a$CheckPreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$onNodePlaced$2.getWrapped$ui_release();
             }
             i2 = 0;
             i = Float.compare(newZIndex, this_$iv) == 0 ? i4 : i2;
@@ -2237,16 +2237,16 @@ public final class LayoutNodeLayoutDelegate {
 
         @Override // androidx.compose.ui.layout.Placeable
         public final boolean remeasure-BRTryo0(long constraints) {
-            int i;
-            String str;
+            int i2;
+            String $i$a$RequirePreconditionLayoutNodeLayoutDelegate$MeasurePassDelegate$remeasure$1;
             boolean measurePending$ui_release;
             boolean canMultiMeasure$ui_release;
-            int i2;
+            int i;
             boolean height;
             long height2;
-            i = 1;
+            i2 = 1;
             int i4 = 0;
-            if (deactivated ^= i == 0) {
+            if (deactivated ^= i2 == 0) {
                 int i5 = 0;
                 InlineClassHelperKt.throwIllegalArgumentException("measure is called on a deactivated node");
             }
@@ -2255,30 +2255,7 @@ public final class LayoutNodeLayoutDelegate {
             if (!LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getCanMultiMeasure$ui_release()) {
                 if (parent$ui_release != null && parent$ui_release.getCanMultiMeasure$ui_release()) {
                     if (parent$ui_release.getCanMultiMeasure$ui_release()) {
-                        i2 = i;
-                    } else {
-                        i2 = i8;
-                    }
-                } else {
-                }
-            } else {
-            }
-            LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).setCanMultiMeasure$ui_release(i2);
-            if (!LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getMeasurePending$ui_release() && !Constraints.equals-impl0(getMeasurementConstraints-msEJaDk(), i2)) {
-                if (!Constraints.equals-impl0(getMeasurementConstraints-msEJaDk(), i2)) {
-                }
-                Owner.forceMeasureTheSubtree$default(LayoutNodeKt.requireOwner(LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0)), LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0), i8, 2, 0);
-                LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).resetSubtreeIntrinsicsUsage$ui_release();
-                return i8;
-            }
-            getAlignmentLines().setUsedByModifierMeasurement$ui_release(i8);
-            forEachChildAlignmentLinesOwner((Function1)LayoutNodeLayoutDelegate.MeasurePassDelegate.remeasure.2.INSTANCE);
-            this.measuredOnce = i;
-            setMeasurementConstraints-BRTryo0(constraints);
-            LayoutNodeLayoutDelegate.access$performMeasure-BRTryo0(this.this$0, constraints);
-            if (IntSize.equals-impl0(this.this$0.getOuterCoordinator().getSize-YbymL2g(), obj7) && this.this$0.getOuterCoordinator().getWidth() == getWidth()) {
-                if (this.this$0.getOuterCoordinator().getWidth() == getWidth()) {
-                    if (this.this$0.getOuterCoordinator().getHeight() != getHeight()) {
+                        i = i2;
                     } else {
                         i = i8;
                     }
@@ -2286,9 +2263,32 @@ public final class LayoutNodeLayoutDelegate {
                 }
             } else {
             }
+            LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).setCanMultiMeasure$ui_release(i);
+            if (!LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).getMeasurePending$ui_release() && !Constraints.equals-impl0(getMeasurementConstraints-msEJaDk(), i)) {
+                if (!Constraints.equals-impl0(getMeasurementConstraints-msEJaDk(), i)) {
+                }
+                Owner.forceMeasureTheSubtree$default(LayoutNodeKt.requireOwner(LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0)), LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0), i8, 2, 0);
+                LayoutNodeLayoutDelegate.access$getLayoutNode$p(this.this$0).resetSubtreeIntrinsicsUsage$ui_release();
+                return i8;
+            }
+            getAlignmentLines().setUsedByModifierMeasurement$ui_release(i8);
+            forEachChildAlignmentLinesOwner((Function1)LayoutNodeLayoutDelegate.MeasurePassDelegate.remeasure.2.INSTANCE);
+            this.measuredOnce = i2;
+            setMeasurementConstraints-BRTryo0(constraints);
+            LayoutNodeLayoutDelegate.access$performMeasure-BRTryo0(this.this$0, constraints);
+            if (IntSize.equals-impl0(this.this$0.getOuterCoordinator().getSize-YbymL2g(), obj7) && this.this$0.getOuterCoordinator().getWidth() == getWidth()) {
+                if (this.this$0.getOuterCoordinator().getWidth() == getWidth()) {
+                    if (this.this$0.getOuterCoordinator().getHeight() != getHeight()) {
+                    } else {
+                        i2 = i8;
+                    }
+                } else {
+                }
+            } else {
+            }
             int height3 = this.this$0.getOuterCoordinator().getHeight();
             setMeasuredSize-ozmzZPI(IntSizeKt.IntSize(this.this$0.getOuterCoordinator().getWidth(), height3));
-            return i;
+            return i2;
         }
 
         @Override // androidx.compose.ui.layout.Placeable
@@ -2483,7 +2483,7 @@ public final class LayoutNodeLayoutDelegate {
     private final void performMeasure-BRTryo0(long constraints) {
         int i;
         androidx.compose.ui.node.LayoutNode.LayoutState layoutState;
-        String str;
+        String $i$a$CheckPreconditionLayoutNodeLayoutDelegate$performMeasure$1;
         final int i3 = 0;
         i = this.layoutState == LayoutNode.LayoutState.Idle ? 1 : i3;
         int i2 = 0;
@@ -2688,15 +2688,15 @@ public final class LayoutNodeLayoutDelegate {
 
     public final void setChildrenAccessingCoordinatesDuringPlacement(int value) {
         int layoutDelegate$ui_release;
-        int i;
         int i2;
+        int i;
         this.childrenAccessingCoordinatesDuringPlacement = value;
-        i = 1;
-        i2 = this.childrenAccessingCoordinatesDuringPlacement == 0 ? i : layoutDelegate$ui_release;
+        i2 = 1;
+        i = this.childrenAccessingCoordinatesDuringPlacement == 0 ? i2 : layoutDelegate$ui_release;
         if (value == null) {
-            layoutDelegate$ui_release = i;
+            layoutDelegate$ui_release = i2;
         }
-        if (i2 != layoutDelegate$ui_release) {
+        if (i != layoutDelegate$ui_release) {
             androidx.compose.ui.node.LayoutNode parent$ui_release = this.layoutNode.getParent$ui_release();
             if (parent$ui_release != null) {
                 layoutDelegate$ui_release = parent$ui_release.getLayoutDelegate$ui_release();
@@ -2707,7 +2707,7 @@ public final class LayoutNodeLayoutDelegate {
                 if (value == null) {
                     layoutDelegate$ui_release.setChildrenAccessingCoordinatesDuringPlacement(childrenAccessingCoordinatesDuringPlacement2--);
                 } else {
-                    layoutDelegate$ui_release.setChildrenAccessingCoordinatesDuringPlacement(childrenAccessingCoordinatesDuringPlacement3 += i);
+                    layoutDelegate$ui_release.setChildrenAccessingCoordinatesDuringPlacement(childrenAccessingCoordinatesDuringPlacement3 += i2);
                 }
             }
         }
@@ -2819,39 +2819,39 @@ public final class LayoutNodeLayoutDelegate {
     public final void updateParentData() {
         boolean parentData;
         androidx.compose.ui.node.LayoutNodeLayoutDelegate.LookaheadPassDelegate lookaheadPassDelegate;
-        androidx.compose.ui.node.LayoutNode parent$ui_release;
-        int parent$ui_release2;
-        int i5;
+        androidx.compose.ui.node.LayoutNode parent$ui_release2;
+        int parent$ui_release;
         int i4;
-        int i3;
-        int i;
         int i2;
-        parent$ui_release = this.layoutNode.getParent$ui_release();
-        if (this.measurePassDelegate.updateParentData() && parent$ui_release != null) {
-            parent$ui_release = this.layoutNode.getParent$ui_release();
-            if (parent$ui_release != null) {
-                LayoutNode.requestRemeasure$ui_release$default(parent$ui_release, false, false, false, 7, 0);
+        int i3;
+        int i5;
+        int i;
+        parent$ui_release2 = this.layoutNode.getParent$ui_release();
+        if (this.measurePassDelegate.updateParentData() && parent$ui_release2 != null) {
+            parent$ui_release2 = this.layoutNode.getParent$ui_release();
+            if (parent$ui_release2 != null) {
+                LayoutNode.requestRemeasure$ui_release$default(parent$ui_release2, false, false, false, 7, 0);
             }
         }
         lookaheadPassDelegate = this.lookaheadPassDelegate;
-        parent$ui_release2 = 0;
-        i5 = 1;
-        if (lookaheadPassDelegate != null && lookaheadPassDelegate.updateParentData() == i5) {
-            i5 = 1;
-            if (lookaheadPassDelegate.updateParentData() == i5) {
-                parent$ui_release2 = i5;
+        parent$ui_release = 0;
+        i4 = 1;
+        if (lookaheadPassDelegate != null && lookaheadPassDelegate.updateParentData() == i4) {
+            i4 = 1;
+            if (lookaheadPassDelegate.updateParentData() == i4) {
+                parent$ui_release = i4;
             }
         }
-        if (parent$ui_release2 != 0) {
+        if (parent$ui_release != 0) {
             if (LayoutNodeLayoutDelegateKt.isOutMostLookaheadRoot(this.layoutNode)) {
-                parent$ui_release2 = this.layoutNode.getParent$ui_release();
-                if (parent$ui_release2 != null) {
-                    LayoutNode.requestRemeasure$ui_release$default(parent$ui_release2, false, false, false, 7, 0);
+                parent$ui_release = this.layoutNode.getParent$ui_release();
+                if (parent$ui_release != null) {
+                    LayoutNode.requestRemeasure$ui_release$default(parent$ui_release, false, false, false, 7, 0);
                 }
             } else {
-                parent$ui_release2 = this.layoutNode.getParent$ui_release();
-                if (parent$ui_release2 != null) {
-                    LayoutNode.requestLookaheadRemeasure$ui_release$default(parent$ui_release2, false, false, false, 7, 0);
+                parent$ui_release = this.layoutNode.getParent$ui_release();
+                if (parent$ui_release != null) {
+                    LayoutNode.requestLookaheadRemeasure$ui_release$default(parent$ui_release, false, false, false, 7, 0);
                 }
             }
         }

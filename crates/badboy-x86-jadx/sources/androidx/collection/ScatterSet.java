@@ -168,13 +168,13 @@ public abstract class ScatterSet<E>  {
         long l2;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i;
-        int i5;
+        int i2;
+        int i3;
         int i4;
         long slot$iv$iv;
         long l;
-        int i3;
-        int i2;
+        int i;
+        int i5;
         boolean booleanValue;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
@@ -200,14 +200,14 @@ public abstract class ScatterSet<E>  {
     public final boolean any(Function1<? super E, Boolean> predicate) {
         int i$iv$iv;
         int cmp;
-        long l;
+        long l2;
         int j$iv$iv;
         long value$iv$iv$iv;
         int i;
-        int i5;
         int i4;
+        int i5;
         long slot$iv$iv;
-        long l2;
+        long l;
         int i2;
         int i3;
         boolean booleanValue;
@@ -221,9 +221,9 @@ public abstract class ScatterSet<E>  {
         length += -2;
         if (0 <= i9) {
         } else {
-            i4 = 0;
+            i5 = 0;
         }
-        return i4;
+        return i5;
     }
 
     public final Set<E> asSet() {
@@ -232,40 +232,40 @@ public abstract class ScatterSet<E>  {
     }
 
     public final boolean contains(E element) {
-        int m$iv2;
         int m$iv;
+        int m$iv2;
         int $i$f$hash;
         int i3;
-        int i13;
-        int i8;
+        int i12;
+        int i2;
         int $i$f$h2;
         int $i$f$h1;
         int probeIndex$iv;
-        int i14;
-        int i5;
+        int i11;
+        int i6;
         int $this$hasNext$iv$iv;
         int $this$next$iv$iv;
+        int i8;
+        int i5;
+        int i13;
+        int i14;
+        long l;
+        int i;
         int i9;
         int i4;
         int i10;
-        int i6;
-        long l;
-        int i;
-        int i11;
-        int i2;
         int i7;
-        int i12;
         int numberOfTrailingZeros;
         final Object obj = element;
         final Object obj2 = this;
-        m$iv2 = 0;
+        m$iv = 0;
         int i16 = 0;
         if (obj != null) {
-            i8 = obj.hashCode();
+            i2 = obj.hashCode();
         } else {
-            i8 = 0;
+            i2 = 0;
         }
-        i8 *= i22;
+        i2 *= i22;
         $i$f$hash = i20 ^ i23;
         int i21 = 0;
         $i$f$h2 = $i$f$hash & 127;
@@ -276,50 +276,50 @@ public abstract class ScatterSet<E>  {
         while (/* condition */) {
             int i30 = 0;
             int i35 = 0;
-            i12 = 1;
+            i7 = 1;
             while (Long.compare(i25, i35) != 0) {
-                $this$hasNext$iv$iv = i12;
-                i9 = 0;
-                i7 = 0;
-                int i28 = m$iv;
-                i6 = 0;
-                m$iv = $this$next$iv$iv;
+                $this$hasNext$iv$iv = i7;
+                i8 = 0;
+                i10 = 0;
+                int i28 = m$iv2;
+                i14 = 0;
+                m$iv2 = $this$next$iv$iv;
                 i30 = 0;
                 i35 = 0;
-                i12 = 1;
+                i7 = 1;
                 $this$hasNext$iv$iv = 0;
             }
             $this$hasNext$iv$iv = 0;
             int i27 = i3;
-            i9 = 0;
+            i8 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i14 & _capacity;
-            $i$f$h2 = i4;
-            m$iv2 = i11;
-            $i$f$hash = i2;
+            $i$f$h1 = i11 & _capacity;
+            $i$f$h2 = i5;
+            m$iv = i9;
+            $i$f$hash = i4;
             long[] metadata = obj2.metadata;
             $this$next$iv$iv = 0;
             int i29 = $i$f$h1 >> 3;
             i31 <<= 3;
             i19 |= i33;
-            i9 = 0;
-            i4 = i42;
+            i8 = 0;
+            i5 = i42;
             long l6 = 72340172838076673L;
-            i34 ^= i5;
+            i34 ^= i6;
             l = -9187201950435737472L;
             i15 &= l;
-            i9 = 0;
-            i7 = 0;
-            i28 = m$iv;
-            i6 = 0;
-            m$iv = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i12;
+            i8 = 0;
+            i10 = 0;
+            i28 = m$iv2;
+            i14 = 0;
+            m$iv2 = $this$next$iv$iv;
+            $this$hasNext$iv$iv = i7;
         }
-        i13 = i5 >= 0 ? i12 : 0;
-        return i13;
+        i12 = i6 >= 0 ? i7 : 0;
+        return i12;
     }
 
     public final int count() {
@@ -328,22 +328,22 @@ public abstract class ScatterSet<E>  {
 
     public final int count(Function1<? super E, Boolean> predicate) {
         int cmp;
-        int i4;
+        int i2;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i2;
-        int i5;
+        int i;
+        int i3;
         int $i$f$count;
         int count;
         long l;
-        int i3;
-        int i;
+        int i4;
+        int i5;
         int i6;
         boolean booleanValue;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
-        i4 = 0;
+        i2 = 0;
         final Object obj2 = this;
         final int i13 = 0;
         final int i14 = 0;
@@ -352,14 +352,14 @@ public abstract class ScatterSet<E>  {
         if (0 <= i15) {
         } else {
             $i$f$count = cmp;
-            count = i4;
+            count = i2;
         }
         return count;
     }
 
     public boolean equals(Object other) {
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
+        int i3;
         int j$iv$iv;
         Object $i$f$isFull;
         int i$iv$iv;
@@ -369,20 +369,20 @@ public abstract class ScatterSet<E>  {
         int cmp;
         int i4;
         long l;
-        int i3;
         int i;
+        int i2;
         boolean contains;
         final Object obj2 = other;
         $this$maskEmptyOrDeleted$iv$iv$iv = 1;
-        i2 = this;
-        if (obj2 == i2) {
+        i3 = this;
+        if (obj2 == i3) {
             return $this$maskEmptyOrDeleted$iv$iv$iv;
         }
         j$iv$iv = 0;
         if (obj2 instanceof ScatterSet == null) {
             return j$iv$iv;
         }
-        if ((ScatterSet)obj2.getSize() != i2.getSize()) {
+        if ((ScatterSet)obj2.getSize() != i3.getSize()) {
             return j$iv$iv;
         }
         $i$f$isFull = this;
@@ -399,40 +399,40 @@ public abstract class ScatterSet<E>  {
     }
 
     public final int findElementIndex$collection(E element) {
-        int m;
         int m2;
+        int m;
         int $i$f$hash;
         int i12;
-        int i7;
+        int i14;
         int $i$f$h2;
         int $i$f$h1;
         int probeIndex;
-        int i14;
-        int i6;
-        int $this$next$iv;
-        int i3;
-        int i10;
-        int i5;
-        int i;
-        int i2;
-        long l;
-        int i15;
-        int i13;
         int i8;
-        int i4;
-        int i11;
-        int numberOfTrailingZeros;
+        int i15;
+        int $this$next$iv;
+        int i;
+        int i10;
+        int i13;
+        int i7;
+        int i3;
+        long l;
+        int i2;
+        int i6;
         int i9;
+        int i4;
+        int i5;
+        int numberOfTrailingZeros;
+        int i11;
         final Object obj = this;
         final Object obj2 = element;
-        m = 0;
+        m2 = 0;
         int i17 = 0;
         if (obj2 != null) {
-            i7 = obj2.hashCode();
+            i14 = obj2.hashCode();
         } else {
-            i7 = 0;
+            i14 = 0;
         }
-        i7 *= i23;
+        i14 *= i23;
         $i$f$hash = i21 ^ i24;
         int i22 = 0;
         $i$f$h2 = $i$f$hash & 127;
@@ -444,55 +444,55 @@ public abstract class ScatterSet<E>  {
             int i31 = 0;
             int i36 = 0;
             while (Long.compare(i26, i36) != 0) {
-                i11 = 1;
+                i5 = 1;
                 i10 = 0;
                 int i46 = 0;
-                i6 = i38 & _capacity;
-                int i29 = m2;
-                i2 = 0;
-                m2 = $this$next$iv;
+                i15 = i38 & _capacity;
+                int i29 = m;
+                i3 = 0;
+                m = $this$next$iv;
                 i31 = 0;
                 i36 = 0;
-                i11 = 0;
+                i5 = 0;
             }
-            i11 = 0;
+            i5 = 0;
             int i28 = i12;
-            i3 = 0;
-            $i$f$h1 = i14 & _capacity;
-            $i$f$h2 = i5;
-            m = i13;
-            $i$f$hash = i8;
+            i = 0;
+            $i$f$h1 = i8 & _capacity;
+            $i$f$h2 = i13;
+            m2 = i6;
+            $i$f$hash = i9;
             long[] metadata = obj.metadata;
             $this$next$iv = 0;
             int i30 = $i$f$h1 >> 3;
             i32 <<= 3;
             i20 |= i34;
             i10 = 0;
-            i5 = i44;
+            i13 = i44;
             long l6 = 72340172838076673L;
-            i35 ^= i6;
+            i35 ^= i15;
             l = -9187201950435737472L;
             i16 &= l;
             i10 = 0;
             i46 = 0;
-            i6 = i38 & _capacity;
-            i29 = m2;
-            i2 = 0;
-            m2 = $this$next$iv;
-            i11 = 1;
+            i15 = i38 & _capacity;
+            i29 = m;
+            i3 = 0;
+            m = $this$next$iv;
+            i5 = 1;
         }
-        return i6;
+        return i15;
     }
 
     public final E first() {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
+        int i;
         int j$iv$iv;
         int i3;
         long l;
-        int i;
+        int i2;
         final int i4 = 0;
         Object obj = this;
         int i5 = 0;
@@ -513,13 +513,13 @@ public abstract class ScatterSet<E>  {
         long slot$iv$iv;
         long j$iv$iv;
         int i;
-        int i2;
+        int i5;
         int $i$f$first;
         Object obj;
         long l;
-        int i3;
         int i4;
-        int i5;
+        int i2;
+        int i3;
         boolean booleanValue;
         final Object obj3 = predicate;
         Intrinsics.checkNotNullParameter(obj3, "predicate");
@@ -539,22 +539,22 @@ public abstract class ScatterSet<E>  {
 
     public final E firstOrNull(Function1<? super E, Boolean> predicate) {
         int cmp;
-        Object obj;
+        Object obj2;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
         int i3;
         int i;
         int $i$f$firstOrNull;
-        Object obj2;
+        Object obj;
         long l;
+        int i5;
         int i4;
         int i2;
-        int i5;
         boolean booleanValue;
         final Object obj3 = predicate;
         Intrinsics.checkNotNullParameter(obj3, "predicate");
-        obj = this;
+        obj2 = this;
         final int i13 = 0;
         final int i14 = 0;
         final long[] metadata = obj4.metadata;
@@ -562,7 +562,7 @@ public abstract class ScatterSet<E>  {
         if (0 <= i15) {
         } else {
             $i$f$firstOrNull = cmp;
-            obj2 = obj;
+            obj = obj2;
         }
         return 0;
     }
@@ -576,8 +576,8 @@ public abstract class ScatterSet<E>  {
         int i4;
         int i3;
         long l;
-        int i2;
         int i;
+        int i2;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         int i6 = 0;
@@ -590,15 +590,15 @@ public abstract class ScatterSet<E>  {
     }
 
     public final void forEachIndex(Function1<? super Integer, Unit> block) {
-        int i4;
+        int i3;
         long slot;
         int $this$maskEmptyOrDeleted$iv;
         int i;
         int j;
-        int i2;
+        int i4;
         Integer valueOf;
         long l;
-        int i3;
+        int i2;
         Intrinsics.checkNotNullParameter(block, "block");
         int i5 = 0;
         final long[] metadata = this.metadata;
@@ -620,14 +620,14 @@ public abstract class ScatterSet<E>  {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
-        int j$iv$iv;
         int i5;
+        int j$iv$iv;
         int i6;
+        int i;
         long l;
         int i3;
         int i4;
-        int i;
+        int i2;
         hash = 0;
         final Object obj = this;
         final int i7 = 0;
@@ -692,22 +692,22 @@ public abstract class ScatterSet<E>  {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super E, ? extends java.lang.CharSequence> transform) {
         int obj;
         int i$iv$iv;
-        int i2;
+        int i9;
         StringBuilder stringBuilder;
         int $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i;
+        int i6;
         int index;
         int j$iv$iv;
         long slot$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv;
         int i3;
-        int i7;
-        int i8;
-        int i9;
-        long l;
-        int i6;
-        int i4;
         int i5;
+        int i4;
+        int i;
+        long l;
+        int i8;
+        int i7;
+        int i2;
         StringBuilder sb;
         Object invoke;
         Object obj2 = prefix;
@@ -721,7 +721,7 @@ public abstract class ScatterSet<E>  {
         stringBuilder = new StringBuilder();
         final StringBuilder sb2 = stringBuilder;
         sb2.append(obj2);
-        i = 0;
+        i6 = 0;
         index = this;
         final int i15 = 0;
         final long[] metadata = obj6.metadata;
@@ -729,11 +729,11 @@ public abstract class ScatterSet<E>  {
         if (0 <= i16) {
         } else {
             sb = stringBuilder;
-            i8 = $this$maskEmptyOrDeleted$iv$iv$iv2;
+            i4 = $this$maskEmptyOrDeleted$iv$iv$iv2;
             $this$maskEmptyOrDeleted$iv$iv$iv = index;
             i3 = j$iv$iv;
-            i2 = limit;
-            index = i;
+            i9 = limit;
+            index = i6;
             sb2.append(obj3);
         }
         String string = sb.toString();

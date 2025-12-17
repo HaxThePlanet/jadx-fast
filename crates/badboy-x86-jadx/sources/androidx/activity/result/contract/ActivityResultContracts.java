@@ -117,14 +117,14 @@ public final class ActivityResultContracts {
         @Override // androidx.activity.result.contract.ActivityResultContract
         public final Uri parseResult(int resultCode, Intent intent) {
             int it;
-            int i;
             int i2;
+            int i;
             int i3 = intent;
             int i4 = 0;
-            i2 = resultCode == -1 ? 1 : 0;
-            i = i2 != 0 ? intent : it;
-            if (i != 0) {
-                it = i.getData();
+            i = resultCode == -1 ? 1 : 0;
+            i2 = i != 0 ? intent : it;
+            if (i2 != 0) {
+                it = i2.getData();
             }
             return it;
         }
@@ -323,14 +323,14 @@ public final class ActivityResultContracts {
         @Override // androidx.activity.result.contract.ActivityResultContract
         public final Uri parseResult(int resultCode, Intent intent) {
             int it;
-            int i;
             int i2;
+            int i;
             int i3 = intent;
             int i4 = 0;
-            i2 = resultCode == -1 ? 1 : 0;
-            i = i2 != 0 ? intent : it;
-            if (i != 0) {
-                it = i.getData();
+            i = resultCode == -1 ? 1 : 0;
+            i2 = i != 0 ? intent : it;
+            if (i2 != 0) {
+                it = i2.getData();
             }
             return it;
         }
@@ -455,8 +455,8 @@ public final class ActivityResultContracts {
             } else {
             }
             int i2 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Max items must be higher than 1".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireActivityResultContracts$PickMultipleVisualMedia$1 = new IllegalArgumentException("Max items must be higher than 1".toString());
+            throw $i$a$RequireActivityResultContracts$PickMultipleVisualMedia$1;
         }
 
         public PickMultipleVisualMedia(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -472,8 +472,8 @@ public final class ActivityResultContracts {
             Intent fallbackPicker;
             boolean customAccentColorApplied;
             boolean orderedSelection;
-            Intent intent;
             Intent intent2;
+            Intent intent;
             int strArr;
             int pickImagesMaxLimit;
             int accentColor;
@@ -481,15 +481,15 @@ public final class ActivityResultContracts {
             Intrinsics.checkNotNullParameter(input, "input");
             orderedSelection = 1;
             fallbackPicker = new Intent("android.provider.action.PICK_IMAGES");
-            intent = fallbackPicker;
-            intent2 = 0;
-            intent.setType(ActivityResultContracts.PickVisualMedia.Companion.getVisualMimeType$activity_release(input.getMediaType()));
+            intent2 = fallbackPicker;
+            intent = 0;
+            intent2.setType(ActivityResultContracts.PickVisualMedia.Companion.getVisualMimeType$activity_release(input.getMediaType()));
             strArr = Math.min(this.maxItems, input.getMaxItems());
             if (ActivityResultContracts.PickVisualMedia.Companion.isSystemPickerAvailable$activity_release() && strArr > orderedSelection && strArr <= MediaStore.getPickImagesMaxLimit()) {
                 fallbackPicker = new Intent("android.provider.action.PICK_IMAGES");
-                intent = fallbackPicker;
-                intent2 = 0;
-                intent.setType(ActivityResultContracts.PickVisualMedia.Companion.getVisualMimeType$activity_release(input.getMediaType()));
+                intent2 = fallbackPicker;
+                intent = 0;
+                intent2.setType(ActivityResultContracts.PickVisualMedia.Companion.getVisualMimeType$activity_release(input.getMediaType()));
                 strArr = Math.min(this.maxItems, input.getMaxItems());
                 if (strArr > orderedSelection) {
                     if (strArr <= MediaStore.getPickImagesMaxLimit()) {
@@ -498,59 +498,59 @@ public final class ActivityResultContracts {
                 }
                 if (customAccentColorApplied == 0) {
                 } else {
-                    intent.putExtra("android.provider.extra.PICK_IMAGES_MAX", strArr);
-                    intent.putExtra("android.provider.extra.PICK_IMAGES_LAUNCH_TAB", input.getDefaultTab().getValue());
-                    intent.putExtra("android.provider.extra.PICK_IMAGES_IN_ORDER", input.isOrderedSelection());
+                    intent2.putExtra("android.provider.extra.PICK_IMAGES_MAX", strArr);
+                    intent2.putExtra("android.provider.extra.PICK_IMAGES_LAUNCH_TAB", input.getDefaultTab().getValue());
+                    intent2.putExtra("android.provider.extra.PICK_IMAGES_IN_ORDER", input.isOrderedSelection());
                     if (input.isCustomAccentColorApplied()) {
-                        intent.putExtra("android.provider.extra.PICK_IMAGES_ACCENT_COLOR", input.getAccentColor());
+                        intent2.putExtra("android.provider.extra.PICK_IMAGES_ACCENT_COLOR", input.getAccentColor());
                     }
                     return fallbackPicker;
                 }
                 int i = 0;
-                IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Max items must be greater than 1 and lesser than or equal to MediaStore.getPickImagesMaxLimit()".toString());
-                throw illegalArgumentException;
+                IllegalArgumentException $i$a$RequireActivityResultContracts$PickMultipleVisualMedia$createIntent$1$1 = new IllegalArgumentException("Max items must be greater than 1 and lesser than or equal to MediaStore.getPickImagesMaxLimit()".toString());
+                throw $i$a$RequireActivityResultContracts$PickMultipleVisualMedia$createIntent$1$1;
             }
             if (ActivityResultContracts.PickVisualMedia.Companion.isSystemFallbackPickerAvailable$activity_release(context)) {
                 ResolveInfo systemFallbackPicker$activity_release = ActivityResultContracts.PickVisualMedia.Companion.getSystemFallbackPicker$activity_release(context);
                 if (systemFallbackPicker$activity_release == null) {
                 } else {
                     android.content.pm.ActivityInfo activityInfo = systemFallbackPicker$activity_release.activityInfo;
-                    intent = new Intent("androidx.activity.result.contract.action.PICK_IMAGES");
-                    intent2 = intent;
+                    intent2 = new Intent("androidx.activity.result.contract.action.PICK_IMAGES");
+                    intent = intent2;
                     strArr = 0;
-                    intent2.setClassName(applicationInfo.packageName, activityInfo.name);
-                    intent2.setType(ActivityResultContracts.PickVisualMedia.Companion.getVisualMimeType$activity_release(input.getMediaType()));
+                    intent.setClassName(applicationInfo.packageName, activityInfo.name);
+                    intent.setType(ActivityResultContracts.PickVisualMedia.Companion.getVisualMimeType$activity_release(input.getMediaType()));
                     pickImagesMaxLimit = Math.min(this.maxItems, input.getMaxItems());
                     if (pickImagesMaxLimit > orderedSelection) {
                         customAccentColorApplied = orderedSelection;
                     }
                     if (customAccentColorApplied == 0) {
                     } else {
-                        intent2.putExtra("androidx.activity.result.contract.extra.PICK_IMAGES_MAX", pickImagesMaxLimit);
-                        intent2.putExtra("androidx.activity.result.contract.extra.PICK_IMAGES_LAUNCH_TAB", input.getDefaultTab().getValue());
-                        intent2.putExtra("androidx.activity.result.contract.extra.PICK_IMAGES_IN_ORDER", input.isOrderedSelection());
+                        intent.putExtra("androidx.activity.result.contract.extra.PICK_IMAGES_MAX", pickImagesMaxLimit);
+                        intent.putExtra("androidx.activity.result.contract.extra.PICK_IMAGES_LAUNCH_TAB", input.getDefaultTab().getValue());
+                        intent.putExtra("androidx.activity.result.contract.extra.PICK_IMAGES_IN_ORDER", input.isOrderedSelection());
                         if (input.isCustomAccentColorApplied()) {
-                            intent2.putExtra("androidx.activity.result.contract.extra.PICK_IMAGES_ACCENT_COLOR", input.getAccentColor());
+                            intent.putExtra("androidx.activity.result.contract.extra.PICK_IMAGES_ACCENT_COLOR", input.getAccentColor());
                         }
-                        fallbackPicker = intent;
+                        fallbackPicker = intent2;
                     }
                     int i2 = 0;
-                    IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("Max items must be greater than 1".toString());
-                    throw illegalArgumentException2;
+                    IllegalArgumentException $i$a$RequireActivityResultContracts$PickMultipleVisualMedia$createIntent$2$1 = new IllegalArgumentException("Max items must be greater than 1".toString());
+                    throw $i$a$RequireActivityResultContracts$PickMultipleVisualMedia$createIntent$2$1;
                 }
                 IllegalStateException fallbackPicker2 = new IllegalStateException("Required value was null.".toString());
                 throw fallbackPicker2;
             }
             fallbackPicker = new Intent("android.intent.action.OPEN_DOCUMENT");
-            intent = fallbackPicker;
-            intent2 = 0;
-            intent.setType(ActivityResultContracts.PickVisualMedia.Companion.getVisualMimeType$activity_release(input.getMediaType()));
-            intent.putExtra("android.intent.extra.ALLOW_MULTIPLE", orderedSelection);
-            if (intent.getType() == null) {
-                intent.setType("*/*");
+            intent2 = fallbackPicker;
+            intent = 0;
+            intent2.setType(ActivityResultContracts.PickVisualMedia.Companion.getVisualMimeType$activity_release(input.getMediaType()));
+            intent2.putExtra("android.intent.extra.ALLOW_MULTIPLE", orderedSelection);
+            if (intent2.getType() == null) {
+                intent2.setType("*/*");
                 strArr = new String[2];
                 strArr[orderedSelection] = "video/*";
-                intent.putExtra("android.intent.extra.MIME_TYPES", strArr);
+                intent2.putExtra("android.intent.extra.MIME_TYPES", strArr);
             }
         }
 
@@ -764,13 +764,13 @@ public final class ActivityResultContracts {
             androidx.activity.result.contract.ActivityResultContract.SynchronousResult synchronousResult;
             int i3;
             int i4;
-            int length2;
+            int length;
             int coerceAtLeast;
             Object linkedHashMap;
-            Object obj;
-            int i;
-            int length;
             Object obj2;
+            int i;
+            int length2;
+            Object obj;
             Object second;
             Object first;
             Boolean valueOf;
@@ -793,20 +793,20 @@ public final class ActivityResultContracts {
                 if (ContextCompat.checkSelfPermission(obj3, obj5[coerceAtLeast]) == 0) {
                 } else {
                 }
-                length = i3;
+                length2 = i3;
                 coerceAtLeast++;
-                length = i5;
+                length2 = i5;
             }
             $this$all$iv = i5;
             if ($this$all$iv != 0) {
                 i4 = input;
-                length2 = 0;
+                length = 0;
                 linkedHashMap = new LinkedHashMap(RangesKt.coerceAtLeast(MapsKt.mapCapacity(i4.length), 16));
-                obj = i4;
+                obj2 = i4;
                 i = 0;
-                while (i3 < obj.length) {
+                while (i3 < obj2.length) {
                     int i7 = 0;
-                    Pair it = TuplesKt.to(obj[i3], Boolean.valueOf(i5));
+                    Pair it = TuplesKt.to(obj2[i3], Boolean.valueOf(i5));
                     (Map)linkedHashMap.put(it.getFirst(), it.getSecond());
                     i3++;
                 }
@@ -824,10 +824,10 @@ public final class ActivityResultContracts {
 
         public Map<String, Boolean> parseResult(int resultCode, Intent intent) {
             int i2;
-            int i4;
-            Boolean valueOf;
             int i;
+            Boolean valueOf;
             int i3;
+            int i4;
             final Object obj = intent;
             if (resultCode != -1) {
                 return MapsKt.emptyMap();
@@ -848,14 +848,14 @@ public final class ActivityResultContracts {
                     final int i9 = 0;
                     i2 = i9;
                     while (i2 < iArr2.length) {
-                        i = 0;
+                        i3 = 0;
                         if (iArr2[i2] == 0) {
                         } else {
                         }
-                        i3 = i9;
-                        (Collection)arrayList.add(Boolean.valueOf(i3));
+                        i4 = i9;
+                        (Collection)arrayList.add(Boolean.valueOf(i4));
                         i2++;
-                        i3 = 1;
+                        i4 = 1;
                     }
                 }
                 return MapsKt.toMap((Iterable)CollectionsKt.zip((Iterable)ArraysKt.filterNotNull(stringArrayExtra), (Iterable)(List)arrayList));
@@ -902,17 +902,17 @@ public final class ActivityResultContracts {
 
         @Override // androidx.activity.result.contract.ActivityResultContract
         public Boolean parseResult(int resultCode, Intent intent) {
+            int i4;
             int i;
-            int i7;
             int $this$any$iv;
             int i2;
             int length;
-            int i5;
             int i3;
-            int i4;
-            int result;
+            int i5;
             int i6;
-            i = 0;
+            int result;
+            int i7;
+            i4 = 0;
             if (intent != null) {
                 if (resultCode != -1) {
                 } else {
@@ -920,27 +920,27 @@ public final class ActivityResultContracts {
                     if (intArrayExtra != null) {
                         int[] iArr = intArrayExtra;
                         i2 = 0;
-                        i5 = i;
-                        i3 = 1;
-                        while (i5 < iArr.length) {
-                            i6 = 0;
-                            if (iArr[i5] == 0) {
+                        i3 = i4;
+                        i5 = 1;
+                        while (i3 < iArr.length) {
+                            i7 = 0;
+                            if (iArr[i3] == 0) {
                             } else {
                             }
-                            result = i;
-                            i5++;
-                            i3 = 1;
-                            result = i3;
+                            result = i4;
+                            i3++;
+                            i5 = 1;
+                            result = i5;
                         }
-                        $this$any$iv = i;
-                        if ($this$any$iv == i3) {
-                            i = i3;
+                        $this$any$iv = i4;
+                        if ($this$any$iv == i5) {
+                            i4 = i5;
                         }
                     }
                 }
-                return Boolean.valueOf(i);
+                return Boolean.valueOf(i4);
             }
-            return Boolean.valueOf(i);
+            return Boolean.valueOf(i4);
         }
 
         @Override // androidx.activity.result.contract.ActivityResultContract
@@ -1090,14 +1090,14 @@ public final class ActivityResultContracts {
         @Override // androidx.activity.result.contract.ActivityResultContract
         public final Bitmap parseResult(int resultCode, Intent intent) {
             int it;
-            int i;
             int i2;
+            int i;
             int i3 = intent;
             int i4 = 0;
-            i2 = resultCode == -1 ? 1 : 0;
-            i = i2 != 0 ? intent : it;
-            if (i != 0) {
-                it = i.getParcelableExtra("data");
+            i = resultCode == -1 ? 1 : 0;
+            i2 = i != 0 ? intent : it;
+            if (i2 != 0) {
+                it = i2.getParcelableExtra("data");
             }
             return it;
         }

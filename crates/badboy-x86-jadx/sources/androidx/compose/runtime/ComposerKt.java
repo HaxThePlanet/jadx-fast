@@ -192,50 +192,50 @@ public final class ComposerKt {
         boolean start2;
         int anchor$iv;
         int group;
-        Object node;
+        Object node2;
         androidx.compose.runtime.SlotWriter endRelativeOrder;
-        boolean i6;
-        int i7;
-        int i;
-        int i9;
+        boolean i2;
+        int i4;
+        int i5;
         int i8;
+        int i6;
         int slot$iv;
-        int i2;
+        int i9;
         Object obj;
-        int i3;
+        int i7;
         boolean wrapped;
         int start;
         androidx.compose.runtime.SlotWriter $this$withAfterAnchorInfo$iv;
         int end;
-        int i5;
-        int i10;
+        int i;
+        int i3;
         int endRelativeAfter$iv;
-        Object node2;
+        Object node;
         int slotsEndAllIndex$runtime_release;
-        int i4;
+        int i10;
         androidx.compose.runtime.Anchor anchor;
         final androidx.compose.runtime.SlotWriter writer = $this$deactivateCurrentGroup;
         final Object obj2 = rememberManager;
         anchor$iv = writer.getCurrentGroupEnd();
         group = currentGroup;
         while (group < anchor$iv) {
-            node = writer.node(group);
-            if (node instanceof ComposeNodeLifecycleCallback != null) {
+            node2 = writer.node(group);
+            if (node2 instanceof ComposeNodeLifecycleCallback != null) {
             }
             endRelativeOrder = $this$deactivateCurrentGroup;
-            i7 = 0;
-            i9 = SlotWriter.access$slotIndex(endRelativeOrder, SlotWriter.access$getGroups$p(endRelativeOrder), SlotWriter.access$groupIndexToAddress(endRelativeOrder, group));
-            slot$iv = i9;
+            i4 = 0;
+            i8 = SlotWriter.access$slotIndex(endRelativeOrder, SlotWriter.access$getGroups$p(endRelativeOrder), SlotWriter.access$groupIndexToAddress(endRelativeOrder, group));
+            slot$iv = i8;
             while (slot$iv < SlotWriter.access$dataIndex(endRelativeOrder, SlotWriter.access$getGroups$p(endRelativeOrder), SlotWriter.access$groupIndexToAddress(endRelativeOrder, group + 1))) {
-                i2 = slot$iv - i9;
+                i9 = slot$iv - i8;
                 obj = SlotWriter.access$getSlots$p(endRelativeOrder)[SlotWriter.access$dataIndexToDataAddress(endRelativeOrder, slot$iv)];
-                i3 = 0;
+                i7 = 0;
                 if (obj instanceof RememberObserverHolder) {
                 } else {
                 }
                 start = currentGroup;
                 end = anchor$iv;
-                node2 = node;
+                node = node2;
                 $this$withAfterAnchorInfo$iv = endRelativeOrder;
                 if (obj instanceof RecomposeScopeImpl) {
                 }
@@ -243,8 +243,8 @@ public final class ComposerKt {
                 currentGroup = start;
                 endRelativeOrder = $this$withAfterAnchorInfo$iv;
                 anchor$iv = end;
-                node = node2;
-                ComposerKt.removeData(writer, group, i2, obj);
+                node2 = node;
+                ComposerKt.removeData(writer, group, i9, obj);
                 (RecomposeScopeImpl)obj.release();
                 wrapped = (RememberObserverHolder)obj.getWrapped();
                 start = currentGroup;
@@ -252,48 +252,48 @@ public final class ComposerKt {
                 } else {
                 }
                 end = anchor$iv;
-                node2 = node;
+                node = node2;
                 $this$withAfterAnchorInfo$iv = endRelativeOrder;
-                ComposerKt.removeData(writer, group, i2, obj);
+                ComposerKt.removeData(writer, group, i9, obj);
                 end = anchor$iv;
                 androidx.compose.runtime.Anchor after = (RememberObserverHolder)obj.getAfter();
                 androidx.compose.runtime.SlotWriter writer2 = $this$deactivateCurrentGroup;
-                i5 = 0;
-                i10 = -1;
+                i = 0;
+                i3 = -1;
                 endRelativeAfter$iv = -1;
                 if (after != null && after.getValid()) {
                 } else {
                 }
-                node2 = node;
-                node = writer2;
+                node = node2;
+                node2 = writer2;
                 $this$withAfterAnchorInfo$iv = endRelativeOrder;
-                i4 = 0;
+                i10 = 0;
                 anchor = after;
-                obj2.forgetting(wrapped, slotsSize -= i2, i10, endRelativeAfter$iv);
+                obj2.forgetting(wrapped, slotsSize -= i9, i3, endRelativeAfter$iv);
                 if (after.getValid()) {
                 } else {
                 }
-                node2 = node;
-                node = writer2;
+                node = node2;
+                node2 = writer2;
                 $this$withAfterAnchorInfo$iv = endRelativeOrder;
-                endRelativeOrder = node.anchorIndex(after);
+                endRelativeOrder = node2.anchorIndex(after);
                 endRelativeAfter$iv = slotsSize3 - slotsEndAllIndex$runtime_release;
-                i10 = endRelativeOrder;
+                i3 = endRelativeOrder;
             }
             start = currentGroup;
             end = anchor$iv;
-            node2 = node;
+            node = node2;
             $this$withAfterAnchorInfo$iv = endRelativeOrder;
             group++;
-            i2 = slot$iv - i9;
+            i9 = slot$iv - i8;
             obj = SlotWriter.access$getSlots$p(endRelativeOrder)[SlotWriter.access$dataIndexToDataAddress(endRelativeOrder, slot$iv)];
-            i3 = 0;
+            i7 = 0;
             if (obj instanceof RememberObserverHolder) {
             } else {
             }
             start = currentGroup;
             end = anchor$iv;
-            node2 = node;
+            node = node2;
             $this$withAfterAnchorInfo$iv = endRelativeOrder;
             if (obj instanceof RecomposeScopeImpl) {
             }
@@ -301,8 +301,8 @@ public final class ComposerKt {
             currentGroup = start;
             endRelativeOrder = $this$withAfterAnchorInfo$iv;
             anchor$iv = end;
-            node = node2;
-            ComposerKt.removeData(writer, group, i2, obj);
+            node2 = node;
+            ComposerKt.removeData(writer, group, i9, obj);
             (RecomposeScopeImpl)obj.release();
             wrapped = (RememberObserverHolder)obj.getWrapped();
             start = currentGroup;
@@ -310,35 +310,35 @@ public final class ComposerKt {
             } else {
             }
             end = anchor$iv;
-            node2 = node;
+            node = node2;
             $this$withAfterAnchorInfo$iv = endRelativeOrder;
-            ComposerKt.removeData(writer, group, i2, obj);
+            ComposerKt.removeData(writer, group, i9, obj);
             end = anchor$iv;
             after = (RememberObserverHolder)obj.getAfter();
             writer2 = $this$deactivateCurrentGroup;
-            i5 = 0;
-            i10 = -1;
+            i = 0;
+            i3 = -1;
             endRelativeAfter$iv = -1;
             if (after != null && after.getValid()) {
             } else {
             }
-            node2 = node;
-            node = writer2;
+            node = node2;
+            node2 = writer2;
             $this$withAfterAnchorInfo$iv = endRelativeOrder;
-            i4 = 0;
+            i10 = 0;
             anchor = after;
-            obj2.forgetting(wrapped, slotsSize -= i2, i10, endRelativeAfter$iv);
+            obj2.forgetting(wrapped, slotsSize -= i9, i3, endRelativeAfter$iv);
             if (after.getValid()) {
             } else {
             }
-            node2 = node;
-            node = writer2;
+            node = node2;
+            node2 = writer2;
             $this$withAfterAnchorInfo$iv = endRelativeOrder;
-            endRelativeOrder = node.anchorIndex(after);
+            endRelativeOrder = node2.anchorIndex(after);
             endRelativeAfter$iv = slotsSize3 - slotsEndAllIndex$runtime_release;
-            i10 = endRelativeOrder;
-            i = -1;
-            obj2.deactivating((ComposeNodeLifecycleCallback)node, slotsSize2 -= slotsStartIndex$runtime_release, i, i);
+            i3 = endRelativeOrder;
+            i5 = -1;
+            obj2.deactivating((ComposeNodeLifecycleCallback)node2, slotsSize2 -= slotsStartIndex$runtime_release, i5, i5);
         }
     }
 
@@ -453,16 +453,16 @@ public final class ComposerKt {
 
     private static final Object getKey(Object value, Object left, Object right) {
         int i;
-        int i2;
+        int $i$a$LetComposerKt$getKey$1;
         Object key;
         boolean equal;
         if (value instanceof JoinedKey) {
             i = value;
         } else {
-            i = i2;
+            i = $i$a$LetComposerKt$getKey$1;
         }
         if (i != 0) {
-            int i3 = 0;
+            int i2 = 0;
             if (Intrinsics.areEqual(i.getLeft(), left) && Intrinsics.areEqual(i.getRight(), right)) {
                 if (Intrinsics.areEqual(i.getRight(), right)) {
                     key = value;
@@ -473,9 +473,9 @@ public final class ComposerKt {
                 }
             } else {
             }
-            i2 = key;
+            $i$a$LetComposerKt$getKey$1 = key;
         }
-        return i2;
+        return $i$a$LetComposerKt$getKey$1;
     }
 
     public static final Object getProvider() {
@@ -523,33 +523,33 @@ public final class ComposerKt {
 
     private static final void insertIfMissing(List<androidx.compose.runtime.Invalidation> $this$insertIfMissing, int location, androidx.compose.runtime.RecomposeScopeImpl scope, Object instance) {
         int instances;
-        int i2;
-        androidx.compose.runtime.Invalidation mutableScatterSetOf;
         int i;
+        androidx.compose.runtime.Invalidation mutableScatterSetOf;
+        int i2;
         final int location2 = ComposerKt.findLocation($this$insertIfMissing, location);
         if (location2 < 0) {
-            i = 0;
+            i2 = 0;
             if (obj instanceof DerivedState) {
                 instances = instance;
             }
             mutableScatterSetOf = new Invalidation(scope, location, instances);
             $this$insertIfMissing.add(-i3, mutableScatterSetOf);
         } else {
-            i2 = $this$insertIfMissing.get(location2);
+            i = $this$insertIfMissing.get(location2);
             if (instance instanceof DerivedState) {
-                instances = (Invalidation)i2.getInstances();
+                instances = (Invalidation)i.getInstances();
                 if (instances == null) {
-                    i2.setInstances(instance);
+                    i.setInstances(instance);
                 } else {
                     if (instances instanceof MutableScatterSet != null) {
                         Object obj2 = instances;
                         (MutableScatterSet)instances.add(instance);
                     } else {
-                        i2.setInstances(ScatterSetKt.mutableScatterSetOf(instances, instance));
+                        i.setInstances(ScatterSetKt.mutableScatterSetOf(instances, instance));
                     }
                 }
             } else {
-                i2.setInstances(0);
+                i.setInstances(0);
             }
         }
     }
@@ -593,10 +593,10 @@ public final class ComposerKt {
     private static final int nearestCommonRootOf(androidx.compose.runtime.SlotReader $this$nearestCommonRootOf, int a, int b, int common) {
         int currentA;
         int currentB;
-        int i4;
-        int i3;
         int i;
+        int i4;
         int i2;
+        int i3;
         if (a == b) {
             return a;
         }
@@ -618,18 +618,18 @@ public final class ComposerKt {
                 currentB = b;
                 final int distanceFrom = ComposerKt.distanceFrom($this$nearestCommonRootOf, a, common);
                 final int distanceFrom2 = ComposerKt.distanceFrom($this$nearestCommonRootOf, b, common);
-                i3 = i4;
-                while (i3 < distanceFrom - distanceFrom2) {
-                    i = i3;
-                    i2 = 0;
+                i4 = i;
+                while (i4 < distanceFrom - distanceFrom2) {
+                    i2 = i4;
+                    i3 = 0;
                     currentA = $this$nearestCommonRootOf.parent(currentA);
-                    i3++;
-                }
-                while (i4 < distanceFrom2 - distanceFrom) {
-                    i3 = i4;
-                    i = 0;
-                    currentB = $this$nearestCommonRootOf.parent(currentB);
                     i4++;
+                }
+                while (i < distanceFrom2 - distanceFrom) {
+                    i4 = i;
+                    i2 = 0;
+                    currentB = $this$nearestCommonRootOf.parent(currentB);
+                    i++;
                 }
                 while (currentA != currentB) {
                     currentA = $this$nearestCommonRootOf.parent(currentA);
@@ -643,39 +643,39 @@ public final class ComposerKt {
 
     public static final void removeCurrentGroup(androidx.compose.runtime.SlotWriter $this$removeCurrentGroup, androidx.compose.runtime.RememberManager rememberManager) {
         int currentGroup;
-        boolean group$iv;
+        boolean group$iv2;
         androidx.compose.runtime.SlotWriter this_$iv;
         int $i$f$forAllData;
         int slot$iv;
         int groupSize;
-        int i;
+        int i6;
         int i3;
         boolean endRelativeOrder;
-        boolean i2;
+        boolean i5;
         int after;
-        int i4;
-        int i5;
+        int i2;
+        int i;
         int priority$iv;
         int endRelativeAfter$iv;
         int priority;
         int slotsEndAllIndex$runtime_release;
-        int i6;
+        int i4;
         androidx.compose.runtime.SlotWriter writer;
-        int group$iv2;
+        int group$iv;
         final Object obj = rememberManager;
         this_$iv = $this$removeCurrentGroup;
         $i$f$forAllData = 0;
         slot$iv = i8;
         while (slot$iv < SlotWriter.access$dataIndex(this_$iv, SlotWriter.access$getGroups$p(this_$iv), SlotWriter.access$groupIndexToAddress(this_$iv, currentGroup2 += groupSize))) {
             groupSize = SlotWriter.access$getSlots$p(this_$iv)[SlotWriter.access$dataIndexToDataAddress(this_$iv, slot$iv)];
-            i = slot$iv;
+            i6 = slot$iv;
             i3 = 0;
             if (groupSize instanceof ComposeNodeLifecycleCallback != null) {
             }
             if (groupSize instanceof RememberObserverHolder) {
             } else {
             }
-            group$iv2 = currentGroup;
+            group$iv = currentGroup;
             writer = this_$iv;
             priority = $i$f$forAllData;
             if (groupSize instanceof RecomposeScopeImpl) {
@@ -683,32 +683,32 @@ public final class ComposerKt {
             slot$iv++;
             $i$f$forAllData = priority;
             this_$iv = writer;
-            currentGroup = group$iv2;
+            currentGroup = group$iv;
             (RecomposeScopeImpl)groupSize.release();
             after = (RememberObserverHolder)groupSize.getAfter();
-            i4 = $this$removeCurrentGroup;
-            i5 = 0;
+            i2 = $this$removeCurrentGroup;
+            i = 0;
             priority$iv = -1;
             endRelativeAfter$iv = -1;
             if (after != null && after.getValid()) {
             }
-            i6 = 0;
-            group$iv2 = currentGroup;
+            i4 = 0;
+            group$iv = currentGroup;
             writer = this_$iv;
             priority = $i$f$forAllData;
-            obj.forgetting((RememberObserverHolder)groupSize.getWrapped(), slotsSize2 -= i, priority$iv, endRelativeAfter$iv);
+            obj.forgetting((RememberObserverHolder)groupSize.getWrapped(), slotsSize2 -= i6, priority$iv, endRelativeAfter$iv);
             if (after.getValid()) {
             }
             endRelativeAfter$iv = priority - slotsEndAllIndex$runtime_release;
-            i4 = -1;
-            obj.releasing((ComposeNodeLifecycleCallback)groupSize, slotsSize -= i, i4, i4);
+            i2 = -1;
+            obj.releasing((ComposeNodeLifecycleCallback)groupSize, slotsSize -= i6, i2, i2);
         }
         $this$removeCurrentGroup.removeGroup();
     }
 
     private static final void removeData(androidx.compose.runtime.SlotWriter $this$removeData, int group, int index, Object data) {
         int i;
-        String str;
+        String $i$a$RuntimeCheckComposerKt$removeData$1;
         i = data == $this$removeData.set(group, index, Composer.Companion.getEmpty()) ? 1 : 0;
         final int i2 = 0;
         if (i == 0) {
@@ -742,7 +742,7 @@ public final class ComposerKt {
     }
 
     public static final void runtimeCheck(boolean value) {
-        String str;
+        String $i$a$RuntimeCheckComposerKt$runtimeCheck$2;
         final int i = 0;
         if (value == null) {
             int i2 = 0;

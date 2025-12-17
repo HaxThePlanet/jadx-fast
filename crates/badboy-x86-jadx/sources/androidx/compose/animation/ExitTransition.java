@@ -111,10 +111,10 @@ public abstract class ExitTransition {
         int i;
         StringBuilder append;
         int string3;
-        int string;
+        int string4;
         String string2;
         boolean hold;
-        int string4;
+        int string;
         if (Intrinsics.areEqual(this, ExitTransition.None)) {
             $this$toString_u24lambda_u240 = "ExitTransition.None";
         } else {
@@ -125,29 +125,29 @@ public abstract class ExitTransition {
                 i = 0;
                 StringBuilder stringBuilder = new StringBuilder();
                 androidx.compose.animation.Fade fade = data$animation_release.getFade();
-                string4 = 0;
+                string = 0;
                 if (fade != null) {
                     string3 = fade.toString();
                 } else {
-                    string3 = string4;
+                    string3 = string;
                 }
                 androidx.compose.animation.Slide slide = data$animation_release.getSlide();
                 if (slide != null) {
-                    string = slide.toString();
+                    string4 = slide.toString();
                 } else {
-                    string = string4;
+                    string4 = string;
                 }
                 androidx.compose.animation.ChangeSize changeSize = data$animation_release.getChangeSize();
                 if (changeSize != null) {
                     string2 = changeSize.toString();
                 } else {
-                    string2 = string4;
+                    string2 = string;
                 }
                 androidx.compose.animation.Scale scale = data$animation_release.getScale();
                 if (scale != null) {
-                    string4 = scale.toString();
+                    string = scale.toString();
                 }
-                $this$toString_u24lambda_u240 = stringBuilder.append("ExitTransition: \nFade - ").append(string3).append(",\nSlide - ").append(string).append(",\nShrink - ").append(string2).append(",\nScale - ").append(string4).append(",\nKeepUntilTransitionsFinished - ").append(data$animation_release.getHold()).toString();
+                $this$toString_u24lambda_u240 = stringBuilder.append("ExitTransition: \nFade - ").append(string3).append(",\nSlide - ").append(string4).append(",\nShrink - ").append(string2).append(",\nScale - ").append(string).append(",\nKeepUntilTransitionsFinished - ").append(data$animation_release.getHold()).toString();
             }
         }
         return $this$toString_u24lambda_u240;

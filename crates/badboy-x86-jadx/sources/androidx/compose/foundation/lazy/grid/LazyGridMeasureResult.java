@@ -221,24 +221,24 @@ public final class LazyGridMeasureResult implements androidx.compose.foundation.
     public final boolean tryToApplyScrollWithoutRemeasure(int delta) {
         boolean firstVisibleLine;
         int i2;
-        int i4;
         int i;
+        int i5;
         boolean nonScrollableItem;
         int deltaToFirstItemChange;
-        int i5;
+        int i3;
         int index$iv;
         int orientation;
-        Object obj;
         Object obj2;
-        int i3;
+        Object obj;
+        int i4;
         i2 = 0;
         if (!this.remeasureNeeded && !getVisibleItemsInfo().isEmpty() && this.firstVisibleLine != null) {
             if (!getVisibleItemsInfo().isEmpty()) {
                 if (this.firstVisibleLine != null) {
                     firstVisibleLineScrollOffset2 -= delta;
-                    i = 1;
-                    if (i4 >= 0 && i4 < this.firstVisibleLine.getMainAxisSizeWithSpacings()) {
-                        firstVisibleLine = i4 < this.firstVisibleLine.getMainAxisSizeWithSpacings() ? i : i2;
+                    i5 = 1;
+                    if (i >= 0 && i < this.firstVisibleLine.getMainAxisSizeWithSpacings()) {
+                        firstVisibleLine = i < this.firstVisibleLine.getMainAxisSizeWithSpacings() ? i5 : i2;
                     } else {
                     }
                     if (firstVisibleLine == 0) {
@@ -249,27 +249,27 @@ public final class LazyGridMeasureResult implements androidx.compose.foundation.
                             if ((LazyGridMeasuredItem)last.getNonScrollableItem()) {
                             } else {
                                 if (delta < 0) {
-                                    deltaToFirstItemChange = Math.min(i7 -= viewportStartOffset2, i10 -= viewportEndOffset2) > -delta ? i : i2;
+                                    deltaToFirstItemChange = Math.min(i7 -= viewportStartOffset2, i10 -= viewportEndOffset2) > -delta ? i5 : i2;
                                 } else {
-                                    deltaToFirstItemChange = Math.min(viewportStartOffset -= offsetOnMainAxis3, viewportEndOffset -= offsetOnMainAxis4) > delta ? i : i2;
+                                    deltaToFirstItemChange = Math.min(viewportStartOffset -= offsetOnMainAxis3, viewportEndOffset -= offsetOnMainAxis4) > delta ? i5 : i2;
                                 }
                                 if (deltaToFirstItemChange != 0) {
                                     this.firstVisibleLineScrollOffset = firstVisibleLineScrollOffset -= delta;
                                     List visibleItemsInfo3 = getVisibleItemsInfo();
-                                    i5 = 0;
+                                    i3 = 0;
                                     index$iv = 0;
                                     while (index$iv < visibleItemsInfo3.size()) {
-                                        i3 = 0;
+                                        i4 = 0;
                                         (LazyGridMeasuredItem)visibleItemsInfo3.get(index$iv).applyScrollDelta(delta);
                                         index$iv++;
                                     }
                                     this.consumedScroll = (float)delta;
                                     if (!this.canScrollForward && delta > 0) {
                                         if (delta > 0) {
-                                            this.canScrollForward = i;
+                                            this.canScrollForward = i5;
                                         }
                                     }
-                                    i2 = i;
+                                    i2 = i5;
                                 } else {
                                 }
                             }

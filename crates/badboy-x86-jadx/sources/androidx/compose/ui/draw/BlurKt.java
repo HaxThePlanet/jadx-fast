@@ -15,30 +15,30 @@ public final class BlurKt {
         int clip;
         int compareTo-0680j_4;
         int tileMode;
-        int i;
+        int i3;
         TileMode.Companion companion;
         float anon;
         float radiusX2;
         float f;
-        int i2;
+        int i;
         Shape shape;
-        int i3;
+        int i2;
         Modifier obj9;
         int i4 = 0;
         int i6 = 0;
         if (edgeTreatment != null) {
-            i3 = clip;
-            i2 = tileMode;
+            i2 = clip;
+            i = tileMode;
         } else {
-            i3 = clip;
-            i2 = tileMode;
+            i2 = clip;
+            i = tileMode;
         }
-        i = 0;
+        i3 = 0;
         if (Dp.compareTo-0680j_4(radiusX, Dp.constructor-impl((float)clip2)) > 0) {
-            i = 0;
+            i3 = 0;
             if (Dp.compareTo-0680j_4(radiusY, Dp.constructor-impl((float)i5)) <= 0) {
-                if (i3 != 0) {
-                    anon = new BlurKt.blur.1(radiusX, radiusY, i2, edgeTreatment, i3);
+                if (i2 != 0) {
+                    anon = new BlurKt.blur.1(radiusX, radiusY, i, edgeTreatment, i2);
                     obj9 = GraphicsLayerModifierKt.graphicsLayer($this$blur_u2d1fqS_u2dgw, (Function1)anon);
                 } else {
                     radiusX2 = radiusX;

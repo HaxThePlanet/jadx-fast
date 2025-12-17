@@ -91,15 +91,15 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
         int oarray$iv;
         int length;
         int array$collection2;
-        int i;
+        int i5;
         int[] hashes$collection;
-        Object[] array$collection3;
         Object[] array$collection;
-        int i4;
+        Object[] array$collection3;
         int i2;
+        int i;
         int length2;
         int i3;
-        int i5;
+        int i4;
         final Object obj = element;
         final androidx.collection.ArraySet set = this;
         final int i6 = 0;
@@ -117,7 +117,7 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
             return oarray$iv;
         } else {
             index$iv = ~index$iv;
-            i = 1;
+            i5 = 1;
             if (i7 >= hashes$collection5.length) {
                 if (i7 >= 8) {
                     i12 += i7;
@@ -129,20 +129,20 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
                     }
                 }
                 hashes$collection = set.getHashes$collection();
-                array$collection3 = set.getArray$collection();
+                array$collection = set.getArray$collection();
                 ArraySetKt.allocArrays(set, array$collection2);
                 if (i7 != set.get_size$collection()) {
                 } else {
                     if (hashes$collection8.length == 0) {
-                        oarray$iv = i;
+                        oarray$iv = i5;
                     }
                     if (oarray$iv == 0) {
-                        oarray$iv = array$collection3;
-                        i4 = 0;
-                        ArraysKt.copyInto$default(hashes$collection, set.getHashes$collection(), 0, i4, hashes$collection.length, 6, 0);
-                        ArraysKt.copyInto$default(oarray$iv, set.getArray$collection(), i4, 0, oarray$iv.length, 6, 0);
+                        oarray$iv = array$collection;
+                        i2 = 0;
+                        ArraysKt.copyInto$default(hashes$collection, set.getHashes$collection(), 0, i2, hashes$collection.length, 6, 0);
+                        ArraysKt.copyInto$default(oarray$iv, set.getArray$collection(), i2, 0, oarray$iv.length, 6, 0);
                     } else {
-                        oarray$iv = array$collection3;
+                        oarray$iv = array$collection;
                     }
                 }
                 ConcurrentModificationException concurrentModificationException2 = new ConcurrentModificationException();
@@ -158,8 +158,8 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
                 } else {
                     set.getHashes$collection()[index$iv] = hash$iv;
                     set.getArray$collection()[index$iv] = obj;
-                    set.set_size$collection(i10 += i);
-                    oarray$iv = i;
+                    set.set_size$collection(i10 += i5);
+                    oarray$iv = i5;
                 }
             }
         }
@@ -170,10 +170,10 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
     public final void addAll(androidx.collection.ArraySet<? extends E> array) {
         int i$iv;
         Object array$collection;
-        int i4;
-        int i;
         int i2;
         int i3;
+        int i4;
+        int i;
         Intrinsics.checkNotNullParameter(array, "array");
         Object obj = this;
         final int i5 = 0;
@@ -181,12 +181,12 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
         obj.ensureCapacity(i6 += i8);
         if (obj.get_size$collection() == 0) {
             if (i8 > 0) {
-                i2 = 6;
-                i3 = 0;
-                i4 = 0;
+                i4 = 6;
                 i = 0;
-                ArraysKt.copyInto$default(array.getHashes$collection(), obj.getHashes$collection(), i4, i, i8, i2, i3);
-                ArraysKt.copyInto$default(array.getArray$collection(), obj.getArray$collection(), i4, i, i8, i2, i3);
+                i2 = 0;
+                i3 = 0;
+                ArraysKt.copyInto$default(array.getHashes$collection(), obj.getHashes$collection(), i2, i3, i8, i4, i);
+                ArraysKt.copyInto$default(array.getArray$collection(), obj.getArray$collection(), i2, i3, i8, i4, i);
                 if (obj.get_size$collection() != 0) {
                 } else {
                     obj.set_size$collection(i8);
@@ -264,10 +264,10 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
         Object[] oarray$iv;
         Object[] array$collection2;
         int i3;
-        int i;
         int i5;
-        int i2;
         int i4;
+        int i;
+        int i2;
         final androidx.collection.ArraySet set = this;
         final int i6 = 0;
         if (hashes$collection2.length < minimumCapacity) {
@@ -421,18 +421,18 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
     }
 
     public final E removeAt(int index) {
-        int array$collection3;
+        int array$collection4;
         Object[] ohashes$iv;
-        int array$collection;
+        int array$collection3;
         int array$collection2;
-        int i4;
+        int i6;
         int i7;
         int i5;
-        int i6;
         int i;
-        int i2;
         int i3;
-        Object[] array$collection4;
+        int i2;
+        int i4;
+        Object[] array$collection;
         int[] iArr;
         final androidx.collection.ArraySet set = this;
         final int i13 = 0;
@@ -443,29 +443,29 @@ public final class ArraySet<E>  implements Collection<E>, Set<E>, KMutableCollec
             return set.getArray$collection()[index];
         } else {
             i2 = i14 + -1;
-            i4 = 8;
-            if (hashes$collection3.length > i4 && set.get_size$collection() < length /= 3) {
+            i6 = 8;
+            if (hashes$collection3.length > i6 && set.get_size$collection() < length /= 3) {
                 if (set.get_size$collection() < length /= 3) {
-                    if (set.get_size$collection() > i4) {
-                        i4 = array$collection + array$collection3;
+                    if (set.get_size$collection() > i6) {
+                        i6 = array$collection3 + array$collection4;
                     } else {
                     }
                     int[] hashes$collection = set.getHashes$collection();
-                    array$collection4 = set.getArray$collection();
-                    ArraySetKt.allocArrays(set, i4);
+                    array$collection = set.getArray$collection();
+                    ArraySetKt.allocArrays(set, i6);
                     if (index > 0) {
-                        i6 = 6;
-                        i = 0;
-                        i4 = 0;
+                        i = 6;
+                        i3 = 0;
+                        i6 = 0;
                         i7 = 0;
                         i5 = index;
-                        ArraysKt.copyInto$default(hashes$collection, set.getHashes$collection(), i4, i7, i5, i6, i);
+                        ArraysKt.copyInto$default(hashes$collection, set.getHashes$collection(), i6, i7, i5, i, i3);
                         iArr = hashes$collection;
-                        ArraysKt.copyInto$default(array$collection4, set.getArray$collection(), i4, i7, i5, i6, i);
+                        ArraysKt.copyInto$default(array$collection, set.getArray$collection(), i6, i7, i5, i, i3);
                     } else {
                         i5 = index;
                         iArr = hashes$collection;
-                        ohashes$iv = array$collection4;
+                        ohashes$iv = array$collection;
                     }
                     if (i5 < i2) {
                         ArraysKt.copyInto(iArr, set.getHashes$collection(), i5, i5 + 1, i2 + 1);

@@ -34,24 +34,24 @@ public final class TransitionClock<T>  implements androidx.compose.ui.tooling.an
     }
 
     public List<ComposeAnimatedProperty> getAnimatedProperties() {
-        int next3;
+        int next;
         Iterator iterator;
         Object next2;
-        boolean next;
+        boolean next3;
         Object contains;
-        int label2;
+        int label;
         Object obj;
         int i;
         Object value;
         int composeAnimatedProperty;
-        String label;
+        String label2;
         int i3 = 0;
         ArrayList arrayList2 = new ArrayList();
         int i4 = 0;
-        next3 = 0;
+        next = 0;
         iterator = (Iterable)Utils_androidKt.allAnimations(getAnimation().getAnimationObject()).iterator();
         while (iterator.hasNext()) {
-            label2 = 0;
+            label = 0;
             obj = contains;
             i = 0;
             value = (Transition.TransitionAnimationState)obj.getValue();
@@ -70,11 +70,11 @@ public final class TransitionClock<T>  implements androidx.compose.ui.tooling.an
         int i5 = 0;
         Iterator iterator2 = (Iterable)(List)arrayList2.iterator();
         while (iterator2.hasNext()) {
-            next3 = iterator2.next();
-            next = false;
-            if (!Utils_androidKt.getIGNORE_TRANSITIONS().contains((ComposeAnimatedProperty)next3.getLabel())) {
+            next = iterator2.next();
+            next3 = false;
+            if (!Utils_androidKt.getIGNORE_TRANSITIONS().contains((ComposeAnimatedProperty)next.getLabel())) {
             }
-            (Collection)arrayList.add(next3);
+            (Collection)arrayList.add(next);
         }
         return (List)arrayList;
     }

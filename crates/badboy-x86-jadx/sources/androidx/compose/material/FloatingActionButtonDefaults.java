@@ -23,8 +23,8 @@ public final class FloatingActionButtonDefaults {
     public final androidx.compose.material.FloatingActionButtonElevation elevation-ixp7dh8(float defaultElevation, float pressedElevation, Composer $composer, int $changed, int i5) {
         int i;
         float $i$f$getDp;
-        float f2;
         float f;
+        float f2;
         float obj10;
         float obj11;
         int obj14;
@@ -38,9 +38,9 @@ public final class FloatingActionButtonDefaults {
         }
         if (i5 & 2 != 0) {
             obj14 = 0;
-            f = obj11;
+            f2 = obj11;
         } else {
-            f = pressedElevation;
+            f2 = pressedElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, $changed, -1, "androidx.compose.material.FloatingActionButtonDefaults.elevation (FloatingActionButton.kt:222)");
@@ -52,7 +52,7 @@ public final class FloatingActionButtonDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.elevation-xZ9-QkE($i$f$getDp, f, Dp.constructor-impl((float)obj10), Dp.constructor-impl((float)obj10), composer, obj10 | obj11, 0);
+        return this.elevation-xZ9-QkE($i$f$getDp, f2, Dp.constructor-impl((float)obj10), Dp.constructor-impl((float)obj10), composer, obj10 | obj11, 0);
     }
 
     public final androidx.compose.material.FloatingActionButtonElevation elevation-xZ9-QkE(float defaultElevation, float pressedElevation, float hoveredElevation, float focusedElevation, Composer $composer, int $changed, int i7) {
@@ -60,10 +60,10 @@ public final class FloatingActionButtonDefaults {
         int i;
         Object defaultFloatingActionButtonElevation;
         float $i$f$getDp;
-        float f;
-        float f4;
         float f3;
+        float f;
         float f2;
+        float f4;
         int i2;
         float obj8;
         float obj9;
@@ -79,21 +79,21 @@ public final class FloatingActionButtonDefaults {
         }
         if (i7 & 2 != 0) {
             i = 0;
-            f4 = obj9;
+            f = obj9;
         } else {
-            f4 = pressedElevation;
+            f = pressedElevation;
         }
         if (i7 & 4 != 0) {
             obj9 = 0;
-            f3 = obj10;
+            f2 = obj10;
         } else {
-            f3 = hoveredElevation;
+            f2 = hoveredElevation;
         }
         if (i7 & 8 != 0) {
             obj9 = 0;
-            f2 = obj11;
+            f4 = obj11;
         } else {
-            f2 = focusedElevation;
+            f4 = focusedElevation;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(empty, $changed, -1, "androidx.compose.material.FloatingActionButtonDefaults.elevation (FloatingActionButton.kt:248)");
@@ -111,7 +111,7 @@ public final class FloatingActionButtonDefaults {
         }
         int obj14 = 32;
         if (obj9 ^= 48 > obj14) {
-            if (!$composer.changed(f4)) {
+            if (!$composer.changed(f)) {
                 obj9 = $changed & 48 == obj14 ? obj11 : obj10;
             } else {
             }
@@ -119,7 +119,7 @@ public final class FloatingActionButtonDefaults {
         }
         obj14 = 256;
         if (obj9 ^= 384 > obj14) {
-            if (!$composer.changed(f3)) {
+            if (!$composer.changed(f2)) {
                 obj9 = $changed & 384 == obj14 ? obj11 : obj10;
             } else {
             }
@@ -127,7 +127,7 @@ public final class FloatingActionButtonDefaults {
         }
         obj14 = 2048;
         if (obj9 ^= 3072 > obj14) {
-            if (!$composer.changed(f2)) {
+            if (!$composer.changed(f4)) {
                 if ($changed & 3072 == obj14) {
                     obj10 = obj11;
                 }
@@ -142,7 +142,7 @@ public final class FloatingActionButtonDefaults {
         if (obj8 |= obj10 == 0) {
             if (obj11 == Composer.Companion.getEmpty()) {
                 empty = 0;
-                defaultFloatingActionButtonElevation = new DefaultFloatingActionButtonElevation($i$f$getDp, f4, f3, f2, 0);
+                defaultFloatingActionButtonElevation = new DefaultFloatingActionButtonElevation($i$f$getDp, f, f2, f4, 0);
                 obj9.updateRememberedValue(defaultFloatingActionButtonElevation);
             } else {
                 defaultFloatingActionButtonElevation = obj11;

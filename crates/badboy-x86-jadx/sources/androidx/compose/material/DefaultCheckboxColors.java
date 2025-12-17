@@ -33,9 +33,9 @@ final class DefaultCheckboxColors implements androidx.compose.material.CheckboxC
 
         public static final int[] $EnumSwitchMapping$0;
         static {
+            int ordinal3;
             int ordinal;
             int ordinal2;
-            int ordinal3;
             int[] iArr = new int[values.length];
             iArr[ToggleableState.On.ordinal()] = 1;
             iArr[ToggleableState.Indeterminate.ordinal()] = 2;
@@ -69,11 +69,11 @@ final class DefaultCheckboxColors implements androidx.compose.material.CheckboxC
         int ordinal;
         String str;
         androidx.compose.animation.core.TweenSpec tweenSpec;
-        int i3;
+        int i;
         int i2;
         Composer $composer2;
         int i4;
-        int i;
+        int i3;
         State obj13;
         int i5 = -1568341342;
         $composer.startReplaceGroup(i5);
@@ -99,9 +99,9 @@ final class DefaultCheckboxColors implements androidx.compose.material.CheckboxC
                 $composer.startReplaceGroup(-840809961);
                 ComposerKt.sourceInformation($composer, "467@18254L61");
                 ordinal = state == ToggleableState.Off ? 100 : 50;
-                i3 = 0;
+                i = 0;
                 $composer2 = $composer;
-                obj13 = SingleValueAnimationKt.animateColorAsState-euL9pac(l, obj3, (AnimationSpec)AnimationSpecKt.tween$default(ordinal, tween$default, i3, 6, i3), i3, 0, $composer2, 0);
+                obj13 = SingleValueAnimationKt.animateColorAsState-euL9pac(l, obj3, (AnimationSpec)AnimationSpecKt.tween$default(ordinal, tween$default, i, 6, i), i, 0, $composer2, 0);
                 $composer2.endReplaceGroup();
             } else {
                 $composer2 = $composer;
@@ -137,11 +137,11 @@ final class DefaultCheckboxColors implements androidx.compose.material.CheckboxC
         int ordinal;
         String str;
         androidx.compose.animation.core.TweenSpec tweenSpec;
-        int i4;
-        int i;
-        Composer $composer2;
         int i2;
         int i3;
+        Composer $composer2;
+        int i;
+        int i4;
         State obj13;
         int i5 = 840901029;
         $composer.startReplaceGroup(i5);
@@ -167,9 +167,9 @@ final class DefaultCheckboxColors implements androidx.compose.material.CheckboxC
                 $composer.startReplaceGroup(507315190);
                 ComposerKt.sourceInformation($composer, "443@17294L61");
                 ordinal = state == ToggleableState.Off ? 100 : 50;
-                i4 = 0;
+                i2 = 0;
                 $composer2 = $composer;
-                obj13 = SingleValueAnimationKt.animateColorAsState-euL9pac(l, obj3, (AnimationSpec)AnimationSpecKt.tween$default(ordinal, tween$default, i4, 6, i4), i4, 0, $composer2, 0);
+                obj13 = SingleValueAnimationKt.animateColorAsState-euL9pac(l, obj3, (AnimationSpec)AnimationSpecKt.tween$default(ordinal, tween$default, i2, 6, i2), i2, 0, $composer2, 0);
                 $composer2.endReplaceGroup();
             } else {
                 $composer2 = $composer;

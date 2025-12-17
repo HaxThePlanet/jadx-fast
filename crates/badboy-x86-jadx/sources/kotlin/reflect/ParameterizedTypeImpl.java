@@ -65,14 +65,14 @@ final class ParameterizedTypeImpl implements ParameterizedType, kotlin.reflect.T
         int iNSTANCE;
         Type[] typeArguments;
         StringBuilder sb;
-        int i5;
+        int i3;
         String str2;
         String str;
-        int i2;
-        int i3;
+        int i5;
+        int i4;
         kotlin.reflect.ParameterizedTypeImpl.getTypeName.1.1 anon;
         int i;
-        int i4;
+        int i2;
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder sb2 = stringBuilder;
         final int i6 = 0;

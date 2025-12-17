@@ -96,8 +96,7 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
     private static enum TranslateStatus {
 
         SHOW_ORIGINAL,
-        SHOW_ORIGINAL,
-        SHOW_ORIGINAL;
+        SHOW_TRANSLATED;
         private static final androidx.compose.ui.contentcapture.AndroidContentCaptureManager.TranslateStatus[] $values() {
             return /* result */;
         }
@@ -178,39 +177,39 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         }
 
         public final void onCreateVirtualViewTranslationRequests(androidx.compose.ui.contentcapture.AndroidContentCaptureManager contentCaptureManager, long[] virtualIds, int[] supportedFormats, Consumer<ViewTranslationRequest> requestsCollector) {
-            int i10;
-            long l;
+            int i11;
             long l2;
-            int i8;
+            long l;
+            int i5;
             SemanticsNode semanticsNode;
             ViewTranslationRequest.Builder builder;
             String orNull;
             Object obj;
             String str;
             int i2;
-            int i7;
-            int i11;
-            int i6;
-            int i12;
+            int i10;
+            int i8;
+            int i;
             int i3;
-            int i13;
+            int i9;
+            int i7;
             AnnotatedString annotatedString;
             String fastJoinToString$default;
+            int i12;
             int i4;
-            int i;
-            int i9;
-            int i5;
+            int i13;
+            int i6;
             final long[] lArr = virtualIds;
             final int i14 = 0;
-            i10 = 0;
-            while (i10 < lArr.length) {
-                i8 = 0;
-                semanticsNode = contentCaptureManager.getCurrentSemanticsNodes$ui_release().get((int)l2);
+            i11 = 0;
+            while (i11 < lArr.length) {
+                i5 = 0;
+                semanticsNode = contentCaptureManager.getCurrentSemanticsNodes$ui_release().get((int)l);
                 if ((SemanticsNodeWithAdjustedBounds)semanticsNode != null) {
                 } else {
                 }
                 obj = requestsCollector;
-                i10++;
+                i11++;
                 semanticsNode = (SemanticsNodeWithAdjustedBounds)semanticsNode.getSemanticsNode();
                 if (semanticsNode != null) {
                 } else {
@@ -310,21 +309,21 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i4;
+        int i5;
         int j$iv$iv;
-        int i2;
+        int i;
         int i3;
         long l;
-        int i6;
-        int i5;
         int i7;
+        int i6;
+        int i2;
         Object this_$iv;
         Object obj;
         SemanticsNode semanticsNode;
-        int i;
-        int iNSTANCE2;
+        int i4;
+        int iNSTANCE;
         boolean next;
-        Object iNSTANCE;
+        Object iNSTANCE2;
         int $i$f$forEachKey;
         int[] k$iv;
         final Object obj2 = this;
@@ -347,13 +346,13 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         int unmergedConfig$ui_release;
         int j$iv$iv;
-        int i3;
+        int i2;
         int i4;
         long l;
-        int i;
+        int i3;
         int i5;
         SemanticsProperties iNSTANCE;
-        int i2;
+        int i;
         IntObjectMap this_$iv2;
         this_$iv = getCurrentSemanticsNodes$ui_release();
         final int i6 = 0;
@@ -382,7 +381,7 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
     }
 
     private final void hideTranslatedText() {
-        int this_$iv2;
+        int this_$iv;
         int valueOf;
         int i$iv$iv;
         long slot$iv$iv;
@@ -394,19 +393,19 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         long l;
         int cmp;
         int i6;
-        int i4;
-        int i5;
         int i2;
         int i3;
-        IntObjectMap this_$iv;
-        this_$iv2 = getCurrentSemanticsNodes$ui_release();
+        int i4;
+        int i5;
+        IntObjectMap this_$iv2;
+        this_$iv = getCurrentSemanticsNodes$ui_release();
         final int i7 = 0;
         final long[] metadata = map.metadata;
         length += -2;
         if (0 <= i8) {
         } else {
-            this_$iv = this_$iv2;
-            i2 = valueOf;
+            this_$iv2 = this_$iv;
+            i4 = valueOf;
         }
     }
 
@@ -414,37 +413,37 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
     }
 
     private final void notifyContentCaptureChanges() {
-        MutableIntObjectMap bufferedAppearedNodes;
+        MutableIntObjectMap bufferedAppearedNodes2;
         boolean bufferedDisappearedNodes;
-        int i9;
+        int i7;
         ArrayList arrayList;
         int j$iv$iv;
         ArrayList list;
-        MutableIntSet $i$f$isFull2;
+        MutableIntSet $i$f$isFull;
         int i5;
-        int i$iv$iv;
+        int i$iv$iv2;
         int index$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int $i$f$isFull;
-        int i2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int $i$f$isFull2;
+        int i4;
         int valueOf;
         int metadata;
-        int cmp;
-        ArrayList i$iv$iv2;
-        int it;
-        MutableIntObjectMap bufferedAppearedNodes2;
         int cmp2;
-        MutableIntObjectMap $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i3;
+        ArrayList i$iv$iv;
+        int it;
+        MutableIntObjectMap bufferedAppearedNodes;
+        int cmp;
+        MutableIntObjectMap $i$a$ApplyAndroidContentCaptureManager$notifyContentCaptureChanges$3;
+        int i8;
+        int i2;
         int i10;
-        int i4;
         long slot$iv$iv;
+        int i9;
+        long l2;
+        int i3;
         int i;
         long l;
-        int i8;
         int i6;
-        long l2;
-        int i7;
         final Object obj = this;
         final ContentCaptureSessionCompat contentCaptureSession = obj.contentCaptureSession;
         if (contentCaptureSession == null) {
@@ -452,49 +451,49 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         if (obj.bufferedAppearedNodes.isNotEmpty()) {
             ArrayList arrayList2 = new ArrayList();
             it = 0;
-            bufferedAppearedNodes2 = obj.bufferedAppearedNodes;
-            cmp2 = 0;
-            i3 = 0;
+            bufferedAppearedNodes = obj.bufferedAppearedNodes;
+            cmp = 0;
+            i8 = 0;
             long[] metadata2 = map.metadata;
             length += -2;
-            if (0 <= i20) {
+            if (0 <= i19) {
             } else {
-                i6 = 7;
-                l2 = -9187201950435737472L;
+                i = 7;
+                l = -9187201950435737472L;
             }
-            i9 = 0;
+            i7 = 0;
             arrayList = new ArrayList(arrayList2.size());
             list = arrayList2;
             i5 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < list.size()) {
-                cmp = 0;
-                bufferedAppearedNodes2 = null;
+                cmp2 = 0;
+                bufferedAppearedNodes = null;
                 (Collection)arrayList.add((ViewStructureCompat)list.get(index$iv$iv).toViewStructure());
                 index$iv$iv++;
             }
             contentCaptureSession.notifyViewsAppeared((List)arrayList);
             obj.bufferedAppearedNodes.clear();
         } else {
-            i10 = 128;
-            i4 = 255;
-            i6 = 7;
-            l2 = -9187201950435737472L;
+            i2 = 128;
+            i10 = 255;
+            i = 7;
+            l = -9187201950435737472L;
         }
         if (obj.bufferedDisappearedNodes.isNotEmpty()) {
             ArrayList arrayList3 = new ArrayList();
-            $i$f$isFull2 = obj.bufferedDisappearedNodes;
-            int i21 = 0;
-            $i$f$isFull = 0;
+            $i$f$isFull = obj.bufferedDisappearedNodes;
+            int i20 = 0;
+            $i$f$isFull2 = 0;
             metadata = set.metadata;
             length2 += -2;
-            if (0 <= cmp) {
+            if (0 <= cmp2) {
             } else {
-                $this$maskEmptyOrDeleted$iv$iv$iv = j$iv$iv;
-                i3 = $i$f$isFull2;
+                $i$a$ApplyAndroidContentCaptureManager$notifyContentCaptureChanges$3 = j$iv$iv;
+                i8 = $i$f$isFull;
                 slot$iv$iv = metadata;
             }
-            i9 = 0;
+            i7 = 0;
             arrayList = new ArrayList(arrayList3.size());
             list = arrayList3;
             i5 = 0;
@@ -521,23 +520,23 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         MutableIntObjectMap $this$fastForEach$iv;
         int index$iv;
         int index$iv2;
-        Object obj2;
-        int i;
         Object obj;
+        int i9;
+        Object obj2;
         long[] metadata;
-        int i7;
-        int i8;
+        int i4;
+        int i2;
         boolean contains;
         int i$iv$iv;
         int slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
+        int i;
         int j$iv$iv;
+        int i7;
         int i5;
-        int i3;
         long l;
-        int i9;
-        int i4;
+        int i3;
+        int i8;
         int i6;
         MutableIntObjectMap this_$iv;
         final Object obj3 = this;
@@ -545,21 +544,21 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         int i10 = 0;
         index$iv = 0;
         while (index$iv < replacedChildren$ui_release.size()) {
-            obj = obj2;
-            i7 = 0;
-            if (obj3.getCurrentSemanticsNodes$ui_release().contains((SemanticsNode)obj.getId()) && !oldNode.getChildren().contains(obj.getId())) {
+            obj2 = obj;
+            i4 = 0;
+            if (obj3.getCurrentSemanticsNodes$ui_release().contains((SemanticsNode)obj2.getId()) && !oldNode.getChildren().contains(obj2.getId())) {
             }
             index$iv++;
-            if (!oldNode.getChildren().contains(obj.getId())) {
+            if (!oldNode.getChildren().contains(obj2.getId())) {
             }
-            obj3.updateBuffersOnAppeared(obj);
+            obj3.updateBuffersOnAppeared(obj2);
         }
         $this$fastForEach$iv = obj3.previousSemanticsNodes;
         int i11 = 0;
-        i = 0;
+        i9 = 0;
         metadata = map.metadata;
         length += -2;
-        if (0 <= i8) {
+        if (0 <= i2) {
         } else {
             this_$iv = $this$fastForEach$iv;
         }
@@ -567,8 +566,8 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         int i12 = 0;
         index$iv2 = 0;
         while (index$iv2 < replacedChildren$ui_release2.size()) {
-            metadata = i;
-            i8 = 0;
+            metadata = i9;
+            i2 = 0;
             index$iv2++;
             i$iv$iv = obj3.previousSemanticsNodes.get(metadata.getId());
             slot$iv$iv = 0;
@@ -593,59 +592,59 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
     }
 
     private final void sendSemanticsStructureChangeEvents(SemanticsNode newNode, SemanticsNodeCopy oldNode) {
-        int newChildren2;
+        int newChildren;
         int cmp;
-        int index$iv;
-        int i;
-        int i4;
         int index$iv2;
+        int i2;
+        int i4;
+        int index$iv;
         int[] elements;
         MutableIntSet set;
         Object obj2;
-        int contains;
+        int contains2;
         Object obj;
         long[] metadata;
         int i6;
-        boolean contains2;
+        boolean contains;
         int i$iv$iv;
         int slot$iv$iv;
         int j$iv$iv;
         int value$iv$iv$iv;
-        int i5;
-        long l;
-        int i2;
         int i3;
-        MutableIntSet newChildren;
+        long l;
+        int i5;
+        int i;
+        MutableIntSet newChildren2;
         final Object obj3 = this;
-        newChildren2 = new MutableIntSet(0, 1, 0);
+        newChildren = new MutableIntSet(0, 1, 0);
         List replacedChildren$ui_release2 = newNode.getReplacedChildren$ui_release();
         int i17 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < replacedChildren$ui_release2.size()) {
+        index$iv = 0;
+        while (index$iv < replacedChildren$ui_release2.size()) {
             obj = obj2;
             i6 = 0;
-            index$iv2++;
-            newChildren2.add(obj.getId());
+            index$iv++;
+            newChildren.add(obj.getId());
         }
         MutableIntSet children = oldNode.getChildren();
         i4 = 0;
-        contains = 0;
+        contains2 = 0;
         metadata = set.metadata;
         length += -2;
         if (0 <= i18) {
         } else {
-            newChildren = newChildren2;
+            newChildren2 = newChildren;
         }
         List replacedChildren$ui_release = newNode.getReplacedChildren$ui_release();
         int i8 = 0;
-        index$iv = 0;
-        while (index$iv < replacedChildren$ui_release.size()) {
+        index$iv2 = 0;
+        while (index$iv2 < replacedChildren$ui_release.size()) {
             elements = i4;
             set = null;
-            index$iv++;
-            contains = obj3.previousSemanticsNodes.get(elements.getId());
+            index$iv2++;
+            contains2 = obj3.previousSemanticsNodes.get(elements.getId());
             metadata = 0;
-            obj3.sendSemanticsStructureChangeEvents(elements, (SemanticsNodeCopy)contains);
+            obj3.sendSemanticsStructureChangeEvents(elements, (SemanticsNodeCopy)contains2);
         }
     }
 
@@ -661,9 +660,9 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         int i2;
         long l;
         int cmp;
-        int i6;
-        int i4;
         int i5;
+        int i4;
+        int i6;
         int i;
         int i3;
         IntObjectMap this_$iv;
@@ -683,16 +682,16 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         Object orNull;
         Object legacyClassName-V4PA4sw;
         android.view.autofill.AutofillId autofillId;
-        String fastJoinToString$default2;
+        String fastJoinToString$default;
         long currentSemanticsNodesSnapshotTimestampMillis;
-        int fastJoinToString$default;
+        int fastJoinToString$default2;
         String str;
-        int i;
         int i2;
+        int i5;
+        int i6;
+        int i;
         int i3;
         int i4;
-        int i6;
-        int i5;
         final Object obj = this;
         final ContentCaptureSessionCompat contentCaptureSession = obj.contentCaptureSession;
         int i7 = 0;
@@ -730,11 +729,11 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
             view2.setId($this$toViewStructure.getId(), i7, i7, (String)orNull4);
         }
         orNull2 = SemanticsConfigurationKt.getOrNull(unmergedConfig$ui_release, SemanticsProperties.INSTANCE.getText());
-        fastJoinToString$default2 = "\n";
+        fastJoinToString$default = "\n";
         if ((List)orNull2 != null) {
             orNull2 = 0;
             view2.setClassName("android.widget.TextView");
-            view2.setText((CharSequence)ListUtilsKt.fastJoinToString$default((List)orNull2, (CharSequence)fastJoinToString$default2, 0, 0, 0, 0, 0, 62, 0));
+            view2.setText((CharSequence)ListUtilsKt.fastJoinToString$default((List)orNull2, (CharSequence)fastJoinToString$default, 0, 0, 0, 0, 0, 62, 0));
         }
         Object orNull3 = SemanticsConfigurationKt.getOrNull(unmergedConfig$ui_release, SemanticsProperties.INSTANCE.getEditableText());
         if ((AnnotatedString)orNull3 != null) {
@@ -745,20 +744,20 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         orNull = SemanticsConfigurationKt.getOrNull(unmergedConfig$ui_release, SemanticsProperties.INSTANCE.getContentDescription());
         if ((List)orNull != null) {
             orNull = 0;
-            view2.setContentDescription((CharSequence)ListUtilsKt.fastJoinToString$default((List)orNull, (CharSequence)fastJoinToString$default2, 0, 0, 0, 0, 0, 62, 0));
+            view2.setContentDescription((CharSequence)ListUtilsKt.fastJoinToString$default((List)orNull, (CharSequence)fastJoinToString$default, 0, 0, 0, 0, 0, 62, 0));
         }
         legacyClassName-V4PA4sw = SemanticsConfigurationKt.getOrNull(unmergedConfig$ui_release, SemanticsProperties.INSTANCE.getRole());
         legacyClassName-V4PA4sw = SemanticsUtils_androidKt.toLegacyClassName-V4PA4sw((Role)legacyClassName-V4PA4sw.unbox-impl());
         if (legacyClassName-V4PA4sw != null && legacyClassName-V4PA4sw != null) {
             legacyClassName-V4PA4sw = SemanticsUtils_androidKt.toLegacyClassName-V4PA4sw(legacyClassName-V4PA4sw.unbox-impl());
             if (legacyClassName-V4PA4sw != null) {
-                fastJoinToString$default2 = 0;
+                fastJoinToString$default = 0;
                 view2.setClassName(legacyClassName-V4PA4sw);
             }
         }
         TextLayoutResult textLayoutResult = SemanticsUtils_androidKt.getTextLayoutResult(unmergedConfig$ui_release);
         if (textLayoutResult != null) {
-            fastJoinToString$default2 = 0;
+            fastJoinToString$default = 0;
             currentSemanticsNodesSnapshotTimestampMillis = textLayoutResult.getLayoutInput();
             str = 0;
             view2.setTextStyle(i10 *= fontScale, str, str, str);
@@ -771,8 +770,8 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
 
     private final void updateBuffersOnAppeared(SemanticsNode node) {
         int index$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         int i;
         if (!isEnabled$ui_release()) {
         }
@@ -808,27 +807,27 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
 
     private final void updateSemanticsCopy() {
         int currentSemanticsNodes$ui_release2;
-        int i3;
-        int[] k$iv;
+        int i4;
+        int[] k$iv2;
         Object[] v$iv;
         IntObjectMap semanticsNode;
         int currentSemanticsNodes$ui_release;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i6;
-        int i2;
-        IntObjectMap this_$iv;
         int i5;
-        long l;
-        int i4;
-        int i8;
-        Object obj;
+        int i3;
+        IntObjectMap this_$iv;
         int i7;
-        int[] k$iv2;
+        long l;
+        int i2;
+        int i6;
+        Object obj;
+        int i;
+        int[] k$iv;
         Object[] objArr;
         IntObjectMap map;
-        int i;
+        int i8;
         final Object obj2 = this;
         obj2.previousSemanticsNodes.clear();
         currentSemanticsNodes$ui_release2 = obj2.getCurrentSemanticsNodes$ui_release();
@@ -838,11 +837,11 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         if (0 <= i15) {
         } else {
             this_$iv = currentSemanticsNodes$ui_release2;
-            i5 = i3;
-            k$iv2 = k$iv;
+            i7 = i4;
+            k$iv = k$iv2;
             objArr = v$iv;
             map = semanticsNode;
-            i = currentSemanticsNodes$ui_release;
+            i8 = currentSemanticsNodes$ui_release;
         }
         SemanticsNodeCopy semanticsNodeCopy = new SemanticsNodeCopy(obj2.view.getSemanticsOwner().getUnmergedRootSemanticsNode(), obj2.getCurrentSemanticsNodes$ui_release());
         obj2.previousSemanticsRoot = semanticsNodeCopy;
@@ -887,19 +886,19 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
 
     public final Object boundsUpdatesEventLoop$ui_release(Continuation<? super Unit> continuation) {
         boolean $result;
-        Object $continuation;
-        Object $continuation3;
         Object $continuation4;
-        androidx.compose.ui.contentcapture.AndroidContentCaptureManager.boundsUpdatesEventLoop.1 anon;
+        Object $continuation3;
+        Object $continuation2;
+        androidx.compose.ui.contentcapture.AndroidContentCaptureManager.boundsUpdatesEventLoop.1 anon2;
         int subtreeChangedLayoutNodes;
         Object iterator;
-        Object obj;
+        Object obj3;
         Object obj2;
         Object l$0;
-        Object it;
-        Object obj3;
+        Object _this;
+        Object obj;
         long sendRecurringContentCaptureEventsIntervalMillis;
-        androidx.compose.ui.contentcapture.AndroidContentCaptureManager.boundsUpdatesEventLoop.1 anon2;
+        androidx.compose.ui.contentcapture.AndroidContentCaptureManager.boundsUpdatesEventLoop.1 anon;
         Object obj10;
         $result = continuation;
         subtreeChangedLayoutNodes = Integer.MIN_VALUE;
@@ -922,26 +921,26 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
                 break;
             case 1:
                 ResultKt.throwOnFailure(obj10);
-                obj3 = l$02;
-                it = l$1;
-                obj = $continuation4;
-                anon = $result;
-                $continuation = obj10;
-                it.next();
-                obj3.notifyContentCaptureChanges();
-                obj3.checkingForSemanticsChanges = i;
-                obj3.handler.post(obj3.contentCaptureChangeChecker);
-                obj3.subtreeChangedLayoutNodes.clear();
-                anon.L$0 = obj3;
-                anon.L$1 = it;
-                anon.label = 2;
-                return obj;
-                obj10 = $continuation;
-                $result = anon;
-                $continuation4 = obj;
-                iterator = it;
-                l$0 = obj3;
-                obj3.subtreeChangedLayoutNodes.clear();
+                obj = l$02;
+                _this = l$1;
+                obj3 = $continuation2;
+                anon2 = $result;
+                $continuation4 = obj10;
+                _this.next();
+                obj.notifyContentCaptureChanges();
+                obj.checkingForSemanticsChanges = i;
+                obj.handler.post(obj.contentCaptureChangeChecker);
+                obj.subtreeChangedLayoutNodes.clear();
+                anon2.L$0 = obj;
+                anon2.L$1 = _this;
+                anon2.label = 2;
+                return obj3;
+                obj10 = $continuation4;
+                $result = anon2;
+                $continuation2 = obj3;
+                iterator = _this;
+                l$0 = obj;
+                obj.subtreeChangedLayoutNodes.clear();
                 return Unit.INSTANCE;
             case 2:
                 iterator = $result.L$1;
@@ -956,15 +955,15 @@ public final class AndroidContentCaptureManager implements androidx.compose.ui.c
         $result.L$1 = iterator;
         $result.label = i;
         Object next = iterator.hasNext($result);
-        if (next == $continuation4) {
-            return $continuation4;
+        if (next == $continuation2) {
+            return $continuation2;
         } else {
-            $continuation = obj10;
+            $continuation4 = obj10;
             obj10 = next;
-            obj3 = l$0;
-            it = iterator;
-            obj = $continuation4;
-            anon = anon2;
+            obj = l$0;
+            _this = iterator;
+            obj3 = $continuation2;
+            anon2 = anon;
         }
     }
 

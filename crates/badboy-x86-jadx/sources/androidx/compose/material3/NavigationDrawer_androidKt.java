@@ -35,35 +35,35 @@ public final class NavigationDrawer_androidKt {
 
     public static final void DrawerPredictiveBackHandler(androidx.compose.material3.DrawerState drawerState, Function3<? super androidx.compose.material3.DrawerPredictiveBackState, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int traceInProgress;
-        Object $changed$iv2;
+        Object $changed$iv;
         Object maxScaleXDistanceShrink;
         int $dirty;
         boolean $dirty2;
         boolean traceInProgress2;
-        int i7;
-        int i6;
-        int anon;
+        int i3;
+        int i2;
+        int $i$a$CacheNavigationDrawer_androidKt$DrawerPredictiveBackHandler$3;
         Object $i$f$rememberCoroutineScope;
         int isRtl;
         Ref.FloatRef floatRef;
-        Ref.FloatRef it$iv2;
-        Object empty2;
         Ref.FloatRef it$iv;
+        Object empty2;
+        Ref.FloatRef it$iv2;
         Object drawerPredictiveBackState;
-        int empty;
-        int i3;
+        int empty3;
+        int i4;
         Ref.FloatRef maxScaleYDistance;
         int compositionCoroutineScope;
-        int i;
+        int i6;
         Object rememberedValue;
-        Object empty3;
-        int i2;
-        Composer.Companion companion;
-        int $changed$iv;
-        kotlinx.coroutines.CoroutineScope scope;
+        Object empty;
         int i8;
+        Composer.Companion companion;
+        int $changed$iv2;
+        kotlinx.coroutines.CoroutineScope scope;
+        int i7;
         int i5;
-        int i4;
+        int i;
         Object obj;
         final Object obj3 = drawerState;
         final Object obj5 = content;
@@ -72,12 +72,12 @@ public final class NavigationDrawer_androidKt {
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(DrawerPredictiveBackHandler)P(1)45@1743L40,46@1800L24,47@1862L7,*51@2024L7,57@2337L1264,57@2285L1316,89@3644L99,89@3607L136,95@3749L34:NavigationDrawer.android.kt#uh7d8r");
         if (i35 & 6 == 0) {
-            i7 = restartGroup.changed(obj3) ? 4 : 2;
-            $dirty |= i7;
+            i3 = restartGroup.changed(obj3) ? 4 : 2;
+            $dirty |= i3;
         }
         if (i35 & 48 == 0) {
-            i6 = restartGroup.changedInstance(obj5) ? 32 : 16;
-            $dirty |= i6;
+            i2 = restartGroup.changedInstance(obj5) ? 32 : 16;
+            $dirty |= i2;
         }
         final int i38 = $dirty;
         if (i38 & 19 == 18) {
@@ -111,14 +111,14 @@ public final class NavigationDrawer_androidKt {
                 Object rememberedValue4 = composer3.rememberedValue();
                 int i40 = 0;
                 if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                    empty3 = 0;
+                    empty = 0;
                     int i43 = 0;
-                    $changed$iv = i11;
-                    $changed$iv2 = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
-                    composer3.updateRememberedValue($changed$iv2);
+                    $changed$iv2 = i11;
+                    $changed$iv = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
+                    composer3.updateRememberedValue($changed$iv);
                 } else {
-                    $changed$iv = i11;
-                    $changed$iv2 = rememberedValue4;
+                    $changed$iv2 = i11;
+                    $changed$iv = rememberedValue4;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -143,20 +143,20 @@ public final class NavigationDrawer_androidKt {
                 floatRef2.element = consume.toPx-0680j_4(NavigationDrawer_androidKt.PredictiveBackDrawerMaxScaleXDistanceShrink);
                 maxScaleYDistance.element = consume.toPx-0680j_4(NavigationDrawer_androidKt.PredictiveBackDrawerMaxScaleYDistance);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 228423264, str5);
-                empty = i38 & 14 == 4 ? 1 : 0;
+                empty3 = i38 & 14 == 4 ? 1 : 0;
                 Composer composer5 = restartGroup;
                 int i44 = 0;
                 Object rememberedValue3 = composer5.rememberedValue();
                 i5 = 0;
-                if (i27 |= empty == 0) {
+                if (i27 |= empty3 == 0) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                        i4 = 0;
+                        i = 0;
                         obj = obj4;
                         maxScaleXDistanceShrink = new NavigationDrawer_androidKt.DrawerPredictiveBackHandler.2.1((DrawerPredictiveBackState)$dirty2, $i$f$rememberCoroutineScope, obj3, isRtl, floatRef, floatRef2, maxScaleYDistance, 0);
                         composer5.updateRememberedValue((Function2)maxScaleXDistanceShrink);
                     } else {
-                        it$iv = maxScaleYDistance;
-                        it$iv2 = floatRef2;
+                        it$iv2 = maxScaleYDistance;
+                        it$iv = floatRef2;
                         maxScaleXDistanceShrink = obj;
                     }
                 } else {
@@ -167,25 +167,25 @@ public final class NavigationDrawer_androidKt {
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 228463923, str5);
                 compositionCoroutineScope = i38 & 14 == 4 ? 1 : 0;
                 Composer composer4 = restartGroup;
-                i = 0;
+                i6 = 0;
                 rememberedValue = composer4.rememberedValue();
-                i2 = 0;
+                i8 = 0;
                 if (compositionCoroutineScope == 0) {
                     scope = $i$f$rememberCoroutineScope;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         companion = scope2;
-                        i8 = isRtl;
-                        anon = new NavigationDrawer_androidKt.DrawerPredictiveBackHandler.3.1(obj3, $dirty2, 0);
-                        composer4.updateRememberedValue((Function2)anon);
+                        i7 = isRtl;
+                        $i$a$CacheNavigationDrawer_androidKt$DrawerPredictiveBackHandler$3 = new NavigationDrawer_androidKt.DrawerPredictiveBackHandler.3.1(obj3, $dirty2, 0);
+                        composer4.updateRememberedValue((Function2)$i$a$CacheNavigationDrawer_androidKt$DrawerPredictiveBackHandler$3);
                     } else {
-                        i8 = isRtl;
-                        anon = rememberedValue;
+                        i7 = isRtl;
+                        $i$a$CacheNavigationDrawer_androidKt$DrawerPredictiveBackHandler$3 = rememberedValue;
                     }
                 } else {
                     scope = $i$f$rememberCoroutineScope;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                EffectsKt.LaunchedEffect(Boolean.valueOf(obj3.isClosed()), (Function2)anon, restartGroup, 0);
+                EffectsKt.LaunchedEffect(Boolean.valueOf(obj3.isClosed()), (Function2)$i$a$CacheNavigationDrawer_androidKt$DrawerPredictiveBackHandler$3, restartGroup, 0);
                 obj5.invoke($dirty2, restartGroup, Integer.valueOf(i12 |= 6));
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();

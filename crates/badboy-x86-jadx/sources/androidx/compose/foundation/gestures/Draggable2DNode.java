@@ -45,19 +45,19 @@ public final class Draggable2DNode extends androidx.compose.foundation.gestures.
     }
 
     public Draggable2DNode(androidx.compose.foundation.gestures.Draggable2DState draggable2DState, Function1 function12, boolean z3, MutableInteractionSource mutableInteractionSource4, boolean z5, boolean z6, Function3 function37, Function1 function18, Function3 function39, Function1 function110, int i11, DefaultConstructorMarker defaultConstructorMarker12) {
-        int i2;
         int i4;
+        int i3;
         int i;
-        Function3 i3;
-        Function3 function32;
-        Function1 function13;
+        Function3 i2;
         Function3 function3;
+        Function1 function13;
+        Function3 function32;
         Function1 function1;
         int i5 = i11;
         if (i5 & 64 != 0) {
-            function32 = i4;
+            function3 = i3;
         } else {
-            function32 = function37;
+            function3 = function37;
         }
         if (i5 & 128 != 0) {
             function13 = i;
@@ -65,16 +65,16 @@ public final class Draggable2DNode extends androidx.compose.foundation.gestures.
             function13 = function18;
         }
         if (i5 & 256 != 0) {
-            function3 = i3;
+            function32 = i2;
         } else {
-            function3 = function39;
+            function32 = function39;
         }
         if (i5 &= 512 != 0) {
-            function1 = i2;
+            function1 = i4;
         } else {
             function1 = function110;
         }
-        super(draggable2DState, function12, z3, mutableInteractionSource4, z5, z6, function32, function13, function3, function1);
+        super(draggable2DState, function12, z3, mutableInteractionSource4, z5, z6, function3, function13, function32, function1);
     }
 
     public static final Function3 access$getOnDragStarted$p(androidx.compose.foundation.gestures.Draggable2DNode $this) {
@@ -112,14 +112,14 @@ public final class Draggable2DNode extends androidx.compose.foundation.gestures.
         Function1 onDragStart;
         Function3 function3;
         Function3 function32;
-        Function1 function12;
         Function1 function1;
+        Function1 function12;
         int i = i12;
         function3 = i & 64 != 0 ? onDragStarted : function38;
         function32 = i & 128 != 0 ? onDragStopped : function39;
-        function12 = i & 256 != 0 ? onDragStart : function110;
-        function1 = i &= 512 != 0 ? onDragStop : function111;
-        draggable2DNode.update(draggable2DState2, function13, z4, mutableInteractionSource5, z6, z7, function3, function32, function12, function1);
+        function1 = i & 256 != 0 ? onDragStart : function110;
+        function12 = i &= 512 != 0 ? onDragStop : function111;
+        draggable2DNode.update(draggable2DState2, function13, z4, mutableInteractionSource5, z6, z7, function3, function32, function1, function12);
     }
 
     public Object drag(Function2<? super Function1<? super androidx.compose.foundation.gestures.DragEvent.DragDelta, Unit>, ? super Continuation<? super Unit>, ? extends Object> forEachDelta, Continuation<? super Unit> $completion) {

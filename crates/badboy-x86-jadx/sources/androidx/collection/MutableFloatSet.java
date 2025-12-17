@@ -24,8 +24,8 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
             initializeStorage(ScatterMapKt.unloadedCapacity(initialCapacity));
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive value.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMutableFloatSet$1 = new IllegalArgumentException("Capacity must be a positive value.".toString());
+        throw $i$a$RequireMutableFloatSet$1;
     }
 
     public MutableFloatSet(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -51,29 +51,29 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
 
     private final int findAbsoluteInsertIndex(float element) {
         Object obj;
-        int m2;
         int m;
+        int m2;
         int index;
-        int i5;
+        int i11;
         int metadata$iv;
         int probeIndex;
         int $this$maskEmpty$iv;
-        int i8;
+        int i13;
         int $this$hasNext$iv;
         int $this$next$iv;
-        int i6;
-        int i10;
-        int cmp;
-        int i9;
-        int i;
-        long l;
-        int i13;
-        int i4;
-        int i11;
-        int i12;
         int i2;
+        int i4;
+        int cmp;
         int i3;
+        int i12;
+        long l;
+        int i5;
+        int i9;
+        int i6;
+        int i8;
         int i7;
+        int i;
+        int i10;
         int numberOfTrailingZeros;
         int hash;
         int i19 = 0;
@@ -83,98 +83,98 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
         int $i$f$h1 = $i$f$hash >>> 7;
         int i25 = 0;
         int $i$f$h2 = $i$f$hash & 127;
-        i5 = $i$f$h1 & m2;
+        i11 = $i$f$h1 & m;
         probeIndex = 0;
         while (/* condition */) {
             int i46 = 0;
             int i50 = 0;
-            i3 = 0;
-            i7 = 1;
+            i = 0;
+            i10 = 1;
             while (Long.compare(i33, i50) != 0) {
-                $this$hasNext$iv = i7;
-                i10 = 0;
+                $this$hasNext$iv = i10;
                 i4 = 0;
-                $this$get$iv &= i11;
+                i9 = 0;
+                $this$get$iv &= i6;
                 if (Float.compare(f, element) == 0) {
                 }
-                int i44 = m;
-                i9 = 0;
-                m = $this$next$iv;
+                int i44 = m2;
+                i3 = 0;
+                m2 = $this$next$iv;
                 i46 = 0;
                 i50 = 0;
-                i3 = 0;
-                i7 = 1;
-                $this$hasNext$iv = i3;
-                i3 = i7;
+                i = 0;
+                i10 = 1;
+                $this$hasNext$iv = i;
+                i = i10;
             }
-            $this$hasNext$iv = i3;
-            int i34 = i2;
-            i6 = 0;
+            $this$hasNext$iv = i;
+            int i34 = i7;
+            i2 = 0;
             hash = $i$f$hash;
-            i5 = i18 & i11;
+            i11 = i18 & i6;
             obj = this;
-            m2 = i11;
+            m = i6;
             long[] metadata2 = obj.metadata;
             $this$next$iv = 0;
-            int i45 = i5 >> 3;
+            int i45 = i11 >> 3;
             i47 <<= 3;
             l4 >>>= i48;
-            i11 = m2;
-            i12 = i5;
-            i28 |= i;
-            i10 = 0;
+            i6 = m;
+            i8 = i11;
+            i28 |= i12;
+            i4 = 0;
             long l6 = 72340172838076673L;
-            i49 ^= i8;
+            i49 ^= i13;
             l = -9187201950435737472L;
             i30 &= l;
-            i10 = 0;
             i4 = 0;
-            $this$get$iv &= i11;
+            i9 = 0;
+            $this$get$iv &= i6;
             if (Float.compare(f, element) == 0) {
             }
-            i44 = m;
-            i9 = 0;
-            m = $this$next$iv;
-            i3 = i7;
-            $this$hasNext$iv = i7;
+            i44 = m2;
+            i3 = 0;
+            m2 = $this$next$iv;
+            i = i10;
+            $this$hasNext$iv = i10;
         }
-        return i8;
+        return i13;
     }
 
     private final int findFirstAvailableSlot(int hash1) {
         int probeOffset;
         int probeIndex;
         int metadata$iv;
-        int i6;
-        int $this$maskEmptyOrDeleted$iv;
-        int i3;
-        int i4;
-        int i5;
         int i7;
-        long l;
+        int $this$maskEmptyOrDeleted$iv;
+        int i5;
+        int i6;
         int i;
+        int i4;
+        long l;
         int i2;
+        int i3;
         final int _capacity = this._capacity;
         probeOffset = hash1 & _capacity;
         probeIndex = 0;
         long[] metadata = this.metadata;
-        i6 = 0;
+        i7 = 0;
         int i8 = probeOffset >> 3;
         i10 <<= 3;
         int i9 = metadata$iv;
         int i12 = 0;
         i17 &= i9;
-        $this$maskEmptyOrDeleted$iv = i5 & l;
+        $this$maskEmptyOrDeleted$iv = i & l;
         while (Long.compare($this$maskEmptyOrDeleted$iv, i13) != 0) {
-            probeOffset = i4 & _capacity;
+            probeOffset = i6 & _capacity;
             metadata = this.metadata;
-            i6 = 0;
+            i7 = 0;
             i8 = probeOffset >> 3;
             i10 <<= 3;
             i9 = metadata$iv;
             i12 = 0;
             i17 &= i9;
-            $this$maskEmptyOrDeleted$iv = i5 & l;
+            $this$maskEmptyOrDeleted$iv = i & l;
         }
         int i20 = 0;
         return $this$lowestBitSet$iv2 &= _capacity;
@@ -189,16 +189,16 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
         long[] lArr2;
         long[] lArr;
         long l;
-        int i;
-        int i2;
-        int i3;
-        int i5;
         int i4;
+        int i5;
+        int i;
+        int i3;
+        int i2;
         if (capacity == 0) {
             size = ScatterMapKt.EmptyGroup;
         } else {
             lArr2 = new long[i9 >>= 3];
-            i4 = 0;
+            i2 = 0;
             ArraysKt.fill$default(lArr2, -9187201950435737472L, obj4, 0, 0, 6);
             size = lArr2;
         }
@@ -228,55 +228,55 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
         long[] metadata2;
         int _capacity;
         int removedDeletes;
-        int i3;
+        int i9;
         int $i$f$readRawMetadata;
         int i6;
         Object cmp;
         int _capacity2;
-        int i10;
-        int i11;
+        int i8;
+        int i5;
         int i7;
         long[] metadata;
-        int i4;
-        int i5;
-        int i9;
-        int i2;
+        int i10;
+        int i11;
         int i;
+        int i4;
+        int i2;
         long[] m;
-        int i8;
+        int i3;
         final Object obj = this;
         metadata2 = obj.metadata;
         _capacity = obj._capacity;
         removedDeletes = 0;
-        i3 = 0;
-        while (i3 < _capacity) {
+        i9 = 0;
+        while (i9 < _capacity) {
             int i15 = 0;
             _capacity2 = 255;
-            if (Long.compare($i$f$readRawMetadata, i11) == 0) {
+            if (Long.compare($i$f$readRawMetadata, i5) == 0) {
             } else {
             }
             m = metadata2;
-            i8 = _capacity;
-            i3++;
+            i3 = _capacity;
+            i9++;
             metadata2 = m;
-            _capacity = i8;
-            i11 = 128;
+            _capacity = i3;
+            i5 = 128;
             cmp = this;
             i7 = 0;
             metadata = cmp.metadata;
             int i25 = 0;
-            int i27 = i3 >> 3;
+            int i27 = i9 >> 3;
             i28 <<= 3;
-            i = _capacity2;
+            i2 = _capacity2;
             metadata[i27] = i21 |= i31;
             _capacity2 = cmp._capacity;
             i24 += i26;
-            i4 = 0;
-            i5 = i10 >> 3;
+            i10 = 0;
+            i11 = i8 >> 3;
             i30 <<= 3;
             m = metadata2;
-            i8 = _capacity;
-            metadata[i5] = i14 |= i2;
+            i3 = _capacity;
+            metadata[i11] = i14 |= i4;
             removedDeletes++;
         }
         long[] m4 = metadata2;
@@ -304,65 +304,65 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
 
     private final void resizeStorage(int newCapacity) {
         Object obj;
-        long[] metadata;
-        int i6;
+        long[] metadata2;
+        int i2;
         int i7;
         int $i$f$hash;
         int firstAvailableSlot;
         Object obj2;
         int _capacity;
-        int i9;
-        int i4;
-        int i3;
-        long[] metadata2;
+        int i10;
         int i5;
         int i;
-        int i2;
+        long[] metadata;
+        int i9;
         int i8;
-        int i10;
+        int i3;
+        int i6;
+        int i4;
         long[] previousMetadata;
         obj = this;
-        metadata = obj.metadata;
+        metadata2 = obj.metadata;
         initializeStorage(newCapacity);
-        i6 = 0;
-        while (i6 < obj._capacity) {
+        i2 = 0;
+        while (i2 < obj._capacity) {
             i7 = 0;
             int i14 = 0;
             _capacity = 255;
-            if (Long.compare($i$f$readRawMetadata, i4) < 0) {
+            if (Long.compare($i$f$readRawMetadata, i5) < 0) {
             } else {
             }
             $i$f$hash = 0;
             if ($i$f$hash != 0) {
             } else {
             }
-            previousMetadata = metadata;
-            i6++;
+            previousMetadata = metadata2;
+            i2++;
             obj = this;
-            metadata = previousMetadata;
-            i7 = obj.elements[i6];
+            metadata2 = previousMetadata;
+            i7 = obj.elements[i2];
             int i15 = 0;
             i17 *= i20;
             $i$f$hash = i18 ^ i21;
             int i19 = 0;
             firstAvailableSlot = obj.findFirstAvailableSlot($i$f$hash >>> 7);
             int i22 = 0;
-            i4 = (long)$i$f$h2;
+            i5 = (long)$i$f$h2;
             obj2 = this;
-            i3 = 0;
-            metadata2 = obj2.metadata;
+            i = 0;
+            metadata = obj2.metadata;
             int i31 = 0;
             int i33 = firstAvailableSlot >> 3;
             i34 <<= 3;
-            i10 = _capacity;
-            metadata2[i33] = i27 |= i37;
+            i4 = _capacity;
+            metadata[i33] = i27 |= i37;
             _capacity = obj2._capacity;
             i30 += i32;
-            i5 = 0;
-            i = i9 >> 3;
+            i9 = 0;
+            i8 = i10 >> 3;
             i36 <<= 3;
-            previousMetadata = metadata;
-            metadata2[i] = i13 |= i8;
+            previousMetadata = metadata2;
+            metadata[i8] = i13 |= i6;
             obj.elements[firstAvailableSlot] = i7;
             $i$f$hash = 1;
         }
@@ -414,218 +414,29 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
     public final void clear() {
         long[] metadata;
         long[] emptyGroup;
-        int i3;
+        int i;
         long l;
         long l2;
-        int i5;
         int i4;
-        int i;
-        int i6;
         int i2;
+        int i3;
+        int i5;
+        int i6;
         this._size = 0;
         if (this.metadata != ScatterMapKt.EmptyGroup) {
             ArraysKt.fill$default(this.metadata, -9187201950435737472L, obj4, 0, 0, 6);
             metadata = this.metadata;
             emptyGroup = this._capacity;
             l2 = 0;
-            i5 = emptyGroup >> 3;
+            i4 = emptyGroup >> 3;
             i10 <<= 3;
-            metadata[i5] = i12 |= i2;
+            metadata[i4] = i12 |= i6;
         }
         initializeGrowth();
     }
 
     @Override // androidx.collection.FloatSet
     public final void minusAssign(float element) {
-        int m$iv2;
-        int m$iv;
-        int $i$f$hash;
-        int $i$f$h1;
-        int probeIndex$iv;
-        int i;
-        int i2;
-        int $this$hasNext$iv$iv;
-        int $this$next$iv$iv;
-        int i4;
-        int i7;
-        int i8;
-        int i5;
-        long l;
-        int i11;
-        int i3;
-        int i13;
-        int i9;
-        int i6;
-        int i10;
-        int i12;
-        int numberOfTrailingZeros;
-        final Object obj = this;
-        final Object obj2 = obj;
-        m$iv2 = 0;
-        int i19 = 0;
-        i20 *= i23;
-        $i$f$hash = i21 ^ i24;
-        int i22 = 0;
-        int _capacity = obj2._capacity;
-        int i25 = 0;
-        $i$f$h12 &= _capacity;
-        probeIndex$iv = 0;
-        while (/* condition */) {
-            int i31 = 0;
-            int i35 = 0;
-            i12 = 1;
-            while (Long.compare(i26, i35) != 0) {
-                $this$hasNext$iv$iv = i12;
-                i4 = 0;
-                i3 = 0;
-                if (Float.compare(f, element) == 0) {
-                }
-                int i29 = m$iv;
-                i8 = 0;
-                m$iv = $this$next$iv$iv;
-                i31 = 0;
-                i35 = 0;
-                i12 = 1;
-                $this$hasNext$iv$iv = i10;
-                i10 = i12;
-            }
-            $this$hasNext$iv$iv = i10;
-            int i27 = i6;
-            i4 = 0;
-            if (Long.compare($this$maskEmpty$iv$iv, i10) != 0) {
-                break;
-            } else {
-            }
-            $i$f$h1 = i & _capacity;
-            m$iv2 = i13;
-            $i$f$hash = i9;
-            long[] metadata = obj2.metadata;
-            $this$next$iv$iv = 0;
-            int i30 = $i$f$h1 >> 3;
-            i32 <<= 3;
-            l3 >>>= i33;
-            i16 |= i5;
-            i4 = 0;
-            long l4 = 72340172838076673L;
-            i34 ^= i2;
-            l = -9187201950435737472L;
-            i18 &= l;
-            i4 = 0;
-            i3 = 0;
-            if (Float.compare(f, element) == 0) {
-            }
-            i29 = m$iv;
-            i8 = 0;
-            m$iv = $this$next$iv$iv;
-            i10 = i12;
-            $this$hasNext$iv$iv = i12;
-        }
-        if (i2 >= 0) {
-            obj.removeElementAt(i2);
-        }
-    }
-
-    @Override // androidx.collection.FloatSet
-    public final void minusAssign(androidx.collection.FloatSet elements) {
-        Object this_$iv3;
-        Object obj;
-        Object this_$iv2;
-        int i$iv$iv;
-        long slot$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i6;
-        int j$iv$iv;
-        int i3;
-        int i2;
-        long l;
-        int i;
-        int i4;
-        int i5;
-        Object this_$iv;
-        Intrinsics.checkNotNullParameter(elements, "elements");
-        obj = elements;
-        final int i7 = 0;
-        final int i8 = 0;
-        final long[] metadata = obj3.metadata;
-        length += -2;
-        if (0 <= i9) {
-        } else {
-            this_$iv = obj;
-            this_$iv3 = this;
-        }
-    }
-
-    @Override // androidx.collection.FloatSet
-    public final void minusAssign(float[] elements) {
-        int i;
-        int i2;
-        int i3;
-        int i4;
-        Intrinsics.checkNotNullParameter(elements, "elements");
-        Object obj = elements;
-        final int i5 = 0;
-        i = 0;
-        while (i < obj.length) {
-            i4 = 0;
-            minusAssign(obj[i]);
-            i++;
-        }
-    }
-
-    @Override // androidx.collection.FloatSet
-    public final void plusAssign(float element) {
-        this.elements[findAbsoluteInsertIndex(element)] = element;
-    }
-
-    @Override // androidx.collection.FloatSet
-    public final void plusAssign(androidx.collection.FloatSet elements) {
-        Object this_$iv;
-        Object obj;
-        Object this_$iv3;
-        int i$iv$iv;
-        long slot$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i4;
-        int j$iv$iv;
-        int i2;
-        int i6;
-        long l;
-        int i3;
-        int i5;
-        int i;
-        Object this_$iv2;
-        Intrinsics.checkNotNullParameter(elements, "elements");
-        obj = elements;
-        final int i7 = 0;
-        final int i8 = 0;
-        final long[] metadata = obj3.metadata;
-        length += -2;
-        if (0 <= i9) {
-        } else {
-            this_$iv2 = obj;
-            this_$iv = this;
-        }
-    }
-
-    @Override // androidx.collection.FloatSet
-    public final void plusAssign(float[] elements) {
-        int i4;
-        int i;
-        int i3;
-        int i2;
-        Intrinsics.checkNotNullParameter(elements, "elements");
-        Object obj = elements;
-        final int i5 = 0;
-        i4 = 0;
-        while (i4 < obj.length) {
-            i2 = 0;
-            plusAssign(obj[i4]);
-            i4++;
-        }
-    }
-
-    @Override // androidx.collection.FloatSet
-    public final boolean remove(float element) {
         int m$iv;
         int m$iv2;
         int $i$f$hash;
@@ -635,18 +446,18 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
         int i13;
         int $this$hasNext$iv$iv;
         int $this$next$iv$iv;
-        int i8;
-        int i9;
-        int i2;
-        int i3;
-        long l;
-        int i5;
-        int i7;
-        int i4;
-        int i10;
-        int i11;
-        int i12;
         int i6;
+        int i7;
+        int i12;
+        int i8;
+        long l;
+        int i10;
+        int i9;
+        int i5;
+        int i3;
+        int i2;
+        int i4;
+        int i11;
         int numberOfTrailingZeros;
         final Object obj = this;
         final Object obj2 = obj;
@@ -662,66 +473,255 @@ public final class MutableFloatSet extends androidx.collection.FloatSet {
         while (/* condition */) {
             int i31 = 0;
             int i35 = 0;
-            i12 = 0;
-            i6 = 1;
+            i11 = 1;
             while (Long.compare(i26, i35) != 0) {
-                $this$hasNext$iv$iv = i6;
-                i8 = 0;
-                i7 = 0;
+                $this$hasNext$iv$iv = i11;
+                i6 = 0;
+                i9 = 0;
                 if (Float.compare(f, element) == 0) {
-                } else {
                 }
-                $this$next$iv$iv = i12;
                 int i29 = m$iv2;
-                i2 = 0;
+                i12 = 0;
                 m$iv2 = $this$next$iv$iv;
                 i31 = 0;
                 i35 = 0;
-                i12 = 0;
-                i6 = 1;
-                $this$hasNext$iv$iv = i12;
-                $this$next$iv$iv = i6;
+                i11 = 1;
+                $this$hasNext$iv$iv = i4;
+                i4 = i11;
             }
-            $this$hasNext$iv$iv = i12;
-            int i28 = i11;
-            i8 = 0;
-            if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
+            $this$hasNext$iv$iv = i4;
+            int i27 = i2;
+            i6 = 0;
+            if (Long.compare($this$maskEmpty$iv$iv, i4) != 0) {
                 break;
             } else {
             }
             $i$f$h1 = i & _capacity;
-            m$iv = i4;
-            $i$f$hash = i10;
+            m$iv = i5;
+            $i$f$hash = i3;
             long[] metadata = obj2.metadata;
             $this$next$iv$iv = 0;
             int i30 = $i$f$h1 >> 3;
             i32 <<= 3;
             l3 >>>= i33;
-            i16 |= i3;
-            i8 = 0;
+            i16 |= i8;
+            i6 = 0;
             long l4 = 72340172838076673L;
             i34 ^= i13;
             l = -9187201950435737472L;
             i18 &= l;
-            i8 = 0;
-            i7 = 0;
+            i6 = 0;
+            i9 = 0;
+            if (Float.compare(f, element) == 0) {
+            }
+            i29 = m$iv2;
+            i12 = 0;
+            m$iv2 = $this$next$iv$iv;
+            i4 = i11;
+            $this$hasNext$iv$iv = i11;
+        }
+        if (i13 >= 0) {
+            obj.removeElementAt(i13);
+        }
+    }
+
+    @Override // androidx.collection.FloatSet
+    public final void minusAssign(androidx.collection.FloatSet elements) {
+        Object this_$iv;
+        Object obj;
+        Object this_$iv2;
+        int i$iv$iv;
+        long slot$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int i2;
+        int j$iv$iv;
+        int i6;
+        int i3;
+        long l;
+        int i;
+        int i4;
+        int i5;
+        Object this_$iv3;
+        Intrinsics.checkNotNullParameter(elements, "elements");
+        obj = elements;
+        final int i7 = 0;
+        final int i8 = 0;
+        final long[] metadata = obj3.metadata;
+        length += -2;
+        if (0 <= i9) {
+        } else {
+            this_$iv3 = obj;
+            this_$iv = this;
+        }
+    }
+
+    @Override // androidx.collection.FloatSet
+    public final void minusAssign(float[] elements) {
+        int i2;
+        int i4;
+        int i3;
+        int i;
+        Intrinsics.checkNotNullParameter(elements, "elements");
+        Object obj = elements;
+        final int i5 = 0;
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = 0;
+            minusAssign(obj[i2]);
+            i2++;
+        }
+    }
+
+    @Override // androidx.collection.FloatSet
+    public final void plusAssign(float element) {
+        this.elements[findAbsoluteInsertIndex(element)] = element;
+    }
+
+    @Override // androidx.collection.FloatSet
+    public final void plusAssign(androidx.collection.FloatSet elements) {
+        Object this_$iv;
+        Object obj;
+        Object this_$iv2;
+        int i$iv$iv;
+        long slot$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int i6;
+        int j$iv$iv;
+        int i3;
+        int i4;
+        long l;
+        int i2;
+        int i5;
+        int i;
+        Object this_$iv3;
+        Intrinsics.checkNotNullParameter(elements, "elements");
+        obj = elements;
+        final int i7 = 0;
+        final int i8 = 0;
+        final long[] metadata = obj3.metadata;
+        length += -2;
+        if (0 <= i9) {
+        } else {
+            this_$iv3 = obj;
+            this_$iv = this;
+        }
+    }
+
+    @Override // androidx.collection.FloatSet
+    public final void plusAssign(float[] elements) {
+        int i4;
+        int i3;
+        int i2;
+        int i;
+        Intrinsics.checkNotNullParameter(elements, "elements");
+        Object obj = elements;
+        final int i5 = 0;
+        i4 = 0;
+        while (i4 < obj.length) {
+            i = 0;
+            plusAssign(obj[i4]);
+            i4++;
+        }
+    }
+
+    @Override // androidx.collection.FloatSet
+    public final boolean remove(float element) {
+        int m$iv2;
+        int m$iv;
+        int $i$f$hash;
+        int $i$f$h1;
+        int probeIndex$iv;
+        int i5;
+        int i4;
+        int $this$hasNext$iv$iv;
+        int $this$next$iv$iv;
+        int i2;
+        int i3;
+        int i13;
+        int i7;
+        long l;
+        int i9;
+        int i;
+        int i12;
+        int i11;
+        int i8;
+        int i10;
+        int i6;
+        int numberOfTrailingZeros;
+        final Object obj = this;
+        final Object obj2 = obj;
+        m$iv2 = 0;
+        int i19 = 0;
+        i20 *= i23;
+        $i$f$hash = i21 ^ i24;
+        int i22 = 0;
+        int _capacity = obj2._capacity;
+        int i25 = 0;
+        $i$f$h12 &= _capacity;
+        probeIndex$iv = 0;
+        while (/* condition */) {
+            int i31 = 0;
+            int i35 = 0;
+            i10 = 0;
+            i6 = 1;
+            while (Long.compare(i26, i35) != 0) {
+                $this$hasNext$iv$iv = i6;
+                i2 = 0;
+                i = 0;
+                if (Float.compare(f, element) == 0) {
+                } else {
+                }
+                $this$next$iv$iv = i10;
+                int i29 = m$iv;
+                i13 = 0;
+                m$iv = $this$next$iv$iv;
+                i31 = 0;
+                i35 = 0;
+                i10 = 0;
+                i6 = 1;
+                $this$hasNext$iv$iv = i10;
+                $this$next$iv$iv = i6;
+            }
+            $this$hasNext$iv$iv = i10;
+            int i28 = i8;
+            i2 = 0;
+            if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
+                break;
+            } else {
+            }
+            $i$f$h1 = i5 & _capacity;
+            m$iv2 = i12;
+            $i$f$hash = i11;
+            long[] metadata = obj2.metadata;
+            $this$next$iv$iv = 0;
+            int i30 = $i$f$h1 >> 3;
+            i32 <<= 3;
+            l3 >>>= i33;
+            i16 |= i7;
+            i2 = 0;
+            long l4 = 72340172838076673L;
+            i34 ^= i4;
+            l = -9187201950435737472L;
+            i18 &= l;
+            i2 = 0;
+            i = 0;
             if (Float.compare(f, element) == 0) {
             } else {
             }
-            $this$next$iv$iv = i12;
-            i29 = m$iv2;
-            i2 = 0;
-            m$iv2 = $this$next$iv$iv;
+            $this$next$iv$iv = i10;
+            i29 = m$iv;
+            i13 = 0;
+            m$iv = $this$next$iv$iv;
             $this$next$iv$iv = i6;
             $this$hasNext$iv$iv = i6;
         }
-        if (i13 >= 0) {
-            i12 = i6;
+        if (i4 >= 0) {
+            i10 = i6;
         }
-        if (i12 != 0) {
-            obj.removeElementAt(i13);
+        if (i10 != 0) {
+            obj.removeElementAt(i4);
         }
-        return i12;
+        return i10;
     }
 
     @Override // androidx.collection.FloatSet

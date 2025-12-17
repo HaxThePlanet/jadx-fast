@@ -327,10 +327,10 @@ public abstract class LongList {
         Object acc;
         int i$iv;
         long l;
-        int i;
         int i2;
-        Integer valueOf2;
-        Long valueOf;
+        int i;
+        Integer valueOf;
+        Long valueOf2;
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
         int i4 = 0;
@@ -339,7 +339,7 @@ public abstract class LongList {
         final int i5 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i2 = 0;
+            i = 0;
             acc = operation.invoke(Integer.valueOf(i$iv), acc, Long.valueOf(obj.content[i$iv]));
             i$iv++;
         }
@@ -404,8 +404,8 @@ public abstract class LongList {
 
     public final void forEachIndexed(Function2<? super Integer, ? super Long, Unit> block) {
         int i;
-        Integer valueOf;
-        Long valueOf2;
+        Integer valueOf2;
+        Long valueOf;
         Intrinsics.checkNotNullParameter(block, "block");
         int i2 = 0;
         i = 0;
@@ -495,14 +495,14 @@ public abstract class LongList {
     public final int indexOf(long element) {
         int i$iv;
         long l;
-        int i2;
         int i;
+        int i2;
         int cmp;
         Object obj = this;
         final int i3 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i = 0;
+            i2 = 0;
             i$iv++;
         }
         return -1;
@@ -511,8 +511,8 @@ public abstract class LongList {
     public final int indexOfFirst(Function1<? super Long, Boolean> predicate) {
         int i$iv;
         long l;
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -520,7 +520,7 @@ public abstract class LongList {
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i = 0;
+            i2 = 0;
             i$iv++;
         }
         return -1;
@@ -529,8 +529,8 @@ public abstract class LongList {
     public final int indexOfLast(Function1<? super Long, Boolean> predicate) {
         int i$iv;
         long l;
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -539,7 +539,7 @@ public abstract class LongList {
         _size--;
         int i5 = -1;
         while (i5 < i$iv) {
-            i2 = 0;
+            i = 0;
             i$iv--;
             i5 = -1;
         }
@@ -589,11 +589,11 @@ public abstract class LongList {
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated) {
         Object obj;
-        int i;
+        int i2;
         int i$iv;
         long l;
-        int i2;
         int i3;
+        int i;
         final Object obj2 = separator;
         obj = prefix;
         final Object obj3 = postfix;
@@ -610,16 +610,16 @@ public abstract class LongList {
         final int i5 = 0;
         i$iv = 0;
         while (i$iv < obj5._size) {
-            i2 = i$iv;
-            i3 = 0;
-            if (i2 != 0) {
+            i3 = i$iv;
+            i = 0;
+            if (i3 != 0) {
             }
             sb.append(obj5.content[i$iv]);
             i$iv++;
             obj = prefix;
             sb.append(obj2);
         }
-        i = limit;
+        i2 = limit;
         sb.append(obj3);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -627,20 +627,20 @@ public abstract class LongList {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super Long, ? extends java.lang.CharSequence> transform) {
-        Object obj;
         Object obj2;
+        Object obj;
         int i;
         int $i$f$joinToString;
         int i$iv;
         long l;
-        int index2;
         int index;
-        obj2 = prefix;
+        int index2;
+        obj = prefix;
         final Object obj3 = postfix;
         final Object obj4 = truncated;
         final Object obj5 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(obj2, "prefix");
+        Intrinsics.checkNotNullParameter(obj, "prefix");
         Intrinsics.checkNotNullParameter(obj3, "postfix");
         Intrinsics.checkNotNullParameter(obj4, "truncated");
         Intrinsics.checkNotNullParameter(obj5, "transform");
@@ -648,24 +648,24 @@ public abstract class LongList {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         final int i3 = 0;
-        sb.append(obj2);
+        sb.append(obj);
         final Object obj6 = this;
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj6._size) {
-            index2 = 0;
+            index = 0;
             $i$f$joinToString = i2;
             if ($i$f$joinToString != null) {
             }
             sb.append((CharSequence)obj5.invoke(Long.valueOf(obj6.content[i$iv])));
             i$iv++;
-            obj = separator;
-            obj2 = prefix;
-            $i$f$joinToString = index;
-            sb.append(obj);
+            obj2 = separator;
+            obj = prefix;
+            $i$f$joinToString = index2;
+            sb.append(obj2);
         }
         i = limit;
-        index = $i$f$joinToString;
+        index2 = $i$f$joinToString;
         sb.append(obj3);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -835,15 +835,15 @@ public abstract class LongList {
     }
 
     public final String joinToString(Function1<? super Long, ? extends java.lang.CharSequence> transform) {
-        int $i$f$joinToString;
+        int $i$f$joinToString2;
         int i$iv$iv;
         long l;
         int index$iv;
         int i;
-        int $i$f$joinToString2;
+        int $i$f$joinToString;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(obj, "transform");
-        $i$f$joinToString = 0;
+        $i$f$joinToString2 = 0;
         final String str3 = "";
         final int i3 = 0;
         StringBuilder stringBuilder = new StringBuilder();
@@ -855,16 +855,16 @@ public abstract class LongList {
         i$iv$iv = 0;
         while (i$iv$iv < obj2._size) {
             index$iv = 0;
-            $i$f$joinToString = i;
-            if ($i$f$joinToString != null) {
+            $i$f$joinToString2 = i;
+            if ($i$f$joinToString2 != 0) {
             }
-            i = $i$f$joinToString;
+            i = $i$f$joinToString2;
             sb.append((CharSequence)obj.invoke(Long.valueOf(obj2.content[i$iv$iv])));
             i$iv$iv++;
-            $i$f$joinToString = $i$f$joinToString2;
+            $i$f$joinToString2 = $i$f$joinToString;
             sb.append((CharSequence)", ");
         }
-        $i$f$joinToString2 = $i$f$joinToString;
+        $i$f$joinToString = $i$f$joinToString2;
         sb.append((CharSequence)str3);
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "StringBuilder().apply(builderAction).toString()");
@@ -903,15 +903,15 @@ public abstract class LongList {
     public final int lastIndexOf(long element) {
         int i$iv;
         long l;
-        int i2;
         int i;
+        int i2;
         int cmp;
         final Object obj = this;
         final int i3 = 0;
         _size--;
         int i4 = -1;
         while (i4 < i$iv) {
-            i = 0;
+            i2 = 0;
             i$iv--;
             i4 = -1;
         }

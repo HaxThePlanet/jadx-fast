@@ -45,7 +45,7 @@ public final class BoxKt {
         int traceInProgress;
         boolean restartGroup;
         int $dirty;
-        int i;
+        int i2;
         int skipping;
         boolean traceInProgress2;
         int str;
@@ -53,14 +53,14 @@ public final class BoxKt {
         Modifier materializeModifier;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         kotlin.jvm.functions.Function0 constructor;
+        int i6;
         int i3;
-        int i4;
         Composer constructor-impl;
         int i7;
-        int i6;
-        int i5;
+        int i4;
+        int i;
         Composer $composer2;
-        int i2;
+        int i5;
         Composer obj20;
         final Object obj = modifier;
         final int i8 = $changed;
@@ -69,8 +69,8 @@ public final class BoxKt {
         ComposerKt.sourceInformation(restartGroup, "C(Box)237@9098L66:Box.kt#2w3rfo");
         str = 2;
         if (i8 & 6 == 0) {
-            i = restartGroup.changed(obj) ? 4 : str;
-            $dirty |= i;
+            i2 = restartGroup.changed(obj) ? 4 : str;
+            $dirty |= i2;
         }
         if ($dirty & 3 == str) {
             if (!restartGroup.getSkipping()) {
@@ -81,8 +81,8 @@ public final class BoxKt {
                 str = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 544976794, "CC(Layout)P(1)124@4836L23,127@4987L385:Layout.kt#80mrfh");
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                i3 = 6;
-                i4 = 0;
+                i6 = 6;
+                i3 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1405779621, "CC(ReusableComposeNode):Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -98,12 +98,12 @@ public final class BoxKt {
                 Updater.set-impl(constructor-impl, BoxKt.EmptyBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, obj), ComposeUiNode.Companion.getSetModifier());
-                i6 = 0;
+                i4 = 0;
                 obj20 = constructor-impl;
-                i5 = 0;
+                i = 0;
                 if (!obj20.getInserting()) {
                     $composer2 = restartGroup;
-                    i2 = $dirty;
+                    i5 = $dirty;
                     if (!Intrinsics.areEqual(obj20.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         obj20.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
@@ -112,7 +112,7 @@ public final class BoxKt {
                     }
                 } else {
                     $composer2 = restartGroup;
-                    i2 = $dirty;
+                    i5 = $dirty;
                 }
                 $composer2.endNode();
                 ComposerKt.sourceInformationMarkerEnd($composer2);
@@ -123,7 +123,7 @@ public final class BoxKt {
             } else {
                 restartGroup.skipToGroupEnd();
                 $composer2 = restartGroup;
-                i2 = $dirty;
+                i5 = $dirty;
             }
         } else {
         }
@@ -281,13 +281,13 @@ public final class BoxKt {
     public static final MeasurePolicy rememberBoxMeasurePolicy(Alignment alignment, boolean propagateMinConstraints, Composer $composer, int $changed) {
         Object defaultBoxMeasurePolicy;
         int changed;
-        int i;
-        boolean traceInProgress;
         int i2;
+        boolean traceInProgress;
+        int i3;
         String str;
         Object rememberedValue;
         int changed2;
-        int i3;
+        int i;
         Object empty;
         Object boxMeasurePolicy;
         int i4 = 56522820;
@@ -308,7 +308,7 @@ public final class BoxKt {
                 int i11 = 4;
                 if (i8 ^= 6 > i11) {
                     if (!$composer.changed(alignment)) {
-                        i = $changed & 6 == i11 ? i10 : i2;
+                        i2 = $changed & 6 == i11 ? i10 : i3;
                     } else {
                     }
                 } else {
@@ -317,7 +317,7 @@ public final class BoxKt {
                 if (i12 ^= 48 > i13) {
                     if (!$composer.changed(propagateMinConstraints)) {
                         if ($changed & 48 == i13) {
-                            i2 = i10;
+                            i3 = i10;
                         }
                     } else {
                     }
@@ -326,8 +326,8 @@ public final class BoxKt {
                 traceInProgress = $composer;
                 str = 0;
                 rememberedValue = traceInProgress.rememberedValue();
-                i3 = 0;
-                if (i |= i2 == 0) {
+                i = 0;
+                if (i2 |= i3 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         boxMeasurePolicy = new BoxMeasurePolicy(alignment, propagateMinConstraints);

@@ -200,8 +200,8 @@ public final class Selection {
         androidx.compose.foundation.text.selection.Selection copy$default;
         androidx.compose.foundation.text.selection.Selection.AnchorInfo start2;
         androidx.compose.foundation.text.selection.Selection.AnchorInfo start;
-        int i;
         int i2;
+        int i;
         if (other == null) {
             return this;
         }

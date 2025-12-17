@@ -38,72 +38,72 @@ public final class ExceptionsConstructorKt {
 
     private static final <E extends Throwable> Function1<Throwable, Throwable> createConstructor(Class<E> clz) {
         int first;
-        int i4;
+        int i5;
         boolean equal;
         Pair pair;
-        boolean p02;
+        boolean p0;
         Constructor[] next;
-        int p0;
-        int length;
+        int p02;
+        int length2;
         int second;
         int valueOf;
-        Constructor constructor2;
         Constructor constructor;
-        int i5;
-        Class[] parameterTypes;
-        Class length2;
-        int i;
-        int i2;
+        Constructor constructor2;
         int i3;
+        Class[] parameterTypes;
+        Class length;
+        int i2;
+        int i4;
+        int i;
         final kotlinx.coroutines.internal.ExceptionsConstructorKt.createConstructor.nullResult.1 iNSTANCE = ExceptionsConstructorKt.createConstructor.nullResult.1.INSTANCE;
-        i4 = 0;
+        i5 = 0;
         final Class cls3 = clz;
-        if (ExceptionsConstructorKt.throwableFields != ExceptionsConstructorKt.fieldsCountOrDefault(cls3, i4)) {
+        if (ExceptionsConstructorKt.throwableFields != ExceptionsConstructorKt.fieldsCountOrDefault(cls3, i5)) {
             return (Function1)iNSTANCE;
         }
         Constructor[] constructors = cls3.getConstructors();
         int i6 = 0;
         ArrayList arrayList = new ArrayList(constructors.length);
         next = constructors;
-        p0 = 0;
-        second = i4;
+        p02 = 0;
+        second = i5;
         valueOf = 0;
         while (second < next.length) {
-            constructor = constructor2;
-            i5 = 0;
-            parameterTypes = constructor.getParameterTypes();
-            i = 1;
-            i2 = -1;
-            i3 = i4;
-            pair = TuplesKt.to(valueOf, Integer.valueOf(i2));
+            constructor2 = constructor;
+            i3 = 0;
+            parameterTypes = constructor2.getParameterTypes();
+            i2 = 1;
+            i4 = -1;
+            i = i5;
+            pair = TuplesKt.to(valueOf, Integer.valueOf(i4));
             (Collection)arrayList.add(pair);
             second++;
-            i4 = i3;
+            i5 = i;
             valueOf = 0;
-            i3 = i4;
-            if (Intrinsics.areEqual(parameterTypes[i4], String.class) && Intrinsics.areEqual(parameterTypes[i], Throwable.class)) {
+            i = i5;
+            if (Intrinsics.areEqual(parameterTypes[i5], String.class) && Intrinsics.areEqual(parameterTypes[i2], Throwable.class)) {
             } else {
             }
-            pair = TuplesKt.to(valueOf, Integer.valueOf(i2));
-            if (Intrinsics.areEqual(parameterTypes[i], Throwable.class)) {
+            pair = TuplesKt.to(valueOf, Integer.valueOf(i4));
+            if (Intrinsics.areEqual(parameterTypes[i2], Throwable.class)) {
             } else {
             }
-            ExceptionsConstructorKt.createConstructor.1.1 anon = new ExceptionsConstructorKt.createConstructor.1.1(constructor);
+            ExceptionsConstructorKt.createConstructor.1.1 anon = new ExceptionsConstructorKt.createConstructor.1.1(constructor2);
             pair = TuplesKt.to(ExceptionsConstructorKt.safeCtor((Function1)anon), 3);
-            Class cls2 = parameterTypes[i4];
+            Class cls2 = parameterTypes[i5];
             if (Intrinsics.areEqual(cls2, String.class)) {
             } else {
             }
             if (Intrinsics.areEqual(cls2, Throwable.class)) {
             } else {
             }
-            pair = TuplesKt.to(valueOf, Integer.valueOf(i2));
-            ExceptionsConstructorKt.createConstructor.1.3 anon3 = new ExceptionsConstructorKt.createConstructor.1.3(constructor);
-            pair = TuplesKt.to(ExceptionsConstructorKt.safeCtor((Function1)anon3), Integer.valueOf(i));
-            ExceptionsConstructorKt.createConstructor.1.2 anon4 = new ExceptionsConstructorKt.createConstructor.1.2(constructor);
+            pair = TuplesKt.to(valueOf, Integer.valueOf(i4));
+            ExceptionsConstructorKt.createConstructor.1.3 anon3 = new ExceptionsConstructorKt.createConstructor.1.3(constructor2);
+            pair = TuplesKt.to(ExceptionsConstructorKt.safeCtor((Function1)anon3), Integer.valueOf(i2));
+            ExceptionsConstructorKt.createConstructor.1.2 anon4 = new ExceptionsConstructorKt.createConstructor.1.2(constructor2);
             pair = TuplesKt.to(ExceptionsConstructorKt.safeCtor((Function1)anon4), 2);
-            ExceptionsConstructorKt.createConstructor.1.4 anon2 = new ExceptionsConstructorKt.createConstructor.1.4(constructor);
-            pair = TuplesKt.to(ExceptionsConstructorKt.safeCtor((Function1)anon2), Integer.valueOf(i4));
+            ExceptionsConstructorKt.createConstructor.1.4 anon2 = new ExceptionsConstructorKt.createConstructor.1.4(constructor2);
+            pair = TuplesKt.to(ExceptionsConstructorKt.safeCtor((Function1)anon2), Integer.valueOf(i5));
         }
         first = 0;
         Iterator iterator = (Iterable)(List)arrayList.iterator();
@@ -112,19 +112,19 @@ public final class ExceptionsConstructorKt {
             if (!iterator.hasNext()) {
             } else {
                 next = 0;
-                p02 = (Number)(Pair)iterator.next().getSecond().intValue();
+                p0 = (Number)(Pair)iterator.next().getSecond().intValue();
                 Object next2 = iterator.next();
-                length = 0;
-                p0 = (Number)(Pair)next2.getSecond().intValue();
+                length2 = 0;
+                p02 = (Number)(Pair)next2.getSecond().intValue();
                 do {
                     next2 = iterator.next();
-                    length = 0;
-                    p0 = (Number)(Pair)next2.getSecond().intValue();
+                    length2 = 0;
+                    p02 = (Number)(Pair)next2.getSecond().intValue();
                     if (iterator.hasNext() != 0) {
                     }
-                    p02 = p0;
-                    valueOf = length;
-                } while (p02 < p0);
+                    p0 = p02;
+                    valueOf = length2;
+                } while (p0 < p02);
             }
         }
         if ((Pair)valueOf != 0) {
@@ -141,19 +141,19 @@ public final class ExceptionsConstructorKt {
         Class superclass;
         int count$iv;
         int length;
-        int i2;
-        Field field;
-        Field field2;
         int i;
+        Field field2;
+        Field field;
+        int i2;
         boolean static;
         Class obj9;
         int obj10;
         while (/* condition */) {
-            while (i2 < length) {
-                i = 0;
-                if (!Modifier.isStatic(declaredFields[i2].getModifiers())) {
+            while (i < length) {
+                i2 = 0;
+                if (!Modifier.isStatic(declaredFields[i].getModifiers())) {
                 }
-                i2++;
+                i++;
                 count$iv++;
             }
             i3 = obj10 + count$iv;
@@ -165,11 +165,11 @@ public final class ExceptionsConstructorKt {
             Field[] declaredFields = obj9.getDeclaredFields();
             int i4 = 0;
             count$iv = 0;
-            i2 = 0;
             i = 0;
-            if (!Modifier.isStatic(declaredFields[i2].getModifiers())) {
+            i2 = 0;
+            if (!Modifier.isStatic(declaredFields[i].getModifiers())) {
             }
-            i2++;
+            i++;
             count$iv++;
         }
         return i3;

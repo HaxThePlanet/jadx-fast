@@ -108,7 +108,7 @@ class StringsKt__StringNumberConversionsKt extends kotlin.text.StringsKt__String
     }
 
     public static final Long toLongOrNull(String $this$toLongOrNull, int radix) {
-        int i4;
+        int i3;
         Long valueOf;
         int start;
         int isNegative;
@@ -117,17 +117,17 @@ class StringsKt__StringNumberConversionsKt extends kotlin.text.StringsKt__String
         long l;
         int result;
         int i2;
-        int i5;
+        int i4;
         int i;
-        int i3;
+        int i5;
         final Object obj2 = $this$toLongOrNull;
         final int i6 = radix;
         Intrinsics.checkNotNullParameter(obj2, "<this>");
         CharsKt.checkRadix(i6);
         int length = obj2.length();
-        i4 = 0;
+        i3 = 0;
         if (length == 0) {
-            return i4;
+            return i3;
         }
         int i8 = 0;
         int i10 = 0;
@@ -135,7 +135,7 @@ class StringsKt__StringNumberConversionsKt extends kotlin.text.StringsKt__String
         char charAt2 = obj2.charAt(0);
         if (Intrinsics.compare(charAt2, 48) < 0) {
             if (length == 1) {
-                return i4;
+                return i3;
             }
             start = 1;
             switch (charAt2) {
@@ -144,7 +144,7 @@ class StringsKt__StringNumberConversionsKt extends kotlin.text.StringsKt__String
                     limit = -9223372036854775807L;
                     break;
                 case 44:
-                    return i4;
+                    return i3;
                 default:
                     isNegative = 1;
                     limit = Long.MIN_VALUE;
@@ -159,18 +159,18 @@ class StringsKt__StringNumberConversionsKt extends kotlin.text.StringsKt__String
         result = 0;
         i2 = start;
         while (i2 < length) {
-            i5 = i4;
+            i4 = i3;
             int digitOf = CharsKt.digitOf(obj2.charAt(i2), i6);
             i = start;
-            i3 = isNegative;
+            i5 = isNegative;
             result *= start3;
             result2 -= l3;
             i2++;
-            i4 = i5;
+            i3 = i4;
             start = i;
-            isNegative = i3;
+            isNegative = i5;
             i = start;
-            i3 = isNegative;
+            i5 = isNegative;
             start = limit / start2;
             l = start;
         }

@@ -20,21 +20,21 @@ final class GapBuffer {
     }
 
     private final void delete(int start, int end) {
-        int i;
-        int gapStart2;
-        int gapStart3;
-        int i2;
-        int buffer;
         int i3;
-        char[] gapStart4;
+        int gapStart4;
+        int gapStart3;
+        int i;
+        int buffer;
+        int i2;
+        char[] gapStart2;
         int gapStart;
         int gapEnd;
         if (start < this.gapStart && end <= this.gapStart) {
             if (end <= this.gapStart) {
                 gapStart5 -= end;
-                ArraysKt.copyInto(this.buffer, this.buffer, gapEnd4 -= i, end, this.gapStart);
+                ArraysKt.copyInto(this.buffer, this.buffer, gapEnd4 -= i3, end, this.gapStart);
                 this.gapStart = start;
-                this.gapEnd = gapEnd2 -= i;
+                this.gapEnd = gapEnd2 -= i3;
             } else {
                 if (start < this.gapStart && end >= this.gapStart) {
                     if (end >= this.gapStart) {
@@ -42,7 +42,7 @@ final class GapBuffer {
                         this.gapStart = start;
                     } else {
                         gapLength += start;
-                        ArraysKt.copyInto(this.buffer, this.buffer, this.gapStart, this.gapEnd, i);
+                        ArraysKt.copyInto(this.buffer, this.buffer, this.gapStart, this.gapEnd, i3);
                         this.gapStart = gapStart6 += buffer;
                         this.gapEnd = gapLength3 += end;
                     }

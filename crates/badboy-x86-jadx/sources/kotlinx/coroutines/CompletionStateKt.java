@@ -37,9 +37,9 @@ public final class CompletionStateKt {
         Object it;
         int i;
         kotlinx.coroutines.CompletedWithCancellation completedWithCancellation;
-        int i3;
         int i2;
         int i4;
+        int i3;
         Throwable exceptionOrNull-impl = Result.exceptionOrNull-impl($this$toState);
         if (exceptionOrNull-impl == null) {
             i = 0;
@@ -57,19 +57,19 @@ public final class CompletionStateKt {
 
     public static final <T> Object toState(Object $this$toState, kotlinx.coroutines.CancellableContinuation<?> caller) {
         Object it;
-        int i2;
+        int i3;
         kotlinx.coroutines.CompletedExceptionally completedExceptionally;
         int $i$f$recoverStackTrace;
         Throwable th;
         boolean rECOVER_STACK_TRACES;
-        int i3;
+        int i2;
         int i;
         Throwable exceptionOrNull-impl = Result.exceptionOrNull-impl($this$toState);
         if (exceptionOrNull-impl == null) {
             it = $this$toState;
-            i2 = 0;
+            i3 = 0;
         } else {
-            i2 = 0;
+            i3 = 0;
             int i4 = 0;
             if (DebugKt.getRECOVER_STACK_TRACES()) {
                 if (!obj instanceof CoroutineStackFrame) {

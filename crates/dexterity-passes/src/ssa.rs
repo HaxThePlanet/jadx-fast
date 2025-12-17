@@ -9,6 +9,7 @@
 
 use std::collections::VecDeque;
 use rustc_hash::{FxHashMap, FxHashSet};
+use tracing::error;
 
 use crate::block_split::{BasicBlock, BlockSplitResult};
 use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
@@ -90,6 +91,12 @@ impl DominatorTree {
         while changed {
             iterations += 1;
             if iterations > max_iterations {
+                error!(
+                    iterations = iterations,
+                    max_iterations = max_iterations,
+                    block_count = block_ids.len(),
+                    "LIMIT_EXCEEDED: Dominator tree computation limit reached"
+                );
                 panic!("Dominator tree computation limit reached");
             }
             changed = false;

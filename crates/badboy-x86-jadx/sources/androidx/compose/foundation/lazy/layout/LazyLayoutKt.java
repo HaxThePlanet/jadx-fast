@@ -22,26 +22,26 @@ public final class LazyLayoutKt {
     private static final int MaxItemsToRetainForReuse = 7;
     @Deprecated(message = "Use an overload accepting a lambda prodicing an item provider instead", replaceWith = @ReplaceWith(...))
     public static final void LazyLayout(androidx.compose.foundation.lazy.layout.LazyLayoutItemProvider itemProvider, Modifier modifier, androidx.compose.foundation.lazy.layout.LazyLayoutPrefetchState prefetchState, Function2<? super androidx.compose.foundation.lazy.layout.LazyLayoutMeasureScope, ? super Constraints, ? extends MeasureResult> measurePolicy, Composer $composer, int $changed, int i7) {
-        int anon2;
+        int anon;
         int $dirty;
         int $dirty2;
-        int i;
-        Object obj;
-        Object obj3;
-        int i4;
-        Object empty;
-        Object anon;
-        int i2;
         int i5;
-        Object i8;
-        Object obj4;
+        Object obj;
         Object obj2;
         int i6;
+        Object empty;
+        Object anon2;
         int i3;
+        int i4;
+        Object i;
+        Object obj3;
+        Object obj4;
+        int i2;
+        int i8;
         Object obj15;
         final int i13 = $changed;
-        anon2 = 852831187;
-        final Composer restartGroup = $composer.startRestartGroup(anon2);
+        anon = 852831187;
+        final Composer restartGroup = $composer.startRestartGroup(anon);
         ComposerKt.sourceInformation(restartGroup, "C(LazyLayout)P(!1,2,3)54@2185L16,54@2174L68:LazyLayout.kt#wow0x6");
         $dirty = $changed;
         int i11 = 4;
@@ -49,8 +49,8 @@ public final class LazyLayoutKt {
             $dirty |= 6;
         } else {
             if (i13 & 6 == 0) {
-                i = restartGroup.changed(itemProvider) ? i11 : 2;
-                $dirty |= i;
+                i5 = restartGroup.changed(itemProvider) ? i11 : 2;
+                $dirty |= i5;
             }
         }
         int i10 = i7 & 2;
@@ -58,44 +58,44 @@ public final class LazyLayoutKt {
             $dirty |= 48;
         } else {
             if (i13 & 48 == 0) {
-                i4 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i4;
+                i6 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i6;
             }
         }
         empty = i7 & 4;
         if (empty != 0) {
             $dirty |= 384;
-            anon = prefetchState;
+            anon2 = prefetchState;
         } else {
             if (i13 & 384 == 0) {
-                i2 = restartGroup.changed(prefetchState) ? 256 : 128;
-                $dirty |= i2;
+                i3 = restartGroup.changed(prefetchState) ? 256 : 128;
+                $dirty |= i3;
             } else {
-                anon = prefetchState;
+                anon2 = prefetchState;
             }
         }
         if (i7 & 8 != 0) {
             $dirty |= 3072;
-            obj2 = measurePolicy;
+            obj4 = measurePolicy;
         } else {
             if (i13 & 3072 == 0) {
-                i5 = restartGroup.changedInstance(measurePolicy) ? 2048 : 1024;
-                $dirty |= i5;
+                i4 = restartGroup.changedInstance(measurePolicy) ? 2048 : 1024;
+                $dirty |= i4;
             } else {
-                obj2 = measurePolicy;
+                obj4 = measurePolicy;
             }
         }
         final int i15 = $dirty;
         if (i15 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 if (i10 != 0) {
-                    i8 = obj15;
+                    i = obj15;
                 } else {
-                    i8 = modifier;
+                    i = modifier;
                 }
-                obj4 = empty != 0 ? obj15 : anon;
+                obj3 = empty != 0 ? obj15 : anon2;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(anon2, i15, -1, "androidx.compose.foundation.lazy.layout.LazyLayout (LazyLayout.kt:53)");
+                    ComposerKt.traceEventStart(anon, i15, -1, "androidx.compose.foundation.lazy.layout.LazyLayout (LazyLayout.kt:53)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1956949074, "CC(remember):LazyLayout.kt#9igjgp");
                 obj15 = i15 & 14 == i11 ? 1 : 0;
@@ -106,95 +106,95 @@ public final class LazyLayoutKt {
                 if (obj15 == null) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        anon = new LazyLayoutKt.LazyLayout.1.1(itemProvider);
-                        composer.updateRememberedValue((Function0)anon);
+                        anon2 = new LazyLayoutKt.LazyLayout.1.1(itemProvider);
+                        composer.updateRememberedValue((Function0)anon2);
                     } else {
-                        anon = rememberedValue;
+                        anon2 = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                LazyLayoutKt.LazyLayout((Function0)anon, i8, obj4, obj2, restartGroup, obj15 | anon2, 0);
+                LazyLayoutKt.LazyLayout((Function0)anon2, i, obj3, obj4, restartGroup, obj15 | anon, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = i8;
-                obj3 = obj4;
+                obj = i;
+                obj2 = obj3;
             } else {
                 restartGroup.skipToGroupEnd();
                 obj = modifier;
-                obj3 = anon;
+                obj2 = anon2;
             }
         } else {
         }
         obj15 = restartGroup.endRestartGroup();
         if (obj15 != null) {
-            anon2 = new LazyLayoutKt.LazyLayout.2(itemProvider, obj, obj3, measurePolicy, i13, i7);
-            obj15.updateScope((Function2)anon2);
+            anon = new LazyLayoutKt.LazyLayout.2(itemProvider, obj, obj2, measurePolicy, i13, i7);
+            obj15.updateScope((Function2)anon);
         }
     }
 
     public static final void LazyLayout(Function0<? extends androidx.compose.foundation.lazy.layout.LazyLayoutItemProvider> itemProvider, Modifier modifier, androidx.compose.foundation.lazy.layout.LazyLayoutPrefetchState prefetchState, Function2<? super androidx.compose.foundation.lazy.layout.LazyLayoutMeasureScope, ? super Constraints, ? extends MeasureResult> measurePolicy, Composer $composer, int $changed, int i7) {
         int rememberUpdatedState;
-        int $dirty2;
         int $dirty;
+        int $dirty2;
         boolean traceInProgress;
-        int i8;
-        int str;
-        int i9;
         int i;
-        int i2;
+        int str;
+        int i8;
         int i5;
+        int i9;
+        int i2;
         int i3;
-        int i6;
         int i4;
+        int i6;
         Object obj10;
         Object obj11;
         rememberUpdatedState = 2002163445;
         final Composer restartGroup = $composer.startRestartGroup(rememberUpdatedState);
         ComposerKt.sourceInformation(restartGroup, "C(LazyLayout)P(!1,2,3)79@3266L34,81@3338L1509,81@3306L1541:LazyLayout.kt#wow0x6");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i7 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if ($changed & 6 == 0) {
-                i8 = restartGroup.changedInstance(itemProvider) ? 4 : 2;
-                $dirty2 |= i8;
+                i = restartGroup.changedInstance(itemProvider) ? 4 : 2;
+                $dirty |= i;
             }
         }
         str = i7 & 2;
         if (str != null) {
-            $dirty2 |= 48;
+            $dirty |= 48;
         } else {
             if ($changed & 48 == 0) {
-                i9 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i9;
+                i8 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i8;
             }
         }
-        i = i7 & 4;
-        if (i != 0) {
-            $dirty2 |= 384;
+        i5 = i7 & 4;
+        if (i5 != 0) {
+            $dirty |= 384;
         } else {
             if ($changed & 384 == 0) {
-                i2 = restartGroup.changed(prefetchState) ? 256 : 128;
-                $dirty2 |= i2;
+                i9 = restartGroup.changed(prefetchState) ? 256 : 128;
+                $dirty |= i9;
             }
         }
         if (i7 & 8 != 0) {
-            $dirty2 |= 3072;
+            $dirty |= 3072;
         } else {
             if ($changed & 3072 == 0) {
-                i5 = restartGroup.changedInstance(measurePolicy) ? 2048 : 1024;
-                $dirty2 |= i5;
+                i2 = restartGroup.changedInstance(measurePolicy) ? 2048 : 1024;
+                $dirty |= i2;
             }
         }
-        final int i12 = $dirty2;
+        final int i12 = $dirty;
         if (i12 & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 if (str != null) {
-                    obj10 = $dirty;
+                    obj10 = $dirty2;
                 }
-                if (i != 0) {
+                if (i5 != 0) {
                     obj11 = 0;
                 }
                 if (ComposerKt.isTraceInProgress()) {

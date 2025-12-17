@@ -115,25 +115,25 @@ public final class ColorSpaceKt {
     }
 
     public static final boolean compare(float[] a, float[] b) {
-        int i;
-        int compare;
         int i2;
+        int compare;
+        int i;
         int i3 = 1;
         if (a == b) {
             return i3;
         }
-        i = 0;
-        while (i < a.length) {
-            i++;
+        i2 = 0;
+        while (i2 < a.length) {
+            i2++;
         }
         return i3;
     }
 
     public static final androidx.compose.ui.graphics.colorspace.Connector connect-YBCOT_4(androidx.compose.ui.graphics.colorspace.ColorSpace $this$connect_u2dYBCOT_4, androidx.compose.ui.graphics.colorspace.ColorSpace destination, int intent) {
         Object this_$iv;
-        int i3;
+        int $i$f$connectorKeyYBCOT_4;
         int i;
-        Object connector-YBCOT_4;
+        Object $i$a$GetOrPutColorSpaceKt$connect$1;
         androidx.compose.ui.graphics.colorspace.Connector connector;
         int i2;
         final int id$ui_graphics_release = $this$connect_u2dYBCOT_4.getId$ui_graphics_release();
@@ -142,15 +142,15 @@ public final class ColorSpaceKt {
             this_$iv = ColorSpaceKt.createConnector-YBCOT_4($this$connect_u2dYBCOT_4, destination, intent);
         } else {
             MutableIntObjectMap connectors = ConnectorKt.getConnectors();
-            int i5 = 0;
-            i3 = i7 | i8;
+            int i4 = 0;
+            $i$f$connectorKeyYBCOT_4 = i6 | i7;
             i = 0;
-            if (connectors.get(i3) == null) {
-                int i9 = 0;
+            if (connectors.get($i$f$connectorKeyYBCOT_4) == null) {
+                int i8 = 0;
                 i2 = 0;
-                connectors.set(i3, ColorSpaceKt.createConnector-YBCOT_4($this$connect_u2dYBCOT_4, destination, intent));
+                connectors.set($i$f$connectorKeyYBCOT_4, ColorSpaceKt.createConnector-YBCOT_4($this$connect_u2dYBCOT_4, destination, intent));
             }
-            this_$iv = connector-YBCOT_4;
+            this_$iv = $i$a$GetOrPutColorSpaceKt$connect$1;
         }
         return this_$iv;
     }
@@ -315,14 +315,14 @@ public final class ColorSpaceKt {
     }
 
     public static final double rcpResponse(double x, double a, double b, double c, double d, double e, double f, double g) {
-        int i;
         int i2;
+        int i;
         if (Double.compare(x, i3) >= 0) {
             i5 /= b;
         } else {
             i6 /= f;
         }
-        return i;
+        return i2;
     }
 
     public static final double response(double x, double a, double b, double c, double d, double g) {

@@ -16,7 +16,7 @@ public final class PressInteractionKt {
         int changed;
         String str;
         Object empty;
-        Object mutableStateOf$default;
+        Object $i$a$CachePressInteractionKt$collectIsPressedAsState$isPressed$1;
         Object anon;
         int i;
         Boolean valueOf;
@@ -38,9 +38,9 @@ public final class PressInteractionKt {
             int i13 = 0;
             composer2.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(false, i14, 2, i14));
         } else {
-            mutableStateOf$default = rememberedValue2;
+            $i$a$CachePressInteractionKt$collectIsPressedAsState$isPressed$1 = rememberedValue2;
         }
-        androidx.compose.runtime.MutableState invalid$iv = mutableStateOf$default;
+        androidx.compose.runtime.MutableState invalid$iv = $i$a$CachePressInteractionKt$collectIsPressedAsState$isPressed$1;
         ComposerKt.sourceInformationMarkerEnd($composer);
         ComposerKt.sourceInformationMarkerStart($composer, 1614370227, str3);
         int i9 = 4;

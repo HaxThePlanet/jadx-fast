@@ -73,54 +73,54 @@ public final class MenuKt {
     }
 
     public static final void DropdownMenuContent(MutableTransitionState<Boolean> expandedStates, MutableState<TransformOrigin> transformOriginState, ScrollState scrollState, Modifier modifier, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i8) {
-        Object transition3;
-        int i6;
+        Object transition;
+        int i7;
         State transitionSpec$iv;
         Object obj;
-        int i15;
-        Object initialValue$iv$iv;
-        int $dirty;
-        int it2;
-        boolean traceInProgress;
-        Object $dirty2;
-        int transitionAnimation;
-        int i;
-        boolean it;
         int i11;
-        int i4;
-        int i13;
+        Object initialValue$iv$iv;
+        int $dirty2;
+        int it3;
+        boolean traceInProgress;
+        Object $dirty;
+        int transitionAnimation;
+        int i10;
+        boolean it;
+        int i16;
+        int i14;
+        int i9;
         int graphicsLayer;
         boolean traceInProgress3;
         boolean changedInstance;
-        Object z;
-        boolean it3;
-        int i14;
-        int i5;
-        int i12;
+        Object z2;
+        boolean it2;
+        int i2;
+        int i3;
+        int i13;
         int skipping;
-        int i21;
-        int i20;
         int i17;
+        int i19;
+        int i6;
         Composer restartGroup;
         int empty;
         float menuElevation;
         Object anon;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        Composer composer;
-        int i7;
-        int i18;
-        int i9;
-        int i2;
-        int i16;
-        int i19;
-        Transition transition2;
-        Composer $composer2;
-        int i10;
         Composer composer2;
-        int i3;
-        boolean z2;
+        int i4;
+        int i;
+        int i21;
+        int i15;
+        int i5;
+        int i18;
+        Transition transition3;
+        Composer $composer2;
+        int i20;
+        Composer composer;
+        int i12;
+        boolean z;
         boolean traceInProgress2;
-        Transition transition;
+        Transition transition2;
         Float obj31;
         obj = expandedStates;
         final Object obj3 = transformOriginState;
@@ -130,9 +130,9 @@ public final class MenuKt {
         transitionSpec$iv = 435109845;
         restartGroup = $composer.startRestartGroup(transitionSpec$iv);
         ComposerKt.sourceInformation(restartGroup, "C(DropdownMenuContent)P(1,4,3,2)66@2778L50,68@2858L666,94@3554L477,114@4084L153,121@4279L248,113@4036L491:Menu.kt#jmzs0o");
-        $dirty = $changed;
+        $dirty2 = $changed;
         if (i8 & 1 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
         } else {
             if (transitionAnimation & 6 == 0) {
                 if (transitionAnimation & 8 == 0) {
@@ -140,83 +140,83 @@ public final class MenuKt {
                 } else {
                     changedInstance = restartGroup.changedInstance(obj);
                 }
-                i11 = changedInstance != null ? 4 : 2;
-                $dirty |= i11;
+                i16 = changedInstance != null ? 4 : 2;
+                $dirty2 |= i16;
             }
         }
         if (i8 & 2 != 0) {
-            $dirty |= 48;
+            $dirty2 |= 48;
         } else {
             if (transitionAnimation & 48 == 0) {
-                i4 = restartGroup.changed(obj3) ? 32 : 16;
-                $dirty |= i4;
+                i14 = restartGroup.changed(obj3) ? 32 : 16;
+                $dirty2 |= i14;
             }
         }
         if (i8 & 4 != 0) {
-            $dirty |= 384;
+            $dirty2 |= 384;
         } else {
             if (transitionAnimation & 384 == 0) {
-                i13 = restartGroup.changed(obj4) ? 256 : 128;
-                $dirty |= i13;
+                i9 = restartGroup.changed(obj4) ? 256 : 128;
+                $dirty2 |= i9;
             }
         }
         graphicsLayer = i8 & 8;
         if (graphicsLayer != 0) {
-            $dirty |= 3072;
-            z = modifier;
+            $dirty2 |= 3072;
+            z2 = modifier;
         } else {
             if (transitionAnimation & 3072 == 0) {
-                i5 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty |= i5;
+                i3 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty2 |= i3;
             } else {
-                z = modifier;
+                z2 = modifier;
             }
         }
         if (i8 & 16 != 0) {
-            $dirty |= 24576;
+            $dirty2 |= 24576;
         } else {
             if (transitionAnimation & 24576 == 0) {
-                i12 = restartGroup.changedInstance(obj6) ? 16384 : 8192;
-                $dirty |= i12;
+                i13 = restartGroup.changedInstance(obj6) ? 16384 : 8192;
+                $dirty2 |= i13;
             }
         }
-        if ($dirty & 9363 == 9362) {
+        if ($dirty2 & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
                 if (graphicsLayer != 0) {
-                    z = graphicsLayer;
+                    z2 = graphicsLayer;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(transitionSpec$iv, $dirty, -1, "androidx.compose.material.DropdownMenuContent (Menu.kt:64)");
+                    ComposerKt.traceEventStart(transitionSpec$iv, $dirty2, -1, "androidx.compose.material.DropdownMenuContent (Menu.kt:64)");
                 }
                 Transition rememberTransition = TransitionKt.rememberTransition((TransitionState)obj, "DropDownMenu", restartGroup, i28 |= i52, 0);
                 androidx.compose.material.MenuKt.DropdownMenuContent.scale.2 iNSTANCE = MenuKt.DropdownMenuContent.scale.2.INSTANCE;
                 int i91 = 0;
                 int i93 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1338768149, "CC(animateFloat)P(2)1966@80444L78:Transition.kt#pdpnli");
-                i9 = 57344;
+                i21 = 57344;
                 Transition transition5 = transition6;
                 int i95 = i58;
                 int i96 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -142660079, "CC(animateValue)P(3,2)1883@77007L32,1884@77062L31,1885@77118L23,1887@77154L89:Transition.kt#pdpnli");
                 int i97 = 0;
-                transition3 = obj31;
-                transition3.startReplaceGroup(1652594929);
+                transition = obj31;
+                transition.startReplaceGroup(1652594929);
                 String str4 = "C:Menu.kt#jmzs0o";
-                ComposerKt.sourceInformation(transition3, str4);
+                ComposerKt.sourceInformation(transition, str4);
                 if (ComposerKt.isTraceInProgress()) {
-                    $composer2 = transition3;
-                    i3 = $dirty;
+                    $composer2 = transition;
+                    i12 = $dirty2;
                     ComposerKt.traceEventStart(1652594929, i82 &= 112, -1, "androidx.compose.material.DropdownMenuContent.<anonymous> (Menu.kt:85)");
                 } else {
-                    $composer2 = transition3;
-                    i3 = $dirty;
+                    $composer2 = transition;
+                    i12 = $dirty2;
                 }
-                i15 = (Boolean)transition5.getCurrentState().booleanValue() ? 1065353216 : 1061997773;
+                i11 = (Boolean)transition5.getCurrentState().booleanValue() ? 1065353216 : 1061997773;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 $composer2.endReplaceGroup();
-                initialValue$iv$iv = Float.valueOf(i15);
+                initialValue$iv$iv = Float.valueOf(i11);
                 boolean booleanValue = (Boolean)transition5.getTargetState().booleanValue();
                 Composer composer6 = restartGroup;
                 int i98 = 0;
@@ -225,22 +225,22 @@ public final class MenuKt {
                 ComposerKt.sourceInformation(composer6, str4);
                 if (ComposerKt.isTraceInProgress()) {
                     obj31 = initialValue$iv$iv;
-                    z2 = booleanValue;
+                    z = booleanValue;
                     ComposerKt.traceEventStart(i22, i60 &= 112, -1, "androidx.compose.material.DropdownMenuContent.<anonymous> (Menu.kt:85)");
                 } else {
                     obj31 = initialValue$iv$iv;
-                    z2 = booleanValue;
-                    it2 = -1;
+                    z = booleanValue;
+                    it3 = -1;
                 }
-                i6 = z2 ? 1065353216 : 1061997773;
+                i7 = z ? 1065353216 : 1061997773;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 composer6.endReplaceGroup();
-                int i88 = it2;
+                int i88 = it3;
                 String str2 = str4;
                 androidx.compose.material.MenuKt.DropdownMenuContent.scale.2 targetValue$iv$iv = iNSTANCE;
-                obj = z;
+                obj = z2;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 transitionSpec$iv = transitionAnimation2;
@@ -249,29 +249,29 @@ public final class MenuKt {
                 int i94 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1338768149, "CC(animateFloat)P(2)1966@80444L78:Transition.kt#pdpnli");
                 Transition transition4 = transition7;
-                i2 = i39;
-                i16 = 0;
+                i15 = i39;
+                i5 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -142660079, "CC(animateValue)P(3,2)1883@77007L32,1884@77062L31,1885@77118L23,1887@77154L89:Transition.kt#pdpnli");
-                it3 = (Boolean)transition4.getCurrentState().booleanValue();
+                it2 = (Boolean)transition4.getCurrentState().booleanValue();
                 Composer composer4 = restartGroup;
                 int i100 = 0;
                 int i89 = 388050693;
                 composer4.startReplaceGroup(i89);
                 ComposerKt.sourceInformation(composer4, str2);
                 if (ComposerKt.isTraceInProgress()) {
-                    obj31 = it3;
+                    obj31 = it2;
                     ComposerKt.traceEventStart(i89, i64 &= 112, -1, "androidx.compose.material.DropdownMenuContent.<anonymous> (Menu.kt:105)");
                 } else {
-                    obj31 = it3;
+                    obj31 = it2;
                 }
-                i = obj31 != null ? 1065353216 : 0;
+                i10 = obj31 != null ? 1065353216 : 0;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 composer4.endReplaceGroup();
                 it = (Boolean)transition4.getTargetState().booleanValue();
                 Composer composer5 = restartGroup;
-                i19 = 0;
+                i18 = 0;
                 composer5.startReplaceGroup(i89);
                 ComposerKt.sourceInformation(composer5, str2);
                 if (ComposerKt.isTraceInProgress()) {
@@ -280,22 +280,22 @@ public final class MenuKt {
                 } else {
                     obj31 = it;
                 }
-                i10 = obj31 != null ? 1065353216 : traceInProgress;
+                i20 = obj31 != null ? 1065353216 : traceInProgress;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 composer5.endReplaceGroup();
                 androidx.compose.material.MenuKt.DropdownMenuContent.alpha.2 targetValue$iv$iv2 = iNSTANCE2;
-                transitionAnimation = TransitionKt.createTransitionAnimation(transition4, Float.valueOf(i), Float.valueOf(i10), (FiniteAnimationSpec)(Function3)iNSTANCE2.invoke(transition4.getSegment(), restartGroup, Integer.valueOf(i68 &= 112)), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), "FloatAnimation", restartGroup, i81 |= i27);
+                transitionAnimation = TransitionKt.createTransitionAnimation(transition4, Float.valueOf(i10), Float.valueOf(i20), (FiniteAnimationSpec)(Function3)iNSTANCE2.invoke(transition4.getSegment(), restartGroup, Integer.valueOf(i68 &= 112)), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), "FloatAnimation", restartGroup, i81 |= i27);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 668225020, "CC(remember):Menu.kt#9igjgp");
                 int i51 = 1;
-                i14 = i3 & 112 == 32 ? i51 : 0;
+                i2 = i12 & 112 == 32 ? i51 : 0;
                 Composer composer3 = restartGroup;
                 int i71 = 0;
                 Object rememberedValue = composer3.rememberedValue();
-                if (i31 |= i14 == 0) {
+                if (i31 |= i2 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new MenuKt.DropdownMenuContent.1.1(obj3, transitionSpec$iv, transitionAnimation);
@@ -307,24 +307,24 @@ public final class MenuKt {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 MenuKt.DropdownMenuContent.2 anon2 = new MenuKt.DropdownMenuContent.2(obj, obj4, obj6);
-                i21 = 895555282;
-                composer = composer2;
-                CardKt.Card-F-jzlyU(GraphicsLayerModifierKt.graphicsLayer((Modifier)Modifier.Companion, (Function1)anon), 0, 0, i21, 0, 0, 0, MenuKt.MenuElevation, (Function2)ComposableLambdaKt.rememberComposableLambda(i21, i51, anon2, restartGroup, 54), composer);
-                restartGroup = composer;
+                i17 = 895555282;
+                composer2 = composer;
+                CardKt.Card-F-jzlyU(GraphicsLayerModifierKt.graphicsLayer((Modifier)Modifier.Companion, (Function1)anon), 0, 0, i17, 0, 0, 0, MenuKt.MenuElevation, (Function2)ComposableLambdaKt.rememberComposableLambda(i17, i51, anon2, restartGroup, 54), composer2);
+                restartGroup = composer2;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $dirty2 = obj;
+                $dirty = obj;
             } else {
                 restartGroup.skipToGroupEnd();
-                i3 = $dirty;
-                $dirty2 = z;
+                i12 = $dirty2;
+                $dirty = z2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            transitionSpec$iv = new MenuKt.DropdownMenuContent.3(expandedStates, obj3, obj4, $dirty2, obj6, $changed, i8);
+            transitionSpec$iv = new MenuKt.DropdownMenuContent.3(expandedStates, obj3, obj4, $dirty, obj6, $changed, i8);
             endRestartGroup.updateScope((Function2)transitionSpec$iv);
         }
     }
@@ -344,50 +344,50 @@ public final class MenuKt {
     }
 
     public static final void DropdownMenuItemContent(Function0<Unit> onClick, Modifier modifier, boolean enabled, PaddingValues contentPadding, MutableInteractionSource interactionSource, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
-        int traceInProgress2;
+        int traceInProgress;
         Function0 factory$iv$iv$iv;
         int $dirty;
+        Object obj;
         Object obj2;
-        Object obj5;
-        int i;
-        boolean z3;
-        Object modifier3;
+        int i2;
+        boolean z2;
+        Object modifier2;
         int valueOf;
-        Object obj4;
+        Object obj3;
         Object obj7;
         Object contentPadding2;
         Composer composer;
-        int i7;
-        Object obj;
+        int i14;
+        Object obj5;
         Object interactionSource2;
         boolean z;
-        boolean traceInProgress;
-        int i12;
+        boolean traceInProgress2;
+        int i15;
         int str;
         Object start;
         int $dirty2;
-        int i10;
+        int i;
         int rowMeasurePolicy;
-        Object obj6;
-        int i2;
-        int i8;
-        boolean skipping;
+        Object obj4;
         int i11;
-        int i13;
-        boolean z2;
-        int i3;
+        int i5;
+        boolean skipping;
+        int i10;
+        int i6;
+        boolean z3;
+        int i12;
         int i4;
         androidx.compose.material.Typography typography;
         androidx.compose.ui.Alignment.Vertical vertical;
-        int i5;
+        int i8;
         RowScopeInstance rowScopeInstance;
-        int i6;
-        Modifier modifier2;
+        int i3;
+        Modifier modifier3;
         int $changed$iv;
-        Object obj3;
+        Object obj6;
         Composer composer2;
-        int i14;
-        int i15;
+        int i7;
+        int i13;
         androidx.compose.runtime.CompositionLocalMap map;
         int obj33;
         Object obj34;
@@ -395,31 +395,31 @@ public final class MenuKt {
         int obj37;
         final Object obj9 = content;
         final int i37 = $changed;
-        traceInProgress2 = 87134531;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 87134531;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(DropdownMenuItemContent)P(5,4,2,1,3)148@5150L36,142@4939L1012:Menu.kt#jmzs0o");
         $dirty = $changed;
         if (i9 & 1 != 0) {
             $dirty |= 6;
-            obj2 = onClick;
+            obj = onClick;
         } else {
             if (i37 & 6 == 0) {
-                i = restartGroup.changedInstance(onClick) ? 4 : 2;
-                $dirty |= i;
+                i2 = restartGroup.changedInstance(onClick) ? 4 : 2;
+                $dirty |= i2;
             } else {
-                obj2 = onClick;
+                obj = onClick;
             }
         }
         int i26 = i9 & 2;
         if (i26 != 0) {
             $dirty |= 48;
-            obj4 = modifier;
+            obj3 = modifier;
         } else {
             if (i37 & 48 == 0) {
-                i7 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i7;
+                i14 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i14;
             } else {
-                obj4 = modifier;
+                obj3 = modifier;
             }
         }
         int i34 = i9 & 4;
@@ -428,8 +428,8 @@ public final class MenuKt {
             z = enabled;
         } else {
             if (i37 & 384 == 0) {
-                i12 = restartGroup.changed(enabled) ? 256 : 128;
-                $dirty |= i12;
+                i15 = restartGroup.changed(enabled) ? 256 : 128;
+                $dirty |= i15;
             } else {
                 z = enabled;
             }
@@ -440,8 +440,8 @@ public final class MenuKt {
             start = contentPadding;
         } else {
             if (i37 & 3072 == 0) {
-                i10 = restartGroup.changed(contentPadding) ? 2048 : 1024;
-                $dirty |= i10;
+                i = restartGroup.changed(contentPadding) ? 2048 : 1024;
+                $dirty |= i;
             } else {
                 start = contentPadding;
             }
@@ -449,13 +449,13 @@ public final class MenuKt {
         rowMeasurePolicy = i9 & 16;
         if (rowMeasurePolicy != 0) {
             $dirty |= 24576;
-            obj6 = interactionSource;
+            obj4 = interactionSource;
         } else {
             if (i37 & 24576 == 0) {
-                i2 = restartGroup.changed(interactionSource) ? 16384 : 8192;
-                $dirty |= i2;
+                i11 = restartGroup.changed(interactionSource) ? 16384 : 8192;
+                $dirty |= i11;
             } else {
-                obj6 = interactionSource;
+                obj4 = interactionSource;
             }
         }
         int i51 = 196608;
@@ -463,37 +463,37 @@ public final class MenuKt {
             $dirty |= i51;
         } else {
             if (i37 & i51 == 0) {
-                i8 = restartGroup.changedInstance(obj9) ? 131072 : 65536;
-                $dirty |= i8;
+                i5 = restartGroup.changedInstance(obj9) ? 131072 : 65536;
+                $dirty |= i5;
             }
         }
         if (i49 &= $dirty == 74898) {
             if (!restartGroup.getSkipping()) {
                 if (i26 != 0) {
-                    modifier3 = Modifier.Companion;
+                    modifier2 = Modifier.Companion;
                 } else {
-                    modifier3 = obj4;
+                    modifier2 = obj3;
                 }
-                z2 = i34 != 0 ? obj4 : z;
+                z3 = i34 != 0 ? obj3 : z;
                 if (str != null) {
                     contentPadding2 = MenuDefaults.INSTANCE.getDropdownMenuItemContentPadding();
                 } else {
                     contentPadding2 = start;
                 }
-                interactionSource2 = rowMeasurePolicy != 0 ? 0 : obj6;
+                interactionSource2 = rowMeasurePolicy != 0 ? 0 : obj4;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.DropdownMenuItemContent (Menu.kt:140)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.DropdownMenuItemContent (Menu.kt:140)");
                 }
                 int i62 = 0;
-                obj6 = modifier3;
+                obj4 = modifier2;
                 skipping = interactionSource2;
-                z = z2;
-                Modifier padding = PaddingKt.padding(SizeKt.sizeIn-qDBjuR0$default(SizeKt.fillMaxWidth$default(ClickableKt.clickable-O2vRcR0$default(obj6, skipping, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(true, 0, 0, rowMeasurePolicy, restartGroup, 6), z2, 0, 0, obj2, 24, i62), 0, 1, 0), MenuKt.DropdownMenuItemDefaultMinWidth, MenuKt.DropdownMenuItemDefaultMinHeight, MenuKt.DropdownMenuItemDefaultMaxWidth, 0, 8, i62), contentPadding2);
+                z = z3;
+                Modifier padding = PaddingKt.padding(SizeKt.sizeIn-qDBjuR0$default(SizeKt.fillMaxWidth$default(ClickableKt.clickable-O2vRcR0$default(obj4, skipping, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(true, 0, 0, rowMeasurePolicy, restartGroup, 6), z3, 0, 0, obj, 24, i62), 0, 1, 0), MenuKt.DropdownMenuItemDefaultMinWidth, MenuKt.DropdownMenuItemDefaultMinHeight, MenuKt.DropdownMenuItemDefaultMaxWidth, 0, 8, i62), contentPadding2);
                 androidx.compose.ui.Alignment.Vertical centerVertically = Alignment.Companion.getCenterVertically();
                 valueOf = 384;
                 str = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
-                i13 = 0;
+                i6 = 0;
                 obj37 = $dirty;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
@@ -501,7 +501,7 @@ public final class MenuKt {
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, padding);
                 obj34 = padding;
                 obj35 = constructor;
-                i3 = 0;
+                i12 = 0;
                 vertical = centerVertically;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
@@ -520,39 +520,39 @@ public final class MenuKt {
                 Updater.set-impl(constructor-impl, RowKt.rowMeasurePolicy(Arrangement.INSTANCE.getStart(), centerVertically, restartGroup, i45 |= i53), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i64 = 0;
-                Composer composer6 = constructor-impl;
+                Composer composer5 = constructor-impl;
                 int i65 = 0;
-                if (!composer6.getInserting()) {
+                if (!composer5.getInserting()) {
                     $changed$iv = valueOf;
-                    obj3 = contentPadding2;
-                    if (!Intrinsics.areEqual(composer6.rememberedValue(), Integer.valueOf(obj33))) {
-                        composer6.updateRememberedValue(Integer.valueOf(obj33));
+                    obj6 = contentPadding2;
+                    if (!Intrinsics.areEqual(composer5.rememberedValue(), Integer.valueOf(obj33))) {
+                        composer5.updateRememberedValue(Integer.valueOf(obj33));
                         constructor-impl.apply(Integer.valueOf(obj33), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer6;
+                        composer = composer5;
                     }
                 } else {
                     $changed$iv = valueOf;
-                    obj3 = contentPadding2;
+                    obj6 = contentPadding2;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer3 = restartGroup;
-                i5 = i20;
+                i8 = i20;
                 ComposerKt.sourceInformationMarkerStart(composer3, -407918630, "C100@5047L9:Row.kt#2w3rfo");
                 RowScopeInstance iNSTANCE = RowScopeInstance.INSTANCE;
-                i6 = 0;
-                modifier2 = materializeModifier;
-                i14 = i28;
-                Composer composer4 = composer5;
-                ComposerKt.sourceInformationMarkerStart(composer4, 1774663871, "C160@5667L10,161@5725L220,161@5686L259:Menu.kt#jmzs0o");
-                androidx.compose.material.Typography typography2 = MaterialTheme.INSTANCE.getTypography(composer4, 6);
+                i3 = 0;
+                modifier3 = materializeModifier;
+                i7 = i28;
+                Composer $i$a$LayoutRowKt$Row$1$iv = composer4;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutRowKt$Row$1$iv, 1774663871, "C160@5667L10,161@5725L220,161@5686L259:Menu.kt#jmzs0o");
+                androidx.compose.material.Typography typography2 = MaterialTheme.INSTANCE.getTypography($i$a$LayoutRowKt$Row$1$iv, 6);
                 typography = typography2;
                 MenuKt.DropdownMenuItemContent.1.1 typography3 = new MenuKt.DropdownMenuItemContent.1.1(z, obj9, (RowScope)iNSTANCE);
                 rowScopeInstance = iNSTANCE;
-                i15 = i33;
+                i13 = i33;
                 map = currentCompositionLocalMap;
-                TextKt.ProvideTextStyle(typography2.getSubtitle1(), (Function2)ComposableLambdaKt.rememberComposableLambda(1190489496, true, typography3, composer4, 54), composer4, 48);
-                ComposerKt.sourceInformationMarkerEnd(composer4);
+                TextKt.ProvideTextStyle(typography2.getSubtitle1(), (Function2)ComposableLambdaKt.rememberComposableLambda(1190489496, true, typography3, $i$a$LayoutRowKt$Row$1$iv, 54), $i$a$LayoutRowKt$Row$1$iv, 48);
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutRowKt$Row$1$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -561,25 +561,25 @@ public final class MenuKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = obj6;
-                obj = skipping;
-                obj7 = obj3;
-                z3 = z;
+                obj2 = obj4;
+                obj5 = skipping;
+                obj7 = obj6;
+                z2 = z;
             } else {
                 restartGroup.skipToGroupEnd();
                 obj37 = $dirty;
-                obj5 = obj4;
+                obj2 = obj3;
                 obj7 = start;
-                obj = obj6;
-                z3 = z;
+                obj5 = obj4;
+                z2 = z;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
             $dirty2 = obj37;
-            traceInProgress2 = new MenuKt.DropdownMenuItemContent.2(onClick, obj5, z3, obj7, obj, obj9, i37, i9);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new MenuKt.DropdownMenuItemContent.2(onClick, obj2, z2, obj7, obj5, obj9, i37, i9);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         } else {
             $dirty2 = obj37;
         }
@@ -599,39 +599,39 @@ public final class MenuKt {
 
     public static final long calculateTransformOrigin(IntRect parentBounds, IntRect menuBounds) {
         int right;
-        int bottom2;
-        int i2;
-        int i;
-        int i3;
-        float f;
         int bottom;
-        i3 = 0;
+        int i3;
+        int i;
+        int i2;
+        float f;
+        int bottom2;
+        i2 = 0;
         if (menuBounds.getLeft() >= parentBounds.getRight()) {
-            i2 = i3;
+            i3 = i2;
         } else {
             if (menuBounds.getRight() <= parentBounds.getLeft()) {
-                i2 = i;
+                i3 = i;
             } else {
                 if (menuBounds.getWidth() == 0) {
-                    i2 = i3;
+                    i3 = i2;
                 } else {
                     f2 /= f;
                 }
             }
         }
         if (menuBounds.getTop() >= parentBounds.getBottom()) {
-            i = i3;
+            i = i2;
         } else {
             if (menuBounds.getBottom() <= parentBounds.getTop()) {
             } else {
                 if (menuBounds.getHeight() == 0) {
-                    i = i3;
+                    i = i2;
                 } else {
-                    f3 /= i3;
+                    f3 /= i2;
                 }
             }
         }
-        return TransformOriginKt.TransformOrigin(i2, i);
+        return TransformOriginKt.TransformOrigin(i3, i);
     }
 
     public static final float getDropdownMenuVerticalPadding() {

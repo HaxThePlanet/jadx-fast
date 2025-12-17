@@ -45,54 +45,54 @@ public abstract class TextFieldKeyEventHandler {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal20;
-            int ordinal8;
-            int ordinal35;
-            int ordinal48;
-            int ordinal36;
-            int ordinal18;
-            int ordinal31;
-            int ordinal16;
-            int ordinal38;
-            int ordinal29;
-            int ordinal;
-            int ordinal2;
-            int ordinal4;
-            int ordinal9;
-            int ordinal10;
+            int ordinal46;
+            int ordinal24;
+            int ordinal23;
+            int ordinal32;
+            int ordinal5;
+            int ordinal3;
+            int ordinal34;
+            int ordinal39;
             int ordinal47;
             int ordinal45;
-            int ordinal13;
-            int ordinal11;
-            int ordinal21;
-            int ordinal30;
-            int ordinal32;
-            int ordinal12;
-            int ordinal37;
-            int ordinal46;
-            int ordinal25;
-            int ordinal33;
-            int ordinal14;
-            int ordinal26;
-            int ordinal22;
-            int ordinal43;
-            int ordinal15;
-            int ordinal7;
             int ordinal17;
-            int ordinal19;
-            int ordinal3;
-            int ordinal39;
-            int ordinal23;
-            int ordinal34;
-            int ordinal27;
-            int ordinal24;
             int ordinal28;
-            int ordinal42;
             int ordinal40;
+            int ordinal21;
+            int ordinal14;
+            int ordinal15;
             int ordinal41;
+            int ordinal29;
+            int ordinal26;
+            int ordinal16;
+            int ordinal18;
+            int ordinal31;
+            int ordinal12;
+            int ordinal36;
+            int ordinal43;
+            int ordinal30;
+            int ordinal13;
+            int ordinal7;
+            int ordinal4;
+            int ordinal37;
+            int ordinal10;
             int ordinal44;
-            int ordinal5;
             int ordinal6;
+            int ordinal33;
+            int ordinal;
+            int ordinal19;
+            int ordinal48;
+            int ordinal27;
+            int ordinal11;
+            int ordinal2;
+            int ordinal8;
+            int ordinal42;
+            int ordinal9;
+            int ordinal25;
+            int ordinal20;
+            int ordinal22;
+            int ordinal38;
+            int ordinal35;
             int[] iArr = new int[values.length];
             iArr[KeyCommand.COPY.ordinal()] = 1;
             iArr[KeyCommand.PASTE.ordinal()] = 2;
@@ -171,17 +171,17 @@ public abstract class TextFieldKeyEventHandler {
         LayoutCoordinates textLayoutNodeCoordinates;
         int height-impl;
         boolean it2;
-        int localBoundingBoxOf$default;
+        int $i$a$TakeIfTextFieldKeyEventHandler$getVisibleTextLayoutHeight$1;
         LayoutCoordinates decoratorNodeCoordinates;
         boolean it;
         int i;
         textLayoutNodeCoordinates = $this$getVisibleTextLayoutHeight.getTextLayoutNodeCoordinates();
         if (textLayoutNodeCoordinates != null) {
             int i2 = 0;
-            localBoundingBoxOf$default = 0;
+            $i$a$TakeIfTextFieldKeyEventHandler$getVisibleTextLayoutHeight$1 = 0;
             if (textLayoutNodeCoordinates.isAttached()) {
             } else {
-                textLayoutNodeCoordinates = localBoundingBoxOf$default;
+                textLayoutNodeCoordinates = $i$a$TakeIfTextFieldKeyEventHandler$getVisibleTextLayoutHeight$1;
             }
             if (textLayoutNodeCoordinates != 0) {
                 decoratorNodeCoordinates = $this$getVisibleTextLayoutHeight.getDecoratorNodeCoordinates();
@@ -189,16 +189,16 @@ public abstract class TextFieldKeyEventHandler {
                     i = 0;
                     if (decoratorNodeCoordinates.isAttached()) {
                     } else {
-                        decoratorNodeCoordinates = localBoundingBoxOf$default;
+                        decoratorNodeCoordinates = $i$a$TakeIfTextFieldKeyEventHandler$getVisibleTextLayoutHeight$1;
                     }
                     if (decoratorNodeCoordinates != null) {
-                        localBoundingBoxOf$default = LayoutCoordinates.localBoundingBoxOf$default(decoratorNodeCoordinates, textLayoutNodeCoordinates, false, 2, localBoundingBoxOf$default);
+                        $i$a$TakeIfTextFieldKeyEventHandler$getVisibleTextLayoutHeight$1 = LayoutCoordinates.localBoundingBoxOf$default(decoratorNodeCoordinates, textLayoutNodeCoordinates, false, 2, $i$a$TakeIfTextFieldKeyEventHandler$getVisibleTextLayoutHeight$1);
                     } else {
                     }
                 } else {
                 }
-                if (localBoundingBoxOf$default != 0) {
-                    height-impl = Size.getHeight-impl(localBoundingBoxOf$default.getSize-NH-jbRc());
+                if ($i$a$TakeIfTextFieldKeyEventHandler$getVisibleTextLayoutHeight$1 != 0) {
+                    height-impl = Size.getHeight-impl($i$a$TakeIfTextFieldKeyEventHandler$getVisibleTextLayoutHeight$1.getSize-NH-jbRc());
                 } else {
                     height-impl = 2143289344;
                 }
@@ -223,48 +223,48 @@ public abstract class TextFieldKeyEventHandler {
     public boolean onKeyEvent-6ptp14s(KeyEvent event, androidx.compose.foundation.text.input.internal.TransformedTextFieldState textFieldState, androidx.compose.foundation.text.input.internal.TextLayoutState textLayoutState, TextFieldSelectionState textFieldSelectionState, boolean editable, boolean singleLine, Function0<Unit> onSubmit) {
         int this_$iv;
         int obj2;
-        int i13;
+        int i3;
         KeyEvent mainBuffer$foundation_release;
-        boolean selection-d9O1mEE3;
+        boolean selection-d9O1mEE;
         int aRTIFICIAL_FRAME_PACKAGE_NAME;
         boolean typedEvent-ZmokQxo;
         boolean command2;
         int cmp;
-        int i8;
+        int i13;
         int it;
-        int i2;
+        int i12;
         int selection-d9O1mEE2;
         boolean editsText;
-        int consumed;
         int consumed3;
+        int consumed;
         int intValue;
         TextFieldPreparedSelection preparedSelection$iv;
-        int i3;
-        androidx.compose.foundation.text.input.internal.TransformedTextFieldState field3;
+        int i6;
+        androidx.compose.foundation.text.input.internal.TransformedTextFieldState field4;
         androidx.compose.foundation.text.input.internal.TransformedTextFieldState field;
-        TextFieldState field5;
+        TextFieldState field2;
         androidx.compose.foundation.text.input.InputTransformation inputTransformation;
         TextFieldEditUndoBehavior mergeIfPossible;
-        int i9;
-        androidx.compose.foundation.text.input.internal.EditingBuffer mainBuffer$foundation_release2;
-        int i5;
-        androidx.compose.foundation.text.input.internal.TextLayoutState textLayoutState2;
         int i4;
+        androidx.compose.foundation.text.input.internal.EditingBuffer mainBuffer$foundation_release2;
+        int i;
+        androidx.compose.foundation.text.input.internal.TextLayoutState textLayoutState2;
+        int i9;
         int ordinal;
         int box-impl;
-        Object str;
-        int i10;
+        Object str2;
+        int i8;
         int consumed2;
         KeyCommand command;
         KeyCommand keyCommand;
-        TextFieldPreparedSelection field2;
-        androidx.compose.foundation.text.input.internal.TransformedTextFieldState field4;
-        String str2;
-        long selection-d9O1mEE;
+        TextFieldPreparedSelection field3;
+        androidx.compose.foundation.text.input.internal.TransformedTextFieldState field5;
+        String str;
+        long selection-d9O1mEE3;
+        int i2;
         int i7;
-        int i6;
         int i11;
-        int i12;
+        int i10;
         Object obj = this;
         mainBuffer$foundation_release = event;
         if (!KeyEventType.equals-impl0(KeyEvent_androidKt.getType-ZmokQxo(mainBuffer$foundation_release), KeyEventType.Companion.getKeyDown-CS__XNY())) {
@@ -278,20 +278,20 @@ public abstract class TextFieldKeyEventHandler {
                 StringBuilder stringBuilder = new StringBuilder(2);
                 if (editable) {
                     intValue = textFieldState;
-                    i3 = 0;
-                    field5 = TransformedTextFieldState.access$getTextFieldState$p(intValue);
-                    i9 = 0;
-                    field5.getMainBuffer$foundation_release().getChangeTracker().clearChanges();
-                    mainBuffer$foundation_release2 = field5.getMainBuffer$foundation_release();
-                    i5 = 0;
+                    i6 = 0;
+                    field2 = TransformedTextFieldState.access$getTextFieldState$p(intValue);
+                    i4 = 0;
+                    field2.getMainBuffer$foundation_release().getChangeTracker().clearChanges();
+                    mainBuffer$foundation_release2 = field2.getMainBuffer$foundation_release();
+                    i = 0;
                     mainBuffer$foundation_release2.commitComposition();
                     EditCommandKt.commitText(mainBuffer$foundation_release2, StringHelpers_jvmKt.appendCodePointX(stringBuilder, typedEvent-ZmokQxo.intValue()).toString(), selection-d9O1mEE2);
-                    TextFieldState.access$commitEditAsUser(field5, TransformedTextFieldState.access$getInputTransformation$p(intValue), fromSoftKeyboard-ZmokQxo ^= selection-d9O1mEE2, TextFieldEditUndoBehavior.MergeIfPossible);
+                    TextFieldState.access$commitEditAsUser(field2, TransformedTextFieldState.access$getInputTransformation$p(intValue), fromSoftKeyboard-ZmokQxo ^= selection-d9O1mEE2, TextFieldEditUndoBehavior.MergeIfPossible);
                     obj.preparedSelectionState.resetCachedX();
-                    i8 = selection-d9O1mEE2;
+                    i13 = selection-d9O1mEE2;
                 } else {
                 }
-                return i8;
+                return i13;
             }
         }
         command2 = obj.keyMapping.map-ZmokQxo(mainBuffer$foundation_release);
@@ -305,7 +305,7 @@ public abstract class TextFieldKeyEventHandler {
                     return 0;
                 } else {
                     int i21 = 0;
-                    consumed3 = 1;
+                    consumed = 1;
                     Object obj3 = this;
                     int i24 = 0;
                     preparedSelection$iv = new TextFieldPreparedSelection(textFieldState, textLayoutState.getLayoutResult(), TextFieldKeyEventHandler_androidKt.isFromSoftKeyboard-ZmokQxo(mainBuffer$foundation_release), obj3.getVisibleTextLayoutHeight(textLayoutState), obj3.preparedSelectionState);
@@ -313,279 +313,279 @@ public abstract class TextFieldKeyEventHandler {
                     int i23 = 0;
                     it = -1;
                     box-impl = 0;
-                    str = "";
-                    switch (i4) {
+                    str2 = "";
+                    switch (i9) {
                         case 1:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             textFieldSelectionState.copy(false);
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 2:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             textFieldSelectionState.paste();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 3:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             textFieldSelectionState.cut();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 4:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.collapseLeftOr((Function1)TextFieldKeyEventHandler.onKeyEvent.2.1.INSTANCE);
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 5:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.collapseRightOr((Function1)TextFieldKeyEventHandler.onKeyEvent.2.2.INSTANCE);
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 6:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorLeftByWord();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 7:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorRightByWord();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 8:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorPrevByParagraph();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 9:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorNextByParagraph();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 10:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorUpByLine();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 11:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorDownByLine();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 12:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorUpByPage();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 13:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorDownByPage();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 14:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorToLineStart();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 15:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorToLineEnd();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 16:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorToLineLeftSide();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 17:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorToLineRightSide();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 18:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorToHome();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 19:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             field13.moveCursorToEnd();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 20:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             TextFieldPreparedSelection field10 = field13;
                             mainBuffer$foundation_release = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field10), (CharSequence)str, field10.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field10), (CharSequence)str2, field10.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
                             command2 = 0;
                             it = 1;
                             it = 0;
                             selection-d9O1mEE2 = box-impl;
                             box-impl = TextRange.box-impl(TextRangeKt.TextRange((Number)selection-d9O1mEE2.intValue(), TextRange.getEnd-impl(field13.getSelection-d9O1mEE())));
                             command2 = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field10), (CharSequence)str, box-impl.unbox-impl(), obj26, false, it ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field10), (CharSequence)str2, box-impl.unbox-impl(), obj26, false, it ^ 1, 4);
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 21:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             TextFieldPreparedSelection field11 = field13;
                             mainBuffer$foundation_release = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field11), (CharSequence)str, field11.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field11), (CharSequence)str2, field11.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
                             command2 = 0;
                             it = 1;
                             it = 0;
                             selection-d9O1mEE2 = box-impl;
                             box-impl = TextRange.box-impl(TextRangeKt.TextRange(TextRange.getStart-impl(field13.getSelection-d9O1mEE()), (Number)selection-d9O1mEE2.intValue()));
                             command2 = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field11), (CharSequence)str, box-impl.unbox-impl(), obj26, false, it ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field11), (CharSequence)str2, box-impl.unbox-impl(), obj26, false, it ^ 1, 4);
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 22:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             TextFieldPreparedSelection field8 = field13;
                             mainBuffer$foundation_release = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field8), (CharSequence)str, field8.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field8), (CharSequence)str2, field8.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
                             int i18 = 0;
                             command2 = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field8), (CharSequence)str, TextRangeKt.TextRange(field13.getPreviousWordOffset(), TextRange.getEnd-impl(field13.getSelection-d9O1mEE())), obj26, false, it ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field8), (CharSequence)str2, TextRangeKt.TextRange(field13.getPreviousWordOffset(), TextRange.getEnd-impl(field13.getSelection-d9O1mEE())), obj26, false, it ^ 1, 4);
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 23:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             TextFieldPreparedSelection field6 = field13;
                             mainBuffer$foundation_release = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field6), (CharSequence)str, field6.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field6), (CharSequence)str2, field6.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
                             int i16 = 0;
                             command2 = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field6), (CharSequence)str, TextRangeKt.TextRange(TextRange.getStart-impl(field13.getSelection-d9O1mEE()), field13.getNextWordOffset()), obj26, false, it ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field6), (CharSequence)str2, TextRangeKt.TextRange(TextRange.getStart-impl(field13.getSelection-d9O1mEE()), field13.getNextWordOffset()), obj26, false, it ^ 1, 4);
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 24:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             TextFieldPreparedSelection field9 = field13;
                             mainBuffer$foundation_release = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field9), (CharSequence)str, field9.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field9), (CharSequence)str2, field9.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
                             int i19 = 0;
                             command2 = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field9), (CharSequence)str, TextRangeKt.TextRange(field13.getLineStartByOffset(), TextRange.getEnd-impl(field13.getSelection-d9O1mEE())), obj26, false, it ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field9), (CharSequence)str2, TextRangeKt.TextRange(field13.getLineStartByOffset(), TextRange.getEnd-impl(field13.getSelection-d9O1mEE())), obj26, false, it ^ 1, 4);
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 25:
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             TextFieldPreparedSelection field7 = field13;
                             mainBuffer$foundation_release = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field7), (CharSequence)str, field7.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field7), (CharSequence)str2, field7.getSelection-d9O1mEE(), obj26, false, command2 ^ 1, 4);
                             int i17 = 0;
                             command2 = 0;
-                            i10 = 1;
-                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field7), (CharSequence)str, TextRangeKt.TextRange(TextRange.getStart-impl(field13.getSelection-d9O1mEE()), field13.getLineEndByOffset()), obj26, false, it ^ 1, 4);
+                            i8 = 1;
+                            TransformedTextFieldState.replaceText-M8tDOmk$default(TextFieldPreparedSelection.access$getState$p(field7), (CharSequence)str2, TextRangeKt.TextRange(TextRange.getStart-impl(field13.getSelection-d9O1mEE()), field13.getLineEndByOffset()), obj26, false, it ^ 1, 4);
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 26:
                             command = command2;
                             command2 = TransformedTextFieldState.access$getTextFieldState$p(textFieldState);
-                            i4 = 0;
+                            i9 = 0;
                             command2.getMainBuffer$foundation_release().getChangeTracker().clearChanges();
                             ordinal = i15;
                             mainBuffer$foundation_release = command2.getMainBuffer$foundation_release();
                             box-impl = 0;
                             mainBuffer$foundation_release.commitComposition();
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             EditCommandKt.commitText(mainBuffer$foundation_release, "\n", 1);
                             TextFieldState.access$commitEditAsUser(command2, TransformedTextFieldState.access$getInputTransformation$p(textFieldState), true, TextFieldEditUndoBehavior.MergeIfPossible);
                             this_$iv = textFieldSelectionState;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             onSubmit.invoke();
                             this_$iv = textFieldSelectionState;
-                            consumed = consumed2;
+                            consumed3 = consumed2;
                             break;
                         case 27:
-                            i4 = 0;
+                            i9 = 0;
                             box-impl = field14;
                             ordinal = 0;
                             box-impl.getMainBuffer$foundation_release().getChangeTracker().clearChanges();
@@ -596,198 +596,198 @@ public abstract class TextFieldKeyEventHandler {
                             EditCommandKt.commitText(mainBuffer$foundation_release3, "\t", 1);
                             TextFieldState.access$commitEditAsUser(box-impl, TransformedTextFieldState.access$getInputTransformation$p(textFieldState), true, TextFieldEditUndoBehavior.MergeIfPossible);
                             this_$iv = textFieldSelectionState;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
                             command = command2;
-                            consumed = 0;
+                            consumed3 = 0;
                             this_$iv = textFieldSelectionState;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 28:
                             field13.selectAll();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 29:
                             field13.moveCursorLeft().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 30:
                             field13.moveCursorRight().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 31:
                             field13.moveCursorLeftByWord().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 32:
                             field13.moveCursorRightByWord().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 33:
                             field13.moveCursorPrevByParagraph().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 34:
                             field13.moveCursorNextByParagraph().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 35:
                             field13.moveCursorToLineStart().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 36:
                             field13.moveCursorToLineEnd().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 37:
                             field13.moveCursorToLineLeftSide().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 38:
                             field13.moveCursorToLineRightSide().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 39:
                             field13.moveCursorUpByLine().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 40:
                             field13.moveCursorDownByLine().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 41:
                             field13.moveCursorUpByPage().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 42:
                             field13.moveCursorDownByPage().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 43:
                             field13.moveCursorToHome().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 44:
                             field13.moveCursorToEnd().selectMovement();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 45:
                             field13.deselect();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 46:
                             textFieldState.undo();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 47:
                             textFieldState.redo();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         case 48:
                             KeyEventHelpers_androidKt.showCharacterPalette();
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                             break;
                         default:
                             this_$iv = textFieldSelectionState;
                             command = command2;
-                            consumed2 = consumed3;
-                            field2 = preparedSelection$iv;
-                            consumed = consumed2;
+                            consumed2 = consumed;
+                            field3 = preparedSelection$iv;
+                            consumed3 = consumed2;
                     }
-                    if (!TextRange.equals-impl0(field2.getSelection-d9O1mEE(), command2)) {
-                        textFieldState.selectCharsIn-5zc-tL8(field2.getSelection-d9O1mEE());
+                    if (!TextRange.equals-impl0(field3.getSelection-d9O1mEE(), command2)) {
+                        textFieldState.selectCharsIn-5zc-tL8(field3.getSelection-d9O1mEE());
                     } else {
-                        field3 = textFieldState;
+                        field4 = textFieldState;
                     }
                 }
             } else {
             }
-            return consumed;
+            return consumed3;
         }
         field = textFieldState;
         textLayoutState2 = textLayoutState;

@@ -22,42 +22,42 @@ public final class BoringLayoutFactory {
 
     public static BoringLayout create$default(androidx.compose.ui.text.android.BoringLayoutFactory boringLayoutFactory, java.lang.CharSequence charSequence2, TextPaint textPaint3, int i4, BoringLayout.Metrics boringLayout$Metrics5, Layout.Alignment layout$Alignment6, boolean z7, boolean z8, TextUtils.TruncateAt textUtils$TruncateAt9, int i10, int i11, Object object12) {
         Layout.Alignment aLIGN_NORMAL;
-        int i2;
-        int i3;
-        int i7;
-        Layout.Alignment alignment;
-        int i8;
         int i6;
+        int i7;
+        int i8;
+        Layout.Alignment alignment;
+        int i3;
         int i5;
+        int i2;
         int i;
         int i9 = i11;
         alignment = i9 & 16 != 0 ? aLIGN_NORMAL : alignment6;
-        i8 = i9 & 32 != 0 ? i2 : z7;
-        i6 = i9 & 64 != 0 ? i3 : z8;
-        i5 = i9 & 128 != 0 ? i7 : truncateAt9;
+        i3 = i9 & 32 != 0 ? i6 : z7;
+        i5 = i9 & 64 != 0 ? i7 : z8;
+        i2 = i9 & 128 != 0 ? i8 : truncateAt9;
         i = i9 &= 256 != 0 ? i4 : i10;
-        return boringLayoutFactory.create(charSequence2, textPaint3, i4, metrics5, alignment, i8, i6, i5, i);
+        return boringLayoutFactory.create(charSequence2, textPaint3, i4, metrics5, alignment, i3, i5, i2, i);
     }
 
     public final BoringLayout create(java.lang.CharSequence text, TextPaint paint, int width, BoringLayout.Metrics metrics, Layout.Alignment alignment, boolean includePadding, boolean useFallbackLineSpacing, TextUtils.TruncateAt ellipsize, int ellipsizedWidth) {
         int i4;
         BoringLayout create;
         java.lang.CharSequence i3;
-        int i6;
-        Object obj;
-        int i5;
-        Layout.Alignment alignment2;
         int i;
-        int i8;
+        Object obj;
+        int i2;
+        Layout.Alignment alignment2;
+        int i5;
+        int i6;
         BoringLayout.Metrics metrics2;
         boolean z;
-        TextUtils.TruncateAt truncateAt2;
-        int i7;
         TextUtils.TruncateAt truncateAt;
-        int i2;
+        int i7;
+        TextUtils.TruncateAt truncateAt2;
+        int i8;
         int i11 = 0;
-        i6 = width >= 0 ? i4 : i11;
-        if (i6 == 0) {
+        i = width >= 0 ? i4 : i11;
+        if (i == 0) {
         } else {
             if (ellipsizedWidth >= 0) {
             } else {
@@ -73,12 +73,12 @@ public final class BoringLayoutFactory {
                 return create;
             }
             int i10 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("negative ellipsized width".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireBoringLayoutFactory$create$2 = new IllegalArgumentException("negative ellipsized width".toString());
+            throw $i$a$RequireBoringLayoutFactory$create$2;
         }
         int i9 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("negative width".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireBoringLayoutFactory$create$1 = new IllegalArgumentException("negative width".toString());
+        throw $i$a$RequireBoringLayoutFactory$create$1;
     }
 
     public final boolean isFallbackLineSpacingEnabled(BoringLayout layout) {

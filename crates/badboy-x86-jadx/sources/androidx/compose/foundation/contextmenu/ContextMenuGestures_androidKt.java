@@ -26,39 +26,39 @@ public final class ContextMenuGestures_androidKt {
     }
 
     private static final Object awaitFirstRightClickDown(AwaitPointerEventScope awaitPointerEventScope, Continuation<? super PointerInputChange> continuation2) {
-        Object obj3;
+        Object obj;
         Object event;
         boolean $result;
         Object $continuation;
-        int i7;
+        int i4;
         androidx.compose.foundation.contextmenu.ContextMenuGestures_androidKt.awaitFirstRightClickDown.1 context2;
         Object $continuation2;
-        int i4;
+        int i5;
         Object $this$awaitFirstRightClickDown;
-        Object obj;
+        Object obj4;
         Object obj2;
         boolean $this$fastForEach$iv$iv;
-        int i2;
-        int i;
+        int i3;
+        int i7;
         int index$iv$iv;
         int size;
         int i6;
-        Object obj4;
+        Object obj3;
         Object obj5;
-        int i3;
+        int i;
         boolean it;
-        int i5;
+        int i2;
         androidx.compose.foundation.contextmenu.ContextMenuGestures_androidKt.awaitFirstRightClickDown.1 context;
-        obj3 = continuation2;
-        $result = obj3;
-        i4 = Integer.MIN_VALUE;
-        if (obj3 instanceof ContextMenuGestures_androidKt.awaitFirstRightClickDown.1 && label2 &= i4 != 0) {
-            $result = obj3;
-            i4 = Integer.MIN_VALUE;
-            if (label2 &= i4 != 0) {
-                $result.label = label -= i4;
+        obj = continuation2;
+        $result = obj;
+        i5 = Integer.MIN_VALUE;
+        if (obj instanceof ContextMenuGestures_androidKt.awaitFirstRightClickDown.1 && label2 &= i5 != 0) {
+            $result = obj;
+            i5 = Integer.MIN_VALUE;
+            if (label2 &= i5 != 0) {
+                $result.label = label -= i5;
             } else {
-                $result = new ContextMenuGestures_androidKt.awaitFirstRightClickDown.1(obj3);
+                $result = new ContextMenuGestures_androidKt.awaitFirstRightClickDown.1(obj);
             }
         } else {
         }
@@ -67,7 +67,7 @@ public final class ContextMenuGestures_androidKt {
         switch (label3) {
             case 0:
                 ResultKt.throwOnFailure(event);
-                obj = awaitPointerEventScope;
+                obj4 = awaitPointerEventScope;
                 break;
             case 1:
                 ResultKt.throwOnFailure(event);
@@ -76,12 +76,12 @@ public final class ContextMenuGestures_androidKt {
                 context2 = $result;
                 $continuation = event;
                 List changes2 = event.getChanges();
-                i2 = 0;
-                i = 0;
+                i3 = 0;
+                i7 = 0;
                 index$iv$iv = 0;
                 i6 = 0;
-                i3 = 0;
-                i5 = 0;
+                i = 0;
+                i2 = 0;
                 $this$fastForEach$iv$iv = i6;
                 index$iv$iv++;
                 $this$fastForEach$iv$iv = i9;
@@ -89,20 +89,20 @@ public final class ContextMenuGestures_androidKt {
                 event = $continuation;
                 $result = context2;
                 $continuation2 = $this$awaitFirstRightClickDown;
-                obj = obj2;
+                obj4 = obj2;
                 break;
             default:
                 IllegalStateException $result2 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw $result2;
         }
-        $result.L$0 = obj;
+        $result.L$0 = obj4;
         $result.label = i9;
         int i10 = 0;
-        Object awaitPointerEvent$default = AwaitPointerEventScope.awaitPointerEvent$default(obj, i10, $result, i9, i10);
+        Object awaitPointerEvent$default = AwaitPointerEventScope.awaitPointerEvent$default(obj4, i10, $result, i9, i10);
         if (awaitPointerEvent$default != $continuation2) {
             $continuation = event;
             event = awaitPointerEvent$default;
-            obj2 = obj;
+            obj2 = obj4;
             $this$awaitFirstRightClickDown = $continuation2;
             context2 = context;
         }

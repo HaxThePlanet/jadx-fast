@@ -23,27 +23,27 @@ public class MapEntry<K, V>  implements Map.Entry<K, V>, KMappedMarker {
 
     @Override // java.util.Map$Entry
     public boolean equals(Object other) {
-        int i3;
         int i2;
+        int i3;
         int i;
         boolean equal;
         Object value;
         if (other instanceof Map.Entry) {
-            i3 = other;
+            i2 = other;
         } else {
-            i3 = 0;
+            i2 = 0;
         }
-        i2 = 0;
+        i3 = 0;
         i = 0;
-        if (i3 != 0 && Intrinsics.areEqual(i3.getKey(), getKey()) && Intrinsics.areEqual(i3.getValue(), getValue())) {
+        if (i2 != 0 && Intrinsics.areEqual(i2.getKey(), getKey()) && Intrinsics.areEqual(i2.getValue(), getValue())) {
             i = 0;
-            if (Intrinsics.areEqual(i3.getKey(), getKey())) {
-                if (Intrinsics.areEqual(i3.getValue(), getValue())) {
-                    i2 = 1;
+            if (Intrinsics.areEqual(i2.getKey(), getKey())) {
+                if (Intrinsics.areEqual(i2.getValue(), getValue())) {
+                    i3 = 1;
                 }
             }
         }
-        return i2;
+        return i3;
     }
 
     public K getKey() {
@@ -56,19 +56,19 @@ public class MapEntry<K, V>  implements Map.Entry<K, V>, KMappedMarker {
 
     @Override // java.util.Map$Entry
     public int hashCode() {
-        int i;
         int i2;
+        int i;
         Object key = getKey();
         if (key != null) {
-            i = key.hashCode();
+            i2 = key.hashCode();
         } else {
-            i = i2;
+            i2 = i;
         }
         final Object value = getValue();
         if (value != null) {
-            i2 = value.hashCode();
+            i = value.hashCode();
         }
-        return i ^= i2;
+        return i2 ^= i;
     }
 
     public V setValue(V v) {

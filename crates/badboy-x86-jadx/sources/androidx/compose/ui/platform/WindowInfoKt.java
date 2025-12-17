@@ -18,24 +18,24 @@ public final class WindowInfoKt {
         int $dirty;
         int i;
         int rememberUpdatedState;
-        boolean traceInProgress2;
-        int traceInProgress;
+        boolean traceInProgress;
+        int traceInProgress2;
         Composer composer;
-        int i3;
-        Object rememberedValue;
         int i4;
+        Object rememberedValue;
+        int i2;
         Object empty;
         Object anon;
-        int i2;
+        int i3;
         this_$iv = 127829799;
         final Composer obj12 = $composer.startRestartGroup(this_$iv);
         ComposerKt.sourceInformation(obj12, "C(WindowFocusObserver)53@2007L7,54@2034L42,55@2108L90,55@2081L117:WindowInfo.kt#itgzvw");
-        traceInProgress = 2;
+        traceInProgress2 = 2;
         if ($changed & 6 == 0) {
-            i = obj12.changedInstance(onWindowFocusChanged) ? 4 : traceInProgress;
+            i = obj12.changedInstance(onWindowFocusChanged) ? 4 : traceInProgress2;
             $dirty |= i;
         }
-        if ($dirty & 3 == traceInProgress) {
+        if ($dirty & 3 == traceInProgress2) {
             if (!obj12.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(this_$iv, $dirty, -1, "androidx.compose.ui.platform.WindowFocusObserver (WindowInfo.kt:52)");
@@ -48,9 +48,9 @@ public final class WindowInfoKt {
                 rememberUpdatedState = SnapshotStateKt.rememberUpdatedState(onWindowFocusChanged, obj12, $dirty & 14);
                 ComposerKt.sourceInformationMarkerStart(obj12, -1536578506, "CC(remember):WindowInfo.kt#9igjgp");
                 composer = obj12;
-                i3 = 0;
-                rememberedValue = composer.rememberedValue();
                 i4 = 0;
+                rememberedValue = composer.rememberedValue();
+                i2 = 0;
                 if (changed |= changed2 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;

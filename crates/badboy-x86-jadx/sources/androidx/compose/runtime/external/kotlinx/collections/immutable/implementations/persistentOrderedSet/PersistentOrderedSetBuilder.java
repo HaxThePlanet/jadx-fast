@@ -62,18 +62,18 @@ public final class PersistentOrderedSetBuilder<E>  extends AbstractMutableSet<E>
 
     public PersistentSet<E> build() {
         androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedSet.PersistentOrderedSet persistentOrderedSet;
-        int i2;
+        int i;
         Object lastElement$runtime_release;
         int lastElement;
-        int i;
+        int i2;
         PersistentHashMap build = this.hashMapBuilder.build();
         if (build == this.set.getHashMap$runtime_release()) {
-            i = 0;
-            i2 = this.firstElement == this.set.getFirstElement$runtime_release() ? lastElement : i;
-            CommonFunctionsKt.assert(i2);
+            i2 = 0;
+            i = this.firstElement == this.set.getFirstElement$runtime_release() ? lastElement : i2;
+            CommonFunctionsKt.assert(i);
             if (this.lastElement == this.set.getLastElement$runtime_release()) {
             } else {
-                lastElement = i;
+                lastElement = i2;
             }
             CommonFunctionsKt.assert(lastElement);
             persistentOrderedSet = this.set;

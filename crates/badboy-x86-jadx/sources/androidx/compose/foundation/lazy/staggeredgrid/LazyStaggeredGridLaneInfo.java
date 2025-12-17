@@ -65,18 +65,18 @@ public final class LazyStaggeredGridLaneInfo {
     }
 
     private final void ensureCapacity(int capacity, int newOffset) {
-        int i;
+        int i3;
         int newSize;
         int[] lanes;
         int[] iArr;
         int newOffset2;
-        int i2;
-        int i3;
-        int i4;
+        int i;
         int i5;
+        int i4;
+        int i2;
         int[] obj10;
-        i = capacity <= 131072 ? 1 : 0;
-        if (i == 0) {
+        i3 = capacity <= 131072 ? 1 : 0;
+        if (i3 == 0) {
         } else {
             if (lanes2.length < capacity) {
                 newSize = lanes3.length;
@@ -123,7 +123,7 @@ public final class LazyStaggeredGridLaneInfo {
 
     public final void ensureValidIndex(int requestedIndex) {
         int length2;
-        int length4;
+        int length;
         int[] spannedItems;
         boolean spannedItems2;
         boolean empty;
@@ -131,7 +131,7 @@ public final class LazyStaggeredGridLaneInfo {
         int anchor;
         int delta;
         int length3;
-        int length;
+        int length4;
         int i = requestedIndex - anchor2;
         int i2 = 131072;
         upperBound = 1;
@@ -261,8 +261,8 @@ public final class LazyStaggeredGridLaneInfo {
             this.lanes[itemIndex - anchor] = lane + 1;
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Negative lanes are not supported".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireLazyStaggeredGridLaneInfo$setLane$1 = new IllegalArgumentException("Negative lanes are not supported".toString());
+        throw $i$a$RequireLazyStaggeredGridLaneInfo$setLane$1;
     }
 
     public final int upperBound() {

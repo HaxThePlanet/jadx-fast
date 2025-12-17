@@ -124,11 +124,11 @@ class NullableInputConnectionWrapperApi21 implements androidx.compose.ui.text.in
 
     @Override // androidx.compose.ui.text.input.NullableInputConnectionWrapper
     public final void disposeDelegate() {
-        int i2;
         int i;
+        int i2;
         final InputConnection delegate = this.delegate;
         if (delegate != null) {
-            i2 = 0;
+            i = 0;
             closeDelegate(delegate);
             this.delegate = 0;
         }

@@ -307,158 +307,158 @@ public final class DurationKt {
     }
 
     private static final long parseDuration(String value, boolean strictIso) {
-        String it2;
-        int i20;
+        String it;
+        int i4;
         int i$iv$iv2;
-        int index;
         int index2;
+        int index;
         String component;
         long unaryMinus-UwyO8pc;
         int infinityString2;
-        int length2;
-        int i22;
+        int length3;
+        int i20;
         int contains$default;
-        int $this$skipWhile$iv$iv;
-        int i18;
+        int $this$skipWhile$iv$iv2;
+        int i3;
         int prevUnit;
-        int i17;
-        Object length;
+        int i7;
+        Object length4;
         int unitName;
         int afterFirst;
-        int it;
-        int i11;
+        int it2;
+        int i8;
         int it3;
-        int i3;
-        int length4;
+        int i22;
+        int length5;
         boolean startsWith$default;
         int whole;
         int i$iv;
-        int i2;
-        String $this$skipWhile$iv$iv2;
-        int length5;
+        int i5;
+        String $this$skipWhile$iv$iv3;
+        int length2;
         long result;
         String charAt;
-        int i6;
+        int i19;
         int $i$f$substringWhile2;
         int allowSpaces;
-        int i10;
+        int i17;
         String isTimeComponent;
         int i$iv$iv;
-        int i8;
-        int i14;
-        int i7;
-        int i15;
+        int i;
+        int i10;
+        int i13;
+        int i16;
         int index3;
         Object nonDigitSymbols;
         int $i$f$substringWhile;
         String infinityString;
         String str;
-        int i21;
-        String $this$skipWhile$iv$iv3;
-        int i5;
-        int i4;
-        int length3;
-        int i13;
-        int i;
-        int i12;
-        int i16;
+        int i6;
+        String $this$skipWhile$iv$iv;
         int i9;
-        int i19;
-        it2 = value;
-        whole = it2.length();
+        int i11;
+        int length;
+        int i21;
+        int i14;
+        int i12;
+        int i18;
+        int i2;
+        int i15;
+        it = value;
+        whole = it.length();
         if (whole == 0) {
         } else {
             if (/* condition */) {
-                index++;
+                index2++;
             } else {
             }
             int i30 = 0;
-            i18 = index > 0 ? 1 : i30;
-            allowSpaces = i18;
-            if (allowSpaces != 0 && StringsKt.startsWith$default((CharSequence)it2, '-', i30, 2, 0)) {
-                i3 = StringsKt.startsWith$default((CharSequence)it2, '-', i30, i27, prevUnit) ? 1 : i30;
+            i3 = index2 > 0 ? 1 : i30;
+            allowSpaces = i3;
+            if (allowSpaces != 0 && StringsKt.startsWith$default((CharSequence)it, '-', i30, 2, 0)) {
+                i22 = StringsKt.startsWith$default((CharSequence)it, '-', i30, i27, prevUnit) ? 1 : i30;
             } else {
             }
             isTimeComponent = "No components";
-            if (whole <= index) {
+            if (whole <= index2) {
             } else {
                 final String str14 = "Unexpected order of duration components";
                 unitName = "substring(...)";
                 String str11 = "null cannot be cast to non-null type java.lang.String";
-                if (it2.charAt(index) == 80) {
-                    if (index++ == whole) {
+                if (it.charAt(index2) == 80) {
+                    if (index2++ == whole) {
                     } else {
-                        length4 = "+-.";
+                        length5 = "+-.";
                         isTimeComponent = 0;
                         i$iv$iv = 0;
-                        while (index < whole) {
-                            length = value;
-                            i6 = 0;
-                            nonDigitSymbols = length;
+                        while (index2 < whole) {
+                            length4 = value;
+                            i19 = 0;
+                            nonDigitSymbols = length4;
                             $i$f$substringWhile = 0;
-                            i$iv$iv2 = i21;
-                            i21 = component;
+                            i$iv$iv2 = i6;
+                            i6 = component;
                             while (i$iv$iv2 < nonDigitSymbols.length()) {
                                 Object obj2 = nonDigitSymbols;
-                                index3 = length4;
-                                length4 = obj2.charAt(i$iv$iv2);
-                                $this$skipWhile$iv$iv3 = 0;
-                                if (48 <= length4 && length4 < 58) {
+                                index3 = length5;
+                                length5 = obj2.charAt(i$iv$iv2);
+                                $this$skipWhile$iv$iv = 0;
+                                if (48 <= length5 && length5 < 58) {
                                 } else {
                                 }
                                 contains$default = 0;
                                 if (contains$default == 0) {
                                 } else {
                                 }
-                                length3 = whole;
-                                i8 = i6;
-                                i7 = allowSpaces;
-                                length5 = 0;
+                                length = whole;
+                                i = i19;
+                                i13 = allowSpaces;
+                                length2 = 0;
                                 $i$f$substringWhile2 = 2;
-                                length2 = 1;
-                                if (length2 != 0) {
+                                length3 = 1;
+                                if (length3 != 0) {
                                     break loop_22;
                                 }
                                 i$iv$iv2++;
-                                i6 = i8;
-                                allowSpaces = i7;
-                                length4 = index3;
-                                component = i21;
-                                nonDigitSymbols = i5;
-                                whole = length3;
-                                i21 = component;
-                                length3 = whole;
-                                i8 = i6;
-                                i7 = allowSpaces;
-                                if (StringsKt.contains$default((CharSequence)index3, length4, false, 2, 0)) {
+                                i19 = i;
+                                allowSpaces = i13;
+                                length5 = index3;
+                                component = i6;
+                                nonDigitSymbols = i9;
+                                whole = length;
+                                i6 = component;
+                                length = whole;
+                                i = i19;
+                                i13 = allowSpaces;
+                                if (StringsKt.contains$default((CharSequence)index3, length5, false, 2, 0)) {
                                 } else {
                                 }
-                                length2 = 0;
-                                if (length4 < 58) {
+                                length3 = 0;
+                                if (length5 < 58) {
                                 } else {
                                 }
                                 contains$default = 1;
                             }
-                            length3 = whole;
-                            i8 = i6;
-                            i7 = allowSpaces;
-                            i5 = nonDigitSymbols;
-                            length5 = 0;
+                            length = whole;
+                            i = i19;
+                            i13 = allowSpaces;
+                            i9 = nonDigitSymbols;
+                            length2 = 0;
                             $i$f$substringWhile2 = 2;
-                            index3 = length4;
-                            Intrinsics.checkNotNull(length, str11);
-                            String substring = length.substring(index, i$iv$iv2);
+                            index3 = length5;
+                            Intrinsics.checkNotNull(length4, str11);
+                            String substring = length4.substring(index2, i$iv$iv2);
                             Intrinsics.checkNotNullExpressionValue(substring, unitName);
                             if ((CharSequence)substring.length() == 0) {
                             } else {
                             }
-                            i22 = 0;
-                            index += length11;
+                            i20 = 0;
+                            index2 += length11;
                             String str7 = value;
                             if (index5 >= 0 && index5 < (CharSequence)str7.length()) {
                             } else {
                             }
-                            i17 = 0;
+                            i7 = 0;
                             index5++;
                             prevUnit = DurationUnitKt.durationUnitByIsoChar(str7.charAt(index5), isTimeComponent);
                             i$iv$iv = prevUnit;
@@ -468,11 +468,11 @@ public final class DurationKt {
                             } else {
                             }
                             result = Duration.plus-LRDsOJo(result, obj8);
-                            it2 = value;
-                            allowSpaces = i7;
-                            length4 = index3;
-                            component = i21;
-                            whole = length3;
+                            it = value;
+                            allowSpaces = i13;
+                            length5 = index3;
+                            component = i6;
+                            whole = length;
                             if (indexOf$default > 0) {
                             } else {
                             }
@@ -484,60 +484,60 @@ public final class DurationKt {
                             String substring5 = substring.substring(indexOf$default);
                             Intrinsics.checkNotNullExpressionValue(substring5, unitName);
                             result = Duration.plus-LRDsOJo(Duration.plus-LRDsOJo(result, obj8), obj8);
-                            it2 = value;
-                            allowSpaces = i7;
-                            length4 = index3;
-                            component = i21;
-                            whole = length3;
+                            it = value;
+                            allowSpaces = i13;
+                            length5 = index3;
+                            component = i6;
+                            whole = length;
                             if (index5 < str7.length()) {
                             } else {
                             }
-                            i17 = 1;
-                            i22 = 1;
+                            i7 = 1;
+                            i20 = 1;
                             obj2 = nonDigitSymbols;
-                            index3 = length4;
-                            length4 = obj2.charAt(i$iv$iv2);
-                            $this$skipWhile$iv$iv3 = 0;
-                            if (48 <= length4 && length4 < 58) {
+                            index3 = length5;
+                            length5 = obj2.charAt(i$iv$iv2);
+                            $this$skipWhile$iv$iv = 0;
+                            if (48 <= length5 && length5 < 58) {
                             } else {
                             }
                             contains$default = 0;
                             if (contains$default == 0) {
                             } else {
                             }
-                            length3 = whole;
-                            i8 = i6;
-                            i7 = allowSpaces;
-                            length5 = 0;
+                            length = whole;
+                            i = i19;
+                            i13 = allowSpaces;
+                            length2 = 0;
                             $i$f$substringWhile2 = 2;
-                            length2 = 1;
-                            if (length2 != 0) {
+                            length3 = 1;
+                            if (length3 != 0) {
                             }
                             i$iv$iv2++;
-                            i6 = i8;
-                            allowSpaces = i7;
-                            length4 = index3;
-                            component = i21;
-                            nonDigitSymbols = i5;
-                            whole = length3;
-                            length3 = whole;
-                            i8 = i6;
-                            i7 = allowSpaces;
-                            if (StringsKt.contains$default((CharSequence)index3, length4, false, 2, 0)) {
+                            i19 = i;
+                            allowSpaces = i13;
+                            length5 = index3;
+                            component = i6;
+                            nonDigitSymbols = i9;
+                            whole = length;
+                            length = whole;
+                            i = i19;
+                            i13 = allowSpaces;
+                            if (StringsKt.contains$default((CharSequence)index3, length5, false, 2, 0)) {
                             } else {
                             }
-                            length2 = 0;
-                            if (length4 < 58) {
+                            length3 = 0;
+                            if (length5 < 58) {
                             } else {
                             }
                             contains$default = 1;
                             isTimeComponent = 1;
                         }
                         infinityString = component;
-                        index3 = length4;
-                        i4 = whole;
-                        i14 = allowSpaces;
-                        if (i3 != 0) {
+                        index3 = length5;
+                        i11 = whole;
+                        i10 = allowSpaces;
+                        if (i22 != 0) {
                             unaryMinus-UwyO8pc = Duration.unaryMinus-UwyO8pc(result);
                         } else {
                             unaryMinus-UwyO8pc = result;
@@ -548,85 +548,85 @@ public final class DurationKt {
                     throw illegalArgumentException4;
                 }
                 str = component;
-                i4 = whole;
-                i14 = allowSpaces;
+                i11 = whole;
+                i10 = allowSpaces;
                 if (strictIso) {
                 } else {
                     charAt = unitName;
                     component = str;
                     i$iv = 48;
-                    it2 = value;
-                    if (StringsKt.regionMatches(it2, index, component, 0, Math.max(i4 - index, str.length()), true)) {
+                    it = value;
+                    if (StringsKt.regionMatches(it, index2, component, 0, Math.max(i11 - index2, str.length()), true)) {
                         result = Duration.Companion.getINFINITE-UwyO8pc();
                         infinityString = component;
-                        whole = i4;
+                        whole = i11;
                     } else {
                         prevUnit = 0;
                         unitName = 0;
-                        allowSpaces = i14 == 0 ? 1 : 0;
-                        if (i14 != 0 && it2.charAt(index) == 40 && StringsKt.last((CharSequence)it2) == 41) {
-                            if (it2.charAt(index) == 40) {
-                                if (StringsKt.last((CharSequence)it2) == 41) {
+                        allowSpaces = i10 == 0 ? 1 : 0;
+                        if (i10 != 0 && it.charAt(index2) == 40 && StringsKt.last((CharSequence)it) == 41) {
+                            if (it.charAt(index2) == 40) {
+                                if (StringsKt.last((CharSequence)it) == 41) {
                                     allowSpaces = 1;
-                                    if (index++ == i4 + -1) {
+                                    if (index2++ == i11 + -1) {
                                     } else {
-                                        while (index < length4) {
+                                        while (index2 < length5) {
                                             if (unitName != 0 && allowSpaces != 0) {
                                             } else {
                                             }
-                                            index2 = index3;
+                                            index = index3;
                                             afterFirst = 1;
                                             String str2 = value;
-                                            i2 = 0;
+                                            i5 = 0;
                                             String str13 = str2;
                                             int i35 = 0;
                                             str = component;
-                                            infinityString2 = i8;
-                                            i8 = afterFirst;
+                                            infinityString2 = i;
+                                            i = afterFirst;
                                             while (infinityString2 < str13.length()) {
                                                 char charAt6 = str13.charAt(infinityString2);
                                                 index3 = 0;
                                                 if (48 <= charAt6) {
                                                 } else {
                                                 }
-                                                i2 = 58;
-                                                i15 = 0;
-                                                if (i15 == 0) {
+                                                i5 = 58;
+                                                i16 = 0;
+                                                if (i16 == 0) {
                                                 } else {
                                                 }
-                                                it = 1;
-                                                if (it != 0) {
+                                                it2 = 1;
+                                                if (it2 != 0) {
                                                     break loop_84;
                                                 }
                                                 infinityString2++;
-                                                afterFirst = i8;
-                                                i2 = $i$f$substringWhile;
-                                                i8 = afterFirst;
+                                                afterFirst = i;
+                                                i5 = $i$f$substringWhile;
+                                                i = afterFirst;
                                                 if (charAt6 == 46) {
                                                 } else {
                                                 }
-                                                it = 0;
+                                                it2 = 0;
                                                 if (charAt6 < 58) {
                                                 } else {
                                                 }
-                                                i15 = 1;
+                                                i16 = 1;
                                             }
-                                            $i$f$substringWhile = i2;
+                                            $i$f$substringWhile = i5;
                                             Intrinsics.checkNotNull(str2, str11);
-                                            String substring2 = str2.substring(index2, infinityString2);
+                                            String substring2 = str2.substring(index, infinityString2);
                                             Intrinsics.checkNotNullExpressionValue(substring2, charAt);
                                             if ((CharSequence)substring2.length() == 0) {
                                             } else {
                                             }
-                                            i20 = 0;
-                                            index2 += length8;
+                                            i4 = 0;
+                                            index += length8;
                                             String str4 = value;
-                                            i11 = 0;
-                                            $this$skipWhile$iv$iv2 = str4;
+                                            i8 = 0;
+                                            $this$skipWhile$iv$iv3 = str4;
                                             int i33 = 0;
                                             i$iv$iv = index4;
-                                            while (i$iv$iv < $this$skipWhile$iv$iv2.length()) {
-                                                char charAt5 = $this$skipWhile$iv$iv2.charAt(i$iv$iv);
+                                            while (i$iv$iv < $this$skipWhile$iv$iv3.length()) {
+                                                char charAt5 = $this$skipWhile$iv$iv3.charAt(i$iv$iv);
                                                 $i$f$substringWhile = 0;
                                                 if (97 <= charAt5 && charAt5 < 123) {
                                                 } else {
@@ -636,14 +636,14 @@ public final class DurationKt {
                                                     break loop_103;
                                                 }
                                                 i$iv$iv++;
-                                                i11 = index3;
-                                                $this$skipWhile$iv$iv2 = $this$skipWhile$iv$iv3;
+                                                i8 = index3;
+                                                $this$skipWhile$iv$iv3 = $this$skipWhile$iv$iv;
                                                 if (charAt5 < 123) {
                                                 } else {
                                                 }
                                                 it3 = 1;
                                             }
-                                            $this$skipWhile$iv$iv3 = $this$skipWhile$iv$iv2;
+                                            $this$skipWhile$iv$iv = $this$skipWhile$iv$iv3;
                                             Intrinsics.checkNotNull(str4, str11);
                                             String substring3 = str4.substring(index4, i$iv$iv);
                                             Intrinsics.checkNotNullExpressionValue(substring3, charAt);
@@ -652,8 +652,8 @@ public final class DurationKt {
                                             int indexOf$default2 = StringsKt.indexOf$default((CharSequence)substring2, '.', 0, false, 6, 0);
                                             result = Duration.plus-LRDsOJo(result, obj8);
                                             i$iv = 48;
-                                            it2 = value;
-                                            unitName = i8;
+                                            it = value;
+                                            unitName = i;
                                             component = str;
                                             Intrinsics.checkNotNull(substring2, str11);
                                             i$iv$iv = substring2.substring(0, indexOf$default2);
@@ -663,10 +663,10 @@ public final class DurationKt {
                                             Intrinsics.checkNotNullExpressionValue(substring6, charAt);
                                             result = Duration.plus-LRDsOJo(Duration.plus-LRDsOJo(result, obj8), obj8);
                                             i$iv = 48;
-                                            it2 = value;
-                                            unitName = i8;
+                                            it = value;
+                                            unitName = i;
                                             component = str;
-                                            charAt5 = $this$skipWhile$iv$iv2.charAt(i$iv$iv);
+                                            charAt5 = $this$skipWhile$iv$iv3.charAt(i$iv$iv);
                                             $i$f$substringWhile = 0;
                                             if (97 <= charAt5 && charAt5 < 123) {
                                             } else {
@@ -675,81 +675,81 @@ public final class DurationKt {
                                             if (it3 != 0) {
                                             }
                                             i$iv$iv++;
-                                            i11 = index3;
-                                            $this$skipWhile$iv$iv2 = $this$skipWhile$iv$iv3;
+                                            i8 = index3;
+                                            $this$skipWhile$iv$iv3 = $this$skipWhile$iv$iv;
                                             if (charAt5 < 123) {
                                             } else {
                                             }
                                             it3 = 1;
-                                            i20 = 1;
+                                            i4 = 1;
                                             charAt6 = str13.charAt(infinityString2);
                                             index3 = 0;
                                             if (48 <= charAt6) {
                                             } else {
                                             }
-                                            i2 = 58;
-                                            i15 = 0;
-                                            if (i15 == 0) {
+                                            i5 = 58;
+                                            i16 = 0;
+                                            if (i16 == 0) {
                                             } else {
                                             }
-                                            it = 1;
-                                            if (it != 0) {
+                                            it2 = 1;
+                                            if (it2 != 0) {
                                             }
                                             infinityString2++;
-                                            afterFirst = i8;
-                                            i2 = $i$f$substringWhile;
+                                            afterFirst = i;
+                                            i5 = $i$f$substringWhile;
                                             if (charAt6 == 46) {
                                             } else {
                                             }
-                                            it = 0;
+                                            it2 = 0;
                                             if (charAt6 < 58) {
                                             } else {
                                             }
-                                            i15 = 1;
+                                            i16 = 1;
                                             if (allowSpaces != 0) {
                                             } else {
                                             }
                                             isTimeComponent = value;
                                             i$iv$iv = 0;
-                                            i$iv = i8;
+                                            i$iv = i;
                                             while (i$iv < isTimeComponent.length()) {
-                                                i8 = 0;
+                                                i = 0;
                                                 if (isTimeComponent.charAt(i$iv) == 32) {
                                                 } else {
                                                 }
-                                                it2 = 0;
-                                                if (it2 != 0) {
+                                                it = 0;
+                                                if (it != 0) {
                                                     break loop_74;
                                                 }
                                                 i$iv++;
-                                                it2 = value;
-                                                index = index3;
-                                                it2 = 1;
+                                                it = value;
+                                                index2 = index3;
+                                                it = 1;
                                             }
-                                            index3 = index;
-                                            index2 = i$iv;
-                                            i8 = 0;
+                                            index3 = index2;
+                                            index = i$iv;
+                                            i = 0;
                                             if (isTimeComponent.charAt(i$iv) == 32) {
                                             } else {
                                             }
-                                            it2 = 0;
-                                            if (it2 != 0) {
+                                            it = 0;
+                                            if (it != 0) {
                                             }
                                             i$iv++;
-                                            it2 = value;
-                                            index = index3;
-                                            it2 = 1;
+                                            it = value;
+                                            index2 = index3;
+                                            it = 1;
                                         }
-                                        index3 = index;
+                                        index3 = index2;
                                         infinityString = component;
-                                        whole = length4;
+                                        whole = length5;
                                     }
                                     IllegalArgumentException illegalArgumentException10 = new IllegalArgumentException(isTimeComponent);
                                     throw illegalArgumentException10;
                                 }
                             }
                         }
-                        length4 = i4;
+                        length5 = i11;
                     }
                 }
                 IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException();
@@ -768,13 +768,13 @@ public final class DurationKt {
         long long;
         boolean contains$default;
         int $this$all$iv;
-        char charAt2;
+        char charAt;
         int i;
         boolean iterator;
         int nextInt;
         int it;
         int i2;
-        char charAt;
+        char charAt2;
         int i3;
         final int length = value.length();
         int i4 = 0;
@@ -796,12 +796,12 @@ public final class DurationKt {
                     iterator = intRange.iterator();
                     while (iterator.hasNext()) {
                         i2 = 0;
-                        charAt = value.charAt((IntIterator)iterator.nextInt());
-                        if (48 <= charAt && charAt < 58) {
+                        charAt2 = value.charAt((IntIterator)iterator.nextInt());
+                        if (48 <= charAt2 && charAt2 < 58) {
                         } else {
                         }
                         it = i7;
-                        if (charAt < 58) {
+                        if (charAt2 < 58) {
                         } else {
                         }
                         it = i8;
@@ -886,8 +886,8 @@ public final class DurationKt {
             return millis;
         }
         int nanos = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Duration value cannot be NaN.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireDurationKt$toDuration$1 = new IllegalArgumentException("Duration value cannot be NaN.".toString());
+        throw $i$a$RequireDurationKt$toDuration$1;
     }
 
     public static final long toDuration(int $this$toDuration, kotlin.time.DurationUnit unit) {

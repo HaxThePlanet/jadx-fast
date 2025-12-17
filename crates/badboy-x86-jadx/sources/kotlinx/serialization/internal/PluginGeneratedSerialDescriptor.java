@@ -152,10 +152,10 @@ public class PluginGeneratedSerialDescriptor implements SerialDescriptor, kotlin
         KSerializer[] objArr;
         int i;
         int length;
-        int i3;
+        int i4;
         KSerializer kSerializer;
         SerialDescriptor it;
-        int i4;
+        int i3;
         typeParametersSerializers = this$0.generatedSerializer;
         typeParametersSerializers = typeParametersSerializers.typeParametersSerializers();
         if (typeParametersSerializers != null && typeParametersSerializers != null) {
@@ -165,11 +165,11 @@ public class PluginGeneratedSerialDescriptor implements SerialDescriptor, kotlin
                 arrayList = new ArrayList(typeParametersSerializers.length);
                 objArr = typeParametersSerializers;
                 i = 0;
-                i3 = 0;
-                while (i3 < objArr.length) {
-                    i4 = 0;
-                    (Collection)arrayList.add(objArr[i3].getDescriptor());
-                    i3++;
+                i4 = 0;
+                while (i4 < objArr.length) {
+                    i3 = 0;
+                    (Collection)arrayList.add(objArr[i4].getDescriptor());
+                    i4++;
                 }
             } else {
                 arrayList = 0;

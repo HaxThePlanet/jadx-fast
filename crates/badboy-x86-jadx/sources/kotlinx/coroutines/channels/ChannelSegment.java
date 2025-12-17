@@ -61,31 +61,31 @@ public final class ChannelSegment<E>  extends Segment<kotlinx.coroutines.channel
 
     @Override // kotlinx.coroutines.internal.Segment
     public void onCancellation(int index, Throwable cause, CoroutineContext context) {
-        int i;
+        int i2;
         int onUndeliveredElement;
         kotlinx.coroutines.internal.Symbol bUFFERED;
-        int i2;
+        int i;
         Object state$kotlinx_coroutines_core;
-        kotlinx.coroutines.internal.Symbol symbol2;
-        boolean z;
         kotlinx.coroutines.internal.Symbol symbol;
+        boolean z;
+        kotlinx.coroutines.internal.Symbol symbol2;
         boolean casState$kotlinx_coroutines_core;
         int i3 = 0;
-        i = index >= BufferedChannelKt.SEGMENT_SIZE ? onUndeliveredElement : i3;
-        i2 = i != 0 ? index - sEGMENT_SIZE2 : index;
-        final Object element$kotlinx_coroutines_core = getElement$kotlinx_coroutines_core(i2);
-        state$kotlinx_coroutines_core = getState$kotlinx_coroutines_core(i2);
+        i2 = index >= BufferedChannelKt.SEGMENT_SIZE ? onUndeliveredElement : i3;
+        i = i2 != 0 ? index - sEGMENT_SIZE2 : index;
+        final Object element$kotlinx_coroutines_core = getElement$kotlinx_coroutines_core(i);
+        state$kotlinx_coroutines_core = getState$kotlinx_coroutines_core(i);
         while (!state$kotlinx_coroutines_core instanceof Waiter) {
-            state$kotlinx_coroutines_core = getState$kotlinx_coroutines_core(i2);
-            if (i != 0) {
+            state$kotlinx_coroutines_core = getState$kotlinx_coroutines_core(i);
+            if (i2 != 0) {
             } else {
             }
-            symbol2 = BufferedChannelKt.access$getINTERRUPTED_RCV$p();
-            symbol2 = BufferedChannelKt.access$getINTERRUPTED_SEND$p();
+            symbol = BufferedChannelKt.access$getINTERRUPTED_RCV$p();
+            symbol = BufferedChannelKt.access$getINTERRUPTED_SEND$p();
         }
-        cleanElement$kotlinx_coroutines_core(i2);
+        cleanElement$kotlinx_coroutines_core(i);
         onUndeliveredElement = channel2.onUndeliveredElement;
-        if (i != 0 && onUndeliveredElement != null) {
+        if (i2 != 0 && onUndeliveredElement != null) {
             onUndeliveredElement = channel2.onUndeliveredElement;
             if (onUndeliveredElement != null) {
                 OnUndeliveredElementKt.callUndeliveredElement(onUndeliveredElement, element$kotlinx_coroutines_core, context);

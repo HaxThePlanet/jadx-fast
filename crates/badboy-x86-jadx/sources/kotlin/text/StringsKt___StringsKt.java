@@ -147,8 +147,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     public static final <K, V> Map<K, V> associateBy(java.lang.CharSequence $this$associateBy, Function1<? super Character, ? extends K> keySelector, Function1<? super Character, ? extends V> valueTransform) {
         int i;
         char charAt;
-        Object invoke2;
         Object invoke;
+        Object invoke2;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -487,12 +487,12 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final java.lang.CharSequence filterIndexed(java.lang.CharSequence $this$filterIndexed, Function2<? super Integer, ? super Character, Boolean> predicate) {
-        int i3;
+        int i2;
         int i;
         char charAt;
-        int i2;
-        char c;
         int i4;
+        char c;
+        int i3;
         boolean booleanValue;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
@@ -502,27 +502,27 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         final int i6 = 0;
         final Object obj2 = obj;
         final int i7 = 0;
-        i3 = 0;
+        i2 = 0;
         i = 0;
         while (i < obj2.length()) {
             c = charAt;
-            i4 = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i3), Character.valueOf(c)).booleanValue()) {
+            i3 = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i2), Character.valueOf(c)).booleanValue()) {
             }
             i++;
-            i3 = i2;
+            i2 = i4;
             (Appendable)stringBuilder.append(c);
         }
         return (CharSequence)stringBuilder;
     }
 
     public static final String filterIndexed(String $this$filterIndexed, Function2<? super Integer, ? super Character, Boolean> predicate) {
-        int i3;
-        int i2;
-        char charAt;
-        int i4;
-        char c;
         int i;
+        int i4;
+        char charAt;
+        int i2;
+        char c;
+        int i3;
         boolean booleanValue;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
@@ -532,15 +532,15 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         final int i6 = 0;
         final Object obj2 = obj;
         final int i7 = 0;
-        i3 = 0;
-        i2 = 0;
-        while (i2 < obj2.length()) {
+        i = 0;
+        i4 = 0;
+        while (i4 < obj2.length()) {
             c = charAt;
-            i = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i3), Character.valueOf(c)).booleanValue()) {
+            i3 = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i), Character.valueOf(c)).booleanValue()) {
             }
-            i2++;
-            i3 = i4;
+            i4++;
+            i = i2;
             (Appendable)stringBuilder.append(c);
         }
         String string = (StringBuilder)stringBuilder.toString();
@@ -549,12 +549,12 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <C extends java.lang.Appendable> C filterIndexedTo(java.lang.CharSequence $this$filterIndexedTo, C destination, Function2<? super Integer, ? super Character, Boolean> predicate) {
-        int i3;
-        int i;
-        char charAt;
-        int i4;
-        char c;
         int i2;
+        int i4;
+        char charAt;
+        int i3;
+        char c;
+        int i;
         boolean booleanValue;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
@@ -563,15 +563,15 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         int i5 = 0;
         final Object obj = $this$filterIndexedTo;
         final int i6 = 0;
-        i3 = 0;
-        i = 0;
-        while (i < obj.length()) {
+        i2 = 0;
+        i4 = 0;
+        while (i4 < obj.length()) {
             c = charAt;
-            i2 = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i3), Character.valueOf(c)).booleanValue()) {
+            i = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i2), Character.valueOf(c)).booleanValue()) {
             }
-            i++;
-            i3 = i4;
+            i4++;
+            i2 = i3;
             destination.append(c);
         }
         return destination;
@@ -678,9 +678,9 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final Character findLast(java.lang.CharSequence $this$findLast, Function1<? super Character, Boolean> predicate) {
-        int i2;
-        Character valueOf;
         int i;
+        Character valueOf;
+        int i2;
         char charAt;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$findLast, "<this>");
@@ -806,37 +806,37 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final <R> List<R> flatMapIndexedIterable(java.lang.CharSequence $this$flatMapIndexed, Function2<? super Integer, ? super Character, ? extends Iterable<? extends R>> transform) {
-        int i2;
         int i3;
-        Character valueOf;
         int i;
+        Character valueOf;
+        int i2;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
-        i3 = i2;
-        while (i2 < $this$flatMapIndexed.length()) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Character.valueOf($this$flatMapIndexed.charAt(i2))));
-            i2++;
-            i3 = i;
+        i = i3;
+        while (i3 < $this$flatMapIndexed.length()) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i), Character.valueOf($this$flatMapIndexed.charAt(i3))));
+            i3++;
+            i = i2;
         }
         return (List)arrayList;
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(java.lang.CharSequence $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Character, ? extends Iterable<? extends R>> transform) {
-        int i2;
-        int i3;
-        char charAt;
         int i;
+        int i2;
+        char charAt;
+        int i3;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
+        i = 0;
         i2 = 0;
-        i3 = 0;
-        while (i3 < $this$flatMapIndexedTo.length()) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i2), Character.valueOf($this$flatMapIndexedTo.charAt(i3))));
-            i3++;
-            i2 = i;
+        while (i2 < $this$flatMapIndexedTo.length()) {
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), Character.valueOf($this$flatMapIndexedTo.charAt(i2))));
+            i2++;
+            i = i3;
         }
         return destination;
     }
@@ -877,20 +877,20 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     public static final <R> R foldIndexed(java.lang.CharSequence $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Character, ? extends R> operation) {
         int i2;
         Object accumulator;
-        int i3;
-        char charAt;
         int i;
+        char charAt;
+        int i3;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i4 = 0;
         i2 = 0;
         accumulator = initial;
-        i3 = 0;
-        while (i3 < $this$foldIndexed.length()) {
-            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, Character.valueOf($this$foldIndexed.charAt(i3)));
-            i3++;
-            i2 = i;
+        i = 0;
+        while (i < $this$foldIndexed.length()) {
+            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, Character.valueOf($this$foldIndexed.charAt(i)));
+            i++;
+            i2 = i3;
         }
         return accumulator;
     }
@@ -914,8 +914,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     public static final <R> R foldRightIndexed(java.lang.CharSequence $this$foldRightIndexed, R initial, Function3<? super Integer, ? super Character, ? super R, ? extends R> operation) {
         int index;
         Object accumulator;
-        Integer valueOf;
-        Character valueOf2;
+        Integer valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$foldRightIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -943,20 +943,20 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final void forEachIndexed(java.lang.CharSequence $this$forEachIndexed, Function2<? super Integer, ? super Character, Unit> action) {
-        int i3;
         int i;
-        char charAt;
         int i2;
+        char charAt;
+        int i3;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i4 = 0;
-        i3 = 0;
         i = 0;
-        while (i < $this$forEachIndexed.length()) {
-            action.invoke(Integer.valueOf(i3), Character.valueOf($this$forEachIndexed.charAt(i)));
-            i++;
-            i3 = i2;
+        i2 = 0;
+        while (i2 < $this$forEachIndexed.length()) {
+            action.invoke(Integer.valueOf(i), Character.valueOf($this$forEachIndexed.charAt(i2)));
+            i2++;
+            i = i3;
         }
     }
 
@@ -1037,9 +1037,9 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     public static final <K, V> Map<K, List<V>> groupBy(java.lang.CharSequence $this$groupBy, Function1<? super Character, ? extends K> keySelector, Function1<? super Character, ? extends V> valueTransform) {
         int i2;
         char charAt;
-        Object invoke;
-        ArrayList $this$getOrPut$iv$iv;
         Object invoke2;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke;
         Object obj;
         int i;
         ArrayList arrayList;
@@ -1053,10 +1053,10 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         i2 = 0;
         while (i2 < obj2.length()) {
             charAt = obj2.charAt(i2);
-            invoke = keySelector.invoke(Character.valueOf(charAt));
+            invoke2 = keySelector.invoke(Character.valueOf(charAt));
             LinkedHashMap map = linkedHashMap;
             int i5 = 0;
-            obj = map.get(invoke);
+            obj = map.get(invoke2);
             if (obj == null) {
             } else {
             }
@@ -1065,7 +1065,7 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
             i2++;
             i = 0;
             arrayList = new ArrayList();
-            map.put(invoke, (List)arrayList);
+            map.put(invoke2, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
@@ -1104,22 +1104,22 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(java.lang.CharSequence $this$groupByTo, M destination, Function1<? super Character, ? extends K> keySelector, Function1<? super Character, ? extends V> valueTransform) {
-        int i2;
+        int i;
         char charAt;
         Object invoke2;
         ArrayList $this$getOrPut$iv;
         Object invoke;
         Object obj;
-        int i;
+        int i2;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$groupByTo.length()) {
-            charAt = $this$groupByTo.charAt(i2);
+        i = 0;
+        while (i < $this$groupByTo.length()) {
+            charAt = $this$groupByTo.charAt(i);
             invoke2 = keySelector.invoke(Character.valueOf(charAt));
             Object obj2 = destination;
             int i4 = 0;
@@ -1129,8 +1129,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Character.valueOf(charAt)));
-            i2++;
-            i = 0;
+            i++;
+            i2 = 0;
             arrayList = new ArrayList();
             obj2.put(invoke2, (List)arrayList);
         }
@@ -1159,8 +1159,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final int indexOfLast(java.lang.CharSequence $this$indexOfLast, Function1<? super Character, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$indexOfLast, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -1265,12 +1265,12 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <R> List<R> mapIndexedNotNull(java.lang.CharSequence $this$mapIndexedNotNull, Function2<? super Integer, ? super Character, ? extends R> transform) {
-        int i2;
-        int i3;
-        char charAt;
         int i4;
-        char c;
+        int i2;
+        char charAt;
         int i;
+        char c;
+        int i3;
         Object invoke;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexedNotNull, "<this>");
@@ -1280,15 +1280,15 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         final int i6 = 0;
         final Object obj2 = obj;
         final int i7 = 0;
+        i4 = 0;
         i2 = 0;
-        i3 = 0;
-        while (i3 < obj2.length()) {
-            i = 0;
-            invoke = transform.invoke(Integer.valueOf(i2), Character.valueOf(obj2.charAt(i3)));
+        while (i2 < obj2.length()) {
+            i3 = 0;
+            invoke = transform.invoke(Integer.valueOf(i4), Character.valueOf(obj2.charAt(i2)));
             if (invoke != null) {
             }
-            i3++;
-            i2 = i4;
+            i2++;
+            i4 = i;
             valueOf = 0;
             (Collection)arrayList.add(invoke);
         }
@@ -1297,11 +1297,11 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
 
     public static final <R, C extends Collection<? super R>> C mapIndexedNotNullTo(java.lang.CharSequence $this$mapIndexedNotNullTo, C destination, Function2<? super Integer, ? super Character, ? extends R> transform) {
         int i4;
-        int i3;
-        char charAt;
         int i;
-        char c;
+        char charAt;
         int i2;
+        char c;
+        int i3;
         Object invoke;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexedNotNullTo, "<this>");
@@ -1311,14 +1311,14 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         final Object obj = $this$mapIndexedNotNullTo;
         final int i6 = 0;
         i4 = 0;
-        i3 = 0;
-        while (i3 < obj.length()) {
-            i2 = 0;
-            invoke = transform.invoke(Integer.valueOf(i4), Character.valueOf(obj.charAt(i3)));
+        i = 0;
+        while (i < obj.length()) {
+            i3 = 0;
+            invoke = transform.invoke(Integer.valueOf(i4), Character.valueOf(obj.charAt(i)));
             if (invoke != null) {
             }
-            i3++;
-            i4 = i;
+            i++;
+            i4 = i2;
             valueOf = 0;
             destination.add(invoke);
         }
@@ -1326,32 +1326,32 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <R, C extends Collection<? super R>> C mapIndexedTo(java.lang.CharSequence $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Character, ? extends R> transform) {
-        int i3;
-        int i2;
-        char charAt;
         int i;
+        int i3;
+        char charAt;
+        int i2;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i4 = 0;
+        i = 0;
         i3 = 0;
-        i2 = 0;
-        while (i2 < $this$mapIndexedTo.length()) {
-            destination.add(transform.invoke(Integer.valueOf(i3), Character.valueOf($this$mapIndexedTo.charAt(i2))));
-            i2++;
-            i3 = i;
+        while (i3 < $this$mapIndexedTo.length()) {
+            destination.add(transform.invoke(Integer.valueOf(i), Character.valueOf($this$mapIndexedTo.charAt(i3))));
+            i3++;
+            i = i2;
         }
         return destination;
     }
 
     public static final <R> List<R> mapNotNull(java.lang.CharSequence $this$mapNotNull, Function1<? super Character, ? extends R> transform) {
-        int i3;
+        int i2;
         char charAt;
         char c;
-        int i2;
-        Object invoke;
         int i;
+        Object invoke;
+        int i3;
         Intrinsics.checkNotNullParameter($this$mapNotNull, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i4 = 0;
@@ -1359,40 +1359,40 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         final int i5 = 0;
         final Object obj2 = obj;
         final int i6 = 0;
-        i3 = 0;
-        while (i3 < obj2.length()) {
-            i2 = 0;
-            invoke = transform.invoke(Character.valueOf(obj2.charAt(i3)));
+        i2 = 0;
+        while (i2 < obj2.length()) {
+            i = 0;
+            invoke = transform.invoke(Character.valueOf(obj2.charAt(i2)));
             if (invoke != null) {
             }
-            i3++;
-            i = 0;
+            i2++;
+            i3 = 0;
             (Collection)arrayList.add(invoke);
         }
         return (List)arrayList;
     }
 
     public static final <R, C extends Collection<? super R>> C mapNotNullTo(java.lang.CharSequence $this$mapNotNullTo, C destination, Function1<? super Character, ? extends R> transform) {
-        int i;
+        int i3;
         char charAt;
         char c;
-        int i3;
-        Object invoke;
         int i2;
+        Object invoke;
+        int i;
         Intrinsics.checkNotNullParameter($this$mapNotNullTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i4 = 0;
         final Object obj = $this$mapNotNullTo;
         final int i5 = 0;
-        i = 0;
-        while (i < obj.length()) {
-            i3 = 0;
-            invoke = transform.invoke(Character.valueOf(obj.charAt(i)));
+        i3 = 0;
+        while (i3 < obj.length()) {
+            i2 = 0;
+            invoke = transform.invoke(Character.valueOf(obj.charAt(i3)));
             if (invoke != null) {
             }
-            i++;
-            i2 = 0;
+            i3++;
+            i = 0;
             destination.add(invoke);
         }
         return destination;
@@ -1415,10 +1415,10 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Character maxByOrNull(java.lang.CharSequence $this$maxByOrNull, Function1<? super Character, ? extends R> selector) {
-        int i;
+        int i2;
         char maxElem;
         Object maxValue;
-        int i2;
+        int i;
         char charAt;
         Object invoke;
         int compareTo;
@@ -1426,8 +1426,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i = $this$maxByOrNull.length() == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$maxByOrNull.length() == 0 ? 1 : i5;
+        if (i2 != 0) {
             return null;
         }
         maxElem = $this$maxByOrNull.charAt(i5);
@@ -1442,10 +1442,10 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> char maxByOrThrow(java.lang.CharSequence $this$maxBy, Function1<? super Character, ? extends R> selector) {
-        int i2;
+        int i;
         char maxElem;
         Object maxValue;
-        int i;
+        int i2;
         char charAt;
         Object invoke;
         int compareTo;
@@ -1453,8 +1453,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i4 = 0;
-        i2 = $this$maxBy.length() == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxBy.length() == 0 ? 1 : i4;
+        if (i != 0) {
         } else {
             maxElem = $this$maxBy.charAt(i4);
             int lastIndex = StringsKt.getLastIndex($this$maxBy);
@@ -1513,16 +1513,16 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOf(java.lang.CharSequence $this$maxOf, Function1<? super Character, ? extends R> selector) {
-        int i2;
-        Object maxValue;
         int i;
+        Object maxValue;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOf.length() == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOf.length() == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = selector.invoke(Character.valueOf($this$maxOf.charAt(i3)));
             final int lastIndex = StringsKt.getLastIndex($this$maxOf);
@@ -1555,15 +1555,15 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final Double maxOfOrNull(java.lang.CharSequence $this$maxOfOrNull, Function1<? super Character, Double> selector) {
-        int i2;
-        double maxValue;
         int i;
+        double maxValue;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i4 = 0;
-        i2 = $this$maxOfOrNull.length() == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOfOrNull.length() == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         maxValue = (Number)selector.invoke(Character.valueOf($this$maxOfOrNull.charAt(i4))).doubleValue();
@@ -1593,17 +1593,17 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final <R> R maxOfWith(java.lang.CharSequence $this$maxOfWith, Comparator<? super R> comparator, Function1<? super Character, ? extends R> selector) {
-        int i2;
-        Object maxValue;
         int i;
+        Object maxValue;
+        int i2;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOfWith.length() == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOfWith.length() == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = selector.invoke(Character.valueOf($this$maxOfWith.charAt(i3)));
             final int lastIndex = StringsKt.getLastIndex($this$maxOfWith);
@@ -1677,17 +1677,17 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final Character maxWithOrNull(java.lang.CharSequence $this$maxWithOrNull, Comparator<? super Character> comparator) {
-        int i2;
-        char max;
         int i;
+        char max;
+        int i2;
         char charAt;
         int compare;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$maxWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
-        i2 = $this$maxWithOrNull.length() == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxWithOrNull.length() == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         max = $this$maxWithOrNull.charAt(i4);
@@ -1698,17 +1698,17 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final char maxWithOrThrow(java.lang.CharSequence $this$maxWith, Comparator<? super Character> comparator) {
-        int i;
-        char max;
         int i2;
+        char max;
+        int i;
         char charAt;
         int compare;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$maxWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i3 = 0;
-        i = $this$maxWith.length() == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$maxWith.length() == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             max = $this$maxWith.charAt(i3);
             final int lastIndex = StringsKt.getLastIndex($this$maxWith);
@@ -1721,10 +1721,10 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Character minByOrNull(java.lang.CharSequence $this$minByOrNull, Function1<? super Character, ? extends R> selector) {
-        int i2;
+        int i;
         char minElem;
         Object minValue;
-        int i;
+        int i2;
         char charAt;
         Object invoke;
         int compareTo;
@@ -1732,8 +1732,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i2 = $this$minByOrNull.length() == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$minByOrNull.length() == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         minElem = $this$minByOrNull.charAt(i5);
@@ -1748,10 +1748,10 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> char minByOrThrow(java.lang.CharSequence $this$minBy, Function1<? super Character, ? extends R> selector) {
-        int i;
+        int i2;
         char minElem;
         Object minValue;
-        int i2;
+        int i;
         char charAt;
         Object invoke;
         int compareTo;
@@ -1759,8 +1759,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i4 = 0;
-        i = $this$minBy.length() == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minBy.length() == 0 ? 1 : i4;
+        if (i2 != 0) {
         } else {
             minElem = $this$minBy.charAt(i4);
             int lastIndex = StringsKt.getLastIndex($this$minBy);
@@ -1777,15 +1777,15 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final double minOf(java.lang.CharSequence $this$minOf, Function1<? super Character, Double> selector) {
-        int i;
-        double minValue;
         int i2;
+        double minValue;
+        int i;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i3 = 0;
-        i = $this$minOf.length() == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minOf.length() == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             minValue = (Number)selector.invoke(Character.valueOf($this$minOf.charAt(i3))).doubleValue();
             final int lastIndex = StringsKt.getLastIndex($this$minOf);
@@ -1798,15 +1798,15 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final float minOf(java.lang.CharSequence $this$minOf, Function1<? super Character, Float> selector) {
-        int i;
-        float minValue;
         int i2;
+        float minValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$minOf.length() == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minOf.length() == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             minValue = (Number)selector.invoke(Character.valueOf($this$minOf.charAt(i3))).floatValue();
             final int lastIndex = StringsKt.getLastIndex($this$minOf);
@@ -1880,15 +1880,15 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final Float minOfOrNull(java.lang.CharSequence $this$minOfOrNull, Function1<? super Character, Float> selector) {
-        int i;
-        float minValue;
         int i2;
+        float minValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$minOfOrNull.length() == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minOfOrNull.length() == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Character.valueOf($this$minOfOrNull.charAt(i4))).floatValue();
@@ -1899,17 +1899,17 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final <R> R minOfWith(java.lang.CharSequence $this$minOfWith, Comparator<? super R> comparator, Function1<? super Character, ? extends R> selector) {
-        int i2;
-        Object minValue;
         int i;
+        Object minValue;
+        int i2;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOfWith.length() == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOfWith.length() == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = selector.invoke(Character.valueOf($this$minOfWith.charAt(i3)));
             final int lastIndex = StringsKt.getLastIndex($this$minOfWith);
@@ -1943,15 +1943,15 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final Character minOrNull(java.lang.CharSequence $this$minOrNull) {
-        int i2;
-        char min;
         int i;
+        char min;
+        int i2;
         char charAt;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOrNull, "<this>");
         int i4 = 0;
-        i2 = $this$minOrNull.length() == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOrNull.length() == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         min = $this$minOrNull.charAt(i4);
@@ -2066,10 +2066,10 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     public static final <S extends java.lang.CharSequence> S onEachIndexed(S $this$onEachIndexed, Function2<? super Integer, ? super Character, Unit> action) {
-        int i3;
+        int i;
         int i2;
         char charAt;
-        int i;
+        int i3;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
@@ -2077,12 +2077,12 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         final int i5 = 0;
         final Object obj2 = obj;
         final int i6 = 0;
-        i3 = 0;
+        i = 0;
         i2 = 0;
         while (i2 < obj2.length()) {
-            action.invoke(Integer.valueOf(i3), Character.valueOf(obj2.charAt(i2)));
+            action.invoke(Integer.valueOf(i), Character.valueOf(obj2.charAt(i2)));
             i2++;
-            i3 = i;
+            i = i3;
         }
         return $this$onEachIndexed;
     }
@@ -2200,8 +2200,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         char accumulator;
         int index;
         Object invoke;
-        Character valueOf2;
         Character valueOf;
+        Character valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -2264,8 +2264,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
 
     public static final char reduceRight(java.lang.CharSequence $this$reduceRight, Function2<? super Character, ? super Character, Character> operation) {
         char accumulator;
-        int i;
         int i2;
+        int i;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRight, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
@@ -2273,11 +2273,11 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         int lastIndex = StringsKt.getLastIndex($this$reduceRight);
         if (lastIndex < 0) {
         } else {
-            i = lastIndex + -1;
+            i2 = lastIndex + -1;
             accumulator = $this$reduceRight.charAt(lastIndex);
-            while (i >= 0) {
-                accumulator = (Character)operation.invoke(Character.valueOf($this$reduceRight.charAt(i)), Character.valueOf(accumulator)).charValue();
-                i = i2;
+            while (i2 >= 0) {
+                accumulator = (Character)operation.invoke(Character.valueOf($this$reduceRight.charAt(i2)), Character.valueOf(accumulator)).charValue();
+                i2 = i;
             }
             return accumulator;
         }
@@ -2289,8 +2289,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         char accumulator;
         int index;
         Object invoke;
-        Character valueOf;
         Character valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -2313,8 +2313,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         char accumulator;
         int index;
         Object invoke;
-        Character valueOf;
         Character valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -2446,9 +2446,9 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         int i;
         char accumulator;
         int $this$runningReduceIndexed_u24lambda_u2422;
-        Character valueOf;
-        Character valueOf2;
         Character valueOf3;
+        Character valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -2504,11 +2504,11 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         int i;
         Object result$iv;
         Object $this$runningFoldIndexed_u24lambda_u2420$iv;
-        ArrayList index$iv2;
-        int index$iv;
+        ArrayList index$iv;
+        int index$iv2;
         int length;
-        Integer valueOf2;
-        Character valueOf;
+        Integer valueOf;
+        Character valueOf2;
         Intrinsics.checkNotNullParameter($this$scanIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -2523,12 +2523,12 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
             int i5 = 0;
             arrayList.add(initial);
             $this$runningFoldIndexed_u24lambda_u2420$iv = initial;
-            index$iv = 0;
-            while (index$iv < obj.length()) {
-                arrayList.add(operation.invoke(Integer.valueOf(index$iv), $this$runningFoldIndexed_u24lambda_u2420$iv, Character.valueOf(obj.charAt(index$iv))));
-                index$iv++;
+            index$iv2 = 0;
+            while (index$iv2 < obj.length()) {
+                arrayList.add(operation.invoke(Integer.valueOf(index$iv2), $this$runningFoldIndexed_u24lambda_u2420$iv, Character.valueOf(obj.charAt(index$iv2))));
+                index$iv2++;
             }
-            result$iv = index$iv2;
+            result$iv = index$iv;
         }
         return result$iv;
     }
@@ -2740,16 +2740,16 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     }
 
     private static final int sumOfUInt(java.lang.CharSequence $this$sumOf, Function1<? super Character, UInt> selector) {
-        int i2;
+        int i;
         int sum;
         char charAt;
-        int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = UInt.constructor-impl(0);
-        while (i2 < $this$sumOf.length()) {
+        while (i < $this$sumOf.length()) {
             sum = UInt.constructor-impl(unbox-impl += sum);
-            i2++;
+            i++;
         }
         return sum;
     }
@@ -2958,8 +2958,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
     public static final <R> List<R> windowed(java.lang.CharSequence $this$windowed, int size, int step, boolean partialWindows, Function1<? super java.lang.CharSequence, ? extends R> transform) {
         int i;
         int index;
-        int i2;
         int i3;
+        int i2;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$windowed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -2974,23 +2974,23 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
             if (index < length) {
             } else {
             }
-            i2 = i8;
-            if (i2 != 0) {
+            i3 = i8;
+            if (i3 != 0) {
             }
-            i2 = index + size;
-            if (i2 >= 0) {
+            i3 = index + size;
+            if (i3 >= 0) {
             } else {
             }
             if (partialWindows) {
             }
-            i3 = length;
-            arrayList.add(transform.invoke($this$windowed.subSequence(index, i3)));
+            i2 = length;
+            arrayList.add(transform.invoke($this$windowed.subSequence(index, i2)));
             index += step;
-            if (i2 > length) {
+            if (i3 > length) {
             } else {
             }
-            i3 = i2;
-            i2 = i7;
+            i2 = i3;
+            i3 = i7;
         }
         return (List)arrayList;
     }
@@ -3117,8 +3117,8 @@ class StringsKt___StringsKt extends kotlin.text.StringsKt___StringsJvmKt {
         Pair a;
         char charAt;
         int i;
-        Character valueOf2;
         Character valueOf;
+        Character valueOf2;
         Intrinsics.checkNotNullParameter($this$zipWithNext, "<this>");
         Object obj = $this$zipWithNext;
         final int i2 = 0;

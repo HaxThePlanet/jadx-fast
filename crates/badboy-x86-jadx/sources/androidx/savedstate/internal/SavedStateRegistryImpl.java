@@ -132,8 +132,8 @@ public final class SavedStateRegistryImpl {
             return savedState-impl;
         }
         int state = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("You can 'consumeRestoredStateForKey' only after the corresponding component has moved to the 'CREATED' state".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckSavedStateRegistryImpl$consumeRestoredStateForKey$1 = new IllegalStateException("You can 'consumeRestoredStateForKey' only after the corresponding component has moved to the 'CREATED' state".toString());
+        throw $i$a$CheckSavedStateRegistryImpl$consumeRestoredStateForKey$1;
     }
 
     public final Function0<Unit> getOnAttach$savedstate_release() {
@@ -190,12 +190,12 @@ public final class SavedStateRegistryImpl {
                 this.attached = i4;
             }
             int i3 = 0;
-            IllegalStateException illegalStateException2 = new IllegalStateException("SavedStateRegistry was already attached.".toString());
-            throw illegalStateException2;
+            IllegalStateException $i$a$CheckSavedStateRegistryImpl$performAttach$2 = new IllegalStateException("SavedStateRegistry was already attached.".toString());
+            throw $i$a$CheckSavedStateRegistryImpl$performAttach$2;
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Restarter must be created only during owner's initialization stage".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckSavedStateRegistryImpl$performAttach$1 = new IllegalStateException("Restarter must be created only during owner's initialization stage".toString());
+        throw $i$a$CheckSavedStateRegistryImpl$performAttach$1;
     }
 
     public final void performRestore$savedstate_release(Bundle savedState) {
@@ -231,13 +231,13 @@ public final class SavedStateRegistryImpl {
                 this.isRestored = true;
             }
             int i3 = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("SavedStateRegistry was already restored.".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckSavedStateRegistryImpl$performRestore$2 = new IllegalStateException("SavedStateRegistry was already restored.".toString());
+            throw $i$a$CheckSavedStateRegistryImpl$performRestore$2;
         }
         int i5 = 0;
         StringBuilder stringBuilder = new StringBuilder();
-        IllegalStateException illegalStateException2 = new IllegalStateException(stringBuilder.append("performRestore cannot be called when owner is ").append(this.owner.getLifecycle().getCurrentState()).toString().toString());
-        throw illegalStateException2;
+        IllegalStateException illegalStateException = new IllegalStateException(stringBuilder.append("performRestore cannot be called when owner is ").append(this.owner.getLifecycle().getCurrentState()).toString().toString());
+        throw illegalStateException;
     }
 
     public final void performSave$savedstate_release(Bundle outBundle) {
@@ -256,7 +256,7 @@ public final class SavedStateRegistryImpl {
         int i;
         Iterator iterator;
         boolean next;
-        kotlin.Pair pair;
+        kotlin.Pair $i$a$MapSavedStateKt__SavedState_androidKt$savedState$pairs$1$iv;
         Object key2;
         Object value;
         Object value2;
@@ -324,7 +324,7 @@ public final class SavedStateRegistryImpl {
         int i3 = 0;
         synchronized (lock) {
             SavedStateRegistryImpl.access$getKeyToProviders$p(this).put(key, provider);
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedSavedStateRegistryImpl$registerSavedStateProvider$12 = Unit.INSTANCE;
         }
     }
 

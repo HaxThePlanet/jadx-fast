@@ -66,17 +66,17 @@ public final class SharedElement {
         int i2;
         Object obj;
         Object obj2;
-        int i3;
-        boolean it;
         int i;
+        boolean it;
+        int i3;
         androidx.compose.animation.BoundsAnimation boundsAnimation;
         final int i4 = 0;
         final SnapshotStateList list = states;
         final int i5 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i3 = 0;
             i = 0;
+            i3 = 0;
             index$iv$iv++;
         }
         i2 = 0;
@@ -147,13 +147,13 @@ public final class SharedElement {
     public final boolean isAnimating() {
         int $this$fastAny$iv;
         int index$iv$iv;
-        int i3;
-        int i4;
-        Object obj;
-        Object obj2;
         int i;
-        boolean it;
+        int i4;
+        Object obj2;
+        Object obj;
         int i2;
+        boolean it;
+        int i3;
         androidx.compose.animation.BoundsAnimation boundsAnimation;
         final int i5 = 0;
         final SnapshotStateList list = states;
@@ -161,20 +161,20 @@ public final class SharedElement {
         index$iv$iv = 0;
         i4 = 1;
         while (index$iv$iv < list.size()) {
-            i = 0;
             i2 = 0;
+            i3 = 0;
             index$iv$iv++;
             i4 = 1;
         }
-        $this$fastAny$iv = i3;
+        $this$fastAny$iv = i;
         if ($this$fastAny$iv != 0 && getFoundMatch()) {
             if (getFoundMatch()) {
-                i3 = i4;
+                i = i4;
             } else {
             }
         } else {
         }
-        return i3;
+        return i;
     }
 
     public final void onLookaheadResult-v_w8tDc(androidx.compose.animation.SharedElementInternalState state, long lookaheadSize, long topLeft) {
@@ -293,10 +293,10 @@ public final class SharedElement {
 
     public final void updateTargetBoundsProvider() {
         int targetProvider;
-        int i3;
         int i;
-        Object obj2;
+        int i3;
         Object obj;
+        Object obj2;
         int i2;
         boolean target;
         targetProvider = 0;

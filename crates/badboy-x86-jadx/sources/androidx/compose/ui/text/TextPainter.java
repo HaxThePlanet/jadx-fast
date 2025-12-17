@@ -32,7 +32,7 @@ public final class TextPainter {
 
     public final void paint(Canvas canvas, androidx.compose.ui.text.TextLayoutResult textLayoutResult) {
         boolean hasVisualOverflow;
-        int i4;
+        int i5;
         TextDecoration textDecoration;
         Shadow shadow;
         androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle;
@@ -40,21 +40,21 @@ public final class TextPainter {
         int visible-gIe3tQ8;
         float f;
         androidx.compose.ui.text.MultiParagraph multiParagraph;
-        long l2;
-        Canvas canvas2;
         long l;
+        Canvas canvas2;
+        long l2;
         long black-0d7_KjU;
-        int i3;
         int i;
-        int i5;
         int i2;
+        int i3;
+        int i4;
         androidx.compose.ui.graphics.Brush obj14;
         int i6 = 0;
         if (textLayoutResult.getHasVisualOverflow() && !TextOverflow.equals-impl0(textLayoutResult.getLayoutInput().getOverflow-gIe3tQ8(), TextOverflow.Companion.getVisible-gIe3tQ8())) {
-            i4 = !TextOverflow.equals-impl0(textLayoutResult.getLayoutInput().getOverflow-gIe3tQ8(), TextOverflow.Companion.getVisible-gIe3tQ8()) ? 1 : i6;
+            i5 = !TextOverflow.equals-impl0(textLayoutResult.getLayoutInput().getOverflow-gIe3tQ8(), TextOverflow.Companion.getVisible-gIe3tQ8()) ? 1 : i6;
         } else {
         }
-        int i7 = i4;
+        int i7 = i5;
         if (i7 != 0) {
             canvas.save();
             Canvas.clipRect-mtrdD-E$default(canvas, RectKt.Rect-tz77jQw(Offset.Companion.getZero-F1C5BW0(), obj5), i6, 2, 0);
@@ -75,11 +75,11 @@ public final class TextPainter {
         black-0d7_KjU = spanStyle$ui_text_release.getBrush();
         if (black-0d7_KjU != null) {
             if (spanStyle$ui_text_release.getTextForegroundStyle$ui_text_release() != TextForegroundStyle.Unspecified.INSTANCE) {
-                i3 = textForegroundStyle$ui_text_release;
+                i = textForegroundStyle$ui_text_release;
             } else {
-                i3 = textForegroundStyle$ui_text_release;
+                i = textForegroundStyle$ui_text_release;
             }
-            MultiParagraph.paint-hn5TExg$default(textLayoutResult.getMultiParagraph(), canvas, black-0d7_KjU, i3, shadow2, textDecoration2, drawStyle2, 0, 64, 0);
+            MultiParagraph.paint-hn5TExg$default(textLayoutResult.getMultiParagraph(), canvas, black-0d7_KjU, i, shadow2, textDecoration2, drawStyle2, 0, 64, 0);
             obj14 = black-0d7_KjU;
         } else {
             obj14 = black-0d7_KjU;
@@ -88,7 +88,7 @@ public final class TextPainter {
             } else {
                 black-0d7_KjU = Color.Companion.getBlack-0d7_KjU();
             }
-            MultiParagraph.paint-LG529CI$default(textLayoutResult.getMultiParagraph(), canvas, black-0d7_KjU, i3, shadow2, textDecoration2, drawStyle2, 0, 32);
+            MultiParagraph.paint-LG529CI$default(textLayoutResult.getMultiParagraph(), canvas, black-0d7_KjU, i, shadow2, textDecoration2, drawStyle2, 0, 32);
         }
         if (i7 != 0) {
             canvas2.restore();

@@ -83,28 +83,28 @@ public abstract class Brush {
         }
 
         public static androidx.compose.ui.graphics.Brush linearGradient-mHitzGk$default(androidx.compose.ui.graphics.Brush.Companion brush$Companion, Pair[] pair2Arr2, long l3, long l4, int i5, int i6, Object object7) {
-            long l2;
             long l;
+            long l2;
             int i;
             long obj9;
             long obj11;
             int obj13;
             if (obj14 & 2 != 0) {
-                l2 = obj9;
+                l = obj9;
             } else {
-                l2 = l3;
+                l = l3;
             }
             if (obj14 & 4 != 0) {
-                l = obj11;
+                l2 = obj11;
             } else {
-                l = i5;
+                l2 = i5;
             }
             if (obj14 & 8 != 0) {
                 i = obj13;
             } else {
                 i = object7;
             }
-            return companion.linearGradient-mHitzGk(pair2Arr2, l2, obj3, l);
+            return companion.linearGradient-mHitzGk(pair2Arr2, l, obj3, l2);
         }
 
         public static androidx.compose.ui.graphics.Brush radialGradient-P_Vx-Ks$default(androidx.compose.ui.graphics.Brush.Companion brush$Companion, List list2, long l3, float f4, int i5, int i6, Object object7) {
@@ -213,24 +213,24 @@ public abstract class Brush {
         }
 
         public final androidx.compose.ui.graphics.Brush linearGradient-mHitzGk(Pair<Float, androidx.compose.ui.graphics.Color>[] colorStops, long start, long end, int tileMode) {
-            int i2;
+            int i;
             int valueOf;
             androidx.compose.ui.graphics.Color box-impl;
-            int i;
+            int i2;
             Object second;
             int length = colorStops.length;
             ArrayList arrayList = new ArrayList(length);
-            valueOf = i2;
+            valueOf = i;
             while (valueOf < length) {
                 arrayList.add(Color.box-impl((Color)colorStops[valueOf].getSecond().unbox-impl()));
                 valueOf++;
             }
             int length2 = colorStops.length;
             ArrayList arrayList2 = new ArrayList(length2);
-            while (i2 < length2) {
+            while (i < length2) {
                 box-impl = 0;
-                arrayList2.add(Float.valueOf((Number)colorStops[i2].getFirst().floatValue()));
-                i2++;
+                arrayList2.add(Float.valueOf((Number)colorStops[i].getFirst().floatValue()));
+                i++;
             }
             LinearGradient linearGradient = new LinearGradient((List)arrayList, (List)arrayList2, start, obj8, tileMode, obj10, obj19, 0);
             return (Brush)linearGradient;

@@ -22,7 +22,7 @@ public final class FontScaleConverterFactory {
     private static final float ScaleKeyMultiplier = 100f;
     private static volatile SparseArrayCompat<androidx.compose.ui.unit.fontscaling.FontScaleConverter> sLookupTables;
     static {
-        int str;
+        int $i$a$CheckPreconditionFontScaleConverterFactory$2;
         int i;
         FontScaleConverterFactory fontScaleConverterFactory = new FontScaleConverterFactory();
         FontScaleConverterFactory.INSTANCE = fontScaleConverterFactory;
@@ -36,7 +36,7 @@ public final class FontScaleConverterFactory {
         FontScaleConverterFactory.sLookupTables = sparseArrayCompat;
         FontScaleConverterFactory.LookupTablesWriteLock = new Object[i];
         Object[] lookupTablesWriteLock = FontScaleConverterFactory.LookupTablesWriteLock;
-        str = 0;
+        $i$a$CheckPreconditionFontScaleConverterFactory$2 = 0;
         float[] fArr3 = new float[i2];
         fArr3 = new int[]{1090519040, 1092616192, 1094713344, 1096810496, 1099956224, 1101004800, 1103101952, 1106247680, 1120403456};
         float[] fArr8 = new float[i2];
@@ -81,7 +81,7 @@ public final class FontScaleConverterFactory {
             FontScaleConverterFactory.sLookupTables = sparseArrayCompat;
             FontScaleConverterFactory.LookupTablesWriteLock = new Object[i];
             lookupTablesWriteLock = FontScaleConverterFactory.LookupTablesWriteLock;
-            str = 0;
+            $i$a$CheckPreconditionFontScaleConverterFactory$2 = 0;
             fArr3 = new float[i2];
             fArr3 = new int[]{1090519040, 1092616192, 1094713344, 1096810496, 1099956224, 1101004800, 1103101952, 1106247680, 1120403456};
             fArr8 = new float[i2];
@@ -161,7 +161,7 @@ public final class FontScaleConverterFactory {
         SparseArrayCompat clone = FontScaleConverterFactory.sLookupTables.clone();
         FontScaleConverterFactory.INSTANCE.putInto(clone, scaleKey, fontScaleConverter);
         FontScaleConverterFactory.sLookupTables = clone;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedFontScaleConverterFactory$put$1 = Unit.INSTANCE;
         return;
         synchronized (lookupTablesWriteLock) {
             lookupTablesWriteLock = FontScaleConverterFactory.LookupTablesWriteLock;
@@ -169,7 +169,7 @@ public final class FontScaleConverterFactory {
             clone = FontScaleConverterFactory.sLookupTables.clone();
             FontScaleConverterFactory.INSTANCE.putInto(clone, scaleKey, fontScaleConverter);
             FontScaleConverterFactory.sLookupTables = clone;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedFontScaleConverterFactory$put$1 = Unit.INSTANCE;
         }
     }
 
@@ -178,15 +178,15 @@ public final class FontScaleConverterFactory {
     }
 
     public final androidx.compose.ui.unit.fontscaling.FontScaleConverter forScale(float fontScale) {
-        androidx.compose.ui.unit.fontscaling.FontScaleConverter startTable2;
-        Object startTable;
+        androidx.compose.ui.unit.fontscaling.FontScaleConverter startTable;
+        Object startTable2;
         androidx.compose.ui.unit.fontscaling.FontScaleConverter fontScaleConverterTable2;
         float startScale;
         float[] fArr;
         Object fontScaleConverterTable;
-        int i2;
-        float[] commonFontSizes;
         int i;
+        float[] commonFontSizes;
+        int i2;
         float scaleFromKey;
         float f;
         float obj12;
@@ -206,31 +206,31 @@ public final class FontScaleConverterFactory {
         final int i9 = i6 + 1;
         if (i9 >= FontScaleConverterFactory.sLookupTables.size()) {
             fArr = new float[i7];
-            i = 0;
-            fArr[i] = 1065353216;
+            i2 = 0;
+            fArr[i2] = 1065353216;
             float[] fArr2 = new float[i7];
-            fArr2[i] = fontScale;
+            fArr2[i2] = fontScale;
             fontScaleConverterTable2 = new FontScaleConverterTable(fArr, fArr2);
             put(fontScale, (FontScaleConverter)fontScaleConverterTable2);
-            startTable2 = fontScaleConverterTable2;
+            startTable = fontScaleConverterTable2;
             f = fontScale;
         } else {
             int i8 = 0;
             int i10 = 0;
             if (i6 < 0) {
                 fontScaleConverterTable = new FontScaleConverterTable(FontScaleConverterFactory.CommonFontSizes, FontScaleConverterFactory.CommonFontSizes);
-                startTable = fontScaleConverterTable;
-                i = startScale;
+                startTable2 = fontScaleConverterTable;
+                i2 = startScale;
             } else {
-                startTable = fontScaleConverterTable;
-                i = startScale;
+                startTable2 = fontScaleConverterTable;
+                i2 = startScale;
             }
             f = fontScale;
-            fontScaleConverterTable2 = createInterpolatedTableBetween(startTable, (FontScaleConverter)FontScaleConverterFactory.sLookupTables.valueAt(i9), MathUtils.INSTANCE.constrainedMap(0, 1065353216, i, getScaleFromKey(FontScaleConverterFactory.sLookupTables.keyAt(i9)), f));
+            fontScaleConverterTable2 = createInterpolatedTableBetween(startTable2, (FontScaleConverter)FontScaleConverterFactory.sLookupTables.valueAt(i9), MathUtils.INSTANCE.constrainedMap(0, 1065353216, i2, getScaleFromKey(FontScaleConverterFactory.sLookupTables.keyAt(i9)), f));
             put(f, fontScaleConverterTable2);
-            startTable2 = fontScaleConverterTable2;
+            startTable = fontScaleConverterTable2;
         }
-        return startTable2;
+        return startTable;
     }
 
     public final SparseArrayCompat<androidx.compose.ui.unit.fontscaling.FontScaleConverter> getSLookupTables() {

@@ -45,26 +45,26 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
     }
 
     private final int intrinsicHeight(IntrinsicMeasureScope $this$intrinsicHeight, List<? extends IntrinsicMeasurable> measurables, int width, Function2<? super IntrinsicMeasurable, ? super Integer, Integer> intrinsicMeasurer) {
-        int remainingWidth2;
+        int remainingWidth;
         int obj3;
-        int intValue2;
-        int intValue3;
+        int $i$a$LetTextFieldMeasurePolicy$intrinsicHeight$placeholderHeight$2;
+        int intValue;
         Object invoke2;
         int $i$f$fastFirstOrNull;
         int equal;
-        int i7;
-        int intValue;
+        int i;
+        int $i$a$LetTextFieldMeasurePolicy$intrinsicHeight$leadingHeight$2;
         int invoke;
+        int index$iv$iv4;
         int index$iv$iv2;
         int index$iv$iv;
         int index$iv$iv3;
-        int index$iv$iv5;
-        int size;
-        String str;
-        Object obj2;
-        int index$iv$iv4;
-        Object obj;
         int size2;
+        String str;
+        Object obj;
+        int index$iv$iv5;
+        Object obj2;
+        int size;
         int i3;
         int i2;
         int i4;
@@ -72,80 +72,80 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
         int i5;
         int it;
         Object layoutId2;
-        int i6;
+        int i7;
         String layoutId;
         int $this$fastFirstOrNull$iv;
-        int remainingWidth;
-        int i;
+        int remainingWidth2;
+        int i6;
         final Object obj4 = intrinsicMeasurer;
         int i8 = 0;
         equal = 0;
         Object obj9 = obj7;
         invoke = 0;
-        index$iv$iv3 = 0;
-        while (index$iv$iv3 < obj9.size()) {
+        index$iv$iv = 0;
+        while (index$iv$iv < obj9.size()) {
             i2 = 0;
             i5 = 0;
-            index$iv$iv3++;
+            index$iv$iv++;
         }
-        obj = 0;
-        intValue3 = Integer.MAX_VALUE;
-        if ((IntrinsicMeasurable)obj != null) {
+        obj2 = 0;
+        intValue = Integer.MAX_VALUE;
+        if ((IntrinsicMeasurable)obj2 != null) {
             int i16 = 0;
-            remainingWidth2 = TextFieldKt.access$substractConstraintSafely(width, (IntrinsicMeasurable)obj.maxIntrinsicWidth(intValue3));
-            intValue = (Number)obj4.invoke(obj, Integer.valueOf(width)).intValue();
+            remainingWidth = TextFieldKt.access$substractConstraintSafely(width, (IntrinsicMeasurable)obj2.maxIntrinsicWidth(intValue));
+            $i$a$LetTextFieldMeasurePolicy$intrinsicHeight$leadingHeight$2 = (Number)obj4.invoke(obj2, Integer.valueOf(width)).intValue();
         } else {
-            intValue = 0;
+            $i$a$LetTextFieldMeasurePolicy$intrinsicHeight$leadingHeight$2 = 0;
         }
         int i17 = 0;
         Object obj12 = obj10;
         int i19 = 0;
-        index$iv$iv4 = 0;
-        while (index$iv$iv4 < obj12.size()) {
+        index$iv$iv5 = 0;
+        while (index$iv$iv5 < obj12.size()) {
             layoutId2 = null;
             $this$fastFirstOrNull$iv = 0;
-            index$iv$iv4++;
+            index$iv$iv5++;
         }
         i5 = 0;
         if ((IntrinsicMeasurable)i5 != 0) {
             equal = 0;
-            remainingWidth2 = TextFieldKt.access$substractConstraintSafely(remainingWidth2, (IntrinsicMeasurable)i5.maxIntrinsicWidth(intValue3));
-            it = intValue3;
+            remainingWidth = TextFieldKt.access$substractConstraintSafely(remainingWidth, (IntrinsicMeasurable)i5.maxIntrinsicWidth(intValue));
+            it = intValue;
         } else {
             it = 0;
         }
         int i13 = 0;
         Object obj11 = invoke2;
         int i18 = 0;
-        index$iv$iv5 = 0;
-        while (index$iv$iv5 < obj11.size()) {
-            size2 = 0;
+        index$iv$iv3 = 0;
+        while (index$iv$iv3 < obj11.size()) {
+            size = 0;
             layoutId2 = null;
-            index$iv$iv5++;
-            remainingWidth2 = remainingWidth;
+            index$iv$iv3++;
+            remainingWidth = remainingWidth2;
         }
-        remainingWidth = remainingWidth2;
-        index$iv$iv4 = 0;
-        if ((IntrinsicMeasurable)index$iv$iv4 != 0) {
+        remainingWidth2 = remainingWidth;
+        index$iv$iv5 = 0;
+        if ((IntrinsicMeasurable)index$iv$iv5 != 0) {
             int i9 = 0;
-            i4 = remainingWidth2;
+            i4 = remainingWidth;
         } else {
             i4 = 0;
         }
         int i11 = 0;
         Object obj8 = obj3;
         int i14 = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < obj8.size()) {
-            str = size;
-            index$iv$iv4 = 0;
+        index$iv$iv4 = 0;
+        while (index$iv$iv4 < obj8.size()) {
+            str = size2;
+            index$iv$iv5 = 0;
             layoutId2 = null;
             if (Intrinsics.areEqual(TextFieldImplKt.getLayoutId((IntrinsicMeasurable)str), "TextField")) {
                 break;
             } else {
             }
             Object obj5 = this;
-            index$iv$iv2++;
+            index$iv$iv4++;
             obj3 = $this$fastFirstOrNull$iv;
         }
         NoSuchElementException $this$fastForEach$iv$iv = new NoSuchElementException("Collection contains no element matching the predicate.");
@@ -153,29 +153,29 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
     }
 
     private final int intrinsicWidth(List<? extends IntrinsicMeasurable> measurables, int height, Function2<? super IntrinsicMeasurable, ? super Integer, Integer> intrinsicMeasurer) {
-        boolean intValue4;
-        boolean intValue2;
-        boolean intValue3;
-        int intValue;
+        boolean $i$a$LetTextFieldMeasurePolicy$intrinsicWidth$trailingWidth$2;
+        boolean $i$a$LetTextFieldMeasurePolicy$intrinsicWidth$leadingWidth$2;
+        boolean $i$a$LetTextFieldMeasurePolicy$intrinsicWidth$placeholderWidth$2;
+        int $i$a$LetTextFieldMeasurePolicy$intrinsicWidth$labelWidth$2;
         Object invoke;
         int leadingWidth;
         Object invoke2;
         int i2;
         int index$iv$iv4;
-        int i3;
-        int index$iv$iv3;
         int i6;
+        int index$iv$iv3;
+        int i3;
         Object obj;
         Object str2;
         int index$iv$iv5;
         Object $i$f$fastForEach;
-        int i5;
+        int i4;
         int index$iv$iv;
         int index$iv$iv2;
-        boolean it;
+        boolean it2;
         int size;
-        int i4;
-        Object it2;
+        int i5;
+        Object it;
         String str;
         Object layoutId2;
         String layoutId;
@@ -188,8 +188,8 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
         index$iv$iv4 = 0;
         while (index$iv$iv4 < z2.size()) {
             str2 = obj;
-            i5 = 0;
             i4 = 0;
+            i5 = 0;
             if (Intrinsics.areEqual(TextFieldImplKt.getLayoutId((IntrinsicMeasurable)str2), "TextField")) {
                 break;
             } else {
@@ -215,23 +215,23 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
         long measure-BRTryo0;
         int occupiedSpaceHorizontally2;
         int equal4;
-        int measure-BRTryo04;
+        int measure-BRTryo03;
         int equal2;
-        Placeable measure-BRTryo03;
+        Placeable measure-BRTryo04;
         int $this$fastFirstOrNull$iv;
-        long looseConstraints;
-        int looseConstraints2;
+        long looseConstraints2;
+        int looseConstraints;
         int it;
         long offset-NN6Ew-U$default;
-        int i6;
-        int i5;
-        int i7;
+        int i4;
+        int i14;
+        int i2;
         int topPaddingValue;
         int index$iv$iv;
-        int i22;
-        int i17;
+        int i21;
+        int i3;
         int height;
-        int i23;
+        int i12;
         int index$iv$iv3;
         int leadingPlaceable;
         Object trailingPlaceable;
@@ -239,31 +239,31 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
         MeasureScope measureScope;
         Object obj;
         int index$iv$iv2;
-        long l;
-        int i3;
-        int i18;
-        long l3;
+        long l2;
         int i19;
         int i10;
-        int i20;
-        int i12;
+        long l3;
         int i11;
+        int i16;
+        int i5;
+        int i6;
+        int i17;
         int occupiedSpaceHorizontally;
         int i13;
+        int i23;
+        int i7;
         int i;
-        int i21;
         int i9;
-        int i16;
+        int i15;
         int i8;
-        int i2;
-        int i14;
+        int i18;
         int verticalConstraintOffset;
         int looseConstraints3;
         Placeable placeable;
-        int i15;
-        long l2;
+        int i20;
+        long l;
         long textFieldConstraints;
-        int i4;
+        int i22;
         trailingPlaceable = this;
         measureScope = $this$measure_u2d3p2s80s;
         int roundToPx-0680j_4 = measureScope.roundToPx-0680j_4(trailingPlaceable.paddingValues.calculateTopPadding-D9Ej5fM());
@@ -275,68 +275,68 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
         int i38 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < l6.size()) {
-            i18 = 0;
-            i20 = 0;
+            i10 = 0;
+            i5 = 0;
             index$iv$iv++;
             equal = occupiedSpaceHorizontally;
         }
         occupiedSpaceHorizontally = equal;
-        l = 0;
-        measure-BRTryo02 = l;
+        l2 = 0;
+        measure-BRTryo02 = l2;
         if ((Measurable)measure-BRTryo02 != 0) {
-            i22 = measure-BRTryo02;
+            i21 = measure-BRTryo02;
         } else {
-            i22 = 0;
+            i21 = 0;
         }
         widthOrZero2 += occupiedSpaceHorizontally;
-        i6 = 0;
-        i5 = offset-NN6Ew-U$default;
-        i17 = 0;
+        i4 = 0;
+        i14 = offset-NN6Ew-U$default;
+        i3 = 0;
         index$iv$iv3 = 0;
-        while (index$iv$iv3 < i5.size()) {
-            i18 = 0;
-            i20 = 0;
+        while (index$iv$iv3 < i14.size()) {
+            i10 = 0;
+            i5 = 0;
             index$iv$iv3++;
-            looseConstraints = occupiedSpaceHorizontally;
+            looseConstraints2 = occupiedSpaceHorizontally;
             equal3 = verticalConstraintOffset;
         }
         verticalConstraintOffset = equal3;
-        occupiedSpaceHorizontally = looseConstraints;
-        l = 0;
-        measure-BRTryo0 = l;
+        occupiedSpaceHorizontally = looseConstraints2;
+        l2 = 0;
+        measure-BRTryo0 = l2;
         if ((Measurable)measure-BRTryo0 != 0) {
-            i6 = 0;
+            i4 = 0;
             leadingPlaceable = measure-BRTryo0;
         } else {
-            looseConstraints2 = occupiedSpaceHorizontally;
+            looseConstraints = occupiedSpaceHorizontally;
             leadingPlaceable = 0;
         }
         widthOrZero += i27;
-        long offset-NN6Ew-U2 = ConstraintsKt.offset-NN6Ew-U(looseConstraints2, obj4, -i24);
+        long offset-NN6Ew-U2 = ConstraintsKt.offset-NN6Ew-U(looseConstraints, obj4, -i24);
         int i28 = measurables;
-        i7 = 0;
+        i2 = 0;
         height = i28;
         int i45 = 0;
         index$iv$iv2 = 0;
         equal2 = height.size();
         while (index$iv$iv2 < equal2) {
-            i20 = 0;
-            i21 = 0;
-            index$iv$iv2++;
-            equal2 = i8;
-            looseConstraints2 = looseConstraints3;
-        }
-        looseConstraints3 = looseConstraints2;
-        i10 = 0;
-        int i29 = i10;
-        if ((Measurable)i29 != 0) {
-            measure-BRTryo03 = (Measurable)i29.measure-BRTryo0(offset-NN6Ew-U2);
-        } else {
-            measure-BRTryo03 = 0;
-        }
-        if (measure-BRTryo03 != null) {
+            i5 = 0;
             i7 = 0;
-            if (measure-BRTryo03.get((AlignmentLine)AlignmentLineKt.getLastBaseline()) != Integer.MIN_VALUE) {
+            index$iv$iv2++;
+            equal2 = i15;
+            looseConstraints = looseConstraints3;
+        }
+        looseConstraints3 = looseConstraints;
+        i16 = 0;
+        int i29 = i16;
+        if ((Measurable)i29 != 0) {
+            measure-BRTryo04 = (Measurable)i29.measure-BRTryo0(offset-NN6Ew-U2);
+        } else {
+            measure-BRTryo04 = 0;
+        }
+        if (measure-BRTryo04 != null) {
+            i2 = 0;
+            if (measure-BRTryo04.get((AlignmentLine)AlignmentLineKt.getLastBaseline()) != Integer.MIN_VALUE) {
             } else {
                 it = height;
             }
@@ -344,7 +344,7 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
             it = 0;
         }
         int i46 = Math.max(it, roundToPx-0680j_4);
-        if (measure-BRTryo03 != null) {
+        if (measure-BRTryo04 != null) {
             i40 -= i46;
         } else {
             i41 -= roundToPx-0680j_43;
@@ -352,31 +352,31 @@ final class TextFieldMeasurePolicy implements MeasurePolicy {
         long offset-NN6Ew-U = ConstraintsKt.offset-NN6Ew-U(Constraints.copy-Zbe2FdA$default(constraints, i28, 0, 0, 0, 0, 11), it, -i24);
         int i56 = 0;
         final int i63 = i24;
-        occupiedSpaceHorizontally2 = i12;
+        occupiedSpaceHorizontally2 = i6;
         while (occupiedSpaceHorizontally2 < measurables.size()) {
-            placeable = measure-BRTryo03;
+            placeable = measure-BRTryo04;
             long labelPlaceable = l3;
-            i12 = obj2;
+            i6 = obj2;
             i13 = 0;
-            i2 = 0;
-            if (Intrinsics.areEqual(LayoutIdKt.getLayoutId((Measurable)i12), "TextField")) {
+            i8 = 0;
+            if (Intrinsics.areEqual(LayoutIdKt.getLayoutId((Measurable)i6), "TextField")) {
                 break;
             } else {
             }
             textFieldConstraints = offset-NN6Ew-U;
-            i9 = offset-NN6Ew-U2;
+            i = offset-NN6Ew-U2;
             int verticalConstraintOffset2 = roundToPx-0680j_4;
-            occupiedSpaceHorizontally2 = i15 + 1;
+            occupiedSpaceHorizontally2 = i20 + 1;
             measureScope = $this$measure_u2d3p2s80s;
             topPaddingValue = leadingPlaceable3;
-            measure-BRTryo03 = placeable;
-            l3 = l2;
+            measure-BRTryo04 = placeable;
+            l3 = l;
             verticalConstraintOffset = trailingPlaceable2;
             leadingPlaceable = i43;
             trailingPlaceable = this;
         }
         int i64 = occupiedSpaceHorizontally2;
-        Placeable placeable3 = measure-BRTryo03;
+        Placeable placeable3 = measure-BRTryo04;
         NoSuchElementException noSuchElementException = new NoSuchElementException("Collection contains no element matching the predicate.");
         throw noSuchElementException;
     }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_simple_toogle_switch_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/lightGray"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingTop="@dimen/margin_8"
+        android:paddingBottom="@dimen/margin_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/name"
+            android:tag="binding_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintBottom_toBottomOf="0"
+            app:layout_constraintEnd_toStartOf="@+id/switch_button"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="0"
+            app:layout_constraintTop_toTopOf="0"
+            style="@style/DebugItemName"/>
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_button"
+            android:tag="binding_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toBottomOf="0"
+            app:layout_constraintEnd_toEndOf="0"
+            app:layout_constraintTop_toTopOf="0"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

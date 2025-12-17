@@ -126,33 +126,33 @@ public final class LayoutHelper {
         int paragraphEnd;
         java.lang.CharSequence text;
         int i3;
-        int i2;
-        int i;
-        int it;
-        int i4;
         int i5;
+        int i4;
+        int it;
+        int i;
+        int i2;
         super();
         this.layout = layout;
         ArrayList arrayList = new ArrayList();
-        i = length;
-        int indexOf$default = StringsKt.indexOf$default(this.layout.getText(), '\n', i, false, 4, 0);
+        i4 = length;
+        int indexOf$default = StringsKt.indexOf$default(this.layout.getText(), '\n', i4, false, 4, 0);
         do {
-            indexOf$default = StringsKt.indexOf$default(this.layout.getText(), '\n', i, false, 4, 0);
-            i = paragraphEnd;
-            (List)arrayList.add(Integer.valueOf(i));
-            if (i < this.layout.getText().length()) {
+            indexOf$default = StringsKt.indexOf$default(this.layout.getText(), '\n', i4, false, 4, 0);
+            i4 = paragraphEnd;
+            (List)arrayList.add(Integer.valueOf(i4));
+            if (i4 < this.layout.getText().length()) {
             }
-            i = paragraphEnd;
+            i4 = paragraphEnd;
         } while (indexOf$default < 0);
         this.paragraphEnds = arrayList;
         int size = this.paragraphEnds.size();
         ArrayList arrayList2 = new ArrayList(size);
-        i2 = 0;
-        while (i2 < size) {
-            int i6 = i2;
-            i4 = 0;
+        i5 = 0;
+        while (i5 < size) {
+            int i6 = i5;
+            i = 0;
             arrayList2.add(0);
-            i2++;
+            i5++;
         }
         this.paragraphBidi = (List)arrayList2;
         this.bidiProcessedParagraphs = new boolean[this.paragraphEnds.size()];
@@ -197,13 +197,13 @@ public final class LayoutHelper {
         int runCount;
         char[] tmpBuffer;
         int intValue;
-        int i2;
+        int i4;
         int bidi;
         int length;
         char[] cArr;
-        int i4;
-        int i5;
         int i3;
+        int i2;
+        int i5;
         int i;
         if (this.bidiProcessedParagraphs[paragraphIndex]) {
             return (Bidi)this.paragraphBidi.get(paragraphIndex);
@@ -251,40 +251,40 @@ public final class LayoutHelper {
 
     public final float getHorizontalPosition(int offset, boolean usePrimaryDirection, boolean upstream) {
         boolean z2;
-        int i8;
+        int i16;
         int lineEndToVisibleEnd;
         int lineEnd2;
         boolean z;
         int paragraphForOffset;
-        int i2;
-        int i9;
+        int i13;
+        int i6;
         float lineRight;
         int length;
         int paragraphStart;
-        int i7;
-        androidx.compose.ui.text.android.LayoutHelper.BidiRun[] rtl2;
-        boolean rtl;
-        int i17;
+        int i8;
+        androidx.compose.ui.text.android.LayoutHelper.BidiRun[] rtl;
+        boolean rtl2;
+        int i4;
         int bidiStart;
         int lineBidi;
-        int i;
-        int i3;
+        int i11;
+        int i2;
         int index$iv;
         int index$iv2;
         int runCount;
         androidx.compose.ui.text.android.LayoutHelper.BidiRun bidiRun;
-        int i4;
-        int i12;
+        int i3;
+        int i;
         int i15;
         int lineEnd3;
         int lineEnd;
-        int i10;
-        int i16;
+        int i9;
+        int i7;
         int i5;
-        int i13;
+        int i17;
+        int i12;
         int i14;
-        int i11;
-        int i6;
+        int i10;
         final Object obj = this;
         final int i18 = offset;
         z2 = upstream;
@@ -308,19 +308,19 @@ public final class LayoutHelper {
                 final boolean rtlParagraph = obj.isRtlParagraph(paragraphForOffset);
                 final int lineEndToVisibleEnd2 = obj.lineEndToVisibleEnd(lineEnd2, lineStart);
                 paragraphStart = obj.getParagraphStart(paragraphForOffset);
-                i17 = lineStart - paragraphStart;
+                i4 = lineStart - paragraphStart;
                 Bidi analyzeBidi = obj.analyzeBidi(paragraphForOffset);
                 if (analyzeBidi != null) {
-                    lineBidi = analyzeBidi.createLineBidi(i17, lineEndToVisibleEnd2 - paragraphStart);
+                    lineBidi = analyzeBidi.createLineBidi(i4, lineEndToVisibleEnd2 - paragraphStart);
                 } else {
                     lineBidi = 0;
                 }
                 if (lineBidi != 0) {
                     if (lineBidi.getRunCount() == 1) {
                         lineEnd3 = lineEnd2;
-                        i16 = paragraphForOffset;
-                        i13 = paragraphStart;
-                        i12 = i17;
+                        i7 = paragraphForOffset;
+                        i17 = paragraphStart;
+                        i = i4;
                         if (!usePrimaryDirection) {
                             if (rtlParagraph == obj.layout.isRtlCharAt(lineStart)) {
                                 z = !rtlParagraph ? 1 : 0;
@@ -329,9 +329,9 @@ public final class LayoutHelper {
                             }
                         } else {
                         }
-                        i = i18 == lineStart ? z : !z ? 1 : 0;
+                        i11 = i18 == lineStart ? z : !z ? 1 : 0;
                         Layout layout6 = obj.layout;
-                        if (i != 0) {
+                        if (i11 != 0) {
                             lineRight = layout6.getLineLeft(lineForOffset);
                         } else {
                             lineRight = layout6.getLineRight(lineForOffset);
@@ -339,74 +339,74 @@ public final class LayoutHelper {
                     } else {
                         int runCount3 = lineBidi.getRunCount();
                         androidx.compose.ui.text.android.LayoutHelper.BidiRun[] arr = new LayoutHelper.BidiRun[runCount3];
-                        i3 = 0;
-                        while (i3 < runCount3) {
+                        i2 = 0;
+                        while (i2 < runCount3) {
                             int bidiStart2 = 1;
                             if (runLevel2 % 2 == bidiStart2) {
                             } else {
                             }
-                            i7 = 0;
-                            LayoutHelper.BidiRun bidiRun2 = new LayoutHelper.BidiRun(lineStart + runStart, lineStart + runLimit, i7);
-                            arr[i3] = bidiRun2;
-                            i3++;
+                            i8 = 0;
+                            LayoutHelper.BidiRun bidiRun2 = new LayoutHelper.BidiRun(lineStart + runStart, lineStart + runLimit, i8);
+                            arr[i2] = bidiRun2;
+                            i2++;
                             z2 = upstream;
-                            i17 = i4;
+                            i4 = i3;
                             lineEnd2 = i15;
-                            paragraphForOffset = i10;
+                            paragraphForOffset = i9;
                             paragraphStart = i5;
-                            i7 = bidiStart2;
+                            i8 = bidiStart2;
                         }
                         int lineEnd5 = lineEnd2;
                         int i27 = paragraphForOffset;
                         int i28 = paragraphStart;
-                        int i26 = i17;
+                        int i26 = i4;
                         bidiStart = 1;
                         int runCount2 = lineBidi.getRunCount();
                         byte[] bArr = new byte[runCount2];
-                        i2 = 0;
-                        while (i2 < runCount2) {
-                            bArr[i2] = (byte)runLevel;
-                            i2++;
+                        i13 = 0;
+                        while (i13 < runCount2) {
+                            bArr[i13] = (byte)runLevel;
+                            i13++;
                         }
-                        i9 = 0;
-                        Bidi.reorderVisually(bArr, i9, arr, i9, arr.length);
+                        i6 = 0;
+                        Bidi.reorderVisually(bArr, i6, arr, i6, arr.length);
                         if (i18 == lineStart) {
-                            rtl2 = arr;
+                            rtl = arr;
                             int i25 = 0;
                             index$iv2 = 0;
-                            while (index$iv2 < rtl2.length) {
-                                i14 = 0;
-                                if (rtl2[index$iv2].getStart() == i18) {
+                            while (index$iv2 < rtl.length) {
+                                i12 = 0;
+                                if (rtl[index$iv2].getStart() == i18) {
                                 } else {
                                 }
-                                i9 = 0;
+                                i6 = 0;
                                 index$iv2++;
-                                i9 = 0;
-                                i9 = bidiStart;
+                                i6 = 0;
+                                i6 = bidiStart;
                             }
-                            i8 = -1;
+                            i16 = -1;
                             if (!usePrimaryDirection) {
-                                if (rtlParagraph == arr[i8].isRtl()) {
-                                    i11 = !rtlParagraph ? bidiStart : 0;
+                                if (rtlParagraph == arr[i16].isRtl()) {
+                                    i14 = !rtlParagraph ? bidiStart : 0;
                                 } else {
-                                    i11 = rtlParagraph;
+                                    i14 = rtlParagraph;
                                 }
                             } else {
                             }
-                            if (i8 == 0 && i11 != 0) {
-                                if (i11 != 0) {
+                            if (i16 == 0 && i14 != 0) {
+                                if (i14 != 0) {
                                     return obj.layout.getLineLeft(lineForOffset);
                                 }
                             }
-                            if (i8 == ArraysKt.getLastIndex(arr) && i11 == 0) {
-                                if (i11 == 0) {
+                            if (i16 == ArraysKt.getLastIndex(arr) && i14 == 0) {
+                                if (i14 == 0) {
                                     return obj.layout.getLineRight(lineForOffset);
                                 }
                             }
-                            if (i11 != 0) {
-                                return obj.layout.getPrimaryHorizontal(arr[i8 + -1].getStart());
+                            if (i14 != 0) {
+                                return obj.layout.getPrimaryHorizontal(arr[i16 + -1].getStart());
                             }
-                            return obj.layout.getPrimaryHorizontal(arr[i8 + 1].getStart());
+                            return obj.layout.getPrimaryHorizontal(arr[i16 + 1].getStart());
                         }
                         if (i18 > lineEndToVisibleEnd2) {
                             lineEndToVisibleEnd = obj.lineEndToVisibleEnd(i18, lineStart);
@@ -414,10 +414,10 @@ public final class LayoutHelper {
                             lineEndToVisibleEnd = i18;
                         }
                         androidx.compose.ui.text.android.LayoutHelper.BidiRun[] objArr = arr;
-                        rtl = 0;
+                        rtl2 = 0;
                         index$iv = 0;
                         while (index$iv < objArr.length) {
-                            i14 = 0;
+                            i12 = 0;
                             if (objArr[index$iv].getEnd() == lineEndToVisibleEnd) {
                             } else {
                             }
@@ -429,32 +429,32 @@ public final class LayoutHelper {
                         index$iv = -1;
                         if (!usePrimaryDirection) {
                             if (rtlParagraph == arr[index$iv].isRtl()) {
-                                i6 = rtlParagraph;
+                                i10 = rtlParagraph;
                             } else {
-                                i6 = !rtlParagraph ? 1 : 0;
+                                i10 = !rtlParagraph ? 1 : 0;
                             }
                         } else {
                         }
-                        if (index$iv == 0 && i6 != 0) {
-                            if (i6 != 0) {
+                        if (index$iv == 0 && i10 != 0) {
+                            if (i10 != 0) {
                                 return obj.layout.getLineLeft(lineForOffset);
                             }
                         }
-                        if (index$iv == ArraysKt.getLastIndex(arr) && i6 == 0) {
-                            if (i6 == 0) {
+                        if (index$iv == ArraysKt.getLastIndex(arr) && i10 == 0) {
+                            if (i10 == 0) {
                                 return obj.layout.getLineRight(lineForOffset);
                             }
                         }
-                        if (i6 != 0) {
+                        if (i10 != 0) {
                             return obj.layout.getPrimaryHorizontal(arr[index$iv + -1].getEnd());
                         }
                     }
                     return obj.layout.getPrimaryHorizontal(arr[index$iv + 1].getEnd());
                 }
                 lineEnd3 = lineEnd2;
-                i16 = paragraphForOffset;
-                i13 = paragraphStart;
-                i12 = i17;
+                i7 = paragraphForOffset;
+                i17 = paragraphStart;
+                i = i4;
             }
             return lineRight;
         }
@@ -467,55 +467,55 @@ public final class LayoutHelper {
 
     public final androidx.compose.ui.text.android.LayoutHelper.BidiRun[] getLineBidiRuns$ui_text_release(int lineIndex) {
         int i3;
-        int i;
-        int i4;
+        int i6;
         int i7;
+        int i;
         Bidi analyzeBidi;
         int i2;
         androidx.compose.ui.text.android.LayoutHelper.BidiRun bidiRun;
         int runLevel;
-        int i5;
         int i8;
-        int i6;
+        int i4;
+        int i5;
         final Object obj = this;
         i3 = lineIndex;
         int lineStart = obj.layout.getLineStart(i3);
         int lineEnd = obj.layout.getLineEnd(i3);
-        i4 = 0;
-        int paragraphForOffset$default = LayoutHelper.getParagraphForOffset$default(obj, lineStart, i4, 2, 0);
+        i7 = 0;
+        int paragraphForOffset$default = LayoutHelper.getParagraphForOffset$default(obj, lineStart, i7, 2, 0);
         final int paragraphStart = obj.getParagraphStart(paragraphForOffset$default);
         analyzeBidi = obj.analyzeBidi(paragraphForOffset$default);
         final int i15 = 1;
         if (analyzeBidi != null) {
             analyzeBidi = analyzeBidi.createLineBidi(lineStart - paragraphStart, lineEnd - paragraphStart);
             if (analyzeBidi == null) {
-                i5 = i4;
+                i8 = i7;
                 androidx.compose.ui.text.android.LayoutHelper.BidiRun[] arr = new LayoutHelper.BidiRun[i15];
                 LayoutHelper.BidiRun bidiRun2 = new LayoutHelper.BidiRun(lineStart, lineEnd, obj.layout.isRtlCharAt(lineStart));
-                arr[i5] = bidiRun2;
+                arr[i8] = bidiRun2;
                 return arr;
             } else {
                 final int runCount = analyzeBidi.getRunCount();
                 final androidx.compose.ui.text.android.LayoutHelper.BidiRun[] arr2 = new LayoutHelper.BidiRun[runCount];
-                i2 = i4;
+                i2 = i7;
                 while (i2 < runCount) {
-                    i8 = i4;
+                    i4 = i7;
                     if (runLevel % 2 == i15) {
                     } else {
                     }
-                    i = i8;
-                    bidiRun = new LayoutHelper.BidiRun(lineStart + runStart, lineStart + runLimit, i);
+                    i6 = i4;
+                    bidiRun = new LayoutHelper.BidiRun(lineStart + runStart, lineStart + runLimit, i6);
                     arr2[i2] = bidiRun;
                     i2++;
                     i3 = lineIndex;
-                    i4 = i8;
-                    i7 = i6;
-                    i = i15;
+                    i7 = i4;
+                    i = i5;
+                    i6 = i15;
                 }
             }
             return arr2;
         }
-        i5 = i4;
+        i8 = i7;
     }
 
     public final int getLineVisibleEnd(int lineIndex) {
@@ -532,21 +532,21 @@ public final class LayoutHelper {
 
     public final int getParagraphForOffset(int offset, boolean upstream) {
         int binarySearch$default;
-        int i2;
         int i;
+        int i2;
         binarySearch$default = CollectionsKt.binarySearch$default(this.paragraphEnds, (Comparable)Integer.valueOf(offset), 0, 0, 6, 0);
-        i2 = 0;
+        i = 0;
         if (binarySearch$default < 0) {
-            i = -i;
+            i2 = -i2;
         }
-        if (upstream != null && i > 0 && offset == (Number)this.paragraphEnds.get(i + -1).intValue()) {
-            if (i > 0) {
-                if (offset == (Number)this.paragraphEnds.get(i + -1).intValue()) {
-                    return i + -1;
+        if (upstream != null && i2 > 0 && offset == (Number)this.paragraphEnds.get(i2 + -1).intValue()) {
+            if (i2 > 0) {
+                if (offset == (Number)this.paragraphEnds.get(i2 + -1).intValue()) {
+                    return i2 + -1;
                 }
             }
         }
-        return i;
+        return i2;
     }
 
     public final int getParagraphStart(int paragraphIndex) {

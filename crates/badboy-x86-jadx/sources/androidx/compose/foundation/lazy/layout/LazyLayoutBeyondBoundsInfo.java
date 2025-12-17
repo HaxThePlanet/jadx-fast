@@ -37,12 +37,12 @@ public final class LazyLayoutBeyondBoundsInfo {
                 } else {
                 }
                 int i4 = 0;
-                IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("end index greater than start".toString());
-                throw illegalArgumentException2;
+                IllegalArgumentException $i$a$RequireLazyLayoutBeyondBoundsInfo$Interval$2 = new IllegalArgumentException("end index greater than start".toString());
+                throw $i$a$RequireLazyLayoutBeyondBoundsInfo$Interval$2;
             }
             int i3 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("negative start index".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireLazyLayoutBeyondBoundsInfo$Interval$1 = new IllegalArgumentException("negative start index".toString());
+            throw $i$a$RequireLazyLayoutBeyondBoundsInfo$Interval$1;
         }
 
         public static androidx.compose.foundation.lazy.layout.LazyLayoutBeyondBoundsInfo.Interval copy$default(androidx.compose.foundation.lazy.layout.LazyLayoutBeyondBoundsInfo.Interval lazyLayoutBeyondBoundsInfo$Interval, int i2, int i3, int i4, Object object5) {
@@ -154,11 +154,11 @@ public final class LazyLayoutBeyondBoundsInfo {
 
     public final int getStart() {
         int minIndex;
-        int i;
+        int i2;
         int i$iv;
         Object[] content;
         Object obj;
-        int i2;
+        int i;
         int start;
         int i3 = 0;
         minIndex = (LazyLayoutBeyondBoundsInfo.Interval)this.beyondBoundsItems.first().getStart();
@@ -168,23 +168,23 @@ public final class LazyLayoutBeyondBoundsInfo {
         if (size > 0) {
             i$iv = 0;
             obj = beyondBoundsItems2.getContent()[i$iv];
-            i2 = 0;
+            i = 0;
             do {
                 obj = content[i$iv];
-                i2 = 0;
+                i = 0;
                 if (i$iv++ < size) {
                 }
                 minIndex = obj.getStart();
             } while ((LazyLayoutBeyondBoundsInfo.Interval)obj.getStart() < minIndex);
         }
-        i = minIndex >= 0 ? 1 : 0;
-        if (i == 0) {
+        i2 = minIndex >= 0 ? 1 : 0;
+        if (i2 == 0) {
         } else {
             return minIndex;
         }
         int i4 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("negative minIndex".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireLazyLayoutBeyondBoundsInfo$start$2 = new IllegalArgumentException("negative minIndex".toString());
+        throw $i$a$RequireLazyLayoutBeyondBoundsInfo$start$2;
     }
 
     public final boolean hasIntervals() {

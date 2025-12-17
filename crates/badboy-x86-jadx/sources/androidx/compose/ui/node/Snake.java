@@ -17,10 +17,10 @@ final class Snake {
     }
 
     public static final void addDiagonalToStack-impl(int[] arg0, androidx.compose.ui.node.IntStack diagonals) {
-        int startX-impl;
+        int startX-impl2;
         int startY-impl;
         int diagonalSize-impl;
-        int startX-impl2;
+        int startX-impl;
         if (Snake.getHasAdditionOrRemoval-impl(arg0)) {
             if (Snake.getReverse-impl(arg0)) {
                 diagonals.pushDiagonal(Snake.getStartX-impl(arg0), Snake.getStartY-impl(arg0), Snake.getDiagonalSize-impl(arg0));
@@ -32,7 +32,7 @@ final class Snake {
                 }
             }
         } else {
-            diagonals.pushDiagonal(Snake.getStartX-impl(arg0), Snake.getStartY-impl(arg0), endX-impl -= startX-impl2);
+            diagonals.pushDiagonal(Snake.getStartX-impl(arg0), Snake.getStartY-impl(arg0), endX-impl -= startX-impl);
         }
     }
 

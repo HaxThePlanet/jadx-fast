@@ -163,40 +163,40 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
             Object obj;
             List $this$fastForEach$iv;
             int index$iv;
-            Object obj3;
             Object obj2;
-            int i2;
+            Object obj3;
+            int i3;
             GraphicsLayer graphicsLayer;
             float f;
-            long l;
-            long l4;
-            int i3;
             long l3;
+            long l4;
+            int i;
             long l2;
-            List i;
+            long l;
+            List i2;
             final int i5 = 0;
             index$iv = transform;
             while (index$iv < LazyLayoutItemAnimator.access$getDisappearingItems$p(obj.animator).size()) {
-                obj2 = obj3;
-                i2 = 0;
-                transform = (LazyLayoutItemAnimation)obj2.getLayer();
+                obj3 = obj2;
+                i3 = 0;
+                transform = (LazyLayoutItemAnimation)obj3.getLayer();
                 if (transform == null) {
                 } else {
                 }
                 graphicsLayer = transform;
                 l4 = $this$draw;
-                i3 = f - f2;
-                l3 = l - f3;
-                l2 = 0;
-                (DrawScope)l4.getDrawContext().getTransform().translate(i3, l3);
+                i = f - f2;
+                l2 = l3 - f3;
+                l = 0;
+                (DrawScope)l4.getDrawContext().getTransform().translate(i, l2);
                 int i7 = 0;
                 GraphicsLayerKt.drawLayer(l4, graphicsLayer);
-                i = $this$fastForEach$iv;
-                l4.getDrawContext().getTransform().translate(-i3, -l3);
+                i2 = $this$fastForEach$iv;
+                l4.getDrawContext().getTransform().translate(-i, -l2);
                 index$iv++;
                 obj = this;
-                $this$fastForEach$iv = i;
-                i = $this$fastForEach$iv;
+                $this$fastForEach$iv = i2;
+                i2 = $this$fastForEach$iv;
             }
             $this$draw.drawContent();
         }
@@ -269,32 +269,32 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         }
 
         private final boolean isRunningPlacement() {
-            int i3;
             int i4;
+            int i2;
             androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation;
             int it;
             int i;
-            int i2;
+            int i3;
             boolean runningMovingAwayAnimation;
             final androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] animations = this.animations;
             final int i5 = 0;
-            i3 = 0;
-            i4 = i3;
-            while (i4 < animations.length) {
+            i4 = 0;
+            i2 = i4;
+            while (i2 < animations.length) {
                 androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation2 = lazyLayoutItemAnimation;
                 i = 0;
-                i2 = 1;
-                if (lazyLayoutItemAnimation2 != null && lazyLayoutItemAnimation2.isRunningMovingAwayAnimation() == i2) {
+                i3 = 1;
+                if (lazyLayoutItemAnimation2 != null && lazyLayoutItemAnimation2.isRunningMovingAwayAnimation() == i3) {
+                } else {
+                }
+                it = i4;
+                i2++;
+                if (lazyLayoutItemAnimation2.isRunningMovingAwayAnimation() == i3) {
                 } else {
                 }
                 it = i3;
-                i4++;
-                if (lazyLayoutItemAnimation2.isRunningMovingAwayAnimation() == i2) {
-                } else {
-                }
-                it = i2;
             }
-            return i3;
+            return i4;
         }
 
         public static void updateAnimation$default(androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimator.ItemInfo lazyLayoutItemAnimator$ItemInfo, androidx.compose.foundation.lazy.layout.LazyLayoutMeasuredItem lazyLayoutMeasuredItem2, CoroutineScope coroutineScope3, GraphicsContext graphicsContext4, int i5, int i6, int i7, int i8, Object object9) {
@@ -354,35 +354,35 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
 
         public final void updateAnimation(T positionedItem, CoroutineScope coroutineScope, GraphicsContext graphicsContext, int layoutMinOffset, int layoutMaxOffset, int crossAxisOffset) {
             int fadeOutSpec;
+            int i4;
             int i;
-            int i2;
             int copyOf;
             int placeablesCount;
             androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation;
             int i3;
+            int i2;
             int i6;
-            int i5;
             Object obj2;
             androidx.compose.foundation.lazy.layout.LazyLayoutAnimationSpecsNode lazyLayoutAnimationSpecsNode;
             androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] lazyLayoutItemAnimation2;
             androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation3;
             CoroutineScope coroutineScope2;
             GraphicsContext context;
-            int i4;
+            int i5;
             final Object obj = this;
             if (!obj.isRunningPlacement()) {
                 obj.layoutMinOffset = layoutMinOffset;
                 obj.layoutMaxOffset = layoutMaxOffset;
             } else {
                 fadeOutSpec = layoutMinOffset;
-                i = layoutMaxOffset;
+                i4 = layoutMaxOffset;
             }
-            i2 = positionedItem.getPlaceablesCount();
-            while (i2 < animations2.length) {
-                lazyLayoutItemAnimation = obj.animations[i2];
+            i = positionedItem.getPlaceablesCount();
+            while (i < animations2.length) {
+                lazyLayoutItemAnimation = obj.animations[i];
                 if (lazyLayoutItemAnimation != null) {
                 }
-                i2++;
+                i++;
                 lazyLayoutItemAnimation.release();
             }
             if (i7.length != positionedItem.getPlaceablesCount()) {
@@ -396,13 +396,13 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
             obj.span = positionedItem.getSpan();
             i3 = 0;
             while (i3 < positionedItem.getPlaceablesCount()) {
-                i6 = i3;
-                i5 = 0;
-                lazyLayoutAnimationSpecsNode = LazyLayoutItemAnimatorKt.access$getSpecs(positionedItem.getParentData(i6));
+                i2 = i3;
+                i6 = 0;
+                lazyLayoutAnimationSpecsNode = LazyLayoutItemAnimatorKt.access$getSpecs(positionedItem.getParentData(i2));
                 if (lazyLayoutAnimationSpecsNode == null) {
                 } else {
                 }
-                if (obj.animations[i6] == null) {
+                if (obj.animations[i2] == null) {
                 } else {
                 }
                 coroutineScope2 = coroutineScope;
@@ -414,12 +414,12 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
                 fadeOutSpec = layoutMinOffset;
                 LazyLayoutItemAnimator.ItemInfo.updateAnimation.1.animation.1 anon = new LazyLayoutItemAnimator.ItemInfo.updateAnimation.1.animation.1(obj.this$0);
                 lazyLayoutItemAnimation2 = new LazyLayoutItemAnimation(coroutineScope, graphicsContext, (Function0)anon);
-                i4 = 0;
-                obj.animations[i6] = lazyLayoutItemAnimation2;
-                androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation4 = obj.animations[i6];
+                i5 = 0;
+                obj.animations[i2] = lazyLayoutItemAnimation2;
+                androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation4 = obj.animations[i2];
                 if (lazyLayoutItemAnimation4 != null) {
                 }
-                obj.animations[i6] = 0;
+                obj.animations[i2] = 0;
                 coroutineScope2 = coroutineScope;
                 context = graphicsContext;
                 lazyLayoutItemAnimation4.release();
@@ -507,18 +507,18 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
 
     private final void initializeAnimation(T item, int mainAxisOffset, androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimator.ItemInfo<T> itemInfo) {
         long plus-qkQi6aY;
-        int i4;
-        int i6;
         int i2;
+        int i8;
+        int i4;
         long copy-iSbpLlY$default;
-        int i7;
         int i5;
+        int i7;
+        androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation2;
+        int i3;
         androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation;
         int i;
-        androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation2;
-        int i8;
         long minus-qkQi6aY;
-        int i3;
+        int i6;
         plus-qkQi6aY = item;
         final long offset-Bjo55l4 = plus-qkQi6aY.getOffset-Bjo55l4(0);
         if (plus-qkQi6aY.isVertical()) {
@@ -528,19 +528,19 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         }
         androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] animations = itemInfo.getAnimations();
         int i9 = 0;
-        i5 = 0;
-        while (i4 < animations.length) {
-            lazyLayoutItemAnimation2 = lazyLayoutItemAnimation;
-            i8 = 0;
-            if (lazyLayoutItemAnimation2 != null) {
+        i7 = 0;
+        while (i2 < animations.length) {
+            lazyLayoutItemAnimation = lazyLayoutItemAnimation2;
+            i = 0;
+            if (lazyLayoutItemAnimation != null) {
             } else {
             }
-            i3 = i4;
-            i4 = i3 + 1;
+            i6 = i2;
+            i2 = i6 + 1;
             plus-qkQi6aY = item;
-            i5 = i;
-            i3 = i4;
-            lazyLayoutItemAnimation2.setRawOffset--gyyYBs(IntOffset.plus-qkQi6aY(copy-iSbpLlY$default, i7));
+            i7 = i3;
+            i6 = i2;
+            lazyLayoutItemAnimation.setRawOffset--gyyYBs(IntOffset.plus-qkQi6aY(copy-iSbpLlY$default, i5));
         }
     }
 
@@ -582,56 +582,56 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
 
     private final void startPlacementAnimationsIfNeeded(T item, boolean isMovingAway) {
         Object minus-qkQi6aY;
-        Object obj;
+        Object obj2;
         androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] animations;
-        Object $this$forEachIndexed$iv2;
+        Object $this$forEachIndexed$iv;
         int i;
-        int i3;
+        int i4;
         androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation;
         int i2;
         androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation lazyLayoutItemAnimation2;
-        int i4;
+        int i3;
         Object obj3;
         long offset-Bjo55l4;
         long rawOffset-nOcc-ac;
-        androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] $this$forEachIndexed$iv;
-        Object obj2;
-        obj = minus-qkQi6aY.keyToItemInfoMap.get(item.getKey());
-        Intrinsics.checkNotNull(obj);
+        androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] $this$forEachIndexed$iv2;
+        Object obj;
+        obj2 = minus-qkQi6aY.keyToItemInfoMap.get(item.getKey());
+        Intrinsics.checkNotNull(obj2);
         final int i5 = 0;
         i = 0;
-        i3 = 0;
-        while (i3 < animations.length) {
+        i4 = 0;
+        while (i4 < animations.length) {
             lazyLayoutItemAnimation2 = lazyLayoutItemAnimation;
-            i4 = 0;
+            i3 = 0;
             if (lazyLayoutItemAnimation2 != null) {
             } else {
             }
             obj3 = item;
-            obj2 = obj;
-            $this$forEachIndexed$iv = animations;
-            $this$forEachIndexed$iv2 = isMovingAway;
-            i3++;
+            obj = obj2;
+            $this$forEachIndexed$iv2 = animations;
+            $this$forEachIndexed$iv = isMovingAway;
+            i4++;
             minus-qkQi6aY = this;
             i = i2;
-            animations = $this$forEachIndexed$iv;
-            obj = obj2;
+            animations = $this$forEachIndexed$iv2;
+            obj2 = obj;
             offset-Bjo55l4 = item.getOffset-Bjo55l4(i);
             rawOffset-nOcc-ac = lazyLayoutItemAnimation2.getRawOffset-nOcc-ac();
-            obj2 = obj;
+            obj = obj2;
             if (!IntOffset.equals-impl0(rawOffset-nOcc-ac, obj15)) {
             } else {
             }
-            $this$forEachIndexed$iv = animations;
-            $this$forEachIndexed$iv2 = isMovingAway;
+            $this$forEachIndexed$iv2 = animations;
+            $this$forEachIndexed$iv = isMovingAway;
             lazyLayoutItemAnimation2.setRawOffset--gyyYBs(offset-Bjo55l4);
             if (!IntOffset.equals-impl0(rawOffset-nOcc-ac, obj15)) {
             } else {
             }
-            $this$forEachIndexed$iv = animations;
-            $this$forEachIndexed$iv2 = isMovingAway;
-            $this$forEachIndexed$iv = animations;
-            lazyLayoutItemAnimation2.animatePlacementDelta-ar5cAso(IntOffset.minus-qkQi6aY(offset-Bjo55l4, obj13), obj);
+            $this$forEachIndexed$iv2 = animations;
+            $this$forEachIndexed$iv = isMovingAway;
+            $this$forEachIndexed$iv2 = animations;
+            lazyLayoutItemAnimation2.animatePlacementDelta-ar5cAso(IntOffset.minus-qkQi6aY(offset-Bjo55l4, obj13), obj2);
         }
     }
 
@@ -645,16 +645,16 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
 
     private final int updateAndReturnOffsetFor(int[] $this$updateAndReturnOffsetFor, T item) {
         int maxOffset;
-        int i2;
         int i;
+        int i2;
         int mainAxisSizeWithSpacings;
         final int lane = item.getLane();
         maxOffset = 0;
-        i2 = lane;
-        while (i2 < lane + span) {
-            $this$updateAndReturnOffsetFor[i2] = i4 += mainAxisSizeWithSpacings;
-            maxOffset = Math.max(maxOffset, $this$updateAndReturnOffsetFor[i2]);
-            i2++;
+        i = lane;
+        while (i < lane + span) {
+            $this$updateAndReturnOffsetFor[i] = i4 += mainAxisSizeWithSpacings;
+            maxOffset = Math.max(maxOffset, $this$updateAndReturnOffsetFor[i]);
+            i++;
         }
         return maxOffset;
     }
@@ -675,11 +675,11 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
     public final long getMinSizeToFitDisappearingItems-YbymL2g() {
         long size;
         int index$iv;
-        Object obj;
         Object obj2;
-        int i;
-        GraphicsLayer layer;
+        Object obj;
         int i3;
+        GraphicsLayer layer;
+        int i;
         int i2;
         long l;
         long height-impl;
@@ -689,9 +689,9 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         final int i5 = 0;
         index$iv = 0;
         while (index$iv < disappearingItems.size()) {
-            obj2 = obj;
-            i = 0;
-            layer = (LazyLayoutItemAnimation)obj2.getLayer();
+            obj = obj2;
+            i3 = 0;
+            layer = (LazyLayoutItemAnimation)obj.getLayer();
             if (layer != null) {
             }
             index$iv++;
@@ -713,59 +713,59 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         List $this$sortByDescending$iv;
         int layoutMinOffset2;
         List $this$sortBy$iv;
-        int it;
+        int it2;
         int empty;
-        int i19;
-        int size5;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int i4;
+        int size2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv3;
         Object displayingNode;
-        int item2;
-        int i13;
+        int item;
+        int i19;
         int crossAxisOffset;
-        int i20;
-        int i9;
+        int i2;
+        int i5;
         int i$iv$iv;
         Object[] list;
-        int size3;
-        Object[] index$iv;
-        int size2;
         int size;
-        int i3;
+        Object[] index$iv;
+        int size5;
+        int size4;
+        int i18;
         MutableScatterMap map3;
-        int $this$forEach$iv2;
+        int $this$forEach$iv;
         MutableScatterSet $i$f$isFull;
         int index;
-        int newIndex;
+        int newIndex2;
         int index2;
-        int $this$forEach$iv;
+        int $this$forEach$iv2;
         int index$iv$iv;
-        Object[] $this$maskEmptyOrDeleted$iv$iv$iv3;
+        Object[] $this$maskEmptyOrDeleted$iv$iv$iv;
         int x-impl;
-        int i18;
+        int i7;
+        int j$iv$iv2;
+        int i9;
         int j$iv$iv4;
-        int i16;
-        int j$iv$iv3;
         int accumulatedOffsetPerLane2;
-        int i15;
+        int i13;
         int[] iArr2;
         int length;
         int $this$any$iv;
         int value$iv$iv$iv;
-        int size4;
+        int size3;
         int[] accumulatedOffsetPerLane;
         MutableScatterMap animation;
-        int i21;
+        int i6;
         MutableScatterMap movingInFromEndBound;
         long[] isProgress;
-        boolean it2;
+        boolean it;
         Object obj3;
-        Object obj2;
+        Object obj;
         MutableScatterMap map2;
         MutableScatterSet $this$fastForEach$iv;
-        int i6;
+        int i17;
         int first;
         int mainAxisSizeWithSpacings;
-        int i11;
+        int i21;
         int itemInfo;
         long[] lArr;
         int andReturnOffsetFor;
@@ -777,34 +777,34 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         int hasAnimations;
         MutableScatterMap map;
         int $this$maskEmptyOrDeleted$iv$iv$iv2;
+        int i8;
         int i10;
-        int i7;
-        int i;
-        int j$iv$iv2;
-        int item;
+        int i20;
+        int j$iv$iv;
+        int item2;
         MutableScatterMap scrollOffset2;
-        int i17;
-        GraphicsContext j$iv$iv;
+        int i3;
+        GraphicsContext j$iv$iv3;
         GraphicsContext context2;
-        int i2;
+        int i15;
         int index$iv2;
         int lane;
-        int i12;
+        int i11;
         int span;
         int i14;
         int unbox-impl;
-        Object obj;
+        Object obj2;
         Object info;
         CoroutineScope coroutineScope2;
         GraphicsContext context;
-        int newIndex2;
-        int i5;
+        int newIndex;
+        int i12;
         int crossAxisOffset2;
-        int i4;
-        int i8;
+        int i16;
+        int i;
         long[] m$iv$iv;
         final Object obj4 = this;
-        i16 = consumedScroll;
+        i9 = consumedScroll;
         final int i54 = layoutWidth;
         final int i55 = layoutHeight;
         final List list5 = positionedItems;
@@ -812,18 +812,18 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         $this$any$iv = laneCount;
         final androidx.compose.foundation.lazy.layout.LazyLayoutKeyIndexMap keyIndexMap2 = obj4.keyIndexMap;
         obj4.keyIndexMap = map4;
-        i19 = 0;
+        i4 = 0;
         List list4 = list2;
         int i37 = 0;
         index$iv$iv = 0;
-        i21 = 0;
+        i6 = 0;
         while (index$iv$iv < list4.size()) {
-            i6 = 0;
-            i11 = 0;
-            index$iv$iv++;
+            i17 = 0;
             i21 = 0;
+            index$iv$iv++;
+            i6 = 0;
         }
-        $this$fastAny$iv = i21;
+        $this$fastAny$iv = i6;
         value$iv$iv$iv = $this$fastAny$iv;
         if (value$iv$iv$iv == 0 && obj4.keyToItemInfoMap.isEmpty()) {
             if (obj4.keyToItemInfoMap.isEmpty()) {
@@ -834,23 +834,23 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         if ((LazyLayoutMeasuredItem)firstOrNull != null) {
             index3 = (LazyLayoutMeasuredItem)firstOrNull.getIndex();
         } else {
-            index3 = i21;
+            index3 = i6;
         }
         obj4.firstVisibleIndex = index3;
         if (isVertical) {
-            scrollOffset = IntOffsetKt.IntOffset(i21, i16);
+            scrollOffset = IntOffsetKt.IntOffset(i6, i9);
         } else {
-            scrollOffset = IntOffsetKt.IntOffset(i16, i21);
+            scrollOffset = IntOffsetKt.IntOffset(i9, i6);
         }
         if (!isLookingAhead) {
             if (!hasLookaheadOccurred) {
-                i9 = 1;
+                i5 = 1;
             } else {
-                i9 = i21;
+                i5 = i6;
             }
         } else {
         }
-        int i66 = i9;
+        int i66 = i5;
         MutableScatterMap keyToItemInfoMap2 = obj4.keyToItemInfoMap;
         first = 0;
         movingInFromEndBound = map2;
@@ -865,30 +865,30 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         } else {
             hasAnimations = value$iv$iv$iv;
             map = movingInFromEndBound;
-            j$iv$iv4 = 8;
+            j$iv$iv2 = 8;
         }
-        $this$forEach$iv2 = 0;
+        $this$forEach$iv = 0;
         x-impl = 0;
-        size4 = positionedItems.size();
-        while (x-impl < size4) {
+        size3 = positionedItems.size();
+        while (x-impl < size3) {
             length = map2;
             itemInfo = 0;
             obj4.movingAwayKeys.remove((LazyLayoutMeasuredItem)length.getKey());
             if (obj4.getHasAnimations(length)) {
             } else {
             }
-            item = scrollOffset;
-            map = $this$forEach$iv2;
-            i10 = x-impl;
-            lane = size4;
-            i19 = 2;
+            item2 = scrollOffset;
+            map = $this$forEach$iv;
+            i8 = x-impl;
+            lane = size3;
+            i4 = 2;
             obj4.removeInfoForKey(length.getKey());
-            x-impl = i10 + 1;
+            x-impl = i8 + 1;
             list = objArr;
-            $this$forEach$iv2 = map;
-            scrollOffset = item;
-            size4 = lane;
-            j$iv$iv4 = 8;
+            $this$forEach$iv = map;
+            scrollOffset = item2;
+            size3 = lane;
+            j$iv$iv2 = 8;
             if (keyIndexMap2 != null) {
             } else {
             }
@@ -897,45 +897,45 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
             if (movingInFromEndBound == -1 && keyIndexMap2 != null) {
             } else {
             }
-            i3 = 0;
+            i18 = 0;
             if (slot$iv$iv == null) {
             } else {
             }
-            map = $this$forEach$iv2;
-            i10 = x-impl;
+            map = $this$forEach$iv;
+            i8 = x-impl;
             scrollOffset2 = length;
             if (i66 != 0) {
             } else {
             }
-            lane = size4;
+            lane = size3;
             span = movingInFromEndBound;
-            j$iv$iv2 = slot$iv$iv;
+            j$iv$iv = slot$iv$iv;
             map3 = scrollOffset2;
-            item = scrollOffset;
-            i19 = 2;
-            j$iv$iv2 = slot$iv$iv;
-            LazyLayoutItemAnimator.ItemInfo.updateAnimation$default(j$iv$iv2, scrollOffset2, coroutineScope, graphicsContext, layoutMinOffset, layoutMaxOffset, 0, 32, 0);
-            androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] animations2 = j$iv$iv2.getAnimations();
+            item2 = scrollOffset;
+            i4 = 2;
+            j$iv$iv = slot$iv$iv;
+            LazyLayoutItemAnimator.ItemInfo.updateAnimation$default(j$iv$iv, scrollOffset2, coroutineScope, graphicsContext, layoutMinOffset, layoutMaxOffset, 0, 32, 0);
+            androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] animations2 = j$iv$iv.getAnimations();
             x-impl = 0;
-            $this$forEach$iv = 0;
-            while ($this$forEach$iv < animations2.length) {
+            $this$forEach$iv2 = 0;
+            while ($this$forEach$iv2 < animations2.length) {
                 scrollOffset2 = slot$iv$iv;
-                i17 = null;
+                i3 = null;
                 if (scrollOffset2 != null) {
                 } else {
                 }
-                i2 = $this$forEach$iv;
+                i15 = $this$forEach$iv2;
                 context2 = x-impl;
-                i12 = size4;
+                i11 = size3;
                 i14 = movingInFromEndBound;
                 animation = scrollOffset2;
-                $this$forEach$iv = i2 + 1;
+                $this$forEach$iv2 = i15 + 1;
                 x-impl = context2;
-                size4 = i12;
+                size3 = i11;
                 movingInFromEndBound = i14;
-                i2 = $this$forEach$iv;
+                i15 = $this$forEach$iv2;
                 context2 = x-impl;
-                i12 = size4;
+                i11 = size3;
                 i14 = movingInFromEndBound;
                 if (!IntOffset.equals-impl0(scrollOffset2.getRawOffset-nOcc-ac(), x-impl)) {
                 } else {
@@ -943,33 +943,33 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
                 animation = scrollOffset2;
                 scrollOffset2.setRawOffset--gyyYBs(IntOffset.plus-qkQi6aY(scrollOffset2.getRawOffset-nOcc-ac(), x-impl));
             }
-            j$iv$iv = x-impl;
-            lane = size4;
+            j$iv$iv3 = x-impl;
+            lane = size3;
             span = movingInFromEndBound;
-            if (i3 != 0) {
+            if (i18 != 0) {
             } else {
             }
-            item = scrollOffset;
+            item2 = scrollOffset;
             LazyLayoutItemAnimator.startPlacementAnimationsIfNeeded$default(obj4, scrollOffset2, false, 2, 0);
-            $this$forEach$iv = j$iv$iv2.getAnimations();
+            $this$forEach$iv2 = j$iv$iv.getAnimations();
             x-impl = 0;
-            size4 = 0;
-            while (size4 < $this$forEach$iv.length) {
+            size3 = 0;
+            while (size3 < $this$forEach$iv2.length) {
                 lArr = movingInFromEndBound;
                 slot$iv$iv = null;
                 if (lArr != null) {
                 } else {
                 }
                 scrollOffset2 = scrollOffset;
-                i19 = lArr;
-                size4++;
+                i4 = lArr;
+                size3++;
                 scrollOffset = scrollOffset2;
                 if (lArr.isDisappearanceAnimationInProgress()) {
                 } else {
                 }
                 scrollOffset2 = scrollOffset;
-                i19 = lArr;
-                i19.animateAppearance();
+                i4 = lArr;
+                i4.animateAppearance();
                 scrollOffset2 = scrollOffset;
                 obj4.disappearingItems.remove(lArr);
                 scrollOffset = obj4.displayingNode;
@@ -978,22 +978,22 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
                 DrawModifierNodeKt.invalidateDraw(scrollOffset);
                 scrollOffset = Unit.INSTANCE;
             }
-            item = scrollOffset;
+            item2 = scrollOffset;
             lArr = movingInFromEndBound;
             slot$iv$iv = null;
             if (lArr != null) {
             } else {
             }
             scrollOffset2 = scrollOffset;
-            i19 = lArr;
-            size4++;
+            i4 = lArr;
+            size3++;
             scrollOffset = scrollOffset2;
             if (lArr.isDisappearanceAnimationInProgress()) {
             } else {
             }
             scrollOffset2 = scrollOffset;
-            i19 = lArr;
-            i19.animateAppearance();
+            i4 = lArr;
+            i4.animateAppearance();
             scrollOffset2 = scrollOffset;
             obj4.disappearingItems.remove(lArr);
             scrollOffset = obj4.displayingNode;
@@ -1002,22 +1002,22 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
             DrawModifierNodeKt.invalidateDraw(scrollOffset);
             scrollOffset = Unit.INSTANCE;
             scrollOffset2 = slot$iv$iv;
-            i17 = null;
+            i3 = null;
             if (scrollOffset2 != null) {
             } else {
             }
-            i2 = $this$forEach$iv;
+            i15 = $this$forEach$iv2;
             context2 = x-impl;
-            i12 = size4;
+            i11 = size3;
             i14 = movingInFromEndBound;
             animation = scrollOffset2;
-            $this$forEach$iv = i2 + 1;
+            $this$forEach$iv2 = i15 + 1;
             x-impl = context2;
-            size4 = i12;
+            size3 = i11;
             movingInFromEndBound = i14;
-            i2 = $this$forEach$iv;
+            i15 = $this$forEach$iv2;
             context2 = x-impl;
-            i12 = size4;
+            i11 = size3;
             i14 = movingInFromEndBound;
             if (!IntOffset.equals-impl0(scrollOffset2.getRawOffset-nOcc-ac(), x-impl)) {
             } else {
@@ -1025,55 +1025,55 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
             animation = scrollOffset2;
             scrollOffset2.setRawOffset--gyyYBs(IntOffset.plus-qkQi6aY(scrollOffset2.getRawOffset-nOcc-ac(), x-impl));
             LazyLayoutItemAnimator.ItemInfo shouldAnimateAppearance2 = new LazyLayoutItemAnimator.ItemInfo(obj4);
-            j$iv$iv2 = shouldAnimateAppearance2;
+            j$iv$iv = shouldAnimateAppearance2;
             MutableScatterMap map5 = length;
-            LazyLayoutItemAnimator.ItemInfo.updateAnimation$default(j$iv$iv2, map5, coroutineScope, graphicsContext, layoutMinOffset, layoutMaxOffset, 0, 32, 0);
-            length = j$iv$iv2;
+            LazyLayoutItemAnimator.ItemInfo.updateAnimation$default(j$iv$iv, map5, coroutineScope, graphicsContext, layoutMinOffset, layoutMaxOffset, 0, 32, 0);
+            length = j$iv$iv;
             map3 = map5;
-            map = $this$forEach$iv2;
-            i10 = x-impl;
+            map = $this$forEach$iv;
+            i8 = x-impl;
             obj4.keyToItemInfoMap.set(map3.getKey(), length);
             if (map3.getIndex() != movingInFromEndBound && movingInFromEndBound != -1) {
             } else {
             }
-            j$iv$iv2 = map3.getOffset-Bjo55l4(0);
-            $this$forEach$iv2 = 0;
+            j$iv$iv = map3.getOffset-Bjo55l4(0);
+            $this$forEach$iv = 0;
             if (map3.isVertical()) {
             } else {
             }
-            x-impl = IntOffset.getX-impl(j$iv$iv2);
+            x-impl = IntOffset.getX-impl(j$iv$iv);
             obj4.initializeAnimation(map3, x-impl, length);
-            if (i3 != 0) {
+            if (i18 != 0) {
             } else {
             }
             MutableScatterMap item4 = map3;
-            lane = size4;
-            item = scrollOffset;
-            i19 = 2;
+            lane = size3;
+            item2 = scrollOffset;
+            i4 = 2;
             androidx.compose.foundation.lazy.layout.LazyLayoutItemAnimation[] animations = length.getAnimations();
             x-impl = 0;
-            $this$forEach$iv2 = 0;
-            while ($this$forEach$iv2 < animations.length) {
-                j$iv$iv2 = lArr;
-                i17 = null;
-                if (j$iv$iv2 != 0) {
+            $this$forEach$iv = 0;
+            while ($this$forEach$iv < animations.length) {
+                j$iv$iv = lArr;
+                i3 = null;
+                if (j$iv$iv != 0) {
                 }
-                $this$forEach$iv2++;
-                j$iv$iv2.animateAppearance();
-                j$iv$iv = Unit.INSTANCE;
+                $this$forEach$iv++;
+                j$iv$iv.animateAppearance();
+                j$iv$iv3 = Unit.INSTANCE;
             }
-            lane = size4;
+            lane = size3;
             map3 = map6;
-            item = scrollOffset;
-            i19 = 2;
-            j$iv$iv2 = lArr;
-            i17 = null;
-            if (j$iv$iv2 != 0) {
+            item2 = scrollOffset;
+            i4 = 2;
+            j$iv$iv = lArr;
+            i3 = null;
+            if (j$iv$iv != 0) {
             }
-            $this$forEach$iv2++;
-            j$iv$iv2.animateAppearance();
-            j$iv$iv = Unit.INSTANCE;
-            x-impl = IntOffset.getY-impl(j$iv$iv2);
+            $this$forEach$iv++;
+            j$iv$iv.animateAppearance();
+            j$iv$iv3 = Unit.INSTANCE;
+            x-impl = IntOffset.getY-impl(j$iv$iv);
             if (movingInFromEndBound != -1) {
             } else {
             }
@@ -1081,29 +1081,29 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
             } else {
             }
             obj4.movingInFromEndBound.add(map3);
-            item = scrollOffset;
-            lane = size4;
-            i19 = 2;
+            item2 = scrollOffset;
+            lane = size3;
+            i4 = 2;
             obj4.movingInFromStartBound.add(map3);
-            item = scrollOffset;
-            lane = size4;
-            i19 = 2;
+            item2 = scrollOffset;
+            lane = size3;
+            i4 = 2;
             if (keyIndexMap2 != null) {
             } else {
             }
-            i3 = 1;
+            i18 = 1;
             movingInFromEndBound = keyIndexMap2.getIndex(length.getKey());
         }
         long scrollOffset4 = scrollOffset;
         slot$iv$iv2 = list;
-        $this$maskEmptyOrDeleted$iv$iv$iv2 = $this$forEach$iv2;
-        i7 = x-impl;
-        size5 = 2;
+        $this$maskEmptyOrDeleted$iv$iv$iv2 = $this$forEach$iv;
+        i10 = x-impl;
+        size2 = 2;
         iArr = new int[$this$any$iv];
-        size3 = 0;
-        while (size3 < $this$any$iv) {
-            iArr[size3] = 0;
-            size3++;
+        size = 0;
+        while (size < $this$any$iv) {
+            iArr[size] = 0;
+            size++;
         }
         iArr2 = iArr;
         if (i66 != 0 && keyIndexMap2 != null) {
@@ -1112,32 +1112,32 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
                     List movingInFromStartBound3 = obj4.movingInFromStartBound;
                     int i33 = 0;
                     if (movingInFromStartBound3.size() > 1) {
-                        $this$forEach$iv2 = new LazyLayoutItemAnimator.onMeasured$$inlined.sortByDescending.1(keyIndexMap2);
-                        CollectionsKt.sortWith(movingInFromStartBound3, (Comparator)$this$forEach$iv2);
+                        $this$forEach$iv = new LazyLayoutItemAnimator.onMeasured$$inlined.sortByDescending.1(keyIndexMap2);
+                        CollectionsKt.sortWith(movingInFromStartBound3, (Comparator)$this$forEach$iv);
                     }
                     List movingInFromStartBound4 = obj4.movingInFromStartBound;
                     movingInFromEndBound = 0;
                     empty = 0;
-                    size3 = movingInFromStartBound4.size();
-                    while (empty < size3) {
+                    size = movingInFromStartBound4.size();
+                    while (empty < size) {
                         MutableScatterMap index$iv3 = map2;
                         itemInfo = 0;
                         long accumulatedOffsetPerLane3 = slot$iv$iv;
                         LazyLayoutItemAnimator.initializeAnimation$default(obj4, index$iv3, layoutMinOffset - andReturnOffsetFor, 0, 4, 0);
                         LazyLayoutItemAnimator.startPlacementAnimationsIfNeeded$default(obj4, index$iv3, false, accumulatedOffsetPerLane3, 0);
                         empty = slot$iv$iv2 + 1;
-                        size5 = accumulatedOffsetPerLane3;
-                        size3 = shouldAnimateAppearance;
-                        iArr2 = j$iv$iv;
+                        size2 = accumulatedOffsetPerLane3;
+                        size = shouldAnimateAppearance;
+                        iArr2 = j$iv$iv3;
                     }
                     slot$iv$iv2 = empty;
-                    j$iv$iv = iArr2;
-                    accumulatedOffsetPerLane2 = size5;
-                    ArraysKt.fill$default(j$iv$iv, 0, 0, 0, 6, 0);
-                    accumulatedOffsetPerLane = j$iv$iv;
+                    j$iv$iv3 = iArr2;
+                    accumulatedOffsetPerLane2 = size2;
+                    ArraysKt.fill$default(j$iv$iv3, 0, 0, 0, 6, 0);
+                    accumulatedOffsetPerLane = j$iv$iv3;
                 } else {
                     accumulatedOffsetPerLane = iArr2;
-                    accumulatedOffsetPerLane2 = size5;
+                    accumulatedOffsetPerLane2 = size2;
                 }
                 List movingInFromEndBound4 = obj4.movingInFromEndBound;
                 int i30 = 0;
@@ -1145,27 +1145,27 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
                     movingInFromEndBound4 = obj4.movingInFromEndBound;
                     i30 = 0;
                     if (movingInFromEndBound4.size() > 1) {
-                        size3 = new LazyLayoutItemAnimator.onMeasured$$inlined.sortBy.1(keyIndexMap2);
-                        CollectionsKt.sortWith(movingInFromEndBound4, (Comparator)size3);
+                        size = new LazyLayoutItemAnimator.onMeasured$$inlined.sortBy.1(keyIndexMap2);
+                        CollectionsKt.sortWith(movingInFromEndBound4, (Comparator)size);
                     }
                     movingInFromEndBound = obj4.movingInFromEndBound;
                     map2 = 0;
                     iArr = 0;
-                    size5 = movingInFromEndBound.size();
-                    while (iArr < size5) {
+                    size2 = movingInFromEndBound.size();
+                    while (iArr < size2) {
                         int index$iv4 = itemInfo;
                         andReturnOffsetFor = 0;
                         LazyLayoutItemAnimator.initializeAnimation$default(obj4, index$iv4, i46 -= mainAxisSizeWithSpacings2, 0, 4, 0);
                         LazyLayoutItemAnimator.startPlacementAnimationsIfNeeded$default(obj4, index$iv4, false, accumulatedOffsetPerLane2, 0);
                         iArr = shouldAnimateAppearance + 1;
-                        size5 = slot$iv$iv;
+                        size2 = slot$iv$iv;
                     }
                     shouldAnimateAppearance = iArr;
                     ArraysKt.fill$default(accumulatedOffsetPerLane, 0, 0, 0, 6, 0);
                 }
             } else {
                 accumulatedOffsetPerLane = iArr2;
-                accumulatedOffsetPerLane2 = size5;
+                accumulatedOffsetPerLane2 = size2;
             }
         } else {
         }
@@ -1175,12 +1175,12 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         $i$f$forEach = accumulatedOffsetPerLane2;
         length2 += -2;
         $this$fastForEach$iv = movingAwayKeys;
-        if (0 <= i15) {
+        if (0 <= i13) {
         } else {
-            $i$f$forEach = $this$maskEmptyOrDeleted$iv$iv$iv;
+            $i$f$forEach = $this$maskEmptyOrDeleted$iv$iv$iv3;
             shouldAnimateAppearance = index$iv;
             $this$maskEmptyOrDeleted$iv$iv$iv2 = $i$f$isFull;
-            i7 = i18;
+            i10 = i7;
             m$iv$iv = isProgress;
         }
         List movingAwayToStartBound2 = obj4.movingAwayToStartBound;
@@ -1189,32 +1189,32 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
             movingAwayToStartBound2 = obj4.movingAwayToStartBound;
             i27 = 0;
             if (movingAwayToStartBound2.size() > 1) {
-                size2 = new LazyLayoutItemAnimator.onMeasured$$inlined.sortByDescending.2(map4);
-                CollectionsKt.sortWith(movingAwayToStartBound2, (Comparator)size2);
+                size5 = new LazyLayoutItemAnimator.onMeasured$$inlined.sortByDescending.2(map4);
+                CollectionsKt.sortWith(movingAwayToStartBound2, (Comparator)size5);
             }
-            $this$maskEmptyOrDeleted$iv$iv$iv = 0;
+            $this$maskEmptyOrDeleted$iv$iv$iv3 = 0;
             index$iv = 0;
             while (index$iv < obj4.movingAwayToStartBound.size()) {
-                i15 = i18;
+                i13 = i7;
                 $this$any$iv = 0;
-                Object obj5 = obj4.keyToItemInfoMap.get((LazyLayoutMeasuredItem)i15.getKey());
+                Object obj5 = obj4.keyToItemInfoMap.get((LazyLayoutMeasuredItem)i13.getKey());
                 Intrinsics.checkNotNull(obj5);
                 if (isLookingAhead) {
                 } else {
                 }
                 layoutMinOffset2 = (LazyLayoutItemAnimator.ItemInfo)obj5.getLayoutMinOffset();
-                i15.position(layoutMinOffset2 -= isProgress, itemInfo.getCrossAxisOffset(), i54, i55);
+                i13.position(layoutMinOffset2 -= isProgress, itemInfo.getCrossAxisOffset(), i54, i55);
                 if (i66 != 0) {
                 }
                 index$iv++;
                 $this$sortByDescending$iv = $this$fastForEach$iv;
-                $this$maskEmptyOrDeleted$iv$iv$iv = first;
-                obj4.startPlacementAnimationsIfNeeded(i15, true);
+                $this$maskEmptyOrDeleted$iv$iv$iv3 = first;
+                obj4.startPlacementAnimationsIfNeeded(i13, true);
                 itemInfo = obj5;
                 layoutMinOffset2 = obj4.getMainAxisOffset((LazyLayoutMeasuredItem)CollectionsKt.first(list5));
             }
             $this$fastForEach$iv = $this$sortByDescending$iv;
-            first = $this$maskEmptyOrDeleted$iv$iv$iv;
+            first = $this$maskEmptyOrDeleted$iv$iv$iv3;
             ArraysKt.fill$default(accumulatedOffsetPerLane, 0, 0, 0, 6, 0);
         }
         List movingAwayToEndBound2 = obj4.movingAwayToEndBound;
@@ -1223,35 +1223,35 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
             movingAwayToEndBound2 = obj4.movingAwayToEndBound;
             i28 = 0;
             if (movingAwayToEndBound2.size() > 1) {
-                size = new LazyLayoutItemAnimator.onMeasured$$inlined.sortBy.2(map4);
-                CollectionsKt.sortWith(movingAwayToEndBound2, (Comparator)size);
+                size4 = new LazyLayoutItemAnimator.onMeasured$$inlined.sortBy.2(map4);
+                CollectionsKt.sortWith(movingAwayToEndBound2, (Comparator)size4);
             }
-            $this$maskEmptyOrDeleted$iv$iv$iv = 0;
+            $this$maskEmptyOrDeleted$iv$iv$iv3 = 0;
             index$iv = 0;
             while (index$iv < obj4.movingAwayToEndBound.size()) {
-                i15 = i18;
+                i13 = i7;
                 $this$any$iv = 0;
-                Object obj6 = obj4.keyToItemInfoMap.get((LazyLayoutMeasuredItem)i15.getKey());
+                Object obj6 = obj4.keyToItemInfoMap.get((LazyLayoutMeasuredItem)i13.getKey());
                 Intrinsics.checkNotNull(obj6);
                 if (isLookingAhead) {
                 } else {
                 }
                 layoutMaxOffset2 -= mainAxisSizeWithSpacings;
-                i15.position(it += isProgress, itemInfo.getCrossAxisOffset(), i54, i55);
+                i13.position(it2 += isProgress, itemInfo.getCrossAxisOffset(), i54, i55);
                 if (i66 != 0) {
                 } else {
                 }
-                i20 = 1;
+                i2 = 1;
                 index$iv++;
                 $this$sortBy$iv = $this$fastForEach$iv;
-                $this$maskEmptyOrDeleted$iv$iv$iv = first;
-                obj4.startPlacementAnimationsIfNeeded(i15, true);
+                $this$maskEmptyOrDeleted$iv$iv$iv3 = first;
+                obj4.startPlacementAnimationsIfNeeded(i13, true);
                 itemInfo = obj6;
                 mainAxisSizeWithSpacings = 0;
-                it = obj4.getMainAxisOffset((LazyLayoutMeasuredItem)CollectionsKt.last(list5));
+                it2 = obj4.getMainAxisOffset((LazyLayoutMeasuredItem)CollectionsKt.last(list5));
             }
             $this$fastForEach$iv = $this$sortBy$iv;
-            first = $this$maskEmptyOrDeleted$iv$iv$iv;
+            first = $this$maskEmptyOrDeleted$iv$iv$iv3;
         }
         List movingAwayToStartBound3 = obj4.movingAwayToStartBound;
         int i32 = 0;
@@ -1272,36 +1272,36 @@ public final class LazyLayoutItemAnimator<T extends androidx.compose.foundation.
         int $i$f$forEachValue;
         Object[] values;
         MutableScatterMap map;
-        int i3;
+        int i;
         long[] metadata;
-        int i6;
+        int i4;
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         int animations;
         int j$iv$iv;
-        int i9;
-        int i;
+        int i3;
+        int i2;
         long l;
         Object obj;
-        int i5;
-        int i4;
         int i8;
-        int i10;
-        MutableScatterMap this_$iv;
-        int i2;
-        int i11;
+        int i5;
+        int i6;
         int i7;
+        MutableScatterMap this_$iv;
+        int i9;
+        int i10;
+        int i11;
         final Object obj2 = this;
         if (obj2.keyToItemInfoMap.isNotEmpty()) {
             this_$iv2 = obj2.keyToItemInfoMap;
-            i3 = 0;
+            i = 0;
             metadata = map.metadata;
             length += -2;
-            if (0 <= i6) {
+            if (0 <= i4) {
             } else {
                 this_$iv = this_$iv2;
-                i2 = $i$f$forEachValue;
+                i9 = $i$f$forEachValue;
             }
             obj2.keyToItemInfoMap.clear();
         }

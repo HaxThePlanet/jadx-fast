@@ -28,15 +28,15 @@ final class TypefaceBuilderCompat {
         androidx.compose.ui.unit.Density density;
         List settings;
         int index$iv$iv;
-        Object obj3;
         Object obj;
-        int i2;
-        ArrayList list;
         Object obj2;
+        int i2;
+        ArrayList list2;
+        Object obj3;
         int i;
         FontVariationAxis fontVariationAxis;
         String axisName;
-        List list2;
+        List list;
         if (context != null) {
             density = AndroidDensity_androidKt.Density(context);
             settings = $this$toVariationSettings.getSettings();
@@ -47,12 +47,12 @@ final class TypefaceBuilderCompat {
             index$iv$iv = 0;
             while (index$iv$iv < list5.size()) {
                 i2 = 0;
-                obj2 = obj;
+                obj3 = obj2;
                 i = 0;
-                fontVariationAxis = new FontVariationAxis((FontVariation.Setting)obj2.getAxisName(), obj2.toVariationValue(density));
+                fontVariationAxis = new FontVariationAxis((FontVariation.Setting)obj3.getAxisName(), obj3.toVariationValue(density));
                 (Collection)arrayList.add(fontVariationAxis);
                 index$iv$iv++;
-                settings = list2;
+                settings = list;
             }
             List $this$fastMap$iv = settings;
             int i5 = 0;

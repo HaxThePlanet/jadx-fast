@@ -49,9 +49,9 @@ public final class DebugMetadataKt {
     }
 
     public static final String[] getSpilledVariableFieldMapping(kotlin.coroutines.jvm.internal.BaseContinuationImpl $this$getSpilledVariableFieldMapping) {
+        int i;
         int i2;
         int i3;
-        int i;
         String str;
         Intrinsics.checkNotNullParameter($this$getSpilledVariableFieldMapping, "<this>");
         kotlin.coroutines.jvm.internal.DebugMetadata debugMetadataAnnotation = DebugMetadataKt.getDebugMetadataAnnotation($this$getSpilledVariableFieldMapping);
@@ -62,14 +62,14 @@ public final class DebugMetadataKt {
         ArrayList arrayList = new ArrayList();
         int[] iArr = debugMetadataAnnotation.i();
         int i8 = 0;
-        i2 = i8;
-        while (i2 < iArr.length) {
-            i3 = i2;
-            if (iArr[i2] == DebugMetadataKt.getLabel($this$getSpilledVariableFieldMapping)) {
+        i = i8;
+        while (i < iArr.length) {
+            i2 = i;
+            if (iArr[i] == DebugMetadataKt.getLabel($this$getSpilledVariableFieldMapping)) {
             }
-            i2++;
-            arrayList.add(debugMetadataAnnotation.s()[i3]);
-            arrayList.add(debugMetadataAnnotation.n()[i3]);
+            i++;
+            arrayList.add(debugMetadataAnnotation.s()[i2]);
+            arrayList.add(debugMetadataAnnotation.n()[i2]);
         }
         int i7 = 0;
         return (String[])(Collection)arrayList.toArray(new String[i8]);

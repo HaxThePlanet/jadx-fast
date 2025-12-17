@@ -48,8 +48,8 @@ public final class LazyStaggeredGridMeasuredItem implements androidx.compose.fou
 
     private LazyStaggeredGridMeasuredItem(int index, Object key, List<? extends Placeable> placeables, boolean isVertical, int spacing, int lane, int span, int beforeContentPadding, int afterContentPadding, Object contentType, LazyLayoutItemAnimator<androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem> animator, long constraints) {
         int i$iv;
-        int intValue;
         int intValue2;
+        int intValue;
         long l;
         int lastIndex;
         int crossAxisSize;
@@ -58,12 +58,12 @@ public final class LazyStaggeredGridMeasuredItem implements androidx.compose.fou
         Object maxValue$iv;
         int i$iv2;
         Integer maxValue$iv2;
-        int height;
+        int height2;
         int compareTo;
         int i2;
         int compareTo2;
         int i;
-        int height2;
+        int height;
         final Object obj = this;
         super();
         obj.index = index;
@@ -96,11 +96,11 @@ public final class LazyStaggeredGridMeasuredItem implements androidx.compose.fou
             }
         }
         if ((Integer)maxValue$iv2 != null) {
-            intValue = (Integer)maxValue$iv2.intValue();
+            intValue2 = (Integer)maxValue$iv2.intValue();
         } else {
-            intValue = 0;
+            intValue2 = 0;
         }
-        obj.mainAxisSize = intValue;
+        obj.mainAxisSize = intValue2;
         obj.mainAxisSizeWithSpacings = RangesKt.coerceAtLeast(mainAxisSize += spacing, 0);
         List placeables2 = obj.placeables;
         int i7 = 0;
@@ -109,22 +109,22 @@ public final class LazyStaggeredGridMeasuredItem implements androidx.compose.fou
             Object obj3 = placeables2.get(0);
             int i13 = 0;
             if (obj.isVertical()) {
-                height = (Placeable)obj3.getWidth();
+                height2 = (Placeable)obj3.getWidth();
             } else {
-                height = obj3.getHeight();
+                height2 = obj3.getHeight();
             }
-            maxValue$iv = Integer.valueOf(height);
+            maxValue$iv = Integer.valueOf(height2);
             maxValue$iv2 = CollectionsKt.getLastIndex(placeables2);
             if (1 <= maxValue$iv2) {
             }
             compareTo = maxValue$iv;
         }
         if ((Integer)compareTo != 0) {
-            intValue2 = (Integer)compareTo.intValue();
+            intValue = (Integer)compareTo.intValue();
         } else {
-            intValue2 = 0;
+            intValue = 0;
         }
-        obj.crossAxisSize = intValue2;
+        obj.crossAxisSize = intValue;
         obj.mainAxisLayoutSize = -1;
         if (obj.isVertical()) {
             l = IntSizeKt.IntSize(obj.crossAxisSize, obj.mainAxisSize);
@@ -179,57 +179,57 @@ public final class LazyStaggeredGridMeasuredItem implements androidx.compose.fou
 
     @Override // androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemInfo
     public final void applyScrollDelta(int delta) {
-        int i;
-        Object obj;
-        int i5;
-        int it2;
-        int i2;
-        int it;
-        int i6;
+        int i4;
         Object obj2;
         int i3;
+        int it2;
+        int i6;
+        int it;
+        int i5;
+        Object obj;
+        int i2;
         int intValue;
         int mainAxis;
-        int i4;
+        int i;
         if (getNonScrollableItem()) {
         }
         long offset-nOcc-ac = getOffset-nOcc-ac();
-        obj = this;
-        i5 = 0;
-        if (obj.isVertical()) {
+        obj2 = this;
+        i3 = 0;
+        if (obj2.isVertical()) {
             it2 = IntOffset.getX-impl(offset-nOcc-ac);
         } else {
-            i2 = 0;
+            i6 = 0;
             x-impl += delta;
         }
-        if (obj.isVertical()) {
-            i6 = 0;
+        if (obj2.isVertical()) {
+            i5 = 0;
             y-impl += delta;
         } else {
             it = IntOffset.getY-impl(offset-nOcc-ac);
         }
         this.offset = IntOffsetKt.IntOffset(it2, it);
-        i = 0;
-        while (i < getPlaceablesCount()) {
-            i5 = 0;
-            it2 = this.animator.getAnimation(getKey(), i);
+        i4 = 0;
+        while (i4 < getPlaceablesCount()) {
+            i3 = 0;
+            it2 = this.animator.getAnimation(getKey(), i4);
             if (it2 != 0) {
             }
-            i++;
+            i4++;
             long rawOffset-nOcc-ac = it2.getRawOffset-nOcc-ac();
-            obj2 = this;
-            i3 = 0;
-            if (obj2.isVertical()) {
+            obj = this;
+            i2 = 0;
+            if (obj.isVertical()) {
             } else {
             }
             mainAxis = 0;
             intValue = (Number)Integer.valueOf(x-impl2 += delta).intValue();
-            if (obj2.isVertical()) {
+            if (obj.isVertical()) {
             } else {
             }
             mainAxis = IntOffset.getY-impl(rawOffset-nOcc-ac);
             it2.setRawOffset--gyyYBs(IntOffsetKt.IntOffset(intValue, mainAxis));
-            i4 = 0;
+            i = 0;
             y-impl2 += delta;
             intValue = IntOffset.getX-impl(rawOffset-nOcc-ac);
         }
@@ -334,138 +334,138 @@ public final class LazyStaggeredGridMeasuredItem implements androidx.compose.fou
     @Override // androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemInfo
     public final void place(Placeable.PlacementScope scope, androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureContext context) {
         Object obj3;
-        int i5;
-        androidx.compose.ui.graphics.layer.GraphicsLayer animatedOffset;
-        int layer;
-        int offset;
-        int i11;
         int i7;
-        int reverseLayout;
-        int i8;
-        int $this$place_u24lambda_u246_u24lambda_u2452;
-        int i3;
-        long index;
+        androidx.compose.ui.graphics.layer.GraphicsLayer animatedOffset;
+        int layer2;
+        int offset;
         int i;
-        int maxOffset;
-        int i4;
-        long offset2;
-        int i6;
+        int i5;
+        int reverseLayout;
         int i9;
-        int height3;
+        int $this$place_u24lambda_u246_u24lambda_u2452;
+        int i4;
+        long index;
+        int i13;
+        int maxOffset;
+        int i11;
+        long offset2;
         int i16;
+        int i8;
+        int height3;
+        int i10;
         int index$iv;
         Object obj;
-        int i14;
-        Object obj6;
         int i2;
-        int i10;
+        Object obj6;
+        int $i$a$WithLazyStaggeredGridMeasuredItem$place$1;
+        int i14;
         int $this$place_u24lambda_u246_u24lambda_u245;
-        int i15;
-        int i12;
+        int i6;
+        int i3;
         int vertical;
         int x-impl;
-        int i17;
-        androidx.compose.ui.graphics.layer.GraphicsLayer layer2;
+        int i15;
+        androidx.compose.ui.graphics.layer.GraphicsLayer layer;
         int $this$copy_u2d4Tuh3kE$iv;
         long l2;
-        int i13;
-        int height2;
+        int i12;
         int height;
+        int height2;
         long l;
         final Object obj2 = this;
-        i11 = obj2.mainAxisLayoutSize != -1 ? 1 : 0;
-        if (i11 == 0) {
+        i = obj2.mainAxisLayoutSize != -1 ? 1 : 0;
+        if (i == 0) {
         } else {
             $this$place_u24lambda_u246_u24lambda_u2452 = scope;
-            i7 = 0;
+            i5 = 0;
             final List placeables = obj2.placeables;
-            final int i24 = 0;
-            index$iv = i3;
+            final int i23 = 0;
+            index$iv = i4;
             while (index$iv < placeables.size()) {
-                i3 = obj;
-                int i21 = index$iv;
-                i14 = 0;
-                int i22 = i3;
-                int i23 = 0;
+                i4 = obj;
+                int i20 = index$iv;
+                i2 = 0;
+                int i21 = i4;
+                int i22 = 0;
                 if (this.isVertical()) {
                 } else {
                 }
-                height3 = i22.getWidth();
+                height3 = i21.getWidth();
                 minMainAxisOffset -= height3;
                 int maxMainAxisOffset = obj2.maxMainAxisOffset;
                 offset2 = obj2.getOffset-nOcc-ac();
                 obj6 = obj3;
-                LazyLayoutItemAnimation animation = obj2.animator.getAnimation(obj2.getKey(), i21);
-                i16 = 0;
+                LazyLayoutItemAnimation animation = obj2.animator.getAnimation(obj2.getKey(), i20);
+                i10 = 0;
                 if (animation != null) {
                 } else {
                 }
-                i2 = i5;
-                i10 = i7;
-                i15 = $this$place_u24lambda_u246_u24lambda_u2452;
+                $i$a$WithLazyStaggeredGridMeasuredItem$place$1 = i7;
+                i14 = i5;
+                i6 = $this$place_u24lambda_u246_u24lambda_u2452;
                 animatedOffset = 0;
                 if (obj6.getReverseLayout()) {
                 } else {
                 }
-                layer2 = animatedOffset;
-                long plus-qkQi6aY = IntOffset.plus-qkQi6aY(offset2, i23);
+                layer = animatedOffset;
+                long plus-qkQi6aY = IntOffset.plus-qkQi6aY(offset2, i22);
                 if (animation == null) {
                 } else {
                 }
                 animation.setFinalOffset--gyyYBs(plus-qkQi6aY);
-                if (layer2 != null) {
+                if (layer != null) {
                 } else {
                 }
                 $this$place_u24lambda_u246_u24lambda_u245 = maxMainAxisOffset;
-                offset = i21;
-                i8 = i;
-                Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default(i15, (Placeable)i3, plus-qkQi6aY, i, 0, 0, 6);
+                offset = i20;
+                i9 = i13;
+                Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default(i6, (Placeable)i4, plus-qkQi6aY, i13, 0, 0, 6);
                 index$iv++;
                 obj3 = obj6;
-                i5 = i2;
-                i7 = i10;
+                i7 = $i$a$WithLazyStaggeredGridMeasuredItem$place$1;
+                i5 = i14;
                 $this$place_u24lambda_u246_u24lambda_u245 = maxMainAxisOffset;
-                offset = i21;
-                i8 = i;
-                Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default(i15, i3, plus-qkQi6aY, i, layer2, 0, 4);
+                offset = i20;
+                i9 = i13;
+                Placeable.PlacementScope.placeRelativeWithLayer-aW-9-wM$default(i6, i4, plus-qkQi6aY, i13, layer, 0, 4);
                 long l3 = offset2;
-                i16 = this;
-                i12 = 0;
-                if (i16.isVertical()) {
+                i10 = this;
+                i3 = 0;
+                if (i10.isVertical()) {
                 } else {
                 }
-                i17 = 0;
-                layer2 = animatedOffset;
-                $this$copy_u2d4Tuh3kE$iv = i3;
-                i13 = 0;
+                i15 = 0;
+                layer = animatedOffset;
+                $this$copy_u2d4Tuh3kE$iv = i4;
+                i12 = 0;
                 if (this.isVertical()) {
                 } else {
                 }
-                height2 = $this$copy_u2d4Tuh3kE$iv.getWidth();
-                i18 -= height2;
-                if (i16.isVertical()) {
+                height = $this$copy_u2d4Tuh3kE$iv.getWidth();
+                i17 -= height;
+                if (i10.isVertical()) {
                 } else {
                 }
                 reverseLayout = IntOffset.getY-impl(l3);
                 offset2 = animatedOffset;
-                i17 = 0;
+                i15 = 0;
                 $this$copy_u2d4Tuh3kE$iv = l3;
-                $this$place_u24lambda_u246_u24lambda_u2452 = i3;
-                height2 = 0;
+                $this$place_u24lambda_u246_u24lambda_u2452 = i4;
+                height = 0;
                 if (this.isVertical()) {
                 } else {
                 }
-                height = $this$place_u24lambda_u246_u24lambda_u2452.getWidth();
-                i19 -= height;
-                height = $this$place_u24lambda_u246_u24lambda_u2452.getHeight();
-                height2 = $this$copy_u2d4Tuh3kE$iv.getHeight();
-                layer2 = animatedOffset;
-                layer = x-impl;
-                i2 = i5;
-                i10 = i7;
-                long plus-qkQi6aY2 = IntOffset.plus-qkQi6aY(offset2, i23);
-                i15 = $this$place_u24lambda_u246_u24lambda_u2452;
-                if (obj2.getMainAxis--gyyYBs(offset2) <= i) {
+                height2 = $this$place_u24lambda_u246_u24lambda_u2452.getWidth();
+                i18 -= height2;
+                height2 = $this$place_u24lambda_u246_u24lambda_u2452.getHeight();
+                height = $this$copy_u2d4Tuh3kE$iv.getHeight();
+                layer = animatedOffset;
+                layer2 = x-impl;
+                $i$a$WithLazyStaggeredGridMeasuredItem$place$1 = i7;
+                i14 = i5;
+                long plus-qkQi6aY2 = IntOffset.plus-qkQi6aY(offset2, i22);
+                i6 = $this$place_u24lambda_u246_u24lambda_u2452;
+                if (obj2.getMainAxis--gyyYBs(offset2) <= i13) {
                 } else {
                 }
                 if (obj2.getMainAxis--gyyYBs(offset2) >= maxMainAxisOffset && obj2.getMainAxis--gyyYBs(plus-qkQi6aY2) >= maxMainAxisOffset) {
@@ -475,17 +475,17 @@ public final class LazyStaggeredGridMeasuredItem implements androidx.compose.fou
                 if (obj2.getMainAxis--gyyYBs(plus-qkQi6aY2) >= maxMainAxisOffset) {
                 }
                 animation.cancelPlacementAnimation();
-                if (obj2.getMainAxis--gyyYBs(plus-qkQi6aY2) > i) {
+                if (obj2.getMainAxis--gyyYBs(plus-qkQi6aY2) > i13) {
                 } else {
                 }
-                height3 = i22.getHeight();
+                height3 = i21.getHeight();
             }
         }
         Object obj5 = obj3;
-        int i25 = i5;
+        int i24 = i7;
         int $this$place_u24lambda_u246 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("position() should be called first".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireLazyStaggeredGridMeasuredItem$place$1$1 = new IllegalArgumentException("position() should be called first".toString());
+        throw $i$a$RequireLazyStaggeredGridMeasuredItem$place$1$1;
     }
 
     @Override // androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemInfo

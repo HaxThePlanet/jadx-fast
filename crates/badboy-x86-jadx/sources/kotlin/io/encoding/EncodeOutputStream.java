@@ -112,7 +112,7 @@ final class EncodeOutputStream extends OutputStream {
 
     @Override // java.io.OutputStream
     public void write(byte[] source, int offset, int length) {
-        int i3;
+        int i4;
         int startIndex;
         String str;
         int length2;
@@ -121,7 +121,7 @@ final class EncodeOutputStream extends OutputStream {
         int i;
         int i2;
         int encodeIntoOutput;
-        int i4;
+        int i3;
         Intrinsics.checkNotNullParameter(source, "source");
         checkOpen();
         if (offset < 0) {
@@ -135,9 +135,9 @@ final class EncodeOutputStream extends OutputStream {
                     int i5 = 1;
                     int i7 = 0;
                     final int i8 = 3;
-                    i3 = this.byteBufferLength < i8 ? i5 : i7;
+                    i4 = this.byteBufferLength < i8 ? i5 : i7;
                     final String str5 = "Check failed.";
-                    if (i3 == 0) {
+                    if (i4 == 0) {
                     } else {
                         startIndex = offset;
                         final int i9 = startIndex + length;
@@ -157,9 +157,9 @@ final class EncodeOutputStream extends OutputStream {
                             if (encodeIntoOutput(source, startIndex, startIndex + i2) == i * 4) {
                             } else {
                             }
-                            i4 = i7;
+                            i3 = i7;
                             startIndex += i2;
-                            i4 = i5;
+                            i3 = i5;
                             lineLength = this.lineLength;
                         }
                         ArraysKt.copyInto(source, this.byteBuffer, i7, startIndex, i9);

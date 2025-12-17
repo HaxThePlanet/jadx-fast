@@ -86,17 +86,17 @@ public final class HandwritingGestureApi34 {
 
     private final void highlightRange-XJREzCE(androidx.compose.foundation.text.input.internal.TransformedTextFieldState $this$highlightRange_u2dXJREzCE, long range, int type) {
         int collapsed-impl;
-        int i;
+        int i2;
         TextFieldState field;
         androidx.compose.foundation.text.input.InputTransformation inputTransformation;
         TextFieldEditUndoBehavior mergeIfPossible;
-        int i2;
+        int i;
         androidx.compose.foundation.text.input.internal.EditingBuffer mainBuffer$foundation_release;
         int i3;
         if (TextRange.getCollapsed-impl(range)) {
-            i = 0;
-            field = TransformedTextFieldState.access$getTextFieldState$p($this$highlightRange_u2dXJREzCE);
             i2 = 0;
+            field = TransformedTextFieldState.access$getTextFieldState$p($this$highlightRange_u2dXJREzCE);
+            i = 0;
             field.getMainBuffer$foundation_release().getChangeTracker().clearChanges();
             i3 = 0;
             field.getMainBuffer$foundation_release().clearHighlight();
@@ -182,32 +182,32 @@ public final class HandwritingGestureApi34 {
 
     private final int performInsertGesture(LegacyTextFieldState $this$performInsertGesture, InsertGesture gesture, ViewConfiguration viewConfiguration, Function1<? super EditCommand, Unit> editCommandConsumer) {
         TextLayoutResultProxy layoutResult;
-        int i2;
         int i;
+        int i2;
         if (viewConfiguration == null) {
             return fallbackOnLegacyTextField((HandwritingGesture)gesture, editCommandConsumer);
         }
         int i3 = HandwritingGesture_androidKt.access$getOffsetForHandwritingGesture-d-4ec7I($this$performInsertGesture, HandwritingGesture_androidKt.access$toOffset(gesture.getInsertionPoint()), obj1);
         layoutResult = $this$performInsertGesture.getLayoutResult();
-        i2 = 0;
-        i = 1;
+        i = 0;
+        i2 = 1;
         layoutResult = layoutResult.getValue();
-        if (i3 != -1 && layoutResult != null && layoutResult != null && HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i3) == i) {
+        if (i3 != -1 && layoutResult != null && layoutResult != null && HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i3) == i2) {
             layoutResult = $this$performInsertGesture.getLayoutResult();
-            i2 = 0;
-            i = 1;
+            i = 0;
+            i2 = 1;
             if (layoutResult != null) {
                 layoutResult = layoutResult.getValue();
                 if (layoutResult != null) {
-                    if (HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i3) == i) {
-                        i2 = i;
+                    if (HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i3) == i2) {
+                        i = i2;
                     }
                 }
             }
-            if (i2 != 0) {
+            if (i != 0) {
             }
             performInsertionOnLegacyTextField(i3, gesture.getTextToInsert(), editCommandConsumer);
-            return i;
+            return i2;
         }
         return fallbackOnLegacyTextField((HandwritingGesture)gesture, editCommandConsumer);
     }
@@ -234,67 +234,67 @@ public final class HandwritingGestureApi34 {
         TextLayoutResultProxy layoutResult;
         boolean collapsed-impl;
         int str;
-        int i;
+        int i2;
         Object obj;
         Object obj2;
         boolean z;
         java.lang.CharSequence charSequence;
-        int i2;
-        Function1 function1;
+        int i;
         Function1 function12;
+        Function1 function1;
         if (viewConfiguration == null) {
             return fallbackOnLegacyTextField((HandwritingGesture)gesture, editCommandConsumer);
         }
         int i3 = HandwritingGesture_androidKt.access$getOffsetForHandwritingGesture-d-4ec7I($this$performJoinOrSplitGesture, HandwritingGesture_androidKt.access$toOffset(gesture.getJoinOrSplitPoint()), obj1);
         layoutResult = $this$performJoinOrSplitGesture.getLayoutResult();
         str = 0;
-        i = 1;
+        i2 = 1;
         layoutResult = layoutResult.getValue();
-        if (i3 != -1 && layoutResult != null && layoutResult != null && HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i3) == i) {
+        if (i3 != -1 && layoutResult != null && layoutResult != null && HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i3) == i2) {
             layoutResult = $this$performJoinOrSplitGesture.getLayoutResult();
             str = 0;
-            i = 1;
+            i2 = 1;
             if (layoutResult != null) {
                 layoutResult = layoutResult.getValue();
                 if (layoutResult != null) {
-                    if (HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i3) == i) {
-                        str = i;
+                    if (HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i3) == i2) {
+                        str = i2;
                     }
                 }
             }
             if (str != null) {
                 obj2 = this;
                 charSequence = text;
-                function12 = editCommandConsumer;
-                return fallbackOnLegacyTextField((HandwritingGesture)gesture, function12);
+                function1 = editCommandConsumer;
+                return fallbackOnLegacyTextField((HandwritingGesture)gesture, function1);
             } else {
                 final long l2 = HandwritingGesture_androidKt.access$rangeOfWhitespaces((CharSequence)text, i3);
                 if (TextRange.getCollapsed-impl(l2)) {
                     performInsertionOnLegacyTextField(TextRange.getStart-impl(l2), " ", editCommandConsumer);
                     obj = this;
                     z = text;
-                    function1 = editCommandConsumer;
+                    function12 = editCommandConsumer;
                 } else {
                     this.performDeletionOnLegacyTextField-vJH6DeI(l2, obj6, text, 0);
                 }
             }
-            return i;
+            return i2;
         }
         obj2 = this;
         charSequence = text;
-        function12 = editCommandConsumer;
+        function1 = editCommandConsumer;
     }
 
     private final int performJoinOrSplitGesture(androidx.compose.foundation.text.input.internal.TransformedTextFieldState $this$performJoinOrSplitGesture, JoinOrSplitGesture gesture, androidx.compose.foundation.text.input.internal.TextLayoutState layoutState, ViewConfiguration viewConfiguration) {
-        int i4;
+        int i6;
         boolean collapsed-impl;
         TextLayoutResult layoutResult;
         int untransformedText;
-        int i;
-        int i2;
-        int i3;
+        int i4;
         int i5;
-        int i6;
+        int i2;
+        int i;
+        int i3;
         untransformedText = $this$performJoinOrSplitGesture.getUntransformedText();
         if ($this$performJoinOrSplitGesture.getOutputText() != untransformedText) {
             return 3;
@@ -303,13 +303,13 @@ public final class HandwritingGestureApi34 {
         final int i8 = HandwritingGesture_androidKt.access$getOffsetForHandwritingGesture-d-4ec7I(layoutState, HandwritingGesture_androidKt.access$toOffset(gesture.getJoinOrSplitPoint()), untransformedText);
         if (i8 != -1) {
             layoutResult = layoutState.getLayoutResult();
-            i6 = 1;
+            i3 = 1;
             untransformedText = 0;
-            if (layoutResult != null && HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i8) == i6) {
-                i4 = HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i8) == i6 ? i6 : untransformedText;
+            if (layoutResult != null && HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i8) == i3) {
+                i6 = HandwritingGesture_androidKt.access$isBiDiBoundary(layoutResult, i8) == i3 ? i3 : untransformedText;
             } else {
             }
-            if (i4 != 0) {
+            if (i6 != 0) {
             } else {
                 final long l2 = HandwritingGesture_androidKt.access$rangeOfWhitespaces((CharSequence)$this$performJoinOrSplitGesture.getVisualText(), i8);
                 if (TextRange.getCollapsed-impl(l2)) {
@@ -318,7 +318,7 @@ public final class HandwritingGestureApi34 {
                     performDeletion-Sb-Bc2M($this$performJoinOrSplitGesture, l2, obj3);
                 }
             }
-            return i6;
+            return i3;
         }
         return fallback($this$performJoinOrSplitGesture, (HandwritingGesture)gesture);
     }

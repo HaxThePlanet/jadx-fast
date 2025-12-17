@@ -42,31 +42,31 @@ public final class FlowRowOverflow extends androidx.compose.foundation.layout.Fl
 
         public final androidx.compose.foundation.layout.FlowRowOverflow expandOrCollapseIndicator--jt2gSs(Function3<? super androidx.compose.foundation.layout.FlowRowOverflowScope, ? super Composer, ? super Integer, Unit> expandIndicator, Function3<? super androidx.compose.foundation.layout.FlowRowOverflowScope, ? super Composer, ? super Integer, Unit> collapseIndicator, int minRowsToShowCollapse, float minHeightToShowCollapse, Composer $composer, int $changed, int i7) {
             boolean changed;
-            int i2;
-            int i3;
-            float minHeightToShowCollapse2;
             int i4;
+            int i10;
+            float minHeightToShowCollapse2;
+            int i9;
             boolean traceInProgress;
             int changed3;
-            int i;
+            int i6;
             int changed2;
             Object flowRowOverflow;
             float str;
             int expandOrCollapseIndicator;
             int i5;
             int i8;
-            int i6;
-            int i9;
-            int i10;
+            int i2;
+            int i;
+            int i3;
             final Object obj = expandIndicator;
             final Object obj2 = collapseIndicator;
             final Composer composer = $composer;
             final int i11 = $changed;
             int i12 = -58693346;
             ComposerKt.sourceInformationMarkerStart(composer, i12, "C(expandOrCollapseIndicator)P(1!1,3,2:c#ui.unit.Dp)*155@7080L7,158@7176L1079:FlowLayoutOverflow.kt#2w3rfo");
-            i5 = i7 & 4 != 0 ? i3 : minRowsToShowCollapse;
+            i5 = i7 & 4 != 0 ? i10 : minRowsToShowCollapse;
             if (i7 & 8 != 0) {
-                i4 = 0;
+                i9 = 0;
                 minHeightToShowCollapse2 = Dp.constructor-impl((float)i19);
             } else {
                 minHeightToShowCollapse2 = minHeightToShowCollapse;
@@ -86,7 +86,7 @@ public final class FlowRowOverflow extends androidx.compose.foundation.layout.Fl
             i8 = 1;
             if (i14 ^= 384 > i22) {
                 if (!composer.changed(i5)) {
-                    i2 = i11 & 384 == i22 ? i8 : expandOrCollapseIndicator;
+                    i4 = i11 & 384 == i22 ? i8 : expandOrCollapseIndicator;
                 } else {
                 }
             } else {
@@ -94,15 +94,15 @@ public final class FlowRowOverflow extends androidx.compose.foundation.layout.Fl
             int i27 = 4;
             if (i23 ^= 6 > i27) {
                 if (!composer.changed(obj)) {
-                    i = i11 & 6 == i27 ? i8 : expandOrCollapseIndicator;
+                    i6 = i11 & 6 == i27 ? i8 : expandOrCollapseIndicator;
                 } else {
                 }
             } else {
             }
-            i6 = 32;
-            if (i24 ^= 48 > i6) {
+            i2 = 32;
+            if (i24 ^= 48 > i2) {
                 if (!composer.changed(obj2)) {
-                    if (i11 & 48 == i6) {
+                    if (i11 & 48 == i2) {
                         expandOrCollapseIndicator = i8;
                     }
                 } else {
@@ -115,7 +115,7 @@ public final class FlowRowOverflow extends androidx.compose.foundation.layout.Fl
             final int i29 = 0;
             if (i16 |= expandOrCollapseIndicator == 0) {
                 if (rememberedValue == Composer.Companion.getEmpty()) {
-                    i10 = 0;
+                    i3 = 0;
                     FlowRowOverflow.Companion.expandOrCollapseIndicator.1.seeMoreGetter.1 anon = new FlowRowOverflow.Companion.expandOrCollapseIndicator.1.seeMoreGetter.1(obj);
                     FlowRowOverflow.Companion.expandOrCollapseIndicator.1.collapseGetter.1 anon2 = new FlowRowOverflow.Companion.expandOrCollapseIndicator.1.collapseGetter.1(obj2);
                     flowRowOverflow = new FlowRowOverflow(FlowLayoutOverflow.OverflowType.ExpandOrCollapseIndicator, i5, roundToPx-0680j_4, (Function1)anon, (Function1)anon2, 0);

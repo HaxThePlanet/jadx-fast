@@ -51,7 +51,7 @@ public final class PendingIntentCompat {
         }
 
         private void onSendFinished(PendingIntent pendingIntent, Intent intent, int resultCode, String resultData, Bundle resultExtras) {
-            int i4;
+            int i2;
             Object currentThread;
             int i;
             PendingIntent.OnFinished mCallback;
@@ -59,18 +59,18 @@ public final class PendingIntentCompat {
             Object pendingIntent2;
             Thread thread2;
             Object thread;
-            int i2;
             int i3;
+            int i4;
             String str2;
             String str;
-            Bundle bundle2;
             Bundle bundle;
+            Bundle bundle2;
             Throwable obj9;
             Thread obj10;
             int obj11;
             String obj12;
             Bundle obj13;
-            i = i4;
+            i = i2;
             this.mComplete.await();
             if (i != 0) {
                 try {
@@ -82,9 +82,9 @@ public final class PendingIntentCompat {
                     this.mCallback = 0;
                     pendingIntent2 = obj9;
                     thread = obj10;
-                    i3 = obj11;
+                    i4 = obj11;
                     str = obj12;
-                    bundle = obj13;
+                    bundle2 = obj13;
                 }
             }
         }
@@ -168,7 +168,7 @@ public final class PendingIntentCompat {
     }
 
     public static void send(PendingIntent pendingIntent, Context context, int code, Intent intent, PendingIntent.OnFinished onFinished, Handler handler, String requiredPermissions, Bundle options) throws PendingIntent.CanceledException {
-        Throwable th2;
+        Throwable th;
         PendingIntentCompat.GatedCallback gatedCallback = new PendingIntentCompat.GatedCallback(onFinished);
         final androidx.core.app.PendingIntentCompat.GatedCallback intent2 = gatedCallback;
         PendingIntentCompat.Api23Impl.send(pendingIntent, context, code, intent, onFinished, handler, requiredPermissions, options);

@@ -58,72 +58,72 @@ public final class ListItemKt {
     }
 
     public static final void ListItem-HXNGIdc(Function2<? super Composer, ? super Integer, Unit> headlineContent, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> overlineContent, Function2<? super Composer, ? super Integer, Unit> supportingContent, Function2<? super Composer, ? super Integer, Unit> leadingContent, Function2<? super Composer, ? super Integer, Unit> trailingContent, androidx.compose.material3.ListItemColors colors, float tonalElevation, float shadowElevation, Composer $composer, int $changed, int i12) {
-        Object obj5;
-        int traceInProgress;
+        Object obj3;
+        int traceInProgress2;
         int defaultsInvalid;
-        int leadingContent3;
-        androidx.compose.runtime.internal.ComposableLambda leadingContent2;
+        int leadingContent2;
+        androidx.compose.runtime.internal.ComposableLambda leadingContent3;
         androidx.compose.runtime.internal.ComposableLambda decoratedOverlineContent;
         int it;
         int shape;
-        int str2;
+        int str;
         float tonalElevation2;
         androidx.compose.material3.ListItemColors tonalElevation3;
         Object colors2;
-        int $dirty2;
-        Object $dirty;
-        int i13;
-        Object trailingContent2;
+        int $dirty;
+        Object $dirty2;
+        int i9;
         Object trailingContent3;
-        Object obj2;
+        Object trailingContent2;
+        Object obj;
         int modifier2;
-        int i11;
+        int i15;
         int elevation-D9Ej5fM;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Object obj6;
-        Object obj3;
+        Object obj5;
         androidx.compose.material3.ListItemColors overlineContent2;
-        int i10;
-        int str3;
-        Object anon2;
-        Object str;
+        int i8;
+        int str2;
+        Object anon;
+        Object str3;
         androidx.compose.runtime.internal.ComposableLambda rememberComposableLambda2;
         float f;
-        Object composableLambda;
+        Object composableLambda2;
         float supportingContent2;
-        int i4;
+        int i16;
         Object colors-J08w3-E;
-        androidx.compose.material3.ListItemKt.ListItem.decoratedOverlineContent.1.1 anon;
+        androidx.compose.material3.ListItemKt.ListItem.decoratedOverlineContent.1.1 anon2;
         androidx.compose.runtime.internal.ComposableLambda rememberComposableLambda;
-        int i17;
-        Object obj;
-        float i14;
+        int i3;
+        Object obj2;
+        float i4;
         float $composer2;
-        Composer composer;
-        int i21;
-        long i23;
+        Composer composer2;
+        int i24;
+        long i13;
         Object obj4;
-        int i9;
-        int i19;
+        int i11;
+        int i21;
         boolean changed;
         int headlineColor-vNxB06k$material3_release;
-        int i25;
-        int i;
-        int i3;
-        float i8;
-        int i24;
-        int i18;
+        int i23;
         int i2;
-        Composer composer3;
-        int i7;
+        int i17;
+        float i7;
         int i22;
-        int i16;
-        androidx.compose.runtime.internal.ComposableLambda composableLambda2;
-        int i20;
+        int i10;
+        int i18;
+        Composer composer3;
         int i5;
-        Composer composer2;
+        int i25;
+        int i19;
+        androidx.compose.runtime.internal.ComposableLambda composableLambda;
+        int i20;
+        int i;
+        Composer composer;
+        int i14;
         int i6;
-        int i15;
         Object obj36;
         androidx.compose.runtime.internal.ComposableLambda obj37;
         androidx.compose.runtime.internal.ComposableLambda obj38;
@@ -136,147 +136,147 @@ public final class ListItemKt {
         final int i41 = i12;
         Composer restartGroup = $composer.startRestartGroup(-1647707763);
         ComposerKt.sourceInformation(restartGroup, "C(ListItem)P(1,3,4,6,2,8!1,7:c#ui.unit.Dp,5:c#ui.unit.Dp)100@4555L8,104@4735L176,157@6562L5,162@6761L288,155@6438L611:ListItem.kt#uh7d8r");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i41 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if (i40 & 6 == 0) {
-                i13 = restartGroup.changedInstance(shape) ? 4 : 2;
-                $dirty2 |= i13;
+                i9 = restartGroup.changedInstance(shape) ? 4 : 2;
+                $dirty |= i9;
             }
         }
         int i32 = i41 & 2;
         if (i32 != 0) {
-            $dirty2 |= 48;
-            obj2 = modifier;
+            $dirty |= 48;
+            obj = modifier;
         } else {
             if (i40 & 48 == 0) {
-                i11 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i11;
+                i15 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i15;
             } else {
-                obj2 = modifier;
+                obj = modifier;
             }
         }
         elevation-D9Ej5fM = i41 & 4;
         if (elevation-D9Ej5fM != 0) {
-            $dirty2 |= 384;
-            obj3 = overlineContent;
+            $dirty |= 384;
+            obj5 = overlineContent;
         } else {
             if (i40 & 384 == 0) {
-                i10 = restartGroup.changedInstance(overlineContent) ? 256 : 128;
-                $dirty2 |= i10;
+                i8 = restartGroup.changedInstance(overlineContent) ? 256 : 128;
+                $dirty |= i8;
             } else {
-                obj3 = overlineContent;
+                obj5 = overlineContent;
             }
         }
-        str3 = i41 & 8;
-        if (str3 != null) {
-            $dirty2 |= 3072;
-            composableLambda = supportingContent;
+        str2 = i41 & 8;
+        if (str2 != null) {
+            $dirty |= 3072;
+            composableLambda2 = supportingContent;
         } else {
             if (i40 & 3072 == 0) {
-                i4 = restartGroup.changedInstance(supportingContent) ? 2048 : 1024;
-                $dirty2 |= i4;
+                i16 = restartGroup.changedInstance(supportingContent) ? 2048 : 1024;
+                $dirty |= i16;
             } else {
-                composableLambda = supportingContent;
+                composableLambda2 = supportingContent;
             }
         }
         colors-J08w3-E = i41 & 16;
         if (colors-J08w3-E != 0) {
-            $dirty2 |= 24576;
-            obj = leadingContent;
+            $dirty |= 24576;
+            obj2 = leadingContent;
         } else {
             if (i40 & 24576 == 0) {
-                i21 = restartGroup.changedInstance(leadingContent) ? 16384 : 8192;
-                $dirty2 |= i21;
+                i24 = restartGroup.changedInstance(leadingContent) ? 16384 : 8192;
+                $dirty |= i24;
             } else {
-                obj = leadingContent;
+                obj2 = leadingContent;
             }
         }
-        i23 = i41 & 32;
+        i13 = i41 & 32;
         int i55 = 196608;
-        if (i23 != 0) {
-            $dirty2 |= i55;
+        if (i13 != 0) {
+            $dirty |= i55;
             obj4 = trailingContent;
         } else {
             if (i55 &= i40 == 0) {
-                i9 = restartGroup.changedInstance(trailingContent) ? 131072 : 65536;
-                $dirty2 |= i9;
+                i11 = restartGroup.changedInstance(trailingContent) ? 131072 : 65536;
+                $dirty |= i11;
             } else {
                 obj4 = trailingContent;
             }
         }
         if (i40 & i58 == 0) {
             if (i41 & 64 == 0) {
-                i19 = restartGroup.changed(colors) ? 1048576 : 524288;
+                i21 = restartGroup.changed(colors) ? 1048576 : 524288;
             } else {
-                obj5 = colors;
+                obj3 = colors;
             }
-            $dirty2 |= i19;
+            $dirty |= i21;
         } else {
-            obj5 = colors;
+            obj3 = colors;
         }
         int i46 = i41 & 128;
         final int i62 = 12582912;
         if (i46 != 0) {
-            $dirty2 |= i62;
+            $dirty |= i62;
             headlineColor-vNxB06k$material3_release = i46;
-            i14 = tonalElevation;
+            i4 = tonalElevation;
         } else {
             if (i40 & i62 == 0) {
                 headlineColor-vNxB06k$material3_release = i46;
-                i25 = restartGroup.changed(tonalElevation) ? 8388608 : 4194304;
-                $dirty2 |= i25;
+                i23 = restartGroup.changed(tonalElevation) ? 8388608 : 4194304;
+                $dirty |= i23;
             } else {
                 headlineColor-vNxB06k$material3_release = i46;
-                i14 = tonalElevation;
+                i4 = tonalElevation;
             }
         }
         int i47 = i41 & 256;
         int i60 = 100663296;
         if (i47 != 0) {
-            $dirty2 |= i60;
-            i = i47;
+            $dirty |= i60;
+            i2 = i47;
             $composer2 = shadowElevation;
         } else {
             if (i40 & i60 == 0) {
-                i = i47;
-                i3 = restartGroup.changed(shadowElevation) ? 67108864 : 33554432;
-                $dirty2 |= i3;
+                i2 = i47;
+                i17 = restartGroup.changed(shadowElevation) ? 67108864 : 33554432;
+                $dirty |= i17;
             } else {
-                i = i47;
+                i2 = i47;
                 $composer2 = shadowElevation;
             }
         }
-        i8 = 38347923;
-        composer2 = restartGroup;
-        if ($dirty2 & i8 == 38347922) {
-            if (!composer2.getSkipping()) {
-                composer2.startDefaults();
+        i7 = 38347923;
+        composer = restartGroup;
+        if ($dirty & i7 == 38347922) {
+            if (!composer.getSkipping()) {
+                composer.startDefaults();
                 int i31 = -3670017;
                 if (i40 & 1 != 0) {
-                    if (composer2.getDefaultsInvalid()) {
+                    if (composer.getDefaultsInvalid()) {
                         if (i32 != 0) {
-                            obj2 = defaultsInvalid;
+                            obj = defaultsInvalid;
                         }
                         if (elevation-D9Ej5fM != 0) {
-                            obj3 = defaultsInvalid;
+                            obj5 = defaultsInvalid;
                         }
-                        if (str3 != null) {
-                            composableLambda = defaultsInvalid;
+                        if (str2 != null) {
+                            composableLambda2 = defaultsInvalid;
                         }
-                        leadingContent3 = colors-J08w3-E != 0 ? 0 : leadingContent;
-                        trailingContent2 = i23 != 0 ? 0 : obj4;
+                        leadingContent2 = colors-J08w3-E != 0 ? 0 : leadingContent;
+                        trailingContent3 = i13 != 0 ? 0 : obj4;
                         if (i41 & 64 != 0) {
                             elevation-D9Ej5fM = headlineColor-vNxB06k$material3_release;
-                            str3 = i;
-                            colors-J08w3-E = ListItemDefaults.INSTANCE.colors-J08w3-E(0, i23, 0, headlineColor-vNxB06k$material3_release, 0, i8, 0, obj20, 0, obj22, 0, obj24);
-                            composer = composer2;
-                            $dirty2 &= i31;
+                            str2 = i2;
+                            colors-J08w3-E = ListItemDefaults.INSTANCE.colors-J08w3-E(0, i13, 0, headlineColor-vNxB06k$material3_release, 0, i7, 0, obj20, 0, obj22, 0, obj24);
+                            composer2 = composer;
+                            $dirty &= i31;
                         } else {
                             elevation-D9Ej5fM = headlineColor-vNxB06k$material3_release;
-                            str3 = i;
-                            composer = composer2;
+                            str2 = i2;
+                            composer2 = composer;
                             colors-J08w3-E = colors;
                         }
                         if (elevation-D9Ej5fM != 0) {
@@ -284,116 +284,116 @@ public final class ListItemKt {
                         } else {
                             tonalElevation2 = tonalElevation;
                         }
-                        if (str3 != null) {
-                            i8 = tonalElevation2;
-                            i24 = elevation-D9Ej5fM;
+                        if (str2 != null) {
+                            i7 = tonalElevation2;
+                            i22 = elevation-D9Ej5fM;
                             tonalElevation3 = colors-J08w3-E;
                         } else {
-                            i24 = shadowElevation;
-                            i8 = tonalElevation2;
+                            i22 = shadowElevation;
+                            i7 = tonalElevation2;
                             tonalElevation3 = colors-J08w3-E;
                         }
                     } else {
-                        composer2.skipToGroupEnd();
+                        composer.skipToGroupEnd();
                         if (i41 & 64 != 0) {
-                            $dirty2 &= i31;
+                            $dirty &= i31;
                         }
-                        leadingContent3 = leadingContent;
+                        leadingContent2 = leadingContent;
                         tonalElevation3 = colors;
-                        i8 = tonalElevation;
-                        i24 = $composer2;
-                        trailingContent2 = obj4;
-                        composer = composer2;
+                        i7 = tonalElevation;
+                        i22 = $composer2;
+                        trailingContent3 = obj4;
+                        composer2 = composer;
                     }
                 } else {
                 }
-                composer.endDefaults();
+                composer2.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-1647707763, $dirty2, -1, "androidx.compose.material3.ListItem (ListItem.kt:103)");
+                    ComposerKt.traceEventStart(-1647707763, $dirty, -1, "androidx.compose.material3.ListItem (ListItem.kt:103)");
                 }
                 ListItemKt.ListItem.decoratedHeadlineContent.1 anon3 = new ListItemKt.ListItem.decoratedHeadlineContent.1(tonalElevation3, shape);
-                anon = 1;
+                anon2 = 1;
                 int i49 = 54;
-                composer.startReplaceGroup(1640970492);
-                ComposerKt.sourceInformation(composer, "*113@5021L204");
-                if (composableLambda == null) {
-                    obj42 = leadingContent3;
-                    leadingContent2 = 0;
+                composer2.startReplaceGroup(1640970492);
+                ComposerKt.sourceInformation(composer2, "*113@5021L204");
+                if (composableLambda2 == null) {
+                    obj42 = leadingContent2;
+                    leadingContent3 = 0;
                 } else {
                     headlineColor-vNxB06k$material3_release = 0;
-                    anon2 = new ListItemKt.ListItem.decoratedSupportingContent.1.1(tonalElevation3, composableLambda);
-                    obj42 = leadingContent3;
-                    leadingContent2 = ComposableLambdaKt.rememberComposableLambda(-1020860251, anon, anon2, composer, i49);
+                    anon = new ListItemKt.ListItem.decoratedSupportingContent.1.1(tonalElevation3, composableLambda2);
+                    obj42 = leadingContent2;
+                    leadingContent3 = ComposableLambdaKt.rememberComposableLambda(-1020860251, anon2, anon, composer2, i49);
                 }
-                composer.endReplaceGroup();
-                composer.startReplaceGroup(1640980724);
-                ComposerKt.sourceInformation(composer, "*123@5341L196");
-                if (obj3 == null) {
-                    obj41 = leadingContent2;
+                composer2.endReplaceGroup();
+                composer2.startReplaceGroup(1640980724);
+                ComposerKt.sourceInformation(composer2, "*123@5341L196");
+                if (obj5 == null) {
+                    obj41 = leadingContent3;
                     decoratedOverlineContent = 0;
                 } else {
                     obj4 = 0;
-                    anon = new ListItemKt.ListItem.decoratedOverlineContent.1.1(tonalElevation3, obj3);
-                    obj41 = leadingContent2;
-                    decoratedOverlineContent = ComposableLambdaKt.rememberComposableLambda(-764441232, true, anon, composer, i49);
+                    anon2 = new ListItemKt.ListItem.decoratedOverlineContent.1.1(tonalElevation3, obj5);
+                    obj41 = leadingContent3;
+                    decoratedOverlineContent = ComposableLambdaKt.rememberComposableLambda(-764441232, true, anon2, composer2, i49);
                 }
-                composer.endReplaceGroup();
-                composer.startReplaceGroup(1640990750);
-                ComposerKt.sourceInformation(composer, "*133@5651L302");
+                composer2.endReplaceGroup();
+                composer2.startReplaceGroup(1640990750);
+                ComposerKt.sourceInformation(composer2, "*133@5651L302");
                 if (obj42 == null) {
                     obj40 = decoratedOverlineContent;
                     rememberComposableLambda = 0;
                 } else {
-                    str = 0;
+                    str3 = 0;
                     ListItemKt.ListItem.decoratedLeadingContent.1.1 anon5 = new ListItemKt.ListItem.decoratedLeadingContent.1.1(tonalElevation3, obj42);
                     obj40 = decoratedOverlineContent;
-                    rememberComposableLambda = ComposableLambdaKt.rememberComposableLambda(1400509200, true, anon5, composer, i49);
+                    rememberComposableLambda = ComposableLambdaKt.rememberComposableLambda(1400509200, true, anon5, composer2, i49);
                 }
-                composer.endReplaceGroup();
-                composer.startReplaceGroup(1641004177);
-                ComposerKt.sourceInformation(composer, "*144@6069L353");
-                if (trailingContent2 == null) {
+                composer2.endReplaceGroup();
+                composer2.startReplaceGroup(1641004177);
+                ComposerKt.sourceInformation(composer2, "*144@6069L353");
+                if (trailingContent3 == null) {
                     rememberComposableLambda2 = 0;
                 } else {
-                    Object obj7 = trailingContent2;
-                    str2 = 0;
+                    Object obj7 = trailingContent3;
+                    str = 0;
                     ListItemKt.ListItem.decoratedTrailingContent.1.1 anon4 = new ListItemKt.ListItem.decoratedTrailingContent.1.1(tonalElevation3, obj7);
                     obj36 = obj7;
-                    rememberComposableLambda2 = ComposableLambdaKt.rememberComposableLambda(1512306332, true, anon4, composer, i49);
+                    rememberComposableLambda2 = ComposableLambdaKt.rememberComposableLambda(1512306332, true, anon4, composer2, i49);
                 }
-                composer.endReplaceGroup();
+                composer2.endReplaceGroup();
                 int i56 = 1;
                 obj38 = rememberComposableLambda2;
                 obj37 = rememberComposableLambda;
                 obj36 = anon6;
-                super(obj37, obj38, (Function2)ComposableLambdaKt.rememberComposableLambda(-403249643, anon, anon3, composer, i49), obj40, obj41);
-                composableLambda2 = obj37;
+                super(obj37, obj38, (Function2)ComposableLambdaKt.rememberComposableLambda(-403249643, anon2, anon3, composer2, i49), obj40, obj41);
+                composableLambda = obj37;
                 i20 = obj38;
-                i16 = obj40;
+                i19 = obj40;
                 androidx.compose.runtime.internal.ComposableLambda composableLambda3 = obj41;
-                obj4 = $dirty2 >> 9;
-                composer3 = composer;
-                SurfaceKt.Surface-T9BRK9s(SemanticsModifierKt.semantics((Modifier)Modifier.Companion, i56, (Function1)ListItemKt.ListItem.1.INSTANCE).then(obj2), ListItemDefaults.INSTANCE.getShape(composer, 6), tonalElevation3.containerColor-0d7_KjU$material3_release(), obj4, tonalElevation3.headlineColor-vNxB06k$material3_release(i56), i, i8, i24, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(1502590376, i56, obj36, composer, 54), composer3);
-                composer2 = composer3;
+                obj4 = $dirty >> 9;
+                composer3 = composer2;
+                SurfaceKt.Surface-T9BRK9s(SemanticsModifierKt.semantics((Modifier)Modifier.Companion, i56, (Function1)ListItemKt.ListItem.1.INSTANCE).then(obj), ListItemDefaults.INSTANCE.getShape(composer2, 6), tonalElevation3.containerColor-0d7_KjU$material3_release(), obj4, tonalElevation3.headlineColor-vNxB06k$material3_release(i56), i2, i7, i22, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(1502590376, i56, obj36, composer2, 54), composer3);
+                composer = composer3;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i17 = $dirty2;
-                obj6 = trailingContent2;
-                $dirty = obj3;
-                trailingContent3 = composableLambda;
-                f = i8;
-                supportingContent2 = i24;
+                i3 = $dirty;
+                obj6 = trailingContent3;
+                $dirty2 = obj5;
+                trailingContent2 = composableLambda2;
+                f = i7;
+                supportingContent2 = i22;
                 overlineContent2 = tonalElevation3;
-                colors2 = obj2;
+                colors2 = obj;
                 modifier2 = obj42;
             } else {
-                composer2.skipToGroupEnd();
+                composer.skipToGroupEnd();
                 f = tonalElevation;
-                i17 = $dirty2;
-                colors2 = obj2;
-                $dirty = obj3;
-                trailingContent3 = composableLambda;
+                i3 = $dirty;
+                colors2 = obj;
+                $dirty2 = obj5;
+                trailingContent2 = composableLambda2;
                 supportingContent2 = $composer2;
                 obj6 = obj4;
                 modifier2 = leadingContent;
@@ -401,89 +401,89 @@ public final class ListItemKt {
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ListItemKt.ListItem.3(headlineContent, colors2, $dirty, trailingContent3, modifier2, obj6, overlineContent2, f, supportingContent2, i40, i41);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ListItemKt.ListItem.3(headlineContent, colors2, $dirty2, trailingContent2, modifier2, obj6, overlineContent2, f, supportingContent2, i40, i41);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     private static final void ListItemLayout(Function2<? super Composer, ? super Integer, Unit> leading, Function2<? super Composer, ? super Integer, Unit> trailing, Function2<? super Composer, ? super Integer, Unit> headline, Function2<? super Composer, ? super Integer, Unit> overline, Function2<? super Composer, ? super Integer, Unit> supporting, Composer $composer, int $changed) {
-        boolean traceInProgress2;
-        Object valueOf;
-        Object measurePolicy;
+        boolean traceInProgress;
+        Object valueOf2;
+        Object $i$a$CacheLayoutKt$Layout$3$iv;
         Object setCompositeKeyHash;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv;
         Object constructor-impl;
-        Object valueOf2;
+        Object valueOf;
         int $dirty;
+        int i3;
         int i4;
+        int i9;
+        int i;
         int i7;
-        int i10;
-        int i14;
-        int i6;
         java.util.List listOf;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         androidx.compose.ui.Modifier.Companion companion2;
-        Object obj;
-        int i2;
+        Object $i$a$CacheListItemKt$ListItemLayout$measurePolicy$1;
+        int i8;
         Object lambda-3$material3_release;
         Object lambda-4$material3_release;
         int changed;
-        int i5;
+        int i6;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
-        int i12;
+        int i15;
         int str;
         Object lambda-1$material3_release;
         Object lambda-2$material3_release;
         Function2 combineAsVirtualLayouts;
-        int i13;
-        int i11;
+        int i10;
+        int i2;
         Object listItemMeasurePolicy;
-        int i15;
-        int i3;
+        int i14;
+        int i12;
         int companion;
-        int i9;
-        int i;
+        int i13;
+        int i5;
         kotlin.jvm.functions.Function0 function0;
         Composer composer;
-        int i8;
+        int i11;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv$iv;
         Object obj31;
-        valueOf = leading;
+        valueOf2 = leading;
         setCompositeKeyHash = trailing;
         constructor-impl = headline;
-        valueOf2 = overline;
-        final Object obj2 = supporting;
+        valueOf = overline;
+        final Object obj = supporting;
         final int i26 = $changed;
-        traceInProgress2 = 2052297037;
-        Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = 2052297037;
+        Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(ListItemLayout)P(1,4)181@7324L36,182@7365L261:ListItem.kt#uh7d8r");
-        i2 = 2;
+        i8 = 2;
         if (i26 & 6 == 0) {
-            i4 = restartGroup.changedInstance(valueOf) ? 4 : i2;
-            $dirty |= i4;
+            i3 = restartGroup.changedInstance(valueOf2) ? 4 : i8;
+            $dirty |= i3;
         }
         if (i26 & 48 == 0) {
-            i7 = restartGroup.changedInstance(setCompositeKeyHash) ? 32 : 16;
-            $dirty |= i7;
+            i4 = restartGroup.changedInstance(setCompositeKeyHash) ? 32 : 16;
+            $dirty |= i4;
         }
         if (i26 & 384 == 0) {
-            i10 = restartGroup.changedInstance(constructor-impl) ? 256 : 128;
-            $dirty |= i10;
+            i9 = restartGroup.changedInstance(constructor-impl) ? 256 : 128;
+            $dirty |= i9;
         }
         if (i26 & 3072 == 0) {
-            i14 = restartGroup.changedInstance(valueOf2) ? 2048 : 1024;
-            $dirty |= i14;
+            i = restartGroup.changedInstance(valueOf) ? 2048 : 1024;
+            $dirty |= i;
         }
         if (i26 & 24576 == 0) {
-            i6 = restartGroup.changedInstance(obj2) ? 16384 : 8192;
-            $dirty |= i6;
+            i7 = restartGroup.changedInstance(obj) ? 16384 : 8192;
+            $dirty |= i7;
         }
         if ($dirty & 9363 == 9362) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.ListItemLayout (ListItem.kt:180)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.ListItemLayout (ListItem.kt:180)");
                 }
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -748109790, "CC(remember):ListItem.kt#9igjgp");
                 int i17 = 0;
@@ -496,26 +496,26 @@ public final class ListItemKt {
                     listItemMeasurePolicy = new ListItemMeasurePolicy();
                     composer2.updateRememberedValue(listItemMeasurePolicy);
                 } else {
-                    obj = rememberedValue3;
+                    $i$a$CacheListItemKt$ListItemLayout$measurePolicy$1 = rememberedValue3;
                 }
-                Object invalid$iv = obj;
+                Object invalid$iv = $i$a$CacheListItemKt$ListItemLayout$measurePolicy$1;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 Function2[] arr = new Function2[5];
-                if (valueOf2 == null) {
+                if (valueOf == null) {
                     lambda-1$material3_release = ComposableSingletons.ListItemKt.INSTANCE.getLambda-1$material3_release();
                 } else {
-                    lambda-1$material3_release = valueOf2;
+                    lambda-1$material3_release = valueOf;
                 }
-                if (obj2 == null) {
+                if (obj == null) {
                     lambda-2$material3_release = ComposableSingletons.ListItemKt.INSTANCE.getLambda-2$material3_release();
                 } else {
-                    lambda-2$material3_release = obj2;
+                    lambda-2$material3_release = obj;
                 }
-                arr[i2] = lambda-2$material3_release;
-                if (valueOf == null) {
+                arr[i8] = lambda-2$material3_release;
+                if (valueOf2 == null) {
                     lambda-3$material3_release = ComposableSingletons.ListItemKt.INSTANCE.getLambda-3$material3_release();
                 } else {
-                    lambda-3$material3_release = valueOf;
+                    lambda-3$material3_release = valueOf2;
                 }
                 arr[3] = lambda-3$material3_release;
                 if (setCompositeKeyHash == null) {
@@ -525,12 +525,12 @@ public final class ListItemKt {
                 }
                 arr[4] = lambda-4$material3_release;
                 str = i30;
-                i13 = 0;
+                i10 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1399185516, "CC(Layout)P(!1,2)173@6976L62,170@6862L182:Layout.kt#80mrfh");
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -290761997, "CC(remember):Layout.kt#9igjgp");
                 if (i31 ^= i33 > 256) {
                     if (!restartGroup.changed((MultiContentMeasurePolicy)(ListItemMeasurePolicy)invalid$iv)) {
-                        i5 = str & 384 == 256 ? 1 : 0;
+                        i6 = str & 384 == 256 ? 1 : 0;
                     } else {
                     }
                 } else {
@@ -539,21 +539,21 @@ public final class ListItemKt {
                 int i40 = 0;
                 Object rememberedValue = composer3.rememberedValue();
                 int i41 = 0;
-                if (i5 == 0) {
+                if (i6 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int i22 = 0;
                         composer3.updateRememberedValue(MultiContentMeasurePolicyKt.createMeasurePolicy((MultiContentMeasurePolicy)invalid$iv));
                     } else {
-                        measurePolicy = rememberedValue;
+                        $i$a$CacheLayoutKt$Layout$3$iv = rememberedValue;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                i2 = 0;
+                i8 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
-                i11 = currentCompositeKeyHash;
+                i2 = currentCompositeKeyHash;
                 kotlin.jvm.functions.Function0 function02 = constructor;
-                i3 = 0;
+                i12 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -568,21 +568,21 @@ public final class ListItemKt {
                 constructor-impl = Updater.constructor-impl(restartGroup);
                 companion = 0;
                 function0 = factory$iv$iv$iv;
-                Updater.set-impl(constructor-impl, (MeasurePolicy)measurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, (MeasurePolicy)$i$a$CacheLayoutKt$Layout$3$iv, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i = 0;
+                i5 = 0;
                 composer = constructor-impl;
-                i8 = 0;
+                i11 = 0;
                 if (!composer.getInserting()) {
-                    measurePolicy$iv$iv = measurePolicy;
-                    if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(i11))) {
-                        composer.updateRememberedValue(Integer.valueOf(i11));
-                        constructor-impl.apply(Integer.valueOf(i11), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    measurePolicy$iv$iv = $i$a$CacheLayoutKt$Layout$3$iv;
+                    if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(i2))) {
+                        composer.updateRememberedValue(Integer.valueOf(i2));
+                        constructor-impl.apply(Integer.valueOf(i2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        valueOf2 = composer;
+                        valueOf = composer;
                     }
                 } else {
-                    measurePolicy$iv$iv = measurePolicy;
+                    measurePolicy$iv$iv = $i$a$CacheLayoutKt$Layout$3$iv;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, (Modifier)Modifier.Companion), ComposeUiNode.Companion.getSetModifier());
                 LayoutKt.combineAsVirtualLayouts(CollectionsKt.listOf(arr)).invoke(restartGroup, Integer.valueOf(i20 &= 14));
@@ -600,41 +600,41 @@ public final class ListItemKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ListItemKt.ListItemLayout.1(leading, trailing, headline, overline, obj2, i26);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new ListItemKt.ListItemLayout.1(leading, trailing, headline, overline, obj, i26);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     private static final void ProvideTextStyleFromToken-3J-VO9M(long color, TypographyKeyTokens textToken, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty2;
         int $dirty;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int i2;
+        int i4;
         int i3;
-        int i;
         int str;
         Object obj;
         Object obj2;
         long l;
         androidx.compose.ui.text.TextStyle value;
         Object obj3;
-        int i4;
+        int i;
         final int i8 = obj18;
-        traceInProgress = 1133967795;
-        final Composer restartGroup = $changed.startRestartGroup(traceInProgress);
+        traceInProgress2 = 1133967795;
+        final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(ProvideTextStyleFromToken)P(0:c#ui.graphics.Color,2)659@26906L5,657@26816L128:ListItem.kt#uh7d8r");
         if (i8 & 6 == 0) {
             i2 = restartGroup.changed(color) ? 4 : 2;
             $dirty2 |= i2;
         }
         if (i8 & 48 == 0) {
-            i3 = restartGroup.changed(content) ? 32 : 16;
-            $dirty2 |= i3;
+            i4 = restartGroup.changed(content) ? 32 : 16;
+            $dirty2 |= i4;
         }
         if (i8 & 384 == 0) {
-            i = restartGroup.changedInstance($composer) ? 256 : 128;
-            $dirty2 |= i;
+            i3 = restartGroup.changedInstance($composer) ? 256 : 128;
+            $dirty2 |= i3;
         } else {
             obj2 = $composer;
         }
@@ -642,7 +642,7 @@ public final class ListItemKt {
         if (i9 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i9, -1, "androidx.compose.material3.ProvideTextStyleFromToken (ListItem.kt:657)");
+                    ComposerKt.traceEventStart(traceInProgress2, i9, -1, "androidx.compose.material3.ProvideTextStyleFromToken (ListItem.kt:657)");
                 }
                 ProvideContentColorTextStyleKt.ProvideContentColorTextStyle-3J-VO9M(color, obj7, TypographyKt.getValue(content, restartGroup, i5 &= 14), obj2, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
@@ -655,8 +655,8 @@ public final class ListItemKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ListItemKt.ProvideTextStyleFromToken.1(color, str, content, $composer, i8);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ListItemKt.ProvideTextStyleFromToken.1(color, str, content, $composer, i8);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 

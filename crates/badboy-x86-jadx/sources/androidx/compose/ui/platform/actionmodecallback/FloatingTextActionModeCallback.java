@@ -42,9 +42,9 @@ public final class FloatingTextActionModeCallback extends ActionMode.Callback2 {
     @Override // android.view.ActionMode$Callback2
     public void onGetContentRect(ActionMode mode, View view, Rect outRect) {
         int i;
-        int i3;
         int i2;
         int i4;
+        int i3;
         Rect rect = this.callback.getRect();
         if (outRect != null) {
             outRect.set((int)left, (int)top, (int)right, (int)bottom);

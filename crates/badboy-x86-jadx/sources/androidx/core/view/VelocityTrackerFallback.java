@@ -32,16 +32,16 @@ class VelocityTrackerFallback {
         int work;
         int numDataPointsProcessed;
         long[] mEventTimes;
-        int i5;
-        int i2;
-        long l;
-        int i4;
         int i3;
-        int kineticEnergyToVelocity;
-        float f;
-        int i;
+        int i4;
+        long l;
         int i6;
+        int i5;
+        int kineticEnergyToVelocity;
         float f2;
+        int i;
+        int i2;
+        float f;
         final Object obj = this;
         int i9 = 0;
         int i11 = 2;
@@ -50,7 +50,7 @@ class VelocityTrackerFallback {
         }
         final int i17 = 1;
         i8 %= 20;
-        while (Long.compare(i2, i4) > 0) {
+        while (Long.compare(i4, i6) > 0) {
             obj.mDataPointsBufferSize = mDataPointsBufferSize3 -= i17;
             firstValidIndex = mEventTimes % 20;
         }
@@ -67,19 +67,19 @@ class VelocityTrackerFallback {
         }
         work = 0;
         numDataPointsProcessed = 0;
-        i5 = 0;
-        while (i5 < mDataPointsBufferSize6 -= i17) {
-            i2 = i5 + firstValidIndex;
-            l = obj.mEventTimes[i2 % 20];
+        i3 = 0;
+        while (i3 < mDataPointsBufferSize6 -= i17) {
+            i4 = i3 + firstValidIndex;
+            l = obj.mEventTimes[i4 % 20];
             i19 %= 20;
             if (Long.compare(l8, l) == 0) {
             } else {
             }
-            i = f / f5;
+            i = f2 / f5;
             if (numDataPointsProcessed++ == i17) {
             }
-            i5++;
-            work *= i6;
+            i3++;
+            work *= i2;
         }
         return VelocityTrackerFallback.kineticEnergyToVelocity(work);
     }
@@ -92,8 +92,8 @@ class VelocityTrackerFallback {
     }
 
     void addMovement(MotionEvent event) {
-        int mDataPointsBufferSize2;
         int mDataPointsBufferSize;
+        int mDataPointsBufferSize2;
         int mDataPointsBufferLastUsedIndex;
         int i;
         final long eventTime = event.getEventTime();

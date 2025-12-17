@@ -24,11 +24,11 @@ public final class FlowExtKt {
         EmptyCoroutineContext context2;
         boolean traceInProgress;
         boolean changed;
-        int i3;
+        int i2;
         boolean changedInstance;
         String str;
         int i;
-        int i2;
+        int i3;
         Object obj = lifecycle;
         final Composer composer = $composer;
         final int i16 = $changed;
@@ -47,7 +47,7 @@ public final class FlowExtKt {
         i = 2048;
         if (i13 ^= 3072 > i) {
             if (!composer.changed((Enum)minActiveState2.ordinal())) {
-                i3 = i16 & 3072 == i ? 1 : 0;
+                i2 = i16 & 3072 == i ? 1 : 0;
             } else {
             }
         } else {
@@ -58,7 +58,7 @@ public final class FlowExtKt {
         final int i19 = 0;
         if (empty | changedInstance == null) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                i2 = 0;
+                i3 = 0;
                 anon = new FlowExtKt.collectAsStateWithLifecycle.1.1(obj, minActiveState2, context2, $this$collectAsStateWithLifecycle, 0);
                 composer2.updateRememberedValue((Function2)anon);
             } else {

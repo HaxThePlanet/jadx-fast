@@ -8,10 +8,9 @@ import kotlin.NoWhenBranchMatchedException;
 public enum FocusStateImpl implements androidx.compose.ui.focus.FocusState {
 
     Active,
-    Active,
-    Active,
-    Active,
-    Active;
+    ActiveParent,
+    Captured,
+    Inactive;
 
     @Metadata(k = 3, mv = {1, 8, 0}, xi = 48)
     public class WhenMappings {
@@ -19,9 +18,9 @@ public enum FocusStateImpl implements androidx.compose.ui.focus.FocusState {
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal3;
-            int ordinal2;
             int ordinal4;
+            int ordinal2;
+            int ordinal3;
             int[] iArr = new int[values.length];
             iArr[FocusStateImpl.Captured.ordinal()] = 1;
             iArr[FocusStateImpl.Active.ordinal()] = 2;

@@ -66,21 +66,21 @@ public final class Html_androidKt {
         androidx.compose.ui.text.TextLinkStyles textLinkStyles;
         androidx.compose.ui.text.LinkInteractionListener list;
         int i3;
-        int i;
-        int i12;
-        int i5;
-        int i9;
-        int i2;
-        int box-impl;
-        int i13;
-        int i6;
-        long l;
-        int lineThrough;
         int i8;
+        int i12;
+        int i6;
+        int i13;
+        int i4;
+        int box-impl;
         int i7;
         int i10;
+        long l;
+        int lineThrough;
+        int i5;
+        int i;
+        int i9;
         int i11;
-        int i4;
+        int i2;
         final Object obj = $this$addSpan;
         final Object obj2 = span;
         final int i14 = start;
@@ -229,42 +229,42 @@ public final class Html_androidKt {
 
     private static final FontFamily optionalFontFamilyFromName(String familyName) {
         int length;
-        int i3;
-        int i4;
-        Typeface typeface;
         int i2;
+        int i3;
+        Typeface typeface;
         int i;
+        int i4;
         boolean equal;
         length = familyName;
-        i2 = 0;
+        i = 0;
         if ((CharSequence)length != null) {
             if ((CharSequence)length.length() == 0) {
-                i3 = i4;
+                i2 = i3;
             } else {
-                i3 = i2;
+                i2 = i;
             }
         } else {
         }
-        i = 0;
-        if (i3 != 0) {
-            return i;
+        i4 = 0;
+        if (i2 != 0) {
+            return i4;
         }
-        Typeface create = Typeface.create(familyName, i2);
+        Typeface create = Typeface.create(familyName, i);
         final Typeface typeface2 = create;
         final int i5 = 0;
-        if (!Intrinsics.areEqual(create, Typeface.DEFAULT) && !Intrinsics.areEqual(create, Typeface.create(Typeface.DEFAULT, i2))) {
-            if (!Intrinsics.areEqual(create, Typeface.create(Typeface.DEFAULT, i2))) {
+        if (!Intrinsics.areEqual(create, Typeface.DEFAULT) && !Intrinsics.areEqual(create, Typeface.create(Typeface.DEFAULT, i))) {
+            if (!Intrinsics.areEqual(create, Typeface.create(Typeface.DEFAULT, i))) {
             } else {
-                i4 = i2;
+                i3 = i;
             }
         } else {
         }
-        typeface = i4 != 0 ? create : i;
+        typeface = i3 != 0 ? create : i4;
         if (typeface != null) {
-            i2 = 0;
-            i = AndroidTypeface_androidKt.FontFamily(typeface);
+            i = 0;
+            i4 = AndroidTypeface_androidKt.FontFamily(typeface);
         }
-        return i;
+        return i4;
     }
 
     public static final androidx.compose.ui.text.AnnotatedString toAnnotatedString(Spanned $this$toAnnotatedString, androidx.compose.ui.text.TextLinkStyles linkStyles, androidx.compose.ui.text.LinkInteractionListener linkInteractionListener) {
@@ -318,47 +318,47 @@ public final class Html_androidKt {
     private static final androidx.compose.ui.text.SpanStyle toSpanStyle(StyleSpan $this$toSpanStyle) {
         int italic-_-LCdwA;
         String str;
+        androidx.compose.ui.text.SpanStyle spanStyle2;
         androidx.compose.ui.text.SpanStyle spanStyle3;
-        androidx.compose.ui.text.SpanStyle spanStyle;
-        int spanStyle2;
+        int spanStyle;
         long l;
-        int i3;
+        int i4;
         FontStyle bold;
         int box-impl2;
         FontStyle box-impl;
-        int i;
-        int i11;
-        int i4;
-        int i2;
-        androidx.compose.ui.text.intl.LocaleList list;
-        int i9;
-        int i5;
-        int i6;
+        int i3;
         int i7;
-        androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle;
-        int i12;
+        int i6;
+        int i5;
+        androidx.compose.ui.text.intl.LocaleList list;
         int i16;
-        int i8;
+        int i12;
         int i13;
+        int i14;
+        androidx.compose.ui.graphics.drawscope.DrawStyle drawStyle;
+        int i8;
+        int i9;
         int i15;
         int i10;
-        int i14;
+        int i11;
+        int i;
+        int i2;
         switch (italic-_-LCdwA) {
             case 1:
-                spanStyle2 = new SpanStyle(0, obj5, 0, obj7, FontWeight.Companion.getBold(), 0, 0, 0, 0, 0, obj14, 0, 0, 0, 0, obj19, 0, 0, 0, 0, 65531, 0);
-                spanStyle3 = spanStyle2;
+                spanStyle = new SpanStyle(0, obj5, 0, obj7, FontWeight.Companion.getBold(), 0, 0, 0, 0, 0, obj14, 0, 0, 0, 0, obj19, 0, 0, 0, 0, 65531, 0);
+                spanStyle2 = spanStyle;
                 break;
             case 2:
-                spanStyle = new SpanStyle(0, obj4, 0, obj6, 0, FontStyle.box-impl(FontStyle.Companion.getItalic-_-LCdwA()), 0, 0, 0, 0, obj13, 0, 0, 0, 0, obj18, 0, 0, 0, 0, 65527, 0);
-                spanStyle3 = spanStyle;
+                spanStyle3 = new SpanStyle(0, obj4, 0, obj6, 0, FontStyle.box-impl(FontStyle.Companion.getItalic-_-LCdwA()), 0, 0, 0, 0, obj13, 0, 0, 0, 0, obj18, 0, 0, 0, 0, 65527, 0);
+                spanStyle2 = spanStyle3;
                 break;
             case 3:
-                spanStyle3 = new SpanStyle(0, obj3, 0, obj5, FontWeight.Companion.getBold(), FontStyle.box-impl(FontStyle.Companion.getItalic-_-LCdwA()), 0, 0, 0, 0, obj12, 0, 0, 0, 0, obj17, 0, 0, 0, 0, 65523, 0);
+                spanStyle2 = new SpanStyle(0, obj3, 0, obj5, FontWeight.Companion.getBold(), FontStyle.box-impl(FontStyle.Companion.getItalic-_-LCdwA()), 0, 0, 0, 0, obj12, 0, 0, 0, 0, obj17, 0, 0, 0, 0, 65523, 0);
                 break;
             default:
-                spanStyle3 = 0;
+                spanStyle2 = 0;
         }
-        return spanStyle3;
+        return spanStyle2;
     }
 
     private static final androidx.compose.ui.text.SpanStyle toSpanStyle(TypefaceSpan $this$toSpanStyle) {

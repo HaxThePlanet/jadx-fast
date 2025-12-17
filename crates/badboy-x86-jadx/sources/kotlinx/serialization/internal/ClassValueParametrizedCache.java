@@ -33,36 +33,36 @@ final class ClassValueParametrizedCache<T>  implements kotlinx.serialization.int
 
     public Object get-gIAlu-s(KClass<Object> key, List<? extends KType> types) {
         Object orSetWithLock;
-        int i2;
-        Object obj;
+        int i;
+        Object $i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv$iv;
         Object constructor-impl;
         int box-impl;
-        int i;
+        int i3;
         Object ifAbsent;
         Object next;
         boolean invoke;
-        Object obj2;
-        int i3;
+        Object obj;
+        int i2;
         kotlinx.serialization.internal.KTypeWrapper kTypeWrapper;
         Intrinsics.checkNotNullParameter(key, "key");
         Intrinsics.checkNotNullParameter(types, "types");
         int i5 = 0;
-        Object obj4 = this.classValue.get(JvmClassMappingKt.getJavaClass(key));
-        Intrinsics.checkNotNullExpressionValue(obj4, "get(...)");
-        if (obj4.reference.get() != null) {
-            i2 = 0;
+        Object obj3 = this.classValue.get(JvmClassMappingKt.getJavaClass(key));
+        Intrinsics.checkNotNullExpressionValue(obj3, "get(...)");
+        if (obj3.reference.get() != null) {
+            i = 0;
         } else {
             ClassValueParametrizedCache.get-gIAlu-s$$inlined.getOrSet.1 it$iv = new ClassValueParametrizedCache.get-gIAlu-s$$inlined.getOrSet.1();
-            orSetWithLock = (MutableSoftReference)obj4.getOrSetWithLock((Function0)it$iv);
+            orSetWithLock = (MutableSoftReference)obj3.getOrSetWithLock((Function0)it$iv);
         }
         int i4 = 0;
-        Object obj3 = types;
+        Object obj2 = types;
         int i6 = 0;
-        ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)obj3, 10));
+        ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)obj2, 10));
         box-impl = 0;
-        ifAbsent = obj3.iterator();
+        ifAbsent = obj2.iterator();
         for (Object next : ifAbsent) {
-            i3 = 0;
+            i2 = 0;
             kTypeWrapper = new KTypeWrapper((KType)next);
             (Collection)arrayList.add(kTypeWrapper);
         }
@@ -72,14 +72,14 @@ final class ClassValueParametrizedCache<T>  implements kotlinx.serialization.int
             int i9 = 0;
             kotlin.Result.Companion companion = Result.Companion;
             int i11 = 0;
-            i = 0;
+            i3 = 0;
             constructor-impl = Result.constructor-impl((KSerializer)this.compute.invoke(key, types));
             box-impl = Result.box-impl(constructor-impl);
             int i10 = 0;
             ifAbsent = map.putIfAbsent(arrayList, box-impl);
-            obj = ifAbsent == null ? box-impl : ifAbsent;
+            $i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv$iv = ifAbsent == null ? box-impl : ifAbsent;
         }
-        Intrinsics.checkNotNullExpressionValue(obj, "getOrPut(...)");
-        return (Result)obj.unbox-impl();
+        Intrinsics.checkNotNullExpressionValue($i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv$iv, "getOrPut(...)");
+        return (Result)$i$a$LetMapsKt__MapsJVMKt$getOrPut$1$iv$iv.unbox-impl();
     }
 }

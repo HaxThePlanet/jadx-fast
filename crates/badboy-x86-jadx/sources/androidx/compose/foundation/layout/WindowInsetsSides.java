@@ -195,12 +195,12 @@ public final class WindowInsetsSides {
     }
 
     private static final String valueToString-impl(int arg0) {
-        int str3;
+        int str;
         int str2;
+        int str3;
+        int str6;
         int str4;
         int str5;
-        int str6;
-        int str;
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder sb = stringBuilder;
         final int i = 0;

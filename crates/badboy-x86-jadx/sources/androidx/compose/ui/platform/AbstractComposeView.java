@@ -252,8 +252,8 @@ public abstract class AbstractComposeView extends ViewGroup {
             ensureCompositionCreated();
         }
         int i2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("createComposition requires either a parent reference or the View to be attachedto a window. Attach the View or call setParentCompositionReference.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckAbstractComposeView$createComposition$1 = new IllegalStateException("createComposition requires either a parent reference or the View to be attachedto a window. Attach the View or call setParentCompositionReference.".toString());
+        throw $i$a$CheckAbstractComposeView$createComposition$1;
     }
 
     @Override // android.view.ViewGroup

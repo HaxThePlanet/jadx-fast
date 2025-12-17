@@ -23,22 +23,22 @@ import kotlin.jvm.internal.Intrinsics;
 public final class TextLayoutHelperKt {
     public static final boolean canReuse-7_7YC6M(TextLayoutResult $this$canReuse_u2d7_7YC6M, AnnotatedString text, TextStyle style, List<AnnotatedString.Range<Placeholder>> placeholders, int maxLines, boolean softWrap, int overflow, Density density, LayoutDirection layoutDirection, FontFamily.Resolver fontFamilyResolver, long constraints) {
         boolean sameLayoutAffectingAttributes;
-        int i;
-        TextStyle textStyle;
-        Object obj3;
         int i2;
+        TextStyle textStyle;
         Object obj;
-        LayoutDirection layoutDirection2;
+        int i;
         Object obj2;
+        LayoutDirection layoutDirection2;
+        Object obj3;
         int minWidth-impl;
         int maxHeight-impl;
         int maxHeight-impl2;
         final boolean z = softWrap;
         final int i3 = overflow;
         final TextLayoutInput layoutInput = $this$canReuse_u2d7_7YC6M.getLayoutInput();
-        i = 0;
+        i2 = 0;
         if ($this$canReuse_u2d7_7YC6M.getMultiParagraph().getIntrinsics().getHasStaleResolvedFonts()) {
-            return i;
+            return i2;
         }
         if (Intrinsics.areEqual(layoutInput.getText(), text)) {
             if (layoutInput.getStyle().hasSameLayoutAffectingAttributes(style)) {
@@ -51,7 +51,7 @@ public final class TextLayoutHelperKt {
                                         if (!Intrinsics.areEqual(layoutInput.getFontFamilyResolver(), fontFamilyResolver)) {
                                         } else {
                                             if (Constraints.getMinWidth-impl(constraints) != Constraints.getMinWidth-impl(layoutInput.getConstraints-msEJaDk())) {
-                                                return i;
+                                                return i2;
                                             }
                                             int i4 = 1;
                                             if (!z && !TextOverflow.equals-impl0(i3, TextOverflow.Companion.getEllipsis-gIe3tQ8())) {
@@ -61,55 +61,55 @@ public final class TextLayoutHelperKt {
                                             }
                                             if (Constraints.getMaxWidth-impl(constraints) == Constraints.getMaxWidth-impl(layoutInput.getConstraints-msEJaDk()) && Constraints.getMaxHeight-impl(constraints) == Constraints.getMaxHeight-impl(layoutInput.getConstraints-msEJaDk())) {
                                                 if (Constraints.getMaxHeight-impl(constraints) == Constraints.getMaxHeight-impl(layoutInput.getConstraints-msEJaDk())) {
-                                                    i = i4;
+                                                    i2 = i4;
                                                 } else {
                                                 }
                                             } else {
                                             }
                                         }
-                                        return i;
+                                        return i2;
                                     }
-                                    obj2 = fontFamilyResolver;
+                                    obj3 = fontFamilyResolver;
                                 } else {
                                     layoutDirection2 = layoutDirection;
-                                    obj2 = fontFamilyResolver;
+                                    obj3 = fontFamilyResolver;
                                 }
                             } else {
-                                obj = density;
+                                obj2 = density;
                                 layoutDirection2 = layoutDirection;
-                                obj2 = fontFamilyResolver;
+                                obj3 = fontFamilyResolver;
                             }
                         } else {
-                            obj = density;
+                            obj2 = density;
                             layoutDirection2 = layoutDirection;
-                            obj2 = fontFamilyResolver;
+                            obj3 = fontFamilyResolver;
                         }
                     } else {
-                        obj = density;
+                        obj2 = density;
                         layoutDirection2 = layoutDirection;
-                        obj2 = fontFamilyResolver;
+                        obj3 = fontFamilyResolver;
                     }
                 } else {
-                    i2 = maxLines;
-                    obj = density;
+                    i = maxLines;
+                    obj2 = density;
                     layoutDirection2 = layoutDirection;
-                    obj2 = fontFamilyResolver;
+                    obj3 = fontFamilyResolver;
                 }
             } else {
-                obj3 = placeholders;
-                i2 = maxLines;
-                obj = density;
+                obj = placeholders;
+                i = maxLines;
+                obj2 = density;
                 layoutDirection2 = layoutDirection;
-                obj2 = fontFamilyResolver;
+                obj3 = fontFamilyResolver;
             }
         } else {
             textStyle = style;
-            obj3 = placeholders;
-            i2 = maxLines;
-            obj = density;
+            obj = placeholders;
+            i = maxLines;
+            obj2 = density;
             layoutDirection2 = layoutDirection;
-            obj2 = fontFamilyResolver;
+            obj3 = fontFamilyResolver;
         }
-        return i;
+        return i2;
     }
 }

@@ -18,12 +18,12 @@ public final class LayerSnapshot_androidKt {
     }
 
     private static final Bitmap toBitmap(Image $this$toBitmap) {
+        int i3;
         int i2;
         int i4;
-        int i3;
-        int i;
         int i5;
         int i6;
+        int i;
         int argb-8_81llA;
         final Image.Plane[] planes = $this$toBitmap.getPlanes();
         Intrinsics.checkNotNull(planes);
@@ -31,11 +31,11 @@ public final class LayerSnapshot_androidKt {
         width *= height;
         int[] iArr = new int[i9];
         planes[0].getBuffer().asIntBuffer().get(iArr);
-        i2 = 0;
-        while (i2 < i9) {
-            i4 = iArr[i2];
-            iArr[i2] = ColorKt.toArgb-8_81llA(ColorKt.Color(i4 & 255, i10 &= 255, i11 &= 255, i12 &= 255));
-            i2++;
+        i3 = 0;
+        while (i3 < i9) {
+            i2 = iArr[i3];
+            iArr[i3] = ColorKt.toArgb-8_81llA(ColorKt.Color(i2 & 255, i10 &= 255, i11 &= 255, i12 &= 255));
+            i3++;
         }
         return Bitmap.createBitmap(iArr, $this$toBitmap.getWidth(), $this$toBitmap.getHeight(), Bitmap.Config.ARGB_8888);
     }

@@ -39,12 +39,12 @@ public final class NestedVectorStack<T>  {
     }
 
     public final T pop() {
-        int i2;
-        int currentIndexes;
         int i;
+        int currentIndexes;
+        int i2;
         int i4 = 1;
-        i2 = this.size > 0 ? i4 : 0;
-        if (i2 == 0) {
+        i = this.size > 0 ? i4 : 0;
+        if (i == 0) {
         } else {
             size2 -= i4;
             int i5 = this.currentIndexes[i3];
@@ -63,8 +63,8 @@ public final class NestedVectorStack<T>  {
             return mutableVector.getContent()[i5];
         }
         int indexOfVector = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Cannot call pop() on an empty stack. Guard with a call to isNotEmpty()".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckNestedVectorStack$pop$1 = new IllegalStateException("Cannot call pop() on an empty stack. Guard with a call to isNotEmpty()".toString());
+        throw $i$a$CheckNestedVectorStack$pop$1;
     }
 
     public final void push(MutableVector<T> vector) {

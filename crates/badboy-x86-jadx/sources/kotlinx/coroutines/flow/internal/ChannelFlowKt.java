@@ -22,10 +22,10 @@ public final class ChannelFlowKt {
         Object obj;
         kotlinx.coroutines.flow.internal.ChannelFlowOperatorImpl channelFlowOperatorImpl;
         Object $this$asChannelFlow2;
-        int i;
-        int i4;
-        int i3;
         int i5;
+        int i3;
+        int i4;
+        int i;
         int i2;
         if ($this$asChannelFlow instanceof ChannelFlow) {
             obj = $this$asChannelFlow;

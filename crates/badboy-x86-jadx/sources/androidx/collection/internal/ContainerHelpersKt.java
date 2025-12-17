@@ -20,16 +20,16 @@ public final class ContainerHelpersKt {
     public static final int binarySearch(int[] array, int size, int value) {
         int lo;
         int hi;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter(array, "array");
         lo = 0;
         hi = size + -1;
         while (lo <= hi) {
             i3 >>>= 1;
-            i = array[i2];
-            hi = i2 + -1;
-            lo = i2 + 1;
+            i2 = array[i];
+            hi = i + -1;
+            lo = i + 1;
         }
         return ~lo;
     }
@@ -57,13 +57,13 @@ public final class ContainerHelpersKt {
     }
 
     public static final int idealByteArraySize(int need) {
-        int i;
         int i3;
+        int i;
         int i2;
-        i = 4;
-        while (i < 32) {
-            i3 = 1;
-            i++;
+        i3 = 4;
+        while (i3 < 32) {
+            i = 1;
+            i3++;
         }
         return need;
     }

@@ -82,129 +82,129 @@ public final class TimeUtils {
     }
 
     private static int formatDurationLocked(long duration, int fieldLen) {
-        int i2;
+        int i11;
         int cArr;
         int prefix;
-        int seconds;
         int seconds2;
+        int seconds;
         int days;
-        int myLen;
-        int i6;
-        int i3;
-        int i5;
-        int i;
-        int hours2;
-        int hours;
-        int i15;
-        int i11;
-        int i4;
-        int minutes;
-        int i16;
-        int i7;
-        int i8;
-        int i9;
-        int i12;
-        int i10;
-        int i13;
-        int i17;
         int myLen2;
+        int i12;
+        int i17;
+        int i;
+        int i2;
+        int hours;
+        int hours2;
         int i14;
+        int i3;
+        int i6;
+        int minutes;
+        int i13;
+        int i15;
+        int i8;
+        int i5;
+        int i9;
+        int i16;
         int i18;
-        i2 = duration;
+        int i4;
+        int myLen;
+        int i7;
+        int i10;
+        i11 = duration;
         int i19 = obj22;
         if (sFormatStr.length < i19) {
             TimeUtils.sFormatStr = new char[i19];
         }
         final char[] sFormatStr2 = TimeUtils.sFormatStr;
         int i22 = 0;
-        myLen = 32;
-        if (Long.compare(i2, i22) == 0) {
+        myLen2 = 32;
+        if (Long.compare(i11, i22) == 0) {
             int i21 = 0;
             while (i21 < i19--) {
-                sFormatStr2[i21] = myLen;
+                sFormatStr2[i21] = myLen2;
             }
             sFormatStr2[i21] = 48;
             return i21 + 1;
         }
-        if (Long.compare(i2, i22) > 0) {
+        if (Long.compare(i11, i22) > 0) {
             prefix = 43;
         } else {
             prefix = 45;
-            i2 = -i2;
+            i11 = -i11;
         }
         int i25 = 1000;
         final int i44 = (int)i38;
-        seconds = (int)floor;
+        seconds2 = (int)floor;
         days = 0;
-        i12 = 86400;
-        if (seconds > i12) {
-            seconds -= i12;
+        i9 = 86400;
+        if (seconds2 > i9) {
+            seconds2 -= i9;
         }
-        if (seconds > 3600) {
-            hours2 = seconds / 3600;
-            seconds -= i46;
-            i10 = hours2;
+        if (seconds2 > 3600) {
+            hours = seconds2 / 3600;
+            seconds2 -= i46;
+            i16 = hours;
         } else {
-            i10 = hours2;
+            i16 = hours;
         }
-        if (seconds > 60) {
-            minutes = seconds / 60;
-            i13 = seconds;
-            i17 = minutes;
+        if (seconds2 > 60) {
+            minutes = seconds2 / 60;
+            i18 = seconds2;
+            i4 = minutes;
         } else {
-            i13 = seconds;
-            i17 = minutes;
+            i18 = seconds2;
+            i4 = minutes;
         }
-        seconds2 = 0;
+        seconds = 0;
         final int i48 = 2;
         int i39 = 0;
         int i42 = 1;
         if (i19 != 0) {
             int accumField5 = TimeUtils.accumField(days, i42, i39, i39);
-            i6 = accumField5 > 0 ? i42 : i39;
+            i12 = accumField5 > 0 ? i42 : i39;
             accumField5 += accumField;
-            i3 = myLen3 > 0 ? i42 : i39;
+            i17 = myLen3 > 0 ? i42 : i39;
             myLen3 += accumField2;
-            i5 = myLen4 > 0 ? i42 : i39;
+            i = myLen4 > 0 ? i42 : i39;
             myLen4 += accumField3;
-            i = myLen5 > 0 ? 3 : i39;
-            myLen = myLen2;
-            while (myLen < i19) {
-                sFormatStr2[seconds2] = myLen;
-                seconds2++;
-                myLen++;
+            i2 = myLen5 > 0 ? 3 : i39;
+            myLen2 = myLen;
+            while (myLen2 < i19) {
+                sFormatStr2[seconds] = myLen2;
+                seconds++;
+                myLen2++;
             }
         }
-        sFormatStr2[seconds2] = prefix;
-        int i35 = seconds2 + 1;
-        i14 = i19 != 0 ? i42 : i39;
+        sFormatStr2[seconds] = prefix;
+        int i35 = seconds + 1;
+        i7 = i19 != 0 ? i42 : i39;
         int i49 = i39;
         final int i50 = i42;
         int start = days;
         final int i47 = i51;
         int pos3 = TimeUtils.printField(sFormatStr2, start, 'd', i35, false, 0);
         int i52 = start;
-        i15 = pos3 != i47 ? i50 : i49;
-        i16 = i14 != 0 ? i48 : i49;
-        int pos4 = TimeUtils.printField(sFormatStr2, i10, 'h', pos3, i15, i16);
-        i11 = pos4 != i47 ? i50 : i49;
-        i7 = i14 != 0 ? i48 : i49;
-        int pos5 = TimeUtils.printField(sFormatStr2, i17, 'm', pos4, i11, i7);
-        i4 = pos5 != i47 ? i50 : i49;
-        i8 = i14 != 0 ? i48 : i49;
-        int pos6 = TimeUtils.printField(sFormatStr2, i13, 's', pos5, i4, i8);
-        if (i14 != 0 && pos6 != i47) {
-            i9 = pos6 != i47 ? 3 : i49;
+        i14 = pos3 != i47 ? i50 : i49;
+        i13 = i7 != 0 ? i48 : i49;
+        int pos4 = TimeUtils.printField(sFormatStr2, i16, 'h', pos3, i14, i13);
+        i3 = pos4 != i47 ? i50 : i49;
+        i15 = i7 != 0 ? i48 : i49;
+        int pos5 = TimeUtils.printField(sFormatStr2, i4, 'm', pos4, i3, i15);
+        i6 = pos5 != i47 ? i50 : i49;
+        i8 = i7 != 0 ? i48 : i49;
+        int pos6 = TimeUtils.printField(sFormatStr2, i18, 's', pos5, i6, i8);
+        if (i7 != 0 && pos6 != i47) {
+            i5 = pos6 != i47 ? 3 : i49;
         } else {
         }
-        int printField = TimeUtils.printField(sFormatStr2, i44, 'm', pos6, true, i9);
+        int printField = TimeUtils.printField(sFormatStr2, i44, 'm', pos6, true, i5);
         sFormatStr2[printField] = 115;
         return printField + 1;
     }
 
     private static int printField(char[] formatStr, int amt, char suffix, int pos, boolean always, int zeropad) {
-        int i2;
         int i3;
+        int i2;
         int i;
         int obj4;
         int obj6;
@@ -213,7 +213,7 @@ public final class TimeUtils {
                 if (always) {
                     if (zeropad < 3) {
                         if (amt > 99) {
-                            i3 = amt / 100;
+                            i2 = amt / 100;
                             formatStr[pos] = (char)i5;
                             pos++;
                             amt -= i;
@@ -226,7 +226,7 @@ public final class TimeUtils {
                     if (zeropad < 2 && obj4 <= 9) {
                         if (obj4 <= 9) {
                             if (pos != obj6) {
-                                i3 = obj4 / 10;
+                                i2 = obj4 / 10;
                                 formatStr[obj6] = (char)i4;
                                 obj6++;
                                 obj4 -= i;

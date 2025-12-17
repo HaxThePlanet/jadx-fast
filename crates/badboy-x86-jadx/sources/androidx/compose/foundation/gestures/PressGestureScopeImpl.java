@@ -33,18 +33,18 @@ public final class PressGestureScopeImpl implements androidx.compose.foundation.
 
     public Object awaitRelease(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i;
         int i3;
-        Object tryAwaitRelease;
         int i2;
+        Object _this;
+        int i;
         Object obj5;
         anon = continuation;
-        i3 = Integer.MIN_VALUE;
-        if (continuation instanceof PressGestureScopeImpl.awaitRelease.1 && label &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation instanceof PressGestureScopeImpl.awaitRelease.1 && label &= i2 != 0) {
             anon = continuation;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj5 -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj5 -= i2;
             } else {
                 anon = new PressGestureScopeImpl.awaitRelease.1(this, continuation);
             }
@@ -59,13 +59,13 @@ public final class PressGestureScopeImpl implements androidx.compose.foundation.
                 return cOROUTINE_SUSPENDED;
             case 1:
                 ResultKt.throwOnFailure(obj5);
-                tryAwaitRelease = obj5;
+                _this = obj5;
                 break;
             default:
                 obj5 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj5;
         }
-        if (!(Boolean)tryAwaitRelease.booleanValue()) {
+        if (!(Boolean)_this.booleanValue()) {
         } else {
             return Unit.INSTANCE;
         }
@@ -101,21 +101,21 @@ public final class PressGestureScopeImpl implements androidx.compose.foundation.
 
     public final Object reset(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i3;
-        Object l$0;
         int i2;
+        Object l$0;
+        int i4;
         androidx.compose.foundation.gestures.PressGestureScopeImpl label;
         Object lock$default;
-        int i4;
         int i;
+        int i3;
         Object obj7;
         anon = continuation;
-        i2 = Integer.MIN_VALUE;
-        if (continuation instanceof PressGestureScopeImpl.reset.1 && label2 &= i2 != 0) {
+        i4 = Integer.MIN_VALUE;
+        if (continuation instanceof PressGestureScopeImpl.reset.1 && label2 &= i4 != 0) {
             anon = continuation;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon.label = obj7 -= i2;
+            i4 = Integer.MIN_VALUE;
+            if (label2 &= i4 != 0) {
+                anon.label = obj7 -= i4;
             } else {
                 anon = new PressGestureScopeImpl.reset.1(this, continuation);
             }
@@ -128,9 +128,9 @@ public final class PressGestureScopeImpl implements androidx.compose.foundation.
                 ResultKt.throwOnFailure(obj7);
                 label = this;
                 anon.L$0 = label;
-                i4 = 1;
-                anon.label = i4;
-                i = 0;
+                i = 1;
+                anon.label = i;
+                i3 = 0;
                 return cOROUTINE_SUSPENDED;
                 l$0 = label;
                 break;
@@ -142,9 +142,9 @@ public final class PressGestureScopeImpl implements androidx.compose.foundation.
                 obj7 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj7;
         }
-        int i5 = 0;
-        l$0.isReleased = i5;
-        l$0.isCanceled = i5;
+        int _this = 0;
+        l$0.isReleased = _this;
+        l$0.isCanceled = _this;
         return Unit.INSTANCE;
     }
 

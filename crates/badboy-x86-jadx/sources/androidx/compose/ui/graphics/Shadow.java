@@ -43,24 +43,24 @@ public final class Shadow {
     }
 
     public Shadow(long l, long l2, float f3, int i4, DefaultConstructorMarker defaultConstructorMarker5) {
-        long l3;
         long l4;
+        long l3;
         int i;
         long obj8;
         long obj10;
         int obj12;
         if (obj13 & 1 != 0) {
-            l3 = obj8;
+            l4 = obj8;
         } else {
-            l3 = l;
+            l4 = l;
         }
         if (obj13 & 2 != 0) {
-            l4 = obj10;
+            l3 = obj10;
         } else {
-            l4 = f3;
+            l3 = f3;
         }
         i = obj13 & 4 != 0 ? obj12 : defaultConstructorMarker5;
-        super(l3, obj2, l4, obj4, i, 0);
+        super(l4, obj2, l3, obj4, i, 0);
     }
 
     public Shadow(long l, long l2, float f3, DefaultConstructorMarker defaultConstructorMarker4) {

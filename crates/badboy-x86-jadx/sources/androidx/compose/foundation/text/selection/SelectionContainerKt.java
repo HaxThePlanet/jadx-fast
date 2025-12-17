@@ -68,14 +68,14 @@ public final class SelectionContainerKt {
         boolean traceInProgress2;
         int rememberSaveable;
         Object traceInProgress;
-        int i5;
-        int i6;
         int i2;
-        int i4;
-        int i3;
-        int i8;
-        Object rememberedValue;
+        int i6;
         int i;
+        int i8;
+        int i3;
+        int i4;
+        Object rememberedValue;
+        int i5;
         Object empty2;
         Object empty;
         Object anon;
@@ -93,8 +93,8 @@ public final class SelectionContainerKt {
             traceInProgress = modifier;
         } else {
             if (i10 & 6 == 0) {
-                i5 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i5;
+                i2 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i2;
             } else {
                 traceInProgress = modifier;
             }
@@ -111,16 +111,16 @@ public final class SelectionContainerKt {
             $dirty |= 384;
         } else {
             if (i10 & 384 == 0) {
-                i2 = restartGroup.changedInstance(obj3) ? 256 : 128;
-                $dirty |= i2;
+                i = restartGroup.changedInstance(obj3) ? 256 : 128;
+                $dirty |= i;
             }
         }
         if (i7 & 8 != 0) {
             $dirty |= 3072;
         } else {
             if (i10 & 3072 == 0) {
-                i4 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
-                $dirty |= i4;
+                i8 = restartGroup.changedInstance(obj4) ? 2048 : 1024;
+                $dirty |= i8;
             }
         }
         final int i31 = $dirty;
@@ -173,9 +173,9 @@ public final class SelectionContainerKt {
                 ContextMenu_androidKt.ContextMenuArea(selectionManager, (Function2)ComposableLambdaKt.rememberComposableLambda(-123806316, true, anon2, restartGroup, 54), restartGroup, 48);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 882699720, str2);
                 i3 = restartGroup;
-                i8 = 0;
+                i4 = 0;
                 rememberedValue = i3.rememberedValue();
-                i = 0;
+                i5 = 0;
                 if (!restartGroup.changedInstance(selectionManager)) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty2 = 0;
@@ -205,42 +205,42 @@ public final class SelectionContainerKt {
     }
 
     public static final void SelectionContainer(Modifier modifier, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i5) {
-        int anon;
+        int anon2;
         int companion;
-        int i;
+        int i4;
         Object mutableStateOf$default;
-        int i3;
         int i2;
+        int i6;
         boolean $this$cache$iv;
         Object obj;
-        int i6;
-        int i4;
+        int i;
+        int i3;
         Object empty;
         Object empty2;
-        Object anon2;
+        Object anon;
         Object obj10;
         Object obj11;
         int obj12;
-        anon = -1075498320;
-        final Composer restartGroup = $composer.startRestartGroup(anon);
+        anon2 = -1075498320;
+        final Composer restartGroup = $composer.startRestartGroup(anon2);
         ComposerKt.sourceInformation(restartGroup, "C(SelectionContainer)P(1)49@2177L45,53@2335L38,50@2227L180:SelectionContainer.kt#eksfi3");
         obj12 = $changed;
         companion = i5 & 1;
-        i = 2;
+        i4 = 2;
         if (companion != 0) {
             obj12 |= 6;
         } else {
             if ($changed & 6 == 0) {
-                i3 = restartGroup.changed(modifier) ? 4 : i;
-                obj12 |= i3;
+                i2 = restartGroup.changed(modifier) ? 4 : i4;
+                obj12 |= i2;
             }
         }
         if (i5 & 2 != 0) {
             obj12 |= 48;
         } else {
             if ($changed & 48 == 0) {
-                i2 = restartGroup.changedInstance(content) ? 32 : 16;
-                obj12 |= i2;
+                i6 = restartGroup.changedInstance(content) ? 32 : 16;
+                obj12 |= i6;
             }
         }
         if (obj12 & 19 == 18) {
@@ -250,7 +250,7 @@ public final class SelectionContainerKt {
                 }
                 companion = obj10;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(anon, obj12, -1, "androidx.compose.foundation.text.selection.SelectionContainer (SelectionContainer.kt:48)");
+                    ComposerKt.traceEventStart(anon2, obj12, -1, "androidx.compose.foundation.text.selection.SelectionContainer (SelectionContainer.kt:48)");
                 }
                 String str = "CC(remember):SelectionContainer.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 882579275, str);
@@ -261,8 +261,8 @@ public final class SelectionContainerKt {
                 int i15 = 0;
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     empty2 = 0;
-                    anon2 = 0;
-                    composer.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(anon2, anon2, i, anon2));
+                    anon = 0;
+                    composer.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(anon, anon, i4, anon));
                 } else {
                     mutableStateOf$default = rememberedValue;
                 }
@@ -276,13 +276,13 @@ public final class SelectionContainerKt {
                 int i16 = 0;
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
                     empty = 0;
-                    anon2 = new SelectionContainerKt.SelectionContainer.1.1(obj10);
-                    composer2.updateRememberedValue((Function1)anon2);
+                    anon = new SelectionContainerKt.SelectionContainer.1.1(obj10);
+                    composer2.updateRememberedValue((Function1)anon);
                 } else {
-                    anon2 = rememberedValue2;
+                    anon = rememberedValue2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                SelectionContainerKt.SelectionContainer(companion, SelectionContainerKt.SelectionContainer$lambda$1((MutableState)obj10), (Function1)anon2, content, restartGroup, anon | i14, 0);
+                SelectionContainerKt.SelectionContainer(companion, SelectionContainerKt.SelectionContainer$lambda$1((MutableState)obj10), (Function1)anon, content, restartGroup, anon2 | i14, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
@@ -295,8 +295,8 @@ public final class SelectionContainerKt {
         }
         obj11 = restartGroup.endRestartGroup();
         if (obj11 != null) {
-            anon = new SelectionContainerKt.SelectionContainer.2(obj10, obj, $changed, i5);
-            obj11.updateScope((Function2)anon);
+            anon2 = new SelectionContainerKt.SelectionContainer.2(obj10, obj, $changed, i5);
+            obj11.updateScope((Function2)anon2);
         }
     }
 

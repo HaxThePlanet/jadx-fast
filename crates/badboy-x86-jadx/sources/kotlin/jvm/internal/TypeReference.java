@@ -36,9 +36,9 @@ public final class TypeReference implements KType {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
+            int ordinal3;
             int ordinal;
             int ordinal2;
-            int ordinal3;
             int[] iArr = new int[values.length];
             iArr[KVariance.INVARIANT.ordinal()] = 1;
             iArr[KVariance.IN.ordinal()] = 2;
@@ -112,19 +112,19 @@ public final class TypeReference implements KType {
         int classifier;
         String arrayClassName;
         boolean primitive;
-        boolean str4;
+        boolean str2;
         String joinToString$default;
         int javaClass;
-        String str3;
-        List list;
         String str;
-        String str5;
-        String string2;
-        String equal;
+        List list;
+        String str3;
+        String str4;
         String string;
+        String equal;
+        String string2;
         int i4;
         int i2;
-        kotlin.jvm.internal.TypeReference.asString.args.1 str2;
+        kotlin.jvm.internal.TypeReference.asString.args.1 str5;
         int i3;
         int i;
         if (classifier instanceof KClass) {
@@ -157,34 +157,34 @@ public final class TypeReference implements KType {
             }
         }
         if (getArguments().isEmpty()) {
-            joinToString$default = str3;
+            joinToString$default = str;
         } else {
             TypeReference.asString.args.1 anon = new TypeReference.asString.args.1(this);
             joinToString$default = CollectionsKt.joinToString$default((Iterable)getArguments(), (CharSequence)", ", (CharSequence)"<", (CharSequence)">", 0, 0, (Function1)anon, 24, 0);
         }
         if (isMarkedNullable()) {
-            str3 = "?";
+            str = "?";
         }
         StringBuilder stringBuilder = new StringBuilder();
-        String string3 = stringBuilder.append(arrayClassName).append(joinToString$default).append(str3).toString();
+        String string3 = stringBuilder.append(arrayClassName).append(joinToString$default).append(str).toString();
         KType platformTypeUpperBound = this.platformTypeUpperBound;
         if (platformTypeUpperBound instanceof TypeReference != null) {
-            string2 = (TypeReference)platformTypeUpperBound.asString(true);
-            if (Intrinsics.areEqual(string2, string3)) {
-                string = string3;
+            string = (TypeReference)platformTypeUpperBound.asString(true);
+            if (Intrinsics.areEqual(string, string3)) {
+                string2 = string3;
             } else {
                 StringBuilder stringBuilder2 = new StringBuilder();
-                if (Intrinsics.areEqual(string2, stringBuilder2.append(string3).append('?').toString())) {
+                if (Intrinsics.areEqual(string, stringBuilder2.append(string3).append('?').toString())) {
                     StringBuilder stringBuilder4 = new StringBuilder();
-                    string = stringBuilder4.append(string3).append('!').toString();
+                    string2 = stringBuilder4.append(string3).append('!').toString();
                 } else {
                     StringBuilder stringBuilder3 = new StringBuilder();
-                    string = stringBuilder3.append('(').append(string3).append("..").append(string2).append(')').toString();
+                    string2 = stringBuilder3.append('(').append(string3).append("..").append(string).append(')').toString();
                 }
             }
         } else {
         }
-        return string;
+        return string2;
     }
 
     private final String getArrayClassName(Class<?> $this$arrayClassName) {

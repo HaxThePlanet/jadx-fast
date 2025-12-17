@@ -36,29 +36,29 @@ public final class SnapshotDoubleIndexHeap {
 
     private final int allocateHandle() {
         int firstFreeHandle;
-        int[] iArr2;
-        int i4;
-        int i3;
-        int[] handles;
         int[] iArr;
         int i;
+        int i3;
+        int[] handles;
+        int[] iArr2;
+        int i4;
+        int i2;
         int i5;
         int i6;
         int i7;
-        int i2;
         int length = handles2.length;
         if (this.firstFreeHandle >= length) {
             firstFreeHandle = length * 2;
-            iArr2 = new int[firstFreeHandle];
-            i4 = 0;
-            while (i4 < firstFreeHandle) {
-                i3 = i4 + 1;
-                iArr2[i4] = i3;
-                i4 = i3;
+            iArr = new int[firstFreeHandle];
+            i = 0;
+            while (i < firstFreeHandle) {
+                i3 = i + 1;
+                iArr[i] = i3;
+                i = i3;
             }
-            iArr = iArr2;
-            ArraysKt.copyInto$default(this.handles, iArr, 0, 0, 0, 14, 0);
-            this.handles = iArr;
+            iArr2 = iArr;
+            ArraysKt.copyInto$default(this.handles, iArr2, 0, 0, 0, 14, 0);
+            this.handles = iArr2;
         }
         this.firstFreeHandle = this.handles[this.firstFreeHandle];
         return this.firstFreeHandle;
@@ -94,17 +94,17 @@ public final class SnapshotDoubleIndexHeap {
     private final void shiftDown(int index) {
         int current;
         int i2;
-        int i;
+        int i4;
         int i3;
         int size;
-        int i4;
+        int i;
         final int[] values = this.values;
         current = index;
         while (current < size2 >>= 1) {
             i6 <<= 1;
-            i = i2 + -1;
-            swap(i, current);
-            current = i;
+            i4 = i2 + -1;
+            swap(i4, current);
+            current = i4;
             swap(i2, current);
             current = i2;
         }
@@ -112,18 +112,18 @@ public final class SnapshotDoubleIndexHeap {
 
     private final void shiftUp(int index) {
         int current;
-        int i2;
         int i;
+        int i2;
         final int[] values = this.values;
         current = index;
         while (current > 0) {
             i5--;
-            if (values[i2] <= values[index]) {
+            if (values[i] <= values[index]) {
                 break;
             } else {
             }
-            swap(i2, current);
-            current = i2;
+            swap(i, current);
+            current = i;
         }
     }
 
@@ -177,9 +177,9 @@ public final class SnapshotDoubleIndexHeap {
 
     public final void validate() {
         int index;
-        int i2;
-        int i;
         int i3;
+        int i;
+        int i2;
         index = 1;
         while (index < this.size) {
             index++;

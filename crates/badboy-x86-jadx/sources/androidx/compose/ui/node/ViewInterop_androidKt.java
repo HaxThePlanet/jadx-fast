@@ -20,12 +20,12 @@ public final class ViewInterop_androidKt {
         int index$iv$iv$iv;
         int existing$iv;
         Object obj;
-        Object obj2;
-        int i;
         Object obj3;
+        int i2;
+        Object obj2;
         int i3;
         int i4;
-        int i2;
+        int i;
         final androidx.compose.ui.node.MergedViewAdapter viewAdapter = ViewInterop_androidKt.getViewAdapter($this$getOrAddAdapter);
         final int i5 = 0;
         adapters = 0;
@@ -33,7 +33,7 @@ public final class ViewInterop_androidKt {
         final int i6 = 0;
         index$iv$iv$iv = 0;
         while (index$iv$iv$iv < list.size()) {
-            i = 0;
+            i2 = 0;
             i3 = 0;
             if ((ViewAdapter)list.get(index$iv$iv$iv).getId() == id) {
             } else {
@@ -42,10 +42,10 @@ public final class ViewInterop_androidKt {
             index$iv$iv$iv++;
             i4 = 1;
         }
-        i2 = id;
-        obj2 = existing$iv;
-        if (obj2 instanceof ViewAdapter != null) {
-            existing$iv = obj2;
+        i = id;
+        obj3 = existing$iv;
+        if (obj3 instanceof ViewAdapter != null) {
+            existing$iv = obj3;
         }
         if (existing$iv == 0) {
             $this$fastFirstOrNull$iv$iv = factory.invoke();

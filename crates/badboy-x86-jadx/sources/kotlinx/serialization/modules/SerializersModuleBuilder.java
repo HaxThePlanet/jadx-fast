@@ -147,13 +147,13 @@ public final class SerializersModuleBuilder implements kotlinx.serialization.mod
     }
 
     public final <Base, Sub extends Base> void registerPolymorphicSerializer(KClass<Base> baseClass, KClass<Sub> concreteClass, KSerializer<Sub> concreteSerializer, boolean allowOverwrite) {
-        int i;
-        int serialName;
-        int i4;
-        Object hashMap2;
         int i2;
-        Object hashMap;
+        int serialName;
         int i3;
+        Object hashMap;
+        int i;
+        Object hashMap2;
+        int i4;
         Intrinsics.checkNotNullParameter(baseClass, "baseClass");
         Intrinsics.checkNotNullParameter(concreteClass, "concreteClass");
         Intrinsics.checkNotNullParameter(concreteSerializer, "concreteSerializer");
@@ -162,27 +162,27 @@ public final class SerializersModuleBuilder implements kotlinx.serialization.mod
         int i5 = 0;
         Object obj2 = polyBase2Serializers.get(baseClass);
         if (obj2 == null) {
-            i = 0;
-            i4 = 0;
-            hashMap2 = new HashMap();
-            polyBase2Serializers.put(baseClass, hashMap2);
+            i2 = 0;
+            i3 = 0;
+            hashMap = new HashMap();
+            polyBase2Serializers.put(baseClass, hashMap);
         } else {
-            hashMap2 = obj2;
+            hashMap = obj2;
         }
-        HashMap $this$getOrPut$iv = hashMap2;
+        HashMap $this$getOrPut$iv = hashMap;
         Object obj = (Map)$this$getOrPut$iv.get(concreteClass);
         Map polyBase2NamedSerializers = this.polyBase2NamedSerializers;
         serialName = 0;
         Object obj4 = polyBase2NamedSerializers.get(baseClass);
         if (obj4 == null) {
-            hashMap2 = 0;
-            i2 = 0;
-            hashMap = new HashMap();
-            polyBase2NamedSerializers.put(baseClass, hashMap);
+            hashMap = 0;
+            i = 0;
+            hashMap2 = new HashMap();
+            polyBase2NamedSerializers.put(baseClass, hashMap2);
         } else {
-            hashMap = obj4;
+            hashMap2 = obj4;
         }
-        HashMap $this$getOrPut$iv2 = hashMap;
+        HashMap $this$getOrPut$iv2 = hashMap2;
         if (allowOverwrite && (KSerializer)obj != null) {
             if ((KSerializer)obj != null) {
                 (Map)$this$getOrPut$iv2.remove((KSerializer)obj.getDescriptor().getSerialName());
@@ -204,16 +204,16 @@ public final class SerializersModuleBuilder implements kotlinx.serialization.mod
             Intrinsics.checkNotNull(obj5);
             Iterator iterator = MapsKt.asSequence((Map)obj5).iterator();
             while (iterator.hasNext()) {
-                hashMap = null;
+                hashMap2 = null;
                 if ((Map.Entry)iterator.next().getValue() == (KSerializer)obj3) {
                 } else {
                 }
-                i3 = 0;
-                i3 = 1;
+                i4 = 0;
+                i4 = 1;
             }
-            hashMap2 = 0;
+            hashMap = 0;
             StringBuilder stringBuilder = new StringBuilder();
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Multiple polymorphic serializers for base class '").append(baseClass).append("' have the same serial name '").append(serialName2).append("': '").append(concreteClass).append("' and '").append((Map.Entry)hashMap2).append('\'').toString());
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Multiple polymorphic serializers for base class '").append(baseClass).append("' have the same serial name '").append(serialName2).append("': '").append(concreteClass).append("' and '").append((Map.Entry)hashMap).append('\'').toString());
             throw illegalArgumentException;
         }
         $this$getOrPut$iv.put(concreteClass, concreteSerializer);

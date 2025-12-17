@@ -107,20 +107,20 @@ class VersionedParcelParcel extends androidx.versionedparcelable.VersionedParcel
     public boolean readField(int fieldId) {
         int int;
         int i2;
-        int i3;
         int i;
-        i = 0;
+        int i3;
+        i3 = 0;
         while (this.mNextRead < this.mEnd) {
             this.mParcel.setDataPosition(this.mNextRead);
             this.mFieldId = this.mParcel.readInt();
             this.mNextRead = mNextRead3 += int;
-            i = 0;
+            i3 = 0;
         }
         if (this.mFieldId == fieldId) {
         } else {
-            i3 = i;
+            i = i3;
         }
-        return i3;
+        return i;
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel

@@ -22,32 +22,32 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
         int tail$ui_release;
         DelegatableNode $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
         int node$iv$iv4;
-        String str;
-        int count$iv$iv;
-        boolean count$iv$iv2;
+        String $i$a$RequirePreconditionModifierLocalModifierNode$current$1;
+        int $i$f$getLocalsOLwlOKw;
+        boolean count$iv$iv;
         int node$iv$iv;
-        Modifier.Node node$iv$iv2;
+        Modifier.Node node$iv$iv5;
         LayoutNode layout$iv$iv;
         Modifier.Node head$ui_release;
+        int i7;
         int i6;
-        int i2;
-        Modifier.Node node;
-        int i8;
-        int stack$iv$iv;
-        DelegatableNode node$iv$iv5;
-        int i3;
+        Modifier.Node node3;
         int i4;
-        Modifier.Node node4;
+        int stack$iv$iv;
+        DelegatableNode node$iv$iv2;
+        int i;
+        int i8;
+        Modifier.Node node;
         androidx.compose.ui.modifier.ModifierLocal key;
         Modifier.Node node$iv$iv$iv;
-        Modifier.Node node3;
-        int i5;
+        Modifier.Node node4;
+        int i2;
         int this_$iv$iv$iv;
-        int i7;
-        int i9;
-        Modifier.Node node$iv$iv3;
-        int i;
+        int i3;
         int i10;
+        Modifier.Node node$iv$iv3;
+        int i5;
+        int i9;
         Modifier.Node node2;
         int i12 = 0;
         if (!getNode().isAttached()) {
@@ -58,77 +58,77 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
         int i13 = 0;
         int i16 = 0;
         final int i17 = 0;
-        final int i18 = count$iv$iv;
+        final int i18 = $i$f$getLocalsOLwlOKw;
         final DelegatableNode delegatableNode = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
         final int i19 = 0;
         if (!delegatableNode.getNode().isAttached()) {
         } else {
-            node$iv$iv2 = delegatableNode.getNode().getParent$ui_release();
+            node$iv$iv5 = delegatableNode.getNode().getParent$ui_release();
             layout$iv$iv = DelegatableNodeKt.requireLayoutNode(delegatableNode);
             while (layout$iv$iv != null) {
                 if (aggregateChildKindSet$ui_release &= i18 != 0) {
                 } else {
                 }
                 key = value$iv;
-                node$iv$iv5 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                i3 = count$iv$iv;
+                node$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                i = $i$f$getLocalsOLwlOKw;
                 layout$iv$iv = layout$iv$iv.getParent$ui_release();
                 value$iv = layout$iv$iv.getNodes$ui_release();
                 if (layout$iv$iv != null && value$iv != null) {
                 } else {
                 }
                 tail$ui_release = 0;
-                node$iv$iv2 = tail$ui_release;
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv5;
-                count$iv$iv = i3;
+                node$iv$iv5 = tail$ui_release;
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv2;
+                $i$f$getLocalsOLwlOKw = i;
                 value$iv = key;
                 value$iv = layout$iv$iv.getNodes$ui_release();
                 if (value$iv != null) {
                 } else {
                 }
                 tail$ui_release = value$iv.getTail$ui_release();
-                while (node$iv$iv2 != null) {
+                while (node$iv$iv5 != null) {
                     if (kindSet$ui_release &= i18 == 0) {
                         break loop_6;
                     } else {
                     }
                     key = value$iv;
-                    node$iv$iv5 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    i3 = count$iv$iv;
-                    node$iv$iv2 = node$iv$iv2.getParent$ui_release();
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv5;
-                    count$iv$iv = i3;
+                    node$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                    i = $i$f$getLocalsOLwlOKw;
+                    node$iv$iv5 = node$iv$iv5.getParent$ui_release();
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv2;
+                    $i$f$getLocalsOLwlOKw = i;
                     value$iv = key;
-                    i2 = 0;
-                    i8 = 0;
+                    i6 = 0;
+                    i4 = 0;
                     stack$iv$iv = 0;
                     int i20 = 0;
-                    node$iv$iv5 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                    node$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node2;
                     while ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv != null) {
-                        i3 = count$iv$iv;
-                        i4 = 0;
-                        if (kindSet$ui_release2 &= i3 != 0) {
+                        i = $i$f$getLocalsOLwlOKw;
+                        i8 = 0;
+                        if (kindSet$ui_release2 &= i != 0) {
                         } else {
                         }
-                        count$iv$iv2 = 0;
-                        if (count$iv$iv2 != 0 && $this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
+                        count$iv$iv = 0;
+                        if (count$iv$iv != 0 && $this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
                         } else {
                         }
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = DelegatableNodeKt.access$pop(stack$iv$iv);
-                        count$iv$iv = i3;
+                        $i$f$getLocalsOLwlOKw = i;
                         value$iv = key;
                         if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
                         } else {
                         }
-                        count$iv$iv2 = 0;
-                        node4 = 0;
+                        count$iv$iv = 0;
+                        node = 0;
                         node$iv$iv$iv = (DelegatingNode)$this$visitAncestors_u2dY_u2dYKmho_u24default$iv.getDelegate$ui_release();
                         while (node$iv$iv$iv != null) {
-                            node3 = node$iv$iv$iv;
-                            i5 = 0;
-                            i7 = 0;
-                            if (kindSet$ui_release3 &= i3 != 0) {
+                            node4 = node$iv$iv$iv;
+                            i2 = 0;
+                            i3 = 0;
+                            if (kindSet$ui_release3 &= i != 0) {
                             } else {
                             }
                             this_$iv$iv$iv = 0;
@@ -136,18 +136,18 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                             } else {
                             }
                             node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                            next$iv$iv = node3;
+                            next$iv$iv = node4;
                             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                             value$iv = 1;
-                            count$iv$iv2++;
-                            if (count$iv$iv2 == value$iv) {
+                            count$iv$iv++;
+                            if (count$iv$iv == value$iv) {
                             } else {
                             }
                             if (stack$iv$iv == 0) {
                             } else {
                             }
                             node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                            i = count$iv$iv2;
+                            i5 = count$iv$iv;
                             capacity$iv$iv$iv$iv = 0;
                             node$iv$iv4 = stack$iv$iv;
                             stack$iv$iv = node$iv$iv4;
@@ -159,37 +159,37 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                             if (stack$iv$iv != 0) {
                             } else {
                             }
-                            next$iv$iv = node3;
+                            next$iv$iv = node4;
                             $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv;
-                            count$iv$iv2 = i;
-                            stack$iv$iv.add(node3);
+                            count$iv$iv = i5;
+                            stack$iv$iv.add(node4);
                             if (stack$iv$iv != 0) {
                             }
                             node$iv$iv = 0;
                             stack$iv$iv.add(node6);
                             this_$iv$iv$iv = 0;
                             int i11 = 16;
-                            i9 = 0;
+                            i10 = 0;
                             node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                            i = count$iv$iv2;
-                            i10 = i11;
+                            i5 = count$iv$iv;
+                            i9 = i11;
                             node$iv$iv4 = new MutableVector(new Modifier.Node[i11], 0);
-                            $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node3;
-                            next$iv$iv = node3;
+                            $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node4;
+                            next$iv$iv = node4;
                             this_$iv$iv$iv = value$iv;
                         }
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        if (count$iv$iv2 == 1) {
+                        if (count$iv$iv == 1) {
                         } else {
                         }
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv3;
-                        count$iv$iv = i3;
+                        $i$f$getLocalsOLwlOKw = i;
                         value$iv = key;
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv3;
-                        node3 = node$iv$iv$iv;
-                        i5 = 0;
-                        i7 = 0;
-                        if (kindSet$ui_release3 &= i3 != 0) {
+                        node4 = node$iv$iv$iv;
+                        i2 = 0;
+                        i3 = 0;
+                        if (kindSet$ui_release3 &= i != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -197,18 +197,18 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                         } else {
                         }
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        next$iv$iv = node3;
+                        next$iv$iv = node4;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         value$iv = 1;
-                        count$iv$iv2++;
-                        if (count$iv$iv2 == value$iv) {
+                        count$iv$iv++;
+                        if (count$iv$iv == value$iv) {
                         } else {
                         }
                         if (stack$iv$iv == 0) {
                         } else {
                         }
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        i = count$iv$iv2;
+                        i5 = count$iv$iv;
                         capacity$iv$iv$iv$iv = 0;
                         node$iv$iv4 = stack$iv$iv;
                         stack$iv$iv = node$iv$iv4;
@@ -220,54 +220,54 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                         if (stack$iv$iv != 0) {
                         } else {
                         }
-                        next$iv$iv = node3;
+                        next$iv$iv = node4;
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv;
-                        count$iv$iv2 = i;
-                        stack$iv$iv.add(node3);
+                        count$iv$iv = i5;
+                        stack$iv$iv.add(node4);
                         if (stack$iv$iv != 0) {
                         }
                         node$iv$iv = 0;
                         stack$iv$iv.add(node6);
                         this_$iv$iv$iv = 0;
                         i11 = 16;
-                        i9 = 0;
+                        i10 = 0;
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        i = count$iv$iv2;
-                        i10 = i11;
+                        i5 = count$iv$iv;
+                        i9 = i11;
                         node$iv$iv4 = new MutableVector(new Modifier.Node[i11], 0);
-                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node3;
-                        next$iv$iv = node3;
+                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node4;
+                        next$iv$iv = node4;
                         this_$iv$iv$iv = value$iv;
-                        count$iv$iv2 = value$iv;
-                        i4 = 0;
-                        node4 = node7;
+                        count$iv$iv = value$iv;
+                        i8 = 0;
+                        node = node7;
                         key = value$iv;
                     }
                     key = value$iv;
-                    i3 = count$iv$iv;
-                    i3 = count$iv$iv;
-                    i4 = 0;
-                    if (kindSet$ui_release2 &= i3 != 0) {
+                    i = $i$f$getLocalsOLwlOKw;
+                    i = $i$f$getLocalsOLwlOKw;
+                    i8 = 0;
+                    if (kindSet$ui_release2 &= i != 0) {
                     } else {
                     }
-                    count$iv$iv2 = 0;
-                    if (count$iv$iv2 != 0 && $this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
+                    count$iv$iv = 0;
+                    if (count$iv$iv != 0 && $this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
                     } else {
                     }
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = DelegatableNodeKt.access$pop(stack$iv$iv);
-                    count$iv$iv = i3;
+                    $i$f$getLocalsOLwlOKw = i;
                     value$iv = key;
                     if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv2 = 0;
-                    node4 = 0;
+                    count$iv$iv = 0;
+                    node = 0;
                     node$iv$iv$iv = (DelegatingNode)$this$visitAncestors_u2dY_u2dYKmho_u24default$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node3 = node$iv$iv$iv;
-                        i5 = 0;
-                        i7 = 0;
-                        if (kindSet$ui_release3 &= i3 != 0) {
+                        node4 = node$iv$iv$iv;
+                        i2 = 0;
+                        i3 = 0;
+                        if (kindSet$ui_release3 &= i != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -275,18 +275,18 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                         } else {
                         }
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        next$iv$iv = node3;
+                        next$iv$iv = node4;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         value$iv = 1;
-                        count$iv$iv2++;
-                        if (count$iv$iv2 == value$iv) {
+                        count$iv$iv++;
+                        if (count$iv$iv == value$iv) {
                         } else {
                         }
                         if (stack$iv$iv == 0) {
                         } else {
                         }
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        i = count$iv$iv2;
+                        i5 = count$iv$iv;
                         capacity$iv$iv$iv$iv = 0;
                         node$iv$iv4 = stack$iv$iv;
                         stack$iv$iv = node$iv$iv4;
@@ -298,37 +298,37 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                         if (stack$iv$iv != 0) {
                         } else {
                         }
-                        next$iv$iv = node3;
+                        next$iv$iv = node4;
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv;
-                        count$iv$iv2 = i;
-                        stack$iv$iv.add(node3);
+                        count$iv$iv = i5;
+                        stack$iv$iv.add(node4);
                         if (stack$iv$iv != 0) {
                         }
                         node$iv$iv = 0;
                         stack$iv$iv.add(node6);
                         this_$iv$iv$iv = 0;
                         i11 = 16;
-                        i9 = 0;
+                        i10 = 0;
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        i = count$iv$iv2;
-                        i10 = i11;
+                        i5 = count$iv$iv;
+                        i9 = i11;
                         node$iv$iv4 = new MutableVector(new Modifier.Node[i11], 0);
-                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node3;
-                        next$iv$iv = node3;
+                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node4;
+                        next$iv$iv = node4;
                         this_$iv$iv$iv = value$iv;
                     }
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    if (count$iv$iv2 == 1) {
+                    if (count$iv$iv == 1) {
                     } else {
                     }
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv3;
-                    count$iv$iv = i3;
+                    $i$f$getLocalsOLwlOKw = i;
                     value$iv = key;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv3;
-                    node3 = node$iv$iv$iv;
-                    i5 = 0;
-                    i7 = 0;
-                    if (kindSet$ui_release3 &= i3 != 0) {
+                    node4 = node$iv$iv$iv;
+                    i2 = 0;
+                    i3 = 0;
+                    if (kindSet$ui_release3 &= i != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -336,18 +336,18 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                     } else {
                     }
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    next$iv$iv = node3;
+                    next$iv$iv = node4;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     value$iv = 1;
-                    count$iv$iv2++;
-                    if (count$iv$iv2 == value$iv) {
+                    count$iv$iv++;
+                    if (count$iv$iv == value$iv) {
                     } else {
                     }
                     if (stack$iv$iv == 0) {
                     } else {
                     }
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    i = count$iv$iv2;
+                    i5 = count$iv$iv;
                     capacity$iv$iv$iv$iv = 0;
                     node$iv$iv4 = stack$iv$iv;
                     stack$iv$iv = node$iv$iv4;
@@ -359,72 +359,72 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                     if (stack$iv$iv != 0) {
                     } else {
                     }
-                    next$iv$iv = node3;
+                    next$iv$iv = node4;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv;
-                    count$iv$iv2 = i;
-                    stack$iv$iv.add(node3);
+                    count$iv$iv = i5;
+                    stack$iv$iv.add(node4);
                     if (stack$iv$iv != 0) {
                     }
                     node$iv$iv = 0;
                     stack$iv$iv.add(node6);
                     this_$iv$iv$iv = 0;
                     i11 = 16;
-                    i9 = 0;
+                    i10 = 0;
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    i = count$iv$iv2;
-                    i10 = i11;
+                    i5 = count$iv$iv;
+                    i9 = i11;
                     node$iv$iv4 = new MutableVector(new Modifier.Node[i11], 0);
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node3;
-                    next$iv$iv = node3;
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node4;
+                    next$iv$iv = node4;
                     this_$iv$iv$iv = value$iv;
-                    count$iv$iv2 = value$iv;
-                    i4 = 0;
-                    node4 = node7;
+                    count$iv$iv = value$iv;
+                    i8 = 0;
+                    node = node7;
                     key = value$iv;
                 }
                 key = value$iv;
-                node$iv$iv5 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                i3 = count$iv$iv;
+                node$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                i = $i$f$getLocalsOLwlOKw;
                 if (kindSet$ui_release &= i18 != 0) {
                 } else {
                 }
                 key = value$iv;
-                node$iv$iv5 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                i3 = count$iv$iv;
-                node$iv$iv2 = node$iv$iv2.getParent$ui_release();
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv5;
-                count$iv$iv = i3;
+                node$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                i = $i$f$getLocalsOLwlOKw;
+                node$iv$iv5 = node$iv$iv5.getParent$ui_release();
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv2;
+                $i$f$getLocalsOLwlOKw = i;
                 value$iv = key;
-                i2 = 0;
-                i8 = 0;
+                i6 = 0;
+                i4 = 0;
                 stack$iv$iv = 0;
                 i20 = 0;
-                node$iv$iv5 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
+                node$iv$iv2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
                 $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node2;
                 while ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv != null) {
-                    i3 = count$iv$iv;
-                    i4 = 0;
-                    if (kindSet$ui_release2 &= i3 != 0) {
+                    i = $i$f$getLocalsOLwlOKw;
+                    i8 = 0;
+                    if (kindSet$ui_release2 &= i != 0) {
                     } else {
                     }
-                    count$iv$iv2 = 0;
-                    if (count$iv$iv2 != 0 && $this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
+                    count$iv$iv = 0;
+                    if (count$iv$iv != 0 && $this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
                     } else {
                     }
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = DelegatableNodeKt.access$pop(stack$iv$iv);
-                    count$iv$iv = i3;
+                    $i$f$getLocalsOLwlOKw = i;
                     value$iv = key;
                     if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv2 = 0;
-                    node4 = 0;
+                    count$iv$iv = 0;
+                    node = 0;
                     node$iv$iv$iv = (DelegatingNode)$this$visitAncestors_u2dY_u2dYKmho_u24default$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node3 = node$iv$iv$iv;
-                        i5 = 0;
-                        i7 = 0;
-                        if (kindSet$ui_release3 &= i3 != 0) {
+                        node4 = node$iv$iv$iv;
+                        i2 = 0;
+                        i3 = 0;
+                        if (kindSet$ui_release3 &= i != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -432,18 +432,18 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                         } else {
                         }
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        next$iv$iv = node3;
+                        next$iv$iv = node4;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                         value$iv = 1;
-                        count$iv$iv2++;
-                        if (count$iv$iv2 == value$iv) {
+                        count$iv$iv++;
+                        if (count$iv$iv == value$iv) {
                         } else {
                         }
                         if (stack$iv$iv == 0) {
                         } else {
                         }
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        i = count$iv$iv2;
+                        i5 = count$iv$iv;
                         capacity$iv$iv$iv$iv = 0;
                         node$iv$iv4 = stack$iv$iv;
                         stack$iv$iv = node$iv$iv4;
@@ -455,37 +455,37 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                         if (stack$iv$iv != 0) {
                         } else {
                         }
-                        next$iv$iv = node3;
+                        next$iv$iv = node4;
                         $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv;
-                        count$iv$iv2 = i;
-                        stack$iv$iv.add(node3);
+                        count$iv$iv = i5;
+                        stack$iv$iv.add(node4);
                         if (stack$iv$iv != 0) {
                         }
                         node$iv$iv = 0;
                         stack$iv$iv.add(node6);
                         this_$iv$iv$iv = 0;
                         i11 = 16;
-                        i9 = 0;
+                        i10 = 0;
                         node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                        i = count$iv$iv2;
-                        i10 = i11;
+                        i5 = count$iv$iv;
+                        i9 = i11;
                         node$iv$iv4 = new MutableVector(new Modifier.Node[i11], 0);
-                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node3;
-                        next$iv$iv = node3;
+                        $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node4;
+                        next$iv$iv = node4;
                         this_$iv$iv$iv = value$iv;
                     }
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    if (count$iv$iv2 == 1) {
+                    if (count$iv$iv == 1) {
                     } else {
                     }
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv3;
-                    count$iv$iv = i3;
+                    $i$f$getLocalsOLwlOKw = i;
                     value$iv = key;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv3;
-                    node3 = node$iv$iv$iv;
-                    i5 = 0;
-                    i7 = 0;
-                    if (kindSet$ui_release3 &= i3 != 0) {
+                    node4 = node$iv$iv$iv;
+                    i2 = 0;
+                    i3 = 0;
+                    if (kindSet$ui_release3 &= i != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -493,18 +493,18 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                     } else {
                     }
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    next$iv$iv = node3;
+                    next$iv$iv = node4;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     value$iv = 1;
-                    count$iv$iv2++;
-                    if (count$iv$iv2 == value$iv) {
+                    count$iv$iv++;
+                    if (count$iv$iv == value$iv) {
                     } else {
                     }
                     if (stack$iv$iv == 0) {
                     } else {
                     }
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    i = count$iv$iv2;
+                    i5 = count$iv$iv;
                     capacity$iv$iv$iv$iv = 0;
                     node$iv$iv4 = stack$iv$iv;
                     stack$iv$iv = node$iv$iv4;
@@ -516,54 +516,54 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                     if (stack$iv$iv != 0) {
                     } else {
                     }
-                    next$iv$iv = node3;
+                    next$iv$iv = node4;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv;
-                    count$iv$iv2 = i;
-                    stack$iv$iv.add(node3);
+                    count$iv$iv = i5;
+                    stack$iv$iv.add(node4);
                     if (stack$iv$iv != 0) {
                     }
                     node$iv$iv = 0;
                     stack$iv$iv.add(node6);
                     this_$iv$iv$iv = 0;
                     i11 = 16;
-                    i9 = 0;
+                    i10 = 0;
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    i = count$iv$iv2;
-                    i10 = i11;
+                    i5 = count$iv$iv;
+                    i9 = i11;
                     node$iv$iv4 = new MutableVector(new Modifier.Node[i11], 0);
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node3;
-                    next$iv$iv = node3;
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node4;
+                    next$iv$iv = node4;
                     this_$iv$iv$iv = value$iv;
-                    count$iv$iv2 = value$iv;
-                    i4 = 0;
-                    node4 = node7;
+                    count$iv$iv = value$iv;
+                    i8 = 0;
+                    node = node7;
                     key = value$iv;
                 }
                 key = value$iv;
-                i3 = count$iv$iv;
-                i3 = count$iv$iv;
-                i4 = 0;
-                if (kindSet$ui_release2 &= i3 != 0) {
+                i = $i$f$getLocalsOLwlOKw;
+                i = $i$f$getLocalsOLwlOKw;
+                i8 = 0;
+                if (kindSet$ui_release2 &= i != 0) {
                 } else {
                 }
-                count$iv$iv2 = 0;
-                if (count$iv$iv2 != 0 && $this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
+                count$iv$iv = 0;
+                if (count$iv$iv != 0 && $this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
                 } else {
                 }
                 $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = DelegatableNodeKt.access$pop(stack$iv$iv);
-                count$iv$iv = i3;
+                $i$f$getLocalsOLwlOKw = i;
                 value$iv = key;
                 if ($this$visitAncestors_u2dY_u2dYKmho_u24default$iv instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv2 = 0;
-                node4 = 0;
+                count$iv$iv = 0;
+                node = 0;
                 node$iv$iv$iv = (DelegatingNode)$this$visitAncestors_u2dY_u2dYKmho_u24default$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
-                    node3 = node$iv$iv$iv;
-                    i5 = 0;
-                    i7 = 0;
-                    if (kindSet$ui_release3 &= i3 != 0) {
+                    node4 = node$iv$iv$iv;
+                    i2 = 0;
+                    i3 = 0;
+                    if (kindSet$ui_release3 &= i != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -571,18 +571,18 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                     } else {
                     }
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    next$iv$iv = node3;
+                    next$iv$iv = node4;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                     value$iv = 1;
-                    count$iv$iv2++;
-                    if (count$iv$iv2 == value$iv) {
+                    count$iv$iv++;
+                    if (count$iv$iv == value$iv) {
                     } else {
                     }
                     if (stack$iv$iv == 0) {
                     } else {
                     }
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    i = count$iv$iv2;
+                    i5 = count$iv$iv;
                     capacity$iv$iv$iv$iv = 0;
                     node$iv$iv4 = stack$iv$iv;
                     stack$iv$iv = node$iv$iv4;
@@ -594,37 +594,37 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                     if (stack$iv$iv != 0) {
                     } else {
                     }
-                    next$iv$iv = node3;
+                    next$iv$iv = node4;
                     $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv;
-                    count$iv$iv2 = i;
-                    stack$iv$iv.add(node3);
+                    count$iv$iv = i5;
+                    stack$iv$iv.add(node4);
                     if (stack$iv$iv != 0) {
                     }
                     node$iv$iv = 0;
                     stack$iv$iv.add(node6);
                     this_$iv$iv$iv = 0;
                     i11 = 16;
-                    i9 = 0;
+                    i10 = 0;
                     node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                    i = count$iv$iv2;
-                    i10 = i11;
+                    i5 = count$iv$iv;
+                    i9 = i11;
                     node$iv$iv4 = new MutableVector(new Modifier.Node[i11], 0);
-                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node3;
-                    next$iv$iv = node3;
+                    $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node4;
+                    next$iv$iv = node4;
                     this_$iv$iv$iv = value$iv;
                 }
                 node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                if (count$iv$iv2 == 1) {
+                if (count$iv$iv == 1) {
                 } else {
                 }
                 $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv3;
-                count$iv$iv = i3;
+                $i$f$getLocalsOLwlOKw = i;
                 value$iv = key;
                 $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv3;
-                node3 = node$iv$iv$iv;
-                i5 = 0;
-                i7 = 0;
-                if (kindSet$ui_release3 &= i3 != 0) {
+                node4 = node$iv$iv$iv;
+                i2 = 0;
+                i3 = 0;
+                if (kindSet$ui_release3 &= i != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -632,18 +632,18 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                 } else {
                 }
                 node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                next$iv$iv = node3;
+                next$iv$iv = node4;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
                 value$iv = 1;
-                count$iv$iv2++;
-                if (count$iv$iv2 == value$iv) {
+                count$iv$iv++;
+                if (count$iv$iv == value$iv) {
                 } else {
                 }
                 if (stack$iv$iv == 0) {
                 } else {
                 }
                 node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                i = count$iv$iv2;
+                i5 = count$iv$iv;
                 capacity$iv$iv$iv$iv = 0;
                 node$iv$iv4 = stack$iv$iv;
                 stack$iv$iv = node$iv$iv4;
@@ -655,27 +655,27 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
                 if (stack$iv$iv != 0) {
                 } else {
                 }
-                next$iv$iv = node3;
+                next$iv$iv = node4;
                 $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node$iv$iv;
-                count$iv$iv2 = i;
-                stack$iv$iv.add(node3);
+                count$iv$iv = i5;
+                stack$iv$iv.add(node4);
                 if (stack$iv$iv != 0) {
                 }
                 node$iv$iv = 0;
                 stack$iv$iv.add(node6);
                 this_$iv$iv$iv = 0;
                 i11 = 16;
-                i9 = 0;
+                i10 = 0;
                 node$iv$iv3 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
-                i = count$iv$iv2;
-                i10 = i11;
+                i5 = count$iv$iv;
+                i9 = i11;
                 node$iv$iv4 = new MutableVector(new Modifier.Node[i11], 0);
-                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node3;
-                next$iv$iv = node3;
+                $this$visitAncestors_u2dY_u2dYKmho_u24default$iv = node4;
+                next$iv$iv = node4;
                 this_$iv$iv$iv = value$iv;
-                count$iv$iv2 = value$iv;
-                i4 = 0;
-                node4 = node7;
+                count$iv$iv = value$iv;
+                i8 = 0;
+                node = node7;
                 key = value$iv;
             }
             return value$iv.getDefaultFactory$ui_release().invoke();
@@ -683,8 +683,8 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
         androidx.compose.ui.modifier.ModifierLocal key3 = value$iv;
         DelegatableNode delegatableNode2 = $this$visitAncestors_u2dY_u2dYKmho_u24default$iv;
         int key2 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv;
     }
 
     @Override // androidx.compose.ui.modifier.ModifierLocalReadScope
@@ -694,7 +694,7 @@ public interface ModifierLocalModifierNode extends androidx.compose.ui.modifier.
 
     public <T> void provide(androidx.compose.ui.modifier.ModifierLocal<T> key, T value) {
         int i;
-        String string;
+        String $i$a$RequirePreconditionModifierLocalModifierNode$provide$2;
         StringBuilder append;
         String str;
         i = getProvidedValues() != EmptyMap.INSTANCE ? 1 : 0;

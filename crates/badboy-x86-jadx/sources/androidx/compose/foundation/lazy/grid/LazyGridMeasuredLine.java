@@ -25,10 +25,10 @@ public final class LazyGridMeasuredLine {
     public LazyGridMeasuredLine(int index, androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem[] items, androidx.compose.foundation.lazy.grid.LazyGridSlots slots, List<androidx.compose.foundation.lazy.grid.GridItemSpan> spans, boolean isVertical, int mainAxisSpacing) {
         int maxMainAxis;
         int mainAxisSize;
-        int i2;
+        int i;
         androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem lazyGridMeasuredItem2;
         androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem lazyGridMeasuredItem;
-        int i;
+        int i2;
         final Object obj = this;
         super();
         obj.index = index;
@@ -40,11 +40,11 @@ public final class LazyGridMeasuredLine {
         maxMainAxis = 0;
         androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem[] items2 = obj.items;
         int i6 = 0;
-        i2 = 0;
-        while (i2 < items2.length) {
-            i = 0;
-            maxMainAxis = Math.max(maxMainAxis, items2[i2].getMainAxisSize());
-            i2++;
+        i = 0;
+        while (i < items2.length) {
+            i2 = 0;
+            maxMainAxis = Math.max(maxMainAxis, items2[i].getMainAxisSize());
+            i++;
         }
         obj.mainAxisSize = maxMainAxis;
         obj.mainAxisSizeWithSpacings = RangesKt.coerceAtLeast(mainAxisSpacing2 += maxMainAxis, 0);
@@ -74,47 +74,47 @@ public final class LazyGridMeasuredLine {
 
     public final androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem[] position(int offset, int layoutWidth, int layoutHeight) {
         int usedSpan;
-        int i5;
-        int i2;
-        androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem lazyGridMeasuredItem;
-        int i8;
+        int i6;
+        int i3;
         androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem lazyGridMeasuredItem2;
+        int i8;
+        androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem lazyGridMeasuredItem;
         Unit iNSTANCE;
         int isVertical2;
         int isVertical;
         long l;
-        int i9;
-        int i6;
         int i4;
-        int i7;
-        int i3;
-        int currentLineSpan-impl;
+        int i5;
         int i;
+        int i7;
+        int i9;
+        int currentLineSpan-impl;
+        int i2;
         final Object obj = this;
         usedSpan = 0;
         androidx.compose.foundation.lazy.grid.LazyGridMeasuredItem[] items = obj.items;
         final int i10 = 0;
-        i5 = 0;
-        i2 = 0;
-        while (i2 < items.length) {
-            i3 = 0;
-            i = usedSpan;
+        i6 = 0;
+        i3 = 0;
+        while (i3 < items.length) {
+            i9 = 0;
+            i2 = usedSpan;
             if (obj.isVertical) {
             } else {
             }
-            i4 = i;
+            i = i2;
             if (obj.isVertical) {
             } else {
             }
             i7 = isVertical;
-            items[i2].position(offset, obj.slots.getPositions()[i], layoutWidth, layoutHeight, i4, i7);
+            items[i3].position(offset, obj.slots.getPositions()[i2], layoutWidth, layoutHeight, i, i7);
             iNSTANCE = Unit.INSTANCE;
             l = 0;
             usedSpan += currentLineSpan-impl;
-            i2++;
-            i5 = i8;
-            i7 = i;
-            i4 = isVertical2;
+            i3++;
+            i6 = i8;
+            i7 = i2;
+            i = isVertical2;
         }
         return obj.items;
     }

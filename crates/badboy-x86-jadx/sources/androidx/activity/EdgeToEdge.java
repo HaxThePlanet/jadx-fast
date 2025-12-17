@@ -74,9 +74,9 @@ public final class EdgeToEdge {
         androidx.activity.SystemBarStyle.Companion companion;
         int defaultLightScrim;
         int defaultDarkScrim;
+        int i3;
         int i2;
         int i;
-        int i3;
         androidx.activity.SystemBarStyle obj7;
         androidx.activity.SystemBarStyle obj8;
         if (i4 & 1 != 0) {

@@ -34,9 +34,9 @@ public final class MutableIntList extends androidx.collection.IntList {
     @Override // androidx.collection.IntList
     public final void add(int index, int element) {
         int i;
-        int _size;
-        int _size3;
         int _size2;
+        int _size3;
+        int _size;
         i = 0;
         int i3 = 1;
         if (index >= 0 && index <= this._size) {
@@ -70,10 +70,10 @@ public final class MutableIntList extends androidx.collection.IntList {
 
     @Override // androidx.collection.IntList
     public final boolean addAll(int index, androidx.collection.IntList elements) {
-        int _size2;
-        int i;
-        int _size;
         int _size3;
+        int i;
+        int _size2;
+        int _size;
         Intrinsics.checkNotNullParameter(elements, "elements");
         int i2 = 1;
         int i3 = 0;
@@ -196,18 +196,18 @@ public final class MutableIntList extends androidx.collection.IntList {
 
     @Override // androidx.collection.IntList
     public final void minusAssign(int[] elements) {
-        int i2;
-        int i3;
-        int i;
         int i4;
+        int i3;
+        int i2;
+        int i;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = elements;
         final int i5 = 0;
-        i2 = 0;
-        while (i2 < obj.length) {
-            i4 = 0;
-            remove(obj[i2]);
-            i2++;
+        i4 = 0;
+        while (i4 < obj.length) {
+            i = 0;
+            remove(obj[i4]);
+            i4++;
         }
     }
 
@@ -259,16 +259,16 @@ public final class MutableIntList extends androidx.collection.IntList {
     @Override // androidx.collection.IntList
     public final boolean removeAll(int[] elements) {
         int i2;
-        int i3;
         int i;
+        int i3;
         Intrinsics.checkNotNullParameter(elements, "elements");
         i2 = 0;
         while (i2 < elements.length) {
             remove(elements[i2]);
             i2++;
         }
-        i3 = this._size != this._size ? 1 : 0;
-        return i3;
+        i = this._size != this._size ? 1 : 0;
+        return i;
     }
 
     @Override // androidx.collection.IntList
@@ -303,13 +303,13 @@ public final class MutableIntList extends androidx.collection.IntList {
     @Override // androidx.collection.IntList
     public final void removeRange(int start, int end) {
         int i;
-        int content;
         int content2;
+        int content;
         int _size;
         int _size2;
-        content2 = 0;
+        content = 0;
         if (start >= 0 && start <= this._size) {
-            _size2 = start <= this._size ? i : content2;
+            _size2 = start <= this._size ? i : content;
         } else {
         }
         final String str4 = "Start (";
@@ -318,7 +318,7 @@ public final class MutableIntList extends androidx.collection.IntList {
             if (end >= 0 && end <= this._size) {
                 if (end <= this._size) {
                 } else {
-                    i = content2;
+                    i = content;
                 }
             } else {
             }
@@ -330,7 +330,7 @@ public final class MutableIntList extends androidx.collection.IntList {
                         if (end < this._size) {
                             ArraysKt.copyInto(this.content, this.content, start, end, this._size);
                         }
-                        this._size = _size3 -= content2;
+                        this._size = _size3 -= content;
                     }
                 }
                 StringBuilder stringBuilder2 = new StringBuilder();
@@ -367,57 +367,57 @@ public final class MutableIntList extends androidx.collection.IntList {
 
     @Override // androidx.collection.IntList
     public final boolean retainAll(int[] elements) {
-        Object obj;
-        int i3;
+        Object obj2;
+        int i5;
+        int i;
         int i6;
         int i2;
-        int i4;
-        Object obj2;
-        int i;
+        Object obj;
+        int i3;
         int index$iv;
         int length;
         Object it;
-        int i5;
+        int i4;
         Intrinsics.checkNotNullParameter(elements, "elements");
-        i3 = 0;
-        i2 = 1;
-        _size3 -= i2;
-        obj = null;
-        while (-1 < i6) {
-            obj2 = elements;
-            i = 0;
+        i5 = 0;
+        i6 = 1;
+        _size3 -= i6;
+        obj2 = null;
+        while (-1 < i) {
+            obj = elements;
+            i3 = 0;
             index$iv = 0;
-            while (index$iv < obj2.length) {
-                i5 = 0;
-                if (obj2[index$iv] == this.content[i6]) {
+            while (index$iv < obj.length) {
+                i4 = 0;
+                if (obj[index$iv] == this.content[i]) {
                 } else {
                 }
-                it = obj;
+                it = obj2;
                 index$iv++;
-                it = i2;
+                it = i6;
             }
-            if (i3 < 0) {
+            if (i5 < 0) {
             }
-            i6--;
-            obj = null;
-            removeAt(i6);
-            i5 = 0;
-            if (obj2[index$iv] == this.content[i6]) {
+            i--;
+            obj2 = null;
+            removeAt(i);
+            i4 = 0;
+            if (obj[index$iv] == this.content[i]) {
             } else {
             }
-            it = obj;
+            it = obj2;
             if (it != null) {
             } else {
             }
             index$iv++;
-            i3 = index$iv;
-            it = i2;
+            i5 = index$iv;
+            it = i6;
         }
         if (this._size != this._size) {
         } else {
-            i2 = obj;
+            i6 = obj2;
         }
-        return i2;
+        return i6;
     }
 
     @Override // androidx.collection.IntList

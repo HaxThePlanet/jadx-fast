@@ -64,19 +64,19 @@ public final class AndroidTypefaceCache {
         Typeface blocking;
         int i;
         Font resId;
-        Object obj;
         Object obj2;
+        Object obj;
         final String key = getKey(context, font);
         str = key;
         i = 0;
-        obj = AndroidTypefaceCache.cache.get(key);
-        if (key != null && (Typeface)obj != null) {
+        obj2 = AndroidTypefaceCache.cache.get(key);
+        if (key != null && (Typeface)obj2 != null) {
             str = key;
             i = 0;
-            obj = AndroidTypefaceCache.cache.get(key);
-            if ((Typeface)(Typeface)obj != null) {
+            obj2 = AndroidTypefaceCache.cache.get(key);
+            if ((Typeface)(Typeface)obj2 != null) {
                 int i2 = 0;
-                return (Typeface)(Typeface)obj;
+                return (Typeface)(Typeface)obj2;
             }
         }
         if (font instanceof ResourceFont) {
@@ -85,8 +85,8 @@ public final class AndroidTypefaceCache {
             } else {
                 if (key != null) {
                     resId = key;
-                    obj = 0;
-                    obj2 = AndroidTypefaceCache.cache.put(key, blocking);
+                    obj2 = 0;
+                    obj = AndroidTypefaceCache.cache.put(key, blocking);
                 }
                 return blocking;
             }

@@ -80,31 +80,31 @@ public final class TooltipKt {
         Object mutableStateOf$default;
         boolean traceInProgress2;
         Object invalid$iv;
-        Object obj2;
+        Object obj;
         int $dirty;
-        boolean z3;
+        boolean z;
         int companion;
         boolean traceInProgress;
         int $i$f$cache;
-        Object obj;
+        Object obj2;
         boolean modifier3;
-        boolean i6;
+        boolean i4;
         int i3;
-        int i5;
+        int i6;
         int i;
-        boolean i11;
+        boolean i9;
         boolean changedInstance;
         Object modifier2;
         int i7;
         int str;
-        boolean z2;
-        int i9;
+        boolean z3;
+        int i8;
         Transition transition;
-        boolean z;
+        boolean z2;
         Object empty;
         int i2;
-        int i8;
-        int i4;
+        int i11;
+        int i5;
         Composer.Companion companion2;
         int obj21;
         int obj22;
@@ -112,27 +112,27 @@ public final class TooltipKt {
         traceInProgress2 = state;
         anon = content;
         mutableStateOf$default = $changed;
-        int i16 = 1836749106;
-        final Composer restartGroup = $composer.startRestartGroup(i16);
+        int i15 = 1836749106;
+        final Composer restartGroup = $composer.startRestartGroup(i15);
         ComposerKt.sourceInformation(restartGroup, "C(TooltipBox)P(4,6,5,3,2,1)133@5704L64,134@5826L33,135@5876L52,137@5979L103,143@6168L64,141@6088L310:Tooltip.kt#uh7d8r");
         $dirty = $changed;
         if (i10 & 1 != 0) {
             $dirty |= 6;
-            obj = positionProvider;
+            obj2 = positionProvider;
         } else {
             if (mutableStateOf$default & 6 == 0) {
                 i3 = restartGroup.changed(positionProvider) ? 4 : 2;
                 $dirty |= i3;
             } else {
-                obj = positionProvider;
+                obj2 = positionProvider;
             }
         }
         if (i10 & 2 != 0) {
             $dirty |= 48;
         } else {
             if (mutableStateOf$default & 48 == 0) {
-                i5 = restartGroup.changedInstance(obj3) ? 32 : 16;
-                $dirty |= i5;
+                i6 = restartGroup.changedInstance(obj3) ? 32 : 16;
+                $dirty |= i6;
             }
         }
         if (i10 & 4 != 0) {
@@ -148,8 +148,8 @@ public final class TooltipKt {
                 $dirty |= i;
             }
         }
-        i11 = i10 & 8;
-        if (i11 != 0) {
+        i9 = i10 & 8;
+        if (i9 != 0) {
             $dirty |= 3072;
             modifier2 = modifier;
         } else {
@@ -163,105 +163,105 @@ public final class TooltipKt {
         str = i10 & 16;
         if (str != null) {
             $dirty |= 24576;
-            z2 = focusable;
+            z3 = focusable;
         } else {
             if (mutableStateOf$default & 24576 == 0) {
-                i9 = restartGroup.changed(focusable) ? 16384 : 8192;
-                $dirty |= i9;
+                i8 = restartGroup.changed(focusable) ? 16384 : 8192;
+                $dirty |= i8;
             } else {
-                z2 = focusable;
+                z3 = focusable;
             }
         }
         transition = i10 & 32;
-        int i44 = 196608;
+        int i43 = 196608;
         if (transition != 0) {
-            $dirty |= i44;
-            z = enableUserInput;
+            $dirty |= i43;
+            z2 = enableUserInput;
         } else {
-            if (i44 &= mutableStateOf$default == 0) {
+            if (i43 &= mutableStateOf$default == 0) {
                 i2 = restartGroup.changed(enableUserInput) ? 131072 : 65536;
                 $dirty |= i2;
             } else {
-                z = enableUserInput;
+                z2 = enableUserInput;
             }
         }
-        i4 = 1572864;
+        i5 = 1572864;
         if (i10 & 64 != 0) {
-            $dirty |= i4;
+            $dirty |= i5;
         } else {
-            if (mutableStateOf$default & i4 == 0) {
-                i8 = restartGroup.changedInstance(anon) ? 1048576 : 524288;
-                $dirty |= i8;
+            if (mutableStateOf$default & i5 == 0) {
+                i11 = restartGroup.changedInstance(anon) ? 1048576 : 524288;
+                $dirty |= i11;
             }
         }
-        int i46 = $dirty;
-        if ($dirty2 &= i46 == 599186) {
+        int i45 = $dirty;
+        if ($dirty2 &= i45 == 599186) {
             if (!restartGroup.getSkipping()) {
-                if (i11 != 0) {
+                if (i9 != 0) {
                     modifier2 = companion;
                 }
-                i6 = str != null ? companion : z2;
-                i11 = transition != 0 ? companion : z;
+                i4 = str != null ? companion : z3;
+                i9 = transition != 0 ? companion : z2;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i16, i46, -1, "androidx.compose.material3.TooltipBox (Tooltip.kt:131)");
+                    ComposerKt.traceEventStart(i15, i45, -1, "androidx.compose.material3.TooltipBox (Tooltip.kt:131)");
                 }
                 String str3 = "CC(remember):Tooltip.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1495108980, str3);
-                int i18 = 0;
+                int i17 = 0;
                 Composer composer2 = restartGroup;
-                int i41 = 0;
+                int i40 = 0;
                 Object rememberedValue2 = composer2.rememberedValue();
-                i4 = 0;
+                i5 = 0;
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
                     obj21 = i12;
-                    int i13 = 0;
-                    composer2.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i13, i13, 2, i13));
+                    int $i$a$CacheTooltipKt$TooltipBox$anchorBounds$1 = 0;
+                    composer2.updateRememberedValue(SnapshotStateKt.mutableStateOf$default($i$a$CacheTooltipKt$TooltipBox$anchorBounds$1, $i$a$CacheTooltipKt$TooltipBox$anchorBounds$1, 2, $i$a$CacheTooltipKt$TooltipBox$anchorBounds$1));
                 } else {
                     mutableStateOf$default = rememberedValue2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1495107361, str3);
-                int i15 = 0;
+                int i14 = 0;
                 Composer composer = restartGroup;
                 $i$f$cache = 0;
                 Object rememberedValue = composer.rememberedValue();
-                int i42 = 0;
+                int i41 = 0;
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     empty = 0;
-                    obj21 = i15;
+                    obj21 = i14;
                     obj22 = $i$f$cache;
                     $i$f$cache = new TooltipKt.TooltipBox.scope.1.1((MutableState)mutableStateOf$default);
                     invalid$iv = new TooltipScopeImpl((Function0)$i$f$cache);
                     composer.updateRememberedValue(invalid$iv);
                 } else {
-                    obj21 = i15;
+                    obj21 = i14;
                     obj22 = $i$f$cache;
                     invalid$iv = rememberedValue;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 TooltipKt.TooltipBox.wrappedContent.1 anon2 = new TooltipKt.TooltipBox.wrappedContent.1(mutableStateOf$default, anon);
-                int i21 = 1;
-                int i32 = 54;
+                int i20 = 1;
+                int i31 = 54;
                 TooltipKt.TooltipBox.1 anon3 = new TooltipKt.TooltipBox.1(TransitionKt.updateTransition(traceInProgress2.getTransition(), "tooltip transition", restartGroup, $stable |= 48, 0), obj3, (TooltipScopeImpl)invalid$iv);
                 Object obj6 = obj5;
-                BasicTooltip_androidKt.BasicTooltipBox(obj, (Function2)ComposableLambdaKt.rememberComposableLambda(-149611544, i21, anon3, restartGroup, i32), state, obj6, i6, i11, (Function2)ComposableLambdaKt.rememberComposableLambda(-1130808188, i21, anon2, restartGroup, i32), restartGroup, i39 |= i26, 0);
+                BasicTooltip_androidKt.BasicTooltipBox(obj2, (Function2)ComposableLambdaKt.rememberComposableLambda(-149611544, i20, anon3, restartGroup, i31), state, obj6, i4, i9, (Function2)ComposableLambdaKt.rememberComposableLambda(-1130808188, i20, anon2, restartGroup, i31), restartGroup, i38 |= i25, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj2 = obj6;
-                z3 = i6;
-                modifier3 = i11;
+                obj = obj6;
+                z = i4;
+                modifier3 = i9;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj2 = modifier2;
-                z3 = z2;
-                modifier3 = z;
+                obj = modifier2;
+                z = z3;
+                modifier3 = z2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            anon = new TooltipKt.TooltipBox.2(positionProvider, obj3, state, obj2, z3, modifier3, content, $changed, i10);
+            anon = new TooltipKt.TooltipBox.2(positionProvider, obj3, state, obj, z, modifier3, content, $changed, i10);
             endRestartGroup.updateScope((Function2)anon);
         }
     }
@@ -408,14 +408,14 @@ public final class TooltipKt {
     public static final Modifier textVerticalPadding(Modifier $this$textVerticalPadding, boolean subheadExists, boolean actionExists) {
         Modifier padding-qDBjuR0$default;
         float heightFromSubheadToTextFirstLine;
-        int i5;
-        Modifier paddingFromBaseline-VpY3zN4$default;
-        int i3;
-        int i2;
         int i;
-        float textBottomPadding;
+        Modifier paddingFromBaseline-VpY3zN4$default;
         int i4;
+        int i2;
+        int i3;
+        float textBottomPadding;
         int i6;
+        int i5;
         int i7 = 0;
         final int i8 = 0;
         if (!subheadExists && !actionExists) {

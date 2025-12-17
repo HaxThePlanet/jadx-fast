@@ -166,9 +166,9 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             boolean composers;
             int i;
             Iterator iterator;
-            boolean next;
-            Iterator iterator2;
             boolean next2;
+            Iterator iterator2;
+            boolean next;
             androidx.compose.runtime.SlotTable slotTable;
             Set inspectionTables = this.inspectionTables;
             if (!(Collection)this.composers.isEmpty() && inspectionTables != null) {
@@ -176,12 +176,12 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                 if (inspectionTables != null) {
                     i = 0;
                     iterator = this.composers.iterator();
-                    for (ComposerImpl next : iterator) {
+                    for (ComposerImpl next2 : iterator) {
                         iterator2 = inspectionTables.iterator();
-                        for (Set next2 : iterator2) {
-                            next2.remove(ComposerImpl.access$getSlotTable$p(next));
+                        for (Set next : iterator2) {
+                            next.remove(ComposerImpl.access$getSlotTable$p(next2));
                         }
-                        (Set)iterator2.next().remove(ComposerImpl.access$getSlotTable$p(next));
+                        (Set)iterator2.next().remove(ComposerImpl.access$getSlotTable$p(next2));
                     }
                 }
                 this.composers.clear();
@@ -270,9 +270,9 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
         public void recordInspectionTable$runtime_release(Set<CompositionData> table) {
             Object inspectionTables;
-            HashSet set;
-            int i;
             HashSet set2;
+            int i;
+            HashSet set;
             if (this.inspectionTables == null) {
                 inspectionTables = new HashSet();
                 i = 0;
@@ -472,47 +472,47 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     private final void addRecomposeScope() {
-        Object recomposeScopeImpl;
+        Object recomposeScopeImpl2;
         int compositionToken;
         String forcedRecompose;
-        Object composition2;
-        Object recomposeScopeImpl2;
-        boolean composition;
+        Object composition;
+        Object recomposeScopeImpl;
+        boolean composition2;
         int i2;
         int i;
         forcedRecompose = "null cannot be cast to non-null type androidx.compose.runtime.CompositionImpl";
         if (getInserting()) {
-            composition2 = getComposition();
-            Intrinsics.checkNotNull(composition2, forcedRecompose);
-            recomposeScopeImpl = new RecomposeScopeImpl((RecomposeScopeOwner)(CompositionImpl)composition2);
-            this.invalidateStack.push(recomposeScopeImpl);
-            updateValue(recomposeScopeImpl);
-            recomposeScopeImpl.start(this.compositionToken);
+            composition = getComposition();
+            Intrinsics.checkNotNull(composition, forcedRecompose);
+            recomposeScopeImpl2 = new RecomposeScopeImpl((RecomposeScopeOwner)(CompositionImpl)composition);
+            this.invalidateStack.push(recomposeScopeImpl2);
+            updateValue(recomposeScopeImpl2);
+            recomposeScopeImpl2.start(this.compositionToken);
         } else {
-            composition2 = this.reader.next();
-            if (Intrinsics.areEqual(composition2, Composer.Companion.getEmpty())) {
-                composition = getComposition();
-                Intrinsics.checkNotNull(composition, forcedRecompose);
-                recomposeScopeImpl2 = new RecomposeScopeImpl((RecomposeScopeOwner)(CompositionImpl)composition);
-                updateValue(recomposeScopeImpl2);
+            composition = this.reader.next();
+            if (Intrinsics.areEqual(composition, Composer.Companion.getEmpty())) {
+                composition2 = getComposition();
+                Intrinsics.checkNotNull(composition2, forcedRecompose);
+                recomposeScopeImpl = new RecomposeScopeImpl((RecomposeScopeOwner)(CompositionImpl)composition2);
+                updateValue(recomposeScopeImpl);
             } else {
-                Intrinsics.checkNotNull(composition2, "null cannot be cast to non-null type androidx.compose.runtime.RecomposeScopeImpl");
-                recomposeScopeImpl2 = composition2;
+                Intrinsics.checkNotNull(composition, "null cannot be cast to non-null type androidx.compose.runtime.RecomposeScopeImpl");
+                recomposeScopeImpl = composition;
             }
             if (ComposerKt.access$removeLocation(this.invalidations, this.reader.getParent()) == null) {
-                forcedRecompose = recomposeScopeImpl2.getForcedRecompose();
+                forcedRecompose = recomposeScopeImpl.getForcedRecompose();
                 i2 = 0;
                 if (forcedRecompose) {
-                    recomposeScopeImpl2.setForcedRecompose(false);
+                    recomposeScopeImpl.setForcedRecompose(false);
                 }
                 if (forcedRecompose) {
                     i = 1;
                 }
             } else {
             }
-            recomposeScopeImpl2.setRequiresRecompose(i);
-            this.invalidateStack.push(recomposeScopeImpl2);
-            recomposeScopeImpl2.start(this.compositionToken);
+            recomposeScopeImpl.setRequiresRecompose(i);
+            this.invalidateStack.push(recomposeScopeImpl);
+            recomposeScopeImpl.start(this.compositionToken);
         }
     }
 
@@ -536,20 +536,20 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     private final int compoundKeyOf(int group, int rGroupIndex, int recomposeGroup, int recomposeKey) {
         Object obj;
-        int i2;
+        int i4;
         int groupCompoundKeyPart;
         int parent;
         int compoundKeyOf;
-        int i4;
-        int $this$rol$iv;
-        int i;
         int i3;
+        int $this$rol$iv;
+        int i2;
+        int i;
         int rotateLeft;
         if (group == recomposeGroup) {
             $this$rol$iv = recomposeKey;
         } else {
             obj = this;
-            i2 = 0;
+            i4 = 0;
             groupCompoundKeyPart = (ComposerImpl)obj.groupCompoundKeyPart(obj.reader, group);
             if (groupCompoundKeyPart == 126665345) {
                 $this$rol$iv = groupCompoundKeyPart;
@@ -560,10 +560,10 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                 } else {
                     compoundKeyOf = obj.compoundKeyOf(parent, obj.rGroupIndexOf(parent), recomposeGroup, recomposeKey);
                 }
-                i4 = obj.reader.hasObjectKey(group) ? 0 : rGroupIndex;
+                i3 = obj.reader.hasObjectKey(group) ? 0 : rGroupIndex;
                 int i7 = 0;
-                i3 = 0;
-                $this$rol$iv = rotateLeft ^ i4;
+                i = 0;
+                $this$rol$iv = rotateLeft ^ i3;
             }
         }
         return $this$rol$iv;
@@ -584,27 +584,27 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     private final androidx.compose.runtime.PersistentCompositionLocalMap currentCompositionLocalScope(int group) {
-        int current2;
         int current;
+        int current2;
         Object providerUpdates;
         androidx.compose.runtime.SlotWriter writer;
-        int groupKey;
         int groupKey2;
+        int groupKey;
         Object compositionLocalMap;
         String str = "null cannot be cast to non-null type androidx.compose.runtime.PersistentCompositionLocalMap";
         int i = 202;
         if (getInserting() && this.writerHasAProvider != null) {
             if (this.writerHasAProvider != null) {
-                current2 = this.writer.getParent();
-                while (current2 > 0) {
-                    current2 = this.writer.parent(current2);
+                current = this.writer.getParent();
+                while (current > 0) {
+                    current = this.writer.parent(current);
                 }
             }
         }
         if (this.reader.getSize() > 0) {
-            current = group;
-            while (current > 0) {
-                current = this.reader.parent(current);
+            current2 = group;
+            while (current2 > 0) {
+                current2 = this.reader.parent(current2);
             }
         }
         this.providerCache = this.parentProvider;
@@ -614,36 +614,36 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     private final void doCompose(ScopeMap<androidx.compose.runtime.RecomposeScopeImpl, Object> invalidationsRequested, Function2<? super androidx.compose.runtime.Composer, ? super Integer, Unit> content) {
         int i$iv$iv;
         Object nextSlot;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv2;
         String $i$f$runtimeCheck;
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$doCompose$1;
         int $i$f$trace2;
         int j$iv$iv;
         androidx.collection.MutableScatterMap $i$f$isFull;
-        int i3;
+        int i2;
         int invalidation;
-        Object i4;
+        Object i3;
         boolean beforeCheckcastToFunctionOfArity;
         long slot$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
         androidx.collection.MutableScatterMap map;
         int cmp;
         int sectionName$iv;
         long l;
-        int i6;
-        int i8;
+        int i4;
+        int i9;
         Object scope;
         int i;
         String $i$f$trace;
-        int i2;
+        int i6;
         Object obj;
-        int i9;
-        int i5;
+        int i8;
         int i7;
+        int i5;
         final Object obj2 = this;
         final Object obj3 = content;
         int i20 = 0;
-        if (isComposing ^= $this$maskEmptyOrDeleted$iv$iv$iv == 0) {
+        if (isComposing ^= $this$maskEmptyOrDeleted$iv$iv$iv2 == 0) {
             int i22 = 0;
             ComposerKt.composeImmediateRuntimeError("Reentrant composition is not supported");
         }
@@ -651,16 +651,16 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         obj2.compositionToken = SnapshotKt.currentSnapshot().getId();
         obj2.providerUpdates = 0;
         $i$f$isFull = invalidationsRequested.getMap();
-        final int i33 = 0;
+        final int i32 = 0;
         final long[] metadata = map2.metadata;
         length -= i12;
-        if (0 <= i34) {
+        if (0 <= i33) {
         } else {
             sectionName$iv = $i$f$runtimeCheck;
             $i$f$trace = $i$f$trace2;
-            $this$maskEmptyOrDeleted$iv$iv$iv2 = j$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv = j$iv$iv;
             map = $i$f$isFull;
-            i7 = invalidation;
+            i5 = invalidation;
         }
         CollectionsKt.sortWith(obj2.invalidations, ComposerKt.access$getInvalidationLocationAscending$p());
         obj2.nodeIndex = 0;
@@ -673,15 +673,15 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                 if (obj3 != null) {
                 }
                 obj2.updateValue((Object)obj3);
-                int i25 = 0;
+                int i24 = 0;
                 MutableVector mutableVector2 = derivedStateObservers;
                 mutableVector2.add((DerivedStateObserver)obj2.derivedStateObserver);
                 int i13 = 0;
-                i4 = 200;
+                i3 = 200;
                 if (obj3 != null) {
                 } else {
                 }
-                obj2.startGroup(i4, ComposerKt.getInvocation());
+                obj2.startGroup(i3, ComposerKt.getInvocation());
                 ActualJvm_jvmKt.invokeComposable((Composer)obj2, obj3);
                 obj2.endGroup();
                 if (!obj2.forciblyRecompose) {
@@ -696,12 +696,12 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                 if (!Intrinsics.areEqual(obj6, Composer.Companion.getEmpty())) {
                 } else {
                 }
-                obj2.startGroup(i4, ComposerKt.getInvocation());
+                obj2.startGroup(i3, ComposerKt.getInvocation());
                 ActualJvm_jvmKt.invokeComposable((Composer)obj2, (Function2)TypeIntrinsics.beforeCheckcastToFunctionOfArity(obj6, 2));
                 obj2.endGroup();
                 obj2.skipCurrentGroup();
-                int i28 = 0;
-                final int i36 = 1;
+                int i27 = 0;
+                final int i35 = 1;
                 mutableVector2.removeAt(size--);
                 obj2.endRoot();
                 int i14 = 1;
@@ -710,11 +710,11 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                 obj2.createFreshInsertTable();
                 Unit complete = Unit.INSTANCE;
                 Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection($i$f$runtimeCheck));
-                int i29 = 0;
-                int i32 = obj8.getSize();
-                int i35 = 1;
-                i32--;
-                obj8.removeAt(i32);
+                int i28 = 0;
+                int i31 = obj8.getSize();
+                int i34 = 1;
+                i31--;
+                obj8.removeAt(i31);
                 throw th;
                 int invalidations3 = 0;
                 obj1.isComposing = invalidations3;
@@ -748,56 +748,56 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     private final void end(boolean isNode) {
         int currentInfo;
-        int rotateRight2;
+        int rotateRight;
         int parent;
         int groupKey;
         int equal;
-        Object updatedNodeCountOf;
         Object updatedNodeCountOf2;
+        Object updatedNodeCountOf;
         int remainingSlots;
         Object current;
         boolean insertedGroupVirtualIndex;
         Object changeListWriter2;
         int changeListWriter;
         int currentIndex;
-        int size;
-        int previousIndex;
         int size2;
+        int previousIndex;
+        int size;
         int nodeOffset;
-        int rotateRight3;
+        int rotateRight2;
         int nodePositionOf;
-        int rotateRight;
+        int rotateRight3;
         List list;
-        int rGroupIndex2;
         int rGroupIndex;
+        int rGroupIndex2;
         int startIndex;
         Set set;
         List current2;
         final Object obj = this;
-        peek2 -= rotateRight2;
+        peek2 -= rotateRight;
         equal = 207;
         if (obj.getInserting()) {
             groupKey = obj.writer.getParent();
-            updatedNodeCountOf2 = obj.writer.groupKey(groupKey);
+            updatedNodeCountOf = obj.writer.groupKey(groupKey);
             current = obj.writer.groupObjectKey(groupKey);
             changeListWriter2 = obj.writer.groupAux(groupKey);
             changeListWriter = this;
             currentIndex = 0;
             if (current == null) {
-                if (changeListWriter2 != null && updatedNodeCountOf2 == equal && !Intrinsics.areEqual(changeListWriter2, Composer.Companion.getEmpty())) {
-                    if (updatedNodeCountOf2 == equal) {
+                if (changeListWriter2 != null && updatedNodeCountOf == equal && !Intrinsics.areEqual(changeListWriter2, Composer.Companion.getEmpty())) {
+                    if (updatedNodeCountOf == equal) {
                         if (!Intrinsics.areEqual(changeListWriter2, Composer.Companion.getEmpty())) {
-                            size = changeListWriter;
+                            size2 = changeListWriter;
                             previousIndex = 0;
                             int i32 = 0;
-                            rotateRight3 = 0;
-                            size.compoundKeyHash = Integer.rotateRight(i19 ^= rotateRight9, 3);
+                            rotateRight2 = 0;
+                            size2.compoundKeyHash = Integer.rotateRight(i19 ^= rotateRight9, 3);
                         } else {
-                            updatedNodeCountOf = changeListWriter;
-                            size = 0;
+                            updatedNodeCountOf2 = changeListWriter;
+                            size2 = 0;
                             int i25 = 0;
                             nodeOffset = 0;
-                            updatedNodeCountOf.compoundKeyHash = Integer.rotateRight(i10 ^= rotateRight6, 3);
+                            updatedNodeCountOf2.compoundKeyHash = Integer.rotateRight(i10 ^= rotateRight6, 3);
                         }
                     } else {
                     }
@@ -806,58 +806,58 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             } else {
                 if (current instanceof Enum) {
                     previousIndex = changeListWriter;
-                    size2 = 0;
+                    size = 0;
                     int i35 = 0;
                     nodePositionOf = 0;
-                    previousIndex.compoundKeyHash = Integer.rotateRight(rotateRight ^ i29, 3);
+                    previousIndex.compoundKeyHash = Integer.rotateRight(rotateRight3 ^ i29, 3);
                 } else {
-                    size = changeListWriter;
+                    size2 = changeListWriter;
                     previousIndex = 0;
                     int i33 = 0;
-                    rotateRight3 = 0;
-                    size.compoundKeyHash = Integer.rotateRight(i21 ^= rotateRight10, 3);
+                    rotateRight2 = 0;
+                    size2.compoundKeyHash = Integer.rotateRight(i21 ^= rotateRight10, 3);
                 }
             }
         } else {
-            rotateRight2 = obj.reader.getParent();
-            groupKey = obj.reader.groupKey(rotateRight2);
-            updatedNodeCountOf2 = obj.reader.groupObjectKey(rotateRight2);
-            current = obj.reader.groupAux(rotateRight2);
+            rotateRight = obj.reader.getParent();
+            groupKey = obj.reader.groupKey(rotateRight);
+            updatedNodeCountOf = obj.reader.groupObjectKey(rotateRight);
+            current = obj.reader.groupAux(rotateRight);
             changeListWriter2 = this;
             changeListWriter = 0;
-            if (updatedNodeCountOf2 == null) {
+            if (updatedNodeCountOf == null) {
                 if (current != null && groupKey == equal && !Intrinsics.areEqual(current, Composer.Companion.getEmpty())) {
                     if (groupKey == equal) {
                         if (!Intrinsics.areEqual(current, Composer.Companion.getEmpty())) {
                             currentIndex = changeListWriter2;
-                            size = 0;
+                            size2 = 0;
                             int i22 = 0;
                             nodeOffset = 0;
                             currentIndex.compoundKeyHash = Integer.rotateRight(i8 ^= rotateRight5, 3);
                         } else {
-                            updatedNodeCountOf = changeListWriter2;
+                            updatedNodeCountOf2 = changeListWriter2;
                             currentIndex = 0;
                             int i11 = 0;
-                            size2 = 0;
-                            updatedNodeCountOf.compoundKeyHash = Integer.rotateRight(i5 ^= rotateRight4, 3);
+                            size = 0;
+                            updatedNodeCountOf2.compoundKeyHash = Integer.rotateRight(i5 ^= rotateRight4, 3);
                         }
                     } else {
                     }
                 } else {
                 }
             } else {
-                if (updatedNodeCountOf2 instanceof Enum) {
-                    size = changeListWriter2;
+                if (updatedNodeCountOf instanceof Enum) {
+                    size2 = changeListWriter2;
                     previousIndex = 0;
                     int i30 = 0;
-                    rotateRight3 = 0;
-                    size.compoundKeyHash = Integer.rotateRight(i14 ^= rotateRight7, 3);
+                    rotateRight2 = 0;
+                    size2.compoundKeyHash = Integer.rotateRight(i14 ^= rotateRight7, 3);
                 } else {
-                    size = changeListWriter2;
+                    size2 = changeListWriter2;
                     previousIndex = 0;
                     int i31 = 0;
-                    rotateRight3 = 0;
-                    size.compoundKeyHash = Integer.rotateRight(i16 ^= rotateRight8, 3);
+                    rotateRight2 = 0;
+                    size2.compoundKeyHash = Integer.rotateRight(i16 ^= rotateRight8, 3);
                 }
             }
         }
@@ -872,71 +872,71 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                 previousIndex = 0;
                 nodeOffset = 0;
                 while (previousIndex < pending.getKeyInfos().size()) {
-                    rotateRight3 = updatedNodeCountOf2.get(previousIndex);
-                    if (changeListWriter2.contains((KeyInfo)rotateRight3) == 0) {
+                    rotateRight2 = updatedNodeCountOf.get(previousIndex);
+                    if (changeListWriter2.contains((KeyInfo)rotateRight2) == 0) {
                     } else {
                     }
-                    rGroupIndex2 = currentInfo;
-                    list = updatedNodeCountOf2;
+                    rGroupIndex = currentInfo;
+                    list = updatedNodeCountOf;
                     set = changeListWriter2;
-                    if ((Set)changeListWriter.contains(rotateRight3)) {
+                    if ((Set)changeListWriter.contains(rotateRight2)) {
                     } else {
                     }
                     if (currentIndex < current.size()) {
                     } else {
                     }
                     current2 = current;
-                    updatedNodeCountOf2 = list;
-                    currentInfo = rGroupIndex2;
+                    updatedNodeCountOf = list;
+                    currentInfo = rGroupIndex;
                     changeListWriter2 = set;
                     Object obj2 = current.get(currentIndex);
-                    if ((KeyInfo)obj2 != rotateRight3) {
+                    if ((KeyInfo)obj2 != rotateRight2) {
                     } else {
                     }
                     current2 = current;
                     previousIndex++;
                     currentIndex++;
-                    nodeOffset += updatedNodeCountOf;
-                    updatedNodeCountOf2 = list;
-                    currentInfo = rGroupIndex2;
+                    nodeOffset += updatedNodeCountOf2;
+                    updatedNodeCountOf = list;
+                    currentInfo = rGroupIndex;
                     changeListWriter2 = set;
                     current = current2;
-                    updatedNodeCountOf = pending.nodePositionOf(obj2);
+                    updatedNodeCountOf2 = pending.nodePositionOf(obj2);
                     changeListWriter.add(obj2);
-                    if (updatedNodeCountOf != nodeOffset) {
+                    if (updatedNodeCountOf2 != nodeOffset) {
                     } else {
                     }
                     current2 = current;
-                    updatedNodeCountOf2 = pending.updatedNodeCountOf(obj2);
+                    updatedNodeCountOf = pending.updatedNodeCountOf(obj2);
                     current2 = current;
-                    obj.changeListWriter.moveNode(startIndex2 += updatedNodeCountOf, nodeOffset + startIndex, updatedNodeCountOf2);
-                    pending.registerMoveNode(updatedNodeCountOf, nodeOffset, updatedNodeCountOf2);
+                    obj.changeListWriter.moveNode(startIndex2 += updatedNodeCountOf2, nodeOffset + startIndex, updatedNodeCountOf);
+                    pending.registerMoveNode(updatedNodeCountOf2, nodeOffset, updatedNodeCountOf);
                     previousIndex++;
-                    updatedNodeCountOf2 = list;
-                    currentInfo = rGroupIndex2;
+                    updatedNodeCountOf = list;
+                    currentInfo = rGroupIndex;
                     changeListWriter2 = set;
-                    obj.changeListWriter.removeNode(nodePositionOf + startIndex3, rotateRight3.getNodes());
-                    pending.updateNodeCount(rotateRight3.getLocation(), 0);
-                    obj.changeListWriter.moveReaderRelativeTo(rotateRight3.getLocation());
-                    obj.reader.reposition(rotateRight3.getLocation());
+                    obj.changeListWriter.removeNode(nodePositionOf + startIndex3, rotateRight2.getNodes());
+                    pending.updateNodeCount(rotateRight2.getLocation(), 0);
+                    obj.changeListWriter.moveReaderRelativeTo(rotateRight2.getLocation());
+                    obj.reader.reposition(rotateRight2.getLocation());
                     obj.recordDelete();
                     obj.reader.skipGroup();
-                    ComposerKt.access$removeRange(obj.invalidations, rotateRight3.getLocation(), groupSize += startIndex);
+                    ComposerKt.access$removeRange(obj.invalidations, rotateRight2.getLocation(), groupSize += startIndex);
                     previousIndex++;
-                    updatedNodeCountOf2 = list;
-                    currentInfo = rGroupIndex2;
+                    updatedNodeCountOf = list;
+                    currentInfo = rGroupIndex;
                     changeListWriter2 = set;
                 }
-                rGroupIndex = currentInfo;
+                rGroupIndex2 = currentInfo;
                 current2 = current;
                 set = changeListWriter2;
                 obj.changeListWriter.endNodeMovement();
-                if (updatedNodeCountOf2.size() > 0) {
+                if (updatedNodeCountOf.size() > 0) {
                     obj.changeListWriter.moveReaderRelativeTo(obj.reader.getGroupEnd());
                     obj.reader.skipToGroupEnd();
                 }
             } else {
-                rGroupIndex = currentInfo;
+                rGroupIndex2 = currentInfo;
             }
         } else {
         }
@@ -1047,7 +1047,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     private final void finalizeCompose() {
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$finalizeCompose$1;
         this.changeListWriter.finalizeComposition();
         final int i = 0;
         if (!this.pendingStack.isEmpty()) {
@@ -1095,15 +1095,15 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     private final int groupCompoundKeyPart(androidx.compose.runtime.SlotReader $this$groupCompoundKeyPart, int group) {
         int groupObjectKey;
-        int i2;
+        int i;
         int aux;
         int groupAux;
         int i3;
-        int i;
+        int i2;
         if ($this$groupCompoundKeyPart.hasObjectKey(group)) {
             groupObjectKey = $this$groupCompoundKeyPart.groupObjectKey(group);
             if (groupObjectKey != null) {
-                i2 = 0;
+                i = 0;
                 if (groupObjectKey instanceof Enum) {
                     aux = (Enum)groupObjectKey.ordinal();
                 } else {
@@ -1118,18 +1118,18 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             }
         } else {
             groupObjectKey = $this$groupCompoundKeyPart.groupKey(group);
-            i2 = 0;
+            i = 0;
             groupAux = $this$groupCompoundKeyPart.groupAux(group);
             if (groupObjectKey == 207 && groupAux != null) {
                 groupAux = $this$groupCompoundKeyPart.groupAux(group);
                 if (groupAux != null) {
                     i3 = 0;
                     if (Intrinsics.areEqual(groupAux, Composer.Companion.getEmpty())) {
-                        i = groupObjectKey;
+                        i2 = groupObjectKey;
                     } else {
-                        i = groupAux.hashCode();
+                        i2 = groupAux.hashCode();
                     }
-                    aux = i;
+                    aux = i2;
                 } else {
                     aux = groupObjectKey;
                 }
@@ -1141,94 +1141,94 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     private final void insertMovableContentGuarded(List<Pair<androidx.compose.runtime.MovableContentStateReference, androidx.compose.runtime.MovableContentStateReference>> references) {
         int changeListWriter;
-        Unit offsetChanges;
-        boolean fromAnchor;
+        Unit offsetChanges3;
+        boolean fromAnchor2;
         int size;
         androidx.compose.runtime.SlotTable movableContentStateResolve$runtime_release;
         boolean changeListWriter2;
         ChangeList to;
-        int i9;
+        int i13;
         ChangeList toSlotTable;
         androidx.compose.runtime.SlotReader nodesToInsert;
-        int[] reader4;
+        int[] reader3;
         boolean anchorIndex;
         IntMap this_$iv;
         androidx.compose.runtime.Anchor anchor$runtime_release;
         Object newLocation;
         Object fromTable;
         androidx.compose.runtime.SlotReader newChangeList$iv;
-        ChangeList list2;
+        ChangeList list;
         Object from;
         androidx.compose.runtime.ComposerImpl anchor2;
+        int i2;
+        Object anchor3;
+        boolean $i$a$WithChangeListComposerImpl$insertMovableContentGuarded$12;
         int i11;
-        Object anchor;
-        boolean z2;
-        int i10;
-        IntRef intRef;
+        IntRef $i$a$WithChangeListComposerImpl$insertMovableContentGuarded$1;
         Object obj2;
+        int i12;
         int i8;
-        int i3;
-        int i4;
+        int i;
         int size2;
         androidx.compose.runtime.SlotTable slotTable;
-        int i13;
-        androidx.compose.runtime.SlotReader reader6;
-        int i2;
+        int i6;
+        androidx.compose.runtime.SlotReader reader;
+        int i7;
         androidx.compose.runtime.SlotReader effectiveNodeIndex;
         androidx.compose.runtime.ComposerImpl location;
-        int offsetChanges3;
-        int anchor3;
-        ChangeList list;
+        int offsetChanges;
+        int anchor;
+        ChangeList list2;
         int from2;
-        ChangeList fromAnchor2;
-        androidx.compose.runtime.SlotReader reader2;
+        ChangeList fromAnchor;
+        androidx.compose.runtime.SlotReader reader4;
         int[] iArr;
         IntMap map;
         androidx.compose.runtime.SlotTable offsetChanges2;
         androidx.compose.runtime.MovableContentState movableContentState;
-        int i7;
-        int i;
+        int i9;
+        int i10;
         ChangeList list3;
-        int i5;
+        int i3;
+        boolean z2;
+        int i4;
         boolean z;
-        int i12;
-        boolean z3;
+        androidx.compose.runtime.SlotReader reader6;
+        androidx.compose.runtime.SlotReader reader2;
         androidx.compose.runtime.SlotReader reader5;
-        androidx.compose.runtime.SlotReader reader;
-        androidx.compose.runtime.SlotReader reader3;
-        int i6;
+        int i5;
         androidx.compose.runtime.ComposerImpl composerImpl;
         Object obj;
         final Object obj3 = this;
         final ComposerChangeListWriter changeListWriter13 = obj3.changeListWriter;
-        i11 = 0;
+        i2 = 0;
         changeListWriter13.setChangeList(obj3.lateChanges);
-        i10 = 0;
+        i11 = 0;
         obj3.changeListWriter.resetSlots();
         final Object obj7 = references;
         final int i20 = 0;
         size = obj7.size();
-        i9 = changeListWriter;
+        i13 = changeListWriter;
         int index$iv = 0;
-        while (i9 < size) {
+        while (i13 < size) {
             Object obj6 = obj2;
-            i8 = 0;
+            i12 = 0;
             Object component1 = (Pair)obj6.component1();
             Object component2 = obj6.component2();
             anchor$runtime_release = (MovableContentStateReference)component1.getAnchor$runtime_release();
             int anchorIndex3 = component1.getSlotTable$runtime_release().anchorIndex(anchor$runtime_release);
-            IntRef intRef3 = new IntRef(index$iv, 1, 0);
-            IntRef intRef2 = intRef3;
-            obj3.changeListWriter.determineMovableContentNodeIndex(intRef2, anchor$runtime_release);
+            IntRef intRef2 = new IntRef(index$iv, 1, 0);
+            IntRef intRef = intRef2;
+            obj3.changeListWriter.determineMovableContentNodeIndex(intRef, anchor$runtime_release);
             if ((MovableContentStateReference)component2 == null) {
             } else {
             }
             Object to3 = component1;
-            offsetChanges3 = anchorIndex3;
-            effectiveNodeIndex = list2;
-            location = i11;
-            anchor3 = i10;
-            intRef = intRef2;
+            offsetChanges = anchorIndex3;
+            effectiveNodeIndex = list;
+            location = i2;
+            anchor = i11;
+            $i$a$WithChangeListComposerImpl$insertMovableContentGuarded$1 = intRef;
             Object newChangeList$iv2 = component2;
             androidx.compose.runtime.Anchor $i$f$withChangeList = anchor$runtime_release;
             androidx.compose.runtime.MovableContentState movableContentState2 = movableContentStateResolve$runtime_release;
@@ -1243,16 +1243,16 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             }
             movableContentStateResolve$runtime_release = newChangeList$iv2.getAnchor$runtime_release();
             List list4 = ComposerKt.access$collectNodesFrom(slotTable4, movableContentStateResolve$runtime_release);
-            obj3.changeListWriter.copyNodesToNewAnchorLocation(list4, intRef);
+            obj3.changeListWriter.copyNodesToNewAnchorLocation(list4, $i$a$WithChangeListComposerImpl$insertMovableContentGuarded$1);
             if (!(Collection)list4.isEmpty() && Intrinsics.areEqual(to3.getSlotTable$runtime_release(), obj3.slotTable)) {
             }
             Object obj4 = to3;
             obj3.changeListWriter.copySlotTableToAnchorLocation(movableContentState2, obj3.parentContext, newChangeList$iv2, obj4);
-            i13 = 0;
-            reader6 = reader10;
-            i2 = 0;
-            androidx.compose.runtime.SlotReader reader11 = reader6;
-            list = 0;
+            i6 = 0;
+            reader = reader10;
+            i7 = 0;
+            androidx.compose.runtime.SlotReader reader11 = reader;
+            list2 = 0;
             androidx.compose.runtime.ComposerImpl composerImpl2 = this;
             from2 = 0;
             int i14 = 0;
@@ -1266,44 +1266,44 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             obj3.changeListWriter.moveReaderToAbsolute(resolvedState);
             ChangeList changeList = new ChangeList();
             ComposerChangeListWriter list9 = changeListWriter7;
-            i = 0;
-            i5 = resolvedState;
+            i10 = 0;
+            i3 = resolvedState;
             newLocation = list8;
             offsetChanges2 = slotTable4;
             fromTable = list9;
             fromTable.setChangeList(newLocation);
-            i7 = 0;
+            i9 = 0;
             ComposerChangeListWriter list10 = changeListWriter8;
-            i12 = 0;
-            reader5 = newChangeList$iv2;
+            i4 = 0;
+            reader6 = newChangeList$iv2;
             from = list10;
             from.setImplicitRootStart(false);
-            reader3 = reader11;
-            i6 = i16;
-            ComposerImpl.insertMovableContentGuarded.1.1.2.1.1.1.1 anon = new ComposerImpl.insertMovableContentGuarded.1.1.2.1.1.1.1(obj3, obj4);
-            fromAnchor2 = obj4;
-            z = anchor6;
-            reader = list4;
+            reader5 = reader11;
+            i5 = i16;
+            ComposerImpl.insertMovableContentGuarded.1.1.2.1.1.1.1 $i$a$WithoutImplicitRootStartComposerImpl$insertMovableContentGuarded$1$1$2$1$1$1 = new ComposerImpl.insertMovableContentGuarded.1.1.2.1.1.1.1(obj3, obj4);
+            fromAnchor = obj4;
+            z2 = anchor6;
+            reader2 = list4;
             composerImpl = $i$f$withChangeList;
-            anchor = composerImpl2;
-            obj3.recomposeMovableContent(reader5.getComposition$runtime_release(), obj4.getComposition$runtime_release(), Integer.valueOf(reader11.getCurrentGroup()), reader5.getInvalidations$runtime_release(), (Function0)anon);
+            anchor3 = composerImpl2;
+            obj3.recomposeMovableContent(reader6.getComposition$runtime_release(), obj4.getComposition$runtime_release(), Integer.valueOf(reader11.getCurrentGroup()), reader6.getInvalidations$runtime_release(), (Function0)$i$a$WithoutImplicitRootStartComposerImpl$insertMovableContentGuarded$1$1$2$1$1$1);
             from.setImplicitRootStart(list10.getImplicitRootStart());
             fromTable.setChangeList(list9.getChangeList());
-            obj3.changeListWriter.includeOperationsIn(newLocation, intRef);
+            obj3.changeListWriter.includeOperationsIn(newLocation, $i$a$WithChangeListComposerImpl$insertMovableContentGuarded$1);
             Unit iNSTANCE = Unit.INSTANCE;
-            anchor.setReader$runtime_release(composerImpl2.getReader$runtime_release());
-            ComposerImpl.access$setNodeCountOverrides$p(anchor, ComposerImpl.access$getNodeCountOverrides$p(composerImpl2));
-            ComposerImpl.access$setProviderUpdates$p(anchor, ComposerImpl.access$getProviderUpdates$p(composerImpl2));
-            offsetChanges = Unit.INSTANCE;
-            reader6.close();
+            anchor3.setReader$runtime_release(composerImpl2.getReader$runtime_release());
+            ComposerImpl.access$setNodeCountOverrides$p(anchor3, ComposerImpl.access$getNodeCountOverrides$p(composerImpl2));
+            ComposerImpl.access$setProviderUpdates$p(anchor3, ComposerImpl.access$getProviderUpdates$p(composerImpl2));
+            offsetChanges3 = Unit.INSTANCE;
+            reader.close();
             obj3.changeListWriter.skipToEndOfCurrentGroup();
-            i9 = i4 + 1;
-            size = i3;
-            list2 = effectiveNodeIndex;
-            i11 = location;
-            i10 = anchor3;
+            i13 = i + 1;
+            size = i8;
+            list = effectiveNodeIndex;
+            i2 = location;
+            i11 = anchor;
             index$iv = 0;
-            obj3.changeListWriter.copyNodesToNewAnchorLocation(list4, intRef);
+            obj3.changeListWriter.copyNodesToNewAnchorLocation(list4, $i$a$WithChangeListComposerImpl$insertMovableContentGuarded$1);
             if (Intrinsics.areEqual(to3.getSlotTable$runtime_release(), obj3.slotTable)) {
             }
             anchorIndex = obj3.slotTable.anchorIndex($i$f$withChangeList);
@@ -1320,33 +1320,33 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             if (Intrinsics.areEqual(slotTable2, obj3.insertTable)) {
             }
             slotTable = 0;
-            i13 = reader7;
-            reader6 = 0;
-            androidx.compose.runtime.SlotReader reader8 = i13;
-            i2 = 0;
+            i6 = reader7;
+            reader = 0;
+            androidx.compose.runtime.SlotReader reader8 = i6;
+            i7 = 0;
             reader8.reposition(anchorIndex3);
             obj3.changeListWriter.moveReaderToAbsolute(anchorIndex3);
             ChangeList changeList3 = new ChangeList();
             ComposerImpl.insertMovableContentGuarded.1.1.1.1 effectiveNodeIndex3 = new ComposerImpl.insertMovableContentGuarded.1.1.1.1(obj3, changeList3, reader8, component1);
-            list = slotTable2;
-            fromAnchor2 = component1;
+            list2 = slotTable2;
+            fromAnchor = component1;
             from2 = reader8;
-            offsetChanges3 = i22;
-            location = i11;
-            anchor3 = i10;
-            effectiveNodeIndex = list2;
+            offsetChanges = i22;
+            location = i2;
+            anchor = i11;
+            effectiveNodeIndex = list;
             ComposerImpl.recomposeMovableContent$default(obj3, 0, 0, 0, 0, (Function0)effectiveNodeIndex3, 15, 0);
-            obj3.changeListWriter.includeOperationsIn(changeList3, intRef2);
-            offsetChanges = Unit.INSTANCE;
-            i13.close();
-            reader5 = from;
-            composerImpl = anchor;
+            obj3.changeListWriter.includeOperationsIn(changeList3, intRef);
+            offsetChanges3 = Unit.INSTANCE;
+            i6.close();
+            reader6 = from;
+            composerImpl = anchor3;
             obj3.createFreshInsertTable();
         }
-        int index$iv3 = i9;
-        ChangeList list6 = list2;
-        int i21 = i11;
-        int i23 = i10;
+        int index$iv3 = i13;
+        ChangeList list6 = list;
+        int i21 = i2;
+        int i23 = i11;
         obj3.changeListWriter.endMovableContentPlacement();
         obj3.changeListWriter.moveReaderToAbsolute(0);
         changeListWriter13.setChangeList(changeListWriter13.getChangeList());
@@ -1618,13 +1618,13 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     private final void recordProviderUpdate(androidx.compose.runtime.PersistentCompositionLocalMap providers) {
         IntMap $this$recordProviderUpdate_u24lambda_u2414;
-        int i4;
+        int i;
         IntMap intMap;
         int i3;
-        int i;
         int i2;
+        int i4;
         if (this.providerUpdates == null) {
-            i4 = 0;
+            i = 0;
             intMap = new IntMap(0, 1, 0);
             obj.providerUpdates = intMap;
             $this$recordProviderUpdate_u24lambda_u2414 = intMap;
@@ -1651,61 +1651,61 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     private final androidx.compose.runtime.Anchor rememberObserverAnchor() {
         int group;
-        int parent3;
         int parent;
         int parent2;
+        int parent3;
         androidx.compose.runtime.SlotWriter writer;
-        parent = 0;
+        parent2 = 0;
         if (getInserting()) {
             if (ComposerKt.isAfterFirstChild(this.writer)) {
-                parent3 = this.writer.parent(currentGroup--);
-                while (parent3 != this.writer.getParent()) {
-                    if (parent3 >= 0) {
+                parent = this.writer.parent(currentGroup--);
+                while (parent != this.writer.getParent()) {
+                    if (parent >= 0) {
                     }
-                    parent3 = this.writer.parent(parent3);
+                    parent = this.writer.parent(parent);
                 }
-                parent = this.writer.anchor(group);
+                parent2 = this.writer.anchor(group);
             } else {
             }
         } else {
             if (ComposerKt.isAfterFirstChild(this.reader)) {
-                parent2 = this.reader.parent(currentGroup2--);
-                while (parent2 != this.reader.getParent()) {
-                    if (parent2 >= 0) {
+                parent3 = this.reader.parent(currentGroup2--);
+                while (parent3 != this.reader.getParent()) {
+                    if (parent3 >= 0) {
                     }
-                    parent2 = this.reader.parent(parent2);
+                    parent3 = this.reader.parent(parent3);
                 }
-                parent = this.reader.anchor(group);
+                parent2 = this.reader.anchor(group);
             } else {
             }
         }
-        return parent;
+        return parent2;
     }
 
     private final void reportAllMovableContent() {
-        boolean changeList;
+        boolean changeList2;
         androidx.compose.runtime.SlotTable slotTable;
-        int i;
-        androidx.compose.runtime.SlotReader reader2;
         int i4;
+        androidx.compose.runtime.SlotReader reader2;
+        int i;
         Object reader;
-        int i2;
-        ComposerChangeListWriter changeListWriter;
         int i3;
-        ChangeList changeList2;
+        ComposerChangeListWriter changeListWriter;
+        int i2;
+        ChangeList changeList;
         Throwable th;
         ComposerChangeListWriter changeListWriter2;
         if (this.slotTable.containsMark()) {
-            changeList = new ChangeList();
-            this.deferredChanges = changeList;
-            i = 0;
-            reader2 = this.slotTable.openReader();
+            changeList2 = new ChangeList();
+            this.deferredChanges = changeList2;
             i4 = 0;
-            i2 = 0;
+            reader2 = this.slotTable.openReader();
+            i = 0;
+            i3 = 0;
             this.reader = reader2;
             changeListWriter = this.changeListWriter;
-            i3 = 0;
-            changeListWriter.setChangeList(changeList);
+            i2 = 0;
+            changeListWriter.setChangeList(changeList2);
             th = 0;
             reportFreeMovableContent(0);
             this.changeListWriter.releaseMovableContent();
@@ -1735,21 +1735,21 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         int runningNodeCount;
         Iterator iterator;
         boolean changeListWriter;
-        int i2;
+        int i6;
         int reportFreeMovableContent$reportGroup;
         Object composition2;
         androidx.compose.runtime.SlotTable slotTable;
         Object parentContext;
         Object $i$f$fastForEach;
-        int i4;
-        androidx.compose.runtime.PersistentCompositionLocalMap currentCompositionLocalScope;
         int i;
-        int i7;
-        int i6;
-        int i3;
+        androidx.compose.runtime.PersistentCompositionLocalMap currentCompositionLocalScope;
         int i5;
-        int i8;
+        int i4;
+        int i7;
         int i9;
+        int i2;
+        int i8;
+        int i3;
         List list2;
         final Object obj = this$0;
         final int i10 = group;
@@ -1769,18 +1769,18 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                     List list4 = list;
                     int i16 = 0;
                     size = list4.size();
-                    i = i14;
-                    end = i4;
+                    i5 = i14;
+                    end = i;
                     while (end < size) {
-                        i6 = 0;
-                        i5 = i7;
+                        i7 = 0;
+                        i2 = i4;
                         i8 = 0;
-                        (Collection)arrayList.add(TuplesKt.to((Invalidation)i5.getScope(), i5.getInstances()));
-                        end = i9 + 1;
-                        size = i3;
+                        (Collection)arrayList.add(TuplesKt.to((Invalidation)i2.getScope(), i2.getInstances()));
+                        end = i3 + 1;
+                        size = i9;
                         list = list2;
                     }
-                    i9 = end;
+                    i3 = end;
                     list2 = list;
                     runningNodeCount = new MovableContentStateReference((MovableContent)groupObjectKey, reader.groupGet(i10, i12), obj.getComposition(), obj.slotTable, reader.anchor(i10), (List)arrayList, this$0.currentCompositionLocalScope(group));
                     obj.parentContext.deletedMovableContent$runtime_release(runningNodeCount);
@@ -1833,7 +1833,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                     if (iterator == null) {
                     } else {
                     }
-                    i2 = composition;
+                    i6 = composition;
                     if (iterator != null) {
                     } else {
                     }
@@ -1848,7 +1848,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                     if (needsNodeDelete) {
                     } else {
                     }
-                    i2 = i12;
+                    i6 = i12;
                     obj.changeListWriter.endNodeMovement();
                     obj.changeListWriter.moveDown(reader.node(current));
                 }
@@ -1874,57 +1874,57 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     private final void start-BaiHCIY(int key, Object objectKey, int kind, Object data) {
-        androidx.compose.runtime.SlotWriter writer;
-        int rGroupIndex$iv;
         androidx.compose.runtime.SlotWriter writer2;
-        Object keyInfo2;
+        int rGroupIndex$iv;
+        androidx.compose.runtime.SlotWriter writer;
+        Object keyInfo3;
         int pending;
         int obj;
-        int i2;
-        int reusing;
+        int $i$f$isNodeImpl;
+        int $i$f$isReusableImpl;
         int i;
         androidx.compose.runtime.Pending arrayList;
         Object empty2;
         int insertedGroupVirtualIndex;
         int ordinal;
-        int keyInfo;
+        int keyInfo2;
         Object empty;
         int equal;
-        int keyInfo3;
-        Object $this$rol$iv$iv$iv;
+        int keyInfo4;
+        Object $this$rol$iv$iv$iv3;
         int nodeIndex;
-        int $this$rol$iv$iv$iv3;
+        int $this$rol$iv$iv$iv;
         int $this$rol$iv$iv$iv2;
         int currentGroup;
-        int rotateLeft3;
         int rotateLeft;
         int rotateLeft2;
+        int rotateLeft3;
         int newPending;
-        androidx.compose.runtime.KeyInfo keyInfo4;
+        androidx.compose.runtime.KeyInfo keyInfo;
         final Object obj2 = this;
         pending = key;
         final Object obj4 = objectKey;
-        final int i8 = kind;
+        final int i7 = kind;
         final Object obj5 = data;
         obj2.validateNodeNotExpected();
         int rGroupIndex = obj2.rGroupIndex;
         obj = this;
-        int i6 = 0;
+        int i5 = 0;
         if (obj4 == null) {
             if (obj5 != null && pending == 207 && !Intrinsics.areEqual(obj5, Composer.Companion.getEmpty())) {
                 if (pending == 207) {
                     if (!Intrinsics.areEqual(obj5, Composer.Companion.getEmpty())) {
-                        keyInfo3 = obj;
-                        $this$rol$iv$iv$iv = 0;
-                        int i16 = 0;
-                        rotateLeft3 = 0;
-                        keyInfo3.compoundKeyHash = rotateLeft ^ rGroupIndex;
+                        keyInfo4 = obj;
+                        $this$rol$iv$iv$iv3 = 0;
+                        int i15 = 0;
+                        rotateLeft = 0;
+                        keyInfo4.compoundKeyHash = rotateLeft2 ^ rGroupIndex;
                     } else {
                         ordinal = obj;
-                        keyInfo3 = 0;
-                        int i11 = 0;
+                        keyInfo4 = 0;
+                        int i10 = 0;
                         $this$rol$iv$iv$iv2 = 0;
-                        ordinal.compoundKeyHash = rotateLeft3 ^ rGroupIndex;
+                        ordinal.compoundKeyHash = rotateLeft ^ rGroupIndex;
                     }
                 } else {
                 }
@@ -1932,32 +1932,32 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             }
         } else {
             if (obj4 instanceof Enum) {
-                $this$rol$iv$iv$iv = obj;
-                $this$rol$iv$iv$iv3 = 0;
-                int i18 = 0;
-                rotateLeft = 0;
-                $this$rol$iv$iv$iv.compoundKeyHash = rotateLeft2 ^ keyInfo3;
-            } else {
-                $this$rol$iv$iv$iv = obj;
-                $this$rol$iv$iv$iv3 = 0;
+                $this$rol$iv$iv$iv3 = obj;
+                $this$rol$iv$iv$iv = 0;
                 int i17 = 0;
-                rotateLeft = 0;
-                $this$rol$iv$iv$iv.compoundKeyHash = rotateLeft2 ^ keyInfo3;
+                rotateLeft2 = 0;
+                $this$rol$iv$iv$iv3.compoundKeyHash = rotateLeft3 ^ keyInfo4;
+            } else {
+                $this$rol$iv$iv$iv3 = obj;
+                $this$rol$iv$iv$iv = 0;
+                int i16 = 0;
+                rotateLeft2 = 0;
+                $this$rol$iv$iv$iv3.compoundKeyHash = rotateLeft3 ^ keyInfo4;
             }
         }
         rGroupIndex$iv = 1;
         if (obj4 == null) {
             obj2.rGroupIndex = rGroupIndex2 += rGroupIndex$iv;
         }
-        int i4 = 0;
+        int i3 = 0;
         nodeIndex = 0;
-        i2 = i8 != GroupKind.Companion.getGroup-ULZAiWs() ? rGroupIndex$iv : nodeIndex;
-        int i9 = i2;
+        $i$f$isNodeImpl = i7 != GroupKind.Companion.getGroup-ULZAiWs() ? rGroupIndex$iv : nodeIndex;
+        int i8 = $i$f$isNodeImpl;
         currentGroup = 0;
         insertedGroupVirtualIndex = -1;
         if (obj2.getInserting()) {
             obj2.reader.beginEmpty();
-            if (i9 != 0) {
+            if (i8 != 0) {
                 obj2.writer.startNode(pending, Composer.Companion.getEmpty());
             } else {
                 if (obj5 != null) {
@@ -1976,31 +1976,31 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                     obj2.writer.startGroup(pending, empty2);
                 }
             }
-            keyInfo2 = obj2.pending;
-            if (keyInfo2 != null) {
-                rotateLeft3 = keyInfo2;
-                rotateLeft = 0;
-                keyInfo2 = new KeyInfo(pending, Integer.valueOf(insertedGroupVirtualIndex), obj2.insertedGroupVirtualIndex(obj2.writer.getCurrentGroup()), -1, 0);
-                rotateLeft3.registerInsert(keyInfo2, nodeIndex3 -= insertedGroupVirtualIndex);
-                rotateLeft3.recordUsed(keyInfo2);
+            keyInfo3 = obj2.pending;
+            if (keyInfo3 != null) {
+                rotateLeft = keyInfo3;
+                rotateLeft2 = 0;
+                keyInfo3 = new KeyInfo(pending, Integer.valueOf(insertedGroupVirtualIndex), obj2.insertedGroupVirtualIndex(obj2.writer.getCurrentGroup()), -1, 0);
+                rotateLeft.registerInsert(keyInfo3, nodeIndex3 -= insertedGroupVirtualIndex);
+                rotateLeft.recordUsed(keyInfo3);
             }
-            obj2.enterGroup(i9, currentGroup);
+            obj2.enterGroup(i8, currentGroup);
         }
-        int i5 = 0;
-        reusing = i8 != GroupKind.Companion.getNode-ULZAiWs() ? rGroupIndex$iv : nodeIndex;
-        if (reusing == 0 && obj2.reusing) {
+        int i4 = 0;
+        $i$f$isReusableImpl = i7 != GroupKind.Companion.getNode-ULZAiWs() ? rGroupIndex$iv : nodeIndex;
+        if ($i$f$isReusableImpl == 0 && obj2.reusing) {
             i = obj2.reusing ? rGroupIndex$iv : nodeIndex;
         } else {
         }
-        int i15 = i;
+        int i14 = i;
         if (obj2.pending == null) {
-            if (i15 == 0 && obj2.reader.getGroupKey() == pending && Intrinsics.areEqual(obj4, obj2.reader.getGroupObjectKey())) {
+            if (i14 == 0 && obj2.reader.getGroupKey() == pending && Intrinsics.areEqual(obj4, obj2.reader.getGroupObjectKey())) {
                 if (obj2.reader.getGroupKey() == pending) {
                     if (Intrinsics.areEqual(obj4, obj2.reader.getGroupObjectKey())) {
-                        obj2.startReaderGroup(i9, obj5);
+                        obj2.startReaderGroup(i8, obj5);
                     } else {
-                        keyInfo = new Pending(obj2.reader.extractKeys(), obj2.nodeIndex);
-                        obj2.pending = keyInfo;
+                        keyInfo2 = new Pending(obj2.reader.extractKeys(), obj2.nodeIndex);
+                        obj2.pending = keyInfo2;
                     }
                 } else {
                 }
@@ -2011,20 +2011,20 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         newPending = 0;
         if (pending2 != null) {
             arrayList = pending2.getNext(pending, obj4);
-            if (i15 == 0 && arrayList != null) {
+            if (i14 == 0 && arrayList != null) {
                 if (arrayList != null) {
                     pending2.recordUsed(arrayList);
                     rGroupIndex$iv = arrayList.getLocation();
                     obj2.nodeIndex = nodePositionOf += startIndex2;
                     insertedGroupVirtualIndex = pending2.slotPositionOf(arrayList);
-                    keyInfo = insertedGroupVirtualIndex - groupIndex;
+                    keyInfo2 = insertedGroupVirtualIndex - groupIndex;
                     pending2.registerMoveSlot(insertedGroupVirtualIndex, pending2.getGroupIndex());
                     obj2.changeListWriter.moveReaderRelativeTo(rGroupIndex$iv);
                     obj2.reader.reposition(rGroupIndex$iv);
-                    if (keyInfo > 0) {
-                        obj2.changeListWriter.moveCurrentGroup(keyInfo);
+                    if (keyInfo2 > 0) {
+                        obj2.changeListWriter.moveCurrentGroup(keyInfo2);
                     }
-                    obj2.startReaderGroup(i9, obj5);
+                    obj2.startReaderGroup(i8, obj5);
                 } else {
                     obj2.reader.beginEmpty();
                     obj2.inserting = rGroupIndex$iv;
@@ -2032,7 +2032,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                     obj2.ensureWriter();
                     obj2.writer.beginInsert();
                     currentGroup = obj2.writer.getCurrentGroup();
-                    if (i9 != 0) {
+                    if (i8 != 0) {
                         obj2.writer.startNode(pending, Composer.Companion.getEmpty());
                     } else {
                         if (obj5 != null) {
@@ -2052,12 +2052,12 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                         }
                     }
                     obj2.insertAnchor = obj2.writer.anchor(currentGroup);
-                    keyInfo4 = keyInfo7;
+                    keyInfo = keyInfo7;
                     rGroupIndex$iv = new KeyInfo(pending, Integer.valueOf(insertedGroupVirtualIndex), obj2.insertedGroupVirtualIndex(currentGroup), -1, 0);
                     pending2.registerInsert(rGroupIndex$iv, nodeIndex2 -= startIndex);
                     pending2.recordUsed(rGroupIndex$iv);
                     arrayList = new ArrayList();
-                    if (i9 != 0) {
+                    if (i8 != 0) {
                     } else {
                         nodeIndex = obj2.nodeIndex;
                     }
@@ -2067,7 +2067,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             } else {
             }
         }
-        obj2.enterGroup(i9, newPending);
+        obj2.enterGroup(i8, newPending);
     }
 
     private final void startGroup(int key) {
@@ -2127,11 +2127,11 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         int equal;
         int i;
         Object $this$rol$iv$iv;
-        int $this$rol$iv$iv3;
         int $this$rol$iv$iv2;
+        int $this$rol$iv$iv3;
+        int rotateLeft;
         int rotateLeft2;
         int rotateLeft3;
-        int rotateLeft;
         final int i2 = 0;
         if (dataKey == null) {
             if (data != null && groupKey == 207 && !Intrinsics.areEqual(data, Composer.Companion.getEmpty())) {
@@ -2140,14 +2140,14 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                         i = this;
                         $this$rol$iv$iv = 0;
                         int i8 = 0;
-                        rotateLeft2 = 0;
-                        i.compoundKeyHash = rotateLeft3 ^ rGroupIndex;
+                        rotateLeft = 0;
+                        i.compoundKeyHash = rotateLeft2 ^ rGroupIndex;
                     } else {
                         ordinal = this;
                         i = 0;
                         int i5 = 0;
-                        $this$rol$iv$iv2 = 0;
-                        ordinal.compoundKeyHash = rotateLeft2 ^ rGroupIndex;
+                        $this$rol$iv$iv3 = 0;
+                        ordinal.compoundKeyHash = rotateLeft ^ rGroupIndex;
                     }
                 } else {
                 }
@@ -2156,16 +2156,16 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         } else {
             if (dataKey instanceof Enum) {
                 $this$rol$iv$iv = this;
-                $this$rol$iv$iv3 = 0;
+                $this$rol$iv$iv2 = 0;
                 int i9 = 0;
-                rotateLeft3 = 0;
-                $this$rol$iv$iv.compoundKeyHash = rotateLeft ^ i;
+                rotateLeft2 = 0;
+                $this$rol$iv$iv.compoundKeyHash = rotateLeft3 ^ i;
             } else {
                 $this$rol$iv$iv = this;
-                $this$rol$iv$iv3 = 0;
+                $this$rol$iv$iv2 = 0;
                 int i10 = 0;
-                rotateLeft3 = 0;
-                $this$rol$iv$iv.compoundKeyHash = rotateLeft ^ i;
+                rotateLeft2 = 0;
+                $this$rol$iv$iv.compoundKeyHash = rotateLeft3 ^ i;
             }
         }
     }
@@ -2180,10 +2180,10 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     private final void updateCompoundKeyWhenWeExitGroup(int groupKey, int rGroupIndex, Object dataKey, Object data) {
         int ordinal;
         int equal;
-        int i2;
-        Object obj;
-        int i3;
         int i;
+        Object obj;
+        int i2;
+        int i3;
         int rotateRight2;
         int rotateRight3;
         int rotateRight;
@@ -2192,16 +2192,16 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             if (data != null && groupKey == 207 && !Intrinsics.areEqual(data, Composer.Companion.getEmpty())) {
                 if (groupKey == 207) {
                     if (!Intrinsics.areEqual(data, Composer.Companion.getEmpty())) {
-                        i2 = this;
+                        i = this;
                         obj = 0;
                         int i18 = 0;
                         rotateRight2 = 0;
-                        i2.compoundKeyHash = Integer.rotateRight(i8 ^= rotateRight5, 3);
+                        i.compoundKeyHash = Integer.rotateRight(i8 ^= rotateRight5, 3);
                     } else {
                         ordinal = this;
-                        i2 = 0;
-                        int i15 = 0;
                         i = 0;
+                        int i15 = 0;
+                        i3 = 0;
                         ordinal.compoundKeyHash = Integer.rotateRight(i6 ^= rotateRight4, 3);
                     }
                 } else {
@@ -2211,13 +2211,13 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         } else {
             if (dataKey instanceof Enum) {
                 obj = this;
-                i3 = 0;
+                i2 = 0;
                 int i19 = 0;
                 rotateRight3 = 0;
                 obj.compoundKeyHash = Integer.rotateRight(i11 ^= rotateRight6, 3);
             } else {
                 obj = this;
-                i3 = 0;
+                i2 = 0;
                 int i20 = 0;
                 rotateRight3 = 0;
                 obj.compoundKeyHash = Integer.rotateRight(i13 ^= rotateRight7, 3);
@@ -2234,18 +2234,18 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     private final void updateNodeCount(int group, int count) {
         MutableIntIntMap $this$updateNodeCount_u24lambda_u2420;
-        int i3;
+        int i5;
         MutableIntIntMap mutableIntIntMap;
         int iArr;
-        int i5;
+        int i3;
+        int i6;
+        int i4;
         int i2;
         int i;
-        int i4;
-        int i6;
         if (updatedNodeCount(group) != count) {
             if (group < 0) {
                 if (this.nodeCountVirtualOverrides == null) {
-                    i3 = 0;
+                    i5 = 0;
                     mutableIntIntMap = new MutableIntIntMap(0, 1, 0);
                     obj.nodeCountVirtualOverrides = mutableIntIntMap;
                     $this$updateNodeCount_u24lambda_u2420 = mutableIntIntMap;
@@ -2254,7 +2254,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             } else {
                 if (this.nodeCountOverrides == null) {
                     Object obj2 = this;
-                    i3 = 0;
+                    i5 = 0;
                     iArr = new int[obj2.reader.getSize()];
                     ArraysKt.fill$default(iArr, -1, 0, 0, 6, 0);
                     obj2.nodeCountOverrides = iArr;
@@ -2336,20 +2336,20 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     private final int updatedNodeCount(int group) {
         int i;
-        int i3;
         int i2;
+        int i3;
         boolean contains;
         if (group < 0) {
             MutableIntIntMap nodeCountVirtualOverrides = this.nodeCountVirtualOverrides;
-            i3 = 0;
+            i2 = 0;
             if (nodeCountVirtualOverrides != null) {
-                i2 = 0;
+                i3 = 0;
                 if (nodeCountVirtualOverrides.contains(group)) {
-                    i3 = nodeCountVirtualOverrides.get(group);
+                    i2 = nodeCountVirtualOverrides.get(group);
                 }
             } else {
             }
-            return i3;
+            return i2;
         }
         int[] nodeCountOverrides = this.nodeCountOverrides;
         i = nodeCountOverrides[group];
@@ -2363,7 +2363,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     private final void validateNodeExpected() {
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$validateNodeExpected$1;
         final int i = 0;
         if (!this.nodeExpected) {
             int i2 = 0;
@@ -2373,7 +2373,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     private final void validateNodeNotExpected() {
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$validateNodeNotExpected$1;
         final int i2 = 0;
         if (nodeExpected ^= 1 == 0) {
             int i3 = 0;
@@ -2488,16 +2488,16 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     @ComposeCompilerApi
     public boolean changed(double value) {
-        int i2;
-        double doubleValue;
         int i;
+        double doubleValue;
+        int i2;
         final Object nextSlot = nextSlot();
         final int i3 = 1;
         if (nextSlot instanceof Double) {
-            i = 0;
-            i2 = Double.compare(value, doubleValue) == 0 ? i3 : i;
-            if (i2 != 0) {
-                return i;
+            i2 = 0;
+            i = Double.compare(value, doubleValue) == 0 ? i3 : i2;
+            if (i != 0) {
+                return i2;
             }
         }
         updateValue(Double.valueOf(value));
@@ -2605,7 +2605,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     public final void composeContent$runtime_release(ScopeMap<androidx.compose.runtime.RecomposeScopeImpl, Object> invalidationsRequested, Function2<? super androidx.compose.runtime.Composer, ? super Integer, Unit> content) {
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$composeContent$1;
         final int i = 0;
         if (!this.changes.isEmpty()) {
             int i2 = 0;
@@ -2619,7 +2619,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     public <T> void createNode(Function0<? extends T> factory) {
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$createNode$1;
         validateNodeExpected();
         int i = 0;
         if (!getInserting()) {
@@ -2643,7 +2643,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         int i;
         boolean currentGroup;
         int currentEnd;
-        String reader;
+        String $i$a$RuntimeCheckComposerImpl$deactivateToEndGroup$1;
         i = this.groupNodeCount == 0 ? 1 : 0;
         currentEnd = 0;
         if (i == 0) {
@@ -2678,7 +2678,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         deactivate$runtime_release();
         getApplier().clear();
         this.isDisposed = true;
-        Unit iNSTANCE2 = Unit.INSTANCE;
+        Unit $i$a$TraceComposerImpl$dispose$1 = Unit.INSTANCE;
         Trace.INSTANCE.endSection(Trace.INSTANCE.beginSection("Compose:Composer.dispose"));
     }
 
@@ -2809,7 +2809,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         boolean reusingGroup;
         int i2;
         int i;
-        String str;
+        String $i$a$RequirePreconditionComposerImpl$endReuseFromRoot$1;
         final int i3 = 0;
         if (!this.isComposing && this.reusingGroup == 100) {
             i2 = this.reusingGroup == 100 ? 1 : i3;
@@ -3130,7 +3130,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     }
 
     public final void prepareCompose$runtime_release(Function0<Unit> block) {
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$prepareCompose$1;
         final int i3 = 1;
         final int i4 = 0;
         if (isComposing ^= i3 == 0) {
@@ -3144,7 +3144,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
 
     public final boolean recompose$runtime_release(ScopeMap<androidx.compose.runtime.RecomposeScopeImpl, Object> invalidationsRequested) {
         int forciblyRecompose;
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$recompose$1;
         final int i3 = 0;
         if (!this.changes.isEmpty()) {
             int i4 = 0;
@@ -3208,20 +3208,20 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         Object groupAux;
         int rGroupIndex;
         Object obj2;
-        int i;
-        int ordinal;
+        int i2;
+        int ordinal2;
         int equal;
         int equal2;
-        int ordinal2;
+        int ordinal;
         Object obj;
         Object obj3;
-        int i2;
-        int $this$rol$iv$iv$iv;
         int i3;
+        int $this$rol$iv$iv$iv;
+        int i;
         int $this$rol$iv$iv$iv2;
-        int rotateRight;
-        int $this$rol$iv$iv$iv3;
         int rotateRight3;
+        int $this$rol$iv$iv$iv3;
+        int rotateRight;
         int rotateRight2;
         int rotateLeft;
         final Object obj4 = this;
@@ -3243,14 +3243,14 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                             obj3 = obj5;
                             $this$rol$iv$iv$iv = 0;
                             int i25 = 0;
-                            rotateRight3 = 0;
+                            rotateRight = 0;
                             obj3.compoundKeyHash = rotateRight2 ^ rGroupIndex;
                         } else {
-                            ordinal2 = obj5;
+                            ordinal = obj5;
                             obj3 = 0;
                             int i22 = 0;
                             $this$rol$iv$iv$iv3 = 0;
-                            ordinal2.compoundKeyHash = rotateRight3 ^ rGroupIndex;
+                            ordinal.compoundKeyHash = rotateRight ^ rGroupIndex;
                         }
                     } else {
                     }
@@ -3275,7 +3275,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             obj4.recomposeToGroupEnd();
             reader.endGroup();
             obj2 = this;
-            i = 0;
+            i2 = 0;
             if (groupObjectKey == null) {
                 if (groupAux != null && groupKey == equal && !Intrinsics.areEqual(groupAux, Composer.Companion.getEmpty())) {
                     if (groupKey == equal) {
@@ -3283,14 +3283,14 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                             equal2 = obj2;
                             obj = 0;
                             int i20 = 0;
-                            rotateRight = 0;
+                            rotateRight3 = 0;
                             equal2.compoundKeyHash = Integer.rotateRight(i9 ^= rotateRight5, 3);
                         } else {
-                            ordinal = obj2;
+                            ordinal2 = obj2;
                             equal2 = 0;
                             int i16 = 0;
-                            i3 = 0;
-                            ordinal.compoundKeyHash = Integer.rotateRight(i7 ^= rotateRight4, 3);
+                            i = 0;
+                            ordinal2.compoundKeyHash = Integer.rotateRight(i7 ^= rotateRight4, 3);
                         }
                     } else {
                     }
@@ -3299,15 +3299,15 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
             } else {
                 if (groupObjectKey instanceof Enum) {
                     obj = obj2;
-                    i2 = 0;
+                    i3 = 0;
                     int i23 = 0;
-                    rotateRight3 = 0;
+                    rotateRight = 0;
                     obj.compoundKeyHash = Integer.rotateRight(i12 ^= rotateRight6, 3);
                 } else {
                     obj = obj2;
-                    i2 = 0;
+                    i3 = 0;
                     int i24 = 0;
-                    rotateRight3 = 0;
+                    rotateRight = 0;
                     obj.compoundKeyHash = Integer.rotateRight(i14 ^= rotateRight7, 3);
                 }
             }
@@ -3317,7 +3317,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     @ComposeCompilerApi
     public void skipToGroupEnd() {
         int i;
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$skipToGroupEnd$1;
         i = this.groupNodeCount == 0 ? 1 : 0;
         final int i2 = 0;
         if (i == 0) {
@@ -3393,8 +3393,8 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         int inserting;
         int providers;
         androidx.compose.runtime.PersistentCompositionLocalMap oldScope;
-        boolean canOverride;
         boolean canOverride2;
+        boolean canOverride;
         Object value2;
         final androidx.compose.runtime.PersistentCompositionLocalMap currentCompositionLocalScope = currentCompositionLocalScope();
         startGroup(201, ComposerKt.getProvider());
@@ -3469,8 +3469,8 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         Object providers;
         int invalid;
         Object compositionMap$default;
-        int i;
         int i2;
+        int i;
         Object obj;
         androidx.compose.runtime.PersistentCompositionLocalMap compositionMap;
         boolean skipping;
@@ -3478,18 +3478,18 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
         startGroup(201, ComposerKt.getProvider());
         int i4 = 0;
         int i5 = 0;
-        i = 1;
+        i2 = 1;
         if (getInserting()) {
-            i2 = 0;
-            providers = updateProviderMapGroup(currentCompositionLocalScope, CompositionLocalMapKt.updateCompositionMap$default(values, currentCompositionLocalScope, i2, 4, i2));
+            i = 0;
+            providers = updateProviderMapGroup(currentCompositionLocalScope, CompositionLocalMapKt.updateCompositionMap$default(values, currentCompositionLocalScope, i, 4, i));
             invalid = 0;
-            this.writerHasAProvider = i;
+            this.writerHasAProvider = i2;
         } else {
-            i2 = 0;
-            compositionMap$default = this.reader.groupGet(i2);
+            i = 0;
+            compositionMap$default = this.reader.groupGet(i);
             String str = "null cannot be cast to non-null type androidx.compose.runtime.PersistentCompositionLocalMap";
             Intrinsics.checkNotNull(compositionMap$default, str);
-            Object groupGet = this.reader.groupGet(i);
+            Object groupGet = this.reader.groupGet(i2);
             Intrinsics.checkNotNull(groupGet, str);
             obj = groupGet;
             compositionMap = CompositionLocalMapKt.updateCompositionMap(values, currentCompositionLocalScope, (PersistentCompositionLocalMap)obj);
@@ -3499,10 +3499,10 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
                         if (!this.reusing) {
                             if (!Intrinsics.areEqual(updateProviderMapGroup(currentCompositionLocalScope, compositionMap), (PersistentCompositionLocalMap)compositionMap$default)) {
                             } else {
-                                i = i2;
+                                i2 = i;
                             }
                         }
-                        invalid = i;
+                        invalid = i2;
                     } else {
                         skipGroup();
                         providers = compositionMap$default;
@@ -3684,7 +3684,7 @@ public final class ComposerImpl implements androidx.compose.runtime.Composer {
     @Override // androidx.compose.runtime.Composer
     public void useNode() {
         boolean changeListWriter;
-        String str;
+        String $i$a$RuntimeCheckComposerImpl$useNode$1;
         validateNodeExpected();
         int i2 = 0;
         if (inserting ^= 1 == 0) {

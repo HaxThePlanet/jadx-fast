@@ -338,18 +338,18 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
         androidx.compose.animation.core.SeekableTransitionState.SeekingAnimationState seekingAnimationState;
         long initialValueAnimations;
         Object targetState;
-        int i;
+        int i2;
         long totalDurationNanos;
         androidx.compose.animation.core.AnimationVector1D start;
         double fraction;
         double d;
-        int i2;
+        int i;
         final androidx.compose.animation.core.Transition transition = this.transition;
         if (transition == null) {
         }
         final int i3 = 0;
         if (this.currentAnimation == null) {
-            if (Long.compare(initialValueAnimations, i) > 0) {
+            if (Long.compare(initialValueAnimations, i2) > 0) {
                 initialValueAnimations = 0;
                 equal = Float.compare(fraction2, i4) == 0 ? 1 : initialValueAnimations;
                 if (equal == 0) {
@@ -358,11 +358,11 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
                     } else {
                         seekingAnimationState = new SeekableTransitionState.SeekingAnimationState();
                         targetState = seekingAnimationState;
-                        i = 0;
+                        i2 = 0;
                         targetState.setValue(getFraction());
                         totalDurationNanos = this.totalDurationNanos;
                         targetState.setDurationNanos(totalDurationNanos);
-                        targetState.setAnimationSpecDuration(MathKt.roundToLong(d2 *= i2));
+                        targetState.setAnimationSpecDuration(MathKt.roundToLong(d2 *= i));
                         targetState.getStart().set$animation_core_release(initialValueAnimations, getFraction());
                     }
                 } else {
@@ -382,9 +382,9 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
     private final void recalculateAnimationValue(androidx.compose.animation.core.SeekableTransitionState.SeekingAnimationState animation, long deltaPlayTimeNanos) {
         androidx.compose.animation.core.VectorizedAnimationSpec animationSpec;
         float coerceIn;
-        int i2;
-        androidx.compose.animation.core.AnimationVector1D initialVelocity;
         int i;
+        androidx.compose.animation.core.AnimationVector1D initialVelocity;
+        int i2;
         final int i3 = progressNanos + deltaPlayTimeNanos;
         animation.setProgressNanos(i3);
         long animationSpecDuration = animation.getAnimationSpecDuration();
@@ -393,37 +393,37 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
             animation.setValue(i4);
         } else {
             animationSpec = animation.getAnimationSpec();
-            i = 0;
+            i2 = 0;
             if (animationSpec != null) {
                 if (animation.getInitialVelocity() == null) {
                     initialVelocity = SeekableTransitionState.ZeroVelocity;
                 }
-                animation.setValue(RangesKt.coerceIn((AnimationVector1D)animationSpec.getValueFromNanos(i3, obj4, (AnimationVector)animation.getStart(), (AnimationVector)SeekableTransitionState.Target1).get$animation_core_release(i), 0, i4));
+                animation.setValue(RangesKt.coerceIn((AnimationVector1D)animationSpec.getValueFromNanos(i3, obj4, (AnimationVector)animation.getStart(), (AnimationVector)SeekableTransitionState.Target1).get$animation_core_release(i2), 0, i4));
             } else {
-                animation.setValue(VectorConvertersKt.lerp(animation.getStart().get$animation_core_release(i), i4, f3 /= initialVelocity));
+                animation.setValue(VectorConvertersKt.lerp(animation.getStart().get$animation_core_release(i2), i4, f3 /= initialVelocity));
             }
         }
     }
 
     private final Object runAnimations(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i3;
-        int i2;
-        Object l$0;
-        int animateOneFrame;
-        boolean currentAnimation;
-        boolean currentAnimation2;
         int i4;
         int i;
+        Object _this;
+        int animateOneFrame;
+        boolean currentAnimation2;
+        boolean currentAnimation;
+        int i3;
+        int i2;
         long lastFrameTimeNanos;
         Object obj10;
         anon = continuation;
-        i2 = Integer.MIN_VALUE;
-        if (continuation instanceof SeekableTransitionState.runAnimations.1 && label &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation instanceof SeekableTransitionState.runAnimations.1 && label &= i != 0) {
             anon = continuation;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj10 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj10 -= i;
             } else {
                 anon = new SeekableTransitionState.runAnimations.1(this, continuation);
             }
@@ -435,33 +435,33 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
         switch (label2) {
             case 0:
                 ResultKt.throwOnFailure(obj10);
-                l$0 = this;
+                _this = this;
                 return Unit.INSTANCE;
-                i = 1;
-                i4 = i;
-                i4 = 0;
-                l$0.endAllAnimations();
-                l$0.lastFrameTimeNanos = l;
+                i2 = 1;
+                i3 = i2;
+                i3 = 0;
+                _this.endAllAnimations();
+                _this.lastFrameTimeNanos = l;
                 return Unit.INSTANCE;
-                anon.L$0 = l$0;
-                anon.label = i;
+                anon.L$0 = _this;
+                anon.label = i2;
                 return cOROUTINE_SUSPENDED;
-                l$0.lastFrameTimeNanos = l;
+                _this.lastFrameTimeNanos = l;
                 return Unit.INSTANCE;
-                anon.L$0 = l$0;
+                anon.L$0 = _this;
                 anon.label = 2;
                 return cOROUTINE_SUSPENDED;
                 break;
             case 1:
-                l$0 = anon.L$0;
+                _this = anon.L$0;
                 ResultKt.throwOnFailure(obj10);
                 break;
             case 2:
-                l$0 = anon.L$0;
+                _this = anon.L$0;
                 ResultKt.throwOnFailure(obj10);
-                l$0.lastFrameTimeNanos = l;
+                _this.lastFrameTimeNanos = l;
                 return Unit.INSTANCE;
-                anon.L$0 = l$0;
+                anon.L$0 = _this;
                 anon.label = 2;
                 return cOROUTINE_SUSPENDED;
                 break;
@@ -494,19 +494,19 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
 
     private final Object waitForComposition(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i2;
         int i3;
+        int i4;
         int i5;
         Object expectedState2;
-        Object result;
+        Object _this;
         Object cOROUTINE_SUSPENDED;
         Object expectedState;
         Object lock$default;
         androidx.compose.animation.core.SeekableTransitionState.waitForComposition.1 anon2;
-        int i4;
-        CancellableContinuationImpl cancellableContinuationImpl2;
-        CancellableContinuationImpl cancellableContinuationImpl;
         int i;
+        CancellableContinuationImpl cancellableContinuationImpl;
+        CancellableContinuationImpl cancellableContinuationImpl2;
+        int i2;
         Mutex compositionContinuationMutex$animation_core_release;
         Object obj;
         Object obj15;
@@ -544,11 +544,11 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
                 ResultKt.throwOnFailure(obj15);
                 break;
             case 2:
-                i3 = 0;
+                i4 = 0;
                 expectedState2 = anon.L$1;
                 ResultKt.throwOnFailure(obj15);
                 expectedState = l$0;
-                result = obj15;
+                _this = obj15;
                 return Unit.INSTANCE;
                 expectedState.lastFrameTimeNanos = Long.MIN_VALUE;
                 CancellationException cancellationException = new CancellationException("targetState while waiting for composition");
@@ -560,48 +560,48 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
         anon.L$0 = expectedState;
         anon.L$1 = expectedState2;
         anon.label = 2;
-        i4 = 0;
-        cancellableContinuationImpl2 = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon), i6);
-        cancellableContinuationImpl2.initCancellability();
         i = 0;
-        expectedState.setCompositionContinuation$animation_core_release((CancellableContinuation)cancellableContinuationImpl2);
+        cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon), i6);
+        cancellableContinuationImpl.initCancellability();
+        i2 = 0;
+        expectedState.setCompositionContinuation$animation_core_release((CancellableContinuation)cancellableContinuationImpl);
         Mutex.DefaultImpls.unlock$default(expectedState.getCompositionContinuationMutex$animation_core_release(), cOROUTINE_SUSPENDED, i6, cOROUTINE_SUSPENDED);
-        result = cancellableContinuationImpl2.getResult();
-        if (result == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
+        _this = cancellableContinuationImpl.getResult();
+        if (_this == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
             DebugProbesKt.probeCoroutineSuspended((Continuation)anon);
         }
-        if (result == cOROUTINE_SUSPENDED2) {
+        if (_this == cOROUTINE_SUSPENDED2) {
             return cOROUTINE_SUSPENDED2;
         }
-        i3 = lock$default;
+        i4 = lock$default;
     }
 
     private final Object waitForCompositionAfterTargetStateChange(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i5;
         int i;
+        int i5;
         Mutex compositionContinuationMutex;
-        int i3;
-        Object expectedState;
-        Object result;
-        Object cOROUTINE_SUSPENDED;
+        int i4;
         Object expectedState2;
+        Object _this;
+        Object cOROUTINE_SUSPENDED;
+        Object expectedState;
         Object lock$default;
         androidx.compose.animation.core.SeekableTransitionState.waitForCompositionAfterTargetStateChange.1 anon2;
-        int i4;
+        int i2;
         CancellableContinuationImpl cancellableContinuationImpl2;
         CancellableContinuationImpl cancellableContinuationImpl;
-        int i2;
+        int i3;
         Mutex compositionContinuationMutex$animation_core_release;
         Object obj;
         Object obj15;
         anon = continuation;
-        i3 = Integer.MIN_VALUE;
-        if (continuation instanceof SeekableTransitionState.waitForCompositionAfterTargetStateChange.1 && label &= i3 != 0) {
+        i4 = Integer.MIN_VALUE;
+        if (continuation instanceof SeekableTransitionState.waitForCompositionAfterTargetStateChange.1 && label &= i4 != 0) {
             anon = continuation;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj15 -= i3;
+            i4 = Integer.MIN_VALUE;
+            if (label &= i4 != 0) {
+                anon.label = obj15 -= i4;
             } else {
                 anon = new SeekableTransitionState.waitForCompositionAfterTargetStateChange.1(this, continuation);
             }
@@ -609,7 +609,7 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
         }
         obj15 = anon.result;
         Object cOROUTINE_SUSPENDED2 = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        result = 1;
+        _this = 1;
         cOROUTINE_SUSPENDED = 0;
         switch (label2) {
             case 0:
@@ -618,51 +618,51 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
                 Object targetState = seekableTransitionState.getTargetState();
                 anon.L$0 = seekableTransitionState;
                 anon.L$1 = targetState;
-                anon.label = result;
+                anon.label = _this;
                 return cOROUTINE_SUSPENDED2;
-                expectedState2 = seekableTransitionState;
-                expectedState = obj;
+                expectedState = seekableTransitionState;
+                expectedState2 = obj;
                 break;
             case 1:
-                expectedState = anon.L$1;
-                expectedState2 = anon.L$0;
+                expectedState2 = anon.L$1;
+                expectedState = anon.L$0;
                 ResultKt.throwOnFailure(obj15);
                 break;
             case 2:
-                i = 0;
-                expectedState = anon.L$1;
+                i5 = 0;
+                expectedState2 = anon.L$1;
                 ResultKt.throwOnFailure(obj15);
-                expectedState2 = l$0;
-                result = obj15;
+                expectedState = l$0;
+                _this = obj15;
                 return Unit.INSTANCE;
-                expectedState2.lastFrameTimeNanos = Long.MIN_VALUE;
+                expectedState.lastFrameTimeNanos = Long.MIN_VALUE;
                 StringBuilder stringBuilder = new StringBuilder();
-                CancellationException cancellationException = new CancellationException(stringBuilder.append("snapTo() was canceled because state was changed to ").append(result).append(" instead of ").append(expectedState).toString());
+                CancellationException cancellationException = new CancellationException(stringBuilder.append("snapTo() was canceled because state was changed to ").append(_this).append(" instead of ").append(expectedState2).toString());
                 throw cancellationException;
             default:
                 obj15 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj15;
         }
-        if (Intrinsics.areEqual(expectedState, expectedState2.composedTargetState)) {
-            Mutex.DefaultImpls.unlock$default(expectedState2.compositionContinuationMutex, cOROUTINE_SUSPENDED, result, cOROUTINE_SUSPENDED);
+        if (Intrinsics.areEqual(expectedState2, expectedState.composedTargetState)) {
+            Mutex.DefaultImpls.unlock$default(expectedState.compositionContinuationMutex, cOROUTINE_SUSPENDED, _this, cOROUTINE_SUSPENDED);
         } else {
-            anon.L$0 = expectedState2;
-            anon.L$1 = expectedState;
+            anon.L$0 = expectedState;
+            anon.L$1 = expectedState2;
             anon.label = 2;
-            i4 = 0;
-            cancellableContinuationImpl2 = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon), result);
-            cancellableContinuationImpl2.initCancellability();
             i2 = 0;
-            expectedState2.setCompositionContinuation$animation_core_release((CancellableContinuation)cancellableContinuationImpl2);
-            Mutex.DefaultImpls.unlock$default(expectedState2.getCompositionContinuationMutex$animation_core_release(), cOROUTINE_SUSPENDED, result, cOROUTINE_SUSPENDED);
-            result = cancellableContinuationImpl2.getResult();
-            if (result == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
+            cancellableContinuationImpl2 = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon), _this);
+            cancellableContinuationImpl2.initCancellability();
+            i3 = 0;
+            expectedState.setCompositionContinuation$animation_core_release((CancellableContinuation)cancellableContinuationImpl2);
+            Mutex.DefaultImpls.unlock$default(expectedState.getCompositionContinuationMutex$animation_core_release(), cOROUTINE_SUSPENDED, _this, cOROUTINE_SUSPENDED);
+            _this = cancellableContinuationImpl2.getResult();
+            if (_this == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
                 DebugProbesKt.probeCoroutineSuspended((Continuation)anon);
             }
-            if (result == cOROUTINE_SUSPENDED2) {
+            if (_this == cOROUTINE_SUSPENDED2) {
                 return cOROUTINE_SUSPENDED2;
             }
-            i = lock$default;
+            i5 = lock$default;
         }
     }
 
@@ -745,7 +745,7 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
     public final Object seekTo(float fraction, S targetState, Continuation<? super Unit> $completion) {
         int cmp;
         int i;
-        String string;
+        String $i$a$RequirePreconditionSeekableTransitionState$seekTo$2;
         StringBuilder append;
         String str;
         i = 0;
@@ -821,7 +821,7 @@ public final class SeekableTransitionState<S>  extends androidx.compose.animatio
     public void transitionConfigured$animation_core_release(androidx.compose.animation.core.Transition<S> transition) {
         int i;
         androidx.compose.animation.core.Transition transition2;
-        String string;
+        String $i$a$CheckPreconditionSeekableTransitionState$transitionConfigured$1;
         StringBuilder append;
         String str;
         if (this.transition != null) {

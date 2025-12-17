@@ -50,47 +50,47 @@ public final class VectorPath extends androidx.compose.ui.graphics.vector.Vector
     }
 
     public VectorPath(String string, List list2, int i3, Brush brush4, float f5, Brush brush6, float f7, float f8, int i9, int i10, float f11, float f12, float f13, float f14, int i15, DefaultConstructorMarker defaultConstructorMarker16) {
-        int str2;
+        int str;
         int defaultStrokeLineCap;
         int defaultStrokeLineJoin;
-        int i5;
-        String str;
         int i11;
-        int i12;
+        String str2;
         int i2;
-        int i;
-        int i13;
+        int i5;
         int i8;
-        int i4;
         int i6;
         int i16;
-        int i7;
+        int i12;
+        int i4;
         int i14;
+        int i13;
+        int i;
+        int i7;
         int i17 = i15;
-        str = i17 & 1 != 0 ? str2 : string;
+        str2 = i17 & 1 != 0 ? str : string;
         int i26 = 0;
-        i11 = i17 & 8 != 0 ? i26 : brush4;
+        i2 = i17 & 8 != 0 ? i26 : brush4;
         int i28 = 1065353216;
-        i12 = i17 & 16 != 0 ? i28 : f5;
-        i2 = i17 & 32 != 0 ? i26 : brush6;
-        i = i17 & 64 != 0 ? i28 : f7;
+        i5 = i17 & 16 != 0 ? i28 : f5;
+        i8 = i17 & 32 != 0 ? i26 : brush6;
+        i6 = i17 & 64 != 0 ? i28 : f7;
         int i27 = 0;
-        i13 = i17 & 128 != 0 ? i27 : f8;
+        i16 = i17 & 128 != 0 ? i27 : f8;
         if (i17 & 256 != 0) {
-            i8 = defaultStrokeLineCap;
+            i12 = defaultStrokeLineCap;
         } else {
-            i8 = i9;
+            i12 = i9;
         }
         if (i17 & 512 != 0) {
             i4 = defaultStrokeLineJoin;
         } else {
             i4 = i10;
         }
-        i6 = i17 & 1024 != 0 ? i5 : f11;
-        i16 = i17 & 2048 != 0 ? i27 : f12;
-        i7 = i17 & 4096 != 0 ? i28 : f13;
-        i14 = i17 &= 8192 != 0 ? i27 : f14;
-        super(str, list2, i3, i11, i12, i2, i, i13, i8, i4, i6, i16, i7, i14, 0);
+        i14 = i17 & 1024 != 0 ? i11 : f11;
+        i13 = i17 & 2048 != 0 ? i27 : f12;
+        i = i17 & 4096 != 0 ? i28 : f13;
+        i7 = i17 &= 8192 != 0 ? i27 : f14;
+        super(str2, list2, i3, i2, i5, i8, i6, i16, i12, i4, i14, i13, i, i7, 0);
     }
 
     public VectorPath(String string, List list2, int i3, Brush brush4, float f5, Brush brush6, float f7, float f8, int i9, int i10, float f11, float f12, float f13, float f14, DefaultConstructorMarker defaultConstructorMarker15) {
@@ -99,15 +99,15 @@ public final class VectorPath extends androidx.compose.ui.graphics.vector.Vector
 
     @Override // androidx.compose.ui.graphics.vector.VectorNode
     public boolean equals(Object other) {
-        int i2;
-        int i3;
-        int i4;
-        int i7;
-        int i6;
         int i5;
+        int i7;
+        int i3;
         int i;
-        Class class;
+        int i2;
+        int i4;
+        int i6;
         Class class2;
+        Class class;
         final int i8 = 1;
         if (this == other) {
             return i8;
@@ -123,19 +123,19 @@ public final class VectorPath extends androidx.compose.ui.graphics.vector.Vector
                 if (!Intrinsics.areEqual(this.fill, obj3.fill)) {
                     return i9;
                 }
-                i2 = Float.compare(fillAlpha, fillAlpha2) == 0 ? i8 : i9;
-                if (i2 == 0) {
+                i5 = Float.compare(fillAlpha, fillAlpha2) == 0 ? i8 : i9;
+                if (i5 == 0) {
                     return i9;
                 }
                 if (!Intrinsics.areEqual(this.stroke, obj5.stroke)) {
                     return i9;
                 }
-                i3 = Float.compare(strokeAlpha, strokeAlpha2) == 0 ? i8 : i9;
-                if (i3 == 0) {
+                i7 = Float.compare(strokeAlpha, strokeAlpha2) == 0 ? i8 : i9;
+                if (i7 == 0) {
                     return i9;
                 }
-                i4 = Float.compare(strokeLineWidth, strokeLineWidth2) == 0 ? i8 : i9;
-                if (i4 == 0) {
+                i3 = Float.compare(strokeLineWidth, strokeLineWidth2) == 0 ? i8 : i9;
+                if (i3 == 0) {
                     return i9;
                 }
                 if (!StrokeCap.equals-impl0(this.strokeLineCap, obj8.strokeLineCap)) {
@@ -144,20 +144,20 @@ public final class VectorPath extends androidx.compose.ui.graphics.vector.Vector
                 if (!StrokeJoin.equals-impl0(this.strokeLineJoin, obj9.strokeLineJoin)) {
                     return i9;
                 }
-                i7 = Float.compare(strokeLineMiter, strokeLineMiter2) == 0 ? i8 : i9;
-                if (i7 == 0) {
-                    return i9;
-                }
-                i6 = Float.compare(trimPathStart, trimPathStart2) == 0 ? i8 : i9;
-                if (i6 == 0) {
-                    return i9;
-                }
-                i5 = Float.compare(trimPathEnd, trimPathEnd2) == 0 ? i8 : i9;
-                if (i5 == 0) {
-                    return i9;
-                }
-                i = Float.compare(trimPathOffset, trimPathOffset2) == 0 ? i8 : i9;
+                i = Float.compare(strokeLineMiter, strokeLineMiter2) == 0 ? i8 : i9;
                 if (i == 0) {
+                    return i9;
+                }
+                i2 = Float.compare(trimPathStart, trimPathStart2) == 0 ? i8 : i9;
+                if (i2 == 0) {
+                    return i9;
+                }
+                i4 = Float.compare(trimPathEnd, trimPathEnd2) == 0 ? i8 : i9;
+                if (i4 == 0) {
+                    return i9;
+                }
+                i6 = Float.compare(trimPathOffset, trimPathOffset2) == 0 ? i8 : i9;
+                if (i6 == 0) {
                     return i9;
                 }
                 if (!PathFillType.equals-impl0(this.pathFillType, obj14.pathFillType)) {

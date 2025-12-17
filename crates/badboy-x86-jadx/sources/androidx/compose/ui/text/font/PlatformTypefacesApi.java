@@ -64,14 +64,14 @@ final class PlatformTypefacesApi implements androidx.compose.ui.text.font.Platfo
     }
 
     private final Typeface loadNamedFromTypefaceCacheOrNull-RetOiIg(String familyName, androidx.compose.ui.text.font.FontWeight weight, int style) {
-        int i;
         int i2;
+        int i;
         int i3;
         boolean equal;
         final int i4 = 0;
-        i = (CharSequence)familyName.length() == 0 ? i2 : i4;
+        i2 = (CharSequence)familyName.length() == 0 ? i : i4;
         i3 = 0;
-        if (i != 0) {
+        if (i2 != 0) {
             return i3;
         }
         Typeface androidTypefaceUsingTypefaceStyle-RetOiIg = createAndroidTypefaceUsingTypefaceStyle-RetOiIg(familyName, weight, style);
@@ -80,11 +80,11 @@ final class PlatformTypefacesApi implements androidx.compose.ui.text.font.Platfo
         if (!Intrinsics.areEqual(typeface, Typeface.create(Typeface.DEFAULT, AndroidFontUtils_androidKt.getAndroidTypefaceStyle-FO1MlWM(weight, style))) && !Intrinsics.areEqual(typeface, createAndroidTypefaceUsingTypefaceStyle-RetOiIg(i3, weight, style))) {
             if (!Intrinsics.areEqual(typeface, createAndroidTypefaceUsingTypefaceStyle-RetOiIg(i3, weight, style))) {
             } else {
-                i2 = i4;
+                i = i4;
             }
         } else {
         }
-        if (i2 != 0) {
+        if (i != 0) {
             i3 = androidTypefaceUsingTypefaceStyle-RetOiIg;
         }
         return i3;

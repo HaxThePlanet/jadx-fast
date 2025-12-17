@@ -183,17 +183,17 @@ public final class KeyframesSpec<T>  implements androidx.compose.animation.core.
         MutableIntObjectMap this_$iv$iv;
         int i$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i3;
+        int i;
         int j$iv$iv;
         long l;
-        int i4;
-        int i2;
+        int i3;
+        int i5;
         long slot$iv$iv;
         long key;
         Object obj;
         MutableIntObjectMap this_$iv;
-        int i5;
-        int i;
+        int i4;
+        int i2;
         int[] iArr;
         Object[] objArr;
         MutableIntObjectMap map;
@@ -208,7 +208,7 @@ public final class KeyframesSpec<T>  implements androidx.compose.animation.core.
         if (0 <= i9) {
         } else {
             this_$iv = this_$iv2;
-            i = invoke;
+            i2 = invoke;
             iArr = easing$animation_core_release;
             objArr = arcMode--9T-Mq4$animation_core_release;
             map = this_$iv$iv;

@@ -61,7 +61,7 @@ public final class LookaheadLayoutCoordinates implements androidx.compose.ui.lay
     public androidx.compose.ui.layout.LayoutCoordinates getParentCoordinates() {
         androidx.compose.ui.node.LookaheadCapablePlaceable wrappedBy$ui_release;
         androidx.compose.ui.layout.LayoutCoordinates coordinates;
-        String str;
+        String $i$a$CheckPreconditionLookaheadLayoutCoordinates$parentCoordinates$1;
         final int i = 0;
         if (!isAttached()) {
             int i2 = 0;
@@ -84,7 +84,7 @@ public final class LookaheadLayoutCoordinates implements androidx.compose.ui.lay
     @Override // androidx.compose.ui.layout.LayoutCoordinates
     public androidx.compose.ui.layout.LayoutCoordinates getParentLayoutCoordinates() {
         int coordinates;
-        String str;
+        String $i$a$CheckPreconditionLookaheadLayoutCoordinates$parentLayoutCoordinates$1;
         LookaheadDelegate lookaheadDelegate;
         int i = 0;
         if (!isAttached()) {
@@ -93,10 +93,10 @@ public final class LookaheadLayoutCoordinates implements androidx.compose.ui.lay
         }
         NodeCoordinator wrappedBy$ui_release = getCoordinator().getLayoutNode().getOuterCoordinator$ui_release().getWrappedBy$ui_release();
         coordinates = 0;
-        str = 0;
+        $i$a$CheckPreconditionLookaheadLayoutCoordinates$parentLayoutCoordinates$1 = 0;
         lookaheadDelegate = wrappedBy$ui_release.getLookaheadDelegate();
         if (wrappedBy$ui_release != null && lookaheadDelegate != null) {
-            str = 0;
+            $i$a$CheckPreconditionLookaheadLayoutCoordinates$parentLayoutCoordinates$1 = 0;
             lookaheadDelegate = wrappedBy$ui_release.getLookaheadDelegate();
             if (lookaheadDelegate != null) {
                 coordinates = lookaheadDelegate.getCoordinates();
@@ -133,10 +133,10 @@ public final class LookaheadLayoutCoordinates implements androidx.compose.ui.lay
 
     @Override // androidx.compose.ui.layout.LayoutCoordinates
     public long localPositionOf-S_NoaFU(androidx.compose.ui.layout.LayoutCoordinates sourceCoordinates, long relativeToSource, boolean includeMotionFrameOfReference) {
-        long lookaheadDelegate;
+        long lookaheadDelegate3;
         float commonAncestor$ui_release;
-        androidx.compose.ui.node.LookaheadCapablePlaceable lookaheadDelegate3;
-        int i3;
+        androidx.compose.ui.node.LookaheadCapablePlaceable lookaheadDelegate2;
+        int i2;
         LookaheadDelegate rootLookaheadDelegate2;
         long plus-qkQi6aY;
         long positionIn-iSbpLlY$ui_release;
@@ -145,34 +145,34 @@ public final class LookaheadLayoutCoordinates implements androidx.compose.ui.lay
         int i;
         NodeCoordinator wrappedBy$ui_release2;
         NodeCoordinator wrappedBy$ui_release;
-        int i2;
-        LookaheadDelegate lookaheadDelegate2;
+        int i3;
+        LookaheadDelegate lookaheadDelegate;
         NodeCoordinator nodeCoordinator;
         final Object obj = this;
         final Object obj2 = sourceCoordinates;
         final int i4 = obj22;
         if (obj2 instanceof LookaheadLayoutCoordinates) {
-            lookaheadDelegate = obj3.lookaheadDelegate;
-            lookaheadDelegate.getCoordinator().onCoordinatesUsed$ui_release();
-            commonAncestor$ui_release = obj.getCoordinator().findCommonAncestor$ui_release(lookaheadDelegate.getCoordinator());
-            lookaheadDelegate3 = commonAncestor$ui_release.getLookaheadDelegate();
-            if (lookaheadDelegate3 != null) {
-                i3 = 0;
+            lookaheadDelegate3 = obj3.lookaheadDelegate;
+            lookaheadDelegate3.getCoordinator().onCoordinatesUsed$ui_release();
+            commonAncestor$ui_release = obj.getCoordinator().findCommonAncestor$ui_release(lookaheadDelegate3.getCoordinator());
+            lookaheadDelegate2 = commonAncestor$ui_release.getLookaheadDelegate();
+            if (lookaheadDelegate2 != null) {
+                i2 = 0;
                 rootLookaheadDelegate = i4 ^ 1;
-                long minus-qkQi6aY = IntOffset.minus-qkQi6aY(IntOffset.plus-qkQi6aY(lookaheadDelegate.positionIn-iSbpLlY$ui_release(lookaheadDelegate3, i4 ^ 1), obj8), obj8);
+                long minus-qkQi6aY = IntOffset.minus-qkQi6aY(IntOffset.plus-qkQi6aY(lookaheadDelegate3.positionIn-iSbpLlY$ui_release(lookaheadDelegate2, i4 ^ 1), obj8), obj8);
                 wrappedBy$ui_release2 = 0;
                 lookaheadPosition = OffsetKt.Offset((float)x-impl2, (float)y-impl2);
-                lookaheadDelegate2 = lookaheadDelegate;
+                lookaheadDelegate = lookaheadDelegate3;
                 nodeCoordinator = commonAncestor$ui_release;
             } else {
-                lookaheadDelegate3 = commonAncestor$ui_release;
-                i3 = 0;
-                rootLookaheadDelegate2 = LookaheadLayoutCoordinatesKt.getRootLookaheadDelegate(lookaheadDelegate);
+                lookaheadDelegate2 = commonAncestor$ui_release;
+                i2 = 0;
+                rootLookaheadDelegate2 = LookaheadLayoutCoordinatesKt.getRootLookaheadDelegate(lookaheadDelegate3);
                 rootLookaheadDelegate = LookaheadLayoutCoordinatesKt.getRootLookaheadDelegate(obj.lookaheadDelegate);
                 i = i4 ^ 1;
-                long minus-qkQi6aY2 = IntOffset.minus-qkQi6aY(IntOffset.plus-qkQi6aY(IntOffset.plus-qkQi6aY(lookaheadDelegate.positionIn-iSbpLlY$ui_release(rootLookaheadDelegate2, i4 ^ 1), obj9), obj9), obj9);
-                i2 = 0;
-                lookaheadDelegate2 = lookaheadDelegate;
+                long minus-qkQi6aY2 = IntOffset.minus-qkQi6aY(IntOffset.plus-qkQi6aY(IntOffset.plus-qkQi6aY(lookaheadDelegate3.positionIn-iSbpLlY$ui_release(rootLookaheadDelegate2, i4 ^ 1), obj9), obj9), obj9);
+                i3 = 0;
+                lookaheadDelegate = lookaheadDelegate3;
                 nodeCoordinator = commonAncestor$ui_release;
                 commonAncestor$ui_release = (float)y-impl;
                 wrappedBy$ui_release2 = rootLookaheadDelegate.getCoordinator().getWrappedBy$ui_release();

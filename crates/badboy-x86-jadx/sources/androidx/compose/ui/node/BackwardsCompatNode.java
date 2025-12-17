@@ -81,26 +81,26 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
     }
 
     private final void initializeModifier(boolean duringAttach) {
-        int this_$iv2;
-        boolean anon;
-        int this_$iv4;
-        int this_$iv5;
-        boolean isChainUpdate3;
-        int isChainUpdate2;
-        boolean z;
         int this_$iv;
-        boolean isChainUpdate;
+        boolean anon;
+        int this_$iv2;
+        int this_$iv4;
+        boolean isChainUpdate2;
+        int isChainUpdate3;
+        boolean z;
         int this_$iv3;
+        boolean isChainUpdate;
+        int this_$iv5;
         Object requireOwner;
-        String str;
-        int requireLayoutNode;
-        int requireLayoutNode3;
-        int requireLayoutNode2;
-        int coordinator$ui_release;
-        int i2;
+        String $i$a$CheckPreconditionBackwardsCompatNode$initializeModifier$1;
+        int $i$f$getLayoutOLwlOKw;
+        int $i$f$getLayoutAwareOLwlOKw;
+        int $i$f$getGlobalPositionAwareOLwlOKw;
+        int $i$f$getPointerInputOLwlOKw;
+        int i3;
         int anon2;
         int i;
-        int i3;
+        int i2;
         int i4 = 0;
         if (!isAttached()) {
             int i13 = 0;
@@ -109,10 +109,10 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
         Modifier.Element value$iv = this.element;
         int i6 = 0;
         int i15 = 0;
-        i3 = 0;
+        i2 = 0;
         final int i32 = 1;
-        this_$iv2 = kindSet$ui_release &= constructor-impl != 0 ? i32 : i3;
-        if (this_$iv2 != 0 && value$iv instanceof ModifierLocalConsumer) {
+        this_$iv = kindSet$ui_release &= $i$f$getLocalsOLwlOKw != 0 ? i32 : i2;
+        if (this_$iv != 0 && value$iv instanceof ModifierLocalConsumer) {
             if (value$iv instanceof ModifierLocalConsumer) {
                 anon = new BackwardsCompatNode.initializeModifier.2(this);
                 sideEffect((Function0)anon);
@@ -123,8 +123,8 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
         }
         int i7 = 0;
         int i17 = 0;
-        this_$iv4 = kindSet$ui_release2 &= constructor-impl2 != 0 ? i32 : i3;
-        if (this_$iv4 != 0 && value$iv instanceof DrawCacheModifier) {
+        this_$iv2 = kindSet$ui_release2 &= $i$f$getDrawOLwlOKw != 0 ? i32 : i2;
+        if (this_$iv2 != 0 && value$iv instanceof DrawCacheModifier) {
             if (value$iv instanceof DrawCacheModifier) {
                 this.invalidateCache = i32;
             }
@@ -133,15 +133,15 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
             }
         }
         int i8 = 0;
-        i2 = 0;
-        this_$iv5 = kindSet$ui_release3 &= requireLayoutNode != 0 ? i32 : i3;
-        if (this_$iv5 != 0 && BackwardsCompatNodeKt.access$isChainUpdate(this)) {
+        i3 = 0;
+        this_$iv4 = kindSet$ui_release3 &= $i$f$getLayoutOLwlOKw != 0 ? i32 : i2;
+        if (this_$iv4 != 0 && BackwardsCompatNodeKt.access$isChainUpdate(this)) {
             if (BackwardsCompatNodeKt.access$isChainUpdate(this)) {
-                requireLayoutNode = getCoordinator$ui_release();
-                Intrinsics.checkNotNull(requireLayoutNode);
-                androidx.compose.ui.node.NodeCoordinator nodeCoordinator = requireLayoutNode;
-                (LayoutModifierNodeCoordinator)requireLayoutNode.setLayoutModifierNode$ui_release((LayoutModifierNode)this);
-                requireLayoutNode.onLayoutModifierNodeChanged();
+                $i$f$getLayoutOLwlOKw = getCoordinator$ui_release();
+                Intrinsics.checkNotNull($i$f$getLayoutOLwlOKw);
+                androidx.compose.ui.node.NodeCoordinator nodeCoordinator = $i$f$getLayoutOLwlOKw;
+                (LayoutModifierNodeCoordinator)$i$f$getLayoutOLwlOKw.setLayoutModifierNode$ui_release((LayoutModifierNode)this);
+                $i$f$getLayoutOLwlOKw.onLayoutModifierNodeChanged();
             }
             if (!duringAttach) {
                 LayoutModifierNodeKt.invalidateLayer((LayoutModifierNode)this);
@@ -153,8 +153,8 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
         }
         int i9 = 0;
         anon2 = 0;
-        isChainUpdate2 = kindSet$ui_release4 &= requireLayoutNode3 != 0 ? i32 : i3;
-        if (isChainUpdate2 != 0 && value$iv instanceof OnRemeasuredModifier && BackwardsCompatNodeKt.access$isChainUpdate(this)) {
+        isChainUpdate3 = kindSet$ui_release4 &= $i$f$getLayoutAwareOLwlOKw != 0 ? i32 : i2;
+        if (isChainUpdate3 != 0 && value$iv instanceof OnRemeasuredModifier && BackwardsCompatNodeKt.access$isChainUpdate(this)) {
             if (value$iv instanceof OnRemeasuredModifier) {
                 if (BackwardsCompatNodeKt.access$isChainUpdate(this)) {
                     DelegatableNodeKt.requireLayoutNode((DelegatableNode)this).invalidateMeasurements$ui_release();
@@ -171,8 +171,8 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
         }
         int i10 = 0;
         int i21 = 0;
-        this_$iv = kindSet$ui_release5 &= requireLayoutNode2 != 0 ? i32 : i3;
-        if (this_$iv != 0 && value$iv instanceof OnGloballyPositionedModifier && BackwardsCompatNodeKt.access$isChainUpdate(this)) {
+        this_$iv3 = kindSet$ui_release5 &= $i$f$getGlobalPositionAwareOLwlOKw != 0 ? i32 : i2;
+        if (this_$iv3 != 0 && value$iv instanceof OnGloballyPositionedModifier && BackwardsCompatNodeKt.access$isChainUpdate(this)) {
             if (value$iv instanceof OnGloballyPositionedModifier) {
                 if (BackwardsCompatNodeKt.access$isChainUpdate(this)) {
                     DelegatableNodeKt.requireLayoutNode((DelegatableNode)this).invalidateMeasurements$ui_release();
@@ -180,23 +180,23 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
             }
         }
         if (value$iv instanceof FocusRequesterModifier) {
-            requireLayoutNode2 = 0;
+            $i$f$getGlobalPositionAwareOLwlOKw = 0;
             (FocusRequesterModifier)value$iv.getFocusRequester().getFocusRequesterNodes$ui_release().add(this);
         }
         int i11 = 0;
         int i23 = 0;
-        this_$iv3 = kindSet$ui_release6 &= coordinator$ui_release != 0 ? i32 : i3;
-        if (this_$iv3 != 0 && value$iv instanceof PointerInputModifier) {
+        this_$iv5 = kindSet$ui_release6 &= $i$f$getPointerInputOLwlOKw != 0 ? i32 : i2;
+        if (this_$iv5 != 0 && value$iv instanceof PointerInputModifier) {
             if (value$iv instanceof PointerInputModifier) {
                 (PointerInputModifier)value$iv.getPointerInputFilter().setLayoutCoordinates$ui_release((LayoutCoordinates)getCoordinator$ui_release());
             }
         }
         int i12 = 0;
         int i25 = 0;
-        if (kindSet$ui_release7 &= constructor-impl3 != 0) {
-            i3 = i32;
+        if (kindSet$ui_release7 &= $i$f$getSemanticsOLwlOKw != 0) {
+            i2 = i32;
         }
-        if (i3 != 0) {
+        if (i2 != 0) {
             DelegatableNodeKt.requireOwner((DelegatableNode)this).onSemanticsChange();
         }
     }
@@ -206,9 +206,9 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
         boolean modifierLocalManager;
         Object requireOwner;
         boolean focusRequesterNodes$ui_release;
-        String str;
-        int constructor-impl2;
-        int constructor-impl;
+        String $i$a$CheckPreconditionBackwardsCompatNode$unInitializeModifier$1;
+        int $i$f$getLocalsOLwlOKw;
+        int $i$f$getSemanticsOLwlOKw;
         int i;
         int i2 = 0;
         if (!isAttached()) {
@@ -219,7 +219,7 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
         int i4 = 0;
         int i7 = 0;
         final int i12 = 0;
-        this_$iv = kindSet$ui_release &= constructor-impl2 != 0 ? i : i12;
+        this_$iv = kindSet$ui_release &= $i$f$getLocalsOLwlOKw != 0 ? i : i12;
         if (this_$iv != 0 && value$iv instanceof ModifierLocalProvider != null) {
             if (value$iv instanceof ModifierLocalProvider != null) {
                 DelegatableNodeKt.requireOwner((DelegatableNode)this).getModifierLocalManager().removedProvider(this, (ModifierLocal)(ModifierLocalProvider)value$iv.getKey());
@@ -230,7 +230,7 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
         }
         int i5 = 0;
         int i9 = 0;
-        if (kindSet$ui_release2 &= constructor-impl != 0) {
+        if (kindSet$ui_release2 &= $i$f$getSemanticsOLwlOKw != 0) {
         } else {
             i = i12;
         }
@@ -238,7 +238,7 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
             DelegatableNodeKt.requireOwner((DelegatableNode)this).onSemanticsChange();
         }
         if (value$iv instanceof FocusRequesterModifier) {
-            constructor-impl = 0;
+            $i$f$getSemanticsOLwlOKw = 0;
             (FocusRequesterModifier)value$iv.getFocusRequester().getFocusRequesterNodes$ui_release().remove(this);
         }
     }
@@ -258,8 +258,8 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
 
     private final void updateModifierLocalProvider(ModifierLocalProvider<?> element) {
         boolean contains$ui_release;
-        boolean modifierLocalManager2;
-        Object modifierLocalManager;
+        boolean modifierLocalManager;
+        Object modifierLocalManager2;
         androidx.compose.ui.modifier.ProvidableModifierLocal key;
         final BackwardsCompatLocalMap _providedValues = this._providedValues;
         if (_providedValues != null && _providedValues.contains$ui_release((ModifierLocal)element.getKey())) {
@@ -279,7 +279,7 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
 
     @Override // androidx.compose.ui.Modifier$Node
     public void applyFocusProperties(FocusProperties focusProperties) {
-        String str;
+        String $i$a$CheckPreconditionBackwardsCompatNode$applyFocusProperties$1;
         final Modifier.Element element = this.element;
         int i = 0;
         if (!element instanceof FocusOrderModifier) {
@@ -314,111 +314,111 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
 
     public <T> T getCurrent(ModifierLocal<T> $this$current) {
         Object stack$iv$iv;
-        int node$iv$iv5;
+        int node$iv$iv2;
         Modifier.Node tail$ui_release;
-        Object key2;
+        Object key;
         int capacity$iv$iv$iv$iv;
         Modifier.Node next$iv$iv;
-        Object count$iv$iv2;
-        int count$iv$iv;
-        Modifier.Node node$iv$iv4;
+        Object count$iv$iv;
+        int count$iv$iv2;
+        Modifier.Node node$iv$iv5;
         androidx.compose.ui.node.LayoutNode layout$iv$iv;
         Modifier.Node head$ui_release;
+        int i8;
         int i3;
-        int i7;
         Modifier.Node node;
         int i4;
+        int node$iv$iv4;
         int node$iv$iv3;
-        int node$iv$iv6;
         Object obj;
-        Modifier.Node node$iv$iv2;
-        Modifier.Node node2;
-        int i9;
-        Object key;
-        Modifier.Node node$iv$iv$iv;
+        Modifier.Node node$iv$iv6;
         Modifier.Node node3;
-        int i8;
-        int this_$iv$iv$iv;
-        int i2;
-        int i5;
-        Modifier.Node node$iv$iv;
-        int i;
         int i6;
+        Object key2;
+        Modifier.Node node$iv$iv$iv;
+        Modifier.Node node2;
+        int i2;
+        int this_$iv$iv$iv;
+        int i5;
+        int i;
+        Modifier.Node node$iv$iv;
+        int i9;
+        int i7;
         stack$iv$iv = this;
-        key2 = $this$current;
-        stack$iv$iv.readValues.add(key2);
+        key = $this$current;
+        stack$iv$iv.readValues.add(key);
         int i12 = 0;
-        int constructor-impl = NodeKind.constructor-impl(32);
+        int $i$f$getLocalsOLwlOKw = NodeKind.constructor-impl(32);
         int i14 = 0;
         final int i15 = 0;
-        final int i16 = constructor-impl;
-        final Object obj3 = count$iv$iv2;
+        final int i16 = $i$f$getLocalsOLwlOKw;
+        final Object obj3 = count$iv$iv;
         final int i17 = 0;
         if (!obj3.getNode().isAttached()) {
         } else {
-            node$iv$iv4 = obj3.getNode().getParent$ui_release();
+            node$iv$iv5 = obj3.getNode().getParent$ui_release();
             layout$iv$iv = DelegatableNodeKt.requireLayoutNode(obj3);
             while (layout$iv$iv != null) {
                 if (aggregateChildKindSet$ui_release &= i16 != 0) {
                 } else {
                 }
-                key = key2;
-                obj = count$iv$iv2;
+                key2 = key;
+                obj = count$iv$iv;
                 layout$iv$iv = layout$iv$iv.getParent$ui_release();
                 stack$iv$iv = layout$iv$iv.getNodes$ui_release();
                 if (layout$iv$iv != null && stack$iv$iv != null) {
                 } else {
                 }
                 tail$ui_release = 0;
-                node$iv$iv4 = tail$ui_release;
+                node$iv$iv5 = tail$ui_release;
                 stack$iv$iv = this;
-                count$iv$iv2 = obj;
-                key2 = key;
+                count$iv$iv = obj;
+                key = key2;
                 stack$iv$iv = layout$iv$iv.getNodes$ui_release();
                 if (stack$iv$iv != null) {
                 } else {
                 }
                 tail$ui_release = stack$iv$iv.getTail$ui_release();
-                while (node$iv$iv4 != null) {
+                while (node$iv$iv5 != null) {
                     if (kindSet$ui_release &= i16 == 0) {
                         break loop_4;
                     } else {
                     }
-                    key = key2;
-                    obj = count$iv$iv2;
-                    node$iv$iv4 = node$iv$iv4.getParent$ui_release();
-                    stack$iv$iv = this;
-                    count$iv$iv2 = obj;
                     key2 = key;
-                    i7 = 0;
+                    obj = count$iv$iv;
+                    node$iv$iv5 = node$iv$iv5.getParent$ui_release();
+                    stack$iv$iv = this;
+                    count$iv$iv = obj;
+                    key = key2;
+                    i3 = 0;
                     i4 = 0;
-                    node$iv$iv3 = 0;
+                    node$iv$iv4 = 0;
                     int i18 = 0;
-                    stack$iv$iv = node$iv$iv2;
+                    stack$iv$iv = node$iv$iv6;
                     while (stack$iv$iv != null) {
-                        node$iv$iv2 = count$iv$iv2;
-                        node2 = 0;
-                        if (kindSet$ui_release2 &= constructor-impl != 0) {
+                        node$iv$iv6 = count$iv$iv;
+                        node3 = 0;
+                        if (kindSet$ui_release2 &= $i$f$getLocalsOLwlOKw != 0) {
                         } else {
                         }
-                        count$iv$iv = 0;
-                        if (count$iv$iv != 0 && stack$iv$iv instanceof DelegatingNode) {
+                        count$iv$iv2 = 0;
+                        if (count$iv$iv2 != 0 && stack$iv$iv instanceof DelegatingNode) {
                         } else {
                         }
-                        stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv3);
-                        count$iv$iv2 = node$iv$iv2;
-                        key2 = key;
+                        stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv4);
+                        count$iv$iv = node$iv$iv6;
+                        key = key2;
                         if (stack$iv$iv instanceof DelegatingNode) {
                         } else {
                         }
-                        count$iv$iv = 0;
-                        i9 = 0;
+                        count$iv$iv2 = 0;
+                        i6 = 0;
                         node$iv$iv$iv = (DelegatingNode)stack$iv$iv.getDelegate$ui_release();
                         while (node$iv$iv$iv != null) {
-                            node3 = node$iv$iv$iv;
-                            i8 = 0;
+                            node2 = node$iv$iv$iv;
                             i2 = 0;
-                            if (kindSet$ui_release3 &= constructor-impl != 0) {
+                            i5 = 0;
+                            if (kindSet$ui_release3 &= $i$f$getLocalsOLwlOKw != 0) {
                             } else {
                             }
                             this_$iv$iv$iv = 0;
@@ -426,60 +426,60 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
                             } else {
                             }
                             node$iv$iv = stack$iv$iv;
-                            next$iv$iv = node3;
+                            next$iv$iv = node2;
                             node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                            key2 = 1;
-                            count$iv$iv++;
-                            if (count$iv$iv == key2) {
+                            key = 1;
+                            count$iv$iv2++;
+                            if (count$iv$iv2 == key) {
                             } else {
                             }
-                            if (node$iv$iv3 == 0) {
+                            if (node$iv$iv4 == 0) {
                             } else {
                             }
                             node$iv$iv = stack$iv$iv;
-                            i = count$iv$iv;
+                            i9 = count$iv$iv2;
                             capacity$iv$iv$iv$iv = 0;
-                            node$iv$iv5 = node$iv$iv3;
+                            node$iv$iv2 = node$iv$iv4;
                             Modifier.Node node5 = node$iv$iv;
                             if (node5 != null) {
                             } else {
                             }
-                            node$iv$iv6 = node$iv$iv;
-                            if (node$iv$iv5 != 0) {
+                            node$iv$iv3 = node$iv$iv;
+                            if (node$iv$iv2 != 0) {
                             } else {
                             }
-                            next$iv$iv = node3;
-                            node$iv$iv3 = node$iv$iv5;
+                            next$iv$iv = node2;
+                            node$iv$iv4 = node$iv$iv2;
                             stack$iv$iv = theNode$iv$iv;
-                            count$iv$iv = i;
-                            node$iv$iv5.add(node3);
-                            if (node$iv$iv5 != 0) {
+                            count$iv$iv2 = i9;
+                            node$iv$iv2.add(node2);
+                            if (node$iv$iv2 != 0) {
                             }
-                            node$iv$iv6 = 0;
-                            node$iv$iv5.add(node5);
+                            node$iv$iv3 = 0;
+                            node$iv$iv2.add(node5);
                             this_$iv$iv$iv = 0;
                             int i11 = 16;
-                            i5 = 0;
+                            i = 0;
                             node$iv$iv = stack$iv$iv;
-                            i = count$iv$iv;
-                            i6 = i11;
-                            node$iv$iv5 = new MutableVector(new Modifier.Node[i11], 0);
-                            stack$iv$iv = node3;
-                            next$iv$iv = node3;
-                            this_$iv$iv$iv = key2;
+                            i9 = count$iv$iv2;
+                            i7 = i11;
+                            node$iv$iv2 = new MutableVector(new Modifier.Node[i11], 0);
+                            stack$iv$iv = node2;
+                            next$iv$iv = node2;
+                            this_$iv$iv$iv = key;
                         }
                         node$iv$iv = stack$iv$iv;
-                        if (count$iv$iv == 1) {
+                        if (count$iv$iv2 == 1) {
                         } else {
                         }
                         stack$iv$iv = node$iv$iv;
-                        count$iv$iv2 = node$iv$iv2;
-                        key2 = key;
+                        count$iv$iv = node$iv$iv6;
+                        key = key2;
                         stack$iv$iv = node$iv$iv;
-                        node3 = node$iv$iv$iv;
-                        i8 = 0;
+                        node2 = node$iv$iv$iv;
                         i2 = 0;
-                        if (kindSet$ui_release3 &= constructor-impl != 0) {
+                        i5 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getLocalsOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -487,77 +487,77 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
                         } else {
                         }
                         node$iv$iv = stack$iv$iv;
-                        next$iv$iv = node3;
+                        next$iv$iv = node2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        key2 = 1;
-                        count$iv$iv++;
-                        if (count$iv$iv == key2) {
+                        key = 1;
+                        count$iv$iv2++;
+                        if (count$iv$iv2 == key) {
                         } else {
                         }
-                        if (node$iv$iv3 == 0) {
+                        if (node$iv$iv4 == 0) {
                         } else {
                         }
                         node$iv$iv = stack$iv$iv;
-                        i = count$iv$iv;
+                        i9 = count$iv$iv2;
                         capacity$iv$iv$iv$iv = 0;
-                        node$iv$iv5 = node$iv$iv3;
+                        node$iv$iv2 = node$iv$iv4;
                         node5 = node$iv$iv;
                         if (node5 != null) {
                         } else {
                         }
-                        node$iv$iv6 = node$iv$iv;
-                        if (node$iv$iv5 != 0) {
+                        node$iv$iv3 = node$iv$iv;
+                        if (node$iv$iv2 != 0) {
                         } else {
                         }
-                        next$iv$iv = node3;
-                        node$iv$iv3 = node$iv$iv5;
+                        next$iv$iv = node2;
+                        node$iv$iv4 = node$iv$iv2;
                         stack$iv$iv = theNode$iv$iv;
-                        count$iv$iv = i;
-                        node$iv$iv5.add(node3);
-                        if (node$iv$iv5 != 0) {
+                        count$iv$iv2 = i9;
+                        node$iv$iv2.add(node2);
+                        if (node$iv$iv2 != 0) {
                         }
-                        node$iv$iv6 = 0;
-                        node$iv$iv5.add(node5);
+                        node$iv$iv3 = 0;
+                        node$iv$iv2.add(node5);
                         this_$iv$iv$iv = 0;
                         i11 = 16;
-                        i5 = 0;
+                        i = 0;
                         node$iv$iv = stack$iv$iv;
-                        i = count$iv$iv;
-                        i6 = i11;
-                        node$iv$iv5 = new MutableVector(new Modifier.Node[i11], 0);
-                        stack$iv$iv = node3;
-                        next$iv$iv = node3;
-                        this_$iv$iv$iv = key2;
-                        count$iv$iv = key2;
-                        node2 = 0;
-                        i9 = node6;
-                        key = key2;
+                        i9 = count$iv$iv2;
+                        i7 = i11;
+                        node$iv$iv2 = new MutableVector(new Modifier.Node[i11], 0);
+                        stack$iv$iv = node2;
+                        next$iv$iv = node2;
+                        this_$iv$iv$iv = key;
+                        count$iv$iv2 = key;
+                        node3 = 0;
+                        i6 = node6;
+                        key2 = key;
                     }
-                    key = key2;
-                    obj = count$iv$iv2;
-                    node$iv$iv2 = count$iv$iv2;
-                    node2 = 0;
-                    if (kindSet$ui_release2 &= constructor-impl != 0) {
-                    } else {
-                    }
-                    count$iv$iv = 0;
-                    if (count$iv$iv != 0 && stack$iv$iv instanceof DelegatingNode) {
-                    } else {
-                    }
-                    stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv3);
-                    count$iv$iv2 = node$iv$iv2;
                     key2 = key;
+                    obj = count$iv$iv;
+                    node$iv$iv6 = count$iv$iv;
+                    node3 = 0;
+                    if (kindSet$ui_release2 &= $i$f$getLocalsOLwlOKw != 0) {
+                    } else {
+                    }
+                    count$iv$iv2 = 0;
+                    if (count$iv$iv2 != 0 && stack$iv$iv instanceof DelegatingNode) {
+                    } else {
+                    }
+                    stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv4);
+                    count$iv$iv = node$iv$iv6;
+                    key = key2;
                     if (stack$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    i9 = 0;
+                    count$iv$iv2 = 0;
+                    i6 = 0;
                     node$iv$iv$iv = (DelegatingNode)stack$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node3 = node$iv$iv$iv;
-                        i8 = 0;
+                        node2 = node$iv$iv$iv;
                         i2 = 0;
-                        if (kindSet$ui_release3 &= constructor-impl != 0) {
+                        i5 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getLocalsOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -565,60 +565,60 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
                         } else {
                         }
                         node$iv$iv = stack$iv$iv;
-                        next$iv$iv = node3;
+                        next$iv$iv = node2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        key2 = 1;
-                        count$iv$iv++;
-                        if (count$iv$iv == key2) {
+                        key = 1;
+                        count$iv$iv2++;
+                        if (count$iv$iv2 == key) {
                         } else {
                         }
-                        if (node$iv$iv3 == 0) {
+                        if (node$iv$iv4 == 0) {
                         } else {
                         }
                         node$iv$iv = stack$iv$iv;
-                        i = count$iv$iv;
+                        i9 = count$iv$iv2;
                         capacity$iv$iv$iv$iv = 0;
-                        node$iv$iv5 = node$iv$iv3;
+                        node$iv$iv2 = node$iv$iv4;
                         node5 = node$iv$iv;
                         if (node5 != null) {
                         } else {
                         }
-                        node$iv$iv6 = node$iv$iv;
-                        if (node$iv$iv5 != 0) {
+                        node$iv$iv3 = node$iv$iv;
+                        if (node$iv$iv2 != 0) {
                         } else {
                         }
-                        next$iv$iv = node3;
-                        node$iv$iv3 = node$iv$iv5;
+                        next$iv$iv = node2;
+                        node$iv$iv4 = node$iv$iv2;
                         stack$iv$iv = theNode$iv$iv;
-                        count$iv$iv = i;
-                        node$iv$iv5.add(node3);
-                        if (node$iv$iv5 != 0) {
+                        count$iv$iv2 = i9;
+                        node$iv$iv2.add(node2);
+                        if (node$iv$iv2 != 0) {
                         }
-                        node$iv$iv6 = 0;
-                        node$iv$iv5.add(node5);
+                        node$iv$iv3 = 0;
+                        node$iv$iv2.add(node5);
                         this_$iv$iv$iv = 0;
                         i11 = 16;
-                        i5 = 0;
+                        i = 0;
                         node$iv$iv = stack$iv$iv;
-                        i = count$iv$iv;
-                        i6 = i11;
-                        node$iv$iv5 = new MutableVector(new Modifier.Node[i11], 0);
-                        stack$iv$iv = node3;
-                        next$iv$iv = node3;
-                        this_$iv$iv$iv = key2;
+                        i9 = count$iv$iv2;
+                        i7 = i11;
+                        node$iv$iv2 = new MutableVector(new Modifier.Node[i11], 0);
+                        stack$iv$iv = node2;
+                        next$iv$iv = node2;
+                        this_$iv$iv$iv = key;
                     }
                     node$iv$iv = stack$iv$iv;
-                    if (count$iv$iv == 1) {
+                    if (count$iv$iv2 == 1) {
                     } else {
                     }
                     stack$iv$iv = node$iv$iv;
-                    count$iv$iv2 = node$iv$iv2;
-                    key2 = key;
+                    count$iv$iv = node$iv$iv6;
+                    key = key2;
                     stack$iv$iv = node$iv$iv;
-                    node3 = node$iv$iv$iv;
-                    i8 = 0;
+                    node2 = node$iv$iv$iv;
                     i2 = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getLocalsOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -626,92 +626,92 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
                     } else {
                     }
                     node$iv$iv = stack$iv$iv;
-                    next$iv$iv = node3;
+                    next$iv$iv = node2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    key2 = 1;
-                    count$iv$iv++;
-                    if (count$iv$iv == key2) {
+                    key = 1;
+                    count$iv$iv2++;
+                    if (count$iv$iv2 == key) {
                     } else {
                     }
-                    if (node$iv$iv3 == 0) {
+                    if (node$iv$iv4 == 0) {
                     } else {
                     }
                     node$iv$iv = stack$iv$iv;
-                    i = count$iv$iv;
+                    i9 = count$iv$iv2;
                     capacity$iv$iv$iv$iv = 0;
-                    node$iv$iv5 = node$iv$iv3;
+                    node$iv$iv2 = node$iv$iv4;
                     node5 = node$iv$iv;
                     if (node5 != null) {
                     } else {
                     }
-                    node$iv$iv6 = node$iv$iv;
-                    if (node$iv$iv5 != 0) {
+                    node$iv$iv3 = node$iv$iv;
+                    if (node$iv$iv2 != 0) {
                     } else {
                     }
-                    next$iv$iv = node3;
-                    node$iv$iv3 = node$iv$iv5;
+                    next$iv$iv = node2;
+                    node$iv$iv4 = node$iv$iv2;
                     stack$iv$iv = theNode$iv$iv;
-                    count$iv$iv = i;
-                    node$iv$iv5.add(node3);
-                    if (node$iv$iv5 != 0) {
+                    count$iv$iv2 = i9;
+                    node$iv$iv2.add(node2);
+                    if (node$iv$iv2 != 0) {
                     }
-                    node$iv$iv6 = 0;
-                    node$iv$iv5.add(node5);
+                    node$iv$iv3 = 0;
+                    node$iv$iv2.add(node5);
                     this_$iv$iv$iv = 0;
                     i11 = 16;
-                    i5 = 0;
+                    i = 0;
                     node$iv$iv = stack$iv$iv;
-                    i = count$iv$iv;
-                    i6 = i11;
-                    node$iv$iv5 = new MutableVector(new Modifier.Node[i11], 0);
-                    stack$iv$iv = node3;
-                    next$iv$iv = node3;
-                    this_$iv$iv$iv = key2;
-                    count$iv$iv = key2;
-                    node2 = 0;
-                    i9 = node6;
-                    key = key2;
+                    i9 = count$iv$iv2;
+                    i7 = i11;
+                    node$iv$iv2 = new MutableVector(new Modifier.Node[i11], 0);
+                    stack$iv$iv = node2;
+                    next$iv$iv = node2;
+                    this_$iv$iv$iv = key;
+                    count$iv$iv2 = key;
+                    node3 = 0;
+                    i6 = node6;
+                    key2 = key;
                 }
-                key = key2;
-                obj = count$iv$iv2;
+                key2 = key;
+                obj = count$iv$iv;
                 if (kindSet$ui_release &= i16 != 0) {
                 } else {
                 }
-                key = key2;
-                obj = count$iv$iv2;
-                node$iv$iv4 = node$iv$iv4.getParent$ui_release();
-                stack$iv$iv = this;
-                count$iv$iv2 = obj;
                 key2 = key;
-                i7 = 0;
+                obj = count$iv$iv;
+                node$iv$iv5 = node$iv$iv5.getParent$ui_release();
+                stack$iv$iv = this;
+                count$iv$iv = obj;
+                key = key2;
+                i3 = 0;
                 i4 = 0;
-                node$iv$iv3 = 0;
+                node$iv$iv4 = 0;
                 i18 = 0;
-                stack$iv$iv = node$iv$iv2;
+                stack$iv$iv = node$iv$iv6;
                 while (stack$iv$iv != null) {
-                    node$iv$iv2 = count$iv$iv2;
-                    node2 = 0;
-                    if (kindSet$ui_release2 &= constructor-impl != 0) {
+                    node$iv$iv6 = count$iv$iv;
+                    node3 = 0;
+                    if (kindSet$ui_release2 &= $i$f$getLocalsOLwlOKw != 0) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    if (count$iv$iv != 0 && stack$iv$iv instanceof DelegatingNode) {
+                    count$iv$iv2 = 0;
+                    if (count$iv$iv2 != 0 && stack$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv3);
-                    count$iv$iv2 = node$iv$iv2;
-                    key2 = key;
+                    stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv4);
+                    count$iv$iv = node$iv$iv6;
+                    key = key2;
                     if (stack$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    i9 = 0;
+                    count$iv$iv2 = 0;
+                    i6 = 0;
                     node$iv$iv$iv = (DelegatingNode)stack$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node3 = node$iv$iv$iv;
-                        i8 = 0;
+                        node2 = node$iv$iv$iv;
                         i2 = 0;
-                        if (kindSet$ui_release3 &= constructor-impl != 0) {
+                        i5 = 0;
+                        if (kindSet$ui_release3 &= $i$f$getLocalsOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
@@ -719,60 +719,60 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
                         } else {
                         }
                         node$iv$iv = stack$iv$iv;
-                        next$iv$iv = node3;
+                        next$iv$iv = node2;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        key2 = 1;
-                        count$iv$iv++;
-                        if (count$iv$iv == key2) {
+                        key = 1;
+                        count$iv$iv2++;
+                        if (count$iv$iv2 == key) {
                         } else {
                         }
-                        if (node$iv$iv3 == 0) {
+                        if (node$iv$iv4 == 0) {
                         } else {
                         }
                         node$iv$iv = stack$iv$iv;
-                        i = count$iv$iv;
+                        i9 = count$iv$iv2;
                         capacity$iv$iv$iv$iv = 0;
-                        node$iv$iv5 = node$iv$iv3;
+                        node$iv$iv2 = node$iv$iv4;
                         node5 = node$iv$iv;
                         if (node5 != null) {
                         } else {
                         }
-                        node$iv$iv6 = node$iv$iv;
-                        if (node$iv$iv5 != 0) {
+                        node$iv$iv3 = node$iv$iv;
+                        if (node$iv$iv2 != 0) {
                         } else {
                         }
-                        next$iv$iv = node3;
-                        node$iv$iv3 = node$iv$iv5;
+                        next$iv$iv = node2;
+                        node$iv$iv4 = node$iv$iv2;
                         stack$iv$iv = theNode$iv$iv;
-                        count$iv$iv = i;
-                        node$iv$iv5.add(node3);
-                        if (node$iv$iv5 != 0) {
+                        count$iv$iv2 = i9;
+                        node$iv$iv2.add(node2);
+                        if (node$iv$iv2 != 0) {
                         }
-                        node$iv$iv6 = 0;
-                        node$iv$iv5.add(node5);
+                        node$iv$iv3 = 0;
+                        node$iv$iv2.add(node5);
                         this_$iv$iv$iv = 0;
                         i11 = 16;
-                        i5 = 0;
+                        i = 0;
                         node$iv$iv = stack$iv$iv;
-                        i = count$iv$iv;
-                        i6 = i11;
-                        node$iv$iv5 = new MutableVector(new Modifier.Node[i11], 0);
-                        stack$iv$iv = node3;
-                        next$iv$iv = node3;
-                        this_$iv$iv$iv = key2;
+                        i9 = count$iv$iv2;
+                        i7 = i11;
+                        node$iv$iv2 = new MutableVector(new Modifier.Node[i11], 0);
+                        stack$iv$iv = node2;
+                        next$iv$iv = node2;
+                        this_$iv$iv$iv = key;
                     }
                     node$iv$iv = stack$iv$iv;
-                    if (count$iv$iv == 1) {
+                    if (count$iv$iv2 == 1) {
                     } else {
                     }
                     stack$iv$iv = node$iv$iv;
-                    count$iv$iv2 = node$iv$iv2;
-                    key2 = key;
+                    count$iv$iv = node$iv$iv6;
+                    key = key2;
                     stack$iv$iv = node$iv$iv;
-                    node3 = node$iv$iv$iv;
-                    i8 = 0;
+                    node2 = node$iv$iv$iv;
                     i2 = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getLocalsOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -780,77 +780,77 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
                     } else {
                     }
                     node$iv$iv = stack$iv$iv;
-                    next$iv$iv = node3;
+                    next$iv$iv = node2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    key2 = 1;
-                    count$iv$iv++;
-                    if (count$iv$iv == key2) {
+                    key = 1;
+                    count$iv$iv2++;
+                    if (count$iv$iv2 == key) {
                     } else {
                     }
-                    if (node$iv$iv3 == 0) {
+                    if (node$iv$iv4 == 0) {
                     } else {
                     }
                     node$iv$iv = stack$iv$iv;
-                    i = count$iv$iv;
+                    i9 = count$iv$iv2;
                     capacity$iv$iv$iv$iv = 0;
-                    node$iv$iv5 = node$iv$iv3;
+                    node$iv$iv2 = node$iv$iv4;
                     node5 = node$iv$iv;
                     if (node5 != null) {
                     } else {
                     }
-                    node$iv$iv6 = node$iv$iv;
-                    if (node$iv$iv5 != 0) {
+                    node$iv$iv3 = node$iv$iv;
+                    if (node$iv$iv2 != 0) {
                     } else {
                     }
-                    next$iv$iv = node3;
-                    node$iv$iv3 = node$iv$iv5;
+                    next$iv$iv = node2;
+                    node$iv$iv4 = node$iv$iv2;
                     stack$iv$iv = theNode$iv$iv;
-                    count$iv$iv = i;
-                    node$iv$iv5.add(node3);
-                    if (node$iv$iv5 != 0) {
+                    count$iv$iv2 = i9;
+                    node$iv$iv2.add(node2);
+                    if (node$iv$iv2 != 0) {
                     }
-                    node$iv$iv6 = 0;
-                    node$iv$iv5.add(node5);
+                    node$iv$iv3 = 0;
+                    node$iv$iv2.add(node5);
                     this_$iv$iv$iv = 0;
                     i11 = 16;
-                    i5 = 0;
+                    i = 0;
                     node$iv$iv = stack$iv$iv;
-                    i = count$iv$iv;
-                    i6 = i11;
-                    node$iv$iv5 = new MutableVector(new Modifier.Node[i11], 0);
-                    stack$iv$iv = node3;
-                    next$iv$iv = node3;
-                    this_$iv$iv$iv = key2;
-                    count$iv$iv = key2;
-                    node2 = 0;
-                    i9 = node6;
-                    key = key2;
+                    i9 = count$iv$iv2;
+                    i7 = i11;
+                    node$iv$iv2 = new MutableVector(new Modifier.Node[i11], 0);
+                    stack$iv$iv = node2;
+                    next$iv$iv = node2;
+                    this_$iv$iv$iv = key;
+                    count$iv$iv2 = key;
+                    node3 = 0;
+                    i6 = node6;
+                    key2 = key;
                 }
-                key = key2;
-                obj = count$iv$iv2;
-                node$iv$iv2 = count$iv$iv2;
-                node2 = 0;
-                if (kindSet$ui_release2 &= constructor-impl != 0) {
-                } else {
-                }
-                count$iv$iv = 0;
-                if (count$iv$iv != 0 && stack$iv$iv instanceof DelegatingNode) {
-                } else {
-                }
-                stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv3);
-                count$iv$iv2 = node$iv$iv2;
                 key2 = key;
+                obj = count$iv$iv;
+                node$iv$iv6 = count$iv$iv;
+                node3 = 0;
+                if (kindSet$ui_release2 &= $i$f$getLocalsOLwlOKw != 0) {
+                } else {
+                }
+                count$iv$iv2 = 0;
+                if (count$iv$iv2 != 0 && stack$iv$iv instanceof DelegatingNode) {
+                } else {
+                }
+                stack$iv$iv = DelegatableNodeKt.access$pop(node$iv$iv4);
+                count$iv$iv = node$iv$iv6;
+                key = key2;
                 if (stack$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv = 0;
-                i9 = 0;
+                count$iv$iv2 = 0;
+                i6 = 0;
                 node$iv$iv$iv = (DelegatingNode)stack$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
-                    node3 = node$iv$iv$iv;
-                    i8 = 0;
+                    node2 = node$iv$iv$iv;
                     i2 = 0;
-                    if (kindSet$ui_release3 &= constructor-impl != 0) {
+                    i5 = 0;
+                    if (kindSet$ui_release3 &= $i$f$getLocalsOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
@@ -858,60 +858,60 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
                     } else {
                     }
                     node$iv$iv = stack$iv$iv;
-                    next$iv$iv = node3;
+                    next$iv$iv = node2;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    key2 = 1;
-                    count$iv$iv++;
-                    if (count$iv$iv == key2) {
+                    key = 1;
+                    count$iv$iv2++;
+                    if (count$iv$iv2 == key) {
                     } else {
                     }
-                    if (node$iv$iv3 == 0) {
+                    if (node$iv$iv4 == 0) {
                     } else {
                     }
                     node$iv$iv = stack$iv$iv;
-                    i = count$iv$iv;
+                    i9 = count$iv$iv2;
                     capacity$iv$iv$iv$iv = 0;
-                    node$iv$iv5 = node$iv$iv3;
+                    node$iv$iv2 = node$iv$iv4;
                     node5 = node$iv$iv;
                     if (node5 != null) {
                     } else {
                     }
-                    node$iv$iv6 = node$iv$iv;
-                    if (node$iv$iv5 != 0) {
+                    node$iv$iv3 = node$iv$iv;
+                    if (node$iv$iv2 != 0) {
                     } else {
                     }
-                    next$iv$iv = node3;
-                    node$iv$iv3 = node$iv$iv5;
+                    next$iv$iv = node2;
+                    node$iv$iv4 = node$iv$iv2;
                     stack$iv$iv = theNode$iv$iv;
-                    count$iv$iv = i;
-                    node$iv$iv5.add(node3);
-                    if (node$iv$iv5 != 0) {
+                    count$iv$iv2 = i9;
+                    node$iv$iv2.add(node2);
+                    if (node$iv$iv2 != 0) {
                     }
-                    node$iv$iv6 = 0;
-                    node$iv$iv5.add(node5);
+                    node$iv$iv3 = 0;
+                    node$iv$iv2.add(node5);
                     this_$iv$iv$iv = 0;
                     i11 = 16;
-                    i5 = 0;
+                    i = 0;
                     node$iv$iv = stack$iv$iv;
-                    i = count$iv$iv;
-                    i6 = i11;
-                    node$iv$iv5 = new MutableVector(new Modifier.Node[i11], 0);
-                    stack$iv$iv = node3;
-                    next$iv$iv = node3;
-                    this_$iv$iv$iv = key2;
+                    i9 = count$iv$iv2;
+                    i7 = i11;
+                    node$iv$iv2 = new MutableVector(new Modifier.Node[i11], 0);
+                    stack$iv$iv = node2;
+                    next$iv$iv = node2;
+                    this_$iv$iv$iv = key;
                 }
                 node$iv$iv = stack$iv$iv;
-                if (count$iv$iv == 1) {
+                if (count$iv$iv2 == 1) {
                 } else {
                 }
                 stack$iv$iv = node$iv$iv;
-                count$iv$iv2 = node$iv$iv2;
-                key2 = key;
+                count$iv$iv = node$iv$iv6;
+                key = key2;
                 stack$iv$iv = node$iv$iv;
-                node3 = node$iv$iv$iv;
-                i8 = 0;
+                node2 = node$iv$iv$iv;
                 i2 = 0;
-                if (kindSet$ui_release3 &= constructor-impl != 0) {
+                i5 = 0;
+                if (kindSet$ui_release3 &= $i$f$getLocalsOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
@@ -919,58 +919,58 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
                 } else {
                 }
                 node$iv$iv = stack$iv$iv;
-                next$iv$iv = node3;
+                next$iv$iv = node2;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                key2 = 1;
-                count$iv$iv++;
-                if (count$iv$iv == key2) {
+                key = 1;
+                count$iv$iv2++;
+                if (count$iv$iv2 == key) {
                 } else {
                 }
-                if (node$iv$iv3 == 0) {
+                if (node$iv$iv4 == 0) {
                 } else {
                 }
                 node$iv$iv = stack$iv$iv;
-                i = count$iv$iv;
+                i9 = count$iv$iv2;
                 capacity$iv$iv$iv$iv = 0;
-                node$iv$iv5 = node$iv$iv3;
+                node$iv$iv2 = node$iv$iv4;
                 node5 = node$iv$iv;
                 if (node5 != null) {
                 } else {
                 }
-                node$iv$iv6 = node$iv$iv;
-                if (node$iv$iv5 != 0) {
+                node$iv$iv3 = node$iv$iv;
+                if (node$iv$iv2 != 0) {
                 } else {
                 }
-                next$iv$iv = node3;
-                node$iv$iv3 = node$iv$iv5;
+                next$iv$iv = node2;
+                node$iv$iv4 = node$iv$iv2;
                 stack$iv$iv = theNode$iv$iv;
-                count$iv$iv = i;
-                node$iv$iv5.add(node3);
-                if (node$iv$iv5 != 0) {
+                count$iv$iv2 = i9;
+                node$iv$iv2.add(node2);
+                if (node$iv$iv2 != 0) {
                 }
-                node$iv$iv6 = 0;
-                node$iv$iv5.add(node5);
+                node$iv$iv3 = 0;
+                node$iv$iv2.add(node5);
                 this_$iv$iv$iv = 0;
                 i11 = 16;
-                i5 = 0;
+                i = 0;
                 node$iv$iv = stack$iv$iv;
-                i = count$iv$iv;
-                i6 = i11;
-                node$iv$iv5 = new MutableVector(new Modifier.Node[i11], 0);
-                stack$iv$iv = node3;
-                next$iv$iv = node3;
-                this_$iv$iv$iv = key2;
-                count$iv$iv = key2;
-                node2 = 0;
-                i9 = node6;
-                key = key2;
+                i9 = count$iv$iv2;
+                i7 = i11;
+                node$iv$iv2 = new MutableVector(new Modifier.Node[i11], 0);
+                stack$iv$iv = node2;
+                next$iv$iv = node2;
+                this_$iv$iv$iv = key;
+                count$iv$iv2 = key;
+                node3 = 0;
+                i6 = node6;
+                key2 = key;
             }
-            return key2.getDefaultFactory$ui_release().invoke();
+            return key.getDefaultFactory$ui_release().invoke();
         }
-        Object key4 = key2;
+        Object key4 = key;
         int i10 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("visitAncestors called on an unattached node".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv = new IllegalStateException("visitAncestors called on an unattached node".toString());
+        throw $i$a$CheckDelegatableNodeKt$visitAncestors$1$iv$iv;
     }
 
     @Override // androidx.compose.ui.Modifier$Node
@@ -1005,8 +1005,8 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
     @Override // androidx.compose.ui.Modifier$Node
     public long getSize-NH-jbRc() {
         int i = 0;
-        int constructor-impl = NodeKind.constructor-impl(128);
-        return IntSizeKt.toSize-ozmzZPI(DelegatableNodeKt.requireCoordinator-64DMado((DelegatableNode)this, constructor-impl).getSize-YbymL2g());
+        int $i$f$getLayoutAwareOLwlOKw = NodeKind.constructor-impl(128);
+        return IntSizeKt.toSize-ozmzZPI(DelegatableNodeKt.requireCoordinator-64DMado((DelegatableNode)this, $i$f$getLayoutAwareOLwlOKw).getSize-YbymL2g());
     }
 
     @Override // androidx.compose.ui.Modifier$Node
@@ -1096,7 +1096,7 @@ public final class BackwardsCompatNode extends Modifier.Node implements androidx
 
     @Override // androidx.compose.ui.Modifier$Node
     public void onFocusEvent(FocusState focusState) {
-        String str;
+        String $i$a$CheckPreconditionBackwardsCompatNode$onFocusEvent$1;
         final Modifier.Element element = this.element;
         final int i = 0;
         if (!element instanceof FocusEventModifier) {

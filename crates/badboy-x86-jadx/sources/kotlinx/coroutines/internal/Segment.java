@@ -63,25 +63,25 @@ public abstract class Segment<S extends kotlinx.coroutines.internal.Segment<S>> 
     public final boolean tryIncPointers$kotlinx_coroutines_core() {
         int i4;
         boolean it;
-        int i3;
-        boolean numberOfSlots;
         int i;
+        boolean numberOfSlots;
         int i2;
+        int i3;
         final AtomicIntegerFieldUpdater cleanedAndPointers$FU = Segment.cleanedAndPointers$FU;
         final int i6 = 0;
         i4 = cleanedAndPointers$FU.get(this);
-        i3 = 0;
-        i2 = 1;
+        i = 0;
+        i3 = 1;
         while (i4 == getNumberOfSlots()) {
             if (isTail()) {
             } else {
             }
-            it = i;
-            i4 = cleanedAndPointers$FU.get(this);
-            i3 = 0;
-            i2 = 1;
             it = i2;
+            i4 = cleanedAndPointers$FU.get(this);
+            i = 0;
+            i3 = 1;
+            it = i3;
         }
-        return i;
+        return i2;
     }
 }

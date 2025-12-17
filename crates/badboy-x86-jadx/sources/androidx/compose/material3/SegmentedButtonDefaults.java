@@ -53,18 +53,18 @@ public final class SegmentedButtonDefaults {
     }
 
     public final void ActiveIcon(Composer $composer, int $changed) {
-        int traceInProgress2;
+        int traceInProgress;
         int i3;
         int skipping;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int str;
         Modifier size-3ABfNKs;
         int i2;
         int i4;
         int i;
         int obj10;
-        traceInProgress2 = -1273041460;
-        final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -1273041460;
+        final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(ActiveIcon)546@24428L147:SegmentedButton.kt#uh7d8r");
         str = 2;
         if ($changed & 6 == 0) {
@@ -74,7 +74,7 @@ public final class SegmentedButtonDefaults {
         if (obj10 & 3 == str) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, obj10, -1, "androidx.compose.material3.SegmentedButtonDefaults.ActiveIcon (SegmentedButton.kt:545)");
+                    ComposerKt.traceEventStart(traceInProgress, obj10, -1, "androidx.compose.material3.SegmentedButtonDefaults.ActiveIcon (SegmentedButton.kt:545)");
                 }
                 IconKt.Icon-ww6aTOc(CheckKt.getCheck(Icons.Filled.INSTANCE), 0, SizeKt.size-3ABfNKs((Modifier)Modifier.Companion, SegmentedButtonDefaults.IconSize), 0, obj5, restartGroup, 48);
                 if (ComposerKt.isTraceInProgress()) {
@@ -94,79 +94,79 @@ public final class SegmentedButtonDefaults {
 
     public final void Icon(boolean active, Function2<? super Composer, ? super Integer, Unit> activeContent, Function2<? super Composer, ? super Integer, Unit> inactiveContent, Composer $composer, int $changed, int i6) {
         Object rememberComposableLambda;
-        int traceInProgress;
-        int $dirty;
+        int traceInProgress2;
         int $dirty2;
+        int $dirty;
         boolean z;
-        int i2;
+        int i5;
         Object obj;
-        int i3;
+        int i4;
         Object inactiveContent2;
         Object obj2;
-        boolean traceInProgress2;
-        int i4;
+        boolean traceInProgress;
+        int i;
         int str;
         Object plus;
         int i8;
         ExitTransition none;
-        int i;
+        int i7;
         Composer restartGroup;
         Composer composer;
-        int i7;
-        int i5;
+        int i3;
+        int i2;
         Object obj18;
         final int i15 = $changed;
-        traceInProgress = 683517296;
-        restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = 683517296;
+        restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(Icon):SegmentedButton.kt#uh7d8r");
-        $dirty = $changed;
+        $dirty2 = $changed;
         int i12 = 2;
         if (i6 & 1 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
             z = active;
         } else {
             if (i15 & 6 == 0) {
-                i3 = restartGroup.changed(active) ? 4 : i12;
-                $dirty |= i3;
+                i4 = restartGroup.changed(active) ? 4 : i12;
+                $dirty2 |= i4;
             } else {
                 z = active;
             }
         }
         int i14 = i6 & 2;
         if (i14 != 0) {
-            $dirty |= 48;
+            $dirty2 |= 48;
             obj2 = activeContent;
         } else {
             if (i15 & 48 == 0) {
-                i4 = restartGroup.changedInstance(activeContent) ? 32 : 16;
-                $dirty |= i4;
+                i = restartGroup.changedInstance(activeContent) ? 32 : 16;
+                $dirty2 |= i;
             } else {
                 obj2 = activeContent;
             }
         }
         str = i6 & 4;
         if (str != null) {
-            $dirty |= 384;
+            $dirty2 |= 384;
             plus = inactiveContent;
         } else {
             if (i15 & 384 == 0) {
                 i8 = restartGroup.changedInstance(inactiveContent) ? 256 : 128;
-                $dirty |= i8;
+                $dirty2 |= i8;
             } else {
                 plus = inactiveContent;
             }
         }
-        final int i28 = $dirty;
+        final int i28 = $dirty2;
         if (i28 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (i14 != 0) {
-                    $dirty2 = ComposableSingletons.SegmentedButtonKt.INSTANCE.getLambda-1$material3_release();
+                    $dirty = ComposableSingletons.SegmentedButtonKt.INSTANCE.getLambda-1$material3_release();
                 } else {
-                    $dirty2 = obj2;
+                    $dirty = obj2;
                 }
                 inactiveContent2 = str != null ? 0 : plus;
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, i28, -1, "androidx.compose.material3.SegmentedButtonDefaults.Icon (SegmentedButton.kt:566)");
+                    ComposerKt.traceEventStart(traceInProgress2, i28, -1, "androidx.compose.material3.SegmentedButtonDefaults.Icon (SegmentedButton.kt:566)");
                 }
                 int i17 = 1;
                 if (inactiveContent2 == null) {
@@ -174,24 +174,24 @@ public final class SegmentedButtonDefaults {
                     ComposerKt.sourceInformation(restartGroup, "578@25645L47,568@25168L524");
                     int i20 = 350;
                     int i24 = 0;
-                    i = 0;
+                    i7 = 0;
                     int i25 = 6;
                     int i27 = 0;
-                    SegmentedButtonDefaults.Icon.1 anon = new SegmentedButtonDefaults.Icon.1($dirty2);
+                    SegmentedButtonDefaults.Icon.1 anon = new SegmentedButtonDefaults.Icon.1($dirty);
                     composer = restartGroup;
-                    AnimatedVisibilityKt.AnimatedVisibility(z, 0, EnterExitTransitionKt.fadeIn$default((FiniteAnimationSpec)AnimationSpecKt.tween$default(i20, i24, i, i25, i), i27, i12, i).plus(EnterExitTransitionKt.scaleIn-L8ZKh-E((FiniteAnimationSpec)AnimationSpecKt.tween$default(i20, i24, i, i25, i), i27, TransformOriginKt.TransformOrigin(i27, 1065353216))), ExitTransition.Companion.getNone(), i, (Function3)ComposableLambdaKt.rememberComposableLambda(-750750819, i17, anon, restartGroup, 54), composer, i18 | i2, 18);
+                    AnimatedVisibilityKt.AnimatedVisibility(z, 0, EnterExitTransitionKt.fadeIn$default((FiniteAnimationSpec)AnimationSpecKt.tween$default(i20, i24, i7, i25, i7), i27, i12, i7).plus(EnterExitTransitionKt.scaleIn-L8ZKh-E((FiniteAnimationSpec)AnimationSpecKt.tween$default(i20, i24, i7, i25, i7), i27, TransformOriginKt.TransformOrigin(i27, 1065353216))), ExitTransition.Companion.getNone(), i7, (Function3)ComposableLambdaKt.rememberComposableLambda(-750750819, i17, anon, restartGroup, 54), composer, i18 | i5, 18);
                     composer.endReplaceGroup();
                 } else {
                     restartGroup.startReplaceGroup(1631842116);
                     ComposerKt.sourceInformation(restartGroup, "582@25754L50,582@25722L82");
-                    SegmentedButtonDefaults.Icon.2 anon2 = new SegmentedButtonDefaults.Icon.2($dirty2, inactiveContent2);
+                    SegmentedButtonDefaults.Icon.2 anon2 = new SegmentedButtonDefaults.Icon.2($dirty, inactiveContent2);
                     CrossfadeKt.Crossfade(Boolean.valueOf(active), 0, 0, 0, (Function3)ComposableLambdaKt.rememberComposableLambda(-1364873619, i17, anon2, restartGroup, 54), restartGroup, z | 24576, 14);
                     restartGroup.endReplaceGroup();
                 }
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = $dirty2;
+                obj = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
                 obj = obj2;
@@ -201,8 +201,8 @@ public final class SegmentedButtonDefaults {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new SegmentedButtonDefaults.Icon.3(this, active, obj, inactiveContent2, i15, i6);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new SegmentedButtonDefaults.Icon.3(this, active, obj, inactiveContent2, i15, i6);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -228,94 +228,94 @@ public final class SegmentedButtonDefaults {
     public final androidx.compose.material3.SegmentedButtonColors colors-XqyqHi0(long activeContainerColor, long activeContentColor, long activeBorderColor, long inactiveContainerColor, long inactiveContentColor, long inactiveBorderColor, long disabledActiveContainerColor, long disabledActiveContentColor, long disabledActiveBorderColor, long disabledInactiveContainerColor, long disabledInactiveContentColor, long disabledInactiveBorderColor, Composer $composer, int $changed, int $changed1, int i16) {
         Color.Companion companion;
         String traceInProgress;
-        int unspecified-0d7_KjU2;
         int unspecified-0d7_KjU;
-        int unspecified-0d7_KjU8;
         int unspecified-0d7_KjU11;
+        int unspecified-0d7_KjU5;
+        int unspecified-0d7_KjU2;
+        int unspecified-0d7_KjU7;
         int unspecified-0d7_KjU10;
         int unspecified-0d7_KjU4;
-        int unspecified-0d7_KjU9;
-        long unspecified-0d7_KjU6;
         long unspecified-0d7_KjU3;
-        long unspecified-0d7_KjU7;
-        long unspecified-0d7_KjU5;
+        long unspecified-0d7_KjU9;
+        long unspecified-0d7_KjU8;
+        long unspecified-0d7_KjU6;
         int i2;
         int i;
-        long l3;
+        long l2;
         long l9;
         long l5;
-        long l4;
-        long l;
+        long l12;
         long l6;
         long l7;
-        long l11;
+        long l3;
+        long l4;
         long l8;
-        long l2;
         long l10;
-        long l12;
+        long l11;
+        long l;
         final Composer composer = obj55;
         int i3 = obj58;
         int i4 = 132526205;
         ComposerKt.sourceInformationMarkerStart(composer, i4, "C(colors)P(1:c#ui.graphics.Color,2:c#ui.graphics.Color,0:c#ui.graphics.Color,10:c#ui.graphics.Color,11:c#ui.graphics.Color,9:c#ui.graphics.Color,4:c#ui.graphics.Color,5:c#ui.graphics.Color,3:c#ui.graphics.Color,7:c#ui.graphics.Color,8:c#ui.graphics.Color,6:c#ui.graphics.Color)467@20709L11:SegmentedButton.kt#uh7d8r");
         if (i3 & 1 != 0) {
-            l3 = unspecified-0d7_KjU2;
+            l2 = unspecified-0d7_KjU;
         } else {
-            l3 = activeContainerColor;
+            l2 = activeContainerColor;
         }
         if (i3 & 2 != 0) {
-            l9 = unspecified-0d7_KjU;
+            l9 = unspecified-0d7_KjU11;
         } else {
             l9 = activeBorderColor;
         }
         if (i3 & 4 != 0) {
-            l5 = unspecified-0d7_KjU8;
+            l5 = unspecified-0d7_KjU5;
         } else {
             l5 = inactiveContentColor;
         }
         if (i3 & 8 != 0) {
-            l4 = unspecified-0d7_KjU11;
+            l12 = unspecified-0d7_KjU2;
         } else {
-            l4 = disabledActiveContainerColor;
+            l12 = disabledActiveContainerColor;
         }
         if (i3 & 16 != 0) {
-            l = unspecified-0d7_KjU10;
+            l6 = unspecified-0d7_KjU7;
         } else {
-            l = disabledActiveBorderColor;
+            l6 = disabledActiveBorderColor;
         }
         if (i3 & 32 != 0) {
-            l6 = unspecified-0d7_KjU4;
+            l7 = unspecified-0d7_KjU10;
         } else {
-            l6 = disabledInactiveContentColor;
+            l7 = disabledInactiveContentColor;
         }
         if (i3 & 64 != 0) {
-            l7 = unspecified-0d7_KjU9;
+            l3 = unspecified-0d7_KjU4;
         } else {
-            l7 = $composer;
+            l3 = $composer;
         }
         if (i3 & 128 != 0) {
-            l11 = unspecified-0d7_KjU6;
+            l4 = unspecified-0d7_KjU3;
         } else {
-            l11 = $changed1;
+            l4 = $changed1;
         }
         if (i3 & 256 != 0) {
-            l8 = unspecified-0d7_KjU3;
+            l8 = unspecified-0d7_KjU9;
         } else {
             l8 = obj47;
         }
         if (i3 & 512 != 0) {
-            l2 = unspecified-0d7_KjU7;
+            l10 = unspecified-0d7_KjU8;
         } else {
-            l2 = obj49;
+            l10 = obj49;
         }
         if (i3 & 1024 != 0) {
-            l10 = unspecified-0d7_KjU5;
+            l11 = unspecified-0d7_KjU6;
         } else {
-            l10 = obj51;
+            l11 = obj51;
         }
         if (i3 &= 2048 != 0) {
-            l12 = unspecified-0d7_KjU5;
+            l = unspecified-0d7_KjU6;
         } else {
-            l12 = obj53;
+            l = obj53;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i4, obj56, obj57, "androidx.compose.material3.SegmentedButtonDefaults.colors (SegmentedButton.kt:467)");
@@ -327,7 +327,7 @@ public final class SegmentedButtonDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return this.getDefaultSegmentedButtonColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-2qZNXz8(l3, obj7, l9, obj9, l5, obj11, l4, obj13, l, obj15, l6, obj17);
+        return this.getDefaultSegmentedButtonColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-2qZNXz8(l2, obj7, l9, obj9, l5, obj11, l12, obj13, l6, obj15, l7, obj17);
     }
 
     public final CornerBasedShape getBaseShape(Composer $composer, int $changed) {
@@ -354,31 +354,31 @@ public final class SegmentedButtonDefaults {
     public final androidx.compose.material3.SegmentedButtonColors getDefaultSegmentedButtonColors$material3_release(androidx.compose.material3.ColorScheme $this$defaultSegmentedButtonColors) {
         androidx.compose.material3.SegmentedButtonColors defaultSegmentedButtonColorsCached$material3_release;
         androidx.compose.material3.SegmentedButtonColors segmentedButtonColors;
-        int i4;
-        long token4;
-        long token7;
-        long surface-0d7_KjU;
-        long token6;
-        long token2;
-        long token5;
-        long copy-wmQWz5c$default2;
-        long copy-wmQWz5c$default;
-        int i2;
-        long surface-0d7_KjU2;
-        int i3;
-        long token3;
-        int i6;
-        long token;
         int i5;
+        long token4;
+        long token6;
+        long surface-0d7_KjU2;
+        long token7;
+        long token2;
+        long token;
+        long copy-wmQWz5c$default;
+        long copy-wmQWz5c$default2;
+        int i2;
+        long surface-0d7_KjU;
+        int i6;
+        long token5;
         int i;
+        long token3;
+        int i3;
+        int i4;
         final androidx.compose.material3.ColorScheme colorScheme = $this$defaultSegmentedButtonColors;
         if (colorScheme.getDefaultSegmentedButtonColorsCached$material3_release() == null) {
             i2 = 0;
-            i3 = 0;
-            i5 = 0;
             i6 = 0;
-            segmentedButtonColors = new SegmentedButtonColors(ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getSelectedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getSelectedLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getOutlineColor()), obj8, colorScheme.getSurface-0d7_KjU(), obj10, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getUnselectedLabelTextColor()), obj12, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getOutlineColor()), obj14, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getSelectedContainerColor()), obj16, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getDisabledLabelTextColor()), obj18, OutlinedSegmentedButtonTokens.INSTANCE.getDisabledLabelTextOpacity(), i2, 0, i3, 14), obj18, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getOutlineColor()), i2, OutlinedSegmentedButtonTokens.INSTANCE.getDisabledOutlineOpacity(), i3, 0, i6, 14), i2, colorScheme.getSurface-0d7_KjU(), i3, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getDisabledLabelTextColor()), i6, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getOutlineColor()), i5, 0);
-            i4 = 0;
+            i3 = 0;
+            i = 0;
+            segmentedButtonColors = new SegmentedButtonColors(ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getSelectedContainerColor()), obj4, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getSelectedLabelTextColor()), obj6, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getOutlineColor()), obj8, colorScheme.getSurface-0d7_KjU(), obj10, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getUnselectedLabelTextColor()), obj12, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getOutlineColor()), obj14, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getSelectedContainerColor()), obj16, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getDisabledLabelTextColor()), obj18, OutlinedSegmentedButtonTokens.INSTANCE.getDisabledLabelTextOpacity(), i2, 0, i6, 14), obj18, Color.copy-wmQWz5c$default(ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getOutlineColor()), i2, OutlinedSegmentedButtonTokens.INSTANCE.getDisabledOutlineOpacity(), i6, 0, i, 14), i2, colorScheme.getSurface-0d7_KjU(), i6, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getDisabledLabelTextColor()), i, ColorSchemeKt.fromToken(colorScheme, OutlinedSegmentedButtonTokens.INSTANCE.getOutlineColor()), i3, 0);
+            i5 = 0;
             colorScheme.setDefaultSegmentedButtonColorsCached$material3_release(segmentedButtonColors);
         }
         return defaultSegmentedButtonColorsCached$material3_release;

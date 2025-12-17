@@ -43,100 +43,100 @@ public final class SerialModuleImpl extends kotlinx.serialization.modules.Serial
 
     @Override // kotlinx.serialization.modules.SerializersModule
     public void dumpTo(kotlinx.serialization.modules.SerializersModuleCollector collector) {
-        Map $this$forEach$iv2;
-        int i4;
-        Object next;
-        boolean next3;
-        boolean next4;
-        boolean next5;
-        KSerializer serializer;
-        int beforeCheckcastToFunctionOfArity;
-        Object key;
-        Object value3;
-        String value;
-        int beforeCheckcastToFunctionOfArity2;
-        Iterator iterator;
-        boolean next2;
-        int i3;
-        Object key2;
-        Object value2;
-        Object obj;
-        int i;
         Map $this$forEach$iv;
+        int i;
+        Object next5;
+        boolean next;
+        boolean next4;
+        boolean next2;
+        KSerializer serializer;
+        int beforeCheckcastToFunctionOfArity2;
+        Object key;
+        Object value;
+        String value2;
+        int beforeCheckcastToFunctionOfArity;
+        Iterator iterator;
+        boolean next3;
         int i2;
+        Object key2;
+        Object value3;
+        Object obj;
+        int i4;
+        Map $this$forEach$iv2;
+        int i3;
         final Object obj2 = this;
         final Object obj3 = collector;
         Intrinsics.checkNotNullParameter(obj3, "collector");
         int i5 = 0;
         Iterator iterator2 = obj2.class2ContextualFactory.entrySet().iterator();
         String str2 = "null cannot be cast to non-null type kotlin.reflect.KClass<kotlin.Any>";
-        for (Map.Entry next : iterator2) {
-            beforeCheckcastToFunctionOfArity = 0;
-            key = next.getKey();
-            value3 = next.getValue();
-            obj3.contextual((KClass)key, (ContextualProvider.WithTypeArguments)(ContextualProvider)value3.getProvider());
+        for (Map.Entry next5 : iterator2) {
+            beforeCheckcastToFunctionOfArity2 = 0;
+            key = next5.getKey();
+            value = next5.getValue();
+            obj3.contextual((KClass)key, (ContextualProvider.WithTypeArguments)(ContextualProvider)value.getProvider());
             str2 = "null cannot be cast to non-null type kotlin.reflect.KClass<kotlin.Any>";
             Intrinsics.checkNotNull(key, str2);
-            serializer = (ContextualProvider.Argless)value3.getSerializer();
+            serializer = (ContextualProvider.Argless)value.getSerializer();
             Intrinsics.checkNotNull(serializer, "null cannot be cast to non-null type kotlinx.serialization.KSerializer<kotlin.Any>");
             obj3.contextual(key, serializer);
         }
-        i4 = 0;
+        i = 0;
         Iterator iterator3 = obj2.polyBase2Serializers.entrySet().iterator();
-        for (Map.Entry next3 : iterator3) {
-            beforeCheckcastToFunctionOfArity = 0;
-            key = next3.getKey();
+        for (Map.Entry next : iterator3) {
             beforeCheckcastToFunctionOfArity2 = 0;
-            iterator = (Map)next3.getValue().entrySet().iterator();
-            for (Map.Entry next2 : iterator) {
-                i3 = 0;
-                key2 = next2.getKey();
+            key = next.getKey();
+            beforeCheckcastToFunctionOfArity = 0;
+            iterator = (Map)next.getValue().entrySet().iterator();
+            for (Map.Entry next3 : iterator) {
+                i2 = 0;
+                key2 = next3.getKey();
                 Intrinsics.checkNotNull((KClass)key, str2);
                 Intrinsics.checkNotNull((KClass)key2, str2);
-                i = 0;
+                i4 = 0;
                 Object $i$f$forEach = obj;
                 Intrinsics.checkNotNull($i$f$forEach, "null cannot be cast to non-null type kotlinx.serialization.KSerializer<T of kotlinx.serialization.internal.Platform_commonKt.cast>");
                 obj3.polymorphic(key, key2, $i$f$forEach);
-                $this$forEach$iv2 = $this$forEach$iv;
-                i4 = i2;
+                $this$forEach$iv = $this$forEach$iv2;
+                i = i3;
             }
-            $this$forEach$iv = $this$forEach$iv2;
-            i2 = i4;
-            next2 = iterator.next();
-            i3 = 0;
-            key2 = (Map.Entry)next2.getKey();
+            $this$forEach$iv2 = $this$forEach$iv;
+            i3 = i;
+            next3 = iterator.next();
+            i2 = 0;
+            key2 = (Map.Entry)next3.getKey();
             Intrinsics.checkNotNull(key, str2);
             Intrinsics.checkNotNull((KClass)key2, str2);
-            i = 0;
+            i4 = 0;
             $i$f$forEach = obj;
             Intrinsics.checkNotNull($i$f$forEach, "null cannot be cast to non-null type kotlinx.serialization.KSerializer<T of kotlinx.serialization.internal.Platform_commonKt.cast>");
             obj3.polymorphic(key, key2, $i$f$forEach);
-            $this$forEach$iv2 = $this$forEach$iv;
-            i4 = i2;
+            $this$forEach$iv = $this$forEach$iv2;
+            i = i3;
         }
-        Map $this$forEach$iv6 = $this$forEach$iv2;
-        int i9 = i4;
+        Map $this$forEach$iv6 = $this$forEach$iv;
+        int i9 = i;
         int i6 = 0;
         Iterator iterator4 = obj2.polyBase2DefaultSerializerProvider.entrySet().iterator();
         int i8 = 1;
         for (Map.Entry next4 : iterator4) {
             key = 0;
-            value3 = next4.getKey();
-            value = next4.getValue();
-            Intrinsics.checkNotNull((KClass)value3, str2);
-            Intrinsics.checkNotNull((Function1)value, "null cannot be cast to non-null type kotlin.Function1<@[ParameterName(name = \"value\")] kotlin.Any, kotlinx.serialization.SerializationStrategy<kotlin.Any>?>");
-            obj3.polymorphicDefaultSerializer(value3, (Function1)TypeIntrinsics.beforeCheckcastToFunctionOfArity(value, i8));
+            value = next4.getKey();
+            value2 = next4.getValue();
+            Intrinsics.checkNotNull((KClass)value, str2);
+            Intrinsics.checkNotNull((Function1)value2, "null cannot be cast to non-null type kotlin.Function1<@[ParameterName(name = \"value\")] kotlin.Any, kotlinx.serialization.SerializationStrategy<kotlin.Any>?>");
+            obj3.polymorphicDefaultSerializer(value, (Function1)TypeIntrinsics.beforeCheckcastToFunctionOfArity(value2, i8));
             i8 = 1;
         }
         int i7 = 0;
         Iterator iterator5 = obj2.polyBase2DefaultDeserializerProvider.entrySet().iterator();
-        for (Map.Entry next5 : iterator5) {
+        for (Map.Entry next2 : iterator5) {
             key = 0;
-            value3 = next5.getKey();
-            value = next5.getValue();
-            Intrinsics.checkNotNull((KClass)value3, str2);
-            Intrinsics.checkNotNull((Function1)value, "null cannot be cast to non-null type kotlin.Function1<@[ParameterName(name = \"className\")] kotlin.String?, kotlinx.serialization.DeserializationStrategy<kotlin.Any>?>");
-            obj3.polymorphicDefaultDeserializer(value3, (Function1)TypeIntrinsics.beforeCheckcastToFunctionOfArity(value, i8));
+            value = next2.getKey();
+            value2 = next2.getValue();
+            Intrinsics.checkNotNull((KClass)value, str2);
+            Intrinsics.checkNotNull((Function1)value2, "null cannot be cast to non-null type kotlin.Function1<@[ParameterName(name = \"className\")] kotlin.String?, kotlinx.serialization.DeserializationStrategy<kotlin.Any>?>");
+            obj3.polymorphicDefaultDeserializer(value, (Function1)TypeIntrinsics.beforeCheckcastToFunctionOfArity(value2, i8));
         }
     }
 

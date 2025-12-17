@@ -71,91 +71,91 @@ public final class SwitchKt {
         boolean traceInProgress;
         int str;
         int defaultsInvalid;
-        int $dirty3;
+        int $dirty2;
+        int i11;
         int i3;
-        int i2;
         int thumbContent2;
-        Object $dirty;
-        int i9;
+        Object $dirty3;
+        int i6;
         Object enabled2;
-        boolean z3;
+        boolean z2;
         Object box-impl;
         boolean z;
         Object obj;
         Object $composer2;
-        int i11;
-        boolean z2;
-        int i;
-        int i8;
-        int modifier3;
-        Object obj2;
-        boolean enabled3;
+        int i7;
+        boolean z3;
+        int i5;
         int i4;
+        int modifier3;
+        Object obj3;
+        boolean enabled3;
+        int i2;
         Object colors2;
         int changed;
-        int $dirty2;
-        int i7;
-        Object value;
-        int i5;
+        int $dirty;
+        int i;
+        Object $i$a$CacheSwitchKt$Switch$interactionSource$1;
+        int i9;
         Composer composer;
-        int i6;
-        Object obj3;
+        int i8;
+        Object obj2;
         Object obj5 = onCheckedChange;
         final int i32 = $changed;
         Composer restartGroup = $composer.startRestartGroup(1580463220);
         ComposerKt.sourceInformation(restartGroup, "C(Switch)P(!1,5,4,6,2)97@4514L8,129@5619L5,119@5244L424:Switch.kt#uh7d8r");
-        $dirty3 = $changed;
+        $dirty2 = $changed;
         if (i10 & 1 != 0) {
-            $dirty3 |= 6;
-            z2 = checked;
+            $dirty2 |= 6;
+            z3 = checked;
         } else {
             if (i32 & 6 == 0) {
-                i3 = restartGroup.changed(checked) ? 4 : 2;
-                $dirty3 |= i3;
+                i11 = restartGroup.changed(checked) ? 4 : 2;
+                $dirty2 |= i11;
             } else {
-                z2 = checked;
+                z3 = checked;
             }
         }
         if (i10 & 2 != 0) {
-            $dirty3 |= 48;
+            $dirty2 |= 48;
         } else {
             if (i32 & 48 == 0) {
-                i2 = restartGroup.changedInstance(obj5) ? 32 : 16;
-                $dirty3 |= i2;
+                i3 = restartGroup.changedInstance(obj5) ? 32 : 16;
+                $dirty2 |= i3;
             }
         }
         thumbContent2 = i10 & 4;
         if (thumbContent2 != 0) {
-            $dirty3 |= 384;
-            $dirty = modifier;
+            $dirty2 |= 384;
+            $dirty3 = modifier;
         } else {
             if (i32 & 384 == 0) {
-                i9 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty3 |= i9;
+                i6 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i6;
             } else {
-                $dirty = modifier;
+                $dirty3 = modifier;
             }
         }
         int i18 = i10 & 8;
         if (i18 != 0) {
-            $dirty3 |= 3072;
+            $dirty2 |= 3072;
             box-impl = thumbContent;
         } else {
             if (i32 & 3072 == 0) {
-                i8 = restartGroup.changedInstance(thumbContent) ? 2048 : 1024;
-                $dirty3 |= i8;
+                i4 = restartGroup.changedInstance(thumbContent) ? 2048 : 1024;
+                $dirty2 |= i4;
             } else {
                 box-impl = thumbContent;
             }
         }
         modifier3 = i10 & 16;
         if (modifier3 != 0) {
-            $dirty3 |= 24576;
+            $dirty2 |= 24576;
             enabled3 = enabled;
         } else {
             if (i32 & 24576 == 0) {
-                i4 = restartGroup.changed(enabled) ? 16384 : 8192;
-                $dirty3 |= i4;
+                i2 = restartGroup.changed(enabled) ? 16384 : 8192;
+                $dirty2 |= i2;
             } else {
                 enabled3 = enabled;
             }
@@ -166,24 +166,24 @@ public final class SwitchKt {
             } else {
                 colors2 = colors;
             }
-            $dirty3 |= changed;
+            $dirty2 |= changed;
         } else {
             colors2 = colors;
         }
-        $dirty2 = i10 & 64;
+        $dirty = i10 & 64;
         int i40 = 1572864;
-        if ($dirty2 != 0) {
-            $dirty3 |= i40;
-            value = interactionSource;
+        if ($dirty != 0) {
+            $dirty2 |= i40;
+            $i$a$CacheSwitchKt$Switch$interactionSource$1 = interactionSource;
         } else {
             if (i40 &= i32 == 0) {
-                i5 = restartGroup.changed(interactionSource) ? 1048576 : 524288;
-                $dirty3 |= i5;
+                i9 = restartGroup.changed(interactionSource) ? 1048576 : 524288;
+                $dirty2 |= i9;
             } else {
-                value = interactionSource;
+                $i$a$CacheSwitchKt$Switch$interactionSource$1 = interactionSource;
             }
         }
-        if ($dirty3 & i43 == 599186) {
+        if ($dirty2 & i43 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i44 = -458753;
@@ -193,100 +193,100 @@ public final class SwitchKt {
                         if (thumbContent2 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = $dirty;
+                            modifier2 = $dirty3;
                         }
                         thumbContent2 = i18 != 0 ? 0 : box-impl;
                         if (modifier3 != 0) {
-                            enabled3 = $dirty;
+                            enabled3 = $dirty3;
                         }
                         if (i10 & 32 != 0) {
-                            $dirty3 &= i44;
-                            colors2 = $dirty;
+                            $dirty2 &= i44;
+                            colors2 = $dirty3;
                         }
-                        if ($dirty2 != 0) {
-                            obj2 = modifier2;
-                            i7 = $dirty3;
-                            obj3 = $dirty;
-                            z3 = enabled3;
+                        if ($dirty != 0) {
+                            obj3 = modifier2;
+                            i = $dirty2;
+                            obj2 = $dirty3;
+                            z2 = enabled3;
                             enabled3 = colors2;
                             colors2 = thumbContent2;
                         } else {
-                            obj2 = modifier2;
-                            i7 = $dirty3;
-                            z3 = enabled3;
+                            obj3 = modifier2;
+                            i = $dirty2;
+                            z2 = enabled3;
                             enabled3 = colors2;
-                            obj3 = value;
+                            obj2 = $i$a$CacheSwitchKt$Switch$interactionSource$1;
                             colors2 = thumbContent2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i10 & 32 != 0) {
-                            $dirty3 &= i44;
+                            $dirty2 &= i44;
                         }
-                        i7 = $dirty3;
-                        obj2 = $dirty;
-                        z3 = enabled3;
+                        i = $dirty2;
+                        obj3 = $dirty3;
+                        z2 = enabled3;
                         enabled3 = colors2;
-                        obj3 = value;
+                        obj2 = $i$a$CacheSwitchKt$Switch$interactionSource$1;
                         colors2 = box-impl;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1580463220, i7, -1, "androidx.compose.material3.Switch (Switch.kt:99)");
+                    ComposerKt.traceEventStart(1580463220, i, -1, "androidx.compose.material3.Switch (Switch.kt:99)");
                 }
                 restartGroup.startReplaceGroup(783532531);
                 ComposerKt.sourceInformation(restartGroup, "101@4666L39");
-                if (obj3 == null) {
+                if (obj2 == null) {
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 783533182, "CC(remember):Switch.kt#9igjgp");
                     str = 0;
-                    $dirty3 = restartGroup;
+                    $dirty2 = restartGroup;
                     int i15 = 0;
-                    $dirty = $dirty3.rememberedValue();
+                    $dirty3 = $dirty2.rememberedValue();
                     box-impl = 0;
-                    if ($dirty == Composer.Companion.getEmpty()) {
+                    if ($dirty3 == Composer.Companion.getEmpty()) {
                         int i42 = 0;
-                        $dirty3.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                        $dirty2.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     } else {
-                        value = $dirty;
+                        $i$a$CacheSwitchKt$Switch$interactionSource$1 = $dirty3;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    thumbContent2 = value;
+                    thumbContent2 = $i$a$CacheSwitchKt$Switch$interactionSource$1;
                 } else {
-                    thumbContent2 = obj3;
+                    thumbContent2 = obj2;
                 }
                 restartGroup.endReplaceGroup();
                 if (obj5 != null) {
-                    companion = ToggleableKt.toggleable-O2vRcR0(InteractiveComponentSizeKt.minimumInteractiveComponentSize((Modifier)Modifier.Companion), z2, thumbContent2, 0, z3, Role.box-impl(Role.Companion.getSwitch-o7Vup1c()), obj5);
+                    companion = ToggleableKt.toggleable-O2vRcR0(InteractiveComponentSizeKt.minimumInteractiveComponentSize((Modifier)Modifier.Companion), z3, thumbContent2, 0, z2, Role.box-impl(Role.Companion.getSwitch-o7Vup1c()), obj5);
                 } else {
                     companion = Modifier.Companion;
                 }
-                int i17 = i7;
-                SwitchKt.SwitchImpl(SizeKt.requiredSize-VpY3zN4(SizeKt.wrapContentSize$default(obj2.then(companion), Alignment.Companion.getCenter(), false, 2, 0), SwitchKt.SwitchWidth, SwitchKt.SwitchHeight), checked, z3, enabled3, colors2, (InteractionSource)thumbContent2, ShapesKt.getValue(SwitchTokens.INSTANCE.getHandleShape(), restartGroup, i33), restartGroup, i24 | i31);
+                int i17 = i;
+                SwitchKt.SwitchImpl(SizeKt.requiredSize-VpY3zN4(SizeKt.wrapContentSize$default(obj3.then(companion), Alignment.Companion.getCenter(), false, 2, 0), SwitchKt.SwitchWidth, SwitchKt.SwitchHeight), checked, z2, enabled3, colors2, (InteractionSource)thumbContent2, ShapesKt.getValue(SwitchTokens.INSTANCE.getHandleShape(), restartGroup, i33), restartGroup, i24 | i31);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i = i17;
-                z = z3;
+                i5 = i17;
+                z = z2;
                 obj = enabled3;
                 enabled2 = colors2;
-                $composer2 = obj3;
-                $dirty = $dirty3;
+                $composer2 = obj2;
+                $dirty3 = $dirty2;
             } else {
                 restartGroup.skipToGroupEnd();
-                i = $dirty3;
+                i5 = $dirty2;
                 enabled2 = box-impl;
                 composer = restartGroup;
                 z = enabled3;
                 obj = colors2;
-                $composer2 = value;
+                $composer2 = $i$a$CacheSwitchKt$Switch$interactionSource$1;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            companion = new SwitchKt.Switch.1(checked, onCheckedChange, $dirty, enabled2, z, obj, $composer2, i32, i10);
+            companion = new SwitchKt.Switch.1(checked, onCheckedChange, $dirty3, enabled2, z, obj, $composer2, i32, i10);
             endRestartGroup.updateScope((Function2)companion);
         }
     }
@@ -300,65 +300,65 @@ public final class SwitchKt {
         kotlin.jvm.functions.Function0 factory$iv$iv$iv;
         Object obj;
         Modifier background-bw27NRU;
-        int i11;
+        int i16;
         Object currentCompositionLocalMap;
-        Composer composer4;
+        Composer composer;
         Object maybeCachedBoxMeasurePolicy;
         int $dirty;
-        Composer composer;
+        Composer composer2;
         Object maybeCachedBoxMeasurePolicy2;
-        int i25;
-        int i2;
-        int i;
-        int i19;
-        int i16;
-        int i4;
         int i17;
+        int i3;
+        int i20;
+        int i12;
+        int i18;
+        int i4;
+        int i11;
         boolean materializeModifier;
         boolean traceInProgress2;
         int constructor;
         long thumbColor-WaAFU9c$material3_release;
-        int i24;
-        int i15;
-        int i26;
-        Shape shape;
-        int i20;
-        int i13;
-        int i12;
-        int i6;
-        int i23;
-        Alignment alignment;
-        int i21;
-        int currentCompositeKeyHash;
-        long l;
-        Modifier modifier3;
-        int i9;
-        int i30;
-        int i31;
-        int i28;
-        int i8;
-        int $this$SwitchImpl_u24lambda_u242;
-        Composer composer2;
         int i7;
-        int i27;
+        int i26;
+        int i9;
+        Shape shape;
+        int i30;
+        int i15;
+        int i24;
+        int i31;
+        int i19;
+        Alignment alignment;
+        int i23;
+        int currentCompositeKeyHash;
+        long l3;
+        Modifier modifier2;
+        int i28;
+        int i21;
+        int i5;
+        int i2;
+        int i29;
+        int $this$SwitchImpl_u24lambda_u242;
+        Composer composer4;
+        int i25;
+        int i14;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        int i29;
-        int i5;
-        int i14;
-        long l2;
-        Modifier modifier2;
-        int i3;
-        kotlin.jvm.functions.Function0 function0;
-        BoxScopeInstance boxScopeInstance;
-        Composer composer3;
-        int i22;
-        BoxScopeInstance boxScopeInstance2;
         int i10;
-        int i18;
+        int i;
+        int i22;
+        long l;
+        Modifier modifier3;
+        int i13;
+        kotlin.jvm.functions.Function0 function0;
+        BoxScopeInstance boxScopeInstance2;
+        Composer composer3;
+        int i27;
+        BoxScopeInstance boxScopeInstance;
+        int i6;
+        int i8;
         Modifier modifier$iv;
         androidx.compose.runtime.CompositionLocalMap map;
-        long l3;
+        long l2;
         Composer obj65;
         $this$SwitchImpl_u24lambda_u242_u24lambda_u241 = modifier;
         final boolean z = checked;
@@ -366,37 +366,37 @@ public final class SwitchKt {
         final Object obj2 = colors;
         final Object obj3 = thumbContent;
         $changed$iv = interactionSource;
-        i11 = $changed;
+        i16 = $changed;
         traceInProgress = -1594099146;
         maybeCachedBoxMeasurePolicy = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(maybeCachedBoxMeasurePolicy, "C(SwitchImpl)P(4!1,2!1,5)147@6165L5,149@6176L1114:Switch.kt#uh7d8r");
-        if (i11 & 6 == 0) {
-            i25 = maybeCachedBoxMeasurePolicy.changed($this$SwitchImpl_u24lambda_u242_u24lambda_u241) ? 4 : 2;
-            $dirty |= i25;
+        if (i16 & 6 == 0) {
+            i17 = maybeCachedBoxMeasurePolicy.changed($this$SwitchImpl_u24lambda_u242_u24lambda_u241) ? 4 : 2;
+            $dirty |= i17;
         }
-        if (i11 & 48 == 0) {
-            i2 = maybeCachedBoxMeasurePolicy.changed(z) ? 32 : 16;
-            $dirty |= i2;
+        if (i16 & 48 == 0) {
+            i3 = maybeCachedBoxMeasurePolicy.changed(z) ? 32 : 16;
+            $dirty |= i3;
         }
-        if (i11 & 384 == 0) {
-            i = maybeCachedBoxMeasurePolicy.changed(z2) ? 256 : 128;
-            $dirty |= i;
+        if (i16 & 384 == 0) {
+            i20 = maybeCachedBoxMeasurePolicy.changed(z2) ? 256 : 128;
+            $dirty |= i20;
         }
-        if (i11 & 3072 == 0) {
-            i19 = maybeCachedBoxMeasurePolicy.changed(obj2) ? 2048 : 1024;
-            $dirty |= i19;
+        if (i16 & 3072 == 0) {
+            i12 = maybeCachedBoxMeasurePolicy.changed(obj2) ? 2048 : 1024;
+            $dirty |= i12;
         }
-        if (i11 & 24576 == 0) {
-            i16 = maybeCachedBoxMeasurePolicy.changedInstance(obj3) ? 16384 : 8192;
-            $dirty |= i16;
+        if (i16 & 24576 == 0) {
+            i18 = maybeCachedBoxMeasurePolicy.changedInstance(obj3) ? 16384 : 8192;
+            $dirty |= i18;
         }
-        if (i52 &= i11 == 0) {
+        if (i52 &= i16 == 0) {
             i4 = maybeCachedBoxMeasurePolicy.changed($changed$iv) ? 131072 : 65536;
             $dirty |= i4;
         }
-        if (i53 &= i11 == 0) {
-            i17 = maybeCachedBoxMeasurePolicy.changed(thumbShape) ? 1048576 : 524288;
-            $dirty |= i17;
+        if (i53 &= i16 == 0) {
+            i11 = maybeCachedBoxMeasurePolicy.changed(thumbShape) ? 1048576 : 524288;
+            $dirty |= i11;
         }
         if (i54 &= $dirty == 599186) {
             if (!maybeCachedBoxMeasurePolicy.getSkipping()) {
@@ -407,25 +407,25 @@ public final class SwitchKt {
                 int i55 = 6;
                 Shape value = ShapesKt.getValue(SwitchTokens.INSTANCE.getTrackShape(), maybeCachedBoxMeasurePolicy, i55);
                 obj65 = i55;
-                Modifier background-bw27NRU2 = BackgroundKt.background-bw27NRU(BorderKt.border-xT4_qwU($this$SwitchImpl_u24lambda_u242_u24lambda_u241, SwitchTokens.INSTANCE.getTrackOutlineWidth-D9Ej5fM(), obj2.borderColor-WaAFU9c$material3_release(z2, z), i11), trackColor-WaAFU9c$material3_release, constructor);
+                Modifier background-bw27NRU2 = BackgroundKt.background-bw27NRU(BorderKt.border-xT4_qwU($this$SwitchImpl_u24lambda_u242_u24lambda_u241, SwitchTokens.INSTANCE.getTrackOutlineWidth-D9Ej5fM(), obj2.borderColor-WaAFU9c$material3_release(z2, z), i16), trackColor-WaAFU9c$material3_release, constructor);
                 int i56 = i46;
-                i15 = 0;
+                i26 = 0;
                 shape = value;
                 String trackShape2 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(maybeCachedBoxMeasurePolicy, 733328855, trackShape2);
                 Alignment topStart = Alignment.Companion.getTopStart();
                 int i35 = 0;
                 maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i35);
-                i6 = 0;
-                i23 = i35;
+                i31 = 0;
+                i19 = i35;
                 alignment = topStart;
                 String contentAlignment$iv2 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(maybeCachedBoxMeasurePolicy, -1323940314, contentAlignment$iv2);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(maybeCachedBoxMeasurePolicy, 0);
                 currentCompositionLocalMap2 = maybeCachedBoxMeasurePolicy.getCurrentCompositionLocalMap();
-                l = trackColor-WaAFU9c$material3_release;
-                modifier3 = background-bw27NRU2;
-                i9 = 0;
+                l3 = trackColor-WaAFU9c$material3_release;
+                modifier2 = background-bw27NRU2;
+                i28 = 0;
                 String $changed$iv3 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(maybeCachedBoxMeasurePolicy, -692256719, $changed$iv3);
                 if (!applier2 instanceof Applier) {
@@ -439,55 +439,55 @@ public final class SwitchKt {
                 }
                 Composer constructor-impl = Updater.constructor-impl(maybeCachedBoxMeasurePolicy);
                 int i63 = 0;
-                composer2 = maybeCachedBoxMeasurePolicy;
+                composer4 = maybeCachedBoxMeasurePolicy;
                 Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i64 = 0;
-                Composer composer8 = constructor-impl;
+                Composer composer7 = constructor-impl;
                 int i67 = 0;
-                if (!composer8.getInserting()) {
+                if (!composer7.getInserting()) {
                     localMap$iv$iv = currentCompositionLocalMap2;
                     measurePolicy = maybeCachedBoxMeasurePolicy2;
-                    if (!Intrinsics.areEqual(composer8.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer8.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                    if (!Intrinsics.areEqual(composer7.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer7.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer8;
+                        composer2 = composer7;
                     }
                 } else {
                     localMap$iv$iv = currentCompositionLocalMap2;
                     measurePolicy = maybeCachedBoxMeasurePolicy2;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(maybeCachedBoxMeasurePolicy, background-bw27NRU2), ComposeUiNode.Companion.getSetModifier());
-                Composer composer5 = composer2;
-                i8 = i38;
+                Composer composer5 = composer4;
+                i29 = i38;
                 String $changed$iv2 = "C73@3429L9:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(composer5, -2146769399, $changed$iv2);
                 i66 |= 6;
-                Composer composer9 = composer5;
+                Composer composer8 = composer5;
                 $this$SwitchImpl_u24lambda_u242 = 0;
-                i22 = i48;
-                ComposerKt.sourceInformationMarkerStart(composer9, -249502072, "C161@6662L183,154@6351L933:Switch.kt#uh7d8r");
+                i27 = i48;
+                ComposerKt.sourceInformationMarkerStart(composer8, -249502072, "C161@6662L183,154@6351L933:Switch.kt#uh7d8r");
                 BoxScopeInstance $composer2 = boxScopeInstance3;
                 ThumbElement thumbElement = new ThumbElement($changed$iv, z);
                 int other$iv = 0;
-                boxScopeInstance2 = $composer2;
-                $dirty = composer9;
-                background-bw27NRU = BackgroundKt.background-bw27NRU(IndicationKt.indication($composer2.align((Modifier)Modifier.Companion, Alignment.Companion.getCenterStart()).then((Modifier)thumbElement), $changed$iv, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, Dp.constructor-impl(other$iv2 / arg0$iv), 0, obj44, composer9, 54)), obj2.thumbColor-WaAFU9c$material3_release(z2, z), obj14);
-                i29 = 48;
-                i27 = 0;
+                boxScopeInstance = $composer2;
+                $dirty = composer8;
+                background-bw27NRU = BackgroundKt.background-bw27NRU(IndicationKt.indication($composer2.align((Modifier)Modifier.Companion, Alignment.Companion.getCenterStart()).then((Modifier)thumbElement), $changed$iv, RippleKt.rippleOrFallbackImplementation-9IZ8Weo(false, Dp.constructor-impl(other$iv2 / arg0$iv), 0, obj44, composer8, 54)), obj2.thumbColor-WaAFU9c$material3_release(z2, z), obj14);
+                i10 = 48;
+                i14 = 0;
                 ComposerKt.sourceInformationMarkerStart($dirty, 733328855, trackShape2);
                 int i32 = 0;
                 Alignment alignment2 = alignment3;
-                i5 = 0;
-                i14 = i32;
+                i = 0;
+                i22 = i32;
                 ComposerKt.sourceInformationMarkerStart($dirty, -1323940314, contentAlignment$iv2);
                 currentCompositionLocalMap = $dirty.getCurrentCompositionLocalMap();
-                i26 = currentCompositeKeyHash2;
+                i9 = currentCompositeKeyHash2;
                 Modifier materializeModifier2 = ComposedModifierKt.materializeModifier($dirty, background-bw27NRU);
-                l2 = alignment2;
+                l = alignment2;
                 kotlin.jvm.functions.Function0 function02 = constructor2;
-                i21 = 0;
+                i23 = 0;
                 ComposerKt.sourceInformationMarkerStart($dirty, -692256719, $changed$iv3);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -505,16 +505,16 @@ public final class SwitchKt {
                 Updater.set-impl(constructor-impl2, BoxKt.maybeCachedBoxMeasurePolicy(alignment2, i32), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i71 = 0;
-                Composer composer10 = constructor-impl2;
-                i18 = 0;
-                if (!composer10.getInserting()) {
+                Composer composer9 = constructor-impl2;
+                i8 = 0;
+                if (!composer9.getInserting()) {
                     modifier$iv = background-bw27NRU;
                     map = currentCompositionLocalMap;
-                    if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(i26))) {
-                        composer10.updateRememberedValue(Integer.valueOf(i26));
-                        constructor-impl2.apply(Integer.valueOf(i26), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    if (!Intrinsics.areEqual(composer9.rememberedValue(), Integer.valueOf(i9))) {
+                        composer9.updateRememberedValue(Integer.valueOf(i9));
+                        constructor-impl2.apply(Integer.valueOf(i9), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer4 = composer10;
+                        composer = composer9;
                     }
                 } else {
                     modifier$iv = background-bw27NRU;
@@ -522,19 +522,19 @@ public final class SwitchKt {
                 }
                 Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                 obj = $dirty;
-                i11 = 0;
+                i16 = 0;
                 ComposerKt.sourceInformationMarkerStart(obj, -2146769399, $changed$iv2);
                 i59 |= 6;
-                i28 = 0;
-                modifier2 = materializeModifier2;
-                boxScopeInstance = iNSTANCE2;
-                i10 = i43;
+                i2 = 0;
+                modifier3 = materializeModifier2;
+                boxScopeInstance2 = iNSTANCE2;
+                i6 = i43;
                 $changed$iv = obj65;
                 ComposerKt.sourceInformationMarkerStart($changed$iv, 1707453249, "C:Switch.kt#uh7d8r");
                 $changed$iv.startReplaceGroup(1163457794);
                 ComposerKt.sourceInformation($changed$iv, "171@7116L144");
                 if (obj3 != null) {
-                    CompositionLocalKt.CompositionLocalProvider(ContentColorKt.getLocalContentColor().provides(Color.box-impl(obj2.iconColor-WaAFU9c$material3_release(z2, z))), obj3, $changed$iv, $stable |= i18);
+                    CompositionLocalKt.CompositionLocalProvider(ContentColorKt.getLocalContentColor().provides(Color.box-impl(obj2.iconColor-WaAFU9c$material3_release(z2, z))), obj3, $changed$iv, $stable |= i8);
                 }
                 $changed$iv.endReplaceGroup();
                 ComposerKt.sourceInformationMarkerEnd($changed$iv);
@@ -545,21 +545,21 @@ public final class SwitchKt {
                 ComposerKt.sourceInformationMarkerEnd($dirty);
                 ComposerKt.sourceInformationMarkerEnd($dirty);
                 ComposerKt.sourceInformationMarkerEnd(composer5);
-                composer2.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer2);
-                ComposerKt.sourceInformationMarkerEnd(composer2);
-                ComposerKt.sourceInformationMarkerEnd(composer2);
+                composer4.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd(composer4);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 maybeCachedBoxMeasurePolicy.skipToGroupEnd();
-                composer2 = maybeCachedBoxMeasurePolicy;
-                i20 = $dirty;
+                composer4 = maybeCachedBoxMeasurePolicy;
+                i30 = $dirty;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer4.endRestartGroup();
         if (endRestartGroup != null) {
             traceInProgress = new SwitchKt.SwitchImpl.2(modifier, z, z2, obj2, obj3, interactionSource, thumbShape, $changed);
             endRestartGroup.updateScope((Function2)traceInProgress);

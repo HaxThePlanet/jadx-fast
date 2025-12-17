@@ -49,36 +49,36 @@ public final class AndroidCompositionLocals_androidKt {
     }
 
     public static final void ProvideAndroidCompositionLocals(androidx.compose.ui.platform.AndroidComposeView owner, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
-        int view;
+        int view2;
         Object configuration$delegate2;
         int $dirty;
-        int i6;
-        int i;
+        int i3;
+        int i8;
         int skipping;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         Object mutableStateOf$default;
         Object invalid$iv;
         int viewTreeOwners;
         int str;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         ResourceIdCache resourceIdCache;
         ProvidedValue[] arr;
         Object empty4;
         Object empty2;
-        int i5;
+        int i4;
         Object anon2;
         Object androidUriHandler;
         Object empty3;
-        int i3;
-        Object empty;
-        Object empty5;
-        Object anon;
         int i7;
-        Object view2;
+        Object empty5;
+        Object empty;
+        Object anon;
+        int i6;
+        Object view;
         int i2;
         Object configuration$delegate;
-        int i8;
-        int i4;
+        int i;
+        int i5;
         int obj23;
         final Object obj = owner;
         final Object obj2 = content;
@@ -87,20 +87,20 @@ public final class AndroidCompositionLocals_androidKt {
         Composer restartGroup = $composer.startRestartGroup(configuration$delegate2);
         ComposerKt.sourceInformation(restartGroup, "C(ProvideAndroidCompositionLocals)P(1)96@3347L87,100@3476L37,102@3536L39,107@3776L102,110@3906L81,110@3883L104,116@4016L46,117@4089L30,119@4191L7,130@4811L151,120@4236L726:AndroidCompositionLocals.android.kt#itgzvw");
         if (i9 & 6 == 0) {
-            i6 = restartGroup.changedInstance(obj) ? 4 : 2;
-            $dirty |= i6;
+            i3 = restartGroup.changedInstance(obj) ? 4 : 2;
+            $dirty |= i3;
         }
         if (i9 & 48 == 0) {
-            i = restartGroup.changedInstance(obj2) ? 32 : 16;
-            $dirty |= i;
+            i8 = restartGroup.changedInstance(obj2) ? 32 : 16;
+            $dirty |= i8;
         }
         if ($dirty & 19 == 18) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(configuration$delegate2, $dirty, -1, "androidx.compose.ui.platform.ProvideAndroidCompositionLocals (AndroidCompositionLocals.android.kt:91)");
                 }
-                view = owner;
-                skipping = view.getContext();
+                view2 = owner;
+                skipping = view2.getContext();
                 String str5 = "CC(remember):AndroidCompositionLocals.android.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1970600807, str5);
                 int i16 = 0;
@@ -109,14 +109,14 @@ public final class AndroidCompositionLocals_androidKt {
                 Object rememberedValue4 = composer4.rememberedValue();
                 int i33 = 0;
                 if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                    empty = 0;
+                    empty5 = 0;
                     obj23 = 4;
                     Configuration configuration2 = new Configuration(skipping.getResources().getConfiguration());
                     viewTreeOwners = 0;
-                    view2 = view;
+                    view = view2;
                     composer4.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(configuration2, viewTreeOwners, 2, viewTreeOwners));
                 } else {
-                    view2 = view;
+                    view = view2;
                     obj23 = 4;
                     mutableStateOf$default = rememberedValue4;
                 }
@@ -161,13 +161,13 @@ public final class AndroidCompositionLocals_androidKt {
                     Object rememberedValue5 = composer5.rememberedValue();
                     empty3 = 0;
                     if (rememberedValue5 == Composer.Companion.getEmpty()) {
-                        empty5 = 0;
+                        empty = 0;
                         configuration$delegate = obj3;
-                        i8 = $dirty;
-                        composer5.updateRememberedValue(DisposableSaveableStateRegistry_androidKt.DisposableSaveableStateRegistry((View)view2, viewTreeOwners.getSavedStateRegistryOwner()));
+                        i = $dirty;
+                        composer5.updateRememberedValue(DisposableSaveableStateRegistry_androidKt.DisposableSaveableStateRegistry((View)view, viewTreeOwners.getSavedStateRegistryOwner()));
                     } else {
                         configuration$delegate = obj3;
-                        i8 = $dirty;
+                        i = $dirty;
                         configuration$delegate2 = rememberedValue5;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -218,7 +218,7 @@ public final class AndroidCompositionLocals_androidKt {
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i8 = $dirty;
+                i = $dirty;
             }
         } else {
         }
@@ -294,14 +294,14 @@ public final class AndroidCompositionLocals_androidKt {
         int i2;
         int empty;
         Object imageVectorCache;
-        int empty3;
-        Object configuration2;
         int empty2;
-        Configuration configuration4;
+        Object configuration4;
+        int empty3;
+        Configuration configuration3;
         Object anon2;
         Object anon;
         int i3;
-        Configuration configuration3;
+        Configuration configuration2;
         int i;
         final Object obj = context;
         final Composer composer = $composer;
@@ -335,16 +335,16 @@ public final class AndroidCompositionLocals_androidKt {
         Object rememberedValue2 = composer3.rememberedValue();
         int i18 = 0;
         if (rememberedValue2 == Composer.Companion.getEmpty()) {
-            empty3 = 0;
-            configuration2 = new Configuration();
+            empty2 = 0;
+            configuration4 = new Configuration();
             i3 = 0;
             if (configuration != null) {
                 i = 0;
-                configuration2.setTo(configuration);
+                configuration4.setTo(configuration);
             }
-            composer3.updateRememberedValue(configuration2);
+            composer3.updateRememberedValue(configuration4);
         } else {
-            configuration2 = rememberedValue2;
+            configuration4 = rememberedValue2;
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
         ComposerKt.sourceInformationMarkerStart(composer, 674262712, str3);
@@ -354,8 +354,8 @@ public final class AndroidCompositionLocals_androidKt {
         Object rememberedValue3 = composer4.rememberedValue();
         int i19 = 0;
         if (rememberedValue3 == Composer.Companion.getEmpty()) {
-            empty2 = 0;
-            anon2 = new AndroidCompositionLocals_androidKt.obtainImageVectorCache.callbacks.1.1((Configuration)configuration2, (ImageVectorCache)invalid$iv);
+            empty3 = 0;
+            anon2 = new AndroidCompositionLocals_androidKt.obtainImageVectorCache.callbacks.1.1((Configuration)configuration4, (ImageVectorCache)invalid$iv);
             composer4.updateRememberedValue(anon2);
         } else {
             anon2 = rememberedValue3;
@@ -368,7 +368,7 @@ public final class AndroidCompositionLocals_androidKt {
         int i20 = 0;
         if (!composer.changedInstance(obj)) {
             if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                empty2 = 0;
+                empty3 = 0;
                 anon = new AndroidCompositionLocals_androidKt.obtainImageVectorCache.1.1(obj, (AndroidCompositionLocals_androidKt.obtainImageVectorCache.callbacks.1.1)anon2);
                 composer5.updateRememberedValue((Function1)anon);
             } else {
@@ -388,11 +388,11 @@ public final class AndroidCompositionLocals_androidKt {
     private static final ResourceIdCache obtainResourceIdCache(Context context, Composer $composer, int $changed) {
         boolean traceInProgress;
         String str;
-        int empty2;
-        Object resourceIdCache;
         int empty;
-        Object anon2;
+        Object resourceIdCache;
+        int empty2;
         Object anon;
+        Object anon2;
         int i = -1348507246;
         ComposerKt.sourceInformationMarkerStart($composer, i, "C(obtainResourceIdCache)142@5083L30,143@5134L398,158@5571L189,158@5537L223:AndroidCompositionLocals.android.kt#itgzvw");
         if (ComposerKt.isTraceInProgress()) {
@@ -406,7 +406,7 @@ public final class AndroidCompositionLocals_androidKt {
         Object rememberedValue = composer.rememberedValue();
         int i11 = 0;
         if (rememberedValue == Composer.Companion.getEmpty()) {
-            empty2 = 0;
+            empty = 0;
             resourceIdCache = new ResourceIdCache();
             composer.updateRememberedValue(resourceIdCache);
         } else {
@@ -421,11 +421,11 @@ public final class AndroidCompositionLocals_androidKt {
         Object rememberedValue2 = composer2.rememberedValue();
         int i12 = 0;
         if (rememberedValue2 == Composer.Companion.getEmpty()) {
-            empty = 0;
-            anon2 = new AndroidCompositionLocals_androidKt.obtainResourceIdCache.callbacks.1.1((ResourceIdCache)invalid$iv);
-            composer2.updateRememberedValue(anon2);
+            empty2 = 0;
+            anon = new AndroidCompositionLocals_androidKt.obtainResourceIdCache.callbacks.1.1((ResourceIdCache)invalid$iv);
+            composer2.updateRememberedValue(anon);
         } else {
-            anon2 = rememberedValue2;
+            anon = rememberedValue2;
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
         ComposerKt.sourceInformationMarkerStart($composer, 1144678063, str3);
@@ -435,16 +435,16 @@ public final class AndroidCompositionLocals_androidKt {
         int i13 = 0;
         if (!$composer.changedInstance(context)) {
             if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                empty = 0;
-                anon = new AndroidCompositionLocals_androidKt.obtainResourceIdCache.1.1(context, (AndroidCompositionLocals_androidKt.obtainResourceIdCache.callbacks.1.1)anon2);
-                composer3.updateRememberedValue((Function1)anon);
+                empty2 = 0;
+                anon2 = new AndroidCompositionLocals_androidKt.obtainResourceIdCache.1.1(context, (AndroidCompositionLocals_androidKt.obtainResourceIdCache.callbacks.1.1)anon);
+                composer3.updateRememberedValue((Function1)anon2);
             } else {
-                anon = rememberedValue3;
+                anon2 = rememberedValue3;
             }
         } else {
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        EffectsKt.DisposableEffect(invalid$iv, (Function1)anon, $composer, 0);
+        EffectsKt.DisposableEffect(invalid$iv, (Function1)anon2, $composer, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

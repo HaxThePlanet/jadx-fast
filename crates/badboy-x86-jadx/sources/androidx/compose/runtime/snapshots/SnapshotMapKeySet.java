@@ -92,22 +92,22 @@ final class SnapshotMapKeySet<K, V>  extends androidx.compose.runtime.snapshots.
         int removed;
         Object next;
         Object obj;
-        int i2;
         int i;
+        int i2;
         removed = 0;
         final int i3 = 0;
         final Iterator iterator = (Iterable)elements.iterator();
         while (iterator.hasNext()) {
-            i2 = 0;
+            i = 0;
             if (getMap().remove(iterator.next()) == null) {
             } else {
             }
-            i = 1;
-            removed = i;
+            i2 = 1;
+            removed = i2;
             if (removed != 0) {
             } else {
             }
-            i = 0;
+            i2 = 0;
         }
         return removed;
     }
@@ -115,9 +115,9 @@ final class SnapshotMapKeySet<K, V>  extends androidx.compose.runtime.snapshots.
     public boolean retainAll(Collection<? extends Object> elements) {
         int it$iv$iv$iv$iv;
         int modification$runtime_release;
-        int set3;
+        int set;
         Set set4;
-        androidx.compose.runtime.snapshots.StateRecord set2;
+        androidx.compose.runtime.snapshots.StateRecord set3;
         androidx.compose.runtime.snapshots.SnapshotStateMap newMap$iv$iv;
         int removed$iv;
         int result$iv$iv;
@@ -132,16 +132,16 @@ final class SnapshotMapKeySet<K, V>  extends androidx.compose.runtime.snapshots.
         androidx.compose.runtime.snapshots.Snapshot snapshot$iv$iv$iv$iv;
         androidx.compose.runtime.snapshots.SnapshotStateMap this_$iv;
         androidx.compose.runtime.snapshots.StateRecord current;
-        int i5;
-        Object lock;
-        int i3;
-        int i6;
-        int $this$mutate_u24lambda_u2415$iv$iv;
-        int i2;
-        Object obj;
         int i;
+        Object lock;
         int i4;
-        int set;
+        int i2;
+        int $this$mutate_u24lambda_u2415$iv$iv;
+        int i6;
+        Object obj;
+        int i3;
+        int i5;
+        int set2;
         set4 = CollectionsKt.toSet((Iterable)elements);
         final int i11 = 0;
         final androidx.compose.runtime.snapshots.SnapshotStateMap map4 = newMap$iv$iv;
@@ -158,9 +158,9 @@ final class SnapshotMapKeySet<K, V>  extends androidx.compose.runtime.snapshots.
         Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.SnapshotStateMap.StateMapStateRecord<K of androidx.compose.runtime.snapshots.SnapshotStateMap, V of androidx.compose.runtime.snapshots.SnapshotStateMap>");
         snapshot$iv$iv$iv$iv = 0;
         current = SnapshotKt.current((StateRecord)(SnapshotStateMap.StateMapStateRecord)firstStateRecord);
-        i5 = 0;
+        i = 0;
         oldMap$iv$iv = map$runtime_release;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedSnapshotStateMap$mutate$1$iv$iv = Unit.INSTANCE;
         Intrinsics.checkNotNull(oldMap$iv$iv);
         builder = oldMap$iv$iv.builder();
         map = 0;
@@ -176,9 +176,9 @@ final class SnapshotMapKeySet<K, V>  extends androidx.compose.runtime.snapshots.
             Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.SnapshotStateMap.StateMapStateRecord<K of androidx.compose.runtime.snapshots.SnapshotStateMap, V of androidx.compose.runtime.snapshots.SnapshotStateMap>");
             snapshot$iv$iv$iv$iv = 0;
             current = SnapshotKt.current((StateRecord)(SnapshotStateMap.StateMapStateRecord)firstStateRecord);
-            i5 = 0;
+            i = 0;
             oldMap$iv$iv = map$runtime_release;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedSnapshotStateMap$mutate$1$iv$iv = Unit.INSTANCE;
             Intrinsics.checkNotNull(oldMap$iv$iv);
             builder = oldMap$iv$iv.builder();
             map = 0;
@@ -200,7 +200,7 @@ final class SnapshotMapKeySet<K, V>  extends androidx.compose.runtime.snapshots.
         PersistentMap build = builder.build();
         if (!Intrinsics.areEqual(build, oldMap$iv$iv)) {
         } else {
-            set = set4;
+            set2 = set4;
         }
         return removed$iv;
     }

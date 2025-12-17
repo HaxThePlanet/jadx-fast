@@ -171,9 +171,9 @@ public abstract class LiveData<T>  {
         int previousActiveCount;
         boolean z;
         int i;
+        int mActiveCount2;
         int mActiveCount;
         int mActiveCount3;
-        int mActiveCount2;
         previousActiveCount = this.mActiveCount;
         this.mActiveCount = mActiveCount4 += change;
         if (this.mChangingActiveState) {
@@ -189,12 +189,12 @@ public abstract class LiveData<T>  {
             if (previousActiveCount > 0 && this.mActiveCount == 0) {
             } else {
             }
-            mActiveCount3 = z;
-            previousActiveCount = mActiveCount2;
+            mActiveCount = z;
+            previousActiveCount = mActiveCount3;
             if (i != 0) {
             } else {
             }
-            if (mActiveCount3 != 0) {
+            if (mActiveCount != 0) {
             }
             z = 0;
             onInactive();
@@ -202,7 +202,7 @@ public abstract class LiveData<T>  {
             if (this.mActiveCount == 0) {
             } else {
             }
-            mActiveCount3 = i3;
+            mActiveCount = i3;
             if (this.mActiveCount > 0) {
             } else {
             }

@@ -41,32 +41,32 @@ public final class ContextualFlowColumnOverflow extends androidx.compose.foundat
         }
 
         public final androidx.compose.foundation.layout.ContextualFlowColumnOverflow expandOrCollapseIndicator--jt2gSs(Function3<? super androidx.compose.foundation.layout.ContextualFlowColumnOverflowScope, ? super Composer, ? super Integer, Unit> expandIndicator, Function3<? super androidx.compose.foundation.layout.ContextualFlowColumnOverflowScope, ? super Composer, ? super Integer, Unit> collapseIndicator, int minColumnsToShowCollapse, float minWidthToShowCollapse, Composer $composer, int $changed, int i7) {
-            boolean changed2;
+            boolean changed3;
             int i6;
-            int i;
+            int i3;
             float minWidthToShowCollapse2;
-            int i5;
+            int i4;
             boolean traceInProgress;
-            int changed3;
-            int i2;
+            int changed2;
+            int i8;
             int changed;
             Object contextualFlowColumnOverflow;
             float str;
             int expandOrCollapseIndicator;
-            int i3;
-            int i4;
-            int i10;
-            int i8;
             int i9;
+            int i2;
+            int i10;
+            int i5;
+            int i;
             final Object obj = expandIndicator;
             final Object obj2 = collapseIndicator;
             final Composer composer = $composer;
             final int i11 = $changed;
             int i12 = -1875330022;
             ComposerKt.sourceInformationMarkerStart(composer, i12, "C(expandOrCollapseIndicator)P(1!,3:c#ui.unit.Dp)*609@26729L7,612@26824L1122:FlowLayoutOverflow.kt#2w3rfo");
-            i3 = i7 & 4 != 0 ? i : minColumnsToShowCollapse;
+            i9 = i7 & 4 != 0 ? i3 : minColumnsToShowCollapse;
             if (i7 & 8 != 0) {
-                i5 = 0;
+                i4 = 0;
                 minWidthToShowCollapse2 = Dp.constructor-impl((float)i19);
             } else {
                 minWidthToShowCollapse2 = minWidthToShowCollapse;
@@ -83,10 +83,10 @@ public final class ContextualFlowColumnOverflow extends androidx.compose.foundat
             ComposerKt.sourceInformationMarkerStart(composer, -1286152232, "CC(remember):FlowLayoutOverflow.kt#9igjgp");
             int i22 = 256;
             expandOrCollapseIndicator = 0;
-            i4 = 1;
+            i2 = 1;
             if (i14 ^= 384 > i22) {
-                if (!composer.changed(i3)) {
-                    i6 = i11 & 384 == i22 ? i4 : expandOrCollapseIndicator;
+                if (!composer.changed(i9)) {
+                    i6 = i11 & 384 == i22 ? i2 : expandOrCollapseIndicator;
                 } else {
                 }
             } else {
@@ -94,7 +94,7 @@ public final class ContextualFlowColumnOverflow extends androidx.compose.foundat
             int i27 = 4;
             if (i23 ^= 6 > i27) {
                 if (!composer.changed(obj)) {
-                    i2 = i11 & 6 == i27 ? i4 : expandOrCollapseIndicator;
+                    i8 = i11 & 6 == i27 ? i2 : expandOrCollapseIndicator;
                 } else {
                 }
             } else {
@@ -103,7 +103,7 @@ public final class ContextualFlowColumnOverflow extends androidx.compose.foundat
             if (i24 ^= 48 > i10) {
                 if (!composer.changed(obj2)) {
                     if (i11 & 48 == i10) {
-                        expandOrCollapseIndicator = i4;
+                        expandOrCollapseIndicator = i2;
                     }
                 } else {
                 }
@@ -115,10 +115,10 @@ public final class ContextualFlowColumnOverflow extends androidx.compose.foundat
             final int i29 = 0;
             if (i16 |= expandOrCollapseIndicator == 0) {
                 if (rememberedValue == Composer.Companion.getEmpty()) {
-                    i9 = 0;
+                    i = 0;
                     ContextualFlowColumnOverflow.Companion.expandOrCollapseIndicator.1.seeMoreGetter.1 anon = new ContextualFlowColumnOverflow.Companion.expandOrCollapseIndicator.1.seeMoreGetter.1(obj);
                     ContextualFlowColumnOverflow.Companion.expandOrCollapseIndicator.1.collapseGetter.1 anon2 = new ContextualFlowColumnOverflow.Companion.expandOrCollapseIndicator.1.collapseGetter.1(obj2);
-                    contextualFlowColumnOverflow = new ContextualFlowColumnOverflow(FlowLayoutOverflow.OverflowType.ExpandOrCollapseIndicator, i3, roundToPx-0680j_4, (Function1)anon, (Function1)anon2, 0);
+                    contextualFlowColumnOverflow = new ContextualFlowColumnOverflow(FlowLayoutOverflow.OverflowType.ExpandOrCollapseIndicator, i9, roundToPx-0680j_4, (Function1)anon, (Function1)anon2, 0);
                     composer2.updateRememberedValue(contextualFlowColumnOverflow);
                 } else {
                     contextualFlowColumnOverflow = rememberedValue;

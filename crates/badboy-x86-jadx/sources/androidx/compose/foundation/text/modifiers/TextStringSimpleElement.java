@@ -41,14 +41,14 @@ public final class TextStringSimpleElement extends ModifierNodeElement<androidx.
     }
 
     public TextStringSimpleElement(String string, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, int i4, boolean z5, int i6, int i7, ColorProducer colorProducer8, int i9, DefaultConstructorMarker defaultConstructorMarker10) {
-        int i10;
-        int clip-gIe3tQ8;
-        int i2;
-        int i;
-        int i5;
         int i11;
-        int i3;
+        int clip-gIe3tQ8;
         int i8;
+        int i;
+        int i3;
+        int i2;
+        int i5;
+        int i10;
         int i12 = i9;
         if (i12 & 8 != 0) {
             i = clip-gIe3tQ8;
@@ -56,11 +56,11 @@ public final class TextStringSimpleElement extends ModifierNodeElement<androidx.
             i = i4;
         }
         int i15 = 1;
-        i5 = i12 & 16 != 0 ? i15 : z5;
-        i11 = i12 & 32 != 0 ? i2 : i6;
-        i3 = i12 & 64 != 0 ? i15 : i7;
-        i8 = i12 &= 128 != 0 ? i10 : colorProducer8;
-        super(string, textStyle2, resolver3, i, i5, i11, i3, i8, 0);
+        i3 = i12 & 16 != 0 ? i15 : z5;
+        i2 = i12 & 32 != 0 ? i8 : i6;
+        i5 = i12 & 64 != 0 ? i15 : i7;
+        i10 = i12 &= 128 != 0 ? i11 : colorProducer8;
+        super(string, textStyle2, resolver3, i, i3, i2, i5, i10, 0);
     }
 
     public TextStringSimpleElement(String string, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, int i4, boolean z5, int i6, int i7, ColorProducer colorProducer8, DefaultConstructorMarker defaultConstructorMarker9) {

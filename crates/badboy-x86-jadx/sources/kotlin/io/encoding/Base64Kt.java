@@ -14,12 +14,12 @@ public final class Base64Kt {
     private static final int[] base64UrlDecodeMap;
     private static final byte[] base64UrlEncodeMap;
     static {
-        int i5;
+        int i3;
         int i;
         int i6;
-        int i4;
+        int i5;
         byte b;
-        int i3;
+        int i4;
         byte b2;
         int i2;
         byte[] bArr = new byte[64];
@@ -40,13 +40,13 @@ public final class Base64Kt {
         iArr3[61] = -2;
         byte[] base64EncodeMap = Base64Kt.base64EncodeMap;
         int i17 = 0;
-        i5 = 0;
+        i3 = 0;
         i6 = 0;
         while (i6 < base64EncodeMap.length) {
             i2 = 0;
-            iArr3[base64EncodeMap[i6]] = i5;
+            iArr3[base64EncodeMap[i6]] = i3;
             i6++;
-            i5 = i3;
+            i3 = i4;
         }
         Base64Kt.base64DecodeMap = iArr;
         byte[] bArr2 = new byte[64];
@@ -68,12 +68,12 @@ public final class Base64Kt {
         byte[] base64UrlEncodeMap = Base64Kt.base64UrlEncodeMap;
         int i20 = 0;
         i = 0;
-        i4 = 0;
-        while (i4 < base64UrlEncodeMap.length) {
+        i5 = 0;
+        while (i5 < base64UrlEncodeMap.length) {
             i2 = 0;
-            iArr4[base64UrlEncodeMap[i4]] = i;
-            i4++;
-            i = i3;
+            iArr4[base64UrlEncodeMap[i5]] = i;
+            i5++;
+            i = i4;
         }
         Base64Kt.base64UrlDecodeMap = iArr2;
     }
@@ -101,22 +101,22 @@ public final class Base64Kt {
     }
 
     public static final boolean isInMimeAlphabet(int symbol) {
-        int i3;
-        int length;
-        int i2;
         int i;
+        int length;
+        int i3;
+        int i2;
         final int i4 = 0;
         if (symbol >= 0 && symbol < base64DecodeMap.length) {
-            i2 = symbol < base64DecodeMap.length ? i3 : i4;
+            i3 = symbol < base64DecodeMap.length ? i : i4;
         } else {
         }
-        if (i2 != 0 && Base64Kt.base64DecodeMap[symbol] != -1) {
+        if (i3 != 0 && Base64Kt.base64DecodeMap[symbol] != -1) {
             if (Base64Kt.base64DecodeMap[symbol] != -1) {
             } else {
-                i3 = i4;
+                i = i4;
             }
         } else {
         }
-        return i3;
+        return i;
     }
 }

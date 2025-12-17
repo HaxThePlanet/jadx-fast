@@ -52,63 +52,63 @@ public final class DrawerKt {
     }
 
     public static final void BottomDrawer-Gs3lGvM(Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> drawerContent, Modifier modifier, androidx.compose.material.BottomDrawerState drawerState, boolean gesturesEnabled, Shape drawerShape, float drawerElevation, long drawerBackgroundColor, long drawerContentColor, long scrimColor, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i13) {
-        int i5;
-        int changed4;
-        int i4;
-        Object obj;
-        int $dirty;
+        int i;
+        int changed3;
+        int i8;
+        Object obj5;
+        int $dirty4;
         int defaultsInvalid;
         androidx.compose.ui.Modifier.Companion modifier2;
-        int $dirty5;
-        Object endRestartGroup;
-        int changed;
         int $dirty3;
-        Object $dirty6;
-        Object $dirty4;
-        int i8;
-        long l7;
-        long l4;
+        Object endRestartGroup;
+        int changed4;
         int $dirty2;
+        Object $dirty5;
+        Object $dirty;
+        int i9;
+        long l2;
+        long l3;
+        int $dirty6;
         boolean gesturesEnabled3;
         boolean traceInProgress;
         androidx.compose.ui.Modifier.Companion companion;
         Object drawerShape2;
         Object obj6;
         boolean $composer2;
-        int i9;
-        int i2;
-        int changed2;
+        int i4;
         int i6;
+        int changed2;
         int i7;
-        long l8;
-        Object obj4;
+        int i3;
+        long l;
+        Object obj3;
         int changedInstance;
         int drawerElevation2;
-        float f2;
-        Object obj8;
-        long l;
-        Object drawerBackgroundColor2;
-        long l5;
-        boolean drawerContentColor2;
-        Object obj3;
+        float f;
+        Object obj;
         long l6;
+        Object drawerBackgroundColor2;
+        long l4;
+        boolean drawerContentColor2;
+        Object obj2;
+        long l9;
         int scrimColor2;
         float compositionCoroutineScope;
-        int changed3;
+        int changed;
         Composer composer;
-        int i3;
+        int i5;
         boolean z;
         int gesturesEnabled2;
-        Object obj7;
+        Object obj8;
         Function2 function2;
-        long l9;
-        int i;
+        long l5;
+        int i2;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        Object obj5;
-        long l2;
-        long l3;
-        float f;
-        Object obj2;
+        Object obj4;
+        long l8;
+        long l7;
+        float f2;
+        Object obj7;
         ScopeUpdateScope scopeUpdateScope;
         androidx.compose.ui.Modifier.Companion obj32;
         int obj33;
@@ -123,121 +123,121 @@ public final class DrawerKt {
         final int i51 = obj46;
         Composer restartGroup = obj44.startRestartGroup(625649286);
         ComposerKt.sourceInformation(restartGroup, "C(BottomDrawer)P(2,8,6,7,5,4:c#ui.unit.Dp,1:c#ui.graphics.Color,3:c#ui.graphics.Color,9:c#ui.graphics.Color)624@23676L33,626@23788L5,628@23897L15,629@23946L38,630@24025L10,633@24093L24,634@24165L4601,634@24122L4644:Drawer.kt#jmzs0o");
-        $dirty3 = obj45;
+        $dirty2 = obj45;
         if (i51 & 1 != 0) {
-            $dirty3 |= 6;
-            obj8 = drawerContent;
+            $dirty2 |= 6;
+            obj = drawerContent;
         } else {
             if (i50 & 6 == 0) {
-                i8 = restartGroup.changedInstance(drawerContent) ? 4 : 2;
-                $dirty3 |= i8;
+                i9 = restartGroup.changedInstance(drawerContent) ? 4 : 2;
+                $dirty2 |= i9;
             } else {
-                obj8 = drawerContent;
+                obj = drawerContent;
             }
         }
         int i21 = i51 & 2;
         if (i21 != 0) {
-            $dirty3 |= 48;
+            $dirty2 |= 48;
             drawerShape2 = modifier;
         } else {
             if (i50 & 48 == 0) {
-                i9 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty3 |= i9;
+                i4 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i4;
             } else {
                 drawerShape2 = modifier;
             }
         }
         if (i50 & 384 == 0) {
             if (i51 & 4 == 0) {
-                i2 = restartGroup.changedInstance(drawerState) ? 256 : 128;
+                i6 = restartGroup.changedInstance(drawerState) ? 256 : 128;
             } else {
                 drawerBackgroundColor2 = drawerState;
             }
-            $dirty3 |= i2;
+            $dirty2 |= i6;
         } else {
             drawerBackgroundColor2 = drawerState;
         }
         int i43 = i51 & 8;
         if (i43 != 0) {
-            $dirty3 |= 3072;
+            $dirty2 |= 3072;
             drawerContentColor2 = gesturesEnabled;
         } else {
             if (i50 & 3072 == 0) {
-                i2 = restartGroup.changed(gesturesEnabled) ? 2048 : 1024;
-                $dirty3 |= i2;
+                i6 = restartGroup.changed(gesturesEnabled) ? 2048 : 1024;
+                $dirty2 |= i6;
             } else {
                 drawerContentColor2 = gesturesEnabled;
             }
         }
         if (i50 & 24576 == 0) {
             if (i51 & 16 == 0) {
-                i6 = restartGroup.changed(drawerShape) ? 16384 : 8192;
+                i7 = restartGroup.changed(drawerShape) ? 16384 : 8192;
             } else {
-                obj3 = drawerShape;
+                obj2 = drawerShape;
             }
-            $dirty3 |= i6;
+            $dirty2 |= i7;
         } else {
-            obj3 = drawerShape;
+            obj2 = drawerShape;
         }
         scrimColor2 = i51 & 32;
-        i7 = 196608;
+        i3 = 196608;
         if (scrimColor2 != 0) {
-            $dirty3 |= i7;
+            $dirty2 |= i3;
             compositionCoroutineScope = drawerElevation;
         } else {
-            if (i7 &= i50 == 0) {
-                i7 = restartGroup.changed(drawerElevation) ? 131072 : 65536;
-                $dirty3 |= i7;
+            if (i3 &= i50 == 0) {
+                i3 = restartGroup.changed(drawerElevation) ? 131072 : 65536;
+                $dirty2 |= i3;
             } else {
                 compositionCoroutineScope = drawerElevation;
             }
         }
         if (i31 &= i50 == 0) {
             if (i51 & 64 == 0) {
-                changed3 = restartGroup.changed(drawerBackgroundColor) ? 1048576 : 524288;
+                changed = restartGroup.changed(drawerBackgroundColor) ? 1048576 : 524288;
             } else {
-                l8 = drawerBackgroundColor;
+                l = drawerBackgroundColor;
             }
-            $dirty3 |= changed3;
+            $dirty2 |= changed;
         } else {
-            l8 = drawerBackgroundColor;
+            l = drawerBackgroundColor;
         }
         if (i50 & i52 == 0) {
             if (i51 & 128 == 0) {
                 obj44 = i21;
-                i5 = restartGroup.changed(scrimColor) ? 8388608 : 4194304;
+                i = restartGroup.changed(scrimColor) ? 8388608 : 4194304;
             } else {
                 obj44 = i21;
-                l7 = scrimColor;
+                l2 = scrimColor;
             }
-            $dirty3 |= i5;
+            $dirty2 |= i;
         } else {
             obj44 = i21;
-            l7 = scrimColor;
+            l2 = scrimColor;
         }
         if (i10 &= i50 == 0) {
             if (i51 & 256 == 0) {
-                i4 = restartGroup.changed($composer) ? 67108864 : 33554432;
+                i8 = restartGroup.changed($composer) ? 67108864 : 33554432;
             } else {
-                l4 = $composer;
+                l3 = $composer;
             }
-            $dirty3 |= i4;
+            $dirty2 |= i8;
         } else {
-            l4 = $composer;
+            l3 = $composer;
         }
-        i3 = 805306368;
+        i5 = 805306368;
         if (i51 & 512 != 0) {
-            $dirty3 |= i3;
-            obj = i13;
+            $dirty2 |= i5;
+            obj5 = i13;
         } else {
-            if (i50 & i3 == 0) {
-                i3 = restartGroup.changedInstance(i13) ? 536870912 : 268435456;
-                $dirty3 |= i3;
+            if (i50 & i5 == 0) {
+                i5 = restartGroup.changedInstance(i13) ? 536870912 : 268435456;
+                $dirty2 |= i5;
             } else {
-                obj = i13;
+                obj5 = i13;
             }
         }
-        if ($dirty3 & i54 == 306783378) {
+        if ($dirty2 & i54 == 306783378) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i55 = -234881025;
@@ -253,20 +253,20 @@ public final class DrawerKt {
                         }
                         if (i51 & 4 != 0) {
                             obj32 = modifier2;
-                            $dirty6 = DrawerKt.rememberBottomDrawerState(BottomDrawerValue.Closed, 0, 0, restartGroup, 6, 6);
+                            $dirty5 = DrawerKt.rememberBottomDrawerState(BottomDrawerValue.Closed, 0, 0, restartGroup, 6, 6);
                             modifier3 &= -897;
                         } else {
                             obj32 = modifier2;
-                            $dirty5 = $dirty3;
-                            $dirty6 = drawerBackgroundColor2;
+                            $dirty3 = $dirty2;
+                            $dirty5 = drawerBackgroundColor2;
                         }
                         gesturesEnabled3 = i43 != 0 ? 1 : drawerContentColor2;
-                        l8 = 6;
+                        l = 6;
                         if (i51 & 16 != 0) {
-                            drawerShape2 = DrawerDefaults.INSTANCE.getShape(restartGroup, l8);
-                            $dirty5 &= i58;
+                            drawerShape2 = DrawerDefaults.INSTANCE.getShape(restartGroup, l);
+                            $dirty3 &= i58;
                         } else {
-                            drawerShape2 = obj3;
+                            drawerShape2 = obj2;
                         }
                         if (scrimColor2 != 0) {
                             drawerElevation2 = DrawerDefaults.INSTANCE.getElevation-D9Ej5fM();
@@ -274,78 +274,78 @@ public final class DrawerKt {
                             drawerElevation2 = compositionCoroutineScope;
                         }
                         if (i51 & 64 != 0) {
-                            drawerBackgroundColor2 = DrawerDefaults.INSTANCE.getBackgroundColor(restartGroup, l8);
-                            $dirty5 &= i57;
+                            drawerBackgroundColor2 = DrawerDefaults.INSTANCE.getBackgroundColor(restartGroup, l);
+                            $dirty3 &= i57;
                         } else {
                             drawerBackgroundColor2 = drawerBackgroundColor;
                         }
                         if (i51 & 128 != 0) {
                             drawerContentColor2 = ColorsKt.contentColorFor-ek8zF_U(drawerBackgroundColor2, i43, restartGroup);
-                            $dirty5 &= i56;
+                            $dirty3 &= i56;
                         } else {
                             drawerContentColor2 = scrimColor;
                         }
                         if (i51 & 256 != 0) {
-                            obj7 = $dirty6;
+                            obj8 = $dirty5;
                             z = gesturesEnabled3;
-                            obj5 = drawerShape2;
-                            f = drawerElevation2;
-                            l2 = drawerBackgroundColor2;
-                            l3 = drawerContentColor2;
-                            l9 = scrimColor2;
-                            $dirty3 = $dirty7;
-                            $dirty = obj32;
+                            obj4 = drawerShape2;
+                            f2 = drawerElevation2;
+                            l8 = drawerBackgroundColor2;
+                            l7 = drawerContentColor2;
+                            l5 = scrimColor2;
+                            $dirty2 = $dirty7;
+                            $dirty4 = obj32;
                         } else {
-                            l9 = $composer;
-                            obj7 = $dirty6;
+                            l5 = $composer;
+                            obj8 = $dirty5;
                             z = gesturesEnabled3;
-                            obj5 = drawerShape2;
-                            f = drawerElevation2;
-                            l2 = drawerBackgroundColor2;
-                            l3 = drawerContentColor2;
-                            $dirty3 = $dirty5;
-                            $dirty = obj32;
+                            obj4 = drawerShape2;
+                            f2 = drawerElevation2;
+                            l8 = drawerBackgroundColor2;
+                            l7 = drawerContentColor2;
+                            $dirty2 = $dirty3;
+                            $dirty4 = obj32;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (i51 & 4 != 0) {
-                            $dirty3 &= -897;
+                            $dirty2 &= -897;
                         }
                         if (i51 & 16 != 0) {
-                            $dirty3 &= i58;
+                            $dirty2 &= i58;
                         }
                         if (i51 & 64 != 0) {
-                            $dirty3 &= i57;
+                            $dirty2 &= i57;
                         }
                         if (i51 & 128 != 0) {
-                            $dirty3 &= i56;
+                            $dirty2 &= i56;
                         }
                         if (i51 & 256 != 0) {
-                            l3 = scrimColor;
-                            l9 = $composer;
-                            $dirty3 = i19;
-                            l2 = l8;
-                            obj7 = drawerBackgroundColor2;
+                            l7 = scrimColor;
+                            l5 = $composer;
+                            $dirty2 = i19;
+                            l8 = l;
+                            obj8 = drawerBackgroundColor2;
                             z = drawerContentColor2;
-                            obj5 = obj3;
-                            f = compositionCoroutineScope;
-                            $dirty = modifier;
+                            obj4 = obj2;
+                            f2 = compositionCoroutineScope;
+                            $dirty4 = modifier;
                         } else {
-                            $dirty = modifier;
-                            l3 = scrimColor;
-                            l9 = $composer;
-                            l2 = l8;
-                            obj7 = drawerBackgroundColor2;
+                            $dirty4 = modifier;
+                            l7 = scrimColor;
+                            l5 = $composer;
+                            l8 = l;
+                            obj8 = drawerBackgroundColor2;
                             z = drawerContentColor2;
-                            obj5 = obj3;
-                            f = compositionCoroutineScope;
+                            obj4 = obj2;
+                            f2 = compositionCoroutineScope;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(625649286, $dirty3, -1, "androidx.compose.material.BottomDrawer (Drawer.kt:632)");
+                    ComposerKt.traceEventStart(625649286, $dirty2, -1, "androidx.compose.material.BottomDrawer (Drawer.kt:632)");
                 }
                 int i23 = 0;
                 int i28 = 0;
@@ -359,165 +359,165 @@ public final class DrawerKt {
                 if (drawerContentColor2 == Composer.Companion.getEmpty()) {
                     scrimColor2 = 0;
                     int i49 = 0;
-                    obj39 = $dirty3;
-                    $dirty4 = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
-                    drawerBackgroundColor2.updateRememberedValue($dirty4);
+                    obj39 = $dirty2;
+                    $dirty = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, restartGroup));
+                    drawerBackgroundColor2.updateRememberedValue($dirty);
                 } else {
-                    obj39 = $dirty3;
-                    $dirty4 = drawerContentColor2;
+                    obj39 = $dirty2;
+                    $dirty = drawerContentColor2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i29 = 1;
-                DrawerKt.BottomDrawer.1 anon2 = new DrawerKt.BottomDrawer.1(z, obj7, i13, l9, i, (CompositionScopedCoroutineScopeCanceller)$dirty4.getCoroutineScope(), obj5, l2, obj25, l3, obj27, f, obj8);
+                DrawerKt.BottomDrawer.1 anon2 = new DrawerKt.BottomDrawer.1(z, obj8, i13, l5, i2, (CompositionScopedCoroutineScopeCanceller)$dirty.getCoroutineScope(), obj4, l8, obj25, l7, obj27, f2, obj);
                 obj36 = restartGroup;
-                BoxWithConstraintsKt.BoxWithConstraints(SizeKt.fillMaxSize$default($dirty, 0, i29, 0), 0, false, (Function3)ComposableLambdaKt.rememberComposableLambda(1220102512, i29, anon2, restartGroup, 54), obj36, 3072, 6);
+                BoxWithConstraintsKt.BoxWithConstraints(SizeKt.fillMaxSize$default($dirty4, 0, i29, 0), 0, false, (Function3)ComposableLambdaKt.rememberComposableLambda(1220102512, i29, anon2, restartGroup, 54), obj36, 3072, 6);
                 composer = obj36;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                companion = $dirty;
+                companion = $dirty4;
                 $composer2 = z;
-                obj6 = obj7;
-                l6 = l9;
-                obj4 = obj5;
-                l = l2;
-                l5 = l3;
-                f2 = f;
+                obj6 = obj8;
+                l9 = l5;
+                obj3 = obj4;
+                l6 = l8;
+                l4 = l7;
+                f = f2;
                 gesturesEnabled2 = obj39;
             } else {
                 restartGroup.skipToGroupEnd();
                 companion = modifier;
-                gesturesEnabled2 = $dirty3;
+                gesturesEnabled2 = $dirty2;
                 composer = restartGroup;
                 obj6 = drawerBackgroundColor2;
                 $composer2 = drawerContentColor2;
-                l5 = scrimColor;
-                l = l8;
-                obj4 = obj3;
-                f2 = compositionCoroutineScope;
-                l6 = $composer;
+                l4 = scrimColor;
+                l6 = l;
+                obj3 = obj2;
+                f = compositionCoroutineScope;
+                l9 = $composer;
             }
         } else {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new DrawerKt.BottomDrawer.2(drawerContent, companion, obj6, $composer2, obj4, f2, l, drawerBackgroundColor2, l5, drawerContentColor2, l6, scrimColor2, i13, i50, i51);
+            endRestartGroup = new DrawerKt.BottomDrawer.2(drawerContent, companion, obj6, $composer2, obj3, f, l6, drawerBackgroundColor2, l4, drawerContentColor2, l9, scrimColor2, i13, i50, i51);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
 
     private static final void BottomDrawerScrim-3J-VO9M(long color, Function0<Unit> onDismiss, boolean visible, Composer $composer, int $changed) {
         int traceInProgress2;
-        int i;
+        int $i$f$isSpecified8_81llA;
         Modifier semantics;
-        boolean anon3;
+        boolean anon;
         int $dirty;
+        int i14;
         int i8;
-        int i4;
-        int i11;
+        int i;
         boolean string-4foXLRw;
         boolean traceInProgress;
-        int i3;
+        int i10;
         int str;
         int empty3;
         Composer cmp;
-        int i14;
-        int i15;
-        int i9;
-        Object rememberedValue;
+        int i5;
         int i6;
-        int i10;
+        int i3;
+        Object rememberedValue;
+        int i13;
+        int i4;
         Composer i12;
         int i2;
-        int i5;
+        int i15;
         int empty;
         int empty2;
         int anon2;
-        Object anon;
+        Object anon3;
         int $dirty2;
-        int companion2;
-        int i7;
-        int i13;
         int companion;
-        int i16;
+        int i7;
+        int i9;
+        int companion2;
+        int i11;
         final long l = color;
         final Object obj = visible;
-        anon3 = $composer;
-        final int i20 = obj27;
+        anon = $composer;
+        final int i19 = obj27;
         traceInProgress2 = -513067266;
         final Composer restartGroup = $changed.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(BottomDrawerScrim)P(0:c#ui.graphics.Color):Drawer.kt#jmzs0o");
-        if (i20 & 6 == 0) {
-            i8 = restartGroup.changed(l) ? 4 : 2;
-            $dirty |= i8;
+        if (i19 & 6 == 0) {
+            i14 = restartGroup.changed(l) ? 4 : 2;
+            $dirty |= i14;
         }
         anon2 = 32;
-        if (i20 & 48 == 0) {
-            i4 = restartGroup.changedInstance(obj) ? anon2 : 16;
-            $dirty |= i4;
+        if (i19 & 48 == 0) {
+            i8 = restartGroup.changedInstance(obj) ? anon2 : 16;
+            $dirty |= i8;
         }
-        if (i20 & 384 == 0) {
-            i11 = restartGroup.changed(anon3) ? 256 : 128;
-            $dirty |= i11;
+        if (i19 & 384 == 0) {
+            i = restartGroup.changed(anon) ? 256 : 128;
+            $dirty |= i;
         }
         if ($dirty & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.BottomDrawerScrim (Drawer.kt:792)");
                 }
-                int i17 = 0;
-                i14 = 0;
+                int i16 = 0;
+                i5 = 0;
                 rememberedValue = 1;
-                i = Long.compare(string-4foXLRw, i26) != 0 ? rememberedValue : i14;
-                if (i != 0) {
+                $i$f$isSpecified8_81llA = Long.compare(string-4foXLRw, i25) != 0 ? rememberedValue : i5;
+                if ($i$f$isSpecified8_81llA != 0) {
                     restartGroup.startReplaceGroup(1552727430);
                     ComposerKt.sourceInformation(restartGroup, "794@30102L121,798@30250L30,816@30803L62,812@30694L171");
-                    i3 = anon3 ? 1065353216 : 0;
+                    i10 = anon ? 1065353216 : 0;
                     TweenSpec tweenSpec3 = new TweenSpec(0, 0, 0, 7, 0);
-                    i7 = i35;
+                    i7 = i34;
                     $dirty2 = $dirty;
-                    $dirty = AnimateAsStateKt.animateFloatAsState(i3, (AnimationSpec)tweenSpec3, 0, 0, 0, restartGroup, 48, 28);
+                    $dirty = AnimateAsStateKt.animateFloatAsState(i10, (AnimationSpec)tweenSpec3, 0, 0, 0, restartGroup, 48, 28);
                     string-4foXLRw = Strings_androidKt.getString-4foXLRw(Strings.Companion.getCloseDrawer-UdPEhr4(), restartGroup, 6);
                     String str4 = "CC(remember):Drawer.kt#9igjgp";
-                    if (anon3) {
+                    if (anon) {
                         restartGroup.startReplaceGroup(1552955900);
                         ComposerKt.sourceInformation(restartGroup, "801@30388L73,804@30514L122");
                         ComposerKt.sourceInformationMarkerStart(restartGroup, -1612470835, str4);
-                        i6 = $dirty2 & 112 == anon2 ? empty2 : 0;
+                        i13 = $dirty2 & 112 == anon2 ? empty2 : 0;
                         Composer composer = restartGroup;
-                        companion2 = 0;
+                        companion = 0;
                         Object rememberedValue2 = composer.rememberedValue();
-                        i13 = 0;
-                        if (i6 == 0) {
+                        i9 = 0;
+                        if (i13 == 0) {
                             if (rememberedValue2 == Composer.Companion.getEmpty()) {
                                 empty2 = 0;
-                                anon = new DrawerKt.BottomDrawerScrim.dismissModifier.1.1(obj, 0);
-                                composer.updateRememberedValue((Function2)anon);
+                                anon3 = new DrawerKt.BottomDrawerScrim.dismissModifier.1.1(obj, 0);
+                                composer.updateRememberedValue((Function2)anon3);
                             } else {
-                                anon = rememberedValue2;
+                                anon3 = rememberedValue2;
                             }
                         } else {
                         }
                         ComposerKt.sourceInformationMarkerEnd(restartGroup);
                         ComposerKt.sourceInformationMarkerStart(restartGroup, -1612466754, str4);
-                        i10 = $dirty2 & 112 == 32 ? 1 : 0;
+                        i4 = $dirty2 & 112 == 32 ? 1 : 0;
                         i12 = restartGroup;
-                        i5 = 0;
+                        i15 = 0;
                         Object rememberedValue3 = i12.rememberedValue();
                         anon2 = 0;
-                        if (changed4 |= i10 == 0) {
+                        if (changed4 |= i4 == 0) {
                             if (rememberedValue3 == Composer.Companion.getEmpty()) {
                                 empty3 = 0;
-                                anon3 = new DrawerKt.BottomDrawerScrim.dismissModifier.2.1(string-4foXLRw, obj);
-                                i12.updateRememberedValue((Function1)anon3);
+                                anon = new DrawerKt.BottomDrawerScrim.dismissModifier.2.1(string-4foXLRw, obj);
+                                i12.updateRememberedValue((Function1)anon);
                             } else {
-                                anon3 = rememberedValue3;
+                                anon = rememberedValue3;
                             }
                         } else {
                         }
                         ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                        semantics = SemanticsModifierKt.semantics(SuspendingPointerInputFilterKt.pointerInput((Modifier)Modifier.Companion, obj, (Function2)anon), true, (Function1)anon3);
+                        semantics = SemanticsModifierKt.semantics(SuspendingPointerInputFilterKt.pointerInput((Modifier)Modifier.Companion, obj, (Function2)anon3), true, (Function1)anon);
                         restartGroup.endReplaceGroup();
                     } else {
                         restartGroup.startReplaceGroup(1553272286);
@@ -526,12 +526,12 @@ public final class DrawerKt {
                     }
                     empty = 1;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -1612457566, str4);
-                    i9 = $dirty2 & 14 == 4 ? empty : 0;
+                    i3 = $dirty2 & 14 == 4 ? empty : 0;
                     cmp = restartGroup;
-                    i14 = 0;
+                    i5 = 0;
                     rememberedValue = cmp.rememberedValue();
-                    int i37 = 0;
-                    if (changed3 |= i9 == 0) {
+                    int i36 = 0;
+                    if (changed3 |= i3 == 0) {
                         if (rememberedValue == Composer.Companion.getEmpty()) {
                             empty = 0;
                             anon2 = new DrawerKt.BottomDrawerScrim.1.1(l, obj2, $dirty);
@@ -560,7 +560,7 @@ public final class DrawerKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new DrawerKt.BottomDrawerScrim.2(l, obj2, obj, $composer, i20);
+            traceInProgress2 = new DrawerKt.BottomDrawerScrim.2(l, obj2, obj, $composer, i19);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
@@ -579,66 +579,66 @@ public final class DrawerKt {
 
     public static final void ModalDrawer-Gs3lGvM(Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> drawerContent, Modifier modifier, androidx.compose.material.DrawerState drawerState, boolean gesturesEnabled, Shape drawerShape, float drawerElevation, long drawerBackgroundColor, long drawerContentColor, long scrimColor, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i13) {
         int $dirty5;
-        int $dirty3;
-        Object obj5;
-        int $dirty2;
+        int $dirty4;
+        Object obj8;
+        int $dirty;
         Object endRestartGroup;
-        int i7;
-        int $dirty6;
+        int i;
+        int $dirty2;
         boolean traceInProgress2;
         int $dirty7;
-        long $dirty;
-        long l5;
+        long $dirty3;
+        long l2;
         int skipping;
         int defaultsInvalid;
-        Object modifier3;
         Object modifier2;
+        Object modifier3;
         boolean traceInProgress;
         Object companion;
-        Object obj2;
+        Object obj7;
         Object compositionScopedCoroutineScopeCanceller;
-        Object obj8;
+        Object obj4;
         long backgroundColor;
         boolean z;
-        int i4;
-        int i6;
+        int i7;
+        int i3;
         Object obj3;
-        Object gesturesEnabled2;
+        Object gesturesEnabled3;
         int closed;
-        boolean gesturesEnabled3;
+        boolean gesturesEnabled2;
         float modifier4;
-        int i8;
+        int i5;
         Object drawerShape2;
-        long l2;
-        int changed;
+        long l5;
+        int changed3;
         float drawerElevation2;
         boolean drawerContentColor2;
         int iNSTANCE;
-        long l3;
-        int i3;
+        long l4;
+        int i2;
         Object rememberedValue;
-        boolean changed2;
+        boolean changed;
         int scrimColor2;
         long l6;
         float empty;
-        int i;
+        int i8;
         int compositionCoroutineScope;
         int changed4;
         Composer composer;
-        int changed3;
-        int i5;
-        int $dirty4;
-        Object obj7;
-        int drawerState2;
-        int i2;
-        kotlinx.coroutines.CoroutineScope coroutineScope;
-        long l4;
-        Object obj;
-        long l7;
-        long l;
-        float f;
-        Object obj4;
+        int changed2;
+        int i6;
+        int $dirty6;
         Object obj6;
+        int drawerState2;
+        int i4;
+        kotlinx.coroutines.CoroutineScope coroutineScope;
+        long l;
+        Object obj2;
+        long l7;
+        long l3;
+        float f;
+        Object obj;
+        Object obj5;
         ScopeUpdateScope scopeUpdateScope;
         androidx.compose.ui.Modifier.Companion obj32;
         int obj33;
@@ -654,34 +654,34 @@ public final class DrawerKt {
         $dirty7 = obj45;
         if (i52 & 1 != 0) {
             $dirty7 |= 6;
-            obj2 = drawerContent;
+            obj7 = drawerContent;
         } else {
             if (i51 & 6 == 0) {
-                i4 = traceInProgress2.changedInstance(drawerContent) ? 4 : 2;
-                $dirty7 |= i4;
+                i7 = traceInProgress2.changedInstance(drawerContent) ? 4 : 2;
+                $dirty7 |= i7;
             } else {
-                obj2 = drawerContent;
+                obj7 = drawerContent;
             }
         }
-        i6 = i52 & 2;
-        if (i6 != 0) {
+        i3 = i52 & 2;
+        if (i3 != 0) {
             $dirty7 |= 48;
-            gesturesEnabled2 = modifier;
+            gesturesEnabled3 = modifier;
         } else {
             if (i51 & 48 == 0) {
-                i8 = traceInProgress2.changed(modifier) ? 32 : 16;
-                $dirty7 |= i8;
+                i5 = traceInProgress2.changed(modifier) ? 32 : 16;
+                $dirty7 |= i5;
             } else {
-                gesturesEnabled2 = modifier;
+                gesturesEnabled3 = modifier;
             }
         }
         if (i51 & 384 == 0) {
             if (i52 & 4 == 0) {
-                changed = traceInProgress2.changed(drawerState) ? 256 : 128;
+                changed3 = traceInProgress2.changed(drawerState) ? 256 : 128;
             } else {
                 drawerShape2 = drawerState;
             }
-            $dirty7 |= changed;
+            $dirty7 |= changed3;
         } else {
             drawerShape2 = drawerState;
         }
@@ -691,19 +691,19 @@ public final class DrawerKt {
             drawerContentColor2 = gesturesEnabled;
         } else {
             if (i51 & 3072 == 0) {
-                i3 = traceInProgress2.changed(gesturesEnabled) ? 2048 : 1024;
-                $dirty7 |= i3;
+                i2 = traceInProgress2.changed(gesturesEnabled) ? 2048 : 1024;
+                $dirty7 |= i2;
             } else {
                 drawerContentColor2 = gesturesEnabled;
             }
         }
         if (i51 & 24576 == 0) {
             if (i52 & 16 == 0) {
-                changed2 = traceInProgress2.changed(drawerShape) ? 16384 : 8192;
+                changed = traceInProgress2.changed(drawerShape) ? 16384 : 8192;
             } else {
                 rememberedValue = drawerShape;
             }
-            $dirty7 |= changed2;
+            $dirty7 |= changed;
         } else {
             rememberedValue = drawerShape;
         }
@@ -714,63 +714,63 @@ public final class DrawerKt {
             empty = drawerElevation;
         } else {
             if (i45 &= i51 == 0) {
-                i = traceInProgress2.changed(drawerElevation) ? 131072 : 65536;
-                $dirty7 |= i;
+                i8 = traceInProgress2.changed(drawerElevation) ? 131072 : 65536;
+                $dirty7 |= i8;
             } else {
                 empty = drawerElevation;
             }
         }
         if (i47 &= i51 == 0) {
             if (i52 & 64 == 0) {
-                compositionCoroutineScope = i6;
+                compositionCoroutineScope = i3;
                 changed4 = traceInProgress2.changed(drawerBackgroundColor) ? 1048576 : 524288;
             } else {
-                compositionCoroutineScope = i6;
+                compositionCoroutineScope = i3;
                 backgroundColor = drawerBackgroundColor;
             }
             $dirty7 |= changed4;
         } else {
-            compositionCoroutineScope = i6;
+            compositionCoroutineScope = i3;
             backgroundColor = drawerBackgroundColor;
         }
         if (i51 & i53 == 0) {
             if (i52 & 128 == 0) {
                 $dirty5 = $dirty7;
-                changed3 = traceInProgress2.changed(scrimColor) ? 8388608 : 4194304;
+                changed2 = traceInProgress2.changed(scrimColor) ? 8388608 : 4194304;
             } else {
                 $dirty5 = $dirty7;
-                $dirty = scrimColor;
+                $dirty3 = scrimColor;
             }
-            $dirty5 |= changed3;
+            $dirty5 |= changed2;
         } else {
-            $dirty3 = $dirty7;
-            $dirty = scrimColor;
+            $dirty4 = $dirty7;
+            $dirty3 = scrimColor;
         }
         if (i51 & i55 == 0) {
             if (i52 & 256 == 0) {
-                i7 = traceInProgress2.changed($composer) ? 67108864 : 33554432;
+                i = traceInProgress2.changed($composer) ? 67108864 : 33554432;
             } else {
-                l5 = $composer;
+                l2 = $composer;
             }
-            $dirty3 = i5 | i7;
+            $dirty4 = i6 | i;
         } else {
-            l5 = $composer;
-            i5 = $dirty3;
+            l2 = $composer;
+            i6 = $dirty4;
         }
-        $dirty4 = $dirty3;
-        i2 = 805306368;
+        $dirty6 = $dirty4;
+        i4 = 805306368;
         if (i52 & 512 != 0) {
-            $dirty2 = $dirty4 | i2;
+            $dirty = $dirty6 | i4;
         } else {
-            if (i51 & i2 == 0) {
-                i2 = traceInProgress2.changedInstance(i13) ? 536870912 : 268435456;
-                $dirty4 |= i2;
+            if (i51 & i4 == 0) {
+                i4 = traceInProgress2.changedInstance(i13) ? 536870912 : 268435456;
+                $dirty6 |= i4;
             } else {
-                obj5 = i13;
+                obj8 = i13;
             }
-            $dirty2 = $dirty4;
+            $dirty = $dirty6;
         }
-        if ($dirty2 & $dirty10 == 306783378) {
+        if ($dirty & $dirty10 == 306783378) {
             if (!traceInProgress2.getSkipping()) {
                 traceInProgress2.startDefaults();
                 int i57 = -29360129;
@@ -780,23 +780,23 @@ public final class DrawerKt {
                 if (i51 & 1 != 0) {
                     if (traceInProgress2.getDefaultsInvalid()) {
                         if (compositionCoroutineScope != 0) {
-                            modifier3 = Modifier.Companion;
+                            modifier2 = Modifier.Companion;
                         } else {
-                            modifier3 = gesturesEnabled2;
+                            modifier2 = gesturesEnabled3;
                         }
                         compositionCoroutineScope = 6;
                         if (i52 & 4 != 0) {
-                            obj32 = modifier3;
-                            modifier2 = DrawerKt.rememberDrawerState(DrawerValue.Closed, 0, traceInProgress2, compositionCoroutineScope, 2);
-                            $dirty2 &= -897;
+                            obj32 = modifier2;
+                            modifier3 = DrawerKt.rememberDrawerState(DrawerValue.Closed, 0, traceInProgress2, compositionCoroutineScope, 2);
+                            $dirty &= -897;
                         } else {
-                            obj32 = modifier3;
-                            modifier2 = drawerShape2;
+                            obj32 = modifier2;
+                            modifier3 = drawerShape2;
                         }
-                        gesturesEnabled3 = drawerElevation2 != 0 ? 1 : drawerContentColor2;
+                        gesturesEnabled2 = drawerElevation2 != 0 ? 1 : drawerContentColor2;
                         if (i52 & 16 != 0) {
                             drawerShape2 = DrawerDefaults.INSTANCE.getShape(traceInProgress2, compositionCoroutineScope);
-                            $dirty2 &= i59;
+                            $dirty &= i59;
                         } else {
                             drawerShape2 = rememberedValue;
                         }
@@ -807,64 +807,64 @@ public final class DrawerKt {
                         }
                         if (i52 & 64 != 0) {
                             backgroundColor = DrawerDefaults.INSTANCE.getBackgroundColor(traceInProgress2, compositionCoroutineScope);
-                            $dirty2 &= i58;
+                            $dirty &= i58;
                         }
                         if (i52 & 128 != 0) {
-                            drawerContentColor2 = ColorsKt.contentColorFor-ek8zF_U(backgroundColor, i6, traceInProgress2);
-                            $dirty2 &= i57;
+                            drawerContentColor2 = ColorsKt.contentColorFor-ek8zF_U(backgroundColor, i3, traceInProgress2);
+                            $dirty &= i57;
                         } else {
                             drawerContentColor2 = scrimColor;
                         }
                         if (i52 & 256 != 0) {
-                            $dirty2 &= i60;
-                            obj7 = modifier2;
+                            $dirty &= i60;
+                            obj6 = modifier3;
                             l7 = backgroundColor;
-                            i2 = gesturesEnabled3;
-                            obj = drawerShape2;
+                            i4 = gesturesEnabled2;
+                            obj2 = drawerShape2;
                             f = drawerElevation2;
-                            l = drawerContentColor2;
-                            l4 = scrimColor2;
-                            gesturesEnabled2 = obj32;
+                            l3 = drawerContentColor2;
+                            l = scrimColor2;
+                            gesturesEnabled3 = obj32;
                         } else {
-                            l4 = $composer;
-                            obj7 = modifier2;
+                            l = $composer;
+                            obj6 = modifier3;
                             l7 = backgroundColor;
-                            i2 = gesturesEnabled3;
-                            obj = drawerShape2;
+                            i4 = gesturesEnabled2;
+                            obj2 = drawerShape2;
                             f = drawerElevation2;
-                            l = drawerContentColor2;
-                            gesturesEnabled2 = obj32;
+                            l3 = drawerContentColor2;
+                            gesturesEnabled3 = obj32;
                         }
                     } else {
                         traceInProgress2.skipToGroupEnd();
                         if (i52 & 4 != 0) {
-                            $dirty2 &= -897;
+                            $dirty &= -897;
                         }
                         if (i52 & 16 != 0) {
-                            $dirty2 &= i59;
+                            $dirty &= i59;
                         }
                         if (i52 & 64 != 0) {
-                            $dirty2 &= i58;
+                            $dirty &= i58;
                         }
                         if (i52 & 128 != 0) {
-                            $dirty2 &= i57;
+                            $dirty &= i57;
                         }
                         if (i52 & 256 != 0) {
-                            $dirty2 &= i60;
+                            $dirty &= i60;
                         }
-                        l = scrimColor;
-                        l4 = $composer;
+                        l3 = scrimColor;
+                        l = $composer;
                         l7 = backgroundColor;
-                        obj7 = drawerShape2;
-                        i2 = drawerContentColor2;
-                        obj = rememberedValue;
+                        obj6 = drawerShape2;
+                        i4 = drawerContentColor2;
+                        obj2 = rememberedValue;
                         f = empty;
                     }
                 } else {
                 }
                 traceInProgress2.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1305806945, $dirty2, -1, "androidx.compose.material.ModalDrawer (Drawer.kt:499)");
+                    ComposerKt.traceEventStart(1305806945, $dirty, -1, "androidx.compose.material.ModalDrawer (Drawer.kt:499)");
                 }
                 int i16 = 0;
                 int i23 = 0;
@@ -886,40 +886,40 @@ public final class DrawerKt {
                 ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
                 ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
                 int i21 = 1;
-                DrawerKt.ModalDrawer.1 anon2 = new DrawerKt.ModalDrawer.1(obj7, i2, (CompositionScopedCoroutineScopeCanceller)compositionScopedCoroutineScopeCanceller.getCoroutineScope(), l4, obj21, obj, l7, obj24, l, obj26, f, i13, drawerContent);
+                DrawerKt.ModalDrawer.1 anon2 = new DrawerKt.ModalDrawer.1(obj6, i4, (CompositionScopedCoroutineScopeCanceller)compositionScopedCoroutineScopeCanceller.getCoroutineScope(), l, obj21, obj2, l7, obj24, l3, obj26, f, i13, drawerContent);
                 obj36 = traceInProgress2;
-                BoxWithConstraintsKt.BoxWithConstraints(SizeKt.fillMaxSize$default(gesturesEnabled2, 0, i21, 0), 0, false, (Function3)ComposableLambdaKt.rememberComposableLambda(816674999, i21, anon2, traceInProgress2, 54), obj36, 3072, 6);
+                BoxWithConstraintsKt.BoxWithConstraints(SizeKt.fillMaxSize$default(gesturesEnabled3, 0, i21, 0), 0, false, (Function3)ComposableLambdaKt.rememberComposableLambda(816674999, i21, anon2, traceInProgress2, 54), obj36, 3072, 6);
                 composer = obj36;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                companion = gesturesEnabled2;
-                obj8 = obj7;
-                z = i2;
-                l6 = l4;
-                obj3 = obj;
-                l2 = l7;
-                l3 = l;
+                companion = gesturesEnabled3;
+                obj4 = obj6;
+                z = i4;
+                l6 = l;
+                obj3 = obj2;
+                l5 = l7;
+                l4 = l3;
                 modifier4 = f;
-                drawerState2 = $dirty2;
+                drawerState2 = $dirty;
             } else {
                 traceInProgress2.skipToGroupEnd();
                 composer = traceInProgress2;
-                companion = gesturesEnabled2;
-                obj8 = drawerShape2;
+                companion = gesturesEnabled3;
+                obj4 = drawerShape2;
                 modifier4 = empty;
                 l6 = $composer;
-                l2 = backgroundColor;
+                l5 = backgroundColor;
                 z = drawerContentColor2;
                 obj3 = rememberedValue;
-                l3 = scrimColor;
-                drawerState2 = $dirty2;
+                l4 = scrimColor;
+                drawerState2 = $dirty;
             }
         } else {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new DrawerKt.ModalDrawer.2(drawerContent, companion, obj8, z, obj3, modifier4, l2, drawerElevation2, l3, rememberedValue, l6, empty, i13, i51, i52);
+            endRestartGroup = new DrawerKt.ModalDrawer.2(drawerContent, companion, obj4, z, obj3, modifier4, l5, drawerElevation2, l4, rememberedValue, l6, empty, i13, i51, i52);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
@@ -930,28 +930,28 @@ public final class DrawerKt {
         Object anon;
         Modifier companion3;
         int $dirty;
-        int i5;
+        int i;
         int i6;
-        int i4;
         int i8;
+        int i7;
         int skipping;
         boolean traceInProgress2;
         int empty;
         Object anon2;
         int pointerInput;
+        int i4;
+        int i11;
         int i3;
-        int i2;
         int i9;
-        int i10;
         Composer composer;
         int rememberedValue;
-        int i7;
+        int i10;
         Composer composer2;
         Object rememberedValue2;
         String str;
-        int i11;
+        int i2;
         int companion;
-        int i;
+        int i5;
         Composer.Companion companion2;
         companion3 = open;
         final Object obj = onClose;
@@ -962,8 +962,8 @@ public final class DrawerKt {
         Composer restartGroup = $changed.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(Scrim)P(3,2,1,0:c#ui.graphics.Color)829@31020L30,845@31464L51,841@31373L142:Drawer.kt#jmzs0o");
         if (i13 & 6 == 0) {
-            i5 = restartGroup.changed(companion3) ? 4 : 2;
-            $dirty |= i5;
+            i = restartGroup.changed(companion3) ? 4 : 2;
+            $dirty |= i;
         }
         pointerInput = 32;
         if (i13 & 48 == 0) {
@@ -971,12 +971,12 @@ public final class DrawerKt {
             $dirty |= i6;
         }
         if (i13 & 384 == 0) {
-            i4 = restartGroup.changedInstance(obj2) ? 256 : 128;
-            $dirty |= i4;
+            i8 = restartGroup.changedInstance(obj2) ? 256 : 128;
+            $dirty |= i8;
         }
         if (i13 & 3072 == 0) {
-            i8 = restartGroup.changed(l) ? 2048 : 1024;
-            $dirty |= i8;
+            i7 = restartGroup.changed(l) ? 2048 : 1024;
+            $dirty |= i7;
         }
         if ($dirty & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
@@ -989,12 +989,12 @@ public final class DrawerKt {
                     restartGroup.startReplaceGroup(487703622);
                     ComposerKt.sourceInformation(restartGroup, "832@31139L35,833@31223L108");
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 1262659875, str3);
-                    i2 = $dirty & 112 == pointerInput ? 1 : 0;
+                    i11 = $dirty & 112 == pointerInput ? 1 : 0;
                     Composer composer3 = restartGroup;
                     companion = 0;
                     Object rememberedValue3 = composer3.rememberedValue();
-                    i = 0;
-                    if (i2 == 0) {
+                    i5 = 0;
+                    if (i11 == 0) {
                         if (rememberedValue3 == Composer.Companion.getEmpty()) {
                             int i30 = 0;
                             anon2 = new DrawerKt.Scrim.dismissDrawer.1.1(obj, 0);
@@ -1007,12 +1007,12 @@ public final class DrawerKt {
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 1262662636, str3);
-                    i10 = $dirty & 112 == 32 ? 1 : 0;
+                    i9 = $dirty & 112 == 32 ? 1 : 0;
                     composer = restartGroup;
-                    i7 = 0;
+                    i10 = 0;
                     rememberedValue2 = composer.rememberedValue();
-                    i11 = 0;
-                    if (changed3 |= i10 == 0) {
+                    i2 = 0;
+                    if (changed3 |= i9 == 0) {
                         if (rememberedValue2 == Composer.Companion.getEmpty()) {
                             empty = 0;
                             anon = new DrawerKt.Scrim.dismissDrawer.2.1(string-4foXLRw, obj);
@@ -1032,18 +1032,18 @@ public final class DrawerKt {
                 }
                 int i22 = 1;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1262670291, str3);
-                i3 = $dirty & 7168 == 2048 ? i22 : 0;
+                i4 = $dirty & 7168 == 2048 ? i22 : 0;
                 rememberedValue2 = $dirty & 896 == 256 ? i22 : 0;
-                i9 = restartGroup;
+                i3 = restartGroup;
                 composer = 0;
-                rememberedValue = i9.rememberedValue();
-                i7 = 0;
-                if (i3 |= rememberedValue2 == 0) {
+                rememberedValue = i3.rememberedValue();
+                i10 = 0;
+                if (i4 |= rememberedValue2 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         rememberedValue2 = 0;
                         str = string-4foXLRw;
                         closeDrawer = new DrawerKt.Scrim.1.1(l, obj5, obj2);
-                        i9.updateRememberedValue((Function1)closeDrawer);
+                        i3.updateRememberedValue((Function1)closeDrawer);
                     } else {
                         str = string-4foXLRw;
                         closeDrawer = rememberedValue;
@@ -1121,9 +1121,9 @@ public final class DrawerKt {
 
     public static final androidx.compose.material.BottomDrawerState rememberBottomDrawerState(androidx.compose.material.BottomDrawerValue initialValue, Function1<? super androidx.compose.material.BottomDrawerValue, Boolean> confirmStateChange, AnimationSpec<Float> animationSpec, Composer $composer, int $changed, int i6) {
         int i2;
-        boolean changed;
-        int iNSTANCE;
         boolean changed2;
+        int iNSTANCE;
+        boolean changed;
         String str;
         int i;
         Object empty;
@@ -1192,9 +1192,9 @@ public final class DrawerKt {
 
     public static final androidx.compose.material.DrawerState rememberDrawerState(androidx.compose.material.DrawerValue initialValue, Function1<? super androidx.compose.material.DrawerValue, Boolean> confirmStateChange, Composer $composer, int $changed, int i5) {
         String str;
-        int changed2;
-        int i;
         int changed;
+        int i;
+        int changed2;
         Object empty;
         Object anon;
         androidx.compose.material.DrawerKt.rememberDrawerState.1 obj9;

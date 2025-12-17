@@ -74,18 +74,18 @@ public final class TargetState<T>  implements androidx.compose.ui.tooling.animat
 
     @Override // androidx.compose.ui.tooling.animation.states.ComposeAnimationState
     public int hashCode() {
-        int i;
         int i2;
+        int i;
         if (this.initial == null) {
-            i = i2;
+            i2 = i;
         } else {
-            i = this.initial.hashCode();
+            i2 = this.initial.hashCode();
         }
         if (this.target == null) {
         } else {
-            i2 = this.target.hashCode();
+            i = this.target.hashCode();
         }
-        return i3 += i2;
+        return i3 += i;
     }
 
     @Override // androidx.compose.ui.tooling.animation.states.ComposeAnimationState

@@ -252,35 +252,35 @@ public final class Matrix {
 
     public static final void reset-impl(float[] arg0) {
         int c;
-        int i4;
+        int i2;
         int r;
+        int i4;
         int i;
         int i3;
-        int i2;
         c = 0;
-        i4 = 4;
-        while (c < i4) {
+        i2 = 4;
+        while (c < i2) {
             r = 0;
-            while (r < i4) {
+            while (r < i2) {
                 if (c == r) {
                 } else {
                 }
+                i4 = 0;
                 i = 0;
-                i3 = 0;
-                arg0[i5 += c] = i;
+                arg0[i5 += c] = i4;
                 r++;
-                i = 1065353216;
+                i4 = 1065353216;
             }
             c++;
-            i4 = 4;
+            i2 = 4;
             if (c == r) {
             } else {
             }
+            i4 = 0;
             i = 0;
-            i3 = 0;
-            arg0[i5 += c] = i;
+            arg0[i5 += c] = i4;
             r++;
-            i = 1065353216;
+            i4 = 1065353216;
         }
     }
 
@@ -470,12 +470,12 @@ public final class Matrix {
     }
 
     public static final void setFrom-58bKbWc(float[] arg0, float[] matrix) {
-        int i;
         int i2;
-        i = 0;
-        while (i < 16) {
-            arg0[i] = matrix[i];
-            i++;
+        int i;
+        i2 = 0;
+        while (i2 < 16) {
+            arg0[i2] = matrix[i2];
+            i2++;
         }
     }
 

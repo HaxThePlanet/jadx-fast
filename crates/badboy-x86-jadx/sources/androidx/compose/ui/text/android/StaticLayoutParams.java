@@ -34,11 +34,11 @@ final class StaticLayoutParams {
     private final int width;
     public StaticLayoutParams(java.lang.CharSequence text, int start, int end, TextPaint paint, int width, TextDirectionHeuristic textDir, Layout.Alignment alignment, int maxLines, TextUtils.TruncateAt ellipsize, int ellipsizedWidth, float lineSpacingMultiplier, float lineSpacingExtra, int justificationMode, boolean includePadding, boolean useFallbackLineSpacing, int breakStrategy, int lineBreakStyle, int lineBreakWordStyle, int hyphenationFrequency, int[] leftIndents, int[] rightIndents) {
         int i3;
+        int i;
         int i4;
+        int i2;
         int i5;
         int i6;
-        int i;
-        int i2;
         final Object obj = this;
         super();
         obj.text = text;
@@ -63,60 +63,60 @@ final class StaticLayoutParams {
         obj.leftIndents = leftIndents;
         obj.rightIndents = rightIndents;
         int start2 = obj.start;
-        i2 = 1;
+        i6 = 1;
         final int i24 = 0;
         if (start2 >= 0 && start2 <= obj.end) {
-            i3 = start2 <= obj.end ? i2 : i24;
+            i3 = start2 <= obj.end ? i6 : i24;
         } else {
         }
         if (i3 == 0) {
         } else {
             int end3 = obj.end;
             if (end3 >= 0 && end3 <= obj.text.length()) {
-                i4 = end3 <= obj.text.length() ? i2 : i24;
+                i = end3 <= obj.text.length() ? i6 : i24;
             } else {
             }
-            if (i4 == 0) {
+            if (i == 0) {
             } else {
-                i5 = obj.maxLines >= 0 ? i2 : i24;
-                if (i5 == 0) {
+                i4 = obj.maxLines >= 0 ? i6 : i24;
+                if (i4 == 0) {
                 } else {
-                    i6 = obj.width >= 0 ? i2 : i24;
-                    if (i6 == 0) {
+                    i2 = obj.width >= 0 ? i6 : i24;
+                    if (i2 == 0) {
                     } else {
-                        i = obj.ellipsizedWidth >= 0 ? i2 : i24;
-                        if (i == 0) {
+                        i5 = obj.ellipsizedWidth >= 0 ? i6 : i24;
+                        if (i5 == 0) {
                         } else {
                             if (Float.compare(lineSpacingMultiplier2, i18) >= 0) {
                             } else {
-                                i2 = i24;
+                                i6 = i24;
                             }
-                            if (i2 == 0) {
+                            if (i6 == 0) {
                             } else {
                             }
                             int i13 = 0;
-                            IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("invalid lineSpacingMultiplier value".toString());
-                            throw illegalArgumentException3;
+                            IllegalArgumentException $i$a$RequireStaticLayoutParams$6 = new IllegalArgumentException("invalid lineSpacingMultiplier value".toString());
+                            throw $i$a$RequireStaticLayoutParams$6;
                         }
                         int i14 = 0;
-                        IllegalArgumentException illegalArgumentException4 = new IllegalArgumentException("invalid ellipsizedWidth value".toString());
-                        throw illegalArgumentException4;
+                        IllegalArgumentException $i$a$RequireStaticLayoutParams$5 = new IllegalArgumentException("invalid ellipsizedWidth value".toString());
+                        throw $i$a$RequireStaticLayoutParams$5;
                     }
                     int i15 = 0;
-                    IllegalArgumentException illegalArgumentException5 = new IllegalArgumentException("invalid width value".toString());
-                    throw illegalArgumentException5;
+                    IllegalArgumentException $i$a$RequireStaticLayoutParams$4 = new IllegalArgumentException("invalid width value".toString());
+                    throw $i$a$RequireStaticLayoutParams$4;
                 }
                 int i12 = 0;
-                IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("invalid maxLines value".toString());
-                throw illegalArgumentException2;
+                IllegalArgumentException $i$a$RequireStaticLayoutParams$3 = new IllegalArgumentException("invalid maxLines value".toString());
+                throw $i$a$RequireStaticLayoutParams$3;
             }
             int i11 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("invalid end value".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireStaticLayoutParams$2 = new IllegalArgumentException("invalid end value".toString());
+            throw $i$a$RequireStaticLayoutParams$2;
         }
         int i16 = 0;
-        IllegalArgumentException illegalArgumentException6 = new IllegalArgumentException("invalid start value".toString());
-        throw illegalArgumentException6;
+        IllegalArgumentException $i$a$RequireStaticLayoutParams$1 = new IllegalArgumentException("invalid start value".toString());
+        throw $i$a$RequireStaticLayoutParams$1;
     }
 
     public StaticLayoutParams(java.lang.CharSequence charSequence, int i2, int i3, TextPaint textPaint4, int i5, TextDirectionHeuristic textDirectionHeuristic6, Layout.Alignment layout$Alignment7, int i8, TextUtils.TruncateAt textUtils$TruncateAt9, int i10, float f11, float f12, int i13, boolean z14, boolean z15, int i16, int i17, int i18, int i19, int[] i20Arr20, int[] i21Arr21, int i22, DefaultConstructorMarker defaultConstructorMarker23) {

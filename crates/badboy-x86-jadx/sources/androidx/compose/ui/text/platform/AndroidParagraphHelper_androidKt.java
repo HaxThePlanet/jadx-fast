@@ -46,20 +46,20 @@ public final class AndroidParagraphHelper_androidKt {
         SpannableString str;
         EmojiSupportMatch configured;
         boolean unspecified--R2X_6o;
-        Object lineHeight-XSAIIZE;
+        Object lineHeight-XSAIIZE2;
         Object paragraphStyle;
         java.lang.CharSequence process;
-        boolean lineHeight-XSAIIZE2;
+        boolean lineHeight-XSAIIZE;
         boolean equals-impl0;
         int i3;
         int unbox-impl;
         TextDecoration underline;
         EmojiCompat emojiCompat;
         java.lang.CharSequence charSequence;
-        int i;
-        int length;
         int i4;
+        int length;
         int i2;
+        int i;
         final Density density2 = density;
         int i5 = 0;
         if (useEmojiCompat && EmojiCompat.isConfigured()) {
@@ -100,22 +100,22 @@ public final class AndroidParagraphHelper_androidKt {
             }
         }
         if (charSequence2 instanceof Spannable) {
-            lineHeight-XSAIIZE = charSequence2;
+            lineHeight-XSAIIZE2 = charSequence2;
         } else {
-            lineHeight-XSAIIZE = new SpannableString(charSequence2);
+            lineHeight-XSAIIZE2 = new SpannableString(charSequence2);
         }
         if (Intrinsics.areEqual(contextTextStyle.getTextDecoration(), TextDecoration.Companion.getUnderline())) {
-            SpannableExtensions_androidKt.setSpan(lineHeight-XSAIIZE, AndroidParagraphHelper_androidKt.NoopSpan, i5, text.length());
+            SpannableExtensions_androidKt.setSpan(lineHeight-XSAIIZE2, AndroidParagraphHelper_androidKt.NoopSpan, i5, text.length());
         }
         if (AndroidParagraphHelper_androidKt.isIncludeFontPaddingEnabled(contextTextStyle) && contextTextStyle.getLineHeightStyle() == null) {
             if (contextTextStyle.getLineHeightStyle() == null) {
-                SpannableExtensions_androidKt.setLineHeight-r9BaKPg(lineHeight-XSAIIZE, contextTextStyle.getLineHeight-XSAIIZE(), underline, contextFontSize);
-                str = lineHeight-XSAIIZE;
+                SpannableExtensions_androidKt.setLineHeight-r9BaKPg(lineHeight-XSAIIZE2, contextTextStyle.getLineHeight-XSAIIZE(), underline, contextFontSize);
+                str = lineHeight-XSAIIZE2;
             } else {
                 if (contextTextStyle.getLineHeightStyle() == null) {
                     lineHeightStyle = LineHeightStyle.Companion.getDefault();
                 }
-                SpannableExtensions_androidKt.setLineHeight-KmRG4DE(lineHeight-XSAIIZE, contextTextStyle.getLineHeight-XSAIIZE(), lineHeight-XSAIIZE2, contextFontSize, density2);
+                SpannableExtensions_androidKt.setLineHeight-KmRG4DE(lineHeight-XSAIIZE2, contextTextStyle.getLineHeight-XSAIIZE(), lineHeight-XSAIIZE, contextFontSize, density2);
             }
         } else {
         }

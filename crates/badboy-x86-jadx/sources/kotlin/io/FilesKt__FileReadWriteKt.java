@@ -247,11 +247,11 @@ class FilesKt__FileReadWriteKt extends kotlin.io.FilesKt__FilePathComponentsKt {
         byte[] result;
         long read;
         byte[] copyInto;
-        int copyOf2;
+        int copyOf;
         kotlin.io.ExposingBufferByteArrayOutputStream exposingBufferByteArrayOutputStream;
         byte[] buffer;
         int i;
-        byte[] copyOf;
+        byte[] copyOf2;
         int size;
         int i2;
         Intrinsics.checkNotNullParameter($this$readBytes, "<this>");
@@ -276,24 +276,24 @@ class FilesKt__FileReadWriteKt extends kotlin.io.FilesKt__FilePathComponentsKt {
             copyInto = "copyOf(...)";
             int i4 = 0;
             if (remaining > 0) {
-                copyOf2 = Arrays.copyOf(result, offset);
-                Intrinsics.checkNotNullExpressionValue(copyOf2, copyInto);
-                result = copyOf2;
+                copyOf = Arrays.copyOf(result, offset);
+                Intrinsics.checkNotNullExpressionValue(copyOf, copyInto);
+                result = copyOf;
                 CloseableKt.closeFinally((Closeable)fileInputStream, i4);
                 return result;
             } else {
-                copyOf2 = inputStream.read();
-                if (copyOf2 == -1) {
+                copyOf = inputStream.read();
+                if (copyOf == -1) {
                 } else {
                     exposingBufferByteArrayOutputStream = new ExposingBufferByteArrayOutputStream(8193);
-                    exposingBufferByteArrayOutputStream.write(copyOf2);
+                    exposingBufferByteArrayOutputStream.write(copyOf);
                     i2 = 0;
                     ByteStreamsKt.copyTo$default((InputStream)inputStream, (OutputStream)exposingBufferByteArrayOutputStream, i2, 2, i4);
                     length3 += size2;
                     if (i < 0) {
                     } else {
-                        copyOf = Arrays.copyOf(result, i);
-                        Intrinsics.checkNotNullExpressionValue(copyOf, copyInto);
+                        copyOf2 = Arrays.copyOf(result, i);
+                        Intrinsics.checkNotNullExpressionValue(copyOf2, copyInto);
                         result = copyInto;
                     }
                 }
@@ -457,10 +457,10 @@ class FilesKt__FileReadWriteKt extends kotlin.io.FilesKt__FilePathComponentsKt {
     public static final void writeTextImpl(OutputStream $this$writeTextImpl, String text, Charset charset) {
         int startIndex;
         int leftover;
-        int i3;
         int i4;
-        int position;
         int i2;
+        int position;
+        int i3;
         int i;
         int limit;
         boolean underflow;
@@ -480,17 +480,17 @@ class FilesKt__FileReadWriteKt extends kotlin.io.FilesKt__FilePathComponentsKt {
         startIndex = 0;
         leftover = 0;
         while (startIndex < text.length()) {
-            i3 = Math.min(i5 - leftover, length3 -= startIndex);
-            i4 = startIndex + i3;
+            i4 = Math.min(i5 - leftover, length3 -= startIndex);
+            i2 = startIndex + i4;
             char[] array = allocate.array();
             Intrinsics.checkNotNullExpressionValue(array, "array(...)");
-            text.getChars(startIndex, i4, array, leftover);
-            allocate.limit(i3 + leftover);
+            text.getChars(startIndex, i2, array, leftover);
+            allocate.limit(i4 + leftover);
             i = 0;
-            if (i4 == text.length()) {
+            if (i2 == text.length()) {
             } else {
             }
-            i2 = i;
+            i3 = i;
             int i10 = 0;
             $this$writeTextImpl.write(byteBufferForEncoding.array(), i, byteBufferForEncoding.position());
             if (allocate.position() != allocate.limit()) {
@@ -499,10 +499,10 @@ class FilesKt__FileReadWriteKt extends kotlin.io.FilesKt__FilePathComponentsKt {
             leftover = 0;
             allocate.clear();
             byteBufferForEncoding.clear();
-            startIndex = i4;
+            startIndex = i2;
             allocate.put(i, allocate.get());
             leftover = 1;
-            i2 = 1;
+            i3 = 1;
         }
     }
 

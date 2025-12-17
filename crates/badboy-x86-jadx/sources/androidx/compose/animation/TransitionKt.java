@@ -23,8 +23,8 @@ import kotlin.jvm.functions.Function3;
 public final class TransitionKt {
     public static final <S> State<Color> animateColor(Transition<S> $this$animateColor, Function3<? super Transition.Segment<S>, ? super Composer, ? super Integer, ? extends FiniteAnimationSpec<Color>> transitionSpec, String label, Function3<? super S, ? super Composer, ? super Integer, Color> targetValueByState, Composer $composer, int $changed, int i7) {
         int iNSTANCE;
-        int str2;
-        String str;
+        int str;
+        String str2;
         Object empty;
         androidx.compose.animation.TransitionKt.animateColor.1 anon;
         Object invoke;
@@ -37,7 +37,7 @@ public final class TransitionKt {
         } else {
             anon = transitionSpec;
         }
-        str = i7 & 2 != 0 ? str2 : label;
+        str2 = i7 & 2 != 0 ? str : label;
         Integer valueOf = Integer.valueOf(i6 &= 112);
         final androidx.compose.ui.graphics.colorspace.ColorSpace colorSpace-impl = Color.getColorSpace-impl((Color)obj.invoke($this$animateColor.getTargetState(), composer2, valueOf).unbox-impl());
         ComposerKt.sourceInformationMarkerStart(composer2, 1918408083, "CC(remember):Transition.kt#9igjgp");
@@ -62,13 +62,13 @@ public final class TransitionKt {
         ComposerKt.sourceInformationMarkerStart(composer2, -142660079, "CC(animateValue)P(3,2)1883@77007L32,1884@77062L31,1885@77118L23,1887@77154L89:Transition.kt#pdpnli");
         ComposerKt.sourceInformationMarkerEnd($composer);
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return TransitionKt.createTransitionAnimation(transition, obj.invoke(transition.getCurrentState(), composer2, Integer.valueOf(i21 &= 112)), obj.invoke(transition.getTargetState(), composer2, Integer.valueOf(i24 &= 112)), (FiniteAnimationSpec)anon.invoke(transition.getSegment(), composer2, Integer.valueOf(i29 &= 112)), (TwoWayConverter)invoke, str, composer2, i19 |= i33);
+        return TransitionKt.createTransitionAnimation(transition, obj.invoke(transition.getCurrentState(), composer2, Integer.valueOf(i21 &= 112)), obj.invoke(transition.getTargetState(), composer2, Integer.valueOf(i24 &= 112)), (FiniteAnimationSpec)anon.invoke(transition.getSegment(), composer2, Integer.valueOf(i29 &= 112)), (TwoWayConverter)invoke, str2, composer2, i19 |= i33);
     }
 
     public static final State<Color> animateColor-DTcfvLk(InfiniteTransition $this$animateColor_u2dDTcfvLk, long initialValue, long targetValue, InfiniteRepeatableSpec<Color> animationSpec, String label, Composer $composer, int $changed, int i8) {
-        int str;
+        int str2;
         boolean traceInProgress;
-        String str2;
+        String str;
         String str3;
         Object empty;
         Object invoke;
@@ -77,7 +77,7 @@ public final class TransitionKt {
         final int i24 = obj19;
         int i = 1901963533;
         ComposerKt.sourceInformationMarkerStart(composer2, i, "C(animateColor)P(1:c#ui.graphics.Color,3:c#ui.graphics.Color)102@4596L72,105@4680L72:Transition.kt#xbi5r1");
-        str3 = obj20 & 8 != 0 ? str : $changed;
+        str3 = obj20 & 8 != 0 ? str2 : $changed;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i, i24, -1, "androidx.compose.animation.animateColor (Transition.kt:101)");
         }

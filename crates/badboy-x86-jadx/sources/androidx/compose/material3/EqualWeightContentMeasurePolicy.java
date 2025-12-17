@@ -17,35 +17,35 @@ import kotlin.ranges.RangesKt;
 @Metadata(d1 = "\u0000(\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010 \n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0003\u0008\u0002\u0018\u00002\u00020\u0001B\u0005¢\u0006\u0002\u0010\u0002J,\u0010\u0003\u001a\u00020\u0004*\u00020\u00052\u000c\u0010\u0006\u001a\u0008\u0012\u0004\u0012\u00020\u00080\u00072\u0006\u0010\t\u001a\u00020\nH\u0016ø\u0001\u0000¢\u0006\u0004\u0008\u000b\u0010\u000c\u0082\u0002\u0007\n\u0005\u0008¡\u001e0\u0001¨\u0006\r", d2 = {"Landroidx/compose/material3/EqualWeightContentMeasurePolicy;", "Landroidx/compose/ui/layout/MeasurePolicy;", "()V", "measure", "Landroidx/compose/ui/layout/MeasureResult;", "Landroidx/compose/ui/layout/MeasureScope;", "measurables", "", "Landroidx/compose/ui/layout/Measurable;", "constraints", "Landroidx/compose/ui/unit/Constraints;", "measure-3p2s80s", "(Landroidx/compose/ui/layout/MeasureScope;Ljava/util/List;J)Landroidx/compose/ui/layout/MeasureResult;", "material3_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
 final class EqualWeightContentMeasurePolicy implements MeasurePolicy {
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, List<? extends Measurable> measurables, long constraints) {
-        int i3;
+        int i6;
         ArrayList $this$fastForEach$iv;
-        ArrayList list2;
+        ArrayList list;
         int width;
         int itemHeight;
-        int i8;
-        int arrayList2;
+        int i4;
+        int arrayList;
         int index$iv;
-        ArrayList arrayList;
-        Object obj2;
-        int i6;
+        ArrayList arrayList2;
+        Object obj3;
+        int i9;
         Object obj;
         int index$iv$iv;
         ArrayList list3;
         int index$iv$iv2;
-        int i4;
+        int i10;
         int maxIntrinsicHeight;
         Object maxHeight-impl;
-        Object obj3;
+        Object obj2;
         int i;
-        int i5;
-        int itemsPlaceables;
         int i11;
-        int i10;
-        int $this$fastMap$iv;
+        int itemsPlaceables;
         int i2;
-        int i9;
+        int i8;
+        int $this$fastMap$iv;
+        int i5;
+        int i3;
         int i7;
-        ArrayList list;
+        ArrayList list2;
         final Object obj4 = constraints;
         width = Constraints.getMaxWidth-impl(obj4);
         int i12 = 0;
@@ -55,35 +55,35 @@ final class EqualWeightContentMeasurePolicy implements MeasurePolicy {
             return MeasureScope.layout$default($this$measure_u2d3p2s80s, width, itemHeight, 0, (Function1)EqualWeightContentMeasurePolicy.measure.1.INSTANCE, 4, 0);
         }
         if (!Constraints.getHasBoundedWidth-impl(obj4)) {
-            i8 = measurables;
-            arrayList2 = 0;
-            arrayList = new ArrayList(i8.size());
-            i6 = i8;
+            i4 = measurables;
+            arrayList = 0;
+            arrayList2 = new ArrayList(i4.size());
+            i9 = i4;
             int i22 = 0;
             index$iv$iv2 = 0;
-            while (index$iv$iv2 < i6.size()) {
+            while (index$iv$iv2 < i9.size()) {
                 i = 0;
                 $this$fastMap$iv = 0;
-                (Collection)arrayList.add((Measurable)i6.get(index$iv$iv2).measure-BRTryo0(ConstraintsKt.constrain-N9IONVI(obj4, obj1)));
+                (Collection)arrayList2.add((Measurable)i9.get(index$iv$iv2).measure-BRTryo0(ConstraintsKt.constrain-N9IONVI(obj4, obj1)));
                 index$iv$iv2++;
-                i3 = i5;
-                width = i11;
-                i8 = i2;
-                arrayList2 = i9;
+                i6 = i11;
+                width = i2;
+                i4 = i5;
+                arrayList = i3;
             }
-            itemsPlaceables = i3;
-            i10 = width;
-            i2 = i8;
-            i7 = arrayList2;
-            list3 = list2;
+            itemsPlaceables = i6;
+            i8 = width;
+            i5 = i4;
+            i7 = arrayList;
+            list3 = list;
         } else {
-            itemsPlaceables = i3;
-            width = i10 / size4;
+            itemsPlaceables = i6;
+            width = i8 / size4;
             ArrayList list4 = measurables;
             int i16 = 0;
             index$iv = 0;
             while (index$iv < list4.size()) {
-                i4 = 0;
+                i10 = 0;
                 maxIntrinsicHeight = (Measurable)list4.get(index$iv).maxIntrinsicHeight(width);
                 if (itemHeight < maxIntrinsicHeight) {
                 }
@@ -91,25 +91,25 @@ final class EqualWeightContentMeasurePolicy implements MeasurePolicy {
                 itemHeight = RangesKt.coerceAtMost(maxIntrinsicHeight, Constraints.getMaxHeight-impl(obj4));
             }
             $this$fastForEach$iv = measurables;
-            i8 = 0;
-            arrayList2 = new ArrayList($this$fastForEach$iv.size());
-            arrayList = $this$fastForEach$iv;
-            i6 = 0;
+            i4 = 0;
+            arrayList = new ArrayList($this$fastForEach$iv.size());
+            arrayList2 = $this$fastForEach$iv;
+            i9 = 0;
             index$iv$iv = 0;
-            while (index$iv$iv < arrayList.size()) {
-                obj3 = 0;
-                i2 = 0;
-                (Collection)arrayList2.add((Measurable)arrayList.get(index$iv$iv).measure-BRTryo0(ConstraintsKt.constrain-N9IONVI(obj4, obj1)));
+            while (index$iv$iv < arrayList2.size()) {
+                obj2 = 0;
+                i5 = 0;
+                (Collection)arrayList.add((Measurable)arrayList2.get(index$iv$iv).measure-BRTryo0(ConstraintsKt.constrain-N9IONVI(obj4, obj1)));
                 index$iv$iv++;
                 $this$fastForEach$iv = $this$fastMap$iv;
-                i8 = i9;
-                arrayList2 = list;
+                i4 = i3;
+                arrayList = list2;
             }
             $this$fastMap$iv = $this$fastForEach$iv;
-            i7 = i8;
-            list3 = list2;
+            i7 = i4;
+            list3 = list;
         }
         EqualWeightContentMeasurePolicy.measure.5 anon = new EqualWeightContentMeasurePolicy.measure.5(list3);
-        return MeasureScope.layout$default($this$measure_u2d3p2s80s, i10, itemHeight, 0, (Function1)anon, 4, 0);
+        return MeasureScope.layout$default($this$measure_u2d3p2s80s, i8, itemHeight, 0, (Function1)anon, 4, 0);
     }
 }

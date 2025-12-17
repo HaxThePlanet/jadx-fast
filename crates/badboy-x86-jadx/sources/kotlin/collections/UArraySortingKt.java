@@ -65,33 +65,33 @@ public final class UArraySortingKt {
     }
 
     private static final int partition-Aa5vz7o(short[] array, int left, int right) {
-        int i;
+        int i2;
         int j;
         int compare;
+        int i;
         int i3;
-        int i2;
-        i = left;
+        i2 = left;
         j = right;
         short s = UShortArray.get-Mh2AYeg(array, i4 /= 2);
-        while (i <= j) {
-            i3 = 65535;
-            while (Intrinsics.compare(s2 &= i3, s & i3) < 0) {
-                i++;
-                i3 = 65535;
+        while (i2 <= j) {
+            i = 65535;
+            while (Intrinsics.compare(s2 &= i, s & i) < 0) {
+                i2++;
+                i = 65535;
             }
-            while (Intrinsics.compare(s3 &= i3, s & i3) > 0) {
+            while (Intrinsics.compare(s3 &= i, s & i) > 0) {
                 j--;
             }
-            if (i <= j) {
+            if (i2 <= j) {
             }
-            UShortArray.set-01HTLdE(array, i, UShortArray.get-Mh2AYeg(array, j));
-            UShortArray.set-01HTLdE(array, j, UShortArray.get-Mh2AYeg(array, i));
-            i++;
+            UShortArray.set-01HTLdE(array, i2, UShortArray.get-Mh2AYeg(array, j));
+            UShortArray.set-01HTLdE(array, j, UShortArray.get-Mh2AYeg(array, i2));
+            i2++;
             j--;
             j--;
-            i++;
+            i2++;
         }
-        return i;
+        return i2;
     }
 
     private static final int partition-oBK06Vg(int[] array, int left, int right) {

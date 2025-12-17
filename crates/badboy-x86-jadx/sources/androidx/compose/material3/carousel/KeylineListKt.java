@@ -53,32 +53,32 @@ public final class KeylineListKt {
 
     public static final androidx.compose.material3.carousel.KeylineList lerp(androidx.compose.material3.carousel.KeylineList from, androidx.compose.material3.carousel.KeylineList to, float fraction) {
         List list2;
-        int i5;
-        int index$iv$iv;
-        Object obj;
-        int i2;
-        Object obj2;
-        int i6;
-        ArrayList list;
-        Object obj3;
-        int i;
         int i3;
+        int index$iv$iv;
+        Object obj2;
+        int i2;
+        Object obj3;
+        int i4;
+        ArrayList list;
+        Object obj;
+        int i;
+        int i5;
         Object obj4;
         Object obj5;
-        int i4;
+        int i6;
         list2 = from;
-        i5 = 0;
+        i3 = 0;
         ArrayList arrayList = new ArrayList((List)list2.size());
         List list4 = list2;
         final int i7 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list4.size()) {
-            i6 = 0;
-            i3 = 0;
+            i4 = 0;
+            i5 = 0;
             (Collection)arrayList.add(KeylineListKt.lerp((Keyline)list4.get(index$iv$iv), to.get(index$iv$iv), fraction));
             index$iv$iv++;
             list2 = obj5;
-            i5 = i4;
+            i3 = i6;
         }
         Object $this$fastMapIndexed$iv = list2;
         KeylineList keylineList = new KeylineList((List)arrayList);

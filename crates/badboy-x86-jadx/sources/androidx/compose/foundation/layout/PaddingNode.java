@@ -31,10 +31,10 @@ final class PaddingNode extends Modifier.Node implements LayoutModifierNode {
 
     public PaddingNode(float f, float f2, float f3, float f4, boolean z5, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
         float f8;
-        float f9;
-        float f5;
         float f7;
+        float f9;
         float f6;
+        float f5;
         float obj8;
         float obj9;
         float obj10;
@@ -42,29 +42,29 @@ final class PaddingNode extends Modifier.Node implements LayoutModifierNode {
         int obj14;
         if (i6 & 1 != 0) {
             obj14 = 0;
-            f9 = obj8;
+            f7 = obj8;
         } else {
-            f9 = f;
+            f7 = f;
         }
         if (i6 & 2 != 0) {
             obj9 = 0;
-            f5 = obj9;
+            f9 = obj9;
         } else {
-            f5 = f2;
+            f9 = f2;
         }
         if (i6 & 4 != 0) {
             obj9 = 0;
-            f7 = obj10;
+            f6 = obj10;
         } else {
-            f7 = f3;
+            f6 = f3;
         }
         if (i6 & 8 != 0) {
             obj9 = 0;
-            f6 = obj11;
+            f5 = obj11;
         } else {
-            f6 = f4;
+            f5 = f4;
         }
-        super(f9, f5, f7, f6, z5, 0);
+        super(f7, f9, f6, f5, z5, 0);
     }
 
     public PaddingNode(float f, float f2, float f3, float f4, boolean z5, DefaultConstructorMarker defaultConstructorMarker6) {

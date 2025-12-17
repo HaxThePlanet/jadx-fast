@@ -139,21 +139,21 @@ final class FlowKt__ReduceKt {
         boolean anon;
         Throwable th;
         Object l$1;
-        int i;
+        int i2;
         Object objectRef;
         Throwable $i$f$collectWhile;
         Object collector$iv;
         Object collect;
-        int i2;
+        int i;
         int obj7;
         Object obj8;
         anon = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof FlowKt__ReduceKt.firstOrNull.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation2 instanceof FlowKt__ReduceKt.firstOrNull.1 && label &= i2 != 0) {
             anon = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj8 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj8 -= i2;
             } else {
                 anon = new FlowKt__ReduceKt.firstOrNull.1(continuation2);
             }
@@ -187,48 +187,48 @@ final class FlowKt__ReduceKt {
     }
 
     public static final <T> Object firstOrNull(kotlinx.coroutines.flow.Flow<? extends T> flow, Function2<? super T, ? super Continuation<? super Boolean>, ? extends Object> function22, Continuation<? super T> continuation3) {
-        boolean anon2;
+        boolean anon;
         Throwable th;
         Object l$0;
         Throwable result;
         int objectRef;
         int $i$f$collectWhile;
-        Object anon;
+        Object anon2;
         int i;
         int obj6;
         Object obj7;
         Object obj8;
-        anon2 = continuation3;
+        anon = continuation3;
         result = Integer.MIN_VALUE;
         if (continuation3 instanceof FlowKt__ReduceKt.firstOrNull.3 && label &= result != null) {
-            anon2 = continuation3;
+            anon = continuation3;
             result = Integer.MIN_VALUE;
             if (label &= result != null) {
-                anon2.label = obj8 -= result;
+                anon.label = obj8 -= result;
             } else {
-                anon2 = new FlowKt__ReduceKt.firstOrNull.3(continuation3);
+                anon = new FlowKt__ReduceKt.firstOrNull.3(continuation3);
             }
         } else {
         }
-        obj8 = anon2.result;
+        obj8 = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (objectRef) {
             case 0:
                 ResultKt.throwOnFailure(obj8);
                 objectRef = new Ref.ObjectRef();
-                anon = new FlowKt__ReduceKt.firstOrNull$$inlined.collectWhile.2(function22, objectRef);
-                anon2.L$0 = objectRef;
-                anon2.L$1 = anon;
-                anon2.label = 1;
+                anon2 = new FlowKt__ReduceKt.firstOrNull$$inlined.collectWhile.2(function22, objectRef);
+                anon.L$0 = objectRef;
+                anon.L$1 = anon2;
+                anon.label = 1;
                 return cOROUTINE_SUSPENDED;
                 l$0 = objectRef;
                 obj6 = $i$f$collectWhile;
-                obj7 = anon;
+                obj7 = anon2;
                 break;
             case 1:
                 obj6 = 0;
-                obj7 = anon2.L$1;
-                l$0 = anon2.L$0;
+                obj7 = anon.L$1;
+                l$0 = anon.L$0;
                 ResultKt.throwOnFailure(obj8);
                 break;
             default:
@@ -298,19 +298,19 @@ final class FlowKt__ReduceKt {
     public static final <T> Object last(kotlinx.coroutines.flow.Flow<? extends T> flow, Continuation<? super T> continuation2) {
         boolean anon;
         int i3;
-        int i2;
+        int i;
         Ref.ObjectRef objectRef;
         kotlinx.coroutines.flow.FlowKt__ReduceKt.last.2 anon2;
-        int i;
+        int i2;
         Object obj5;
         Object obj6;
         anon = continuation2;
-        i2 = Integer.MIN_VALUE;
-        if (continuation2 instanceof FlowKt__ReduceKt.last.1 && label &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation2 instanceof FlowKt__ReduceKt.last.1 && label &= i != 0) {
             anon = continuation2;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj6 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj6 -= i;
             } else {
                 anon = new FlowKt__ReduceKt.last.1(continuation2);
             }
@@ -346,40 +346,40 @@ final class FlowKt__ReduceKt {
     }
 
     public static final <T> Object lastOrNull(kotlinx.coroutines.flow.Flow<? extends T> flow, Continuation<? super T> continuation2) {
-        boolean anon2;
-        int i3;
+        boolean anon;
         int i;
+        int i3;
         Ref.ObjectRef objectRef;
-        kotlinx.coroutines.flow.FlowKt__ReduceKt.lastOrNull.2 anon;
+        kotlinx.coroutines.flow.FlowKt__ReduceKt.lastOrNull.2 anon2;
         int i2;
         Object obj5;
         Object obj6;
-        anon2 = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof FlowKt__ReduceKt.lastOrNull.1 && label &= i != 0) {
-            anon2 = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon2.label = obj6 -= i;
+        anon = continuation2;
+        i3 = Integer.MIN_VALUE;
+        if (continuation2 instanceof FlowKt__ReduceKt.lastOrNull.1 && label &= i3 != 0) {
+            anon = continuation2;
+            i3 = Integer.MIN_VALUE;
+            if (label &= i3 != 0) {
+                anon.label = obj6 -= i3;
             } else {
-                anon2 = new FlowKt__ReduceKt.lastOrNull.1(continuation2);
+                anon = new FlowKt__ReduceKt.lastOrNull.1(continuation2);
             }
         } else {
         }
-        obj6 = anon2.result;
+        obj6 = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (objectRef) {
             case 0:
                 ResultKt.throwOnFailure(obj6);
                 objectRef = new Ref.ObjectRef();
-                anon = new FlowKt__ReduceKt.lastOrNull.2(objectRef);
-                anon2.L$0 = objectRef;
-                anon2.label = 1;
+                anon2 = new FlowKt__ReduceKt.lastOrNull.2(objectRef);
+                anon.L$0 = objectRef;
+                anon.label = 1;
                 return cOROUTINE_SUSPENDED;
                 obj5 = objectRef;
                 break;
             case 1:
-                obj5 = anon2.L$0;
+                obj5 = anon.L$0;
                 ResultKt.throwOnFailure(obj6);
                 break;
             default:
@@ -392,19 +392,19 @@ final class FlowKt__ReduceKt {
     public static final <S, T extends S> Object reduce(kotlinx.coroutines.flow.Flow<? extends T> flow, Function3<? super S, ? super T, ? super Continuation<? super S>, ? extends Object> function32, Continuation<? super S> continuation3) {
         boolean anon;
         int i;
-        int i2;
+        int i3;
         Ref.ObjectRef objectRef;
         kotlinx.coroutines.flow.FlowKt__ReduceKt.reduce.2 anon2;
-        int i3;
+        int i2;
         Object obj5;
         Object obj7;
         anon = continuation3;
-        i2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof FlowKt__ReduceKt.reduce.1 && label &= i2 != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation3 instanceof FlowKt__ReduceKt.reduce.1 && label &= i3 != 0) {
             anon = continuation3;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj7 -= i2;
+            i3 = Integer.MIN_VALUE;
+            if (label &= i3 != 0) {
+                anon.label = obj7 -= i3;
             } else {
                 anon = new FlowKt__ReduceKt.reduce.1(continuation3);
             }
@@ -493,21 +493,21 @@ final class FlowKt__ReduceKt {
         boolean anon;
         Throwable th;
         Object l$1;
-        int i;
+        int i2;
         Object objectRef;
         Throwable $i$f$collectWhile;
         Object collector$iv;
         Object collect;
-        int i2;
+        int i;
         int obj7;
         Object obj8;
         anon = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof FlowKt__ReduceKt.singleOrNull.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation2 instanceof FlowKt__ReduceKt.singleOrNull.1 && label &= i2 != 0) {
             anon = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj8 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj8 -= i2;
             } else {
                 anon = new FlowKt__ReduceKt.singleOrNull.1(continuation2);
             }

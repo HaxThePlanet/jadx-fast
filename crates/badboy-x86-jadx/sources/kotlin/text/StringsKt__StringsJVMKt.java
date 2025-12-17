@@ -227,28 +227,28 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
     @Deprecated(message = "Use replaceFirstChar instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(warningSince = "1.5")
     public static final String decapitalize(String $this$decapitalize) {
-        int lowerCase;
+        int lowerCase2;
         Object string;
         int substring;
-        int lowerCase2;
+        int lowerCase;
         String str;
         String str2;
         Intrinsics.checkNotNullParameter($this$decapitalize, "<this>");
         substring = 1;
-        lowerCase2 = 0;
-        lowerCase = (CharSequence)$this$decapitalize.length() > 0 ? substring : lowerCase2;
-        if (lowerCase != 0 && !Character.isLowerCase($this$decapitalize.charAt(lowerCase2))) {
-            if (!Character.isLowerCase($this$decapitalize.charAt(lowerCase2))) {
+        lowerCase = 0;
+        lowerCase2 = (CharSequence)$this$decapitalize.length() > 0 ? substring : lowerCase;
+        if (lowerCase2 != 0 && !Character.isLowerCase($this$decapitalize.charAt(lowerCase))) {
+            if (!Character.isLowerCase($this$decapitalize.charAt(lowerCase))) {
                 StringBuilder stringBuilder = new StringBuilder();
-                String substring2 = $this$decapitalize.substring(lowerCase2, substring);
+                String substring2 = $this$decapitalize.substring(lowerCase, substring);
                 str = "substring(...)";
                 Intrinsics.checkNotNullExpressionValue(substring2, str);
                 Intrinsics.checkNotNull(substring2, "null cannot be cast to non-null type java.lang.String");
-                lowerCase2 = substring2.toLowerCase();
-                Intrinsics.checkNotNullExpressionValue(lowerCase2, "toLowerCase(...)");
+                lowerCase = substring2.toLowerCase();
+                Intrinsics.checkNotNullExpressionValue(lowerCase, "toLowerCase(...)");
                 substring = $this$decapitalize.substring(substring);
                 Intrinsics.checkNotNullExpressionValue(substring, str);
-                string = stringBuilder.append(lowerCase2).append(substring).toString();
+                string = stringBuilder.append(lowerCase).append(substring).toString();
             } else {
                 string = $this$decapitalize;
             }
@@ -264,8 +264,8 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
         Object string;
         int substring;
         int lowerCase2;
-        String str;
         String str2;
+        String str;
         Intrinsics.checkNotNullParameter($this$decapitalize, "<this>");
         Intrinsics.checkNotNullParameter(locale, "locale");
         substring = 1;
@@ -275,13 +275,13 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
             if (!Character.isLowerCase($this$decapitalize.charAt(lowerCase2))) {
                 StringBuilder stringBuilder = new StringBuilder();
                 String substring2 = $this$decapitalize.substring(lowerCase2, substring);
-                str = "substring(...)";
-                Intrinsics.checkNotNullExpressionValue(substring2, str);
+                str2 = "substring(...)";
+                Intrinsics.checkNotNullExpressionValue(substring2, str2);
                 Intrinsics.checkNotNull(substring2, "null cannot be cast to non-null type java.lang.String");
                 lowerCase2 = substring2.toLowerCase(locale);
                 Intrinsics.checkNotNullExpressionValue(lowerCase2, "toLowerCase(...)");
                 substring = $this$decapitalize.substring(substring);
-                Intrinsics.checkNotNullExpressionValue(substring, str);
+                Intrinsics.checkNotNullExpressionValue(substring, str2);
                 string = stringBuilder.append(lowerCase2).append(substring).toString();
             } else {
                 string = $this$decapitalize;
@@ -576,22 +576,22 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
 
     public static final String repeat(java.lang.CharSequence $this$repeat, int n) {
         int stringBuilder;
-        int i2;
-        String string;
         int i;
+        String _char;
+        int i2;
         int length;
         char[] cArr;
         Intrinsics.checkNotNullParameter($this$repeat, "<this>");
         stringBuilder = 0;
-        i2 = n >= 0 ? 1 : stringBuilder;
-        if (i2 == 0) {
+        i = n >= 0 ? 1 : stringBuilder;
+        if (i == 0) {
         } else {
-            string = "";
+            _char = "";
             switch (n) {
                 case 0:
                     break;
                 case 1:
-                    string = $this$repeat.toString();
+                    _char = $this$repeat.toString();
                     break;
                 default:
                     stringBuilder = new StringBuilder(length2 *= n);
@@ -600,12 +600,12 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
                     cArr[stringBuilder] = $this$repeat.charAt(stringBuilder);
                     stringBuilder++;
                     stringBuilder = new String(cArr);
-                    string = stringBuilder;
+                    _char = stringBuilder;
                     stringBuilder.append($this$repeat);
-                    i++;
+                    i2++;
                     Intrinsics.checkNotNull(stringBuilder.toString());
             }
-            return string;
+            return _char;
         }
         int i3 = 0;
         StringBuilder stringBuilder2 = new StringBuilder();
@@ -614,11 +614,11 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
     }
 
     public static final String replace(String $this$replace, char oldChar, char newChar, boolean ignoreCase) {
-        int i;
-        char charAt;
-        char c;
         int i2;
+        char charAt;
         char c2;
+        int i;
+        char c;
         Intrinsics.checkNotNullParameter($this$replace, "<this>");
         if (!ignoreCase) {
             String replace = $this$replace.replace(oldChar, newChar);
@@ -629,17 +629,17 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
         final int i3 = 0;
         final Object obj = $this$replace;
         final int i4 = 0;
-        i = 0;
-        while (i < (CharSequence)obj.length()) {
-            c = charAt;
-            i2 = 0;
-            if (CharsKt.equals(c, oldChar, ignoreCase)) {
+        i2 = 0;
+        while (i2 < (CharSequence)obj.length()) {
+            c2 = charAt;
+            i = 0;
+            if (CharsKt.equals(c2, oldChar, ignoreCase)) {
             } else {
             }
-            c2 = c;
-            stringBuilder.append(c2);
-            i++;
-            c2 = newChar;
+            c = c2;
+            stringBuilder.append(c);
+            i2++;
+            c = newChar;
         }
         String string = stringBuilder.toString();
         Intrinsics.checkNotNullExpressionValue(string, "toString(...)");
@@ -648,9 +648,9 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
 
     public static final String replace(String $this$replace, String oldValue, String newValue, boolean ignoreCase) {
         int occurrenceIndex;
-        int i2;
-        Object length;
         int i;
+        Object length;
+        int i2;
         Intrinsics.checkNotNullParameter($this$replace, "<this>");
         Intrinsics.checkNotNullParameter(oldValue, "oldValue");
         Intrinsics.checkNotNullParameter(newValue, "newValue");
@@ -664,12 +664,12 @@ class StringsKt__StringsJVMKt extends kotlin.text.StringsKt__StringNumberConvers
         if (i7 < 0) {
         } else {
             StringBuilder stringBuilder2 = new StringBuilder(i7);
-            i2 = 0;
-            stringBuilder2.append((CharSequence)obj, i2, occurrenceIndex).append(newValue);
+            i = 0;
+            stringBuilder2.append((CharSequence)obj, i, occurrenceIndex).append(newValue);
             while (occurrenceIndex < obj.length()) {
                 if (StringsKt.indexOf((CharSequence)obj, oldValue, occurrenceIndex + coerceAtLeast, ignoreCase) > 0) {
                 }
-                stringBuilder2.append((CharSequence)obj, i2, occurrenceIndex).append(newValue);
+                stringBuilder2.append((CharSequence)obj, i, occurrenceIndex).append(newValue);
             }
             String string = stringBuilder2.append((CharSequence)obj, occurrenceIndex + length2, obj.length()).toString();
             Intrinsics.checkNotNullExpressionValue(string, "toString(...)");

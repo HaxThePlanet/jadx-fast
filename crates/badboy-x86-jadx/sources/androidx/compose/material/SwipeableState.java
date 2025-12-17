@@ -221,8 +221,8 @@ public class SwipeableState<T>  {
                 this.absoluteOffset.setFloatValue(empty.floatValue());
             }
             int i = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("The initial value must have an associated anchor.".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireNotNullSwipeableState$ensureInit$1 = new IllegalArgumentException("The initial value must have an associated anchor.".toString());
+            throw $i$a$RequireNotNullSwipeableState$ensureInit$1;
         }
     }
 
@@ -328,8 +328,8 @@ public class SwipeableState<T>  {
 
     public final T getTargetValue() {
         float floatValue3;
-        float floatValue;
         float floatValue2;
+        float floatValue;
         Object currentValue;
         float f;
         java.util.Set keySet;
@@ -342,11 +342,11 @@ public class SwipeableState<T>  {
         } else {
             Float num = SwipeableKt.access$getOffset(getAnchors$material_release(), getCurrentValue());
             if (num != null) {
-                floatValue = num.floatValue();
+                floatValue2 = num.floatValue();
             } else {
-                floatValue = (Number)getOffset().getValue().floatValue();
+                floatValue2 = (Number)getOffset().getValue().floatValue();
             }
-            floatValue3 = SwipeableKt.access$computeTarget((Number)getOffset().getValue().floatValue(), floatValue, getAnchors$material_release().keySet(), getThresholds$material_release(), 0, 2139095040);
+            floatValue3 = SwipeableKt.access$computeTarget((Number)getOffset().getValue().floatValue(), floatValue2, getAnchors$material_release().keySet(), getThresholds$material_release(), 0, 2139095040);
         }
         if (getAnchors$material_release().get(Float.valueOf(floatValue3)) == null) {
             currentValue = getCurrentValue();
@@ -392,32 +392,32 @@ public class SwipeableState<T>  {
 
     public final Object processNewAnchors$material_release(Map<Float, ? extends T> map, Map<Float, ? extends T> map2, Continuation<? super Unit> continuation3) {
         boolean anon;
-        Throwable th;
-        Object cOROUTINE_SUSPENDED;
         Throwable th2;
+        Object cOROUTINE_SUSPENDED;
+        Throwable _this;
         Object label;
         Object currentValue;
         Object animateInternalToOffset;
         float floatValue;
         Object minElem$iv;
-        int i;
+        int i2;
         int iterator;
         Iterator iterator2;
         int compare;
         float f;
-        int i2;
+        int i;
         float f2;
-        Throwable th3;
+        Throwable th;
         boolean obj13;
         Map obj14;
         Object obj15;
         anon = continuation3;
-        th2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof SwipeableState.processNewAnchors.1 && label2 &= th2 != 0) {
+        _this = Integer.MIN_VALUE;
+        if (continuation3 instanceof SwipeableState.processNewAnchors.1 && label2 &= _this != 0) {
             anon = continuation3;
-            th2 = Integer.MIN_VALUE;
-            if (label2 &= th2 != 0) {
-                anon.label = obj15 -= th2;
+            _this = Integer.MIN_VALUE;
+            if (label2 &= _this != 0) {
+                anon.label = obj15 -= _this;
             } else {
                 anon = new SwipeableState.processNewAnchors.1(this, continuation3);
             }
@@ -452,7 +452,7 @@ public class SwipeableState<T>  {
                 compare = 0;
                 f = Math.abs(obj13 - floatValue5);
                 obj13 = iterator2.next();
-                i2 = 0;
+                i = 0;
                 f2 = Math.abs(floatValue3 - floatValue7);
                 minElem$iv = obj13;
                 f = compare;
@@ -467,7 +467,7 @@ public class SwipeableState<T>  {
                 compare = Math.abs(obj13 - floatValue4);
                 obj13 = iterator.next();
                 f = 0.0f;
-                i2 = Math.abs(floatValue2 - floatValue6);
+                i = Math.abs(floatValue2 - floatValue6);
                 minElem$iv = obj13;
                 compare = iterator2;
                 Intrinsics.checkNotNull(minElem$iv);

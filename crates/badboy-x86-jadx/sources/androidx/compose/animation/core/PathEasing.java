@@ -29,39 +29,39 @@ public final class PathEasing implements androidx.compose.animation.core.Easing 
 
     private final void initializeEasing() {
         boolean contains;
-        int str;
+        int $i$a$RequirePreconditionPathEasing$initializeEasing$1;
         PathIterator.ConicEvaluation asQuadratics;
         int horizontalBounds$default;
-        int i3;
         int i2;
-        PathSegment.Type move;
-        PathSegment.Type bits$iv$iv;
-        float bits$iv$iv2;
+        int i3;
+        PathSegment.Type $i$f$getFirstImpl;
+        PathSegment.Type $i$a$RequirePreconditionPathEasing$initializeEasing$segmentIntervals$1$1;
+        float bits$iv$iv;
         int i;
         IntervalTree intervalTree = new IntervalTree();
-        str = 0;
+        $i$a$RequirePreconditionPathEasing$initializeEasing$1 = 0;
         PathIterator iterator = this.path.iterator(PathIterator.ConicEvaluation.AsQuadratics, 961656599);
-        i3 = 1;
-        i2 = 0;
+        i2 = 1;
+        i3 = 0;
         while (iterator.hasNext()) {
             asQuadratics = iterator.next();
             if (asQuadratics.getType() != PathSegment.Type.Close) {
             } else {
             }
-            i3 = i2;
+            i2 = i3;
             int i10 = 0;
-            if (i3 == 0) {
+            if (i2 == 0) {
             }
             if (asQuadratics.getType() != PathSegment.Type.Move && asQuadratics.getType() != PathSegment.Type.Done) {
             }
-            i3 = 1;
-            i2 = 0;
+            i2 = 1;
+            i3 = 0;
             if (asQuadratics.getType() != PathSegment.Type.Done) {
             }
-            horizontalBounds$default = BezierKt.computeHorizontalBounds$default(asQuadratics, new float[5], i2, 4, 0);
+            horizontalBounds$default = BezierKt.computeHorizontalBounds$default(asQuadratics, new float[5], i3, 4, 0);
             int i12 = 0;
             int i17 = 0;
-            move = 0;
+            $i$f$getFirstImpl = 0;
             i = 0;
             intervalTree.addInterval(Float.intBitsToFloat((int)i15), Float.intBitsToFloat((int)i18), asQuadratics);
             int i13 = 0;
@@ -70,12 +70,12 @@ public final class PathEasing implements androidx.compose.animation.core.Easing 
         if (intervalTree.contains(0) && intervalTree.contains(1065353216)) {
             if (intervalTree.contains(1065353216)) {
             } else {
-                i3 = i2;
+                i2 = i3;
             }
         } else {
         }
         int i7 = 0;
-        if (i3 == 0) {
+        if (i2 == 0) {
             int i8 = 0;
             PreconditionsKt.throwIllegalArgumentException("The easing path must start at 0.0f and end at 1.0f.");
         }
@@ -85,7 +85,7 @@ public final class PathEasing implements androidx.compose.animation.core.Easing 
     @Override // androidx.compose.animation.core.Easing
     public float transform(float fraction) {
         IntervalTree intervals;
-        String str;
+        String $i$a$CheckPreconditionPathEasing$transform$1;
         int i = 0;
         if (Float.compare(fraction, i) <= 0) {
             return i;

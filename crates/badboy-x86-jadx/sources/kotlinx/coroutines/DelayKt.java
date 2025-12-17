@@ -18,13 +18,13 @@ import kotlin.time.Duration.Companion;
 public final class DelayKt {
     public static final Object awaitCancellation(Continuation<?> continuation) {
         boolean anon;
-        int i4;
         int i3;
+        int i;
         int i2;
         int label;
         Object result;
         Object cOROUTINE_SUSPENDED;
-        int i;
+        int i4;
         kotlinx.coroutines.CancellableContinuationImpl cancellableContinuationImpl;
         Continuation intercepted;
         Object obj8;
@@ -47,7 +47,7 @@ public final class DelayKt {
                 ResultKt.throwOnFailure(obj8);
                 int i5 = 1;
                 anon.label = i5;
-                i = 0;
+                i4 = 0;
                 cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon), i5);
                 cancellableContinuationImpl.initCancellability();
                 kotlinx.coroutines.CancellableContinuationImpl cancellableContinuationImpl2 = cancellableContinuationImpl;
@@ -55,10 +55,10 @@ public final class DelayKt {
                 result = cancellableContinuationImpl.getResult();
                 DebugProbesKt.probeCoroutineSuspended((Continuation)anon);
                 return cOROUTINE_SUSPENDED2;
-                i3 = label;
+                i = label;
                 break;
             case 1:
-                i3 = 0;
+                i = 0;
                 ResultKt.throwOnFailure(obj8);
                 break;
             default:

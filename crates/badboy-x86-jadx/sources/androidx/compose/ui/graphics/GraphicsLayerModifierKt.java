@@ -23,167 +23,39 @@ public final class GraphicsLayerModifierKt {
     }
 
     public static Modifier graphicsLayer-2Xn7asI$default(Modifier modifier, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, long l12, androidx.compose.ui.graphics.Shape shape13, boolean z14, androidx.compose.ui.graphics.RenderEffect renderEffect15, int i16, Object object17) {
-        int i2;
-        int i11;
-        int i9;
-        int i6;
         int i4;
+        int i7;
+        int i8;
+        int i12;
+        int i9;
+        int i2;
         int i10;
         int i3;
-        int i12;
+        int i5;
+        int i6;
         int i;
-        int i8;
-        int i7;
         long center-SzJe1aQ;
         androidx.compose.ui.graphics.Shape rectangleShape;
-        int i5;
+        int i11;
         int i13 = object17;
-        i9 = 1065353216;
-        i11 = i13 & 1 != 0 ? i9 : f2;
-        i6 = i13 & 2 != 0 ? i9 : f3;
+        i8 = 1065353216;
+        i7 = i13 & 1 != 0 ? i8 : f2;
+        i12 = i13 & 2 != 0 ? i8 : f3;
         if (i13 & 4 != 0) {
         } else {
-            i9 = f4;
+            i8 = f4;
         }
-        i10 = 0;
-        i4 = i13 & 8 != 0 ? i10 : f5;
-        i3 = i13 & 16 != 0 ? i10 : f6;
-        i12 = i13 & 32 != 0 ? i10 : f7;
-        i = i13 & 64 != 0 ? i10 : f8;
-        i8 = i13 & 128 != 0 ? i10 : f9;
+        i2 = 0;
+        i9 = i13 & 8 != 0 ? i2 : f5;
+        i10 = i13 & 16 != 0 ? i2 : f6;
+        i3 = i13 & 32 != 0 ? i2 : f7;
+        i5 = i13 & 64 != 0 ? i2 : f8;
+        i6 = i13 & 128 != 0 ? i2 : f9;
         if (i13 & 256 != 0) {
         } else {
-            i10 = f10;
+            i2 = f10;
         }
-        i7 = i13 & 512 != 0 ? 1090519040 : f11;
-        if (i13 & 1024 != 0) {
-            center-SzJe1aQ = TransformOrigin.Companion.getCenter-SzJe1aQ();
-        } else {
-            center-SzJe1aQ = l12;
-        }
-        if (i13 & 2048 != 0) {
-            rectangleShape = RectangleShapeKt.getRectangleShape();
-        } else {
-            rectangleShape = z14;
-        }
-        i5 = i13 & 4096 != 0 ? 0 : renderEffect15;
-        i2 = i13 &= 8192 != 0 ? 0 : i16;
-        return GraphicsLayerModifierKt.graphicsLayer-2Xn7asI(modifier, i11, i6, i9, i4, i3, i12, i, i8, i10, i7, center-SzJe1aQ, z14, rectangleShape, i5);
-    }
-
-    public static final Modifier graphicsLayer-Ap8cVGQ(Modifier $this$graphicsLayer_u2dAp8cVGQ, float scaleX, float scaleY, float alpha, float translationX, float translationY, float shadowElevation, float rotationX, float rotationY, float rotationZ, float cameraDistance, long transformOrigin, androidx.compose.ui.graphics.Shape shape, boolean clip, androidx.compose.ui.graphics.RenderEffect renderEffect, long ambientShadowColor, long spotShadowColor, int compositingStrategy) {
-        GraphicsLayerElement graphicsLayerElement = new GraphicsLayerElement(scaleX, scaleY, alpha, translationX, translationY, shadowElevation, rotationX, rotationY, rotationZ, cameraDistance, transformOrigin, obj12, clip, renderEffect, ambientShadowColor, spotShadowColor, obj17, obj40, obj19, obj42, 0);
-        return $this$graphicsLayer_u2dAp8cVGQ.then((Modifier)graphicsLayerElement);
-    }
-
-    public static Modifier graphicsLayer-Ap8cVGQ$default(Modifier modifier, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, long l12, androidx.compose.ui.graphics.Shape shape13, boolean z14, androidx.compose.ui.graphics.RenderEffect renderEffect15, long l16, long l17, int i18, int i19, Object object20) {
-        int auto--NrFUSI;
-        int i3;
-        int i10;
-        int i9;
-        int i4;
-        int i11;
-        int i8;
-        int i5;
-        int i2;
-        int i;
-        int i6;
-        long center-SzJe1aQ;
-        androidx.compose.ui.graphics.Shape rectangleShape;
-        int i7;
-        int i12;
-        long defaultShadowColor2;
-        long defaultShadowColor;
-        int i13 = obj41;
-        i10 = 1065353216;
-        i3 = i13 & 1 != 0 ? i10 : f2;
-        i9 = i13 & 2 != 0 ? i10 : f3;
-        if (i13 & 4 != 0) {
-        } else {
-            i10 = f4;
-        }
-        i11 = 0;
-        i4 = i13 & 8 != 0 ? i11 : f5;
-        i8 = i13 & 16 != 0 ? i11 : f6;
-        i5 = i13 & 32 != 0 ? i11 : f7;
-        i2 = i13 & 64 != 0 ? i11 : f8;
-        i = i13 & 128 != 0 ? i11 : f9;
-        if (i13 & 256 != 0) {
-        } else {
-            i11 = f10;
-        }
-        i6 = i13 & 512 != 0 ? 1090519040 : f11;
-        if (i13 & 1024 != 0) {
-            center-SzJe1aQ = TransformOrigin.Companion.getCenter-SzJe1aQ();
-        } else {
-            center-SzJe1aQ = l12;
-        }
-        if (i13 & 2048 != 0) {
-            rectangleShape = RectangleShapeKt.getRectangleShape();
-        } else {
-            rectangleShape = z14;
-        }
-        i7 = i13 & 4096 != 0 ? 0 : renderEffect15;
-        i12 = i13 & 8192 != 0 ? 0 : l16;
-        if (i13 & 16384 != 0) {
-            defaultShadowColor2 = GraphicsLayerScopeKt.getDefaultShadowColor();
-        } else {
-            defaultShadowColor2 = l17;
-        }
-        if (i17 &= i13 != 0) {
-            defaultShadowColor = GraphicsLayerScopeKt.getDefaultShadowColor();
-        } else {
-            defaultShadowColor = i19;
-        }
-        if (i13 &= i21 != 0) {
-            auto--NrFUSI = CompositingStrategy.Companion.getAuto--NrFUSI();
-        } else {
-            auto--NrFUSI = obj40;
-        }
-        return GraphicsLayerModifierKt.graphicsLayer-Ap8cVGQ(modifier, i3, i9, i10, i4, i8, i5, i2, i, i11, i6, center-SzJe1aQ, z14, rectangleShape, i7, i12, defaultShadowColor2, i19);
-    }
-
-    @Deprecated(level = DeprecationLevel.HIDDEN, message = "Replace with graphicsLayer that consumes a compositing strategy", replaceWith = @ReplaceWith(...))
-    public static final Modifier graphicsLayer-pANQ8Wg(Modifier $this$graphicsLayer_u2dpANQ8Wg, float scaleX, float scaleY, float alpha, float translationX, float translationY, float shadowElevation, float rotationX, float rotationY, float rotationZ, float cameraDistance, long transformOrigin, androidx.compose.ui.graphics.Shape shape, boolean clip, androidx.compose.ui.graphics.RenderEffect renderEffect, long ambientShadowColor, long spotShadowColor) {
-        return GraphicsLayerModifierKt.graphicsLayer-Ap8cVGQ($this$graphicsLayer_u2dpANQ8Wg, scaleX, scaleY, alpha, translationX, translationY, shadowElevation, rotationX, rotationY, rotationZ, cameraDistance, transformOrigin, obj13, clip, renderEffect, ambientShadowColor, spotShadowColor, obj18);
-    }
-
-    public static Modifier graphicsLayer-pANQ8Wg$default(Modifier modifier, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, long l12, androidx.compose.ui.graphics.Shape shape13, boolean z14, androidx.compose.ui.graphics.RenderEffect renderEffect15, long l16, long l17, int i18, Object object19) {
-        long defaultShadowColor2;
-        int i7;
-        int i9;
-        int i;
-        int i3;
-        int i10;
-        int i6;
-        int i8;
-        int i4;
-        int i12;
-        int i5;
-        long center-SzJe1aQ;
-        androidx.compose.ui.graphics.Shape rectangleShape;
-        int i11;
-        int i2;
-        long defaultShadowColor;
-        int i13 = obj38;
-        i9 = 1065353216;
-        i7 = i13 & 1 != 0 ? i9 : f2;
-        i = i13 & 2 != 0 ? i9 : f3;
-        if (i13 & 4 != 0) {
-        } else {
-            i9 = f4;
-        }
-        i10 = 0;
-        i3 = i13 & 8 != 0 ? i10 : f5;
-        i6 = i13 & 16 != 0 ? i10 : f6;
-        i8 = i13 & 32 != 0 ? i10 : f7;
-        i4 = i13 & 64 != 0 ? i10 : f8;
-        i12 = i13 & 128 != 0 ? i10 : f9;
-        if (i13 & 256 != 0) {
-        } else {
-            i10 = f10;
-        }
-        i5 = i13 & 512 != 0 ? 1090519040 : f11;
+        i = i13 & 512 != 0 ? 1090519040 : f11;
         if (i13 & 1024 != 0) {
             center-SzJe1aQ = TransformOrigin.Companion.getCenter-SzJe1aQ();
         } else {
@@ -195,7 +67,135 @@ public final class GraphicsLayerModifierKt {
             rectangleShape = z14;
         }
         i11 = i13 & 4096 != 0 ? 0 : renderEffect15;
-        i2 = i13 & 8192 != 0 ? 0 : l16;
+        i4 = i13 &= 8192 != 0 ? 0 : i16;
+        return GraphicsLayerModifierKt.graphicsLayer-2Xn7asI(modifier, i7, i12, i8, i9, i10, i3, i5, i6, i2, i, center-SzJe1aQ, z14, rectangleShape, i11);
+    }
+
+    public static final Modifier graphicsLayer-Ap8cVGQ(Modifier $this$graphicsLayer_u2dAp8cVGQ, float scaleX, float scaleY, float alpha, float translationX, float translationY, float shadowElevation, float rotationX, float rotationY, float rotationZ, float cameraDistance, long transformOrigin, androidx.compose.ui.graphics.Shape shape, boolean clip, androidx.compose.ui.graphics.RenderEffect renderEffect, long ambientShadowColor, long spotShadowColor, int compositingStrategy) {
+        GraphicsLayerElement graphicsLayerElement = new GraphicsLayerElement(scaleX, scaleY, alpha, translationX, translationY, shadowElevation, rotationX, rotationY, rotationZ, cameraDistance, transformOrigin, obj12, clip, renderEffect, ambientShadowColor, spotShadowColor, obj17, obj40, obj19, obj42, 0);
+        return $this$graphicsLayer_u2dAp8cVGQ.then((Modifier)graphicsLayerElement);
+    }
+
+    public static Modifier graphicsLayer-Ap8cVGQ$default(Modifier modifier, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, long l12, androidx.compose.ui.graphics.Shape shape13, boolean z14, androidx.compose.ui.graphics.RenderEffect renderEffect15, long l16, long l17, int i18, int i19, Object object20) {
+        int auto--NrFUSI;
+        int i7;
+        int i8;
+        int i2;
+        int i12;
+        int i3;
+        int i5;
+        int i6;
+        int i9;
+        int i10;
+        int i4;
+        long center-SzJe1aQ;
+        androidx.compose.ui.graphics.Shape rectangleShape;
+        int i;
+        int i11;
+        long defaultShadowColor;
+        long defaultShadowColor2;
+        int i13 = obj41;
+        i8 = 1065353216;
+        i7 = i13 & 1 != 0 ? i8 : f2;
+        i2 = i13 & 2 != 0 ? i8 : f3;
+        if (i13 & 4 != 0) {
+        } else {
+            i8 = f4;
+        }
+        i3 = 0;
+        i12 = i13 & 8 != 0 ? i3 : f5;
+        i5 = i13 & 16 != 0 ? i3 : f6;
+        i6 = i13 & 32 != 0 ? i3 : f7;
+        i9 = i13 & 64 != 0 ? i3 : f8;
+        i10 = i13 & 128 != 0 ? i3 : f9;
+        if (i13 & 256 != 0) {
+        } else {
+            i3 = f10;
+        }
+        i4 = i13 & 512 != 0 ? 1090519040 : f11;
+        if (i13 & 1024 != 0) {
+            center-SzJe1aQ = TransformOrigin.Companion.getCenter-SzJe1aQ();
+        } else {
+            center-SzJe1aQ = l12;
+        }
+        if (i13 & 2048 != 0) {
+            rectangleShape = RectangleShapeKt.getRectangleShape();
+        } else {
+            rectangleShape = z14;
+        }
+        i = i13 & 4096 != 0 ? 0 : renderEffect15;
+        i11 = i13 & 8192 != 0 ? 0 : l16;
+        if (i13 & 16384 != 0) {
+            defaultShadowColor = GraphicsLayerScopeKt.getDefaultShadowColor();
+        } else {
+            defaultShadowColor = l17;
+        }
+        if (i17 &= i13 != 0) {
+            defaultShadowColor2 = GraphicsLayerScopeKt.getDefaultShadowColor();
+        } else {
+            defaultShadowColor2 = i19;
+        }
+        if (i13 &= i21 != 0) {
+            auto--NrFUSI = CompositingStrategy.Companion.getAuto--NrFUSI();
+        } else {
+            auto--NrFUSI = obj40;
+        }
+        return GraphicsLayerModifierKt.graphicsLayer-Ap8cVGQ(modifier, i7, i2, i8, i12, i5, i6, i9, i10, i3, i4, center-SzJe1aQ, z14, rectangleShape, i, i11, defaultShadowColor, i19);
+    }
+
+    @Deprecated(level = DeprecationLevel.HIDDEN, message = "Replace with graphicsLayer that consumes a compositing strategy", replaceWith = @ReplaceWith(...))
+    public static final Modifier graphicsLayer-pANQ8Wg(Modifier $this$graphicsLayer_u2dpANQ8Wg, float scaleX, float scaleY, float alpha, float translationX, float translationY, float shadowElevation, float rotationX, float rotationY, float rotationZ, float cameraDistance, long transformOrigin, androidx.compose.ui.graphics.Shape shape, boolean clip, androidx.compose.ui.graphics.RenderEffect renderEffect, long ambientShadowColor, long spotShadowColor) {
+        return GraphicsLayerModifierKt.graphicsLayer-Ap8cVGQ($this$graphicsLayer_u2dpANQ8Wg, scaleX, scaleY, alpha, translationX, translationY, shadowElevation, rotationX, rotationY, rotationZ, cameraDistance, transformOrigin, obj13, clip, renderEffect, ambientShadowColor, spotShadowColor, obj18);
+    }
+
+    public static Modifier graphicsLayer-pANQ8Wg$default(Modifier modifier, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, long l12, androidx.compose.ui.graphics.Shape shape13, boolean z14, androidx.compose.ui.graphics.RenderEffect renderEffect15, long l16, long l17, int i18, Object object19) {
+        long defaultShadowColor2;
+        int i11;
+        int i6;
+        int i5;
+        int i12;
+        int i2;
+        int i9;
+        int i3;
+        int i7;
+        int i8;
+        int i4;
+        long center-SzJe1aQ;
+        androidx.compose.ui.graphics.Shape rectangleShape;
+        int i10;
+        int i;
+        long defaultShadowColor;
+        int i13 = obj38;
+        i6 = 1065353216;
+        i11 = i13 & 1 != 0 ? i6 : f2;
+        i5 = i13 & 2 != 0 ? i6 : f3;
+        if (i13 & 4 != 0) {
+        } else {
+            i6 = f4;
+        }
+        i2 = 0;
+        i12 = i13 & 8 != 0 ? i2 : f5;
+        i9 = i13 & 16 != 0 ? i2 : f6;
+        i3 = i13 & 32 != 0 ? i2 : f7;
+        i7 = i13 & 64 != 0 ? i2 : f8;
+        i8 = i13 & 128 != 0 ? i2 : f9;
+        if (i13 & 256 != 0) {
+        } else {
+            i2 = f10;
+        }
+        i4 = i13 & 512 != 0 ? 1090519040 : f11;
+        if (i13 & 1024 != 0) {
+            center-SzJe1aQ = TransformOrigin.Companion.getCenter-SzJe1aQ();
+        } else {
+            center-SzJe1aQ = l12;
+        }
+        if (i13 & 2048 != 0) {
+            rectangleShape = RectangleShapeKt.getRectangleShape();
+        } else {
+            rectangleShape = z14;
+        }
+        i10 = i13 & 4096 != 0 ? 0 : renderEffect15;
+        i = i13 & 8192 != 0 ? 0 : l16;
         if (i13 & 16384 != 0) {
             defaultShadowColor = GraphicsLayerScopeKt.getDefaultShadowColor();
         } else {
@@ -206,7 +206,7 @@ public final class GraphicsLayerModifierKt {
         } else {
             defaultShadowColor2 = object19;
         }
-        return GraphicsLayerModifierKt.graphicsLayer-pANQ8Wg(modifier, i7, i, i9, i3, i6, i8, i4, i12, i10, i5, center-SzJe1aQ, z14, rectangleShape, i11, i2, defaultShadowColor);
+        return GraphicsLayerModifierKt.graphicsLayer-pANQ8Wg(modifier, i11, i5, i6, i12, i9, i3, i7, i8, i2, i4, center-SzJe1aQ, z14, rectangleShape, i10, i, defaultShadowColor);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Replace with graphicsLayer that consumes an optional RenderEffect parameter and shadow color parameters", replaceWith = @ReplaceWith(...))
@@ -215,38 +215,38 @@ public final class GraphicsLayerModifierKt {
     }
 
     public static Modifier graphicsLayer-sKFY_QE$default(Modifier modifier, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, long l12, androidx.compose.ui.graphics.Shape shape13, boolean z14, int i15, Object object16) {
-        int i9;
-        int i;
-        int i8;
-        int i5;
-        int i10;
-        int i2;
-        int i6;
         int i3;
+        int i10;
+        int i;
+        int i5;
+        int i8;
         int i4;
+        int i9;
+        int i6;
+        int i2;
         int i7;
         long center-SzJe1aQ;
         androidx.compose.ui.graphics.Shape rectangleShape;
         int obj14;
         int i11 = object16;
-        i8 = 1065353216;
+        i = 1065353216;
         if (i11 & 1 != 0) {
-            obj14 = i8;
+            obj14 = i;
         }
-        i = i11 & 2 != 0 ? i8 : f3;
+        i10 = i11 & 2 != 0 ? i : f3;
         if (i11 & 4 != 0) {
         } else {
-            i8 = f4;
+            i = f4;
         }
-        i10 = 0;
-        i5 = i11 & 8 != 0 ? i10 : f5;
-        i2 = i11 & 16 != 0 ? i10 : f6;
-        i6 = i11 & 32 != 0 ? i10 : f7;
-        i3 = i11 & 64 != 0 ? i10 : f8;
-        i4 = i11 & 128 != 0 ? i10 : f9;
+        i8 = 0;
+        i5 = i11 & 8 != 0 ? i8 : f5;
+        i4 = i11 & 16 != 0 ? i8 : f6;
+        i9 = i11 & 32 != 0 ? i8 : f7;
+        i6 = i11 & 64 != 0 ? i8 : f8;
+        i2 = i11 & 128 != 0 ? i8 : f9;
         if (i11 & 256 != 0) {
         } else {
-            i10 = f10;
+            i8 = f10;
         }
         i7 = i11 & 512 != 0 ? 1090519040 : f11;
         if (i11 & 1024 != 0) {
@@ -259,32 +259,32 @@ public final class GraphicsLayerModifierKt {
         } else {
             rectangleShape = z14;
         }
-        i9 = i11 &= 4096 != 0 ? 0 : i15;
-        return GraphicsLayerModifierKt.graphicsLayer-sKFY_QE(modifier, obj14, i, i8, i5, i2, i6, i3, i4, i10, i7, center-SzJe1aQ, z14, rectangleShape);
+        i3 = i11 &= 4096 != 0 ? 0 : i15;
+        return GraphicsLayerModifierKt.graphicsLayer-sKFY_QE(modifier, obj14, i10, i, i5, i4, i9, i6, i2, i8, i7, center-SzJe1aQ, z14, rectangleShape);
     }
 
     public static final Modifier toolingGraphicsLayer(Modifier $this$toolingGraphicsLayer) {
         Modifier then;
         Modifier modifier;
-        int i4;
-        int i15;
-        int i14;
-        int i;
-        int i2;
         int i10;
-        int i3;
-        int i16;
-        int i18;
-        int i5;
-        int i11;
-        int i9;
-        int i8;
-        int i6;
         int i12;
-        int i17;
-        int i19;
-        int i7;
+        int i2;
+        int i9;
+        int i11;
+        int i3;
         int i13;
+        int i;
+        int i18;
+        int i6;
+        int i19;
+        int i17;
+        int i15;
+        int i7;
+        int i8;
+        int i5;
+        int i16;
+        int i4;
+        int i14;
         if (InspectableValueKt.isDebugInspectorInfoEnabled()) {
             then = $this$toolingGraphicsLayer.then(GraphicsLayerModifierKt.graphicsLayer-Ap8cVGQ$default((Modifier)Modifier.Companion, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, obj13, false, 0, 0, 0, obj18, 0, obj20));
         } else {

@@ -21,24 +21,24 @@ public final class OffsetMappingCalculator {
     }
 
     private final long map-fzxv0v0(int offset, boolean fromSource) {
-        Object start2;
-        int start;
+        Object start;
+        int start2;
         int end;
         int[] ops;
         int opsSize;
         int end-impl;
-        int i$iv2;
         int i$iv;
-        int i2;
-        int i5;
-        int i4;
-        int i3;
-        long mapStep-C6u-MEY2;
+        int i$iv2;
         int i;
+        int i5;
+        int i3;
+        int i2;
         long mapStep-C6u-MEY;
-        start2 = this;
+        int i4;
+        long mapStep-C6u-MEY2;
+        start = this;
         int i12 = 0;
-        start = offset;
+        start2 = offset;
         int i15 = 0;
         end = offset;
         final int i23 = opsSize;
@@ -46,46 +46,46 @@ public final class OffsetMappingCalculator {
         final int i25 = 0;
         if (i23 >= 0) {
             if (fromSource ^ 1 != 0) {
-                i$iv2 = end;
-                i$iv = ops;
-                while (-1 < i$iv) {
-                    end = i2;
+                i$iv = end;
+                i$iv2 = ops;
+                while (-1 < i$iv2) {
+                    end = i;
                     ops = i5;
-                    opsSize = i4;
-                    i3 = 0;
+                    opsSize = i3;
+                    i2 = 0;
                     int i22 = fromSource;
-                    mapStep-C6u-MEY2 = start2.mapStep-C6u-MEY(start, end, ops, opsSize, i22);
-                    i = start;
-                    mapStep-C6u-MEY = this.mapStep-C6u-MEY(i$iv2, end, ops, opsSize, i22);
-                    i$iv2 = Math.max(TextRange.getEnd-impl(mapStep-C6u-MEY2), TextRange.getEnd-impl(mapStep-C6u-MEY));
-                    i$iv--;
-                    start = i11;
-                    start2 = this;
+                    mapStep-C6u-MEY = start.mapStep-C6u-MEY(start2, end, ops, opsSize, i22);
+                    i4 = start2;
+                    mapStep-C6u-MEY2 = this.mapStep-C6u-MEY(i$iv, end, ops, opsSize, i22);
+                    i$iv = Math.max(TextRange.getEnd-impl(mapStep-C6u-MEY), TextRange.getEnd-impl(mapStep-C6u-MEY2));
+                    i$iv2--;
+                    start2 = i11;
+                    start = this;
                 }
                 end = start4;
-                start = i;
+                start2 = i4;
             } else {
-                i$iv2 = start2;
-                i$iv = end;
-                while (i$iv2 < i23) {
-                    end = i2;
+                i$iv = start;
+                i$iv2 = end;
+                while (i$iv < i23) {
+                    end = i;
                     ops = i5;
-                    opsSize = i4;
-                    i3 = 0;
+                    opsSize = i3;
+                    i2 = 0;
                     Object obj = this;
                     int i21 = fromSource;
-                    mapStep-C6u-MEY2 = obj.mapStep-C6u-MEY(start, end, ops, opsSize, i21);
-                    i = start;
-                    mapStep-C6u-MEY = obj.mapStep-C6u-MEY(i$iv, end, ops, opsSize, i21);
-                    i$iv = Math.max(TextRange.getEnd-impl(mapStep-C6u-MEY2), TextRange.getEnd-impl(mapStep-C6u-MEY));
-                    i$iv2++;
-                    start = start2;
+                    mapStep-C6u-MEY = obj.mapStep-C6u-MEY(start2, end, ops, opsSize, i21);
+                    i4 = start2;
+                    mapStep-C6u-MEY2 = obj.mapStep-C6u-MEY(i$iv2, end, ops, opsSize, i21);
+                    i$iv2 = Math.max(TextRange.getEnd-impl(mapStep-C6u-MEY), TextRange.getEnd-impl(mapStep-C6u-MEY2));
+                    i$iv++;
+                    start2 = start;
                 }
                 end = start3;
-                start = i;
+                start2 = i4;
             }
         }
-        return TextRangeKt.TextRange(start, end);
+        return TextRangeKt.TextRange(start2, end);
     }
 
     private final long mapStep-C6u-MEY(int offset, int opOffset, int untransformedLen, int transformedLen, boolean fromSource) {
@@ -128,12 +128,12 @@ public final class OffsetMappingCalculator {
 
     public final void recordEditOperation(int sourceStart, int sourceEnd, int newLength) {
         int size-impl;
-        int i;
-        int copyOf-pSmdads;
         int i2;
+        int copyOf-pSmdads;
+        int i;
         int i3 = 1;
-        i = newLength >= 0 ? i3 : 0;
-        if (i == 0) {
+        i2 = newLength >= 0 ? i3 : 0;
+        if (i2 == 0) {
         } else {
             int i6 = Math.min(sourceStart, sourceEnd);
             final int i8 = i7 - i6;

@@ -216,13 +216,13 @@ class FindAddress {
     private static int attemptMatch(String content, MatchResult houseNumberMatch) {
         int restartPos;
         int nonZipMatch;
-        int it;
+        int it2;
         int numLines;
         int consecutiveHouseNumbers;
         int foundLocationName;
         int wordCount;
         String lastWord;
-        int it2;
+        int it;
         int i2;
         int i3;
         int validLocationName;
@@ -230,44 +230,44 @@ class FindAddress {
         int i;
         restartPos = -1;
         nonZipMatch = -1;
-        it = houseNumberMatch.end();
+        it2 = houseNumberMatch.end();
         numLines = 1;
         consecutiveHouseNumbers = 1;
         foundLocationName = 0;
         wordCount = 1;
         lastWord = "";
         Matcher matcher = FindAddress.sWordRe.matcher(content);
-        while (it < content.length()) {
+        while (it2 < content.length()) {
             validLocationName = -1;
-            while (it < matcher.start()) {
-                if ("\n\u000b\u000c\r\u0085  ".indexOf(content.charAt(it)) != validLocationName) {
+            while (it2 < matcher.start()) {
+                if ("\n\u000b\u000c\r\u0085  ".indexOf(content.charAt(it2)) != validLocationName) {
                 }
-                it = i2;
+                it2 = i2;
                 validLocationName = -1;
                 numLines++;
             }
-            it2 = 5;
+            it = 5;
             wordCount++;
             i = 0;
             consecutiveHouseNumbers = 0;
             lastWord = matcher.group(i);
-            it = matcher.end();
-            it2 = FindAddress.matchState(content, it);
+            it2 = matcher.end();
+            it = FindAddress.matchState(content, it2);
             validLocationName = FindAddress.sWordRe.matcher(content);
-            nonZipMatch = it2.end();
+            nonZipMatch = it.end();
             foundLocationName = 1;
             if (restartPos == validLocationName) {
             }
-            restartPos = it;
-            if ("\n\u000b\u000c\r\u0085  ".indexOf(content.charAt(it)) != validLocationName) {
+            restartPos = it2;
+            if ("\n\u000b\u000c\r\u0085  ".indexOf(content.charAt(it2)) != validLocationName) {
             }
-            it = i2;
+            it2 = i2;
             numLines++;
         }
         if (nonZipMatch > 0) {
             return nonZipMatch;
         }
-        i3 = restartPos > 0 ? restartPos : it;
+        i3 = restartPos > 0 ? restartPos : it2;
         return -i3;
     }
 

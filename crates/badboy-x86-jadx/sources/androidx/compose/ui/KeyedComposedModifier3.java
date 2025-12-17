@@ -67,21 +67,21 @@ final class KeyedComposedModifier3 extends androidx.compose.ui.ComposedModifier 
 
     @Override // androidx.compose.ui.ComposedModifier
     public int hashCode() {
-        int i3;
         int i2;
+        int i3;
         int i;
         Object key1 = this.key1;
         i = 0;
         if (key1 != null) {
-            i3 = key1.hashCode();
+            i2 = key1.hashCode();
         } else {
-            i3 = i;
+            i2 = i;
         }
         Object key2 = this.key2;
         if (key2 != null) {
-            i2 = key2.hashCode();
+            i3 = key2.hashCode();
         } else {
-            i2 = i;
+            i3 = i;
         }
         Object key3 = this.key3;
         if (key3 != null) {

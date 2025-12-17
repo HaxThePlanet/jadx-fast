@@ -60,9 +60,9 @@ final class PreferKeepClearElement extends ModifierNodeElement<androidx.compose.
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public void inspectableProperties(InspectorInfo $this$inspectableProperties) {
-        Object clearRect2;
+        Object clearRect;
         String str;
-        Function1 clearRect;
+        Function1 clearRect2;
         $this$inspectableProperties.setName("preferKeepClearBounds");
         if (this.clearRect != null) {
             $this$inspectableProperties.getProperties().set("clearRect", this.clearRect);

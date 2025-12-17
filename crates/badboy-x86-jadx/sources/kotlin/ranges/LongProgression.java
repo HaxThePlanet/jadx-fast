@@ -91,15 +91,15 @@ public class LongProgression implements Iterable<Long>, KMappedMarker {
     @Override // java.lang.Iterable
     public int hashCode() {
         int i;
+        int i3;
+        int i4;
         int i5;
         int i2;
-        int i4;
-        int i3;
         if (isEmpty()) {
             i = -1;
         } else {
             long l = (long)i6;
-            i4 = 32;
+            i5 = 32;
             i = (int)i8;
         }
         return i;

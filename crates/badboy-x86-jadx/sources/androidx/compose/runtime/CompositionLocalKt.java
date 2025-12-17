@@ -17,45 +17,45 @@ import kotlin.jvm.functions.Function2;
 @Metadata(d1 = "\u0000J\n\u0000\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0010\u0011\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0003\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\u001a(\u0010\u0000\u001a\u00020\u00012\u0006\u0010\u0002\u001a\u00020\u00032\u0011\u0010\u0004\u001a\r\u0012\u0004\u0012\u00020\u00010\u0005¢\u0006\u0002\u0008\u0006H\u0007¢\u0006\u0002\u0010\u0007\u001a,\u0010\u0000\u001a\u00020\u00012\n\u0010\u0008\u001a\u0006\u0012\u0002\u0008\u00030\t2\u0011\u0010\u0004\u001a\r\u0012\u0004\u0012\u00020\u00010\u0005¢\u0006\u0002\u0008\u0006H\u0007¢\u0006\u0002\u0010\n\u001a<\u0010\u0000\u001a\u00020\u00012\u001a\u0010\u000b\u001a\u000e\u0012\n\u0008\u0001\u0012\u0006\u0012\u0002\u0008\u00030\t0\u000c\"\u0006\u0012\u0002\u0008\u00030\t2\u0011\u0010\u0004\u001a\r\u0012\u0004\u0012\u00020\u00010\u0005¢\u0006\u0002\u0008\u0006H\u0007¢\u0006\u0002\u0010\r\u001a0\u0010\u000e\u001a\u0008\u0012\u0004\u0012\u0002H\u00100\u000f\"\u0004\u0008\u0000\u0010\u00102\u000e\u0008\u0002\u0010\u0011\u001a\u0008\u0012\u0004\u0012\u0002H\u00100\u00122\u000c\u0010\u0013\u001a\u0008\u0012\u0004\u0012\u0002H\u00100\u0005\u001a+\u0010\u0014\u001a\u0008\u0012\u0004\u0012\u0002H\u00100\u000f\"\u0004\u0008\u0000\u0010\u00102\u0017\u0010\u0015\u001a\u0013\u0012\u0004\u0012\u00020\u0017\u0012\u0004\u0012\u0002H\u00100\u0016¢\u0006\u0002\u0008\u0018\u001a \u0010\u0019\u001a\u0008\u0012\u0004\u0012\u0002H\u00100\u000f\"\u0004\u0008\u0000\u0010\u00102\u000c\u0010\u0013\u001a\u0008\u0012\u0004\u0012\u0002H\u00100\u0005¨\u0006\u001a", d2 = {"CompositionLocalProvider", "", "context", "Landroidx/compose/runtime/CompositionLocalContext;", "content", "Lkotlin/Function0;", "Landroidx/compose/runtime/Composable;", "(Landroidx/compose/runtime/CompositionLocalContext;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V", "value", "Landroidx/compose/runtime/ProvidedValue;", "(Landroidx/compose/runtime/ProvidedValue;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V", "values", "", "([Landroidx/compose/runtime/ProvidedValue;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V", "compositionLocalOf", "Landroidx/compose/runtime/ProvidableCompositionLocal;", "T", "policy", "Landroidx/compose/runtime/SnapshotMutationPolicy;", "defaultFactory", "compositionLocalWithComputedDefaultOf", "defaultComputation", "Lkotlin/Function1;", "Landroidx/compose/runtime/CompositionLocalAccessorScope;", "Lkotlin/ExtensionFunctionType;", "staticCompositionLocalOf", "runtime_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
 public final class CompositionLocalKt {
     public static final void CompositionLocalProvider(androidx.compose.runtime.CompositionLocalContext context, Function2<? super androidx.compose.runtime.Composer, ? super Integer, Unit> content, androidx.compose.runtime.Composer $composer, int $changed) {
-        int traceInProgress;
+        int traceInProgress2;
         int $dirty;
-        int i2;
         int i;
+        int i2;
         int skipping;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int arrayList;
         androidx.compose.runtime.ProvidedValue[] arr;
-        int i3;
+        int i4;
         Iterator iterator;
         Object next;
         androidx.compose.runtime.ProvidedValue it;
-        int i4;
+        int i3;
         Object value;
         Object key;
-        traceInProgress = 1853897736;
-        final androidx.compose.runtime.Composer obj14 = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = 1853897736;
+        final androidx.compose.runtime.Composer obj14 = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(obj14, "C(CompositionLocalProvider)P(1)418@18128L144:CompositionLocal.kt#9igjgp");
         if ($changed & 6 == 0) {
-            i2 = obj14.changed(context) ? 4 : 2;
-            $dirty |= i2;
+            i = obj14.changed(context) ? 4 : 2;
+            $dirty |= i;
         }
         if ($changed & 48 == 0) {
-            i = obj14.changedInstance(content) ? 32 : 16;
-            $dirty |= i;
+            i2 = obj14.changedInstance(content) ? 32 : 16;
+            $dirty |= i2;
         }
         if ($dirty & 19 == 18) {
             if (!obj14.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.runtime.CompositionLocalProvider (CompositionLocal.kt:417)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.runtime.CompositionLocalProvider (CompositionLocal.kt:417)");
                 }
                 androidx.compose.runtime.PersistentCompositionLocalMap compositionLocals$runtime_release = context.getCompositionLocals$runtime_release();
                 int i6 = 0;
                 arrayList = new ArrayList((Map)compositionLocals$runtime_release.size());
-                i3 = 0;
+                i4 = 0;
                 iterator = compositionLocals$runtime_release.entrySet().iterator();
                 for (Map.Entry next : iterator) {
                     Object obj = next;
-                    i4 = 0;
+                    i3 = 0;
                     (Collection)arrayList.add((ValueHolder)obj.getValue().toProvided((CompositionLocal)obj.getKey()));
                 }
                 int i5 = 0;

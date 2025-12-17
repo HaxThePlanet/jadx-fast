@@ -34,16 +34,16 @@ public abstract class LazyStaggeredGridMeasureProvider implements LazyLayoutMeas
 
     private final long childConstraints-JhjzzOo(int slot, int span) {
         int end;
-        int i3;
+        int i;
         long fixedHeight-OenEA2s;
         int i2;
-        int i;
+        int i3;
         int i4 = 1;
         if (span == i4) {
             end = this.resolvedSlots.getSizes()[slot];
         } else {
             i7 -= i4;
-            end = i;
+            end = i3;
         }
         if (this.isVertical) {
             fixedHeight-OenEA2s = Constraints.Companion.fixedWidth-OenEA2s(end);
@@ -69,16 +69,16 @@ public abstract class LazyStaggeredGridMeasureProvider implements LazyLayoutMeas
     public final androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasuredItem getAndMeasure-jy6DScQ(int index, long span) {
         final int length = sizes.length;
         int i = 0;
-        int i9 = 0;
-        int i12 = 32;
-        int coerceAtMost = RangesKt.coerceAtMost((int)i15, length + -1);
-        int i3 = 0;
+        int i6 = 0;
+        int i9 = 32;
+        int coerceAtMost = RangesKt.coerceAtMost((int)i12, length + -1);
+        int i2 = 0;
+        int i5 = 0;
+        int i13 = span;
         int i7 = 0;
-        int i16 = span;
-        int i10 = 0;
-        int i8 = 0;
-        final int i14 = 0;
-        int coerceAtMost2 = RangesKt.coerceAtMost($i$f$unpackInt2 -= i13, length - coerceAtMost);
+        int $i$f$getEndImpl = 0;
+        final int i11 = 0;
+        int coerceAtMost2 = RangesKt.coerceAtMost($i$f$unpackInt2 -= i10, length - coerceAtMost);
         long childConstraints-JhjzzOo = childConstraints-JhjzzOo(coerceAtMost, coerceAtMost2);
         return this.createItem-pitSLOA(index, coerceAtMost, coerceAtMost2, this.itemProvider.getKey(index), this.itemProvider.getContentType(index), this.measureScope.measure-0kLqBqw(index, childConstraints-JhjzzOo), childConstraints-JhjzzOo);
     }

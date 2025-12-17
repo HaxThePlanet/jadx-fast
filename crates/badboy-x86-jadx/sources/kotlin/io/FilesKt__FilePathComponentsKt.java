@@ -23,12 +23,12 @@ class FilesKt__FilePathComponentsKt {
         int endsWith$default;
         int charAt;
         int separatorChar;
-        int i2;
+        int i;
         int separatorChar2;
         int i5;
         int i3;
         int i4;
-        int i;
+        int i2;
         first = StringsKt.indexOf$default((CharSequence)$this$getRootLength, File.separatorChar, 0, false, 4, 0);
         int i6 = 1;
         first = StringsKt.indexOf$default((CharSequence)$this$getRootLength, File.separatorChar, 2, false, 4, 0);
@@ -91,15 +91,15 @@ class FilesKt__FilePathComponentsKt {
 
     public static final kotlin.io.FilePathComponents toComponents(File $this$toComponents) {
         Object $this$map$iv;
-        int i;
+        int i3;
         ArrayList arrayList;
         java.util.List list;
-        int i3;
-        Iterator iterator;
-        boolean next;
-        int next2;
-        int i2;
         int i4;
+        Iterator iterator;
+        boolean next2;
+        int next;
+        int i;
+        int i2;
         File file;
         Intrinsics.checkNotNullParameter($this$toComponents, "<this>");
         String path = $this$toComponents.getPath();
@@ -112,20 +112,20 @@ class FilesKt__FilePathComponentsKt {
         final String substring2 = path.substring(rootLength$FilesKt__FilePathComponentsKt);
         Intrinsics.checkNotNullExpressionValue(substring2, str2);
         arrayList = 1;
-        i = (CharSequence)substring2.length() == 0 ? arrayList : i5;
-        if (i != 0) {
+        i3 = (CharSequence)substring2.length() == 0 ? arrayList : i5;
+        if (i3 != 0) {
             $this$map$iv = CollectionsKt.emptyList();
         } else {
             char[] cArr = new char[arrayList];
             cArr[i5] = File.separatorChar;
             java.util.List split$default = StringsKt.split$default((CharSequence)substring2, cArr, false, 0, 6, 0);
-            i = 0;
-            arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)split$default, 10));
             i3 = 0;
+            arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)split$default, 10));
+            i4 = 0;
             iterator = split$default.iterator();
-            for (Object next2 : iterator) {
-                i4 = 0;
-                file = new File((String)next2);
+            for (Object next : iterator) {
+                i2 = 0;
+                file = new File((String)next);
                 (Collection)arrayList.add(file);
             }
             $this$map$iv = arrayList;

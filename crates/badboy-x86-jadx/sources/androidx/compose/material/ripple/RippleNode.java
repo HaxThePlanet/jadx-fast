@@ -101,17 +101,17 @@ public abstract class RippleNode extends Modifier.Node implements CompositionLoc
     }
 
     private final void updateStateLayer(Interaction interaction, CoroutineScope scope) {
-        androidx.compose.material.ripple.StateLayer stateLayer;
         androidx.compose.material.ripple.StateLayer stateLayer2;
+        androidx.compose.material.ripple.StateLayer stateLayer;
         int i;
         Object obj;
         if (this.stateLayer == null) {
-            stateLayer = new StateLayer(this.bounded, this.rippleAlpha);
+            stateLayer2 = new StateLayer(this.bounded, this.rippleAlpha);
             i = 0;
             DrawModifierNodeKt.invalidateDraw((DrawModifierNode)this);
-            this.stateLayer = stateLayer;
+            this.stateLayer = stateLayer2;
         }
-        stateLayer.handleInteraction$material_ripple_release(interaction, scope);
+        stateLayer2.handleInteraction$material_ripple_release(interaction, scope);
     }
 
     @Override // androidx.compose.ui.Modifier$Node

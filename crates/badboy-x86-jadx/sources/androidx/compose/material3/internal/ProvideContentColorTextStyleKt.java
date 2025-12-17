@@ -20,34 +20,34 @@ public final class ProvideContentColorTextStyleKt {
     public static final void ProvideContentColorTextStyle-3J-VO9M(long contentColor, TextStyle textStyle, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
         int merge;
         int $dirty;
-        int i2;
-        int i3;
-        int i;
-        boolean traceInProgress;
-        boolean traceInProgress2;
         int i4;
+        int i5;
+        int i2;
+        boolean traceInProgress2;
+        boolean traceInProgress;
+        int i3;
         long contentColor2;
         int str;
         Object consume;
-        Object obj2;
-        String str2;
         Object obj;
-        int i5;
+        String str2;
+        Object obj2;
+        int i;
         merge = -716124955;
         final Composer obj12 = $changed.startRestartGroup(merge);
         ComposerKt.sourceInformation(obj12, "C(ProvideContentColorTextStyle)P(1:c#ui.graphics.Color,2)39@1423L7,40@1452L151:ProvideContentColorTextStyle.kt#mqatfk");
-        i4 = 2;
+        i3 = 2;
         if (obj13 & 6 == 0) {
-            i2 = obj12.changed(contentColor) ? 4 : i4;
-            $dirty |= i2;
+            i4 = obj12.changed(contentColor) ? 4 : i3;
+            $dirty |= i4;
         }
         if (obj13 & 48 == 0) {
-            i3 = obj12.changed(content) ? 32 : 16;
-            $dirty |= i3;
+            i5 = obj12.changed(content) ? 32 : 16;
+            $dirty |= i5;
         }
         if (obj13 & 384 == 0) {
-            i = obj12.changedInstance($composer) ? 256 : 128;
-            $dirty |= i;
+            i2 = obj12.changedInstance($composer) ? 256 : 128;
+            $dirty |= i2;
         }
         if ($dirty & 147 == 146) {
             if (!obj12.getSkipping()) {
@@ -58,7 +58,7 @@ public final class ProvideContentColorTextStyleKt {
                 int i7 = 0;
                 ComposerKt.sourceInformationMarkerStart(obj12, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(obj12);
-                ProvidedValue[] arr = new ProvidedValue[i4];
+                ProvidedValue[] arr = new ProvidedValue[i3];
                 arr[0] = ContentColorKt.getLocalContentColor().provides(Color.box-impl(contentColor));
                 arr[1] = TextKt.getLocalTextStyle().provides((TextStyle)obj12.consume((CompositionLocal)TextKt.getLocalTextStyle()).merge(content));
                 CompositionLocalKt.CompositionLocalProvider(arr, $composer, obj12, $stable |= str);
@@ -72,13 +72,13 @@ public final class ProvideContentColorTextStyleKt {
         }
         ScopeUpdateScope endRestartGroup = obj12.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new ProvideContentColorTextStyleKt.ProvideContentColorTextStyle.1(contentColor, str, content, $composer, obj13);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new ProvideContentColorTextStyleKt.ProvideContentColorTextStyle.1(contentColor, str, content, $composer, obj13);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         } else {
             contentColor2 = contentColor;
-            obj2 = content;
-            obj = $composer;
-            i5 = obj13;
+            obj = content;
+            obj2 = $composer;
+            i = obj13;
         }
     }
 }

@@ -114,7 +114,7 @@ public final class SlotReader {
 
     public final void endEmpty() {
         int i;
-        String str;
+        String $i$a$RequirePreconditionSlotReader$endEmpty$1;
         i = this.emptyCount > 0 ? 1 : 0;
         final int i3 = 0;
         if (i == 0) {
@@ -125,19 +125,19 @@ public final class SlotReader {
     }
 
     public final void endGroup() {
-        int i2;
+        int i;
         int emptyCount;
         int groupsSize;
         androidx.compose.runtime.IntStack currentSlotStack;
         int slotsSize;
-        int i;
-        String str;
+        int i2;
+        String $i$a$RuntimeCheckSlotReader$endGroup$1;
         if (this.emptyCount == 0) {
             slotsSize = 1;
-            i = 0;
-            i2 = this.currentGroup == this.currentEnd ? slotsSize : i;
+            i2 = 0;
+            i = this.currentGroup == this.currentEnd ? slotsSize : i2;
             int i3 = 0;
-            if (i2 == 0) {
+            if (i == 0) {
                 int i5 = 0;
                 ComposerKt.composeImmediateRuntimeError("endGroup() not called at the end of a group");
             }
@@ -149,12 +149,12 @@ public final class SlotReader {
                 i4 += emptyCount;
             }
             this.currentEnd = groupsSize;
-            str = this.currentSlotStack.pop();
-            if (str < 0) {
-                this.currentSlot = i;
-                this.currentSlotEnd = i;
+            $i$a$RuntimeCheckSlotReader$endGroup$1 = this.currentSlotStack.pop();
+            if ($i$a$RuntimeCheckSlotReader$endGroup$1 < 0) {
+                this.currentSlot = i2;
+                this.currentSlotEnd = i2;
             } else {
-                this.currentSlot = str;
+                this.currentSlot = $i$a$RuntimeCheckSlotReader$endGroup$1;
                 if (emptyCount >= groupsSize2 -= slotsSize) {
                     slotsSize = this.slotsSize;
                 } else {
@@ -166,31 +166,31 @@ public final class SlotReader {
     }
 
     public final List<androidx.compose.runtime.KeyInfo> extractKeys() {
-        int i2;
         int i5;
+        int i4;
         int currentGroup;
         androidx.compose.runtime.KeyInfo keyInfo;
         int i3;
         Object objectKey;
         int childIndex;
+        int i2;
         int i;
-        int i4;
         ArrayList arrayList = new ArrayList();
         if (this.emptyCount > 0) {
             return (List)arrayList;
         }
         childIndex = currentGroup;
-        i4 = i2;
+        i = i5;
         while (childIndex < this.currentEnd) {
             if (SlotTableKt.access$isNode(this.groups, childIndex)) {
             } else {
             }
-            i5 = SlotTableKt.access$nodeCount(this.groups, childIndex);
-            keyInfo = new KeyInfo(SlotTableKt.access$key(this.groups, childIndex), objectKey(this.groups, childIndex), childIndex, i5, i4);
+            i4 = SlotTableKt.access$nodeCount(this.groups, childIndex);
+            keyInfo = new KeyInfo(SlotTableKt.access$key(this.groups, childIndex), objectKey(this.groups, childIndex), childIndex, i4, i);
             arrayList.add(keyInfo);
             childIndex += currentGroup;
-            i4 = i2;
-            i5 = 1;
+            i = i5;
+            i4 = 1;
         }
         return arrayList;
     }
@@ -292,9 +292,9 @@ public final class SlotReader {
     }
 
     public final boolean getHasObjectKey() {
-        int currentGroup;
-        int i;
         int currentGroup2;
+        int i;
+        int currentGroup;
         if (this.currentGroup < this.currentEnd && SlotTableKt.access$hasObjectKey(this.groups, this.currentGroup)) {
             i = SlotTableKt.access$hasObjectKey(this.groups, this.currentGroup) ? 1 : 0;
         } else {
@@ -463,7 +463,7 @@ public final class SlotReader {
     public final int parentOf(int index) {
         int groupsSize;
         int i;
-        String string;
+        String $i$a$RequirePreconditionSlotReader$parentOf$1;
         StringBuilder append;
         String str;
         if (index >= 0 && index < this.groupsSize) {
@@ -483,7 +483,7 @@ public final class SlotReader {
         int i;
         int i2;
         int groupsSize;
-        String str;
+        String $i$a$RuntimeCheckSlotReader$reposition$1;
         final int i3 = 0;
         i = this.emptyCount == 0 ? 1 : i3;
         int i4 = 0;
@@ -509,7 +509,7 @@ public final class SlotReader {
 
     public final void restoreParent(int index) {
         int i;
-        String string;
+        String $i$a$RuntimeCheckSlotReader$restoreParent$1;
         StringBuilder append;
         String str;
         i2 += index;
@@ -535,7 +535,7 @@ public final class SlotReader {
         int i;
         int[] groups;
         int i2;
-        String str;
+        String $i$a$RuntimeCheckSlotReader$skipGroup$1;
         i = this.emptyCount == 0 ? i2 : 0;
         int i4 = 0;
         if (i == 0) {
@@ -552,7 +552,7 @@ public final class SlotReader {
 
     public final void skipToGroupEnd() {
         int i;
-        String str;
+        String $i$a$RuntimeCheckSlotReader$skipToGroupEnd$1;
         final int i2 = 0;
         i = this.emptyCount == 0 ? 1 : i2;
         final int i3 = 0;
@@ -574,7 +574,7 @@ public final class SlotReader {
         int slotsSize;
         int currentSlot;
         int anchor;
-        int currentSlotEnd;
+        int $i$a$RequirePreconditionSlotReader$startGroup$1;
         int i;
         if (this.emptyCount <= 0) {
             emptyCount = this.parent;
@@ -620,7 +620,7 @@ public final class SlotReader {
     public final void startNode() {
         int emptyCount;
         int i;
-        String str;
+        String $i$a$RequirePreconditionSlotReader$startNode$1;
         i = 0;
         if (this.emptyCount <= 0 && !SlotTableKt.access$isNode(this.groups, this.currentGroup)) {
             i = 0;

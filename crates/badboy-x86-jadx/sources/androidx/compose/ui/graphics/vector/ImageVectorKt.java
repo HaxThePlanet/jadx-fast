@@ -78,54 +78,54 @@ public final class ImageVectorKt {
 
     public static androidx.compose.ui.graphics.vector.ImageVector.Builder path-R_LF-3I$default(androidx.compose.ui.graphics.vector.ImageVector.Builder $this$path_u2dR_LF_u2d3I_u24default, String name, Brush fill, float fillAlpha, Brush stroke, float strokeAlpha, float strokeLineWidth, int strokeLineCap, int strokeLineJoin, float strokeLineMiter, int pathFillType, Function1 pathBuilder, int i13, Object object14) {
         int defaultFillType;
-        int str;
+        int str2;
+        int i3;
+        int i4;
+        int i8;
+        int i15;
         int i;
-        int i16;
-        int i12;
-        int i11;
-        int i9;
         int defaultStrokeLineCap;
         int defaultStrokeLineJoin;
+        int i12;
+        int i11;
+        String str;
+        int i5;
+        int i14;
+        int i2;
+        int i9;
         int i6;
         int i7;
-        String str2;
-        int i2;
-        int i3;
         int i10;
-        int i15;
-        int i14;
-        int i4;
-        int i5;
-        int i8;
+        int i16;
         int i17 = i13;
-        str2 = i17 & 1 != 0 ? str : name;
-        i2 = i17 & 2 != 0 ? i : fill;
-        i3 = i17 & 4 != 0 ? i16 : fillAlpha;
-        i10 = i17 & 8 != 0 ? i12 : stroke;
-        i15 = i17 & 16 != 0 ? i11 : strokeAlpha;
-        i14 = i17 & 32 != 0 ? i9 : strokeLineWidth;
+        str = i17 & 1 != 0 ? str2 : name;
+        i5 = i17 & 2 != 0 ? i3 : fill;
+        i14 = i17 & 4 != 0 ? i4 : fillAlpha;
+        i2 = i17 & 8 != 0 ? i8 : stroke;
+        i9 = i17 & 16 != 0 ? i15 : strokeAlpha;
+        i6 = i17 & 32 != 0 ? i : strokeLineWidth;
         if (i17 & 64 != 0) {
-            i4 = defaultStrokeLineCap;
+            i7 = defaultStrokeLineCap;
         } else {
-            i4 = strokeLineCap;
+            i7 = strokeLineCap;
         }
         if (i17 & 128 != 0) {
-            i5 = defaultStrokeLineJoin;
+            i10 = defaultStrokeLineJoin;
         } else {
-            i5 = strokeLineJoin;
+            i10 = strokeLineJoin;
         }
-        i8 = i17 & 256 != 0 ? i6 : strokeLineMiter;
+        i16 = i17 & 256 != 0 ? i12 : strokeLineMiter;
         if (i17 &= 512 != 0) {
-            i7 = defaultFillType;
+            i11 = defaultFillType;
         } else {
-            i7 = pathFillType;
+            i11 = pathFillType;
         }
         int i18 = 0;
         int i19 = 0;
         PathBuilder pathBuilder2 = new PathBuilder();
         int i20 = 0;
         pathBuilder.invoke(pathBuilder2);
-        return ImageVector.Builder.addPath-oIyEayM$default($this$path_u2dR_LF_u2d3I_u24default, pathBuilder2.getNodes(), i7, str2, i2, i3, i10, i15, i14, i4, i5, i8, 0, 0, 0, 14336, 0);
+        return ImageVector.Builder.addPath-oIyEayM$default($this$path_u2dR_LF_u2d3I_u24default, pathBuilder2.getNodes(), i11, str, i5, i14, i2, i9, i6, i7, i10, i16, 0, 0, 0, 14336, 0);
     }
 
     private static final <T> T peek(ArrayList<T> $this$peek) {

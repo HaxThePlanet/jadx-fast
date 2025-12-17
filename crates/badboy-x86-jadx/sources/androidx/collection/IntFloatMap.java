@@ -89,13 +89,13 @@ public abstract class IntFloatMap {
         Object this_$iv;
         int j$iv$iv;
         long slot$iv$iv;
-        int i5;
-        long l;
-        int i2;
-        int i3;
-        float f;
         int i;
+        long l;
+        int i3;
         int i4;
+        float f;
+        int i5;
+        int i2;
         String separator3;
         Object obj31;
         int obj32;
@@ -163,15 +163,15 @@ public abstract class IntFloatMap {
         int valueOf;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i2;
+        int i6;
         int i;
         int i3;
         long slot$iv$iv;
         long cmp2;
-        int i4;
-        float f;
-        int i6;
         int i5;
+        float f;
+        int i2;
+        int i4;
         int $i$f$all2;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
@@ -195,22 +195,22 @@ public abstract class IntFloatMap {
     }
 
     public final boolean any(Function2<? super Integer, ? super Float, Boolean> predicate) {
-        int $i$f$any;
+        int $i$f$any2;
         int i$iv$iv;
         int cmp2;
         int valueOf;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i3;
-        int i5;
+        int i2;
+        int i4;
         int i;
         long slot$iv$iv;
         long cmp;
-        int i6;
+        int i3;
         float f;
-        int i2;
-        int i4;
-        int $i$f$any2;
+        int i5;
+        int i6;
+        int $i$f$any;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
         final Object obj2 = this;
@@ -220,7 +220,7 @@ public abstract class IntFloatMap {
         length += -2;
         if (0 <= i9) {
         } else {
-            $i$f$any2 = $i$f$any;
+            $i$f$any = $i$f$any2;
             i = 0;
         }
         return i;
@@ -242,15 +242,15 @@ public abstract class IntFloatMap {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i4;
+        int i5;
         int j$iv$iv;
         int value$iv$iv$iv;
-        int i3;
+        int i;
         long l;
         int cmp;
+        int i4;
+        int i3;
         int i2;
-        int i;
-        int i5;
         final Object obj = this;
         final int i6 = 0;
         final int i7 = 0;
@@ -274,15 +274,15 @@ public abstract class IntFloatMap {
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
+        int i;
         int i2;
-        int i5;
         int $i$f$count;
         int count;
         long l;
-        int i;
-        float f;
         int i3;
+        float f;
         int i4;
+        int i5;
         Object this_$iv;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
@@ -313,10 +313,10 @@ public abstract class IntFloatMap {
         int cmp;
         int i2;
         long l;
-        int i;
-        float f;
-        int i3;
         int i4;
+        float f;
+        int i;
+        int i3;
         final Object obj2 = other;
         $this$maskEmptyOrDeleted$iv$iv$iv2 = 1;
         obj = this;
@@ -349,23 +349,23 @@ public abstract class IntFloatMap {
         int $i$f$h1;
         int probeIndex;
         int metadata$iv;
-        int i12;
-        int i14;
-        int i7;
-        int i8;
-        int i2;
-        int i13;
-        int i9;
-        int $this$next$iv;
         int i3;
+        int i9;
+        int i2;
+        int i8;
+        int i11;
+        int i7;
+        int i6;
+        int $this$next$iv;
+        int i13;
         long l;
-        int i4;
+        int i14;
+        int i12;
+        int i10;
         int i;
         int i5;
-        int i6;
-        int i10;
         int numberOfTrailingZeros;
-        int i11;
+        int i4;
         final Object obj = this;
         int i15 = 0;
         i17 *= i20;
@@ -380,44 +380,44 @@ public abstract class IntFloatMap {
             int i30 = 0;
             int i33 = 0;
             while (Long.compare(i24, i33) != 0) {
-                i10 = 1;
+                i5 = 1;
                 int i31 = 0;
                 int i45 = 0;
-                i7 = i35 & _capacity;
+                i2 = i35 & _capacity;
                 int i36 = m;
                 i8 = 0;
                 m = $this$next$iv;
                 i30 = 0;
                 i33 = 0;
-                i10 = 0;
+                i5 = 0;
             }
-            i10 = 0;
-            i2 = key;
+            i5 = 0;
+            i11 = key;
             int i26 = metadata$iv;
-            i6 = 0;
-            $i$f$h1 = i14 & _capacity;
-            $i$f$hash = i;
-            $i$f$h2 = i5;
+            i = 0;
+            $i$f$h1 = i9 & _capacity;
+            $i$f$hash = i12;
+            $i$f$h2 = i10;
             long[] metadata = obj.metadata;
-            i12 = 0;
+            i3 = 0;
             int i23 = $i$f$h1 >> 3;
             i27 <<= 3;
-            i40 &= i4;
-            metadata$iv = i29 | i3;
-            i13 = 0;
+            i40 &= i14;
+            metadata$iv = i29 | i13;
+            i7 = 0;
             long l5 = 72340172838076673L;
-            i32 ^= i7;
+            i32 ^= i2;
             l = -9187201950435737472L;
             i16 &= l;
             i31 = 0;
             i45 = 0;
-            i7 = i35 & _capacity;
+            i2 = i35 & _capacity;
             i36 = m;
             i8 = 0;
             m = $this$next$iv;
-            i10 = 1;
+            i5 = 1;
         }
-        return i7;
+        return i2;
     }
 
     public final void forEach(Function2<? super Integer, ? super Float, Unit> block) {
@@ -427,12 +427,12 @@ public abstract class IntFloatMap {
         int i$iv;
         long slot$iv;
         long j$iv;
-        int i;
+        int i3;
         int i4;
         int $i$f$forEach;
         int[] iArr;
         long l;
-        int i3;
+        int i;
         int i2;
         valueOf = this;
         final Object obj = block;
@@ -448,12 +448,12 @@ public abstract class IntFloatMap {
     }
 
     public final void forEachIndexed(Function1<? super Integer, Unit> block) {
-        int i2;
+        int i;
         long slot;
         int $this$maskEmptyOrDeleted$iv;
         int i4;
         int j;
-        int i;
+        int i2;
         Integer valueOf;
         long l;
         int i3;
@@ -471,11 +471,11 @@ public abstract class IntFloatMap {
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
-        int i3;
+        int i2;
         int i4;
         long l;
         int i;
-        int i2;
+        int i3;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         int i5 = 0;
@@ -493,11 +493,11 @@ public abstract class IntFloatMap {
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
-        int i4;
-        int i;
-        long l;
         int i3;
+        int i4;
+        long l;
         int i2;
+        int i;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         int i5 = 0;
@@ -559,9 +559,9 @@ public abstract class IntFloatMap {
         long l;
         int i4;
         float f;
-        int i2;
         int i6;
         int i;
+        int i2;
         bitCount$iv$iv = 0;
         obj = this;
         final int i13 = 0;
@@ -620,22 +620,22 @@ public abstract class IntFloatMap {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated) {
         int key;
         int i$iv$iv;
-        int i7;
+        int i8;
         StringBuilder stringBuilder;
-        int $this$maskEmptyOrDeleted$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
         int i4;
         int index;
         int j$iv$iv;
         long slot$iv$iv;
-        Object $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i;
-        int i2;
-        int i3;
-        int i8;
-        long l;
-        int key2;
+        Object $this$maskEmptyOrDeleted$iv$iv$iv2;
         int i5;
         int i6;
+        int i;
+        int i3;
+        long l;
+        int key2;
+        int i2;
+        int i7;
         StringBuilder sb;
         Object obj = prefix;
         final Object obj2 = postfix;
@@ -655,10 +655,10 @@ public abstract class IntFloatMap {
         if (0 <= i16) {
         } else {
             sb = stringBuilder;
-            i3 = $this$maskEmptyOrDeleted$iv$iv$iv2;
-            $this$maskEmptyOrDeleted$iv$iv$iv = index;
-            i = j$iv$iv;
-            i7 = limit;
+            i = $this$maskEmptyOrDeleted$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv2 = index;
+            i5 = j$iv$iv;
+            i8 = limit;
             index = i4;
             sb2.append(obj2);
         }
@@ -672,23 +672,23 @@ public abstract class IntFloatMap {
         int m$iv$iv;
         Object valueOf;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int index2;
-        int i8;
-        int i5;
+        int index;
+        int i;
+        int i3;
         int this_$iv;
-        Object index;
+        Object index2;
         int j$iv$iv;
         long slot$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i4;
-        int i9;
-        int i6;
-        int i;
-        long l;
-        int i2;
-        float f;
-        int i3;
         int i7;
+        int i4;
+        int $i$a$BuildStringIntFloatMap$joinToString$2;
+        int i8;
+        long l;
+        int i5;
+        float f;
+        int i2;
+        int i6;
         Object obj = prefix;
         final Object obj2 = postfix;
         final Object obj3 = transform;
@@ -700,17 +700,17 @@ public abstract class IntFloatMap {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         sb.append(obj);
-        index = this;
-        final int i18 = 0;
+        index2 = this;
+        final int i17 = 0;
         long[] metadata = obj4.metadata;
-        final int i19 = i10;
+        final int i18 = i9;
         $i$f$joinToString += -2;
-        if (0 <= i11) {
+        if (0 <= i10) {
         } else {
-            i6 = $this$maskEmptyOrDeleted$iv$iv$iv;
-            $this$maskEmptyOrDeleted$iv$iv$iv2 = index;
-            i4 = j$iv$iv;
-            index2 = limit;
+            $i$a$BuildStringIntFloatMap$joinToString$2 = $this$maskEmptyOrDeleted$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv2 = index2;
+            i7 = j$iv$iv;
+            index = limit;
             this_$iv = invoke;
             sb.append(obj2);
         }
@@ -723,20 +723,20 @@ public abstract class IntFloatMap {
         int invoke;
         int m$iv$iv$iv;
         String valueOf;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i3;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i;
         StringBuilder stringBuilder;
-        int i7;
+        int i6;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i6;
-        int i;
-        int i2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int i4;
+        int i3;
+        int i7;
         StringBuilder sb;
         long l;
-        int i4;
+        int i2;
         float f;
         int i5;
         int i8;
@@ -753,18 +753,18 @@ public abstract class IntFloatMap {
         sb2.append(obj);
         index$iv = 0;
         final Object obj4 = this;
+        final int i15 = 0;
         final int i16 = 0;
-        final int i17 = 0;
         long[] metadata = obj5.metadata;
-        final int i18 = i9;
+        final int i17 = i9;
         $i$f$joinToString += -2;
         if (0 <= i10) {
         } else {
             truncated$iv = valueOf;
-            i2 = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+            i7 = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
-            i3 = limit;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            i = limit;
             sb2.append(obj2);
         }
         String string = sb.toString();
@@ -781,15 +781,15 @@ public abstract class IntFloatMap {
         int index$iv;
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int i4;
         int i5;
-        int i3;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i2;
+        int i3;
         float f;
         int i;
-        int i4;
+        int i2;
         Object obj = prefix;
         final Object obj3 = postfix;
         final Object obj4 = transform;
@@ -802,8 +802,8 @@ public abstract class IntFloatMap {
         sb2.append(obj);
         index$iv = 0;
         final Object obj5 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         Object obj2 = obj6;
         int this_$iv$iv$iv2 = i7;
         long[] $i$f$joinToString2 = obj2.metadata;
@@ -824,21 +824,21 @@ public abstract class IntFloatMap {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, Function2<? super Integer, ? super Float, ? extends java.lang.CharSequence> transform) {
         int invoke;
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int i2;
         int i;
-        int i5;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
         int i3;
         float f;
-        int i2;
         int i4;
+        int i5;
         Object obj = prefix;
         final Object obj3 = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
@@ -849,8 +849,8 @@ public abstract class IntFloatMap {
         sb2.append(obj);
         index$iv = 0;
         final Object obj4 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         Object obj2 = obj5;
         int this_$iv$iv$iv2 = i7;
         long[] $i$f$joinToString2 = obj2.metadata;
@@ -858,9 +858,9 @@ public abstract class IntFloatMap {
         this_$iv$iv$iv += -2;
         if (0 <= i6) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
             sb2.append((CharSequence)"");
         }
         String string = sb.toString();
@@ -877,15 +877,15 @@ public abstract class IntFloatMap {
         int index$iv;
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i2;
-        int i5;
+        int i3;
+        int i;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i;
-        float f;
-        int i3;
         int i4;
+        float f;
+        int i2;
+        int i5;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(separator, "separator");
         Intrinsics.checkNotNullParameter(obj, "transform");
@@ -896,9 +896,9 @@ public abstract class IntFloatMap {
         sb2.append((CharSequence)str5);
         index$iv = 0;
         final Object obj2 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
-        final int i16 = i6;
+        final int i15 = i6;
         Object $i$f$joinToString2 = obj3;
         String this_$iv$iv$iv2 = str5;
         long[] prefix$iv = $i$f$joinToString2.metadata;
@@ -919,21 +919,21 @@ public abstract class IntFloatMap {
     public final String joinToString(Function2<? super Integer, ? super Float, ? extends java.lang.CharSequence> transform) {
         int separator$iv;
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i3;
-        int i6;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i;
+        int i4;
         int i5;
         StringBuilder sb;
         long l;
         int i2;
         float f;
-        int i4;
-        int i;
+        int i6;
+        int i3;
         String separator$iv2;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(obj, "transform");
@@ -944,9 +944,9 @@ public abstract class IntFloatMap {
         sb2.append((CharSequence)str4);
         index$iv = 0;
         final Object obj2 = this;
+        final int i14 = 0;
         final int i15 = 0;
-        final int i16 = 0;
-        final int i17 = i7;
+        final int i16 = i7;
         Object $i$f$joinToString = obj3;
         String this_$iv$iv$iv2 = str4;
         long[] prefix$iv = $i$f$joinToString.metadata;
@@ -955,9 +955,9 @@ public abstract class IntFloatMap {
         if (0 <= i8) {
         } else {
             separator$iv2 = separator$iv;
-            i5 = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            i5 = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
             sb2.append((CharSequence)str3);
         }
         String string = sb.toString();
@@ -973,24 +973,24 @@ public abstract class IntFloatMap {
 
     public String toString() {
         int bitCount$iv$iv;
-        int i5;
-        Object $i$f$forEach2;
-        int i9;
+        int i;
+        Object $i$f$forEach;
+        int i3;
         Object $i$f$forEach3;
         int[] k$iv;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i4;
         int i8;
-        Object this_$iv;
-        int i6;
-        long l;
-        int i7;
-        int i3;
-        int $i$f$forEach;
-        int i;
         int i2;
+        Object this_$iv;
+        int i4;
+        long l;
+        int i5;
+        int i9;
+        int $i$f$forEach2;
+        int i6;
+        int i7;
         float f;
         int[] iArr;
         if (isEmpty()) {
@@ -999,17 +999,17 @@ public abstract class IntFloatMap {
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder append = stringBuilder.append('{');
         bitCount$iv$iv = 0;
-        i5 = this;
+        i = this;
         final int i21 = 0;
         final long[] metadata = obj.metadata;
         length += -2;
         if (0 <= i22) {
         } else {
-            this_$iv = i5;
-            $i$f$forEach = i9;
+            this_$iv = i;
+            $i$f$forEach2 = i3;
             iArr = k$iv;
-            $i$f$forEach2 = this;
-            i6 = bitCount$iv$iv;
+            $i$f$forEach = this;
+            i4 = bitCount$iv$iv;
         }
         String string = append.append('}').toString();
         Intrinsics.checkNotNullExpressionValue(string, "s.append('}').toString()");

@@ -24,8 +24,8 @@ public final class MutableLongSet extends androidx.collection.LongSet {
             initializeStorage(ScatterMapKt.unloadedCapacity(initialCapacity));
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive value.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMutableLongSet$1 = new IllegalArgumentException("Capacity must be a positive value.".toString());
+        throw $i$a$RequireMutableLongSet$1;
     }
 
     public MutableLongSet(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -51,30 +51,30 @@ public final class MutableLongSet extends androidx.collection.LongSet {
 
     private final int findAbsoluteInsertIndex(long element) {
         Object obj;
-        int m;
         int m2;
+        int m;
         int index;
-        int i10;
+        int i6;
         int metadata$iv;
         int probeIndex;
         int $this$maskEmpty$iv;
-        int i9;
+        int i;
         int $this$hasNext$iv;
         int $this$next$iv;
-        int i14;
-        int i8;
-        int cmp;
-        int i4;
         int i11;
-        long l;
-        int i;
         int i5;
-        int i12;
-        int i7;
-        int i13;
-        int i6;
-        int i2;
+        int cmp;
         int i3;
+        int i12;
+        long l;
+        int i9;
+        int i8;
+        int i14;
+        int i2;
+        int i13;
+        int i10;
+        int i7;
+        int i4;
         int hash;
         int i20 = 0;
         i21 *= i24;
@@ -83,92 +83,92 @@ public final class MutableLongSet extends androidx.collection.LongSet {
         int $i$f$h1 = $i$f$hash >>> 7;
         int i26 = 0;
         int $i$f$h2 = $i$f$hash & 127;
-        i10 = $i$f$h1 & m;
+        i6 = $i$f$h1 & m2;
         probeIndex = 0;
         while (/* condition */) {
             int i47 = 0;
             int i51 = 0;
-            i6 = 0;
-            i2 = 1;
+            i10 = 0;
+            i7 = 1;
             while (Long.compare(i34, i51) != 0) {
-                $this$hasNext$iv = i2;
-                i8 = 0;
+                $this$hasNext$iv = i7;
                 i5 = 0;
-                $this$get$iv &= i12;
-                int i42 = m2;
-                i4 = 0;
-                m2 = $this$next$iv;
+                i8 = 0;
+                $this$get$iv &= i14;
+                int i42 = m;
+                i3 = 0;
+                m = $this$next$iv;
                 i47 = 0;
                 i51 = 0;
-                i6 = 0;
-                i2 = 1;
-                $this$hasNext$iv = i6;
+                i10 = 0;
+                i7 = 1;
+                $this$hasNext$iv = i10;
             }
-            $this$hasNext$iv = i6;
+            $this$hasNext$iv = i10;
             int i36 = i13;
-            i14 = 0;
+            i11 = 0;
             hash = $i$f$hash;
-            i10 = i19 & i12;
+            i6 = i19 & i14;
             obj = this;
-            m = i12;
+            m2 = i14;
             long[] metadata2 = obj.metadata;
             $this$next$iv = 0;
-            int i46 = i10 >> 3;
+            int i46 = i6 >> 3;
             i48 <<= 3;
             l5 >>>= i49;
-            i12 = m;
-            i7 = i10;
-            i29 |= i11;
-            i8 = 0;
+            i14 = m2;
+            i2 = i6;
+            i29 |= i12;
+            i5 = 0;
             long l7 = 72340172838076673L;
-            i50 ^= i9;
+            i50 ^= i;
             l = -9187201950435737472L;
             i31 &= l;
-            i8 = 0;
             i5 = 0;
-            $this$get$iv &= i12;
-            i42 = m2;
-            i4 = 0;
-            m2 = $this$next$iv;
-            $this$hasNext$iv = i2;
+            i8 = 0;
+            $this$get$iv &= i14;
+            i42 = m;
+            i3 = 0;
+            m = $this$next$iv;
+            $this$hasNext$iv = i7;
         }
-        return i9;
+        return i;
     }
 
     private final int findFirstAvailableSlot(int hash1) {
         int probeOffset;
         int probeIndex;
         int metadata$iv;
-        int i;
+        int i6;
         int $this$maskEmptyOrDeleted$iv;
         int i7;
+        int i3;
         int i4;
-        int i5;
-        int i6;
+        int i;
         long l;
         int i2;
-        int i3;
+        int i5;
         final int _capacity = this._capacity;
         probeOffset = hash1 & _capacity;
         probeIndex = 0;
         long[] metadata = this.metadata;
-        i = 0;
+        i6 = 0;
         int i8 = probeOffset >> 3;
         i10 <<= 3;
         int i9 = metadata$iv;
         int i12 = 0;
         i17 &= i9;
-        $this$maskEmptyOrDeleted$iv = i5 & l;
+        $this$maskEmptyOrDeleted$iv = i4 & l;
         while (Long.compare($this$maskEmptyOrDeleted$iv, i13) != 0) {
-            probeOffset = i4 & _capacity;
+            probeOffset = i3 & _capacity;
             metadata = this.metadata;
-            i = 0;
+            i6 = 0;
             i8 = probeOffset >> 3;
             i10 <<= 3;
             i9 = metadata$iv;
             i12 = 0;
             i17 &= i9;
-            $this$maskEmptyOrDeleted$iv = i5 & l;
+            $this$maskEmptyOrDeleted$iv = i4 & l;
         }
         int i20 = 0;
         return $this$lowestBitSet$iv2 &= _capacity;
@@ -183,16 +183,16 @@ public final class MutableLongSet extends androidx.collection.LongSet {
         long[] lArr;
         long[] lArr2;
         long l;
-        int i3;
         int i5;
-        int i4;
-        int i;
         int i2;
+        int i4;
+        int i3;
+        int i;
         if (capacity == 0) {
             size = ScatterMapKt.EmptyGroup;
         } else {
             lArr = new long[i9 >>= 3];
-            i2 = 0;
+            i = 0;
             ArraysKt.fill$default(lArr, -9187201950435737472L, obj4, 0, 0, 6);
             size = lArr;
         }
@@ -220,57 +220,57 @@ public final class MutableLongSet extends androidx.collection.LongSet {
 
     private final void removeDeletedMarkers() {
         long[] metadata;
-        int _capacity;
-        int removedDeletes;
-        int i7;
-        int $i$f$readRawMetadata;
-        int i;
-        Object cmp;
         int _capacity2;
-        int i10;
+        int removedDeletes;
         int i8;
-        int i6;
-        long[] metadata2;
-        int i9;
-        int i3;
-        int i4;
+        int $i$f$readRawMetadata;
+        int i10;
+        Object cmp;
+        int _capacity;
         int i11;
+        int i9;
+        int i7;
+        long[] metadata2;
+        int i6;
+        int i4;
         int i5;
+        int i3;
+        int i;
         long[] m;
         int i2;
         final Object obj = this;
         metadata = obj.metadata;
-        _capacity = obj._capacity;
+        _capacity2 = obj._capacity;
         removedDeletes = 0;
-        i7 = 0;
-        while (i7 < _capacity) {
+        i8 = 0;
+        while (i8 < _capacity2) {
             int i15 = 0;
-            _capacity2 = 255;
-            if (Long.compare($i$f$readRawMetadata, i8) == 0) {
+            _capacity = 255;
+            if (Long.compare($i$f$readRawMetadata, i9) == 0) {
             } else {
             }
             m = metadata;
-            i2 = _capacity;
-            i7++;
+            i2 = _capacity2;
+            i8++;
             metadata = m;
-            _capacity = i2;
-            i8 = 128;
+            _capacity2 = i2;
+            i9 = 128;
             cmp = this;
-            i6 = 0;
+            i7 = 0;
             metadata2 = cmp.metadata;
             int i25 = 0;
-            int i27 = i7 >> 3;
+            int i27 = i8 >> 3;
             i28 <<= 3;
-            i5 = _capacity2;
+            i = _capacity;
             metadata2[i27] = i21 |= i31;
-            _capacity2 = cmp._capacity;
+            _capacity = cmp._capacity;
             i24 += i26;
-            i9 = 0;
-            i3 = i10 >> 3;
+            i6 = 0;
+            i4 = i11 >> 3;
             i30 <<= 3;
             m = metadata;
-            i2 = _capacity;
-            metadata2[i3] = i14 |= i11;
+            i2 = _capacity2;
+            metadata2[i4] = i14 |= i3;
             removedDeletes++;
         }
         long[] m4 = metadata;
@@ -297,71 +297,71 @@ public final class MutableLongSet extends androidx.collection.LongSet {
     }
 
     private final void resizeStorage(int newCapacity) {
-        Object obj2;
+        Object obj;
         long[] metadata;
-        int i7;
+        int i;
         int i9;
-        int i4;
+        int i7;
         int $i$f$hash;
         int firstAvailableSlot;
         int metadata2;
         int i10;
         int $i$f$h2;
-        Object obj;
-        int i6;
-        int i2;
+        Object obj2;
+        int i4;
         int i8;
         int i3;
+        int i5;
         long l;
         long[] previousMetadata;
-        int i5;
-        int i;
-        obj2 = this;
-        metadata = obj2.metadata;
+        int i2;
+        int i6;
+        obj = this;
+        metadata = obj.metadata;
         initializeStorage(newCapacity);
-        i7 = 0;
-        while (i7 < obj2._capacity) {
+        i = 0;
+        while (i < obj._capacity) {
             i9 = 0;
             int i19 = 0;
             metadata2 = 255;
             if (Long.compare($i$f$readRawMetadata, $i$f$h2) < 0) {
             } else {
             }
-            i4 = 0;
-            if (i4 != 0) {
+            i7 = 0;
+            if (i7 != 0) {
             } else {
             }
             previousMetadata = metadata;
-            i7++;
-            obj2 = this;
+            i++;
+            obj = this;
             metadata = previousMetadata;
-            i9 = obj2.elements[i7];
+            i9 = obj.elements[i];
             int i21 = 0;
             i22 *= i29;
             $i$f$hash = i23 ^ i30;
             int i24 = 0;
-            firstAvailableSlot = obj2.findFirstAvailableSlot($i$f$hash >>> 7);
+            firstAvailableSlot = obj.findFirstAvailableSlot($i$f$hash >>> 7);
             int i31 = 0;
             $i$f$h2 = (long)$i$f$h22;
-            obj = this;
-            i6 = 0;
+            obj2 = this;
+            i4 = 0;
             int i32 = metadata2;
-            metadata2 = obj.metadata;
+            metadata2 = obj2.metadata;
             int i27 = 0;
             int i33 = firstAvailableSlot >> 3;
             i34 <<= 3;
             previousMetadata = metadata;
             metadata2[i33] = i13 |= i37;
-            int _capacity = obj._capacity;
+            int _capacity = obj2._capacity;
             i18 += i28;
             i10 = 0;
-            i8 = metadata >> 3;
+            i3 = metadata >> 3;
             i36 <<= 3;
-            i5 = _capacity;
-            i = metadata;
-            metadata2[i8] = i16 |= i2;
-            obj2.elements[firstAvailableSlot] = i9;
-            i4 = 1;
+            i2 = _capacity;
+            i6 = metadata;
+            metadata2[i3] = i16 |= i8;
+            obj.elements[firstAvailableSlot] = i9;
+            i7 = 1;
         }
     }
 
@@ -411,52 +411,52 @@ public final class MutableLongSet extends androidx.collection.LongSet {
     public final void clear() {
         long[] metadata;
         long[] emptyGroup;
-        int i2;
-        long l2;
+        int i3;
         long l;
-        int i5;
+        long l2;
+        int i2;
         int i6;
         int i;
         int i4;
-        int i3;
+        int i5;
         this._size = 0;
         if (this.metadata != ScatterMapKt.EmptyGroup) {
             ArraysKt.fill$default(this.metadata, -9187201950435737472L, obj4, 0, 0, 6);
             metadata = this.metadata;
             emptyGroup = this._capacity;
-            l = 0;
-            i5 = emptyGroup >> 3;
+            l2 = 0;
+            i2 = emptyGroup >> 3;
             i10 <<= 3;
-            metadata[i5] = i12 |= i3;
+            metadata[i2] = i12 |= i5;
         }
         initializeGrowth();
     }
 
     @Override // androidx.collection.LongSet
     public final void minusAssign(long element) {
-        int m$iv;
         int m$iv2;
+        int m$iv;
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
-        int i7;
-        int i8;
-        int $this$next$iv$iv;
-        int i6;
-        int i9;
-        int i3;
-        int i11;
-        long l;
-        int i10;
-        int i5;
-        int i12;
-        int i4;
-        int i2;
         int i;
+        int i2;
+        int $this$next$iv$iv;
+        int i3;
+        int i12;
+        int i8;
+        int i5;
+        long l;
+        int i7;
+        int i9;
+        int i10;
+        int i4;
+        int i11;
+        int i6;
         int numberOfTrailingZeros;
         final Object obj = this;
         final Object obj2 = obj;
-        m$iv = 0;
+        m$iv2 = 0;
         int i18 = 0;
         i19 *= i22;
         $i$f$hash = i20 ^ i23;
@@ -469,46 +469,46 @@ public final class MutableLongSet extends androidx.collection.LongSet {
             int i30 = 0;
             int i34 = 0;
             while (Long.compare(i25, i34) != 0) {
-                i12 = 1;
-                i6 = 0;
-                i5 = 0;
-                int i28 = m$iv2;
+                i10 = 1;
                 i3 = 0;
-                m$iv2 = $this$next$iv$iv;
+                i9 = 0;
+                int i28 = m$iv;
+                i8 = 0;
+                m$iv = $this$next$iv$iv;
                 i30 = 0;
                 i34 = 0;
-                i12 = 0;
+                i10 = 0;
             }
-            i12 = 0;
-            int i27 = i;
-            i6 = 0;
+            i10 = 0;
+            int i27 = i6;
+            i3 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i7 & _capacity;
-            m$iv = i4;
-            $i$f$hash = i2;
+            $i$f$h1 = i & _capacity;
+            m$iv2 = i4;
+            $i$f$hash = i11;
             long[] metadata = obj2.metadata;
             $this$next$iv$iv = 0;
             int i29 = $i$f$h1 >> 3;
             i31 <<= 3;
             l4 >>>= i32;
-            i15 |= i11;
-            i6 = 0;
+            i15 |= i5;
+            i3 = 0;
             long l5 = 72340172838076673L;
-            i33 ^= i8;
+            i33 ^= i2;
             l = -9187201950435737472L;
             i17 &= l;
-            i6 = 0;
-            i5 = 0;
-            i28 = m$iv2;
             i3 = 0;
-            m$iv2 = $this$next$iv$iv;
-            i12 = 1;
+            i9 = 0;
+            i28 = m$iv;
+            i8 = 0;
+            m$iv = $this$next$iv$iv;
+            i10 = 1;
         }
-        if (i8 >= 0) {
-            obj.removeElementAt(i8);
+        if (i2 >= 0) {
+            obj.removeElementAt(i2);
         }
     }
 
@@ -520,15 +520,15 @@ public final class MutableLongSet extends androidx.collection.LongSet {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i7;
-        int i8;
-        int i4;
-        int i3;
-        long l;
-        int i2;
-        int i6;
         int i5;
+        int i3;
+        int i4;
+        int i6;
+        long l;
         int i;
+        int i7;
+        int i2;
+        int i8;
         Object this_$iv;
         Intrinsics.checkNotNullParameter(elements, "elements");
         obj = elements;
@@ -545,18 +545,18 @@ public final class MutableLongSet extends androidx.collection.LongSet {
 
     @Override // androidx.collection.LongSet
     public final void minusAssign(long[] elements) {
-        int i;
+        int i2;
         long l2;
         long l;
-        int i2;
+        int i;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = elements;
         final int i3 = 0;
-        i = 0;
-        while (i < obj.length) {
-            i2 = 0;
-            minusAssign(obj[i]);
-            i++;
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = 0;
+            minusAssign(obj[i2]);
+            i2++;
         }
     }
 
@@ -573,15 +573,15 @@ public final class MutableLongSet extends androidx.collection.LongSet {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i4;
-        int i3;
-        int i;
-        int i8;
-        long l;
-        int i7;
-        int i6;
-        int i5;
         int i2;
+        int i4;
+        int i8;
+        int i3;
+        long l;
+        int i5;
+        int i6;
+        int i7;
+        int i;
         Object this_$iv2;
         Intrinsics.checkNotNullParameter(elements, "elements");
         obj = elements;
@@ -598,18 +598,18 @@ public final class MutableLongSet extends androidx.collection.LongSet {
 
     @Override // androidx.collection.LongSet
     public final void plusAssign(long[] elements) {
-        int i;
-        long l2;
-        long l;
         int i2;
+        long l;
+        long l2;
+        int i;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = elements;
         final int i3 = 0;
-        i = 0;
-        while (i < obj.length) {
-            i2 = 0;
-            plusAssign(obj[i]);
-            i++;
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = 0;
+            plusAssign(obj[i2]);
+            i2++;
         }
     }
 
@@ -620,22 +620,22 @@ public final class MutableLongSet extends androidx.collection.LongSet {
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
-        int i;
-        int i9;
+        int i4;
+        int i10;
         int $this$hasNext$iv$iv;
         int $this$next$iv$iv;
-        int i11;
-        int i6;
-        int i13;
-        int i10;
-        long l;
-        int i2;
-        int i7;
         int i3;
-        int i8;
-        int i5;
-        int i4;
+        int i7;
+        int i11;
+        int i;
+        long l;
+        int i13;
+        int i6;
         int i12;
+        int i5;
+        int i8;
+        int i9;
+        int i2;
         int numberOfTrailingZeros;
         final Object obj = this;
         final Object obj2 = obj;
@@ -651,54 +651,54 @@ public final class MutableLongSet extends androidx.collection.LongSet {
         while (/* condition */) {
             int i31 = 0;
             int i35 = 0;
-            i12 = 1;
+            i2 = 1;
             while (Long.compare(i26, i35) != 0) {
-                $this$hasNext$iv$iv = i12;
-                i11 = 0;
-                i7 = 0;
+                $this$hasNext$iv$iv = i2;
+                i3 = 0;
+                i6 = 0;
                 int i29 = m$iv;
-                i13 = 0;
+                i11 = 0;
                 m$iv = $this$next$iv$iv;
                 i31 = 0;
                 i35 = 0;
-                i12 = 1;
-                $this$hasNext$iv$iv = i4;
+                i2 = 1;
+                $this$hasNext$iv$iv = i9;
             }
-            $this$hasNext$iv$iv = i4;
-            int i28 = i5;
-            i11 = 0;
+            $this$hasNext$iv$iv = i9;
+            int i28 = i8;
+            i3 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i & _capacity;
-            m$iv2 = i3;
-            $i$f$hash = i8;
+            $i$f$h1 = i4 & _capacity;
+            m$iv2 = i12;
+            $i$f$hash = i5;
             long[] metadata = obj2.metadata;
             $this$next$iv$iv = 0;
             int i30 = $i$f$h1 >> 3;
             i32 <<= 3;
             l4 >>>= i33;
-            i16 |= i10;
-            i11 = 0;
+            i16 |= i;
+            i3 = 0;
             long l5 = 72340172838076673L;
-            i34 ^= i9;
+            i34 ^= i10;
             l = -9187201950435737472L;
             i18 &= l;
-            i11 = 0;
-            i7 = 0;
+            i3 = 0;
+            i6 = 0;
             i29 = m$iv;
-            i13 = 0;
+            i11 = 0;
             m$iv = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i12;
+            $this$hasNext$iv$iv = i2;
         }
-        if (i9 >= 0) {
-            i4 = i12;
+        if (i10 >= 0) {
+            i9 = i2;
         }
-        if (i4 != 0) {
-            obj.removeElementAt(i9);
+        if (i9 != 0) {
+            obj.removeElementAt(i10);
         }
-        return i4;
+        return i9;
     }
 
     @Override // androidx.collection.LongSet

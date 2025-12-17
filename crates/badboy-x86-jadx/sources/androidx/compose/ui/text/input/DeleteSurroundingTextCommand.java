@@ -34,7 +34,7 @@ public final class DeleteSurroundingTextCommand implements androidx.compose.ui.t
     @Override // androidx.compose.ui.text.input.EditCommand
     public void applyTo(androidx.compose.ui.text.input.EditingBuffer buffer) {
         int result$iv2;
-        int length$ui_text_release;
+        int $i$a$AddExactOrElseDeleteSurroundingTextCommand$applyTo$end$1;
         int result$iv;
         int i;
         int selectionEnd$ui_text_release = buffer.getSelectionEnd$ui_text_release();
@@ -43,7 +43,7 @@ public final class DeleteSurroundingTextCommand implements androidx.compose.ui.t
         result$iv2 = selectionEnd$ui_text_release + lengthAfterCursor;
         if (i6 &= i8 < 0) {
             int i7 = 0;
-            result$iv2 = length$ui_text_release;
+            result$iv2 = $i$a$AddExactOrElseDeleteSurroundingTextCommand$applyTo$end$1;
         }
         buffer.delete$ui_text_release(buffer.getSelectionEnd$ui_text_release(), Math.min(result$iv2, buffer.getLength$ui_text_release()));
         int selectionStart$ui_text_release = buffer.getSelectionStart$ui_text_release();

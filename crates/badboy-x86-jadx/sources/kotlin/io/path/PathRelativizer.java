@@ -23,20 +23,20 @@ final class PathRelativizer {
     }
 
     public final Path tryRelativeTo(Path path, Path base) {
-        int i;
+        int i2;
         boolean string;
         Path path2;
         int nameCount;
         Path parentPath;
-        int i2;
+        int i;
         Intrinsics.checkNotNullParameter(path, "path");
         Intrinsics.checkNotNullParameter(base, "base");
         Path normalize = base.normalize();
         final Path normalize2 = path.normalize();
         final Path relativize = normalize.relativize(normalize2);
-        i = 0;
-        while (i < Math.min(normalize.getNameCount(), normalize2.getNameCount())) {
-            i++;
+        i2 = 0;
+        while (i2 < Math.min(normalize.getNameCount(), normalize2.getNameCount())) {
+            i2++;
         }
         if (!Intrinsics.areEqual(normalize2, normalize) && Intrinsics.areEqual(normalize, PathRelativizer.emptyPath)) {
             if (Intrinsics.areEqual(normalize, PathRelativizer.emptyPath)) {
@@ -45,9 +45,9 @@ final class PathRelativizer {
                 string = relativize.toString();
                 String separator = relativize.getFileSystem().getSeparator();
                 Intrinsics.checkNotNullExpressionValue(separator, "getSeparator(...)");
-                i2 = 0;
-                if (StringsKt.endsWith$default(string, separator, i2, 2, 0)) {
-                    path2 = relativize.getFileSystem().getPath(StringsKt.dropLast(string, relativize.getFileSystem().getSeparator().length()), new String[i2]);
+                i = 0;
+                if (StringsKt.endsWith$default(string, separator, i, 2, 0)) {
+                    path2 = relativize.getFileSystem().getPath(StringsKt.dropLast(string, relativize.getFileSystem().getSeparator().length()), new String[i]);
                 } else {
                     path2 = relativize;
                 }

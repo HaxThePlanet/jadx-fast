@@ -53,18 +53,18 @@ public class SnapshotMutableIntStateImpl extends StateObjectImpl implements andr
     }
 
     public SnapshotMutableIntStateImpl(int value) {
-        boolean intStateStateRecord;
-        androidx.compose.runtime.SnapshotMutableIntStateImpl.IntStateStateRecord intStateStateRecord2;
+        boolean intStateStateRecord2;
+        androidx.compose.runtime.SnapshotMutableIntStateImpl.IntStateStateRecord intStateStateRecord;
         int i;
         int i2;
         super();
         SnapshotMutableIntStateImpl.IntStateStateRecord intStateStateRecord3 = new SnapshotMutableIntStateImpl.IntStateStateRecord(value);
         final int i3 = 0;
         if (Snapshot.Companion.isInSnapshot()) {
-            intStateStateRecord = new SnapshotMutableIntStateImpl.IntStateStateRecord(value);
+            intStateStateRecord2 = new SnapshotMutableIntStateImpl.IntStateStateRecord(value);
             i = 0;
-            intStateStateRecord.setSnapshotId$runtime_release(1);
-            intStateStateRecord3.setNext$runtime_release((StateRecord)intStateStateRecord);
+            intStateStateRecord2.setSnapshotId$runtime_release(1);
+            intStateStateRecord3.setNext$runtime_release((StateRecord)intStateStateRecord2);
         }
         this.next = intStateStateRecord3;
     }
@@ -127,44 +127,44 @@ public class SnapshotMutableIntStateImpl extends StateObjectImpl implements andr
     @Override // androidx.compose.runtime.snapshots.StateObjectImpl
     public void setIntValue(int value) {
         int value2;
-        int i2;
+        int i;
         Snapshot snapshot$iv;
-        int i3;
-        Object obj;
         int i4;
+        Object obj;
+        int i3;
         Throwable th;
         Unit $this$_set_intValue__u24lambda_u243_u24lambda_u242;
-        int i;
+        int i2;
         final int i5 = 0;
         final StateRecord current = SnapshotKt.current((StateRecord)this.next);
         final int i6 = 0;
         if ((SnapshotMutableIntStateImpl.IntStateStateRecord)current.getValue() != value) {
-            i2 = 0;
+            i = 0;
             int i7 = 0;
             Snapshot snapshot$iv2 = SnapshotKt.getSnapshotInitializer();
             int i8 = 0;
             Object lock = SnapshotKt.getLock();
-            i4 = 0;
+            i3 = 0;
             th = 0;
             snapshot$iv = current2;
-            i = 0;
+            i2 = 0;
             (SnapshotMutableIntStateImpl.IntStateStateRecord)SnapshotKt.overwritableRecord((StateRecord)this.next, (StateObject)this, snapshot$iv, (StateRecord)current).setValue(value);
             $this$_set_intValue__u24lambda_u243_u24lambda_u242 = Unit.INSTANCE;
-            i3 = 0;
+            i4 = 0;
             SnapshotKt.notifyWrite(snapshot$iv, (StateObject)this);
             synchronized (lock) {
-                i2 = 0;
+                i = 0;
                 i7 = 0;
                 snapshot$iv2 = SnapshotKt.getSnapshotInitializer();
                 i8 = 0;
                 lock = SnapshotKt.getLock();
-                i4 = 0;
+                i3 = 0;
                 th = 0;
                 snapshot$iv = current2;
-                i = 0;
+                i2 = 0;
                 (SnapshotMutableIntStateImpl.IntStateStateRecord)SnapshotKt.overwritableRecord((StateRecord)this.next, (StateObject)this, snapshot$iv, (StateRecord)current).setValue(value);
                 $this$_set_intValue__u24lambda_u243_u24lambda_u242 = Unit.INSTANCE;
-                i3 = 0;
+                i4 = 0;
                 SnapshotKt.notifyWrite(snapshot$iv, (StateObject)this);
             }
         }

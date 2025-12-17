@@ -64,24 +64,24 @@ public final class ChipElevation {
         float f;
         int changed2;
         Object it$iv;
-        Object mutableStateListOf;
-        Object mutableStateOf$default;
+        Object $i$a$CacheChipElevation$animateElevation$interactions$1;
+        Object $i$a$CacheChipElevation$animateElevation$lastInteraction$2;
         Object anon;
         int i3;
-        Object obj2;
+        Object $i$a$CacheChipElevation$animateElevation$animatable$1;
         Composer.Companion companion;
-        int i7;
+        int i4;
         Animatable animatable2;
         Dp box-impl;
         Object obj;
         androidx.compose.animation.core.TwoWayConverter vectorConverter;
-        int i4;
+        int i6;
+        int i7;
         int i5;
         int i;
-        int i6;
-        final Object obj3 = this;
+        final Object obj2 = this;
         boolean z5 = enabled;
-        final Object obj6 = interactionSource;
+        final Object obj5 = interactionSource;
         final Composer composer4 = $composer;
         final int i30 = $changed;
         int i8 = -2071499570;
@@ -100,7 +100,7 @@ public final class ChipElevation {
             int i31 = 0;
             composer.updateRememberedValue(SnapshotStateKt.mutableStateListOf());
         } else {
-            mutableStateListOf = rememberedValue2;
+            $i$a$CacheChipElevation$animateElevation$interactions$1 = rememberedValue2;
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, 363857131, str3);
@@ -114,13 +114,13 @@ public final class ChipElevation {
             int i32 = 0;
             empty.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i34, i34, 2, i34));
         } else {
-            mutableStateOf$default = rememberedValue3;
+            $i$a$CacheChipElevation$animateElevation$lastInteraction$2 = rememberedValue3;
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, 363861437, str3);
         int i24 = 32;
         if (i14 ^= 48 > i24) {
-            if (!composer4.changed(obj6)) {
+            if (!composer4.changed(obj5)) {
                 i2 = i30 & 48 == i24 ? 1 : 0;
             } else {
             }
@@ -133,7 +133,7 @@ public final class ChipElevation {
         if (i2 == 0) {
             if (rememberedValue5 == Composer.Companion.getEmpty()) {
                 empty = 0;
-                anon = new ChipElevation.animateElevation.1.1(obj6, (SnapshotStateList)mutableStateListOf, i34);
+                anon = new ChipElevation.animateElevation.1.1(obj5, (SnapshotStateList)$i$a$CacheChipElevation$animateElevation$interactions$1, i34);
                 composer2.updateRememberedValue((Function2)anon);
             } else {
                 anon = rememberedValue5;
@@ -141,8 +141,8 @@ public final class ChipElevation {
         } else {
         }
         ComposerKt.sourceInformationMarkerEnd(composer4);
-        EffectsKt.LaunchedEffect(obj6, (Function2)anon, composer4, i15 &= 14);
-        Object obj4 = lastOrNull;
+        EffectsKt.LaunchedEffect(obj5, (Function2)anon, composer4, i15 &= 14);
+        Object obj3 = lastOrNull;
         f = !z5 ? disabledElevation : z ? disabledElevation : z2 ? disabledElevation : z3 ? disabledElevation : z4 ? disabledElevation : disabledElevation;
         ComposerKt.sourceInformationMarkerStart(composer4, 363924911, str3);
         int i18 = 0;
@@ -155,15 +155,15 @@ public final class ChipElevation {
             animatable2 = new Animatable(Dp.box-impl(f), VectorConvertersKt.getVectorConverter(Dp.Companion), 0, 0, 12, 0);
             composer3.updateRememberedValue(animatable2);
         } else {
-            obj2 = rememberedValue4;
+            $i$a$CacheChipElevation$animateElevation$animatable$1 = rememberedValue4;
         }
-        Object invalid$iv = obj2;
+        Object invalid$iv = $i$a$CacheChipElevation$animateElevation$animatable$1;
         ComposerKt.sourceInformationMarkerEnd(composer4);
         ComposerKt.sourceInformationMarkerStart(composer4, 363928062, str3);
         int i35 = 4;
         if (i29 ^= 6 > i35) {
             if (!composer4.changed(z5)) {
-                i7 = i30 & 6 == i35 ? 1 : 0;
+                i4 = i30 & 6 == i35 ? 1 : 0;
             } else {
             }
         } else {
@@ -175,8 +175,8 @@ public final class ChipElevation {
         if (i20 | it$iv == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 animatable2 = 0;
-                obj = obj5;
-                animatable = new ChipElevation.animateElevation.2.1(invalid$iv, f, z5, obj4, (MutableState)mutableStateOf$default, 0);
+                obj = obj4;
+                animatable = new ChipElevation.animateElevation.2.1(invalid$iv, f, z5, obj3, (MutableState)$i$a$CacheChipElevation$animateElevation$lastInteraction$2, 0);
                 composer5.updateRememberedValue((Function2)animatable);
             } else {
                 it$iv2 = invalid$iv;

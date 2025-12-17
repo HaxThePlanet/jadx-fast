@@ -12,8 +12,8 @@ public final class SecureFlagPolicy_androidKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
             int ordinal3;
+            int ordinal;
             int ordinal2;
             int[] iArr = new int[values.length];
             iArr[SecureFlagPolicy.SecureOff.ordinal()] = 1;

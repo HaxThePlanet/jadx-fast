@@ -147,14 +147,14 @@ public final class Float16 implements Comparable<androidx.compose.ui.graphics.Fl
         int e;
         int result;
         int i;
-        int i2;
         int i3;
+        int i2;
         i4 &= arg0;
         e = i5 & 32767;
         result = i5;
         i = 1;
-        i2 = 15360;
-        if (e < i2) {
+        i3 = 15360;
+        if (e < i3) {
             if (e != 0) {
             } else {
                 i = 0;
@@ -170,8 +170,8 @@ public final class Float16 implements Comparable<androidx.compose.ui.graphics.Fl
     }
 
     public static int compareTo-41bOqos(short arg0, short other) {
-        int i3;
         int i;
+        int i3;
         int i2;
         if (Float16.isNaN-impl(arg0)) {
             return naN-impl3 ^= 1;
@@ -183,11 +183,11 @@ public final class Float16 implements Comparable<androidx.compose.ui.graphics.Fl
         int i6 = 0;
         int i8 = 32768;
         i2 = 65535;
-        i = s & i8 != 0 ? i8 - i10 : s & i2;
+        i3 = s & i8 != 0 ? i8 - i10 : s & i2;
         short value$iv = other;
         int i7 = 0;
-        i3 = value$iv & i8 != 0 ? i8 - i2 : value$iv & i2;
-        return Intrinsics.compare(i, i3);
+        i = value$iv & i8 != 0 ? i8 - i2 : value$iv & i2;
+        return Intrinsics.compare(i3, i);
     }
 
     public static short constructor-impl(double value) {
@@ -198,10 +198,10 @@ public final class Float16 implements Comparable<androidx.compose.ui.graphics.Fl
         int e$iv;
         int m$iv;
         int out$iv;
-        int i2;
+        int i;
         int outE$iv;
         int outM$iv;
-        int i;
+        int i2;
         short s;
         int i3 = 0;
         final int floatToRawIntBits = Float.floatToRawIntBits(value);
@@ -213,7 +213,7 @@ public final class Float16 implements Comparable<androidx.compose.ui.graphics.Fl
         outM$iv = 0;
         if (e$iv == i6) {
             outE$iv = 31;
-            m$iv = i2 != 0 ? 512 : 0;
+            m$iv = i != 0 ? 512 : 0;
             outM$iv = m$iv;
             s = (short)out$iv;
         } else {
@@ -222,16 +222,16 @@ public final class Float16 implements Comparable<androidx.compose.ui.graphics.Fl
                 outE$iv = 49;
             } else {
                 if (e$iv <= 0) {
-                    i12 >>= i;
+                    i12 >>= i2;
                     if (e$iv >= -10 && m$iv & 4096 != 0) {
-                        i12 >>= i;
+                        i12 >>= i2;
                         if (m$iv & 4096 != 0) {
                             m$iv += 8192;
                         }
-                        outM$iv = i2 >> 13;
+                        outM$iv = i >> 13;
                     }
                 } else {
-                    if (i2 & 4096 != 0) {
+                    if (i & 4096 != 0) {
                         s = (short)i16;
                     } else {
                     }
@@ -263,28 +263,28 @@ public final class Float16 implements Comparable<androidx.compose.ui.graphics.Fl
     }
 
     public static final short floor-slo4al4(short arg0) {
-        int i4;
-        int i;
-        int e;
-        int result;
         int i2;
         int i3;
-        final int i10 = arg0 & i;
+        int e;
+        int result;
+        int i;
+        int i4;
+        final int i10 = arg0 & i3;
         e = i10 & 32767;
         result = i10;
-        i2 = 15360;
-        if (e < i2) {
-            i3 = 32768;
-            if (i10 > i3) {
+        i = 15360;
+        if (e < i) {
+            i4 = 32768;
+            if (i10 > i4) {
             } else {
-                i = 0;
+                i3 = 0;
             }
-            result3 |= i4;
+            result3 |= i2;
         } else {
             if (e < 25600) {
                 int i6 = 1;
                 i11 -= i6;
-                result2 &= i4;
+                result2 &= i2;
             }
         }
         return Float16.constructor-impl((short)result);
@@ -339,38 +339,38 @@ public final class Float16 implements Comparable<androidx.compose.ui.graphics.Fl
     }
 
     public static final boolean isNormalized-impl(short arg0) {
-        int i3;
         int i2;
+        int i3;
         int i;
         if (arg0 & 31744 != 0 && arg0 & 31744 != 31744) {
-            i2 = arg0 & 31744 != 31744 ? 1 : 0;
+            i3 = arg0 & 31744 != 31744 ? 1 : 0;
         } else {
         }
-        return i2;
+        return i3;
     }
 
     public static final short round-slo4al4(short arg0) {
+        int i;
         int i3;
-        int i4;
         int e;
         int result;
         int i2;
-        int i;
-        final int i8 = arg0 & i4;
+        int i4;
+        final int i8 = arg0 & i3;
         e = i8 & 32767;
         result = i8;
         i2 = 15360;
         if (e < i2) {
             if (e >= 14336) {
             } else {
-                i4 = 0;
+                i3 = 0;
             }
-            result3 |= i3;
+            result3 |= i;
         } else {
             if (e < 25600) {
                 e = i5 - 25;
                 int i6 = 1;
-                result2 &= i3;
+                result2 &= i;
             }
         }
         return Float16.constructor-impl((short)result);

@@ -72,8 +72,8 @@ class NotificationCompatJellybean {
     }
 
     private static boolean ensureActionReflectionReadyLocked() {
-        Object sActionsField;
-        Field sActionsField2;
+        Object sActionsField2;
+        Field sActionsField;
         String str;
         String str2 = "Unable to access notification actions";
         final String str3 = "NotificationCompat";
@@ -82,10 +82,10 @@ class NotificationCompatJellybean {
         }
         int i3 = 1;
         if (NotificationCompatJellybean.sActionsField == null) {
-            sActionsField = Class.forName("android.app.Notification$Action");
-            NotificationCompatJellybean.sActionIconField = sActionsField.getDeclaredField("icon");
-            NotificationCompatJellybean.sActionTitleField = sActionsField.getDeclaredField("title");
-            NotificationCompatJellybean.sActionIntentField = sActionsField.getDeclaredField("actionIntent");
+            sActionsField2 = Class.forName("android.app.Notification$Action");
+            NotificationCompatJellybean.sActionIconField = sActionsField2.getDeclaredField("icon");
+            NotificationCompatJellybean.sActionTitleField = sActionsField2.getDeclaredField("title");
+            NotificationCompatJellybean.sActionIntentField = sActionsField2.getDeclaredField("actionIntent");
             NotificationCompatJellybean.sActionsField = Notification.class.getDeclaredField("actions");
             NotificationCompatJellybean.sActionsField.setAccessible(i3);
         }
@@ -124,8 +124,8 @@ class NotificationCompatJellybean {
 
     public static androidx.core.app.NotificationCompat.Action getAction(Notification notif, int actionIndex) {
         Object[] actionObjectsLocked;
-        String str2;
         String str;
+        String str2;
         int actionExtras;
         SparseArray sparseParcelableArray;
         Object obj;
@@ -141,10 +141,10 @@ class NotificationCompatJellybean {
                     try {
                         actionExtras = obj;
                         return NotificationCompatJellybean.readAction(NotificationCompatJellybean.sActionIconField.getInt(obj2), (CharSequence)NotificationCompatJellybean.sActionTitleField.get(obj2), (PendingIntent)NotificationCompatJellybean.sActionIntentField.get(obj2), actionExtras);
-                        str2 = "NotificationCompat";
-                        Log.e(str2, "Unable to access notification actions", th);
-                        str2 = 1;
-                        NotificationCompatJellybean.sActionsAccessFailed = str2;
+                        str = "NotificationCompat";
+                        Log.e(str, "Unable to access notification actions", th);
+                        str = 1;
+                        NotificationCompatJellybean.sActionsAccessFailed = str;
                         return null;
                         throw th;
                     } catch (Throwable th) {

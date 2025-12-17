@@ -29,8 +29,8 @@ public final class CursorAnchorInfoBuilder_androidKt {
         float right;
         float bottom2;
         float bottom;
-        int i2;
         int i;
+        int i2;
         Rect rect;
         final int i3 = endOffset;
         final Object obj = offsetMapping;
@@ -42,8 +42,8 @@ public final class CursorAnchorInfoBuilder_androidKt {
         offset = originalToTransformed;
         while (offset < i3) {
             originalToTransformed = obj.originalToTransformed(offset);
-            i = i7 * 4;
-            Rect rect4 = new Rect(fArr[i], fArr[i + 1], fArr[i + 2], fArr[i + 3]);
+            i2 = i7 * 4;
+            Rect rect4 = new Rect(fArr[i2], fArr[i2 + 1], fArr[i2 + 2], fArr[i2 + 3]);
             if (rect3.overlaps(rect4)) {
             }
             if (CursorAnchorInfoBuilder_androidKt.containsInclusive(rect3, rect4.getLeft(), rect4.getTop())) {
@@ -53,11 +53,11 @@ public final class CursorAnchorInfoBuilder_androidKt {
             if (textLayoutResult.getBidiRunDirection(originalToTransformed) == ResolvedTextDirection.Rtl) {
             } else {
             }
-            i2 = flags;
+            i = flags;
             rect = rect4;
-            $this$addCharacterBounds.addCharacterBounds(offset, rect4.getLeft(), rect4.getTop(), rect4.getRight(), rect4.getBottom(), i2);
+            $this$addCharacterBounds.addCharacterBounds(offset, rect4.getLeft(), rect4.getTop(), rect4.getRight(), rect4.getBottom(), i);
             offset++;
-            i2 = flags;
+            i = flags;
             if (!CursorAnchorInfoBuilder_androidKt.containsInclusive(rect3, rect4.getRight(), rect4.getBottom())) {
             }
             flags |= 1;
@@ -149,28 +149,28 @@ public final class CursorAnchorInfoBuilder_androidKt {
 
     private static final boolean containsInclusive(Rect $this$containsInclusive, float x, float y) {
         float left;
-        int i2;
+        int i;
         float top;
         int cmp;
-        int i;
-        i = 1;
+        int i2;
+        i2 = 1;
         final int i3 = 0;
         if (Float.compare(x, right) <= 0 && Float.compare(left, x) <= 0) {
-            i2 = Float.compare(left, x) <= 0 ? i : i3;
+            i = Float.compare(left, x) <= 0 ? i2 : i3;
         } else {
         }
-        if (i2 != 0) {
+        if (i != 0) {
             if (Float.compare(y, bottom) <= 0 && Float.compare(top, y) <= 0) {
-                i2 = Float.compare(top, y) <= 0 ? i : i3;
+                i = Float.compare(top, y) <= 0 ? i2 : i3;
             } else {
             }
-            if (i2 != 0) {
+            if (i != 0) {
             } else {
-                i = i3;
+                i2 = i3;
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     private static final CursorAnchorInfo.Builder setInsertionMarker(CursorAnchorInfo.Builder $this$setInsertionMarker, int selectionStart, androidx.compose.ui.text.input.OffsetMapping offsetMapping, TextLayoutResult textLayoutResult, Rect innerTextFieldBounds) {

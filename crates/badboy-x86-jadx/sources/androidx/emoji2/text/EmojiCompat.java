@@ -675,65 +675,65 @@ public class EmojiCompat {
     }
 
     public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end, int maxEmojiCount, int replaceStrategy) {
-        int i4;
-        int replaceAll;
         int i2;
+        int replaceAll;
         int i6;
+        int i7;
         java.lang.CharSequence charSequence2;
         int i;
-        int i3;
+        int i4;
         int i5;
-        int i7;
+        int i3;
         Preconditions.checkState(isInitialized(), "Not initialized yet");
         Preconditions.checkArgumentNonnegative(start, "start cannot be negative");
         Preconditions.checkArgumentNonnegative(end, "end cannot be negative");
         Preconditions.checkArgumentNonnegative(maxEmojiCount, "maxEmojiCount cannot be negative");
-        i4 = 1;
+        i2 = 1;
         int i9 = 0;
-        i2 = start <= end ? i4 : i9;
-        Preconditions.checkArgument(i2, "start should be <= than end");
+        i6 = start <= end ? i2 : i9;
+        Preconditions.checkArgument(i6, "start should be <= than end");
         if (charSequence == null) {
             return null;
         }
-        i6 = start <= charSequence.length() ? i4 : i9;
-        Preconditions.checkArgument(i6, "start should be < than charSequence length");
+        i7 = start <= charSequence.length() ? i2 : i9;
+        Preconditions.checkArgument(i7, "start should be < than charSequence length");
         if (end <= charSequence.length()) {
         } else {
-            i4 = i9;
+            i2 = i9;
         }
-        Preconditions.checkArgument(i4, "end should be < than charSequence length");
+        Preconditions.checkArgument(i2, "end should be < than charSequence length");
         if (charSequence.length() != 0) {
             if (start == end) {
                 charSequence2 = charSequence;
                 i = start;
-                i3 = end;
+                i4 = end;
                 i5 = maxEmojiCount;
                 return charSequence2;
             } else {
                 switch (replaceStrategy) {
                     case 1:
-                        i7 = replaceAll;
+                        i3 = replaceAll;
                         break;
                     case 2:
-                        i7 = replaceAll;
+                        i3 = replaceAll;
                         break;
                     default:
-                        i7 = replaceAll;
+                        i3 = replaceAll;
                 }
             }
-            return this.mHelper.process(charSequence, start, end, maxEmojiCount, i7);
+            return this.mHelper.process(charSequence, start, end, maxEmojiCount, i3);
         }
         charSequence2 = charSequence;
         i = start;
-        i3 = end;
+        i4 = end;
         i5 = maxEmojiCount;
     }
 
     public void registerInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback) {
         Object mInitCallbacks;
-        int mLoadState2;
-        int listenerDispatcher;
         int mLoadState;
+        int listenerDispatcher;
+        int mLoadState2;
         Preconditions.checkNotNull(initCallback, "initCallback cannot be null");
         this.mInitLock.writeLock().lock();
         if (this.mLoadState != 1) {

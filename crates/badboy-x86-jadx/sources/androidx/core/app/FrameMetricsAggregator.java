@@ -158,17 +158,17 @@ public class FrameMetricsAggregator {
         @Override // androidx.core.app.FrameMetricsAggregator$FrameMetricsBaseImpl
         public SparseIntArray[] stop() {
             int i;
-            Object obj;
             Object obj2;
+            Object obj;
             Object mActivities;
             Window.OnFrameMetricsAvailableListener mListener;
             i = size + -1;
             while (i >= 0) {
-                obj = this.mActivities.get(i);
-                if (obj.get() != null) {
+                obj2 = this.mActivities.get(i);
+                if (obj2.get() != null) {
                 }
                 i--;
-                (Activity)(WeakReference)obj.get().getWindow().removeOnFrameMetricsAvailableListener(this.mListener);
+                (Activity)(WeakReference)obj2.get().getWindow().removeOnFrameMetricsAvailableListener(this.mListener);
                 this.mActivities.remove(i);
             }
             return this.mMetrics;

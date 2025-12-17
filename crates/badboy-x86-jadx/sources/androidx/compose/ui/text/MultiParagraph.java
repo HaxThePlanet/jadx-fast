@@ -60,9 +60,9 @@ public final class MultiParagraph {
     }
 
     public MultiParagraph(androidx.compose.ui.text.AnnotatedString annotatedString, androidx.compose.ui.text.TextStyle textStyle2, float f3, Density density4, FontFamily.Resolver fontFamily$Resolver5, List list6, int i7, boolean z8, int i9, DefaultConstructorMarker defaultConstructorMarker10) {
-        int i2;
-        int emptyList;
         int i4;
+        int emptyList;
+        int i2;
         List list;
         int i;
         int i3;
@@ -72,8 +72,8 @@ public final class MultiParagraph {
         } else {
             list = list6;
         }
-        i = i5 & 64 != 0 ? i4 : i7;
-        i3 = i5 &= 128 != 0 ? i2 : z8;
+        i = i5 & 64 != 0 ? i2 : i7;
+        i3 = i5 &= 128 != 0 ? i4 : z8;
         super(annotatedString, textStyle2, f3, density4, resolver5, list, i, i3);
     }
 
@@ -85,19 +85,19 @@ public final class MultiParagraph {
     public MultiParagraph(androidx.compose.ui.text.AnnotatedString annotatedString, androidx.compose.ui.text.TextStyle textStyle2, long l3, Density density4, FontFamily.Resolver fontFamily$Resolver5, List list6, int i7, boolean z8, int i9, DefaultConstructorMarker defaultConstructorMarker10) {
         int i4;
         int emptyList;
-        int i3;
-        List list;
-        int i2;
         int i;
+        List list;
+        int i3;
+        int i2;
         int i5 = defaultConstructorMarker10;
         if (i5 & 32 != 0) {
             list = emptyList;
         } else {
             list = i7;
         }
-        i2 = i5 & 64 != 0 ? i3 : z8;
-        i = i5 &= 128 != 0 ? i4 : i9;
-        super(annotatedString, textStyle2, l3, obj6, resolver5, list6, list, i2, i, 0);
+        i3 = i5 & 64 != 0 ? i : z8;
+        i2 = i5 &= 128 != 0 ? i4 : i9;
+        super(annotatedString, textStyle2, l3, obj6, resolver5, list6, list, i3, i2, 0);
     }
 
     public MultiParagraph(androidx.compose.ui.text.AnnotatedString annotatedString, androidx.compose.ui.text.TextStyle textStyle2, long l3, Density density4, FontFamily.Resolver fontFamily$Resolver5, List list6, int i7, boolean z8, DefaultConstructorMarker defaultConstructorMarker9) {
@@ -114,8 +114,8 @@ public final class MultiParagraph {
 
     public MultiParagraph(androidx.compose.ui.text.AnnotatedString annotatedString, androidx.compose.ui.text.TextStyle textStyle2, List list3, int i4, boolean z5, float f6, Density density7, Font.ResourceLoader font$ResourceLoader8, int i9, DefaultConstructorMarker defaultConstructorMarker10) {
         List list;
-        int i;
         int i2;
+        int i;
         List obj12;
         int obj13;
         int obj14;
@@ -124,9 +124,9 @@ public final class MultiParagraph {
         } else {
             list = list3;
         }
-        i = i9 & 8 != 0 ? obj13 : i4;
-        i2 = i9 & 16 != 0 ? obj14 : z5;
-        super(annotatedString, textStyle2, list, i, i2, f6, density7, resourceLoader8);
+        i2 = i9 & 8 != 0 ? obj13 : i4;
+        i = i9 & 16 != 0 ? obj14 : z5;
+        super(annotatedString, textStyle2, list, i2, i, f6, density7, resourceLoader8);
     }
 
     @Deprecated(message = "MultiParagraph that takes maximum allowed width is deprecated, pass constraints instead.", replaceWith = @ReplaceWith(...))
@@ -145,65 +145,65 @@ public final class MultiParagraph {
     private MultiParagraph(androidx.compose.ui.text.MultiParagraphIntrinsics intrinsics, long constraints, int maxLines, boolean ellipsis) {
         androidx.compose.ui.text.MultiParagraphIntrinsics multiParagraphIntrinsics;
         int size;
-        int i6;
-        int i2;
-        Rect it2;
+        int i13;
+        int i10;
+        Rect it;
         int minHeight-impl;
-        int i14;
+        int i7;
         int currentHeight2;
         Object plus;
         int currentHeight;
-        int index$iv$iv3;
-        int i5;
+        int index$iv$iv2;
+        int i3;
         boolean z;
         int currentLineCount;
-        int didExceedMaxLines2;
+        int didExceedMaxLines;
         int index;
         int size2;
         int arrayList2;
         Object obj;
         int arrayList;
-        int i3;
-        ArrayList it;
-        boolean didExceedMaxLines;
-        int i;
+        int i8;
+        ArrayList it2;
+        boolean didExceedMaxLines2;
+        int i15;
         int maxHeight-impl;
         int maxWidth-impl;
         int index$iv$iv;
         int ceilToInt;
-        int i10;
+        int i11;
         androidx.compose.ui.text.ParagraphInfo paragraphInfo;
         androidx.compose.ui.text.Paragraph paragraph;
         int startIndex;
         int endIndex;
-        int i4;
-        int global;
-        int i17;
-        int placeholderRects;
-        int i15;
-        int i7;
-        int i13;
-        ArrayList list;
-        int i11;
         int i9;
-        int i8;
+        int global;
+        int i14;
+        int placeholderRects;
+        int i6;
         int i16;
-        int $this$fastForEach$iv$iv;
+        int i2;
+        ArrayList list;
+        int i17;
+        int i5;
+        int i4;
         int i12;
-        int index$iv$iv2;
+        int $this$fastForEach$iv$iv;
+        int i;
+        int index$iv$iv3;
         final Object obj2 = this;
         super();
         obj2.intrinsics = intrinsics;
         obj2.maxLines = ellipsis;
         if (Constraints.getMinWidth-impl(constraints) == 0 && Constraints.getMinHeight-impl(constraints) == 0) {
-            i14 = Constraints.getMinHeight-impl(constraints) == 0 ? 1 : i5;
+            i7 = Constraints.getMinHeight-impl(constraints) == 0 ? 1 : i3;
         } else {
         }
-        if (i14 == 0) {
+        if (i7 == 0) {
         } else {
             currentHeight2 = 0;
             currentLineCount = 0;
-            didExceedMaxLines2 = 0;
+            didExceedMaxLines = 0;
             ArrayList arrayList4 = new ArrayList();
             List infoList$ui_text_release = obj2.intrinsics.getInfoList$ui_text_release();
             index = 0;
@@ -213,84 +213,84 @@ public final class MultiParagraph {
                 if (Constraints.getHasBoundedHeight-impl(constraints)) {
                 } else {
                 }
-                i10 = maxHeight-impl;
-                paragraph = ParagraphKt.Paragraph-_EkL_-Y((ParagraphIntrinsicInfo)obj.getIntrinsics(), ConstraintsKt.Constraints$default(0, maxWidth-impl, 0, i10, 5, 0), maxWidth-impl, maxLines2 -= currentLineCount);
+                i11 = maxHeight-impl;
+                paragraph = ParagraphKt.Paragraph-_EkL_-Y((ParagraphIntrinsicInfo)obj.getIntrinsics(), ConstraintsKt.Constraints$default(0, maxWidth-impl, 0, i11, 5, 0), maxWidth-impl, maxLines2 -= currentLineCount);
                 placeholderRects = currentHeight2 + height;
                 currentHeight2 = placeholderRects;
-                i4 = currentLineCount;
-                global = i4 + lineCount;
+                i9 = currentLineCount;
+                global = i9 + lineCount;
                 currentLineCount = global;
-                paragraphInfo = new ParagraphInfo(paragraph, obj.getStartIndex(), obj.getEndIndex(), i4, global, currentHeight2, placeholderRects);
+                paragraphInfo = new ParagraphInfo(paragraph, obj.getStartIndex(), obj.getEndIndex(), i9, global, currentHeight2, placeholderRects);
                 (List)arrayList4.add(paragraphInfo);
                 index++;
-                i5 = 0;
-                i10 = maxHeight-impl;
+                i3 = 0;
+                i11 = maxHeight-impl;
             }
             z = obj41;
             obj2.height = currentHeight2;
             obj2.lineCount = currentLineCount;
-            obj2.didExceedMaxLines = didExceedMaxLines2;
+            obj2.didExceedMaxLines = didExceedMaxLines;
             obj2.paragraphInfoList = arrayList4;
             obj2.width = (float)maxWidth-impl2;
             ArrayList list7 = arrayList4;
             arrayList2 = 0;
             arrayList = new ArrayList(list7.size());
-            it = list7;
-            i = 0;
+            it2 = list7;
+            i15 = 0;
             index$iv$iv = 0;
-            while (index$iv$iv < it.size()) {
+            while (index$iv$iv < it2.size()) {
                 startIndex = 0;
-                i4 = 0;
-                i17 = 0;
-                placeholderRects = (ParagraphInfo)it.get(index$iv$iv).getParagraph().getPlaceholderRects();
-                i15 = 0;
+                i9 = 0;
+                i14 = 0;
+                placeholderRects = (ParagraphInfo)it2.get(index$iv$iv).getParagraph().getPlaceholderRects();
+                i6 = 0;
                 ArrayList arrayList3 = new ArrayList(placeholderRects.size());
-                i7 = 0;
+                i16 = 0;
                 list = arrayList3;
                 size = placeholderRects.size();
-                currentHeight = i13;
+                currentHeight = i2;
                 while (currentHeight < size) {
-                    i8 = 0;
-                    int $this$fastForEach$iv$iv2 = i9;
-                    i12 = 0;
+                    i4 = 0;
+                    int $this$fastForEach$iv$iv2 = i5;
+                    i = 0;
                     if ((Rect)$this$fastForEach$iv$iv2 != 0) {
                     } else {
                     }
-                    index$iv$iv2 = currentHeight;
-                    index$iv$iv3 = global;
-                    it2 = 0;
-                    (Collection)list.add(it2);
-                    global = index$iv$iv3;
-                    i2 = $this$fastForEach$iv$iv;
+                    index$iv$iv3 = currentHeight;
+                    index$iv$iv2 = global;
+                    it = 0;
+                    (Collection)list.add(it);
+                    global = index$iv$iv2;
+                    i10 = $this$fastForEach$iv$iv;
                     currentHeight = i18;
-                    size = i16;
-                    index$iv$iv2 = currentHeight;
-                    it2 = global;
+                    size = i12;
+                    index$iv$iv3 = currentHeight;
+                    it = global;
                 }
-                $this$fastForEach$iv$iv = i2;
-                index$iv$iv2 = currentHeight;
+                $this$fastForEach$iv$iv = i10;
+                index$iv$iv3 = currentHeight;
                 int index$iv$iv4 = global;
                 CollectionsKt.addAll((Collection)arrayList, (Iterable)(List)list);
                 index$iv$iv++;
                 multiParagraphIntrinsics = intrinsics;
-                i6 = ellipsis;
-                currentHeight2 = i11;
-                i8 = 0;
-                $this$fastForEach$iv$iv2 = i9;
-                i12 = 0;
+                i13 = ellipsis;
+                currentHeight2 = i17;
+                i4 = 0;
+                $this$fastForEach$iv$iv2 = i5;
+                i = 0;
                 if ((Rect)$this$fastForEach$iv$iv2 != 0) {
                 } else {
                 }
-                index$iv$iv2 = currentHeight;
-                index$iv$iv3 = global;
-                it2 = 0;
-                (Collection)list.add(it2);
-                global = index$iv$iv3;
-                i2 = $this$fastForEach$iv$iv;
+                index$iv$iv3 = currentHeight;
+                index$iv$iv2 = global;
+                it = 0;
+                (Collection)list.add(it);
+                global = index$iv$iv2;
+                i10 = $this$fastForEach$iv$iv;
                 currentHeight = i18;
-                size = i16;
-                index$iv$iv2 = currentHeight;
-                it2 = global;
+                size = i12;
+                index$iv$iv3 = currentHeight;
+                it = global;
             }
             int currentHeight3 = currentHeight2;
             ArrayList list2 = arrayList;
@@ -301,7 +301,7 @@ public final class MultiParagraph {
                 arrayList = 0;
                 while (arrayList < size2) {
                     int i21 = arrayList;
-                    i = 0;
+                    i15 = 0;
                     arrayList2.add(null);
                     arrayList++;
                 }
@@ -313,18 +313,18 @@ public final class MultiParagraph {
         }
         boolean z2 = obj41;
         int i19 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Setting Constraints.minWidth and Constraints.minHeight is not supported, these should be the default zero values instead.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMultiParagraph$1 = new IllegalArgumentException("Setting Constraints.minWidth and Constraints.minHeight is not supported, these should be the default zero values instead.".toString());
+        throw $i$a$RequireMultiParagraph$1;
     }
 
     public MultiParagraph(androidx.compose.ui.text.MultiParagraphIntrinsics multiParagraphIntrinsics, long l2, int i3, boolean z4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
-        int i;
         int i2;
+        int i;
         int obj11;
         int obj12;
-        i = defaultConstructorMarker6 & 4 != 0 ? obj11 : z4;
-        i2 = defaultConstructorMarker6 & 8 != 0 ? obj12 : i5;
-        super(multiParagraphIntrinsics, l2, obj3, i, i2, 0);
+        i2 = defaultConstructorMarker6 & 4 != 0 ? obj11 : z4;
+        i = defaultConstructorMarker6 & 8 != 0 ? obj12 : i5;
+        super(multiParagraphIntrinsics, l2, obj3, i2, i, 0);
     }
 
     public MultiParagraph(androidx.compose.ui.text.MultiParagraphIntrinsics multiParagraphIntrinsics, long l2, int i3, boolean z4, DefaultConstructorMarker defaultConstructorMarker5) {
@@ -345,28 +345,28 @@ public final class MultiParagraph {
 
     public static void paint-LG529CI$default(androidx.compose.ui.text.MultiParagraph multiParagraph, Canvas canvas2, long l3, Shadow shadow4, TextDecoration textDecoration5, DrawStyle drawStyle6, int i7, int i8, Object object9) {
         long unspecified-0d7_KjU;
+        int i3;
         int i;
         int i2;
-        int i3;
         int defaultBlendMode-0nO6VwU;
         if (object9 & 2 != 0) {
             unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU = l3;
         }
-        i2 = 0;
-        i = object9 & 4 != 0 ? i2 : textDecoration5;
-        i3 = object9 & 8 != 0 ? i2 : drawStyle6;
+        i = 0;
+        i3 = object9 & 4 != 0 ? i : textDecoration5;
+        i2 = object9 & 8 != 0 ? i : drawStyle6;
         if (object9 & 16 != 0) {
         } else {
-            i2 = i7;
+            i = i7;
         }
         if (object9 & 32 != 0) {
             defaultBlendMode-0nO6VwU = DrawScope.Companion.getDefaultBlendMode-0nO6VwU();
         } else {
             defaultBlendMode-0nO6VwU = i8;
         }
-        multiParagraph.paint-LG529CI(canvas2, unspecified-0d7_KjU, drawStyle6, i, i3, i2);
+        multiParagraph.paint-LG529CI(canvas2, unspecified-0d7_KjU, drawStyle6, i3, i2, i);
     }
 
     public static void paint-RPmYEkk$default(androidx.compose.ui.text.MultiParagraph multiParagraph, Canvas canvas2, long l3, Shadow shadow4, TextDecoration textDecoration5, int i6, Object object7) {
@@ -386,23 +386,23 @@ public final class MultiParagraph {
     }
 
     public static void paint-hn5TExg$default(androidx.compose.ui.text.MultiParagraph multiParagraph, Canvas canvas2, Brush brush3, float f4, Shadow shadow5, TextDecoration textDecoration6, DrawStyle drawStyle7, int i8, int i9, Object object10) {
-        int i3;
         int i4;
+        int i3;
+        int i;
         int i2;
         int i5;
-        int i;
         int obj11;
-        i3 = i9 & 4 != 0 ? obj11 : f4;
+        i4 = i9 & 4 != 0 ? obj11 : f4;
         int i7 = 0;
-        i4 = i9 & 8 != 0 ? i7 : shadow5;
-        i2 = i9 & 16 != 0 ? i7 : textDecoration6;
-        i5 = i9 & 32 != 0 ? i7 : drawStyle7;
+        i3 = i9 & 8 != 0 ? i7 : shadow5;
+        i = i9 & 16 != 0 ? i7 : textDecoration6;
+        i2 = i9 & 32 != 0 ? i7 : drawStyle7;
         if (i9 & 64 != 0) {
-            i = obj11;
+            i5 = obj11;
         } else {
-            i = i8;
+            i5 = i8;
         }
-        multiParagraph.paint-hn5TExg(canvas2, brush3, i3, i4, i2, i5, i);
+        multiParagraph.paint-hn5TExg(canvas2, brush3, i4, i3, i, i2, i5);
     }
 
     private final void requireIndexInRange(int offset) {
@@ -734,16 +734,16 @@ public final class MultiParagraph {
         int lastParagraph;
         int lastIndex;
         long startRange;
-        long global-xdX6-G0$default;
+        long $i$a$WithMultiParagraph$getRangeForRect$2;
         long endRange;
         long l;
-        long global-xdX6-G0$default2;
-        Rect local;
+        long $i$a$WithMultiParagraph$getRangeForRect$3;
+        Rect local2;
         int rangeForRect-8-6BmAI;
-        int local2;
-        int i;
-        int i3;
+        int local;
         int i2;
+        int i3;
+        int i;
         final Object obj = this;
         final Rect rect2 = rect;
         final int i4 = granularity;
@@ -758,8 +758,8 @@ public final class MultiParagraph {
                     }
                     l = obj5;
                     int i6 = 0;
-                    local = l.toLocal(rect2);
-                    startRange = global-xdX6-G0$default;
+                    local2 = l.toLocal(rect2);
+                    startRange = $i$a$WithMultiParagraph$getRangeForRect$2;
                     firstParagraph++;
                 }
                 if (TextRange.equals-impl0(startRange, obj7)) {
@@ -769,10 +769,10 @@ public final class MultiParagraph {
                 while (TextRange.equals-impl0(endRange, l)) {
                     if (firstParagraph <= lastParagraph) {
                     }
-                    local = obj6;
+                    local2 = obj6;
                     int i8 = 0;
-                    local2 = local.toLocal(rect2);
-                    endRange = global-xdX6-G0$default2;
+                    local = local2.toLocal(rect2);
+                    endRange = $i$a$WithMultiParagraph$getRangeForRect$3;
                     lastParagraph--;
                 }
                 if (TextRange.equals-impl0(endRange, l)) {
@@ -813,25 +813,25 @@ public final class MultiParagraph {
 
     public final void paint-LG529CI(Canvas canvas, long color, Shadow shadow, TextDecoration decoration, DrawStyle drawStyle, int blendMode) {
         int index$iv;
-        Object obj2;
         Object obj;
-        int i2;
-        float height;
+        Object obj2;
         int i3;
+        float height;
+        int i;
         Canvas canvas2;
         TextDecoration textDecoration;
         DrawStyle drawStyle2;
-        int i;
+        int i2;
         Object obj4;
         canvas.save();
         final List paragraphInfoList = obj3.paragraphInfoList;
         final int i4 = 0;
         index$iv = 0;
         while (index$iv < paragraphInfoList.size()) {
-            obj = obj2;
-            i2 = 0;
-            (ParagraphInfo)obj.getParagraph().paint-LG529CI(canvas, color, obj11, decoration, drawStyle, blendMode);
-            canvas.translate(0, obj.getParagraph().getHeight());
+            obj2 = obj;
+            i3 = 0;
+            (ParagraphInfo)obj2.getParagraph().paint-LG529CI(canvas, color, obj11, decoration, drawStyle, blendMode);
+            canvas.translate(0, obj2.getParagraph().getHeight());
             index$iv++;
         }
         canvas.restore();
@@ -840,8 +840,8 @@ public final class MultiParagraph {
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Use the new paint function that takes canvas as the only required parameter.")
     public final void paint-RPmYEkk(Canvas canvas, long color, Shadow shadow, TextDecoration decoration) {
         int index$iv;
-        Object obj;
         Object obj2;
+        Object obj;
         int i2;
         float height;
         Canvas canvas2;
@@ -853,10 +853,10 @@ public final class MultiParagraph {
         final int i3 = 0;
         index$iv = 0;
         while (index$iv < paragraphInfoList.size()) {
-            obj2 = obj;
+            obj = obj2;
             i2 = 0;
-            (ParagraphInfo)obj2.getParagraph().paint-RPmYEkk(canvas, color, obj10, decoration);
-            canvas.translate(0, obj2.getParagraph().getHeight());
+            (ParagraphInfo)obj.getParagraph().paint-RPmYEkk(canvas, color, obj10, decoration);
+            canvas.translate(0, obj.getParagraph().getHeight());
             index$iv++;
         }
         canvas.restore();

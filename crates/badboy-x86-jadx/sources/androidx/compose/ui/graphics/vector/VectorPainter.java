@@ -158,24 +158,24 @@ public final class VectorPainter extends Painter {
         boolean autoMirror$ui_release;
         DrawScope drawScope3;
         long size-NH-jbRc;
-        int i4;
+        int i3;
+        int i;
         int i8;
-        int i9;
-        DrawScope drawScope2;
-        long center-F1C5BW0;
-        int i7;
         DrawScope drawScope;
+        long center-F1C5BW0;
+        int i4;
+        DrawScope drawScope4;
         int i6;
         DrawContext drawContext;
         int i2;
-        DrawScope drawScope4;
+        DrawScope drawScope2;
+        int i7;
         int i5;
-        int i3;
         Canvas canvas;
-        int i;
+        int $i$a$WithVectorPainter$onDraw$1;
         final Object obj = this;
         final androidx.compose.ui.graphics.vector.VectorComponent vector = obj.vector;
-        int i11 = 0;
+        int i10 = 0;
         if (obj.currentColorFilter == null) {
             intrinsicColorFilter$ui_release = vector.getIntrinsicColorFilter$ui_release();
         }
@@ -183,26 +183,26 @@ public final class VectorPainter extends Painter {
         if (obj.getAutoMirror$ui_release() && $this$onDraw.getLayoutDirection() == LayoutDirection.Rtl) {
             if ($this$onDraw.getLayoutDirection() == LayoutDirection.Rtl) {
                 DrawScope drawScope6 = $this$onDraw;
-                i4 = 0;
-                drawScope2 = drawScope6;
-                i7 = 0;
-                drawScope = drawScope2;
-                i6 = 0;
-                drawContext = drawScope.getDrawContext();
-                i2 = 0;
-                drawScope4 = drawScope6;
-                i5 = i4;
-                drawContext.getCanvas().save();
-                int i12 = 0;
-                drawContext.getTransform().scale-0AR0LA0(-1082130432, 1065353216, drawScope2.getCenter-F1C5BW0());
                 i3 = 0;
-                i = i11;
-                vector.draw(drawScope, obj.currentAlpha, colorFilter);
+                drawScope = drawScope6;
+                i4 = 0;
+                drawScope4 = drawScope;
+                i6 = 0;
+                drawContext = drawScope4.getDrawContext();
+                i2 = 0;
+                drawScope2 = drawScope6;
+                i7 = i3;
+                drawContext.getCanvas().save();
+                int i11 = 0;
+                drawContext.getTransform().scale-0AR0LA0(-1082130432, 1065353216, drawScope.getCenter-F1C5BW0());
+                i5 = 0;
+                $i$a$WithVectorPainter$onDraw$1 = i10;
+                vector.draw(drawScope4, obj.currentAlpha, colorFilter);
                 drawContext.getCanvas().restore();
                 drawContext.setSize-uvyYCjk(drawContext.getSize-NH-jbRc());
                 drawScope3 = $this$onDraw;
             } else {
-                i = i11;
+                $i$a$WithVectorPainter$onDraw$1 = i10;
                 vector.draw($this$onDraw, obj.currentAlpha, colorFilter);
             }
         } else {

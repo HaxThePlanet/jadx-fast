@@ -14,19 +14,19 @@ import kotlin.coroutines.intrinsics.IntrinsicsKt;
 final class FlowKt__CollectionKt {
     public static final <T, C extends java.util.Collection<? super T>> Object toCollection(kotlinx.coroutines.flow.Flow<? extends T> flow, C c2, Continuation<? super C> continuation3) {
         boolean anon;
-        int i2;
         int i;
-        kotlinx.coroutines.flow.FlowKt__CollectionKt.toCollection.2 label;
         int i3;
+        kotlinx.coroutines.flow.FlowKt__CollectionKt.toCollection.2 label;
+        int i2;
         Object obj4;
         Object obj6;
         anon = continuation3;
-        i = Integer.MIN_VALUE;
-        if (continuation3 instanceof FlowKt__CollectionKt.toCollection.1 && label2 &= i != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation3 instanceof FlowKt__CollectionKt.toCollection.1 && label2 &= i3 != 0) {
             anon = continuation3;
-            i = Integer.MIN_VALUE;
-            if (label2 &= i != 0) {
-                anon.label = obj6 -= i;
+            i3 = Integer.MIN_VALUE;
+            if (label2 &= i3 != 0) {
+                anon.label = obj6 -= i3;
             } else {
                 anon = new FlowKt__CollectionKt.toCollection.1(continuation3);
             }

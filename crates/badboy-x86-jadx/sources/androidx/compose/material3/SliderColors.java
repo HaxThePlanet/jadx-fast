@@ -68,27 +68,27 @@ public final class SliderColors {
     }
 
     public final androidx.compose.material3.SliderColors copy--K518z4(long thumbColor, long activeTrackColor, long activeTickColor, long inactiveTrackColor, long inactiveTickColor, long disabledThumbColor, long disabledActiveTrackColor, long disabledActiveTickColor, long disabledInactiveTrackColor, long disabledInactiveTickColor) {
-        int $this$isSpecified$iv$iv5;
-        int $this$isSpecified$iv$iv8;
-        int $this$isSpecified$iv$iv;
-        int $this$isSpecified$iv$iv6;
-        int $this$isSpecified$iv$iv2;
+        int $i$a$TakeOrElseDxMtmZcSliderColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcSliderColors$copy$2;
+        int $i$a$TakeOrElseDxMtmZcSliderColors$copy$3;
+        int $i$a$TakeOrElseDxMtmZcSliderColors$copy$4;
         int $this$isSpecified$iv$iv3;
-        int $this$isSpecified$iv$iv7;
         int $this$isSpecified$iv$iv4;
-        int $this$isSpecified$iv$iv9;
-        long disabledInactiveTickColor2;
+        int $this$isSpecified$iv$iv2;
+        int $this$isSpecified$iv$iv5;
+        int $this$isSpecified$iv$iv;
+        long $i$a$TakeOrElseDxMtmZcSliderColors$copy$10;
         int i;
-        long l5;
-        long l6;
-        long l9;
-        long l2;
-        long l;
-        long l4;
-        long l3;
-        long l8;
         long l10;
+        long l6;
+        long l4;
         long l7;
+        long l;
+        long l5;
+        long l8;
+        long l2;
+        long l3;
+        long l9;
         final Object obj = this;
         int i2 = thumbColor;
         int i3 = 0;
@@ -96,107 +96,107 @@ public final class SliderColors {
         int i42 = 16;
         i = 1;
         final int i43 = 0;
-        $this$isSpecified$iv$iv5 = Long.compare(i13, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv5 != 0) {
-            l5 = i2;
+        $i$a$TakeOrElseDxMtmZcSliderColors$copy$1 = Long.compare(i13, i42) != 0 ? i : i43;
+        if ($i$a$TakeOrElseDxMtmZcSliderColors$copy$1 != 0) {
+            l10 = i2;
         } else {
             int i31 = 0;
-            l5 = $this$isSpecified$iv$iv5;
+            l10 = $i$a$TakeOrElseDxMtmZcSliderColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = activeTickColor;
         int i4 = 0;
         int i33 = 0;
-        $this$isSpecified$iv$iv8 = Long.compare(i14, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv8 != 0) {
+        $i$a$TakeOrElseDxMtmZcSliderColors$copy$2 = Long.compare(i14, i42) != 0 ? i : i43;
+        if ($i$a$TakeOrElseDxMtmZcSliderColors$copy$2 != 0) {
             l6 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i30 = 0;
-            l6 = $this$isSpecified$iv$iv8;
+            l6 = $i$a$TakeOrElseDxMtmZcSliderColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = inactiveTickColor;
         int i5 = 0;
         int i34 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i15, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv != 0) {
-            l9 = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $i$a$TakeOrElseDxMtmZcSliderColors$copy$3 = Long.compare(i15, i42) != 0 ? i : i43;
+        if ($i$a$TakeOrElseDxMtmZcSliderColors$copy$3 != 0) {
+            l4 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i29 = 0;
-            l9 = $this$isSpecified$iv$iv;
+            l4 = $i$a$TakeOrElseDxMtmZcSliderColors$copy$3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = disabledActiveTrackColor;
         int i6 = 0;
         int i35 = 0;
-        $this$isSpecified$iv$iv6 = Long.compare(i16, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv6 != 0) {
-            l2 = $this$takeOrElse_u2dDxMtmZc$iv3;
+        $i$a$TakeOrElseDxMtmZcSliderColors$copy$4 = Long.compare(i16, i42) != 0 ? i : i43;
+        if ($i$a$TakeOrElseDxMtmZcSliderColors$copy$4 != 0) {
+            l7 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i28 = 0;
-            l2 = $this$isSpecified$iv$iv6;
+            l7 = $i$a$TakeOrElseDxMtmZcSliderColors$copy$4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv4 = disabledInactiveTrackColor;
         int i7 = 0;
         int i36 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i17, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv2 != 0) {
+        $this$isSpecified$iv$iv3 = Long.compare(i17, i42) != 0 ? i : i43;
+        if ($this$isSpecified$iv$iv3 != 0) {
             l = $this$takeOrElse_u2dDxMtmZc$iv4;
         } else {
             int i27 = 0;
-            l = $this$isSpecified$iv$iv2;
+            l = $this$isSpecified$iv$iv3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv5 = obj45;
         int i8 = 0;
         int i37 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i18, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l4 = $this$takeOrElse_u2dDxMtmZc$iv5;
+        $this$isSpecified$iv$iv4 = Long.compare(i18, i42) != 0 ? i : i43;
+        if ($this$isSpecified$iv$iv4 != 0) {
+            l5 = $this$takeOrElse_u2dDxMtmZc$iv5;
         } else {
             int i26 = 0;
-            l4 = $this$isSpecified$iv$iv3;
+            l5 = $this$isSpecified$iv$iv4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv6 = obj47;
         int i9 = 0;
         int i38 = 0;
-        $this$isSpecified$iv$iv7 = Long.compare(i19, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv7 != 0) {
-            l3 = $this$takeOrElse_u2dDxMtmZc$iv6;
+        $this$isSpecified$iv$iv2 = Long.compare(i19, i42) != 0 ? i : i43;
+        if ($this$isSpecified$iv$iv2 != 0) {
+            l8 = $this$takeOrElse_u2dDxMtmZc$iv6;
         } else {
             int i25 = 0;
-            l3 = $this$isSpecified$iv$iv7;
+            l8 = $this$isSpecified$iv$iv2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv7 = obj49;
         int i10 = 0;
         int i39 = 0;
-        $this$isSpecified$iv$iv4 = Long.compare(i20, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv4 != 0) {
-            l8 = $this$takeOrElse_u2dDxMtmZc$iv7;
+        $this$isSpecified$iv$iv5 = Long.compare(i20, i42) != 0 ? i : i43;
+        if ($this$isSpecified$iv$iv5 != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv7;
         } else {
             int i24 = 0;
-            l8 = $this$isSpecified$iv$iv4;
+            l2 = $this$isSpecified$iv$iv5;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv8 = obj51;
         int i11 = 0;
         int i40 = 0;
-        $this$isSpecified$iv$iv9 = Long.compare(i21, i42) != 0 ? i : i43;
-        if ($this$isSpecified$iv$iv9 != 0) {
-            l10 = $this$takeOrElse_u2dDxMtmZc$iv8;
+        $this$isSpecified$iv$iv = Long.compare(i21, i42) != 0 ? i : i43;
+        if ($this$isSpecified$iv$iv != 0) {
+            l3 = $this$takeOrElse_u2dDxMtmZc$iv8;
         } else {
             int i23 = 0;
-            l10 = $this$isSpecified$iv$iv9;
+            l3 = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv9 = obj53;
         int i12 = 0;
         int i41 = 0;
-        if (Long.compare(disabledInactiveTickColor2, i42) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcSliderColors$copy$10, i42) != 0) {
         } else {
             i = i43;
         }
         if (i != 0) {
-            l7 = $this$takeOrElse_u2dDxMtmZc$iv9;
+            l9 = $this$takeOrElse_u2dDxMtmZc$iv9;
         } else {
             int i22 = 0;
-            l7 = disabledInactiveTickColor2;
+            l9 = $i$a$TakeOrElseDxMtmZcSliderColors$copy$10;
         }
-        SliderColors sliderColors = new SliderColors(l5, obj14, l6, obj16, l9, obj18, l2, obj20, l, obj22, l4, obj24, l3, obj26, l8, obj28, l10, obj30, l7, obj32, 0);
+        SliderColors sliderColors = new SliderColors(l10, obj14, l6, obj16, l4, obj18, l7, obj20, l, obj22, l5, obj24, l8, obj26, l2, obj28, l3, obj30, l9, obj32, 0);
         return sliderColors;
     }
 

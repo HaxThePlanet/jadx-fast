@@ -127,17 +127,17 @@ public final class BidiFormatter {
 
         private byte skipEntityBackward() {
             char charIndex;
-            int i;
             int i2;
-            i = 59;
+            int i;
+            i2 = 59;
             while (this.charIndex > 0) {
                 charIndex3--;
                 this.charIndex = i5;
                 this.lastChar = this.text.charAt(i5);
-                i = 59;
+                i2 = 59;
             }
             this.charIndex = this.charIndex;
-            this.lastChar = i;
+            this.lastChar = i2;
             return 13;
         }
 
@@ -158,8 +158,8 @@ public final class BidiFormatter {
 
         private byte skipTagBackward() {
             char lastChar;
-            int charIndex2;
             int charIndex;
+            int charIndex2;
             int i;
             int i4 = 62;
             while (this.charIndex > 0) {
@@ -172,17 +172,17 @@ public final class BidiFormatter {
                 while (this.charIndex > 0) {
                     charIndex5--;
                     this.charIndex = i;
-                    charIndex = this.text.charAt(i);
-                    this.lastChar = charIndex;
-                    if (charIndex != this.lastChar) {
+                    charIndex2 = this.text.charAt(i);
+                    this.lastChar = charIndex2;
+                    if (charIndex2 != this.lastChar) {
                     }
                 }
                 i4 = 62;
                 charIndex5--;
                 this.charIndex = i;
-                charIndex = this.text.charAt(i);
-                this.lastChar = charIndex;
-                if (charIndex != this.lastChar) {
+                charIndex2 = this.text.charAt(i);
+                this.lastChar = charIndex2;
+                if (charIndex2 != this.lastChar) {
                 }
                 if (this.lastChar == 39) {
                 }
@@ -194,8 +194,8 @@ public final class BidiFormatter {
 
         private byte skipTagForward() {
             char lastChar;
-            int charIndex;
             int charIndex2;
+            int charIndex;
             int i;
             while (this.charIndex < this.length) {
                 int charIndex5 = this.charIndex;
@@ -205,18 +205,18 @@ public final class BidiFormatter {
                 } else {
                 }
                 while (this.charIndex < this.length) {
-                    charIndex2 = this.charIndex;
-                    this.charIndex = charIndex2 + 1;
-                    charIndex = this.text.charAt(charIndex2);
-                    this.lastChar = charIndex;
-                    if (charIndex != this.lastChar) {
+                    charIndex = this.charIndex;
+                    this.charIndex = charIndex + 1;
+                    charIndex2 = this.text.charAt(charIndex);
+                    this.lastChar = charIndex2;
+                    if (charIndex2 != this.lastChar) {
                     }
                 }
-                charIndex2 = this.charIndex;
-                this.charIndex = charIndex2 + 1;
-                charIndex = this.text.charAt(charIndex2);
-                this.lastChar = charIndex;
-                if (charIndex != this.lastChar) {
+                charIndex = this.charIndex;
+                this.charIndex = charIndex + 1;
+                charIndex2 = this.text.charAt(charIndex);
+                this.lastChar = charIndex2;
+                if (charIndex2 != this.lastChar) {
                 }
                 if (this.lastChar == 39) {
                 }
@@ -281,19 +281,19 @@ public final class BidiFormatter {
             byte dirTypeForward;
             int dirTypeBackward;
             int length;
-            int i2;
             int i;
+            int i2;
             final int i4 = 0;
             this.charIndex = i4;
             embeddingLevel = 0;
             embeddingLevelDir = 0;
             firstNonEmptyEmbeddingLevel = 0;
-            i2 = -1;
-            i = 1;
+            i = -1;
+            i2 = 1;
             while (this.charIndex < this.length) {
                 firstNonEmptyEmbeddingLevel = embeddingLevel;
-                i2 = -1;
-                i = 1;
+                i = -1;
+                i2 = 1;
                 embeddingLevel--;
                 embeddingLevelDir = 0;
                 embeddingLevel++;
@@ -321,14 +321,14 @@ public final class BidiFormatter {
             int embeddingLevel;
             int lastNonEmptyEmbeddingLevel;
             byte dirTypeBackward;
-            int i;
             int i2;
+            int i;
             this.charIndex = this.length;
             embeddingLevel = 0;
             lastNonEmptyEmbeddingLevel = 0;
             while (this.charIndex > 0) {
-                i = 1;
-                i2 = -1;
+                i2 = 1;
+                i = -1;
                 if (lastNonEmptyEmbeddingLevel == 0) {
                 }
                 lastNonEmptyEmbeddingLevel = embeddingLevel;
@@ -398,8 +398,8 @@ public final class BidiFormatter {
     }
 
     private String markAfter(java.lang.CharSequence str, androidx.core.text.TextDirectionHeuristicCompat heuristic) {
-        boolean mIsRtlContext;
         boolean mIsRtlContext2;
+        boolean mIsRtlContext;
         int i;
         boolean rtl = heuristic.isRtl(str, 0, str.length());
         if (this.mIsRtlContext == null && !rtl && BidiFormatter.getExitDir(str) == 1) {
@@ -468,10 +468,10 @@ public final class BidiFormatter {
     }
 
     public java.lang.CharSequence unicodeWrap(java.lang.CharSequence str, androidx.core.text.TextDirectionHeuristicCompat heuristic, boolean isolate) {
-        androidx.core.text.TextDirectionHeuristicCompat lTR2;
+        androidx.core.text.TextDirectionHeuristicCompat lTR;
         boolean stereoReset;
         int mIsRtlContext;
-        androidx.core.text.TextDirectionHeuristicCompat lTR;
+        androidx.core.text.TextDirectionHeuristicCompat lTR2;
         int i;
         if (str == null) {
             return null;
@@ -480,8 +480,8 @@ public final class BidiFormatter {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         if (getStereoReset() && isolate) {
             if (isolate) {
-                lTR2 = rtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR;
-                spannableStringBuilder.append(markBefore(str, lTR2));
+                lTR = rtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR;
+                spannableStringBuilder.append(markBefore(str, lTR));
             }
         }
         if (rtl != this.mIsRtlContext) {
@@ -493,8 +493,8 @@ public final class BidiFormatter {
             spannableStringBuilder.append(str);
         }
         if (isolate) {
-            lTR = rtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR;
-            spannableStringBuilder.append(markAfter(str, lTR));
+            lTR2 = rtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR;
+            spannableStringBuilder.append(markAfter(str, lTR2));
         }
         return spannableStringBuilder;
     }

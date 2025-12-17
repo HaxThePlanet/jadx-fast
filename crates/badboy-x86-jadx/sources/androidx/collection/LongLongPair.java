@@ -27,13 +27,13 @@ public final class LongLongPair {
     public boolean equals(Object other) {
         int cmp;
         int i;
-        long second2;
         long second;
+        long second2;
         if (!other instanceof LongLongPair) {
             return 0;
         }
-        if (Long.compare(second2, second) == 0 && Long.compare(second2, second) == 0) {
-            if (Long.compare(second2, second) == 0) {
+        if (Long.compare(second, second2) == 0 && Long.compare(second, second2) == 0) {
+            if (Long.compare(second, second2) == 0) {
                 i = 1;
             }
         }

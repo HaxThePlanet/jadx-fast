@@ -20,17 +20,17 @@ public final class DispatchedTaskKt {
     public static final int MODE_UNDISPATCHED = 4;
     public static final int MODE_UNINITIALIZED = -1;
     public static final <T> void dispatch(kotlinx.coroutines.DispatchedTask<? super T> $this$dispatch, int mode) {
-        int aSSERTIONS_ENABLED;
-        int i;
-        kotlinx.coroutines.CoroutineDispatcher cancellableMode2;
+        int $i$a$AssertDispatchedTaskKt$dispatch$1;
         int i2;
+        kotlinx.coroutines.CoroutineDispatcher cancellableMode2;
+        int i;
         kotlin.coroutines.CoroutineContext cancellableMode;
         Object dispatchNeeded;
         cancellableMode2 = 0;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i3 = 0;
-            aSSERTIONS_ENABLED = mode != -1 ? i : cancellableMode2;
-            if (aSSERTIONS_ENABLED == 0) {
+            $i$a$AssertDispatchedTaskKt$dispatch$1 = mode != -1 ? i2 : cancellableMode2;
+            if ($i$a$AssertDispatchedTaskKt$dispatch$1 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -39,9 +39,9 @@ public final class DispatchedTaskKt {
         Continuation delegate$kotlinx_coroutines_core = $this$dispatch.getDelegate$kotlinx_coroutines_core();
         if (mode == 4) {
         } else {
-            i = cancellableMode2;
+            i2 = cancellableMode2;
         }
-        if (i == 0 && delegate$kotlinx_coroutines_core instanceof DispatchedContinuation && DispatchedTaskKt.isCancellableMode(mode) == DispatchedTaskKt.isCancellableMode($this$dispatch.resumeMode)) {
+        if (i2 == 0 && delegate$kotlinx_coroutines_core instanceof DispatchedContinuation && DispatchedTaskKt.isCancellableMode(mode) == DispatchedTaskKt.isCancellableMode($this$dispatch.resumeMode)) {
             if (delegate$kotlinx_coroutines_core instanceof DispatchedContinuation) {
                 if (DispatchedTaskKt.isCancellableMode(mode) == DispatchedTaskKt.isCancellableMode($this$dispatch.resumeMode)) {
                     cancellableMode2 = continuation.dispatcher;
@@ -52,7 +52,7 @@ public final class DispatchedTaskKt {
                         DispatchedTaskKt.resumeUnconfined($this$dispatch);
                     }
                 } else {
-                    DispatchedTaskKt.resume($this$dispatch, delegate$kotlinx_coroutines_core, i);
+                    DispatchedTaskKt.resume($this$dispatch, delegate$kotlinx_coroutines_core, i2);
                 }
             } else {
             }
@@ -64,15 +64,15 @@ public final class DispatchedTaskKt {
     }
 
     public static final boolean isCancellableMode(int $this$isCancellableMode) {
-        int i;
         int i2;
+        int i;
         if ($this$isCancellableMode != 1) {
             if ($this$isCancellableMode == 2) {
             } else {
-                i = 0;
+                i2 = 0;
             }
         }
-        return i;
+        return i2;
     }
 
     public static final boolean isReusableMode(int $this$isReusableMode) {
@@ -91,7 +91,7 @@ public final class DispatchedTaskKt {
         kotlin.coroutines.CoroutineContext context;
         Object threadContext;
         int undispatchedCompletion;
-        Throwable clearThreadContext2;
+        Throwable $i$a$WithContinuationContextDispatchedContinuation$resumeUndispatchedWith$1$iv;
         boolean clearThreadContext;
         final Object takeState$kotlinx_coroutines_core = $this$resume.takeState$kotlinx_coroutines_core();
         final Throwable exceptionalResult$kotlinx_coroutines_core = $this$resume.getExceptionalResult$kotlinx_coroutines_core(takeState$kotlinx_coroutines_core);
@@ -117,7 +117,7 @@ public final class DispatchedTaskKt {
             }
             int i3 = 0;
             obj.continuation.resumeWith(constructor-impl);
-            clearThreadContext2 = Unit.INSTANCE;
+            $i$a$WithContinuationContextDispatchedContinuation$resumeUndispatchedWith$1$iv = Unit.INSTANCE;
             if (undispatchedCompletion != 0) {
                 if (undispatchedCompletion.clearThreadContext()) {
                     ThreadContextKt.restoreThreadContext(context, threadContext);

@@ -52,62 +52,62 @@ public final class OnDemandAllocatingPool<T>  {
     }
 
     private final int tryForbidNewElements() {
-        int i6;
-        int i5;
-        boolean compareAndSet;
-        int i;
         int i4;
         int i7;
+        boolean compareAndSet;
         int i2;
+        int i6;
         int i3;
+        int i;
+        int i5;
         final int i8 = 0;
         final Object obj = this;
         final int i9 = 0;
-        i6 = OnDemandAllocatingPool.controlState$FU.get(this);
-        i5 = 0;
+        i4 = OnDemandAllocatingPool.controlState$FU.get(this);
+        i7 = 0;
         Object obj2 = this;
-        i4 = 0;
-        i7 = Integer.MIN_VALUE;
-        i3 = 0;
-        while (i10 & i7 != 0) {
-            i2 = 1;
-            i6 = controlState$FU.get(this);
-            i5 = 0;
+        i6 = 0;
+        i3 = Integer.MIN_VALUE;
+        i5 = 0;
+        while (i10 & i3 != 0) {
+            i = 1;
+            i4 = controlState$FU.get(this);
+            i7 = 0;
             obj2 = this;
-            i4 = 0;
-            i7 = Integer.MIN_VALUE;
-            i3 = 0;
-            i2 = i3;
+            i6 = 0;
+            i3 = Integer.MIN_VALUE;
+            i5 = 0;
+            i = i5;
         }
-        return i3;
+        return i5;
     }
 
     public final boolean allocate() {
+        int i7;
         int i6;
-        int i5;
         boolean compareAndSet;
         int $this$isClosed$iv;
-        int i7;
+        int i5;
         int i4;
-        int i3;
-        int i;
         int i2;
+        int i;
+        int i3;
         final Object obj = this;
         final int i8 = 0;
-        i6 = OnDemandAllocatingPool.controlState$FU.get(this);
-        i5 = 0;
+        i7 = OnDemandAllocatingPool.controlState$FU.get(this);
+        i6 = 0;
         Object obj2 = this;
         i4 = 0;
         i = 0;
-        i2 = 1;
+        i3 = 1;
         while (i10 &= i9 != 0) {
-            $this$isClosed$iv = i2;
-            i6 = controlState$FU.get(this);
-            i5 = 0;
+            $this$isClosed$iv = i3;
+            i7 = controlState$FU.get(this);
+            i6 = 0;
             obj2 = this;
             i4 = 0;
             i = 0;
-            i2 = 1;
+            i3 = 1;
             $this$isClosed$iv = i;
         }
         return i;
@@ -117,36 +117,36 @@ public final class OnDemandAllocatingPool<T>  {
         int it$iv;
         int i3;
         boolean compareAndSet;
-        int i6;
-        int i5;
         int i;
+        int i4;
+        int i5;
         int i2;
         int andSet;
-        int i4;
+        int i6;
         Object obj = this;
         int i7 = 0;
         Object obj2 = obj;
         int i10 = 0;
         it$iv = OnDemandAllocatingPool.controlState$FU.get(obj);
         i3 = 0;
-        i6 = obj;
-        i5 = 0;
-        i = Integer.MIN_VALUE;
+        i = obj;
+        i4 = 0;
+        i5 = Integer.MIN_VALUE;
         andSet = 0;
-        while (compareAndSet & i != 0) {
+        while (compareAndSet & i5 != 0) {
             i2 = 1;
             if (i2 != 0) {
                 break;
             } else {
             }
-            if (!OnDemandAllocatingPool.controlState$FU.compareAndSet(obj, it$iv, it$iv | i)) {
+            if (!OnDemandAllocatingPool.controlState$FU.compareAndSet(obj, it$iv, it$iv | i5)) {
                 break;
             }
             it$iv = controlState$FU.get(obj);
             i3 = 0;
-            i6 = obj;
-            i5 = 0;
-            i = Integer.MIN_VALUE;
+            i = obj;
+            i4 = 0;
+            i5 = Integer.MIN_VALUE;
             andSet = 0;
             i2 = andSet;
         }
@@ -157,13 +157,13 @@ public final class OnDemandAllocatingPool<T>  {
         int i11 = 0;
         Iterator iterator = until.iterator();
         while (iterator.hasNext()) {
+            i4 = 0;
             i5 = 0;
-            i = 0;
             i2 = 0;
             andSet = this.elements.getAndSet((IntIterator)iterator.nextInt(), 0);
             while (andSet != null) {
                 i2 = 0;
-                andSet = this.elements.getAndSet(i6, 0);
+                andSet = this.elements.getAndSet(i, 0);
             }
             (Collection)arrayList.add(andSet);
         }

@@ -19,30 +19,30 @@ public final class SwitchDefaults {
 
     public final androidx.compose.material.SwitchColors colors-SQMK_m0(long checkedThumbColor, long checkedTrackColor, float checkedTrackAlpha, long uncheckedThumbColor, long uncheckedTrackColor, float uncheckedTrackAlpha, long disabledCheckedThumbColor, long disabledCheckedTrackColor, long disabledUncheckedThumbColor, long disabledUncheckedTrackColor, Composer $composer, int $changed, int $changed1, int i14) {
         long disabledUncheckedTrackColor2;
-        androidx.compose.material.Colors colors;
+        androidx.compose.material.Colors colors2;
         long compositeOver--OWjLjI;
         long disabledCheckedThumbColor2;
         long disabledCheckedTrackColor2;
-        int colors2;
-        int checkedTrackAlpha2;
+        int colors;
+        int checkedTrackAlpha3;
         String traceInProgress;
         long checkedThumbColor2;
-        long copy-wmQWz5c$default;
         long copy-wmQWz5c$default2;
+        long copy-wmQWz5c$default;
+        int i3;
         int i;
-        int i2;
-        int i5;
+        int i6;
         long checkedTrackColor2;
         long uncheckedThumbColor2;
         long uncheckedTrackColor2;
         int uncheckedTrackAlpha2;
         long l;
-        int i3;
-        int i4;
-        int checkedTrackAlpha3;
-        int i6;
-        int i7;
         int i8;
+        int i5;
+        int checkedTrackAlpha2;
+        int i4;
+        int i7;
+        int i2;
         int i9;
         long obj29;
         float obj31;
@@ -64,7 +64,7 @@ public final class SwitchDefaults {
             checkedThumbColor2 = checkedThumbColor;
         }
         checkedTrackColor2 = i10 & 2 != 0 ? checkedThumbColor2 : checkedTrackAlpha;
-        checkedTrackAlpha2 = i10 & 4 != 0 ? 1057635697 : uncheckedTrackColor;
+        checkedTrackAlpha3 = i10 & 4 != 0 ? 1057635697 : uncheckedTrackColor;
         if (i10 & 8 != 0) {
             uncheckedThumbColor2 = MaterialTheme.INSTANCE.getColors(composer, i17).getSurface-0d7_KjU();
         } else {
@@ -79,33 +79,33 @@ public final class SwitchDefaults {
         if (i10 & 64 != 0) {
             obj29 = checkedThumbColor2;
             l = obj29;
-            checkedTrackAlpha3 = checkedTrackAlpha2;
+            checkedTrackAlpha2 = checkedTrackAlpha3;
             compositeOver--OWjLjI = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(obj29, checkedTrackColor, ContentAlpha.INSTANCE.getDisabled(composer, i17), 0, 0, 0, 14), obj6);
         } else {
-            checkedTrackAlpha3 = checkedTrackAlpha2;
+            checkedTrackAlpha2 = checkedTrackAlpha3;
             l = checkedThumbColor2;
             compositeOver--OWjLjI = $composer;
         }
         if (i10 & 128 != 0) {
-            i2 = 14;
+            i = 14;
             obj38 = compositeOver--OWjLjI;
-            disabledCheckedThumbColor2 = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(checkedTrackColor2, checkedTrackColor, ContentAlpha.INSTANCE.getDisabled(composer, i17), 0, 0, 0, i2), i2);
+            disabledCheckedThumbColor2 = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(checkedTrackColor2, checkedTrackColor, ContentAlpha.INSTANCE.getDisabled(composer, i17), 0, 0, 0, i), i);
         } else {
             obj38 = compositeOver--OWjLjI;
             disabledCheckedThumbColor2 = $changed1;
         }
         if (i10 & 256 != 0) {
-            i2 = 14;
+            i = 14;
             obj40 = disabledCheckedThumbColor2;
-            disabledCheckedTrackColor2 = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(uncheckedThumbColor2, checkedTrackColor, ContentAlpha.INSTANCE.getDisabled(composer, i17), 0, 0, 0, i2), i2);
+            disabledCheckedTrackColor2 = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(uncheckedThumbColor2, checkedTrackColor, ContentAlpha.INSTANCE.getDisabled(composer, i17), 0, 0, 0, i), i);
         } else {
             obj40 = disabledCheckedThumbColor2;
             disabledCheckedTrackColor2 = obj43;
         }
         if (i10 &= 512 != 0) {
-            i2 = 0;
-            colors = MaterialTheme.INSTANCE.getColors(composer, i17);
-            disabledUncheckedTrackColor2 = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(uncheckedTrackColor2, checkedTrackColor, ContentAlpha.INSTANCE.getDisabled(composer, i17), 0, 0, 0, 14), i2);
+            i = 0;
+            colors2 = MaterialTheme.INSTANCE.getColors(composer, i17);
+            disabledUncheckedTrackColor2 = ColorKt.compositeOver--OWjLjI(Color.copy-wmQWz5c$default(uncheckedTrackColor2, checkedTrackColor, ContentAlpha.INSTANCE.getDisabled(composer, i17), 0, 0, 0, 14), i);
         } else {
             disabledUncheckedTrackColor2 = obj45;
         }
@@ -113,13 +113,13 @@ public final class SwitchDefaults {
             obj42 = disabledUncheckedTrackColor2;
             ComposerKt.traceEventStart(-1032127534, obj48, obj49, "androidx.compose.material.SwitchDefaults.colors (Switch.kt:344)");
         } else {
-            i = obj48;
-            i5 = obj49;
+            i3 = obj48;
+            i6 = obj49;
             obj42 = disabledUncheckedTrackColor2;
         }
         int i30 = 0;
         obj29 = checkedTrackColor2;
-        obj31 = checkedTrackAlpha3;
+        obj31 = checkedTrackAlpha2;
         long l4 = obj29;
         int i33 = 0;
         obj35 = i19;

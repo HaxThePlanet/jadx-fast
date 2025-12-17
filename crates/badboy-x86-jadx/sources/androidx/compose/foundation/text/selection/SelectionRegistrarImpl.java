@@ -176,8 +176,8 @@ public final class SelectionRegistrarImpl implements androidx.compose.foundation
     public boolean notifySelectionUpdate-njBpvok(LayoutCoordinates layoutCoordinates, long newPosition, long previousPosition, boolean isStartHandle, androidx.compose.foundation.text.selection.SelectionAdjustment adjustment, boolean isInTouchMode) {
         Boolean valueOf;
         Object layoutCoordinates2;
-        Offset box-impl;
         Offset box-impl2;
+        Offset box-impl;
         Boolean valueOf2;
         Object obj;
         boolean obj8;

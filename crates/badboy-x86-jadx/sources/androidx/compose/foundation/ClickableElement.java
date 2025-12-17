@@ -84,32 +84,32 @@ final class ClickableElement extends ModifierNodeElement<androidx.compose.founda
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
+        int i3;
         int i;
         int i2;
-        int i3;
         int i4;
         MutableInteractionSource interactionSource = this.interactionSource;
-        i2 = 0;
+        i = 0;
         if (interactionSource != null) {
-            i = interactionSource.hashCode();
+            i3 = interactionSource.hashCode();
         } else {
-            i = i2;
+            i3 = i;
         }
         androidx.compose.foundation.IndicationNodeFactory indicationNodeFactory = this.indicationNodeFactory;
         if (indicationNodeFactory != null) {
-            i3 = indicationNodeFactory.hashCode();
+            i2 = indicationNodeFactory.hashCode();
         } else {
-            i3 = i2;
+            i2 = i;
         }
         String onClickLabel = this.onClickLabel;
         if (onClickLabel != null) {
             i4 = onClickLabel.hashCode();
         } else {
-            i4 = i2;
+            i4 = i;
         }
         Role role = this.role;
         if (role != null) {
-            i2 = Role.hashCode-impl(role.unbox-impl());
+            i = Role.hashCode-impl(role.unbox-impl());
         }
         return i7 += i12;
     }

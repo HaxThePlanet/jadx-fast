@@ -64,21 +64,21 @@ public final class TextFieldKeyInput {
 
     public TextFieldKeyInput(androidx.compose.foundation.text.LegacyTextFieldState legacyTextFieldState, TextFieldSelectionManager textFieldSelectionManager2, TextFieldValue textFieldValue3, boolean z4, boolean z5, TextPreparedSelectionState textPreparedSelectionState6, OffsetMapping offsetMapping7, androidx.compose.foundation.text.UndoManager undoManager8, androidx.compose.foundation.text.DeadKeyCombiner deadKeyCombiner9, androidx.compose.foundation.text.KeyMapping keyMapping10, Function1 function111, int i12, int i13, DefaultConstructorMarker defaultConstructorMarker14) {
         int iNSTANCE;
-        int i2;
-        int i6;
+        int i7;
+        int i;
         int identity;
         int i5;
         int platformDefaultKeyMapping;
         TextFieldValue textFieldValue;
-        int i4;
-        int i3;
-        TextFieldValue field;
-        int i7;
-        int i;
-        int i9;
-        int i8;
-        OffsetMapping map2;
         int i10;
+        int i2;
+        TextFieldValue field;
+        int i9;
+        int i6;
+        int i8;
+        int i4;
+        OffsetMapping map2;
+        int i3;
         androidx.compose.foundation.text.KeyMapping map;
         androidx.compose.foundation.text.TextFieldKeyInput.1 field2;
         int i11 = i13;
@@ -88,14 +88,14 @@ public final class TextFieldKeyInput {
         } else {
             field = textFieldValue3;
         }
-        i = i11 & 8 != 0 ? i2 : z4;
-        i8 = i11 & 16 != 0 ? i6 : z5;
+        i6 = i11 & 8 != 0 ? i7 : z4;
+        i4 = i11 & 16 != 0 ? i : z5;
         if (i11 & 64 != 0) {
             map2 = identity;
         } else {
             map2 = offsetMapping7;
         }
-        i10 = i11 & 128 != 0 ? i5 : undoManager8;
+        i3 = i11 & 128 != 0 ? i5 : undoManager8;
         if (i11 & 512 != 0) {
             map = platformDefaultKeyMapping;
         } else {
@@ -106,7 +106,7 @@ public final class TextFieldKeyInput {
         } else {
             field2 = function111;
         }
-        super(legacyTextFieldState, textFieldSelectionManager2, field, i, i8, textPreparedSelectionState6, map2, i10, deadKeyCombiner9, map, field2, i12, 0);
+        super(legacyTextFieldState, textFieldSelectionManager2, field, i6, i4, textPreparedSelectionState6, map2, i3, deadKeyCombiner9, map, field2, i12, 0);
     }
 
     public TextFieldKeyInput(androidx.compose.foundation.text.LegacyTextFieldState legacyTextFieldState, TextFieldSelectionManager textFieldSelectionManager2, TextFieldValue textFieldValue3, boolean z4, boolean z5, TextPreparedSelectionState textPreparedSelectionState6, OffsetMapping offsetMapping7, androidx.compose.foundation.text.UndoManager undoManager8, androidx.compose.foundation.text.DeadKeyCombiner deadKeyCombiner9, androidx.compose.foundation.text.KeyMapping keyMapping10, Function1 function111, int i12, DefaultConstructorMarker defaultConstructorMarker13) {

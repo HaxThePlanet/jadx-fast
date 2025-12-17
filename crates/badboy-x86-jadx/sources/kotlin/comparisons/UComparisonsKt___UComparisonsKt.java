@@ -31,14 +31,14 @@ class UComparisonsKt___UComparisonsKt {
 
     public static final int maxOf-Md2H83M(int a, int... other) {
         int max;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter(other, "other");
         max = a;
-        i2 = 0;
-        while (i2 < UIntArray.getSize-impl(other)) {
-            max = UComparisonsKt.maxOf-J1ME1BU(max, UIntArray.get-pVg5ArA(other, i2));
-            i2++;
+        i = 0;
+        while (i < UIntArray.getSize-impl(other)) {
+            max = UComparisonsKt.maxOf-J1ME1BU(max, UIntArray.get-pVg5ArA(other, i));
+            i++;
         }
         return max;
     }
@@ -128,14 +128,14 @@ class UComparisonsKt___UComparisonsKt {
 
     public static final int minOf-Md2H83M(int a, int... other) {
         int min;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter(other, "other");
         min = a;
-        i2 = 0;
-        while (i2 < UIntArray.getSize-impl(other)) {
-            min = UComparisonsKt.minOf-J1ME1BU(min, UIntArray.get-pVg5ArA(other, i2));
-            i2++;
+        i = 0;
+        while (i < UIntArray.getSize-impl(other)) {
+            min = UComparisonsKt.minOf-J1ME1BU(min, UIntArray.get-pVg5ArA(other, i));
+            i++;
         }
         return min;
     }

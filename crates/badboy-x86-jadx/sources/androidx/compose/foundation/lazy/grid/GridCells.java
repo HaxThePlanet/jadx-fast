@@ -132,8 +132,8 @@ public interface GridCells {
         }
 
         public List<Integer> calculateCrossAxisCellSizes(Density $this$calculateCrossAxisCellSizes, int availableSize, int spacing) {
-            ArrayList arrayList;
             ArrayList arrayList2;
+            ArrayList arrayList;
             int i;
             Integer valueOf;
             int i2;
@@ -141,25 +141,25 @@ public interface GridCells {
             i = 0;
             if (roundToPx-0680j_4 + spacing < availableSize + spacing) {
                 i4 /= i7;
-                arrayList2 = new ArrayList(arrayList);
-                while (i < arrayList) {
+                arrayList = new ArrayList(arrayList2);
+                while (i < arrayList2) {
                     int i9 = i;
                     i2 = 0;
-                    arrayList2.add(Integer.valueOf(roundToPx-0680j_4));
+                    arrayList.add(Integer.valueOf(roundToPx-0680j_4));
                     i++;
                 }
             } else {
                 int i6 = 1;
-                arrayList = new ArrayList(i6);
+                arrayList2 = new ArrayList(i6);
                 while (i < i6) {
                     int i8 = i;
                     i2 = 0;
-                    arrayList.add(Integer.valueOf(availableSize));
+                    arrayList2.add(Integer.valueOf(availableSize));
                     i++;
                 }
-                arrayList2 = arrayList;
+                arrayList = arrayList2;
             }
-            return arrayList2;
+            return arrayList;
         }
 
         @Override // androidx.compose.foundation.lazy.grid.GridCells

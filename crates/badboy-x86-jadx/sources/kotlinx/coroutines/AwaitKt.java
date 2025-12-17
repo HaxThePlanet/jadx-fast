@@ -34,21 +34,21 @@ public final class AwaitKt {
 
     public static final Object joinAll(Collection<? extends kotlinx.coroutines.Job> collection, Continuation<? super Unit> continuation2) {
         boolean anon;
-        int i4;
-        int i;
         int i3;
-        Object iterator;
         int i5;
+        int i4;
+        Object iterator;
+        int i;
         int i2;
         int obj6;
         Object obj7;
         anon = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof AwaitKt.joinAll.3 && label &= i != 0) {
+        i5 = Integer.MIN_VALUE;
+        if (continuation2 instanceof AwaitKt.joinAll.3 && label &= i5 != 0) {
             anon = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj7 -= i;
+            i5 = Integer.MIN_VALUE;
+            if (label &= i5 != 0) {
+                anon.label = obj7 -= i5;
             } else {
                 anon = new AwaitKt.joinAll.3(continuation2);
             }
@@ -60,11 +60,11 @@ public final class AwaitKt {
             case 0:
                 ResultKt.throwOnFailure(obj7);
                 iterator = (Iterable)collection.iterator();
-                obj6 = i3;
+                obj6 = i4;
                 break;
             case 1:
                 obj6 = 0;
-                i3 = 0;
+                i4 = 0;
                 iterator = anon.L$0;
                 ResultKt.throwOnFailure(obj7);
                 break;
@@ -86,21 +86,21 @@ public final class AwaitKt {
     public static final Object joinAll(kotlinx.coroutines.Job[] jobArr, Continuation<? super Unit> continuation2) {
         boolean anon;
         int i;
+        int i3;
         int i2;
-        int i4;
         int length;
         int i$0;
         Object l$0;
-        int i3;
+        int i4;
         int obj8;
         Object obj9;
         anon = continuation2;
-        i2 = Integer.MIN_VALUE;
-        if (continuation2 instanceof AwaitKt.joinAll.1 && label &= i2 != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation2 instanceof AwaitKt.joinAll.1 && label &= i3 != 0) {
             anon = continuation2;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj9 -= i2;
+            i3 = Integer.MIN_VALUE;
+            if (label &= i3 != 0) {
+                anon.label = obj9 -= i3;
             } else {
                 anon = new AwaitKt.joinAll.1(continuation2);
             }
@@ -115,11 +115,11 @@ public final class AwaitKt {
                 length = jobArr.length;
                 i$0 = 0;
                 l$0 = jobArr;
-                obj8 = i4;
+                obj8 = i2;
                 break;
             case 1:
                 obj8 = 0;
-                i4 = 0;
+                i2 = 0;
                 length = anon.I$1;
                 i$0 = anon.I$0;
                 l$0 = anon.L$0;

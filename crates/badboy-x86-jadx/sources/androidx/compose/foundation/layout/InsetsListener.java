@@ -48,9 +48,9 @@ final class InsetsListener extends WindowInsetsAnimationCompat.Callback implemen
     public WindowInsetsCompat onApplyWindowInsets(View view, WindowInsetsCompat insets) {
         boolean runningAnimation;
         WindowInsetsCompat cONSUMED;
-        int i3;
-        int i2;
         int i;
+        int i2;
+        int i3;
         this.savedInsets = insets;
         this.composeInsets.updateImeAnimationTarget(insets);
         if (this.prepared) {
@@ -121,10 +121,10 @@ final class InsetsListener extends WindowInsetsAnimationCompat.Callback implemen
     public void run() {
         boolean prepared;
         WindowInsetsCompat savedInsets;
-        int i3;
+        int i2;
         androidx.compose.foundation.layout.WindowInsetsHolder composeInsets;
         int i;
-        int i2;
+        int i3;
         prepared = 0;
         this.prepared = prepared;
         this.runningAnimation = prepared;
@@ -135,11 +135,11 @@ final class InsetsListener extends WindowInsetsAnimationCompat.Callback implemen
             this.runningAnimation = prepared;
             savedInsets = this.savedInsets;
             if (savedInsets != null) {
-                i3 = 0;
-                this.composeInsets.updateImeAnimationSource(savedInsets);
                 i2 = 0;
-                WindowInsetsHolder.update$default(this.composeInsets, savedInsets, prepared, 2, i2);
-                this.savedInsets = i2;
+                this.composeInsets.updateImeAnimationSource(savedInsets);
+                i3 = 0;
+                WindowInsetsHolder.update$default(this.composeInsets, savedInsets, prepared, 2, i3);
+                this.savedInsets = i3;
             }
         }
     }

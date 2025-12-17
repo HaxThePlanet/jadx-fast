@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/layout_dashboard_timer_square_segment_0"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/timer_left_segment"
+        android:background="@drawable/time_card_left"
+        android:layout_width="16dp"
+        android:layout_height="24dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        style="@style/DashboardTryDogoTimer"/>
+    <TextView
+        android:id="@+id/timer_right_segment"
+        android:background="@drawable/time_card_right"
+        android:layout_width="16dp"
+        android:layout_height="24dp"
+        android:textAlignment="center"
+        android:layout_marginStart="1dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/timer_left_segment"
+        app:layout_constraintTop_toTopOf="@+id/timer_left_segment"
+        style="@style/DashboardTryDogoTimer"/>
+    <TextView
+        android:textSize="10dp"
+        android:textColor="@color/white"
+        android:id="@+id/label_text"
+        android:tag="binding_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_2"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/timer_left_segment"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

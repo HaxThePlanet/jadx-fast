@@ -31,62 +31,62 @@ public final class ClickableKt {
 
     public static final Modifier clickable-O2vRcR0(Modifier $this$clickable_u2dO2vRcR0, MutableInteractionSource interactionSource, androidx.compose.foundation.Indication indication, boolean enabled, String onClickLabel, Role role, Function0<Unit> onClick) {
         int indication2;
-        Object obj;
-        int i3;
-        String str2;
-        Role role2;
-        Function0 function03;
-        Modifier clickableElement2;
-        MutableInteractionSource mutableInteractionSource;
         Object obj2;
-        boolean z2;
-        String str;
-        Role role4;
-        Function0 function0;
-        int i4;
-        androidx.compose.foundation.ClickableElement clickableElement;
-        MutableInteractionSource mutableInteractionSource2;
-        int i;
-        boolean z;
+        int $i$a$ClickableWithIndicationIfNeededClickableKt$clickable$3;
         String str3;
-        Role role3;
+        Role role2;
         Function0 function02;
+        Modifier clickableElement;
+        MutableInteractionSource mutableInteractionSource;
+        Object obj;
+        boolean z2;
+        String str2;
+        Role role4;
+        Function0 function03;
+        int i;
+        androidx.compose.foundation.ClickableElement clickableElement2;
+        MutableInteractionSource mutableInteractionSource2;
         int i2;
-        obj = indication;
-        final int i6 = 0;
-        if (obj instanceof IndicationNodeFactory != null) {
+        boolean z;
+        String str;
+        Role role3;
+        Function0 function0;
+        int i3;
+        obj2 = indication;
+        final int i5 = 0;
+        if (obj2 instanceof IndicationNodeFactory != null) {
             indication2 = 0;
-            clickableElement2 = new ClickableElement(interactionSource, (IndicationNodeFactory)obj, enabled, onClickLabel, role, onClick, 0);
+            clickableElement = new ClickableElement(interactionSource, (IndicationNodeFactory)obj2, enabled, onClickLabel, role, onClick, 0);
         } else {
-            if (obj == null) {
+            if (obj2 == null) {
                 indication2 = 0;
-                clickableElement = new ClickableElement(interactionSource, 0, enabled, onClickLabel, role, onClick, 0);
-                clickableElement2 = clickableElement;
+                clickableElement2 = new ClickableElement(interactionSource, 0, enabled, onClickLabel, role, onClick, 0);
+                clickableElement = clickableElement2;
             } else {
                 if (interactionSource != null) {
-                    int i5 = 0;
-                    clickableElement = new ClickableElement(interactionSource, 0, enabled, onClickLabel, role, onClick, 0);
-                    clickableElement2 = IndicationKt.indication((Modifier)Modifier.Companion, (InteractionSource)interactionSource, obj).then((Modifier)clickableElement);
+                    int i4 = 0;
+                    clickableElement2 = new ClickableElement(interactionSource, 0, enabled, onClickLabel, role, onClick, 0);
+                    clickableElement = IndicationKt.indication((Modifier)Modifier.Companion, (InteractionSource)interactionSource, obj2).then((Modifier)clickableElement2);
                 } else {
-                    indication2 = new ClickableKt.clickable-O2vRcR0$$inlined.clickableWithIndicationIfNeeded.1(obj, enabled, onClickLabel, role, onClick);
-                    i3 = 0;
-                    clickableElement2 = ComposedModifierKt.composed$default((Modifier)Modifier.Companion, i3, (Function3)indication2, 1, i3);
+                    indication2 = new ClickableKt.clickable-O2vRcR0$$inlined.clickableWithIndicationIfNeeded.1(obj2, enabled, onClickLabel, role, onClick);
+                    $i$a$ClickableWithIndicationIfNeededClickableKt$clickable$3 = 0;
+                    clickableElement = ComposedModifierKt.composed$default((Modifier)Modifier.Companion, $i$a$ClickableWithIndicationIfNeededClickableKt$clickable$3, (Function3)indication2, 1, $i$a$ClickableWithIndicationIfNeededClickableKt$clickable$3);
                 }
             }
         }
-        return $this$clickable_u2dO2vRcR0.then(clickableElement2);
+        return $this$clickable_u2dO2vRcR0.then(clickableElement);
     }
 
     public static Modifier clickable-O2vRcR0$default(Modifier modifier, MutableInteractionSource mutableInteractionSource2, androidx.compose.foundation.Indication indication3, boolean z4, String string5, Role role6, Function0 function07, int i8, Object object9) {
         int i;
-        int i2;
         int i3;
+        int i2;
         int obj10;
         i = i8 & 4 != 0 ? obj10 : z4;
         int obj15 = 0;
-        i2 = i8 & 8 != 0 ? obj15 : string5;
-        i3 = i8 & 16 != 0 ? obj15 : role6;
-        return ClickableKt.clickable-O2vRcR0(modifier, mutableInteractionSource2, indication3, i, i2, i3, function07);
+        i3 = i8 & 8 != 0 ? obj15 : string5;
+        i2 = i8 & 16 != 0 ? obj15 : role6;
+        return ClickableKt.clickable-O2vRcR0(modifier, mutableInteractionSource2, indication3, i, i3, i2, function07);
     }
 
     public static final Modifier clickable-XHw0xAI(Modifier $this$clickable_u2dXHw0xAI, boolean enabled, String onClickLabel, Role role, Function0<Unit> onClick) {
@@ -145,88 +145,88 @@ public final class ClickableKt {
     public static final Modifier combinedClickable-XVZzFYc(Modifier $this$combinedClickable_u2dXVZzFYc, MutableInteractionSource interactionSource, androidx.compose.foundation.Indication indication, boolean enabled, String onClickLabel, Role role, String onLongClickLabel, Function0<Unit> onLongClick, Function0<Unit> onDoubleClick, Function0<Unit> onClick) {
         int indication2;
         Object obj2;
-        int i3;
-        String str6;
-        Role role2;
-        Function0 function08;
+        int $i$a$ClickableWithIndicationIfNeededClickableKt$combinedClickable$3;
+        String str4;
+        Role role4;
+        Function0 function0;
         String str;
-        Function0 function04;
-        Function0 function09;
-        Modifier combinedClickableElement2;
+        Function0 function06;
+        Function0 function05;
+        Modifier combinedClickableElement;
         MutableInteractionSource mutableInteractionSource2;
         Object obj;
-        boolean z2;
-        String str5;
-        Role role4;
-        Function0 function07;
-        String str3;
-        Function0 function0;
-        Function0 function05;
-        int i;
-        androidx.compose.foundation.CombinedClickableElement combinedClickableElement;
+        boolean z;
+        String str2;
+        Role role2;
+        Function0 function02;
+        String str6;
+        Function0 function03;
+        Function0 function04;
+        int i3;
+        androidx.compose.foundation.CombinedClickableElement combinedClickableElement2;
         MutableInteractionSource mutableInteractionSource;
         int i2;
-        boolean z;
-        String str4;
+        boolean z2;
+        String str3;
         Role role3;
-        Function0 function02;
-        String str2;
-        Function0 function06;
-        Function0 function03;
-        int i4;
+        Function0 function08;
+        String str5;
+        Function0 function07;
+        Function0 function09;
+        int i;
         obj2 = indication;
-        final int i6 = 0;
+        final int i5 = 0;
         if (obj2 instanceof IndicationNodeFactory != null) {
             indication2 = 0;
-            combinedClickableElement2 = new CombinedClickableElement(interactionSource, (IndicationNodeFactory)obj2, enabled, onClickLabel, role, onClick, onLongClickLabel, onLongClick, onDoubleClick, 0);
+            combinedClickableElement = new CombinedClickableElement(interactionSource, (IndicationNodeFactory)obj2, enabled, onClickLabel, role, onClick, onLongClickLabel, onLongClick, onDoubleClick, 0);
         } else {
             if (obj2 == null) {
                 indication2 = 0;
-                combinedClickableElement = new CombinedClickableElement(interactionSource, 0, enabled, onClickLabel, role, onClick, onLongClickLabel, onLongClick, onDoubleClick, 0);
-                combinedClickableElement2 = combinedClickableElement;
+                combinedClickableElement2 = new CombinedClickableElement(interactionSource, 0, enabled, onClickLabel, role, onClick, onLongClickLabel, onLongClick, onDoubleClick, 0);
+                combinedClickableElement = combinedClickableElement2;
             } else {
                 if (interactionSource != null) {
-                    int i5 = 0;
-                    combinedClickableElement = new CombinedClickableElement(interactionSource, 0, enabled, onClickLabel, role, onClick, onLongClickLabel, onLongClick, onDoubleClick, 0);
-                    combinedClickableElement2 = IndicationKt.indication((Modifier)Modifier.Companion, (InteractionSource)interactionSource, obj2).then((Modifier)combinedClickableElement);
+                    int i4 = 0;
+                    combinedClickableElement2 = new CombinedClickableElement(interactionSource, 0, enabled, onClickLabel, role, onClick, onLongClickLabel, onLongClick, onDoubleClick, 0);
+                    combinedClickableElement = IndicationKt.indication((Modifier)Modifier.Companion, (InteractionSource)interactionSource, obj2).then((Modifier)combinedClickableElement2);
                 } else {
                     indication2 = new ClickableKt.combinedClickable-XVZzFYc$$inlined.clickableWithIndicationIfNeeded.1(obj2, enabled, onClickLabel, role, onClick, onLongClickLabel, onLongClick, onDoubleClick);
-                    i3 = 0;
-                    combinedClickableElement2 = ComposedModifierKt.composed$default((Modifier)Modifier.Companion, i3, (Function3)indication2, 1, i3);
+                    $i$a$ClickableWithIndicationIfNeededClickableKt$combinedClickable$3 = 0;
+                    combinedClickableElement = ComposedModifierKt.composed$default((Modifier)Modifier.Companion, $i$a$ClickableWithIndicationIfNeededClickableKt$combinedClickable$3, (Function3)indication2, 1, $i$a$ClickableWithIndicationIfNeededClickableKt$combinedClickable$3);
                 }
             }
         }
-        return $this$combinedClickable_u2dXVZzFYc.then(combinedClickableElement2);
+        return $this$combinedClickable_u2dXVZzFYc.then(combinedClickableElement);
     }
 
     public static Modifier combinedClickable-XVZzFYc$default(Modifier modifier, MutableInteractionSource mutableInteractionSource2, androidx.compose.foundation.Indication indication3, boolean z4, String string5, Role role6, String string7, Function0 function08, Function0 function09, Function0 function010, int i11, Object object12) {
-        int i3;
-        int i6;
-        int i2;
-        int i4;
-        int i;
         int i5;
+        int i6;
+        int i;
+        int i4;
+        int i3;
+        int i2;
         int obj13;
         int i7 = i11;
-        i3 = i7 & 4 != 0 ? obj13 : z4;
+        i5 = i7 & 4 != 0 ? obj13 : z4;
         int i9 = 0;
         i6 = i7 & 8 != 0 ? i9 : string5;
-        i2 = i7 & 16 != 0 ? i9 : role6;
+        i = i7 & 16 != 0 ? i9 : role6;
         i4 = i7 & 32 != 0 ? i9 : string7;
-        i = i7 & 64 != 0 ? i9 : function08;
-        i5 = i7 & 128 != 0 ? i9 : function09;
-        return ClickableKt.combinedClickable-XVZzFYc(modifier, mutableInteractionSource2, indication3, i3, i6, i2, i4, i, i5, function010);
+        i3 = i7 & 64 != 0 ? i9 : function08;
+        i2 = i7 & 128 != 0 ? i9 : function09;
+        return ClickableKt.combinedClickable-XVZzFYc(modifier, mutableInteractionSource2, indication3, i5, i6, i, i4, i3, i2, function010);
     }
 
     public static final Modifier combinedClickable-cJG_KMw(Modifier $this$combinedClickable_u2dcJG_KMw, boolean enabled, String onClickLabel, Role role, String onLongClickLabel, Function0<Unit> onLongClick, Function0<Unit> onDoubleClick, Function0<Unit> onClick) {
         kotlin.jvm.functions.Function1 noInspectorInfo;
         boolean z;
-        String str2;
-        Role role2;
-        Function0 function02;
-        Function0 function0;
-        Function0 function03;
         String str;
+        Role role2;
+        Function0 function03;
+        Function0 function0;
+        Function0 function02;
+        String str2;
         int i = 0;
         if (InspectableValueKt.isDebugInspectorInfoEnabled()) {
             noInspectorInfo = new ClickableKt.combinedClickable-cJG_KMw$$inlined.debugInspectorInfo.1(enabled, onClickLabel, role, onClick, onDoubleClick, onLongClick, onLongClickLabel);
@@ -271,20 +271,20 @@ public final class ClickableKt {
     }
 
     public static Modifier genericClickableWithoutGesture-Kqv-Bsg$default(Modifier modifier, MutableInteractionSource mutableInteractionSource2, androidx.compose.foundation.Indication indication3, CoroutineScope coroutineScope4, Map map5, State state6, boolean z7, String string8, Role role9, String string10, Function0 function011, Function0 function012, int i13, Object object14) {
-        int i4;
         int i3;
-        int i2;
+        int i6;
         int i5;
         int i;
-        int i6;
+        int i4;
+        int i2;
         int i7 = i13;
-        i3 = i7 & 32 != 0 ? i4 : z7;
+        i6 = i7 & 32 != 0 ? i3 : z7;
         int i12 = 0;
-        i2 = i7 & 64 != 0 ? i12 : string8;
-        i5 = i7 & 128 != 0 ? i12 : role9;
-        i = i7 & 256 != 0 ? i12 : string10;
-        i6 = i7 &= 512 != 0 ? i12 : function011;
-        return ClickableKt.genericClickableWithoutGesture-Kqv-Bsg(modifier, mutableInteractionSource2, indication3, coroutineScope4, map5, state6, i3, i2, i5, i, i6, function012);
+        i5 = i7 & 64 != 0 ? i12 : string8;
+        i = i7 & 128 != 0 ? i12 : role9;
+        i4 = i7 & 256 != 0 ? i12 : string10;
+        i2 = i7 &= 512 != 0 ? i12 : function011;
+        return ClickableKt.genericClickableWithoutGesture-Kqv-Bsg(modifier, mutableInteractionSource2, indication3, coroutineScope4, map5, state6, i6, i5, i, i4, i2, function012);
     }
 
     private static final Modifier genericClickableWithoutGesture_Kqv_Bsg$detectPressAndClickFromKey(Modifier $this$genericClickableWithoutGesture_Kqv_Bsg_u24detectPressAndClickFromKey, boolean $enabled, Map<Key, PressInteraction.Press> $currentKeyPressInteractions, State<Offset> $keyClickOffset, CoroutineScope $indicationScope, Function0<Unit> $onClick, MutableInteractionSource $interactionSource) {

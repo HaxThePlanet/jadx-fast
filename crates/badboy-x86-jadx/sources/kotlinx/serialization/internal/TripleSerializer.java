@@ -56,11 +56,11 @@ public final class TripleSerializer<A, B, C>  implements KSerializer<Triple<? ex
         int decodeElementIndex;
         CompositeDecoder composite2;
         SerialDescriptor descriptor;
-        int i3;
-        KSerializer kSerializer;
-        int i4;
-        int i;
         int i2;
+        KSerializer kSerializer;
+        int i3;
+        int i;
+        int i4;
         CompositeDecoder obj12;
         a = TuplesKt.access$getNULL$p();
         b = TuplesKt.access$getNULL$p();

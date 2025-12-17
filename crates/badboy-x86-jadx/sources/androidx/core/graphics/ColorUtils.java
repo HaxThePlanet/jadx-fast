@@ -23,9 +23,9 @@ public final class ColorUtils {
             float sa;
             int da;
             int cmp;
-            int i;
-            int i3;
             int i2;
+            int i3;
+            int i;
             if (!Objects.equals(foreground.getModel(), background.getModel())) {
             } else {
                 if (Objects.equals(background.getColorSpace(), foreground.getColorSpace())) {
@@ -42,10 +42,10 @@ public final class ColorUtils {
                     sa /= f2;
                     da /= cmp;
                 }
-                i = 0;
-                while (i < i6) {
-                    components2[i] = i8 += i2;
-                    i++;
+                i2 = 0;
+                while (i2 < i6) {
+                    components2[i2] = i8 += i;
+                    i2++;
                 }
                 return Color.valueOf(components2, background.getColorSpace());
             }
@@ -63,8 +63,8 @@ public final class ColorUtils {
         int r;
         int g;
         int b;
-        int i2;
         int i;
+        int i2;
         int i3 = 0;
         final int i4 = hsl[i3];
         int i8 = hsl[2];
@@ -76,37 +76,37 @@ public final class ColorUtils {
         r = 0;
         g = 0;
         b = 0;
-        i2 = 1132396544;
+        i = 1132396544;
         switch (i11) {
             case 0:
-                r = Math.round(i28 *= i2);
-                g = Math.round(i30 *= i2);
-                b = Math.round(i2 *= i21);
+                r = Math.round(i28 *= i);
+                g = Math.round(i30 *= i);
+                b = Math.round(i *= i21);
                 break;
             case 1:
-                r = Math.round(i35 *= i2);
-                g = Math.round(i37 *= i2);
-                b = Math.round(i2 *= i21);
+                r = Math.round(i35 *= i);
+                g = Math.round(i37 *= i);
+                b = Math.round(i *= i21);
                 break;
             case 2:
-                r = Math.round(i21 * i2);
-                g = Math.round(i43 *= i2);
-                b = Math.round(i45 *= i2);
+                r = Math.round(i21 * i);
+                g = Math.round(i43 *= i);
+                b = Math.round(i45 *= i);
                 break;
             case 3:
-                r = Math.round(i21 * i2);
-                g = Math.round(i47 *= i2);
-                b = Math.round(i49 *= i2);
+                r = Math.round(i21 * i);
+                g = Math.round(i47 *= i);
+                b = Math.round(i49 *= i);
                 break;
             case 4:
-                r = Math.round(i31 *= i2);
-                g = Math.round(i21 * i2);
-                b = Math.round(i34 *= i2);
+                r = Math.round(i31 *= i);
+                g = Math.round(i21 * i);
+                b = Math.round(i34 *= i);
                 break;
             case 5:
-                r = Math.round(i38 *= i2);
-                g = Math.round(i21 * i2);
-                b = Math.round(i41 *= i2);
+                r = Math.round(i38 *= i);
+                g = Math.round(i21 * i);
+                b = Math.round(i41 *= i);
                 break;
             default:
         }
@@ -122,8 +122,8 @@ public final class ColorUtils {
 
     public static void LABToXYZ(double l, double a, double b, double[] outXyz) {
         double d;
-        int i;
         int i2;
+        int i;
         long l2 = 4625196817309499392L;
         long l6 = 4637863191261478912L;
         i6 /= l6;
@@ -134,14 +134,14 @@ public final class ColorUtils {
         final long l10 = 4576258758203452558L;
         final long l11 = 4651156726645941862L;
         if (Double.compare(d3, l10) > 0) {
-            i = d3;
+            i2 = d3;
         } else {
             i18 /= l11;
         }
         if (Double.compare(l, l12) > 0) {
-            i2 = Math.pow(i7, obj3);
+            i = Math.pow(i7, obj3);
         } else {
-            i2 = l / l11;
+            i = l / l11;
         }
         double d2 = Math.pow(i13, obj9);
         if (Double.compare(d2, l10) > 0) {
@@ -149,8 +149,8 @@ public final class ColorUtils {
         } else {
             i9 /= l11;
         }
-        obj29[0] = l3 *= i;
-        obj29[1] = l4 *= i2;
+        obj29[0] = l3 *= i2;
+        obj29[1] = l4 *= i;
         obj29[2] = l5 *= d;
     }
 
@@ -159,9 +159,9 @@ public final class ColorUtils {
     }
 
     public static void RGBToHSL(int r, int g, int b, float[] outHsl) {
-        int i;
-        int i3;
         int i2;
+        int i3;
+        int i;
         int h;
         int i5 = 1132396544;
         f /= i5;
@@ -175,19 +175,19 @@ public final class ColorUtils {
         int i23 = 1065353216;
         final int i24 = 0;
         if (Float.compare(f3, f7) == 0) {
-            i = i24;
+            i2 = i24;
             i3 = i24;
         } else {
             if (Float.compare(f3, i4) == 0) {
-                i16 %= i2;
+                i16 %= i;
             } else {
                 if (Float.compare(f3, i6) == 0) {
                     i19 += i11;
                 } else {
-                    i17 += i2;
+                    i17 += i;
                 }
             }
-            i = i8 / i14;
+            i2 = i8 / i14;
         }
         int i27 = 1135869952;
         i26 %= i27;
@@ -195,7 +195,7 @@ public final class ColorUtils {
             h += i27;
         }
         outHsl[0] = ColorUtils.constrain(h, i24, i27);
-        outHsl[1] = ColorUtils.constrain(i, i24, i23);
+        outHsl[1] = ColorUtils.constrain(i2, i24, i23);
         outHsl[2] = ColorUtils.constrain(i10, i24, i23);
     }
 
@@ -205,44 +205,44 @@ public final class ColorUtils {
     }
 
     public static void RGBToXYZ(int r, int g, int b, double[] outXyz) {
-        int l5;
-        int l4;
-        double d2;
+        int l3;
         int l2;
         double d;
-        long l3;
+        int l;
         double d3;
-        long l;
+        long l5;
+        double d2;
+        long l4;
         final int[] iArr = outXyz;
         if (iArr.length != 3) {
         } else {
-            l5 = 4643176031446892544L;
-            d4 /= l5;
-            l4 = 4585990280393462802L;
+            l3 = 4643176031446892544L;
+            d4 /= l3;
+            l2 = 4585990280393462802L;
             final long l11 = 4623462931452961751L;
             final long l16 = 4612586738352862003L;
             final long l17 = 4607430116779522785L;
-            l2 = 4588087156379966505L;
-            if (Double.compare(i2, l4) < 0) {
-                d = i2 / l11;
-                l3 = l5;
+            l = 4588087156379966505L;
+            if (Double.compare(i2, l2) < 0) {
+                d3 = i2 / l11;
+                l5 = l3;
             } else {
-                l3 = l5;
-                d = Math.pow(i27 / l17, obj5);
+                l5 = l3;
+                d3 = Math.pow(i27 / l17, obj5);
             }
-            d5 /= l3;
-            if (Double.compare(i3, l4) < 0) {
-                d3 = i3 / l11;
-                l = l4;
+            d5 /= l5;
+            if (Double.compare(i3, l2) < 0) {
+                d2 = i3 / l11;
+                l4 = l2;
             } else {
-                l = l4;
-                d3 = Math.pow(i28 / l17, obj7);
+                l4 = l2;
+                d2 = Math.pow(i28 / l17, obj7);
             }
-            d6 /= l3;
-            if (Double.compare(i4, l) < 0) {
-                d2 = i4 / l11;
+            d6 /= l5;
+            if (Double.compare(i4, l4) < 0) {
+                d = i4 / l11;
             } else {
-                d2 = Math.pow(l2 / l17, obj7);
+                d = Math.pow(l / l17, obj7);
             }
             long l10 = 4636737291354636288L;
             iArr[0] = i7 *= l10;

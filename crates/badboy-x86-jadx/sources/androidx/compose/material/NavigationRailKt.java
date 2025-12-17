@@ -80,59 +80,59 @@ public final class NavigationRailKt {
     }
 
     public static final void NavigationRail-HsRjFd4(Modifier modifier, long backgroundColor, long contentColor, float elevation, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> header, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
-        int traceInProgress;
+        int traceInProgress2;
         int defaultsInvalid;
-        Object modifier2;
-        int modifier3;
+        Object modifier3;
+        int modifier4;
         Object $composer2;
         int $dirty2;
         long $dirty;
         int surface-0d7_KjU;
         int backgroundColor2;
-        int i;
-        int i5;
-        Object obj;
-        boolean traceInProgress2;
-        long l;
-        int i2;
-        long str;
-        float f;
-        int changed2;
-        long l2;
-        Object obj2;
+        int i12;
         int i6;
+        Object obj2;
+        boolean traceInProgress;
+        long l2;
+        int i7;
+        long str;
+        float f2;
+        int changed2;
+        long l;
+        Object obj5;
+        int i2;
         int changed;
         int zeroInsets;
-        float f3;
+        float f;
         Object elevation2;
-        int modifier4;
-        int i7;
-        long i3;
-        Object obj4;
-        int i4;
-        Object obj5;
-        int i12;
+        int modifier2;
         int i11;
-        float f2;
+        long i10;
+        Object obj;
+        int i3;
         Object obj3;
+        int i8;
+        int i4;
+        float f3;
+        Object obj4;
         Composer composer;
         Composer composer2;
-        int i10;
-        int i8;
+        int i5;
+        int i;
         final int i44 = obj31;
         Composer restartGroup = i9.startRestartGroup(1790971523);
         ComposerKt.sourceInformation(restartGroup, "C(NavigationRail)P(5,0:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.unit.Dp,4)168@7492L6,169@7534L32,174@7736L95:NavigationRail.kt#jmzs0o");
         $dirty2 = obj31;
-        i5 = obj32 & 1;
-        if (i5 != 0) {
+        i6 = obj32 & 1;
+        if (i6 != 0) {
             $dirty2 |= 6;
-            obj = modifier;
+            obj2 = modifier;
         } else {
             if (i44 & 6 == 0) {
-                i2 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i2;
+                i7 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i7;
             } else {
-                obj = modifier;
+                obj2 = modifier;
             }
         }
         if (i44 & 48 == 0) {
@@ -149,58 +149,58 @@ public final class NavigationRailKt {
             if (obj32 & 4 == 0) {
                 changed = restartGroup.changed(elevation) ? 256 : 128;
             } else {
-                l2 = elevation;
+                l = elevation;
             }
             $dirty2 |= changed;
         } else {
-            l2 = elevation;
+            l = elevation;
         }
         zeroInsets = obj32 & 8;
         if (zeroInsets != 0) {
             $dirty2 |= 3072;
-            f3 = content;
+            f = content;
         } else {
             if (i44 & 3072 == 0) {
-                i7 = restartGroup.changed(content) ? 2048 : 1024;
-                $dirty2 |= i7;
+                i11 = restartGroup.changed(content) ? 2048 : 1024;
+                $dirty2 |= i11;
             } else {
-                f3 = content;
+                f = content;
             }
         }
-        i3 = obj32 & 16;
-        if (i3 != 0) {
+        i10 = obj32 & 16;
+        if (i10 != 0) {
             $dirty2 |= 24576;
-            obj4 = $composer;
+            obj = $composer;
         } else {
             if (i44 & 24576 == 0) {
-                i4 = restartGroup.changedInstance($composer) ? 16384 : 8192;
-                $dirty2 |= i4;
+                i3 = restartGroup.changedInstance($composer) ? 16384 : 8192;
+                $dirty2 |= i3;
             } else {
-                obj4 = $composer;
+                obj = $composer;
             }
         }
-        i12 = 196608;
+        i8 = 196608;
         if (obj32 & 32 != 0) {
-            $dirty2 |= i12;
-            obj5 = $changed;
+            $dirty2 |= i8;
+            obj3 = $changed;
         } else {
-            if (i44 & i12 == 0) {
-                i12 = restartGroup.changedInstance($changed) ? 131072 : 65536;
-                $dirty2 |= i12;
+            if (i44 & i8 == 0) {
+                i8 = restartGroup.changedInstance($changed) ? 131072 : 65536;
+                $dirty2 |= i8;
             } else {
-                obj5 = $changed;
+                obj3 = $changed;
             }
         }
         if (i49 &= $dirty2 == 74898) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                i11 = 6;
+                i4 = 6;
                 if (i44 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i5 != 0) {
-                            modifier2 = Modifier.Companion;
+                        if (i6 != 0) {
+                            modifier3 = Modifier.Companion;
                         } else {
-                            modifier2 = obj;
+                            modifier3 = obj2;
                         }
                         if (obj32 & 2 != 0) {
                             $dirty2 &= -113;
@@ -208,27 +208,27 @@ public final class NavigationRailKt {
                         }
                         if (obj32 & 4 != 0) {
                             $dirty2 &= -897;
-                            l2 = backgroundColor2;
+                            l = backgroundColor2;
                         }
                         if (zeroInsets != 0) {
-                            f3 = backgroundColor2;
+                            f = backgroundColor2;
                         }
-                        if (i3 != 0) {
-                            obj3 = i22;
-                            i3 = str;
-                            f2 = f3;
-                            i = 1790971523;
-                            elevation2 = modifier2;
-                            modifier3 = i11;
-                            obj5 = l2;
+                        if (i10 != 0) {
+                            obj4 = i22;
+                            i10 = str;
+                            f3 = f;
+                            i12 = 1790971523;
+                            elevation2 = modifier3;
+                            modifier4 = i4;
+                            obj3 = l;
                         } else {
-                            f2 = f3;
-                            obj3 = obj4;
-                            i = 1790971523;
-                            elevation2 = modifier2;
-                            i3 = str;
-                            modifier3 = i11;
-                            obj5 = l2;
+                            f3 = f;
+                            obj4 = obj;
+                            i12 = 1790971523;
+                            elevation2 = modifier3;
+                            i10 = str;
+                            modifier4 = i4;
+                            obj3 = l;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -237,55 +237,55 @@ public final class NavigationRailKt {
                         }
                         if (obj32 & 4 != 0) {
                             $dirty2 = i21;
-                            f2 = f3;
-                            obj3 = obj4;
-                            modifier3 = i11;
-                            i = 1790971523;
-                            elevation2 = obj;
-                            i3 = str;
-                            obj5 = l2;
+                            f3 = f;
+                            obj4 = obj;
+                            modifier4 = i4;
+                            i12 = 1790971523;
+                            elevation2 = obj2;
+                            i10 = str;
+                            obj3 = l;
                         } else {
-                            f2 = f3;
-                            obj3 = obj4;
-                            modifier3 = i11;
-                            i = 1790971523;
-                            elevation2 = obj;
-                            i3 = str;
-                            obj5 = l2;
+                            f3 = f;
+                            obj4 = obj;
+                            modifier4 = i4;
+                            i12 = 1790971523;
+                            elevation2 = obj2;
+                            i10 = str;
+                            obj3 = l;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i, $dirty2, -1, "androidx.compose.material.NavigationRail (NavigationRail.kt:173)");
+                    ComposerKt.traceEventStart(i12, $dirty2, -1, "androidx.compose.material.NavigationRail (NavigationRail.kt:173)");
                 }
-                NavigationRailKt.NavigationRail-afqeVBk(NavigationRailKt.ZeroInsets, elevation2, i3, obj4, obj5, i11, f2, obj3, $changed, restartGroup);
+                NavigationRailKt.NavigationRail-afqeVBk(NavigationRailKt.ZeroInsets, elevation2, i10, obj, obj3, i4, f3, obj4, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 $composer2 = elevation2;
-                l = obj5;
-                f = f2;
-                obj2 = obj3;
-                modifier4 = $dirty2;
-                $dirty = i3;
+                l2 = obj3;
+                f2 = f3;
+                obj5 = obj4;
+                modifier2 = $dirty2;
+                $dirty = i10;
             } else {
                 restartGroup.skipToGroupEnd();
-                modifier4 = $dirty2;
+                modifier2 = $dirty2;
                 $dirty = str;
-                f = f4;
+                f2 = f4;
                 composer2 = restartGroup;
-                $composer2 = obj;
-                l = l2;
-                obj2 = obj4;
+                $composer2 = obj2;
+                l2 = l;
+                obj5 = obj;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new NavigationRailKt.NavigationRail.3($composer2, $dirty, i5, l, str, f, obj2, $changed, i44, obj32);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new NavigationRailKt.NavigationRail.3($composer2, $dirty, i6, l2, str, f2, obj5, $changed, i44, obj32);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
@@ -297,32 +297,32 @@ public final class NavigationRailKt {
         Object $composer2;
         int $dirty2;
         long $dirty;
-        int i9;
+        int i;
         int i3;
-        int i13;
-        Object obj;
+        int i2;
+        Object obj3;
         boolean traceInProgress;
         long l2;
-        int i6;
+        int i9;
         long surface-0d7_KjU;
-        float f2;
+        float f;
         int changed;
-        int i4;
+        int i11;
         Object obj2;
         boolean changed2;
         long contentColor2;
-        int i;
-        float elevation2;
-        int i11;
-        Object obj3;
-        int i12;
-        int i2;
         int i5;
-        float f;
+        float elevation2;
+        int i6;
+        Object obj;
+        int i4;
+        int i12;
+        int i8;
+        float f2;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
+        int i13;
         int i7;
-        int i8;
         long l;
         final Object obj4 = windowInsets;
         final Object obj6 = $changed;
@@ -334,20 +334,20 @@ public final class NavigationRailKt {
             $dirty2 |= 6;
         } else {
             if (i35 & 6 == 0) {
-                i9 = restartGroup.changed(obj4) ? 4 : 2;
-                $dirty2 |= i9;
+                i = restartGroup.changed(obj4) ? 4 : 2;
+                $dirty2 |= i;
             }
         }
         int i19 = obj36 & 2;
         if (i19 != 0) {
             $dirty2 |= 48;
-            obj = modifier;
+            obj3 = modifier;
         } else {
             if (i35 & 48 == 0) {
-                i6 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i6;
+                i9 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i9;
             } else {
-                obj = modifier;
+                obj3 = modifier;
             }
         }
         if (i35 & 384 == 0) {
@@ -362,11 +362,11 @@ public final class NavigationRailKt {
         }
         if (i35 & 3072 == 0) {
             if (obj36 & 8 == 0) {
-                i4 = restartGroup.changed(elevation) ? 2048 : 1024;
+                i11 = restartGroup.changed(elevation) ? 2048 : 1024;
             } else {
                 contentColor2 = elevation;
             }
-            $dirty2 |= i4;
+            $dirty2 |= i11;
         } else {
             contentColor2 = elevation;
         }
@@ -376,8 +376,8 @@ public final class NavigationRailKt {
             elevation2 = content;
         } else {
             if (i35 & 24576 == 0) {
-                i11 = restartGroup.changed(content) ? 16384 : 8192;
-                $dirty2 |= i11;
+                i6 = restartGroup.changed(content) ? 16384 : 8192;
+                $dirty2 |= i6;
             } else {
                 elevation2 = content;
             }
@@ -386,22 +386,22 @@ public final class NavigationRailKt {
         int i39 = 196608;
         if (i38 != 0) {
             $dirty2 |= i39;
-            obj3 = $composer;
+            obj = $composer;
         } else {
             if (i39 &= i35 == 0) {
-                i12 = restartGroup.changedInstance($composer) ? 131072 : 65536;
-                $dirty2 |= i12;
+                i4 = restartGroup.changedInstance($composer) ? 131072 : 65536;
+                $dirty2 |= i4;
             } else {
-                obj3 = $composer;
+                obj = $composer;
             }
         }
-        i5 = 1572864;
+        i8 = 1572864;
         if (obj36 & 64 != 0) {
-            $dirty2 |= i5;
+            $dirty2 |= i8;
         } else {
-            if (i35 & i5 == 0) {
-                i2 = restartGroup.changedInstance(obj6) ? 1048576 : 524288;
-                $dirty2 |= i2;
+            if (i35 & i8 == 0) {
+                i12 = restartGroup.changedInstance(obj6) ? 1048576 : 524288;
+                $dirty2 |= i12;
             }
         }
         int i41 = 599187;
@@ -411,7 +411,7 @@ public final class NavigationRailKt {
                 if (i35 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i19 != 0) {
-                            obj = defaultsInvalid;
+                            obj3 = defaultsInvalid;
                         }
                         if (obj36 & 4 != 0) {
                             surface-0d7_KjU = MaterialTheme.INSTANCE.getColors(restartGroup, 6).getSurface-0d7_KjU();
@@ -426,18 +426,18 @@ public final class NavigationRailKt {
                         }
                         if (i38 != 0) {
                             skipping = 0;
-                            obj3 = contentColor2;
-                            f = elevation2;
-                            i13 = -1389243291;
-                            contentColor2 = obj;
+                            obj = contentColor2;
+                            f2 = elevation2;
+                            i2 = -1389243291;
+                            contentColor2 = obj3;
                             elevation2 = surface-0d7_KjU;
                         } else {
-                            f = elevation2;
-                            skipping = obj3;
-                            i13 = -1389243291;
+                            f2 = elevation2;
+                            skipping = obj;
+                            i2 = -1389243291;
                             elevation2 = surface-0d7_KjU;
-                            obj3 = contentColor2;
-                            contentColor2 = obj;
+                            obj = contentColor2;
+                            contentColor2 = obj3;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -446,124 +446,124 @@ public final class NavigationRailKt {
                         }
                         if (obj36 & 8 != 0) {
                             $dirty2 = i18;
-                            f = elevation2;
-                            skipping = obj3;
-                            i13 = -1389243291;
+                            f2 = elevation2;
+                            skipping = obj;
+                            i2 = -1389243291;
                             elevation2 = surface-0d7_KjU;
-                            obj3 = contentColor2;
-                            contentColor2 = obj;
+                            obj = contentColor2;
+                            contentColor2 = obj3;
                         } else {
-                            f = elevation2;
-                            skipping = obj3;
-                            i13 = -1389243291;
+                            f2 = elevation2;
+                            skipping = obj;
+                            i2 = -1389243291;
                             elevation2 = surface-0d7_KjU;
-                            obj3 = contentColor2;
-                            contentColor2 = obj;
+                            obj = contentColor2;
+                            contentColor2 = obj3;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i13, $dirty2, -1, "androidx.compose.material.NavigationRail (NavigationRail.kt:108)");
+                    ComposerKt.traceEventStart(i2, $dirty2, -1, "androidx.compose.material.NavigationRail (NavigationRail.kt:108)");
                 }
                 NavigationRailKt.NavigationRail.1 anon = new NavigationRailKt.NavigationRail.1(obj4, skipping, obj6);
-                SurfaceKt.Surface-F-jzlyU(contentColor2, 0, elevation2, i38, obj3, i41, 0, f, (Function2)ComposableLambdaKt.rememberComposableLambda(-245908831, true, anon, restartGroup, 54), restartGroup);
+                SurfaceKt.Surface-F-jzlyU(contentColor2, 0, elevation2, i38, obj, i41, 0, f2, (Function2)ComposableLambdaKt.rememberComposableLambda(-245908831, true, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 obj2 = skipping;
-                i = $dirty2;
+                i5 = $dirty2;
                 $composer2 = contentColor2;
                 $dirty = elevation2;
-                l2 = obj3;
-                f2 = f;
+                l2 = obj;
+                f = f2;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
-                $composer2 = obj;
-                obj2 = obj3;
-                i = $dirty2;
+                $composer2 = obj3;
+                obj2 = obj;
+                i5 = $dirty2;
                 $dirty = surface-0d7_KjU;
                 l2 = l;
-                f2 = elevation2;
+                f = elevation2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            skipping = new NavigationRailKt.NavigationRail.2(obj4, $composer2, $dirty, i3, l2, surface-0d7_KjU, f2, obj2, obj6, i35, obj36);
+            skipping = new NavigationRailKt.NavigationRail.2(obj4, $composer2, $dirty, i3, l2, surface-0d7_KjU, f, obj2, obj6, i35, obj36);
             endRestartGroup.updateScope((Function2)skipping);
         }
     }
 
     public static final void NavigationRailItem-0S3VyRs(boolean selected, Function0<Unit> onClick, Function2<? super Composer, ? super Integer, Unit> icon, Modifier modifier, boolean enabled, Function2<? super Composer, ? super Integer, Unit> label, boolean alwaysShowLabel, MutableInteractionSource interactionSource, long selectedContentColor, long unselectedContentColor, Composer $composer, int $changed, int i13) {
         Object function3;
-        int i18;
-        int changed;
-        int skipping;
-        int $dirty4;
-        int $dirty;
-        float navigationRailItemSize;
-        int defaultsInvalid;
+        int i9;
         int changed2;
-        Function0 factory$iv$iv$iv;
-        int restartGroup;
+        int skipping;
         int $dirty5;
         int $dirty2;
+        float navigationRailItemSize;
+        int defaultsInvalid;
+        int changed;
+        Function0 factory$iv$iv$iv;
+        int restartGroup;
+        int $dirty3;
+        int $dirty;
         boolean valueOf;
-        boolean $dirty3;
+        boolean $dirty4;
         int obj;
-        boolean z;
-        long l;
+        boolean z3;
+        long l2;
         long copy-wmQWz5c$default;
-        Composer composer;
+        Composer composer2;
         Object maybeCachedBoxMeasurePolicy;
         Object obj4;
-        int i5;
+        int i20;
         Object obj5;
-        boolean z3;
-        int i19;
-        int i8;
-        int i3;
-        boolean traceInProgress;
-        Object obj2;
-        Object l2;
-        boolean modifier2;
-        int i15;
-        int localContentColor;
-        int i6;
         boolean z2;
-        long interactionSource2;
-        int i10;
-        int it;
+        int i12;
+        int i;
+        int i4;
+        boolean traceInProgress;
         Object obj3;
-        long label2;
-        int i17;
-        int i21;
-        boolean z4;
-        int i9;
-        int i7;
-        int i14;
-        int i23;
+        Object l;
+        boolean modifier2;
         int i2;
+        int localContentColor;
+        int i18;
+        boolean z4;
+        long interactionSource2;
+        int i7;
+        int it;
+        Object obj2;
+        long label2;
+        int i3;
+        int i11;
+        boolean z;
+        int i21;
+        int i24;
+        int i23;
+        int i25;
+        int i22;
         float f;
         long selectedContentColor2;
         long unbox-impl;
-        int i16;
+        int i15;
         float medium;
-        int i12;
-        int i25;
-        int i24;
-        int i;
-        int i4;
-        int i20;
+        int i5;
+        int i8;
+        int i16;
+        int i19;
+        int i10;
+        int i17;
         Function0 function0;
-        int i11;
+        int i14;
         Composer $composer2;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        Composer composer2;
-        int i22;
+        Composer composer;
+        int i6;
         int obj40;
         Composer obj41;
         long obj42;
@@ -575,209 +575,209 @@ public final class NavigationRailKt {
         int obj48;
         BoxScopeInstance obj49;
         obj = icon;
-        final int i79 = obj50;
-        final int i80 = obj51;
+        final int i78 = obj50;
+        final int i79 = obj51;
         restartGroup = i13.startRestartGroup(-1813548445);
         ComposerKt.sourceInformation(restartGroup, "C(NavigationRailItem)P(7,6,2,5,1,4!2,8:c#ui.graphics.Color,9:c#ui.graphics.Color)210@9648L6,211@9718L7,211@9752L6,226@10550L99,230@10654L804:NavigationRail.kt#jmzs0o");
-        $dirty5 = obj50;
-        if (i80 & 1 != 0) {
-            $dirty5 |= 6;
-            z = selected;
+        $dirty3 = obj50;
+        if (i79 & 1 != 0) {
+            $dirty3 |= 6;
+            z3 = selected;
         } else {
-            if (i79 & 6 == 0) {
-                i5 = restartGroup.changed(selected) ? 4 : 2;
-                $dirty5 |= i5;
+            if (i78 & 6 == 0) {
+                i20 = restartGroup.changed(selected) ? 4 : 2;
+                $dirty3 |= i20;
             } else {
-                z = selected;
+                z3 = selected;
             }
         }
-        if (i80 & 2 != 0) {
-            $dirty5 |= 48;
+        if (i79 & 2 != 0) {
+            $dirty3 |= 48;
             obj5 = onClick;
         } else {
-            if (i79 & 48 == 0) {
-                i19 = restartGroup.changedInstance(onClick) ? 32 : 16;
-                $dirty5 |= i19;
+            if (i78 & 48 == 0) {
+                i12 = restartGroup.changedInstance(onClick) ? 32 : 16;
+                $dirty3 |= i12;
             } else {
                 obj5 = onClick;
             }
         }
-        if (i80 & 4 != 0) {
-            $dirty5 |= 384;
+        if (i79 & 4 != 0) {
+            $dirty3 |= 384;
         } else {
-            if (i79 & 384 == 0) {
-                i8 = restartGroup.changedInstance(obj) ? 256 : 128;
-                $dirty5 |= i8;
+            if (i78 & 384 == 0) {
+                i = restartGroup.changedInstance(obj) ? 256 : 128;
+                $dirty3 |= i;
             }
         }
-        int i61 = i80 & 8;
-        if (i61 != 0) {
-            $dirty5 |= 3072;
-            l2 = modifier;
+        int i60 = i79 & 8;
+        if (i60 != 0) {
+            $dirty3 |= 3072;
+            l = modifier;
         } else {
-            if (i79 & 3072 == 0) {
-                i15 = restartGroup.changed(modifier) ? 2048 : 1024;
-                $dirty5 |= i15;
+            if (i78 & 3072 == 0) {
+                i2 = restartGroup.changed(modifier) ? 2048 : 1024;
+                $dirty3 |= i2;
             } else {
-                l2 = modifier;
+                l = modifier;
             }
         }
-        localContentColor = i80 & 16;
+        localContentColor = i79 & 16;
         if (localContentColor != 0) {
-            $dirty5 |= 24576;
-            z2 = enabled;
+            $dirty3 |= 24576;
+            z4 = enabled;
         } else {
-            if (i79 & 24576 == 0) {
-                i10 = restartGroup.changed(enabled) ? 16384 : 8192;
-                $dirty5 |= i10;
+            if (i78 & 24576 == 0) {
+                i7 = restartGroup.changed(enabled) ? 16384 : 8192;
+                $dirty3 |= i7;
             } else {
-                z2 = enabled;
+                z4 = enabled;
             }
         }
-        it = i80 & 32;
-        int i76 = 196608;
+        it = i79 & 32;
+        int i75 = 196608;
         if (it != 0) {
-            $dirty5 |= i76;
-            obj3 = label;
+            $dirty3 |= i75;
+            obj2 = label;
         } else {
-            if (i76 &= i79 == 0) {
-                i17 = restartGroup.changedInstance(label) ? 131072 : 65536;
-                $dirty5 |= i17;
+            if (i75 &= i78 == 0) {
+                i3 = restartGroup.changedInstance(label) ? 131072 : 65536;
+                $dirty3 |= i3;
             } else {
-                obj3 = label;
+                obj2 = label;
             }
         }
-        i21 = i80 & 64;
-        int i81 = 1572864;
-        if (i21 != 0) {
-            $dirty5 |= i81;
-            z4 = alwaysShowLabel;
+        i11 = i79 & 64;
+        int i80 = 1572864;
+        if (i11 != 0) {
+            $dirty3 |= i80;
+            z = alwaysShowLabel;
         } else {
-            if (i81 &= i79 == 0) {
-                i9 = restartGroup.changed(alwaysShowLabel) ? 1048576 : 524288;
-                $dirty5 |= i9;
+            if (i80 &= i78 == 0) {
+                i21 = restartGroup.changed(alwaysShowLabel) ? 1048576 : 524288;
+                $dirty3 |= i21;
             } else {
-                z4 = alwaysShowLabel;
+                z = alwaysShowLabel;
             }
         }
-        int i27 = i80 & 128;
-        int i83 = 12582912;
+        int i27 = i79 & 128;
+        int i82 = 12582912;
         if (i27 != 0) {
-            $dirty5 |= i83;
-            i14 = i27;
+            $dirty3 |= i82;
+            i23 = i27;
             function3 = interactionSource;
         } else {
-            if (i79 & i83 == 0) {
-                i14 = i27;
-                i23 = restartGroup.changed(interactionSource) ? 8388608 : 4194304;
-                $dirty5 |= i23;
+            if (i78 & i82 == 0) {
+                i23 = i27;
+                i25 = restartGroup.changed(interactionSource) ? 8388608 : 4194304;
+                $dirty3 |= i25;
             } else {
-                i14 = i27;
+                i23 = i27;
                 function3 = interactionSource;
             }
         }
-        if (i79 & i86 == 0) {
-            if (i80 & 256 == 0) {
+        if (i78 & i85 == 0) {
+            if (i79 & 256 == 0) {
                 function3 = restartGroup.changed(selectedContentColor) ? 67108864 : 33554432;
             } else {
-                l = selectedContentColor;
+                l2 = selectedContentColor;
             }
-            $dirty5 |= function3;
+            $dirty3 |= function3;
         } else {
-            l = selectedContentColor;
+            l2 = selectedContentColor;
         }
-        if (i28 &= i79 == 0) {
-            if (i80 & 512 == 0) {
-                i18 = restartGroup.changed($composer) ? 536870912 : 268435456;
+        if (i28 &= i78 == 0) {
+            if (i79 & 512 == 0) {
+                i9 = restartGroup.changed($composer) ? 536870912 : 268435456;
             } else {
                 copy-wmQWz5c$default = $composer;
             }
-            $dirty5 |= i18;
+            $dirty3 |= i9;
         } else {
             copy-wmQWz5c$default = $composer;
         }
-        obj49 = $dirty5;
-        if (i29 &= $dirty5 == 306783378) {
+        obj49 = $dirty3;
+        if (i29 &= $dirty3 == 306783378) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                int i87 = -234881025;
-                int i88 = -1879048193;
-                if (i79 & 1 != 0) {
+                int i86 = -234881025;
+                int i87 = -1879048193;
+                if (i78 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i61 != 0) {
-                            l2 = defaultsInvalid;
+                        if (i60 != 0) {
+                            l = defaultsInvalid;
                         }
                         if (localContentColor != 0) {
-                            z2 = defaultsInvalid;
-                        }
-                        if (it != 0) {
-                            obj3 = defaultsInvalid;
-                        }
-                        if (i21 != 0) {
                             z4 = defaultsInvalid;
                         }
-                        $dirty = i14 != 0 ? 0 : interactionSource;
-                        if (i80 & 256 != 0) {
+                        if (it != 0) {
+                            obj2 = defaultsInvalid;
+                        }
+                        if (i11 != 0) {
+                            z = defaultsInvalid;
+                        }
+                        $dirty2 = i23 != 0 ? 0 : interactionSource;
+                        if (i79 & 256 != 0) {
                             selectedContentColor2 = MaterialTheme.INSTANCE.getColors(restartGroup, 6).getPrimary-0d7_KjU();
-                            i3 = obj49 & i87;
+                            i4 = obj49 & i86;
                         } else {
                             selectedContentColor2 = selectedContentColor;
-                            i3 = obj49;
+                            i4 = obj49;
                         }
-                        if (i80 & 512 != 0) {
+                        if (i79 & 512 != 0) {
                             it = 6;
-                            i21 = 0;
+                            i11 = 0;
                             ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
                             copy-wmQWz5c$default = Color.copy-wmQWz5c$default((Color)restartGroup.consume((CompositionLocal)ContentColorKt.getLocalContentColor()).unbox-impl(), obj23, ContentAlpha.INSTANCE.getMedium(restartGroup, 6), 0, 0, 0, 14);
-                            $dirty2 = i33;
-                            $dirty = obj40;
+                            $dirty = i33;
+                            $dirty2 = obj40;
                         } else {
-                            obj40 = $dirty;
-                            $dirty2 = i3;
+                            obj40 = $dirty2;
+                            $dirty = i4;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        $dirty4 = i80 & 256 != 0 ? obj49 & i87 : obj49;
-                        if (i80 & 512 != 0) {
-                            $dirty4 &= i88;
+                        $dirty5 = i79 & 256 != 0 ? obj49 & i86 : obj49;
+                        if (i79 & 512 != 0) {
+                            $dirty5 &= i87;
                         }
                         selectedContentColor2 = selectedContentColor;
-                        $dirty2 = $dirty4;
-                        $dirty = interactionSource;
+                        $dirty = $dirty5;
+                        $dirty2 = interactionSource;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-1813548445, $dirty2, -1, "androidx.compose.material.NavigationRailItem (NavigationRail.kt:212)");
+                    ComposerKt.traceEventStart(-1813548445, $dirty, -1, "androidx.compose.material.NavigationRailItem (NavigationRail.kt:212)");
                 }
-                if (obj3 == null) {
+                if (obj2 == null) {
                     restartGroup.startReplaceGroup(1653256326);
                     restartGroup.endReplaceGroup();
                     it = 0;
-                    obj48 = $dirty;
-                    i7 = $dirty2;
+                    obj48 = $dirty2;
+                    i24 = $dirty;
                 } else {
                     restartGroup.startReplaceGroup(1653256327);
                     ComposerKt.sourceInformation(restartGroup, "*214@9846L156");
-                    Object obj7 = obj3;
-                    i21 = 0;
-                    traceInProgress = new NavigationRailKt.NavigationRailItem.styledLabel.1.1(obj3);
-                    obj48 = $dirty;
-                    i7 = $dirty2;
-                    it = $dirty;
+                    Object obj7 = obj2;
+                    i11 = 0;
+                    traceInProgress = new NavigationRailKt.NavigationRailItem.styledLabel.1.1(obj2);
+                    obj48 = $dirty2;
+                    i24 = $dirty;
+                    it = $dirty2;
                     restartGroup.endReplaceGroup();
                 }
-                navigationRailItemSize = obj3 == null ? NavigationRailKt.NavigationRailItemCompactSize : NavigationRailKt.NavigationRailItemSize;
+                navigationRailItemSize = obj2 == null ? NavigationRailKt.NavigationRailItemCompactSize : NavigationRailKt.NavigationRailItemSize;
                 obj44 = restartGroup;
                 valueOf = obj44;
                 obj42 = obj48;
                 obj43 = rippleOrFallbackImplementation-9IZ8Weo;
-                obj44 = z2;
-                Modifier size-3ABfNKs = SizeKt.size-3ABfNKs(SelectableKt.selectable-O2vRcR0(l2, selected, obj42, obj43, obj44, Role.box-impl(Role.Companion.getTab-o7Vup1c()), onClick), navigationRailItemSize);
-                i2 = 48;
-                i14 = 0;
+                obj44 = z4;
+                Modifier size-3ABfNKs = SizeKt.size-3ABfNKs(SelectableKt.selectable-O2vRcR0(l, selected, obj42, obj43, obj44, Role.box-impl(Role.Companion.getTab-o7Vup1c()), onClick), navigationRailItemSize);
+                i22 = 48;
+                i23 = 0;
                 f = navigationRailItemSize;
                 ComposerKt.sourceInformationMarkerStart(valueOf, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 int i31 = 0;
@@ -788,11 +788,11 @@ public final class NavigationRailKt {
                 ComposerKt.sourceInformationMarkerStart(valueOf, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 medium = currentCompositeKeyHash;
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(valueOf, size-3ABfNKs);
-                i25 = size-3ABfNKs;
-                int i89 = 6;
+                i8 = size-3ABfNKs;
+                int i88 = 6;
                 Function0 function02 = constructor;
-                i12 = 0;
-                i4 = indication;
+                i5 = 0;
+                i10 = indication;
                 ComposerKt.sourceInformationMarkerStart(valueOf, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -805,13 +805,13 @@ public final class NavigationRailKt {
                     valueOf.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(valueOf);
-                int i90 = 0;
+                int i89 = 0;
                 function0 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, valueOf.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i91 = 0;
+                int i90 = 0;
                 obj41 = constructor-impl;
-                int i93 = 0;
+                int i92 = 0;
                 if (!obj41.getInserting()) {
                     $composer2 = valueOf;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
@@ -819,7 +819,7 @@ public final class NavigationRailKt {
                         obj41.updateRememberedValue(Integer.valueOf(medium));
                         constructor-impl.apply(Integer.valueOf(medium), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = obj41;
+                        composer2 = obj41;
                     }
                 } else {
                     $composer2 = valueOf;
@@ -827,16 +827,16 @@ public final class NavigationRailKt {
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer3 = $composer2;
-                i24 = materializeModifier;
+                i16 = materializeModifier;
                 ComposerKt.sourceInformationMarkerStart(composer3, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                int i92 = 6;
-                i66 |= 6;
-                i20 = 0;
+                int i91 = 6;
+                i65 |= 6;
+                i17 = 0;
                 obj49 = iNSTANCE;
-                i11 = i37;
+                i14 = i37;
                 ComposerKt.sourceInformationMarkerStart(composer3, 1725519044, "C247@11162L290,243@11035L417:NavigationRail.kt#jmzs0o");
-                NavigationRailKt.NavigationRailItem.1.1 anon = new NavigationRailKt.NavigationRailItem.1.1(z4, obj, it);
-                i22 = i54;
+                NavigationRailKt.NavigationRailItem.1.1 anon = new NavigationRailKt.NavigationRailItem.1.1(z, obj, it);
+                i6 = i54;
                 NavigationRailKt.NavigationRailTransition-Klgx-Pg(selectedContentColor2, obj41, obj42, obj43, selected, (Function3)ComposableLambdaKt.rememberComposableLambda(670576792, true, anon, composer3, 54));
                 ComposerKt.sourceInformationMarkerEnd(composer3);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
@@ -847,138 +847,138 @@ public final class NavigationRailKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i6 = i73;
-                obj2 = obj3;
-                z3 = i21;
+                i18 = i72;
+                obj3 = obj2;
+                z2 = i11;
                 interactionSource2 = selectedContentColor2;
                 label2 = skipping;
-                obj4 = l2;
-                modifier2 = z4;
+                obj4 = l;
+                modifier2 = z;
             } else {
                 restartGroup.skipToGroupEnd();
-                i6 = interactionSource;
-                i7 = obj49;
+                i18 = interactionSource;
+                i24 = obj49;
                 $composer2 = restartGroup;
-                obj2 = obj3;
+                obj3 = obj2;
                 label2 = copy-wmQWz5c$default;
-                z3 = z2;
+                z2 = z4;
                 interactionSource2 = selectedContentColor;
-                obj4 = l2;
-                modifier2 = z4;
+                obj4 = l;
+                modifier2 = z;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = $composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            skipping = new NavigationRailKt.NavigationRailItem.2(selected, onClick, icon, obj4, z3, obj2, modifier2, i6, interactionSource2, it, label2, i21, i79, i80);
+            skipping = new NavigationRailKt.NavigationRailItem.2(selected, onClick, icon, obj4, z2, obj3, modifier2, i18, interactionSource2, it, label2, i11, i78, i79);
             endRestartGroup.updateScope((Function2)skipping);
         }
     }
 
     private static final void NavigationRailItemBaselineLayout(Function2<? super Composer, ? super Integer, Unit> icon, Function2<? super Composer, ? super Integer, Unit> label, float iconPositionAnimationProgress, Composer $composer, int $changed) {
-        int traceInProgress2;
-        int i4;
-        Integer valueOf;
+        int traceInProgress;
+        int i12;
+        Integer valueOf3;
         Function0 factory$iv$iv$iv2;
         Object $changed$iv2;
         Function0 factory$iv$iv$iv;
         int $dirty;
-        int i6;
-        int i17;
+        int i20;
         int i13;
-        boolean valueOf2;
-        boolean traceInProgress;
-        int i14;
-        Integer valueOf3;
+        int i15;
+        boolean valueOf;
+        boolean traceInProgress2;
+        int i16;
+        Integer valueOf2;
         boolean currentCompositionLocalMap3;
         int $changed$iv;
         Function0 factory$iv$iv;
-        Composer composer5;
+        Composer composer;
         int str;
         boolean currentCompositionLocalMap2;
         int materialized$iv$iv;
         Composer composer6;
         Object maybeCachedBoxMeasurePolicy2;
-        int i19;
-        Composer composer8;
+        int i11;
+        Composer composer2;
         Object maybeCachedBoxMeasurePolicy;
         int empty;
         Object anon;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         Modifier materializeModifier;
-        int i3;
+        int i;
         Composer composer7;
-        int i2;
-        int i10;
-        Composer composer4;
         int i8;
-        int i9;
-        int i20;
-        int i11;
+        int i21;
+        Composer composer4;
+        int i5;
+        int i19;
+        int i14;
         int i18;
+        int i17;
         int $i$f$Layout;
-        Function0 function0;
-        int i15;
-        int i12;
+        Function0 function02;
+        int i3;
+        int i6;
         androidx.compose.ui.Modifier.Companion companion;
         Alignment alignment;
         Modifier modifier;
-        int i5;
+        int i9;
         int currentCompositeKeyHash;
-        Function0 function02;
-        int i7;
+        Function0 function0;
+        int i4;
         Object obj;
-        Object localMap$iv$iv;
+        Object localMap$iv$iv2;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy2;
-        Composer composer;
+        Composer composer8;
         BoxScopeInstance iNSTANCE;
-        int i21;
-        int i16;
+        int i7;
+        int i10;
         Composer composer3;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        int i;
-        Composer composer2;
+        int i2;
+        Composer composer5;
         Modifier modifier2;
         int obj53;
         final Object obj2 = icon;
         final Object obj3 = label;
         final float f = iconPositionAnimationProgress;
         final int i22 = $changed;
-        traceInProgress2 = -1903861684;
-        $changed$iv2 = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -1903861684;
+        $changed$iv2 = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation($changed$iv2, "C(NavigationRailItemBaselineLayout)P(!1,2)339@14190L806,328@13870L1126:NavigationRail.kt#jmzs0o");
         if (i22 & 6 == 0) {
-            i6 = $changed$iv2.changedInstance(obj2) ? 4 : 2;
-            $dirty |= i6;
+            i20 = $changed$iv2.changedInstance(obj2) ? 4 : 2;
+            $dirty |= i20;
         }
         $changed$iv = 32;
         if (i22 & 48 == 0) {
-            i17 = $changed$iv2.changedInstance(obj3) ? $changed$iv : 16;
-            $dirty |= i17;
+            i13 = $changed$iv2.changedInstance(obj3) ? $changed$iv : 16;
+            $dirty |= i13;
         }
         str = 256;
         if (i22 & 384 == 0) {
-            i13 = $changed$iv2.changed(f) ? str : 128;
-            $dirty |= i13;
+            i15 = $changed$iv2.changed(f) ? str : 128;
+            $dirty |= i15;
         }
         if ($dirty & 147 == 146) {
             if (!$changed$iv2.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.NavigationRailItemBaselineLayout (NavigationRail.kt:327)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.NavigationRailItemBaselineLayout (NavigationRail.kt:327)");
                 }
                 ComposerKt.sourceInformationMarkerStart($changed$iv2, 297377652, "CC(remember):NavigationRail.kt#9igjgp");
-                int i52 = 0;
-                i4 = $dirty & 112 == $changed$iv ? i14 : i52;
+                int i51 = 0;
+                i12 = $dirty & 112 == $changed$iv ? i16 : i51;
                 if ($dirty & 896 == str) {
                 } else {
-                    i14 = i52;
+                    i16 = i51;
                 }
                 Composer composer9 = $changed$iv2;
-                int i46 = 0;
+                int i45 = 0;
                 Object rememberedValue3 = composer9.rememberedValue();
-                int i61 = 0;
-                if (i4 |= i14 == 0) {
+                int i60 = 0;
+                if (i12 |= i16 == 0) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new NavigationRailKt.NavigationRailItemBaselineLayout.2.1(obj3, f);
@@ -989,16 +989,16 @@ public final class NavigationRailKt {
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd($changed$iv2);
-                int i26 = i52;
-                valueOf3 = 0;
+                int i26 = i51;
+                valueOf2 = 0;
                 str = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart($changed$iv2, -1323940314, str);
                 androidx.compose.ui.Modifier.Companion companion10 = Modifier.Companion;
-                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash($changed$iv2, i52);
-                i54 |= 6;
+                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash($changed$iv2, i51);
+                i53 |= 6;
                 Function0 function03 = constructor;
-                i3 = 0;
-                i10 = i26;
+                i = 0;
+                i21 = i26;
                 String $changed$iv3 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart($changed$iv2, -692256719, $changed$iv3);
                 if (!applier3 instanceof Applier) {
@@ -1013,51 +1013,51 @@ public final class NavigationRailKt {
                 }
                 composer7 = $changed$iv2;
                 Composer constructor-impl = Updater.constructor-impl(composer7);
-                int i65 = 0;
-                i20 = $dirty;
+                int i64 = 0;
+                i14 = $dirty;
                 Updater.set-impl(constructor-impl, (MeasurePolicy)anon, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, $changed$iv2.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i66 = 0;
+                int i65 = 0;
                 Composer composer11 = constructor-impl;
-                int i67 = 0;
+                int i66 = 0;
                 if (!composer11.getInserting()) {
-                    $i$f$Layout = valueOf3;
-                    function0 = factory$iv$iv;
+                    $i$f$Layout = valueOf2;
+                    function02 = factory$iv$iv;
                     if (!Intrinsics.areEqual(composer11.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
                         composer11.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer5 = composer11;
+                        composer = composer11;
                     }
                 } else {
-                    $i$f$Layout = valueOf3;
-                    function0 = factory$iv$iv;
+                    $i$f$Layout = valueOf2;
+                    function02 = factory$iv$iv;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier($changed$iv2, (Modifier)companion10), ComposeUiNode.Companion.getSetModifier());
                 $dirty = composer7;
-                i8 = i33;
+                i5 = i33;
                 ComposerKt.sourceInformationMarkerStart($dirty, 531590565, "C330@13900L41:NavigationRail.kt#jmzs0o");
                 Modifier layoutId = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "icon");
-                i9 = 0;
-                i11 = i38;
-                i18 = i50;
+                i19 = 0;
+                i18 = i38;
+                i17 = i49;
                 $changed$iv = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart($dirty, 733328855, $changed$iv);
                 Alignment topStart = Alignment.Companion.getTopStart();
-                i15 = i55;
+                i3 = i54;
                 int $changed$iv$iv = 0;
                 companion = companion10;
                 maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, $changed$iv$iv);
                 modifier = 0;
-                i5 = topStart;
+                i9 = topStart;
                 ComposerKt.sourceInformationMarkerStart($dirty, -1323940314, str);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($dirty, 0);
                 currentCompositionLocalMap3 = $dirty.getCurrentCompositionLocalMap();
-                function02 = $changed$iv$iv;
+                function0 = $changed$iv$iv;
                 Modifier materializeModifier2 = ComposedModifierKt.materializeModifier($dirty, layoutId);
                 obj = layoutId;
                 Function0 function05 = constructor3;
-                i7 = 0;
+                i4 = 0;
                 ComposerKt.sourceInformationMarkerStart($dirty, -692256719, $changed$iv3);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -1069,41 +1069,41 @@ public final class NavigationRailKt {
                     factory$iv$iv$iv = function05;
                     $dirty.useNode();
                 }
-                localMap$iv$iv = factory$iv$iv$iv;
+                localMap$iv$iv2 = factory$iv$iv$iv;
                 Composer constructor-impl2 = Updater.constructor-impl($dirty);
-                int i72 = 0;
-                i21 = currentCompositeKeyHash3;
+                int i71 = 0;
+                i7 = currentCompositeKeyHash3;
                 Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl2, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i73 = 0;
+                int i72 = 0;
                 Composer composer13 = constructor-impl2;
-                int i76 = 0;
+                int i75 = 0;
                 if (!composer13.getInserting()) {
-                    localMap$iv$iv2 = currentCompositionLocalMap3;
+                    localMap$iv$iv = currentCompositionLocalMap3;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
                     if (!Intrinsics.areEqual(composer13.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer13.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer8 = composer13;
+                        composer2 = composer13;
                     }
                 } else {
-                    localMap$iv$iv2 = currentCompositionLocalMap3;
+                    localMap$iv$iv = currentCompositionLocalMap3;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
                 }
                 Updater.set-impl(constructor-impl2, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                 Composer composer10 = $dirty;
-                i19 = 0;
-                composer = i37;
+                i11 = 0;
+                composer8 = i37;
                 $changed$iv2 = "C73@3429L9:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(composer10, -2146769399, $changed$iv2);
                 iNSTANCE = BoxScopeInstance.INSTANCE;
-                i75 |= 6;
-                i = 0;
+                i74 |= 6;
+                i2 = 0;
                 modifier2 = materializeModifier2;
                 materialized$iv$iv = composer3;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, 2021607057, "C330@13933L6:NavigationRail.kt#jmzs0o");
-                obj2.invoke(materialized$iv$iv, Integer.valueOf(i20 & 14));
+                obj2.invoke(materialized$iv$iv, Integer.valueOf(i14 & 14));
                 ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer10);
                 $dirty.endNode();
@@ -1114,19 +1114,19 @@ public final class NavigationRailKt {
                     $dirty.startReplaceGroup(531660717);
                     ComposerKt.sourceInformation($dirty, "332@13991L168");
                     Modifier alpha = AlphaKt.alpha(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "label"), f);
-                    i19 = i56;
+                    i11 = i55;
                     ComposerKt.sourceInformationMarkerStart($dirty, 733328855, $changed$iv);
                     Alignment topStart2 = Alignment.Companion.getTopStart();
-                    i9 = i57;
+                    i19 = i56;
                     maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart2, false);
-                    i12 = 0;
+                    i6 = 0;
                     alignment = topStart2;
                     ComposerKt.sourceInformationMarkerStart($dirty, -1323940314, str);
                     currentCompositionLocalMap2 = $dirty.getCurrentCompositionLocalMap();
                     obj53 = currentCompositeKeyHash2;
                     modifier = alpha;
                     Function0 function04 = constructor2;
-                    i2 = 0;
+                    i8 = 0;
                     ComposerKt.sourceInformationMarkerStart($dirty, -692256719, $changed$iv3);
                     if (!applier instanceof Applier) {
                         ComposablesKt.invalidApplier();
@@ -1139,15 +1139,15 @@ public final class NavigationRailKt {
                         $dirty.useNode();
                     }
                     Composer constructor-impl3 = Updater.constructor-impl($dirty);
-                    int i64 = 0;
-                    function02 = factory$iv$iv$iv2;
+                    int i63 = 0;
+                    function0 = factory$iv$iv$iv2;
                     Updater.set-impl(constructor-impl3, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
                     Updater.set-impl(constructor-impl3, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                    int i70 = 0;
+                    int i69 = 0;
                     Composer composer12 = constructor-impl3;
-                    int i71 = 0;
+                    int i70 = 0;
                     if (!composer12.getInserting()) {
-                        localMap$iv$iv = currentCompositionLocalMap2;
+                        localMap$iv$iv2 = currentCompositionLocalMap2;
                         measurePolicy2 = maybeCachedBoxMeasurePolicy2;
                         if (!Intrinsics.areEqual(composer12.rememberedValue(), Integer.valueOf(obj53))) {
                             composer12.updateRememberedValue(Integer.valueOf(obj53));
@@ -1156,22 +1156,22 @@ public final class NavigationRailKt {
                             composer6 = composer12;
                         }
                     } else {
-                        localMap$iv$iv = currentCompositionLocalMap2;
+                        localMap$iv$iv2 = currentCompositionLocalMap2;
                         measurePolicy2 = maybeCachedBoxMeasurePolicy2;
                     }
                     Updater.set-impl(constructor-impl3, ComposedModifierKt.materializeModifier($dirty, alpha), ComposeUiNode.Companion.getSetModifier());
-                    valueOf2 = $dirty;
+                    valueOf = $dirty;
                     str = 0;
-                    ComposerKt.sourceInformationMarkerStart(valueOf2, -2146769399, $changed$iv2);
-                    i60 |= 6;
-                    composer4 = valueOf2;
-                    i5 = 0;
-                    i7 = i28;
+                    ComposerKt.sourceInformationMarkerStart(valueOf, -2146769399, $changed$iv2);
+                    i59 |= 6;
+                    composer4 = valueOf;
+                    i9 = 0;
+                    i4 = i28;
                     obj = iNSTANCE2;
-                    ComposerKt.sourceInformationMarkerStart(valueOf2, 2021822352, "C336@14150L7:NavigationRail.kt#jmzs0o");
-                    obj3.invoke(valueOf2, Integer.valueOf(i29 &= 14));
-                    ComposerKt.sourceInformationMarkerEnd(valueOf2);
-                    ComposerKt.sourceInformationMarkerEnd(valueOf2);
+                    ComposerKt.sourceInformationMarkerStart(valueOf, 2021822352, "C336@14150L7:NavigationRail.kt#jmzs0o");
+                    obj3.invoke(valueOf, Integer.valueOf(i29 &= 14));
+                    ComposerKt.sourceInformationMarkerEnd(valueOf);
+                    ComposerKt.sourceInformationMarkerEnd(valueOf);
                     $dirty.endNode();
                     ComposerKt.sourceInformationMarkerEnd($dirty);
                     ComposerKt.sourceInformationMarkerEnd($dirty);
@@ -1191,7 +1191,7 @@ public final class NavigationRailKt {
             } else {
                 $changed$iv2.skipToGroupEnd();
                 composer7 = $changed$iv2;
-                i20 = $dirty;
+                i14 = $dirty;
             }
         } else {
         }
@@ -1203,49 +1203,49 @@ public final class NavigationRailKt {
     }
 
     private static final void NavigationRailTransition-Klgx-Pg(long activeColor, long inactiveColor, boolean selected, Function3<? super Float, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed) {
-        int traceInProgress2;
-        int i3;
+        int traceInProgress;
+        int i2;
         int $dirty;
-        int i4;
-        int i7;
-        int i13;
+        int i3;
+        int i5;
+        int i16;
         int i9;
         boolean rememberComposableLambda;
-        boolean traceInProgress;
-        int i12;
+        boolean traceInProgress2;
+        int i13;
         int str;
-        int i11;
-        int i10;
+        int i17;
+        int i7;
+        int i14;
         int i6;
-        int i;
         long lerp-jxsXWHM;
         int i15;
-        int i14;
-        int i16;
-        int i17;
         int i8;
-        int i5;
-        int i2;
+        int i10;
+        int i11;
+        int i;
+        int i4;
+        int i12;
         final long l = activeColor;
         final long l2 = selected;
         final boolean z = $composer;
         final Object obj = $changed;
         final int i19 = obj33;
-        traceInProgress2 = -207161906;
-        final Composer restartGroup = obj32.startRestartGroup(traceInProgress2);
+        traceInProgress = -207161906;
+        final Composer restartGroup = obj32.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(NavigationRailTransition)P(0:c#ui.graphics.Color,2:c#ui.graphics.Color,3)296@12823L126,306@13163L42,303@13024L181:NavigationRail.kt#jmzs0o");
-        i12 = 2;
+        i13 = 2;
         if (i19 & 6 == 0) {
-            i4 = restartGroup.changed(l) ? 4 : i12;
-            $dirty |= i4;
+            i3 = restartGroup.changed(l) ? 4 : i13;
+            $dirty |= i3;
         }
         if (i19 & 48 == 0) {
-            i7 = restartGroup.changed(l2) ? 32 : 16;
-            $dirty |= i7;
+            i5 = restartGroup.changed(l2) ? 32 : 16;
+            $dirty |= i5;
         }
         if (i19 & 384 == 0) {
-            i13 = restartGroup.changed(z) ? 256 : 128;
-            $dirty |= i13;
+            i16 = restartGroup.changed(z) ? 256 : 128;
+            $dirty |= i16;
         }
         if (i19 & 3072 == 0) {
             i9 = restartGroup.changedInstance(obj) ? 2048 : 1024;
@@ -1254,14 +1254,14 @@ public final class NavigationRailKt {
         if ($dirty & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.NavigationRailTransition (NavigationRail.kt:295)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.NavigationRailTransition (NavigationRail.kt:295)");
                 }
-                i3 = z ? 1065353216 : 0;
+                i2 = z ? 1065353216 : 0;
                 int i24 = 0;
-                i = i2;
-                $dirty = AnimateAsStateKt.animateFloatAsState(i3, (AnimationSpec)NavigationRailKt.NavigationRailAnimationSpec, 0, i24, 0, restartGroup, 48, 28);
+                i6 = i12;
+                $dirty = AnimateAsStateKt.animateFloatAsState(i2, (AnimationSpec)NavigationRailKt.NavigationRailAnimationSpec, 0, i24, 0, restartGroup, 48, 28);
                 lerp-jxsXWHM = ColorKt.lerp-jxsXWHM(l2, obj4, l);
-                ProvidedValue[] arr = new ProvidedValue[i12];
+                ProvidedValue[] arr = new ProvidedValue[i13];
                 arr[0] = ContentColorKt.getLocalContentColor().provides(Color.box-impl(Color.copy-wmQWz5c$default(lerp-jxsXWHM, obj18, 1065353216, 0, 0, 0, 14)));
                 int i22 = 1;
                 arr[i22] = ContentAlphaKt.getLocalContentAlpha().provides(Float.valueOf(Color.getAlpha-impl(lerp-jxsXWHM)));
@@ -1272,14 +1272,14 @@ public final class NavigationRailKt {
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i = $dirty;
+                i6 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new NavigationRailKt.NavigationRailTransition.2(l, obj2, l2, obj4, z, obj, i19);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new NavigationRailKt.NavigationRailTransition.2(l, obj2, l2, obj4, z, obj, i19);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 

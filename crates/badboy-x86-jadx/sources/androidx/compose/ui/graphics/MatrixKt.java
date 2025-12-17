@@ -11,61 +11,61 @@ public final class MatrixKt {
 
     private static final float dot-p89u6pk(float[] m1, int row, float[] m2, int column) {
         int i6 = 0;
+        int i15 = 0;
         int i16 = 0;
+        int i23 = 0;
         int i17 = 0;
-        int i27 = 0;
-        int i19 = 0;
-        int i30 = 0;
-        int i21 = 0;
-        int i33 = 0;
-        return i4 += i13;
+        int i26 = 0;
+        int i18 = 0;
+        int i29 = 0;
+        return i4 += i12;
     }
 
     public static final boolean isIdentity-58bKbWc(float[] $this$isIdentity_u2d58bKbWc) {
         int row;
-        int i5;
-        int i2;
-        int column;
         int i3;
-        int i4;
+        int i5;
+        int column;
         int i;
+        int i2;
+        int i4;
         row = 0;
-        i5 = 4;
-        i2 = 1;
-        while (row < i5) {
+        i3 = 4;
+        i5 = 1;
+        while (row < i3) {
             column = 0;
-            while (column < i5) {
+            while (column < i3) {
                 if (row == column) {
                 } else {
                 }
-                i3 = 0;
-                int i6 = 0;
                 i = 0;
-                if (Float.compare(i7, i3) == 0) {
+                int i6 = 0;
+                i4 = 0;
+                if (Float.compare($i$f$getImpl, i) == 0) {
                 } else {
                 }
-                i4 = i;
+                i2 = i4;
                 column++;
-                i4 = i2;
-                i3 = 1065353216;
+                i2 = i5;
+                i = 1065353216;
             }
             row++;
-            i5 = 4;
-            i2 = 1;
+            i3 = 4;
+            i5 = 1;
             if (row == column) {
             } else {
             }
-            i3 = 0;
-            i6 = 0;
             i = 0;
-            if (Float.compare(i7, i3) == 0) {
+            i6 = 0;
+            i4 = 0;
+            if (Float.compare($i$f$getImpl, i) == 0) {
             } else {
             }
-            i4 = i;
+            i2 = i4;
             column++;
-            i4 = i2;
-            i3 = 1065353216;
+            i2 = i5;
+            i = 1065353216;
         }
-        return i2;
+        return i5;
     }
 }

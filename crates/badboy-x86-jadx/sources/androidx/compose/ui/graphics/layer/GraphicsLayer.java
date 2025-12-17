@@ -122,22 +122,22 @@ public final class GraphicsLayer {
         Object androidOutline;
         int i2;
         float alpha;
-        long l6;
+        long l;
         int rRectSize$iv;
-        int i3;
+        int i4;
         float roundRectCornerRadius;
         int i5;
         Object obj;
-        int i4;
+        int i3;
         long size-ozmzZPI;
-        long l4;
-        long l;
+        long l6;
         long l2;
         long l5;
-        int $this$fastRoundToInt$iv;
-        int $this$fastRoundToInt$iv2;
-        long $i$f$fastRoundToInt;
         long l3;
+        int $this$fastRoundToInt$iv2;
+        int $this$fastRoundToInt$iv;
+        long $i$f$fastRoundToInt;
+        long l4;
         final Object obj2 = this;
         final int i6 = 0;
         if (obj2.outlineDirty) {
@@ -162,7 +162,7 @@ public final class GraphicsLayer {
                     androidOutline = obj2.obtainAndroidOutline();
                     i5 = 0;
                     obj = this;
-                    i4 = 0;
+                    i3 = 0;
                     long roundRectOutlineTopLeft = obj.roundRectOutlineTopLeft;
                     long roundRectOutlineSize = obj.roundRectOutlineSize;
                     int i8 = 0;
@@ -170,17 +170,17 @@ public final class GraphicsLayer {
                     } else {
                         i = i6;
                     }
-                    l4 = i != 0 ? size-ozmzZPI : roundRectOutlineSize;
-                    l = roundRectOutlineTopLeft;
-                    l2 = l4;
+                    l6 = i != 0 ? size-ozmzZPI : roundRectOutlineSize;
+                    l2 = roundRectOutlineTopLeft;
+                    l5 = l6;
                     int i7 = 0;
                     int i9 = 0;
                     int i10 = 0;
                     int i12 = 0;
                     int i14 = 0;
                     $i$f$fastRoundToInt = roundRectOutlineTopLeft;
-                    l5 = l3;
-                    androidOutline.setRoundRect(Math.round(Offset.getX-impl(l)), Math.round(Offset.getY-impl(l)), Math.round(x-impl2 += width-impl), Math.round(y-impl2 += height-impl), obj2.roundRectCornerRadius);
+                    l3 = l4;
+                    androidOutline.setRoundRect(Math.round(Offset.getX-impl(l2)), Math.round(Offset.getY-impl(l2)), Math.round(x-impl2 += width-impl), Math.round(y-impl2 += height-impl), obj2.roundRectCornerRadius);
                     i2 = 0;
                     androidOutline.setAlpha(obj2.getAlpha());
                     obj2.impl.setOutline(androidOutline);
@@ -228,40 +228,40 @@ public final class GraphicsLayer {
     }
 
     private final void recordInternal() {
-        Object cmp2;
+        Object cmp;
         androidx.compose.ui.graphics.layer.ChildLayerDependenciesTracker childDependenciesTracker;
         int j$iv$iv$iv;
-        int i6;
+        int i3;
         int $i$f$isFull;
         boolean mutableScatterSetOf;
         MutableScatterSet set2;
         Density density;
-        int i7;
+        int i2;
         boolean layoutDirection;
         Function1 drawBlock;
         Object[] elements;
         MutableScatterSet set;
-        int i2;
+        int i5;
         long[] metadata;
         int i4;
         int i$iv$iv$iv;
         long slot$iv$iv$iv;
         androidx.compose.ui.graphics.layer.ChildLayerDependenciesTracker this_$iv;
-        int i5;
-        int i3;
-        long cmp;
+        int i7;
         int i;
-        cmp2 = this;
-        childDependenciesTracker = cmp2.childDependenciesTracker;
+        long cmp2;
+        int i6;
+        cmp = this;
+        childDependenciesTracker = cmp.childDependenciesTracker;
         final int i15 = 0;
         ChildLayerDependenciesTracker.access$setOldDependency$p(childDependenciesTracker, ChildLayerDependenciesTracker.access$getDependency$p(childDependenciesTracker));
         MutableScatterSet set3 = ChildLayerDependenciesTracker.access$getDependenciesSet$p(childDependenciesTracker);
-        i6 = 0;
+        i3 = 0;
         if (set3 != null && set3.isNotEmpty() && ChildLayerDependenciesTracker.access$getOldDependenciesSet$p(childDependenciesTracker) == null) {
-            i6 = 0;
+            i3 = 0;
             if (set3.isNotEmpty()) {
                 if (ChildLayerDependenciesTracker.access$getOldDependenciesSet$p(childDependenciesTracker) == null) {
-                    i7 = 0;
+                    i2 = 0;
                     ChildLayerDependenciesTracker.access$setOldDependenciesSet$p(childDependenciesTracker, ScatterSetKt.mutableScatterSetOf());
                 }
                 mutableScatterSetOf.addAll((ScatterSet)set3);
@@ -270,7 +270,7 @@ public final class GraphicsLayer {
         }
         ChildLayerDependenciesTracker.access$setTrackingInProgress$p(childDependenciesTracker, true);
         int i16 = 0;
-        cmp2.impl.record(cmp2.density, cmp2.layoutDirection, cmp2, cmp2.drawBlock);
+        cmp.impl.record(cmp.density, cmp.layoutDirection, cmp, cmp.drawBlock);
         ChildLayerDependenciesTracker.access$setTrackingInProgress$p(childDependenciesTracker, false);
         androidx.compose.ui.graphics.layer.GraphicsLayer graphicsLayer2 = ChildLayerDependenciesTracker.access$getOldDependency$p(childDependenciesTracker);
         if (graphicsLayer2 != null) {
@@ -283,7 +283,7 @@ public final class GraphicsLayer {
             if (set4.isNotEmpty()) {
                 layoutDirection = set4;
                 drawBlock = 0;
-                i2 = 0;
+                i5 = 0;
                 metadata = set.metadata;
                 length += -2;
                 if (0 <= i4) {
@@ -368,16 +368,16 @@ public final class GraphicsLayer {
     private final void setSize-ozmzZPI(long value) {
         boolean roundRectOutlineSize;
         int i;
-        int i3;
         int i2;
+        int i3;
         if (!IntSize.equals-impl0(this.size, obj1)) {
             this.size = value;
             setPosition-VbeCjmY(this.topLeft, obj1);
             i = 0;
-            i2 = 1;
-            i3 = Long.compare(roundRectOutlineSize, l) == 0 ? i2 : 0;
-            if (i3 != 0) {
-                this.outlineDirty = i2;
+            i3 = 1;
+            i2 = Long.compare(roundRectOutlineSize, l) == 0 ? i3 : 0;
+            if (i2 != 0) {
+                this.outlineDirty = i3;
                 configureOutline();
             }
         }
@@ -451,81 +451,81 @@ public final class GraphicsLayer {
     }
 
     public final void discardDisplayList$ui_graphics_release() {
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i5;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i10;
         int j$iv$iv$iv;
+        int i4;
         int i;
-        int i8;
-        int i2;
+        int i3;
         Object[] elements;
         MutableScatterSet set;
-        int i7;
-        long[] metadata;
         int i9;
+        long[] metadata;
+        int i8;
         int i$iv$iv$iv;
         long slot$iv$iv$iv;
-        MutableScatterSet $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i3;
-        int i4;
-        androidx.compose.ui.graphics.layer.ChildLayerDependenciesTracker this_$iv;
+        MutableScatterSet $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int i6;
+        int i5;
+        androidx.compose.ui.graphics.layer.ChildLayerDependenciesTracker this_$iv;
+        int i7;
         long l;
         Object obj;
-        int i10;
+        int i2;
         final Object obj2 = this;
-        $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = obj2.childDependenciesTracker;
-        i5 = 0;
-        androidx.compose.ui.graphics.layer.GraphicsLayer graphicsLayer = ChildLayerDependenciesTracker.access$getDependency$p($this$maskEmptyOrDeleted$iv$iv$iv$iv2);
+        $this$maskEmptyOrDeleted$iv$iv$iv$iv = obj2.childDependenciesTracker;
+        i10 = 0;
+        androidx.compose.ui.graphics.layer.GraphicsLayer graphicsLayer = ChildLayerDependenciesTracker.access$getDependency$p($this$maskEmptyOrDeleted$iv$iv$iv$iv);
         if (graphicsLayer != null) {
-            i = 0;
-            i2 = 0;
+            i4 = 0;
+            i3 = 0;
             graphicsLayer.onRemovedFromParentLayer();
-            ChildLayerDependenciesTracker.access$setDependency$p($this$maskEmptyOrDeleted$iv$iv$iv$iv2, 0);
+            ChildLayerDependenciesTracker.access$setDependency$p($this$maskEmptyOrDeleted$iv$iv$iv$iv, 0);
         }
-        j$iv$iv$iv = ChildLayerDependenciesTracker.access$getDependenciesSet$p($this$maskEmptyOrDeleted$iv$iv$iv$iv2);
+        j$iv$iv$iv = ChildLayerDependenciesTracker.access$getDependenciesSet$p($this$maskEmptyOrDeleted$iv$iv$iv$iv);
         if (j$iv$iv$iv != null) {
-            i8 = j$iv$iv$iv;
-            i2 = 0;
-            i7 = 0;
+            i = j$iv$iv$iv;
+            i3 = 0;
+            i9 = 0;
             metadata = set.metadata;
             length += -2;
-            if (0 <= i9) {
+            if (0 <= i8) {
             } else {
-                this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-                i6 = i5;
-                $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
-                i3 = i;
+                this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+                i7 = i10;
+                $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+                i6 = i4;
             }
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv.clear();
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv2.clear();
         } else {
-            this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-            i6 = i5;
+            this_$iv = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            i7 = i10;
         }
         obj2.impl.discardDisplayList();
     }
 
     public final void draw$ui_graphics_release(Canvas canvas, androidx.compose.ui.graphics.layer.GraphicsLayer parentLayer) {
-        int i2;
-        int i5;
+        int i3;
+        int i;
         boolean usePathForClip;
         Path roundRectClipPath;
-        int i;
-        int i3;
+        int i4;
+        int i2;
         Path path;
         androidx.compose.ui.geometry.RoundRect roundRect;
-        int i4;
+        int i5;
         if (this.isReleased) {
         }
         recreateDisplayListIfNeeded();
         configureOutline();
-        i5 = 1;
+        i = 1;
         int i7 = 0;
-        i2 = Float.compare(shadowElevation, i6) > 0 ? i5 : i7;
-        if (i2 != 0) {
+        i3 = Float.compare(shadowElevation, i6) > 0 ? i : i7;
+        if (i3 != 0) {
             canvas.enableZ();
         }
         final Canvas nativeCanvas = AndroidCanvas_androidKt.getNativeCanvas(canvas);
-        hardwareAccelerated ^= i5;
+        hardwareAccelerated ^= i;
         if (i8 != 0) {
             nativeCanvas.save();
             transformCanvas(nativeCanvas);
@@ -534,33 +534,33 @@ public final class GraphicsLayer {
             if (i8 != 0 && getClip()) {
                 if (getClip()) {
                 } else {
-                    i5 = i7;
+                    i = i7;
                 }
             } else {
             }
         }
-        if (i5 != 0) {
+        if (i != 0) {
             canvas.save();
             usePathForClip = getOutline();
-            i = 2;
-            i3 = 0;
+            i4 = 2;
+            i2 = 0;
             if (usePathForClip instanceof Outline.Rectangle) {
-                Canvas.clipRect-mtrdD-E$default(canvas, usePathForClip.getBounds(), i7, i, i3);
+                Canvas.clipRect-mtrdD-E$default(canvas, usePathForClip.getBounds(), i7, i4, i2);
             } else {
                 if (usePathForClip instanceof Outline.Rounded) {
                     roundRectClipPath = this.roundRectClipPath;
                     if (roundRectClipPath != null) {
-                        i4 = 0;
+                        i5 = 0;
                         roundRectClipPath.rewind();
                     } else {
-                        i4 = 0;
+                        i5 = 0;
                         this.roundRectClipPath = AndroidPath_androidKt.Path();
                     }
-                    Path.addRoundRect$default(roundRectClipPath, (Outline.Rounded)usePathForClip.getRoundRect(), i3, i, i3);
-                    Canvas.clipPath-mtrdD-E$default(canvas, roundRectClipPath, i7, i, i3);
+                    Path.addRoundRect$default(roundRectClipPath, (Outline.Rounded)usePathForClip.getRoundRect(), i2, i4, i2);
+                    Canvas.clipPath-mtrdD-E$default(canvas, roundRectClipPath, i7, i4, i2);
                 } else {
                     if (usePathForClip instanceof Outline.Generic) {
-                        Canvas.clipPath-mtrdD-E$default(canvas, (Outline.Generic)usePathForClip.getPath(), i7, i, i3);
+                        Canvas.clipPath-mtrdD-E$default(canvas, (Outline.Generic)usePathForClip.getPath(), i7, i4, i2);
                     }
                 }
             }
@@ -569,10 +569,10 @@ public final class GraphicsLayer {
             parentLayer.addSubLayer(this);
         }
         this.impl.draw(canvas);
-        if (i5 != 0) {
+        if (i != 0) {
             canvas.restore();
         }
-        if (i2 != 0) {
+        if (i3 != 0) {
             canvas.disableZ();
         }
         if (i8 != 0) {
@@ -636,24 +636,24 @@ public final class GraphicsLayer {
         Outline generic;
         Outline.Generic $i$f$resolveOutlinePosition;
         int layerSize$iv;
-        long l2;
+        long l4;
         long roundRectOutlineTopLeft;
         long roundRectOutlineSize;
-        long l3;
         long l5;
-        int i4;
         long l;
-        int i2;
+        int i4;
+        long l3;
+        int i;
         float left;
         float y-impl;
-        int i5;
+        int i2;
         int i3;
         long cmp;
         Outline outline;
         Path path;
         Object this_$iv;
-        int i;
-        long l4;
+        int i5;
+        long l2;
         final Object obj = this;
         internalOutline = obj.internalOutline;
         outlinePath = obj.outlinePath;
@@ -674,12 +674,12 @@ public final class GraphicsLayer {
                 roundRectOutlineSize = obj2.roundRectOutlineSize;
                 int i7 = 0;
                 i4 = Long.compare(l6, l7) == 0 ? 1 : 0;
-                l3 = i4 != 0 ? size-ozmzZPI : roundRectOutlineSize;
-                l5 = roundRectOutlineTopLeft;
-                l = l3;
-                i2 = 0;
-                float x-impl = Offset.getX-impl(l5);
-                y-impl = Offset.getY-impl(l5);
+                l5 = i4 != 0 ? size-ozmzZPI : roundRectOutlineSize;
+                l = roundRectOutlineTopLeft;
+                l3 = l5;
+                i = 0;
+                float x-impl = Offset.getX-impl(l);
+                y-impl = Offset.getY-impl(l);
                 width-impl += x-impl;
                 height-impl += y-impl;
                 outline = internalOutline;
@@ -687,21 +687,21 @@ public final class GraphicsLayer {
                 path = outlinePath;
                 if (Float.compare(tmpOutline, tmpPath) > 0) {
                     this_$iv = obj2;
-                    i = i6;
-                    l4 = size-ozmzZPI;
+                    i5 = i6;
+                    l2 = size-ozmzZPI;
                     $i$f$resolveOutlinePosition = x-impl;
                     layerSize$iv = y-impl;
-                    l2 = i5;
+                    l4 = i2;
                     left = tmpOutline;
                     cornerRadius = i3;
-                    rectangle = new Outline.Rounded(RoundRectKt.RoundRect-gG7oq9Y(x-impl, y-impl, i5, i3, CornerRadiusKt.CornerRadius$default(tmpOutline, 0, 2, 0)));
+                    rectangle = new Outline.Rounded(RoundRectKt.RoundRect-gG7oq9Y(x-impl, y-impl, i2, i3, CornerRadiusKt.CornerRadius$default(tmpOutline, 0, 2, 0)));
                     generic = rectangle;
                 } else {
                     this_$iv = obj2;
-                    i = i6;
-                    l4 = size-ozmzZPI;
+                    i5 = i6;
+                    l2 = size-ozmzZPI;
                     left = tmpOutline;
-                    Rect rect = new Rect(x-impl, y-impl, i5, i3);
+                    Rect rect = new Rect(x-impl, y-impl, i2, i3);
                     rectangle = new Outline.Rectangle(rect);
                     generic = rectangle;
                 }
@@ -982,18 +982,18 @@ public final class GraphicsLayer {
     public final Object toImageBitmap(Continuation<? super ImageBitmap> continuation) {
         boolean anon;
         int i3;
-        int i;
-        Object bitmap;
-        androidx.compose.ui.graphics.layer.LayerSnapshotImpl snapshotImpl;
         int i2;
+        Object _this;
+        androidx.compose.ui.graphics.layer.LayerSnapshotImpl snapshotImpl;
+        int i;
         Object obj6;
         anon = continuation;
-        i = Integer.MIN_VALUE;
-        if (continuation instanceof GraphicsLayer.toImageBitmap.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation instanceof GraphicsLayer.toImageBitmap.1 && label &= i2 != 0) {
             anon = continuation;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj6 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj6 -= i2;
             } else {
                 anon = new GraphicsLayer.toImageBitmap.1(this, continuation);
             }
@@ -1008,12 +1008,12 @@ public final class GraphicsLayer {
                 return cOROUTINE_SUSPENDED;
             case 1:
                 ResultKt.throwOnFailure(obj6);
-                bitmap = obj6;
+                _this = obj6;
                 break;
             default:
                 obj6 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj6;
         }
-        return AndroidImageBitmap_androidKt.asImageBitmap((Bitmap)bitmap);
+        return AndroidImageBitmap_androidKt.asImageBitmap((Bitmap)_this);
     }
 }

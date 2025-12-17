@@ -38,15 +38,15 @@ public final class AndroidParagraphIntrinsics implements ParagraphIntrinsics {
 
     public AndroidParagraphIntrinsics(String text, TextStyle style, List<AnnotatedString.Range<SpanStyle>> spanStyles, List<AnnotatedString.Range<Placeholder>> placeholders, FontFamily.Resolver fontFamilyResolver, Density density) {
         String str;
-        int i3;
+        int i2;
         boolean booleanValue;
-        float density2;
+        float density3;
         Object spanStyles2;
         SpanStyle spanStyle;
-        Density density3;
+        Density density2;
         Object list;
-        int i2;
         int i;
+        int i3;
         AnnotatedString.Range range;
         final Object obj = this;
         super();
@@ -72,17 +72,17 @@ public final class AndroidParagraphIntrinsics implements ParagraphIntrinsics {
         if (spanStyle3 != null) {
             size += i4;
             spanStyles2 = new ArrayList(spanStyle);
-            density3 = 0;
-            while (density3 < spanStyle) {
-                i2 = density3;
-                i = 0;
-                if (i2 == 0) {
+            density2 = 0;
+            while (density2 < spanStyle) {
+                i = density2;
+                i3 = 0;
+                if (i == 0) {
                 } else {
                 }
-                i3 = 0;
-                range = density2;
+                i2 = 0;
+                range = density3;
                 spanStyles2.add(range);
-                density3++;
+                density2++;
                 str = text;
                 range = new AnnotatedString.Range(spanStyle3, 0, obj.text.length());
             }

@@ -14,13 +14,13 @@ class DurationUnitKt__DurationUnitJvmKt {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal5;
-            int ordinal2;
-            int ordinal3;
             int ordinal7;
+            int ordinal2;
             int ordinal4;
-            int ordinal;
             int ordinal6;
+            int ordinal3;
+            int ordinal;
+            int ordinal5;
             int[] iArr = new int[values.length];
             iArr[TimeUnit.NANOSECONDS.ordinal()] = 1;
             iArr[TimeUnit.MICROSECONDS.ordinal()] = 2;

@@ -1,0 +1,186 @@
+package com.bumptech.glide.m;
+
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+
+/* loaded from: classes.dex */
+class b implements Closeable {
+
+    private final InputStream a;
+    private final Charset b;
+    private byte[] c;
+    private int v;
+    private int w;
+
+    class a extends ByteArrayOutputStream {
+
+        final com.bumptech.glide.m.b a;
+        a(com.bumptech.glide.m.b b, int i2) {
+            this.a = b;
+            super(i2);
+        }
+
+        @Override // java.io.ByteArrayOutputStream
+        public String toString() {
+            int count;
+            byte assertionError;
+            int i;
+            count = this.count;
+            if (count > 0 && this.buf[count + -1] == 13) {
+                if (this.buf[count + -1] == 13) {
+                    count--;
+                }
+            }
+            String string = new String(this.buf, 0, count, b.a(this.a).name());
+            return string;
+        }
+    }
+    public b(InputStream inputStream, int i2, Charset charset3) {
+        super();
+        if (inputStream == null) {
+        } else {
+            if (charset3 == null) {
+            } else {
+                if (i2 < 0) {
+                } else {
+                    if (!charset3.equals(c.a)) {
+                    } else {
+                        this.a = inputStream;
+                        this.b = charset3;
+                        this.c = new byte[i2];
+                    }
+                    IllegalArgumentException obj2 = new IllegalArgumentException("Unsupported encoding");
+                    throw obj2;
+                }
+                obj2 = new IllegalArgumentException("capacity <= 0");
+                throw obj2;
+            }
+        }
+        throw 0;
+    }
+
+    public b(InputStream inputStream, Charset charset2) {
+        super(inputStream, 8192, charset2);
+    }
+
+    static Charset a(com.bumptech.glide.m.b b) {
+        return b.b;
+    }
+
+    private void c() {
+        byte[] bArr = this.c;
+        final int i2 = 0;
+        int read = this.a.read(bArr, i2, bArr.length);
+        if (read == -1) {
+        } else {
+            this.v = i2;
+            this.w = read;
+        }
+        EOFException eOFException = new EOFException();
+        throw eOFException;
+    }
+
+    @Override // java.io.Closeable
+    public void close() {
+        byte[] bArr;
+        final InputStream inputStream = this.a;
+        synchronized (inputStream) {
+            this.c = 0;
+            this.a.close();
+        }
+    }
+
+    @Override // java.io.Closeable
+    public boolean e() {
+        int i;
+        i = this.w == -1 ? 1 : 0;
+        return i;
+    }
+
+    @Override // java.io.Closeable
+    public String f() {
+        int i6;
+        int i2;
+        int i;
+        int i7;
+        int i8;
+        byte b;
+        int i3;
+        int i5;
+        int i4;
+        final InputStream inputStream = this.a;
+        synchronized (inputStream) {
+            if (this.v >= this.w) {
+                c();
+            }
+            try {
+                i6 = this.v;
+                i7 = 10;
+                while (i6 != this.w) {
+                    i2 = this.c;
+                    i6++;
+                    i7 = 10;
+                }
+                i2 = this.c;
+                if (i2[i6] == i7) {
+                } else {
+                }
+                if (i6 != this.v && i2[i6 + -1] == 13) {
+                } else {
+                }
+                if (i2[i6 + -1] == 13) {
+                } else {
+                }
+                i8 = i6;
+                int i19 = this.v;
+                String string2 = new String(this.c, i19, i8 -= i19, this.b.name());
+                this.v = i6++;
+                return string2;
+                i6++;
+                b.a aVar = new b.a(this, i13 += 80);
+                while (/* condition */) {
+                    while (i != this.w) {
+                        i5 = this.c;
+                        if (i5[i] != i7) {
+                            break loop_14;
+                        }
+                        i++;
+                    }
+                    i5 = this.v;
+                    aVar.write(this.c, i5, i18 -= i5);
+                    this.w = -1;
+                    c();
+                    i = this.v;
+                    i5 = this.c;
+                    if (i5[i] != i7) {
+                    }
+                    i++;
+                }
+                while (i != this.w) {
+                    i5 = this.c;
+                    if (i5[i] != i7) {
+                        break loop_14;
+                    }
+                    i++;
+                }
+                i5 = this.c;
+                if (i5[i] != i7) {
+                }
+                int i16 = this.v;
+                if (i != i16) {
+                }
+                aVar.write(i5, i16, i - i16);
+                this.v = i++;
+                return aVar.toString();
+                i++;
+                IOException iOException = new IOException("LineReader is closed");
+                throw iOException;
+                throw th;
+            }
+        }
+    }
+}

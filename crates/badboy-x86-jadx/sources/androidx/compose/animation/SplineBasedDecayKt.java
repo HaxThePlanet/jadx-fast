@@ -21,32 +21,32 @@ public final class SplineBasedDecayKt {
     private static final void computeSplineInfo(float[] splinePositions, float[] splineTimes, int nbSamples) {
         int xMin;
         int yMin;
-        int i;
+        int i12;
         int yMax;
-        int i8;
+        int i;
+        int i13;
+        int i2;
         int i5;
-        int i3;
-        int i11;
         int xMax;
         int x;
         int tx;
         int coef;
-        int i13;
-        int i9;
+        int i8;
+        int i3;
         int y;
-        int i12;
-        int i2;
+        int i11;
         int i6;
-        int i7;
+        int i10;
+        int i4;
         long l;
         int dy;
-        int i4;
-        int i10;
+        int i9;
+        int i7;
         final int i14 = nbSamples;
         xMin = 0;
         yMin = 0;
-        i = 0;
-        while (i < i14) {
+        i12 = 0;
+        while (i12 < i14) {
             f /= f3;
             xMax = 1065353216;
             x = 0;
@@ -54,65 +54,65 @@ public final class SplineBasedDecayKt {
             coef = 0;
             x = xMin + i26;
             coef = i28 * i36;
-            i12 = 1043542835;
-            i2 = 1051931444;
+            i11 = 1043542835;
+            i6 = 1051931444;
             tx = i32 + i40;
-            i6 = i8;
-            i7 = i3;
+            i10 = i;
+            i4 = i2;
             l = 4532020583610935537L;
             while (Double.compare(d, l) >= 0) {
-                if (Float.compare(tx, i7) > 0) {
+                if (Float.compare(tx, i4) > 0) {
                 } else {
                 }
                 xMin = x;
-                i8 = i6;
-                i3 = i7;
+                i = i10;
+                i2 = i4;
                 x = xMin + i26;
                 coef = i28 * i36;
-                i12 = 1043542835;
-                i2 = 1051931444;
+                i11 = 1043542835;
+                i6 = 1051931444;
                 tx = i32 + i40;
-                i6 = i8;
-                i7 = i3;
+                i10 = i;
+                i4 = i2;
                 l = 4532020583610935537L;
                 xMax = x;
             }
-            splinePositions[i] = i19 += i35;
+            splinePositions[i12] = i19 += i35;
             yMax = 1065353216;
             y = 0;
             dy = 0;
             y = yMin + i42;
             coef = i43 * i48;
-            dy = i47 + i10;
+            dy = i47 + i7;
             while (Double.compare(d2, l) >= 0) {
-                if (Float.compare(dy, i7) > 0) {
+                if (Float.compare(dy, i4) > 0) {
                 } else {
                 }
                 yMin = y;
-                i11 = 1056964608;
-                i13 = 1077936128;
-                i9 = 1073741824;
+                i5 = 1056964608;
+                i8 = 1077936128;
+                i3 = 1073741824;
                 y = yMin + i42;
                 coef = i43 * i48;
-                dy = i47 + i10;
+                dy = i47 + i7;
                 yMax = y;
             }
-            splineTimes[i] = i24 += i13;
-            i++;
-            if (Float.compare(dy, i7) > 0) {
+            splineTimes[i12] = i24 += i8;
+            i12++;
+            if (Float.compare(dy, i4) > 0) {
             } else {
             }
             yMin = y;
-            i11 = 1056964608;
-            i13 = 1077936128;
-            i9 = 1073741824;
+            i5 = 1056964608;
+            i8 = 1077936128;
+            i3 = 1073741824;
             yMax = y;
-            if (Float.compare(tx, i7) > 0) {
+            if (Float.compare(tx, i4) > 0) {
             } else {
             }
             xMin = x;
-            i8 = i6;
-            i3 = i7;
+            i = i10;
+            i2 = i4;
             xMax = x;
         }
         splineTimes[i14] = 1065353216;

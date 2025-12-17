@@ -36,20 +36,20 @@ public final class DispatchedContinuationKt {
     }
 
     private static final boolean executeUnconfined(kotlinx.coroutines.internal.DispatchedContinuation<?> $this$executeUnconfined, Object contState, int mode, boolean doYield, Function0<Unit> block) {
-        int aSSERTIONS_ENABLED;
-        int i;
+        int $i$a$AssertDispatchedContinuationKt$executeUnconfined$1;
+        int i3;
         int unconfinedQueueEmpty;
         boolean unconfinedLoopActive;
-        int i2;
+        int i;
         Throwable unconfinedEvent;
-        int i3;
+        int i2;
         final int i4 = 0;
-        i = 0;
+        i3 = 0;
         final int i6 = 1;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i5 = 0;
-            aSSERTIONS_ENABLED = mode != -1 ? i6 : i;
-            if (aSSERTIONS_ENABLED == 0) {
+            $i$a$AssertDispatchedContinuationKt$executeUnconfined$1 = mode != -1 ? i6 : i3;
+            if ($i$a$AssertDispatchedContinuationKt$executeUnconfined$1 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -58,33 +58,33 @@ public final class DispatchedContinuationKt {
         EventLoop eventLoop$kotlinx_coroutines_core = ThreadLocalEventLoop.INSTANCE.getEventLoop$kotlinx_coroutines_core();
         if (doYield && eventLoop$kotlinx_coroutines_core.isUnconfinedQueueEmpty()) {
             if (eventLoop$kotlinx_coroutines_core.isUnconfinedQueueEmpty()) {
-                return i;
+                return i3;
             }
         }
         if (eventLoop$kotlinx_coroutines_core.isUnconfinedLoopActive()) {
             $this$executeUnconfined._state = contState;
             $this$executeUnconfined.resumeMode = mode;
             eventLoop$kotlinx_coroutines_core.dispatchUnconfined((DispatchedTask)$this$executeUnconfined);
-            i = i6;
+            i3 = i6;
         } else {
             unconfinedLoopActive = $this$executeUnconfined;
-            i2 = 0;
+            i = 0;
             eventLoop$kotlinx_coroutines_core.incrementUseCount(i6);
             block.invoke();
             while (!eventLoop$kotlinx_coroutines_core.processUnconfinedEvent()) {
             }
             eventLoop$kotlinx_coroutines_core.decrementUseCount(i6);
         }
-        return i;
+        return i3;
     }
 
     static boolean executeUnconfined$default(kotlinx.coroutines.internal.DispatchedContinuation $this$executeUnconfined_u24default, Object contState, int mode, boolean doYield, Function0 block, int i6, Object object7) {
         int i;
         int unconfinedQueueEmpty;
         Object unconfinedLoopActive;
-        int i2;
-        Throwable unconfinedEvent;
         int i3;
+        Throwable unconfinedEvent;
+        int i2;
         int obj9;
         int obj12;
         if (i6 &= 4 != 0) {
@@ -115,7 +115,7 @@ public final class DispatchedContinuationKt {
             i = i4;
         } else {
             unconfinedLoopActive = $this$executeUnconfined_u24default;
-            i2 = 0;
+            i3 = 0;
             obj12.incrementUseCount(i4);
             block.invoke();
             while (!obj12.processUnconfinedEvent()) {
@@ -129,46 +129,46 @@ public final class DispatchedContinuationKt {
         boolean aSSERTIONS_ENABLED;
         Object this_$iv$iv2;
         UndispatchedCoroutine undispatchedCompletion;
-        Object obj6;
+        Object obj3;
         Object this_$iv$iv;
         Object obj4;
         Object this_$iv;
         int $i$f$resumeCancellableWith$kotlinx_coroutines_core;
         Object state;
-        int context;
+        int context2;
         Object obj5;
-        int i2;
-        int i;
-        int i4;
-        EventLoop eventLoop$kotlinx_coroutines_core;
-        Object obj2;
         int i5;
+        int i2;
         int i3;
+        EventLoop eventLoop$kotlinx_coroutines_core;
+        Object obj;
+        int i4;
+        int i;
         int countOrElement;
         Object cancellationException;
         kotlinx.coroutines.Job.Key failure;
+        Object obj6;
+        CoroutineContext context;
         Object obj7;
-        CoroutineContext context2;
-        Object obj;
         boolean clearThreadContext;
-        Object obj3;
+        Object obj2;
         obj4 = $this$resumeCancellableWith;
         if (obj4 instanceof DispatchedContinuation) {
             this_$iv = obj4;
             $i$f$resumeCancellableWith$kotlinx_coroutines_core = 0;
             state = CompletionStateKt.toState(result, onCancellation);
-            context = 1;
+            context2 = 1;
             if (this_$iv.dispatcher.isDispatchNeeded((DispatchedContinuation)this_$iv.getContext())) {
                 this_$iv._state = state;
-                this_$iv.resumeMode = context;
+                this_$iv.resumeMode = context2;
                 this_$iv.dispatcher.dispatch(this_$iv.getContext(), (Runnable)this_$iv);
                 this_$iv$iv = result;
-                context2 = this_$iv;
-                obj = $i$f$resumeCancellableWith$kotlinx_coroutines_core;
+                context = this_$iv;
+                obj7 = $i$f$resumeCancellableWith$kotlinx_coroutines_core;
             } else {
                 obj5 = this_$iv;
-                i = 0;
-                i4 = 0;
+                i2 = 0;
+                i3 = 0;
                 if (DebugKt.getASSERTIONS_ENABLED()) {
                     aSSERTIONS_ENABLED = 0;
                 }
@@ -178,59 +178,59 @@ public final class DispatchedContinuationKt {
                     obj5.resumeMode = 1;
                     eventLoop$kotlinx_coroutines_core.dispatchUnconfined((DispatchedTask)obj5);
                     this_$iv$iv = result;
-                    context2 = this_$iv;
-                    obj = $i$f$resumeCancellableWith$kotlinx_coroutines_core;
+                    context = this_$iv;
+                    obj7 = $i$f$resumeCancellableWith$kotlinx_coroutines_core;
                 } else {
-                    obj2 = obj5;
-                    i5 = 0;
-                    eventLoop$kotlinx_coroutines_core.incrementUseCount(context);
-                    i3 = 0;
+                    obj = obj5;
+                    i4 = 0;
+                    eventLoop$kotlinx_coroutines_core.incrementUseCount(context2);
+                    i = 0;
                     Object obj8 = this_$iv;
                     countOrElement = 0;
-                    context = obj8.getContext().get((CoroutineContext.Key)Job.Key);
-                    if (context != null && !(Job)context.isActive()) {
-                        if (!context.isActive()) {
-                            cancellationException = context.getCancellationException();
+                    context2 = obj8.getContext().get((CoroutineContext.Key)Job.Key);
+                    if (context2 != null && !(Job)context2.isActive()) {
+                        if (!context2.isActive()) {
+                            cancellationException = context2.getCancellationException();
                             obj8.cancelCompletedResult$kotlinx_coroutines_core(state, (Throwable)cancellationException);
                             kotlin.Result.Companion companion = Result.Companion;
-                            obj7 = obj8;
+                            obj6 = obj8;
                             (Continuation)obj8.resumeWith(Result.constructor-impl(ResultKt.createFailure((Throwable)cancellationException)));
                             this_$iv$iv2 = 1;
                         } else {
-                            obj7 = obj8;
+                            obj6 = obj8;
                             this_$iv$iv2 = 0;
                         }
                     } else {
                     }
                     if (this_$iv$iv2 == 0) {
                         Object obj9 = this_$iv;
-                        context = 0;
+                        context2 = 0;
                         cancellationException = continuation;
                         failure = 0;
-                        context2 = this_$iv;
+                        context = this_$iv;
                         this_$iv = context5;
-                        obj = $i$f$resumeCancellableWith$kotlinx_coroutines_core;
+                        obj7 = $i$f$resumeCancellableWith$kotlinx_coroutines_core;
                         $i$f$resumeCancellableWith$kotlinx_coroutines_core = obj10;
                         if ($i$f$resumeCancellableWith$kotlinx_coroutines_core != ThreadContextKt.NO_THREAD_ELEMENTS) {
                             undispatchedCompletion = CoroutineContextKt.updateUndispatchedCompletion(cancellationException, this_$iv, $i$f$resumeCancellableWith$kotlinx_coroutines_core);
                         } else {
                             undispatchedCompletion = 0;
                         }
-                        obj7 = undispatchedCompletion;
+                        obj6 = undispatchedCompletion;
                         clearThreadContext = i7;
-                        obj3 = obj9;
+                        obj2 = obj9;
                         obj9.continuation.resumeWith(result);
                         this_$iv$iv2 = Unit.INSTANCE;
-                        if (obj7 != null) {
-                            if (obj7.clearThreadContext()) {
+                        if (obj6 != null) {
+                            if (obj6.clearThreadContext()) {
                                 ThreadContextKt.restoreThreadContext(this_$iv, $i$f$resumeCancellableWith$kotlinx_coroutines_core);
                             }
                         } else {
                         }
                     } else {
                         this_$iv$iv = result;
-                        context2 = this_$iv;
-                        obj = $i$f$resumeCancellableWith$kotlinx_coroutines_core;
+                        context = this_$iv;
+                        obj7 = $i$f$resumeCancellableWith$kotlinx_coroutines_core;
                     }
                     while (eventLoop$kotlinx_coroutines_core.processUnconfinedEvent() == 0) {
                     }
@@ -255,8 +255,8 @@ public final class DispatchedContinuationKt {
         boolean aSSERTIONS_ENABLED;
         boolean unconfinedQueueEmpty;
         int i3;
-        int i;
         int i4;
+        int i;
         Throwable unconfinedEvent;
         int i2;
         final int i6 = 1;
@@ -269,21 +269,21 @@ public final class DispatchedContinuationKt {
         i3 = 0;
         if (eventLoop$kotlinx_coroutines_core.isUnconfinedQueueEmpty()) {
         } else {
-            i = 1;
+            i4 = 1;
             if (eventLoop$kotlinx_coroutines_core.isUnconfinedLoopActive()) {
                 obj._state = Unit.INSTANCE;
                 obj.resumeMode = 1;
                 eventLoop$kotlinx_coroutines_core.dispatchUnconfined((DispatchedTask)obj);
-                i3 = i;
+                i3 = i4;
             } else {
                 unconfinedQueueEmpty = obj;
-                i4 = 0;
-                eventLoop$kotlinx_coroutines_core.incrementUseCount(i);
+                i = 0;
+                eventLoop$kotlinx_coroutines_core.incrementUseCount(i4);
                 unconfinedEvent = 0;
                 $this$yieldUndispatched.run();
                 while (eventLoop$kotlinx_coroutines_core.processUnconfinedEvent() == 0) {
                 }
-                eventLoop$kotlinx_coroutines_core.decrementUseCount(i);
+                eventLoop$kotlinx_coroutines_core.decrementUseCount(i4);
             }
         }
         return i3;

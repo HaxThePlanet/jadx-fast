@@ -29,20 +29,20 @@ final class SavedStateReaderKt__SavedStateReader_androidKt {
 
     private static final boolean contentDeepEquals$SavedStateReaderKt__SavedStateReader_androidKt(Bundle $this$contentDeepEquals, Bundle other) {
         int size;
+        Object obj3;
         Object obj2;
-        Object obj;
         boolean contentDeepEquals$SavedStateReaderKt__SavedStateReader_androidKt;
-        boolean z5;
-        boolean z9;
-        boolean z10;
+        boolean z7;
         boolean z3;
-        boolean z2;
+        boolean z;
+        boolean z5;
         boolean z6;
         boolean z4;
+        boolean z9;
+        boolean z2;
+        boolean z10;
         boolean z8;
-        boolean z7;
-        boolean z;
-        Object obj3;
+        Object obj;
         final int i = 1;
         if ($this$contentDeepEquals == other) {
             return i;
@@ -53,8 +53,8 @@ final class SavedStateReaderKt__SavedStateReader_androidKt {
         }
         Iterator iterator = $this$contentDeepEquals.keySet().iterator();
         for (String size : iterator) {
-            obj2 = $this$contentDeepEquals.get(size);
-            obj = other.get(size);
+            obj3 = $this$contentDeepEquals.get(size);
+            obj2 = other.get(size);
         }
         return i;
     }
@@ -119,8 +119,8 @@ final class SavedStateReaderKt__SavedStateReader_androidKt {
     }
 
     private static final void contentDeepToString$SavedStateReaderKt__SavedStateReader_androidKt(Bundle $this$contentDeepToString, StringBuilder result, List<Bundle> processed) {
-        int i;
         int i2;
+        int i;
         Object next;
         Object str2;
         Unit contentDeepToString;
@@ -131,11 +131,11 @@ final class SavedStateReaderKt__SavedStateReader_androidKt {
         (Collection)processed.add($this$contentDeepToString);
         result.append('[');
         Iterator iterator = (Iterable)$this$contentDeepToString.keySet().iterator();
-        i = 0;
+        i2 = 0;
         while (iterator.hasNext()) {
-            i++;
+            i2++;
             next = iterator.next();
-            if (i != 0) {
+            if (i2 != 0) {
             }
             StringBuilder stringBuilder = new StringBuilder();
             result.append(stringBuilder.append((String)next).append('=').toString());

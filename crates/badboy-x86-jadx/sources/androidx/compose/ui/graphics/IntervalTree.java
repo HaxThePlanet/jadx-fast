@@ -67,14 +67,14 @@ public final class IntervalTree<T>  {
         }
 
         public final androidx.compose.ui.graphics.IntervalTree.Node<T> lowestNode() {
-            Object node2;
+            Object node;
             androidx.compose.ui.graphics.IntervalTree.Node left;
-            androidx.compose.ui.graphics.IntervalTree.Node node;
-            node2 = this;
-            while (node2.left != IntervalTree.access$getTerminator$p(this.this$0)) {
-                node2 = node2.left;
+            androidx.compose.ui.graphics.IntervalTree.Node node2;
+            node = this;
+            while (node.left != IntervalTree.access$getTerminator$p(this.this$0)) {
+                node = node.left;
             }
-            return node2;
+            return node;
         }
 
         public final androidx.compose.ui.graphics.IntervalTree.Node<T> next() {
@@ -127,8 +127,7 @@ public final class IntervalTree<T>  {
     public static enum TreeColor {
 
         Red,
-        Red,
-        Red;
+        Black;
         private static final androidx.compose.ui.graphics.IntervalTree.TreeColor[] $values() {
             return /* result */;
         }
@@ -454,18 +453,18 @@ public final class IntervalTree<T>  {
     }
 
     public final void forEach$ui_graphics_release(float start, float end, Function1<? super androidx.compose.ui.graphics.Interval<T>, Unit> block) {
-        Object node;
+        Object node2;
         androidx.compose.ui.graphics.IntervalTree.Node last;
         androidx.compose.ui.graphics.IntervalTree.Node size;
         androidx.compose.ui.graphics.IntervalTree.Node right;
         androidx.compose.ui.graphics.IntervalTree.Node left;
-        androidx.compose.ui.graphics.IntervalTree.Node node2;
+        androidx.compose.ui.graphics.IntervalTree.Node node;
         final int i = 0;
         if (IntervalTree.access$getRoot$p(this) != IntervalTree.access$getTerminator$p(this)) {
-            node = IntervalTree.access$getStack$p(this);
-            node.add(IntervalTree.access$getRoot$p(this));
-            while (node.size() > 0) {
-                last = CollectionsKt.removeLast((List)node);
+            node2 = IntervalTree.access$getStack$p(this);
+            node2.add(IntervalTree.access$getRoot$p(this));
+            while (node2.size() > 0) {
+                last = CollectionsKt.removeLast((List)node2);
                 if ((IntervalTree.Node)last.overlaps(start, end)) {
                 }
                 if (last.getLeft() != IntervalTree.access$getTerminator$p(this) && Float.compare(max, start) >= 0) {
@@ -474,13 +473,13 @@ public final class IntervalTree<T>  {
                 }
                 if (Float.compare(min, end) <= 0) {
                 }
-                node.add(last.getRight());
+                node2.add(last.getRight());
                 if (Float.compare(max, start) >= 0) {
                 }
-                node.add(last.getLeft());
+                node2.add(last.getLeft());
                 block.invoke(last);
             }
-            node.clear();
+            node2.clear();
         }
     }
 

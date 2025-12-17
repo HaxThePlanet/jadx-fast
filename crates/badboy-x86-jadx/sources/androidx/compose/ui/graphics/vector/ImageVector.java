@@ -175,17 +175,17 @@ public final class ImageVector {
         public static androidx.compose.ui.graphics.vector.ImageVector.Builder addPath-oIyEayM$default(androidx.compose.ui.graphics.vector.ImageVector.Builder imageVector$Builder, List list2, int i3, String string4, Brush brush5, float f6, Brush brush7, float f8, float f9, int i10, int i11, float f12, float f13, float f14, float f15, int i16, Object object17) {
             int defaultFillType;
             String str;
-            int i;
             int i2;
-            int i9;
-            int i8;
             int i6;
-            int i12;
             int i4;
+            int i;
+            int i12;
+            int i7;
+            int i8;
             int defaultStrokeLineCap;
             int defaultStrokeLineJoin;
+            int i9;
             int i5;
-            int i7;
             int i13 = i16;
             if (i13 & 2 != 0) {
                 defaultFillType = VectorKt.getDefaultFillType();
@@ -193,16 +193,16 @@ public final class ImageVector {
                 defaultFillType = i3;
             }
             str = i13 & 4 != 0 ? "" : string4;
-            i = i13 & 8 != 0 ? i2 : brush5;
-            i8 = 1065353216;
-            i9 = i13 & 16 != 0 ? i8 : f6;
+            i2 = i13 & 8 != 0 ? i6 : brush5;
+            i = 1065353216;
+            i4 = i13 & 16 != 0 ? i : f6;
             if (i13 & 32 != 0) {
             } else {
-                i2 = brush7;
+                i6 = brush7;
             }
-            i6 = i13 & 64 != 0 ? i8 : f8;
-            i4 = 0;
-            i12 = i13 & 128 != 0 ? i4 : f9;
+            i12 = i13 & 64 != 0 ? i : f8;
+            i8 = 0;
+            i7 = i13 & 128 != 0 ? i8 : f9;
             if (i13 & 256 != 0) {
                 defaultStrokeLineCap = VectorKt.getDefaultStrokeLineCap();
             } else {
@@ -213,17 +213,17 @@ public final class ImageVector {
             } else {
                 defaultStrokeLineJoin = i11;
             }
-            i5 = i13 & 1024 != 0 ? 1082130432 : f12;
-            i7 = i13 & 2048 != 0 ? i4 : f13;
+            i9 = i13 & 1024 != 0 ? 1082130432 : f12;
+            i5 = i13 & 2048 != 0 ? i8 : f13;
             if (i13 & 4096 != 0) {
             } else {
-                i8 = f14;
+                i = f14;
             }
             if (i13 &= 8192 != 0) {
             } else {
-                i4 = f15;
+                i8 = f15;
             }
-            return builder.addPath-oIyEayM(list2, defaultFillType, str, i, i9, i2, i6, i12, defaultStrokeLineCap, defaultStrokeLineJoin, i5, i7, i8, i4);
+            return builder.addPath-oIyEayM(list2, defaultFillType, str, i2, i4, i6, i12, i7, defaultStrokeLineCap, defaultStrokeLineJoin, i9, i5, i, i8);
         }
 
         private final androidx.compose.ui.graphics.vector.VectorGroup asVectorGroup(androidx.compose.ui.graphics.vector.ImageVector.Builder.GroupParams $this$asVectorGroup) {
@@ -232,7 +232,7 @@ public final class ImageVector {
         }
 
         private final void ensureNotConsumed() {
-            String str;
+            String $i$a$CheckPreconditionImageVector$Builder$ensureNotConsumed$1;
             final int i2 = 0;
             if (isConsumed ^= 1 == 0) {
                 int i3 = 0;

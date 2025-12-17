@@ -23,14 +23,14 @@ public final class PathUtils {
         int i2;
         int i3;
         float f6;
-        float f2;
         float f5;
-        float f;
         float f4;
         float f3;
+        float f;
+        float f2;
         int pathSegment;
-        PointF pointF2;
         PointF pointF;
+        PointF pointF2;
         final float[] approximate = PathUtils.Api26Impl.approximate(path, error);
         length /= 3;
         ArrayList arrayList = new ArrayList(i4);
@@ -39,22 +39,22 @@ public final class PathUtils {
             i2 = i * 3;
             i5 *= 3;
             f6 = approximate[i2];
-            f2 = approximate[i2 + 1];
-            f5 = approximate[i2 + 2];
-            f = approximate[i3];
-            f4 = approximate[i3 + 1];
-            f3 = approximate[i3 + 2];
-            if (Float.compare(f6, f) != 0) {
+            f5 = approximate[i2 + 1];
+            f4 = approximate[i2 + 2];
+            f3 = approximate[i3];
+            f = approximate[i3 + 1];
+            f2 = approximate[i3 + 2];
+            if (Float.compare(f6, f3) != 0) {
             }
             i++;
-            if (Float.compare(f2, f4) == 0) {
+            if (Float.compare(f5, f) == 0) {
             } else {
             }
-            pointF2 = new PointF(f4, f3);
-            pointF = new PointF(f2, f5);
-            pathSegment = new PathSegment(pointF2, f, pointF, f6);
+            pointF = new PointF(f, f2);
+            pointF2 = new PointF(f5, f4);
+            pathSegment = new PathSegment(pointF, f3, pointF2, f6);
             arrayList.add(pathSegment);
-            if (Float.compare(f5, f3) != 0) {
+            if (Float.compare(f4, f2) != 0) {
             }
         }
         return arrayList;

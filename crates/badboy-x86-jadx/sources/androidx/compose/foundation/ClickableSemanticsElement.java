@@ -78,32 +78,32 @@ final class ClickableSemanticsElement extends ModifierNodeElement<androidx.compo
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i;
-        int i4;
-        int i3;
         int i2;
+        int i3;
+        int i4;
+        int i;
         Role role = this.role;
-        i2 = 0;
+        i = 0;
         if (role != null) {
-            i = role.hashCode();
+            i2 = role.hashCode();
         } else {
-            i = i2;
+            i2 = i;
         }
         String onLongClickLabel = this.onLongClickLabel;
         if (onLongClickLabel != null) {
-            i4 = onLongClickLabel.hashCode();
+            i3 = onLongClickLabel.hashCode();
         } else {
-            i4 = i2;
+            i3 = i;
         }
         Function0 onLongClick = this.onLongClick;
         if (onLongClick != null) {
-            i3 = onLongClick.hashCode();
+            i4 = onLongClick.hashCode();
         } else {
-            i3 = i2;
+            i4 = i;
         }
         String onClickLabel = this.onClickLabel;
         if (onClickLabel != null) {
-            i2 = onClickLabel.hashCode();
+            i = onClickLabel.hashCode();
         }
         return result4 += i12;
     }

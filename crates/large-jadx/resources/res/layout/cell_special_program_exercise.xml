@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_special_program_exercise_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
+    app:rippleColor="@color/transparent"
+    app:strokeColor="#e4e4e4"
+    app:strokeWidth="1dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:tag="binding_1"
+        android:layout_width="match_parent"
+        android:layout_height="92dp">
+        <View
+            android:id="@+id/trick_selection_touch"
+            android:background="@drawable/ripple_effect_transparent_rectangle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="0"
+            app:layout_constraintEnd_toEndOf="0"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="0"
+            app:layout_constraintTop_toTopOf="0"/>
+        <include
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="0"
+            app:layout_constraintEnd_toEndOf="0"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="0"
+            app:layout_constraintTop_toTopOf="0"
+            layout="@layout/layout_special_program_exercise_base"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

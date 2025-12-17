@@ -26,8 +26,8 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
             initializeStorage(ScatterMapKt.unloadedCapacity(initialCapacity));
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive value.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMutableIntIntMap$1 = new IllegalArgumentException("Capacity must be a positive value.".toString());
+        throw $i$a$RequireMutableIntIntMap$1;
     }
 
     public MutableIntIntMap(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -55,20 +55,20 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
         int probeOffset;
         int probeIndex;
         int metadata$iv;
-        int i6;
+        int i7;
         int $this$maskEmptyOrDeleted$iv;
-        int i;
         int i5;
-        int i2;
         int i4;
+        int i2;
+        int i;
         long l;
         int i3;
-        int i7;
+        int i6;
         final int _capacity = this._capacity;
         probeOffset = hash1 & _capacity;
         probeIndex = 0;
         long[] metadata = this.metadata;
-        i6 = 0;
+        i7 = 0;
         int i8 = probeOffset >> 3;
         i10 <<= 3;
         int i9 = metadata$iv;
@@ -76,9 +76,9 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
         i17 &= i9;
         $this$maskEmptyOrDeleted$iv = i2 & l;
         while (Long.compare($this$maskEmptyOrDeleted$iv, i13) != 0) {
-            probeOffset = i5 & _capacity;
+            probeOffset = i4 & _capacity;
             metadata = this.metadata;
-            i6 = 0;
+            i7 = 0;
             i8 = probeOffset >> 3;
             i10 <<= 3;
             i9 = metadata$iv;
@@ -95,27 +95,27 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
         int m2;
         int m;
         int index;
-        int i2;
+        int i3;
         int metadata$iv;
         int probeIndex;
         int $this$maskEmpty$iv;
-        int i13;
+        int i9;
         int $this$hasNext$iv;
-        int i6;
+        int i13;
         int i4;
-        int i3;
+        int i10;
         int i5;
         int $this$next$iv;
         int cmp;
         long l;
-        int i7;
-        int i8;
+        int i14;
+        int i2;
+        int i6;
         int i;
         int i11;
-        int i9;
-        int i10;
+        int i7;
         int i12;
-        int i14;
+        int i8;
         int hash;
         int i21 = 0;
         i22 *= i25;
@@ -124,57 +124,57 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
         int $i$f$h1 = $i$f$hash >>> 7;
         int i27 = 0;
         int $i$f$h2 = $i$f$hash & 127;
-        i2 = $i$f$h1 & m2;
+        i3 = $i$f$h1 & m2;
         probeIndex = 0;
         while (/* condition */) {
             int i48 = 0;
             int i53 = 0;
-            i10 = 0;
+            i7 = 0;
             i12 = 1;
             while (Long.compare(i35, i53) != 0) {
                 $this$hasNext$iv = i12;
                 int i49 = 0;
-                i8 = 0;
-                $this$get$iv &= i;
+                i2 = 0;
+                $this$get$iv &= i6;
                 int i55 = m;
-                i6 = 0;
+                i13 = 0;
                 m = $this$next$iv;
                 i48 = 0;
                 i53 = 0;
-                i10 = 0;
+                i7 = 0;
                 i12 = 1;
-                $this$hasNext$iv = i10;
+                $this$hasNext$iv = i7;
             }
-            $this$hasNext$iv = i10;
+            $this$hasNext$iv = i7;
             i4 = key;
-            int i37 = i9;
-            i8 = 0;
+            int i37 = i11;
+            i2 = 0;
             hash = $i$f$hash;
-            i2 = i20 & i;
+            i3 = i20 & i6;
             obj = this;
-            m2 = i;
+            m2 = i6;
             long[] metadata2 = obj.metadata;
-            i6 = 0;
-            int i47 = i2 >> 3;
+            i13 = 0;
+            int i47 = i3 >> 3;
             i50 <<= 3;
             l4 >>>= i51;
-            i = m2;
-            i11 = i2;
+            i6 = m2;
+            i = i3;
             i30 |= cmp;
-            i3 = 0;
+            i10 = 0;
             long l5 = 72340172838076673L;
-            i52 ^= i13;
+            i52 ^= i9;
             l = -9187201950435737472L;
             i32 &= l;
             i49 = 0;
-            i8 = 0;
-            $this$get$iv &= i;
+            i2 = 0;
+            $this$get$iv &= i6;
             i55 = m;
-            i6 = 0;
+            i13 = 0;
             m = $this$next$iv;
             $this$hasNext$iv = i12;
         }
-        return i13;
+        return i9;
     }
 
     private final void initializeGrowth() {
@@ -183,21 +183,21 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
 
     private final void initializeMetadata(int capacity) {
         long[] size;
-        long[] lArr;
         long[] lArr2;
+        long[] lArr;
         long l;
-        int i2;
-        int i3;
-        int i4;
-        int i5;
         int i;
+        int i2;
+        int i5;
+        int i4;
+        int i3;
         if (capacity == 0) {
             size = ScatterMapKt.EmptyGroup;
         } else {
-            lArr = new long[i9 >>= 3];
-            i = 0;
-            ArraysKt.fill$default(lArr, -9187201950435737472L, obj4, 0, 0, 6);
-            size = lArr;
+            lArr2 = new long[i9 >>= 3];
+            i3 = 0;
+            ArraysKt.fill$default(lArr2, -9187201950435737472L, obj4, 0, 0, 6);
+            size = lArr2;
         }
         this.metadata = size;
         long[] metadata = this.metadata;
@@ -224,57 +224,57 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
 
     private final void removeDeletedMarkers() {
         long[] metadata;
-        int _capacity;
+        int _capacity2;
         int removedDeletes;
-        int i;
+        int i5;
         int $i$f$readRawMetadata;
         int i6;
         Object cmp;
-        int _capacity2;
-        int i4;
-        int i10;
-        int i2;
-        long[] metadata2;
-        int i5;
+        int _capacity;
         int i8;
         int i11;
-        int i7;
         int i3;
+        long[] metadata2;
+        int i7;
+        int i;
+        int i10;
+        int i2;
+        int i4;
         long[] m;
         int i9;
         final Object obj = this;
         metadata = obj.metadata;
-        _capacity = obj._capacity;
+        _capacity2 = obj._capacity;
         removedDeletes = 0;
-        i = 0;
-        while (i < _capacity) {
+        i5 = 0;
+        while (i5 < _capacity2) {
             int i15 = 0;
-            _capacity2 = 255;
-            if (Long.compare($i$f$readRawMetadata, i10) == 0) {
+            _capacity = 255;
+            if (Long.compare($i$f$readRawMetadata, i11) == 0) {
             } else {
             }
             m = metadata;
-            i9 = _capacity;
-            i++;
+            i9 = _capacity2;
+            i5++;
             metadata = m;
-            _capacity = i9;
-            i10 = 128;
+            _capacity2 = i9;
+            i11 = 128;
             cmp = this;
-            i2 = 0;
+            i3 = 0;
             metadata2 = cmp.metadata;
             int i25 = 0;
-            int i27 = i >> 3;
+            int i27 = i5 >> 3;
             i28 <<= 3;
-            i3 = _capacity2;
+            i4 = _capacity;
             metadata2[i27] = i21 |= i31;
-            _capacity2 = cmp._capacity;
+            _capacity = cmp._capacity;
             i24 += i26;
-            i5 = 0;
-            i8 = i4 >> 3;
+            i7 = 0;
+            i = i8 >> 3;
             i30 <<= 3;
             m = metadata;
-            i9 = _capacity;
-            metadata2[i8] = i14 |= i7;
+            i9 = _capacity2;
+            metadata2[i] = i14 |= i2;
             removedDeletes++;
         }
         long[] m4 = metadata;
@@ -283,69 +283,69 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
 
     private final void resizeStorage(int newCapacity) {
         Object obj2;
-        long[] metadata;
+        long[] metadata2;
+        int i8;
         int i9;
-        int i10;
         int $i$f$hash;
         int firstAvailableSlot;
         Object obj;
-        int metadata2;
+        int metadata;
         int i3;
-        int i8;
-        int i5;
-        int i;
-        int i4;
+        int i6;
+        int i10;
         int i2;
+        int i4;
+        int i;
         long l;
         long[] previousMetadata;
-        int i6;
+        int i5;
         int i7;
         obj2 = this;
-        metadata = obj2.metadata;
+        metadata2 = obj2.metadata;
         initializeStorage(newCapacity);
-        i9 = 0;
-        while (i9 < obj2._capacity) {
-            i10 = 0;
+        i8 = 0;
+        while (i8 < obj2._capacity) {
+            i9 = 0;
             int i20 = 0;
-            metadata2 = 255;
-            if (Long.compare($i$f$readRawMetadata, i8) < 0) {
+            metadata = 255;
+            if (Long.compare($i$f$readRawMetadata, i6) < 0) {
             } else {
             }
             $i$f$hash = 0;
             if ($i$f$hash != 0) {
             } else {
             }
-            previousMetadata = metadata;
-            i9++;
+            previousMetadata = metadata2;
+            i8++;
             obj2 = this;
-            metadata = previousMetadata;
-            i10 = obj2.keys[i9];
+            metadata2 = previousMetadata;
+            i9 = obj2.keys[i8];
             int i21 = 0;
             i23 *= i26;
             $i$f$hash = i24 ^ i27;
             int i25 = 0;
             firstAvailableSlot = obj2.findFirstAvailableSlot($i$f$hash >>> 7);
             int i28 = 0;
-            i8 = (long)$i$f$h2;
+            i6 = (long)$i$f$h2;
             obj = this;
-            i5 = 0;
-            int i33 = metadata2;
-            metadata2 = obj.metadata;
+            i10 = 0;
+            int i33 = metadata;
+            metadata = obj.metadata;
             int i31 = 0;
             int i34 = firstAvailableSlot >> 3;
             i35 <<= 3;
-            previousMetadata = metadata;
-            metadata2[i34] = i13 |= i38;
+            previousMetadata = metadata2;
+            metadata[i34] = i13 |= i38;
             int _capacity = obj._capacity;
             i19 += i32;
             i3 = 0;
-            i4 = metadata >> 3;
+            i4 = metadata2 >> 3;
             i37 <<= 3;
-            i6 = _capacity;
-            i7 = metadata;
-            metadata2[i4] = i16 |= i;
-            obj2.keys[firstAvailableSlot] = i10;
-            obj2.values[firstAvailableSlot] = obj2.values[i9];
+            i5 = _capacity;
+            i7 = metadata2;
+            metadata[i4] = i16 |= i2;
+            obj2.keys[firstAvailableSlot] = i9;
+            obj2.values[firstAvailableSlot] = obj2.values[i8];
             $i$f$hash = 1;
         }
     }
@@ -370,23 +370,23 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
     public final void clear() {
         long[] metadata;
         long[] emptyGroup;
-        int i6;
-        long l2;
-        long l;
-        int i4;
-        int i2;
-        int i3;
-        int i5;
         int i;
+        long l;
+        long l2;
+        int i3;
+        int i2;
+        int i5;
+        int i4;
+        int i6;
         this._size = 0;
         if (this.metadata != ScatterMapKt.EmptyGroup) {
             ArraysKt.fill$default(this.metadata, -9187201950435737472L, obj4, 0, 0, 6);
             metadata = this.metadata;
             emptyGroup = this._capacity;
-            l = 0;
-            i4 = emptyGroup >> 3;
+            l2 = 0;
+            i3 = emptyGroup >> 3;
             i10 <<= 3;
-            metadata[i4] = i12 |= i;
+            metadata[i3] = i12 |= i6;
         }
         initializeGrowth();
     }
@@ -413,15 +413,15 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
     @Override // androidx.collection.IntIntMap
     public final void minusAssign(androidx.collection.IntList keys) {
         int i$iv;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter(keys, "keys");
         int i3 = 0;
         final Object obj = keys;
         final int i4 = 0;
         i$iv = 0;
         while (i$iv < obj._size) {
-            i = 0;
+            i2 = 0;
             remove(obj.content[i$iv]);
             i$iv++;
         }
@@ -430,23 +430,23 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
     @Override // androidx.collection.IntIntMap
     public final void minusAssign(androidx.collection.IntSet keys) {
         int cmp;
-        int obj;
+        int obj2;
         Object this_$iv2;
-        Object obj2;
-        Object this_$iv3;
+        Object obj;
+        Object this_$iv;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i5;
+        int i;
         int i3;
         int $i$f$minusAssign;
         long l;
         int i4;
-        int i;
         int i2;
-        Object this_$iv;
+        int i5;
+        Object this_$iv3;
         Intrinsics.checkNotNullParameter(keys, "keys");
-        obj2 = keys;
+        obj = keys;
         final int i12 = 0;
         final int i13 = 0;
         final long[] metadata = obj3.metadata;
@@ -454,7 +454,7 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
         if (0 <= i14) {
         } else {
             $i$f$minusAssign = cmp;
-            this_$iv = obj2;
+            this_$iv3 = obj;
             this_$iv2 = this;
         }
     }
@@ -506,20 +506,20 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
         int cmp;
         int obj;
         int $i$f$forEach2;
-        Object k$iv2;
-        int[] keys;
         Object k$iv;
+        int[] keys;
+        Object k$iv2;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i3;
-        int i5;
+        int i2;
+        int i;
         Object this_$iv;
         long l;
-        int i;
-        int i2;
-        int $i$f$forEach;
         int i4;
+        int i5;
+        int $i$f$forEach;
+        int i3;
         int[] iArr;
         Intrinsics.checkNotNullParameter(from, "from");
         cmp = from;
@@ -531,7 +531,7 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
             this_$iv = cmp;
             $i$f$forEach = $i$f$forEach2;
             iArr = keys;
-            k$iv2 = this;
+            k$iv = this;
         }
     }
 
@@ -557,18 +557,18 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
     }
 
     public final void removeIf(Function2<? super Integer, ? super Integer, Boolean> predicate) {
-        int $i$f$removeIf2;
+        int $i$f$removeIf;
         int i$iv;
         long slot$iv;
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
-        int i;
         int i4;
-        long l;
         int i3;
+        long l;
+        int i;
         int i2;
-        int $i$f$removeIf;
+        int $i$f$removeIf2;
         final Object obj = this;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter(obj2, "predicate");
@@ -577,7 +577,7 @@ public final class MutableIntIntMap extends androidx.collection.IntIntMap {
         length += -2;
         if (0 <= i7) {
         } else {
-            $i$f$removeIf = $i$f$removeIf2;
+            $i$f$removeIf2 = $i$f$removeIf;
         }
     }
 

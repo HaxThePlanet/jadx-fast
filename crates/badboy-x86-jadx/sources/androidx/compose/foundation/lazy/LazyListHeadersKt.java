@@ -11,22 +11,22 @@ public final class LazyListHeadersKt {
         int currentHeaderOffset;
         int nextHeaderOffset;
         int currentHeaderListPosition3;
-        int currentHeaderListPosition2;
-        int index;
-        int nextHeaderListPosition;
+        int currentHeaderListPosition;
         int index2;
+        int nextHeaderListPosition;
+        int index;
         int indexInComposedVisibleItems;
-        int i3;
+        int i4;
         int intValue;
         int headerOffset;
-        int currentHeaderListPosition;
+        int currentHeaderListPosition2;
         int lastIndex;
         int index$iv;
         int i;
         Object obj;
         Object obj2;
-        int i4;
         int i2;
+        int i3;
         final List list = composedVisibleItems;
         final List list2 = headerIndexes;
         final int i5 = beforeContentPadding;
@@ -37,22 +37,22 @@ public final class LazyListHeadersKt {
         int i8 = 0;
         int i11 = 0;
         nextHeaderListPosition = -1;
-        index2 = 0;
-        currentHeaderListPosition = currentHeaderListPosition3;
-        while (index2 < list2.size()) {
-            if ((Number)list2.get(index2).intValue() > (LazyListMeasuredItem)CollectionsKt.first(list).getIndex()) {
+        index = 0;
+        currentHeaderListPosition2 = currentHeaderListPosition3;
+        while (index < list2.size()) {
+            if ((Number)list2.get(index).intValue() > (LazyListMeasuredItem)CollectionsKt.first(list).getIndex()) {
                 break;
             } else {
             }
-            currentHeaderListPosition = (Number)list2.get(index2).intValue();
-            intValue = index2 + 1;
+            currentHeaderListPosition2 = (Number)list2.get(index).intValue();
+            intValue = index + 1;
             if (intValue >= 0 && intValue <= CollectionsKt.getLastIndex(list2)) {
             } else {
             }
             lastIndex = 0;
             currentHeaderListPosition3 = -1;
             nextHeaderListPosition = (Number)currentHeaderListPosition3.intValue();
-            index2++;
+            index++;
             if (intValue <= CollectionsKt.getLastIndex(list2)) {
             } else {
             }
@@ -66,30 +66,30 @@ public final class LazyListHeadersKt {
         int size3 = list3.size();
         while (index$iv < size3) {
             obj2 = obj;
-            i2 = 0;
-            if ((LazyListMeasuredItem)obj2.getIndex() == currentHeaderListPosition) {
+            i3 = 0;
+            if ((LazyListMeasuredItem)obj2.getIndex() == currentHeaderListPosition2) {
             } else {
             }
             if (obj2.getIndex() == nextHeaderListPosition) {
             }
             index$iv++;
-            currentHeaderListPosition2 = -1;
+            currentHeaderListPosition = -1;
             nextHeaderOffset = obj2.getOffset();
             currentHeaderOffset = obj2.getOffset();
-            indexInComposedVisibleItems = index;
+            indexInComposedVisibleItems = index2;
         }
-        if (currentHeaderListPosition == -1) {
+        if (currentHeaderListPosition2 == -1) {
             return null;
         }
-        androidx.compose.foundation.lazy.LazyListMeasuredItem andMeasure-0kLqBqw$default = LazyListMeasuredItemProvider.getAndMeasure-0kLqBqw$default(itemProvider, currentHeaderListPosition, 0, size3, 2);
+        androidx.compose.foundation.lazy.LazyListMeasuredItem andMeasure-0kLqBqw$default = LazyListMeasuredItemProvider.getAndMeasure-0kLqBqw$default(itemProvider, currentHeaderListPosition2, 0, size3, 2);
         andMeasure-0kLqBqw$default.setNonScrollableItem(true);
-        i3 = Integer.MIN_VALUE;
-        if (currentHeaderOffset != i3) {
+        i4 = Integer.MIN_VALUE;
+        if (currentHeaderOffset != i4) {
             headerOffset = Math.max(-i5, currentHeaderOffset);
         } else {
             headerOffset = -i5;
         }
-        if (nextHeaderOffset != i3) {
+        if (nextHeaderOffset != i4) {
             headerOffset = Math.min(headerOffset, nextHeaderOffset - size2);
         }
         andMeasure-0kLqBqw$default.position(headerOffset, layoutWidth, layoutHeight);

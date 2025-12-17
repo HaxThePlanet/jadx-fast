@@ -71,19 +71,19 @@ public final class PathComponent extends androidx.compose.ui.graphics.vector.VNo
         int i;
         int fillType-Rg-k1Os;
         float length;
-        PathMeasure pathMeasure2;
-        int i2;
-        Path pathMeasure;
-        Path renderPath;
+        PathMeasure pathMeasure;
         int i3;
+        Path pathMeasure2;
+        Path renderPath;
+        int i2;
         float trimPathOffset;
-        pathMeasure2 = 0;
-        i2 = 0;
+        pathMeasure = 0;
+        i3 = 0;
         final int i6 = 1;
-        i = Float.compare(trimPathStart, pathMeasure2) == 0 ? i6 : i2;
-        pathMeasure = 1065353216;
+        i = Float.compare(trimPathStart, pathMeasure) == 0 ? i6 : i3;
+        pathMeasure2 = 1065353216;
         if (i != 0) {
-            i = Float.compare(trimPathEnd, pathMeasure) == 0 ? i6 : i2;
+            i = Float.compare(trimPathEnd, pathMeasure2) == 0 ? i6 : i3;
             if (i != 0) {
                 this.renderPath = this.path;
             } else {
@@ -93,15 +93,15 @@ public final class PathComponent extends androidx.compose.ui.graphics.vector.VNo
                     this.renderPath.rewind();
                     this.renderPath.setFillType-oQ8Xj4U(this.renderPath.getFillType-Rg-k1Os());
                 }
-                getPathMeasure().setPath(this.path, i2);
+                getPathMeasure().setPath(this.path, i3);
                 length = getPathMeasure().getLength();
                 i5 *= length;
                 i8 *= length;
-                if (Float.compare(i2, i3) > 0) {
-                    getPathMeasure().getSegment(i2, length, this.renderPath, i6);
-                    getPathMeasure().getSegment(pathMeasure2, i3, this.renderPath, i6);
+                if (Float.compare(i3, i2) > 0) {
+                    getPathMeasure().getSegment(i3, length, this.renderPath, i6);
+                    getPathMeasure().getSegment(pathMeasure, i2, this.renderPath, i6);
                 } else {
-                    getPathMeasure().getSegment(i2, i3, this.renderPath, i6);
+                    getPathMeasure().getSegment(i3, i2, this.renderPath, i6);
                 }
             }
         } else {
@@ -114,21 +114,21 @@ public final class PathComponent extends androidx.compose.ui.graphics.vector.VNo
         Brush fill;
         DrawScope targetStroke;
         Path isStrokeDirty;
-        Brush stroke;
+        Brush stroke2;
         float strokeLineWidth;
         int strokeLineMiter;
         int strokeLineCap;
         int strokeLineJoin;
-        int i6;
-        int i5;
-        int i3;
-        Path renderPath;
-        float strokeAlpha;
-        Stroke stroke2;
-        int i;
+        int i4;
         int i7;
         int i2;
-        int i4;
+        Path renderPath;
+        float strokeAlpha;
+        Stroke stroke;
+        int i6;
+        int i;
+        int i5;
+        int i3;
         final Object obj = this;
         if (obj.isPathDirty) {
             obj.updatePath();
@@ -150,8 +150,8 @@ public final class PathComponent extends androidx.compose.ui.graphics.vector.VNo
             fill = 0;
             if (!obj.isStrokeDirty) {
                 if (obj.strokeStyle == null) {
-                    stroke = new Stroke(obj.strokeLineWidth, obj.strokeLineMiter, obj.strokeLineCap, obj.strokeLineJoin, 0, 16, 0);
-                    obj.strokeStyle = stroke;
+                    stroke2 = new Stroke(obj.strokeLineWidth, obj.strokeLineMiter, obj.strokeLineCap, obj.strokeLineJoin, 0, 16, 0);
+                    obj.strokeStyle = stroke2;
                     obj.isStrokeDirty = i8;
                 }
             } else {

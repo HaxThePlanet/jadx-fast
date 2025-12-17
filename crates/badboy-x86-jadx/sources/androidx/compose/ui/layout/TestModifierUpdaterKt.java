@@ -22,16 +22,16 @@ public final class TestModifierUpdaterKt {
     @Deprecated(level = DeprecationLevel.ERROR, message = "It is a test API, do not use it in the real applications")
     public static final void TestModifierUpdaterLayout(Function1<? super androidx.compose.ui.layout.TestModifierUpdater, Unit> onAttached, Composer $composer, int $changed) {
         boolean currentCompositeKeyHash;
-        int traceInProgress2;
+        int traceInProgress;
         int $dirty;
-        int i5;
-        int iNSTANCE;
-        boolean traceInProgress;
-        int constructor$ui_release;
         int i4;
+        int iNSTANCE;
+        boolean traceInProgress2;
+        int constructor$ui_release;
         int i;
-        Composer constructor-impl;
         int i3;
+        Composer constructor-impl;
+        int i5;
         kotlin.jvm.functions.Function2 setCompositeKeyHash;
         int i2;
         Composer composer;
@@ -40,22 +40,22 @@ public final class TestModifierUpdaterKt {
         int obj17;
         final Object obj = onAttached;
         final int i7 = $changed;
-        traceInProgress2 = -1673066036;
-        Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
+        traceInProgress = -1673066036;
+        Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(TestModifierUpdaterLayout)50@1816L23,54@1971L330:TestModifierUpdater.kt#80mrfh");
         constructor$ui_release = 2;
         if (i7 & 6 == 0) {
-            i5 = restartGroup.changedInstance(obj) ? 4 : constructor$ui_release;
-            $dirty |= i5;
+            i4 = restartGroup.changedInstance(obj) ? 4 : constructor$ui_release;
+            $dirty |= i4;
         }
         if ($dirty & 3 == constructor$ui_release) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.ui.layout.TestModifierUpdaterLayout (TestModifierUpdater.kt:49)");
+                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.ui.layout.TestModifierUpdaterLayout (TestModifierUpdater.kt:49)");
                 }
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                i4 = 6;
-                i = 0;
+                i = 6;
+                i3 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1886828752, "CC(ComposeNode):Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -67,7 +67,7 @@ public final class TestModifierUpdaterKt {
                     restartGroup.useNode();
                 }
                 constructor-impl = Updater.constructor-impl(restartGroup);
-                i3 = 0;
+                i5 = 0;
                 Updater.set-impl(constructor-impl, (MeasurePolicy)TestModifierUpdaterKt.TestModifierUpdaterLayout.measurePolicy.1.INSTANCE, ComposeUiNode.Companion.getSetMeasurePolicy());
                 i2 = 0;
                 composer = constructor-impl;

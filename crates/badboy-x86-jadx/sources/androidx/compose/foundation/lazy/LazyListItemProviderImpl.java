@@ -32,10 +32,10 @@ final class LazyListItemProviderImpl implements androidx.compose.foundation.lazy
 
     @Override // androidx.compose.foundation.lazy.LazyListItemProvider
     public void Item(int index, Object key, Composer $composer, int $changed) {
-        int i6;
-        int i5;
-        int i3;
+        int i4;
         int i2;
+        int i3;
+        int i5;
         Object obj;
         int skipping;
         boolean traceInProgress;
@@ -43,32 +43,32 @@ final class LazyListItemProviderImpl implements androidx.compose.foundation.lazy
         int str;
         androidx.compose.foundation.lazy.layout.LazyLayoutPinnedItemList pinnedItems$foundation_release;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i4;
+        int i6;
         int obj8;
         Object obj9;
         int obj10;
-        i6 = -462424778;
-        final Composer restartGroup = $composer.startRestartGroup(i6);
+        i4 = -462424778;
+        final Composer restartGroup = $composer.startRestartGroup(i4);
         ComposerKt.sourceInformation(restartGroup, "C(Item)76@3005L150,76@2951L204:LazyListItemProvider.kt#428nma");
         if ($changed & 6 == 0) {
-            i5 = restartGroup.changed(index) ? 4 : 2;
-            obj10 |= i5;
+            i2 = restartGroup.changed(index) ? 4 : 2;
+            obj10 |= i2;
         }
         if ($changed & 48 == 0) {
             i3 = restartGroup.changedInstance(key) ? 32 : 16;
             obj10 |= i3;
         }
         if ($changed & 384 == 0) {
-            i2 = restartGroup.changed(this) ? 256 : 128;
-            obj10 |= i2;
+            i5 = restartGroup.changed(this) ? 256 : 128;
+            obj10 |= i5;
         }
         if (obj10 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i6, obj10, -1, "androidx.compose.foundation.lazy.LazyListItemProviderImpl.Item (LazyListItemProvider.kt:75)");
+                    ComposerKt.traceEventStart(i4, obj10, -1, "androidx.compose.foundation.lazy.LazyListItemProviderImpl.Item (LazyListItemProvider.kt:75)");
                 }
                 LazyListItemProviderImpl.Item.1 anon = new LazyListItemProviderImpl.Item.1(this, index);
-                LazyLayoutPinnableItemKt.LazyLayoutPinnableItem(key, index, this.state.getPinnedItems$foundation_release(), (Function2)ComposableLambdaKt.rememberComposableLambda(-824725566, true, anon, restartGroup, 54), restartGroup, i6 | i11);
+                LazyLayoutPinnableItemKt.LazyLayoutPinnableItem(key, index, this.state.getPinnedItems$foundation_release(), (Function2)ComposableLambdaKt.rememberComposableLambda(-824725566, true, anon, restartGroup, 54), restartGroup, i4 | i11);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }

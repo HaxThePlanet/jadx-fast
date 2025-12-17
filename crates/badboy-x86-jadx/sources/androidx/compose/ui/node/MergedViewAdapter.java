@@ -58,36 +58,36 @@ public final class MergedViewAdapter implements androidx.compose.ui.node.ViewAda
 
     public final <T extends androidx.compose.ui.node.ViewAdapter> T get(int id, Function0<? extends T> factory) {
         int index$iv$iv;
-        int i2;
+        int i3;
         Object obj2;
         Object obj;
-        int i5;
+        int i4;
         Object obj3;
         int i;
-        int i3;
-        int i4;
+        int i5;
+        int i2;
         final int i6 = 0;
         int i7 = 0;
         final List list = adapters;
         final int i8 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i5 = 0;
+            i4 = 0;
             i = 0;
             if ((ViewAdapter)list.get(index$iv$iv).getId() == id) {
             } else {
             }
-            i3 = 0;
+            i5 = 0;
             index$iv$iv++;
-            i3 = 1;
+            i5 = 1;
         }
-        i4 = id;
-        obj = i2;
+        i2 = id;
+        obj = i3;
         if (obj instanceof ViewAdapter != null) {
-            i2 = obj;
+            i3 = obj;
         }
-        if (i2 != 0) {
-            return i2;
+        if (i3 != 0) {
+            return i3;
         }
         Object invoke = factory.invoke();
         getAdapters().add((ViewAdapter)invoke);

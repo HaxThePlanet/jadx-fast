@@ -1,0 +1,16 @@
+package com.google.firebase.storage;
+
+/* loaded from: classes2.dex */
+public final class h implements com.google.firebase.storage.TaskListenerImpl.OnRaise {
+
+    public final com.google.firebase.storage.StorageTask a;
+    public h(com.google.firebase.storage.StorageTask storageTask) {
+        super();
+        this.a = storageTask;
+    }
+
+    @Override // com.google.firebase.storage.TaskListenerImpl$OnRaise
+    public final void raise(Object object, Object object2) {
+        this.a.j((f)object, (StorageTask.ProvideError)object2);
+    }
+}

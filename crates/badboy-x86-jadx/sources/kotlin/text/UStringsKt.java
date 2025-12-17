@@ -110,11 +110,11 @@ public final class UStringsKt {
         int compare;
         int limitBeforeMul;
         int result;
-        int i2;
-        int digitOf;
         int i;
-        int compareUnsigned;
+        int digitOf;
+        int i2;
         int compareUnsigned2;
+        int compareUnsigned;
         Intrinsics.checkNotNullParameter($this$toUIntOrNull, "<this>");
         CharsKt.checkRadix(radix);
         int length = $this$toUIntOrNull.length();
@@ -133,11 +133,11 @@ public final class UStringsKt {
                 limitBeforeMul = i8;
                 final int constructor-impl = UInt.constructor-impl(radix);
                 result = 0;
-                i2 = start;
-                while (i2 < length) {
-                    digitOf = CharsKt.digitOf($this$toUIntOrNull.charAt(i2), radix);
+                i = start;
+                while (i < length) {
+                    digitOf = CharsKt.digitOf($this$toUIntOrNull.charAt(i), radix);
                     int result2 = UInt.constructor-impl(result * constructor-impl);
-                    i2++;
+                    i++;
                 }
                 return UInt.box-impl(result);
             }
@@ -177,9 +177,9 @@ public final class UStringsKt {
 
     public static final ULong toULongOrNull(String $this$toULongOrNull, int radix) {
         Object obj;
-        int i3;
-        int length;
         int i;
+        int length;
+        int i3;
         int start;
         int compare;
         long limitBeforeMul;
@@ -189,9 +189,9 @@ public final class UStringsKt {
         int compareUnsigned2;
         long l;
         obj = $this$toULongOrNull;
-        i3 = radix;
+        i = radix;
         Intrinsics.checkNotNullParameter(obj, "<this>");
-        CharsKt.checkRadix(i3);
+        CharsKt.checkRadix(i);
         length = obj.length();
         int i6 = 0;
         if (length == 0) {
@@ -206,16 +206,16 @@ public final class UStringsKt {
                 start = 1;
                 long l4 = 512409557603043100L;
                 limitBeforeMul = l4;
-                long constructor-impl3 = ULong.constructor-impl((long)i3);
+                long constructor-impl3 = ULong.constructor-impl((long)i);
                 result = 0;
                 int i12 = i6;
-                i = i14;
-                while (i < length) {
-                    int digitOf = CharsKt.digitOf(obj.charAt(i), i3);
+                i3 = i14;
+                while (i3 < length) {
+                    int digitOf = CharsKt.digitOf(obj.charAt(i3), i);
                     long result2 = ULong.constructor-impl(result * constructor-impl3);
-                    i++;
+                    i3++;
                     obj = $this$toULongOrNull;
-                    i3 = radix;
+                    i = radix;
                     length = i2;
                 }
                 return ULong.box-impl(result);

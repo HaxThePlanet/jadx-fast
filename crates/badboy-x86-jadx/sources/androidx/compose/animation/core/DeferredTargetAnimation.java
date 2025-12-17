@@ -73,43 +73,43 @@ public final class DeferredTargetAnimation<T, V extends androidx.compose.animati
     public final boolean isIdle() {
         boolean equal;
         androidx.compose.animation.core.Animatable animatable;
-        int i2;
         int i;
+        int i2;
         if (Intrinsics.areEqual(get_pendingTarget(), getTarget())) {
             animatable = this.animatable;
-            i = 1;
-            if (animatable != null && animatable.isRunning() == i) {
-                equal = animatable.isRunning() == i ? i : i2;
+            i2 = 1;
+            if (animatable != null && animatable.isRunning() == i2) {
+                equal = animatable.isRunning() == i2 ? i2 : i;
             } else {
             }
             if (equal == 0) {
-                i2 = i;
+                i = i2;
             }
         }
-        return i2;
+        return i;
     }
 
     public final T updateTarget(T target, CoroutineScope coroutineScope, androidx.compose.animation.core.FiniteAnimationSpec<T> animationSpec) {
-        androidx.compose.animation.core.Animatable animatable2;
         androidx.compose.animation.core.Animatable animatable3;
-        int i2;
         androidx.compose.animation.core.Animatable animatable;
         int i;
+        androidx.compose.animation.core.Animatable animatable2;
         int i5;
         int i3;
         int i4;
+        int i2;
         set_pendingTarget(target);
-        animatable2 = this.animatable;
-        if (animatable2 == null) {
-            animatable3 = new Animatable(target, this.vectorConverter, 0, 0, 12, 0);
-            i2 = 0;
-            this.animatable = animatable3;
-            animatable = animatable3;
+        animatable3 = this.animatable;
+        if (animatable3 == null) {
+            animatable = new Animatable(target, this.vectorConverter, 0, 0, 12, 0);
+            i = 0;
+            this.animatable = animatable;
+            animatable2 = animatable;
         } else {
-            animatable = animatable2;
+            animatable2 = animatable3;
         }
-        DeferredTargetAnimation.updateTarget.1 anon = new DeferredTargetAnimation.updateTarget.1(animatable, this, target, animationSpec, 0);
+        DeferredTargetAnimation.updateTarget.1 anon = new DeferredTargetAnimation.updateTarget.1(animatable2, this, target, animationSpec, 0);
         BuildersKt.launch$default(coroutineScope, 0, 0, (Function2)anon, 3, 0);
-        return animatable.getValue();
+        return animatable2.getValue();
     }
 }

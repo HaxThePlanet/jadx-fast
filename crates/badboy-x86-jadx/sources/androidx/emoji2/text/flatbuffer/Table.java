@@ -73,8 +73,8 @@ public class Table {
 
     protected static int compareStrings(int offset_1, byte[] key, ByteBuffer bb) {
         int i;
-        byte b2;
         byte b;
+        byte b2;
         offset_1 += int;
         int int2 = bb.getInt(obj7);
         final int length = key.length;

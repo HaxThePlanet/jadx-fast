@@ -18,17 +18,17 @@ final class CursorAnchorInfoApi34Helper {
 
     @JvmStatic
     public static final CursorAnchorInfo.Builder addVisibleLineBounds(CursorAnchorInfo.Builder builder, TextLayoutResult textLayoutResult, Rect innerTextFieldBounds) {
-        boolean lineForVerticalPosition;
-        int lineForVerticalPosition2;
+        boolean lineForVerticalPosition2;
+        int lineForVerticalPosition;
         int index;
         float lineLeft;
         float lineTop;
         float lineRight;
         float lineBottom;
-        lineForVerticalPosition2 = textLayoutResult.getLineForVerticalPosition(innerTextFieldBounds.getBottom());
-        if (!innerTextFieldBounds.isEmpty() && textLayoutResult.getLineForVerticalPosition(innerTextFieldBounds.getTop()) <= lineForVerticalPosition2) {
-            lineForVerticalPosition2 = textLayoutResult.getLineForVerticalPosition(innerTextFieldBounds.getBottom());
-            if (textLayoutResult.getLineForVerticalPosition(innerTextFieldBounds.getTop()) <= lineForVerticalPosition2) {
+        lineForVerticalPosition = textLayoutResult.getLineForVerticalPosition(innerTextFieldBounds.getBottom());
+        if (!innerTextFieldBounds.isEmpty() && textLayoutResult.getLineForVerticalPosition(innerTextFieldBounds.getTop()) <= lineForVerticalPosition) {
+            lineForVerticalPosition = textLayoutResult.getLineForVerticalPosition(innerTextFieldBounds.getBottom());
+            if (textLayoutResult.getLineForVerticalPosition(innerTextFieldBounds.getTop()) <= lineForVerticalPosition) {
             }
         }
         return builder;

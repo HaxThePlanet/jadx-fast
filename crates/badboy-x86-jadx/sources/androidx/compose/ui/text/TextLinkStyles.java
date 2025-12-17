@@ -86,33 +86,33 @@ public final class TextLinkStyles {
     }
 
     public int hashCode() {
-        int i2;
         int i;
-        int i4;
         int i3;
+        int i2;
+        int i4;
         androidx.compose.ui.text.SpanStyle style = this.style;
-        i = 0;
+        i3 = 0;
         if (style != null) {
-            i2 = style.hashCode();
+            i = style.hashCode();
         } else {
-            i2 = i;
+            i = i3;
         }
         androidx.compose.ui.text.SpanStyle focusedStyle = this.focusedStyle;
         if (focusedStyle != null) {
-            i4 = focusedStyle.hashCode();
+            i2 = focusedStyle.hashCode();
         } else {
-            i4 = i;
+            i2 = i3;
         }
         androidx.compose.ui.text.SpanStyle hoveredStyle = this.hoveredStyle;
         if (hoveredStyle != null) {
-            i3 = hoveredStyle.hashCode();
+            i4 = hoveredStyle.hashCode();
         } else {
-            i3 = i;
+            i4 = i3;
         }
         androidx.compose.ui.text.SpanStyle pressedStyle = this.pressedStyle;
         if (pressedStyle != null) {
-            i = pressedStyle.hashCode();
+            i3 = pressedStyle.hashCode();
         }
-        return result2 += i;
+        return result2 += i3;
     }
 }

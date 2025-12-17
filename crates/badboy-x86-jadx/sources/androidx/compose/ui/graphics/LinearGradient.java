@@ -29,16 +29,16 @@ public final class LinearGradient extends androidx.compose.ui.graphics.ShaderBru
     }
 
     public LinearGradient(List list, List list2, long l3, long l4, int i5, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
-        int i;
         int i2;
+        int i;
         int obj11;
-        i = obj17 & 2 != 0 ? obj11 : list2;
+        i2 = obj17 & 2 != 0 ? obj11 : list2;
         if (obj17 & 16 != 0) {
-            i2 = obj11;
+            i = obj11;
         } else {
-            i2 = defaultConstructorMarker7;
+            i = defaultConstructorMarker7;
         }
-        super(list, i, l3, obj4, i5, obj6, i2, 0);
+        super(list, i2, l3, obj4, i5, obj6, i, 0);
     }
 
     public LinearGradient(List list, List list2, long l3, long l4, int i5, DefaultConstructorMarker defaultConstructorMarker6) {
@@ -47,46 +47,46 @@ public final class LinearGradient extends androidx.compose.ui.graphics.ShaderBru
 
     @Override // androidx.compose.ui.graphics.ShaderBrush
     public Shader createShader-uvyYCjk(long size) {
-        int i3;
-        float width-impl;
-        float height-impl2;
-        int i4;
-        long start;
-        int i;
-        float height-impl;
         int i2;
+        float width-impl;
+        float height-impl;
+        int i;
+        long start;
+        int i4;
+        float height-impl2;
+        int i3;
         float width-impl2;
         int i5 = 2139095040;
-        i4 = 1;
+        i = 1;
         final int i6 = 0;
-        i3 = Float.compare(x-impl, i5) == 0 ? i4 : i6;
-        if (i3 != 0) {
+        i2 = Float.compare(x-impl, i5) == 0 ? i : i6;
+        if (i2 != 0) {
             width-impl = Size.getWidth-impl(size);
         } else {
             width-impl = Offset.getX-impl(this.start);
         }
-        i = Float.compare(y-impl, i5) == 0 ? i4 : i6;
-        if (i != 0) {
-            height-impl = Size.getHeight-impl(size);
+        i4 = Float.compare(y-impl, i5) == 0 ? i : i6;
+        if (i4 != 0) {
+            height-impl2 = Size.getHeight-impl(size);
         } else {
-            height-impl = Offset.getY-impl(this.start);
+            height-impl2 = Offset.getY-impl(this.start);
         }
-        i2 = Float.compare(x-impl2, i5) == 0 ? i4 : i6;
-        if (i2 != 0) {
+        i3 = Float.compare(x-impl2, i5) == 0 ? i : i6;
+        if (i3 != 0) {
             width-impl2 = Size.getWidth-impl(size);
         } else {
             width-impl2 = Offset.getX-impl(this.end);
         }
         if (Float.compare(y-impl2, i5) == 0) {
         } else {
-            i4 = i6;
+            i = i6;
         }
-        if (i4 != 0) {
-            height-impl2 = Size.getHeight-impl(size);
+        if (i != 0) {
+            height-impl = Size.getHeight-impl(size);
         } else {
-            height-impl2 = Offset.getY-impl(this.end);
+            height-impl = Offset.getY-impl(this.end);
         }
-        return ShaderKt.LinearGradientShader-VjE6UOU(OffsetKt.Offset(width-impl, height-impl), obj7, OffsetKt.Offset(width-impl2, height-impl2), obj9, this.colors);
+        return ShaderKt.LinearGradientShader-VjE6UOU(OffsetKt.Offset(width-impl, height-impl2), obj7, OffsetKt.Offset(width-impl2, height-impl), obj9, this.colors);
     }
 
     @Override // androidx.compose.ui.graphics.ShaderBrush
@@ -119,21 +119,21 @@ public final class LinearGradient extends androidx.compose.ui.graphics.ShaderBru
 
     @Override // androidx.compose.ui.graphics.ShaderBrush
     public long getIntrinsicSize-NH-jbRc() {
-        float naN;
+        float naN3;
         int i;
         int i2;
         float naN2;
         int i3;
         int y-impl;
         boolean infinite2;
-        float naN3;
+        float naN;
         int naN4;
         boolean infinite;
-        naN = Offset.getX-impl(this.start);
+        naN3 = Offset.getX-impl(this.start);
         y-impl = 1;
         final int i6 = 0;
-        if (!Float.isInfinite(naN) && !Float.isNaN(naN)) {
-            i = !Float.isNaN(naN) ? y-impl : i6;
+        if (!Float.isInfinite(naN3) && !Float.isNaN(naN3)) {
+            i = !Float.isNaN(naN3) ? y-impl : i6;
         } else {
         }
         if (i != 0) {
@@ -149,10 +149,10 @@ public final class LinearGradient extends androidx.compose.ui.graphics.ShaderBru
             }
         } else {
         }
-        naN3 = Offset.getY-impl(this.start);
-        infinite = Float.isInfinite(naN3);
-        if (!infinite && !Float.isNaN(naN3)) {
-            naN4 = !Float.isNaN(naN3) ? y-impl : i6;
+        naN = Offset.getY-impl(this.start);
+        infinite = Float.isInfinite(naN);
+        if (!infinite && !Float.isNaN(naN)) {
+            naN4 = !Float.isNaN(naN) ? y-impl : i6;
         } else {
         }
         if (naN4 != 0) {

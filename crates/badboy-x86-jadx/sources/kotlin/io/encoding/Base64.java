@@ -60,11 +60,9 @@ public class Base64 {
     public static enum PaddingOption {
 
         PRESENT,
-        PRESENT,
-        PRESENT,
-        PRESENT,
-        PRESENT,
-        PRESENT;
+        ABSENT,
+        PRESENT_OPTIONAL,
+        ABSENT_OPTIONAL;
         private static final kotlin.io.encoding.Base64.PaddingOption[] $values() {
             return /* result */;
         }
@@ -197,15 +195,15 @@ public class Base64 {
         int payload;
         int byteStart;
         int symbol1;
-        int i4;
+        int i3;
         int hasPadding;
-        int str3;
-        byte str;
-        String str2;
+        int str;
+        byte str2;
+        String str3;
         int pRESENT;
         int i6;
         int isMimeScheme;
-        int i3;
+        int i4;
         int sourceIndex;
         int[] decodeMap;
         int i5;
@@ -222,11 +220,11 @@ public class Base64 {
         payload = 0;
         byteStart = -8;
         symbol1 = startIndex;
-        i4 = destinationOffset;
+        i3 = destinationOffset;
         hasPadding = 0;
-        str3 = ") at index ";
-        str = "toString(...)";
-        str2 = "'(";
+        str = ") at index ";
+        str2 = "toString(...)";
+        str3 = "'(";
         while (symbol1 < i7) {
             i = 8;
             b5 &= 255;
@@ -239,14 +237,14 @@ public class Base64 {
             } else {
             }
             destinationIndex = sourceIndex;
-            str3 = ") at index ";
-            str = "toString(...)";
-            str2 = "'(";
-            destination[i4] = (byte)i17;
+            str = ") at index ";
+            str2 = "toString(...)";
+            str3 = "'(";
+            destination[i3] = (byte)i17;
             int i15 = 1;
-            payload &= str3;
+            payload &= str;
             byteStart += -8;
-            i4 = i9;
+            i3 = i9;
             destinationIndex = sourceIndex;
             symbol1++;
             int i25 = symbol1 + 1;
@@ -256,12 +254,12 @@ public class Base64 {
             sourceIndex = i28 + 1;
             pRESENT = i5 | isMimeScheme;
             symbol1 = sourceIndex;
-            int i16 = i4 + 1;
-            destination[i4] = (byte)i20;
+            int i16 = i3 + 1;
+            destination[i3] = (byte)i20;
             int i14 = i16 + 1;
             destination[i16] = (byte)i21;
             destination[i14] = (byte)pRESENT;
-            i4 = str3;
+            i3 = str;
             symbol1 = sourceIndex;
         }
         decodeMap = destinationIndex;
@@ -282,13 +280,13 @@ public class Base64 {
                 int skipIllegalSymbolsIfMime = obj.skipIllegalSymbolsIfMime(bArr, symbol1, i7);
                 if (skipIllegalSymbolsIfMime < i7) {
                 } else {
-                    return i4 - destinationOffset;
+                    return i3 - destinationOffset;
                 }
                 b &= 255;
                 StringBuilder stringBuilder = new StringBuilder();
                 String string4 = Integer.toString(i10, CharsKt.checkRadix(i));
-                Intrinsics.checkNotNullExpressionValue(string4, str);
-                IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException(stringBuilder.append("Symbol '").append((char)i10).append(str2).append(string4).append(str3).append(skipIllegalSymbolsIfMime + -1).append(" is prohibited after the pad character").toString());
+                Intrinsics.checkNotNullExpressionValue(string4, str2);
+                IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException(stringBuilder.append("Symbol '").append((char)i10).append(str3).append(string4).append(str).append(skipIllegalSymbolsIfMime + -1).append(" is prohibited after the pad character").toString());
                 throw illegalArgumentException3;
             }
             IllegalArgumentException sourceIndex2 = new IllegalArgumentException("The pad bits must be zeros");
@@ -461,9 +459,9 @@ public class Base64 {
 
     private final int skipIllegalSymbolsIfMime(byte[] source, int startIndex, int endIndex) {
         int sourceIndex;
+        int i;
         int i2;
         int i3;
-        int i;
         if (!this.isMimeScheme) {
             return startIndex;
         }
@@ -635,17 +633,17 @@ public class Base64 {
         byte[] bArr;
         int byte1;
         int i4;
-        int i7;
-        int i6;
-        int byte2;
-        int i2;
-        int i3;
         int i8;
+        int i5;
+        int byte2;
+        int i7;
+        int i;
+        int i2;
         byte[] mimeLineSeparatorSymbols;
         int padOnEncode;
-        int i;
+        int i3;
         byte b2;
-        int i5;
+        int i6;
         byte b;
         final Object obj2 = this;
         final Object obj3 = source;
@@ -664,12 +662,12 @@ public class Base64 {
         }
         byte1 = startIndex;
         i4 = destinationOffset;
-        i7 = obj2.isMimeScheme ? 19 : 0x7fffffff /* Unknown resource */;
-        i3 = 1;
+        i8 = obj2.isMimeScheme ? 19 : 0x7fffffff /* Unknown resource */;
+        i = 1;
         while (byte1 + 2 < i11) {
-            i6 = Math.min(i19 /= 3, i7);
-            i8 = 0;
-            while (i8 < i6) {
+            i5 = Math.min(i19 /= 3, i8);
+            i2 = 0;
+            while (i2 < i5) {
                 int i24 = byte1 + 1;
                 int i25 = i24 + 1;
                 i33 |= padOnEncode;
@@ -677,22 +675,22 @@ public class Base64 {
                 obj4[i4] = bArr[b2 >>> 18];
                 int i16 = i39 + 1;
                 obj4[i39] = bArr[i41 &= 63];
-                i5 = i16 + 1;
+                i6 = i16 + 1;
                 obj4[i16] = bArr[i43 &= 63];
-                i4 = i5 + 1;
-                obj4[i5] = bArr[b2 & 63];
-                i8++;
-                byte1 = i;
+                i4 = i6 + 1;
+                obj4[i6] = bArr[b2 & 63];
+                i2++;
+                byte1 = i3;
             }
-            if (i6 == i7 && byte1 != i11) {
+            if (i5 == i8 && byte1 != i11) {
             }
-            i3 = 1;
+            i = 1;
             if (byte1 != i11) {
             }
-            i8 = i4 + 1;
+            i2 = i4 + 1;
             obj4[i4] = Base64.mimeLineSeparatorSymbols[0];
-            i4 = i8 + 1;
-            obj4[i8] = Base64.mimeLineSeparatorSymbols[i3];
+            i4 = i2 + 1;
+            obj4[i2] = Base64.mimeLineSeparatorSymbols[i];
             i24 = byte1 + 1;
             i25 = i24 + 1;
             i33 |= padOnEncode;
@@ -700,12 +698,12 @@ public class Base64 {
             obj4[i4] = bArr[b2 >>> 18];
             i16 = i39 + 1;
             obj4[i39] = bArr[i41 &= 63];
-            i5 = i16 + 1;
+            i6 = i16 + 1;
             obj4[i16] = bArr[i43 &= 63];
-            i4 = i5 + 1;
-            obj4[i5] = bArr[b2 & 63];
-            i8++;
-            byte1 = i;
+            i4 = i6 + 1;
+            obj4[i6] = bArr[b2 & 63];
+            i2++;
+            byte1 = i3;
         }
         int i23 = 61;
         switch (byte2) {
@@ -731,20 +729,20 @@ public class Base64 {
                 obj4[i4] = bArr[padOnEncode >>> 12];
                 int i17 = i29 + 1;
                 obj4[i29] = bArr[i35 &= 63];
-                i = i17 + 1;
+                i3 = i17 + 1;
                 obj4[i17] = bArr[padOnEncode & 63];
-                i4 = i + 1;
-                obj4[i] = i23;
+                i4 = i3 + 1;
+                obj4[i3] = i23;
                 byte1 = mimeLineSeparatorSymbols;
                 byte1 = mimeLineSeparatorSymbols;
-                i4 = i;
+                i4 = i3;
                 break;
             default:
         }
         if (byte1 == i11) {
-            i2 = i3;
+            i7 = i;
         }
-        if (i2 == 0) {
+        if (i7 == 0) {
         } else {
             return i4 - i9;
         }

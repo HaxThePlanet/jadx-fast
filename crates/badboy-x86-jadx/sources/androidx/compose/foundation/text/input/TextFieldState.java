@@ -91,8 +91,8 @@ public final class TextFieldState {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
             int ordinal3;
+            int ordinal;
             int ordinal2;
             int[] iArr = new int[values.length];
             iArr[TextFieldEditUndoBehavior.ClearHistory.ordinal()] = 1;
@@ -159,15 +159,15 @@ public final class TextFieldState {
     private final void commitEditAsUser(androidx.compose.foundation.text.input.InputTransformation inputTransformation, boolean restartImeIfContentChanges, TextFieldEditUndoBehavior undoBehavior) {
         int changeCount;
         boolean value$foundation_release;
-        Object composition-MzsxiRA3;
+        Object composition-MzsxiRA4;
         EditingBuffer mainBuffer;
         long textFieldCharSequence;
         androidx.compose.foundation.text.input.TextFieldCharSequence textFieldCharSequence-udt6zUU$foundation_release$default;
         String str;
         long selection-d9O1mEE;
-        TextRange composition-MzsxiRA2;
-        int composition-MzsxiRA;
-        int composition-MzsxiRA4;
+        TextRange composition-MzsxiRA;
+        int composition-MzsxiRA2;
+        int composition-MzsxiRA3;
         kotlin.Pair highlight;
         int i;
         final androidx.compose.foundation.text.input.TextFieldCharSequence value$foundation_release2 = getValue$foundation_release();
@@ -396,8 +396,8 @@ public final class TextFieldState {
             return textFieldBuffer;
         }
         int i4 = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("TextFieldState does not support concurrent or nested editing.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckTextFieldState$startEdit$1 = new IllegalStateException("TextFieldState does not support concurrent or nested editing.".toString());
+        throw $i$a$CheckTextFieldState$startEdit$1;
     }
 
     public final void syncMainBufferToTemporaryBuffer-TS3Rm5k$foundation_release(androidx.compose.foundation.text.input.TextFieldBuffer textFieldBuffer, TextRange newComposition, boolean textChanged, boolean selectionChanged) {

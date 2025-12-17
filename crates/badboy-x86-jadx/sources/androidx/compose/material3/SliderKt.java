@@ -80,287 +80,287 @@ public final class SliderKt {
     }
 
     public static final void RangeSlider(androidx.compose.material3.RangeSliderState state, Modifier modifier, boolean enabled, androidx.compose.material3.SliderColors colors, MutableInteractionSource startInteractionSource, MutableInteractionSource endInteractionSource, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> startThumb, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> endThumb, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> track, Composer $composer, int $changed, int i12) {
-        Object obj8;
         Object obj9;
-        Object obj5;
-        boolean traceInProgress;
-        int i19;
+        Object obj2;
+        Object obj3;
+        boolean traceInProgress2;
+        int i17;
         int defaultsInvalid;
-        int colors4;
-        Object colors3;
+        int colors2;
+        Object colors4;
         Object restartGroup;
-        int $dirty;
-        Object $dirty2;
+        int $dirty2;
+        Object $dirty;
         androidx.compose.runtime.internal.ComposableLambda rememberComposableLambda;
-        int i4;
+        int i18;
         boolean z;
         androidx.compose.runtime.internal.ComposableLambda endThumb2;
-        boolean traceInProgress2;
-        int i5;
+        boolean traceInProgress;
+        int i14;
         Object str;
-        Object obj11;
-        int i6;
-        Object obj6;
-        int i13;
+        Object obj12;
+        int i5;
+        Object obj7;
+        int i4;
         int rememberedValue;
         boolean z2;
-        Object obj4;
-        int i10;
-        Object obj12;
-        Object colors2;
-        int changed;
-        Object obj2;
-        int anon;
         Object obj;
-        Object obj7;
-        int i16;
+        int i6;
+        Object obj6;
+        Object colors3;
+        int changed;
+        Object obj11;
+        int anon;
+        Object obj8;
+        Object obj4;
+        int i2;
         int modifier2;
+        Object obj5;
+        int $i$a$CacheSliderKt$RangeSlider$13;
         Object obj10;
-        int i11;
-        Object obj3;
         Object endInteractionSource2;
         int i7;
+        int i16;
+        int i8;
+        int i11;
         int i;
+        int i15;
         int i9;
         int i3;
-        int i8;
-        int i2;
-        int i15;
-        int i17;
-        int i18;
+        int i13;
         Composer composer;
-        int i14;
+        int i10;
         Composer.Companion companion;
         int obj23;
-        final int i61 = $changed;
-        final int i62 = i12;
+        final int i60 = $changed;
+        final int i61 = i12;
         restartGroup = $composer.startRestartGroup(511405654);
         ComposerKt.sourceInformation(restartGroup, "C(RangeSlider)P(7,4,1!1,5!1,6)616@28157L8,617@28222L39,618@28316L39,619@28414L162,626@28633L160,633@28847L175,643@29089L295:Slider.kt#uh7d8r");
-        $dirty = $changed;
-        if (i62 & 1 != 0) {
-            $dirty |= 6;
-            obj3 = state;
+        $dirty2 = $changed;
+        if (i61 & 1 != 0) {
+            $dirty2 |= 6;
+            obj10 = state;
         } else {
-            if (i61 & 6 == 0) {
-                i4 = restartGroup.changedInstance(state) ? 4 : 2;
-                $dirty |= i4;
+            if (i60 & 6 == 0) {
+                i18 = restartGroup.changedInstance(state) ? 4 : 2;
+                $dirty2 |= i18;
             } else {
-                obj3 = state;
+                obj10 = state;
             }
         }
-        int i37 = i62 & 2;
-        if (i37 != 0) {
-            $dirty |= 48;
+        int i36 = i61 & 2;
+        if (i36 != 0) {
+            $dirty2 |= 48;
             str = modifier;
         } else {
-            if (i61 & 48 == 0) {
-                i6 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i6;
+            if (i60 & 48 == 0) {
+                i5 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i5;
             } else {
                 str = modifier;
             }
         }
-        rememberedValue = i62 & 4;
+        rememberedValue = i61 & 4;
         if (rememberedValue != 0) {
-            $dirty |= 384;
+            $dirty2 |= 384;
             z2 = enabled;
         } else {
-            if (i61 & 384 == 0) {
-                i10 = restartGroup.changed(enabled) ? 256 : 128;
-                $dirty |= i10;
+            if (i60 & 384 == 0) {
+                i6 = restartGroup.changed(enabled) ? 256 : 128;
+                $dirty2 |= i6;
             } else {
                 z2 = enabled;
             }
         }
-        if (i61 & 3072 == 0) {
-            if (i62 & 8 == 0) {
+        if (i60 & 3072 == 0) {
+            if (i61 & 8 == 0) {
                 changed = restartGroup.changed(colors) ? 2048 : 1024;
             } else {
-                obj12 = colors;
+                obj6 = colors;
             }
-            $dirty |= changed;
+            $dirty2 |= changed;
         } else {
-            obj12 = colors;
+            obj6 = colors;
         }
-        anon = i62 & 16;
+        anon = i61 & 16;
         if (anon != 0) {
-            $dirty |= 24576;
-            obj = startInteractionSource;
+            $dirty2 |= 24576;
+            obj8 = startInteractionSource;
         } else {
-            if (i61 & 24576 == 0) {
-                i16 = restartGroup.changed(startInteractionSource) ? 16384 : 8192;
-                $dirty |= i16;
+            if (i60 & 24576 == 0) {
+                i2 = restartGroup.changed(startInteractionSource) ? 16384 : 8192;
+                $dirty2 |= i2;
             } else {
-                obj = startInteractionSource;
+                obj8 = startInteractionSource;
             }
         }
-        i11 = i62 & 32;
-        int i65 = 196608;
-        if (i11 != 0) {
-            $dirty |= i65;
+        $i$a$CacheSliderKt$RangeSlider$13 = i61 & 32;
+        int i64 = 196608;
+        if ($i$a$CacheSliderKt$RangeSlider$13 != 0) {
+            $dirty2 |= i64;
             endInteractionSource2 = endInteractionSource;
         } else {
-            if (i65 &= i61 == 0) {
+            if (i64 &= i60 == 0) {
                 i7 = restartGroup.changed(endInteractionSource) ? 131072 : 65536;
-                $dirty |= i7;
+                $dirty2 |= i7;
             } else {
                 endInteractionSource2 = endInteractionSource;
             }
         }
-        i = i62 & 64;
-        i9 = 1572864;
-        if (i != 0) {
-            $dirty |= i9;
-            obj8 = startThumb;
+        i16 = i61 & 64;
+        i8 = 1572864;
+        if (i16 != 0) {
+            $dirty2 |= i8;
+            obj9 = startThumb;
         } else {
-            if (i61 & i9 == 0) {
-                i3 = restartGroup.changedInstance(startThumb) ? 1048576 : 524288;
-                $dirty |= i3;
+            if (i60 & i8 == 0) {
+                i11 = restartGroup.changedInstance(startThumb) ? 1048576 : 524288;
+                $dirty2 |= i11;
             } else {
-                obj8 = startThumb;
+                obj9 = startThumb;
             }
         }
-        int i21 = i62 & 128;
-        int i67 = 12582912;
+        int i20 = i61 & 128;
+        int i66 = 12582912;
+        if (i20 != 0) {
+            $dirty2 |= i66;
+            i = i20;
+            obj2 = endThumb;
+        } else {
+            if (i60 & i66 == 0) {
+                i = i20;
+                i15 = restartGroup.changedInstance(endThumb) ? 8388608 : 4194304;
+                $dirty2 |= i15;
+            } else {
+                i = i20;
+                obj2 = endThumb;
+            }
+        }
+        int i21 = i61 & 256;
+        int i68 = 100663296;
         if (i21 != 0) {
-            $dirty |= i67;
-            i8 = i21;
-            obj9 = endThumb;
+            $dirty2 |= i68;
+            i9 = i21;
+            obj3 = track;
         } else {
-            if (i61 & i67 == 0) {
-                i8 = i21;
-                i2 = restartGroup.changedInstance(endThumb) ? 8388608 : 4194304;
-                $dirty |= i2;
+            if (i60 & i68 == 0) {
+                i9 = i21;
+                i3 = restartGroup.changedInstance(track) ? 67108864 : 33554432;
+                $dirty2 |= i3;
             } else {
-                i8 = i21;
-                obj9 = endThumb;
+                i9 = i21;
+                obj3 = track;
             }
         }
-        int i22 = i62 & 256;
-        int i69 = 100663296;
-        if (i22 != 0) {
-            $dirty |= i69;
-            i15 = i22;
-            obj5 = track;
-        } else {
-            if (i61 & i69 == 0) {
-                i15 = i22;
-                i17 = restartGroup.changedInstance(track) ? 67108864 : 33554432;
-                $dirty |= i17;
-            } else {
-                i15 = i22;
-                obj5 = track;
-            }
-        }
-        if ($dirty & i18 == 38347922) {
+        if ($dirty2 & i13 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                if (i61 & 1 != 0) {
+                if (i60 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i37 != 0) {
+                        if (i36 != 0) {
                             str = defaultsInvalid;
                         }
                         if (rememberedValue != 0) {
                             z2 = defaultsInvalid;
                         }
-                        if (i62 & 8 != 0) {
-                            $dirty &= -7169;
-                            obj12 = colors4;
+                        if (i61 & 8 != 0) {
+                            $dirty2 &= -7169;
+                            obj6 = colors2;
                         }
-                        colors3 = "CC(remember):Slider.kt#9igjgp";
+                        colors4 = "CC(remember):Slider.kt#9igjgp";
                         if (anon != 0) {
-                            ComposerKt.sourceInformationMarkerStart(restartGroup, 1661349858, colors3);
+                            ComposerKt.sourceInformationMarkerStart(restartGroup, 1661349858, colors4);
                             rememberedValue = 0;
                             anon = restartGroup;
-                            i18 = 0;
+                            i13 = 0;
                             endThumb2 = anon.rememberedValue();
-                            i14 = 0;
-                            obj23 = $dirty;
+                            i10 = 0;
+                            obj23 = $dirty2;
                             if (endThumb2 == Composer.Companion.getEmpty()) {
-                                int i36 = 0;
+                                int i35 = 0;
                                 anon.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                             } else {
-                                $dirty = endThumb2;
+                                $dirty2 = endThumb2;
                             }
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            obj = $dirty;
+                            obj8 = $dirty2;
                         } else {
-                            obj23 = $dirty;
+                            obj23 = $dirty2;
                         }
-                        if (i11 != 0) {
-                            ComposerKt.sourceInformationMarkerStart(restartGroup, 1661352866, colors3);
-                            int i32 = 0;
-                            $dirty = restartGroup;
+                        if ($i$a$CacheSliderKt$RangeSlider$13 != 0) {
+                            ComposerKt.sourceInformationMarkerStart(restartGroup, 1661352866, colors4);
+                            int i31 = 0;
+                            $dirty2 = restartGroup;
                             endThumb2 = 0;
-                            rememberedValue = $dirty.rememberedValue();
+                            rememberedValue = $dirty2.rememberedValue();
                             anon = 0;
                             if (rememberedValue == Composer.Companion.getEmpty()) {
-                                int i64 = 0;
-                                $dirty.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                                int i63 = 0;
+                                $dirty2.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                             } else {
-                                i11 = rememberedValue;
+                                $i$a$CacheSliderKt$RangeSlider$13 = rememberedValue;
                             }
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            endInteractionSource2 = colors3;
+                            endInteractionSource2 = colors4;
                         }
                         int endInteractionSource3 = 54;
-                        if (i != 0) {
-                            SliderKt.RangeSlider.14 anon2 = new SliderKt.RangeSlider.14(obj, obj12, z2);
+                        if (i16 != 0) {
+                            SliderKt.RangeSlider.14 anon2 = new SliderKt.RangeSlider.14(obj8, obj6, z2);
                             rememberComposableLambda = ComposableLambdaKt.rememberComposableLambda(1884205643, true, anon2, restartGroup, endInteractionSource3);
                         } else {
-                            i13 = 1;
+                            i4 = 1;
                             rememberComposableLambda = startThumb;
                         }
-                        if (i8 != 0) {
-                            SliderKt.RangeSlider.15 anon3 = new SliderKt.RangeSlider.15(endInteractionSource2, obj12, z2);
-                            endThumb2 = ComposableLambdaKt.rememberComposableLambda(1016457138, i13, anon3, restartGroup, endInteractionSource3);
+                        if (i != 0) {
+                            SliderKt.RangeSlider.15 anon3 = new SliderKt.RangeSlider.15(endInteractionSource2, obj6, z2);
+                            endThumb2 = ComposableLambdaKt.rememberComposableLambda(1016457138, i4, anon3, restartGroup, endInteractionSource3);
                         } else {
                             endThumb2 = endThumb;
                         }
-                        if (i15 != 0) {
-                            anon = new SliderKt.RangeSlider.16(z2, obj12);
-                            i18 = rememberComposableLambda2;
-                            i8 = rememberComposableLambda;
-                            i15 = endThumb2;
-                            obj10 = str;
-                            i = obj;
-                            i9 = endInteractionSource2;
-                            i19 = 511405654;
-                            $dirty = obj23;
+                        if (i9 != 0) {
+                            anon = new SliderKt.RangeSlider.16(z2, obj6);
+                            i13 = rememberComposableLambda2;
+                            i = rememberComposableLambda;
+                            i9 = endThumb2;
+                            obj5 = str;
+                            i16 = obj8;
+                            i8 = endInteractionSource2;
+                            i17 = 511405654;
+                            $dirty2 = obj23;
                             endInteractionSource2 = z2;
                         } else {
-                            i18 = track;
-                            i8 = rememberComposableLambda;
-                            i15 = endThumb2;
-                            obj10 = str;
-                            i = obj;
-                            i9 = endInteractionSource2;
-                            i19 = 511405654;
-                            $dirty = obj23;
+                            i13 = track;
+                            i = rememberComposableLambda;
+                            i9 = endThumb2;
+                            obj5 = str;
+                            i16 = obj8;
+                            i8 = endInteractionSource2;
+                            i17 = 511405654;
+                            $dirty2 = obj23;
                             endInteractionSource2 = z2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        if (i62 & 8 != 0) {
-                            i8 = startThumb;
-                            i15 = endThumb;
-                            i18 = track;
-                            $dirty = i34;
-                            obj10 = str;
-                            i = obj;
-                            i9 = endInteractionSource2;
-                            i19 = 511405654;
-                            i13 = 1;
+                        if (i61 & 8 != 0) {
+                            i = startThumb;
+                            i9 = endThumb;
+                            i13 = track;
+                            $dirty2 = i33;
+                            obj5 = str;
+                            i16 = obj8;
+                            i8 = endInteractionSource2;
+                            i17 = 511405654;
+                            i4 = 1;
                             endInteractionSource2 = z2;
                         } else {
-                            i8 = startThumb;
-                            i15 = endThumb;
-                            i18 = track;
-                            obj10 = str;
-                            i = obj;
-                            i9 = endInteractionSource2;
-                            i19 = 511405654;
-                            i13 = 1;
+                            i = startThumb;
+                            i9 = endThumb;
+                            i13 = track;
+                            obj5 = str;
+                            i16 = obj8;
+                            i8 = endInteractionSource2;
+                            i17 = 511405654;
+                            i4 = 1;
                             endInteractionSource2 = z2;
                         }
                     }
@@ -368,151 +368,151 @@ public final class SliderKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i19, $dirty, -1, "androidx.compose.material3.RangeSlider (Slider.kt:640)");
+                    ComposerKt.traceEventStart(i17, $dirty2, -1, "androidx.compose.material3.RangeSlider (Slider.kt:640)");
                 }
-                i5 = obj3.getSteps() >= 0 ? i13 : 0;
-                if (i5 == 0) {
+                i14 = obj10.getSteps() >= 0 ? i4 : 0;
+                if (i14 == 0) {
                 } else {
-                    SliderKt.RangeSliderImpl(obj10, obj3, endInteractionSource2, i, i9, i8, i15, i18, restartGroup, i31 | i50);
+                    SliderKt.RangeSliderImpl(obj5, obj10, endInteractionSource2, i16, i8, i, i9, i13, restartGroup, i30 | i49);
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    modifier2 = $dirty;
-                    $dirty2 = obj14;
-                    obj11 = obj12;
+                    modifier2 = $dirty2;
+                    $dirty = obj14;
+                    obj12 = obj6;
                     z = endInteractionSource2;
-                    obj6 = i;
-                    obj4 = i9;
-                    colors2 = i8;
-                    obj2 = i15;
-                    obj7 = i18;
+                    obj7 = i16;
+                    obj = i8;
+                    colors3 = i;
+                    obj11 = i9;
+                    obj4 = i13;
                     ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
                     if (endRestartGroup != null) {
-                        traceInProgress = new SliderKt.RangeSlider.18(state, $dirty2, z, obj11, obj6, obj4, colors2, obj2, obj7, i61, i62);
-                        endRestartGroup.updateScope((Function2)traceInProgress);
+                        traceInProgress2 = new SliderKt.RangeSlider.18(state, $dirty, z, obj12, obj7, obj, colors3, obj11, obj4, i60, i61);
+                        endRestartGroup.updateScope((Function2)traceInProgress2);
                     }
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                obj2 = endThumb;
+                obj11 = endThumb;
                 composer = restartGroup;
-                modifier2 = $dirty;
-                $dirty2 = str;
+                modifier2 = $dirty2;
+                $dirty = str;
                 z = z2;
-                obj11 = obj12;
-                obj6 = obj;
-                obj4 = endInteractionSource2;
-                colors2 = startThumb;
-                obj7 = track;
+                obj12 = obj6;
+                obj7 = obj8;
+                obj = endInteractionSource2;
+                colors3 = startThumb;
+                obj4 = track;
             }
         } else {
         }
         Composer $composer2 = restartGroup;
-        int i23 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("steps should be >= 0".toString());
-        throw illegalArgumentException;
+        int i22 = 0;
+        IllegalArgumentException $i$a$RequireSliderKt$RangeSlider$17 = new IllegalArgumentException("steps should be >= 0".toString());
+        throw $i$a$RequireSliderKt$RangeSlider$17;
     }
 
     public static final void RangeSlider(ClosedFloatingPointRange<Float> value, Function1<? super ClosedFloatingPointRange<Float>, Unit> onValueChange, Modifier modifier, boolean enabled, ClosedFloatingPointRange<Float> valueRange, int steps, Function0<Unit> onValueChangeFinished, androidx.compose.material3.SliderColors colors, Composer $composer, int $changed, int i11) {
-        Object obj3;
-        int traceInProgress;
-        int $dirty4;
-        int $dirty2;
-        Object obj;
+        Object obj8;
+        int traceInProgress2;
+        int $dirty3;
+        int $dirty5;
+        Object $i$a$CacheSliderKt$RangeSlider$startInteractionSource$1;
         int defaultsInvalid;
         Object modifier2;
         Object restartGroup;
-        int $dirty5;
-        int $dirty3;
-        int i14;
-        int i13;
-        Object colors2;
-        int i2;
-        int rangeTo;
+        int $dirty;
+        int $dirty4;
+        int i7;
+        int i8;
         Object colors3;
-        Object $dirty;
-        boolean traceInProgress2;
-        Object obj5;
+        int i4;
+        int rangeTo;
+        Object colors2;
+        Object $dirty2;
+        boolean traceInProgress;
+        Object $i$a$CacheSliderKt$RangeSlider$endInteractionSource$1;
         boolean z;
         int i;
         int str;
-        Object obj8;
+        Object obj4;
         boolean z2;
+        int i9;
         int i3;
-        int i6;
-        Object obj2;
-        Object obj6;
+        Object obj3;
+        Object obj5;
         int changed;
         androidx.compose.material3.SliderColors sliderColors;
-        Object obj9;
-        int i7;
-        Object obj7;
+        Object obj2;
+        int i6;
+        Object obj;
         int steps2;
-        int i5;
+        int i15;
         boolean i10;
         Object onValueChangeFinished2;
-        int i15;
-        Object i16;
+        int i5;
+        Object i12;
         int changed2;
-        int i9;
-        Object obj10;
-        Object obj4;
+        int i2;
+        Object obj7;
+        Object obj6;
         androidx.compose.runtime.internal.ComposableLambda composableLambda2;
         androidx.compose.runtime.internal.ComposableLambda composableLambda3;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i4;
-        Composer composer;
         int i17;
-        int i8;
-        int i12;
+        Composer composer;
+        int i16;
+        int i13;
+        int i14;
         int obj30;
         final int i63 = $changed;
         final int i64 = i11;
         restartGroup = $composer.startRestartGroup(-743091416);
         ComposerKt.sourceInformation(restartGroup, "C(RangeSlider)P(6,3,2,1,7,5,4)408@18812L8,410@18884L39,411@18981L39,423@19399L186,430@19606L184,437@19808L199,413@19026L987:Slider.kt#uh7d8r");
-        $dirty5 = $changed;
+        $dirty = $changed;
         if (i64 & 1 != 0) {
-            $dirty5 |= 6;
-            obj9 = value;
+            $dirty |= 6;
+            obj2 = value;
         } else {
             if (i63 & 6 == 0) {
-                i14 = restartGroup.changed(value) ? 4 : 2;
-                $dirty5 |= i14;
+                i7 = restartGroup.changed(value) ? 4 : 2;
+                $dirty |= i7;
             } else {
-                obj9 = value;
+                obj2 = value;
             }
         }
         if (i64 & 2 != 0) {
-            $dirty5 |= 48;
-            obj7 = onValueChange;
+            $dirty |= 48;
+            obj = onValueChange;
         } else {
             if (i63 & 48 == 0) {
-                i13 = restartGroup.changedInstance(onValueChange) ? 32 : 16;
-                $dirty5 |= i13;
+                i8 = restartGroup.changedInstance(onValueChange) ? 32 : 16;
+                $dirty |= i8;
             } else {
-                obj7 = onValueChange;
+                obj = onValueChange;
             }
         }
-        i2 = i64 & 4;
-        if (i2 != 0) {
-            $dirty5 |= 384;
-            $dirty = modifier;
+        i4 = i64 & 4;
+        if (i4 != 0) {
+            $dirty |= 384;
+            $dirty2 = modifier;
         } else {
             if (i63 & 384 == 0) {
                 i = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty5 |= i;
+                $dirty |= i;
             } else {
-                $dirty = modifier;
+                $dirty2 = modifier;
             }
         }
         str = i64 & 8;
         if (str != null) {
-            $dirty5 |= 3072;
+            $dirty |= 3072;
             z2 = enabled;
         } else {
             if (i63 & 3072 == 0) {
-                i6 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty5 |= i6;
+                i3 = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty |= i3;
             } else {
                 z2 = enabled;
             }
@@ -521,21 +521,21 @@ public final class SliderKt {
             if (i64 & 16 == 0) {
                 changed = restartGroup.changed(valueRange) ? 16384 : 8192;
             } else {
-                obj2 = valueRange;
+                obj3 = valueRange;
             }
-            $dirty5 |= changed;
+            $dirty |= changed;
         } else {
-            obj2 = valueRange;
+            obj3 = valueRange;
         }
         int i59 = i64 & 32;
         int i65 = 196608;
         if (i59 != 0) {
-            $dirty5 |= i65;
+            $dirty |= i65;
             steps2 = steps;
         } else {
             if (i65 &= i63 == 0) {
-                i5 = restartGroup.changed(steps) ? 131072 : 65536;
-                $dirty5 |= i5;
+                i15 = restartGroup.changed(steps) ? 131072 : 65536;
+                $dirty |= i15;
             } else {
                 steps2 = steps;
             }
@@ -543,12 +543,12 @@ public final class SliderKt {
         i10 = i64 & 64;
         int i67 = 1572864;
         if (i10 != 0) {
-            $dirty5 |= i67;
+            $dirty |= i67;
             onValueChangeFinished2 = onValueChangeFinished;
         } else {
             if (i67 &= i63 == 0) {
-                i15 = restartGroup.changedInstance(onValueChangeFinished) ? 1048576 : 524288;
-                $dirty5 |= i15;
+                i5 = restartGroup.changedInstance(onValueChangeFinished) ? 1048576 : 524288;
+                $dirty |= i5;
             } else {
                 onValueChangeFinished2 = onValueChangeFinished;
             }
@@ -557,33 +557,33 @@ public final class SliderKt {
             if (i64 & 128 == 0) {
                 changed2 = restartGroup.changed(colors) ? 8388608 : 4194304;
             } else {
-                obj3 = colors;
+                obj8 = colors;
             }
-            $dirty5 |= changed2;
+            $dirty |= changed2;
         } else {
-            obj3 = colors;
+            obj8 = colors;
         }
-        final int obj36 = $dirty5;
-        if ($dirty5 & i9 == 4793490) {
+        final int obj36 = $dirty;
+        if ($dirty & i2 == 4793490) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i24 = -29360129;
                 int i70 = -57345;
                 if (i63 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i2 != 0) {
+                        if (i4 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = $dirty;
+                            modifier2 = $dirty2;
                         }
                         if (str != null) {
-                            z2 = i2;
+                            z2 = i4;
                         }
                         if (i64 & 16 != 0) {
-                            $dirty = obj36 & i70;
-                            obj2 = rangeTo;
+                            $dirty2 = obj36 & i70;
+                            obj3 = rangeTo;
                         } else {
-                            $dirty = obj36;
+                            $dirty2 = obj36;
                         }
                         if (i59 != 0) {
                             steps2 = rangeTo;
@@ -592,44 +592,44 @@ public final class SliderKt {
                             onValueChangeFinished2 = rangeTo;
                         }
                         if (i64 & 128 != 0) {
-                            colors2 = SliderDefaults.INSTANCE.colors(restartGroup, 6);
-                            i24 &= $dirty;
+                            colors3 = SliderDefaults.INSTANCE.colors(restartGroup, 6);
+                            i24 &= $dirty2;
                             i10 = z2;
-                            i4 = steps2;
-                            i16 = onValueChangeFinished2;
+                            i17 = steps2;
+                            i12 = onValueChangeFinished2;
                             steps2 = modifier2;
-                            onValueChangeFinished2 = obj2;
-                            $dirty2 = -743091416;
+                            onValueChangeFinished2 = obj3;
+                            $dirty5 = -743091416;
                         } else {
-                            colors2 = colors;
-                            $dirty3 = $dirty;
+                            colors3 = colors;
+                            $dirty4 = $dirty2;
                             i10 = z2;
-                            i4 = steps2;
-                            i16 = onValueChangeFinished2;
+                            i17 = steps2;
+                            i12 = onValueChangeFinished2;
                             steps2 = modifier2;
-                            onValueChangeFinished2 = obj2;
-                            $dirty2 = -743091416;
+                            onValueChangeFinished2 = obj3;
+                            $dirty5 = -743091416;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        $dirty4 = i64 & 16 != 0 ? obj36 & i70 : obj36;
+                        $dirty3 = i64 & 16 != 0 ? obj36 & i70 : obj36;
                         if (i64 & 128 != 0) {
-                            $dirty4 &= i24;
+                            $dirty3 &= i24;
                         }
-                        colors2 = colors;
-                        $dirty3 = $dirty4;
+                        colors3 = colors;
+                        $dirty4 = $dirty3;
                         i10 = z2;
-                        i4 = steps2;
-                        i16 = onValueChangeFinished2;
-                        $dirty2 = -743091416;
-                        steps2 = $dirty;
-                        onValueChangeFinished2 = obj2;
+                        i17 = steps2;
+                        i12 = onValueChangeFinished2;
+                        $dirty5 = -743091416;
+                        steps2 = $dirty2;
+                        onValueChangeFinished2 = obj3;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart($dirty2, $dirty3, -1, "androidx.compose.material3.RangeSlider (Slider.kt:409)");
+                    ComposerKt.traceEventStart($dirty5, $dirty4, -1, "androidx.compose.material3.RangeSlider (Slider.kt:409)");
                 }
                 String str3 = "CC(remember):Slider.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1661051042, str3);
@@ -642,7 +642,7 @@ public final class SliderKt {
                     int i22 = 0;
                     composer2.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                 } else {
-                    obj = rememberedValue;
+                    $i$a$CacheSliderKt$RangeSlider$startInteractionSource$1 = rememberedValue;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 1661054146, str3);
@@ -655,124 +655,124 @@ public final class SliderKt {
                     int i30 = 0;
                     composer3.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                 } else {
-                    obj5 = rememberedValue2;
+                    $i$a$CacheSliderKt$RangeSlider$endInteractionSource$1 = rememberedValue2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                SliderKt.RangeSlider.1 anon = new SliderKt.RangeSlider.1((MutableInteractionSource)obj, colors2, i10);
+                SliderKt.RangeSlider.1 anon = new SliderKt.RangeSlider.1((MutableInteractionSource)$i$a$CacheSliderKt$RangeSlider$startInteractionSource$1, colors3, i10);
                 int i56 = 1;
                 int i62 = 54;
-                SliderKt.RangeSlider.2 anon2 = new SliderKt.RangeSlider.2((MutableInteractionSource)obj5, colors2, i10);
-                SliderKt.RangeSlider.3 anon3 = new SliderKt.RangeSlider.3(i10, colors2);
-                SliderKt.RangeSlider(obj9, obj7, steps2, i10, onValueChangeFinished2, i16, 0, obj, obj5, (Function3)ComposableLambdaKt.rememberComposableLambda(-811582901, i56, anon, restartGroup, i62), (Function3)ComposableLambdaKt.rememberComposableLambda(-1832060001, i56, anon2, restartGroup, i62), (Function3)ComposableLambdaKt.rememberComposableLambda(377064480, i56, anon3, restartGroup, i62), i4, restartGroup, i38 | i54, i40 | 54, 64);
+                SliderKt.RangeSlider.2 anon2 = new SliderKt.RangeSlider.2((MutableInteractionSource)$i$a$CacheSliderKt$RangeSlider$endInteractionSource$1, colors3, i10);
+                SliderKt.RangeSlider.3 anon3 = new SliderKt.RangeSlider.3(i10, colors3);
+                SliderKt.RangeSlider(obj2, obj, steps2, i10, onValueChangeFinished2, i12, 0, $i$a$CacheSliderKt$RangeSlider$startInteractionSource$1, $i$a$CacheSliderKt$RangeSlider$endInteractionSource$1, (Function3)ComposableLambdaKt.rememberComposableLambda(-811582901, i56, anon, restartGroup, i62), (Function3)ComposableLambdaKt.rememberComposableLambda(-1832060001, i56, anon2, restartGroup, i62), (Function3)ComposableLambdaKt.rememberComposableLambda(377064480, i56, anon3, restartGroup, i62), i17, restartGroup, i38 | i54, i40 | 54, 64);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i7 = $dirty3;
-                sliderColors = colors2;
-                colors3 = steps2;
+                i6 = $dirty4;
+                sliderColors = colors3;
+                colors2 = steps2;
                 z = i10;
-                obj8 = onValueChangeFinished2;
-                obj6 = i16;
-                i3 = i4;
+                obj4 = onValueChangeFinished2;
+                obj5 = i12;
+                i9 = i17;
             } else {
                 restartGroup.skipToGroupEnd();
                 sliderColors = colors;
-                i7 = obj36;
+                i6 = obj36;
                 composer = restartGroup;
-                colors3 = $dirty;
+                colors2 = $dirty2;
                 z = z2;
-                obj8 = obj2;
-                i3 = steps2;
-                obj6 = onValueChangeFinished2;
+                obj4 = obj3;
+                i9 = steps2;
+                obj5 = onValueChangeFinished2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new SliderKt.RangeSlider.4(value, onValueChange, colors3, z, obj8, i3, obj6, sliderColors, i63, i64);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new SliderKt.RangeSlider.4(value, onValueChange, colors2, z, obj4, i9, obj5, sliderColors, i63, i64);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void RangeSlider(ClosedFloatingPointRange<Float> value, Function1<? super ClosedFloatingPointRange<Float>, Unit> onValueChange, Modifier modifier, boolean enabled, ClosedFloatingPointRange<Float> valueRange, Function0<Unit> onValueChangeFinished, androidx.compose.material3.SliderColors colors, MutableInteractionSource startInteractionSource, MutableInteractionSource endInteractionSource, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> startThumb, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> endThumb, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> track, int steps, Composer $composer, int $changed, int $changed1, int i17) {
-        int i20;
+        int i7;
         int skipping;
-        Object valueRange4;
         Object valueRange2;
-        int startInteractionSource3;
-        int i9;
-        int i16;
+        Object valueRange3;
+        int startInteractionSource2;
+        int i22;
+        int i4;
         Object it$iv;
-        int endThumb3;
+        int endThumb2;
+        Object obj4;
+        Object obj10;
+        Object obj8;
         Object obj2;
-        Object obj11;
-        Object obj;
-        Object obj9;
         Object composer;
-        int i;
+        int i11;
         ScopeUpdateScope endRestartGroup;
         Object $composer2;
         Object $composer3;
-        int $dirty;
-        Object endInteractionSource4;
-        androidx.compose.runtime.internal.ComposableLambda endInteractionSource2;
-        Object endThumb2;
-        androidx.compose.runtime.internal.ComposableLambda $dirty3;
-        int i10;
-        int changed;
-        int i11;
-        Object obj5;
+        int $dirty3;
+        Object $i$a$CacheSliderKt$RangeSlider$6;
+        androidx.compose.runtime.internal.ComposableLambda endInteractionSource3;
+        Object endThumb3;
+        androidx.compose.runtime.internal.ComposableLambda $dirty;
+        int i24;
+        int changed3;
+        int i;
+        Object $i$a$CacheSliderKt$RangeSlider$state$1;
         int empty;
         boolean $dirty2;
         int $dirty1;
-        Object $dirty13;
+        Object $dirty12;
         Object obj7;
-        int i7;
-        Object obj8;
-        Object obj3;
+        int i18;
+        Object obj6;
+        Object obj;
         Object modifier2;
-        boolean obj10;
+        boolean obj5;
         Object enabled2;
         int i14;
+        int i3;
         int i25;
-        int i21;
-        int i8;
+        int i10;
         int companion;
-        int i24;
+        int i9;
         Object onValueChangeFinished3;
         Object onValueChangeFinished2;
-        Object obj6;
-        Object colors2;
-        androidx.compose.runtime.internal.ComposableLambda colors3;
+        Object obj3;
+        Object colors3;
+        androidx.compose.runtime.internal.ComposableLambda colors2;
         Object steps2;
-        androidx.compose.runtime.internal.ComposableLambda valueRange3;
-        Object obj4;
+        androidx.compose.runtime.internal.ComposableLambda valueRange4;
+        Object obj9;
         androidx.compose.runtime.internal.ComposableLambda rememberComposableLambda;
         androidx.compose.runtime.internal.ComposableLambda startThumb2;
         int rememberedValue;
         Object composer3;
-        int i18;
-        int i3;
-        int startInteractionSource2;
-        int i13;
-        int i2;
-        int $dirty12;
-        int changed2;
-        Composer composer2;
-        int endInteractionSource3;
-        int changed3;
-        int i19;
-        int companion2;
-        int i4;
-        int i12;
-        int rangeSliderState;
-        int floatValue2;
-        int i22;
-        int floatValue;
-        int i15;
-        int i5;
         int i23;
+        int i15;
+        int startInteractionSource3;
+        int i2;
+        int i12;
+        int $dirty13;
+        int changed;
+        Composer composer2;
+        int endInteractionSource2;
+        int changed2;
         int i6;
+        int companion2;
+        int i8;
+        int i19;
+        int rangeSliderState;
+        int floatValue;
+        int i13;
+        int floatValue2;
+        int i16;
+        int i20;
+        int i5;
+        int i21;
         boolean changedInstance;
         ScopeUpdateScope scopeUpdateScope;
         Object obj32;
@@ -787,178 +787,178 @@ public final class SliderKt {
         Composer obj41;
         int obj42;
         Composer obj43;
-        final Object obj12 = onValueChange;
+        final Object obj11 = onValueChange;
         final int i89 = $changed;
         final int i90 = $changed1;
         int i26 = i17;
         $composer2 = $composer.startRestartGroup(-1048796133);
         ComposerKt.sourceInformation($composer2, "C(RangeSlider)P(11,5,4,1,12,6!1,7!1,8!1,10)511@23750L8,512@23815L39,513@23909L39,514@24007L162,521@24226L160,528@24440L175,538@24684L237,549@25005L44,553@25142L291:Slider.kt#uh7d8r");
-        $dirty = $changed;
+        $dirty3 = $changed;
         $dirty1 = $changed1;
         if (i26 & 1 != 0) {
-            $dirty |= 6;
+            $dirty3 |= 6;
             obj7 = value;
         } else {
             if (i89 & 6 == 0) {
                 i14 = $composer2.changed(value) ? 4 : 2;
-                $dirty |= i14;
+                $dirty3 |= i14;
             } else {
                 obj7 = value;
             }
         }
         if (i26 & 2 != 0) {
-            $dirty |= 48;
+            $dirty3 |= 48;
         } else {
             if (i89 & 48 == 0) {
-                i25 = $composer2.changedInstance(obj12) ? 32 : 16;
-                $dirty |= i25;
+                i3 = $composer2.changedInstance(obj11) ? 32 : 16;
+                $dirty3 |= i3;
             }
         }
         companion = i26 & 4;
         if (companion != 0) {
-            $dirty |= 384;
-            obj3 = modifier;
+            $dirty3 |= 384;
+            obj = modifier;
         } else {
             if (i89 & 384 == 0) {
-                i3 = $composer2.changed(modifier) ? 256 : 128;
-                $dirty |= i3;
+                i15 = $composer2.changed(modifier) ? 256 : 128;
+                $dirty3 |= i15;
             } else {
-                obj3 = modifier;
+                obj = modifier;
             }
         }
-        startInteractionSource2 = i26 & 8;
-        if (startInteractionSource2 != 0) {
-            $dirty |= 3072;
-            obj10 = enabled;
+        startInteractionSource3 = i26 & 8;
+        if (startInteractionSource3 != 0) {
+            $dirty3 |= 3072;
+            obj5 = enabled;
         } else {
             if (i89 & 3072 == 0) {
-                changed2 = $composer2.changed(enabled) ? 2048 : 1024;
-                $dirty |= changed2;
+                changed = $composer2.changed(enabled) ? 2048 : 1024;
+                $dirty3 |= changed;
             } else {
-                obj10 = enabled;
+                obj5 = enabled;
             }
         }
         if (i89 & 24576 == 0) {
             if (i26 & 16 == 0) {
-                changed3 = $composer2.changed(valueRange) ? 16384 : 8192;
+                changed2 = $composer2.changed(valueRange) ? 16384 : 8192;
             } else {
                 steps2 = valueRange;
             }
-            $dirty |= changed3;
+            $dirty3 |= changed2;
         } else {
             steps2 = valueRange;
         }
         int i97 = i26 & 32;
         companion2 = 196608;
         if (i97 != 0) {
-            $dirty |= companion2;
-            obj6 = onValueChangeFinished;
+            $dirty3 |= companion2;
+            obj3 = onValueChangeFinished;
         } else {
             if (i89 & companion2 == 0) {
-                i4 = $composer2.changedInstance(onValueChangeFinished) ? 131072 : 65536;
-                $dirty |= i4;
+                i8 = $composer2.changedInstance(onValueChangeFinished) ? 131072 : 65536;
+                $dirty3 |= i8;
             } else {
-                obj6 = onValueChangeFinished;
+                obj3 = onValueChangeFinished;
             }
         }
         if (i89 & i98 == 0) {
             if (i26 & 64 == 0) {
                 rangeSliderState = $composer2.changed(colors) ? 1048576 : 524288;
             } else {
-                obj4 = colors;
+                obj9 = colors;
             }
-            $dirty |= rangeSliderState;
+            $dirty3 |= rangeSliderState;
         } else {
-            obj4 = colors;
+            obj9 = colors;
         }
         rememberedValue = i26 & 128;
-        floatValue2 = 12582912;
+        floatValue = 12582912;
         if (rememberedValue != 0) {
-            $dirty |= floatValue2;
-            obj2 = startInteractionSource;
+            $dirty3 |= floatValue;
+            obj4 = startInteractionSource;
         } else {
-            if (i89 & floatValue2 == 0) {
-                i22 = $composer2.changed(startInteractionSource) ? 8388608 : 4194304;
-                $dirty |= i22;
+            if (i89 & floatValue == 0) {
+                i13 = $composer2.changed(startInteractionSource) ? 8388608 : 4194304;
+                $dirty3 |= i13;
             } else {
-                obj2 = startInteractionSource;
+                obj4 = startInteractionSource;
             }
         }
         int i41 = i26 & 256;
         int i99 = 100663296;
         if (i41 != 0) {
-            $dirty |= i99;
-            floatValue = i41;
-            obj11 = endInteractionSource;
+            $dirty3 |= i99;
+            floatValue2 = i41;
+            obj10 = endInteractionSource;
         } else {
             if (i89 & i99 == 0) {
-                floatValue = i41;
-                i15 = $composer2.changed(endInteractionSource) ? 67108864 : 33554432;
-                $dirty |= i15;
+                floatValue2 = i41;
+                i16 = $composer2.changed(endInteractionSource) ? 67108864 : 33554432;
+                $dirty3 |= i16;
             } else {
-                floatValue = i41;
-                obj11 = endInteractionSource;
+                floatValue2 = i41;
+                obj10 = endInteractionSource;
             }
         }
         int i42 = i26 & 512;
         int i101 = 805306368;
         if (i42 != 0) {
-            $dirty |= i101;
-            i5 = i42;
-            obj = startThumb;
+            $dirty3 |= i101;
+            i20 = i42;
+            obj8 = startThumb;
         } else {
             if (i89 & i101 == 0) {
-                i5 = i42;
-                i23 = $composer2.changedInstance(startThumb) ? 536870912 : 268435456;
-                $dirty |= i23;
+                i20 = i42;
+                i5 = $composer2.changedInstance(startThumb) ? 536870912 : 268435456;
+                $dirty3 |= i5;
             } else {
-                i5 = i42;
-                obj = startThumb;
+                i20 = i42;
+                obj8 = startThumb;
             }
         }
         int i43 = i26 & 1024;
         if (i43 != 0) {
             $dirty1 |= 6;
-            i6 = i43;
-            obj9 = endThumb;
+            i21 = i43;
+            obj2 = endThumb;
         } else {
             if (i90 & 6 == 0) {
-                i6 = i43;
-                i13 = $composer2.changedInstance(endThumb) ? 4 : 2;
-                $dirty1 |= i13;
+                i21 = i43;
+                i2 = $composer2.changedInstance(endThumb) ? 4 : 2;
+                $dirty1 |= i2;
             } else {
-                i6 = i43;
-                obj9 = endThumb;
+                i21 = i43;
+                obj2 = endThumb;
             }
         }
         int i44 = i26 & 2048;
         if (i44 != 0) {
             $dirty1 |= 48;
-            i2 = i44;
+            i12 = i44;
             composer = track;
         } else {
             if (i90 & 48 == 0) {
-                i2 = i44;
-                changed2 = $composer2.changedInstance(track) ? 32 : 16;
-                $dirty1 |= changed2;
+                i12 = i44;
+                changed = $composer2.changedInstance(track) ? 32 : 16;
+                $dirty1 |= changed;
             } else {
-                i2 = i44;
+                i12 = i44;
                 composer = track;
             }
         }
         int i45 = i26 & 4096;
         if (i45 != 0) {
             $dirty1 |= 384;
-            i20 = steps;
+            i7 = steps;
         } else {
             if (i90 & 384 == 0) {
-                endInteractionSource3 = $composer2.changed(steps) ? 256 : 128;
-                $dirty1 |= endInteractionSource3;
+                endInteractionSource2 = $composer2.changed(steps) ? 256 : 128;
+                $dirty1 |= endInteractionSource2;
             } else {
-                i20 = steps;
+                i7 = steps;
             }
         }
-        if ($dirty & i93 == 306783378 && $dirty1 & 147 == 146) {
+        if ($dirty3 & i93 == 306783378 && $dirty1 & 147 == 146) {
             if ($dirty1 & 147 == 146) {
                 if (!$composer2.getSkipping()) {
                     $composer2.startDefaults();
@@ -966,171 +966,171 @@ public final class SliderKt {
                     if (i89 & 1 != 0) {
                         if ($composer2.getDefaultsInvalid()) {
                             if (companion != 0) {
-                                obj3 = companion;
+                                obj = companion;
                             }
-                            if (startInteractionSource2 != 0) {
-                                obj10 = 1;
+                            if (startInteractionSource3 != 0) {
+                                obj5 = 1;
                             }
                             if (i17 & 16 != 0) {
-                                valueRange4 = RangesKt.rangeTo(0, 1065353216);
-                                $dirty &= i24;
+                                valueRange2 = RangesKt.rangeTo(0, 1065353216);
+                                $dirty3 &= i9;
                             } else {
-                                valueRange4 = steps2;
+                                valueRange2 = steps2;
                             }
-                            onValueChangeFinished3 = i97 != 0 ? 0 : obj6;
+                            onValueChangeFinished3 = i97 != 0 ? 0 : obj3;
                             if (i17 & 64 != 0) {
-                                colors2 = SliderDefaults.INSTANCE.colors($composer2, 6);
-                                $dirty &= steps2;
+                                colors3 = SliderDefaults.INSTANCE.colors($composer2, 6);
+                                $dirty3 &= steps2;
                             } else {
-                                colors2 = obj4;
+                                colors3 = obj9;
                             }
                             if (rememberedValue != 0) {
                                 ComposerKt.sourceInformationMarkerStart($composer2, 1661208834, str);
                                 steps2 = 0;
-                                obj4 = $composer2;
+                                obj9 = $composer2;
                                 rememberedValue = 0;
-                                obj32 = valueRange4;
-                                Object rememberedValue2 = obj4.rememberedValue();
-                                startInteractionSource2 = 0;
-                                obj33 = $dirty;
+                                obj32 = valueRange2;
+                                Object rememberedValue2 = obj9.rememberedValue();
+                                startInteractionSource3 = 0;
+                                obj33 = $dirty3;
                                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
                                     int i70 = 0;
-                                    obj4.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                                    obj9.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                                 } else {
-                                    $dirty = rememberedValue2;
+                                    $dirty3 = rememberedValue2;
                                 }
-                                valueRange2 = $dirty;
+                                valueRange3 = $dirty3;
                                 ComposerKt.sourceInformationMarkerEnd($composer2);
                             } else {
-                                obj32 = valueRange4;
-                                obj33 = $dirty;
-                                valueRange2 = startInteractionSource;
+                                obj32 = valueRange2;
+                                obj33 = $dirty3;
+                                valueRange3 = startInteractionSource;
                             }
-                            if (floatValue != 0) {
+                            if (floatValue2 != 0) {
                                 ComposerKt.sourceInformationMarkerStart($composer2, 1661211842, str);
                                 steps2 = $composer2;
-                                obj4 = 0;
+                                obj9 = 0;
                                 rememberedValue = steps2.rememberedValue();
-                                startInteractionSource2 = 0;
+                                startInteractionSource3 = 0;
                                 obj34 = i68;
                                 if (rememberedValue == Composer.Companion.getEmpty()) {
                                     int i69 = 0;
                                     steps2.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                                 } else {
-                                    endInteractionSource4 = rememberedValue;
+                                    $i$a$CacheSliderKt$RangeSlider$6 = rememberedValue;
                                 }
                                 ComposerKt.sourceInformationMarkerEnd($composer2);
                             } else {
-                                endInteractionSource4 = endInteractionSource;
+                                $i$a$CacheSliderKt$RangeSlider$6 = endInteractionSource;
                             }
                             int i85 = 54;
-                            if (i5 != 0) {
-                                SliderKt.RangeSlider.7 anon = new SliderKt.RangeSlider.7(valueRange2, colors2, obj10);
-                                startInteractionSource2 = valueRange2;
+                            if (i20 != 0) {
+                                SliderKt.RangeSlider.7 anon = new SliderKt.RangeSlider.7(valueRange3, colors3, obj5);
+                                startInteractionSource3 = valueRange3;
                                 rememberComposableLambda = ComposableLambdaKt.rememberComposableLambda(-1963073082, true, anon, $composer2, i85);
                             } else {
-                                startInteractionSource2 = valueRange2;
-                                startInteractionSource3 = 1;
+                                startInteractionSource3 = valueRange3;
+                                startInteractionSource2 = 1;
                                 rememberComposableLambda = startThumb;
                             }
-                            if (i6 != 0) {
-                                rememberedValue = new SliderKt.RangeSlider.8(endInteractionSource4, colors2, obj10);
-                                endInteractionSource3 = endInteractionSource4;
-                                endInteractionSource2 = ComposableLambdaKt.rememberComposableLambda(1908709951, startInteractionSource3, rememberedValue, $composer2, i85);
+                            if (i21 != 0) {
+                                rememberedValue = new SliderKt.RangeSlider.8($i$a$CacheSliderKt$RangeSlider$6, colors3, obj5);
+                                endInteractionSource2 = $i$a$CacheSliderKt$RangeSlider$6;
+                                endInteractionSource3 = ComposableLambdaKt.rememberComposableLambda(1908709951, startInteractionSource2, rememberedValue, $composer2, i85);
                             } else {
-                                endInteractionSource3 = endInteractionSource4;
-                                endInteractionSource2 = endThumb;
+                                endInteractionSource2 = $i$a$CacheSliderKt$RangeSlider$6;
+                                endInteractionSource3 = endThumb;
                             }
-                            if (i2 != 0) {
-                                rememberedValue = new SliderKt.RangeSlider.9(obj10, colors2);
-                                obj34 = endInteractionSource2;
-                                endThumb2 = ComposableLambdaKt.rememberComposableLambda(-429193201, startInteractionSource3, rememberedValue, $composer2, i85);
+                            if (i12 != 0) {
+                                rememberedValue = new SliderKt.RangeSlider.9(obj5, colors3);
+                                obj34 = endInteractionSource3;
+                                endThumb3 = ComposableLambdaKt.rememberComposableLambda(-429193201, startInteractionSource2, rememberedValue, $composer2, i85);
                             } else {
-                                obj34 = endInteractionSource2;
-                                endThumb2 = track;
+                                obj34 = endInteractionSource3;
+                                endThumb3 = track;
                             }
                             if (i45 != 0) {
-                                i9 = obj33;
-                                composer3 = endThumb2;
-                                i2 = i86;
+                                i22 = obj33;
+                                composer3 = endThumb3;
+                                i12 = i86;
                                 steps2 = obj32;
-                                $dirty3 = obj34;
+                                $dirty = obj34;
                             } else {
                                 steps2 = obj32;
-                                i9 = obj33;
-                                i2 = steps;
-                                composer3 = endThumb2;
-                                $dirty3 = obj34;
+                                i22 = obj33;
+                                i12 = steps;
+                                composer3 = endThumb3;
+                                $dirty = obj34;
                             }
                         } else {
                             $composer2.skipToGroupEnd();
                             if (i17 & 16 != 0) {
-                                $dirty &= i21;
+                                $dirty3 &= i25;
                             }
                             if (i17 & 64 != 0) {
-                                $dirty &= i8;
+                                $dirty3 &= i10;
                             }
-                            startInteractionSource2 = startInteractionSource;
-                            endInteractionSource3 = endInteractionSource;
+                            startInteractionSource3 = startInteractionSource;
+                            endInteractionSource2 = endInteractionSource;
                             composer3 = track;
-                            i2 = steps;
-                            i9 = $dirty;
-                            onValueChangeFinished3 = obj6;
-                            colors2 = obj4;
+                            i12 = steps;
+                            i22 = $dirty3;
+                            onValueChangeFinished3 = obj3;
+                            colors3 = obj9;
                             rememberComposableLambda = startThumb;
-                            $dirty3 = endThumb;
+                            $dirty = endThumb;
                         }
                     } else {
                     }
                     $composer2.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        obj39 = $dirty3;
-                        ComposerKt.traceEventStart(-1048796133, i9, $dirty1, "androidx.compose.material3.RangeSlider (Slider.kt:536)");
+                        obj39 = $dirty;
+                        ComposerKt.traceEventStart(-1048796133, i22, $dirty1, "androidx.compose.material3.RangeSlider (Slider.kt:536)");
                     } else {
-                        obj39 = $dirty3;
+                        obj39 = $dirty;
                     }
                     ComposerKt.sourceInformationMarkerStart($composer2, 1661236840, str);
-                    i10 = $dirty1 & 896 == 256 ? 1 : 0;
+                    i24 = $dirty1 & 896 == 256 ? 1 : 0;
                     if (i76 ^= 24576 > 16384) {
                         if (!$composer2.changed(steps2)) {
-                            i11 = i9 & 24576 == 16384 ? 1 : 0;
+                            i = i22 & 24576 == 16384 ? 1 : 0;
                         } else {
                         }
                     } else {
                     }
-                    empty = obj32 | i11;
+                    empty = obj32 | i;
                     Composer composer5 = $composer2;
                     int i95 = 0;
-                    i19 = i9;
+                    i6 = i22;
                     Object rememberedValue3 = composer5.rememberedValue();
-                    i12 = 0;
+                    i19 = 0;
                     if (empty == 0) {
                         obj40 = empty;
                         if (rememberedValue3 == Composer.Companion.getEmpty()) {
                             int invalid$iv = 0;
                             obj32 = rangeSliderState;
-                            super((Number)value.getStart().floatValue(), (Number)value.getEndInclusive().floatValue(), i2, onValueChangeFinished3, steps2);
+                            super((Number)value.getStart().floatValue(), (Number)value.getEndInclusive().floatValue(), i12, onValueChangeFinished3, steps2);
                             composer5.updateRememberedValue(obj32);
                         } else {
-                            obj5 = rememberedValue3;
+                            $i$a$CacheSliderKt$RangeSlider$state$1 = rememberedValue3;
                         }
                     } else {
                         obj40 = empty;
                     }
                     ComposerKt.sourceInformationMarkerEnd($composer2);
-                    (RangeSliderState)obj5.setOnValueChangeFinished(onValueChangeFinished3);
+                    (RangeSliderState)$i$a$CacheSliderKt$RangeSlider$state$1.setOnValueChangeFinished(onValueChangeFinished3);
                     ComposerKt.sourceInformationMarkerStart($composer2, 1661246919, str);
-                    i16 = i19 & 112 == 32 ? 1 : 0;
+                    i4 = i6 & 112 == 32 ? 1 : 0;
                     Composer composer4 = $composer2;
                     int i77 = 0;
                     it$iv = composer4.rememberedValue();
                     int i96 = 0;
-                    if (i16 == 0) {
+                    if (i4 == 0) {
                         obj43 = $composer2;
                         if (it$iv == Composer.Companion.getEmpty()) {
                             $composer2 = 0;
                             obj33 = it$iv;
-                            it$iv = new SliderKt.RangeSlider.10.1(obj12);
+                            it$iv = new SliderKt.RangeSlider.10.1(obj11);
                             composer4.updateRememberedValue((Function1)it$iv);
                         } else {
                             obj33 = it$iv;
@@ -1139,43 +1139,43 @@ public final class SliderKt {
                         obj43 = $composer2;
                     }
                     ComposerKt.sourceInformationMarkerEnd(obj43);
-                    obj5.setOnValueChange$material3_release((Function1)it$iv);
-                    obj5.setActiveRangeStart((Number)value.getStart().floatValue());
-                    obj5.setActiveRangeEnd((Number)value.getEndInclusive().floatValue());
+                    $i$a$CacheSliderKt$RangeSlider$state$1.setOnValueChange$material3_release((Function1)it$iv);
+                    $i$a$CacheSliderKt$RangeSlider$state$1.setActiveRangeStart((Number)value.getStart().floatValue());
+                    $i$a$CacheSliderKt$RangeSlider$state$1.setActiveRangeEnd((Number)value.getEndInclusive().floatValue());
                     obj41 = obj43;
                     obj40 = composer3;
-                    SliderKt.RangeSlider(obj5, obj3, obj10, 0, startInteractionSource2, endInteractionSource3, rememberComposableLambda, obj39, obj40, obj41, i38 |= i58, 8);
+                    SliderKt.RangeSlider($i$a$CacheSliderKt$RangeSlider$state$1, obj, obj5, 0, startInteractionSource3, endInteractionSource2, rememberComposableLambda, obj39, obj40, obj41, i38 |= i58, 8);
                     composer2 = obj41;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    valueRange3 = composableLambda;
-                    endThumb3 = $dirty1;
-                    $dirty13 = obj13;
-                    $composer3 = obj3;
-                    $dirty2 = obj10;
-                    obj8 = onValueChangeFinished3;
-                    modifier2 = colors2;
-                    colors3 = rememberComposableLambda;
-                    enabled2 = startInteractionSource2;
-                    i18 = i2;
-                    onValueChangeFinished2 = endInteractionSource3;
-                    startThumb2 = i;
+                    valueRange4 = composableLambda;
+                    endThumb2 = $dirty1;
+                    $dirty12 = obj12;
+                    $composer3 = obj;
+                    $dirty2 = obj5;
+                    obj6 = onValueChangeFinished3;
+                    modifier2 = colors3;
+                    colors2 = rememberComposableLambda;
+                    enabled2 = startInteractionSource3;
+                    i23 = i12;
+                    onValueChangeFinished2 = endInteractionSource2;
+                    startThumb2 = i11;
                 } else {
                     $composer2.skipToGroupEnd();
                     onValueChangeFinished2 = endInteractionSource;
-                    i18 = steps;
+                    i23 = steps;
                     composer2 = $composer2;
-                    i19 = $dirty;
-                    endThumb3 = $dirty1;
-                    $composer3 = obj3;
-                    $dirty2 = obj10;
-                    obj8 = obj6;
-                    $dirty13 = steps2;
-                    modifier2 = obj4;
+                    i6 = $dirty3;
+                    endThumb2 = $dirty1;
+                    $composer3 = obj;
+                    $dirty2 = obj5;
+                    obj6 = obj3;
+                    $dirty12 = steps2;
+                    modifier2 = obj9;
                     enabled2 = startInteractionSource;
-                    colors3 = startThumb;
-                    valueRange3 = endThumb;
+                    colors2 = startThumb;
+                    valueRange4 = endThumb;
                     startThumb2 = track;
                 }
             } else {
@@ -1184,387 +1184,387 @@ public final class SliderKt {
         }
         endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            $dirty12 = i91;
-            endThumb3 = new SliderKt.RangeSlider.11(value, obj12, $composer3, $dirty2, $dirty13, obj8, modifier2, enabled2, onValueChangeFinished2, colors3, valueRange3, startThumb2, i18, i89, i90, i17);
-            endRestartGroup.updateScope((Function2)endThumb3);
+            $dirty13 = i91;
+            endThumb2 = new SliderKt.RangeSlider.11(value, obj11, $composer3, $dirty2, $dirty12, obj6, modifier2, enabled2, onValueChangeFinished2, colors2, valueRange4, startThumb2, i23, i89, i90, i17);
+            endRestartGroup.updateScope((Function2)endThumb2);
         } else {
-            $dirty12 = endThumb3;
+            $dirty13 = endThumb2;
         }
     }
 
     private static final void RangeSliderImpl(Modifier modifier, androidx.compose.material3.RangeSliderState state, boolean enabled, MutableInteractionSource startInteractionSource, MutableInteractionSource endInteractionSource, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> startThumb, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> endThumb, Function3<? super androidx.compose.material3.RangeSliderState, ? super Composer, ? super Integer, Unit> track, Composer $composer, int $changed) {
-        boolean traceInProgress2;
-        int i10;
-        Object invalid$iv;
-        Function0 factory$iv$iv$iv2;
-        Function0 factory$iv$iv$iv;
-        int $dirty;
-        Object obj3;
-        int skipping;
         boolean traceInProgress;
-        Object it$iv2;
+        int i8;
+        Object invalid$iv;
         Function0 factory$iv$iv$iv3;
+        Function0 factory$iv$iv$iv2;
+        int $dirty;
+        Object obj8;
+        int skipping;
+        boolean traceInProgress2;
+        Object it$iv;
+        Function0 factory$iv$iv$iv;
         Composer materialized$iv$iv;
         Integer currentCompositionLocalMap;
-        Object obj5;
+        Object obj;
         Integer topStart;
         int obj7;
-        Composer composer10;
-        int valueOf;
-        int obj11;
-        Object it$iv4;
-        Object obj8;
-        int obj10;
-        int empty;
-        Composer composer4;
-        Function0 factory$iv$iv;
-        Object it$iv;
-        Object it$iv3;
-        Integer currentCompositionLocalMap4;
-        Composer composer9;
+        Composer composer5;
         int valueOf2;
-        Object $composer2;
-        Object obj4;
-        Composer composer6;
-        Composer composer2;
-        Composer composer;
-        Object maybeCachedBoxMeasurePolicy;
-        int empty3;
-        Object currentCompositionLocalMap3;
-        int i16;
-        int i13;
-        int i9;
-        int i15;
-        int i20;
-        int i27;
-        int i6;
-        int i4;
-        int currentCompositeKeyHash2;
-        int str;
-        Object $i$f$cache;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2;
+        int obj5;
+        Object it$iv3;
+        Object obj11;
+        int obj6;
         int empty2;
-        String string-2EP1pXo;
-        int i3;
-        Modifier modifier2;
-        int i26;
-        int i18;
-        Composer composer7;
-        int currentCompositeKeyHash;
-        int i23;
-        Object obj2;
-        int companion;
+        Composer composer8;
+        Function0 factory$iv$iv;
+        Object it$iv4;
+        Object it$iv2;
+        Integer currentCompositionLocalMap2;
+        Composer composer3;
+        int valueOf;
+        Object $composer3;
+        Object obj9;
+        Composer composer6;
+        Composer composer;
+        Composer composer11;
+        Object maybeCachedBoxMeasurePolicy;
+        int empty;
+        Object currentCompositionLocalMap3;
         int i25;
-        Modifier modifier3;
-        Function0 function0;
-        int i8;
-        int i22;
-        int i17;
-        int i24;
-        Modifier modifier5;
+        int i27;
+        int i10;
         int i7;
+        int i3;
+        int i2;
+        int i16;
+        int i14;
+        int currentCompositeKeyHash2;
+        int str2;
+        Object $i$f$cache;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap4;
+        int empty3;
+        String string-2EP1pXo;
+        int i9;
+        Modifier modifier3;
+        int i17;
+        int i15;
+        Composer composer9;
+        int currentCompositeKeyHash;
+        int i22;
+        Object obj4;
+        int companion;
+        int i23;
+        Modifier modifier6;
+        Function0 function0;
+        int i11;
+        int i18;
+        int i4;
+        int i5;
+        Modifier modifier2;
+        int i6;
         boolean z;
         androidx.compose.material3.SliderKt.RangeSliderImpl.2.1 measurePolicy$iv;
         androidx.compose.runtime.CompositionLocalMap map;
         Function0 function02;
-        int companion2;
-        Object obj;
-        Composer $composer3;
-        Object obj9;
         int companion4;
+        Object obj10;
+        Composer $composer2;
+        Object obj3;
+        int companion2;
         BoxScopeInstance companion3;
-        Object obj6;
+        Object obj2;
         int $i$f$cache2;
         Alignment contentAlignment$iv;
-        int i;
-        Modifier modifier6;
-        Composer composer11;
-        int i19;
-        int i5;
-        int i11;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
+        int i24;
+        Modifier modifier5;
+        Composer composer2;
         int i12;
-        Composer composer3;
+        int i26;
+        int i19;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv$iv2;
+        int i13;
+        Composer composer10;
         Modifier modifier4;
-        String str2;
-        int i14;
-        Composer composer8;
+        String str;
+        int i21;
+        Composer composer4;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        int i2;
-        Composer composer5;
-        int i21;
+        int i20;
+        Composer composer7;
+        int i;
         Modifier obj65;
         final Object obj12 = state;
         materialized$iv$iv = enabled;
-        obj5 = startInteractionSource;
+        obj = startInteractionSource;
         obj7 = endInteractionSource;
-        obj11 = startThumb;
-        obj10 = track;
-        empty = $changed;
-        traceInProgress2 = -1411725677;
-        $composer2 = $composer.startRestartGroup(traceInProgress2);
-        ComposerKt.sourceInformation($composer2, "C(RangeSliderImpl)P(3,6!1,4!1,5)736@32503L7,746@32756L35,747@32824L33,784@34404L2230,749@32863L3771:Slider.kt#uh7d8r");
-        if (empty & 6 == 0) {
-            i16 = $composer2.changed(modifier) ? 4 : 2;
-            $dirty |= i16;
+        obj5 = startThumb;
+        obj6 = track;
+        empty2 = $changed;
+        traceInProgress = -1411725677;
+        $composer3 = $composer.startRestartGroup(traceInProgress);
+        ComposerKt.sourceInformation($composer3, "C(RangeSliderImpl)P(3,6!1,4!1,5)736@32503L7,746@32756L35,747@32824L33,784@34404L2230,749@32863L3771:Slider.kt#uh7d8r");
+        if (empty2 & 6 == 0) {
+            i25 = $composer3.changed(modifier) ? 4 : 2;
+            $dirty |= i25;
         } else {
-            obj4 = modifier;
+            obj9 = modifier;
         }
-        if (empty & 48 == 0) {
-            i13 = $composer2.changedInstance(obj12) ? 32 : 16;
-            $dirty |= i13;
-        }
-        if (empty & 384 == 0) {
-            i9 = $composer2.changed(materialized$iv$iv) ? 256 : 128;
-            $dirty |= i9;
-        }
-        if (empty & 3072 == 0) {
-            i15 = $composer2.changed(obj5) ? 2048 : 1024;
-            $dirty |= i15;
-        }
-        if (empty & 24576 == 0) {
-            i20 = $composer2.changed(obj7) ? 16384 : 8192;
-            $dirty |= i20;
-        }
-        if (i89 &= empty == 0) {
-            i27 = $composer2.changedInstance(obj11) ? 131072 : 65536;
+        if (empty2 & 48 == 0) {
+            i27 = $composer3.changedInstance(obj12) ? 32 : 16;
             $dirty |= i27;
         }
-        if (i90 &= empty == 0) {
-            i6 = $composer2.changedInstance(endThumb) ? 1048576 : 524288;
-            $dirty |= i6;
+        if (empty2 & 384 == 0) {
+            i10 = $composer3.changed(materialized$iv$iv) ? 256 : 128;
+            $dirty |= i10;
         }
-        if (i91 &= empty == 0) {
-            i4 = $composer2.changedInstance(obj10) ? 8388608 : 4194304;
-            $dirty |= i4;
+        if (empty2 & 3072 == 0) {
+            i7 = $composer3.changed(obj) ? 2048 : 1024;
+            $dirty |= i7;
+        }
+        if (empty2 & 24576 == 0) {
+            i3 = $composer3.changed(obj7) ? 16384 : 8192;
+            $dirty |= i3;
+        }
+        if (i88 &= empty2 == 0) {
+            i2 = $composer3.changedInstance(obj5) ? 131072 : 65536;
+            $dirty |= i2;
+        }
+        if (i89 &= empty2 == 0) {
+            i16 = $composer3.changedInstance(endThumb) ? 1048576 : 524288;
+            $dirty |= i16;
+        }
+        if (i90 &= empty2 == 0) {
+            i14 = $composer3.changedInstance(obj6) ? 8388608 : 4194304;
+            $dirty |= i14;
         }
         currentCompositeKeyHash2 = $dirty;
         if ($dirty2 &= currentCompositeKeyHash2 == 4793490) {
-            if (!$composer2.getSkipping()) {
+            if (!$composer3.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, currentCompositeKeyHash2, -1, "androidx.compose.material3.RangeSliderImpl (Slider.kt:735)");
+                    ComposerKt.traceEventStart(traceInProgress, currentCompositeKeyHash2, -1, "androidx.compose.material3.RangeSliderImpl (Slider.kt:735)");
                 }
                 int i42 = 0;
+                int i91 = 0;
+                ComposerKt.sourceInformationMarkerStart($composer3, 2023513938, "CC:CompositionLocal.kt#9igjgp");
+                ComposerKt.sourceInformationMarkerEnd($composer3);
                 int i92 = 0;
-                ComposerKt.sourceInformationMarkerStart($composer2, 2023513938, "CC:CompositionLocal.kt#9igjgp");
-                ComposerKt.sourceInformationMarkerEnd($composer2);
-                int i93 = 0;
-                i10 = $composer2.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? 1 : i93;
-                obj12.setRtl$material3_release(i10);
-                Modifier rangeSliderPressDragModifier = SliderKt.rangeSliderPressDragModifier((Modifier)Modifier.Companion, obj12, obj5, obj7, materialized$iv$iv);
+                i8 = $composer3.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? 1 : i92;
+                obj12.setRtl$material3_release(i8);
+                Modifier rangeSliderPressDragModifier = SliderKt.rangeSliderPressDragModifier((Modifier)Modifier.Companion, obj12, obj, obj7, materialized$iv$iv);
                 androidx.compose.material3.internal.Strings.Companion companion20 = Strings.Companion;
-                int i110 = 0;
-                String string-2EP1pXo2 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.range_start), $composer2, i93);
+                int i109 = 0;
+                String string-2EP1pXo2 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.range_start), $composer3, i92);
                 androidx.compose.material3.internal.Strings.Companion companion24 = Strings.Companion;
-                int i111 = 0;
-                string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.range_end), $composer2, i93);
-                int i112 = i93;
-                modifier2 = rangeSliderPressDragModifier;
+                int i110 = 0;
+                string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.range_end), $composer3, i92);
+                int i111 = i92;
+                modifier3 = rangeSliderPressDragModifier;
                 String pressDrag = "CC(remember):Slider.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart($composer2, 1662324209, pressDrag);
-                Composer composer18 = $composer2;
-                int i116 = 0;
-                it$iv2 = composer18.rememberedValue();
-                int i120 = 0;
-                if (!$composer2.changedInstance(obj12)) {
-                    if (it$iv2 == Composer.Companion.getEmpty()) {
-                        int i72 = 0;
-                        obj2 = it$iv2;
-                        it$iv2 = new SliderKt.RangeSliderImpl.2.1(obj12);
-                        composer18.updateRememberedValue((MeasurePolicy)it$iv2);
+                ComposerKt.sourceInformationMarkerStart($composer3, 1662324209, pressDrag);
+                Composer composer17 = $composer3;
+                int i115 = 0;
+                it$iv = composer17.rememberedValue();
+                int i119 = 0;
+                if (!$composer3.changedInstance(obj12)) {
+                    if (it$iv == Composer.Companion.getEmpty()) {
+                        int i71 = 0;
+                        obj4 = it$iv;
+                        it$iv = new SliderKt.RangeSliderImpl.2.1(obj12);
+                        composer17.updateRememberedValue((MeasurePolicy)it$iv);
                     } else {
-                        obj2 = it$iv2;
-                        composer4 = composer18;
+                        obj4 = it$iv;
+                        composer8 = composer17;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd($composer2);
+                ComposerKt.sourceInformationMarkerEnd($composer3);
                 Modifier modifier8 = modifier9;
-                i26 = 0;
-                i18 = currentCompositeKeyHash2;
+                i17 = 0;
+                i15 = currentCompositeKeyHash2;
                 String $dirty3 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
-                ComposerKt.sourceInformationMarkerStart($composer2, -1323940314, $dirty3);
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($composer2, i112);
-                currentCompositionLocalMap3 = $composer2.getCurrentCompositionLocalMap();
-                Modifier materializeModifier3 = ComposedModifierKt.materializeModifier($composer2, modifier8);
-                modifier3 = modifier8;
+                ComposerKt.sourceInformationMarkerStart($composer3, -1323940314, $dirty3);
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash($composer3, i111);
+                currentCompositionLocalMap3 = $composer3.getCurrentCompositionLocalMap();
+                Modifier materializeModifier3 = ComposedModifierKt.materializeModifier($composer3, modifier8);
+                modifier6 = modifier8;
                 Function0 function04 = constructor2;
-                i25 = 0;
+                i23 = 0;
                 String str5 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart($composer2, -692256719, str5);
+                ComposerKt.sourceInformationMarkerStart($composer3, -692256719, str5);
                 if (!applier4 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                $composer2.startReusableNode();
-                if ($composer2.getInserting()) {
-                    $composer2.createNode(function04);
+                $composer3.startReusableNode();
+                if ($composer3.getInserting()) {
+                    $composer3.createNode(function04);
                 } else {
                     factory$iv$iv = function04;
-                    $composer2.useNode();
+                    $composer3.useNode();
                 }
                 function0 = factory$iv$iv;
-                Composer constructor-impl4 = Updater.constructor-impl($composer2);
-                int i122 = 0;
-                Updater.set-impl(constructor-impl4, (MeasurePolicy)it$iv2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Composer constructor-impl4 = Updater.constructor-impl($composer3);
+                int i121 = 0;
+                Updater.set-impl(constructor-impl4, (MeasurePolicy)it$iv, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl4, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i122 = 0;
+                Composer composer18 = constructor-impl4;
                 int i123 = 0;
-                Composer composer19 = constructor-impl4;
-                int i124 = 0;
-                if (!composer19.getInserting()) {
-                    measurePolicy$iv = it$iv2;
+                if (!composer18.getInserting()) {
+                    measurePolicy$iv = it$iv;
                     map = currentCompositionLocalMap3;
-                    if (!Intrinsics.areEqual(composer19.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer19.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                    if (!Intrinsics.areEqual(composer18.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer18.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl4.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer6 = composer19;
+                        composer6 = composer18;
                     }
                 } else {
-                    measurePolicy$iv = it$iv2;
+                    measurePolicy$iv = it$iv;
                     map = currentCompositionLocalMap3;
                 }
                 Updater.set-impl(constructor-impl4, materializeModifier3, ComposeUiNode.Companion.getSetModifier());
-                obj8 = $composer2;
-                i17 = i44;
-                ComposerKt.sourceInformationMarkerStart(obj8, 2110426496, "C755@33080L46,757@33259L100,751@32893L598,768@33689L44,770@33864L98,764@33504L586,777@34103L79:Slider.kt#uh7d8r");
-                empty3 = 0;
-                i24 = i62;
-                modifier5 = materializeModifier3;
-                ComposerKt.sourceInformationMarkerStart(obj8, 1176461672, pressDrag);
-                Composer composer20 = obj8;
-                int i128 = 0;
-                it$iv = composer20.rememberedValue();
-                companion4 = 0;
-                if (!$composer2.changedInstance(obj12)) {
-                    if (it$iv == Composer.Companion.getEmpty()) {
-                        int i88 = 0;
-                        obj6 = it$iv;
-                        it$iv = new SliderKt.RangeSliderImpl.1.1.1(obj12);
-                        composer20.updateRememberedValue((Function1)it$iv);
+                obj11 = $composer3;
+                i4 = i44;
+                ComposerKt.sourceInformationMarkerStart(obj11, 2110426496, "C755@33080L46,757@33259L100,751@32893L598,768@33689L44,770@33864L98,764@33504L586,777@34103L79:Slider.kt#uh7d8r");
+                empty = 0;
+                i5 = i62;
+                modifier2 = materializeModifier3;
+                ComposerKt.sourceInformationMarkerStart(obj11, 1176461672, pressDrag);
+                Composer composer19 = obj11;
+                int i127 = 0;
+                it$iv4 = composer19.rememberedValue();
+                companion2 = 0;
+                if (!$composer3.changedInstance(obj12)) {
+                    if (it$iv4 == Composer.Companion.getEmpty()) {
+                        int i87 = 0;
+                        obj2 = it$iv4;
+                        it$iv4 = new SliderKt.RangeSliderImpl.1.1.1(obj12);
+                        composer19.updateRememberedValue((Function1)it$iv4);
                     } else {
-                        obj6 = it$iv;
-                        composer2 = composer20;
+                        obj2 = it$iv4;
+                        composer = composer19;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerStart(obj8, 1176467454, pressDrag);
-                Composer composer15 = obj8;
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerStart(obj11, 1176467454, pressDrag);
+                Composer composer15 = obj11;
                 $i$f$cache = 0;
-                it$iv3 = composer15.rememberedValue();
-                int i129 = 0;
-                if (!obj8.changed(string-2EP1pXo2)) {
+                it$iv2 = composer15.rememberedValue();
+                int i128 = 0;
+                if (!obj11.changed(string-2EP1pXo2)) {
                     $i$f$cache2 = $i$f$cache;
-                    if (it$iv3 == Composer.Companion.getEmpty()) {
+                    if (it$iv2 == Composer.Companion.getEmpty()) {
                         $i$f$cache = 0;
-                        obj9 = it$iv3;
-                        it$iv3 = new SliderKt.RangeSliderImpl.1.2.1(string-2EP1pXo2);
-                        composer15.updateRememberedValue((Function1)it$iv3);
+                        obj3 = it$iv2;
+                        it$iv2 = new SliderKt.RangeSliderImpl.1.2.1(string-2EP1pXo2);
+                        composer15.updateRememberedValue((Function1)it$iv2);
                     } else {
-                        obj9 = it$iv3;
+                        obj3 = it$iv2;
                     }
                 } else {
                     $i$f$cache2 = $i$f$cache;
                 }
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                Modifier focusable2 = FocusableKt.focusable(SemanticsModifierKt.semantics(SliderKt.rangeSliderStartThumbSemantics(OnRemeasuredModifierKt.onSizeChanged(SizeKt.wrapContentWidth$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, RangeSliderComponents.STARTTHUMB), empty3, false, 3, empty3), (Function1)it$iv), obj12, materialized$iv$iv), true, (Function1)it$iv3), materialized$iv$iv, obj5);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                Modifier focusable2 = FocusableKt.focusable(SemanticsModifierKt.semantics(SliderKt.rangeSliderStartThumbSemantics(OnRemeasuredModifierKt.onSizeChanged(SizeKt.wrapContentWidth$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, RangeSliderComponents.STARTTHUMB), empty, false, 3, empty), (Function1)it$iv4), obj12, materialized$iv$iv), true, (Function1)it$iv2), materialized$iv$iv, obj);
                 String str4 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
-                ComposerKt.sourceInformationMarkerStart(obj8, 733328855, str4);
+                ComposerKt.sourceInformationMarkerStart(obj11, 733328855, str4);
                 Alignment topStart3 = Alignment.Companion.getTopStart();
-                int i125 = i65;
+                int i124 = i64;
                 int $changed$iv4 = 0;
-                int i130 = i81;
+                int i129 = i80;
                 maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart3, $changed$iv4);
-                int i135 = 0;
-                int i137 = $changed$iv4;
-                ComposerKt.sourceInformationMarkerStart(obj8, -1323940314, $dirty3);
-                int currentCompositeKeyHash4 = ComposablesKt.getCurrentCompositeKeyHash(obj8, 0);
-                currentCompositionLocalMap4 = obj8.getCurrentCompositionLocalMap();
+                int i134 = 0;
+                int i136 = $changed$iv4;
+                ComposerKt.sourceInformationMarkerStart(obj11, -1323940314, $dirty3);
+                int currentCompositeKeyHash4 = ComposablesKt.getCurrentCompositeKeyHash(obj11, 0);
+                currentCompositionLocalMap2 = obj11.getCurrentCompositionLocalMap();
                 Alignment alignment = topStart3;
                 Modifier modifier10 = focusable2;
                 Function0 function07 = constructor4;
-                int i143 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj8, -692256719, str5);
+                int i142 = 0;
+                ComposerKt.sourceInformationMarkerStart(obj11, -692256719, str5);
                 if (!applier3 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                obj8.startReusableNode();
-                if (obj8.getInserting()) {
-                    obj8.createNode(function07);
+                obj11.startReusableNode();
+                if (obj11.getInserting()) {
+                    obj11.createNode(function07);
                 } else {
-                    factory$iv$iv$iv3 = function07;
-                    obj8.useNode();
+                    factory$iv$iv$iv = function07;
+                    obj11.useNode();
                 }
-                Function0 function08 = factory$iv$iv$iv3;
-                Composer constructor-impl2 = Updater.constructor-impl(obj8);
-                int i146 = 0;
-                str2 = string-2EP1pXo2;
+                Function0 function08 = factory$iv$iv$iv;
+                Composer constructor-impl2 = Updater.constructor-impl(obj11);
+                int i145 = 0;
+                str = string-2EP1pXo2;
                 Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl2, currentCompositionLocalMap4, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i148 = 0;
-                Composer composer23 = constructor-impl2;
-                int i151 = 0;
-                if (!composer23.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap4;
+                Updater.set-impl(constructor-impl2, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i147 = 0;
+                Composer composer22 = constructor-impl2;
+                int i150 = 0;
+                if (!composer22.getInserting()) {
+                    localMap$iv$iv = currentCompositionLocalMap2;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
-                    if (!Intrinsics.areEqual(composer23.rememberedValue(), Integer.valueOf(currentCompositeKeyHash4))) {
-                        composer23.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash4));
+                    if (!Intrinsics.areEqual(composer22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash4))) {
+                        composer22.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash4));
                         constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash4), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer23;
+                        composer11 = composer22;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap4;
+                    localMap$iv$iv = currentCompositionLocalMap2;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
                 }
-                Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier(obj8, focusable2), ComposeUiNode.Companion.getSetModifier());
-                Composer composer13 = obj8;
-                int i147 = i48;
+                Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier(obj11, focusable2), ComposeUiNode.Companion.getSetModifier());
+                Composer composer13 = obj11;
+                int i146 = i48;
                 String $changed$iv3 = "C73@3429L9:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(composer13, -2146769399, $changed$iv3);
                 BoxScopeInstance iNSTANCE3 = BoxScopeInstance.INSTANCE;
-                i150 |= 6;
-                i2 = 0;
-                i21 = i82;
-                Composer composer16 = composer8;
-                ComposerKt.sourceInformationMarkerStart(composer16, 259534201, "C762@33460L17:Slider.kt#uh7d8r");
-                obj11.invoke(obj12, composer16, Integer.valueOf(i68 |= i104));
-                ComposerKt.sourceInformationMarkerEnd(composer16);
+                i149 |= 6;
+                i20 = 0;
+                i = i81;
+                Composer $i$a$LayoutBoxKt$Box$1$iv = composer4;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, 259534201, "C762@33460L17:Slider.kt#uh7d8r");
+                obj5.invoke(obj12, $i$a$LayoutBoxKt$Box$1$iv, Integer.valueOf(i67 |= i103));
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer13);
-                obj8.endNode();
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                int i83 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj8, 1176481158, pressDrag);
-                Composer composer17 = obj8;
-                empty2 = 0;
-                it$iv4 = composer17.rememberedValue();
-                int i126 = 0;
-                if (!$composer2.changedInstance(obj12)) {
-                    $composer3 = $composer2;
-                    if (it$iv4 == Composer.Companion.getEmpty()) {
-                        $composer2 = 0;
-                        obj = it$iv4;
-                        it$iv4 = new SliderKt.RangeSliderImpl.1.4.1(obj12);
-                        composer17.updateRememberedValue((Function1)it$iv4);
+                obj11.endNode();
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                int i82 = 0;
+                ComposerKt.sourceInformationMarkerStart(obj11, 1176481158, pressDrag);
+                Composer composer16 = obj11;
+                empty3 = 0;
+                it$iv3 = composer16.rememberedValue();
+                int i125 = 0;
+                if (!$composer3.changedInstance(obj12)) {
+                    $composer2 = $composer3;
+                    if (it$iv3 == Composer.Companion.getEmpty()) {
+                        $composer3 = 0;
+                        obj10 = it$iv3;
+                        it$iv3 = new SliderKt.RangeSliderImpl.1.4.1(obj12);
+                        composer16.updateRememberedValue((Function1)it$iv3);
                     } else {
-                        obj = it$iv4;
+                        obj10 = it$iv3;
                     }
                 } else {
-                    $composer3 = $composer2;
+                    $composer2 = $composer3;
                 }
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerStart(obj8, 1176486812, pressDrag);
-                boolean changed = obj8.changed(string-2EP1pXo);
-                Composer composer14 = obj8;
-                int i73 = 0;
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerStart(obj11, 1176486812, pressDrag);
+                boolean changed = obj11.changed(string-2EP1pXo);
+                Composer composer14 = obj11;
+                int i72 = 0;
                 Object rememberedValue5 = composer14.rememberedValue();
-                int i99 = 0;
+                int i98 = 0;
                 if (!changed) {
                     if (rememberedValue5 == Composer.Companion.getEmpty()) {
-                        empty2 = 0;
+                        empty3 = 0;
                         z = changed;
                         invalid$iv = new SliderKt.RangeSliderImpl.1.5.1(string-2EP1pXo);
                         composer14.updateRememberedValue((Function1)invalid$iv);
@@ -1574,219 +1574,219 @@ public final class SliderKt {
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                Modifier focusable = FocusableKt.focusable(SemanticsModifierKt.semantics(SliderKt.rangeSliderEndThumbSemantics(OnRemeasuredModifierKt.onSizeChanged(SizeKt.wrapContentWidth$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, RangeSliderComponents.ENDTHUMB), i83, false, 3, i83), (Function1)it$iv4), obj12, materialized$iv$iv), true, (Function1)invalid$iv), materialized$iv$iv, obj7);
-                int i55 = i114;
-                valueOf2 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj8, 733328855, str4);
-                int i127 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj8, -1323940314, $dirty3);
-                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(obj8, 0);
-                currentCompositionLocalMap = obj8.getCurrentCompositionLocalMap();
-                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(obj8, focusable);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                Modifier focusable = FocusableKt.focusable(SemanticsModifierKt.semantics(SliderKt.rangeSliderEndThumbSemantics(OnRemeasuredModifierKt.onSizeChanged(SizeKt.wrapContentWidth$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, RangeSliderComponents.ENDTHUMB), i82, false, 3, i82), (Function1)it$iv3), obj12, materialized$iv$iv), true, (Function1)invalid$iv), materialized$iv$iv, obj7);
+                int i55 = i113;
+                valueOf = 0;
+                ComposerKt.sourceInformationMarkerStart(obj11, 733328855, str4);
+                int i126 = 0;
+                ComposerKt.sourceInformationMarkerStart(obj11, -1323940314, $dirty3);
+                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(obj11, 0);
+                currentCompositionLocalMap = obj11.getCurrentCompositionLocalMap();
+                Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(obj11, focusable);
                 obj65 = focusable;
                 Function0 function05 = constructor3;
-                int i133 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj8, -692256719, str5);
+                int i132 = 0;
+                ComposerKt.sourceInformationMarkerStart(obj11, -692256719, str5);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                obj8.startReusableNode();
-                if (obj8.getInserting()) {
-                    obj8.createNode(function05);
+                obj11.startReusableNode();
+                if (obj11.getInserting()) {
+                    obj11.createNode(function05);
                 } else {
-                    factory$iv$iv$iv2 = function05;
-                    obj8.useNode();
+                    factory$iv$iv$iv3 = function05;
+                    obj11.useNode();
                 }
-                Function0 function06 = factory$iv$iv$iv2;
-                Composer constructor-impl = Updater.constructor-impl(obj8);
-                int i138 = 0;
+                Function0 function06 = factory$iv$iv$iv3;
+                Composer constructor-impl = Updater.constructor-impl(obj11);
+                int i137 = 0;
                 Updater.set-impl(constructor-impl, BoxKt.maybeCachedBoxMeasurePolicy(Alignment.Companion.getTopStart(), false), ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i142 = 0;
-                Composer composer22 = constructor-impl;
-                int i144 = 0;
-                if (!composer22.getInserting()) {
+                int i141 = 0;
+                Composer composer21 = constructor-impl;
+                int i143 = 0;
+                if (!composer21.getInserting()) {
                     localMap$iv$iv2 = currentCompositionLocalMap;
-                    i12 = valueOf2;
-                    if (!Intrinsics.areEqual(composer22.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
-                        composer22.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
+                    i13 = valueOf;
+                    if (!Intrinsics.areEqual(composer21.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
+                        composer21.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer9 = composer22;
+                        composer3 = composer21;
                     }
                 } else {
                     localMap$iv$iv2 = currentCompositionLocalMap;
-                    i12 = valueOf2;
+                    i13 = valueOf;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
-                Composer composer12 = obj8;
+                Composer composer12 = obj11;
                 int i56 = 0;
                 ComposerKt.sourceInformationMarkerStart(composer12, -2146769399, $changed$iv3);
                 BoxScopeInstance iNSTANCE2 = BoxScopeInstance.INSTANCE;
-                i140 |= 6;
-                i5 = 0;
-                i11 = i31;
+                i139 |= 6;
+                i26 = 0;
+                i19 = i31;
                 modifier4 = materializeModifier2;
-                Composer materialized$iv$iv2 = composer11;
+                Composer materialized$iv$iv2 = composer2;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv2, 260130331, "C775@34061L15:Slider.kt#uh7d8r");
                 endThumb.invoke(obj12, materialized$iv$iv2, Integer.valueOf(i33 |= i54));
                 ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv2);
                 ComposerKt.sourceInformationMarkerEnd(composer12);
-                obj8.endNode();
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerEnd(obj8);
+                obj11.endNode();
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
                 Modifier layoutId = LayoutIdKt.layoutId((Modifier)Modifier.Companion, RangeSliderComponents.TRACK);
-                valueOf = 6;
-                obj11 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj8, 733328855, str4);
+                valueOf2 = 6;
+                obj5 = 0;
+                ComposerKt.sourceInformationMarkerStart(obj11, 733328855, str4);
                 topStart = Alignment.Companion.getTopStart();
-                str = 0;
-                ComposerKt.sourceInformationMarkerStart(obj8, -1323940314, $dirty3);
-                currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(obj8, 0);
-                Modifier materializeModifier = ComposedModifierKt.materializeModifier(obj8, layoutId);
+                str2 = 0;
+                ComposerKt.sourceInformationMarkerStart(obj11, -1323940314, $dirty3);
+                currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(obj11, 0);
+                Modifier materializeModifier = ComposedModifierKt.materializeModifier(obj11, layoutId);
                 obj65 = layoutId;
                 Function0 function03 = constructor;
-                i3 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj8, -692256719, str5);
+                i9 = 0;
+                ComposerKt.sourceInformationMarkerStart(obj11, -692256719, str5);
                 if (!applier2 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                obj8.startReusableNode();
-                if (obj8.getInserting()) {
-                    obj8.createNode(function03);
+                obj11.startReusableNode();
+                if (obj11.getInserting()) {
+                    obj11.createNode(function03);
                 } else {
-                    factory$iv$iv$iv = function03;
-                    obj8.useNode();
+                    factory$iv$iv$iv2 = function03;
+                    obj11.useNode();
                 }
-                Composer constructor-impl3 = Updater.constructor-impl(obj8);
-                int i118 = 0;
-                function02 = factory$iv$iv$iv;
+                Composer constructor-impl3 = Updater.constructor-impl(obj11);
+                int i117 = 0;
+                function02 = factory$iv$iv$iv2;
                 Updater.set-impl(constructor-impl3, BoxKt.maybeCachedBoxMeasurePolicy(topStart, false), ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl3, obj8.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i121 = 0;
-                Composer composer21 = constructor-impl3;
-                int i134 = 0;
-                if (!composer21.getInserting()) {
+                Updater.set-impl(constructor-impl3, obj11.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i120 = 0;
+                Composer composer20 = constructor-impl3;
+                int i133 = 0;
+                if (!composer20.getInserting()) {
                     contentAlignment$iv = topStart;
-                    i = valueOf;
-                    if (!Intrinsics.areEqual(composer21.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
-                        composer21.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
+                    i24 = valueOf2;
+                    if (!Intrinsics.areEqual(composer20.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
+                        composer20.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
                         constructor-impl3.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer10 = composer21;
+                        composer5 = composer20;
                     }
                 } else {
                     contentAlignment$iv = topStart;
-                    i = valueOf;
+                    i24 = valueOf2;
                 }
                 Updater.set-impl(constructor-impl3, materializeModifier, ComposeUiNode.Companion.getSetModifier());
-                obj5 = obj8;
+                obj = obj11;
                 obj7 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj5, -2146769399, $changed$iv3);
+                ComposerKt.sourceInformationMarkerStart(obj, -2146769399, $changed$iv3);
                 i59 |= 6;
-                i22 = 0;
-                companion2 = i38;
+                i18 = 0;
+                companion4 = i38;
                 companion3 = iNSTANCE;
-                modifier6 = materializeModifier;
-                materialized$iv$iv = composer7;
+                modifier5 = materializeModifier;
+                materialized$iv$iv = composer9;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, 260236382, "C777@34168L12:Slider.kt#uh7d8r");
                 track.invoke(obj12, materialized$iv$iv, Integer.valueOf(i40 |= i50));
                 ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv);
-                ComposerKt.sourceInformationMarkerEnd(obj5);
-                obj8.endNode();
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                ComposerKt.sourceInformationMarkerEnd(obj8);
-                $composer3.endNode();
-                ComposerKt.sourceInformationMarkerEnd($composer3);
-                ComposerKt.sourceInformationMarkerEnd($composer3);
+                ComposerKt.sourceInformationMarkerEnd(obj);
+                obj11.endNode();
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                ComposerKt.sourceInformationMarkerEnd(obj11);
+                $composer2.endNode();
+                ComposerKt.sourceInformationMarkerEnd($composer2);
+                ComposerKt.sourceInformationMarkerEnd($composer2);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
-                $composer2.skipToGroupEnd();
-                obj3 = obj10;
-                $composer3 = $composer2;
-                i18 = currentCompositeKeyHash2;
+                $composer3.skipToGroupEnd();
+                obj8 = obj6;
+                $composer2 = $composer3;
+                i15 = currentCompositeKeyHash2;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = $composer3.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = $composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new SliderKt.RangeSliderImpl.3(modifier, obj12, enabled, startInteractionSource, endInteractionSource, startThumb, endThumb, obj3, $changed);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new SliderKt.RangeSliderImpl.3(modifier, obj12, enabled, startInteractionSource, endInteractionSource, startThumb, endThumb, obj8, $changed);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void Slider(float value, Function1<? super Float, Unit> onValueChange, Modifier modifier, boolean enabled, Function0<Unit> onValueChangeFinished, androidx.compose.material3.SliderColors colors, MutableInteractionSource interactionSource, int steps, Function3<? super androidx.compose.material3.SliderState, ? super Composer, ? super Integer, Unit> thumb, Function3<? super androidx.compose.material3.SliderState, ? super Composer, ? super Integer, Unit> track, ClosedFloatingPointRange<Float> valueRange, Composer $composer, int $changed, int $changed1, int i15) {
-        Object obj4;
-        int i2;
+        Object obj5;
+        int i16;
+        Object obj6;
+        Object obj;
         Object obj3;
-        Object obj7;
-        Object obj2;
         boolean it$iv;
         Object endRestartGroup;
-        int interactionSource4;
-        int i6;
+        int interactionSource2;
+        int i19;
         int changed3;
         int defaultsInvalid;
-        int colors3;
+        int colors2;
         Object interactionSource3;
-        int i11;
+        int i21;
         Object $composer3;
         Object $composer2;
-        int $dirty3;
-        boolean steps2;
         int $dirty2;
+        boolean steps2;
+        int $dirty;
         int steps3;
         int $dirty1;
-        Object $dirty14;
-        int $dirty12;
-        int i19;
+        Object $dirty12;
+        int $dirty13;
         int i9;
-        Object thumb2;
+        int i;
         Object thumb3;
+        Object thumb2;
         int i10;
-        int i17;
+        int i3;
         Object track2;
         Object rememberComposableLambda;
-        int i22;
-        Object obj;
-        int colors2;
-        Object obj5;
+        int i17;
+        Object obj2;
+        int colors3;
+        Object obj7;
         Object modifier2;
-        int i7;
+        int i22;
         Object valueRange2;
         Object valueRange3;
-        int i8;
+        int i7;
         boolean z;
         Object enabled2;
-        int i5;
-        int rememberedValue;
-        Object obj6;
-        int $dirty13;
         int i12;
-        int i14;
+        int rememberedValue;
+        Object obj4;
+        int $dirty14;
+        int i2;
+        int i11;
         Composer composer;
-        Object interactionSource2;
-        int i16;
+        Object interactionSource4;
+        int i20;
         int changed2;
         int traceInProgress;
-        int i18;
-        int companion2;
+        int i8;
         int companion;
-        int i13;
-        int i3;
-        int i21;
+        int companion2;
+        int i18;
         int i4;
-        int i20;
+        int i5;
+        int i6;
+        int i14;
         int changed;
-        int $dirty;
+        int $dirty3;
         int i23;
-        int i;
+        int i13;
         Object obj27;
         Object obj28;
         boolean obj29;
@@ -1803,233 +1803,233 @@ public final class SliderKt {
         final int i61 = i15;
         $composer2 = $composer.startRestartGroup(1191170377);
         ComposerKt.sourceInformation($composer2, "C(Slider)P(9,4,3,1,5)256@12184L8,257@12244L39,259@12372L157,266@12578L114,272@12779L92,278@12998L184:Slider.kt#uh7d8r");
-        $dirty3 = $changed;
+        $dirty2 = $changed;
         if (i61 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty2 |= 6;
         } else {
             if (i59 & 6 == 0) {
-                i19 = $composer2.changed(f) ? 4 : 2;
-                $dirty3 |= i19;
+                i9 = $composer2.changed(f) ? 4 : 2;
+                $dirty2 |= i9;
             }
         }
         if (i61 & 2 != 0) {
-            $dirty3 |= 48;
+            $dirty2 |= 48;
         } else {
             if (i59 & 48 == 0) {
-                i9 = $composer2.changedInstance(obj8) ? 32 : 16;
-                $dirty3 |= i9;
+                i = $composer2.changedInstance(obj8) ? 32 : 16;
+                $dirty2 |= i;
             }
         }
-        i17 = i61 & 4;
-        if (i17 != 0) {
-            $dirty3 |= 384;
-            obj5 = modifier;
+        i3 = i61 & 4;
+        if (i3 != 0) {
+            $dirty2 |= 384;
+            obj7 = modifier;
         } else {
             if (i59 & 384 == 0) {
-                i7 = $composer2.changed(modifier) ? 256 : 128;
-                $dirty3 |= i7;
+                i22 = $composer2.changed(modifier) ? 256 : 128;
+                $dirty2 |= i22;
             } else {
-                obj5 = modifier;
+                obj7 = modifier;
             }
         }
-        i8 = i61 & 8;
-        if (i8 != 0) {
-            $dirty3 |= 3072;
+        i7 = i61 & 8;
+        if (i7 != 0) {
+            $dirty2 |= 3072;
             z = enabled;
         } else {
             if (i59 & 3072 == 0) {
-                i5 = $composer2.changed(enabled) ? 2048 : 1024;
-                $dirty3 |= i5;
+                i12 = $composer2.changed(enabled) ? 2048 : 1024;
+                $dirty2 |= i12;
             } else {
                 z = enabled;
             }
         }
         rememberedValue = i61 & 16;
         if (rememberedValue != 0) {
-            $dirty3 |= 24576;
-            obj6 = onValueChangeFinished;
+            $dirty2 |= 24576;
+            obj4 = onValueChangeFinished;
         } else {
             if (i59 & 24576 == 0) {
-                i12 = $composer2.changedInstance(onValueChangeFinished) ? 16384 : 8192;
-                $dirty3 |= i12;
+                i2 = $composer2.changedInstance(onValueChangeFinished) ? 16384 : 8192;
+                $dirty2 |= i2;
             } else {
-                obj6 = onValueChangeFinished;
+                obj4 = onValueChangeFinished;
             }
         }
         if (i59 & i63 == 0) {
             if (i61 & 32 == 0) {
-                i14 = $composer2.changed(colors) ? 131072 : 65536;
+                i11 = $composer2.changed(colors) ? 131072 : 65536;
             } else {
-                obj = colors;
+                obj2 = colors;
             }
-            $dirty3 |= i14;
+            $dirty2 |= i11;
         } else {
-            obj = colors;
+            obj2 = colors;
         }
-        i16 = i61 & 64;
+        i20 = i61 & 64;
         traceInProgress = 1572864;
-        if (i16 != 0) {
-            $dirty3 |= traceInProgress;
-            obj4 = interactionSource;
+        if (i20 != 0) {
+            $dirty2 |= traceInProgress;
+            obj5 = interactionSource;
         } else {
             if (i59 & traceInProgress == 0) {
-                i18 = $composer2.changed(interactionSource) ? 1048576 : 524288;
-                $dirty3 |= i18;
+                i8 = $composer2.changed(interactionSource) ? 1048576 : 524288;
+                $dirty2 |= i8;
             } else {
-                obj4 = interactionSource;
+                obj5 = interactionSource;
             }
         }
-        i22 = i61 & 128;
-        companion = 12582912;
-        if (i22 != 0) {
-            $dirty3 |= companion;
-            i2 = steps;
+        i17 = i61 & 128;
+        companion2 = 12582912;
+        if (i17 != 0) {
+            $dirty2 |= companion2;
+            i16 = steps;
         } else {
-            if (i59 & companion == 0) {
-                i13 = $composer2.changed(steps) ? 8388608 : 4194304;
-                $dirty3 |= i13;
+            if (i59 & companion2 == 0) {
+                i18 = $composer2.changed(steps) ? 8388608 : 4194304;
+                $dirty2 |= i18;
             } else {
-                i2 = steps;
+                i16 = steps;
             }
         }
         int i25 = i61 & 256;
         int i69 = 100663296;
         if (i25 != 0) {
-            $dirty3 |= i69;
-            i3 = i25;
-            obj3 = thumb;
+            $dirty2 |= i69;
+            i4 = i25;
+            obj6 = thumb;
         } else {
             if (i59 & i69 == 0) {
-                i3 = i25;
-                i21 = $composer2.changedInstance(thumb) ? 67108864 : 33554432;
-                $dirty3 |= i21;
+                i4 = i25;
+                i5 = $composer2.changedInstance(thumb) ? 67108864 : 33554432;
+                $dirty2 |= i5;
             } else {
-                i3 = i25;
-                obj3 = thumb;
+                i4 = i25;
+                obj6 = thumb;
             }
         }
         int i26 = i61 & 512;
         int i71 = 805306368;
         if (i26 != 0) {
-            $dirty3 |= i71;
-            i4 = i26;
-            obj7 = track;
+            $dirty2 |= i71;
+            i6 = i26;
+            obj = track;
         } else {
             if (i59 & i71 == 0) {
-                i4 = i26;
-                i20 = $composer2.changedInstance(track) ? 536870912 : 268435456;
-                $dirty3 |= i20;
+                i6 = i26;
+                i14 = $composer2.changedInstance(track) ? 536870912 : 268435456;
+                $dirty2 |= i14;
             } else {
-                i4 = i26;
-                obj7 = track;
+                i6 = i26;
+                obj = track;
             }
         }
         if ($changed1 & 6 == 0) {
             if (i61 & 1024 == 0) {
                 changed = $composer2.changed(valueRange) ? 4 : 2;
             } else {
-                obj2 = valueRange;
+                obj3 = valueRange;
             }
             $dirty1 |= changed;
         } else {
-            obj2 = valueRange;
+            obj3 = valueRange;
         }
-        $dirty = $dirty3;
-        if ($dirty3 & i73 == 306783378 && $dirty1 & 3 == 2) {
+        $dirty3 = $dirty2;
+        if ($dirty2 & i73 == 306783378 && $dirty1 & 3 == 2) {
             if ($dirty1 & 3 == 2) {
                 if (!$composer2.getSkipping()) {
                     $composer2.startDefaults();
-                    companion2 = -458753;
+                    companion = -458753;
                     if (i59 & 1 != 0) {
                         if ($composer2.getDefaultsInvalid()) {
-                            if (i17 != 0) {
-                                obj5 = defaultsInvalid;
+                            if (i3 != 0) {
+                                obj7 = defaultsInvalid;
                             }
-                            if (i8 != 0) {
+                            if (i7 != 0) {
                                 z = defaultsInvalid;
                             }
                             if (rememberedValue != 0) {
-                                obj6 = defaultsInvalid;
+                                obj4 = defaultsInvalid;
                             }
                             if (i61 & 32 != 0) {
-                                obj = colors3;
-                                $dirty = i17;
+                                obj2 = colors2;
+                                $dirty3 = i3;
                             }
-                            if (i16 != 0) {
+                            if (i20 != 0) {
                                 ComposerKt.sourceInformationMarkerStart($composer2, -403537365, "CC(remember):Slider.kt#9igjgp");
                                 int i32 = 0;
-                                i17 = $composer2;
-                                i8 = 0;
-                                rememberedValue = i17.rememberedValue();
-                                i16 = 0;
+                                i3 = $composer2;
+                                i7 = 0;
+                                rememberedValue = i3.rememberedValue();
+                                i20 = 0;
                                 if (rememberedValue == Composer.Companion.getEmpty()) {
                                     int i42 = 0;
-                                    i17.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                                    i3.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                                 } else {
-                                    $dirty2 = rememberedValue;
+                                    $dirty = rememberedValue;
                                 }
-                                interactionSource3 = $dirty2;
+                                interactionSource3 = $dirty;
                                 ComposerKt.sourceInformationMarkerEnd($composer2);
                             } else {
                                 interactionSource3 = interactionSource;
                             }
-                            steps3 = i22 != 0 ? 0 : steps;
-                            if (i3 != 0) {
-                                SliderKt.Slider.6 anon = new SliderKt.Slider.6(interactionSource3, obj, z);
-                                thumb3 = ComposableLambdaKt.rememberComposableLambda(-1756326375, true, anon, $composer2, 54);
-                            } else {
-                                thumb3 = thumb;
-                            }
+                            steps3 = i17 != 0 ? 0 : steps;
                             if (i4 != 0) {
-                                SliderKt.Slider.7 anon2 = new SliderKt.Slider.7(z, obj);
-                                interactionSource2 = interactionSource3;
+                                SliderKt.Slider.6 anon = new SliderKt.Slider.6(interactionSource3, obj2, z);
+                                thumb2 = ComposableLambdaKt.rememberComposableLambda(-1756326375, true, anon, $composer2, 54);
+                            } else {
+                                thumb2 = thumb;
+                            }
+                            if (i6 != 0) {
+                                SliderKt.Slider.7 anon2 = new SliderKt.Slider.7(z, obj2);
+                                interactionSource4 = interactionSource3;
                                 rememberComposableLambda = ComposableLambdaKt.rememberComposableLambda(2083675534, true, anon2, $composer2, 54);
                             } else {
-                                interactionSource2 = interactionSource3;
-                                interactionSource4 = 1;
+                                interactionSource4 = interactionSource3;
+                                interactionSource2 = 1;
                                 rememberComposableLambda = track;
                             }
                             if (i61 & 1024 != 0) {
                                 valueRange3 = RangesKt.rangeTo(0, 1065353216);
                                 rememberedValue = $dirty15;
-                                $dirty12 = $dirty;
+                                $dirty13 = $dirty3;
                             } else {
                                 valueRange3 = valueRange;
                                 rememberedValue = $dirty1;
-                                $dirty12 = $dirty;
+                                $dirty13 = $dirty3;
                             }
                         } else {
                             $composer2.skipToGroupEnd();
                             if (i61 & 32 != 0) {
-                                $dirty = i11;
+                                $dirty3 = i21;
                             }
                             if (i61 & 1024 != 0) {
                                 $dirty1 &= -15;
                             }
-                            interactionSource2 = interactionSource;
+                            interactionSource4 = interactionSource;
                             steps3 = steps;
-                            thumb3 = thumb;
+                            thumb2 = thumb;
                             rememberComposableLambda = track;
                             valueRange3 = valueRange;
                             rememberedValue = $dirty1;
-                            $dirty12 = $dirty;
-                            interactionSource4 = 1;
+                            $dirty13 = $dirty3;
+                            interactionSource2 = 1;
                         }
                     } else {
                     }
                     $composer2.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        obj32 = thumb3;
-                        ComposerKt.traceEventStart(1191170377, $dirty12, rememberedValue, "androidx.compose.material3.Slider (Slider.kt:270)");
+                        obj32 = thumb2;
+                        ComposerKt.traceEventStart(1191170377, $dirty13, rememberedValue, "androidx.compose.material3.Slider (Slider.kt:270)");
                     } else {
-                        obj32 = thumb3;
+                        obj32 = thumb2;
                     }
                     ComposerKt.sourceInformationMarkerStart($composer2, -403520192, "CC(remember):Slider.kt#9igjgp");
-                    i6 = i28 &= $dirty12 == 8388608 ? 1 : 0;
+                    i19 = i28 &= $dirty13 == 8388608 ? 1 : 0;
                     i23 = 6;
                     if (i44 ^= 6 > 4) {
                         if (!$composer2.changed(valueRange3)) {
-                            i = rememberedValue & 6 == 4 ? 1 : changed3;
+                            i13 = rememberedValue & 6 == 4 ? 1 : changed3;
                         } else {
                         }
                     } else {
@@ -2037,13 +2037,13 @@ public final class SliderKt {
                     Composer composer2 = $composer2;
                     int i64 = 0;
                     it$iv = composer2.rememberedValue();
-                    i18 = 0;
-                    if (obj27 | i == 0) {
+                    i8 = 0;
+                    if (obj27 | i13 == 0) {
                         obj36 = $composer2;
                         if (it$iv == Composer.Companion.getEmpty()) {
                             $composer2 = 0;
                             obj28 = it$iv;
-                            it$iv = new SliderState(f, steps3, obj6, valueRange3);
+                            it$iv = new SliderState(f, steps3, obj4, valueRange3);
                             composer2.updateRememberedValue(it$iv);
                         } else {
                             obj28 = it$iv;
@@ -2052,38 +2052,38 @@ public final class SliderKt {
                         obj36 = $composer2;
                     }
                     ComposerKt.sourceInformationMarkerEnd(obj36);
-                    (SliderState)it$iv.setOnValueChangeFinished(obj6);
+                    (SliderState)it$iv.setOnValueChangeFinished(obj4);
                     it$iv.setOnValueChange$material3_release(obj8);
                     it$iv.setValue(f);
                     obj34 = obj36;
-                    obj31 = interactionSource2;
-                    SliderKt.Slider(it$iv, obj5, z, 0, obj31, obj32, rememberComposableLambda, obj34, i40 |= i52, 8);
+                    obj31 = interactionSource4;
+                    SliderKt.Slider(it$iv, obj7, z, 0, obj31, obj32, rememberComposableLambda, obj34, i40 |= i52, 8);
                     composer = obj34;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
                     track2 = obj9;
-                    $composer3 = obj5;
+                    $composer3 = obj7;
                     modifier2 = composableLambda;
-                    thumb2 = obj;
-                    colors2 = steps3;
+                    thumb3 = obj2;
+                    colors3 = steps3;
                     steps2 = z;
                     enabled2 = valueRange3;
                     valueRange2 = composableLambda2;
-                    $dirty = $dirty12;
-                    $dirty14 = obj6;
-                    $dirty13 = rememberedValue;
+                    $dirty3 = $dirty13;
+                    $dirty12 = obj4;
+                    $dirty14 = rememberedValue;
                 } else {
                     $composer2.skipToGroupEnd();
-                    $dirty13 = $dirty1;
-                    $dirty14 = obj10;
+                    $dirty14 = $dirty1;
+                    $dirty12 = obj10;
                     track2 = interactionSource;
                     valueRange2 = track;
                     composer = $composer2;
-                    thumb2 = obj;
-                    $composer3 = obj5;
+                    thumb3 = obj2;
+                    $composer3 = obj7;
                     steps2 = z;
-                    colors2 = steps;
+                    colors3 = steps;
                     modifier2 = thumb;
                     enabled2 = valueRange;
                 }
@@ -2093,184 +2093,184 @@ public final class SliderKt {
         }
         endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            obj27 = $dirty13;
-            endRestartGroup = new SliderKt.Slider.8(f, obj8, $composer3, steps2, $dirty14, thumb2, track2, colors2, modifier2, valueRange2, enabled2, i59, $changed1, i61);
+            obj27 = $dirty14;
+            endRestartGroup = new SliderKt.Slider.8(f, obj8, $composer3, steps2, $dirty12, thumb3, track2, colors3, modifier2, valueRange2, enabled2, i59, $changed1, i61);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         } else {
-            obj27 = $dirty13;
+            obj27 = $dirty14;
         }
     }
 
     public static final void Slider(float value, Function1<? super Float, Unit> onValueChange, Modifier modifier, boolean enabled, ClosedFloatingPointRange<Float> valueRange, int steps, Function0<Unit> onValueChangeFinished, androidx.compose.material3.SliderColors colors, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i12) {
-        Object obj8;
-        Object obj;
-        boolean traceInProgress;
+        Object obj2;
+        Object obj5;
+        boolean traceInProgress2;
         int defaultsInvalid;
         int rangeTo;
         Object interactionSource2;
-        Object obj7;
-        int $dirty4;
-        Composer restartGroup;
-        int $dirty3;
-        int $dirty;
-        int i;
-        int i15;
-        Object $dirty2;
+        Object $i$a$CacheSliderKt$Slider$1;
         int $dirty5;
-        Object obj3;
+        Composer restartGroup;
+        int $dirty2;
+        int $dirty4;
+        int i13;
+        int i6;
+        Object $dirty3;
+        int $dirty;
+        Object obj10;
         boolean z;
         int modifier2;
-        int i6;
-        Object obj11;
-        int i10;
-        boolean traceInProgress2;
-        boolean str;
-        int i19;
-        int i20;
-        Object obj9;
-        Object obj4;
-        boolean changed;
-        Object obj5;
-        int i14;
-        int i17;
-        Object obj2;
-        float f;
-        int i2;
+        int i15;
         Object obj6;
-        int i21;
-        int i9;
-        Object onValueChangeFinished2;
-        int i7;
-        int i5;
-        int changed2;
-        int i13;
-        int i18;
-        int i3;
-        Composer.Companion companion;
+        int i19;
+        boolean traceInProgress;
+        boolean str;
+        int i20;
         int i8;
-        androidx.compose.runtime.internal.ComposableLambda composableLambda;
+        Object obj3;
+        Object obj7;
+        boolean changed2;
+        Object obj4;
+        int i10;
+        int i21;
+        Object obj8;
+        float f;
+        int i;
+        Object obj;
+        int i17;
+        int i7;
+        Object onValueChangeFinished2;
+        int i9;
+        int i14;
+        int changed;
+        int i5;
+        int i18;
+        int i2;
+        Composer.Companion companion;
+        int i16;
         androidx.compose.runtime.internal.ComposableLambda composableLambda2;
-        Object obj10;
+        androidx.compose.runtime.internal.ComposableLambda composableLambda;
+        Object obj9;
         Composer composer;
+        int i3;
         int i11;
         int i4;
-        int i16;
         androidx.compose.material3.SliderColors obj29;
         final int i70 = $changed;
         final int i71 = i12;
         restartGroup = $composer.startRestartGroup(-202044027);
         ComposerKt.sourceInformation(restartGroup, "C(Slider)P(7,4,3,1,8,6,5)167@8058L8,168@8118L39,179@8458L181,186@8657L122,170@8166L652:Slider.kt#uh7d8r");
-        $dirty3 = $changed;
+        $dirty2 = $changed;
         if (i71 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty2 |= 6;
             f = value;
         } else {
             if (i70 & 6 == 0) {
-                i = restartGroup.changed(value) ? 4 : 2;
-                $dirty3 |= i;
+                i13 = restartGroup.changed(value) ? 4 : 2;
+                $dirty2 |= i13;
             } else {
                 f = value;
             }
         }
         if (i71 & 2 != 0) {
-            $dirty3 |= 48;
-            obj6 = onValueChange;
+            $dirty2 |= 48;
+            obj = onValueChange;
         } else {
             if (i70 & 48 == 0) {
-                i15 = restartGroup.changedInstance(onValueChange) ? 32 : 16;
-                $dirty3 |= i15;
+                i6 = restartGroup.changedInstance(onValueChange) ? 32 : 16;
+                $dirty2 |= i6;
             } else {
-                obj6 = onValueChange;
+                obj = onValueChange;
             }
         }
         int i32 = i71 & 4;
         if (i32 != 0) {
-            $dirty3 |= 384;
-            obj3 = modifier;
+            $dirty2 |= 384;
+            obj10 = modifier;
         } else {
             if (i70 & 384 == 0) {
-                i6 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty3 |= i6;
+                i15 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i15;
             } else {
-                obj3 = modifier;
+                obj10 = modifier;
             }
         }
-        i10 = i71 & 8;
-        if (i10 != 0) {
-            $dirty3 |= 3072;
+        i19 = i71 & 8;
+        if (i19 != 0) {
+            $dirty2 |= 3072;
             str = enabled;
         } else {
             if (i70 & 3072 == 0) {
-                i20 = restartGroup.changed(enabled) ? 2048 : 1024;
-                $dirty3 |= i20;
+                i8 = restartGroup.changed(enabled) ? 2048 : 1024;
+                $dirty2 |= i8;
             } else {
                 str = enabled;
             }
         }
         if (i70 & 24576 == 0) {
             if (i71 & 16 == 0) {
-                changed = restartGroup.changed(valueRange) ? 16384 : 8192;
+                changed2 = restartGroup.changed(valueRange) ? 16384 : 8192;
             } else {
-                obj9 = valueRange;
+                obj3 = valueRange;
             }
-            $dirty3 |= changed;
+            $dirty2 |= changed2;
         } else {
-            obj9 = valueRange;
+            obj3 = valueRange;
         }
-        i14 = i71 & 32;
+        i10 = i71 & 32;
         int i68 = 196608;
-        if (i14 != 0) {
-            $dirty3 |= i68;
-            i17 = steps;
+        if (i10 != 0) {
+            $dirty2 |= i68;
+            i21 = steps;
         } else {
             if (i68 &= i70 == 0) {
-                i21 = restartGroup.changed(steps) ? 131072 : 65536;
-                $dirty3 |= i21;
+                i17 = restartGroup.changed(steps) ? 131072 : 65536;
+                $dirty2 |= i17;
             } else {
-                i17 = steps;
+                i21 = steps;
             }
         }
-        i9 = i71 & 64;
+        i7 = i71 & 64;
         int i72 = 1572864;
-        if (i9 != 0) {
-            $dirty3 |= i72;
+        if (i7 != 0) {
+            $dirty2 |= i72;
             onValueChangeFinished2 = onValueChangeFinished;
         } else {
             if (i72 &= i70 == 0) {
-                i7 = restartGroup.changedInstance(onValueChangeFinished) ? 1048576 : 524288;
-                $dirty3 |= i7;
+                i9 = restartGroup.changedInstance(onValueChangeFinished) ? 1048576 : 524288;
+                $dirty2 |= i9;
             } else {
                 onValueChangeFinished2 = onValueChangeFinished;
             }
         }
         if (i70 & i74 == 0) {
             if (i71 & 128 == 0) {
-                changed2 = restartGroup.changed(colors) ? 8388608 : 4194304;
+                changed = restartGroup.changed(colors) ? 8388608 : 4194304;
             } else {
-                obj8 = colors;
+                obj2 = colors;
             }
-            $dirty3 |= changed2;
+            $dirty2 |= changed;
         } else {
-            obj8 = colors;
+            obj2 = colors;
         }
         int i24 = i71 & 256;
         int i75 = 100663296;
         if (i24 != 0) {
-            $dirty3 |= i75;
-            i13 = i24;
-            obj = interactionSource;
+            $dirty2 |= i75;
+            i5 = i24;
+            obj5 = interactionSource;
         } else {
             if (i70 & i75 == 0) {
-                i13 = i24;
+                i5 = i24;
                 i18 = restartGroup.changed(interactionSource) ? 67108864 : 33554432;
-                $dirty3 |= i18;
+                $dirty2 |= i18;
             } else {
-                i13 = i24;
-                obj = interactionSource;
+                i5 = i24;
+                obj5 = interactionSource;
             }
         }
-        final int obj36 = $dirty3;
-        if ($dirty3 & i3 == 38347922) {
+        final int obj36 = $dirty2;
+        if ($dirty2 & i2 == 38347922) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i29 = -29360129;
@@ -2278,81 +2278,81 @@ public final class SliderKt {
                 if (i70 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i32 != 0) {
-                            obj3 = defaultsInvalid;
+                            obj10 = defaultsInvalid;
                         }
-                        if (i10 != 0) {
+                        if (i19 != 0) {
                             str = defaultsInvalid;
                         }
                         if (i71 & 16 != 0) {
-                            $dirty5 = obj36 & companion;
-                            obj9 = rangeTo;
+                            $dirty = obj36 & companion;
+                            obj3 = rangeTo;
                         } else {
-                            $dirty5 = obj36;
+                            $dirty = obj36;
                         }
-                        if (i14 != 0) {
-                            i17 = rangeTo;
+                        if (i10 != 0) {
+                            i21 = rangeTo;
                         }
-                        if (i9 != 0) {
+                        if (i7 != 0) {
                             onValueChangeFinished2 = rangeTo;
                         }
                         if (i71 & 128 != 0) {
                             interactionSource2 = SliderDefaults.INSTANCE.colors(restartGroup, 6);
-                            $dirty5 &= i29;
+                            $dirty &= i29;
                         } else {
                             interactionSource2 = colors;
                         }
-                        if (i13 != 0) {
+                        if (i5 != 0) {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, -403669397, "CC(remember):Slider.kt#9igjgp");
                             int i31 = 0;
-                            i10 = restartGroup;
-                            i14 = 0;
-                            Object rememberedValue = i10.rememberedValue();
-                            i13 = 0;
+                            i19 = restartGroup;
+                            i10 = 0;
+                            Object rememberedValue = i19.rememberedValue();
+                            i5 = 0;
                             if (rememberedValue == Composer.Companion.getEmpty()) {
                                 int i26 = 0;
-                                i10.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                                i19.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                             } else {
-                                obj7 = rememberedValue;
+                                $i$a$CacheSliderKt$Slider$1 = rememberedValue;
                             }
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            $dirty = obj7;
-                            i9 = obj3;
-                            obj10 = obj9;
-                            i8 = i17;
-                            i5 = onValueChangeFinished2;
+                            $dirty4 = $i$a$CacheSliderKt$Slider$1;
+                            i7 = obj10;
+                            obj9 = obj3;
+                            i16 = i21;
+                            i14 = onValueChangeFinished2;
                             modifier2 = -202044027;
                             interactionSource2 = obj29;
                             onValueChangeFinished2 = str;
                         } else {
                             obj29 = interactionSource2;
-                            $dirty = interactionSource;
-                            i9 = obj3;
-                            obj10 = obj9;
-                            i8 = i17;
-                            i5 = onValueChangeFinished2;
+                            $dirty4 = interactionSource;
+                            i7 = obj10;
+                            obj9 = obj3;
+                            i16 = i21;
+                            i14 = onValueChangeFinished2;
                             modifier2 = -202044027;
                             onValueChangeFinished2 = str;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        $dirty4 = i71 & 16 != 0 ? obj36 & companion : obj36;
+                        $dirty5 = i71 & 16 != 0 ? obj36 & companion : obj36;
                         if (i71 & 128 != 0) {
-                            $dirty = interactionSource;
-                            $dirty5 = $dirty6;
-                            i9 = obj3;
-                            obj10 = obj9;
-                            i8 = i17;
-                            i5 = onValueChangeFinished2;
+                            $dirty4 = interactionSource;
+                            $dirty = $dirty6;
+                            i7 = obj10;
+                            obj9 = obj3;
+                            i16 = i21;
+                            i14 = onValueChangeFinished2;
                             modifier2 = -202044027;
                             interactionSource2 = colors;
                             onValueChangeFinished2 = str;
                         } else {
-                            $dirty = interactionSource;
-                            $dirty5 = $dirty4;
-                            i9 = obj3;
-                            obj10 = obj9;
-                            i8 = i17;
-                            i5 = onValueChangeFinished2;
+                            $dirty4 = interactionSource;
+                            $dirty = $dirty5;
+                            i7 = obj10;
+                            obj9 = obj3;
+                            i16 = i21;
+                            i14 = onValueChangeFinished2;
                             modifier2 = -202044027;
                             interactionSource2 = colors;
                             onValueChangeFinished2 = str;
@@ -2362,83 +2362,83 @@ public final class SliderKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(modifier2, $dirty5, -1, "androidx.compose.material3.Slider (Slider.kt:169)");
+                    ComposerKt.traceEventStart(modifier2, $dirty, -1, "androidx.compose.material3.Slider (Slider.kt:169)");
                 }
-                SliderKt.Slider.2 anon = new SliderKt.Slider.2($dirty, interactionSource2, onValueChangeFinished2);
+                SliderKt.Slider.2 anon = new SliderKt.Slider.2($dirty4, interactionSource2, onValueChangeFinished2);
                 int i59 = 1;
                 int i67 = 54;
                 SliderKt.Slider.3 anon2 = new SliderKt.Slider.3(onValueChangeFinished2, interactionSource2);
-                i13 = interactionSource2;
-                i3 = $dirty;
-                SliderKt.Slider(f, obj6, i9, onValueChangeFinished2, i5, i13, i3, i8, (Function3)ComposableLambdaKt.rememberComposableLambda(308249025, i59, anon, restartGroup, i67), (Function3)ComposableLambdaKt.rememberComposableLambda(-1843234110, i59, anon2, restartGroup, i67), obj10, restartGroup, i42 | i58, i43 & 14, 0);
+                i5 = interactionSource2;
+                i2 = $dirty4;
+                SliderKt.Slider(f, obj, i7, onValueChangeFinished2, i14, i5, i2, i16, (Function3)ComposableLambdaKt.rememberComposableLambda(308249025, i59, anon, restartGroup, i67), (Function3)ComposableLambdaKt.rememberComposableLambda(-1843234110, i59, anon2, restartGroup, i67), obj9, restartGroup, i42 | i58, i43 & 14, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i2 = $dirty5;
-                $dirty2 = i9;
+                i = $dirty;
+                $dirty3 = i7;
                 z = onValueChangeFinished2;
+                obj7 = i14;
                 obj4 = i5;
-                obj5 = i13;
-                obj2 = i3;
-                i19 = i8;
-                obj11 = obj10;
+                obj8 = i2;
+                i20 = i16;
+                obj6 = obj9;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj5 = colors;
-                i2 = obj36;
+                obj4 = colors;
+                i = obj36;
                 composer = restartGroup;
-                $dirty2 = obj3;
+                $dirty3 = obj10;
                 z = str;
-                obj11 = obj9;
-                i19 = i17;
-                obj4 = onValueChangeFinished2;
-                obj2 = interactionSource;
+                obj6 = obj3;
+                i20 = i21;
+                obj7 = onValueChangeFinished2;
+                obj8 = interactionSource;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new SliderKt.Slider.4(value, onValueChange, $dirty2, z, obj11, i19, obj4, obj5, obj2, i70, i71);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new SliderKt.Slider.4(value, onValueChange, $dirty3, z, obj6, i20, obj7, obj4, obj8, i70, i71);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void Slider(androidx.compose.material3.SliderState state, Modifier modifier, boolean enabled, androidx.compose.material3.SliderColors colors, MutableInteractionSource interactionSource, Function3<? super androidx.compose.material3.SliderState, ? super Composer, ? super Integer, Unit> thumb, Function3<? super androidx.compose.material3.SliderState, ? super Composer, ? super Integer, Unit> track, Composer $composer, int $changed, int i10) {
-        int traceInProgress;
+        int traceInProgress2;
         int modifier2;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int defaultsInvalid;
-        Object modifier3;
+        Object $i$a$CacheSliderKt$Slider$9;
         int $dirty;
-        int i9;
+        int i3;
         int rememberComposableLambda;
         int i2;
-        Object obj5;
+        Object obj4;
         Object enabled2;
         boolean z2;
-        int i13;
-        int colors2;
+        int i8;
+        int colors3;
         Object obj6;
         boolean z;
-        int i3;
-        Object obj4;
-        int i4;
-        Object obj2;
-        Object colors3;
-        int changed;
         int i7;
         Object obj3;
-        Object interactionSource2;
-        Object obj;
-        int i11;
-        int i14;
-        boolean i;
-        Object thumb2;
         int i12;
-        Object i5;
-        Object obj7;
+        Object obj;
+        Object colors2;
+        int changed;
         int i6;
-        int i8;
+        Object obj7;
+        Object interactionSource2;
+        Object obj2;
+        int i9;
+        int i;
+        boolean i4;
+        Object thumb2;
+        int i13;
+        Object i11;
+        Object obj5;
+        int i5;
+        int i14;
         Composer.Companion companion;
         Object obj19;
         final int i41 = $changed;
@@ -2447,13 +2447,13 @@ public final class SliderKt {
         $dirty = $changed;
         if (i10 & 1 != 0) {
             $dirty |= 6;
-            obj = state;
+            obj2 = state;
         } else {
             if (i41 & 6 == 0) {
-                i9 = restartGroup.changedInstance(state) ? 4 : 2;
-                $dirty |= i9;
+                i3 = restartGroup.changedInstance(state) ? 4 : 2;
+                $dirty |= i3;
             } else {
-                obj = state;
+                obj2 = state;
             }
         }
         int i24 = i10 & 2;
@@ -2462,20 +2462,20 @@ public final class SliderKt {
             enabled2 = modifier;
         } else {
             if (i41 & 48 == 0) {
-                i13 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i13;
+                i8 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty |= i8;
             } else {
                 enabled2 = modifier;
             }
         }
-        colors2 = i10 & 4;
-        if (colors2 != 0) {
+        colors3 = i10 & 4;
+        if (colors3 != 0) {
             $dirty |= 384;
             z = enabled;
         } else {
             if (i41 & 384 == 0) {
-                i4 = restartGroup.changed(enabled) ? 256 : 128;
-                $dirty |= i4;
+                i12 = restartGroup.changed(enabled) ? 256 : 128;
+                $dirty |= i12;
             } else {
                 z = enabled;
             }
@@ -2484,101 +2484,101 @@ public final class SliderKt {
             if (i10 & 8 == 0) {
                 changed = restartGroup.changed(colors) ? 2048 : 1024;
             } else {
-                obj2 = colors;
+                obj = colors;
             }
             $dirty |= changed;
         } else {
-            obj2 = colors;
+            obj = colors;
         }
-        i7 = i10 & 16;
-        if (i7 != 0) {
+        i6 = i10 & 16;
+        if (i6 != 0) {
             $dirty |= 24576;
             interactionSource2 = interactionSource;
         } else {
             if (i41 & 24576 == 0) {
-                i14 = restartGroup.changed(interactionSource) ? 16384 : 8192;
-                $dirty |= i14;
+                i = restartGroup.changed(interactionSource) ? 16384 : 8192;
+                $dirty |= i;
             } else {
                 interactionSource2 = interactionSource;
             }
         }
-        i = i10 & 32;
+        i4 = i10 & 32;
         int i43 = 196608;
-        if (i != 0) {
+        if (i4 != 0) {
             $dirty |= i43;
             thumb2 = thumb;
         } else {
             if (i43 &= i41 == 0) {
-                i12 = restartGroup.changedInstance(thumb) ? 131072 : 65536;
-                $dirty |= i12;
+                i13 = restartGroup.changedInstance(thumb) ? 131072 : 65536;
+                $dirty |= i13;
             } else {
                 thumb2 = thumb;
             }
         }
-        i5 = i10 & 64;
+        i11 = i10 & 64;
         int i45 = 1572864;
-        if (i5 != 0) {
+        if (i11 != 0) {
             $dirty |= i45;
-            obj7 = track;
+            obj5 = track;
         } else {
             if (i45 &= i41 == 0) {
-                i6 = restartGroup.changedInstance(track) ? 1048576 : 524288;
-                $dirty |= i6;
+                i5 = restartGroup.changedInstance(track) ? 1048576 : 524288;
+                $dirty |= i5;
             } else {
-                obj7 = track;
+                obj5 = track;
             }
         }
-        if ($dirty & i8 == 599186) {
+        if ($dirty & i14 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i41 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i24 != 0) {
-                            modifier3 = Modifier.Companion;
+                            $i$a$CacheSliderKt$Slider$9 = Modifier.Companion;
                         } else {
-                            modifier3 = enabled2;
+                            $i$a$CacheSliderKt$Slider$9 = enabled2;
                         }
-                        enabled2 = colors2 != 0 ? 1 : z;
+                        enabled2 = colors3 != 0 ? 1 : z;
                         if (i10 & 8 != 0) {
                             $dirty &= -7169;
-                            obj2 = colors2;
+                            obj = colors3;
                         }
-                        if (i7 != 0) {
+                        if (i6 != 0) {
                             ComposerKt.sourceInformationMarkerStart(restartGroup, -403425429, "CC(remember):Slider.kt#9igjgp");
-                            colors2 = 0;
+                            colors3 = 0;
                             z = restartGroup;
-                            i7 = 0;
+                            i6 = 0;
                             rememberComposableLambda = z.rememberedValue();
-                            i8 = 0;
-                            obj19 = modifier3;
+                            i14 = 0;
+                            obj19 = $i$a$CacheSliderKt$Slider$9;
                             if (rememberComposableLambda == Composer.Companion.getEmpty()) {
                                 int i23 = 0;
                                 z.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                             } else {
-                                modifier3 = rememberComposableLambda;
+                                $i$a$CacheSliderKt$Slider$9 = rememberComposableLambda;
                             }
                             ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                            interactionSource2 = modifier3;
+                            interactionSource2 = $i$a$CacheSliderKt$Slider$9;
                         } else {
-                            obj19 = modifier3;
+                            obj19 = $i$a$CacheSliderKt$Slider$9;
                         }
                         modifier2 = 54;
-                        if (i != 0) {
-                            SliderKt.Slider.10 anon = new SliderKt.Slider.10(interactionSource2, obj2, enabled2);
+                        if (i4 != 0) {
+                            SliderKt.Slider.10 anon = new SliderKt.Slider.10(interactionSource2, obj, enabled2);
                             thumb2 = rememberComposableLambda;
                         } else {
-                            i3 = 1;
+                            i7 = 1;
                         }
-                        if (i5 != 0) {
-                            rememberComposableLambda = new SliderKt.Slider.11(enabled2, obj2);
-                            obj7 = modifier2;
-                            i = enabled2;
-                            i5 = thumb2;
+                        if (i11 != 0) {
+                            rememberComposableLambda = new SliderKt.Slider.11(enabled2, obj);
+                            obj5 = modifier2;
+                            i4 = enabled2;
+                            i11 = thumb2;
                             thumb2 = interactionSource2;
                             interactionSource2 = obj19;
                         } else {
-                            i = enabled2;
-                            i5 = thumb2;
+                            i4 = enabled2;
+                            i11 = thumb2;
                             thumb2 = interactionSource2;
                             interactionSource2 = obj19;
                         }
@@ -2587,9 +2587,9 @@ public final class SliderKt {
                         if (i10 & 8 != 0) {
                             $dirty &= -7169;
                         }
-                        i = z;
-                        i5 = thumb2;
-                        i3 = 1;
+                        i4 = z;
+                        i11 = thumb2;
+                        i7 = 1;
                         thumb2 = interactionSource2;
                         interactionSource2 = enabled2;
                     }
@@ -2599,224 +2599,224 @@ public final class SliderKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(-1303883986, $dirty, -1, "androidx.compose.material3.Slider (Slider.kt:351)");
                 }
-                i2 = obj.getSteps() >= 0 ? i3 : 0;
+                i2 = obj2.getSteps() >= 0 ? i7 : 0;
                 if (i2 == 0) {
                 } else {
-                    SliderKt.SliderImpl(interactionSource2, obj, i, thumb2, i5, obj7, restartGroup, i21 | i33);
+                    SliderKt.SliderImpl(interactionSource2, obj2, i4, thumb2, i11, obj5, restartGroup, i21 | i33);
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
-                    obj6 = obj2;
-                    obj5 = interactionSource2;
-                    z2 = i;
-                    obj4 = thumb2;
-                    colors3 = i5;
-                    i11 = $dirty;
-                    obj3 = obj7;
+                    obj6 = obj;
+                    obj4 = interactionSource2;
+                    z2 = i4;
+                    obj3 = thumb2;
+                    colors2 = i11;
+                    i9 = $dirty;
+                    obj7 = obj5;
                     ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
                     if (endRestartGroup != null) {
-                        traceInProgress = new SliderKt.Slider.13(state, obj5, z2, obj6, obj4, colors3, obj3, i41, i10);
-                        endRestartGroup.updateScope((Function2)traceInProgress);
+                        traceInProgress2 = new SliderKt.Slider.13(state, obj4, z2, obj6, obj3, colors2, obj7, i41, i10);
+                        endRestartGroup.updateScope((Function2)traceInProgress2);
                     }
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                obj5 = enabled2;
+                obj4 = enabled2;
                 z2 = z;
-                obj6 = obj2;
-                obj4 = interactionSource2;
-                colors3 = thumb2;
-                i11 = $dirty;
-                obj3 = obj7;
+                obj6 = obj;
+                obj3 = interactionSource2;
+                colors2 = thumb2;
+                i9 = $dirty;
+                obj7 = obj5;
             }
         } else {
         }
         int i22 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("steps should be >= 0".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireSliderKt$Slider$12 = new IllegalArgumentException("steps should be >= 0".toString());
+        throw $i$a$RequireSliderKt$Slider$12;
     }
 
     private static final void SliderImpl(Modifier modifier, androidx.compose.material3.SliderState state, boolean enabled, MutableInteractionSource interactionSource, Function3<? super androidx.compose.material3.SliderState, ? super Composer, ? super Integer, Unit> thumb, Function3<? super androidx.compose.material3.SliderState, ? super Composer, ? super Integer, Unit> track, Composer $composer, int $changed) {
         androidx.compose.ui.layout.MeasurePolicy maybeCachedBoxMeasurePolicy;
-        boolean traceInProgress2;
-        Object anon2;
+        boolean traceInProgress;
+        Object $i$a$CacheSliderKt$SliderImpl$1$1;
         Function0 factory$iv$iv$iv2;
         Object changedInstance;
-        Object obj3;
+        Object obj;
         Object anon;
         Function0 factory$iv$iv;
         boolean currentCompositionLocalMap2;
         Function0 factory$iv$iv$iv;
         Composer z;
-        int i12;
-        int obj2;
-        int i13;
-        Object valueOf;
-        Composer composer;
-        int i7;
+        int i25;
+        int obj4;
+        int i16;
+        Object valueOf2;
+        Composer composer4;
+        int i8;
         int $dirty;
         boolean $dirty2;
-        Composer composer7;
+        Composer composer2;
         Object maybeCachedBoxMeasurePolicy2;
-        Object obj;
-        Composer composer6;
-        Integer valueOf2;
-        int i6;
-        int i15;
-        int i11;
-        int i22;
-        int i25;
-        int i4;
+        Object obj2;
+        Composer composer9;
+        Integer valueOf;
+        int i20;
+        int i26;
+        int i2;
+        int i13;
+        int i12;
+        int i23;
         int topStart;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int str;
         Object empty2;
-        Composer composer5;
+        Composer composer8;
         androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
         int currentCompositeKeyHash;
         int empty;
         Modifier materializeModifier;
-        Object anon3;
-        Modifier i16;
-        int i19;
-        int i26;
-        int i8;
-        Modifier modifier2;
-        Function0 function02;
-        Composer.Companion companion;
-        Object obj4;
-        int i9;
-        Composer composer9;
+        Object anon2;
+        Modifier i14;
         int i3;
-        int i18;
+        int i;
+        int i22;
         Modifier modifier3;
-        int i21;
-        Composer.Companion companion2;
+        Function0 function0;
+        Composer.Companion companion;
+        Object obj3;
+        int i7;
+        Composer composer7;
+        int i4;
         int i5;
+        Modifier modifier4;
+        int i10;
+        Composer.Companion companion2;
+        int i11;
         int $changed$iv;
         boolean invalid$iv;
-        int i;
-        Modifier modifier4;
-        int i17;
-        int i2;
-        Function0 function0;
-        int i20;
+        int i15;
+        Modifier modifier2;
+        int i6;
+        int i21;
+        Function0 function02;
+        int i24;
         BoxScopeInstance boxScopeInstance;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
-        Composer composer8;
         Composer composer3;
-        int i24;
+        Composer composer6;
+        int i19;
         BoxScopeInstance iNSTANCE;
         androidx.compose.runtime.CompositionLocalMap map;
-        int i10;
-        Composer composer4;
+        int i18;
+        Composer composer;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        int i23;
-        Composer composer2;
-        int i14;
+        int i9;
+        Composer composer5;
+        int i17;
         int obj56;
         final Object obj5 = state;
         z = enabled;
-        obj2 = interactionSource;
-        traceInProgress2 = thumb;
-        i16 = $changed;
-        i7 = 1390990089;
-        final Composer restartGroup = $composer.startRestartGroup(i7);
+        obj4 = interactionSource;
+        traceInProgress = thumb;
+        i14 = $changed;
+        i8 = 1390990089;
+        final Composer restartGroup = $composer.startRestartGroup(i8);
         ComposerKt.sourceInformation(restartGroup, "C(SliderImpl)P(2,3)665@29717L7,673@30073L28,698@30935L1093,678@30197L1831:Slider.kt#uh7d8r");
-        if (i16 & 6 == 0) {
-            i6 = restartGroup.changed(modifier) ? 4 : 2;
-            $dirty |= i6;
+        if (i14 & 6 == 0) {
+            i20 = restartGroup.changed(modifier) ? 4 : 2;
+            $dirty |= i20;
         } else {
-            obj = modifier;
+            obj2 = modifier;
         }
-        if (i16 & 48 == 0) {
-            i15 = restartGroup.changedInstance(obj5) ? 32 : 16;
-            $dirty |= i15;
+        if (i14 & 48 == 0) {
+            i26 = restartGroup.changedInstance(obj5) ? 32 : 16;
+            $dirty |= i26;
         }
-        if (i16 & 384 == 0) {
-            i11 = restartGroup.changed(z) ? 256 : 128;
-            $dirty |= i11;
+        if (i14 & 384 == 0) {
+            i2 = restartGroup.changed(z) ? 256 : 128;
+            $dirty |= i2;
         }
-        if (i16 & 3072 == 0) {
-            i22 = restartGroup.changed(obj2) ? 2048 : 1024;
-            $dirty |= i22;
+        if (i14 & 3072 == 0) {
+            i13 = restartGroup.changed(obj4) ? 2048 : 1024;
+            $dirty |= i13;
         }
-        if (i16 & 24576 == 0) {
-            i25 = restartGroup.changedInstance(traceInProgress2) ? 16384 : 8192;
-            $dirty |= i25;
+        if (i14 & 24576 == 0) {
+            i12 = restartGroup.changedInstance(traceInProgress) ? 16384 : 8192;
+            $dirty |= i12;
         }
-        if (i66 &= i16 == 0) {
-            i4 = restartGroup.changedInstance(track) ? 131072 : 65536;
-            $dirty |= i4;
+        if (i65 &= i14 == 0) {
+            i23 = restartGroup.changedInstance(track) ? 131072 : 65536;
+            $dirty |= i23;
         }
-        if (i67 &= $dirty == 74898) {
+        if (i66 &= $dirty == 74898) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i7, $dirty, -1, "androidx.compose.material3.SliderImpl (Slider.kt:664)");
+                    ComposerKt.traceEventStart(i8, $dirty, -1, "androidx.compose.material3.SliderImpl (Slider.kt:664)");
                 }
-                int i68 = 0;
-                int i71 = 0;
+                int i67 = 0;
+                int i70 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i69 = 0;
-                i13 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? 1 : i69;
-                obj5.setRtl$material3_release(i13);
-                int i85 = i69;
+                int i68 = 0;
+                i16 = restartGroup.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()) == LayoutDirection.Rtl ? 1 : i68;
+                obj5.setRtl$material3_release(i16);
+                int i84 = i68;
                 Object obj6 = obj5;
                 empty2 = "CC(remember):Slider.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 174725888, empty2);
-                Composer composer14 = restartGroup;
-                int i90 = 0;
-                Object rememberedValue6 = composer14.rememberedValue();
-                int i93 = 0;
+                Composer composer13 = restartGroup;
+                int i89 = 0;
+                Object rememberedValue6 = composer13.rememberedValue();
+                int i92 = 0;
                 if (!restartGroup.changedInstance(obj5)) {
                     if (rememberedValue6 == Composer.Companion.getEmpty()) {
-                        int i72 = 0;
-                        obj4 = obj6;
+                        int i71 = 0;
+                        obj3 = obj6;
                         anon = new SliderKt.SliderImpl.drag.1.1(obj5, 0);
-                        composer14.updateRememberedValue((Function3)anon);
+                        composer13.updateRememberedValue((Function3)anon);
                     } else {
-                        obj4 = obj6;
+                        obj3 = obj6;
                         anon = rememberedValue6;
-                        composer5 = composer14;
-                        i12 = 0;
+                        composer8 = composer13;
+                        i25 = 0;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i89 = 0;
+                int i88 = 0;
                 MutableInteractionSource mutableInteractionSource2 = interactionSource;
-                i19 = $dirty;
+                i3 = $dirty;
                 String str2 = str8;
-                int i91 = 0;
+                int i90 = 0;
                 $dirty2 = enabled;
-                Modifier draggable$default = DraggableKt.draggable$default((Modifier)Modifier.Companion, obj4, Orientation.Horizontal, $dirty2, mutableInteractionSource2, obj5.isDragging$material3_release(), 0, (Function3)anon, obj5.isRtl$material3_release(), 32, i89);
-                Modifier then2 = FocusableKt.focusable(SliderKt.sliderSemantics(SizeKt.requiredSizeIn-qDBjuR0$default(InteractiveComponentSizeKt.minimumInteractiveComponentSize(modifier), SliderKt.ThumbWidth, SliderKt.TrackHeight, 0, 0, 12, i89), obj5, $dirty2), $dirty2, mutableInteractionSource2).then(SliderKt.sliderTapModifier((Modifier)Modifier.Companion, obj5, obj2, z)).then(draggable$default);
+                Modifier draggable$default = DraggableKt.draggable$default((Modifier)Modifier.Companion, obj3, Orientation.Horizontal, $dirty2, mutableInteractionSource2, obj5.isDragging$material3_release(), 0, (Function3)anon, obj5.isRtl$material3_release(), 32, i88);
+                Modifier then2 = FocusableKt.focusable(SliderKt.sliderSemantics(SizeKt.requiredSizeIn-qDBjuR0$default(InteractiveComponentSizeKt.minimumInteractiveComponentSize(modifier), SliderKt.ThumbWidth, SliderKt.TrackHeight, 0, 0, 12, i88), obj5, $dirty2), $dirty2, mutableInteractionSource2).then(SliderKt.sliderTapModifier((Modifier)Modifier.Companion, obj5, obj4, z)).then(draggable$default);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 174754537, str2);
-                Composer composer13 = restartGroup;
-                int i74 = 0;
-                Object rememberedValue5 = composer13.rememberedValue();
-                int i84 = 0;
+                Composer composer12 = restartGroup;
+                int i73 = 0;
+                Object rememberedValue5 = composer12.rememberedValue();
+                int i83 = 0;
                 if (!restartGroup.changedInstance(obj5)) {
                     if (rememberedValue5 == Composer.Companion.getEmpty()) {
                         empty = 0;
-                        anon3 = new SliderKt.SliderImpl.2.1(obj5);
-                        composer13.updateRememberedValue((MeasurePolicy)anon3);
+                        anon2 = new SliderKt.SliderImpl.2.1(obj5);
+                        composer12.updateRememberedValue((MeasurePolicy)anon2);
                     } else {
-                        anon3 = rememberedValue5;
+                        anon2 = rememberedValue5;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                valueOf2 = i91;
+                valueOf = i90;
                 String str6 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, str6);
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i91);
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i90);
                 androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap3 = restartGroup.getCurrentCompositionLocalMap();
-                modifier2 = draggable$default;
+                modifier3 = draggable$default;
                 Function0 function03 = constructor;
-                i26 = 0;
+                i = 0;
                 String str3 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, str3);
                 if (!applier2 instanceof Applier) {
@@ -2829,181 +2829,181 @@ public final class SliderKt {
                     factory$iv$iv = function03;
                     restartGroup.useNode();
                 }
-                function02 = factory$iv$iv;
+                function0 = factory$iv$iv;
                 Composer constructor-impl2 = Updater.constructor-impl(restartGroup);
-                int i95 = 0;
-                modifier3 = then2;
-                Updater.set-impl(constructor-impl2, (MeasurePolicy)anon3, ComposeUiNode.Companion.getSetMeasurePolicy());
+                int i94 = 0;
+                modifier4 = then2;
+                Updater.set-impl(constructor-impl2, (MeasurePolicy)anon2, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl2, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i96 = 0;
-                Composer composer15 = constructor-impl2;
+                int i95 = 0;
+                Composer composer14 = constructor-impl2;
                 companion2 = 0;
-                if (!composer15.getInserting()) {
-                    $changed$iv = valueOf2;
-                    if (!Intrinsics.areEqual(composer15.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer15.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                if (!composer14.getInserting()) {
+                    $changed$iv = valueOf;
+                    if (!Intrinsics.areEqual(composer14.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer14.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer6 = composer15;
+                        composer9 = composer14;
                     }
                 } else {
-                    $changed$iv = valueOf2;
+                    $changed$iv = valueOf;
                 }
                 Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier(restartGroup, then2), ComposeUiNode.Companion.getSetModifier());
-                valueOf = restartGroup;
-                i3 = i41;
-                ComposerKt.sourceInformationMarkerStart(valueOf, -610171494, "C682@30354L85,680@30227L271,688@30511L74:Slider.kt#uh7d8r");
-                i18 = i53;
-                i9 = i70;
-                int i54 = 0;
-                ComposerKt.sourceInformationMarkerStart(valueOf, 534510168, str2);
+                valueOf2 = restartGroup;
+                i4 = i41;
+                ComposerKt.sourceInformationMarkerStart(valueOf2, -610171494, "C682@30354L85,680@30227L271,688@30511L74:Slider.kt#uh7d8r");
+                i5 = i53;
+                i7 = i69;
+                int $i$a$LayoutSliderKt$SliderImpl$1 = 0;
+                ComposerKt.sourceInformationMarkerStart(valueOf2, 534510168, str2);
                 changedInstance = restartGroup.changedInstance(obj5);
-                Composer composer11 = valueOf;
-                int i64 = 0;
+                Composer composer11 = valueOf2;
+                int i63 = 0;
                 Object rememberedValue4 = composer11.rememberedValue();
-                int i97 = 0;
+                int i96 = 0;
                 if (changedInstance == null) {
                     invalid$iv = changedInstance;
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
                         companion2 = invalid$iv2;
-                        anon2 = new SliderKt.SliderImpl.1.1.1(obj5);
-                        composer11.updateRememberedValue((Function1)anon2);
+                        $i$a$CacheSliderKt$SliderImpl$1$1 = new SliderKt.SliderImpl.1.1.1(obj5);
+                        composer11.updateRememberedValue((Function1)$i$a$CacheSliderKt$SliderImpl$1$1);
                     } else {
-                        anon2 = rememberedValue4;
+                        $i$a$CacheSliderKt$SliderImpl$1$1 = rememberedValue4;
                     }
                 } else {
                     invalid$iv = changedInstance;
                 }
-                ComposerKt.sourceInformationMarkerEnd(valueOf);
-                Modifier onSizeChanged = OnRemeasuredModifierKt.onSizeChanged(SizeKt.wrapContentWidth$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, SliderComponents.THUMB), i54, false, 3, i54), (Function1)anon2);
+                ComposerKt.sourceInformationMarkerEnd(valueOf2);
+                Modifier onSizeChanged = OnRemeasuredModifierKt.onSizeChanged(SizeKt.wrapContentWidth$default(LayoutIdKt.layoutId((Modifier)Modifier.Companion, SliderComponents.THUMB), $i$a$LayoutSliderKt$SliderImpl$1, false, 3, $i$a$LayoutSliderKt$SliderImpl$1), (Function1)$i$a$CacheSliderKt$SliderImpl$1$1);
                 String str5 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
-                ComposerKt.sourceInformationMarkerStart(valueOf, 733328855, str5);
+                ComposerKt.sourceInformationMarkerStart(valueOf2, 733328855, str5);
                 Alignment topStart2 = Alignment.Companion.getTopStart();
-                int i98 = i42;
+                int i97 = i42;
                 int $changed$iv4 = 0;
-                int i100 = i56;
+                int i99 = i55;
                 maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart2, $changed$iv4);
-                int i103 = 0;
-                int i105 = $changed$iv4;
-                ComposerKt.sourceInformationMarkerStart(valueOf, -1323940314, str6);
-                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(valueOf, 0);
-                currentCompositionLocalMap2 = valueOf.getCurrentCompositionLocalMap();
+                int i102 = 0;
+                int i104 = $changed$iv4;
+                ComposerKt.sourceInformationMarkerStart(valueOf2, -1323940314, str6);
+                int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(valueOf2, 0);
+                currentCompositionLocalMap2 = valueOf2.getCurrentCompositionLocalMap();
                 Alignment alignment = topStart2;
                 Modifier modifier6 = onSizeChanged;
                 Function0 function05 = constructor3;
-                int i106 = 0;
-                ComposerKt.sourceInformationMarkerStart(valueOf, -692256719, str3);
+                int i105 = 0;
+                ComposerKt.sourceInformationMarkerStart(valueOf2, -692256719, str3);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                valueOf.startReusableNode();
-                if (valueOf.getInserting()) {
-                    valueOf.createNode(function05);
+                valueOf2.startReusableNode();
+                if (valueOf2.getInserting()) {
+                    valueOf2.createNode(function05);
                 } else {
                     factory$iv$iv$iv2 = function05;
-                    valueOf.useNode();
+                    valueOf2.useNode();
                 }
                 Function0 function06 = factory$iv$iv$iv2;
-                Composer constructor-impl = Updater.constructor-impl(valueOf);
-                int i109 = 0;
+                Composer constructor-impl = Updater.constructor-impl(valueOf2);
+                int i108 = 0;
                 map = currentCompositionLocalMap3;
                 Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap2, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i110 = 0;
-                Composer composer17 = constructor-impl;
-                int i113 = 0;
-                if (!composer17.getInserting()) {
+                int i109 = 0;
+                Composer composer16 = constructor-impl;
+                int i112 = 0;
+                if (!composer16.getInserting()) {
                     localMap$iv$iv = currentCompositionLocalMap2;
                     measurePolicy = maybeCachedBoxMeasurePolicy2;
-                    if (!Intrinsics.areEqual(composer17.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
-                        composer17.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
+                    if (!Intrinsics.areEqual(composer16.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
+                        composer16.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
                         constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer7 = composer17;
+                        composer2 = composer16;
                     }
                 } else {
                     localMap$iv$iv = currentCompositionLocalMap2;
                     measurePolicy = maybeCachedBoxMeasurePolicy2;
                 }
-                Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(valueOf, onSizeChanged), ComposeUiNode.Companion.getSetModifier());
-                Composer composer10 = valueOf;
-                i24 = i35;
+                Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(valueOf2, onSizeChanged), ComposeUiNode.Companion.getSetModifier());
+                Composer composer10 = valueOf2;
+                i19 = i35;
                 String $changed$iv3 = "C73@3429L9:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(composer10, -2146769399, $changed$iv3);
                 iNSTANCE = BoxScopeInstance.INSTANCE;
-                i112 |= 6;
-                i23 = 0;
-                i14 = i57;
-                Composer composer12 = composer4;
-                ComposerKt.sourceInformationMarkerStart(composer12, -469300363, "C686@30472L12:Slider.kt#uh7d8r");
-                traceInProgress2.invoke(obj5, composer12, Integer.valueOf(i45 |= i79));
-                ComposerKt.sourceInformationMarkerEnd(composer12);
+                i111 |= 6;
+                i9 = 0;
+                i17 = i56;
+                Composer $i$a$LayoutBoxKt$Box$1$iv = composer;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -469300363, "C686@30472L12:Slider.kt#uh7d8r");
+                traceInProgress.invoke(obj5, $i$a$LayoutBoxKt$Box$1$iv, Integer.valueOf(i45 |= i78));
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutBoxKt$Box$1$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer10);
-                valueOf.endNode();
-                ComposerKt.sourceInformationMarkerEnd(valueOf);
-                ComposerKt.sourceInformationMarkerEnd(valueOf);
-                ComposerKt.sourceInformationMarkerEnd(valueOf);
+                valueOf2.endNode();
+                ComposerKt.sourceInformationMarkerEnd(valueOf2);
+                ComposerKt.sourceInformationMarkerEnd(valueOf2);
+                ComposerKt.sourceInformationMarkerEnd(valueOf2);
                 Modifier layoutId2 = LayoutIdKt.layoutId((Modifier)Modifier.Companion, SliderComponents.TRACK);
-                int i58 = 6;
-                obj = 0;
-                ComposerKt.sourceInformationMarkerStart(valueOf, 733328855, str5);
+                int i57 = 6;
+                obj2 = 0;
+                ComposerKt.sourceInformationMarkerStart(valueOf2, 733328855, str5);
                 maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(Alignment.Companion.getTopStart(), false);
-                i5 = 0;
-                ComposerKt.sourceInformationMarkerStart(valueOf, -1323940314, str6);
+                i11 = 0;
+                ComposerKt.sourceInformationMarkerStart(valueOf2, -1323940314, str6);
                 obj56 = currentCompositeKeyHash2;
-                modifier4 = layoutId2;
+                modifier2 = layoutId2;
                 Function0 function04 = constructor2;
-                i8 = 0;
-                ComposerKt.sourceInformationMarkerStart(valueOf, -692256719, str3);
+                i22 = 0;
+                ComposerKt.sourceInformationMarkerStart(valueOf2, -692256719, str3);
                 if (!applier3 instanceof Applier) {
                     ComposablesKt.invalidApplier();
                 }
-                valueOf.startReusableNode();
-                if (valueOf.getInserting()) {
-                    valueOf.createNode(function04);
+                valueOf2.startReusableNode();
+                if (valueOf2.getInserting()) {
+                    valueOf2.createNode(function04);
                 } else {
                     factory$iv$iv$iv = function04;
-                    valueOf.useNode();
+                    valueOf2.useNode();
                 }
-                Composer constructor-impl3 = Updater.constructor-impl(valueOf);
-                int i94 = 0;
-                function0 = factory$iv$iv$iv;
+                Composer constructor-impl3 = Updater.constructor-impl(valueOf2);
+                int i93 = 0;
+                function02 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl3, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl3, valueOf.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i104 = 0;
-                Composer composer16 = constructor-impl3;
-                int i107 = 0;
-                if (!composer16.getInserting()) {
+                Updater.set-impl(constructor-impl3, valueOf2.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i103 = 0;
+                Composer composer15 = constructor-impl3;
+                int i106 = 0;
+                if (!composer15.getInserting()) {
                     measurePolicy$iv = maybeCachedBoxMeasurePolicy;
-                    composer8 = valueOf;
-                    if (!Intrinsics.areEqual(composer16.rememberedValue(), Integer.valueOf(obj56))) {
-                        composer16.updateRememberedValue(Integer.valueOf(obj56));
+                    composer3 = valueOf2;
+                    if (!Intrinsics.areEqual(composer15.rememberedValue(), Integer.valueOf(obj56))) {
+                        composer15.updateRememberedValue(Integer.valueOf(obj56));
                         constructor-impl3.apply(Integer.valueOf(obj56), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer16;
+                        composer4 = composer15;
                     }
                 } else {
                     measurePolicy$iv = maybeCachedBoxMeasurePolicy;
-                    composer8 = valueOf;
+                    composer3 = valueOf2;
                 }
-                Updater.set-impl(constructor-impl3, ComposedModifierKt.materializeModifier(valueOf, layoutId2), ComposeUiNode.Companion.getSetModifier());
-                z = composer8;
-                obj2 = 0;
+                Updater.set-impl(constructor-impl3, ComposedModifierKt.materializeModifier(valueOf2, layoutId2), ComposeUiNode.Companion.getSetModifier());
+                z = composer3;
+                obj4 = 0;
                 ComposerKt.sourceInformationMarkerStart(z, -2146769399, $changed$iv3);
                 i51 |= 6;
-                composer9 = z;
-                i17 = 0;
-                i20 = i28;
+                composer7 = z;
+                i6 = 0;
+                i24 = i28;
                 boxScopeInstance = iNSTANCE2;
                 ComposerKt.sourceInformationMarkerStart(z, -469202155, "C688@30571L12:Slider.kt#uh7d8r");
                 track.invoke(obj5, z, Integer.valueOf(i30 |= i37));
                 ComposerKt.sourceInformationMarkerEnd(z);
                 ComposerKt.sourceInformationMarkerEnd(z);
-                composer8.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer8);
-                ComposerKt.sourceInformationMarkerEnd(composer8);
-                ComposerKt.sourceInformationMarkerEnd(composer8);
-                ComposerKt.sourceInformationMarkerEnd(composer8);
+                composer3.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer3);
+                ComposerKt.sourceInformationMarkerEnd(composer3);
+                ComposerKt.sourceInformationMarkerEnd(composer3);
+                ComposerKt.sourceInformationMarkerEnd(composer3);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -3012,36 +3012,36 @@ public final class SliderKt {
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                i19 = $dirty;
+                i3 = $dirty;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new SliderKt.SliderImpl.3(modifier, obj5, enabled, interactionSource, thumb, obj3, $changed);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new SliderKt.SliderImpl.3(modifier, obj5, enabled, interactionSource, thumb, obj, $changed);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final long SliderRange(float start, float endInclusive) {
         boolean naN;
-        int i2;
         int i;
-        int cmp;
         int i3;
+        int cmp;
+        int i2;
         long l;
         int i6 = 0;
         if (Float.isNaN(start) && Float.isNaN(endInclusive)) {
-            i2 = Float.isNaN(endInclusive) ? i : i6;
+            i = Float.isNaN(endInclusive) ? i3 : i6;
         } else {
         }
-        if (i2 == 0) {
-            if (Double.compare(d, i3) <= 0) {
+        if (i == 0) {
+            if (Double.compare(d, i2) <= 0) {
             } else {
-                i = i6;
+                i3 = i6;
             }
         }
-        if (i == 0) {
+        if (i3 == 0) {
         } else {
             int i5 = 0;
             long l2 = (long)floatToRawIntBits;
@@ -3056,24 +3056,24 @@ public final class SliderKt {
     public static final long SliderRange(ClosedFloatingPointRange<Float> range) {
         boolean naN;
         int i;
-        int i3;
-        int cmp;
         int i2;
+        int cmp;
+        int i3;
         long l;
         float floatValue = (Number)range.getStart().floatValue();
         float floatValue2 = (Number)range.getEndInclusive().floatValue();
         int i6 = 0;
         if (Float.isNaN(floatValue) && Float.isNaN(floatValue2)) {
-            i = Float.isNaN(floatValue2) ? i3 : i6;
+            i = Float.isNaN(floatValue2) ? i2 : i6;
         } else {
         }
         if (i == 0) {
-            if (Double.compare(d, i2) <= 0) {
+            if (Double.compare(d, i3) <= 0) {
             } else {
-                i3 = i6;
+                i2 = i6;
             }
         }
-        if (i3 == 0) {
+        if (i2 == 0) {
         } else {
             int i5 = 0;
             long l2 = (long)floatToRawIntBits;
@@ -3263,51 +3263,51 @@ public final class SliderKt {
 
     private static final float snapValueToTick(float current, float[] tickFractions, float minPx, float maxPx) {
         int $this$snapValueToTick_u24lambda_u2430;
+        int i4;
         int i2;
-        int i;
-        int minElem$iv;
         int minElem$iv2;
+        int minElem$iv;
         int valueOf;
         int lastIndex;
         boolean next;
         IntRange intRange;
-        int i3;
+        int i;
         float minValue$iv;
         int compare;
-        int i4;
+        int i3;
         float f;
         float[] fArr = tickFractions;
-        i2 = 0;
+        i4 = 0;
         valueOf = 1;
         lastIndex = 0;
-        i = fArr.length == 0 ? valueOf : lastIndex;
-        if (i != 0) {
-            minElem$iv = 0;
+        i2 = fArr.length == 0 ? valueOf : lastIndex;
+        if (i2 != 0) {
+            minElem$iv2 = 0;
         } else {
-            minElem$iv2 = fArr[lastIndex];
+            minElem$iv = fArr[lastIndex];
             lastIndex = ArraysKt.getLastIndex(fArr);
             if (lastIndex == 0) {
-                minElem$iv = valueOf;
+                minElem$iv2 = valueOf;
             } else {
-                i3 = 0;
+                i = 0;
                 minValue$iv = Math.abs(lerp -= current);
                 intRange = new IntRange(valueOf, lastIndex);
                 IntIterator iterator = intRange.iterator();
                 while (iterator.hasNext()) {
-                    i3 = fArr[iterator.nextInt()];
-                    i4 = 0;
+                    i = fArr[iterator.nextInt()];
+                    i3 = 0;
                     f = Math.abs(lerp2 -= current);
                     if (Float.compare(minValue$iv, f) > 0) {
                     }
-                    minElem$iv2 = i3;
+                    minElem$iv = i;
                     minValue$iv = f;
                 }
-                minElem$iv = valueOf;
+                minElem$iv2 = valueOf;
             }
         }
-        if (minElem$iv != 0) {
-            i2 = 0;
-            $this$snapValueToTick_u24lambda_u2430 = MathHelpersKt.lerp(minPx, maxPx, (Number)minElem$iv.floatValue());
+        if (minElem$iv2 != 0) {
+            i4 = 0;
+            $this$snapValueToTick_u24lambda_u2430 = MathHelpersKt.lerp(minPx, maxPx, (Number)minElem$iv2.floatValue());
         } else {
             $this$snapValueToTick_u24lambda_u2430 = current;
         }
@@ -3315,23 +3315,23 @@ public final class SliderKt {
     }
 
     private static final float[] stepsToTickFractions(int steps) {
-        float[] fArr;
-        int i;
-        int i3;
         float[] fArr2;
+        int i;
         int i2;
+        float[] fArr;
+        int i3;
         float f;
         if (steps == 0) {
-            fArr = new float[0];
+            fArr2 = new float[0];
         } else {
-            i3 = steps + 2;
-            fArr2 = new float[i3];
-            while (i < i3) {
-                fArr2[i] = f2 /= f;
+            i2 = steps + 2;
+            fArr = new float[i2];
+            while (i < i2) {
+                fArr[i] = f2 /= f;
                 i++;
             }
-            fArr = fArr2;
+            fArr2 = fArr;
         }
-        return fArr;
+        return fArr2;
     }
 }

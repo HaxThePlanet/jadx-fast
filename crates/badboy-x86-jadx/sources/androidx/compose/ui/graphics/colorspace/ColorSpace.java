@@ -32,15 +32,15 @@ public abstract class ColorSpace {
     }
 
     private ColorSpace(String name, long model, int id) {
-        int i;
         int i2;
         int i3;
+        int i;
         super();
         this.name = name;
         this.model = model;
         this.id = obj6;
-        i = (CharSequence)this.name.length() == 0 ? 1 : 0;
-        if (i != 0) {
+        i2 = (CharSequence)this.name.length() == 0 ? 1 : 0;
+        if (i2 != 0) {
         } else {
             if (this.id < -1) {
             } else {
@@ -65,9 +65,9 @@ public abstract class ColorSpace {
 
     public boolean equals(Object other) {
         boolean equals-impl0;
-        Class class;
-        long equal;
         Class class2;
+        long equal;
+        Class class;
         long model;
         if (this == other) {
             return 1;

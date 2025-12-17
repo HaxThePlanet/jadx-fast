@@ -37,161 +37,161 @@ import kotlin.jvm.functions.Function4;
 public final class LazyLayoutPagerKt {
     public static final void Pager-uYRUAWA(Modifier modifier, androidx.compose.foundation.pager.PagerState state, PaddingValues contentPadding, boolean reverseLayout, Orientation orientation, TargetedFlingBehavior flingBehavior, boolean userScrollEnabled, int beyondViewportPageCount, float pageSpacing, androidx.compose.foundation.pager.PageSize pageSize, NestedScrollConnection pageNestedScrollConnection, Function1<? super Integer, ? extends Object> key, Alignment.Horizontal horizontalAlignment, Alignment.Vertical verticalAlignment, SnapPosition snapPosition, Function4<? super androidx.compose.foundation.pager.PagerScope, ? super Integer, ? super Composer, ? super Integer, Unit> pageContent, Composer $composer, int $changed, int $changed1, int i20) {
         float f2;
-        Object obj4;
-        int i2;
-        Object obj7;
         Object obj2;
-        Object obj3;
-        Object obj;
-        Object obj11;
-        int $dirty3;
+        int i13;
+        Object obj7;
+        Object obj9;
+        Object obj10;
+        Object obj4;
+        Object obj8;
+        int $dirty5;
         int skipping;
         float pageSpacing2;
-        int i22;
-        Object it$iv2;
-        int i11;
+        int i3;
+        Object it$iv;
+        int i8;
         ScopeUpdateScope endRestartGroup;
         boolean traceInProgress;
-        int i18;
-        Object obj8;
+        int i16;
+        Object obj11;
         Object pagerItemProvider;
-        int $dirty4;
+        int $dirty;
         Object compositionCoroutineScope;
-        int i19;
-        Object it$iv;
-        int i9;
-        int i6;
-        int i17;
+        int i10;
+        Object it$iv2;
+        int i;
+        int i22;
+        int i15;
         int $dirty1;
-        Object compositionScopedCoroutineScopeCanceller;
-        int coroutineScope2;
-        int i8;
-        int i4;
+        Object $i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv;
+        int coroutineScope3;
+        int i21;
+        int i2;
         Object nestedScroll$default;
         boolean prefetchState$foundation_release;
+        int i5;
+        int i19;
+        int i4;
         int i23;
+        int $dirty4;
         int i14;
-        int i24;
-        int i3;
-        int $dirty2;
-        int i;
-        int i15;
-        int empty2;
+        int i17;
+        int empty;
         float f;
         Object pagerBringIntoViewSpec;
-        Object obj9;
-        int empty;
-        Object obj10;
+        Object obj5;
+        int empty2;
+        Object obj3;
         int coroutineScope;
         Object coroutineScope4;
         int rememberPagerMeasurePolicy-8u0NR3k;
         Composer $composer2;
-        int changed2;
-        int i10;
-        int i21;
-        int i12;
-        Object obj5;
-        int companion3;
-        int i13;
-        int i16;
         int changed;
-        int companion2;
+        int i6;
+        int i18;
+        int i9;
         Object obj6;
-        kotlinx.coroutines.CoroutineScope coroutineScope3;
-        int $dirty5;
-        int $dirty6;
-        Composer composer;
-        Composer.Companion companion;
+        int companion;
+        int i11;
         int i7;
-        int $dirty;
-        int i5;
+        int changed2;
+        int companion3;
+        Object obj;
+        kotlinx.coroutines.CoroutineScope coroutineScope2;
+        int $dirty6;
+        int $dirty2;
+        Composer composer;
+        Composer.Companion companion2;
+        int i12;
+        int $dirty3;
+        int i24;
         int changedInstance;
         Object it$iv$iv;
         ScopeUpdateScope scopeUpdateScope;
         androidx.compose.foundation.pager.PagerBringIntoViewSpec obj34;
         Function0 obj35;
         int obj43;
-        obj8 = state;
+        obj11 = state;
         Object obj19 = flingBehavior;
-        obj9 = pageNestedScrollConnection;
+        obj5 = pageNestedScrollConnection;
         int i158 = $changed;
         coroutineScope = $changed1;
         int i160 = i20;
         $composer2 = $composer.startRestartGroup(538371694);
         ComposerKt.sourceInformation($composer2, "C(Pager)P(5,13,1,11,6,2,14!1,10:c#ui.unit.Dp,9,8,4!1,15,12)111@5277L19,107@5162L134,113@5323L24,128@5906L19,115@5373L558,131@5957L92,136@6083L94,140@6237L7,141@6278L147,152@6576L277,166@7108L154,172@7425L7,165@7052L482,176@7548L385,148@6431L1730:LazyLayoutPager.kt#g6yjnt");
-        $dirty4 = $changed;
+        $dirty = $changed;
         $dirty1 = $changed1;
         if (i160 & 1 != 0) {
-            $dirty4 |= 6;
+            $dirty |= 6;
         } else {
             if (i158 & 6 == 0) {
-                i8 = $composer2.changed(modifier) ? 4 : 2;
-                $dirty4 |= i8;
+                i21 = $composer2.changed(modifier) ? 4 : 2;
+                $dirty |= i21;
             }
         }
         if (i160 & 2 != 0) {
-            $dirty4 |= 48;
+            $dirty |= 48;
         } else {
             if (i158 & 48 == 0) {
-                i4 = $composer2.changed(obj8) ? 32 : 16;
-                $dirty4 |= i4;
+                i2 = $composer2.changed(obj11) ? 32 : 16;
+                $dirty |= i2;
             }
         }
-        i12 = 128;
+        i9 = 128;
         if (i160 & 4 != 0) {
-            $dirty4 |= 384;
+            $dirty |= 384;
             nestedScroll$default = contentPadding;
         } else {
             if (i158 & 384 == 0) {
-                i13 = $composer2.changed(contentPadding) ? changed2 : i12;
-                $dirty4 |= i13;
+                i11 = $composer2.changed(contentPadding) ? changed : i9;
+                $dirty |= i11;
             } else {
                 nestedScroll$default = contentPadding;
             }
         }
         int i171 = 1024;
         if (i160 & 8 != 0) {
-            $dirty4 |= 3072;
+            $dirty |= 3072;
             prefetchState$foundation_release = reverseLayout;
         } else {
             if (i158 & 3072 == 0) {
-                i16 = $composer2.changed(reverseLayout) ? companion2 : i171;
-                $dirty4 |= i16;
+                i7 = $composer2.changed(reverseLayout) ? companion3 : i171;
+                $dirty |= i7;
             } else {
                 prefetchState$foundation_release = reverseLayout;
             }
         }
         if (i160 & 16 != 0) {
-            $dirty4 |= 24576;
+            $dirty |= 24576;
         } else {
             if (i158 & 24576 == 0) {
-                i14 = $composer2.changed(orientation) ? 16384 : 8192;
-                $dirty4 |= i14;
+                i19 = $composer2.changed(orientation) ? 16384 : 8192;
+                $dirty |= i19;
             }
         }
         int i172 = 196608;
         if (i160 & 32 != 0) {
-            $dirty4 |= i172;
+            $dirty |= i172;
         } else {
             if (i158 & i172 == 0) {
-                i24 = $composer2.changed(obj19) ? 131072 : 65536;
-                $dirty4 |= i24;
+                i4 = $composer2.changed(obj19) ? 131072 : 65536;
+                $dirty |= i4;
             }
         }
         if (i160 & 64 != 0) {
-            i3 = 1572864;
-            $dirty4 |= i3;
+            i23 = 1572864;
+            $dirty |= i23;
         } else {
         }
-        $dirty2 = i160 & 128;
-        i7 = 12582912;
-        if ($dirty2 != 0) {
-            $dirty4 |= i7;
+        $dirty4 = i160 & 128;
+        i12 = 12582912;
+        if ($dirty4 != 0) {
+            $dirty |= i12;
             rememberPagerMeasurePolicy-8u0NR3k = beyondViewportPageCount;
         } else {
-            if (i158 & i7 == 0) {
-                i5 = $composer2.changed(beyondViewportPageCount) ? 8388608 : 4194304;
-                $dirty4 |= i5;
+            if (i158 & i12 == 0) {
+                i24 = $composer2.changed(beyondViewportPageCount) ? 8388608 : 4194304;
+                $dirty |= i24;
             } else {
                 rememberPagerMeasurePolicy-8u0NR3k = beyondViewportPageCount;
             }
@@ -199,33 +199,33 @@ public final class LazyLayoutPagerKt {
         int i41 = i160 & 256;
         changedInstance = 100663296;
         if (i41 != 0) {
-            $dirty4 |= changedInstance;
+            $dirty |= changedInstance;
             f2 = pageSpacing;
         } else {
             if (i158 & changedInstance == null) {
                 changedInstance = $composer2.changed(pageSpacing) ? 67108864 : 33554432;
-                $dirty4 |= changedInstance;
+                $dirty |= changedInstance;
             } else {
                 f2 = pageSpacing;
             }
         }
         if (i160 & 512 != 0) {
-            $dirty4 |= i40;
-            obj4 = pageSize;
+            $dirty |= i40;
+            obj2 = pageSize;
         } else {
             if (i38 &= i158 == 0) {
                 changedInstance = $composer2.changed(pageSize) ? 536870912 : 268435456;
-                $dirty4 |= changedInstance;
+                $dirty |= changedInstance;
             } else {
-                obj4 = pageSize;
+                obj2 = pageSize;
             }
         }
         if (i160 & 1024 != 0) {
             $dirty1 |= 6;
         } else {
             if (coroutineScope & 6 == 0) {
-                i2 = $composer2.changedInstance(obj9) ? 4 : 2;
-                $dirty1 |= i2;
+                i13 = $composer2.changedInstance(obj5) ? 4 : 2;
+                $dirty1 |= i13;
             }
         }
         if (i160 & 2048 != 0) {
@@ -233,170 +233,170 @@ public final class LazyLayoutPagerKt {
             obj7 = key;
         } else {
             if (coroutineScope & 48 == 0) {
-                changed = $composer2.changedInstance(key) ? 32 : 16;
-                $dirty1 |= changed;
+                changed2 = $composer2.changedInstance(key) ? 32 : 16;
+                $dirty1 |= changed2;
             } else {
                 obj7 = key;
             }
         }
         if (i160 & 4096 != 0) {
             $dirty1 |= 384;
-            obj2 = horizontalAlignment;
+            obj9 = horizontalAlignment;
         } else {
             if (coroutineScope & 384 == 0) {
                 if ($composer2.changed(horizontalAlignment)) {
                 } else {
-                    changed2 = i12;
+                    changed = i9;
                 }
-                $dirty1 |= changed2;
+                $dirty1 |= changed;
             } else {
-                obj2 = horizontalAlignment;
+                obj9 = horizontalAlignment;
             }
         }
         if (i160 & 8192 != 0) {
             $dirty1 |= 3072;
-            obj3 = verticalAlignment;
+            obj10 = verticalAlignment;
         } else {
             if (coroutineScope & 3072 == 0) {
                 if ($composer2.changed(verticalAlignment)) {
                 } else {
-                    companion2 = i171;
+                    companion3 = i171;
                 }
-                $dirty1 |= companion2;
+                $dirty1 |= companion3;
             } else {
-                obj3 = verticalAlignment;
+                obj10 = verticalAlignment;
             }
         }
         if (i160 & 16384 != 0) {
             $dirty1 |= 24576;
-            obj = snapPosition;
+            obj4 = snapPosition;
         } else {
             if (coroutineScope & 24576 == 0) {
-                changed2 = $composer2.changed(snapPosition) ? 16384 : 8192;
-                $dirty1 |= changed2;
+                changed = $composer2.changed(snapPosition) ? 16384 : 8192;
+                $dirty1 |= changed;
             } else {
-                obj = snapPosition;
+                obj4 = snapPosition;
             }
         }
         if (i160 & i161 != 0) {
             $dirty1 |= i172;
-            obj11 = pageContent;
+            obj8 = pageContent;
         } else {
             if (coroutineScope & i172 == 0) {
-                i10 = $composer2.changedInstance(pageContent) ? 131072 : 65536;
-                $dirty1 |= i10;
+                i6 = $composer2.changedInstance(pageContent) ? 131072 : 65536;
+                $dirty1 |= i6;
             } else {
-                obj11 = pageContent;
+                obj8 = pageContent;
             }
         }
-        if ($dirty4 & i162 == 306783378 && i33 &= $dirty1 == 74898) {
+        if ($dirty & i162 == 306783378 && i33 &= $dirty1 == 74898) {
             if (i33 &= $dirty1 == 74898) {
                 if (!$composer2.getSkipping()) {
-                    if ($dirty2 != 0) {
+                    if ($dirty4 != 0) {
                         rememberPagerMeasurePolicy-8u0NR3k = skipping;
                     }
                     if (i41 != 0) {
-                        i11 = 0;
+                        i8 = 0;
                         pageSpacing2 = Dp.constructor-impl((float)i36);
                     } else {
                         pageSpacing2 = pageSpacing;
                     }
                     if (ComposerKt.isTraceInProgress()) {
-                        ComposerKt.traceEventStart(538371694, $dirty4, $dirty1, "androidx.compose.foundation.pager.Pager (LazyLayoutPager.kt:101)");
+                        ComposerKt.traceEventStart(538371694, $dirty, $dirty1, "androidx.compose.foundation.pager.Pager (LazyLayoutPager.kt:101)");
                     }
                     int i169 = 1;
-                    i = rememberPagerMeasurePolicy-8u0NR3k >= 0 ? i169 : 0;
-                    if (i == 0) {
+                    i14 = rememberPagerMeasurePolicy-8u0NR3k >= 0 ? i169 : 0;
+                    if (i14 == 0) {
                     } else {
                         obj34 = 0;
                         String str = "CC(remember):LazyLayoutPager.kt#9igjgp";
                         ComposerKt.sourceInformationMarkerStart($composer2, 1863502769, str);
-                        i22 = $dirty4 & 112 == 32 ? i169 : obj34;
+                        i3 = $dirty & 112 == 32 ? i169 : obj34;
                         Composer composer7 = $composer2;
                         int i163 = 0;
-                        it$iv2 = composer7.rememberedValue();
+                        it$iv = composer7.rememberedValue();
                         int i167 = 0;
-                        if (i22 == 0) {
-                            $dirty6 = $dirty4;
-                            if (it$iv2 == Composer.Companion.getEmpty()) {
-                                $dirty4 = 0;
-                                obj6 = it$iv2;
-                                it$iv2 = new LazyLayoutPagerKt.Pager.pagerItemProvider.1.1(obj8);
-                                composer7.updateRememberedValue((Function0)it$iv2);
+                        if (i3 == 0) {
+                            $dirty2 = $dirty;
+                            if (it$iv == Composer.Companion.getEmpty()) {
+                                $dirty = 0;
+                                obj = it$iv;
+                                it$iv = new LazyLayoutPagerKt.Pager.pagerItemProvider.1.1(obj11);
+                                composer7.updateRememberedValue((Function0)it$iv);
                             } else {
-                                obj6 = it$iv2;
+                                obj = it$iv;
                             }
                         } else {
-                            $dirty6 = $dirty4;
+                            $dirty2 = $dirty;
                         }
                         ComposerKt.sourceInformationMarkerEnd($composer2);
-                        int i34 = $dirty6;
-                        $dirty5 = $dirty1;
+                        int i34 = $dirty2;
+                        $dirty6 = $dirty1;
                         ComposerKt.sourceInformationMarkerStart($composer2, 773894976, "CC(rememberCoroutineScope)489@20472L144:Effects.kt#9igjgp");
                         obj43 = i53;
                         ComposerKt.sourceInformationMarkerStart($composer2, -954363344, "CC(remember):Effects.kt#9igjgp");
                         Composer composer8 = $composer2;
                         int i164 = 0;
-                        companion3 = i54;
+                        companion = i54;
                         compositionCoroutineScope = composer8.rememberedValue();
                         int i170 = 0;
                         changedInstance = i67;
                         if (compositionCoroutineScope == Composer.Companion.getEmpty()) {
                             int i174 = 0;
                             it$iv$iv = compositionCoroutineScope;
-                            companion = i86;
-                            compositionScopedCoroutineScopeCanceller = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, $composer2));
-                            composer8.updateRememberedValue(compositionScopedCoroutineScopeCanceller);
+                            companion2 = i86;
+                            $i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, $composer2));
+                            composer8.updateRememberedValue($i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv);
                         } else {
-                            compositionScopedCoroutineScopeCanceller = it$iv$iv;
+                            $i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv = it$iv$iv;
                         }
                         ComposerKt.sourceInformationMarkerEnd($composer2);
-                        coroutineScope2 = (CompositionScopedCoroutineScopeCanceller)compositionScopedCoroutineScopeCanceller.getCoroutineScope();
+                        coroutineScope3 = (CompositionScopedCoroutineScopeCanceller)$i$a$CacheEffectsKt$rememberCoroutineScope$wrapper$1$iv.getCoroutineScope();
                         ComposerKt.sourceInformationMarkerEnd($composer2);
                         ComposerKt.sourceInformationMarkerStart($composer2, 1863522897, str);
-                        i19 = i34 & 112 == 32 ? i169 : obj34;
+                        i10 = i34 & 112 == 32 ? i169 : obj34;
                         Composer composer5 = $composer2;
                         int i132 = 0;
-                        it$iv = composer5.rememberedValue();
+                        it$iv2 = composer5.rememberedValue();
                         int i165 = 0;
-                        if (i19 == 0) {
-                            coroutineScope3 = coroutineScope2;
-                            if (it$iv == Composer.Companion.getEmpty()) {
-                                coroutineScope2 = 0;
-                                obj5 = it$iv;
-                                it$iv = new LazyLayoutPagerKt.Pager.measurePolicy.1.1(obj8);
-                                composer5.updateRememberedValue((Function0)it$iv);
+                        if (i10 == 0) {
+                            coroutineScope2 = coroutineScope3;
+                            if (it$iv2 == Composer.Companion.getEmpty()) {
+                                coroutineScope3 = 0;
+                                obj6 = it$iv2;
+                                it$iv2 = new LazyLayoutPagerKt.Pager.measurePolicy.1.1(obj11);
+                                composer5.updateRememberedValue((Function0)it$iv2);
                             } else {
-                                obj5 = it$iv;
+                                obj6 = it$iv2;
                             }
                         } else {
-                            coroutineScope3 = coroutineScope2;
+                            coroutineScope2 = coroutineScope3;
                         }
                         ComposerKt.sourceInformationMarkerEnd($composer2);
                         int i173 = 458752;
                         Orientation orientation4 = orientation;
                         obj43 = i34;
                         int i137 = rememberPagerMeasurePolicy-8u0NR3k;
-                        kotlinx.coroutines.CoroutineScope coroutineScope8 = coroutineScope3;
+                        kotlinx.coroutines.CoroutineScope coroutineScope8 = coroutineScope2;
                         float f3 = obj35;
-                        Object obj15 = obj8;
+                        Object obj15 = obj11;
                         Function0 function0 = rememberPagerItemProviderLambda;
                         Orientation orientation3 = orientation4;
                         int i159 = i137;
                         kotlinx.coroutines.CoroutineScope coroutineScope7 = coroutineScope8;
                         coroutineScope4 = obj15;
-                        i9 = orientation3 == Orientation.Vertical ? i169 : obj34;
-                        androidx.compose.foundation.lazy.layout.LazyLayoutSemanticState rememberPagerSemanticState = PagerSemanticsKt.rememberPagerSemanticState(coroutineScope4, i9, $composer2, i77 &= 14);
+                        i = orientation3 == Orientation.Vertical ? i169 : obj34;
+                        androidx.compose.foundation.lazy.layout.LazyLayoutSemanticState rememberPagerSemanticState = PagerSemanticsKt.rememberPagerSemanticState(coroutineScope4, i, $composer2, i77 &= 14);
                         ComposerKt.sourceInformationMarkerStart($composer2, 1863528636, str);
-                        i6 = obj43 & 112 == 32 ? i169 : obj34;
-                        i23 = obj43 & i173 == 131072 ? i169 : obj34;
+                        i22 = obj43 & 112 == 32 ? i169 : obj34;
+                        i5 = obj43 & i173 == 131072 ? i169 : obj34;
                         Composer composer6 = $composer2;
                         int i139 = 0;
                         Object rememberedValue2 = composer6.rememberedValue();
                         int i154 = 0;
-                        if (i6 |= i23 == 0) {
+                        if (i22 |= i5 == 0) {
                             if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                                empty = 0;
+                                empty2 = 0;
                                 obj35 = function0;
                                 pagerItemProvider = new PagerWrapperFlingBehavior(obj19, coroutineScope4);
                                 composer6.updateRememberedValue(pagerItemProvider);
@@ -413,14 +413,14 @@ public final class LazyLayoutPagerKt {
                         ComposerKt.sourceInformationMarkerEnd($composer2);
                         Object obj21 = consume2;
                         ComposerKt.sourceInformationMarkerStart($composer2, 1863534929, str);
-                        i18 = obj43 & 112 == 32 ? i169 : obj34;
+                        i16 = obj43 & 112 == 32 ? i169 : obj34;
                         Composer composer2 = $composer2;
                         int i61 = 0;
                         Object rememberedValue = composer2.rememberedValue();
                         int i141 = 0;
-                        if (i18 |= changed3 == 0) {
+                        if (i16 |= changed3 == 0) {
                             if (rememberedValue == Composer.Companion.getEmpty()) {
-                                empty2 = 0;
+                                empty = 0;
                                 pagerBringIntoViewSpec = new PagerBringIntoViewSpec(coroutineScope4, obj21);
                                 composer2.updateRememberedValue(pagerBringIntoViewSpec);
                             } else {
@@ -431,44 +431,44 @@ public final class LazyLayoutPagerKt {
                         ComposerKt.sourceInformationMarkerEnd($composer2);
                         boolean z2 = userScrollEnabled;
                         Function0 function02 = obj35;
-                        i7 = rememberPagerSemanticState;
-                        i17 = orientation3 == Orientation.Vertical ? i169 : obj34;
+                        i12 = rememberPagerSemanticState;
+                        i15 = orientation3 == Orientation.Vertical ? i169 : obj34;
                         int i148 = 0;
                         int i156 = 0;
                         ComposerKt.sourceInformationMarkerStart($composer2, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                         ComposerKt.sourceInformationMarkerEnd($composer2);
                         int i146 = obj43;
-                        i11 = obj20;
-                        $dirty3 = i146;
-                        changed = coroutineScope5;
+                        i8 = obj20;
+                        $dirty5 = i146;
+                        changed2 = coroutineScope5;
                         Composer composer12 = $composer2;
                         Composer composer10 = composer12;
-                        $dirty1 = companion2;
-                        LazyLayoutKt.LazyLayout($dirty1, NestedScrollModifierKt.nestedScroll$default(LazyLayoutPagerKt.dragDirectionDetector(ScrollingContainerKt.scrollingContainer(LazyLayoutBeyondBoundsModifierLocalKt.lazyLayoutBeyondBoundsModifier(PagerKt.pagerSemantics(LazyLayoutSemanticsKt.lazyLayoutSemantics(modifier.then((Modifier)coroutineScope4.getRemeasurementModifier$foundation_release()).then((Modifier)coroutineScope4.getAwaitLayoutModifier$foundation_release()), function02, rememberPagerSemanticState, orientation3, z2, reverseLayout, $composer2, i119 | i145), coroutineScope4, i17, coroutineScope7, z2), PagerBeyondBoundsModifierKt.rememberPagerBeyondBoundsState(coroutineScope4, i159, $composer2, i63 |= i80), coroutineScope4.getBeyondBoundsInfo$foundation_release(), reverseLayout, (LayoutDirection)$composer2.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()), orientation3, z2, $composer2, i46 |= i153), (ScrollableState)coroutineScope4, orientation, userScrollEnabled, reverseLayout, (FlingBehavior)(PagerWrapperFlingBehavior)pagerItemProvider, coroutineScope4.getInternalInteractionSource$foundation_release(), (BringIntoViewSpec)(PagerBringIntoViewSpec)pagerBringIntoViewSpec, composer12, i83 |= i93, 0), coroutineScope4), pageNestedScrollConnection, 0, 2, 0), coroutineScope4.getPrefetchState$foundation_release(), PagerMeasurePolicyKt.rememberPagerMeasurePolicy-8u0NR3k(function0, obj15, contentPadding, reverseLayout, orientation4, i137, f3, pageSize, horizontalAlignment, verticalAlignment, snapPosition, coroutineScope8, (Function0)it$iv, $composer2, i75 | i112, i76 & 14), composer10, 0, 0);
-                        obj8 = $dirty1;
+                        $dirty1 = companion3;
+                        LazyLayoutKt.LazyLayout($dirty1, NestedScrollModifierKt.nestedScroll$default(LazyLayoutPagerKt.dragDirectionDetector(ScrollingContainerKt.scrollingContainer(LazyLayoutBeyondBoundsModifierLocalKt.lazyLayoutBeyondBoundsModifier(PagerKt.pagerSemantics(LazyLayoutSemanticsKt.lazyLayoutSemantics(modifier.then((Modifier)coroutineScope4.getRemeasurementModifier$foundation_release()).then((Modifier)coroutineScope4.getAwaitLayoutModifier$foundation_release()), function02, rememberPagerSemanticState, orientation3, z2, reverseLayout, $composer2, i119 | i145), coroutineScope4, i15, coroutineScope7, z2), PagerBeyondBoundsModifierKt.rememberPagerBeyondBoundsState(coroutineScope4, i159, $composer2, i63 |= i80), coroutineScope4.getBeyondBoundsInfo$foundation_release(), reverseLayout, (LayoutDirection)$composer2.consume((CompositionLocal)CompositionLocalsKt.getLocalLayoutDirection()), orientation3, z2, $composer2, i46 |= i153), (ScrollableState)coroutineScope4, orientation, userScrollEnabled, reverseLayout, (FlingBehavior)(PagerWrapperFlingBehavior)pagerItemProvider, coroutineScope4.getInternalInteractionSource$foundation_release(), (BringIntoViewSpec)(PagerBringIntoViewSpec)pagerBringIntoViewSpec, composer12, i83 |= i93, 0), coroutineScope4), pageNestedScrollConnection, 0, 2, 0), coroutineScope4.getPrefetchState$foundation_release(), PagerMeasurePolicyKt.rememberPagerMeasurePolicy-8u0NR3k(function0, obj15, contentPadding, reverseLayout, orientation4, i137, f3, pageSize, horizontalAlignment, verticalAlignment, snapPosition, coroutineScope8, (Function0)it$iv2, $composer2, i75 | i112, i76 & 14), composer10, 0, 0);
+                        obj11 = $dirty1;
                         composer = composer10;
                         if (ComposerKt.isTraceInProgress()) {
                             ComposerKt.traceEventEnd();
                         }
-                        i15 = $composer2;
-                        f = i21;
+                        i17 = $composer2;
+                        f = i18;
                         endRestartGroup = composer.endRestartGroup();
                         if (endRestartGroup != null) {
-                            $dirty = i123;
-                            $dirty3 = new LazyLayoutPagerKt.Pager.2(modifier, coroutineScope4, contentPadding, reverseLayout, orientation, flingBehavior, userScrollEnabled, i15, f, pageSize, obj10, key, horizontalAlignment, verticalAlignment, snapPosition, pageContent, $changed, $changed1, i20);
-                            endRestartGroup.updateScope((Function2)$dirty3);
+                            $dirty3 = i123;
+                            $dirty5 = new LazyLayoutPagerKt.Pager.2(modifier, coroutineScope4, contentPadding, reverseLayout, orientation, flingBehavior, userScrollEnabled, i17, f, pageSize, obj3, key, horizontalAlignment, verticalAlignment, snapPosition, pageContent, $changed, $changed1, i20);
+                            endRestartGroup.updateScope((Function2)$dirty5);
                         } else {
-                            $dirty = $dirty3;
+                            $dirty3 = $dirty5;
                         }
                     }
                 } else {
                     $composer2.skipToGroupEnd();
                     f = pageSpacing;
-                    coroutineScope4 = obj8;
-                    $dirty3 = $dirty4;
-                    $dirty5 = $dirty1;
-                    obj10 = obj9;
-                    i15 = rememberPagerMeasurePolicy-8u0NR3k;
+                    coroutineScope4 = obj11;
+                    $dirty5 = $dirty;
+                    $dirty6 = $dirty1;
+                    obj3 = obj5;
+                    i17 = rememberPagerMeasurePolicy-8u0NR3k;
                     composer = $composer2;
                 }
             } else {
@@ -492,10 +492,10 @@ public final class LazyLayoutPagerKt {
         Object derivedStateOf;
         boolean traceInProgress;
         String str;
-        int changed;
-        int i2;
-        int i;
         int changed2;
+        int i;
+        int i2;
+        int changed;
         Object empty;
         androidx.compose.runtime.State derivedStateOf2;
         Object anon;
@@ -515,7 +515,7 @@ public final class LazyLayoutPagerKt {
         int i16 = 4;
         if (i10 ^= 6 > i16) {
             if (!composer.changed(obj)) {
-                i2 = i3 & 6 == i16 ? i14 : i;
+                i = i3 & 6 == i16 ? i14 : i2;
             } else {
             }
         } else {
@@ -524,7 +524,7 @@ public final class LazyLayoutPagerKt {
         if (i17 ^= 3072 > i18) {
             if (!composer.changed(derivedStateOf)) {
                 if (i3 & 3072 == i18) {
-                    i = i14;
+                    i2 = i14;
                 }
             } else {
             }
@@ -534,7 +534,7 @@ public final class LazyLayoutPagerKt {
         int i15 = 0;
         Object rememberedValue = composer2.rememberedValue();
         int i19 = 0;
-        if (i12 |= i == 0) {
+        if (i12 |= i2 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 empty = 0;
                 LazyLayoutPagerKt.rememberPagerItemProviderLambda.1.intervalContentState.1 anon3 = new LazyLayoutPagerKt.rememberPagerItemProviderLambda.1.intervalContentState.1(rememberUpdatedState, rememberUpdatedState2, derivedStateOf);

@@ -151,20 +151,20 @@ public class MutexImpl extends kotlinx.coroutines.sync.SemaphoreImpl implements 
         }
 
         public Object tryResume(Unit value, Object idempotent, Function1<? super Throwable, Unit> onCancellation) {
-            int this$02;
+            int this$03;
             boolean aSSERTIONS_ENABLED;
             Object anon;
-            Object this$03;
-            int this$0;
+            Object this$0;
+            int this$02;
             int owner;
-            kotlinx.coroutines.internal.Symbol symbol;
-            kotlinx.coroutines.sync.MutexImpl aSSERTIONS_ENABLED2;
             kotlinx.coroutines.internal.Symbol symbol2;
+            kotlinx.coroutines.sync.MutexImpl aSSERTIONS_ENABLED2;
+            kotlinx.coroutines.internal.Symbol symbol;
             owner = 0;
             if (DebugKt.getASSERTIONS_ENABLED()) {
                 aSSERTIONS_ENABLED = 0;
-                this$02 = MutexImpl.access$getOwner$FU$p().get(this.this$0) == MutexKt.access$getNO_OWNER$p() ? this$0 : owner;
-                if (this$02 == 0) {
+                this$03 = MutexImpl.access$getOwner$FU$p().get(this.this$0) == MutexKt.access$getNO_OWNER$p() ? this$02 : owner;
+                if (this$03 == 0) {
                 } else {
                 }
                 AssertionError assertionError = new AssertionError();
@@ -177,9 +177,9 @@ public class MutexImpl extends kotlinx.coroutines.sync.SemaphoreImpl implements 
                     aSSERTIONS_ENABLED2 = 0;
                     if (MutexImpl.access$getOwner$FU$p().get(this.this$0) == MutexKt.access$getNO_OWNER$p()) {
                     } else {
-                        this$0 = owner;
+                        this$02 = owner;
                     }
-                    if (this$0 == 0) {
+                    if (this$02 == 0) {
                     } else {
                     }
                     AssertionError assertionError2 = new AssertionError();
@@ -461,7 +461,7 @@ public class MutexImpl extends kotlinx.coroutines.sync.SemaphoreImpl implements 
             i = 0;
         }
         int curOwner = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("This mutex is not locked".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckMutexImpl$unlock$1 = new IllegalStateException("This mutex is not locked".toString());
+        throw $i$a$CheckMutexImpl$unlock$1;
     }
 }

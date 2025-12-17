@@ -24,7 +24,7 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
 
     private static final int getEndOffsetForRectWithinRun(androidx.compose.ui.text.android.LayoutHelper.BidiRun $this$getEndOffsetForRectWithinRun, RectF rect, int lineStart, int lineTop, int lineBottom, float runLeft, float runRight, float[] horizontalBounds, SegmentFinder segmentFinder, Function2<? super RectF, ? super RectF, Boolean> inclusionStrategy) {
         int segmentStart;
-        int rtl2;
+        int rtl;
         int low;
         int low2;
         int i2;
@@ -35,7 +35,7 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         float f;
         float characterLeftBounds2;
         float characterRightBounds;
-        boolean rtl;
+        boolean rtl2;
         float previousStartBoundary;
         boolean booleanValue;
         int start;
@@ -122,9 +122,9 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         int lineCount;
         androidx.compose.ui.text.android.selection.WordIterator wordIterator;
         float lineBottom;
-        int i;
         int i4;
         int i2;
+        int i;
         int i3;
         int obj10;
         int obj11;
@@ -143,9 +143,9 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
             if (startLine >= $this$getRangeForRect.getLineCount()) {
                 return i9;
             }
-            i = startLine;
+            i4 = startLine;
         } else {
-            i = startLine;
+            i4 = startLine;
         }
         lineForVertical = layout.getLineForVertical((int)startLine2);
         if (lineForVertical == 0 && Float.compare(bottom, lineBottom) < 0) {
@@ -158,15 +158,15 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         final androidx.compose.ui.text.android.LayoutHelper layoutHelper2 = layoutHelper;
         final Object obj = rect;
         final Function2 function2 = inclusionStrategy;
-        obj10 = TextLayoutGetRangeForRectExtensions_androidKt.getStartOrEndOffsetForRectWithinLine(textLayout, layout2, layoutHelper2, i, obj, wordSegmentFinder, function2, true);
-        obj11 = i;
+        obj10 = TextLayoutGetRangeForRectExtensions_androidKt.getStartOrEndOffsetForRectWithinLine(textLayout, layout2, layoutHelper2, i4, obj, wordSegmentFinder, function2, true);
+        obj11 = i4;
         obj12 = -1;
         while (obj10 == obj12) {
             if (obj11 < lineForVertical) {
             }
-            i = obj11 + 1;
-            obj10 = TextLayoutGetRangeForRectExtensions_androidKt.getStartOrEndOffsetForRectWithinLine(textLayout, layout2, layoutHelper2, i, obj, wordSegmentFinder, function2, true);
-            obj11 = i;
+            i4 = obj11 + 1;
+            obj10 = TextLayoutGetRangeForRectExtensions_androidKt.getStartOrEndOffsetForRectWithinLine(textLayout, layout2, layoutHelper2, i4, obj, wordSegmentFinder, function2, true);
+            obj11 = i4;
             obj12 = -1;
         }
         if (obj10 == obj12) {
@@ -176,9 +176,9 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         while (obj13 == obj12) {
             if (obj11 < lineForVertical) {
             }
-            i4 = lineForVertical + -1;
-            obj13 = TextLayoutGetRangeForRectExtensions_androidKt.getStartOrEndOffsetForRectWithinLine(textLayout, layout2, layoutHelper2, i4, obj, wordSegmentFinder, function2, false);
-            lineForVertical = i4;
+            i2 = lineForVertical + -1;
+            obj13 = TextLayoutGetRangeForRectExtensions_androidKt.getStartOrEndOffsetForRectWithinLine(textLayout, layout2, layoutHelper2, i2, obj, wordSegmentFinder, function2, false);
+            lineForVertical = i2;
         }
         if (obj13 == obj12) {
             return i9;
@@ -193,10 +193,10 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         int high;
         int segmentStart;
         int i;
-        float characterLeftBounds2;
+        float characterLeftBounds;
         boolean rtl;
         float f;
-        float characterLeftBounds;
+        float characterLeftBounds2;
         float characterRightBounds;
         float nextEndBoundary;
         boolean booleanValue;
@@ -222,19 +222,19 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
                         high = $this$getStartOffsetForRectWithinRun.getEnd();
                         while (high - low > 1) {
                             i6 /= 2;
-                            characterLeftBounds2 = TextLayoutGetRangeForRectExtensions_androidKt.getCharacterLeftBounds(i, i2, fArr);
+                            characterLeftBounds = TextLayoutGetRangeForRectExtensions_androidKt.getCharacterLeftBounds(i, i2, fArr);
                             if (!$this$getStartOffsetForRectWithinRun.isRtl()) {
                             } else {
                             }
-                            if ($this$getStartOffsetForRectWithinRun.isRtl() && Float.compare(characterLeftBounds2, right2) < 0) {
+                            if ($this$getStartOffsetForRectWithinRun.isRtl() && Float.compare(characterLeftBounds, right2) < 0) {
                             } else {
                             }
                             low = i;
-                            if (Float.compare(characterLeftBounds2, right2) < 0) {
+                            if (Float.compare(characterLeftBounds, right2) < 0) {
                             } else {
                             }
                             high = i;
-                            if (Float.compare(characterLeftBounds2, left2) <= 0) {
+                            if (Float.compare(characterLeftBounds, left2) <= 0) {
                             } else {
                             }
                         }
@@ -260,8 +260,8 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         end = 0;
         RectF rectF2 = new RectF(end, (float)obj2, end, (float)obj3);
         while ($this$getStartOffsetForRectWithinRun.isRtl()) {
-            characterLeftBounds = TextLayoutGetRangeForRectExtensions_androidKt.getCharacterLeftBounds(segmentEnd + -1, i2, fArr);
-            rectF2.left = characterLeftBounds;
+            characterLeftBounds2 = TextLayoutGetRangeForRectExtensions_androidKt.getCharacterLeftBounds(segmentEnd + -1, i2, fArr);
+            rectF2.left = characterLeftBounds2;
             if ($this$getStartOffsetForRectWithinRun.isRtl()) {
             } else {
             }
@@ -269,7 +269,7 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
             rectF2.right = characterRightBounds;
             segmentStart = obj.nextStartBoundary(segmentStart);
             segmentEnd = RangesKt.coerceAtMost(obj.nextEndBoundary(segmentStart), $this$getStartOffsetForRectWithinRun.getEnd());
-            characterLeftBounds = TextLayoutGetRangeForRectExtensions_androidKt.getCharacterLeftBounds(segmentStart, i2, fArr);
+            characterLeftBounds2 = TextLayoutGetRangeForRectExtensions_androidKt.getCharacterLeftBounds(segmentStart, i2, fArr);
             characterRightBounds = TextLayoutGetRangeForRectExtensions_androidKt.getCharacterRightBounds(segmentStart, i2, fArr);
         }
         return segmentStart;
@@ -279,7 +279,7 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         int runIndex;
         Object downTo;
         int runIndex2;
-        int i3;
+        int i2;
         int last;
         float runIndex3;
         float runLeft;
@@ -287,7 +287,7 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         SegmentFinder runRight;
         float characterRightBounds;
         Function2 function2;
-        int i2;
+        int i3;
         int i;
         int endOffsetForRectWithinRun;
         runIndex = layout;
@@ -296,9 +296,9 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
         final int lineBottom = runIndex.getLineBottom(i4);
         final int lineStart = runIndex.getLineStart(i4);
         final int lineEnd = runIndex.getLineEnd(i4);
-        i2 = -1;
+        i3 = -1;
         if (lineStart == lineEnd) {
-            return i2;
+            return i3;
         }
         final float[] fArr = new float[i5 *= 2];
         $this$getStartOrEndOffsetForRectWithinLine.fillLineHorizontalBounds$ui_text_release(i4, fArr);
@@ -317,7 +317,7 @@ public final class TextLayoutGetRangeForRectExtensions_androidKt {
                 if (step < 0 && last <= runIndex2) {
                     if (last <= runIndex2) {
                     } else {
-                        i = i2;
+                        i = i3;
                     }
                 } else {
                 }

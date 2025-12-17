@@ -13,19 +13,19 @@ public final class MultiParagraphIntrinsicsKt {
     }
 
     private static final List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.Placeholder>> getLocalPlaceholders(List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.Placeholder>> $this$getLocalPlaceholders, int start, int end) {
-        int i4;
-        int i;
+        int i2;
+        int i5;
         ArrayList $this$fastFilter$iv;
-        int index$iv$iv;
         int index$iv$iv2;
+        int index$iv$iv;
         Object obj;
         Object obj2;
-        int i2;
+        int i3;
         boolean it;
-        int i5;
+        int i4;
         int start3;
         int range;
-        int i3;
+        int i;
         int start2;
         int end2;
         ArrayList list;
@@ -34,15 +34,15 @@ public final class MultiParagraphIntrinsicsKt {
         ArrayList arrayList = new ArrayList(obj3.size());
         Object obj4 = obj3;
         int i10 = 0;
-        index$iv$iv = 0;
-        while (index$iv$iv < obj4.size()) {
+        index$iv$iv2 = 0;
+        while (index$iv$iv2 < obj4.size()) {
             obj2 = obj;
-            i2 = 0;
+            i3 = 0;
             Object obj5 = obj2;
-            i5 = 0;
+            i4 = 0;
             if (AnnotatedStringKt.intersect(start, end, (AnnotatedString.Range)obj5.getStart(), obj5.getEnd())) {
             }
-            index$iv$iv++;
+            index$iv$iv2++;
             (Collection)arrayList.add(obj2);
         }
         $this$fastFilter$iv = arrayList;
@@ -50,25 +50,25 @@ public final class MultiParagraphIntrinsicsKt {
         ArrayList arrayList2 = new ArrayList((List)$this$fastFilter$iv.size());
         ArrayList list3 = $this$fastFilter$iv;
         int i11 = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < list3.size()) {
-            i2 = 0;
-            i5 = obj2;
-            start3 = 0;
-            if (i4 <= (AnnotatedString.Range)i5.getStart() && i5.getEnd() <= i) {
-            } else {
-            }
+        index$iv$iv = 0;
+        while (index$iv$iv < list3.size()) {
             i3 = 0;
-            range = new AnnotatedString.Range(i5.getItem(), start4 - start, end2 - start);
-            (Collection)arrayList2.add(range);
-            index$iv$iv2++;
-            i4 = start;
-            i = end;
-            $this$fastFilter$iv = list;
-            if (i5.getEnd() <= i) {
+            i4 = obj2;
+            start3 = 0;
+            if (i2 <= (AnnotatedString.Range)i4.getStart() && i4.getEnd() <= i5) {
             } else {
             }
-            i3 = 1;
+            i = 0;
+            range = new AnnotatedString.Range(i4.getItem(), start4 - start, end2 - start);
+            (Collection)arrayList2.add(range);
+            index$iv$iv++;
+            i2 = start;
+            i5 = end;
+            $this$fastFilter$iv = list;
+            if (i4.getEnd() <= i5) {
+            } else {
+            }
+            i = 1;
         }
         return (List)arrayList2;
     }

@@ -35,411 +35,411 @@ final class FocusGroupPropertiesNode extends Modifier.Node implements FocusPrope
 
     private View focusedChild;
     private final FocusTargetNode getFocusTargetOfEmbeddedViewWrapper() {
+        int count$iv$iv2;
         int count$iv$iv3;
-        int count$iv$iv;
-        Modifier.Node node3;
-        int $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-        int type$iv2;
+        Modifier.Node node2;
+        int $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+        int $i$f$getFocusTargetOLwlOKw;
         Modifier.Node type$iv;
-        int i14;
-        int i11;
-        int i4;
-        int i2;
+        int i12;
+        int $i$f$visitLocalDescendants6rFNWt03;
+        int $i$f$visitLocalDescendants6rFNWt02;
+        int $i$f$visitLocalDescendants6rFNWt0;
         int node$iv$iv;
         Modifier.Node next$iv$iv$iv;
-        String str;
-        int i8;
-        Modifier.Node node;
-        int i3;
-        int i9;
+        String $i$a$CheckPreconditionDelegatableNodeKt$visitLocalDescendants$1$iv$iv$iv;
+        int i;
+        Modifier.Node node4;
+        int i7;
+        int i5;
         Modifier.Node node$iv$iv2;
         int foundFocusTargetOfFocusGroup;
-        int i7;
-        Modifier.Node node4;
-        int i6;
+        int $i$f$isKindH91voCI$ui_release;
+        Modifier.Node node3;
+        int i8;
         Modifier.Node node$iv$iv$iv;
-        Modifier.Node node2;
-        int i16;
-        int $this$visitLocalDescendants_u2d6rFNWt0$iv;
+        Modifier.Node node;
+        int i9;
+        int $this$visitLocalDescendants_u2d6rFNWt0$iv2;
         int this_$iv$iv$iv;
-        int $this$visitLocalDescendants_u2d6rFNWt0$iv3;
-        int count$iv$iv2;
+        int $this$visitLocalDescendants_u2d6rFNWt0$iv;
+        int count$iv$iv;
+        int i3;
+        int i4;
+        int i11;
+        int i6;
         int i10;
-        int i;
-        int i5;
-        int i12;
-        int i15;
-        int i13;
-        count$iv$iv3 = 0;
-        $this$visitLocalDescendants_u2d6rFNWt0$iv2 = this;
-        int i18 = 0;
-        type$iv2 = NodeKind.constructor-impl(1024);
-        final int i20 = type$iv2;
-        final int i22 = 0;
-        final int i23 = i21;
-        final int i24 = node$iv$iv;
-        final int i25 = 0;
-        int i26 = 0;
-        if (!i23.getNode().isAttached()) {
-            int i27 = 0;
+        int i2;
+        count$iv$iv2 = 0;
+        $this$visitLocalDescendants_u2d6rFNWt0$iv3 = this;
+        int i14 = 0;
+        $i$f$getFocusTargetOLwlOKw = NodeKind.constructor-impl(1024);
+        final int i16 = $i$f$getFocusTargetOLwlOKw;
+        final int i18 = 0;
+        final int i19 = i17;
+        final int i20 = node$iv$iv;
+        final int i21 = 0;
+        int i22 = 0;
+        if (!i19.getNode().isAttached()) {
+            int i23 = 0;
             InlineClassHelperKt.throwIllegalStateException("visitLocalDescendants called on an unattached node");
         }
-        Modifier.Node node8 = i23.getNode();
-        if (aggregateChildKindSet$ui_release &= i20 != 0) {
+        Modifier.Node node8 = i19.getNode();
+        if (aggregateChildKindSet$ui_release &= i16 != 0) {
             next$iv$iv$iv = node8.getChild$ui_release();
             while (next$iv$iv$iv != null) {
-                if (kindSet$ui_release &= i20 != 0) {
+                if (kindSet$ui_release &= i16 != 0) {
                 } else {
                 }
-                $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                i5 = type$iv2;
-                i15 = i14;
-                i2 = node$iv$iv;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                i11 = $i$f$getFocusTargetOLwlOKw;
+                i10 = i12;
+                $i$f$visitLocalDescendants6rFNWt0 = node$iv$iv;
                 next$iv$iv$iv = next$iv$iv$iv.getChild$ui_release();
-                node$iv$iv = i2;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                type$iv2 = i5;
-                i14 = i15;
-                i8 = 0;
-                i3 = 0;
-                i9 = 0;
-                int i28 = 0;
+                node$iv$iv = $i$f$visitLocalDescendants6rFNWt0;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                $i$f$getFocusTargetOLwlOKw = i11;
+                i12 = i10;
+                i = 0;
+                i7 = 0;
+                i5 = 0;
+                int i24 = 0;
                 node$iv$iv = node$iv$iv2;
                 while (node$iv$iv != null) {
-                    foundFocusTargetOfFocusGroup = count$iv$iv3;
-                    node3 = node$iv$iv;
-                    int i29 = 0;
-                    i6 = node3;
-                    if (kindSet$ui_release2 &= type$iv2 != 0) {
+                    foundFocusTargetOfFocusGroup = count$iv$iv2;
+                    node2 = node$iv$iv;
+                    int i25 = 0;
+                    i8 = node2;
+                    if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
-                    i7 = 0;
-                    if (i7 != 0 && node$iv$iv instanceof DelegatingNode) {
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    if ($i$f$isKindH91voCI$ui_release != 0 && node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    i4 = 0;
-                    count$iv$iv3 = foundFocusTargetOfFocusGroup;
-                    node$iv$iv = DelegatableNodeKt.access$pop(i9);
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                    type$iv2 = i5;
-                    i14 = i15;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    $i$f$visitLocalDescendants6rFNWt02 = 0;
+                    count$iv$iv2 = foundFocusTargetOfFocusGroup;
+                    node$iv$iv = DelegatableNodeKt.access$pop(i5);
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                    $i$f$getFocusTargetOLwlOKw = i11;
+                    i12 = i10;
                     if (node$iv$iv instanceof DelegatingNode) {
                     } else {
                     }
-                    count$iv$iv = 0;
-                    i6 = 0;
+                    count$iv$iv3 = 0;
+                    i8 = 0;
                     node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                     while (node$iv$iv$iv != null) {
-                        node2 = node$iv$iv$iv;
-                        i16 = 0;
-                        count$iv$iv2 = 0;
-                        if (kindSet$ui_release3 &= type$iv2 != 0) {
+                        node = node$iv$iv$iv;
+                        i9 = 0;
+                        count$iv$iv = 0;
+                        if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                         } else {
                         }
                         this_$iv$iv$iv = 0;
                         if (this_$iv$iv$iv != 0) {
                         } else {
                         }
-                        $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                        i5 = type$iv2;
-                        i15 = i14;
-                        type$iv = node2;
-                        i11 = 0;
+                        $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                        i11 = $i$f$getFocusTargetOLwlOKw;
+                        i10 = i12;
+                        type$iv = node;
+                        $i$f$visitLocalDescendants6rFNWt03 = 0;
                         node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                        $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                        type$iv2 = i5;
-                        i14 = i15;
-                        count$iv$iv++;
-                        $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                        if (count$iv$iv == 1) {
+                        $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                        $i$f$getFocusTargetOLwlOKw = i11;
+                        i12 = i10;
+                        count$iv$iv3++;
+                        $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                        if (count$iv$iv3 == 1) {
                         } else {
                         }
-                        if (i9 == 0) {
+                        if (i5 == 0) {
                         } else {
                         }
-                        count$iv$iv2 = count$iv$iv;
-                        i5 = type$iv2;
-                        i15 = i14;
-                        i11 = 0;
-                        $this$visitLocalDescendants_u2d6rFNWt0$iv2 = i9;
+                        count$iv$iv = count$iv$iv3;
+                        i11 = $i$f$getFocusTargetOLwlOKw;
+                        i10 = i12;
+                        $i$f$visitLocalDescendants6rFNWt03 = 0;
+                        $this$visitLocalDescendants_u2d6rFNWt0$iv3 = i5;
                         Modifier.Node node6 = node$iv$iv;
-                        if (node6 != null && $this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                        if (node6 != null && $this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                         }
-                        if ($this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                        if ($this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                         } else {
                         }
-                        type$iv = node2;
-                        i9 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                        count$iv$iv = count$iv$iv2;
-                        $this$visitLocalDescendants_u2d6rFNWt0$iv2.add(node2);
-                        if ($this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                        type$iv = node;
+                        i5 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                        count$iv$iv3 = count$iv$iv;
+                        $this$visitLocalDescendants_u2d6rFNWt0$iv3.add(node);
+                        if ($this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                         }
-                        node$iv$iv = type$iv2;
-                        $this$visitLocalDescendants_u2d6rFNWt0$iv2.add(node6);
-                        count$iv$iv2 = count$iv$iv;
-                        i10 = 0;
-                        i = i17;
-                        i5 = type$iv2;
-                        i15 = i14;
-                        $this$visitLocalDescendants_u2d6rFNWt0$iv2 = new MutableVector(new Modifier.Node[16], 0);
-                        node$iv$iv = node2;
-                        i5 = type$iv2;
-                        i15 = i14;
-                        type$iv = node2;
-                        i11 = 0;
+                        node$iv$iv = $i$f$getFocusTargetOLwlOKw;
+                        $this$visitLocalDescendants_u2d6rFNWt0$iv3.add(node6);
+                        count$iv$iv = count$iv$iv3;
+                        i3 = 0;
+                        i4 = i13;
+                        i11 = $i$f$getFocusTargetOLwlOKw;
+                        i10 = i12;
+                        $this$visitLocalDescendants_u2d6rFNWt0$iv3 = new MutableVector(new Modifier.Node[16], 0);
+                        node$iv$iv = node;
+                        i11 = $i$f$getFocusTargetOLwlOKw;
+                        i10 = i12;
+                        type$iv = node;
+                        $i$f$visitLocalDescendants6rFNWt03 = 0;
                         this_$iv$iv$iv = 1;
                     }
-                    i4 = 0;
-                    if (count$iv$iv == 1) {
+                    $i$f$visitLocalDescendants6rFNWt02 = 0;
+                    if (count$iv$iv3 == 1) {
                     } else {
                     }
-                    count$iv$iv3 = foundFocusTargetOfFocusGroup;
-                    count$iv$iv3 = foundFocusTargetOfFocusGroup;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                    type$iv2 = i5;
-                    i14 = i15;
-                    node2 = node$iv$iv$iv;
-                    i16 = 0;
-                    count$iv$iv2 = 0;
-                    if (kindSet$ui_release3 &= type$iv2 != 0) {
+                    count$iv$iv2 = foundFocusTargetOfFocusGroup;
+                    count$iv$iv2 = foundFocusTargetOfFocusGroup;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                    $i$f$getFocusTargetOLwlOKw = i11;
+                    i12 = i10;
+                    node = node$iv$iv$iv;
+                    i9 = 0;
+                    count$iv$iv = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
                     if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    type$iv = node2;
-                    i11 = 0;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    type$iv = node;
+                    $i$f$visitLocalDescendants6rFNWt03 = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                    type$iv2 = i5;
-                    i14 = i15;
-                    count$iv$iv++;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                    if (count$iv$iv == 1) {
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                    $i$f$getFocusTargetOLwlOKw = i11;
+                    i12 = i10;
+                    count$iv$iv3++;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                    if (count$iv$iv3 == 1) {
                     } else {
                     }
-                    if (i9 == 0) {
+                    if (i5 == 0) {
                     } else {
                     }
-                    count$iv$iv2 = count$iv$iv;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    i11 = 0;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = i9;
+                    count$iv$iv = count$iv$iv3;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    $i$f$visitLocalDescendants6rFNWt03 = 0;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3 = i5;
                     node6 = node$iv$iv;
-                    if (node6 != null && $this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                    if (node6 != null && $this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                     }
-                    if ($this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                    if ($this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                     } else {
                     }
-                    type$iv = node2;
-                    i9 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                    count$iv$iv = count$iv$iv2;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2.add(node2);
-                    if ($this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                    type$iv = node;
+                    i5 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                    count$iv$iv3 = count$iv$iv;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3.add(node);
+                    if ($this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                     }
-                    node$iv$iv = type$iv2;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2.add(node6);
-                    count$iv$iv2 = count$iv$iv;
-                    i10 = 0;
-                    i = i17;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = new MutableVector(new Modifier.Node[16], 0);
-                    node$iv$iv = node2;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    type$iv = node2;
-                    i11 = 0;
+                    node$iv$iv = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3.add(node6);
+                    count$iv$iv = count$iv$iv3;
+                    i3 = 0;
+                    i4 = i13;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3 = new MutableVector(new Modifier.Node[16], 0);
+                    node$iv$iv = node;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    type$iv = node;
+                    $i$f$visitLocalDescendants6rFNWt03 = 0;
                     this_$iv$iv$iv = 1;
-                    i7 = 1;
-                    i7 = 0;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    count$iv$iv3 = foundFocusTargetOfFocusGroup;
-                    i4 = 0;
+                    $i$f$isKindH91voCI$ui_release = 1;
+                    $i$f$isKindH91voCI$ui_release = 0;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    count$iv$iv2 = foundFocusTargetOfFocusGroup;
+                    $i$f$visitLocalDescendants6rFNWt02 = 0;
                 }
-                foundFocusTargetOfFocusGroup = count$iv$iv3;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                i5 = type$iv2;
-                i15 = i14;
-                i2 = 0;
-                foundFocusTargetOfFocusGroup = count$iv$iv3;
-                node3 = node$iv$iv;
-                i29 = 0;
-                i6 = node3;
-                if (kindSet$ui_release2 &= type$iv2 != 0) {
+                foundFocusTargetOfFocusGroup = count$iv$iv2;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                i11 = $i$f$getFocusTargetOLwlOKw;
+                i10 = i12;
+                $i$f$visitLocalDescendants6rFNWt0 = 0;
+                foundFocusTargetOfFocusGroup = count$iv$iv2;
+                node2 = node$iv$iv;
+                i25 = 0;
+                i8 = node2;
+                if (kindSet$ui_release2 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
-                i7 = 0;
-                if (i7 != 0 && node$iv$iv instanceof DelegatingNode) {
+                $i$f$isKindH91voCI$ui_release = 0;
+                if ($i$f$isKindH91voCI$ui_release != 0 && node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                i5 = type$iv2;
-                i15 = i14;
-                i4 = 0;
-                count$iv$iv3 = foundFocusTargetOfFocusGroup;
-                node$iv$iv = DelegatableNodeKt.access$pop(i9);
-                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                type$iv2 = i5;
-                i14 = i15;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                i11 = $i$f$getFocusTargetOLwlOKw;
+                i10 = i12;
+                $i$f$visitLocalDescendants6rFNWt02 = 0;
+                count$iv$iv2 = foundFocusTargetOfFocusGroup;
+                node$iv$iv = DelegatableNodeKt.access$pop(i5);
+                $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                $i$f$getFocusTargetOLwlOKw = i11;
+                i12 = i10;
                 if (node$iv$iv instanceof DelegatingNode) {
                 } else {
                 }
-                count$iv$iv = 0;
-                i6 = 0;
+                count$iv$iv3 = 0;
+                i8 = 0;
                 node$iv$iv$iv = (DelegatingNode)node$iv$iv.getDelegate$ui_release();
                 while (node$iv$iv$iv != null) {
-                    node2 = node$iv$iv$iv;
-                    i16 = 0;
-                    count$iv$iv2 = 0;
-                    if (kindSet$ui_release3 &= type$iv2 != 0) {
+                    node = node$iv$iv$iv;
+                    i9 = 0;
+                    count$iv$iv = 0;
+                    if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                     } else {
                     }
                     this_$iv$iv$iv = 0;
                     if (this_$iv$iv$iv != 0) {
                     } else {
                     }
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    type$iv = node2;
-                    i11 = 0;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    type$iv = node;
+                    $i$f$visitLocalDescendants6rFNWt03 = 0;
                     node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                    type$iv2 = i5;
-                    i14 = i15;
-                    count$iv$iv++;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                    if (count$iv$iv == 1) {
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                    $i$f$getFocusTargetOLwlOKw = i11;
+                    i12 = i10;
+                    count$iv$iv3++;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                    if (count$iv$iv3 == 1) {
                     } else {
                     }
-                    if (i9 == 0) {
+                    if (i5 == 0) {
                     } else {
                     }
-                    count$iv$iv2 = count$iv$iv;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    i11 = 0;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = i9;
+                    count$iv$iv = count$iv$iv3;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    $i$f$visitLocalDescendants6rFNWt03 = 0;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3 = i5;
                     node6 = node$iv$iv;
-                    if (node6 != null && $this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                    if (node6 != null && $this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                     }
-                    if ($this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                    if ($this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                     } else {
                     }
-                    type$iv = node2;
-                    i9 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                    count$iv$iv = count$iv$iv2;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2.add(node2);
-                    if ($this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                    type$iv = node;
+                    i5 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                    count$iv$iv3 = count$iv$iv;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3.add(node);
+                    if ($this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                     }
-                    node$iv$iv = type$iv2;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2.add(node6);
-                    count$iv$iv2 = count$iv$iv;
-                    i10 = 0;
-                    i = i17;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    $this$visitLocalDescendants_u2d6rFNWt0$iv2 = new MutableVector(new Modifier.Node[16], 0);
-                    node$iv$iv = node2;
-                    i5 = type$iv2;
-                    i15 = i14;
-                    type$iv = node2;
-                    i11 = 0;
+                    node$iv$iv = $i$f$getFocusTargetOLwlOKw;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3.add(node6);
+                    count$iv$iv = count$iv$iv3;
+                    i3 = 0;
+                    i4 = i13;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    $this$visitLocalDescendants_u2d6rFNWt0$iv3 = new MutableVector(new Modifier.Node[16], 0);
+                    node$iv$iv = node;
+                    i11 = $i$f$getFocusTargetOLwlOKw;
+                    i10 = i12;
+                    type$iv = node;
+                    $i$f$visitLocalDescendants6rFNWt03 = 0;
                     this_$iv$iv$iv = 1;
                 }
-                i4 = 0;
-                if (count$iv$iv == 1) {
+                $i$f$visitLocalDescendants6rFNWt02 = 0;
+                if (count$iv$iv3 == 1) {
                 } else {
                 }
-                count$iv$iv3 = foundFocusTargetOfFocusGroup;
-                count$iv$iv3 = foundFocusTargetOfFocusGroup;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                type$iv2 = i5;
-                i14 = i15;
-                node2 = node$iv$iv$iv;
-                i16 = 0;
-                count$iv$iv2 = 0;
-                if (kindSet$ui_release3 &= type$iv2 != 0) {
+                count$iv$iv2 = foundFocusTargetOfFocusGroup;
+                count$iv$iv2 = foundFocusTargetOfFocusGroup;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                $i$f$getFocusTargetOLwlOKw = i11;
+                i12 = i10;
+                node = node$iv$iv$iv;
+                i9 = 0;
+                count$iv$iv = 0;
+                if (kindSet$ui_release3 &= $i$f$getFocusTargetOLwlOKw != 0) {
                 } else {
                 }
                 this_$iv$iv$iv = 0;
                 if (this_$iv$iv$iv != 0) {
                 } else {
                 }
-                $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                i5 = type$iv2;
-                i15 = i14;
-                type$iv = node2;
-                i11 = 0;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                i11 = $i$f$getFocusTargetOLwlOKw;
+                i10 = i12;
+                type$iv = node;
+                $i$f$visitLocalDescendants6rFNWt03 = 0;
                 node$iv$iv$iv = node$iv$iv$iv.getChild$ui_release();
-                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv;
-                type$iv2 = i5;
-                i14 = i15;
-                count$iv$iv++;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                if (count$iv$iv == 1) {
+                $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
+                $i$f$getFocusTargetOLwlOKw = i11;
+                i12 = i10;
+                count$iv$iv3++;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                if (count$iv$iv3 == 1) {
                 } else {
                 }
-                if (i9 == 0) {
+                if (i5 == 0) {
                 } else {
                 }
-                count$iv$iv2 = count$iv$iv;
-                i5 = type$iv2;
-                i15 = i14;
-                i11 = 0;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = i9;
+                count$iv$iv = count$iv$iv3;
+                i11 = $i$f$getFocusTargetOLwlOKw;
+                i10 = i12;
+                $i$f$visitLocalDescendants6rFNWt03 = 0;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv3 = i5;
                 node6 = node$iv$iv;
-                if (node6 != null && $this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                if (node6 != null && $this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                 }
-                if ($this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                if ($this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                 } else {
                 }
-                type$iv = node2;
-                i9 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                count$iv$iv = count$iv$iv2;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv2.add(node2);
-                if ($this$visitLocalDescendants_u2d6rFNWt0$iv2 != 0) {
+                type$iv = node;
+                i5 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                count$iv$iv3 = count$iv$iv;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv3.add(node);
+                if ($this$visitLocalDescendants_u2d6rFNWt0$iv3 != 0) {
                 }
-                node$iv$iv = type$iv2;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv2.add(node6);
-                count$iv$iv2 = count$iv$iv;
-                i10 = 0;
-                i = i17;
-                i5 = type$iv2;
-                i15 = i14;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = new MutableVector(new Modifier.Node[16], 0);
-                node$iv$iv = node2;
-                i5 = type$iv2;
-                i15 = i14;
-                type$iv = node2;
-                i11 = 0;
+                node$iv$iv = $i$f$getFocusTargetOLwlOKw;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv3.add(node6);
+                count$iv$iv = count$iv$iv3;
+                i3 = 0;
+                i4 = i13;
+                i11 = $i$f$getFocusTargetOLwlOKw;
+                i10 = i12;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv3 = new MutableVector(new Modifier.Node[16], 0);
+                node$iv$iv = node;
+                i11 = $i$f$getFocusTargetOLwlOKw;
+                i10 = i12;
+                type$iv = node;
+                $i$f$visitLocalDescendants6rFNWt03 = 0;
                 this_$iv$iv$iv = 1;
-                i7 = 1;
-                i7 = 0;
-                $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-                i5 = type$iv2;
-                i15 = i14;
-                count$iv$iv3 = foundFocusTargetOfFocusGroup;
-                i4 = 0;
+                $i$f$isKindH91voCI$ui_release = 1;
+                $i$f$isKindH91voCI$ui_release = 0;
+                $this$visitLocalDescendants_u2d6rFNWt0$iv2 = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+                i11 = $i$f$getFocusTargetOLwlOKw;
+                i10 = i12;
+                count$iv$iv2 = foundFocusTargetOfFocusGroup;
+                $i$f$visitLocalDescendants6rFNWt02 = 0;
             }
-            $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-            i12 = type$iv2;
-            i13 = i14;
+            $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+            i6 = $i$f$getFocusTargetOLwlOKw;
+            i2 = i12;
         } else {
-            $this$visitLocalDescendants_u2d6rFNWt0$iv3 = $this$visitLocalDescendants_u2d6rFNWt0$iv2;
-            i12 = type$iv2;
-            i13 = i14;
+            $this$visitLocalDescendants_u2d6rFNWt0$iv = $this$visitLocalDescendants_u2d6rFNWt0$iv3;
+            i6 = $i$f$getFocusTargetOLwlOKw;
+            i2 = i12;
         }
         IllegalStateException illegalStateException = new IllegalStateException("Could not find focus target of embedded view wrapper".toString());
         throw illegalStateException;
@@ -513,8 +513,8 @@ final class FocusGroupPropertiesNode extends Modifier.Node implements FocusPrope
                 return FocusRequester.Companion.getDefault();
             }
             int i = 0;
-            IllegalStateException illegalStateException = new IllegalStateException(str2.toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckFocusGroupPropertiesNode$onExit$1 = new IllegalStateException(str2.toString());
+            throw $i$a$CheckFocusGroupPropertiesNode$onExit$1;
         }
         android.graphics.Rect rect = FocusGroupNode_androidKt.access$getCurrentlyFocusedRect(DelegatableNodeKt.requireOwner((DelegatableNode)this).getFocusOwner(), requireOwner2, view);
         Integer androidFocusDirection-3ESFkO8 = FocusInteropUtils_androidKt.toAndroidFocusDirection-3ESFkO8(focusDirection);
@@ -541,18 +541,18 @@ final class FocusGroupPropertiesNode extends Modifier.Node implements FocusPrope
             return FocusRequester.Companion.getDefault();
         }
         int i2 = 0;
-        IllegalStateException illegalStateException2 = new IllegalStateException(str2.toString());
-        throw illegalStateException2;
+        IllegalStateException $i$a$CheckFocusGroupPropertiesNode$onExit$2 = new IllegalStateException(str2.toString());
+        throw $i$a$CheckFocusGroupPropertiesNode$onExit$2;
     }
 
     @Override // androidx.compose.ui.Modifier$Node
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
         int focusTargetOfEmbeddedViewWrapper;
         int focusTransactionManager;
-        boolean equal;
-        int i;
         boolean equal2;
         int i2;
+        boolean equal;
+        int i;
         FocusTargetNode onCancelled$iv;
         boolean exit-dhqQ-8s;
         Throwable th;
@@ -565,23 +565,23 @@ final class FocusGroupPropertiesNode extends Modifier.Node implements FocusPrope
         focusTransactionManager = 0;
         if (oldFocus != null && !Intrinsics.areEqual(oldFocus, requireOwner2) && FocusGroupNode_androidKt.access$containsDescendant(view, oldFocus)) {
             if (!Intrinsics.areEqual(oldFocus, requireOwner2)) {
-                i = FocusGroupNode_androidKt.access$containsDescendant(view, oldFocus) ? focusTargetOfEmbeddedViewWrapper : focusTransactionManager;
+                i2 = FocusGroupNode_androidKt.access$containsDescendant(view, oldFocus) ? focusTargetOfEmbeddedViewWrapper : focusTransactionManager;
             } else {
             }
         } else {
         }
         if (newFocus != null && !Intrinsics.areEqual(newFocus, requireOwner2) && FocusGroupNode_androidKt.access$containsDescendant(view, newFocus)) {
             if (!Intrinsics.areEqual(newFocus, requireOwner2)) {
-                i2 = FocusGroupNode_androidKt.access$containsDescendant(view, newFocus) ? focusTargetOfEmbeddedViewWrapper : focusTransactionManager;
+                i = FocusGroupNode_androidKt.access$containsDescendant(view, newFocus) ? focusTargetOfEmbeddedViewWrapper : focusTransactionManager;
             } else {
             }
         } else {
         }
-        if (i != 0 && i2 != 0) {
-            if (i2 != 0) {
+        if (i2 != 0 && i != 0) {
+            if (i != 0) {
                 this.focusedChild = newFocus;
             } else {
-                if (i2 != 0) {
+                if (i != 0) {
                     this.focusedChild = newFocus;
                     focusTargetOfEmbeddedViewWrapper = getFocusTargetOfEmbeddedViewWrapper();
                     focusTransactionManager = focusOwner.getFocusTransactionManager();
@@ -601,7 +601,7 @@ final class FocusGroupPropertiesNode extends Modifier.Node implements FocusPrope
                     }
                 } else {
                     onCancelled$iv = 0;
-                    if (i != 0) {
+                    if (i2 != 0) {
                         this.focusedChild = onCancelled$iv;
                         if (getFocusTargetOfEmbeddedViewWrapper().getFocusState().isFocused()) {
                             focusOwner.clearFocus-I7lrPNg(focusTransactionManager, focusTargetOfEmbeddedViewWrapper, focusTransactionManager, FocusDirection.Companion.getExit-dhqQ-8s());

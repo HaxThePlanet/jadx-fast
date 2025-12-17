@@ -41,17 +41,17 @@ public final class CanvasKt {
 
     public static final void scale(androidx.compose.ui.graphics.Canvas $this$scale, float sx, float sy, float pivotX, float pivotY) {
         int cmp;
-        int i2;
         int i;
+        int i2;
         cmp = 1065353216;
         final int i5 = 0;
-        i2 = Float.compare(sx, cmp) == 0 ? i : i5;
-        if (i2 != 0) {
+        i = Float.compare(sx, cmp) == 0 ? i2 : i5;
+        if (i != 0) {
             if (Float.compare(sy, cmp) == 0) {
             } else {
-                i = i5;
+                i2 = i5;
             }
-            if (i != 0) {
+            if (i2 != 0) {
             }
         }
         $this$scale.translate(pivotX, pivotY);

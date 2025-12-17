@@ -120,25 +120,25 @@ public final class MinLinesConstrainer {
         int minHeight-impl;
         TextStyle maxHeight-impl;
         long l;
-        int i4;
+        int i5;
         Density density;
         FontFamily.Resolver fontFamilyResolver;
         int i;
-        int i8;
-        int i5;
         int i6;
-        int i2;
-        int i7;
         int i3;
+        int i8;
+        int i7;
+        int i2;
+        int i4;
         final Object obj = this;
         final int i9 = obj20;
         if (!Float.isNaN(obj.oneLineHeightCache)) {
             if (Float.isNaN(obj.lineHeightCache)) {
                 int i23 = 0;
                 int i16 = 0;
-                i8 = 0;
+                i6 = 0;
                 oneLineHeight = height;
-                i4 = 0;
+                i5 = 0;
                 obj.oneLineHeightCache = oneLineHeight;
                 obj.lineHeightCache = naN - oneLineHeight;
             }

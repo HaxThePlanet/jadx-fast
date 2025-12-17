@@ -8,10 +8,9 @@ import kotlin.NoWhenBranchMatchedException;
 public enum MenuItemOption {
 
     Copy(false),
-    Copy(false),
-    Copy(false),
-    Copy(false),
-    Copy(false);
+    Paste(false),
+    Cut(false),
+    SelectAll(false);
 
     private final int id;
     private final int order;
@@ -21,9 +20,9 @@ public enum MenuItemOption {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
+            int ordinal2;
             int ordinal3;
             int ordinal4;
-            int ordinal2;
             int ordinal;
             int[] iArr = new int[values.length];
             iArr[MenuItemOption.Copy.ordinal()] = 1;

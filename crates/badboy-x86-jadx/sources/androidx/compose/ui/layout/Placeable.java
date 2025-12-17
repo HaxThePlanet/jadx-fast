@@ -327,9 +327,9 @@ public abstract class Placeable implements androidx.compose.ui.layout.Measured {
             LayoutDirection layoutDirection;
             int y-impl;
             androidx.compose.ui.layout.Placeable placeable;
-            androidx.compose.ui.layout.Placeable.PlacementScope plus-qkQi6aY;
+            androidx.compose.ui.layout.Placeable.PlacementScope plus-qkQi6aY2;
             int i;
-            long plus-qkQi6aY2;
+            long plus-qkQi6aY;
             final float f = zIndex;
             final long l = IntOffsetKt.IntOffset(x, y);
             final int i2 = 0;
@@ -418,9 +418,9 @@ public abstract class Placeable implements androidx.compose.ui.layout.Measured {
             LayoutDirection layoutDirection;
             int y-impl;
             androidx.compose.ui.layout.Placeable placeable;
-            androidx.compose.ui.layout.Placeable.PlacementScope plus-qkQi6aY2;
+            androidx.compose.ui.layout.Placeable.PlacementScope plus-qkQi6aY;
             int i;
-            long plus-qkQi6aY;
+            long plus-qkQi6aY2;
             final GraphicsLayer graphicsLayer = layer;
             final float f = zIndex;
             final long l = IntOffsetKt.IntOffset(x, y);
@@ -449,9 +449,9 @@ public abstract class Placeable implements androidx.compose.ui.layout.Measured {
             LayoutDirection layoutDirection;
             int y-impl;
             androidx.compose.ui.layout.Placeable.PlacementScope placementScope;
-            androidx.compose.ui.layout.Placeable plus-qkQi6aY2;
+            androidx.compose.ui.layout.Placeable plus-qkQi6aY;
             int i;
-            long plus-qkQi6aY;
+            long plus-qkQi6aY2;
             final androidx.compose.ui.layout.Placeable placeable = $this$placeRelativeWithLayer_u2daW_u2d9_u2dwM;
             final androidx.compose.ui.layout.Placeable.PlacementScope placementScope2 = this;
             final int i2 = 0;
@@ -463,10 +463,10 @@ public abstract class Placeable implements androidx.compose.ui.layout.Measured {
                     Placeable.access$placeAt-f8xVGno(position$iv$iv, IntOffset.plus-qkQi6aY(position, zIndex), obj7, layerBlock);
                 } else {
                     y-impl = IntOffset.getY-impl(position);
-                    plus-qkQi6aY2 = placeable;
+                    plus-qkQi6aY = placeable;
                     i = 0;
-                    Placeable.PlacementScope.access$handleMotionFrameOfReferencePlacement(placementScope2, plus-qkQi6aY2);
-                    Placeable.access$placeAt-f8xVGno(plus-qkQi6aY2, IntOffset.plus-qkQi6aY(IntOffsetKt.IntOffset(i4 -= x-impl, y-impl), y-impl), obj9, layerBlock);
+                    Placeable.PlacementScope.access$handleMotionFrameOfReferencePlacement(placementScope2, plus-qkQi6aY);
+                    Placeable.access$placeAt-f8xVGno(plus-qkQi6aY, IntOffset.plus-qkQi6aY(IntOffsetKt.IntOffset(i4 -= x-impl, y-impl), y-impl), obj9, layerBlock);
                 }
             } else {
             }
@@ -477,9 +477,9 @@ public abstract class Placeable implements androidx.compose.ui.layout.Measured {
             LayoutDirection layoutDirection;
             int y-impl;
             androidx.compose.ui.layout.Placeable.PlacementScope placementScope;
-            androidx.compose.ui.layout.Placeable plus-qkQi6aY2;
+            androidx.compose.ui.layout.Placeable plus-qkQi6aY;
             int i;
-            long plus-qkQi6aY;
+            long plus-qkQi6aY2;
             final androidx.compose.ui.layout.Placeable placeable = $this$placeRelativeWithLayer_u2daW_u2d9_u2dwM;
             final androidx.compose.ui.layout.Placeable.PlacementScope placementScope2 = this;
             final int i2 = 0;
@@ -491,10 +491,10 @@ public abstract class Placeable implements androidx.compose.ui.layout.Measured {
                     Placeable.access$placeAt-f8xVGno(position$iv$iv, IntOffset.plus-qkQi6aY(position, layer), obj7, obj15);
                 } else {
                     y-impl = IntOffset.getY-impl(position);
-                    plus-qkQi6aY2 = placeable;
+                    plus-qkQi6aY = placeable;
                     i = 0;
-                    Placeable.PlacementScope.access$handleMotionFrameOfReferencePlacement(placementScope2, plus-qkQi6aY2);
-                    Placeable.access$placeAt-f8xVGno(plus-qkQi6aY2, IntOffset.plus-qkQi6aY(IntOffsetKt.IntOffset(i4 -= x-impl, y-impl), y-impl), obj9, obj15);
+                    Placeable.PlacementScope.access$handleMotionFrameOfReferencePlacement(placementScope2, plus-qkQi6aY);
+                    Placeable.access$placeAt-f8xVGno(plus-qkQi6aY, IntOffset.plus-qkQi6aY(IntOffsetKt.IntOffset(i4 -= x-impl, y-impl), y-impl), obj9, obj15);
                 }
             } else {
             }

@@ -23,7 +23,7 @@ public final class AnimationSearch_androidKt {
     private static final String SIZE_ANIMATION_MODIFIER = "androidx.compose.animation.SizeAnimationModifierElement";
     private static final String UPDATE_TRANSITION = "updateTransition";
     private static final <T> T findData(Group $this$findData, boolean includeGrandchildren) {
-        Object it2;
+        Object it;
         List plus;
         int i;
         Collection element$iv;
@@ -32,38 +32,38 @@ public final class AnimationSearch_androidKt {
         Collection collection;
         Iterator data;
         int next2;
-        boolean next;
-        Iterator it;
         boolean next3;
+        Iterator it2;
+        boolean next;
         Collection child;
         int i2;
         final int i3 = 0;
-        it2 = $this$findData.getChildren();
+        it = $this$findData.getChildren();
         int i4 = 0;
         if (includeGrandchildren) {
             i = 0;
             arrayList = new ArrayList();
             next2 = 0;
-            it = (Iterable)(Collection)it2.iterator();
-            for (Object next3 : it) {
+            it2 = (Iterable)(Collection)it.iterator();
+            for (Object next : it2) {
                 i2 = 0;
-                CollectionsKt.addAll((Collection)arrayList, (Iterable)(Group)next3.getChildren());
+                CollectionsKt.addAll((Collection)arrayList, (Iterable)(Group)next.getChildren());
             }
-            it2 = plus;
+            it = plus;
         }
         int i5 = 0;
         ArrayList arrayList2 = new ArrayList();
         str = 0;
-        data = (Iterable)it2.iterator();
+        data = (Iterable)it.iterator();
         for (Object next2 : data) {
-            next3 = false;
+            next = false;
             CollectionsKt.addAll((Collection)arrayList2, (Iterable)(Group)next2.getData());
         }
         int i6 = 0;
         Iterator iterator = (Iterable)CollectionsKt.plus($this$findData.getData(), (Iterable)(List)arrayList2).iterator();
         str = "T";
         for (Object element$iv : iterator) {
-            next = false;
+            next3 = false;
             Intrinsics.reifiedOperationMarker(3, str);
             str = "T";
         }
@@ -74,51 +74,51 @@ public final class AnimationSearch_androidKt {
     }
 
     static Object findData$default(Group $this$findData_u24default, boolean includeGrandchildren, int i3, Object object4) {
-        Object it2;
+        Object it;
         List plus;
-        int i2;
+        int i;
         Collection element$iv;
         ArrayList arrayList;
         int str;
         Collection collection;
         Iterator data;
-        int next3;
-        boolean next2;
-        Iterator it;
+        int next2;
+        boolean next3;
+        Iterator it2;
         Object next;
         Collection child;
-        int i;
+        int i2;
         int obj12;
         if (i3 &= 1 != 0) {
             obj12 = 0;
         }
         int obj13 = 0;
-        it2 = $this$findData_u24default.getChildren();
+        it = $this$findData_u24default.getChildren();
         int i5 = 0;
         if (obj12 != null) {
-            i2 = 0;
+            i = 0;
             arrayList = new ArrayList();
-            next3 = 0;
-            it = (Iterable)(Collection)it2.iterator();
-            for (Object next : it) {
-                i = 0;
+            next2 = 0;
+            it2 = (Iterable)(Collection)it.iterator();
+            for (Object next : it2) {
+                i2 = 0;
                 CollectionsKt.addAll((Collection)arrayList, (Iterable)(Group)next.getChildren());
             }
-            it2 = plus;
+            it = plus;
         }
         int i6 = 0;
         ArrayList arrayList2 = new ArrayList();
         str = 0;
-        data = (Iterable)it2.iterator();
-        for (Object next3 : data) {
+        data = (Iterable)it.iterator();
+        for (Object next2 : data) {
             next = false;
-            CollectionsKt.addAll((Collection)arrayList2, (Iterable)(Group)next3.getData());
+            CollectionsKt.addAll((Collection)arrayList2, (Iterable)(Group)next2.getData());
         }
         int i7 = 0;
         Iterator iterator = (Iterable)CollectionsKt.plus($this$findData_u24default.getData(), (Iterable)(List)arrayList2).iterator();
         str = "T";
         for (Object element$iv : iterator) {
-            next2 = false;
+            next3 = false;
             Intrinsics.reifiedOperationMarker(3, str);
             str = "T";
         }
@@ -129,60 +129,60 @@ public final class AnimationSearch_androidKt {
     }
 
     private static final <T> List<T> findRememberedData(Group $this$findRememberedData) {
-        int data$iv;
-        int i4;
-        int $this$firstOrNull$iv;
-        List it2;
-        Object iterator2;
-        Object element$iv;
-        int i7;
-        androidx.compose.ui.tooling.animation.AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1 anon;
         int data$iv2;
-        String str;
-        boolean it;
+        int i6;
+        int $this$firstOrNull$iv;
+        List it;
+        Object $i$a$LetAnimationSearch_androidKt$findRememberedData$2;
+        Object element$iv;
         int i;
-        Object next3;
+        androidx.compose.ui.tooling.animation.AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1 anon;
+        int data$iv;
+        String str;
+        boolean it2;
+        int i3;
+        Object next2;
         boolean next4;
-        boolean next2;
+        boolean next;
+        Object obj2;
+        int i4;
         Object obj3;
-        int i2;
-        Object obj;
         int i5;
         Collection iNSTANCE;
-        int i6;
-        Iterator iterator;
+        int i7;
+        Iterator iterator2;
         int element$iv$iv;
-        Object iterator3;
-        int next;
-        Object obj2;
-        int i3;
+        Object iterator;
+        int next3;
+        Object obj;
+        int i2;
         int $i$f$findRememberedData;
-        data$iv = 0;
+        data$iv2 = 0;
         int i8 = 0;
-        iterator2 = (Iterable)$this$findRememberedData.getData().iterator();
-        i7 = 3;
+        $i$a$LetAnimationSearch_androidKt$findRememberedData$2 = (Iterable)$this$findRememberedData.getData().iterator();
+        i = 3;
         str = "T";
-        for (Object element$iv : iterator2) {
-            i = 0;
-            Intrinsics.reifiedOperationMarker(i7, str);
-            i7 = 3;
+        for (Object element$iv : $i$a$LetAnimationSearch_androidKt$findRememberedData$2) {
+            i3 = 0;
+            Intrinsics.reifiedOperationMarker(i, str);
+            i = 3;
             str = "T";
         }
         element$iv = 0;
         $this$firstOrNull$iv = 2;
         Intrinsics.reifiedOperationMarker($this$firstOrNull$iv, str);
-        it2 = element$iv;
+        it = element$iv;
         int i9 = 0;
-        it2 = CollectionsKt.listOf(element$iv);
-        iterator2 = it2;
-        if (element$iv != null && it2 != null) {
+        it = CollectionsKt.listOf(element$iv);
+        $i$a$LetAnimationSearch_androidKt$findRememberedData$2 = it;
+        if (element$iv != null && it != null) {
             i9 = 0;
-            it2 = CollectionsKt.listOf(element$iv);
-            iterator2 = it2;
-            if (it2 != null) {
-                iterator2 = it2;
+            it = CollectionsKt.listOf(element$iv);
+            $i$a$LetAnimationSearch_androidKt$findRememberedData$2 = it;
+            if (it != null) {
+                $i$a$LetAnimationSearch_androidKt$findRememberedData$2 = it;
             } else {
-                it2 = CollectionsKt.emptyList();
+                it = CollectionsKt.emptyList();
             }
         } else {
         }
@@ -192,25 +192,25 @@ public final class AnimationSearch_androidKt {
         ArrayList arrayList = new ArrayList();
         int i14 = 0;
         int i17 = 0;
-        Iterator iterator4 = (Iterable)children.iterator();
-        for (Object next3 : iterator4) {
-            i2 = 0;
+        Iterator iterator3 = (Iterable)children.iterator();
+        for (Object next2 : iterator3) {
+            i4 = 0;
             i5 = 0;
-            i6 = 0;
-            iterator = (Iterable)(Group)next3.getData().iterator();
-            for (Object element$iv$iv : iterator) {
-                next = 0;
-                Intrinsics.reifiedOperationMarker(i7, str);
+            i7 = 0;
+            iterator2 = (Iterable)(Group)next2.getData().iterator();
+            for (Object element$iv$iv : iterator2) {
+                next3 = 0;
+                Intrinsics.reifiedOperationMarker(i, str);
             }
             element$iv$iv = 0;
             Intrinsics.reifiedOperationMarker($this$firstOrNull$iv, str);
-            data$iv2 = element$iv$iv;
+            data$iv = element$iv$iv;
             if (element$iv$iv != 0) {
             }
-            obj = 0;
+            obj3 = 0;
             (Collection)arrayList.add(element$iv$iv);
-            next = 0;
-            Intrinsics.reifiedOperationMarker(i7, str);
+            next3 = 0;
+            Intrinsics.reifiedOperationMarker(i, str);
             if (obj6 instanceof Object != null) {
             } else {
             }
@@ -219,15 +219,15 @@ public final class AnimationSearch_androidKt {
         ArrayList arrayList2 = new ArrayList();
         int i15 = 0;
         int i18 = 0;
-        Iterator iterator5 = (Iterable)children.iterator();
-        while (iterator5.hasNext()) {
-            i2 = 0;
+        Iterator iterator4 = (Iterable)children.iterator();
+        while (iterator4.hasNext()) {
+            i4 = 0;
             i5 = 0;
-            Group it$iv = PreviewUtils_androidKt.firstOrNull((Group)iterator5.next(), (Function1)AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1.INSTANCE);
+            Group it$iv = PreviewUtils_androidKt.firstOrNull((Group)iterator4.next(), (Function1)AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1.INSTANCE);
             if (it$iv != null) {
             }
             $this$firstOrNull$iv = 2;
-            i7 = 3;
+            i = 3;
             anon = 0;
             (Collection)arrayList2.add(it$iv);
         }
@@ -235,62 +235,62 @@ public final class AnimationSearch_androidKt {
         ArrayList arrayList3 = new ArrayList();
         int i16 = 0;
         int i19 = 0;
-        Iterator iterator6 = (Iterable)(List)arrayList2.iterator();
-        for (Object next2 : iterator6) {
-            i2 = 0;
+        Iterator iterator5 = (Iterable)(List)arrayList2.iterator();
+        for (Object next : iterator5) {
+            i4 = 0;
             iNSTANCE = 0;
             element$iv$iv = 0;
-            iterator3 = (Iterable)(Group)next2.getData().iterator();
-            for (Object next : iterator3) {
-                i3 = 0;
+            iterator = (Iterable)(Group)next.getData().iterator();
+            for (Object next3 : iterator) {
+                i2 = 0;
                 Intrinsics.reifiedOperationMarker(3, str);
-                data$iv = $i$f$findRememberedData;
+                data$iv2 = $i$f$findRememberedData;
             }
-            $i$f$findRememberedData = data$iv;
-            next = 0;
+            $i$f$findRememberedData = data$iv2;
+            next3 = 0;
             Intrinsics.reifiedOperationMarker(2, str);
-            obj = next;
-            if (next != null) {
+            obj3 = next3;
+            if (next3 != null) {
             }
-            data$iv = $i$f$findRememberedData;
+            data$iv2 = $i$f$findRememberedData;
             i5 = 0;
-            (Collection)arrayList3.add(next);
-            i3 = 0;
+            (Collection)arrayList3.add(next3);
+            i2 = 0;
             Intrinsics.reifiedOperationMarker(3, str);
             if (obj4 instanceof Object != null) {
             } else {
             }
-            data$iv = $i$f$findRememberedData;
+            data$iv2 = $i$f$findRememberedData;
         }
-        int $i$f$findRememberedData3 = data$iv;
-        return CollectionsKt.plus((Collection)it2, (Iterable)CollectionsKt.plus((Collection)(List)arrayList, (Iterable)(List)arrayList3));
+        int $i$f$findRememberedData3 = data$iv2;
+        return CollectionsKt.plus((Collection)it, (Iterable)CollectionsKt.plus((Collection)(List)arrayList, (Iterable)(List)arrayList3));
     }
 
     private static final <T> List<T> findRememberedData(Collection<? extends Group> $this$findRememberedData) {
-        int it$iv$iv2;
-        int i6;
-        Object next;
-        int i7;
         int it$iv$iv;
-        int i3;
+        int i2;
+        Object next;
+        int i5;
+        int it$iv$iv2;
+        int i;
         androidx.compose.ui.tooling.animation.AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1 anon;
         int data;
-        boolean next2;
+        boolean next3;
         String str;
         Object obj;
-        int i;
-        Object obj3;
+        int i3;
+        Object obj2;
         int i4;
         Collection iNSTANCE;
-        int i5;
+        int i7;
         Iterator iterator;
         boolean next4;
         Object iterator2;
-        int next3;
-        Object obj2;
-        int i2;
+        int next2;
+        Object obj3;
+        int i6;
         int $i$f$findRememberedData;
-        it$iv$iv2 = 0;
+        it$iv$iv = 0;
         int i8 = 0;
         ArrayList arrayList = new ArrayList();
         int i10 = 0;
@@ -298,24 +298,24 @@ public final class AnimationSearch_androidKt {
         Iterator iterator3 = (Iterable)$this$findRememberedData.iterator();
         str = "T";
         for (Object next : iterator3) {
-            i = 0;
+            i3 = 0;
             i4 = 0;
-            i5 = 0;
+            i7 = 0;
             iterator = (Iterable)(Group)next.getData().iterator();
             for (Object next4 : iterator) {
-                next3 = 0;
+                next2 = 0;
                 Intrinsics.reifiedOperationMarker(3, str);
             }
             data = 0;
             Intrinsics.reifiedOperationMarker(2, str);
-            i7 = data;
+            i5 = data;
             if (data != null) {
             }
             str = "T";
-            i7 = 0;
+            i5 = 0;
             (Collection)arrayList.add(data);
             next4 = iterator.next();
-            next3 = 0;
+            next2 = 0;
             Intrinsics.reifiedOperationMarker(3, str);
             if (obj8 instanceof Object != null) {
             } else {
@@ -328,13 +328,13 @@ public final class AnimationSearch_androidKt {
         int i14 = 0;
         Iterator iterator4 = (Iterable)$this$findRememberedData.iterator();
         while (iterator4.hasNext()) {
-            i = 0;
+            i3 = 0;
             i4 = 0;
             Group it = PreviewUtils_androidKt.firstOrNull((Group)iterator4.next(), (Function1)AnimationSearch_androidKt.findRememberedData.rememberCalls.1.1.INSTANCE);
             if (it != null) {
             }
-            it$iv$iv = 2;
-            i3 = 3;
+            it$iv$iv2 = 2;
+            i = 3;
             anon = 0;
             (Collection)arrayList2.add(it);
         }
@@ -343,33 +343,33 @@ public final class AnimationSearch_androidKt {
         int i15 = 0;
         int i16 = 0;
         Iterator iterator5 = (Iterable)(List)arrayList2.iterator();
-        for (Object next2 : iterator5) {
-            i = 0;
+        for (Object next3 : iterator5) {
+            i3 = 0;
             iNSTANCE = 0;
             next4 = 0;
-            iterator2 = (Iterable)(Group)next2.getData().iterator();
-            for (Object next3 : iterator2) {
-                i2 = 0;
+            iterator2 = (Iterable)(Group)next3.getData().iterator();
+            for (Object next2 : iterator2) {
+                i6 = 0;
                 Intrinsics.reifiedOperationMarker(3, str);
-                it$iv$iv2 = $i$f$findRememberedData;
+                it$iv$iv = $i$f$findRememberedData;
             }
-            $i$f$findRememberedData = it$iv$iv2;
-            next3 = 0;
+            $i$f$findRememberedData = it$iv$iv;
+            next2 = 0;
             Intrinsics.reifiedOperationMarker(2, str);
-            obj3 = next3;
-            if (next3 != 0) {
+            obj2 = next2;
+            if (next2 != 0) {
             }
-            it$iv$iv2 = $i$f$findRememberedData;
+            it$iv$iv = $i$f$findRememberedData;
             i4 = 0;
-            (Collection)arrayList3.add(next3);
-            i2 = 0;
+            (Collection)arrayList3.add(next2);
+            i6 = 0;
             Intrinsics.reifiedOperationMarker(3, str);
             if (obj4 instanceof Object != null) {
             } else {
             }
-            it$iv$iv2 = $i$f$findRememberedData;
+            it$iv$iv = $i$f$findRememberedData;
         }
-        int $i$f$findRememberedData3 = it$iv$iv2;
+        int $i$f$findRememberedData3 = it$iv$iv;
         return CollectionsKt.plus((Collection)(List)arrayList, (Iterable)(List)arrayList3);
     }
 }

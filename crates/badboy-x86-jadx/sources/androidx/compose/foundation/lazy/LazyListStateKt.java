@@ -39,34 +39,34 @@ public final class LazyListStateKt {
     }
 
     public static final androidx.compose.foundation.lazy.LazyListState rememberLazyListState(int initialFirstVisibleItemIndex, int initialFirstVisibleItemScrollOffset, androidx.compose.foundation.lazy.LazyListPrefetchStrategy prefetchStrategy, Composer $composer, int $changed, int i6) {
-        int i8;
-        int i7;
         int i2;
+        int i4;
+        int i5;
         int invalid$iv;
         boolean traceInProgress;
-        boolean changed;
-        int changed2;
-        int i;
+        boolean changed2;
+        int changed;
+        int i10;
         boolean changedInstance;
-        int i5;
-        int i9;
         int i3;
+        int i9;
+        int i7;
         Object obj;
         int str;
         Object rememberedValue;
-        int i10;
+        int i8;
         Object anon;
-        Object obj2;
-        int i4;
+        Object $i$a$CacheLazyListStateKt$rememberLazyListState$2;
+        int i;
         final Composer composer2 = $composer;
         final int i25 = $changed;
         int i11 = 1287535208;
         ComposerKt.sourceInformationMarkerStart(composer2, i11, "C(rememberLazyListState)106@4651L39,108@4804L160,108@4722L242:LazyListState.kt#428nma");
-        i9 = i6 & 1 != 0 ? i8 : initialFirstVisibleItemIndex;
-        i3 = i6 & 2 != 0 ? i7 : initialFirstVisibleItemScrollOffset;
+        i9 = i6 & 1 != 0 ? i2 : initialFirstVisibleItemIndex;
+        i7 = i6 & 2 != 0 ? i4 : initialFirstVisibleItemScrollOffset;
         int i12 = 4;
         String str3 = "CC(remember):LazyListState.kt#9igjgp";
-        i5 = 0;
+        i3 = 0;
         int i23 = 1;
         if (i6 & 4 != 0) {
             ComposerKt.sourceInformationMarkerStart(composer2, -61869191, str3);
@@ -74,12 +74,12 @@ public final class LazyListStateKt {
             Composer composer3 = $composer;
             str = 0;
             rememberedValue = composer3.rememberedValue();
-            i10 = 0;
+            i8 = 0;
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 int i30 = 0;
-                composer3.updateRememberedValue(LazyListPrefetchStrategyKt.LazyListPrefetchStrategy$default(i5, i23, 0));
+                composer3.updateRememberedValue(LazyListPrefetchStrategyKt.LazyListPrefetchStrategy$default(i3, i23, 0));
             } else {
-                obj2 = rememberedValue;
+                $i$a$CacheLazyListStateKt$rememberLazyListState$2 = rememberedValue;
             }
             ComposerKt.sourceInformationMarkerEnd(composer2);
             obj = invalid$iv;
@@ -92,15 +92,15 @@ public final class LazyListStateKt {
         ComposerKt.sourceInformationMarkerStart(composer2, -61864174, str3);
         if (i18 ^= 6 > i12) {
             if (!composer2.changed(i9)) {
-                i2 = i25 & 6 == i12 ? i23 : i5;
+                i5 = i25 & 6 == i12 ? i23 : i3;
             } else {
             }
         } else {
         }
         int i27 = 32;
         if (i19 ^= 48 > i27) {
-            if (!composer2.changed(i3)) {
-                i = i25 & 48 == i27 ? i23 : i5;
+            if (!composer2.changed(i7)) {
+                i10 = i25 & 48 == i27 ? i23 : i3;
             } else {
             }
         } else {
@@ -109,7 +109,7 @@ public final class LazyListStateKt {
         if (i20 ^= 384 > i28) {
             if (!composer2.changedInstance(obj)) {
                 if (i25 & 384 == i28) {
-                    i5 = i23;
+                    i3 = i23;
                 }
             } else {
             }
@@ -119,10 +119,10 @@ public final class LazyListStateKt {
         int i21 = 0;
         Object rememberedValue2 = composer.rememberedValue();
         int i29 = 0;
-        if (i13 |= i5 == 0) {
+        if (i13 |= i3 == 0) {
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
                 rememberedValue = 0;
-                anon = new LazyListStateKt.rememberLazyListState.3.1(i9, i3, obj);
+                anon = new LazyListStateKt.rememberLazyListState.3.1(i9, i7, obj);
                 composer.updateRememberedValue((Function0)anon);
             } else {
                 anon = rememberedValue2;

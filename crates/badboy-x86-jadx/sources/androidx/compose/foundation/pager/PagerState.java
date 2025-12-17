@@ -318,13 +318,13 @@ public abstract class PagerState implements ScrollableState {
     }
 
     private final boolean isNotGestureAction() {
-        int i;
         int i2;
+        int i;
         if ((int)x-impl == 0 && (int)y-impl == 0) {
-            i2 = (int)y-impl == 0 ? 1 : 0;
+            i = (int)y-impl == 0 ? 1 : 0;
         } else {
         }
-        return i2;
+        return i;
     }
 
     public static int matchScrollPositionWithKey$foundation_release$default(androidx.compose.foundation.pager.PagerState pagerState, androidx.compose.foundation.pager.PagerLazyLayoutItemProvider pagerLazyLayoutItemProvider2, int i3, int i4, Object object5) {
@@ -415,15 +415,15 @@ public abstract class PagerState implements ScrollableState {
     }
 
     private final float performScroll(float delta) {
-        int i4;
-        int i2;
+        int i3;
+        int i;
         long isLastScrollBackwardState;
         int i5;
         Number valueOf2;
         int valueOf;
         int $i$f$debugLog;
-        int i;
-        int i3;
+        int i4;
+        int i2;
         final androidx.compose.foundation.pager.PagerState pagerState = this;
         final long currentAbsoluteScrollOffset = PagerScrollPositionKt.currentAbsoluteScrollOffset(pagerState);
         int i6 = 0;
@@ -436,15 +436,15 @@ public abstract class PagerState implements ScrollableState {
         int i10 = currentAbsoluteScrollOffset + roundToLong;
         long coerceIn = RangesKt.coerceIn(i10, obj8, pagerState.minScrollOffset);
         i5 = 1;
-        i4 = Long.compare(i10, coerceIn) != 0 ? i5 : 0;
+        i3 = Long.compare(i10, coerceIn) != 0 ? i5 : 0;
         final int i12 = coerceIn - currentAbsoluteScrollOffset;
         pagerState.previousPassDelta = (float)i12;
-        if (Long.compare(l, i3) != 0) {
-            i3 = 0;
-            i2 = Float.compare(f3, i3) > 0 ? i5 : 0;
-            pagerState.isLastScrollForwardState.setValue(Boolean.valueOf(i2));
-            i = Float.compare(f5, i3) < 0 ? i5 : 0;
-            pagerState.isLastScrollBackwardState.setValue(Boolean.valueOf(i));
+        if (Long.compare(l, i2) != 0) {
+            i2 = 0;
+            i = Float.compare(f3, i2) > 0 ? i5 : 0;
+            pagerState.isLastScrollForwardState.setValue(Boolean.valueOf(i));
+            i4 = Float.compare(f5, i2) < 0 ? i5 : 0;
+            pagerState.isLastScrollBackwardState.setValue(Boolean.valueOf(i4));
         }
         Object value = pagerState.pagerLayoutInfoState.getValue();
         if ((PagerMeasureResult)value.tryToApplyScrollWithoutRemeasure(-i13)) {
@@ -454,7 +454,7 @@ public abstract class PagerState implements ScrollableState {
             pagerState.layoutWithoutMeasurement = layoutWithoutMeasurement += i5;
         } else {
             int i16 = 0;
-            i = i5;
+            i4 = i5;
             pagerState.scrollPosition.applyScrollDelta((int)i12);
             Remeasurement remeasurement$foundation_release = pagerState.getRemeasurement$foundation_release();
             if (remeasurement$foundation_release != null) {
@@ -462,7 +462,7 @@ public abstract class PagerState implements ScrollableState {
             }
             pagerState.layoutWithMeasurement = layoutWithMeasurement++;
         }
-        if (i4 != 0) {
+        if (i3 != 0) {
             valueOf2 = Long.valueOf(i12);
         } else {
             valueOf2 = Float.valueOf(delta);
@@ -485,23 +485,23 @@ public abstract class PagerState implements ScrollableState {
 
     static Object scroll$suspendImpl(androidx.compose.foundation.pager.PagerState pagerState, MutatePriority mutatePriority2, Function2<? super ScrollScope, ? super Continuation<? super Unit>, ? extends Object> function23, Continuation<? super Unit> continuation4) {
         boolean anon;
+        int i2;
         int i;
-        int i3;
         int awaitScrollDependencies;
         boolean scrollInProgress;
-        int i2;
+        int i3;
         Object obj;
         Object obj5;
         Object obj6;
         Object obj7;
         Object obj8;
         anon = continuation4;
-        i3 = Integer.MIN_VALUE;
-        if (continuation4 instanceof PagerState.scroll.1 && label &= i3 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation4 instanceof PagerState.scroll.1 && label &= i != 0) {
             anon = continuation4;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj8 -= i3;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj8 -= i;
             } else {
                 anon = new PagerState.scroll.1(pagerState, continuation4);
             }
@@ -608,7 +608,7 @@ public abstract class PagerState implements ScrollableState {
                 }
             }
         }
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$WithoutReadObservationPagerState$tryRunPrefetch$1 = Unit.INSTANCE;
         companion.restoreNonObservable(currentThreadSnapshot, companion.makeCurrentNonObservable(currentThreadSnapshot), readObserver);
     }
 
@@ -626,51 +626,51 @@ public abstract class PagerState implements ScrollableState {
     }
 
     public final Object animateScrollToPage(int i, float f2, AnimationSpec<Float> animationSpec3, Continuation<? super Unit> continuation4) {
-        boolean anon;
-        int i4;
+        boolean anon2;
+        int i3;
         Object l$0;
         int cmp;
         int animatedScrollScope;
-        int i2;
+        int i4;
         int coerceInPageRange;
-        int i3;
+        int i2;
         Object obj;
         int currentPage;
-        androidx.compose.foundation.pager.PagerState.animateScrollToPage.3 anon2;
+        androidx.compose.foundation.pager.PagerState.animateScrollToPage.3 anon;
         double d;
         long l;
         float obj12;
         int obj13;
         Object obj14;
         Object obj15;
-        anon = continuation4;
-        i2 = Integer.MIN_VALUE;
-        if (continuation4 instanceof PagerState.animateScrollToPage.1 && label &= i2 != 0) {
-            anon = continuation4;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj15 -= i2;
+        anon2 = continuation4;
+        i4 = Integer.MIN_VALUE;
+        if (continuation4 instanceof PagerState.animateScrollToPage.1 && label &= i4 != 0) {
+            anon2 = continuation4;
+            i4 = Integer.MIN_VALUE;
+            if (label &= i4 != 0) {
+                anon2.label = obj15 -= i4;
             } else {
-                anon = new PagerState.animateScrollToPage.1(this, continuation4);
+                anon2 = new PagerState.animateScrollToPage.1(this, continuation4);
             }
         } else {
         }
-        final androidx.compose.foundation.pager.PagerState.animateScrollToPage.1 anon3 = anon;
+        final androidx.compose.foundation.pager.PagerState.animateScrollToPage.1 anon3 = anon2;
         obj15 = anon3.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        i3 = 1;
+        i2 = 1;
         switch (animatedScrollScope) {
             case 0:
                 ResultKt.throwOnFailure(obj15);
                 l$0 = this;
-                currentPage = i3;
+                currentPage = i2;
                 currentPage = coerceInPageRange;
                 return Unit.INSTANCE;
                 anon3.L$0 = l$0;
                 anon3.L$1 = animationSpec3;
                 anon3.I$0 = i;
                 anon3.F$0 = f2;
-                anon3.label = i3;
+                anon3.label = i2;
                 return cOROUTINE_SUSPENDED;
                 obj13 = i;
                 obj12 = f;
@@ -694,7 +694,7 @@ public abstract class PagerState implements ScrollableState {
         d = (double)obj12;
         if (Double.compare(l, d) <= 0 && Double.compare(d, l) <= 0) {
             if (Double.compare(d, l) <= 0) {
-                coerceInPageRange = i3;
+                coerceInPageRange = i2;
             }
         }
         if (coerceInPageRange == 0) {
@@ -957,10 +957,10 @@ public abstract class PagerState implements ScrollableState {
         boolean scrollInProgress;
         kotlinx.coroutines.CoroutineScope coroutineScope;
         int i4;
-        int i3;
-        androidx.compose.foundation.pager.PagerState.requestScrollToPage.1 anon;
         int i;
+        androidx.compose.foundation.pager.PagerState.requestScrollToPage.1 anon;
         int i2;
+        int i3;
         if (isScrollInProgress()) {
             i4 = 0;
             scrollInProgress = new PagerState.requestScrollToPage.1(this, i4);

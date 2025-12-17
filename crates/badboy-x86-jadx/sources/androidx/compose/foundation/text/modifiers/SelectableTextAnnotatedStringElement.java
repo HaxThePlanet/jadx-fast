@@ -58,33 +58,33 @@ public final class SelectableTextAnnotatedStringElement extends ModifierNodeElem
 
     public SelectableTextAnnotatedStringElement(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, Function1 function14, int i5, boolean z6, int i7, int i8, List list9, Function1 function110, androidx.compose.foundation.text.modifiers.SelectionController selectionController11, ColorProducer colorProducer12, int i13, DefaultConstructorMarker defaultConstructorMarker14) {
         int clip-gIe3tQ8;
-        int i6;
-        int i9;
-        int i10;
-        int i11;
+        int i;
         int i14;
         int i4;
-        int i12;
         int i2;
+        int i9;
+        int i11;
+        int i6;
+        int i10;
+        int i12;
         int i3;
-        int i;
         int i15 = i13;
         final int i23 = 0;
-        i9 = i15 & 8 != 0 ? i23 : function14;
+        i14 = i15 & 8 != 0 ? i23 : function14;
         if (i15 & 16 != 0) {
-            i10 = clip-gIe3tQ8;
+            i4 = clip-gIe3tQ8;
         } else {
-            i10 = i5;
+            i4 = i5;
         }
         int i24 = 1;
-        i11 = i15 & 32 != 0 ? i24 : z6;
-        i14 = i15 & 64 != 0 ? i6 : i7;
-        i4 = i15 & 128 != 0 ? i24 : i8;
-        i12 = i15 & 256 != 0 ? i23 : list9;
-        i2 = i15 & 512 != 0 ? i23 : function110;
-        i3 = i15 & 1024 != 0 ? i23 : selectionController11;
-        i = i15 &= 2048 != 0 ? i23 : colorProducer12;
-        super(annotatedString, textStyle2, resolver3, i9, i10, i11, i14, i4, i12, i2, i3, i, 0);
+        i2 = i15 & 32 != 0 ? i24 : z6;
+        i9 = i15 & 64 != 0 ? i : i7;
+        i11 = i15 & 128 != 0 ? i24 : i8;
+        i6 = i15 & 256 != 0 ? i23 : list9;
+        i10 = i15 & 512 != 0 ? i23 : function110;
+        i12 = i15 & 1024 != 0 ? i23 : selectionController11;
+        i3 = i15 &= 2048 != 0 ? i23 : colorProducer12;
+        super(annotatedString, textStyle2, resolver3, i14, i4, i2, i9, i11, i6, i10, i12, i3, 0);
     }
 
     public SelectableTextAnnotatedStringElement(AnnotatedString annotatedString, TextStyle textStyle2, FontFamily.Resolver fontFamily$Resolver3, Function1 function14, int i5, boolean z6, int i7, int i8, List list9, Function1 function110, androidx.compose.foundation.text.modifiers.SelectionController selectionController11, ColorProducer colorProducer12, DefaultConstructorMarker defaultConstructorMarker13) {
@@ -259,35 +259,35 @@ public final class SelectableTextAnnotatedStringElement extends ModifierNodeElem
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i;
         int i3;
         int i2;
         int i4;
+        int i;
         int i5;
         Function1 onTextLayout = this.onTextLayout;
         i5 = 0;
         if (onTextLayout != null) {
-            i = onTextLayout.hashCode();
-        } else {
-            i = i5;
-        }
-        List placeholders = this.placeholders;
-        if (placeholders != null) {
-            i3 = placeholders.hashCode();
+            i3 = onTextLayout.hashCode();
         } else {
             i3 = i5;
         }
-        Function1 onPlaceholderLayout = this.onPlaceholderLayout;
-        if (onPlaceholderLayout != null) {
-            i2 = onPlaceholderLayout.hashCode();
+        List placeholders = this.placeholders;
+        if (placeholders != null) {
+            i2 = placeholders.hashCode();
         } else {
             i2 = i5;
         }
-        androidx.compose.foundation.text.modifiers.SelectionController selectionController = this.selectionController;
-        if (selectionController != null) {
-            i4 = selectionController.hashCode();
+        Function1 onPlaceholderLayout = this.onPlaceholderLayout;
+        if (onPlaceholderLayout != null) {
+            i4 = onPlaceholderLayout.hashCode();
         } else {
             i4 = i5;
+        }
+        androidx.compose.foundation.text.modifiers.SelectionController selectionController = this.selectionController;
+        if (selectionController != null) {
+            i = selectionController.hashCode();
+        } else {
+            i = i5;
         }
         ColorProducer color = this.color;
         if (color != null) {

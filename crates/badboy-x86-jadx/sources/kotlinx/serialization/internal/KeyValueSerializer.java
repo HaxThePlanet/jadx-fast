@@ -28,13 +28,13 @@ public abstract class KeyValueSerializer<K, V, R>  implements KSerializer<R> {
     }
 
     public R deserialize(Decoder decoder) {
-        Object idx2;
+        Object idx3;
         int decodeSerializableElement$default;
         Object descriptor;
         Object result;
-        Object idx3;
+        Object idx;
         KSerializer valueSerializer;
-        int idx;
+        int idx2;
         int i;
         int i2;
         Object key;
@@ -50,21 +50,21 @@ public abstract class KeyValueSerializer<K, V, R>  implements KSerializer<R> {
         if (compositeDecoder.decodeSequentially()) {
             i = 8;
             i2 = 0;
-            idx = 0;
-            result = obj.toResult(CompositeDecoder.DefaultImpls.decodeSerializableElement$default(compositeDecoder, obj.getDescriptor(), 0, (DeserializationStrategy)obj.getKeySerializer(), idx, i, i2), CompositeDecoder.DefaultImpls.decodeSerializableElement$default(compositeDecoder, obj.getDescriptor(), 1, (DeserializationStrategy)obj.getValueSerializer(), idx, i, i2));
+            idx2 = 0;
+            result = obj.toResult(CompositeDecoder.DefaultImpls.decodeSerializableElement$default(compositeDecoder, obj.getDescriptor(), 0, (DeserializationStrategy)obj.getKeySerializer(), idx2, i, i2), CompositeDecoder.DefaultImpls.decodeSerializableElement$default(compositeDecoder, obj.getDescriptor(), 1, (DeserializationStrategy)obj.getValueSerializer(), idx2, i, i2));
             beginStructure.endStructure(descriptor2);
             return result;
         } else {
             key = descriptor;
-            value = idx3;
+            value = idx;
             while (/* condition */) {
                 int idx5 = decodeSerializableElement$default;
                 key = CompositeDecoder.DefaultImpls.decodeSerializableElement$default(compositeDecoder, obj.getDescriptor(), null, (DeserializationStrategy)obj.getKeySerializer(), 0, 8, 0);
-                idx2 = decoder;
+                idx3 = decoder;
                 decodeSerializableElement$default = compositeDecoder.decodeElementIndex(obj.getDescriptor());
                 int i4 = i3;
                 value = CompositeDecoder.DefaultImpls.decodeSerializableElement$default(compositeDecoder, obj.getDescriptor(), 1, (DeserializationStrategy)obj.getValueSerializer(), 0, 8, 0);
-                idx2 = decoder;
+                idx3 = decoder;
             }
             int idx4 = decodeSerializableElement$default;
             if (key == TuplesKt.access$getNULL$p()) {

@@ -37,9 +37,9 @@ public final class PersistentHashMapBuilderEntries<K, V>  extends androidx.compo
 
     public boolean containsEntry(Map.Entry<? extends K, ? extends V> element) {
         boolean candidate;
-        Object value;
-        int key;
         Object value2;
+        int key;
+        Object value;
         Object obj = this.builder.get(element.getKey());
         if (obj != null) {
             key = 0;

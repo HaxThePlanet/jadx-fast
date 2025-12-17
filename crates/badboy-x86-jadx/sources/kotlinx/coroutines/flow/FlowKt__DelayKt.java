@@ -26,8 +26,8 @@ final class FlowKt__DelayKt {
             return FlowKt__DelayKt.debounceInternal$FlowKt__DelayKt($this$debounce, (Function1)anon);
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Debounce timeout should not be negative".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireFlowKt__DelayKt$debounce$1 = new IllegalArgumentException("Debounce timeout should not be negative".toString());
+        throw $i$a$RequireFlowKt__DelayKt$debounce$1;
     }
 
     public static final <T> kotlinx.coroutines.flow.Flow<T> debounce(kotlinx.coroutines.flow.Flow<? extends T> $this$debounce, Function1<? super T, Long> timeoutMillis) {
@@ -49,21 +49,21 @@ final class FlowKt__DelayKt {
     }
 
     public static final ReceiveChannel<Unit> fixedPeriodTicker(CoroutineScope $this$fixedPeriodTicker, long delayMillis, long initialDelayMillis) {
-        int i;
         int i2;
+        int i;
         int i3 = 0;
         final int i8 = 0;
-        i = Long.compare(delayMillis, i3) >= 0 ? i2 : i8;
+        i2 = Long.compare(delayMillis, i3) >= 0 ? i : i8;
         String str = " ms";
-        if (i == 0) {
+        if (i2 == 0) {
         } else {
             if (Long.compare(obj14, i3) >= 0) {
             } else {
-                i2 = i8;
+                i = i8;
             }
-            if (i2 == 0) {
+            if (i == 0) {
             } else {
-                FlowKt__DelayKt.fixedPeriodTicker.3 anon = new FlowKt__DelayKt.fixedPeriodTicker.3(obj14, i, delayMillis, i8, 0);
+                FlowKt__DelayKt.fixedPeriodTicker.3 anon = new FlowKt__DelayKt.fixedPeriodTicker.3(obj14, i2, delayMillis, i8, 0);
                 return ProduceKt.produce$default($this$fixedPeriodTicker, 0, 0, (Function2)anon, 1, 0);
             }
             int i5 = 0;
@@ -94,8 +94,8 @@ final class FlowKt__DelayKt {
             return FlowCoroutineKt.scopedFlow((Function3)anon);
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Sample period should be positive".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireFlowKt__DelayKt$sample$1 = new IllegalArgumentException("Sample period should be positive".toString());
+        throw $i$a$RequireFlowKt__DelayKt$sample$1;
     }
 
     public static final <T> kotlinx.coroutines.flow.Flow<T> sample-HG0u8IE(kotlinx.coroutines.flow.Flow<? extends T> $this$sample_u2dHG0u8IE, long period) {

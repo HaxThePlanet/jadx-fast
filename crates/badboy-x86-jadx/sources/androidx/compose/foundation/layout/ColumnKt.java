@@ -107,14 +107,14 @@ public final class ColumnKt {
     public static final MeasurePolicy columnMeasurePolicy(androidx.compose.foundation.layout.Arrangement.Vertical verticalArrangement, Alignment.Horizontal horizontalAlignment, Composer $composer, int $changed) {
         Object defaultColumnMeasurePolicy;
         boolean equal;
-        int changed;
-        int i3;
+        int changed2;
+        int i2;
         boolean traceInProgress;
         int i;
         String str;
         Object rememberedValue;
-        int changed2;
-        int i2;
+        int changed;
+        int i3;
         Object empty;
         Object columnMeasurePolicy;
         int i4 = 1089876336;
@@ -135,7 +135,7 @@ public final class ColumnKt {
                 int i11 = 4;
                 if (i8 ^= 6 > i11) {
                     if (!$composer.changed(verticalArrangement)) {
-                        i3 = $changed & 6 == i11 ? i10 : i;
+                        i2 = $changed & 6 == i11 ? i10 : i;
                     } else {
                     }
                 } else {
@@ -153,8 +153,8 @@ public final class ColumnKt {
                 traceInProgress = $composer;
                 str = 0;
                 rememberedValue = traceInProgress.rememberedValue();
-                i2 = 0;
-                if (i3 |= i == 0) {
+                i3 = 0;
+                if (i2 |= i == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         columnMeasurePolicy = new ColumnMeasurePolicy(verticalArrangement, horizontalAlignment);

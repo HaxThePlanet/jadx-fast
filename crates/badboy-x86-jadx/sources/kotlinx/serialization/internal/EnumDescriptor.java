@@ -35,21 +35,21 @@ public final class EnumDescriptor extends kotlinx.serialization.internal.PluginG
     }
 
     private static final SerialDescriptor[] elementDescriptors_delegate$lambda$0(int $elementsCount, String $name, kotlinx.serialization.internal.EnumDescriptor this$0) {
-        int i;
+        int i4;
         SerialDescriptor serialDescriptor$default;
         String string;
         StructureKind.OBJECT object;
         SerialDescriptor[] arr;
-        int i3;
+        int i;
         int i2;
-        int i4;
+        int i3;
         final SerialDescriptor[] arr2 = new SerialDescriptor[$elementsCount];
         final int i5 = 0;
-        i = i5;
-        while (i < $elementsCount) {
+        i4 = i5;
+        while (i4 < $elementsCount) {
             StringBuilder stringBuilder = new StringBuilder();
-            arr2[i] = SerialDescriptorsKt.buildSerialDescriptor$default(stringBuilder.append($name).append('.').append(this$0.getElementName(i)).toString(), (SerialKind)StructureKind.OBJECT.INSTANCE, new SerialDescriptor[i5], 0, 8, 0);
-            i++;
+            arr2[i4] = SerialDescriptorsKt.buildSerialDescriptor$default(stringBuilder.append($name).append('.').append(this$0.getElementName(i4)).toString(), (SerialKind)StructureKind.OBJECT.INSTANCE, new SerialDescriptor[i5], 0, 8, 0);
+            i4++;
         }
         return arr2;
     }
@@ -98,12 +98,12 @@ public final class EnumDescriptor extends kotlinx.serialization.internal.PluginG
     public int hashCode() {
         int accumulator$iv$iv;
         Object next;
-        int i5;
+        int i;
         Object obj;
         int i4;
-        int i;
-        int i2;
+        int i5;
         int i3;
+        int i2;
         final int i9 = 0;
         final int i11 = 0;
         accumulator$iv$iv = i10;
@@ -111,13 +111,13 @@ public final class EnumDescriptor extends kotlinx.serialization.internal.PluginG
         while (iterator.hasNext()) {
             i4 = 0;
             Object obj2 = obj;
-            i3 = 0;
+            i2 = 0;
             if ((String)obj2 != null) {
             } else {
             }
-            i2 = 0;
-            accumulator$iv$iv = i;
-            i2 = (String)obj2.hashCode();
+            i3 = 0;
+            accumulator$iv$iv = i5;
+            i3 = (String)obj2.hashCode();
         }
         return i7 += accumulator$iv$iv;
     }

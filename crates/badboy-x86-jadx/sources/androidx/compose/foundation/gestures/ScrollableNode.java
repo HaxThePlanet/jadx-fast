@@ -113,37 +113,37 @@ final class ScrollableNode extends androidx.compose.foundation.gestures.DragGest
 
     private final void processMouseWheelEvent-O0kMr_c(PointerEvent event, long size) {
         Object scrollConfig;
-        int i4;
+        int i3;
         List mouseWheelScroll-8xgXZGE;
         int index$iv$iv;
-        int i3;
+        int i4;
         Object index$iv;
         Object size2;
-        int i;
-        Object obj;
         int i2;
+        Object obj;
+        int i;
         boolean consumed;
-        i4 = 0;
+        i3 = 0;
         mouseWheelScroll-8xgXZGE = scrollConfig;
         index$iv$iv = 0;
         while (index$iv$iv < mouseWheelScroll-8xgXZGE.size()) {
-            i = 0;
             i2 = 0;
+            i = 0;
             index$iv$iv++;
         }
-        i3 = 1;
-        if (i3 != 0) {
+        i4 = 1;
+        if (i4 != 0) {
             scrollConfig = this.scrollConfig;
             Intrinsics.checkNotNull(scrollConfig);
-            i4 = 0;
+            i3 = 0;
             int i7 = 0;
             ScrollableNode.processMouseWheelEvent.2.1 anon = new ScrollableNode.processMouseWheelEvent.2.1(this, scrollConfig.calculateMouseWheelScroll-8xgXZGE(DelegatableNodeKt.requireDensity((DelegatableNode)this), event, size), 0, i7);
             BuildersKt.launch$default(getCoroutineScope(), 0, i7, (Function2)anon, 3, 0);
             index$iv$iv = event.getChanges();
-            i3 = 0;
+            i4 = 0;
             index$iv = 0;
             while (index$iv < index$iv$iv.size()) {
-                i2 = 0;
+                i = 0;
                 (PointerInputChange)index$iv$iv.get(index$iv).consume();
                 index$iv++;
             }
@@ -237,9 +237,9 @@ final class ScrollableNode extends androidx.compose.foundation.gestures.DragGest
         float f;
         long l;
         long pageUp-EK5gGoQ;
-        int i3;
-        androidx.compose.foundation.gestures.ScrollableNode.onKeyEvent.1 anon;
         int i2;
+        androidx.compose.foundation.gestures.ScrollableNode.onKeyEvent.1 anon;
+        int i3;
         int i;
         if (getEnabled()) {
             if (!Key.equals-impl0(KeyEvent_androidKt.getKey-ZmokQxo(event), obj1)) {
@@ -256,9 +256,9 @@ final class ScrollableNode extends androidx.compose.foundation.gestures.DragGest
                                 f = Key.equals-impl0(KeyEvent_androidKt.getKey-ZmokQxo(event), obj3) ? (float)width-impl : -f3;
                                 viewportHeight = l;
                             }
-                            i3 = 0;
-                            ScrollableNode.onKeyEvent.1 anon2 = new ScrollableNode.onKeyEvent.1(this, viewportHeight, keyDown-CS__XNY, i3);
-                            BuildersKt.launch$default(getCoroutineScope(), 0, i3, (Function2)anon2, 3, 0);
+                            i2 = 0;
+                            ScrollableNode.onKeyEvent.1 anon2 = new ScrollableNode.onKeyEvent.1(this, viewportHeight, keyDown-CS__XNY, i2);
+                            BuildersKt.launch$default(getCoroutineScope(), 0, i2, (Function2)anon2, 3, 0);
                             scrollAmount = 1;
                         } else {
                             scrollAmount = 0;

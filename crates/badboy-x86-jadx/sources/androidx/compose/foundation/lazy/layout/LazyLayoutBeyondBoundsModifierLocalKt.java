@@ -17,28 +17,28 @@ public final class LazyLayoutBeyondBoundsModifierLocalKt {
 
     public static final Modifier lazyLayoutBeyondBoundsModifier(Modifier $this$lazyLayoutBeyondBoundsModifier, androidx.compose.foundation.lazy.layout.LazyLayoutBeyondBoundsState state, androidx.compose.foundation.lazy.layout.LazyLayoutBeyondBoundsInfo beyondBoundsInfo, boolean reverseLayout, LayoutDirection layoutDirection, Orientation orientation, boolean enabled, Composer $composer, int $changed) {
         Modifier then;
-        boolean changed2;
-        int i6;
-        boolean traceInProgress;
-        boolean changed;
-        int i5;
-        int changed4;
-        int i;
         boolean changed3;
-        int i8;
-        String str;
-        int i7;
         int i9;
+        boolean traceInProgress;
+        boolean changed4;
+        int i7;
+        int changed;
+        int i;
+        boolean changed2;
+        int i3;
+        String str;
+        int i5;
+        int i4;
         Object lazyLayoutBeyondBoundsModifierLocal;
         int empty;
-        Object obj;
         Object obj3;
-        boolean z;
         Object obj2;
-        int i3;
-        boolean rememberedValue;
-        int i4;
+        boolean z;
+        Object obj;
         int i2;
+        boolean rememberedValue;
+        int i6;
+        int i8;
         final Composer composer = $composer;
         final int i10 = $changed;
         int i11 = 1331498025;
@@ -55,29 +55,29 @@ public final class LazyLayoutBeyondBoundsModifierLocalKt {
             ComposerKt.sourceInformation(composer, "54@2427L270");
             ComposerKt.sourceInformationMarkerStart(composer, -753724309, "CC(remember):LazyLayoutBeyondBoundsModifierLocal.kt#9igjgp");
             int i20 = 32;
-            i7 = 0;
+            i5 = 0;
             int i28 = 1;
             if (i15 ^= 48 > i20) {
                 if (!composer.changed(state)) {
-                    i6 = i10 & 48 == i20 ? i28 : i7;
+                    i9 = i10 & 48 == i20 ? i28 : i5;
                 } else {
                 }
             } else {
-                obj = state;
+                obj3 = state;
             }
             int i29 = 256;
             if (i21 ^= 384 > i29) {
                 if (!composer.changed(beyondBoundsInfo)) {
-                    i5 = i10 & 384 == i29 ? i28 : i7;
+                    i7 = i10 & 384 == i29 ? i28 : i5;
                 } else {
                 }
             } else {
-                obj3 = beyondBoundsInfo;
+                obj2 = beyondBoundsInfo;
             }
             int i30 = 2048;
             if (i22 ^= 3072 > i30) {
                 if (!composer.changed(reverseLayout)) {
-                    i = i10 & 3072 == i30 ? i28 : i7;
+                    i = i10 & 3072 == i30 ? i28 : i5;
                 } else {
                 }
             } else {
@@ -86,18 +86,18 @@ public final class LazyLayoutBeyondBoundsModifierLocalKt {
             int i31 = 16384;
             if (i24 ^= 24576 > i31) {
                 if (!composer.changed(layoutDirection)) {
-                    i8 = i10 & 24576 == i31 ? i28 : i7;
+                    i3 = i10 & 24576 == i31 ? i28 : i5;
                 } else {
                 }
             } else {
-                obj2 = layoutDirection;
+                obj = layoutDirection;
             }
             empty = 196608;
-            i3 = 131072;
-            if (i26 ^= empty > i3) {
+            i2 = 131072;
+            if (i26 ^= empty > i2) {
                 if (!composer.changed(orientation)) {
-                    if (empty &= i10 == i3) {
-                        i7 = i28;
+                    if (empty &= i10 == i2) {
+                        i5 = i28;
                     }
                 } else {
                 }
@@ -105,13 +105,13 @@ public final class LazyLayoutBeyondBoundsModifierLocalKt {
                 traceInProgress = orientation;
             }
             str = $composer;
-            i9 = 0;
-            rememberedValue = str.rememberedValue();
             i4 = 0;
-            if (i18 |= i7 == 0) {
+            rememberedValue = str.rememberedValue();
+            i6 = 0;
+            if (i18 |= i5 == 0) {
                 if (rememberedValue == Composer.Companion.getEmpty()) {
-                    i2 = 0;
-                    lazyLayoutBeyondBoundsModifierLocal = new LazyLayoutBeyondBoundsModifierLocal(obj, obj3, z, obj2, traceInProgress);
+                    i8 = 0;
+                    lazyLayoutBeyondBoundsModifierLocal = new LazyLayoutBeyondBoundsModifierLocal(obj3, obj2, z, obj, traceInProgress);
                     str.updateRememberedValue(lazyLayoutBeyondBoundsModifierLocal);
                 } else {
                     lazyLayoutBeyondBoundsModifierLocal = rememberedValue;

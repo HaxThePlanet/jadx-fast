@@ -95,19 +95,19 @@ public final class AnnotatedStringKt {
     }
 
     public static final boolean contains(int baseStart, int baseEnd, int targetStart, int targetEnd) {
-        int i;
         int i4;
+        int i;
         int i3;
         int i2;
-        i = 0;
+        i4 = 0;
         if (baseStart <= targetStart && targetEnd <= baseEnd) {
             if (targetEnd <= baseEnd) {
-                i4 = 1;
+                i = 1;
                 if (baseEnd == targetEnd) {
-                    i3 = targetStart == targetEnd ? i4 : i;
-                    i2 = baseStart == baseEnd ? i4 : i;
+                    i3 = targetStart == targetEnd ? i : i4;
+                    i2 = baseStart == baseEnd ? i : i4;
                     if (i3 == i2) {
-                        i = i4;
+                        i4 = i;
                     } else {
                     }
                 } else {
@@ -116,7 +116,7 @@ public final class AnnotatedStringKt {
             }
         } else {
         }
-        return i;
+        return i4;
     }
 
     public static final androidx.compose.ui.text.AnnotatedString decapitalize(androidx.compose.ui.text.AnnotatedString $this$decapitalize, LocaleList localeList) {
@@ -138,27 +138,27 @@ public final class AnnotatedStringKt {
 
     private static final <T> List<androidx.compose.ui.text.AnnotatedString.Range<T>> filterRanges(List<? extends androidx.compose.ui.text.AnnotatedString.Range<? extends T>> ranges, int start, int end) {
         int i;
-        int i5;
-        ArrayList list;
-        ArrayList list3;
+        int i3;
+        ArrayList list2;
+        ArrayList $i$a$IfEmptyAnnotatedStringKt$filterRanges$4;
         boolean intersect;
         Object obj4;
-        int i2;
+        int i5;
         ArrayList arrayList;
-        ArrayList list4;
+        ArrayList list5;
         int index$iv$iv2;
         int index$iv$iv;
         int size;
-        Object obj3;
-        Object obj2;
-        int i3;
         Object obj;
+        Object obj3;
+        int i2;
+        Object obj2;
         int range;
         Object obj7;
-        ArrayList list2;
+        ArrayList list;
         int i4;
-        ArrayList list5;
-        ArrayList list6;
+        ArrayList list3;
+        ArrayList list4;
         final int i6 = start;
         final int i7 = end;
         i = i6 <= i7 ? 1 : 0;
@@ -174,43 +174,43 @@ public final class AnnotatedStringKt {
             int i17 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < obj6.size()) {
+                obj3 = obj;
+                i2 = 0;
                 obj2 = obj3;
-                i3 = 0;
-                obj = obj2;
                 range = 0;
-                if (AnnotatedStringKt.intersect(i6, i7, (AnnotatedString.Range)obj.getStart(), obj.getEnd())) {
+                if (AnnotatedStringKt.intersect(i6, i7, (AnnotatedString.Range)obj2.getStart(), obj2.getEnd())) {
                 }
                 index$iv$iv++;
                 obj4 = obj7;
-                i5 = 0;
-                (Collection)arrayList2.add(obj2);
+                i3 = 0;
+                (Collection)arrayList2.add(obj3);
             }
             Object nonNullRange = obj4;
-            list = arrayList2;
-            i2 = 0;
-            arrayList = new ArrayList((List)list.size());
+            list2 = arrayList2;
+            i5 = 0;
+            arrayList = new ArrayList((List)list2.size());
             int i16 = 0;
             index$iv$iv2 = 0;
-            while (index$iv$iv2 < list.size()) {
-                obj3 = 0;
-                i3 = size;
+            while (index$iv$iv2 < list2.size()) {
                 obj = 0;
-                range = new AnnotatedString.Range((AnnotatedString.Range)i3.getItem(), i10 -= i6, i13 -= i6, i3.getTag());
+                i2 = size;
+                obj2 = 0;
+                range = new AnnotatedString.Range((AnnotatedString.Range)i2.getItem(), i10 -= i6, i13 -= i6, i2.getTag());
                 (Collection)arrayList.add(range);
                 index$iv$iv2++;
-                list = list2;
-                i2 = i4;
-                arrayList = list5;
-                list4 = list6;
+                list2 = list;
+                i5 = i4;
+                arrayList = list3;
+                list5 = list4;
             }
-            ArrayList $this$fastMap$iv = list;
-            int i18 = i2;
-            ArrayList list8 = list4;
+            ArrayList $this$fastMap$iv = list2;
+            int i18 = i5;
+            ArrayList list7 = list5;
             if ((Collection)(List)arrayList.isEmpty()) {
                 int i9 = 0;
-                list3 = 0;
+                $i$a$IfEmptyAnnotatedStringKt$filterRanges$4 = 0;
             }
-            return (List)list3;
+            return (List)$i$a$IfEmptyAnnotatedStringKt$filterRanges$4;
         }
         int i8 = 0;
         StringBuilder stringBuilder = new StringBuilder();
@@ -219,78 +219,78 @@ public final class AnnotatedStringKt {
     }
 
     private static final List<androidx.compose.ui.text.AnnotatedString.Range<? extends Object>> getLocalAnnotations(androidx.compose.ui.text.AnnotatedString $this$getLocalAnnotations, int start, int end) {
-        int i3;
+        int i;
         int length;
-        List list;
+        List list5;
         boolean intersect;
-        ArrayList list5;
+        ArrayList list3;
         List annotations$ui_text_release;
-        int i2;
+        int i5;
         ArrayList arrayList;
-        int index$iv$iv;
         int index$iv$iv2;
+        int index$iv$iv;
+        Object obj3;
         Object obj2;
+        int i3;
         Object obj;
         int i4;
-        Object obj3;
-        int i5;
         int start2;
-        List list3;
-        List $this$fastFilter$iv;
         List list2;
-        int i;
-        ArrayList list4;
-        i3 = start;
+        List $this$fastFilter$iv;
+        List list4;
+        int i2;
+        ArrayList list;
+        i = start;
         final int i6 = end;
         length = 0;
-        if (i3 == i6) {
+        if (i == i6) {
             return length;
         }
         annotations$ui_text_release = $this$getLocalAnnotations.getAnnotations$ui_text_release();
         if (annotations$ui_text_release == null) {
             return length;
         }
-        if (i3 == 0 && i6 >= $this$getLocalAnnotations.getText().length()) {
+        if (i == 0 && i6 >= $this$getLocalAnnotations.getText().length()) {
             if (i6 >= $this$getLocalAnnotations.getText().length()) {
                 return annotations$ui_text_release;
             }
         }
-        list = annotations$ui_text_release;
+        list5 = annotations$ui_text_release;
         int i7 = 0;
-        ArrayList arrayList2 = new ArrayList(list.size());
-        List list7 = list;
+        ArrayList arrayList2 = new ArrayList(list5.size());
+        List list7 = list5;
         int i10 = 0;
-        index$iv$iv = 0;
-        while (index$iv$iv < list7.size()) {
+        index$iv$iv2 = 0;
+        while (index$iv$iv2 < list7.size()) {
+            obj2 = obj3;
+            i3 = 0;
             obj = obj2;
             i4 = 0;
-            obj3 = obj;
-            i5 = 0;
-            if (AnnotatedStringKt.intersect(i3, i6, (AnnotatedString.Range)obj3.getStart(), obj3.getEnd())) {
+            if (AnnotatedStringKt.intersect(i, i6, (AnnotatedString.Range)obj.getStart(), obj.getEnd())) {
             }
-            index$iv$iv++;
-            list = list3;
-            (Collection)arrayList2.add(obj);
-        }
-        $this$fastFilter$iv = list;
-        list5 = arrayList2;
-        i2 = 0;
-        arrayList = new ArrayList((List)list5.size());
-        ArrayList list8 = list5;
-        int i11 = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < list8.size()) {
-            i4 = 0;
-            i5 = obj;
-            start2 = 0;
-            AnnotatedString.Range range = new AnnotatedString.Range(i5.getItem(), coerceIn -= i3, coerceIn2 -= i3, (AnnotatedString.Range)i5.getTag());
-            (Collection)arrayList.add(range);
             index$iv$iv2++;
-            i3 = start;
-            list5 = $this$fastFilter$iv;
-            annotations$ui_text_release = list2;
-            i2 = i;
-            arrayList = list4;
+            list5 = list2;
+            (Collection)arrayList2.add(obj2);
+        }
+        $this$fastFilter$iv = list5;
+        list3 = arrayList2;
+        i5 = 0;
+        arrayList = new ArrayList((List)list3.size());
+        ArrayList list8 = list3;
+        int i11 = 0;
+        index$iv$iv = 0;
+        while (index$iv$iv < list8.size()) {
+            i3 = 0;
+            i4 = obj2;
+            start2 = 0;
+            AnnotatedString.Range range = new AnnotatedString.Range(i4.getItem(), coerceIn -= i, coerceIn2 -= i, (AnnotatedString.Range)i4.getTag());
+            (Collection)arrayList.add(range);
+            index$iv$iv++;
+            i = start;
+            list3 = $this$fastFilter$iv;
+            annotations$ui_text_release = list4;
+            i5 = i2;
+            arrayList = list;
         }
         return (List)arrayList;
     }
@@ -299,23 +299,23 @@ public final class AnnotatedStringKt {
         int length;
         List list2;
         boolean intersect;
-        ArrayList list;
+        ArrayList list3;
         List paragraphStylesOrNull$ui_text_release;
-        int i;
-        ArrayList arrayList;
-        int index$iv$iv;
-        int index$iv$iv2;
-        Object obj;
-        Object obj2;
-        int i2;
-        Object obj3;
-        int i3;
-        int start2;
-        List list4;
-        List $this$fastFilter$iv;
-        List list3;
         int i4;
-        ArrayList list5;
+        ArrayList arrayList;
+        int index$iv$iv2;
+        int index$iv$iv;
+        Object obj2;
+        Object obj;
+        int i3;
+        Object obj3;
+        int i2;
+        int start2;
+        List list5;
+        List $this$fastFilter$iv;
+        List list4;
+        int i;
+        ArrayList list;
         final int i5 = start;
         final int i6 = end;
         length = 0;
@@ -336,61 +336,61 @@ public final class AnnotatedStringKt {
         ArrayList arrayList2 = new ArrayList(list2.size());
         List list7 = list2;
         int i10 = 0;
-        index$iv$iv = 0;
-        while (index$iv$iv < list7.size()) {
-            obj2 = obj;
-            i2 = 0;
-            obj3 = obj2;
+        index$iv$iv2 = 0;
+        while (index$iv$iv2 < list7.size()) {
+            obj = obj2;
             i3 = 0;
+            obj3 = obj;
+            i2 = 0;
             if (AnnotatedStringKt.intersect(i5, i6, (AnnotatedString.Range)obj3.getStart(), obj3.getEnd())) {
             }
-            index$iv$iv++;
-            list2 = list4;
-            (Collection)arrayList2.add(obj2);
+            index$iv$iv2++;
+            list2 = list5;
+            (Collection)arrayList2.add(obj);
         }
         $this$fastFilter$iv = list2;
-        list = arrayList2;
-        i = 0;
-        arrayList = new ArrayList((List)list.size());
-        ArrayList list8 = list;
+        list3 = arrayList2;
+        i4 = 0;
+        arrayList = new ArrayList((List)list3.size());
+        ArrayList list8 = list3;
         int i11 = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < list8.size()) {
-            i2 = 0;
-            i3 = obj2;
+        index$iv$iv = 0;
+        while (index$iv$iv < list8.size()) {
+            i3 = 0;
+            i2 = obj;
             start2 = 0;
-            AnnotatedString.Range $this$fastMap$iv = new AnnotatedString.Range((AnnotatedString.Range)i3.getItem(), coerceIn -= i5, coerceIn2 -= i5);
+            AnnotatedString.Range $this$fastMap$iv = new AnnotatedString.Range((AnnotatedString.Range)i2.getItem(), coerceIn -= i5, coerceIn2 -= i5);
             (Collection)arrayList.add($this$fastMap$iv);
-            index$iv$iv2++;
-            list = $this$fastFilter$iv;
-            paragraphStylesOrNull$ui_text_release = list3;
-            i = i4;
-            arrayList = list5;
+            index$iv$iv++;
+            list3 = $this$fastFilter$iv;
+            paragraphStylesOrNull$ui_text_release = list4;
+            i4 = i;
+            arrayList = list;
         }
-        ArrayList $this$fastMap$iv2 = list;
+        ArrayList $this$fastMap$iv2 = list3;
         return (List)arrayList;
     }
 
     private static final List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.SpanStyle>> getLocalSpanStyles(androidx.compose.ui.text.AnnotatedString $this$getLocalSpanStyles, int start, int end) {
         int length;
-        List list5;
-        boolean intersect;
-        ArrayList list2;
-        List spanStylesOrNull$ui_text_release;
-        int i4;
-        ArrayList arrayList;
-        int index$iv$iv2;
-        int index$iv$iv;
-        Object obj3;
-        Object obj2;
-        int i;
-        Object obj;
-        int i3;
-        int start2;
-        List list3;
-        List $this$fastFilter$iv;
         List list4;
+        boolean intersect;
+        ArrayList list3;
+        List spanStylesOrNull$ui_text_release;
+        int i3;
+        ArrayList arrayList;
+        int index$iv$iv;
+        int index$iv$iv2;
+        Object obj3;
+        Object obj;
+        int i;
+        Object obj2;
         int i2;
+        int start2;
+        List list5;
+        List $this$fastFilter$iv;
+        List list2;
+        int i4;
         ArrayList list;
         final int i5 = start;
         final int i6 = end;
@@ -407,43 +407,43 @@ public final class AnnotatedStringKt {
                 return spanStylesOrNull$ui_text_release;
             }
         }
-        list5 = spanStylesOrNull$ui_text_release;
+        list4 = spanStylesOrNull$ui_text_release;
         int i7 = 0;
-        ArrayList arrayList2 = new ArrayList(list5.size());
-        List list7 = list5;
+        ArrayList arrayList2 = new ArrayList(list4.size());
+        List list7 = list4;
         int i10 = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < list7.size()) {
-            obj2 = obj3;
-            i = 0;
-            obj = obj2;
-            i3 = 0;
-            if (AnnotatedStringKt.intersect(i5, i6, (AnnotatedString.Range)obj.getStart(), obj.getEnd())) {
-            }
-            index$iv$iv2++;
-            list5 = list3;
-            (Collection)arrayList2.add(obj2);
-        }
-        $this$fastFilter$iv = list5;
-        list2 = arrayList2;
-        i4 = 0;
-        arrayList = new ArrayList((List)list2.size());
-        ArrayList list8 = list2;
-        int i11 = 0;
         index$iv$iv = 0;
-        while (index$iv$iv < list8.size()) {
+        while (index$iv$iv < list7.size()) {
+            obj = obj3;
             i = 0;
-            i3 = obj2;
-            start2 = 0;
-            AnnotatedString.Range $this$fastMap$iv = new AnnotatedString.Range((AnnotatedString.Range)i3.getItem(), coerceIn -= i5, coerceIn2 -= i5);
-            (Collection)arrayList.add($this$fastMap$iv);
+            obj2 = obj;
+            i2 = 0;
+            if (AnnotatedStringKt.intersect(i5, i6, (AnnotatedString.Range)obj2.getStart(), obj2.getEnd())) {
+            }
             index$iv$iv++;
-            list2 = $this$fastFilter$iv;
-            spanStylesOrNull$ui_text_release = list4;
-            i4 = i2;
+            list4 = list5;
+            (Collection)arrayList2.add(obj);
+        }
+        $this$fastFilter$iv = list4;
+        list3 = arrayList2;
+        i3 = 0;
+        arrayList = new ArrayList((List)list3.size());
+        ArrayList list8 = list3;
+        int i11 = 0;
+        index$iv$iv2 = 0;
+        while (index$iv$iv2 < list8.size()) {
+            i = 0;
+            i2 = obj;
+            start2 = 0;
+            AnnotatedString.Range $this$fastMap$iv = new AnnotatedString.Range((AnnotatedString.Range)i2.getItem(), coerceIn -= i5, coerceIn2 -= i5);
+            (Collection)arrayList.add($this$fastMap$iv);
+            index$iv$iv2++;
+            list3 = $this$fastFilter$iv;
+            spanStylesOrNull$ui_text_release = list2;
+            i3 = i4;
             arrayList = list;
         }
-        ArrayList $this$fastMap$iv2 = list2;
+        ArrayList $this$fastMap$iv2 = list3;
         return (List)arrayList;
     }
 
@@ -467,12 +467,12 @@ public final class AnnotatedStringKt {
     public static final <T> List<T> mapEachParagraphStyle(androidx.compose.ui.text.AnnotatedString $this$mapEachParagraphStyle, androidx.compose.ui.text.ParagraphStyle defaultParagraphStyle, Function2<? super androidx.compose.ui.text.AnnotatedString, ? super androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.ParagraphStyle>, ? extends T> block) {
         int i;
         int index$iv$iv;
-        Object obj;
         Object obj2;
-        int i4;
+        Object obj;
+        int i2;
         ArrayList list;
         Object paragraphStyleRange;
-        int i2;
+        int i4;
         androidx.compose.ui.text.AnnotatedString str;
         Object obj4;
         int i3;
@@ -484,9 +484,9 @@ public final class AnnotatedStringKt {
         final int i6 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list2.size()) {
-            i4 = 0;
-            Object obj3 = obj2;
             i2 = 0;
+            Object obj3 = obj;
+            i4 = 0;
             (Collection)arrayList.add(block.invoke(AnnotatedStringKt.access$substringWithoutParagraphStyles($this$mapEachParagraphStyle, (AnnotatedString.Range)obj3.getStart(), obj3.getEnd()), obj3));
             index$iv$iv++;
             i = i3;

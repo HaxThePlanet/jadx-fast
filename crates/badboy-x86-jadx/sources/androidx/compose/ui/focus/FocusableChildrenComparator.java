@@ -35,8 +35,8 @@ final class FocusableChildrenComparator implements Comparator<androidx.compose.u
     public int compare(androidx.compose.ui.focus.FocusTargetNode focusTarget1, androidx.compose.ui.focus.FocusTargetNode focusTarget2) {
         boolean eligibleForFocusSearch;
         int depth;
-        MutableVector this_$iv;
-        int this_$iv2;
+        MutableVector this_$iv2;
+        int this_$iv;
         int i;
         int content;
         String str = "compare requires non-null focus targets";
@@ -57,7 +57,7 @@ final class FocusableChildrenComparator implements Comparator<androidx.compose.u
                         MutableVector pathFromRoot = pathFromRoot(requireLayoutNode);
                         MutableVector pathFromRoot2 = pathFromRoot(requireLayoutNode2);
                         int i9 = 0;
-                        this_$iv2 = 0;
+                        this_$iv = 0;
                         int i7 = Math.min(size -= i6, size2 -= i6);
                         if (0 > i7) {
                         }
@@ -74,12 +74,12 @@ final class FocusableChildrenComparator implements Comparator<androidx.compose.u
                 return i4;
             }
             int i3 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException(str.toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireNotNullFocusableChildrenComparator$compare$2 = new IllegalArgumentException(str.toString());
+            throw $i$a$RequireNotNullFocusableChildrenComparator$compare$2;
         }
         int i5 = 0;
-        IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(str.toString());
-        throw illegalArgumentException2;
+        IllegalArgumentException $i$a$RequireNotNullFocusableChildrenComparator$compare$1 = new IllegalArgumentException(str.toString());
+        throw $i$a$RequireNotNullFocusableChildrenComparator$compare$1;
     }
 
     @Override // java.util.Comparator

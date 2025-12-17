@@ -26,23 +26,23 @@ public final class RootMeasurePolicy extends LayoutNode.NoIntrinsicsMeasurePolic
     public androidx.compose.ui.layout.MeasureResult measure-3p2s80s(androidx.compose.ui.layout.MeasureScope $this$measure_u2d3p2s80s, List<? extends androidx.compose.ui.layout.Measurable> measurables, long constraints) {
         androidx.compose.ui.layout.MeasureResult placeable;
         androidx.compose.ui.layout.MeasureScope measureScope;
-        int i4;
+        int i;
         int constrainWidth-K40F9xA;
-        int i3;
+        int i2;
         int constrainHeight-K40F9xA;
         int i5;
         kotlin.jvm.internal.Lambda lambda;
         int index$iv$iv;
         int index$iv;
+        int i3;
         int i6;
-        int i;
         Object obj;
         Object obj5;
         int maxWidth;
         int maxHeight;
         ArrayList height;
         androidx.compose.ui.layout.Placeable it;
-        int i2;
+        int i4;
         final long l = constraints;
         if (measurables.isEmpty()) {
             placeable = MeasureScope.layout$default($this$measure_u2d3p2s80s, Constraints.getMinWidth-impl(l), Constraints.getMinHeight-impl(l), 0, (Function1)RootMeasurePolicy.measure.1.INSTANCE, 4, 0);
@@ -62,7 +62,7 @@ public final class RootMeasurePolicy extends LayoutNode.NoIntrinsicsMeasurePolic
                 index$iv$iv = 0;
                 while (index$iv$iv < obj4.size()) {
                     maxHeight = 0;
-                    i2 = 0;
+                    i4 = 0;
                     (Collection)arrayList.add((Measurable)obj4.get(index$iv$iv).measure-BRTryo0(l));
                     index$iv$iv++;
                 }
@@ -70,13 +70,13 @@ public final class RootMeasurePolicy extends LayoutNode.NoIntrinsicsMeasurePolic
                 ArrayList list = $this$fastMap$iv;
                 int i11 = 0;
                 index$iv = 0;
-                maxWidth = i4;
-                maxHeight = i3;
+                maxWidth = i;
+                maxHeight = i2;
                 while (index$iv < list.size()) {
-                    i3 = i4;
+                    i2 = i;
                     obj = 0;
-                    maxWidth = Math.max((Placeable)i3.getWidth(), maxWidth);
-                    maxHeight = Math.max(i3.getHeight(), maxHeight);
+                    maxWidth = Math.max((Placeable)i2.getWidth(), maxWidth);
+                    maxHeight = Math.max(i2.getHeight(), maxHeight);
                     index$iv++;
                 }
                 RootMeasurePolicy.measure.4 anon2 = new RootMeasurePolicy.measure.4((List)$this$fastMap$iv);

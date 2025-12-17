@@ -34,19 +34,19 @@ public final class TopAppBarColors {
     }
 
     public static androidx.compose.material3.TopAppBarColors copy-t635Npw$default(androidx.compose.material3.TopAppBarColors topAppBarColors, long l2, long l3, long l4, long l5, long l6, int i7, Object object8) {
-        long l10;
         long l;
-        long l7;
         long l8;
+        long l7;
+        long l10;
         long l9;
         long obj12;
         long obj14;
-        l10 = obj22 & 1 != 0 ? obj12 : l2;
-        l = obj22 & 2 != 0 ? obj14 : l4;
+        l = obj22 & 1 != 0 ? obj12 : l2;
+        l8 = obj22 & 2 != 0 ? obj14 : l4;
         l7 = obj22 & 4 != 0 ? obj12 : l6;
-        l8 = obj22 & 8 != 0 ? obj12 : object8;
+        l10 = obj22 & 8 != 0 ? obj12 : object8;
         l9 = obj22 & 16 != 0 ? obj12 : obj20;
-        return topAppBarColors.copy-t635Npw(l10, obj2, l, obj4, l7);
+        return topAppBarColors.copy-t635Npw(l, obj2, l8, obj4, l7);
     }
 
     public final long containerColor-vNxB06k$material3_release(float colorTransitionFraction) {
@@ -54,75 +54,75 @@ public final class TopAppBarColors {
     }
 
     public final androidx.compose.material3.TopAppBarColors copy-t635Npw(long containerColor, long scrolledContainerColor, long navigationIconContentColor, long titleContentColor, long actionIconContentColor) {
-        int $this$isSpecified$iv$iv3;
-        int $this$isSpecified$iv$iv2;
-        int $this$isSpecified$iv$iv4;
-        int $this$isSpecified$iv$iv;
-        int actionIconContentColor2;
-        int i2;
+        int $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$2;
+        int $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$3;
+        int $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$4;
+        int $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$5;
+        int i3;
+        long l;
         long l2;
         long l3;
-        long l;
-        long i3;
+        long i2;
         long i;
         final Object obj = this;
         int i4 = containerColor;
         int i5 = 0;
         int i19 = 0;
         int i24 = 16;
-        i2 = 1;
+        i3 = 1;
         final int i25 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i10, i24) != 0 ? i2 : i25;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l2 = i4;
+        $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$1 = Long.compare(i10, i24) != 0 ? i3 : i25;
+        if ($i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$1 != 0) {
+            l = i4;
         } else {
             int i18 = 0;
-            l2 = $this$isSpecified$iv$iv3;
+            l = $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = navigationIconContentColor;
         int i6 = 0;
         int i20 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i11, i24) != 0 ? i2 : i25;
-        if ($this$isSpecified$iv$iv2 != 0) {
-            l3 = $this$takeOrElse_u2dDxMtmZc$iv;
+        $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$2 = Long.compare(i11, i24) != 0 ? i3 : i25;
+        if ($i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$2 != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i17 = 0;
-            l3 = $this$isSpecified$iv$iv2;
+            l2 = $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = actionIconContentColor;
         int i7 = 0;
         int i21 = 0;
-        $this$isSpecified$iv$iv4 = Long.compare(i12, i24) != 0 ? i2 : i25;
-        if ($this$isSpecified$iv$iv4 != 0) {
-            l = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$3 = Long.compare(i12, i24) != 0 ? i3 : i25;
+        if ($i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$3 != 0) {
+            l3 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i16 = 0;
-            l = $this$isSpecified$iv$iv4;
+            l3 = $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = obj31;
         int i8 = 0;
         int i22 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i13, i24) != 0 ? i2 : i25;
-        if ($this$isSpecified$iv$iv != 0) {
-            i3 = $this$takeOrElse_u2dDxMtmZc$iv3;
+        $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$4 = Long.compare(i13, i24) != 0 ? i3 : i25;
+        if ($i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$4 != 0) {
+            i2 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i15 = 0;
-            i3 = $this$isSpecified$iv$iv;
+            i2 = $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv4 = obj33;
         int i9 = 0;
         int i23 = 0;
-        if (Long.compare(actionIconContentColor2, i24) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$5, i24) != 0) {
         } else {
-            i2 = i25;
+            i3 = i25;
         }
-        if (i2 != 0) {
+        if (i3 != 0) {
             i = $this$takeOrElse_u2dDxMtmZc$iv4;
         } else {
             int i14 = 0;
-            i = actionIconContentColor2;
+            i = $i$a$TakeOrElseDxMtmZcTopAppBarColors$copy$5;
         }
-        TopAppBarColors topAppBarColors = new TopAppBarColors(l2, obj14, l3, obj16, l, obj18, i3, obj20, i, obj22, 0);
+        TopAppBarColors topAppBarColors = new TopAppBarColors(l, obj14, l2, obj16, l3, obj18, i2, obj20, i, obj22, 0);
         return topAppBarColors;
     }
 

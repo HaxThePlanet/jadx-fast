@@ -114,27 +114,27 @@ public final class SurfaceKt {
     }
 
     public static final void Surface-d85dljk(boolean selected, Function0<Unit> onClick, Modifier modifier, boolean enabled, Shape shape, long color, long contentColor, float tonalElevation, float shadowElevation, BorderStroke border, MutableInteractionSource interactionSource, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i16) {
-        int i4;
+        int i6;
         String traceInProgress;
-        int companion2;
+        int companion;
         int i7;
         int rectangleShape;
         int surface-0d7_KjU;
         int contentColorFor-ek8zF_U;
         float tonalElevation2;
-        int i2;
+        int i4;
         int $this$dp$iv;
-        int i3;
-        int i8;
-        androidx.compose.ui.Modifier.Companion companion;
+        int i;
+        int i5;
+        androidx.compose.ui.Modifier.Companion companion2;
         Shape shape2;
         long l;
-        float f;
         float f2;
-        int i;
-        int i6;
-        int i5;
         float f3;
+        int i2;
+        int i3;
+        int i8;
+        float f;
         long l2;
         final Composer composer = $changed1;
         final int i9 = i16;
@@ -142,11 +142,11 @@ public final class SurfaceKt {
         int i12 = 540296512;
         ComposerKt.sourceInformationMarkerStart(composer, i12, "C(Surface)P(8,7,6,4,10,1:c#ui.graphics.Color,3:c#ui.graphics.Color,11:c#ui.unit.Dp,9:c#ui.unit.Dp!1,5)299@16163L11,300@16210L22,*307@16484L7,311@16657L899,308@16513L1043:Surface.kt#uh7d8r");
         if (i10 & 4 != 0) {
-            companion = companion2;
+            companion2 = companion;
         } else {
-            companion = modifier;
+            companion2 = modifier;
         }
-        i5 = i10 & 8 != 0 ? i7 : enabled;
+        i8 = i10 & 8 != 0 ? i7 : enabled;
         if (i10 & 16 != 0) {
             shape2 = rectangleShape;
         } else {
@@ -163,23 +163,23 @@ public final class SurfaceKt {
             l2 = tonalElevation;
         }
         if (i10 & 128 != 0) {
-            i2 = 0;
+            i4 = 0;
             tonalElevation2 = Dp.constructor-impl((float)i18);
         } else {
             tonalElevation2 = border;
         }
         if (i10 & 256 != 0) {
-            f = 0;
-            f3 = $this$dp$iv;
+            f2 = 0;
+            f = $this$dp$iv;
         } else {
-            f3 = interactionSource;
+            f = interactionSource;
         }
-        i = i10 & 512 != 0 ? i3 : content;
-        i6 = i10 &= 1024 != 0 ? i4 : $composer;
+        i2 = i10 & 512 != 0 ? i : content;
+        i3 = i10 &= 1024 != 0 ? i6 : $composer;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i12, i9, obj36, "androidx.compose.material3.Surface (Surface.kt:306)");
         } else {
-            i8 = obj36;
+            i5 = obj36;
         }
         int i13 = 6;
         int i23 = 0;
@@ -190,7 +190,7 @@ public final class SurfaceKt {
         ProvidedValue[] arr = new ProvidedValue[2];
         int i27 = 1;
         arr[i27] = SurfaceKt.LocalAbsoluteTonalElevation.provides(Dp.box-impl(constructor-impl));
-        SurfaceKt.Surface.3 anon = new SurfaceKt.Surface.3(companion, shape2, l, obj9, constructor-impl, i, selected, i6, i5, onClick, f3, $changed);
+        SurfaceKt.Surface.3 anon = new SurfaceKt.Surface.3(companion2, shape2, l, obj9, constructor-impl, i2, selected, i3, i8, onClick, f, $changed);
         CompositionLocalKt.CompositionLocalProvider(arr, (Function2)ComposableLambdaKt.rememberComposableLambda(-1164547968, i27, anon, composer, 54), composer, $stable |= 48);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
@@ -199,27 +199,27 @@ public final class SurfaceKt {
     }
 
     public static final void Surface-d85dljk(boolean checked, Function1<? super Boolean, Unit> onCheckedChange, Modifier modifier, boolean enabled, Shape shape, long color, long contentColor, float tonalElevation, float shadowElevation, BorderStroke border, MutableInteractionSource interactionSource, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i16) {
-        int i4;
+        int i;
         String traceInProgress;
         int companion2;
-        int i5;
+        int i2;
         int rectangleShape;
         int surface-0d7_KjU;
         int contentColorFor-ek8zF_U;
         float tonalElevation2;
-        int i;
+        int i6;
         int $this$dp$iv;
-        int i7;
-        int i2;
+        int i5;
+        int i4;
         androidx.compose.ui.Modifier.Companion companion;
         Shape shape2;
         long l;
-        float f2;
+        float f;
         float f3;
-        int i6;
+        int i7;
         int i3;
         int i8;
-        float f;
+        float f2;
         long l2;
         final Composer composer = $changed1;
         final int i9 = i16;
@@ -231,7 +231,7 @@ public final class SurfaceKt {
         } else {
             companion = modifier;
         }
-        i8 = i10 & 8 != 0 ? i5 : enabled;
+        i8 = i10 & 8 != 0 ? i2 : enabled;
         if (i10 & 16 != 0) {
             shape2 = rectangleShape;
         } else {
@@ -248,23 +248,23 @@ public final class SurfaceKt {
             l2 = tonalElevation;
         }
         if (i10 & 128 != 0) {
-            i = 0;
+            i6 = 0;
             tonalElevation2 = Dp.constructor-impl((float)i18);
         } else {
             tonalElevation2 = border;
         }
         if (i10 & 256 != 0) {
-            f2 = 0;
-            f = $this$dp$iv;
+            f = 0;
+            f2 = $this$dp$iv;
         } else {
-            f = interactionSource;
+            f2 = interactionSource;
         }
-        i6 = i10 & 512 != 0 ? i7 : content;
-        i3 = i10 &= 1024 != 0 ? i4 : $composer;
+        i7 = i10 & 512 != 0 ? i5 : content;
+        i3 = i10 &= 1024 != 0 ? i : $composer;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i12, i9, obj36, "androidx.compose.material3.Surface (Surface.kt:410)");
         } else {
-            i2 = obj36;
+            i4 = obj36;
         }
         int i13 = 6;
         int i23 = 0;
@@ -275,7 +275,7 @@ public final class SurfaceKt {
         ProvidedValue[] arr = new ProvidedValue[2];
         int i27 = 1;
         arr[i27] = SurfaceKt.LocalAbsoluteTonalElevation.provides(Dp.box-impl(constructor-impl));
-        SurfaceKt.Surface.4 anon = new SurfaceKt.Surface.4(companion, shape2, l, obj9, constructor-impl, i6, checked, i3, i8, onCheckedChange, f, $changed);
+        SurfaceKt.Surface.4 anon = new SurfaceKt.Surface.4(companion, shape2, l, obj9, constructor-impl, i7, checked, i3, i8, onCheckedChange, f2, $changed);
         CompositionLocalKt.CompositionLocalProvider(arr, (Function2)ComposableLambdaKt.rememberComposableLambda(712720927, i27, anon, composer, 54), composer, $stable |= 48);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
@@ -286,25 +286,25 @@ public final class SurfaceKt {
     public static final void Surface-o_FOJdg(Function0<Unit> onClick, Modifier modifier, boolean enabled, Shape shape, long color, long contentColor, float tonalElevation, float shadowElevation, BorderStroke border, MutableInteractionSource interactionSource, Function2<? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i15) {
         int i;
         String traceInProgress;
-        int companion2;
+        int companion;
         int i2;
         int rectangleShape;
         int surface-0d7_KjU;
         int contentColorFor-ek8zF_U;
         float tonalElevation2;
-        int i6;
-        int $this$dp$iv;
         int i7;
-        int i3;
-        androidx.compose.ui.Modifier.Companion companion;
+        int $this$dp$iv;
+        int i5;
+        int i4;
+        androidx.compose.ui.Modifier.Companion companion2;
         Shape shape2;
         long l;
         float f;
-        float f3;
-        int i4;
-        int i8;
-        int i5;
         float f2;
+        int i8;
+        int i3;
+        int i6;
+        float f3;
         long l2;
         final Composer composer = $changed1;
         int i9 = i15;
@@ -312,11 +312,11 @@ public final class SurfaceKt {
         int i14 = -789752804;
         ComposerKt.sourceInformationMarkerStart(composer, i14, "C(Surface)P(7,6,4,9,1:c#ui.graphics.Color,3:c#ui.graphics.Color,10:c#ui.unit.Dp,8:c#ui.unit.Dp!1,5)196@10536L11,197@10583L22,*204@10857L7,208@11030L853,205@10886L997:Surface.kt#uh7d8r");
         if (i11 & 2 != 0) {
-            companion = companion2;
+            companion2 = companion;
         } else {
-            companion = modifier;
+            companion2 = modifier;
         }
-        i5 = i11 & 4 != 0 ? i2 : enabled;
+        i6 = i11 & 4 != 0 ? i2 : enabled;
         if (i11 & 8 != 0) {
             shape2 = rectangleShape;
         } else {
@@ -333,23 +333,23 @@ public final class SurfaceKt {
             l2 = tonalElevation;
         }
         if (i11 & 64 != 0) {
-            i6 = 0;
+            i7 = 0;
             tonalElevation2 = Dp.constructor-impl((float)i22);
         } else {
             tonalElevation2 = border;
         }
         if (i11 & 128 != 0) {
             f = 0;
-            f2 = $this$dp$iv;
+            f3 = $this$dp$iv;
         } else {
-            f2 = interactionSource;
+            f3 = interactionSource;
         }
-        i4 = i11 & 256 != 0 ? i7 : content;
-        i8 = i11 &= 512 != 0 ? i : $composer;
+        i8 = i11 & 256 != 0 ? i5 : content;
+        i3 = i11 &= 512 != 0 ? i : $composer;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i14, i9, obj34, "androidx.compose.material3.Surface (Surface.kt:203)");
         } else {
-            i3 = obj34;
+            i4 = obj34;
         }
         int i16 = 6;
         int i26 = 0;
@@ -360,7 +360,7 @@ public final class SurfaceKt {
         ProvidedValue[] arr = new ProvidedValue[2];
         int i19 = 1;
         arr[i19] = SurfaceKt.LocalAbsoluteTonalElevation.provides(Dp.box-impl(constructor-impl));
-        SurfaceKt.Surface.2 anon = new SurfaceKt.Surface.2(companion, shape2, l, obj9, constructor-impl, i4, i8, i5, onClick, f2, $changed);
+        SurfaceKt.Surface.2 anon = new SurfaceKt.Surface.2(companion2, shape2, l, obj9, constructor-impl, i8, i3, i6, onClick, f3, $changed);
         CompositionLocalKt.CompositionLocalProvider(arr, (Function2)ComposableLambdaKt.rememberComposableLambda(1279702876, i19, anon, composer, 54), composer, $stable |= 48);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
@@ -383,25 +383,25 @@ public final class SurfaceKt {
     private static final Modifier surface-XO-JAsU(Modifier $this$surface_u2dXO_u2dJAsU, Shape shape, long backgroundColor, BorderStroke border, float shadowElevation) {
         Modifier graphicsLayer-Ap8cVGQ$default;
         int i8;
-        int i10;
-        Modifier companion;
-        int i9;
         int i11;
-        int i13;
-        int i7;
-        int i2;
+        Modifier companion;
+        int i3;
+        int i4;
+        int i16;
+        int i15;
         int i17;
         int i6;
-        int i12;
-        int i5;
-        Shape shape2;
-        int i14;
         int i;
-        int i3;
+        int i2;
+        int i7;
+        Shape shape2;
+        int i13;
+        int i5;
+        int i14;
+        int i9;
+        int i12;
+        int i10;
         int i18;
-        int i15;
-        int i16;
-        int i4;
         final BorderStroke borderStroke = shadowElevation;
         if (Float.compare(obj29, i19) > 0) {
             graphicsLayer-Ap8cVGQ$default = GraphicsLayerModifierKt.graphicsLayer-Ap8cVGQ$default((Modifier)Modifier.Companion, 0, 0, 0, 0, 0, obj29, 0, 0, 0, 0, 0, obj13, shape, 0, 0, 0, obj18, 0, obj20);
@@ -412,7 +412,7 @@ public final class SurfaceKt {
         if (borderStroke != null) {
             companion = BorderKt.border((Modifier)Modifier.Companion, borderStroke, shape2);
         }
-        return ClipKt.clip(BackgroundKt.background-bw27NRU($this$surface_u2dXO_u2dJAsU.then(graphicsLayer-Ap8cVGQ$default).then(companion), backgroundColor, i9), shape2);
+        return ClipKt.clip(BackgroundKt.background-bw27NRU($this$surface_u2dXO_u2dJAsU.then(graphicsLayer-Ap8cVGQ$default).then(companion), backgroundColor, i3), shape2);
     }
 
     private static final long surfaceColorAtElevation-CLU3JFs(long color, float elevation, Composer $composer, int $changed) {

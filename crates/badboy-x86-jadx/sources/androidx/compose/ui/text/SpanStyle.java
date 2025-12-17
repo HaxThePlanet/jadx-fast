@@ -52,20 +52,20 @@ public final class SpanStyle {
     }
 
     public SpanStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, int i15, DefaultConstructorMarker defaultConstructorMarker16) {
-        int i4;
+        int i2;
         long unspecified-0d7_KjU;
         long unspecified-XSAIIZE2;
-        int i7;
-        Color.Companion companion;
-        int i6;
-        int i5;
-        int i2;
-        int i;
         int i10;
+        Color.Companion companion;
+        int i5;
+        int i4;
+        int i7;
+        int i;
+        int i6;
         long unspecified-XSAIIZE;
+        int i8;
         int i3;
         int i9;
-        int i8;
         long unspecified-0d7_KjU2;
         int i11 = obj38;
         if (i11 & 1 != 0) {
@@ -78,27 +78,27 @@ public final class SpanStyle {
         } else {
             unspecified-XSAIIZE2 = fontWeight3;
         }
-        i7 = i11 & 4 != 0 ? 0 : fontSynthesis5;
-        i5 = i11 & 8 != 0 ? 0 : fontFamily6;
-        i2 = i11 & 16 != 0 ? 0 : string7;
+        i10 = i11 & 4 != 0 ? 0 : fontSynthesis5;
+        i4 = i11 & 8 != 0 ? 0 : fontFamily6;
+        i7 = i11 & 16 != 0 ? 0 : string7;
         i = i11 & 32 != 0 ? 0 : l8;
-        i10 = i11 & 64 != 0 ? 0 : baselineShift9;
+        i6 = i11 & 64 != 0 ? 0 : baselineShift9;
         if (i11 & 128 != 0) {
             unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE = textGeometricTransform10;
         }
-        i3 = i11 & 256 != 0 ? 0 : l12;
-        i9 = i11 & 512 != 0 ? 0 : textDecoration13;
-        i8 = i11 & 1024 != 0 ? 0 : shadow14;
+        i8 = i11 & 256 != 0 ? 0 : l12;
+        i3 = i11 & 512 != 0 ? 0 : textDecoration13;
+        i9 = i11 & 1024 != 0 ? 0 : shadow14;
         if (i11 & 2048 != 0) {
             unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU2 = i15;
         }
-        i6 = i11 & 4096 != 0 ? 0 : obj36;
-        i4 = i11 &= 8192 != 0 ? 0 : obj37;
-        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE2, fontSynthesis5, i7, i5, i2, i, i10, unspecified-XSAIIZE, l12, i3, i9, i8, unspecified-0d7_KjU2, obj36, i6, i4, 0);
+        i5 = i11 & 4096 != 0 ? 0 : obj36;
+        i2 = i11 &= 8192 != 0 ? 0 : obj37;
+        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE2, fontSynthesis5, i10, i4, i7, i, i6, unspecified-XSAIIZE, l12, i8, i3, i9, unspecified-0d7_KjU2, obj36, i5, i2, 0);
     }
 
     private SpanStyle(long color, long fontSize, FontWeight fontWeight, FontStyle fontStyle, FontSynthesis fontSynthesis, FontFamily fontFamily, String fontFeatureSettings, long letterSpacing, BaselineShift baselineShift, TextGeometricTransform textGeometricTransform, LocaleList localeList, long background, TextDecoration textDecoration, Shadow shadow, androidx.compose.ui.text.PlatformSpanStyle platformStyle) {
@@ -106,21 +106,21 @@ public final class SpanStyle {
     }
 
     public SpanStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, androidx.compose.ui.text.PlatformSpanStyle platformSpanStyle15, int i16, DefaultConstructorMarker defaultConstructorMarker17) {
-        int i9;
-        long unspecified-0d7_KjU;
-        int i5;
-        long unspecified-XSAIIZE2;
-        int i6;
-        Color.Companion companion;
-        int i3;
         int i7;
+        long unspecified-0d7_KjU;
+        int i3;
+        long unspecified-XSAIIZE2;
         int i10;
-        int i;
-        int i4;
-        long unspecified-XSAIIZE;
-        int i2;
-        int i11;
+        Color.Companion companion;
         int i8;
+        int i9;
+        int i2;
+        int i;
+        int i5;
+        long unspecified-XSAIIZE;
+        int i4;
+        int i6;
+        int i11;
         long unspecified-0d7_KjU2;
         int i12 = obj40;
         if (i12 & 1 != 0) {
@@ -133,28 +133,28 @@ public final class SpanStyle {
         } else {
             unspecified-XSAIIZE2 = fontWeight3;
         }
-        i6 = i12 & 4 != 0 ? 0 : fontSynthesis5;
-        i7 = i12 & 8 != 0 ? 0 : fontFamily6;
-        i10 = i12 & 16 != 0 ? 0 : string7;
+        i10 = i12 & 4 != 0 ? 0 : fontSynthesis5;
+        i9 = i12 & 8 != 0 ? 0 : fontFamily6;
+        i2 = i12 & 16 != 0 ? 0 : string7;
         i = i12 & 32 != 0 ? 0 : l8;
-        i4 = i12 & 64 != 0 ? 0 : baselineShift9;
+        i5 = i12 & 64 != 0 ? 0 : baselineShift9;
         if (i12 & 128 != 0) {
             unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE = textGeometricTransform10;
         }
-        i2 = i12 & 256 != 0 ? 0 : l12;
-        i11 = i12 & 512 != 0 ? 0 : textDecoration13;
-        i8 = i12 & 1024 != 0 ? 0 : shadow14;
+        i4 = i12 & 256 != 0 ? 0 : l12;
+        i6 = i12 & 512 != 0 ? 0 : textDecoration13;
+        i11 = i12 & 1024 != 0 ? 0 : shadow14;
         if (i12 & 2048 != 0) {
             unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU2 = platformSpanStyle15;
         }
-        i3 = i12 & 4096 != 0 ? 0 : defaultConstructorMarker17;
-        i5 = i12 & 8192 != 0 ? 0 : obj38;
-        i9 = i12 &= 16384 != 0 ? 0 : obj39;
-        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE2, fontSynthesis5, i6, i7, i10, i, i4, unspecified-XSAIIZE, l12, i2, i11, i8, unspecified-0d7_KjU2, defaultConstructorMarker17, i3, i5, i9, 0);
+        i8 = i12 & 4096 != 0 ? 0 : defaultConstructorMarker17;
+        i3 = i12 & 8192 != 0 ? 0 : obj38;
+        i7 = i12 &= 16384 != 0 ? 0 : obj39;
+        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE2, fontSynthesis5, i10, i9, i2, i, i5, unspecified-XSAIIZE, l12, i4, i6, i11, unspecified-0d7_KjU2, defaultConstructorMarker17, i8, i3, i7, 0);
     }
 
     private SpanStyle(long color, long fontSize, FontWeight fontWeight, FontStyle fontStyle, FontSynthesis fontSynthesis, FontFamily fontFamily, String fontFeatureSettings, long letterSpacing, BaselineShift baselineShift, TextGeometricTransform textGeometricTransform, LocaleList localeList, long background, TextDecoration textDecoration, Shadow shadow, androidx.compose.ui.text.PlatformSpanStyle platformStyle, DrawStyle drawStyle) {
@@ -162,22 +162,22 @@ public final class SpanStyle {
     }
 
     public SpanStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, androidx.compose.ui.text.PlatformSpanStyle platformSpanStyle15, DrawStyle drawStyle16, int i17, DefaultConstructorMarker defaultConstructorMarker18) {
-        int i10;
-        long unspecified-0d7_KjU2;
-        int i9;
         int i2;
+        long unspecified-0d7_KjU2;
+        int i12;
+        int i5;
         long unspecified-XSAIIZE;
         int i4;
         Color.Companion companion;
-        int i11;
         int i;
+        int i11;
+        int i10;
         int i6;
-        int i3;
-        int i5;
+        int i9;
         long unspecified-XSAIIZE2;
-        int i8;
+        int i3;
         int i7;
-        int i12;
+        int i8;
         long unspecified-0d7_KjU;
         int i13 = obj42;
         if (i13 & 1 != 0) {
@@ -191,28 +191,28 @@ public final class SpanStyle {
             unspecified-XSAIIZE = fontWeight3;
         }
         i4 = i13 & 4 != 0 ? 0 : fontSynthesis5;
-        i = i13 & 8 != 0 ? 0 : fontFamily6;
-        i6 = i13 & 16 != 0 ? 0 : string7;
-        i3 = i13 & 32 != 0 ? 0 : l8;
-        i5 = i13 & 64 != 0 ? 0 : baselineShift9;
+        i11 = i13 & 8 != 0 ? 0 : fontFamily6;
+        i10 = i13 & 16 != 0 ? 0 : string7;
+        i6 = i13 & 32 != 0 ? 0 : l8;
+        i9 = i13 & 64 != 0 ? 0 : baselineShift9;
         if (i13 & 128 != 0) {
             unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE2 = textGeometricTransform10;
         }
-        i8 = i13 & 256 != 0 ? 0 : l12;
+        i3 = i13 & 256 != 0 ? 0 : l12;
         i7 = i13 & 512 != 0 ? 0 : textDecoration13;
-        i12 = i13 & 1024 != 0 ? 0 : shadow14;
+        i8 = i13 & 1024 != 0 ? 0 : shadow14;
         if (i13 & 2048 != 0) {
             unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU = platformSpanStyle15;
         }
-        i11 = i13 & 4096 != 0 ? 0 : i17;
-        i9 = i13 & 8192 != 0 ? 0 : defaultConstructorMarker18;
-        i2 = i13 & 16384 != 0 ? 0 : obj40;
-        i10 = i13 &= i30 != 0 ? 0 : obj41;
-        super(unspecified-0d7_KjU2, fontWeight3, unspecified-XSAIIZE, fontSynthesis5, i4, i, i6, i3, i5, unspecified-XSAIIZE2, l12, i8, i7, i12, unspecified-0d7_KjU, i17, i11, i9, i2, i10, 0);
+        i = i13 & 4096 != 0 ? 0 : i17;
+        i12 = i13 & 8192 != 0 ? 0 : defaultConstructorMarker18;
+        i5 = i13 & 16384 != 0 ? 0 : obj40;
+        i2 = i13 &= i30 != 0 ? 0 : obj41;
+        super(unspecified-0d7_KjU2, fontWeight3, unspecified-XSAIIZE, fontSynthesis5, i4, i11, i10, i6, i9, unspecified-XSAIIZE2, l12, i3, i7, i8, unspecified-0d7_KjU, i17, i, i12, i5, i2, 0);
     }
 
     public SpanStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, androidx.compose.ui.text.PlatformSpanStyle platformSpanStyle15, DrawStyle drawStyle16, DefaultConstructorMarker defaultConstructorMarker17) {
@@ -234,57 +234,57 @@ public final class SpanStyle {
     }
 
     public SpanStyle(Brush brush, float f2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, androidx.compose.ui.text.PlatformSpanStyle platformSpanStyle16, DrawStyle drawStyle17, int i18, DefaultConstructorMarker defaultConstructorMarker19) {
-        int i8;
-        int unspecified-XSAIIZE2;
-        TextUnit.Companion companion2;
-        Color.Companion companion;
         int i7;
+        int unspecified-XSAIIZE2;
+        TextUnit.Companion companion;
+        Color.Companion companion2;
+        int i8;
         long l;
-        int i3;
-        int i5;
-        int i11;
+        int i12;
+        int i;
         int i13;
         int i14;
+        int i2;
         long unspecified-XSAIIZE;
+        int i11;
         int i9;
         int i10;
-        int i12;
         long unspecified-0d7_KjU;
-        int i2;
-        int i4;
+        int i5;
         int i6;
-        int i;
+        int i4;
+        int i3;
         int i15 = obj45;
-        i7 = i15 & 2 != 0 ? i8 : f2;
+        i8 = i15 & 2 != 0 ? i7 : f2;
         if (i15 & 4 != 0) {
             l = unspecified-XSAIIZE2;
         } else {
             l = l3;
         }
         int i31 = 0;
-        i3 = i15 & 8 != 0 ? i31 : fontStyle5;
-        i5 = i15 & 16 != 0 ? i31 : fontSynthesis6;
-        i11 = i15 & 32 != 0 ? i31 : fontFamily7;
-        i13 = i15 & 64 != 0 ? i31 : string8;
-        i14 = i15 & 128 != 0 ? i31 : l9;
+        i12 = i15 & 8 != 0 ? i31 : fontStyle5;
+        i = i15 & 16 != 0 ? i31 : fontSynthesis6;
+        i13 = i15 & 32 != 0 ? i31 : fontFamily7;
+        i14 = i15 & 64 != 0 ? i31 : string8;
+        i2 = i15 & 128 != 0 ? i31 : l9;
         if (i15 & 256 != 0) {
             unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE = baselineShift10;
         }
-        i9 = i15 & 512 != 0 ? i31 : localeList12;
-        i10 = i15 & 1024 != 0 ? i31 : l13;
-        i12 = i15 & 2048 != 0 ? i31 : textDecoration14;
+        i11 = i15 & 512 != 0 ? i31 : localeList12;
+        i9 = i15 & 1024 != 0 ? i31 : l13;
+        i10 = i15 & 2048 != 0 ? i31 : textDecoration14;
         if (i15 & 4096 != 0) {
             unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU = shadow15;
         }
-        i2 = i15 & 8192 != 0 ? i31 : drawStyle17;
-        i4 = i15 & 16384 != 0 ? i31 : i18;
-        i6 = i28 &= i15 != 0 ? i31 : defaultConstructorMarker19;
-        i = i15 &= i30 != 0 ? i31 : obj44;
-        super(brush, i7, l, obj6, i3, i5, i11, i13, i14, unspecified-XSAIIZE, obj13, i9, i10, i12, unspecified-0d7_KjU, obj18, i2, i4, i6, i, 0);
+        i5 = i15 & 8192 != 0 ? i31 : drawStyle17;
+        i6 = i15 & 16384 != 0 ? i31 : i18;
+        i4 = i28 &= i15 != 0 ? i31 : defaultConstructorMarker19;
+        i3 = i15 &= i30 != 0 ? i31 : obj44;
+        super(brush, i8, l, obj6, i12, i, i13, i14, i2, unspecified-XSAIIZE, obj13, i11, i9, i10, unspecified-0d7_KjU, obj18, i5, i6, i4, i3, 0);
     }
 
     public SpanStyle(Brush brush, float f2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, androidx.compose.ui.text.PlatformSpanStyle platformSpanStyle16, DrawStyle drawStyle17, DefaultConstructorMarker defaultConstructorMarker18) {
@@ -317,51 +317,51 @@ public final class SpanStyle {
         int companion2;
         Color.Companion companion;
         long unspecified-0d7_KjU;
-        long l;
-        int i11;
-        int i10;
-        int i6;
-        int i12;
-        int i7;
         long l3;
+        int i11;
+        int i5;
+        int i2;
+        int i4;
+        int i3;
+        long l4;
+        int i6;
+        int i7;
+        int i12;
+        long l;
+        int i;
+        int i10;
         int i8;
         int i9;
-        int i4;
-        long l4;
-        int i2;
-        int i5;
-        int i;
-        int i3;
         int i13 = obj44;
         if (i13 & 2 != 0) {
-            l = unspecified-XSAIIZE;
+            l3 = unspecified-XSAIIZE;
         } else {
-            l = l2;
+            l3 = l2;
         }
         final int i28 = 0;
         i11 = i13 & 4 != 0 ? i28 : fontStyle4;
-        i10 = i13 & 8 != 0 ? i28 : fontSynthesis5;
-        i6 = i13 & 16 != 0 ? i28 : fontFamily6;
-        i12 = i13 & 32 != 0 ? i28 : string7;
-        i7 = i13 & 64 != 0 ? i28 : l8;
+        i5 = i13 & 8 != 0 ? i28 : fontSynthesis5;
+        i2 = i13 & 16 != 0 ? i28 : fontFamily6;
+        i4 = i13 & 32 != 0 ? i28 : string7;
+        i3 = i13 & 64 != 0 ? i28 : l8;
         if (i13 & 128 != 0) {
-            l3 = unspecified-0d7_KjU;
-        } else {
-            l3 = baselineShift9;
-        }
-        i8 = i13 & 256 != 0 ? i28 : localeList11;
-        i9 = i13 & 512 != 0 ? i28 : l12;
-        i4 = i13 & 1024 != 0 ? i28 : textDecoration13;
-        if (i13 & 2048 != 0) {
             l4 = unspecified-0d7_KjU;
         } else {
-            l4 = shadow14;
+            l4 = baselineShift9;
         }
-        i2 = i13 & 4096 != 0 ? i28 : drawStyle16;
-        i5 = i13 & 8192 != 0 ? i28 : i17;
-        i = i13 & 16384 != 0 ? i28 : defaultConstructorMarker18;
-        i3 = i13 &= i27 != 0 ? i28 : obj43;
-        super(textForegroundStyle, l, obj6, i11, i10, i6, i12, i7, l3, obj13, i8, i9, i4, l4, obj18, i2, i5, i, i3, 0);
+        i6 = i13 & 256 != 0 ? i28 : localeList11;
+        i7 = i13 & 512 != 0 ? i28 : l12;
+        i12 = i13 & 1024 != 0 ? i28 : textDecoration13;
+        if (i13 & 2048 != 0) {
+            l = unspecified-0d7_KjU;
+        } else {
+            l = shadow14;
+        }
+        i = i13 & 4096 != 0 ? i28 : drawStyle16;
+        i10 = i13 & 8192 != 0 ? i28 : i17;
+        i8 = i13 & 16384 != 0 ? i28 : defaultConstructorMarker18;
+        i9 = i13 &= i27 != 0 ? i28 : obj43;
+        super(textForegroundStyle, l3, obj6, i11, i5, i2, i4, i3, l4, obj13, i6, i7, i12, l, obj18, i, i10, i8, i9, 0);
     }
 
     public SpanStyle(TextForegroundStyle textForegroundStyle, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, androidx.compose.ui.text.PlatformSpanStyle platformSpanStyle15, DrawStyle drawStyle16, DefaultConstructorMarker defaultConstructorMarker17) {
@@ -759,111 +759,27 @@ public final class SpanStyle {
     }
 
     public int hashCode() {
-        int i10;
-        int i9;
-        int i11;
-        int i12;
-        int i;
-        int i13;
         int i4;
-        int i2;
-        int i7;
-        int i3;
         int i5;
         int i6;
+        int i13;
+        int i3;
+        int i;
+        int i9;
+        int i11;
+        int i10;
+        int i12;
+        int i7;
+        int i2;
         int i8;
         Brush brush = getBrush();
         i8 = 0;
         if (brush != null) {
-            i10 = brush.hashCode();
-        } else {
-            i10 = i8;
-        }
-        FontWeight fontWeight = this.fontWeight;
-        if (fontWeight != null) {
-            i9 = fontWeight.hashCode();
-        } else {
-            i9 = i8;
-        }
-        FontStyle fontStyle = this.fontStyle;
-        if (fontStyle != null) {
-            i11 = FontStyle.hashCode-impl(fontStyle.unbox-impl());
-        } else {
-            i11 = i8;
-        }
-        FontSynthesis fontSynthesis = this.fontSynthesis;
-        if (fontSynthesis != null) {
-            i12 = FontSynthesis.hashCode-impl(fontSynthesis.unbox-impl());
-        } else {
-            i12 = i8;
-        }
-        FontFamily fontFamily = this.fontFamily;
-        if (fontFamily != null) {
-            i = fontFamily.hashCode();
-        } else {
-            i = i8;
-        }
-        String fontFeatureSettings = this.fontFeatureSettings;
-        if (fontFeatureSettings != null) {
-            i13 = fontFeatureSettings.hashCode();
-        } else {
-            i13 = i8;
-        }
-        BaselineShift baselineShift = this.baselineShift;
-        if (baselineShift != null) {
-            i4 = BaselineShift.hashCode-impl(baselineShift.unbox-impl());
+            i4 = brush.hashCode();
         } else {
             i4 = i8;
         }
-        TextGeometricTransform textGeometricTransform = this.textGeometricTransform;
-        if (textGeometricTransform != null) {
-            i2 = textGeometricTransform.hashCode();
-        } else {
-            i2 = i8;
-        }
-        LocaleList localeList = this.localeList;
-        if (localeList != null) {
-            i7 = localeList.hashCode();
-        } else {
-            i7 = i8;
-        }
-        TextDecoration textDecoration = this.textDecoration;
-        if (textDecoration != null) {
-            i3 = textDecoration.hashCode();
-        } else {
-            i3 = i8;
-        }
-        Shadow shadow = this.shadow;
-        if (shadow != null) {
-            i5 = shadow.hashCode();
-        } else {
-            i5 = i8;
-        }
-        androidx.compose.ui.text.PlatformSpanStyle platformStyle = this.platformStyle;
-        if (platformStyle != null) {
-            i6 = platformStyle.hashCode();
-        } else {
-            i6 = i8;
-        }
-        DrawStyle drawStyle = this.drawStyle;
-        if (drawStyle != null) {
-            i8 = drawStyle.hashCode();
-        }
-        return result16 += i8;
-    }
-
-    public final int hashCodeLayoutAffectingAttributes$ui_text_release() {
-        int i5;
-        int i6;
-        int i2;
-        int i;
-        int i3;
-        int i9;
-        int i7;
-        int i4;
-        int i8;
         FontWeight fontWeight = this.fontWeight;
-        i8 = 0;
         if (fontWeight != null) {
             i5 = fontWeight.hashCode();
         } else {
@@ -877,21 +793,21 @@ public final class SpanStyle {
         }
         FontSynthesis fontSynthesis = this.fontSynthesis;
         if (fontSynthesis != null) {
-            i2 = FontSynthesis.hashCode-impl(fontSynthesis.unbox-impl());
+            i13 = FontSynthesis.hashCode-impl(fontSynthesis.unbox-impl());
         } else {
-            i2 = i8;
+            i13 = i8;
         }
         FontFamily fontFamily = this.fontFamily;
         if (fontFamily != null) {
-            i = fontFamily.hashCode();
+            i3 = fontFamily.hashCode();
         } else {
-            i = i8;
+            i3 = i8;
         }
         String fontFeatureSettings = this.fontFeatureSettings;
         if (fontFeatureSettings != null) {
-            i3 = fontFeatureSettings.hashCode();
+            i = fontFeatureSettings.hashCode();
         } else {
-            i3 = i8;
+            i = i8;
         }
         BaselineShift baselineShift = this.baselineShift;
         if (baselineShift != null) {
@@ -901,21 +817,105 @@ public final class SpanStyle {
         }
         TextGeometricTransform textGeometricTransform = this.textGeometricTransform;
         if (textGeometricTransform != null) {
-            i7 = textGeometricTransform.hashCode();
+            i11 = textGeometricTransform.hashCode();
+        } else {
+            i11 = i8;
+        }
+        LocaleList localeList = this.localeList;
+        if (localeList != null) {
+            i10 = localeList.hashCode();
+        } else {
+            i10 = i8;
+        }
+        TextDecoration textDecoration = this.textDecoration;
+        if (textDecoration != null) {
+            i12 = textDecoration.hashCode();
+        } else {
+            i12 = i8;
+        }
+        Shadow shadow = this.shadow;
+        if (shadow != null) {
+            i7 = shadow.hashCode();
         } else {
             i7 = i8;
+        }
+        androidx.compose.ui.text.PlatformSpanStyle platformStyle = this.platformStyle;
+        if (platformStyle != null) {
+            i2 = platformStyle.hashCode();
+        } else {
+            i2 = i8;
+        }
+        DrawStyle drawStyle = this.drawStyle;
+        if (drawStyle != null) {
+            i8 = drawStyle.hashCode();
+        }
+        return result16 += i8;
+    }
+
+    public final int hashCodeLayoutAffectingAttributes$ui_text_release() {
+        int i2;
+        int i9;
+        int i3;
+        int i;
+        int i6;
+        int i7;
+        int i8;
+        int i4;
+        int i5;
+        FontWeight fontWeight = this.fontWeight;
+        i5 = 0;
+        if (fontWeight != null) {
+            i2 = fontWeight.hashCode();
+        } else {
+            i2 = i5;
+        }
+        FontStyle fontStyle = this.fontStyle;
+        if (fontStyle != null) {
+            i9 = FontStyle.hashCode-impl(fontStyle.unbox-impl());
+        } else {
+            i9 = i5;
+        }
+        FontSynthesis fontSynthesis = this.fontSynthesis;
+        if (fontSynthesis != null) {
+            i3 = FontSynthesis.hashCode-impl(fontSynthesis.unbox-impl());
+        } else {
+            i3 = i5;
+        }
+        FontFamily fontFamily = this.fontFamily;
+        if (fontFamily != null) {
+            i = fontFamily.hashCode();
+        } else {
+            i = i5;
+        }
+        String fontFeatureSettings = this.fontFeatureSettings;
+        if (fontFeatureSettings != null) {
+            i6 = fontFeatureSettings.hashCode();
+        } else {
+            i6 = i5;
+        }
+        BaselineShift baselineShift = this.baselineShift;
+        if (baselineShift != null) {
+            i7 = BaselineShift.hashCode-impl(baselineShift.unbox-impl());
+        } else {
+            i7 = i5;
+        }
+        TextGeometricTransform textGeometricTransform = this.textGeometricTransform;
+        if (textGeometricTransform != null) {
+            i8 = textGeometricTransform.hashCode();
+        } else {
+            i8 = i5;
         }
         LocaleList localeList = this.localeList;
         if (localeList != null) {
             i4 = localeList.hashCode();
         } else {
-            i4 = i8;
+            i4 = i5;
         }
         androidx.compose.ui.text.PlatformSpanStyle platformStyle = this.platformStyle;
         if (platformStyle != null) {
-            i8 = platformStyle.hashCode();
+            i5 = platformStyle.hashCode();
         }
-        return result10 += i8;
+        return result10 += i5;
     }
 
     public final androidx.compose.ui.text.SpanStyle merge(androidx.compose.ui.text.SpanStyle other) {

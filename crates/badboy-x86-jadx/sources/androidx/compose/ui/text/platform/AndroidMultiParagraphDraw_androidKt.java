@@ -28,30 +28,30 @@ public final class AndroidMultiParagraphDraw_androidKt {
         Matrix matrix;
         int index$iv2;
         List paragraphInfoList$ui_text_release;
-        int i3;
+        int i4;
         int index$iv;
         int size;
-        int i2;
-        float width2;
-        int i5;
         int i;
-        int i6;
-        Canvas canvas2;
+        float width2;
+        int i2;
+        int i3;
+        int i5;
         Canvas canvas3;
+        Canvas canvas2;
         float f;
         Shadow shadow2;
         TextDecoration textDecoration;
         DrawStyle drawStyle2;
-        int i4;
+        int i6;
         final Object obj = brush;
         canvas.save();
         if ($this$drawMultiParagraph_u2d7AXcY_I.getParagraphInfoList$ui_text_release().size() <= 1) {
             AndroidMultiParagraphDraw_androidKt.drawParagraphs-7AXcY_I($this$drawMultiParagraph_u2d7AXcY_I, canvas, brush, alpha, shadow, decoration, drawStyle, blendMode);
-            canvas3 = canvas;
+            canvas2 = canvas;
         } else {
             if (obj instanceof SolidColor) {
                 AndroidMultiParagraphDraw_androidKt.drawParagraphs-7AXcY_I($this$drawMultiParagraph_u2d7AXcY_I, canvas, brush, alpha, shadow, decoration, drawStyle, blendMode);
-                canvas3 = canvas;
+                canvas2 = canvas;
             } else {
                 if (obj instanceof ShaderBrush) {
                     height = 0;
@@ -61,7 +61,7 @@ public final class AndroidMultiParagraphDraw_androidKt {
                     index$iv2 = 0;
                     while (index$iv2 < paragraphInfoList$ui_text_release3.size()) {
                         size = index$iv;
-                        i2 = 0;
+                        i = 0;
                         height += height2;
                         width = Math.max(width, size.getParagraph().getWidth());
                         index$iv2++;
@@ -70,68 +70,68 @@ public final class AndroidMultiParagraphDraw_androidKt {
                     matrix = new Matrix();
                     shader-uvyYCjk.getLocalMatrix(matrix);
                     paragraphInfoList$ui_text_release = $this$drawMultiParagraph_u2d7AXcY_I.getParagraphInfoList$ui_text_release();
-                    i3 = 0;
+                    i4 = 0;
                     index$iv = 0;
                     while (index$iv < paragraphInfoList$ui_text_release.size()) {
-                        width2 = i2;
-                        i5 = 0;
+                        width2 = i;
+                        i2 = 0;
                         (ParagraphInfo)width2.getParagraph().paint-hn5TExg(canvas, (Brush)BrushKt.ShaderBrush(shader-uvyYCjk), alpha, shadow, decoration, drawStyle, blendMode);
-                        i6 = 0;
-                        canvas.translate(i6, width2.getParagraph().getHeight());
-                        matrix.setTranslate(i6, -height4);
+                        i5 = 0;
+                        canvas.translate(i5, width2.getParagraph().getHeight());
+                        matrix.setTranslate(i5, -height4);
                         shader-uvyYCjk.setLocalMatrix(matrix);
                         index$iv++;
                     }
-                    canvas3 = canvas;
+                    canvas2 = canvas;
                 } else {
-                    canvas3 = canvas;
+                    canvas2 = canvas;
                 }
             }
         }
-        canvas3.restore();
+        canvas2.restore();
     }
 
     public static void drawMultiParagraph-7AXcY_I$default(MultiParagraph multiParagraph, Canvas canvas2, Brush brush3, float f4, Shadow shadow5, TextDecoration textDecoration6, DrawStyle drawStyle7, int i8, int i9, Object object10) {
-        int i4;
-        int i3;
         int i;
-        int i2;
         int i5;
+        int i4;
+        int i2;
+        int i3;
         int obj11;
-        i4 = i9 & 4 != 0 ? obj11 : f4;
+        i = i9 & 4 != 0 ? obj11 : f4;
         int i7 = 0;
-        i3 = i9 & 8 != 0 ? i7 : shadow5;
-        i = i9 & 16 != 0 ? i7 : textDecoration6;
+        i5 = i9 & 8 != 0 ? i7 : shadow5;
+        i4 = i9 & 16 != 0 ? i7 : textDecoration6;
         i2 = i9 & 32 != 0 ? i7 : drawStyle7;
         if (i9 & 64 != 0) {
-            i5 = obj11;
+            i3 = obj11;
         } else {
-            i5 = i8;
+            i3 = i8;
         }
-        AndroidMultiParagraphDraw_androidKt.drawMultiParagraph-7AXcY_I(multiParagraph, canvas2, brush3, i4, i3, i, i2, i5);
+        AndroidMultiParagraphDraw_androidKt.drawMultiParagraph-7AXcY_I(multiParagraph, canvas2, brush3, i, i5, i4, i2, i3);
     }
 
     private static final void drawParagraphs-7AXcY_I(MultiParagraph $this$drawParagraphs_u2d7AXcY_I, Canvas canvas, Brush brush, float alpha, Shadow shadow, TextDecoration decoration, DrawStyle drawStyle, int blendMode) {
         int index$iv;
-        Object obj;
         Object obj2;
-        int i3;
-        float height;
+        Object obj;
         int i2;
+        float height;
+        int i;
         Canvas canvas2;
         float f;
         Shadow shadow2;
         TextDecoration textDecoration;
         DrawStyle drawStyle2;
-        int i;
+        int i3;
         final List paragraphInfoList$ui_text_release = $this$drawParagraphs_u2d7AXcY_I.getParagraphInfoList$ui_text_release();
         final int i4 = 0;
         index$iv = 0;
         while (index$iv < paragraphInfoList$ui_text_release.size()) {
-            obj2 = obj;
-            i3 = 0;
-            (ParagraphInfo)obj2.getParagraph().paint-hn5TExg(canvas, brush, alpha, shadow, decoration, drawStyle, blendMode);
-            canvas.translate(0, obj2.getParagraph().getHeight());
+            obj = obj2;
+            i2 = 0;
+            (ParagraphInfo)obj.getParagraph().paint-hn5TExg(canvas, brush, alpha, shadow, decoration, drawStyle, blendMode);
+            canvas.translate(0, obj.getParagraph().getHeight());
             index$iv++;
         }
         Canvas canvas4 = canvas;

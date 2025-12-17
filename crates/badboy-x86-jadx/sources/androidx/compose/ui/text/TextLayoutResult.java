@@ -64,8 +64,8 @@ public final class TextLayoutResult {
     }
 
     public boolean equals(Object other) {
-        int i;
         int i2;
+        int i;
         final int i3 = 1;
         if (this == other) {
             return i3;
@@ -83,12 +83,12 @@ public final class TextLayoutResult {
         if (!IntSize.equals-impl0(this.size, obj4)) {
             return i4;
         }
-        i = Float.compare(firstBaseline, firstBaseline2) == 0 ? i3 : i4;
-        if (i == 0) {
+        i2 = Float.compare(firstBaseline, firstBaseline2) == 0 ? i3 : i4;
+        if (i2 == 0) {
             return i4;
         }
-        i2 = Float.compare(lastBaseline, lastBaseline2) == 0 ? i3 : i4;
-        if (i2 == 0) {
+        i = Float.compare(lastBaseline, lastBaseline2) == 0 ? i3 : i4;
+        if (i == 0) {
             return i4;
         }
         if (!Intrinsics.areEqual(this.placeholderRects, obj6.placeholderRects)) {

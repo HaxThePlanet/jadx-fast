@@ -114,8 +114,8 @@ public abstract class AbstractLongTimeSource implements kotlin.time.TimeSource.W
             long zERO-UwyO8pc;
             long sum;
             long restUnderUnit;
-            int cmp2;
             int cmp;
+            int cmp2;
             int i;
             long l;
             final Object obj = this;
@@ -131,10 +131,10 @@ public abstract class AbstractLongTimeSource implements kotlin.time.TimeSource.W
             sum = LongSaturatedMathKt.saturatingAdd-NuflL3o(LongSaturatedMathKt.saturatingAdd-NuflL3o(obj.startedAt, obj9, unit), obj9, unit);
             restUnderUnit = Duration.minus-LRDsOJo(plus-LRDsOJo, obj7);
             final long inWholeNanoseconds-impl = Duration.getInWholeNanoseconds-impl(restUnderUnit);
-            cmp2 = 0;
-            if (Long.compare(sum, cmp2) != 0 && Long.compare(inWholeNanoseconds-impl, cmp2) != 0 && Long.compare(cmp, cmp2) < 0) {
-                if (Long.compare(inWholeNanoseconds-impl, cmp2) != 0) {
-                    if (Long.compare(cmp, cmp2) < 0) {
+            cmp = 0;
+            if (Long.compare(sum, cmp) != 0 && Long.compare(inWholeNanoseconds-impl, cmp) != 0 && Long.compare(cmp2, cmp) < 0) {
+                if (Long.compare(inWholeNanoseconds-impl, cmp) != 0) {
+                    if (Long.compare(cmp2, cmp) < 0) {
                         duration2 = DurationKt.toDuration(MathKt.getSign(inWholeNanoseconds-impl), unit);
                         sum = LongSaturatedMathKt.saturatingAdd-NuflL3o(sum, obj9, unit);
                         restUnderUnit = Duration.minus-LRDsOJo(restUnderUnit, obj13);
@@ -151,7 +151,7 @@ public abstract class AbstractLongTimeSource implements kotlin.time.TimeSource.W
             } else {
                 l = restUnderUnit;
             }
-            AbstractLongTimeSource.LongTimeMark longTimeMark2 = new AbstractLongTimeSource.LongTimeMark(l2, cmp, obj.timeSource, l, l3, 0);
+            AbstractLongTimeSource.LongTimeMark longTimeMark2 = new AbstractLongTimeSource.LongTimeMark(l2, cmp2, obj.timeSource, l, l3, 0);
             return (ComparableTimeMark)longTimeMark2;
         }
 

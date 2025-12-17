@@ -37,11 +37,11 @@ public final class LayoutWeightNode extends Modifier.Node implements ParentDataM
         Object obj;
         androidx.compose.foundation.layout.RowColumnParentData rowColumnParentData;
         int i3;
-        int i4;
-        int i6;
-        int i5;
-        int i;
         int i2;
+        int i6;
+        int i4;
+        int i;
+        int i5;
         if (parentData instanceof RowColumnParentData != null) {
             obj = parentData;
         } else {

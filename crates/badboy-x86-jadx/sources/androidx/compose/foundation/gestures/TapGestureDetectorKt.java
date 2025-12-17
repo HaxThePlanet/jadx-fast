@@ -43,42 +43,42 @@ public final class TapGestureDetectorKt {
     }
 
     public static final Object awaitFirstDown(AwaitPointerEventScope awaitPointerEventScope, boolean z2, PointerEventPass pointerEventPass3, Continuation<? super PointerInputChange> continuation4) {
-        Object obj2;
+        Object obj;
         Object event;
         boolean $result;
         Object $continuation;
-        int i7;
-        androidx.compose.foundation.gestures.TapGestureDetectorKt.awaitFirstDown.2 anon2;
+        int i4;
+        androidx.compose.foundation.gestures.TapGestureDetectorKt.awaitFirstDown.2 anon;
         Object $continuation2;
-        int i3;
+        int i5;
         Object requireUnconsumed2;
-        boolean $this$awaitFirstDown;
+        boolean $this$awaitFirstDown2;
         boolean pass2;
         Object requireUnconsumed;
-        Object $this$awaitFirstDown2;
+        Object $this$awaitFirstDown;
         Object pass;
-        Object obj3;
+        Object obj2;
         int $this$fastForEach$iv$iv;
-        int i6;
-        int i4;
+        int i3;
+        int i7;
         int index$iv$iv;
         int size;
-        int i5;
-        Object obj;
-        int i;
         int i2;
+        Object obj3;
+        int i6;
+        int i;
         boolean changedToDownIgnoreConsumed;
-        androidx.compose.foundation.gestures.TapGestureDetectorKt.awaitFirstDown.2 anon;
-        obj2 = continuation4;
-        $result = obj2;
-        i3 = Integer.MIN_VALUE;
-        if (obj2 instanceof TapGestureDetectorKt.awaitFirstDown.2 && label2 &= i3 != 0) {
-            $result = obj2;
-            i3 = Integer.MIN_VALUE;
-            if (label2 &= i3 != 0) {
-                $result.label = label -= i3;
+        androidx.compose.foundation.gestures.TapGestureDetectorKt.awaitFirstDown.2 anon2;
+        obj = continuation4;
+        $result = obj;
+        i5 = Integer.MIN_VALUE;
+        if (obj instanceof TapGestureDetectorKt.awaitFirstDown.2 && label2 &= i5 != 0) {
+            $result = obj;
+            i5 = Integer.MIN_VALUE;
+            if (label2 &= i5 != 0) {
+                $result.label = label -= i5;
             } else {
-                $result = new TapGestureDetectorKt.awaitFirstDown.2(obj2);
+                $result = new TapGestureDetectorKt.awaitFirstDown.2(obj);
             }
         } else {
         }
@@ -89,36 +89,36 @@ public final class TapGestureDetectorKt {
                 ResultKt.throwOnFailure(event);
                 requireUnconsumed = pointerEventPass3;
                 pass = obj5;
-                $this$awaitFirstDown = anon;
+                $this$awaitFirstDown2 = anon2;
                 break;
             case 1:
                 ResultKt.throwOnFailure(event);
-                obj3 = l$0;
-                $this$awaitFirstDown2 = l$1;
+                obj2 = l$0;
+                $this$awaitFirstDown = l$1;
                 pass2 = z$0;
                 requireUnconsumed2 = $continuation2;
-                anon2 = $result;
+                anon = $result;
                 $continuation = event;
                 List changes2 = (PointerEvent)event.getChanges();
-                i6 = 0;
-                i4 = 0;
+                i3 = 0;
+                i7 = 0;
                 index$iv$iv = 0;
-                i5 = 0;
-                obj = changes2.get(index$iv$iv);
-                i = 0;
                 i2 = 0;
-                changedToDownIgnoreConsumed = PointerEventKt.changedToDown((PointerInputChange)obj);
-                changedToDownIgnoreConsumed = PointerEventKt.changedToDownIgnoreConsumed(obj);
-                $this$fastForEach$iv$iv = i5;
+                obj3 = changes2.get(index$iv$iv);
+                i6 = 0;
+                i = 0;
+                changedToDownIgnoreConsumed = PointerEventKt.changedToDown((PointerInputChange)obj3);
+                changedToDownIgnoreConsumed = PointerEventKt.changedToDownIgnoreConsumed(obj3);
+                $this$fastForEach$iv$iv = i2;
                 index$iv$iv++;
                 $this$fastForEach$iv$iv = i8;
-                return event.getChanges().get(i5);
+                return event.getChanges().get(i2);
                 event = $continuation;
-                $result = anon2;
+                $result = anon;
                 $continuation2 = requireUnconsumed2;
-                $this$awaitFirstDown = pass2;
-                requireUnconsumed = $this$awaitFirstDown2;
-                pass = obj3;
+                $this$awaitFirstDown2 = pass2;
+                requireUnconsumed = $this$awaitFirstDown;
+                pass = obj2;
                 break;
             default:
                 IllegalStateException $result2 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
@@ -126,17 +126,17 @@ public final class TapGestureDetectorKt {
         }
         $result.L$0 = pass;
         $result.L$1 = requireUnconsumed;
-        $result.Z$0 = $this$awaitFirstDown;
+        $result.Z$0 = $this$awaitFirstDown2;
         $result.label = i8;
         Object awaitPointerEvent = pass.awaitPointerEvent(requireUnconsumed, $result);
         if (awaitPointerEvent != $continuation2) {
             $continuation = event;
             event = awaitPointerEvent;
-            obj3 = pass;
-            $this$awaitFirstDown2 = requireUnconsumed;
-            pass2 = $this$awaitFirstDown;
+            obj2 = pass;
+            $this$awaitFirstDown = requireUnconsumed;
+            pass2 = $this$awaitFirstDown2;
             requireUnconsumed2 = $continuation2;
-            anon2 = anon;
+            anon = anon2;
         }
         return $continuation2;
     }
@@ -175,31 +175,31 @@ public final class TapGestureDetectorKt {
     private static final Object consumeUntilUp(AwaitPointerEventScope awaitPointerEventScope, Continuation<? super Unit> continuation2) {
         boolean $result;
         Object $continuation2;
-        int i3;
+        int i2;
         androidx.compose.foundation.gestures.TapGestureDetectorKt.consumeUntilUp.1 anon2;
         Object $continuation;
-        int i4;
+        int i3;
         Object label;
-        int i;
+        int i4;
         int i5;
         int index$iv$iv;
         int index$iv;
         int size;
-        Object obj;
         Object obj2;
-        int i2;
-        boolean it;
+        Object obj;
         int i6;
+        boolean it;
+        int i;
         androidx.compose.foundation.gestures.TapGestureDetectorKt.consumeUntilUp.1 anon;
         Object obj14;
         Object obj15;
         $result = continuation2;
-        i4 = Integer.MIN_VALUE;
-        if (continuation2 instanceof TapGestureDetectorKt.consumeUntilUp.1 && label2 &= i4 != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation2 instanceof TapGestureDetectorKt.consumeUntilUp.1 && label2 &= i3 != 0) {
             $result = continuation2;
-            i4 = Integer.MIN_VALUE;
-            if (label2 &= i4 != 0) {
-                $result.label = obj15 -= i4;
+            i3 = Integer.MIN_VALUE;
+            if (label2 &= i3 != 0) {
+                $result.label = obj15 -= i3;
             } else {
                 $result = new TapGestureDetectorKt.consumeUntilUp.1(continuation2);
             }
@@ -220,15 +220,15 @@ public final class TapGestureDetectorKt {
                 List changes = (PointerEvent)obj15.getChanges();
                 int i9 = 0;
                 index$iv = 0;
-                i2 = 0;
+                i6 = 0;
                 (PointerInputChange)changes.get(index$iv).consume();
                 index$iv++;
                 obj15 = obj15.getChanges();
-                i = 0;
+                i4 = 0;
                 i5 = 0;
                 index$iv$iv = 0;
-                i2 = 0;
                 i6 = 0;
+                i = 0;
                 obj15 = i8;
                 index$iv$iv++;
                 obj15 = 0;
@@ -307,99 +307,99 @@ public final class TapGestureDetectorKt {
     }
 
     public static final Object waitForUpOrCancellation(AwaitPointerEventScope awaitPointerEventScope, PointerEventPass pointerEventPass2, Continuation<? super PointerInputChange> continuation3) {
-        Object obj4;
-        Object $result2;
-        int $this$fastForEach$iv$iv2;
-        int $this$fastForEach$iv$iv3;
-        boolean $result;
-        Object $continuation2;
-        int i;
-        Object $continuation;
-        androidx.compose.foundation.gestures.TapGestureDetectorKt.waitForUpOrCancellation.2 anon2;
-        int i2;
         Object obj2;
+        Object $result;
+        int $this$fastForEach$iv$iv3;
+        int $this$fastForEach$iv$iv;
+        boolean $result2;
+        Object $continuation;
+        int i3;
+        Object $continuation2;
+        androidx.compose.foundation.gestures.TapGestureDetectorKt.waitForUpOrCancellation.2 anon2;
+        int i4;
+        Object obj4;
         Object pass2;
         Object outOfBounds-jwHxaWs;
-        int i4;
+        int i2;
         int extendedTouchPadding-NH-jbRc;
         Object $this$waitForUpOrCancellation;
         Object pass3;
         int index$iv$iv;
-        int size;
-        int $this$fastForEach$iv$iv;
-        int i3;
-        int index$iv$iv3;
         int size2;
+        int $this$fastForEach$iv$iv2;
+        int i;
+        int index$iv$iv3;
+        int size;
         int index$iv$iv2;
-        int it;
-        Object obj3;
+        int it2;
         Object obj;
+        Object obj3;
         int consumed;
-        boolean it2;
+        boolean it;
         int pass;
         androidx.compose.foundation.gestures.TapGestureDetectorKt.waitForUpOrCancellation.2 anon;
         int obj22;
-        obj4 = continuation3;
-        $result = obj4;
-        i2 = Integer.MIN_VALUE;
-        if (obj4 instanceof TapGestureDetectorKt.waitForUpOrCancellation.2 && label2 &= i2 != 0) {
-            $result = obj4;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                $result.label = label -= i2;
+        obj2 = continuation3;
+        $result2 = obj2;
+        i4 = Integer.MIN_VALUE;
+        if (obj2 instanceof TapGestureDetectorKt.waitForUpOrCancellation.2 && label2 &= i4 != 0) {
+            $result2 = obj2;
+            i4 = Integer.MIN_VALUE;
+            if (label2 &= i4 != 0) {
+                $result2.label = label -= i4;
             } else {
-                $result = new TapGestureDetectorKt.waitForUpOrCancellation.2(obj4);
+                $result2 = new TapGestureDetectorKt.waitForUpOrCancellation.2(obj2);
             }
         } else {
         }
-        $result2 = $result.result;
-        $continuation = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        i4 = 0;
+        $result = $result2.result;
+        $continuation2 = IntrinsicsKt.getCOROUTINE_SUSPENDED();
+        i2 = 0;
         extendedTouchPadding-NH-jbRc = 1;
         switch (label3) {
             case 0:
-                ResultKt.throwOnFailure($result2);
-                obj2 = awaitPointerEventScope;
+                ResultKt.throwOnFailure($result);
+                obj4 = awaitPointerEventScope;
                 $this$waitForUpOrCancellation = pointerEventPass2;
                 break;
             case 1:
-                ResultKt.throwOnFailure($result2);
+                ResultKt.throwOnFailure($result);
                 index$iv$iv = l$0;
                 $this$waitForUpOrCancellation = pass4;
-                pass2 = $continuation;
-                anon2 = $result;
-                $continuation2 = $result2;
-                List changes2 = (PointerEvent)$result2.getChanges();
+                pass2 = $continuation2;
+                anon2 = $result2;
+                $continuation = $result;
+                List changes2 = (PointerEvent)$result.getChanges();
                 int i10 = 0;
                 int i11 = 0;
                 index$iv$iv2 = 0;
                 consumed = 0;
                 pass = 0;
-                $this$fastForEach$iv$iv = i4;
+                $this$fastForEach$iv$iv2 = i2;
                 index$iv$iv2++;
-                $this$fastForEach$iv$iv = extendedTouchPadding-NH-jbRc;
-                return $result2.getChanges().get(i4);
-                List event = $result2.getChanges();
-                size = 0;
-                i3 = 0;
+                $this$fastForEach$iv$iv2 = extendedTouchPadding-NH-jbRc;
+                return $result.getChanges().get(i2);
+                List event = $result.getChanges();
+                size2 = 0;
+                i = 0;
                 index$iv$iv3 = 0;
-                it = event.get(index$iv$iv3);
-                obj3 = null;
+                it2 = event.get(index$iv$iv3);
                 obj = null;
+                obj3 = null;
                 obj22 = 0;
                 pass = $this$waitForUpOrCancellation;
                 outOfBounds-jwHxaWs = 0;
                 pass = $this$waitForUpOrCancellation;
                 obj22 = 0;
                 outOfBounds-jwHxaWs = 1;
-                $this$fastForEach$iv$iv2 = 1;
+                $this$fastForEach$iv$iv3 = 1;
                 index$iv$iv3++;
                 $this$waitForUpOrCancellation = pass;
-                i4 = 0;
+                i2 = 0;
                 extendedTouchPadding-NH-jbRc = 1;
                 pass = $this$waitForUpOrCancellation;
                 obj22 = 0;
-                $this$fastForEach$iv$iv2 = 0;
+                $this$fastForEach$iv$iv3 = 0;
                 return obj22;
                 anon2.L$0 = index$iv$iv;
                 int i9 = pass;
@@ -408,47 +408,47 @@ public final class TapGestureDetectorKt {
                 return pass2;
                 outOfBounds-jwHxaWs = i9;
                 pass3 = index$iv$iv;
-                List consumeCheck = (PointerEvent)$result2.getChanges();
+                List consumeCheck = (PointerEvent)$result.getChanges();
                 int i7 = 0;
                 int i8 = 0;
                 index$iv$iv = 0;
-                size2 = 0;
-                obj3 = null;
-                $this$fastForEach$iv$iv3 = 1;
+                size = 0;
+                obj = null;
+                $this$fastForEach$iv$iv = 1;
                 index$iv$iv++;
-                $this$fastForEach$iv$iv3 = 0;
+                $this$fastForEach$iv$iv = 0;
                 return obj22;
-                $result2 = $continuation2;
-                $result = anon2;
-                $continuation = pass2;
-                obj2 = pass3;
-                i4 = 0;
+                $result = $continuation;
+                $result2 = anon2;
+                $continuation2 = pass2;
+                obj4 = pass3;
+                i2 = 0;
                 extendedTouchPadding-NH-jbRc = 1;
                 $this$waitForUpOrCancellation = outOfBounds-jwHxaWs;
                 break;
             case 2:
-                pass3 = $result.L$0;
-                ResultKt.throwOnFailure($result2);
+                pass3 = $result2.L$0;
+                ResultKt.throwOnFailure($result);
                 outOfBounds-jwHxaWs = l$1;
                 obj22 = 0;
-                pass2 = $continuation;
-                anon2 = $result;
-                $continuation2 = $result2;
-                consumeCheck = (PointerEvent)$result2.getChanges();
+                pass2 = $continuation2;
+                anon2 = $result2;
+                $continuation = $result;
+                consumeCheck = (PointerEvent)$result.getChanges();
                 i7 = 0;
                 i8 = 0;
                 index$iv$iv = 0;
-                size2 = 0;
-                obj3 = null;
-                $this$fastForEach$iv$iv3 = 1;
+                size = 0;
+                obj = null;
+                $this$fastForEach$iv$iv = 1;
                 index$iv$iv++;
-                $this$fastForEach$iv$iv3 = 0;
+                $this$fastForEach$iv$iv = 0;
                 return obj22;
-                $result2 = $continuation2;
-                $result = anon2;
-                $continuation = pass2;
-                obj2 = pass3;
-                i4 = 0;
+                $result = $continuation;
+                $result2 = anon2;
+                $continuation2 = pass2;
+                obj4 = pass3;
+                i2 = 0;
                 extendedTouchPadding-NH-jbRc = 1;
                 $this$waitForUpOrCancellation = outOfBounds-jwHxaWs;
                 break;
@@ -456,18 +456,18 @@ public final class TapGestureDetectorKt {
                 IllegalStateException $result3 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw $result3;
         }
-        $result.L$0 = obj2;
-        $result.L$1 = $this$waitForUpOrCancellation;
-        $result.label = extendedTouchPadding-NH-jbRc;
-        Object awaitPointerEvent = obj2.awaitPointerEvent($this$waitForUpOrCancellation, $result);
-        if (awaitPointerEvent != $continuation) {
-            $continuation2 = $result2;
-            $result2 = awaitPointerEvent;
-            index$iv$iv = obj2;
-            pass2 = $continuation;
+        $result2.L$0 = obj4;
+        $result2.L$1 = $this$waitForUpOrCancellation;
+        $result2.label = extendedTouchPadding-NH-jbRc;
+        Object awaitPointerEvent = obj4.awaitPointerEvent($this$waitForUpOrCancellation, $result2);
+        if (awaitPointerEvent != $continuation2) {
+            $continuation = $result;
+            $result = awaitPointerEvent;
+            index$iv$iv = obj4;
+            pass2 = $continuation2;
             anon2 = anon;
         }
-        return $continuation;
+        return $continuation2;
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility. Use version with PointerEventPass instead.")

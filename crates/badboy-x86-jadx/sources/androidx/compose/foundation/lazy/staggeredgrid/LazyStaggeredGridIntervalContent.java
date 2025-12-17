@@ -48,31 +48,31 @@ public final class LazyStaggeredGridIntervalContent extends LazyLayoutIntervalCo
     public void item(Object key, Object contentType, androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan span, Function3<? super androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemScope, ? super Composer, ? super Integer, Unit> content) {
         int it;
         Object obj;
-        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridIntervalContent.item.2 anon;
-        int anon3;
+        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridIntervalContent.item.2 anon4;
+        int anon;
         androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridIntervalContent.item.1.1 anon2;
-        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridIntervalContent.item.1.1 anon4;
+        androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridIntervalContent.item.1.1 anon3;
         int i;
         it = 0;
         if (key != null) {
             obj = key;
-            anon3 = 0;
+            anon = 0;
             anon2 = new LazyStaggeredGridIntervalContent.item.1.1(key);
-            anon4 = anon2;
+            anon3 = anon2;
         } else {
-            anon4 = it;
+            anon3 = it;
         }
-        anon = new LazyStaggeredGridIntervalContent.item.2(contentType);
+        anon4 = new LazyStaggeredGridIntervalContent.item.2(contentType);
         if (span != null) {
             androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan staggeredGridItemSpan = span;
-            anon = 0;
-            anon3 = new LazyStaggeredGridIntervalContent.item.3.1(span);
+            anon4 = 0;
+            anon = new LazyStaggeredGridIntervalContent.item.3.1(span);
             i = it;
         } else {
             i = it;
         }
         LazyStaggeredGridIntervalContent.item.4 anon5 = new LazyStaggeredGridIntervalContent.item.4(content);
-        this.items(1, anon4, (Function1)anon, i, (Function4)ComposableLambdaKt.composableLambdaInstance(657818596, true, anon5));
+        this.items(1, anon3, (Function1)anon4, i, (Function4)ComposableLambdaKt.composableLambdaInstance(657818596, true, anon5));
     }
 
     public void items(int count, Function1<? super Integer, ? extends Object> key, Function1<? super Integer, ? extends Object> contentType, Function1<? super Integer, androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan> span, Function4<? super androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemScope, ? super Integer, ? super Composer, ? super Integer, Unit> itemContent) {

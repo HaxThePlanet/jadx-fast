@@ -1,0 +1,32 @@
+package com.google.firebase.database.core.utilities.tuple;
+
+import com.google.firebase.database.core.Path;
+import com.google.firebase.database.snapshot.Node;
+
+/* loaded from: classes2.dex */
+public class NodeAndPath {
+
+    private Node node;
+    private Path path;
+    public NodeAndPath(Node node, Path path2) {
+        super();
+        this.node = node;
+        this.path = path2;
+    }
+
+    public Node getNode() {
+        return this.node;
+    }
+
+    public Path getPath() {
+        return this.path;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
+    public void setPath(Path path) {
+        this.path = path;
+    }
+}

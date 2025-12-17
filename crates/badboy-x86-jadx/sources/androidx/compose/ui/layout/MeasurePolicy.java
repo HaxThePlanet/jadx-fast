@@ -50,12 +50,12 @@ public interface MeasurePolicy {
 
     public int maxIntrinsicHeight(androidx.compose.ui.layout.IntrinsicMeasureScope $this$maxIntrinsicHeight, List<? extends androidx.compose.ui.layout.IntrinsicMeasurable> measurables, int width) {
         int index$iv$iv;
+        Object obj3;
         Object obj;
+        int i;
+        ArrayList list;
         Object obj2;
         int i2;
-        ArrayList list;
-        Object obj3;
-        int i;
         androidx.compose.ui.layout.DefaultIntrinsicMeasurable defaultIntrinsicMeasurable;
         androidx.compose.ui.layout.IntrinsicMinMax max;
         androidx.compose.ui.layout.IntrinsicWidthHeight height;
@@ -66,8 +66,8 @@ public interface MeasurePolicy {
         int i7 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < obj5.size()) {
-            i2 = 0;
             i = 0;
+            i2 = 0;
             defaultIntrinsicMeasurable = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj5.get(index$iv$iv), IntrinsicMinMax.Max, IntrinsicWidthHeight.Height);
             (Collection)arrayList.add(defaultIntrinsicMeasurable);
             index$iv$iv++;
@@ -79,12 +79,12 @@ public interface MeasurePolicy {
 
     public int maxIntrinsicWidth(androidx.compose.ui.layout.IntrinsicMeasureScope $this$maxIntrinsicWidth, List<? extends androidx.compose.ui.layout.IntrinsicMeasurable> measurables, int height) {
         int index$iv$iv;
-        Object obj;
         Object obj2;
-        int i;
+        Object obj;
+        int i2;
         ArrayList list;
         Object obj3;
-        int i2;
+        int i;
         androidx.compose.ui.layout.DefaultIntrinsicMeasurable defaultIntrinsicMeasurable;
         androidx.compose.ui.layout.IntrinsicMinMax max;
         androidx.compose.ui.layout.IntrinsicWidthHeight width;
@@ -95,8 +95,8 @@ public interface MeasurePolicy {
         int i7 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < obj5.size()) {
-            i = 0;
             i2 = 0;
+            i = 0;
             defaultIntrinsicMeasurable = new DefaultIntrinsicMeasurable((IntrinsicMeasurable)obj5.get(index$iv$iv), IntrinsicMinMax.Max, IntrinsicWidthHeight.Width);
             (Collection)arrayList.add(defaultIntrinsicMeasurable);
             index$iv$iv++;
@@ -110,11 +110,11 @@ public interface MeasurePolicy {
 
     public int minIntrinsicHeight(androidx.compose.ui.layout.IntrinsicMeasureScope $this$minIntrinsicHeight, List<? extends androidx.compose.ui.layout.IntrinsicMeasurable> measurables, int width) {
         int index$iv$iv;
-        Object obj3;
         Object obj;
+        Object obj2;
         int i2;
         ArrayList list;
-        Object obj2;
+        Object obj3;
         int i;
         androidx.compose.ui.layout.DefaultIntrinsicMeasurable defaultIntrinsicMeasurable;
         androidx.compose.ui.layout.IntrinsicMinMax min;
@@ -140,10 +140,10 @@ public interface MeasurePolicy {
     public int minIntrinsicWidth(androidx.compose.ui.layout.IntrinsicMeasureScope $this$minIntrinsicWidth, List<? extends androidx.compose.ui.layout.IntrinsicMeasurable> measurables, int height) {
         int index$iv$iv;
         Object obj3;
-        Object obj;
+        Object obj2;
         int i2;
         ArrayList list;
-        Object obj2;
+        Object obj;
         int i;
         androidx.compose.ui.layout.DefaultIntrinsicMeasurable defaultIntrinsicMeasurable;
         androidx.compose.ui.layout.IntrinsicMinMax min;

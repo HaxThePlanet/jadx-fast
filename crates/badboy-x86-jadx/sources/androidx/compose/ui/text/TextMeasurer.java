@@ -38,10 +38,10 @@ public final class TextMeasurer {
         }
 
         private final androidx.compose.ui.text.TextLayoutResult layout(androidx.compose.ui.text.TextLayoutInput textLayoutInput) {
-            boolean softWrap;
+            boolean softWrap2;
             int hasBoundedWidth-impl;
             int maxWidth-impl;
-            boolean softWrap2;
+            boolean softWrap;
             int i;
             int coerceIn;
             int maxLines;
@@ -122,19 +122,19 @@ public final class TextMeasurer {
 
     public static androidx.compose.ui.text.TextLayoutResult measure-wNUYSr0$default(androidx.compose.ui.text.TextMeasurer textMeasurer, String string2, androidx.compose.ui.text.TextStyle textStyle3, int i4, boolean z5, int i6, long l7, LayoutDirection layoutDirection8, Density density9, FontFamily.Resolver fontFamily$Resolver10, boolean z11, int i12, Object object13) {
         androidx.compose.ui.text.TextStyle textStyle;
+        int i8;
         int i2;
         int i10;
-        int i;
         long l;
-        int i3;
-        int i8;
-        LayoutDirection layoutDirection;
-        int i11;
-        Density density;
-        int i9;
-        FontFamily.Resolver resolver;
         int i5;
+        int i;
+        LayoutDirection layoutDirection;
+        int i3;
+        Density density;
         int i7;
+        FontFamily.Resolver resolver;
+        int i9;
+        int i11;
         androidx.compose.ui.text.TextStyle obj14;
         int obj15;
         int i13 = object13;
@@ -144,12 +144,12 @@ public final class TextMeasurer {
             textStyle = textStyle3;
         }
         if (i13 & 4 != 0) {
-            i2 = obj15;
+            i8 = obj15;
         } else {
-            i2 = i4;
+            i8 = i4;
         }
-        i10 = i13 & 8 != 0 ? obj14 : z5;
-        i = i13 & 16 != 0 ? obj14 : i6;
+        i2 = i13 & 8 != 0 ? obj14 : z5;
+        i10 = i13 & 16 != 0 ? obj14 : i6;
         if (i13 & 32 != 0) {
             l = obj14;
         } else {
@@ -158,25 +158,25 @@ public final class TextMeasurer {
         layoutDirection = i13 & 64 != 0 ? obj14 : density9;
         density = i13 & 128 != 0 ? obj14 : resolver10;
         resolver = i13 & 256 != 0 ? obj14 : z11;
-        i7 = i13 & 512 != 0 ? obj14 : i12;
-        return textMeasurer.measure-wNUYSr0(string2, textStyle, i2, i10, i, l, i3, layoutDirection, density, resolver);
+        i11 = i13 & 512 != 0 ? obj14 : i12;
+        return textMeasurer.measure-wNUYSr0(string2, textStyle, i8, i2, i10, l, i5, layoutDirection, density, resolver);
     }
 
     public static androidx.compose.ui.text.TextLayoutResult measure-xDpz5zY$default(androidx.compose.ui.text.TextMeasurer textMeasurer, androidx.compose.ui.text.AnnotatedString annotatedString2, androidx.compose.ui.text.TextStyle textStyle3, int i4, boolean z5, int i6, List list7, long l8, LayoutDirection layoutDirection9, Density density10, FontFamily.Resolver fontFamily$Resolver11, boolean z12, int i13, Object object14) {
-        int i8;
+        int i10;
         androidx.compose.ui.text.TextStyle textStyle;
-        int i3;
-        int i9;
+        int i;
+        int i7;
         int i2;
         List list;
         long l;
-        int i5;
-        int i7;
+        int i8;
+        int i3;
         LayoutDirection layoutDirection;
-        int i10;
+        int i5;
         Density density;
         FontFamily.Resolver resolver;
-        int i;
+        int i9;
         androidx.compose.ui.text.TextStyle obj15;
         int obj16;
         int obj17;
@@ -191,11 +191,11 @@ public final class TextMeasurer {
             textStyle = textStyle3;
         }
         if (i11 & 4 != 0) {
-            i3 = obj15;
+            i = obj15;
         } else {
-            i3 = i4;
+            i = i4;
         }
-        i9 = i11 & 8 != 0 ? obj15 : z5;
+        i7 = i11 & 8 != 0 ? obj15 : z5;
         i2 = i11 & 16 != 0 ? obj15 : i6;
         if (i11 & 32 != 0) {
             list = obj15;
@@ -210,8 +210,8 @@ public final class TextMeasurer {
         layoutDirection = i11 & 128 != 0 ? obj15 : density10;
         density = i11 & 256 != 0 ? obj15 : resolver11;
         resolver = i11 & 512 != 0 ? obj15 : z12;
-        i = i11 & 1024 != 0 ? obj15 : i13;
-        return textMeasurer.measure-xDpz5zY(annotatedString2, textStyle, i3, i9, i2, list, l, i5, layoutDirection, density, resolver);
+        i9 = i11 & 1024 != 0 ? obj15 : i13;
+        return textMeasurer.measure-xDpz5zY(annotatedString2, textStyle, i, i7, i2, list, l, i8, layoutDirection, density, resolver);
     }
 
     public final androidx.compose.ui.text.TextLayoutResult measure-wNUYSr0(String text, androidx.compose.ui.text.TextStyle style, int overflow, boolean softWrap, int maxLines, long constraints, LayoutDirection layoutDirection, Density density, FontFamily.Resolver fontFamilyResolver, boolean skipCache) {
@@ -220,12 +220,12 @@ public final class TextMeasurer {
     }
 
     public final androidx.compose.ui.text.TextLayoutResult measure-xDpz5zY(androidx.compose.ui.text.AnnotatedString text, androidx.compose.ui.text.TextStyle style, int overflow, boolean softWrap, int maxLines, List<androidx.compose.ui.text.AnnotatedString.Range<androidx.compose.ui.text.Placeholder>> placeholders, long constraints, LayoutDirection layoutDirection, Density density, FontFamily.Resolver fontFamilyResolver, boolean skipCache) {
-        Object textLayoutCache;
+        Object textLayoutCache2;
         int i;
         androidx.compose.ui.text.TextLayoutResult copy-O0kMr_c;
         androidx.compose.ui.text.TextLayoutResult ceilToInt;
         int i2;
-        androidx.compose.ui.text.TextLayoutCache textLayoutCache2;
+        androidx.compose.ui.text.TextLayoutCache textLayoutCache;
         long l;
         TextLayoutInput textLayoutInput = new TextLayoutInput(text, style, placeholders, maxLines, softWrap, overflow, fontFamilyResolver, density, skipCache, constraints, obj11, 0);
         if (obj25 == null && this.textLayoutCache != null) {
@@ -242,9 +242,9 @@ public final class TextMeasurer {
         } else {
             l = constraints;
             i2 = 0;
-            textLayoutCache2 = this.textLayoutCache;
-            if (textLayoutCache2 != null) {
-                textLayoutCache2.put(textLayoutInput, TextMeasurer.Companion.access$layout(TextMeasurer.Companion, textLayoutInput));
+            textLayoutCache = this.textLayoutCache;
+            if (textLayoutCache != null) {
+                textLayoutCache.put(textLayoutInput, TextMeasurer.Companion.access$layout(TextMeasurer.Companion, textLayoutInput));
             }
         }
         return copy-O0kMr_c;

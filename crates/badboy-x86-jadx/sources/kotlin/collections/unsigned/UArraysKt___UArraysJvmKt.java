@@ -53,8 +53,8 @@ class UArraysKt___UArraysJvmKt {
     public static final int binarySearch-2fe2U9s(int[] $this$binarySearch_u2d2fe2U9s, int element, int fromIndex, int toIndex) {
         int low;
         int high;
-        int i2;
         int i;
+        int i2;
         int uintCompare;
         Intrinsics.checkNotNullParameter($this$binarySearch_u2d2fe2U9s, "$this$binarySearch");
         AbstractList.Companion.checkRangeIndexes$kotlin_stdlib(fromIndex, toIndex, UIntArray.getSize-impl($this$binarySearch_u2d2fe2U9s));
@@ -62,9 +62,9 @@ class UArraysKt___UArraysJvmKt {
         high = toIndex + -1;
         while (low <= high) {
             i5 >>>= 1;
-            uintCompare = UnsignedKt.uintCompare($this$binarySearch_u2d2fe2U9s[i2], element);
-            high = i2 + -1;
-            low = i2 + 1;
+            uintCompare = UnsignedKt.uintCompare($this$binarySearch_u2d2fe2U9s[i], element);
+            high = i + -1;
+            low = i + 1;
         }
         return -mid;
     }
@@ -226,13 +226,13 @@ class UArraysKt___UArraysJvmKt {
     @Deprecated(message = "Use maxByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     private static final <R extends Comparable<? super R>> UByte maxBy-JOV_ifY(byte[] $this$maxBy_u2dJOV_ifY, Function1<? super UByte, ? extends R> selector) {
-        byte b2;
+        byte b;
         UByte box-impl;
         int lastIndex;
-        Object invoke2;
-        int i;
-        byte b;
         Object invoke;
+        int i;
+        byte b2;
+        Object invoke2;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxBy_u2dJOV_ifY, "$this$maxBy");
         Intrinsics.checkNotNullParameter(selector, "selector");
@@ -240,13 +240,13 @@ class UArraysKt___UArraysJvmKt {
             box-impl = 0;
         } else {
             lastIndex = ArraysKt.getLastIndex($this$maxBy_u2dJOV_ifY);
-            invoke2 = selector.invoke(UByte.box-impl(UByteArray.get-w2LRezQ($this$maxBy_u2dJOV_ifY, 0)));
+            invoke = selector.invoke(UByte.box-impl(UByteArray.get-w2LRezQ($this$maxBy_u2dJOV_ifY, 0)));
             if (lastIndex == 0 && 1 <= lastIndex) {
-                invoke2 = selector.invoke(UByte.box-impl(b2));
+                invoke = selector.invoke(UByte.box-impl(b));
                 if (1 <= lastIndex) {
                 }
             }
-            box-impl = UByte.box-impl(b2);
+            box-impl = UByte.box-impl(b);
         }
         return box-impl;
     }
@@ -313,10 +313,10 @@ class UArraysKt___UArraysJvmKt {
         short s2;
         UShort box-impl;
         int lastIndex;
-        Object invoke2;
+        Object invoke;
         int i;
         short s;
-        Object invoke;
+        Object invoke2;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxBy_u2dxTcfx_M, "$this$maxBy");
         Intrinsics.checkNotNullParameter(selector, "selector");
@@ -324,9 +324,9 @@ class UArraysKt___UArraysJvmKt {
             box-impl = 0;
         } else {
             lastIndex = ArraysKt.getLastIndex($this$maxBy_u2dxTcfx_M);
-            invoke2 = selector.invoke(UShort.box-impl(UShortArray.get-Mh2AYeg($this$maxBy_u2dxTcfx_M, 0)));
+            invoke = selector.invoke(UShort.box-impl(UShortArray.get-Mh2AYeg($this$maxBy_u2dxTcfx_M, 0)));
             if (lastIndex == 0 && 1 <= lastIndex) {
-                invoke2 = selector.invoke(UShort.box-impl(s2));
+                invoke = selector.invoke(UShort.box-impl(s2));
                 if (1 <= lastIndex) {
                 }
             }
@@ -398,13 +398,13 @@ class UArraysKt___UArraysJvmKt {
     @Deprecated(message = "Use minByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     private static final <R extends Comparable<? super R>> UByte minBy-JOV_ifY(byte[] $this$minBy_u2dJOV_ifY, Function1<? super UByte, ? extends R> selector) {
-        byte b2;
+        byte b;
         UByte box-impl;
         int lastIndex;
-        Object invoke2;
-        int i;
-        byte b;
         Object invoke;
+        int i;
+        byte b2;
+        Object invoke2;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minBy_u2dJOV_ifY, "$this$minBy");
         Intrinsics.checkNotNullParameter(selector, "selector");
@@ -412,13 +412,13 @@ class UArraysKt___UArraysJvmKt {
             box-impl = 0;
         } else {
             lastIndex = ArraysKt.getLastIndex($this$minBy_u2dJOV_ifY);
-            invoke2 = selector.invoke(UByte.box-impl(UByteArray.get-w2LRezQ($this$minBy_u2dJOV_ifY, 0)));
+            invoke = selector.invoke(UByte.box-impl(UByteArray.get-w2LRezQ($this$minBy_u2dJOV_ifY, 0)));
             if (lastIndex == 0 && 1 <= lastIndex) {
-                invoke2 = selector.invoke(UByte.box-impl(b2));
+                invoke = selector.invoke(UByte.box-impl(b));
                 if (1 <= lastIndex) {
                 }
             }
-            box-impl = UByte.box-impl(b2);
+            box-impl = UByte.box-impl(b);
         }
         return box-impl;
     }
@@ -454,11 +454,11 @@ class UArraysKt___UArraysJvmKt {
     @Deprecated(message = "Use minByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     private static final <R extends Comparable<? super R>> UInt minBy-jgv0xPQ(int[] $this$minBy_u2djgv0xPQ, Function1<? super UInt, ? extends R> selector) {
-        int i;
+        int i3;
         UInt box-impl;
         int lastIndex;
         Object invoke;
-        int i3;
+        int i;
         int i2;
         Object invoke2;
         int compareTo;
@@ -470,11 +470,11 @@ class UArraysKt___UArraysJvmKt {
             lastIndex = ArraysKt.getLastIndex($this$minBy_u2djgv0xPQ);
             invoke = selector.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$minBy_u2djgv0xPQ, 0)));
             if (lastIndex == 0 && 1 <= lastIndex) {
-                invoke = selector.invoke(UInt.box-impl(i));
+                invoke = selector.invoke(UInt.box-impl(i3));
                 if (1 <= lastIndex) {
                 }
             }
-            box-impl = UInt.box-impl(i);
+            box-impl = UInt.box-impl(i3);
         }
         return box-impl;
     }
@@ -482,12 +482,12 @@ class UArraysKt___UArraysJvmKt {
     @Deprecated(message = "Use minByOrNull instead.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.5", hiddenSince = "1.6", warningSince = "1.4")
     private static final <R extends Comparable<? super R>> UShort minBy-xTcfx_M(short[] $this$minBy_u2dxTcfx_M, Function1<? super UShort, ? extends R> selector) {
-        short s2;
+        short s;
         UShort box-impl;
         int lastIndex;
         Object invoke2;
         int i;
-        short s;
+        short s2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minBy_u2dxTcfx_M, "$this$minBy");
@@ -498,11 +498,11 @@ class UArraysKt___UArraysJvmKt {
             lastIndex = ArraysKt.getLastIndex($this$minBy_u2dxTcfx_M);
             invoke2 = selector.invoke(UShort.box-impl(UShortArray.get-Mh2AYeg($this$minBy_u2dxTcfx_M, 0)));
             if (lastIndex == 0 && 1 <= lastIndex) {
-                invoke2 = selector.invoke(UShort.box-impl(s2));
+                invoke2 = selector.invoke(UShort.box-impl(s));
                 if (1 <= lastIndex) {
                 }
             }
-            box-impl = UShort.box-impl(s2);
+            box-impl = UShort.box-impl(s);
         }
         return box-impl;
     }
@@ -636,19 +636,19 @@ class UArraysKt___UArraysJvmKt {
 
     private static final BigInteger sumOfBigInteger(int[] $this$sumOf_u2djgv0xPQ, Function1<? super UInt, ? extends BigInteger> selector) {
         BigInteger sum;
-        int i;
         int i2;
+        int i;
         BigInteger num;
         String str;
         Intrinsics.checkNotNullParameter($this$sumOf_u2djgv0xPQ, "$this$sumOf");
         Intrinsics.checkNotNullParameter(selector, "selector");
         Intrinsics.checkNotNullExpressionValue(BigInteger.valueOf(0), "valueOf(...)");
-        i = 0;
-        while (i < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
-            num = sum.add((BigInteger)selector.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$sumOf_u2djgv0xPQ, i))));
+        i2 = 0;
+        while (i2 < UIntArray.getSize-impl($this$sumOf_u2djgv0xPQ)) {
+            num = sum.add((BigInteger)selector.invoke(UInt.box-impl(UIntArray.get-pVg5ArA($this$sumOf_u2djgv0xPQ, i2))));
             Intrinsics.checkNotNullExpressionValue(num, "add(...)");
             sum = num;
-            i++;
+            i2++;
         }
         return sum;
     }

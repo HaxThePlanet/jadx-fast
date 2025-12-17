@@ -76,12 +76,12 @@ public abstract class IntSet {
         Object this_$iv;
         int j$iv$iv;
         long slot$iv$iv;
-        int i3;
+        int i5;
         long l;
+        int i;
+        int i3;
         int i4;
         int i2;
-        int i;
-        int i5;
         Object obj28;
         int obj29;
         int obj31;
@@ -142,18 +142,18 @@ public abstract class IntSet {
 
     public final boolean all(Function1<? super Integer, Boolean> predicate) {
         int i$iv$iv;
-        int cmp2;
+        int cmp;
         long booleanValue;
         int j$iv$iv;
         long value$iv$iv$iv;
         int i6;
         int i4;
-        int i;
-        long slot$iv$iv;
-        long cmp;
-        int i3;
-        int i5;
         int i2;
+        long slot$iv$iv;
+        long cmp2;
+        int i5;
+        int i;
+        int i3;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
         int i7 = 0;
@@ -164,9 +164,9 @@ public abstract class IntSet {
         length += -2;
         if (0 <= i10) {
         } else {
-            i = 1;
+            i2 = 1;
         }
-        return i;
+        return i2;
     }
 
     public final boolean any() {
@@ -181,12 +181,12 @@ public abstract class IntSet {
         long booleanValue;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i2;
-        int i;
         int i5;
+        int i6;
+        int i;
         long slot$iv$iv;
         long cmp;
-        int i6;
+        int i2;
         int i3;
         int i4;
         final Object obj = predicate;
@@ -199,37 +199,37 @@ public abstract class IntSet {
         length += -2;
         if (0 <= i10) {
         } else {
-            i5 = 0;
+            i = 0;
         }
-        return i5;
+        return i;
     }
 
     public final boolean contains(int element) {
-        int m$iv;
         int m$iv2;
+        int m$iv;
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex$iv;
+        int i4;
+        int i6;
+        int $this$hasNext$iv$iv;
+        int i8;
+        int i10;
+        int i;
+        int $this$next$iv$iv;
+        int i2;
+        long l;
+        int i9;
+        int i12;
+        int i11;
+        int i13;
+        int i14;
         int i7;
         int i3;
-        int $this$hasNext$iv$iv;
-        int i12;
-        int i13;
-        int i8;
-        int $this$next$iv$iv;
-        int i4;
-        long l;
-        int i;
-        int i10;
-        int i5;
-        int i9;
-        int i14;
-        int i11;
-        int i2;
         int numberOfTrailingZeros;
-        int i6;
+        int i5;
         final Object obj = this;
-        m$iv = 0;
+        m$iv2 = 0;
         int i20 = 0;
         i21 *= i24;
         $i$f$hash = i22 ^ i25;
@@ -241,52 +241,52 @@ public abstract class IntSet {
         while (/* condition */) {
             int i31 = 0;
             int i36 = 0;
-            i2 = 1;
+            i3 = 1;
             while (Long.compare(i27, i36) != 0) {
-                $this$hasNext$iv$iv = i2;
+                $this$hasNext$iv$iv = i3;
                 int i32 = 0;
-                i10 = 0;
-                int i38 = m$iv2;
                 i12 = 0;
-                m$iv2 = $this$next$iv$iv;
+                int i38 = m$iv;
+                i8 = 0;
+                m$iv = $this$next$iv$iv;
                 i31 = 0;
                 i36 = 0;
-                i2 = 1;
-                $this$hasNext$iv$iv = i11;
+                i3 = 1;
+                $this$hasNext$iv$iv = i7;
             }
-            $this$hasNext$iv$iv = i11;
-            i13 = element;
+            $this$hasNext$iv$iv = i7;
+            i10 = element;
             int i29 = i14;
-            i10 = 0;
+            i12 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i7 & _capacity;
-            m$iv = i5;
-            $i$f$hash = i9;
+            $i$f$h1 = i4 & _capacity;
+            m$iv2 = i11;
+            $i$f$hash = i13;
             long[] metadata = obj.metadata;
-            i12 = 0;
+            i8 = 0;
             int i30 = $i$f$h1 >> 3;
             i33 <<= 3;
             l3 >>>= i34;
-            i17 |= i4;
-            i13 = 0;
+            i17 |= i2;
+            i10 = 0;
             long l4 = 72340172838076673L;
-            i35 ^= i3;
+            i35 ^= i6;
             l = -9187201950435737472L;
             i19 &= l;
             i32 = 0;
-            i10 = 0;
-            i38 = m$iv2;
             i12 = 0;
-            m$iv2 = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i2;
+            i38 = m$iv;
+            i8 = 0;
+            m$iv = $this$next$iv$iv;
+            $this$hasNext$iv$iv = i3;
         }
-        if (i3 >= 0) {
-            i11 = i2;
+        if (i6 >= 0) {
+            i7 = i3;
         }
-        return i11;
+        return i7;
     }
 
     public final int count() {
@@ -299,14 +299,14 @@ public abstract class IntSet {
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i3;
-        int i4;
+        int i;
+        int i2;
         int $i$f$count;
         int count;
         long l;
+        int i3;
+        int i4;
         int i5;
-        int i;
-        int i2;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
         booleanValue = 0;
@@ -326,30 +326,30 @@ public abstract class IntSet {
     public boolean equals(Object other) {
         int cmp;
         Object contains;
-        int i;
+        int i6;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
         int value$iv$iv$iv;
+        int i4;
         int i3;
-        int i5;
         Object obj;
         long l;
-        int i4;
+        int i;
         int i2;
-        int i6;
+        int i5;
         final Object obj2 = this;
         final Object obj3 = other;
         cmp = 1;
         if (obj3 == obj2) {
             return cmp;
         }
-        i = 0;
+        i6 = 0;
         if (obj3 instanceof IntSet == null) {
-            return i;
+            return i6;
         }
         if (obj4._size != obj2._size) {
-            return i;
+            return i6;
         }
         contains = this;
         int i14 = 0;
@@ -358,10 +358,10 @@ public abstract class IntSet {
         length += -2;
         if (0 <= i16) {
         } else {
-            i5 = cmp;
+            i3 = cmp;
             obj = contains;
         }
-        return i5;
+        return i3;
     }
 
     public final int findElementIndex$collection(int element) {
@@ -370,23 +370,23 @@ public abstract class IntSet {
         int $i$f$hash;
         int $i$f$h1;
         int probeIndex;
-        int i2;
-        int i14;
-        int i8;
-        int i12;
-        int i13;
-        int i5;
-        int $this$next$iv;
-        int i6;
-        long l;
-        int i;
-        int i15;
-        int i7;
-        int i9;
+        int i11;
         int i10;
         int i3;
-        int i11;
+        int i12;
+        int i2;
         int i4;
+        int $this$next$iv;
+        int i;
+        long l;
+        int i5;
+        int i6;
+        int i13;
+        int i14;
+        int i9;
+        int i15;
+        int i8;
+        int i7;
         final Object obj = this;
         m2 = 0;
         int i21 = 0;
@@ -401,44 +401,44 @@ public abstract class IntSet {
             int i33 = 0;
             int i38 = 0;
             while (Long.compare(i28, i38) != 0) {
-                i7 = 1;
+                i13 = 1;
                 int i34 = 0;
-                i15 = 0;
-                i14 = i40 & _capacity;
+                i6 = 0;
+                i10 = i40 & _capacity;
                 int i41 = m;
-                i8 = 0;
+                i3 = 0;
                 m = $this$next$iv;
                 i33 = 0;
                 i38 = 0;
-                i7 = 0;
+                i13 = 0;
             }
-            i7 = 0;
+            i13 = 0;
             i12 = element;
-            int i30 = i3;
-            i15 = 0;
-            $i$f$h1 = i2 & _capacity;
-            m2 = i9;
-            $i$f$hash = i10;
+            int i30 = i15;
+            i6 = 0;
+            $i$f$h1 = i11 & _capacity;
+            m2 = i14;
+            $i$f$hash = i9;
             long[] metadata = obj.metadata;
-            i8 = 0;
+            i3 = 0;
             int i32 = $i$f$h1 >> 3;
             i35 <<= 3;
             l3 >>>= i36;
-            i18 |= i6;
-            i13 = 0;
+            i18 |= i;
+            i2 = 0;
             long l4 = 72340172838076673L;
-            i37 ^= i14;
+            i37 ^= i10;
             l = -9187201950435737472L;
             i20 &= l;
             i34 = 0;
-            i15 = 0;
-            i14 = i40 & _capacity;
+            i6 = 0;
+            i10 = i40 & _capacity;
             i41 = m;
-            i8 = 0;
+            i3 = 0;
             m = $this$next$iv;
-            i7 = 1;
+            i13 = 1;
         }
-        return i14;
+        return i10;
     }
 
     public final int first() {
@@ -447,9 +447,9 @@ public abstract class IntSet {
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         int i3;
         int j$iv$iv;
-        int i;
-        long l;
         int i2;
+        long l;
+        int i;
         final int i4 = 0;
         Object obj = this;
         int i5 = 0;
@@ -469,14 +469,14 @@ public abstract class IntSet {
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
-        int i5;
+        int i;
         int i4;
         int $i$f$first;
         Object obj;
         long l;
-        int i2;
         int i3;
-        int i;
+        int i2;
+        int i5;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter(obj2, "predicate");
         booleanValue = this;
@@ -499,10 +499,10 @@ public abstract class IntSet {
         int $this$maskEmptyOrDeleted$iv$iv;
         int valueOf;
         int j$iv;
-        int i4;
-        int i;
-        long l;
         int i2;
+        int i4;
+        long l;
+        int i;
         int i3;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
@@ -516,15 +516,15 @@ public abstract class IntSet {
     }
 
     public final void forEachIndex(Function1<? super Integer, Unit> block) {
-        int i3;
+        int i4;
         long slot;
         int $this$maskEmptyOrDeleted$iv;
-        int i4;
+        int i3;
         int j;
-        int i2;
+        int i;
         Integer valueOf;
         long l;
-        int i;
+        int i2;
         Intrinsics.checkNotNullParameter(block, "block");
         int i5 = 0;
         final long[] metadata = this.metadata;
@@ -546,14 +546,14 @@ public abstract class IntSet {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i2;
+        int i5;
         int j$iv$iv;
-        int i6;
+        int i2;
         int i;
         long l;
-        int i4;
-        int i5;
+        int i6;
         int i3;
+        int i4;
         hash = 0;
         final Object obj = this;
         final int i7 = 0;
@@ -608,22 +608,22 @@ public abstract class IntSet {
     }
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated) {
-        int i8;
+        int i4;
         Object obj;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i4;
+        int i9;
         int index;
         int j$iv$iv;
         int i$iv$iv;
         long slot$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i7;
-        int i9;
-        int i5;
-        int i;
-        long l;
         int i6;
+        int i;
+        int i5;
+        int i8;
+        long l;
         int i2;
+        int i7;
         int i3;
         final Object obj2 = separator;
         obj = prefix;
@@ -636,18 +636,18 @@ public abstract class IntSet {
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder sb = stringBuilder;
         sb.append(obj);
-        i4 = 0;
+        i9 = 0;
         index = this;
         final int i15 = 0;
         final long[] metadata = obj5.metadata;
         length += -2;
         if (0 <= i16) {
         } else {
-            i8 = limit;
+            i4 = limit;
             i5 = $this$maskEmptyOrDeleted$iv$iv$iv;
             $this$maskEmptyOrDeleted$iv$iv$iv2 = index;
-            i7 = j$iv$iv;
-            index = i4;
+            i6 = j$iv$iv;
+            index = i9;
             sb.append(obj3);
         }
         String string = stringBuilder.toString();
@@ -660,21 +660,21 @@ public abstract class IntSet {
         int $i$f$joinToString;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
         int index2;
+        int i8;
         int i6;
-        int i4;
         int this_$iv;
         Object index;
         int j$iv$iv;
         long slot$iv$iv;
         Object $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i5;
-        int i;
-        int i8;
-        int i7;
-        long l;
-        int i9;
-        int i2;
         int i3;
+        int i2;
+        int $i$a$BuildStringIntSet$joinToString$2;
+        int i5;
+        long l;
+        int i;
+        int i7;
+        int i4;
         Object obj = prefix;
         final Object obj2 = postfix;
         final Object obj3 = truncated;
@@ -688,15 +688,15 @@ public abstract class IntSet {
         final StringBuilder sb = stringBuilder;
         sb.append(obj);
         index = this;
-        final int i18 = 0;
+        final int i17 = 0;
         final long[] metadata = obj5.metadata;
         length += -2;
-        final int i19 = i11;
-        if (0 <= i10) {
+        final int i18 = i10;
+        if (0 <= i9) {
         } else {
-            i8 = $this$maskEmptyOrDeleted$iv$iv$iv;
+            $i$a$BuildStringIntSet$joinToString$2 = $this$maskEmptyOrDeleted$iv$iv$iv;
             $this$maskEmptyOrDeleted$iv$iv$iv2 = index;
-            i5 = j$iv$iv;
+            i3 = j$iv$iv;
             index2 = limit;
             this_$iv = invoke;
             sb.append(obj2);
@@ -712,19 +712,19 @@ public abstract class IntSet {
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int i4;
         StringBuilder stringBuilder;
-        int i;
+        int i5;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int i6;
-        int i7;
+        int i2;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i2;
         int i3;
-        int i5;
+        int i7;
+        int i;
         Object obj = prefix;
         final Object obj2 = postfix;
         final Object obj3 = transform;
@@ -737,10 +737,10 @@ public abstract class IntSet {
         sb2.append(obj);
         index$iv = 0;
         final Object obj4 = this;
+        final int i14 = 0;
         final int i15 = 0;
-        final int i16 = 0;
         long[] metadata = obj5.metadata;
-        final int i17 = i8;
+        final int i16 = i8;
         $i$f$joinToString2 += -2;
         if (0 <= i9) {
         } else {
@@ -757,20 +757,20 @@ public abstract class IntSet {
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int i4;
-        int i;
+        int i2;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i2;
-        int i3;
         int i5;
+        int i3;
+        int i;
         final Object obj = separator;
         Object obj2 = prefix;
         final Object obj3 = postfix;
@@ -784,16 +784,16 @@ public abstract class IntSet {
         sb2.append(obj2);
         index$iv = 0;
         final Object obj5 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         long[] metadata = obj6.metadata;
-        final int i16 = i6;
+        final int i15 = i6;
         $i$f$joinToString2 += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
             sb2.append(obj3);
         }
         String string = sb.toString();
@@ -803,20 +803,20 @@ public abstract class IntSet {
 
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int i5;
         int i4;
-        int i;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i3;
-        int i5;
         int i2;
+        int i;
+        int i3;
         final Object obj = separator;
         Object obj2 = prefix;
         final Object obj3 = transform;
@@ -828,16 +828,16 @@ public abstract class IntSet {
         sb2.append(obj2);
         index$iv = 0;
         final Object obj4 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
         long[] metadata = obj5.metadata;
-        final int i16 = i6;
+        final int i15 = i6;
         $i$f$joinToString2 += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
             sb2.append((CharSequence)"");
         }
         String string = sb.toString();
@@ -847,20 +847,20 @@ public abstract class IntSet {
 
     public final String joinToString(java.lang.CharSequence separator, Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i3;
-        int i2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+        int i4;
+        int i5;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
-        int i5;
-        int i4;
+        int i3;
         int i;
+        int i2;
         final Object obj = separator;
         final Object obj2 = transform;
         Intrinsics.checkNotNullParameter(obj, "separator");
@@ -872,17 +872,17 @@ public abstract class IntSet {
         sb2.append((CharSequence)str4);
         index$iv = 0;
         final Object obj3 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
-        final int i16 = i6;
+        final int i15 = i6;
         long[] $i$f$joinToString2 = obj4.metadata;
         final String str7 = str4;
         prefix$iv += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
             sb2.append((CharSequence)str3);
         }
         String string = sb.toString();
@@ -892,20 +892,20 @@ public abstract class IntSet {
 
     public final String joinToString(Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
         int m$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
         int stringBuilder;
         int j$iv$iv$iv;
         int index$iv;
         long slot$iv$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i3;
+        int $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+        int i5;
         int i;
         int $i$f$joinToString;
         StringBuilder sb;
         long l;
         int i4;
+        int i3;
         int i2;
-        int i5;
         final Object obj = transform;
         Intrinsics.checkNotNullParameter(obj, "transform");
         final String str3 = "";
@@ -915,17 +915,17 @@ public abstract class IntSet {
         sb2.append((CharSequence)str4);
         index$iv = 0;
         final Object obj2 = this;
+        final int i13 = 0;
         final int i14 = 0;
-        final int i15 = 0;
-        final int i16 = i6;
+        final int i15 = i6;
         long[] $i$f$joinToString2 = obj3.metadata;
         final String str7 = str4;
         prefix$iv += -2;
         if (0 <= i7) {
         } else {
-            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv;
+            $i$f$joinToString = $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
             sb = stringBuilder;
-            $this$maskEmptyOrDeleted$iv$iv$iv$iv2 = j$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv$iv = j$iv$iv$iv;
             sb2.append((CharSequence)str3);
         }
         String string = sb.toString();

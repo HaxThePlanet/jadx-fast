@@ -27,20 +27,20 @@ final class FlowKt__ErrorsKt {
 
     public static final <T> Object catchImpl(kotlinx.coroutines.flow.Flow<? extends T> flow, kotlinx.coroutines.flow.FlowCollector<? super T> flowCollector2, Continuation<? super Throwable> continuation3) {
         boolean anon;
-        Object i3;
-        int i2;
+        Object i2;
+        int i3;
         int objectRef;
         Object collect;
         int i;
         Object obj5;
         Object obj7;
         anon = continuation3;
-        i2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof FlowKt__ErrorsKt.catchImpl.1 && label &= i2 != 0) {
+        i3 = Integer.MIN_VALUE;
+        if (continuation3 instanceof FlowKt__ErrorsKt.catchImpl.1 && label &= i3 != 0) {
             anon = continuation3;
-            i2 = Integer.MIN_VALUE;
-            if (label &= i2 != 0) {
-                anon.label = obj7 -= i2;
+            i3 = Integer.MIN_VALUE;
+            if (label &= i3 != 0) {
+                anon.label = obj7 -= i3;
             } else {
                 anon = new FlowKt__ErrorsKt.catchImpl.1(continuation3);
             }
@@ -83,22 +83,22 @@ final class FlowKt__ErrorsKt {
     private static final boolean isSameExceptionAs$FlowKt__ErrorsKt(Throwable $this$isSameExceptionAs, Throwable other) {
         int i;
         boolean equal;
-        Throwable unwrapImpl;
         Throwable unwrapImpl2;
+        Throwable unwrapImpl;
         if (other != null) {
             int i2 = 0;
             if (!DebugKt.getRECOVER_STACK_TRACES()) {
-                unwrapImpl = other;
+                unwrapImpl2 = other;
             } else {
-                unwrapImpl = StackTraceRecoveryKt.unwrapImpl(other);
+                unwrapImpl2 = StackTraceRecoveryKt.unwrapImpl(other);
             }
             int $i$f$unwrap = 0;
             if (!DebugKt.getRECOVER_STACK_TRACES()) {
-                unwrapImpl2 = $this$isSameExceptionAs;
+                unwrapImpl = $this$isSameExceptionAs;
             } else {
-                unwrapImpl2 = StackTraceRecoveryKt.unwrapImpl($this$isSameExceptionAs);
+                unwrapImpl = StackTraceRecoveryKt.unwrapImpl($this$isSameExceptionAs);
             }
-            i = Intrinsics.areEqual(unwrapImpl, unwrapImpl2) ? 1 : 0;
+            i = Intrinsics.areEqual(unwrapImpl2, unwrapImpl) ? 1 : 0;
         } else {
         }
         return i;

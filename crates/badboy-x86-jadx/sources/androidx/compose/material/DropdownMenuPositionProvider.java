@@ -69,24 +69,24 @@ public final class DropdownMenuPositionProvider implements PopupPositionProvider
     @Override // androidx.compose.ui.window.PopupPositionProvider
     public long calculatePosition-llwVHH4(IntRect anchorBounds, long windowSize, LayoutDirection layoutDirection, long popupContentSize) {
         LayoutDirection layoutDirection2;
-        int intValue3;
+        int intValue4;
         int $this$calculatePosition_llwVHH4_u24lambda_u240;
+        int i5;
         int i2;
-        int i;
-        int intValue2;
+        int intValue3;
         Sequence sequenceOf;
         int width-impl2;
-        int intValue4;
+        int intValue2;
         Integer valueOf;
-        int i5;
+        int i3;
         int i6;
         int width-impl;
         Object next;
-        int i7;
+        int i4;
         int intValue;
         int next2;
-        int i4;
-        int i3;
+        int i;
+        int i7;
         int height-impl;
         int verticalMargin;
         Object obj = this;
@@ -94,9 +94,9 @@ public final class DropdownMenuPositionProvider implements PopupPositionProvider
         int i9 = 0;
         $this$calculatePosition_llwVHH4_u24lambda_u240 = obj.density.roundToPx-0680j_4(MenuKt.getMenuVerticalMargin());
         int i10 = 0;
-        i = 1;
-        i2 = layoutDirection2 == LayoutDirection.Ltr ? i : -1;
-        roundToPx-0680j_4 *= i2;
+        i2 = 1;
+        i5 = layoutDirection2 == LayoutDirection.Ltr ? i2 : -1;
+        roundToPx-0680j_4 *= i5;
         int i11 = 0;
         int $this$calculatePosition_llwVHH4_u24lambda_u242 = obj.density.roundToPx-0680j_4(DpOffset.getY-D9Ej5fM(obj.contentOffset));
         left += i13;
@@ -105,20 +105,20 @@ public final class DropdownMenuPositionProvider implements PopupPositionProvider
         int i17 = 0;
         width-impl2 = 3;
         int i22 = 2;
-        intValue4 = 0;
+        intValue2 = 0;
         if (layoutDirection2 == LayoutDirection.Ltr) {
             Integer[] arr2 = new Integer[width-impl2];
-            arr2[intValue4] = Integer.valueOf(i12);
-            arr2[i] = Integer.valueOf(i15);
+            arr2[intValue2] = Integer.valueOf(i12);
+            arr2[i2] = Integer.valueOf(i15);
             i6 = anchorBounds.getLeft() >= 0 ? i16 : i17;
             arr2[i22] = Integer.valueOf(i6);
             sequenceOf = SequencesKt.sequenceOf(arr2);
         } else {
             Integer[] arr = new Integer[width-impl2];
-            arr[intValue4] = Integer.valueOf(i15);
-            arr[i] = Integer.valueOf(i12);
-            i5 = anchorBounds.getRight() <= IntSize.getWidth-impl(windowSize) ? i17 : i16;
-            arr[i22] = Integer.valueOf(i5);
+            arr[intValue2] = Integer.valueOf(i15);
+            arr[i2] = Integer.valueOf(i12);
+            i3 = anchorBounds.getRight() <= IntSize.getWidth-impl(windowSize) ? i17 : i16;
+            arr[i22] = Integer.valueOf(i3);
             sequenceOf = SequencesKt.sequenceOf(arr);
         }
         int i25 = 0;
@@ -129,59 +129,59 @@ public final class DropdownMenuPositionProvider implements PopupPositionProvider
             if (intValue >= 0) {
             } else {
             }
-            i3 = i;
-            i4 = width-impl2;
-            i = intValue4;
-            width-impl2 = i4;
-            i = i3;
-            i4 = width-impl2;
+            i7 = i2;
+            i = width-impl2;
+            i2 = intValue2;
+            width-impl2 = i;
+            i2 = i7;
+            i = width-impl2;
             if (intValue + width-impl7 <= IntSize.getWidth-impl(windowSize)) {
             } else {
             }
-            i = i3;
+            i2 = i7;
         }
-        i3 = i;
-        i4 = width-impl2;
-        next = i7;
+        i7 = i2;
+        i = width-impl2;
+        next = i4;
         if ((Integer)next != 0) {
-            intValue2 = (Integer)next.intValue();
+            intValue3 = (Integer)next.intValue();
         } else {
-            intValue2 = i15;
+            intValue3 = i15;
         }
         i20 += $this$calculatePosition_llwVHH4_u24lambda_u242;
         Integer[] arr3 = new Integer[4];
-        arr3[intValue4] = Integer.valueOf(Math.max(bottom += $this$calculatePosition_llwVHH4_u24lambda_u242, $this$calculatePosition_llwVHH4_u24lambda_u240));
-        arr3[i3] = Integer.valueOf(i21);
+        arr3[intValue2] = Integer.valueOf(Math.max(bottom += $this$calculatePosition_llwVHH4_u24lambda_u242, $this$calculatePosition_llwVHH4_u24lambda_u240));
+        arr3[i7] = Integer.valueOf(i21);
         arr3[i22] = Integer.valueOf(i26 += $this$calculatePosition_llwVHH4_u24lambda_u242);
-        arr3[i4] = Integer.valueOf(i29 -= $this$calculatePosition_llwVHH4_u24lambda_u240);
+        arr3[i] = Integer.valueOf(i29 -= $this$calculatePosition_llwVHH4_u24lambda_u240);
         int i32 = 0;
         Iterator iterator2 = SequencesKt.sequenceOf(arr3).iterator();
         while (iterator2.hasNext()) {
             next2 = iterator2.next();
-            intValue4 = (Number)next2.intValue();
-            i4 = 0;
-            if (intValue4 >= $this$calculatePosition_llwVHH4_u24lambda_u240) {
+            intValue2 = (Number)next2.intValue();
+            i = 0;
+            if (intValue2 >= $this$calculatePosition_llwVHH4_u24lambda_u240) {
             } else {
             }
             verticalMargin = $this$calculatePosition_llwVHH4_u24lambda_u240;
             layoutDirection2 = 0;
             layoutDirection2 = popupContentSize;
             $this$calculatePosition_llwVHH4_u24lambda_u240 = verticalMargin;
-            intValue4 = 0;
-            if (intValue4 + height-impl7 <= height-impl - verticalMargin) {
+            intValue2 = 0;
+            if (intValue2 + height-impl7 <= height-impl - verticalMargin) {
             } else {
             }
-            layoutDirection2 = i3;
+            layoutDirection2 = i7;
         }
         verticalMargin = $this$calculatePosition_llwVHH4_u24lambda_u240;
-        if ((Integer)i7 != 0) {
-            intValue3 = (Integer)i7.intValue();
+        if ((Integer)i4 != 0) {
+            intValue4 = (Integer)i4.intValue();
         } else {
-            intValue3 = i21;
+            intValue4 = i21;
         }
-        IntRect intRect = new IntRect(intValue2, intValue3, width-impl6 += intValue2, intValue3 + height-impl6);
+        IntRect intRect = new IntRect(intValue3, intValue4, width-impl6 += intValue3, intValue4 + height-impl6);
         obj.onPositionCalculated.invoke(anchorBounds, intRect);
-        return IntOffsetKt.IntOffset(intValue2, intValue3);
+        return IntOffsetKt.IntOffset(intValue3, intValue4);
     }
 
     @Override // androidx.compose.ui.window.PopupPositionProvider

@@ -82,19 +82,19 @@ public final class Size {
 
     public static long copy-xjbvk4A$default(long l, float f2, float f3, int i4, Object object5) {
         int bits$iv$iv;
-        int i;
         int i2;
+        int i;
         float obj6;
         float obj7;
         int obj9;
         if (object5 & 1 != 0) {
             obj6 = 0;
-            i2 = 0;
+            i = 0;
             obj6 = obj9;
         }
         if (object5 &= 2 != 0) {
             obj9 = 0;
-            i = 0;
+            i2 = 0;
             obj7 = bits$iv$iv;
         }
         return Size.copy-xjbvk4A(l, f2, obj6);
@@ -231,12 +231,12 @@ public final class Size {
 
     public static String toString-impl(long arg0) {
         String string;
-        int i2;
         int i;
+        int i2;
         final int i3 = 0;
         final int i4 = 1;
-        i = Long.compare(l, l2) != 0 ? i4 : 0;
-        if (i != 0) {
+        i2 = Long.compare(l, l2) != 0 ? i4 : 0;
+        if (i2 != 0) {
             StringBuilder stringBuilder = new StringBuilder();
             string = stringBuilder.append("Size(").append(GeometryUtilsKt.toStringAsFixed(Size.getWidth-impl(arg0), i4)).append(", ").append(GeometryUtilsKt.toStringAsFixed(Size.getHeight-impl(arg0), i4)).append(')').toString();
         } else {

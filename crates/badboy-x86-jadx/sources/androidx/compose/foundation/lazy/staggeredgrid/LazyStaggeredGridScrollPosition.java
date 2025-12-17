@@ -80,8 +80,8 @@ public final class LazyStaggeredGridScrollPosition {
     private final int calculateFirstVisibleScrollOffset(int[] indices, int[] offsets) {
         int minOffset;
         int lane;
-        int i;
         int i2;
+        int i;
         minOffset = Integer.MAX_VALUE;
         lane = 0;
         while (lane < offsets.length) {
@@ -90,8 +90,8 @@ public final class LazyStaggeredGridScrollPosition {
             lane++;
             minOffset = Math.min(minOffset, offsets[lane]);
         }
-        i = minOffset == Integer.MAX_VALUE ? 0 : minOffset;
-        return i;
+        i2 = minOffset == Integer.MAX_VALUE ? 0 : minOffset;
+        return i2;
     }
 
     private final void setIndex(int <set-?>) {
@@ -154,7 +154,7 @@ public final class LazyStaggeredGridScrollPosition {
 
     public final void updateFromMeasureResult(androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridMeasureResult measureResult) {
         int key;
-        boolean hadFirstNotEmptyLayout;
+        boolean $i$a$WithoutReadObservationLazyStaggeredGridScrollPosition$updateFromMeasureResult$2;
         Snapshot.Companion companion;
         int list;
         Snapshot currentThreadSnapshot;
@@ -162,12 +162,12 @@ public final class LazyStaggeredGridScrollPosition {
         int[] firstVisibleItemIndices;
         int firstVisibleItemScrollOffsets;
         kotlin.jvm.functions.Function1 readObserver;
-        Object obj3;
-        Object obj2;
-        int i2;
         Object obj;
-        int i;
+        Object obj3;
+        int i2;
+        Object obj2;
         int i3;
+        int i;
         final Object obj4 = this;
         final int firstVisibleIndex = obj4.calculateFirstVisibleIndex(measureResult.getFirstVisibleItemIndices());
         companion = 0;
@@ -178,19 +178,19 @@ public final class LazyStaggeredGridScrollPosition {
         readObserver = 0;
         while (index$iv$iv < list.size()) {
             i2 = 0;
-            i = 0;
+            i3 = 0;
             if ((LazyStaggeredGridMeasuredItem)list.get(index$iv$iv).getIndex() == firstVisibleIndex) {
             } else {
             }
-            i3 = 0;
+            i = 0;
             index$iv$iv++;
             firstVisibleItemScrollOffsets = 1;
             readObserver = 0;
-            i3 = firstVisibleItemScrollOffsets;
+            i = firstVisibleItemScrollOffsets;
         }
-        obj2 = readObserver;
-        if ((LazyStaggeredGridMeasuredItem)obj2 != null) {
-            key = (LazyStaggeredGridMeasuredItem)obj2.getKey();
+        obj3 = readObserver;
+        if ((LazyStaggeredGridMeasuredItem)obj3 != null) {
+            key = (LazyStaggeredGridMeasuredItem)obj3.getKey();
         } else {
             key = readObserver;
         }
@@ -211,7 +211,7 @@ public final class LazyStaggeredGridScrollPosition {
                 }
                 int i4 = 0;
                 obj4.update(measureResult.getFirstVisibleItemIndices(), measureResult.getFirstVisibleItemScrollOffsets());
-                hadFirstNotEmptyLayout = Unit.INSTANCE;
+                $i$a$WithoutReadObservationLazyStaggeredGridScrollPosition$updateFromMeasureResult$2 = Unit.INSTANCE;
                 companion.restoreNonObservable(currentThreadSnapshot, companion.makeCurrentNonObservable(currentThreadSnapshot), readObserver);
             }
         } else {

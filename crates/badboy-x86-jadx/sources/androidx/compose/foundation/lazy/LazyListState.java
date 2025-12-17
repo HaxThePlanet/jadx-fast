@@ -247,16 +247,16 @@ public final class LazyListState implements ScrollableState {
         kotlin.coroutines.jvm.internal.SuspendLambda anon;
         Object vectorConverter;
         Float valueOf;
-        int i2;
-        int i6;
-        long i4;
-        int i3;
-        CoroutineScope coroutineScope2;
-        int i5;
-        int i7;
-        androidx.compose.foundation.lazy.LazyListState.updateScrollDeltaForPostLookahead.2.2 list;
         int i;
-        int i8;
+        int i5;
+        long i8;
+        int i6;
+        CoroutineScope coroutineScope2;
+        int i2;
+        int i3;
+        androidx.compose.foundation.lazy.LazyListState.updateScrollDeltaForPostLookahead.2.2 list;
+        int i4;
+        int i7;
         final Object obj2 = this;
         final float f = delta;
         int i10 = 0;
@@ -546,23 +546,23 @@ public final class LazyListState implements ScrollableState {
     public final void requestScrollToItem(int index, int scrollOffset) {
         boolean scrollInProgress;
         CoroutineScope coroutineScope;
-        int i4;
-        int i;
-        androidx.compose.foundation.lazy.LazyListState.requestScrollToItem.1 list;
         int i3;
+        int i4;
+        androidx.compose.foundation.lazy.LazyListState.requestScrollToItem.1 list;
         int i2;
+        int i;
         if (isScrollInProgress()) {
-            i4 = 0;
-            scrollInProgress = new LazyListState.requestScrollToItem.1(this, i4);
-            BuildersKt.launch$default((LazyListMeasureResult)this.layoutInfoState.getValue().getCoroutineScope(), i4, 0, (Function2)scrollInProgress, 3, 0);
+            i3 = 0;
+            scrollInProgress = new LazyListState.requestScrollToItem.1(this, i3);
+            BuildersKt.launch$default((LazyListMeasureResult)this.layoutInfoState.getValue().getCoroutineScope(), i3, 0, (Function2)scrollInProgress, 3, 0);
         }
         snapToItemIndexInternal$foundation_release(index, scrollOffset, false);
     }
 
     public Object scroll(MutatePriority mutatePriority, Function2<? super ScrollScope, ? super Continuation<? super Unit>, ? extends Object> function22, Continuation<? super Unit> continuation3) {
         boolean anon;
-        int i;
         int i2;
+        int i;
         Object label;
         Object waitForFirstLayout;
         int i3;
@@ -571,12 +571,12 @@ public final class LazyListState implements ScrollableState {
         Object obj8;
         Object obj9;
         anon = continuation3;
-        i2 = Integer.MIN_VALUE;
-        if (continuation3 instanceof LazyListState.scroll.1 && label2 &= i2 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof LazyListState.scroll.1 && label2 &= i != 0) {
             anon = continuation3;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon.label = obj9 -= i2;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon.label = obj9 -= i;
             } else {
                 anon = new LazyListState.scroll.1(this, continuation3);
             }

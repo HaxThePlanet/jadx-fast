@@ -22,8 +22,8 @@ final class PagerBringIntoViewSpec implements BringIntoViewSpec {
     private final float overrideProposedOffsetMove(float proposedOffsetMove) {
         int correctedOffset;
         float f;
-        int cmp;
         int cmp2;
+        int cmp;
         f2 *= f;
         int i2 = 0;
         while (Float.compare(proposedOffsetMove, i2) > 0) {
@@ -35,7 +35,7 @@ final class PagerBringIntoViewSpec implements BringIntoViewSpec {
         while (Float.compare(proposedOffsetMove, i2) < 0) {
             if (Float.compare(correctedOffset, proposedOffsetMove) > 0) {
             }
-            correctedOffset -= cmp;
+            correctedOffset -= cmp2;
         }
         return correctedOffset;
     }
@@ -44,8 +44,8 @@ final class PagerBringIntoViewSpec implements BringIntoViewSpec {
     public float calculateScrollDistance(float offset, float size, float containerSize) {
         float reversedFirstPageScroll;
         int firstVisiblePageOffset$foundation_release;
-        int i2;
         int i;
+        int i2;
         float scrollDistance = this.defaultBringIntoViewSpec.calculateScrollDistance(offset, size, containerSize);
         firstVisiblePageOffset$foundation_release = Float.compare(scrollDistance, reversedFirstPageScroll) == 0 ? 1 : 0;
         if (firstVisiblePageOffset$foundation_release == 0) {
@@ -57,7 +57,7 @@ final class PagerBringIntoViewSpec implements BringIntoViewSpec {
                 if (this.pagerState.getLastScrolledForward()) {
                     f2 += i3;
                 } else {
-                    i2 = i3;
+                    i = i3;
                 }
                 reversedFirstPageScroll = firstVisiblePageOffset$foundation_release;
             }

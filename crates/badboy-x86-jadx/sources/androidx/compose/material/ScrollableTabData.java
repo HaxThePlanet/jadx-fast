@@ -37,32 +37,32 @@ final class ScrollableTabData {
 
     public final void onLaidOut(Density density, int edgeOffset, List<androidx.compose.material.TabPosition> tabPositions, int selectedTab) {
         Object selectedTab2;
-        int i2;
+        int i5;
         int tabOffset;
         int value;
         CoroutineScope coroutineScope;
-        int i5;
+        int i4;
         int i3;
         androidx.compose.material.ScrollableTabData.onLaidOut.1.1 anon;
         int i;
-        int i4;
+        int i2;
         selectedTab2 = this.selectedTab;
         if (selectedTab2 == null) {
             this.selectedTab = Integer.valueOf(selectedTab);
             selectedTab2 = CollectionsKt.getOrNull(tabPositions, selectedTab);
             if ((TabPosition)selectedTab2 != null) {
-                i2 = 0;
+                i5 = 0;
                 tabOffset = calculateTabOffset((TabPosition)selectedTab2, density, edgeOffset, tabPositions);
                 if (this.scrollState.getValue() != tabOffset) {
-                    i5 = 0;
-                    value = new ScrollableTabData.onLaidOut.1.1(this, tabOffset, i5);
-                    BuildersKt.launch$default(this.coroutineScope, i5, 0, (Function2)value, 3, 0);
+                    i4 = 0;
+                    value = new ScrollableTabData.onLaidOut.1.1(this, tabOffset, i4);
+                    BuildersKt.launch$default(this.coroutineScope, i4, 0, (Function2)value, 3, 0);
                 }
             }
         } else {
             this.selectedTab = Integer.valueOf(selectedTab);
             selectedTab2 = CollectionsKt.getOrNull(tabPositions, selectedTab);
-            i2 = 0;
+            i5 = 0;
             tabOffset = calculateTabOffset((TabPosition)selectedTab2, density, edgeOffset, tabPositions);
             if (selectedTab2.intValue() != selectedTab && selectedTab2 != null && this.scrollState.getValue() != tabOffset) {
             }

@@ -29,18 +29,18 @@ public final class ButtonColors {
     }
 
     public static androidx.compose.material3.ButtonColors copy-jRlVdoo$default(androidx.compose.material3.ButtonColors buttonColors, long l2, long l3, long l4, long l5, int i6, Object object7) {
-        long l7;
         long l6;
         long l8;
         long l;
+        long l7;
         long obj10;
         long obj12;
         long obj14;
-        l7 = obj18 & 1 != 0 ? obj10 : l2;
-        l6 = obj18 & 2 != 0 ? obj12 : l4;
-        l8 = obj18 & 4 != 0 ? obj14 : i6;
-        l = obj18 & 8 != 0 ? obj10 : obj16;
-        return buttonColors.copy-jRlVdoo(l7, obj2, l6, obj4);
+        l6 = obj18 & 1 != 0 ? obj10 : l2;
+        l8 = obj18 & 2 != 0 ? obj12 : l4;
+        l = obj18 & 4 != 0 ? obj14 : i6;
+        l7 = obj18 & 8 != 0 ? obj10 : obj16;
+        return buttonColors.copy-jRlVdoo(l6, obj2, l8, obj4);
     }
 
     public final long containerColor-vNxB06k$material3_release(boolean enabled) {
@@ -56,63 +56,63 @@ public final class ButtonColors {
     }
 
     public final androidx.compose.material3.ButtonColors copy-jRlVdoo(long containerColor, long contentColor, long disabledContainerColor, long disabledContentColor) {
+        int $i$a$TakeOrElseDxMtmZcButtonColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcButtonColors$copy$2;
         int $this$isSpecified$iv$iv;
-        int $this$isSpecified$iv$iv3;
-        int $this$isSpecified$iv$iv2;
-        int disabledContentColor2;
-        int i2;
+        int $i$a$TakeOrElseDxMtmZcButtonColors$copy$4;
+        int i;
         long l;
-        long l2;
         long l3;
-        long i;
+        long l2;
+        long i2;
         final Object obj = this;
         int i3 = containerColor;
         int i4 = 0;
         int i15 = 0;
         int i19 = 16;
-        i2 = 1;
+        i = 1;
         final int i20 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i8, i19) != 0 ? i2 : i20;
-        if ($this$isSpecified$iv$iv != 0) {
+        $i$a$TakeOrElseDxMtmZcButtonColors$copy$1 = Long.compare(i8, i19) != 0 ? i : i20;
+        if ($i$a$TakeOrElseDxMtmZcButtonColors$copy$1 != 0) {
             l = i3;
         } else {
             int i14 = 0;
-            l = $this$isSpecified$iv$iv;
+            l = $i$a$TakeOrElseDxMtmZcButtonColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = disabledContainerColor;
         int i5 = 0;
         int i16 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i9, i19) != 0 ? i2 : i20;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l2 = $this$takeOrElse_u2dDxMtmZc$iv;
+        $i$a$TakeOrElseDxMtmZcButtonColors$copy$2 = Long.compare(i9, i19) != 0 ? i : i20;
+        if ($i$a$TakeOrElseDxMtmZcButtonColors$copy$2 != 0) {
+            l3 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i10 = 0;
-            l2 = $this$isSpecified$iv$iv3;
+            l3 = $i$a$TakeOrElseDxMtmZcButtonColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = obj27;
         int i6 = 0;
         int i17 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i11, i19) != 0 ? i2 : i20;
-        if ($this$isSpecified$iv$iv2 != 0) {
-            l3 = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $this$isSpecified$iv$iv = Long.compare(i11, i19) != 0 ? i : i20;
+        if ($this$isSpecified$iv$iv != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i12 = 0;
-            l3 = $this$isSpecified$iv$iv2;
+            l2 = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = obj29;
         int i7 = 0;
         int i18 = 0;
-        if (Long.compare(disabledContentColor2, i19) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcButtonColors$copy$4, i19) != 0) {
         } else {
-            i2 = i20;
+            i = i20;
         }
-        if (i2 != 0) {
-            i = $this$takeOrElse_u2dDxMtmZc$iv3;
+        if (i != 0) {
+            i2 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i13 = 0;
-            i = disabledContentColor2;
+            i2 = $i$a$TakeOrElseDxMtmZcButtonColors$copy$4;
         }
-        ButtonColors buttonColors = new ButtonColors(l, obj14, l2, obj16, l3, obj18, i, obj20, 0);
+        ButtonColors buttonColors = new ButtonColors(l, obj14, l3, obj16, l2, obj18, i2, obj20, 0);
         return buttonColors;
     }
 

@@ -133,28 +133,28 @@ public final class TextLayoutResultProxy {
     public final long translateDecorationToInnerCoordinates-MK-Hz9U$foundation_release(long offset) {
         LayoutCoordinates innerTextFieldCoordinates;
         boolean it;
-        int i;
+        int $i$a$TakeIfTextLayoutResultProxy$translateDecorationToInnerCoordinates$innerCoords$1;
         boolean it2;
-        int i2;
+        int i;
         innerTextFieldCoordinates = this.innerTextFieldCoordinates;
         if (innerTextFieldCoordinates != null) {
-            int i3 = 0;
+            int i2 = 0;
             if (innerTextFieldCoordinates.isAttached()) {
             } else {
-                innerTextFieldCoordinates = i;
+                innerTextFieldCoordinates = $i$a$TakeIfTextLayoutResultProxy$translateDecorationToInnerCoordinates$innerCoords$1;
             }
             if (innerTextFieldCoordinates == 0) {
             } else {
                 LayoutCoordinates decorationBoxCoordinates = this.decorationBoxCoordinates;
-                i2 = 0;
+                i = 0;
                 if (decorationBoxCoordinates != null && decorationBoxCoordinates.isAttached()) {
-                    i2 = 0;
+                    i = 0;
                     if (decorationBoxCoordinates.isAttached()) {
-                        i = decorationBoxCoordinates;
+                        $i$a$TakeIfTextLayoutResultProxy$translateDecorationToInnerCoordinates$innerCoords$1 = decorationBoxCoordinates;
                     }
-                    if (i == 0) {
+                    if ($i$a$TakeIfTextLayoutResultProxy$translateDecorationToInnerCoordinates$innerCoords$1 == 0) {
                     }
-                    return innerTextFieldCoordinates.localPositionOf-R5De75A(i, offset);
+                    return innerTextFieldCoordinates.localPositionOf-R5De75A($i$a$TakeIfTextLayoutResultProxy$translateDecorationToInnerCoordinates$innerCoords$1, offset);
                 }
             }
             return offset;
@@ -165,15 +165,15 @@ public final class TextLayoutResultProxy {
     public final long translateInnerToDecorationCoordinates-MK-Hz9U$foundation_release(long offset) {
         LayoutCoordinates innerTextFieldCoordinates;
         boolean it;
-        int i2;
+        int $i$a$TakeIfTextLayoutResultProxy$translateInnerToDecorationCoordinates$innerCoords$1;
         boolean it2;
         int i;
         innerTextFieldCoordinates = this.innerTextFieldCoordinates;
         if (innerTextFieldCoordinates != null) {
-            int i3 = 0;
+            int i2 = 0;
             if (innerTextFieldCoordinates.isAttached()) {
             } else {
-                innerTextFieldCoordinates = i2;
+                innerTextFieldCoordinates = $i$a$TakeIfTextLayoutResultProxy$translateInnerToDecorationCoordinates$innerCoords$1;
             }
             if (innerTextFieldCoordinates == 0) {
             } else {
@@ -182,11 +182,11 @@ public final class TextLayoutResultProxy {
                 if (decorationBoxCoordinates != null && decorationBoxCoordinates.isAttached()) {
                     i = 0;
                     if (decorationBoxCoordinates.isAttached()) {
-                        i2 = decorationBoxCoordinates;
+                        $i$a$TakeIfTextLayoutResultProxy$translateInnerToDecorationCoordinates$innerCoords$1 = decorationBoxCoordinates;
                     }
-                    if (i2 == 0) {
+                    if ($i$a$TakeIfTextLayoutResultProxy$translateInnerToDecorationCoordinates$innerCoords$1 == 0) {
                     }
-                    return i2.localPositionOf-R5De75A(innerTextFieldCoordinates, offset);
+                    return $i$a$TakeIfTextLayoutResultProxy$translateInnerToDecorationCoordinates$innerCoords$1.localPositionOf-R5De75A(innerTextFieldCoordinates, offset);
                 }
             }
             return offset;

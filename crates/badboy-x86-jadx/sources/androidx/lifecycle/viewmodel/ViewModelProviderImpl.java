@@ -56,9 +56,9 @@ public final class ViewModelProviderImpl {
         boolean z;
         Object mutableCreationExtras;
         ViewModel viewModel2;
-        ViewModel view2;
+        ViewModel view;
         int i;
-        ViewModelStore view;
+        ViewModelStore view2;
         Intrinsics.checkNotNullParameter(modelClass, "modelClass");
         Intrinsics.checkNotNullParameter(key, "key");
         SynchronizedObject lock = this.lock;

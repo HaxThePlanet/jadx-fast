@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_program_learning_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp">
+    <ImageView
+        android:id="@+id/checkmark"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:srcCompat="@drawable/ic_circle_transparent_checkmark"/>
+    <TextView
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:id="@+id/title"
+        android:tag="binding_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkmark"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toEndOf="@+id/checkmark"
+        app:layout_constraintTop_toTopOf="@+id/checkmark"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,54 +26,54 @@ public final class FontScaleConverterTable implements androidx.compose.ui.unit.f
 
         private final float lookupAndInterpolate(float sourceValue, float[] sourceValues, float[] targetValues) {
             float startSp;
-            int i;
             int i2;
-            int i6;
+            int i3;
+            int i4;
             int endSp;
             float f;
             float endDp;
             int i5;
-            int i3;
-            int i4;
+            int i;
+            int i6;
             final float f2 = Math.abs(sourceValue);
             final float signum = Math.signum(sourceValue);
             final int binarySearch = Arrays.binarySearch(sourceValues, f2);
             if (binarySearch >= 0) {
                 i10 *= signum;
             } else {
-                i2 = 1;
+                i3 = 1;
                 i5 = i8 + -1;
                 int i9 = 0;
                 int i13 = 0;
                 int i14 = 0;
                 int i17 = 0;
-                i4 = 0;
-                if (i5 >= length -= i2) {
-                    float startSp2 = sourceValues[length2 -= i2];
+                i6 = 0;
+                if (i5 >= length -= i3) {
+                    float startSp2 = sourceValues[length2 -= i3];
                     int i20 = 0;
                     if (Float.compare(startSp2, i20) == 0) {
                     } else {
-                        i2 = i4;
+                        i3 = i6;
                     }
-                    if (i2 != 0) {
+                    if (i3 != 0) {
                         return i20;
                     }
                     return sourceValue * i11;
                 }
                 if (i5 == -1) {
-                    i6 = 0;
+                    i4 = 0;
                     endDp = endSp3;
                     endSp = i16;
                     f = startSp;
                 } else {
-                    i6 = targetValues[i5];
+                    i4 = targetValues[i5];
                     endDp = endSp2;
                     endSp = i15;
                     f = startSp;
                 }
                 constrainedMap *= signum;
             }
-            return i;
+            return i2;
         }
     }
     static {
@@ -98,8 +98,8 @@ public final class FontScaleConverterTable implements androidx.compose.ui.unit.f
             this.mToDpValues = toDp;
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Array lengths must match and be nonzero".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireFontScaleConverterTable$1 = new IllegalArgumentException("Array lengths must match and be nonzero".toString());
+        throw $i$a$RequireFontScaleConverterTable$1;
     }
 
     public static void getMFromSpValues$annotations() {

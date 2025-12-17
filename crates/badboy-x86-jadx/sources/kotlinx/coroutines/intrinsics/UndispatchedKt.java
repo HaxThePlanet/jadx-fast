@@ -83,17 +83,17 @@ public final class UndispatchedKt {
     }
 
     public static final <T, R> Object startUndispatchedOrReturn(ScopeCoroutine<? super T> $this$startUndispatchedOrReturn, R receiver, Function2<? super R, ? super Continuation<? super T>, ? extends Object> block) {
-        int i;
+        int i2;
         Object state$iv;
         Object invoke;
         Object beforeCheckcastToFunctionOfArity;
         Throwable exception$iv$iv;
         Object obj;
-        int i2;
+        int i;
         boolean rECOVER_STACK_TRACES;
         final Object obj2 = $this$startUndispatchedOrReturn;
         final int i3 = 0;
-        i = 0;
+        i2 = 0;
         invoke = (Function2)TypeIntrinsics.beforeCheckcastToFunctionOfArity(block, 2).invoke(receiver, (Continuation)$this$startUndispatchedOrReturn);
         if (invoke == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
             state$iv = IntrinsicsKt.getCOROUTINE_SUSPENDED();
@@ -128,14 +128,14 @@ public final class UndispatchedKt {
         int i;
         Object state$iv;
         int cOROUTINE_SUSPENDED;
-        Throwable exception$iv$iv2;
         Throwable exception$iv$iv;
+        Throwable exception$iv$iv2;
         Object invoke;
         Object beforeCheckcastToFunctionOfArity;
         Object obj;
         boolean coroutine;
-        boolean rECOVER_STACK_TRACES;
         boolean rECOVER_STACK_TRACES2;
+        boolean rECOVER_STACK_TRACES;
         final Object obj2 = $this$startUndispatchedOrReturnIgnoreTimeout;
         final int i2 = 0;
         i = 0;
@@ -167,8 +167,8 @@ public final class UndispatchedKt {
                     if (!uCont instanceof CoroutineStackFrame) {
                     } else {
                     }
-                    exception$iv$iv2 = rECOVER_STACK_TRACES;
-                    throw exception$iv$iv2;
+                    exception$iv$iv = rECOVER_STACK_TRACES2;
+                    throw exception$iv$iv;
                     Continuation uCont2 = obj2.uCont;
                     int i7 = 0;
                 }
@@ -182,14 +182,14 @@ public final class UndispatchedKt {
     private static final <T> Object undispatchedResult(ScopeCoroutine<? super T> $this$undispatchedResult, Function1<? super Throwable, Boolean> shouldThrow, Function0<? extends Object> startBlock) {
         Object invoke;
         CompletedExceptionally completedExceptionally;
-        int i2;
-        Throwable exception$iv;
-        Throwable exception$iv2;
-        Object unboxState;
         int i3;
+        Throwable exception$iv2;
+        Throwable exception$iv;
+        Object unboxState;
         int i;
-        boolean rECOVER_STACK_TRACES2;
+        int i2;
         boolean rECOVER_STACK_TRACES;
+        boolean rECOVER_STACK_TRACES2;
         final int i4 = 0;
         invoke = startBlock.invoke();
         try {
@@ -209,10 +209,10 @@ public final class UndispatchedKt {
                 } else {
                     if (!uCont2 instanceof CoroutineStackFrame) {
                     } else {
-                        exception$iv2 = rECOVER_STACK_TRACES;
+                        exception$iv = rECOVER_STACK_TRACES2;
                     }
                 }
-                throw exception$iv2;
+                throw exception$iv;
             }
             if (invoke instanceof CompletedExceptionally) {
                 Continuation uCont = $this$undispatchedResult.uCont;
@@ -221,10 +221,10 @@ public final class UndispatchedKt {
                 } else {
                     if (!uCont instanceof CoroutineStackFrame) {
                     } else {
-                        exception$iv = rECOVER_STACK_TRACES2;
+                        exception$iv2 = rECOVER_STACK_TRACES;
                     }
                 }
-                throw exception$iv;
+                throw exception$iv2;
             }
             unboxState = invoke;
         } else {

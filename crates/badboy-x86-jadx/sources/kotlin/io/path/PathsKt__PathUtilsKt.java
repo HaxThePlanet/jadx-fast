@@ -446,8 +446,8 @@ class PathsKt__PathUtilsKt extends kotlin.io.path.PathsKt__PathRecursiveFunction
         String replace$default;
         String string;
         String str;
-        int i2;
         int i;
+        int i2;
         int i3;
         Intrinsics.checkNotNullParameter($this$invariantSeparatorsPathString, "<this>");
         final String separator = $this$invariantSeparatorsPathString.getFileSystem().getSeparator();
@@ -492,16 +492,16 @@ class PathsKt__PathUtilsKt extends kotlin.io.path.PathsKt__PathRecursiveFunction
     public static final String getNameWithoutExtension(Path $this$nameWithoutExtension) {
         Object substringBeforeLast$default;
         String str;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$nameWithoutExtension, "<this>");
         substringBeforeLast$default = $this$nameWithoutExtension.getFileName();
         substringBeforeLast$default = substringBeforeLast$default.toString();
         if (substringBeforeLast$default != null && substringBeforeLast$default != null) {
             substringBeforeLast$default = substringBeforeLast$default.toString();
             if (substringBeforeLast$default != null) {
-                i2 = 0;
-                if (StringsKt.substringBeforeLast$default(substringBeforeLast$default, ".", i2, 2, i2) == null) {
+                i = 0;
+                if (StringsKt.substringBeforeLast$default(substringBeforeLast$default, ".", i, 2, i) == null) {
                     substringBeforeLast$default = "";
                 }
             } else {

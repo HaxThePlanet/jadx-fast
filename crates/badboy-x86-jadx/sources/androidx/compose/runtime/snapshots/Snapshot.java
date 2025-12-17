@@ -81,7 +81,7 @@ public abstract class Snapshot {
             final int i2 = 0;
             int i3 = 0;
             SnapshotKt.access$setApplyObservers$p(CollectionsKt.minus((Iterable)SnapshotKt.access$getApplyObservers$p(), $observer));
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SyncSnapshot$Companion$registerApplyObserver$2$1 = Unit.INSTANCE;
             return;
             synchronized (lock) {
                 i = 0;
@@ -89,7 +89,7 @@ public abstract class Snapshot {
                 i2 = 0;
                 i3 = 0;
                 SnapshotKt.access$setApplyObservers$p(CollectionsKt.minus((Iterable)SnapshotKt.access$getApplyObservers$p(), $observer));
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SyncSnapshot$Companion$registerApplyObserver$2$1 = Unit.INSTANCE;
             }
         }
 
@@ -99,7 +99,7 @@ public abstract class Snapshot {
             final int i2 = 0;
             int i3 = 0;
             SnapshotKt.access$setGlobalWriteObservers$p(CollectionsKt.minus((Iterable)SnapshotKt.access$getGlobalWriteObservers$p(), $observer));
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SyncSnapshot$Companion$registerGlobalWriteObserver$2$1 = Unit.INSTANCE;
             SnapshotKt.access$advanceGlobalSnapshot();
             return;
             synchronized (lock) {
@@ -108,7 +108,7 @@ public abstract class Snapshot {
                 i2 = 0;
                 i3 = 0;
                 SnapshotKt.access$setGlobalWriteObservers$p(CollectionsKt.minus((Iterable)SnapshotKt.access$getGlobalWriteObservers$p(), $observer));
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SyncSnapshot$Companion$registerGlobalWriteObserver$2$1 = Unit.INSTANCE;
                 SnapshotKt.access$advanceGlobalSnapshot();
             }
         }
@@ -173,29 +173,29 @@ public abstract class Snapshot {
             boolean $this$canBeReused$iv;
             boolean obj;
             Object obj2;
-            int i2;
-            Object obj4;
             int i;
+            Object obj4;
+            int i2;
             int cmp;
             long currentThreadId;
             final int i4 = 0;
             final int i5 = 0;
             if (previous instanceof TransparentObserverMutableSnapshot) {
                 obj4 = this;
-                i = 0;
-                $this$canBeReused$iv = Long.compare(threadId$runtime_release2, currentThreadId) == 0 ? i2 : i4;
+                i2 = 0;
+                $this$canBeReused$iv = Long.compare(threadId$runtime_release2, currentThreadId) == 0 ? i : i4;
                 if ($this$canBeReused$iv != 0) {
                     (TransparentObserverMutableSnapshot)previous.setReadObserver(i5);
                     transparentSnapshotWithNoParentReadObserver$default = previous;
                 } else {
                     if (previous instanceof TransparentObserverSnapshot) {
                         obj4 = this;
-                        i = 0;
+                        i2 = 0;
                         if (Long.compare(threadId$runtime_release, currentThreadId) == 0) {
                         } else {
-                            i2 = i4;
+                            i = i4;
                         }
-                        if (i2 != 0) {
+                        if (i != 0) {
                             (TransparentObserverSnapshot)previous.setReadObserver(i5);
                         } else {
                             SnapshotKt.createTransparentSnapshotWithNoParentReadObserver$default(previous, i5, i4, 6, i5).makeCurrent();
@@ -214,15 +214,15 @@ public abstract class Snapshot {
 
         public final <T> T observe(Function1<Object, Unit> readObserver, Function1<Object, Unit> writeObserver, Function0<? extends T> block) {
             boolean obj;
-            int i4;
+            int i3;
             androidx.compose.runtime.snapshots.Snapshot takeNestedSnapshot;
             int transparentObserverMutableSnapshot;
             Function1 function13;
             Function1 i;
             Function1 function1;
-            int i2;
+            int i4;
             Function1 function12;
-            int i3;
+            int i2;
             long currentThreadId;
             if (readObserver == null && writeObserver == null) {
                 if (writeObserver == null) {
@@ -234,12 +234,12 @@ public abstract class Snapshot {
             if (obj7 instanceof TransparentObserverMutableSnapshot) {
                 function13 = this;
                 i = 0;
-                i3 = 0;
-                i2 = Long.compare(threadId$runtime_release, currentThreadId) == 0 ? 1 : i3;
-                if (i2 != 0) {
+                i2 = 0;
+                i4 = Long.compare(threadId$runtime_release, currentThreadId) == 0 ? 1 : i2;
+                if (i4 != 0) {
                     Function1 readObserver$runtime_release = (TransparentObserverMutableSnapshot)obj7.getReadObserver$runtime_release();
                     Function1 writeObserver$runtime_release = (TransparentObserverMutableSnapshot)obj7.getWriteObserver$runtime_release();
-                    (TransparentObserverMutableSnapshot)obj7.setReadObserver(SnapshotKt.mergedReadObserver$default(readObserver, readObserver$runtime_release, i3, 4, transparentObserverMutableSnapshot));
+                    (TransparentObserverMutableSnapshot)obj7.setReadObserver(SnapshotKt.mergedReadObserver$default(readObserver, readObserver$runtime_release, i2, 4, transparentObserverMutableSnapshot));
                     (TransparentObserverMutableSnapshot)obj7.setWriteObserver(SnapshotKt.access$mergedWriteObserver(writeObserver, writeObserver$runtime_release));
                     (TransparentObserverMutableSnapshot)obj7.setReadObserver(readObserver$runtime_release);
                     (TransparentObserverMutableSnapshot)obj7.setWriteObserver(writeObserver$runtime_release);
@@ -248,11 +248,11 @@ public abstract class Snapshot {
             }
             if (obj7 != null) {
                 if (obj7 instanceof MutableSnapshot) {
-                    i4 = transparentObserverMutableSnapshot;
+                    i3 = transparentObserverMutableSnapshot;
                     if (obj7 instanceof MutableSnapshot) {
-                        i4 = obj7;
+                        i3 = obj7;
                     }
-                    transparentObserverMutableSnapshot = new TransparentObserverMutableSnapshot(i4, readObserver, writeObserver, 1, 0);
+                    transparentObserverMutableSnapshot = new TransparentObserverMutableSnapshot(i3, readObserver, writeObserver, 1, 0);
                     takeNestedSnapshot = transparentObserverMutableSnapshot;
                 } else {
                     if (readObserver == null) {
@@ -283,7 +283,7 @@ public abstract class Snapshot {
             final int i2 = 0;
             int i3 = 0;
             SnapshotKt.access$setApplyObservers$p(CollectionsKt.plus((Collection)SnapshotKt.access$getApplyObservers$p(), observer));
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SyncSnapshot$Companion$registerApplyObserver$1 = Unit.INSTANCE;
             Snapshot.Companion$$ExternalSyntheticLambda0 $i$f$sync = new Snapshot.Companion$$ExternalSyntheticLambda0(observer);
             return $i$f$sync;
             synchronized (lock) {
@@ -293,7 +293,7 @@ public abstract class Snapshot {
                 i2 = 0;
                 i3 = 0;
                 SnapshotKt.access$setApplyObservers$p(CollectionsKt.plus((Collection)SnapshotKt.access$getApplyObservers$p(), observer));
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SyncSnapshot$Companion$registerApplyObserver$1 = Unit.INSTANCE;
                 $i$f$sync = new Snapshot.Companion$$ExternalSyntheticLambda0(observer);
                 return $i$f$sync;
             }
@@ -305,7 +305,7 @@ public abstract class Snapshot {
             final int i2 = 0;
             int i3 = 0;
             SnapshotKt.access$setGlobalWriteObservers$p(CollectionsKt.plus((Collection)SnapshotKt.access$getGlobalWriteObservers$p(), observer));
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SyncSnapshot$Companion$registerGlobalWriteObserver$1 = Unit.INSTANCE;
             SnapshotKt.access$advanceGlobalSnapshot();
             Snapshot.Companion$$ExternalSyntheticLambda1 externalSyntheticLambda1 = new Snapshot.Companion$$ExternalSyntheticLambda1(observer);
             return externalSyntheticLambda1;
@@ -315,7 +315,7 @@ public abstract class Snapshot {
                 i2 = 0;
                 i3 = 0;
                 SnapshotKt.access$setGlobalWriteObservers$p(CollectionsKt.plus((Collection)SnapshotKt.access$getGlobalWriteObservers$p(), observer));
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SyncSnapshot$Companion$registerGlobalWriteObserver$1 = Unit.INSTANCE;
                 SnapshotKt.access$advanceGlobalSnapshot();
                 externalSyntheticLambda1 = new Snapshot.Companion$$ExternalSyntheticLambda1(observer);
                 return externalSyntheticLambda1;
@@ -483,7 +483,7 @@ public abstract class Snapshot {
         int i3 = 0;
         closeLocked$runtime_release();
         releasePinnedSnapshotsForCloseLocked$runtime_release();
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SyncSnapshot$closeAndReleasePinning$1 = Unit.INSTANCE;
         return;
         synchronized (lock) {
             i = 0;
@@ -492,7 +492,7 @@ public abstract class Snapshot {
             i3 = 0;
             closeLocked$runtime_release();
             releasePinnedSnapshotsForCloseLocked$runtime_release();
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SyncSnapshot$closeAndReleasePinning$1 = Unit.INSTANCE;
         }
     }
 
@@ -507,7 +507,7 @@ public abstract class Snapshot {
         final int i3 = 0;
         int i4 = 0;
         releasePinnedSnapshotLocked$runtime_release();
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SyncSnapshot$dispose$1 = Unit.INSTANCE;
         return;
         synchronized (lock) {
             this.disposed = true;
@@ -516,7 +516,7 @@ public abstract class Snapshot {
             i3 = 0;
             i4 = 0;
             releasePinnedSnapshotLocked$runtime_release();
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SyncSnapshot$dispose$1 = Unit.INSTANCE;
         }
     }
 
@@ -623,7 +623,7 @@ public abstract class Snapshot {
 
     public final void unsafeLeave(androidx.compose.runtime.snapshots.Snapshot oldSnapshot) {
         int i;
-        String string;
+        String $i$a$CheckPreconditionSnapshot$unsafeLeave$1;
         StringBuilder append;
         String str;
         i = SnapshotKt.access$getThreadSnapshot$p().get() == this ? 1 : 0;
@@ -637,7 +637,7 @@ public abstract class Snapshot {
     }
 
     public final void validateNotDisposed$runtime_release() {
-        String str;
+        String $i$a$RequirePreconditionSnapshot$validateNotDisposed$1;
         final int i2 = 0;
         if (disposed ^= 1 == 0) {
             int i3 = 0;

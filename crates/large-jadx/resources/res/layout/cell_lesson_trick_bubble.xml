@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:tag="layout/cell_lesson_trick_bubble_0"
+    android:background="@drawable/ripple_effect_transparent_rectangle"
+    android:layout_width="@dimen/trick_cover_width"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/image_border"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:srcCompat="@drawable/circle_border"/>
+    <ImageView
+        android:id="@+id/image"
+        android:tag="binding_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:adjustViewBounds="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_border"
+        app:layout_constraintEnd_toEndOf="@+id/image_border"
+        app:layout_constraintStart_toStartOf="@+id/image_border"
+        app:layout_constraintTop_toTopOf="@+id/image_border"/>
+    <TextView
+        android:id="@+id/text"
+        android:tag="binding_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:breakStrategy="2"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="@+id/image_border"
+        app:layout_constraintStart_toStartOf="@+id/image_border"
+        app:layout_constraintTop_toBottomOf="@+id/image_border"
+        style="@style/LessonTrickCoverText"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

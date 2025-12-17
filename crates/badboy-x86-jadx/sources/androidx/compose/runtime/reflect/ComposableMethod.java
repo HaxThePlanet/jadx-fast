@@ -64,27 +64,27 @@ public final class ComposableMethod {
 
     public final Object invoke(Composer composer, Object instance, Object... args) {
         Object[] objArr;
-        int it2;
+        int it;
         int component4;
         Object defaultParams;
-        int i4;
-        int it;
-        int lastIndex;
-        int i7;
-        int i8;
-        int i9;
-        int i6;
-        int i5;
-        int i;
         int i10;
+        int it2;
+        int lastIndex;
+        int i;
+        int i6;
+        int i3;
+        int i2;
+        int i7;
+        int i5;
+        int i8;
         int accumulator$iv;
         Iterator iterator;
         boolean next;
         int next2;
         Iterator iterator2;
         boolean intValue;
-        int i3;
-        int i2;
+        int i9;
+        int i4;
         int defaultParams2;
         int i11;
         final Object obj = this;
@@ -95,109 +95,109 @@ public final class ComposableMethod {
         final int i13 = component2 + 1;
         final int i14 = i13 + component3;
         final Integer[] arr2 = new Integer[composableInfo.component4()];
-        it = 0;
-        Integer valueOf3 = Integer.valueOf(it);
-        i9 = it;
-        while (i9 < component4) {
-            i5 = i9 * 31;
-            kotlin.ranges.IntRange until = RangesKt.until(i5, Math.min(i5 + 31, component2));
+        it2 = 0;
+        Integer valueOf3 = Integer.valueOf(it2);
+        i3 = it2;
+        while (i3 < component4) {
+            i7 = i3 * 31;
+            kotlin.ranges.IntRange until = RangesKt.until(i7, Math.min(i7 + 31, component2));
             int i22 = 0;
             ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)until, 10));
             next2 = 0;
             iterator2 = until.iterator();
             while (iterator2.hasNext()) {
-                i2 = 0;
-                int i12 = i3;
+                i4 = 0;
+                int i12 = i9;
                 if (i12 < objArr.length) {
                 } else {
                 }
-                it2 = 1;
-                (Collection)arrayList.add(Integer.valueOf(it2));
+                it = 1;
+                (Collection)arrayList.add(Integer.valueOf(it));
                 objArr = args;
                 component4 = defaultParams2;
                 if (args[i12] == null) {
                 } else {
                 }
-                it2 = 0;
+                it = 0;
             }
-            i6 = 0;
-            i10 = 0;
+            i2 = 0;
+            i8 = 0;
             accumulator$iv = i15;
             iterator = (Iterable)(List)arrayList.iterator();
             while (iterator.hasNext()) {
-                if (i10 < 0) {
+                if (i8 < 0) {
                 }
-                i2 = 0;
+                i4 = 0;
                 accumulator$iv = i21;
-                i10 = iterator2;
+                i8 = iterator2;
                 CollectionsKt.throwIndexOverflow();
             }
-            arr2[i9] = Integer.valueOf(accumulator$iv);
-            i9++;
+            arr2[i3] = Integer.valueOf(accumulator$iv);
+            i3++;
             objArr = args;
             component4 = defaultParams2;
-            it = 0;
-            if (i10 < 0) {
+            it2 = 0;
+            if (i8 < 0) {
             }
-            i2 = 0;
+            i4 = 0;
             accumulator$iv = i21;
-            i10 = iterator2;
+            i8 = iterator2;
             CollectionsKt.throwIndexOverflow();
-            i2 = 0;
-            i12 = i3;
+            i4 = 0;
+            i12 = i9;
             if (i12 < objArr.length) {
             } else {
             }
-            it2 = 1;
-            arrayList.add(Integer.valueOf(it2));
+            it = 1;
+            arrayList.add(Integer.valueOf(it));
             objArr = args;
             component4 = defaultParams2;
             if (args[i12] == null) {
             } else {
             }
-            it2 = 0;
+            it = 0;
         }
         int defaultParams3 = component4;
         Object[] arr = new Object[length];
-        i4 = 0;
-        while (i4 < length) {
-            if (i4 >= 0 && i4 < component2) {
+        i10 = 0;
+        while (i10 < length) {
+            if (i10 >= 0 && i10 < component2) {
             } else {
             }
             lastIndex = 0;
-            if (i13 + 1 <= i4 && i4 < i14) {
+            if (i13 + 1 <= i10 && i10 < i14) {
             } else {
             }
-            i7 = 0;
-            if (i14 <= i4 && i4 < length) {
+            i = 0;
+            if (i14 <= i10 && i10 < length) {
             } else {
             }
-            i8 = 0;
-            it = arr2[i4 - i14];
-            arr[i4] = it;
-            i4++;
-            if (i4 < length) {
+            i6 = 0;
+            it2 = arr2[i10 - i14];
+            arr[i10] = it2;
+            i10++;
+            if (i10 < length) {
             } else {
             }
-            i8 = 1;
-            it = valueOf3;
-            if (i4 < i14) {
+            i6 = 1;
+            it2 = valueOf3;
+            if (i10 < i14) {
             } else {
             }
-            i7 = 1;
-            it = valueOf3;
-            it = composer;
-            if (i4 >= 0 && i4 <= ArraysKt.getLastIndex(args)) {
+            i = 1;
+            it2 = valueOf3;
+            it2 = composer;
+            if (i10 >= 0 && i10 <= ArraysKt.getLastIndex(args)) {
             } else {
             }
-            int i18 = i4;
-            i9 = 0;
-            it = ComposableMethodKt.access$getDefaultValue(obj.method.getParameterTypes()[i4]);
-            if (i4 <= ArraysKt.getLastIndex(args)) {
+            int i18 = i10;
+            i3 = 0;
+            it2 = ComposableMethodKt.access$getDefaultValue(obj.method.getParameterTypes()[i10]);
+            if (i10 <= ArraysKt.getLastIndex(args)) {
             } else {
             }
-            it = args[i4];
-            if (i4 < component2) {
+            it2 = args[i10];
+            if (i10 < component2) {
             } else {
             }
             lastIndex = 1;

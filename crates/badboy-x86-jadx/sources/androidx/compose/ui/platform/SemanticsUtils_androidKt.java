@@ -73,25 +73,25 @@ public final class SemanticsUtils_androidKt {
 
     private static final void getAllUncoveredSemanticsNodesToIntObjectMap$findAllSemanticNodesRecursive(Region unaccountedSpace, SemanticsNode root, MutableIntObjectMap<androidx.compose.ui.platform.SemanticsNodeWithAdjustedBounds> nodes, SemanticsNode currentNode, Region region) {
         Region semanticsNodeWithAdjustedBounds2;
-        int i5;
+        int i3;
         int fake$ui_release;
-        int $this$fastRoundToInt$iv;
+        int $this$fastRoundToInt$iv2;
         boolean attached;
         int importantForAccessibility;
-        int i2;
+        int i;
         Rect defaultFakeNodeBounds;
         int semanticsNodeWithAdjustedBounds;
-        int i4;
+        int i5;
         int $this$fastRoundToInt$iv3;
         int $this$fastRoundToInt$iv4;
-        int i;
+        int i4;
         List replacedChildren$ui_release;
-        int $this$fastRoundToInt$iv2;
-        SemanticsNode semanticsNode;
-        SemanticsNode semanticsNode3;
-        float bottom;
-        int i3;
+        int $this$fastRoundToInt$iv;
         SemanticsNode semanticsNode2;
+        SemanticsNode semanticsNode;
+        float bottom;
+        int i2;
+        SemanticsNode semanticsNode3;
         int left;
         Rect rect;
         semanticsNodeWithAdjustedBounds2 = unaccountedSpace;
@@ -101,15 +101,15 @@ public final class SemanticsUtils_androidKt {
         semanticsNodeWithAdjustedBounds = 1;
         if (semanticsNode4.getLayoutNode$ui_release().isPlaced()) {
             if (!semanticsNode4.getLayoutNode$ui_release().isAttached()) {
-                i5 = semanticsNodeWithAdjustedBounds;
+                i3 = semanticsNodeWithAdjustedBounds;
             } else {
-                i5 = importantForAccessibility;
+                i3 = importantForAccessibility;
             }
         } else {
         }
         if (semanticsNodeWithAdjustedBounds2.isEmpty()) {
-            if (semanticsNode4.getId() == root.getId() && i5 != 0 && !semanticsNode4.isFake$ui_release()) {
-                if (i5 != 0) {
+            if (semanticsNode4.getId() == root.getId() && i3 != 0 && !semanticsNode4.isFake$ui_release()) {
+                if (i3 != 0) {
                     if (!semanticsNode4.isFake$ui_release()) {
                     }
                 }
@@ -118,42 +118,42 @@ public final class SemanticsUtils_androidKt {
         }
         final Rect touchBoundsInRoot = semanticsNode4.getTouchBoundsInRoot();
         int i6 = 0;
-        $this$fastRoundToInt$iv = Math.round(touchBoundsInRoot.getLeft());
+        $this$fastRoundToInt$iv2 = Math.round(touchBoundsInRoot.getLeft());
         int i7 = 0;
         $this$fastRoundToInt$iv3 = Math.round(touchBoundsInRoot.getTop());
         int i9 = 0;
         $this$fastRoundToInt$iv4 = Math.round(touchBoundsInRoot.getRight());
         int i10 = 0;
         int $this$fastRoundToInt$iv5 = Math.round(touchBoundsInRoot.getBottom());
-        region2.set($this$fastRoundToInt$iv, $this$fastRoundToInt$iv3, $this$fastRoundToInt$iv4, $this$fastRoundToInt$iv5);
-        $this$fastRoundToInt$iv2 = -1;
+        region2.set($this$fastRoundToInt$iv2, $this$fastRoundToInt$iv3, $this$fastRoundToInt$iv4, $this$fastRoundToInt$iv5);
+        $this$fastRoundToInt$iv = -1;
         if (semanticsNode4.getId() == root.getId()) {
-            i = $this$fastRoundToInt$iv2;
+            i4 = $this$fastRoundToInt$iv;
         } else {
-            i = semanticsNode4.getId();
+            i4 = semanticsNode4.getId();
         }
         if (region2.op(semanticsNodeWithAdjustedBounds2, Region.Op.INTERSECT)) {
             SemanticsNodeWithAdjustedBounds semanticsNodeWithAdjustedBounds3 = new SemanticsNodeWithAdjustedBounds(semanticsNode4, region2.getBounds());
-            map.set(i, semanticsNodeWithAdjustedBounds3);
+            map.set(i4, semanticsNodeWithAdjustedBounds3);
             replacedChildren$ui_release = semanticsNode4.getReplacedChildren$ui_release();
             size -= semanticsNodeWithAdjustedBounds;
-            while ($this$fastRoundToInt$iv2 < i2) {
-                SemanticsUtils_androidKt.getAllUncoveredSemanticsNodesToIntObjectMap$findAllSemanticNodesRecursive(semanticsNodeWithAdjustedBounds2, root, map, (SemanticsNode)replacedChildren$ui_release.get(i2), region2);
-                i2--;
+            while ($this$fastRoundToInt$iv < i) {
+                SemanticsUtils_androidKt.getAllUncoveredSemanticsNodesToIntObjectMap$findAllSemanticNodesRecursive(semanticsNodeWithAdjustedBounds2, root, map, (SemanticsNode)replacedChildren$ui_release.get(i), region2);
+                i--;
             }
-            semanticsNode = root;
+            semanticsNode2 = root;
             if (SemanticsUtils_androidKt.isImportantForAccessibility(semanticsNode4)) {
                 semanticsNodeWithAdjustedBounds = $this$fastRoundToInt$iv4;
                 importantForAccessibility = $this$fastRoundToInt$iv3;
-                semanticsNodeWithAdjustedBounds2.op($this$fastRoundToInt$iv, importantForAccessibility, semanticsNodeWithAdjustedBounds, $this$fastRoundToInt$iv5, Region.Op.DIFFERENCE);
+                semanticsNodeWithAdjustedBounds2.op($this$fastRoundToInt$iv2, importantForAccessibility, semanticsNodeWithAdjustedBounds, $this$fastRoundToInt$iv5, Region.Op.DIFFERENCE);
                 $this$fastRoundToInt$iv4 = semanticsNodeWithAdjustedBounds;
                 $this$fastRoundToInt$iv3 = importantForAccessibility;
-                left = $this$fastRoundToInt$iv;
+                left = $this$fastRoundToInt$iv2;
             } else {
-                left = $this$fastRoundToInt$iv;
+                left = $this$fastRoundToInt$iv2;
             }
         } else {
-            semanticsNode = root;
+            semanticsNode2 = root;
             if (semanticsNode4.isFake$ui_release()) {
                 SemanticsNode parent = semanticsNode4.getParent();
                 replacedChildren$ui_release = parent.getLayoutInfo();
@@ -172,19 +172,19 @@ public final class SemanticsUtils_androidKt {
                 }
                 int i11 = 0;
                 int i12 = 0;
-                semanticsNode2 = parent;
+                semanticsNode3 = parent;
                 int i13 = 0;
-                left = $this$fastRoundToInt$iv;
-                i3 = 0;
+                left = $this$fastRoundToInt$iv2;
+                i2 = 0;
                 rect = defaultFakeNodeBounds;
                 replacedChildren$ui_release = new Rect(Math.round(defaultFakeNodeBounds.getLeft()), Math.round(defaultFakeNodeBounds.getTop()), Math.round(defaultFakeNodeBounds.getRight()), Math.round(defaultFakeNodeBounds.getBottom()));
                 semanticsNodeWithAdjustedBounds = new SemanticsNodeWithAdjustedBounds(semanticsNode4, replacedChildren$ui_release);
-                map.set(i, semanticsNodeWithAdjustedBounds);
+                map.set(i4, semanticsNodeWithAdjustedBounds);
             } else {
-                left = $this$fastRoundToInt$iv;
-                if (i == $this$fastRoundToInt$iv2) {
+                left = $this$fastRoundToInt$iv2;
+                if (i4 == $this$fastRoundToInt$iv) {
                     semanticsNodeWithAdjustedBounds2 = new SemanticsNodeWithAdjustedBounds(semanticsNode4, region2.getBounds());
-                    map.set(i, semanticsNodeWithAdjustedBounds2);
+                    map.set(i4, semanticsNodeWithAdjustedBounds2);
                 }
             }
         }
@@ -265,25 +265,25 @@ public final class SemanticsUtils_androidKt {
     public static final View semanticsIdToView(androidx.compose.ui.platform.AndroidViewsHandler $this$semanticsIdToView, int id) {
         Object entrySet;
         Object element$iv;
-        int i2;
-        Object obj;
         int i3;
+        Object obj;
+        int i2;
         int i;
         final int i4 = 0;
         final Iterator iterator = (Iterable)$this$semanticsIdToView.getLayoutNodeToHolder().entrySet().iterator();
         while (iterator.hasNext()) {
-            i3 = 0;
+            i2 = 0;
             if ((LayoutNode)(Map.Entry)iterator.next().getKey().getSemanticsId() == id) {
             } else {
             }
             i = 0;
             i = 1;
         }
-        element$iv = i2;
+        element$iv = i3;
         if ((Map.Entry)element$iv != 0) {
-            i2 = entrySet;
+            i3 = entrySet;
         }
-        return (View)i2;
+        return (View)i3;
     }
 
     public static final String toLegacyClassName-V4PA4sw(int $this$toLegacyClassName_u2dV4PA4sw) {

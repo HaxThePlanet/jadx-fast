@@ -40,22 +40,22 @@ public final class AwaitFirstLayoutModifier implements OnGloballyPositionedModif
 
     public final Object waitForFirstLayout(Continuation<? super Unit> continuation) {
         boolean anon;
-        int i2;
+        int i3;
         Object cOROUTINE_SUSPENDED;
-        int i;
+        int i2;
         Object constructor-impl;
         boolean wasPositioned;
         Object cOROUTINE_SUSPENDED2;
         SafeContinuation safeContinuation;
-        int i3;
+        int i;
         Object obj8;
         anon = continuation;
-        i = Integer.MIN_VALUE;
-        if (continuation instanceof AwaitFirstLayoutModifier.waitForFirstLayout.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation instanceof AwaitFirstLayoutModifier.waitForFirstLayout.1 && label &= i2 != 0) {
             anon = continuation;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj8 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj8 -= i2;
             } else {
                 anon = new AwaitFirstLayoutModifier.waitForFirstLayout.1(this, continuation);
             }
@@ -72,7 +72,7 @@ public final class AwaitFirstLayoutModifier implements OnGloballyPositionedModif
                 anon.L$1 = wasPositioned;
                 anon.label = 1;
                 safeContinuation = new SafeContinuation(IntrinsicsKt.intercepted((Continuation)anon));
-                i3 = 0;
+                i = 0;
                 constructor-impl.continuation = (Continuation)safeContinuation;
                 constructor-impl = safeContinuation.getOrThrow();
                 DebugProbesKt.probeCoroutineSuspended((Continuation)anon);

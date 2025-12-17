@@ -10,14 +10,14 @@ import kotlin.Metadata;
 @Metadata(d1 = "\u0000\u0016\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000b\n\u0002\u0008\u0002\u001a\u001d\u0010\u0000\u001a\u00020\u00012\u0006\u0010\u0002\u001a\u00020\u00032\u0006\u0010\u0004\u001a\u00020\u0005H\u0001¢\u0006\u0002\u0010\u0006¨\u0006\u0007", d2 = {"rememberPagerSemanticState", "Landroidx/compose/foundation/lazy/layout/LazyLayoutSemanticState;", "state", "Landroidx/compose/foundation/pager/PagerState;", "isVertical", "", "(Landroidx/compose/foundation/pager/PagerState;ZLandroidx/compose/runtime/Composer;I)Landroidx/compose/foundation/lazy/layout/LazyLayoutSemanticState;", "foundation_release"}, k = 2, mv = {1, 8, 0}, xi = 48)
 public final class PagerSemanticsKt {
     public static final LazyLayoutSemanticState rememberPagerSemanticState(androidx.compose.foundation.pager.PagerState state, boolean isVertical, Composer $composer, int $changed) {
-        int changed2;
-        int i2;
-        boolean traceInProgress;
-        int i;
-        String str;
         int changed;
+        int i;
+        boolean traceInProgress;
+        int i2;
+        String str;
+        int changed2;
         Object empty;
-        Object obj;
+        Object $i$a$CachePagerSemanticsKt$rememberPagerSemanticState$1;
         int i3 = -786344289;
         ComposerKt.sourceInformationMarkerStart($composer, i3, "C(rememberPagerSemanticState)P(1)27@956L86:PagerSemantics.kt#g6yjnt");
         if (ComposerKt.isTraceInProgress()) {
@@ -28,7 +28,7 @@ public final class PagerSemanticsKt {
         int i9 = 4;
         if (i5 ^= 6 > i9) {
             if (!$composer.changed(state)) {
-                i2 = $changed & 6 == i9 ? i7 : i;
+                i = $changed & 6 == i9 ? i7 : i2;
             } else {
             }
         } else {
@@ -37,7 +37,7 @@ public final class PagerSemanticsKt {
         if (i10 ^= 48 > i11) {
             if (!$composer.changed(isVertical)) {
                 if ($changed & 48 == i11) {
-                    i = i7;
+                    i2 = i7;
                 }
             } else {
             }
@@ -47,12 +47,12 @@ public final class PagerSemanticsKt {
         int i8 = 0;
         Object rememberedValue = composer.rememberedValue();
         int i12 = 0;
-        if (i2 |= i == 0) {
+        if (i |= i2 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 int i13 = 0;
                 composer.updateRememberedValue(LazyLayoutSemanticStateKt.LazyLayoutSemanticState(state, isVertical));
             } else {
-                obj = rememberedValue;
+                $i$a$CachePagerSemanticsKt$rememberPagerSemanticState$1 = rememberedValue;
             }
         } else {
         }
@@ -61,6 +61,6 @@ public final class PagerSemanticsKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (LazyLayoutSemanticState)obj;
+        return (LazyLayoutSemanticState)$i$a$CachePagerSemanticsKt$rememberPagerSemanticState$1;
     }
 }

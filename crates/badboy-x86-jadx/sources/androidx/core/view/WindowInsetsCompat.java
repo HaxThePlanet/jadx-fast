@@ -201,8 +201,8 @@ public class WindowInsetsCompat {
             Insets navigationBars;
             Insets[] mInsetsTypeMask;
             int mInsets;
-            int indexOf;
             int indexOf2;
+            int indexOf;
             int i2 = 1;
             mInsets = 2;
             if (this.mInsetsTypeMask != null && this.mInsetsTypeMask[WindowInsetsCompat.Type.indexOf(mInsets)] == null) {
@@ -239,9 +239,9 @@ public class WindowInsetsCompat {
         }
 
         void setInsets(int typeMask, Insets insets) {
-            Insets[] mInsetsTypeMask;
-            int i;
             Insets[] mInsetsTypeMask2;
+            int i;
+            Insets[] mInsetsTypeMask;
             int indexOf;
             if (this.mInsetsTypeMask == null) {
                 this.mInsetsTypeMask = new Insets[10];
@@ -774,9 +774,9 @@ public class WindowInsetsCompat {
             androidx.core.view.DisplayCutoutCompat displayCutout;
             Insets stableInsets;
             int mOverriddenInsets;
-            int bottom2;
-            Insets mRootViewVisibleInsets;
             int bottom;
+            Insets mRootViewVisibleInsets;
+            int bottom2;
             int nONE;
             stableInsets = 0;
             int i2 = 0;
@@ -792,8 +792,8 @@ public class WindowInsetsCompat {
                     return Insets.NONE;
                     Insets systemWindowInsets3 = getSystemWindowInsets();
                     stableInsets = this.mRootWindowInsets.getStableInsets();
-                    bottom2 = Math.min(systemWindowInsets3.bottom, stableInsets.bottom);
-                    return Insets.of(systemWindowInsets3.left, i2, systemWindowInsets3.right, bottom2);
+                    bottom = Math.min(systemWindowInsets3.bottom, stableInsets.bottom);
+                    return Insets.of(systemWindowInsets3.left, i2, systemWindowInsets3.right, bottom);
                 case 8:
                     stableInsets = this.mOverriddenInsets[WindowInsetsCompat.Type.indexOf(8)];
                     return stableInsets;
@@ -1212,25 +1212,25 @@ public class WindowInsetsCompat {
 
     private static final class TypeImpl30 {
         static int toPlatformType(int typeMask) {
-            int result2;
+            int result;
             int i;
             int mandatorySystemGestures;
-            result2 = 0;
+            result = 0;
             i = 1;
             while (i <= 512) {
                 if (typeMask & i != 0) {
                 }
                 i <<= 1;
-                result2 |= mandatorySystemGestures;
-                result2 |= mandatorySystemGestures;
-                result2 |= mandatorySystemGestures;
-                result2 |= mandatorySystemGestures;
-                result2 |= mandatorySystemGestures;
-                result2 |= mandatorySystemGestures;
-                result2 |= mandatorySystemGestures;
-                result2 |= mandatorySystemGestures;
+                result |= mandatorySystemGestures;
+                result |= mandatorySystemGestures;
+                result |= mandatorySystemGestures;
+                result |= mandatorySystemGestures;
+                result |= mandatorySystemGestures;
+                result |= mandatorySystemGestures;
+                result |= mandatorySystemGestures;
+                result |= mandatorySystemGestures;
             }
-            return result2;
+            return result;
         }
     }
 

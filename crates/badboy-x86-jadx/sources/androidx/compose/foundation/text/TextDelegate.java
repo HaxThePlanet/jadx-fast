@@ -60,9 +60,9 @@ public final class TextDelegate {
     }
 
     private TextDelegate(AnnotatedString text, TextStyle style, int maxLines, int minLines, boolean softWrap, int overflow, Density density, FontFamily.Resolver fontFamilyResolver, List<AnnotatedString.Range<Placeholder>> placeholders) {
-        int i2;
         int i3;
         int i;
+        int i2;
         super();
         this.text = text;
         this.style = style;
@@ -73,59 +73,59 @@ public final class TextDelegate {
         this.density = density;
         this.fontFamilyResolver = fontFamilyResolver;
         this.placeholders = placeholders;
-        i = 1;
+        i2 = 1;
         final int i7 = 0;
-        i2 = this.maxLines > 0 ? i : i7;
-        if (i2 == 0) {
+        i3 = this.maxLines > 0 ? i2 : i7;
+        if (i3 == 0) {
         } else {
-            i3 = this.minLines > 0 ? i : i7;
-            if (i3 == 0) {
+            i = this.minLines > 0 ? i2 : i7;
+            if (i == 0) {
             } else {
                 if (this.minLines <= this.maxLines) {
                 } else {
-                    i = i7;
+                    i2 = i7;
                 }
-                if (i == 0) {
+                if (i2 == 0) {
                 } else {
                 }
                 int i5 = 0;
-                IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("minLines greater than maxLines".toString());
-                throw illegalArgumentException2;
+                IllegalArgumentException $i$a$RequireTextDelegate$3 = new IllegalArgumentException("minLines greater than maxLines".toString());
+                throw $i$a$RequireTextDelegate$3;
             }
             int i4 = 0;
-            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("no minLines".toString());
-            throw illegalArgumentException;
+            IllegalArgumentException $i$a$RequireTextDelegate$2 = new IllegalArgumentException("no minLines".toString());
+            throw $i$a$RequireTextDelegate$2;
         }
         int i6 = 0;
-        IllegalArgumentException illegalArgumentException3 = new IllegalArgumentException("no maxLines".toString());
-        throw illegalArgumentException3;
+        IllegalArgumentException $i$a$RequireTextDelegate$1 = new IllegalArgumentException("no maxLines".toString());
+        throw $i$a$RequireTextDelegate$1;
     }
 
     public TextDelegate(AnnotatedString annotatedString, TextStyle textStyle2, int i3, int i4, boolean z5, int i6, Density density7, FontFamily.Resolver fontFamily$Resolver8, List list9, int i10, DefaultConstructorMarker defaultConstructorMarker11) {
         int emptyList;
-        int i8;
+        int i2;
         int clip-gIe3tQ8;
+        int i8;
         int i;
         int i5;
         int i7;
-        int i2;
         List list;
         int i9 = i10;
-        i = i9 & 4 != 0 ? i8 : i3;
+        i8 = i9 & 4 != 0 ? i2 : i3;
         int i13 = 1;
-        i5 = i9 & 8 != 0 ? i13 : i4;
-        i7 = i9 & 16 != 0 ? i13 : z5;
+        i = i9 & 8 != 0 ? i13 : i4;
+        i5 = i9 & 16 != 0 ? i13 : z5;
         if (i9 & 32 != 0) {
-            i2 = clip-gIe3tQ8;
+            i7 = clip-gIe3tQ8;
         } else {
-            i2 = i6;
+            i7 = i6;
         }
         if (i9 &= 256 != 0) {
             list = emptyList;
         } else {
             list = list9;
         }
-        super(annotatedString, textStyle2, i, i5, i7, i2, density7, resolver8, list, 0);
+        super(annotatedString, textStyle2, i8, i, i5, i7, density7, resolver8, list, 0);
     }
 
     public TextDelegate(AnnotatedString annotatedString, TextStyle textStyle2, int i3, int i4, boolean z5, int i6, Density density7, FontFamily.Resolver fontFamily$Resolver8, List list9, DefaultConstructorMarker defaultConstructorMarker10) {
@@ -151,13 +151,13 @@ public final class TextDelegate {
     }
 
     private final MultiParagraph layoutText-K40F9xA(long constraints, LayoutDirection layoutDirection) {
-        boolean softWrap;
+        boolean softWrap2;
         int i;
         int maxLines;
         int coerceIn;
         int hasBoundedWidth-impl;
         int maxWidth-impl;
-        boolean softWrap2;
+        boolean softWrap;
         int i2;
         int ellipsis-gIe3tQ8;
         layoutIntrinsics(obj17);

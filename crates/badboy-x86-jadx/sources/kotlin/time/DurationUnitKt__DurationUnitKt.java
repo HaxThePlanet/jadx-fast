@@ -13,13 +13,13 @@ class DurationUnitKt__DurationUnitKt extends kotlin.time.DurationUnitKt__Duratio
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal5;
+            int ordinal2;
+            int ordinal;
+            int ordinal3;
             int ordinal4;
             int ordinal6;
             int ordinal7;
-            int ordinal;
-            int ordinal2;
-            int ordinal3;
+            int ordinal5;
             int[] iArr = new int[values.length];
             iArr[DurationUnit.NANOSECONDS.ordinal()] = 1;
             iArr[DurationUnit.MICROSECONDS.ordinal()] = 2;

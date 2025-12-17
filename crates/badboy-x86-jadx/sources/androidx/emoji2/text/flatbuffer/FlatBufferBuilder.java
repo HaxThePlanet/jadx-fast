@@ -288,25 +288,25 @@ public class FlatBufferBuilder {
 
     public void clear() {
         int[] vtable;
-        int i;
         int i2;
+        int i;
         this.space = this.bb.capacity();
         this.bb.clear();
         int i3 = 1;
         this.minalign = i3;
-        i = 0;
+        i2 = 0;
         while (this.vtable_in_use > 0) {
             vtable_in_use2 -= i3;
-            this.vtable_in_use = i2;
-            this.vtable[i2] = i;
-            i = 0;
+            this.vtable_in_use = i;
+            this.vtable[i] = i2;
+            i2 = 0;
         }
-        this.vtable_in_use = i;
-        this.nested = i;
-        this.finished = i;
-        this.object_start = i;
-        this.num_vtables = i;
-        this.vector_num_elems = i;
+        this.vtable_in_use = i2;
+        this.nested = i2;
+        this.finished = i2;
+        this.object_start = i2;
+        this.num_vtables = i2;
+        this.vector_num_elems = i2;
     }
 
     public int createByteVector(ByteBuffer byteBuffer) {
@@ -402,24 +402,24 @@ public class FlatBufferBuilder {
 
     public int endTable() {
         int[] vtable;
-        int i;
-        int i3;
-        int i4;
-        short s;
         int i5;
+        int i6;
+        int i2;
+        short s;
+        int i;
         int existing_vtable;
-        int num_vtables2;
         int num_vtables;
+        int num_vtables2;
         ByteBuffer byteBuffer;
         int space2;
         int length;
         int space;
-        short short;
-        int i6;
+        short short3;
+        int i3;
         short j;
         short short2;
-        short short3;
-        int i2;
+        short short;
+        int i4;
         if (this.vtable == null) {
         } else {
             if (!this.nested) {
@@ -428,35 +428,35 @@ public class FlatBufferBuilder {
                 addInt(i7);
                 int offset = offset();
                 vtable_in_use--;
-                while (i >= 0) {
-                    if (this.vtable[i] == 0) {
+                while (i5 >= 0) {
+                    if (this.vtable[i5] == 0) {
                     }
-                    i--;
+                    i5--;
                 }
-                while (i >= 0) {
-                    if (this.vtable[i] != 0) {
+                while (i5 >= 0) {
+                    if (this.vtable[i5] != 0) {
                     } else {
                     }
-                    i5 = i7;
-                    addShort((short)i5);
-                    i--;
-                    i5 = offset - i11;
+                    i = i7;
+                    addShort((short)i);
+                    i5--;
+                    i = offset - i11;
                 }
                 int i9 = 2;
                 addShort((short)i12);
                 addShort((short)i14);
                 existing_vtable = 0;
-                i3 = 0;
-                while (i3 < this.num_vtables) {
+                i6 = 0;
+                while (i6 < this.num_vtables) {
                     capacity2 -= i16;
                     space2 = this.space;
-                    short = this.bb.getShort(num_vtables2);
-                    if (short == this.bb.getShort(space2)) {
+                    short3 = this.bb.getShort(num_vtables);
+                    if (short3 == this.bb.getShort(space2)) {
                     } else {
                     }
-                    i3++;
+                    i6++;
                     j = 2;
-                    while (j < short) {
+                    while (j < short3) {
                         j += 2;
                     }
                     j += 2;
@@ -501,18 +501,18 @@ public class FlatBufferBuilder {
     }
 
     protected void finish(int root_table, String file_identifier, boolean size_prefix) {
-        int i3;
         int i2;
         int i;
-        i2 = 4;
-        i = size_prefix ? i2 : 0;
-        prep(this.minalign, i += 8);
-        if (file_identifier.length() != i2) {
+        int i3;
+        i = 4;
+        i3 = size_prefix ? i : 0;
+        prep(this.minalign, i3 += 8);
+        if (file_identifier.length() != i) {
         } else {
-            i3 = 3;
-            while (i3 >= 0) {
+            i2 = 3;
+            while (i2 >= 0) {
                 addByte((byte)charAt);
-                i3--;
+                i2--;
             }
             finish(root_table, size_prefix);
         }

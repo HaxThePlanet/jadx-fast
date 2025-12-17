@@ -450,9 +450,9 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
 
         public static final int[] $EnumSwitchMapping$0;
         static {
+            int ordinal3;
             int ordinal;
             int ordinal2;
-            int ordinal3;
             int[] iArr = new int[values.length];
             iArr[ToggleableState.On.ordinal()] = 1;
             iArr[ToggleableState.Off.ordinal()] = 2;
@@ -618,8 +618,8 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
 
     private final void addExtraDataToAccessibilityNodeInfoHelper(int virtualViewId, AccessibilityNodeInfoCompat info, String extraDataKey, Bundle arguments) {
         Object semanticsNode;
-        boolean contains2;
         boolean contains;
+        boolean contains2;
         boolean orDefault;
         androidx.compose.ui.semantics.SemanticsPropertyKey testTag;
         String length;
@@ -737,22 +737,22 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         Object $this$maskEmptyOrDeleted$iv$iv$iv2;
         int foundNode;
         int cmp;
-        int i4;
         int i2;
+        int i4;
         long l;
         Object obj;
-        int i;
+        int i3;
         Rect adjustedBounds;
         boolean reverseScrolling;
-        int i3;
+        int i;
         float floatValue;
         actualDirection = vertical;
         final int i5 = direction;
         final long l2 = position;
         if (!Offset.equals-impl0(l2, obj3)) {
             if (!Offset.isValid-impl(l2)) {
-                i4 = 0;
-                return i4;
+                i2 = 0;
+                return i2;
             } else {
                 if (actualDirection == 1) {
                     horizontalScrollAxisRange = SemanticsProperties.INSTANCE.getVerticalScrollAxisRange();
@@ -778,7 +778,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
             throw noWhenBranchMatchedException;
         }
-        i4 = 0;
+        i2 = 0;
     }
 
     private final void checkForSemanticsChanges() {
@@ -790,19 +790,19 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         if (isEnabled$ui_release()) {
             sendAccessibilitySemanticsStructureChangeEvents(this.view.getSemanticsOwner().getUnmergedRootSemanticsNode(), this.previousSemanticsRoot);
         }
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$checkForSemanticsChanges$1 = Unit.INSTANCE;
         Trace.endSection();
         int i2 = 0;
         Trace.beginSection("sendSemanticsPropertyChangeEvents");
         int i5 = 0;
         sendSemanticsPropertyChangeEvents(getCurrentSemanticsNodes());
-        Unit iNSTANCE2 = Unit.INSTANCE;
+        Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$checkForSemanticsChanges$2 = Unit.INSTANCE;
         Trace.endSection();
         int i3 = 0;
         Trace.beginSection("updateSemanticsNodesCopyAndPanes");
         int i6 = 0;
         updateSemanticsNodesCopyAndPanes();
-        Unit iNSTANCE3 = Unit.INSTANCE;
+        Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$checkForSemanticsChanges$3 = Unit.INSTANCE;
         Trace.endSection();
     }
 
@@ -821,7 +821,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     private final AccessibilityEvent createEvent(int virtualViewId, int eventType) {
         boolean enabled$ui_release;
         int i;
-        Unit iNSTANCE;
+        Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$createEvent$2;
         Object password;
         int i3 = 0;
         Trace.beginSection("obtainAccessibilityEvent");
@@ -834,13 +834,13 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         Trace.beginSection("event.packageName");
         int i6 = 0;
         obtain.setPackageName((CharSequence)this.view.getContext().getPackageName());
-        Unit iNSTANCE2 = Unit.INSTANCE;
+        Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$createEvent$1 = Unit.INSTANCE;
         Trace.endSection();
         i = 0;
         Trace.beginSection("event.setSource");
         int i7 = 0;
         obtain.setSource((View)this.view, virtualViewId);
-        iNSTANCE = Unit.INSTANCE;
+        $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$createEvent$2 = Unit.INSTANCE;
         Trace.endSection();
         enabled$ui_release = getCurrentSemanticsNodes().get(virtualViewId);
         if (isEnabled$ui_release() && (SemanticsNodeWithAdjustedBounds)enabled$ui_release != null) {
@@ -883,7 +883,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             Trace.endSection();
             return parentId;
         }
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$createNodeInfo$1 = Unit.INSTANCE;
         Trace.endSection();
         int i2 = 0;
         Trace.beginSection("createAccessibilityNodeInfoObject");
@@ -922,20 +922,20 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 }
                 parentId = -1;
                 obtain.setParent((View)this.view, parentId);
-                Unit iNSTANCE2 = Unit.INSTANCE;
+                Unit iNSTANCE = Unit.INSTANCE;
                 Trace.endSection();
                 obtain.setSource((View)this.view, virtualViewId);
                 int i8 = 0;
                 Trace.beginSection("setBoundsInScreen");
                 int i10 = 0;
                 obtain.setBoundsInScreen(boundsInScreen(obj));
-                Unit iNSTANCE3 = Unit.INSTANCE;
+                Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$createNodeInfo$3 = Unit.INSTANCE;
                 Trace.endSection();
                 int i9 = 0;
                 Trace.beginSection("populateAccessibilityNodeInfoProperties");
                 int i11 = 0;
                 populateAccessibilityNodeInfoProperties(virtualViewId, obtain, semanticsNode);
-                Unit iNSTANCE4 = Unit.INSTANCE;
+                Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$createNodeInfo$4 = Unit.INSTANCE;
                 Trace.endSection();
                 return obtain;
                 Trace.endSection();
@@ -961,19 +961,19 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     }
 
     private final String createStateDescriptionForTextField(SemanticsNode node) {
-        Object orNull3;
-        int i2;
         Object orNull2;
+        int i2;
         Object orNull;
+        Object orNull3;
         int string;
         int i;
         int state_empty;
         SemanticsConfiguration config = node.copyWithMergingEnabled$ui_release().getConfig();
-        orNull3 = SemanticsConfigurationKt.getOrNull(config, SemanticsProperties.INSTANCE.getContentDescription());
+        orNull2 = SemanticsConfigurationKt.getOrNull(config, SemanticsProperties.INSTANCE.getContentDescription());
         i = 0;
         state_empty = 1;
-        if ((Collection)orNull3 != null) {
-            if ((Collection)orNull3.isEmpty()) {
+        if ((Collection)orNull2 != null) {
+            if ((Collection)orNull2.isEmpty()) {
                 i2 = state_empty;
             } else {
                 i2 = i;
@@ -981,9 +981,9 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         } else {
         }
         if (i2 != 0) {
-            orNull = SemanticsConfigurationKt.getOrNull(config, SemanticsProperties.INSTANCE.getText());
-            if ((Collection)orNull != null) {
-                if ((Collection)orNull.isEmpty()) {
+            orNull3 = SemanticsConfigurationKt.getOrNull(config, SemanticsProperties.INSTANCE.getText());
+            if ((Collection)orNull3 != null) {
+                if ((Collection)orNull3.isEmpty()) {
                     i2 = state_empty;
                 } else {
                     i2 = i;
@@ -991,9 +991,9 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             } else {
             }
             if (i2 != 0) {
-                orNull2 = SemanticsConfigurationKt.getOrNull(config, SemanticsProperties.INSTANCE.getEditableText());
-                if ((CharSequence)orNull2 != null) {
-                    if ((CharSequence)orNull2.length() == 0) {
+                orNull = SemanticsConfigurationKt.getOrNull(config, SemanticsProperties.INSTANCE.getEditableText());
+                if ((CharSequence)orNull != null) {
+                    if ((CharSequence)orNull.length() == 0) {
                         i2 = state_empty;
                     } else {
                         i2 = i;
@@ -1060,8 +1060,8 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int subtreeSortedByGeometryGrouping;
         int index$iv;
         int size;
-        Object obj;
         Object obj2;
+        Object obj;
         int i;
         boolean booleanValue = (Boolean)currNode.getUnmergedConfig$ui_release().getOrElse(SemanticsProperties.INSTANCE.getIsTraversalGroup(), (Function0)AndroidComposeViewAccessibilityDelegateCompat.geometryDepthFirstSearch.isTraversalGroup.1.INSTANCE).booleanValue();
         if (!booleanValue) {
@@ -1113,19 +1113,19 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     private final IntObjectMap<androidx.compose.ui.platform.SemanticsNodeWithAdjustedBounds> getCurrentSemanticsNodes() {
         boolean currentSemanticsNodesInvalidated;
         int i;
-        Throwable iNSTANCE;
+        Throwable $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$currentSemanticsNodes$2;
         IntObjectMap allUncoveredSemanticsNodesToIntObjectMap;
         this.currentSemanticsNodesInvalidated = false;
         i = 0;
         Trace.beginSection("generateCurrentSemanticsNodes");
-        iNSTANCE = 0;
+        $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$currentSemanticsNodes$2 = 0;
         Trace.endSection();
         this.currentSemanticsNodes = SemanticsUtils_androidKt.getAllUncoveredSemanticsNodesToIntObjectMap(this.view.getSemanticsOwner());
         if (this.currentSemanticsNodesInvalidated && isEnabled$ui_release()) {
             this.currentSemanticsNodesInvalidated = false;
             i = 0;
             Trace.beginSection("generateCurrentSemanticsNodes");
-            iNSTANCE = 0;
+            $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$currentSemanticsNodes$2 = 0;
             Trace.endSection();
             this.currentSemanticsNodes = SemanticsUtils_androidKt.getAllUncoveredSemanticsNodesToIntObjectMap(this.view.getSemanticsOwner());
             if (isEnabled$ui_release()) {
@@ -1133,7 +1133,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 Trace.beginSection("setTraversalValues");
                 int i3 = 0;
                 setTraversalValues();
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$currentSemanticsNodes$2 = Unit.INSTANCE;
                 Trace.endSection();
             }
         }
@@ -1180,22 +1180,22 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int coerceIn;
         Object obj;
         Object booleanValue;
-        int i4;
+        int i;
         androidx.compose.ui.semantics.SemanticsPropertyKey selected;
         Object progressBarRangeInfo;
         int resources;
         int indeterminate;
         String string;
-        int i5;
-        int i;
+        int i6;
+        int i2;
         int $i$f$fastRoundToInt;
         int template_percent;
         Object[] arr;
-        int i2;
+        int i5;
         float floatValue;
         int i3;
         int $this$fastCoerceAtMost$iv$iv;
-        int i6;
+        int i4;
         int cmp;
         final Object obj2 = this;
         int i8 = 0;
@@ -1204,7 +1204,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         Object orNull2 = SemanticsConfigurationKt.getOrNull(node.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getRole());
         coerceIn = 0;
         if ((ToggleableState)orNull != null) {
-            i4 = 0;
+            i = 0;
             switch (resources) {
                 case 1:
                     resources = coerceIn;
@@ -1250,20 +1250,20 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                     indeterminate = (ProgressBarRangeInfo)orNull3.getRange();
                     int i14 = 0;
                     int i15 = 1;
-                    i5 = Float.compare(i10, i14) == 0 ? i15 : coerceIn;
-                    if (i5 != 0) {
-                        i = i14;
+                    i6 = Float.compare(i10, i14) == 0 ? i15 : coerceIn;
+                    if (i6 != 0) {
+                        i2 = i14;
                     } else {
-                        i11 /= i2;
+                        i11 /= i5;
                     }
-                    i2 = 0;
+                    i5 = 0;
                     floatValue = 1065353216;
                     i3 = 0;
                     int i16 = 0;
-                    if (Float.compare($this$fastCoerceAtMost$iv$iv, i2) < 0) {
-                        $this$fastCoerceAtMost$iv$iv = i2;
+                    if (Float.compare($this$fastCoerceAtMost$iv$iv, i5) < 0) {
+                        $this$fastCoerceAtMost$iv$iv = i5;
                     }
-                    i6 = 0;
+                    i4 = 0;
                     if (Float.compare($this$fastCoerceAtMost$iv$iv, floatValue) > 0) {
                         $this$fastCoerceAtMost$iv$iv = floatValue;
                     }
@@ -1473,116 +1473,116 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     }
 
     private final boolean performActionHelper(int virtualViewId, int action, Bundle arguments) {
-        Object orNull15;
-        Object action2;
-        Object orNull12;
-        Object orNull5;
         Object orNull9;
+        Object action2;
+        Object orNull15;
+        Object orNull11;
         Object orNull2;
         Object orNull6;
-        int booleanValue7;
-        Object orNull14;
-        int i16;
-        int scrollForward;
-        int booleanValue12;
-        Object booleanValue15;
-        boolean contains;
-        kotlin.Function booleanValue5;
-        Object orNull3;
+        Object orNull;
+        int booleanValue3;
+        Object orNull5;
+        int i15;
+        int scrollForward2;
+        int booleanValue15;
+        Object booleanValue11;
+        boolean contains2;
+        kotlin.Function booleanValue8;
+        Object orNull8;
         int i6;
-        Object orNull13;
+        Object orNull3;
         int semanticsNodeIdToAccessibilityVirtualNodeId;
         int invoke;
         Object setText;
         float dy2;
-        int pageRight;
-        androidx.compose.ui.semantics.SemanticsPropertyKey amountToScroll2;
+        int pageRight2;
+        androidx.compose.ui.semantics.SemanticsPropertyKey amountToScroll;
         int valueOf;
         Object orNull4;
-        int i;
+        int i21;
         int str;
         int string;
-        Object orNull10;
-        int booleanValue6;
+        Object orNull12;
+        int booleanValue;
         Object pageUp;
         Object pageDown;
         Object pageLeft;
-        Object orNull;
-        Object pageRight2;
+        Object orNull10;
+        Object pageRight;
         boolean focusOwner;
-        int i15;
+        int i10;
         Object obj;
-        int aRTIFICIAL_FRAME_PACKAGE_NAME;
+        int aRTIFICIAL_FRAME_PACKAGE_NAME2;
         SemanticsNode scrollableAncestor;
         Boolean exit-dhqQ-8s;
-        int i22;
+        int i20;
         int unmergedConfig$ui_release;
         int scrollAction;
-        int i12;
-        int unmergedConfig$ui_release3;
+        int i16;
+        int unmergedConfig$ui_release2;
         long positionInRoot;
-        int i17;
-        int aRTIFICIAL_FRAME_PACKAGE_NAME2;
-        int i18;
+        int i8;
+        int aRTIFICIAL_FRAME_PACKAGE_NAME;
+        int i4;
         int index$iv;
-        int booleanValue9;
-        boolean booleanValue8;
-        int booleanValue11;
+        int booleanValue5;
+        boolean booleanValue9;
+        int booleanValue12;
         int booleanValue13;
-        int booleanValue10;
-        int booleanValue3;
-        int booleanValue;
         int booleanValue4;
+        int booleanValue10;
+        int booleanValue7;
+        int booleanValue14;
+        int i5;
         int i9;
-        int i14;
         int booleanValue2;
-        int orNull8;
-        int orNull7;
+        int orNull14;
+        int orNull13;
         int setProgress;
-        int i13;
+        int i12;
         float dx;
         androidx.compose.ui.semantics.SemanticsPropertyKey horizontalScrollAxisRange;
-        boolean contains2;
-        Object orNull11;
-        SemanticsConfiguration unmergedConfig$ui_release2;
-        int amountToScroll;
-        int i3;
-        int reverseScrolling2;
+        boolean contains;
+        Object orNull7;
+        SemanticsConfiguration unmergedConfig$ui_release3;
+        int amountToScroll2;
+        int i19;
         int reverseScrolling;
+        int reverseScrolling2;
         int increment;
-        androidx.compose.ui.semantics.SemanticsPropertyKey booleanValue14;
+        androidx.compose.ui.semantics.SemanticsPropertyKey booleanValue6;
         float dy;
         long steps;
-        int i8;
+        int i11;
         Object yScrollState;
         Object yScrollState2;
-        int i11;
-        int i10;
-        int i20;
-        int i19;
-        int scrollForward2;
+        int i17;
+        int i;
+        int i14;
+        int i2;
+        int scrollForward;
         int scrollForward3;
-        int i21;
-        int i7;
-        int i4;
+        int i3;
+        int i22;
+        int i13;
         int canPageHorizontally;
         int scrollBackward;
-        int i5;
+        int i7;
         long fallbackViewport;
         action2 = this;
         int i41 = virtualViewId;
         final int i42 = action;
         final Object obj4 = arguments;
         Object obj2 = action2.getCurrentSemanticsNodes().get(i41);
-        booleanValue9 = 0;
+        booleanValue5 = 0;
         if ((SemanticsNodeWithAdjustedBounds)obj2 != null) {
             SemanticsNode semanticsNode = (SemanticsNodeWithAdjustedBounds)obj2.getSemanticsNode();
             if (semanticsNode == null) {
-                i = i41;
-                i19 = booleanValue9;
-                return i19;
+                i21 = i41;
+                i2 = booleanValue5;
+                return i2;
             } else {
-                orNull8 = semanticsNode;
+                orNull14 = semanticsNode;
                 invoke = 1;
                 switch (i42) {
                     case 64:
@@ -1590,269 +1590,269 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                     case 128:
                         return clearAccessibilityFocus(virtualViewId);
                     case 256:
-                        booleanValue9 = invoke;
-                        return action2.traverseAtGranularity(orNull8, obj4.getInt("ACTION_ARGUMENT_MOVEMENT_GRANULARITY_INT"), booleanValue9, obj4.getBoolean("ACTION_ARGUMENT_EXTEND_SELECTION_BOOLEAN"));
-                        return booleanValue9;
+                        booleanValue5 = invoke;
+                        return action2.traverseAtGranularity(orNull14, obj4.getInt("ACTION_ARGUMENT_MOVEMENT_GRANULARITY_INT"), booleanValue5, obj4.getBoolean("ACTION_ARGUMENT_EXTEND_SELECTION_BOOLEAN"));
+                        return booleanValue5;
                     case 512:
-                        orNull13 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCopyText());
-                        orNull13 = (AccessibilityAction)orNull13.getAction();
-                        booleanValue9 = (Boolean)(Function0)orNull13.invoke().booleanValue();
-                        return booleanValue9;
+                        orNull3 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCopyText());
+                        orNull3 = (AccessibilityAction)orNull3.getAction();
+                        booleanValue5 = (Boolean)(Function0)orNull3.invoke().booleanValue();
+                        return booleanValue5;
                     case 16384:
                         semanticsNodeIdToAccessibilityVirtualNodeId = -1;
                         str = obj4.getInt("ACTION_ARGUMENT_SELECTION_START_INT", semanticsNodeIdToAccessibilityVirtualNodeId);
                         str = semanticsNodeIdToAccessibilityVirtualNodeId;
                         semanticsNodeIdToAccessibilityVirtualNodeId = obj4.getInt("ACTION_ARGUMENT_SELECTION_END_INT", semanticsNodeIdToAccessibilityVirtualNodeId);
-                        boolean accessibilitySelection = action2.setAccessibilitySelection(orNull8, str, semanticsNodeIdToAccessibilityVirtualNodeId, booleanValue9);
-                        AndroidComposeViewAccessibilityDelegateCompat.sendEventForVirtualView$default(action2, action2.semanticsNodeIdToAccessibilityVirtualNodeId(orNull8.getId()), 0, 0, 0, 12, 0);
+                        boolean accessibilitySelection = action2.setAccessibilitySelection(orNull14, str, semanticsNodeIdToAccessibilityVirtualNodeId, booleanValue5);
+                        AndroidComposeViewAccessibilityDelegateCompat.sendEventForVirtualView$default(action2, action2.semanticsNodeIdToAccessibilityVirtualNodeId(orNull14.getId()), 0, 0, 0, 12, 0);
                         return accessibilitySelection;
                     default:
-                        return booleanValue9;
+                        return booleanValue5;
                 }
                 string = 0;
                 switch (i42) {
                     case 1:
                         int i25 = i41;
-                        orNull = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getRequestFocus());
-                        orNull = (AccessibilityAction)orNull.getAction();
-                        booleanValue = (Boolean)(Function0)orNull.invoke().booleanValue();
-                        booleanValue = 0;
-                        return booleanValue;
+                        orNull10 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getRequestFocus());
+                        orNull10 = (AccessibilityAction)orNull10.getAction();
+                        booleanValue7 = (Boolean)(Function0)orNull10.invoke().booleanValue();
+                        booleanValue7 = 0;
+                        return booleanValue7;
                     case 2:
                         int i27 = i41;
                         unmergedConfig$ui_release = 1;
-                        action2.view.getFocusOwner().clearFocus-I7lrPNg(booleanValue9, unmergedConfig$ui_release, unmergedConfig$ui_release, FocusDirection.Companion.getExit-dhqQ-8s());
-                        i9 = unmergedConfig$ui_release;
-                        i9 = 0;
-                        return i9;
+                        action2.view.getFocusOwner().clearFocus-I7lrPNg(booleanValue5, unmergedConfig$ui_release, unmergedConfig$ui_release, FocusDirection.Companion.getExit-dhqQ-8s());
+                        i5 = unmergedConfig$ui_release;
+                        i5 = 0;
+                        return i5;
                     case 16:
-                        i11 = booleanValue9;
-                        orNull15 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnClick());
-                        orNull15 = (AccessibilityAction)orNull15.getAction();
-                        string = orNull15;
+                        i17 = booleanValue5;
+                        orNull9 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnClick());
+                        orNull9 = (AccessibilityAction)orNull9.getAction();
+                        string = orNull9;
                         int i43 = string;
                         AndroidComposeViewAccessibilityDelegateCompat.sendEventForVirtualView$default(this, i41, 1, 0, 0, 12, 0);
-                        i11 = booleanValue6;
-                        return i11;
+                        i17 = booleanValue;
+                        return i17;
                     case 32:
-                        orNull9 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnLongClick());
-                        orNull9 = (AccessibilityAction)orNull9.getAction();
-                        booleanValue13 = (Boolean)(Function0)orNull9.invoke().booleanValue();
+                        orNull2 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnLongClick());
+                        orNull2 = (AccessibilityAction)orNull2.getAction();
+                        booleanValue13 = (Boolean)(Function0)orNull2.invoke().booleanValue();
                         booleanValue13 = i52;
                         return booleanValue13;
                     case 4096:
-                        i10 = booleanValue9;
-                        SemanticsNode semanticsNode12 = orNull8;
-                        i16 = 1;
-                        i16 = i10;
-                        pageRight = 1;
-                        pageRight = i10;
+                        i = booleanValue5;
+                        SemanticsNode semanticsNode12 = orNull14;
                         i15 = 1;
-                        i15 = i10;
+                        i15 = i;
+                        pageRight2 = 1;
+                        pageRight2 = i;
+                        i10 = 1;
+                        i10 = i;
+                        i20 = 1;
+                        i20 = i;
+                        i16 = 1;
+                        i16 = i;
+                        i8 = 1;
+                        i8 = i;
+                        i4 = i;
+                        i4 = 1;
+                        i9 = i;
+                        i9 = 1;
+                        scrollForward3 = i15;
+                        i7 = pageRight2;
+                        orNull14 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getProgressBarRangeInfo());
+                        orNull13 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetProgress());
+                        float coerceAtLeast = RangesKt.coerceAtLeast((Number)(ProgressBarRangeInfo)orNull14.getRange().getEndInclusive().floatValue(), (Number)orNull14.getRange().getStart().floatValue());
+                        float coerceAtMost = RangesKt.coerceAtMost((Number)orNull14.getRange().getStart().floatValue(), (Number)orNull14.getRange().getEndInclusive().floatValue());
+                        scrollForward = i15;
                         i22 = 1;
-                        i22 = i10;
-                        i12 = 1;
-                        i12 = i10;
-                        i17 = 1;
-                        i17 = i10;
-                        i18 = i10;
-                        i18 = 1;
-                        i14 = i10;
-                        i14 = 1;
-                        scrollForward3 = i16;
-                        i5 = pageRight;
-                        orNull8 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getProgressBarRangeInfo());
-                        orNull7 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetProgress());
-                        float coerceAtLeast = RangesKt.coerceAtLeast((Number)(ProgressBarRangeInfo)orNull8.getRange().getEndInclusive().floatValue(), (Number)orNull8.getRange().getStart().floatValue());
-                        float coerceAtMost = RangesKt.coerceAtMost((Number)orNull8.getRange().getStart().floatValue(), (Number)orNull8.getRange().getEndInclusive().floatValue());
-                        scrollForward2 = i16;
-                        i7 = 1;
-                        i48 /= scrollForward;
-                        scrollForward2 = i16;
-                        increment = scrollForward / f;
+                        i48 /= scrollForward2;
+                        scrollForward = i15;
+                        increment = scrollForward2 / f;
                         increment = -increment;
-                        kotlin.Function action3 = (AccessibilityAction)orNull7.getAction();
-                        scrollBackward = pageRight;
-                        booleanValue12 = (Boolean)(Function1)action3.invoke(Float.valueOf(current += increment)).booleanValue();
-                        scrollBackward = pageRight;
-                        booleanValue12 = i10;
-                        return booleanValue12;
-                        scrollForward3 = i16;
-                        i5 = pageRight;
+                        kotlin.Function action3 = (AccessibilityAction)orNull13.getAction();
+                        scrollBackward = pageRight2;
+                        booleanValue15 = (Boolean)(Function1)action3.invoke(Float.valueOf(current += increment)).booleanValue();
+                        scrollBackward = pageRight2;
+                        booleanValue15 = i;
+                        return booleanValue15;
+                        scrollForward3 = i15;
+                        i7 = pageRight2;
                         long size-NH-jbRc = LayoutCoordinatesKt.boundsInParent(semanticsNode12.getLayoutInfo().getCoordinates()).getSize-NH-jbRc();
                         Float scrollViewportLength = SemanticsUtils_androidKt.getScrollViewportLength(semanticsNode12.getUnmergedConfig$ui_release());
                         Object orNull23 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getScrollBy());
-                        return i10;
+                        return i;
                         Object orNull25 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getHorizontalScrollAxisRange());
-                        amountToScroll = scrollViewportLength.floatValue();
-                        amountToScroll = Size.getWidth-impl(size-NH-jbRc);
-                        amountToScroll = -amountToScroll;
-                        amountToScroll = -amountToScroll;
-                        amountToScroll = -amountToScroll;
+                        amountToScroll2 = scrollViewportLength.floatValue();
+                        amountToScroll2 = Size.getWidth-impl(size-NH-jbRc);
+                        amountToScroll2 = -amountToScroll2;
+                        amountToScroll2 = -amountToScroll2;
+                        amountToScroll2 = -amountToScroll2;
                         int i49 = 0;
                         long l = size-NH-jbRc;
-                        valueOf = i10;
+                        valueOf = i;
                         valueOf = 1;
-                        booleanValue5 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageRight());
-                        booleanValue5 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageLeft());
-                        unmergedConfig$ui_release2 = booleanValue5.getAction();
+                        booleanValue8 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageRight());
+                        booleanValue8 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageLeft());
+                        unmergedConfig$ui_release3 = booleanValue8.getAction();
                         canPageHorizontally = valueOf;
-                        i10 = unmergedConfig$ui_release2;
+                        i = unmergedConfig$ui_release3;
                         canPageHorizontally = valueOf;
-                        booleanValue5 = (AccessibilityAction)orNull23.getAction();
+                        booleanValue8 = (AccessibilityAction)orNull23.getAction();
                         canPageHorizontally = valueOf;
-                        i10 = booleanValue5;
+                        i = booleanValue8;
                         canPageHorizontally = valueOf;
-                        return i10;
+                        return i;
                         fallbackViewport = size-NH-jbRc;
-                        i8 = 0;
+                        i11 = 0;
                         fallbackViewport = size-NH-jbRc;
-                        i8 = 0;
-                        booleanValue15 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getVerticalScrollAxisRange());
-                        amountToScroll2 = scrollViewportLength.floatValue();
-                        amountToScroll2 = Size.getHeight-impl(fallbackViewport);
-                        amountToScroll2 = -amountToScroll2;
-                        amountToScroll2 = -amountToScroll2;
-                        i4 = i10;
-                        i4 = 1;
-                        orNull11 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageDown());
-                        orNull11 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageUp());
-                        booleanValue14 = orNull11.getAction();
-                        yScrollState2 = booleanValue15;
-                        i10 = booleanValue14;
-                        yScrollState2 = booleanValue15;
-                        orNull11 = orNull23.getAction();
-                        yScrollState2 = booleanValue15;
-                        i10 = booleanValue15;
-                        yScrollState2 = booleanValue15;
-                        return i10;
-                        yScrollState = booleanValue15;
-                        yScrollState = booleanValue15;
-                        return i10;
+                        i11 = 0;
+                        booleanValue11 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getVerticalScrollAxisRange());
+                        amountToScroll = scrollViewportLength.floatValue();
+                        amountToScroll = Size.getHeight-impl(fallbackViewport);
+                        amountToScroll = -amountToScroll;
+                        amountToScroll = -amountToScroll;
+                        i13 = i;
+                        i13 = 1;
+                        orNull7 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageDown());
+                        orNull7 = SemanticsConfigurationKt.getOrNull(semanticsNode12.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageUp());
+                        booleanValue6 = orNull7.getAction();
+                        yScrollState2 = booleanValue11;
+                        i = booleanValue6;
+                        yScrollState2 = booleanValue11;
+                        orNull7 = orNull23.getAction();
+                        yScrollState2 = booleanValue11;
+                        i = booleanValue11;
+                        yScrollState2 = booleanValue11;
+                        return i;
+                        yScrollState = booleanValue11;
+                        yScrollState = booleanValue11;
+                        return i;
                     case 8192:
-                        orNull3 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPasteText());
-                        orNull3 = (AccessibilityAction)orNull3.getAction();
-                        booleanValue2 = (Boolean)(Function0)orNull3.invoke().booleanValue();
+                        orNull8 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPasteText());
+                        orNull8 = (AccessibilityAction)orNull8.getAction();
+                        booleanValue2 = (Boolean)(Function0)orNull8.invoke().booleanValue();
                         booleanValue2 = i60;
                         return booleanValue2;
                     case 32768:
-                        orNull5 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCutText());
-                        orNull5 = (AccessibilityAction)orNull5.getAction();
-                        booleanValue11 = (Boolean)(Function0)orNull5.invoke().booleanValue();
-                        booleanValue11 = i51;
-                        return booleanValue11;
+                        orNull11 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCutText());
+                        orNull11 = (AccessibilityAction)orNull11.getAction();
+                        booleanValue12 = (Boolean)(Function0)orNull11.invoke().booleanValue();
+                        booleanValue12 = i51;
+                        return booleanValue12;
                     case 65536:
-                        orNull2 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getExpand());
-                        orNull2 = (AccessibilityAction)orNull2.getAction();
-                        booleanValue10 = (Boolean)(Function0)orNull2.invoke().booleanValue();
-                        booleanValue10 = i53;
-                        return booleanValue10;
-                    case 262144:
-                        orNull6 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCollapse());
+                        orNull6 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getExpand());
                         orNull6 = (AccessibilityAction)orNull6.getAction();
-                        booleanValue3 = (Boolean)(Function0)orNull6.invoke().booleanValue();
-                        booleanValue3 = i54;
-                        return booleanValue3;
-                    case 524288:
-                        orNull14 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getDismiss());
-                        orNull14 = (AccessibilityAction)orNull14.getAction();
-                        booleanValue4 = (Boolean)(Function0)orNull14.invoke().booleanValue();
-                        booleanValue4 = i56;
+                        booleanValue4 = (Boolean)(Function0)orNull6.invoke().booleanValue();
+                        booleanValue4 = i53;
                         return booleanValue4;
+                    case 262144:
+                        orNull = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCollapse());
+                        orNull = (AccessibilityAction)orNull.getAction();
+                        booleanValue10 = (Boolean)(Function0)orNull.invoke().booleanValue();
+                        booleanValue10 = i54;
+                        return booleanValue10;
+                    case 524288:
+                        orNull5 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getDismiss());
+                        orNull5 = (AccessibilityAction)orNull5.getAction();
+                        booleanValue14 = (Boolean)(Function0)orNull5.invoke().booleanValue();
+                        booleanValue14 = i56;
+                        return booleanValue14;
                     case 1048576:
                         string = obj4.getString("ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE");
-                        orNull12 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetText());
-                        orNull12 = (AccessibilityAction)orNull12.getAction();
-                        orNull8 = setText;
-                        orNull8 = string;
-                        AnnotatedString annotatedString = new AnnotatedString(orNull8, 0, 0, 6, 0);
-                        booleanValue8 = (Boolean)(Function1)orNull12.invoke(annotatedString).booleanValue();
-                        booleanValue8 = i50;
-                        return booleanValue8;
+                        orNull15 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetText());
+                        orNull15 = (AccessibilityAction)orNull15.getAction();
+                        orNull14 = setText;
+                        orNull14 = string;
+                        AnnotatedString annotatedString = new AnnotatedString(orNull14, 0, 0, 6, 0);
+                        booleanValue9 = (Boolean)(Function1)orNull15.invoke(annotatedString).booleanValue();
+                        booleanValue9 = i50;
+                        return booleanValue9;
                     case 2097152:
-                        scrollableAncestor = orNull8.getParent();
+                        scrollableAncestor = orNull14.getParent();
                         unmergedConfig$ui_release = scrollableAncestor.getUnmergedConfig$ui_release();
                         scrollAction = SemanticsConfigurationKt.getOrNull(unmergedConfig$ui_release, SemanticsActions.INSTANCE.getScrollBy());
                         scrollAction = string;
                         scrollableAncestor = scrollableAncestor.getParent();
-                        unmergedConfig$ui_release3 = scrollableAncestor.getUnmergedConfig$ui_release();
-                        unmergedConfig$ui_release3 = SemanticsConfigurationKt.getOrNull(unmergedConfig$ui_release3, SemanticsActions.INSTANCE.getScrollBy());
-                        unmergedConfig$ui_release3 = string;
-                        scrollAction = unmergedConfig$ui_release3;
-                        return booleanValue9;
+                        unmergedConfig$ui_release2 = scrollableAncestor.getUnmergedConfig$ui_release();
+                        unmergedConfig$ui_release2 = SemanticsConfigurationKt.getOrNull(unmergedConfig$ui_release2, SemanticsActions.INSTANCE.getScrollBy());
+                        unmergedConfig$ui_release2 = string;
+                        scrollAction = unmergedConfig$ui_release2;
+                        return booleanValue5;
                         LayoutCoordinates parentLayoutCoordinates = scrollableAncestor.getLayoutInfo().getCoordinates().getParentLayoutCoordinates();
                         positionInRoot = LayoutCoordinatesKt.positionInRoot(parentLayoutCoordinates);
                         positionInRoot = Offset.Companion.getZero-F1C5BW0();
                         Rect translate-k-4lQ0M = LayoutCoordinatesKt.boundsInParent(scrollableAncestor.getLayoutInfo().getCoordinates()).translate-k-4lQ0M(positionInRoot);
-                        int i55 = booleanValue9;
-                        Rect rect = RectKt.Rect-tz77jQw(orNull8.getPositionInRoot-F1C5BW0(), obj14);
+                        int i55 = booleanValue5;
+                        Rect rect = RectKt.Rect-tz77jQw(orNull14.getPositionInRoot-F1C5BW0(), obj14);
                         Object orNull22 = SemanticsConfigurationKt.getOrNull(scrollableAncestor.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getHorizontalScrollAxisRange());
                         Object orNull24 = SemanticsConfigurationKt.getOrNull(scrollableAncestor.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getVerticalScrollAxisRange());
-                        i3 = invoke;
+                        i19 = invoke;
+                        i19 = i55;
+                        dx = -dx;
+                        dx = -dx;
+                        i3 = 1;
                         i3 = i55;
-                        dx = -dx;
-                        dx = -dx;
-                        i21 = 1;
-                        i21 = i55;
                         dy2 = -dy2;
                         action2 = scrollAction.getAction();
-                        booleanValue7 = (Boolean)(Function2)action2.invoke(Float.valueOf(dx), Float.valueOf(dy2)).booleanValue();
+                        booleanValue3 = (Boolean)(Function2)action2.invoke(Float.valueOf(dx), Float.valueOf(dy2)).booleanValue();
                         dy = dy2;
-                        booleanValue7 = i55;
-                        return booleanValue7;
+                        booleanValue3 = i55;
+                        return booleanValue3;
                     case 16908342:
                         invoke = "android.view.accessibility.action.ARGUMENT_PROGRESS_VALUE";
-                        orNull10 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetProgress());
-                        orNull10 = (AccessibilityAction)orNull10.getAction();
-                        booleanValue9 = (Boolean)(Function1)orNull10.invoke(Float.valueOf(obj4.getFloat(invoke))).booleanValue();
-                        return booleanValue9;
-                        return booleanValue9;
+                        orNull12 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetProgress());
+                        orNull12 = (AccessibilityAction)orNull12.getAction();
+                        booleanValue5 = (Boolean)(Function1)orNull12.invoke(Float.valueOf(obj4.getFloat(invoke))).booleanValue();
+                        return booleanValue5;
+                        return booleanValue5;
                     case 16908344:
-                        Object orNull16 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageUp());
+                        Object orNull16 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageUp());
                         pageUp = (AccessibilityAction)orNull16.getAction();
-                        booleanValue9 = (Boolean)(Function0)pageUp.invoke().booleanValue();
-                        return booleanValue9;
+                        booleanValue5 = (Boolean)(Function0)pageUp.invoke().booleanValue();
+                        return booleanValue5;
                     case 16908345:
-                        Object orNull17 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageDown());
+                        Object orNull17 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageDown());
                         pageDown = (AccessibilityAction)orNull17.getAction();
-                        booleanValue9 = (Boolean)(Function0)pageDown.invoke().booleanValue();
-                        return booleanValue9;
+                        booleanValue5 = (Boolean)(Function0)pageDown.invoke().booleanValue();
+                        return booleanValue5;
                     case 16908346:
-                        Object orNull18 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageLeft());
+                        Object orNull18 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageLeft());
                         pageLeft = (AccessibilityAction)orNull18.getAction();
-                        booleanValue9 = (Boolean)(Function0)pageLeft.invoke().booleanValue();
-                        return booleanValue9;
+                        booleanValue5 = (Boolean)(Function0)pageLeft.invoke().booleanValue();
+                        return booleanValue5;
                     case 16908347:
-                        Object orNull19 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageRight());
-                        pageRight2 = (AccessibilityAction)orNull19.getAction();
-                        booleanValue9 = (Boolean)(Function0)pageRight2.invoke().booleanValue();
-                        return booleanValue9;
+                        Object orNull19 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPageRight());
+                        pageRight = (AccessibilityAction)orNull19.getAction();
+                        booleanValue5 = (Boolean)(Function0)pageRight.invoke().booleanValue();
+                        return booleanValue5;
                     case 16908349:
-                        orNull4 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnImeAction());
+                        orNull4 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnImeAction());
                         orNull4 = (AccessibilityAction)orNull4.getAction();
-                        booleanValue9 = (Boolean)(Function0)orNull4.invoke().booleanValue();
-                        return booleanValue9;
+                        booleanValue5 = (Boolean)(Function0)orNull4.invoke().booleanValue();
+                        return booleanValue5;
                     default:
                         obj = action2.actionIdToLabel.get(i41);
                         obj = (SparseArrayCompat)obj.get(i42);
-                        i20 = 0;
-                        Object orNull21 = SemanticsConfigurationKt.getOrNull(orNull8.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCustomActions());
+                        i14 = 0;
+                        Object orNull21 = SemanticsConfigurationKt.getOrNull(orNull14.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCustomActions());
                         return 0;
                         Object obj3 = orNull21;
                         int i39 = 0;
                         index$iv = 0;
-                        orNull8 = booleanValue9;
-                        orNull7 = 0;
-                        return (Boolean)orNull8.getAction().invoke().booleanValue();
+                        orNull14 = booleanValue5;
+                        orNull13 = 0;
+                        return (Boolean)orNull14.getAction().invoke().booleanValue();
                         index$iv++;
                         return 0;
-                        i20 = 0;
-                        return i20;
+                        i14 = 0;
+                        return i14;
                 }
             }
         }
-        i = i41;
-        i19 = booleanValue9;
+        i21 = i41;
+        i2 = booleanValue5;
     }
 
     private static final boolean performActionHelper$canScroll(ScrollAxisRange $this$performActionHelper_u24canScroll, float amount) {
@@ -1874,26 +1874,26 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     }
 
     private static final float performActionHelper$scrollDelta(float a, float b) {
-        int i2;
         int i;
+        int i2;
         float signum;
-        i2 = Float.compare(signum2, signum) == 0 ? 1 : 0;
-        if (i2 != 0) {
-            i = Float.compare(f, signum) < 0 ? a : b;
+        i = Float.compare(signum2, signum) == 0 ? 1 : 0;
+        if (i != 0) {
+            i2 = Float.compare(f, signum) < 0 ? a : b;
         } else {
-            i = 0;
+            i2 = 0;
         }
-        return i;
+        return i2;
     }
 
     private final void populateAccessibilityNodeInfoProperties(int virtualViewId, AccessibilityNodeInfoCompat info, SemanticsNode semanticsNode) {
-        boolean contains;
+        boolean contains4;
         boolean contains2;
         Object labelToActionId;
         Object iNSTANCE5;
-        Object iNSTANCE11;
+        Object iNSTANCE9;
         int content$iv;
-        MutableIntList obj2;
+        MutableIntList obj5;
         AccessibilityNodeInfoCompat.AccessibilityActionCompat aCTION_ACCESSIBILITY_FOCUS;
         Object toggleState2;
         int semanticsIdToView2;
@@ -1901,28 +1901,28 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int semanticsIdToView;
         androidx.compose.ui.semantics.SemanticsPropertyKey collapse;
         androidx.compose.ui.semantics.SemanticsPropertyKey dismiss;
-        Object iNSTANCE7;
-        int index$iv;
-        int extraDataTestTraversalAfterVal;
-        int i5;
-        Object toggleableState;
-        Object iNSTANCE9;
-        boolean mergingSemanticsOfDescendants;
-        Object orNull2;
-        int i$iv;
-        Object obj5;
-        String legacyClassName-V4PA4sw;
         Object iNSTANCE2;
-        Object iNSTANCE6;
-        boolean iNSTANCE;
+        int index$iv3;
+        int extraDataTestTraversalAfterVal;
+        int i4;
+        Object toggleableState;
+        Object iNSTANCE4;
+        boolean mergingSemanticsOfDescendants;
+        Object orNull3;
+        int $i$a$ApplyAndroidComposeViewAccessibilityDelegateCompat$populateAccessibilityNodeInfoProperties$availableIds$1;
+        Object obj3;
+        String legacyClassName-V4PA4sw;
+        Object iNSTANCE10;
+        Object iNSTANCE;
+        boolean iNSTANCE8;
         String iterableTextForAccessibility;
         int size;
-        boolean contains5;
-        Object iNSTANCE4;
-        Object iNSTANCE12;
-        Object iNSTANCE8;
+        boolean contains3;
+        Object iNSTANCE3;
+        Object iNSTANCE7;
+        Object iNSTANCE11;
         boolean equals-impl0;
-        int i6;
+        int i2;
         String unmergedLeafNode$ui_release;
         androidx.compose.ui.semantics.SemanticsPropertyKey selected;
         androidx.compose.ui.semantics.SemanticsPropertyKey onLongClick;
@@ -1935,13 +1935,13 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         androidx.compose.ui.semantics.SemanticsPropertyKey cutText;
         int contentDescription;
         androidx.compose.ui.semantics.SemanticsPropertyKey testTagsAsResourceId;
-        Object iNSTANCE10;
+        Object iNSTANCE12;
         int intValue;
         boolean focusable;
-        Object iNSTANCE3;
-        boolean accessibilityActionCompat2;
-        int contains3;
-        boolean contains4;
+        Object iNSTANCE6;
+        boolean accessibilityActionCompat;
+        int contains5;
+        boolean contains;
         String str;
         Object indeterminate;
         int aCTION_SCROLL_FORWARD;
@@ -1950,45 +1950,45 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         java.lang.CharSequence length;
         int current;
         androidx.compose.ui.semantics.SemanticsPropertyKey heading;
-        int i;
+        int i5;
         int getTextLayoutResult;
         androidx.compose.ui.semantics.SemanticsPropertyKey setProgress;
         androidx.compose.ui.semantics.SemanticsPropertyKey coerceAtMost;
         Object booleanValue;
         androidx.compose.ui.semantics.SemanticsPropertyKey liveRegion;
-        int label;
+        int label3;
         Object empty;
-        boolean populateAccessibilityNodeInfoProperties$canScrollForward;
-        int populateAccessibilityNodeInfoProperties$canScrollBackward2;
-        boolean orNull3;
-        int populateAccessibilityNodeInfoProperties$canScrollBackward;
-        boolean collectionInfo2;
         boolean populateAccessibilityNodeInfoProperties$canScrollForward2;
-        boolean accessibilityActionCompat;
+        int populateAccessibilityNodeInfoProperties$canScrollBackward2;
+        boolean orNull2;
+        int populateAccessibilityNodeInfoProperties$canScrollBackward;
         boolean collectionInfo;
+        boolean populateAccessibilityNodeInfoProperties$canScrollForward;
+        boolean accessibilityActionCompat2;
+        boolean collectionInfo2;
         androidx.compose.ui.semantics.SemanticsPropertyKey verticalScrollAxisRange;
-        androidx.compose.ui.semantics.SemanticsPropertyKey index$iv3;
+        androidx.compose.ui.semantics.SemanticsPropertyKey index$iv;
         int tab-o7Vup1c;
-        int i4;
-        String label3;
-        Object obj6;
+        int i;
+        String label2;
+        Object obj2;
         Object role;
         String str2;
         Object customActions;
         Object toggleState;
         int $this$fastForEachIndexed$iv;
-        ArrayList list2;
+        ArrayList list;
         int index;
         Object $this$fastForEach$iv;
         int[] iArr;
-        ArrayList list;
-        int i2;
+        ArrayList list2;
+        int i6;
         MutableIntList availableIds;
-        Object obj;
-        Object rangeInfo;
-        String label2;
-        Object obj3;
         Object obj4;
+        Object rangeInfo;
+        String label;
+        Object obj;
+        Object obj6;
         int i3;
         final Object obj7 = this;
         final int i7 = virtualViewId;
@@ -2006,7 +2006,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         labelToActionId = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getRole());
         if ((Role)labelToActionId != null) {
             int unbox-impl = (Role)labelToActionId.unbox-impl();
-            i5 = 0;
+            i4 = 0;
             if (!semanticsNode2.isFake$ui_release()) {
                 if (semanticsNode2.getReplacedChildren$ui_release().isEmpty()) {
                     if (Role.equals-impl0(labelToActionId.unbox-impl(), Role.Companion.getTab-o7Vup1c())) {
@@ -2030,7 +2030,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             } else {
             }
             Unit it3 = Unit.INSTANCE;
-            iNSTANCE7 = Unit.INSTANCE;
+            iNSTANCE2 = Unit.INSTANCE;
         }
         if (semanticsNode2.getUnmergedConfig$ui_release().contains(SemanticsActions.INSTANCE.getSetText())) {
             accessibilityNodeInfoCompat.setClassName((CharSequence)str4);
@@ -2042,15 +2042,15 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         accessibilityNodeInfoCompat.setImportantForAccessibility(SemanticsUtils_androidKt.isImportantForAccessibility(semanticsNode2));
         List replacedChildren$ui_release = semanticsNode2.getReplacedChildren$ui_release();
         int i10 = 0;
-        index$iv = 0;
+        index$iv3 = 0;
         legacyClassName-V4PA4sw = -1;
-        while (index$iv < replacedChildren$ui_release.size()) {
+        while (index$iv3 < replacedChildren$ui_release.size()) {
             contentDescription = unmergedLeafNode$ui_release;
             current = 0;
             if (obj7.getCurrentSemanticsNodes().contains((SemanticsNode)contentDescription.getId())) {
             } else {
             }
-            index$iv++;
+            index$iv3++;
             legacyClassName-V4PA4sw = -1;
             booleanValue = obj7.view.getAndroidViewsHandler$ui_release().getLayoutNodeToHolder().get(contentDescription.getLayoutNode$ui_release());
             if (contentDescription.getId() == legacyClassName-V4PA4sw) {
@@ -2089,9 +2089,9 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             Unit it5 = Unit.INSTANCE;
             toggleableState = Unit.INSTANCE;
         }
-        iNSTANCE9 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getSelected());
-        if ((Boolean)iNSTANCE9 != null) {
-            boolean booleanValue2 = (Boolean)iNSTANCE9.booleanValue();
+        iNSTANCE4 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getSelected());
+        if ((Boolean)iNSTANCE4 != null) {
+            boolean booleanValue2 = (Boolean)iNSTANCE4.booleanValue();
             selected = 0;
             if (labelToActionId == null) {
                 contentDescription = extraDataTestTraversalBeforeVal;
@@ -2104,7 +2104,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 accessibilityNodeInfoCompat.setChecked(booleanValue2);
             }
             Unit it4 = Unit.INSTANCE;
-            iNSTANCE9 = Unit.INSTANCE;
+            iNSTANCE4 = Unit.INSTANCE;
         }
         if (semanticsNode2.getUnmergedConfig$ui_release().isMergingSemanticsOfDescendants()) {
             if (semanticsNode2.getReplacedChildren$ui_release().isEmpty()) {
@@ -2118,8 +2118,8 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             }
         } else {
         }
-        orNull2 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getTestTag());
-        if ((String)orNull2 != null) {
+        orNull3 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getTestTag());
+        if ((String)orNull3 != null) {
             testTagsAsResourceId = 0;
             current = semanticsNode;
             while (current != 0) {
@@ -2130,14 +2130,14 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 current = current.getParent();
             }
             if (testTagsAsResourceId != 0) {
-                accessibilityNodeInfoCompat.setViewIdResourceName((String)orNull2);
+                accessibilityNodeInfoCompat.setViewIdResourceName((String)orNull3);
             }
         }
         if ((Unit)SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getHeading()) != null) {
             heading = 0;
             accessibilityNodeInfoCompat.setHeading(extraDataTestTraversalAfterVal);
             Unit it13 = Unit.INSTANCE;
-            iNSTANCE10 = Unit.INSTANCE;
+            iNSTANCE12 = Unit.INSTANCE;
         }
         accessibilityNodeInfoCompat.setPassword(semanticsNode2.getUnmergedConfig$ui_release().contains(SemanticsProperties.INSTANCE.getPassword()));
         accessibilityNodeInfoCompat.setEditable(semanticsNode2.getUnmergedConfig$ui_release().contains(SemanticsProperties.INSTANCE.getIsEditable()));
@@ -2159,26 +2159,26 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             }
         }
         accessibilityNodeInfoCompat.setVisibleToUser(AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$isVisible(semanticsNode2));
-        iNSTANCE3 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getLiveRegion());
-        if ((LiveRegionMode)iNSTANCE3 != null) {
-            int unbox-impl6 = (LiveRegionMode)iNSTANCE3.unbox-impl();
+        iNSTANCE6 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getLiveRegion());
+        if ((LiveRegionMode)iNSTANCE6 != null) {
+            int unbox-impl6 = (LiveRegionMode)iNSTANCE6.unbox-impl();
             liveRegion = 0;
             if (LiveRegionMode.equals-impl0(unbox-impl6, LiveRegionMode.Companion.getPolite-0phEisY())) {
-                i = extraDataTestTraversalAfterVal;
+                i5 = extraDataTestTraversalAfterVal;
             } else {
                 if (LiveRegionMode.equals-impl0(unbox-impl6, LiveRegionMode.Companion.getAssertive-0phEisY())) {
                 } else {
-                    i = extraDataTestTraversalAfterVal;
+                    i5 = extraDataTestTraversalAfterVal;
                 }
             }
-            accessibilityNodeInfoCompat.setLiveRegion(i);
+            accessibilityNodeInfoCompat.setLiveRegion(i5);
             Unit it12 = Unit.INSTANCE;
-            iNSTANCE3 = Unit.INSTANCE;
+            iNSTANCE6 = Unit.INSTANCE;
         }
         accessibilityNodeInfoCompat.setClickable(extraDataTestTraversalBeforeVal);
-        accessibilityActionCompat2 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnClick());
+        accessibilityActionCompat = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnClick());
         getTextLayoutResult = 16;
-        if ((AccessibilityAction)accessibilityActionCompat2 != null) {
+        if ((AccessibilityAction)accessibilityActionCompat != null) {
             liveRegion = 0;
             if (labelToActionId == null) {
                 equals-impl0 = extraDataTestTraversalBeforeVal;
@@ -2192,93 +2192,93 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                     equals-impl0 = Role.equals-impl0(labelToActionId.unbox-impl(), Role.Companion.getRadioButton-o7Vup1c());
                 }
                 if (equals-impl0) {
-                    i6 = extraDataTestTraversalAfterVal;
+                    i2 = extraDataTestTraversalAfterVal;
                 } else {
-                    i6 = extraDataTestTraversalBeforeVal;
+                    i2 = extraDataTestTraversalBeforeVal;
                 }
             } else {
             }
-            if (i6 != 0) {
-                if (i6 != 0 && !Intrinsics.areEqual(SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getSelected()), Boolean.valueOf(extraDataTestTraversalAfterVal))) {
+            if (i2 != 0) {
+                if (i2 != 0 && !Intrinsics.areEqual(SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getSelected()), Boolean.valueOf(extraDataTestTraversalAfterVal))) {
                     if (!Intrinsics.areEqual(SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getSelected()), Boolean.valueOf(extraDataTestTraversalAfterVal))) {
-                        i4 = extraDataTestTraversalAfterVal;
+                        i = extraDataTestTraversalAfterVal;
                     } else {
-                        i4 = extraDataTestTraversalBeforeVal;
+                        i = extraDataTestTraversalBeforeVal;
                     }
                 } else {
                 }
             } else {
             }
-            accessibilityNodeInfoCompat.setClickable(i4);
+            accessibilityNodeInfoCompat.setClickable(i);
             if (AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$enabled(semanticsNode2) && accessibilityNodeInfoCompat.isClickable()) {
                 if (accessibilityNodeInfoCompat.isClickable()) {
-                    accessibilityActionCompat = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(getTextLayoutResult, (CharSequence)(AccessibilityAction)accessibilityActionCompat2.getLabel());
-                    accessibilityNodeInfoCompat.addAction(accessibilityActionCompat);
+                    accessibilityActionCompat2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(getTextLayoutResult, (CharSequence)(AccessibilityAction)accessibilityActionCompat.getLabel());
+                    accessibilityNodeInfoCompat.addAction(accessibilityActionCompat2);
                 }
             }
             Unit isRadioButtonOrTab = Unit.INSTANCE;
             legacyClassName-V4PA4sw = Unit.INSTANCE;
         }
         accessibilityNodeInfoCompat.setLongClickable(extraDataTestTraversalBeforeVal);
-        iNSTANCE2 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnLongClick());
+        iNSTANCE10 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnLongClick());
         onLongClick = 0;
         accessibilityNodeInfoCompat.setLongClickable(extraDataTestTraversalAfterVal);
-        if ((AccessibilityAction)iNSTANCE2 != null && AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$enabled(semanticsNode2)) {
+        if ((AccessibilityAction)iNSTANCE10 != null && AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$enabled(semanticsNode2)) {
             onLongClick = 0;
             accessibilityNodeInfoCompat.setLongClickable(extraDataTestTraversalAfterVal);
             if (AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$enabled(semanticsNode2)) {
-                accessibilityActionCompat2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(32, (CharSequence)(AccessibilityAction)iNSTANCE2.getLabel());
-                accessibilityNodeInfoCompat.addAction(accessibilityActionCompat2);
+                accessibilityActionCompat = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(32, (CharSequence)(AccessibilityAction)iNSTANCE10.getLabel());
+                accessibilityNodeInfoCompat.addAction(accessibilityActionCompat);
             }
             Unit it6 = Unit.INSTANCE;
-            iNSTANCE2 = Unit.INSTANCE;
+            iNSTANCE10 = Unit.INSTANCE;
         }
-        iNSTANCE6 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCopyText());
-        if ((AccessibilityAction)iNSTANCE6 != null) {
+        iNSTANCE = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCopyText());
+        if ((AccessibilityAction)iNSTANCE != null) {
             pasteText = 0;
-            accessibilityActionCompat2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(16384, (CharSequence)(AccessibilityAction)iNSTANCE6.getLabel());
-            accessibilityNodeInfoCompat.addAction(accessibilityActionCompat2);
+            accessibilityActionCompat = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(16384, (CharSequence)(AccessibilityAction)iNSTANCE.getLabel());
+            accessibilityNodeInfoCompat.addAction(accessibilityActionCompat);
             Unit it11 = Unit.INSTANCE;
-            iNSTANCE6 = Unit.INSTANCE;
+            iNSTANCE = Unit.INSTANCE;
         }
-        iNSTANCE4 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetText());
-        if (AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$enabled(semanticsNode2) && (AccessibilityAction)iNSTANCE4 != null) {
-            iNSTANCE4 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetText());
-            if ((AccessibilityAction)(AccessibilityAction)iNSTANCE4 != null) {
+        iNSTANCE3 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetText());
+        if (AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$enabled(semanticsNode2) && (AccessibilityAction)iNSTANCE3 != null) {
+            iNSTANCE3 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetText());
+            if ((AccessibilityAction)(AccessibilityAction)iNSTANCE3 != null) {
                 setText = 0;
-                accessibilityActionCompat2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2097152, (CharSequence)(AccessibilityAction)(AccessibilityAction)iNSTANCE4.getLabel());
-                accessibilityNodeInfoCompat.addAction(accessibilityActionCompat2);
+                accessibilityActionCompat = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(2097152, (CharSequence)(AccessibilityAction)(AccessibilityAction)iNSTANCE3.getLabel());
+                accessibilityNodeInfoCompat.addAction(accessibilityActionCompat);
                 Unit it10 = Unit.INSTANCE;
-                iNSTANCE4 = Unit.INSTANCE;
+                iNSTANCE3 = Unit.INSTANCE;
             }
-            iNSTANCE12 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnImeAction());
-            if ((AccessibilityAction)iNSTANCE12 != null) {
+            iNSTANCE7 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getOnImeAction());
+            if ((AccessibilityAction)iNSTANCE7 != null) {
                 onImeAction = 0;
-                accessibilityActionCompat2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(16908372, (CharSequence)(AccessibilityAction)iNSTANCE12.getLabel());
-                accessibilityNodeInfoCompat.addAction(accessibilityActionCompat2);
+                accessibilityActionCompat = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(16908372, (CharSequence)(AccessibilityAction)iNSTANCE7.getLabel());
+                accessibilityNodeInfoCompat.addAction(accessibilityActionCompat);
                 Unit it9 = Unit.INSTANCE;
-                iNSTANCE12 = Unit.INSTANCE;
+                iNSTANCE7 = Unit.INSTANCE;
             }
-            iNSTANCE8 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCutText());
-            if ((AccessibilityAction)iNSTANCE8 != null) {
+            iNSTANCE11 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getCutText());
+            if ((AccessibilityAction)iNSTANCE11 != null) {
                 cutText = 0;
-                accessibilityActionCompat2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(65536, (CharSequence)(AccessibilityAction)iNSTANCE8.getLabel());
-                accessibilityNodeInfoCompat.addAction(accessibilityActionCompat2);
+                accessibilityActionCompat = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(65536, (CharSequence)(AccessibilityAction)iNSTANCE11.getLabel());
+                accessibilityNodeInfoCompat.addAction(accessibilityActionCompat);
                 Unit it8 = Unit.INSTANCE;
-                iNSTANCE8 = Unit.INSTANCE;
+                iNSTANCE11 = Unit.INSTANCE;
             }
-            iNSTANCE = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPasteText());
+            iNSTANCE8 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getPasteText());
             pasteText = 0;
-            if ((AccessibilityAction)iNSTANCE != null && accessibilityNodeInfoCompat.isFocused() && obj7.view.getClipboardManager().hasText()) {
+            if ((AccessibilityAction)iNSTANCE8 != null && accessibilityNodeInfoCompat.isFocused() && obj7.view.getClipboardManager().hasText()) {
                 pasteText = 0;
                 if (accessibilityNodeInfoCompat.isFocused()) {
                     if (obj7.view.getClipboardManager().hasText()) {
-                        accessibilityActionCompat2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(32768, (CharSequence)(AccessibilityAction)iNSTANCE.getLabel());
-                        accessibilityNodeInfoCompat.addAction(accessibilityActionCompat2);
+                        accessibilityActionCompat = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(32768, (CharSequence)(AccessibilityAction)iNSTANCE8.getLabel());
+                        accessibilityNodeInfoCompat.addAction(accessibilityActionCompat);
                     }
                 }
                 Unit it7 = Unit.INSTANCE;
-                iNSTANCE = Unit.INSTANCE;
+                iNSTANCE8 = Unit.INSTANCE;
             }
         }
         iterableTextForAccessibility = obj7.getIterableTextForAccessibility(semanticsNode2);
@@ -2295,16 +2295,16 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             accessibilityNodeInfoCompat.setTextSelection(obj7.getAccessibilitySelectionStart(semanticsNode2), obj7.getAccessibilitySelectionEnd(semanticsNode2));
             orNull = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getSetSelection());
             if ((AccessibilityAction)orNull != null) {
-                label = (AccessibilityAction)orNull.getLabel();
+                label3 = (AccessibilityAction)orNull.getLabel();
             } else {
-                label = 0;
+                label3 = 0;
             }
-            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat5 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(131072, (CharSequence)label);
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat5 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(131072, (CharSequence)label3);
             accessibilityNodeInfoCompat.addAction(accessibilityActionCompat5);
             accessibilityNodeInfoCompat.addAction(256);
             accessibilityNodeInfoCompat.addAction(512);
             accessibilityNodeInfoCompat.setMovementGranularities(11);
-            empty = accessibilityActionCompat2;
+            empty = accessibilityActionCompat;
             if ((Collection)empty != null) {
                 if ((Collection)empty.isEmpty()) {
                     liveRegion = extraDataTestTraversalAfterVal;
@@ -2326,13 +2326,13 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         length = accessibilityNodeInfoCompat.getText();
         if (length != null) {
             if (length.length() == 0) {
-                contains3 = extraDataTestTraversalAfterVal;
+                contains5 = extraDataTestTraversalAfterVal;
             } else {
-                contains3 = extraDataTestTraversalBeforeVal;
+                contains5 = extraDataTestTraversalBeforeVal;
             }
         } else {
         }
-        if (contains3 == 0 && semanticsNode2.getUnmergedConfig$ui_release().contains(SemanticsActions.INSTANCE.getGetTextLayoutResult())) {
+        if (contains5 == 0 && semanticsNode2.getUnmergedConfig$ui_release().contains(SemanticsActions.INSTANCE.getGetTextLayoutResult())) {
             if (semanticsNode2.getUnmergedConfig$ui_release().contains(SemanticsActions.INSTANCE.getGetTextLayoutResult())) {
                 arrayList.add("android.view.accessibility.extra.DATA_TEXT_CHARACTER_LOCATION_KEY");
             }
@@ -2379,8 +2379,8 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 if (AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$enabled(semanticsNode2) && AndroidComposeViewAccessibilityDelegateCompat.populateAccessibilityNodeInfoProperties$canScrollForward(xScrollState)) {
                     if (AndroidComposeViewAccessibilityDelegateCompat.populateAccessibilityNodeInfoProperties$canScrollForward(xScrollState)) {
                         accessibilityNodeInfoCompat.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SCROLL_FORWARD);
-                        populateAccessibilityNodeInfoProperties$canScrollForward2 = !AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$isRtl(semanticsNode2) ? AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SCROLL_RIGHT : AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SCROLL_LEFT;
-                        accessibilityNodeInfoCompat.addAction(populateAccessibilityNodeInfoProperties$canScrollForward2);
+                        populateAccessibilityNodeInfoProperties$canScrollForward = !AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$isRtl(semanticsNode2) ? AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SCROLL_RIGHT : AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SCROLL_LEFT;
+                        accessibilityNodeInfoCompat.addAction(populateAccessibilityNodeInfoProperties$canScrollForward);
                     }
                     if (AndroidComposeViewAccessibilityDelegateCompat.populateAccessibilityNodeInfoProperties$canScrollBackward(xScrollState)) {
                         accessibilityNodeInfoCompat.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SCROLL_BACKWARD);
@@ -2414,11 +2414,11 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         AndroidComposeViewAccessibilityDelegateCompat.Api29Impl.addPageActions(info, semanticsNode);
         accessibilityNodeInfoCompat.setPaneTitle((CharSequence)SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsProperties.INSTANCE.getPaneTitle()));
         if (AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$enabled(semanticsNode2)) {
-            orNull3 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getExpand());
-            if ((AccessibilityAction)orNull3 != null) {
-                index$iv3 = 0;
+            orNull2 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getExpand());
+            if ((AccessibilityAction)orNull2 != null) {
+                index$iv = 0;
                 role = labelToActionId;
-                extraDataTestTraversalBeforeVal = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(262144, (CharSequence)(AccessibilityAction)orNull3.getLabel());
+                extraDataTestTraversalBeforeVal = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(262144, (CharSequence)(AccessibilityAction)orNull2.getLabel());
                 accessibilityNodeInfoCompat.addAction(extraDataTestTraversalBeforeVal);
                 Unit iNSTANCE13 = Unit.INSTANCE;
                 labelToActionId = Unit.INSTANCE;
@@ -2433,135 +2433,135 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 Unit it2 = Unit.INSTANCE;
                 iNSTANCE5 = Unit.INSTANCE;
             }
-            iNSTANCE11 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getDismiss());
-            if ((AccessibilityAction)iNSTANCE11 != null) {
+            iNSTANCE9 = SemanticsConfigurationKt.getOrNull(semanticsNode2.getUnmergedConfig$ui_release(), SemanticsActions.INSTANCE.getDismiss());
+            if ((AccessibilityAction)iNSTANCE9 != null) {
                 dismiss = 0;
-                extraDataTestTraversalAfterVal = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(1048576, (CharSequence)(AccessibilityAction)iNSTANCE11.getLabel());
+                extraDataTestTraversalAfterVal = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(1048576, (CharSequence)(AccessibilityAction)iNSTANCE9.getLabel());
                 accessibilityNodeInfoCompat.addAction(extraDataTestTraversalAfterVal);
                 Unit it = Unit.INSTANCE;
-                iNSTANCE11 = Unit.INSTANCE;
+                iNSTANCE9 = Unit.INSTANCE;
             }
             if (semanticsNode2.getUnmergedConfig$ui_release().contains(SemanticsActions.INSTANCE.getCustomActions())) {
-                obj2 = semanticsNode2.getUnmergedConfig$ui_release().get(SemanticsActions.INSTANCE.getCustomActions());
-                if ((List)obj2.size() >= AndroidComposeViewAccessibilityDelegateCompat.AccessibilityActionsResourceIds.getSize()) {
+                obj5 = semanticsNode2.getUnmergedConfig$ui_release().get(SemanticsActions.INSTANCE.getCustomActions());
+                if ((List)obj5.size() >= AndroidComposeViewAccessibilityDelegateCompat.AccessibilityActionsResourceIds.getSize()) {
                 } else {
                     extraDataTestTraversalBeforeVal = new SparseArrayCompat(0, 1, 0);
                     extraDataTestTraversalAfterVal = ObjectIntMapKt.mutableObjectIntMapOf();
                     if (obj7.labelToActionId.containsKey(i7)) {
-                        orNull3 = obj7.labelToActionId.get(i7);
+                        orNull2 = obj7.labelToActionId.get(i7);
                         int i19 = 0;
                         toggleState = toggleState2;
-                        obj6 = orNull2;
+                        obj2 = orNull3;
                         str2 = iterableTextForAccessibility;
                         MutableIntList customActions2 = new MutableIntList(0, 1, 0);
                         IntList accessibilityActionsResourceIds3 = AndroidComposeViewAccessibilityDelegateCompat.AccessibilityActionsResourceIds;
                         int i20 = 0;
                         content$iv = accessibilityActionsResourceIds3._size;
-                        i2 = i12;
-                        i$iv = index;
-                        while (i$iv < content$iv) {
+                        i6 = i12;
+                        $i$a$ApplyAndroidComposeViewAccessibilityDelegateCompat$populateAccessibilityNodeInfoProperties$availableIds$1 = index;
+                        while ($i$a$ApplyAndroidComposeViewAccessibilityDelegateCompat$populateAccessibilityNodeInfoProperties$availableIds$1 < content$iv) {
                             availableIds = 0;
-                            customActions2.add(accessibilityActionsResourceIds3.content[i$iv]);
-                            i$iv++;
+                            customActions2.add(accessibilityActionsResourceIds3.content[$i$a$ApplyAndroidComposeViewAccessibilityDelegateCompat$populateAccessibilityNodeInfoProperties$availableIds$1]);
+                            $i$a$ApplyAndroidComposeViewAccessibilityDelegateCompat$populateAccessibilityNodeInfoProperties$availableIds$1++;
                             content$iv = index;
                         }
                         toggleState2 = new ArrayList();
-                        index$iv3 = 0;
+                        index$iv = 0;
                         $this$fastForEachIndexed$iv = i14;
-                        size = obj2.size();
-                        while (index$iv3 < size) {
+                        size = obj5.size();
+                        while (index$iv < size) {
                             int $this$fastForEach$iv3 = index;
-                            i2 = 0;
-                            Intrinsics.checkNotNull((MutableObjectIntMap)orNull3);
-                            if (orNull3.contains((CustomAccessibilityAction)$this$fastForEach$iv3.getLabel())) {
+                            i6 = 0;
+                            Intrinsics.checkNotNull((MutableObjectIntMap)orNull2);
+                            if (orNull2.contains((CustomAccessibilityAction)$this$fastForEach$iv3.getLabel())) {
                             } else {
                             }
                             rangeInfo = index$iv2;
-                            obj4 = xScrollState;
+                            obj6 = xScrollState;
                             (List)toggleState2.add($this$fastForEach$iv3);
-                            index$iv3++;
-                            obj5 = iArr;
+                            index$iv++;
+                            obj3 = iArr;
                             size = availableIds;
                             index$iv2 = rangeInfo;
-                            xScrollState = obj4;
-                            contains5 = orNull3.get($this$fastForEach$iv3.getLabel());
+                            xScrollState = obj6;
+                            contains3 = orNull2.get($this$fastForEach$iv3.getLabel());
                             rangeInfo = index$iv2;
-                            extraDataTestTraversalBeforeVal.put(contains5, $this$fastForEach$iv3.getLabel());
-                            extraDataTestTraversalAfterVal.set($this$fastForEach$iv3.getLabel(), contains5);
-                            customActions2.remove(contains5);
-                            obj4 = xScrollState;
-                            index$iv2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(contains5, (CharSequence)$this$fastForEach$iv3.getLabel());
+                            extraDataTestTraversalBeforeVal.put(contains3, $this$fastForEach$iv3.getLabel());
+                            extraDataTestTraversalAfterVal.set($this$fastForEach$iv3.getLabel(), contains3);
+                            customActions2.remove(contains3);
+                            obj6 = xScrollState;
+                            index$iv2 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(contains3, (CharSequence)$this$fastForEach$iv3.getLabel());
                             accessibilityNodeInfoCompat.addAction(index$iv2);
                         }
-                        $this$fastForEach$iv = obj5;
-                        obj = index$iv2;
-                        obj3 = xScrollState;
+                        $this$fastForEach$iv = obj3;
+                        obj4 = index$iv2;
+                        obj = xScrollState;
                         iterableTextForAccessibility = 0;
                         index$iv2 = 0;
                         while (index$iv2 < toggleState2.size()) {
-                            $this$fastForEachIndexed$iv = index$iv3;
+                            $this$fastForEachIndexed$iv = index$iv;
                             $this$fastForEach$iv = null;
                             int unassignedActions = i21;
-                            int i13 = obj2.get(unassignedActions);
+                            int i13 = obj5.get(unassignedActions);
                             extraDataTestTraversalBeforeVal.put(i13, (CustomAccessibilityAction)$this$fastForEachIndexed$iv.getLabel());
                             extraDataTestTraversalAfterVal.set($this$fastForEachIndexed$iv.getLabel(), i13);
                             i3 = unassignedActions;
                             AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat3 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(i13, (CharSequence)$this$fastForEachIndexed$iv.getLabel());
                             accessibilityNodeInfoCompat.addAction(accessibilityActionCompat3);
                             index$iv2++;
-                            orNull2 = index;
-                            toggleState2 = i2;
-                            obj2 = availableIds;
+                            orNull3 = index;
+                            toggleState2 = i6;
+                            obj5 = availableIds;
                         }
-                        availableIds = obj2;
-                        list = toggleState2;
-                        list2 = orNull2;
+                        availableIds = obj5;
+                        list2 = toggleState2;
+                        list = orNull3;
                     } else {
-                        customActions = obj2;
+                        customActions = obj5;
                         toggleState = toggleState2;
-                        obj6 = orNull2;
+                        obj2 = orNull3;
                         str2 = iterableTextForAccessibility;
-                        obj = index$iv2;
-                        obj3 = xScrollState;
+                        obj4 = index$iv2;
+                        obj = xScrollState;
                         toggleState2 = 0;
-                        orNull2 = 0;
-                        while (orNull2 < obj2.size()) {
+                        orNull3 = 0;
+                        while (orNull3 < obj5.size()) {
                             xScrollState = index$iv2;
-                            index$iv3 = 0;
-                            int i9 = AndroidComposeViewAccessibilityDelegateCompat.AccessibilityActionsResourceIds.get(orNull2);
+                            index$iv = 0;
+                            int i9 = AndroidComposeViewAccessibilityDelegateCompat.AccessibilityActionsResourceIds.get(orNull3);
                             extraDataTestTraversalBeforeVal.put(i9, (CustomAccessibilityAction)xScrollState.getLabel());
                             extraDataTestTraversalAfterVal.set(xScrollState.getLabel(), i9);
                             AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat4 = new AccessibilityNodeInfoCompat.AccessibilityActionCompat(i9, (CharSequence)xScrollState.getLabel());
                             accessibilityNodeInfoCompat.addAction(accessibilityActionCompat4);
-                            orNull2 = list + 1;
-                            obj2 = $this$fastForEachIndexed$iv;
-                            toggleState2 = list2;
+                            orNull3 = list2 + 1;
+                            obj5 = $this$fastForEachIndexed$iv;
+                            toggleState2 = list;
                         }
-                        $this$fastForEachIndexed$iv = obj2;
-                        list2 = toggleState2;
-                        list = orNull2;
+                        $this$fastForEachIndexed$iv = obj5;
+                        list = toggleState2;
+                        list2 = orNull3;
                     }
                     obj7.actionIdToLabel.put(i7, extraDataTestTraversalBeforeVal);
                     obj7.labelToActionId.put(i7, extraDataTestTraversalAfterVal);
                 }
-                Object customActions5 = obj2;
+                Object customActions5 = obj5;
                 Object obj11 = toggleState2;
                 StringBuilder stringBuilder = new StringBuilder();
                 IllegalStateException customActions3 = new IllegalStateException(stringBuilder.append("Can't have more than ").append(AndroidComposeViewAccessibilityDelegateCompat.AccessibilityActionsResourceIds.getSize()).append(" custom actions for one widget").toString());
                 throw customActions3;
             }
             toggleState = toggleState2;
-            obj6 = orNull2;
+            obj2 = orNull3;
             str2 = iterableTextForAccessibility;
-            obj = index$iv2;
-            obj3 = xScrollState;
+            obj4 = index$iv2;
+            obj = xScrollState;
         } else {
             role = labelToActionId;
             toggleState = toggleState2;
-            obj6 = orNull2;
+            obj2 = orNull3;
             str2 = iterableTextForAccessibility;
-            obj = index$iv2;
-            obj3 = xScrollState;
+            obj4 = index$iv2;
+            obj = xScrollState;
         }
         accessibilityNodeInfoCompat.setScreenReaderFocusable(obj7.isScreenReaderFocusable(semanticsNode2));
         semanticsIdToView2 = -1;
@@ -2624,16 +2624,16 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     private final boolean registerScrollingId(int id, List<androidx.compose.ui.platform.ScrollObservationScope> oldScrollObservationScopes) {
         int newlyObservingScroll;
         androidx.compose.ui.platform.ScrollObservationScope scrollObservationScope;
-        int i4;
-        List scrollObservationScopes;
-        int i;
         int i2;
-        int i3;
+        List scrollObservationScopes;
         int i5;
+        int i3;
+        int i;
+        int i4;
         newlyObservingScroll = 0;
         final androidx.compose.ui.platform.ScrollObservationScope byId = SemanticsUtils_androidKt.findById(oldScrollObservationScopes, id);
         if (byId != null) {
-            i4 = id;
+            i2 = id;
             scrollObservationScope = byId;
         } else {
             newlyObservingScroll = 1;
@@ -2646,11 +2646,11 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     private final boolean requestAccessibilityFocus(int virtualViewId) {
         Object obj;
         int focusedVirtualViewId;
-        int i2;
-        int i3;
-        int i4;
-        int i5;
         int i;
+        int i5;
+        int i3;
+        int i2;
+        int i4;
         int i8 = 0;
         if (!isTouchExplorationEnabled()) {
             return i8;
@@ -2689,13 +2689,13 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int i3 = 0;
         final int i7 = 0;
         Owner.measureAndLayout$default((Owner)this$0.view, i7, 1, 0);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$semanticsChangeChecker$1$1 = Unit.INSTANCE;
         Trace.endSection();
         int i2 = 0;
         Trace.beginSection("checkForSemanticsChanges");
         int i4 = 0;
         this$0.checkForSemanticsChanges();
-        Unit iNSTANCE2 = Unit.INSTANCE;
+        Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$semanticsChangeChecker$1$2 = Unit.INSTANCE;
         Trace.endSection();
         this$0.checkingForSemanticsChanges = i7;
     }
@@ -2710,62 +2710,62 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     private final void sendAccessibilitySemanticsStructureChangeEvents(SemanticsNode newNode, androidx.compose.ui.platform.SemanticsNodeCopy oldNode) {
         int newChildren2;
         int children;
-        int i4;
-        int index$iv2;
+        int i3;
         int index$iv;
-        MutableIntSet set2;
+        int index$iv2;
+        MutableIntSet set;
         Object obj2;
-        int i6;
+        int i4;
         Object obj;
         long[] metadata;
-        int i9;
+        int i2;
         int contains2;
         boolean contains;
         int i$iv$iv;
         int slot$iv$iv;
         int j$iv$iv;
-        int i7;
-        int i8;
-        MutableIntSet set;
-        int i;
-        long l;
         int i5;
-        int i3;
-        int i2;
+        int i8;
+        MutableIntSet set2;
+        int i9;
+        long l;
+        int i6;
+        int i7;
+        int i;
         MutableIntSet newChildren;
         final Object obj3 = this;
         newChildren2 = IntSetKt.mutableIntSetOf();
         List replacedChildren$ui_release2 = newNode.getReplacedChildren$ui_release();
         int i17 = 0;
-        index$iv = 0;
-        while (index$iv < replacedChildren$ui_release2.size()) {
+        index$iv2 = 0;
+        while (index$iv2 < replacedChildren$ui_release2.size()) {
             obj = obj2;
-            i9 = 0;
-            index$iv++;
+            i2 = 0;
+            index$iv2++;
             newChildren2.add(obj.getId());
         }
         children = oldNode.getChildren();
-        i6 = 0;
-        metadata = set2.metadata;
+        i4 = 0;
+        metadata = set.metadata;
         length += -2;
         if (0 <= contains2) {
         } else {
             newChildren = newChildren2;
-            set = children;
-            i = i4;
+            set2 = children;
+            i9 = i3;
         }
         List replacedChildren$ui_release = newNode.getReplacedChildren$ui_release();
         int i10 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < replacedChildren$ui_release.size()) {
-            i6 = set2;
+        index$iv = 0;
+        while (index$iv < replacedChildren$ui_release.size()) {
+            i4 = set;
             metadata = null;
-            if (obj3.getCurrentSemanticsNodes().contains((SemanticsNode)i6.getId())) {
+            if (obj3.getCurrentSemanticsNodes().contains((SemanticsNode)i4.getId())) {
             }
-            index$iv2++;
-            contains2 = obj3.previousSemanticsNodes.get(i6.getId());
+            index$iv++;
+            contains2 = obj3.previousSemanticsNodes.get(i4.getId());
             Intrinsics.checkNotNull(contains2);
-            obj3.sendAccessibilitySemanticsStructureChangeEvents(i6, (SemanticsNodeCopy)contains2);
+            obj3.sendAccessibilitySemanticsStructureChangeEvents(i4, (SemanticsNodeCopy)contains2);
         }
     }
 
@@ -2788,20 +2788,20 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
 
     private final boolean sendEventForVirtualView(int virtualViewId, int eventType, Integer contentChangeType, List<String> contentDescription) {
         int enabled$ui_release;
-        List contentDescription2;
         List contentDescription3;
+        List contentDescription2;
         String str;
-        int i4;
-        int i2;
-        int i;
-        int i7;
         int i3;
+        int i7;
         int i6;
+        int i;
+        int i4;
         int i5;
+        int i2;
         Object obj15;
         if (virtualViewId != Integer.MIN_VALUE) {
             if (!isEnabled$ui_release()) {
-                contentDescription2 = contentDescription;
+                contentDescription3 = contentDescription;
                 return 0;
             } else {
                 final AccessibilityEvent event = createEvent(virtualViewId, eventType);
@@ -2811,7 +2811,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 if (contentDescription != null) {
                     event.setContentDescription((CharSequence)ListUtilsKt.fastJoinToString$default(contentDescription, (CharSequence)",", 0, 0, 0, 0, 0, 62, 0));
                 } else {
-                    contentDescription3 = contentDescription;
+                    contentDescription2 = contentDescription;
                 }
             }
             int i9 = 0;
@@ -2820,7 +2820,7 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             Trace.endSection();
             return sendEvent(event);
         }
-        contentDescription2 = contentDescription;
+        contentDescription3 = contentDescription;
     }
 
     static boolean sendEventForVirtualView$default(androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat androidComposeViewAccessibilityDelegateCompat, int i2, int i3, Integer integer4, List list5, int i6, Object object7) {
@@ -2875,36 +2875,36 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int oldLabels;
         ArrayList semanticsNodeIdToAccessibilityVirtualNodeId;
         boolean equals-impl0;
-        Object textForTextField;
-        int i;
-        Object obj;
-        boolean booleanValue;
         Object textForTextField2;
+        int i9;
+        Object obj2;
+        boolean booleanValue;
         Object textForTextField3;
-        int i16;
-        int i21;
-        int j$iv$iv;
+        Object textForTextField;
+        int i6;
+        int i7;
+        int j$iv$iv2;
         int slot$iv$iv;
-        boolean equal2;
         boolean equal;
+        boolean equal2;
         Object customActions;
         boolean all;
-        int i11;
+        int i16;
         String str;
         int startCount;
         int labels;
         int key;
-        int charAt;
+        int charAt2;
         int endCount2;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int charAt2;
+        int charAt;
         int newNode;
         int next;
-        int index$iv2;
         int index$iv;
+        int index$iv2;
         int i$iv$iv2;
-        int oldScrollObservationScopes;
         int oldScrollObservationScopes2;
+        int oldScrollObservationScopes;
         Object this_$iv;
         int this_$iv2;
         int newNode3;
@@ -2912,41 +2912,41 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int newlyObservingScroll;
         boolean z;
         Object verticalScrollAxisRange;
-        int i18;
-        int i14;
-        int i22;
-        long slot$iv$iv2;
-        int i13;
+        int i;
         int i17;
-        int i4;
+        int i12;
+        long slot$iv$iv2;
+        int i11;
+        int i8;
         int i2;
-        int i6;
-        int i7;
-        Object obj2;
-        int i9;
+        int i10;
+        int i4;
+        int i22;
+        Object obj;
+        int i13;
         Iterator iterator;
         int propertyChanged;
         Object obj3;
         ArrayList oldScrollObservationScopes3;
         Object iNSTANCE;
         Object i$iv$iv;
-        int j$iv$iv2;
+        int j$iv$iv;
         int newNode2;
         int mergedNode;
         SemanticsNode mergedNode2;
         int[] iArr;
         int endCount;
-        int i20;
+        int i15;
         int actions;
         int oldActions;
-        int i10;
-        int i8;
+        int i21;
         int i19;
-        int i12;
+        int i14;
+        int i18;
         boolean oldNodeIsTextfield;
-        int i15;
         int i5;
         int i3;
+        int i20;
         lastIndex$iv$iv = this;
         ArrayList arrayList = new ArrayList((Collection)lastIndex$iv$iv.scrollObservationScopes);
         lastIndex$iv$iv.scrollObservationScopes.clear();
@@ -2954,14 +2954,14 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         final int i43 = 0;
         final long[] metadata = obj9.metadata;
         newlyObservingScroll = 2;
-        i18 = length + -2;
-        if (0 <= i18) {
+        i = length + -2;
+        if (0 <= i) {
         } else {
             oldScrollObservationScopes3 = i$iv$iv2;
             i$iv$iv = this_$iv;
             mergedNode = newNode3;
             iArr = k$iv;
-            lastIndex$iv$iv = i18;
+            lastIndex$iv$iv = i;
         }
     }
 
@@ -3058,10 +3058,10 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int booleanValue;
         int length;
         int i2;
-        int valueOf2;
+        int valueOf;
         Object setSelection;
-        Boolean valueOf3;
-        Integer valueOf;
+        Boolean valueOf2;
+        Integer valueOf3;
         int i;
         Integer num;
         booleanValue = 0;
@@ -3096,21 +3096,21 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         if ((CharSequence)iterableTextForAccessibility.length() > 0) {
             booleanValue = i3;
         }
-        valueOf2 = 0;
+        valueOf = 0;
         if (booleanValue != 0) {
+            i = valueOf3;
+        } else {
             i = valueOf;
-        } else {
-            i = valueOf2;
         }
         if (booleanValue != 0) {
+            num = valueOf3;
+        } else {
             num = valueOf;
-        } else {
-            num = valueOf2;
         }
         if (booleanValue != 0) {
-            valueOf2 = Integer.valueOf(iterableTextForAccessibility.length());
+            valueOf = Integer.valueOf(iterableTextForAccessibility.length());
         }
-        sendEvent(this.createTextSelectionChangedEvent(semanticsNodeIdToAccessibilityVirtualNodeId(node.getId()), i, num, valueOf2, (CharSequence)iterableTextForAccessibility));
+        sendEvent(this.createTextSelectionChangedEvent(semanticsNodeIdToAccessibilityVirtualNodeId(node.getId()), i, num, valueOf, (CharSequence)iterableTextForAccessibility));
         sendPendingTextTraversedAtGranularityEvent(node.getId());
         return i3;
     }
@@ -3169,20 +3169,20 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int entryIndex;
         int i3;
         Object obj;
-        androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat.sortByGeometryGroupings.2 iNSTANCE;
+        androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat.sortByGeometryGroupings.2 iNSTANCE2;
         Rect sortByGeometryGroupings$placedEntryRowOverlaps;
         int index$iv;
         androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat$$ExternalSyntheticLambda0 externalSyntheticLambda0;
         Pair pair;
-        int size;
-        List screenReaderFocusable;
-        int i2;
         int size2;
-        Object second;
-        int i;
+        List screenReaderFocusable;
         int i4;
+        int size;
+        Object second;
+        int i2;
+        int i;
         androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat.semanticComparator$$inlined.thenBy.2 anon;
-        Object iNSTANCE2;
+        Object iNSTANCE;
         Comparator zComparator$ui_release;
         androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat.semanticComparator$$inlined.thenBy.1 anon2;
         final List list = parentListToSort;
@@ -3196,37 +3196,37 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int i5 = 0;
         index$iv = 0;
         while (index$iv < (List)list3.size()) {
-            i2 = screenReaderFocusable;
-            size2 = 0;
-            i = this;
-            i4 = 0;
+            i4 = screenReaderFocusable;
+            size = 0;
+            i2 = this;
+            i = 0;
             if (layoutIsRtl) {
             } else {
             }
-            iNSTANCE2 = AndroidComposeViewAccessibilityDelegateCompat.LtrBoundsComparator.INSTANCE;
-            anon2 = new AndroidComposeViewAccessibilityDelegateCompat.semanticComparator$$inlined.thenBy.1((Comparator)iNSTANCE2, LayoutNode.Companion.getZComparator$ui_release());
+            iNSTANCE = AndroidComposeViewAccessibilityDelegateCompat.LtrBoundsComparator.INSTANCE;
+            anon2 = new AndroidComposeViewAccessibilityDelegateCompat.semanticComparator$$inlined.thenBy.1((Comparator)iNSTANCE, LayoutNode.Companion.getZComparator$ui_release());
             anon = new AndroidComposeViewAccessibilityDelegateCompat.semanticComparator$$inlined.thenBy.2((Comparator)anon2);
-            CollectionsKt.sortWith((List)(Pair)i2.getSecond(), (Comparator)anon);
-            arrayList2.addAll((Collection)i2.getSecond());
+            CollectionsKt.sortWith((List)(Pair)i4.getSecond(), (Comparator)anon);
+            arrayList2.addAll((Collection)i4.getSecond());
             index$iv++;
-            iNSTANCE2 = AndroidComposeViewAccessibilityDelegateCompat.RtlBoundsComparator.INSTANCE;
+            iNSTANCE = AndroidComposeViewAccessibilityDelegateCompat.RtlBoundsComparator.INSTANCE;
         }
         externalSyntheticLambda0 = new AndroidComposeViewAccessibilityDelegateCompat$$ExternalSyntheticLambda0((Function2)AndroidComposeViewAccessibilityDelegateCompat.sortByGeometryGroupings.2.INSTANCE);
         CollectionsKt.sortWith((List)arrayList2, externalSyntheticLambda0);
         i3 = 0;
         while (i3 <= CollectionsKt.getLastIndex((List)arrayList2)) {
-            size = containerChildrenMapping.get((SemanticsNode)arrayList2.get(i3).getId());
-            if ((List)size != 0) {
+            size2 = containerChildrenMapping.get((SemanticsNode)arrayList2.get(i3).getId());
+            if ((List)size2 != 0) {
             } else {
             }
-            i2 = this;
+            i4 = this;
             i3++;
             if (this.isScreenReaderFocusable((SemanticsNode)arrayList2.get(i3)) == null) {
             } else {
             }
             i3++;
-            arrayList2.addAll(i3, (Collection)(List)size);
-            i3 += size2;
+            arrayList2.addAll(i3, (Collection)(List)size2);
+            i3 += size;
             arrayList2.remove(i3);
         }
         int i7 = this;
@@ -3267,8 +3267,8 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
 
     private final List<SemanticsNode> subtreeSortedByGeometryGrouping(boolean layoutIsRtl, List<SemanticsNode> listToSort) {
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         final MutableIntObjectMap mutableIntObjectMapOf = IntObjectMapKt.mutableIntObjectMapOf();
         ArrayList arrayList = new ArrayList();
@@ -3291,9 +3291,9 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         long localToScreen-MK-Hz9U;
         float bottom;
         float x-impl;
-        float y-impl;
-        float x-impl2;
         float y-impl2;
+        float x-impl2;
+        float y-impl;
         rectF = 0;
         if (textNode == null) {
             return rectF;
@@ -3327,22 +3327,22 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     private final boolean traverseAtGranularity(SemanticsNode node, int granularity, boolean forward, boolean extendSelection) {
         Integer valueOf;
         int previousTraversedNode;
-        int i2;
+        int i4;
         String length;
         int i5;
-        int i4;
+        int i;
         int selectionStart;
         int current;
         int length2;
         int[] preceding;
-        int i3;
+        int i2;
         boolean accessibilitySelectionExtendable;
-        int i;
+        int i3;
         final Object obj = this;
         previousTraversedNode = obj.previousTraversedNode;
-        i4 = -1;
+        i = -1;
         if (previousTraversedNode == null) {
-            obj.accessibilityCursorPosition = i4;
+            obj.accessibilityCursorPosition = i;
             obj.previousTraversedNode = Integer.valueOf(node.getId());
         } else {
             if (node.getId() != previousTraversedNode.intValue()) {
@@ -3354,20 +3354,20 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int i7 = 0;
         if ((CharSequence)length != null) {
             if ((CharSequence)length.length() == 0) {
-                i2 = i6;
+                i4 = i6;
             } else {
-                i2 = i7;
+                i4 = i7;
             }
         } else {
         }
-        if (i2 != 0) {
+        if (i4 != 0) {
             return i7;
         }
         androidx.compose.ui.platform.AccessibilityIterators.TextSegmentIterator iteratorForGranularity = getIteratorForGranularity(node, granularity);
         if (iteratorForGranularity == null) {
             return i7;
         }
-        if (getAccessibilitySelectionEnd(node) == i4) {
+        if (getAccessibilitySelectionEnd(node) == i) {
             if (forward) {
                 length2 = i7;
             } else {
@@ -3389,9 +3389,9 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         int i9 = 0;
         if (extendSelection && isAccessibilitySelectionExtendable(node)) {
             if (isAccessibilitySelectionExtendable(node)) {
-                if (getAccessibilitySelectionStart(node) == i4) {
-                    i4 = forward ? i11 : i12;
-                    selectionStart = i4;
+                if (getAccessibilitySelectionStart(node) == i) {
+                    i = forward ? i11 : i12;
+                    selectionStart = i;
                 }
                 i5 = forward ? i12 : i11;
             } else {
@@ -3400,32 +3400,32 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             }
         } else {
         }
-        i = forward ? i3 : i3;
+        i3 = forward ? i2 : i2;
         SemanticsNode semanticsNode = node;
-        AndroidComposeViewAccessibilityDelegateCompat.PendingTextTraversedEvent pendingTextTraversedEvent = new AndroidComposeViewAccessibilityDelegateCompat.PendingTextTraversedEvent(semanticsNode, i, granularity, i11, i12, SystemClock.uptimeMillis(), obj15);
+        AndroidComposeViewAccessibilityDelegateCompat.PendingTextTraversedEvent pendingTextTraversedEvent = new AndroidComposeViewAccessibilityDelegateCompat.PendingTextTraversedEvent(semanticsNode, i3, granularity, i11, i12, SystemClock.uptimeMillis(), obj15);
         obj.pendingTextTraversedEvent = pendingTextTraversedEvent;
         obj.setAccessibilitySelection(semanticsNode, selectionStart, i5, i6);
         return i6;
     }
 
     private final <T extends java.lang.CharSequence> T trimToSize(T text, int size) {
-        int length;
+        int length2;
         boolean highSurrogate;
         int i;
         int len;
-        int length2;
+        int length;
         int i2 = 0;
-        i = size > 0 ? length : i2;
+        i = size > 0 ? length2 : i2;
         if (i == 0) {
         } else {
             len = size;
             if (text != 0) {
                 if (text.length() == 0) {
                 } else {
-                    length = i2;
+                    length2 = i2;
                 }
             }
-            if (length == 0) {
+            if (length2 == 0) {
                 if (text.length() <= size) {
                 } else {
                     if (Character.isHighSurrogate(text.charAt(size + -1)) && Character.isLowSurrogate(text.charAt(size))) {
@@ -3441,8 +3441,8 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
             return text;
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("size should be greater than 0".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireAndroidComposeViewAccessibilityDelegateCompat$trimToSize$1 = new IllegalArgumentException("size should be greater than 0".toString());
+        throw $i$a$RequireAndroidComposeViewAccessibilityDelegateCompat$trimToSize$1;
     }
 
     private final void updateHoveredVirtualView(int virtualViewId) {
@@ -3456,35 +3456,35 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
 
     private final void updateSemanticsNodesCopyAndPanes() {
         int j$iv$iv;
-        int j$iv$iv2;
+        int j$iv$iv3;
         int semanticsNode2;
-        IntObjectMap currentSemanticsNodes;
+        IntObjectMap currentSemanticsNodes2;
         Object unmergedConfig;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv2;
         int previousSemanticsNodes;
         boolean contains;
         int paneTitle;
         int[] semanticsNodeCopy;
         androidx.compose.ui.semantics.SemanticsPropertyKey paneTitle2;
         Object[] semanticsNode;
-        IntObjectMap currentSemanticsNodes2;
-        int i$iv$iv2;
-        int slot$iv$iv2;
+        IntObjectMap currentSemanticsNodes;
         int i$iv$iv;
+        int slot$iv$iv;
+        int i$iv$iv2;
         int value$iv$iv$iv;
         int i2;
-        int i7;
+        int i5;
         int toRemove;
-        long slot$iv$iv;
-        int j$iv$iv3;
-        int $this$maskEmptyOrDeleted$iv$iv$iv2;
+        long slot$iv$iv2;
+        int j$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int i3;
+        int i6;
         int i4;
         int i;
-        int i5;
-        int i6;
         SemanticsNode currentNode;
         SemanticsProperties $i$f$forEach;
-        int i3;
+        int i7;
         IntObjectMap map;
         final Object obj = this;
         j$iv$iv = new MutableIntSet(0, 1, 0);
@@ -3496,26 +3496,26 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         final int i29 = 7;
         final long l2 = -9187201950435737472L;
         semanticsNode2 = 8;
-        if (0 <= slot$iv$iv2) {
+        if (0 <= slot$iv$iv) {
         } else {
-            i5 = i7;
-            $this$maskEmptyOrDeleted$iv$iv$iv2 = 128;
+            i4 = i5;
+            $this$maskEmptyOrDeleted$iv$iv$iv = 128;
         }
         obj.paneDisplayed.removeAll((IntSet)j$iv$iv);
         obj.previousSemanticsNodes.clear();
-        currentSemanticsNodes = obj.getCurrentSemanticsNodes();
-        currentSemanticsNodes2 = currentSemanticsNodes;
+        currentSemanticsNodes2 = obj.getCurrentSemanticsNodes();
+        currentSemanticsNodes = currentSemanticsNodes2;
         int i20 = 0;
-        long[] metadata = currentSemanticsNodes2.metadata;
+        long[] metadata = currentSemanticsNodes.metadata;
         length += -2;
         if (0 <= i22) {
         } else {
             toRemove = j$iv$iv;
-            slot$iv$iv = currentSemanticsNodes;
+            slot$iv$iv2 = currentSemanticsNodes2;
             $i$f$forEach = previousSemanticsNodes;
-            i3 = semanticsNodeCopy;
+            i7 = semanticsNodeCopy;
             currentNode = semanticsNode;
-            map = currentSemanticsNodes2;
+            map = currentSemanticsNodes;
         }
         SemanticsNodeCopy semanticsNodeCopy2 = new SemanticsNodeCopy(obj.view.getSemanticsOwner().getUnmergedRootSemanticsNode(), obj.getCurrentSemanticsNodes());
         obj.previousSemanticsRoot = semanticsNodeCopy2;
@@ -3525,27 +3525,27 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         boolean $result;
         Object $continuation4;
         Throwable $continuation;
-        Object $continuation3;
+        Object $continuation2;
         androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat.boundsUpdatesEventLoop.1 view;
         Throwable subtreeChangedLayoutNodes;
-        int i2;
+        int i3;
         Object $i$f$trace;
         Object subtreeChangedSemanticsNodesIds;
         int $i$f$trace2;
         Object iterator;
         Throwable th;
-        Object l$2;
+        Object _this;
         Object obj;
         Object l$1;
         Object l$0;
         Object delay;
         boolean checkingForSemanticsChanges;
-        int i4;
+        int i;
         int semanticsChangeChecker;
         int iNSTANCE;
+        int i2;
         int i5;
-        int i;
-        int i3;
+        int i4;
         Object obj15;
         $result = continuation;
         subtreeChangedLayoutNodes = Integer.MIN_VALUE;
@@ -3571,27 +3571,27 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 ResultKt.throwOnFailure(obj15);
                 l$1 = iterator;
                 l$0 = l$02;
-                l$2 = $i$f$trace3;
-                subtreeChangedSemanticsNodesIds = $continuation3;
+                _this = $i$f$trace3;
+                subtreeChangedSemanticsNodesIds = $continuation2;
                 view = $result;
                 $continuation4 = obj15;
-                l$2.next();
+                _this.next();
                 Trace.beginSection("AccessibilityLoopIteration");
-                i4 = 0;
-                Object valueAt = l$0.subtreeChangedLayoutNodes.valueAt(i4);
+                i = 0;
+                Object valueAt = l$0.subtreeChangedLayoutNodes.valueAt(i);
                 int i10 = 0;
                 Trace.beginSection("sendSubtreeChangeAccessibilityEvents");
                 int i9 = 0;
                 l$0.sendSubtreeChangeAccessibilityEvents((LayoutNode)valueAt, l$1);
-                Unit iNSTANCE2 = Unit.INSTANCE;
+                Unit $i$a$TraceAndroidComposeViewAccessibilityDelegateCompat$boundsUpdatesEventLoop$2$1 = Unit.INSTANCE;
                 Trace.endSection();
-                i = 0;
-                Trace.beginSection("sendTypeViewScrolledAccessibilityEvent");
                 i5 = 0;
+                Trace.beginSection("sendTypeViewScrolledAccessibilityEvent");
+                i2 = 0;
                 l$0.sendTypeViewScrolledAccessibilityEvent(valueAt);
                 iNSTANCE = Unit.INSTANCE;
                 Trace.endSection();
-                i4++;
+                i++;
                 l$1.clear();
                 l$0.checkingForSemanticsChanges = i6;
                 l$0.handler.post(l$0.semanticsChangeChecker);
@@ -3600,31 +3600,31 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
                 l$0.pendingVerticalScrollEvents.clear();
                 view.L$0 = l$0;
                 view.L$1 = l$1;
-                view.L$2 = l$2;
+                view.L$2 = _this;
                 view.label = 2;
                 return subtreeChangedSemanticsNodesIds;
                 $i$f$trace2 = obj15;
                 obj15 = $continuation4;
                 $result = view;
-                $continuation3 = subtreeChangedSemanticsNodesIds;
-                i2 = i3;
+                $continuation2 = subtreeChangedSemanticsNodesIds;
+                i3 = i4;
                 Unit $i$f$trace4 = Unit.INSTANCE;
                 Trace.endSection();
-                iterator = l$2;
+                iterator = _this;
                 $i$f$trace = l$1;
                 obj = l$0;
                 l$0.subtreeChangedLayoutNodes.clear();
                 return Unit.INSTANCE;
             case 2:
-                i2 = 0;
+                i3 = 0;
                 $i$f$trace2 = 0;
-                l$2 = $result.L$2;
+                _this = $result.L$2;
                 l$1 = $result.L$1;
                 l$0 = $result.L$0;
                 ResultKt.throwOnFailure(obj15);
                 $i$f$trace4 = Unit.INSTANCE;
                 Trace.endSection();
-                iterator = l$2;
+                iterator = _this;
                 $i$f$trace = l$1;
                 obj = l$0;
                 break;
@@ -3637,16 +3637,16 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         $result.L$2 = iterator;
         $result.label = i6;
         Object next = iterator.hasNext($result);
-        if (next == $continuation3) {
-            return $continuation3;
+        if (next == $continuation2) {
+            return $continuation2;
         } else {
             $continuation4 = obj15;
             obj15 = next;
             l$1 = $i$f$trace;
-            subtreeChangedSemanticsNodesIds = $continuation3;
+            subtreeChangedSemanticsNodesIds = $continuation2;
             view = view2;
             l$0 = obj;
-            l$2 = iterator;
+            _this = iterator;
         }
     }
 
@@ -3735,15 +3735,15 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
     @Override // androidx.core.view.AccessibilityDelegateCompat
     public final int hitTestSemanticsAt$ui_release(float x, float y) {
         int virtualViewId;
-        int i3;
         int i;
+        int i2;
         int requireLayoutNode;
         boolean semanticsId;
-        int constructor-impl;
-        int i2;
-        i3 = 0;
-        i = 1;
-        Owner.measureAndLayout$default((Owner)this.view, i3, i, 0);
+        int $i$f$getSemanticsOLwlOKw;
+        int i3;
+        i = 0;
+        i2 = 1;
+        Owner.measureAndLayout$default((Owner)this.view, i, i2, 0);
         HitTestResult hitTestResult = new HitTestResult();
         final HitTestResult hitTestResult3 = hitTestResult;
         LayoutNode.hitTestSemantics-M_7yMNQ$ui_release$default(this.view.getRoot(), OffsetKt.Offset(x, y), obj6, hitTestResult3, false, 0, 12);
@@ -3754,20 +3754,20 @@ public final class AndroidComposeViewAccessibilityDelegateCompat extends Accessi
         virtualViewId = Integer.MIN_VALUE;
         semanticsId = requireLayoutNode.getNodes$ui_release();
         int i4 = 0;
-        if (requireLayoutNode != 0 && semanticsId != null && semanticsId.has-H91voCI$ui_release(NodeKind.constructor-impl(8)) == i) {
+        if (requireLayoutNode != 0 && semanticsId != null && semanticsId.has-H91voCI$ui_release(NodeKind.constructor-impl(8)) == i2) {
             semanticsId = requireLayoutNode.getNodes$ui_release();
             if (semanticsId != null) {
                 i4 = 0;
-                if (semanticsId.has-H91voCI$ui_release(NodeKind.constructor-impl(8)) == i) {
+                if (semanticsId.has-H91voCI$ui_release(NodeKind.constructor-impl(8)) == i2) {
                 } else {
-                    i = i3;
+                    i2 = i;
                 }
             } else {
             }
         } else {
         }
-        if (i != 0 && AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$isVisible(SemanticsNodeKt.SemanticsNode(requireLayoutNode, i3)) && (AndroidViewHolder)this.view.getAndroidViewsHandler$ui_release().getLayoutNodeToHolder().get(requireLayoutNode) == null) {
-            if (AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$isVisible(SemanticsNodeKt.SemanticsNode(requireLayoutNode, i3))) {
+        if (i2 != 0 && AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$isVisible(SemanticsNodeKt.SemanticsNode(requireLayoutNode, i)) && (AndroidViewHolder)this.view.getAndroidViewsHandler$ui_release().getLayoutNodeToHolder().get(requireLayoutNode) == null) {
+            if (AndroidComposeViewAccessibilityDelegateCompat_androidKt.access$isVisible(SemanticsNodeKt.SemanticsNode(requireLayoutNode, i))) {
                 if ((AndroidViewHolder)this.view.getAndroidViewsHandler$ui_release().getLayoutNodeToHolder().get(requireLayoutNode) == null) {
                     virtualViewId = semanticsNodeIdToAccessibilityVirtualNodeId(requireLayoutNode.getSemanticsId());
                 }

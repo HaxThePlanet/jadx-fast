@@ -91,21 +91,21 @@ public final class AnalogTimePickerState implements androidx.compose.material3.T
     }
 
     private final boolean isUpdated() {
-        boolean equals-impl0;
-        int equals-impl02;
+        boolean equals-impl02;
+        int equals-impl0;
         float normalize;
         int minute-yecRtBI;
         int i = 1;
         final int i2 = 0;
         if (TimePickerSelectionMode.equals-impl0(getSelection-yecRtBI(), TimePickerSelectionMode.Companion.getHour-yecRtBI())) {
-            equals-impl0 = Float.compare(normalize3, normalize) == 0 ? i : i2;
-            if (equals-impl0 != 0) {
+            equals-impl02 = Float.compare(normalize3, normalize) == 0 ? i : i2;
+            if (equals-impl02 != 0) {
                 return i2;
             }
         }
         if (TimePickerSelectionMode.equals-impl0(getSelection-yecRtBI(), TimePickerSelectionMode.Companion.getMinute-yecRtBI())) {
-            equals-impl02 = Float.compare(normalize2, minute-yecRtBI) == 0 ? i : i2;
-            if (equals-impl02 != 0) {
+            equals-impl0 = Float.compare(normalize2, minute-yecRtBI) == 0 ? i : i2;
+            if (equals-impl0 != 0) {
                 return i2;
             }
         }
@@ -157,7 +157,7 @@ public final class AnalogTimePickerState implements androidx.compose.material3.T
         }
         int i2 = 0;
         this.state.setMinute(getMinute());
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$WithoutReadObservationAnalogTimePickerState$updateBaseStateMinute$1 = Unit.INSTANCE;
         companion.restoreNonObservable(currentThreadSnapshot, companion.makeCurrentNonObservable(currentThreadSnapshot), readObserver);
     }
 
@@ -272,8 +272,8 @@ public final class AnalogTimePickerState implements androidx.compose.material3.T
     public void setMinute(int value) {
         boolean equals-impl0;
         int minute-yecRtBI;
-        int i;
         int i2;
+        int i;
         this.minuteAngle = i5 -= i4;
         this.state.setMinute(value);
         if (TimePickerSelectionMode.equals-impl0(getSelection-yecRtBI(), TimePickerSelectionMode.Companion.getMinute-yecRtBI())) {

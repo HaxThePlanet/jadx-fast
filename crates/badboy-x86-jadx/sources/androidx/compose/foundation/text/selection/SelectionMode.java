@@ -10,8 +10,7 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 public enum SelectionMode {
 
     Vertical,
-    Vertical,
-    Vertical;
+    Horizontal;
 
     @Metadata(d1 = "\u0000\u001e\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0008\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0003\u0008Æ\u0001\u0018\u00002\u00020\u0001J\"\u0010\u0002\u001a\u00020\u00032\u0006\u0010\u0004\u001a\u00020\u00052\u0006\u0010\u0006\u001a\u00020\u0007H\u0010ø\u0001\u0000¢\u0006\u0004\u0008\u0008\u0010\t\u0082\u0002\u0007\n\u0005\u0008¡\u001e0\u0001¨\u0006\n", d2 = {"Landroidx/compose/foundation/text/selection/SelectionMode$Horizontal;", "Landroidx/compose/foundation/text/selection/SelectionMode;", "compare", "", "position", "Landroidx/compose/ui/geometry/Offset;", "bounds", "Landroidx/compose/ui/geometry/Rect;", "compare-3MmeM6k$foundation_release", "(JLandroidx/compose/ui/geometry/Rect;)I", "foundation_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
     static final class Horizontal extends androidx.compose.foundation.text.selection.SelectionMode {
@@ -69,9 +68,9 @@ public enum SelectionMode {
     }
 
     private final boolean containsInclusive-Uv8p0NA(Rect $this$containsInclusive_u2dUv8p0NA, long offset) {
-        int cmp2;
-        int i;
         int cmp;
+        int i;
+        int cmp2;
         float bottom;
         float x-impl;
         int i2;
@@ -103,21 +102,21 @@ public enum SelectionMode {
     @Override // java.lang.Enum
     public final boolean isSelected-2x9bVx0$foundation_release(Rect bounds, long start, long end) {
         boolean inclusive-Uv8p0NA;
-        int i;
         int i2;
-        i = 1;
+        int i;
+        i2 = 1;
         if (!containsInclusive-Uv8p0NA(bounds, start)) {
             if (containsInclusive-Uv8p0NA(bounds, obj9)) {
             } else {
                 final int i4 = 0;
-                i2 = compare-3MmeM6k$foundation_release(start, end) > 0 ? i : i4;
+                i = compare-3MmeM6k$foundation_release(start, end) > 0 ? i2 : i4;
                 if (compare-3MmeM6k$foundation_release(obj9, obj10) > 0) {
                 } else {
-                    i = i4;
+                    i2 = i4;
                 }
             }
-            return i ^= i2;
+            return i2 ^= i;
         }
-        return i;
+        return i2;
     }
 }

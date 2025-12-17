@@ -38,8 +38,8 @@ public class LruCache<K, V>  {
             this.lock = lock;
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("maxSize <= 0".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireLruCache$1 = new IllegalArgumentException("maxSize <= 0".toString());
+        throw $i$a$RequireLruCache$1;
     }
 
     private final int safeSizeOf(K key, V value) {
@@ -179,7 +179,7 @@ public class LruCache<K, V>  {
         Object previous = obj;
         synchronized (lock2) {
             this.size = size2 -= safeSizeOf;
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedLruCache$put$1 = Unit.INSTANCE;
             if (previous != null) {
             }
             trimToSize(this.maxSize);
@@ -217,7 +217,7 @@ public class LruCache<K, V>  {
         Object previous = remove;
         synchronized (lock2) {
             this.size = size -= safeSizeOf;
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedLruCache$remove$1 = Unit.INSTANCE;
             if (previous != null) {
             }
             return previous;
@@ -235,7 +235,7 @@ public class LruCache<K, V>  {
             final int i3 = 0;
             int i4 = 0;
             this.maxSize = maxSize;
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedLruCache$resize$2 = Unit.INSTANCE;
             trimToSize(maxSize);
             return;
             synchronized (lock2) {
@@ -244,7 +244,7 @@ public class LruCache<K, V>  {
                 i3 = 0;
                 i4 = 0;
                 this.maxSize = maxSize;
-                iNSTANCE = Unit.INSTANCE;
+                $i$a$SynchronizedLruCache$resize$2 = Unit.INSTANCE;
                 trimToSize(maxSize);
             }
         }
@@ -293,7 +293,7 @@ public class LruCache<K, V>  {
                 i = 0;
                 (Map)linkedHashMap.put((Map.Entry)obj.getKey(), obj.getValue());
             }
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedLruCache$snapshot$1 = Unit.INSTANCE;
             return (Map)linkedHashMap;
         }
     }
@@ -316,35 +316,35 @@ public class LruCache<K, V>  {
         Object key;
         Object value;
         int $this$synchronized$iv;
-        int i;
-        Lock lock;
         int i3;
-        Throwable th;
-        Object firstOrNull;
-        int i5;
-        int empty;
-        boolean empty2;
-        int i2;
+        Lock lock;
         int i4;
+        Throwable $i$a$SynchronizedLruCache$trimToSize$1;
+        Object firstOrNull;
+        int i;
+        int empty2;
+        boolean empty;
+        int i5;
+        int i2;
         int safeSizeOf;
         int i6 = 0;
         int i7 = 0;
-        i = 0;
-        lock = lock2;
         i3 = 0;
-        th = 0;
-        i2 = 1;
+        lock = lock2;
+        i4 = 0;
+        $i$a$SynchronizedLruCache$trimToSize$1 = 0;
+        i5 = 1;
         synchronized (lock) {
             if (this.map.isEmpty()) {
-                i5 = this.size == 0 ? i2 : 0;
+                i = this.size == 0 ? i5 : 0;
             } else {
             }
-            if (i5 == 0) {
+            if (i == 0) {
             } else {
             }
             int i8 = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("LruCache.sizeOf() is reporting inconsistent results!".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckLruCache$trimToSize$1$1 = new IllegalStateException("LruCache.sizeOf() is reporting inconsistent results!".toString());
+            throw $i$a$CheckLruCache$trimToSize$1$1;
         }
     }
 }

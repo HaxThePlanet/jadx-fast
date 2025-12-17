@@ -99,10 +99,10 @@ public abstract class VersionedParcel {
 
     private Class findParcelClass(Class<? extends androidx.versionedparcelable.VersionedParcelable> class) throws java.lang.ClassNotFoundException {
         Object ret;
-        String name;
+        String name2;
         String format;
         ArrayMap mParcelizerCache;
-        String name2;
+        String name;
         if ((Class)this.mParcelizerCache.get(class.getName()) == null) {
             this.mParcelizerCache.put(class.getName(), Class.forName(String.format("%s.%sParcelizer", /* result */), false, class.getClassLoader()));
         }
@@ -362,22 +362,22 @@ public abstract class VersionedParcel {
     }
 
     protected boolean[] readBooleanArray() {
-        int i2;
         int i;
+        int i2;
         final int int = readInt();
         if (int < 0) {
             return null;
         }
         boolean[] zArr = new boolean[int];
-        i2 = 0;
-        while (i2 < int) {
+        i = 0;
+        while (i < int) {
             if (readInt() != 0) {
             } else {
             }
-            i = 0;
-            zArr[i2] = i;
-            i2++;
-            i = 1;
+            i2 = 0;
+            zArr[i] = i2;
+            i++;
+            i2 = 1;
         }
         return zArr;
     }
@@ -617,8 +617,8 @@ public abstract class VersionedParcel {
 
     public <K, V> Map<K, V> readMap(Map<K, V> map, int fieldId) {
         int i;
-        Object obj2;
         Object obj;
+        Object obj2;
         if (!readField(fieldId)) {
             return map;
         }

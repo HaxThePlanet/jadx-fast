@@ -70,17 +70,17 @@ public final class PagerMeasureResult implements androidx.compose.foundation.pag
     }
 
     public PagerMeasureResult(List list, int i2, int i3, int i4, Orientation orientation5, int i6, int i7, boolean z8, int i9, androidx.compose.foundation.pager.MeasuredPage measuredPage10, androidx.compose.foundation.pager.MeasuredPage measuredPage11, float f12, int i13, boolean z14, SnapPosition snapPosition15, MeasureResult measureResult16, boolean z17, List list18, List list19, CoroutineScope coroutineScope20, int i21, DefaultConstructorMarker defaultConstructorMarker22) {
-        List emptyList;
-        int emptyList2;
+        List emptyList2;
+        int emptyList;
         List list2;
         List list3;
         if (i21 & i != 0) {
-            list2 = emptyList;
+            list2 = emptyList2;
         } else {
             list2 = list18;
         }
         if (i21 & i5 != 0) {
-            list3 = emptyList2;
+            list3 = emptyList;
         } else {
             list3 = list19;
         }
@@ -249,19 +249,19 @@ public final class PagerMeasureResult implements androidx.compose.foundation.pag
     @Override // androidx.compose.foundation.pager.PagerLayoutInfo
     public final boolean tryToApplyScrollWithoutRemeasure(int delta) {
         boolean firstVisiblePage;
-        int i2;
-        int i5;
         int i4;
+        int i5;
+        int i2;
         float f;
         androidx.compose.foundation.pager.MeasuredPage currentPage;
         int deltaToFirstItemChange;
         int i3;
+        int index$iv3;
         int index$iv;
         int index$iv2;
-        int index$iv3;
         int size;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         pageSize += pageSpacing;
         i5 = 0;
@@ -269,9 +269,9 @@ public final class PagerMeasureResult implements androidx.compose.foundation.pag
             if (!getVisiblePagesInfo().isEmpty()) {
                 if (this.firstVisiblePage != null) {
                     firstVisiblePageScrollOffset -= delta;
-                    i4 = 1;
+                    i2 = 1;
                     if (i7 >= 0 && i7 < i6) {
-                        firstVisiblePage = i7 < i6 ? i4 : i5;
+                        firstVisiblePage = i7 < i6 ? i2 : i5;
                     } else {
                     }
                     if (firstVisiblePage == 0) {
@@ -279,9 +279,9 @@ public final class PagerMeasureResult implements androidx.compose.foundation.pag
                         if (i6 != 0) {
                             f2 /= f;
                         } else {
-                            i2 = 0;
+                            i4 = 0;
                         }
-                        currentPageOffsetFraction2 -= i2;
+                        currentPageOffsetFraction2 -= i4;
                         if (this.currentPage != null && Float.compare(i10, i11) < 0) {
                             if (Float.compare(i10, i11) < 0) {
                                 if (Float.compare(i10, i12) <= 0) {
@@ -289,43 +289,43 @@ public final class PagerMeasureResult implements androidx.compose.foundation.pag
                                     Object first = CollectionsKt.first(getVisiblePagesInfo());
                                     Object last = CollectionsKt.last(getVisiblePagesInfo());
                                     if (delta < 0) {
-                                        deltaToFirstItemChange = Math.min(i13 -= viewportStartOffset2, i16 -= viewportEndOffset2) > -delta ? i4 : i5;
+                                        deltaToFirstItemChange = Math.min(i13 -= viewportStartOffset2, i16 -= viewportEndOffset2) > -delta ? i2 : i5;
                                     } else {
-                                        deltaToFirstItemChange = Math.min(viewportStartOffset -= offset3, viewportEndOffset -= offset4) > delta ? i4 : i5;
+                                        deltaToFirstItemChange = Math.min(viewportStartOffset -= offset3, viewportEndOffset -= offset4) > delta ? i2 : i5;
                                     }
                                     if (deltaToFirstItemChange != 0) {
-                                        this.currentPageOffsetFraction = currentPageOffsetFraction -= i2;
+                                        this.currentPageOffsetFraction = currentPageOffsetFraction -= i4;
                                         this.firstVisiblePageScrollOffset = firstVisiblePageScrollOffset2 -= delta;
                                         List visiblePagesInfo2 = getVisiblePagesInfo();
                                         int i17 = 0;
-                                        index$iv2 = 0;
-                                        while (index$iv2 < visiblePagesInfo2.size()) {
+                                        index$iv = 0;
+                                        while (index$iv < visiblePagesInfo2.size()) {
                                             i = 0;
-                                            (MeasuredPage)visiblePagesInfo2.get(index$iv2).applyScrollDelta(delta);
-                                            index$iv2++;
+                                            (MeasuredPage)visiblePagesInfo2.get(index$iv).applyScrollDelta(delta);
+                                            index$iv++;
                                         }
                                         List $this$fastForEach$iv = this.extraPagesBefore;
                                         int i18 = 0;
-                                        index$iv3 = 0;
-                                        while (index$iv3 < $this$fastForEach$iv.size()) {
+                                        index$iv2 = 0;
+                                        while (index$iv2 < $this$fastForEach$iv.size()) {
                                             i = 0;
-                                            (MeasuredPage)$this$fastForEach$iv.get(index$iv3).applyScrollDelta(delta);
-                                            index$iv3++;
+                                            (MeasuredPage)$this$fastForEach$iv.get(index$iv2).applyScrollDelta(delta);
+                                            index$iv2++;
                                         }
                                         List $this$fastForEach$iv2 = this.extraPagesAfter;
                                         i3 = 0;
-                                        index$iv = 0;
-                                        while (index$iv < $this$fastForEach$iv2.size()) {
+                                        index$iv3 = 0;
+                                        while (index$iv3 < $this$fastForEach$iv2.size()) {
                                             i = 0;
-                                            (MeasuredPage)$this$fastForEach$iv2.get(index$iv).applyScrollDelta(delta);
-                                            index$iv++;
+                                            (MeasuredPage)$this$fastForEach$iv2.get(index$iv3).applyScrollDelta(delta);
+                                            index$iv3++;
                                         }
                                         if (!this.canScrollForward && delta > 0) {
                                             if (delta > 0) {
-                                                this.canScrollForward = i4;
+                                                this.canScrollForward = i2;
                                             }
                                         }
-                                        i5 = i4;
+                                        i5 = i2;
                                     } else {
                                     }
                                 }

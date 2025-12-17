@@ -57,50 +57,50 @@ public final class AnimatedVisibilityClock implements androidx.compose.ui.toolin
     public List<ComposeAnimatedProperty> getAnimatedProperties() {
         Transition it$iv$iv;
         int i4;
-        int composeAnimatedProperty;
+        int $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1;
         int next2;
         List list;
-        int i;
+        int i2;
         Iterator iterator;
         Object next;
         boolean label;
         Object obj2;
-        int i3;
+        int i5;
         Object obj;
-        int i2;
+        int i;
         String label2;
         Transition transition;
-        int i5;
+        int i3;
         it$iv$iv = getAnimation().getChildTransition();
         if (it$iv$iv != null) {
-            composeAnimatedProperty = 0;
+            $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1 = 0;
             int i8 = 0;
             ArrayList arrayList2 = new ArrayList();
             next2 = 0;
-            i = 0;
+            i2 = 0;
             iterator = (Iterable)Utils_androidKt.allAnimations(it$iv$iv).iterator();
             while (iterator.hasNext()) {
-                i3 = 0;
+                i5 = 0;
                 obj = obj2;
-                i2 = 0;
+                i = 0;
                 Object value = obj.getValue();
                 if (value == null) {
                 } else {
                 }
-                i5 = composeAnimatedProperty;
-                composeAnimatedProperty = new ComposeAnimatedProperty((Transition.TransitionAnimationState)obj.getLabel(), value);
-                i4 = composeAnimatedProperty;
+                i3 = $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1;
+                $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1 = new ComposeAnimatedProperty((Transition.TransitionAnimationState)obj.getLabel(), value);
+                i4 = $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1;
                 if (i4 != 0) {
                 }
                 it$iv$iv = transition;
-                composeAnimatedProperty = i5;
-                composeAnimatedProperty = 0;
+                $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1 = i3;
+                $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1 = 0;
                 (Collection)arrayList2.add(i4);
                 i4 = 0;
-                i5 = composeAnimatedProperty;
+                i3 = $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1;
             }
             Transition child = it$iv$iv;
-            int i10 = composeAnimatedProperty;
+            int i10 = $i$a$LetAnimatedVisibilityClock$getAnimatedProperties$1;
             int i6 = 0;
             AnimatedVisibilityClock.getAnimatedProperties.lambda.8$$inlined.sortedBy.1 anon = new AnimatedVisibilityClock.getAnimatedProperties.lambda.8$$inlined.sortedBy.1();
             int i7 = 0;
@@ -109,7 +109,7 @@ public final class AnimatedVisibilityClock implements androidx.compose.ui.toolin
             Iterator iterator2 = (Iterable)CollectionsKt.sortedWith((Iterable)(List)arrayList2, (Comparator)anon).iterator();
             while (iterator2.hasNext()) {
                 next2 = iterator2.next();
-                i = 0;
+                i2 = 0;
                 if (Utils_androidKt.getIGNORE_TRANSITIONS().contains((ComposeAnimatedProperty)next2.getLabel()) == null) {
                 }
                 (Collection)arrayList.add(next2);
@@ -158,8 +158,8 @@ public final class AnimatedVisibilityClock implements androidx.compose.ui.toolin
     }
 
     public List<TransitionInfo> getTransitions(long stepMillis) {
-        Object next;
-        boolean next2;
+        Object next2;
+        boolean next;
         TransitionInfo it;
         int i;
         boolean contains;
@@ -172,9 +172,9 @@ public final class AnimatedVisibilityClock implements androidx.compose.ui.toolin
             ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)allAnimations, 10));
             int i7 = 0;
             Iterator iterator = allAnimations.iterator();
-            for (Object next : iterator) {
+            for (Object next2 : iterator) {
                 i = 0;
-                (Collection)arrayList.add(Utils_androidKt.createTransitionInfo((Transition.TransitionAnimationState)next, stepMillis));
+                (Collection)arrayList.add(Utils_androidKt.createTransitionInfo((Transition.TransitionAnimationState)next2, stepMillis));
             }
             int i3 = 0;
             AnimatedVisibilityClock.getTransitions.lambda.4$$inlined.sortedBy.1 anon = new AnimatedVisibilityClock.getTransitions.lambda.4$$inlined.sortedBy.1();
@@ -183,11 +183,11 @@ public final class AnimatedVisibilityClock implements androidx.compose.ui.toolin
             int i8 = 0;
             Iterator iterator2 = (Iterable)CollectionsKt.sortedWith((Iterable)(List)arrayList, (Comparator)anon).iterator();
             while (iterator2.hasNext()) {
-                next2 = iterator2.next();
+                next = iterator2.next();
                 i = 0;
-                if (!Utils_androidKt.getIGNORE_TRANSITIONS().contains((TransitionInfo)next2.getLabel())) {
+                if (!Utils_androidKt.getIGNORE_TRANSITIONS().contains((TransitionInfo)next.getLabel())) {
                 }
-                (Collection)arrayList2.add(next2);
+                (Collection)arrayList2.add(next);
             }
             return (List)arrayList2;
         }

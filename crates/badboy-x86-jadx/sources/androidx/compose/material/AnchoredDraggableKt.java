@@ -42,23 +42,23 @@ public final class AnchoredDraggableKt {
     }
 
     public static Modifier anchoredDraggable$default(Modifier modifier, androidx.compose.material.AnchoredDraggableState anchoredDraggableState2, Orientation orientation3, boolean z4, boolean z5, MutableInteractionSource mutableInteractionSource6, boolean z7, int i8, Object object9) {
-        int i;
         int i3;
         int i2;
+        int i;
         boolean z;
         int obj10;
         int obj11;
         int obj12;
         boolean obj13;
-        i = i8 & 4 != 0 ? obj10 : z4;
-        i3 = i8 & 8 != 0 ? obj11 : z5;
-        i2 = i8 & 16 != 0 ? obj12 : mutableInteractionSource6;
+        i3 = i8 & 4 != 0 ? obj10 : z4;
+        i2 = i8 & 8 != 0 ? obj11 : z5;
+        i = i8 & 16 != 0 ? obj12 : mutableInteractionSource6;
         if (i8 & 32 != 0) {
             z = obj13;
         } else {
             z = z7;
         }
-        return AnchoredDraggableKt.anchoredDraggable(modifier, anchoredDraggableState2, orientation3, i, i3, i2, z);
+        return AnchoredDraggableKt.anchoredDraggable(modifier, anchoredDraggableState2, orientation3, i3, i2, i, z);
     }
 
     public static final <T> Object animateTo(androidx.compose.material.AnchoredDraggableState<T> $this$animateTo, T targetValue, float velocity, Continuation<? super Unit> $completion) {
@@ -90,10 +90,10 @@ public final class AnchoredDraggableKt {
 
     private static final <I> Object restartable(Function0<? extends I> function0, Function2<? super I, ? super Continuation<? super Unit>, ? extends Object> function22, Continuation<? super Unit> continuation3) {
         boolean anon;
-        int i3;
+        int i;
         int i2;
         int coroutineScope;
-        int i;
+        int i3;
         Throwable obj4;
         Object obj6;
         anon = continuation3;

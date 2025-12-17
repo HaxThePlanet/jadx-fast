@@ -62,8 +62,8 @@ public final class SlotWriter {
             Object insertLocation;
             int currentGroup;
             int subList;
-            HashMap sourceSourceInformationMap;
-            int i;
+            HashMap sourceSourceInformationMap2;
+            int i3;
             ArrayList hasMarks;
             int currentGroup2;
             int slots;
@@ -72,26 +72,26 @@ public final class SlotWriter {
             ArrayList predecessor;
             boolean group;
             int child;
-            int i11;
+            int i2;
             androidx.compose.runtime.SlotWriter writer;
             int sourceGroupsEnd;
             int parentDelta;
-            int i10;
-            int location$runtime_release;
             int i4;
-            int i13;
-            int i6;
+            int location$runtime_release;
             int i7;
-            int toWriterParent;
-            int i5;
-            ArrayList anchors;
-            int i2;
-            int i8;
-            HashMap map;
-            int i3;
-            int i9;
-            HashMap sourceSourceInformationMap2;
+            int i10;
             int i12;
+            int i6;
+            int toWriterParent;
+            int i11;
+            ArrayList anchors;
+            int i5;
+            int i;
+            HashMap $i$a$LetSlotWriter$Companion$moveGroup$2;
+            int i8;
+            int i13;
+            HashMap sourceSourceInformationMap;
+            int i9;
             final androidx.compose.runtime.SlotWriter writer2 = fromWriter;
             final int i14 = fromIndex;
             final androidx.compose.runtime.SlotWriter writer3 = toWriter;
@@ -125,8 +125,8 @@ public final class SlotWriter {
             hasMarks = objArr.length;
             final Object[] objArr3 = objArr;
             slots = slotsGapOwner;
-            currentSlot = i11;
-            i11 = 0;
+            currentSlot = i2;
+            i2 = 0;
             while (currentSlot < child) {
                 if (currentSlot != currentGroup2) {
                 } else {
@@ -134,19 +134,19 @@ public final class SlotWriter {
                 parentDelta = parentDelta2;
                 int i42 = 0;
                 writer = toWriter;
-                i10 = 0;
+                i4 = 0;
                 if (slots < currentSlot) {
                 } else {
                 }
-                i11 = SlotWriter.access$getSlotsGapStart$p(writer);
-                SlotTableKt.access$updateDataAnchor(iArr2, currentSlot, SlotWriter.access$dataIndexToDataAnchor(writer, i44 += i40, i11, subList, hasMarks));
+                i2 = SlotWriter.access$getSlotsGapStart$p(writer);
+                SlotTableKt.access$updateDataAnchor(iArr2, currentSlot, SlotWriter.access$dataIndexToDataAnchor(writer, i44 += i40, i2, subList, hasMarks));
                 if (currentSlot == slots) {
                 }
                 currentSlot++;
                 parentDelta2 = parentDelta;
-                child = i13;
-                currentGroup2 = i6;
-                i11 = 0;
+                child = i10;
+                currentGroup2 = i12;
+                i2 = 0;
                 slots++;
                 SlotTableKt.access$updateParentAnchor(iArr2, currentSlot, writer + parentDelta);
             }
@@ -163,54 +163,54 @@ public final class SlotWriter {
                 anchorDelta = location$runtime_release;
                 while (anchorDelta < i32) {
                     Object anchorIndex = obj;
-                    anchorIndex.setLocation$runtime_release(location$runtime_release + i7);
+                    anchorIndex.setLocation$runtime_release(location$runtime_release + i6);
                     child.add(anchorIndex);
-                    anchorDelta = i5 + 1;
-                    subList = i2;
+                    anchorDelta = i11 + 1;
+                    subList = i5;
                 }
-                i5 = anchorDelta;
-                i8 = subList;
-                i4 = hasMarks;
+                i11 = anchorDelta;
+                i = subList;
+                i7 = hasMarks;
                 SlotWriter.access$getAnchors$p(writer3).addAll(SlotTableKt.access$locationOf(SlotWriter.access$getAnchors$p(writer3), writer3.getCurrentGroup(), writer3.getSize$runtime_release()), (Collection)child);
                 predecessor.subList(i29, i32).clear();
                 insertLocation = child;
             } else {
                 sourceGroupsEnd = i15;
-                i8 = subList;
-                i4 = hasMarks;
+                i = subList;
+                i7 = hasMarks;
                 insertLocation = CollectionsKt.emptyList();
             }
             if (!(Collection)insertLocation.isEmpty()) {
-                sourceSourceInformationMap = SlotWriter.access$getSourceInformationMap$p(writer2);
+                sourceSourceInformationMap2 = SlotWriter.access$getSourceInformationMap$p(writer2);
                 hasMarks = SlotWriter.access$getSourceInformationMap$p(writer3);
-                if (sourceSourceInformationMap != null && hasMarks != null) {
+                if (sourceSourceInformationMap2 != null && hasMarks != null) {
                     if (hasMarks != null) {
                         predecessor = insertLocation;
                         child = 0;
                         anchors = insertLocation;
                         insertLocation = predecessor.size();
-                        hasMarks = i7;
+                        hasMarks = i6;
                         while (hasMarks < insertLocation) {
-                            int i18 = i7;
-                            i9 = 0;
+                            int i18 = i6;
+                            i13 = 0;
                             Object index$iv = obj2;
                             if ((GroupSourceInformation)index$iv != null) {
                             } else {
                             }
-                            sourceSourceInformationMap2 = sourceSourceInformationMap;
-                            hasMarks = i12 + 1;
-                            insertLocation = i3;
                             sourceSourceInformationMap = sourceSourceInformationMap2;
-                            sourceSourceInformationMap.remove(i18);
+                            hasMarks = i9 + 1;
+                            insertLocation = i8;
                             sourceSourceInformationMap2 = sourceSourceInformationMap;
+                            sourceSourceInformationMap2.remove(i18);
+                            sourceSourceInformationMap = sourceSourceInformationMap2;
                             (Map)hasMarks.put(i18, (GroupSourceInformation)index$iv);
                         }
-                        sourceSourceInformationMap2 = sourceSourceInformationMap;
-                        i12 = hasMarks;
+                        sourceSourceInformationMap = sourceSourceInformationMap2;
+                        i9 = hasMarks;
                     } else {
                         anchors = insertLocation;
-                        sourceSourceInformationMap2 = sourceSourceInformationMap;
-                        map = hasMarks;
+                        sourceSourceInformationMap = sourceSourceInformationMap2;
+                        $i$a$LetSlotWriter$Companion$moveGroup$2 = hasMarks;
                     }
                 } else {
                 }
@@ -228,20 +228,20 @@ public final class SlotWriter {
                 while (child < currentGroup) {
                     predecessor = child;
                     child += i23;
-                    hasMarks = map;
+                    hasMarks = $i$a$LetSlotWriter$Companion$moveGroup$2;
                 }
-                map = hasMarks;
+                $i$a$LetSlotWriter$Companion$moveGroup$2 = hasMarks;
                 groupSourceInformation.addGroupAfter(writer3, predecessor, currentGroup);
             } else {
                 toWriterParent = currentGroup;
             }
             int parent = fromWriter.parent(fromIndex);
-            i = 1;
+            i3 = 1;
             if (!removeSourceGroup) {
-                group = i11;
+                group = i2;
             } else {
                 if (updateFromCursor != null) {
-                    hasMarks = parent >= 0 ? i : i11;
+                    hasMarks = parent >= 0 ? i3 : i2;
                     if (hasMarks != 0) {
                         writer2.startGroup();
                         writer2.advanceBy(parent - currentGroup7);
@@ -261,19 +261,19 @@ public final class SlotWriter {
                 }
             }
             if (!group) {
-                i11 = i;
+                i2 = i3;
             }
             int i24 = 0;
-            if (i11 == 0) {
+            if (i2 == 0) {
                 int i37 = 0;
                 ComposerKt.composeImmediateRuntimeError("Unexpectedly removed anchors");
             }
             int i36 = currentGroup8;
             if (SlotTableKt.access$isNode(iArr2, i36)) {
             } else {
-                i = SlotTableKt.access$nodeCount(iArr2, i36);
+                i3 = SlotTableKt.access$nodeCount(iArr2, i36);
             }
-            SlotWriter.access$setNodeCount$p(writer3, i25 += i);
+            SlotWriter.access$setNodeCount$p(writer3, i25 += i3);
             if (updateToCursor != null) {
                 SlotWriter.access$setCurrentGroup$p(writer3, i36 + groupSize);
                 SlotWriter.access$setCurrentSlot$p(writer3, slotsGapOwner2 + i22);
@@ -533,10 +533,10 @@ public final class SlotWriter {
         int index$iv$iv;
         Object obj;
         Object obj2;
-        int i;
+        int i2;
         ArrayList list;
         int intValue;
-        int i2;
+        int i;
         int slotsGapLen;
         List list2;
         final Object obj3 = this;
@@ -550,8 +550,8 @@ public final class SlotWriter {
         int i10 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list4.size()) {
-            i = 0;
             i2 = 0;
+            i = 0;
             (Collection)arrayList.add(Integer.valueOf(obj3.dataAnchorToDataIndex((Number)list4.get(index$iv$iv).intValue(), obj3.slotsGapLen, $this$fastMap$iv.length)));
             index$iv$iv++;
             it = list2;
@@ -562,14 +562,14 @@ public final class SlotWriter {
 
     private final void fixParentAnchorsFor(int parent, int endGroup, int firstChild) {
         int child;
-        int i2;
         int i;
+        int i2;
         child = firstChild;
         while (child < endGroup) {
             SlotTableKt.access$updateParentAnchor(this.groups, groupIndexToAddress(child), parentIndexToAnchor(parent, this.groupGapStart));
             i3 += child;
-            fixParentAnchorsFor(child, i2, child + 1);
-            child = i2;
+            fixParentAnchorsFor(child, i, child + 1);
+            child = i;
         }
     }
 
@@ -651,17 +651,17 @@ public final class SlotWriter {
 
     private final androidx.compose.runtime.GroupSourceInformation groupSourceInformationFor(int parent, String sourceInformation) {
         androidx.compose.runtime.Anchor anchor;
-        int i2;
+        int i3;
         Object obj;
         int i;
         int groupSourceInformation;
         int child;
         int currentGroup;
-        int i3;
+        int i2;
         final HashMap sourceInformationMap = this.sourceInformationMap;
         if (sourceInformationMap != null) {
             anchor = anchor(parent);
-            i2 = 0;
+            i3 = 0;
             obj = (Map)sourceInformationMap.get(anchor);
             if (obj == null) {
                 i = 0;
@@ -671,7 +671,7 @@ public final class SlotWriter {
                     child = parent + 1;
                     while (child < this.currentGroup) {
                         groupSourceInformation.reportGroup(this, child);
-                        child += i3;
+                        child += i2;
                     }
                 }
                 sourceInformationMap.put(anchor, groupSourceInformation);
@@ -688,20 +688,20 @@ public final class SlotWriter {
         int currentGroup;
         int groupGapStart;
         int gapLen;
-        int i4;
-        int i6;
+        int i2;
         int i5;
+        int i3;
         int currentGroupEnd;
         int[] dataIndex;
         int dataIndexToDataAnchor;
         int slotsGapStart;
         int[] groupAddress;
         int groupAddress2;
-        int i2;
-        int groups;
-        int i3;
-        int i;
         int i7;
+        int groups;
+        int i;
+        int i4;
+        int i6;
         final Object obj = this;
         final int i8 = size;
         currentGroup = obj.currentGroup;
@@ -709,25 +709,25 @@ public final class SlotWriter {
         groupGapStart = obj.groupGapStart;
         gapLen = obj.groupGapLen;
         length /= 5;
-        i6 = i4 - gapLen;
-        i5 = 0;
+        i5 = i2 - gapLen;
+        i3 = 0;
         if (i8 > 0 && gapLen < i8) {
             currentGroup = obj.currentGroup;
             obj.moveGroupGapTo(currentGroup);
             groupGapStart = obj.groupGapStart;
             gapLen = obj.groupGapLen;
             length /= 5;
-            i6 = i4 - gapLen;
-            i5 = 0;
+            i5 = i2 - gapLen;
+            i3 = 0;
             if (gapLen < i8) {
                 dataIndex = obj.groups;
-                dataIndexToDataAnchor = Math.max(Math.max(i4 * 2, i6 + i8), 32);
+                dataIndexToDataAnchor = Math.max(Math.max(i2 * 2, i5 + i8), 32);
                 groupAddress = new int[dataIndexToDataAnchor * 5];
-                i2 = dataIndexToDataAnchor - i6;
-                ArraysKt.copyInto(dataIndex, groupAddress, i5, i5, groupGapStart * 5);
-                ArraysKt.copyInto(dataIndex, groupAddress, i3 * 5, groups * 5, i4 * 5);
+                i7 = dataIndexToDataAnchor - i5;
+                ArraysKt.copyInto(dataIndex, groupAddress, i3, i3, groupGapStart * 5);
+                ArraysKt.copyInto(dataIndex, groupAddress, i * 5, groups * 5, i2 * 5);
                 obj.groups = groupAddress;
-                gapLen = i2;
+                gapLen = i7;
             }
             currentGroupEnd = obj.currentGroupEnd;
             if (currentGroupEnd >= groupGapStart) {
@@ -735,7 +735,7 @@ public final class SlotWriter {
             }
             obj.groupGapStart = groupGapStart + i8;
             obj.groupGapLen = gapLen - i8;
-            if (i6 > 0) {
+            if (i5 > 0) {
                 dataIndex = obj.dataIndex(currentGroup + i8);
             } else {
                 dataIndex = 0;
@@ -759,13 +759,13 @@ public final class SlotWriter {
         int slots;
         int length;
         int i5;
-        int i2;
+        int i4;
         Object[] arr;
         int i6;
         int i3;
         int i7;
-        int i4;
         int i;
+        int i2;
         moveSlotGapTo(this.currentSlot, group);
         slotsGapStart = this.slotsGapStart;
         gapLen = this.slotsGapLen;
@@ -777,15 +777,15 @@ public final class SlotWriter {
                 slots = this.slots;
                 length = slots.length;
                 i5 = length - gapLen;
-                i2 = Math.max(Math.max(length * 2, i5 + size), 32);
-                arr = new Object[i2];
+                i4 = Math.max(Math.max(length * 2, i5 + size), 32);
+                arr = new Object[i4];
                 i6 = 0;
                 i7 = i6;
-                while (i7 < i2) {
+                while (i7 < i4) {
                     arr[i7] = 0;
                     i7++;
                 }
-                i3 = i2 - i5;
+                i3 = i4 - i5;
                 ArraysKt.copyInto(slots, arr, i6, i6, slotsGapStart);
                 ArraysKt.copyInto(slots, arr, slotsGapStart + i3, slotsGapStart + gapLen, length);
                 this.slots = arr;
@@ -801,17 +801,17 @@ public final class SlotWriter {
     }
 
     private final List<Integer> keys() {
-        int i2;
-        int i3;
+        int i;
+        int i4;
         int groupGapStart;
         int groupGapLen;
         int index$iv$iv;
         Object obj;
-        int i6;
+        int i2;
         Object obj2;
-        int i4;
+        int i6;
         int i5;
-        int i;
+        int i3;
         final Object obj3 = this;
         List keys$default = SlotTableKt.keys$default(obj3.groups, 0, 1, 0);
         int i8 = 0;
@@ -821,24 +821,24 @@ public final class SlotWriter {
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
             obj2 = obj;
-            i4 = 0;
+            i6 = 0;
             (Number)obj2.intValue();
-            i5 = i6;
-            i = 0;
+            i5 = i2;
+            i3 = 0;
             if (i5 >= obj3.groupGapStart) {
             } else {
             }
-            i3 = 1;
-            if (i3 != 0) {
+            i4 = 1;
+            if (i4 != 0) {
             }
             index$iv$iv++;
-            i2 = 0;
+            i = 0;
             groupGapLen = 1;
             (Collection)arrayList.add(obj2);
             if (i5 >= groupGapStart2 += groupGapLen) {
             } else {
             }
-            i3 = 0;
+            i4 = 0;
         }
         return (List)arrayList;
     }
@@ -861,10 +861,10 @@ public final class SlotWriter {
         int index$iv;
         Object obj2;
         Object obj;
-        int i5;
+        int i2;
         int anchorIndex2;
         int i;
-        int i2;
+        int i5;
         final Object obj3 = this;
         i4 = originalLocation;
         final int size$runtime_release = obj3.getSize$runtime_release();
@@ -877,7 +877,7 @@ public final class SlotWriter {
         index$iv = 0;
         while (index$iv < list.size()) {
             obj = obj2;
-            i5 = 0;
+            i2 = 0;
             i = anchorIndex2 + anchor;
             if (i >= obj3.groupGapStart) {
             } else {
@@ -886,7 +886,7 @@ public final class SlotWriter {
             obj3.anchors.add(SlotTableKt.access$locationOf(obj3.anchors, i, size$runtime_release), obj);
             index$iv++;
             i4 = originalLocation;
-            i3 = i2;
+            i3 = i5;
             obj.setLocation$runtime_release(-i7);
         }
     }
@@ -945,19 +945,19 @@ public final class SlotWriter {
 
     private final void moveSlotGapTo(int index, int group) {
         Object[] slots;
-        int i5;
+        int i;
         int size$runtime_release;
-        int i3;
         int i4;
+        int i5;
         int updateAddress;
         int groupIndexToAddress;
         int groupGapStart2;
         int groupGapStart;
         int i2;
         int[] value$iv;
-        int i;
-        int str;
-        String str2;
+        int i3;
+        int $i$a$RuntimeCheckSlotWriter$moveSlotGapTo$2;
+        String $i$a$RuntimeCheckSlotWriter$moveSlotGapTo$1;
         final Object obj = this;
         final int i6 = index;
         final int slotsGapLen = obj.slotsGapLen;
@@ -974,8 +974,8 @@ public final class SlotWriter {
         int i7 = Math.min(group + 1, obj.getSize$runtime_release());
         if (slotsGapOwner != i7) {
             length -= slotsGapLen;
-            i3 = 0;
-            i4 = 1;
+            i4 = 0;
+            i5 = 1;
             if (i7 < slotsGapOwner) {
                 updateAddress = obj.groupIndexToAddress(i7);
                 while (updateAddress < obj.groupIndexToAddress(slotsGapOwner)) {
@@ -983,9 +983,9 @@ public final class SlotWriter {
                     if (groupGapStart >= 0) {
                     } else {
                     }
-                    i = i3;
+                    i3 = i4;
                     int i10 = 0;
-                    if (i == 0) {
+                    if (i3 == 0) {
                     }
                     SlotTableKt.access$updateDataAnchor(obj.groups, updateAddress, -i12);
                     updateAddress++;
@@ -994,7 +994,7 @@ public final class SlotWriter {
                     updateAddress += value$iv;
                     int i14 = 0;
                     ComposerKt.composeImmediateRuntimeError("Unexpected anchor value, expected a positive anchor");
-                    i = i4;
+                    i3 = i5;
                 }
             } else {
                 updateAddress = obj.groupIndexToAddress(slotsGapOwner);
@@ -1003,18 +1003,18 @@ public final class SlotWriter {
                     if (groupGapStart2 < 0) {
                     } else {
                     }
-                    i2 = i3;
+                    i2 = i4;
                     int i8 = 0;
                     if (i2 == 0) {
                     }
-                    SlotTableKt.access$updateDataAnchor(obj.groups, updateAddress, i9 += i4);
+                    SlotTableKt.access$updateDataAnchor(obj.groups, updateAddress, i9 += i5);
                     updateAddress++;
                     if (updateAddress == obj.groupGapStart) {
                     }
                     updateAddress += groupGapStart;
                     int i13 = 0;
                     ComposerKt.composeImmediateRuntimeError("Unexpected anchor value, expected a negative anchor");
-                    i2 = i4;
+                    i2 = i5;
                 }
             }
             obj.slotsGapOwner = i7;
@@ -1146,10 +1146,10 @@ public final class SlotWriter {
 
     private final void removeSlots(int start, int len, int group) {
         int slotsGapLen;
-        int i3;
-        int currentSlotEnd;
         int i;
+        int currentSlotEnd;
         int i2;
+        int i3;
         moveSlotGapTo(start + len, group);
         this.slotsGapStart = start;
         this.slotsGapLen = slotsGapLen + len;
@@ -1190,74 +1190,74 @@ public final class SlotWriter {
     }
 
     private final androidx.compose.runtime.GroupSourceInformation sourceInformationOf(int group) {
+        int $i$a$LetSlotWriter$sourceInformationOf$1$1;
         int i;
-        int i2;
         androidx.compose.runtime.Anchor tryAnchor$runtime_release;
         Object obj;
         final HashMap sourceInformationMap = this.sourceInformationMap;
+        $i$a$LetSlotWriter$sourceInformationOf$1$1 = 0;
         i = 0;
-        i2 = 0;
         tryAnchor$runtime_release = tryAnchor$runtime_release(group);
         if (sourceInformationMap != null && tryAnchor$runtime_release != null) {
-            i2 = 0;
+            i = 0;
             tryAnchor$runtime_release = tryAnchor$runtime_release(group);
             if (tryAnchor$runtime_release != null) {
-                int i3 = 0;
-                i = obj;
+                int i2 = 0;
+                $i$a$LetSlotWriter$sourceInformationOf$1$1 = obj;
             }
         }
-        return i;
+        return $i$a$LetSlotWriter$sourceInformationOf$1$1;
     }
 
     private final void startGroup(int key, Object objectKey, boolean isNode, Object aux) {
-        int i;
+        int i2;
         int currentGroup;
         int sourceInformationOf;
         int groupIndexToAddress;
         int[] dataIndex;
         Object empty;
-        int i5;
+        int i6;
         int i3;
         int groupIndexToAddress2;
         int currentSlot;
         int slotsSize;
         boolean z;
-        int i2;
         int i4;
+        int i;
         int parent;
-        int i6;
+        int i5;
         final Object obj = this;
         final Object obj2 = objectKey;
         final Object obj3 = aux;
         final int parent2 = obj.parent;
         int i7 = 0;
         sourceInformationOf = 1;
-        i = obj.insertCount > 0 ? sourceInformationOf : i7;
+        i2 = obj.insertCount > 0 ? sourceInformationOf : i7;
         obj.nodeCountStack.push(obj.nodeCount);
-        if (i != 0) {
+        if (i2 != 0) {
             groupIndexToAddress = obj.currentGroup;
             dataIndex = obj.dataIndex(obj.groups, obj.groupIndexToAddress(groupIndexToAddress));
             obj.insertGroups(sourceInformationOf);
             obj.currentSlot = dataIndex;
             obj.currentSlotEnd = dataIndex;
-            i2 = obj2 != Composer.Companion.getEmpty() ? sourceInformationOf : i7;
+            i4 = obj2 != Composer.Companion.getEmpty() ? sourceInformationOf : i7;
             if (isNode == 0 && obj3 != Composer.Companion.getEmpty()) {
-                i4 = obj3 != Composer.Companion.getEmpty() ? sourceInformationOf : i7;
+                i = obj3 != Composer.Companion.getEmpty() ? sourceInformationOf : i7;
             } else {
             }
             int dataIndexToDataAnchor = obj.dataIndexToDataAnchor(dataIndex, obj.slotsGapStart, obj.slotsGapLen, slots.length);
             int i12 = 0;
             if (dataIndexToDataAnchor >= 0 && obj.slotsGapOwner < groupIndexToAddress) {
                 if (obj.slotsGapOwner < groupIndexToAddress) {
-                    i6 = slotsSize;
+                    i5 = slotsSize;
                 } else {
-                    i6 = dataIndexToDataAnchor;
+                    i5 = dataIndexToDataAnchor;
                 }
             } else {
             }
-            SlotTableKt.access$initGroup(obj.groups, obj.groupIndexToAddress(groupIndexToAddress), key, isNode, i2, i4, obj.parent, i6);
-            i5 = i2 != 0 ? sourceInformationOf : i7;
-            if (i4 != 0) {
+            SlotTableKt.access$initGroup(obj.groups, obj.groupIndexToAddress(groupIndexToAddress), key, isNode, i4, i, obj.parent, i5);
+            i6 = i4 != 0 ? sourceInformationOf : i7;
+            if (i != 0) {
             } else {
                 sourceInformationOf = i7;
             }
@@ -1273,11 +1273,11 @@ public final class SlotWriter {
                     sourceInformationOf[currentSlot] = obj3;
                     currentSlot = z;
                 }
-                if (i2 != 0) {
+                if (i4 != 0) {
                     sourceInformationOf[currentSlot] = obj2;
                     currentSlot = z;
                 }
-                if (i4 != 0) {
+                if (i != 0) {
                     sourceInformationOf[currentSlot] = obj3;
                     currentSlot = z;
                 }
@@ -1384,7 +1384,7 @@ public final class SlotWriter {
     private final void updateNodeOfGroup(int index, Object value) {
         int length;
         int i;
-        String string;
+        String $i$a$RuntimeCheckSlotWriter$updateNodeOfGroup$1;
         StringBuilder append;
         String str;
         final int groupIndexToAddress = groupIndexToAddress(index);
@@ -1402,21 +1402,21 @@ public final class SlotWriter {
     }
 
     public final void advanceBy(int amount) {
-        int i3;
         int i2;
+        int i3;
         int i;
-        int currentGroupEnd;
-        String append;
+        int $i$a$RuntimeCheckSlotWriter$advanceBy$3;
+        String $i$a$RuntimeCheckSlotWriter$advanceBy$1;
         int i4;
-        i3 = 1;
+        i2 = 1;
         int i5 = 0;
-        i2 = amount >= 0 ? i3 : i5;
+        i3 = amount >= 0 ? i2 : i5;
         int i8 = 0;
-        if (i2 == 0) {
+        if (i3 == 0) {
             int i11 = 0;
             ComposerKt.composeImmediateRuntimeError("Cannot seek backwards");
         }
-        i = this.insertCount <= 0 ? i3 : i5;
+        i = this.insertCount <= 0 ? i2 : i5;
         int i9 = 0;
         if (i == 0) {
             int i12 = 0;
@@ -1428,12 +1428,12 @@ public final class SlotWriter {
         if (i7 >= this.parent && i7 <= this.currentGroupEnd) {
             if (i7 <= this.currentGroupEnd) {
             } else {
-                i3 = i5;
+                i2 = i5;
             }
         } else {
         }
         int i6 = 0;
-        if (i3 == 0) {
+        if (i2 == 0) {
             int i10 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             ComposerKt.composeImmediateRuntimeError(stringBuilder.append("Cannot seek outside the current group (").append(this.parent).append('-').append(this.currentGroupEnd).append(')').toString());
@@ -1481,7 +1481,7 @@ public final class SlotWriter {
         int i;
         int value$iv;
         int previousCurrentSlotEnd;
-        String str;
+        String $i$a$RuntimeCheckSlotWriter$appendSlot$1;
         int i2 = 1;
         i = this.insertCount == 0 ? i2 : 0;
         int i3 = 0;
@@ -1533,23 +1533,23 @@ public final class SlotWriter {
 
     public final int endGroup() {
         int currentAddress;
-        int i5;
+        int i2;
         int groupIndexToAddress;
         int nodesDelta;
-        int parent2;
-        String str;
-        int i3;
         int parent;
-        int i;
+        String $i$a$RuntimeCheckSlotWriter$endGroup$1;
+        int i3;
+        int parent2;
+        int i4;
         int current;
         int inserting;
-        int i2;
+        int i5;
         int oldGroupSize;
-        int i4;
+        int i;
         final Object obj = this;
-        i5 = 1;
+        i2 = 1;
         nodesDelta = 0;
-        currentAddress = obj.insertCount > 0 ? i5 : nodesDelta;
+        currentAddress = obj.insertCount > 0 ? i2 : nodesDelta;
         final int currentGroup = obj.currentGroup;
         final int parent3 = obj.parent;
         final int groupIndexToAddress3 = obj.groupIndexToAddress(parent3);
@@ -1559,13 +1559,13 @@ public final class SlotWriter {
         if (currentAddress != 0) {
             SlotTableKt.access$updateGroupSize(obj.groups, groupIndexToAddress3, i8);
             SlotTableKt.access$updateNodeCount(obj.groups, groupIndexToAddress3, nodeCount2);
-            i3 = z2 ? i5 : nodeCount2;
+            i3 = z2 ? i2 : nodeCount2;
             obj.nodeCount = i10 += i3;
             obj.parent = obj.parent(obj.groups, parent3);
             if (obj.parent < 0) {
                 groupIndexToAddress = obj.getSize$runtime_release();
             } else {
-                groupIndexToAddress = obj.groupIndexToAddress(parent5 += i5);
+                groupIndexToAddress = obj.groupIndexToAddress(parent5 += i2);
             }
             if (groupIndexToAddress < 0) {
             } else {
@@ -1577,64 +1577,64 @@ public final class SlotWriter {
         } else {
             if (currentGroup == obj.currentGroupEnd) {
             } else {
-                i5 = nodesDelta;
+                i2 = nodesDelta;
             }
             int i9 = 0;
-            if (i5 == 0) {
+            if (i2 == 0) {
                 int i12 = 0;
                 ComposerKt.composeImmediateRuntimeError("Expected to be at the end of a group");
             }
             groupIndexToAddress = SlotTableKt.access$groupSize(obj.groups, groupIndexToAddress3);
-            parent2 = SlotTableKt.access$nodeCount(obj.groups, groupIndexToAddress3);
+            parent = SlotTableKt.access$nodeCount(obj.groups, groupIndexToAddress3);
             SlotTableKt.access$updateGroupSize(obj.groups, groupIndexToAddress3, i8);
             SlotTableKt.access$updateNodeCount(obj.groups, groupIndexToAddress3, nodeCount2);
             i3 = obj.startStack.pop();
             obj.restoreCurrentGroupEnd();
             obj.parent = i3;
-            parent = obj.parent(obj.groups, parent3);
+            parent2 = obj.parent(obj.groups, parent3);
             obj.nodeCount = obj.nodeCountStack.pop();
-            if (parent == i3) {
+            if (parent2 == i3) {
                 if (z2) {
                 } else {
-                    nodesDelta = nodeCount2 - parent2;
+                    nodesDelta = nodeCount2 - parent;
                 }
                 obj.nodeCount = nodeCount3 += nodesDelta;
                 inserting = currentAddress;
             } else {
-                i = i8 - groupIndexToAddress;
+                i4 = i8 - groupIndexToAddress;
                 if (z2) {
                 } else {
-                    nodesDelta = nodeCount2 - parent2;
+                    nodesDelta = nodeCount2 - parent;
                 }
-                if (i == 0) {
+                if (i4 == 0) {
                     if (nodesDelta != 0) {
-                        current = parent;
+                        current = parent2;
                         while (current != 0) {
                             int groupIndexToAddress2 = obj.groupIndexToAddress(current);
-                            if (i != 0) {
+                            if (i4 != 0) {
                             } else {
                             }
                             oldGroupSize = groupIndexToAddress;
-                            i4 = nodesDelta;
-                            if (i4 != 0) {
+                            i = nodesDelta;
+                            if (i != 0) {
                             }
                             if (SlotTableKt.access$isNode(obj.groups, groupIndexToAddress2)) {
                             } else {
                             }
-                            nodesDelta = i4;
+                            nodesDelta = i;
                             current = obj.parent(obj.groups, current);
-                            currentAddress = i2;
+                            currentAddress = i5;
                             groupIndexToAddress = oldGroupSize;
                             nodesDelta = 0;
-                            SlotTableKt.access$updateNodeCount(obj.groups, groupIndexToAddress2, i7 += i4);
+                            SlotTableKt.access$updateNodeCount(obj.groups, groupIndexToAddress2, i7 += i);
                             oldGroupSize = groupIndexToAddress;
-                            i4 = nodesDelta;
-                            SlotTableKt.access$updateGroupSize(obj.groups, groupIndexToAddress2, i6 += i);
+                            i = nodesDelta;
+                            SlotTableKt.access$updateGroupSize(obj.groups, groupIndexToAddress2, i6 += i4);
                         }
                         inserting = currentAddress;
                         oldGroupSize = groupIndexToAddress;
-                        i4 = nodesDelta;
-                        nodesDelta = i4;
+                        i = nodesDelta;
+                        nodesDelta = i;
                     } else {
                         inserting = currentAddress;
                         oldGroupSize = groupIndexToAddress;
@@ -1651,11 +1651,11 @@ public final class SlotWriter {
         int i2;
         int insertCount;
         int i;
-        int str;
+        int $i$a$RuntimeCheckSlotWriter$endInsert$2;
         int size;
-        String str2;
-        str = 0;
-        i2 = this.insertCount > 0 ? i : str;
+        String $i$a$CheckPreconditionSlotWriter$endInsert$1;
+        $i$a$RuntimeCheckSlotWriter$endInsert$2 = 0;
+        i2 = this.insertCount > 0 ? i : $i$a$RuntimeCheckSlotWriter$endInsert$2;
         size = 0;
         if (i2 == 0) {
             int i5 = 0;
@@ -1665,7 +1665,7 @@ public final class SlotWriter {
         if (this.insertCount == 0) {
             if (this.nodeCountStack.getSize() == this.startStack.getSize()) {
             } else {
-                i = str;
+                i = $i$a$RuntimeCheckSlotWriter$endInsert$2;
             }
             insertCount = 0;
             if (i == 0) {
@@ -1680,12 +1680,12 @@ public final class SlotWriter {
         int i;
         int value$iv;
         int currentSlot;
-        int currentGroupEnd;
-        String append;
+        int $i$a$RuntimeCheckSlotWriter$ensureStarted$2;
+        String $i$a$RuntimeCheckSlotWriter$ensureStarted$1;
         String str;
         currentSlot = 0;
         i = this.insertCount <= 0 ? value$iv : currentSlot;
-        currentGroupEnd = 0;
+        $i$a$RuntimeCheckSlotWriter$ensureStarted$2 = 0;
         if (i == 0) {
             int i4 = 0;
             ComposerKt.composeImmediateRuntimeError("Cannot call ensureStarted() while inserting");
@@ -1885,13 +1885,13 @@ public final class SlotWriter {
     public final void insertAux(Object value) {
         int i3;
         int slots;
-        String str2;
-        String str;
+        String $i$a$RuntimeCheckSlotWriter$insertAux$1;
+        String $i$a$RuntimeCheckSlotWriter$insertAux$2;
         int currentSlot;
-        int i;
-        int i4;
-        Object str3;
         int i2;
+        int i4;
+        Object $i$a$CheckPreconditionSlotWriter$insertAux$3;
+        int i;
         final int i6 = 1;
         i3 = this.insertCount >= 0 ? i6 : slots;
         int i7 = 0;
@@ -2008,64 +2008,64 @@ public final class SlotWriter {
     }
 
     public final void moveGroup(int offset) {
-        int i8;
-        int i3;
+        int i4;
+        int i5;
         int slots;
         int dataIndexToDataAddress;
         int slotsGapStart;
         int slotsGapOwner;
-        String str;
-        int i;
+        String $i$a$RuntimeCheckSlotWriter$moveGroup$1;
+        int i10;
         int dataIndexToDataAddress2;
-        int count;
         int count2;
+        int count;
         int value$iv;
         int groupToMove2;
         int groupToMove;
-        int i7;
-        int i2;
         int i6;
+        int i7;
         int i9;
-        String str2;
+        int i2;
+        String $i$a$RuntimeCheckSlotWriter$moveGroup$4;
         int parentEnd;
-        int i4;
+        int i3;
         int dataIndex;
-        int i5;
-        int i10;
+        int i8;
+        int i;
         final Object obj = this;
         int i11 = 0;
         int i14 = 1;
-        i8 = obj.insertCount == 0 ? i14 : i11;
+        i4 = obj.insertCount == 0 ? i14 : i11;
         int i16 = 0;
-        if (i8 == 0) {
+        if (i4 == 0) {
             int i19 = 0;
             ComposerKt.composeImmediateRuntimeError("Cannot move a group while inserting");
         }
-        i3 = offset >= 0 ? i14 : i11;
+        i5 = offset >= 0 ? i14 : i11;
         int i17 = 0;
-        String str3 = "Parameter offset is out of bounds";
-        if (i3 == 0) {
-            i = 0;
-            ComposerKt.composeImmediateRuntimeError(str3);
+        String str = "Parameter offset is out of bounds";
+        if (i5 == 0) {
+            i10 = 0;
+            ComposerKt.composeImmediateRuntimeError(str);
         }
         if (offset == null) {
         }
         int currentGroup = obj.currentGroup;
         dataIndexToDataAddress2 = obj.currentGroupEnd;
-        count = offset;
+        count2 = offset;
         groupToMove2 = currentGroup;
-        while (count > 0) {
+        while (count2 > 0) {
             if (groupToMove2 += i23 <= dataIndexToDataAddress2) {
             } else {
             }
-            i2 = i11;
-            i6 = 0;
-            if (i2 == 0) {
-            }
-            count--;
+            i7 = i11;
             i9 = 0;
-            ComposerKt.composeImmediateRuntimeError(str3);
-            i2 = i14;
+            if (i7 == 0) {
+            }
+            count2--;
+            i2 = 0;
+            ComposerKt.composeImmediateRuntimeError(str);
+            i7 = i14;
         }
         int i18 = SlotTableKt.access$groupSize(obj.groups, obj.groupIndexToAddress(groupToMove2));
         int dataIndex2 = obj.dataIndex(obj.groups, obj.groupIndexToAddress(obj.currentGroup));
@@ -2086,26 +2086,26 @@ public final class SlotWriter {
             parentEnd = dataIndexToDataAddress2;
         }
         slotsGapStart = obj.slotsGapOwner;
-        final int i35 = count;
-        count2 = currentGroup + i18;
+        final int i35 = count2;
+        count = currentGroup + i18;
         final int i36 = groupToMove2;
-        groupToMove = i4;
-        while (groupToMove < count2) {
+        groupToMove = i3;
+        while (groupToMove < count) {
             int groupIndexToAddress = obj.groupIndexToAddress(groupToMove);
             if (slotsGapStart < groupIndexToAddress) {
             } else {
             }
             slotsGapOwner = i34;
             obj.updateDataIndex(groups7, groupIndexToAddress, obj.dataIndexToDataAnchor(dataIndex - i33, slotsGapOwner, obj.slotsGapLen, dataMoveDistance.length));
-            groupToMove = i5 + 1;
-            count2 = i4;
-            slotsGapStart = i10;
+            groupToMove = i8 + 1;
+            count = i3;
+            slotsGapStart = i;
             slotsGapOwner = 0;
         }
         int slotsGapOwner2 = slotsGapStart;
         int i37 = groupToMove;
         obj.moveAnchors(i36 + i18, currentGroup, i18);
-        i7 = 0;
+        i6 = 0;
         if (groups ^ 1 == 0) {
             int i30 = 0;
             ComposerKt.composeImmediateRuntimeError("Unexpectedly removed anchors");
@@ -2153,42 +2153,42 @@ public final class SlotWriter {
     }
 
     public final List<androidx.compose.runtime.Anchor> moveTo(androidx.compose.runtime.Anchor anchor, int offset, androidx.compose.runtime.SlotWriter writer) {
-        int i2;
         int i5;
+        int i4;
         int currentGroupEnd;
-        int i3;
+        int i;
         int nodeCount;
         int current;
         int updatingNodes;
         int groupIndexToAddress;
         int groups;
-        int i4;
-        int i;
+        int i2;
+        int i3;
         Object obj2 = writer;
-        i = 1;
+        i3 = 1;
         final int i11 = 0;
-        i2 = obj2.insertCount > 0 ? i : i11;
-        ComposerKt.runtimeCheck(i2);
-        i5 = this.insertCount == 0 ? i : i11;
+        i5 = obj2.insertCount > 0 ? i3 : i11;
         ComposerKt.runtimeCheck(i5);
+        i4 = this.insertCount == 0 ? i3 : i11;
+        ComposerKt.runtimeCheck(i4);
         ComposerKt.runtimeCheck(anchor.getValid());
         final int i6 = currentGroupEnd + offset;
         final int currentGroup = this.currentGroup;
         if (currentGroup <= i6 && i6 < this.currentGroupEnd) {
-            i3 = i6 < this.currentGroupEnd ? i : i11;
+            i = i6 < this.currentGroupEnd ? i3 : i11;
         } else {
         }
-        ComposerKt.runtimeCheck(i3);
+        ComposerKt.runtimeCheck(i);
         final int parent = parent(i6);
         if (isNode(i6)) {
-            nodeCount = i;
+            nodeCount = i3;
         } else {
             nodeCount = nodeCount(i6);
         }
         final int i12 = nodeCount;
         updateContainsMark(parent);
         current = parent;
-        updatingNodes = i12 > 0 ? i : i11;
+        updatingNodes = i12 > 0 ? i3 : i11;
         while (current >= currentGroup) {
             groupIndexToAddress = groupIndexToAddress(current);
             SlotTableKt.access$updateGroupSize(this.groups, groupIndexToAddress, i8 -= groupSize);
@@ -2204,9 +2204,9 @@ public final class SlotWriter {
         if (updatingNodes != 0) {
             if (this.nodeCount >= i12) {
             } else {
-                i = i11;
+                i3 = i11;
             }
-            ComposerKt.runtimeCheck(i);
+            ComposerKt.runtimeCheck(i3);
             this.nodeCount = nodeCount3 -= i12;
         }
         return SlotWriter.Companion.moveGroup$default(SlotWriter.Companion, this, i6, obj2, false, false, false, 32, 0);
@@ -2284,7 +2284,7 @@ public final class SlotWriter {
 
     public final boolean removeGroup() {
         int i;
-        String str;
+        String $i$a$RuntimeCheckSlotWriter$removeGroup$1;
         int i3;
         androidx.compose.runtime.Anchor tryAnchor$runtime_release;
         int i2;
@@ -2325,7 +2325,7 @@ public final class SlotWriter {
 
     public final void reset() {
         int i;
-        String str;
+        String $i$a$RuntimeCheckSlotWriter$reset$1;
         final int i3 = 0;
         i = this.insertCount == 0 ? 1 : i3;
         int i4 = 0;
@@ -2357,7 +2357,7 @@ public final class SlotWriter {
 
     public final void set(Object value) {
         int i;
-        String str;
+        String $i$a$RuntimeCheckSlotWriter$set$1;
         final int i4 = 1;
         i = this.currentSlot <= this.currentSlotEnd ? i4 : 0;
         int i2 = 0;
@@ -2421,7 +2421,7 @@ public final class SlotWriter {
 
     public final int slotIndexOfGroupSlotIndex(int group, int index) {
         int i;
-        String string;
+        String $i$a$RuntimeCheckSlotWriter$slotIndexOfGroupSlotIndex$1;
         StringBuilder append;
         String str;
         int slotIndex = slotIndex(this.groups, groupIndexToAddress(group));
@@ -2461,7 +2461,7 @@ public final class SlotWriter {
 
     public final void startGroup() {
         int i;
-        String str;
+        String $i$a$RuntimeCheckSlotWriter$startGroup$1;
         final int i2 = 0;
         i = this.insertCount == 0 ? 1 : i2;
         int i3 = 0;
@@ -2540,16 +2540,16 @@ public final class SlotWriter {
 
     public final void trimTailSlots(int count) {
         int i3;
-        int i2;
         int i;
-        i2 = 1;
-        i = count > 0 ? i2 : i3;
-        ComposerKt.runtimeCheck(i);
+        int i2;
+        i = 1;
+        i2 = count > 0 ? i : i3;
+        ComposerKt.runtimeCheck(i2);
         int parent = this.parent;
         int slotIndex = slotIndex(this.groups, groupIndexToAddress(parent));
         int i5 = dataIndex - count;
         if (i5 >= slotIndex) {
-            i3 = i2;
+            i3 = i;
         }
         ComposerKt.runtimeCheck(i3);
         removeSlots(i5, count, parent);
@@ -2560,21 +2560,21 @@ public final class SlotWriter {
     }
 
     public final androidx.compose.runtime.Anchor tryAnchor$runtime_release(int group) {
-        int i2;
         int i;
+        int i2;
         int size$runtime_release;
-        i2 = 0;
+        i = 0;
         if (group >= 0 && group < getSize$runtime_release()) {
             if (group < getSize$runtime_release()) {
-                i2 = 1;
+                i = 1;
             }
         }
-        if (i2 != 0) {
-            i = SlotTableKt.access$find(this.anchors, group, getSize$runtime_release());
+        if (i != 0) {
+            i2 = SlotTableKt.access$find(this.anchors, group, getSize$runtime_release());
         } else {
-            i = 0;
+            i2 = 0;
         }
-        return i;
+        return i2;
     }
 
     public final Object update(Object value) {
@@ -2583,7 +2583,7 @@ public final class SlotWriter {
     }
 
     public final void updateAux(Object value) {
-        String str;
+        String $i$a$RuntimeCheckSlotWriter$updateAux$1;
         int groupIndexToAddress = groupIndexToAddress(this.currentGroup);
         int i = 0;
         if (!SlotTableKt.access$hasAux(this.groups, groupIndexToAddress)) {
@@ -2617,11 +2617,11 @@ public final class SlotWriter {
         int groupIndexToAddress;
         int i3;
         int dataIndex;
-        int string2;
-        int i2;
         int string;
+        int i2;
+        int $i$a$CheckPreconditionSlotWriter$verifyDataAnchors$3;
         int i;
-        int string3;
+        int $i$a$CheckPreconditionSlotWriter$verifyDataAnchors$2;
         int append;
         String str;
         final Object obj = this;
@@ -2637,15 +2637,15 @@ public final class SlotWriter {
             } else {
             }
             i = 0;
-            string3 = 0;
+            $i$a$CheckPreconditionSlotWriter$verifyDataAnchors$2 = 0;
             if (i == 0) {
             }
             if (dataIndex <= length -= slotsGapLen) {
             } else {
             }
-            string2 = 0;
             string = 0;
-            if (string2 == null) {
+            $i$a$CheckPreconditionSlotWriter$verifyDataAnchors$3 = 0;
+            if (string == null) {
             }
             if (SlotTableKt.access$dataAnchor(obj.groups, groupIndexToAddress) < 0 && ownerFound == 0) {
             }
@@ -2656,19 +2656,19 @@ public final class SlotWriter {
             if (slotsGapOwner == index) {
             } else {
             }
-            string2 = 0;
+            string = 0;
             i2 = 0;
-            if (string2 == null) {
+            if (string == null) {
             }
             ownerFound = 1;
             int i5 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder.append("Expected the slot gap owner to be ").append(slotsGapOwner).append(" found gap at ").append(index).toString());
-            string2 = i2;
+            string = i2;
             int i6 = 0;
             StringBuilder stringBuilder2 = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Data index, ").append(dataIndex).append(", out of bound at ").append(index).toString());
-            string2 = i2;
+            string = i2;
             append = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder3.append("Data index out of order at ").append(index).append(", previous = ").append(previousDataIndex).append(", current = ").append(dataIndex).toString());
@@ -2680,37 +2680,37 @@ public final class SlotWriter {
         int groupAddress2;
         int groupAddress;
         String string;
-        int i5;
         int i;
-        int i2;
-        int i3;
-        StringBuilder parentAnchorToIndex;
         int i6;
         int i4;
-        String string2;
+        int i3;
+        StringBuilder parentAnchorToIndex;
+        int i2;
+        int i5;
+        String $i$a$CheckPreconditionSlotWriter$verifyParentAnchors$2;
         StringBuilder append;
         String str;
         final int groupGapStart = this.groupGapStart;
         groupAddress2 = 0;
         string = "Expected a start relative anchor at ";
-        i5 = 0;
+        i = 0;
         int i7 = -2;
-        i2 = 1;
+        i4 = 1;
         while (groupAddress2 < groupGapStart) {
             if (SlotTableKt.access$parentAnchor(this.groups, groupAddress2) > i7) {
             }
-            i = 0;
-            if (i5 == 0) {
+            i6 = 0;
+            if (i == 0) {
             }
             groupAddress2++;
             string = "Expected a start relative anchor at ";
-            i5 = 0;
+            i = 0;
             i7 = -2;
-            i2 = 1;
-            i2 = 0;
+            i4 = 1;
+            i4 = 0;
             parentAnchorToIndex = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(parentAnchorToIndex.append(string).append(groupAddress2).toString());
-            i5 = i2;
+            i = i4;
         }
         groupAddress = groupGapStart + groupGapLen;
         while (groupAddress < getCapacity()) {
@@ -2721,26 +2721,26 @@ public final class SlotWriter {
             if (i3 <= i7) {
             } else {
             }
-            i6 = i5;
-            i4 = 0;
-            if (i6 == 0) {
+            i2 = i;
+            i5 = 0;
+            if (i2 == 0) {
             }
             groupAddress++;
             int i9 = 0;
             StringBuilder stringBuilder2 = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Expected an end relative anchor at ").append(groupAddress).toString());
-            i6 = i2;
+            i2 = i4;
             if (i3 > i7) {
             } else {
             }
-            i6 = i5;
-            i4 = 0;
-            if (i6 == 0) {
+            i2 = i;
+            i5 = 0;
+            if (i2 == 0) {
             }
             int i8 = 0;
             StringBuilder stringBuilder = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder.append(string).append(groupAddress).toString());
-            i6 = i2;
+            i2 = i4;
         }
     }
 }

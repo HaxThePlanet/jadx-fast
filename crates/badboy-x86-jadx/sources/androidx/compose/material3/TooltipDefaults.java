@@ -38,9 +38,9 @@ public final class TooltipDefaults {
         androidx.compose.material3.RichTooltipColors defaultRichTooltipColorsCached$material3_release;
         androidx.compose.material3.RichTooltipColors richTooltipColors;
         int i2;
-        long token;
         long token2;
         long token3;
+        long token;
         int i;
         if ($this$defaultRichTooltipColors.getDefaultRichTooltipColorsCached$material3_release() == null) {
             richTooltipColors = new RichTooltipColors(ColorSchemeKt.fromToken($this$defaultRichTooltipColors, RichTooltipTokens.INSTANCE.getContainerColor()), obj3, ColorSchemeKt.fromToken($this$defaultRichTooltipColors, RichTooltipTokens.INSTANCE.getSupportingTextColor()), obj5, ColorSchemeKt.fromToken($this$defaultRichTooltipColors, RichTooltipTokens.INSTANCE.getSubheadColor()), obj7, ColorSchemeKt.fromToken($this$defaultRichTooltipColors, RichTooltipTokens.INSTANCE.getActionLabelTextColor()), obj9, 0);
@@ -212,39 +212,39 @@ public final class TooltipDefaults {
     }
 
     public final androidx.compose.material3.RichTooltipColors richTooltipColors-ro_MJ88(long containerColor, long contentColor, long titleContentColor, long actionContentColor, Composer $composer, int $changed, int i7) {
-        long unspecified-0d7_KjU2;
         long unspecified-0d7_KjU4;
-        long unspecified-0d7_KjU;
-        int unspecified-0d7_KjU3;
+        long unspecified-0d7_KjU2;
+        long unspecified-0d7_KjU3;
+        int unspecified-0d7_KjU;
         boolean traceInProgress;
         String str;
-        long l;
         long l2;
-        long l4;
+        long l;
         long l3;
+        long l4;
         int i;
         final Composer composer = obj23;
         int i2 = 1498555081;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(richTooltipColors)P(1:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color,0:c#ui.graphics.Color)274@11844L11:Tooltip.kt#uh7d8r");
         if (obj25 & 1 != 0) {
-            l = unspecified-0d7_KjU2;
-        } else {
-            l = containerColor;
-        }
-        if (obj25 & 2 != 0) {
             l2 = unspecified-0d7_KjU4;
         } else {
-            l2 = titleContentColor;
+            l2 = containerColor;
+        }
+        if (obj25 & 2 != 0) {
+            l = unspecified-0d7_KjU2;
+        } else {
+            l = titleContentColor;
         }
         if (obj25 & 4 != 0) {
-            l4 = unspecified-0d7_KjU;
-        } else {
-            l4 = $composer;
-        }
-        if (obj25 & 8 != 0) {
             l3 = unspecified-0d7_KjU3;
         } else {
-            l3 = i7;
+            l3 = $composer;
+        }
+        if (obj25 & 8 != 0) {
+            l4 = unspecified-0d7_KjU;
+        } else {
+            l4 = i7;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, obj24, -1, "androidx.compose.material3.TooltipDefaults.richTooltipColors (Tooltip.kt:274)");
@@ -255,6 +255,6 @@ public final class TooltipDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(composer);
-        return getDefaultRichTooltipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-jRlVdoo(l, obj6, l2, obj8);
+        return getDefaultRichTooltipColors$material3_release(MaterialTheme.INSTANCE.getColorScheme(composer, 6)).copy-jRlVdoo(l2, obj6, l, obj8);
     }
 }

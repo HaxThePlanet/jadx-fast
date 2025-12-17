@@ -27,12 +27,12 @@ final class BoringLayoutFactoryDefault {
 
     public static BoringLayout create$default(java.lang.CharSequence charSequence, TextPaint textPaint2, int i3, Layout.Alignment layout$Alignment4, float f5, float f6, BoringLayout.Metrics boringLayout$Metrics7, boolean z8, TextUtils.TruncateAt textUtils$TruncateAt9, int i10, int i11, Object object12) {
         int i4;
-        int i;
         int i2;
+        int i;
         int i5 = i11;
-        i = i5 & 256 != 0 ? i4 : truncateAt9;
-        i2 = i5 &= 512 != 0 ? i3 : i10;
-        return BoringLayoutFactoryDefault.create(charSequence, textPaint2, i3, alignment4, f5, f6, metrics7, z8, i, i2);
+        i2 = i5 & 256 != 0 ? i4 : truncateAt9;
+        i = i5 &= 512 != 0 ? i3 : i10;
+        return BoringLayoutFactoryDefault.create(charSequence, textPaint2, i3, alignment4, f5, f6, metrics7, z8, i2, i);
     }
 
     @JvmStatic

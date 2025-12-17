@@ -23,10 +23,10 @@ public final class ForEachGestureKt {
     public static final boolean allPointersUp(AwaitPointerEventScope $this$allPointersUp) {
         int $this$fastForEach$iv$iv;
         int index$iv$iv;
-        int i;
+        int i2;
         Object obj2;
         Object obj;
-        int i2;
+        int i;
         boolean it;
         int i3;
         final int i5 = 0;
@@ -34,7 +34,7 @@ public final class ForEachGestureKt {
         final int i6 = 0;
         index$iv$iv = 0;
         while (index$iv$iv < list.size()) {
-            i2 = 0;
+            i = 0;
             i3 = 0;
             index$iv$iv++;
         }
@@ -44,30 +44,30 @@ public final class ForEachGestureKt {
 
     public static final Object awaitAllPointersUp(AwaitPointerEventScope awaitPointerEventScope, Continuation<? super Unit> continuation2) {
         boolean $result;
-        Object $continuation;
-        int i5;
-        androidx.compose.foundation.gestures.ForEachGestureKt.awaitAllPointersUp.3 $continuation2;
-        int i;
-        Object allPointersUp;
-        int i3;
+        Object $continuation2;
+        int i6;
+        androidx.compose.foundation.gestures.ForEachGestureKt.awaitAllPointersUp.3 $continuation;
         int i2;
+        Object allPointersUp;
+        int i;
+        int i4;
         int index$iv$iv;
         int size;
         Object obj;
         Object obj2;
-        int i4;
+        int i5;
         boolean it;
-        int i6;
+        int i3;
         androidx.compose.foundation.gestures.ForEachGestureKt.awaitAllPointersUp.3 anon;
         Object obj14;
         Object obj15;
         $result = continuation2;
-        i = Integer.MIN_VALUE;
-        if (continuation2 instanceof ForEachGestureKt.awaitAllPointersUp.3 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation2 instanceof ForEachGestureKt.awaitAllPointersUp.3 && label &= i2 != 0) {
             $result = continuation2;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                $result.label = obj15 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                $result.label = obj15 -= i2;
             } else {
                 $result = new ForEachGestureKt.awaitAllPointersUp.3(continuation2);
             }
@@ -82,23 +82,23 @@ public final class ForEachGestureKt {
             case 1:
                 obj14 = $result.L$0;
                 ResultKt.throwOnFailure(obj15);
-                allPointersUp = $continuation2;
-                $continuation2 = $result;
-                $continuation = obj15;
+                allPointersUp = $continuation;
+                $continuation = $result;
+                $continuation2 = obj15;
                 obj15 = (PointerEvent)obj15.getChanges();
-                i3 = 0;
-                i2 = 0;
-                index$iv$iv = 0;
+                i = 0;
                 i4 = 0;
-                i6 = 0;
+                index$iv$iv = 0;
+                i5 = 0;
+                i3 = 0;
                 obj15 = i7;
                 index$iv$iv++;
                 obj15 = 0;
-                obj15 = $continuation;
-                $result = $continuation2;
-                obj15 = $continuation;
-                $result = $continuation2;
-                $continuation2 = allPointersUp;
+                obj15 = $continuation2;
+                $result = $continuation;
+                obj15 = $continuation2;
+                $result = $continuation;
+                $continuation = allPointersUp;
                 return Unit.INSTANCE;
             default:
                 obj14 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
@@ -107,13 +107,13 @@ public final class ForEachGestureKt {
         $result.L$0 = obj14;
         $result.label = i7;
         Object awaitPointerEvent = obj14.awaitPointerEvent(PointerEventPass.Final, $result);
-        if (awaitPointerEvent != $continuation2) {
-            $continuation = obj15;
+        if (awaitPointerEvent != $continuation) {
+            $continuation2 = obj15;
             obj15 = awaitPointerEvent;
-            allPointersUp = $continuation2;
-            $continuation2 = anon;
+            allPointersUp = $continuation;
+            $continuation = anon;
         }
-        return $continuation2;
+        return $continuation;
     }
 
     public static final Object awaitAllPointersUp(PointerInputScope $this$awaitAllPointersUp, Continuation<? super Unit> $completion) {

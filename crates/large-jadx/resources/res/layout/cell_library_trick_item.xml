@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_library_trick_item_0"
+    android:background="@drawable/ripple_effect_transparent_rectangle"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/trick_image"
+        android:tag="binding_1"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <ImageView
+        android:id="@+id/rating_bar"
+        android:tag="binding_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/trick_image"
+        app:layout_constraintStart_toStartOf="@+id/trick_image"
+        app:layout_constraintTop_toBottomOf="@+id/trick_image"/>
+    <TextView
+        android:textSize="14dp"
+        android:ellipsize="end"
+        android:id="@+id/trick_name"
+        android:tag="binding_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:lines="2"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/rating_bar"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

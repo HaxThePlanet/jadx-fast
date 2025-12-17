@@ -54,30 +54,30 @@ public final class BottomSheetScaffoldKt {
     }
 
     private static final void BottomSheet-dAqlCkY(androidx.compose.material.BottomSheetState state, boolean sheetGesturesEnabled, Shape sheetShape, float sheetElevation, long sheetBackgroundColor, long sheetContentColor, float sheetPeekHeight, Modifier modifier, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i12) {
-        int i11;
+        int i8;
         float $this$BottomSheet_dAqlCkY_u24lambda_u243;
         Object composer$iv;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int $dirty;
         Object modifier2;
-        int i18;
+        int i9;
         boolean z;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Object compositionCoroutineScope;
         long l;
-        int i;
-        Object obj4;
+        int i13;
+        Object obj;
         Object empty2;
-        int i7;
-        int i17;
-        float f;
-        int i6;
-        Object it$iv;
-        int i9;
-        int i8;
-        int i3;
+        int i15;
         int i19;
+        float f;
+        int i3;
+        Object it$iv;
+        int i4;
+        int i11;
+        int i18;
+        int i6;
         int str;
         Object rememberedValue;
         Object obj3;
@@ -85,35 +85,35 @@ public final class BottomSheetScaffoldKt {
         Object empty;
         Modifier modifier3;
         Object anon;
-        int i10;
-        boolean i2;
+        int i16;
+        boolean i;
         Composer composer;
         Composer composer$iv2;
-        int i13;
+        int i5;
         int companion;
-        Object obj;
-        int i4;
         Object obj2;
+        int i10;
+        Object obj4;
         Function2 function2;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
-        int i16;
-        int i5;
+        int i17;
         int i14;
-        int i15;
+        int i7;
+        int i2;
         final Object obj5 = state;
         rememberedValue = content;
         final Object obj7 = $changed;
         final int i63 = obj39;
         final int i64 = obj40;
-        traceInProgress = i12.startRestartGroup(-412323066);
-        ComposerKt.sourceInformation(traceInProgress, "C(BottomSheet)P(8,5,7,4:c#ui.unit.Dp,2:c#ui.graphics.Color,3:c#ui.graphics.Color,6:c#ui.unit.Dp,1)408@16519L24,*409@16585L7,415@16779L792,436@17795L893,461@18852L29,410@16625L2262:BottomSheetScaffold.kt#jmzs0o");
+        traceInProgress2 = i12.startRestartGroup(-412323066);
+        ComposerKt.sourceInformation(traceInProgress2, "C(BottomSheet)P(8,5,7,4:c#ui.unit.Dp,2:c#ui.graphics.Color,3:c#ui.graphics.Color,6:c#ui.unit.Dp,1)408@16519L24,*409@16585L7,415@16779L792,436@17795L893,461@18852L29,410@16625L2262:BottomSheetScaffold.kt#jmzs0o");
         $dirty = obj39;
         if (i64 & 1 != 0) {
             $dirty |= 6;
         } else {
             if (i63 & 6 == 0) {
-                i18 = traceInProgress.changed(obj5) ? 4 : 2;
-                $dirty |= i18;
+                i9 = traceInProgress2.changed(obj5) ? 4 : 2;
+                $dirty |= i9;
             }
         }
         if (i64 & 2 != 0) {
@@ -121,21 +121,21 @@ public final class BottomSheetScaffoldKt {
             z = sheetGesturesEnabled;
         } else {
             if (i63 & 48 == 0) {
-                i = traceInProgress.changed(sheetGesturesEnabled) ? 32 : 16;
-                $dirty |= i;
+                i13 = traceInProgress2.changed(sheetGesturesEnabled) ? 32 : 16;
+                $dirty |= i13;
             } else {
                 z = sheetGesturesEnabled;
             }
         }
         if (i64 & 4 != 0) {
             $dirty |= 384;
-            obj4 = sheetShape;
+            obj = sheetShape;
         } else {
             if (i63 & 384 == 0) {
-                i17 = traceInProgress.changed(sheetShape) ? 256 : 128;
-                $dirty |= i17;
+                i19 = traceInProgress2.changed(sheetShape) ? 256 : 128;
+                $dirty |= i19;
             } else {
-                obj4 = sheetShape;
+                obj = sheetShape;
             }
         }
         if (i64 & 8 != 0) {
@@ -143,8 +143,8 @@ public final class BottomSheetScaffoldKt {
             f = sheetElevation;
         } else {
             if (i63 & 3072 == 0) {
-                i9 = traceInProgress.changed(sheetElevation) ? 2048 : 1024;
-                $dirty |= i9;
+                i4 = traceInProgress2.changed(sheetElevation) ? 2048 : 1024;
+                $dirty |= i4;
             } else {
                 f = sheetElevation;
             }
@@ -154,8 +154,8 @@ public final class BottomSheetScaffoldKt {
             semantics$default = sheetBackgroundColor;
         } else {
             if (i63 & 24576 == 0) {
-                i8 = traceInProgress.changed(sheetBackgroundColor) ? 16384 : 8192;
-                $dirty |= i8;
+                i11 = traceInProgress2.changed(sheetBackgroundColor) ? 16384 : 8192;
+                $dirty |= i11;
             } else {
                 semantics$default = sheetBackgroundColor;
             }
@@ -166,8 +166,8 @@ public final class BottomSheetScaffoldKt {
             l = sheetPeekHeight;
         } else {
             if (i63 & i59 == 0) {
-                i3 = traceInProgress.changed(sheetPeekHeight) ? 131072 : 65536;
-                $dirty |= i3;
+                i18 = traceInProgress2.changed(sheetPeekHeight) ? 131072 : 65536;
+                $dirty |= i18;
             } else {
                 l = sheetPeekHeight;
             }
@@ -177,38 +177,38 @@ public final class BottomSheetScaffoldKt {
             $dirty |= i60;
         } else {
             if (i63 & i60 == 0) {
-                i19 = traceInProgress.changed(rememberedValue) ? 1048576 : 524288;
-                $dirty |= i19;
+                i6 = traceInProgress2.changed(rememberedValue) ? 1048576 : 524288;
+                $dirty |= i6;
             }
         }
         str = i64 & 128;
-        i10 = 12582912;
+        i16 = 12582912;
         if (str != null) {
-            $dirty |= i10;
-            i16 = i60;
+            $dirty |= i16;
+            i17 = i60;
             obj3 = $composer;
         } else {
-            if (i63 & i10 == 0) {
-                i16 = i60;
-                i10 = traceInProgress.changed($composer) ? 8388608 : 4194304;
-                $dirty |= i10;
+            if (i63 & i16 == 0) {
+                i17 = i60;
+                i16 = traceInProgress2.changed($composer) ? 8388608 : 4194304;
+                $dirty |= i16;
             } else {
-                i16 = i60;
+                i17 = i60;
                 obj3 = $composer;
             }
         }
-        i2 = 100663296;
+        i = 100663296;
         if (i64 & 256 != 0) {
-            $dirty |= i2;
+            $dirty |= i;
         } else {
-            if (i63 & i2 == 0) {
-                i11 = traceInProgress.changedInstance(obj7) ? 67108864 : 33554432;
-                $dirty |= i11;
+            if (i63 & i == 0) {
+                i8 = traceInProgress2.changedInstance(obj7) ? 67108864 : 33554432;
+                $dirty |= i8;
             }
         }
         $this$BottomSheet_dAqlCkY_u24lambda_u243 = $dirty;
         if ($dirty3 &= $this$BottomSheet_dAqlCkY_u24lambda_u243 == 38347922) {
-            if (!traceInProgress.getSkipping()) {
+            if (!traceInProgress2.getSkipping()) {
                 if (str != null) {
                     modifier2 = Modifier.Companion;
                 } else {
@@ -219,11 +219,11 @@ public final class BottomSheetScaffoldKt {
                 }
                 int i53 = i23;
                 int i61 = 0;
-                i15 = $this$BottomSheet_dAqlCkY_u24lambda_u243;
-                ComposerKt.sourceInformationMarkerStart(traceInProgress, 773894976, "CC(rememberCoroutineScope)489@20472L144:Effects.kt#9igjgp");
-                Composer composer2 = traceInProgress;
-                ComposerKt.sourceInformationMarkerStart(traceInProgress, -954363344, "CC(remember):Effects.kt#9igjgp");
-                Composer composer3 = traceInProgress;
+                i2 = $this$BottomSheet_dAqlCkY_u24lambda_u243;
+                ComposerKt.sourceInformationMarkerStart(traceInProgress2, 773894976, "CC(rememberCoroutineScope)489@20472L144:Effects.kt#9igjgp");
+                Composer composer2 = traceInProgress2;
+                ComposerKt.sourceInformationMarkerStart(traceInProgress2, -954363344, "CC(remember):Effects.kt#9igjgp");
+                Composer composer3 = traceInProgress2;
                 int i65 = i26;
                 compositionCoroutineScope = composer3.rememberedValue();
                 int i67 = 0;
@@ -231,51 +231,51 @@ public final class BottomSheetScaffoldKt {
                 if (compositionCoroutineScope == Composer.Companion.getEmpty()) {
                     empty2 = 0;
                     int i71 = 0;
-                    obj2 = compositionCoroutineScope;
+                    obj4 = compositionCoroutineScope;
                     composer$iv2 = composer2;
                     composer$iv = new CompositionScopedCoroutineScopeCanceller(EffectsKt.createCompositionCoroutineScope((CoroutineContext)EmptyCoroutineContext.INSTANCE, composer2));
                     composer3.updateRememberedValue(composer$iv);
                 } else {
                     composer$iv2 = composer2;
-                    composer$iv = obj2;
+                    composer$iv = obj4;
                 }
-                ComposerKt.sourceInformationMarkerEnd(traceInProgress);
+                ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
                 coroutineScope = (CompositionScopedCoroutineScopeCanceller)composer$iv.getCoroutineScope();
-                ComposerKt.sourceInformationMarkerEnd(traceInProgress);
+                ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
                 int i27 = 0;
                 int i36 = 0;
-                ComposerKt.sourceInformationMarkerStart(traceInProgress, 2023513938, "CC:CompositionLocal.kt#9igjgp");
-                ComposerKt.sourceInformationMarkerEnd(traceInProgress);
+                ComposerKt.sourceInformationMarkerStart(traceInProgress2, 2023513938, "CC:CompositionLocal.kt#9igjgp");
+                ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
                 int i28 = 0;
-                $this$BottomSheet_dAqlCkY_u24lambda_u243 = (Density)traceInProgress.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(rememberedValue);
+                $this$BottomSheet_dAqlCkY_u24lambda_u243 = (Density)traceInProgress2.consume((CompositionLocal)CompositionLocalsKt.getLocalDensity()).toPx-0680j_4(rememberedValue);
                 String str5 = "CC(remember):BottomSheetScaffold.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart(traceInProgress, -1416603834, str5);
-                i6 = i15 & 14 == 4 ? 1 : 0;
-                Composer composer5 = traceInProgress;
+                ComposerKt.sourceInformationMarkerStart(traceInProgress2, -1416603834, str5);
+                i3 = i2 & 14 == 4 ? 1 : 0;
+                Composer composer5 = traceInProgress2;
                 int i66 = 0;
                 it$iv = composer5.rememberedValue();
                 int i69 = 0;
-                if (z2 | i6 == 0) {
+                if (z2 | i3 == 0) {
                     if (it$iv == Composer.Companion.getEmpty()) {
                         rememberedValue = 0;
-                        obj = it$iv;
+                        obj2 = it$iv;
                         it$iv = new BottomSheetScaffoldKt.BottomSheet.1.1(obj5, $this$BottomSheet_dAqlCkY_u24lambda_u243);
                         composer5.updateRememberedValue((Function2)it$iv);
                     } else {
-                        obj = it$iv;
+                        obj2 = it$iv;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(traceInProgress);
-                i13 = 0;
-                i2 = sheetGesturesEnabled;
-                ComposerKt.sourceInformationMarkerStart(traceInProgress, -1416571221, str5);
-                i7 = i15 & 14 == 4 ? 1 : 0;
-                Composer composer4 = traceInProgress;
+                ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
+                i5 = 0;
+                i = sheetGesturesEnabled;
+                ComposerKt.sourceInformationMarkerStart(traceInProgress2, -1416571221, str5);
+                i15 = i2 & 14 == 4 ? 1 : 0;
+                Composer composer4 = traceInProgress2;
                 int i58 = 0;
                 rememberedValue = composer4.rememberedValue();
                 int i62 = 0;
-                if (i7 |= changedInstance2 == 0) {
+                if (i15 |= changedInstance2 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new BottomSheetScaffoldKt.BottomSheet.2.1(obj5, coroutineScope);
@@ -285,119 +285,119 @@ public final class BottomSheetScaffoldKt {
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(traceInProgress);
+                ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
                 str = 1;
                 BottomSheetScaffoldKt.BottomSheet.3 anon2 = new BottomSheetScaffoldKt.BottomSheet.3(obj7);
-                i16 = traceInProgress;
-                SurfaceKt.Surface-F-jzlyU(SemanticsModifierKt.semantics$default(AnchoredDraggableKt.anchoredDraggable$default(AnchoredDraggableKt.draggableAnchors(modifier2, obj5.getAnchoredDraggableState$material_release(), Orientation.Vertical, (Function2)it$iv), obj5.getAnchoredDraggableState$material_release(), Orientation.Vertical, i2, false, i13, false, 56, 0), false, (Function1)anon, str, 0), sheetShape, sheetBackgroundColor, i2, sheetPeekHeight, i13, 0, sheetElevation, (Function2)ComposableLambdaKt.rememberComposableLambda(2055704138, str, anon2, traceInProgress, 54), i16);
-                composer = i16;
+                i17 = traceInProgress2;
+                SurfaceKt.Surface-F-jzlyU(SemanticsModifierKt.semantics$default(AnchoredDraggableKt.anchoredDraggable$default(AnchoredDraggableKt.draggableAnchors(modifier2, obj5.getAnchoredDraggableState$material_release(), Orientation.Vertical, (Function2)it$iv), obj5.getAnchoredDraggableState$material_release(), Orientation.Vertical, i, false, i5, false, 56, 0), false, (Function1)anon, str, 0), sheetShape, sheetBackgroundColor, i, sheetPeekHeight, i5, 0, sheetElevation, (Function2)ComposableLambdaKt.rememberComposableLambda(2055704138, str, anon2, traceInProgress2, 54), i17);
+                composer = i17;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 obj3 = modifier2;
             } else {
-                traceInProgress.skipToGroupEnd();
-                i15 = $this$BottomSheet_dAqlCkY_u24lambda_u243;
-                composer = traceInProgress;
+                traceInProgress2.skipToGroupEnd();
+                i2 = $this$BottomSheet_dAqlCkY_u24lambda_u243;
+                composer = traceInProgress2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            $this$BottomSheet_dAqlCkY_u24lambda_u243 = new BottomSheetScaffoldKt.BottomSheet.4(obj5, sheetGesturesEnabled, sheetShape, sheetElevation, sheetBackgroundColor, obj4, sheetPeekHeight, str, content, obj3, obj7, i63, i64);
+            $this$BottomSheet_dAqlCkY_u24lambda_u243 = new BottomSheetScaffoldKt.BottomSheet.4(obj5, sheetGesturesEnabled, sheetShape, sheetElevation, sheetBackgroundColor, obj, sheetPeekHeight, str, content, obj3, obj7, i63, i64);
             endRestartGroup.updateScope((Function2)$this$BottomSheet_dAqlCkY_u24lambda_u243);
         }
     }
 
     public static final void BottomSheetScaffold-HnlDQGw(Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> sheetContent, Modifier modifier, androidx.compose.material.BottomSheetScaffoldState scaffoldState, Function2<? super Composer, ? super Integer, Unit> topBar, Function3<? super androidx.compose.material.SnackbarHostState, ? super Composer, ? super Integer, Unit> snackbarHost, Function2<? super Composer, ? super Integer, Unit> floatingActionButton, int floatingActionButtonPosition, boolean sheetGesturesEnabled, Shape sheetShape, float sheetElevation, long sheetBackgroundColor, long sheetContentColor, float sheetPeekHeight, long backgroundColor, long contentColor, Function3<? super PaddingValues, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int $changed1, int i20) {
-        Object obj4;
+        Object obj8;
         float f;
-        int $dirty12;
+        int $dirty19;
         float function3;
-        int changed2;
+        int changed3;
         long l;
-        Object obj7;
+        Object obj4;
         int skipping;
-        int i17;
-        int i25;
-        int $dirty16;
+        int i10;
+        int i22;
+        int $dirty12;
         int defaultsInvalid;
         int rememberBottomSheetScaffoldState;
-        Object topBar2;
-        float sheetPeekHeight4;
-        int sheetPeekHeight3;
-        androidx.compose.foundation.shape.CornerBasedShape $dirty15;
+        Object topBar3;
+        float sheetPeekHeight3;
+        int sheetPeekHeight4;
+        androidx.compose.foundation.shape.CornerBasedShape $dirty18;
         Object endRestartGroup;
-        int $dirty17;
-        int $dirty18;
-        int i4;
+        int $dirty14;
+        int $dirty110;
         int i7;
+        int i9;
         int colors;
-        int $dirty1;
-        float $dirty14;
-        Object obj2;
+        int $dirty13;
+        float $dirty1;
+        Object obj;
         Object $composer2;
-        int $dirty;
-        long $dirty5;
+        int $dirty5;
+        long $dirty2;
         long $dirty4;
-        Object $dirty2;
-        long $dirty19;
-        long l4;
+        Object $dirty;
+        long $dirty17;
+        long l3;
         long l2;
         Object sheetPeekHeight2;
-        Object obj;
-        int i14;
+        Object obj2;
+        int i21;
         Object $dirty3;
-        Object sheetShape2;
-        androidx.compose.foundation.shape.CornerBasedShape sheetShape3;
-        int topBar3;
-        Object obj6;
+        Object sheetShape3;
+        androidx.compose.foundation.shape.CornerBasedShape sheetShape2;
+        int topBar2;
+        Object obj3;
         boolean snackbarHost2;
-        int i16;
-        int i12;
-        int i10;
-        long composer2;
-        int sheetBackgroundColor2;
-        androidx.compose.foundation.shape.CornerBasedShape $dirty13;
-        Object obj8;
+        int i8;
+        int i25;
+        int i24;
+        long composer;
+        int sheetBackgroundColor3;
+        androidx.compose.foundation.shape.CornerBasedShape $dirty15;
+        Object obj6;
         float floatingActionButton2;
         int i;
         long floatingActionButtonPosition2;
-        Object obj3;
-        int i21;
         Object obj5;
+        int i2;
+        Object obj7;
         long scaffoldState2;
         int sheetElevation2;
         boolean z;
         float sheetGesturesEnabled2;
-        int changed5;
+        int changed7;
         int surface-0d7_KjU;
         long sheetContentColor2;
-        long sheetBackgroundColor3;
+        long sheetBackgroundColor2;
         int changed;
-        int i19;
-        long contentColor2;
-        long l3;
-        int i2;
-        int i5;
-        int i15;
-        int i6;
-        boolean changed4;
-        int $dirty110;
-        int i13;
         int i11;
-        Composer composer;
-        int i3;
-        int i23;
+        long contentColor2;
+        long l4;
+        int i12;
+        int i6;
+        int i14;
+        int i5;
+        boolean changed2;
+        int $dirty16;
         int i18;
-        int i22;
-        int i24;
-        int i8;
-        int i9;
+        int i16;
+        Composer composer2;
+        int i3;
+        int i17;
         int i26;
-        int changed7;
-        int changed3;
+        int i23;
+        int i19;
+        int i4;
+        int i13;
+        int i15;
+        int changed5;
         int changed6;
+        int changed4;
         ScopeUpdateScope scopeUpdateScope;
         Object obj34;
         int obj35;
@@ -416,167 +416,167 @@ public final class BottomSheetScaffoldKt {
         Object obj49;
         int obj53;
         int i27 = obj54;
-        i4 = obj55;
+        i7 = obj55;
         int i54 = obj56;
         Composer restartGroup = obj53.startRestartGroup(-423121424);
         ComposerKt.sourceInformation(restartGroup, "C(BottomSheetScaffold)P(8,5,6,15,14,3,4:c#material.FabPosition,11,13,10:c#ui.unit.Dp,7:c#ui.graphics.Color,9:c#ui.graphics.Color,12:c#ui.unit.Dp,0:c#ui.graphics.Color,2:c#ui.graphics.Color)333@13308L34,339@13677L6,341@13808L6,342@13855L37,344@14008L6,345@14053L32,353@14273L1864,348@14144L1993:BottomSheetScaffold.kt#jmzs0o");
-        $dirty = obj54;
+        $dirty5 = obj54;
         int i61 = obj55;
         if (i54 & 1 != 0) {
-            $dirty |= 6;
-            obj = sheetContent;
+            $dirty5 |= 6;
+            obj2 = sheetContent;
         } else {
             if (i27 & 6 == 0) {
-                i16 = restartGroup.changedInstance(sheetContent) ? 4 : 2;
-                $dirty |= i16;
+                i8 = restartGroup.changedInstance(sheetContent) ? 4 : 2;
+                $dirty5 |= i8;
             } else {
-                obj = sheetContent;
+                obj2 = sheetContent;
             }
         }
-        i10 = i54 & 2;
-        if (i10 != 0) {
-            $dirty |= 48;
-            obj3 = modifier;
+        i24 = i54 & 2;
+        if (i24 != 0) {
+            $dirty5 |= 48;
+            obj5 = modifier;
         } else {
             if (i27 & 48 == 0) {
-                i21 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i21;
+                i2 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty5 |= i2;
             } else {
-                obj3 = modifier;
+                obj5 = modifier;
             }
         }
         if (i27 & 384 == 0) {
             if (i54 & 4 == 0) {
-                changed5 = restartGroup.changed(scaffoldState) ? 256 : 128;
+                changed7 = restartGroup.changed(scaffoldState) ? 256 : 128;
             } else {
-                obj5 = scaffoldState;
+                obj7 = scaffoldState;
             }
-            $dirty |= changed5;
+            $dirty5 |= changed7;
         } else {
-            obj5 = scaffoldState;
+            obj7 = scaffoldState;
         }
         surface-0d7_KjU = i54 & 8;
         int i75 = 1024;
         if (surface-0d7_KjU != 0) {
-            $dirty |= 3072;
-            sheetShape2 = topBar;
+            $dirty5 |= 3072;
+            sheetShape3 = topBar;
         } else {
             if (i27 & 3072 == 0) {
-                i2 = restartGroup.changedInstance(topBar) ? changed : i75;
-                $dirty |= i2;
+                i12 = restartGroup.changedInstance(topBar) ? changed : i75;
+                $dirty5 |= i12;
             } else {
-                sheetShape2 = topBar;
+                sheetShape3 = topBar;
             }
         }
         int i76 = i54 & 16;
-        i15 = 8192;
+        i14 = 8192;
         if (i76 != 0) {
-            $dirty |= 24576;
-            obj6 = snackbarHost;
+            $dirty5 |= 24576;
+            obj3 = snackbarHost;
         } else {
             if (i27 & 24576 == 0) {
-                i13 = restartGroup.changedInstance(snackbarHost) ? i5 : i15;
-                $dirty |= i13;
+                i18 = restartGroup.changedInstance(snackbarHost) ? i6 : i14;
+                $dirty5 |= i18;
             } else {
-                obj6 = snackbarHost;
+                obj3 = snackbarHost;
             }
         }
-        i11 = i54 & 32;
+        i16 = i54 & 32;
         int i77 = 196608;
-        if (i11 != 0) {
-            $dirty |= i77;
-            obj8 = floatingActionButton;
+        if (i16 != 0) {
+            $dirty5 |= i77;
+            obj6 = floatingActionButton;
         } else {
             if (i27 & i77 == 0) {
-                i18 = restartGroup.changedInstance(floatingActionButton) ? 131072 : 65536;
-                $dirty |= i18;
+                i26 = restartGroup.changedInstance(floatingActionButton) ? 131072 : 65536;
+                $dirty5 |= i26;
             } else {
-                obj8 = floatingActionButton;
+                obj6 = floatingActionButton;
             }
         }
         int i80 = i54 & 64;
         final int i81 = 1572864;
         if (i80 != 0) {
-            $dirty |= i81;
+            $dirty5 |= i81;
             i = floatingActionButtonPosition;
         } else {
             if (i27 & i81 == 0) {
-                i8 = restartGroup.changed(floatingActionButtonPosition) ? 1048576 : 524288;
-                $dirty |= i8;
+                i4 = restartGroup.changed(floatingActionButtonPosition) ? 1048576 : 524288;
+                $dirty5 |= i4;
             } else {
                 i = floatingActionButtonPosition;
             }
         }
         sheetElevation2 = i54 & 128;
-        i9 = 12582912;
+        i13 = 12582912;
         if (sheetElevation2 != 0) {
-            $dirty |= i9;
+            $dirty5 |= i13;
             z = sheetGesturesEnabled;
         } else {
-            if (i27 & i9 == 0) {
-                i26 = restartGroup.changed(sheetGesturesEnabled) ? 8388608 : 4194304;
-                $dirty |= i26;
+            if (i27 & i13 == 0) {
+                i15 = restartGroup.changed(sheetGesturesEnabled) ? 8388608 : 4194304;
+                $dirty5 |= i15;
             } else {
                 z = sheetGesturesEnabled;
             }
         }
         if (i27 & i82 == 0) {
             if (i54 & 256 == 0) {
-                changed7 = restartGroup.changed(sheetShape) ? 67108864 : 33554432;
+                changed5 = restartGroup.changed(sheetShape) ? 67108864 : 33554432;
             } else {
-                obj4 = sheetShape;
+                obj8 = sheetShape;
             }
-            $dirty |= changed7;
+            $dirty5 |= changed5;
         } else {
-            obj4 = sheetShape;
+            obj8 = sheetShape;
         }
         if (obj54 & i83 == 0) {
             if (i54 & 512 == 0) {
-                changed3 = restartGroup.changed(sheetElevation) ? 536870912 : 268435456;
+                changed6 = restartGroup.changed(sheetElevation) ? 536870912 : 268435456;
             } else {
                 f = sheetElevation;
             }
-            $dirty |= changed3;
+            $dirty5 |= changed6;
         } else {
             f = sheetElevation;
         }
-        if (i4 & 6 == 0) {
+        if (i7 & 6 == 0) {
             if (i54 & 1024 == 0) {
-                $dirty18 = i61;
-                i6 = restartGroup.changed(sheetBackgroundColor) ? 4 : 2;
+                $dirty110 = i61;
+                i5 = restartGroup.changed(sheetBackgroundColor) ? 4 : 2;
             } else {
-                $dirty18 = i61;
-                $dirty19 = sheetBackgroundColor;
+                $dirty110 = i61;
+                $dirty17 = sheetBackgroundColor;
             }
-            $dirty18 |= i6;
+            $dirty110 |= i5;
         } else {
-            $dirty12 = i61;
-            $dirty19 = sheetBackgroundColor;
+            $dirty19 = i61;
+            $dirty17 = sheetBackgroundColor;
         }
-        if (i4 & 48 == 0) {
+        if (i7 & 48 == 0) {
             if (i54 & 2048 == 0) {
                 i3 = restartGroup.changed(sheetPeekHeight) ? 32 : 16;
             } else {
-                l4 = sheetPeekHeight;
+                l3 = sheetPeekHeight;
             }
-            $dirty12 = obj53 | i3;
+            $dirty19 = obj53 | i3;
         } else {
-            l4 = sheetPeekHeight;
-            obj53 = $dirty12;
+            l3 = sheetPeekHeight;
+            obj53 = $dirty19;
         }
-        obj53 = $dirty12;
-        if (i4 & 384 == 0) {
+        obj53 = $dirty19;
+        if (i7 & 384 == 0) {
             if (i54 & 4096 == 0) {
-                i8 = restartGroup.changed(contentColor) ? 256 : 128;
+                i4 = restartGroup.changed(contentColor) ? 256 : 128;
             } else {
                 function3 = contentColor;
             }
-            $dirty110 = obj53 | i8;
+            $dirty16 = obj53 | i4;
         } else {
             function3 = contentColor;
-            $dirty110 = obj53;
+            $dirty16 = obj53;
         }
-        if (i4 & 3072 == 0) {
+        if (i7 & 3072 == 0) {
             if (i54 & 8192 == 0) {
                 if (restartGroup.changed(content)) {
                 } else {
@@ -585,218 +585,218 @@ public final class BottomSheetScaffoldKt {
             } else {
                 l2 = content;
             }
-            $dirty110 |= changed;
+            $dirty16 |= changed;
         } else {
             l2 = content;
         }
-        if (i4 & 24576 == 0) {
+        if (i7 & 24576 == 0) {
             if (i54 & 16384 == 0) {
                 if (restartGroup.changed($changed)) {
                 } else {
-                    i5 = i15;
+                    i6 = i14;
                 }
             } else {
                 l = $changed;
             }
-            $dirty110 |= i5;
+            $dirty16 |= i6;
         } else {
             l = $changed;
         }
         if (i54 & i74 != 0) {
-            $dirty110 |= i77;
-            obj7 = i20;
+            $dirty16 |= i77;
+            obj4 = i20;
         } else {
             if (obj55 & i77 == 0) {
-                i4 = restartGroup.changedInstance(i20) ? 131072 : 65536;
-                $dirty110 |= i4;
+                i7 = restartGroup.changedInstance(i20) ? 131072 : 65536;
+                $dirty16 |= i7;
             } else {
-                obj7 = i20;
+                obj4 = i20;
             }
         }
-        if (i46 &= $dirty == 306783378 && $dirty110 & i43 == 74898) {
-            if ($dirty110 & i43 == 74898) {
+        if (i46 &= $dirty5 == 306783378 && $dirty16 & i43 == 74898) {
+            if ($dirty16 & i43 == 74898) {
                 if (!restartGroup.getSkipping()) {
                     restartGroup.startDefaults();
                     int i47 = 0;
                     if (obj54 & 1 != 0) {
                         if (restartGroup.getDefaultsInvalid()) {
-                            if (i10 != 0) {
-                                obj3 = defaultsInvalid;
+                            if (i24 != 0) {
+                                obj5 = defaultsInvalid;
                             }
                             if (i54 & 4 != 0) {
-                                $dirty &= -897;
-                                obj5 = rememberBottomSheetScaffoldState;
+                                $dirty5 &= -897;
+                                obj7 = rememberBottomSheetScaffoldState;
                             }
-                            topBar2 = surface-0d7_KjU != 0 ? 0 : sheetShape2;
+                            topBar3 = surface-0d7_KjU != 0 ? 0 : sheetShape3;
                             if (i76 != 0) {
-                                obj6 = sheetShape2;
+                                obj3 = sheetShape3;
                             }
-                            if (i11 != 0) {
-                                obj8 = sheetShape2;
+                            if (i16 != 0) {
+                                obj6 = sheetShape3;
                             }
                             if (i80 != 0) {
-                                i = sheetShape2;
+                                i = sheetShape3;
                             }
                             if (sheetElevation2 != 0) {
-                                z = sheetShape2;
+                                z = sheetShape3;
                             }
                             int i69 = 6;
                             if (i54 & 256 != 0) {
-                                sheetShape3 = MaterialTheme.INSTANCE.getShapes(restartGroup, i69).getLarge();
-                                $dirty &= sheetElevation2;
+                                sheetShape2 = MaterialTheme.INSTANCE.getShapes(restartGroup, i69).getLarge();
+                                $dirty5 &= sheetElevation2;
                             } else {
-                                sheetShape3 = sheetShape;
+                                sheetShape2 = sheetShape;
                             }
                             if (i54 & 512 != 0) {
                                 sheetElevation2 = BottomSheetScaffoldDefaults.INSTANCE.getSheetElevation-D9Ej5fM();
-                                $dirty &= surface-0d7_KjU;
+                                $dirty5 &= surface-0d7_KjU;
                             } else {
                                 sheetElevation2 = sheetElevation;
                             }
                             if (i54 & 1024 != 0) {
-                                $dirty110 &= -15;
-                                obj34 = obj8;
-                                composer2 = surface-0d7_KjU;
+                                $dirty16 &= -15;
+                                obj34 = obj6;
+                                composer = surface-0d7_KjU;
                             } else {
-                                obj34 = obj8;
-                                composer2 = sheetBackgroundColor;
+                                obj34 = obj6;
+                                composer = sheetBackgroundColor;
                             }
                             if (i54 & 2048 != 0) {
-                                sheetContentColor2 = ColorsKt.contentColorFor-ek8zF_U(composer2, obj8, restartGroup);
-                                $dirty1 = $dirty110;
+                                sheetContentColor2 = ColorsKt.contentColorFor-ek8zF_U(composer, obj6, restartGroup);
+                                $dirty13 = $dirty16;
                             } else {
                                 sheetContentColor2 = sheetPeekHeight;
-                                $dirty1 = $dirty110;
+                                $dirty13 = $dirty16;
                             }
-                            obj36 = topBar2;
+                            obj36 = topBar3;
                             if (i54 & 4096 != 0) {
-                                sheetPeekHeight4 = BottomSheetScaffoldDefaults.INSTANCE.getSheetPeekHeight-D9Ej5fM();
-                                $dirty1 &= -897;
+                                sheetPeekHeight3 = BottomSheetScaffoldDefaults.INSTANCE.getSheetPeekHeight-D9Ej5fM();
+                                $dirty13 &= -897;
                             } else {
-                                sheetPeekHeight4 = contentColor;
+                                sheetPeekHeight3 = contentColor;
                             }
-                            obj37 = sheetPeekHeight4;
+                            obj37 = sheetPeekHeight3;
                             if (i54 & 8192 != 0) {
-                                obj38 = $dirty;
-                                $dirty5 = MaterialTheme.INSTANCE.getColors(restartGroup, 6).getBackground-0d7_KjU();
-                                $dirty1 &= -7169;
+                                obj38 = $dirty5;
+                                $dirty2 = MaterialTheme.INSTANCE.getColors(restartGroup, 6).getBackground-0d7_KjU();
+                                $dirty13 &= -7169;
                             } else {
-                                obj38 = $dirty;
-                                $dirty5 = l2;
+                                obj38 = $dirty5;
+                                $dirty2 = l2;
                             }
                             if (i54 & 16384 != 0) {
-                                $dirty14 = obj37;
-                                i14 = obj38;
-                                i5 = contentColorFor-ek8zF_U;
-                                contentColor2 = $dirty5;
-                                $dirty4 = composer2;
-                                obj8 = obj34;
-                                sheetBackgroundColor2 = i39;
-                                $dirty15 = sheetShape3;
-                                sheetShape2 = obj36;
+                                $dirty1 = obj37;
+                                i21 = obj38;
+                                i6 = contentColorFor-ek8zF_U;
+                                contentColor2 = $dirty2;
+                                $dirty4 = composer;
+                                obj6 = obj34;
+                                sheetBackgroundColor3 = i39;
+                                $dirty18 = sheetShape2;
+                                sheetShape3 = obj36;
                             } else {
-                                i14 = obj38;
-                                i5 = $changed;
-                                contentColor2 = $dirty5;
-                                $dirty15 = sheetShape3;
-                                $dirty4 = composer2;
-                                obj8 = obj34;
-                                sheetShape2 = obj36;
-                                sheetBackgroundColor2 = $dirty1;
-                                $dirty14 = obj37;
+                                i21 = obj38;
+                                i6 = $changed;
+                                contentColor2 = $dirty2;
+                                $dirty18 = sheetShape2;
+                                $dirty4 = composer;
+                                obj6 = obj34;
+                                sheetShape3 = obj36;
+                                sheetBackgroundColor3 = $dirty13;
+                                $dirty1 = obj37;
                             }
                         } else {
                             restartGroup.skipToGroupEnd();
                             if (i54 & 4 != 0) {
-                                $dirty &= -897;
+                                $dirty5 &= -897;
                             }
                             if (i54 & 256 != 0) {
-                                $dirty &= i17;
+                                $dirty5 &= i10;
                             }
                             if (i54 & 512 != 0) {
-                                $dirty &= i25;
+                                $dirty5 &= i22;
                             }
                             if (i54 & 1024 != 0) {
-                                $dirty110 &= -15;
+                                $dirty16 &= -15;
                             }
                             if (i54 & 2048 != 0) {
-                                $dirty110 &= -113;
+                                $dirty16 &= -113;
                             }
                             if (i54 & 4096 != 0) {
-                                $dirty16 &= -897;
+                                $dirty12 &= -897;
                             }
                             if (i54 & 8192 != 0) {
-                                $dirty16 &= -7169;
+                                $dirty12 &= -7169;
                             }
                             if (i54 & 16384 != 0) {
-                                $dirty16 &= i12;
+                                $dirty12 &= i25;
                             }
                             sheetElevation2 = sheetElevation;
                             sheetContentColor2 = sheetPeekHeight;
-                            $dirty14 = contentColor;
-                            i5 = $changed;
-                            sheetBackgroundColor2 = $dirty16;
+                            $dirty1 = contentColor;
+                            i6 = $changed;
+                            sheetBackgroundColor3 = $dirty12;
                             contentColor2 = l2;
-                            $dirty15 = sheetShape;
-                            i14 = $dirty;
+                            $dirty18 = sheetShape;
+                            i21 = $dirty5;
                             $dirty4 = sheetBackgroundColor;
                         }
                     } else {
                     }
                     restartGroup.endDefaults();
                     if (ComposerKt.isTraceInProgress()) {
-                        obj42 = $dirty15;
-                        obj38 = $dirty14;
-                        ComposerKt.traceEventStart(-423121424, i14, sheetBackgroundColor2, "androidx.compose.material.BottomSheetScaffold (BottomSheetScaffold.kt:347)");
+                        obj42 = $dirty18;
+                        obj38 = $dirty1;
+                        ComposerKt.traceEventStart(-423121424, i21, sheetBackgroundColor3, "androidx.compose.material.BottomSheetScaffold (BottomSheetScaffold.kt:347)");
                     } else {
-                        obj42 = $dirty15;
-                        obj38 = $dirty14;
+                        obj42 = $dirty18;
+                        obj38 = $dirty1;
                     }
                     int i50 = 1;
                     obj44 = $dirty4;
-                    obj37 = obj8;
+                    obj37 = obj6;
                     obj39 = i;
                     obj46 = sheetContentColor2;
-                    super(obj5, sheetShape2, obj37, obj38, obj39, i20, z, obj42, sheetElevation2, obj44, sheetPeekHeight, obj46, contentColor, sheetContent, obj6);
+                    super(obj7, sheetShape3, obj37, obj38, obj39, i20, z, obj42, sheetElevation2, obj44, sheetPeekHeight, obj46, contentColor, sheetContent, obj3);
                     obj43 = restartGroup;
                     obj36 = contentColor2;
-                    obj38 = i5;
-                    SurfaceKt.Surface-F-jzlyU(SizeKt.fillMaxSize$default(obj3, 0, i50, 0), 0, obj36, obj37, obj38, obj39, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-131096268, i50, anon, restartGroup, 54), obj43);
-                    l3 = obj38;
-                    composer = obj43;
+                    obj38 = i6;
+                    SurfaceKt.Surface-F-jzlyU(SizeKt.fillMaxSize$default(obj5, 0, i50, 0), 0, obj36, obj37, obj38, obj39, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(-131096268, i50, anon, restartGroup, 54), obj43);
+                    l4 = obj38;
+                    composer2 = obj43;
                     if (ComposerKt.isTraceInProgress()) {
                         ComposerKt.traceEventEnd();
                     }
                     sheetGesturesEnabled2 = f2;
-                    sheetPeekHeight2 = obj6;
+                    sheetPeekHeight2 = obj3;
                     snackbarHost2 = z2;
-                    i23 = i14;
-                    $dirty2 = sheetShape2;
-                    i22 = sheetBackgroundColor2;
-                    $dirty3 = obj8;
-                    topBar3 = i;
-                    obj2 = obj3;
-                    $composer2 = obj5;
+                    i17 = i21;
+                    $dirty = sheetShape3;
+                    i23 = sheetBackgroundColor3;
+                    $dirty3 = obj6;
+                    topBar2 = i;
+                    obj = obj5;
+                    $composer2 = obj7;
                     floatingActionButton2 = sheetElevation2;
                     floatingActionButtonPosition2 = l5;
-                    scaffoldState2 = $dirty110;
-                    $dirty13 = obj46;
-                    sheetBackgroundColor3 = skipping;
+                    scaffoldState2 = $dirty16;
+                    $dirty15 = obj46;
+                    sheetBackgroundColor2 = skipping;
                 } else {
                     restartGroup.skipToGroupEnd();
-                    $dirty13 = sheetShape;
-                    l3 = $changed;
-                    composer = restartGroup;
-                    i23 = $dirty;
-                    sheetBackgroundColor3 = l2;
-                    $dirty2 = sheetShape2;
-                    sheetPeekHeight2 = obj6;
-                    $dirty3 = obj8;
-                    topBar3 = i;
-                    obj2 = obj3;
-                    $composer2 = obj5;
+                    $dirty15 = sheetShape;
+                    l4 = $changed;
+                    composer2 = restartGroup;
+                    i17 = $dirty5;
+                    sheetBackgroundColor2 = l2;
+                    $dirty = sheetShape3;
+                    sheetPeekHeight2 = obj3;
+                    $dirty3 = obj6;
+                    topBar2 = i;
+                    obj = obj5;
+                    $composer2 = obj7;
                     snackbarHost2 = z;
-                    i22 = $dirty110;
+                    i23 = $dirty16;
                     floatingActionButton2 = sheetElevation;
                     floatingActionButtonPosition2 = sheetBackgroundColor;
                     scaffoldState2 = sheetPeekHeight;
@@ -806,60 +806,60 @@ public final class BottomSheetScaffoldKt {
             }
         } else {
         }
-        endRestartGroup = composer.endRestartGroup();
+        endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            endRestartGroup = new BottomSheetScaffoldKt.BottomSheetScaffold.2(sheetContent, obj2, $composer2, $dirty2, sheetPeekHeight2, $dirty3, topBar3, snackbarHost2, $dirty13, floatingActionButton2, floatingActionButtonPosition2, obj3, scaffoldState2, sheetElevation2, sheetGesturesEnabled2, sheetBackgroundColor3, i19, l3, i76, i20, obj54, obj55, obj56);
+            endRestartGroup = new BottomSheetScaffoldKt.BottomSheetScaffold.2(sheetContent, obj, $composer2, $dirty, sheetPeekHeight2, $dirty3, topBar2, snackbarHost2, $dirty15, floatingActionButton2, floatingActionButtonPosition2, obj5, scaffoldState2, sheetElevation2, sheetGesturesEnabled2, sheetBackgroundColor2, i11, l4, i76, i20, obj54, obj55, obj56);
             endRestartGroup.updateScope((Function2)endRestartGroup);
         }
     }
 
     private static final void BottomSheetScaffoldLayout-HJHHjMs(Function2<? super Composer, ? super Integer, Unit> topBar, Function2<? super Composer, ? super Integer, Unit> body, Function2<? super Composer, ? super Integer, Unit> bottomSheet, Function2<? super Composer, ? super Integer, Unit> floatingActionButton, Function2<? super Composer, ? super Integer, Unit> snackbarHost, float sheetPeekHeight, Function0<Float> sheetOffset, int floatingActionButtonPosition, androidx.compose.material.BottomSheetState sheetState, Composer $composer, int $changed) {
         Object it$iv;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int valueOf;
-        Object measurePolicy;
+        Object $i$a$CacheLayoutKt$Layout$3$iv;
         Object empty;
-        int i9;
+        int i10;
         Function0 factory$iv$iv$iv;
         boolean changed;
         Object setCompositeKeyHash;
-        int i18;
+        int i15;
         Composer obj;
         Object currentCompositionLocalMap;
         Object constructor-impl;
         int $dirty;
-        int i5;
-        int i13;
-        int i14;
-        int i6;
-        int i17;
-        int i22;
-        int i16;
-        int i;
-        int i4;
-        int skipping;
-        boolean traceInProgress2;
-        Object lambda-2$material_release;
-        int i19;
-        int i20;
-        int i7;
         int i3;
-        androidx.compose.ui.Modifier.Companion companion3;
+        int i21;
+        int i;
+        int i17;
+        int i20;
+        int i2;
+        int i11;
+        int i9;
+        int i14;
+        int skipping;
+        boolean traceInProgress;
+        Object lambda-2$material_release;
+        int i22;
+        int i18;
+        int i4;
+        int i8;
+        androidx.compose.ui.Modifier.Companion companion2;
         int combineAsVirtualLayouts;
         Object lambda-3$material_release;
-        int i15;
-        int i8;
+        int i16;
+        int i12;
         java.util.List list;
-        int i2;
-        Object companion2;
-        Composer.Companion companion;
+        int i5;
+        Object companion;
+        Composer.Companion companion3;
         int $changed$iv;
-        int i21;
-        int i10;
-        int i11;
+        int i6;
+        int i7;
+        int i13;
         Function0 function0;
         Composer composer;
-        int i12;
+        int i19;
         Object measurePolicy$iv$iv;
         androidx.compose.runtime.CompositionLocalMap map;
         androidx.compose.material.BottomSheetScaffoldKt.BottomSheetScaffoldLayout.1.1 obj39;
@@ -873,50 +873,50 @@ public final class BottomSheetScaffoldKt {
         final int i34 = floatingActionButtonPosition;
         final Object obj4 = sheetState;
         final int i35 = $changed;
-        traceInProgress = 1411837005;
-        Composer restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = 1411837005;
+        Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(BottomSheetScaffoldLayout)P(8!3,7,5:c#ui.unit.Dp,4,3:c#material.FabPosition)509@20078L2668,501@19867L2879:BottomSheetScaffold.kt#jmzs0o");
         if (i35 & 6 == 0) {
-            i5 = restartGroup.changedInstance(valueOf) ? 4 : 2;
-            $dirty |= i5;
+            i3 = restartGroup.changedInstance(valueOf) ? 4 : 2;
+            $dirty |= i3;
         }
         if (i35 & 48 == 0) {
-            i13 = restartGroup.changedInstance(setCompositeKeyHash) ? 32 : 16;
-            $dirty |= i13;
+            i21 = restartGroup.changedInstance(setCompositeKeyHash) ? 32 : 16;
+            $dirty |= i21;
         }
         if (i35 & 384 == 0) {
-            i14 = restartGroup.changedInstance(obj) ? 256 : 128;
-            $dirty |= i14;
-        }
-        if (i35 & 3072 == 0) {
-            i6 = restartGroup.changedInstance(constructor-impl) ? 2048 : 1024;
-            $dirty |= i6;
-        }
-        if (i35 & 24576 == 0) {
-            i17 = restartGroup.changedInstance(obj2) ? 16384 : 8192;
-            $dirty |= i17;
-        }
-        if (i36 &= i35 == 0) {
-            i22 = restartGroup.changed(f) ? 131072 : 65536;
-            $dirty |= i22;
-        }
-        companion3 = 1048576;
-        if (i37 &= i35 == 0) {
-            i16 = restartGroup.changedInstance(obj3) ? companion3 : 524288;
-            $dirty |= i16;
-        }
-        if (i38 &= i35 == 0) {
-            i = restartGroup.changed(i34) ? 8388608 : 4194304;
+            i = restartGroup.changedInstance(obj) ? 256 : 128;
             $dirty |= i;
         }
+        if (i35 & 3072 == 0) {
+            i17 = restartGroup.changedInstance(constructor-impl) ? 2048 : 1024;
+            $dirty |= i17;
+        }
+        if (i35 & 24576 == 0) {
+            i20 = restartGroup.changedInstance(obj2) ? 16384 : 8192;
+            $dirty |= i20;
+        }
+        if (i36 &= i35 == 0) {
+            i2 = restartGroup.changed(f) ? 131072 : 65536;
+            $dirty |= i2;
+        }
+        companion2 = 1048576;
+        if (i37 &= i35 == 0) {
+            i11 = restartGroup.changedInstance(obj3) ? companion2 : 524288;
+            $dirty |= i11;
+        }
+        if (i38 &= i35 == 0) {
+            i9 = restartGroup.changed(i34) ? 8388608 : 4194304;
+            $dirty |= i9;
+        }
         if (i39 &= i35 == 0) {
-            i4 = restartGroup.changed(obj4) ? 67108864 : 33554432;
-            $dirty |= i4;
+            i14 = restartGroup.changed(obj4) ? 67108864 : 33554432;
+            $dirty |= i14;
         }
         if (i40 &= $dirty == 38347922) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.BottomSheetScaffoldLayout (BottomSheetScaffold.kt:500)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.BottomSheetScaffoldLayout (BottomSheetScaffold.kt:500)");
                 }
                 Function2[] arr = new Function2[5];
                 if (valueOf == null) {
@@ -937,22 +937,22 @@ public final class BottomSheetScaffoldKt {
                 arr[4] = obj2;
                 int i60 = i55;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 539800922, "CC(remember):BottomSheetScaffold.kt#9igjgp");
-                i19 = i43 &= $dirty == companion3 ? 1 : i60;
-                i20 = i48 &= $dirty == 8388608 ? 1 : i60;
-                i7 = i50 &= $dirty == 131072 ? 1 : i60;
-                i3 = i52 &= $dirty == 67108864 ? 1 : i60;
+                i22 = i43 &= $dirty == companion2 ? 1 : i60;
+                i18 = i48 &= $dirty == 8388608 ? 1 : i60;
+                i4 = i50 &= $dirty == 131072 ? 1 : i60;
+                i8 = i52 &= $dirty == 67108864 ? 1 : i60;
                 Composer composer3 = restartGroup;
                 int i59 = 0;
                 it$iv = composer3.rememberedValue();
                 int i62 = 0;
-                if (i46 |= i3 == 0) {
+                if (i46 |= i8 == 0) {
                     if (it$iv == Composer.Companion.getEmpty()) {
                         valueOf = 0;
-                        companion2 = it$iv;
+                        companion = it$iv;
                         it$iv = new BottomSheetScaffoldKt.BottomSheetScaffoldLayout.1.1(obj3, i34, f, obj4);
                         composer3.updateRememberedValue((MultiContentMeasurePolicy)it$iv);
                     } else {
-                        companion2 = it$iv;
+                        companion = it$iv;
                     }
                 } else {
                 }
@@ -963,7 +963,7 @@ public final class BottomSheetScaffoldKt {
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -290761997, "CC(remember):Layout.kt#9igjgp");
                 if (i29 ^= 384 > 256) {
                     if (!restartGroup.changed((MultiContentMeasurePolicy)it$iv)) {
-                        i9 = empty & 384 == 256 ? 1 : i60;
+                        i10 = empty & 384 == 256 ? 1 : i60;
                     } else {
                     }
                 } else {
@@ -972,13 +972,13 @@ public final class BottomSheetScaffoldKt {
                 int i61 = 0;
                 Object rememberedValue = composer2.rememberedValue();
                 int i63 = 0;
-                if (i9 == 0) {
+                if (i10 == 0) {
                     $changed$iv = empty;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int $changed$iv2 = 0;
                         composer2.updateRememberedValue(MultiContentMeasurePolicyKt.createMeasurePolicy(it$iv));
                     } else {
-                        measurePolicy = rememberedValue;
+                        $i$a$CacheLayoutKt$Layout$3$iv = rememberedValue;
                     }
                 } else {
                     $changed$iv = empty;
@@ -986,10 +986,10 @@ public final class BottomSheetScaffoldKt {
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
-                i15 = currentCompositeKeyHash;
-                companion = i30;
+                i16 = currentCompositeKeyHash;
+                companion3 = i30;
                 Function0 function02 = constructor;
-                i2 = 0;
+                i5 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -1002,24 +1002,24 @@ public final class BottomSheetScaffoldKt {
                     restartGroup.useNode();
                 }
                 constructor-impl = Updater.constructor-impl(restartGroup);
-                i21 = 0;
+                i6 = 0;
                 function0 = factory$iv$iv$iv;
-                Updater.set-impl(constructor-impl, (MeasurePolicy)measurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, (MeasurePolicy)$i$a$CacheLayoutKt$Layout$3$iv, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i11 = 0;
+                i13 = 0;
                 composer = constructor-impl;
-                i12 = 0;
+                i19 = 0;
                 if (!composer.getInserting()) {
-                    measurePolicy$iv$iv = measurePolicy;
+                    measurePolicy$iv$iv = $i$a$CacheLayoutKt$Layout$3$iv;
                     map = currentCompositionLocalMap;
-                    if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(i15))) {
-                        composer.updateRememberedValue(Integer.valueOf(i15));
-                        constructor-impl.apply(Integer.valueOf(i15), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(i16))) {
+                        composer.updateRememberedValue(Integer.valueOf(i16));
+                        constructor-impl.apply(Integer.valueOf(i16), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
                         obj = composer;
                     }
                 } else {
-                    measurePolicy$iv$iv = measurePolicy;
+                    measurePolicy$iv$iv = $i$a$CacheLayoutKt$Layout$3$iv;
                     map = currentCompositionLocalMap;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, (Modifier)Modifier.Companion), ComposeUiNode.Companion.getSetModifier());
@@ -1038,8 +1038,8 @@ public final class BottomSheetScaffoldKt {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new BottomSheetScaffoldKt.BottomSheetScaffoldLayout.2(topBar, body, bottomSheet, floatingActionButton, obj2, f, obj3, i34, obj4, i35);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new BottomSheetScaffoldKt.BottomSheetScaffoldLayout.2(topBar, body, bottomSheet, floatingActionButton, obj2, f, obj3, i34, obj4, i35);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 

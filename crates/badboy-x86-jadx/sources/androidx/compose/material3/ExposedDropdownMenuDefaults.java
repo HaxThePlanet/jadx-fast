@@ -47,28 +47,28 @@ public final class ExposedDropdownMenuDefaults {
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public final void TrailingIcon(boolean expanded, Composer $composer, int $changed) {
         int anon;
+        int i3;
         int i4;
-        int i2;
         int skipping;
         boolean traceInProgress;
         Object obj;
         int str;
         boolean z;
         androidx.compose.ui.Modifier.Companion companion;
+        int i2;
         int i;
-        int i3;
         boolean obj8;
         int obj9;
         anon = -473088613;
         final Composer restartGroup = $composer.startRestartGroup(anon);
         ComposerKt.sourceInformation(restartGroup, "C(TrailingIcon)886@46586L32:ExposedDropdownMenu.android.kt#uh7d8r");
         if ($changed & 6 == 0) {
-            i4 = restartGroup.changed(expanded) ? 4 : 2;
-            obj9 |= i4;
+            i3 = restartGroup.changed(expanded) ? 4 : 2;
+            obj9 |= i3;
         }
         if ($changed & 48 == 0) {
-            i2 = restartGroup.changed(this) ? 32 : 16;
-            obj9 |= i2;
+            i4 = restartGroup.changed(this) ? 32 : 16;
+            obj9 |= i4;
         }
         if (obj9 & 19 == 18) {
             if (!restartGroup.getSkipping()) {
@@ -94,58 +94,58 @@ public final class ExposedDropdownMenuDefaults {
     }
 
     public final void TrailingIcon(boolean expanded, Modifier modifier, Composer $composer, int $changed, int i5) {
-        int i2;
-        int traceInProgress;
-        int $dirty;
-        int $dirty2;
-        boolean z;
         int i4;
+        int traceInProgress;
+        int $dirty2;
+        int $dirty;
+        boolean z;
+        int i6;
         boolean traceInProgress2;
         Object obj;
         int str;
-        int i6;
-        int rotate;
-        int i3;
         int i7;
+        int rotate;
+        int i2;
+        int i3;
         int i;
         traceInProgress = -1987096744;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress);
         ComposerKt.sourceInformation(restartGroup, "C(TrailingIcon)520@22966L83:ExposedDropdownMenu.android.kt#uh7d8r");
-        $dirty = $changed;
+        $dirty2 = $changed;
         if (i5 & 1 != 0) {
-            $dirty |= 6;
+            $dirty2 |= 6;
         } else {
             if ($changed & 6 == 0) {
-                i4 = restartGroup.changed(expanded) ? 4 : 2;
-                $dirty |= i4;
+                i6 = restartGroup.changed(expanded) ? 4 : 2;
+                $dirty2 |= i6;
             }
         }
         int i8 = i5 & 2;
         if (i8 != 0) {
-            $dirty |= 48;
+            $dirty2 |= 48;
         } else {
             if ($changed & 48 == 0) {
-                i6 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty |= i6;
+                i7 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i7;
             }
         }
-        final int i9 = $dirty;
+        final int i9 = $dirty2;
         if (i9 & 19 == 18) {
             if (!restartGroup.getSkipping()) {
                 if (i8 != 0) {
-                    $dirty2 = Modifier.Companion;
+                    $dirty = Modifier.Companion;
                 } else {
-                    $dirty2 = modifier;
+                    $dirty = modifier;
                 }
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(traceInProgress, i9, -1, "androidx.compose.material3.ExposedDropdownMenuDefaults.TrailingIcon (ExposedDropdownMenu.android.kt:519)");
                 }
-                i2 = expanded ? 1127481344 : 0;
-                IconKt.Icon-ww6aTOc(ArrowDropDownKt.getArrowDropDown(Icons.Filled.INSTANCE), 0, RotateKt.rotate($dirty2, i2), 0, obj7, restartGroup, 48);
+                i4 = expanded ? 1127481344 : 0;
+                IconKt.Icon-ww6aTOc(ArrowDropDownKt.getArrowDropDown(Icons.Filled.INSTANCE), 0, RotateKt.rotate($dirty, i4), 0, obj7, restartGroup, 48);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj = $dirty2;
+                obj = $dirty;
             } else {
                 restartGroup.skipToGroupEnd();
                 obj = modifier;
@@ -175,37 +175,37 @@ public final class ExposedDropdownMenuDefaults {
         int fieldDisabledLabelTextOpacity;
         int fieldErrorLabelTextColor;
         int fieldSupportingTextColor6;
-        int fieldSupportingTextColor8;
-        float fieldDisabledSupportingTextOpacity3;
-        int fieldSupportingTextColor5;
-        int fieldSupportingTextColor;
         int fieldSupportingTextColor7;
         float fieldDisabledSupportingTextOpacity2;
-        int fieldSupportingTextColor2;
-        int fieldSupportingTextColor4;
         int fieldSupportingTextColor3;
+        int fieldSupportingTextColor5;
+        int fieldSupportingTextColor8;
+        float fieldDisabledSupportingTextOpacity3;
+        int fieldSupportingTextColor4;
+        int fieldSupportingTextColor;
+        int fieldSupportingTextColor2;
         int fieldDisabledSupportingTextOpacity;
-        int value2;
+        int value;
         boolean traceInProgress;
-        int i19;
+        int i37;
         Object selectionColors2;
         int selectionColors3;
         int textFieldFocusLeadingIconColor;
         int textFieldLeadingIconColor;
-        int i35;
-        int i17;
-        int i39;
-        int i22;
-        int i;
-        int i10;
+        int i28;
+        int i40;
+        int i19;
+        int i32;
+        int i16;
+        int i14;
         int fieldFocusInputTextColor;
         int fieldInputTextColor;
         int iNSTANCE;
         int fieldErrorInputTextColor;
         int companion4;
-        int companion;
         int companion3;
         int companion2;
+        int companion;
         androidx.compose.material3.tokens.ColorSchemeKeyTokens textFieldCaretColor;
         int textFieldErrorFocusCaretColor;
         int localTextSelectionColors;
@@ -219,74 +219,74 @@ public final class ExposedDropdownMenuDefaults {
         long disabledTextColor2;
         float fieldDisabledInputTextOpacity;
         long errorTextColor2;
-        int i23;
-        int i28;
+        int i8;
+        int i4;
         long focusedContainerColor2;
-        int i29;
-        int i3;
+        int i26;
+        int i20;
         long unfocusedContainerColor2;
-        int i15;
+        int i29;
         long disabledContainerColor2;
         long errorContainerColor2;
         long cursorColor2;
         long errorCursorColor2;
-        int i32;
-        long value6;
-        int i2;
+        int i24;
         long value4;
-        long l4;
-        long value9;
-        long value3;
-        int i31;
-        long focusedLeadingIconColor2;
-        int i36;
-        int i38;
-        long unfocusedLeadingIconColor2;
+        int i12;
+        long value6;
+        long l3;
+        long value7;
+        long value8;
         int i30;
+        long focusedLeadingIconColor2;
+        int i2;
+        int i36;
+        long unfocusedLeadingIconColor2;
+        int i21;
         long disabledLeadingIconColor2;
-        int i5;
+        int i23;
         long value5;
-        int i37;
-        int i27;
+        int i22;
+        int i18;
         long focusedTrailingIconColor2;
-        int i9;
+        int i34;
         long unfocusedTrailingIconColor2;
         long disabledTrailingIconColor2;
-        int i14;
-        long value7;
-        int i11;
-        int i24;
+        int i33;
+        long value3;
+        int i27;
+        int i35;
         long focusedLabelColor2;
-        int i21;
+        int i31;
         long unfocusedLabelColor2;
         long disabledLabelColor2;
-        int i12;
-        long value8;
-        int i20;
-        int i7;
+        int i11;
+        long value9;
+        int i17;
+        int i3;
         long focusedPlaceholderColor2;
-        int i6;
+        int i5;
         long unfocusedPlaceholderColor2;
         long disabledPlaceholderColor2;
-        int i33;
-        long value;
-        int i26;
+        int i;
+        long value2;
+        int i6;
         int copy-wmQWz5c$default;
-        int i16;
-        long l9;
+        int i39;
         long l2;
-        long l3;
-        int i4;
-        int i18;
-        long l;
-        int i40;
-        long l6;
         long l5;
-        long l8;
-        int i13;
-        int i8;
         long l7;
-        int i34;
+        int i9;
+        int i7;
+        long l8;
+        int i10;
+        long l4;
+        long l9;
+        long l;
+        int i38;
+        int i15;
+        long l6;
+        int i13;
         long obj98;
         long obj99;
         float obj100;
@@ -301,7 +301,7 @@ public final class ExposedDropdownMenuDefaults {
         int i42 = obj177;
         final int i43 = obj178;
         int i44 = obj180;
-        i19 = obj181;
+        i37 = obj181;
         ComposerKt.sourceInformationMarkerStart(composer, -1567195085, "C(outlinedTextFieldColors)P(27:c#ui.graphics.Color,37:c#ui.graphics.Color,8:c#ui.graphics.Color,18:c#ui.graphics.Color,21:c#ui.graphics.Color,31:c#ui.graphics.Color,2:c#ui.graphics.Color,11:c#ui.graphics.Color,0:c#ui.graphics.Color,12:c#ui.graphics.Color,29,20:c#ui.graphics.Color,30:c#ui.graphics.Color,1:c#ui.graphics.Color,10:c#ui.graphics.Color,23:c#ui.graphics.Color,33:c#ui.graphics.Color,4:c#ui.graphics.Color,14:c#ui.graphics.Color,28:c#ui.graphics.Color,38:c#ui.graphics.Color,9:c#ui.graphics.Color,19:c#ui.graphics.Color,22:c#ui.graphics.Color,32:c#ui.graphics.Color,3:c#ui.graphics.Color,13:c#ui.graphics.Color,24:c#ui.graphics.Color,34:c#ui.graphics.Color,5:c#ui.graphics.Color,15:c#ui.graphics.Color,25:c#ui.graphics.Color,35:c#ui.graphics.Color,6:c#ui.graphics.Color,16:c#ui.graphics.Color,26:c#ui.graphics.Color,36:c#ui.graphics.Color,7:c#ui.graphics.Color,17:c#ui.graphics.Color)734@37917L5,735@38007L5,737@38116L5,740@38308L5,745@38624L5,746@38722L5,747@38801L7,748@38900L5,749@38994L5,751@39107L5,754@39305L5,756@39423L5,758@39538L5,760@39660L5,764@39883L5,766@40003L5,768@40120L5,770@40244L5,774@40470L5,775@40564L5,776@40655L5,778@40765L5,781@40958L5,782@41058L5,784@41172L5,786@41293L5,789@41497L5,790@41592L5,791@41689L5,793@41805L5,796@42004L5,797@42099L5,798@42196L5,800@42312L5,803@42511L5,805@42577L2206:ExposedDropdownMenu.android.kt#uh7d8r");
         str = 6;
         if (i44 & 1 != 0) {
@@ -355,8 +355,8 @@ public final class ExposedDropdownMenuDefaults {
             errorCursorColor2 = errorLeadingIconColor;
         }
         if (i44 & 1024 != 0) {
-            i32 = 0;
-            i2 = 0;
+            i24 = 0;
+            i12 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             selectionColors2 = composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors());
             ComposerKt.sourceInformationMarkerEnd(composer);
@@ -364,15 +364,15 @@ public final class ExposedDropdownMenuDefaults {
             selectionColors2 = unfocusedTrailingIconColor;
         }
         if (i44 & 2048 != 0) {
-            value6 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusOutlineColor(), composer, 6);
+            value4 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusOutlineColor(), composer, 6);
         } else {
             i25 = 6;
-            value6 = disabledTrailingIconColor;
+            value4 = disabledTrailingIconColor;
         }
         if (i44 & 4096 != 0) {
-            l4 = value4;
+            l3 = value6;
         } else {
-            l4 = focusedLabelColor;
+            l3 = focusedLabelColor;
         }
         if (i44 & 8192 != 0) {
             disabledBorderColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledOutlineColor(), composer, i25), unfocusedTextColor, OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledOutlineOpacity(), 0, 0, 0, 14);
@@ -380,10 +380,10 @@ public final class ExposedDropdownMenuDefaults {
             disabledBorderColor2 = disabledLabelColor;
         }
         if (i44 & 16384 != 0) {
-            value3 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorOutlineColor(), composer, 6);
+            value8 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorOutlineColor(), composer, 6);
         } else {
             textFieldDisabledLeadingIconOpacity = 6;
-            value3 = focusedPlaceholderColor;
+            value8 = focusedPlaceholderColor;
         }
         if (obj180 & i97 != 0) {
             focusedLeadingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusLeadingIconColor(), composer, textFieldDisabledLeadingIconOpacity);
@@ -403,112 +403,112 @@ public final class ExposedDropdownMenuDefaults {
         if (obj180 & i47 != 0) {
             value5 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorLeadingIconColor(), composer, 6);
         } else {
-            i17 = 6;
+            i40 = 6;
             value5 = focusedSuffixColor;
         }
         if (obj180 & i48 != 0) {
-            focusedTrailingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusTrailingIconColor(), composer, i17);
+            focusedTrailingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusTrailingIconColor(), composer, i40);
         } else {
             focusedTrailingIconColor2 = disabledSuffixColor;
         }
         if (obj180 & i49 != 0) {
-            unfocusedTrailingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldTrailingIconColor(), composer, i17);
+            unfocusedTrailingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldTrailingIconColor(), composer, i40);
         } else {
             unfocusedTrailingIconColor2 = $composer;
         }
         if (obj180 & i50 != 0) {
-            disabledTrailingIconColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledTrailingIconColor(), composer, i17), obj100, OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledTrailingIconOpacity(), 0, 0, 0, 14);
+            disabledTrailingIconColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledTrailingIconColor(), composer, i40), obj100, OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledTrailingIconOpacity(), 0, 0, 0, 14);
         } else {
             disabledTrailingIconColor2 = $changed1;
         }
         if (obj180 & i51 != 0) {
-            value7 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorTrailingIconColor(), composer, 6);
+            value3 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorTrailingIconColor(), composer, 6);
         } else {
-            i39 = 6;
-            value7 = $changed3;
+            i19 = 6;
+            value3 = $changed3;
         }
         if (obj180 & i52 != 0) {
-            focusedLabelColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldFocusLabelTextColor(), composer, i39);
+            focusedLabelColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldFocusLabelTextColor(), composer, i19);
         } else {
             focusedLabelColor2 = i46;
         }
         if (obj180 & i53 != 0) {
-            unfocusedLabelColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldLabelTextColor(), composer, i39);
+            unfocusedLabelColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldLabelTextColor(), composer, i19);
         } else {
             unfocusedLabelColor2 = obj145;
         }
         if (obj180 & i54 != 0) {
-            disabledLabelColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldDisabledLabelTextColor(), composer, i39), obj100, OutlinedAutocompleteTokens.INSTANCE.getFieldDisabledLabelTextOpacity(), 0, 0, 0, 14);
+            disabledLabelColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldDisabledLabelTextColor(), composer, i19), obj100, OutlinedAutocompleteTokens.INSTANCE.getFieldDisabledLabelTextOpacity(), 0, 0, 0, 14);
         } else {
             disabledLabelColor2 = obj147;
         }
         if (obj180 & i55 != 0) {
-            value8 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldErrorLabelTextColor(), composer, 6);
+            value9 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldErrorLabelTextColor(), composer, 6);
         } else {
-            i22 = 6;
-            value8 = obj149;
+            i32 = 6;
+            value9 = obj149;
         }
         if (obj180 & i56 != 0) {
-            focusedPlaceholderColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i22);
+            focusedPlaceholderColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i32);
         } else {
             focusedPlaceholderColor2 = obj151;
         }
         if (obj180 & i57 != 0) {
-            unfocusedPlaceholderColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i22);
+            unfocusedPlaceholderColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i32);
         } else {
             unfocusedPlaceholderColor2 = obj153;
         }
         if (obj180 & i58 != 0) {
-            disabledPlaceholderColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldDisabledSupportingTextColor(), composer, i22), obj100, OutlinedAutocompleteTokens.INSTANCE.getFieldDisabledSupportingTextOpacity(), 0, 0, 0, 14);
+            disabledPlaceholderColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldDisabledSupportingTextColor(), composer, i32), obj100, OutlinedAutocompleteTokens.INSTANCE.getFieldDisabledSupportingTextOpacity(), 0, 0, 0, 14);
         } else {
             disabledPlaceholderColor2 = obj155;
         }
         if (obj180 & i59 != 0) {
-            value = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, 6);
+            value2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, 6);
         } else {
-            i = 6;
-            value = obj157;
+            i16 = 6;
+            value2 = obj157;
         }
-        if (i19 & 1 != 0) {
-            l9 = copy-wmQWz5c$default;
-        } else {
-            l9 = obj159;
-        }
-        if (i19 & 2 != 0) {
+        if (i37 & 1 != 0) {
             l2 = copy-wmQWz5c$default;
         } else {
-            l2 = obj161;
+            l2 = obj159;
         }
-        if (i19 & 4 != 0) {
-            l3 = copy-wmQWz5c$default;
-        } else {
-            l3 = obj163;
-        }
-        if (i19 & 8 != 0) {
-            l = copy-wmQWz5c$default;
-        } else {
-            i10 = 6;
-            l = obj165;
-        }
-        if (i19 & 16 != 0) {
-            l6 = copy-wmQWz5c$default;
-        } else {
-            l6 = obj167;
-        }
-        if (i19 & 32 != 0) {
+        if (i37 & 2 != 0) {
             l5 = copy-wmQWz5c$default;
         } else {
-            l5 = obj169;
+            l5 = obj161;
         }
-        if (i19 & 64 != 0) {
+        if (i37 & 4 != 0) {
+            l7 = copy-wmQWz5c$default;
+        } else {
+            l7 = obj163;
+        }
+        if (i37 & 8 != 0) {
             l8 = copy-wmQWz5c$default;
         } else {
-            l8 = obj171;
+            i14 = 6;
+            l8 = obj165;
         }
-        if (i19 & 128 != 0) {
-            l7 = value2;
+        if (i37 & 16 != 0) {
+            l4 = copy-wmQWz5c$default;
         } else {
-            l7 = obj173;
+            l4 = obj167;
+        }
+        if (i37 & 32 != 0) {
+            l9 = copy-wmQWz5c$default;
+        } else {
+            l9 = obj169;
+        }
+        if (i37 & 64 != 0) {
+            l = copy-wmQWz5c$default;
+        } else {
+            l = obj171;
+        }
+        if (i37 & 128 != 0) {
+            l6 = value;
+        } else {
+            l6 = obj173;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(-1567195085, i41, i42, "androidx.compose.material3.ExposedDropdownMenuDefaults.outlinedTextFieldColors (ExposedDropdownMenu.android.kt:805)");
@@ -525,32 +525,32 @@ public final class ExposedDropdownMenuDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj175);
-        return OutlinedTextFieldDefaults.INSTANCE.colors-0hiis_0(focusedTextColor2, i43, unfocusedTextColor2, i95, disabledTextColor2, disabledBorderColor2, errorTextColor2, focusedTextColor2, focusedContainerColor2, unfocusedTextColor2, unfocusedContainerColor2, disabledTextColor2, disabledContainerColor2, errorTextColor2, errorContainerColor2, focusedContainerColor2, cursorColor2, unfocusedContainerColor2, errorCursorColor2, disabledContainerColor2, selectionColors2, value6, obj24, l4, obj26, disabledBorderColor2, obj28, value3, i2, focusedLeadingIconColor2, i140, unfocusedLeadingIconColor2, obj34, disabledLeadingIconColor2, obj36, value5, i36, focusedTrailingIconColor2, i30, unfocusedTrailingIconColor2, obj42, disabledTrailingIconColor2, i37, value7, i9, focusedLabelColor2, obj48, unfocusedLabelColor2, obj50, disabledLabelColor2, i11);
+        return OutlinedTextFieldDefaults.INSTANCE.colors-0hiis_0(focusedTextColor2, i43, unfocusedTextColor2, i95, disabledTextColor2, disabledBorderColor2, errorTextColor2, focusedTextColor2, focusedContainerColor2, unfocusedTextColor2, unfocusedContainerColor2, disabledTextColor2, disabledContainerColor2, errorTextColor2, errorContainerColor2, focusedContainerColor2, cursorColor2, unfocusedContainerColor2, errorCursorColor2, disabledContainerColor2, selectionColors2, value4, obj24, l3, obj26, disabledBorderColor2, obj28, value8, i12, focusedLeadingIconColor2, i140, unfocusedLeadingIconColor2, obj34, disabledLeadingIconColor2, obj36, value5, i2, focusedTrailingIconColor2, i21, unfocusedTrailingIconColor2, obj42, disabledTrailingIconColor2, i22, value3, i34, focusedLabelColor2, obj48, unfocusedLabelColor2, obj50, disabledLabelColor2, i27);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public final androidx.compose.material3.TextFieldColors outlinedTextFieldColors-St-qZLY(long textColor, long disabledTextColor, long containerColor, long cursorColor, long errorCursorColor, TextSelectionColors selectionColors, long focusedBorderColor, long unfocusedBorderColor, long disabledBorderColor, long errorBorderColor, long focusedLeadingIconColor, long unfocusedLeadingIconColor, long disabledLeadingIconColor, long errorLeadingIconColor, long focusedTrailingIconColor, long unfocusedTrailingIconColor, long disabledTrailingIconColor, long errorTrailingIconColor, long focusedLabelColor, long unfocusedLabelColor, long disabledLabelColor, long errorLabelColor, long placeholderColor, long disabledPlaceholderColor, Composer $composer, int $changed, int $changed1, int $changed2, int i29) {
-        int copy-wmQWz5c$default;
+        int copy-wmQWz5c$default2;
         boolean traceInProgress;
         int consume;
+        int value6;
+        int value;
+        long copy-wmQWz5c$default4;
+        int value13;
+        long value9;
+        int value4;
+        long copy-wmQWz5c$default;
+        int value2;
         int value8;
         int value3;
-        long copy-wmQWz5c$default2;
-        int value7;
-        long value12;
-        int value9;
-        long copy-wmQWz5c$default5;
+        int copy-wmQWz5c$default5;
+        int value11;
         int value10;
         int value5;
-        int value11;
-        int copy-wmQWz5c$default4;
-        int value13;
-        int value;
-        int value6;
         int copy-wmQWz5c$default3;
-        int value2;
-        int value4;
-        int i7;
+        int value12;
+        int value7;
+        int i8;
         int fieldInputTextColor;
         int iNSTANCE;
         int companion;
@@ -561,38 +561,38 @@ public final class ExposedDropdownMenuDefaults {
         long disabledTextColor2;
         float fieldDisabledInputTextOpacity;
         long containerColor2;
-        int i10;
-        int textFieldDisabledOutlineOpacity;
         int i5;
-        int i6;
-        int i8;
-        int i9;
-        long l8;
-        long l17;
-        Object obj;
-        long l5;
-        long l4;
-        long l3;
-        int i4;
-        long l7;
-        long l18;
-        long l16;
-        long l19;
+        int textFieldDisabledOutlineOpacity;
         int i3;
-        long l11;
-        long l6;
-        long l;
-        long l9;
-        int i11;
-        long l20;
-        long l12;
-        long l13;
-        long l15;
         int i;
-        long l10;
-        long l14;
-        int i2;
+        int i10;
+        int i6;
         long l2;
+        long l6;
+        Object obj;
+        long l20;
+        long l9;
+        long l13;
+        int i11;
+        long l7;
+        long l10;
+        long l17;
+        long l11;
+        int i4;
+        long l19;
+        long l;
+        long l4;
+        long l16;
+        int i2;
+        long l18;
+        long l12;
+        long l8;
+        long l5;
+        int i9;
+        long l15;
+        long l3;
+        int i7;
+        long l14;
         long obj87;
         float obj89;
         int obj90;
@@ -622,18 +622,18 @@ public final class ExposedDropdownMenuDefaults {
             containerColor2 = errorCursorColor;
         }
         if (i14 & 8 != 0) {
-            l8 = textFieldDisabledOutlineOpacity;
+            l2 = textFieldDisabledOutlineOpacity;
         } else {
-            l8 = focusedBorderColor;
+            l2 = focusedBorderColor;
         }
         if (i14 & 16 != 0) {
-            l17 = textFieldDisabledOutlineOpacity;
+            l6 = textFieldDisabledOutlineOpacity;
         } else {
-            l17 = disabledBorderColor;
+            l6 = disabledBorderColor;
         }
         if (i14 & 32 != 0) {
             textFieldDisabledOutlineOpacity = 0;
-            i5 = 0;
+            i3 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             ComposerKt.sourceInformationMarkerEnd(composer);
             obj = consume;
@@ -641,94 +641,94 @@ public final class ExposedDropdownMenuDefaults {
             obj = focusedLeadingIconColor;
         }
         if (i14 & 64 != 0) {
-            l5 = value8;
+            l20 = value6;
         } else {
-            l5 = unfocusedLeadingIconColor;
+            l20 = unfocusedLeadingIconColor;
         }
         if (i14 & 128 != 0) {
-            l4 = value3;
+            l9 = value;
         } else {
-            l4 = errorLeadingIconColor;
+            l9 = errorLeadingIconColor;
         }
         if (i14 & 256 != 0) {
-            l3 = copy-wmQWz5c$default2;
+            l13 = copy-wmQWz5c$default4;
         } else {
-            l3 = unfocusedTrailingIconColor;
+            l13 = unfocusedTrailingIconColor;
         }
         if (i14 & 512 != 0) {
-            l7 = value7;
+            l7 = value13;
         } else {
             l7 = errorTrailingIconColor;
         }
         if (i14 & 1024 != 0) {
-            l18 = value12;
+            l10 = value9;
         } else {
-            l18 = unfocusedLabelColor;
+            l10 = unfocusedLabelColor;
         }
         if (i14 & 2048 != 0) {
-            l16 = value9;
+            l17 = value4;
         } else {
-            l16 = errorLabelColor;
+            l17 = errorLabelColor;
         }
         if (i14 & 4096 != 0) {
-            l19 = copy-wmQWz5c$default5;
+            l11 = copy-wmQWz5c$default;
         } else {
-            l19 = disabledPlaceholderColor;
+            l11 = disabledPlaceholderColor;
         }
         if (i14 & 8192 != 0) {
-            l11 = value10;
+            l19 = value2;
         } else {
-            l11 = $changed;
+            l19 = $changed;
         }
         if (i14 & 16384 != 0) {
-            l6 = value5;
+            l = value8;
         } else {
-            l6 = $changed2;
+            l = $changed2;
         }
         if (i47 &= i14 != 0) {
-            l = value11;
+            l4 = value3;
         } else {
-            l = obj116;
+            l4 = obj116;
         }
         if (i48 &= i14 != 0) {
-            l9 = copy-wmQWz5c$default4;
+            l16 = copy-wmQWz5c$default5;
         } else {
-            l9 = obj118;
+            l16 = obj118;
         }
         if (i49 &= i14 != 0) {
-            l20 = value13;
+            l18 = value11;
         } else {
-            l20 = obj120;
+            l18 = obj120;
         }
         if (i50 &= i14 != 0) {
-            l12 = value;
+            l12 = value10;
         } else {
             l12 = obj122;
         }
         if (i51 &= i14 != 0) {
-            l13 = value6;
+            l8 = value5;
         } else {
-            l13 = obj124;
+            l8 = obj124;
         }
         if (i52 &= i14 != 0) {
-            l15 = copy-wmQWz5c$default3;
+            l5 = copy-wmQWz5c$default3;
         } else {
-            l15 = obj126;
+            l5 = obj126;
         }
         if (i53 &= i14 != 0) {
-            l10 = value2;
+            l15 = value12;
         } else {
-            l10 = obj128;
+            l15 = obj128;
         }
         if (i54 &= i14 != 0) {
-            l14 = value4;
+            l3 = value7;
         } else {
-            l14 = obj130;
+            l3 = obj130;
         }
-        if (i14 &= i7 != 0) {
-            l2 = copy-wmQWz5c$default;
+        if (i14 &= i8 != 0) {
+            l14 = copy-wmQWz5c$default2;
         } else {
-            l2 = obj132;
+            l14 = obj132;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(-836383316, i12, i13, "androidx.compose.material3.ExposedDropdownMenuDefaults.outlinedTextFieldColors (ExposedDropdownMenu.android.kt:1265)");
@@ -752,39 +752,39 @@ public final class ExposedDropdownMenuDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj134);
-        return this.outlinedTextFieldColors-FD9MK7s(l21, i46, textColor2, i111, disabledTextColor2, textColor2, l21, disabledTextColor2, l25, containerColor2, l25, i115, l25, i119, l25, i122, l8, obj19, l17, obj21, obj, l5, obj24, l4, obj26, l3, i4, l7, obj30, l18, obj32, l16, obj34, l19, i3, l11, obj38, l6, obj40, l, obj42, l9, i11, l20, obj46, l12);
+        return this.outlinedTextFieldColors-FD9MK7s(l21, i46, textColor2, i111, disabledTextColor2, textColor2, l21, disabledTextColor2, l25, containerColor2, l25, i115, l25, i119, l25, i122, l2, obj19, l6, obj21, obj, l20, obj24, l9, obj26, l13, i11, l7, obj30, l10, obj32, l17, obj34, l11, i4, l19, obj38, l, obj40, l4, obj42, l16, i2, l18, obj46, l12);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public final androidx.compose.material3.TextFieldColors outlinedTextFieldColors-tN0la-I(long focusedTextColor, long unfocusedTextColor, long disabledTextColor, long errorTextColor, long containerColor, long errorContainerColor, long cursorColor, long errorCursorColor, TextSelectionColors selectionColors, long focusedBorderColor, long unfocusedBorderColor, long disabledBorderColor, long errorBorderColor, long focusedLeadingIconColor, long unfocusedLeadingIconColor, long disabledLeadingIconColor, long errorLeadingIconColor, long focusedTrailingIconColor, long unfocusedTrailingIconColor, long disabledTrailingIconColor, long errorTrailingIconColor, long focusedLabelColor, long unfocusedLabelColor, long disabledLabelColor, long errorLabelColor, long focusedPlaceholderColor, long unfocusedPlaceholderColor, long disabledPlaceholderColor, long errorPlaceholderColor, long focusedPrefixColor, long unfocusedPrefixColor, long disabledPrefixColor, long errorPrefixColor, long focusedSuffixColor, long unfocusedSuffixColor, long disabledSuffixColor, long errorSuffixColor, Composer $composer, int $changed, int $changed1, int $changed2, int $changed3, int i43, int i44) {
-        int value12;
-        int copy-wmQWz5c$default4;
+        int value9;
+        int copy-wmQWz5c$default2;
         int value3;
-        long value2;
-        int value;
-        int copy-wmQWz5c$default5;
-        int value13;
+        long value10;
+        int value8;
+        int copy-wmQWz5c$default4;
+        int value12;
         boolean traceInProgress;
-        Object selectionColors3;
-        androidx.compose.material3.tokens.ColorSchemeKeyTokens selectionColors2;
+        Object selectionColors2;
+        androidx.compose.material3.tokens.ColorSchemeKeyTokens selectionColors3;
         int textFieldFocusLeadingIconColor;
         int textFieldLeadingIconColor;
-        int copy-wmQWz5c$default2;
+        int copy-wmQWz5c$default3;
         int textFieldErrorLeadingIconColor;
         int textFieldFocusTrailingIconColor;
         int textFieldTrailingIconColor;
-        int copy-wmQWz5c$default6;
+        int copy-wmQWz5c$default;
         int textFieldErrorTrailingIconColor;
         int fieldFocusLabelTextColor;
         int fieldLabelTextColor;
-        int copy-wmQWz5c$default;
+        int copy-wmQWz5c$default6;
         int fieldErrorLabelTextColor;
-        int fieldSupportingTextColor2;
         int fieldSupportingTextColor4;
-        int copy-wmQWz5c$default3;
         int fieldSupportingTextColor;
-        androidx.compose.material3.tokens.ColorSchemeKeyTokens fieldSupportingTextColor3;
-        int i33;
+        int copy-wmQWz5c$default5;
+        int fieldSupportingTextColor3;
+        androidx.compose.material3.tokens.ColorSchemeKeyTokens fieldSupportingTextColor2;
+        int i18;
         int fieldFocusInputTextColor;
         int fieldInputTextColor;
         int iNSTANCE;
@@ -798,80 +798,80 @@ public final class ExposedDropdownMenuDefaults {
         int textFieldOutlineColor;
         long disabledBorderColor3;
         int disabledBorderColor2;
-        int i34;
-        int i4;
+        int i25;
+        int i31;
         int i27;
         int fieldDisabledSupportingTextOpacity2;
         int fieldDisabledSupportingTextOpacity;
         String str;
-        int i2;
+        int i21;
         long focusedTextColor2;
         long unfocusedTextColor2;
         long disabledTextColor2;
         float fieldDisabledInputTextOpacity;
         long errorTextColor2;
+        int i26;
+        int i32;
+        long containerColor2;
         int i5;
         int i13;
-        long containerColor2;
-        int i7;
-        int i9;
         long errorContainerColor2;
-        int i6;
+        int i33;
         long cursorColor2;
         long errorCursorColor2;
-        int i21;
-        long value9;
-        int i23;
+        int i20;
+        long value;
+        int i;
         long value6;
-        long l11;
-        long value10;
+        long l3;
         long value7;
-        int i3;
+        long value11;
+        int i10;
         long focusedLeadingIconColor2;
-        int i14;
-        int i11;
+        int i23;
+        int i7;
         long unfocusedLeadingIconColor2;
-        int i17;
-        long l8;
-        int i8;
-        long value4;
-        int i12;
-        int i18;
+        int i6;
+        long l;
+        int i14;
+        long value2;
+        int i22;
+        int i2;
         long focusedTrailingIconColor2;
         long unfocusedTrailingIconColor2;
-        long l3;
-        int i19;
-        long value5;
-        int i15;
-        int i30;
+        long l6;
+        int i8;
+        long value4;
+        int i34;
+        int i17;
         long focusedLabelColor2;
         long unfocusedLabelColor2;
-        long l7;
-        int i29;
-        long value8;
-        int i16;
-        int i25;
+        long l8;
+        int i24;
+        long value13;
+        int i9;
+        int i11;
         long focusedPlaceholderColor2;
         long unfocusedPlaceholderColor2;
-        long l;
-        int i10;
-        long value11;
-        int i32;
-        int i31;
-        long focusedPrefixColor2;
         long l10;
-        long l9;
-        int i22;
-        int i26;
-        long l2;
-        int i28;
-        long l5;
+        int i12;
+        long value5;
+        int i15;
+        int i16;
+        long focusedPrefixColor2;
         long l12;
-        long l6;
-        int i20;
-        int i;
         long l4;
-        int i24;
+        int i29;
+        int i19;
+        long l9;
+        int i3;
+        long l11;
+        long l2;
+        long l5;
+        int i28;
+        int i30;
+        long l7;
+        int i4;
         long obj87;
         long obj88;
         float obj89;
@@ -930,37 +930,37 @@ public final class ExposedDropdownMenuDefaults {
             errorCursorColor2 = unfocusedLeadingIconColor;
         }
         if (i37 & 256 != 0) {
-            i21 = 0;
-            i23 = 0;
+            i20 = 0;
+            i = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
-            selectionColors3 = composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors());
+            selectionColors2 = composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors());
             ComposerKt.sourceInformationMarkerEnd(composer);
         } else {
-            selectionColors3 = errorLeadingIconColor;
+            selectionColors2 = errorLeadingIconColor;
         }
         if (i37 & 512 != 0) {
-            value9 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusOutlineColor(), composer, 6);
+            value = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusOutlineColor(), composer, 6);
         } else {
-            i2 = 6;
-            value9 = focusedTrailingIconColor;
+            i21 = 6;
+            value = focusedTrailingIconColor;
         }
         if (i37 & 1024 != 0) {
-            l11 = value6;
+            l3 = value6;
         } else {
-            l11 = disabledTrailingIconColor;
+            l3 = disabledTrailingIconColor;
         }
         if (i37 & 2048 != 0) {
-            disabledBorderColor3 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledOutlineColor(), composer, i2), unfocusedTextColor, OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledOutlineOpacity(), 0, 0, 0, 14);
+            disabledBorderColor3 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledOutlineColor(), composer, i21), unfocusedTextColor, OutlinedAutocompleteTokens.INSTANCE.getTextFieldDisabledOutlineOpacity(), 0, 0, 0, 14);
         } else {
             disabledBorderColor3 = focusedLabelColor;
         }
         if (i37 & 4096 != 0) {
             obj88 = disabledBorderColor3;
-            value7 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorOutlineColor(), composer, 6);
+            value11 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorOutlineColor(), composer, 6);
         } else {
             obj88 = disabledBorderColor3;
             disabledBorderColor2 = 6;
-            value7 = disabledLabelColor;
+            value11 = disabledLabelColor;
         }
         if (i37 & 8192 != 0) {
             focusedLeadingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusLeadingIconColor(), composer, disabledBorderColor2);
@@ -973,57 +973,57 @@ public final class ExposedDropdownMenuDefaults {
             unfocusedLeadingIconColor2 = disabledPlaceholderColor;
         }
         if (i52 &= i37 != 0) {
-            l8 = copy-wmQWz5c$default2;
+            l = copy-wmQWz5c$default3;
         } else {
-            l8 = focusedPrefixColor;
+            l = focusedPrefixColor;
         }
         if (i53 &= i37 != 0) {
-            value4 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorLeadingIconColor(), composer, 6);
+            value2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorLeadingIconColor(), composer, 6);
         } else {
-            i34 = 6;
-            value4 = disabledPrefixColor;
+            i25 = 6;
+            value2 = disabledPrefixColor;
         }
         if (i54 &= i37 != 0) {
-            focusedTrailingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusTrailingIconColor(), composer, i34);
+            focusedTrailingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldFocusTrailingIconColor(), composer, i25);
         } else {
             focusedTrailingIconColor2 = focusedSuffixColor;
         }
         if (i55 &= i37 != 0) {
-            unfocusedTrailingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldTrailingIconColor(), composer, i34);
+            unfocusedTrailingIconColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldTrailingIconColor(), composer, i25);
         } else {
             unfocusedTrailingIconColor2 = disabledSuffixColor;
         }
         if (i56 &= i37 != 0) {
-            l3 = copy-wmQWz5c$default6;
+            l6 = copy-wmQWz5c$default;
         } else {
-            l3 = $composer;
+            l6 = $composer;
         }
         if (i57 &= i37 != 0) {
-            value5 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorTrailingIconColor(), composer, 6);
+            value4 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getTextFieldErrorTrailingIconColor(), composer, 6);
         } else {
-            i4 = 6;
-            value5 = $changed1;
+            i31 = 6;
+            value4 = $changed1;
         }
         if (i58 &= i37 != 0) {
-            focusedLabelColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldFocusLabelTextColor(), composer, i4);
+            focusedLabelColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldFocusLabelTextColor(), composer, i31);
         } else {
             focusedLabelColor2 = $changed3;
         }
         if (i59 &= i37 != 0) {
-            unfocusedLabelColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldLabelTextColor(), composer, i4);
+            unfocusedLabelColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldLabelTextColor(), composer, i31);
         } else {
             unfocusedLabelColor2 = i44;
         }
         if (i60 &= i37 != 0) {
-            l7 = copy-wmQWz5c$default;
+            l8 = copy-wmQWz5c$default6;
         } else {
-            l7 = obj132;
+            l8 = obj132;
         }
         if (i61 &= i37 != 0) {
-            value8 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldErrorLabelTextColor(), composer, 6);
+            value13 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldErrorLabelTextColor(), composer, 6);
         } else {
             i27 = 6;
-            value8 = obj134;
+            value13 = obj134;
         }
         if (i62 &= i37 != 0) {
             focusedPlaceholderColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i27);
@@ -1036,56 +1036,56 @@ public final class ExposedDropdownMenuDefaults {
             unfocusedPlaceholderColor2 = obj138;
         }
         if (i64 &= i37 != 0) {
-            l = copy-wmQWz5c$default3;
+            l10 = copy-wmQWz5c$default5;
         } else {
-            l = obj140;
+            l10 = obj140;
         }
         if (i65 &= i37 != 0) {
-            value11 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, 6);
+            value5 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, 6);
         } else {
             fieldDisabledSupportingTextOpacity2 = 6;
-            value11 = obj142;
+            value5 = obj142;
         }
         if (i66 &= i37 != 0) {
             focusedPrefixColor2 = ColorSchemeKt.getValue(OutlinedAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, fieldDisabledSupportingTextOpacity2);
         } else {
             focusedPrefixColor2 = obj144;
         }
-        if (i37 &= i33 != 0) {
-            l10 = value12;
+        if (i37 &= i18 != 0) {
+            l12 = value9;
         } else {
-            l10 = obj146;
+            l12 = obj146;
         }
         if (obj166 & 1 != 0) {
-            l9 = copy-wmQWz5c$default4;
+            l4 = copy-wmQWz5c$default2;
         } else {
-            l9 = obj148;
+            l4 = obj148;
         }
         if (obj166 & 2 != 0) {
-            l2 = value3;
+            l9 = value3;
         } else {
             fieldDisabledSupportingTextOpacity = 6;
-            l2 = obj150;
+            l9 = obj150;
         }
         if (obj166 & 4 != 0) {
-            l5 = value2;
+            l11 = value10;
         } else {
-            l5 = obj152;
+            l11 = obj152;
         }
         if (obj166 & 8 != 0) {
-            l12 = value;
+            l2 = value8;
         } else {
-            l12 = obj154;
+            l2 = obj154;
         }
         if (obj166 & 16 != 0) {
-            l6 = copy-wmQWz5c$default5;
+            l5 = copy-wmQWz5c$default4;
         } else {
-            l6 = obj156;
+            l5 = obj156;
         }
         if (obj166 & 32 != 0) {
-            l4 = value13;
+            l7 = value12;
         } else {
-            l4 = obj158;
+            l7 = obj158;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(-388128543, i35, i36, "androidx.compose.material3.ExposedDropdownMenuDefaults.outlinedTextFieldColors (ExposedDropdownMenu.android.kt:1072)");
@@ -1104,36 +1104,36 @@ public final class ExposedDropdownMenuDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj160);
-        return this.outlinedTextFieldColors-FD9MK7s(focusedTextColor2, i49, unfocusedTextColor2, i164, disabledTextColor2, focusedTextColor2, errorTextColor2, unfocusedTextColor2, l17, disabledTextColor2, containerColor2, errorTextColor2, l17, containerColor2, errorContainerColor2, errorContainerColor2, cursorColor2, cursorColor2, errorCursorColor2, errorCursorColor2, selectionColors3, value9, i23, l11, i167, obj88, obj28, value7, obj30, focusedLeadingIconColor2, i14, unfocusedLeadingIconColor2, i17, l8, obj36, value4, i12, focusedTrailingIconColor2, obj40, unfocusedTrailingIconColor2, obj42, l3, obj44, value5, i15, focusedLabelColor2);
+        return this.outlinedTextFieldColors-FD9MK7s(focusedTextColor2, i49, unfocusedTextColor2, i164, disabledTextColor2, focusedTextColor2, errorTextColor2, unfocusedTextColor2, l17, disabledTextColor2, containerColor2, errorTextColor2, l17, containerColor2, errorContainerColor2, errorContainerColor2, cursorColor2, cursorColor2, errorCursorColor2, errorCursorColor2, selectionColors2, value, i, l3, i167, obj88, obj28, value11, obj30, focusedLeadingIconColor2, i23, unfocusedLeadingIconColor2, i6, l, obj36, value2, i22, focusedTrailingIconColor2, obj40, unfocusedTrailingIconColor2, obj42, l6, obj44, value4, i34, focusedLabelColor2);
     }
 
     public final PopupProperties popupProperties-pR6Bxps$material3_release(String anchorType, Composer $composer, int $changed) {
-        int i2;
+        int i;
         boolean traceInProgress;
         String str;
         int flags;
         boolean equals-impl0;
-        int i;
+        int i2;
         int i3 = -1724259382;
         ComposerKt.sourceInformationMarkerStart($composer, i3, "C(popupProperties)P(0:c#material3.MenuAnchorType)861@45439L35:ExposedDropdownMenu.android.kt#uh7d8r");
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i3, $changed, -1, "androidx.compose.material3.ExposedDropdownMenuDefaults.popupProperties (ExposedDropdownMenu.android.kt:860)");
         }
-        i2 = 0;
-        State rememberAccessibilityServiceState = AccessibilityServiceStateProvider_androidKt.rememberAccessibilityServiceState(i2, i2, $composer, i2, 3);
+        i = 0;
+        State rememberAccessibilityServiceState = AccessibilityServiceStateProvider_androidKt.rememberAccessibilityServiceState(i, i, $composer, i, 3);
         if (!ExposedDropdownMenuDefaults.popupProperties_pR6Bxps$lambda$0(rememberAccessibilityServiceState)) {
             flags |= 32;
         }
         if (!MenuAnchorType.equals-impl0(anchorType, MenuAnchorType.Companion.getPrimaryEditable-Mg6Rgbw())) {
             if (MenuAnchorType.equals-impl0(anchorType, MenuAnchorType.Companion.getSecondaryEditable-Mg6Rgbw()) && !ExposedDropdownMenuDefaults.popupProperties_pR6Bxps$lambda$0(rememberAccessibilityServiceState)) {
                 if (!ExposedDropdownMenuDefaults.popupProperties_pR6Bxps$lambda$0(rememberAccessibilityServiceState)) {
-                    i2 = 1;
+                    i = 1;
                 }
             }
         } else {
         }
-        i = i2 != 0 ? flags : flags;
-        PopupProperties popupProperties = new PopupProperties(i, 0, 0, 0, 0, 0, 62, 0);
+        i2 = i != 0 ? flags : flags;
+        PopupProperties popupProperties = new PopupProperties(i2, 0, 0, 0, 0, 0, 62, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -1152,36 +1152,36 @@ public final class ExposedDropdownMenuDefaults {
         int fieldLabelTextColor;
         int fieldDisabledLabelTextColor;
         int fieldErrorLabelTextColor;
-        int fieldSupportingTextColor7;
-        int fieldSupportingTextColor4;
-        float fieldDisabledSupportingTextOpacity;
-        int fieldSupportingTextColor5;
-        int fieldSupportingTextColor;
-        int fieldSupportingTextColor8;
-        float fieldDisabledSupportingTextOpacity3;
-        int fieldSupportingTextColor6;
         int fieldSupportingTextColor3;
+        int fieldSupportingTextColor5;
+        float fieldDisabledSupportingTextOpacity3;
         int fieldSupportingTextColor2;
-        int fieldDisabledSupportingTextOpacity2;
-        int value8;
+        int fieldSupportingTextColor4;
+        int fieldSupportingTextColor8;
+        float fieldDisabledSupportingTextOpacity2;
+        int fieldSupportingTextColor7;
+        int fieldSupportingTextColor6;
+        int fieldSupportingTextColor;
+        int fieldDisabledSupportingTextOpacity;
+        int value;
         boolean traceInProgress;
-        int i13;
+        int i23;
         Object selectionColors2;
         int selectionColors3;
         int textFieldFocusLeadingIconColor;
         int textFieldLeadingIconColor;
-        int i33;
-        int i31;
-        int i30;
-        int i11;
-        int i23;
+        int i21;
+        int i20;
+        int i2;
+        int i8;
+        int i34;
         int fieldFocusInputTextColor;
         int fieldInputTextColor;
         int iNSTANCE;
         int fieldErrorInputTextColor;
-        int textFieldContainerColor2;
-        int textFieldContainerColor4;
         int textFieldContainerColor;
+        int textFieldContainerColor4;
+        int textFieldContainerColor2;
         int textFieldContainerColor3;
         androidx.compose.material3.tokens.ColorSchemeKeyTokens textFieldCaretColor;
         int textFieldErrorFocusCaretColor;
@@ -1190,76 +1190,76 @@ public final class ExposedDropdownMenuDefaults {
         androidx.compose.material3.tokens.ColorSchemeKeyTokens textFieldActiveIndicatorColor;
         long disabledIndicatorColor2;
         int str;
-        int i9;
+        int i33;
         long focusedTextColor2;
         long unfocusedTextColor2;
         long disabledTextColor2;
         float fieldDisabledInputTextOpacity;
         long errorTextColor2;
-        int i3;
-        int i16;
+        int i22;
+        int i17;
         long focusedContainerColor2;
-        int i7;
-        int i26;
+        int i25;
+        int i35;
         long unfocusedContainerColor2;
-        int i20;
+        int i9;
         long disabledContainerColor2;
         long errorContainerColor2;
         long cursorColor2;
         long errorCursorColor2;
-        int i32;
-        long value4;
-        int i10;
-        long value;
-        long l;
-        long value3;
-        long value6;
-        int i29;
-        long focusedLeadingIconColor2;
-        int i18;
-        int i4;
-        long unfocusedLeadingIconColor2;
-        int i35;
-        long disabledLeadingIconColor2;
-        int i6;
-        long value7;
-        int i17;
+        int i19;
+        long value5;
         int i14;
-        long focusedTrailingIconColor2;
+        long value8;
+        long l8;
+        long value7;
+        long value3;
+        int i7;
+        long focusedLeadingIconColor2;
+        int i31;
+        int i6;
+        long unfocusedLeadingIconColor2;
+        int i3;
+        long disabledLeadingIconColor2;
+        int i13;
+        long value6;
         int i27;
+        int i;
+        long focusedTrailingIconColor2;
+        int i10;
         long unfocusedTrailingIconColor2;
         long disabledTrailingIconColor2;
-        int i34;
+        int i24;
         long value2;
-        int i15;
-        int i28;
+        int i29;
+        int i11;
         long focusedLabelColor2;
-        int i12;
+        int i32;
         long unfocusedLabelColor2;
         long disabledLabelColor2;
         long errorLabelColor2;
         long focusedPlaceholderColor2;
         long unfocusedPlaceholderColor2;
         long disabledPlaceholderColor2;
-        int i19;
-        long value5;
-        int i8;
+        int i26;
+        long value4;
+        int i12;
         int copy-wmQWz5c$default;
-        int i22;
-        long l2;
-        long l8;
-        long l5;
-        int i5;
-        int i;
-        long l4;
-        int i24;
-        long l6;
+        int i28;
         long l9;
+        long l2;
         long l7;
-        int i21;
-        int i25;
+        int i5;
+        int i30;
+        long l4;
+        int i4;
+        long l6;
+        long l5;
+        long l;
+        int i16;
+        int i15;
         long l3;
-        int i2;
+        int i18;
         long obj98;
         long obj99;
         float obj100;
@@ -1274,7 +1274,7 @@ public final class ExposedDropdownMenuDefaults {
         int i37 = obj177;
         final int i38 = obj178;
         int i39 = obj180;
-        i13 = obj181;
+        i23 = obj181;
         ComposerKt.sourceInformationMarkerStart(composer, 768358577, "C(textFieldColors)P(27:c#ui.graphics.Color,37:c#ui.graphics.Color,8:c#ui.graphics.Color,18:c#ui.graphics.Color,20:c#ui.graphics.Color,30:c#ui.graphics.Color,1:c#ui.graphics.Color,10:c#ui.graphics.Color,0:c#ui.graphics.Color,11:c#ui.graphics.Color,29,21:c#ui.graphics.Color,31:c#ui.graphics.Color,2:c#ui.graphics.Color,12:c#ui.graphics.Color,23:c#ui.graphics.Color,33:c#ui.graphics.Color,4:c#ui.graphics.Color,14:c#ui.graphics.Color,28:c#ui.graphics.Color,38:c#ui.graphics.Color,9:c#ui.graphics.Color,19:c#ui.graphics.Color,22:c#ui.graphics.Color,32:c#ui.graphics.Color,3:c#ui.graphics.Color,13:c#ui.graphics.Color,24:c#ui.graphics.Color,34:c#ui.graphics.Color,5:c#ui.graphics.Color,15:c#ui.graphics.Color,25:c#ui.graphics.Color,35:c#ui.graphics.Color,6:c#ui.graphics.Color,16:c#ui.graphics.Color,26:c#ui.graphics.Color,36:c#ui.graphics.Color,7:c#ui.graphics.Color,17:c#ui.graphics.Color)573@27038L5,574@27126L5,576@27233L5,579@27421L5,580@27516L5,581@27613L5,582@27709L5,583@27802L5,584@27883L5,585@27979L5,586@28058L7,588@28178L5,590@28293L5,592@28415L5,596@28640L5,598@28756L5,599@28857L5,601@28977L5,605@29196L5,607@29314L5,609@29429L5,611@29551L5,615@29773L5,616@29865L5,617@29954L5,618@30050L5,619@30140L5,620@30238L5,621@30338L5,623@30457L5,626@30657L5,627@30750L5,628@30845L5,630@30959L5,633@31154L5,634@31247L5,635@31342L5,637@31456L5,640@31651L5,642@31709L2230:ExposedDropdownMenu.android.kt#uh7d8r");
         str = 6;
         if (i39 & 1 != 0) {
@@ -1328,8 +1328,8 @@ public final class ExposedDropdownMenuDefaults {
             errorCursorColor2 = errorLeadingIconColor;
         }
         if (i39 & 1024 != 0) {
-            i32 = 0;
-            i10 = 0;
+            i19 = 0;
+            i14 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             selectionColors2 = composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors());
             ComposerKt.sourceInformationMarkerEnd(composer);
@@ -1337,26 +1337,26 @@ public final class ExposedDropdownMenuDefaults {
             selectionColors2 = unfocusedTrailingIconColor;
         }
         if (i39 & 2048 != 0) {
-            value4 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusActiveIndicatorColor(), composer, 6);
+            value5 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusActiveIndicatorColor(), composer, 6);
         } else {
-            i9 = 6;
-            value4 = disabledTrailingIconColor;
+            i33 = 6;
+            value5 = disabledTrailingIconColor;
         }
         if (i39 & 4096 != 0) {
-            l = value;
+            l8 = value8;
         } else {
-            l = focusedLabelColor;
+            l8 = focusedLabelColor;
         }
         if (i39 & 8192 != 0) {
-            disabledIndicatorColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledActiveIndicatorColor(), composer, i9), unfocusedTextColor, FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledActiveIndicatorOpacity(), 0, 0, 0, 14);
+            disabledIndicatorColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledActiveIndicatorColor(), composer, i33), unfocusedTextColor, FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledActiveIndicatorOpacity(), 0, 0, 0, 14);
         } else {
             disabledIndicatorColor2 = disabledLabelColor;
         }
         if (i39 & 16384 != 0) {
-            value6 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorActiveIndicatorColor(), composer, 6);
+            value3 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorActiveIndicatorColor(), composer, 6);
         } else {
             textFieldDisabledLeadingIconOpacity = 6;
-            value6 = focusedPlaceholderColor;
+            value3 = focusedPlaceholderColor;
         }
         if (obj180 & i92 != 0) {
             focusedLeadingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusLeadingIconColor(), composer, textFieldDisabledLeadingIconOpacity);
@@ -1374,111 +1374,111 @@ public final class ExposedDropdownMenuDefaults {
             disabledLeadingIconColor2 = disabledPrefixColor;
         }
         if (obj180 & i40 != 0) {
-            value7 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorLeadingIconColor(), composer, 6);
+            value6 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorLeadingIconColor(), composer, 6);
         } else {
-            i31 = 6;
-            value7 = focusedSuffixColor;
+            i20 = 6;
+            value6 = focusedSuffixColor;
         }
         if (obj180 & i41 != 0) {
-            focusedTrailingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusTrailingIconColor(), composer, i31);
+            focusedTrailingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusTrailingIconColor(), composer, i20);
         } else {
             focusedTrailingIconColor2 = disabledSuffixColor;
         }
         if (obj180 & i42 != 0) {
-            unfocusedTrailingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldTrailingIconColor(), composer, i31);
+            unfocusedTrailingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldTrailingIconColor(), composer, i20);
         } else {
             unfocusedTrailingIconColor2 = $composer;
         }
         if (obj180 & i43 != 0) {
-            disabledTrailingIconColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledTrailingIconColor(), composer, i31), obj100, FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledTrailingIconOpacity(), 0, 0, 0, 14);
+            disabledTrailingIconColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledTrailingIconColor(), composer, i20), obj100, FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledTrailingIconOpacity(), 0, 0, 0, 14);
         } else {
             disabledTrailingIconColor2 = $changed1;
         }
         if (obj180 & i44 != 0) {
             value2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorTrailingIconColor(), composer, 6);
         } else {
-            i30 = 6;
+            i2 = 6;
             value2 = $changed3;
         }
         if (obj180 & i47 != 0) {
-            focusedLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldFocusLabelTextColor(), composer, i30);
+            focusedLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldFocusLabelTextColor(), composer, i2);
         } else {
             focusedLabelColor2 = i46;
         }
         if (obj180 & i48 != 0) {
-            unfocusedLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldLabelTextColor(), composer, i30);
+            unfocusedLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldLabelTextColor(), composer, i2);
         } else {
             unfocusedLabelColor2 = obj145;
         }
         if (obj180 & i49 != 0) {
-            disabledLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldDisabledLabelTextColor(), composer, i30);
+            disabledLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldDisabledLabelTextColor(), composer, i2);
         } else {
             disabledLabelColor2 = obj147;
         }
         if (obj180 & i50 != 0) {
-            errorLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldErrorLabelTextColor(), composer, i30);
+            errorLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldErrorLabelTextColor(), composer, i2);
         } else {
             errorLabelColor2 = obj149;
         }
         if (obj180 & i51 != 0) {
-            focusedPlaceholderColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i30);
+            focusedPlaceholderColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i2);
         } else {
             focusedPlaceholderColor2 = obj151;
         }
         if (obj180 & i52 != 0) {
-            unfocusedPlaceholderColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i30);
+            unfocusedPlaceholderColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i2);
         } else {
             unfocusedPlaceholderColor2 = obj153;
         }
         if (obj180 & i53 != 0) {
-            disabledPlaceholderColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldDisabledSupportingTextColor(), composer, i30), obj100, FilledAutocompleteTokens.INSTANCE.getFieldDisabledSupportingTextOpacity(), 0, 0, 0, 14);
+            disabledPlaceholderColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldDisabledSupportingTextColor(), composer, i2), obj100, FilledAutocompleteTokens.INSTANCE.getFieldDisabledSupportingTextOpacity(), 0, 0, 0, 14);
         } else {
             disabledPlaceholderColor2 = obj155;
         }
         if (obj180 & i54 != 0) {
-            value5 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, 6);
+            value4 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, 6);
         } else {
-            i11 = 6;
-            value5 = obj157;
+            i8 = 6;
+            value4 = obj157;
         }
-        if (i13 & 1 != 0) {
+        if (i23 & 1 != 0) {
+            l9 = copy-wmQWz5c$default;
+        } else {
+            l9 = obj159;
+        }
+        if (i23 & 2 != 0) {
             l2 = copy-wmQWz5c$default;
         } else {
-            l2 = obj159;
+            l2 = obj161;
         }
-        if (i13 & 2 != 0) {
-            l8 = copy-wmQWz5c$default;
+        if (i23 & 4 != 0) {
+            l7 = copy-wmQWz5c$default;
         } else {
-            l8 = obj161;
+            l7 = obj163;
         }
-        if (i13 & 4 != 0) {
-            l5 = copy-wmQWz5c$default;
-        } else {
-            l5 = obj163;
-        }
-        if (i13 & 8 != 0) {
+        if (i23 & 8 != 0) {
             l4 = copy-wmQWz5c$default;
         } else {
-            i23 = 6;
+            i34 = 6;
             l4 = obj165;
         }
-        if (i13 & 16 != 0) {
+        if (i23 & 16 != 0) {
             l6 = copy-wmQWz5c$default;
         } else {
             l6 = obj167;
         }
-        if (i13 & 32 != 0) {
-            l9 = copy-wmQWz5c$default;
+        if (i23 & 32 != 0) {
+            l5 = copy-wmQWz5c$default;
         } else {
-            l9 = obj169;
+            l5 = obj169;
         }
-        if (i13 & 64 != 0) {
-            l7 = copy-wmQWz5c$default;
+        if (i23 & 64 != 0) {
+            l = copy-wmQWz5c$default;
         } else {
-            l7 = obj171;
+            l = obj171;
         }
-        if (i13 & 128 != 0) {
-            l3 = value8;
+        if (i23 & 128 != 0) {
+            l3 = value;
         } else {
             l3 = obj173;
         }
@@ -1497,73 +1497,73 @@ public final class ExposedDropdownMenuDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj175);
-        return TextFieldDefaults.INSTANCE.colors-0hiis_0(focusedTextColor2, i38, unfocusedTextColor2, i90, disabledTextColor2, disabledIndicatorColor2, errorTextColor2, focusedTextColor2, focusedContainerColor2, unfocusedTextColor2, unfocusedContainerColor2, disabledTextColor2, disabledContainerColor2, errorTextColor2, errorContainerColor2, focusedContainerColor2, cursorColor2, unfocusedContainerColor2, errorCursorColor2, disabledContainerColor2, selectionColors2, value4, obj24, l, obj26, disabledIndicatorColor2, obj28, value6, i10, focusedLeadingIconColor2, i135, unfocusedLeadingIconColor2, obj34, disabledLeadingIconColor2, obj36, value7, i18, focusedTrailingIconColor2, i35, unfocusedTrailingIconColor2, obj42, disabledTrailingIconColor2, i17, value2, i27, focusedLabelColor2, obj48, unfocusedLabelColor2, obj50, disabledLabelColor2, i15);
+        return TextFieldDefaults.INSTANCE.colors-0hiis_0(focusedTextColor2, i38, unfocusedTextColor2, i90, disabledTextColor2, disabledIndicatorColor2, errorTextColor2, focusedTextColor2, focusedContainerColor2, unfocusedTextColor2, unfocusedContainerColor2, disabledTextColor2, disabledContainerColor2, errorTextColor2, errorContainerColor2, focusedContainerColor2, cursorColor2, unfocusedContainerColor2, errorCursorColor2, disabledContainerColor2, selectionColors2, value5, obj24, l8, obj26, disabledIndicatorColor2, obj28, value3, i14, focusedLeadingIconColor2, i135, unfocusedLeadingIconColor2, obj34, disabledLeadingIconColor2, obj36, value6, i31, focusedTrailingIconColor2, i3, unfocusedTrailingIconColor2, obj42, disabledTrailingIconColor2, i27, value2, i10, focusedLabelColor2, obj48, unfocusedLabelColor2, obj50, disabledLabelColor2, i29);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public final androidx.compose.material3.TextFieldColors textFieldColors-St-qZLY(long textColor, long disabledTextColor, long containerColor, long cursorColor, long errorCursorColor, TextSelectionColors selectionColors, long focusedIndicatorColor, long unfocusedIndicatorColor, long disabledIndicatorColor, long errorIndicatorColor, long focusedLeadingIconColor, long unfocusedLeadingIconColor, long disabledLeadingIconColor, long errorLeadingIconColor, long focusedTrailingIconColor, long unfocusedTrailingIconColor, long disabledTrailingIconColor, long errorTrailingIconColor, long focusedLabelColor, long unfocusedLabelColor, long disabledLabelColor, long errorLabelColor, long placeholderColor, long disabledPlaceholderColor, Composer $composer, int $changed, int $changed1, int $changed2, int i29) {
-        int copy-wmQWz5c$default4;
+        int copy-wmQWz5c$default2;
         boolean traceInProgress;
         int consume;
-        int value11;
-        int value10;
-        long copy-wmQWz5c$default3;
-        int value5;
-        long value2;
-        int value8;
-        long copy-wmQWz5c$default2;
         int value12;
-        int value7;
-        int value13;
-        int copy-wmQWz5c$default;
-        int value6;
-        int value4;
-        int value14;
-        int value9;
         int value;
+        long copy-wmQWz5c$default3;
+        int value6;
+        long value4;
         int value3;
-        int i4;
+        long copy-wmQWz5c$default4;
+        int value8;
+        int value10;
+        int value11;
+        int copy-wmQWz5c$default;
+        int value13;
+        int value7;
+        int value2;
+        int value9;
+        int value5;
+        int value14;
+        int i6;
         int fieldInputTextColor;
         int iNSTANCE;
         int textFieldContainerColor;
         int textFieldCaretColor;
         int textFieldErrorFocusCaretColor;
-        int fieldDisabledInputTextOpacity2;
+        int fieldDisabledInputTextOpacity;
         long textColor2;
         long disabledTextColor2;
-        float fieldDisabledInputTextOpacity;
+        float fieldDisabledInputTextOpacity2;
         long containerColor2;
         int i10;
         int textFieldDisabledActiveIndicatorOpacity;
-        int i6;
-        int i3;
-        int i5;
-        int i;
-        long l15;
-        long l13;
-        Object obj;
-        long l2;
-        long l5;
-        long l4;
-        int i2;
-        long l;
-        long l10;
-        long l8;
-        long l11;
         int i7;
-        long l16;
-        long l3;
-        long l17;
-        long l20;
+        int i3;
         int i8;
-        long l14;
-        long l18;
-        long l6;
-        long l12;
-        long l9;
-        long l7;
+        int i5;
+        long l13;
+        long l4;
+        Object obj;
+        long l10;
+        long l;
+        long l2;
         int i9;
+        long l5;
+        long l6;
+        long l18;
+        long l20;
+        int i4;
         long l19;
+        long l3;
+        long l11;
+        long l14;
+        int i;
+        long l17;
+        long l7;
+        long l12;
+        long l16;
+        long l8;
+        long l9;
+        int i2;
+        long l15;
         long obj87;
         float obj89;
         int obj90;
@@ -1593,18 +1593,18 @@ public final class ExposedDropdownMenuDefaults {
             containerColor2 = errorCursorColor;
         }
         if (i13 & 8 != 0) {
-            l15 = textFieldDisabledActiveIndicatorOpacity;
-        } else {
-            l15 = focusedIndicatorColor;
-        }
-        if (i13 & 16 != 0) {
             l13 = textFieldDisabledActiveIndicatorOpacity;
         } else {
-            l13 = disabledIndicatorColor;
+            l13 = focusedIndicatorColor;
+        }
+        if (i13 & 16 != 0) {
+            l4 = textFieldDisabledActiveIndicatorOpacity;
+        } else {
+            l4 = disabledIndicatorColor;
         }
         if (i13 & 32 != 0) {
             textFieldDisabledActiveIndicatorOpacity = 0;
-            i6 = 0;
+            i7 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
             ComposerKt.sourceInformationMarkerEnd(composer);
             obj = consume;
@@ -1612,94 +1612,94 @@ public final class ExposedDropdownMenuDefaults {
             obj = focusedLeadingIconColor;
         }
         if (i13 & 64 != 0) {
-            l2 = value11;
+            l10 = value12;
         } else {
-            l2 = unfocusedLeadingIconColor;
+            l10 = unfocusedLeadingIconColor;
         }
         if (i13 & 128 != 0) {
-            l5 = value10;
+            l = value;
         } else {
-            l5 = errorLeadingIconColor;
+            l = errorLeadingIconColor;
         }
         if (i13 & 256 != 0) {
-            l4 = copy-wmQWz5c$default3;
+            l2 = copy-wmQWz5c$default3;
         } else {
-            l4 = unfocusedTrailingIconColor;
+            l2 = unfocusedTrailingIconColor;
         }
         if (i13 & 512 != 0) {
-            l = value5;
+            l5 = value6;
         } else {
-            l = errorTrailingIconColor;
+            l5 = errorTrailingIconColor;
         }
         if (i13 & 1024 != 0) {
-            l10 = value2;
+            l6 = value4;
         } else {
-            l10 = unfocusedLabelColor;
+            l6 = unfocusedLabelColor;
         }
         if (i13 & 2048 != 0) {
-            l8 = value8;
+            l18 = value3;
         } else {
-            l8 = errorLabelColor;
+            l18 = errorLabelColor;
         }
         if (i13 & 4096 != 0) {
-            l11 = copy-wmQWz5c$default2;
+            l20 = copy-wmQWz5c$default4;
         } else {
-            l11 = disabledPlaceholderColor;
+            l20 = disabledPlaceholderColor;
         }
         if (i13 & 8192 != 0) {
-            l16 = value12;
+            l19 = value8;
         } else {
-            l16 = $changed;
+            l19 = $changed;
         }
         if (i13 & 16384 != 0) {
-            l3 = value7;
+            l3 = value10;
         } else {
             l3 = $changed2;
         }
         if (i46 &= i13 != 0) {
-            l17 = value13;
+            l11 = value11;
         } else {
-            l17 = obj116;
+            l11 = obj116;
         }
         if (i47 &= i13 != 0) {
-            l20 = copy-wmQWz5c$default;
+            l14 = copy-wmQWz5c$default;
         } else {
-            l20 = obj118;
+            l14 = obj118;
         }
         if (i48 &= i13 != 0) {
-            l14 = value6;
+            l17 = value13;
         } else {
-            l14 = obj120;
+            l17 = obj120;
         }
         if (i49 &= i13 != 0) {
-            l18 = value4;
+            l7 = value7;
         } else {
-            l18 = obj122;
+            l7 = obj122;
         }
         if (i50 &= i13 != 0) {
-            l6 = value14;
+            l12 = value2;
         } else {
-            l6 = obj124;
+            l12 = obj124;
         }
         if (i51 &= i13 != 0) {
-            l12 = value9;
+            l16 = value9;
         } else {
-            l12 = obj126;
+            l16 = obj126;
         }
         if (i52 &= i13 != 0) {
-            l9 = value;
+            l8 = value5;
         } else {
-            l9 = obj128;
+            l8 = obj128;
         }
         if (i53 &= i13 != 0) {
-            l7 = value3;
+            l9 = value14;
         } else {
-            l7 = obj130;
+            l9 = obj130;
         }
-        if (i13 &= i4 != 0) {
-            l19 = copy-wmQWz5c$default4;
+        if (i13 &= i6 != 0) {
+            l15 = copy-wmQWz5c$default2;
         } else {
-            l19 = obj132;
+            l15 = obj132;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(-1343678550, i11, i12, "androidx.compose.material3.ExposedDropdownMenuDefaults.textFieldColors (ExposedDropdownMenu.android.kt:1165)");
@@ -1723,28 +1723,28 @@ public final class ExposedDropdownMenuDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj134);
-        return this.textFieldColors-FD9MK7s(l21, i45, textColor2, i110, disabledTextColor2, textColor2, l21, disabledTextColor2, l25, containerColor2, l25, i114, l25, i118, l25, i121, l15, obj19, l13, obj21, obj, l2, obj24, l5, obj26, l4, i2, l, obj30, l10, obj32, l8, obj34, l11, i7, l16, obj38, l3, obj40, l17, obj42, l20, i8, l14, obj46, l18);
+        return this.textFieldColors-FD9MK7s(l21, i45, textColor2, i110, disabledTextColor2, textColor2, l21, disabledTextColor2, l25, containerColor2, l25, i114, l25, i118, l25, i121, l13, obj19, l4, obj21, obj, l10, obj24, l, obj26, l2, i9, l5, obj30, l6, obj32, l18, obj34, l20, i4, l19, obj38, l3, obj40, l11, obj42, l14, i, l17, obj46, l7);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "Maintained for binary compatibility")
     public final androidx.compose.material3.TextFieldColors textFieldColors-tN0la-I(long focusedTextColor, long unfocusedTextColor, long disabledTextColor, long errorTextColor, long containerColor, long errorContainerColor, long cursorColor, long errorCursorColor, TextSelectionColors selectionColors, long focusedIndicatorColor, long unfocusedIndicatorColor, long disabledIndicatorColor, long errorIndicatorColor, long focusedLeadingIconColor, long unfocusedLeadingIconColor, long disabledLeadingIconColor, long errorLeadingIconColor, long focusedTrailingIconColor, long unfocusedTrailingIconColor, long disabledTrailingIconColor, long errorTrailingIconColor, long focusedLabelColor, long unfocusedLabelColor, long disabledLabelColor, long errorLabelColor, long focusedPlaceholderColor, long unfocusedPlaceholderColor, long disabledPlaceholderColor, long errorPlaceholderColor, long focusedPrefixColor, long unfocusedPrefixColor, long disabledPrefixColor, long errorPrefixColor, long focusedSuffixColor, long unfocusedSuffixColor, long disabledSuffixColor, long errorSuffixColor, Composer $composer, int $changed, int $changed1, int $changed2, int $changed3, int i43, int i44) {
-        int value4;
-        int copy-wmQWz5c$default;
-        int value2;
-        long value6;
-        int value7;
-        int copy-wmQWz5c$default2;
-        int value11;
+        int value9;
+        int copy-wmQWz5c$default3;
+        int value3;
+        long value11;
+        int value8;
+        int copy-wmQWz5c$default4;
+        int value12;
         boolean traceInProgress;
-        Object selectionColors3;
-        androidx.compose.material3.tokens.ColorSchemeKeyTokens selectionColors2;
+        Object selectionColors2;
+        androidx.compose.material3.tokens.ColorSchemeKeyTokens selectionColors3;
         int textFieldFocusLeadingIconColor;
         int textFieldLeadingIconColor;
-        int copy-wmQWz5c$default4;
+        int copy-wmQWz5c$default;
         int textFieldErrorLeadingIconColor;
         int textFieldFocusTrailingIconColor;
         int textFieldTrailingIconColor;
-        int copy-wmQWz5c$default3;
+        int copy-wmQWz5c$default5;
         int textFieldErrorTrailingIconColor;
         int fieldFocusLabelTextColor;
         int fieldLabelTextColor;
@@ -1752,10 +1752,10 @@ public final class ExposedDropdownMenuDefaults {
         int fieldErrorLabelTextColor;
         int fieldSupportingTextColor3;
         int fieldSupportingTextColor4;
-        int copy-wmQWz5c$default5;
+        int copy-wmQWz5c$default2;
         int fieldSupportingTextColor;
         androidx.compose.material3.tokens.ColorSchemeKeyTokens fieldSupportingTextColor2;
-        int i28;
+        int i;
         int fieldFocusInputTextColor;
         int fieldInputTextColor;
         int iNSTANCE;
@@ -1767,78 +1767,78 @@ public final class ExposedDropdownMenuDefaults {
         androidx.compose.runtime.ProvidableCompositionLocal localTextSelectionColors;
         int textFieldFocusActiveIndicatorColor;
         int textFieldActiveIndicatorColor;
-        long disabledIndicatorColor2;
-        int disabledIndicatorColor3;
-        int i10;
-        int i4;
+        long disabledIndicatorColor3;
+        int disabledIndicatorColor2;
+        int i30;
+        int i28;
         int fieldDisabledSupportingTextOpacity;
         int fieldDisabledSupportingTextOpacity2;
         String str;
-        int i25;
+        int i10;
         long focusedTextColor2;
         long unfocusedTextColor2;
         long disabledTextColor2;
         float fieldDisabledInputTextOpacity;
         long errorTextColor2;
-        int i11;
-        int i12;
+        int i3;
+        int i25;
         long containerColor2;
-        int i15;
         int i20;
+        int i24;
         long errorContainerColor2;
-        int i14;
+        int i12;
         long cursorColor2;
         long errorCursorColor2;
-        int i8;
-        long value9;
-        int i22;
-        long value10;
-        long l10;
-        long value8;
-        long value12;
+        int i14;
+        long value4;
+        int i27;
+        long value;
+        long l8;
+        long value5;
+        long value7;
         int i2;
         long focusedLeadingIconColor2;
-        int i16;
-        int i5;
-        long unfocusedLeadingIconColor2;
-        int i7;
-        long l7;
-        int i27;
-        long value3;
         int i29;
-        int i3;
+        int i4;
+        long unfocusedLeadingIconColor2;
+        int i5;
+        long l4;
+        int i6;
+        long value10;
+        int i26;
+        int i7;
         long focusedTrailingIconColor2;
         long unfocusedTrailingIconColor2;
         long l6;
-        int i23;
-        long value5;
-        int i24;
-        int i26;
+        int i8;
+        long value2;
+        int i19;
+        int i9;
         long focusedLabelColor2;
         long unfocusedLabelColor2;
         long disabledLabelColor2;
         long errorLabelColor2;
         long focusedPlaceholderColor2;
         long unfocusedPlaceholderColor2;
-        long l8;
-        int i6;
-        long value;
-        int i13;
-        int i;
-        long focusedPrefixColor2;
-        long l11;
         long l;
-        int i17;
-        int i9;
-        long l2;
-        int i30;
-        long l3;
-        long l9;
-        long l4;
+        int i11;
+        long value6;
+        int i16;
         int i21;
-        int i19;
-        long l5;
+        long focusedPrefixColor2;
+        long l9;
+        long l2;
+        int i13;
+        int i22;
+        long l7;
         int i18;
+        long l5;
+        long l10;
+        long l3;
+        int i23;
+        int i15;
+        long l11;
+        int i17;
         long obj87;
         long obj88;
         float obj89;
@@ -1897,161 +1897,161 @@ public final class ExposedDropdownMenuDefaults {
             errorCursorColor2 = unfocusedLeadingIconColor;
         }
         if (i33 & 256 != 0) {
-            i8 = 0;
-            i22 = 0;
+            i14 = 0;
+            i27 = 0;
             ComposerKt.sourceInformationMarkerStart(composer, 2023513938, "CC:CompositionLocal.kt#9igjgp");
-            selectionColors3 = composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors());
+            selectionColors2 = composer.consume((CompositionLocal)TextSelectionColorsKt.getLocalTextSelectionColors());
             ComposerKt.sourceInformationMarkerEnd(composer);
         } else {
-            selectionColors3 = errorLeadingIconColor;
+            selectionColors2 = errorLeadingIconColor;
         }
         if (i33 & 512 != 0) {
-            value9 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusActiveIndicatorColor(), composer, 6);
+            value4 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusActiveIndicatorColor(), composer, 6);
         } else {
-            i25 = 6;
-            value9 = focusedTrailingIconColor;
+            i10 = 6;
+            value4 = focusedTrailingIconColor;
         }
         if (i33 & 1024 != 0) {
-            l10 = value10;
+            l8 = value;
         } else {
-            l10 = disabledTrailingIconColor;
+            l8 = disabledTrailingIconColor;
         }
         if (i33 & 2048 != 0) {
-            disabledIndicatorColor2 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledActiveIndicatorColor(), composer, i25), unfocusedTextColor, FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledActiveIndicatorOpacity(), 0, 0, 0, 14);
+            disabledIndicatorColor3 = Color.copy-wmQWz5c$default(ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledActiveIndicatorColor(), composer, i10), unfocusedTextColor, FilledAutocompleteTokens.INSTANCE.getTextFieldDisabledActiveIndicatorOpacity(), 0, 0, 0, 14);
         } else {
-            disabledIndicatorColor2 = focusedLabelColor;
+            disabledIndicatorColor3 = focusedLabelColor;
         }
         if (i33 & 4096 != 0) {
-            obj88 = disabledIndicatorColor2;
-            value12 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorActiveIndicatorColor(), composer, 6);
+            obj88 = disabledIndicatorColor3;
+            value7 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorActiveIndicatorColor(), composer, 6);
         } else {
-            obj88 = disabledIndicatorColor2;
-            disabledIndicatorColor3 = 6;
-            value12 = disabledLabelColor;
+            obj88 = disabledIndicatorColor3;
+            disabledIndicatorColor2 = 6;
+            value7 = disabledLabelColor;
         }
         if (i33 & 8192 != 0) {
-            focusedLeadingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusLeadingIconColor(), composer, disabledIndicatorColor3);
+            focusedLeadingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusLeadingIconColor(), composer, disabledIndicatorColor2);
         } else {
             focusedLeadingIconColor2 = focusedPlaceholderColor;
         }
         if (i33 & 16384 != 0) {
-            unfocusedLeadingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldLeadingIconColor(), composer, disabledIndicatorColor3);
+            unfocusedLeadingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldLeadingIconColor(), composer, disabledIndicatorColor2);
         } else {
             unfocusedLeadingIconColor2 = disabledPlaceholderColor;
         }
         if (i48 &= i33 != 0) {
-            l7 = copy-wmQWz5c$default4;
+            l4 = copy-wmQWz5c$default;
         } else {
-            l7 = focusedPrefixColor;
+            l4 = focusedPrefixColor;
         }
         if (i49 &= i33 != 0) {
-            value3 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorLeadingIconColor(), composer, 6);
+            value10 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorLeadingIconColor(), composer, 6);
         } else {
-            i10 = 6;
-            value3 = disabledPrefixColor;
+            i30 = 6;
+            value10 = disabledPrefixColor;
         }
         if (i50 &= i33 != 0) {
-            focusedTrailingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusTrailingIconColor(), composer, i10);
+            focusedTrailingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldFocusTrailingIconColor(), composer, i30);
         } else {
             focusedTrailingIconColor2 = focusedSuffixColor;
         }
         if (i51 &= i33 != 0) {
-            unfocusedTrailingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldTrailingIconColor(), composer, i10);
+            unfocusedTrailingIconColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldTrailingIconColor(), composer, i30);
         } else {
             unfocusedTrailingIconColor2 = disabledSuffixColor;
         }
         if (i52 &= i33 != 0) {
-            l6 = copy-wmQWz5c$default3;
+            l6 = copy-wmQWz5c$default5;
         } else {
             l6 = $composer;
         }
         if (i53 &= i33 != 0) {
-            value5 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorTrailingIconColor(), composer, 6);
+            value2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getTextFieldErrorTrailingIconColor(), composer, 6);
         } else {
-            i4 = 6;
-            value5 = $changed1;
+            i28 = 6;
+            value2 = $changed1;
         }
         if (i54 &= i33 != 0) {
-            focusedLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldFocusLabelTextColor(), composer, i4);
+            focusedLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldFocusLabelTextColor(), composer, i28);
         } else {
             focusedLabelColor2 = $changed3;
         }
         if (i55 &= i33 != 0) {
-            unfocusedLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldLabelTextColor(), composer, i4);
+            unfocusedLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldLabelTextColor(), composer, i28);
         } else {
             unfocusedLabelColor2 = i44;
         }
         if (i56 &= i33 != 0) {
-            disabledLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldDisabledLabelTextColor(), composer, i4);
+            disabledLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldDisabledLabelTextColor(), composer, i28);
         } else {
             disabledLabelColor2 = obj132;
         }
         if (i57 &= i33 != 0) {
-            errorLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldErrorLabelTextColor(), composer, i4);
+            errorLabelColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldErrorLabelTextColor(), composer, i28);
         } else {
             errorLabelColor2 = obj134;
         }
         if (i58 &= i33 != 0) {
-            focusedPlaceholderColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i4);
+            focusedPlaceholderColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i28);
         } else {
             focusedPlaceholderColor2 = obj136;
         }
         if (i59 &= i33 != 0) {
-            unfocusedPlaceholderColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i4);
+            unfocusedPlaceholderColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, i28);
         } else {
             unfocusedPlaceholderColor2 = obj138;
         }
         if (i60 &= i33 != 0) {
-            l8 = copy-wmQWz5c$default5;
+            l = copy-wmQWz5c$default2;
         } else {
-            l8 = obj140;
+            l = obj140;
         }
         if (i61 &= i33 != 0) {
-            value = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, 6);
+            value6 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, 6);
         } else {
             fieldDisabledSupportingTextOpacity = 6;
-            value = obj142;
+            value6 = obj142;
         }
         if (i62 &= i33 != 0) {
             focusedPrefixColor2 = ColorSchemeKt.getValue(FilledAutocompleteTokens.INSTANCE.getFieldSupportingTextColor(), composer, fieldDisabledSupportingTextOpacity);
         } else {
             focusedPrefixColor2 = obj144;
         }
-        if (i33 &= i28 != 0) {
-            l11 = value4;
+        if (i33 &= i != 0) {
+            l9 = value9;
         } else {
-            l11 = obj146;
+            l9 = obj146;
         }
         if (obj166 & 1 != 0) {
-            l = copy-wmQWz5c$default;
+            l2 = copy-wmQWz5c$default3;
         } else {
-            l = obj148;
+            l2 = obj148;
         }
         if (obj166 & 2 != 0) {
-            l2 = value2;
+            l7 = value3;
         } else {
             fieldDisabledSupportingTextOpacity2 = 6;
-            l2 = obj150;
+            l7 = obj150;
         }
         if (obj166 & 4 != 0) {
-            l3 = value6;
-        } else {
-            l3 = obj152;
-        }
-        if (obj166 & 8 != 0) {
-            l9 = value7;
-        } else {
-            l9 = obj154;
-        }
-        if (obj166 & 16 != 0) {
-            l4 = copy-wmQWz5c$default2;
-        } else {
-            l4 = obj156;
-        }
-        if (obj166 & 32 != 0) {
             l5 = value11;
         } else {
-            l5 = obj158;
+            l5 = obj152;
+        }
+        if (obj166 & 8 != 0) {
+            l10 = value8;
+        } else {
+            l10 = obj154;
+        }
+        if (obj166 & 16 != 0) {
+            l3 = copy-wmQWz5c$default4;
+        } else {
+            l3 = obj156;
+        }
+        if (obj166 & 32 != 0) {
+            l11 = value12;
+        } else {
+            l11 = obj158;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(611690079, i31, i32, "androidx.compose.material3.ExposedDropdownMenuDefaults.textFieldColors (ExposedDropdownMenu.android.kt:958)");
@@ -2070,6 +2070,6 @@ public final class ExposedDropdownMenuDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj160);
-        return this.textFieldColors-FD9MK7s(focusedTextColor2, i45, unfocusedTextColor2, i160, disabledTextColor2, focusedTextColor2, errorTextColor2, unfocusedTextColor2, l16, disabledTextColor2, containerColor2, errorTextColor2, l16, containerColor2, errorContainerColor2, errorContainerColor2, cursorColor2, cursorColor2, errorCursorColor2, errorCursorColor2, selectionColors3, value9, i22, l10, i163, obj88, obj28, value12, obj30, focusedLeadingIconColor2, i16, unfocusedLeadingIconColor2, i7, l7, obj36, value3, i29, focusedTrailingIconColor2, obj40, unfocusedTrailingIconColor2, obj42, l6, obj44, value5, i24, focusedLabelColor2);
+        return this.textFieldColors-FD9MK7s(focusedTextColor2, i45, unfocusedTextColor2, i160, disabledTextColor2, focusedTextColor2, errorTextColor2, unfocusedTextColor2, l16, disabledTextColor2, containerColor2, errorTextColor2, l16, containerColor2, errorContainerColor2, errorContainerColor2, cursorColor2, cursorColor2, errorCursorColor2, errorCursorColor2, selectionColors2, value4, i27, l8, i163, obj88, obj28, value7, obj30, focusedLeadingIconColor2, i29, unfocusedLeadingIconColor2, i5, l4, obj36, value10, i26, focusedTrailingIconColor2, obj40, unfocusedTrailingIconColor2, obj42, l6, obj44, value2, i19, focusedLabelColor2);
     }
 }

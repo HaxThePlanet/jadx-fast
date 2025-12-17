@@ -86,24 +86,24 @@ final class AnimatedContentMeasurePolicy implements MeasurePolicy {
         int height2;
         int i3;
         Placeable[] lookingAhead;
-        int index$iv2;
-        boolean lookingAhead2;
-        int i5;
-        int lastIndex;
         int index$iv;
+        boolean lookingAhead2;
+        int i4;
+        int lastIndex;
+        int index$iv2;
         int size;
-        int nextInt2;
         int nextInt;
+        int nextInt2;
         boolean maxElem$iv;
         int it;
         boolean maxValue$iv;
         Object measure-BRTryo0;
         Object obj;
         int height;
-        int i4;
+        int i2;
         int i;
         long l;
-        int i2;
+        int i5;
         final Object obj2 = this;
         final long l2 = constraints;
         Placeable[] arr = new Placeable[measurables.size()];
@@ -111,11 +111,11 @@ final class AnimatedContentMeasurePolicy implements MeasurePolicy {
         targetSize = IntSize.Companion.getZero-YbymL2g();
         Object obj4 = measurables;
         int i8 = 0;
-        index$iv = 0;
+        index$iv2 = 0;
         it = 1;
-        while (index$iv < obj4.size()) {
+        while (index$iv2 < obj4.size()) {
             obj = measure-BRTryo0;
-            i4 = 0;
+            i2 = 0;
             i = 0;
             if (maxElem$iv instanceof AnimatedContentTransitionScopeImpl.ChildData != null) {
             } else {
@@ -129,7 +129,7 @@ final class AnimatedContentMeasurePolicy implements MeasurePolicy {
             } else {
             }
             l = targetSize;
-            index$iv++;
+            index$iv2++;
             it = 1;
             maxElem$iv = obj.measure-BRTryo0(l2);
             Placeable placeable3 = maxElem$iv;
@@ -137,7 +137,7 @@ final class AnimatedContentMeasurePolicy implements MeasurePolicy {
             l = targetSize;
             targetSize = IntSizeKt.IntSize(placeable3.getWidth(), placeable3.getHeight());
             it = Unit.INSTANCE;
-            arr[index$iv] = maxElem$iv;
+            arr[index$iv2] = maxElem$iv;
             if (maxElem$iv.isTarget() == it) {
             } else {
             }
@@ -147,38 +147,38 @@ final class AnimatedContentMeasurePolicy implements MeasurePolicy {
         int i9 = 0;
         Object obj3 = measurables;
         i3 = 0;
-        index$iv2 = 0;
-        while (index$iv2 < obj3.size()) {
-            maxElem$iv = index$iv2;
+        index$iv = 0;
+        while (index$iv < obj3.size()) {
+            maxElem$iv = index$iv;
             maxValue$iv = 0;
             if (arr[maxElem$iv] == null) {
             }
-            index$iv2++;
-            arr[maxElem$iv] = (Measurable)obj3.get(index$iv2).measure-BRTryo0(l2);
+            index$iv++;
+            arr[maxElem$iv] = (Measurable)obj3.get(index$iv).measure-BRTryo0(l2);
         }
         if ($this$measure_u2d3p2s80s.isLookingAhead()) {
             width-impl = IntSize.getWidth-impl(l3);
         } else {
             Placeable[] objArr = arr;
             i3 = 0;
-            i5 = objArr.length == 0 ? it : i9;
-            if (i5 != 0) {
-                index$iv2 = 0;
+            i4 = objArr.length == 0 ? it : i9;
+            if (i4 != 0) {
+                index$iv = 0;
             } else {
                 lastIndex = ArraysKt.getLastIndex(objArr);
                 if (lastIndex == 0) {
                 } else {
-                    Placeable placeable2 = index$iv2;
-                    nextInt = 0;
+                    Placeable placeable2 = index$iv;
+                    nextInt2 = 0;
                     if (placeable2 != null) {
                         maxElem$iv = placeable2.getWidth();
                     } else {
                         maxElem$iv = i9;
                     }
                     IntRange intRange2 = new IntRange(it, lastIndex);
-                    index$iv = intRange2.iterator();
-                    while (index$iv.hasNext()) {
-                        maxValue$iv = objArr[index$iv.nextInt()];
+                    index$iv2 = intRange2.iterator();
+                    while (index$iv2.hasNext()) {
+                        maxValue$iv = objArr[index$iv2.nextInt()];
                         measure-BRTryo0 = maxValue$iv;
                         obj = 0;
                         if (measure-BRTryo0 != null) {
@@ -187,23 +187,23 @@ final class AnimatedContentMeasurePolicy implements MeasurePolicy {
                         height = i9;
                         if (maxElem$iv < height) {
                         }
-                        index$iv2 = maxValue$iv;
+                        index$iv = maxValue$iv;
                         maxElem$iv = height;
                         height = measure-BRTryo0.getWidth();
                     }
                 }
             }
-            if (index$iv2 != 0) {
-                width-impl = index$iv2.getWidth();
+            if (index$iv != 0) {
+                width-impl = index$iv.getWidth();
             } else {
                 width-impl = i9;
             }
         }
         if ($this$measure_u2d3p2s80s.isLookingAhead()) {
-            i2 = maxValue$iv;
+            i5 = maxValue$iv;
         } else {
             lookingAhead = arr;
-            index$iv2 = 0;
+            index$iv = 0;
             lastIndex = lookingAhead.length == 0 ? it : i9;
             if (lastIndex != 0) {
                 maxElem$iv = 0;
@@ -212,16 +212,16 @@ final class AnimatedContentMeasurePolicy implements MeasurePolicy {
                 if (lastIndex == 0) {
                 } else {
                     Placeable placeable = maxElem$iv;
-                    nextInt2 = 0;
+                    nextInt = 0;
                     if (placeable != null) {
                         maxValue$iv = placeable.getHeight();
                     } else {
                         maxValue$iv = i9;
                     }
                     IntRange intRange = new IntRange(it, lastIndex);
-                    index$iv = intRange.iterator();
-                    while (index$iv.hasNext()) {
-                        it = lookingAhead[index$iv.nextInt()];
+                    index$iv2 = intRange.iterator();
+                    while (index$iv2.hasNext()) {
+                        it = lookingAhead[index$iv2.nextInt()];
                         measure-BRTryo0 = it;
                         obj = 0;
                         if (measure-BRTryo0 != 0) {
@@ -237,12 +237,12 @@ final class AnimatedContentMeasurePolicy implements MeasurePolicy {
                 }
             }
             if (maxElem$iv != null) {
-                i2 = maxValue$iv;
+                i5 = maxValue$iv;
             } else {
-                i2 = i9;
+                i5 = i9;
             }
         }
-        int i7 = i2;
+        int i7 = i5;
         if (!$this$measure_u2d3p2s80s.isLookingAhead()) {
             obj2.rootScope.setMeasuredSize-ozmzZPI$animation_release(IntSizeKt.IntSize(width-impl, i7));
         }

@@ -116,35 +116,35 @@ final class RingBuffer<T>  extends kotlin.collections.AbstractList<T> implements
     @Override // kotlin.collections.AbstractList
     public final void removeFirst(int n) {
         int startIndex;
-        Object[] buffer;
-        int i2;
-        int size;
-        Object buffer2;
-        int capacity;
+        Object[] buffer2;
         int i;
+        int size;
+        Object buffer;
+        int capacity;
         int i3;
-        buffer = 0;
-        i2 = n >= 0 ? startIndex : buffer;
-        if (i2 == 0) {
+        int i2;
+        buffer2 = 0;
+        i = n >= 0 ? startIndex : buffer2;
+        if (i == 0) {
         } else {
             if (n <= size()) {
             } else {
-                startIndex = buffer;
+                startIndex = buffer2;
             }
             if (startIndex == 0) {
             } else {
                 if (n > 0) {
                     startIndex = this.startIndex;
                     capacity = 0;
-                    i7 %= i3;
+                    i7 %= i2;
                     size = 0;
-                    if (startIndex > i) {
+                    if (startIndex > i3) {
                         ArraysKt.fill(this.buffer, size, startIndex, this.capacity);
-                        ArraysKt.fill(this.buffer, size, buffer, i);
+                        ArraysKt.fill(this.buffer, size, buffer2, i3);
                     } else {
-                        ArraysKt.fill(this.buffer, size, startIndex, i);
+                        ArraysKt.fill(this.buffer, size, startIndex, i3);
                     }
-                    this.startIndex = i;
+                    this.startIndex = i3;
                     this.size = size2 -= n;
                 }
             }
@@ -168,8 +168,8 @@ final class RingBuffer<T>  extends kotlin.collections.AbstractList<T> implements
         Object copyOf;
         int size;
         int widx;
-        int idx2;
         int idx;
+        int idx2;
         Object capacity;
         Intrinsics.checkNotNullParameter(array, "array");
         if (array.length < size()) {
@@ -179,19 +179,19 @@ final class RingBuffer<T>  extends kotlin.collections.AbstractList<T> implements
         }
         int size3 = size();
         widx = 0;
-        idx2 = this.startIndex;
+        idx = this.startIndex;
         while (widx < size3) {
-            if (idx2 < this.capacity) {
+            if (idx < this.capacity) {
             }
-            copyOf[widx] = this.buffer[idx2];
-            widx++;
-            idx2++;
-        }
-        idx = 0;
-        while (widx < size3) {
             copyOf[widx] = this.buffer[idx];
             widx++;
             idx++;
+        }
+        idx2 = 0;
+        while (widx < size3) {
+            copyOf[widx] = this.buffer[idx2];
+            widx++;
+            idx2++;
         }
         return CollectionsKt.terminateCollectionToArray(size3, copyOf);
     }

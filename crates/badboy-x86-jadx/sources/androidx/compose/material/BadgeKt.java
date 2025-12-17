@@ -66,7 +66,7 @@ public final class BadgeKt {
         float badgeWithContentRadius;
         androidx.compose.ui.layout.MeasurePolicy rowMeasurePolicy;
         int provides;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         int $dirty;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv;
         Object $composer$iv;
@@ -74,39 +74,39 @@ public final class BadgeKt {
         Object modifier2;
         long l;
         Modifier materializeModifier;
-        Object obj3;
+        Object obj2;
         long backgroundColor2;
-        Composer composer;
+        Composer composer2;
         RowScopeInstance $this$Badge_eopBjH0_u24lambda_u241;
         long l2;
-        int i3;
+        int i10;
         long $changed2;
-        int i11;
-        boolean traceInProgress2;
-        Object obj2;
-        int changed2;
-        int i12;
+        int i9;
+        boolean traceInProgress;
+        Object obj;
+        int changed;
+        int i3;
         int str;
-        boolean changed;
+        boolean changed2;
         long contentColorFor-ek8zF_U;
         int contentColor2;
-        Object i10;
+        Object i11;
         int i6;
         int currentCompositionLocalMap;
         int defaultsInvalid;
-        int i2;
-        int i4;
         int i5;
-        Object obj;
-        int i;
-        int i8;
-        Composer composer2;
         int i13;
+        int i;
+        Object obj3;
+        int i8;
+        int i4;
+        Composer composer;
+        int i12;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
-        long l3;
-        RowScopeInstance rowScopeInstance;
-        int i9;
         long l4;
+        RowScopeInstance rowScopeInstance;
+        int i2;
+        long l3;
         float obj29;
         int obj30;
         int obj31;
@@ -115,68 +115,68 @@ public final class BadgeKt {
         int obj34;
         Modifier obj35;
         final int i39 = obj36;
-        traceInProgress = 1133484502;
-        final Composer restartGroup = i7.startRestartGroup(traceInProgress);
+        traceInProgress2 = 1133484502;
+        final Composer restartGroup = i7.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(Badge)P(3,0:c#ui.graphics.Color,2:c#ui.graphics.Color)132@5219L6,133@5259L32,140@5508L857:Badge.kt#jmzs0o");
         $dirty = obj36;
         int i27 = obj37 & 1;
         materializeModifier = 2;
         if (i27 != 0) {
             $dirty |= 6;
-            obj3 = modifier;
+            obj2 = modifier;
         } else {
             if (i39 & 6 == 0) {
-                i3 = restartGroup.changed(modifier) ? 4 : materializeModifier;
-                $dirty |= i3;
+                i10 = restartGroup.changed(modifier) ? 4 : materializeModifier;
+                $dirty |= i10;
             } else {
-                obj3 = modifier;
+                obj2 = modifier;
             }
         }
         if (i39 & 48 == 0) {
             if (obj37 & 2 == 0) {
-                changed2 = restartGroup.changed(backgroundColor) ? 32 : 16;
+                changed = restartGroup.changed(backgroundColor) ? 32 : 16;
             } else {
                 $changed2 = backgroundColor;
             }
-            $dirty |= changed2;
+            $dirty |= changed;
         } else {
             $changed2 = backgroundColor;
         }
         if (i39 & 384 == 0) {
             if (obj37 & 4 == 0) {
-                i12 = restartGroup.changed(content) ? 256 : 128;
+                i3 = restartGroup.changed(content) ? 256 : 128;
             } else {
                 contentColorFor-ek8zF_U = content;
             }
-            $dirty |= i12;
+            $dirty |= i3;
         } else {
             contentColorFor-ek8zF_U = content;
         }
         str = obj37 & 8;
         if (str != null) {
             $dirty |= 3072;
-            i10 = $changed;
+            i11 = $changed;
         } else {
             if (i39 & 3072 == 0) {
                 i6 = restartGroup.changedInstance($changed) ? 2048 : 1024;
                 $dirty |= i6;
             } else {
-                i10 = $changed;
+                i11 = $changed;
             }
         }
         if ($dirty & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                int i45 = 6;
+                int i44 = 6;
                 if (i39 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (i27 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = obj3;
+                            modifier2 = obj2;
                         }
                         if (obj37 & 2 != 0) {
-                            backgroundColor2 = MaterialTheme.INSTANCE.getColors(restartGroup, i45).getError-0d7_KjU();
+                            backgroundColor2 = MaterialTheme.INSTANCE.getColors(restartGroup, i44).getError-0d7_KjU();
                             $dirty &= -113;
                         } else {
                             backgroundColor2 = $changed2;
@@ -186,7 +186,7 @@ public final class BadgeKt {
                             $dirty &= -897;
                         }
                         if (str != null) {
-                            i10 = i11;
+                            i11 = i9;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -196,22 +196,22 @@ public final class BadgeKt {
                         if (obj37 & 4 != 0) {
                             $dirty &= -897;
                         }
-                        modifier2 = obj3;
+                        modifier2 = obj2;
                         backgroundColor2 = $changed2;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material.Badge (Badge.kt:135)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material.Badge (Badge.kt:135)");
                 }
-                badgeWithContentRadius = i10 != null ? BadgeKt.BadgeWithContentRadius : BadgeKt.BadgeRadius;
+                badgeWithContentRadius = i11 != null ? BadgeKt.BadgeWithContentRadius : BadgeKt.BadgeRadius;
                 androidx.compose.foundation.shape.RoundedCornerShape roundedCornerShape = RoundedCornerShapeKt.RoundedCornerShape-0680j_4(badgeWithContentRadius);
                 int i42 = 0;
-                int i49 = 0;
-                obj35 = i45;
-                i2 = 432;
-                i4 = 0;
+                int i48 = 0;
+                obj35 = i44;
+                i5 = 432;
+                i13 = 0;
                 obj29 = badgeWithContentRadius;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 693286680, "CC(Row)P(2,1,3)98@4939L58,99@5002L130:Row.kt#2w3rfo");
                 rowMeasurePolicy = RowKt.rowMeasurePolicy((Arrangement.Horizontal)Arrangement.INSTANCE.getCenter(), Alignment.Companion.getCenterVertically(), restartGroup, i15 |= i21);
@@ -220,7 +220,7 @@ public final class BadgeKt {
                 materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, PaddingKt.padding-VpY3zN4$default(ClipKt.clip(BackgroundKt.background-bw27NRU(SizeKt.defaultMinSize-VpY3zN4(modifier2, Dp.constructor-impl(f2 *= badgeWithContentRadius), Dp.constructor-impl(f *= badgeWithContentRadius)), backgroundColor2, $changed2), (Shape)roundedCornerShape), BadgeKt.BadgeWithContentHorizontalPadding, 0, materializeModifier, 0));
                 obj32 = currentCompositeKeyHash;
                 obj33 = constructor;
-                i5 = 0;
+                i = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -233,53 +233,53 @@ public final class BadgeKt {
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                int i51 = 0;
+                int i50 = 0;
                 obj33 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, rowMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i51 = 0;
+                Composer composer4 = constructor-impl;
                 int i52 = 0;
-                Composer composer5 = constructor-impl;
-                int i53 = 0;
-                if (!composer5.getInserting()) {
+                if (!composer4.getInserting()) {
                     measurePolicy$iv = rowMeasurePolicy;
-                    l3 = backgroundColor2;
-                    if (!Intrinsics.areEqual(composer5.rememberedValue(), Integer.valueOf(obj32))) {
-                        composer5.updateRememberedValue(Integer.valueOf(obj32));
+                    l4 = backgroundColor2;
+                    if (!Intrinsics.areEqual(composer4.rememberedValue(), Integer.valueOf(obj32))) {
+                        composer4.updateRememberedValue(Integer.valueOf(obj32));
                         constructor-impl.apply(Integer.valueOf(obj32), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer5;
+                        composer2 = composer4;
                     }
                 } else {
                     measurePolicy$iv = rowMeasurePolicy;
-                    l3 = backgroundColor2;
+                    l4 = backgroundColor2;
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer3 = restartGroup;
                 ComposerKt.sourceInformationMarkerStart(composer3, -407918630, "C100@5047L9:Row.kt#2w3rfo");
                 $this$Badge_eopBjH0_u24lambda_u241 = RowScopeInstance.INSTANCE;
                 i36 |= 6;
-                i = 0;
-                i8 = i18;
-                i13 = i30;
-                Composer composer4 = obj35;
-                ComposerKt.sourceInformationMarkerStart(composer4, 1448059046, "C:Badge.kt#jmzs0o");
-                if (i10 != null) {
-                    composer4.startReplaceGroup(1448079226);
-                    ComposerKt.sourceInformation(composer4, "157@6105L244,155@6009L340");
-                    BadgeKt.Badge.1.1 anon = new BadgeKt.Badge.1.1(i10, (RowScope)$this$Badge_eopBjH0_u24lambda_u241);
+                i8 = 0;
+                i4 = i18;
+                i12 = i30;
+                Composer $i$a$LayoutRowKt$Row$1$iv = obj35;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutRowKt$Row$1$iv, 1448059046, "C:Badge.kt#jmzs0o");
+                if (i11 != null) {
+                    $i$a$LayoutRowKt$Row$1$iv.startReplaceGroup(1448079226);
+                    ComposerKt.sourceInformation($i$a$LayoutRowKt$Row$1$iv, "157@6105L244,155@6009L340");
+                    BadgeKt.Badge.1.1 anon = new BadgeKt.Badge.1.1(i11, (RowScope)$this$Badge_eopBjH0_u24lambda_u241);
                     obj35 = materializeModifier;
                     rowScopeInstance = $this$Badge_eopBjH0_u24lambda_u241;
-                    i9 = $changed2;
-                    CompositionLocalKt.CompositionLocalProvider(ContentColorKt.getLocalContentColor().provides(Color.box-impl(contentColorFor-ek8zF_U)), (Function2)ComposableLambdaKt.rememberComposableLambda(1784526485, true, anon, composer4, 54), composer4, $stable |= 48);
-                    composer4.endReplaceGroup();
+                    i2 = $changed2;
+                    CompositionLocalKt.CompositionLocalProvider(ContentColorKt.getLocalContentColor().provides(Color.box-impl(contentColorFor-ek8zF_U)), (Function2)ComposableLambdaKt.rememberComposableLambda(1784526485, true, anon, $i$a$LayoutRowKt$Row$1$iv, 54), $i$a$LayoutRowKt$Row$1$iv, $stable |= 48);
+                    $i$a$LayoutRowKt$Row$1$iv.endReplaceGroup();
                 } else {
                     obj35 = materializeModifier;
                     rowScopeInstance = $this$Badge_eopBjH0_u24lambda_u241;
-                    i9 = $changed2;
-                    composer4.startReplaceGroup(1448429030);
-                    composer4.endReplaceGroup();
+                    i2 = $changed2;
+                    $i$a$LayoutRowKt$Row$1$iv.startReplaceGroup(1448429030);
+                    $i$a$LayoutRowKt$Row$1$iv.endReplaceGroup();
                 }
-                ComposerKt.sourceInformationMarkerEnd(composer4);
+                ComposerKt.sourceInformationMarkerEnd($i$a$LayoutRowKt$Row$1$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer3);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -289,94 +289,94 @@ public final class BadgeKt {
                     ComposerKt.traceEventEnd();
                 }
                 l2 = contentColorFor-ek8zF_U;
-                $dirty2 = obj;
-                l = l3;
+                $dirty2 = obj3;
+                l = l4;
                 contentColor2 = obj30;
-                obj2 = i10;
+                obj = i11;
             } else {
                 restartGroup.skipToGroupEnd();
                 l = $changed2;
                 contentColor2 = $dirty;
-                $dirty2 = obj3;
-                l2 = l4;
-                obj2 = i10;
+                $dirty2 = obj2;
+                l2 = l3;
+                obj = i11;
             }
         } else {
         }
         final ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new BadgeKt.Badge.2($dirty2, l, materializeModifier, l2, $changed2, obj2, i39, obj37);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new BadgeKt.Badge.2($dirty2, l, materializeModifier, l2, $changed2, obj, i39, obj37);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void BadgedBox(Function3<? super BoxScope, ? super Composer, ? super Integer, Unit> badge, Modifier modifier, Function3<? super BoxScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i6) {
         int traceInProgress2;
         boolean iNSTANCE;
-        boolean currentCompositionLocalMap3;
+        boolean currentCompositionLocalMap;
         int $dirty2;
-        Object obj3;
+        Object obj2;
         int $dirty;
         Object modifier2;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv2;
-        Object obj2;
-        boolean maybeCachedBoxMeasurePolicy2;
-        int i3;
-        Composer composer2;
+        Object obj;
+        boolean maybeCachedBoxMeasurePolicy;
+        int i2;
+        Composer composer3;
         Object valueOf;
-        int i13;
-        int materializeModifier;
+        int i16;
+        int materializeModifier2;
         boolean traceInProgress;
         Composer composer5;
         Integer valueOf2;
         Object restartGroup;
-        Composer composer3;
-        Object maybeCachedBoxMeasurePolicy;
+        Composer composer6;
+        Object maybeCachedBoxMeasurePolicy2;
         Object str;
         kotlin.jvm.functions.Function0 factory$iv$iv$iv;
-        int i20;
-        int i18;
-        int i7;
-        int i24;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap;
-        int i11;
-        int currentCompositeKeyHash;
-        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2;
-        Modifier materializeModifier2;
-        kotlin.jvm.functions.Function0 constructor;
-        int i19;
-        Object obj;
-        int i5;
-        int i14;
-        int i12;
-        int modifier$iv;
-        int i21;
-        androidx.compose.material.BadgeKt.BadgedBox.2 measurePolicy$iv2;
-        int i4;
-        int i15;
-        Alignment alignment2;
-        Composer composer6;
-        int i23;
-        int i2;
         int i17;
-        kotlin.jvm.functions.Function0 function0;
-        int i22;
-        Composer composer;
-        int i16;
-        androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
-        Composer composer4;
-        int i;
+        int i12;
+        int i3;
+        int i7;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap2;
         int i10;
-        Alignment alignment;
+        int currentCompositeKeyHash;
+        androidx.compose.runtime.CompositionLocalMap currentCompositionLocalMap3;
+        Modifier materializeModifier;
+        kotlin.jvm.functions.Function0 constructor;
+        int i14;
+        Object obj3;
+        int i;
+        int i20;
+        int i23;
+        int modifier$iv;
+        int i4;
+        androidx.compose.material.BadgeKt.BadgedBox.2 measurePolicy$iv;
+        int i24;
+        int i18;
+        Alignment alignment2;
+        Composer composer2;
+        int i5;
+        int i13;
         int i9;
+        kotlin.jvm.functions.Function0 function0;
+        int i21;
+        Composer composer;
+        int i11;
+        androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv2;
+        Composer composer4;
+        int i22;
+        int i19;
+        Alignment alignment;
+        int i15;
         int i8;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
         int obj45;
         Modifier obj47;
         final Object obj4 = badge;
-        obj2 = content;
-        i3 = $changed;
+        obj = content;
+        i2 = $changed;
         traceInProgress2 = 859805272;
         restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(BadgedBox)P(!1,2)64@2555L1979:Badge.kt#jmzs0o");
@@ -384,19 +384,19 @@ public final class BadgeKt {
         if (i6 & 1 != 0) {
             $dirty2 |= 6;
         } else {
-            if (i3 & 6 == 0) {
-                i13 = restartGroup.changedInstance(obj4) ? 4 : 2;
-                $dirty2 |= i13;
+            if (i2 & 6 == 0) {
+                i16 = restartGroup.changedInstance(obj4) ? 4 : 2;
+                $dirty2 |= i16;
             }
         }
-        materializeModifier = i6 & 2;
-        if (materializeModifier != 0) {
+        materializeModifier2 = i6 & 2;
+        if (materializeModifier2 != 0) {
             $dirty2 |= 48;
             str = modifier;
         } else {
-            if (i3 & 48 == 0) {
-                i20 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i20;
+            if (i2 & 48 == 0) {
+                i17 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i17;
             } else {
                 str = modifier;
             }
@@ -404,28 +404,28 @@ public final class BadgeKt {
         if (i6 & 4 != 0) {
             $dirty2 |= 384;
         } else {
-            if (i3 & 384 == 0) {
-                i18 = restartGroup.changedInstance(obj2) ? 256 : 128;
-                $dirty2 |= i18;
+            if (i2 & 384 == 0) {
+                i12 = restartGroup.changedInstance(obj) ? 256 : 128;
+                $dirty2 |= i12;
             }
         }
-        i7 = $dirty2;
-        if (i7 & 147 == 146) {
+        i3 = $dirty2;
+        if (i3 & 147 == 146) {
             if (!restartGroup.getSkipping()) {
-                if (materializeModifier != 0) {
+                if (materializeModifier2 != 0) {
                     modifier2 = Modifier.Companion;
                 } else {
                     modifier2 = str;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, i7, -1, "androidx.compose.material.BadgedBox (Badge.kt:63)");
+                    ComposerKt.traceEventStart(traceInProgress2, i3, -1, "androidx.compose.material.BadgedBox (Badge.kt:63)");
                 }
                 iNSTANCE = BadgeKt.BadgedBox.2.INSTANCE;
                 i36 |= 384;
-                String str6 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, str6);
+                String str5 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
+                ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, str5);
                 currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
-                i19 = 0;
+                i14 = 0;
                 String modifier4 = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, modifier4);
                 if (!applier3 instanceof Applier) {
@@ -445,8 +445,8 @@ public final class BadgeKt {
                 Composer composer8 = constructor-impl3;
                 int i64 = 0;
                 if (!composer8.getInserting()) {
-                    measurePolicy$iv2 = iNSTANCE;
-                    i4 = valueOf2;
+                    measurePolicy$iv = iNSTANCE;
+                    i24 = valueOf2;
                     if (!Intrinsics.areEqual(composer8.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
                         composer8.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
                         constructor-impl3.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
@@ -454,28 +454,28 @@ public final class BadgeKt {
                         composer5 = composer8;
                     }
                 } else {
-                    measurePolicy$iv2 = iNSTANCE;
-                    i4 = valueOf2;
+                    measurePolicy$iv = iNSTANCE;
+                    i24 = valueOf2;
                 }
                 Updater.set-impl(constructor-impl3, ComposedModifierKt.materializeModifier(restartGroup, modifier2), ComposeUiNode.Companion.getSetModifier());
                 valueOf = restartGroup;
-                i14 = i26;
+                i20 = i26;
                 ComposerKt.sourceInformationMarkerStart(valueOf, 643423305, "C66@2585L161,71@2759L105:Badge.kt#jmzs0o");
                 Alignment center = Alignment.Companion.getCenter();
                 int i62 = 0;
                 int i65 = i29;
-                i15 = i37;
-                String str3 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
-                ComposerKt.sourceInformationMarkerStart(valueOf, 733328855, str3);
+                i18 = i37;
+                String $i$a$LayoutBadgeKt$BadgedBox$1 = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
+                ComposerKt.sourceInformationMarkerStart(valueOf, 733328855, $i$a$LayoutBadgeKt$BadgedBox$1);
                 int i30 = 0;
-                composer6 = restartGroup;
-                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(center, i30);
+                composer2 = restartGroup;
+                maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(center, i30);
                 int i68 = 0;
                 int i69 = i30;
-                ComposerKt.sourceInformationMarkerStart(valueOf, -1323940314, str6);
+                ComposerKt.sourceInformationMarkerStart(valueOf, -1323940314, str5);
                 int currentCompositeKeyHash3 = ComposablesKt.getCurrentCompositeKeyHash(valueOf, 0);
-                currentCompositionLocalMap3 = valueOf.getCurrentCompositionLocalMap();
-                i22 = i46;
+                currentCompositionLocalMap = valueOf.getCurrentCompositionLocalMap();
+                i21 = i46;
                 Modifier $i$f$Layout = modifier6;
                 Modifier modifier7 = $i$f$Layout;
                 kotlin.jvm.functions.Function0 function03 = constructor3;
@@ -495,31 +495,31 @@ public final class BadgeKt {
                 Composer constructor-impl2 = Updater.constructor-impl(valueOf);
                 int i72 = 0;
                 alignment = center;
-                Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
-                Updater.set-impl(constructor-impl2, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i10 = 0;
+                Updater.set-impl(constructor-impl2, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                i19 = 0;
                 Composer composer9 = constructor-impl2;
                 int i75 = 0;
                 if (!composer9.getInserting()) {
-                    localMap$iv$iv = currentCompositionLocalMap3;
-                    measurePolicy = maybeCachedBoxMeasurePolicy;
+                    localMap$iv$iv = currentCompositionLocalMap;
+                    measurePolicy = maybeCachedBoxMeasurePolicy2;
                     if (!Intrinsics.areEqual(composer9.rememberedValue(), Integer.valueOf(currentCompositeKeyHash3))) {
                         composer9.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash3));
                         constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash3), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer3 = composer9;
+                        composer6 = composer9;
                     }
                 } else {
-                    localMap$iv$iv = currentCompositionLocalMap3;
-                    measurePolicy = maybeCachedBoxMeasurePolicy;
+                    localMap$iv$iv = currentCompositionLocalMap;
+                    measurePolicy = maybeCachedBoxMeasurePolicy2;
                 }
                 Updater.set-impl(constructor-impl2, ComposedModifierKt.materializeModifier(valueOf, $i$f$Layout), ComposeUiNode.Companion.getSetModifier());
                 Composer composer7 = valueOf;
-                i = i33;
+                i22 = i33;
                 String $changed$iv2 = "C73@3429L9:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(composer7, -2146769399, $changed$iv2);
                 i8 = i49;
-                obj2.invoke(BoxScopeInstance.INSTANCE, composer7, Integer.valueOf(i74 |= 6));
+                obj.invoke(BoxScopeInstance.INSTANCE, composer7, Integer.valueOf(i74 |= 6));
                 ComposerKt.sourceInformationMarkerEnd(composer7);
                 valueOf.endNode();
                 ComposerKt.sourceInformationMarkerEnd(valueOf);
@@ -527,17 +527,17 @@ public final class BadgeKt {
                 ComposerKt.sourceInformationMarkerEnd(valueOf);
                 Modifier layoutId2 = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "badge");
                 i51 |= 6;
-                i7 = 0;
-                ComposerKt.sourceInformationMarkerStart(valueOf, 733328855, str3);
+                i3 = 0;
+                ComposerKt.sourceInformationMarkerStart(valueOf, 733328855, $i$a$LayoutBadgeKt$BadgedBox$1);
                 Alignment topStart = Alignment.Companion.getTopStart();
-                maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart, false);
-                i21 = 0;
+                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, false);
+                i4 = 0;
                 alignment2 = topStart;
-                ComposerKt.sourceInformationMarkerStart(valueOf, -1323940314, str6);
+                ComposerKt.sourceInformationMarkerStart(valueOf, -1323940314, str5);
                 obj45 = currentCompositeKeyHash2;
                 obj47 = layoutId2;
                 kotlin.jvm.functions.Function0 function02 = constructor2;
-                i23 = 0;
+                i5 = 0;
                 ComposerKt.sourceInformationMarkerStart(valueOf, -692256719, modifier4);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -550,56 +550,56 @@ public final class BadgeKt {
                     valueOf.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(valueOf);
-                i5 = 0;
+                i = 0;
                 function0 = factory$iv$iv$iv2;
-                Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, valueOf.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                i2 = 0;
+                i13 = 0;
                 composer = constructor-impl;
-                i16 = 0;
+                i11 = 0;
                 if (!composer.getInserting()) {
-                    measurePolicy$iv = maybeCachedBoxMeasurePolicy2;
+                    measurePolicy$iv2 = maybeCachedBoxMeasurePolicy;
                     composer4 = valueOf;
                     if (!Intrinsics.areEqual(composer.rememberedValue(), Integer.valueOf(obj45))) {
                         composer.updateRememberedValue(Integer.valueOf(obj45));
                         constructor-impl.apply(Integer.valueOf(obj45), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer;
+                        composer3 = composer;
                     }
                 } else {
-                    measurePolicy$iv = maybeCachedBoxMeasurePolicy2;
+                    measurePolicy$iv2 = maybeCachedBoxMeasurePolicy;
                     composer4 = valueOf;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(valueOf, layoutId2), ComposeUiNode.Companion.getSetModifier());
                 i34 &= 14;
-                obj2 = composer4;
-                i3 = 0;
-                ComposerKt.sourceInformationMarkerStart(obj2, -2146769399, $changed$iv2);
-                obj4.invoke(BoxScopeInstance.INSTANCE, obj2, Integer.valueOf(i43 |= 6));
-                ComposerKt.sourceInformationMarkerEnd(obj2);
+                obj = composer4;
+                i2 = 0;
+                ComposerKt.sourceInformationMarkerStart(obj, -2146769399, $changed$iv2);
+                obj4.invoke(BoxScopeInstance.INSTANCE, obj, Integer.valueOf(i43 |= 6));
+                ComposerKt.sourceInformationMarkerEnd(obj);
                 composer4.endNode();
                 ComposerKt.sourceInformationMarkerEnd(composer4);
                 ComposerKt.sourceInformationMarkerEnd(composer4);
                 ComposerKt.sourceInformationMarkerEnd(composer4);
                 ComposerKt.sourceInformationMarkerEnd(composer4);
-                composer6.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer6);
-                ComposerKt.sourceInformationMarkerEnd(composer6);
+                composer2.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer2);
+                ComposerKt.sourceInformationMarkerEnd(composer2);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj3 = obj;
+                obj2 = obj3;
             } else {
                 restartGroup.skipToGroupEnd();
-                composer6 = restartGroup;
-                obj3 = str;
-                modifier$iv = i7;
+                composer2 = restartGroup;
+                obj2 = str;
+                modifier$iv = i3;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer6.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new BadgeKt.BadgedBox.3(obj4, obj3, content, $changed, i6);
+            traceInProgress2 = new BadgeKt.BadgedBox.3(obj4, obj2, content, $changed, i6);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }

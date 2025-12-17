@@ -83,12 +83,12 @@ public final class UByteArray implements Collection<kotlin.UByte>, KMappedMarker
 
     public static boolean containsAll-impl(byte[] arg0, Collection<kotlin.UByte> elements) {
         Iterator iterator;
-        int i;
+        int i2;
         boolean next;
         int it;
         int i3;
         boolean contains;
-        int i2;
+        int i;
         Intrinsics.checkNotNullParameter(elements, "elements");
         Object obj = elements;
         final int i4 = 0;
@@ -98,18 +98,18 @@ public final class UByteArray implements Collection<kotlin.UByte>, KMappedMarker
             while (iterator.hasNext()) {
                 Object obj3 = next;
                 i3 = 0;
-                i2 = 0;
+                i = 0;
                 if (obj3 instanceof UByte && ArraysKt.contains(arg0, (UByte)obj3.unbox-impl())) {
                 } else {
                 }
-                it = i2;
+                it = i;
                 if (ArraysKt.contains(arg0, (UByte)obj3.unbox-impl())) {
                 } else {
                 }
-                it = i;
+                it = i2;
             }
         }
-        return i;
+        return i2;
     }
 
     public static boolean equals-impl(byte[] bArr, Object object2) {

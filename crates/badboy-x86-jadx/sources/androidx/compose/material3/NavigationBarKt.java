@@ -84,59 +84,59 @@ public final class NavigationBarKt {
     }
 
     public static final void NavigationBar-HsRjFd4(Modifier modifier, long containerColor, long contentColor, float tonalElevation, WindowInsets windowInsets, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
-        int traceInProgress;
+        int traceInProgress2;
         Object $composer2;
         int $dirty;
         long $dirty2;
-        int i6;
+        int i12;
         Object modifier2;
-        boolean traceInProgress2;
-        Object obj2;
+        boolean traceInProgress;
+        Object obj;
         long windowInsets2;
         int containerColor2;
         int containerColor3;
         Object windowInsets3;
-        int i12;
+        int i7;
         long str;
-        float f;
+        float f2;
         int changed;
         int i10;
         Object obj3;
         boolean changed3;
         long contentColor2;
-        int i7;
+        int i4;
         float tonalElevation2;
-        int i5;
-        Object obj;
+        int i8;
+        Object obj2;
         int changed2;
-        int i11;
+        int i3;
         boolean skipping;
         int defaultsInvalid;
         int i;
-        float f2;
-        int i3;
-        int i4;
+        float f;
+        int i11;
+        int i6;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i8;
         int i2;
+        int i5;
         long l;
         final Object obj5 = $changed;
         final int i33 = obj34;
-        traceInProgress = 1596802123;
-        Composer restartGroup = i9.startRestartGroup(traceInProgress);
+        traceInProgress2 = 1596802123;
+        Composer restartGroup = i9.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(NavigationBar)P(3,0:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.unit.Dp,5)111@5198L14,112@5254L11,114@5412L12,122@5632L441,117@5479L594:NavigationBar.kt#uh7d8r");
         $dirty = obj34;
-        i6 = obj35 & 1;
-        if (i6 != 0) {
+        i12 = obj35 & 1;
+        if (i12 != 0) {
             $dirty |= 6;
-            obj2 = modifier;
+            obj = modifier;
         } else {
             if (i33 & 6 == 0) {
-                i12 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i12;
+                i7 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i7;
             } else {
-                obj2 = modifier;
+                obj = modifier;
             }
         }
         if (i33 & 48 == 0) {
@@ -165,8 +165,8 @@ public final class NavigationBarKt {
             tonalElevation2 = content;
         } else {
             if (i33 & 3072 == 0) {
-                i5 = restartGroup.changed(content) ? 2048 : 1024;
-                $dirty |= i5;
+                i8 = restartGroup.changed(content) ? 2048 : 1024;
+                $dirty |= i8;
             } else {
                 tonalElevation2 = content;
             }
@@ -175,19 +175,19 @@ public final class NavigationBarKt {
             if (obj35 & 16 == 0) {
                 changed2 = restartGroup.changed($composer) ? 16384 : 8192;
             } else {
-                obj = $composer;
+                obj2 = $composer;
             }
             $dirty |= changed2;
         } else {
-            obj = $composer;
+            obj2 = $composer;
         }
         int i40 = 196608;
         if (obj35 & 32 != 0) {
             $dirty |= i40;
         } else {
             if (i33 & i40 == 0) {
-                i11 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
-                $dirty |= i11;
+                i3 = restartGroup.changedInstance(obj5) ? 131072 : 65536;
+                $dirty |= i3;
             }
         }
         if (i38 &= $dirty == 74898) {
@@ -196,10 +196,10 @@ public final class NavigationBarKt {
                 i = -57345;
                 if (i33 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i6 != 0) {
+                        if (i12 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = obj2;
+                            modifier2 = obj;
                         }
                         int i39 = 6;
                         if (obj35 & 2 != 0) {
@@ -217,13 +217,13 @@ public final class NavigationBarKt {
                             windowInsets3 = NavigationBarDefaults.INSTANCE.getWindowInsets(restartGroup, i39);
                             $dirty &= i;
                             skipping = contentColor2;
-                            f2 = tonalElevation2;
+                            f = tonalElevation2;
                             contentColor2 = modifier2;
                             tonalElevation2 = str;
                         } else {
                             skipping = contentColor2;
-                            f2 = tonalElevation2;
-                            windowInsets3 = obj;
+                            f = tonalElevation2;
+                            windowInsets3 = obj2;
                             contentColor2 = modifier2;
                             tonalElevation2 = str;
                         }
@@ -238,15 +238,15 @@ public final class NavigationBarKt {
                         if (obj35 & 16 != 0) {
                             $dirty &= i;
                             skipping = contentColor2;
-                            f2 = tonalElevation2;
-                            contentColor2 = obj2;
-                            windowInsets3 = obj;
+                            f = tonalElevation2;
+                            contentColor2 = obj;
+                            windowInsets3 = obj2;
                             tonalElevation2 = str;
                         } else {
                             skipping = contentColor2;
-                            f2 = tonalElevation2;
-                            contentColor2 = obj2;
-                            windowInsets3 = obj;
+                            f = tonalElevation2;
+                            contentColor2 = obj;
+                            windowInsets3 = obj2;
                             tonalElevation2 = str;
                         }
                     }
@@ -254,128 +254,128 @@ public final class NavigationBarKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.NavigationBar (NavigationBar.kt:116)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.NavigationBar (NavigationBar.kt:116)");
                 }
                 NavigationBarKt.NavigationBar.1 anon = new NavigationBarKt.NavigationBar.1(windowInsets3, obj5);
-                SurfaceKt.Surface-T9BRK9s(contentColor2, 0, tonalElevation2, obj, skipping, i, f2, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(105663120, true, anon, restartGroup, 54), restartGroup);
+                SurfaceKt.Surface-T9BRK9s(contentColor2, 0, tonalElevation2, obj2, skipping, i, f, 0, 0, (Function2)ComposableLambdaKt.rememberComposableLambda(105663120, true, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i7 = $dirty;
+                i4 = $dirty;
                 obj3 = windowInsets3;
                 $composer2 = contentColor2;
                 $dirty2 = tonalElevation2;
                 windowInsets2 = skipping;
-                f = f2;
+                f2 = f;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
-                $composer2 = obj2;
-                obj3 = obj;
-                i7 = $dirty;
+                $composer2 = obj;
+                obj3 = obj2;
+                i4 = $dirty;
                 $dirty2 = str;
                 windowInsets2 = l;
-                f = tonalElevation2;
+                f2 = tonalElevation2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new NavigationBarKt.NavigationBar.2($composer2, $dirty2, i6, windowInsets2, str, f, obj3, obj5, i33, obj35);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new NavigationBarKt.NavigationBar.2($composer2, $dirty2, i12, windowInsets2, str, f2, obj3, obj5, i33, obj35);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void NavigationBarItem(RowScope $this$NavigationBarItem, boolean selected, Function0<Unit> onClick, Function2<? super Composer, ? super Integer, Unit> icon, Modifier modifier, boolean enabled, Function2<? super Composer, ? super Integer, Unit> label, boolean alwaysShowLabel, androidx.compose.material3.NavigationBarItemColors colors, MutableInteractionSource interactionSource, Composer $composer, int $changed, int i13) {
         Object obj8;
-        Object obj2;
-        boolean traceInProgress2;
-        androidx.compose.material3.NavigationBarItemColors $dirty3;
+        Object obj10;
+        boolean traceInProgress;
+        androidx.compose.material3.NavigationBarItemColors $dirty;
         boolean rememberComposableLambda;
         Function0 factory$iv$iv$iv;
-        int i36;
+        int i6;
         int defaultsInvalid;
+        int $dirty3;
         int $dirty2;
-        int $dirty;
-        int i33;
+        int i24;
         Object invalid$iv;
-        int z3;
-        int i4;
-        Object mutableIntStateOf;
+        int z5;
+        int $i$a$CacheNavigationBarKt$NavigationBarItem$interactionSource$1;
+        Object $i$a$CacheNavigationBarKt$NavigationBarItem$itemWidth$2;
         Integer maybeCachedBoxMeasurePolicy;
         Object it$iv;
-        Object obj3;
-        Object anon2;
-        Composer composer;
+        Object obj5;
+        Object $i$a$CacheNavigationBarKt$NavigationBarItem$1;
+        Composer composer4;
         Object currentCompositionLocalMap;
-        boolean i34;
-        boolean traceInProgress;
+        boolean i18;
+        boolean traceInProgress2;
         Object anon;
-        int i28;
-        int i5;
-        Object obj;
-        Object obj7;
-        int i17;
-        Object obj10;
-        boolean colors2;
-        int i18;
-        Object obj4;
-        int i10;
-        Composer composer2;
-        Object empty;
-        Object modifier2;
-        boolean z4;
-        int empty2;
         int i8;
-        androidx.compose.material3.NavigationBarItemColors interactionSource2;
-        int interactionSource4;
+        int i26;
+        Object obj4;
+        Object obj9;
+        int i;
+        Object obj6;
+        boolean colors2;
+        int i2;
+        Object obj2;
+        int i19;
+        Composer composer;
+        Object empty2;
+        Object modifier2;
+        boolean z;
+        int empty;
+        int i17;
+        androidx.compose.material3.NavigationBarItemColors interactionSource4;
+        int interactionSource3;
         boolean z2;
         int enabled2;
-        int i27;
+        int i23;
         int str;
-        int i3;
-        Object obj6;
-        int i9;
-        Object i16;
-        int i2;
-        int i20;
-        int i14;
-        int i26;
-        int changed;
-        int i7;
         int i11;
-        androidx.compose.runtime.internal.ComposableLambda i19;
-        int companion;
-        androidx.compose.runtime.internal.ComposableLambda composableLambda;
+        Object obj3;
         int i35;
-        boolean z5;
-        androidx.compose.material3.NavigationBarKt.NavigationBarItem.2.2.1 invalid$iv2;
-        boolean z;
-        Composer composer3;
-        int i12;
-        Object obj9;
-        Object companion2;
-        int i21;
-        int i24;
-        Function0 function0;
-        int i;
-        int i25;
-        int i29;
+        Object i20;
+        int i3;
+        int i30;
+        int i10;
         int i22;
+        int changed;
+        int i25;
+        int i31;
+        androidx.compose.runtime.internal.ComposableLambda i21;
+        int companion2;
+        androidx.compose.runtime.internal.ComposableLambda composableLambda;
+        int i27;
+        boolean z3;
+        androidx.compose.material3.NavigationBarKt.NavigationBarItem.2.2.1 invalid$iv2;
+        boolean z4;
+        Composer composer3;
+        int i4;
+        Object obj7;
+        Object companion;
+        int i32;
+        int i14;
+        Function0 function0;
+        int i33;
+        int i34;
+        int i28;
+        int i9;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy$iv;
         androidx.compose.runtime.CompositionLocalMap map;
-        int interactionSource3;
+        int interactionSource2;
         androidx.compose.animation.core.TweenSpec tweenSpec;
-        int i23;
-        Object obj5;
-        int i6;
+        int i5;
+        Object obj;
+        int i29;
         long l;
+        int i12;
+        int i16;
         int i15;
-        int i30;
-        int i31;
         BoxScopeInstance boxScopeInstance;
-        Composer composer4;
-        int i32;
+        Composer composer2;
+        int i7;
         Object obj52;
         int obj53;
         Alignment obj54;
@@ -383,257 +383,257 @@ public final class NavigationBarKt {
         int obj56;
         Modifier obj57;
         Modifier obj58;
-        final int i105 = $changed;
-        final int i106 = i13;
+        final int i102 = $changed;
+        final int i103 = i13;
         final Composer restartGroup = $composer.startRestartGroup(-663510974);
         ComposerKt.sourceInformation(restartGroup, "C(NavigationBarItem)P(8,7,3,6,2,5)179@8344L8,185@8576L633,215@9873L33,229@10315L24,217@9912L2687:NavigationBar.kt#uh7d8r");
-        $dirty2 = $changed;
-        if (i62 &= i106 != 0) {
-            $dirty2 |= 6;
-            obj3 = $this$NavigationBarItem;
+        $dirty3 = $changed;
+        if (i61 &= i103 != 0) {
+            $dirty3 |= 6;
+            obj5 = $this$NavigationBarItem;
         } else {
-            if (i105 & 6 == 0) {
-                i28 = restartGroup.changed($this$NavigationBarItem) ? 4 : 2;
-                $dirty2 |= i28;
+            if (i102 & 6 == 0) {
+                i8 = restartGroup.changed($this$NavigationBarItem) ? 4 : 2;
+                $dirty3 |= i8;
             } else {
-                obj3 = $this$NavigationBarItem;
+                obj5 = $this$NavigationBarItem;
             }
         }
-        if (i106 & 1 != 0) {
-            $dirty2 |= 48;
+        if (i103 & 1 != 0) {
+            $dirty3 |= 48;
         } else {
-            if (i105 & 48 == 0) {
-                i5 = restartGroup.changed(selected) ? 32 : 16;
-                $dirty2 |= i5;
+            if (i102 & 48 == 0) {
+                i26 = restartGroup.changed(selected) ? 32 : 16;
+                $dirty3 |= i26;
             }
         }
-        if (i106 & 2 != 0) {
-            $dirty2 |= 384;
-            obj = onClick;
+        if (i103 & 2 != 0) {
+            $dirty3 |= 384;
+            obj4 = onClick;
         } else {
-            if (i105 & 384 == 0) {
-                i17 = restartGroup.changedInstance(onClick) ? 256 : 128;
-                $dirty2 |= i17;
+            if (i102 & 384 == 0) {
+                i = restartGroup.changedInstance(onClick) ? 256 : 128;
+                $dirty3 |= i;
             } else {
-                obj = onClick;
+                obj4 = onClick;
             }
         }
-        if (i106 & 4 != 0) {
-            $dirty2 |= 3072;
-            obj10 = icon;
+        if (i103 & 4 != 0) {
+            $dirty3 |= 3072;
+            obj6 = icon;
         } else {
-            if (i105 & 3072 == 0) {
-                i18 = restartGroup.changedInstance(icon) ? 2048 : 1024;
-                $dirty2 |= i18;
+            if (i102 & 3072 == 0) {
+                i2 = restartGroup.changedInstance(icon) ? 2048 : 1024;
+                $dirty3 |= i2;
             } else {
-                obj10 = icon;
+                obj6 = icon;
             }
         }
-        int i90 = i106 & 8;
-        if (i90 != 0) {
-            $dirty2 |= 24576;
+        int i88 = i103 & 8;
+        if (i88 != 0) {
+            $dirty3 |= 24576;
             modifier2 = modifier;
         } else {
-            if (i105 & 24576 == 0) {
-                i8 = restartGroup.changed(modifier) ? 16384 : 8192;
-                $dirty2 |= i8;
+            if (i102 & 24576 == 0) {
+                i17 = restartGroup.changed(modifier) ? 16384 : 8192;
+                $dirty3 |= i17;
             } else {
                 modifier2 = modifier;
             }
         }
-        int i102 = i106 & 16;
-        int i103 = 196608;
-        if (i102 != 0) {
-            $dirty2 |= i103;
+        int i99 = i103 & 16;
+        int i100 = 196608;
+        if (i99 != 0) {
+            $dirty3 |= i100;
             z2 = enabled;
         } else {
-            if (i103 &= i105 == 0) {
-                i27 = restartGroup.changed(enabled) ? 131072 : 65536;
-                $dirty2 |= i27;
+            if (i100 &= i102 == 0) {
+                i23 = restartGroup.changed(enabled) ? 131072 : 65536;
+                $dirty3 |= i23;
             } else {
                 z2 = enabled;
             }
         }
-        str = i106 & 32;
-        int i109 = 1572864;
+        str = i103 & 32;
+        int i106 = 1572864;
         if (str != null) {
-            $dirty2 |= i109;
-            obj6 = label;
+            $dirty3 |= i106;
+            obj3 = label;
         } else {
-            if (i109 &= i105 == 0) {
-                i9 = restartGroup.changedInstance(label) ? 1048576 : 524288;
-                $dirty2 |= i9;
+            if (i106 &= i102 == 0) {
+                i35 = restartGroup.changedInstance(label) ? 1048576 : 524288;
+                $dirty3 |= i35;
             } else {
-                obj6 = label;
+                obj3 = label;
             }
         }
-        i16 = i106 & 64;
-        i20 = 12582912;
-        if (i16 != 0) {
-            $dirty2 |= i20;
-            i34 = alwaysShowLabel;
+        i20 = i103 & 64;
+        i30 = 12582912;
+        if (i20 != 0) {
+            $dirty3 |= i30;
+            i18 = alwaysShowLabel;
         } else {
-            if (i105 & i20 == 0) {
-                i14 = restartGroup.changed(alwaysShowLabel) ? 8388608 : 4194304;
-                $dirty2 |= i14;
+            if (i102 & i30 == 0) {
+                i10 = restartGroup.changed(alwaysShowLabel) ? 8388608 : 4194304;
+                $dirty3 |= i10;
             } else {
-                i34 = alwaysShowLabel;
+                i18 = alwaysShowLabel;
             }
         }
-        if (i105 & i115 == 0) {
-            if (i106 & 128 == 0) {
+        if (i102 & i112 == 0) {
+            if (i103 & 128 == 0) {
                 changed = restartGroup.changed(colors) ? 67108864 : 33554432;
             } else {
                 obj8 = colors;
             }
-            $dirty2 |= changed;
+            $dirty3 |= changed;
         } else {
             obj8 = colors;
         }
-        int i38 = i106 & 256;
-        int i116 = 805306368;
-        if (i38 != 0) {
-            $dirty2 |= i116;
-            i7 = i38;
-            obj2 = interactionSource;
+        int i37 = i103 & 256;
+        int i113 = 805306368;
+        if (i37 != 0) {
+            $dirty3 |= i113;
+            i25 = i37;
+            obj10 = interactionSource;
         } else {
-            if (i105 & i116 == 0) {
-                i7 = i38;
-                i11 = restartGroup.changed(interactionSource) ? 536870912 : 268435456;
-                $dirty2 |= i11;
+            if (i102 & i113 == 0) {
+                i25 = i37;
+                i31 = restartGroup.changed(interactionSource) ? 536870912 : 268435456;
+                $dirty3 |= i31;
             } else {
-                i7 = i38;
-                obj2 = interactionSource;
+                i25 = i37;
+                obj10 = interactionSource;
             }
         }
-        obj58 = $dirty2;
-        if ($dirty2 & i19 == 306783378) {
+        obj58 = $dirty3;
+        if ($dirty3 & i21 == 306783378) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
-                companion = -234881025;
-                i33 = 6;
-                if (i105 & 1 != 0) {
+                companion2 = -234881025;
+                i24 = 6;
+                if (i102 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i90 != 0) {
+                        if (i88 != 0) {
                             modifier2 = defaultsInvalid;
                         }
-                        if (i102 != 0) {
+                        if (i99 != 0) {
                             z2 = defaultsInvalid;
                         }
                         if (str != null) {
-                            obj6 = defaultsInvalid;
+                            obj3 = defaultsInvalid;
                         }
-                        if (i16 != 0) {
-                            i34 = defaultsInvalid;
+                        if (i20 != 0) {
+                            i18 = defaultsInvalid;
                         }
-                        if (i106 & 128 != 0) {
-                            $dirty3 = NavigationBarItemDefaults.INSTANCE.colors(restartGroup, i33);
-                            i10 = obj58 & companion;
+                        if (i103 & 128 != 0) {
+                            $dirty = NavigationBarItemDefaults.INSTANCE.colors(restartGroup, i24);
+                            i19 = obj58 & companion2;
                         } else {
-                            $dirty3 = colors;
-                            i10 = obj58;
+                            $dirty = colors;
+                            i19 = obj58;
                         }
-                        z5 = i7 != 0 ? i34 : i34;
+                        z3 = i25 != 0 ? i18 : i18;
                     } else {
                         restartGroup.skipToGroupEnd();
-                        if (i106 & 128 != 0) {
-                            interactionSource4 = interactionSource;
-                            i10 = i40;
-                            z5 = i34;
-                            $dirty3 = colors;
+                        if (i103 & 128 != 0) {
+                            interactionSource3 = interactionSource;
+                            i19 = i39;
+                            z3 = i18;
+                            $dirty = colors;
                         } else {
-                            $dirty3 = colors;
-                            interactionSource4 = interactionSource;
-                            i10 = obj58;
-                            z5 = i34;
+                            $dirty = colors;
+                            interactionSource3 = interactionSource;
+                            i19 = obj58;
+                            z3 = i18;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    i2 = i33;
-                    ComposerKt.traceEventStart(-663510974, i10, -1, "androidx.compose.material3.NavigationBarItem (NavigationBar.kt:181)");
+                    i3 = i24;
+                    ComposerKt.traceEventStart(-663510974, i19, -1, "androidx.compose.material3.NavigationBarItem (NavigationBar.kt:181)");
                 } else {
-                    i2 = i33;
+                    i3 = i24;
                 }
                 restartGroup.startReplaceGroup(-103235253);
                 ComposerKt.sourceInformation(restartGroup, "183@8495L39");
                 String str4 = "CC(remember):NavigationBar.kt#9igjgp";
-                if (interactionSource4 == 0) {
+                if (interactionSource3 == 0) {
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -103234602, str4);
-                    traceInProgress = 0;
+                    traceInProgress2 = 0;
                     str = restartGroup;
-                    i26 = 0;
-                    obj53 = $dirty3;
-                    $dirty3 = str.rememberedValue();
-                    i7 = 0;
-                    if ($dirty3 == Composer.Companion.getEmpty()) {
-                        int i61 = 0;
+                    i22 = 0;
+                    obj53 = $dirty;
+                    $dirty = str.rememberedValue();
+                    i25 = 0;
+                    if ($dirty == Composer.Companion.getEmpty()) {
+                        int i60 = 0;
                         str.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     } else {
-                        i4 = $dirty3;
+                        $i$a$CacheNavigationBarKt$NavigationBarItem$interactionSource$1 = $dirty;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 } else {
-                    obj53 = $dirty3;
-                    i4 = interactionSource4;
+                    obj53 = $dirty;
+                    $i$a$CacheNavigationBarKt$NavigationBarItem$interactionSource$1 = interactionSource3;
                 }
                 restartGroup.endReplaceGroup();
                 obj54 = selected;
-                obj52 = anon3;
-                super(obj53, obj54, z2, obj6, z5, obj10);
+                obj52 = anon2;
+                super(obj53, obj54, z2, obj3, z3, obj6);
                 androidx.compose.material3.NavigationBarItemColors navigationBarItemColors = obj53;
-                obj54 = i4;
+                obj54 = $i$a$CacheNavigationBarKt$NavigationBarItem$interactionSource$1;
                 int interactionSource5 = 1;
-                int i64 = 54;
+                int i63 = 54;
                 restartGroup.startReplaceGroup(-103209106);
                 ComposerKt.sourceInformation(restartGroup, "*200@9305L535");
-                if (obj6 == null) {
-                    i35 = 0;
+                if (obj3 == null) {
+                    i27 = 0;
                 } else {
-                    i3 = obj6;
-                    i26 = 0;
-                    anon = new NavigationBarKt.NavigationBarItem.styledLabel.1.1(navigationBarItemColors, obj54, z2, obj6);
-                    i35 = rememberComposableLambda;
+                    i11 = obj3;
+                    i22 = 0;
+                    anon = new NavigationBarKt.NavigationBarItem.styledLabel.1.1(navigationBarItemColors, obj54, z2, obj3);
+                    i27 = rememberComposableLambda;
                 }
                 restartGroup.endReplaceGroup();
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -103190512, str4);
-                Composer composer8 = restartGroup;
-                int i107 = 0;
-                Object rememberedValue2 = composer8.rememberedValue();
-                int i118 = 0;
-                obj52 = i42;
+                Composer composer7 = restartGroup;
+                int i104 = 0;
+                Object rememberedValue2 = composer7.rememberedValue();
+                int i115 = 0;
+                obj52 = i41;
                 if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                    int i60 = 0;
-                    composer8.updateRememberedValue(SnapshotIntStateKt.mutableIntStateOf(0));
+                    int i59 = 0;
+                    composer7.updateRememberedValue(SnapshotIntStateKt.mutableIntStateOf(0));
                 } else {
-                    mutableIntStateOf = rememberedValue2;
+                    $i$a$CacheNavigationBarKt$NavigationBarItem$itemWidth$2 = rememberedValue2;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i73 = obj54;
+                int i72 = obj54;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -103176377, str4);
-                Composer composer9 = restartGroup;
-                int i92 = 0;
-                Object rememberedValue4 = composer9.rememberedValue();
-                int i119 = 0;
-                obj52 = i66;
+                Composer composer8 = restartGroup;
+                int i90 = 0;
+                Object rememberedValue4 = composer8.rememberedValue();
+                int i116 = 0;
+                obj52 = i65;
                 if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                    obj53 = i69;
-                    anon2 = new NavigationBarKt.NavigationBarItem.1.1((MutableIntState)mutableIntStateOf);
-                    composer9.updateRememberedValue((Function1)anon2);
+                    obj53 = i68;
+                    $i$a$CacheNavigationBarKt$NavigationBarItem$1 = new NavigationBarKt.NavigationBarItem.1.1((MutableIntState)$i$a$CacheNavigationBarKt$NavigationBarItem$itemWidth$2);
+                    composer8.updateRememberedValue((Function1)$i$a$CacheNavigationBarKt$NavigationBarItem$1);
                 } else {
-                    anon2 = rememberedValue4;
+                    $i$a$CacheNavigationBarKt$NavigationBarItem$1 = rememberedValue4;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                Modifier onSizeChanged = OnRemeasuredModifierKt.onSizeChanged(RowScope.weight$default($this$NavigationBarItem, SizeKt.defaultMinSize-VpY3zN4$default(SelectableKt.selectable-O2vRcR0(modifier2, selected, obj54, 0, z2, Role.box-impl(Role.Companion.getTab-o7Vup1c()), obj), 0, NavigationBarKt.NavigationBarHeight, 1, 0), 1065353216, false, 2, 0), (Function1)anon2);
+                Modifier onSizeChanged = OnRemeasuredModifierKt.onSizeChanged(RowScope.weight$default($this$NavigationBarItem, SizeKt.defaultMinSize-VpY3zN4$default(SelectableKt.selectable-O2vRcR0(modifier2, selected, obj54, 0, z2, Role.box-impl(Role.Companion.getTab-o7Vup1c()), obj4), 0, NavigationBarKt.NavigationBarHeight, 1, 0), 1065353216, false, 2, 0), (Function1)$i$a$CacheNavigationBarKt$NavigationBarItem$1);
                 Alignment center = Alignment.Companion.getCenter();
-                int i93 = i126;
+                int i91 = i123;
                 str = 0;
-                obj53 = i78;
+                obj53 = i77;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
-                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(center, i93);
-                i24 = 0;
+                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(center, i91);
+                i14 = 0;
                 obj54 = center;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
@@ -641,8 +641,8 @@ public final class NavigationBarKt {
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, onSizeChanged);
                 obj57 = onSizeChanged;
                 Function0 function02 = constructor;
-                i = 0;
-                i29 = i93;
+                i33 = 0;
+                i28 = i91;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -655,21 +655,21 @@ public final class NavigationBarKt {
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                int i120 = 0;
+                int i117 = 0;
                 function0 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
+                int i121 = 0;
+                companion = constructor-impl;
                 int i124 = 0;
-                companion2 = constructor-impl;
-                int i127 = 0;
-                if (!companion2.getInserting()) {
+                if (!companion.getInserting()) {
                     measurePolicy$iv = maybeCachedBoxMeasurePolicy;
                     map = currentCompositionLocalMap;
-                    if (!Intrinsics.areEqual(companion2.rememberedValue(), Integer.valueOf(obj56))) {
-                        companion2.updateRememberedValue(Integer.valueOf(obj56));
+                    if (!Intrinsics.areEqual(companion.rememberedValue(), Integer.valueOf(obj56))) {
+                        companion.updateRememberedValue(Integer.valueOf(obj56));
                         constructor-impl.apply(Integer.valueOf(obj56), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = companion2;
+                        composer4 = companion;
                     }
                 } else {
                     measurePolicy$iv = maybeCachedBoxMeasurePolicy;
@@ -677,82 +677,82 @@ public final class NavigationBarKt {
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer5 = restartGroup;
-                i22 = i48;
+                i9 = i47;
                 ComposerKt.sourceInformationMarkerStart(composer5, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i31 = 0;
+                i15 = 0;
                 boxScopeInstance = iNSTANCE;
-                i32 = i68;
-                Composer composer7 = composer11;
-                ComposerKt.sourceInformationMarkerStart(composer7, -1652122706, "C234@10492L157,*243@10933L7,249@11215L128,256@11558L293,264@11900L395,281@12555L27,275@12305L288:NavigationBar.kt#uh7d8r");
-                i36 = selected ? 1065353216 : 0;
-                Composer composer12 = composer7;
+                i7 = i67;
+                Composer $i$a$LayoutBoxKt$Box$1$iv = composer10;
+                ComposerKt.sourceInformationMarkerStart($i$a$LayoutBoxKt$Box$1$iv, -1652122706, "C234@10492L157,*243@10933L7,249@11215L128,256@11558L293,264@11900L395,281@12555L27,275@12305L288:NavigationBar.kt#uh7d8r");
+                i6 = selected ? 1065353216 : 0;
+                Composer composer11 = $i$a$LayoutBoxKt$Box$1$iv;
                 obj58 = materializeModifier;
                 int $composer2 = 0;
-                androidx.compose.runtime.State animateFloatAsState = AnimateAsStateKt.animateFloatAsState(i36, (AnimationSpec)AnimationSpecKt.tween$default(100, 0, $composer2, i2, $composer2), 0, 0, 0, composer12, 48, 28);
-                obj3 = composer12;
-                int i129 = 0;
-                int i111 = 0;
-                int i121 = i81;
-                i23 = i97;
-                ComposerKt.sourceInformationMarkerStart(obj3, 2023513938, "CC:CompositionLocal.kt#9igjgp");
-                ComposerKt.sourceInformationMarkerEnd(obj3);
+                androidx.compose.runtime.State animateFloatAsState = AnimateAsStateKt.animateFloatAsState(i6, (AnimationSpec)AnimationSpecKt.tween$default(100, 0, $composer2, i3, $composer2), 0, 0, 0, composer11, 48, 28);
+                obj5 = composer11;
+                int i126 = 0;
+                int i108 = 0;
+                int i118 = i80;
+                i5 = i95;
+                ComposerKt.sourceInformationMarkerStart(obj5, 2023513938, "CC:CompositionLocal.kt#9igjgp");
+                ComposerKt.sourceInformationMarkerEnd(obj5);
                 Object this_$iv = consume;
                 int roundToPx-0680j_4 = (Density)this_$iv.roundToPx-0680j_4(NavigationBarTokens.INSTANCE.getActiveIndicatorWidth-D9Ej5fM());
-                int i122 = i82;
-                int i85 = f3 / f2;
-                int i113 = roundToPx-0680j_4;
+                int i119 = i81;
+                int i83 = f3 / f2;
+                int i110 = roundToPx-0680j_4;
                 Unit $this$NavigationBarItem_u24lambda_u249_u24lambda_u246 = Unit.INSTANCE;
-                ComposerKt.sourceInformationMarkerStart(obj3, 2024938414, str4);
-                empty = i73;
+                ComposerKt.sourceInformationMarkerStart(obj5, 2024938414, str4);
+                empty2 = i72;
                 long interactionSource6 = l;
-                Composer composer10 = obj3;
-                int i114 = 0;
-                it$iv = composer10.rememberedValue();
-                int i125 = 0;
+                Composer composer9 = obj5;
+                int i111 = 0;
+                it$iv = composer9.rememberedValue();
+                int i122 = 0;
                 if (changed3 |= changed8 == 0) {
-                    interactionSource3 = empty;
+                    interactionSource2 = empty2;
                     if (it$iv == Composer.Companion.getEmpty()) {
-                        obj9 = it$iv;
+                        obj7 = it$iv;
                         tweenSpec = interactionSource7;
-                        obj5 = modifier2;
-                        it$iv = new MappedInteractionSource((InteractionSource)interactionSource3, interactionSource6, i85, 0);
-                        composer10.updateRememberedValue(it$iv);
+                        obj = modifier2;
+                        it$iv = new MappedInteractionSource((InteractionSource)interactionSource2, interactionSource6, i83, 0);
+                        composer9.updateRememberedValue(it$iv);
                     } else {
-                        obj9 = it$iv;
-                        obj5 = modifier2;
-                        composer2 = composer10;
+                        obj7 = it$iv;
+                        obj = modifier2;
+                        composer = composer9;
                     }
                 } else {
-                    interactionSource3 = empty;
+                    interactionSource2 = empty2;
                 }
-                ComposerKt.sourceInformationMarkerEnd(obj3);
-                NavigationBarKt.NavigationBarItem.2.indicatorRipple.1 anon6 = new NavigationBarKt.NavigationBarItem.2.indicatorRipple.1((MappedInteractionSource)it$iv);
-                i16 = it$iv;
-                i20 = interactionSource6;
+                ComposerKt.sourceInformationMarkerEnd(obj5);
+                NavigationBarKt.NavigationBarItem.2.indicatorRipple.1 anon5 = new NavigationBarKt.NavigationBarItem.2.indicatorRipple.1((MappedInteractionSource)it$iv);
+                i20 = it$iv;
+                i30 = interactionSource6;
                 int offsetInteractionSource = 54;
                 int deltaOffset = 1;
-                NavigationBarKt.NavigationBarItem.2.indicator.1 anon5 = new NavigationBarKt.NavigationBarItem.2.indicator.1(animateFloatAsState, navigationBarItemColors);
-                ComposerKt.sourceInformationMarkerStart(obj3, 2024981193, str4);
-                boolean changed2 = obj3.changed(animateFloatAsState);
-                Composer composer6 = obj3;
-                i34 = 0;
+                NavigationBarKt.NavigationBarItem.2.indicator.1 anon4 = new NavigationBarKt.NavigationBarItem.2.indicator.1(animateFloatAsState, navigationBarItemColors);
+                ComposerKt.sourceInformationMarkerStart(obj5, 2024981193, str4);
+                boolean changed2 = obj5.changed(animateFloatAsState);
+                Composer composer6 = obj5;
+                i18 = 0;
                 Object rememberedValue3 = composer6.rememberedValue();
-                int i99 = 0;
+                int i97 = 0;
                 if (!changed2) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
-                        empty2 = 0;
-                        z = changed2;
+                        empty = 0;
+                        z4 = changed2;
                         invalid$iv = new NavigationBarKt.NavigationBarItem.2.2.1(animateFloatAsState);
                         composer6.updateRememberedValue((Function0)invalid$iv);
                     } else {
-                        z = changed2;
+                        z4 = changed2;
                         invalid$iv = rememberedValue3;
                     }
                 } else {
                 }
-                ComposerKt.sourceInformationMarkerEnd(obj3);
-                NavigationBarKt.NavigationBarItemLayout((Function2)ComposableLambdaKt.rememberComposableLambda(691730997, deltaOffset, anon6, obj3, offsetInteractionSource), (Function2)ComposableLambdaKt.rememberComposableLambda(-474426875, deltaOffset, anon5, obj3, offsetInteractionSource), (Function2)ComposableLambdaKt.rememberComposableLambda(-1419576100, interactionSource5, obj52, restartGroup, i64), i35, z5, (Function0)invalid$iv, obj3, i55 |= 438);
-                ComposerKt.sourceInformationMarkerEnd(obj3);
+                ComposerKt.sourceInformationMarkerEnd(obj5);
+                NavigationBarKt.NavigationBarItemLayout((Function2)ComposableLambdaKt.rememberComposableLambda(691730997, deltaOffset, anon5, obj5, offsetInteractionSource), (Function2)ComposableLambdaKt.rememberComposableLambda(-474426875, deltaOffset, anon4, obj5, offsetInteractionSource), (Function2)ComposableLambdaKt.rememberComposableLambda(-1419576100, interactionSource5, obj52, restartGroup, i63), i27, z3, (Function0)invalid$iv, obj5, i54 |= 438);
+                ComposerKt.sourceInformationMarkerEnd(obj5);
                 ComposerKt.sourceInformationMarkerEnd(composer5);
                 restartGroup.endNode();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
@@ -761,28 +761,28 @@ public final class NavigationBarKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                interactionSource2 = navigationBarItemColors;
+                interactionSource4 = navigationBarItemColors;
                 colors2 = z2;
-                enabled2 = i86;
-                z4 = z5;
-                obj7 = obj5;
-                obj4 = obj6;
+                enabled2 = i84;
+                z = z3;
+                obj9 = obj;
+                obj2 = obj3;
             } else {
                 restartGroup.skipToGroupEnd();
-                interactionSource2 = colors;
-                i21 = obj58;
-                obj7 = modifier2;
+                interactionSource4 = colors;
+                i32 = obj58;
+                obj9 = modifier2;
                 colors2 = z2;
                 enabled2 = interactionSource;
-                z4 = i34;
-                obj4 = obj6;
+                z = i18;
+                obj2 = obj3;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new NavigationBarKt.NavigationBarItem.3($this$NavigationBarItem, selected, onClick, icon, obj7, colors2, obj4, z4, interactionSource2, enabled2, i105, i106);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new NavigationBarKt.NavigationBarItem.3($this$NavigationBarItem, selected, onClick, icon, obj9, colors2, obj2, z, interactionSource4, enabled2, i102, i103);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
@@ -801,15 +801,15 @@ public final class NavigationBarKt {
     }
 
     private static final void NavigationBarItemLayout(Function2<? super Composer, ? super Integer, Unit> indicatorRipple, Function2<? super Composer, ? super Integer, Unit> indicator, Function2<? super Composer, ? super Integer, Unit> icon, Function2<? super Composer, ? super Integer, Unit> label, boolean alwaysShowLabel, Function0<Float> animationProgress, Composer $composer, int $changed) {
-        int traceInProgress;
+        int traceInProgress2;
         boolean currentCompositionLocalMap;
         Function0 factory$iv$iv$iv2;
         Function0 factory$iv$iv$iv;
-        Object valueOf;
+        Object valueOf2;
         Object materialized$iv$iv;
         boolean currentCompositionLocalMap3;
-        int i30;
-        Object anon;
+        int i;
+        Object $i$a$CacheNavigationBarKt$NavigationBarItemLayout$1$2;
         Object empty;
         Object str;
         boolean topStart;
@@ -819,66 +819,66 @@ public final class NavigationBarKt {
         Composer restartGroup;
         int $dirty;
         Function0 factory$iv$iv;
-        Composer composer;
-        Object maybeCachedBoxMeasurePolicy2;
-        int i29;
-        int i2;
-        int i14;
-        int i5;
-        int i15;
-        int i22;
-        boolean maybeCachedBoxMeasurePolicy;
-        boolean traceInProgress2;
-        String $changed$iv;
-        int i13;
-        int i8;
         Composer composer7;
-        Integer valueOf2;
-        int anon2;
-        int empty2;
-        int currentCompositionLocalMap2;
-        int i20;
-        int i16;
-        int companion;
-        int i9;
-        int currentCompositeKeyHash;
-        int i21;
-        int i17;
-        Composer.Companion companion2;
-        int i;
-        Composer composer6;
-        int i18;
-        int i24;
-        Composer composer5;
-        int i19;
-        int i31;
-        Function0 function03;
-        int i27;
-        int i3;
-        Function0 function02;
-        Modifier modifier2;
-        int i26;
-        androidx.compose.runtime.CompositionLocalMap localMap$iv;
-        int i32;
+        Object maybeCachedBoxMeasurePolicy;
         int i4;
-        int contentAlignment$iv;
-        int i25;
-        Object obj;
-        int currentCompositeKeyHash2;
-        int i10;
+        int i5;
+        int i13;
         int i6;
-        Modifier modifier;
-        Function0 function0;
-        int i7;
-        int i23;
         int i11;
         int i12;
+        boolean maybeCachedBoxMeasurePolicy2;
+        boolean traceInProgress;
+        String $changed$iv;
+        int i19;
+        int i16;
         Composer composer2;
+        Integer valueOf;
+        int anon;
+        int empty2;
+        int currentCompositionLocalMap2;
+        int i22;
+        int i15;
+        int companion2;
+        int i17;
+        int currentCompositeKeyHash2;
+        int i8;
+        int i3;
+        Composer.Companion companion;
+        int i7;
+        Composer composer5;
+        int i29;
+        int i23;
+        Composer composer3;
+        int i32;
+        int i14;
+        Function0 function02;
+        int i2;
+        int i27;
+        Function0 function03;
+        Modifier modifier2;
+        int i18;
+        androidx.compose.runtime.CompositionLocalMap localMap$iv;
+        int i30;
+        int i31;
+        int contentAlignment$iv;
+        int i9;
+        Object obj;
+        int currentCompositeKeyHash;
+        int i20;
         int i28;
+        Modifier modifier;
+        Function0 function0;
+        int i21;
+        int i24;
+        int i26;
+        int i25;
+        Composer composer6;
+        int i10;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
         BoxScopeInstance boxScopeInstance;
-        Composer composer3;
+        Composer composer;
         int obj62;
         materialized$iv$iv = indicatorRipple;
         str = indicator;
@@ -887,76 +887,76 @@ public final class NavigationBarKt {
         final boolean z3 = alwaysShowLabel;
         final Object obj3 = animationProgress;
         materializeModifier = $changed;
-        traceInProgress = -1427075886;
-        restartGroup = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = -1427075886;
+        restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(NavigationBarItemLayout)P(4,3,2,5)532@23467L1717,517@23004L2180:NavigationBar.kt#uh7d8r");
         if (materializeModifier & 6 == 0) {
-            i29 = restartGroup.changedInstance(materialized$iv$iv) ? 4 : 2;
-            $dirty |= i29;
+            i4 = restartGroup.changedInstance(materialized$iv$iv) ? 4 : 2;
+            $dirty |= i4;
         }
         if (materializeModifier & 48 == 0) {
-            i2 = restartGroup.changedInstance(str) ? 32 : 16;
-            $dirty |= i2;
-        }
-        if (materializeModifier & 384 == 0) {
-            i14 = restartGroup.changedInstance(valueOf3) ? 256 : 128;
-            $dirty |= i14;
-        }
-        i8 = 2048;
-        if (materializeModifier & 3072 == 0) {
-            i5 = restartGroup.changedInstance(obj2) ? i8 : 1024;
+            i5 = restartGroup.changedInstance(str) ? 32 : 16;
             $dirty |= i5;
         }
-        anon2 = 16384;
+        if (materializeModifier & 384 == 0) {
+            i13 = restartGroup.changedInstance(valueOf3) ? 256 : 128;
+            $dirty |= i13;
+        }
+        i16 = 2048;
+        if (materializeModifier & 3072 == 0) {
+            i6 = restartGroup.changedInstance(obj2) ? i16 : 1024;
+            $dirty |= i6;
+        }
+        anon = 16384;
         if (materializeModifier & 24576 == 0) {
-            i15 = restartGroup.changed(z3) ? anon2 : 8192;
-            $dirty |= i15;
+            i11 = restartGroup.changed(z3) ? anon : 8192;
+            $dirty |= i11;
         }
         empty2 = 131072;
         if (i72 &= materializeModifier == 0) {
-            i22 = restartGroup.changedInstance(obj3) ? empty2 : 65536;
-            $dirty |= i22;
+            i12 = restartGroup.changedInstance(obj3) ? empty2 : 65536;
+            $dirty |= i12;
         }
         if (i73 &= $dirty == 74898) {
             if (!restartGroup.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.NavigationBarItemLayout (NavigationBar.kt:516)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.NavigationBarItemLayout (NavigationBar.kt:516)");
                 }
-                maybeCachedBoxMeasurePolicy = "CC(remember):NavigationBar.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, -96239762, maybeCachedBoxMeasurePolicy);
+                maybeCachedBoxMeasurePolicy2 = "CC(remember):NavigationBar.kt#9igjgp";
+                ComposerKt.sourceInformationMarkerStart(restartGroup, -96239762, maybeCachedBoxMeasurePolicy2);
                 int i34 = 458752;
-                companion = 1;
+                companion2 = 1;
                 int i35 = 0;
-                i20 = $dirty & i34 == empty2 ? companion : i35;
-                i13 = $dirty & 7168 == i8 ? companion : i35;
+                i22 = $dirty & i34 == empty2 ? companion2 : i35;
+                i19 = $dirty & 7168 == i16 ? companion2 : i35;
                 int i82 = 57344;
-                i16 = $dirty & i82 == anon2 ? companion : i35;
+                i15 = $dirty & i82 == anon ? companion2 : i35;
                 Composer composer9 = restartGroup;
                 int i91 = 0;
                 Object rememberedValue5 = composer9.rememberedValue();
-                i17 = 0;
-                if (i77 |= i16 == 0) {
+                i3 = 0;
+                if (i77 |= i15 == 0) {
                     if (rememberedValue5 == Composer.Companion.getEmpty()) {
                         empty2 = 0;
-                        anon2 = new NavigationBarKt.NavigationBarItemLayout.2.1(obj3, obj2, z3);
-                        composer9.updateRememberedValue((MeasurePolicy)anon2);
+                        anon = new NavigationBarKt.NavigationBarItemLayout.2.1(obj3, obj2, z3);
+                        composer9.updateRememberedValue((MeasurePolicy)anon);
                     } else {
-                        anon2 = rememberedValue5;
+                        anon = rememberedValue5;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 int i79 = i35;
-                valueOf2 = 0;
+                valueOf = 0;
                 currentCompositionLocalMap2 = "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, currentCompositionLocalMap2);
-                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i35);
+                currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, i35);
                 currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
                 Modifier materializeModifier3 = ComposedModifierKt.materializeModifier(restartGroup, (Modifier)Modifier.Companion);
-                i24 = $dirty;
+                i23 = $dirty;
                 Function0 function05 = constructor2;
-                i18 = 0;
-                i31 = i79;
+                i29 = 0;
+                i14 = i79;
                 $changed$iv = "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $changed$iv);
                 if (!applier3 instanceof Applier) {
@@ -969,53 +969,53 @@ public final class NavigationBarKt {
                     factory$iv$iv = function05;
                     restartGroup.useNode();
                 }
-                composer5 = restartGroup;
-                Composer constructor-impl2 = Updater.constructor-impl(composer5);
+                composer3 = restartGroup;
+                Composer constructor-impl2 = Updater.constructor-impl(composer3);
                 int i95 = 0;
-                function02 = factory$iv$iv;
-                Updater.set-impl(constructor-impl2, (MeasurePolicy)anon2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                function03 = factory$iv$iv;
+                Updater.set-impl(constructor-impl2, (MeasurePolicy)anon, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl2, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i96 = 0;
                 Composer composer11 = constructor-impl2;
-                i26 = 0;
+                i18 = 0;
                 if (!composer11.getInserting()) {
                     localMap$iv = currentCompositionLocalMap;
-                    i32 = valueOf2;
-                    if (!Intrinsics.areEqual(composer11.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
-                        composer11.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
-                        constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    i30 = valueOf;
+                    if (!Intrinsics.areEqual(composer11.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
+                        composer11.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
+                        constructor-impl2.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer7 = composer11;
+                        composer2 = composer11;
                     }
                 } else {
                     localMap$iv = currentCompositionLocalMap;
-                    i32 = valueOf2;
+                    i30 = valueOf;
                 }
                 Updater.set-impl(constructor-impl2, materializeModifier3, ComposeUiNode.Companion.getSetModifier());
-                restartGroup = composer5;
-                i27 = i37;
+                restartGroup = composer3;
+                i2 = i37;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -656695659, "C518@23021L17,519@23047L11,521@23068L50:NavigationBar.kt#uh7d8r");
-                materialized$iv$iv.invoke(restartGroup, Integer.valueOf(i24 & 14));
+                materialized$iv$iv.invoke(restartGroup, Integer.valueOf(i23 & 14));
                 str.invoke(restartGroup, Integer.valueOf(i39 &= 14));
                 Modifier layoutId = LayoutIdKt.layoutId((Modifier)Modifier.Companion, "icon");
                 int i84 = 6;
-                i3 = 0;
+                i27 = 0;
                 str = "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo";
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, str);
                 Alignment topStart2 = Alignment.Companion.getTopStart();
                 modifier2 = materializeModifier3;
                 int materialized$iv = 0;
-                i4 = i66;
-                maybeCachedBoxMeasurePolicy2 = BoxKt.maybeCachedBoxMeasurePolicy(topStart2, materialized$iv);
-                i25 = 0;
+                i31 = i66;
+                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart2, materialized$iv);
+                i9 = 0;
                 obj = topStart2;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, currentCompositionLocalMap2);
-                currentCompositeKeyHash2 = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
+                currentCompositeKeyHash = ComposablesKt.getCurrentCompositeKeyHash(restartGroup, 0);
                 currentCompositionLocalMap3 = restartGroup.getCurrentCompositionLocalMap();
-                i10 = materialized$iv;
+                i20 = materialized$iv;
                 modifier = layoutId;
                 Function0 function06 = constructor3;
-                i6 = 0;
+                i28 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $changed$iv);
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -1030,32 +1030,32 @@ public final class NavigationBarKt {
                 function0 = factory$iv$iv$iv2;
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
                 int i99 = 0;
-                Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy2, ComposeUiNode.Companion.getSetMeasurePolicy());
+                Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap3, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                 int i100 = 0;
                 Composer composer12 = constructor-impl;
                 int i103 = 0;
                 if (!composer12.getInserting()) {
                     localMap$iv$iv = currentCompositionLocalMap3;
-                    measurePolicy = maybeCachedBoxMeasurePolicy2;
-                    if (!Intrinsics.areEqual(composer12.rememberedValue(), Integer.valueOf(currentCompositeKeyHash2))) {
-                        composer12.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash2));
-                        constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash2), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    measurePolicy = maybeCachedBoxMeasurePolicy;
+                    if (!Intrinsics.areEqual(composer12.rememberedValue(), Integer.valueOf(currentCompositeKeyHash))) {
+                        composer12.updateRememberedValue(Integer.valueOf(currentCompositeKeyHash));
+                        constructor-impl.apply(Integer.valueOf(currentCompositeKeyHash), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer = composer12;
+                        composer7 = composer12;
                     }
                 } else {
                     localMap$iv$iv = currentCompositionLocalMap3;
-                    measurePolicy = maybeCachedBoxMeasurePolicy2;
+                    measurePolicy = maybeCachedBoxMeasurePolicy;
                 }
                 Updater.set-impl(constructor-impl, ComposedModifierKt.materializeModifier(restartGroup, layoutId), ComposeUiNode.Companion.getSetModifier());
                 materialized$iv$iv = restartGroup;
                 $dirty = 0;
-                i23 = i44;
+                i24 = i44;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                 i102 |= 6;
-                composer2 = materialized$iv$iv;
-                i28 = 0;
+                composer6 = materialized$iv$iv;
+                i10 = 0;
                 boxScopeInstance = iNSTANCE;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, -2034219770, "C521@23110L6:NavigationBar.kt#uh7d8r");
                 valueOf3.invoke(materialized$iv$iv, Integer.valueOf(i45 &= 14));
@@ -1068,13 +1068,13 @@ public final class NavigationBarKt {
                 restartGroup.startReplaceGroup(1087198243);
                 ComposerKt.sourceInformation(restartGroup, "526@23253L60,524@23161L288");
                 if (obj2 != null) {
-                    ComposerKt.sourceInformationMarkerStart(restartGroup, 1087201972, maybeCachedBoxMeasurePolicy);
-                    i30 = i24 & i21 == 16384 ? companion : 0;
-                    if (i24 & obj62 == 131072) {
+                    ComposerKt.sourceInformationMarkerStart(restartGroup, 1087201972, maybeCachedBoxMeasurePolicy2);
+                    i = i23 & i8 == 16384 ? companion2 : 0;
+                    if (i23 & obj62 == 131072) {
                     } else {
-                        companion = 0;
+                        companion2 = 0;
                     }
-                    i30 |= companion;
+                    i |= companion2;
                     Composer composer8 = restartGroup;
                     int i68 = 0;
                     Object rememberedValue4 = composer8.rememberedValue();
@@ -1082,29 +1082,29 @@ public final class NavigationBarKt {
                     if (empty == 0) {
                         obj62 = empty;
                         if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                            companion = invalid$iv;
-                            anon = new NavigationBarKt.NavigationBarItemLayout.1.2.1(z3, obj3);
-                            composer8.updateRememberedValue((Function1)anon);
+                            companion2 = invalid$iv;
+                            $i$a$CacheNavigationBarKt$NavigationBarItemLayout$1$2 = new NavigationBarKt.NavigationBarItemLayout.1.2.1(z3, obj3);
+                            composer8.updateRememberedValue((Function1)$i$a$CacheNavigationBarKt$NavigationBarItemLayout$1$2);
                         } else {
-                            anon = rememberedValue4;
+                            $i$a$CacheNavigationBarKt$NavigationBarItemLayout$1$2 = rememberedValue4;
                         }
                     } else {
                         obj62 = empty;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
                     int i69 = 0;
-                    Modifier padding-VpY3zN4$default = PaddingKt.padding-VpY3zN4$default(GraphicsLayerModifierKt.graphicsLayer(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "label"), (Function1)anon), Dp.constructor-impl(navigationBarItemHorizontalPadding / f), 0, 2, 0);
+                    Modifier padding-VpY3zN4$default = PaddingKt.padding-VpY3zN4$default(GraphicsLayerModifierKt.graphicsLayer(LayoutIdKt.layoutId((Modifier)Modifier.Companion, "label"), (Function1)$i$a$CacheNavigationBarKt$NavigationBarItemLayout$1$2), Dp.constructor-impl(navigationBarItemHorizontalPadding / f), 0, 2, 0);
                     int i58 = i93;
                     materializeModifier = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, str);
                     topStart = Alignment.Companion.getTopStart();
-                    companion = 0;
+                    companion2 = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, currentCompositionLocalMap2);
-                    i9 = currentCompositeKeyHash3;
+                    i17 = currentCompositeKeyHash3;
                     Modifier materializeModifier2 = ComposedModifierKt.materializeModifier(restartGroup, padding-VpY3zN4$default);
-                    i17 = padding-VpY3zN4$default;
+                    i3 = padding-VpY3zN4$default;
                     Function0 function04 = constructor;
-                    i21 = 0;
+                    i8 = 0;
                     ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, $changed$iv);
                     if (!applier2 instanceof Applier) {
                         ComposablesKt.invalidApplier();
@@ -1118,7 +1118,7 @@ public final class NavigationBarKt {
                     }
                     Composer constructor-impl3 = Updater.constructor-impl(restartGroup);
                     int i92 = 0;
-                    function03 = factory$iv$iv$iv;
+                    function02 = factory$iv$iv$iv;
                     Updater.set-impl(constructor-impl3, BoxKt.maybeCachedBoxMeasurePolicy(topStart, false), ComposeUiNode.Companion.getSetMeasurePolicy());
                     Updater.set-impl(constructor-impl3, restartGroup.getCurrentCompositionLocalMap(), ComposeUiNode.Companion.getSetResolvedCompositionLocals());
                     int i94 = 0;
@@ -1126,9 +1126,9 @@ public final class NavigationBarKt {
                     int i97 = 0;
                     if (!composer10.getInserting()) {
                         contentAlignment$iv = topStart;
-                        if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(i9))) {
-                            composer10.updateRememberedValue(Integer.valueOf(i9));
-                            constructor-impl3.apply(Integer.valueOf(i9), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                        if (!Intrinsics.areEqual(composer10.rememberedValue(), Integer.valueOf(i17))) {
+                            composer10.updateRememberedValue(Integer.valueOf(i17));
+                            constructor-impl3.apply(Integer.valueOf(i17), ComposeUiNode.Companion.getSetCompositeKeyHash());
                         } else {
                             composer4 = composer10;
                         }
@@ -1138,13 +1138,13 @@ public final class NavigationBarKt {
                     Updater.set-impl(constructor-impl3, materializeModifier2, ComposeUiNode.Companion.getSetModifier());
                     str = restartGroup;
                     valueOf3 = 0;
-                    companion2 = i51;
+                    companion = i51;
                     ComposerKt.sourceInformationMarkerStart(str, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
                     i81 |= 6;
-                    composer6 = str;
-                    i3 = 0;
-                    i26 = iNSTANCE2;
-                    i25 = materializeModifier2;
+                    composer5 = str;
+                    i27 = 0;
+                    i18 = iNSTANCE2;
+                    i9 = materializeModifier2;
                     ComposerKt.sourceInformationMarkerStart(str, -2033904283, "C529@23428L7:NavigationBar.kt#uh7d8r");
                     obj2.invoke(str, Integer.valueOf(i52 &= 14));
                     ComposerKt.sourceInformationMarkerEnd(str);
@@ -1156,23 +1156,23 @@ public final class NavigationBarKt {
                 }
                 restartGroup.endReplaceGroup();
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                composer5.endNode();
-                ComposerKt.sourceInformationMarkerEnd(composer5);
-                ComposerKt.sourceInformationMarkerEnd(composer5);
+                composer3.endNode();
+                ComposerKt.sourceInformationMarkerEnd(composer3);
+                ComposerKt.sourceInformationMarkerEnd(composer3);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
             } else {
                 restartGroup.skipToGroupEnd();
-                composer5 = restartGroup;
-                i24 = $dirty;
+                composer3 = restartGroup;
+                i23 = $dirty;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer5.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer3.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new NavigationBarKt.NavigationBarItemLayout.3(indicatorRipple, indicator, icon, obj2, z3, obj3, $changed);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new NavigationBarKt.NavigationBarItemLayout.3(indicatorRipple, indicator, icon, obj2, z3, obj3, $changed);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 

@@ -100,33 +100,33 @@ public final class LazyLayoutBeyondBoundsModifierLocal implements ModifierLocalP
     }
 
     private final boolean isForward-4vf7U8o(int $this$isForward_u2d4vf7U8o) {
-        boolean reverseLayout;
-        int reverseLayout2;
+        boolean reverseLayout2;
+        int reverseLayout;
         int i;
         int[] $EnumSwitchMapping$0;
-        reverseLayout2 = 0;
+        reverseLayout = 0;
         if (BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isForward_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getBefore-hoxUOeE())) {
-            return reverseLayout2;
+            return reverseLayout;
         } else {
             i = 1;
             if (BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isForward_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getAfter-hoxUOeE())) {
-                reverseLayout2 = i;
+                reverseLayout = i;
             } else {
                 if (BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isForward_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getAbove-hoxUOeE())) {
-                    reverseLayout2 = this.reverseLayout;
+                    reverseLayout = this.reverseLayout;
                 } else {
                     if (BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isForward_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getBelow-hoxUOeE())) {
                         if (!this.reverseLayout) {
-                            reverseLayout2 = i;
+                            reverseLayout = i;
                         }
                     } else {
                         if (BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isForward_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getLeft-hoxUOeE())) {
-                            switch (reverseLayout) {
+                            switch (reverseLayout2) {
                                 case 1:
-                                    reverseLayout2 = this.reverseLayout;
+                                    reverseLayout = this.reverseLayout;
                                     break;
                                 case 2:
-                                    reverseLayout2 = i;
+                                    reverseLayout = i;
                                     break;
                                 default:
                                     NoWhenBranchMatchedException noWhenBranchMatchedException2 = new NoWhenBranchMatchedException();
@@ -135,12 +135,12 @@ public final class LazyLayoutBeyondBoundsModifierLocal implements ModifierLocalP
                         }
                         if (!BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isForward_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getRight-hoxUOeE())) {
                         } else {
-                            switch (reverseLayout) {
+                            switch (reverseLayout2) {
                                 case 1:
-                                    reverseLayout2 = i;
+                                    reverseLayout = i;
                                     break;
                                 case 2:
-                                    reverseLayout2 = this.reverseLayout;
+                                    reverseLayout = this.reverseLayout;
                                     break;
                                 default:
                                     NoWhenBranchMatchedException noWhenBranchMatchedException = new NoWhenBranchMatchedException();
@@ -157,43 +157,43 @@ public final class LazyLayoutBeyondBoundsModifierLocal implements ModifierLocalP
     }
 
     private final boolean isOppositeToOrientation-4vf7U8o(int $this$isOppositeToOrientation_u2d4vf7U8o) {
-        int equals-impl02;
-        boolean equals-impl0;
-        boolean after-hoxUOeE;
         int equals-impl03;
+        boolean equals-impl02;
+        boolean after-hoxUOeE;
+        int equals-impl0;
         Orientation horizontal;
-        equals-impl03 = 1;
+        equals-impl0 = 1;
         if (BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getAbove-hoxUOeE())) {
-            equals-impl02 = equals-impl03;
+            equals-impl03 = equals-impl0;
         } else {
-            equals-impl02 = BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getBelow-hoxUOeE());
+            equals-impl03 = BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getBelow-hoxUOeE());
         }
         final int i = 0;
-        if (equals-impl02 != 0) {
+        if (equals-impl03 != 0) {
             if (this.orientation == Orientation.Horizontal) {
             } else {
-                equals-impl03 = i;
+                equals-impl0 = i;
             }
-            return equals-impl03;
+            return equals-impl0;
         } else {
             if (BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getLeft-hoxUOeE())) {
-                equals-impl0 = equals-impl03;
+                equals-impl02 = equals-impl0;
             } else {
-                equals-impl0 = BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getRight-hoxUOeE());
+                equals-impl02 = BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getRight-hoxUOeE());
             }
-            if (equals-impl0) {
+            if (equals-impl02) {
                 if (this.orientation == Orientation.Vertical) {
                 } else {
-                    equals-impl03 = i;
+                    equals-impl0 = i;
                 }
             } else {
                 if (BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getBefore-hoxUOeE())) {
                 } else {
-                    equals-impl03 = BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getAfter-hoxUOeE());
+                    equals-impl0 = BeyondBoundsLayout.LayoutDirection.equals-impl0($this$isOppositeToOrientation_u2d4vf7U8o, BeyondBoundsLayout.LayoutDirection.Companion.getAfter-hoxUOeE());
                 }
-                if (equals-impl03 == 0) {
+                if (equals-impl0 == 0) {
                 } else {
-                    equals-impl03 = i;
+                    equals-impl0 = i;
                 }
             }
         }

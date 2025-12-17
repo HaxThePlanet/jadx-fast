@@ -52,15 +52,15 @@ final class TypeVariableImpl implements TypeVariable<GenericDeclaration>, kotlin
     public Type[] getBounds() {
         Object next;
         Type it;
-        int i;
         int i2;
+        int i;
         java.util.List upperBounds = this.typeParameter.getUpperBounds();
         int i4 = 0;
         ArrayList arrayList = new ArrayList(CollectionsKt.collectionSizeOrDefault((Iterable)upperBounds, 10));
         final int i7 = 0;
         final Iterator iterator = upperBounds.iterator();
         for (Object next : iterator) {
-            i = 0;
+            i2 = 0;
             (Collection)arrayList.add(TypesJVMKt.access$computeJavaType((KType)next, true));
         }
         int i3 = 0;

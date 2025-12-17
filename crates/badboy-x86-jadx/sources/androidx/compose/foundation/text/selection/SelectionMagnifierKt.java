@@ -73,24 +73,24 @@ public final class SelectionMagnifierKt {
     private static final State<Offset> rememberAnimatedMagnifierPosition(Function0<Offset> targetCalculation, Composer $composer, int $changed) {
         int traceInProgress;
         String str;
-        int i4;
-        Object derivedStateOf;
+        int i2;
+        Object $i$a$CacheSelectionMagnifierKt$rememberAnimatedMagnifierPosition$targetValue$2;
         int empty;
         Object animatable;
-        Offset box-impl;
+        Offset box-impl2;
         Object anon;
         TwoWayConverter unspecifiedSafeOffsetVectorConverter;
-        Offset box-impl2;
+        Offset box-impl;
         int i;
-        int i2;
         int i3;
+        int i4;
         final Composer composer = $composer;
         int i5 = -1589795249;
         ComposerKt.sourceInformationMarkerStart(composer, i5, "C(rememberAnimatedMagnifierPosition)77@2973L46,78@3041L208,82@3275L1165,82@3254L1186:SelectionMagnifier.kt#eksfi3");
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i5, $changed, -1, "androidx.compose.foundation.text.selection.rememberAnimatedMagnifierPosition (SelectionMagnifier.kt:76)");
         } else {
-            i4 = $changed;
+            i2 = $changed;
         }
         String str3 = "CC(remember):SelectionMagnifier.kt#9igjgp";
         ComposerKt.sourceInformationMarkerStart(composer, 494972156, str3);
@@ -103,9 +103,9 @@ public final class SelectionMagnifierKt {
             int i17 = 0;
             composer2.updateRememberedValue(SnapshotStateKt.derivedStateOf(targetCalculation));
         } else {
-            derivedStateOf = rememberedValue;
+            $i$a$CacheSelectionMagnifierKt$rememberAnimatedMagnifierPosition$targetValue$2 = rememberedValue;
         }
-        State invalid$iv = derivedStateOf;
+        State invalid$iv = $i$a$CacheSelectionMagnifierKt$rememberAnimatedMagnifierPosition$targetValue$2;
         ComposerKt.sourceInformationMarkerEnd(composer);
         ComposerKt.sourceInformationMarkerStart(composer, 494974494, str3);
         int i10 = 0;

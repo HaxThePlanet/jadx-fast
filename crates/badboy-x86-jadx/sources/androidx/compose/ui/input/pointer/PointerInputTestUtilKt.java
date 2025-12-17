@@ -40,17 +40,17 @@ public final class PointerInputTestUtilKt {
 
     public static androidx.compose.ui.input.pointer.PointerInputChange down$default(long l, long l2, float f3, float f4, List list5, int i6, Object object7) {
         int i;
-        int i4;
         int i3;
+        int i4;
         int i2;
         int obj9;
         int obj13;
         i = obj14 & 2 != 0 ? obj9 : f3;
         final int obj10 = 0;
-        i4 = obj14 & 4 != 0 ? obj10 : list5;
-        i3 = obj14 & 8 != 0 ? obj10 : i6;
+        i3 = obj14 & 4 != 0 ? obj10 : list5;
+        i4 = obj14 & 8 != 0 ? obj10 : i6;
         i2 = obj14 & 16 != 0 ? obj13 : object7;
-        return PointerInputTestUtilKt.down(l, obj1, i, obj3, i4);
+        return PointerInputTestUtilKt.down(l, obj1, i, obj3, i3);
     }
 
     public static final void invokeOverAllPasses-H0pRuoY(Function3<? super androidx.compose.ui.input.pointer.PointerEvent, ? super androidx.compose.ui.input.pointer.PointerEventPass, ? super IntSize, Unit> $this$invokeOverAllPasses_u2dH0pRuoY, androidx.compose.ui.input.pointer.PointerEvent pointerEvent, long size) {
@@ -82,8 +82,8 @@ public final class PointerInputTestUtilKt {
 
     public static final void invokeOverPasses-hUlJWOE(Function3<? super androidx.compose.ui.input.pointer.PointerEvent, ? super androidx.compose.ui.input.pointer.PointerEventPass, ? super IntSize, Unit> $this$invokeOverPasses_u2dhUlJWOE, androidx.compose.ui.input.pointer.PointerEvent pointerEvent, List<? extends androidx.compose.ui.input.pointer.PointerEventPass> pointerEventPasses, long size) {
         int index$iv;
-        Object obj2;
         Object obj;
+        Object obj2;
         int i;
         IntSize box-impl;
         if ((Collection)pointerEvent.getChanges().isEmpty()) {
@@ -100,12 +100,12 @@ public final class PointerInputTestUtilKt {
                 }
             }
             int i3 = 0;
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException("invokeOverPasses called with no passes".toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequirePointerInputTestUtilKt$invokeOverPasses$2 = new IllegalArgumentException("invokeOverPasses called with no passes".toString());
+            throw $i$a$RequirePointerInputTestUtilKt$invokeOverPasses$2;
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("invokeOverPasses called with no changes".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequirePointerInputTestUtilKt$invokeOverPasses$1 = new IllegalArgumentException("invokeOverPasses called with no changes".toString());
+        throw $i$a$RequirePointerInputTestUtilKt$invokeOverPasses$1;
     }
 
     public static final void invokeOverPasses-hUlJWOE(Function3<? super androidx.compose.ui.input.pointer.PointerEvent, ? super androidx.compose.ui.input.pointer.PointerEventPass, ? super IntSize, Unit> $this$invokeOverPasses_u2dhUlJWOE, androidx.compose.ui.input.pointer.PointerEvent pointerEvent, androidx.compose.ui.input.pointer.PointerEventPass[] pointerEventPasses, long size) {

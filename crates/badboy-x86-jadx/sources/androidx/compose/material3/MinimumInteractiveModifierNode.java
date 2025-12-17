@@ -22,14 +22,14 @@ public final class MinimumInteractiveModifierNode extends Modifier.Node implemen
 
     @Override // androidx.compose.ui.Modifier$Node
     public MeasureResult measure-3p2s80s(MeasureScope $this$measure_u2d3p2s80s, Measurable measurable, long constraints) {
-        int i;
+        int i3;
         boolean attached;
         int roundToPx-0680j_4;
         int i2;
         int width;
         int height;
         float naN;
-        int i3;
+        int i;
         int i5 = 0;
         int i6 = 0;
         float $this$coerceAtLeast_u2dYgX7TsA$iv = Dp.constructor-impl(RangesKt.coerceAtLeast((Dp)CompositionLocalConsumerModifierNodeKt.currentValueOf((CompositionLocalConsumerModifierNode)this, (CompositionLocal)InteractiveComponentSizeKt.getLocalMinimumInteractiveComponentSize()).unbox-impl(), Dp.constructor-impl((float)i4)));
@@ -40,7 +40,7 @@ public final class MinimumInteractiveModifierNode extends Modifier.Node implemen
             i2 = 0;
             if (!Float.isNaN($this$coerceAtLeast_u2dYgX7TsA$iv)) {
                 i2 = 0;
-                i = Dp.compareTo-0680j_4($this$coerceAtLeast_u2dYgX7TsA$iv, Dp.constructor-impl((float)i7)) > 0 ? 1 : roundToPx-0680j_4;
+                i3 = Dp.compareTo-0680j_4($this$coerceAtLeast_u2dYgX7TsA$iv, Dp.constructor-impl((float)i7)) > 0 ? 1 : roundToPx-0680j_4;
             } else {
             }
         } else {
@@ -49,18 +49,18 @@ public final class MinimumInteractiveModifierNode extends Modifier.Node implemen
         if (!Float.isNaN($this$coerceAtLeast_u2dYgX7TsA$iv)) {
             roundToPx-0680j_4 = $this$measure_u2d3p2s80s.roundToPx-0680j_4($this$coerceAtLeast_u2dYgX7TsA$iv);
         }
-        if (i != 0) {
+        if (i3 != 0) {
             width = Math.max(measure-BRTryo0.getWidth(), roundToPx-0680j_4);
         } else {
             width = measure-BRTryo0.getWidth();
         }
         int i9 = width;
-        if (i != 0) {
-            i3 = height;
+        if (i3 != 0) {
+            i = height;
         } else {
-            i3 = height;
+            i = height;
         }
-        MinimumInteractiveModifierNode.measure.1 anon = new MinimumInteractiveModifierNode.measure.1(i9, measure-BRTryo0, i3);
-        return MeasureScope.layout$default($this$measure_u2d3p2s80s, i9, i3, 0, (Function1)anon, 4, 0);
+        MinimumInteractiveModifierNode.measure.1 anon = new MinimumInteractiveModifierNode.measure.1(i9, measure-BRTryo0, i);
+        return MeasureScope.layout$default($this$measure_u2d3p2s80s, i9, i, 0, (Function1)anon, 4, 0);
     }
 }

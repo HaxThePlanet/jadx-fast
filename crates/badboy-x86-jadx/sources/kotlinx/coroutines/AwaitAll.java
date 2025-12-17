@@ -66,15 +66,15 @@ final class AwaitAll<T>  {
         public void invoke(Throwable cause) {
             Object tryResumeWithException;
             Object constructor-impl;
-            int i4;
+            int i;
             ArrayList arrayList;
             kotlinx.coroutines.Deferred[] objArr;
-            int i;
+            int i2;
             int length;
-            int i3;
+            int i4;
             kotlinx.coroutines.Deferred deferred;
             Object it;
-            int i2;
+            int i3;
             if (cause != null) {
                 tryResumeWithException = this.continuation.tryResumeWithException(cause);
                 this.continuation.completeResume(tryResumeWithException);
@@ -89,15 +89,15 @@ final class AwaitAll<T>  {
             } else {
                 if (AwaitAll.access$getNotCompletedCount$FU$p().decrementAndGet(this.this$0) == 0) {
                     kotlinx.coroutines.Deferred[] objArr2 = AwaitAll.access$getDeferreds$p(this.this$0);
-                    i4 = 0;
+                    i = 0;
                     arrayList = new ArrayList(objArr2.length);
                     objArr = objArr2;
-                    i = 0;
-                    i3 = 0;
-                    while (i3 < objArr.length) {
-                        i2 = 0;
-                        (Collection)arrayList.add(objArr[i3].getCompleted());
-                        i3++;
+                    i2 = 0;
+                    i4 = 0;
+                    while (i4 < objArr.length) {
+                        i3 = 0;
+                        (Collection)arrayList.add(objArr[i4].getCompleted());
+                        i4++;
                     }
                     kotlin.Result.Companion $this$map$iv = Result.Companion;
                     (Continuation)this.continuation.resumeWith(Result.constructor-impl((List)arrayList));
@@ -179,16 +179,16 @@ final class AwaitAll<T>  {
     }
 
     public final Object await(Continuation<? super List<? extends T>> $completion) {
-        int i;
+        int i3;
         boolean completed;
-        int i2;
+        int i4;
         kotlinx.coroutines.AwaitAll.AwaitAllNode[] objArr;
         kotlinx.coroutines.Deferred deferred;
         kotlinx.coroutines.AwaitAll.AwaitAllNode awaitAllNode;
         Unit $this$await_u24lambda_u242_u24lambda_u240;
-        int i4;
+        int i2;
         kotlinx.coroutines.DisposableHandle onCompletion;
-        int i3;
+        int i;
         final kotlinx.coroutines.AwaitAll awaitAll = this;
         final int i5 = 0;
         int i6 = 0;
@@ -198,26 +198,26 @@ final class AwaitAll<T>  {
         int i8 = 0;
         int length = objArr2.length;
         final kotlinx.coroutines.AwaitAll.AwaitAllNode[] arr = new AwaitAll.AwaitAllNode[length];
-        i2 = i;
-        while (i2 < length) {
-            deferred = AwaitAll.access$getDeferreds$p(awaitAll)[i2];
+        i4 = i3;
+        while (i4 < length) {
+            deferred = AwaitAll.access$getDeferreds$p(awaitAll)[i4];
             deferred.start();
             awaitAllNode = new AwaitAll.AwaitAllNode(awaitAll, (CancellableContinuation)cancellableContinuationImpl2);
             kotlinx.coroutines.AwaitAll.AwaitAllNode awaitAllNode2 = awaitAllNode;
-            i4 = 0;
-            i3 = 0;
+            i2 = 0;
+            i = 0;
             awaitAllNode2.setHandle(deferred.invokeOnCompletion((Function1)(CompletionHandlerBase)awaitAllNode2));
             $this$await_u24lambda_u242_u24lambda_u240 = Unit.INSTANCE;
-            arr[i2] = awaitAllNode;
-            i2++;
+            arr[i4] = awaitAllNode;
+            i4++;
         }
         AwaitAll.DisposeHandlersOnCancel disposeHandlersOnCancel = new AwaitAll.DisposeHandlersOnCancel(awaitAll, arr);
         objArr = arr;
         int i9 = 0;
-        while (i < objArr.length) {
+        while (i3 < objArr.length) {
             onCompletion = 0;
-            objArr[i].setDisposer(disposeHandlersOnCancel);
-            i++;
+            objArr[i3].setDisposer(disposeHandlersOnCancel);
+            i3++;
         }
         if (cancellableContinuationImpl2.isCompleted()) {
             disposeHandlersOnCancel.disposeAll();

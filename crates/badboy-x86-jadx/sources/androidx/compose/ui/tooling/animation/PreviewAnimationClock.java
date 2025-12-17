@@ -243,22 +243,22 @@ public class PreviewAnimationClock {
     public final long getMaxDuration() {
         Long num;
         int longValue;
-        Long valueOf;
+        Long valueOf2;
         boolean next;
-        int valueOf2;
+        int valueOf;
         int compareTo;
         Iterator iterator = (Iterable)getAllClocks().iterator();
         if (!iterator.hasNext()) {
             num = 0;
         } else {
-            valueOf = Long.valueOf((ComposeAnimationClock)iterator.next().getMaxDuration());
+            valueOf2 = Long.valueOf((ComposeAnimationClock)iterator.next().getMaxDuration());
             while (iterator.hasNext()) {
-                valueOf2 = Long.valueOf((ComposeAnimationClock)iterator.next().getMaxDuration());
-                if (valueOf.compareTo((Comparable)valueOf2) < 0) {
+                valueOf = Long.valueOf((ComposeAnimationClock)iterator.next().getMaxDuration());
+                if (valueOf2.compareTo((Comparable)valueOf) < 0) {
                 }
-                valueOf = valueOf2;
+                valueOf2 = valueOf;
             }
-            num = valueOf;
+            num = valueOf2;
         }
         if ((Long)num != null) {
             longValue = (Long)num.longValue();
@@ -395,12 +395,12 @@ public class PreviewAnimationClock {
     }
 
     public final void updateAnimatedVisibilityState(ComposeAnimation composeAnimation, Object state) {
-        int i;
         int i2;
+        int i;
         Object obj = this.animatedVisibilityClocks.get(composeAnimation);
         if ((AnimatedVisibilityClock)obj != null) {
-            i2 = 0;
-            ComposeAnimationClock.setStateParameters$default((ComposeAnimationClock)(AnimatedVisibilityClock)obj, state, i2, 2, i2);
+            i = 0;
+            ComposeAnimationClock.setStateParameters$default((ComposeAnimationClock)(AnimatedVisibilityClock)obj, state, i, 2, i);
         }
     }
 

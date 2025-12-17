@@ -49,43 +49,43 @@ public final class MagnifierElement extends ModifierNodeElement<androidx.compose
     }
 
     public MagnifierElement(Function1 function1, Function1 function12, Function1 function13, float f4, boolean z5, long l6, float f7, float f8, boolean z9, androidx.compose.foundation.PlatformMagnifierFactory platformMagnifierFactory10, int i11, DefaultConstructorMarker defaultConstructorMarker12) {
-        int i3;
+        int i7;
+        int i5;
+        int i;
+        int unspecified-MYxV2XQ;
+        int unspecified-D9Ej5fM2;
+        int unspecified-D9Ej5fM;
+        int i4;
         int i6;
         int i2;
-        int unspecified-MYxV2XQ;
-        int unspecified-D9Ej5fM;
-        int unspecified-D9Ej5fM2;
-        int i5;
-        int i4;
-        int i7;
-        int i8;
+        int i3;
         long l;
-        float f;
         float f2;
-        int i;
+        float f;
+        int i8;
         int i9 = defaultConstructorMarker12;
         final int i13 = 0;
-        i5 = i9 & 2 != 0 ? i13 : function12;
-        i4 = i9 & 4 != 0 ? i13 : function13;
-        i7 = i9 & 8 != 0 ? i6 : f4;
-        i8 = i9 & 16 != 0 ? i2 : z5;
+        i4 = i9 & 2 != 0 ? i13 : function12;
+        i6 = i9 & 4 != 0 ? i13 : function13;
+        i2 = i9 & 8 != 0 ? i5 : f4;
+        i3 = i9 & 16 != 0 ? i : z5;
         if (i9 & 32 != 0) {
             l = unspecified-MYxV2XQ;
         } else {
             l = l6;
         }
         if (i9 & 64 != 0) {
-            f = unspecified-D9Ej5fM;
-        } else {
-            f = f8;
-        }
-        if (i9 & 128 != 0) {
             f2 = unspecified-D9Ej5fM2;
         } else {
-            f2 = z9;
+            f2 = f8;
         }
-        i = i9 &= 256 != 0 ? i3 : platformMagnifierFactory10;
-        super(function1, i5, i4, i7, i8, l, obj10, f, f2, i, i11, 0);
+        if (i9 & 128 != 0) {
+            f = unspecified-D9Ej5fM;
+        } else {
+            f = z9;
+        }
+        i8 = i9 &= 256 != 0 ? i7 : platformMagnifierFactory10;
+        super(function1, i4, i6, i2, i3, l, obj10, f2, f, i8, i11, 0);
     }
 
     public MagnifierElement(Function1 function1, Function1 function12, Function1 function13, float f4, boolean z5, long l6, float f7, float f8, boolean z9, androidx.compose.foundation.PlatformMagnifierFactory platformMagnifierFactory10, DefaultConstructorMarker defaultConstructorMarker11) {
@@ -150,17 +150,17 @@ public final class MagnifierElement extends ModifierNodeElement<androidx.compose
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i;
         int i2;
+        int i;
         Function1 magnifierCenter = this.magnifierCenter;
         if (magnifierCenter != null) {
-            i = magnifierCenter.hashCode();
+            i2 = magnifierCenter.hashCode();
         } else {
-            i = i2;
+            i2 = i;
         }
         Function1 onSizeChanged = this.onSizeChanged;
         if (onSizeChanged != null) {
-            i2 = onSizeChanged.hashCode();
+            i = onSizeChanged.hashCode();
         }
         return result8 += i20;
     }

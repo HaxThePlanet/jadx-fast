@@ -63,10 +63,10 @@ public final class SafeContinuation<T>  implements kotlin.coroutines.Continuatio
     @Override // kotlin.coroutines.Continuation
     public final Object getOrThrow() {
         Object result;
-        CoroutineSingletons uNDECIDED;
-        Object cOROUTINE_SUSPENDED2;
         CoroutineSingletons uNDECIDED2;
         Object cOROUTINE_SUSPENDED;
+        CoroutineSingletons uNDECIDED;
+        Object cOROUTINE_SUSPENDED2;
         if (this.result == CoroutineSingletons.UNDECIDED && AbstractResolvableFuture.SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(SafeContinuation.RESULT, this, CoroutineSingletons.UNDECIDED, IntrinsicsKt.getCOROUTINE_SUSPENDED())) {
             if (AbstractResolvableFuture.SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(SafeContinuation.RESULT, this, CoroutineSingletons.UNDECIDED, IntrinsicsKt.getCOROUTINE_SUSPENDED())) {
                 return IntrinsicsKt.getCOROUTINE_SUSPENDED();
@@ -74,12 +74,12 @@ public final class SafeContinuation<T>  implements kotlin.coroutines.Continuatio
             result = this.result;
         }
         if (result == CoroutineSingletons.RESUMED) {
-            cOROUTINE_SUSPENDED2 = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-            return cOROUTINE_SUSPENDED2;
+            cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
+            return cOROUTINE_SUSPENDED;
         } else {
             if (result instanceof Result.Failure) {
             } else {
-                cOROUTINE_SUSPENDED2 = result;
+                cOROUTINE_SUSPENDED = result;
             }
         }
         throw obj.exception;

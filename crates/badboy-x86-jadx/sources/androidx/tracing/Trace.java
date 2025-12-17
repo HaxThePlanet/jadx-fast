@@ -21,8 +21,8 @@ public final class Trace {
     }
 
     private static void beginAsyncSectionFallback(String methodName, int cookie) {
-        Method sAsyncTraceBeginMethod2;
         Method sAsyncTraceBeginMethod;
+        Method sAsyncTraceBeginMethod2;
         Class[] arr;
         Class tYPE;
         int i;
@@ -118,8 +118,8 @@ public final class Trace {
     }
 
     private static void setCounterFallback(String counterName, int counterValue) {
-        Method sTraceCounterMethod2;
         Method sTraceCounterMethod;
+        Method sTraceCounterMethod2;
         Class[] arr;
         Class tYPE;
         int i;

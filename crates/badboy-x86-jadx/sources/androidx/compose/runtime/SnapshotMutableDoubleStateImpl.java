@@ -100,15 +100,15 @@ public class SnapshotMutableDoubleStateImpl extends StateObjectImpl implements a
 
     @Override // androidx.compose.runtime.snapshots.StateObjectImpl
     public StateRecord mergeRecords(StateRecord previous, StateRecord current, StateRecord applied) {
-        int i;
         int i2;
+        int i;
         String str = "null cannot be cast to non-null type androidx.compose.runtime.SnapshotMutableDoubleStateImpl.DoubleStateStateRecord";
         Intrinsics.checkNotNull(current, str);
         Intrinsics.checkNotNull(applied, str);
         final int i3 = 0;
-        i2 = Double.compare(value, value2) == 0 ? 1 : 0;
-        i = i2 != 0 ? current : 0;
-        return i;
+        i = Double.compare(value, value2) == 0 ? 1 : 0;
+        i2 = i != 0 ? current : 0;
+        return i2;
     }
 
     @Override // androidx.compose.runtime.snapshots.StateObjectImpl
@@ -122,9 +122,9 @@ public class SnapshotMutableDoubleStateImpl extends StateObjectImpl implements a
         double value2;
         int i2;
         int snapshot$iv;
-        int i3;
-        Object obj;
         int i;
+        Object obj;
+        int i3;
         Throwable th;
         Unit $this$_set_doubleValue__u24lambda_u243_u24lambda_u242;
         int i4;
@@ -132,20 +132,20 @@ public class SnapshotMutableDoubleStateImpl extends StateObjectImpl implements a
         final StateRecord current = SnapshotKt.current((StateRecord)this.next);
         final int i6 = 0;
         snapshot$iv = 0;
-        i3 = Double.compare(value2, value) == 0 ? 1 : 0;
-        if (i3 == 0) {
+        i = Double.compare(value2, value) == 0 ? 1 : 0;
+        if (i == 0) {
             i2 = 0;
             int i7 = 0;
             Snapshot snapshot$iv2 = SnapshotKt.getSnapshotInitializer();
             int i8 = 0;
             Object lock = SnapshotKt.getLock();
-            i = 0;
+            i3 = 0;
             th = 0;
             snapshot$iv = current2;
             i4 = 0;
             (SnapshotMutableDoubleStateImpl.DoubleStateStateRecord)SnapshotKt.overwritableRecord((StateRecord)this.next, (StateObject)this, snapshot$iv, (StateRecord)current).setValue(value);
             $this$_set_doubleValue__u24lambda_u243_u24lambda_u242 = Unit.INSTANCE;
-            i3 = 0;
+            i = 0;
             SnapshotKt.notifyWrite(snapshot$iv, (StateObject)this);
             synchronized (lock) {
                 i2 = 0;
@@ -153,13 +153,13 @@ public class SnapshotMutableDoubleStateImpl extends StateObjectImpl implements a
                 snapshot$iv2 = SnapshotKt.getSnapshotInitializer();
                 i8 = 0;
                 lock = SnapshotKt.getLock();
-                i = 0;
+                i3 = 0;
                 th = 0;
                 snapshot$iv = current2;
                 i4 = 0;
                 (SnapshotMutableDoubleStateImpl.DoubleStateStateRecord)SnapshotKt.overwritableRecord((StateRecord)this.next, (StateObject)this, snapshot$iv, (StateRecord)current).setValue(value);
                 $this$_set_doubleValue__u24lambda_u243_u24lambda_u242 = Unit.INSTANCE;
-                i3 = 0;
+                i = 0;
                 SnapshotKt.notifyWrite(snapshot$iv, (StateObject)this);
             }
         }

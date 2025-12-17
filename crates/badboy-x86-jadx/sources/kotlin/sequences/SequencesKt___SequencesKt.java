@@ -359,8 +359,8 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         int count;
         Object next;
         boolean apiVersionIsAtLeast;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$count, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -422,35 +422,35 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     }
 
     public static final <T> T elementAtOrElse(kotlin.sequences.Sequence<? extends T> $this$elementAtOrElse, int index, Function1<? super Integer, ? extends T> defaultValue) {
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         Intrinsics.checkNotNullParameter($this$elementAtOrElse, "<this>");
         Intrinsics.checkNotNullParameter(defaultValue, "defaultValue");
         if (index < 0) {
             return defaultValue.invoke(Integer.valueOf(index));
         }
         Iterator iterator = $this$elementAtOrElse.iterator();
-        i2 = 0;
+        i = 0;
         for (Object next : iterator) {
-            i2 = i;
+            i = i2;
         }
         return defaultValue.invoke(Integer.valueOf(index));
     }
 
     public static final <T> T elementAtOrNull(kotlin.sequences.Sequence<? extends T> $this$elementAtOrNull, int index) {
-        int i;
-        Object next;
         int i2;
+        Object next;
+        int i;
         Intrinsics.checkNotNullParameter($this$elementAtOrNull, "<this>");
         int i3 = 0;
         if (index < 0) {
             return i3;
         }
         final Iterator iterator = $this$elementAtOrNull.iterator();
-        i = 0;
+        i2 = 0;
         for (Object next : iterator) {
-            i = i2;
+            i2 = i;
         }
         return i3;
     }
@@ -475,9 +475,9 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     public static final <T, C extends Collection<? super T>> C filterIndexedTo(kotlin.sequences.Sequence<? extends T> $this$filterIndexedTo, C destination, Function2<? super Integer, ? super T, Boolean> predicate) {
         int index;
         Object next;
-        int i2;
-        Object apiVersionIsAtLeast;
         int i;
+        Object apiVersionIsAtLeast;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
@@ -488,10 +488,10 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         Iterator iterator = $this$filterIndexedTo.iterator();
         for (Object next : iterator) {
             apiVersionIsAtLeast = next;
-            i = 0;
+            i2 = 0;
             if ((Boolean)predicate.invoke(Integer.valueOf(index), apiVersionIsAtLeast).booleanValue()) {
             }
-            index = i2;
+            index = i;
             destination.add(apiVersionIsAtLeast);
             CollectionsKt.throwIndexOverflow();
         }
@@ -710,9 +710,9 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     private static final <T, R, C extends Collection<? super R>> C flatMapIndexedIterableTo(kotlin.sequences.Sequence<? extends T> $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super T, ? extends Iterable<? extends R>> transform) {
         int list;
         Object next;
-        int i2;
-        boolean apiVersionIsAtLeast;
         int i;
+        boolean apiVersionIsAtLeast;
+        int i2;
         int i3;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
@@ -721,7 +721,7 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         Iterator iterator = $this$flatMapIndexedTo.iterator();
         for (Object next : iterator) {
             CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(list), next));
-            list = i2;
+            list = i;
             CollectionsKt.throwIndexOverflow();
         }
         return destination;
@@ -736,10 +736,10 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     private static final <T, R, C extends Collection<? super R>> C flatMapIndexedSequenceTo(kotlin.sequences.Sequence<? extends T> $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super T, ? extends kotlin.sequences.Sequence<? extends R>> transform) {
         int list;
         Object next;
-        int i2;
-        boolean apiVersionIsAtLeast;
-        int i;
         int i3;
+        boolean apiVersionIsAtLeast;
+        int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -747,7 +747,7 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         Iterator iterator = $this$flatMapIndexedTo.iterator();
         for (Object next : iterator) {
             CollectionsKt.addAll(destination, (Sequence)transform.invoke(Integer.valueOf(list), next));
-            list = i2;
+            list = i3;
             CollectionsKt.throwIndexOverflow();
         }
         return destination;
@@ -806,9 +806,9 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         int i3;
         Object accumulator;
         Object next;
-        int i;
-        boolean apiVersionIsAtLeast;
         int i4;
+        boolean apiVersionIsAtLeast;
+        int i;
         int i2;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
@@ -818,7 +818,7 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         Iterator iterator = $this$foldIndexed.iterator();
         for (Object next : iterator) {
             accumulator = operation.invoke(Integer.valueOf(i3), accumulator, next);
-            i3 = i;
+            i3 = i4;
             CollectionsKt.throwIndexOverflow();
         }
         return accumulator;
@@ -836,20 +836,20 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     }
 
     public static final <T> void forEachIndexed(kotlin.sequences.Sequence<? extends T> $this$forEachIndexed, Function2<? super Integer, ? super T, Unit> action) {
-        int i4;
-        Object next;
         int i2;
+        Object next;
+        int i;
         boolean apiVersionIsAtLeast;
         int i3;
-        int i;
+        int i4;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i5 = 0;
-        i4 = 0;
+        i2 = 0;
         Iterator iterator = $this$forEachIndexed.iterator();
         for (Object next : iterator) {
-            action.invoke(Integer.valueOf(i4), next);
-            i4 = i2;
+            action.invoke(Integer.valueOf(i2), next);
+            i2 = i;
             CollectionsKt.throwIndexOverflow();
         }
     }
@@ -888,9 +888,9 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
 
     public static final <T, K, V> Map<K, List<V>> groupBy(kotlin.sequences.Sequence<? extends T> $this$groupBy, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
         Object next;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv$iv;
         Object invoke;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke2;
         Object obj;
         int i;
         ArrayList arrayList;
@@ -903,10 +903,10 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         final Iterator iterator = $this$groupBy.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            invoke2 = keySelector.invoke(next);
+            invoke = keySelector.invoke(next);
             LinkedHashMap map = linkedHashMap;
             int i4 = 0;
-            obj = map.get(invoke2);
+            obj = map.get(invoke);
             if (obj == null) {
             } else {
             }
@@ -914,7 +914,7 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
             (List)arrayList.add(valueTransform.invoke(next));
             i = 0;
             arrayList = new ArrayList();
-            map.put(invoke2, (List)arrayList);
+            map.put(invoke, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
@@ -952,9 +952,9 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
 
     public static final <T, K, V, M extends Map<? super K, List<V>>> M groupByTo(kotlin.sequences.Sequence<? extends T> $this$groupByTo, M destination, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
         Object next;
-        Object invoke;
-        ArrayList $this$getOrPut$iv;
         Object invoke2;
+        ArrayList $this$getOrPut$iv;
+        Object invoke;
         Object obj;
         int i;
         ArrayList arrayList;
@@ -966,10 +966,10 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         final Iterator iterator = $this$groupByTo.iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
-            invoke = keySelector.invoke(next);
+            invoke2 = keySelector.invoke(next);
             Object obj2 = destination;
             int i3 = 0;
-            obj = obj2.get(invoke);
+            obj = obj2.get(invoke2);
             if (obj == null) {
             } else {
             }
@@ -977,7 +977,7 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
             (List)arrayList.add(valueTransform.invoke(next));
             i = 0;
             arrayList = new ArrayList();
-            obj2.put(invoke, (List)arrayList);
+            obj2.put(invoke2, (List)arrayList);
         }
         return destination;
     }
@@ -1010,8 +1010,8 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         int index;
         Object next;
         boolean apiVersionIsAtLeast;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$indexOfFirst, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -1029,8 +1029,8 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         int index;
         Object next;
         boolean apiVersionIsAtLeast;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$indexOfLast, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
@@ -1085,25 +1085,25 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     }
 
     public static java.lang.Appendable joinTo$default(kotlin.sequences.Sequence sequence, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
-        String str2;
         String str3;
         String str;
+        String str2;
         int i;
         String str4;
         int i2;
         if (i9 & 2 != 0) {
-            str2 = ", ";
+            str3 = ", ";
         } else {
-            str2 = charSequence3;
+            str3 = charSequence3;
         }
         if (i9 & 4 != 0) {
-            str3 = str;
+            str = str2;
         } else {
-            str3 = charSequence4;
+            str = charSequence4;
         }
         if (i9 & 8 != 0) {
         } else {
-            str = charSequence5;
+            str2 = charSequence5;
         }
         i = i9 & 16 != 0 ? -1 : i6;
         if (i9 & 32 != 0) {
@@ -1112,7 +1112,7 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
             str4 = charSequence7;
         }
         i2 = i9 & 64 != 0 ? 0 : function18;
-        return SequencesKt.joinTo(sequence, appendable2, str2, str3, str, i, str4, i2);
+        return SequencesKt.joinTo(sequence, appendable2, str3, str, str2, i, str4, i2);
     }
 
     public static final <T> String joinToString(kotlin.sequences.Sequence<? extends T> $this$joinToString, java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super T, ? extends java.lang.CharSequence> transform) {
@@ -1275,9 +1275,9 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     public static final <T, R, C extends Collection<? super R>> C mapIndexedNotNullTo(kotlin.sequences.Sequence<? extends T> $this$mapIndexedNotNullTo, C destination, Function2<? super Integer, ? super T, ? extends R> transform) {
         int index;
         Object next;
-        int i;
-        Object apiVersionIsAtLeast;
         int i2;
+        Object apiVersionIsAtLeast;
+        int i;
         Object invoke;
         int i3;
         Intrinsics.checkNotNullParameter($this$mapIndexedNotNullTo, "<this>");
@@ -1288,11 +1288,11 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         index = 0;
         Iterator iterator = $this$mapIndexedNotNullTo.iterator();
         for (Object next : iterator) {
-            i2 = 0;
+            i = 0;
             invoke = transform.invoke(Integer.valueOf(index), next);
             if (invoke != null) {
             }
-            index = i;
+            index = i2;
             i3 = 0;
             destination.add(invoke);
             CollectionsKt.throwIndexOverflow();
@@ -1301,21 +1301,21 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     }
 
     public static final <T, R, C extends Collection<? super R>> C mapIndexedTo(kotlin.sequences.Sequence<? extends T> $this$mapIndexedTo, C destination, Function2<? super Integer, ? super T, ? extends R> transform) {
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         boolean apiVersionIsAtLeast;
-        int i3;
         int i4;
+        int i3;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i5 = 0;
-        i2 = 0;
+        i = 0;
         Iterator iterator = $this$mapIndexedTo.iterator();
         for (Object next : iterator) {
-            destination.add(transform.invoke(Integer.valueOf(i2), next));
-            i2 = i;
+            destination.add(transform.invoke(Integer.valueOf(i), next));
+            i = i2;
             CollectionsKt.throwIndexOverflow();
         }
         return destination;
@@ -1331,9 +1331,9 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     public static final <T, R, C extends Collection<? super R>> C mapNotNullTo(kotlin.sequences.Sequence<? extends T> $this$mapNotNullTo, C destination, Function1<? super T, ? extends R> transform) {
         Object next;
         Object obj;
-        int i2;
-        Object invoke;
         int i;
+        Object invoke;
+        int i2;
         Intrinsics.checkNotNullParameter($this$mapNotNullTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -1341,11 +1341,11 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         final int i4 = 0;
         final Iterator iterator = $this$mapNotNullTo.iterator();
         while (iterator.hasNext()) {
-            i2 = 0;
+            i = 0;
             invoke = transform.invoke(iterator.next());
             if (invoke != null) {
             }
-            i = 0;
+            i2 = 0;
             destination.add(invoke);
         }
         return destination;
@@ -2233,23 +2233,23 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     }
 
     public static final <S, T extends S> S reduceIndexed(kotlin.sequences.Sequence<? extends T> $this$reduceIndexed, Function3<? super Integer, ? super S, ? super T, ? extends S> operation) {
-        int i;
-        Object accumulator;
-        int i2;
-        Object apiVersionIsAtLeast;
-        int i3;
         int i4;
+        Object accumulator;
+        int i;
+        Object apiVersionIsAtLeast;
+        int i2;
+        int i3;
         Intrinsics.checkNotNullParameter($this$reduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i5 = 0;
         final Iterator iterator = $this$reduceIndexed.iterator();
         if (!iterator.hasNext()) {
         } else {
-            i = 1;
+            i4 = 1;
             accumulator = iterator.next();
             while (iterator.hasNext()) {
-                accumulator = operation.invoke(Integer.valueOf(i), accumulator, iterator.next());
-                i = i2;
+                accumulator = operation.invoke(Integer.valueOf(i4), accumulator, iterator.next());
+                i4 = i;
                 CollectionsKt.throwIndexOverflow();
             }
             return accumulator;
@@ -2259,12 +2259,12 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
     }
 
     public static final <S, T extends S> S reduceIndexedOrNull(kotlin.sequences.Sequence<? extends T> $this$reduceIndexedOrNull, Function3<? super Integer, ? super S, ? super T, ? extends S> operation) {
-        int i3;
-        Object accumulator;
-        int i4;
-        Object apiVersionIsAtLeast;
-        int i;
         int i2;
+        Object accumulator;
+        int i;
+        Object apiVersionIsAtLeast;
+        int i3;
+        int i4;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i5 = 0;
@@ -2272,11 +2272,11 @@ class SequencesKt___SequencesKt extends kotlin.sequences.SequencesKt___Sequences
         if (!iterator.hasNext()) {
             return 0;
         }
-        i3 = 1;
+        i2 = 1;
         accumulator = iterator.next();
         while (iterator.hasNext()) {
-            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, iterator.next());
-            i3 = i4;
+            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, iterator.next());
+            i2 = i;
             CollectionsKt.throwIndexOverflow();
         }
         return accumulator;

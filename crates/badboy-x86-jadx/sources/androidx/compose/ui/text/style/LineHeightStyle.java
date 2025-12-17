@@ -81,8 +81,8 @@ public final class LineHeightStyle {
                 return topRatio;
             }
             int i5 = 0;
-            IllegalStateException illegalStateException = new IllegalStateException("topRatio should be in [0..1] range or -1".toString());
-            throw illegalStateException;
+            IllegalStateException $i$a$CheckLineHeightStyle$Alignment$1 = new IllegalStateException("topRatio should be in [0..1] range or -1".toString());
+            throw $i$a$CheckLineHeightStyle$Alignment$1;
         }
 
         public static boolean equals-impl(float f, Object object2) {
@@ -107,30 +107,30 @@ public final class LineHeightStyle {
         }
 
         public static String toString-impl(float arg0) {
-            int i4;
-            String string;
-            int i2;
-            int i3;
             int i;
-            i = 1;
+            String string;
+            int i3;
+            int i2;
+            int i4;
+            i4 = 1;
             final int i5 = 0;
-            i4 = Float.compare(arg0, top) == 0 ? i : i5;
-            if (i4 != 0) {
+            i = Float.compare(arg0, top) == 0 ? i4 : i5;
+            if (i != 0) {
                 string = "LineHeightStyle.Alignment.Top";
             } else {
-                i2 = Float.compare(arg0, center) == 0 ? i : i5;
-                if (i2 != 0) {
+                i3 = Float.compare(arg0, center) == 0 ? i4 : i5;
+                if (i3 != 0) {
                     string = "LineHeightStyle.Alignment.Center";
                 } else {
-                    i3 = Float.compare(arg0, proportional) == 0 ? i : i5;
-                    if (i3 != 0) {
+                    i2 = Float.compare(arg0, proportional) == 0 ? i4 : i5;
+                    if (i2 != 0) {
                         string = "LineHeightStyle.Alignment.Proportional";
                     } else {
                         if (Float.compare(arg0, bottom) == 0) {
                         } else {
-                            i = i5;
+                            i4 = i5;
                         }
-                        if (i != 0) {
+                        if (i4 != 0) {
                             string = "LineHeightStyle.Alignment.Bottom";
                         } else {
                             StringBuilder stringBuilder = new StringBuilder();

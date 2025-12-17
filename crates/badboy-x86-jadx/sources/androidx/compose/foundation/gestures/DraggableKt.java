@@ -61,29 +61,29 @@ public final class DraggableKt {
     }
 
     public static Modifier draggable$default(Modifier modifier, androidx.compose.foundation.gestures.DraggableState draggableState2, androidx.compose.foundation.gestures.Orientation orientation3, boolean z4, MutableInteractionSource mutableInteractionSource5, boolean z6, Function3 function37, Function3 function38, boolean z9, int i10, Object object11) {
-        int i2;
         int i;
-        int i3;
-        Function3 function32;
-        Function3 function3;
+        int i2;
         int i4;
+        Function3 function3;
+        Function3 function32;
+        int i3;
         int obj12;
         int obj13;
         int i5 = i10;
-        i2 = i5 & 4 != 0 ? obj12 : z4;
-        i = i5 & 8 != 0 ? obj13 : mutableInteractionSource5;
+        i = i5 & 4 != 0 ? obj12 : z4;
+        i2 = i5 & 8 != 0 ? obj13 : mutableInteractionSource5;
         obj13 = 0;
-        i3 = i5 & 16 != 0 ? obj13 : z6;
-        function32 = i5 & 32 != 0 ? obj12 : function37;
-        function3 = i5 & 64 != 0 ? obj12 : function38;
-        i4 = i5 & 128 != 0 ? obj13 : z9;
-        return DraggableKt.draggable(modifier, draggableState2, orientation3, i2, i, i3, function32, function3, i4);
+        i4 = i5 & 16 != 0 ? obj13 : z6;
+        function3 = i5 & 32 != 0 ? obj12 : function37;
+        function32 = i5 & 64 != 0 ? obj12 : function38;
+        i3 = i5 & 128 != 0 ? obj13 : z9;
+        return DraggableKt.draggable(modifier, draggableState2, orientation3, i, i2, i4, function3, function32, i3);
     }
 
     public static final androidx.compose.foundation.gestures.DraggableState rememberDraggableState(Function1<? super Float, Unit> onDelta, Composer $composer, int $changed) {
         boolean traceInProgress;
         String str;
-        Object draggableState;
+        Object $i$a$CacheDraggableKt$rememberDraggableState$1;
         androidx.compose.foundation.gestures.DraggableKt.rememberDraggableState.1.1 anon;
         int i = -183245213;
         ComposerKt.sourceInformationMarkerStart($composer, i, "C(rememberDraggableState)137@5893L29,138@5934L61:Draggable.kt#8bwon0");
@@ -101,14 +101,14 @@ public final class DraggableKt {
             anon = new DraggableKt.rememberDraggableState.1.1(SnapshotStateKt.rememberUpdatedState(onDelta, $composer, $changed & 14));
             composer.updateRememberedValue(DraggableKt.DraggableState((Function1)anon));
         } else {
-            draggableState = rememberedValue;
+            $i$a$CacheDraggableKt$rememberDraggableState$1 = rememberedValue;
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return (DraggableState)draggableState;
+        return (DraggableState)$i$a$CacheDraggableKt$rememberDraggableState$1;
     }
 
     private static final float toFloat-3MmeM6k(long $this$toFloat_u2d3MmeM6k, androidx.compose.foundation.gestures.Orientation orientation) {

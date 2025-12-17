@@ -51,28 +51,28 @@ public class FloatingActionButtonElevation {
     }
 
     private final State<Dp> animateElevation(InteractionSource interactionSource, Composer $composer, int $changed) {
-        boolean changed3;
+        boolean changed;
         int i4;
         int changed2;
         boolean traceInProgress;
-        int i5;
-        String pressedElevation;
-        int changed;
         int i2;
-        int i3;
+        String pressedElevation;
+        int changed3;
+        int i;
+        int i5;
         float hoveredElevation;
         int focusedElevation;
-        int empty2;
+        int empty;
         Object rememberedValue;
         Object anon;
         Object anon2;
-        Object empty;
+        Object empty2;
         Object floatingActionButtonElevationAnimatable;
         float defaultElevation;
         float f2;
-        float f3;
         float f;
-        int i;
+        float f3;
+        int i3;
         final Object obj = this;
         final Object obj2 = interactionSource;
         final Composer composer = $composer;
@@ -98,7 +98,7 @@ public class FloatingActionButtonElevation {
         int i25 = 0;
         if (i4 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                empty = 0;
+                empty2 = 0;
                 floatingActionButtonElevationAnimatable = new FloatingActionButtonElevationAnimatable(obj.defaultElevation, obj.pressedElevation, obj.hoveredElevation, obj.focusedElevation, 0);
                 composer4.updateRememberedValue(floatingActionButtonElevationAnimatable);
             } else {
@@ -111,7 +111,7 @@ public class FloatingActionButtonElevation {
         int i20 = 32;
         if (i18 ^= 48 > i20) {
             if (!composer.changed(obj)) {
-                i2 = i6 & 48 == i20 ? 1 : 0;
+                i = i6 & 48 == i20 ? 1 : 0;
             } else {
             }
         } else {
@@ -119,9 +119,9 @@ public class FloatingActionButtonElevation {
         Composer composer3 = $composer;
         int i21 = 0;
         Object rememberedValue3 = composer3.rememberedValue();
-        empty2 = 0;
+        empty = 0;
         int i24 = 0;
-        if (changedInstance |= i2 == 0) {
+        if (changedInstance |= i == 0) {
             if (rememberedValue3 == Composer.Companion.getEmpty()) {
                 rememberedValue = 0;
                 anon2 = new FloatingActionButtonElevation.animateElevation.1.1(floatingActionButtonElevationAnimatable, obj, i24);
@@ -136,7 +136,7 @@ public class FloatingActionButtonElevation {
         ComposerKt.sourceInformationMarkerStart(composer, 1493005600, str2);
         if (i15 ^= 6 > 4) {
             if (!composer.changed(obj2)) {
-                i3 = i6 & 6 == 4 ? 1 : 0;
+                i5 = i6 & 6 == 4 ? 1 : 0;
             } else {
             }
         } else {
@@ -145,9 +145,9 @@ public class FloatingActionButtonElevation {
         int i19 = 0;
         Object rememberedValue2 = composer2.rememberedValue();
         int i22 = 0;
-        if (changedInstance2 |= i3 == 0) {
+        if (changedInstance2 |= i5 == 0) {
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                empty2 = 0;
+                empty = 0;
                 anon = new FloatingActionButtonElevation.animateElevation.2.1(obj2, floatingActionButtonElevationAnimatable, i24);
                 composer2.updateRememberedValue((Function2)anon);
             } else {

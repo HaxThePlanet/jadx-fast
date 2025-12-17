@@ -42,31 +42,31 @@ public final class LayoutIntrinsics {
     }
 
     public final float getMaxIntrinsicWidth() {
-        float desiredWidth;
-        int width;
         float desiredWidth2;
+        int width;
+        float desiredWidth;
         float _maxIntrinsicWidth;
         int cmp;
         boolean z;
-        TextPaint textPaint2;
         TextPaint textPaint;
+        TextPaint textPaint2;
         int i;
         if (!Float.isNaN(this._maxIntrinsicWidth)) {
-            desiredWidth = this._maxIntrinsicWidth;
+            desiredWidth2 = this._maxIntrinsicWidth;
         } else {
             BoringLayout.Metrics boringMetrics = getBoringMetrics();
             width = boringMetrics != null ? boringMetrics.width : -1;
-            if (Float.compare(desiredWidth2, i2) < 0) {
-                textPaint2 = this.charSequence.length();
-                desiredWidth2 = cmp;
+            if (Float.compare(desiredWidth, i2) < 0) {
+                textPaint = this.charSequence.length();
+                desiredWidth = cmp;
             }
-            if (LayoutIntrinsics_androidKt.access$shouldIncreaseMaxIntrinsic(desiredWidth2, this.charSequence, this.textPaint)) {
-                desiredWidth2 += z;
+            if (LayoutIntrinsics_androidKt.access$shouldIncreaseMaxIntrinsic(desiredWidth, this.charSequence, this.textPaint)) {
+                desiredWidth += z;
             }
-            this._maxIntrinsicWidth = desiredWidth2;
-            desiredWidth = _maxIntrinsicWidth;
+            this._maxIntrinsicWidth = desiredWidth;
+            desiredWidth2 = _maxIntrinsicWidth;
         }
-        return desiredWidth;
+        return desiredWidth2;
     }
 
     public final float getMinIntrinsicWidth() {

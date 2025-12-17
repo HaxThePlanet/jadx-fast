@@ -29,21 +29,21 @@ final class RelativeScroller {
 
     private final Object scrollBy(float f, Continuation<? super Unit> continuation2) {
         boolean anon;
-        int i2;
         int i3;
+        int i;
         Object relativeScroller;
         Function2 scrollBy;
         Float boxFloat;
-        int i;
+        int i2;
         Object obj7;
         Object obj8;
         anon = continuation2;
-        i3 = Integer.MIN_VALUE;
-        if (continuation2 instanceof RelativeScroller.scrollBy.1 && label &= i3 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation2 instanceof RelativeScroller.scrollBy.1 && label &= i != 0) {
             anon = continuation2;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                anon.label = obj8 -= i3;
+            i = Integer.MIN_VALUE;
+            if (label &= i != 0) {
+                anon.label = obj8 -= i;
             } else {
                 anon = new RelativeScroller.scrollBy.1(this, continuation2);
             }
@@ -84,29 +84,29 @@ final class RelativeScroller {
     }
 
     public final Object scrollRangeIntoView(int min, int max, Continuation<? super Unit> $completion) {
-        int i2;
-        int cmp;
         int i4;
-        float scrollAmount;
-        int i;
+        int cmp;
         int i3;
+        float scrollAmount;
+        int i2;
+        int i;
         int i6 = 0;
-        i = min <= max ? i2 : i6;
-        if (i == 0) {
+        i2 = min <= max ? i4 : i6;
+        if (i2 == 0) {
         } else {
             if (max - min <= this.viewportSize) {
             } else {
-                i2 = i6;
+                i4 = i6;
             }
-            if (i2 == 0) {
+            if (i4 == 0) {
             } else {
                 if (Float.compare(f, scrollAmount) >= 0 && Float.compare(f3, scrollAmount) <= 0) {
                     if (Float.compare(f3, scrollAmount) <= 0) {
                         return Unit.INSTANCE;
                     }
                 }
-                i4 = Float.compare(f2, scrollAmount2) < 0 ? min : max - viewportSize;
-                Object scrollTo = scrollTo((float)i4, $completion);
+                i3 = Float.compare(f2, scrollAmount2) < 0 ? min : max - viewportSize;
+                Object scrollTo = scrollTo((float)i3, $completion);
                 if (scrollTo == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
                     return scrollTo;
                 }

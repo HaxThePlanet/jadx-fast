@@ -85,29 +85,29 @@ public final class TextStyle {
     }
 
     public TextStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, DrawStyle drawStyle15, int i16, int i17, long l18, TextIndent textIndent19, androidx.compose.ui.text.PlatformTextStyle platformTextStyle20, LineHeightStyle lineHeightStyle21, int i22, int i23, TextMotion textMotion24, int i25, DefaultConstructorMarker defaultConstructorMarker26) {
-        int i7;
-        long unspecified-0d7_KjU;
         int i9;
-        int i4;
-        long unspecified-XSAIIZE;
-        int i8;
+        long unspecified-0d7_KjU;
+        int i14;
+        int i13;
+        long unspecified-XSAIIZE3;
+        int i3;
         int companion;
+        int i7;
+        int i8;
+        int i5;
+        int i15;
+        int i11;
+        long unspecified-XSAIIZE;
         int i10;
         int i6;
-        int i3;
-        int i11;
-        int i12;
-        long unspecified-XSAIIZE3;
-        int i13;
-        int i;
-        int i5;
+        int i2;
         long unspecified-0d7_KjU2;
         int unspecified-e0LSkKk;
         int unspecified-s_7X-co;
         long unspecified-XSAIIZE2;
-        int i14;
-        int i15;
-        int i2;
+        int i12;
+        int i4;
+        int i;
         int unspecified-rAG3T2k;
         int unspecified-vmbZdU8;
         int i18 = obj60;
@@ -117,31 +117,31 @@ public final class TextStyle {
             unspecified-0d7_KjU = l;
         }
         if (i18 & 2 != 0) {
-            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
-        } else {
-            unspecified-XSAIIZE = fontWeight3;
-        }
-        i8 = i18 & 4 != 0 ? 0 : fontSynthesis5;
-        i6 = i18 & 8 != 0 ? 0 : fontFamily6;
-        i3 = i18 & 16 != 0 ? 0 : string7;
-        i11 = i18 & 32 != 0 ? 0 : l8;
-        i12 = i18 & 64 != 0 ? 0 : baselineShift9;
-        if (i18 & 128 != 0) {
             unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE3 = textGeometricTransform10;
+            unspecified-XSAIIZE3 = fontWeight3;
         }
-        i13 = i18 & 256 != 0 ? 0 : l12;
-        i = i18 & 512 != 0 ? 0 : textDecoration13;
-        i5 = i18 & 1024 != 0 ? 0 : shadow14;
+        i3 = i18 & 4 != 0 ? 0 : fontSynthesis5;
+        i8 = i18 & 8 != 0 ? 0 : fontFamily6;
+        i5 = i18 & 16 != 0 ? 0 : string7;
+        i15 = i18 & 32 != 0 ? 0 : l8;
+        i11 = i18 & 64 != 0 ? 0 : baselineShift9;
+        if (i18 & 128 != 0) {
+            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
+        } else {
+            unspecified-XSAIIZE = textGeometricTransform10;
+        }
+        i10 = i18 & 256 != 0 ? 0 : l12;
+        i6 = i18 & 512 != 0 ? 0 : textDecoration13;
+        i2 = i18 & 1024 != 0 ? 0 : shadow14;
         if (i18 & 2048 != 0) {
             unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU2 = drawStyle15;
         }
-        i10 = i18 & 4096 != 0 ? 0 : i17;
-        i9 = i18 & 8192 != 0 ? 0 : l18;
-        i4 = i18 & 16384 != 0 ? 0 : textIndent19;
+        i7 = i18 & 4096 != 0 ? 0 : i17;
+        i14 = i18 & 8192 != 0 ? 0 : l18;
+        i13 = i18 & 16384 != 0 ? 0 : textIndent19;
         if (i18 & i37 != 0) {
             unspecified-e0LSkKk = TextAlign.Companion.getUnspecified-e0LSkKk();
         } else {
@@ -157,9 +157,9 @@ public final class TextStyle {
         } else {
             unspecified-XSAIIZE2 = i22;
         }
-        i14 = i18 & i43 != 0 ? 0 : textMotion24;
-        i15 = i18 & i45 != 0 ? 0 : i25;
-        i2 = i18 & i47 != 0 ? 0 : defaultConstructorMarker26;
+        i12 = i18 & i43 != 0 ? 0 : textMotion24;
+        i4 = i18 & i45 != 0 ? 0 : i25;
+        i = i18 & i47 != 0 ? 0 : defaultConstructorMarker26;
         if (i18 & i49 != 0) {
             unspecified-rAG3T2k = LineBreak.Companion.getUnspecified-rAG3T2k();
         } else {
@@ -170,8 +170,8 @@ public final class TextStyle {
         } else {
             unspecified-vmbZdU8 = obj58;
         }
-        i7 = i18 &= i53 != 0 ? 0 : obj59;
-        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE, fontSynthesis5, i8, i6, i3, i11, i12, unspecified-XSAIIZE3, l12, i13, i, i5, unspecified-0d7_KjU2, i17, i10, i9, i4, unspecified-e0LSkKk, unspecified-s_7X-co, unspecified-XSAIIZE2, textMotion24, i14, i15, i2, unspecified-rAG3T2k, unspecified-vmbZdU8, i7, 0);
+        i9 = i18 &= i53 != 0 ? 0 : obj59;
+        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE3, fontSynthesis5, i3, i8, i5, i15, i11, unspecified-XSAIIZE, l12, i10, i6, i2, unspecified-0d7_KjU2, i17, i7, i14, i13, unspecified-e0LSkKk, unspecified-s_7X-co, unspecified-XSAIIZE2, textMotion24, i12, i4, i, unspecified-rAG3T2k, unspecified-vmbZdU8, i9, 0);
     }
 
     public TextStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, DrawStyle drawStyle15, int i16, int i17, long l18, TextIndent textIndent19, androidx.compose.ui.text.PlatformTextStyle platformTextStyle20, LineHeightStyle lineHeightStyle21, int i22, int i23, TextMotion textMotion24, DefaultConstructorMarker defaultConstructorMarker25) {
@@ -222,31 +222,31 @@ public final class TextStyle {
     }
 
     public TextStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, DrawStyle drawStyle15, TextAlign textAlign16, TextDirection textDirection17, long l18, TextIndent textIndent19, androidx.compose.ui.text.PlatformTextStyle platformTextStyle20, LineHeightStyle lineHeightStyle21, LineBreak lineBreak22, Hyphens hyphens23, TextMotion textMotion24, int i25, DefaultConstructorMarker defaultConstructorMarker26) {
-        int i11;
-        long unspecified-0d7_KjU2;
-        int i15;
-        int i8;
-        long unspecified-XSAIIZE2;
-        int i3;
-        int companion;
-        int i12;
-        int i7;
-        int i18;
-        int i13;
-        int i9;
-        long unspecified-XSAIIZE;
-        int i4;
-        int i14;
-        int i5;
-        long unspecified-0d7_KjU;
-        int i10;
-        int i16;
-        long unspecified-XSAIIZE3;
-        int hyphens;
         int i6;
-        int i17;
+        long unspecified-0d7_KjU2;
         int i2;
+        int i7;
+        long unspecified-XSAIIZE2;
+        int i14;
+        int companion;
+        int i15;
+        int i5;
+        int i8;
+        int i9;
+        int i3;
+        long unspecified-XSAIIZE3;
+        int i10;
+        int i4;
         int i;
+        long unspecified-0d7_KjU;
+        int i11;
+        int i12;
+        long unspecified-XSAIIZE;
+        int hyphens;
+        int i18;
+        int i17;
+        int i13;
+        int i16;
         int i19 = obj60;
         if (i19 & 1 != 0) {
             unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
@@ -258,41 +258,41 @@ public final class TextStyle {
         } else {
             unspecified-XSAIIZE2 = fontWeight3;
         }
-        i3 = i19 & 4 != 0 ? 0 : fontSynthesis5;
-        i7 = i19 & 8 != 0 ? 0 : fontFamily6;
-        i18 = i19 & 16 != 0 ? 0 : string7;
-        i13 = i19 & 32 != 0 ? 0 : l8;
-        i9 = i19 & 64 != 0 ? 0 : baselineShift9;
+        i14 = i19 & 4 != 0 ? 0 : fontSynthesis5;
+        i5 = i19 & 8 != 0 ? 0 : fontFamily6;
+        i8 = i19 & 16 != 0 ? 0 : string7;
+        i9 = i19 & 32 != 0 ? 0 : l8;
+        i3 = i19 & 64 != 0 ? 0 : baselineShift9;
         if (i19 & 128 != 0) {
-            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
+            unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE = textGeometricTransform10;
+            unspecified-XSAIIZE3 = textGeometricTransform10;
         }
-        i4 = i19 & 256 != 0 ? 0 : l12;
-        i14 = i19 & 512 != 0 ? 0 : textDecoration13;
-        i5 = i19 & 1024 != 0 ? 0 : shadow14;
+        i10 = i19 & 256 != 0 ? 0 : l12;
+        i4 = i19 & 512 != 0 ? 0 : textDecoration13;
+        i = i19 & 1024 != 0 ? 0 : shadow14;
         if (i19 & 2048 != 0) {
             unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU = drawStyle15;
         }
-        i12 = i19 & 4096 != 0 ? 0 : textDirection17;
-        i15 = i19 & 8192 != 0 ? 0 : l18;
-        i8 = i19 & 16384 != 0 ? 0 : textIndent19;
-        i10 = i19 & i36 != 0 ? 0 : platformTextStyle20;
-        i16 = i19 & i38 != 0 ? 0 : lineHeightStyle21;
+        i15 = i19 & 4096 != 0 ? 0 : textDirection17;
+        i2 = i19 & 8192 != 0 ? 0 : l18;
+        i7 = i19 & 16384 != 0 ? 0 : textIndent19;
+        i11 = i19 & i36 != 0 ? 0 : platformTextStyle20;
+        i12 = i19 & i38 != 0 ? 0 : lineHeightStyle21;
         if (i19 & i40 != 0) {
-            unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
+            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE3 = lineBreak22;
+            unspecified-XSAIIZE = lineBreak22;
         }
         hyphens = i19 & i42 != 0 ? 0 : textMotion24;
-        i6 = i19 & i44 != 0 ? 0 : i25;
+        i18 = i19 & i44 != 0 ? 0 : i25;
         i17 = i19 & i46 != 0 ? 0 : defaultConstructorMarker26;
-        i2 = i19 & i48 != 0 ? 0 : obj57;
-        i = i19 & i50 != 0 ? 0 : obj58;
-        i11 = i19 &= i52 != 0 ? 0 : obj59;
-        super(unspecified-0d7_KjU2, fontWeight3, unspecified-XSAIIZE2, fontSynthesis5, i3, i7, i18, i13, i9, unspecified-XSAIIZE, l12, i4, i14, i5, unspecified-0d7_KjU, textDirection17, i12, i15, i8, i10, i16, unspecified-XSAIIZE3, textMotion24, hyphens, i6, i17, i2, i, i11, 0);
+        i13 = i19 & i48 != 0 ? 0 : obj57;
+        i16 = i19 & i50 != 0 ? 0 : obj58;
+        i6 = i19 &= i52 != 0 ? 0 : obj59;
+        super(unspecified-0d7_KjU2, fontWeight3, unspecified-XSAIIZE2, fontSynthesis5, i14, i5, i8, i9, i3, unspecified-XSAIIZE3, l12, i10, i4, i, unspecified-0d7_KjU, textDirection17, i15, i2, i7, i11, i12, unspecified-XSAIIZE, textMotion24, hyphens, i18, i17, i13, i16, i6, 0);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "TextStyle constructors that take nullable TextAlign, TextDirection, LineBreak, and Hyphens are deprecated. Please use a new constructor where these parameters are non-nullable. Null value has been replaced by a special Unspecified object for performance reason.")
@@ -320,65 +320,65 @@ public final class TextStyle {
     }
 
     public TextStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, TextAlign textAlign15, TextDirection textDirection16, long l17, TextIndent textIndent18, int i19, DefaultConstructorMarker defaultConstructorMarker20) {
-        int i3;
-        long unspecified-0d7_KjU2;
         int i4;
-        int i6;
-        long unspecified-XSAIIZE3;
-        int i9;
-        Color.Companion companion;
+        long unspecified-0d7_KjU;
         int i5;
-        int i12;
         int i8;
-        int i10;
+        long unspecified-XSAIIZE3;
+        int i;
+        Color.Companion companion;
+        int i11;
+        int i7;
+        int i9;
+        int i3;
         int i2;
         long unspecified-XSAIIZE2;
-        int i11;
-        int i;
-        int i7;
-        long unspecified-0d7_KjU;
         int i13;
+        int i6;
+        int i10;
+        long unspecified-0d7_KjU2;
+        int i12;
         long unspecified-XSAIIZE;
         int i14 = obj48;
         if (i14 & 1 != 0) {
-            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU2 = l;
+            unspecified-0d7_KjU = l;
         }
         if (i14 & 2 != 0) {
             unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE3 = fontWeight3;
         }
-        i9 = i14 & 4 != 0 ? 0 : fontSynthesis5;
-        i12 = i14 & 8 != 0 ? 0 : fontFamily6;
-        i8 = i14 & 16 != 0 ? 0 : string7;
-        i10 = i14 & 32 != 0 ? 0 : l8;
+        i = i14 & 4 != 0 ? 0 : fontSynthesis5;
+        i7 = i14 & 8 != 0 ? 0 : fontFamily6;
+        i9 = i14 & 16 != 0 ? 0 : string7;
+        i3 = i14 & 32 != 0 ? 0 : l8;
         i2 = i14 & 64 != 0 ? 0 : baselineShift9;
         if (i14 & 128 != 0) {
             unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE2 = textGeometricTransform10;
         }
-        i11 = i14 & 256 != 0 ? 0 : l12;
-        i = i14 & 512 != 0 ? 0 : textDecoration13;
-        i7 = i14 & 1024 != 0 ? 0 : shadow14;
+        i13 = i14 & 256 != 0 ? 0 : l12;
+        i6 = i14 & 512 != 0 ? 0 : textDecoration13;
+        i10 = i14 & 1024 != 0 ? 0 : shadow14;
         if (i14 & 2048 != 0) {
-            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU = textAlign15;
+            unspecified-0d7_KjU2 = textAlign15;
         }
-        i5 = i14 & 4096 != 0 ? 0 : l17;
-        i4 = i14 & 8192 != 0 ? 0 : textIndent18;
-        i6 = i14 & 16384 != 0 ? 0 : i19;
-        i13 = i14 & i31 != 0 ? 0 : defaultConstructorMarker20;
+        i11 = i14 & 4096 != 0 ? 0 : l17;
+        i5 = i14 & 8192 != 0 ? 0 : textIndent18;
+        i8 = i14 & 16384 != 0 ? 0 : i19;
+        i12 = i14 & i31 != 0 ? 0 : defaultConstructorMarker20;
         if (i14 & i33 != 0) {
             unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE = obj45;
         }
-        i3 = i14 &= i35 != 0 ? 0 : obj47;
-        super(unspecified-0d7_KjU2, fontWeight3, unspecified-XSAIIZE3, fontSynthesis5, i9, i12, i8, i10, i2, unspecified-XSAIIZE2, l12, i11, i, i7, unspecified-0d7_KjU, l17, i5, i4, i6, i13, unspecified-XSAIIZE, obj47, i3, 0);
+        i4 = i14 &= i35 != 0 ? 0 : obj47;
+        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE3, fontSynthesis5, i, i7, i9, i3, i2, unspecified-XSAIIZE2, l12, i13, i6, i10, unspecified-0d7_KjU2, l17, i11, i5, i8, i12, unspecified-XSAIIZE, obj47, i4, 0);
     }
 
     private TextStyle(long color, long fontSize, FontWeight fontWeight, FontStyle fontStyle, FontSynthesis fontSynthesis, FontFamily fontFamily, String fontFeatureSettings, long letterSpacing, BaselineShift baselineShift, TextGeometricTransform textGeometricTransform, LocaleList localeList, long background, TextDecoration textDecoration, Shadow shadow, TextAlign textAlign, TextDirection textDirection, long lineHeight, TextIndent textIndent, androidx.compose.ui.text.PlatformTextStyle platformStyle, LineHeightStyle lineHeightStyle) {
@@ -413,69 +413,69 @@ public final class TextStyle {
     }
 
     public TextStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, TextAlign textAlign15, TextDirection textDirection16, long l17, TextIndent textIndent18, androidx.compose.ui.text.PlatformTextStyle platformTextStyle19, LineHeightStyle lineHeightStyle20, int i21, DefaultConstructorMarker defaultConstructorMarker22) {
-        int i12;
-        long unspecified-0d7_KjU2;
-        int i9;
-        int i14;
-        long unspecified-XSAIIZE;
-        int i15;
-        int companion;
-        int i8;
-        int i5;
-        int i4;
-        int i13;
         int i11;
-        long unspecified-XSAIIZE2;
-        int i;
-        int i2;
-        int i10;
         long unspecified-0d7_KjU;
+        int i5;
         int i6;
-        long unspecified-XSAIIZE3;
-        int i3;
+        long unspecified-XSAIIZE;
+        int i12;
+        int companion;
         int i7;
+        int i9;
+        int i2;
+        int i3;
+        int i10;
+        long unspecified-XSAIIZE2;
+        int i14;
+        int i8;
+        int i15;
+        long unspecified-0d7_KjU2;
+        int i;
+        long unspecified-XSAIIZE3;
+        int i13;
+        int i4;
         int i16 = obj52;
         if (i16 & 1 != 0) {
-            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU2 = l;
+            unspecified-0d7_KjU = l;
         }
         if (i16 & 2 != 0) {
             unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE = fontWeight3;
         }
-        i15 = i16 & 4 != 0 ? 0 : fontSynthesis5;
-        i5 = i16 & 8 != 0 ? 0 : fontFamily6;
-        i4 = i16 & 16 != 0 ? 0 : string7;
-        i13 = i16 & 32 != 0 ? 0 : l8;
-        i11 = i16 & 64 != 0 ? 0 : baselineShift9;
+        i12 = i16 & 4 != 0 ? 0 : fontSynthesis5;
+        i9 = i16 & 8 != 0 ? 0 : fontFamily6;
+        i2 = i16 & 16 != 0 ? 0 : string7;
+        i3 = i16 & 32 != 0 ? 0 : l8;
+        i10 = i16 & 64 != 0 ? 0 : baselineShift9;
         if (i16 & 128 != 0) {
             unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE2 = textGeometricTransform10;
         }
-        i = i16 & 256 != 0 ? 0 : l12;
-        i2 = i16 & 512 != 0 ? 0 : textDecoration13;
-        i10 = i16 & 1024 != 0 ? 0 : shadow14;
+        i14 = i16 & 256 != 0 ? 0 : l12;
+        i8 = i16 & 512 != 0 ? 0 : textDecoration13;
+        i15 = i16 & 1024 != 0 ? 0 : shadow14;
         if (i16 & 2048 != 0) {
-            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU = textAlign15;
+            unspecified-0d7_KjU2 = textAlign15;
         }
-        i8 = i16 & 4096 != 0 ? 0 : l17;
-        i9 = i16 & 8192 != 0 ? 0 : textIndent18;
-        i14 = i16 & 16384 != 0 ? 0 : platformTextStyle19;
-        i6 = i16 & i33 != 0 ? 0 : lineHeightStyle20;
+        i7 = i16 & 4096 != 0 ? 0 : l17;
+        i5 = i16 & 8192 != 0 ? 0 : textIndent18;
+        i6 = i16 & 16384 != 0 ? 0 : platformTextStyle19;
+        i = i16 & i33 != 0 ? 0 : lineHeightStyle20;
         if (i16 & i35 != 0) {
             unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE3 = i21;
         }
-        i3 = i16 & i37 != 0 ? 0 : obj49;
-        i7 = i16 & i39 != 0 ? 0 : obj50;
-        i12 = i16 &= i41 != 0 ? 0 : obj51;
-        super(unspecified-0d7_KjU2, fontWeight3, unspecified-XSAIIZE, fontSynthesis5, i15, i5, i4, i13, i11, unspecified-XSAIIZE2, l12, i, i2, i10, unspecified-0d7_KjU, l17, i8, i9, i14, i6, unspecified-XSAIIZE3, obj49, i3, i7, i12, 0);
+        i13 = i16 & i37 != 0 ? 0 : obj49;
+        i4 = i16 & i39 != 0 ? 0 : obj50;
+        i11 = i16 &= i41 != 0 ? 0 : obj51;
+        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE, fontSynthesis5, i12, i9, i2, i3, i10, unspecified-XSAIIZE2, l12, i14, i8, i15, unspecified-0d7_KjU2, l17, i7, i5, i6, i, unspecified-XSAIIZE3, obj49, i13, i4, i11, 0);
     }
 
     private TextStyle(long color, long fontSize, FontWeight fontWeight, FontStyle fontStyle, FontSynthesis fontSynthesis, FontFamily fontFamily, String fontFeatureSettings, long letterSpacing, BaselineShift baselineShift, TextGeometricTransform textGeometricTransform, LocaleList localeList, long background, TextDecoration textDecoration, Shadow shadow, TextAlign textAlign, TextDirection textDirection, long lineHeight, TextIndent textIndent, androidx.compose.ui.text.PlatformTextStyle platformStyle, LineHeightStyle lineHeightStyle, LineBreak lineBreak, Hyphens hyphens) {
@@ -522,73 +522,73 @@ public final class TextStyle {
     }
 
     public TextStyle(long l, long l2, FontWeight fontWeight3, FontStyle fontStyle4, FontSynthesis fontSynthesis5, FontFamily fontFamily6, String string7, long l8, BaselineShift baselineShift9, TextGeometricTransform textGeometricTransform10, LocaleList localeList11, long l12, TextDecoration textDecoration13, Shadow shadow14, TextAlign textAlign15, TextDirection textDirection16, long l17, TextIndent textIndent18, androidx.compose.ui.text.PlatformTextStyle platformTextStyle19, LineHeightStyle lineHeightStyle20, LineBreak lineBreak21, Hyphens hyphens22, int i23, DefaultConstructorMarker defaultConstructorMarker24) {
-        int i6;
-        long unspecified-0d7_KjU;
-        int i14;
-        int i7;
-        long unspecified-XSAIIZE2;
-        int i3;
-        int companion;
-        int i10;
-        int i16;
-        int i11;
-        int i17;
-        int i12;
-        long unspecified-XSAIIZE;
-        int i4;
-        int i;
-        int i8;
+        int i9;
         long unspecified-0d7_KjU2;
-        int i15;
+        int i11;
+        int i10;
         long unspecified-XSAIIZE3;
         int i5;
+        int companion;
+        int i12;
+        int i7;
+        int i16;
+        int i4;
         int i13;
-        int i9;
+        long unspecified-XSAIIZE;
+        int i14;
+        int i8;
+        int i;
+        long unspecified-0d7_KjU;
+        int i3;
+        long unspecified-XSAIIZE2;
+        int i15;
+        int i6;
+        int i17;
         int i2;
         int i18 = obj56;
         if (i18 & 1 != 0) {
-            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU = l;
+            unspecified-0d7_KjU2 = l;
         }
         if (i18 & 2 != 0) {
-            unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
+            unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE2 = fontWeight3;
+            unspecified-XSAIIZE3 = fontWeight3;
         }
-        i3 = i18 & 4 != 0 ? 0 : fontSynthesis5;
-        i16 = i18 & 8 != 0 ? 0 : fontFamily6;
-        i11 = i18 & 16 != 0 ? 0 : string7;
-        i17 = i18 & 32 != 0 ? 0 : l8;
-        i12 = i18 & 64 != 0 ? 0 : baselineShift9;
+        i5 = i18 & 4 != 0 ? 0 : fontSynthesis5;
+        i7 = i18 & 8 != 0 ? 0 : fontFamily6;
+        i16 = i18 & 16 != 0 ? 0 : string7;
+        i4 = i18 & 32 != 0 ? 0 : l8;
+        i13 = i18 & 64 != 0 ? 0 : baselineShift9;
         if (i18 & 128 != 0) {
             unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE = textGeometricTransform10;
         }
-        i4 = i18 & 256 != 0 ? 0 : l12;
-        i = i18 & 512 != 0 ? 0 : textDecoration13;
-        i8 = i18 & 1024 != 0 ? 0 : shadow14;
+        i14 = i18 & 256 != 0 ? 0 : l12;
+        i8 = i18 & 512 != 0 ? 0 : textDecoration13;
+        i = i18 & 1024 != 0 ? 0 : shadow14;
         if (i18 & 2048 != 0) {
-            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU2 = textAlign15;
+            unspecified-0d7_KjU = textAlign15;
         }
-        i10 = i18 & 4096 != 0 ? 0 : l17;
-        i14 = i18 & 8192 != 0 ? 0 : textIndent18;
-        i7 = i18 & 16384 != 0 ? 0 : platformTextStyle19;
-        i15 = i18 & i35 != 0 ? 0 : lineHeightStyle20;
+        i12 = i18 & 4096 != 0 ? 0 : l17;
+        i11 = i18 & 8192 != 0 ? 0 : textIndent18;
+        i10 = i18 & 16384 != 0 ? 0 : platformTextStyle19;
+        i3 = i18 & i35 != 0 ? 0 : lineHeightStyle20;
         if (i18 & i37 != 0) {
-            unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
+            unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE3 = lineBreak21;
+            unspecified-XSAIIZE2 = lineBreak21;
         }
-        i5 = i18 & i39 != 0 ? 0 : i23;
-        i13 = i18 & i41 != 0 ? 0 : defaultConstructorMarker24;
-        i9 = i18 & i43 != 0 ? 0 : obj53;
+        i15 = i18 & i39 != 0 ? 0 : i23;
+        i6 = i18 & i41 != 0 ? 0 : defaultConstructorMarker24;
+        i17 = i18 & i43 != 0 ? 0 : obj53;
         i2 = i18 & i45 != 0 ? 0 : obj54;
-        i6 = i18 &= i47 != 0 ? 0 : obj55;
-        super(unspecified-0d7_KjU, fontWeight3, unspecified-XSAIIZE2, fontSynthesis5, i3, i16, i11, i17, i12, unspecified-XSAIIZE, l12, i4, i, i8, unspecified-0d7_KjU2, l17, i10, i14, i7, i15, unspecified-XSAIIZE3, i23, i5, i13, i9, i2, i6, 0);
+        i9 = i18 &= i47 != 0 ? 0 : obj55;
+        super(unspecified-0d7_KjU2, fontWeight3, unspecified-XSAIIZE3, fontSynthesis5, i5, i7, i16, i4, i13, unspecified-XSAIIZE, l12, i14, i8, i, unspecified-0d7_KjU, l17, i12, i11, i10, i3, unspecified-XSAIIZE2, i23, i15, i6, i17, i2, i9, 0);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "TextStyle constructors that do not take new stable parameters like TextMotion are deprecated. Please use the new stable constructor.")
@@ -626,98 +626,98 @@ public final class TextStyle {
     }
 
     public TextStyle(Brush brush, float f2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, DrawStyle drawStyle16, int i17, int i18, long l19, TextIndent textIndent20, androidx.compose.ui.text.PlatformTextStyle platformTextStyle21, LineHeightStyle lineHeightStyle22, int i23, int i24, TextMotion textMotion25, int i26, DefaultConstructorMarker defaultConstructorMarker27) {
-        int i;
-        int unspecified-XSAIIZE;
-        int companion;
+        int i10;
+        int unspecified-XSAIIZE3;
+        int companion2;
         int companion3;
         int unspecified-e0LSkKk;
         int unspecified-s_7X-co;
-        int companion2;
+        int companion;
         int unspecified-rAG3T2k;
         int unspecified-vmbZdU8;
-        int i5;
+        int i20;
         long l;
-        int i19;
-        int i2;
+        int i11;
+        int i;
+        int i5;
+        int i6;
         int i7;
+        long unspecified-XSAIIZE;
+        int i21;
+        int i2;
+        int i16;
+        long unspecified-0d7_KjU;
         int i3;
         int i8;
-        long unspecified-XSAIIZE3;
-        int i11;
-        int i4;
-        int i14;
-        long unspecified-0d7_KjU;
-        int i20;
-        int i22;
-        int i21;
-        int i9;
-        int i13;
-        long unspecified-XSAIIZE2;
-        int i16;
-        int i12;
-        int i10;
-        int i6;
         int i25;
+        int i19;
+        int i9;
+        long unspecified-XSAIIZE2;
+        int i13;
         int i15;
+        int i14;
+        int i12;
+        int i4;
+        int i22;
         int i27 = obj63;
-        i5 = i27 & 2 != 0 ? i : f2;
+        i20 = i27 & 2 != 0 ? i10 : f2;
         if (i27 & 4 != 0) {
-            l = unspecified-XSAIIZE;
+            l = unspecified-XSAIIZE3;
         } else {
             l = l3;
         }
         int i53 = 0;
-        i19 = i27 & 8 != 0 ? i53 : fontStyle5;
-        i2 = i27 & 16 != 0 ? i53 : fontSynthesis6;
-        i7 = i27 & 32 != 0 ? i53 : fontFamily7;
-        i3 = i27 & 64 != 0 ? i53 : string8;
-        i8 = i27 & 128 != 0 ? i53 : l9;
+        i11 = i27 & 8 != 0 ? i53 : fontStyle5;
+        i = i27 & 16 != 0 ? i53 : fontSynthesis6;
+        i5 = i27 & 32 != 0 ? i53 : fontFamily7;
+        i6 = i27 & 64 != 0 ? i53 : string8;
+        i7 = i27 & 128 != 0 ? i53 : l9;
         if (i27 & 256 != 0) {
-            unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
+            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE3 = baselineShift10;
+            unspecified-XSAIIZE = baselineShift10;
         }
-        i11 = i27 & 512 != 0 ? i53 : localeList12;
-        i4 = i27 & 1024 != 0 ? i53 : l13;
-        i14 = i27 & 2048 != 0 ? i53 : textDecoration14;
+        i21 = i27 & 512 != 0 ? i53 : localeList12;
+        i2 = i27 & 1024 != 0 ? i53 : l13;
+        i16 = i27 & 2048 != 0 ? i53 : textDecoration14;
         if (i27 & 4096 != 0) {
             unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU = shadow15;
         }
-        i20 = i27 & 8192 != 0 ? i53 : i17;
-        i22 = i27 & 16384 != 0 ? i53 : i18;
-        i21 = i39 &= i27 != 0 ? i53 : l19;
+        i3 = i27 & 8192 != 0 ? i53 : i17;
+        i8 = i27 & 16384 != 0 ? i53 : i18;
+        i25 = i39 &= i27 != 0 ? i53 : l19;
         if (i41 &= i27 != 0) {
-            i9 = unspecified-e0LSkKk;
+            i19 = unspecified-e0LSkKk;
         } else {
-            i9 = textIndent20;
+            i19 = textIndent20;
         }
         if (i42 &= i27 != 0) {
-            i13 = unspecified-s_7X-co;
+            i9 = unspecified-s_7X-co;
         } else {
-            i13 = platformTextStyle21;
+            i9 = platformTextStyle21;
         }
         if (i43 &= i27 != 0) {
             unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE2 = lineHeightStyle22;
         }
-        i16 = i44 &= i27 != 0 ? i53 : i24;
-        i12 = i46 &= i27 != 0 ? i53 : textMotion25;
-        i10 = i48 &= i27 != 0 ? i53 : i26;
+        i13 = i44 &= i27 != 0 ? i53 : i24;
+        i15 = i46 &= i27 != 0 ? i53 : textMotion25;
+        i14 = i48 &= i27 != 0 ? i53 : i26;
         if (i50 &= i27 != 0) {
-            i6 = unspecified-rAG3T2k;
+            i12 = unspecified-rAG3T2k;
         } else {
-            i6 = defaultConstructorMarker27;
+            i12 = defaultConstructorMarker27;
         }
         if (i51 &= i27 != 0) {
-            i25 = unspecified-vmbZdU8;
+            i4 = unspecified-vmbZdU8;
         } else {
-            i25 = obj61;
+            i4 = obj61;
         }
-        i15 = i27 &= i52 != 0 ? i53 : obj62;
-        super(brush, i5, l, obj6, i19, i2, i7, i3, i8, unspecified-XSAIIZE3, obj13, i11, i4, i14, unspecified-0d7_KjU, obj18, i20, i22, i21, i9, i13, unspecified-XSAIIZE2, obj25, i16, i12, i10, i6, i25, i15, 0);
+        i22 = i27 &= i52 != 0 ? i53 : obj62;
+        super(brush, i20, l, obj6, i11, i, i5, i6, i7, unspecified-XSAIIZE, obj13, i21, i2, i16, unspecified-0d7_KjU, obj18, i3, i8, i25, i19, i9, unspecified-XSAIIZE2, obj25, i13, i15, i14, i12, i4, i22, 0);
     }
 
     public TextStyle(Brush brush, float f2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, DrawStyle drawStyle16, int i17, int i18, long l19, TextIndent textIndent20, androidx.compose.ui.text.PlatformTextStyle platformTextStyle21, LineHeightStyle lineHeightStyle22, int i23, int i24, TextMotion textMotion25, DefaultConstructorMarker defaultConstructorMarker26) {
@@ -768,78 +768,78 @@ public final class TextStyle {
     }
 
     public TextStyle(Brush brush, float f2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, DrawStyle drawStyle16, TextAlign textAlign17, TextDirection textDirection18, long l19, TextIndent textIndent20, androidx.compose.ui.text.PlatformTextStyle platformTextStyle21, LineHeightStyle lineHeightStyle22, LineBreak lineBreak23, Hyphens hyphens24, TextMotion textMotion25, int i26, DefaultConstructorMarker defaultConstructorMarker27) {
-        int i8;
-        int unspecified-XSAIIZE;
+        int i3;
+        int unspecified-XSAIIZE3;
         int companion3;
         int companion2;
         int companion;
         int i20;
         long l;
-        int i10;
-        int i14;
-        int i12;
-        int i4;
-        int i2;
-        long unspecified-XSAIIZE2;
-        int i5;
-        int i15;
         int i;
-        long unspecified-0d7_KjU;
-        int i19;
-        int i6;
-        int i9;
-        int i21;
-        int i7;
-        long unspecified-XSAIIZE3;
-        int i16;
+        int i5;
+        int i10;
         int i17;
-        int i3;
-        int i11;
-        int i13;
+        int i16;
+        long unspecified-XSAIIZE2;
+        int i7;
+        int i19;
+        int i12;
+        long unspecified-0d7_KjU;
+        int i21;
         int i18;
+        int i6;
+        int i11;
+        int i2;
+        long unspecified-XSAIIZE;
+        int i9;
+        int i8;
+        int i4;
+        int i14;
+        int i13;
+        int i15;
         int i22 = obj63;
-        i20 = i22 & 2 != 0 ? i8 : f2;
+        i20 = i22 & 2 != 0 ? i3 : f2;
         if (i22 & 4 != 0) {
-            l = unspecified-XSAIIZE;
+            l = unspecified-XSAIIZE3;
         } else {
             l = l3;
         }
         int i53 = 0;
-        i10 = i22 & 8 != 0 ? i53 : fontStyle5;
-        i14 = i22 & 16 != 0 ? i53 : fontSynthesis6;
-        i12 = i22 & 32 != 0 ? i53 : fontFamily7;
-        i4 = i22 & 64 != 0 ? i53 : string8;
-        i2 = i22 & 128 != 0 ? i53 : l9;
+        i = i22 & 8 != 0 ? i53 : fontStyle5;
+        i5 = i22 & 16 != 0 ? i53 : fontSynthesis6;
+        i10 = i22 & 32 != 0 ? i53 : fontFamily7;
+        i17 = i22 & 64 != 0 ? i53 : string8;
+        i16 = i22 & 128 != 0 ? i53 : l9;
         if (i22 & 256 != 0) {
             unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE2 = baselineShift10;
         }
-        i5 = i22 & 512 != 0 ? i53 : localeList12;
-        i15 = i22 & 1024 != 0 ? i53 : l13;
-        i = i22 & 2048 != 0 ? i53 : textDecoration14;
+        i7 = i22 & 512 != 0 ? i53 : localeList12;
+        i19 = i22 & 1024 != 0 ? i53 : l13;
+        i12 = i22 & 2048 != 0 ? i53 : textDecoration14;
         if (i22 & 4096 != 0) {
             unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
             unspecified-0d7_KjU = shadow15;
         }
-        i19 = i22 & 8192 != 0 ? i53 : textAlign17;
-        i6 = i22 & 16384 != 0 ? i53 : textDirection18;
-        i9 = i35 &= i22 != 0 ? i53 : l19;
-        i21 = i37 &= i22 != 0 ? i53 : textIndent20;
-        i7 = i39 &= i22 != 0 ? i53 : platformTextStyle21;
+        i21 = i22 & 8192 != 0 ? i53 : textAlign17;
+        i18 = i22 & 16384 != 0 ? i53 : textDirection18;
+        i6 = i35 &= i22 != 0 ? i53 : l19;
+        i11 = i37 &= i22 != 0 ? i53 : textIndent20;
+        i2 = i39 &= i22 != 0 ? i53 : platformTextStyle21;
         if (i41 &= i22 != 0) {
-            unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
+            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE3 = lineHeightStyle22;
+            unspecified-XSAIIZE = lineHeightStyle22;
         }
-        i16 = i42 &= i22 != 0 ? i53 : hyphens24;
-        i17 = i44 &= i22 != 0 ? i53 : textMotion25;
-        i3 = i46 &= i22 != 0 ? i53 : i26;
-        i11 = i48 &= i22 != 0 ? i53 : defaultConstructorMarker27;
+        i9 = i42 &= i22 != 0 ? i53 : hyphens24;
+        i8 = i44 &= i22 != 0 ? i53 : textMotion25;
+        i4 = i46 &= i22 != 0 ? i53 : i26;
+        i14 = i48 &= i22 != 0 ? i53 : defaultConstructorMarker27;
         i13 = i50 &= i22 != 0 ? i53 : obj61;
-        i18 = i22 &= i52 != 0 ? i53 : obj62;
-        super(brush, i20, l, obj6, i10, i14, i12, i4, i2, unspecified-XSAIIZE2, obj13, i5, i15, i, unspecified-0d7_KjU, obj18, i19, i6, i9, i21, i7, unspecified-XSAIIZE3, obj25, i16, i17, i3, i11, i13, i18, 0);
+        i15 = i22 &= i52 != 0 ? i53 : obj62;
+        super(brush, i20, l, obj6, i, i5, i10, i17, i16, unspecified-XSAIIZE2, obj13, i7, i19, i12, unspecified-0d7_KjU, obj18, i21, i18, i6, i11, i2, unspecified-XSAIIZE, obj25, i9, i8, i4, i14, i13, i15, 0);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "TextStyle constructors that take nullable TextAlign, TextDirection, LineBreak, and Hyphens are deprecated. Please use a new constructor where these parameters are non-nullable. Null value has been replaced by a special Unspecified object for performance reason.")
@@ -873,12 +873,12 @@ public final class TextStyle {
         Object textIndent;
         androidx.compose.ui.text.PlatformTextStyle platformStyle;
         LineHeightStyle lineHeightStyle;
-        LineBreak box-impl2;
+        LineBreak box-impl3;
         Hyphens box-impl;
         long color-0d7_KjU;
         long background-0d7_KjU;
         TextDecoration textDecoration;
-        TextAlign box-impl3;
+        TextAlign box-impl2;
         Shadow shadow;
         long fontSize-XSAIIZE;
         FontWeight fontWeight;
@@ -970,9 +970,9 @@ public final class TextStyle {
         }
         final TextDecoration obj24 = textDecoration;
         if (i & 16384 != 0) {
-            box-impl3 = TextAlign.box-impl(obj.paragraphStyle.getTextAlign-e0LSkKk());
+            box-impl2 = TextAlign.box-impl(obj.paragraphStyle.getTextAlign-e0LSkKk());
         } else {
-            box-impl3 = platformTextStyle20;
+            box-impl2 = platformTextStyle20;
         }
         if (i & i19 != 0) {
             paragraphStyle = TextDirection.box-impl(obj.paragraphStyle.getTextDirection-s_7X-co());
@@ -1001,19 +1001,19 @@ public final class TextStyle {
         }
         if (obj49 & i28 != 0) {
             obj28 = lineHeightStyle;
-            box-impl2 = LineBreak.box-impl(obj.paragraphStyle.getLineBreak-rAG3T2k());
+            box-impl3 = LineBreak.box-impl(obj.paragraphStyle.getLineBreak-rAG3T2k());
         } else {
             obj28 = lineHeightStyle;
-            box-impl2 = obj47;
+            box-impl3 = obj47;
         }
         if (obj49 & i30 != 0) {
-            obj29 = box-impl2;
+            obj29 = box-impl3;
             box-impl = Hyphens.box-impl(obj.paragraphStyle.getHyphens-vmbZdU8());
         } else {
-            obj29 = box-impl2;
+            obj29 = box-impl3;
             box-impl = obj48;
         }
-        return obj.copy-CXVQc50(color-0d7_KjU, obj24, fontSize-XSAIIZE, obj26, fontWeight, fontStyle-4Lr2A7w, fontSynthesis-ZQGJjVo, fontFamily, fontFeatureSettings, letterSpacing-XSAIIZE, l13, baselineShift-5SSeXJ0, textGeometricTransform, localeList, background-0d7_KjU, l18, obj24, shadow, box-impl3, obj25, lineHeight-XSAIIZE, i24);
+        return obj.copy-CXVQc50(color-0d7_KjU, obj24, fontSize-XSAIIZE, obj26, fontWeight, fontStyle-4Lr2A7w, fontSynthesis-ZQGJjVo, fontFamily, fontFeatureSettings, letterSpacing-XSAIIZE, l13, baselineShift-5SSeXJ0, textGeometricTransform, localeList, background-0d7_KjU, l18, obj24, shadow, box-impl2, obj25, lineHeight-XSAIIZE, i24);
     }
 
     public static androidx.compose.ui.text.TextStyle copy-HL5avdY$default(androidx.compose.ui.text.TextStyle textStyle, long l2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, TextAlign textAlign16, TextDirection textDirection17, long l18, TextIndent textIndent19, int i20, Object object21) {
@@ -1767,12 +1767,12 @@ public final class TextStyle {
     }
 
     public static androidx.compose.ui.text.TextStyle copy-v2rsoow$default(androidx.compose.ui.text.TextStyle textStyle, long l2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, DrawStyle drawStyle16, TextAlign textAlign17, TextDirection textDirection18, long l19, TextIndent textIndent20, androidx.compose.ui.text.PlatformTextStyle platformTextStyle21, LineHeightStyle lineHeightStyle22, LineBreak lineBreak23, Hyphens hyphens24, TextMotion textMotion25, int i26, Object object27) {
-        TextAlign box-impl;
+        TextAlign box-impl3;
         TextDirection paragraphStyle;
         Object textIndent;
         androidx.compose.ui.text.PlatformTextStyle platformStyle;
         LineHeightStyle lineHeightStyle;
-        LineBreak box-impl3;
+        LineBreak box-impl;
         Hyphens box-impl2;
         TextMotion textMotion;
         long color-0d7_KjU;
@@ -1877,15 +1877,15 @@ public final class TextStyle {
             drawStyle = textIndent20;
         }
         if (i & i19 != 0) {
-            box-impl = TextAlign.box-impl(obj.paragraphStyle.getTextAlign-e0LSkKk());
+            box-impl3 = TextAlign.box-impl(obj.paragraphStyle.getTextAlign-e0LSkKk());
         } else {
-            box-impl = platformTextStyle21;
+            box-impl3 = platformTextStyle21;
         }
         if (obj51 & i21 != 0) {
-            obj25 = box-impl;
+            obj25 = box-impl3;
             paragraphStyle = TextDirection.box-impl(obj.paragraphStyle.getTextDirection-s_7X-co());
         } else {
-            obj25 = box-impl;
+            obj25 = box-impl3;
             paragraphStyle = lineHeightStyle22;
         }
         if (obj51 & i23 != 0) {
@@ -1910,16 +1910,16 @@ public final class TextStyle {
         }
         if (obj51 & i30 != 0) {
             obj29 = lineHeightStyle;
-            box-impl3 = LineBreak.box-impl(obj.paragraphStyle.getLineBreak-rAG3T2k());
+            box-impl = LineBreak.box-impl(obj.paragraphStyle.getLineBreak-rAG3T2k());
         } else {
             obj29 = lineHeightStyle;
-            box-impl3 = obj48;
+            box-impl = obj48;
         }
         if (obj51 & i32 != 0) {
-            obj30 = box-impl3;
+            obj30 = box-impl;
             box-impl2 = Hyphens.box-impl(obj.paragraphStyle.getHyphens-vmbZdU8());
         } else {
-            obj30 = box-impl3;
+            obj30 = box-impl;
             box-impl2 = obj49;
         }
         if (obj51 & i34 != 0) {
@@ -1957,137 +1957,137 @@ public final class TextStyle {
     }
 
     public static androidx.compose.ui.text.TextStyle merge-Z1GrekI$default(androidx.compose.ui.text.TextStyle textStyle, long l2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, DrawStyle drawStyle16, TextAlign textAlign17, TextDirection textDirection18, long l19, TextIndent textIndent20, LineHeightStyle lineHeightStyle21, LineBreak lineBreak22, Hyphens hyphens23, androidx.compose.ui.text.PlatformTextStyle platformTextStyle24, TextMotion textMotion25, int i26, Object object27) {
-        int i10;
-        long unspecified-0d7_KjU;
-        int i7;
-        int i16;
-        long unspecified-XSAIIZE2;
         int i8;
-        int companion;
-        int i9;
-        int i14;
-        int i6;
-        int i4;
-        int i15;
-        long unspecified-XSAIIZE;
-        int i11;
-        int i17;
-        int i13;
         long unspecified-0d7_KjU2;
-        int i18;
-        int i3;
-        long unspecified-XSAIIZE3;
-        int platformTextStyle;
-        int i12;
-        int i2;
-        int i;
+        int i15;
         int i5;
+        long unspecified-XSAIIZE2;
+        int i10;
+        int companion;
+        int i12;
+        int i13;
+        int i16;
+        int i14;
+        int i11;
+        long unspecified-XSAIIZE3;
+        int i7;
+        int i9;
+        int i17;
+        long unspecified-0d7_KjU;
+        int i18;
+        int i6;
+        long unspecified-XSAIIZE;
+        int platformTextStyle;
+        int i;
+        int i2;
+        int i3;
+        int i4;
         int i19 = obj60;
         if (i19 & 1 != 0) {
-            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU = l2;
+            unspecified-0d7_KjU2 = l2;
         }
         if (i19 & 2 != 0) {
             unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE2 = fontWeight4;
         }
-        i8 = i19 & 4 != 0 ? 0 : fontSynthesis6;
-        i14 = i19 & 8 != 0 ? 0 : fontFamily7;
-        i6 = i19 & 16 != 0 ? 0 : string8;
-        i4 = i19 & 32 != 0 ? 0 : l9;
-        i15 = i19 & 64 != 0 ? 0 : baselineShift10;
+        i10 = i19 & 4 != 0 ? 0 : fontSynthesis6;
+        i13 = i19 & 8 != 0 ? 0 : fontFamily7;
+        i16 = i19 & 16 != 0 ? 0 : string8;
+        i14 = i19 & 32 != 0 ? 0 : l9;
+        i11 = i19 & 64 != 0 ? 0 : baselineShift10;
         if (i19 & 128 != 0) {
-            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
-        } else {
-            unspecified-XSAIIZE = textGeometricTransform11;
-        }
-        i11 = i19 & 256 != 0 ? 0 : l13;
-        i17 = i19 & 512 != 0 ? 0 : textDecoration14;
-        i13 = i19 & 1024 != 0 ? 0 : shadow15;
-        if (i19 & 2048 != 0) {
-            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
-        } else {
-            unspecified-0d7_KjU2 = drawStyle16;
-        }
-        i9 = i19 & 4096 != 0 ? 0 : textDirection18;
-        i7 = i19 & 8192 != 0 ? 0 : l19;
-        i16 = i19 & 16384 != 0 ? 0 : textIndent20;
-        i18 = i19 & i36 != 0 ? 0 : lineHeightStyle21;
-        i3 = i19 & i38 != 0 ? 0 : lineBreak22;
-        if (i19 & i40 != 0) {
             unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE3 = hyphens23;
+            unspecified-XSAIIZE3 = textGeometricTransform11;
+        }
+        i7 = i19 & 256 != 0 ? 0 : l13;
+        i9 = i19 & 512 != 0 ? 0 : textDecoration14;
+        i17 = i19 & 1024 != 0 ? 0 : shadow15;
+        if (i19 & 2048 != 0) {
+            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
+        } else {
+            unspecified-0d7_KjU = drawStyle16;
+        }
+        i12 = i19 & 4096 != 0 ? 0 : textDirection18;
+        i15 = i19 & 8192 != 0 ? 0 : l19;
+        i5 = i19 & 16384 != 0 ? 0 : textIndent20;
+        i18 = i19 & i36 != 0 ? 0 : lineHeightStyle21;
+        i6 = i19 & i38 != 0 ? 0 : lineBreak22;
+        if (i19 & i40 != 0) {
+            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
+        } else {
+            unspecified-XSAIIZE = hyphens23;
         }
         platformTextStyle = i19 & i42 != 0 ? 0 : textMotion25;
-        i12 = i19 & i44 != 0 ? 0 : i26;
+        i = i19 & i44 != 0 ? 0 : i26;
         i2 = i19 & i46 != 0 ? 0 : object27;
-        i = i19 & i48 != 0 ? 0 : obj57;
-        i5 = i19 & i50 != 0 ? 0 : obj58;
-        i10 = i19 &= i52 != 0 ? 0 : obj59;
-        return textStyle.merge-Z1GrekI(unspecified-0d7_KjU, fontWeight4, unspecified-XSAIIZE2, fontSynthesis6, i8, i14, i6, i4, i15, unspecified-XSAIIZE, l13, i11, i17, i13, unspecified-0d7_KjU2, textDirection18, i9, i7, i16, i18, i3, unspecified-XSAIIZE3, textMotion25, platformTextStyle);
+        i3 = i19 & i48 != 0 ? 0 : obj57;
+        i4 = i19 & i50 != 0 ? 0 : obj58;
+        i8 = i19 &= i52 != 0 ? 0 : obj59;
+        return textStyle.merge-Z1GrekI(unspecified-0d7_KjU2, fontWeight4, unspecified-XSAIIZE2, fontSynthesis6, i10, i13, i16, i14, i11, unspecified-XSAIIZE3, l13, i7, i9, i17, unspecified-0d7_KjU, textDirection18, i12, i15, i5, i18, i6, unspecified-XSAIIZE, textMotion25, platformTextStyle);
     }
 
     public static androidx.compose.ui.text.TextStyle merge-dA7vx0o$default(androidx.compose.ui.text.TextStyle textStyle, long l2, long l3, FontWeight fontWeight4, FontStyle fontStyle5, FontSynthesis fontSynthesis6, FontFamily fontFamily7, String string8, long l9, BaselineShift baselineShift10, TextGeometricTransform textGeometricTransform11, LocaleList localeList12, long l13, TextDecoration textDecoration14, Shadow shadow15, DrawStyle drawStyle16, int i17, int i18, long l19, TextIndent textIndent20, LineHeightStyle lineHeightStyle21, int i22, int i23, androidx.compose.ui.text.PlatformTextStyle platformTextStyle24, TextMotion textMotion25, int i26, Object object27) {
-        int i9;
-        long unspecified-0d7_KjU2;
-        int i10;
-        int i;
-        long unspecified-XSAIIZE2;
-        int i11;
-        int companion;
-        int i5;
-        int i12;
-        int i13;
-        int i6;
-        int i3;
-        long unspecified-XSAIIZE3;
-        int i7;
-        int i4;
         int i8;
         long unspecified-0d7_KjU;
+        int i;
+        int i7;
+        long unspecified-XSAIIZE;
+        int i9;
+        int companion;
+        int i12;
+        int i2;
+        int i10;
+        int i4;
+        int i13;
+        long unspecified-XSAIIZE3;
+        int i14;
+        int i11;
+        int i3;
+        long unspecified-0d7_KjU2;
         int unspecified-e0LSkKk;
         int unspecified-s_7X-co;
-        long unspecified-XSAIIZE;
+        long unspecified-XSAIIZE2;
         int platformTextStyle;
-        int i14;
+        int i5;
         int unspecified-rAG3T2k;
         int unspecified-vmbZdU8;
-        int i2;
+        int i6;
         int i15 = obj60;
         if (i15 & 1 != 0) {
-            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU2 = l2;
+            unspecified-0d7_KjU = l2;
         }
         if (i15 & 2 != 0) {
-            unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
+            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE2 = fontWeight4;
+            unspecified-XSAIIZE = fontWeight4;
         }
-        i11 = i15 & 4 != 0 ? 0 : fontSynthesis6;
-        i12 = i15 & 8 != 0 ? 0 : fontFamily7;
-        i13 = i15 & 16 != 0 ? 0 : string8;
-        i6 = i15 & 32 != 0 ? 0 : l9;
-        i3 = i15 & 64 != 0 ? 0 : baselineShift10;
+        i9 = i15 & 4 != 0 ? 0 : fontSynthesis6;
+        i2 = i15 & 8 != 0 ? 0 : fontFamily7;
+        i10 = i15 & 16 != 0 ? 0 : string8;
+        i4 = i15 & 32 != 0 ? 0 : l9;
+        i13 = i15 & 64 != 0 ? 0 : baselineShift10;
         if (i15 & 128 != 0) {
             unspecified-XSAIIZE3 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
             unspecified-XSAIIZE3 = textGeometricTransform11;
         }
-        i7 = i15 & 256 != 0 ? 0 : l13;
-        i4 = i15 & 512 != 0 ? 0 : textDecoration14;
-        i8 = i15 & 1024 != 0 ? 0 : shadow15;
+        i14 = i15 & 256 != 0 ? 0 : l13;
+        i11 = i15 & 512 != 0 ? 0 : textDecoration14;
+        i3 = i15 & 1024 != 0 ? 0 : shadow15;
         if (i15 & 2048 != 0) {
-            unspecified-0d7_KjU = Color.Companion.getUnspecified-0d7_KjU();
+            unspecified-0d7_KjU2 = Color.Companion.getUnspecified-0d7_KjU();
         } else {
-            unspecified-0d7_KjU = drawStyle16;
+            unspecified-0d7_KjU2 = drawStyle16;
         }
-        i5 = i15 & 4096 != 0 ? 0 : i18;
-        i10 = i15 & 8192 != 0 ? 0 : l19;
-        i = i15 & 16384 != 0 ? 0 : textIndent20;
+        i12 = i15 & 4096 != 0 ? 0 : i18;
+        i = i15 & 8192 != 0 ? 0 : l19;
+        i7 = i15 & 16384 != 0 ? 0 : textIndent20;
         if (i15 & i36 != 0) {
             unspecified-e0LSkKk = TextAlign.Companion.getUnspecified-e0LSkKk();
         } else {
@@ -2099,12 +2099,12 @@ public final class TextStyle {
             unspecified-s_7X-co = i22;
         }
         if (i15 & i40 != 0) {
-            unspecified-XSAIIZE = TextUnit.Companion.getUnspecified-XSAIIZE();
+            unspecified-XSAIIZE2 = TextUnit.Companion.getUnspecified-XSAIIZE();
         } else {
-            unspecified-XSAIIZE = i23;
+            unspecified-XSAIIZE2 = i23;
         }
         platformTextStyle = i15 & i42 != 0 ? 0 : textMotion25;
-        i14 = i15 & i44 != 0 ? 0 : i26;
+        i5 = i15 & i44 != 0 ? 0 : i26;
         if (i15 & i46 != 0) {
             unspecified-rAG3T2k = LineBreak.Companion.getUnspecified-rAG3T2k();
         } else {
@@ -2115,9 +2115,9 @@ public final class TextStyle {
         } else {
             unspecified-vmbZdU8 = obj57;
         }
-        i2 = i15 & i50 != 0 ? 0 : obj58;
-        i9 = i15 &= i52 != 0 ? 0 : obj59;
-        return textStyle.merge-dA7vx0o(unspecified-0d7_KjU2, fontWeight4, unspecified-XSAIIZE2, fontSynthesis6, i11, i12, i13, i6, i3, unspecified-XSAIIZE3, l13, i7, i4, i8, unspecified-0d7_KjU, i18, i5, i10, i, unspecified-e0LSkKk, unspecified-s_7X-co, unspecified-XSAIIZE, textMotion25, platformTextStyle);
+        i6 = i15 & i50 != 0 ? 0 : obj58;
+        i8 = i15 &= i52 != 0 ? 0 : obj59;
+        return textStyle.merge-dA7vx0o(unspecified-0d7_KjU, fontWeight4, unspecified-XSAIIZE, fontSynthesis6, i9, i2, i10, i4, i13, unspecified-XSAIIZE3, l13, i14, i11, i3, unspecified-0d7_KjU2, i18, i12, i, i7, unspecified-e0LSkKk, unspecified-s_7X-co, unspecified-XSAIIZE2, textMotion25, platformTextStyle);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "TextStyle copy constructors that do not take new stable parameters like LineBreak, Hyphens, and TextMotion are deprecated. Please use the new stable copy constructor.")
@@ -2667,21 +2667,21 @@ public final class TextStyle {
 
     public final androidx.compose.ui.text.TextStyle merge-dA7vx0o(long color, long fontSize, FontWeight fontWeight, FontStyle fontStyle, FontSynthesis fontSynthesis, FontFamily fontFamily, String fontFeatureSettings, long letterSpacing, BaselineShift baselineShift, TextGeometricTransform textGeometricTransform, LocaleList localeList, long background, TextDecoration textDecoration, Shadow shadow, DrawStyle drawStyle, int textAlign, int textDirection, long lineHeight, TextIndent textIndent, LineHeightStyle lineHeightStyle, int lineBreak, int hyphens, androidx.compose.ui.text.PlatformTextStyle platformStyle, TextMotion textMotion) {
         androidx.compose.ui.text.PlatformSpanStyle spanStyle;
-        Object paragraphStyle;
+        Object paragraphStyle2;
         int i;
-        int paragraphStyle2;
+        int paragraphStyle;
         final Object obj = this;
         if (obj53 != null) {
             i = spanStyle;
         } else {
-            i = paragraphStyle2;
+            i = paragraphStyle;
         }
         final long l = fontWeight;
         androidx.compose.ui.text.SpanStyle fastMerge-dSHsh3o = SpanStyleKt.fastMerge-dSHsh3o(obj.spanStyle, color, obj3, 0, 2143289344, l, obj7, fontSynthesis, fontFamily, fontFeatureSettings, letterSpacing, baselineShift, textGeometricTransform, obj14, background, textDecoration, shadow, drawStyle, obj19);
         if (obj53 != null) {
-            paragraphStyle2 = obj53.getParagraphStyle();
+            paragraphStyle = obj53.getParagraphStyle();
         }
-        androidx.compose.ui.text.ParagraphStyle fastMerge-j5T8yCg = ParagraphStyleKt.fastMerge-j5T8yCg(obj.paragraphStyle, lineHeightStyle, lineBreak, hyphens, l, textMotion, paragraphStyle2, obj50, obj51, obj52);
+        androidx.compose.ui.text.ParagraphStyle fastMerge-j5T8yCg = ParagraphStyleKt.fastMerge-j5T8yCg(obj.paragraphStyle, lineHeightStyle, lineBreak, hyphens, l, textMotion, paragraphStyle, obj50, obj51, obj52);
         if (obj.spanStyle == fastMerge-dSHsh3o && obj.paragraphStyle == fastMerge-j5T8yCg) {
             if (obj.paragraphStyle == fastMerge-j5T8yCg) {
                 return obj;

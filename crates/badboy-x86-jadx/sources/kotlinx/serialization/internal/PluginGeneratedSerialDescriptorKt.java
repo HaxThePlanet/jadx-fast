@@ -44,17 +44,17 @@ public final class PluginGeneratedSerialDescriptorKt {
     }
 
     public static final int hashCodeImpl(SerialDescriptor $this$hashCodeImpl, SerialDescriptor[] typeParams) {
-        int accumulator$iv$iv;
         int accumulator$iv$iv2;
-        Object next2;
-        int i5;
-        int next;
+        int accumulator$iv$iv;
+        Object next;
+        int i3;
+        int next2;
         Object obj;
-        int i4;
         int i;
+        int i5;
         String it;
         int i2;
-        int i3;
+        int i4;
         final Object obj2 = $this$hashCodeImpl;
         Intrinsics.checkNotNullParameter(obj2, "<this>");
         final Object obj3 = typeParams;
@@ -62,32 +62,32 @@ public final class PluginGeneratedSerialDescriptorKt {
         Iterable elementDescriptors = SerialDescriptorKt.getElementDescriptors(obj2);
         int i13 = 0;
         int i17 = 0;
-        accumulator$iv$iv = i15;
+        accumulator$iv$iv2 = i15;
         Iterator iterator = elementDescriptors.iterator();
         while (iterator.hasNext()) {
-            i4 = 0;
+            i = 0;
             i2 = 0;
             it = (SerialDescriptor)iterator.next().getSerialName();
             if (it != null) {
             }
-            accumulator$iv$iv = i;
-            i5 = it.hashCode();
+            accumulator$iv$iv2 = i5;
+            i3 = it.hashCode();
         }
         int i14 = 0;
         int i18 = 0;
-        accumulator$iv$iv2 = i16;
+        accumulator$iv$iv = i16;
         Iterator iterator2 = elementDescriptors.iterator();
         while (iterator2.hasNext()) {
-            i = 0;
-            i3 = 0;
+            i5 = 0;
+            i4 = 0;
             kotlinx.serialization.descriptors.SerialKind it2 = (SerialDescriptor)iterator2.next().getKind();
             if (it2 != null) {
             } else {
             }
-            i2 = i5;
-            accumulator$iv$iv2 = it;
+            i2 = i3;
+            accumulator$iv$iv = it;
             i2 = it2.hashCode();
         }
-        return result += accumulator$iv$iv2;
+        return result += accumulator$iv$iv;
     }
 }

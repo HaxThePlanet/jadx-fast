@@ -122,14 +122,14 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
 
         public boolean isFinished() {
             int cmp;
-            int i2;
             int i;
+            int i2;
             long l;
-            if (Long.compare(mStopTime, i) > 0 && Long.compare(currentAnimationTimeMillis, i) > 0) {
-                i2 = Long.compare(currentAnimationTimeMillis, i) > 0 ? 1 : 0;
+            if (Long.compare(mStopTime, i2) > 0 && Long.compare(currentAnimationTimeMillis, i2) > 0) {
+                i = Long.compare(currentAnimationTimeMillis, i2) > 0 ? 1 : 0;
             } else {
             }
-            return i2;
+            return i;
         }
 
         public void requestStop() {
@@ -283,17 +283,17 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
 
     private float constrainEdgeValue(float current, float leading) {
         int mAnimating;
-        int i2;
         int i;
+        int i2;
         int i3 = 0;
         if (Float.compare(leading, i3) == 0) {
             return i3;
         }
         switch (mAnimating) {
             case 0:
-                i2 = 1065353216;
-                return i2 -= i4;
-                return i2;
+                i = 1065353216;
+                return i -= i4;
+                return i;
             case 1:
                 return current / i5;
             default:

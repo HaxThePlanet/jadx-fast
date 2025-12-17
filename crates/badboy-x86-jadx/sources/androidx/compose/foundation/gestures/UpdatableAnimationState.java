@@ -93,15 +93,15 @@ public final class UpdatableAnimationState {
 
     public final Object animateToZero(Function1<? super Float, Unit> function1, Function0<Unit> function02, Continuation<? super Unit> continuation3) {
         boolean $result;
-        Object $continuation2;
+        Object $continuation;
         int zeroVector;
         androidx.compose.foundation.gestures.UpdatableAnimationState.animateToZero.1 anon;
         Object cOROUTINE_SUSPENDED;
-        int i3;
-        Object beforeFrame;
-        int i;
         int i2;
-        Object durationScale;
+        Object beforeFrame;
+        int i3;
+        int i;
+        Object _this;
         float scaleFactor;
         boolean frameNanos;
         float value;
@@ -110,12 +110,12 @@ public final class UpdatableAnimationState {
         Object obj14;
         Object obj15;
         $result = continuation3;
-        i3 = Integer.MIN_VALUE;
-        if (continuation3 instanceof UpdatableAnimationState.animateToZero.1 && label &= i3 != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (continuation3 instanceof UpdatableAnimationState.animateToZero.1 && label &= i2 != 0) {
             $result = continuation3;
-            i3 = Integer.MIN_VALUE;
-            if (label &= i3 != 0) {
-                $result.label = obj15 -= i3;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                $result.label = obj15 -= i2;
             } else {
                 $result = new UpdatableAnimationState.animateToZero.1(this, continuation3);
             }
@@ -123,8 +123,8 @@ public final class UpdatableAnimationState {
         }
         obj15 = $result.result;
         cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
-        i = 0;
-        i2 = 1;
+        i3 = 0;
+        i = 1;
         final int i5 = 0;
         switch (beforeFrame) {
             case 0:
@@ -133,14 +133,14 @@ public final class UpdatableAnimationState {
                 kotlin.coroutines.CoroutineContext.Element context2 = $result.getContext().get((CoroutineContext.Key)MotionDurationScale.Key);
                 scaleFactor = (MotionDurationScale)context2.getScaleFactor();
                 scaleFactor = 1065353216;
-                updatableAnimationState.isRunning = i2;
-                durationScale = function1;
+                updatableAnimationState.isRunning = i;
+                _this = function1;
                 obj13 = f2;
                 obj15 = function02;
                 obj14 = updatableAnimationState;
                 beforeFrame = cOROUTINE_SUSPENDED;
                 anon = $result;
-                $continuation2 = obj;
+                $continuation = obj;
                 obj13 = 0;
                 obj13 = new IllegalStateException("animateToZero called while previous animation is running".toString());
                 throw obj13;
@@ -149,18 +149,18 @@ public final class UpdatableAnimationState {
                 ResultKt.throwOnFailure(obj15);
                 obj15 = obj14;
                 obj14 = l$0;
-                durationScale = l$1;
+                _this = l$1;
                 beforeFrame = cOROUTINE_SUSPENDED;
                 anon = $result;
-                $continuation2 = obj;
+                $continuation = obj;
                 obj15.invoke();
-                frameNanos = i2;
+                frameNanos = i;
                 frameNanos = i5;
                 obj13 = obj15;
-                obj15 = $continuation2;
+                obj15 = $continuation;
                 $result = anon;
-                i2 = i5;
-                UpdatableAnimationState.animateToZero.5 anon2 = new UpdatableAnimationState.animateToZero.5(obj14, durationScale);
+                i = i5;
+                UpdatableAnimationState.animateToZero.5 anon2 = new UpdatableAnimationState.animateToZero.5(obj14, _this);
                 $result.L$0 = obj14;
                 $result.L$1 = obj13;
                 $result.L$2 = 0;
@@ -185,19 +185,19 @@ public final class UpdatableAnimationState {
                 throw obj13;
         }
         if (!UpdatableAnimationState.Companion.isZeroish(obj14.value)) {
-            UpdatableAnimationState.animateToZero.4 anon3 = new UpdatableAnimationState.animateToZero.4(obj14, obj13, durationScale);
+            UpdatableAnimationState.animateToZero.4 anon3 = new UpdatableAnimationState.animateToZero.4(obj14, obj13, _this);
             anon.L$0 = obj14;
-            anon.L$1 = durationScale;
+            anon.L$1 = _this;
             anon.L$2 = obj15;
             anon.F$0 = obj13;
-            anon.label = i2;
+            anon.label = i;
             if (MonotonicFrameClockKt.withFrameNanos((Function1)anon3, anon) == beforeFrame) {
                 return beforeFrame;
             } else {
             }
         } else {
             obj13 = obj15;
-            obj15 = $continuation2;
+            obj15 = $continuation;
             $result = anon;
         }
     }

@@ -28,8 +28,8 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
             initializeStorage(ScatterMapKt.unloadedCapacity(initialCapacity));
         }
         int i3 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Capacity must be a positive value.".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireMutableObjectFloatMap$1 = new IllegalArgumentException("Capacity must be a positive value.".toString());
+        throw $i$a$RequireMutableObjectFloatMap$1;
     }
 
     public MutableObjectFloatMap(int i, int i2, DefaultConstructorMarker defaultConstructorMarker3) {
@@ -57,20 +57,20 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
         int probeOffset;
         int probeIndex;
         int metadata$iv;
-        int i4;
+        int i;
         int $this$maskEmptyOrDeleted$iv;
         int i2;
-        int i;
+        int i3;
         int i7;
         int i6;
         long l;
         int i5;
-        int i3;
+        int i4;
         final int _capacity = this._capacity;
         probeOffset = hash1 & _capacity;
         probeIndex = 0;
         long[] metadata = this.metadata;
-        i4 = 0;
+        i = 0;
         int i8 = probeOffset >> 3;
         i10 <<= 3;
         int i9 = metadata$iv;
@@ -78,9 +78,9 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
         i17 &= i9;
         $this$maskEmptyOrDeleted$iv = i7 & l;
         while (Long.compare($this$maskEmptyOrDeleted$iv, i13) != 0) {
-            probeOffset = i & _capacity;
+            probeOffset = i3 & _capacity;
             metadata = this.metadata;
-            i4 = 0;
+            i = 0;
             i8 = probeOffset >> 3;
             i10 <<= 3;
             i9 = metadata$iv;
@@ -93,12 +93,12 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
     }
 
     private final int findIndex(K key) {
-        Object obj;
         Object obj2;
+        Object obj;
         int $i$f$hash;
         int m;
         int index;
-        int i14;
+        int i;
         int metadata$iv;
         int i7;
         int $i$f$h1;
@@ -107,25 +107,25 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
         int probeIndex;
         int $this$maskEmpty$iv;
         int $this$next$iv;
-        int i3;
-        int i9;
-        int i8;
-        int cmp;
-        int i13;
-        int i;
-        long l;
-        int i11;
         int i4;
-        int i2;
-        int i5;
-        int i6;
+        int i9;
+        int i11;
+        int cmp;
         int i12;
-        int numberOfTrailingZeros;
+        int i13;
+        long l;
+        int i2;
         int i10;
-        obj2 = key;
+        int i8;
+        int i3;
+        int i6;
+        int i5;
+        int numberOfTrailingZeros;
+        int i14;
+        obj = key;
         int i21 = 0;
-        if (obj2 != null) {
-            i7 = obj2.hashCode();
+        if (obj != null) {
+            i7 = obj.hashCode();
         } else {
             i7 = 0;
         }
@@ -134,7 +134,7 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
         int i29 = 0;
         int i36 = 0;
         int $i$f$h2 = $i$f$hash & 127;
-        final int _capacity = obj._capacity;
+        final int _capacity = obj2._capacity;
         probeOffset = $i$f$h1 & _capacity;
         probeIndex = 0;
         while (/* condition */) {
@@ -144,10 +144,10 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
             while (Long.compare(i37, i50) != 0) {
                 $i$f$hasNext = numberOfTrailingZeros;
                 int i31 = 0;
-                i = 0;
+                i13 = 0;
                 $i$f$h1 = i52 & _capacity;
                 int i39 = m;
-                i8 = 0;
+                i11 = 0;
                 m = $this$next$iv;
                 i30 = 0;
                 i50 = 0;
@@ -155,29 +155,29 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
                 $i$f$hasNext = 0;
             }
             $i$f$hasNext = 0;
-            int i40 = i12;
+            int i40 = i5;
             int i32 = 0;
             $i$f$h1 = i6;
             probeOffset = i15 & _capacity;
-            obj = this;
-            obj2 = key;
-            $i$f$hash = i4;
-            long[] metadata2 = obj.metadata;
-            i3 = 0;
+            obj2 = this;
+            obj = key;
+            $i$f$hash = i10;
+            long[] metadata2 = obj2.metadata;
+            i4 = 0;
             int i49 = probeOffset >> 3;
             i55 <<= 3;
             i6 = $i$f$h1;
-            i25 |= i;
-            i8 = 0;
+            i25 |= i13;
+            i11 = 0;
             long l7 = 72340172838076673L;
             i57 ^= $this$next$iv;
             l = -9187201950435737472L;
             i22 &= l;
             i31 = 0;
-            i = 0;
+            i13 = 0;
             $i$f$h1 = i52 & _capacity;
             i39 = m;
-            i8 = 0;
+            i11 = 0;
             m = $this$next$iv;
             $i$f$hasNext = numberOfTrailingZeros;
         }
@@ -190,21 +190,21 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
 
     private final void initializeMetadata(int capacity) {
         long[] size;
-        long[] lArr2;
         long[] lArr;
+        long[] lArr2;
         long l;
-        int i4;
         int i5;
         int i3;
-        int i2;
+        int i4;
         int i;
+        int i2;
         if (capacity == 0) {
             size = ScatterMapKt.EmptyGroup;
         } else {
-            lArr2 = new long[i9 >>= 3];
-            i = 0;
-            ArraysKt.fill$default(lArr2, -9187201950435737472L, obj4, 0, 0, 6);
-            size = lArr2;
+            lArr = new long[i9 >>= 3];
+            i2 = 0;
+            ArraysKt.fill$default(lArr, -9187201950435737472L, obj4, 0, 0, 6);
+            size = lArr;
         }
         this.metadata = size;
         long[] metadata = this.metadata;
@@ -231,57 +231,57 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
 
     private final void removeDeletedMarkers() {
         long[] metadata2;
-        int _capacity2;
-        int removedDeletes;
-        int i;
-        int $i$f$readRawMetadata;
-        int i2;
-        Object cmp;
         int _capacity;
-        int i9;
-        int i10;
+        int removedDeletes;
+        int i6;
+        int $i$f$readRawMetadata;
+        int i7;
+        Object cmp;
+        int _capacity2;
+        int i5;
+        int i11;
         int i8;
         long[] metadata;
-        int i5;
-        int i7;
-        int i3;
-        int i11;
-        int i6;
-        long[] m;
         int i4;
+        int i;
+        int i9;
+        int i2;
+        int i3;
+        long[] m;
+        int i10;
         final Object obj = this;
         metadata2 = obj.metadata;
-        _capacity2 = obj._capacity;
+        _capacity = obj._capacity;
         removedDeletes = 0;
-        i = 0;
-        while (i < _capacity2) {
+        i6 = 0;
+        while (i6 < _capacity) {
             int i15 = 0;
-            _capacity = 255;
-            if (Long.compare($i$f$readRawMetadata, i10) == 0) {
+            _capacity2 = 255;
+            if (Long.compare($i$f$readRawMetadata, i11) == 0) {
             } else {
             }
             m = metadata2;
-            i4 = _capacity2;
-            i++;
+            i10 = _capacity;
+            i6++;
             metadata2 = m;
-            _capacity2 = i4;
-            i10 = 128;
+            _capacity = i10;
+            i11 = 128;
             cmp = this;
             i8 = 0;
             metadata = cmp.metadata;
             int i25 = 0;
-            int i27 = i >> 3;
+            int i27 = i6 >> 3;
             i28 <<= 3;
-            i6 = _capacity;
+            i3 = _capacity2;
             metadata[i27] = i21 |= i31;
-            _capacity = cmp._capacity;
+            _capacity2 = cmp._capacity;
             i24 += i26;
-            i5 = 0;
-            i7 = i9 >> 3;
+            i4 = 0;
+            i = i5 >> 3;
             i30 <<= 3;
             m = metadata2;
-            i4 = _capacity2;
-            metadata[i7] = i14 |= i11;
+            i10 = _capacity;
+            metadata[i] = i14 |= i2;
             removedDeletes++;
         }
         long[] m4 = metadata2;
@@ -291,27 +291,27 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
     private final void resizeStorage(int newCapacity) {
         Object obj;
         long[] metadata;
-        int i3;
+        int i2;
         Object obj2;
         int $i$f$hash;
         int firstAvailableSlot;
         Object obj3;
         long[] metadata2;
-        int i4;
-        long l;
-        int i5;
-        int i6;
         int i;
-        int i7;
+        long l;
+        int i3;
+        int i8;
+        int i5;
+        int i4;
         long l2;
         long[] previousMetadata;
-        int i2;
-        int i8;
+        int i7;
+        int i6;
         obj = this;
         metadata = obj.metadata;
         initializeStorage(newCapacity);
-        i3 = 0;
-        while (i3 < obj._capacity) {
+        i2 = 0;
+        while (i2 < obj._capacity) {
             obj2 = 0;
             int i18 = 0;
             metadata2 = 255;
@@ -323,10 +323,10 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
             } else {
             }
             previousMetadata = metadata;
-            i3++;
+            i2++;
             obj = this;
             metadata = previousMetadata;
-            obj2 = obj.keys[i3];
+            obj2 = obj.keys[i2];
             int i19 = 0;
             if (obj2 != null) {
             }
@@ -337,7 +337,7 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
             int i26 = 0;
             l = (long)$i$f$h2;
             obj3 = this;
-            i5 = 0;
+            i3 = 0;
             int i31 = metadata2;
             metadata2 = obj3.metadata;
             int i29 = 0;
@@ -347,14 +347,14 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
             metadata2[i32] = i11 |= i36;
             int _capacity = obj3._capacity;
             i17 += i30;
-            i4 = 0;
-            i = metadata >> 3;
+            i = 0;
+            i5 = metadata >> 3;
             i35 <<= 3;
-            i2 = _capacity;
-            i8 = metadata;
-            metadata2[i] = i14 |= i6;
+            i7 = _capacity;
+            i6 = metadata;
+            metadata2[i5] = i14 |= i8;
             obj.keys[firstAvailableSlot] = obj2;
-            obj.values[firstAvailableSlot] = obj.values[i3];
+            obj.values[firstAvailableSlot] = obj.values[i2];
             firstAvailableSlot = obj2.hashCode();
             $i$f$hash = 1;
         }
@@ -380,14 +380,14 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
     public final void clear() {
         long[] metadata;
         long[] emptyGroup;
-        int i3;
+        int i5;
         long l;
         long l2;
-        int i6;
+        int i3;
         int i2;
+        int i6;
         int i;
         int i4;
-        int i5;
         final int i7 = 0;
         this._size = i7;
         if (this.metadata != ScatterMapKt.EmptyGroup) {
@@ -395,9 +395,9 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
             metadata = this.metadata;
             emptyGroup = this._capacity;
             l2 = 0;
-            i6 = emptyGroup >> 3;
+            i3 = emptyGroup >> 3;
             i11 <<= 3;
-            metadata[i6] = i13 |= i5;
+            metadata[i3] = i13 |= i4;
         }
         ArraysKt.fill(this.keys, 0, i7, this._capacity);
         initializeGrowth();
@@ -418,18 +418,18 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
     public final void minusAssign(androidx.collection.ScatterSet<K> keys) {
         int cmp;
         int obj2;
-        Object this_$iv;
-        Object obj;
         Object this_$iv3;
+        Object obj;
+        Object this_$iv;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i4;
         int i2;
+        int i;
         int $i$f$minusAssign;
         long l;
-        int i;
         int i3;
+        int i4;
         int i5;
         Object this_$iv2;
         Intrinsics.checkNotNullParameter(keys, "keys");
@@ -442,7 +442,7 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
         } else {
             $i$f$minusAssign = cmp;
             this_$iv2 = obj;
-            this_$iv = this;
+            this_$iv3 = this;
         }
     }
 
@@ -512,21 +512,21 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
     public final void putAll(androidx.collection.ObjectFloatMap<K> from) {
         int cmp;
         int obj;
-        int $i$f$forEach2;
+        int $i$f$forEach;
         Object k$iv;
         Object[] keys;
         Object k$iv2;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i2;
-        int i5;
+        int i;
+        int i3;
         Object this_$iv;
         long l;
+        int i2;
         int i4;
-        int i3;
-        int $i$f$forEach;
-        int i;
+        int $i$f$forEach2;
+        int i5;
         Object[] objArr;
         Intrinsics.checkNotNullParameter(from, "from");
         cmp = from;
@@ -536,7 +536,7 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
         if (0 <= i13) {
         } else {
             this_$iv = cmp;
-            $i$f$forEach = $i$f$forEach2;
+            $i$f$forEach2 = $i$f$forEach;
             objArr = keys;
             k$iv = this;
         }
@@ -566,18 +566,18 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
     }
 
     public final void removeIf(Function2<? super K, ? super Float, Boolean> predicate) {
-        int $i$f$removeIf;
+        int $i$f$removeIf2;
         int i$iv;
         long slot$iv;
         int $this$maskEmptyOrDeleted$iv$iv;
-        int i3;
-        int j$iv;
-        int i2;
-        int i5;
-        long l;
-        int i;
         int i4;
-        int $i$f$removeIf2;
+        int j$iv;
+        int i3;
+        int i;
+        long l;
+        int i5;
+        int i2;
+        int $i$f$removeIf;
         final Object obj = this;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter(obj2, "predicate");
@@ -586,7 +586,7 @@ public final class MutableObjectFloatMap<K>  extends androidx.collection.ObjectF
         length += -2;
         if (0 <= i7) {
         } else {
-            $i$f$removeIf2 = $i$f$removeIf;
+            $i$f$removeIf = $i$f$removeIf2;
         }
     }
 

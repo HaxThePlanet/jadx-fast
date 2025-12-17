@@ -99,55 +99,55 @@ final class CombinedClickableElement extends ModifierNodeElement<androidx.compos
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i;
-        int i3;
-        int i4;
-        int i2;
-        int i5;
         int i6;
+        int i4;
+        int i3;
         int i7;
+        int i;
+        int i5;
+        int i2;
         MutableInteractionSource interactionSource = this.interactionSource;
-        i3 = 0;
+        i4 = 0;
         if (interactionSource != null) {
-            i = interactionSource.hashCode();
+            i6 = interactionSource.hashCode();
         } else {
-            i = i3;
+            i6 = i4;
         }
         androidx.compose.foundation.IndicationNodeFactory indicationNodeFactory = this.indicationNodeFactory;
         if (indicationNodeFactory != null) {
-            i4 = indicationNodeFactory.hashCode();
+            i3 = indicationNodeFactory.hashCode();
         } else {
-            i4 = i3;
+            i3 = i4;
         }
         String onClickLabel = this.onClickLabel;
         if (onClickLabel != null) {
-            i2 = onClickLabel.hashCode();
+            i7 = onClickLabel.hashCode();
         } else {
-            i2 = i3;
+            i7 = i4;
         }
         Role role = this.role;
         if (role != null) {
-            i5 = Role.hashCode-impl(role.unbox-impl());
+            i = Role.hashCode-impl(role.unbox-impl());
         } else {
-            i5 = i3;
+            i = i4;
         }
         String onLongClickLabel = this.onLongClickLabel;
         if (onLongClickLabel != null) {
-            i6 = onLongClickLabel.hashCode();
+            i5 = onLongClickLabel.hashCode();
         } else {
-            i6 = i3;
+            i5 = i4;
         }
         Function0 onLongClick = this.onLongClick;
         if (onLongClick != null) {
-            i7 = onLongClick.hashCode();
+            i2 = onLongClick.hashCode();
         } else {
-            i7 = i3;
+            i2 = i4;
         }
         Function0 onDoubleClick = this.onDoubleClick;
         if (onDoubleClick != null) {
-            i3 = onDoubleClick.hashCode();
+            i4 = onDoubleClick.hashCode();
         }
-        return result4 += i3;
+        return result4 += i4;
     }
 
     @Override // androidx.compose.ui.node.ModifierNodeElement

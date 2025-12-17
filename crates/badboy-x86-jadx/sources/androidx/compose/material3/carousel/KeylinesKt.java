@@ -24,49 +24,49 @@ public final class KeylinesKt {
     }
 
     public static final androidx.compose.material3.carousel.KeylineList multiBrowseKeylineList(Density density, float carouselMainAxisSize, float preferredItemSize, float itemSpacing, int itemCount, float minSmallItemSize, float maxSmallItemSize) {
-        int i3;
-        int[] smallCounts;
-        androidx.compose.material3.carousel.Arrangement lowestCostArrangement2;
-        androidx.compose.material3.carousel.Arrangement lowestCostArrangement;
-        int keylineSurplus;
-        float i;
-        int smallCount;
         int i6;
-        float f;
-        float targetSmallSize;
-        float f2;
-        float f3;
-        int[] iArr2;
-        int[] iArr;
-        int i4;
+        int[] smallCounts;
+        androidx.compose.material3.carousel.Arrangement lowestCostArrangement;
+        androidx.compose.material3.carousel.Arrangement lowestCostArrangement2;
+        int keylineSurplus2;
+        float i3;
+        int smallCount;
         int i5;
+        float f2;
+        float targetSmallSize;
+        float f;
+        float f3;
+        int[] iArr;
+        int[] iArr2;
+        int i4;
+        int i;
         int i2;
         androidx.compose.material3.carousel.Arrangement arrangement;
-        int keylineSurplus2;
+        int keylineSurplus;
         int smallCount2;
         int i15 = carouselMainAxisSize;
         final int i29 = preferredItemSize;
         final int i30 = itemCount;
         float f8 = minSmallItemSize;
         f3 = maxSmallItemSize;
-        i3 = 0;
+        i6 = 0;
         int i19 = 0;
         int i31 = 1;
-        i6 = Float.compare(i15, i3) == 0 ? i31 : i19;
-        if (i6 == 0) {
-            i3 = Float.compare(i29, i3) == 0 ? i31 : i19;
-            if (i3 != 0) {
-                f = itemSpacing;
+        i5 = Float.compare(i15, i6) == 0 ? i31 : i19;
+        if (i5 == 0) {
+            i6 = Float.compare(i29, i6) == 0 ? i31 : i19;
+            if (i6 != 0) {
+                f2 = itemSpacing;
                 return KeylineListKt.emptyKeylineList();
             } else {
-                iArr = /* result */;
+                iArr2 = /* result */;
                 final float f10 = Math.min(i29, i15);
                 float coerceIn = RangesKt.coerceIn(f10 / i16, f8, f3);
                 int i27 = i23 / i26;
                 if (Float.compare(i15, i25) < 0) {
-                    smallCounts = iArr2;
+                    smallCounts = iArr;
                 } else {
-                    iArr2 = smallCounts;
+                    iArr = smallCounts;
                 }
                 int i13 = (int)f6;
                 i20 += i31;
@@ -81,64 +81,64 @@ public final class KeylinesKt {
                 float px-0680j_4 = density.toPx-0680j_4(CarouselDefaults.INSTANCE.getAnchorSize-D9Ej5fM$material3_release());
                 int i34 = $this$multiBrowseKeylineList_u24lambda_u242;
                 float maxLargeCount2 = coerceIn;
-                final int[] iArr6 = iArr2;
-                final int[] iArr5 = iArr;
-                arrangement = lowestCostArrangement2;
+                final int[] iArr6 = iArr;
+                final int[] iArr5 = iArr2;
+                arrangement = lowestCostArrangement;
                 if (arrangement != null && arrangement.itemCount() > i30) {
                     if (arrangement.itemCount() > i30) {
-                        keylineSurplus2 = i14;
+                        keylineSurplus = i14;
                         smallCount2 = smallCount;
-                        keylineSurplus = mediumCount2;
-                        while (keylineSurplus2 > 0) {
+                        keylineSurplus2 = mediumCount2;
+                        while (keylineSurplus > 0) {
                             if (smallCount2 > 0) {
                             } else {
                             }
-                            if (keylineSurplus > 1) {
+                            if (keylineSurplus2 > 1) {
                             }
-                            keylineSurplus2--;
                             keylineSurplus--;
+                            keylineSurplus2--;
                             smallCount2--;
                             smallCount = 1;
                         }
-                        int i18 = keylineSurplus;
+                        int i18 = keylineSurplus2;
                         i2 = i18;
-                        arrangement = lowestCostArrangement;
+                        arrangement = lowestCostArrangement2;
                     } else {
-                        i = carouselMainAxisSize;
-                        lowestCostArrangement = arrangement;
+                        i3 = carouselMainAxisSize;
+                        lowestCostArrangement2 = arrangement;
                     }
                 } else {
                 }
-                if (lowestCostArrangement == null) {
+                if (lowestCostArrangement2 == null) {
                     return KeylineListKt.emptyKeylineList();
                 }
             }
-            return KeylinesKt.createLeftAlignedKeylineList(i, itemSpacing, px-0680j_4, px-0680j_4, lowestCostArrangement);
+            return KeylinesKt.createLeftAlignedKeylineList(i3, itemSpacing, px-0680j_4, px-0680j_4, lowestCostArrangement2);
         }
-        f = itemSpacing;
+        f2 = itemSpacing;
     }
 
     public static androidx.compose.material3.carousel.KeylineList multiBrowseKeylineList$default(Density density, float f2, float f3, float f4, int i5, float f6, float f7, int i8, Object object9) {
         float minSmallItemSize-D9Ej5fM$material3_release;
-        float f5;
         float f;
+        float f5;
         float obj12;
         float obj13;
         int obj14;
         int obj15;
         if (i8 & 32 != 0) {
             obj15 = 0;
-            f5 = obj12;
+            f = obj12;
         } else {
-            f5 = f6;
+            f = f6;
         }
         if (i8 & 64 != 0) {
             obj13 = 0;
-            f = obj13;
+            f5 = obj13;
         } else {
-            f = f7;
+            f5 = f7;
         }
-        return KeylinesKt.multiBrowseKeylineList(density, f2, f3, f4, i5, f5, f);
+        return KeylinesKt.multiBrowseKeylineList(density, f2, f3, f4, i5, f, f5);
     }
 
     public static final androidx.compose.material3.carousel.KeylineList uncontainedKeylineList(Density density, float carouselMainAxisSize, float itemSize, float itemSpacing) {

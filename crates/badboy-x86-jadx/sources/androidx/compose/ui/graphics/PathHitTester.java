@@ -62,14 +62,14 @@ public final class PathHitTester {
         boolean contains-k-4lQ0M;
         long l;
         int winding;
-        Object node2;
+        Object node;
         androidx.compose.ui.graphics.IntervalTree.Node size;
         androidx.compose.ui.graphics.IntervalTree.Node last;
-        androidx.compose.ui.graphics.IntervalTree.Node node;
+        androidx.compose.ui.graphics.IntervalTree.Node node2;
         boolean overlaps;
-        int i2;
-        Object data;
         int i;
+        Object data;
+        int i2;
         int isInverse2;
         int isInverse;
         int quadraticWinding;
@@ -79,40 +79,40 @@ public final class PathHitTester {
         if (!obj.path.isEmpty()) {
             l = position;
             if (!obj.bounds.contains-k-4lQ0M(l)) {
-                i = points;
-                return i;
+                i2 = points;
+                return i2;
             } else {
                 int i4 = 0;
-                float x-impl = Offset.getX-impl(l);
+                float $i$f$component1Impl = Offset.getX-impl(l);
                 int i5 = 0;
-                float y-impl = Offset.getY-impl(l);
+                float $i$f$component2Impl = Offset.getY-impl(l);
                 final float[] curves = obj.curves;
                 final float[] roots = obj.roots;
                 winding = 0;
                 androidx.compose.ui.graphics.IntervalTree intervals = obj.intervals;
-                final float f = y-impl;
+                final float f = $i$f$component2Impl;
                 final int i8 = 0;
                 if (IntervalTree.access$getRoot$p(intervals) != IntervalTree.access$getTerminator$p(intervals)) {
-                    node2 = IntervalTree.access$getStack$p(intervals);
-                    node2.add(IntervalTree.access$getRoot$p(intervals));
-                    while (node2.size() > 0) {
-                        last = CollectionsKt.removeLast((List)node2);
-                        if ((IntervalTree.Node)last.overlaps(y-impl, f)) {
+                    node = IntervalTree.access$getStack$p(intervals);
+                    node.add(IntervalTree.access$getRoot$p(intervals));
+                    while (node.size() > 0) {
+                        last = CollectionsKt.removeLast((List)node);
+                        if ((IntervalTree.Node)last.overlaps($i$f$component2Impl, f)) {
                         } else {
                         }
                         isInverse = points;
-                        if (last.getLeft() != IntervalTree.access$getTerminator$p(intervals) && Float.compare(max, y-impl) >= 0) {
+                        if (last.getLeft() != IntervalTree.access$getTerminator$p(intervals) && Float.compare(max, $i$f$component2Impl) >= 0) {
                         }
                         if (last.getRight() != IntervalTree.access$getTerminator$p(intervals) && Float.compare(min, f) <= 0) {
                         }
                         points = isInverse;
                         if (Float.compare(min, f) <= 0) {
                         }
-                        node2.add(last.getRight());
-                        if (Float.compare(max, y-impl) >= 0) {
+                        node.add(last.getRight());
+                        if (Float.compare(max, $i$f$component2Impl) >= 0) {
                         }
-                        node2.add(last.getLeft());
-                        i2 = 0;
+                        node.add(last.getLeft());
+                        i = 0;
                         data = (Interval)last.getData();
                         Intrinsics.checkNotNull(data);
                         isInverse = points;
@@ -122,7 +122,7 @@ public final class PathHitTester {
                         winding += quadraticWinding;
                     }
                     isInverse2 = points;
-                    node2.clear();
+                    node.clear();
                 } else {
                     isInverse2 = points;
                 }
@@ -136,15 +136,15 @@ public final class PathHitTester {
             return 0;
         }
         l = position;
-        i = points;
+        i2 = points;
     }
 
     public final void updatePath(androidx.compose.ui.graphics.Path path, float tolerance) {
         androidx.compose.ui.graphics.PathSegment next;
-        int bits$iv$iv2;
+        int bits$iv$iv;
         int[] intervals;
         int i;
-        float bits$iv$iv;
+        float bits$iv$iv2;
         long l;
         this.path = path;
         this.tolerance = tolerance;

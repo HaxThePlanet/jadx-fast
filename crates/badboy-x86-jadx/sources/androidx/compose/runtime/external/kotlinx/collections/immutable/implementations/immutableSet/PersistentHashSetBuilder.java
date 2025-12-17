@@ -35,25 +35,25 @@ public final class PersistentHashSetBuilder<E>  extends AbstractMutableSet<E> im
     }
 
     public boolean add(E element) {
-        int i;
         int i2;
-        i = 0;
+        int i;
+        i2 = 0;
         if (element != null) {
-            i2 = element.hashCode();
+            i = element.hashCode();
         } else {
-            i2 = i;
+            i = i2;
         }
-        this.node = this.node.mutableAdd(i2, element, i, this);
+        this.node = this.node.mutableAdd(i, element, i2, this);
         if (size() != size()) {
-            i = 1;
+            i2 = 1;
         }
-        return i;
+        return i2;
     }
 
     public boolean addAll(Collection<? extends E> elements) {
         Object build;
-        int i;
         int i2;
+        int i;
         int i3 = 0;
         if (elements instanceof PersistentHashSet != null) {
             build = elements;
@@ -62,35 +62,35 @@ public final class PersistentHashSetBuilder<E>  extends AbstractMutableSet<E> im
         }
         if (build == null) {
             if (elements instanceof PersistentHashSetBuilder != null) {
-                i = elements;
+                i2 = elements;
             } else {
-                i = i3;
+                i2 = i3;
             }
-            if (i != 0) {
-                build = i.build();
+            if (i2 != 0) {
+                build = i2.build();
             } else {
                 build = i3;
             }
         }
-        i2 = 0;
+        i = 0;
         final int i4 = 1;
-        DeltaCounter deltaCounter = new DeltaCounter(i2, i4, i3);
+        DeltaCounter deltaCounter = new DeltaCounter(i, i4, i3);
         int size = size();
         i5 -= count;
         if (build != null && size != i6) {
-            i2 = 0;
+            i = 0;
             i4 = 1;
-            deltaCounter = new DeltaCounter(i2, i4, i3);
+            deltaCounter = new DeltaCounter(i, i4, i3);
             size = size();
             i5 -= count;
             if (size != i6) {
-                this.node = this.node.mutableAddAll(build.getNode$runtime_release(), i2, deltaCounter, this);
+                this.node = this.node.mutableAddAll(build.getNode$runtime_release(), i, deltaCounter, this);
                 setSize(i6);
             }
             if (size != size()) {
-                i2 = i4;
+                i = i4;
             }
-            return i2;
+            return i;
         }
         return super.addAll(elements);
     }
@@ -177,25 +177,25 @@ public final class PersistentHashSetBuilder<E>  extends AbstractMutableSet<E> im
 
     @Override // kotlin.collections.AbstractMutableSet
     public boolean remove(Object element) {
-        int i;
         int i2;
-        i = 0;
+        int i;
+        i2 = 0;
         if (element != null) {
-            i2 = element.hashCode();
+            i = element.hashCode();
         } else {
-            i2 = i;
+            i = i2;
         }
-        this.node = this.node.mutableRemove(i2, element, i, this);
+        this.node = this.node.mutableRemove(i, element, i2, this);
         if (size() != size()) {
-            i = 1;
+            i2 = 1;
         }
-        return i;
+        return i2;
     }
 
     public boolean removeAll(Collection<? extends Object> elements) {
         Object build;
-        int i;
         int i2;
+        int i;
         Object obj;
         int i3 = 0;
         if (elements instanceof PersistentHashSet != null) {
@@ -205,22 +205,22 @@ public final class PersistentHashSetBuilder<E>  extends AbstractMutableSet<E> im
         }
         if (build == null) {
             if (elements instanceof PersistentHashSetBuilder != null) {
-                i = elements;
+                i2 = elements;
             } else {
-                i = i3;
+                i2 = i3;
             }
-            if (i != 0) {
-                build = i.build();
+            if (i2 != 0) {
+                build = i2.build();
             } else {
                 build = i3;
             }
         }
         if (build != null) {
-            i2 = 0;
+            i = 0;
             final int i4 = 1;
-            DeltaCounter deltaCounter = new DeltaCounter(i2, i4, i3);
+            DeltaCounter deltaCounter = new DeltaCounter(i, i4, i3);
             int size = size();
-            Object mutableRemoveAll = this.node.mutableRemoveAll(build.getNode$runtime_release(), i2, deltaCounter, this);
+            Object mutableRemoveAll = this.node.mutableRemoveAll(build.getNode$runtime_release(), i, deltaCounter, this);
             int i5 = size - count;
             if (i5 == 0) {
                 clear();
@@ -232,9 +232,9 @@ public final class PersistentHashSetBuilder<E>  extends AbstractMutableSet<E> im
                 }
             }
             if (size != size()) {
-                i2 = i4;
+                i = i4;
             }
-            return i2;
+            return i;
         }
         return super.removeAll(elements);
     }

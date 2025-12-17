@@ -382,25 +382,25 @@ public final class TextViewCompat {
 
     private static TextDirectionHeuristic getTextDirectionHeuristic(TextView textView) {
         TextDirectionHeuristic fIRSTSTRONG_RTL;
-        int i;
         int i2;
+        int i;
         if (transformationMethod instanceof PasswordTransformationMethod) {
             return TextDirectionHeuristics.LTR;
         }
-        i = 0;
-        i2 = 1;
-        final byte directionality = Character.getDirectionality(TextViewCompat.Api28Impl.getDigitStrings(TextViewCompat.Api24Impl.getInstance(textView.getTextLocale()))[i].codePointAt(i));
-        if (inputType &= 15 == 3 && directionality != i2 && directionality == 2) {
-            directionality = Character.getDirectionality(TextViewCompat.Api28Impl.getDigitStrings(TextViewCompat.Api24Impl.getInstance(textView.getTextLocale()))[i].codePointAt(i));
-            if (directionality != i2) {
+        i2 = 0;
+        i = 1;
+        final byte directionality = Character.getDirectionality(TextViewCompat.Api28Impl.getDigitStrings(TextViewCompat.Api24Impl.getInstance(textView.getTextLocale()))[i2].codePointAt(i2));
+        if (inputType &= 15 == 3 && directionality != i && directionality == 2) {
+            directionality = Character.getDirectionality(TextViewCompat.Api28Impl.getDigitStrings(TextViewCompat.Api24Impl.getInstance(textView.getTextLocale()))[i2].codePointAt(i2));
+            if (directionality != i) {
                 if (directionality == 2) {
                 }
                 return TextDirectionHeuristics.LTR;
             }
             return TextDirectionHeuristics.RTL;
         }
-        if (textView.getLayoutDirection() == i2) {
-            i = i2;
+        if (textView.getLayoutDirection() == i) {
+            i2 = i;
         }
         switch (textDirection) {
             case 2:

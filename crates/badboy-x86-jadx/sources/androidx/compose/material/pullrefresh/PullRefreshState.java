@@ -76,8 +76,8 @@ public final class PullRefreshState {
         int overshootPercent;
         int threshold$material_release;
         int i;
-        int i3;
         int i2;
+        int i3;
         int $this$fastCoerceAtLeast$iv$iv;
         int i4;
         int cmp;
@@ -94,7 +94,7 @@ public final class PullRefreshState {
             if (Float.compare($this$fastCoerceAtLeast$iv$iv, i9) > 0) {
                 $this$fastCoerceAtLeast$iv$iv = i9;
             }
-            overshootPercent = i3;
+            overshootPercent = i2;
         }
         return overshootPercent;
     }
@@ -194,8 +194,8 @@ public final class PullRefreshState {
 
     public final float onRelease$material_release(float velocity) {
         int value;
-        int i;
         int i2;
+        int i;
         final int i3 = 0;
         if (getRefreshing$material_release()) {
             return i3;
@@ -204,10 +204,10 @@ public final class PullRefreshState {
             (Function0)this.onRefreshState.getValue().invoke();
         }
         animateIndicatorTo(i3);
-        i = Float.compare(distancePulled, i3) == 0 ? 1 : 0;
-        i2 = i != 0 ? i3 : cmp2 < 0 ? i3 : velocity;
+        i2 = Float.compare(distancePulled, i3) == 0 ? 1 : 0;
+        i = i2 != 0 ? i3 : cmp2 < 0 ? i3 : velocity;
         setDistancePulled(i3);
-        return i2;
+        return i;
     }
 
     public final void setRefreshing$material_release(boolean refreshing) {

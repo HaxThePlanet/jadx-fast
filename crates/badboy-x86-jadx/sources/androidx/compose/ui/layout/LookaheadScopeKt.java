@@ -31,24 +31,24 @@ public final class LookaheadScopeKt {
         int i3;
         int traceInProgress;
         boolean traceInProgress2;
-        int str;
-        int i;
+        int str2;
         int i2;
+        int i;
         int empty;
         Composer composer;
         Object lookaheadScopeImpl;
         int i4;
         int valueOf;
-        int str2;
+        int str;
         invalid$iv = -1078066484;
         final Composer obj11 = $composer.startRestartGroup(invalid$iv);
         ComposerKt.sourceInformation(obj11, "C(LookaheadScope)51@2069L33,52@2107L484:LookaheadScope.kt#80mrfh");
-        str = 2;
+        str2 = 2;
         if ($changed & 6 == 0) {
-            i3 = obj11.changedInstance(content) ? 4 : str;
+            i3 = obj11.changedInstance(content) ? 4 : str2;
             $dirty |= i3;
         }
-        if ($dirty & 3 == str) {
+        if ($dirty & 3 == str2) {
             if (!obj11.getSkipping()) {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(invalid$iv, $dirty, -1, "androidx.compose.ui.layout.LookaheadScope (LookaheadScope.kt:50)");
@@ -61,15 +61,15 @@ public final class LookaheadScopeKt {
                 int i8 = 0;
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     empty = 0;
-                    str2 = 0;
-                    lookaheadScopeImpl = new LookaheadScopeImpl(str2, 1, str2);
+                    str = 0;
+                    lookaheadScopeImpl = new LookaheadScopeImpl(str, 1, str);
                     composer2.updateRememberedValue(lookaheadScopeImpl);
                 } else {
                     lookaheadScopeImpl = rememberedValue;
                 }
                 invalid$iv = lookaheadScopeImpl;
                 ComposerKt.sourceInformationMarkerEnd(obj11);
-                i = 0;
+                i2 = 0;
                 ComposerKt.sourceInformationMarkerStart(obj11, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();

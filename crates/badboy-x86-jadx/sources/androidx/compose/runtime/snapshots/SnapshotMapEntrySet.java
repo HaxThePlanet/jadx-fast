@@ -63,24 +63,24 @@ final class SnapshotMapEntrySet<K, V>  extends androidx.compose.runtime.snapshot
 
     public boolean containsAll(Collection<? extends Object> elements) {
         boolean iterator;
-        int i2;
+        int i;
         boolean next;
         boolean it;
-        int i;
+        int i2;
         final Object obj = elements;
         final int i3 = 0;
-        i2 = 1;
+        i = 1;
         if (obj instanceof Collection != null && (Collection)(Iterable)obj.isEmpty()) {
             if ((Collection)obj.isEmpty()) {
             } else {
                 iterator = obj.iterator();
                 for (Object next : iterator) {
-                    i = 0;
+                    i2 = 0;
                 }
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     public Iterator<Map.Entry<K, V>> iterator() {
@@ -126,11 +126,11 @@ final class SnapshotMapEntrySet<K, V>  extends androidx.compose.runtime.snapshot
     public boolean retainAll(Collection<? extends Object> elements) {
         int it$iv$iv$iv$iv;
         int modification$runtime_release;
-        int this_$iv;
-        androidx.compose.runtime.snapshots.SnapshotStateMap this_$iv2;
-        int $i$f$removeIf$runtime_release3;
-        int i6;
-        androidx.compose.runtime.snapshots.StateRecord $i$f$removeIf$runtime_release2;
+        int this_$iv3;
+        androidx.compose.runtime.snapshots.SnapshotStateMap this_$iv;
+        int $i$f$removeIf$runtime_release2;
+        int i9;
+        androidx.compose.runtime.snapshots.StateRecord $i$f$removeIf$runtime_release;
         int removed$iv;
         Object next;
         int result$iv$iv;
@@ -139,24 +139,24 @@ final class SnapshotMapEntrySet<K, V>  extends androidx.compose.runtime.snapshot
         Object builder;
         Object build;
         androidx.compose.runtime.snapshots.SnapshotStateMap iterator;
-        int next3;
         int next2;
+        int next3;
         androidx.compose.runtime.snapshots.StateRecord firstStateRecord;
         boolean equal;
         int value;
         int current;
-        int i2;
-        int i9;
+        int i;
         int i7;
+        int i5;
         Object lock;
         int i3;
-        int i;
-        androidx.compose.runtime.snapshots.SnapshotStateMap this_$iv3;
-        int i5;
-        Object obj;
-        int i8;
         int i4;
-        int $i$f$removeIf$runtime_release;
+        androidx.compose.runtime.snapshots.SnapshotStateMap this_$iv2;
+        int i6;
+        Object obj;
+        int i2;
+        int i8;
+        int $i$f$removeIf$runtime_release3;
         Iterable iterable = elements;
         int i14 = 0;
         LinkedHashMap linkedHashMap = new LinkedHashMap(RangesKt.coerceAtLeast(MapsKt.mapCapacity(CollectionsKt.collectionSizeOrDefault((Iterable)iterable, 10)), 16));
@@ -168,8 +168,8 @@ final class SnapshotMapEntrySet<K, V>  extends androidx.compose.runtime.snapshot
             Pair it = TuplesKt.to((Map.Entry)obj3.getKey(), obj3.getValue());
             (Map)linkedHashMap.put(it.getFirst(), it.getSecond());
         }
-        i6 = 0;
-        androidx.compose.runtime.snapshots.SnapshotStateMap map3 = this_$iv2;
+        i9 = 0;
+        androidx.compose.runtime.snapshots.SnapshotStateMap map3 = this_$iv;
         int i18 = 0;
         result$iv$iv = i19;
         removed$iv = it$iv$iv$iv$iv;
@@ -178,51 +178,51 @@ final class SnapshotMapEntrySet<K, V>  extends androidx.compose.runtime.snapshot
         Object obj4 = SnapshotStateMapKt.access$getSync$p();
         int i23 = 0;
         int i10 = 0;
-        next2 = 0;
+        next3 = 0;
         firstStateRecord = map3.getFirstStateRecord();
         Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.SnapshotStateMap.StateMapStateRecord<K of androidx.compose.runtime.snapshots.SnapshotStateMap, V of androidx.compose.runtime.snapshots.SnapshotStateMap>");
         value = 0;
         current = SnapshotKt.current((StateRecord)(SnapshotStateMap.StateMapStateRecord)firstStateRecord);
-        i2 = 0;
+        i = 0;
         oldMap$iv$iv = map$runtime_release;
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedSnapshotStateMap$mutate$1$iv$iv = Unit.INSTANCE;
         Intrinsics.checkNotNull(oldMap$iv$iv);
         builder = oldMap$iv$iv.builder();
         int i24 = 0;
-        iterator = this_$iv2.entrySet().iterator();
+        iterator = this_$iv.entrySet().iterator();
         synchronized (obj4) {
             i20 = 0;
             i21 = 0;
             obj4 = SnapshotStateMapKt.access$getSync$p();
             i23 = 0;
             i10 = 0;
-            next2 = 0;
+            next3 = 0;
             firstStateRecord = map3.getFirstStateRecord();
             Intrinsics.checkNotNull(firstStateRecord, "null cannot be cast to non-null type androidx.compose.runtime.snapshots.SnapshotStateMap.StateMapStateRecord<K of androidx.compose.runtime.snapshots.SnapshotStateMap, V of androidx.compose.runtime.snapshots.SnapshotStateMap>");
             value = 0;
             current = SnapshotKt.current((StateRecord)(SnapshotStateMap.StateMapStateRecord)firstStateRecord);
-            i2 = 0;
+            i = 0;
             oldMap$iv$iv = map$runtime_release;
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedSnapshotStateMap$mutate$1$iv$iv = Unit.INSTANCE;
             Intrinsics.checkNotNull(oldMap$iv$iv);
             builder = oldMap$iv$iv.builder();
             i24 = 0;
-            iterator = this_$iv2.entrySet().iterator();
+            iterator = this_$iv.entrySet().iterator();
         }
         while (iterator.hasNext()) {
-            next2 = iterator.next();
-            current = next2;
-            i2 = 0;
+            next3 = iterator.next();
+            current = next3;
+            i = 0;
             if (linkedHashMap.containsKey(current.getKey())) {
             } else {
             }
-            i7 = 1;
-            firstStateRecord = i7;
+            i5 = 1;
+            firstStateRecord = i5;
             if (firstStateRecord != null) {
             }
-            (Map)builder.remove((Map.Entry)next2.getKey());
+            (Map)builder.remove((Map.Entry)next3.getKey());
             removed$iv = 1;
-            i7 = 1;
+            i5 = 1;
             if (!Intrinsics.areEqual(linkedHashMap.get(current.getKey()), current.getValue())) {
             } else {
             }
@@ -232,8 +232,8 @@ final class SnapshotMapEntrySet<K, V>  extends androidx.compose.runtime.snapshot
         build = builder.build();
         if (!Intrinsics.areEqual(build, oldMap$iv$iv)) {
         } else {
-            this_$iv3 = this_$iv2;
-            $i$f$removeIf$runtime_release = i6;
+            this_$iv2 = this_$iv;
+            $i$f$removeIf$runtime_release3 = i9;
         }
         return removed$iv;
     }

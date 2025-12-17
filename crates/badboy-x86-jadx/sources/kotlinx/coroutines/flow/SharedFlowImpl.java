@@ -66,8 +66,8 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         public static final int[] $EnumSwitchMapping$0;
         static {
             int ordinal;
-            int ordinal3;
             int ordinal2;
+            int ordinal3;
             int[] iArr = new int[values.length];
             iArr[BufferOverflow.SUSPEND.ordinal()] = 1;
             iArr[BufferOverflow.DROP_LATEST.ordinal()] = 2;
@@ -145,7 +145,7 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         synchronized (this) {
             slot.cont = (Continuation)(CancellableContinuation)cancellableContinuationImpl3;
             slot.cont = (Continuation)cancellableContinuationImpl3;
-            Unit iNSTANCE = Unit.INSTANCE;
+            Unit $i$a$SynchronizedSharedFlowImpl$awaitValue$2$1 = Unit.INSTANCE;
             Object uCont$iv = cancellableContinuationImpl2.getResult();
             if (uCont$iv == IntrinsicsKt.getCOROUTINE_SUSPENDED()) {
             }
@@ -168,10 +168,10 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
 
     private final void cleanupTailLocked() {
         int bufferCapacity;
-        int i;
+        int i2;
         int queueSize;
         long nO_VALUE;
-        int i2;
+        int i;
         if (this.bufferCapacity == 0 && this.queueSize <= 1) {
             if (this.queueSize <= 1) {
             }
@@ -180,7 +180,7 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         Intrinsics.checkNotNull(buffer);
         while (this.queueSize > 0) {
             nO_VALUE = SharedFlowKt.NO_VALUE;
-            if (SharedFlowKt.access$getBufferAt(buffer, i3 -= i2) == nO_VALUE) {
+            if (SharedFlowKt.access$getBufferAt(buffer, i3 -= i) == nO_VALUE) {
             }
             this.queueSize = queueSize2--;
             SharedFlowKt.access$setBufferAt(buffer, head2 += l2, nO_VALUE);
@@ -309,38 +309,38 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
     }
 
     private final void correctCollectorIndexesOnDropOldest(long newHead) {
-        int i6;
-        int i;
-        int length;
         int i4;
+        int i2;
+        int length;
+        int i5;
         AbstractSharedFlowSlot abstractSharedFlowSlot;
         AbstractSharedFlowSlot abstractSharedFlowSlot3;
-        int i2;
+        int i6;
         AbstractSharedFlowSlot abstractSharedFlowSlot2;
-        int i5;
-        int cmp;
         int i3;
+        int cmp;
+        int i;
         final Object obj = this;
         final long l = newHead;
         final AbstractSharedFlow abstractSharedFlow = obj;
         final int i7 = 0;
-        i6 = AbstractSharedFlow.access$getSlots(abstractSharedFlow);
-        if (AbstractSharedFlow.access$getNCollectors((AbstractSharedFlow)abstractSharedFlow) != 0 && i6 != null) {
-            i6 = AbstractSharedFlow.access$getSlots(abstractSharedFlow);
-            if (i6 != null) {
-                i = 0;
-                i4 = 0;
-                while (i4 < i6.length) {
+        i4 = AbstractSharedFlow.access$getSlots(abstractSharedFlow);
+        if (AbstractSharedFlow.access$getNCollectors((AbstractSharedFlow)abstractSharedFlow) != 0 && i4 != null) {
+            i4 = AbstractSharedFlow.access$getSlots(abstractSharedFlow);
+            if (i4 != null) {
+                i2 = 0;
+                i5 = 0;
+                while (i5 < i4.length) {
                     abstractSharedFlowSlot3 = abstractSharedFlowSlot;
-                    i2 = 0;
+                    i6 = 0;
                     abstractSharedFlowSlot2 = abstractSharedFlowSlot3;
-                    i5 = 0;
-                    if (abstractSharedFlowSlot3 != null && Long.compare(index, i3) >= 0 && Long.compare(index2, l) < 0) {
+                    i3 = 0;
+                    if (abstractSharedFlowSlot3 != null && Long.compare(index, i) >= 0 && Long.compare(index2, l) < 0) {
                     }
-                    i4++;
+                    i5++;
                     abstractSharedFlowSlot2 = abstractSharedFlowSlot3;
-                    i5 = 0;
-                    if (Long.compare(index, i3) >= 0) {
+                    i3 = 0;
+                    if (Long.compare(index, i) >= 0) {
                     }
                     if (Long.compare(index2, l) < 0) {
                     }
@@ -391,9 +391,9 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
     private final Object emitSuspend(T value, Continuation<? super Unit> $completion) {
         Continuation[] objArr;
         int it;
-        Object i2;
+        Object i3;
+        int i2;
         int i;
-        int i3;
         CancellableContinuationImpl cancellableContinuationImpl;
         int constructor-impl;
         Continuation[] resumes;
@@ -418,12 +418,12 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
             it = 0;
             if (it != 0) {
             }
-            i3 = 0;
-            while (i3 < objArr.length) {
-                cancellableContinuationImpl = objArr[i3];
+            i = 0;
+            while (i < objArr.length) {
+                cancellableContinuationImpl = objArr[i];
                 if (cancellableContinuationImpl != null) {
                 }
-                i3++;
+                i++;
                 kotlin.Result.Companion companion2 = Result.Companion;
                 cancellableContinuationImpl.resumeWith(Result.constructor-impl(Unit.INSTANCE));
             }
@@ -436,7 +436,7 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
             }
             return Unit.INSTANCE;
         }
-        i = 0;
+        i2 = 0;
         CancellableContinuationKt.disposeOnCancellation(cancellableContinuationImpl5, (DisposableHandle)it);
     }
 
@@ -462,11 +462,11 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         int abstractSharedFlow;
         Object[] copyOf;
         Object[] resumes;
-        int resumeCount;
-        int i5;
-        int i3;
-        int length;
+        int resumeCount2;
+        int i2;
         int i4;
+        int length;
+        int i3;
         AbstractSharedFlowSlot abstractSharedFlowSlot2;
         AbstractSharedFlowSlot abstractSharedFlowSlot3;
         int i;
@@ -474,28 +474,28 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         int i6;
         Continuation cont;
         int cmp;
-        int resumeCount2;
-        int i2;
+        int resumeCount;
+        int i5;
         int i9 = 0;
         resumes = resumesIn;
         int i10 = 0;
-        resumeCount = objArr3.length;
+        resumeCount2 = objArr3.length;
         final AbstractSharedFlow abstractSharedFlow2 = abstractSharedFlow;
         final int i11 = 0;
-        i5 = AbstractSharedFlow.access$getSlots(abstractSharedFlow2);
-        if (AbstractSharedFlow.access$getNCollectors((AbstractSharedFlow)abstractSharedFlow2) != 0 && i5 != null) {
-            i5 = AbstractSharedFlow.access$getSlots(abstractSharedFlow2);
-            if (i5 != null) {
-                i3 = 0;
+        i2 = AbstractSharedFlow.access$getSlots(abstractSharedFlow2);
+        if (AbstractSharedFlow.access$getNCollectors((AbstractSharedFlow)abstractSharedFlow2) != 0 && i2 != null) {
+            i2 = AbstractSharedFlow.access$getSlots(abstractSharedFlow2);
+            if (i2 != null) {
                 i4 = 0;
-                while (i4 < i5.length) {
+                i3 = 0;
+                while (i3 < i2.length) {
                     abstractSharedFlowSlot3 = abstractSharedFlowSlot2;
                     i = 0;
                     if (abstractSharedFlowSlot3 != null) {
                     } else {
                     }
-                    resumeCount2 = resumeCount;
-                    i4++;
+                    resumeCount = resumeCount2;
+                    i3++;
                     abstractSharedFlow = this;
                     abstractSharedFlowSlot = abstractSharedFlowSlot3;
                     i6 = 0;
@@ -503,25 +503,25 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
                     if (cont == null) {
                     } else {
                     }
-                    if (Long.compare(tryPeekLocked, i2) >= 0) {
+                    if (Long.compare(tryPeekLocked, i5) >= 0) {
                     } else {
                     }
-                    resumeCount2 = resumeCount;
                     resumeCount = resumeCount2;
-                    if (resumeCount >= resumes.length) {
+                    resumeCount2 = resumeCount;
+                    if (resumeCount2 >= resumes.length) {
                     } else {
                     }
-                    resumeCount2 = resumeCount;
-                    resumeCount = resumeCount2 + 1;
-                    (Continuation[])resumes[resumeCount2] = cont;
+                    resumeCount = resumeCount2;
+                    resumeCount2 = resumeCount + 1;
+                    (Continuation[])resumes[resumeCount] = cont;
                     abstractSharedFlowSlot.cont = 0;
-                    resumeCount2 = resumeCount;
+                    resumeCount = resumeCount2;
                     copyOf = Arrays.copyOf(resumes, Math.max(2, cmp * 2));
                     Intrinsics.checkNotNullExpressionValue(copyOf, "copyOf(this, newSize)");
                     resumes = copyOf;
-                    resumeCount2 = resumeCount;
+                    resumeCount = resumeCount2;
                 }
-                resumeCount2 = resumeCount;
+                resumeCount = resumeCount2;
             }
         }
         return (Continuation[])resumes;
@@ -565,8 +565,8 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
 
     private final Object[] growBuffer(Object[] curBuffer, int curSize, int newSize) {
         int i;
-        int i3;
         int i2;
+        int i3;
         Object obj;
         i = newSize > 0 ? 1 : 0;
         if (i == 0) {
@@ -578,23 +578,23 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
                 return arr;
             }
             long head = getHead();
-            i3 = 0;
-            while (i3 < curSize) {
+            i2 = 0;
+            while (i2 < curSize) {
                 SharedFlowKt.access$setBufferAt(arr, l += head, obj5);
-                i3++;
+                i2++;
             }
             return arr;
         }
         int newBuffer = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Buffer size overflow".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckSharedFlowImpl$growBuffer$1 = new IllegalStateException("Buffer size overflow".toString());
+        throw $i$a$CheckSharedFlowImpl$growBuffer$1;
     }
 
     private final boolean tryEmitLocked(T value) {
         int bufferSize;
-        int replayIndex;
+        int replayIndex2;
         int bufferCapacity;
-        long replayIndex2;
+        long replayIndex;
         Object obj;
         int i;
         long minCollectorIndex;
@@ -604,8 +604,8 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
             return tryEmitNoCollectorsLocked(value);
         }
         final int i4 = 1;
-        if (this.bufferSize >= this.bufferCapacity && Long.compare(minCollectorIndex2, replayIndex2) <= 0) {
-            if (Long.compare(minCollectorIndex2, replayIndex2) <= 0) {
+        if (this.bufferSize >= this.bufferCapacity && Long.compare(minCollectorIndex2, replayIndex) <= 0) {
+            if (Long.compare(minCollectorIndex2, replayIndex) <= 0) {
                 switch (bufferSize) {
                     case 1:
                         return 0;
@@ -621,7 +621,7 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
             dropOldestLocked();
         }
         if (getReplaySize() > this.replay) {
-            this.updateBufferLocked(replayIndex + replayIndex2, obj7, this.minCollectorIndex, obj9);
+            this.updateBufferLocked(replayIndex2 + replayIndex, obj7, this.minCollectorIndex, obj9);
         }
         return i4;
     }
@@ -671,8 +671,8 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
 
     private final Object tryTakeValue(kotlinx.coroutines.flow.SharedFlowSlot slot) {
         Continuation[] resumes;
-        int i;
         int i2;
+        int i;
         long tryPeekLocked;
         Object oldIndex;
         Object peekedValueLockedAt;
@@ -681,19 +681,19 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         resumes = AbstractSharedFlowKt.EMPTY_RESUMES;
         int i4 = 0;
         int i5 = 0;
-        i2 = 0;
+        i = 0;
         tryPeekLocked = tryPeekLocked(slot);
         synchronized (this) {
             oldIndex = SharedFlowKt.NO_VALUE;
-            i = 0;
+            i2 = 0;
         }
-        while (i < resumes.length) {
-            i2 = resumes[i];
-            if (i2 != 0) {
+        while (i2 < resumes.length) {
+            i = resumes[i2];
+            if (i != 0) {
             }
-            i++;
+            i2++;
             kotlin.Result.Companion companion = Result.Companion;
-            i2.resumeWith(Result.constructor-impl(Unit.INSTANCE));
+            i.resumeWith(Result.constructor-impl(Unit.INSTANCE));
         }
         try {
             return oldIndex;
@@ -702,10 +702,10 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
     }
 
     private final void updateBufferLocked(long newReplayIndex, long newMinCollectorIndex, long newBufferEndIndex, long newQueueEndIndex) {
-        int aSSERTIONS_ENABLED;
-        int aSSERTIONS_ENABLED4;
-        int aSSERTIONS_ENABLED2;
-        boolean aSSERTIONS_ENABLED3;
+        int $i$a$AssertSharedFlowImpl$updateBufferLocked$1;
+        int $i$a$AssertSharedFlowImpl$updateBufferLocked$2;
+        int $i$a$AssertSharedFlowImpl$updateBufferLocked$3;
+        boolean aSSERTIONS_ENABLED;
         int i;
         int cmp;
         long index;
@@ -720,8 +720,8 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         final int i8 = 0;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i3 = 0;
-            aSSERTIONS_ENABLED = Long.compare(l4, head) >= 0 ? i : i8;
-            if (aSSERTIONS_ENABLED == 0) {
+            $i$a$AssertSharedFlowImpl$updateBufferLocked$1 = Long.compare(l4, head) >= 0 ? i : i8;
+            if ($i$a$AssertSharedFlowImpl$updateBufferLocked$1 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -729,9 +729,9 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         }
         index = obj.getHead();
         while (Long.compare(index, l4) < 0) {
-            aSSERTIONS_ENABLED = obj.buffer;
-            Intrinsics.checkNotNull(aSSERTIONS_ENABLED);
-            SharedFlowKt.access$setBufferAt(aSSERTIONS_ENABLED, index, obj11);
+            $i$a$AssertSharedFlowImpl$updateBufferLocked$1 = obj.buffer;
+            Intrinsics.checkNotNull($i$a$AssertSharedFlowImpl$updateBufferLocked$1);
+            SharedFlowKt.access$setBufferAt($i$a$AssertSharedFlowImpl$updateBufferLocked$1, index, obj11);
             index += i2;
         }
         obj.replayIndex = l2;
@@ -740,8 +740,8 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         obj.queueSize = (int)bufferSize;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i6 = 0;
-            aSSERTIONS_ENABLED4 = obj.bufferSize >= 0 ? i : i8;
-            if (aSSERTIONS_ENABLED4 == 0) {
+            $i$a$AssertSharedFlowImpl$updateBufferLocked$2 = obj.bufferSize >= 0 ? i : i8;
+            if ($i$a$AssertSharedFlowImpl$updateBufferLocked$2 == 0) {
             } else {
             }
             AssertionError assertionError2 = new AssertionError();
@@ -749,15 +749,15 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         }
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i7 = 0;
-            aSSERTIONS_ENABLED2 = obj.queueSize >= 0 ? i : i8;
-            if (aSSERTIONS_ENABLED2 == 0) {
+            $i$a$AssertSharedFlowImpl$updateBufferLocked$3 = obj.queueSize >= 0 ? i : i8;
+            if ($i$a$AssertSharedFlowImpl$updateBufferLocked$3 == 0) {
             } else {
             }
             AssertionError assertionError3 = new AssertionError();
             throw assertionError3;
         }
         if (DebugKt.getASSERTIONS_ENABLED()) {
-            aSSERTIONS_ENABLED3 = 0;
+            aSSERTIONS_ENABLED = 0;
             if (Long.compare(replayIndex, i2) <= 0) {
             } else {
                 i = i8;
@@ -830,14 +830,14 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         final int i3 = 0;
         int i = 0;
         this.updateBufferLocked(getBufferEndIndex(), obj5, this.minCollectorIndex, obj7);
-        Unit iNSTANCE = Unit.INSTANCE;
+        Unit $i$a$SynchronizedSharedFlowImpl$resetReplayCache$1 = Unit.INSTANCE;
         return;
         synchronized (this) {
             i2 = 0;
             i3 = 0;
             i = 0;
             this.updateBufferLocked(getBufferEndIndex(), obj5, this.minCollectorIndex, obj7);
-            iNSTANCE = Unit.INSTANCE;
+            $i$a$SynchronizedSharedFlowImpl$resetReplayCache$1 = Unit.INSTANCE;
         }
     }
 
@@ -845,40 +845,40 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         Continuation[] resumes;
         int i;
         int constructor-impl;
-        int i3;
         int i2;
+        int i3;
         int i4 = 0;
         int i5 = 0;
         i = 0;
         constructor-impl = 0;
         synchronized (this) {
             resumes = slotsToResumeLocked;
-            i3 = 1;
+            i2 = 1;
         }
-        while (i2 < resumes.length) {
-            i = resumes[i2];
+        while (i3 < resumes.length) {
+            i = resumes[i3];
             if (i != 0) {
             }
-            i2++;
+            i3++;
             kotlin.Result.Companion companion = Result.Companion;
             i.resumeWith(Result.constructor-impl(Unit.INSTANCE));
         }
         try {
-            return i3;
+            return i2;
             throw th;
         }
     }
 
     public final Continuation<Unit>[] updateCollectorIndexLocked$kotlinx_coroutines_core(long oldIndex) {
-        int aSSERTIONS_ENABLED2;
-        int newMinCollectorIndex2;
-        int aSSERTIONS_ENABLED;
-        long newBufferEndIndex2;
+        int $i$a$AssertSharedFlowImpl$updateCollectorIndexLocked$1;
+        int newMinCollectorIndex3;
+        int $i$a$AssertSharedFlowImpl$updateCollectorIndexLocked$3;
         long newBufferEndIndex;
+        long newBufferEndIndex2;
         int cmp2;
-        int cmp;
+        int cmp3;
         int newMinCollectorIndex4;
-        long newMinCollectorIndex;
+        long newMinCollectorIndex2;
         Object value;
         int minCollectorIndex;
         int newBufferSize0;
@@ -886,26 +886,26 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         long newReplayIndex;
         int queueSize;
         long l;
-        int i8;
-        int i7;
-        int cmp3;
+        int i6;
+        int i2;
+        int cmp;
         Continuation[] resumes;
         int curEmitterIndex;
-        int i4;
+        int i3;
         int bufferCapacity;
         AbstractSharedFlowSlot nO_VALUE;
-        AbstractSharedFlowSlot newMinCollectorIndex3;
-        int i5;
-        int i6;
+        AbstractSharedFlowSlot newMinCollectorIndex;
+        int i4;
+        int i8;
+        int i7;
         int i;
-        int i3;
-        int i2;
+        int i5;
         long l2;
         final Object obj = this;
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i9 = 0;
-            aSSERTIONS_ENABLED2 = Long.compare(oldIndex, minCollectorIndex4) >= 0 ? 1 : 0;
-            if (aSSERTIONS_ENABLED2 == 0) {
+            $i$a$AssertSharedFlowImpl$updateCollectorIndexLocked$1 = Long.compare(oldIndex, minCollectorIndex4) >= 0 ? 1 : 0;
+            if ($i$a$AssertSharedFlowImpl$updateCollectorIndexLocked$1 == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
@@ -923,41 +923,41 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
             }
         }
         Object obj2 = obj;
-        cmp = 0;
+        cmp3 = 0;
         if (AbstractSharedFlow.access$getNCollectors((AbstractSharedFlow)obj2) != 0) {
-            i8 = AbstractSharedFlow.access$getSlots(obj2);
-            if (i8 != null) {
-                i7 = 0;
-                i4 = 0;
-                while (i4 < i8.length) {
-                    newMinCollectorIndex3 = nO_VALUE;
-                    i5 = 0;
-                    if (newMinCollectorIndex3 != null) {
+            i6 = AbstractSharedFlow.access$getSlots(obj2);
+            if (i6 != null) {
+                i2 = 0;
+                i3 = 0;
+                while (i3 < i6.length) {
+                    newMinCollectorIndex = nO_VALUE;
+                    i4 = 0;
+                    if (newMinCollectorIndex != null) {
                     } else {
                     }
-                    i = minCollectorIndex;
-                    i4++;
-                    minCollectorIndex = i;
-                    i = minCollectorIndex;
-                    minCollectorIndex = newMinCollectorIndex3;
+                    i7 = minCollectorIndex;
+                    i3++;
+                    minCollectorIndex = i7;
+                    i7 = minCollectorIndex;
+                    minCollectorIndex = newMinCollectorIndex;
                     queueSize = 0;
-                    if (Long.compare(index, i2) >= 0 && Long.compare(index2, newMinCollectorIndex4) < 0) {
+                    if (Long.compare(index, i5) >= 0 && Long.compare(index2, newMinCollectorIndex4) < 0) {
                     }
                     if (Long.compare(index2, newMinCollectorIndex4) < 0) {
                     }
                     newMinCollectorIndex4 = minCollectorIndex.index;
                 }
-                i6 = minCollectorIndex;
+                i8 = minCollectorIndex;
             } else {
-                i6 = minCollectorIndex;
+                i8 = minCollectorIndex;
             }
         } else {
-            i6 = minCollectorIndex;
+            i8 = minCollectorIndex;
         }
         if (DebugKt.getASSERTIONS_ENABLED()) {
             int i11 = 0;
-            aSSERTIONS_ENABLED = Long.compare(newMinCollectorIndex4, minCollectorIndex) >= 0 ? 1 : 0;
-            if (aSSERTIONS_ENABLED == 0) {
+            $i$a$AssertSharedFlowImpl$updateCollectorIndexLocked$3 = Long.compare(newMinCollectorIndex4, minCollectorIndex) >= 0 ? 1 : 0;
+            if ($i$a$AssertSharedFlowImpl$updateCollectorIndexLocked$3 == 0) {
             } else {
             }
             AssertionError assertionError2 = new AssertionError();
@@ -966,40 +966,40 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
         if (Long.compare(newMinCollectorIndex4, minCollectorIndex3) <= 0) {
             return AbstractSharedFlowKt.EMPTY_RESUMES;
         }
-        newBufferEndIndex2 = obj.getBufferEndIndex();
+        newBufferEndIndex = obj.getBufferEndIndex();
         if (obj.getNCollectors() > 0) {
             newBufferSize0 = Math.min(obj.queueSize, bufferCapacity2 -= i14);
         } else {
             newBufferSize0 = obj.queueSize;
         }
         int i16 = newBufferSize0;
-        int i15 = newBufferEndIndex2 + l;
+        int i15 = newBufferEndIndex + l;
         if (i16 > 0) {
             resumes2 = new Continuation[i16];
             l = 0;
             Object[] buffer = obj.buffer;
             Intrinsics.checkNotNull(buffer);
-            curEmitterIndex = newBufferEndIndex2;
+            curEmitterIndex = newBufferEndIndex;
             while (Long.compare(curEmitterIndex, i15) < 0) {
                 nO_VALUE = SharedFlowKt.access$getBufferAt(buffer, curEmitterIndex);
-                curEmitterIndex += i6;
-                newMinCollectorIndex4 = newMinCollectorIndex3;
+                curEmitterIndex += i8;
+                newMinCollectorIndex4 = newMinCollectorIndex;
                 Intrinsics.checkNotNull(nO_VALUE, "null cannot be cast to non-null type kotlinx.coroutines.flow.SharedFlowImpl.Emitter");
                 Object obj3 = nO_VALUE;
                 newMinCollectorIndex4 = l + 1;
                 resumes2[l] = obj4.cont;
-                SharedFlowKt.access$setBufferAt(buffer, curEmitterIndex, i4);
-                SharedFlowKt.access$setBufferAt(buffer, newBufferEndIndex2, cmp);
-                newBufferEndIndex2 += i6;
+                SharedFlowKt.access$setBufferAt(buffer, curEmitterIndex, i3);
+                SharedFlowKt.access$setBufferAt(buffer, newBufferEndIndex, cmp3);
+                newBufferEndIndex += i8;
                 l = newMinCollectorIndex4;
             }
-            newMinCollectorIndex3 = newMinCollectorIndex4;
+            newMinCollectorIndex = newMinCollectorIndex4;
             resumes = resumes2;
         } else {
-            newMinCollectorIndex3 = newMinCollectorIndex4;
+            newMinCollectorIndex = newMinCollectorIndex4;
             resumes = resumes2;
         }
-        newMinCollectorIndex = obj.getNCollectors() == 0 ? newBufferEndIndex2 : newMinCollectorIndex3;
+        newMinCollectorIndex2 = obj.getNCollectors() == 0 ? newBufferEndIndex : newMinCollectorIndex;
         long l4 = Math.max(obj.replayIndex, l);
         Object[] buffer2 = obj.buffer;
         Intrinsics.checkNotNull(buffer2);
@@ -1009,19 +1009,19 @@ public class SharedFlowImpl<T>  extends AbstractSharedFlow<kotlinx.coroutines.fl
                 Intrinsics.checkNotNull(buffer2);
                 if (Intrinsics.areEqual(SharedFlowKt.access$getBufferAt(buffer2, l4), SharedFlowKt.NO_VALUE)) {
                     newReplayIndex = newBufferEndIndex3;
-                    newBufferEndIndex = l2;
+                    newBufferEndIndex2 = l2;
                 } else {
-                    newReplayIndex = newBufferEndIndex2;
-                    newBufferEndIndex = l2;
+                    newReplayIndex = newBufferEndIndex;
+                    newBufferEndIndex2 = l2;
                 }
             } else {
             }
         } else {
         }
-        obj.updateBufferLocked(newBufferEndIndex, cmp, newMinCollectorIndex, value);
+        obj.updateBufferLocked(newBufferEndIndex2, cmp3, newMinCollectorIndex2, value);
         obj.cleanupTailLocked();
-        i3 = resumes.length == 0 ? 1 : 0;
-        if (i3 == 0) {
+        i = resumes.length == 0 ? 1 : 0;
+        if (i == 0) {
             resumes = obj.findSlotsToResumeLocked(resumes);
         }
         return resumes;

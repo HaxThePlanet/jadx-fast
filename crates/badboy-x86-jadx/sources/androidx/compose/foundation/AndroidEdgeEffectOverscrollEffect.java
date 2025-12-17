@@ -93,35 +93,35 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
 
     private final void animateToRelease() {
         int needsInvalidation;
-        int i;
         int i3;
-        boolean finished;
+        int i;
+        boolean finished2;
         int i2;
-        int finished2;
+        int finished;
         needsInvalidation = 0;
         final androidx.compose.foundation.EdgeEffectWrapper edgeEffectWrapper = this.edgeEffectWrapper;
         final int i4 = 0;
         EdgeEffect edgeEffect = EdgeEffectWrapper.access$getTopEffect$p(edgeEffectWrapper);
         if (edgeEffect != null) {
-            i = 0;
+            i3 = 0;
             edgeEffect.onRelease();
-            needsInvalidation = finished;
+            needsInvalidation = finished2;
         }
         EdgeEffect edgeEffect2 = EdgeEffectWrapper.access$getBottomEffect$p(edgeEffectWrapper);
-        i3 = 0;
+        i = 0;
         int i5 = 1;
         if (edgeEffect2 != null) {
             i2 = 0;
             edgeEffect2.onRelease();
             if (!edgeEffect2.isFinished()) {
                 if (needsInvalidation != 0) {
-                    finished2 = i5;
+                    finished = i5;
                 } else {
-                    finished2 = i3;
+                    finished = i;
                 }
             } else {
             }
-            needsInvalidation = finished2;
+            needsInvalidation = finished;
         }
         EdgeEffect edgeEffect3 = EdgeEffectWrapper.access$getLeftEffect$p(edgeEffectWrapper);
         if (edgeEffect3 != null) {
@@ -129,13 +129,13 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
             edgeEffect3.onRelease();
             if (!edgeEffect3.isFinished()) {
                 if (needsInvalidation != 0) {
-                    finished2 = i5;
+                    finished = i5;
                 } else {
-                    finished2 = i3;
+                    finished = i;
                 }
             } else {
             }
-            needsInvalidation = finished2;
+            needsInvalidation = finished;
         }
         EdgeEffect edgeEffect4 = EdgeEffectWrapper.access$getRightEffect$p(edgeEffectWrapper);
         if (edgeEffect4 != null) {
@@ -143,11 +143,11 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
             edgeEffect4.onRelease();
             if (!edgeEffect4.isFinished()) {
                 if (needsInvalidation != 0) {
-                    i3 = i5;
+                    i = i5;
                 }
             } else {
             }
-            needsInvalidation = i3;
+            needsInvalidation = i;
         }
         if (needsInvalidation != 0) {
             invalidateOverscroll$foundation_release();
@@ -310,9 +310,9 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
 
     public Object applyToFling-BMRW4eQ(long l, Function2<? super Velocity, ? super Continuation<? super Velocity>, ? extends Object> function22, Continuation<? super Unit> continuation3) {
         boolean anon;
-        int i2;
-        Object orCreateBottomEffect;
         int i;
+        Object orCreateBottomEffect2;
+        int i2;
         Object obj;
         Velocity box-impl;
         int roundToInt2;
@@ -320,37 +320,37 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
         int rightStretched;
         int x-impl;
         boolean empty-impl;
-        int roundToInt3;
+        int roundToInt;
         long orCreateRightEffect;
         int topStretched;
         int bottomStretched;
         int y-impl;
-        int orCreateBottomEffect2;
-        int roundToInt;
+        int orCreateBottomEffect;
+        int roundToInt3;
         long obj9;
         Object obj11;
         Object obj12;
         anon = obj12;
-        i = Integer.MIN_VALUE;
-        if (obj12 instanceof AndroidEdgeEffectOverscrollEffect.applyToFling.1 && label &= i != 0) {
+        i2 = Integer.MIN_VALUE;
+        if (obj12 instanceof AndroidEdgeEffectOverscrollEffect.applyToFling.1 && label &= i2 != 0) {
             anon = obj12;
-            i = Integer.MIN_VALUE;
-            if (label &= i != 0) {
-                anon.label = obj12 -= i;
+            i2 = Integer.MIN_VALUE;
+            if (label &= i2 != 0) {
+                anon.label = obj12 -= i2;
             } else {
                 anon = new AndroidEdgeEffectOverscrollEffect.applyToFling.1(this, obj12);
             }
         } else {
         }
         obj12 = anon.result;
-        orCreateBottomEffect = IntrinsicsKt.getCOROUTINE_SUSPENDED();
+        orCreateBottomEffect2 = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         roundToInt2 = 0;
         switch (box-impl) {
             case 0:
                 ResultKt.throwOnFailure(obj12);
                 obj = this;
                 anon.label = 1;
-                return orCreateBottomEffect;
+                return orCreateBottomEffect2;
                 EdgeEffectCompat.INSTANCE.onAbsorbCompat(obj.edgeEffectWrapper.getOrCreateLeftEffect(), MathKt.roundToInt(Velocity.getX-impl(l)));
                 x-impl = Velocity.getX-impl(l);
                 EdgeEffectCompat.INSTANCE.onAbsorbCompat(obj.edgeEffectWrapper.getOrCreateRightEffect(), -roundToInt6);
@@ -367,7 +367,7 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
                 anon.L$0 = obj;
                 anon.J$0 = obj9;
                 anon.label = 2;
-                return orCreateBottomEffect;
+                return orCreateBottomEffect2;
                 obj9 = Velocity.minus-AH228Gc(obj9, function22);
                 obj.scrollCycleInProgress = false;
                 EdgeEffectCompat.INSTANCE.onAbsorbCompat(obj.edgeEffectWrapper.getOrCreateLeftEffect(), MathKt.roundToInt(Velocity.getX-impl(obj9)));
@@ -402,18 +402,18 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
     }
 
     public long applyToScroll-Rhakbz0(long delta, int source, Function1<? super Offset, Offset> performScroll) {
-        int i5;
+        int i4;
         float pullBottom-k-4lQ0M;
         int equals-impl0;
         int i3;
         float pullRight-k-4lQ0M;
         float f;
         int rightStretched;
-        int i2;
+        int i5;
         boolean orCreateBottomEffect;
         int needsInvalidation;
         int i;
-        int i4;
+        int i2;
         float y-impl;
         final Object obj = this;
         final Object obj2 = obj25;
@@ -426,20 +426,20 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
             obj.scrollCycleInProgress = i6;
         }
         pullRight-k-4lQ0M = 0;
-        i5 = Float.compare(y-impl2, pullRight-k-4lQ0M) == 0 ? i6 : 0;
-        if (i5 != 0) {
+        i4 = Float.compare(y-impl2, pullRight-k-4lQ0M) == 0 ? i6 : 0;
+        if (i4 != 0) {
             pullBottom-k-4lQ0M = pullRight-k-4lQ0M;
         } else {
             if (obj.edgeEffectWrapper.isTopStretched()) {
                 f = pullBottom-k-4lQ0M;
-                i2 = 0;
+                i5 = 0;
                 if (!obj.edgeEffectWrapper.isTopStretched()) {
                     obj.edgeEffectWrapper.getOrCreateTopEffect().onRelease();
                 }
             } else {
                 if (obj.edgeEffectWrapper.isBottomStretched()) {
                     f = pullBottom-k-4lQ0M;
-                    i2 = 0;
+                    i5 = 0;
                     if (!obj.edgeEffectWrapper.isBottomStretched()) {
                         obj.edgeEffectWrapper.getOrCreateBottomEffect().onRelease();
                     }
@@ -453,14 +453,14 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
         } else {
             if (obj.edgeEffectWrapper.isLeftStretched()) {
                 rightStretched = pullRight-k-4lQ0M;
-                i2 = 0;
+                i5 = 0;
                 if (!obj.edgeEffectWrapper.isLeftStretched()) {
                     obj.edgeEffectWrapper.getOrCreateLeftEffect().onRelease();
                 }
             } else {
                 if (obj.edgeEffectWrapper.isRightStretched()) {
                     rightStretched = pullRight-k-4lQ0M;
-                    i2 = 0;
+                    i5 = 0;
                     if (!obj.edgeEffectWrapper.isRightStretched()) {
                         obj.edgeEffectWrapper.getOrCreateRightEffect().onRelease();
                     }
@@ -469,7 +469,7 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
             }
         }
         long l = OffsetKt.Offset(pullRight-k-4lQ0M, pullBottom-k-4lQ0M);
-        if (!Offset.equals-impl0(l, i2)) {
+        if (!Offset.equals-impl0(l, i5)) {
             obj.invalidateOverscroll$foundation_release();
         }
         final long minus-MK-Hz9U = Offset.minus-MK-Hz9U(delta, obj9);
@@ -483,13 +483,13 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
             i = Float.compare(y-impl, i8) > 0 ? 1 : cmp6 < 0 ? 1 : 0;
             if (equals-impl0 == 0) {
                 if (i != 0) {
-                    i4 = 1;
+                    i2 = 1;
                 } else {
-                    i4 = 0;
+                    i2 = 0;
                 }
             } else {
             }
-            needsInvalidation = i4;
+            needsInvalidation = i2;
         }
         if (!releaseOppositeOverscroll-k-4lQ0M(delta)) {
             if (needsInvalidation != 0) {
@@ -502,7 +502,7 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
         if (i3 != 0) {
             obj.invalidateOverscroll$foundation_release();
         }
-        return Offset.plus-MK-Hz9U(l, i2);
+        return Offset.plus-MK-Hz9U(l, i5);
     }
 
     @Override // androidx.compose.foundation.OverscrollEffect
@@ -542,43 +542,43 @@ public final class AndroidEdgeEffectOverscrollEffect implements androidx.compose
 
     @Override // androidx.compose.foundation.OverscrollEffect
     public boolean isInProgress() {
-        int i2;
         int i;
+        int i2;
         int distanceCompat;
         final androidx.compose.foundation.EdgeEffectWrapper edgeEffectWrapper = this.edgeEffectWrapper;
         final int i3 = 0;
         EdgeEffect edgeEffect = EdgeEffectWrapper.access$getTopEffect$p(edgeEffectWrapper);
-        i2 = 0;
+        i = 0;
         final int i4 = 0;
         final int i5 = 1;
         if (edgeEffect != null) {
-            i = 0;
-            distanceCompat = Float.compare(distanceCompat2, i2) == 0 ? i5 : i4;
+            i2 = 0;
+            distanceCompat = Float.compare(distanceCompat2, i) == 0 ? i5 : i4;
             if (distanceCompat == 0) {
                 return i5;
             }
         }
         EdgeEffect edgeEffect2 = EdgeEffectWrapper.access$getBottomEffect$p(edgeEffectWrapper);
         if (edgeEffect2 != null) {
-            i = 0;
-            distanceCompat = Float.compare(distanceCompat3, i2) == 0 ? i5 : i4;
+            i2 = 0;
+            distanceCompat = Float.compare(distanceCompat3, i) == 0 ? i5 : i4;
             if (distanceCompat == 0) {
                 return i5;
             }
         }
         EdgeEffect edgeEffect3 = EdgeEffectWrapper.access$getLeftEffect$p(edgeEffectWrapper);
         if (edgeEffect3 != null) {
-            i = 0;
-            distanceCompat = Float.compare(distanceCompat4, i2) == 0 ? i5 : i4;
+            i2 = 0;
+            distanceCompat = Float.compare(distanceCompat4, i) == 0 ? i5 : i4;
             if (distanceCompat == 0) {
                 return i5;
             }
         }
         EdgeEffect edgeEffect4 = EdgeEffectWrapper.access$getRightEffect$p(edgeEffectWrapper);
         if (edgeEffect4 != null) {
-            i = 0;
-            i2 = Float.compare(distanceCompat, i2) == 0 ? i5 : i4;
-            if (i2 == 0) {
+            i2 = 0;
+            i = Float.compare(distanceCompat, i) == 0 ? i5 : i4;
+            if (i == 0) {
                 return i5;
             }
         }

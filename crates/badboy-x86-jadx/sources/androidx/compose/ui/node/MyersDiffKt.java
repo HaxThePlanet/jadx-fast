@@ -12,17 +12,17 @@ public final class MyersDiffKt {
     private static final void applyDiff(androidx.compose.ui.node.IntStack diagonals, androidx.compose.ui.node.DiffCallback callback) {
         int posX;
         int posY;
+        int i3;
+        int i5;
         int i;
         int i2;
-        int i3;
         int i4;
-        int i5;
         posX = 0;
         posY = 0;
-        i = 0;
-        while (i < diagonals.getSize()) {
-            i4 = diagonals.get(i + 2);
-            i += 3;
+        i3 = 0;
+        while (i3 < diagonals.getSize()) {
+            i2 = diagonals.get(i3 + 2);
+            i3 += 3;
             while (posX < i6 -= i8) {
                 callback.remove(posY, posX);
                 posX++;
@@ -31,16 +31,16 @@ public final class MyersDiffKt {
                 callback.insert(posY);
                 posY++;
             }
-            while (i4 > 0) {
+            while (i2 > 0) {
                 callback.same(posX, posY);
                 posX++;
                 posY++;
-                i4 = i5;
+                i2 = i4;
             }
             callback.same(posX, posY);
             posX++;
             posY++;
-            i4 = i5;
+            i2 = i4;
             callback.insert(posY);
             posY++;
             callback.remove(posY, posX);
@@ -49,29 +49,29 @@ public final class MyersDiffKt {
     }
 
     private static final boolean backward-4l5_RBY(int oldStart, int oldEnd, int newStart, int newEnd, androidx.compose.ui.node.DiffCallback cb, int[] forward, int[] backward, int d, int[] snake) {
-        int i7;
-        Object obj;
         int i4;
+        Object obj;
+        int i3;
         int k;
         int itemsTheSame;
         int startX;
         int[] iArr;
-        int x;
         int x2;
-        int i;
+        int x;
         int i8;
-        int y;
         int i2;
-        int i3;
-        int i5;
+        int y;
+        int i7;
         int i6;
+        int i;
+        int i5;
         final int i9 = oldStart;
         final int i10 = newStart;
         final int[] iArr2 = backward;
         final int i11 = d;
         final int i12 = oldEnd - i9;
         final int i13 = newEnd - i10;
-        i7 = i14 %= 2 == 0 ? 1 : 0;
+        i4 = i14 %= 2 == 0 ? 1 : 0;
         k = -i11;
         while (k <= i11) {
             int i17 = 0;
@@ -80,50 +80,50 @@ public final class MyersDiffKt {
             } else {
             }
             startX = CenteredArray.get-impl(iArr2, k + 1);
-            x = startX;
-            i2 = startX;
+            x2 = startX;
+            i7 = startX;
             itemsTheSame = newEnd - i18;
             if (i11 != 0) {
             } else {
             }
-            i3 = itemsTheSame;
+            i6 = itemsTheSame;
             y = itemsTheSame;
-            x2 = x;
-            while (x2 > i9) {
-                i5 = 0;
-                if (cb.areItemsTheSame(x2 + -1, y + -1) != 0) {
+            x = x2;
+            while (x > i9) {
+                i = 0;
+                if (cb.areItemsTheSame(x + -1, y + -1) != 0) {
                     break loop_17;
                 }
-                x2--;
+                x--;
                 y--;
             }
             obj = cb;
-            i5 = 0;
-            CenteredArray.set-impl(iArr2, k, x2);
+            i = 0;
+            CenteredArray.set-impl(iArr2, k, x);
             iArr = forward;
-            i6 = 1;
+            i5 = 1;
             k += 2;
             itemsTheSame = i16 - k;
             iArr = forward;
-            i6 = 1;
+            i5 = 1;
             if (y > i10) {
             } else {
             }
-            i5 = 0;
-            if (cb.areItemsTheSame(x2 + -1, y + -1) != 0) {
+            i = 0;
+            if (cb.areItemsTheSame(x + -1, y + -1) != 0) {
             }
-            x2--;
+            x--;
             y--;
-            if (x != i2) {
+            if (x2 != i7) {
             } else {
             }
-            i3 = i8;
+            i6 = i2;
             if (k != i11 && CenteredArray.get-impl(iArr2, k + 1) < CenteredArray.get-impl(iArr2, k + -1)) {
             } else {
             }
             startX = CenteredArray.get-impl(iArr2, k + -1);
-            x = startX + -1;
-            i2 = startX;
+            x2 = startX + -1;
+            i7 = startX;
             if (CenteredArray.get-impl(iArr2, k + 1) < CenteredArray.get-impl(iArr2, k + -1)) {
             } else {
             }
@@ -135,10 +135,10 @@ public final class MyersDiffKt {
 
     private static final androidx.compose.ui.node.IntStack calculateDiff(int oldSize, int newSize, androidx.compose.ui.node.DiffCallback cb) {
         int[] midPoint-q5eDKzI;
-        int i4;
-        int i;
         int i2;
+        int i;
         int i3;
+        int i4;
         androidx.compose.ui.node.DiffCallback endX-impl;
         int endY-impl;
         final int i5 = oldSize;
@@ -150,16 +150,16 @@ public final class MyersDiffKt {
         intStack2.pushRange(i12, i5, i12, i6);
         final int[] constructor-impl3 = Snake.constructor-impl(new int[5]);
         while (intStack2.isNotEmpty()) {
-            i3 = intStack2.pop();
-            i2 = intStack2.pop();
-            i = intStack2.pop();
             i4 = intStack2.pop();
-            if (MyersDiffKt.midPoint-q5eDKzI(i4, i, i2, i3, cb, CenteredArray.constructor-impl(new int[i13++]), CenteredArray.constructor-impl(new int[i15++]), constructor-impl3) != null && Snake.getDiagonalSize-impl(constructor-impl3) > 0) {
+            i3 = intStack2.pop();
+            i = intStack2.pop();
+            i2 = intStack2.pop();
+            if (MyersDiffKt.midPoint-q5eDKzI(i2, i, i3, i4, cb, CenteredArray.constructor-impl(new int[i13++]), CenteredArray.constructor-impl(new int[i15++]), constructor-impl3) != null && Snake.getDiagonalSize-impl(constructor-impl3) > 0) {
             }
             if (Snake.getDiagonalSize-impl(constructor-impl3) > 0) {
             }
-            intStack2.pushRange(i4, Snake.getStartX-impl(constructor-impl3), i2, Snake.getStartY-impl(constructor-impl3));
-            intStack2.pushRange(Snake.getEndX-impl(constructor-impl3), i, Snake.getEndY-impl(constructor-impl3), i3);
+            intStack2.pushRange(i2, Snake.getStartX-impl(constructor-impl3), i3, Snake.getStartY-impl(constructor-impl3));
+            intStack2.pushRange(Snake.getEndX-impl(constructor-impl3), i, Snake.getEndY-impl(constructor-impl3), i4);
             Snake.addDiagonalToStack-impl(constructor-impl3, intStack);
         }
         intStack.sortDiagonals();
@@ -180,66 +180,66 @@ public final class MyersDiffKt {
     }
 
     private static final boolean forward-4l5_RBY(int oldStart, int oldEnd, int newStart, int newEnd, androidx.compose.ui.node.DiffCallback cb, int[] forward, int[] backward, int d, int[] snake) {
-        int i10;
-        int i8;
         int i6;
+        int i2;
         int i9;
+        int i11;
         int[] iArr;
-        int i7;
+        int i3;
         int k;
         int y;
         int startX;
-        int i4;
-        int x;
-        int i2;
         int i;
-        int i11;
-        int itemsTheSame;
+        int x;
+        int i4;
         int i5;
-        int i3;
+        int i8;
+        int itemsTheSame;
+        int i7;
+        int i10;
         final int i12 = newEnd;
         final int[] iArr2 = forward;
         final int i13 = d;
-        final int i14 = i10 - oldStart;
+        final int i14 = i6 - oldStart;
         final int i15 = i12 - newStart;
-        i9 = 1;
-        i8 = i17 %= 2 == i9 ? i9 : 0;
+        i11 = 1;
+        i2 = i17 %= 2 == i11 ? i11 : 0;
         k = -i13;
         while (k <= i13) {
             int i21 = 0;
-            i4 = 0;
+            i = 0;
             int i24 = 0;
             if (k != -i13) {
             } else {
             }
             startX = CenteredArray.get-impl(iArr2, k + 1);
             x = startX;
-            i2 = startX;
+            i4 = startX;
             i22 -= k;
             if (i13 != 0) {
             } else {
             }
-            i11 = y;
-            while (x < i10) {
+            i8 = y;
+            while (x < i6) {
                 if (cb.areItemsTheSame(x, y)) {
                     break loop_16;
                 }
                 x++;
                 y++;
             }
-            i4 = cb;
+            i = cb;
             CenteredArray.set-impl(iArr2, k, x);
-            i3 = i9;
-            i5 = y;
+            i10 = i11;
+            i7 = y;
             itemsTheSame = 0;
             iArr = backward;
             k += 2;
-            i10 = oldEnd;
-            i9 = i3;
+            i6 = oldEnd;
+            i11 = i10;
             itemsTheSame = 0;
-            i6 = i20 - k;
+            i9 = i20 - k;
             iArr = backward;
-            i5 = y;
+            i7 = y;
             if (y < i12) {
             } else {
             }
@@ -247,16 +247,16 @@ public final class MyersDiffKt {
             }
             x++;
             y++;
-            if (x != i2) {
+            if (x != i4) {
             } else {
             }
-            i11 = y + -1;
+            i8 = y + -1;
             if (k != i13 && CenteredArray.get-impl(iArr2, k + 1) > CenteredArray.get-impl(iArr2, k + -1)) {
             } else {
             }
             startX = CenteredArray.get-impl(iArr2, k + -1);
             x = startX + 1;
-            i2 = startX;
+            i4 = startX;
             if (CenteredArray.get-impl(iArr2, k + 1) > CenteredArray.get-impl(iArr2, k + -1)) {
             } else {
             }
@@ -267,35 +267,35 @@ public final class MyersDiffKt {
     }
 
     private static final boolean midPoint-q5eDKzI(int oldStart, int oldEnd, int newStart, int newEnd, androidx.compose.ui.node.DiffCallback cb, int[] forward, int[] backward, int[] snake) {
-        int i;
         int i2;
-        int i3;
+        int i;
         int i4;
+        int i3;
         androidx.compose.ui.node.DiffCallback diffCallback;
         int[] iArr;
-        int[] iArr3;
-        int d;
         int[] iArr2;
+        int d;
+        int[] iArr3;
         boolean forward-4l5_RBY;
         boolean backward-4l5_RBY;
-        i = oldStart;
-        i2 = oldEnd;
-        final int i11 = i2 - i;
+        i2 = oldStart;
+        i = oldEnd;
+        final int i11 = i - i2;
         final int i12 = newEnd - newStart;
         final int i13 = 0;
         final int i14 = 1;
         if (i11 >= i14) {
             if (i12 < i14) {
             } else {
-                CenteredArray.set-impl(forward, i14, i);
-                CenteredArray.set-impl(backward, i14, i2);
-                d = i3;
+                CenteredArray.set-impl(forward, i14, i2);
+                CenteredArray.set-impl(backward, i14, i);
+                d = i4;
                 while (d < i8 / 2) {
                     d++;
-                    i = oldStart;
-                    i2 = oldEnd;
+                    i2 = oldStart;
+                    i = oldEnd;
                     iArr = forward;
-                    iArr3 = backward;
+                    iArr2 = backward;
                 }
             }
             return i13;

@@ -32,42 +32,42 @@ final class PagerWrapperFlingBehavior implements FlingBehavior {
     }
 
     public Object performFling(ScrollScope scrollScope, float f2, Continuation<? super Float> continuation3) {
-        boolean anon2;
+        boolean anon;
+        int i3;
         int i;
-        int i4;
         androidx.compose.foundation.pager.PagerWrapperFlingBehavior label;
         ScrollScope scrollScope2;
         TargetedFlingBehavior originalFlingBehavior;
+        int i4;
+        androidx.compose.foundation.pager.PagerWrapperFlingBehavior.performFling.2.1 anon2;
         int i2;
-        androidx.compose.foundation.pager.PagerWrapperFlingBehavior.performFling.2.1 anon;
-        int i3;
         Object obj9;
         Object obj11;
-        anon2 = continuation3;
-        i4 = Integer.MIN_VALUE;
-        if (continuation3 instanceof PagerWrapperFlingBehavior.performFling.1 && label2 &= i4 != 0) {
-            anon2 = continuation3;
-            i4 = Integer.MIN_VALUE;
-            if (label2 &= i4 != 0) {
-                anon2.label = obj11 -= i4;
+        anon = continuation3;
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof PagerWrapperFlingBehavior.performFling.1 && label2 &= i != 0) {
+            anon = continuation3;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon.label = obj11 -= i;
             } else {
-                anon2 = new PagerWrapperFlingBehavior.performFling.1(this, continuation3);
+                anon = new PagerWrapperFlingBehavior.performFling.1(this, continuation3);
             }
         } else {
         }
-        obj11 = anon2.result;
+        obj11 = anon.result;
         Object cOROUTINE_SUSPENDED = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (label) {
             case 0:
                 ResultKt.throwOnFailure(obj11);
                 label = this;
-                i2 = 0;
-                anon = new PagerWrapperFlingBehavior.performFling.2.1(label, scrollScope);
-                anon2.label = 1;
+                i4 = 0;
+                anon2 = new PagerWrapperFlingBehavior.performFling.2.1(label, scrollScope);
+                anon.label = 1;
                 return cOROUTINE_SUSPENDED;
             case 1:
                 ResultKt.throwOnFailure(obj11);
-                i2 = obj9;
+                i4 = obj9;
                 obj9 = obj11;
                 break;
             default:

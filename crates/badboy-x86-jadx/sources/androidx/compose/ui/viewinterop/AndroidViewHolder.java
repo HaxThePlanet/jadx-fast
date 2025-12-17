@@ -179,7 +179,7 @@ public class AndroidViewHolder extends ViewGroup implements NestedScrollingParen
     }
 
     private final OwnerSnapshotObserver getSnapshotObserver() {
-        String str;
+        String $i$a$CheckPreconditionAndroidViewHolder$snapshotObserver$1;
         final int i = 0;
         if (!isAttachedToWindow()) {
             int i2 = 0;
@@ -464,17 +464,17 @@ public class AndroidViewHolder extends ViewGroup implements NestedScrollingParen
 
     @Override // android.view.ViewGroup
     public boolean onStartNestedScroll(View child, View target, int axes, int type) {
-        int i2;
         int i;
+        int i2;
         if (axes & 2 == 0) {
             if (axes & 1 != 0) {
-                i2 = 1;
+                i = 1;
             } else {
-                i2 = 0;
+                i = 0;
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     @Override // android.view.ViewGroup

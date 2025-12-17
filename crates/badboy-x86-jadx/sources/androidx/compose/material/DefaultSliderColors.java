@@ -42,46 +42,46 @@ final class DefaultSliderColors implements androidx.compose.material.SliderColor
 
     @Override // androidx.compose.material.SliderColors
     public boolean equals(Object other) {
-        Class class;
         Class class2;
+        Class class;
         final int i = 1;
         if (this == other) {
             return i;
         }
         final int i2 = 0;
         if (other != null) {
-            class2 = other.getClass();
-            if (getClass() != class2) {
+            class = other.getClass();
+            if (getClass() != class) {
             } else {
                 Object obj = other;
-                if (!Color.equals-impl0(this.thumbColor, class2)) {
+                if (!Color.equals-impl0(this.thumbColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledThumbColor, class2)) {
+                if (!Color.equals-impl0(this.disabledThumbColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.activeTrackColor, class2)) {
+                if (!Color.equals-impl0(this.activeTrackColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.inactiveTrackColor, class2)) {
+                if (!Color.equals-impl0(this.inactiveTrackColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledActiveTrackColor, class2)) {
+                if (!Color.equals-impl0(this.disabledActiveTrackColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledInactiveTrackColor, class2)) {
+                if (!Color.equals-impl0(this.disabledInactiveTrackColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.activeTickColor, class2)) {
+                if (!Color.equals-impl0(this.activeTickColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.inactiveTickColor, class2)) {
+                if (!Color.equals-impl0(this.inactiveTickColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledActiveTickColor, class2)) {
+                if (!Color.equals-impl0(this.disabledActiveTickColor, class)) {
                     return i2;
                 }
-                if (!Color.equals-impl0(this.disabledInactiveTickColor, class2)) {
+                if (!Color.equals-impl0(this.disabledInactiveTickColor, class)) {
                     return i2;
                 }
             }

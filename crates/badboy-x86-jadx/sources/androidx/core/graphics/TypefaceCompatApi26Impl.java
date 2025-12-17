@@ -99,14 +99,14 @@ public class TypefaceCompatApi26Impl extends androidx.core.graphics.TypefaceComp
 
     @Override // androidx.core.graphics.TypefaceCompatApi21Impl
     public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry entry, Resources resources, int style) {
-        int i;
+        int i2;
         Context context2;
         boolean fontFromAssetManager;
         int ttcIndex;
         int weight;
         boolean italic;
         FontVariationAxis[] fontVariationSettings;
-        int i2;
+        int i;
         FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry;
         if (!isFontFamilyPrivateAPIAvailable()) {
             return super.createFromFontFamilyFilesResourceEntry(context, entry, resources, style);
@@ -117,10 +117,10 @@ public class TypefaceCompatApi26Impl extends androidx.core.graphics.TypefaceComp
             return i3;
         }
         final FontResourcesParserCompat.FontFileResourceEntry[] entries = entry.getEntries();
-        i2 = i;
-        while (i2 < entries.length) {
-            fontFileResourceEntry = entries[i2];
-            i2++;
+        i = i2;
+        while (i < entries.length) {
+            fontFileResourceEntry = entries[i];
+            i++;
         }
         if (!freeze(family)) {
             return i3;
@@ -130,12 +130,12 @@ public class TypefaceCompatApi26Impl extends androidx.core.graphics.TypefaceComp
 
     @Override // androidx.core.graphics.TypefaceCompatApi21Impl
     public Typeface createFromFontInfo(Context context, CancellationSignal cancellationSignal, FontsContractCompat.FontInfo[] fonts, int style) {
-        int i;
+        int i2;
         int fontFromBuffer;
         Throwable th;
         boolean italic;
         int atLeastOneFont;
-        int i2;
+        int i;
         FontsContractCompat.FontInfo fontInfo;
         final Object obj = this;
         final CancellationSignal cancellationSignal2 = cancellationSignal;
@@ -166,13 +166,13 @@ public class TypefaceCompatApi26Impl extends androidx.core.graphics.TypefaceComp
         if (family == null) {
             return i5;
         }
-        atLeastOneFont = i;
-        i2 = fontFromBuffer;
-        while (i2 < objArr.length) {
-            fontInfo = objArr[i2];
-            i = TypefaceCompatUtil.readFontInfoIntoByteBuffer(context, objArr, cancellationSignal2).get(fontInfo.getUri());
+        atLeastOneFont = i2;
+        i = fontFromBuffer;
+        while (i < objArr.length) {
+            fontInfo = objArr[i];
+            i2 = TypefaceCompatUtil.readFontInfoIntoByteBuffer(context, objArr, cancellationSignal2).get(fontInfo.getUri());
             atLeastOneFont = th;
-            i2++;
+            i++;
         }
         if (atLeastOneFont == 0) {
             obj.abortCreation(family);

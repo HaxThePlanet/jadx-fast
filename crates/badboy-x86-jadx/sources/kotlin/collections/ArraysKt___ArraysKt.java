@@ -84,31 +84,31 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final boolean all(float[] $this$all, Function1<? super Float, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$all, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
         final int i5 = 0;
-        i = i5;
-        while (i < $this$all.length) {
-            i++;
+        i2 = i5;
+        while (i2 < $this$all.length) {
+            i2++;
         }
         return 1;
     }
 
     public static final boolean all(int[] $this$all, Function1<? super Integer, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$all, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
         final int i5 = 0;
-        i = i5;
-        while (i < $this$all.length) {
-            i++;
+        i2 = i5;
+        while (i2 < $this$all.length) {
+            i2++;
         }
         return 1;
     }
@@ -639,8 +639,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V> Map<K, V> associate(float[] $this$associate, Function1<? super Float, ? extends Pair<? extends K, ? extends V>> transform) {
-        int i;
         int i2;
+        int i;
         Object second;
         Object first;
         Intrinsics.checkNotNullParameter($this$associate, "<this>");
@@ -649,11 +649,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap(RangesKt.coerceAtLeast(MapsKt.mapCapacity($this$associate.length), 16));
         final Object obj = $this$associate;
         final int i5 = 0;
-        i = 0;
-        while (i < obj.length) {
-            Object invoke = transform.invoke(Float.valueOf(obj[i]));
+        i2 = 0;
+        while (i2 < obj.length) {
+            Object invoke = transform.invoke(Float.valueOf(obj[i2]));
             (Map)linkedHashMap.put((Pair)invoke.getFirst(), invoke.getSecond());
-            i++;
+            i2++;
         }
         return linkedHashMap;
     }
@@ -781,8 +781,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V> Map<K, V> associateBy(byte[] $this$associateBy, Function1<? super Byte, ? extends K> keySelector, Function1<? super Byte, ? extends V> valueTransform) {
         int i;
         byte b;
-        Object invoke2;
         Object invoke;
+        Object invoke2;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -822,8 +822,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V> Map<K, V> associateBy(char[] $this$associateBy, Function1<? super Character, ? extends K> keySelector, Function1<? super Character, ? extends V> valueTransform) {
         int i;
         char c;
-        Object invoke;
         Object invoke2;
+        Object invoke;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -882,8 +882,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K> Map<K, Float> associateBy(float[] $this$associateBy, Function1<? super Float, ? extends K> keySelector) {
-        int i;
         int i2;
+        int i;
         Object invoke;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
@@ -892,11 +892,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap(RangesKt.coerceAtLeast(MapsKt.mapCapacity($this$associateBy.length), 16));
         final Object obj = $this$associateBy;
         final int i5 = 0;
-        i = 0;
-        while (i < obj.length) {
-            i2 = obj[i];
-            (Map)linkedHashMap.put(keySelector.invoke(Float.valueOf(i2)), Float.valueOf(i2));
-            i++;
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = obj[i2];
+            (Map)linkedHashMap.put(keySelector.invoke(Float.valueOf(i)), Float.valueOf(i));
+            i2++;
         }
         return linkedHashMap;
     }
@@ -904,8 +904,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V> Map<K, V> associateBy(float[] $this$associateBy, Function1<? super Float, ? extends K> keySelector, Function1<? super Float, ? extends V> valueTransform) {
         int i2;
         int i;
-        Object invoke2;
         Object invoke;
+        Object invoke2;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -943,10 +943,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V> Map<K, V> associateBy(int[] $this$associateBy, Function1<? super Integer, ? extends K> keySelector, Function1<? super Integer, ? extends V> valueTransform) {
-        int i;
         int i2;
-        Object invoke2;
+        int i;
         Object invoke;
+        Object invoke2;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -954,11 +954,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap(RangesKt.coerceAtLeast(MapsKt.mapCapacity($this$associateBy.length), 16));
         final Object obj = $this$associateBy;
         final int i5 = 0;
-        i = 0;
-        while (i < obj.length) {
-            i2 = obj[i];
-            (Map)linkedHashMap.put(keySelector.invoke(Integer.valueOf(i2)), valueTransform.invoke(Integer.valueOf(i2)));
-            i++;
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = obj[i2];
+            (Map)linkedHashMap.put(keySelector.invoke(Integer.valueOf(i)), valueTransform.invoke(Integer.valueOf(i)));
+            i2++;
         }
         return linkedHashMap;
     }
@@ -986,8 +986,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V> Map<K, V> associateBy(long[] $this$associateBy, Function1<? super Long, ? extends K> keySelector, Function1<? super Long, ? extends V> valueTransform) {
         int i;
         long l;
-        Object invoke;
         Object invoke2;
+        Object invoke;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -1026,8 +1026,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <T, K, V> Map<K, V> associateBy(T[] $this$associateBy, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
         int i;
         Object obj;
-        Object invoke;
         Object invoke2;
+        Object invoke;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -1067,8 +1067,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V> Map<K, V> associateBy(short[] $this$associateBy, Function1<? super Short, ? extends K> keySelector, Function1<? super Short, ? extends V> valueTransform) {
         int i;
         short s;
-        Object invoke;
         Object invoke2;
+        Object invoke;
         Intrinsics.checkNotNullParameter($this$associateBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
@@ -1147,8 +1147,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V, M extends Map<? super K, ? super V>> M associateByTo(byte[] $this$associateByTo, M destination, Function1<? super Byte, ? extends K> keySelector, Function1<? super Byte, ? extends V> valueTransform) {
         int i;
         byte b;
-        Object invoke2;
         Object invoke;
+        Object invoke2;
         Intrinsics.checkNotNullParameter($this$associateByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -1221,8 +1221,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V, M extends Map<? super K, ? super V>> M associateByTo(double[] $this$associateByTo, M destination, Function1<? super Double, ? extends K> keySelector, Function1<? super Double, ? extends V> valueTransform) {
         int i;
         long l;
-        Object invoke2;
         Object invoke;
+        Object invoke2;
         Intrinsics.checkNotNullParameter($this$associateByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -1258,8 +1258,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V, M extends Map<? super K, ? super V>> M associateByTo(float[] $this$associateByTo, M destination, Function1<? super Float, ? extends K> keySelector, Function1<? super Float, ? extends V> valueTransform) {
         int i2;
         int i;
-        Object invoke;
         Object invoke2;
+        Object invoke;
         Intrinsics.checkNotNullParameter($this$associateByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -1275,19 +1275,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, M extends Map<? super K, ? super Integer>> M associateByTo(int[] $this$associateByTo, M destination, Function1<? super Integer, ? extends K> keySelector) {
-        int i;
         int i2;
+        int i;
         Object invoke;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$associateByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         int i3 = 0;
-        i = 0;
-        while (i < $this$associateByTo.length) {
-            i2 = $this$associateByTo[i];
-            destination.put(keySelector.invoke(Integer.valueOf(i2)), Integer.valueOf(i2));
-            i++;
+        i2 = 0;
+        while (i2 < $this$associateByTo.length) {
+            i = $this$associateByTo[i2];
+            destination.put(keySelector.invoke(Integer.valueOf(i)), Integer.valueOf(i));
+            i2++;
         }
         return destination;
     }
@@ -1368,8 +1368,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <T, K, V, M extends Map<? super K, ? super V>> M associateByTo(T[] $this$associateByTo, M destination, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
         int i;
         Object obj;
-        Object invoke2;
         Object invoke;
+        Object invoke2;
         Intrinsics.checkNotNullParameter($this$associateByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -1405,8 +1405,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V, M extends Map<? super K, ? super V>> M associateByTo(short[] $this$associateByTo, M destination, Function1<? super Short, ? extends K> keySelector, Function1<? super Short, ? extends V> valueTransform) {
         int i;
         short s;
-        Object invoke;
         Object invoke2;
+        Object invoke;
         Intrinsics.checkNotNullParameter($this$associateByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -1513,19 +1513,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V, M extends Map<? super K, ? super V>> M associateTo(float[] $this$associateTo, M destination, Function1<? super Float, ? extends Pair<? extends K, ? extends V>> transform) {
-        int i;
         int i2;
+        int i;
         Object second;
         Object first;
         Intrinsics.checkNotNullParameter($this$associateTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i3 = 0;
-        i = 0;
-        while (i < $this$associateTo.length) {
-            Object invoke = transform.invoke(Float.valueOf($this$associateTo[i]));
+        i2 = 0;
+        while (i2 < $this$associateTo.length) {
+            Object invoke = transform.invoke(Float.valueOf($this$associateTo[i2]));
             destination.put((Pair)invoke.getFirst(), invoke.getSecond());
-            i++;
+            i2++;
         }
         return destination;
     }
@@ -1828,35 +1828,35 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <V, M extends Map<? super Float, ? super V>> M associateWithTo(float[] $this$associateWithTo, M destination, Function1<? super Float, ? extends V> valueSelector) {
-        int i2;
         int i;
+        int i2;
         Float valueOf;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$associateWithTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(valueSelector, "valueSelector");
-        i2 = 0;
-        while (i2 < $this$associateWithTo.length) {
-            i = $this$associateWithTo[i2];
-            destination.put(Float.valueOf(i), valueSelector.invoke(Float.valueOf(i)));
-            i2++;
+        i = 0;
+        while (i < $this$associateWithTo.length) {
+            i2 = $this$associateWithTo[i];
+            destination.put(Float.valueOf(i2), valueSelector.invoke(Float.valueOf(i2)));
+            i++;
         }
         return destination;
     }
 
     private static final <V, M extends Map<? super Integer, ? super V>> M associateWithTo(int[] $this$associateWithTo, M destination, Function1<? super Integer, ? extends V> valueSelector) {
-        int i2;
         int i;
+        int i2;
         Integer valueOf;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$associateWithTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(valueSelector, "valueSelector");
-        i2 = 0;
-        while (i2 < $this$associateWithTo.length) {
-            i = $this$associateWithTo[i2];
-            destination.put(Integer.valueOf(i), valueSelector.invoke(Integer.valueOf(i)));
-            i2++;
+        i = 0;
+        while (i < $this$associateWithTo.length) {
+            i2 = $this$associateWithTo[i];
+            destination.put(Integer.valueOf(i2), valueSelector.invoke(Integer.valueOf(i2)));
+            i++;
         }
         return destination;
     }
@@ -1932,21 +1932,21 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final double average(byte[] $this$average) {
         int sum;
         int count;
-        int i;
         int i2;
+        int i;
         byte b;
         double d;
         Intrinsics.checkNotNullParameter($this$average, "<this>");
         sum = 0;
         count = 0;
-        i2 = 0;
-        while (i2 < $this$average.length) {
+        i = 0;
+        while (i < $this$average.length) {
             sum += d;
             count++;
-            i2++;
+            i++;
         }
-        i = count == 0 ? 9221120237041090560L : sum / d2;
-        return i;
+        i2 = count == 0 ? 9221120237041090560L : sum / d2;
+        return i2;
     }
 
     public static final double average(double[] $this$average) {
@@ -1972,17 +1972,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int sum;
         int count;
         int i;
-        int i2;
         int i3;
+        int i2;
         double d;
         Intrinsics.checkNotNullParameter($this$average, "<this>");
         sum = 0;
         count = 0;
-        i2 = 0;
-        while (i2 < $this$average.length) {
+        i3 = 0;
+        while (i3 < $this$average.length) {
             sum += d;
             count++;
-            i2++;
+            i3++;
         }
         i = count == 0 ? 9221120237041090560L : sum / d2;
         return i;
@@ -2011,88 +2011,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final double average(long[] $this$average) {
         int sum;
         int count;
-        int i2;
         int i;
+        int i2;
         long l;
-        double d;
-        Intrinsics.checkNotNullParameter($this$average, "<this>");
-        sum = 0;
-        count = 0;
-        i = 0;
-        while (i < $this$average.length) {
-            sum += d;
-            count++;
-            i++;
-        }
-        i2 = count == 0 ? 9221120237041090560L : sum / d2;
-        return i2;
-    }
-
-    public static final double average(short[] $this$average) {
-        int sum;
-        int count;
-        int i2;
-        int i;
-        short s;
-        double d;
-        Intrinsics.checkNotNullParameter($this$average, "<this>");
-        sum = 0;
-        count = 0;
-        i = 0;
-        while (i < $this$average.length) {
-            sum += d;
-            count++;
-            i++;
-        }
-        i2 = count == 0 ? 9221120237041090560L : sum / d2;
-        return i2;
-    }
-
-    public static final double averageOfByte(Byte[] $this$average) {
-        int sum;
-        int count;
-        int i2;
-        int i;
-        byte byteValue;
-        double d;
-        Intrinsics.checkNotNullParameter($this$average, "<this>");
-        sum = 0;
-        count = 0;
-        i = 0;
-        while (i < $this$average.length) {
-            sum += d;
-            count++;
-            i++;
-        }
-        i2 = count == 0 ? 9221120237041090560L : sum / d2;
-        return i2;
-    }
-
-    public static final double averageOfDouble(Double[] $this$average) {
-        int sum;
-        int count;
-        int i2;
-        int i;
-        double doubleValue;
-        Intrinsics.checkNotNullParameter($this$average, "<this>");
-        sum = 0;
-        count = 0;
-        i = 0;
-        while (i < $this$average.length) {
-            sum += doubleValue;
-            count++;
-            i++;
-        }
-        i2 = count == 0 ? 9221120237041090560L : sum / d;
-        return i2;
-    }
-
-    public static final double averageOfFloat(Float[] $this$average) {
-        int sum;
-        int count;
-        int i;
-        int i2;
-        float floatValue;
         double d;
         Intrinsics.checkNotNullParameter($this$average, "<this>");
         sum = 0;
@@ -2105,6 +2026,85 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         }
         i = count == 0 ? 9221120237041090560L : sum / d2;
         return i;
+    }
+
+    public static final double average(short[] $this$average) {
+        int sum;
+        int count;
+        int i;
+        int i2;
+        short s;
+        double d;
+        Intrinsics.checkNotNullParameter($this$average, "<this>");
+        sum = 0;
+        count = 0;
+        i2 = 0;
+        while (i2 < $this$average.length) {
+            sum += d;
+            count++;
+            i2++;
+        }
+        i = count == 0 ? 9221120237041090560L : sum / d2;
+        return i;
+    }
+
+    public static final double averageOfByte(Byte[] $this$average) {
+        int sum;
+        int count;
+        int i;
+        int i2;
+        byte byteValue;
+        double d;
+        Intrinsics.checkNotNullParameter($this$average, "<this>");
+        sum = 0;
+        count = 0;
+        i2 = 0;
+        while (i2 < $this$average.length) {
+            sum += d;
+            count++;
+            i2++;
+        }
+        i = count == 0 ? 9221120237041090560L : sum / d2;
+        return i;
+    }
+
+    public static final double averageOfDouble(Double[] $this$average) {
+        int sum;
+        int count;
+        int i;
+        int i2;
+        double doubleValue;
+        Intrinsics.checkNotNullParameter($this$average, "<this>");
+        sum = 0;
+        count = 0;
+        i2 = 0;
+        while (i2 < $this$average.length) {
+            sum += doubleValue;
+            count++;
+            i2++;
+        }
+        i = count == 0 ? 9221120237041090560L : sum / d;
+        return i;
+    }
+
+    public static final double averageOfFloat(Float[] $this$average) {
+        int sum;
+        int count;
+        int i2;
+        int i;
+        float floatValue;
+        double d;
+        Intrinsics.checkNotNullParameter($this$average, "<this>");
+        sum = 0;
+        count = 0;
+        i = 0;
+        while (i < $this$average.length) {
+            sum += d;
+            count++;
+            i++;
+        }
+        i2 = count == 0 ? 9221120237041090560L : sum / d2;
+        return i2;
     }
 
     public static final double averageOfInt(Integer[] $this$average) {
@@ -2150,21 +2150,21 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final double averageOfShort(Short[] $this$average) {
         int sum;
         int count;
-        int i2;
         int i;
+        int i2;
         short shortValue;
         double d;
         Intrinsics.checkNotNullParameter($this$average, "<this>");
         sum = 0;
         count = 0;
-        i = 0;
-        while (i < $this$average.length) {
+        i2 = 0;
+        while (i2 < $this$average.length) {
             sum += d;
             count++;
-            i++;
+            i2++;
         }
-        i2 = count == 0 ? 9221120237041090560L : sum / d2;
-        return i2;
+        i = count == 0 ? 9221120237041090560L : sum / d2;
+        return i;
     }
 
     private static final byte component1(byte[] $this$component1) {
@@ -2409,57 +2409,57 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     @Deprecated(message = "The function has unclear behavior when searching for NaN or zero values and will be removed soon. Use 'any { it == element }' instead to continue using this behavior, or '.asList().contains(element: T)' to get the same search behavior as in a list.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.6", hiddenSince = "1.7", warningSince = "1.4")
     public static final boolean contains(double[] $this$contains, double element) {
-        int i;
         int i2;
+        int i3;
         long l;
         int it;
-        int i3;
-        int cmp;
         int i4;
+        int cmp;
+        int i;
         Intrinsics.checkNotNullParameter($this$contains, "<this>");
         Object obj = $this$contains;
         final int i5 = 0;
-        i = 0;
-        i2 = i;
-        while (i2 < obj.length) {
-            i3 = 0;
-            i4 = 1;
+        i2 = 0;
+        i3 = i2;
+        while (i3 < obj.length) {
+            i4 = 0;
+            i = 1;
             if (Double.compare(l2, element) == 0) {
             } else {
             }
+            it = i2;
+            i3++;
             it = i;
-            i2++;
-            it = i4;
         }
-        return i;
+        return i2;
     }
 
     @Deprecated(message = "The function has unclear behavior when searching for NaN or zero values and will be removed soon. Use 'any { it == element }' instead to continue using this behavior, or '.asList().contains(element: T)' to get the same search behavior as in a list.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.6", hiddenSince = "1.7", warningSince = "1.4")
     public static final boolean contains(float[] $this$contains, float element) {
-        int i2;
-        int i4;
         int i;
-        int it;
-        int i3;
-        int cmp;
+        int i4;
         int i5;
+        int it;
+        int i2;
+        int cmp;
+        int i3;
         Intrinsics.checkNotNullParameter($this$contains, "<this>");
         Object obj = $this$contains;
         final int i6 = 0;
-        i2 = 0;
-        i4 = i2;
+        i = 0;
+        i4 = i;
         while (i4 < obj.length) {
-            i3 = 0;
-            i5 = 1;
+            i2 = 0;
+            i3 = 1;
             if (Float.compare(i7, element) == 0) {
             } else {
             }
-            it = i2;
+            it = i;
             i4++;
-            it = i5;
+            it = i3;
         }
-        return i2;
+        return i;
     }
 
     public static final boolean contains(int[] $this$contains, int element) {
@@ -2843,8 +2843,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K> List<Integer> distinctBy(int[] $this$distinctBy, Function1<? super Integer, ? extends K> selector) {
-        int i2;
         int i;
+        int i2;
         Object invoke;
         boolean valueOf;
         Intrinsics.checkNotNullParameter($this$distinctBy, "<this>");
@@ -2852,13 +2852,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         HashSet hashSet = new HashSet();
         ArrayList arrayList = new ArrayList();
-        i2 = 0;
-        while (i2 < $this$distinctBy.length) {
-            i = $this$distinctBy[i2];
-            if (hashSet.add(selector.invoke(Integer.valueOf(i)))) {
+        i = 0;
+        while (i < $this$distinctBy.length) {
+            i2 = $this$distinctBy[i];
+            if (hashSet.add(selector.invoke(Integer.valueOf(i2)))) {
             }
-            i2++;
-            arrayList.add(Integer.valueOf(i));
+            i++;
+            arrayList.add(Integer.valueOf(i2));
         }
         return (List)arrayList;
     }
@@ -3878,8 +3878,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final List<Integer> filter(int[] $this$filter, Function1<? super Integer, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filter, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -3887,13 +3887,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList();
         final Object obj = $this$filter;
         final int i4 = 0;
-        i2 = 0;
-        while (i2 < obj.length) {
-            i = obj[i2];
-            if ((Boolean)predicate.invoke(Integer.valueOf(i)).booleanValue()) {
+        i = 0;
+        while (i < obj.length) {
+            i2 = obj[i];
+            if ((Boolean)predicate.invoke(Integer.valueOf(i2)).booleanValue()) {
             }
-            i2++;
-            (Collection)arrayList.add(Integer.valueOf(i));
+            i++;
+            (Collection)arrayList.add(Integer.valueOf(i2));
         }
         return (List)arrayList;
     }
@@ -3983,224 +3983,224 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final List<Byte> filterIndexed(byte[] $this$filterIndexed, Function2<? super Integer, ? super Byte, Boolean> predicate) {
-        int i3;
-        boolean booleanValue;
-        int i6;
-        int i2;
-        byte b;
-        int i5;
-        byte b2;
         int i;
-        Integer valueOf;
+        boolean booleanValue;
+        int i2;
+        int i6;
+        byte b;
         int i4;
+        byte b2;
+        int i3;
+        Integer valueOf;
+        int i5;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(obj, "predicate");
-        i3 = 0;
+        i = 0;
         ArrayList arrayList = new ArrayList();
         final int i7 = 0;
         final Object obj4 = obj3;
         final int i8 = 0;
-        i6 = 0;
         i2 = 0;
-        while (i2 < obj4.length) {
+        i6 = 0;
+        while (i6 < obj4.length) {
             b2 = b;
-            i = 0;
-            if ((Boolean)obj.invoke(Integer.valueOf(i6), Byte.valueOf(b2)).booleanValue()) {
+            i3 = 0;
+            if ((Boolean)obj.invoke(Integer.valueOf(i2), Byte.valueOf(b2)).booleanValue()) {
             }
-            i2++;
-            i6 = i5;
-            i3 = i4;
+            i6++;
+            i2 = i4;
+            i = i5;
             (Collection)arrayList.add(Byte.valueOf(b2));
         }
-        int $i$f$filterIndexed = i3;
+        int $i$f$filterIndexed = i;
         return (List)arrayList;
     }
 
     public static final List<Character> filterIndexed(char[] $this$filterIndexed, Function2<? super Integer, ? super Character, Boolean> predicate) {
-        int i;
-        boolean booleanValue;
-        int i4;
         int i2;
+        boolean booleanValue;
+        int i5;
+        int i;
+        char c;
+        int i6;
         char c2;
         int i3;
-        char c;
-        int i5;
         Integer valueOf;
-        int i6;
+        int i4;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(obj, "predicate");
-        i = 0;
+        i2 = 0;
         ArrayList arrayList = new ArrayList();
         final int i7 = 0;
         final Object obj4 = obj3;
         final int i8 = 0;
-        i4 = 0;
-        i2 = 0;
-        while (i2 < obj4.length) {
-            c = c2;
-            i5 = 0;
-            if ((Boolean)obj.invoke(Integer.valueOf(i4), Character.valueOf(c)).booleanValue()) {
+        i5 = 0;
+        i = 0;
+        while (i < obj4.length) {
+            c2 = c;
+            i3 = 0;
+            if ((Boolean)obj.invoke(Integer.valueOf(i5), Character.valueOf(c2)).booleanValue()) {
             }
-            i2++;
-            i4 = i3;
-            i = i6;
-            (Collection)arrayList.add(Character.valueOf(c));
+            i++;
+            i5 = i6;
+            i2 = i4;
+            (Collection)arrayList.add(Character.valueOf(c2));
         }
-        int $i$f$filterIndexed = i;
+        int $i$f$filterIndexed = i2;
         return (List)arrayList;
     }
 
     public static final List<Double> filterIndexed(double[] $this$filterIndexed, Function2<? super Integer, ? super Double, Boolean> predicate) {
-        int i6;
+        int i2;
         boolean booleanValue;
         Object obj;
-        int i5;
-        int i2;
-        long l2;
+        int i6;
         int i3;
         long l;
         int i;
+        long l2;
         int i4;
+        int i5;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(obj2, "predicate");
-        i6 = 0;
+        i2 = 0;
         ArrayList arrayList = new ArrayList();
         final int i7 = 0;
         final Object obj4 = obj3;
         final int i8 = 0;
-        i5 = 0;
-        i2 = 0;
-        while (i2 < obj4.length) {
-            l = l2;
-            i = 0;
-            if ((Boolean)obj2.invoke(Integer.valueOf(i5), Double.valueOf(l)).booleanValue()) {
+        i6 = 0;
+        i3 = 0;
+        while (i3 < obj4.length) {
+            l2 = l;
+            i4 = 0;
+            if ((Boolean)obj2.invoke(Integer.valueOf(i6), Double.valueOf(l2)).booleanValue()) {
             }
-            i2++;
+            i3++;
             obj = $this$filterIndexed;
-            i5 = i3;
-            i6 = i4;
-            (Collection)arrayList.add(Double.valueOf(l));
+            i6 = i;
+            i2 = i5;
+            (Collection)arrayList.add(Double.valueOf(l2));
         }
-        int $i$f$filterIndexed = i6;
+        int $i$f$filterIndexed = i2;
         return (List)arrayList;
     }
 
     public static final List<Float> filterIndexed(float[] $this$filterIndexed, Function2<? super Integer, ? super Float, Boolean> predicate) {
-        int i;
-        boolean booleanValue;
         int i4;
-        int i5;
-        int i8;
-        int i6;
-        int i2;
+        boolean booleanValue;
         int i7;
-        Integer valueOf;
         int i3;
+        int i2;
+        int i5;
+        int i6;
+        int i8;
+        Integer valueOf;
+        int i;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(obj, "predicate");
-        i = 0;
+        i4 = 0;
         ArrayList arrayList = new ArrayList();
         final int i9 = 0;
         final Object obj4 = obj3;
         final int i10 = 0;
-        i4 = 0;
-        i5 = 0;
-        while (i5 < obj4.length) {
-            i2 = i8;
-            i7 = 0;
-            if ((Boolean)obj.invoke(Integer.valueOf(i4), Float.valueOf(i2)).booleanValue()) {
+        i7 = 0;
+        i3 = 0;
+        while (i3 < obj4.length) {
+            i6 = i2;
+            i8 = 0;
+            if ((Boolean)obj.invoke(Integer.valueOf(i7), Float.valueOf(i6)).booleanValue()) {
             }
-            i5++;
-            i4 = i6;
-            i = i3;
-            (Collection)arrayList.add(Float.valueOf(i2));
+            i3++;
+            i7 = i5;
+            i4 = i;
+            (Collection)arrayList.add(Float.valueOf(i6));
         }
-        int $i$f$filterIndexed = i;
+        int $i$f$filterIndexed = i4;
         return (List)arrayList;
     }
 
     public static final List<Integer> filterIndexed(int[] $this$filterIndexed, Function2<? super Integer, ? super Integer, Boolean> predicate) {
-        int i3;
+        int i5;
         boolean booleanValue;
         int i6;
-        int i8;
-        int i7;
-        int i2;
-        int i;
         int i4;
+        int i;
+        int i2;
+        int i3;
+        int i8;
         Integer valueOf;
-        int i5;
+        int i7;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(obj, "predicate");
-        i3 = 0;
+        i5 = 0;
         ArrayList arrayList = new ArrayList();
         final int i9 = 0;
         final Object obj4 = obj3;
         final int i10 = 0;
         i6 = 0;
-        i8 = 0;
-        while (i8 < obj4.length) {
-            i = i7;
-            i4 = 0;
-            if ((Boolean)obj.invoke(Integer.valueOf(i6), Integer.valueOf(i)).booleanValue()) {
+        i4 = 0;
+        while (i4 < obj4.length) {
+            i3 = i;
+            i8 = 0;
+            if ((Boolean)obj.invoke(Integer.valueOf(i6), Integer.valueOf(i3)).booleanValue()) {
             }
-            i8++;
+            i4++;
             i6 = i2;
-            i3 = i5;
-            (Collection)arrayList.add(Integer.valueOf(i));
+            i5 = i7;
+            (Collection)arrayList.add(Integer.valueOf(i3));
         }
-        int $i$f$filterIndexed = i3;
+        int $i$f$filterIndexed = i5;
         return (List)arrayList;
     }
 
     public static final List<Long> filterIndexed(long[] $this$filterIndexed, Function2<? super Integer, ? super Long, Boolean> predicate) {
-        int i6;
+        int i4;
         boolean booleanValue;
         Object obj;
         int i3;
-        int i;
-        long l;
         int i5;
         long l2;
         int i2;
-        int i4;
+        long l;
+        int i;
+        int i6;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(obj2, "predicate");
-        i6 = 0;
+        i4 = 0;
         ArrayList arrayList = new ArrayList();
         final int i7 = 0;
         final Object obj4 = obj3;
         final int i8 = 0;
         i3 = 0;
-        i = 0;
-        while (i < obj4.length) {
-            l2 = l;
-            i2 = 0;
-            if ((Boolean)obj2.invoke(Integer.valueOf(i3), Long.valueOf(l2)).booleanValue()) {
+        i5 = 0;
+        while (i5 < obj4.length) {
+            l = l2;
+            i = 0;
+            if ((Boolean)obj2.invoke(Integer.valueOf(i3), Long.valueOf(l)).booleanValue()) {
             }
-            i++;
+            i5++;
             obj = $this$filterIndexed;
-            i3 = i5;
-            i6 = i4;
-            (Collection)arrayList.add(Long.valueOf(l2));
+            i3 = i2;
+            i4 = i6;
+            (Collection)arrayList.add(Long.valueOf(l));
         }
-        int $i$f$filterIndexed = i6;
+        int $i$f$filterIndexed = i4;
         return (List)arrayList;
     }
 
     public static final <T> List<T> filterIndexed(T[] $this$filterIndexed, Function2<? super Integer, ? super T, Boolean> predicate) {
-        int i2;
-        int i3;
-        Object obj;
-        int i4;
-        Object obj2;
         int i;
+        int i4;
+        Object obj;
+        int i2;
+        Object obj2;
+        int i3;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -4209,97 +4209,97 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i6 = 0;
         final Object obj4 = obj3;
         final int i7 = 0;
-        i2 = 0;
-        i3 = 0;
-        while (i3 < obj4.length) {
+        i = 0;
+        i4 = 0;
+        while (i4 < obj4.length) {
             obj2 = obj;
-            i = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i2), obj2).booleanValue()) {
+            i3 = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i), obj2).booleanValue()) {
             }
-            i3++;
-            i2 = i4;
+            i4++;
+            i = i2;
             (Collection)arrayList.add(obj2);
         }
         return (List)arrayList;
     }
 
     public static final List<Short> filterIndexed(short[] $this$filterIndexed, Function2<? super Integer, ? super Short, Boolean> predicate) {
-        int i4;
-        boolean booleanValue;
-        int i6;
-        int i;
-        short s2;
-        int i2;
-        short s;
-        int i3;
-        Integer valueOf;
         int i5;
+        boolean booleanValue;
+        int i3;
+        int i4;
+        short s2;
+        int i6;
+        short s;
+        int i;
+        Integer valueOf;
+        int i2;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(obj, "predicate");
-        i4 = 0;
+        i5 = 0;
         ArrayList arrayList = new ArrayList();
         final int i7 = 0;
         final Object obj4 = obj3;
         final int i8 = 0;
-        i6 = 0;
-        i = 0;
-        while (i < obj4.length) {
+        i3 = 0;
+        i4 = 0;
+        while (i4 < obj4.length) {
             s = s2;
-            i3 = 0;
-            if ((Boolean)obj.invoke(Integer.valueOf(i6), Short.valueOf(s)).booleanValue()) {
+            i = 0;
+            if ((Boolean)obj.invoke(Integer.valueOf(i3), Short.valueOf(s)).booleanValue()) {
             }
-            i++;
-            i6 = i2;
-            i4 = i5;
+            i4++;
+            i3 = i6;
+            i5 = i2;
             (Collection)arrayList.add(Short.valueOf(s));
         }
-        int $i$f$filterIndexed = i4;
+        int $i$f$filterIndexed = i5;
         return (List)arrayList;
     }
 
     public static final List<Boolean> filterIndexed(boolean[] $this$filterIndexed, Function2<? super Integer, ? super Boolean, Boolean> predicate) {
-        int i;
+        int i5;
         boolean booleanValue;
         int i4;
-        int i6;
+        int i;
         boolean z;
-        int i2;
+        int i6;
         boolean z2;
         int i3;
         Integer valueOf;
-        int i5;
+        int i2;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexed, "<this>");
         Intrinsics.checkNotNullParameter(obj, "predicate");
-        i = 0;
+        i5 = 0;
         ArrayList arrayList = new ArrayList();
         final int i7 = 0;
         final Object obj4 = obj3;
         final int i8 = 0;
         i4 = 0;
-        i6 = 0;
-        while (i6 < obj4.length) {
+        i = 0;
+        while (i < obj4.length) {
             z2 = z;
             i3 = 0;
             if ((Boolean)obj.invoke(Integer.valueOf(i4), Boolean.valueOf(z2)).booleanValue()) {
             }
-            i6++;
-            i4 = i2;
-            i = i5;
+            i++;
+            i4 = i6;
+            i5 = i2;
             (Collection)arrayList.add(Boolean.valueOf(z2));
         }
-        int $i$f$filterIndexed = i;
+        int $i$f$filterIndexed = i5;
         return (List)arrayList;
     }
 
     public static final <C extends Collection<? super Byte>> C filterIndexedTo(byte[] $this$filterIndexedTo, C destination, Function2<? super Integer, ? super Byte, Boolean> predicate) {
-        int i2;
         int i3;
-        byte b2;
         int i4;
-        byte b;
+        byte b2;
         int i;
+        byte b;
+        int i2;
         boolean booleanValue;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
@@ -4308,15 +4308,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i5 = 0;
         final Object obj = $this$filterIndexedTo;
         final int i6 = 0;
-        i2 = 0;
         i3 = 0;
-        while (i3 < obj.length) {
+        i4 = 0;
+        while (i4 < obj.length) {
             b = b2;
-            i = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i2), Byte.valueOf(b)).booleanValue()) {
+            i2 = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i3), Byte.valueOf(b)).booleanValue()) {
             }
-            i3++;
-            i2 = i4;
+            i4++;
+            i3 = i;
             destination.add(Byte.valueOf(b));
         }
         return destination;
@@ -4352,14 +4352,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <C extends Collection<? super Double>> C filterIndexedTo(double[] $this$filterIndexedTo, C destination, Function2<? super Integer, ? super Double, Boolean> predicate) {
-        int i3;
+        int i2;
         boolean booleanValue;
+        int i3;
         int i;
-        int i4;
         long l2;
         int i5;
         long l;
-        int i2;
+        int i4;
         Integer valueOf;
         int i6;
         final Object obj = destination;
@@ -4367,19 +4367,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(obj, "destination");
         Intrinsics.checkNotNullParameter(obj2, "predicate");
-        i3 = 0;
+        i2 = 0;
         final Object obj4 = $this$filterIndexedTo;
         final int i7 = 0;
+        i3 = 0;
         i = 0;
-        i4 = 0;
-        while (i4 < obj4.length) {
+        while (i < obj4.length) {
             l = l2;
-            i2 = 0;
-            if ((Boolean)obj2.invoke(Integer.valueOf(i), Double.valueOf(l)).booleanValue()) {
+            i4 = 0;
+            if ((Boolean)obj2.invoke(Integer.valueOf(i3), Double.valueOf(l)).booleanValue()) {
             }
-            i4++;
-            i = i5;
-            i3 = i6;
+            i++;
+            i3 = i5;
+            i2 = i6;
             obj.add(Double.valueOf(l));
         }
         return obj;
@@ -4387,11 +4387,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final <C extends Collection<? super Float>> C filterIndexedTo(float[] $this$filterIndexedTo, C destination, Function2<? super Integer, ? super Float, Boolean> predicate) {
         int i5;
-        int i4;
-        int i2;
         int i3;
-        int i6;
         int i;
+        int i2;
+        int i4;
+        int i6;
         boolean booleanValue;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
@@ -4401,25 +4401,25 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final Object obj = $this$filterIndexedTo;
         final int i8 = 0;
         i5 = 0;
-        i4 = 0;
-        while (i4 < obj.length) {
-            i6 = i2;
-            i = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i5), Float.valueOf(i6)).booleanValue()) {
+        i3 = 0;
+        while (i3 < obj.length) {
+            i4 = i;
+            i6 = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i5), Float.valueOf(i4)).booleanValue()) {
             }
-            i4++;
-            i5 = i3;
-            destination.add(Float.valueOf(i6));
+            i3++;
+            i5 = i2;
+            destination.add(Float.valueOf(i4));
         }
         return destination;
     }
 
     public static final <C extends Collection<? super Integer>> C filterIndexedTo(int[] $this$filterIndexedTo, C destination, Function2<? super Integer, ? super Integer, Boolean> predicate) {
+        int i3;
+        int i2;
         int i6;
         int i5;
         int i;
-        int i2;
-        int i3;
         int i4;
         boolean booleanValue;
         Integer valueOf;
@@ -4429,61 +4429,61 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i7 = 0;
         final Object obj = $this$filterIndexedTo;
         final int i8 = 0;
-        i6 = 0;
-        i5 = 0;
-        while (i5 < obj.length) {
-            i3 = i;
+        i3 = 0;
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = i6;
             i4 = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i6), Integer.valueOf(i3)).booleanValue()) {
+            if ((Boolean)predicate.invoke(Integer.valueOf(i3), Integer.valueOf(i)).booleanValue()) {
             }
-            i5++;
-            i6 = i2;
-            destination.add(Integer.valueOf(i3));
+            i2++;
+            i3 = i5;
+            destination.add(Integer.valueOf(i));
         }
         return destination;
     }
 
     public static final <C extends Collection<? super Long>> C filterIndexedTo(long[] $this$filterIndexedTo, C destination, Function2<? super Integer, ? super Long, Boolean> predicate) {
-        int i6;
-        boolean booleanValue;
-        int i4;
         int i;
-        long l;
-        int i5;
-        long l2;
+        boolean booleanValue;
         int i2;
-        Integer valueOf;
         int i3;
+        long l;
+        int i4;
+        long l2;
+        int i6;
+        Integer valueOf;
+        int i5;
         final Object obj = destination;
         final Object obj2 = predicate;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(obj, "destination");
         Intrinsics.checkNotNullParameter(obj2, "predicate");
-        i6 = 0;
+        i = 0;
         final Object obj4 = $this$filterIndexedTo;
         final int i7 = 0;
-        i4 = 0;
-        i = 0;
-        while (i < obj4.length) {
+        i2 = 0;
+        i3 = 0;
+        while (i3 < obj4.length) {
             l2 = l;
-            i2 = 0;
-            if ((Boolean)obj2.invoke(Integer.valueOf(i4), Long.valueOf(l2)).booleanValue()) {
+            i6 = 0;
+            if ((Boolean)obj2.invoke(Integer.valueOf(i2), Long.valueOf(l2)).booleanValue()) {
             }
-            i++;
-            i4 = i5;
-            i6 = i3;
+            i3++;
+            i2 = i4;
+            i = i5;
             obj.add(Long.valueOf(l2));
         }
         return obj;
     }
 
     public static final <T, C extends Collection<? super T>> C filterIndexedTo(T[] $this$filterIndexedTo, C destination, Function2<? super Integer, ? super T, Boolean> predicate) {
-        int i4;
-        int i;
-        Object obj2;
-        int i2;
-        Object obj;
         int i3;
+        int i;
+        Object obj;
+        int i2;
+        Object obj2;
+        int i4;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
@@ -4491,26 +4491,26 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i5 = 0;
         final Object obj3 = $this$filterIndexedTo;
         final int i6 = 0;
-        i4 = 0;
+        i3 = 0;
         i = 0;
         while (i < obj3.length) {
-            obj = obj2;
-            i3 = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i4), obj).booleanValue()) {
+            obj2 = obj;
+            i4 = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i3), obj2).booleanValue()) {
             }
             i++;
-            i4 = i2;
-            destination.add(obj);
+            i3 = i2;
+            destination.add(obj2);
         }
         return destination;
     }
 
     public static final <C extends Collection<? super Short>> C filterIndexedTo(short[] $this$filterIndexedTo, C destination, Function2<? super Integer, ? super Short, Boolean> predicate) {
-        int i4;
         int i;
-        short s2;
         int i3;
         short s;
+        int i4;
+        short s2;
         int i2;
         boolean booleanValue;
         Short valueOf;
@@ -4520,27 +4520,27 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i5 = 0;
         final Object obj = $this$filterIndexedTo;
         final int i6 = 0;
-        i4 = 0;
         i = 0;
-        while (i < obj.length) {
-            s = s2;
+        i3 = 0;
+        while (i3 < obj.length) {
+            s2 = s;
             i2 = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i4), Short.valueOf(s)).booleanValue()) {
+            if ((Boolean)predicate.invoke(Integer.valueOf(i), Short.valueOf(s2)).booleanValue()) {
             }
-            i++;
-            i4 = i3;
-            destination.add(Short.valueOf(s));
+            i3++;
+            i = i4;
+            destination.add(Short.valueOf(s2));
         }
         return destination;
     }
 
     public static final <C extends Collection<? super Boolean>> C filterIndexedTo(boolean[] $this$filterIndexedTo, C destination, Function2<? super Integer, ? super Boolean, Boolean> predicate) {
-        int i2;
         int i;
-        boolean z;
         int i3;
         boolean z2;
         int i4;
+        boolean z;
+        int i2;
         boolean booleanValue;
         Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$filterIndexedTo, "<this>");
@@ -4549,16 +4549,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i5 = 0;
         final Object obj = $this$filterIndexedTo;
         final int i6 = 0;
-        i2 = 0;
         i = 0;
-        while (i < obj.length) {
-            z2 = z;
-            i4 = 0;
-            if ((Boolean)predicate.invoke(Integer.valueOf(i2), Boolean.valueOf(z2)).booleanValue()) {
+        i3 = 0;
+        while (i3 < obj.length) {
+            z = z2;
+            i2 = 0;
+            if ((Boolean)predicate.invoke(Integer.valueOf(i), Boolean.valueOf(z)).booleanValue()) {
             }
-            i++;
-            i2 = i3;
-            destination.add(Boolean.valueOf(z2));
+            i3++;
+            i = i4;
+            destination.add(Boolean.valueOf(z));
         }
         return destination;
     }
@@ -4669,8 +4669,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final List<Float> filterNot(float[] $this$filterNot, Function1<? super Float, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterNot, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -4678,20 +4678,20 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList();
         final Object obj = $this$filterNot;
         final int i4 = 0;
-        i = 0;
-        while (i < obj.length) {
-            i2 = obj[i];
-            if (!(Boolean)predicate.invoke(Float.valueOf(i2)).booleanValue()) {
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = obj[i2];
+            if (!(Boolean)predicate.invoke(Float.valueOf(i)).booleanValue()) {
             }
-            i++;
-            (Collection)arrayList.add(Float.valueOf(i2));
+            i2++;
+            (Collection)arrayList.add(Float.valueOf(i));
         }
         return (List)arrayList;
     }
 
     public static final List<Integer> filterNot(int[] $this$filterNot, Function1<? super Integer, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterNot, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -4699,13 +4699,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList();
         final Object obj = $this$filterNot;
         final int i4 = 0;
-        i = 0;
-        while (i < obj.length) {
-            i2 = obj[i];
-            if (!(Boolean)predicate.invoke(Integer.valueOf(i2)).booleanValue()) {
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = obj[i2];
+            if (!(Boolean)predicate.invoke(Integer.valueOf(i)).booleanValue()) {
             }
-            i++;
-            (Collection)arrayList.add(Integer.valueOf(i2));
+            i2++;
+            (Collection)arrayList.add(Integer.valueOf(i));
         }
         return (List)arrayList;
     }
@@ -4874,39 +4874,39 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <C extends Collection<? super Float>> C filterNotTo(float[] $this$filterNotTo, C destination, Function1<? super Float, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterNotTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$filterNotTo.length) {
-            i = $this$filterNotTo[i2];
-            if (!(Boolean)predicate.invoke(Float.valueOf(i)).booleanValue()) {
+        i = 0;
+        while (i < $this$filterNotTo.length) {
+            i2 = $this$filterNotTo[i];
+            if (!(Boolean)predicate.invoke(Float.valueOf(i2)).booleanValue()) {
             }
-            i2++;
-            destination.add(Float.valueOf(i));
+            i++;
+            destination.add(Float.valueOf(i2));
         }
         return destination;
     }
 
     public static final <C extends Collection<? super Integer>> C filterNotTo(int[] $this$filterNotTo, C destination, Function1<? super Integer, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$filterNotTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$filterNotTo.length) {
-            i = $this$filterNotTo[i2];
-            if (!(Boolean)predicate.invoke(Integer.valueOf(i)).booleanValue()) {
+        i = 0;
+        while (i < $this$filterNotTo.length) {
+            i2 = $this$filterNotTo[i];
+            if (!(Boolean)predicate.invoke(Integer.valueOf(i2)).booleanValue()) {
             }
-            i2++;
-            destination.add(Integer.valueOf(i));
+            i++;
+            destination.add(Integer.valueOf(i2));
         }
         return destination;
     }
@@ -5232,17 +5232,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     private static final Float find(float[] $this$find, Function1<? super Float, Boolean> predicate) {
         int valueOf;
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$find, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         Object obj = $this$find;
         final int i3 = 0;
-        i = 0;
-        while (i < obj.length) {
-            i2 = obj[i];
-            i++;
+        i2 = 0;
+        while (i2 < obj.length) {
+            i = obj[i2];
+            i2++;
         }
         valueOf = 0;
         return valueOf;
@@ -5319,9 +5319,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Boolean findLast(boolean[] $this$findLast, Function1<? super Boolean, Boolean> predicate) {
-        int i;
-        Boolean valueOf;
         int i2;
+        Boolean valueOf;
+        int i;
         boolean z;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$findLast, "<this>");
@@ -5370,9 +5370,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Double findLast(double[] $this$findLast, Function1<? super Double, Boolean> predicate) {
-        int i;
-        Double valueOf;
         int i2;
+        Double valueOf;
+        int i;
         long l;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$findLast, "<this>");
@@ -5389,8 +5389,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     private static final Float findLast(float[] $this$findLast, Function1<? super Float, Boolean> predicate) {
         int i;
         Float valueOf;
-        int i3;
         int i2;
+        int i3;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$findLast, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -5421,9 +5421,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Long findLast(long[] $this$findLast, Function1<? super Long, Boolean> predicate) {
-        int i2;
-        Long valueOf;
         int i;
+        Long valueOf;
+        int i2;
         long l;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$findLast, "<this>");
@@ -5438,8 +5438,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <T> T findLast(T[] $this$findLast, Function1<? super T, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         Object obj;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$findLast, "<this>");
@@ -5897,16 +5897,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Float firstOrNull(float[] $this$firstOrNull, Function1<? super Float, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$firstOrNull, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$firstOrNull.length) {
-            i = $this$firstOrNull[i2];
-            i2++;
+        i = 0;
+        while (i < $this$firstOrNull.length) {
+            i2 = $this$firstOrNull[i];
+            i++;
         }
         return null;
     }
@@ -5926,16 +5926,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Integer firstOrNull(int[] $this$firstOrNull, Function1<? super Integer, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$firstOrNull, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$firstOrNull.length) {
-            i = $this$firstOrNull[i2];
-            i2++;
+        i = 0;
+        while (i < $this$firstOrNull.length) {
+            i2 = $this$firstOrNull[i];
+            i++;
         }
         return null;
     }
@@ -6078,8 +6078,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> List<R> flatMap(float[] $this$flatMap, Function1<? super Float, ? extends Iterable<? extends R>> transform) {
-        int i;
         int i2;
+        int i;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$flatMap, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -6087,17 +6087,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList();
         final Object obj = $this$flatMap;
         final int i4 = 0;
-        i = 0;
-        while (i < obj.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Float.valueOf(obj[i])));
-            i++;
+        i2 = 0;
+        while (i2 < obj.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Float.valueOf(obj[i2])));
+            i2++;
         }
         return (List)arrayList;
     }
 
     public static final <R> List<R> flatMap(int[] $this$flatMap, Function1<? super Integer, ? extends Iterable<? extends R>> transform) {
-        int i;
         int i2;
+        int i;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$flatMap, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -6105,10 +6105,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList();
         final Object obj = $this$flatMap;
         final int i4 = 0;
-        i = 0;
-        while (i < obj.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(obj[i])));
-            i++;
+        i2 = 0;
+        while (i2 < obj.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(obj[i2])));
+            i2++;
         }
         return (List)arrayList;
     }
@@ -6186,173 +6186,173 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> List<R> flatMapIndexedIterable(byte[] $this$flatMapIndexed, Function2<? super Integer, ? super Byte, ? extends Iterable<? extends R>> transform) {
-        int i;
         int i3;
-        Byte valueOf;
         int i2;
+        Byte valueOf;
+        int i;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
-        i3 = i;
-        while (i < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Byte.valueOf($this$flatMapIndexed[i])));
-            i++;
-            i3 = i2;
+        i2 = i3;
+        while (i3 < $this$flatMapIndexed.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), Byte.valueOf($this$flatMapIndexed[i3])));
+            i3++;
+            i2 = i;
         }
         return (List)arrayList;
     }
 
     private static final <R> List<R> flatMapIndexedIterable(char[] $this$flatMapIndexed, Function2<? super Integer, ? super Character, ? extends Iterable<? extends R>> transform) {
-        int i2;
-        int i3;
-        Character valueOf;
         int i;
+        int i2;
+        Character valueOf;
+        int i3;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
-        i3 = i2;
-        while (i2 < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Character.valueOf($this$flatMapIndexed[i2])));
-            i2++;
-            i3 = i;
+        i2 = i;
+        while (i < $this$flatMapIndexed.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), Character.valueOf($this$flatMapIndexed[i])));
+            i++;
+            i2 = i3;
         }
         return (List)arrayList;
     }
 
     private static final <R> List<R> flatMapIndexedIterable(double[] $this$flatMapIndexed, Function2<? super Integer, ? super Double, ? extends Iterable<? extends R>> transform) {
         int i;
-        int i2;
-        Double valueOf;
         int i3;
+        Double valueOf;
+        int i2;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
-        i2 = i;
+        i3 = i;
         while (i < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), Double.valueOf($this$flatMapIndexed[i])));
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Double.valueOf($this$flatMapIndexed[i])));
             i++;
-            i2 = i3;
+            i3 = i2;
         }
         return (List)arrayList;
     }
 
     private static final <R> List<R> flatMapIndexedIterable(float[] $this$flatMapIndexed, Function2<? super Integer, ? super Float, ? extends Iterable<? extends R>> transform) {
-        int i;
         int i2;
+        int i3;
         Float valueOf;
-        int i3;
-        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        ArrayList arrayList = new ArrayList();
-        i2 = i;
-        while (i < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), Float.valueOf($this$flatMapIndexed[i])));
-            i++;
-            i2 = i3;
-        }
-        return (List)arrayList;
-    }
-
-    private static final <R> List<R> flatMapIndexedIterable(int[] $this$flatMapIndexed, Function2<? super Integer, ? super Integer, ? extends Iterable<? extends R>> transform) {
-        int i;
-        int i2;
-        Integer valueOf;
-        int i3;
-        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        ArrayList arrayList = new ArrayList();
-        i2 = i;
-        while (i < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), Integer.valueOf($this$flatMapIndexed[i])));
-            i++;
-            i2 = i3;
-        }
-        return (List)arrayList;
-    }
-
-    private static final <R> List<R> flatMapIndexedIterable(long[] $this$flatMapIndexed, Function2<? super Integer, ? super Long, ? extends Iterable<? extends R>> transform) {
-        int i;
-        int i2;
-        Long valueOf;
-        int i3;
-        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        ArrayList arrayList = new ArrayList();
-        i2 = i;
-        while (i < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), Long.valueOf($this$flatMapIndexed[i])));
-            i++;
-            i2 = i3;
-        }
-        return (List)arrayList;
-    }
-
-    private static final <T, R> List<R> flatMapIndexedIterable(T[] $this$flatMapIndexed, Function2<? super Integer, ? super T, ? extends Iterable<? extends R>> transform) {
-        int i;
-        int i2;
-        Object obj;
-        int i3;
-        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        ArrayList arrayList = new ArrayList();
-        i2 = i;
-        while (i < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i2), $this$flatMapIndexed[i]));
-            i++;
-            i2 = i3;
-        }
-        return (List)arrayList;
-    }
-
-    private static final <R> List<R> flatMapIndexedIterable(short[] $this$flatMapIndexed, Function2<? super Integer, ? super Short, ? extends Iterable<? extends R>> transform) {
-        int i3;
-        int i;
-        Short valueOf;
-        int i2;
-        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        ArrayList arrayList = new ArrayList();
-        i = i3;
-        while (i3 < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i), Short.valueOf($this$flatMapIndexed[i3])));
-            i3++;
-            i = i2;
-        }
-        return (List)arrayList;
-    }
-
-    private static final <R> List<R> flatMapIndexedIterable(boolean[] $this$flatMapIndexed, Function2<? super Integer, ? super Boolean, ? extends Iterable<? extends R>> transform) {
-        int i2;
-        int i3;
-        Boolean valueOf;
         int i;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
         i3 = i2;
         while (i2 < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Boolean.valueOf($this$flatMapIndexed[i2])));
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Float.valueOf($this$flatMapIndexed[i2])));
             i2++;
             i3 = i;
         }
         return (List)arrayList;
     }
 
-    private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(byte[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Byte, ? extends Iterable<? extends R>> transform) {
+    private static final <R> List<R> flatMapIndexedIterable(int[] $this$flatMapIndexed, Function2<? super Integer, ? super Integer, ? extends Iterable<? extends R>> transform) {
         int i2;
         int i3;
+        Integer valueOf;
+        int i;
+        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        ArrayList arrayList = new ArrayList();
+        i3 = i2;
+        while (i2 < $this$flatMapIndexed.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Integer.valueOf($this$flatMapIndexed[i2])));
+            i2++;
+            i3 = i;
+        }
+        return (List)arrayList;
+    }
+
+    private static final <R> List<R> flatMapIndexedIterable(long[] $this$flatMapIndexed, Function2<? super Integer, ? super Long, ? extends Iterable<? extends R>> transform) {
+        int i3;
+        int i;
+        Long valueOf;
+        int i2;
+        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        ArrayList arrayList = new ArrayList();
+        i = i3;
+        while (i3 < $this$flatMapIndexed.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i), Long.valueOf($this$flatMapIndexed[i3])));
+            i3++;
+            i = i2;
+        }
+        return (List)arrayList;
+    }
+
+    private static final <T, R> List<R> flatMapIndexedIterable(T[] $this$flatMapIndexed, Function2<? super Integer, ? super T, ? extends Iterable<? extends R>> transform) {
+        int i2;
+        int i;
+        Object obj;
+        int i3;
+        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        ArrayList arrayList = new ArrayList();
+        i = i2;
+        while (i2 < $this$flatMapIndexed.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i), $this$flatMapIndexed[i2]));
+            i2++;
+            i = i3;
+        }
+        return (List)arrayList;
+    }
+
+    private static final <R> List<R> flatMapIndexedIterable(short[] $this$flatMapIndexed, Function2<? super Integer, ? super Short, ? extends Iterable<? extends R>> transform) {
+        int i2;
+        int i3;
+        Short valueOf;
+        int i;
+        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        ArrayList arrayList = new ArrayList();
+        i3 = i2;
+        while (i2 < $this$flatMapIndexed.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Short.valueOf($this$flatMapIndexed[i2])));
+            i2++;
+            i3 = i;
+        }
+        return (List)arrayList;
+    }
+
+    private static final <R> List<R> flatMapIndexedIterable(boolean[] $this$flatMapIndexed, Function2<? super Integer, ? super Boolean, ? extends Iterable<? extends R>> transform) {
+        int i;
+        int i3;
+        Boolean valueOf;
+        int i2;
+        Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        ArrayList arrayList = new ArrayList();
+        i3 = i;
+        while (i < $this$flatMapIndexed.length) {
+            CollectionsKt.addAll((Collection)arrayList, (Iterable)transform.invoke(Integer.valueOf(i3), Boolean.valueOf($this$flatMapIndexed[i])));
+            i++;
+            i3 = i2;
+        }
+        return (List)arrayList;
+    }
+
+    private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(byte[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Byte, ? extends Iterable<? extends R>> transform) {
+        int i3;
+        int i2;
         byte b;
         int i;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i2 = 0;
         i3 = 0;
-        while (i3 < $this$flatMapIndexedTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i2), Byte.valueOf($this$flatMapIndexedTo[i3])));
-            i3++;
-            i2 = i;
+        i2 = 0;
+        while (i2 < $this$flatMapIndexedTo.length) {
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i3), Byte.valueOf($this$flatMapIndexedTo[i2])));
+            i2++;
+            i3 = i;
         }
         return destination;
     }
@@ -6377,77 +6377,77 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(double[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Double, ? extends Iterable<? extends R>> transform) {
-        int i3;
         int i;
-        long l;
         int i2;
+        long l;
+        int i3;
         Double valueOf;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i3 = 0;
         i = 0;
-        while (i < $this$flatMapIndexedTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i3), Double.valueOf($this$flatMapIndexedTo[i])));
-            i++;
-            i3 = i2;
+        i2 = 0;
+        while (i2 < $this$flatMapIndexedTo.length) {
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), Double.valueOf($this$flatMapIndexedTo[i2])));
+            i2++;
+            i = i3;
         }
         return destination;
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(float[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Float, ? extends Iterable<? extends R>> transform) {
-        int i2;
-        int i4;
-        int i3;
         int i;
+        int i4;
+        int i2;
+        int i3;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i2 = 0;
+        i = 0;
         i4 = 0;
         while (i4 < $this$flatMapIndexedTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i2), Float.valueOf($this$flatMapIndexedTo[i4])));
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), Float.valueOf($this$flatMapIndexedTo[i4])));
             i4++;
-            i2 = i;
+            i = i3;
         }
         return destination;
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(int[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Integer, ? extends Iterable<? extends R>> transform) {
+        int i;
+        int i3;
+        int i2;
+        int i4;
+        Integer valueOf;
+        Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        i = 0;
+        i3 = 0;
+        while (i3 < $this$flatMapIndexedTo.length) {
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), Integer.valueOf($this$flatMapIndexedTo[i3])));
+            i3++;
+            i = i4;
+        }
+        return destination;
+    }
+
+    private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(long[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Long, ? extends Iterable<? extends R>> transform) {
         int i2;
         int i3;
-        int i4;
+        long l;
         int i;
-        Integer valueOf;
+        Long valueOf;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         i2 = 0;
         i3 = 0;
         while (i3 < $this$flatMapIndexedTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i2), Integer.valueOf($this$flatMapIndexedTo[i3])));
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i2), Long.valueOf($this$flatMapIndexedTo[i3])));
             i3++;
             i2 = i;
-        }
-        return destination;
-    }
-
-    private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(long[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Long, ? extends Iterable<? extends R>> transform) {
-        int i3;
-        int i;
-        long l;
-        int i2;
-        Long valueOf;
-        Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        i3 = 0;
-        i = 0;
-        while (i < $this$flatMapIndexedTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i3), Long.valueOf($this$flatMapIndexedTo[i])));
-            i++;
-            i3 = i2;
         }
         return destination;
     }
@@ -6471,74 +6471,74 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(short[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Short, ? extends Iterable<? extends R>> transform) {
-        int i3;
+        int i;
         int i2;
         short s;
-        int i;
+        int i3;
         Short valueOf;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i3 = 0;
+        i = 0;
         i2 = 0;
         while (i2 < $this$flatMapIndexedTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i3), Short.valueOf($this$flatMapIndexedTo[i2])));
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), Short.valueOf($this$flatMapIndexedTo[i2])));
             i2++;
-            i3 = i;
+            i = i3;
         }
         return destination;
     }
 
     private static final <R, C extends Collection<? super R>> C flatMapIndexedIterableTo(boolean[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super Boolean, ? extends Iterable<? extends R>> transform) {
-        int i3;
+        int i;
         int i2;
         boolean z;
-        int i;
+        int i3;
         Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i3 = 0;
+        i = 0;
         i2 = 0;
         while (i2 < $this$flatMapIndexedTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i3), Boolean.valueOf($this$flatMapIndexedTo[i2])));
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf(i), Boolean.valueOf($this$flatMapIndexedTo[i2])));
             i2++;
-            i3 = i;
+            i = i3;
         }
         return destination;
     }
 
     private static final <T, R> List<R> flatMapIndexedSequence(T[] $this$flatMapIndexed, Function2<? super Integer, ? super T, ? extends Sequence<? extends R>> transform) {
         int i;
-        int i2;
-        Object obj;
         int i3;
+        Object obj;
+        int i2;
         Intrinsics.checkNotNullParameter($this$flatMapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         ArrayList arrayList = new ArrayList();
-        i2 = i;
+        i3 = i;
         while (i < $this$flatMapIndexed.length) {
-            CollectionsKt.addAll((Collection)arrayList, (Sequence)transform.invoke(Integer.valueOf(i2), $this$flatMapIndexed[i]));
+            CollectionsKt.addAll((Collection)arrayList, (Sequence)transform.invoke(Integer.valueOf(i3), $this$flatMapIndexed[i]));
             i++;
-            i2 = i3;
+            i3 = i2;
         }
         return (List)arrayList;
     }
 
     private static final <T, R, C extends Collection<? super R>> C flatMapIndexedSequenceTo(T[] $this$flatMapIndexedTo, C destination, Function2<? super Integer, ? super T, ? extends Sequence<? extends R>> transform) {
-        int i3;
         int i;
-        Object obj;
         int i2;
+        Object obj;
+        int i3;
         Intrinsics.checkNotNullParameter($this$flatMapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
-        i3 = 0;
         i = 0;
-        while (i < $this$flatMapIndexedTo.length) {
-            CollectionsKt.addAll(destination, (Sequence)transform.invoke(Integer.valueOf(i3), $this$flatMapIndexedTo[i]));
-            i++;
-            i3 = i2;
+        i2 = 0;
+        while (i2 < $this$flatMapIndexedTo.length) {
+            CollectionsKt.addAll(destination, (Sequence)transform.invoke(Integer.valueOf(i), $this$flatMapIndexedTo[i2]));
+            i2++;
+            i = i3;
         }
         return destination;
     }
@@ -6626,22 +6626,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R, C extends Collection<? super R>> C flatMapTo(float[] $this$flatMapTo, C destination, Function1<? super Float, ? extends Iterable<? extends R>> transform) {
-        int i;
-        int i2;
-        Object invoke;
-        Intrinsics.checkNotNullParameter($this$flatMapTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        int i3 = 0;
-        i = 0;
-        while (i < $this$flatMapTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Float.valueOf($this$flatMapTo[i])));
-            i++;
-        }
-        return destination;
-    }
-
-    public static final <R, C extends Collection<? super R>> C flatMapTo(int[] $this$flatMapTo, C destination, Function1<? super Integer, ? extends Iterable<? extends R>> transform) {
         int i2;
         int i;
         Object invoke;
@@ -6651,8 +6635,24 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         i2 = 0;
         while (i2 < $this$flatMapTo.length) {
-            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf($this$flatMapTo[i2])));
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Float.valueOf($this$flatMapTo[i2])));
             i2++;
+        }
+        return destination;
+    }
+
+    public static final <R, C extends Collection<? super R>> C flatMapTo(int[] $this$flatMapTo, C destination, Function1<? super Integer, ? extends Iterable<? extends R>> transform) {
+        int i;
+        int i2;
+        Object invoke;
+        Intrinsics.checkNotNullParameter($this$flatMapTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        int i3 = 0;
+        i = 0;
+        while (i < $this$flatMapTo.length) {
+            CollectionsKt.addAll(destination, (Iterable)transform.invoke(Integer.valueOf($this$flatMapTo[i])));
+            i++;
         }
         return destination;
     }
@@ -6874,127 +6874,127 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> R foldIndexed(byte[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Byte, ? extends R> operation) {
-        int i3;
-        Object accumulator;
         int i2;
-        byte b;
+        Object accumulator;
         int i;
+        byte b;
+        int i3;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i4 = 0;
-        i3 = 0;
-        accumulator = initial;
         i2 = 0;
-        while (i2 < $this$foldIndexed.length) {
-            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, Byte.valueOf($this$foldIndexed[i2]));
-            i2++;
-            i3 = i;
+        accumulator = initial;
+        i = 0;
+        while (i < $this$foldIndexed.length) {
+            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, Byte.valueOf($this$foldIndexed[i]));
+            i++;
+            i2 = i3;
         }
         return accumulator;
     }
 
     public static final <R> R foldIndexed(char[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Character, ? extends R> operation) {
-        int i2;
+        int i3;
         Object accumulator;
         int i;
         char c;
-        int i3;
+        int i2;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i4 = 0;
-        i2 = 0;
-        accumulator = initial;
-        i = 0;
-        while (i < $this$foldIndexed.length) {
-            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, Character.valueOf($this$foldIndexed[i]));
-            i++;
-            i2 = i3;
-        }
-        return accumulator;
-    }
-
-    public static final <R> R foldIndexed(double[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Double, ? extends R> operation) {
-        int i2;
-        Object accumulator;
-        int i;
-        long l;
-        int i3;
-        Double valueOf;
-        Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(operation, "operation");
-        int i4 = 0;
-        i2 = 0;
-        accumulator = initial;
-        i = 0;
-        while (i < $this$foldIndexed.length) {
-            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, Double.valueOf($this$foldIndexed[i]));
-            i++;
-            i2 = i3;
-        }
-        return accumulator;
-    }
-
-    public static final <R> R foldIndexed(float[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Float, ? extends R> operation) {
-        int i3;
-        Object accumulator;
-        int i;
-        int i4;
-        int i2;
-        Float valueOf;
-        Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(operation, "operation");
-        int i5 = 0;
         i3 = 0;
         accumulator = initial;
         i = 0;
         while (i < $this$foldIndexed.length) {
-            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, Float.valueOf($this$foldIndexed[i]));
+            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, Character.valueOf($this$foldIndexed[i]));
             i++;
             i3 = i2;
         }
         return accumulator;
     }
 
-    public static final <R> R foldIndexed(int[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Integer, ? extends R> operation) {
+    public static final <R> R foldIndexed(double[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Double, ? extends R> operation) {
         int i;
         Object accumulator;
         int i2;
+        long l;
         int i3;
+        Double valueOf;
+        Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(operation, "operation");
+        int i4 = 0;
+        i = 0;
+        accumulator = initial;
+        i2 = 0;
+        while (i2 < $this$foldIndexed.length) {
+            accumulator = operation.invoke(Integer.valueOf(i), accumulator, Double.valueOf($this$foldIndexed[i2]));
+            i2++;
+            i = i3;
+        }
+        return accumulator;
+    }
+
+    public static final <R> R foldIndexed(float[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Float, ? extends R> operation) {
+        int i;
+        Object accumulator;
+        int i3;
+        int i2;
         int i4;
-        Integer valueOf;
+        Float valueOf;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i5 = 0;
         i = 0;
         accumulator = initial;
-        i2 = 0;
-        while (i2 < $this$foldIndexed.length) {
-            accumulator = operation.invoke(Integer.valueOf(i), accumulator, Integer.valueOf($this$foldIndexed[i2]));
-            i2++;
+        i3 = 0;
+        while (i3 < $this$foldIndexed.length) {
+            accumulator = operation.invoke(Integer.valueOf(i), accumulator, Float.valueOf($this$foldIndexed[i3]));
+            i3++;
             i = i4;
         }
         return accumulator;
     }
 
-    public static final <R> R foldIndexed(long[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Long, ? extends R> operation) {
+    public static final <R> R foldIndexed(int[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Integer, ? extends R> operation) {
+        int i4;
+        Object accumulator;
+        int i;
         int i3;
+        int i2;
+        Integer valueOf;
+        Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(operation, "operation");
+        int i5 = 0;
+        i4 = 0;
+        accumulator = initial;
+        i = 0;
+        while (i < $this$foldIndexed.length) {
+            accumulator = operation.invoke(Integer.valueOf(i4), accumulator, Integer.valueOf($this$foldIndexed[i]));
+            i++;
+            i4 = i2;
+        }
+        return accumulator;
+    }
+
+    public static final <R> R foldIndexed(long[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Long, ? extends R> operation) {
+        int i;
         Object accumulator;
         int i2;
         long l;
-        int i;
+        int i3;
         Long valueOf;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i4 = 0;
-        i3 = 0;
+        i = 0;
         accumulator = initial;
         i2 = 0;
         while (i2 < $this$foldIndexed.length) {
-            accumulator = operation.invoke(Integer.valueOf(i3), accumulator, Long.valueOf($this$foldIndexed[i2]));
+            accumulator = operation.invoke(Integer.valueOf(i), accumulator, Long.valueOf($this$foldIndexed[i2]));
             i2++;
-            i3 = i;
+            i = i3;
         }
         return accumulator;
     }
@@ -7002,19 +7002,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <T, R> R foldIndexed(T[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super T, ? extends R> operation) {
         int i;
         Object accumulator;
-        int i2;
-        Object obj;
         int i3;
+        Object obj;
+        int i2;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i4 = 0;
         i = 0;
         accumulator = initial;
-        i2 = 0;
-        while (i2 < $this$foldIndexed.length) {
-            accumulator = operation.invoke(Integer.valueOf(i), accumulator, $this$foldIndexed[i2]);
-            i2++;
-            i = i3;
+        i3 = 0;
+        while (i3 < $this$foldIndexed.length) {
+            accumulator = operation.invoke(Integer.valueOf(i), accumulator, $this$foldIndexed[i3]);
+            i3++;
+            i = i2;
         }
         return accumulator;
     }
@@ -7043,20 +7043,20 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <R> R foldIndexed(boolean[] $this$foldIndexed, R initial, Function3<? super Integer, ? super R, ? super Boolean, ? extends R> operation) {
         int i2;
         Object accumulator;
-        int i;
-        boolean z;
         int i3;
+        boolean z;
+        int i;
         Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$foldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i4 = 0;
         i2 = 0;
         accumulator = initial;
-        i = 0;
-        while (i < $this$foldIndexed.length) {
-            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, Boolean.valueOf($this$foldIndexed[i]));
-            i++;
-            i2 = i3;
+        i3 = 0;
+        while (i3 < $this$foldIndexed.length) {
+            accumulator = operation.invoke(Integer.valueOf(i2), accumulator, Boolean.valueOf($this$foldIndexed[i3]));
+            i3++;
+            i2 = i;
         }
         return accumulator;
     }
@@ -7227,8 +7227,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <R> R foldRightIndexed(char[] $this$foldRightIndexed, R initial, Function3<? super Integer, ? super Character, ? super R, ? extends R> operation) {
         int index;
         Object accumulator;
-        Integer valueOf;
-        Character valueOf2;
+        Integer valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$foldRightIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -7244,8 +7244,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <R> R foldRightIndexed(double[] $this$foldRightIndexed, R initial, Function3<? super Integer, ? super Double, ? super R, ? extends R> operation) {
         int index;
         Object accumulator;
-        Integer valueOf2;
-        Double valueOf;
+        Integer valueOf;
+        Double valueOf2;
         Intrinsics.checkNotNullParameter($this$foldRightIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -7261,8 +7261,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <R> R foldRightIndexed(float[] $this$foldRightIndexed, R initial, Function3<? super Integer, ? super Float, ? super R, ? extends R> operation) {
         int index;
         Object accumulator;
-        Integer valueOf;
-        Float valueOf2;
+        Integer valueOf2;
+        Float valueOf;
         Intrinsics.checkNotNullParameter($this$foldRightIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -7403,30 +7403,30 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final void forEach(float[] $this$forEach, Function1<? super Float, Unit> action) {
-        int i;
         int i2;
+        int i;
         Float valueOf;
-        Intrinsics.checkNotNullParameter($this$forEach, "<this>");
-        Intrinsics.checkNotNullParameter(action, "action");
-        int i3 = 0;
-        i = 0;
-        while (i < $this$forEach.length) {
-            action.invoke(Float.valueOf($this$forEach[i]));
-            i++;
-        }
-    }
-
-    public static final void forEach(int[] $this$forEach, Function1<? super Integer, Unit> action) {
-        int i2;
-        int i;
-        Integer valueOf;
         Intrinsics.checkNotNullParameter($this$forEach, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i3 = 0;
         i2 = 0;
         while (i2 < $this$forEach.length) {
-            action.invoke(Integer.valueOf($this$forEach[i2]));
+            action.invoke(Float.valueOf($this$forEach[i2]));
             i2++;
+        }
+    }
+
+    public static final void forEach(int[] $this$forEach, Function1<? super Integer, Unit> action) {
+        int i;
+        int i2;
+        Integer valueOf;
+        Intrinsics.checkNotNullParameter($this$forEach, "<this>");
+        Intrinsics.checkNotNullParameter(action, "action");
+        int i3 = 0;
+        i = 0;
+        while (i < $this$forEach.length) {
+            action.invoke(Integer.valueOf($this$forEach[i]));
+            i++;
         }
     }
 
@@ -7487,19 +7487,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final void forEachIndexed(byte[] $this$forEachIndexed, Function2<? super Integer, ? super Byte, Unit> action) {
         int i2;
-        int i;
-        byte b;
         int i3;
+        byte b;
+        int i;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i4 = 0;
         i2 = 0;
-        i = 0;
-        while (i < $this$forEachIndexed.length) {
-            action.invoke(Integer.valueOf(i2), Byte.valueOf($this$forEachIndexed[i]));
-            i++;
-            i2 = i3;
+        i3 = 0;
+        while (i3 < $this$forEachIndexed.length) {
+            action.invoke(Integer.valueOf(i2), Byte.valueOf($this$forEachIndexed[i3]));
+            i3++;
+            i2 = i;
         }
     }
 
@@ -7540,109 +7540,109 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final void forEachIndexed(float[] $this$forEachIndexed, Function2<? super Integer, ? super Float, Unit> action) {
+        int i2;
         int i3;
         int i;
         int i4;
-        int i2;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i5 = 0;
+        i2 = 0;
         i3 = 0;
-        i = 0;
-        while (i < $this$forEachIndexed.length) {
-            action.invoke(Integer.valueOf(i3), Float.valueOf($this$forEachIndexed[i]));
-            i++;
-            i3 = i2;
+        while (i3 < $this$forEachIndexed.length) {
+            action.invoke(Integer.valueOf(i2), Float.valueOf($this$forEachIndexed[i3]));
+            i3++;
+            i2 = i4;
         }
     }
 
     public static final void forEachIndexed(int[] $this$forEachIndexed, Function2<? super Integer, ? super Integer, Unit> action) {
-        int i;
         int i4;
-        int i2;
         int i3;
+        int i;
+        int i2;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i5 = 0;
-        i = 0;
         i4 = 0;
-        while (i4 < $this$forEachIndexed.length) {
-            action.invoke(Integer.valueOf(i), Integer.valueOf($this$forEachIndexed[i4]));
-            i4++;
-            i = i3;
+        i3 = 0;
+        while (i3 < $this$forEachIndexed.length) {
+            action.invoke(Integer.valueOf(i4), Integer.valueOf($this$forEachIndexed[i3]));
+            i3++;
+            i4 = i2;
         }
     }
 
     public static final void forEachIndexed(long[] $this$forEachIndexed, Function2<? super Integer, ? super Long, Unit> action) {
         int i2;
-        int i3;
-        long l;
         int i;
+        long l;
+        int i3;
         Long valueOf;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i4 = 0;
         i2 = 0;
-        i3 = 0;
-        while (i3 < $this$forEachIndexed.length) {
-            action.invoke(Integer.valueOf(i2), Long.valueOf($this$forEachIndexed[i3]));
-            i3++;
-            i2 = i;
+        i = 0;
+        while (i < $this$forEachIndexed.length) {
+            action.invoke(Integer.valueOf(i2), Long.valueOf($this$forEachIndexed[i]));
+            i++;
+            i2 = i3;
         }
     }
 
     public static final <T> void forEachIndexed(T[] $this$forEachIndexed, Function2<? super Integer, ? super T, Unit> action) {
-        int i;
+        int i3;
         int i2;
         Object obj;
-        int i3;
+        int i;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i4 = 0;
-        i = 0;
+        i3 = 0;
         i2 = 0;
         while (i2 < $this$forEachIndexed.length) {
-            action.invoke(Integer.valueOf(i), $this$forEachIndexed[i2]);
+            action.invoke(Integer.valueOf(i3), $this$forEachIndexed[i2]);
             i2++;
-            i = i3;
+            i3 = i;
         }
     }
 
     public static final void forEachIndexed(short[] $this$forEachIndexed, Function2<? super Integer, ? super Short, Unit> action) {
-        int i2;
+        int i;
         int i3;
         short s;
-        int i;
+        int i2;
         Short valueOf;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i4 = 0;
-        i2 = 0;
+        i = 0;
         i3 = 0;
         while (i3 < $this$forEachIndexed.length) {
-            action.invoke(Integer.valueOf(i2), Short.valueOf($this$forEachIndexed[i3]));
+            action.invoke(Integer.valueOf(i), Short.valueOf($this$forEachIndexed[i3]));
             i3++;
-            i2 = i;
+            i = i2;
         }
     }
 
     public static final void forEachIndexed(boolean[] $this$forEachIndexed, Function2<? super Integer, ? super Boolean, Unit> action) {
-        int i;
+        int i3;
         int i2;
         boolean z;
-        int i3;
+        int i;
         Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$forEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         int i4 = 0;
-        i = 0;
+        i3 = 0;
         i2 = 0;
         while (i2 < $this$forEachIndexed.length) {
-            action.invoke(Integer.valueOf(i), Boolean.valueOf($this$forEachIndexed[i2]));
+            action.invoke(Integer.valueOf(i3), Boolean.valueOf($this$forEachIndexed[i2]));
             i2++;
-            i = i3;
+            i3 = i;
         }
     }
 
@@ -8059,18 +8059,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T getOrNull(T[] $this$getOrNull, int index) {
-        int i2;
         int i;
+        int i2;
         int length;
         Intrinsics.checkNotNullParameter($this$getOrNull, "<this>");
-        i2 = 0;
+        i = 0;
         if (index >= 0 && index < $this$getOrNull.length) {
             if (index < $this$getOrNull.length) {
-                i2 = 1;
+                i = 1;
             }
         }
-        i = i2 != 0 ? $this$getOrNull[index] : 0;
-        return i;
+        i2 = i != 0 ? $this$getOrNull[index] : 0;
+        return i2;
     }
 
     public static final Short getOrNull(short[] $this$getOrNull, int index) {
@@ -8093,13 +8093,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K> Map<K, List<Byte>> groupBy(byte[] $this$groupBy, Function1<? super Byte, ? extends K> keySelector) {
-        int i;
+        int i2;
         byte b;
         Object invoke;
         ArrayList $this$getOrPut$iv$iv;
         Byte valueOf;
         Object obj;
-        int i2;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8107,9 +8107,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         final Object obj2 = $this$groupBy;
         final int i4 = 0;
-        i = 0;
-        while (i < obj2.length) {
-            b = obj2[i];
+        i2 = 0;
+        while (i2 < obj2.length) {
+            b = obj2[i2];
             invoke = keySelector.invoke(Byte.valueOf(b));
             LinkedHashMap map = linkedHashMap;
             int i5 = 0;
@@ -8119,8 +8119,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(Byte.valueOf(b));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
             map.put(invoke, (List)arrayList);
         }
@@ -8128,13 +8128,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V> Map<K, List<V>> groupBy(byte[] $this$groupBy, Function1<? super Byte, ? extends K> keySelector, Function1<? super Byte, ? extends V> valueTransform) {
-        int i;
+        int i2;
         byte b;
         Object invoke2;
         ArrayList $this$getOrPut$iv$iv;
         Object invoke;
         Object obj;
-        int i2;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8143,9 +8143,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         final Object obj2 = $this$groupBy;
         final int i4 = 0;
-        i = 0;
-        while (i < obj2.length) {
-            b = obj2[i];
+        i2 = 0;
+        while (i2 < obj2.length) {
+            b = obj2[i2];
             invoke2 = keySelector.invoke(Byte.valueOf(b));
             LinkedHashMap map = linkedHashMap;
             int i5 = 0;
@@ -8155,8 +8155,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Byte.valueOf(b)));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
             map.put(invoke2, (List)arrayList);
         }
@@ -8201,9 +8201,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V> Map<K, List<V>> groupBy(char[] $this$groupBy, Function1<? super Character, ? extends K> keySelector, Function1<? super Character, ? extends V> valueTransform) {
         int i;
         char c;
-        Object invoke;
-        ArrayList $this$getOrPut$iv$iv;
         Object invoke2;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke;
         Object obj;
         int i2;
         ArrayList arrayList;
@@ -8217,10 +8217,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = 0;
         while (i < obj2.length) {
             c = obj2[i];
-            invoke = keySelector.invoke(Character.valueOf(c));
+            invoke2 = keySelector.invoke(Character.valueOf(c));
             LinkedHashMap map = linkedHashMap;
             int i5 = 0;
-            obj = map.get(invoke);
+            obj = map.get(invoke2);
             if (obj == null) {
             } else {
             }
@@ -8229,7 +8229,7 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             i++;
             i2 = 0;
             arrayList = new ArrayList();
-            map.put(invoke, (List)arrayList);
+            map.put(invoke2, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
@@ -8272,11 +8272,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V> Map<K, List<V>> groupBy(double[] $this$groupBy, Function1<? super Double, ? extends K> keySelector, Function1<? super Double, ? extends V> valueTransform) {
         int i;
         long l;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv$iv;
         Object invoke;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke2;
         Object obj;
-        ArrayList list;
+        ArrayList $i$a$GetOrPutArraysKt___ArraysKt$groupByTo$list$16$iv;
         ArrayList arrayList;
         final Object obj2 = keySelector;
         final Object obj3 = valueTransform;
@@ -8290,31 +8290,31 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = 0;
         while (i < obj5.length) {
             l = obj5[i];
-            invoke2 = obj2.invoke(Double.valueOf(l));
+            invoke = obj2.invoke(Double.valueOf(l));
             LinkedHashMap map = linkedHashMap;
             int i4 = 0;
-            obj = map.get(invoke2);
+            obj = map.get(invoke);
             if (obj == null) {
             } else {
             }
-            list = obj;
-            (List)list.add(obj3.invoke(Double.valueOf(l)));
+            $i$a$GetOrPutArraysKt___ArraysKt$groupByTo$list$16$iv = obj;
+            (List)$i$a$GetOrPutArraysKt___ArraysKt$groupByTo$list$16$iv.add(obj3.invoke(Double.valueOf(l)));
             i++;
             int i5 = 0;
             arrayList = new ArrayList();
-            map.put(invoke2, (List)arrayList);
+            map.put(invoke, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
 
     public static final <K> Map<K, List<Float>> groupBy(float[] $this$groupBy, Function1<? super Float, ? extends K> keySelector) {
-        int i3;
+        int i2;
         int i;
         Object invoke;
         ArrayList $this$getOrPut$iv$iv;
         Float valueOf;
         Object obj;
-        int i2;
+        int i3;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8322,9 +8322,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         final Object obj2 = $this$groupBy;
         final int i5 = 0;
-        i3 = 0;
-        while (i3 < obj2.length) {
-            i = obj2[i3];
+        i2 = 0;
+        while (i2 < obj2.length) {
+            i = obj2[i2];
             invoke = keySelector.invoke(Float.valueOf(i));
             LinkedHashMap map = linkedHashMap;
             int i6 = 0;
@@ -8334,43 +8334,7 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(Float.valueOf(i));
-            i3++;
-            i2 = 0;
-            arrayList = new ArrayList();
-            map.put(invoke, (List)arrayList);
-        }
-        return (Map)linkedHashMap;
-    }
-
-    public static final <K, V> Map<K, List<V>> groupBy(float[] $this$groupBy, Function1<? super Float, ? extends K> keySelector, Function1<? super Float, ? extends V> valueTransform) {
-        int i;
-        int i2;
-        Object invoke;
-        ArrayList $this$getOrPut$iv$iv;
-        Object invoke2;
-        Object obj;
-        int i3;
-        ArrayList arrayList;
-        Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
-        Intrinsics.checkNotNullParameter(keySelector, "keySelector");
-        Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
-        int i4 = 0;
-        LinkedHashMap linkedHashMap = new LinkedHashMap();
-        final Object obj2 = $this$groupBy;
-        final int i5 = 0;
-        i = 0;
-        while (i < obj2.length) {
-            i2 = obj2[i];
-            invoke = keySelector.invoke(Float.valueOf(i2));
-            LinkedHashMap map = linkedHashMap;
-            int i6 = 0;
-            obj = map.get(invoke);
-            if (obj == null) {
-            } else {
-            }
-            arrayList = obj;
-            (List)arrayList.add(valueTransform.invoke(Float.valueOf(i2)));
-            i++;
+            i2++;
             i3 = 0;
             arrayList = new ArrayList();
             map.put(invoke, (List)arrayList);
@@ -8378,49 +8342,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         return (Map)linkedHashMap;
     }
 
-    public static final <K> Map<K, List<Integer>> groupBy(int[] $this$groupBy, Function1<? super Integer, ? extends K> keySelector) {
+    public static final <K, V> Map<K, List<V>> groupBy(float[] $this$groupBy, Function1<? super Float, ? extends K> keySelector, Function1<? super Float, ? extends V> valueTransform) {
+        int i2;
         int i3;
-        int i;
-        Object invoke;
-        ArrayList $this$getOrPut$iv$iv;
-        Integer valueOf;
-        Object obj;
-        int i2;
-        ArrayList arrayList;
-        Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
-        Intrinsics.checkNotNullParameter(keySelector, "keySelector");
-        int i4 = 0;
-        LinkedHashMap linkedHashMap = new LinkedHashMap();
-        final Object obj2 = $this$groupBy;
-        final int i5 = 0;
-        i3 = 0;
-        while (i3 < obj2.length) {
-            i = obj2[i3];
-            invoke = keySelector.invoke(Integer.valueOf(i));
-            LinkedHashMap map = linkedHashMap;
-            int i6 = 0;
-            obj = map.get(invoke);
-            if (obj == null) {
-            } else {
-            }
-            arrayList = obj;
-            (List)arrayList.add(Integer.valueOf(i));
-            i3++;
-            i2 = 0;
-            arrayList = new ArrayList();
-            map.put(invoke, (List)arrayList);
-        }
-        return (Map)linkedHashMap;
-    }
-
-    public static final <K, V> Map<K, List<V>> groupBy(int[] $this$groupBy, Function1<? super Integer, ? extends K> keySelector, Function1<? super Integer, ? extends V> valueTransform) {
-        int i2;
-        int i;
-        Object invoke;
-        ArrayList $this$getOrPut$iv$iv;
         Object invoke2;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke;
         Object obj;
-        int i3;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8431,8 +8360,43 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i5 = 0;
         i2 = 0;
         while (i2 < obj2.length) {
-            i = obj2[i2];
-            invoke = keySelector.invoke(Integer.valueOf(i));
+            i3 = obj2[i2];
+            invoke2 = keySelector.invoke(Float.valueOf(i3));
+            LinkedHashMap map = linkedHashMap;
+            int i6 = 0;
+            obj = map.get(invoke2);
+            if (obj == null) {
+            } else {
+            }
+            arrayList = obj;
+            (List)arrayList.add(valueTransform.invoke(Float.valueOf(i3)));
+            i2++;
+            i = 0;
+            arrayList = new ArrayList();
+            map.put(invoke2, (List)arrayList);
+        }
+        return (Map)linkedHashMap;
+    }
+
+    public static final <K> Map<K, List<Integer>> groupBy(int[] $this$groupBy, Function1<? super Integer, ? extends K> keySelector) {
+        int i;
+        int i2;
+        Object invoke;
+        ArrayList $this$getOrPut$iv$iv;
+        Integer valueOf;
+        Object obj;
+        int i3;
+        ArrayList arrayList;
+        Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
+        Intrinsics.checkNotNullParameter(keySelector, "keySelector");
+        int i4 = 0;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        final Object obj2 = $this$groupBy;
+        final int i5 = 0;
+        i = 0;
+        while (i < obj2.length) {
+            i2 = obj2[i];
+            invoke = keySelector.invoke(Integer.valueOf(i2));
             LinkedHashMap map = linkedHashMap;
             int i6 = 0;
             obj = map.get(invoke);
@@ -8440,8 +8404,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             } else {
             }
             arrayList = obj;
-            (List)arrayList.add(valueTransform.invoke(Integer.valueOf(i)));
-            i2++;
+            (List)arrayList.add(Integer.valueOf(i2));
+            i++;
             i3 = 0;
             arrayList = new ArrayList();
             map.put(invoke, (List)arrayList);
@@ -8449,14 +8413,50 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         return (Map)linkedHashMap;
     }
 
-    public static final <K> Map<K, List<Long>> groupBy(long[] $this$groupBy, Function1<? super Long, ? extends K> keySelector) {
+    public static final <K, V> Map<K, List<V>> groupBy(int[] $this$groupBy, Function1<? super Integer, ? extends K> keySelector, Function1<? super Integer, ? extends V> valueTransform) {
+        int i3;
         int i;
+        Object invoke2;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke;
+        Object obj;
+        int i2;
+        ArrayList arrayList;
+        Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
+        Intrinsics.checkNotNullParameter(keySelector, "keySelector");
+        Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
+        int i4 = 0;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        final Object obj2 = $this$groupBy;
+        final int i5 = 0;
+        i3 = 0;
+        while (i3 < obj2.length) {
+            i = obj2[i3];
+            invoke2 = keySelector.invoke(Integer.valueOf(i));
+            LinkedHashMap map = linkedHashMap;
+            int i6 = 0;
+            obj = map.get(invoke2);
+            if (obj == null) {
+            } else {
+            }
+            arrayList = obj;
+            (List)arrayList.add(valueTransform.invoke(Integer.valueOf(i)));
+            i3++;
+            i2 = 0;
+            arrayList = new ArrayList();
+            map.put(invoke2, (List)arrayList);
+        }
+        return (Map)linkedHashMap;
+    }
+
+    public static final <K> Map<K, List<Long>> groupBy(long[] $this$groupBy, Function1<? super Long, ? extends K> keySelector) {
+        int i2;
         long l;
         Object invoke;
         ArrayList $this$getOrPut$iv$iv;
         Long valueOf;
         Object obj;
-        int i2;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8464,9 +8464,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         final Object obj2 = $this$groupBy;
         final int i4 = 0;
-        i = 0;
-        while (i < obj2.length) {
-            l = obj2[i];
+        i2 = 0;
+        while (i2 < obj2.length) {
+            l = obj2[i2];
             invoke = keySelector.invoke(Long.valueOf(l));
             LinkedHashMap map = linkedHashMap;
             int i5 = 0;
@@ -8476,8 +8476,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(Long.valueOf(l));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
             map.put(invoke, (List)arrayList);
         }
@@ -8487,11 +8487,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <K, V> Map<K, List<V>> groupBy(long[] $this$groupBy, Function1<? super Long, ? extends K> keySelector, Function1<? super Long, ? extends V> valueTransform) {
         int i;
         long l;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv$iv;
         Object invoke;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke2;
         Object obj;
-        ArrayList list;
+        ArrayList $i$a$GetOrPutArraysKt___ArraysKt$groupByTo$list$14$iv;
         ArrayList arrayList;
         final Object obj2 = keySelector;
         final Object obj3 = valueTransform;
@@ -8505,31 +8505,31 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = 0;
         while (i < obj5.length) {
             l = obj5[i];
-            invoke2 = obj2.invoke(Long.valueOf(l));
+            invoke = obj2.invoke(Long.valueOf(l));
             LinkedHashMap map = linkedHashMap;
             int i4 = 0;
-            obj = map.get(invoke2);
+            obj = map.get(invoke);
             if (obj == null) {
             } else {
             }
-            list = obj;
-            (List)list.add(obj3.invoke(Long.valueOf(l)));
+            $i$a$GetOrPutArraysKt___ArraysKt$groupByTo$list$14$iv = obj;
+            (List)$i$a$GetOrPutArraysKt___ArraysKt$groupByTo$list$14$iv.add(obj3.invoke(Long.valueOf(l)));
             i++;
             int i5 = 0;
             arrayList = new ArrayList();
-            map.put(invoke2, (List)arrayList);
+            map.put(invoke, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
 
     public static final <T, K> Map<K, List<T>> groupBy(T[] $this$groupBy, Function1<? super T, ? extends K> keySelector) {
-        int i3;
-        Object obj2;
-        Object invoke;
-        ArrayList $this$getOrPut$iv$iv;
         int i;
         Object obj;
+        Object invoke;
+        ArrayList $this$getOrPut$iv$iv;
         int i2;
+        Object obj2;
+        int i3;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8537,20 +8537,20 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         final Object obj3 = $this$groupBy;
         final int i5 = 0;
-        i3 = 0;
-        while (i3 < obj3.length) {
-            obj2 = obj3[i3];
-            invoke = keySelector.invoke(obj2);
+        i = 0;
+        while (i < obj3.length) {
+            obj = obj3[i];
+            invoke = keySelector.invoke(obj);
             LinkedHashMap map = linkedHashMap;
-            i = 0;
-            obj = map.get(invoke);
-            if (obj == null) {
+            i2 = 0;
+            obj2 = map.get(invoke);
+            if (obj2 == null) {
             } else {
             }
-            arrayList = obj;
-            (List)arrayList.add(obj2);
-            i3++;
-            i2 = 0;
+            arrayList = obj2;
+            (List)arrayList.add(obj);
+            i++;
+            i3 = 0;
             arrayList = new ArrayList();
             map.put(invoke, (List)arrayList);
         }
@@ -8558,13 +8558,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T, K, V> Map<K, List<V>> groupBy(T[] $this$groupBy, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
-        int i2;
-        Object obj2;
-        Object invoke;
-        ArrayList $this$getOrPut$iv$iv;
-        Object invoke2;
-        Object obj;
         int i;
+        Object obj;
+        Object invoke2;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke;
+        Object obj2;
+        int i2;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8573,22 +8573,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         final Object obj3 = $this$groupBy;
         final int i4 = 0;
-        i2 = 0;
-        while (i2 < obj3.length) {
-            obj2 = obj3[i2];
-            invoke = keySelector.invoke(obj2);
+        i = 0;
+        while (i < obj3.length) {
+            obj = obj3[i];
+            invoke2 = keySelector.invoke(obj);
             LinkedHashMap map = linkedHashMap;
             int i5 = 0;
-            obj = map.get(invoke);
-            if (obj == null) {
+            obj2 = map.get(invoke2);
+            if (obj2 == null) {
             } else {
             }
-            arrayList = obj;
-            (List)arrayList.add(valueTransform.invoke(obj2));
-            i2++;
-            i = 0;
+            arrayList = obj2;
+            (List)arrayList.add(valueTransform.invoke(obj));
+            i++;
+            i2 = 0;
             arrayList = new ArrayList();
-            map.put(invoke, (List)arrayList);
+            map.put(invoke2, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
@@ -8629,13 +8629,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V> Map<K, List<V>> groupBy(short[] $this$groupBy, Function1<? super Short, ? extends K> keySelector, Function1<? super Short, ? extends V> valueTransform) {
-        int i;
-        short s;
-        Object invoke;
-        ArrayList $this$getOrPut$iv$iv;
-        Object invoke2;
-        Object obj;
         int i2;
+        short s;
+        Object invoke2;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke;
+        Object obj;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8644,22 +8644,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         final Object obj2 = $this$groupBy;
         final int i4 = 0;
-        i = 0;
-        while (i < obj2.length) {
-            s = obj2[i];
-            invoke = keySelector.invoke(Short.valueOf(s));
+        i2 = 0;
+        while (i2 < obj2.length) {
+            s = obj2[i2];
+            invoke2 = keySelector.invoke(Short.valueOf(s));
             LinkedHashMap map = linkedHashMap;
             int i5 = 0;
-            obj = map.get(invoke);
+            obj = map.get(invoke2);
             if (obj == null) {
             } else {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Short.valueOf(s)));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
-            map.put(invoke, (List)arrayList);
+            map.put(invoke2, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
@@ -8700,13 +8700,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V> Map<K, List<V>> groupBy(boolean[] $this$groupBy, Function1<? super Boolean, ? extends K> keySelector, Function1<? super Boolean, ? extends V> valueTransform) {
-        int i2;
-        boolean z;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv$iv;
-        Object invoke;
-        Object obj;
         int i;
+        boolean z;
+        Object invoke;
+        ArrayList $this$getOrPut$iv$iv;
+        Object invoke2;
+        Object obj;
+        int i2;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupBy, "<this>");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
@@ -8715,42 +8715,42 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         final Object obj2 = $this$groupBy;
         final int i4 = 0;
-        i2 = 0;
-        while (i2 < obj2.length) {
-            z = obj2[i2];
-            invoke2 = keySelector.invoke(Boolean.valueOf(z));
+        i = 0;
+        while (i < obj2.length) {
+            z = obj2[i];
+            invoke = keySelector.invoke(Boolean.valueOf(z));
             LinkedHashMap map = linkedHashMap;
             int i5 = 0;
-            obj = map.get(invoke2);
+            obj = map.get(invoke);
             if (obj == null) {
             } else {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Boolean.valueOf(z)));
-            i2++;
-            i = 0;
+            i++;
+            i2 = 0;
             arrayList = new ArrayList();
-            map.put(invoke2, (List)arrayList);
+            map.put(invoke, (List)arrayList);
         }
         return (Map)linkedHashMap;
     }
 
     public static final <K, M extends Map<? super K, List<Byte>>> M groupByTo(byte[] $this$groupByTo, M destination, Function1<? super Byte, ? extends K> keySelector) {
-        int i;
+        int i2;
         byte b;
         Object invoke;
         ArrayList $this$getOrPut$iv;
         Byte valueOf;
         Object obj;
-        int i2;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         int i3 = 0;
-        i = 0;
-        while (i < $this$groupByTo.length) {
-            b = $this$groupByTo[i];
+        i2 = 0;
+        while (i2 < $this$groupByTo.length) {
+            b = $this$groupByTo[i2];
             invoke = keySelector.invoke(Byte.valueOf(b));
             Object obj2 = destination;
             int i4 = 0;
@@ -8760,8 +8760,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(Byte.valueOf(b));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
             obj2.put(invoke, (List)arrayList);
         }
@@ -8769,22 +8769,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(byte[] $this$groupByTo, M destination, Function1<? super Byte, ? extends K> keySelector, Function1<? super Byte, ? extends V> valueTransform) {
-        int i;
+        int i2;
         byte b;
         Object invoke;
         ArrayList $this$getOrPut$iv;
         Object invoke2;
         Object obj;
-        int i2;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
         int i3 = 0;
-        i = 0;
-        while (i < $this$groupByTo.length) {
-            b = $this$groupByTo[i];
+        i2 = 0;
+        while (i2 < $this$groupByTo.length) {
+            b = $this$groupByTo[i2];
             invoke = keySelector.invoke(Byte.valueOf(b));
             Object obj2 = destination;
             int i4 = 0;
@@ -8794,8 +8794,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Byte.valueOf(b)));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
             obj2.put(invoke, (List)arrayList);
         }
@@ -8836,22 +8836,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(char[] $this$groupByTo, M destination, Function1<? super Character, ? extends K> keySelector, Function1<? super Character, ? extends V> valueTransform) {
-        int i2;
+        int i;
         char c;
         Object invoke;
         ArrayList $this$getOrPut$iv;
         Object invoke2;
         Object obj;
-        int i;
+        int i2;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$groupByTo.length) {
-            c = $this$groupByTo[i2];
+        i = 0;
+        while (i < $this$groupByTo.length) {
+            c = $this$groupByTo[i];
             invoke = keySelector.invoke(Character.valueOf(c));
             Object obj2 = destination;
             int i4 = 0;
@@ -8861,8 +8861,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Character.valueOf(c)));
-            i2++;
-            i = 0;
+            i++;
+            i2 = 0;
             arrayList = new ArrayList();
             obj2.put(invoke, (List)arrayList);
         }
@@ -8903,22 +8903,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(double[] $this$groupByTo, M destination, Function1<? super Double, ? extends K> keySelector, Function1<? super Double, ? extends V> valueTransform) {
-        int i2;
+        int i;
         long l;
         Object invoke2;
         ArrayList $this$getOrPut$iv;
         Object invoke;
         Object obj;
-        int i;
+        int i2;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$groupByTo.length) {
-            l = $this$groupByTo[i2];
+        i = 0;
+        while (i < $this$groupByTo.length) {
+            l = $this$groupByTo[i];
             invoke2 = keySelector.invoke(Double.valueOf(l));
             Object obj2 = destination;
             int i4 = 0;
@@ -8928,8 +8928,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Double.valueOf(l)));
-            i2++;
-            i = 0;
+            i++;
+            i2 = 0;
             arrayList = new ArrayList();
             obj2.put(invoke2, (List)arrayList);
         }
@@ -8937,78 +8937,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, M extends Map<? super K, List<Float>>> M groupByTo(float[] $this$groupByTo, M destination, Function1<? super Float, ? extends K> keySelector) {
-        int i2;
+        int i;
         int i3;
         Object invoke;
         ArrayList $this$getOrPut$iv;
         Float valueOf;
-        Object obj;
-        int i;
-        ArrayList arrayList;
-        Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(keySelector, "keySelector");
-        int i4 = 0;
-        i2 = 0;
-        while (i2 < $this$groupByTo.length) {
-            i3 = $this$groupByTo[i2];
-            invoke = keySelector.invoke(Float.valueOf(i3));
-            Object obj2 = destination;
-            int i5 = 0;
-            obj = obj2.get(invoke);
-            if (obj == null) {
-            } else {
-            }
-            arrayList = obj;
-            (List)arrayList.add(Float.valueOf(i3));
-            i2++;
-            i = 0;
-            arrayList = new ArrayList();
-            obj2.put(invoke, (List)arrayList);
-        }
-        return destination;
-    }
-
-    public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(float[] $this$groupByTo, M destination, Function1<? super Float, ? extends K> keySelector, Function1<? super Float, ? extends V> valueTransform) {
-        int i2;
-        int i3;
-        Object invoke;
-        ArrayList $this$getOrPut$iv;
-        Object invoke2;
-        Object obj;
-        int i;
-        ArrayList arrayList;
-        Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(keySelector, "keySelector");
-        Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
-        int i4 = 0;
-        i2 = 0;
-        while (i2 < $this$groupByTo.length) {
-            i3 = $this$groupByTo[i2];
-            invoke = keySelector.invoke(Float.valueOf(i3));
-            Object obj2 = destination;
-            int i5 = 0;
-            obj = obj2.get(invoke);
-            if (obj == null) {
-            } else {
-            }
-            arrayList = obj;
-            (List)arrayList.add(valueTransform.invoke(Float.valueOf(i3)));
-            i2++;
-            i = 0;
-            arrayList = new ArrayList();
-            obj2.put(invoke, (List)arrayList);
-        }
-        return destination;
-    }
-
-    public static final <K, M extends Map<? super K, List<Integer>>> M groupByTo(int[] $this$groupByTo, M destination, Function1<? super Integer, ? extends K> keySelector) {
-        int i;
-        int i3;
-        Object invoke;
-        ArrayList $this$getOrPut$iv;
-        Integer valueOf;
         Object obj;
         int i2;
         ArrayList arrayList;
@@ -9019,7 +8952,7 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = 0;
         while (i < $this$groupByTo.length) {
             i3 = $this$groupByTo[i];
-            invoke = keySelector.invoke(Integer.valueOf(i3));
+            invoke = keySelector.invoke(Float.valueOf(i3));
             Object obj2 = destination;
             int i5 = 0;
             obj = obj2.get(invoke);
@@ -9027,7 +8960,7 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             } else {
             }
             arrayList = obj;
-            (List)arrayList.add(Integer.valueOf(i3));
+            (List)arrayList.add(Float.valueOf(i3));
             i++;
             i2 = 0;
             arrayList = new ArrayList();
@@ -9036,7 +8969,7 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         return destination;
     }
 
-    public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(int[] $this$groupByTo, M destination, Function1<? super Integer, ? extends K> keySelector, Function1<? super Integer, ? extends V> valueTransform) {
+    public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(float[] $this$groupByTo, M destination, Function1<? super Float, ? extends K> keySelector, Function1<? super Float, ? extends V> valueTransform) {
         int i;
         int i2;
         Object invoke;
@@ -9053,7 +8986,7 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = 0;
         while (i < $this$groupByTo.length) {
             i2 = $this$groupByTo[i];
-            invoke = keySelector.invoke(Integer.valueOf(i2));
+            invoke = keySelector.invoke(Float.valueOf(i2));
             Object obj2 = destination;
             int i5 = 0;
             obj = obj2.get(invoke);
@@ -9061,11 +8994,78 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             } else {
             }
             arrayList = obj;
-            (List)arrayList.add(valueTransform.invoke(Integer.valueOf(i2)));
+            (List)arrayList.add(valueTransform.invoke(Float.valueOf(i2)));
             i++;
             i3 = 0;
             arrayList = new ArrayList();
             obj2.put(invoke, (List)arrayList);
+        }
+        return destination;
+    }
+
+    public static final <K, M extends Map<? super K, List<Integer>>> M groupByTo(int[] $this$groupByTo, M destination, Function1<? super Integer, ? extends K> keySelector) {
+        int i3;
+        int i;
+        Object invoke;
+        ArrayList $this$getOrPut$iv;
+        Integer valueOf;
+        Object obj;
+        int i2;
+        ArrayList arrayList;
+        Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(keySelector, "keySelector");
+        int i4 = 0;
+        i3 = 0;
+        while (i3 < $this$groupByTo.length) {
+            i = $this$groupByTo[i3];
+            invoke = keySelector.invoke(Integer.valueOf(i));
+            Object obj2 = destination;
+            int i5 = 0;
+            obj = obj2.get(invoke);
+            if (obj == null) {
+            } else {
+            }
+            arrayList = obj;
+            (List)arrayList.add(Integer.valueOf(i));
+            i3++;
+            i2 = 0;
+            arrayList = new ArrayList();
+            obj2.put(invoke, (List)arrayList);
+        }
+        return destination;
+    }
+
+    public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(int[] $this$groupByTo, M destination, Function1<? super Integer, ? extends K> keySelector, Function1<? super Integer, ? extends V> valueTransform) {
+        int i2;
+        int i3;
+        Object invoke2;
+        ArrayList $this$getOrPut$iv;
+        Object invoke;
+        Object obj;
+        int i;
+        ArrayList arrayList;
+        Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(keySelector, "keySelector");
+        Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
+        int i4 = 0;
+        i2 = 0;
+        while (i2 < $this$groupByTo.length) {
+            i3 = $this$groupByTo[i2];
+            invoke2 = keySelector.invoke(Integer.valueOf(i3));
+            Object obj2 = destination;
+            int i5 = 0;
+            obj = obj2.get(invoke2);
+            if (obj == null) {
+            } else {
+            }
+            arrayList = obj;
+            (List)arrayList.add(valueTransform.invoke(Integer.valueOf(i3)));
+            i2++;
+            i = 0;
+            arrayList = new ArrayList();
+            obj2.put(invoke2, (List)arrayList);
         }
         return destination;
     }
@@ -9104,55 +9104,55 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(long[] $this$groupByTo, M destination, Function1<? super Long, ? extends K> keySelector, Function1<? super Long, ? extends V> valueTransform) {
-        int i2;
-        long l;
-        Object invoke;
-        ArrayList $this$getOrPut$iv;
-        Object invoke2;
-        Object obj;
         int i;
+        long l;
+        Object invoke2;
+        ArrayList $this$getOrPut$iv;
+        Object invoke;
+        Object obj;
+        int i2;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$groupByTo.length) {
-            l = $this$groupByTo[i2];
-            invoke = keySelector.invoke(Long.valueOf(l));
+        i = 0;
+        while (i < $this$groupByTo.length) {
+            l = $this$groupByTo[i];
+            invoke2 = keySelector.invoke(Long.valueOf(l));
             Object obj2 = destination;
             int i4 = 0;
-            obj = obj2.get(invoke);
+            obj = obj2.get(invoke2);
             if (obj == null) {
             } else {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Long.valueOf(l)));
-            i2++;
-            i = 0;
+            i++;
+            i2 = 0;
             arrayList = new ArrayList();
-            obj2.put(invoke, (List)arrayList);
+            obj2.put(invoke2, (List)arrayList);
         }
         return destination;
     }
 
     public static final <T, K, M extends Map<? super K, List<T>>> M groupByTo(T[] $this$groupByTo, M destination, Function1<? super T, ? extends K> keySelector) {
-        int i;
+        int i2;
         Object obj2;
         Object invoke;
         ArrayList $this$getOrPut$iv;
         int i3;
         Object obj;
-        int i2;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         int i4 = 0;
-        i = 0;
-        while (i < $this$groupByTo.length) {
-            obj2 = $this$groupByTo[i];
+        i2 = 0;
+        while (i2 < $this$groupByTo.length) {
+            obj2 = $this$groupByTo[i2];
             invoke = keySelector.invoke(obj2);
             Object obj3 = destination;
             i3 = 0;
@@ -9162,8 +9162,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(obj2);
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
             obj3.put(invoke, (List)arrayList);
         }
@@ -9172,11 +9172,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final <T, K, V, M extends Map<? super K, List<V>>> M groupByTo(T[] $this$groupByTo, M destination, Function1<? super T, ? extends K> keySelector, Function1<? super T, ? extends V> valueTransform) {
         int i2;
-        Object obj;
-        Object invoke2;
-        ArrayList $this$getOrPut$iv;
-        Object invoke;
         Object obj2;
+        Object invoke;
+        ArrayList $this$getOrPut$iv;
+        Object invoke2;
+        Object obj;
         int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
@@ -9186,20 +9186,20 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         i2 = 0;
         while (i2 < $this$groupByTo.length) {
-            obj = $this$groupByTo[i2];
-            invoke2 = keySelector.invoke(obj);
+            obj2 = $this$groupByTo[i2];
+            invoke = keySelector.invoke(obj2);
             Object obj3 = destination;
             int i4 = 0;
-            obj2 = obj3.get(invoke2);
-            if (obj2 == null) {
+            obj = obj3.get(invoke);
+            if (obj == null) {
             } else {
             }
-            arrayList = obj2;
-            (List)arrayList.add(valueTransform.invoke(obj));
+            arrayList = obj;
+            (List)arrayList.add(valueTransform.invoke(obj2));
             i2++;
             i = 0;
             arrayList = new ArrayList();
-            obj3.put(invoke2, (List)arrayList);
+            obj3.put(invoke, (List)arrayList);
         }
         return destination;
     }
@@ -9238,35 +9238,35 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(short[] $this$groupByTo, M destination, Function1<? super Short, ? extends K> keySelector, Function1<? super Short, ? extends V> valueTransform) {
-        int i;
-        short s;
-        Object invoke;
-        ArrayList $this$getOrPut$iv;
-        Object invoke2;
-        Object obj;
         int i2;
+        short s;
+        Object invoke2;
+        ArrayList $this$getOrPut$iv;
+        Object invoke;
+        Object obj;
+        int i;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
         int i3 = 0;
-        i = 0;
-        while (i < $this$groupByTo.length) {
-            s = $this$groupByTo[i];
-            invoke = keySelector.invoke(Short.valueOf(s));
+        i2 = 0;
+        while (i2 < $this$groupByTo.length) {
+            s = $this$groupByTo[i2];
+            invoke2 = keySelector.invoke(Short.valueOf(s));
             Object obj2 = destination;
             int i4 = 0;
-            obj = obj2.get(invoke);
+            obj = obj2.get(invoke2);
             if (obj == null) {
             } else {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Short.valueOf(s)));
-            i++;
-            i2 = 0;
+            i2++;
+            i = 0;
             arrayList = new ArrayList();
-            obj2.put(invoke, (List)arrayList);
+            obj2.put(invoke2, (List)arrayList);
         }
         return destination;
     }
@@ -9305,22 +9305,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <K, V, M extends Map<? super K, List<V>>> M groupByTo(boolean[] $this$groupByTo, M destination, Function1<? super Boolean, ? extends K> keySelector, Function1<? super Boolean, ? extends V> valueTransform) {
-        int i2;
+        int i;
         boolean z;
         Object invoke;
         ArrayList $this$getOrPut$iv;
         Object invoke2;
         Object obj;
-        int i;
+        int i2;
         ArrayList arrayList;
         Intrinsics.checkNotNullParameter($this$groupByTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(keySelector, "keySelector");
         Intrinsics.checkNotNullParameter(valueTransform, "valueTransform");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$groupByTo.length) {
-            z = $this$groupByTo[i2];
+        i = 0;
+        while (i < $this$groupByTo.length) {
+            z = $this$groupByTo[i];
             invoke = keySelector.invoke(Boolean.valueOf(z));
             Object obj2 = destination;
             int i4 = 0;
@@ -9330,8 +9330,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             arrayList = obj;
             (List)arrayList.add(valueTransform.invoke(Boolean.valueOf(z)));
-            i2++;
-            i = 0;
+            i++;
+            i2 = 0;
             arrayList = new ArrayList();
             obj2.put(invoke, (List)arrayList);
         }
@@ -9585,8 +9585,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int indexOfLast(byte[] $this$indexOfLast, Function1<? super Byte, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$indexOfLast, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -9598,8 +9598,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int indexOfLast(char[] $this$indexOfLast, Function1<? super Character, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$indexOfLast, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -9611,8 +9611,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int indexOfLast(double[] $this$indexOfLast, Function1<? super Double, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$indexOfLast, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -9650,8 +9650,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int indexOfLast(long[] $this$indexOfLast, Function1<? super Long, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$indexOfLast, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -9689,8 +9689,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int indexOfLast(boolean[] $this$indexOfLast, Function1<? super Boolean, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$indexOfLast, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -10042,50 +10042,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final <A extends java.lang.Appendable> A joinTo(float[] $this$joinTo, A buffer, java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super Float, ? extends java.lang.CharSequence> transform) {
         int count;
-        int i2;
-        int i;
-        Object valueOf;
-        Intrinsics.checkNotNullParameter($this$joinTo, "<this>");
-        Intrinsics.checkNotNullParameter(buffer, "buffer");
-        Intrinsics.checkNotNullParameter(separator, "separator");
-        Intrinsics.checkNotNullParameter(prefix, "prefix");
-        Intrinsics.checkNotNullParameter(postfix, "postfix");
-        Intrinsics.checkNotNullParameter(truncated, "truncated");
-        buffer.append(prefix);
-        count = 0;
-        i2 = 0;
-        while (i2 < $this$joinTo.length) {
-            i = $this$joinTo[i2];
-            count++;
-            if (count > 1) {
-            }
-            if (limit >= 0) {
-                break;
-            } else {
-            }
-            if (transform != null) {
-            } else {
-            }
-            buffer.append((CharSequence)String.valueOf(i));
-            i2++;
-            buffer.append((CharSequence)transform.invoke(Float.valueOf(i)));
-            if (count > limit) {
-                break;
-            } else {
-            }
-            buffer.append(separator);
-        }
-        if (limit >= 0 && count > limit) {
-            if (count > limit) {
-                buffer.append(truncated);
-            }
-        }
-        buffer.append(postfix);
-        return buffer;
-    }
-
-    public static final <A extends java.lang.Appendable> A joinTo(int[] $this$joinTo, A buffer, java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
-        int count;
         int i;
         int i2;
         Object valueOf;
@@ -10112,7 +10068,51 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             }
             buffer.append((CharSequence)String.valueOf(i2));
             i++;
-            buffer.append((CharSequence)transform.invoke(Integer.valueOf(i2)));
+            buffer.append((CharSequence)transform.invoke(Float.valueOf(i2)));
+            if (count > limit) {
+                break;
+            } else {
+            }
+            buffer.append(separator);
+        }
+        if (limit >= 0 && count > limit) {
+            if (count > limit) {
+                buffer.append(truncated);
+            }
+        }
+        buffer.append(postfix);
+        return buffer;
+    }
+
+    public static final <A extends java.lang.Appendable> A joinTo(int[] $this$joinTo, A buffer, java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super Integer, ? extends java.lang.CharSequence> transform) {
+        int count;
+        int i2;
+        int i;
+        Object valueOf;
+        Intrinsics.checkNotNullParameter($this$joinTo, "<this>");
+        Intrinsics.checkNotNullParameter(buffer, "buffer");
+        Intrinsics.checkNotNullParameter(separator, "separator");
+        Intrinsics.checkNotNullParameter(prefix, "prefix");
+        Intrinsics.checkNotNullParameter(postfix, "postfix");
+        Intrinsics.checkNotNullParameter(truncated, "truncated");
+        buffer.append(prefix);
+        count = 0;
+        i2 = 0;
+        while (i2 < $this$joinTo.length) {
+            i = $this$joinTo[i2];
+            count++;
+            if (count > 1) {
+            }
+            if (limit >= 0) {
+                break;
+            } else {
+            }
+            if (transform != null) {
+            } else {
+            }
+            buffer.append((CharSequence)String.valueOf(i));
+            i2++;
+            buffer.append((CharSequence)transform.invoke(Integer.valueOf(i)));
             if (count > limit) {
                 break;
             } else {
@@ -10300,65 +10300,65 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static java.lang.Appendable joinTo$default(byte[] bArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
+        String str2;
         String str;
         String str4;
-        String str3;
         int i2;
-        String str2;
+        String str3;
         int i;
         if (i9 & 2 != 0) {
-            str = ", ";
+            str2 = ", ";
         } else {
-            str = charSequence3;
+            str2 = charSequence3;
         }
         if (i9 & 4 != 0) {
-            str4 = str3;
+            str = str4;
         } else {
-            str4 = charSequence4;
+            str = charSequence4;
         }
         if (i9 & 8 != 0) {
         } else {
-            str3 = charSequence5;
+            str4 = charSequence5;
         }
         i2 = i9 & 16 != 0 ? -1 : i6;
         if (i9 & 32 != 0) {
-            str2 = "...";
+            str3 = "...";
         } else {
-            str2 = charSequence7;
+            str3 = charSequence7;
         }
         i = i9 & 64 != 0 ? 0 : function18;
-        return ArraysKt.joinTo(bArr, appendable2, str, str4, str3, i2, str2, i);
+        return ArraysKt.joinTo(bArr, appendable2, str2, str, str4, i2, str3, i);
     }
 
     public static java.lang.Appendable joinTo$default(char[] cArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
         String str4;
-        String str;
-        String str2;
-        int i;
         String str3;
+        String str2;
         int i2;
+        String str;
+        int i;
         if (i9 & 2 != 0) {
             str4 = ", ";
         } else {
             str4 = charSequence3;
         }
         if (i9 & 4 != 0) {
-            str = str2;
+            str3 = str2;
         } else {
-            str = charSequence4;
+            str3 = charSequence4;
         }
         if (i9 & 8 != 0) {
         } else {
             str2 = charSequence5;
         }
-        i = i9 & 16 != 0 ? -1 : i6;
+        i2 = i9 & 16 != 0 ? -1 : i6;
         if (i9 & 32 != 0) {
-            str3 = "...";
+            str = "...";
         } else {
-            str3 = charSequence7;
+            str = charSequence7;
         }
-        i2 = i9 & 64 != 0 ? 0 : function18;
-        return ArraysKt.joinTo(cArr, appendable2, str4, str, str2, i, str3, i2);
+        i = i9 & 64 != 0 ? 0 : function18;
+        return ArraysKt.joinTo(cArr, appendable2, str4, str3, str2, i2, str, i);
     }
 
     public static java.lang.Appendable joinTo$default(double[] dArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
@@ -10393,16 +10393,171 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static java.lang.Appendable joinTo$default(float[] fArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
+        String str2;
         String str3;
         String str4;
+        int i;
         String str;
         int i2;
+        if (i9 & 2 != 0) {
+            str2 = ", ";
+        } else {
+            str2 = charSequence3;
+        }
+        if (i9 & 4 != 0) {
+            str3 = str4;
+        } else {
+            str3 = charSequence4;
+        }
+        if (i9 & 8 != 0) {
+        } else {
+            str4 = charSequence5;
+        }
+        i = i9 & 16 != 0 ? -1 : i6;
+        if (i9 & 32 != 0) {
+            str = "...";
+        } else {
+            str = charSequence7;
+        }
+        i2 = i9 & 64 != 0 ? 0 : function18;
+        return ArraysKt.joinTo(fArr, appendable2, str2, str3, str4, i, str, i2);
+    }
+
+    public static java.lang.Appendable joinTo$default(int[] iArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
+        String str3;
+        String str;
         String str2;
+        int i2;
+        String str4;
         int i;
         if (i9 & 2 != 0) {
             str3 = ", ";
         } else {
             str3 = charSequence3;
+        }
+        if (i9 & 4 != 0) {
+            str = str2;
+        } else {
+            str = charSequence4;
+        }
+        if (i9 & 8 != 0) {
+        } else {
+            str2 = charSequence5;
+        }
+        i2 = i9 & 16 != 0 ? -1 : i6;
+        if (i9 & 32 != 0) {
+            str4 = "...";
+        } else {
+            str4 = charSequence7;
+        }
+        i = i9 & 64 != 0 ? 0 : function18;
+        return ArraysKt.joinTo(iArr, appendable2, str3, str, str2, i2, str4, i);
+    }
+
+    public static java.lang.Appendable joinTo$default(long[] lArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
+        String str2;
+        String str;
+        String str4;
+        int i2;
+        String str3;
+        int i;
+        if (i9 & 2 != 0) {
+            str2 = ", ";
+        } else {
+            str2 = charSequence3;
+        }
+        if (i9 & 4 != 0) {
+            str = str4;
+        } else {
+            str = charSequence4;
+        }
+        if (i9 & 8 != 0) {
+        } else {
+            str4 = charSequence5;
+        }
+        i2 = i9 & 16 != 0 ? -1 : i6;
+        if (i9 & 32 != 0) {
+            str3 = "...";
+        } else {
+            str3 = charSequence7;
+        }
+        i = i9 & 64 != 0 ? 0 : function18;
+        return ArraysKt.joinTo(lArr, appendable2, str2, str, str4, i2, str3, i);
+    }
+
+    public static java.lang.Appendable joinTo$default(Object[] objectArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
+        String str3;
+        String str4;
+        String str2;
+        int i2;
+        String str;
+        int i;
+        if (i9 & 2 != 0) {
+            str3 = ", ";
+        } else {
+            str3 = charSequence3;
+        }
+        if (i9 & 4 != 0) {
+            str4 = str2;
+        } else {
+            str4 = charSequence4;
+        }
+        if (i9 & 8 != 0) {
+        } else {
+            str2 = charSequence5;
+        }
+        i2 = i9 & 16 != 0 ? -1 : i6;
+        if (i9 & 32 != 0) {
+            str = "...";
+        } else {
+            str = charSequence7;
+        }
+        i = i9 & 64 != 0 ? 0 : function18;
+        return ArraysKt.joinTo(objectArr, appendable2, str3, str4, str2, i2, str, i);
+    }
+
+    public static java.lang.Appendable joinTo$default(short[] sArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
+        String str2;
+        String str3;
+        String str4;
+        int i2;
+        String str;
+        int i;
+        if (i9 & 2 != 0) {
+            str2 = ", ";
+        } else {
+            str2 = charSequence3;
+        }
+        if (i9 & 4 != 0) {
+            str3 = str4;
+        } else {
+            str3 = charSequence4;
+        }
+        if (i9 & 8 != 0) {
+        } else {
+            str4 = charSequence5;
+        }
+        i2 = i9 & 16 != 0 ? -1 : i6;
+        if (i9 & 32 != 0) {
+            str = "...";
+        } else {
+            str = charSequence7;
+        }
+        i = i9 & 64 != 0 ? 0 : function18;
+        return ArraysKt.joinTo(sArr, appendable2, str2, str3, str4, i2, str, i);
+    }
+
+    public static java.lang.Appendable joinTo$default(boolean[] zArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
+        String str2;
+        String str4;
+        String str;
+        int i;
+        String str3;
+        int i2;
+        if (i9 & 2 != 0) {
+            str2 = ", ";
+        } else {
+            str2 = charSequence3;
         }
         if (i9 & 4 != 0) {
             str4 = str;
@@ -10413,169 +10568,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         } else {
             str = charSequence5;
         }
-        i2 = i9 & 16 != 0 ? -1 : i6;
-        if (i9 & 32 != 0) {
-            str2 = "...";
-        } else {
-            str2 = charSequence7;
-        }
-        i = i9 & 64 != 0 ? 0 : function18;
-        return ArraysKt.joinTo(fArr, appendable2, str3, str4, str, i2, str2, i);
-    }
-
-    public static java.lang.Appendable joinTo$default(int[] iArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
-        String str;
-        String str2;
-        String str3;
-        int i;
-        String str4;
-        int i2;
-        if (i9 & 2 != 0) {
-            str = ", ";
-        } else {
-            str = charSequence3;
-        }
-        if (i9 & 4 != 0) {
-            str2 = str3;
-        } else {
-            str2 = charSequence4;
-        }
-        if (i9 & 8 != 0) {
-        } else {
-            str3 = charSequence5;
-        }
         i = i9 & 16 != 0 ? -1 : i6;
         if (i9 & 32 != 0) {
-            str4 = "...";
+            str3 = "...";
         } else {
-            str4 = charSequence7;
+            str3 = charSequence7;
         }
         i2 = i9 & 64 != 0 ? 0 : function18;
-        return ArraysKt.joinTo(iArr, appendable2, str, str2, str3, i, str4, i2);
-    }
-
-    public static java.lang.Appendable joinTo$default(long[] lArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
-        String str4;
-        String str;
-        String str3;
-        int i;
-        String str2;
-        int i2;
-        if (i9 & 2 != 0) {
-            str4 = ", ";
-        } else {
-            str4 = charSequence3;
-        }
-        if (i9 & 4 != 0) {
-            str = str3;
-        } else {
-            str = charSequence4;
-        }
-        if (i9 & 8 != 0) {
-        } else {
-            str3 = charSequence5;
-        }
-        i = i9 & 16 != 0 ? -1 : i6;
-        if (i9 & 32 != 0) {
-            str2 = "...";
-        } else {
-            str2 = charSequence7;
-        }
-        i2 = i9 & 64 != 0 ? 0 : function18;
-        return ArraysKt.joinTo(lArr, appendable2, str4, str, str3, i, str2, i2);
-    }
-
-    public static java.lang.Appendable joinTo$default(Object[] objectArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
-        String str2;
-        String str;
-        String str3;
-        int i;
-        String str4;
-        int i2;
-        if (i9 & 2 != 0) {
-            str2 = ", ";
-        } else {
-            str2 = charSequence3;
-        }
-        if (i9 & 4 != 0) {
-            str = str3;
-        } else {
-            str = charSequence4;
-        }
-        if (i9 & 8 != 0) {
-        } else {
-            str3 = charSequence5;
-        }
-        i = i9 & 16 != 0 ? -1 : i6;
-        if (i9 & 32 != 0) {
-            str4 = "...";
-        } else {
-            str4 = charSequence7;
-        }
-        i2 = i9 & 64 != 0 ? 0 : function18;
-        return ArraysKt.joinTo(objectArr, appendable2, str2, str, str3, i, str4, i2);
-    }
-
-    public static java.lang.Appendable joinTo$default(short[] sArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
-        String str2;
-        String str;
-        String str3;
-        int i2;
-        String str4;
-        int i;
-        if (i9 & 2 != 0) {
-            str2 = ", ";
-        } else {
-            str2 = charSequence3;
-        }
-        if (i9 & 4 != 0) {
-            str = str3;
-        } else {
-            str = charSequence4;
-        }
-        if (i9 & 8 != 0) {
-        } else {
-            str3 = charSequence5;
-        }
-        i2 = i9 & 16 != 0 ? -1 : i6;
-        if (i9 & 32 != 0) {
-            str4 = "...";
-        } else {
-            str4 = charSequence7;
-        }
-        i = i9 & 64 != 0 ? 0 : function18;
-        return ArraysKt.joinTo(sArr, appendable2, str2, str, str3, i2, str4, i);
-    }
-
-    public static java.lang.Appendable joinTo$default(boolean[] zArr, java.lang.Appendable appendable2, java.lang.CharSequence charSequence3, java.lang.CharSequence charSequence4, java.lang.CharSequence charSequence5, int i6, java.lang.CharSequence charSequence7, Function1 function18, int i9, Object object10) {
-        String str2;
-        String str3;
-        String str;
-        int i;
-        String str4;
-        int i2;
-        if (i9 & 2 != 0) {
-            str2 = ", ";
-        } else {
-            str2 = charSequence3;
-        }
-        if (i9 & 4 != 0) {
-            str3 = str;
-        } else {
-            str3 = charSequence4;
-        }
-        if (i9 & 8 != 0) {
-        } else {
-            str = charSequence5;
-        }
-        i = i9 & 16 != 0 ? -1 : i6;
-        if (i9 & 32 != 0) {
-            str4 = "...";
-        } else {
-            str4 = charSequence7;
-        }
-        i2 = i9 & 64 != 0 ? 0 : function18;
-        return ArraysKt.joinTo(zArr, appendable2, str2, str3, str, i, str4, i2);
+        return ArraysKt.joinTo(zArr, appendable2, str2, str4, str, i, str3, i2);
     }
 
     public static final String joinToString(byte[] $this$joinToString, java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function1<? super Byte, ? extends java.lang.CharSequence> transform) {
@@ -10960,8 +10960,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final byte last(byte[] $this$last, Function1<? super Byte, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         byte b;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$last, "<this>");
@@ -11038,8 +11038,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final float last(float[] $this$last, Function1<? super Float, Boolean> predicate) {
-        int i;
         int i3;
+        int i;
         int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$last, "<this>");
@@ -11065,8 +11065,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final int last(int[] $this$last, Function1<? super Integer, Boolean> predicate) {
         int i3;
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$last, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -11090,8 +11090,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final long last(long[] $this$last, Function1<? super Long, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         long l;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$last, "<this>");
@@ -11116,8 +11116,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T last(T[] $this$last, Function1<? super T, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         Object obj;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$last, "<this>");
@@ -11168,8 +11168,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final boolean last(boolean[] $this$last, Function1<? super Boolean, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         boolean z;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$last, "<this>");
@@ -11182,8 +11182,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int lastIndexOf(byte[] $this$lastIndexOf, byte element) {
-        int i2;
         int i;
+        int i2;
         byte b;
         Intrinsics.checkNotNullParameter($this$lastIndexOf, "<this>");
         final int i3 = -1;
@@ -11206,8 +11206,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     @Deprecated(message = "The function has unclear behavior when searching for NaN or zero values and will be removed soon. Use 'indexOfLast { it == element }' instead to continue using this behavior, or '.asList().lastIndexOf(element: T)' to get the same search behavior as in a list.", replaceWith = @ReplaceWith(...))
     @DeprecatedSinceKotlin(errorSince = "1.6", hiddenSince = "1.7", warningSince = "1.4")
     public static final int lastIndexOf(double[] $this$lastIndexOf, double element) {
-        int i;
         int i2;
+        int i;
         int i3;
         Intrinsics.checkNotNullParameter($this$lastIndexOf, "<this>");
         final int i4 = -1;
@@ -11220,8 +11220,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     @DeprecatedSinceKotlin(errorSince = "1.6", hiddenSince = "1.7", warningSince = "1.4")
     public static final int lastIndexOf(float[] $this$lastIndexOf, float element) {
         int i3;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$lastIndexOf, "<this>");
         final int i4 = -1;
         if (length += i4 >= 0) {
@@ -11230,9 +11230,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int lastIndexOf(int[] $this$lastIndexOf, int element) {
+        int i;
         int i2;
         int i3;
-        int i;
         Intrinsics.checkNotNullParameter($this$lastIndexOf, "<this>");
         final int i4 = -1;
         if (length += i4 >= 0) {
@@ -11241,8 +11241,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int lastIndexOf(long[] $this$lastIndexOf, long element) {
-        int i2;
         int i;
+        int i2;
         int cmp;
         Intrinsics.checkNotNullParameter($this$lastIndexOf, "<this>");
         final int i3 = -1;
@@ -11252,8 +11252,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> int lastIndexOf(T[] $this$lastIndexOf, T element) {
-        int i;
         int i2;
+        int i;
         boolean equal;
         Intrinsics.checkNotNullParameter($this$lastIndexOf, "<this>");
         int i3 = -1;
@@ -11358,8 +11358,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Character lastOrNull(char[] $this$lastOrNull, Function1<? super Character, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         char c;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$lastOrNull, "<this>");
@@ -11413,8 +11413,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final Float lastOrNull(float[] $this$lastOrNull, Function1<? super Float, Boolean> predicate) {
         int i2;
-        int i;
         int i3;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$lastOrNull, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -11440,8 +11440,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final Integer lastOrNull(int[] $this$lastOrNull, Function1<? super Integer, Boolean> predicate) {
         int i2;
-        int i;
         int i3;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$lastOrNull, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
@@ -11493,8 +11493,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T lastOrNull(T[] $this$lastOrNull, Function1<? super T, Boolean> predicate) {
-        int i;
         int i2;
+        int i;
         Object obj;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$lastOrNull, "<this>");
@@ -11520,8 +11520,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Short lastOrNull(short[] $this$lastOrNull, Function1<? super Short, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         short s;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$lastOrNull, "<this>");
@@ -11718,9 +11718,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final <R> List<R> mapIndexed(char[] $this$mapIndexed, Function2<? super Integer, ? super Character, ? extends R> transform) {
         int i;
-        int i2;
-        char c;
         int i3;
+        char c;
+        int i2;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -11729,11 +11729,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Object obj = $this$mapIndexed;
         final int i5 = 0;
         i = 0;
-        i2 = 0;
-        while (i2 < obj.length) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), Character.valueOf(obj[i2])));
-            i2++;
-            i = i3;
+        i3 = 0;
+        while (i3 < obj.length) {
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), Character.valueOf(obj[i3])));
+            i3++;
+            i = i2;
         }
         return (List)arrayList;
     }
@@ -11761,10 +11761,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> List<R> mapIndexed(float[] $this$mapIndexed, Function2<? super Integer, ? super Float, ? extends R> transform) {
-        int i2;
-        int i3;
         int i;
         int i4;
+        int i3;
+        int i2;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -11772,21 +11772,21 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList($this$mapIndexed.length);
         Object obj = $this$mapIndexed;
         final int i6 = 0;
-        i2 = 0;
-        i3 = 0;
-        while (i3 < obj.length) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i2), Float.valueOf(obj[i3])));
-            i3++;
-            i2 = i4;
+        i = 0;
+        i4 = 0;
+        while (i4 < obj.length) {
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), Float.valueOf(obj[i4])));
+            i4++;
+            i = i2;
         }
         return (List)arrayList;
     }
 
     public static final <R> List<R> mapIndexed(int[] $this$mapIndexed, Function2<? super Integer, ? super Integer, ? extends R> transform) {
-        int i3;
         int i;
-        int i2;
         int i4;
+        int i3;
+        int i2;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -11794,21 +11794,21 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList($this$mapIndexed.length);
         Object obj = $this$mapIndexed;
         final int i6 = 0;
-        i3 = 0;
         i = 0;
-        while (i < obj.length) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i3), Integer.valueOf(obj[i])));
-            i++;
-            i3 = i4;
+        i4 = 0;
+        while (i4 < obj.length) {
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), Integer.valueOf(obj[i4])));
+            i4++;
+            i = i2;
         }
         return (List)arrayList;
     }
 
     public static final <R> List<R> mapIndexed(long[] $this$mapIndexed, Function2<? super Integer, ? super Long, ? extends R> transform) {
         int i;
-        int i2;
-        long l;
         int i3;
+        long l;
+        int i2;
         Long valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -11817,32 +11817,32 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Object obj = $this$mapIndexed;
         final int i5 = 0;
         i = 0;
-        i2 = 0;
-        while (i2 < obj.length) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), Long.valueOf(obj[i2])));
-            i2++;
-            i = i3;
+        i3 = 0;
+        while (i3 < obj.length) {
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), Long.valueOf(obj[i3])));
+            i3++;
+            i = i2;
         }
         return (List)arrayList;
     }
 
     public static final <T, R> List<R> mapIndexed(T[] $this$mapIndexed, Function2<? super Integer, ? super T, ? extends R> transform) {
-        int i3;
         int i;
-        Object obj;
         int i2;
+        Object obj;
+        int i3;
         Intrinsics.checkNotNullParameter($this$mapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i4 = 0;
         ArrayList arrayList = new ArrayList($this$mapIndexed.length);
         Object obj2 = $this$mapIndexed;
         final int i5 = 0;
-        i3 = 0;
         i = 0;
-        while (i < obj2.length) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i3), obj2[i]));
-            i++;
-            i3 = i2;
+        i2 = 0;
+        while (i2 < obj2.length) {
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i), obj2[i2]));
+            i2++;
+            i = i3;
         }
         return (List)arrayList;
     }
@@ -11871,9 +11871,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final <R> List<R> mapIndexed(boolean[] $this$mapIndexed, Function2<? super Integer, ? super Boolean, ? extends R> transform) {
         int i2;
-        int i;
-        boolean z;
         int i3;
+        boolean z;
+        int i;
         Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexed, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -11882,22 +11882,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Object obj = $this$mapIndexed;
         final int i5 = 0;
         i2 = 0;
-        i = 0;
-        while (i < obj.length) {
-            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i2), Boolean.valueOf(obj[i])));
-            i++;
-            i2 = i3;
+        i3 = 0;
+        while (i3 < obj.length) {
+            (Collection)arrayList.add(transform.invoke(Integer.valueOf(i2), Boolean.valueOf(obj[i3])));
+            i3++;
+            i2 = i;
         }
         return (List)arrayList;
     }
 
     public static final <T, R> List<R> mapIndexedNotNull(T[] $this$mapIndexedNotNull, Function2<? super Integer, ? super T, ? extends R> transform) {
-        int i4;
         int i5;
+        int i3;
         Object obj2;
         int i;
         Object obj;
-        int i3;
+        int i4;
         Object invoke;
         int i2;
         final Object obj3 = transform;
@@ -11908,15 +11908,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i7 = 0;
         final Object obj6 = obj5;
         final int i8 = 0;
-        i4 = 0;
         i5 = 0;
-        while (i5 < obj6.length) {
-            i3 = 0;
-            invoke = obj3.invoke(Integer.valueOf(i4), obj6[i5]);
+        i3 = 0;
+        while (i3 < obj6.length) {
+            i4 = 0;
+            invoke = obj3.invoke(Integer.valueOf(i5), obj6[i3]);
             if (invoke != null) {
             }
-            i5++;
-            i4 = i;
+            i3++;
+            i5 = i;
             i2 = 0;
             (Collection)arrayList.add(invoke);
         }
@@ -11924,30 +11924,30 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T, R, C extends Collection<? super R>> C mapIndexedNotNullTo(T[] $this$mapIndexedNotNullTo, C destination, Function2<? super Integer, ? super T, ? extends R> transform) {
-        int i2;
-        int i5;
-        Object obj;
-        int i4;
-        Object obj2;
-        int i;
-        Object invoke;
         int i3;
+        int i4;
+        Object obj;
+        int i5;
+        Object obj2;
+        int i2;
+        Object invoke;
+        int i;
         Intrinsics.checkNotNullParameter($this$mapIndexedNotNullTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i6 = 0;
         final Object obj3 = $this$mapIndexedNotNullTo;
         final int i7 = 0;
-        i2 = 0;
-        i5 = 0;
-        while (i5 < obj3.length) {
-            i = 0;
-            invoke = transform.invoke(Integer.valueOf(i2), obj3[i5]);
+        i3 = 0;
+        i4 = 0;
+        while (i4 < obj3.length) {
+            i2 = 0;
+            invoke = transform.invoke(Integer.valueOf(i3), obj3[i4]);
             if (invoke != null) {
             }
-            i5++;
-            i2 = i4;
-            i3 = 0;
+            i4++;
+            i3 = i5;
+            i = 0;
             destination.add(invoke);
         }
         return destination;
@@ -11955,110 +11955,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final <R, C extends Collection<? super R>> C mapIndexedTo(byte[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Byte, ? extends R> transform) {
         int i2;
-        int i3;
+        int i;
         byte b;
-        int i;
+        int i3;
         Byte valueOf;
-        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        int i4 = 0;
-        i2 = 0;
-        i3 = 0;
-        while (i3 < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i2), Byte.valueOf($this$mapIndexedTo[i3])));
-            i3++;
-            i2 = i;
-        }
-        return destination;
-    }
-
-    public static final <R, C extends Collection<? super R>> C mapIndexedTo(char[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Character, ? extends R> transform) {
-        int i;
-        int i2;
-        char c;
-        int i3;
-        Character valueOf;
-        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        int i4 = 0;
-        i = 0;
-        i2 = 0;
-        while (i2 < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i), Character.valueOf($this$mapIndexedTo[i2])));
-            i2++;
-            i = i3;
-        }
-        return destination;
-    }
-
-    public static final <R, C extends Collection<? super R>> C mapIndexedTo(double[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Double, ? extends R> transform) {
-        int i;
-        int i3;
-        long l;
-        int i2;
-        Double valueOf;
-        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        int i4 = 0;
-        i = 0;
-        i3 = 0;
-        while (i3 < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i), Double.valueOf($this$mapIndexedTo[i3])));
-            i3++;
-            i = i2;
-        }
-        return destination;
-    }
-
-    public static final <R, C extends Collection<? super R>> C mapIndexedTo(float[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Float, ? extends R> transform) {
-        int i2;
-        int i4;
-        int i;
-        int i3;
-        Float valueOf;
-        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        int i5 = 0;
-        i2 = 0;
-        i4 = 0;
-        while (i4 < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i2), Float.valueOf($this$mapIndexedTo[i4])));
-            i4++;
-            i2 = i3;
-        }
-        return destination;
-    }
-
-    public static final <R, C extends Collection<? super R>> C mapIndexedTo(int[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Integer, ? extends R> transform) {
-        int i3;
-        int i4;
-        int i;
-        int i2;
-        Integer valueOf;
-        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        int i5 = 0;
-        i3 = 0;
-        i4 = 0;
-        while (i4 < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i3), Integer.valueOf($this$mapIndexedTo[i4])));
-            i4++;
-            i3 = i2;
-        }
-        return destination;
-    }
-
-    public static final <R, C extends Collection<? super R>> C mapIndexedTo(long[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Long, ? extends R> transform) {
-        int i2;
-        int i;
-        long l;
-        int i3;
-        Long valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -12066,58 +11966,39 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i2 = 0;
         i = 0;
         while (i < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i2), Long.valueOf($this$mapIndexedTo[i])));
+            destination.add(transform.invoke(Integer.valueOf(i2), Byte.valueOf($this$mapIndexedTo[i])));
             i++;
             i2 = i3;
         }
         return destination;
     }
 
-    public static final <T, R, C extends Collection<? super R>> C mapIndexedTo(T[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super T, ? extends R> transform) {
+    public static final <R, C extends Collection<? super R>> C mapIndexedTo(char[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Character, ? extends R> transform) {
         int i2;
-        int i3;
-        Object obj;
         int i;
+        char c;
+        int i3;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i4 = 0;
         i2 = 0;
-        i3 = 0;
-        while (i3 < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i2), $this$mapIndexedTo[i3]));
-            i3++;
-            i2 = i;
-        }
-        return destination;
-    }
-
-    public static final <R, C extends Collection<? super R>> C mapIndexedTo(short[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Short, ? extends R> transform) {
-        int i;
-        int i3;
-        short s;
-        int i2;
-        Short valueOf;
-        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
-        Intrinsics.checkNotNullParameter(destination, "destination");
-        Intrinsics.checkNotNullParameter(transform, "transform");
-        int i4 = 0;
         i = 0;
-        i3 = 0;
-        while (i3 < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i), Short.valueOf($this$mapIndexedTo[i3])));
-            i3++;
-            i = i2;
+        while (i < $this$mapIndexedTo.length) {
+            destination.add(transform.invoke(Integer.valueOf(i2), Character.valueOf($this$mapIndexedTo[i])));
+            i++;
+            i2 = i3;
         }
         return destination;
     }
 
-    public static final <R, C extends Collection<? super R>> C mapIndexedTo(boolean[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Boolean, ? extends R> transform) {
+    public static final <R, C extends Collection<? super R>> C mapIndexedTo(double[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Double, ? extends R> transform) {
         int i;
         int i2;
-        boolean z;
+        long l;
         int i3;
-        Boolean valueOf;
+        Double valueOf;
         Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -12125,20 +12006,139 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = 0;
         i2 = 0;
         while (i2 < $this$mapIndexedTo.length) {
-            destination.add(transform.invoke(Integer.valueOf(i), Boolean.valueOf($this$mapIndexedTo[i2])));
+            destination.add(transform.invoke(Integer.valueOf(i), Double.valueOf($this$mapIndexedTo[i2])));
             i2++;
             i = i3;
         }
         return destination;
     }
 
-    public static final <T, R> List<R> mapNotNull(T[] $this$mapNotNull, Function1<? super T, ? extends R> transform) {
+    public static final <R, C extends Collection<? super R>> C mapIndexedTo(float[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Float, ? extends R> transform) {
+        int i3;
+        int i;
+        int i4;
         int i2;
-        Object obj2;
+        Float valueOf;
+        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        int i5 = 0;
+        i3 = 0;
+        i = 0;
+        while (i < $this$mapIndexedTo.length) {
+            destination.add(transform.invoke(Integer.valueOf(i3), Float.valueOf($this$mapIndexedTo[i])));
+            i++;
+            i3 = i2;
+        }
+        return destination;
+    }
+
+    public static final <R, C extends Collection<? super R>> C mapIndexedTo(int[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Integer, ? extends R> transform) {
+        int i4;
+        int i;
+        int i3;
+        int i2;
+        Integer valueOf;
+        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        int i5 = 0;
+        i4 = 0;
+        i = 0;
+        while (i < $this$mapIndexedTo.length) {
+            destination.add(transform.invoke(Integer.valueOf(i4), Integer.valueOf($this$mapIndexedTo[i])));
+            i++;
+            i4 = i2;
+        }
+        return destination;
+    }
+
+    public static final <R, C extends Collection<? super R>> C mapIndexedTo(long[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Long, ? extends R> transform) {
+        int i3;
+        int i;
+        long l;
+        int i2;
+        Long valueOf;
+        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        int i4 = 0;
+        i3 = 0;
+        i = 0;
+        while (i < $this$mapIndexedTo.length) {
+            destination.add(transform.invoke(Integer.valueOf(i3), Long.valueOf($this$mapIndexedTo[i])));
+            i++;
+            i3 = i2;
+        }
+        return destination;
+    }
+
+    public static final <T, R, C extends Collection<? super R>> C mapIndexedTo(T[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super T, ? extends R> transform) {
+        int i3;
+        int i;
         Object obj;
+        int i2;
+        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        int i4 = 0;
+        i3 = 0;
+        i = 0;
+        while (i < $this$mapIndexedTo.length) {
+            destination.add(transform.invoke(Integer.valueOf(i3), $this$mapIndexedTo[i]));
+            i++;
+            i3 = i2;
+        }
+        return destination;
+    }
+
+    public static final <R, C extends Collection<? super R>> C mapIndexedTo(short[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Short, ? extends R> transform) {
+        int i2;
+        int i;
+        short s;
+        int i3;
+        Short valueOf;
+        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        int i4 = 0;
+        i2 = 0;
+        i = 0;
+        while (i < $this$mapIndexedTo.length) {
+            destination.add(transform.invoke(Integer.valueOf(i2), Short.valueOf($this$mapIndexedTo[i])));
+            i++;
+            i2 = i3;
+        }
+        return destination;
+    }
+
+    public static final <R, C extends Collection<? super R>> C mapIndexedTo(boolean[] $this$mapIndexedTo, C destination, Function2<? super Integer, ? super Boolean, ? extends R> transform) {
+        int i2;
+        int i;
+        boolean z;
+        int i3;
+        Boolean valueOf;
+        Intrinsics.checkNotNullParameter($this$mapIndexedTo, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        Intrinsics.checkNotNullParameter(transform, "transform");
+        int i4 = 0;
+        i2 = 0;
+        i = 0;
+        while (i < $this$mapIndexedTo.length) {
+            destination.add(transform.invoke(Integer.valueOf(i2), Boolean.valueOf($this$mapIndexedTo[i])));
+            i++;
+            i2 = i3;
+        }
+        return destination;
+    }
+
+    public static final <T, R> List<R> mapNotNull(T[] $this$mapNotNull, Function1<? super T, ? extends R> transform) {
+        int i3;
+        Object obj;
+        Object obj2;
         int i;
         Object invoke;
-        int i3;
+        int i2;
         Intrinsics.checkNotNullParameter($this$mapNotNull, "<this>");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i4 = 0;
@@ -12146,14 +12146,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i5 = 0;
         final Object obj4 = obj3;
         final int i6 = 0;
-        i2 = 0;
-        while (i2 < obj4.length) {
+        i3 = 0;
+        while (i3 < obj4.length) {
             i = 0;
-            invoke = transform.invoke(obj4[i2]);
+            invoke = transform.invoke(obj4[i3]);
             if (invoke != null) {
             }
-            i2++;
-            i3 = 0;
+            i3++;
+            i2 = 0;
             (Collection)arrayList.add(invoke);
         }
         return (List)arrayList;
@@ -12163,9 +12163,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         Object obj;
         Object obj2;
-        int i2;
-        Object invoke;
         int i3;
+        Object invoke;
+        int i2;
         Intrinsics.checkNotNullParameter($this$mapNotNullTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
@@ -12174,12 +12174,12 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i5 = 0;
         i = 0;
         while (i < obj3.length) {
-            i2 = 0;
+            i3 = 0;
             invoke = transform.invoke(obj3[i]);
             if (invoke != null) {
             }
             i++;
-            i3 = 0;
+            i2 = 0;
             destination.add(invoke);
         }
         return destination;
@@ -12234,17 +12234,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R, C extends Collection<? super R>> C mapTo(float[] $this$mapTo, C destination, Function1<? super Float, ? extends R> transform) {
-        int i2;
         int i;
+        int i2;
         Object invoke;
         Intrinsics.checkNotNullParameter($this$mapTo, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i3 = 0;
-        i2 = 0;
-        while (i2 < $this$mapTo.length) {
-            destination.add(transform.invoke(Float.valueOf($this$mapTo[i2])));
-            i2++;
+        i = 0;
+        while (i < $this$mapTo.length) {
+            destination.add(transform.invoke(Float.valueOf($this$mapTo[i])));
+            i++;
         }
         return destination;
     }
@@ -12357,10 +12357,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Byte maxByOrNull(byte[] $this$maxByOrNull, Function1<? super Byte, ? extends R> selector) {
-        int i2;
+        int i;
         byte maxElem;
         Object maxValue;
-        int i;
+        int i2;
         byte b;
         Object invoke;
         int compareTo;
@@ -12368,8 +12368,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i2 = $this$maxByOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$maxByOrNull.length == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         maxElem = $this$maxByOrNull[i5];
@@ -12384,10 +12384,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Character maxByOrNull(char[] $this$maxByOrNull, Function1<? super Character, ? extends R> selector) {
-        int i2;
+        int i;
         char maxElem;
         Object maxValue;
-        int i;
+        int i2;
         char c;
         Object invoke;
         int compareTo;
@@ -12395,8 +12395,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i2 = $this$maxByOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$maxByOrNull.length == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         maxElem = $this$maxByOrNull[i5];
@@ -12411,10 +12411,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Double maxByOrNull(double[] $this$maxByOrNull, Function1<? super Double, ? extends R> selector) {
-        int i2;
+        int i;
         long maxElem;
         Object maxValue;
-        int i;
+        int i2;
         long l;
         Object invoke;
         int compareTo;
@@ -12422,8 +12422,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         final int i5 = 0;
-        i2 = $this$maxByOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$maxByOrNull.length == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         maxElem = $this$maxByOrNull[i5];
@@ -12465,19 +12465,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Integer maxByOrNull(int[] $this$maxByOrNull, Function1<? super Integer, ? extends R> selector) {
-        int i3;
+        int i2;
         int maxElem;
         Object maxValue;
+        int i3;
         int i;
-        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxByOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
         int i6 = 0;
-        i3 = $this$maxByOrNull.length == 0 ? 1 : i6;
-        if (i3 != 0) {
+        i2 = $this$maxByOrNull.length == 0 ? 1 : i6;
+        if (i2 != 0) {
             return null;
         }
         maxElem = $this$maxByOrNull[i6];
@@ -12519,10 +12519,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T, R extends Comparable<? super R>> T maxByOrNull(T[] $this$maxByOrNull, Function1<? super T, ? extends R> selector) {
-        int i;
+        int i2;
         Object maxElem;
         Object maxValue;
-        int i2;
+        int i;
         Object obj;
         Object invoke;
         int compareTo;
@@ -12530,8 +12530,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i = $this$maxByOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$maxByOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return 0;
         }
         maxElem = $this$maxByOrNull[i5];
@@ -12546,10 +12546,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Short maxByOrNull(short[] $this$maxByOrNull, Function1<? super Short, ? extends R> selector) {
-        int i2;
+        int i;
         short maxElem;
         Object maxValue;
-        int i;
+        int i2;
         short s;
         Object invoke;
         int compareTo;
@@ -12557,8 +12557,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i2 = $this$maxByOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$maxByOrNull.length == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         maxElem = $this$maxByOrNull[i5];
@@ -12660,10 +12660,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> float maxByOrThrow(float[] $this$maxBy, Function1<? super Float, ? extends R> selector) {
-        int i;
+        int i3;
         int maxElem;
         Object maxValue;
-        int i3;
+        int i;
         int i2;
         Object invoke;
         int compareTo;
@@ -12671,8 +12671,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
         int i5 = 0;
-        i = $this$maxBy.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i3 = $this$maxBy.length == 0 ? 1 : i5;
+        if (i3 != 0) {
         } else {
             maxElem = $this$maxBy[i5];
             int lastIndex = ArraysKt.getLastIndex($this$maxBy);
@@ -12692,8 +12692,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3;
         int maxElem;
         Object maxValue;
-        int i;
         int i2;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxBy, "<this>");
@@ -12747,10 +12747,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T, R extends Comparable<? super R>> T maxByOrThrow(T[] $this$maxBy, Function1<? super T, ? extends R> selector) {
-        int i2;
+        int i;
         Object maxElem;
         Object maxValue;
-        int i;
+        int i2;
         Object obj;
         Object invoke;
         int compareTo;
@@ -12758,8 +12758,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i4 = 0;
-        i2 = $this$maxBy.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxBy.length == 0 ? 1 : i4;
+        if (i != 0) {
         } else {
             maxElem = $this$maxBy[i4];
             int lastIndex = ArraysKt.getLastIndex($this$maxBy);
@@ -12834,15 +12834,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final double maxOf(byte[] $this$maxOf, Function1<? super Byte, Double> selector) {
-        int i;
-        double maxValue;
         int i2;
+        double maxValue;
+        int i;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i3 = 0;
-        i = $this$maxOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$maxOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             maxValue = (Number)selector.invoke(Byte.valueOf($this$maxOf[i3])).doubleValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -12897,15 +12897,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final double maxOf(float[] $this$maxOf, Function1<? super Float, Double> selector) {
-        int i;
-        double maxValue;
         int i2;
+        double maxValue;
+        int i;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i4 = 0;
-        i = $this$maxOf.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxOf.length == 0 ? 1 : i4;
+        if (i2 != 0) {
         } else {
             maxValue = (Number)selector.invoke(Float.valueOf($this$maxOf[i4])).doubleValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -12960,15 +12960,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <T> double maxOf(T[] $this$maxOf, Function1<? super T, Double> selector) {
-        int i;
-        double maxValue;
         int i2;
+        double maxValue;
+        int i;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i3 = 0;
-        i = $this$maxOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$maxOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             maxValue = (Number)selector.invoke($this$maxOf[i3]).doubleValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13023,15 +13023,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float maxOf(byte[] $this$maxOf, Function1<? super Byte, Float> selector) {
-        int i2;
-        float maxValue;
         int i;
+        float maxValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = (Number)selector.invoke(Byte.valueOf($this$maxOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13065,15 +13065,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float maxOf(double[] $this$maxOf, Function1<? super Double, Float> selector) {
-        int i;
-        float maxValue;
         int i2;
+        float maxValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$maxOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$maxOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             maxValue = (Number)selector.invoke(Double.valueOf($this$maxOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13107,15 +13107,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float maxOf(int[] $this$maxOf, Function1<? super Integer, Float> selector) {
-        int i;
-        float maxValue;
         int i2;
+        float maxValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$maxOf.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxOf.length == 0 ? 1 : i4;
+        if (i2 != 0) {
         } else {
             maxValue = (Number)selector.invoke(Integer.valueOf($this$maxOf[i4])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13128,15 +13128,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float maxOf(long[] $this$maxOf, Function1<? super Long, Float> selector) {
-        int i2;
-        float maxValue;
         int i;
+        float maxValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = (Number)selector.invoke(Long.valueOf($this$maxOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13170,15 +13170,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float maxOf(short[] $this$maxOf, Function1<? super Short, Float> selector) {
-        int i2;
-        float maxValue;
         int i;
+        float maxValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = (Number)selector.invoke(Short.valueOf($this$maxOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13191,15 +13191,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float maxOf(boolean[] $this$maxOf, Function1<? super Boolean, Float> selector) {
-        int i2;
-        float maxValue;
         int i;
+        float maxValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = (Number)selector.invoke(Boolean.valueOf($this$maxOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13234,16 +13234,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOf(char[] $this$maxOf, Function1<? super Character, ? extends R> selector) {
-        int i2;
-        Object maxValue;
         int i;
+        Object maxValue;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = selector.invoke(Character.valueOf($this$maxOf[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13256,16 +13256,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOf(double[] $this$maxOf, Function1<? super Double, ? extends R> selector) {
-        int i;
-        Object maxValue;
         int i2;
+        Object maxValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$maxOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$maxOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             maxValue = selector.invoke(Double.valueOf($this$maxOf[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13322,16 +13322,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOf(long[] $this$maxOf, Function1<? super Long, ? extends R> selector) {
-        int i2;
-        Object maxValue;
         int i;
+        Object maxValue;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = selector.invoke(Long.valueOf($this$maxOf[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13344,16 +13344,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <T, R extends Comparable<? super R>> R maxOf(T[] $this$maxOf, Function1<? super T, ? extends R> selector) {
-        int i;
-        Object maxValue;
         int i2;
+        Object maxValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$maxOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$maxOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             maxValue = selector.invoke($this$maxOf[i3]);
             final int lastIndex = ArraysKt.getLastIndex($this$maxOf);
@@ -13410,26 +13410,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOfOrNull(byte[] $this$maxOfOrNull, Function1<? super Byte, ? extends R> selector) {
-        int i2;
-        Object maxValue;
-        int i;
-        Object invoke;
-        int compareTo;
-        Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        int i4 = 0;
-        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
-            return 0;
-        }
-        maxValue = selector.invoke(Byte.valueOf($this$maxOfOrNull[i4]));
-        final int lastIndex = ArraysKt.getLastIndex($this$maxOfOrNull);
-        if (1 <= lastIndex) {
-        }
-        return maxValue;
-    }
-
-    private static final <R extends Comparable<? super R>> R maxOfOrNull(char[] $this$maxOfOrNull, Function1<? super Character, ? extends R> selector) {
         int i;
         Object maxValue;
         int i2;
@@ -13440,6 +13420,26 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i4 = 0;
         i = $this$maxOfOrNull.length == 0 ? 1 : i4;
         if (i != 0) {
+            return 0;
+        }
+        maxValue = selector.invoke(Byte.valueOf($this$maxOfOrNull[i4]));
+        final int lastIndex = ArraysKt.getLastIndex($this$maxOfOrNull);
+        if (1 <= lastIndex) {
+        }
+        return maxValue;
+    }
+
+    private static final <R extends Comparable<? super R>> R maxOfOrNull(char[] $this$maxOfOrNull, Function1<? super Character, ? extends R> selector) {
+        int i2;
+        Object maxValue;
+        int i;
+        Object invoke;
+        int compareTo;
+        Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        int i4 = 0;
+        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return 0;
         }
         maxValue = selector.invoke(Character.valueOf($this$maxOfOrNull[i4]));
@@ -13470,16 +13470,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOfOrNull(float[] $this$maxOfOrNull, Function1<? super Float, ? extends R> selector) {
-        int i;
-        Object maxValue;
         int i2;
+        Object maxValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i5 = 0;
-        i = $this$maxOfOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$maxOfOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return 0;
         }
         maxValue = selector.invoke(Float.valueOf($this$maxOfOrNull[i5]));
@@ -13490,16 +13490,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOfOrNull(int[] $this$maxOfOrNull, Function1<? super Integer, ? extends R> selector) {
-        int i;
-        Object maxValue;
         int i2;
+        Object maxValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i5 = 0;
-        i = $this$maxOfOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$maxOfOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return 0;
         }
         maxValue = selector.invoke(Integer.valueOf($this$maxOfOrNull[i5]));
@@ -13510,16 +13510,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOfOrNull(long[] $this$maxOfOrNull, Function1<? super Long, ? extends R> selector) {
-        int i2;
-        Object maxValue;
         int i;
+        Object maxValue;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return 0;
         }
         maxValue = selector.invoke(Long.valueOf($this$maxOfOrNull[i4]));
@@ -13570,16 +13570,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R maxOfOrNull(boolean[] $this$maxOfOrNull, Function1<? super Boolean, ? extends R> selector) {
-        int i;
-        Object maxValue;
         int i2;
+        Object maxValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return 0;
         }
         maxValue = selector.invoke(Boolean.valueOf($this$maxOfOrNull[i4]));
@@ -13628,15 +13628,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Double maxOfOrNull(double[] $this$maxOfOrNull, Function1<? super Double, Double> selector) {
-        int i;
-        double maxValue;
         int i2;
+        double maxValue;
+        int i;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i4 = 0;
-        i = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         maxValue = (Number)selector.invoke(Double.valueOf($this$maxOfOrNull[i4])).doubleValue();
@@ -13647,15 +13647,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Double maxOfOrNull(float[] $this$maxOfOrNull, Function1<? super Float, Double> selector) {
-        int i2;
-        double maxValue;
         int i;
+        double maxValue;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i5 = 0;
-        i2 = $this$maxOfOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$maxOfOrNull.length == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         maxValue = (Number)selector.invoke(Float.valueOf($this$maxOfOrNull[i5])).doubleValue();
@@ -13742,15 +13742,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Double maxOfOrNull(boolean[] $this$maxOfOrNull, Function1<? super Boolean, Double> selector) {
-        int i;
-        double maxValue;
         int i2;
+        double maxValue;
+        int i;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i4 = 0;
-        i = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         maxValue = (Number)selector.invoke(Boolean.valueOf($this$maxOfOrNull[i4])).doubleValue();
@@ -13761,15 +13761,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float maxOfOrNull(byte[] $this$maxOfOrNull, Function1<? super Byte, Float> selector) {
-        int i;
-        float maxValue;
         int i2;
+        float maxValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         maxValue = (Number)selector.invoke(Byte.valueOf($this$maxOfOrNull[i4])).floatValue();
@@ -13856,15 +13856,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float maxOfOrNull(long[] $this$maxOfOrNull, Function1<? super Long, Float> selector) {
-        int i2;
-        float maxValue;
         int i;
+        float maxValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         maxValue = (Number)selector.invoke(Long.valueOf($this$maxOfOrNull[i4])).floatValue();
@@ -13894,15 +13894,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float maxOfOrNull(short[] $this$maxOfOrNull, Function1<? super Short, Float> selector) {
-        int i2;
-        float maxValue;
         int i;
+        float maxValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         maxValue = (Number)selector.invoke(Short.valueOf($this$maxOfOrNull[i4])).floatValue();
@@ -13913,15 +13913,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float maxOfOrNull(boolean[] $this$maxOfOrNull, Function1<? super Boolean, Float> selector) {
-        int i2;
-        float maxValue;
         int i;
+        float maxValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$maxOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$maxOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         maxValue = (Number)selector.invoke(Boolean.valueOf($this$maxOfOrNull[i4])).floatValue();
@@ -13932,17 +13932,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R maxOfWith(byte[] $this$maxOfWith, Comparator<? super R> comparator, Function1<? super Byte, ? extends R> selector) {
-        int i2;
-        Object maxValue;
         int i;
+        Object maxValue;
+        int i2;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$maxOfWith.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxOfWith.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             maxValue = selector.invoke(Byte.valueOf($this$maxOfWith[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$maxOfWith);
@@ -14001,29 +14001,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R maxOfWith(float[] $this$maxOfWith, Comparator<? super R> comparator, Function1<? super Float, ? extends R> selector) {
-        int i2;
-        Object maxValue;
-        int i;
-        Object invoke;
-        int compare;
-        Intrinsics.checkNotNullParameter($this$maxOfWith, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        int i4 = 0;
-        i2 = $this$maxOfWith.length == 0 ? 1 : i4;
-        if (i2 != 0) {
-        } else {
-            maxValue = selector.invoke(Float.valueOf($this$maxOfWith[i4]));
-            final int lastIndex = ArraysKt.getLastIndex($this$maxOfWith);
-            if (1 <= lastIndex) {
-            }
-            return maxValue;
-        }
-        NoSuchElementException maxValue2 = new NoSuchElementException();
-        throw maxValue2;
-    }
-
-    private static final <R> R maxOfWith(int[] $this$maxOfWith, Comparator<? super R> comparator, Function1<? super Integer, ? extends R> selector) {
         int i;
         Object maxValue;
         int i2;
@@ -14036,6 +14013,29 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = $this$maxOfWith.length == 0 ? 1 : i4;
         if (i != 0) {
         } else {
+            maxValue = selector.invoke(Float.valueOf($this$maxOfWith[i4]));
+            final int lastIndex = ArraysKt.getLastIndex($this$maxOfWith);
+            if (1 <= lastIndex) {
+            }
+            return maxValue;
+        }
+        NoSuchElementException maxValue2 = new NoSuchElementException();
+        throw maxValue2;
+    }
+
+    private static final <R> R maxOfWith(int[] $this$maxOfWith, Comparator<? super R> comparator, Function1<? super Integer, ? extends R> selector) {
+        int i2;
+        Object maxValue;
+        int i;
+        Object invoke;
+        int compare;
+        Intrinsics.checkNotNullParameter($this$maxOfWith, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        int i4 = 0;
+        i2 = $this$maxOfWith.length == 0 ? 1 : i4;
+        if (i2 != 0) {
+        } else {
             maxValue = selector.invoke(Integer.valueOf($this$maxOfWith[i4]));
             final int lastIndex = ArraysKt.getLastIndex($this$maxOfWith);
             if (1 <= lastIndex) {
@@ -14047,17 +14047,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R maxOfWith(long[] $this$maxOfWith, Comparator<? super R> comparator, Function1<? super Long, ? extends R> selector) {
-        int i;
-        Object maxValue;
         int i2;
+        Object maxValue;
+        int i;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$maxOfWith.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$maxOfWith.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             maxValue = selector.invoke(Long.valueOf($this$maxOfWith[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$maxOfWith);
@@ -14160,17 +14160,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R maxOfWithOrNull(char[] $this$maxOfWithOrNull, Comparator<? super R> comparator, Function1<? super Character, ? extends R> selector) {
-        int i2;
-        Object maxValue;
         int i;
+        Object maxValue;
+        int i2;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxOfWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$maxOfWithOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOfWithOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return 0;
         }
         maxValue = selector.invoke(Character.valueOf($this$maxOfWithOrNull[i4]));
@@ -14181,17 +14181,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R maxOfWithOrNull(double[] $this$maxOfWithOrNull, Comparator<? super R> comparator, Function1<? super Double, ? extends R> selector) {
-        int i2;
-        Object maxValue;
         int i;
+        Object maxValue;
+        int i2;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxOfWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$maxOfWithOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOfWithOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return 0;
         }
         maxValue = selector.invoke(Double.valueOf($this$maxOfWithOrNull[i4]));
@@ -14202,27 +14202,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R maxOfWithOrNull(float[] $this$maxOfWithOrNull, Comparator<? super R> comparator, Function1<? super Float, ? extends R> selector) {
-        int i2;
-        Object maxValue;
-        int i;
-        Object invoke;
-        int compare;
-        Intrinsics.checkNotNullParameter($this$maxOfWithOrNull, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        int i5 = 0;
-        i2 = $this$maxOfWithOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
-            return 0;
-        }
-        maxValue = selector.invoke(Float.valueOf($this$maxOfWithOrNull[i5]));
-        final int lastIndex = ArraysKt.getLastIndex($this$maxOfWithOrNull);
-        if (1 <= lastIndex) {
-        }
-        return maxValue;
-    }
-
-    private static final <R> R maxOfWithOrNull(int[] $this$maxOfWithOrNull, Comparator<? super R> comparator, Function1<? super Integer, ? extends R> selector) {
         int i;
         Object maxValue;
         int i2;
@@ -14234,6 +14213,27 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i5 = 0;
         i = $this$maxOfWithOrNull.length == 0 ? 1 : i5;
         if (i != 0) {
+            return 0;
+        }
+        maxValue = selector.invoke(Float.valueOf($this$maxOfWithOrNull[i5]));
+        final int lastIndex = ArraysKt.getLastIndex($this$maxOfWithOrNull);
+        if (1 <= lastIndex) {
+        }
+        return maxValue;
+    }
+
+    private static final <R> R maxOfWithOrNull(int[] $this$maxOfWithOrNull, Comparator<? super R> comparator, Function1<? super Integer, ? extends R> selector) {
+        int i2;
+        Object maxValue;
+        int i;
+        Object invoke;
+        int compare;
+        Intrinsics.checkNotNullParameter($this$maxOfWithOrNull, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        int i5 = 0;
+        i2 = $this$maxOfWithOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return 0;
         }
         maxValue = selector.invoke(Integer.valueOf($this$maxOfWithOrNull[i5]));
@@ -14346,15 +14346,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Character maxOrNull(char[] $this$maxOrNull) {
-        int i;
-        char max;
         int i2;
+        char max;
+        int i;
         char c;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxOrNull, "<this>");
         int i4 = 0;
-        i = $this$maxOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         max = $this$maxOrNull[i4];
@@ -14365,15 +14365,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T extends Comparable<? super T>> T maxOrNull(T[] $this$maxOrNull) {
-        int i2;
-        Object max;
         int i;
+        Object max;
+        int i2;
         Object obj;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$maxOrNull, "<this>");
         int i4 = 0;
-        i2 = $this$maxOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return 0;
         }
         max = $this$maxOrNull[i4];
@@ -14402,14 +14402,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Double maxOrNull(Double[] $this$maxOrNull) {
-        int i2;
-        double max;
         int i;
+        double max;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$maxOrNull, "<this>");
         final int i4 = 0;
-        i2 = $this$maxOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         max = $this$maxOrNull[i4].doubleValue();
@@ -14420,14 +14420,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Float maxOrNull(float[] $this$maxOrNull) {
-        int i3;
-        int max;
-        int i;
         int i2;
+        int max;
+        int i3;
+        int i;
         Intrinsics.checkNotNullParameter($this$maxOrNull, "<this>");
         int i5 = 0;
-        i3 = $this$maxOrNull.length == 0 ? 1 : i5;
-        if (i3 != 0) {
+        i2 = $this$maxOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return null;
         }
         max = $this$maxOrNull[i5];
@@ -14456,14 +14456,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Integer maxOrNull(int[] $this$maxOrNull) {
-        int i;
-        int max;
         int i3;
+        int max;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$maxOrNull, "<this>");
         int i5 = 0;
-        i = $this$maxOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i3 = $this$maxOrNull.length == 0 ? 1 : i5;
+        if (i3 != 0) {
             return null;
         }
         max = $this$maxOrNull[i5];
@@ -14474,15 +14474,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Long maxOrNull(long[] $this$maxOrNull) {
-        int i2;
-        long max;
         int i;
+        long max;
+        int i2;
         long l;
         int cmp;
         Intrinsics.checkNotNullParameter($this$maxOrNull, "<this>");
         final int i4 = 0;
-        i2 = $this$maxOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         max = $this$maxOrNull[i4];
@@ -14493,14 +14493,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Short maxOrNull(short[] $this$maxOrNull) {
-        int i;
-        short max;
         int i2;
+        short max;
+        int i;
         short s;
         Intrinsics.checkNotNullParameter($this$maxOrNull, "<this>");
         int i4 = 0;
-        i = $this$maxOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         max = $this$maxOrNull[i4];
@@ -14531,13 +14531,33 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final char maxOrThrow(char[] $this$max) {
-        int i;
-        char max;
         int i2;
+        char max;
+        int i;
         char c;
         int compare;
         Intrinsics.checkNotNullParameter($this$max, "<this>");
         int i3 = 0;
+        i2 = $this$max.length == 0 ? 1 : i3;
+        if (i2 != 0) {
+        } else {
+            max = $this$max[i3];
+            final int lastIndex = ArraysKt.getLastIndex($this$max);
+            if (1 <= lastIndex) {
+            }
+            return max;
+        }
+        NoSuchElementException max2 = new NoSuchElementException();
+        throw max2;
+    }
+
+    public static final double maxOrThrow(double[] $this$max) {
+        int i;
+        long max;
+        int i2;
+        long l;
+        Intrinsics.checkNotNullParameter($this$max, "<this>");
+        final int i3 = 0;
         i = $this$max.length == 0 ? 1 : i3;
         if (i != 0) {
         } else {
@@ -14551,35 +14571,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         throw max2;
     }
 
-    public static final double maxOrThrow(double[] $this$max) {
-        int i2;
-        long max;
-        int i;
-        long l;
-        Intrinsics.checkNotNullParameter($this$max, "<this>");
-        final int i3 = 0;
-        i2 = $this$max.length == 0 ? 1 : i3;
-        if (i2 != 0) {
-        } else {
-            max = $this$max[i3];
-            final int lastIndex = ArraysKt.getLastIndex($this$max);
-            if (1 <= lastIndex) {
-            }
-            return max;
-        }
-        NoSuchElementException max2 = new NoSuchElementException();
-        throw max2;
-    }
-
     public static final double maxOrThrow(Double[] $this$max) {
-        int i2;
-        double max;
         int i;
+        double max;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$max, "<this>");
         final int i3 = 0;
-        i2 = $this$max.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$max.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             max = $this$max[i3].doubleValue();
             final int lastIndex = ArraysKt.getLastIndex($this$max);
@@ -14592,14 +14592,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final float maxOrThrow(float[] $this$max) {
-        int i;
-        int max;
         int i2;
+        int max;
+        int i;
         int i3;
         Intrinsics.checkNotNullParameter($this$max, "<this>");
         int i4 = 0;
-        i = $this$max.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$max.length == 0 ? 1 : i4;
+        if (i2 != 0) {
         } else {
             max = $this$max[i4];
             final int lastIndex = ArraysKt.getLastIndex($this$max);
@@ -14632,14 +14632,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int maxOrThrow(int[] $this$max) {
-        int i;
+        int i3;
         int max;
         int i2;
-        int i3;
+        int i;
         Intrinsics.checkNotNullParameter($this$max, "<this>");
         int i4 = 0;
-        i = $this$max.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i3 = $this$max.length == 0 ? 1 : i4;
+        if (i3 != 0) {
         } else {
             max = $this$max[i4];
             final int lastIndex = ArraysKt.getLastIndex($this$max);
@@ -14652,15 +14652,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final long maxOrThrow(long[] $this$max) {
-        int i;
-        long max;
         int i2;
+        long max;
+        int i;
         long l;
         int cmp;
         Intrinsics.checkNotNullParameter($this$max, "<this>");
         final int i3 = 0;
-        i = $this$max.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$max.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             max = $this$max[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$max);
@@ -14673,15 +14673,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T extends Comparable<? super T>> T maxOrThrow(T[] $this$max) {
-        int i2;
-        Object max;
         int i;
+        Object max;
+        int i2;
         Object obj;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$max, "<this>");
         int i3 = 0;
-        i2 = $this$max.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$max.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             max = $this$max[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$max);
@@ -14714,17 +14714,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Boolean maxWithOrNull(boolean[] $this$maxWithOrNull, Comparator<? super Boolean> comparator) {
-        int i2;
-        boolean max;
         int i;
+        boolean max;
+        int i2;
         boolean z;
         int compare;
         Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$maxWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
-        i2 = $this$maxWithOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxWithOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         max = $this$maxWithOrNull[i4];
@@ -14756,17 +14756,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Character maxWithOrNull(char[] $this$maxWithOrNull, Comparator<? super Character> comparator) {
-        int i2;
-        char max;
         int i;
+        char max;
+        int i2;
         char c;
         int compare;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$maxWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
-        i2 = $this$maxWithOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxWithOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         max = $this$maxWithOrNull[i4];
@@ -14798,17 +14798,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Float maxWithOrNull(float[] $this$maxWithOrNull, Comparator<? super Float> comparator) {
-        int i2;
-        int max;
-        int i;
         int i3;
+        int max;
+        int i2;
+        int i;
         int compare;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$maxWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i5 = 0;
-        i2 = $this$maxWithOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i3 = $this$maxWithOrNull.length == 0 ? 1 : i5;
+        if (i3 != 0) {
             return null;
         }
         max = $this$maxWithOrNull[i5];
@@ -14819,17 +14819,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Integer maxWithOrNull(int[] $this$maxWithOrNull, Comparator<? super Integer> comparator) {
-        int i;
+        int i2;
         int max;
         int i3;
-        int i2;
+        int i;
         int compare;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$maxWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i5 = 0;
-        i = $this$maxWithOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$maxWithOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return null;
         }
         max = $this$maxWithOrNull[i5];
@@ -14861,16 +14861,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T maxWithOrNull(T[] $this$maxWithOrNull, Comparator<? super T> comparator) {
-        int i2;
-        Object max;
         int i;
+        Object max;
+        int i2;
         Object obj;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
-        i2 = $this$maxWithOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$maxWithOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return 0;
         }
         max = $this$maxWithOrNull[i4];
@@ -14881,17 +14881,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Short maxWithOrNull(short[] $this$maxWithOrNull, Comparator<? super Short> comparator) {
-        int i;
-        short max;
         int i2;
+        short max;
+        int i;
         short s;
         int compare;
         Short valueOf;
         Intrinsics.checkNotNullParameter($this$maxWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
-        i = $this$maxWithOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$maxWithOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         max = $this$maxWithOrNull[i4];
@@ -14902,17 +14902,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final byte maxWithOrThrow(byte[] $this$maxWith, Comparator<? super Byte> comparator) {
-        int i2;
-        byte max;
         int i;
+        byte max;
+        int i2;
         byte b;
         int compare;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$maxWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i3 = 0;
-        i2 = $this$maxWith.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxWith.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             max = $this$maxWith[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$maxWith);
@@ -14994,17 +14994,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int maxWithOrThrow(int[] $this$maxWith, Comparator<? super Integer> comparator) {
-        int i;
-        int max;
         int i3;
+        int max;
         int i2;
+        int i;
         int compare;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$maxWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
-        i = $this$maxWith.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i3 = $this$maxWith.length == 0 ? 1 : i4;
+        if (i3 != 0) {
         } else {
             max = $this$maxWith[i4];
             final int lastIndex = ArraysKt.getLastIndex($this$maxWith);
@@ -15040,16 +15040,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T maxWithOrThrow(T[] $this$maxWith, Comparator<? super T> comparator) {
-        int i2;
-        Object max;
         int i;
+        Object max;
+        int i2;
         Object obj;
         int compare;
         Intrinsics.checkNotNullParameter($this$maxWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i3 = 0;
-        i2 = $this$maxWith.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$maxWith.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             max = $this$maxWith[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$maxWith);
@@ -15085,17 +15085,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final boolean maxWithOrThrow(boolean[] $this$maxWith, Comparator<? super Boolean> comparator) {
-        int i;
-        boolean max;
         int i2;
+        boolean max;
+        int i;
         boolean z;
         int compare;
         Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$maxWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i3 = 0;
-        i = $this$maxWith.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$maxWith.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             max = $this$maxWith[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$maxWith);
@@ -15108,10 +15108,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Boolean minByOrNull(boolean[] $this$minByOrNull, Function1<? super Boolean, ? extends R> selector) {
-        int i;
+        int i2;
         boolean minElem;
         Object minValue;
-        int i2;
+        int i;
         boolean z;
         Object invoke;
         int compareTo;
@@ -15119,8 +15119,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i = $this$minByOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$minByOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return null;
         }
         minElem = $this$minByOrNull[i5];
@@ -15135,10 +15135,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> Byte minByOrNull(byte[] $this$minByOrNull, Function1<? super Byte, ? extends R> selector) {
-        int i2;
+        int i;
         byte minElem;
         Object minValue;
-        int i;
+        int i2;
         byte b;
         Object invoke;
         int compareTo;
@@ -15146,8 +15146,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i2 = $this$minByOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$minByOrNull.length == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         minElem = $this$minByOrNull[i5];
@@ -15246,8 +15246,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i2;
         int minElem;
         Object minValue;
-        int i3;
         int i;
+        int i3;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minByOrNull, "<this>");
@@ -15297,10 +15297,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T, R extends Comparable<? super R>> T minByOrNull(T[] $this$minByOrNull, Function1<? super T, ? extends R> selector) {
-        int i;
+        int i2;
         Object minElem;
         Object minValue;
-        int i2;
+        int i;
         Object obj;
         Object invoke;
         int compareTo;
@@ -15308,8 +15308,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i5 = 0;
-        i = $this$minByOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$minByOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return 0;
         }
         minElem = $this$minByOrNull[i5];
@@ -15351,10 +15351,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> byte minByOrThrow(byte[] $this$minBy, Function1<? super Byte, ? extends R> selector) {
-        int i2;
+        int i;
         byte minElem;
         Object minValue;
-        int i;
+        int i2;
         byte b;
         Object invoke;
         int compareTo;
@@ -15362,8 +15362,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i4 = 0;
-        i2 = $this$minBy.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minBy.length == 0 ? 1 : i4;
+        if (i != 0) {
         } else {
             minElem = $this$minBy[i4];
             int lastIndex = ArraysKt.getLastIndex($this$minBy);
@@ -15380,10 +15380,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> char minByOrThrow(char[] $this$minBy, Function1<? super Character, ? extends R> selector) {
-        int i2;
+        int i;
         char minElem;
         Object minValue;
-        int i;
+        int i2;
         char c;
         Object invoke;
         int compareTo;
@@ -15391,8 +15391,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i4 = 0;
-        i2 = $this$minBy.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minBy.length == 0 ? 1 : i4;
+        if (i != 0) {
         } else {
             minElem = $this$minBy[i4];
             int lastIndex = ArraysKt.getLastIndex($this$minBy);
@@ -15438,19 +15438,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> float minByOrThrow(float[] $this$minBy, Function1<? super Float, ? extends R> selector) {
-        int i;
+        int i2;
         int minElem;
         Object minValue;
-        int i2;
         int i3;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minBy, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
         int i5 = 0;
-        i = $this$minBy.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$minBy.length == 0 ? 1 : i5;
+        if (i2 != 0) {
         } else {
             minElem = $this$minBy[i5];
             int lastIndex = ArraysKt.getLastIndex($this$minBy);
@@ -15467,19 +15467,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> int minByOrThrow(int[] $this$minBy, Function1<? super Integer, ? extends R> selector) {
-        int i;
+        int i2;
         int minElem;
         Object minValue;
-        int i2;
         int i3;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minBy, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
         int i5 = 0;
-        i = $this$minBy.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$minBy.length == 0 ? 1 : i5;
+        if (i2 != 0) {
         } else {
             minElem = $this$minBy[i5];
             int lastIndex = ArraysKt.getLastIndex($this$minBy);
@@ -15525,10 +15525,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T, R extends Comparable<? super R>> T minByOrThrow(T[] $this$minBy, Function1<? super T, ? extends R> selector) {
-        int i;
+        int i2;
         Object minElem;
         Object minValue;
-        int i2;
+        int i;
         Object obj;
         Object invoke;
         int compareTo;
@@ -15536,8 +15536,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i4 = 0;
-        i = $this$minBy.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minBy.length == 0 ? 1 : i4;
+        if (i2 != 0) {
         } else {
             minElem = $this$minBy[i4];
             int lastIndex = ArraysKt.getLastIndex($this$minBy);
@@ -15554,10 +15554,10 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R extends Comparable<? super R>> short minByOrThrow(short[] $this$minBy, Function1<? super Short, ? extends R> selector) {
-        int i2;
+        int i;
         short minElem;
         Object minValue;
-        int i;
+        int i2;
         short s;
         Object invoke;
         int compareTo;
@@ -15565,8 +15565,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         int i4 = 0;
-        i2 = $this$minBy.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minBy.length == 0 ? 1 : i4;
+        if (i != 0) {
         } else {
             minElem = $this$minBy[i4];
             int lastIndex = ArraysKt.getLastIndex($this$minBy);
@@ -15612,15 +15612,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final double minOf(byte[] $this$minOf, Function1<? super Byte, Double> selector) {
-        int i;
-        double minValue;
         int i2;
+        double minValue;
+        int i;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i3 = 0;
-        i = $this$minOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             minValue = (Number)selector.invoke(Byte.valueOf($this$minOf[i3])).doubleValue();
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -15759,15 +15759,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final double minOf(short[] $this$minOf, Function1<? super Short, Double> selector) {
-        int i;
-        double minValue;
         int i2;
+        double minValue;
+        int i;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i3 = 0;
-        i = $this$minOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             minValue = (Number)selector.invoke(Short.valueOf($this$minOf[i3])).doubleValue();
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -15822,15 +15822,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float minOf(char[] $this$minOf, Function1<? super Character, Float> selector) {
-        int i;
-        float minValue;
         int i2;
+        float minValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$minOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             minValue = (Number)selector.invoke(Character.valueOf($this$minOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -15843,15 +15843,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float minOf(double[] $this$minOf, Function1<? super Double, Float> selector) {
-        int i2;
-        float minValue;
         int i;
+        float minValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = (Number)selector.invoke(Double.valueOf($this$minOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -15927,15 +15927,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <T> float minOf(T[] $this$minOf, Function1<? super T, Float> selector) {
-        int i2;
-        float minValue;
         int i;
+        float minValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = (Number)selector.invoke($this$minOf[i3]).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -15948,15 +15948,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float minOf(short[] $this$minOf, Function1<? super Short, Float> selector) {
-        int i2;
-        float minValue;
         int i;
+        float minValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = (Number)selector.invoke(Short.valueOf($this$minOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -15969,15 +15969,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final float minOf(boolean[] $this$minOf, Function1<? super Boolean, Float> selector) {
-        int i2;
-        float minValue;
         int i;
+        float minValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = (Number)selector.invoke(Boolean.valueOf($this$minOf[i3])).floatValue();
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -15990,16 +15990,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R minOf(byte[] $this$minOf, Function1<? super Byte, ? extends R> selector) {
-        int i2;
-        Object minValue;
         int i;
+        Object minValue;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = selector.invoke(Byte.valueOf($this$minOf[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -16034,16 +16034,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R minOf(double[] $this$minOf, Function1<? super Double, ? extends R> selector) {
-        int i2;
-        Object minValue;
         int i;
+        Object minValue;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOf.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOf.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = selector.invoke(Double.valueOf($this$minOf[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -16056,16 +16056,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R minOf(float[] $this$minOf, Function1<? super Float, ? extends R> selector) {
-        int i;
-        Object minValue;
         int i2;
+        Object minValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$minOf.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minOf.length == 0 ? 1 : i4;
+        if (i2 != 0) {
         } else {
             minValue = selector.invoke(Float.valueOf($this$minOf[i4]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -16078,16 +16078,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R minOf(int[] $this$minOf, Function1<? super Integer, ? extends R> selector) {
-        int i2;
-        Object minValue;
         int i;
+        Object minValue;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$minOf.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOf.length == 0 ? 1 : i4;
+        if (i != 0) {
         } else {
             minValue = selector.invoke(Integer.valueOf($this$minOf[i4]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -16100,16 +16100,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R minOf(long[] $this$minOf, Function1<? super Long, ? extends R> selector) {
-        int i;
-        Object minValue;
         int i2;
+        Object minValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$minOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             minValue = selector.invoke(Long.valueOf($this$minOf[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -16122,16 +16122,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <T, R extends Comparable<? super R>> R minOf(T[] $this$minOf, Function1<? super T, ? extends R> selector) {
-        int i;
-        Object minValue;
         int i2;
+        Object minValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$minOf.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minOf.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             minValue = selector.invoke($this$minOf[i3]);
             final int lastIndex = ArraysKt.getLastIndex($this$minOf);
@@ -16208,16 +16208,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R minOfOrNull(char[] $this$minOfOrNull, Function1<? super Character, ? extends R> selector) {
-        int i2;
-        Object minValue;
         int i;
+        Object minValue;
+        int i2;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return 0;
         }
         minValue = selector.invoke(Character.valueOf($this$minOfOrNull[i4]));
@@ -16248,16 +16248,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R extends Comparable<? super R>> R minOfOrNull(float[] $this$minOfOrNull, Function1<? super Float, ? extends R> selector) {
-        int i;
-        Object minValue;
         int i2;
+        Object minValue;
+        int i;
         Object invoke;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i5 = 0;
-        i = $this$minOfOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$minOfOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return 0;
         }
         minValue = selector.invoke(Float.valueOf($this$minOfOrNull[i5]));
@@ -16368,25 +16368,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Double minOfOrNull(byte[] $this$minOfOrNull, Function1<? super Byte, Double> selector) {
-        int i;
-        double minValue;
-        int i2;
-        double doubleValue;
-        Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        final int i4 = 0;
-        i = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
-            return null;
-        }
-        minValue = (Number)selector.invoke(Byte.valueOf($this$minOfOrNull[i4])).doubleValue();
-        final int lastIndex = ArraysKt.getLastIndex($this$minOfOrNull);
-        if (1 <= lastIndex) {
-        }
-        return Double.valueOf(minValue);
-    }
-
-    private static final Double minOfOrNull(char[] $this$minOfOrNull, Function1<? super Character, Double> selector) {
         int i2;
         double minValue;
         int i;
@@ -16398,14 +16379,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (i2 != 0) {
             return null;
         }
-        minValue = (Number)selector.invoke(Character.valueOf($this$minOfOrNull[i4])).doubleValue();
+        minValue = (Number)selector.invoke(Byte.valueOf($this$minOfOrNull[i4])).doubleValue();
         final int lastIndex = ArraysKt.getLastIndex($this$minOfOrNull);
         if (1 <= lastIndex) {
         }
         return Double.valueOf(minValue);
     }
 
-    private static final Double minOfOrNull(double[] $this$minOfOrNull, Function1<? super Double, Double> selector) {
+    private static final Double minOfOrNull(char[] $this$minOfOrNull, Function1<? super Character, Double> selector) {
         int i;
         double minValue;
         int i2;
@@ -16417,6 +16398,25 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (i != 0) {
             return null;
         }
+        minValue = (Number)selector.invoke(Character.valueOf($this$minOfOrNull[i4])).doubleValue();
+        final int lastIndex = ArraysKt.getLastIndex($this$minOfOrNull);
+        if (1 <= lastIndex) {
+        }
+        return Double.valueOf(minValue);
+    }
+
+    private static final Double minOfOrNull(double[] $this$minOfOrNull, Function1<? super Double, Double> selector) {
+        int i2;
+        double minValue;
+        int i;
+        double doubleValue;
+        Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        final int i4 = 0;
+        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
+            return null;
+        }
         minValue = (Number)selector.invoke(Double.valueOf($this$minOfOrNull[i4])).doubleValue();
         final int lastIndex = ArraysKt.getLastIndex($this$minOfOrNull);
         if (1 <= lastIndex) {
@@ -16425,15 +16425,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Double minOfOrNull(float[] $this$minOfOrNull, Function1<? super Float, Double> selector) {
-        int i2;
-        double minValue;
         int i;
+        double minValue;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i5 = 0;
-        i2 = $this$minOfOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$minOfOrNull.length == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Float.valueOf($this$minOfOrNull[i5])).doubleValue();
@@ -16482,15 +16482,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <T> Double minOfOrNull(T[] $this$minOfOrNull, Function1<? super T, Double> selector) {
-        int i2;
-        double minValue;
         int i;
+        double minValue;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i4 = 0;
-        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         minValue = (Number)selector.invoke($this$minOfOrNull[i4]).doubleValue();
@@ -16501,15 +16501,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Double minOfOrNull(short[] $this$minOfOrNull, Function1<? super Short, Double> selector) {
-        int i2;
-        double minValue;
         int i;
+        double minValue;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         final int i4 = 0;
-        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Short.valueOf($this$minOfOrNull[i4])).doubleValue();
@@ -16539,15 +16539,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float minOfOrNull(byte[] $this$minOfOrNull, Function1<? super Byte, Float> selector) {
-        int i;
-        float minValue;
         int i2;
+        float minValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Byte.valueOf($this$minOfOrNull[i4])).floatValue();
@@ -16577,15 +16577,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float minOfOrNull(double[] $this$minOfOrNull, Function1<? super Double, Float> selector) {
-        int i;
-        float minValue;
         int i2;
+        float minValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Double.valueOf($this$minOfOrNull[i4])).floatValue();
@@ -16596,15 +16596,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float minOfOrNull(float[] $this$minOfOrNull, Function1<? super Float, Float> selector) {
-        int i2;
-        float minValue;
         int i;
+        float minValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i5 = 0;
-        i2 = $this$minOfOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i = $this$minOfOrNull.length == 0 ? 1 : i5;
+        if (i != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Float.valueOf($this$minOfOrNull[i5])).floatValue();
@@ -16615,15 +16615,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float minOfOrNull(int[] $this$minOfOrNull, Function1<? super Integer, Float> selector) {
-        int i;
-        float minValue;
         int i2;
+        float minValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i5 = 0;
-        i = $this$minOfOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$minOfOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Integer.valueOf($this$minOfOrNull[i5])).floatValue();
@@ -16653,15 +16653,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <T> Float minOfOrNull(T[] $this$minOfOrNull, Function1<? super T, Float> selector) {
-        int i2;
-        float minValue;
         int i;
+        float minValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         minValue = (Number)selector.invoke($this$minOfOrNull[i4]).floatValue();
@@ -16672,15 +16672,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float minOfOrNull(short[] $this$minOfOrNull, Function1<? super Short, Float> selector) {
-        int i2;
-        float minValue;
         int i;
+        float minValue;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Short.valueOf($this$minOfOrNull[i4])).floatValue();
@@ -16691,15 +16691,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final Float minOfOrNull(boolean[] $this$minOfOrNull, Function1<? super Boolean, Float> selector) {
-        int i;
-        float minValue;
         int i2;
+        float minValue;
+        int i;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOfOrNull, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$minOfOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minOfOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         minValue = (Number)selector.invoke(Boolean.valueOf($this$minOfOrNull[i4])).floatValue();
@@ -16733,17 +16733,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWith(char[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Character, ? extends R> selector) {
-        int i2;
-        Object minValue;
         int i;
+        Object minValue;
+        int i2;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOfWith.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOfWith.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = selector.invoke(Character.valueOf($this$minOfWith[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
@@ -16756,17 +16756,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWith(double[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Double, ? extends R> selector) {
-        int i;
-        Object minValue;
         int i2;
+        Object minValue;
+        int i;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i = $this$minOfWith.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minOfWith.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             minValue = selector.invoke(Double.valueOf($this$minOfWith[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
@@ -16779,29 +16779,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWith(float[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Float, ? extends R> selector) {
-        int i;
-        Object minValue;
-        int i2;
-        Object invoke;
-        int compare;
-        Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        int i4 = 0;
-        i = $this$minOfWith.length == 0 ? 1 : i4;
-        if (i != 0) {
-        } else {
-            minValue = selector.invoke(Float.valueOf($this$minOfWith[i4]));
-            final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
-            if (1 <= lastIndex) {
-            }
-            return minValue;
-        }
-        NoSuchElementException minValue2 = new NoSuchElementException();
-        throw minValue2;
-    }
-
-    private static final <R> R minOfWith(int[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Integer, ? extends R> selector) {
         int i2;
         Object minValue;
         int i;
@@ -16814,6 +16791,29 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i2 = $this$minOfWith.length == 0 ? 1 : i4;
         if (i2 != 0) {
         } else {
+            minValue = selector.invoke(Float.valueOf($this$minOfWith[i4]));
+            final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
+            if (1 <= lastIndex) {
+            }
+            return minValue;
+        }
+        NoSuchElementException minValue2 = new NoSuchElementException();
+        throw minValue2;
+    }
+
+    private static final <R> R minOfWith(int[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Integer, ? extends R> selector) {
+        int i;
+        Object minValue;
+        int i2;
+        Object invoke;
+        int compare;
+        Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        int i4 = 0;
+        i = $this$minOfWith.length == 0 ? 1 : i4;
+        if (i != 0) {
+        } else {
             minValue = selector.invoke(Integer.valueOf($this$minOfWith[i4]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
             if (1 <= lastIndex) {
@@ -16825,29 +16825,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWith(long[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Long, ? extends R> selector) {
-        int i2;
-        Object minValue;
-        int i;
-        Object invoke;
-        int compare;
-        Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        int i3 = 0;
-        i2 = $this$minOfWith.length == 0 ? 1 : i3;
-        if (i2 != 0) {
-        } else {
-            minValue = selector.invoke(Long.valueOf($this$minOfWith[i3]));
-            final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
-            if (1 <= lastIndex) {
-            }
-            return minValue;
-        }
-        NoSuchElementException minValue2 = new NoSuchElementException();
-        throw minValue2;
-    }
-
-    private static final <T, R> R minOfWith(T[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super T, ? extends R> selector) {
         int i;
         Object minValue;
         int i2;
@@ -16860,7 +16837,7 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = $this$minOfWith.length == 0 ? 1 : i3;
         if (i != 0) {
         } else {
-            minValue = selector.invoke($this$minOfWith[i3]);
+            minValue = selector.invoke(Long.valueOf($this$minOfWith[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
             if (1 <= lastIndex) {
             }
@@ -16870,7 +16847,7 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         throw minValue2;
     }
 
-    private static final <R> R minOfWith(short[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Short, ? extends R> selector) {
+    private static final <T, R> R minOfWith(T[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super T, ? extends R> selector) {
         int i2;
         Object minValue;
         int i;
@@ -16882,6 +16859,29 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         i2 = $this$minOfWith.length == 0 ? 1 : i3;
         if (i2 != 0) {
+        } else {
+            minValue = selector.invoke($this$minOfWith[i3]);
+            final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
+            if (1 <= lastIndex) {
+            }
+            return minValue;
+        }
+        NoSuchElementException minValue2 = new NoSuchElementException();
+        throw minValue2;
+    }
+
+    private static final <R> R minOfWith(short[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Short, ? extends R> selector) {
+        int i;
+        Object minValue;
+        int i2;
+        Object invoke;
+        int compare;
+        Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        int i3 = 0;
+        i = $this$minOfWith.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = selector.invoke(Short.valueOf($this$minOfWith[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
@@ -16894,17 +16894,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWith(boolean[] $this$minOfWith, Comparator<? super R> comparator, Function1<? super Boolean, ? extends R> selector) {
-        int i2;
-        Object minValue;
         int i;
+        Object minValue;
+        int i2;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOfWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
-        i2 = $this$minOfWith.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minOfWith.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             minValue = selector.invoke(Boolean.valueOf($this$minOfWith[i3]));
             final int lastIndex = ArraysKt.getLastIndex($this$minOfWith);
@@ -16917,6 +16917,27 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWithOrNull(byte[] $this$minOfWithOrNull, Comparator<? super R> comparator, Function1<? super Byte, ? extends R> selector) {
+        int i;
+        Object minValue;
+        int i2;
+        Object invoke;
+        int compare;
+        Intrinsics.checkNotNullParameter($this$minOfWithOrNull, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        int i4 = 0;
+        i = $this$minOfWithOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
+            return 0;
+        }
+        minValue = selector.invoke(Byte.valueOf($this$minOfWithOrNull[i4]));
+        final int lastIndex = ArraysKt.getLastIndex($this$minOfWithOrNull);
+        if (1 <= lastIndex) {
+        }
+        return minValue;
+    }
+
+    private static final <R> R minOfWithOrNull(char[] $this$minOfWithOrNull, Comparator<? super R> comparator, Function1<? super Character, ? extends R> selector) {
         int i2;
         Object minValue;
         int i;
@@ -16930,27 +16951,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (i2 != 0) {
             return 0;
         }
-        minValue = selector.invoke(Byte.valueOf($this$minOfWithOrNull[i4]));
-        final int lastIndex = ArraysKt.getLastIndex($this$minOfWithOrNull);
-        if (1 <= lastIndex) {
-        }
-        return minValue;
-    }
-
-    private static final <R> R minOfWithOrNull(char[] $this$minOfWithOrNull, Comparator<? super R> comparator, Function1<? super Character, ? extends R> selector) {
-        int i;
-        Object minValue;
-        int i2;
-        Object invoke;
-        int compare;
-        Intrinsics.checkNotNullParameter($this$minOfWithOrNull, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        int i4 = 0;
-        i = $this$minOfWithOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
-            return 0;
-        }
         minValue = selector.invoke(Character.valueOf($this$minOfWithOrNull[i4]));
         final int lastIndex = ArraysKt.getLastIndex($this$minOfWithOrNull);
         if (1 <= lastIndex) {
@@ -16959,17 +16959,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWithOrNull(double[] $this$minOfWithOrNull, Comparator<? super R> comparator, Function1<? super Double, ? extends R> selector) {
-        int i;
-        Object minValue;
         int i2;
+        Object minValue;
+        int i;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOfWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i = $this$minOfWithOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minOfWithOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return 0;
         }
         minValue = selector.invoke(Double.valueOf($this$minOfWithOrNull[i4]));
@@ -17001,17 +17001,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWithOrNull(int[] $this$minOfWithOrNull, Comparator<? super R> comparator, Function1<? super Integer, ? extends R> selector) {
-        int i;
-        Object minValue;
         int i2;
+        Object minValue;
+        int i;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOfWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i5 = 0;
-        i = $this$minOfWithOrNull.length == 0 ? 1 : i5;
-        if (i != 0) {
+        i2 = $this$minOfWithOrNull.length == 0 ? 1 : i5;
+        if (i2 != 0) {
             return 0;
         }
         minValue = selector.invoke(Integer.valueOf($this$minOfWithOrNull[i5]));
@@ -17022,17 +17022,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> R minOfWithOrNull(long[] $this$minOfWithOrNull, Comparator<? super R> comparator, Function1<? super Long, ? extends R> selector) {
-        int i2;
-        Object minValue;
         int i;
+        Object minValue;
+        int i2;
         Object invoke;
         int compare;
         Intrinsics.checkNotNullParameter($this$minOfWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i4 = 0;
-        i2 = $this$minOfWithOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOfWithOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return 0;
         }
         minValue = selector.invoke(Long.valueOf($this$minOfWithOrNull[i4]));
@@ -17106,14 +17106,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Byte minOrNull(byte[] $this$minOrNull) {
-        int i2;
-        byte min;
         int i;
+        byte min;
+        int i2;
         byte b;
         Intrinsics.checkNotNullParameter($this$minOrNull, "<this>");
         int i4 = 0;
-        i2 = $this$minOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         min = $this$minOrNull[i4];
@@ -17162,14 +17162,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Double minOrNull(double[] $this$minOrNull) {
-        int i2;
-        long min;
         int i;
+        long min;
+        int i2;
         long l;
         Intrinsics.checkNotNullParameter($this$minOrNull, "<this>");
         final int i4 = 0;
-        i2 = $this$minOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         min = $this$minOrNull[i4];
@@ -17180,14 +17180,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Double minOrNull(Double[] $this$minOrNull) {
-        int i2;
-        double min;
         int i;
+        double min;
+        int i2;
         double doubleValue;
         Intrinsics.checkNotNullParameter($this$minOrNull, "<this>");
         final int i4 = 0;
-        i2 = $this$minOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         min = $this$minOrNull[i4].doubleValue();
@@ -17200,8 +17200,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final Float minOrNull(float[] $this$minOrNull) {
         int i3;
         int min;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$minOrNull, "<this>");
         int i5 = 0;
         i3 = $this$minOrNull.length == 0 ? 1 : i5;
@@ -17216,14 +17216,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Float minOrNull(Float[] $this$minOrNull) {
-        int i2;
-        float min;
         int i;
+        float min;
+        int i2;
         float floatValue;
         Intrinsics.checkNotNullParameter($this$minOrNull, "<this>");
         int i4 = 0;
-        i2 = $this$minOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         min = $this$minOrNull[i4].floatValue();
@@ -17252,15 +17252,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Long minOrNull(long[] $this$minOrNull) {
-        int i2;
-        long min;
         int i;
+        long min;
+        int i2;
         long l;
         int cmp;
         Intrinsics.checkNotNullParameter($this$minOrNull, "<this>");
         final int i4 = 0;
-        i2 = $this$minOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         min = $this$minOrNull[i4];
@@ -17271,14 +17271,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Short minOrNull(short[] $this$minOrNull) {
-        int i2;
-        short min;
         int i;
+        short min;
+        int i2;
         short s;
         Intrinsics.checkNotNullParameter($this$minOrNull, "<this>");
         int i4 = 0;
-        i2 = $this$minOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         min = $this$minOrNull[i4];
@@ -17289,14 +17289,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final byte minOrThrow(byte[] $this$min) {
-        int i2;
-        byte min;
         int i;
+        byte min;
+        int i2;
         byte b;
         Intrinsics.checkNotNullParameter($this$min, "<this>");
         int i3 = 0;
-        i2 = $this$min.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$min.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             min = $this$min[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$min);
@@ -17330,14 +17330,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final double minOrThrow(double[] $this$min) {
-        int i;
-        long min;
         int i2;
+        long min;
+        int i;
         long l;
         Intrinsics.checkNotNullParameter($this$min, "<this>");
         final int i3 = 0;
-        i = $this$min.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$min.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             min = $this$min[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$min);
@@ -17372,8 +17372,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final float minOrThrow(float[] $this$min) {
         int i2;
         int min;
-        int i;
         int i3;
+        int i;
         Intrinsics.checkNotNullParameter($this$min, "<this>");
         int i4 = 0;
         i2 = $this$min.length == 0 ? 1 : i4;
@@ -17410,14 +17410,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int minOrThrow(int[] $this$min) {
-        int i2;
-        int min;
         int i3;
+        int min;
+        int i2;
         int i;
         Intrinsics.checkNotNullParameter($this$min, "<this>");
         int i4 = 0;
-        i2 = $this$min.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i3 = $this$min.length == 0 ? 1 : i4;
+        if (i3 != 0) {
         } else {
             min = $this$min[i4];
             final int lastIndex = ArraysKt.getLastIndex($this$min);
@@ -17430,15 +17430,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final long minOrThrow(long[] $this$min) {
-        int i2;
-        long min;
         int i;
+        long min;
+        int i2;
         long l;
         int cmp;
         Intrinsics.checkNotNullParameter($this$min, "<this>");
         final int i3 = 0;
-        i2 = $this$min.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$min.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             min = $this$min[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$min);
@@ -17451,15 +17451,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T extends Comparable<? super T>> T minOrThrow(T[] $this$min) {
-        int i2;
-        Object min;
         int i;
+        Object min;
+        int i2;
         Object obj;
         int compareTo;
         Intrinsics.checkNotNullParameter($this$min, "<this>");
         int i3 = 0;
-        i2 = $this$min.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$min.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             min = $this$min[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$min);
@@ -17472,14 +17472,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final short minOrThrow(short[] $this$min) {
-        int i2;
-        short min;
         int i;
+        short min;
+        int i2;
         short s;
         Intrinsics.checkNotNullParameter($this$min, "<this>");
         int i3 = 0;
-        i2 = $this$min.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$min.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             min = $this$min[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$min);
@@ -17555,17 +17555,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Double minWithOrNull(double[] $this$minWithOrNull, Comparator<? super Double> comparator) {
-        int i;
-        long min;
         int i2;
+        long min;
+        int i;
         long l;
         int compare;
         Double valueOf;
         Intrinsics.checkNotNullParameter($this$minWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         final int i4 = 0;
-        i = $this$minWithOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minWithOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         min = $this$minWithOrNull[i4];
@@ -17597,17 +17597,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Integer minWithOrNull(int[] $this$minWithOrNull, Comparator<? super Integer> comparator) {
-        int i2;
+        int i3;
         int min;
         int i;
-        int i3;
+        int i2;
         int compare;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$minWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i5 = 0;
-        i2 = $this$minWithOrNull.length == 0 ? 1 : i5;
-        if (i2 != 0) {
+        i3 = $this$minWithOrNull.length == 0 ? 1 : i5;
+        if (i3 != 0) {
             return null;
         }
         min = $this$minWithOrNull[i5];
@@ -17618,17 +17618,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Long minWithOrNull(long[] $this$minWithOrNull, Comparator<? super Long> comparator) {
-        int i;
-        long min;
         int i2;
+        long min;
+        int i;
         long l;
         int compare;
         Long valueOf;
         Intrinsics.checkNotNullParameter($this$minWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         final int i4 = 0;
-        i = $this$minWithOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minWithOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return null;
         }
         min = $this$minWithOrNull[i4];
@@ -17639,16 +17639,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T minWithOrNull(T[] $this$minWithOrNull, Comparator<? super T> comparator) {
-        int i;
-        Object min;
         int i2;
+        Object min;
+        int i;
         Object obj;
         int compare;
         Intrinsics.checkNotNullParameter($this$minWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
-        i = $this$minWithOrNull.length == 0 ? 1 : i4;
-        if (i != 0) {
+        i2 = $this$minWithOrNull.length == 0 ? 1 : i4;
+        if (i2 != 0) {
             return 0;
         }
         min = $this$minWithOrNull[i4];
@@ -17659,17 +17659,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Short minWithOrNull(short[] $this$minWithOrNull, Comparator<? super Short> comparator) {
-        int i2;
-        short min;
         int i;
+        short min;
+        int i2;
         short s;
         int compare;
         Short valueOf;
         Intrinsics.checkNotNullParameter($this$minWithOrNull, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
-        i2 = $this$minWithOrNull.length == 0 ? 1 : i4;
-        if (i2 != 0) {
+        i = $this$minWithOrNull.length == 0 ? 1 : i4;
+        if (i != 0) {
             return null;
         }
         min = $this$minWithOrNull[i4];
@@ -17703,38 +17703,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final char minWithOrThrow(char[] $this$minWith, Comparator<? super Character> comparator) {
-        int i;
-        char min;
         int i2;
+        char min;
+        int i;
         char c;
         int compare;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$minWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i3 = 0;
-        i = $this$minWith.length == 0 ? 1 : i3;
-        if (i != 0) {
-        } else {
-            min = $this$minWith[i3];
-            final int lastIndex = ArraysKt.getLastIndex($this$minWith);
-            if (1 <= lastIndex) {
-            }
-            return min;
-        }
-        NoSuchElementException min2 = new NoSuchElementException();
-        throw min2;
-    }
-
-    public static final double minWithOrThrow(double[] $this$minWith, Comparator<? super Double> comparator) {
-        int i2;
-        long min;
-        int i;
-        long l;
-        int compare;
-        Double valueOf;
-        Intrinsics.checkNotNullParameter($this$minWith, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        final int i3 = 0;
         i2 = $this$minWith.length == 0 ? 1 : i3;
         if (i2 != 0) {
         } else {
@@ -17748,13 +17725,59 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         throw min2;
     }
 
-    public static final float minWithOrThrow(float[] $this$minWith, Comparator<? super Float> comparator) {
+    public static final double minWithOrThrow(double[] $this$minWith, Comparator<? super Double> comparator) {
         int i;
+        long min;
+        int i2;
+        long l;
+        int compare;
+        Double valueOf;
+        Intrinsics.checkNotNullParameter($this$minWith, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        final int i3 = 0;
+        i = $this$minWith.length == 0 ? 1 : i3;
+        if (i != 0) {
+        } else {
+            min = $this$minWith[i3];
+            final int lastIndex = ArraysKt.getLastIndex($this$minWith);
+            if (1 <= lastIndex) {
+            }
+            return min;
+        }
+        NoSuchElementException min2 = new NoSuchElementException();
+        throw min2;
+    }
+
+    public static final float minWithOrThrow(float[] $this$minWith, Comparator<? super Float> comparator) {
+        int i2;
         int min;
         int i3;
-        int i2;
+        int i;
         int compare;
         Float valueOf;
+        Intrinsics.checkNotNullParameter($this$minWith, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        int i4 = 0;
+        i2 = $this$minWith.length == 0 ? 1 : i4;
+        if (i2 != 0) {
+        } else {
+            min = $this$minWith[i4];
+            final int lastIndex = ArraysKt.getLastIndex($this$minWith);
+            if (1 <= lastIndex) {
+            }
+            return min;
+        }
+        NoSuchElementException min2 = new NoSuchElementException();
+        throw min2;
+    }
+
+    public static final int minWithOrThrow(int[] $this$minWith, Comparator<? super Integer> comparator) {
+        int i;
+        int min;
+        int i2;
+        int i3;
+        int compare;
+        Integer valueOf;
         Intrinsics.checkNotNullParameter($this$minWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i4 = 0;
@@ -17771,41 +17794,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         throw min2;
     }
 
-    public static final int minWithOrThrow(int[] $this$minWith, Comparator<? super Integer> comparator) {
-        int i3;
-        int min;
-        int i;
-        int i2;
-        int compare;
-        Integer valueOf;
-        Intrinsics.checkNotNullParameter($this$minWith, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        int i4 = 0;
-        i3 = $this$minWith.length == 0 ? 1 : i4;
-        if (i3 != 0) {
-        } else {
-            min = $this$minWith[i4];
-            final int lastIndex = ArraysKt.getLastIndex($this$minWith);
-            if (1 <= lastIndex) {
-            }
-            return min;
-        }
-        NoSuchElementException min2 = new NoSuchElementException();
-        throw min2;
-    }
-
     public static final long minWithOrThrow(long[] $this$minWith, Comparator<? super Long> comparator) {
-        int i;
-        long min;
         int i2;
+        long min;
+        int i;
         long l;
         int compare;
         Long valueOf;
         Intrinsics.checkNotNullParameter($this$minWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         final int i3 = 0;
-        i = $this$minWith.length == 0 ? 1 : i3;
-        if (i != 0) {
+        i2 = $this$minWith.length == 0 ? 1 : i3;
+        if (i2 != 0) {
         } else {
             min = $this$minWith[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$minWith);
@@ -17818,34 +17818,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T minWithOrThrow(T[] $this$minWith, Comparator<? super T> comparator) {
-        int i2;
-        Object min;
         int i;
+        Object min;
+        int i2;
         Object obj;
         int compare;
-        Intrinsics.checkNotNullParameter($this$minWith, "<this>");
-        Intrinsics.checkNotNullParameter(comparator, "comparator");
-        int i3 = 0;
-        i2 = $this$minWith.length == 0 ? 1 : i3;
-        if (i2 != 0) {
-        } else {
-            min = $this$minWith[i3];
-            final int lastIndex = ArraysKt.getLastIndex($this$minWith);
-            if (1 <= lastIndex) {
-            }
-            return min;
-        }
-        NoSuchElementException min2 = new NoSuchElementException();
-        throw min2;
-    }
-
-    public static final short minWithOrThrow(short[] $this$minWith, Comparator<? super Short> comparator) {
-        int i;
-        short min;
-        int i2;
-        short s;
-        int compare;
-        Short valueOf;
         Intrinsics.checkNotNullParameter($this$minWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i3 = 0;
@@ -17862,18 +17839,41 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         throw min2;
     }
 
-    public static final boolean minWithOrThrow(boolean[] $this$minWith, Comparator<? super Boolean> comparator) {
+    public static final short minWithOrThrow(short[] $this$minWith, Comparator<? super Short> comparator) {
         int i2;
-        boolean min;
+        short min;
         int i;
+        short s;
+        int compare;
+        Short valueOf;
+        Intrinsics.checkNotNullParameter($this$minWith, "<this>");
+        Intrinsics.checkNotNullParameter(comparator, "comparator");
+        int i3 = 0;
+        i2 = $this$minWith.length == 0 ? 1 : i3;
+        if (i2 != 0) {
+        } else {
+            min = $this$minWith[i3];
+            final int lastIndex = ArraysKt.getLastIndex($this$minWith);
+            if (1 <= lastIndex) {
+            }
+            return min;
+        }
+        NoSuchElementException min2 = new NoSuchElementException();
+        throw min2;
+    }
+
+    public static final boolean minWithOrThrow(boolean[] $this$minWith, Comparator<? super Boolean> comparator) {
+        int i;
+        boolean min;
+        int i2;
         boolean z;
         int compare;
         Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$minWith, "<this>");
         Intrinsics.checkNotNullParameter(comparator, "comparator");
         int i3 = 0;
-        i2 = $this$minWith.length == 0 ? 1 : i3;
-        if (i2 != 0) {
+        i = $this$minWith.length == 0 ? 1 : i3;
+        if (i != 0) {
         } else {
             min = $this$minWith[i3];
             final int lastIndex = ArraysKt.getLastIndex($this$minWith);
@@ -17981,16 +17981,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final boolean none(int[] $this$none, Function1<? super Integer, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$none, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
         final int i5 = 0;
-        i2 = i5;
-        while (i2 < $this$none.length) {
-            i2++;
+        i = i5;
+        while (i < $this$none.length) {
+            i++;
         }
         return 1;
     }
@@ -18227,31 +18227,31 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final byte[] onEachIndexed(byte[] $this$onEachIndexed, Function2<? super Integer, ? super Byte, Unit> action) {
-        int i;
+        int i3;
         int i2;
         byte b;
-        int i3;
+        int i;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         final int i4 = 0;
         final Object obj2 = obj;
         final int i5 = 0;
-        i = 0;
+        i3 = 0;
         i2 = 0;
         while (i2 < obj2.length) {
-            action.invoke(Integer.valueOf(i), Byte.valueOf(obj2[i2]));
+            action.invoke(Integer.valueOf(i3), Byte.valueOf(obj2[i2]));
             i2++;
-            i = i3;
+            i3 = i;
         }
         return $this$onEachIndexed;
     }
 
     private static final char[] onEachIndexed(char[] $this$onEachIndexed, Function2<? super Integer, ? super Character, Unit> action) {
         int i;
-        int i2;
-        char c;
         int i3;
+        char c;
+        int i2;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
@@ -18259,11 +18259,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final Object obj2 = obj;
         final int i5 = 0;
         i = 0;
-        i2 = 0;
-        while (i2 < obj2.length) {
-            action.invoke(Integer.valueOf(i), Character.valueOf(obj2[i2]));
-            i2++;
-            i = i3;
+        i3 = 0;
+        while (i3 < obj2.length) {
+            action.invoke(Integer.valueOf(i), Character.valueOf(obj2[i3]));
+            i3++;
+            i = i2;
         }
         return $this$onEachIndexed;
     }
@@ -18292,8 +18292,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     private static final float[] onEachIndexed(float[] $this$onEachIndexed, Function2<? super Integer, ? super Float, Unit> action) {
         int i4;
         int i3;
-        int i2;
         int i;
+        int i2;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
@@ -18305,35 +18305,35 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         while (i3 < obj2.length) {
             action.invoke(Integer.valueOf(i4), Float.valueOf(obj2[i3]));
             i3++;
-            i4 = i;
+            i4 = i2;
         }
         return $this$onEachIndexed;
     }
 
     private static final int[] onEachIndexed(int[] $this$onEachIndexed, Function2<? super Integer, ? super Integer, Unit> action) {
-        int i3;
         int i2;
-        int i4;
         int i;
+        int i3;
+        int i4;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         final int i5 = 0;
         final Object obj2 = obj;
         final int i6 = 0;
-        i3 = 0;
         i2 = 0;
-        while (i2 < obj2.length) {
-            action.invoke(Integer.valueOf(i3), Integer.valueOf(obj2[i2]));
-            i2++;
-            i3 = i;
+        i = 0;
+        while (i < obj2.length) {
+            action.invoke(Integer.valueOf(i2), Integer.valueOf(obj2[i]));
+            i++;
+            i2 = i4;
         }
         return $this$onEachIndexed;
     }
 
     private static final long[] onEachIndexed(long[] $this$onEachIndexed, Function2<? super Integer, ? super Long, Unit> action) {
-        int i3;
         int i2;
+        int i3;
         long l;
         int i;
         Long valueOf;
@@ -18342,63 +18342,42 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i4 = 0;
         final Object obj2 = obj;
         final int i5 = 0;
-        i3 = 0;
-        i2 = 0;
-        while (i2 < obj2.length) {
-            action.invoke(Integer.valueOf(i3), Long.valueOf(obj2[i2]));
-            i2++;
-            i3 = i;
-        }
-        return $this$onEachIndexed;
-    }
-
-    private static final <T> T[] onEachIndexed(T[] $this$onEachIndexed, Function2<? super Integer, ? super T, Unit> action) {
-        int i;
-        int i3;
-        Object obj;
-        int i2;
-        Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(action, "action");
-        final int i4 = 0;
-        final Object obj3 = obj2;
-        final int i5 = 0;
-        i = 0;
-        i3 = 0;
-        while (i3 < obj3.length) {
-            action.invoke(Integer.valueOf(i), obj3[i3]);
-            i3++;
-            i = i2;
-        }
-        return $this$onEachIndexed;
-    }
-
-    private static final short[] onEachIndexed(short[] $this$onEachIndexed, Function2<? super Integer, ? super Short, Unit> action) {
-        int i2;
-        int i3;
-        short s;
-        int i;
-        Short valueOf;
-        Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
-        Intrinsics.checkNotNullParameter(action, "action");
-        final int i4 = 0;
-        final Object obj2 = obj;
-        final int i5 = 0;
         i2 = 0;
         i3 = 0;
         while (i3 < obj2.length) {
-            action.invoke(Integer.valueOf(i2), Short.valueOf(obj2[i3]));
+            action.invoke(Integer.valueOf(i2), Long.valueOf(obj2[i3]));
             i3++;
             i2 = i;
         }
         return $this$onEachIndexed;
     }
 
-    private static final boolean[] onEachIndexed(boolean[] $this$onEachIndexed, Function2<? super Integer, ? super Boolean, Unit> action) {
+    private static final <T> T[] onEachIndexed(T[] $this$onEachIndexed, Function2<? super Integer, ? super T, Unit> action) {
+        int i2;
+        int i3;
+        Object obj;
+        int i;
+        Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(action, "action");
+        final int i4 = 0;
+        final Object obj3 = obj2;
+        final int i5 = 0;
+        i2 = 0;
+        i3 = 0;
+        while (i3 < obj3.length) {
+            action.invoke(Integer.valueOf(i2), obj3[i3]);
+            i3++;
+            i2 = i;
+        }
+        return $this$onEachIndexed;
+    }
+
+    private static final short[] onEachIndexed(short[] $this$onEachIndexed, Function2<? super Integer, ? super Short, Unit> action) {
         int i;
         int i2;
-        boolean z;
+        short s;
         int i3;
-        Boolean valueOf;
+        Short valueOf;
         Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
         Intrinsics.checkNotNullParameter(action, "action");
         final int i4 = 0;
@@ -18407,9 +18386,30 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = 0;
         i2 = 0;
         while (i2 < obj2.length) {
-            action.invoke(Integer.valueOf(i), Boolean.valueOf(obj2[i2]));
+            action.invoke(Integer.valueOf(i), Short.valueOf(obj2[i2]));
             i2++;
             i = i3;
+        }
+        return $this$onEachIndexed;
+    }
+
+    private static final boolean[] onEachIndexed(boolean[] $this$onEachIndexed, Function2<? super Integer, ? super Boolean, Unit> action) {
+        int i3;
+        int i2;
+        boolean z;
+        int i;
+        Boolean valueOf;
+        Intrinsics.checkNotNullParameter($this$onEachIndexed, "<this>");
+        Intrinsics.checkNotNullParameter(action, "action");
+        final int i4 = 0;
+        final Object obj2 = obj;
+        final int i5 = 0;
+        i3 = 0;
+        i2 = 0;
+        while (i2 < obj2.length) {
+            action.invoke(Integer.valueOf(i3), Boolean.valueOf(obj2[i2]));
+            i2++;
+            i3 = i;
         }
         return $this$onEachIndexed;
     }
@@ -18484,46 +18484,46 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Pair<List<Float>, List<Float>> partition(float[] $this$partition, Function1<? super Float, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$partition, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
-        i2 = 0;
-        while (i2 < $this$partition.length) {
-            i = $this$partition[i2];
-            if ((Boolean)predicate.invoke(Float.valueOf(i)).booleanValue()) {
+        i = 0;
+        while (i < $this$partition.length) {
+            i2 = $this$partition[i];
+            if ((Boolean)predicate.invoke(Float.valueOf(i2)).booleanValue()) {
             } else {
             }
-            arrayList2.add(Float.valueOf(i));
-            i2++;
-            arrayList.add(Float.valueOf(i));
+            arrayList2.add(Float.valueOf(i2));
+            i++;
+            arrayList.add(Float.valueOf(i2));
         }
         Pair pair = new Pair(arrayList, arrayList2);
         return pair;
     }
 
     public static final Pair<List<Integer>, List<Integer>> partition(int[] $this$partition, Function1<? super Integer, Boolean> predicate) {
-        int i2;
         int i;
+        int i2;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$partition, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
-        i2 = 0;
-        while (i2 < $this$partition.length) {
-            i = $this$partition[i2];
-            if ((Boolean)predicate.invoke(Integer.valueOf(i)).booleanValue()) {
+        i = 0;
+        while (i < $this$partition.length) {
+            i2 = $this$partition[i];
+            if ((Boolean)predicate.invoke(Integer.valueOf(i2)).booleanValue()) {
             } else {
             }
-            arrayList2.add(Integer.valueOf(i));
-            i2++;
-            arrayList.add(Integer.valueOf(i));
+            arrayList2.add(Integer.valueOf(i2));
+            i++;
+            arrayList.add(Integer.valueOf(i2));
         }
         Pair pair = new Pair(arrayList, arrayList2);
         return pair;
@@ -19162,8 +19162,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         char accumulator;
         int index;
         Object invoke;
-        Character valueOf2;
         Character valueOf;
+        Character valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19210,8 +19210,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int accumulator;
         int index;
         Object invoke;
-        Float valueOf;
         Float valueOf2;
+        Float valueOf;
         Intrinsics.checkNotNullParameter($this$reduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19234,8 +19234,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int accumulator;
         int index;
         Object invoke;
-        Integer valueOf;
         Integer valueOf2;
+        Integer valueOf;
         Intrinsics.checkNotNullParameter($this$reduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19258,8 +19258,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         long accumulator;
         int index;
         Object invoke;
-        Long valueOf;
         Long valueOf2;
+        Long valueOf;
         Intrinsics.checkNotNullParameter($this$reduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19305,8 +19305,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         short accumulator;
         int index;
         Object invoke;
-        Short valueOf;
         Short valueOf2;
+        Short valueOf;
         Intrinsics.checkNotNullParameter($this$reduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19353,8 +19353,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         boolean accumulator;
         int index;
         Object invoke;
-        Boolean valueOf;
         Boolean valueOf2;
+        Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19375,8 +19375,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         byte accumulator;
         int index;
         Object invoke;
-        Byte valueOf2;
         Byte valueOf;
+        Byte valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19397,8 +19397,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         char accumulator;
         int index;
         Object invoke;
-        Character valueOf;
         Character valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19441,8 +19441,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int accumulator;
         int index;
         Object invoke;
-        Float valueOf2;
         Float valueOf;
+        Float valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19463,8 +19463,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int accumulator;
         int index;
         Object invoke;
-        Integer valueOf;
         Integer valueOf2;
+        Integer valueOf;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19485,8 +19485,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         long accumulator;
         int index;
         Object invoke;
-        Long valueOf;
         Long valueOf2;
+        Long valueOf;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19528,8 +19528,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         short accumulator;
         int index;
         Object invoke;
-        Short valueOf2;
         Short valueOf;
+        Short valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 0;
@@ -19735,8 +19735,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final byte reduceRight(byte[] $this$reduceRight, Function2<? super Byte, ? super Byte, Byte> operation) {
         byte index;
-        int i;
         int i2;
+        int i;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRight, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
@@ -19744,11 +19744,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int lastIndex = ArraysKt.getLastIndex($this$reduceRight);
         if (lastIndex < 0) {
         } else {
-            i = lastIndex + -1;
+            i2 = lastIndex + -1;
             index = $this$reduceRight[lastIndex];
-            while (i >= 0) {
-                index = (Number)operation.invoke(Byte.valueOf($this$reduceRight[i]), Byte.valueOf(index)).byteValue();
-                i = i2;
+            while (i2 >= 0) {
+                index = (Number)operation.invoke(Byte.valueOf($this$reduceRight[i2]), Byte.valueOf(index)).byteValue();
+                i2 = i;
             }
             return index;
         }
@@ -19804,8 +19804,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final float reduceRight(float[] $this$reduceRight, Function2<? super Float, ? super Float, Float> operation) {
         int index;
-        int i2;
         int i;
+        int i2;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRight, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
@@ -19813,11 +19813,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int lastIndex = ArraysKt.getLastIndex($this$reduceRight);
         if (lastIndex < 0) {
         } else {
-            i2 = lastIndex + -1;
+            i = lastIndex + -1;
             index = $this$reduceRight[lastIndex];
-            while (i2 >= 0) {
-                index = (Number)operation.invoke(Float.valueOf($this$reduceRight[i2]), Float.valueOf(index)).floatValue();
-                i2 = i;
+            while (i >= 0) {
+                index = (Number)operation.invoke(Float.valueOf($this$reduceRight[i]), Float.valueOf(index)).floatValue();
+                i = i2;
             }
             return index;
         }
@@ -19943,8 +19943,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         byte index2;
         int index;
         Object invoke;
-        Byte valueOf2;
         Byte valueOf;
+        Byte valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -19991,8 +19991,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int lastIndex;
         int index;
         long accumulator;
-        Double valueOf2;
-        double valueOf;
+        Double valueOf;
+        double valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -20012,8 +20012,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final float reduceRightIndexed(float[] $this$reduceRightIndexed, Function3<? super Integer, ? super Float, ? super Float, Float> operation) {
-        int index;
         int index2;
+        int index;
         Object invoke;
         Float valueOf;
         Float valueOf2;
@@ -20023,13 +20023,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int lastIndex = ArraysKt.getLastIndex($this$reduceRightIndexed);
         if (lastIndex < 0) {
         } else {
-            index2 = lastIndex + -1;
-            index = $this$reduceRightIndexed[lastIndex];
-            while (index2 >= 0) {
-                index = (Number)operation.invoke(Integer.valueOf(index2), Float.valueOf($this$reduceRightIndexed[index2]), Float.valueOf(index)).floatValue();
-                index2--;
+            index = lastIndex + -1;
+            index2 = $this$reduceRightIndexed[lastIndex];
+            while (index >= 0) {
+                index2 = (Number)operation.invoke(Integer.valueOf(index), Float.valueOf($this$reduceRightIndexed[index]), Float.valueOf(index2)).floatValue();
+                index--;
             }
-            return index;
+            return index2;
         }
         UnsupportedOperationException index3 = new UnsupportedOperationException("Empty array can't be reduced.");
         throw index3;
@@ -20084,8 +20084,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <S, T extends S> S reduceRightIndexed(T[] $this$reduceRightIndexed, Function3<? super Integer, ? super T, ? super S, ? extends S> operation) {
-        Object index;
-        int index2;
+        Object index2;
+        int index;
         Integer valueOf;
         Object obj;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexed, "<this>");
@@ -20094,13 +20094,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int lastIndex = ArraysKt.getLastIndex($this$reduceRightIndexed);
         if (lastIndex < 0) {
         } else {
-            index2 = lastIndex + -1;
-            index = $this$reduceRightIndexed[lastIndex];
-            while (index2 >= 0) {
-                index = operation.invoke(Integer.valueOf(index2), $this$reduceRightIndexed[index2], index);
-                index2--;
+            index = lastIndex + -1;
+            index2 = $this$reduceRightIndexed[lastIndex];
+            while (index >= 0) {
+                index2 = operation.invoke(Integer.valueOf(index), $this$reduceRightIndexed[index], index2);
+                index--;
             }
-            return index;
+            return index2;
         }
         UnsupportedOperationException index3 = new UnsupportedOperationException("Empty array can't be reduced.");
         throw index3;
@@ -20134,8 +20134,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         boolean index2;
         int index;
         Object invoke;
-        Boolean valueOf2;
         Boolean valueOf;
+        Boolean valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -20155,11 +20155,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Boolean reduceRightIndexedOrNull(boolean[] $this$reduceRightIndexedOrNull, Function3<? super Integer, ? super Boolean, ? super Boolean, Boolean> operation) {
-        boolean index2;
-        int index;
+        boolean index;
+        int index2;
         Object invoke;
-        Boolean valueOf2;
         Boolean valueOf;
+        Boolean valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -20167,18 +20167,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (lastIndex < 0) {
             return null;
         }
-        index = lastIndex + -1;
-        index2 = $this$reduceRightIndexedOrNull[lastIndex];
-        while (index >= 0) {
-            index2 = (Boolean)operation.invoke(Integer.valueOf(index), Boolean.valueOf($this$reduceRightIndexedOrNull[index]), Boolean.valueOf(index2)).booleanValue();
-            index--;
+        index2 = lastIndex + -1;
+        index = $this$reduceRightIndexedOrNull[lastIndex];
+        while (index2 >= 0) {
+            index = (Boolean)operation.invoke(Integer.valueOf(index2), Boolean.valueOf($this$reduceRightIndexedOrNull[index2]), Boolean.valueOf(index)).booleanValue();
+            index2--;
         }
-        return Boolean.valueOf(index2);
+        return Boolean.valueOf(index);
     }
 
     public static final Byte reduceRightIndexedOrNull(byte[] $this$reduceRightIndexedOrNull, Function3<? super Integer, ? super Byte, ? super Byte, Byte> operation) {
-        byte index;
-        int index2;
+        byte index2;
+        int index;
         Object invoke;
         Byte valueOf;
         Byte valueOf2;
@@ -20189,21 +20189,21 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (lastIndex < 0) {
             return null;
         }
-        index2 = lastIndex + -1;
-        index = $this$reduceRightIndexedOrNull[lastIndex];
-        while (index2 >= 0) {
-            index = (Number)operation.invoke(Integer.valueOf(index2), Byte.valueOf($this$reduceRightIndexedOrNull[index2]), Byte.valueOf(index)).byteValue();
-            index2--;
+        index = lastIndex + -1;
+        index2 = $this$reduceRightIndexedOrNull[lastIndex];
+        while (index >= 0) {
+            index2 = (Number)operation.invoke(Integer.valueOf(index), Byte.valueOf($this$reduceRightIndexedOrNull[index]), Byte.valueOf(index2)).byteValue();
+            index--;
         }
-        return Byte.valueOf(index);
+        return Byte.valueOf(index2);
     }
 
     public static final Character reduceRightIndexedOrNull(char[] $this$reduceRightIndexedOrNull, Function3<? super Integer, ? super Character, ? super Character, Character> operation) {
-        char index;
-        int index2;
+        char index2;
+        int index;
         Object invoke;
-        Character valueOf;
         Character valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -20211,21 +20211,21 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (lastIndex < 0) {
             return null;
         }
-        index2 = lastIndex + -1;
-        index = $this$reduceRightIndexedOrNull[lastIndex];
-        while (index2 >= 0) {
-            index = (Character)operation.invoke(Integer.valueOf(index2), Character.valueOf($this$reduceRightIndexedOrNull[index2]), Character.valueOf(index)).charValue();
-            index2--;
+        index = lastIndex + -1;
+        index2 = $this$reduceRightIndexedOrNull[lastIndex];
+        while (index >= 0) {
+            index2 = (Character)operation.invoke(Integer.valueOf(index), Character.valueOf($this$reduceRightIndexedOrNull[index]), Character.valueOf(index2)).charValue();
+            index--;
         }
-        return Character.valueOf(index);
+        return Character.valueOf(index2);
     }
 
     public static final Double reduceRightIndexedOrNull(double[] $this$reduceRightIndexedOrNull, Function3<? super Integer, ? super Double, ? super Double, Double> operation) {
         int lastIndex;
         int index;
         long accumulator;
-        Double valueOf2;
-        double valueOf;
+        Double valueOf;
+        double valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -20246,8 +20246,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int index;
         int index2;
         Object invoke;
-        Float valueOf2;
         Float valueOf;
+        Float valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -20265,11 +20265,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final Integer reduceRightIndexedOrNull(int[] $this$reduceRightIndexedOrNull, Function3<? super Integer, ? super Integer, ? super Integer, Integer> operation) {
-        int index2;
         int index;
+        int index2;
         Object invoke;
-        Integer valueOf2;
         Integer valueOf;
+        Integer valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -20277,13 +20277,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (lastIndex < 0) {
             return null;
         }
-        index = lastIndex + -1;
-        index2 = $this$reduceRightIndexedOrNull[lastIndex];
-        while (index >= 0) {
-            index2 = (Number)operation.invoke(Integer.valueOf(index), Integer.valueOf($this$reduceRightIndexedOrNull[index]), Integer.valueOf(index2)).intValue();
-            index--;
+        index2 = lastIndex + -1;
+        index = $this$reduceRightIndexedOrNull[lastIndex];
+        while (index2 >= 0) {
+            index = (Number)operation.invoke(Integer.valueOf(index2), Integer.valueOf($this$reduceRightIndexedOrNull[index2]), Integer.valueOf(index)).intValue();
+            index2--;
         }
-        return Integer.valueOf(index2);
+        return Integer.valueOf(index);
     }
 
     public static final Long reduceRightIndexedOrNull(long[] $this$reduceRightIndexedOrNull, Function3<? super Integer, ? super Long, ? super Long, Long> operation) {
@@ -20309,8 +20309,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <S, T extends S> S reduceRightIndexedOrNull(T[] $this$reduceRightIndexedOrNull, Function3<? super Integer, ? super T, ? super S, ? extends S> operation) {
-        Object index;
-        int index2;
+        Object index2;
+        int index;
         Integer valueOf;
         Object obj;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull, "<this>");
@@ -20320,21 +20320,21 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (lastIndex < 0) {
             return 0;
         }
-        index2 = lastIndex + -1;
-        index = $this$reduceRightIndexedOrNull[lastIndex];
-        while (index2 >= 0) {
-            index = operation.invoke(Integer.valueOf(index2), $this$reduceRightIndexedOrNull[index2], index);
-            index2--;
+        index = lastIndex + -1;
+        index2 = $this$reduceRightIndexedOrNull[lastIndex];
+        while (index >= 0) {
+            index2 = operation.invoke(Integer.valueOf(index), $this$reduceRightIndexedOrNull[index], index2);
+            index--;
         }
-        return index;
+        return index2;
     }
 
     public static final Short reduceRightIndexedOrNull(short[] $this$reduceRightIndexedOrNull, Function3<? super Integer, ? super Short, ? super Short, Short> operation) {
-        short index2;
-        int index;
+        short index;
+        int index2;
         Object invoke;
-        Short valueOf2;
         Short valueOf;
+        Short valueOf2;
         Intrinsics.checkNotNullParameter($this$reduceRightIndexedOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i = 0;
@@ -20342,41 +20342,20 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (lastIndex < 0) {
             return null;
         }
-        index = lastIndex + -1;
-        index2 = $this$reduceRightIndexedOrNull[lastIndex];
-        while (index >= 0) {
-            index2 = (Number)operation.invoke(Integer.valueOf(index), Short.valueOf($this$reduceRightIndexedOrNull[index]), Short.valueOf(index2)).shortValue();
-            index--;
+        index2 = lastIndex + -1;
+        index = $this$reduceRightIndexedOrNull[lastIndex];
+        while (index2 >= 0) {
+            index = (Number)operation.invoke(Integer.valueOf(index2), Short.valueOf($this$reduceRightIndexedOrNull[index2]), Short.valueOf(index)).shortValue();
+            index2--;
         }
-        return Short.valueOf(index2);
+        return Short.valueOf(index);
     }
 
     public static final Boolean reduceRightOrNull(boolean[] $this$reduceRightOrNull, Function2<? super Boolean, ? super Boolean, Boolean> operation) {
         boolean index;
-        int i2;
         int i;
+        int i2;
         Boolean valueOf;
-        Intrinsics.checkNotNullParameter($this$reduceRightOrNull, "<this>");
-        Intrinsics.checkNotNullParameter(operation, "operation");
-        int i3 = 0;
-        int lastIndex = ArraysKt.getLastIndex($this$reduceRightOrNull);
-        if (lastIndex < 0) {
-            return null;
-        }
-        i2 = lastIndex + -1;
-        index = $this$reduceRightOrNull[lastIndex];
-        while (i2 >= 0) {
-            index = (Boolean)operation.invoke(Boolean.valueOf($this$reduceRightOrNull[i2]), Boolean.valueOf(index)).booleanValue();
-            i2 = i;
-        }
-        return Boolean.valueOf(index);
-    }
-
-    public static final Byte reduceRightOrNull(byte[] $this$reduceRightOrNull, Function2<? super Byte, ? super Byte, Byte> operation) {
-        byte index;
-        int i;
-        int i2;
-        Byte valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRightOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -20387,17 +20366,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i = lastIndex + -1;
         index = $this$reduceRightOrNull[lastIndex];
         while (i >= 0) {
-            index = (Number)operation.invoke(Byte.valueOf($this$reduceRightOrNull[i]), Byte.valueOf(index)).byteValue();
+            index = (Boolean)operation.invoke(Boolean.valueOf($this$reduceRightOrNull[i]), Boolean.valueOf(index)).booleanValue();
             i = i2;
         }
-        return Byte.valueOf(index);
+        return Boolean.valueOf(index);
     }
 
-    public static final Character reduceRightOrNull(char[] $this$reduceRightOrNull, Function2<? super Character, ? super Character, Character> operation) {
-        char index;
+    public static final Byte reduceRightOrNull(byte[] $this$reduceRightOrNull, Function2<? super Byte, ? super Byte, Byte> operation) {
+        byte index;
         int i2;
         int i;
-        Character valueOf;
+        Byte valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRightOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -20408,8 +20387,29 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         i2 = lastIndex + -1;
         index = $this$reduceRightOrNull[lastIndex];
         while (i2 >= 0) {
-            index = (Character)operation.invoke(Character.valueOf($this$reduceRightOrNull[i2]), Character.valueOf(index)).charValue();
+            index = (Number)operation.invoke(Byte.valueOf($this$reduceRightOrNull[i2]), Byte.valueOf(index)).byteValue();
             i2 = i;
+        }
+        return Byte.valueOf(index);
+    }
+
+    public static final Character reduceRightOrNull(char[] $this$reduceRightOrNull, Function2<? super Character, ? super Character, Character> operation) {
+        char index;
+        int i;
+        int i2;
+        Character valueOf;
+        Intrinsics.checkNotNullParameter($this$reduceRightOrNull, "<this>");
+        Intrinsics.checkNotNullParameter(operation, "operation");
+        int i3 = 0;
+        int lastIndex = ArraysKt.getLastIndex($this$reduceRightOrNull);
+        if (lastIndex < 0) {
+            return null;
+        }
+        i = lastIndex + -1;
+        index = $this$reduceRightOrNull[lastIndex];
+        while (i >= 0) {
+            index = (Character)operation.invoke(Character.valueOf($this$reduceRightOrNull[i]), Character.valueOf(index)).charValue();
+            i = i2;
         }
         return Character.valueOf(index);
     }
@@ -20437,8 +20437,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final Float reduceRightOrNull(float[] $this$reduceRightOrNull, Function2<? super Float, ? super Float, Float> operation) {
         int index;
-        int i;
         int i2;
+        int i;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$reduceRightOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
@@ -20447,11 +20447,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (lastIndex < 0) {
             return null;
         }
-        i = lastIndex + -1;
+        i2 = lastIndex + -1;
         index = $this$reduceRightOrNull[lastIndex];
-        while (i >= 0) {
-            index = (Number)operation.invoke(Float.valueOf($this$reduceRightOrNull[i]), Float.valueOf(index)).floatValue();
-            i = i2;
+        while (i2 >= 0) {
+            index = (Number)operation.invoke(Float.valueOf($this$reduceRightOrNull[i2]), Float.valueOf(index)).floatValue();
+            i2 = i;
         }
         return Float.valueOf(index);
     }
@@ -20500,8 +20500,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final <S, T extends S> S reduceRightOrNull(T[] $this$reduceRightOrNull, Function2<? super T, ? super S, ? extends S> operation) {
         Object index;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$reduceRightOrNull, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -20509,11 +20509,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         if (lastIndex < 0) {
             return 0;
         }
-        i = lastIndex + -1;
+        i2 = lastIndex + -1;
         index = $this$reduceRightOrNull[lastIndex];
-        while (i >= 0) {
-            index = operation.invoke($this$reduceRightOrNull[i], index);
-            i = i2;
+        while (i2 >= 0) {
+            index = operation.invoke($this$reduceRightOrNull[i2], index);
+            i2 = i;
         }
         return index;
     }
@@ -20553,8 +20553,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(byte[] $this$reverse) {
         int reverseIndex;
         int index;
-        byte b;
         byte b2;
+        byte b;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         i--;
         if (i2 < 0) {
@@ -20587,8 +20587,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(char[] $this$reverse) {
         int reverseIndex;
         int index;
-        char c2;
         char c;
+        char c2;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         i--;
         if (i2 < 0) {
@@ -20601,8 +20601,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(char[] $this$reverse, int fromIndex, int toIndex) {
         int reverseIndex;
         int index;
-        char c2;
         char c;
+        char c2;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         AbstractList.Companion.checkRangeIndexes$kotlin_stdlib(fromIndex, toIndex, $this$reverse.length);
         i /= 2;
@@ -20621,8 +20621,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(double[] $this$reverse) {
         int reverseIndex;
         int index;
-        long l2;
         long l;
+        long l2;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         i--;
         if (i2 < 0) {
@@ -20635,8 +20635,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(double[] $this$reverse, int fromIndex, int toIndex) {
         int reverseIndex;
         int index;
-        long l;
         long l2;
+        long l;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         AbstractList.Companion.checkRangeIndexes$kotlin_stdlib(fromIndex, toIndex, $this$reverse.length);
         i /= 2;
@@ -20655,8 +20655,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(float[] $this$reverse) {
         int reverseIndex;
         int index;
-        int i;
         int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         i3--;
         if (i4 < 0) {
@@ -20703,8 +20703,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(int[] $this$reverse, int fromIndex, int toIndex) {
         int reverseIndex;
         int index;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         AbstractList.Companion.checkRangeIndexes$kotlin_stdlib(fromIndex, toIndex, $this$reverse.length);
         i3 /= 2;
@@ -20723,8 +20723,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(long[] $this$reverse) {
         int reverseIndex;
         int index;
-        long l;
         long l2;
+        long l;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         i--;
         if (i2 < 0) {
@@ -20757,8 +20757,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <T> void reverse(T[] $this$reverse) {
         int reverseIndex;
         int index;
-        Object obj2;
         Object obj;
+        Object obj2;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         i--;
         if (i2 < 0) {
@@ -20771,8 +20771,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <T> void reverse(T[] $this$reverse, int fromIndex, int toIndex) {
         int reverseIndex;
         int index;
-        Object obj;
         Object obj2;
+        Object obj;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         AbstractList.Companion.checkRangeIndexes$kotlin_stdlib(fromIndex, toIndex, $this$reverse.length);
         i /= 2;
@@ -20791,8 +20791,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(short[] $this$reverse) {
         int reverseIndex;
         int index;
-        short s;
         short s2;
+        short s;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         i--;
         if (i2 < 0) {
@@ -20805,8 +20805,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(short[] $this$reverse, int fromIndex, int toIndex) {
         int reverseIndex;
         int index;
-        short s2;
         short s;
+        short s2;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         AbstractList.Companion.checkRangeIndexes$kotlin_stdlib(fromIndex, toIndex, $this$reverse.length);
         i /= 2;
@@ -20839,8 +20839,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void reverse(boolean[] $this$reverse, int fromIndex, int toIndex) {
         int reverseIndex;
         int index;
-        boolean z2;
         boolean z;
+        boolean z2;
         Intrinsics.checkNotNullParameter($this$reverse, "<this>");
         AbstractList.Companion.checkRangeIndexes$kotlin_stdlib(fromIndex, toIndex, $this$reverse.length);
         i /= 2;
@@ -20965,13 +20965,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final byte[] reversedArray(byte[] $this$reversedArray) {
-        int i3;
         int i;
+        int i3;
         int i2;
         byte b;
         Intrinsics.checkNotNullParameter($this$reversedArray, "<this>");
-        i3 = $this$reversedArray.length == 0 ? 1 : 0;
-        if (i3 != 0) {
+        i = $this$reversedArray.length == 0 ? 1 : 0;
+        if (i != 0) {
             return $this$reversedArray;
         }
         byte[] bArr = new byte[$this$reversedArray.length];
@@ -20982,13 +20982,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final char[] reversedArray(char[] $this$reversedArray) {
-        int i2;
-        int i;
         int i3;
+        int i;
+        int i2;
         char c;
         Intrinsics.checkNotNullParameter($this$reversedArray, "<this>");
-        i2 = $this$reversedArray.length == 0 ? 1 : 0;
-        if (i2 != 0) {
+        i3 = $this$reversedArray.length == 0 ? 1 : 0;
+        if (i3 != 0) {
             return $this$reversedArray;
         }
         char[] cArr = new char[$this$reversedArray.length];
@@ -20999,13 +20999,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final double[] reversedArray(double[] $this$reversedArray) {
-        int i;
         int i2;
         int i3;
+        int i;
         long l;
         Intrinsics.checkNotNullParameter($this$reversedArray, "<this>");
-        i = $this$reversedArray.length == 0 ? 1 : 0;
-        if (i != 0) {
+        i2 = $this$reversedArray.length == 0 ? 1 : 0;
+        if (i2 != 0) {
             return $this$reversedArray;
         }
         double[] dArr = new double[$this$reversedArray.length];
@@ -21016,13 +21016,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final float[] reversedArray(float[] $this$reversedArray) {
-        int i;
         int i3;
         int i2;
         int i4;
+        int i;
         Intrinsics.checkNotNullParameter($this$reversedArray, "<this>");
-        i = $this$reversedArray.length == 0 ? 1 : 0;
-        if (i != 0) {
+        i3 = $this$reversedArray.length == 0 ? 1 : 0;
+        if (i3 != 0) {
             return $this$reversedArray;
         }
         float[] fArr = new float[$this$reversedArray.length];
@@ -21034,9 +21034,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final int[] reversedArray(int[] $this$reversedArray) {
         int i3;
+        int i;
         int i4;
         int i2;
-        int i;
         Intrinsics.checkNotNullParameter($this$reversedArray, "<this>");
         i3 = $this$reversedArray.length == 0 ? 1 : 0;
         if (i3 != 0) {
@@ -21050,13 +21050,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final long[] reversedArray(long[] $this$reversedArray) {
+        int i;
         int i3;
         int i2;
-        int i;
         long l;
         Intrinsics.checkNotNullParameter($this$reversedArray, "<this>");
-        i3 = $this$reversedArray.length == 0 ? 1 : 0;
-        if (i3 != 0) {
+        i = $this$reversedArray.length == 0 ? 1 : 0;
+        if (i != 0) {
             return $this$reversedArray;
         }
         long[] lArr = new long[$this$reversedArray.length];
@@ -21067,13 +21067,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T[] reversedArray(T[] $this$reversedArray) {
+        int i3;
         int i;
         int i2;
-        int i3;
         Object obj;
         Intrinsics.checkNotNullParameter($this$reversedArray, "<this>");
-        i = $this$reversedArray.length == 0 ? 1 : 0;
-        if (i != 0) {
+        i3 = $this$reversedArray.length == 0 ? 1 : 0;
+        if (i3 != 0) {
             return $this$reversedArray;
         }
         Object[] arrayOfNulls = ArraysKt.arrayOfNulls($this$reversedArray, $this$reversedArray.length);
@@ -21084,13 +21084,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final short[] reversedArray(short[] $this$reversedArray) {
+        int i2;
         int i;
         int i3;
-        int i2;
         short s;
         Intrinsics.checkNotNullParameter($this$reversedArray, "<this>");
-        i = $this$reversedArray.length == 0 ? 1 : 0;
-        if (i != 0) {
+        i2 = $this$reversedArray.length == 0 ? 1 : 0;
+        if (i2 != 0) {
             return $this$reversedArray;
         }
         short[] sArr = new short[$this$reversedArray.length];
@@ -21142,35 +21142,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> List<R> runningFold(char[] $this$runningFold, R initial, Function2<? super R, ? super Character, ? extends R> operation) {
-        int i2;
         int i;
+        int i2;
         Object $this$runningFold_u24lambda_u24152;
         char c;
         Character valueOf;
-        Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
-        Intrinsics.checkNotNullParameter(operation, "operation");
-        int i3 = 1;
-        i2 = $this$runningFold.length == 0 ? i3 : i;
-        if (i2 != 0) {
-            return CollectionsKt.listOf(initial);
-        }
-        ArrayList arrayList = new ArrayList(length2 += i3);
-        int i5 = 0;
-        arrayList.add(initial);
-        $this$runningFold_u24lambda_u24152 = initial;
-        while (i < $this$runningFold.length) {
-            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24152, Character.valueOf($this$runningFold[i])));
-            i++;
-        }
-        return (List)arrayList;
-    }
-
-    private static final <R> List<R> runningFold(double[] $this$runningFold, R initial, Function2<? super R, ? super Double, ? extends R> operation) {
-        int i;
-        int i2;
-        Object $this$runningFold_u24lambda_u24150;
-        long l;
-        Double valueOf;
         Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 1;
@@ -21181,25 +21157,49 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList(length2 += i3);
         int i5 = 0;
         arrayList.add(initial);
-        $this$runningFold_u24lambda_u24150 = initial;
+        $this$runningFold_u24lambda_u24152 = initial;
         while (i2 < $this$runningFold.length) {
-            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24150, Double.valueOf($this$runningFold[i2])));
+            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24152, Character.valueOf($this$runningFold[i2])));
             i2++;
         }
         return (List)arrayList;
     }
 
-    private static final <R> List<R> runningFold(float[] $this$runningFold, R initial, Function2<? super R, ? super Float, ? extends R> operation) {
+    private static final <R> List<R> runningFold(double[] $this$runningFold, R initial, Function2<? super R, ? super Double, ? extends R> operation) {
+        int i2;
         int i;
+        Object $this$runningFold_u24lambda_u24150;
+        long l;
+        Double valueOf;
+        Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
+        Intrinsics.checkNotNullParameter(operation, "operation");
+        int i3 = 1;
+        i2 = $this$runningFold.length == 0 ? i3 : i;
+        if (i2 != 0) {
+            return CollectionsKt.listOf(initial);
+        }
+        ArrayList arrayList = new ArrayList(length2 += i3);
+        int i5 = 0;
+        arrayList.add(initial);
+        $this$runningFold_u24lambda_u24150 = initial;
+        while (i < $this$runningFold.length) {
+            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24150, Double.valueOf($this$runningFold[i])));
+            i++;
+        }
+        return (List)arrayList;
+    }
+
+    private static final <R> List<R> runningFold(float[] $this$runningFold, R initial, Function2<? super R, ? super Float, ? extends R> operation) {
+        int i3;
         int i2;
         Object $this$runningFold_u24lambda_u24149;
-        int i3;
+        int i;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i4 = 1;
-        i = $this$runningFold.length == 0 ? i4 : i2;
-        if (i != 0) {
+        i3 = $this$runningFold.length == 0 ? i4 : i2;
+        if (i3 != 0) {
             return CollectionsKt.listOf(initial);
         }
         ArrayList arrayList = new ArrayList(length2 += i4);
@@ -21214,16 +21214,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> List<R> runningFold(int[] $this$runningFold, R initial, Function2<? super R, ? super Integer, ? extends R> operation) {
-        int i2;
+        int i;
         int i3;
         Object $this$runningFold_u24lambda_u24147;
-        int i;
+        int i2;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i4 = 1;
-        i2 = $this$runningFold.length == 0 ? i4 : i3;
-        if (i2 != 0) {
+        i = $this$runningFold.length == 0 ? i4 : i3;
+        if (i != 0) {
             return CollectionsKt.listOf(initial);
         }
         ArrayList arrayList = new ArrayList(length2 += i4);
@@ -21238,25 +21238,25 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> List<R> runningFold(long[] $this$runningFold, R initial, Function2<? super R, ? super Long, ? extends R> operation) {
-        int i;
         int i2;
+        int i;
         Object $this$runningFold_u24lambda_u24148;
         long l;
         Long valueOf;
         Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 1;
-        i = $this$runningFold.length == 0 ? i3 : i2;
-        if (i != 0) {
+        i2 = $this$runningFold.length == 0 ? i3 : i;
+        if (i2 != 0) {
             return CollectionsKt.listOf(initial);
         }
         ArrayList arrayList = new ArrayList(length2 += i3);
         int i5 = 0;
         arrayList.add(initial);
         $this$runningFold_u24lambda_u24148 = initial;
-        while (i2 < $this$runningFold.length) {
-            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24148, Long.valueOf($this$runningFold[i2])));
-            i2++;
+        while (i < $this$runningFold.length) {
+            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24148, Long.valueOf($this$runningFold[i])));
+            i++;
         }
         return (List)arrayList;
     }
@@ -21286,35 +21286,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> List<R> runningFold(short[] $this$runningFold, R initial, Function2<? super R, ? super Short, ? extends R> operation) {
-        int i;
         int i2;
+        int i;
         Object $this$runningFold_u24lambda_u24146;
         short s;
         Short valueOf;
-        Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
-        Intrinsics.checkNotNullParameter(operation, "operation");
-        int i3 = 1;
-        i = $this$runningFold.length == 0 ? i3 : i2;
-        if (i != 0) {
-            return CollectionsKt.listOf(initial);
-        }
-        ArrayList arrayList = new ArrayList(length2 += i3);
-        int i5 = 0;
-        arrayList.add(initial);
-        $this$runningFold_u24lambda_u24146 = initial;
-        while (i2 < $this$runningFold.length) {
-            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24146, Short.valueOf($this$runningFold[i2])));
-            i2++;
-        }
-        return (List)arrayList;
-    }
-
-    private static final <R> List<R> runningFold(boolean[] $this$runningFold, R initial, Function2<? super R, ? super Boolean, ? extends R> operation) {
-        int i2;
-        int i;
-        Object $this$runningFold_u24lambda_u24151;
-        boolean z;
-        Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 1;
@@ -21325,10 +21301,34 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         ArrayList arrayList = new ArrayList(length2 += i3);
         int i5 = 0;
         arrayList.add(initial);
-        $this$runningFold_u24lambda_u24151 = initial;
+        $this$runningFold_u24lambda_u24146 = initial;
         while (i < $this$runningFold.length) {
-            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24151, Boolean.valueOf($this$runningFold[i])));
+            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24146, Short.valueOf($this$runningFold[i])));
             i++;
+        }
+        return (List)arrayList;
+    }
+
+    private static final <R> List<R> runningFold(boolean[] $this$runningFold, R initial, Function2<? super R, ? super Boolean, ? extends R> operation) {
+        int i;
+        int i2;
+        Object $this$runningFold_u24lambda_u24151;
+        boolean z;
+        Boolean valueOf;
+        Intrinsics.checkNotNullParameter($this$runningFold, "<this>");
+        Intrinsics.checkNotNullParameter(operation, "operation");
+        int i3 = 1;
+        i = $this$runningFold.length == 0 ? i3 : i2;
+        if (i != 0) {
+            return CollectionsKt.listOf(initial);
+        }
+        ArrayList arrayList = new ArrayList(length2 += i3);
+        int i5 = 0;
+        arrayList.add(initial);
+        $this$runningFold_u24lambda_u24151 = initial;
+        while (i2 < $this$runningFold.length) {
+            arrayList.add(operation.invoke($this$runningFold_u24lambda_u24151, Boolean.valueOf($this$runningFold[i2])));
+            i2++;
         }
         return (List)arrayList;
     }
@@ -21362,8 +21362,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         Object $this$runningFoldIndexed_u24lambda_u24161;
         int index;
-        Integer valueOf;
-        Character valueOf2;
+        Integer valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$runningFoldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 1;
@@ -21387,8 +21387,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         Object $this$runningFoldIndexed_u24lambda_u24159;
         int index;
-        Integer valueOf;
-        Double valueOf2;
+        Integer valueOf2;
+        Double valueOf;
         Intrinsics.checkNotNullParameter($this$runningFoldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 1;
@@ -21513,8 +21513,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         Object $this$runningFoldIndexed_u24lambda_u24155;
         int index;
-        Integer valueOf;
-        Short valueOf2;
+        Integer valueOf2;
+        Short valueOf;
         Intrinsics.checkNotNullParameter($this$runningFoldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 1;
@@ -21538,8 +21538,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         Object $this$runningFoldIndexed_u24lambda_u24160;
         int index;
-        Integer valueOf;
-        Boolean valueOf2;
+        Integer valueOf2;
+        Boolean valueOf;
         Intrinsics.checkNotNullParameter($this$runningFoldIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i2 = 1;
@@ -21563,8 +21563,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         byte accumulator;
         int $this$runningReduce_u24lambda_u24163;
-        Byte valueOf2;
         Byte valueOf;
+        Byte valueOf2;
         Intrinsics.checkNotNullParameter($this$runningReduce, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -21588,8 +21588,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         char accumulator;
         int $this$runningReduce_u24lambda_u24170;
-        Character valueOf2;
         Character valueOf;
+        Character valueOf2;
         Intrinsics.checkNotNullParameter($this$runningReduce, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -21688,8 +21688,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         long accumulator;
         int $this$runningReduce_u24lambda_u24166;
-        Long valueOf;
         Long valueOf2;
+        Long valueOf;
         Intrinsics.checkNotNullParameter($this$runningReduce, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         final int i2 = 0;
@@ -21738,8 +21738,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         short accumulator;
         int $this$runningReduce_u24lambda_u24164;
-        Short valueOf2;
         Short valueOf;
+        Short valueOf2;
         Intrinsics.checkNotNullParameter($this$runningReduce, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -21789,8 +21789,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         byte accumulator;
         int $this$runningReduceIndexed_u24lambda_u24172;
         Byte valueOf3;
-        Byte valueOf;
         Byte valueOf2;
+        Byte valueOf;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -21814,9 +21814,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         char accumulator;
         int $this$runningReduceIndexed_u24lambda_u24179;
-        Character valueOf3;
         Character valueOf;
         Character valueOf2;
+        Character valueOf3;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -21840,9 +21840,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         long accumulator;
         int $this$runningReduceIndexed_u24lambda_u24177;
+        Double valueOf;
         Double valueOf2;
         Double valueOf3;
-        Double valueOf;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         final int i2 = 0;
@@ -21866,8 +21866,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         int accumulator;
         int $this$runningReduceIndexed_u24lambda_u24176;
-        Float valueOf2;
         Float valueOf;
+        Float valueOf2;
         Float valueOf3;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
@@ -21892,9 +21892,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         int accumulator;
         int $this$runningReduceIndexed_u24lambda_u24174;
+        Integer valueOf;
         Integer valueOf2;
         Integer valueOf3;
-        Integer valueOf;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -21970,9 +21970,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         short accumulator;
         int $this$runningReduceIndexed_u24lambda_u24173;
+        Short valueOf3;
         Short valueOf;
         Short valueOf2;
-        Short valueOf3;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -21996,9 +21996,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         boolean accumulator;
         int $this$runningReduceIndexed_u24lambda_u24178;
-        Boolean valueOf3;
         Boolean valueOf;
         Boolean valueOf2;
+        Boolean valueOf3;
         Intrinsics.checkNotNullParameter($this$runningReduceIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         int i3 = 0;
@@ -22019,87 +22019,62 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> List<R> scan(byte[] $this$scan, R initial, Function2<? super R, ? super Byte, ? extends R> operation) {
-        int i2;
-        Object arrayList;
         int i;
+        Object arrayList;
+        int i2;
         int length;
         Object invoke;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$scan, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
-        i2 = $this$scan.length == 0 ? length : i;
-        if (i2 != 0) {
+        i = $this$scan.length == 0 ? length : i2;
+        if (i != 0) {
             arrayList = CollectionsKt.listOf(initial);
         } else {
             arrayList = new ArrayList(length3 += length);
             arrayList.add(initial);
             invoke = initial;
-            while (i < $this$scan.length) {
-                arrayList.add(operation.invoke(invoke, Byte.valueOf($this$scan[i])));
-                i++;
+            while (i2 < $this$scan.length) {
+                arrayList.add(operation.invoke(invoke, Byte.valueOf($this$scan[i2])));
+                i2++;
             }
         }
         return arrayList;
     }
 
     private static final <R> List<R> scan(char[] $this$scan, R initial, Function2<? super R, ? super Character, ? extends R> operation) {
-        int i2;
-        Object arrayList;
         int i;
+        Object arrayList;
+        int i2;
         int length;
         Object invoke;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$scan, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
-        i2 = $this$scan.length == 0 ? length : i;
-        if (i2 != 0) {
+        i = $this$scan.length == 0 ? length : i2;
+        if (i != 0) {
             arrayList = CollectionsKt.listOf(initial);
         } else {
             arrayList = new ArrayList(length3 += length);
             arrayList.add(initial);
             invoke = initial;
-            while (i < $this$scan.length) {
-                arrayList.add(operation.invoke(invoke, Character.valueOf($this$scan[i])));
-                i++;
+            while (i2 < $this$scan.length) {
+                arrayList.add(operation.invoke(invoke, Character.valueOf($this$scan[i2])));
+                i2++;
             }
         }
         return arrayList;
     }
 
     private static final <R> List<R> scan(double[] $this$scan, R initial, Function2<? super R, ? super Double, ? extends R> operation) {
-        int i;
-        Object arrayList;
         int i2;
+        Object arrayList;
+        int i;
         int length;
         Object invoke;
         Double valueOf;
-        Intrinsics.checkNotNullParameter($this$scan, "<this>");
-        Intrinsics.checkNotNullParameter(operation, "operation");
-        length = 1;
-        i = $this$scan.length == 0 ? length : i2;
-        if (i != 0) {
-            arrayList = CollectionsKt.listOf(initial);
-        } else {
-            arrayList = new ArrayList(length3 += length);
-            arrayList.add(initial);
-            invoke = initial;
-            while (i2 < $this$scan.length) {
-                arrayList.add(operation.invoke(invoke, Double.valueOf($this$scan[i2])));
-                i2++;
-            }
-        }
-        return arrayList;
-    }
-
-    private static final <R> List<R> scan(float[] $this$scan, R initial, Function2<? super R, ? super Float, ? extends R> operation) {
-        int i2;
-        Object arrayList;
-        int i;
-        int length;
-        Object invoke;
-        Float valueOf;
         Intrinsics.checkNotNullParameter($this$scan, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
@@ -22111,20 +22086,20 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             arrayList.add(initial);
             invoke = initial;
             while (i < $this$scan.length) {
-                arrayList.add(operation.invoke(invoke, Float.valueOf($this$scan[i])));
+                arrayList.add(operation.invoke(invoke, Double.valueOf($this$scan[i])));
                 i++;
             }
         }
         return arrayList;
     }
 
-    private static final <R> List<R> scan(int[] $this$scan, R initial, Function2<? super R, ? super Integer, ? extends R> operation) {
+    private static final <R> List<R> scan(float[] $this$scan, R initial, Function2<? super R, ? super Float, ? extends R> operation) {
         int i;
         Object arrayList;
         int i2;
         int length;
         Object invoke;
-        Integer valueOf;
+        Float valueOf;
         Intrinsics.checkNotNullParameter($this$scan, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
@@ -22136,8 +22111,33 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
             arrayList.add(initial);
             invoke = initial;
             while (i2 < $this$scan.length) {
-                arrayList.add(operation.invoke(invoke, Integer.valueOf($this$scan[i2])));
+                arrayList.add(operation.invoke(invoke, Float.valueOf($this$scan[i2])));
                 i2++;
+            }
+        }
+        return arrayList;
+    }
+
+    private static final <R> List<R> scan(int[] $this$scan, R initial, Function2<? super R, ? super Integer, ? extends R> operation) {
+        int i2;
+        Object arrayList;
+        int i;
+        int length;
+        Object invoke;
+        Integer valueOf;
+        Intrinsics.checkNotNullParameter($this$scan, "<this>");
+        Intrinsics.checkNotNullParameter(operation, "operation");
+        length = 1;
+        i2 = $this$scan.length == 0 ? length : i;
+        if (i2 != 0) {
+            arrayList = CollectionsKt.listOf(initial);
+        } else {
+            arrayList = new ArrayList(length3 += length);
+            arrayList.add(initial);
+            invoke = initial;
+            while (i < $this$scan.length) {
+                arrayList.add(operation.invoke(invoke, Integer.valueOf($this$scan[i])));
+                i++;
             }
         }
         return arrayList;
@@ -22275,35 +22275,35 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> List<R> scanIndexed(char[] $this$scanIndexed, R initial, Function3<? super Integer, ? super R, ? super Character, ? extends R> operation) {
-        int i;
-        Object arrayList;
         int i2;
+        Object arrayList;
+        int i;
         int length;
         Object invoke;
-        Integer valueOf;
-        Character valueOf2;
+        Integer valueOf2;
+        Character valueOf;
         Intrinsics.checkNotNullParameter($this$scanIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
-        i = $this$scanIndexed.length == 0 ? length : i2;
-        if (i != 0) {
+        i2 = $this$scanIndexed.length == 0 ? length : i;
+        if (i2 != 0) {
             arrayList = CollectionsKt.listOf(initial);
         } else {
             arrayList = new ArrayList(length3 += length);
             arrayList.add(initial);
             invoke = initial;
-            while (i2 < $this$scanIndexed.length) {
-                arrayList.add(operation.invoke(Integer.valueOf(i2), invoke, Character.valueOf($this$scanIndexed[i2])));
-                i2++;
+            while (i < $this$scanIndexed.length) {
+                arrayList.add(operation.invoke(Integer.valueOf(i), invoke, Character.valueOf($this$scanIndexed[i])));
+                i++;
             }
         }
         return arrayList;
     }
 
     private static final <R> List<R> scanIndexed(double[] $this$scanIndexed, R initial, Function3<? super Integer, ? super R, ? super Double, ? extends R> operation) {
-        int i;
-        Object arrayList;
         int i2;
+        Object arrayList;
+        int i;
         int length;
         Object invoke;
         Integer valueOf2;
@@ -22311,16 +22311,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter($this$scanIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
-        i = $this$scanIndexed.length == 0 ? length : i2;
-        if (i != 0) {
+        i2 = $this$scanIndexed.length == 0 ? length : i;
+        if (i2 != 0) {
             arrayList = CollectionsKt.listOf(initial);
         } else {
             arrayList = new ArrayList(length3 += length);
             arrayList.add(initial);
             invoke = initial;
-            while (i2 < $this$scanIndexed.length) {
-                arrayList.add(operation.invoke(Integer.valueOf(i2), invoke, Double.valueOf($this$scanIndexed[i2])));
-                i2++;
+            while (i < $this$scanIndexed.length) {
+                arrayList.add(operation.invoke(Integer.valueOf(i), invoke, Double.valueOf($this$scanIndexed[i])));
+                i++;
             }
         }
         return arrayList;
@@ -22358,8 +22358,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i2;
         int length;
         Object invoke;
-        Integer valueOf2;
         Integer valueOf;
+        Integer valueOf2;
         Intrinsics.checkNotNullParameter($this$scanIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
@@ -22438,9 +22438,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final <R> List<R> scanIndexed(short[] $this$scanIndexed, R initial, Function3<? super Integer, ? super R, ? super Short, ? extends R> operation) {
-        int i2;
-        Object arrayList;
         int i;
+        Object arrayList;
+        int i2;
         int length;
         Object invoke;
         Integer valueOf;
@@ -22448,16 +22448,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Intrinsics.checkNotNullParameter($this$scanIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
-        i2 = $this$scanIndexed.length == 0 ? length : i;
-        if (i2 != 0) {
+        i = $this$scanIndexed.length == 0 ? length : i2;
+        if (i != 0) {
             arrayList = CollectionsKt.listOf(initial);
         } else {
             arrayList = new ArrayList(length3 += length);
             arrayList.add(initial);
             invoke = initial;
-            while (i < $this$scanIndexed.length) {
-                arrayList.add(operation.invoke(Integer.valueOf(i), invoke, Short.valueOf($this$scanIndexed[i])));
-                i++;
+            while (i2 < $this$scanIndexed.length) {
+                arrayList.add(operation.invoke(Integer.valueOf(i2), invoke, Short.valueOf($this$scanIndexed[i2])));
+                i2++;
             }
         }
         return arrayList;
@@ -22469,8 +22469,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i;
         int length;
         Object invoke;
-        Integer valueOf2;
-        Boolean valueOf;
+        Integer valueOf;
+        Boolean valueOf2;
         Intrinsics.checkNotNullParameter($this$scanIndexed, "<this>");
         Intrinsics.checkNotNullParameter(operation, "operation");
         length = 1;
@@ -22497,8 +22497,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final void shuffle(byte[] $this$shuffle, Random random) {
         int i;
         int nextInt;
-        byte b;
         byte b2;
+        byte b;
         Intrinsics.checkNotNullParameter($this$shuffle, "<this>");
         Intrinsics.checkNotNullParameter(random, "random");
         i = ArraysKt.getLastIndex($this$shuffle);
@@ -22558,18 +22558,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final void shuffle(float[] $this$shuffle, Random random) {
-        int i2;
-        int nextInt;
         int i;
+        int nextInt;
+        int i2;
         int i3;
         Intrinsics.checkNotNullParameter($this$shuffle, "<this>");
         Intrinsics.checkNotNullParameter(random, "random");
-        i2 = ArraysKt.getLastIndex($this$shuffle);
-        while (i2 > 0) {
-            nextInt = random.nextInt(i2 + 1);
-            $this$shuffle[i2] = $this$shuffle[nextInt];
-            $this$shuffle[nextInt] = $this$shuffle[i2];
-            i2--;
+        i = ArraysKt.getLastIndex($this$shuffle);
+        while (i > 0) {
+            nextInt = random.nextInt(i + 1);
+            $this$shuffle[i] = $this$shuffle[nextInt];
+            $this$shuffle[nextInt] = $this$shuffle[i];
+            i--;
         }
     }
 
@@ -22579,18 +22579,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final void shuffle(int[] $this$shuffle, Random random) {
-        int i;
+        int i2;
         int nextInt;
         int i3;
-        int i2;
+        int i;
         Intrinsics.checkNotNullParameter($this$shuffle, "<this>");
         Intrinsics.checkNotNullParameter(random, "random");
-        i = ArraysKt.getLastIndex($this$shuffle);
-        while (i > 0) {
-            nextInt = random.nextInt(i + 1);
-            $this$shuffle[i] = $this$shuffle[nextInt];
-            $this$shuffle[nextInt] = $this$shuffle[i];
-            i--;
+        i2 = ArraysKt.getLastIndex($this$shuffle);
+        while (i2 > 0) {
+            nextInt = random.nextInt(i2 + 1);
+            $this$shuffle[i2] = $this$shuffle[nextInt];
+            $this$shuffle[nextInt] = $this$shuffle[i2];
+            i2--;
         }
     }
 
@@ -22623,8 +22623,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <T> void shuffle(T[] $this$shuffle, Random random) {
         int i;
         int nextInt;
-        Object obj;
         Object obj2;
+        Object obj;
         Intrinsics.checkNotNullParameter($this$shuffle, "<this>");
         Intrinsics.checkNotNullParameter(random, "random");
         i = ArraysKt.getLastIndex($this$shuffle);
@@ -22859,19 +22859,19 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final int single(int[] $this$single, Function1<? super Integer, Boolean> predicate) {
         int single;
         int found;
-        int i;
         int i2;
+        int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$single, "<this>");
         Intrinsics.checkNotNullParameter(predicate, "predicate");
         int i3 = 0;
         single = 0;
         found = 0;
-        i = 0;
-        while (i < $this$single.length) {
-            i2 = $this$single[i];
-            i++;
-            single = Integer.valueOf(i2);
+        i2 = 0;
+        while (i2 < $this$single.length) {
+            i = $this$single[i2];
+            i2++;
+            single = Integer.valueOf(i);
             found = 1;
         }
         if (found == 0) {
@@ -23060,8 +23060,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final Boolean singleOrNull(boolean[] $this$singleOrNull, Function1<? super Boolean, Boolean> predicate) {
         int single;
         int found;
-        int i;
         int i2;
+        int i;
         boolean z;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull, "<this>");
@@ -23069,17 +23069,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         single = 0;
         found = 0;
-        i = 0;
         i2 = 0;
-        while (i < $this$singleOrNull.length) {
-            z = $this$singleOrNull[i];
-            i++;
-            i2 = 0;
+        i = 0;
+        while (i2 < $this$singleOrNull.length) {
+            z = $this$singleOrNull[i2];
+            i2++;
+            i = 0;
             single = Boolean.valueOf(z);
             found = 1;
         }
         if (found == 0) {
-            return i2;
+            return i;
         }
         return single;
     }
@@ -23098,8 +23098,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final Byte singleOrNull(byte[] $this$singleOrNull, Function1<? super Byte, Boolean> predicate) {
         int single;
         int found;
-        int i2;
         int i;
+        int i2;
         byte b;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull, "<this>");
@@ -23107,17 +23107,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         single = 0;
         found = 0;
-        i2 = 0;
         i = 0;
-        while (i2 < $this$singleOrNull.length) {
-            b = $this$singleOrNull[i2];
-            i2++;
-            i = 0;
+        i2 = 0;
+        while (i < $this$singleOrNull.length) {
+            b = $this$singleOrNull[i];
+            i++;
+            i2 = 0;
             single = Byte.valueOf(b);
             found = 1;
         }
         if (found == 0) {
-            return i;
+            return i2;
         }
         return single;
     }
@@ -23175,8 +23175,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final Double singleOrNull(double[] $this$singleOrNull, Function1<? super Double, Boolean> predicate) {
         int single;
         int found;
-        int i;
         int i2;
+        int i;
         long l;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull, "<this>");
@@ -23184,17 +23184,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         single = 0;
         found = 0;
-        i = 0;
         i2 = 0;
-        while (i < $this$singleOrNull.length) {
-            l = $this$singleOrNull[i];
-            i++;
-            i2 = 0;
+        i = 0;
+        while (i2 < $this$singleOrNull.length) {
+            l = $this$singleOrNull[i2];
+            i2++;
+            i = 0;
             single = Double.valueOf(l);
             found = 1;
         }
         if (found == 0) {
-            return i2;
+            return i;
         }
         return single;
     }
@@ -23213,8 +23213,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final Float singleOrNull(float[] $this$singleOrNull, Function1<? super Float, Boolean> predicate) {
         int single;
         int found;
-        int i2;
         int i;
+        int i2;
         int i3;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull, "<this>");
@@ -23222,17 +23222,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i4 = 0;
         single = 0;
         found = 0;
-        i2 = 0;
         i = 0;
-        while (i2 < $this$singleOrNull.length) {
-            i3 = $this$singleOrNull[i2];
-            i2++;
-            i = 0;
+        i2 = 0;
+        while (i < $this$singleOrNull.length) {
+            i3 = $this$singleOrNull[i];
+            i++;
+            i2 = 0;
             single = Float.valueOf(i3);
             found = 1;
         }
         if (found == 0) {
-            return i;
+            return i2;
         }
         return single;
     }
@@ -23251,8 +23251,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final Integer singleOrNull(int[] $this$singleOrNull, Function1<? super Integer, Boolean> predicate) {
         int single;
         int found;
-        int i3;
         int i2;
+        int i3;
         int i;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull, "<this>");
@@ -23260,17 +23260,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i4 = 0;
         single = 0;
         found = 0;
-        i3 = 0;
         i2 = 0;
-        while (i3 < $this$singleOrNull.length) {
-            i = $this$singleOrNull[i3];
-            i3++;
-            i2 = 0;
+        i3 = 0;
+        while (i2 < $this$singleOrNull.length) {
+            i = $this$singleOrNull[i2];
+            i2++;
+            i3 = 0;
             single = Integer.valueOf(i);
             found = 1;
         }
         if (found == 0) {
-            return i2;
+            return i3;
         }
         return single;
     }
@@ -23290,8 +23290,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final Long singleOrNull(long[] $this$singleOrNull, Function1<? super Long, Boolean> predicate) {
         int single;
         int found;
-        int i2;
         int i;
+        int i2;
         long l;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull, "<this>");
@@ -23299,17 +23299,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         single = 0;
         found = 0;
-        i2 = 0;
         i = 0;
-        while (i2 < $this$singleOrNull.length) {
-            l = $this$singleOrNull[i2];
-            i2++;
-            i = 0;
+        i2 = 0;
+        while (i < $this$singleOrNull.length) {
+            l = $this$singleOrNull[i];
+            i++;
+            i2 = 0;
             single = Long.valueOf(l);
             found = 1;
         }
         if (found == 0) {
-            return i;
+            return i2;
         }
         return single;
     }
@@ -23362,8 +23362,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final Short singleOrNull(short[] $this$singleOrNull, Function1<? super Short, Boolean> predicate) {
         int single;
         int found;
-        int i2;
         int i;
+        int i2;
         short s;
         boolean booleanValue;
         Intrinsics.checkNotNullParameter($this$singleOrNull, "<this>");
@@ -23371,17 +23371,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         single = 0;
         found = 0;
-        i2 = 0;
         i = 0;
-        while (i2 < $this$singleOrNull.length) {
-            s = $this$singleOrNull[i2];
-            i2++;
-            i = 0;
+        i2 = 0;
+        while (i < $this$singleOrNull.length) {
+            s = $this$singleOrNull[i];
+            i++;
+            i2 = 0;
             single = Short.valueOf(s);
             found = 1;
         }
         if (found == 0) {
-            return i;
+            return i2;
         }
         return single;
     }
@@ -23621,18 +23621,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final byte[] sliceArray(byte[] $this$sliceArray, Collection<Integer> indices) {
-        int i2;
-        int intValue;
         int i;
+        int intValue;
+        int i2;
         byte b;
         Intrinsics.checkNotNullParameter($this$sliceArray, "<this>");
         Intrinsics.checkNotNullParameter(indices, "indices");
         byte[] bArr = new byte[indices.size()];
-        i2 = 0;
+        i = 0;
         final Iterator iterator = indices.iterator();
         for (Number next2 : iterator) {
-            bArr[i2] = $this$sliceArray[next2.intValue()];
-            i2 = i;
+            bArr[i] = $this$sliceArray[next2.intValue()];
+            i = i2;
         }
         return bArr;
     }
@@ -23647,18 +23647,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final char[] sliceArray(char[] $this$sliceArray, Collection<Integer> indices) {
-        int i;
-        int intValue;
         int i2;
+        int intValue;
+        int i;
         char c;
         Intrinsics.checkNotNullParameter($this$sliceArray, "<this>");
         Intrinsics.checkNotNullParameter(indices, "indices");
         char[] cArr = new char[indices.size()];
-        i = 0;
+        i2 = 0;
         final Iterator iterator = indices.iterator();
         for (Number next2 : iterator) {
-            cArr[i] = $this$sliceArray[next2.intValue()];
-            i = i2;
+            cArr[i2] = $this$sliceArray[next2.intValue()];
+            i2 = i;
         }
         return cArr;
     }
@@ -23699,18 +23699,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final float[] sliceArray(float[] $this$sliceArray, Collection<Integer> indices) {
-        int i;
-        int intValue;
         int i2;
+        int intValue;
         int i3;
+        int i;
         Intrinsics.checkNotNullParameter($this$sliceArray, "<this>");
         Intrinsics.checkNotNullParameter(indices, "indices");
         float[] fArr = new float[indices.size()];
-        i = 0;
+        i2 = 0;
         final Iterator iterator = indices.iterator();
         for (Number next2 : iterator) {
-            fArr[i] = $this$sliceArray[next2.intValue()];
-            i = i2;
+            fArr[i2] = $this$sliceArray[next2.intValue()];
+            i2 = i3;
         }
         return fArr;
     }
@@ -23725,18 +23725,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final int[] sliceArray(int[] $this$sliceArray, Collection<Integer> indices) {
-        int i3;
-        int intValue;
         int i2;
+        int intValue;
         int i;
+        int i3;
         Intrinsics.checkNotNullParameter($this$sliceArray, "<this>");
         Intrinsics.checkNotNullParameter(indices, "indices");
         int[] iArr = new int[indices.size()];
-        i3 = 0;
+        i2 = 0;
         final Iterator iterator = indices.iterator();
         for (Number next2 : iterator) {
-            iArr[i3] = $this$sliceArray[next2.intValue()];
-            i3 = i2;
+            iArr[i2] = $this$sliceArray[next2.intValue()];
+            i2 = i;
         }
         return iArr;
     }
@@ -23751,18 +23751,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final long[] sliceArray(long[] $this$sliceArray, Collection<Integer> indices) {
-        int i2;
-        int intValue;
         int i;
+        int intValue;
+        int i2;
         long l;
         Intrinsics.checkNotNullParameter($this$sliceArray, "<this>");
         Intrinsics.checkNotNullParameter(indices, "indices");
         long[] lArr = new long[indices.size()];
-        i2 = 0;
+        i = 0;
         final Iterator iterator = indices.iterator();
         for (Number next2 : iterator) {
-            lArr[i2] = $this$sliceArray[next2.intValue()];
-            i2 = i;
+            lArr[i] = $this$sliceArray[next2.intValue()];
+            i = i2;
         }
         return lArr;
     }
@@ -23777,18 +23777,18 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T> T[] sliceArray(T[] $this$sliceArray, Collection<Integer> indices) {
-        int i2;
-        int intValue;
         int i;
+        int intValue;
+        int i2;
         Object obj;
         Intrinsics.checkNotNullParameter($this$sliceArray, "<this>");
         Intrinsics.checkNotNullParameter(indices, "indices");
         Object[] arrayOfNulls = ArraysKt.arrayOfNulls($this$sliceArray, indices.size());
-        i2 = 0;
+        i = 0;
         final Iterator iterator = indices.iterator();
         for (Number next2 : iterator) {
-            arrayOfNulls[i2] = $this$sliceArray[next2.intValue()];
-            i2 = i;
+            arrayOfNulls[i] = $this$sliceArray[next2.intValue()];
+            i = i2;
         }
         return arrayOfNulls;
     }
@@ -24691,14 +24691,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     public static final int sum(int[] $this$sum) {
         int sum;
-        int i2;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sum, "<this>");
         sum = 0;
-        i2 = 0;
-        while (i2 < $this$sum.length) {
-            sum += i;
-            i2++;
+        i = 0;
+        while (i < $this$sum.length) {
+            sum += i2;
+            i++;
         }
         return sum;
     }
@@ -24792,17 +24792,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     @DeprecatedSinceKotlin(warningSince = "1.5")
     public static final int sumBy(float[] $this$sumBy, Function1<? super Float, Integer> selector) {
         int sum;
-        int i;
         int i2;
+        int i;
         int intValue;
         Intrinsics.checkNotNullParameter($this$sumBy, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         sum = 0;
-        i = 0;
-        while (i < $this$sumBy.length) {
+        i2 = 0;
+        while (i2 < $this$sumBy.length) {
             sum += intValue;
-            i++;
+            i2++;
         }
         return sum;
     }
@@ -24811,17 +24811,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     @DeprecatedSinceKotlin(warningSince = "1.5")
     public static final int sumBy(int[] $this$sumBy, Function1<? super Integer, Integer> selector) {
         int sum;
-        int i;
         int i2;
+        int i;
         int intValue;
         Intrinsics.checkNotNullParameter($this$sumBy, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         int i3 = 0;
         sum = 0;
-        i = 0;
-        while (i < $this$sumBy.length) {
+        i2 = 0;
+        while (i2 < $this$sumBy.length) {
             sum += intValue;
-            i++;
+            i2++;
         }
         return sum;
     }
@@ -25137,22 +25137,6 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     private static final double sumOfDouble(float[] $this$sumOf, Function1<? super Float, Double> selector) {
         int sum;
-        int i2;
-        int i;
-        double doubleValue;
-        Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        sum = 0;
-        i2 = 0;
-        while (i2 < $this$sumOf.length) {
-            sum += doubleValue;
-            i2++;
-        }
-        return sum;
-    }
-
-    private static final double sumOfDouble(int[] $this$sumOf, Function1<? super Integer, Double> selector) {
-        int sum;
         int i;
         int i2;
         double doubleValue;
@@ -25163,6 +25147,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         while (i < $this$sumOf.length) {
             sum += doubleValue;
             i++;
+        }
+        return sum;
+    }
+
+    private static final double sumOfDouble(int[] $this$sumOf, Function1<? super Integer, Double> selector) {
+        int sum;
+        int i2;
+        int i;
+        double doubleValue;
+        Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        sum = 0;
+        i2 = 0;
+        while (i2 < $this$sumOf.length) {
+            sum += doubleValue;
+            i2++;
         }
         return sum;
     }
@@ -25309,16 +25309,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     private static final int sumOfInt(float[] $this$sumOf, Function1<? super Float, Integer> selector) {
         int sum;
-        int i;
         int i2;
+        int i;
         int intValue;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = 0;
-        i = 0;
-        while (i < $this$sumOf.length) {
+        i2 = 0;
+        while (i2 < $this$sumOf.length) {
             sum += intValue;
-            i++;
+            i2++;
         }
         return sum;
     }
@@ -25467,16 +25467,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     private static final long sumOfLong(float[] $this$sumOf, Function1<? super Float, Long> selector) {
         int sum;
-        int i;
         int i2;
+        int i;
         long longValue;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = 0;
-        i = 0;
-        while (i < $this$sumOf.length) {
+        i2 = 0;
+        while (i2 < $this$sumOf.length) {
             sum += longValue;
-            i++;
+            i2++;
         }
         return sum;
     }
@@ -25695,16 +25695,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     private static final int sumOfUInt(short[] $this$sumOf, Function1<? super Short, UInt> selector) {
-        int i2;
+        int i;
         int sum;
         short s;
-        int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = UInt.constructor-impl(0);
-        while (i2 < $this$sumOf.length) {
+        while (i < $this$sumOf.length) {
             sum = UInt.constructor-impl(unbox-impl += sum);
-            i2++;
+            i++;
         }
         return sum;
     }
@@ -25726,16 +25726,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     private static final long sumOfULong(byte[] $this$sumOf, Function1<? super Byte, ULong> selector) {
         long sum;
-        int i2;
-        byte b;
         int i;
+        byte b;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = ULong.constructor-impl(0);
-        i2 = 0;
-        while (i2 < $this$sumOf.length) {
+        i = 0;
+        while (i < $this$sumOf.length) {
             sum = ULong.constructor-impl(unbox-impl += sum);
-            i2++;
+            i++;
         }
         return sum;
     }
@@ -25774,40 +25774,56 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
 
     private static final long sumOfULong(float[] $this$sumOf, Function1<? super Float, ULong> selector) {
         long sum;
-        int i;
-        int i3;
         int i2;
+        int i3;
+        int i;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = ULong.constructor-impl(0);
-        i = 0;
-        while (i < $this$sumOf.length) {
+        i2 = 0;
+        while (i2 < $this$sumOf.length) {
             sum = ULong.constructor-impl(unbox-impl += sum);
-            i++;
+            i2++;
         }
         return sum;
     }
 
     private static final long sumOfULong(int[] $this$sumOf, Function1<? super Integer, ULong> selector) {
         long sum;
-        int i2;
         int i3;
         int i;
+        int i2;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = ULong.constructor-impl(0);
-        i2 = 0;
-        while (i2 < $this$sumOf.length) {
+        i3 = 0;
+        while (i3 < $this$sumOf.length) {
             sum = ULong.constructor-impl(unbox-impl += sum);
-            i2++;
+            i3++;
         }
         return sum;
     }
 
     private static final long sumOfULong(long[] $this$sumOf, Function1<? super Long, ULong> selector) {
         long sum;
-        int i2;
+        int i;
         long l;
+        int i2;
+        Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
+        Intrinsics.checkNotNullParameter(selector, "selector");
+        sum = ULong.constructor-impl(0);
+        i = 0;
+        while (i < $this$sumOf.length) {
+            sum = ULong.constructor-impl(unbox-impl += sum);
+            i++;
+        }
+        return sum;
+    }
+
+    private static final <T> long sumOfULong(T[] $this$sumOf, Function1<? super T, ULong> selector) {
+        long sum;
+        int i2;
+        Object obj;
         int i;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
@@ -25820,65 +25836,49 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         return sum;
     }
 
-    private static final <T> long sumOfULong(T[] $this$sumOf, Function1<? super T, ULong> selector) {
-        long sum;
-        int i;
-        Object obj;
-        int i2;
-        Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
-        Intrinsics.checkNotNullParameter(selector, "selector");
-        sum = ULong.constructor-impl(0);
-        i = 0;
-        while (i < $this$sumOf.length) {
-            sum = ULong.constructor-impl(unbox-impl += sum);
-            i++;
-        }
-        return sum;
-    }
-
     private static final long sumOfULong(short[] $this$sumOf, Function1<? super Short, ULong> selector) {
         long sum;
-        int i;
-        short s;
         int i2;
+        short s;
+        int i;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = ULong.constructor-impl(0);
-        i = 0;
-        while (i < $this$sumOf.length) {
+        i2 = 0;
+        while (i2 < $this$sumOf.length) {
             sum = ULong.constructor-impl(unbox-impl += sum);
-            i++;
+            i2++;
         }
         return sum;
     }
 
     private static final long sumOfULong(boolean[] $this$sumOf, Function1<? super Boolean, ULong> selector) {
         long sum;
-        int i;
-        boolean z;
         int i2;
+        boolean z;
+        int i;
         Intrinsics.checkNotNullParameter($this$sumOf, "<this>");
         Intrinsics.checkNotNullParameter(selector, "selector");
         sum = ULong.constructor-impl(0);
-        i = 0;
-        while (i < $this$sumOf.length) {
+        i2 = 0;
+        while (i2 < $this$sumOf.length) {
             sum = ULong.constructor-impl(unbox-impl += sum);
-            i++;
+            i2++;
         }
         return sum;
     }
 
     public static final List<Byte> take(byte[] $this$take, int n) {
-        int i2;
-        int count;
         int i;
+        int count;
+        int i2;
         byte b;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$take, "<this>");
-        i2 = 0;
+        i = 0;
         int i4 = 1;
-        i = n >= 0 ? i4 : i2;
-        if (i == 0) {
+        i2 = n >= 0 ? i4 : i;
+        if (i2 == 0) {
         } else {
             if (n == 0) {
                 return CollectionsKt.emptyList();
@@ -25887,17 +25887,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
                 return ArraysKt.toList($this$take);
             }
             if (n == i4) {
-                return CollectionsKt.listOf(Byte.valueOf($this$take[i2]));
+                return CollectionsKt.listOf(Byte.valueOf($this$take[i]));
             }
             count = 0;
             ArrayList arrayList = new ArrayList(n);
-            while (i2 < $this$take.length) {
-                arrayList.add(Byte.valueOf($this$take[i2]));
+            while (i < $this$take.length) {
+                arrayList.add(Byte.valueOf($this$take[i]));
                 if (count++ == n) {
                     break;
                 } else {
                 }
-                i2++;
+                i++;
             }
             return (List)arrayList;
         }
@@ -25986,16 +25986,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final List<Float> take(float[] $this$take, int n) {
-        int i3;
-        int count;
         int i;
+        int count;
         int i2;
+        int i3;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$take, "<this>");
-        i3 = 0;
+        i = 0;
         int i6 = 1;
-        i = n >= 0 ? i6 : i3;
-        if (i == 0) {
+        i2 = n >= 0 ? i6 : i;
+        if (i2 == 0) {
         } else {
             if (n == 0) {
                 return CollectionsKt.emptyList();
@@ -26004,17 +26004,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
                 return ArraysKt.toList($this$take);
             }
             if (n == i6) {
-                return CollectionsKt.listOf(Float.valueOf($this$take[i3]));
+                return CollectionsKt.listOf(Float.valueOf($this$take[i]));
             }
             count = 0;
             ArrayList arrayList = new ArrayList(n);
-            while (i3 < $this$take.length) {
-                arrayList.add(Float.valueOf($this$take[i3]));
+            while (i < $this$take.length) {
+                arrayList.add(Float.valueOf($this$take[i]));
                 if (count++ == n) {
                     break;
                 } else {
                 }
-                i3++;
+                i++;
             }
             return (List)arrayList;
         }
@@ -26027,14 +26027,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final List<Integer> take(int[] $this$take, int n) {
         int i3;
         int count;
-        int i;
         int i2;
+        int i;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$take, "<this>");
         i3 = 0;
         int i6 = 1;
-        i = n >= 0 ? i6 : i3;
-        if (i == 0) {
+        i2 = n >= 0 ? i6 : i3;
+        if (i2 == 0) {
         } else {
             if (n == 0) {
                 return CollectionsKt.emptyList();
@@ -26064,16 +26064,16 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final List<Long> take(long[] $this$take, int n) {
-        int i;
-        int count;
         int i2;
+        int count;
+        int i;
         long l;
         Long valueOf;
         Intrinsics.checkNotNullParameter($this$take, "<this>");
-        i = 0;
+        i2 = 0;
         int i4 = 1;
-        i2 = n >= 0 ? i4 : i;
-        if (i2 == 0) {
+        i = n >= 0 ? i4 : i2;
+        if (i == 0) {
         } else {
             if (n == 0) {
                 return CollectionsKt.emptyList();
@@ -26082,17 +26082,17 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
                 return ArraysKt.toList($this$take);
             }
             if (n == i4) {
-                return CollectionsKt.listOf(Long.valueOf($this$take[i]));
+                return CollectionsKt.listOf(Long.valueOf($this$take[i2]));
             }
             count = 0;
             ArrayList arrayList = new ArrayList(n);
-            while (i < $this$take.length) {
-                arrayList.add(Long.valueOf($this$take[i]));
+            while (i2 < $this$take.length) {
+                arrayList.add(Long.valueOf($this$take[i2]));
                 if (count++ == n) {
                     break;
                 } else {
                 }
-                i++;
+                i2++;
             }
             return (List)arrayList;
         }
@@ -26906,15 +26906,15 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <C extends Collection<? super Float>> C toCollection(float[] $this$toCollection, C destination) {
-        int i;
         int i2;
+        int i;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$toCollection, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
-        i = 0;
-        while (i < $this$toCollection.length) {
-            destination.add(Float.valueOf($this$toCollection[i]));
-            i++;
+        i2 = 0;
+        while (i2 < $this$toCollection.length) {
+            destination.add(Float.valueOf($this$toCollection[i2]));
+            i2++;
         }
         return destination;
     }
@@ -27727,11 +27727,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> List<Pair<Byte, R>> zip(byte[] $this$zip, Iterable<? extends R> other) {
-        int i3;
-        Object next;
         int i;
-        Object obj;
+        Object next;
         int i2;
+        Object obj;
+        int i3;
         Byte valueOf;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
@@ -27739,14 +27739,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i4 = 0;
         final int length = obj2.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i3 = 0;
+        i = 0;
         final Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i3 < length) {
+            if (i < length) {
             }
-            i2 = 0;
-            arrayList.add(TuplesKt.to(Byte.valueOf(obj2[i3]), iterator.next()));
-            i3 = i;
+            i3 = 0;
+            arrayList.add(TuplesKt.to(Byte.valueOf(obj2[i]), iterator.next()));
+            i = i2;
         }
         return (List)arrayList;
     }
@@ -27852,11 +27852,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> List<Pair<Character, R>> zip(char[] $this$zip, Iterable<? extends R> other) {
-        int i3;
-        Object next;
         int i;
-        Object obj;
+        Object next;
         int i2;
+        Object obj;
+        int i3;
         Character valueOf;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
@@ -27864,14 +27864,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i4 = 0;
         final int length = obj2.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i3 = 0;
+        i = 0;
         final Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i3 < length) {
+            if (i < length) {
             }
-            i2 = 0;
-            arrayList.add(TuplesKt.to(Character.valueOf(obj2[i3]), iterator.next()));
-            i3 = i;
+            i3 = 0;
+            arrayList.add(TuplesKt.to(Character.valueOf(obj2[i]), iterator.next()));
+            i = i2;
         }
         return (List)arrayList;
     }
@@ -27977,9 +27977,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> List<Pair<Double, R>> zip(double[] $this$zip, Iterable<? extends R> other) {
-        int i3;
-        Object next;
         int i;
+        Object next;
+        int i3;
         long l;
         int i2;
         Double valueOf;
@@ -27989,22 +27989,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i4 = 0;
         final int length = obj.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i3 = 0;
+        i = 0;
         final Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i3 < length) {
+            if (i < length) {
             }
             i2 = 0;
-            arrayList.add(TuplesKt.to(Double.valueOf(obj[i3]), iterator.next()));
-            i3 = i;
+            arrayList.add(TuplesKt.to(Double.valueOf(obj[i]), iterator.next()));
+            i = i3;
         }
         return (List)arrayList;
     }
 
     public static final <R, V> List<V> zip(double[] $this$zip, Iterable<? extends R> other, Function2<? super Double, ? super R, ? extends V> transform) {
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         long l;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
@@ -28012,13 +28012,13 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         int i3 = 0;
         final int length = $this$zip.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i2 = 0;
+        i = 0;
         Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i2 < length) {
+            if (i < length) {
             }
-            arrayList.add(transform.invoke(Double.valueOf($this$zip[i2]), iterator.next()));
-            i2 = i;
+            arrayList.add(transform.invoke(Double.valueOf($this$zip[i]), iterator.next()));
+            i = i2;
         }
         return (List)arrayList;
     }
@@ -28028,8 +28028,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Pair t1;
         long l;
         int i;
-        Double valueOf;
         Double valueOf2;
+        Double valueOf;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
         Object obj = $this$zip;
@@ -28103,11 +28103,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> List<Pair<Float, R>> zip(float[] $this$zip, Iterable<? extends R> other) {
-        int i3;
-        Object next;
         int i2;
-        Object obj;
+        Object next;
         int i;
+        Object obj;
+        int i3;
         Float valueOf;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
@@ -28115,14 +28115,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i4 = 0;
         final int length = obj2.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i3 = 0;
+        i2 = 0;
         final Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i3 < length) {
+            if (i2 < length) {
             }
-            i = 0;
-            arrayList.add(TuplesKt.to(Float.valueOf(obj2[i3]), iterator.next()));
-            i3 = i2;
+            i3 = 0;
+            arrayList.add(TuplesKt.to(Float.valueOf(obj2[i2]), iterator.next()));
+            i2 = i;
         }
         return (List)arrayList;
     }
@@ -28153,8 +28153,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Pair t1;
         int i2;
         int i;
-        Float valueOf;
         Float valueOf2;
+        Float valueOf;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
         Object obj = $this$zip;
@@ -28228,11 +28228,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> List<Pair<Integer, R>> zip(int[] $this$zip, Iterable<? extends R> other) {
-        int i;
-        Object next;
-        int i2;
-        Object obj;
         int i3;
+        Object next;
+        int i;
+        Object obj;
+        int i2;
         Integer valueOf;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
@@ -28240,14 +28240,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i4 = 0;
         final int length = obj2.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i = 0;
+        i3 = 0;
         final Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i < length) {
+            if (i3 < length) {
             }
-            i3 = 0;
-            arrayList.add(TuplesKt.to(Integer.valueOf(obj2[i]), iterator.next()));
-            i = i2;
+            i2 = 0;
+            arrayList.add(TuplesKt.to(Integer.valueOf(obj2[i3]), iterator.next()));
+            i3 = i;
         }
         return (List)arrayList;
     }
@@ -28355,9 +28355,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     public static final <R> List<Pair<Long, R>> zip(long[] $this$zip, Iterable<? extends R> other) {
         int i2;
         Object next;
-        int i;
-        long l;
         int i3;
+        long l;
+        int i;
         Long valueOf;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
@@ -28370,9 +28370,9 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         while (iterator.hasNext()) {
             if (i2 < length) {
             }
-            i3 = 0;
+            i = 0;
             arrayList.add(TuplesKt.to(Long.valueOf(obj[i2]), iterator.next()));
-            i2 = i;
+            i2 = i3;
         }
         return (List)arrayList;
     }
@@ -28479,25 +28479,25 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <T, R> List<Pair<T, R>> zip(T[] $this$zip, Iterable<? extends R> other) {
-        int i3;
-        Object next;
-        int i;
-        Object obj;
         int i2;
+        Object next;
+        int i3;
+        Object obj;
+        int i;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
         Object obj2 = $this$zip;
         final int i4 = 0;
         final int length = obj2.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i3 = 0;
+        i2 = 0;
         final Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i3 < length) {
+            if (i2 < length) {
             }
-            i2 = 0;
-            arrayList.add(TuplesKt.to(obj2[i3], iterator.next()));
-            i3 = i;
+            i = 0;
+            arrayList.add(TuplesKt.to(obj2[i2], iterator.next()));
+            i2 = i3;
         }
         return (List)arrayList;
     }
@@ -28562,11 +28562,11 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R> List<Pair<Short, R>> zip(short[] $this$zip, Iterable<? extends R> other) {
-        int i2;
-        Object next;
-        int i3;
-        Object obj;
         int i;
+        Object next;
+        int i2;
+        Object obj;
+        int i3;
         Short valueOf;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
@@ -28574,14 +28574,14 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         final int i4 = 0;
         final int length = obj2.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i2 = 0;
+        i = 0;
         final Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i2 < length) {
+            if (i < length) {
             }
-            i = 0;
-            arrayList.add(TuplesKt.to(Short.valueOf(obj2[i2]), iterator.next()));
-            i2 = i3;
+            i3 = 0;
+            arrayList.add(TuplesKt.to(Short.valueOf(obj2[i]), iterator.next()));
+            i = i2;
         }
         return (List)arrayList;
     }
@@ -28712,22 +28712,22 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
     }
 
     public static final <R, V> List<V> zip(boolean[] $this$zip, Iterable<? extends R> other, Function2<? super Boolean, ? super R, ? extends V> transform) {
-        int i2;
-        Object next;
         int i;
+        Object next;
+        int i2;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
         Intrinsics.checkNotNullParameter(transform, "transform");
         int i3 = 0;
         final int length = $this$zip.length;
         ArrayList arrayList = new ArrayList(Math.min(CollectionsKt.collectionSizeOrDefault(other, 10), length));
-        i2 = 0;
+        i = 0;
         Iterator iterator = other.iterator();
         while (iterator.hasNext()) {
-            if (i2 < length) {
+            if (i < length) {
             }
-            arrayList.add(transform.invoke(Boolean.valueOf($this$zip[i2]), iterator.next()));
-            i2 = i;
+            arrayList.add(transform.invoke(Boolean.valueOf($this$zip[i]), iterator.next()));
+            i = i2;
         }
         return (List)arrayList;
     }
@@ -28776,8 +28776,8 @@ class ArraysKt___ArraysKt extends kotlin.collections.ArraysKt___ArraysJvmKt {
         Pair t1;
         boolean z;
         int i;
-        Boolean valueOf2;
         Boolean valueOf;
+        Boolean valueOf2;
         Intrinsics.checkNotNullParameter($this$zip, "<this>");
         Intrinsics.checkNotNullParameter(other, "other");
         Object obj = $this$zip;

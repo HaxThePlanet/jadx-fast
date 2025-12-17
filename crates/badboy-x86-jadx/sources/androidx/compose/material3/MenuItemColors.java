@@ -35,102 +35,102 @@ public final class MenuItemColors {
     public static androidx.compose.material3.MenuItemColors copy-tNS2XkQ$default(androidx.compose.material3.MenuItemColors menuItemColors, long l2, long l3, long l4, long l5, long l6, long l7, int i8, Object object9) {
         long l10;
         long l9;
-        long l11;
-        long l12;
         long l;
+        long l12;
         long l8;
+        long l11;
         long obj14;
         l10 = obj26 & 1 != 0 ? obj14 : l2;
         l9 = obj26 & 2 != 0 ? obj14 : l4;
-        l11 = obj26 & 4 != 0 ? obj14 : l6;
+        l = obj26 & 4 != 0 ? obj14 : l6;
         l12 = obj26 & 8 != 0 ? obj14 : i8;
-        l = obj26 & 16 != 0 ? obj14 : obj22;
-        l8 = obj26 & 32 != 0 ? obj14 : obj24;
-        return menuItemColors.copy-tNS2XkQ(l10, obj2, l9, obj4, l11, obj6);
+        l8 = obj26 & 16 != 0 ? obj14 : obj22;
+        l11 = obj26 & 32 != 0 ? obj14 : obj24;
+        return menuItemColors.copy-tNS2XkQ(l10, obj2, l9, obj4, l, obj6);
     }
 
     public final androidx.compose.material3.MenuItemColors copy-tNS2XkQ(long textColor, long leadingIconColor, long trailingIconColor, long disabledTextColor, long disabledLeadingIconColor, long disabledTrailingIconColor) {
-        int $this$isSpecified$iv$iv3;
+        int $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$1;
+        int $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$2;
+        int $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$3;
+        int $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$4;
         int $this$isSpecified$iv$iv;
-        int $this$isSpecified$iv$iv4;
-        int $this$isSpecified$iv$iv2;
-        int $this$isSpecified$iv$iv5;
-        int disabledTrailingIconColor2;
-        int i4;
-        long l2;
-        long l3;
+        int $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$6;
+        int i;
         long l;
-        long i;
+        long l3;
+        long l2;
         long i2;
         long i3;
+        long i4;
         final Object obj = this;
         int i5 = textColor;
         int i6 = 0;
         int i23 = 0;
         int i29 = 16;
-        i4 = 1;
+        i = 1;
         final int i30 = 0;
-        $this$isSpecified$iv$iv3 = Long.compare(i12, i29) != 0 ? i4 : i30;
-        if ($this$isSpecified$iv$iv3 != 0) {
-            l2 = i5;
+        $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$1 = Long.compare(i12, i29) != 0 ? i : i30;
+        if ($i$a$TakeOrElseDxMtmZcMenuItemColors$copy$1 != 0) {
+            l = i5;
         } else {
             int i22 = 0;
-            l2 = $this$isSpecified$iv$iv3;
+            l = $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$1;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv = trailingIconColor;
         int i7 = 0;
         int i24 = 0;
-        $this$isSpecified$iv$iv = Long.compare(i13, i29) != 0 ? i4 : i30;
-        if ($this$isSpecified$iv$iv != 0) {
+        $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$2 = Long.compare(i13, i29) != 0 ? i : i30;
+        if ($i$a$TakeOrElseDxMtmZcMenuItemColors$copy$2 != 0) {
             l3 = $this$takeOrElse_u2dDxMtmZc$iv;
         } else {
             int i21 = 0;
-            l3 = $this$isSpecified$iv$iv;
+            l3 = $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$2;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv2 = disabledLeadingIconColor;
         int i8 = 0;
         int i25 = 0;
-        $this$isSpecified$iv$iv4 = Long.compare(i14, i29) != 0 ? i4 : i30;
-        if ($this$isSpecified$iv$iv4 != 0) {
-            l = $this$takeOrElse_u2dDxMtmZc$iv2;
+        $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$3 = Long.compare(i14, i29) != 0 ? i : i30;
+        if ($i$a$TakeOrElseDxMtmZcMenuItemColors$copy$3 != 0) {
+            l2 = $this$takeOrElse_u2dDxMtmZc$iv2;
         } else {
             int i20 = 0;
-            l = $this$isSpecified$iv$iv4;
+            l2 = $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$3;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv3 = obj33;
         int i9 = 0;
         int i26 = 0;
-        $this$isSpecified$iv$iv2 = Long.compare(i15, i29) != 0 ? i4 : i30;
-        if ($this$isSpecified$iv$iv2 != 0) {
-            i = $this$takeOrElse_u2dDxMtmZc$iv3;
+        $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$4 = Long.compare(i15, i29) != 0 ? i : i30;
+        if ($i$a$TakeOrElseDxMtmZcMenuItemColors$copy$4 != 0) {
+            i2 = $this$takeOrElse_u2dDxMtmZc$iv3;
         } else {
             int i19 = 0;
-            i = $this$isSpecified$iv$iv2;
+            i2 = $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$4;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv4 = obj35;
         int i10 = 0;
         int i27 = 0;
-        $this$isSpecified$iv$iv5 = Long.compare(i16, i29) != 0 ? i4 : i30;
-        if ($this$isSpecified$iv$iv5 != 0) {
-            i2 = $this$takeOrElse_u2dDxMtmZc$iv4;
+        $this$isSpecified$iv$iv = Long.compare(i16, i29) != 0 ? i : i30;
+        if ($this$isSpecified$iv$iv != 0) {
+            i3 = $this$takeOrElse_u2dDxMtmZc$iv4;
         } else {
             int i18 = 0;
-            i2 = $this$isSpecified$iv$iv5;
+            i3 = $this$isSpecified$iv$iv;
         }
         int $this$takeOrElse_u2dDxMtmZc$iv5 = obj37;
         int i11 = 0;
         int i28 = 0;
-        if (Long.compare(disabledTrailingIconColor2, i29) != 0) {
+        if (Long.compare($i$a$TakeOrElseDxMtmZcMenuItemColors$copy$6, i29) != 0) {
         } else {
-            i4 = i30;
+            i = i30;
         }
-        if (i4 != 0) {
-            i3 = $this$takeOrElse_u2dDxMtmZc$iv5;
+        if (i != 0) {
+            i4 = $this$takeOrElse_u2dDxMtmZc$iv5;
         } else {
             int i17 = 0;
-            i3 = disabledTrailingIconColor2;
+            i4 = $i$a$TakeOrElseDxMtmZcMenuItemColors$copy$6;
         }
-        MenuItemColors menuItemColors = new MenuItemColors(l2, obj14, l3, obj16, l, obj18, i, obj20, i2, obj22, i3, obj24, 0);
+        MenuItemColors menuItemColors = new MenuItemColors(l, obj14, l3, obj16, l2, obj18, i2, obj20, i3, obj22, i4, obj24, 0);
         return menuItemColors;
     }
 

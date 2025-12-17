@@ -33,15 +33,15 @@ final class DefaultLazyListPrefetchStrategy implements androidx.compose.foundati
 
     @Override // androidx.compose.foundation.lazy.LazyListPrefetchStrategy
     public void onNestedPrefetch(NestedPrefetchScope $this$onNestedPrefetch, int firstVisibleItemIndex) {
+        int i3;
         int i;
         int i4;
         int i2;
-        int i3;
-        i = 0;
-        while (i < this.nestedPrefetchItemCount) {
-            i2 = 0;
-            $this$onNestedPrefetch.schedulePrefetch(firstVisibleItemIndex + i4);
-            i++;
+        i3 = 0;
+        while (i3 < this.nestedPrefetchItemCount) {
+            i4 = 0;
+            $this$onNestedPrefetch.schedulePrefetch(firstVisibleItemIndex + i);
+            i3++;
         }
     }
 

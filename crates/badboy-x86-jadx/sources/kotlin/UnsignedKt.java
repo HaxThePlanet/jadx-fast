@@ -7,8 +7,8 @@ import kotlin.text.CharsKt;
 @Metadata(d1 = "\u00006\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0006\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0010\u0007\n\u0002\u0008\u0004\n\u0002\u0010\u0008\n\u0002\u0008\n\n\u0002\u0010\t\n\u0000\n\u0002\u0010\u000e\n\u0002\u0008\r\u001a\u0015\u0010\u0000\u001a\u00020\u00012\u0006\u0010\u0002\u001a\u00020\u0003H\u0001¢\u0006\u0002\u0010\u0004\u001a\u0015\u0010\u0005\u001a\u00020\u00062\u0006\u0010\u0002\u001a\u00020\u0003H\u0001¢\u0006\u0002\u0010\u0007\u001a\u0016\u0010\u0008\u001a\u00020\u00012\u0006\u0010\u0002\u001a\u00020\tH\u0081\u0008¢\u0006\u0002\u0010\n\u001a\u0016\u0010\u000b\u001a\u00020\u00062\u0006\u0010\u0002\u001a\u00020\tH\u0081\u0008¢\u0006\u0002\u0010\u000c\u001a\u0018\u0010\r\u001a\u00020\u000e2\u0006\u0010\u000f\u001a\u00020\u000e2\u0006\u0010\u0010\u001a\u00020\u000eH\u0001\u001a\u001f\u0010\u0011\u001a\u00020\u00012\u0006\u0010\u000f\u001a\u00020\u00012\u0006\u0010\u0010\u001a\u00020\u0001H\u0001¢\u0006\u0004\u0008\u0012\u0010\u0013\u001a\u001f\u0010\u0014\u001a\u00020\u00012\u0006\u0010\u000f\u001a\u00020\u00012\u0006\u0010\u0010\u001a\u00020\u0001H\u0001¢\u0006\u0004\u0008\u0015\u0010\u0013\u001a\u0010\u0010\u0016\u001a\u00020\u00032\u0006\u0010\u0002\u001a\u00020\u000eH\u0001\u001a\u0011\u0010\u0017\u001a\u00020\t2\u0006\u0010\u0002\u001a\u00020\u000eH\u0081\u0008\u001a\u0011\u0010\u0018\u001a\u00020\u00192\u0006\u0010\u0002\u001a\u00020\u000eH\u0081\u0008\u001a\u0011\u0010\u001a\u001a\u00020\u001b2\u0006\u0010\u0002\u001a\u00020\u000eH\u0081\u0008\u001a\u0019\u0010\u001a\u001a\u00020\u001b2\u0006\u0010\u0002\u001a\u00020\u000e2\u0006\u0010\u001c\u001a\u00020\u000eH\u0081\u0008\u001a\u0016\u0010\u001d\u001a\u00020\u00062\u0006\u0010\u0002\u001a\u00020\u000eH\u0081\u0008¢\u0006\u0002\u0010\u001e\u001a\u0018\u0010\u001f\u001a\u00020\u000e2\u0006\u0010\u000f\u001a\u00020\u00192\u0006\u0010\u0010\u001a\u00020\u0019H\u0001\u001a\u001f\u0010 \u001a\u00020\u00062\u0006\u0010\u000f\u001a\u00020\u00062\u0006\u0010\u0010\u001a\u00020\u0006H\u0001¢\u0006\u0004\u0008!\u0010\"\u001a\u001f\u0010#\u001a\u00020\u00062\u0006\u0010\u000f\u001a\u00020\u00062\u0006\u0010\u0010\u001a\u00020\u0006H\u0001¢\u0006\u0004\u0008$\u0010\"\u001a\u0010\u0010%\u001a\u00020\u00032\u0006\u0010\u0002\u001a\u00020\u0019H\u0001\u001a\u0011\u0010&\u001a\u00020\t2\u0006\u0010\u0002\u001a\u00020\u0019H\u0081\u0008\u001a\u0011\u0010'\u001a\u00020\u001b2\u0006\u0010\u0002\u001a\u00020\u0019H\u0081\u0008\u001a\u0018\u0010'\u001a\u00020\u001b2\u0006\u0010\u0002\u001a\u00020\u00192\u0006\u0010\u001c\u001a\u00020\u000eH\u0000¨\u0006(", d2 = {"doubleToUInt", "Lkotlin/UInt;", "value", "", "(D)I", "doubleToULong", "Lkotlin/ULong;", "(D)J", "floatToUInt", "", "(F)I", "floatToULong", "(F)J", "uintCompare", "", "v1", "v2", "uintDivide", "uintDivide-J1ME1BU", "(II)I", "uintRemainder", "uintRemainder-J1ME1BU", "uintToDouble", "uintToFloat", "uintToLong", "", "uintToString", "", "base", "uintToULong", "(I)J", "ulongCompare", "ulongDivide", "ulongDivide-eb3DHEI", "(JJ)J", "ulongRemainder", "ulongRemainder-eb3DHEI", "ulongToDouble", "ulongToFloat", "ulongToString", "kotlin-stdlib"}, k = 2, mv = {1, 9, 0}, xi = 48)
 public final class UnsignedKt {
     public static final int doubleToUInt(double value) {
-        int constructor-impl;
         int constructor-impl2;
+        int constructor-impl;
         double uintToDouble;
         if (Double.isNaN(value)) {
         } else {
@@ -17,15 +17,15 @@ public final class UnsignedKt {
                 if (Double.compare(value, uintToDouble) >= 0) {
                 } else {
                     if (Double.compare(value, l) <= 0) {
-                        constructor-impl2 = UInt.constructor-impl((int)value);
+                        constructor-impl = UInt.constructor-impl((int)value);
                     } else {
                         int i = Integer.MAX_VALUE;
-                        constructor-impl2 = UInt.constructor-impl(constructor-impl3 += constructor-impl);
+                        constructor-impl = UInt.constructor-impl(constructor-impl3 += constructor-impl2);
                     }
                 }
             }
         }
-        return constructor-impl2;
+        return constructor-impl;
     }
 
     public static final long doubleToULong(double value) {
@@ -105,26 +105,26 @@ public final class UnsignedKt {
     }
 
     public static final long ulongDivide-eb3DHEI(long v1, long v2) {
-        int i;
         int i2;
+        int i;
         final int i3 = v1;
         final int i4 = obj15;
-        i2 = 0;
-        if (Long.compare(i4, i2) < 0) {
+        i = 0;
+        if (Long.compare(i4, i) < 0) {
             if (Long.compareUnsigned(v1, v2) < 0) {
             } else {
-                i2 = 1;
+                i = 1;
             }
-            return ULong.constructor-impl(i2);
+            return ULong.constructor-impl(i);
         }
-        if (Long.compare(i3, i2) >= 0) {
+        if (Long.compare(i3, i) >= 0) {
             return ULong.constructor-impl(i3 / i4);
         }
-        i = 1;
-        i7 <<= i;
+        i2 = 1;
+        i7 <<= i2;
         if (Long.compareUnsigned(ULong.constructor-impl(i3 - i9), obj10) >= 0) {
         } else {
-            i = 0;
+            i2 = 0;
         }
         return ULong.constructor-impl(l += i8);
     }

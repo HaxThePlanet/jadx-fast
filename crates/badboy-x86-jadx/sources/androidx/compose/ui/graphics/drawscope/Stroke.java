@@ -56,21 +56,21 @@ public final class Stroke extends androidx.compose.ui.graphics.drawscope.DrawSty
 
     public Stroke(float f, float f2, int i3, int i4, PathEffect pathEffect5, int i6, DefaultConstructorMarker defaultConstructorMarker7) {
         int i;
-        int i5;
+        int i8;
         int i2;
         int i7;
-        int i8;
+        int i5;
         int obj8;
         int obj9;
         int obj10;
         int obj11;
         int obj12;
         i = i6 & 1 != 0 ? obj8 : f;
-        i5 = i6 & 2 != 0 ? obj9 : f2;
+        i8 = i6 & 2 != 0 ? obj9 : f2;
         i2 = i6 & 4 != 0 ? obj10 : i3;
         i7 = i6 & 8 != 0 ? obj11 : i4;
-        i8 = i6 & 16 != 0 ? obj12 : pathEffect5;
-        super(i, i5, i2, i7, i8, 0);
+        i5 = i6 & 16 != 0 ? obj12 : pathEffect5;
+        super(i, i8, i2, i7, i5, 0);
     }
 
     public Stroke(float f, float f2, int i3, int i4, PathEffect pathEffect5, DefaultConstructorMarker defaultConstructorMarker6) {
@@ -87,8 +87,8 @@ public final class Stroke extends androidx.compose.ui.graphics.drawscope.DrawSty
 
     @Override // androidx.compose.ui.graphics.drawscope.DrawStyle
     public boolean equals(Object other) {
-        int i2;
         int i;
+        int i2;
         final int i3 = 1;
         if (this == other) {
             return i3;
@@ -97,12 +97,12 @@ public final class Stroke extends androidx.compose.ui.graphics.drawscope.DrawSty
         if (!other instanceof Stroke) {
             return i4;
         }
-        i2 = Float.compare(width, width2) == 0 ? i3 : i4;
-        if (i2 == 0) {
+        i = Float.compare(width, width2) == 0 ? i3 : i4;
+        if (i == 0) {
             return i4;
         }
-        i = Float.compare(miter, miter2) == 0 ? i3 : i4;
-        if (i == 0) {
+        i2 = Float.compare(miter, miter2) == 0 ? i3 : i4;
+        if (i2 == 0) {
             return i4;
         }
         if (!StrokeCap.equals-impl0(this.cap, obj3.cap)) {

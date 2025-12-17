@@ -35,12 +35,12 @@ public final class TextDecoration {
         public final androidx.compose.ui.text.style.TextDecoration combine(List<androidx.compose.ui.text.style.TextDecoration> decorations) {
             Integer accumulator$iv;
             int index$iv$iv;
-            Object obj;
             Object obj2;
-            int i;
+            Object obj;
+            int i2;
             Integer valueOf;
             int intValue;
-            int i2;
+            int i;
             int mask;
             final int i4 = 0;
             int i5 = 0;
@@ -49,8 +49,8 @@ public final class TextDecoration {
             final int i6 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < obj4.size()) {
-                i = 0;
                 i2 = 0;
+                i = 0;
                 accumulator$iv = valueOf;
                 index$iv$iv++;
             }
@@ -133,8 +133,8 @@ public final class TextDecoration {
     }
 
     public String toString() {
-        int str;
         int str2;
+        int str;
         if (this.mask == 0) {
             return "TextDecoration.None";
         }

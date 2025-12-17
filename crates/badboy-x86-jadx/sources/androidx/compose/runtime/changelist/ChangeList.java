@@ -73,97 +73,97 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
 
     @Override // androidx.compose.runtime.changelist.OperationsDebugStringFormattable
     public final void pushAdvanceSlotsBy(int distance) {
-        Object missingObjectCount$iv;
+        Object missingObjectCount$iv3;
         int missingObjectCount$iv2;
         Object objectParamName-31yXWZQ;
-        int i6;
-        int i2;
-        int i3;
-        int this_$iv3;
-        int str;
+        int i9;
         int i10;
+        int i5;
+        int this_$iv;
+        int str2;
+        int i3;
         int missingIntCount$iv;
         String string;
-        String str2;
-        int missingObjectCount$iv3;
+        String str;
+        int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i5;
-        int i4;
-        int i8;
-        int i7;
         int i;
-        androidx.compose.runtime.changelist.Operations this_$iv;
+        int i4;
+        int i2;
+        int i6;
+        int i7;
+        androidx.compose.runtime.changelist.Operations this_$iv3;
         int this_$iv2;
-        int i9;
-        objectParamName-31yXWZQ = missingObjectCount$iv.operations;
+        int i8;
+        objectParamName-31yXWZQ = missingObjectCount$iv3.operations;
         final androidx.compose.runtime.changelist.Operation.AdvanceSlotsBy iNSTANCE = Operation.AdvanceSlotsBy.INSTANCE;
         final int i11 = 0;
         objectParamName-31yXWZQ.pushOp((Operation)iNSTANCE);
         int i12 = 0;
         androidx.compose.runtime.changelist.Operation.AdvanceSlotsBy iNSTANCE2 = Operation.AdvanceSlotsBy.INSTANCE;
         int i14 = 0;
-        str = 0;
-        Operations.WriteScope.setInt-A6tL2VI(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.IntParameter.constructor-impl(str), distance);
+        str2 = 0;
+        Operations.WriteScope.setInt-A6tL2VI(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.IntParameter.constructor-impl(str2), distance);
         if (Operations.access$getPushedIntMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects())) {
-            i2 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str;
+            i10 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str2;
         } else {
         }
         int i13 = 0;
-        if (i2 == 0) {
-            i10 = 0;
+        if (i10 == 0) {
+            i3 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
-            int i16 = 0;
-            i5 = str;
+            int i15 = 0;
+            i = str2;
             i4 = 1;
-            this_$iv3 = ", ";
-            while (i5 < iNSTANCE.getInts()) {
-                i8 = i5;
-                i7 = 0;
-                if (i18 &= this_$iv2 != 0 && missingIntCount$iv > 0) {
+            this_$iv = ", ";
+            while (i < iNSTANCE.getInts()) {
+                i2 = i;
+                i6 = 0;
+                if (i17 &= this_$iv2 != 0 && missingIntCount$iv > 0) {
                 }
-                i5++;
+                i++;
                 i4 = 1;
-                this_$iv3 = ", ";
+                this_$iv = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i8)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i2)));
                 missingIntCount$iv++;
-                sb2.append(this_$iv3);
+                sb2.append(this_$iv);
             }
             string = stringBuilder3.toString();
-            str2 = "StringBuilder().apply(builderAction).toString()";
-            Intrinsics.checkNotNullExpressionValue(string, str2);
+            str = "StringBuilder().apply(builderAction).toString()";
+            Intrinsics.checkNotNullExpressionValue(string, str);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i8 = 0;
-            missingObjectCount$iv2 = i17;
-            missingObjectCount$iv3 = 0;
-            while (missingObjectCount$iv3 < iNSTANCE.getObjects()) {
-                i7 = missingObjectCount$iv3;
-                i = 0;
-                if (i19 &= i9 != 0) {
+            i2 = 0;
+            missingObjectCount$iv2 = i16;
+            missingObjectCount$iv = 0;
+            while (missingObjectCount$iv < iNSTANCE.getObjects()) {
+                i6 = missingObjectCount$iv;
+                i7 = 0;
+                if (i18 &= i8 != 0) {
                 } else {
                 }
                 this_$iv2 = objectParamName-31yXWZQ;
-                missingObjectCount$iv3++;
+                missingObjectCount$iv++;
                 objectParamName-31yXWZQ = this_$iv2;
                 if (missingIntCount$iv > 0) {
                 }
                 this_$iv2 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i7)));
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i6)));
                 missingObjectCount$iv2++;
-                sb.append(this_$iv3);
+                sb.append(this_$iv);
             }
-            this_$iv = objectParamName-31yXWZQ;
+            this_$iv3 = objectParamName-31yXWZQ;
             objectParamName-31yXWZQ = stringBuilder.toString();
-            Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str2);
+            Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str);
             StringBuilder stringBuilder2 = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
         } else {
-            this_$iv = objectParamName-31yXWZQ;
+            this_$iv3 = objectParamName-31yXWZQ;
         }
     }
 
@@ -172,9 +172,9 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         Object missingObjects$iv;
         int objectParamName-31yXWZQ;
         androidx.compose.runtime.changelist.Operations this_$iv;
+        int i6;
         int i3;
-        int i;
-        int i4;
+        int i5;
         int this_$iv3;
         int string;
         int append;
@@ -185,11 +185,11 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         StringBuilder stringBuilder;
         StringBuilder sb;
         androidx.compose.runtime.changelist.Operations this_$iv2;
+        int i;
         int i8;
-        int i6;
         int i2;
-        int i5;
         int i9;
+        int i4;
         int i7;
         this_$iv = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.AppendValue iNSTANCE = Operation.AppendValue.INSTANCE;
@@ -206,30 +206,30 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         append = 1;
         Operations.WriteScope.setObject-DKhxnng(constructor-impl2, Operation.ObjectParameter.constructor-impl(append), value);
         if (Operations.access$getPushedIntMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects())) {
-            i = Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects()) ? append : string;
+            i3 = Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects()) ? append : string;
         } else {
         }
         int i12 = 0;
-        if (i == 0) {
+        if (i3 == 0) {
             this_$iv3 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i16 = 0;
-            i8 = append;
+            i = append;
             intParamName-w8GmfQM = ", ";
             while (string < iNSTANCE.getInts()) {
-                i6 = string;
+                i8 = string;
                 i2 = 0;
-                if (i17 &= i9 != 0 && missingIntCount$iv > 0) {
+                if (i17 &= i4 != 0 && missingIntCount$iv > 0) {
                 }
                 string++;
-                append = i8;
-                i8 = append;
+                append = i;
+                i = append;
                 intParamName-w8GmfQM = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i6)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i8)));
                 missingIntCount$iv++;
                 sb2.append(intParamName-w8GmfQM);
             }
@@ -238,22 +238,22 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i6 = 0;
+            i8 = 0;
             objectParamName-31yXWZQ = iNSTANCE.getObjects();
             this_$iv = i15;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < objectParamName-31yXWZQ) {
                 i2 = missingObjectCount$iv;
-                i5 = 0;
+                i9 = 0;
                 if (i18 &= i7 != 0) {
                 } else {
                 }
-                i9 = objectParamName-31yXWZQ;
+                i4 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
-                objectParamName-31yXWZQ = i9;
+                objectParamName-31yXWZQ = i4;
                 if (missingIntCount$iv > 0) {
                 }
-                i9 = objectParamName-31yXWZQ;
+                i4 = objectParamName-31yXWZQ;
                 sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i2)));
                 this_$iv++;
                 sb.append(intParamName-w8GmfQM);
@@ -273,15 +273,15 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         Object missingObjectCount$iv2;
         androidx.compose.runtime.changelist.Operations operations;
         androidx.compose.runtime.changelist.Operation.CopyNodesToNewAnchorLocation iNSTANCE;
-        int i10;
-        int i12;
-        int i3;
+        int i2;
         int i4;
+        int i8;
+        int i;
         int i7;
         int this_$iv;
-        Object obj;
+        Object $i$f$getEffectiveNodeIndexHpuvwBQ;
         int string;
-        int i2;
+        int i9;
         int append;
         String intParamName-w8GmfQM;
         int missingIntCount$iv;
@@ -289,17 +289,17 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i5;
-        int i;
-        int i6;
+        int i3;
         int i11;
-        int i8;
-        int i9;
+        int i12;
+        int i6;
+        int i5;
+        int i10;
         missingObjects$iv = nodes;
         if (!(Collection)missingObjects$iv.isEmpty()) {
             operations = missingObjectCount$iv2.operations;
             iNSTANCE = Operation.CopyNodesToNewAnchorLocation.INSTANCE;
-            i10 = 0;
+            i2 = 0;
             operations.pushOp((Operation)iNSTANCE);
             androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(operations);
             int i13 = 0;
@@ -312,30 +312,30 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             append = 0;
             Operations.WriteScope.setObject-DKhxnng(constructor-impl2, Operation.ObjectParameter.constructor-impl(append), effectiveNodeIndex);
             if (Operations.access$getPushedIntMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects())) {
-                i3 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? string : append;
+                i8 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? string : append;
             } else {
             }
             i7 = 0;
-            if (i3 == 0) {
+            if (i8 == 0) {
                 this_$iv = 0;
                 missingIntCount$iv = 0;
                 StringBuilder stringBuilder3 = new StringBuilder();
                 StringBuilder sb2 = stringBuilder3;
                 int i17 = 0;
-                i5 = string;
-                i2 = append;
+                i3 = string;
+                i9 = append;
                 intParamName-w8GmfQM = ", ";
-                while (i2 < iNSTANCE.getInts()) {
-                    i6 = i2;
-                    i11 = 0;
-                    if (i20 &= i9 != 0 && missingIntCount$iv > 0) {
+                while (i9 < iNSTANCE.getInts()) {
+                    i12 = i9;
+                    i6 = 0;
+                    if (i20 &= i10 != 0 && missingIntCount$iv > 0) {
                     }
-                    i2++;
+                    i9++;
                     append = 0;
                     intParamName-w8GmfQM = ", ";
                     if (missingIntCount$iv > 0) {
                     }
-                    sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i6)));
+                    sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i12)));
                     missingIntCount$iv++;
                     sb2.append(intParamName-w8GmfQM);
                 }
@@ -344,23 +344,23 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 Intrinsics.checkNotNullExpressionValue(string, str2);
                 stringBuilder = new StringBuilder();
                 sb = stringBuilder;
-                i6 = 0;
+                i12 = 0;
                 objectParamName-31yXWZQ = iNSTANCE.getObjects();
                 missingObjectCount$iv2 = i16;
                 missingObjectCount$iv = 0;
                 while (missingObjectCount$iv < objectParamName-31yXWZQ) {
-                    i = missingObjectCount$iv;
-                    i11 = 0;
-                    if (i18 &= i9 != 0) {
+                    i11 = missingObjectCount$iv;
+                    i6 = 0;
+                    if (i18 &= i10 != 0) {
                     } else {
                     }
-                    i8 = objectParamName-31yXWZQ;
+                    i5 = objectParamName-31yXWZQ;
                     missingObjectCount$iv++;
-                    objectParamName-31yXWZQ = i8;
+                    objectParamName-31yXWZQ = i5;
                     if (missingIntCount$iv > 0) {
                     }
-                    i8 = objectParamName-31yXWZQ;
-                    sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i)));
+                    i5 = objectParamName-31yXWZQ;
+                    sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i11)));
                     missingObjectCount$iv2++;
                     sb.append(intParamName-w8GmfQM);
                 }
@@ -370,7 +370,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(string2).append(").").toString());
             }
         } else {
-            obj = effectiveNodeIndex;
+            $i$f$getEffectiveNodeIndexHpuvwBQ = effectiveNodeIndex;
         }
     }
 
@@ -382,27 +382,27 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int $this$push_u24lambda_u246_u24lambda_u245$iv;
         StringBuilder sb2;
         int $i$f$push;
+        int i7;
+        int i9;
         int i5;
-        int i;
-        int i11;
         int this_$iv2;
         int string;
         int str;
-        int i8;
+        int i6;
         int missingIntCount$iv;
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
         String $this$push_u24lambda_u246_u24lambda_u245$iv2;
-        int i6;
-        int i7;
-        int i4;
-        androidx.compose.runtime.changelist.Operations this_$iv;
-        int i9;
-        int i10;
-        int i12;
+        int i8;
+        int i;
         int i3;
+        androidx.compose.runtime.changelist.Operations this_$iv;
         int i2;
+        int i4;
+        int i10;
+        int i11;
+        int i12;
         operations = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.CopySlotTableToAnchorLocation iNSTANCE = Operation.CopySlotTableToAnchorLocation.INSTANCE;
         $i$f$push = 0;
@@ -424,28 +424,28 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int i19 = 0;
         Operations.WriteScope.setObject-DKhxnng(constructor-impl3, Operation.ObjectParameter.constructor-impl(2), from);
         if (Operations.access$getPushedIntMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects())) {
-            i = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str : string;
+            i9 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str : string;
         } else {
         }
         int i14 = 0;
-        if (i == 0) {
+        if (i9 == 0) {
             this_$iv2 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb3 = stringBuilder3;
             int i21 = 0;
-            i7 = str;
-            i8 = 0;
-            while (i8 < iNSTANCE.getInts()) {
-                i4 = i8;
-                i9 = 0;
-                if (i22 &= i12 != 0 && missingIntCount$iv > 0) {
+            i = str;
+            i6 = 0;
+            while (i6 < iNSTANCE.getInts()) {
+                i3 = i6;
+                i2 = 0;
+                if (i22 &= i10 != 0 && missingIntCount$iv > 0) {
                 }
-                i8++;
+                i6++;
                 missingObjects$iv = this;
                 if (missingIntCount$iv > 0) {
                 }
-                sb3.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i4)));
+                sb3.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i3)));
                 missingIntCount$iv++;
                 sb3.append(", ");
             }
@@ -454,33 +454,33 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i4 = 0;
+            i3 = 0;
             $this$push_u24lambda_u246_u24lambda_u245$iv = iNSTANCE.getObjects();
-            i6 = $i$f$push;
+            i8 = $i$f$push;
             $i$f$push = i20;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < $this$push_u24lambda_u246_u24lambda_u245$iv) {
-                i10 = missingObjectCount$iv;
-                i12 = 0;
-                if (i23 &= i2 != 0) {
+                i4 = missingObjectCount$iv;
+                i10 = 0;
+                if (i23 &= i12 != 0) {
                 } else {
                 }
-                i3 = $this$push_u24lambda_u246_u24lambda_u245$iv;
+                i11 = $this$push_u24lambda_u246_u24lambda_u245$iv;
                 sb2 = sb;
                 $this$push_u24lambda_u246_u24lambda_u245$iv2 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
                 objectParamName-31yXWZQ = $this$push_u24lambda_u246_u24lambda_u245$iv2;
                 sb = sb2;
-                $this$push_u24lambda_u246_u24lambda_u245$iv = i3;
+                $this$push_u24lambda_u246_u24lambda_u245$iv = i11;
                 if (missingIntCount$iv > 0) {
                 } else {
                 }
-                i3 = $this$push_u24lambda_u246_u24lambda_u245$iv;
+                i11 = $this$push_u24lambda_u246_u24lambda_u245$iv;
                 sb2 = sb;
                 $this$push_u24lambda_u246_u24lambda_u245$iv2 = objectParamName-31yXWZQ;
-                sb2.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i10)));
+                sb2.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i4)));
                 $i$f$push++;
-                i3 = $this$push_u24lambda_u246_u24lambda_u245$iv;
+                i11 = $this$push_u24lambda_u246_u24lambda_u245$iv;
                 sb.append(objectParamName-31yXWZQ);
             }
             StringBuilder $this$push_u24lambda_u246_u24lambda_u245$iv3 = sb;
@@ -490,7 +490,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append($i$f$push).append(" object arguments (").append(string2).append(").").toString());
         } else {
             this_$iv = operations;
-            i6 = $i$f$push;
+            i8 = $i$f$push;
         }
     }
 
@@ -504,9 +504,9 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         Object missingObjects$iv;
         int objectParamName-31yXWZQ;
         androidx.compose.runtime.changelist.Operations this_$iv;
+        int i9;
+        int i5;
         int i8;
-        int i4;
-        int i;
         int this_$iv2;
         int string;
         int append;
@@ -517,12 +517,12 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         StringBuilder stringBuilder;
         StringBuilder sb;
         androidx.compose.runtime.changelist.Operations this_$iv3;
-        int i3;
+        int i;
+        int i7;
+        int i4;
         int i2;
         int i6;
-        int i7;
-        int i9;
-        int i5;
+        int i3;
         this_$iv = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.DetermineMovableContentNodeIndex iNSTANCE = Operation.DetermineMovableContentNodeIndex.INSTANCE;
         final int i10 = 0;
@@ -538,30 +538,30 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         append = 1;
         Operations.WriteScope.setObject-DKhxnng(constructor-impl2, Operation.ObjectParameter.constructor-impl(append), anchor);
         if (Operations.access$getPushedIntMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects())) {
-            i4 = Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects()) ? append : string;
+            i5 = Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects()) ? append : string;
         } else {
         }
         int i12 = 0;
-        if (i4 == 0) {
+        if (i5 == 0) {
             this_$iv2 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i16 = 0;
-            i3 = append;
+            i = append;
             intParamName-w8GmfQM = ", ";
             while (string < iNSTANCE.getInts()) {
-                i2 = string;
-                i6 = 0;
-                if (i17 &= i9 != 0 && missingIntCount$iv > 0) {
+                i7 = string;
+                i4 = 0;
+                if (i17 &= i6 != 0 && missingIntCount$iv > 0) {
                 }
                 string++;
-                append = i3;
-                i3 = append;
+                append = i;
+                i = append;
                 intParamName-w8GmfQM = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i2)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i7)));
                 missingIntCount$iv++;
                 sb2.append(intParamName-w8GmfQM);
             }
@@ -570,23 +570,23 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i2 = 0;
+            i7 = 0;
             objectParamName-31yXWZQ = iNSTANCE.getObjects();
             this_$iv = i15;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < objectParamName-31yXWZQ) {
-                i6 = missingObjectCount$iv;
-                i7 = 0;
-                if (i18 &= i5 != 0) {
+                i4 = missingObjectCount$iv;
+                i2 = 0;
+                if (i18 &= i3 != 0) {
                 } else {
                 }
-                i9 = objectParamName-31yXWZQ;
+                i6 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
-                objectParamName-31yXWZQ = i9;
+                objectParamName-31yXWZQ = i6;
                 if (missingIntCount$iv > 0) {
                 }
-                i9 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i6)));
+                i6 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i4)));
                 this_$iv++;
                 sb.append(intParamName-w8GmfQM);
             }
@@ -601,70 +601,70 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
 
     @Override // androidx.compose.runtime.changelist.OperationsDebugStringFormattable
     public final void pushDowns(Object[] nodes) {
-        Object missingObjectCount$iv;
-        int missingObjectCount$iv2;
+        Object missingObjectCount$iv3;
+        int missingObjectCount$iv;
         int objectParamName-31yXWZQ;
         int append;
         String intParamName-w8GmfQM;
         int str2;
         androidx.compose.runtime.changelist.Operations operations;
         androidx.compose.runtime.changelist.Operation.Downs iNSTANCE;
-        int i10;
-        int i4;
-        int i;
+        int i9;
+        int i11;
+        int i6;
         int i5;
-        int i12;
+        int i7;
         int this_$iv;
         int missingIntCount$iv;
         String string;
         String str;
-        int missingObjectCount$iv3;
+        int missingObjectCount$iv2;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i3;
-        int i6;
-        int i9;
         int i2;
-        int i7;
-        int i11;
+        int i4;
+        int i3;
         int i8;
-        missingObjectCount$iv = nodes;
+        int i10;
+        int i;
+        int i12;
+        missingObjectCount$iv3 = nodes;
         append = 0;
         str2 = 1;
-        objectParamName-31yXWZQ = missingObjectCount$iv.length == 0 ? str2 : append;
+        objectParamName-31yXWZQ = missingObjectCount$iv3.length == 0 ? str2 : append;
         if (objectParamName-31yXWZQ == 0) {
             operations = objectParamName-31yXWZQ.operations;
             iNSTANCE = Operation.Downs.INSTANCE;
-            i10 = 0;
+            i9 = 0;
             operations.pushOp((Operation)iNSTANCE);
             int i13 = 0;
             androidx.compose.runtime.changelist.Operation.Downs iNSTANCE2 = Operation.Downs.INSTANCE;
             missingIntCount$iv = 0;
-            Operations.WriteScope.setObject-DKhxnng(Operations.WriteScope.constructor-impl(operations), Operation.ObjectParameter.constructor-impl(append), missingObjectCount$iv);
+            Operations.WriteScope.setObject-DKhxnng(Operations.WriteScope.constructor-impl(operations), Operation.ObjectParameter.constructor-impl(append), missingObjectCount$iv3);
             if (Operations.access$getPushedIntMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects())) {
-                i4 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str2 : append;
+                i11 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str2 : append;
             } else {
             }
             i5 = 0;
-            if (i4 == 0) {
+            if (i11 == 0) {
                 this_$iv = 0;
                 missingIntCount$iv = 0;
                 StringBuilder stringBuilder3 = new StringBuilder();
                 StringBuilder sb2 = stringBuilder3;
                 int i14 = 0;
-                i3 = append;
+                i2 = append;
                 intParamName-w8GmfQM = ", ";
-                while (i3 < iNSTANCE.getInts()) {
-                    i9 = i3;
-                    i2 = 0;
-                    if (i16 &= i11 != 0 && missingIntCount$iv > 0) {
+                while (i2 < iNSTANCE.getInts()) {
+                    i3 = i2;
+                    i8 = 0;
+                    if (i16 &= i != 0 && missingIntCount$iv > 0) {
                     }
-                    i3++;
+                    i2++;
                     append = 0;
                     intParamName-w8GmfQM = ", ";
                     if (missingIntCount$iv > 0) {
                     }
-                    sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i9)));
+                    sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i3)));
                     missingIntCount$iv++;
                     sb2.append(intParamName-w8GmfQM);
                 }
@@ -673,26 +673,26 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 Intrinsics.checkNotNullExpressionValue(string, str);
                 stringBuilder = new StringBuilder();
                 sb = stringBuilder;
-                i9 = 0;
-                missingObjectCount$iv2 = i15;
-                missingObjectCount$iv3 = 0;
-                while (missingObjectCount$iv3 < iNSTANCE.getObjects()) {
-                    i6 = missingObjectCount$iv3;
-                    i7 = 0;
-                    if (i17 &= i8 != 0 && missingIntCount$iv > 0) {
+                i3 = 0;
+                missingObjectCount$iv = i15;
+                missingObjectCount$iv2 = 0;
+                while (missingObjectCount$iv2 < iNSTANCE.getObjects()) {
+                    i4 = missingObjectCount$iv2;
+                    i10 = 0;
+                    if (i17 &= i12 != 0 && missingIntCount$iv > 0) {
                     }
-                    missingObjectCount$iv3++;
+                    missingObjectCount$iv2++;
                     objectParamName-31yXWZQ = this;
                     if (missingIntCount$iv > 0) {
                     }
-                    sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i6)));
-                    missingObjectCount$iv2++;
+                    sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i4)));
+                    missingObjectCount$iv++;
                     sb.append(intParamName-w8GmfQM);
                 }
                 objectParamName-31yXWZQ = stringBuilder.toString();
                 Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str);
                 StringBuilder stringBuilder2 = new StringBuilder();
-                PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
+                PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
             }
         }
     }
@@ -700,11 +700,11 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
     public final void pushEndCompositionScope(Function1<? super Composition, Unit> action, Composition composition) {
         Object missingObjects$iv;
         int objectParamName-31yXWZQ;
-        androidx.compose.runtime.changelist.Operations this_$iv3;
+        androidx.compose.runtime.changelist.Operations this_$iv2;
+        int i;
+        int i3;
         int i4;
-        int i5;
-        int i6;
-        int this_$iv2;
+        int this_$iv3;
         int string;
         int append;
         String intParamName-w8GmfQM;
@@ -714,17 +714,17 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         StringBuilder stringBuilder;
         StringBuilder sb;
         androidx.compose.runtime.changelist.Operations this_$iv;
-        int i3;
         int i2;
-        int i;
-        int i7;
+        int i5;
         int i9;
+        int i6;
+        int i7;
         int i8;
-        this_$iv3 = missingObjects$iv.operations;
+        this_$iv2 = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.EndCompositionScope iNSTANCE = Operation.EndCompositionScope.INSTANCE;
         final int i10 = 0;
-        this_$iv3.pushOp((Operation)iNSTANCE);
-        androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv3);
+        this_$iv2.pushOp((Operation)iNSTANCE);
+        androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv2);
         int i11 = 0;
         androidx.compose.runtime.changelist.Operation.EndCompositionScope iNSTANCE2 = Operation.EndCompositionScope.INSTANCE;
         int i13 = 0;
@@ -734,31 +734,31 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int i14 = 0;
         append = 1;
         Operations.WriteScope.setObject-DKhxnng(constructor-impl2, Operation.ObjectParameter.constructor-impl(append), composition);
-        if (Operations.access$getPushedIntMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getObjects())) {
-            i5 = Operations.access$getPushedObjectMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getObjects()) ? append : string;
+        if (Operations.access$getPushedIntMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getObjects())) {
+            i3 = Operations.access$getPushedObjectMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getObjects()) ? append : string;
         } else {
         }
         int i12 = 0;
-        if (i5 == 0) {
-            this_$iv2 = 0;
+        if (i3 == 0) {
+            this_$iv3 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i16 = 0;
-            i3 = append;
+            i2 = append;
             intParamName-w8GmfQM = ", ";
             while (string < iNSTANCE.getInts()) {
-                i2 = string;
-                i = 0;
-                if (i17 &= i9 != 0 && missingIntCount$iv > 0) {
+                i5 = string;
+                i9 = 0;
+                if (i17 &= i7 != 0 && missingIntCount$iv > 0) {
                 }
                 string++;
-                append = i3;
-                i3 = append;
+                append = i2;
+                i2 = append;
                 intParamName-w8GmfQM = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i2)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i5)));
                 missingIntCount$iv++;
                 sb2.append(intParamName-w8GmfQM);
             }
@@ -767,32 +767,32 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i2 = 0;
+            i5 = 0;
             objectParamName-31yXWZQ = iNSTANCE.getObjects();
-            this_$iv3 = i15;
+            this_$iv2 = i15;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < objectParamName-31yXWZQ) {
-                i = missingObjectCount$iv;
-                i7 = 0;
+                i9 = missingObjectCount$iv;
+                i6 = 0;
                 if (i18 &= i8 != 0) {
                 } else {
                 }
-                i9 = objectParamName-31yXWZQ;
+                i7 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
-                objectParamName-31yXWZQ = i9;
+                objectParamName-31yXWZQ = i7;
                 if (missingIntCount$iv > 0) {
                 }
-                i9 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i)));
-                this_$iv3++;
+                i7 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i9)));
+                this_$iv2++;
                 sb.append(intParamName-w8GmfQM);
             }
             String string2 = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(string2, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(this_$iv3).append(" object arguments (").append(string2).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(this_$iv2).append(" object arguments (").append(string2).append(").").toString());
         } else {
-            this_$iv = this_$iv3;
+            this_$iv = this_$iv2;
         }
     }
 
@@ -808,30 +808,30 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
 
     @Override // androidx.compose.runtime.changelist.OperationsDebugStringFormattable
     public final void pushEnsureGroupStarted(Anchor anchor) {
-        Object missingObjectCount$iv;
+        Object missingObjectCount$iv3;
         int missingObjectCount$iv2;
         Object objectParamName-31yXWZQ;
-        int i10;
-        int i7;
-        int i2;
-        int this_$iv3;
+        int i;
+        int i6;
+        int i9;
+        int this_$iv;
         int str;
         int i3;
         int missingIntCount$iv;
         String string;
         String str2;
-        int missingObjectCount$iv3;
+        int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i4;
-        int i;
+        int i7;
+        int i2;
         int i5;
+        int i4;
         int i8;
-        int i6;
         androidx.compose.runtime.changelist.Operations this_$iv2;
-        int this_$iv;
-        int i9;
-        objectParamName-31yXWZQ = missingObjectCount$iv.operations;
+        int this_$iv3;
+        int i10;
+        objectParamName-31yXWZQ = missingObjectCount$iv3.operations;
         final androidx.compose.runtime.changelist.Operation.EnsureGroupStarted iNSTANCE = Operation.EnsureGroupStarted.INSTANCE;
         final int i11 = 0;
         objectParamName-31yXWZQ.pushOp((Operation)iNSTANCE);
@@ -841,32 +841,32 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         str = 0;
         Operations.WriteScope.setObject-DKhxnng(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.ObjectParameter.constructor-impl(str), anchor);
         if (Operations.access$getPushedIntMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects())) {
-            i7 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str;
+            i6 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str;
         } else {
         }
         int i13 = 0;
-        if (i7 == 0) {
+        if (i6 == 0) {
             i3 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i15 = 0;
-            i4 = str;
-            i = 1;
-            this_$iv3 = ", ";
-            while (i4 < iNSTANCE.getInts()) {
-                i5 = i4;
-                i8 = 0;
-                if (i17 &= this_$iv != 0 && missingIntCount$iv > 0) {
+            i7 = str;
+            i2 = 1;
+            this_$iv = ", ";
+            while (i7 < iNSTANCE.getInts()) {
+                i5 = i7;
+                i4 = 0;
+                if (i17 &= this_$iv3 != 0 && missingIntCount$iv > 0) {
                 }
-                i4++;
-                i = 1;
-                this_$iv3 = ", ";
+                i7++;
+                i2 = 1;
+                this_$iv = ", ";
                 if (missingIntCount$iv > 0) {
                 }
                 sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i5)));
                 missingIntCount$iv++;
-                sb2.append(this_$iv3);
+                sb2.append(this_$iv);
             }
             string = stringBuilder3.toString();
             str2 = "StringBuilder().apply(builderAction).toString()";
@@ -875,22 +875,22 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             sb = stringBuilder;
             i5 = 0;
             missingObjectCount$iv2 = i16;
-            missingObjectCount$iv3 = 0;
-            while (missingObjectCount$iv3 < iNSTANCE.getObjects()) {
-                i8 = missingObjectCount$iv3;
-                i6 = 0;
-                if (i18 &= i9 != 0) {
+            missingObjectCount$iv = 0;
+            while (missingObjectCount$iv < iNSTANCE.getObjects()) {
+                i4 = missingObjectCount$iv;
+                i8 = 0;
+                if (i18 &= i10 != 0) {
                 } else {
                 }
-                this_$iv = objectParamName-31yXWZQ;
-                missingObjectCount$iv3++;
-                objectParamName-31yXWZQ = this_$iv;
+                this_$iv3 = objectParamName-31yXWZQ;
+                missingObjectCount$iv++;
+                objectParamName-31yXWZQ = this_$iv3;
                 if (missingIntCount$iv > 0) {
                 }
-                this_$iv = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i8)));
+                this_$iv3 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i4)));
                 missingObjectCount$iv2++;
-                sb.append(this_$iv3);
+                sb.append(this_$iv);
             }
             this_$iv2 = objectParamName-31yXWZQ;
             objectParamName-31yXWZQ = stringBuilder.toString();
@@ -913,15 +913,15 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int objectParamName-31yXWZQ;
         androidx.compose.runtime.changelist.Operations this_$iv3;
         androidx.compose.runtime.changelist.Operation.ApplyChangeList iNSTANCE;
-        int i4;
-        int i6;
-        int i11;
+        int i9;
+        int i8;
+        int i7;
         int i5;
-        int i;
+        int i4;
         int this_$iv;
-        Object obj;
+        Object $i$f$getChangesHpuvwBQ;
         int string;
-        Object obj2;
+        Object $i$f$getEffectiveNodeIndexHpuvwBQ;
         int append;
         String intParamName-w8GmfQM;
         int missingIntCount$iv;
@@ -930,16 +930,16 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         StringBuilder stringBuilder;
         StringBuilder sb;
         androidx.compose.runtime.changelist.Operations this_$iv2;
-        int i8;
-        int i2;
-        int i7;
-        int i9;
-        int i3;
         int i10;
+        int i6;
+        int i;
+        int i11;
+        int i3;
+        int i2;
         if (changeList.isNotEmpty()) {
             this_$iv3 = missingObjects$iv.operations;
             iNSTANCE = Operation.ApplyChangeList.INSTANCE;
-            i4 = 0;
+            i9 = 0;
             this_$iv3.pushOp((Operation)iNSTANCE);
             androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv3);
             int i12 = 0;
@@ -952,30 +952,30 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             append = 1;
             Operations.WriteScope.setObject-DKhxnng(constructor-impl2, Operation.ObjectParameter.constructor-impl(append), effectiveNodeIndex);
             if (Operations.access$getPushedIntMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getObjects())) {
-                i6 = Operations.access$getPushedObjectMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getObjects()) ? append : string;
+                i8 = Operations.access$getPushedObjectMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getObjects()) ? append : string;
             } else {
             }
             i5 = 0;
-            if (i6 == 0) {
+            if (i8 == 0) {
                 this_$iv = 0;
                 missingIntCount$iv = 0;
                 StringBuilder stringBuilder3 = new StringBuilder();
                 StringBuilder sb2 = stringBuilder3;
                 int i16 = 0;
-                i8 = append;
+                i10 = append;
                 intParamName-w8GmfQM = ", ";
                 while (string < iNSTANCE.getInts()) {
-                    i2 = string;
-                    i7 = 0;
+                    i6 = string;
+                    i = 0;
                     if (i17 &= i3 != 0 && missingIntCount$iv > 0) {
                     }
                     string++;
-                    append = i8;
-                    i8 = append;
+                    append = i10;
+                    i10 = append;
                     intParamName-w8GmfQM = ", ";
                     if (missingIntCount$iv > 0) {
                     }
-                    sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i2)));
+                    sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i6)));
                     missingIntCount$iv++;
                     sb2.append(intParamName-w8GmfQM);
                 }
@@ -984,14 +984,14 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 Intrinsics.checkNotNullExpressionValue(string, str2);
                 stringBuilder = new StringBuilder();
                 sb = stringBuilder;
-                i2 = 0;
+                i6 = 0;
                 objectParamName-31yXWZQ = iNSTANCE.getObjects();
                 this_$iv3 = i15;
                 missingObjectCount$iv = 0;
                 while (missingObjectCount$iv < objectParamName-31yXWZQ) {
-                    i7 = missingObjectCount$iv;
-                    i9 = 0;
-                    if (i18 &= i10 != 0) {
+                    i = missingObjectCount$iv;
+                    i11 = 0;
+                    if (i18 &= i2 != 0) {
                     } else {
                     }
                     i3 = objectParamName-31yXWZQ;
@@ -1000,7 +1000,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                     if (missingIntCount$iv > 0) {
                     }
                     i3 = objectParamName-31yXWZQ;
-                    sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i7)));
+                    sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i)));
                     this_$iv3++;
                     sb.append(intParamName-w8GmfQM);
                 }
@@ -1012,8 +1012,8 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 this_$iv2 = this_$iv3;
             }
         } else {
-            obj = changeList;
-            obj2 = effectiveNodeIndex;
+            $i$f$getChangesHpuvwBQ = changeList;
+            $i$f$getEffectiveNodeIndexHpuvwBQ = effectiveNodeIndex;
         }
     }
 
@@ -1021,10 +1021,10 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
     public final void pushInsertSlots(Anchor anchor, SlotTable from) {
         Object missingObjects$iv;
         int objectParamName-31yXWZQ;
-        androidx.compose.runtime.changelist.Operations this_$iv3;
-        int i5;
+        androidx.compose.runtime.changelist.Operations this_$iv2;
+        int i9;
+        int i;
         int i7;
-        int i6;
         int this_$iv;
         int string;
         int append;
@@ -1034,18 +1034,18 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        androidx.compose.runtime.changelist.Operations this_$iv2;
-        int i8;
-        int i3;
-        int i9;
+        androidx.compose.runtime.changelist.Operations this_$iv3;
         int i2;
-        int i;
         int i4;
-        this_$iv3 = missingObjects$iv.operations;
+        int i3;
+        int i8;
+        int i5;
+        int i6;
+        this_$iv2 = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.InsertSlots iNSTANCE = Operation.InsertSlots.INSTANCE;
         final int i10 = 0;
-        this_$iv3.pushOp((Operation)iNSTANCE);
-        androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv3);
+        this_$iv2.pushOp((Operation)iNSTANCE);
+        androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv2);
         int i11 = 0;
         androidx.compose.runtime.changelist.Operation.InsertSlots iNSTANCE2 = Operation.InsertSlots.INSTANCE;
         int i13 = 0;
@@ -1055,31 +1055,31 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int i14 = 0;
         append = 1;
         Operations.WriteScope.setObject-DKhxnng(constructor-impl2, Operation.ObjectParameter.constructor-impl(append), from);
-        if (Operations.access$getPushedIntMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getObjects())) {
-            i7 = Operations.access$getPushedObjectMask$p(this_$iv3) == Operations.access$createExpectedArgMask(this_$iv3, iNSTANCE.getObjects()) ? append : string;
+        if (Operations.access$getPushedIntMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getObjects())) {
+            i = Operations.access$getPushedObjectMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getObjects()) ? append : string;
         } else {
         }
         int i12 = 0;
-        if (i7 == 0) {
+        if (i == 0) {
             this_$iv = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i16 = 0;
-            i8 = append;
+            i2 = append;
             intParamName-w8GmfQM = ", ";
             while (string < iNSTANCE.getInts()) {
-                i3 = string;
-                i9 = 0;
-                if (i17 &= i != 0 && missingIntCount$iv > 0) {
+                i4 = string;
+                i3 = 0;
+                if (i17 &= i5 != 0 && missingIntCount$iv > 0) {
                 }
                 string++;
-                append = i8;
-                i8 = append;
+                append = i2;
+                i2 = append;
                 intParamName-w8GmfQM = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i3)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i4)));
                 missingIntCount$iv++;
                 sb2.append(intParamName-w8GmfQM);
             }
@@ -1088,32 +1088,32 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i3 = 0;
+            i4 = 0;
             objectParamName-31yXWZQ = iNSTANCE.getObjects();
-            this_$iv3 = i15;
+            this_$iv2 = i15;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < objectParamName-31yXWZQ) {
-                i9 = missingObjectCount$iv;
-                i2 = 0;
-                if (i18 &= i4 != 0) {
+                i3 = missingObjectCount$iv;
+                i8 = 0;
+                if (i18 &= i6 != 0) {
                 } else {
                 }
-                i = objectParamName-31yXWZQ;
+                i5 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
-                objectParamName-31yXWZQ = i;
+                objectParamName-31yXWZQ = i5;
                 if (missingIntCount$iv > 0) {
                 }
-                i = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i9)));
-                this_$iv3++;
+                i5 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i3)));
+                this_$iv2++;
                 sb.append(intParamName-w8GmfQM);
             }
             String string2 = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(string2, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(this_$iv3).append(" object arguments (").append(string2).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(this_$iv2).append(" object arguments (").append(string2).append(").").toString());
         } else {
-            this_$iv2 = this_$iv3;
+            this_$iv3 = this_$iv2;
         }
     }
 
@@ -1123,26 +1123,26 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         String objectParamName-31yXWZQ;
         Object operations;
         int $i$f$push;
-        int i8;
-        int i4;
-        int i7;
+        int i2;
+        int i6;
+        int i3;
         int this_$iv;
         int string;
         int str;
-        int i3;
+        int i7;
         int missingIntCount$iv;
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i;
-        int i2;
         int i9;
-        androidx.compose.runtime.changelist.Operations this_$iv2;
-        int i5;
-        int i10;
+        int i4;
         int i11;
+        androidx.compose.runtime.changelist.Operations this_$iv2;
+        int i10;
+        int i;
+        int i5;
         String str2;
-        int i6;
+        int i8;
         operations = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.InsertSlotsWithFixups iNSTANCE = Operation.InsertSlotsWithFixups.INSTANCE;
         $i$f$push = 0;
@@ -1161,28 +1161,28 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int i16 = 0;
         Operations.WriteScope.setObject-DKhxnng(constructor-impl3, Operation.ObjectParameter.constructor-impl(2), fixups);
         if (Operations.access$getPushedIntMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects())) {
-            i4 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str : string;
+            i6 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str : string;
         } else {
         }
         int i13 = 0;
-        if (i4 == 0) {
+        if (i6 == 0) {
             this_$iv = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i18 = 0;
-            i2 = str;
-            i3 = 0;
-            while (i3 < iNSTANCE.getInts()) {
-                i9 = i3;
-                i5 = 0;
-                if (i19 &= i11 != 0 && missingIntCount$iv > 0) {
+            i4 = str;
+            i7 = 0;
+            while (i7 < iNSTANCE.getInts()) {
+                i11 = i7;
+                i10 = 0;
+                if (i19 &= i5 != 0 && missingIntCount$iv > 0) {
                 }
-                i3++;
+                i7++;
                 missingObjects$iv = this;
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i9)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i11)));
                 missingIntCount$iv++;
                 sb2.append(", ");
             }
@@ -1191,14 +1191,14 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str3);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i9 = 0;
-            i = $i$f$push;
+            i11 = 0;
+            i9 = $i$f$push;
             $i$f$push = i17;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < iNSTANCE.getObjects()) {
-                i10 = missingObjectCount$iv;
-                i11 = 0;
-                if (i20 &= i6 != 0) {
+                i = missingObjectCount$iv;
+                i5 = 0;
+                if (i20 &= i8 != 0) {
                 } else {
                 }
                 str2 = objectParamName-31yXWZQ;
@@ -1207,7 +1207,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 if (missingIntCount$iv > 0) {
                 }
                 str2 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i10)));
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i)));
                 $i$f$push++;
                 sb.append(objectParamName-31yXWZQ);
             }
@@ -1217,21 +1217,21 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append($i$f$push).append(" object arguments (").append(string2).append(").").toString());
         } else {
             this_$iv2 = operations;
-            i = $i$f$push;
+            i9 = $i$f$push;
         }
     }
 
     @Override // androidx.compose.runtime.changelist.OperationsDebugStringFormattable
     public final void pushMoveCurrentGroup(int offset) {
-        Object missingObjectCount$iv3;
-        int missingObjectCount$iv2;
+        Object missingObjectCount$iv2;
+        int missingObjectCount$iv3;
         Object objectParamName-31yXWZQ;
-        int i8;
-        int i6;
+        int i7;
         int i3;
-        int this_$iv3;
+        int i9;
+        int this_$iv;
         int str;
-        int i4;
+        int i6;
         int missingIntCount$iv;
         String string;
         String str2;
@@ -1239,14 +1239,14 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         StringBuilder stringBuilder;
         StringBuilder sb;
         int i10;
-        int i5;
-        int i9;
-        int i2;
+        int i8;
+        int i4;
         int i;
-        androidx.compose.runtime.changelist.Operations this_$iv;
-        int this_$iv2;
-        int i7;
-        objectParamName-31yXWZQ = missingObjectCount$iv3.operations;
+        int i5;
+        androidx.compose.runtime.changelist.Operations this_$iv2;
+        int this_$iv3;
+        int i2;
+        objectParamName-31yXWZQ = missingObjectCount$iv2.operations;
         final androidx.compose.runtime.changelist.Operation.MoveCurrentGroup iNSTANCE = Operation.MoveCurrentGroup.INSTANCE;
         final int i11 = 0;
         objectParamName-31yXWZQ.pushOp((Operation)iNSTANCE);
@@ -1256,64 +1256,64 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         str = 0;
         Operations.WriteScope.setInt-A6tL2VI(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.IntParameter.constructor-impl(str), offset);
         if (Operations.access$getPushedIntMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects())) {
-            i6 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str;
+            i3 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str;
         } else {
         }
         int i13 = 0;
-        if (i6 == 0) {
-            i4 = 0;
+        if (i3 == 0) {
+            i6 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
-            int i16 = 0;
+            int i15 = 0;
             i10 = str;
-            i5 = 1;
-            this_$iv3 = ", ";
+            i8 = 1;
+            this_$iv = ", ";
             while (i10 < iNSTANCE.getInts()) {
-                i9 = i10;
-                i2 = 0;
-                if (i18 &= this_$iv2 != 0 && missingIntCount$iv > 0) {
+                i4 = i10;
+                i = 0;
+                if (i17 &= this_$iv3 != 0 && missingIntCount$iv > 0) {
                 }
                 i10++;
-                i5 = 1;
-                this_$iv3 = ", ";
+                i8 = 1;
+                this_$iv = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i9)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i4)));
                 missingIntCount$iv++;
-                sb2.append(this_$iv3);
+                sb2.append(this_$iv);
             }
             string = stringBuilder3.toString();
             str2 = "StringBuilder().apply(builderAction).toString()";
             Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i9 = 0;
-            missingObjectCount$iv2 = i17;
+            i4 = 0;
+            missingObjectCount$iv3 = i16;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < iNSTANCE.getObjects()) {
-                i2 = missingObjectCount$iv;
-                i = 0;
-                if (i19 &= i7 != 0) {
+                i = missingObjectCount$iv;
+                i5 = 0;
+                if (i18 &= i2 != 0) {
                 } else {
                 }
-                this_$iv2 = objectParamName-31yXWZQ;
+                this_$iv3 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
-                objectParamName-31yXWZQ = this_$iv2;
+                objectParamName-31yXWZQ = this_$iv3;
                 if (missingIntCount$iv > 0) {
                 }
-                this_$iv2 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i2)));
-                missingObjectCount$iv2++;
-                sb.append(this_$iv3);
+                this_$iv3 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i)));
+                missingObjectCount$iv3++;
+                sb.append(this_$iv);
             }
-            this_$iv = objectParamName-31yXWZQ;
+            this_$iv2 = objectParamName-31yXWZQ;
             objectParamName-31yXWZQ = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv3).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
         } else {
-            this_$iv = objectParamName-31yXWZQ;
+            this_$iv2 = objectParamName-31yXWZQ;
         }
     }
 
@@ -1323,9 +1323,9 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         String objectParamName-31yXWZQ;
         Object operations;
         int $i$f$push;
-        int i10;
-        int i7;
+        int i2;
         int i6;
+        int i3;
         int this_$iv2;
         int string;
         int str2;
@@ -1333,13 +1333,13 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i3;
+        int i4;
+        int i10;
         int i5;
-        int i8;
         androidx.compose.runtime.changelist.Operations this_$iv;
         int i;
-        int i2;
-        int i4;
+        int i8;
+        int i7;
         String str;
         int i9;
         operations = missingObjects$iv.operations;
@@ -1353,34 +1353,34 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         string = 1;
         Operations.WriteScope.setInt-A6tL2VI(constructor-impl3, Operation.IntParameter.constructor-impl(string), to);
         androidx.compose.runtime.changelist.Operation.MoveNode iNSTANCE3 = Operation.MoveNode.INSTANCE;
-        int i15 = 0;
+        int i14 = 0;
         str2 = 0;
         Operations.WriteScope.setInt-A6tL2VI(constructor-impl3, Operation.IntParameter.constructor-impl(str2), from);
         androidx.compose.runtime.changelist.Operation.MoveNode iNSTANCE4 = Operation.MoveNode.INSTANCE;
-        int i17 = 0;
+        int i15 = 0;
         Operations.WriteScope.setInt-A6tL2VI(constructor-impl3, Operation.IntParameter.constructor-impl(2), count);
         if (Operations.access$getPushedIntMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects())) {
-            i7 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? string : str2;
+            i6 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? string : str2;
         } else {
         }
         int i12 = 0;
-        if (i7 == 0) {
+        if (i6 == 0) {
             this_$iv2 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
-            int i20 = 0;
-            i3 = string;
+            int i17 = 0;
+            i4 = string;
             while (str2 < iNSTANCE.getInts()) {
-                i8 = str2;
+                i5 = str2;
                 i = 0;
-                if (i21 &= i4 != 0 && missingIntCount$iv > 0) {
+                if (i18 &= i7 != 0 && missingIntCount$iv > 0) {
                 }
                 str2++;
                 missingObjects$iv = this;
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i8)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i5)));
                 missingIntCount$iv++;
                 sb2.append(", ");
             }
@@ -1389,14 +1389,14 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str3);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i8 = 0;
-            i5 = $i$f$push;
-            $i$f$push = i19;
+            i5 = 0;
+            i10 = $i$f$push;
+            $i$f$push = i16;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < iNSTANCE.getObjects()) {
-                i2 = missingObjectCount$iv;
-                i4 = 0;
-                if (i22 &= i9 != 0) {
+                i8 = missingObjectCount$iv;
+                i7 = 0;
+                if (i19 &= i9 != 0) {
                 } else {
                 }
                 str = objectParamName-31yXWZQ;
@@ -1405,7 +1405,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 if (missingIntCount$iv > 0) {
                 }
                 str = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i2)));
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i8)));
                 $i$f$push++;
                 sb.append(objectParamName-31yXWZQ);
             }
@@ -1415,7 +1415,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append($i$f$push).append(" object arguments (").append(string2).append(").").toString());
         } else {
             this_$iv = operations;
-            i5 = $i$f$push;
+            i10 = $i$f$push;
         }
     }
 
@@ -1425,10 +1425,10 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         String objectParamName-31yXWZQ;
         Object operations;
         int $i$f$push;
-        int i;
-        int i7;
-        int i2;
-        int this_$iv;
+        int i10;
+        int i11;
+        int i8;
+        int this_$iv2;
         int string;
         int str2;
         int i3;
@@ -1436,13 +1436,13 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i10;
-        int i11;
+        int i;
         int i4;
-        androidx.compose.runtime.changelist.Operations this_$iv2;
-        int i5;
-        int i8;
         int i9;
+        androidx.compose.runtime.changelist.Operations this_$iv;
+        int i7;
+        int i2;
+        int i5;
         String str;
         int i6;
         operations = missingObjects$iv.operations;
@@ -1463,28 +1463,28 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int i16 = 0;
         Operations.WriteScope.setObject-DKhxnng(constructor-impl3, Operation.ObjectParameter.constructor-impl(2), reference);
         if (Operations.access$getPushedIntMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects())) {
-            i7 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str2 : string;
+            i11 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str2 : string;
         } else {
         }
         int i13 = 0;
-        if (i7 == 0) {
-            this_$iv = 0;
+        if (i11 == 0) {
+            this_$iv2 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i18 = 0;
-            i11 = str2;
+            i4 = str2;
             i3 = 0;
             while (i3 < iNSTANCE.getInts()) {
-                i4 = i3;
-                i5 = 0;
-                if (i19 &= i9 != 0 && missingIntCount$iv > 0) {
+                i9 = i3;
+                i7 = 0;
+                if (i19 &= i5 != 0 && missingIntCount$iv > 0) {
                 }
                 i3++;
                 missingObjects$iv = this;
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i4)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i9)));
                 missingIntCount$iv++;
                 sb2.append(", ");
             }
@@ -1493,13 +1493,13 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str3);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i4 = 0;
-            i10 = $i$f$push;
+            i9 = 0;
+            i = $i$f$push;
             $i$f$push = i17;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < iNSTANCE.getObjects()) {
-                i8 = missingObjectCount$iv;
-                i9 = 0;
+                i2 = missingObjectCount$iv;
+                i5 = 0;
                 if (i20 &= i6 != 0) {
                 } else {
                 }
@@ -1509,7 +1509,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 if (missingIntCount$iv > 0) {
                 }
                 str = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i8)));
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i2)));
                 $i$f$push++;
                 sb.append(objectParamName-31yXWZQ);
             }
@@ -1518,8 +1518,8 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             StringBuilder stringBuilder2 = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append($i$f$push).append(" object arguments (").append(string2).append(").").toString());
         } else {
-            this_$iv2 = operations;
-            i10 = $i$f$push;
+            this_$iv = operations;
+            i = $i$f$push;
         }
     }
 
@@ -1528,26 +1528,26 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         Object missingObjectCount$iv;
         int missingObjectCount$iv2;
         Object objectParamName-31yXWZQ;
-        int i;
-        int i4;
         int i9;
+        int i4;
+        int i2;
         int this_$iv2;
         int str;
-        int i2;
+        int i6;
         int missingIntCount$iv;
         String string;
         String str2;
         int missingObjectCount$iv3;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i10;
-        int i5;
-        int i6;
-        int i8;
-        int i3;
-        androidx.compose.runtime.changelist.Operations this_$iv;
-        int this_$iv3;
         int i7;
+        int i;
+        int i3;
+        int i8;
+        int i5;
+        androidx.compose.runtime.changelist.Operations this_$iv3;
+        int this_$iv;
+        int i10;
         objectParamName-31yXWZQ = missingObjectCount$iv.operations;
         final androidx.compose.runtime.changelist.Operation.Remember iNSTANCE = Operation.Remember.INSTANCE;
         final int i11 = 0;
@@ -1563,25 +1563,25 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         }
         int i13 = 0;
         if (i4 == 0) {
-            i2 = 0;
+            i6 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i15 = 0;
-            i10 = str;
-            i5 = 1;
+            i7 = str;
+            i = 1;
             this_$iv2 = ", ";
-            while (i10 < iNSTANCE.getInts()) {
-                i6 = i10;
+            while (i7 < iNSTANCE.getInts()) {
+                i3 = i7;
                 i8 = 0;
-                if (i17 &= this_$iv3 != 0 && missingIntCount$iv > 0) {
+                if (i17 &= this_$iv != 0 && missingIntCount$iv > 0) {
                 }
-                i10++;
-                i5 = 1;
+                i7++;
+                i = 1;
                 this_$iv2 = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i6)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i3)));
                 missingIntCount$iv++;
                 sb2.append(this_$iv2);
             }
@@ -1590,32 +1590,32 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i6 = 0;
+            i3 = 0;
             missingObjectCount$iv2 = i16;
             missingObjectCount$iv3 = 0;
             while (missingObjectCount$iv3 < iNSTANCE.getObjects()) {
                 i8 = missingObjectCount$iv3;
-                i3 = 0;
-                if (i18 &= i7 != 0) {
+                i5 = 0;
+                if (i18 &= i10 != 0) {
                 } else {
                 }
-                this_$iv3 = objectParamName-31yXWZQ;
+                this_$iv = objectParamName-31yXWZQ;
                 missingObjectCount$iv3++;
-                objectParamName-31yXWZQ = this_$iv3;
+                objectParamName-31yXWZQ = this_$iv;
                 if (missingIntCount$iv > 0) {
                 }
-                this_$iv3 = objectParamName-31yXWZQ;
+                this_$iv = objectParamName-31yXWZQ;
                 sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i8)));
                 missingObjectCount$iv2++;
                 sb.append(this_$iv2);
             }
-            this_$iv = objectParamName-31yXWZQ;
+            this_$iv3 = objectParamName-31yXWZQ;
             objectParamName-31yXWZQ = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
         } else {
-            this_$iv = objectParamName-31yXWZQ;
+            this_$iv3 = objectParamName-31yXWZQ;
         }
     }
 
@@ -1628,11 +1628,11 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
     public final void pushRemoveNode(int removeFrom, int moveCount) {
         Object missingObjects$iv;
         int objectParamName-31yXWZQ;
-        androidx.compose.runtime.changelist.Operations this_$iv;
-        int i5;
-        int i4;
+        androidx.compose.runtime.changelist.Operations this_$iv2;
         int i;
-        int this_$iv2;
+        int i5;
+        int i6;
+        int this_$iv3;
         int string;
         int append;
         String intParamName-w8GmfQM;
@@ -1641,48 +1641,48 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        androidx.compose.runtime.changelist.Operations this_$iv3;
-        int i9;
-        int i2;
-        int i6;
-        int i8;
-        int i3;
+        androidx.compose.runtime.changelist.Operations this_$iv;
         int i7;
-        this_$iv = missingObjects$iv.operations;
+        int i2;
+        int i8;
+        int i4;
+        int i9;
+        int i3;
+        this_$iv2 = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.RemoveNode iNSTANCE = Operation.RemoveNode.INSTANCE;
         final int i10 = 0;
-        this_$iv.pushOp((Operation)iNSTANCE);
-        androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv);
+        this_$iv2.pushOp((Operation)iNSTANCE);
+        androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv2);
         int i11 = 0;
         androidx.compose.runtime.changelist.Operation.RemoveNode iNSTANCE2 = Operation.RemoveNode.INSTANCE;
         int i13 = 0;
         string = 0;
         Operations.WriteScope.setInt-A6tL2VI(constructor-impl2, Operation.IntParameter.constructor-impl(string), removeFrom);
         androidx.compose.runtime.changelist.Operation.RemoveNode iNSTANCE3 = Operation.RemoveNode.INSTANCE;
-        int i15 = 0;
+        int i14 = 0;
         append = 1;
         Operations.WriteScope.setInt-A6tL2VI(constructor-impl2, Operation.IntParameter.constructor-impl(append), moveCount);
-        if (Operations.access$getPushedIntMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects())) {
-            i4 = Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects()) ? append : string;
+        if (Operations.access$getPushedIntMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getObjects())) {
+            i5 = Operations.access$getPushedObjectMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getObjects()) ? append : string;
         } else {
         }
         int i12 = 0;
-        if (i4 == 0) {
-            this_$iv2 = 0;
+        if (i5 == 0) {
+            this_$iv3 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
-            int i18 = 0;
-            i9 = append;
+            int i16 = 0;
+            i7 = append;
             intParamName-w8GmfQM = ", ";
             while (string < iNSTANCE.getInts()) {
                 i2 = string;
-                i6 = 0;
-                if (i19 &= i3 != 0 && missingIntCount$iv > 0) {
+                i8 = 0;
+                if (i17 &= i9 != 0 && missingIntCount$iv > 0) {
                 }
                 string++;
-                append = i9;
-                i9 = append;
+                append = i7;
+                i7 = append;
                 intParamName-w8GmfQM = ", ";
                 if (missingIntCount$iv > 0) {
                 }
@@ -1697,30 +1697,30 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             sb = stringBuilder;
             i2 = 0;
             objectParamName-31yXWZQ = iNSTANCE.getObjects();
-            this_$iv = i17;
+            this_$iv2 = i15;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < objectParamName-31yXWZQ) {
-                i6 = missingObjectCount$iv;
-                i8 = 0;
-                if (i20 &= i7 != 0) {
+                i8 = missingObjectCount$iv;
+                i4 = 0;
+                if (i18 &= i3 != 0) {
                 } else {
                 }
-                i3 = objectParamName-31yXWZQ;
+                i9 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
-                objectParamName-31yXWZQ = i3;
+                objectParamName-31yXWZQ = i9;
                 if (missingIntCount$iv > 0) {
                 }
-                i3 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i6)));
-                this_$iv++;
+                i9 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i8)));
+                this_$iv2++;
                 sb.append(intParamName-w8GmfQM);
             }
             String string2 = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(string2, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(this_$iv).append(" object arguments (").append(string2).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(this_$iv2).append(" object arguments (").append(string2).append(").").toString());
         } else {
-            this_$iv3 = this_$iv;
+            this_$iv = this_$iv2;
         }
     }
 
@@ -1731,28 +1731,28 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
 
     public final void pushSideEffect(Function0<Unit> effect) {
         Object missingObjectCount$iv;
-        int missingObjectCount$iv3;
+        int missingObjectCount$iv2;
         Object objectParamName-31yXWZQ;
-        int i7;
         int i8;
-        int i2;
-        int this_$iv2;
-        int str2;
-        int i3;
+        int i4;
+        int i7;
+        int this_$iv3;
+        int str;
+        int i5;
         int missingIntCount$iv;
         String string;
-        String str;
-        int missingObjectCount$iv2;
+        String str2;
+        int missingObjectCount$iv3;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i5;
+        int i3;
         int i9;
-        int i4;
         int i6;
+        int i;
         int i10;
         androidx.compose.runtime.changelist.Operations this_$iv;
-        int this_$iv3;
-        int i;
+        int this_$iv2;
+        int i2;
         objectParamName-31yXWZQ = missingObjectCount$iv.operations;
         final androidx.compose.runtime.changelist.Operation.SideEffect iNSTANCE = Operation.SideEffect.INSTANCE;
         final int i11 = 0;
@@ -1760,65 +1760,65 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int i12 = 0;
         androidx.compose.runtime.changelist.Operation.SideEffect iNSTANCE2 = Operation.SideEffect.INSTANCE;
         int i14 = 0;
-        str2 = 0;
-        Operations.WriteScope.setObject-DKhxnng(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.ObjectParameter.constructor-impl(str2), effect);
+        str = 0;
+        Operations.WriteScope.setObject-DKhxnng(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.ObjectParameter.constructor-impl(str), effect);
         if (Operations.access$getPushedIntMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects())) {
-            i8 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str2;
+            i4 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str;
         } else {
         }
         int i13 = 0;
-        if (i8 == 0) {
-            i3 = 0;
+        if (i4 == 0) {
+            i5 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i15 = 0;
-            i5 = str2;
+            i3 = str;
             i9 = 1;
-            this_$iv2 = ", ";
-            while (i5 < iNSTANCE.getInts()) {
-                i4 = i5;
-                i6 = 0;
-                if (i17 &= this_$iv3 != 0 && missingIntCount$iv > 0) {
+            this_$iv3 = ", ";
+            while (i3 < iNSTANCE.getInts()) {
+                i6 = i3;
+                i = 0;
+                if (i17 &= this_$iv2 != 0 && missingIntCount$iv > 0) {
                 }
-                i5++;
+                i3++;
                 i9 = 1;
-                this_$iv2 = ", ";
+                this_$iv3 = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i4)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i6)));
                 missingIntCount$iv++;
-                sb2.append(this_$iv2);
+                sb2.append(this_$iv3);
             }
             string = stringBuilder3.toString();
-            str = "StringBuilder().apply(builderAction).toString()";
-            Intrinsics.checkNotNullExpressionValue(string, str);
+            str2 = "StringBuilder().apply(builderAction).toString()";
+            Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i4 = 0;
-            missingObjectCount$iv3 = i16;
-            missingObjectCount$iv2 = 0;
-            while (missingObjectCount$iv2 < iNSTANCE.getObjects()) {
-                i6 = missingObjectCount$iv2;
+            i6 = 0;
+            missingObjectCount$iv2 = i16;
+            missingObjectCount$iv3 = 0;
+            while (missingObjectCount$iv3 < iNSTANCE.getObjects()) {
+                i = missingObjectCount$iv3;
                 i10 = 0;
-                if (i18 &= i != 0) {
+                if (i18 &= i2 != 0) {
                 } else {
                 }
-                this_$iv3 = objectParamName-31yXWZQ;
-                missingObjectCount$iv2++;
-                objectParamName-31yXWZQ = this_$iv3;
+                this_$iv2 = objectParamName-31yXWZQ;
+                missingObjectCount$iv3++;
+                objectParamName-31yXWZQ = this_$iv2;
                 if (missingIntCount$iv > 0) {
                 }
-                this_$iv3 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i6)));
-                missingObjectCount$iv3++;
-                sb.append(this_$iv2);
+                this_$iv2 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i)));
+                missingObjectCount$iv2++;
+                sb.append(this_$iv3);
             }
             this_$iv = objectParamName-31yXWZQ;
             objectParamName-31yXWZQ = stringBuilder.toString();
-            Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str);
+            Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv3).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
         } else {
             this_$iv = objectParamName-31yXWZQ;
         }
@@ -1832,28 +1832,28 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
     @Override // androidx.compose.runtime.changelist.OperationsDebugStringFormattable
     public final void pushTrimValues(int count) {
         Object missingObjectCount$iv3;
-        int missingObjectCount$iv2;
+        int missingObjectCount$iv;
         Object objectParamName-31yXWZQ;
-        int i9;
-        int i;
-        int i2;
+        int i4;
+        int i5;
+        int i10;
         int this_$iv3;
         int str2;
-        int i4;
+        int i;
         int missingIntCount$iv;
         String string;
         String str;
-        int missingObjectCount$iv;
+        int missingObjectCount$iv2;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i5;
+        int i3;
+        int i7;
         int i6;
         int i8;
-        int i7;
-        int i10;
+        int i9;
         androidx.compose.runtime.changelist.Operations this_$iv;
         int this_$iv2;
-        int i3;
+        int i2;
         objectParamName-31yXWZQ = missingObjectCount$iv3.operations;
         final androidx.compose.runtime.changelist.Operation.TrimParentValues iNSTANCE = Operation.TrimParentValues.INSTANCE;
         final int i11 = 0;
@@ -1864,30 +1864,30 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         str2 = 0;
         Operations.WriteScope.setInt-A6tL2VI(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.IntParameter.constructor-impl(str2), count);
         if (Operations.access$getPushedIntMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects())) {
-            i = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str2;
+            i5 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str2;
         } else {
         }
         int i13 = 0;
-        if (i == 0) {
-            i4 = 0;
+        if (i5 == 0) {
+            i = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
-            int i16 = 0;
-            i5 = str2;
-            i6 = 1;
+            int i15 = 0;
+            i3 = str2;
+            i7 = 1;
             this_$iv3 = ", ";
-            while (i5 < iNSTANCE.getInts()) {
-                i8 = i5;
-                i7 = 0;
-                if (i18 &= this_$iv2 != 0 && missingIntCount$iv > 0) {
+            while (i3 < iNSTANCE.getInts()) {
+                i6 = i3;
+                i8 = 0;
+                if (i17 &= this_$iv2 != 0 && missingIntCount$iv > 0) {
                 }
-                i5++;
-                i6 = 1;
+                i3++;
+                i7 = 1;
                 this_$iv3 = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i8)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i6)));
                 missingIntCount$iv++;
                 sb2.append(this_$iv3);
             }
@@ -1896,30 +1896,30 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i8 = 0;
-            missingObjectCount$iv2 = i17;
-            missingObjectCount$iv = 0;
-            while (missingObjectCount$iv < iNSTANCE.getObjects()) {
-                i7 = missingObjectCount$iv;
-                i10 = 0;
-                if (i19 &= i3 != 0) {
+            i6 = 0;
+            missingObjectCount$iv = i16;
+            missingObjectCount$iv2 = 0;
+            while (missingObjectCount$iv2 < iNSTANCE.getObjects()) {
+                i8 = missingObjectCount$iv2;
+                i9 = 0;
+                if (i18 &= i2 != 0) {
                 } else {
                 }
                 this_$iv2 = objectParamName-31yXWZQ;
-                missingObjectCount$iv++;
+                missingObjectCount$iv2++;
                 objectParamName-31yXWZQ = this_$iv2;
                 if (missingIntCount$iv > 0) {
                 }
                 this_$iv2 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i7)));
-                missingObjectCount$iv2++;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i8)));
+                missingObjectCount$iv++;
                 sb.append(this_$iv3);
             }
             this_$iv = objectParamName-31yXWZQ;
             objectParamName-31yXWZQ = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
         } else {
             this_$iv = objectParamName-31yXWZQ;
         }
@@ -1931,26 +1931,26 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         String objectParamName-31yXWZQ;
         Object operations;
         int $i$f$push;
-        int i6;
-        int i7;
-        int i4;
-        int this_$iv;
+        int i3;
+        int i;
+        int i2;
+        int this_$iv2;
         int string;
         int str;
-        int i10;
+        int i5;
         int missingIntCount$iv;
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i;
-        int i5;
-        int i11;
-        androidx.compose.runtime.changelist.Operations this_$iv2;
-        int i8;
+        int i10;
+        int i4;
+        int i6;
+        androidx.compose.runtime.changelist.Operations this_$iv;
         int i9;
-        int i2;
+        int i11;
+        int i7;
         String str2;
-        int i3;
+        int i8;
         operations = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.UpdateAnchoredValue iNSTANCE = Operation.UpdateAnchoredValue.INSTANCE;
         $i$f$push = 0;
@@ -1969,28 +1969,28 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int i16 = 0;
         Operations.WriteScope.setInt-A6tL2VI(constructor-impl3, Operation.IntParameter.constructor-impl(string), groupSlotIndex);
         if (Operations.access$getPushedIntMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects())) {
-            i7 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str : string;
+            i = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? str : string;
         } else {
         }
         int i13 = 0;
-        if (i7 == 0) {
-            this_$iv = 0;
+        if (i == 0) {
+            this_$iv2 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
-            int i19 = 0;
-            i5 = str;
-            i10 = 0;
-            while (i10 < iNSTANCE.getInts()) {
-                i11 = i10;
-                i8 = 0;
-                if (i20 &= i2 != 0 && missingIntCount$iv > 0) {
+            int i18 = 0;
+            i4 = str;
+            i5 = 0;
+            while (i5 < iNSTANCE.getInts()) {
+                i6 = i5;
+                i9 = 0;
+                if (i19 &= i7 != 0 && missingIntCount$iv > 0) {
                 }
-                i10++;
+                i5++;
                 missingObjects$iv = this;
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i11)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i6)));
                 missingIntCount$iv++;
                 sb2.append(", ");
             }
@@ -1999,14 +1999,14 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             Intrinsics.checkNotNullExpressionValue(string, str3);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i11 = 0;
-            i = $i$f$push;
-            $i$f$push = i18;
+            i6 = 0;
+            i10 = $i$f$push;
+            $i$f$push = i17;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < iNSTANCE.getObjects()) {
-                i9 = missingObjectCount$iv;
-                i2 = 0;
-                if (i21 &= i3 != 0) {
+                i11 = missingObjectCount$iv;
+                i7 = 0;
+                if (i20 &= i8 != 0) {
                 } else {
                 }
                 str2 = objectParamName-31yXWZQ;
@@ -2015,7 +2015,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 if (missingIntCount$iv > 0) {
                 }
                 str2 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i9)));
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i11)));
                 $i$f$push++;
                 sb.append(objectParamName-31yXWZQ);
             }
@@ -2024,37 +2024,37 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             StringBuilder stringBuilder2 = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append($i$f$push).append(" object arguments (").append(string2).append(").").toString());
         } else {
-            this_$iv2 = operations;
-            i = $i$f$push;
+            this_$iv = operations;
+            i10 = $i$f$push;
         }
     }
 
     @Override // androidx.compose.runtime.changelist.OperationsDebugStringFormattable
     public final void pushUpdateAuxData(Object data) {
-        Object missingObjectCount$iv3;
-        int missingObjectCount$iv2;
+        Object missingObjectCount$iv2;
+        int missingObjectCount$iv;
         Object objectParamName-31yXWZQ;
-        int i5;
-        int i;
+        int i6;
         int i7;
-        int this_$iv2;
+        int i8;
+        int this_$iv3;
         int str2;
-        int i4;
+        int i3;
         int missingIntCount$iv;
         String string;
         String str;
-        int missingObjectCount$iv;
+        int missingObjectCount$iv3;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i6;
         int i2;
-        int i8;
         int i9;
         int i10;
+        int i;
+        int i4;
         androidx.compose.runtime.changelist.Operations this_$iv;
-        int this_$iv3;
-        int i3;
-        objectParamName-31yXWZQ = missingObjectCount$iv3.operations;
+        int this_$iv2;
+        int i5;
+        objectParamName-31yXWZQ = missingObjectCount$iv2.operations;
         final androidx.compose.runtime.changelist.Operation.UpdateAuxData iNSTANCE = Operation.UpdateAuxData.INSTANCE;
         final int i11 = 0;
         objectParamName-31yXWZQ.pushOp((Operation)iNSTANCE);
@@ -2064,62 +2064,62 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         str2 = 0;
         Operations.WriteScope.setObject-DKhxnng(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.ObjectParameter.constructor-impl(str2), data);
         if (Operations.access$getPushedIntMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects())) {
-            i = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str2;
+            i7 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str2;
         } else {
         }
         int i13 = 0;
-        if (i == 0) {
-            i4 = 0;
+        if (i7 == 0) {
+            i3 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i15 = 0;
-            i6 = str2;
-            i2 = 1;
-            this_$iv2 = ", ";
-            while (i6 < iNSTANCE.getInts()) {
-                i8 = i6;
-                i9 = 0;
-                if (i17 &= this_$iv3 != 0 && missingIntCount$iv > 0) {
+            i2 = str2;
+            i9 = 1;
+            this_$iv3 = ", ";
+            while (i2 < iNSTANCE.getInts()) {
+                i10 = i2;
+                i = 0;
+                if (i17 &= this_$iv2 != 0 && missingIntCount$iv > 0) {
                 }
-                i6++;
-                i2 = 1;
-                this_$iv2 = ", ";
+                i2++;
+                i9 = 1;
+                this_$iv3 = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i8)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i10)));
                 missingIntCount$iv++;
-                sb2.append(this_$iv2);
+                sb2.append(this_$iv3);
             }
             string = stringBuilder3.toString();
             str = "StringBuilder().apply(builderAction).toString()";
             Intrinsics.checkNotNullExpressionValue(string, str);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i8 = 0;
-            missingObjectCount$iv2 = i16;
-            missingObjectCount$iv = 0;
-            while (missingObjectCount$iv < iNSTANCE.getObjects()) {
-                i9 = missingObjectCount$iv;
-                i10 = 0;
-                if (i18 &= i3 != 0) {
+            i10 = 0;
+            missingObjectCount$iv = i16;
+            missingObjectCount$iv3 = 0;
+            while (missingObjectCount$iv3 < iNSTANCE.getObjects()) {
+                i = missingObjectCount$iv3;
+                i4 = 0;
+                if (i18 &= i5 != 0) {
                 } else {
                 }
-                this_$iv3 = objectParamName-31yXWZQ;
-                missingObjectCount$iv++;
-                objectParamName-31yXWZQ = this_$iv3;
+                this_$iv2 = objectParamName-31yXWZQ;
+                missingObjectCount$iv3++;
+                objectParamName-31yXWZQ = this_$iv2;
                 if (missingIntCount$iv > 0) {
                 }
-                this_$iv3 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i9)));
-                missingObjectCount$iv2++;
-                sb.append(this_$iv2);
+                this_$iv2 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i)));
+                missingObjectCount$iv++;
+                sb.append(this_$iv3);
             }
             this_$iv = objectParamName-31yXWZQ;
             objectParamName-31yXWZQ = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(objectParamName-31yXWZQ, str);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv).append(" object arguments (").append(objectParamName-31yXWZQ).append(").").toString());
         } else {
             this_$iv = objectParamName-31yXWZQ;
         }
@@ -2129,9 +2129,9 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         Object missingObjects$iv;
         int objectParamName-31yXWZQ;
         Object missingObjectCount$iv2;
+        int i3;
         int i5;
-        int i2;
-        int i;
+        int i8;
         int this_$iv;
         int string;
         Object missingIntCount$iv;
@@ -2141,12 +2141,12 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i3;
-        int i4;
-        int i6;
-        int i7;
-        int i8;
         int i9;
+        int i6;
+        int i2;
+        int i;
+        int i7;
+        int i4;
         missingObjects$iv = block;
         final androidx.compose.runtime.changelist.Operations operations = missingObjectCount$iv2.operations;
         final androidx.compose.runtime.changelist.Operation.UpdateNode iNSTANCE = Operation.UpdateNode.INSTANCE;
@@ -2164,60 +2164,60 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         Intrinsics.checkNotNull(missingObjects$iv, "null cannot be cast to non-null type @[ExtensionFunctionType] kotlin.Function2<kotlin.Any?, kotlin.Any?, kotlin.Unit>");
         Operations.WriteScope.setObject-DKhxnng(constructor-impl2, Operation.ObjectParameter.constructor-impl(append), (Function2)TypeIntrinsics.beforeCheckcastToFunctionOfArity(missingObjects$iv, 2));
         if (Operations.access$getPushedIntMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects())) {
-            i2 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? append : string;
+            i5 = Operations.access$getPushedObjectMask$p(operations) == Operations.access$createExpectedArgMask(operations, iNSTANCE.getObjects()) ? append : string;
         } else {
         }
         int i12 = 0;
-        if (i2 == 0) {
+        if (i5 == 0) {
             this_$iv = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
             int i17 = 0;
-            i4 = append;
+            i6 = append;
             intParamName-w8GmfQM = ", ";
             while (string < iNSTANCE.getInts()) {
-                i6 = string;
-                i7 = 0;
-                if (i20 &= i9 != 0 && missingIntCount$iv > 0) {
+                i2 = string;
+                i = 0;
+                if (i20 &= i4 != 0 && missingIntCount$iv > 0) {
                 }
                 string++;
-                append = i4;
-                i4 = append;
+                append = i6;
+                i6 = append;
                 intParamName-w8GmfQM = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i6)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i2)));
                 missingIntCount$iv++;
                 sb2.append(intParamName-w8GmfQM);
             }
             string = stringBuilder3.toString();
-            String str3 = "StringBuilder().apply(builderAction).toString()";
-            Intrinsics.checkNotNullExpressionValue(string, str3);
+            String str2 = "StringBuilder().apply(builderAction).toString()";
+            Intrinsics.checkNotNullExpressionValue(string, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i6 = 0;
+            i2 = 0;
             objectParamName-31yXWZQ = iNSTANCE.getObjects();
             missingObjectCount$iv2 = i16;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < objectParamName-31yXWZQ) {
-                i3 = missingObjectCount$iv;
-                i7 = 0;
-                if (i18 &= i9 != 0) {
+                i9 = missingObjectCount$iv;
+                i = 0;
+                if (i18 &= i4 != 0) {
                 } else {
                 }
-                i8 = objectParamName-31yXWZQ;
+                i7 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
-                objectParamName-31yXWZQ = i8;
+                objectParamName-31yXWZQ = i7;
                 if (missingIntCount$iv > 0) {
                 }
-                i8 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i3)));
+                i7 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i9)));
                 missingObjectCount$iv2++;
                 sb.append(intParamName-w8GmfQM);
             }
             String string2 = stringBuilder.toString();
-            Intrinsics.checkNotNullExpressionValue(string2, str3);
+            Intrinsics.checkNotNullExpressionValue(string2, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
             PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(string).append(") and ").append(missingObjectCount$iv2).append(" object arguments (").append(string2).append(").").toString());
         }
@@ -2227,32 +2227,32 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
     public final void pushUpdateValue(Object value, int groupSlotIndex) {
         Object missingObjects$iv;
         int objectParamName-31yXWZQ;
-        androidx.compose.runtime.changelist.Operations this_$iv;
-        int i10;
-        int i11;
-        int i9;
-        int this_$iv2;
-        int i3;
+        androidx.compose.runtime.changelist.Operations this_$iv2;
+        int i4;
+        int i;
+        int i7;
+        int this_$iv3;
+        int i2;
         int append;
         String intParamName-w8GmfQM;
-        int i7;
+        int i3;
         int missingIntCount$iv;
         String str;
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i2;
-        androidx.compose.runtime.changelist.Operations this_$iv3;
-        int i;
-        int i4;
-        int i5;
         int i6;
+        androidx.compose.runtime.changelist.Operations this_$iv;
+        int i9;
+        int i11;
+        int i5;
+        int i10;
         int i8;
-        this_$iv = missingObjects$iv.operations;
+        this_$iv2 = missingObjects$iv.operations;
         final androidx.compose.runtime.changelist.Operation.UpdateValue iNSTANCE = Operation.UpdateValue.INSTANCE;
         final int i12 = 0;
-        this_$iv.pushOp((Operation)iNSTANCE);
-        androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv);
+        this_$iv2.pushOp((Operation)iNSTANCE);
+        androidx.compose.runtime.changelist.Operations constructor-impl2 = Operations.WriteScope.constructor-impl(this_$iv2);
         int i13 = 0;
         androidx.compose.runtime.changelist.Operation.UpdateValue iNSTANCE2 = Operation.UpdateValue.INSTANCE;
         int i15 = 0;
@@ -2261,65 +2261,65 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         androidx.compose.runtime.changelist.Operation.UpdateValue iNSTANCE3 = Operation.UpdateValue.INSTANCE;
         int i16 = 0;
         Operations.WriteScope.setInt-A6tL2VI(constructor-impl2, Operation.IntParameter.constructor-impl(append), groupSlotIndex);
-        if (Operations.access$getPushedIntMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects())) {
-            i11 = Operations.access$getPushedObjectMask$p(this_$iv) == Operations.access$createExpectedArgMask(this_$iv, iNSTANCE.getObjects()) ? 1 : append;
+        if (Operations.access$getPushedIntMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getObjects())) {
+            i = Operations.access$getPushedObjectMask$p(this_$iv2) == Operations.access$createExpectedArgMask(this_$iv2, iNSTANCE.getObjects()) ? 1 : append;
         } else {
         }
         int i14 = 0;
-        if (i11 == 0) {
-            i7 = 0;
+        if (i == 0) {
+            i3 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
-            int i19 = 0;
-            i3 = append;
-            i2 = 1;
+            int i18 = 0;
+            i2 = append;
+            i6 = 1;
             intParamName-w8GmfQM = ", ";
-            while (i3 < iNSTANCE.getInts()) {
-                i = i3;
-                i4 = 0;
-                if (i20 &= i6 != 0 && missingIntCount$iv > 0) {
+            while (i2 < iNSTANCE.getInts()) {
+                i9 = i2;
+                i11 = 0;
+                if (i19 &= i10 != 0 && missingIntCount$iv > 0) {
                 }
-                i3++;
+                i2++;
                 append = 0;
                 intParamName-w8GmfQM = ", ";
                 if (missingIntCount$iv > 0) {
                 }
-                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i)));
+                sb2.append(iNSTANCE.intParamName-w8GmfQM(Operation.IntParameter.constructor-impl(i9)));
                 missingIntCount$iv++;
                 sb2.append(intParamName-w8GmfQM);
             }
-            this_$iv2 = stringBuilder3.toString();
+            this_$iv3 = stringBuilder3.toString();
             String str2 = "StringBuilder().apply(builderAction).toString()";
-            Intrinsics.checkNotNullExpressionValue(this_$iv2, str2);
+            Intrinsics.checkNotNullExpressionValue(this_$iv3, str2);
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
-            i = 0;
+            i9 = 0;
             objectParamName-31yXWZQ = iNSTANCE.getObjects();
-            this_$iv = i18;
+            this_$iv2 = i17;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < objectParamName-31yXWZQ) {
-                i4 = missingObjectCount$iv;
+                i11 = missingObjectCount$iv;
                 i5 = 0;
-                if (i21 &= i8 != 0) {
+                if (i20 &= i8 != 0) {
                 } else {
                 }
-                i6 = objectParamName-31yXWZQ;
+                i10 = objectParamName-31yXWZQ;
                 missingObjectCount$iv++;
-                objectParamName-31yXWZQ = i6;
+                objectParamName-31yXWZQ = i10;
                 if (missingIntCount$iv > 0) {
                 }
-                i6 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i4)));
-                this_$iv++;
+                i10 = objectParamName-31yXWZQ;
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i11)));
+                this_$iv2++;
                 sb.append(intParamName-w8GmfQM);
             }
             String string = stringBuilder.toString();
             Intrinsics.checkNotNullExpressionValue(string, str2);
             StringBuilder stringBuilder2 = new StringBuilder();
-            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(this_$iv2).append(") and ").append(this_$iv).append(" object arguments (").append(string).append(").").toString());
+            PreconditionsKt.throwIllegalStateException(stringBuilder2.append("Error while pushing ").append(iNSTANCE).append(". Not all arguments were provided. Missing ").append(missingIntCount$iv).append(" int arguments (").append(this_$iv3).append(") and ").append(this_$iv2).append(" object arguments (").append(string).append(").").toString());
         } else {
-            this_$iv3 = this_$iv;
+            this_$iv = this_$iv2;
         }
     }
 
@@ -2328,26 +2328,26 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         Object missingObjectCount$iv3;
         int missingObjectCount$iv2;
         Object objectParamName-31yXWZQ;
-        int i;
-        int i4;
         int i10;
+        int i8;
+        int i6;
         int this_$iv;
         int str2;
-        int i8;
+        int i9;
         int missingIntCount$iv;
         String string;
         String str;
         int missingObjectCount$iv;
         StringBuilder stringBuilder;
         StringBuilder sb;
-        int i2;
-        int i9;
-        int i5;
         int i7;
         int i3;
+        int i5;
+        int i;
+        int i2;
         androidx.compose.runtime.changelist.Operations this_$iv2;
         int this_$iv3;
-        int i6;
+        int i4;
         objectParamName-31yXWZQ = missingObjectCount$iv3.operations;
         final androidx.compose.runtime.changelist.Operation.Ups iNSTANCE = Operation.Ups.INSTANCE;
         final int i11 = 0;
@@ -2358,26 +2358,26 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
         str2 = 0;
         Operations.WriteScope.setInt-A6tL2VI(Operations.WriteScope.constructor-impl(objectParamName-31yXWZQ), Operation.IntParameter.constructor-impl(str2), count);
         if (Operations.access$getPushedIntMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getInts()) && Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects())) {
-            i4 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str2;
+            i8 = Operations.access$getPushedObjectMask$p(objectParamName-31yXWZQ) == Operations.access$createExpectedArgMask(objectParamName-31yXWZQ, iNSTANCE.getObjects()) ? 1 : str2;
         } else {
         }
         int i13 = 0;
-        if (i4 == 0) {
-            i8 = 0;
+        if (i8 == 0) {
+            i9 = 0;
             missingIntCount$iv = 0;
             StringBuilder stringBuilder3 = new StringBuilder();
             StringBuilder sb2 = stringBuilder3;
-            int i16 = 0;
-            i2 = str2;
-            i9 = 1;
+            int i15 = 0;
+            i7 = str2;
+            i3 = 1;
             this_$iv = ", ";
-            while (i2 < iNSTANCE.getInts()) {
-                i5 = i2;
-                i7 = 0;
-                if (i18 &= this_$iv3 != 0 && missingIntCount$iv > 0) {
+            while (i7 < iNSTANCE.getInts()) {
+                i5 = i7;
+                i = 0;
+                if (i17 &= this_$iv3 != 0 && missingIntCount$iv > 0) {
                 }
-                i2++;
-                i9 = 1;
+                i7++;
+                i3 = 1;
                 this_$iv = ", ";
                 if (missingIntCount$iv > 0) {
                 }
@@ -2391,12 +2391,12 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
             stringBuilder = new StringBuilder();
             sb = stringBuilder;
             i5 = 0;
-            missingObjectCount$iv2 = i17;
+            missingObjectCount$iv2 = i16;
             missingObjectCount$iv = 0;
             while (missingObjectCount$iv < iNSTANCE.getObjects()) {
-                i7 = missingObjectCount$iv;
-                i3 = 0;
-                if (i19 &= i6 != 0) {
+                i = missingObjectCount$iv;
+                i2 = 0;
+                if (i18 &= i4 != 0) {
                 } else {
                 }
                 this_$iv3 = objectParamName-31yXWZQ;
@@ -2405,7 +2405,7 @@ public final class ChangeList extends androidx.compose.runtime.changelist.Operat
                 if (missingIntCount$iv > 0) {
                 }
                 this_$iv3 = objectParamName-31yXWZQ;
-                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i7)));
+                sb.append(iNSTANCE.objectParamName-31yXWZQ(Operation.ObjectParameter.constructor-impl(i)));
                 missingObjectCount$iv2++;
                 sb.append(this_$iv);
             }

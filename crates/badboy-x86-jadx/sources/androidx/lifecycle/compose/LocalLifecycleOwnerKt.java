@@ -26,8 +26,8 @@ public final class LocalLifecycleOwnerKt {
         java.lang.annotation.Annotation[] annotations;
         int i2;
         int i;
-        java.lang.annotation.Annotation annotation;
         java.lang.annotation.Annotation annotation2;
+        java.lang.annotation.Annotation annotation;
         int i3;
         boolean z;
         final int i4 = 0;

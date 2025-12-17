@@ -17,35 +17,35 @@ public final class SavedStateHandleImpl_androidKt {
     }
 
     public static final boolean isAcceptableType(Object value) {
-        int i;
+        int i4;
         int $this$any$iv;
         int i2;
         boolean iterator;
-        int i3;
+        int i;
         Object next;
         boolean classRef;
-        int i4;
+        int i3;
         if (value != null) {
             List aCCEPTABLE_CLASSES = SavedStateHandleImpl_androidKt.ACCEPTABLE_CLASSES;
             i2 = 0;
-            i3 = 0;
+            i = 0;
             if (aCCEPTABLE_CLASSES instanceof Collection != null && (Collection)(Iterable)aCCEPTABLE_CLASSES.isEmpty()) {
                 if ((Collection)aCCEPTABLE_CLASSES.isEmpty()) {
-                    $this$any$iv = i3;
+                    $this$any$iv = i;
                 } else {
                     iterator = aCCEPTABLE_CLASSES.iterator();
                     for (Object next : iterator) {
-                        i4 = 0;
+                        i3 = 0;
                     }
-                    $this$any$iv = i3;
+                    $this$any$iv = i;
                 }
             } else {
             }
             if ($this$any$iv != 0) {
             } else {
-                i = i3;
+                i4 = i;
             }
         }
-        return i;
+        return i4;
     }
 }

@@ -25,17 +25,17 @@ public final class IndentationFixSpan_androidKt {
     }
     public static final float getEllipsizedLeftPadding(Layout $this$getEllipsizedLeftPadding, int lineIndex, Paint paint) {
         boolean paragraphDirection;
-        int i2;
         int i3;
-        int i;
         int i4;
+        int i;
+        int i2;
         int[] $EnumSwitchMapping$0;
         final float lineLeft = $this$getEllipsizedLeftPadding.getLineLeft(lineIndex);
         int i6 = 0;
-        i2 = 1;
-        if (TextLayout_androidKt.isLineEllipsized($this$getEllipsizedLeftPadding, lineIndex) && $this$getEllipsizedLeftPadding.getParagraphDirection(lineIndex) == i2 && Float.compare(lineLeft, i6) < 0) {
-            i2 = 1;
-            if ($this$getEllipsizedLeftPadding.getParagraphDirection(lineIndex) == i2) {
+        i3 = 1;
+        if (TextLayout_androidKt.isLineEllipsized($this$getEllipsizedLeftPadding, lineIndex) && $this$getEllipsizedLeftPadding.getParagraphDirection(lineIndex) == i3 && Float.compare(lineLeft, i6) < 0) {
+            i3 = 1;
+            if ($this$getEllipsizedLeftPadding.getParagraphDirection(lineIndex) == i3) {
                 if (Float.compare(lineLeft, i6) < 0) {
                     i7 += measureText;
                     Layout.Alignment paragraphAlignment = $this$getEllipsizedLeftPadding.getParagraphAlignment(lineIndex);
@@ -44,12 +44,12 @@ public final class IndentationFixSpan_androidKt {
                     } else {
                         i = IndentationFixSpan_androidKt.WhenMappings.$EnumSwitchMapping$0[paragraphAlignment.ordinal()];
                     }
-                    if (i == i2) {
-                        f += i4;
+                    if (i == i3) {
+                        f += i2;
                     } else {
-                        f2 += i4;
+                        f2 += i2;
                     }
-                    return i3;
+                    return i4;
                 }
             }
         }
@@ -66,12 +66,12 @@ public final class IndentationFixSpan_androidKt {
 
     public static final float getEllipsizedRightPadding(Layout $this$getEllipsizedRightPadding, int lineIndex, Paint paint) {
         boolean paragraphDirection;
+        int i2;
         int i3;
-        int i4;
         float lineRight;
         int paragraphAlignment;
+        int i4;
         int i;
-        int i2;
         if (TextLayout_androidKt.isLineEllipsized($this$getEllipsizedRightPadding, lineIndex) && $this$getEllipsizedRightPadding.getParagraphDirection(lineIndex) == -1 && Float.compare(f, lineRight) < 0) {
             if ($this$getEllipsizedRightPadding.getParagraphDirection(lineIndex) == -1) {
                 if (Float.compare(f, lineRight) < 0) {
@@ -79,14 +79,14 @@ public final class IndentationFixSpan_androidKt {
                     paragraphAlignment = $this$getEllipsizedRightPadding.getParagraphAlignment(lineIndex);
                     if (paragraphAlignment == null) {
                     } else {
-                        i3 = IndentationFixSpan_androidKt.WhenMappings.$EnumSwitchMapping$0[paragraphAlignment.ordinal()];
+                        i2 = IndentationFixSpan_androidKt.WhenMappings.$EnumSwitchMapping$0[paragraphAlignment.ordinal()];
                     }
-                    if (i3 == 1) {
-                        i6 -= i;
+                    if (i2 == 1) {
+                        i6 -= i4;
                     } else {
-                        i7 -= i;
+                        i7 -= i4;
                     }
-                    return i4;
+                    return i3;
                 }
             }
         }

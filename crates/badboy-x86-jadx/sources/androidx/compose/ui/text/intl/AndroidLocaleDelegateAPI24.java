@@ -28,30 +28,30 @@ public final class AndroidLocaleDelegateAPI24 implements androidx.compose.ui.tex
 
     @Override // androidx.compose.ui.text.intl.PlatformLocaleDelegate
     public androidx.compose.ui.text.intl.LocaleList getCurrent() {
-        int i2;
-        LocaleList lastPlatformLocaleList;
-        int i3;
         int i;
+        LocaleList lastPlatformLocaleList;
+        int i2;
         int i4;
-        androidx.compose.ui.text.intl.Locale locale2;
-        Locale locale;
+        int i3;
+        androidx.compose.ui.text.intl.Locale locale;
+        Locale locale2;
         final LocaleList default = LocaleList.getDefault();
         final SynchronizedObject lock = this.lock;
         final int i5 = 0;
         androidx.compose.ui.text.intl.LocaleList lastLocaleList = this.lastLocaleList;
         synchronized (lock) {
-            i2 = 0;
+            i = 0;
             if (default == this.lastPlatformLocaleList) {
                 return lastLocaleList;
             }
             int size = default.size();
             ArrayList arrayList = new ArrayList(size);
-            i3 = 0;
-            while (i3 < size) {
-                i4 = 0;
-                locale2 = new Locale(default.get(i3));
-                arrayList.add(locale2);
-                i3++;
+            i2 = 0;
+            while (i2 < size) {
+                i3 = 0;
+                locale = new Locale(default.get(i2));
+                arrayList.add(locale);
+                i2++;
             }
             LocaleList localeList = new LocaleList((List)arrayList);
             this.lastPlatformLocaleList = default;

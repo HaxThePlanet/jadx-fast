@@ -40,21 +40,21 @@ public final class ChannelLimitedFlowMerge<T>  extends kotlinx.coroutines.flow.i
     protected Object collectTo(ProducerScope<? super T> scope, Continuation<? super Unit> $completion) {
         Object next;
         Object obj;
-        int i2;
-        CoroutineScope coroutineScope;
-        int i3;
-        int i;
-        kotlinx.coroutines.flow.internal.ChannelLimitedFlowMerge.collectTo.2.1 anon;
-        int i4;
         int i5;
+        CoroutineScope coroutineScope;
+        int i4;
+        int i2;
+        kotlinx.coroutines.flow.internal.ChannelLimitedFlowMerge.collectTo.2.1 anon;
+        int i;
+        int i3;
         SendingCollector sendingCollector = new SendingCollector((SendChannel)scope);
         final int i6 = 0;
         final Iterator iterator = this.flows.iterator();
         for (Object next : iterator) {
+            i5 = 0;
             i2 = 0;
-            i = 0;
-            ChannelLimitedFlowMerge.collectTo.2.1 anon2 = new ChannelLimitedFlowMerge.collectTo.2.1((Flow)next, sendingCollector, i);
-            BuildersKt.launch$default((CoroutineScope)scope, 0, i, (Function2)anon2, 3, 0);
+            ChannelLimitedFlowMerge.collectTo.2.1 anon2 = new ChannelLimitedFlowMerge.collectTo.2.1((Flow)next, sendingCollector, i2);
+            BuildersKt.launch$default((CoroutineScope)scope, 0, i2, (Function2)anon2, 3, 0);
         }
         return Unit.INSTANCE;
     }

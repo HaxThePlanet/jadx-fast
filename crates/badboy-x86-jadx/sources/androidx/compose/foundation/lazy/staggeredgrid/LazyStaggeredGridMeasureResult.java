@@ -227,42 +227,42 @@ public final class LazyStaggeredGridMeasureResult implements androidx.compose.fo
     @Override // androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridLayoutInfo
     public final boolean tryToApplyScrollWithoutRemeasure(int delta) {
         int remeasureNeeded;
-        int i3;
-        int i4;
+        int i2;
+        int i;
         int index$iv;
         int index$iv2;
         int size;
-        Object obj;
         Object obj2;
-        int i;
-        int i2;
+        Object obj;
+        int i3;
+        int i4;
         boolean nonScrollableItem;
         int mainAxisOffset;
         int viewportEndOffset;
         int viewportStartOffset;
-        i3 = 0;
+        i2 = 0;
         if (!this.remeasureNeeded && !getVisibleItemsInfo().isEmpty()) {
             if (!getVisibleItemsInfo().isEmpty()) {
-                i4 = 1;
-                remeasureNeeded = firstVisibleItemIndices.length == 0 ? i4 : i3;
+                i = 1;
+                remeasureNeeded = firstVisibleItemIndices.length == 0 ? i : i2;
                 if (remeasureNeeded == 0) {
-                    remeasureNeeded = firstVisibleItemScrollOffsets.length == 0 ? i4 : i3;
+                    remeasureNeeded = firstVisibleItemScrollOffsets.length == 0 ? i : i2;
                     if (remeasureNeeded != 0) {
                     } else {
                         List visibleItemsInfo2 = getVisibleItemsInfo();
                         int i6 = 0;
                         index$iv2 = 0;
                         while (index$iv2 < visibleItemsInfo2.size()) {
-                            obj2 = obj;
-                            i = 0;
-                            if (obj2.getMainAxisOffset() <= 0) {
+                            obj = obj2;
+                            i3 = 0;
+                            if (obj.getMainAxisOffset() <= 0) {
                             } else {
                             }
-                            nonScrollableItem = i3;
+                            nonScrollableItem = i2;
                             if (mainAxisOffset6 += delta <= 0) {
                             } else {
                             }
-                            viewportEndOffset = i3;
+                            viewportEndOffset = i2;
                             index$iv2++;
                             if (delta < 0) {
                             } else {
@@ -270,55 +270,55 @@ public final class LazyStaggeredGridMeasureResult implements androidx.compose.fo
                             if (viewportEndOffset2 -= viewportEndOffset > delta) {
                             } else {
                             }
-                            i2 = i3;
-                            i2 = i4;
+                            i4 = i2;
+                            i4 = i;
                             if (i11 -= viewportEndOffset3 > -delta) {
                             } else {
                             }
-                            i2 = i3;
-                            i2 = i4;
+                            i4 = i2;
+                            i4 = i;
                             if (delta < 0) {
                             } else {
                             }
                             if (viewportStartOffset2 -= viewportStartOffset > delta) {
                             } else {
                             }
-                            mainAxisOffset = i3;
-                            mainAxisOffset = i4;
+                            mainAxisOffset = i2;
+                            mainAxisOffset = i;
                             if (i8 -= viewportStartOffset3 > -delta) {
                             } else {
                             }
-                            mainAxisOffset = i3;
-                            mainAxisOffset = i4;
-                            viewportEndOffset = i4;
-                            nonScrollableItem = i4;
+                            mainAxisOffset = i2;
+                            mainAxisOffset = i;
+                            viewportEndOffset = i;
+                            nonScrollableItem = i;
                         }
                         int length3 = $this$fastForEach$iv.length;
                         int[] iArr = new int[length3];
-                        while (i3 < length3) {
-                            iArr[i3] = i7 -= delta;
-                            i3++;
+                        while (i2 < length3) {
+                            iArr[i2] = i7 -= delta;
+                            i2++;
                         }
                         this.firstVisibleItemScrollOffsets = iArr;
                         List visibleItemsInfo3 = getVisibleItemsInfo();
                         int i5 = 0;
                         index$iv = 0;
                         while (index$iv < visibleItemsInfo3.size()) {
-                            obj2 = 0;
+                            obj = 0;
                             (LazyStaggeredGridMeasuredItem)visibleItemsInfo3.get(index$iv).applyScrollDelta(delta);
                             index$iv++;
                         }
                         this.consumedScroll = (float)delta;
                         if (!this.canScrollForward && delta > 0) {
                             if (delta > 0) {
-                                this.canScrollForward = i4;
+                                this.canScrollForward = i;
                             }
                         }
                     }
-                    return i4;
+                    return i;
                 }
             }
         }
-        return i3;
+        return i2;
     }
 }

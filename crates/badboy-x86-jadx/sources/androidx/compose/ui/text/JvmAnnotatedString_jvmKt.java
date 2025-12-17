@@ -19,33 +19,33 @@ import kotlin.jvm.internal.Ref.ObjectRef;
 public final class JvmAnnotatedString_jvmKt {
     private static final void collectRangeTransitions(List<? extends androidx.compose.ui.text.AnnotatedString.Range<?>> ranges, SortedSet<Integer> target) {
         Object obj4;
-        int i3;
+        int i5;
         Object accumulator$iv;
         Object obj5;
-        int i2;
+        int i4;
         int index$iv$iv;
         int size;
         Object obj3;
         Object obj;
-        int i;
+        int i2;
         Object obj2;
         Object obj6;
-        int i5;
+        int i3;
         Object obj7;
-        int i4;
+        int i;
         Integer valueOf;
         if (ranges != null) {
-            i3 = 0;
+            i5 = 0;
             int i6 = 0;
             obj5 = obj4;
-            i2 = 0;
+            i4 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < obj5.size()) {
-                i = 0;
+                i2 = 0;
                 obj2 = obj;
-                i5 = 0;
+                i3 = 0;
                 obj7 = obj6;
-                i4 = 0;
+                i = 0;
                 obj7.add(Integer.valueOf((AnnotatedString.Range)obj2.getStart()));
                 obj7.add(Integer.valueOf(obj2.getEnd()));
                 index$iv$iv++;
@@ -54,29 +54,29 @@ public final class JvmAnnotatedString_jvmKt {
     }
 
     public static final androidx.compose.ui.text.AnnotatedString transform(androidx.compose.ui.text.AnnotatedString $this$transform, Function3<? super String, ? super Integer, ? super Integer, String> transform) {
-        ArrayList transitions2;
+        ArrayList transitions;
         java.util.TreeSet sortedSetOf;
         List spanStylesOrNull$ui_text_release;
-        int i5;
+        int i;
         List paragraphStylesOrNull$ui_text_release;
         java.util.TreeSet set2;
-        int i3;
+        int i5;
         List annotations$ui_text_release;
-        int arrayList;
-        ArrayList arrayList2;
-        List i4;
+        int arrayList2;
+        ArrayList arrayList;
+        List i3;
         int index$iv$iv;
         int index$iv$iv2;
         int size;
-        Object obj2;
         Object obj3;
-        int i2;
-        List $this$fastMap$iv;
         Object obj;
-        int i;
-        java.util.TreeSet transitions;
-        java.util.TreeSet set;
+        int i4;
         List $this$fastMap$iv2;
+        Object obj2;
+        int i2;
+        java.util.TreeSet transitions2;
+        java.util.TreeSet set;
+        List $this$fastMap$iv;
         int end;
         int end2;
         ArrayList list;
@@ -101,96 +101,96 @@ public final class JvmAnnotatedString_jvmKt {
         CollectionsKt.windowed$default((Iterable)sortedSetOf, 2, 0, false, (Function1)anon, 6, 0);
         spanStylesOrNull$ui_text_release = str2.getSpanStylesOrNull$ui_text_release();
         if (spanStylesOrNull$ui_text_release != null) {
-            arrayList = 0;
-            arrayList2 = new ArrayList(spanStylesOrNull$ui_text_release.size());
-            i4 = spanStylesOrNull$ui_text_release;
+            arrayList2 = 0;
+            arrayList = new ArrayList(spanStylesOrNull$ui_text_release.size());
+            i3 = spanStylesOrNull$ui_text_release;
             index$iv$iv = 0;
             index$iv$iv2 = 0;
-            while (index$iv$iv2 < i4.size()) {
+            while (index$iv$iv2 < i3.size()) {
+                i4 = 0;
+                obj2 = obj;
                 i2 = 0;
-                obj = obj3;
-                i = 0;
-                Object obj5 = mutableMapOf.get(Integer.valueOf(obj.getStart()));
+                Object obj5 = mutableMapOf.get(Integer.valueOf(obj2.getStart()));
                 Intrinsics.checkNotNull(obj5);
-                Object obj7 = mutableMapOf.get(Integer.valueOf(obj.getEnd()));
+                Object obj7 = mutableMapOf.get(Integer.valueOf(obj2.getEnd()));
                 Intrinsics.checkNotNull(obj7);
-                AnnotatedString.Range transitions3 = new AnnotatedString.Range((AnnotatedString.Range)obj.getItem(), (Number)obj5.intValue(), (Number)obj7.intValue());
-                (Collection)arrayList2.add(transitions3);
+                AnnotatedString.Range transitions3 = new AnnotatedString.Range((AnnotatedString.Range)obj2.getItem(), (Number)obj5.intValue(), (Number)obj7.intValue());
+                (Collection)arrayList.add(transitions3);
                 index$iv$iv2++;
                 sortedSetOf = set;
-                spanStylesOrNull$ui_text_release = $this$fastMap$iv2;
-                arrayList = end2;
-                arrayList2 = list;
+                spanStylesOrNull$ui_text_release = $this$fastMap$iv;
+                arrayList2 = end2;
+                arrayList = list;
             }
-            transitions = sortedSetOf;
-            $this$fastMap$iv2 = spanStylesOrNull$ui_text_release;
-            end2 = arrayList;
-            transitions2 = list;
+            transitions2 = sortedSetOf;
+            $this$fastMap$iv = spanStylesOrNull$ui_text_release;
+            end2 = arrayList2;
+            transitions = list;
         } else {
-            transitions = sortedSetOf;
-            transitions2 = 0;
+            transitions2 = sortedSetOf;
+            transitions = 0;
         }
         paragraphStylesOrNull$ui_text_release = str2.getParagraphStylesOrNull$ui_text_release();
         if (paragraphStylesOrNull$ui_text_release != null) {
             set2 = 0;
-            arrayList = new ArrayList(paragraphStylesOrNull$ui_text_release.size());
-            i4 = 0;
+            arrayList2 = new ArrayList(paragraphStylesOrNull$ui_text_release.size());
+            i3 = 0;
             index$iv$iv = 0;
             while (index$iv$iv < paragraphStylesOrNull$ui_text_release.size()) {
-                obj3 = 0;
-                obj = obj2;
-                i = 0;
-                Object obj4 = mutableMapOf.get(Integer.valueOf(obj.getStart()));
+                obj = 0;
+                obj2 = obj3;
+                i2 = 0;
+                Object obj4 = mutableMapOf.get(Integer.valueOf(obj2.getStart()));
                 Intrinsics.checkNotNull(obj4);
-                Object obj6 = mutableMapOf.get(Integer.valueOf(obj.getEnd()));
+                Object obj6 = mutableMapOf.get(Integer.valueOf(obj2.getEnd()));
                 Intrinsics.checkNotNull(obj6);
-                AnnotatedString.Range $this$fastMap$iv3 = new AnnotatedString.Range((AnnotatedString.Range)obj.getItem(), (Number)obj4.intValue(), (Number)obj6.intValue());
-                (Collection)arrayList.add($this$fastMap$iv3);
+                AnnotatedString.Range $this$fastMap$iv3 = new AnnotatedString.Range((AnnotatedString.Range)obj2.getItem(), (Number)obj4.intValue(), (Number)obj6.intValue());
+                (Collection)arrayList2.add($this$fastMap$iv3);
                 index$iv$iv++;
-                paragraphStylesOrNull$ui_text_release = $this$fastMap$iv2;
+                paragraphStylesOrNull$ui_text_release = $this$fastMap$iv;
                 set2 = end;
-                arrayList = list;
-                arrayList2 = list2;
+                arrayList2 = list;
+                arrayList = list2;
             }
-            $this$fastMap$iv2 = paragraphStylesOrNull$ui_text_release;
+            $this$fastMap$iv = paragraphStylesOrNull$ui_text_release;
             end = set2;
-            list2 = arrayList2;
-            i5 = list;
+            list2 = arrayList;
+            i = list;
         } else {
-            i5 = 0;
+            i = 0;
         }
         annotations$ui_text_release = str2.getAnnotations$ui_text_release();
         if (annotations$ui_text_release != null) {
-            arrayList = 0;
-            arrayList2 = new ArrayList(annotations$ui_text_release.size());
+            arrayList2 = 0;
+            arrayList = new ArrayList(annotations$ui_text_release.size());
             index$iv$iv = 0;
             index$iv$iv2 = 0;
             while (index$iv$iv2 < annotations$ui_text_release.size()) {
+                i4 = 0;
+                obj2 = obj;
                 i2 = 0;
-                obj = obj3;
-                i = 0;
-                Object obj8 = mutableMapOf.get(Integer.valueOf(obj.getStart()));
+                Object obj8 = mutableMapOf.get(Integer.valueOf(obj2.getStart()));
                 Intrinsics.checkNotNull(obj8);
-                Object obj9 = mutableMapOf.get(Integer.valueOf(obj.getEnd()));
+                Object obj9 = mutableMapOf.get(Integer.valueOf(obj2.getEnd()));
                 Intrinsics.checkNotNull(obj9);
-                AnnotatedString.Range $i$f$fastMap = new AnnotatedString.Range((AnnotatedString.Range)obj.getItem(), (Number)obj8.intValue(), (Number)obj9.intValue());
-                (Collection)arrayList2.add($i$f$fastMap);
+                AnnotatedString.Range $i$f$fastMap = new AnnotatedString.Range((AnnotatedString.Range)obj2.getItem(), (Number)obj8.intValue(), (Number)obj9.intValue());
+                (Collection)arrayList.add($i$f$fastMap);
                 index$iv$iv2++;
-                annotations$ui_text_release = $this$fastMap$iv;
-                arrayList = $this$fastMap$iv2;
-                arrayList2 = end;
-                i4 = list;
+                annotations$ui_text_release = $this$fastMap$iv2;
+                arrayList2 = $this$fastMap$iv;
+                arrayList = end;
+                i3 = list;
                 index$iv$iv = list2;
             }
-            $this$fastMap$iv = annotations$ui_text_release;
-            $this$fastMap$iv2 = arrayList;
-            list = i4;
+            $this$fastMap$iv2 = annotations$ui_text_release;
+            $this$fastMap$iv = arrayList2;
+            list = i3;
             list2 = index$iv$iv;
-            i3 = end;
+            i5 = end;
         } else {
-            i3 = 0;
+            i5 = 0;
         }
-        AnnotatedString annotatedString = new AnnotatedString((String)objectRef.element, transitions2, i5, i3);
+        AnnotatedString annotatedString = new AnnotatedString((String)objectRef.element, transitions, i, i5);
         return annotatedString;
     }
 }

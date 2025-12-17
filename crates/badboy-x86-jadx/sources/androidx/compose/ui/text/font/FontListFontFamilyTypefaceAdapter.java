@@ -100,22 +100,22 @@ public final class FontListFontFamilyTypefaceAdapter implements androidx.compose
         boolean equals-impl0;
         ArrayList list2;
         int matched;
-        Object obj4;
-        int i5;
+        Object obj2;
+        int i;
         int component1;
         HashSet hashSet;
         ArrayList arrayList;
         ArrayList iNSTANCE;
-        int index$iv$iv2;
+        int index$iv$iv;
         int cacheKey;
         int index$iv$iv3;
-        int index$iv$iv;
+        int index$iv$iv2;
         List fonts;
         int size;
         Object obj3;
-        Object obj2;
-        int i;
         Object obj;
+        int i5;
+        Object obj4;
         int i2;
         int index$iv;
         List list;
@@ -125,62 +125,62 @@ public final class FontListFontFamilyTypefaceAdapter implements androidx.compose
         int i3;
         int i4;
         final Object obj5 = this;
-        obj4 = family;
+        obj2 = family;
         final androidx.compose.ui.text.font.PlatformFontLoader platformFontLoader = resourceLoader;
-        if (!obj4 instanceof FontListFontFamily) {
+        if (!obj2 instanceof FontListFontFamily) {
             return Unit.INSTANCE;
         }
-        fonts = (FontListFontFamily)obj4.getFonts();
-        fonts2 = (FontListFontFamily)obj4.getFonts();
+        fonts = (FontListFontFamily)obj2.getFonts();
+        fonts2 = (FontListFontFamily)obj2.getFonts();
         int i7 = 0;
         ArrayList arrayList4 = new ArrayList(fonts2.size());
         List list7 = fonts2;
         int i9 = 0;
         index$iv$iv3 = 0;
         while (index$iv$iv3 < list7.size()) {
-            obj2 = obj3;
-            i = 0;
+            obj = obj3;
+            i5 = 0;
             i2 = 0;
-            if (FontLoadingStrategy.equals-impl0((Font)obj2.getLoadingStrategy-PKNRLFQ(), FontLoadingStrategy.Companion.getAsync-PKNRLFQ())) {
+            if (FontLoadingStrategy.equals-impl0((Font)obj.getLoadingStrategy-PKNRLFQ(), FontLoadingStrategy.Companion.getAsync-PKNRLFQ())) {
             }
             index$iv$iv3++;
-            obj4 = family;
+            obj2 = family;
             fonts2 = list;
-            (Collection)arrayList4.add(obj2);
+            (Collection)arrayList4.add(obj);
         }
         $this$fastFilter$iv = fonts2;
         list2 = arrayList4;
-        i5 = 0;
+        i = 0;
         ArrayList arrayList3 = new ArrayList((List)list2.size());
         ArrayList list6 = list2;
         int i8 = 0;
-        index$iv$iv2 = 0;
-        while (index$iv$iv2 < list6.size()) {
-            obj2 = 0;
-            obj = obj3;
+        index$iv$iv = 0;
+        while (index$iv$iv < list6.size()) {
+            obj = 0;
+            obj4 = obj3;
             i2 = 0;
-            (Collection)arrayList3.add(TuplesKt.to((Font)obj.getWeight(), FontStyle.box-impl(obj.getStyle-_-LCdwA())));
-            index$iv$iv2++;
+            (Collection)arrayList3.add(TuplesKt.to((Font)obj4.getWeight(), FontStyle.box-impl(obj4.getStyle-_-LCdwA())));
+            index$iv$iv++;
             list2 = $this$fastFilter$iv;
-            i5 = i3;
+            i = i3;
         }
         $this$fastMap$iv = list2;
-        i4 = i5;
+        i4 = i;
         ArrayList list3 = arrayList3;
         component1 = 0;
         hashSet = new HashSet((List)list3.size());
         arrayList = new ArrayList(list3.size());
         iNSTANCE = list3;
         cacheKey = 0;
-        index$iv$iv = 0;
-        while (index$iv$iv < iNSTANCE.size()) {
-            obj2 = obj3;
-            i = 0;
+        index$iv$iv2 = 0;
+        while (index$iv$iv2 < iNSTANCE.size()) {
+            obj = obj3;
+            i5 = 0;
             int i11 = 0;
-            if (hashSet.add((Pair)obj2)) {
+            if (hashSet.add((Pair)obj)) {
             }
-            index$iv$iv++;
-            (Collection)arrayList.add(obj2);
+            index$iv$iv2++;
+            (Collection)arrayList.add(obj);
         }
         ArrayList arrayList2 = new ArrayList();
         ArrayList list9 = arrayList2;

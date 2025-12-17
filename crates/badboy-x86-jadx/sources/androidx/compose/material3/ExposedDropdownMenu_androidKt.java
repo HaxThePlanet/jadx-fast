@@ -65,360 +65,360 @@ public final class ExposedDropdownMenu_androidKt {
         Object config;
         Object focusRequester2;
         boolean anchorTypeState;
-        Object mutableIntStateOf2;
-        Object obj7;
+        Object $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$anchorWidth$2;
+        Object $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$focusRequester$1;
         Object mutableStateOf$default;
-        Function1 $this$cache$iv2;
-        Composer $this$cache$iv;
-        Composer composer;
-        int i16;
-        int $dirty2;
-        Object $dirty;
-        int i20;
-        String it$iv2;
-        Composer it$iv3;
-        Integer currentCompositionLocalMap;
-        Object anon2;
-        int empty3;
-        int empty4;
-        Object anon;
+        Function1 $this$cache$iv;
+        Composer $this$cache$iv2;
+        Composer composer2;
         int i9;
-        int i;
-        Object obj12;
-        Object modifier5;
-        String modifier2;
-        Object obj11;
+        int $dirty;
+        Object $dirty2;
+        int i18;
+        String it$iv3;
+        Composer it$iv2;
+        Integer currentCompositionLocalMap;
+        Object $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$3;
+        int empty;
+        int empty3;
+        Object $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$4;
+        int i10;
+        int i3;
+        Object obj3;
+        Object modifier2;
+        String modifier5;
+        Object $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$1;
         Function0 factory$iv$iv$iv;
         Object density;
-        Object mutableStateOf$default2;
+        Object $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$anchorCoordinates$2;
         String expandedDescription;
-        Object obj10;
+        Object obj7;
         boolean traceInProgress;
         Object view;
-        Composer composer2;
-        int i4;
+        Composer composer;
+        int i20;
         Object maybeCachedBoxMeasurePolicy;
         int i6;
-        int i12;
+        int i11;
         Object rememberedValue;
         Object density2;
         Object rememberedValue2;
-        Object i5;
+        Object i;
         int empty2;
         int anchorWidth$delegate;
-        Object collapsedDescription;
+        Object collapsedDescription2;
         Object menuMaxHeight$delegate;
-        int obj8;
+        int obj10;
         Composer composer5;
-        int i14;
+        int i15;
         Object toggleDescription;
-        Object mutableIntStateOf;
-        int empty;
+        Object $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$menuMaxHeight$2;
+        int empty4;
         Object verticalMargin;
-        Object obj;
+        Object obj5;
         int companion;
+        Object obj11;
+        boolean companion3;
+        String str2;
+        Object i21;
         Object obj6;
-        boolean companion2;
-        String str;
-        Object i19;
-        Object obj4;
         Object focusRequester;
         Object focusRequester3;
         int invalid$iv;
         int invalid$iv2;
-        Object obj13;
-        int i15;
-        int i10;
         Object obj9;
-        int i18;
-        int i21;
-        Alignment alignment;
-        Composer.Companion companion3;
-        Object keyboardController;
-        int i3;
-        Object it$iv;
-        Object obj3;
-        Object obj2;
-        String str2;
-        int i17;
-        String collapsedDescription2;
-        int i8;
-        Modifier modifier3;
-        int i2;
-        int i11;
-        Object obj5;
-        Composer composer4;
-        Function0 function0;
         int i13;
+        int i14;
+        Object obj4;
+        int i19;
+        int i5;
+        Alignment alignment;
+        Composer.Companion companion2;
+        Object keyboardController;
+        int i12;
+        Object it$iv;
+        Object obj2;
+        Object obj;
+        String str;
+        int i4;
+        String collapsedDescription;
+        int i16;
+        Modifier modifier4;
+        int i17;
+        int i8;
+        Object obj8;
+        Composer composer3;
+        Function0 function0;
+        int i2;
         BoxScopeInstance boxScopeInstance;
         androidx.compose.runtime.CompositionLocalMap localMap$iv$iv;
         androidx.compose.ui.layout.MeasurePolicy measurePolicy;
-        Composer composer3;
-        Modifier modifier4;
+        Composer composer4;
+        Modifier modifier3;
         Function1 function1;
         int obj49;
-        obj8 = content;
+        obj10 = content;
         toggleDescription = $changed;
         traceInProgress2 = 2067579792;
         final Composer restartGroup = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(restartGroup, "C(ExposedDropdownMenuBox)P(1,3,2)140@6498L7,141@6531L7,142@6570L7,146@6683L53,147@6760L33,148@6819L33,150@6879L29,151@6970L7,152@7008L31,153@7071L32,154@7132L37,155@7196L62,158@7284L2210,200@9543L361,199@9500L442,225@10317L47,225@10306L58,229@10529L27,229@10497L59:ExposedDropdownMenu.android.kt#uh7d8r");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i7 & 1 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
         } else {
             if (toggleDescription & 6 == 0) {
-                i9 = restartGroup.changed(expanded) ? 4 : 2;
-                $dirty2 |= i9;
+                i10 = restartGroup.changed(expanded) ? 4 : 2;
+                $dirty |= i10;
             }
         }
         if (i7 & 2 != 0) {
-            $dirty2 |= 48;
+            $dirty |= 48;
         } else {
             if (toggleDescription & 48 == 0) {
-                i = restartGroup.changedInstance(onExpandedChange) ? 32 : 16;
-                $dirty2 |= i;
+                i3 = restartGroup.changedInstance(onExpandedChange) ? 32 : 16;
+                $dirty |= i3;
             }
         }
-        int i53 = i7 & 4;
-        if (i53 != 0) {
-            $dirty2 |= 384;
-            obj10 = modifier;
+        int i52 = i7 & 4;
+        if (i52 != 0) {
+            $dirty |= 384;
+            obj7 = modifier;
         } else {
             if (toggleDescription & 384 == 0) {
                 i6 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i6;
+                $dirty |= i6;
             } else {
-                obj10 = modifier;
+                obj7 = modifier;
             }
         }
         if (i7 & 8 != 0) {
-            $dirty2 |= 3072;
+            $dirty |= 3072;
         } else {
             if (toggleDescription & 3072 == 0) {
-                i12 = restartGroup.changedInstance(obj8) ? 2048 : 1024;
-                $dirty2 |= i12;
+                i11 = restartGroup.changedInstance(obj10) ? 2048 : 1024;
+                $dirty |= i11;
             }
         }
-        if ($dirty2 & 1171 == 1170) {
+        if ($dirty & 1171 == 1170) {
             if (!restartGroup.getSkipping()) {
-                if (i53 != 0) {
-                    modifier5 = Modifier.Companion;
+                if (i52 != 0) {
+                    modifier2 = Modifier.Companion;
                 } else {
-                    modifier5 = obj10;
+                    modifier2 = obj7;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress2, $dirty2, -1, "androidx.compose.material3.ExposedDropdownMenuBox (ExposedDropdownMenu.android.kt:139)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.ExposedDropdownMenuBox (ExposedDropdownMenu.android.kt:139)");
                 }
-                int i59 = 0;
-                int i66 = 0;
-                int i72 = 2023513938;
+                int i58 = 0;
+                int i65 = 0;
+                int i71 = 2023513938;
                 String str4 = "CC:CompositionLocal.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, i72, str4);
+                ComposerKt.sourceInformationMarkerStart(restartGroup, i71, str4);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 Object this_$iv = consume2;
-                int i67 = 0;
-                int i81 = 0;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, i72, str4);
+                int i66 = 0;
+                int i79 = 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, i71, str4);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 Object this_$iv4 = consume3;
-                int i82 = 0;
-                int i90 = 0;
-                ComposerKt.sourceInformationMarkerStart(restartGroup, i72, str4);
+                int i80 = 0;
+                int i88 = 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, i71, str4);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 Object this_$iv5 = consume4;
-                int i91 = 0;
+                int i89 = 0;
                 int roundToPx-0680j_4 = (Density)this_$iv5.roundToPx-0680j_4(MenuKt.getMenuVerticalMargin());
-                empty = "CC(remember):ExposedDropdownMenu.android.kt#9igjgp";
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426259219, empty);
-                int i83 = 0;
+                empty4 = "CC(remember):ExposedDropdownMenu.android.kt#9igjgp";
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426259219, empty4);
+                int i81 = 0;
                 obj49 = restartGroup;
-                int i93 = 0;
+                int i91 = 0;
                 Object rememberedValue6 = obj49.rememberedValue();
-                int i100 = 0;
+                int i98 = 0;
                 int i22 = 0;
                 if (rememberedValue6 == Composer.Companion.getEmpty()) {
-                    int i58 = 0;
+                    int i57 = 0;
                     obj49.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(i22, i22, 2, i22));
                 } else {
-                    $this$cache$iv = obj49;
-                    mutableStateOf$default2 = rememberedValue6;
+                    $this$cache$iv2 = obj49;
+                    $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$anchorCoordinates$2 = rememberedValue6;
                 }
-                Object obj20 = mutableStateOf$default2;
+                Object obj18 = $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$anchorCoordinates$2;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426261663, empty);
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426261663, empty4);
                 int i26 = 0;
                 Composer composer9 = restartGroup;
-                int i73 = 0;
+                int i72 = 0;
                 Object rememberedValue7 = composer9.rememberedValue();
-                int i94 = 0;
-                int i86 = 0;
+                int i92 = 0;
+                int i84 = 0;
                 if (rememberedValue7 == Composer.Companion.getEmpty()) {
                     int i24 = 0;
-                    composer9.updateRememberedValue(SnapshotIntStateKt.mutableIntStateOf(i86));
+                    composer9.updateRememberedValue(SnapshotIntStateKt.mutableIntStateOf(i84));
                 } else {
-                    mutableIntStateOf2 = rememberedValue7;
+                    $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$anchorWidth$2 = rememberedValue7;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426263551, empty);
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426263551, empty4);
                 int i28 = 0;
                 Composer composer10 = restartGroup;
-                int i74 = 0;
+                int i73 = 0;
                 Object rememberedValue8 = composer10.rememberedValue();
-                int i95 = 0;
-                int i102 = i86;
+                int i93 = 0;
+                int i100 = i84;
                 if (rememberedValue8 == Composer.Companion.getEmpty()) {
-                    int i89 = 0;
-                    composer10.updateRememberedValue(SnapshotIntStateKt.mutableIntStateOf(i102));
+                    int i87 = 0;
+                    composer10.updateRememberedValue(SnapshotIntStateKt.mutableIntStateOf(i100));
                 } else {
-                    mutableIntStateOf = rememberedValue8;
+                    $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$menuMaxHeight$2 = rememberedValue8;
                 }
-                Object obj18 = mutableIntStateOf;
+                Object obj16 = $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$menuMaxHeight$2;
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426265467, empty);
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426265467, empty4);
                 int i30 = 0;
                 Composer composer11 = restartGroup;
-                int i75 = 0;
+                int i74 = 0;
                 Object rememberedValue10 = composer11.rememberedValue();
-                int i96 = 0;
-                obj9 = mutableIntStateOf2;
+                int i94 = 0;
+                obj4 = $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$anchorWidth$2;
                 if (rememberedValue10 == Composer.Companion.getEmpty()) {
                     int i23 = 0;
                     focusRequester = new FocusRequester();
                     composer11.updateRememberedValue(focusRequester);
                 } else {
-                    obj7 = rememberedValue10;
+                    $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$focusRequester$1 = rememberedValue10;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                int i56 = 0;
-                int i76 = 0;
+                int i55 = 0;
+                int i75 = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, str4);
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 androidx.compose.material3.internal.Strings.Companion companion8 = Strings.Companion;
-                int i77 = 0;
-                int i78 = i102;
-                String string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_dropdown_menu_expanded), restartGroup, i78);
+                int i76 = 0;
+                int $i$f$getMenuExpanded8iCLdWM = i100;
+                String string-2EP1pXo = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_dropdown_menu_expanded), restartGroup, $i$f$getMenuExpanded8iCLdWM);
                 androidx.compose.material3.internal.Strings.Companion companion10 = Strings.Companion;
-                int i88 = 0;
-                String string-2EP1pXo2 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_dropdown_menu_collapsed), restartGroup, i78);
+                int i86 = 0;
+                String string-2EP1pXo2 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_dropdown_menu_collapsed), restartGroup, $i$f$getMenuExpanded8iCLdWM);
                 androidx.compose.material3.internal.Strings.Companion companion11 = Strings.Companion;
-                int i97 = 0;
-                String string-2EP1pXo3 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_dropdown_menu_toggle), restartGroup, i78);
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426275644, empty);
-                int i80 = 0;
+                int i95 = 0;
+                String string-2EP1pXo3 = Strings_androidKt.getString-2EP1pXo(Strings.constructor-impl(R.string.m3c_dropdown_menu_toggle), restartGroup, $i$f$getMenuExpanded8iCLdWM);
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426275644, empty4);
+                int i78 = 0;
                 Composer composer14 = restartGroup;
-                int i99 = 0;
-                Object obj19 = obj7;
+                int i97 = 0;
+                Object obj17 = $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$focusRequester$1;
                 mutableStateOf$default = composer14.rememberedValue();
-                int i103 = 0;
-                Object obj21 = this_$iv2;
+                int i101 = 0;
+                Object obj19 = this_$iv2;
                 if (mutableStateOf$default == Composer.Companion.getEmpty()) {
                     it$iv = mutableStateOf$default;
-                    companion3 = i36;
-                    i15 = $dirty2;
-                    $dirty2 = 0;
-                    composer14.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(MenuAnchorType.box-impl(MenuAnchorType.Companion.getPrimaryNotEditable-Mg6Rgbw()), $dirty2, 2, $dirty2));
+                    companion2 = i36;
+                    i13 = $dirty;
+                    $dirty = 0;
+                    composer14.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(MenuAnchorType.box-impl(MenuAnchorType.Companion.getPrimaryNotEditable-Mg6Rgbw()), $dirty, 2, $dirty));
                 } else {
                     it$iv = mutableStateOf$default;
-                    i15 = $dirty2;
-                    composer = composer14;
+                    i13 = $dirty;
+                    composer2 = composer14;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426280608, empty);
-                i21 = 1;
-                i16 = i15 & 14 == 4 ? i21 : 0;
-                i20 = i15 & 112 == 32 ? i21 : 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426280608, empty4);
+                i5 = 1;
+                i9 = i13 & 14 == 4 ? i5 : 0;
+                i18 = i13 & 112 == 32 ? i5 : 0;
                 Composer composer6 = restartGroup;
-                i19 = 0;
+                i21 = 0;
                 Object rememberedValue3 = composer6.rememberedValue();
-                int i104 = 0;
+                int i102 = 0;
                 if (i35 | changed3 == 0) {
                     if (rememberedValue3 == Composer.Companion.getEmpty()) {
                         it$iv = 0;
-                        obj2 = modifier5;
-                        obj3 = this_$iv5;
-                        obj49 = i15;
+                        obj = modifier2;
+                        obj2 = this_$iv5;
+                        obj49 = i13;
                         boolean $this$cache$iv3 = expanded;
-                        Object anchorTypeState2 = obj19;
+                        Object anchorTypeState2 = obj17;
                         focusRequester3 = rememberedValue3;
                         toggleDescription = this_$iv4;
-                        keyboardController = obj16;
+                        keyboardController = obj14;
                         Function1 config3 = onExpandedChange;
-                        ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.scope.1.1 config2 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.scope.1.1(anchorTypeState2, $this$cache$iv3, string-2EP1pXo, string-2EP1pXo2, string-2EP1pXo3, obj21, (MutableState)mutableStateOf$default, config3, obj9, (MutableIntState)obj18);
+                        ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.scope.1.1 config2 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.scope.1.1(anchorTypeState2, $this$cache$iv3, string-2EP1pXo, string-2EP1pXo2, string-2EP1pXo3, obj19, (MutableState)mutableStateOf$default, config3, obj4, (MutableIntState)obj16);
                         config = anchorTypeState2;
                         anchorTypeState = $this$cache$iv3;
-                        $this$cache$iv2 = function1;
+                        $this$cache$iv = function1;
                         composer6.updateRememberedValue(config2);
                     } else {
                         composer5 = composer6;
-                        obj2 = modifier5;
-                        obj3 = this_$iv5;
-                        modifier2 = string-2EP1pXo2;
-                        obj49 = i15;
-                        collapsedDescription = obj9;
-                        $this$cache$iv2 = onExpandedChange;
+                        obj = modifier2;
+                        obj2 = this_$iv5;
+                        modifier5 = string-2EP1pXo2;
+                        obj49 = i13;
+                        collapsedDescription2 = obj4;
+                        $this$cache$iv = onExpandedChange;
                         density2 = mutableStateOf$default;
-                        it$iv2 = string-2EP1pXo;
+                        it$iv3 = string-2EP1pXo;
                         expandedDescription = string-2EP1pXo3;
                         anchorTypeState = expanded;
                         toggleDescription = this_$iv4;
-                        view = obj21;
+                        view = obj19;
                         keyboardController = this_$iv;
-                        config = obj19;
-                        focusRequester3 = i5;
+                        config = obj17;
+                        focusRequester3 = i;
                     }
                 } else {
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426351047, empty);
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426351047, empty4);
                 Composer composer15 = restartGroup;
-                int i105 = 0;
-                str2 = it$iv2;
+                int i103 = 0;
+                str = it$iv3;
                 Object rememberedValue4 = composer15.rememberedValue();
-                int i106 = 0;
-                if (changedInstance4 |= companion2 == 0) {
-                    collapsedDescription2 = modifier2;
+                int i104 = 0;
+                if (changedInstance4 |= companion3 == 0) {
+                    collapsedDescription = modifier5;
                     if (rememberedValue4 == Composer.Companion.getEmpty()) {
                         int collapsedDescription3 = 0;
-                        obj9 = obj18;
+                        obj4 = obj16;
                         focusRequester3 = roundToPx-0680j_4;
-                        ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.1.1 anon3 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.1.1(toggleDescription, focusRequester3, (MutableState)obj20, collapsedDescription, obj9);
+                        ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.1.1 anon = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.1.1(toggleDescription, focusRequester3, (MutableState)obj18, collapsedDescription2, obj4);
                         anchorWidth$delegate = focusRequester3;
-                        menuMaxHeight$delegate = obj20;
-                        verticalMargin = obj9;
-                        obj6 = rememberedValue4;
-                        composer15.updateRememberedValue((Function1)anon3);
+                        menuMaxHeight$delegate = obj18;
+                        verticalMargin = obj4;
+                        obj11 = rememberedValue4;
+                        composer15.updateRememberedValue((Function1)anon);
                     } else {
-                        obj6 = obj11;
-                        obj13 = collapsedDescription;
+                        obj11 = $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$1;
+                        obj9 = collapsedDescription2;
                         anchorWidth$delegate = roundToPx-0680j_4;
-                        it$iv3 = composer15;
-                        verticalMargin = obj18;
-                        menuMaxHeight$delegate = obj20;
+                        it$iv2 = composer15;
+                        verticalMargin = obj16;
+                        menuMaxHeight$delegate = obj18;
                     }
                 } else {
-                    collapsedDescription2 = modifier2;
+                    collapsedDescription = modifier5;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                Modifier onGloballyPositioned = OnGloballyPositionedModifierKt.onGloballyPositioned(obj2, (Function1)obj11);
-                i14 = i18;
+                Modifier onGloballyPositioned = OnGloballyPositionedModifierKt.onGloballyPositioned(obj, (Function1)$i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$1);
+                i15 = i19;
                 companion = 0;
-                str = expandedDescription;
+                str2 = expandedDescription;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 733328855, "CC(Box)P(2,1,3)72@3384L130:Box.kt#2w3rfo");
                 Alignment topStart = Alignment.Companion.getTopStart();
-                int i57 = 0;
-                obj4 = view;
-                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i57);
-                i10 = 0;
+                int i56 = 0;
+                obj6 = view;
+                maybeCachedBoxMeasurePolicy = BoxKt.maybeCachedBoxMeasurePolicy(topStart, i56);
+                i14 = 0;
                 alignment = topStart;
-                i3 = i57;
+                i12 = i56;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -1323940314, "CC(Layout)P(!1,2)78@3182L23,81@3333L411:Layout.kt#80mrfh");
                 currentCompositionLocalMap = restartGroup.getCurrentCompositionLocalMap();
-                i17 = currentCompositeKeyHash;
+                i4 = currentCompositeKeyHash;
                 Modifier materializeModifier = ComposedModifierKt.materializeModifier(restartGroup, onGloballyPositioned);
-                modifier3 = onGloballyPositioned;
+                modifier4 = onGloballyPositioned;
                 Function0 function02 = constructor;
-                i8 = 0;
-                obj5 = density2;
+                i16 = 0;
+                obj8 = density2;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, -692256719, "CC(ReusableComposeNode)P(1,2)376@14062L9:Composables.kt#9igjgp");
                 if (!applier instanceof Applier) {
                     ComposablesKt.invalidApplier();
@@ -431,21 +431,21 @@ public final class ExposedDropdownMenu_androidKt {
                     restartGroup.useNode();
                 }
                 Composer constructor-impl = Updater.constructor-impl(restartGroup);
-                int i107 = 0;
+                int i105 = 0;
                 function0 = factory$iv$iv$iv;
                 Updater.set-impl(constructor-impl, maybeCachedBoxMeasurePolicy, ComposeUiNode.Companion.getSetMeasurePolicy());
                 Updater.set-impl(constructor-impl, currentCompositionLocalMap, ComposeUiNode.Companion.getSetResolvedCompositionLocals());
-                int i108 = 0;
+                int i106 = 0;
                 Composer composer16 = constructor-impl;
-                int i109 = 0;
+                int i107 = 0;
                 if (!composer16.getInserting()) {
                     localMap$iv$iv = currentCompositionLocalMap;
                     measurePolicy = maybeCachedBoxMeasurePolicy;
-                    if (!Intrinsics.areEqual(composer16.rememberedValue(), Integer.valueOf(i17))) {
-                        composer16.updateRememberedValue(Integer.valueOf(i17));
-                        constructor-impl.apply(Integer.valueOf(i17), ComposeUiNode.Companion.getSetCompositeKeyHash());
+                    if (!Intrinsics.areEqual(composer16.rememberedValue(), Integer.valueOf(i4))) {
+                        composer16.updateRememberedValue(Integer.valueOf(i4));
+                        constructor-impl.apply(Integer.valueOf(i4), ComposeUiNode.Companion.getSetCompositeKeyHash());
                     } else {
-                        composer2 = composer16;
+                        composer = composer16;
                     }
                 } else {
                     localMap$iv$iv = currentCompositionLocalMap;
@@ -453,16 +453,16 @@ public final class ExposedDropdownMenu_androidKt {
                 }
                 Updater.set-impl(constructor-impl, materializeModifier, ComposeUiNode.Companion.getSetModifier());
                 Composer composer8 = restartGroup;
-                i4 = 0;
-                i2 = i43;
+                i20 = 0;
+                i17 = i42;
                 ComposerKt.sourceInformationMarkerStart(composer8, -2146769399, "C73@3429L9:Box.kt#2w3rfo");
-                i70 |= 6;
-                i13 = 0;
+                i69 |= 6;
+                i2 = 0;
                 boxScopeInstance = iNSTANCE;
-                modifier4 = materializeModifier;
-                Composer materialized$iv$iv = composer4;
+                modifier3 = materializeModifier;
+                Composer materialized$iv$iv = composer3;
                 ComposerKt.sourceInformationMarkerStart(materialized$iv$iv, -615130921, "C211@9927L9:ExposedDropdownMenu.android.kt#uh7d8r");
-                content.invoke((ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.scope.1.1)i5, materialized$iv$iv, Integer.valueOf(i44 &= 112));
+                content.invoke((ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.scope.1.1)i, materialized$iv$iv, Integer.valueOf(i43 &= 112));
                 ComposerKt.sourceInformationMarkerEnd(materialized$iv$iv);
                 ComposerKt.sourceInformationMarkerEnd(composer8);
                 restartGroup.endNode();
@@ -472,67 +472,67 @@ public final class ExposedDropdownMenu_androidKt {
                 restartGroup.startReplaceGroup(426363998);
                 ComposerKt.sourceInformation(restartGroup, "215@10008L286,215@9972L322");
                 if (anchorTypeState) {
-                    ComposerKt.sourceInformationMarkerStart(restartGroup, 426365852, empty);
+                    ComposerKt.sourceInformationMarkerStart(restartGroup, 426365852, empty4);
                     changedInstance |= changed5;
                     Composer composer12 = restartGroup;
-                    int i60 = 0;
+                    int i59 = 0;
                     rememberedValue2 = composer12.rememberedValue();
-                    i14 = 0;
-                    if (empty3 == 0) {
-                        invalid$iv2 = empty3;
+                    i15 = 0;
+                    if (empty == 0) {
+                        invalid$iv2 = empty;
                         if (rememberedValue2 == Composer.Companion.getEmpty()) {
                             companion = invalid$iv3;
-                            anon2 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.3.1(toggleDescription, anchorWidth$delegate, menuMaxHeight$delegate, verticalMargin);
-                            composer12.updateRememberedValue((Function0)anon2);
+                            $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$3 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.3.1(toggleDescription, anchorWidth$delegate, menuMaxHeight$delegate, verticalMargin);
+                            composer12.updateRememberedValue((Function0)$i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$3);
                         } else {
-                            anon2 = rememberedValue2;
+                            $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$3 = rememberedValue2;
                         }
                     } else {
-                        invalid$iv2 = empty3;
+                        invalid$iv2 = empty;
                     }
                     ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                    ExposedDropdownMenu_androidKt.SoftKeyboardListener(toggleDescription, obj3, (Function0)anon2, restartGroup, 0);
+                    ExposedDropdownMenu_androidKt.SoftKeyboardListener(toggleDescription, obj2, (Function0)$i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$3, restartGroup, 0);
                 } else {
-                    density = obj3;
+                    density = obj2;
                 }
                 restartGroup.endReplaceGroup();
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426375501, empty);
-                empty4 = obj49 & 14 == 4 ? i21 : 0;
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426375501, empty4);
+                empty3 = obj49 & 14 == 4 ? i5 : 0;
                 Composer composer13 = restartGroup;
-                int i71 = 0;
+                int i70 = 0;
                 Object rememberedValue9 = composer13.rememberedValue();
-                int i92 = 0;
-                if (empty4 == 0) {
-                    invalid$iv = empty4;
+                int i90 = 0;
+                if (empty3 == 0) {
+                    invalid$iv = empty3;
                     if (rememberedValue9 == Composer.Companion.getEmpty()) {
                         companion = invalid$iv4;
-                        anon = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.4.1(anchorTypeState, config);
-                        composer13.updateRememberedValue((Function0)anon);
+                        $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$4 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.4.1(anchorTypeState, config);
+                        composer13.updateRememberedValue((Function0)$i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$4);
                     } else {
-                        anon = rememberedValue9;
+                        $i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$4 = rememberedValue9;
                     }
                 } else {
-                    invalid$iv = empty4;
+                    invalid$iv = empty3;
                 }
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
-                EffectsKt.SideEffect((Function0)anon, restartGroup, 0);
-                ComposerKt.sourceInformationMarkerStart(restartGroup, 426382265, empty);
+                EffectsKt.SideEffect((Function0)$i$a$CacheExposedDropdownMenu_androidKt$ExposedDropdownMenuBox$4, restartGroup, 0);
+                ComposerKt.sourceInformationMarkerStart(restartGroup, 426382265, empty4);
                 if (obj49 & 112 == 32) {
                 } else {
-                    i21 = 0;
+                    i5 = 0;
                 }
                 Composer composer7 = restartGroup;
-                int i64 = 0;
+                int i63 = 0;
                 rememberedValue = composer7.rememberedValue();
-                obj8 = 0;
-                if (i21 == 0) {
+                obj10 = 0;
+                if (i5 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
-                        empty = 0;
-                        obj = config;
-                        focusRequester2 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.5.1($this$cache$iv2);
+                        empty4 = 0;
+                        obj5 = config;
+                        focusRequester2 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.5.1($this$cache$iv);
                         composer7.updateRememberedValue((Function0)focusRequester2);
                     } else {
-                        obj = config;
+                        obj5 = config;
                         focusRequester2 = rememberedValue;
                     }
                 } else {
@@ -542,18 +542,18 @@ public final class ExposedDropdownMenu_androidKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                $dirty = obj2;
+                $dirty2 = obj;
             } else {
                 restartGroup.skipToGroupEnd();
-                obj49 = $dirty2;
-                $dirty = obj10;
-                obj12 = obj8;
+                obj49 = $dirty;
+                $dirty2 = obj7;
+                obj3 = obj10;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.6(anchorTypeState, $this$cache$iv2, $dirty, obj12, $changed, i7);
+            traceInProgress2 = new ExposedDropdownMenu_androidKt.ExposedDropdownMenuBox.6(anchorTypeState, $this$cache$iv, $dirty2, obj3, $changed, i7);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
@@ -603,32 +603,32 @@ public final class ExposedDropdownMenu_androidKt {
     private static final void SoftKeyboardListener(View view, Density density, Function0<Unit> onKeyboardVisibilityChange, Composer $composer, int $changed) {
         int traceInProgress2;
         int $dirty;
-        int i6;
-        int i;
-        int i3;
+        int i4;
+        int i2;
+        int i5;
         boolean skipping;
         boolean traceInProgress;
-        int i4;
-        int i5;
+        int i6;
+        int i3;
         int rememberedValue;
-        int i2;
+        int i;
         Object empty;
         Object anon;
         traceInProgress2 = -1319522472;
         final Composer obj11 = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation(obj11, "C(SoftKeyboardListener)P(2)240@10912L1420,240@10880L1452:ExposedDropdownMenu.android.kt#uh7d8r");
         if ($changed & 6 == 0) {
-            i6 = obj11.changedInstance(view) ? 4 : 2;
-            $dirty |= i6;
+            i4 = obj11.changedInstance(view) ? 4 : 2;
+            $dirty |= i4;
         }
         if ($changed & 48 == 0) {
-            i = obj11.changed(density) ? 32 : 16;
-            $dirty |= i;
+            i2 = obj11.changed(density) ? 32 : 16;
+            $dirty |= i2;
         }
-        i5 = 256;
+        i3 = 256;
         if ($changed & 384 == 0) {
-            i3 = obj11.changedInstance(onKeyboardVisibilityChange) ? i5 : 128;
-            $dirty |= i3;
+            i5 = obj11.changedInstance(onKeyboardVisibilityChange) ? i3 : 128;
+            $dirty |= i5;
         }
         if ($dirty & 147 == 146) {
             if (!obj11.getSkipping()) {
@@ -636,12 +636,12 @@ public final class ExposedDropdownMenu_androidKt {
                     ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.SoftKeyboardListener (ExposedDropdownMenu.android.kt:237)");
                 }
                 ComposerKt.sourceInformationMarkerStart(obj11, 1935200244, "CC(remember):ExposedDropdownMenu.android.kt#9igjgp");
-                i4 = $dirty & 896 == i5 ? 1 : 0;
+                i6 = $dirty & 896 == i3 ? 1 : 0;
                 Composer composer = obj11;
-                i5 = 0;
+                i3 = 0;
                 rememberedValue = composer.rememberedValue();
-                i2 = 0;
-                if (changedInstance |= i4 == 0) {
+                i = 0;
+                if (changedInstance |= i6 == 0) {
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         empty = 0;
                         anon = new ExposedDropdownMenu_androidKt.SoftKeyboardListener.1.1(view, onKeyboardVisibilityChange);

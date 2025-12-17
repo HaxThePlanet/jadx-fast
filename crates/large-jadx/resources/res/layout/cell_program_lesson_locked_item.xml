@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="layout/cell_program_lesson_locked_item_0"
+    android:background="@drawable/ripple_effect_transparent_rectangle"
+    style="@style/LessonCellWithLayout">
+    <TextView
+        android:textColor="@color/lightGrayDisabledText"
+        android:id="@+id/name"
+        android:tag="binding_1"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        style="@style/LessonActiveName"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:orientation="vertical"
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.3"/>
+    <TextView
+        android:textColor="@color/lightGrayDisabledText"
+        android:id="@+id/description"
+        android:tag="binding_2"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/name"
+        style="@style/LessonActiveDescription"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

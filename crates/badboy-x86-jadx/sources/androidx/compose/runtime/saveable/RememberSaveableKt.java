@@ -67,7 +67,7 @@ public final class RememberSaveableKt {
         int i2;
         boolean traceInProgress;
         Object $changed$iv;
-        String str2;
+        String str;
         String registry;
         Object it;
         Object consumeRestored;
@@ -78,12 +78,12 @@ public final class RememberSaveableKt {
         Object obj3;
         int i;
         int empty;
-        int i3;
-        int changedInstance;
         int i4;
+        int changedInstance;
+        int i3;
         Object obj;
         Object obj2;
-        String str;
+        String str2;
         final Composer composer = $composer;
         final int i16 = $changed;
         int i5 = 441892779;
@@ -93,12 +93,12 @@ public final class RememberSaveableKt {
         } else {
             holder = saver;
         }
-        i3 = i7 & 4 != 0 ? i2 : key;
+        i4 = i7 & 4 != 0 ? i2 : key;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i5, i16, -1, "androidx.compose.runtime.saveable.rememberSaveable (RememberSaveable.kt:70)");
         }
         final int i17 = 0;
-        length = i3;
+        length = i4;
         if ((CharSequence)length != 0) {
             if ((CharSequence)length.length() == 0) {
                 string = i;
@@ -108,7 +108,7 @@ public final class RememberSaveableKt {
         } else {
         }
         if (string == null) {
-            registry = i3;
+            registry = i4;
         } else {
             string = Integer.toString(ComposablesKt.getCurrentCompositeKeyHash(composer, i17), CharsKt.checkRadix(RememberSaveableKt.MaxSupportedRadix));
             Intrinsics.checkNotNullExpressionValue(string, "toString(this, checkRadix(radix))");
@@ -128,7 +128,7 @@ public final class RememberSaveableKt {
         it$iv2 = composer2.rememberedValue();
         int i25 = 0;
         if (it$iv2 == Composer.Companion.getEmpty()) {
-            i4 = 0;
+            i3 = 0;
             consumeRestored = (SaveableStateRegistry)$changed$iv.consumeRestored(registry);
             if ($changed$iv != null && consumeRestored != null) {
                 consumeRestored = $changed$iv.consumeRestored(registry);
@@ -175,7 +175,7 @@ public final class RememberSaveableKt {
         int i26 = 0;
         if (changedInstance5 |= empty == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
-                i4 = 0;
+                i3 = 0;
                 String value2 = registry;
                 Object finalKey = $changed$iv;
                 androidx.compose.runtime.saveable.Saver registry2 = holder;
@@ -184,7 +184,7 @@ public final class RememberSaveableKt {
                 it$iv2 = saver2;
                 holder = registry2;
                 $changed$iv = finalKey;
-                registry = str;
+                registry = str2;
                 composer3.updateRememberedValue((Function0)holder2);
             } else {
                 obj3 = valueIfInputsDidntChange;

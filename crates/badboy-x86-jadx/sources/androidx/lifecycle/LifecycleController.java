@@ -51,15 +51,15 @@ public final class LifecycleController {
 
     private static final void observer$lambda$0(androidx.lifecycle.LifecycleController this$0, Job $parentJob, androidx.lifecycle.LifecycleOwner source, androidx.lifecycle.Lifecycle.Event lifecycle$Event4) {
         int minState;
-        int i2;
         int i;
+        int i2;
         Object obj6;
         Intrinsics.checkNotNullParameter(source, "source");
         Intrinsics.checkNotNullParameter(event4, "<unused var>");
         if (source.getLifecycle().getCurrentState() == Lifecycle.State.DESTROYED) {
             minState = 0;
-            i = 0;
-            Job.DefaultImpls.cancel$default($parentJob, i, 1, i);
+            i2 = 0;
+            Job.DefaultImpls.cancel$default($parentJob, i2, 1, i2);
             this$0.finish();
         } else {
             if (source.getLifecycle().getCurrentState().compareTo((Enum)this$0.minState) < 0) {

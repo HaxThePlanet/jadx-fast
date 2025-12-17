@@ -75,12 +75,12 @@ public final class DecodeHelper {
 
     private final TextDecoration decodeTextDecoration() {
         int i;
-        TextDecoration lineThrough2;
+        TextDecoration lineThrough;
         int underline;
         int i2;
         TextDecoration.Companion companion;
         TextDecoration[] arr;
-        TextDecoration lineThrough;
+        TextDecoration lineThrough2;
         final int decodeInt = decodeInt();
         int i4 = 1;
         underline = 0;
@@ -91,21 +91,21 @@ public final class DecodeHelper {
                 arr = new TextDecoration[2];
                 arr[underline] = TextDecoration.Companion.getLineThrough();
                 arr[i4] = TextDecoration.Companion.getUnderline();
-                lineThrough2 = TextDecoration.Companion.combine(CollectionsKt.listOf(arr));
+                lineThrough = TextDecoration.Companion.combine(CollectionsKt.listOf(arr));
             } else {
                 if (i != 0) {
-                    lineThrough2 = TextDecoration.Companion.getLineThrough();
+                    lineThrough = TextDecoration.Companion.getLineThrough();
                 } else {
                     if (i2 != 0) {
-                        lineThrough2 = TextDecoration.Companion.getUnderline();
+                        lineThrough = TextDecoration.Companion.getUnderline();
                     } else {
-                        lineThrough2 = TextDecoration.Companion.getNone();
+                        lineThrough = TextDecoration.Companion.getNone();
                     }
                 }
             }
         } else {
         }
-        return lineThrough2;
+        return lineThrough;
     }
 
     private final TextGeometricTransform decodeTextGeometricTransform() {
@@ -167,38 +167,38 @@ public final class DecodeHelper {
     }
 
     public final SpanStyle decodeSpanStyle() {
-        int i;
+        int i3;
         long decodeTextUnit-XSAIIZE;
         int dataAvailable;
-        int i3;
+        int i;
         FontStyle fontStyle;
-        int i2;
         int i4;
+        int i2;
         int i5;
         MutableSpanStyle mutableSpanStyle = new MutableSpanStyle(0, obj2, 0, obj4, 0, 0, 0, 0, 0, 0, obj11, 0, 0, 0, 0, obj16, 0, 0, 16383, 0);
-        i = this;
-        i3 = 1;
-        while (i.parcel.dataAvail() > i3) {
-            decodeTextUnit-XSAIIZE = i.decodeByte();
+        i3 = this;
+        i = 1;
+        while (i3.parcel.dataAvail() > i) {
+            decodeTextUnit-XSAIIZE = i3.decodeByte();
             fontStyle = 8;
-            i4 = 5;
+            i2 = 5;
             i5 = 4;
-            i3 = 7;
-            i3 = 10;
-            i = this;
-            i3 = 1;
-            mutableSpanStyle.setShadow(i.decodeShadow());
-            mutableSpanStyle.setTextDecoration(i.decodeTextDecoration());
-            mutableSpanStyle.setBackground-8_81llA(i.decodeColor-0d7_KjU());
-            mutableSpanStyle.setTextGeometricTransform(i.decodeTextGeometricTransform());
-            mutableSpanStyle.setBaselineShift-_isdbwI(BaselineShift.box-impl(i.decodeBaselineShift-y9eOQZs()));
-            mutableSpanStyle.setLetterSpacing--R2X_6o(i.decodeTextUnit-XSAIIZE());
-            mutableSpanStyle.setFontFeatureSettings(i.decodeString());
-            mutableSpanStyle.setFontSynthesis-tDdu0R4(FontSynthesis.box-impl(i.decodeFontSynthesis-GVVA2EU()));
-            mutableSpanStyle.setFontStyle-mLjRB2g(FontStyle.box-impl(i.decodeFontStyle-_-LCdwA()));
-            mutableSpanStyle.setFontWeight(i.decodeFontWeight());
-            mutableSpanStyle.setFontSize--R2X_6o(i.decodeTextUnit-XSAIIZE());
-            mutableSpanStyle.setColor-8_81llA(i.decodeColor-0d7_KjU());
+            i = 7;
+            i = 10;
+            i3 = this;
+            i = 1;
+            mutableSpanStyle.setShadow(i3.decodeShadow());
+            mutableSpanStyle.setTextDecoration(i3.decodeTextDecoration());
+            mutableSpanStyle.setBackground-8_81llA(i3.decodeColor-0d7_KjU());
+            mutableSpanStyle.setTextGeometricTransform(i3.decodeTextGeometricTransform());
+            mutableSpanStyle.setBaselineShift-_isdbwI(BaselineShift.box-impl(i3.decodeBaselineShift-y9eOQZs()));
+            mutableSpanStyle.setLetterSpacing--R2X_6o(i3.decodeTextUnit-XSAIIZE());
+            mutableSpanStyle.setFontFeatureSettings(i3.decodeString());
+            mutableSpanStyle.setFontSynthesis-tDdu0R4(FontSynthesis.box-impl(i3.decodeFontSynthesis-GVVA2EU()));
+            mutableSpanStyle.setFontStyle-mLjRB2g(FontStyle.box-impl(i3.decodeFontStyle-_-LCdwA()));
+            mutableSpanStyle.setFontWeight(i3.decodeFontWeight());
+            mutableSpanStyle.setFontSize--R2X_6o(i3.decodeTextUnit-XSAIIZE());
+            mutableSpanStyle.setColor-8_81llA(i3.decodeColor-0d7_KjU());
         }
         return mutableSpanStyle.toSpanStyle();
     }

@@ -22,12 +22,12 @@ final class Pending {
     public Pending(List<androidx.compose.runtime.KeyInfo> keyInfos, int startIndex) {
         int i2;
         int index;
-        String str;
+        String $i$a$RequirePreconditionPending$1;
         int runningNodeIndex;
         int i;
-        int nodes2;
-        androidx.compose.runtime.GroupInfo groupInfo;
         int nodes;
+        androidx.compose.runtime.GroupInfo groupInfo;
+        int nodes2;
         super();
         this.keyInfos = keyInfos;
         this.startIndex = startIndex;
@@ -50,7 +50,7 @@ final class Pending {
             i = obj.keyInfos.get(index);
             groupInfo = new GroupInfo(index, runningNodeIndex, i.getNodes());
             mutableIntObjectMap.set((KeyInfo)i.getLocation(), groupInfo);
-            runningNodeIndex += nodes2;
+            runningNodeIndex += nodes;
             index++;
         }
         this.groupInfos = mutableIntObjectMap;
@@ -111,60 +111,60 @@ final class Pending {
 
     public final void registerMoveNode(int from, int to, int count) {
         Object obj;
-        int i5;
+        int i3;
         int i10;
-        int this_$iv$iv2;
+        int this_$iv$iv3;
         int this_$iv$iv;
         int nodeIndex;
-        Object[] values;
-        MutableIntObjectMap i$iv$iv;
+        Object[] values2;
+        MutableIntObjectMap i$iv$iv2;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        long[] j$iv$iv2;
-        int i4;
-        int i$iv$iv2;
-        long slot$iv$iv;
-        int i8;
-        long value$iv$iv$iv;
-        int i7;
-        int values2;
-        MutableIntObjectMap this_$iv;
-        int i2;
-        int i6;
-        int i3;
+        long[] j$iv$iv;
+        int i9;
+        int i$iv$iv;
         long slot$iv$iv2;
-        int j$iv$iv;
+        int i4;
+        long value$iv$iv$iv;
+        int i2;
+        int values;
+        MutableIntObjectMap this_$iv;
+        int i7;
+        int i8;
+        int i;
+        long slot$iv$iv;
+        int j$iv$iv2;
         long l;
         int cmp;
-        int i;
+        int i5;
         long l2;
-        int i9;
-        MutableIntObjectMap this_$iv$iv3;
+        int i6;
+        MutableIntObjectMap this_$iv$iv2;
         obj = this;
-        i5 = from;
+        i3 = from;
         final int i14 = to;
-        i$iv$iv2 = 8;
-        if (i5 > i14) {
+        i$iv$iv = 8;
+        if (i3 > i14) {
             value$iv$iv$iv = obj.groupInfos;
-            i7 = 0;
             i2 = 0;
-            this_$iv$iv2 = this_$iv;
-            nodeIndex = this_$iv$iv2.metadata;
+            i7 = 0;
+            this_$iv$iv3 = this_$iv;
+            nodeIndex = this_$iv$iv3.metadata;
             length += -2;
-            if (0 <= values) {
+            if (0 <= values2) {
             } else {
-                this_$iv$iv3 = this_$iv$iv2;
+                this_$iv$iv2 = this_$iv$iv3;
             }
         } else {
             l2 = -9187201950435737472L;
-            if (i14 > i5) {
-                this_$iv$iv2 = obj.groupInfos;
+            if (i14 > i3) {
+                this_$iv$iv3 = obj.groupInfos;
                 $this$maskEmptyOrDeleted$iv$iv$iv = 0;
-                j$iv$iv2 = i$iv$iv.metadata;
+                j$iv$iv = i$iv$iv2.metadata;
                 length2 += -2;
-                if (0 <= i4) {
+                if (0 <= i9) {
                 } else {
-                    this_$iv = this_$iv$iv2;
-                    i2 = nodeIndex;
+                    this_$iv = this_$iv$iv3;
+                    i7 = nodeIndex;
                 }
             }
         }
@@ -172,58 +172,58 @@ final class Pending {
 
     public final void registerMoveSlot(int from, int to) {
         Object obj;
-        int i8;
+        int i;
         MutableIntObjectMap groupInfos;
         int slotIndex;
-        Object[] values2;
+        Object[] values;
         MutableIntObjectMap i$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        long[] j$iv$iv;
+        long[] j$iv$iv2;
         int j$iv$iv3;
-        int i9;
+        int i8;
         int i$iv$iv2;
-        int slot$iv$iv2;
-        int value$iv$iv$iv2;
-        long value$iv$iv$iv;
-        int i6;
-        int values;
-        MutableIntObjectMap this_$iv;
-        int i;
-        int i5;
+        int slot$iv$iv;
+        int value$iv$iv$iv;
+        long value$iv$iv$iv2;
         int i4;
-        long slot$iv$iv;
-        int j$iv$iv2;
+        int values2;
+        MutableIntObjectMap this_$iv;
+        int i6;
+        int i2;
+        int i3;
+        long slot$iv$iv2;
+        int j$iv$iv;
         MutableIntObjectMap this_$iv2;
         int cmp;
-        int i2;
+        int i5;
         long l;
-        int i3;
+        int i9;
         int i7;
         obj = this;
-        i8 = from;
+        i = from;
         final int i12 = to;
-        slot$iv$iv2 = 8;
-        if (i8 > i12) {
-            value$iv$iv$iv = obj.groupInfos;
+        slot$iv$iv = 8;
+        if (i > i12) {
+            value$iv$iv$iv2 = obj.groupInfos;
+            i4 = 0;
             i6 = 0;
-            i = 0;
             slotIndex = groupInfos.metadata;
             length += -2;
-            if (0 <= values2) {
+            if (0 <= values) {
             } else {
-                this_$iv2 = value$iv$iv$iv;
+                this_$iv2 = value$iv$iv$iv2;
             }
         } else {
             l = -9187201950435737472L;
-            if (i12 > i8) {
+            if (i12 > i) {
                 groupInfos = obj.groupInfos;
                 $this$maskEmptyOrDeleted$iv$iv$iv = 0;
-                j$iv$iv = i$iv$iv.metadata;
+                j$iv$iv2 = i$iv$iv.metadata;
                 length2 += -2;
-                if (0 <= i9) {
+                if (0 <= i8) {
                 } else {
                     this_$iv = groupInfos;
-                    i = slotIndex;
+                    i6 = slotIndex;
                 }
             }
         }
@@ -246,53 +246,53 @@ final class Pending {
 
     public final boolean updateNodeCount(int group, int newCount) {
         Object nodeIndex;
-        int index2;
         int index;
-        int i4;
+        int index2;
+        int i2;
         int cmp;
         int nodeIndex2;
         int j$iv$iv;
         MutableIntObjectMap $i$f$isFull;
-        int i2;
+        int i;
         Object[] values;
-        MutableIntObjectMap map2;
-        int i5;
+        MutableIntObjectMap map;
+        int i4;
         long[] metadata;
-        int i6;
+        int i3;
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i7;
-        int cmp2;
-        int i3;
-        MutableIntObjectMap map;
-        long l;
-        int i;
         int i8;
+        int cmp2;
+        int i6;
+        MutableIntObjectMap map2;
+        long l;
+        int i5;
+        int i7;
         nodeIndex = this;
-        index = newCount;
+        index2 = newCount;
         Object obj = nodeIndex.groupInfos.get(group);
         if ((GroupInfo)obj != null) {
             nodeIndex2 = (GroupInfo)obj.getNodeIndex();
-            int i17 = index - nodeCount;
-            obj.setNodeCount(index);
+            int i17 = index2 - nodeCount;
+            obj.setNodeCount(index2);
             if (i17 != 0) {
                 $i$f$isFull = nodeIndex.groupInfos;
-                i2 = 0;
-                i5 = 0;
-                metadata = map2.metadata;
+                i = 0;
+                i4 = 0;
+                metadata = map.metadata;
                 length += -2;
-                if (0 <= i6) {
+                if (0 <= i3) {
                 } else {
-                    index2 = nodeIndex2;
-                    map = $i$f$isFull;
-                    i3 = 1;
+                    index = nodeIndex2;
+                    map2 = $i$f$isFull;
+                    i6 = 1;
                 }
             } else {
-                index2 = nodeIndex2;
-                i3 = 1;
+                index = nodeIndex2;
+                i6 = 1;
             }
-            return i3;
+            return i6;
         }
         return 0;
     }

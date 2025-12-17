@@ -18,78 +18,78 @@ public final class RadioButtonDefaults {
     }
 
     public final androidx.compose.material.RadioButtonColors colors-RGew2ao(long selectedColor, long unselectedColor, long disabledColor, Composer $composer, int $changed, int i6) {
-        boolean changed3;
+        boolean changed;
         int i8;
         int colors;
         int colors2;
-        int changed;
-        int i10;
+        int changed3;
+        int i;
         boolean changed2;
-        int i4;
-        long copy-wmQWz5c$default;
-        int copy-wmQWz5c$default2;
+        int i11;
+        long copy-wmQWz5c$default2;
+        int copy-wmQWz5c$default;
         boolean traceInProgress;
         String str;
         Object defaultRadioButtonColors;
         Object empty;
-        long l;
         long l2;
-        int i2;
         long l3;
-        int i3;
+        int i10;
+        long l;
+        int i2;
         int disabled;
         int i9;
-        int i11;
         int i7;
-        int i;
         int i5;
+        int i3;
+        int i4;
         final Composer composer = obj27;
         final int i12 = obj28;
         int i13 = 1370708026;
         ComposerKt.sourceInformationMarkerStart(composer, i13, "C(colors)P(1:c#ui.graphics.Color,2:c#ui.graphics.Color,0:c#ui.graphics.Color)162@6523L6,163@6588L6,164@6670L6,164@6713L8,166@6765L197:RadioButton.kt#jmzs0o");
         int i21 = 6;
         if (obj29 & 1 != 0) {
-            l = copy-wmQWz5c$default;
+            l2 = copy-wmQWz5c$default2;
         } else {
-            l = selectedColor;
+            l2 = selectedColor;
         }
         if (obj29 & 2 != 0) {
-            l2 = copy-wmQWz5c$default;
+            l3 = copy-wmQWz5c$default2;
         } else {
-            l2 = disabledColor;
+            l3 = disabledColor;
         }
         int i18 = 4;
         if (obj29 & 4 != 0) {
-            l3 = copy-wmQWz5c$default2;
+            l = copy-wmQWz5c$default;
         } else {
-            l3 = $changed;
+            l = $changed;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i13, i12, -1, "androidx.compose.material.RadioButtonDefaults.colors (RadioButton.kt:165)");
         }
         ComposerKt.sourceInformationMarkerStart(composer, -1778188470, "CC(remember):RadioButton.kt#9igjgp");
-        i4 = 0;
+        i11 = 0;
         int i23 = 1;
         if (i15 ^= i21 > i18) {
-            if (!composer.changed(l)) {
-                i8 = i12 & 6 == i18 ? i23 : i4;
+            if (!composer.changed(l2)) {
+                i8 = i12 & 6 == i18 ? i23 : i11;
             } else {
             }
         } else {
         }
         int i24 = 32;
         if (i19 ^= 48 > i24) {
-            if (!composer.changed(l2)) {
-                i10 = i12 & 48 == i24 ? i23 : i4;
+            if (!composer.changed(l3)) {
+                i = i12 & 48 == i24 ? i23 : i11;
             } else {
             }
         } else {
         }
         int i25 = 256;
         if (i20 ^= 384 > i25) {
-            if (!composer.changed(l3)) {
+            if (!composer.changed(l)) {
                 if (i12 & 384 == i25) {
-                    i4 = i23;
+                    i11 = i23;
                 }
             } else {
             }
@@ -99,10 +99,10 @@ public final class RadioButtonDefaults {
         int i22 = 0;
         Object rememberedValue = composer2.rememberedValue();
         int i26 = 0;
-        if (i16 |= i4 == 0) {
+        if (i16 |= i11 == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 i9 = 0;
-                defaultRadioButtonColors = new DefaultRadioButtonColors(l, obj9, l2, obj11, l3, i3, 0);
+                defaultRadioButtonColors = new DefaultRadioButtonColors(l2, obj9, l3, obj11, l, i2, 0);
                 composer2.updateRememberedValue(defaultRadioButtonColors);
             } else {
                 defaultRadioButtonColors = rememberedValue;

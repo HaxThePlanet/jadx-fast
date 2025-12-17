@@ -30,9 +30,9 @@ public final class SpringSimulation {
         int cmp;
         int i;
         int i3;
-        int sqrt3;
+        int sqrt2;
         double sqrt;
-        double sqrt2;
+        double sqrt3;
         if (this.initialized) {
         }
         int i5 = 1;
@@ -44,11 +44,11 @@ public final class SpringSimulation {
             if (Float.compare(dampingRatio3, i) > 0) {
                 double d6 = (double)i5;
                 this.gammaPlus = i7 += i10;
-                this.gammaMinus = i9 -= sqrt3;
+                this.gammaMinus = i9 -= sqrt2;
             } else {
                 if (Float.compare(dampingRatio6, i3) >= 0 && Float.compare(dampingRatio7, i) < 0) {
                     if (Float.compare(dampingRatio7, i) < 0) {
-                        this.dampedFreq = naturalFreq *= sqrt3;
+                        this.dampedFreq = naturalFreq *= sqrt2;
                     }
                 }
             }
@@ -100,48 +100,48 @@ public final class SpringSimulation {
     }
 
     public final long updateValues-IJZedt4$animation_core_release(float lastDisplacement, float lastVelocity, long timeElapsed) {
-        int i2;
-        int i4;
-        int cosCoeff;
-        int i7;
-        int i9;
-        int i8;
-        int i3;
         int i;
-        int deltaT;
-        int i6;
         int i5;
+        int cosCoeff;
+        int i2;
+        int i3;
+        int i4;
+        int i8;
+        int i9;
+        int deltaT;
+        int i7;
+        int i6;
         final Object obj = this;
-        i2 = lastVelocity;
+        i = lastVelocity;
         obj.init();
         int i21 = lastDisplacement - finalPosition2;
         d15 /= l;
-        i8 = 0;
+        i4 = 0;
         final int i53 = 0;
         final int i63 = 1065353216;
         if (Float.compare(dampingRatio5, i63) > 0) {
             d26 -= i72;
             int i77 = i27;
             i75 += i29;
-            cosCoeff = i6 + i8;
+            cosCoeff = i7 + i4;
             deltaT = i39;
-            i9 = i21;
+            i3 = i21;
         } else {
             int i33 = 1;
-            i4 = Float.compare(currentVelocity, i63) == 0 ? i33 : 0;
-            if (i4 != 0) {
+            i5 = Float.compare(currentVelocity, i63) == 0 ? i33 : 0;
+            if (i5 != 0) {
                 int i23 = i21;
                 deltaT = i39;
                 d25 += i66;
                 d30 *= i35;
-                cosCoeff = i7;
-                i9 = i21;
+                cosCoeff = i2;
+                i3 = i21;
             } else {
                 deltaT = i39;
                 int i22 = i21;
                 i34 *= i56;
-                i9 = i21;
-                cosCoeff = i2;
+                i3 = i21;
+                cosCoeff = i;
             }
         }
         return SpringSimulationKt.Motion((float)i20, (float)cosCoeff);

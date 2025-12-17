@@ -1,0 +1,9 @@
+package app.dogo.com.dogo_android.g;
+
+import app.dogo.com.dogo_android.n.m.o.a;
+import kotlin.Metadata;
+
+/* loaded from: classes.dex */
+@Metadata(d1 = "\u00006\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\u0008f\u0018\u00002\u00020\u00012\u00020\u00022\u00020\u00032\u00020\u00042\u00020\u00052\u00020\u00062\u00020\u00072\u00020\u00082\u00020\t2\u00020\n2\u00020\u000b2\u00020\u000c¨\u0006\r", d2 = {"Lapp/dogo/com/dogo_android/dashboard/DashboardCallback;", "Lapp/dogo/com/dogo_android/dashboard/LessonCardCallback;", "Lapp/dogo/com/dogo_android/dashboard/QuestionnaireCardCallback;", "Lapp/dogo/com/dogo_android/dashboard/RecommendedProgramCardCallback;", "Lapp/dogo/com/dogo_android/dashboard/ExamCardCallback;", "Lapp/dogo/com/dogo_android/dashboard/SubscriptionCardCallback;", "Lapp/dogo/com/dogo_android/dashboard/ResubscribeCardCallback;", "Lapp/dogo/com/dogo_android/dashboard/WorkoutCardCallback;", "Lapp/dogo/com/dogo_android/library/tricks/TrickListAdapter$Callback;", "Lapp/dogo/com/dogo_android/dashboard/SpecialProgramCardCallback;", "Lapp/dogo/com/dogo_android/dashboard/SpecialProgramOverViewCallback;", "Lapp/dogo/com/dogo_android/dashboard/RecommendedProgramCardCallbackV2;", "Lapp/dogo/com/dogo_android/dashboard/TrainingWeekSummaryCallback;", "app_release"}, k = 1, mv = {1, 5, 1}, xi = 48)
+public interface o extends app.dogo.com.dogo_android.g.t, app.dogo.com.dogo_android.g.v, app.dogo.com.dogo_android.g.w, app.dogo.com.dogo_android.g.b0, app.dogo.com.dogo_android.g.y, app.dogo.com.dogo_android.g.e0, o.a, app.dogo.com.dogo_android.g.z, app.dogo.com.dogo_android.g.a0, app.dogo.com.dogo_android.g.x, app.dogo.com.dogo_android.g.d0 {
+}

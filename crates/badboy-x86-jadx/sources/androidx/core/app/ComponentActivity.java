@@ -45,40 +45,40 @@ public class ComponentActivity extends Activity implements LifecycleOwner, KeyEv
     }
 
     private final boolean shouldSkipDump(String[] args) {
-        int i3;
+        int i2;
         int equals;
-        int i;
+        int i3;
         int str;
-        i3 = 0;
+        i2 = 0;
         final int i4 = 1;
         if (args != null) {
-            i = args.length == 0 ? i4 : i3;
-            if (i != 0) {
+            i3 = args.length == 0 ? i4 : i2;
+            if (i3 != 0) {
                 equals = i4;
             } else {
-                equals = i3;
+                equals = i2;
             }
         } else {
         }
         if (equals == 0) {
-            equals = args[i3];
+            equals = args[i2];
             switch (equals) {
                 case "--translation":
-                    i3 = i4;
-                    return i3;
+                    i2 = i4;
+                    return i2;
                 case "--dump-dumpable":
-                    i3 = i4;
-                    return i3;
+                    i2 = i4;
+                    return i2;
                 case "--list-dumpables":
-                    i3 = i4;
-                    return i3;
+                    i2 = i4;
+                    return i2;
                 case "--contentcapture":
                     return i4;
                 case "--autofill":
                     return i4;
             }
         }
-        return i3;
+        return i2;
     }
 
     @Override // android.app.Activity

@@ -114,20 +114,20 @@ public final class SemanticsNode {
         int i$iv;
         Object[] content;
         Object obj;
-        int i2;
-        boolean deactivated;
-        int constructor-impl;
         int i;
+        boolean deactivated;
+        int $i$f$getSemanticsOLwlOKw;
+        int i2;
         final MutableVector zSortedChildren = $this$fillOneLayerOfSemanticsWrappers.getZSortedChildren();
         final int i3 = 0;
         final int size = zSortedChildren.getSize();
         if (size > 0) {
             i$iv = 0;
             obj = zSortedChildren.getContent()[i$iv];
-            i2 = 0;
+            i = 0;
             do {
                 obj = content[i$iv];
-                i2 = 0;
+                i = 0;
                 if (i$iv++ < size) {
                 }
                 if (!includeDeactivatedNodes) {
@@ -207,26 +207,26 @@ public final class SemanticsNode {
 
     private final void mergeConfig(androidx.compose.ui.semantics.SemanticsConfiguration mergedConfig) {
         boolean unmergedChildren$ui_release$default;
-        int i2;
+        int i;
         int index$iv;
         int size;
-        Object obj;
         Object obj2;
-        int i;
+        Object obj;
+        int i2;
         boolean mergingSemanticsOfDescendants;
         if (!this.unmergedConfig.isClearingSemantics()) {
             int i5 = 0;
             unmergedChildren$ui_release$default = SemanticsNode.unmergedChildren$ui_release$default(this, i5, i5, 3, 0);
-            i2 = 0;
+            i = 0;
             index$iv = 0;
             while (index$iv < unmergedChildren$ui_release$default.size()) {
-                obj2 = obj;
-                i = 0;
-                if (!(SemanticsNode)obj2.isMergingSemanticsOfDescendants()) {
+                obj = obj2;
+                i2 = 0;
+                if (!(SemanticsNode)obj.isMergingSemanticsOfDescendants()) {
                 }
                 index$iv++;
-                mergedConfig.mergeChild$ui_release(obj2.unmergedConfig);
-                obj2.mergeConfig(mergedConfig);
+                mergedConfig.mergeChild$ui_release(obj.unmergedConfig);
+                obj.mergeConfig(mergedConfig);
             }
         }
     }
@@ -283,25 +283,25 @@ public final class SemanticsNode {
     public final Rect getBoundsInParent$ui_release() {
         int coordinatorToGetBounds$ui_release;
         boolean it;
-        int i;
+        int $i$a$TakeIfSemanticsNode$boundsInParent$currentCoordinates$1;
         androidx.compose.ui.semantics.SemanticsNode parent = getParent();
         if (parent == null) {
             return Rect.Companion.getZero();
         }
         coordinatorToGetBounds$ui_release = findCoordinatorToGetBounds$ui_release();
         if (coordinatorToGetBounds$ui_release != null) {
-            int i2 = 0;
-            i = 0;
+            int i = 0;
+            $i$a$TakeIfSemanticsNode$boundsInParent$currentCoordinates$1 = 0;
             if (coordinatorToGetBounds$ui_release.isAttached()) {
             } else {
-                coordinatorToGetBounds$ui_release = i;
+                coordinatorToGetBounds$ui_release = $i$a$TakeIfSemanticsNode$boundsInParent$currentCoordinates$1;
             }
             coordinatorToGetBounds$ui_release = coordinatorToGetBounds$ui_release.getCoordinates();
             if (coordinatorToGetBounds$ui_release != 0 && coordinatorToGetBounds$ui_release != null) {
                 coordinatorToGetBounds$ui_release = coordinatorToGetBounds$ui_release.getCoordinates();
                 if (coordinatorToGetBounds$ui_release != null) {
-                    int i3 = 0;
-                    return LayoutCoordinates.localBoundingBoxOf$default((LayoutCoordinates)DelegatableNodeKt.requireCoordinator-64DMado((DelegatableNode)parent.outerSemanticsNode, NodeKind.constructor-impl(8)), coordinatorToGetBounds$ui_release, false, 2, i);
+                    int i2 = 0;
+                    return LayoutCoordinates.localBoundingBoxOf$default((LayoutCoordinates)DelegatableNodeKt.requireCoordinator-64DMado((DelegatableNode)parent.outerSemanticsNode, NodeKind.constructor-impl(8)), coordinatorToGetBounds$ui_release, false, 2, $i$a$TakeIfSemanticsNode$boundsInParent$currentCoordinates$1);
                 }
             }
         }

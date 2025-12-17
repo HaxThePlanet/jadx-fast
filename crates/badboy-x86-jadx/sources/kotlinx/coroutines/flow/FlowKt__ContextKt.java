@@ -22,17 +22,17 @@ final class FlowKt__ContextKt {
 
     public static final <T> kotlinx.coroutines.flow.Flow<T> buffer(kotlinx.coroutines.flow.Flow<? extends T> $this$buffer, int capacity, BufferOverflow onBufferOverflow) {
         int i3;
-        int capacity3;
+        int capacity2;
         kotlinx.coroutines.flow.Flow fuse$default;
         BufferOverflow onBufferOverflow2;
         Object channelFlowOperatorImpl;
         int sUSPEND;
         Object obj;
-        int i4;
-        int i;
-        BufferOverflow capacity2;
         int i2;
+        int i4;
+        BufferOverflow capacity3;
         int i5;
+        int i;
         int i6;
         int i7 = 1;
         int i8 = -1;
@@ -57,23 +57,23 @@ final class FlowKt__ContextKt {
             }
             if (i3 == 0) {
             } else {
-                capacity3 = capacity;
-                if (capacity3 == i8) {
-                    i = capacity3;
-                    capacity2 = onBufferOverflow2;
+                capacity2 = capacity;
+                if (capacity2 == i8) {
+                    i4 = capacity2;
+                    capacity3 = onBufferOverflow2;
                 } else {
-                    i = capacity3;
-                    capacity2 = onBufferOverflow2;
+                    i4 = capacity2;
+                    capacity3 = onBufferOverflow2;
                 }
                 if ($this$buffer instanceof FusibleFlow) {
-                    fuse$default = FusibleFlow.DefaultImpls.fuse$default((FusibleFlow)$this$buffer, 0, i, capacity2, 1, 0);
+                    fuse$default = FusibleFlow.DefaultImpls.fuse$default((FusibleFlow)$this$buffer, 0, i4, capacity3, 1, 0);
                     obj = $this$buffer;
                 } else {
-                    i2 = capacity2;
-                    int onBufferOverflow3 = i;
-                    channelFlowOperatorImpl = new ChannelFlowOperatorImpl($this$buffer, 0, onBufferOverflow3, i2, 2, 0);
-                    i = onBufferOverflow3;
-                    capacity2 = i2;
+                    i5 = capacity3;
+                    int onBufferOverflow3 = i4;
+                    channelFlowOperatorImpl = new ChannelFlowOperatorImpl($this$buffer, 0, onBufferOverflow3, i5, 2, 0);
+                    i4 = onBufferOverflow3;
+                    capacity3 = i5;
                     fuse$default = channelFlowOperatorImpl;
                 }
                 return fuse$default;
@@ -141,10 +141,10 @@ final class FlowKt__ContextKt {
         boolean channelFlowOperatorImpl;
         Object obj;
         CoroutineContext context2;
-        int i2;
-        int i;
         int i3;
         int i4;
+        int i;
+        int i2;
         Object obj8;
         FlowKt__ContextKt.checkFlowContext$FlowKt__ContextKt(context);
         if (Intrinsics.areEqual(context, EmptyCoroutineContext.INSTANCE)) {

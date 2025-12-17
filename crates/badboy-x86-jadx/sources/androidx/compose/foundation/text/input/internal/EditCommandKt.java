@@ -51,7 +51,7 @@ public final class EditCommandKt {
     public static final void deleteSurroundingText(androidx.compose.foundation.text.input.internal.EditingBuffer $this$deleteSurroundingText, int lengthBeforeCursor, int lengthAfterCursor) {
         int i;
         int result$iv;
-        int length;
+        int $i$a$AddExactOrElseEditCommandKt$deleteSurroundingText$end$1;
         int result$iv2;
         int i2;
         int i3 = 0;
@@ -66,7 +66,7 @@ public final class EditCommandKt {
             result$iv = selectionEnd + lengthAfterCursor;
             if (i9 &= i11 < 0) {
                 int i10 = 0;
-                result$iv = length;
+                result$iv = $i$a$AddExactOrElseEditCommandKt$deleteSurroundingText$end$1;
             }
             $this$deleteSurroundingText.delete($this$deleteSurroundingText.getSelectionEnd(), Math.min(result$iv, $this$deleteSurroundingText.getLength()));
             int selectionStart = $this$deleteSurroundingText.getSelectionStart();
@@ -87,13 +87,13 @@ public final class EditCommandKt {
         int length;
         int i3;
         int beforeLenInChars;
-        int i4;
         int i2;
-        char selectionStart;
         int i;
+        char selectionStart;
+        int i4;
         char selectionEnd;
-        boolean surrogatePair;
         boolean surrogatePair2;
+        boolean surrogatePair;
         length = 1;
         if (lengthBeforeCursor >= 0 && lengthAfterCursor >= 0) {
             i3 = lengthAfterCursor >= 0 ? length : 0;
@@ -102,8 +102,8 @@ public final class EditCommandKt {
         if (i3 == 0) {
         } else {
             beforeLenInChars = 0;
-            i4 = 0;
-            while (i4 < lengthBeforeCursor) {
+            i2 = 0;
+            while (i2 < lengthBeforeCursor) {
                 beforeLenInChars++;
                 if ($this$deleteSurroundingTextInCodePoints.getSelectionStart() <= beforeLenInChars) {
                     break;
@@ -111,23 +111,23 @@ public final class EditCommandKt {
                 }
                 if (EditCommandKt.isSurrogatePair($this$deleteSurroundingTextInCodePoints.get(i8 -= length), $this$deleteSurroundingTextInCodePoints.get(selectionStart5 -= beforeLenInChars))) {
                 }
-                i4++;
+                i2++;
                 beforeLenInChars++;
             }
-            i2 = 0;
             i = 0;
-            while (i < lengthAfterCursor) {
-                i2++;
-                if (selectionEnd4 += i2 >= $this$deleteSurroundingTextInCodePoints.getLength()) {
+            i4 = 0;
+            while (i4 < lengthAfterCursor) {
+                i++;
+                if (selectionEnd4 += i >= $this$deleteSurroundingTextInCodePoints.getLength()) {
                     break;
                 } else {
                 }
-                if (EditCommandKt.isSurrogatePair($this$deleteSurroundingTextInCodePoints.get(i11 -= length), $this$deleteSurroundingTextInCodePoints.get(selectionEnd6 += i2))) {
+                if (EditCommandKt.isSurrogatePair($this$deleteSurroundingTextInCodePoints.get(i11 -= length), $this$deleteSurroundingTextInCodePoints.get(selectionEnd6 += i))) {
                 }
+                i4++;
                 i++;
-                i2++;
             }
-            $this$deleteSurroundingTextInCodePoints.delete($this$deleteSurroundingTextInCodePoints.getSelectionEnd(), selectionEnd3 += i2);
+            $this$deleteSurroundingTextInCodePoints.delete($this$deleteSurroundingTextInCodePoints.getSelectionEnd(), selectionEnd3 += i);
             $this$deleteSurroundingTextInCodePoints.delete(selectionStart2 -= beforeLenInChars, $this$deleteSurroundingTextInCodePoints.getSelectionStart());
         }
         int i5 = 0;
@@ -202,33 +202,33 @@ public final class EditCommandKt {
 
     public static final void setComposingText(androidx.compose.foundation.text.input.internal.EditingBuffer $this$setComposingText, String text, int newCursorPosition) {
         int compositionStart;
-        int i3;
-        int i2;
         int i;
+        int i2;
+        int i3;
         java.lang.CharSequence charSequence;
-        i3 = 1;
+        i = 1;
         final int i4 = 0;
         if ($this$setComposingText.hasComposition()) {
             compositionStart = $this$setComposingText.getCompositionStart();
             $this$setComposingText.replace(compositionStart, $this$setComposingText.getCompositionEnd(), (CharSequence)text);
-            i2 = (CharSequence)text.length() > 0 ? i3 : i4;
+            i2 = (CharSequence)text.length() > 0 ? i : i4;
             if (i2 != 0) {
                 $this$setComposingText.setComposition(compositionStart, length6 += compositionStart);
             }
         } else {
             compositionStart = $this$setComposingText.getSelectionStart();
             $this$setComposingText.replace(compositionStart, $this$setComposingText.getSelectionEnd(), (CharSequence)text);
-            i2 = (CharSequence)text.length() > 0 ? i3 : i4;
+            i2 = (CharSequence)text.length() > 0 ? i : i4;
             if (i2 != 0) {
                 $this$setComposingText.setComposition(compositionStart, length4 += compositionStart);
             }
         }
         int cursor = $this$setComposingText.getCursor();
         if (newCursorPosition > 0) {
-            i5 -= i3;
+            i5 -= i;
         } else {
-            i = i3 - length2;
+            i3 = i - length2;
         }
-        $this$setComposingText.setCursor(RangesKt.coerceIn(i, i4, $this$setComposingText.getLength()));
+        $this$setComposingText.setCursor(RangesKt.coerceIn(i3, i4, $this$setComposingText.getLength()));
     }
 }

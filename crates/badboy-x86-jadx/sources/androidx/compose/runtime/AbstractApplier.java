@@ -87,7 +87,7 @@ public abstract class AbstractApplier<T>  implements androidx.compose.runtime.Ap
 
     @Override // androidx.compose.runtime.Applier
     public void up() {
-        String str;
+        String $i$a$CheckPreconditionAbstractApplier$up$1;
         int i2 = 0;
         if (empty ^= 1 == 0) {
             int i4 = 0;

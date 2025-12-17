@@ -100,64 +100,64 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
         public final boolean isValid(androidx.compose.runtime.DerivedState<?> derivedState, Snapshot snapshot) {
             Object resultHash;
             Object readableHash;
-            int i2;
             int i;
-            int validSnapshotWriteCount;
+            int $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$snapshotChanged$1;
+            int $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$1;
             int writeCount$runtime_release;
-            int i3;
-            int i4 = 0;
+            int i2;
+            int i3 = 0;
             Object lock = SnapshotKt.getLock();
-            i2 = 0;
-            int i5 = 0;
-            final int i7 = 1;
+            i = 0;
+            int i4 = 0;
+            final int i6 = 1;
             synchronized (lock) {
                 if (this.validSnapshotWriteCount != snapshot.getWriteCount$runtime_release()) {
-                    i = i7;
+                    $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$snapshotChanged$1 = i6;
                 } else {
-                    i = i3;
+                    $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$snapshotChanged$1 = i2;
                 }
                 if (this.result != DerivedSnapshotState.ResultRecord.Unset) {
                 } else {
                 }
-                if (i3 != 0 && i != 0) {
-                    if (i != 0) {
+                if (i2 != 0 && $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$snapshotChanged$1 != 0) {
+                    if ($i$a$SyncDerivedSnapshotState$ResultRecord$isValid$snapshotChanged$1 != 0) {
                         resultHash = 0;
                         readableHash = SnapshotKt.getLock();
-                        i2 = 0;
-                        int i6 = 0;
+                        i = 0;
+                        int i5 = 0;
                         this.validSnapshotId = snapshot.getId();
                         this.validSnapshotWriteCount = snapshot.getWriteCount$runtime_release();
-                        validSnapshotWriteCount = Unit.INSTANCE;
+                        $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$1 = Unit.INSTANCE;
                         synchronized (readableHash) {
                             resultHash = 0;
                             readableHash = SnapshotKt.getLock();
-                            i2 = 0;
-                            i6 = 0;
+                            i = 0;
+                            i5 = 0;
                             this.validSnapshotId = snapshot.getId();
                             this.validSnapshotWriteCount = snapshot.getWriteCount$runtime_release();
-                            validSnapshotWriteCount = Unit.INSTANCE;
+                            $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$1 = Unit.INSTANCE;
                         }
                     }
                 }
-                return i3;
+                return i2;
             }
-            if (i != 0) {
+            if ($i$a$SyncDerivedSnapshotState$ResultRecord$isValid$snapshotChanged$1 != 0) {
                 if (this.resultHash == readableHash(derivedState, snapshot)) {
                     try {
-                        i3 = i7;
-                        if (i3 != 0 && i != 0) {
+                        i2 = i6;
+                        if (i2 != 0 && $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$snapshotChanged$1 != 0) {
                         }
-                        if (i != 0) {
+                        if ($i$a$SyncDerivedSnapshotState$ResultRecord$isValid$snapshotChanged$1 != 0) {
                         }
                         resultHash = 0;
                         readableHash = SnapshotKt.getLock();
-                        i2 = 0;
-                        i6 = 0;
+                        i = 0;
+                        i5 = 0;
                         this.validSnapshotId = snapshot.getId();
                         this.validSnapshotWriteCount = snapshot.getWriteCount$runtime_release();
-                        validSnapshotWriteCount = Unit.INSTANCE;
+                        $i$a$SyncDerivedSnapshotState$ResultRecord$isValid$1 = Unit.INSTANCE;
                         throw th;
-                        return i3;
+                        return i2;
                         throw snapshotChanged;
                     } catch (Throwable th) {
                     }
@@ -169,46 +169,46 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
 
         public final int readableHash(androidx.compose.runtime.DerivedState<?> derivedState, Snapshot snapshot) {
             boolean notEmpty;
-            int current;
-            int i3;
+            int $i$a$NotifyObserversDerivedSnapshotState$ResultRecord$readableHash$1;
+            int i2;
             int bitCount$iv$iv;
             int $i$f$notifyObservers;
-            int i4;
-            int i11;
+            int i9;
             int i6;
+            int i8;
             Object lock;
             int j$iv$iv;
             int size;
+            int i$iv$iv3;
             int i$iv$iv;
-            int i$iv$iv4;
-            Object[] i$iv$iv2;
-            Object i$iv$iv3;
+            Object[] i$iv$iv4;
+            Object i$iv$iv2;
             int content;
             Object obj;
-            int i10;
+            int i11;
             long[] metadata;
-            int i7;
-            int i;
+            int i12;
+            int i5;
             long slot$iv$iv;
             int $this$maskEmptyOrDeleted$iv$iv$iv;
             ObjectIntMap map;
-            int i8;
-            int i2;
+            int i7;
+            int i;
             int hash;
             long l;
             int readLevel;
-            int i5;
-            int stateObject;
-            int i9;
-            int i12;
+            int i3;
+            int $i$a$NotifyObserversDerivedSnapshotState$ResultRecord$readableHash$12;
+            int i10;
+            int i4;
             int snapshotId$runtime_release;
             final androidx.compose.runtime.DerivedState derivedState2 = derivedState;
             final Snapshot snapshot2 = snapshot;
             int i13 = 0;
             bitCount$iv$iv = 7;
-            i4 = 0;
+            i9 = 0;
             lock = SnapshotKt.getLock();
-            i$iv$iv = 0;
+            i$iv$iv3 = 0;
             int i14 = 0;
             final ObjectIntMap dependencies = getDependencies();
             synchronized (lock) {
@@ -216,9 +216,9 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
                 snapshot2 = snapshot;
                 i13 = 0;
                 bitCount$iv$iv = 7;
-                i4 = 0;
+                i9 = 0;
                 lock = SnapshotKt.getLock();
-                i$iv$iv = 0;
+                i$iv$iv3 = 0;
                 i14 = 0;
                 dependencies = getDependencies();
             }
@@ -227,39 +227,39 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
             int i20 = 0;
             int size2 = mutableVector.getSize();
             if (size2 > 0) {
-                i$iv$iv3 = 0;
-                i10 = 0;
-                (DerivedStateObserver)mutableVector.getContent()[i$iv$iv3].start(derivedState2);
-                while (i$iv$iv3 += i22 >= size2) {
-                    i10 = 0;
-                    (DerivedStateObserver)content[i$iv$iv3].start(derivedState2);
+                i$iv$iv2 = 0;
+                i11 = 0;
+                (DerivedStateObserver)mutableVector.getContent()[i$iv$iv2].start(derivedState2);
+                while (i$iv$iv2 += i22 >= size2) {
+                    i11 = 0;
+                    (DerivedStateObserver)content[i$iv$iv2].start(derivedState2);
                 }
             }
-            i$iv$iv = dependencies;
-            i$iv$iv4 = 0;
-            i10 = 0;
+            i$iv$iv3 = dependencies;
+            i$iv$iv = 0;
+            i11 = 0;
             metadata = obj.metadata;
             length += -2;
-            if (0 <= i7) {
+            if (0 <= i12) {
             } else {
-                stateObject = current;
-                i2 = i11;
+                $i$a$NotifyObserversDerivedSnapshotState$ResultRecord$readableHash$12 = $i$a$NotifyObserversDerivedSnapshotState$ResultRecord$readableHash$1;
+                i = i6;
                 $this$maskEmptyOrDeleted$iv$iv$iv = j$iv$iv;
-                map = i$iv$iv;
+                map = i$iv$iv3;
             }
             Unit iNSTANCE = Unit.INSTANCE;
             notEmpty = $this$maskEmptyOrDeleted$iv$iv$iv;
-            i4 = 0;
+            i9 = 0;
             lock = notEmpty.getSize();
             if (lock > 0) {
-                i$iv$iv = 0;
-                i$iv$iv3 = null;
-                (DerivedStateObserver)notEmpty.getContent()[i$iv$iv].done(derivedState2);
-                i = 1;
-                while (i$iv$iv++ >= lock) {
-                    i$iv$iv3 = null;
-                    (DerivedStateObserver)i$iv$iv4[i$iv$iv].done(derivedState2);
-                    i = 1;
+                i$iv$iv3 = 0;
+                i$iv$iv2 = null;
+                (DerivedStateObserver)notEmpty.getContent()[i$iv$iv3].done(derivedState2);
+                i5 = 1;
+                while (i$iv$iv3++ >= lock) {
+                    i$iv$iv2 = null;
+                    (DerivedStateObserver)i$iv$iv[i$iv$iv3].done(derivedState2);
+                    i5 = 1;
                 }
             }
             return bitCount$iv$iv;
@@ -300,59 +300,59 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
     private final androidx.compose.runtime.DerivedSnapshotState.ResultRecord<T> currentRecord(androidx.compose.runtime.DerivedSnapshotState.ResultRecord<T> readable, Snapshot snapshot, boolean forceDependencyReads, Function0<? extends T> calculation) {
         Object intRef;
         MutableVector this_$iv$iv2;
-        Object iNSTANCE;
+        Object $i$a$SyncDerivedSnapshotState$currentRecord$2;
         boolean valid;
         androidx.compose.runtime.DerivedState derivedState;
-        Object[] objArr2;
-        int i5;
+        Object[] objArr;
+        int i4;
         Object observe;
         Snapshot snapshot2;
         int m$iv$iv;
-        int i;
-        int i10;
         int i2;
-        int size2;
-        Object[] $this$maskEmptyOrDeleted$iv$iv$iv2;
+        int i7;
+        int i10;
         int size;
-        int i$iv$iv2;
+        Object[] $this$maskEmptyOrDeleted$iv$iv$iv2;
+        int size3;
+        int i$iv$iv4;
         int i$iv$iv3;
         Object lock;
         Object[] $i$f$isFull;
-        int i11;
+        int i3;
         Object dependencies;
         Snapshot current;
-        int i12;
+        int i;
         Object result;
         StateRecord writableRecord;
-        androidx.compose.runtime.DerivedState i$iv$iv4;
+        androidx.compose.runtime.DerivedState i$iv$iv2;
         Object writeCount$runtime_release;
         Object content;
         int i6;
         int element;
-        ObjectIntMap size3;
+        ObjectIntMap size2;
         int i$iv$iv;
         Object[] content2;
-        int i3;
-        int i4;
-        Object obj;
+        int i12;
+        int i9;
+        Object obj2;
         Throwable th2;
         int this_$iv$iv;
         long[] lArr;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        Object[] objArr;
+        Object[] objArr2;
         int cmp;
         Object[] k$iv;
         int[] iArr;
         long l;
-        int i7;
-        int i9;
-        Object obj2;
+        int i11;
+        int i5;
+        Object obj;
         int i8;
         int j$iv$iv;
         final int i18 = this;
         final StateRecord stateRecord = readable;
-        i$iv$iv2 = 1;
+        i$iv$iv4 = 1;
         $i$f$isFull = SnapshotStateKt.derivedStateObservers();
         MutableVector mutableVector2 = $i$f$isFull;
         int i30 = 0;
@@ -364,62 +364,62 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
                 i30 = 0;
                 size4 = mutableVector2.getSize();
                 if (size4 > 0) {
-                    i$iv$iv4 = 0;
+                    i$iv$iv2 = 0;
                     element = 0;
-                    (DerivedStateObserver)mutableVector2.getContent()[i$iv$iv4].start((DerivedState)i18);
-                    while (i$iv$iv4 += i$iv$iv2 >= size4) {
+                    (DerivedStateObserver)mutableVector2.getContent()[i$iv$iv2].start((DerivedState)i18);
+                    while (i$iv$iv2 += i$iv$iv4 >= size4) {
                         element = 0;
-                        (DerivedStateObserver)content[i$iv$iv4].start((DerivedState)i18);
+                        (DerivedStateObserver)content[i$iv$iv2].start((DerivedState)i18);
                     }
                 }
-                i12 = 0;
+                i = 0;
                 if ((IntRef)SnapshotStateKt__DerivedStateKt.access$getCalculationBlockNestedLevel$p().get() == null) {
-                    i$iv$iv4 = new IntRef(0);
+                    i$iv$iv2 = new IntRef(0);
                     i6 = 0;
-                    SnapshotStateKt__DerivedStateKt.access$getCalculationBlockNestedLevel$p().set(i$iv$iv4);
+                    SnapshotStateKt__DerivedStateKt.access$getCalculationBlockNestedLevel$p().set(i$iv$iv2);
                 }
-                content = i$iv$iv4;
+                content = i$iv$iv2;
                 i6 = 0;
                 element = content.getElement();
-                size3 = dependencies;
+                size2 = dependencies;
                 i$iv$iv = 0;
                 th2 = 0;
                 this_$iv$iv = i16;
-                ObjectIntMap map = map5;
-                long[] metadata = map.metadata;
-                obj = map;
+                ObjectIntMap $i$a$NotifyObserversDerivedSnapshotState$currentRecord$1 = map4;
+                long[] metadata = $i$a$NotifyObserversDerivedSnapshotState$currentRecord$1.metadata;
+                obj2 = $i$a$NotifyObserversDerivedSnapshotState$currentRecord$1;
                 this_$iv$iv3 += -2;
                 if (0 <= i17) {
                 } else {
                     k$iv = $this$maskEmptyOrDeleted$iv$iv$iv2;
-                    iArr = i$iv$iv2;
+                    iArr = i$iv$iv4;
                     $this$maskEmptyOrDeleted$iv$iv$iv = i$iv$iv3;
-                    objArr = $i$f$isFull;
+                    objArr2 = $i$f$isFull;
                 }
                 content.setElement(element);
-                Unit iNSTANCE2 = Unit.INSTANCE;
-                valid = objArr;
+                Unit iNSTANCE = Unit.INSTANCE;
+                valid = objArr2;
                 snapshot2 = 0;
-                size2 = valid.getSize();
-                if (size2 > 0) {
-                    i$iv$iv2 = 0;
+                size = valid.getSize();
+                if (size > 0) {
+                    i$iv$iv4 = 0;
                     dependencies = null;
-                    (DerivedStateObserver)valid.getContent()[i$iv$iv2].done((DerivedState)i18);
-                    while (i$iv$iv2++ >= size2) {
+                    (DerivedStateObserver)valid.getContent()[i$iv$iv4].done((DerivedState)i18);
+                    while (i$iv$iv4++ >= size) {
                         dependencies = null;
-                        (DerivedStateObserver)i$iv$iv3[i$iv$iv2].done((DerivedState)i18);
+                        (DerivedStateObserver)i$iv$iv3[i$iv$iv4].done((DerivedState)i18);
                     }
                 }
             }
             return stateRecord;
         }
-        i4 = i$iv$iv2;
-        i10 = 0;
-        MutableObjectIntMap mutableObjectIntMap = new MutableObjectIntMap(i10, i$iv$iv2, 0);
-        MutableObjectIntMap map2 = mutableObjectIntMap;
+        i9 = i$iv$iv4;
+        i7 = 0;
+        MutableObjectIntMap mutableObjectIntMap = new MutableObjectIntMap(i7, i$iv$iv4, 0);
+        MutableObjectIntMap map = mutableObjectIntMap;
         int i26 = 0;
         if ((IntRef)SnapshotStateKt__DerivedStateKt.access$getCalculationBlockNestedLevel$p().get() == null) {
-            intRef = new IntRef(i10);
+            intRef = new IntRef(i7);
             dependencies = 0;
             SnapshotStateKt__DerivedStateKt.access$getCalculationBlockNestedLevel$p().set(intRef);
         }
@@ -433,35 +433,35 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
         int size5 = mutableVector.getSize();
         if (size5 > 0) {
             i$iv$iv = 0;
-            obj = 0;
+            obj2 = 0;
             (DerivedStateObserver)mutableVector.getContent()[i$iv$iv].start((DerivedState)i18);
-            i4 = 1;
+            i9 = 1;
             while (i$iv$iv++ >= size5) {
-                i5 = 0;
-                i10 = 0;
-                obj = 0;
+                i4 = 0;
+                i7 = 0;
+                obj2 = 0;
                 (DerivedStateObserver)content2[i$iv$iv].start((DerivedState)i18);
-                i4 = 1;
+                i9 = 1;
             }
         }
         int i13 = 0;
         obj5.setElement(element2 + 1);
-        DerivedSnapshotState.currentRecord.result.1.1.result.1 anon = new DerivedSnapshotState.currentRecord.result.1.1.result.1(i18, obj5, map2, element2);
+        DerivedSnapshotState.currentRecord.result.1.1.result.1 anon = new DerivedSnapshotState.currentRecord.result.1.1.result.1(i18, obj5, map, element2);
         obj5.setElement(element2);
         this_$iv$iv2 = derivedStateObservers;
         int i20 = 0;
         int size6 = this_$iv$iv2.getSize();
         if (size6 > 0) {
             i$iv$iv = 0;
-            obj = 0;
+            obj2 = 0;
             (DerivedStateObserver)this_$iv$iv2.getContent()[i$iv$iv].done((DerivedState)i18);
-            i4 = 1;
+            i9 = 1;
             while (i$iv$iv++ >= size6) {
                 this_$iv$iv2 = this_$iv$iv;
                 observe = lArr;
-                obj = 0;
+                obj2 = 0;
                 (DerivedStateObserver)content2[i$iv$iv].done((DerivedState)i18);
-                i4 = 1;
+                i9 = 1;
             }
         } else {
             this_$iv$iv = this_$iv$iv2;
@@ -470,7 +470,7 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
         Object obj3 = lArr;
         int i21 = 0;
         lock = SnapshotKt.getLock();
-        i11 = 0;
+        i3 = 0;
         int i14 = 0;
         current = Snapshot.Companion.getCurrent();
         synchronized (lock) {
@@ -486,33 +486,33 @@ final class DerivedSnapshotState<T>  extends StateObjectImpl implements androidx
                     if (result != null) {
                     } else {
                     }
-                    stateRecord.setDependencies((ObjectIntMap)map2);
+                    stateRecord.setDependencies((ObjectIntMap)map);
                     stateRecord.setResultHash(stateRecord.readableHash((DerivedState)i18, current));
                     writableRecord = stateRecord;
                     writableRecord = SnapshotKt.newWritableRecord((StateRecord)i18.first, (StateObject)i18, current);
-                    (DerivedSnapshotState.ResultRecord)writableRecord.setDependencies((ObjectIntMap)map2);
+                    (DerivedSnapshotState.ResultRecord)writableRecord.setDependencies((ObjectIntMap)map);
                     writableRecord.setResultHash(writableRecord.readableHash((DerivedState)i18, current));
                     writableRecord.setResult(obj3);
-                    iNSTANCE = SnapshotStateKt__DerivedStateKt.access$getCalculationBlockNestedLevel$p().get();
-                    if (iNSTANCE != null && (IntRef)iNSTANCE.getElement() == 0) {
+                    $i$a$SyncDerivedSnapshotState$currentRecord$2 = SnapshotStateKt__DerivedStateKt.access$getCalculationBlockNestedLevel$p().get();
+                    if ($i$a$SyncDerivedSnapshotState$currentRecord$2 != null && (IntRef)$i$a$SyncDerivedSnapshotState$currentRecord$2.getElement() == 0) {
                     } else {
                     }
-                    if (iNSTANCE.getElement() == 0) {
+                    if ($i$a$SyncDerivedSnapshotState$currentRecord$2.getElement() == 0) {
                     } else {
                     }
-                    i2 = 1;
-                    i2 = 0;
-                    if (i2 != 0) {
+                    i10 = 1;
+                    i10 = 0;
+                    if (i10 != 0) {
                     }
                     Snapshot.Companion.notifyObjectsInitialized();
-                    i2 = 0;
+                    i10 = 0;
                     lock = SnapshotKt.getLock();
-                    i11 = 0;
+                    i3 = 0;
                     int i15 = 0;
                     current = Snapshot.Companion.getCurrent();
                     writableRecord.setValidSnapshotId(current.getId());
                     writableRecord.setValidSnapshotWriteCount(current.getWriteCount$runtime_release());
-                    iNSTANCE = Unit.INSTANCE;
+                    $i$a$SyncDerivedSnapshotState$currentRecord$2 = Unit.INSTANCE;
                     throw th;
                     return writableRecord;
                 } catch (Throwable th) {

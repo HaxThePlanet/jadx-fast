@@ -83,32 +83,32 @@ public final class SwipeableKt {
         int lastIndex2;
         Object cmp;
         Iterator iterator;
-        float floatValue;
+        float floatValue3;
         boolean floatValue2;
         int compare;
-        int i3;
-        int floatValue3;
-        int i4;
+        int i2;
+        int floatValue;
+        int i;
         double d;
         long l;
-        int i2;
-        int i;
+        int i3;
+        int i4;
         final Object obj = offset;
         int i7 = 0;
         ArrayList arrayList = new ArrayList();
         maxValue$iv = 0;
         i$iv = (Iterable)anchors.iterator();
-        i3 = 0;
+        i2 = 0;
         while (i$iv.hasNext()) {
             next = i$iv.next();
-            i4 = 0;
+            i = 0;
             if (Double.compare(d, i16) <= 0) {
             } else {
             }
-            compare = i3;
+            compare = i2;
             if (compare != 0) {
             }
-            i3 = 0;
+            i2 = 0;
             (Collection)arrayList.add(next);
             compare = 1;
         }
@@ -116,7 +116,7 @@ public final class SwipeableKt {
         if ((List)arrayList.isEmpty()) {
             maxElem$iv = minElem$iv;
         } else {
-            maxValue$iv = (Number)arrayList.get(i3).floatValue();
+            maxValue$iv = (Number)arrayList.get(i2).floatValue();
             int i14 = 0;
             lastIndex = CollectionsKt.getLastIndex(arrayList);
             if (1 <= lastIndex) {
@@ -128,17 +128,17 @@ public final class SwipeableKt {
         lastIndex2 = 0;
         iterator = (Iterable)anchors.iterator();
         while (iterator.hasNext()) {
-            floatValue = iterator.next();
-            i4 = 0;
+            floatValue3 = iterator.next();
+            i = 0;
             if (Double.compare(d, i17) >= 0) {
             } else {
             }
             compare = 0;
             if (compare != 0) {
             }
-            i3 = 0;
-            (Collection)arrayList2.add(floatValue);
-            compare = i2;
+            i2 = 0;
+            (Collection)arrayList2.add(floatValue3);
+            compare = i3;
         }
         int i9 = 0;
         if ((List)arrayList2.isEmpty()) {
@@ -267,23 +267,23 @@ public final class SwipeableKt {
         Object mutableStateOf$default;
         androidx.compose.animation.core.SpringSpec animationSpec2;
         boolean traceInProgress;
-        boolean changedInstance2;
-        int i3;
+        boolean changedInstance;
+        int i4;
         String str;
         int changed;
-        boolean changedInstance;
+        boolean changedInstance2;
         int i5;
-        Object empty4;
-        int i4;
-        int i2;
+        Object empty2;
+        int i;
+        int i3;
         int empty;
-        Object empty3;
+        Object empty4;
         Object swipeableState;
-        int empty2;
+        int empty3;
         Object anon2;
         androidx.compose.material.SwipeableKt.rememberSwipeableStateFor.swipeableState.1.1 iNSTANCE;
         Boolean valueOf;
-        int i;
+        int i2;
         Composer.Companion companion;
         int obj19;
         final Object obj = value;
@@ -320,12 +320,12 @@ public final class SwipeableKt {
         ComposerKt.sourceInformationMarkerStart(composer, 2132126875, str3);
         int i18 = 0;
         Composer composer4 = $composer;
-        empty4 = 0;
+        empty2 = 0;
         Object rememberedValue3 = composer4.rememberedValue();
         int i31 = 0;
         int i32 = 0;
         if (rememberedValue3 == Composer.Companion.getEmpty()) {
-            empty2 = 0;
+            empty3 = 0;
             composer4.updateRememberedValue(SnapshotStateKt.mutableStateOf$default(false, i32, 2, i32));
         } else {
             obj19 = 0;
@@ -341,12 +341,12 @@ public final class SwipeableKt {
         } else {
         }
         Composer composer5 = $composer;
-        empty3 = 0;
+        empty4 = 0;
         Object rememberedValue4 = composer5.rememberedValue();
         int i33 = 0;
         if (i5 == 0) {
             if (rememberedValue4 == Composer.Companion.getEmpty()) {
-                empty4 = 0;
+                empty2 = 0;
                 anon = new SwipeableKt.rememberSwipeableStateFor.1.1(obj, (SwipeableState)invalid$iv, i32);
                 composer5.updateRememberedValue((Function2)anon);
             } else {
@@ -359,7 +359,7 @@ public final class SwipeableKt {
         ComposerKt.sourceInformationMarkerStart(composer, 2132135118, str3);
         if (i14 ^= 6 > 4) {
             if (!composer.changedInstance(obj)) {
-                i3 = $changed & 6 == 4 ? 1 : obj19;
+                i4 = $changed & 6 == 4 ? 1 : obj19;
             } else {
             }
         } else {
@@ -367,7 +367,7 @@ public final class SwipeableKt {
         int i26 = 32;
         if (i20 ^= 48 > i26) {
             if (!composer.changed(obj2)) {
-                i = $changed & 48 == i26 ? 1 : obj19;
+                i2 = $changed & 48 == i26 ? 1 : obj19;
             } else {
             }
         } else {
@@ -376,9 +376,9 @@ public final class SwipeableKt {
         int i27 = 0;
         Object rememberedValue2 = composer3.rememberedValue();
         int i30 = 0;
-        if (i3 |= i == 0) {
+        if (i4 |= i2 == 0) {
             if (rememberedValue2 == Composer.Companion.getEmpty()) {
-                empty3 = 0;
+                empty4 = 0;
                 anon2 = new SwipeableKt.rememberSwipeableStateFor.2.1(obj, invalid$iv, obj2, mutableStateOf$default);
                 composer3.updateRememberedValue((Function1)anon2);
             } else {
@@ -401,8 +401,8 @@ public final class SwipeableKt {
         androidx.compose.material.SwipeableState swipeableState;
         Map map;
         Orientation orientation2;
-        boolean z;
         boolean z2;
+        boolean z;
         MutableInteractionSource mutableInteractionSource;
         Function2 function2;
         androidx.compose.material.ResistanceConfig resistanceConfig;
@@ -419,26 +419,26 @@ public final class SwipeableKt {
 
     public static Modifier swipeable-pPrIpRY$default(Modifier modifier, androidx.compose.material.SwipeableState swipeableState2, Map map3, Orientation orientation4, boolean z5, boolean z6, MutableInteractionSource mutableInteractionSource7, Function2 function28, androidx.compose.material.ResistanceConfig resistanceConfig9, float f10, int i11, Object object12) {
         int velocityThreshold-D9Ej5fM;
-        int i7;
-        int i9;
+        int i10;
         int i;
+        int i3;
         int iNSTANCE;
         int resistanceConfig$default;
-        int i6;
-        int i10;
-        int i8;
+        int i2;
+        int i9;
+        int i7;
         androidx.compose.material.SwipeableKt.swipeable.1 anon;
         androidx.compose.material.ResistanceConfig resistanceConfig;
         Set keySet;
         float f;
-        int i3;
-        int i2;
+        int i8;
         int i4;
         int i5;
+        int i6;
         int i12 = i11;
-        i6 = i12 & 8 != 0 ? i7 : z5;
-        i10 = i12 & 16 != 0 ? i9 : z6;
-        i8 = i12 & 32 != 0 ? i : mutableInteractionSource7;
+        i2 = i12 & 8 != 0 ? i10 : z5;
+        i9 = i12 & 16 != 0 ? i : z6;
+        i7 = i12 & 32 != 0 ? i3 : mutableInteractionSource7;
         if (i12 & 64 != 0) {
             anon = iNSTANCE;
         } else {
@@ -454,6 +454,6 @@ public final class SwipeableKt {
         } else {
             f = f10;
         }
-        return SwipeableKt.swipeable-pPrIpRY(modifier, swipeableState2, map3, orientation4, i6, i10, i8, anon, resistanceConfig, f);
+        return SwipeableKt.swipeable-pPrIpRY(modifier, swipeableState2, map3, orientation4, i2, i9, i7, anon, resistanceConfig, f);
     }
 }

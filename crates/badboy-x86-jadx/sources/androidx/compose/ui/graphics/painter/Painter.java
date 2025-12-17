@@ -65,8 +65,8 @@ public abstract class Painter {
 
     private final void configureColorFilter(ColorFilter colorFilter) {
         boolean colorFilter2;
-        int i2;
         int i;
+        int i2;
         if (!Intrinsics.areEqual(this.colorFilter, colorFilter) && !applyColorFilter(colorFilter)) {
             if (!applyColorFilter(colorFilter)) {
                 if (colorFilter == null) {
@@ -93,15 +93,15 @@ public abstract class Painter {
     }
 
     public static void draw-x_KDEd0$default(androidx.compose.ui.graphics.painter.Painter painter, DrawScope drawScope2, long l3, float f4, ColorFilter colorFilter5, int i6, Object object7) {
-        int i2;
         int i;
+        int i2;
         int obj10;
         int obj11;
         if (obj13 != null) {
         } else {
-            i2 = object7 & 2 != 0 ? obj10 : colorFilter5;
-            i = object7 & 4 != 0 ? obj11 : i6;
-            painter.draw-x_KDEd0(drawScope2, l3, obj3, i2);
+            i = object7 & 2 != 0 ? obj10 : colorFilter5;
+            i2 = object7 & 4 != 0 ? obj11 : i6;
+            painter.draw-x_KDEd0(drawScope2, l3, obj3, i);
         }
         UnsupportedOperationException obj6 = new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: draw-x_KDEd0");
         throw obj6;

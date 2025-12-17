@@ -230,27 +230,27 @@ public class FlexBuffersBuilder {
     }
 
     private int align(int alignment) {
-        int i2;
         int i3;
         int i;
+        int i2;
         i4 <<= alignment;
-        i2 = FlexBuffersBuilder.Value.access$100(this.bb.writePosition(), i5);
-        while (i2 != 0) {
+        i3 = FlexBuffersBuilder.Value.access$100(this.bb.writePosition(), i5);
+        while (i3 != 0) {
             this.bb.put(0);
-            i2 = i3;
+            i3 = i;
         }
         return i5;
     }
 
     private androidx.emoji2.text.flatbuffer.FlexBuffersBuilder.Value createKeyVector(int start, int length) {
-        int i2;
-        int i5;
-        int i4;
-        int key;
-        int key2;
-        int bitWidth;
-        int i3;
         int i6;
+        int i5;
+        int i3;
+        int key2;
+        int key;
+        int bitWidth;
+        int i2;
+        int i4;
         long l;
         int position;
         int i;
@@ -258,39 +258,39 @@ public class FlexBuffersBuilder {
         final Object obj2 = length;
         int i7 = 0;
         i5 = start;
-        bitWidth = i2;
+        bitWidth = i6;
         while (i5 < obj.stack.size()) {
             bitWidth = Math.max(bitWidth, FlexBuffersBuilder.Value.access$500(4, 0, (long)key3, obj13, obj.bb.writePosition()));
             i5++;
         }
         int align = obj.align(bitWidth);
         obj.writeInt((long)obj2, obj6);
-        i4 = start;
-        while (i4 < obj.stack.size()) {
-            obj.writeOffset((long)key2, i6);
-            i4++;
+        i3 = start;
+        while (i3 < obj.stack.size()) {
+            obj.writeOffset((long)key, i4);
+            i3++;
         }
-        FlexBuffersBuilder.Value i9 = new FlexBuffersBuilder.Value(-1, FlexBuffers.toTypedVector(4, i7), bitWidth, (long)position2, i6);
+        FlexBuffersBuilder.Value i9 = new FlexBuffersBuilder.Value(-1, FlexBuffers.toTypedVector(4, i7), bitWidth, (long)position2, i4);
         return i9;
     }
 
     private androidx.emoji2.text.flatbuffer.FlexBuffersBuilder.Value createVector(int key, int start, int length, boolean typed, boolean fixed, androidx.emoji2.text.flatbuffer.FlexBuffersBuilder.Value keys) {
-        int bitWidth;
-        int typedVectorElementType;
-        int typedVector;
-        int i2;
-        int prefixElems;
-        int i6;
-        int vectorType;
-        int i;
+        int bitWidth2;
         int typedVectorElementType2;
+        int typedVector;
+        int i4;
+        int prefixElems;
+        int i3;
+        int vectorType;
         int i5;
+        int typedVectorElementType;
+        int i6;
         int minBitWidth;
         int size;
         byte b;
-        int i3;
-        int bitWidth2;
-        int i4;
+        int i2;
+        int bitWidth;
+        int i;
         final int i7 = length;
         final androidx.emoji2.text.flatbuffer.FlexBuffersBuilder.Value builder = keys;
         if (fixed) {
@@ -300,18 +300,18 @@ public class FlexBuffersBuilder {
             AssertionError assertionError = new AssertionError();
             throw assertionError;
         }
-        i2 = 0;
+        i4 = 0;
         if (builder != null) {
-            bitWidth = Math.max(Math.max(i2, FlexBuffersBuilder.widthUInBits((long)i7)), FlexBuffersBuilder.Value.access$200(builder, this.bb.writePosition(), i2));
+            bitWidth2 = Math.max(Math.max(i4, FlexBuffersBuilder.widthUInBits((long)i7)), FlexBuffersBuilder.Value.access$200(builder, this.bb.writePosition(), i4));
             prefixElems += 2;
         }
         vectorType = 4;
-        i = start;
-        bitWidth2 = bitWidth;
-        while (i < this.stack.size()) {
-            bitWidth2 = Math.max(bitWidth2, FlexBuffersBuilder.Value.access$200((FlexBuffersBuilder.Value)this.stack.get(i), this.bb.writePosition(), i + prefixElems));
-            i4 = start;
-            i++;
+        i5 = start;
+        bitWidth = bitWidth2;
+        while (i5 < this.stack.size()) {
+            bitWidth = Math.max(bitWidth, FlexBuffersBuilder.Value.access$200((FlexBuffersBuilder.Value)this.stack.get(i5), this.bb.writePosition(), i5 + prefixElems));
+            i = start;
+            i5++;
         }
         int i11 = start;
         if (fixed) {
@@ -321,40 +321,40 @@ public class FlexBuffersBuilder {
             AssertionError assertionError2 = new AssertionError();
             throw assertionError2;
         }
-        int align = align(bitWidth2);
+        int align = align(bitWidth);
         if (builder != null) {
-            writeOffset(builder.iValue, typedVectorElementType2);
-            writeInt(i8 <<= minBitWidth, typedVectorElementType2);
+            writeOffset(builder.iValue, typedVectorElementType);
+            writeInt(i8 <<= minBitWidth, typedVectorElementType);
         }
         if (!fixed) {
-            writeInt((long)i7, typedVectorElementType2);
+            writeInt((long)i7, typedVectorElementType);
         }
-        i5 = start;
-        while (i5 < this.stack.size()) {
-            writeAny((FlexBuffersBuilder.Value)this.stack.get(i5), align);
-            i5++;
+        i6 = start;
+        while (i6 < this.stack.size()) {
+            writeAny((FlexBuffersBuilder.Value)this.stack.get(i6), align);
+            i6++;
         }
         if (!typed) {
-            i5 = start;
-            while (i5 < this.stack.size()) {
-                this.bb.put(FlexBuffersBuilder.Value.access$400((FlexBuffersBuilder.Value)this.stack.get(i5), bitWidth2));
-                i5++;
+            i6 = start;
+            while (i6 < this.stack.size()) {
+                this.bb.put(FlexBuffersBuilder.Value.access$400((FlexBuffersBuilder.Value)this.stack.get(i6), bitWidth));
+                i6++;
             }
         }
         if (builder != null) {
-            i3 = typedVector;
+            i2 = typedVector;
         } else {
             if (typed) {
                 if (fixed) {
-                    i2 = i7;
+                    i4 = i7;
                 }
-                typedVector = FlexBuffers.toTypedVector(vectorType, i2);
+                typedVector = FlexBuffers.toTypedVector(vectorType, i4);
             } else {
                 typedVector = 10;
             }
-            i3 = typedVector;
+            i2 = typedVector;
         }
-        FlexBuffersBuilder.Value i9 = new FlexBuffersBuilder.Value(key, i3, bitWidth2, (long)position2, obj12);
+        FlexBuffersBuilder.Value i9 = new FlexBuffersBuilder.Value(key, i2, bitWidth, (long)position2, obj12);
         return i9;
     }
 

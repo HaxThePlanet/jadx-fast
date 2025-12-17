@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/cell_program_training_trick_0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/image"
+        android:tag="binding_1"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/image">
+        <TextView
+            android:textSize="14sp"
+            android:textStyle="0x0"
+            android:textColor="#99000000"
+            android:gravity="top"
+            android:id="@+id/description"
+            android:tag="binding_2"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="1sp"
+            android:fontFamily="sans-serif"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:letterSpacing="0.02"/>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

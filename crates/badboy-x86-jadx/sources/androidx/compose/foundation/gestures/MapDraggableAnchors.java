@@ -28,9 +28,9 @@ final class MapDraggableAnchors<T>  implements androidx.compose.foundation.gestu
         int minDistance2;
         long l;
         int i;
-        float f;
-        int i2;
         float f2;
+        int i2;
+        float f;
         int cmp;
         bitCount$iv$iv = 0;
         int i11 = 0;
@@ -54,16 +54,16 @@ final class MapDraggableAnchors<T>  implements androidx.compose.foundation.gestu
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
+        int i3;
         int i2;
-        int i5;
         int minAnchor;
         int minDistance;
         long l;
-        int i;
+        int i6;
         float f;
         int i4;
-        int i3;
-        int i6;
+        int i;
+        int i5;
         int cmp;
         bitCount$iv$iv = 0;
         int i13 = 0;
@@ -96,18 +96,18 @@ final class MapDraggableAnchors<T>  implements androidx.compose.foundation.gestu
         int cmp;
         int anchors;
         int valueOf;
-        Object k$iv;
-        Object[] keys;
         Object k$iv2;
+        Object[] keys;
+        Object k$iv;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i3;
+        int i4;
         int i2;
         ObjectFloatMap this_$iv;
         long l;
-        int i4;
         int i;
+        int i3;
         Object[] objArr;
         int $i$f$forEach;
         anchors = cmp.anchors;
@@ -119,7 +119,7 @@ final class MapDraggableAnchors<T>  implements androidx.compose.foundation.gestu
             this_$iv = anchors;
             $i$f$forEach = valueOf;
             objArr = keys;
-            k$iv = block;
+            k$iv2 = block;
         }
     }
 

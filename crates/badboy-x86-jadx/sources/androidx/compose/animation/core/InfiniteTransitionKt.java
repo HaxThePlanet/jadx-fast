@@ -31,15 +31,15 @@ public final class InfiniteTransitionKt {
     }
 
     public static final State<Float> animateFloat(androidx.compose.animation.core.InfiniteTransition $this$animateFloat, float initialValue, float targetValue, androidx.compose.animation.core.InfiniteRepeatableSpec<Float> animationSpec, String label, Composer $composer, int $changed, int i8) {
-        int str2;
+        int str3;
         boolean traceInProgress;
+        String str2;
         String str;
-        String str3;
         final int i = $changed;
         int i2 = -644770905;
         final Composer composer = $composer;
         ComposerKt.sourceInformationMarkerStart(composer, i2, "C(animateFloat)P(1,3)316@12588L84:InfiniteTransition.kt#pdpnli");
-        str3 = i8 & 8 != 0 ? str2 : label;
+        str = i8 & 8 != 0 ? str3 : label;
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i2, i, -1, "androidx.compose.animation.core.animateFloat (InfiniteTransition.kt:316)");
         }
@@ -47,7 +47,7 @@ public final class InfiniteTransitionKt {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd($composer);
-        return InfiniteTransitionKt.animateValue($this$animateFloat, Float.valueOf(initialValue), Float.valueOf(targetValue), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), animationSpec, str3, composer, i6 | i13, 0);
+        return InfiniteTransitionKt.animateValue($this$animateFloat, Float.valueOf(initialValue), Float.valueOf(targetValue), VectorConvertersKt.getVectorConverter(FloatCompanionObject.INSTANCE), animationSpec, str, composer, i6 | i13, 0);
     }
 
     @Deprecated(level = DeprecationLevel.HIDDEN, message = "animateValue APIs now have a new label parameter added.")
@@ -74,22 +74,22 @@ public final class InfiniteTransitionKt {
         boolean traceInProgress;
         androidx.compose.animation.core.InfiniteTransition infiniteTransition;
         String str2;
-        Object obj;
         Object obj2;
+        Object obj;
         androidx.compose.animation.core.TwoWayConverter twoWayConverter;
         boolean changedInstance2;
         int i3;
         androidx.compose.animation.core.AnimationSpec animationSpec2;
-        int changedInstance;
-        int i4;
         int changedInstance3;
+        int i4;
+        int changedInstance;
         String str3;
-        int i2;
+        int i;
         Object anon;
         Object rememberedValue;
         Object anon2;
         Object empty;
-        int i;
+        int i2;
         final Object obj3 = animationSpec;
         final Composer composer3 = $composer;
         final int i19 = $changed;
@@ -107,30 +107,30 @@ public final class InfiniteTransitionKt {
         Object rememberedValue3 = composer4.rememberedValue();
         empty = 0;
         if (rememberedValue3 == Composer.Companion.getEmpty()) {
-            i = 0;
+            i2 = 0;
             transitionAnimationState = new InfiniteTransition.TransitionAnimationState($this$animateValue, initialValue, targetValue, typeConverter, (AnimationSpec)obj3, str3);
             composer4.updateRememberedValue(transitionAnimationState);
         } else {
             infiniteTransition = $this$animateValue;
-            obj = initialValue;
-            obj2 = targetValue;
+            obj2 = initialValue;
+            obj = targetValue;
             transitionAnimationState = rememberedValue3;
         }
         ComposerKt.sourceInformationMarkerEnd(composer3);
         ComposerKt.sourceInformationMarkerStart(composer3, 1444229998, str5);
         int i15 = 32;
-        i2 = 1;
+        i = 1;
         if (i8 ^= 48 > i15) {
-            if (!composer3.changedInstance(obj)) {
-                i3 = i19 & 48 == i15 ? i2 : 0;
+            if (!composer3.changedInstance(obj2)) {
+                i3 = i19 & 48 == i15 ? i : 0;
             } else {
             }
         } else {
         }
         int i25 = 256;
         if (i16 ^= 384 > i25) {
-            if (!composer3.changedInstance(obj2)) {
-                i4 = i19 & 384 == i25 ? i2 : 0;
+            if (!composer3.changedInstance(obj)) {
+                i4 = i19 & 384 == i25 ? i : 0;
             } else {
             }
         } else {
@@ -140,7 +140,7 @@ public final class InfiniteTransitionKt {
             if (!composer3.changedInstance(obj3)) {
                 if (i19 & 24576 == i26) {
                 } else {
-                    i2 = 0;
+                    i = 0;
                 }
             } else {
             }
@@ -150,10 +150,10 @@ public final class InfiniteTransitionKt {
         int i22 = 0;
         rememberedValue = composer.rememberedValue();
         int i27 = 0;
-        if (i10 |= i2 == 0) {
+        if (i10 |= i == 0) {
             if (rememberedValue == Composer.Companion.getEmpty()) {
                 empty = 0;
-                anon = new InfiniteTransitionKt.animateValue.1.1(obj, (InfiniteTransition.TransitionAnimationState)transitionAnimationState, obj2, obj3);
+                anon = new InfiniteTransitionKt.animateValue.1.1(obj2, (InfiniteTransition.TransitionAnimationState)transitionAnimationState, obj, obj3);
                 composer.updateRememberedValue((Function0)anon);
             } else {
                 anon = rememberedValue;

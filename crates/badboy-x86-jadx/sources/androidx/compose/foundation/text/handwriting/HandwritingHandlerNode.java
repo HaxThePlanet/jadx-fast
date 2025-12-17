@@ -35,18 +35,18 @@ final class HandwritingHandlerNode extends Modifier.Node implements FocusEventMo
     public void onFocusEvent(FocusState focusState) {
         boolean hasFocus;
         kotlinx.coroutines.CoroutineScope coroutineScope;
-        int i2;
         int i4;
+        int i;
         androidx.compose.foundation.text.handwriting.HandwritingHandlerNode.onFocusEvent.1 handler;
         int i3;
-        int i;
+        int i2;
         this.focusState = focusState;
         if (!Intrinsics.areEqual(this.focusState, focusState) && focusState.getHasFocus()) {
             this.focusState = focusState;
             if (focusState.getHasFocus()) {
-                i2 = 0;
-                hasFocus = new HandwritingHandlerNode.onFocusEvent.1(this, i2);
-                BuildersKt.launch$default(getCoroutineScope(), i2, 0, (Function2)hasFocus, 3, 0);
+                i4 = 0;
+                hasFocus = new HandwritingHandlerNode.onFocusEvent.1(this, i4);
+                BuildersKt.launch$default(getCoroutineScope(), i4, 0, (Function2)hasFocus, 3, 0);
             }
         }
     }

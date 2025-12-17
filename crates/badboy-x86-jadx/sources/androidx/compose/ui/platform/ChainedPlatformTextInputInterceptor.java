@@ -42,21 +42,21 @@ final class ChainedPlatformTextInputInterceptor {
 
     public final Object textInputSession(Owner owner, Function2<? super androidx.compose.ui.platform.PlatformTextInputSessionScope, ? super Continuation<?>, ? extends Object> function22, Continuation<?> continuation3) {
         boolean anon;
+        int i2;
         int i;
-        int i3;
         androidx.compose.ui.platform.ChainedPlatformTextInputInterceptor label;
         androidx.compose.ui.platform.ChainedPlatformTextInputInterceptor parent;
         androidx.compose.ui.platform.ChainedPlatformTextInputInterceptor.textInputSession.2 anon2;
-        int i2;
+        int i3;
         Object obj7;
         Object obj9;
         anon = continuation3;
-        i3 = Integer.MIN_VALUE;
-        if (continuation3 instanceof ChainedPlatformTextInputInterceptor.textInputSession.1 && label2 &= i3 != 0) {
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof ChainedPlatformTextInputInterceptor.textInputSession.1 && label2 &= i != 0) {
             anon = continuation3;
-            i3 = Integer.MIN_VALUE;
-            if (label2 &= i3 != 0) {
-                anon.label = obj9 -= i3;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon.label = obj9 -= i;
             } else {
                 anon = new ChainedPlatformTextInputInterceptor.textInputSession.1(this, continuation3);
             }

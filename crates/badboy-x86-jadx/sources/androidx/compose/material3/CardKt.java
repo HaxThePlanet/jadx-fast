@@ -25,39 +25,39 @@ public final class CardKt {
         int traceInProgress;
         int $dirty;
         Object $dirty2;
-        Object obj2;
+        Object obj;
         Object modifier2;
         boolean traceInProgress2;
         Object shape2;
         Object obj4;
-        int i5;
-        Object obj;
+        int i6;
+        Object obj6;
         Object colors3;
         Object colors2;
-        int changed2;
-        Object obj5;
-        Object elevation2;
-        Object elevation3;
         int changed;
+        Object obj2;
+        Object elevation3;
+        Object elevation2;
+        int changed2;
         Object iNSTANCE;
         int changed3;
-        Object obj6;
-        int shape3;
         Object obj3;
-        int i11;
+        int shape3;
+        Object obj5;
+        int i;
         int i7;
         boolean containerColor-vNxB06k$material3_release;
         int defaultsInvalid;
-        int i12;
-        int contentColor-vNxB06k$material3_release;
-        int i2;
-        int i;
-        Composer restartGroup;
-        int i10;
-        int i4;
-        int i6;
         int i8;
+        int contentColor-vNxB06k$material3_release;
         int i3;
+        int i10;
+        Composer restartGroup;
+        int i4;
+        int i11;
+        int i12;
+        int i2;
+        int i5;
         int obj21;
         final Object obj9 = content;
         final int i37 = $changed;
@@ -71,31 +71,31 @@ public final class CardKt {
             shape2 = modifier;
         } else {
             if (i37 & 6 == 0) {
-                i5 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i5;
+                i6 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty |= i6;
             } else {
                 shape2 = modifier;
             }
         }
         if (i37 & 48 == 0) {
             if (i9 & 2 == 0) {
-                changed2 = restartGroup.changed(shape) ? 32 : 16;
+                changed = restartGroup.changed(shape) ? 32 : 16;
             } else {
-                obj = shape;
-            }
-            $dirty |= changed2;
-        } else {
-            obj = shape;
-        }
-        if (i37 & 384 == 0) {
-            if (i9 & 4 == 0) {
-                changed = restartGroup.changed(colors) ? 256 : 128;
-            } else {
-                obj5 = colors;
+                obj6 = shape;
             }
             $dirty |= changed;
         } else {
-            obj5 = colors;
+            obj6 = shape;
+        }
+        if (i37 & 384 == 0) {
+            if (i9 & 4 == 0) {
+                changed2 = restartGroup.changed(colors) ? 256 : 128;
+            } else {
+                obj2 = colors;
+            }
+            $dirty |= changed2;
+        } else {
+            obj2 = colors;
         }
         if (i37 & 3072 == 0) {
             if (i9 & 8 == 0) {
@@ -107,16 +107,16 @@ public final class CardKt {
         } else {
             iNSTANCE = elevation;
         }
-        i6 = i9 & 16;
-        if (i6 != 0) {
+        i12 = i9 & 16;
+        if (i12 != 0) {
             $dirty |= 24576;
-            obj6 = border;
+            obj3 = border;
         } else {
             if (i37 & 24576 == 0) {
-                i11 = restartGroup.changed(border) ? 16384 : 8192;
-                $dirty |= i11;
+                i = restartGroup.changed(border) ? 16384 : 8192;
+                $dirty |= i;
             } else {
-                obj6 = border;
+                obj3 = border;
             }
         }
         int i43 = 196608;
@@ -143,28 +143,28 @@ public final class CardKt {
                             shape2 = CardDefaults.INSTANCE.getShape(restartGroup, defaultsInvalid);
                             $dirty &= -113;
                         } else {
-                            shape2 = obj;
+                            shape2 = obj6;
                         }
                         if (i9 & 4 != 0) {
                             colors2 = CardDefaults.INSTANCE.cardColors(restartGroup, defaultsInvalid);
                             $dirty &= -897;
                         } else {
-                            colors2 = obj5;
+                            colors2 = obj2;
                         }
                         if (i9 & 8 != 0) {
-                            elevation3 = CardDefaults.INSTANCE.cardElevation-aqJV_2Y(0, 0, 0, 0, 0, 0, restartGroup, 1572864, 63);
+                            elevation2 = CardDefaults.INSTANCE.cardElevation-aqJV_2Y(0, 0, 0, 0, 0, 0, restartGroup, 1572864, 63);
                             $dirty &= -7169;
                         } else {
-                            elevation3 = elevation;
+                            elevation2 = elevation;
                         }
-                        if (i6 != 0) {
-                            obj3 = shape2;
-                            i10 = i40;
+                        if (i12 != 0) {
+                            obj5 = shape2;
+                            i4 = i40;
                             iNSTANCE = modifier2;
                         } else {
-                            i10 = border;
+                            i4 = border;
                             iNSTANCE = modifier2;
-                            obj3 = shape2;
+                            obj5 = shape2;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -177,10 +177,10 @@ public final class CardKt {
                         if (i9 & 8 != 0) {
                             $dirty &= -7169;
                         }
-                        i10 = obj6;
-                        obj3 = obj;
-                        colors2 = obj5;
-                        elevation3 = iNSTANCE;
+                        i4 = obj3;
+                        obj5 = obj6;
+                        colors2 = obj2;
+                        elevation2 = iNSTANCE;
                         iNSTANCE = shape2;
                     }
                 } else {
@@ -193,126 +193,126 @@ public final class CardKt {
                 int i29 = 54;
                 CardKt.Card.1 anon = new CardKt.Card.1(obj9);
                 obj21 = $dirty;
-                i6 = restartGroup;
-                SurfaceKt.Surface-T9BRK9s(iNSTANCE, obj3, colors2.containerColor-vNxB06k$material3_release(i13), i12, colors2.contentColor-vNxB06k$material3_release(i13), i2, 0, (Dp)elevation3.shadowElevation$material3_release(i13, 0, restartGroup, i25 |= i29).getValue().unbox-impl(), i10, (Function2)ComposableLambdaKt.rememberComposableLambda(664103990, i13, anon, restartGroup, i29), i6);
-                restartGroup = i6;
+                i12 = restartGroup;
+                SurfaceKt.Surface-T9BRK9s(iNSTANCE, obj5, colors2.containerColor-vNxB06k$material3_release(i13), i8, colors2.contentColor-vNxB06k$material3_release(i13), i3, 0, (Dp)elevation2.shadowElevation$material3_release(i13, 0, restartGroup, i25 |= i29).getValue().unbox-impl(), i4, (Function2)ComposableLambdaKt.rememberComposableLambda(664103990, i13, anon, restartGroup, i29), i12);
+                restartGroup = i12;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 obj4 = colors2;
-                colors3 = elevation3;
+                colors3 = elevation2;
                 $dirty2 = iNSTANCE;
-                obj2 = obj3;
-                elevation2 = i10;
+                obj = obj5;
+                elevation3 = i4;
                 shape3 = obj21;
             } else {
                 restartGroup.skipToGroupEnd();
                 shape3 = $dirty;
                 $dirty2 = shape2;
-                obj4 = obj5;
-                elevation2 = obj8;
-                obj2 = obj;
+                obj4 = obj2;
+                elevation3 = obj8;
+                obj = obj6;
                 colors3 = iNSTANCE;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = restartGroup.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new CardKt.Card.2($dirty2, obj2, obj4, colors3, elevation2, obj9, i37, i9);
+            traceInProgress = new CardKt.Card.2($dirty2, obj, obj4, colors3, elevation3, obj9, i37, i9);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void Card(Function0<Unit> onClick, Modifier modifier, boolean enabled, Shape shape, androidx.compose.material3.CardColors colors, androidx.compose.material3.CardElevation elevation, BorderStroke border, MutableInteractionSource interactionSource, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i12) {
-        Object obj2;
-        int i16;
+        Object obj5;
+        int i18;
         int colors2;
         int defaultsInvalid;
         int shape2;
         Object $composer3;
-        int $dirty2;
-        Object $dirty;
-        Object obj;
+        int $dirty;
+        Object $dirty2;
+        Object obj3;
         int border2;
         boolean traceInProgress;
-        Object str;
+        Object $i$a$CacheCardKt$Card$interactionSource$1;
         boolean z;
-        int i11;
-        int i4;
+        int i7;
+        int i6;
         int interactionSource3;
         Object interactionSource2;
-        Object str2;
+        Object str;
         Object obj4;
-        int i6;
+        int i14;
         Composer $composer2;
         Object cardElevation;
         boolean z2;
-        int i9;
-        int i10;
+        int i8;
+        int i4;
         Object rememberedValue;
-        int i7;
+        int i16;
         int changed3;
         Object iNSTANCE;
+        int i9;
+        boolean changed2;
+        Object obj2;
+        int changed;
+        Object obj;
         int i;
-        boolean changed;
-        Object obj5;
-        int changed2;
-        Object obj3;
-        int i14;
-        int i8;
-        int i13;
+        int i5;
+        int i10;
         int companion;
         long containerColor-vNxB06k$material3_release;
         int i2;
         int contentColor-vNxB06k$material3_release;
         Composer composer;
-        int i17;
+        int i11;
         int unbox-impl;
-        int i18;
-        int i5;
+        int i13;
+        int i3;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer2;
-        int i3;
-        int i15;
         int i19;
+        int i15;
+        int i17;
         int obj30;
         final Object obj8 = content;
         final int i60 = $changed;
         final int i61 = i12;
         $composer3 = $composer.startRestartGroup(-2024281376);
         ComposerKt.sourceInformation($composer3, "C(Card)P(7,6,4,8,1,3!1,5)141@6394L5,142@6439L12,143@6497L15,157@7034L43,160@7163L41,150@6782L422:Card.kt#uh7d8r");
-        $dirty2 = $changed;
+        $dirty = $changed;
         if (i61 & 1 != 0) {
-            $dirty2 |= 6;
-            obj = onClick;
+            $dirty |= 6;
+            obj3 = onClick;
         } else {
             if (i60 & 6 == 0) {
-                i11 = $composer3.changedInstance(onClick) ? 4 : 2;
-                $dirty2 |= i11;
+                i7 = $composer3.changedInstance(onClick) ? 4 : 2;
+                $dirty |= i7;
             } else {
-                obj = onClick;
+                obj3 = onClick;
             }
         }
         int i38 = i61 & 2;
         if (i38 != 0) {
-            $dirty2 |= 48;
-            str2 = modifier;
+            $dirty |= 48;
+            str = modifier;
         } else {
             if (i60 & 48 == 0) {
-                i6 = $composer3.changed(modifier) ? 32 : 16;
-                $dirty2 |= i6;
+                i14 = $composer3.changed(modifier) ? 32 : 16;
+                $dirty |= i14;
             } else {
-                str2 = modifier;
+                str = modifier;
             }
         }
         int i51 = i61 & 4;
         if (i51 != 0) {
-            $dirty2 |= 384;
+            $dirty |= 384;
             z2 = enabled;
         } else {
             if (i60 & 384 == 0) {
-                i10 = $composer3.changed(enabled) ? 256 : 128;
-                $dirty2 |= i10;
+                i4 = $composer3.changed(enabled) ? 256 : 128;
+                $dirty |= i4;
             } else {
                 z2 = enabled;
             }
@@ -323,66 +323,66 @@ public final class CardKt {
             } else {
                 rememberedValue = shape;
             }
-            $dirty2 |= changed3;
+            $dirty |= changed3;
         } else {
             rememberedValue = shape;
         }
         if (i60 & 24576 == 0) {
             if (i61 & 16 == 0) {
-                changed = $composer3.changed(colors) ? 16384 : 8192;
+                changed2 = $composer3.changed(colors) ? 16384 : 8192;
             } else {
                 iNSTANCE = colors;
             }
-            $dirty2 |= changed;
+            $dirty |= changed2;
         } else {
             iNSTANCE = colors;
         }
         if (i64 &= i60 == 0) {
             if (i61 & 32 == 0) {
-                changed2 = $composer3.changed(elevation) ? 131072 : 65536;
+                changed = $composer3.changed(elevation) ? 131072 : 65536;
             } else {
-                obj5 = elevation;
+                obj2 = elevation;
             }
-            $dirty2 |= changed2;
+            $dirty |= changed;
         } else {
-            obj5 = elevation;
+            obj2 = elevation;
         }
-        i18 = i61 & 64;
+        i13 = i61 & 64;
         int i67 = 1572864;
-        if (i18 != 0) {
-            $dirty2 |= i67;
-            obj3 = border;
+        if (i13 != 0) {
+            $dirty |= i67;
+            obj = border;
         } else {
             if (i67 &= i60 == 0) {
-                i14 = $composer3.changed(border) ? 1048576 : 524288;
-                $dirty2 |= i14;
+                i = $composer3.changed(border) ? 1048576 : 524288;
+                $dirty |= i;
             } else {
-                obj3 = border;
+                obj = border;
             }
         }
-        i8 = i61 & 128;
-        i13 = 12582912;
-        if (i8 != 0) {
-            $dirty2 |= i13;
-            obj2 = interactionSource;
+        i5 = i61 & 128;
+        i10 = 12582912;
+        if (i5 != 0) {
+            $dirty |= i10;
+            obj5 = interactionSource;
         } else {
-            if (i60 & i13 == 0) {
-                i13 = $composer3.changed(interactionSource) ? 8388608 : 4194304;
-                $dirty2 |= i13;
+            if (i60 & i10 == 0) {
+                i10 = $composer3.changed(interactionSource) ? 8388608 : 4194304;
+                $dirty |= i10;
             } else {
-                obj2 = interactionSource;
+                obj5 = interactionSource;
             }
         }
         containerColor-vNxB06k$material3_release = 100663296;
         if (i61 & 256 != 0) {
-            $dirty2 |= containerColor-vNxB06k$material3_release;
+            $dirty |= containerColor-vNxB06k$material3_release;
         } else {
             if (i60 & containerColor-vNxB06k$material3_release == 0) {
-                i16 = $composer3.changedInstance(obj8) ? 67108864 : 33554432;
-                $dirty2 |= i16;
+                i18 = $composer3.changedInstance(obj8) ? 67108864 : 33554432;
+                $dirty |= i18;
             }
         }
-        if (i21 &= $dirty2 == 38347922) {
+        if (i21 &= $dirty == 38347922) {
             if (!$composer3.getSkipping()) {
                 $composer3.startDefaults();
                 border2 = -458753;
@@ -390,133 +390,133 @@ public final class CardKt {
                 if (i60 & 1 != 0) {
                     if ($composer3.getDefaultsInvalid()) {
                         if (i38 != 0) {
-                            str2 = defaultsInvalid;
+                            str = defaultsInvalid;
                         }
                         if (i51 != 0) {
                             z2 = defaultsInvalid;
                         }
                         int i39 = 6;
                         if (i61 & 8 != 0) {
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                             rememberedValue = shape2;
                         }
                         if (i61 & 16 != 0) {
                             colors2 = CardDefaults.INSTANCE.cardColors($composer3, i39);
-                            $dirty2 &= companion;
+                            $dirty &= companion;
                         } else {
                             colors2 = iNSTANCE;
                         }
                         if (i61 & 32 != 0) {
-                            i4 = i8;
+                            i6 = i5;
                             composer = $composer3;
                             $composer3 = CardDefaults.INSTANCE.cardElevation-aqJV_2Y(0, 0, 0, 0, 0, 0, composer, 1572864, 63);
                             $composer2 = composer;
-                            $dirty2 &= border2;
+                            $dirty &= border2;
                         } else {
                             $composer2 = $composer3;
-                            i4 = i8;
+                            i6 = i5;
                             $composer3 = elevation;
                         }
-                        border2 = i18 != 0 ? 0 : border;
-                        if (i4 != 0) {
+                        border2 = i13 != 0 ? 0 : border;
+                        if (i6 != 0) {
                             interactionSource3 = 0;
-                            i18 = border2;
-                            obj5 = str2;
-                            obj3 = z2;
-                            i8 = rememberedValue;
+                            i13 = border2;
+                            obj2 = str;
+                            obj = z2;
+                            i5 = rememberedValue;
                         } else {
                             interactionSource3 = interactionSource;
-                            i18 = border2;
-                            obj5 = str2;
-                            obj3 = z2;
-                            i8 = rememberedValue;
+                            i13 = border2;
+                            obj2 = str;
+                            obj = z2;
+                            i5 = rememberedValue;
                         }
                     } else {
                         $composer3.skipToGroupEnd();
                         if (i61 & 8 != 0) {
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
                         if (i61 & 16 != 0) {
-                            $dirty2 &= companion;
+                            $dirty &= companion;
                         }
                         if (i61 & 32 != 0) {
                             interactionSource3 = interactionSource;
-                            $dirty2 = i25;
+                            $dirty = i25;
                             $composer2 = $composer3;
-                            i8 = rememberedValue;
+                            i5 = rememberedValue;
                             colors2 = iNSTANCE;
-                            $composer3 = obj5;
-                            i18 = obj3;
-                            obj5 = str2;
-                            obj3 = z2;
+                            $composer3 = obj2;
+                            i13 = obj;
+                            obj2 = str;
+                            obj = z2;
                         } else {
                             interactionSource3 = interactionSource;
                             $composer2 = $composer3;
-                            i8 = rememberedValue;
+                            i5 = rememberedValue;
                             colors2 = iNSTANCE;
-                            $composer3 = obj5;
-                            i18 = obj3;
-                            obj5 = str2;
-                            obj3 = z2;
+                            $composer3 = obj2;
+                            i13 = obj;
+                            obj2 = str;
+                            obj = z2;
                         }
                     }
                 } else {
                 }
                 $composer2.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-2024281376, $dirty2, -1, "androidx.compose.material3.Card (Card.kt:147)");
+                    ComposerKt.traceEventStart(-2024281376, $dirty, -1, "androidx.compose.material3.Card (Card.kt:147)");
                 }
                 $composer2.startReplaceGroup(1976524431);
                 ComposerKt.sourceInformation($composer2, "149@6738L39");
                 if (interactionSource3 == 0) {
                     ComposerKt.sourceInformationMarkerStart($composer2, 1976525082, "CC(remember):Card.kt#9igjgp");
-                    str2 = $composer2;
+                    str = $composer2;
                     z2 = 0;
-                    rememberedValue = str2.rememberedValue();
+                    rememberedValue = str.rememberedValue();
                     iNSTANCE = 0;
                     obj30 = i35;
                     if (rememberedValue == Composer.Companion.getEmpty()) {
                         int i36 = 0;
-                        str2.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
+                        str.updateRememberedValue(InteractionSourceKt.MutableInteractionSource());
                     } else {
-                        str = rememberedValue;
+                        $i$a$CacheCardKt$Card$interactionSource$1 = rememberedValue;
                     }
                     ComposerKt.sourceInformationMarkerEnd($composer2);
-                    i5 = str;
+                    i3 = $i$a$CacheCardKt$Card$interactionSource$1;
                 } else {
-                    i5 = interactionSource3;
+                    i3 = interactionSource3;
                 }
                 $composer2.endReplaceGroup();
                 CardKt.Card.3 anon = new CardKt.Card.3(obj8);
-                SurfaceKt.Surface-o_FOJdg(onClick, obj5, obj3, i8, colors2.containerColor-vNxB06k$material3_release(obj3), i2, colors2.contentColor-vNxB06k$material3_release(obj3), composer, 0, (Dp)$composer3.shadowElevation$material3_release(obj3, (InteractionSource)i5, $composer2, i43 |= i53).getValue().unbox-impl(), i18, i5, (Function2)ComposableLambdaKt.rememberComposableLambda(776921067, true, anon, $composer2, 54), $composer2, i33 | i50);
+                SurfaceKt.Surface-o_FOJdg(onClick, obj2, obj, i5, colors2.containerColor-vNxB06k$material3_release(obj), i2, colors2.contentColor-vNxB06k$material3_release(obj), composer, 0, (Dp)$composer3.shadowElevation$material3_release(obj, (InteractionSource)i3, $composer2, i43 |= i53).getValue().unbox-impl(), i13, i3, (Function2)ComposableLambdaKt.rememberComposableLambda(776921067, true, anon, $composer2, 54), $composer2, i33 | i50);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 obj4 = colors2;
                 cardElevation = $composer3;
-                i = $dirty2;
-                i7 = interactionSource3;
-                $dirty = obj5;
-                z = obj3;
-                interactionSource2 = i8;
-                i9 = i18;
+                i9 = $dirty;
+                i16 = interactionSource3;
+                $dirty2 = obj2;
+                z = obj;
+                interactionSource2 = i5;
+                i8 = i13;
             } else {
                 $composer3.skipToGroupEnd();
-                i = $dirty2;
-                $dirty = str2;
+                i9 = $dirty;
+                $dirty2 = str;
                 obj4 = obj7;
                 composer2 = $composer3;
                 z = z2;
                 interactionSource2 = rememberedValue;
-                cardElevation = obj5;
-                i9 = obj3;
-                i7 = interactionSource;
+                cardElevation = obj2;
+                i8 = obj;
+                i16 = interactionSource;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            colors2 = new CardKt.Card.4(onClick, $dirty, z, interactionSource2, obj4, cardElevation, i9, i7, obj8, i60, i61);
+            colors2 = new CardKt.Card.4(onClick, $dirty2, z, interactionSource2, obj4, cardElevation, i8, i16, obj8, i60, i61);
             endRestartGroup.updateScope((Function2)colors2);
         }
     }
@@ -527,31 +527,31 @@ public final class CardKt {
         Object $dirty2;
         Object modifier2;
         boolean traceInProgress2;
-        Object obj5;
-        Object shape3;
+        Object obj3;
+        Object shape2;
         Object obj;
-        int i2;
+        int i;
         Object colors2;
         Object cardElevation;
-        int changed2;
-        Object elevatedCardElevation-aqJV_2Y;
         int changed;
-        Object obj3;
+        Object elevatedCardElevation-aqJV_2Y;
         int changed3;
-        Object obj2;
         Object obj4;
-        int shape2;
-        int i;
+        int changed2;
+        Object obj2;
+        Object obj5;
+        int shape3;
+        int i4;
         int skipping;
         int defaultsInvalid;
-        Object i6;
-        int i7;
-        int i3;
+        Object i7;
+        int i5;
+        int i2;
         Composer $composer2;
         Composer $composer3;
         Composer composer;
-        int i4;
-        int i5;
+        int i6;
+        int i3;
         final int i31 = $changed;
         traceInProgress = 895940201;
         $composer2 = $composer.startRestartGroup(traceInProgress);
@@ -560,52 +560,52 @@ public final class CardKt {
         int i15 = i8 & 1;
         if (i15 != 0) {
             $dirty |= 6;
-            shape3 = modifier;
+            shape2 = modifier;
         } else {
             if (i31 & 6 == 0) {
-                i2 = $composer2.changed(modifier) ? 4 : 2;
-                $dirty |= i2;
+                i = $composer2.changed(modifier) ? 4 : 2;
+                $dirty |= i;
             } else {
-                shape3 = modifier;
+                shape2 = modifier;
             }
         }
         if (i31 & 48 == 0) {
             if (i8 & 2 == 0) {
-                changed2 = $composer2.changed(shape) ? 32 : 16;
+                changed = $composer2.changed(shape) ? 32 : 16;
             } else {
                 colors2 = shape;
             }
-            $dirty |= changed2;
+            $dirty |= changed;
         } else {
             colors2 = shape;
         }
         if (i31 & 384 == 0) {
             if (i8 & 4 == 0) {
-                changed = $composer2.changed(colors) ? 256 : 128;
+                changed3 = $composer2.changed(colors) ? 256 : 128;
             } else {
                 elevatedCardElevation-aqJV_2Y = colors;
             }
-            $dirty |= changed;
+            $dirty |= changed3;
         } else {
             elevatedCardElevation-aqJV_2Y = colors;
         }
         if (i31 & 3072 == 0) {
             if (i8 & 8 == 0) {
-                changed3 = $composer2.changed(elevation) ? 2048 : 1024;
+                changed2 = $composer2.changed(elevation) ? 2048 : 1024;
             } else {
-                obj3 = elevation;
+                obj4 = elevation;
             }
-            $dirty |= changed3;
+            $dirty |= changed2;
         } else {
-            obj3 = elevation;
+            obj4 = elevation;
         }
         if (i8 & 16 != 0) {
             $dirty |= 24576;
             obj2 = content;
         } else {
             if (i31 & 24576 == 0) {
-                i = $composer2.changedInstance(content) ? 16384 : 8192;
-                $dirty |= i;
+                i4 = $composer2.changedInstance(content) ? 16384 : 8192;
+                $dirty |= i4;
             } else {
                 obj2 = content;
             }
@@ -618,14 +618,14 @@ public final class CardKt {
                         if (i15 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = shape3;
+                            modifier2 = shape2;
                         }
                         int i37 = 6;
                         if (i8 & 2 != 0) {
-                            shape3 = CardDefaults.INSTANCE.getElevatedShape($composer2, i37);
+                            shape2 = CardDefaults.INSTANCE.getElevatedShape($composer2, i37);
                             $dirty &= -113;
                         } else {
-                            shape3 = colors2;
+                            shape2 = colors2;
                         }
                         if (i8 & 4 != 0) {
                             colors2 = CardDefaults.INSTANCE.elevatedCardColors($composer2, i37);
@@ -635,15 +635,15 @@ public final class CardKt {
                         }
                         if (i8 & 8 != 0) {
                             $dirty &= -7169;
-                            obj3 = modifier2;
-                            obj4 = shape3;
+                            obj4 = modifier2;
+                            obj5 = shape2;
                             skipping = colors2;
-                            i6 = elevatedCardElevation-aqJV_2Y;
+                            i7 = elevatedCardElevation-aqJV_2Y;
                         } else {
                             $composer3 = $composer2;
-                            i6 = elevation;
-                            obj3 = modifier2;
-                            obj4 = shape3;
+                            i7 = elevation;
+                            obj4 = modifier2;
+                            obj5 = shape2;
                             skipping = colors2;
                         }
                     } else {
@@ -657,11 +657,11 @@ public final class CardKt {
                         if (i8 & 8 != 0) {
                             $dirty &= -7169;
                         }
-                        obj4 = colors2;
+                        obj5 = colors2;
                         skipping = elevatedCardElevation-aqJV_2Y;
-                        i6 = obj3;
+                        i7 = obj4;
                         $composer3 = $composer2;
-                        obj3 = shape3;
+                        obj4 = shape2;
                     }
                 } else {
                 }
@@ -670,104 +670,104 @@ public final class CardKt {
                     ComposerKt.traceEventStart(traceInProgress, $dirty, -1, "androidx.compose.material3.ElevatedCard (Card.kt:200)");
                 }
                 $composer2 = $composer3;
-                CardKt.Card(obj3, obj4, skipping, i6, 0, content, $composer2, i13 |= i20, 0);
+                CardKt.Card(obj4, obj5, skipping, i7, 0, content, $composer2, i13 |= i20, 0);
                 composer = $composer2;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = obj4;
+                obj3 = obj5;
                 obj = skipping;
-                cardElevation = i6;
-                shape2 = $dirty;
-                $dirty2 = obj3;
+                cardElevation = i7;
+                shape3 = $dirty;
+                $dirty2 = obj4;
             } else {
                 $composer2.skipToGroupEnd();
-                shape2 = $dirty;
-                $dirty2 = shape3;
-                obj5 = colors2;
+                shape3 = $dirty;
+                $dirty2 = shape2;
+                obj3 = colors2;
                 obj = elevatedCardElevation-aqJV_2Y;
-                cardElevation = obj3;
+                cardElevation = obj4;
                 composer = $composer2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new CardKt.ElevatedCard.1($dirty2, obj5, obj, cardElevation, content, i31, i8);
+            traceInProgress = new CardKt.ElevatedCard.1($dirty2, obj3, obj, cardElevation, content, i31, i8);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void ElevatedCard(Function0<Unit> onClick, Modifier modifier, boolean enabled, Shape shape, androidx.compose.material3.CardColors colors, androidx.compose.material3.CardElevation elevation, MutableInteractionSource interactionSource, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        int traceInProgress;
+        int traceInProgress2;
         int colors2;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         int defaultsInvalid;
         int elevatedShape;
-        Object $composer4;
+        Object $composer3;
         int $dirty2;
         Object $dirty;
-        Object obj10;
-        boolean z;
-        int i4;
-        int i5;
-        Object interactionSource3;
-        Object obj3;
-        Object obj6;
-        int i3;
         Object obj;
+        boolean z;
+        int i;
+        int i9;
+        Object interactionSource2;
+        Object obj7;
+        Object obj10;
+        int i5;
+        Object obj8;
         boolean z2;
-        Object obj5;
-        int i15;
-        Object obj9;
-        int changed;
-        Object iNSTANCE;
-        int i6;
-        int changed2;
-        Object obj2;
-        int changed3;
         Object obj4;
         int i10;
-        Object obj8;
-        int i;
-        Object i8;
-        int i9;
-        Object obj7;
-        int i7;
-        Object $composer3;
-        Composer $composer2;
-        Composer interactionSource2;
-        int i13;
-        Composer composer;
-        int i14;
-        int i12;
+        Object obj2;
+        int changed3;
+        Object iNSTANCE;
+        int i4;
+        int changed;
+        Object obj5;
+        int changed2;
+        Object obj6;
+        int i6;
+        Object obj9;
         int i2;
+        Object i8;
+        int i12;
+        Object obj3;
+        int i14;
+        Object $composer4;
+        Composer $composer2;
+        Composer interactionSource3;
+        int i15;
+        Composer composer;
+        int i7;
+        int i3;
+        int i13;
         final int i47 = $changed;
         final int i48 = i11;
-        $composer4 = $composer.startRestartGroup(-1850977784);
-        ComposerKt.sourceInformation($composer4, "C(ElevatedCard)P(6,5,3,7!1,2,4)248@11071L13,249@11124L20,250@11190L23,254@11328L269:Card.kt#uh7d8r");
+        $composer3 = $composer.startRestartGroup(-1850977784);
+        ComposerKt.sourceInformation($composer3, "C(ElevatedCard)P(6,5,3,7!1,2,4)248@11071L13,249@11124L20,250@11190L23,254@11328L269:Card.kt#uh7d8r");
         $dirty2 = $changed;
         if (i48 & 1 != 0) {
             $dirty2 |= 6;
-            obj10 = onClick;
+            obj = onClick;
         } else {
             if (i47 & 6 == 0) {
-                i4 = $composer4.changedInstance(onClick) ? 4 : 2;
-                $dirty2 |= i4;
+                i = $composer3.changedInstance(onClick) ? 4 : 2;
+                $dirty2 |= i;
             } else {
-                obj10 = onClick;
+                obj = onClick;
             }
         }
-        i5 = i48 & 2;
-        if (i5 != 0) {
+        i9 = i48 & 2;
+        if (i9 != 0) {
             $dirty2 |= 48;
-            obj3 = modifier;
+            obj7 = modifier;
         } else {
             if (i47 & 48 == 0) {
-                i3 = $composer4.changed(modifier) ? 32 : 16;
-                $dirty2 |= i3;
+                i5 = $composer3.changed(modifier) ? 32 : 16;
+                $dirty2 |= i5;
             } else {
-                obj3 = modifier;
+                obj7 = modifier;
             }
         }
         int i43 = i48 & 4;
@@ -776,76 +776,76 @@ public final class CardKt {
             z2 = enabled;
         } else {
             if (i47 & 384 == 0) {
-                i15 = $composer4.changed(enabled) ? 256 : 128;
-                $dirty2 |= i15;
+                i10 = $composer3.changed(enabled) ? 256 : 128;
+                $dirty2 |= i10;
             } else {
                 z2 = enabled;
             }
         }
         if (i47 & 3072 == 0) {
             if (i48 & 8 == 0) {
-                changed = $composer4.changed(shape) ? 2048 : 1024;
+                changed3 = $composer3.changed(shape) ? 2048 : 1024;
             } else {
-                obj9 = shape;
+                obj2 = shape;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed3;
         } else {
-            obj9 = shape;
+            obj2 = shape;
         }
         if (i47 & 24576 == 0) {
             if (i48 & 16 == 0) {
-                changed2 = $composer4.changed(colors) ? 16384 : 8192;
+                changed = $composer3.changed(colors) ? 16384 : 8192;
             } else {
                 iNSTANCE = colors;
             }
-            $dirty2 |= changed2;
+            $dirty2 |= changed;
         } else {
             iNSTANCE = colors;
         }
         if (i51 &= i47 == 0) {
             if (i48 & 32 == 0) {
-                changed3 = $composer4.changed(elevation) ? 131072 : 65536;
+                changed2 = $composer3.changed(elevation) ? 131072 : 65536;
             } else {
-                obj2 = elevation;
+                obj5 = elevation;
             }
-            $dirty2 |= changed3;
+            $dirty2 |= changed2;
         } else {
-            obj2 = elevation;
+            obj5 = elevation;
         }
-        i14 = i48 & 64;
-        i12 = 1572864;
-        if (i14 != 0) {
-            $dirty2 |= i12;
-            obj4 = interactionSource;
+        i7 = i48 & 64;
+        i3 = 1572864;
+        if (i7 != 0) {
+            $dirty2 |= i3;
+            obj6 = interactionSource;
         } else {
-            if (i47 & i12 == 0) {
-                i10 = $composer4.changed(interactionSource) ? 1048576 : 524288;
-                $dirty2 |= i10;
+            if (i47 & i3 == 0) {
+                i6 = $composer3.changed(interactionSource) ? 1048576 : 524288;
+                $dirty2 |= i6;
             } else {
-                obj4 = interactionSource;
+                obj6 = interactionSource;
             }
         }
-        i = 12582912;
+        i2 = 12582912;
         if (i48 & 128 != 0) {
-            $dirty2 |= i;
-            obj8 = content;
+            $dirty2 |= i2;
+            obj9 = content;
         } else {
-            if (i47 & i == 0) {
-                i = $composer4.changedInstance(content) ? 8388608 : 4194304;
-                $dirty2 |= i;
+            if (i47 & i2 == 0) {
+                i2 = $composer3.changedInstance(content) ? 8388608 : 4194304;
+                $dirty2 |= i2;
             } else {
-                obj8 = content;
+                obj9 = content;
             }
         }
         if (i57 &= $dirty2 == 4793490) {
-            if (!$composer4.getSkipping()) {
-                $composer4.startDefaults();
-                i2 = -458753;
-                i9 = -57345;
+            if (!$composer3.getSkipping()) {
+                $composer3.startDefaults();
+                i13 = -458753;
+                i12 = -57345;
                 if (i47 & 1 != 0) {
-                    if ($composer4.getDefaultsInvalid()) {
-                        if (i5 != 0) {
-                            obj3 = defaultsInvalid;
+                    if ($composer3.getDefaultsInvalid()) {
+                        if (i9 != 0) {
+                            obj7 = defaultsInvalid;
                         }
                         if (i43 != 0) {
                             z2 = defaultsInvalid;
@@ -853,63 +853,63 @@ public final class CardKt {
                         int i41 = 6;
                         if (i48 & 8 != 0) {
                             $dirty2 &= -7169;
-                            obj9 = elevatedShape;
+                            obj2 = elevatedShape;
                         }
                         if (i48 & 16 != 0) {
-                            colors2 = CardDefaults.INSTANCE.elevatedCardColors($composer4, i41);
-                            $dirty2 &= i9;
+                            colors2 = CardDefaults.INSTANCE.elevatedCardColors($composer3, i41);
+                            $dirty2 &= i12;
                         } else {
                             colors2 = iNSTANCE;
                         }
                         if (i48 & 32 != 0) {
-                            $composer4 = CardDefaults.INSTANCE.elevatedCardElevation-aqJV_2Y(0, 0, 0, 0, 0, 0, $composer4, 1572864, 63);
-                            $dirty2 &= i2;
+                            $composer3 = CardDefaults.INSTANCE.elevatedCardElevation-aqJV_2Y(0, 0, 0, 0, 0, 0, $composer3, 1572864, 63);
+                            $dirty2 &= i13;
                         } else {
-                            $composer2 = $composer4;
-                            $composer4 = elevation;
+                            $composer2 = $composer3;
+                            $composer3 = elevation;
                         }
-                        if (i14 != 0) {
+                        if (i7 != 0) {
                             i8 = colors2;
-                            obj7 = $composer4;
-                            obj2 = obj3;
-                            obj4 = z2;
-                            obj8 = obj9;
+                            obj3 = $composer3;
+                            obj5 = obj7;
+                            obj6 = z2;
+                            obj9 = obj2;
                             composer = $composer2;
-                            $composer3 = i5;
+                            $composer4 = i9;
                         } else {
                             i8 = colors2;
-                            obj7 = $composer4;
-                            obj2 = obj3;
-                            obj4 = z2;
-                            obj8 = obj9;
+                            obj3 = $composer3;
+                            obj5 = obj7;
+                            obj6 = z2;
+                            obj9 = obj2;
                             composer = $composer2;
-                            $composer3 = interactionSource;
+                            $composer4 = interactionSource;
                         }
                     } else {
-                        $composer4.skipToGroupEnd();
+                        $composer3.skipToGroupEnd();
                         if (i48 & 8 != 0) {
                             $dirty2 &= -7169;
                         }
                         if (i48 & 16 != 0) {
-                            $dirty2 &= i9;
+                            $dirty2 &= i12;
                         }
                         if (i48 & 32 != 0) {
                             $dirty2 = colors2;
-                            composer = $composer4;
-                            obj8 = obj9;
+                            composer = $composer3;
+                            obj9 = obj2;
                             i8 = iNSTANCE;
-                            obj7 = obj2;
-                            $composer3 = obj4;
-                            obj2 = obj3;
-                            obj4 = z2;
+                            obj3 = obj5;
+                            $composer4 = obj6;
+                            obj5 = obj7;
+                            obj6 = z2;
                         } else {
-                            composer = $composer4;
-                            obj8 = obj9;
+                            composer = $composer3;
+                            obj9 = obj2;
                             i8 = iNSTANCE;
-                            obj7 = obj2;
-                            $composer3 = obj4;
-                            obj2 = obj3;
-                            obj4 = z2;
+                            obj3 = obj5;
+                            $composer4 = obj6;
+                            obj5 = obj7;
+                            obj6 = z2;
                         }
                     }
                 } else {
@@ -918,87 +918,87 @@ public final class CardKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(-1850977784, $dirty2, -1, "androidx.compose.material3.ElevatedCard (Card.kt:254)");
                 }
-                CardKt.Card(obj10, obj2, obj4, obj8, i8, obj7, 0, $composer3, content, composer, i26 | $composer4, 0);
-                interactionSource2 = composer;
+                CardKt.Card(obj, obj5, obj6, obj9, i8, obj3, 0, $composer4, content, composer, i26 | $composer3, 0);
+                interactionSource3 = composer;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i6 = $dirty2;
-                obj5 = obj13;
-                $dirty = obj2;
-                z = obj4;
-                interactionSource3 = obj8;
-                obj6 = i8;
-                obj = obj7;
+                i4 = $dirty2;
+                obj4 = obj13;
+                $dirty = obj5;
+                z = obj6;
+                interactionSource2 = obj9;
+                obj10 = i8;
+                obj8 = obj3;
             } else {
-                $composer4.skipToGroupEnd();
-                i6 = $dirty2;
-                $dirty = obj3;
-                obj6 = obj12;
-                interactionSource2 = $composer4;
+                $composer3.skipToGroupEnd();
+                i4 = $dirty2;
+                $dirty = obj7;
+                obj10 = obj12;
+                interactionSource3 = $composer3;
                 z = z2;
-                interactionSource3 = obj9;
-                obj = obj2;
-                obj5 = obj4;
+                interactionSource2 = obj2;
+                obj8 = obj5;
+                obj4 = obj6;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = interactionSource2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = interactionSource3.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new CardKt.ElevatedCard.2(onClick, $dirty, z, interactionSource3, obj6, obj, obj5, content, i47, i48);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new CardKt.ElevatedCard.2(onClick, $dirty, z, interactionSource2, obj10, obj8, obj4, content, i47, i48);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void OutlinedCard(Modifier modifier, Shape shape, androidx.compose.material3.CardColors colors, androidx.compose.material3.CardElevation elevation, BorderStroke border, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
-        int traceInProgress;
-        int $dirty2;
-        Object $dirty;
-        Object obj2;
-        int modifier2;
-        boolean traceInProgress2;
-        Object shape3;
+        int traceInProgress2;
+        int $dirty;
+        Object $dirty2;
         Object obj5;
-        int i7;
+        int modifier2;
+        boolean traceInProgress;
+        Object shape3;
+        Object obj7;
+        int i4;
         Object colors2;
-        Object obj3;
+        Object obj;
         int changed4;
         Object outlinedCardElevation-aqJV_2Y;
-        Object obj6;
-        int changed2;
+        Object obj3;
+        int changed;
         Object outlinedCardBorder;
         int changed3;
         Object iNSTANCE;
-        int changed;
-        Object obj4;
+        int changed2;
+        Object obj6;
         int shape2;
-        Object obj;
-        int i;
+        Object obj4;
+        int i5;
         boolean skipping;
         int defaultsInvalid;
         int i3;
-        int i2;
-        Object obj7;
+        int i6;
+        Object obj2;
         Function3 function3;
         Composer $composer2;
         Composer composer;
         Composer $composer3;
-        int i5;
-        int i4;
-        int i6;
+        int i7;
+        int i;
+        int i2;
         final int i36 = $changed;
-        traceInProgress = 740336179;
-        $composer2 = $composer.startRestartGroup(traceInProgress);
+        traceInProgress2 = 740336179;
+        $composer2 = $composer.startRestartGroup(traceInProgress2);
         ComposerKt.sourceInformation($composer2, "C(OutlinedCard)P(4,5,1,3)297@13151L13,298@13204L20,299@13270L23,300@13335L20,303@13413L170:Card.kt#uh7d8r");
-        $dirty2 = $changed;
+        $dirty = $changed;
         int i15 = i9 & 1;
         if (i15 != 0) {
-            $dirty2 |= 6;
+            $dirty |= 6;
             shape3 = modifier;
         } else {
             if (i36 & 6 == 0) {
-                i7 = $composer2.changed(modifier) ? 4 : 2;
-                $dirty2 |= i7;
+                i4 = $composer2.changed(modifier) ? 4 : 2;
+                $dirty |= i4;
             } else {
                 shape3 = modifier;
             }
@@ -1009,17 +1009,17 @@ public final class CardKt {
             } else {
                 colors2 = shape;
             }
-            $dirty2 |= changed4;
+            $dirty |= changed4;
         } else {
             colors2 = shape;
         }
         if (i36 & 384 == 0) {
             if (i9 & 4 == 0) {
-                changed2 = $composer2.changed(colors) ? 256 : 128;
+                changed = $composer2.changed(colors) ? 256 : 128;
             } else {
                 outlinedCardElevation-aqJV_2Y = colors;
             }
-            $dirty2 |= changed2;
+            $dirty |= changed;
         } else {
             outlinedCardElevation-aqJV_2Y = colors;
         }
@@ -1029,36 +1029,36 @@ public final class CardKt {
             } else {
                 outlinedCardBorder = elevation;
             }
-            $dirty2 |= changed3;
+            $dirty |= changed3;
         } else {
             outlinedCardBorder = elevation;
         }
         if (i36 & 24576 == 0) {
             if (i9 & 16 == 0) {
-                changed = $composer2.changed(border) ? 16384 : 8192;
+                changed2 = $composer2.changed(border) ? 16384 : 8192;
             } else {
                 iNSTANCE = border;
             }
-            $dirty2 |= changed;
+            $dirty |= changed2;
         } else {
             iNSTANCE = border;
         }
-        i = 196608;
+        i5 = 196608;
         if (i9 & 32 != 0) {
-            $dirty2 |= i;
-            obj4 = content;
+            $dirty |= i5;
+            obj6 = content;
         } else {
-            if (i36 & i == 0) {
-                i = $composer2.changedInstance(content) ? 131072 : 65536;
-                $dirty2 |= i;
+            if (i36 & i5 == 0) {
+                i5 = $composer2.changedInstance(content) ? 131072 : 65536;
+                $dirty |= i5;
             } else {
-                obj4 = content;
+                obj6 = content;
             }
         }
-        if (i43 &= $dirty2 == 74898) {
+        if (i43 &= $dirty == 74898) {
             if (!$composer2.getSkipping()) {
                 $composer2.startDefaults();
-                i6 = -57345;
+                i2 = -57345;
                 if (i36 & 1 != 0) {
                     if ($composer2.getDefaultsInvalid()) {
                         if (i15 != 0) {
@@ -1069,55 +1069,55 @@ public final class CardKt {
                         i3 = 6;
                         if (i9 & 2 != 0) {
                             shape3 = CardDefaults.INSTANCE.getOutlinedShape($composer2, i3);
-                            $dirty2 &= -113;
+                            $dirty &= -113;
                         } else {
                             shape3 = colors2;
                         }
                         if (i9 & 4 != 0) {
                             colors2 = CardDefaults.INSTANCE.outlinedCardColors($composer2, i3);
-                            $dirty2 &= -897;
+                            $dirty &= -897;
                         } else {
                             colors2 = outlinedCardElevation-aqJV_2Y;
                         }
                         if (i9 & 8 != 0) {
                             outlinedCardElevation-aqJV_2Y = CardDefaults.INSTANCE.outlinedCardElevation-aqJV_2Y(0, 0, 0, 0, 0, 0, $composer2, 1572864, 63);
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         } else {
                             $composer3 = $composer2;
                             outlinedCardElevation-aqJV_2Y = outlinedCardBorder;
                         }
                         if (i9 & 16 != 0) {
-                            $dirty2 &= i6;
+                            $dirty &= i2;
                             iNSTANCE = modifier2;
-                            obj = shape3;
+                            obj4 = shape3;
                             skipping = colors2;
-                            i2 = outlinedCardElevation-aqJV_2Y;
-                            obj7 = outlinedCardBorder;
+                            i6 = outlinedCardElevation-aqJV_2Y;
+                            obj2 = outlinedCardBorder;
                         } else {
-                            obj7 = border;
+                            obj2 = border;
                             iNSTANCE = modifier2;
-                            obj = shape3;
+                            obj4 = shape3;
                             skipping = colors2;
-                            i2 = outlinedCardElevation-aqJV_2Y;
+                            i6 = outlinedCardElevation-aqJV_2Y;
                         }
                     } else {
                         $composer2.skipToGroupEnd();
                         if (i9 & 2 != 0) {
-                            $dirty2 &= -113;
+                            $dirty &= -113;
                         }
                         if (i9 & 4 != 0) {
-                            $dirty2 &= -897;
+                            $dirty &= -897;
                         }
                         if (i9 & 8 != 0) {
-                            $dirty2 &= -7169;
+                            $dirty &= -7169;
                         }
                         if (i9 & 16 != 0) {
-                            $dirty2 &= i6;
+                            $dirty &= i2;
                         }
-                        obj = colors2;
+                        obj4 = colors2;
                         skipping = outlinedCardElevation-aqJV_2Y;
-                        i2 = outlinedCardBorder;
-                        obj7 = iNSTANCE;
+                        i6 = outlinedCardBorder;
+                        obj2 = iNSTANCE;
                         $composer3 = $composer2;
                         iNSTANCE = shape3;
                     }
@@ -1125,318 +1125,318 @@ public final class CardKt {
                 }
                 $composer3.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(traceInProgress, $dirty2, -1, "androidx.compose.material3.OutlinedCard (Card.kt:303)");
+                    ComposerKt.traceEventStart(traceInProgress2, $dirty, -1, "androidx.compose.material3.OutlinedCard (Card.kt:303)");
                 }
                 $composer2 = $composer3;
-                CardKt.Card(iNSTANCE, obj, skipping, i2, obj7, content, $composer2, i13 |= i22, 0);
+                CardKt.Card(iNSTANCE, obj4, skipping, i6, obj2, content, $composer2, i13 |= i22, 0);
                 composer = $composer2;
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj2 = obj;
-                obj5 = skipping;
-                obj3 = i2;
-                obj6 = obj7;
-                shape2 = $dirty2;
-                $dirty = iNSTANCE;
+                obj5 = obj4;
+                obj7 = skipping;
+                obj = i6;
+                obj3 = obj2;
+                shape2 = $dirty;
+                $dirty2 = iNSTANCE;
             } else {
                 $composer2.skipToGroupEnd();
-                shape2 = $dirty2;
-                $dirty = shape3;
-                obj2 = colors2;
-                obj5 = outlinedCardElevation-aqJV_2Y;
-                obj3 = outlinedCardBorder;
-                obj6 = iNSTANCE;
+                shape2 = $dirty;
+                $dirty2 = shape3;
+                obj5 = colors2;
+                obj7 = outlinedCardElevation-aqJV_2Y;
+                obj = outlinedCardBorder;
+                obj3 = iNSTANCE;
                 composer = $composer2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new CardKt.OutlinedCard.1($dirty, obj2, obj5, obj3, obj6, content, i36, i9);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new CardKt.OutlinedCard.1($dirty2, obj5, obj7, obj, obj3, content, i36, i9);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void OutlinedCard(Function0<Unit> onClick, Modifier modifier, boolean enabled, Shape shape, androidx.compose.material3.CardColors colors, androidx.compose.material3.CardElevation elevation, BorderStroke border, MutableInteractionSource interactionSource, Function3<? super ColumnScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i12) {
-        Object obj9;
-        boolean traceInProgress2;
+        Object obj8;
+        boolean traceInProgress;
         int defaultsInvalid;
         int outlinedShape;
         int shape2;
-        int i10;
-        boolean traceInProgress;
-        Composer $composer2;
-        int $dirty;
-        Object $dirty2;
-        Object obj3;
-        boolean z;
-        int i17;
-        int i9;
-        Object obj7;
+        int i4;
+        boolean traceInProgress2;
         Composer $composer3;
-        Object obj11;
+        int $dirty2;
+        Object $dirty;
+        Object obj5;
+        boolean z;
+        int i14;
+        int i9;
         Object obj;
-        int i8;
-        Object obj8;
+        Composer $composer2;
+        Object obj7;
+        Object obj3;
+        int i5;
+        Object obj10;
         BorderStroke border2;
         boolean z2;
-        Object obj6;
-        int i7;
-        Object obj5;
-        Object obj12;
-        int changed;
+        Object obj9;
+        int i3;
         Object obj2;
+        Object obj12;
+        int changed3;
+        Object obj6;
         boolean changed4;
         Object iNSTANCE;
-        int i11;
+        int i6;
+        int changed;
+        Object obj11;
         int changed2;
-        Object obj10;
-        int changed3;
-        int i;
+        int i10;
         Object obj4;
-        int i2;
-        int i3;
+        int i15;
         int i13;
-        int i14;
+        int i16;
+        int i7;
         androidx.compose.material3.CardElevation cardElevation;
         BorderStroke borderStroke;
-        int i15;
-        int i5;
+        int i11;
+        int i2;
         Composer composer;
-        int i4;
-        int i6;
-        int i16;
+        int i;
+        int i8;
+        int i17;
         final int i56 = $changed;
         final int i57 = i12;
-        $composer2 = $composer.startRestartGroup(-727137250);
-        ComposerKt.sourceInformation($composer2, "C(OutlinedCard)P(7,6,4,8,1,3!1,5)352@15710L13,353@15763L20,354@15829L23,355@15894L27,359@16036L271:Card.kt#uh7d8r");
-        $dirty = $changed;
+        $composer3 = $composer.startRestartGroup(-727137250);
+        ComposerKt.sourceInformation($composer3, "C(OutlinedCard)P(7,6,4,8,1,3!1,5)352@15710L13,353@15763L20,354@15829L23,355@15894L27,359@16036L271:Card.kt#uh7d8r");
+        $dirty2 = $changed;
         if (i57 & 1 != 0) {
-            $dirty |= 6;
-            obj3 = onClick;
+            $dirty2 |= 6;
+            obj5 = onClick;
         } else {
             if (i56 & 6 == 0) {
-                i9 = $composer2.changedInstance(onClick) ? 4 : 2;
-                $dirty |= i9;
+                i9 = $composer3.changedInstance(onClick) ? 4 : 2;
+                $dirty2 |= i9;
             } else {
-                obj3 = onClick;
+                obj5 = onClick;
             }
         }
         int i47 = i57 & 2;
         if (i47 != 0) {
-            $dirty |= 48;
-            obj11 = modifier;
+            $dirty2 |= 48;
+            obj7 = modifier;
         } else {
             if (i56 & 48 == 0) {
-                i8 = $composer2.changed(modifier) ? 32 : 16;
-                $dirty |= i8;
+                i5 = $composer3.changed(modifier) ? 32 : 16;
+                $dirty2 |= i5;
             } else {
-                obj11 = modifier;
+                obj7 = modifier;
             }
         }
         border2 = i57 & 4;
         if (border2 != 0) {
-            $dirty |= 384;
+            $dirty2 |= 384;
             z2 = enabled;
         } else {
             if (i56 & 384 == 0) {
-                i7 = $composer2.changed(enabled) ? 256 : 128;
-                $dirty |= i7;
+                i3 = $composer3.changed(enabled) ? 256 : 128;
+                $dirty2 |= i3;
             } else {
                 z2 = enabled;
             }
         }
         if (i56 & 3072 == 0) {
             if (i57 & 8 == 0) {
-                changed = $composer2.changed(shape) ? 2048 : 1024;
+                changed3 = $composer3.changed(shape) ? 2048 : 1024;
             } else {
-                obj5 = shape;
+                obj2 = shape;
             }
-            $dirty |= changed;
+            $dirty2 |= changed3;
         } else {
-            obj5 = shape;
+            obj2 = shape;
         }
         if (i56 & 24576 == 0) {
             if (i57 & 16 == 0) {
-                changed4 = $composer2.changed(colors) ? 16384 : 8192;
+                changed4 = $composer3.changed(colors) ? 16384 : 8192;
             } else {
-                obj2 = colors;
+                obj6 = colors;
             }
-            $dirty |= changed4;
+            $dirty2 |= changed4;
         } else {
-            obj2 = colors;
+            obj6 = colors;
         }
         if (i58 &= i56 == 0) {
             if (i57 & 32 == 0) {
-                changed2 = $composer2.changed(elevation) ? 131072 : 65536;
+                changed = $composer3.changed(elevation) ? 131072 : 65536;
             } else {
                 iNSTANCE = elevation;
             }
-            $dirty |= changed2;
+            $dirty2 |= changed;
         } else {
             iNSTANCE = elevation;
         }
         if (i63 &= i56 == 0) {
             if (i57 & 64 == 0) {
-                changed3 = $composer2.changed(border) ? 1048576 : 524288;
+                changed2 = $composer3.changed(border) ? 1048576 : 524288;
             } else {
-                obj10 = border;
+                obj11 = border;
             }
-            $dirty |= changed3;
+            $dirty2 |= changed2;
         } else {
-            obj10 = border;
+            obj11 = border;
         }
-        i = i57 & 128;
+        i10 = i57 & 128;
         int i66 = 12582912;
-        if (i != 0) {
-            $dirty |= i66;
+        if (i10 != 0) {
+            $dirty2 |= i66;
             obj4 = interactionSource;
         } else {
             if (i66 &= i56 == 0) {
-                i2 = $composer2.changed(interactionSource) ? 8388608 : 4194304;
-                $dirty |= i2;
+                i15 = $composer3.changed(interactionSource) ? 8388608 : 4194304;
+                $dirty2 |= i15;
             } else {
                 obj4 = interactionSource;
             }
         }
-        i3 = 100663296;
+        i13 = 100663296;
         if (i57 & 256 != 0) {
-            $dirty |= i3;
-            obj9 = content;
+            $dirty2 |= i13;
+            obj8 = content;
         } else {
-            if (i56 & i3 == 0) {
-                i3 = $composer2.changedInstance(content) ? 67108864 : 33554432;
-                $dirty |= i3;
+            if (i56 & i13 == 0) {
+                i13 = $composer3.changedInstance(content) ? 67108864 : 33554432;
+                $dirty2 |= i13;
             } else {
-                obj9 = content;
+                obj8 = content;
             }
         }
-        if ($dirty & i13 == 38347922) {
-            if (!$composer2.getSkipping()) {
-                $composer2.startDefaults();
-                i17 = -3670017;
+        if ($dirty2 & i16 == 38347922) {
+            if (!$composer3.getSkipping()) {
+                $composer3.startDefaults();
+                i14 = -3670017;
                 int i68 = -458753;
-                i14 = -57345;
+                i7 = -57345;
                 if (i56 & 1 != 0) {
-                    if ($composer2.getDefaultsInvalid()) {
+                    if ($composer3.getDefaultsInvalid()) {
                         if (i47 != 0) {
-                            obj11 = defaultsInvalid;
+                            obj7 = defaultsInvalid;
                         }
                         if (border2 != 0) {
                             z2 = defaultsInvalid;
                         }
                         int i48 = 6;
                         if (i57 & 8 != 0) {
-                            $dirty &= -7169;
-                            obj5 = outlinedShape;
+                            $dirty2 &= -7169;
+                            obj2 = outlinedShape;
                         }
                         if (i57 & 16 != 0) {
-                            $dirty &= i14;
-                            obj2 = shape2;
+                            $dirty2 &= i7;
+                            obj6 = shape2;
                         }
                         if (i57 & 32 != 0) {
-                            i10 = i;
-                            i15 = $composer2;
-                            $composer2 = CardDefaults.INSTANCE.outlinedCardElevation-aqJV_2Y(0, 0, 0, 0, 0, 0, i15, 1572864, 63);
-                            $composer3 = i15;
-                            $dirty &= i68;
+                            i4 = i10;
+                            i11 = $composer3;
+                            $composer3 = CardDefaults.INSTANCE.outlinedCardElevation-aqJV_2Y(0, 0, 0, 0, 0, 0, i11, 1572864, 63);
+                            $composer2 = i11;
+                            $dirty2 &= i68;
                         } else {
-                            $composer3 = $composer2;
-                            i10 = i;
-                            $composer2 = elevation;
+                            $composer2 = $composer3;
+                            i4 = i10;
+                            $composer3 = elevation;
                         }
                         if (i57 & 64 != 0) {
-                            border2 = CardDefaults.INSTANCE.outlinedCardBorder(z2, $composer3, i61 |= 48, 0);
-                            $dirty &= i17;
+                            border2 = CardDefaults.INSTANCE.outlinedCardBorder(z2, $composer2, i61 |= 48, 0);
+                            $dirty2 &= i14;
                         } else {
                             border2 = border;
                         }
-                        if (i10 != 0) {
-                            i15 = i10;
-                            cardElevation = $composer2;
-                            obj10 = obj11;
+                        if (i4 != 0) {
+                            i11 = i4;
+                            cardElevation = $composer3;
+                            obj11 = obj7;
                             borderStroke = border2;
-                            i = z2;
-                            obj4 = obj5;
-                            i13 = obj2;
+                            i10 = z2;
+                            obj4 = obj2;
+                            i16 = obj6;
                         } else {
-                            i15 = interactionSource;
-                            cardElevation = $composer2;
-                            obj10 = obj11;
+                            i11 = interactionSource;
+                            cardElevation = $composer3;
+                            obj11 = obj7;
                             borderStroke = border2;
-                            i = z2;
-                            obj4 = obj5;
-                            i13 = obj2;
+                            i10 = z2;
+                            obj4 = obj2;
+                            i16 = obj6;
                         }
                     } else {
-                        $composer2.skipToGroupEnd();
+                        $composer3.skipToGroupEnd();
                         if (i57 & 8 != 0) {
-                            $dirty &= -7169;
+                            $dirty2 &= -7169;
                         }
                         if (i57 & 16 != 0) {
-                            $dirty &= i14;
+                            $dirty2 &= i7;
                         }
                         if (i57 & 32 != 0) {
-                            $dirty &= i68;
+                            $dirty2 &= i68;
                         }
                         if (i57 & 64 != 0) {
-                            $dirty = i10;
-                            $composer3 = $composer2;
-                            i = z2;
-                            i13 = obj2;
+                            $dirty2 = i4;
+                            $composer2 = $composer3;
+                            i10 = z2;
+                            i16 = obj6;
                             cardElevation = iNSTANCE;
-                            borderStroke = obj10;
-                            i15 = obj4;
-                            obj10 = obj11;
-                            obj4 = obj5;
+                            borderStroke = obj11;
+                            i11 = obj4;
+                            obj11 = obj7;
+                            obj4 = obj2;
                         } else {
-                            $composer3 = $composer2;
-                            i = z2;
-                            i13 = obj2;
+                            $composer2 = $composer3;
+                            i10 = z2;
+                            i16 = obj6;
                             cardElevation = iNSTANCE;
-                            borderStroke = obj10;
-                            i15 = obj4;
-                            obj10 = obj11;
-                            obj4 = obj5;
+                            borderStroke = obj11;
+                            i11 = obj4;
+                            obj11 = obj7;
+                            obj4 = obj2;
                         }
                     }
                 } else {
                 }
-                $composer3.endDefaults();
+                $composer2.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-727137250, $dirty, -1, "androidx.compose.material3.OutlinedCard (Card.kt:359)");
+                    ComposerKt.traceEventStart(-727137250, $dirty2, -1, "androidx.compose.material3.OutlinedCard (Card.kt:359)");
                 }
-                CardKt.Card(onClick, obj10, i, obj4, i13, cardElevation, borderStroke, i15, content, $composer3, i27 | $composer2, 0);
+                CardKt.Card(onClick, obj11, i10, obj4, i16, cardElevation, borderStroke, i11, content, $composer2, i27 | $composer3, 0);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i11 = $dirty;
-                $dirty2 = obj10;
-                z = i;
-                obj7 = obj4;
-                obj = i13;
-                obj8 = cardElevation;
-                obj6 = borderStroke;
-                obj12 = i15;
+                i6 = $dirty2;
+                $dirty = obj11;
+                z = i10;
+                obj = obj4;
+                obj3 = i16;
+                obj10 = cardElevation;
+                obj9 = borderStroke;
+                obj12 = i11;
             } else {
-                $composer2.skipToGroupEnd();
-                composer = $composer2;
+                $composer3.skipToGroupEnd();
+                composer = $composer3;
                 z = z2;
-                obj7 = obj5;
-                obj8 = iNSTANCE;
-                obj6 = obj10;
-                obj12 = obj4;
-                i11 = $dirty;
-                $dirty2 = obj11;
                 obj = obj2;
+                obj10 = iNSTANCE;
+                obj9 = obj11;
+                obj12 = obj4;
+                i6 = $dirty2;
+                $dirty = obj7;
+                obj3 = obj6;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new CardKt.OutlinedCard.2(onClick, $dirty2, z, obj7, obj, obj8, obj6, obj12, content, i56, i57);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new CardKt.OutlinedCard.2(onClick, $dirty, z, obj, obj3, obj10, obj9, obj12, content, i56, i57);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 }

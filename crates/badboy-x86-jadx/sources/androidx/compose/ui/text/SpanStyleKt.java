@@ -64,72 +64,72 @@ public final class SpanStyleKt {
         long textGeometricTransform2;
         TextDecoration textDecoration2;
         long drawStyle2;
-        int i4;
-        Object equal3;
-        Object obj11;
-        boolean equal2;
-        int i5;
-        int i2;
-        long l3;
-        Object obj7;
+        int i;
+        Object equal2;
+        Object obj9;
+        boolean equal3;
+        int $i$f$isSpecified8_81llA;
+        int i3;
+        long l2;
+        Object obj5;
         boolean $this$isSpecified$iv;
         boolean equal;
         int localeList2;
         Object obj4;
-        int background-0d7_KjU;
-        int i3;
-        int unspecified--R2X_6o2;
+        int $i$a$TakeOrElseDxMtmZcSpanStyleKt$fastMerge$1;
+        int i4;
         int unspecified--R2X_6o;
-        long l2;
-        Object obj3;
+        int unspecified--R2X_6o2;
+        long l3;
         Object obj6;
         Object obj12;
-        FontFamily fontFamily2;
-        Object obj2;
-        long l;
-        Object obj8;
-        Object obj9;
-        Object obj13;
-        long i;
-        Object obj5;
-        Object obj10;
         Object obj;
+        FontFamily fontFamily2;
+        Object obj7;
+        long l;
+        Object obj11;
+        Object obj13;
+        Object obj8;
+        long i2;
+        Object obj2;
+        Object obj3;
+        Object obj10;
         long l4 = color;
         final Object obj15 = alpha;
         final float f = fontSize;
-        equal3 = fontSynthesis;
-        equal2 = fontFamily;
+        equal2 = fontSynthesis;
+        equal3 = fontFamily;
         Object obj16 = fontFeatureSettings;
         final FontFamily fontFamily3 = letterSpacing;
         final Object obj17 = baselineShift;
         final Object obj18 = background;
         final Object obj19 = obj61;
         Object obj14 = obj64;
-        int i9 = 0;
+        int i8 = 0;
         int $this$isSpecified$iv2 = 16;
-        i3 = 0;
-        final int i11 = 1;
+        i4 = 0;
+        final int i10 = 1;
         if (!TextUnitKt.isUnspecified--R2X_6o(fontWeight)) {
             if (TextUnit.equals-impl0(fontWeight, obj12)) {
                 if (obj15 == null) {
-                    unspecified--R2X_6o2 = 0;
-                    $this$isSpecified$iv = Long.compare(i7, $this$isSpecified$iv2) != 0 ? i11 : i3;
+                    unspecified--R2X_6o = 0;
+                    $this$isSpecified$iv = Long.compare(i6, $this$isSpecified$iv2) != 0 ? i10 : i4;
                     if ($this$isSpecified$iv != 0) {
                         if (Color.equals-impl0(l4, obj2)) {
-                            if (equal2 != null) {
-                                if (Intrinsics.areEqual(equal2, $this$fastMerge_u2ddSHsh3o.getFontStyle-4Lr2A7w())) {
-                                    if (equal3 != null) {
-                                        if (Intrinsics.areEqual(equal3, $this$fastMerge_u2ddSHsh3o.getFontWeight())) {
+                            if (equal3 != null) {
+                                if (Intrinsics.areEqual(equal3, $this$fastMerge_u2ddSHsh3o.getFontStyle-4Lr2A7w())) {
+                                    if (equal2 != null) {
+                                        if (Intrinsics.areEqual(equal2, $this$fastMerge_u2ddSHsh3o.getFontWeight())) {
                                             if (fontFamily3 != null) {
                                                 if (fontFamily3 == $this$fastMerge_u2ddSHsh3o.getFontFamily()) {
-                                                    unspecified--R2X_6o2 = 0;
+                                                    unspecified--R2X_6o = 0;
                                                     if (!TextUnitKt.isUnspecified--R2X_6o(textGeometricTransform)) {
-                                                        if (TextUnit.equals-impl0(textGeometricTransform, equal2)) {
+                                                        if (TextUnit.equals-impl0(textGeometricTransform, equal3)) {
                                                             if (obj19 != null) {
                                                                 if (Intrinsics.areEqual(obj19, $this$fastMerge_u2ddSHsh3o.getTextDecoration())) {
                                                                     if (Intrinsics.areEqual(obj15, $this$fastMerge_u2ddSHsh3o.getTextForegroundStyle$ui_text_release().getBrush())) {
                                                                         if (obj15 != null) {
-                                                                            localeList2 = Float.compare(f, alpha2) == 0 ? i11 : i3;
+                                                                            localeList2 = Float.compare(f, alpha2) == 0 ? i10 : i4;
                                                                             if (localeList2 != 0) {
                                                                                 if (obj16 != null) {
                                                                                     if (Intrinsics.areEqual(obj16, $this$fastMerge_u2ddSHsh3o.getFontSynthesis-ZQGJjVo())) {
@@ -141,9 +141,9 @@ public final class SpanStyleKt {
                                                                                                             if (Intrinsics.areEqual(textDecoration, $this$fastMerge_u2ddSHsh3o.getTextGeometricTransform())) {
                                                                                                                 if (shadow != null) {
                                                                                                                     if (Intrinsics.areEqual(shadow, $this$fastMerge_u2ddSHsh3o.getLocaleList())) {
-                                                                                                                        int i6 = 0;
-                                                                                                                        i5 = Long.compare(unspecified--R2X_6o, $this$isSpecified$iv2) != 0 ? i11 : i3;
-                                                                                                                        if (i5 != 0) {
+                                                                                                                        int i5 = 0;
+                                                                                                                        $i$f$isSpecified8_81llA = Long.compare(unspecified--R2X_6o2, $this$isSpecified$iv2) != 0 ? i10 : i4;
+                                                                                                                        if ($i$f$isSpecified8_81llA != 0) {
                                                                                                                             if (Color.equals-impl0(platformStyle, fontFamily3)) {
                                                                                                                                 if (obj62 != null) {
                                                                                                                                     if (Intrinsics.areEqual(obj62, $this$fastMerge_u2ddSHsh3o.getShadow())) {
@@ -151,130 +151,130 @@ public final class SpanStyleKt {
                                                                                                                                             if (Intrinsics.areEqual(obj63, $this$fastMerge_u2ddSHsh3o.getPlatformStyle())) {
                                                                                                                                                 if (obj14 != null && !Intrinsics.areEqual(obj14, $this$fastMerge_u2ddSHsh3o.getDrawStyle())) {
                                                                                                                                                     if (!Intrinsics.areEqual(obj14, $this$fastMerge_u2ddSHsh3o.getDrawStyle())) {
-                                                                                                                                                        i4 = i11;
+                                                                                                                                                        i = i10;
                                                                                                                                                     } else {
-                                                                                                                                                        i4 = i3;
+                                                                                                                                                        i = i4;
                                                                                                                                                     }
                                                                                                                                                 } else {
                                                                                                                                                 }
                                                                                                                                             } else {
                                                                                                                                             }
                                                                                                                                         } else {
-                                                                                                                                            obj11 = obj63;
+                                                                                                                                            obj9 = obj63;
                                                                                                                                         }
                                                                                                                                     } else {
-                                                                                                                                        obj11 = obj63;
+                                                                                                                                        obj9 = obj63;
                                                                                                                                     }
                                                                                                                                 } else {
-                                                                                                                                    obj7 = obj62;
+                                                                                                                                    obj5 = obj62;
                                                                                                                                 }
                                                                                                                             } else {
-                                                                                                                                obj7 = obj62;
-                                                                                                                                obj11 = obj63;
+                                                                                                                                obj5 = obj62;
+                                                                                                                                obj9 = obj63;
                                                                                                                             }
                                                                                                                         } else {
-                                                                                                                            i2 = platformStyle;
+                                                                                                                            i3 = platformStyle;
                                                                                                                         }
                                                                                                                     } else {
-                                                                                                                        i2 = platformStyle;
-                                                                                                                        obj7 = obj62;
-                                                                                                                        obj11 = obj63;
+                                                                                                                        i3 = platformStyle;
+                                                                                                                        obj5 = obj62;
+                                                                                                                        obj9 = obj63;
                                                                                                                     }
                                                                                                                 } else {
-                                                                                                                    equal3 = shadow;
+                                                                                                                    equal2 = shadow;
                                                                                                                 }
                                                                                                             } else {
-                                                                                                                i2 = platformStyle;
-                                                                                                                obj7 = obj62;
-                                                                                                                obj11 = obj63;
+                                                                                                                i3 = platformStyle;
+                                                                                                                obj5 = obj62;
+                                                                                                                obj9 = obj63;
                                                                                                             }
                                                                                                         } else {
                                                                                                             obj4 = textDecoration;
                                                                                                         }
                                                                                                     } else {
                                                                                                         obj4 = textDecoration;
-                                                                                                        i2 = platformStyle;
-                                                                                                        obj7 = obj62;
-                                                                                                        obj11 = obj63;
+                                                                                                        i3 = platformStyle;
+                                                                                                        obj5 = obj62;
+                                                                                                        obj9 = obj63;
                                                                                                     }
                                                                                                 } else {
                                                                                                 }
                                                                                             } else {
                                                                                                 obj4 = textDecoration;
-                                                                                                i2 = platformStyle;
-                                                                                                obj7 = obj62;
-                                                                                                obj11 = obj63;
+                                                                                                i3 = platformStyle;
+                                                                                                obj5 = obj62;
+                                                                                                obj9 = obj63;
                                                                                             }
                                                                                         } else {
                                                                                         }
                                                                                     } else {
                                                                                         obj4 = textDecoration;
-                                                                                        i2 = platformStyle;
-                                                                                        obj7 = obj62;
-                                                                                        obj11 = obj63;
+                                                                                        i3 = platformStyle;
+                                                                                        obj5 = obj62;
+                                                                                        obj9 = obj63;
                                                                                     }
                                                                                 } else {
                                                                                 }
                                                                             } else {
                                                                                 obj4 = textDecoration;
-                                                                                i2 = platformStyle;
-                                                                                obj7 = obj62;
-                                                                                obj11 = obj63;
+                                                                                i3 = platformStyle;
+                                                                                obj5 = obj62;
+                                                                                obj9 = obj63;
                                                                             }
                                                                         } else {
                                                                         }
                                                                     } else {
                                                                         obj4 = textDecoration;
-                                                                        i2 = platformStyle;
-                                                                        obj7 = obj62;
-                                                                        obj11 = obj63;
+                                                                        i3 = platformStyle;
+                                                                        obj5 = obj62;
+                                                                        obj9 = obj63;
                                                                     }
                                                                 } else {
                                                                     obj4 = textDecoration;
-                                                                    i2 = platformStyle;
-                                                                    obj7 = obj62;
-                                                                    obj11 = obj63;
+                                                                    i3 = platformStyle;
+                                                                    obj5 = obj62;
+                                                                    obj9 = obj63;
                                                                 }
                                                             } else {
                                                             }
                                                         } else {
                                                             obj4 = textDecoration;
-                                                            i2 = platformStyle;
-                                                            obj7 = obj62;
-                                                            obj11 = obj63;
+                                                            i3 = platformStyle;
+                                                            obj5 = obj62;
+                                                            obj9 = obj63;
                                                         }
                                                     } else {
-                                                        equal3 = textGeometricTransform;
+                                                        equal2 = textGeometricTransform;
                                                     }
                                                 } else {
                                                     obj4 = textDecoration;
-                                                    i2 = platformStyle;
-                                                    obj7 = obj62;
-                                                    obj11 = obj63;
+                                                    i3 = platformStyle;
+                                                    obj5 = obj62;
+                                                    obj9 = obj63;
                                                 }
                                             } else {
                                             }
                                         } else {
                                             obj4 = textDecoration;
-                                            i2 = platformStyle;
-                                            obj7 = obj62;
-                                            obj11 = obj63;
+                                            i3 = platformStyle;
+                                            obj5 = obj62;
+                                            obj9 = obj63;
                                         }
                                     } else {
                                     }
                                 } else {
                                     obj4 = textDecoration;
-                                    i2 = platformStyle;
-                                    obj7 = obj62;
-                                    obj11 = obj63;
+                                    i3 = platformStyle;
+                                    obj5 = obj62;
+                                    obj9 = obj63;
                                 }
                             } else {
                             }
                         } else {
                             obj4 = textDecoration;
-                            i2 = platformStyle;
-                            obj7 = obj62;
-                            obj11 = obj63;
+                            i3 = platformStyle;
+                            obj5 = obj62;
+                            obj9 = obj63;
                         }
                     } else {
                     }
@@ -282,14 +282,14 @@ public final class SpanStyleKt {
                 }
             } else {
                 obj4 = textDecoration;
-                i2 = platformStyle;
-                obj7 = obj62;
-                obj11 = obj63;
+                i3 = platformStyle;
+                obj5 = obj62;
+                obj9 = obj63;
             }
         } else {
-            l3 = fontWeight;
+            l2 = fontWeight;
         }
-        if (i4 == 0) {
+        if (i == 0) {
             return $this$fastMerge_u2ddSHsh3o;
         }
         if (obj15 != null) {
@@ -302,30 +302,30 @@ public final class SpanStyleKt {
         } else {
             fontFamily2 = letterSpacing;
         }
-        if (!TextUnitKt.isUnspecified--R2X_6o(l3)) {
-            l2 = l3;
+        if (!TextUnitKt.isUnspecified--R2X_6o(l2)) {
+            l3 = l2;
         } else {
-            l2 = fontSynthesis-ZQGJjVo;
+            l3 = fontSynthesis-ZQGJjVo;
         }
         if (fontSynthesis == null) {
-            obj3 = fontSynthesis-ZQGJjVo;
-        } else {
-            obj3 = fontSynthesis;
-        }
-        if (fontFamily == null) {
             obj6 = fontSynthesis-ZQGJjVo;
         } else {
-            obj6 = fontFamily;
+            obj6 = fontSynthesis;
         }
-        if (fontFeatureSettings == null) {
+        if (fontFamily == null) {
             obj12 = fontSynthesis-ZQGJjVo;
         } else {
-            obj12 = fontFeatureSettings;
+            obj12 = fontFamily;
+        }
+        if (fontFeatureSettings == null) {
+            obj = fontSynthesis-ZQGJjVo;
+        } else {
+            obj = fontFeatureSettings;
         }
         if (obj17 == null) {
-            obj2 = fontSynthesis-ZQGJjVo;
+            obj7 = fontSynthesis-ZQGJjVo;
         } else {
-            obj2 = obj17;
+            obj7 = obj17;
         }
         if (!TextUnitKt.isUnspecified--R2X_6o(textGeometricTransform)) {
             l = textGeometricTransform;
@@ -333,49 +333,49 @@ public final class SpanStyleKt {
             l = textGeometricTransform2;
         }
         if (obj18 == null) {
-            obj8 = textGeometricTransform2;
+            obj11 = textGeometricTransform2;
         } else {
-            obj8 = obj18;
+            obj11 = obj18;
         }
         if (obj4 == null) {
-            obj9 = textGeometricTransform2;
-        } else {
-            obj9 = obj4;
-        }
-        if (shadow == null) {
             obj13 = textGeometricTransform2;
         } else {
-            obj13 = shadow;
+            obj13 = obj4;
+        }
+        if (shadow == null) {
+            obj8 = textGeometricTransform2;
+        } else {
+            obj8 = shadow;
         }
         textDecoration2 = platformStyle;
-        int i10 = 0;
-        int i12 = 0;
-        if (Long.compare(i13, $this$isSpecified$iv2) != 0) {
-            i3 = i11;
+        int i9 = 0;
+        int i11 = 0;
+        if (Long.compare(i12, $this$isSpecified$iv2) != 0) {
+            i4 = i10;
         }
-        if (i3 != 0) {
-            i = textDecoration2;
+        if (i4 != 0) {
+            i2 = textDecoration2;
         } else {
-            int i8 = 0;
-            i = background-0d7_KjU;
+            int i7 = 0;
+            i2 = $i$a$TakeOrElseDxMtmZcSpanStyleKt$fastMerge$1;
         }
         if (obj19 == null) {
-            obj5 = textDecoration2;
+            obj2 = textDecoration2;
         } else {
-            obj5 = obj19;
+            obj2 = obj19;
         }
-        if (obj7 == null) {
-            obj10 = textDecoration2;
+        if (obj5 == null) {
+            obj3 = textDecoration2;
         } else {
-            obj10 = obj7;
+            obj3 = obj5;
         }
         androidx.compose.ui.text.SpanStyle spanStyle = $this$fastMerge_u2ddSHsh3o;
         if (obj64 == null) {
-            obj = drawStyle2;
+            obj10 = drawStyle2;
         } else {
-            obj = obj64;
+            obj10 = obj64;
         }
-        SpanStyle spanStyle2 = new SpanStyle($this$fastMerge_u2ddSHsh3o.getTextForegroundStyle$ui_text_release().merge(from-8_81llA), l2, obj24, obj3, obj6, obj12, fontFamily2, obj2, l, obj31, obj8, obj9, obj13, i, obj36, obj5, obj10, SpanStyleKt.mergePlatformStyle(spanStyle, obj11), obj, 0);
+        SpanStyle spanStyle2 = new SpanStyle($this$fastMerge_u2ddSHsh3o.getTextForegroundStyle$ui_text_release().merge(from-8_81llA), l3, obj24, obj6, obj12, obj, fontFamily2, obj7, l, obj31, obj11, obj13, obj8, i2, obj36, obj2, obj3, SpanStyleKt.mergePlatformStyle(spanStyle, obj9), obj10, 0);
         return spanStyle2;
     }
 
@@ -386,14 +386,14 @@ public final class SpanStyleKt {
         float constructor-impl2;
         TextGeometricTransform textGeometricTransform2;
         TextGeometricTransform textGeometricTransform;
-        Shadow shadow2;
-        Shadow shadow3;
         Shadow shadow;
-        int i;
-        int i5;
+        Shadow shadow3;
+        Shadow shadow2;
         int i2;
         int i3;
         int i4;
+        int i5;
+        int i;
         final float f = fraction;
         FontFamily fontFamily2 = stop.getFontFamily();
         long lerpTextUnitInheritable-C3pnCVY = SpanStyleKt.lerpTextUnitInheritable-C3pnCVY(start.getFontSize-XSAIIZE(), fontFamily2, stop.getFontSize-XSAIIZE());
@@ -425,14 +425,14 @@ public final class SpanStyleKt {
         }
         LocaleList localeList2 = stop.getLocaleList();
         if (start.getShadow() == null) {
-            shadow = new Shadow(0, obj22, 0, obj24, 0, 7, 0);
-            shadow2 = shadow;
+            shadow2 = new Shadow(0, obj22, 0, obj24, 0, 7, 0);
+            shadow = shadow2;
         }
         if (stop.getShadow() == null) {
-            shadow = new Shadow(0, obj22, 0, obj24, 0, 7, 0);
-            shadow3 = shadow;
+            shadow2 = new Shadow(0, obj22, 0, obj24, 0, 7, 0);
+            shadow3 = shadow2;
         }
-        SpanStyle spanStyle = new SpanStyle(TextDrawStyleKt.lerp(start.getTextForegroundStyle$ui_text_release(), stop.getTextForegroundStyle$ui_text_release(), f), lerpTextUnitInheritable-C3pnCVY, obj6, FontWeightKt.lerp(fontWeight2, fontWeight, f), (FontStyle)SpanStyleKt.lerpDiscrete(start.getFontStyle-4Lr2A7w(), stop.getFontStyle-4Lr2A7w(), f), (FontSynthesis)SpanStyleKt.lerpDiscrete(start.getFontSynthesis-ZQGJjVo(), stop.getFontSynthesis-ZQGJjVo(), f), (FontFamily)SpanStyleKt.lerpDiscrete(start.getFontFamily(), fontFamily2, f), (String)SpanStyleKt.lerpDiscrete(start.getFontFeatureSettings(), fontFeatureSettings2, f), SpanStyleKt.lerpTextUnitInheritable-C3pnCVY(start.getLetterSpacing-XSAIIZE(), fontFeatureSettings2, stop.getLetterSpacing-XSAIIZE()), obj13, BaselineShift.box-impl(BaselineShiftKt.lerp-jWV1Mfo(constructor-impl, constructor-impl2, f)), TextGeometricTransformKt.lerp(textGeometricTransform2, textGeometricTransform, f), (LocaleList)SpanStyleKt.lerpDiscrete(start.getLocaleList(), localeList2, f), ColorKt.lerp-jxsXWHM(start.getBackground-0d7_KjU(), localeList2, stop.getBackground-0d7_KjU()), obj18, (TextDecoration)SpanStyleKt.lerpDiscrete(start.getTextDecoration(), stop.getTextDecoration(), f), ShadowKt.lerp(shadow2, shadow3, f), SpanStyleKt.lerpPlatformStyle(start.getPlatformStyle(), stop.getPlatformStyle(), f), (DrawStyle)SpanStyleKt.lerpDiscrete(start.getDrawStyle(), stop.getDrawStyle(), f), 0);
+        SpanStyle spanStyle = new SpanStyle(TextDrawStyleKt.lerp(start.getTextForegroundStyle$ui_text_release(), stop.getTextForegroundStyle$ui_text_release(), f), lerpTextUnitInheritable-C3pnCVY, obj6, FontWeightKt.lerp(fontWeight2, fontWeight, f), (FontStyle)SpanStyleKt.lerpDiscrete(start.getFontStyle-4Lr2A7w(), stop.getFontStyle-4Lr2A7w(), f), (FontSynthesis)SpanStyleKt.lerpDiscrete(start.getFontSynthesis-ZQGJjVo(), stop.getFontSynthesis-ZQGJjVo(), f), (FontFamily)SpanStyleKt.lerpDiscrete(start.getFontFamily(), fontFamily2, f), (String)SpanStyleKt.lerpDiscrete(start.getFontFeatureSettings(), fontFeatureSettings2, f), SpanStyleKt.lerpTextUnitInheritable-C3pnCVY(start.getLetterSpacing-XSAIIZE(), fontFeatureSettings2, stop.getLetterSpacing-XSAIIZE()), obj13, BaselineShift.box-impl(BaselineShiftKt.lerp-jWV1Mfo(constructor-impl, constructor-impl2, f)), TextGeometricTransformKt.lerp(textGeometricTransform2, textGeometricTransform, f), (LocaleList)SpanStyleKt.lerpDiscrete(start.getLocaleList(), localeList2, f), ColorKt.lerp-jxsXWHM(start.getBackground-0d7_KjU(), localeList2, stop.getBackground-0d7_KjU()), obj18, (TextDecoration)SpanStyleKt.lerpDiscrete(start.getTextDecoration(), stop.getTextDecoration(), f), ShadowKt.lerp(shadow, shadow3, f), SpanStyleKt.lerpPlatformStyle(start.getPlatformStyle(), stop.getPlatformStyle(), f), (DrawStyle)SpanStyleKt.lerpDiscrete(start.getDrawStyle(), stop.getDrawStyle(), f), 0);
         return spanStyle;
     }
 
@@ -498,7 +498,7 @@ public final class SpanStyleKt {
         Shadow shadow;
         DrawStyle drawStyle;
         long l;
-        long defaultBackgroundColor;
+        long $i$a$TakeOrElseDxMtmZcSpanStyleKt$resolveSpanStyleDefaults$2;
         int i;
         final androidx.compose.ui.text.SpanStyleKt.resolveSpanStyleDefaults.1 iNSTANCE = SpanStyleKt.resolveSpanStyleDefaults.1.INSTANCE;
         if (TextUnitKt.isUnspecified--R2X_6o(style.getFontSize-XSAIIZE())) {
@@ -549,10 +549,10 @@ public final class SpanStyleKt {
         int i4 = 0;
         i = Long.compare(l3, i5) != 0 ? 1 : 0;
         if (i != 0) {
-            defaultBackgroundColor = background-0d7_KjU;
+            $i$a$TakeOrElseDxMtmZcSpanStyleKt$resolveSpanStyleDefaults$2 = background-0d7_KjU;
         } else {
             int i3 = 0;
-            defaultBackgroundColor = SpanStyleKt.DefaultBackgroundColor;
+            $i$a$TakeOrElseDxMtmZcSpanStyleKt$resolveSpanStyleDefaults$2 = SpanStyleKt.DefaultBackgroundColor;
         }
         if (style.getTextDecoration() == null) {
             textDecoration = TextDecoration.Companion.getNone();
@@ -563,7 +563,7 @@ public final class SpanStyleKt {
         if (style.getDrawStyle() == null) {
             drawStyle = Fill.INSTANCE;
         }
-        SpanStyle spanStyle = new SpanStyle(style.getTextForegroundStyle$ui_text_release().takeOrElse((Function0)iNSTANCE), fontSize-XSAIIZE, obj5, fontWeight, FontStyle.box-impl(normal-_-LCdwA), FontSynthesis.box-impl(all-GVVA2EU), fontFamily, fontFeatureSettings, l, obj12, BaselineShift.box-impl(none-y9eOQZs), textGeometricTransform, localeList, defaultBackgroundColor, obj17, textDecoration, shadow, style.getPlatformStyle(), drawStyle, 0);
+        SpanStyle spanStyle = new SpanStyle(style.getTextForegroundStyle$ui_text_release().takeOrElse((Function0)iNSTANCE), fontSize-XSAIIZE, obj5, fontWeight, FontStyle.box-impl(normal-_-LCdwA), FontSynthesis.box-impl(all-GVVA2EU), fontFamily, fontFeatureSettings, l, obj12, BaselineShift.box-impl(none-y9eOQZs), textGeometricTransform, localeList, $i$a$TakeOrElseDxMtmZcSpanStyleKt$resolveSpanStyleDefaults$2, obj17, textDecoration, shadow, style.getPlatformStyle(), drawStyle, 0);
         return spanStyle;
     }
 }

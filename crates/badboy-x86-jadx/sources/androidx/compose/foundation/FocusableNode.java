@@ -69,18 +69,18 @@ public final class FocusableNode extends DelegatingNode implements FocusEventMod
         boolean focused;
         kotlinx.coroutines.CoroutineScope focusablePinnableContainer;
         boolean attached;
-        int i2;
         int i3;
-        androidx.compose.foundation.FocusableNode.onFocusEvent.1 anon;
-        int i;
         int i4;
+        androidx.compose.foundation.FocusableNode.onFocusEvent.1 anon;
+        int i2;
+        int i;
         focused = focusState.isFocused();
         if (!Intrinsics.areEqual(this.focusState, focusState) && focused) {
             focused = focusState.isFocused();
             if (focused) {
-                i3 = 0;
-                FocusableNode.onFocusEvent.1 anon2 = new FocusableNode.onFocusEvent.1(this, i3);
-                BuildersKt.launch$default(getCoroutineScope(), 0, i3, (Function2)anon2, 3, 0);
+                i4 = 0;
+                FocusableNode.onFocusEvent.1 anon2 = new FocusableNode.onFocusEvent.1(this, i4);
+                BuildersKt.launch$default(getCoroutineScope(), 0, i4, (Function2)anon2, 3, 0);
             }
             if (isAttached()) {
                 SemanticsModifierNodeKt.invalidateSemantics((SemanticsModifierNode)this);

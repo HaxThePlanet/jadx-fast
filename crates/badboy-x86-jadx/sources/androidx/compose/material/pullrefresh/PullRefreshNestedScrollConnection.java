@@ -56,21 +56,21 @@ final class PullRefreshNestedScrollConnection implements NestedScrollConnection 
     public Object onPreFling-QWom1Mo(long l, Continuation<? super Velocity> continuation2) {
         boolean anon;
         int i;
-        int i2;
+        int i4;
         androidx.compose.material.pullrefresh.PullRefreshNestedScrollConnection label;
         Function2 onRelease;
         Float boxFloat;
-        int i4;
+        int i2;
         int i3;
         Object obj8;
         Object obj10;
         anon = obj10;
-        i2 = Integer.MIN_VALUE;
-        if (obj10 instanceof PullRefreshNestedScrollConnection.onPreFling.1 && label2 &= i2 != 0) {
+        i4 = Integer.MIN_VALUE;
+        if (obj10 instanceof PullRefreshNestedScrollConnection.onPreFling.1 && label2 &= i4 != 0) {
             anon = obj10;
-            i2 = Integer.MIN_VALUE;
-            if (label2 &= i2 != 0) {
-                anon.label = obj10 -= i2;
+            i4 = Integer.MIN_VALUE;
+            if (label2 &= i4 != 0) {
+                anon.label = obj10 -= i4;
             } else {
                 anon = new PullRefreshNestedScrollConnection.onPreFling.1(this, obj10);
             }
@@ -86,14 +86,14 @@ final class PullRefreshNestedScrollConnection implements NestedScrollConnection 
                 return cOROUTINE_SUSPENDED;
             case 1:
                 ResultKt.throwOnFailure(obj10);
-                i4 = obj8;
+                i2 = obj8;
                 obj8 = obj10;
                 break;
             default:
                 obj8 = new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
                 throw obj8;
         }
-        return Velocity.box-impl(VelocityKt.Velocity(i4, (Number)obj8.floatValue()));
+        return Velocity.box-impl(VelocityKt.Velocity(i2, (Number)obj8.floatValue()));
     }
 
     @Override // androidx.compose.ui.input.nestedscroll.NestedScrollConnection

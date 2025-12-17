@@ -15,13 +15,13 @@ public final class LayoutCoordinatesKt {
     public static final Rect boundsInParent(androidx.compose.ui.layout.LayoutCoordinates $this$boundsInParent) {
         Rect parentLayoutCoordinates;
         int i2;
-        int i;
         int i3;
+        int i;
         parentLayoutCoordinates = $this$boundsInParent.getParentLayoutCoordinates();
         if (parentLayoutCoordinates != null) {
             if (LayoutCoordinates.localBoundingBoxOf$default(parentLayoutCoordinates, $this$boundsInParent, false, 2, 0) == null) {
-                i3 = 0;
-                parentLayoutCoordinates = new Rect(i3, i3, (float)width-impl, (float)height-impl);
+                i = 0;
+                parentLayoutCoordinates = new Rect(i, i, (float)width-impl, (float)height-impl);
             }
         } else {
         }
@@ -35,15 +35,15 @@ public final class LayoutCoordinatesKt {
     public static final Rect boundsInWindow(androidx.compose.ui.layout.LayoutCoordinates $this$boundsInWindow) {
         int cmp;
         int i;
-        float $this$fastCoerceAtLeast$iv$iv;
-        float $this$fastCoerceAtMost$iv$iv;
         float $this$fastCoerceAtLeast$iv$iv2;
+        float $this$fastCoerceAtMost$iv$iv;
+        float $this$fastCoerceAtLeast$iv$iv;
         float $this$fastCoerceAtMost$iv$iv2;
-        float f2;
+        float f3;
         androidx.compose.ui.layout.LayoutCoordinates root;
         Rect rect;
         float f;
-        float f3;
+        float f2;
         androidx.compose.ui.layout.LayoutCoordinates rootCoordinates = LayoutCoordinatesKt.findRootCoordinates($this$boundsInWindow);
         float f4 = (float)width-impl;
         float f5 = (float)height-impl;
@@ -51,12 +51,12 @@ public final class LayoutCoordinatesKt {
         int i2 = 0;
         int i7 = 0;
         int i12 = 0;
-        if (Float.compare($this$fastCoerceAtLeast$iv$iv, i2) < 0) {
-            $this$fastCoerceAtLeast$iv$iv = i2;
+        if (Float.compare($this$fastCoerceAtLeast$iv$iv2, i2) < 0) {
+            $this$fastCoerceAtLeast$iv$iv2 = i2;
         }
         int i13 = 0;
-        if (Float.compare($this$fastCoerceAtLeast$iv$iv, f4) > 0) {
-            $this$fastCoerceAtLeast$iv$iv = f4;
+        if (Float.compare($this$fastCoerceAtLeast$iv$iv2, f4) > 0) {
+            $this$fastCoerceAtLeast$iv$iv2 = f4;
         }
         int i3 = 0;
         int i8 = 0;
@@ -71,12 +71,12 @@ public final class LayoutCoordinatesKt {
         int i4 = 0;
         int i9 = 0;
         int i16 = 0;
-        if (Float.compare($this$fastCoerceAtLeast$iv$iv2, i4) < 0) {
-            $this$fastCoerceAtLeast$iv$iv2 = i4;
+        if (Float.compare($this$fastCoerceAtLeast$iv$iv, i4) < 0) {
+            $this$fastCoerceAtLeast$iv$iv = i4;
         }
         int i17 = 0;
-        if (Float.compare($this$fastCoerceAtLeast$iv$iv2, f4) > 0) {
-            $this$fastCoerceAtLeast$iv$iv2 = f4;
+        if (Float.compare($this$fastCoerceAtLeast$iv$iv, f4) > 0) {
+            $this$fastCoerceAtLeast$iv$iv = f4;
         }
         int i5 = 0;
         int i10 = 0;
@@ -90,7 +90,7 @@ public final class LayoutCoordinatesKt {
             $this$fastCoerceAtMost$iv$iv2 = f5;
         }
         int i11 = 0;
-        cmp = Float.compare($this$fastCoerceAtLeast$iv$iv, $this$fastCoerceAtLeast$iv$iv2) == 0 ? i : i11;
+        cmp = Float.compare($this$fastCoerceAtLeast$iv$iv2, $this$fastCoerceAtLeast$iv$iv) == 0 ? i : i11;
         if (cmp == 0) {
             if (Float.compare($this$fastCoerceAtMost$iv$iv, $this$fastCoerceAtMost$iv$iv2) == 0) {
             } else {
@@ -99,14 +99,14 @@ public final class LayoutCoordinatesKt {
             if (i != 0) {
                 root = rootCoordinates;
                 f = f4;
-                f2 = f5;
+                f3 = f5;
                 rect = boundsInRoot;
-                f3 = $this$fastCoerceAtLeast$iv$iv;
+                f2 = $this$fastCoerceAtLeast$iv$iv2;
                 return Rect.Companion.getZero();
             }
-            long localToWindow-MK-Hz9U2 = rootCoordinates.localToWindow-MK-Hz9U(OffsetKt.Offset($this$fastCoerceAtLeast$iv$iv, $this$fastCoerceAtMost$iv$iv));
-            long localToWindow-MK-Hz9U3 = rootCoordinates.localToWindow-MK-Hz9U(OffsetKt.Offset($this$fastCoerceAtLeast$iv$iv2, $this$fastCoerceAtMost$iv$iv));
-            long localToWindow-MK-Hz9U4 = rootCoordinates.localToWindow-MK-Hz9U(OffsetKt.Offset($this$fastCoerceAtLeast$iv$iv2, $this$fastCoerceAtMost$iv$iv2));
+            long localToWindow-MK-Hz9U2 = rootCoordinates.localToWindow-MK-Hz9U(OffsetKt.Offset($this$fastCoerceAtLeast$iv$iv2, $this$fastCoerceAtMost$iv$iv));
+            long localToWindow-MK-Hz9U3 = rootCoordinates.localToWindow-MK-Hz9U(OffsetKt.Offset($this$fastCoerceAtLeast$iv$iv, $this$fastCoerceAtMost$iv$iv));
+            long localToWindow-MK-Hz9U4 = rootCoordinates.localToWindow-MK-Hz9U(OffsetKt.Offset($this$fastCoerceAtLeast$iv$iv, $this$fastCoerceAtMost$iv$iv2));
             float f19 = f5;
             androidx.compose.ui.layout.LayoutCoordinates layoutCoordinates = rootCoordinates;
             float x-impl = Offset.getX-impl(localToWindow-MK-Hz9U2);
@@ -128,16 +128,16 @@ public final class LayoutCoordinatesKt {
             int i22 = 0;
             float f25 = f12;
             int i23 = 0;
-            float f26 = $this$fastCoerceAtLeast$iv$iv;
+            float f26 = $this$fastCoerceAtLeast$iv$iv2;
             float f24 = y-impl;
             Rect topLeftY = new Rect(Math.min(x-impl, Math.min(x-impl2, Math.min(x-impl3, x-impl4))), Math.min(y-impl, Math.min(y-impl2, Math.min(y-impl3, y-impl4))), Math.max(x-impl, Math.max(x-impl2, Math.max(x-impl3, x-impl4))), Math.max(y-impl, Math.max(y-impl2, Math.max(y-impl3, y-impl4))));
             return topLeftY;
         }
         root = rootCoordinates;
         f = f4;
-        f2 = f5;
+        f3 = f5;
         rect = boundsInRoot;
-        f3 = $this$fastCoerceAtLeast$iv$iv;
+        f2 = $this$fastCoerceAtLeast$iv$iv2;
     }
 
     public static final androidx.compose.ui.layout.LayoutCoordinates findRootCoordinates(androidx.compose.ui.layout.LayoutCoordinates $this$findRootCoordinates) {

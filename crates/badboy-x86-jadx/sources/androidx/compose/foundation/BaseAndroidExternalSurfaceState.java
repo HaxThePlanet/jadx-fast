@@ -37,8 +37,8 @@ abstract class BaseAndroidExternalSurfaceState implements androidx.compose.found
 
     @Override // androidx.compose.foundation.AndroidExternalSurfaceScope
     public final void dispatchSurfaceChanged(Surface surface, int width, int height) {
-        Integer valueOf2;
         Integer valueOf;
+        Integer valueOf2;
         final Function3 onSurfaceChanged = this.onSurfaceChanged;
         if (onSurfaceChanged != null) {
             onSurfaceChanged.invoke(surface, Integer.valueOf(width), Integer.valueOf(height));
@@ -51,11 +51,11 @@ abstract class BaseAndroidExternalSurfaceState implements androidx.compose.found
         int i;
         CoroutineStart uNDISPATCHED;
         androidx.compose.foundation.BaseAndroidExternalSurfaceState.dispatchSurfaceCreated.1 anon;
-        int i3;
-        int i4;
-        int width2;
-        int i5;
         int i2;
+        int i5;
+        int width2;
+        int i4;
+        int i3;
         Object obj11;
         Surface obj12;
         Job obj13;
@@ -67,7 +67,7 @@ abstract class BaseAndroidExternalSurfaceState implements androidx.compose.found
             obj11.job = BuildersKt.launch$default(this.scope, 0, CoroutineStart.UNDISPATCHED, (Function2)anon, 1, 0);
         } else {
             width2 = width;
-            i5 = height;
+            i4 = height;
             obj12 = surface;
             obj11 = this;
         }

@@ -221,23 +221,23 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     private final T moveCursorNext() {
-        int i2;
         int i3;
+        int i2;
         int nextCharacterIndex;
         int i;
         int i4 = 1;
         final int i5 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        i2 = this;
-        i3 = 0;
-        nextCharacterIndex = (BaseTextPreparedSelection)i2.getNextCharacterIndex();
-        if (i2 != 0 && nextCharacterIndex != -1) {
-            i2 = this;
-            i3 = 0;
-            nextCharacterIndex = (BaseTextPreparedSelection)i2.getNextCharacterIndex();
+        i3 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        i3 = this;
+        i2 = 0;
+        nextCharacterIndex = (BaseTextPreparedSelection)i3.getNextCharacterIndex();
+        if (i3 != 0 && nextCharacterIndex != -1) {
+            i3 = this;
+            i2 = 0;
+            nextCharacterIndex = (BaseTextPreparedSelection)i3.getNextCharacterIndex();
             if (nextCharacterIndex != -1) {
-                i2.setCursor(nextCharacterIndex);
+                i3.setCursor(nextCharacterIndex);
             }
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -270,23 +270,23 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     private final T moveCursorPrev() {
-        int i;
         int i2;
-        int precedingCharacterIndex;
         int i3;
+        int precedingCharacterIndex;
+        int i;
         int i4 = 1;
         final int i5 = 0;
         getState().resetCachedX();
-        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        i = this;
-        i2 = 0;
-        precedingCharacterIndex = (BaseTextPreparedSelection)i.getPrecedingCharacterIndex();
-        if (i != 0 && precedingCharacterIndex != -1) {
-            i = this;
-            i2 = 0;
-            precedingCharacterIndex = (BaseTextPreparedSelection)i.getPrecedingCharacterIndex();
+        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        i2 = this;
+        i3 = 0;
+        precedingCharacterIndex = (BaseTextPreparedSelection)i2.getPrecedingCharacterIndex();
+        if (i2 != 0 && precedingCharacterIndex != -1) {
+            i2 = this;
+            i3 = 0;
+            precedingCharacterIndex = (BaseTextPreparedSelection)i2.getPrecedingCharacterIndex();
             if (precedingCharacterIndex != -1) {
-                i.setCursor(precedingCharacterIndex);
+                i2.setCursor(precedingCharacterIndex);
             }
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -294,24 +294,24 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     private final T moveCursorPrevByWord() {
-        int i2;
+        int i3;
         int i;
         Integer previousWordOffset;
-        int i3;
+        int i2;
         int i4 = 1;
         final int i5 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        i2 = this;
+        i3 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        i3 = this;
         i = 0;
-        previousWordOffset = (BaseTextPreparedSelection)i2.getPreviousWordOffset();
-        if (i2 != 0 && previousWordOffset != null) {
-            i2 = this;
+        previousWordOffset = (BaseTextPreparedSelection)i3.getPreviousWordOffset();
+        if (i3 != 0 && previousWordOffset != null) {
+            i3 = this;
             i = 0;
-            previousWordOffset = (BaseTextPreparedSelection)i2.getPreviousWordOffset();
+            previousWordOffset = (BaseTextPreparedSelection)i3.getPreviousWordOffset();
             if (previousWordOffset != null) {
-                i3 = 0;
-                i2.setCursor((Number)previousWordOffset.intValue());
+                i2 = 0;
+                i3.setCursor((Number)previousWordOffset.intValue());
             }
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -346,24 +346,24 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T collapseLeftOr(Function1<? super T, Unit> or) {
-        int i2;
         int i;
+        int i2;
         int min-impl;
         int i3 = 1;
         final int i4 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            if (TextRange.getCollapsed-impl(i2.selection)) {
-                Intrinsics.checkNotNull((BaseTextPreparedSelection)i2, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection.collapseLeftOr$lambda$4");
-                or.invoke(i2);
+        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            if (TextRange.getCollapsed-impl(i.selection)) {
+                Intrinsics.checkNotNull((BaseTextPreparedSelection)i, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection.collapseLeftOr$lambda$4");
+                or.invoke(i);
             } else {
-                if (i2.isLtr()) {
-                    i2.setCursor(TextRange.getMin-impl(i2.selection));
+                if (i.isLtr()) {
+                    i.setCursor(TextRange.getMin-impl(i.selection));
                 } else {
-                    i2.setCursor(TextRange.getMax-impl(i2.selection));
+                    i.setCursor(TextRange.getMax-impl(i.selection));
                 }
             }
         }
@@ -372,24 +372,24 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T collapseRightOr(Function1<? super T, Unit> or) {
-        int i2;
         int i;
+        int i2;
         int max-impl;
         int i3 = 1;
         final int i4 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            if (TextRange.getCollapsed-impl(i2.selection)) {
-                Intrinsics.checkNotNull((BaseTextPreparedSelection)i2, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection.collapseRightOr$lambda$5");
-                or.invoke(i2);
+        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            if (TextRange.getCollapsed-impl(i.selection)) {
+                Intrinsics.checkNotNull((BaseTextPreparedSelection)i, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection.collapseRightOr$lambda$5");
+                or.invoke(i);
             } else {
-                if (i2.isLtr()) {
-                    i2.setCursor(TextRange.getMax-impl(i2.selection));
+                if (i.isLtr()) {
+                    i.setCursor(TextRange.getMax-impl(i.selection));
                 } else {
-                    i2.setCursor(TextRange.getMin-impl(i2.selection));
+                    i.setCursor(TextRange.getMin-impl(i.selection));
                 }
             }
         }
@@ -453,8 +453,8 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     public final Integer getNextWordOffset() {
         TextLayoutResult nextWordOffsetForLayout$default;
         int valueOf;
-        int i;
         int i2;
+        int i;
         nextWordOffsetForLayout$default = this.layoutResult;
         if (nextWordOffsetForLayout$default != null) {
             valueOf = Integer.valueOf(BaseTextPreparedSelection.getNextWordOffsetForLayout$default(this, nextWordOffsetForLayout$default, 0, 1, 0));
@@ -481,8 +481,8 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     public final Integer getPreviousWordOffset() {
         TextLayoutResult prevWordOffset$default;
         int valueOf;
-        int i2;
         int i;
+        int i2;
         prevWordOffset$default = this.layoutResult;
         if (prevWordOffset$default != null) {
             valueOf = Integer.valueOf(BaseTextPreparedSelection.getPrevWordOffset$default(this, prevWordOffset$default, 0, 1, 0));
@@ -503,25 +503,25 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T moveCursorDownByLine() {
-        int i;
-        int jumpByLinesOffset;
         int i2;
+        int jumpByLinesOffset;
+        int i;
         TextLayoutResult layoutResult;
         int i3 = 0;
         final Object obj = this;
         final int i4 = 0;
         jumpByLinesOffset = 1;
-        i = (CharSequence)this.getText$foundation_release().length() > 0 ? jumpByLinesOffset : 0;
-        i = obj;
-        i2 = 0;
-        layoutResult = i.layoutResult;
-        if (i != 0 && layoutResult != null) {
-            i = obj;
-            i2 = 0;
-            layoutResult = i.layoutResult;
+        i2 = (CharSequence)this.getText$foundation_release().length() > 0 ? jumpByLinesOffset : 0;
+        i2 = obj;
+        i = 0;
+        layoutResult = i2.layoutResult;
+        if (i2 != 0 && layoutResult != null) {
+            i2 = obj;
+            i = 0;
+            layoutResult = i2.layoutResult;
             if (layoutResult != null) {
                 layoutResult = 0;
-                i.setCursor((BaseTextPreparedSelection)(BaseTextPreparedSelection)i.jumpByLinesOffset(layoutResult, jumpByLinesOffset));
+                i2.setCursor((BaseTextPreparedSelection)(BaseTextPreparedSelection)i2.jumpByLinesOffset(layoutResult, jumpByLinesOffset));
             }
         }
         Intrinsics.checkNotNull(obj, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -550,20 +550,20 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T moveCursorLeftByWord() {
-        int i2;
         int i;
+        int i2;
         boolean ltr;
         int i3 = 1;
         final int i4 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            if ((BaseTextPreparedSelection)i2.isLtr()) {
-                i2.moveCursorPrevByWord();
+        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            if ((BaseTextPreparedSelection)i.isLtr()) {
+                i.moveCursorPrevByWord();
             } else {
-                i2.moveCursorNextByWord();
+                i.moveCursorNextByWord();
             }
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -571,28 +571,28 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T moveCursorNextByParagraph() {
-        int i2;
         int i;
+        int i2;
         int paragraphEnd;
         int text$foundation_release;
         long l;
         int i3 = 1;
         final int i4 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        i2 = this;
-        i = 0;
-        paragraphEnd = StringHelpersKt.findParagraphEnd((CharSequence)(BaseTextPreparedSelection)i2.getText$foundation_release(), TextRange.getMax-impl(i2.selection));
-        if (i2 != 0 && paragraphEnd == TextRange.getMax-impl(i2.selection) && paragraphEnd != i2.getText$foundation_release().length()) {
-            i2 = this;
-            i = 0;
-            paragraphEnd = StringHelpersKt.findParagraphEnd((CharSequence)(BaseTextPreparedSelection)i2.getText$foundation_release(), TextRange.getMax-impl(i2.selection));
-            if (paragraphEnd == TextRange.getMax-impl(i2.selection)) {
-                if (paragraphEnd != i2.getText$foundation_release().length()) {
-                    paragraphEnd = StringHelpersKt.findParagraphEnd((CharSequence)i2.getText$foundation_release(), paragraphEnd + 1);
+        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        i = this;
+        i2 = 0;
+        paragraphEnd = StringHelpersKt.findParagraphEnd((CharSequence)(BaseTextPreparedSelection)i.getText$foundation_release(), TextRange.getMax-impl(i.selection));
+        if (i != 0 && paragraphEnd == TextRange.getMax-impl(i.selection) && paragraphEnd != i.getText$foundation_release().length()) {
+            i = this;
+            i2 = 0;
+            paragraphEnd = StringHelpersKt.findParagraphEnd((CharSequence)(BaseTextPreparedSelection)i.getText$foundation_release(), TextRange.getMax-impl(i.selection));
+            if (paragraphEnd == TextRange.getMax-impl(i.selection)) {
+                if (paragraphEnd != i.getText$foundation_release().length()) {
+                    paragraphEnd = StringHelpersKt.findParagraphEnd((CharSequence)i.getText$foundation_release(), paragraphEnd + 1);
                 }
             }
-            i2.setCursor(paragraphEnd);
+            i.setCursor(paragraphEnd);
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
         return (BaseTextPreparedSelection)this;
@@ -627,20 +627,20 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T moveCursorRight() {
-        int i2;
         int i;
+        int i2;
         boolean ltr;
         int i3 = 1;
         final int i4 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            if ((BaseTextPreparedSelection)i2.isLtr()) {
-                i2.moveCursorNext();
+        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            if ((BaseTextPreparedSelection)i.isLtr()) {
+                i.moveCursorNext();
             } else {
-                i2.moveCursorPrev();
+                i.moveCursorPrev();
             }
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -669,32 +669,32 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T moveCursorToEnd() {
-        int i2;
         int i;
+        int i2;
         int length;
         int i3 = 1;
         final int i4 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            i2.setCursor((BaseTextPreparedSelection)i2.getText$foundation_release().length());
+        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            i.setCursor((BaseTextPreparedSelection)i.getText$foundation_release().length());
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
         return (BaseTextPreparedSelection)this;
     }
 
     public final T moveCursorToHome() {
-        int i2;
         int i;
+        int i2;
         int i3 = 1;
         final int i4 = 0;
         getState().resetCachedX();
         final int i5 = 0;
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : i5;
-        if (i2 != 0) {
-            i = 0;
+        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : i5;
+        if (i != 0) {
+            i2 = 0;
             (BaseTextPreparedSelection)this.setCursor(i5);
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -703,22 +703,22 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
 
     public final T moveCursorToLineEnd() {
         int i2;
-        int i;
-        Integer lineEndByOffset;
         int i3;
+        Integer lineEndByOffset;
+        int i;
         int i4 = 1;
         final int i5 = 0;
         getState().resetCachedX();
         i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
         i2 = this;
-        i = 0;
+        i3 = 0;
         lineEndByOffset = (BaseTextPreparedSelection)i2.getLineEndByOffset();
         if (i2 != 0 && lineEndByOffset != null) {
             i2 = this;
-            i = 0;
+            i3 = 0;
             lineEndByOffset = (BaseTextPreparedSelection)i2.getLineEndByOffset();
             if (lineEndByOffset != null) {
-                i3 = 0;
+                i = 0;
                 i2.setCursor((Number)lineEndByOffset.intValue());
             }
         }
@@ -769,24 +769,24 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T moveCursorToLineStart() {
-        int i2;
+        int i3;
         int i;
         Integer lineStartByOffset;
-        int i3;
+        int i2;
         int i4 = 1;
         final int i5 = 0;
         getState().resetCachedX();
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
-        i2 = this;
+        i3 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : 0;
+        i3 = this;
         i = 0;
-        lineStartByOffset = (BaseTextPreparedSelection)i2.getLineStartByOffset();
-        if (i2 != 0 && lineStartByOffset != null) {
-            i2 = this;
+        lineStartByOffset = (BaseTextPreparedSelection)i3.getLineStartByOffset();
+        if (i3 != 0 && lineStartByOffset != null) {
+            i3 = this;
             i = 0;
-            lineStartByOffset = (BaseTextPreparedSelection)i2.getLineStartByOffset();
+            lineStartByOffset = (BaseTextPreparedSelection)i3.getLineStartByOffset();
             if (lineStartByOffset != null) {
-                i3 = 0;
-                i2.setCursor((Number)lineStartByOffset.intValue());
+                i2 = 0;
+                i3.setCursor((Number)lineStartByOffset.intValue());
             }
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -794,24 +794,24 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T moveCursorUpByLine() {
-        int i2;
         int i3;
-        TextLayoutResult jumpByLinesOffset;
         int i;
+        TextLayoutResult jumpByLinesOffset;
+        int i2;
         int i4 = 0;
         final Object obj = this;
         final int i5 = 0;
-        i2 = (CharSequence)this.getText$foundation_release().length() > 0 ? 1 : 0;
-        i2 = obj;
-        i3 = 0;
-        jumpByLinesOffset = i2.layoutResult;
-        if (i2 != 0 && jumpByLinesOffset != null) {
-            i2 = obj;
-            i3 = 0;
-            jumpByLinesOffset = i2.layoutResult;
+        i3 = (CharSequence)this.getText$foundation_release().length() > 0 ? 1 : 0;
+        i3 = obj;
+        i = 0;
+        jumpByLinesOffset = i3.layoutResult;
+        if (i3 != 0 && jumpByLinesOffset != null) {
+            i3 = obj;
+            i = 0;
+            jumpByLinesOffset = i3.layoutResult;
             if (jumpByLinesOffset != null) {
-                i = 0;
-                i2.setCursor((BaseTextPreparedSelection)(BaseTextPreparedSelection)i2.jumpByLinesOffset(jumpByLinesOffset, -1));
+                i2 = 0;
+                i3.setCursor((BaseTextPreparedSelection)(BaseTextPreparedSelection)i3.jumpByLinesOffset(jumpByLinesOffset, -1));
             }
         }
         Intrinsics.checkNotNull(obj, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
@@ -819,18 +819,18 @@ public abstract class BaseTextPreparedSelection<T extends androidx.compose.found
     }
 
     public final T selectAll() {
-        int i2;
         int i;
+        int i2;
         int length;
         int i3 = 1;
         final int i4 = 0;
         getState().resetCachedX();
         final int i5 = 0;
-        i2 = (CharSequence)getText$foundation_release().length() > 0 ? 1 : i5;
-        if (i2 != 0) {
-            i2 = this;
-            i = 0;
-            i2.setSelection(i5, (BaseTextPreparedSelection)i2.getText$foundation_release().length());
+        i = (CharSequence)getText$foundation_release().length() > 0 ? 1 : i5;
+        if (i != 0) {
+            i = this;
+            i2 = 0;
+            i.setSelection(i5, (BaseTextPreparedSelection)i.getText$foundation_release().length());
         }
         Intrinsics.checkNotNull(this, "null cannot be cast to non-null type T of androidx.compose.foundation.text.selection.BaseTextPreparedSelection");
         return (BaseTextPreparedSelection)this;

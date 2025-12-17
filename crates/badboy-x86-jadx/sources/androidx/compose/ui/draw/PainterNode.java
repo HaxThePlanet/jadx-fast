@@ -80,9 +80,9 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
         long l;
         long times-UQTWf7w;
         int cmp;
-        int i;
-        int i2;
         int i3;
+        int i2;
+        int i;
         if (!getUseIntrinsicSize()) {
             times-UQTWf7w = dstSize;
         } else {
@@ -97,13 +97,13 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
                 height-impl = Size.getHeight-impl(this.painter.getIntrinsicSize-NH-jbRc());
             }
             l = SizeKt.Size(useIntrinsicSize, height-impl);
-            i = 0;
             i3 = 0;
-            cmp = Float.compare(width-impl, i) == 0 ? i2 : i3;
+            i = 0;
+            cmp = Float.compare(width-impl, i3) == 0 ? i2 : i;
             if (cmp == 0) {
-                if (Float.compare(height-impl2, i) == 0) {
+                if (Float.compare(height-impl2, i3) == 0) {
                 } else {
-                    i2 = i3;
+                    i2 = i;
                 }
                 if (i2 == 0) {
                     times-UQTWf7w = ScaleFactorKt.times-UQTWf7w(l, obj3);
@@ -117,7 +117,7 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
     }
 
     private final boolean getUseIntrinsicSize() {
-        boolean sizeToIntrinsics;
+        boolean $i$f$isSpecifiedUvyYCjk;
         int i;
         long intrinsicSize-NH-jbRc;
         int cmp;
@@ -125,8 +125,8 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
         if (this.sizeToIntrinsics) {
             int i3 = 0;
             i2 = 1;
-            sizeToIntrinsics = Long.compare(intrinsicSize-NH-jbRc, l) != 0 ? i2 : i;
-            if (sizeToIntrinsics != 0) {
+            $i$f$isSpecifiedUvyYCjk = Long.compare(intrinsicSize-NH-jbRc, l) != 0 ? i2 : i;
+            if ($i$f$isSpecifiedUvyYCjk != 0) {
                 i = i2;
             } else {
             }
@@ -138,21 +138,21 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
     private final boolean hasSpecifiedAndFiniteHeight-uvyYCjk(long $this$hasSpecifiedAndFiniteHeight_u2duvyYCjk) {
         boolean equals-impl0;
         float height-impl;
-        int i2;
-        boolean infinite;
         int i;
+        boolean infinite;
+        int i2;
         if (!Size.equals-impl0($this$hasSpecifiedAndFiniteHeight_u2duvyYCjk, obj6)) {
             height-impl = Size.getHeight-impl($this$hasSpecifiedAndFiniteHeight_u2duvyYCjk);
-            i = 1;
+            i2 = 1;
             if (!Float.isInfinite(height-impl) && !Float.isNaN(height-impl)) {
-                equals-impl0 = !Float.isNaN(height-impl) ? i : i2;
+                equals-impl0 = !Float.isNaN(height-impl) ? i2 : i;
             } else {
             }
             if (equals-impl0 != 0) {
-                i2 = i;
+                i = i2;
             }
         }
-        return i2;
+        return i;
     }
 
     private final boolean hasSpecifiedAndFiniteWidth-uvyYCjk(long $this$hasSpecifiedAndFiniteWidth_u2duvyYCjk) {
@@ -179,52 +179,52 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
         boolean hasBoundedWidth-impl;
         int i2;
         boolean hasFixedHeight-impl;
-        int i;
-        int $this$fastRoundToInt$iv;
-        int $this$fastRoundToInt$iv2;
         int i3;
+        int $this$fastRoundToInt$iv2;
+        int $this$fastRoundToInt$iv;
+        int i;
         final Object obj = this;
         int i4 = 0;
         if (Constraints.getHasBoundedWidth-impl(constraints) && Constraints.getHasBoundedHeight-impl(constraints)) {
-            i2 = Constraints.getHasBoundedHeight-impl(constraints) ? i : i4;
+            i2 = Constraints.getHasBoundedHeight-impl(constraints) ? i3 : i4;
         } else {
         }
         if (Constraints.getHasFixedWidth-impl(constraints) && Constraints.getHasFixedHeight-impl(constraints)) {
             if (Constraints.getHasFixedHeight-impl(constraints)) {
             } else {
-                i = i4;
+                i3 = i4;
             }
         } else {
         }
         if (!obj.getUseIntrinsicSize()) {
-            if (i2 == 0 && i != 0) {
-                if (i != 0) {
+            if (i2 == 0 && i3 != 0) {
+                if (i3 != 0) {
                 }
             }
-            return Constraints.copy-Zbe2FdA$default(constraints, i, Constraints.getMaxWidth-impl(constraints), 0, Constraints.getMaxHeight-impl(constraints), 0, 10);
+            return Constraints.copy-Zbe2FdA$default(constraints, i3, Constraints.getMaxWidth-impl(constraints), 0, Constraints.getMaxHeight-impl(constraints), 0, 10);
         } else {
         }
         Object obj3 = constraints;
         final long intrinsicSize-NH-jbRc = obj.painter.getIntrinsicSize-NH-jbRc();
         if (obj.hasSpecifiedAndFiniteWidth-uvyYCjk(intrinsicSize-NH-jbRc)) {
-            i3 = 0;
-            $this$fastRoundToInt$iv = Math.round(Size.getWidth-impl(intrinsicSize-NH-jbRc));
+            i = 0;
+            $this$fastRoundToInt$iv2 = Math.round(Size.getWidth-impl(intrinsicSize-NH-jbRc));
         } else {
-            $this$fastRoundToInt$iv = Constraints.getMinWidth-impl(obj3);
+            $this$fastRoundToInt$iv2 = Constraints.getMinWidth-impl(obj3);
         }
         if (obj.hasSpecifiedAndFiniteHeight-uvyYCjk(intrinsicSize-NH-jbRc)) {
-            i3 = 0;
-            $this$fastRoundToInt$iv2 = Math.round(Size.getHeight-impl(intrinsicSize-NH-jbRc));
+            i = 0;
+            $this$fastRoundToInt$iv = Math.round(Size.getHeight-impl(intrinsicSize-NH-jbRc));
         } else {
-            $this$fastRoundToInt$iv2 = Constraints.getMinHeight-impl(obj3);
+            $this$fastRoundToInt$iv = Constraints.getMinHeight-impl(obj3);
         }
-        int constrainHeight-K40F9xA = ConstraintsKt.constrainHeight-K40F9xA(obj3, i);
+        int constrainHeight-K40F9xA = ConstraintsKt.constrainHeight-K40F9xA(obj3, i3);
         float f2 = (float)constrainHeight-K40F9xA;
         final long scaledSize-E7KxVPU = obj.calculateScaledSize-E7KxVPU(SizeKt.Size((float)constrainWidth-K40F9xA2, f2));
         int i6 = 0;
         int i8 = 0;
         final int i18 = i9;
-        return Constraints.copy-Zbe2FdA$default(obj3, i, ConstraintsKt.constrainWidth-K40F9xA(obj3, i), 0, ConstraintsKt.constrainHeight-K40F9xA(obj3, i), 0, 10);
+        return Constraints.copy-Zbe2FdA$default(obj3, i3, ConstraintsKt.constrainWidth-K40F9xA(obj3, i3), 0, ConstraintsKt.constrainHeight-K40F9xA(obj3, i3), 0, 10);
     }
 
     @Override // androidx.compose.ui.Modifier$Node
@@ -233,15 +233,15 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
         float height-impl;
         int cmp;
         Object contentScale;
-        int i3;
+        int i2;
         int intrinsicSize;
-        long size-NH-jbRc2;
+        long size-NH-jbRc;
         long size-NH-jbRc3;
         long times-UQTWf7w;
-        int i2;
-        long size-NH-jbRc;
-        int i4;
         int i;
+        long size-NH-jbRc2;
+        int i3;
+        int i4;
         Object obj = this;
         long intrinsicSize-NH-jbRc = obj.painter.getIntrinsicSize-NH-jbRc();
         if (obj.hasSpecifiedAndFiniteWidth-uvyYCjk(intrinsicSize-NH-jbRc)) {
@@ -257,13 +257,13 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
         final long l = SizeKt.Size(width-impl, height-impl);
         int i7 = 0;
         int i13 = 0;
-        cmp = Float.compare(width-impl2, i7) == 0 ? i2 : i13;
+        cmp = Float.compare(width-impl2, i7) == 0 ? i : i13;
         if (cmp == 0) {
             if (Float.compare(height-impl2, i7) == 0) {
             } else {
-                i2 = i13;
+                i = i13;
             }
-            if (i2 == 0) {
+            if (i == 0) {
                 times-UQTWf7w = ScaleFactorKt.times-UQTWf7w(l, obj7);
             } else {
                 times-UQTWf7w = Size.Companion.getZero-NH-jbRc();
@@ -330,9 +330,9 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
         int i4;
         int width2;
         int minHeight-impl;
+        int i3;
         int i;
         int i2;
-        int i3;
         int obj10;
         if (getUseIntrinsicSize()) {
             i4 = 0;
@@ -374,17 +374,17 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
     @Override // androidx.compose.ui.Modifier$Node
     public int minIntrinsicHeight(IntrinsicMeasureScope $this$minIntrinsicHeight, IntrinsicMeasurable measurable, int width) {
         long modifyConstraints-ZezNO4M;
-        int i3;
+        int i4;
         int width2;
         int minHeight-impl;
-        int i;
+        int i3;
         int i2;
-        int i4;
+        int i;
         int obj10;
         if (getUseIntrinsicSize()) {
-            i3 = 0;
+            i4 = 0;
             width2 = width;
-            obj10 = Math.max(Constraints.getMinHeight-impl(modifyConstraints-ZezNO4M(ConstraintsKt.Constraints$default(i3, width2, 0, 0, 13, 0))), measurable.minIntrinsicHeight(width2));
+            obj10 = Math.max(Constraints.getMinHeight-impl(modifyConstraints-ZezNO4M(ConstraintsKt.Constraints$default(i4, width2, 0, 0, 13, 0))), measurable.minIntrinsicHeight(width2));
         } else {
             obj10 = measurable.minIntrinsicHeight(width);
         }
@@ -394,17 +394,17 @@ final class PainterNode extends Modifier.Node implements LayoutModifierNode, Dra
     @Override // androidx.compose.ui.Modifier$Node
     public int minIntrinsicWidth(IntrinsicMeasureScope $this$minIntrinsicWidth, IntrinsicMeasurable measurable, int height) {
         long modifyConstraints-ZezNO4M;
-        int i;
-        int minWidth-impl;
-        int i3;
-        int height2;
-        int i2;
         int i4;
+        int minWidth-impl;
+        int i2;
+        int height2;
+        int i;
+        int i3;
         int obj10;
         if (getUseIntrinsicSize()) {
-            i = 0;
+            i4 = 0;
             height2 = height;
-            obj10 = Math.max(Constraints.getMinWidth-impl(modifyConstraints-ZezNO4M(ConstraintsKt.Constraints$default(i, 0, 0, height2, 7, 0))), measurable.minIntrinsicWidth(height2));
+            obj10 = Math.max(Constraints.getMinWidth-impl(modifyConstraints-ZezNO4M(ConstraintsKt.Constraints$default(i4, 0, 0, height2, 7, 0))), measurable.minIntrinsicWidth(height2));
         } else {
             obj10 = measurable.minIntrinsicWidth(height);
         }

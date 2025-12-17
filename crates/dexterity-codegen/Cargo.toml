@@ -16,6 +16,7 @@ thiserror.workspace = true
 parking_lot.workspace = true
 dashmap.workspace = true
 rustc-hash.workspace = true
+tracing.workspace = true
 
 [dev-dependencies]
 pretty_assertions.workspace = true

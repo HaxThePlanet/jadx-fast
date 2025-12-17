@@ -28,11 +28,11 @@ public final class SegmentBreaker {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
             int ordinal2;
-            int ordinal4;
+            int ordinal;
             int ordinal5;
             int ordinal3;
+            int ordinal4;
             int[] iArr = new int[values.length];
             iArr[SegmentType.Document.ordinal()] = 1;
             iArr[SegmentType.Paragraph.ordinal()] = 2;
@@ -51,21 +51,21 @@ public final class SegmentBreaker {
         int paraIndex;
         List analyzeBidi;
         int paragraphStart;
-        int i;
-        int runCount;
-        Object valueOf2;
-        int intValue;
         int i2;
-        Integer valueOf;
+        int runCount;
+        Object valueOf;
+        int intValue;
+        int i;
+        Integer valueOf2;
         TreeSet treeSet = new TreeSet();
         int i3 = 0;
         analyzeBidi = breakWithBreakIterator;
         paragraphStart = 0;
-        i = 0;
-        while (i < analyzeBidi.size()) {
-            i2 = 0;
-            treeSet.add(Integer.valueOf((Number)analyzeBidi.get(i).intValue()));
-            i++;
+        i2 = 0;
+        while (i2 < analyzeBidi.size()) {
+            i = 0;
+            treeSet.add(Integer.valueOf((Number)analyzeBidi.get(i2).intValue()));
+            i2++;
         }
         paraIndex = 0;
         while (paraIndex < layoutHelper.getParagraphCount()) {
@@ -73,14 +73,14 @@ public final class SegmentBreaker {
             if (analyzeBidi == null) {
             } else {
             }
-            i = 0;
-            while (i < analyzeBidi.getRunCount()) {
+            i2 = 0;
+            while (i2 < analyzeBidi.getRunCount()) {
                 treeSet.add(Integer.valueOf(runStart += paragraphStart));
-                i++;
+                i2++;
             }
             paraIndex++;
             treeSet.add(Integer.valueOf(runStart += paragraphStart));
-            i++;
+            i2++;
         }
         return CollectionsKt.toList((Iterable)treeSet);
     }
@@ -88,9 +88,9 @@ public final class SegmentBreaker {
     private final List<androidx.compose.ui.text.android.animation.Segment> breakSegmentWithChar(LayoutHelper layoutHelper, boolean dropSpaces) {
         List breakOffsets;
         int result$iv;
+        int i2;
+        int i4;
         int i6;
-        int i5;
-        int i;
         int arrayList;
         int lineEndSpace;
         int rtlCharAt;
@@ -99,12 +99,12 @@ public final class SegmentBreaker {
         int lastIndex;
         Object obj;
         int i9;
-        Layout layout;
-        int intValue2;
+        Layout layout2;
         int intValue;
-        int i2;
+        int intValue2;
+        int i;
         int lineTop;
-        int i4;
+        int i5;
         int lineBottom;
         int i7;
         ArrayList list2;
@@ -112,15 +112,15 @@ public final class SegmentBreaker {
         List list;
         int i8;
         int i3;
-        Layout layout2;
+        Layout layout;
         final LayoutHelper layoutHelper2 = layoutHelper;
         ArrayList arrayList2 = new ArrayList();
         breakOffsets = this.breakOffsets(layoutHelper2, SegmentType.Character);
-        i5 = 0;
+        i4 = 0;
         if (breakOffsets.size() != 0) {
             if (breakOffsets.size() == 1) {
                 $this$fastZipWithNext$iv = breakOffsets;
-                i8 = i5;
+                i8 = i4;
                 CollectionsKt.emptyList();
             } else {
                 arrayList = new ArrayList();
@@ -128,67 +128,67 @@ public final class SegmentBreaker {
                 i$iv = 0;
                 while (i$iv < CollectionsKt.getLastIndex(breakOffsets)) {
                     obj = breakOffsets.get(i$iv + 1);
-                    intValue = (Number)obj.intValue();
-                    intValue2 = (Number)current$iv.intValue();
+                    intValue2 = (Number)obj.intValue();
+                    intValue = (Number)current$iv.intValue();
                     i9 = 0;
-                    layout = layoutHelper2.getLayout();
-                    if (dropSpaces && intValue == intValue2 + 1 && layoutHelper2.isLineEndSpace(layout.getText().charAt(intValue2))) {
+                    layout2 = layoutHelper2.getLayout();
+                    if (dropSpaces && intValue2 == intValue + 1 && layoutHelper2.isLineEndSpace(layout2.getText().charAt(intValue))) {
                     } else {
                     }
-                    int lineForOffset = LayoutCompat_androidKt.getLineForOffset(layout, intValue2, rtlCharAt);
+                    int lineForOffset = LayoutCompat_androidKt.getLineForOffset(layout2, intValue, rtlCharAt);
                     list = breakOffsets;
-                    if (layout.getParagraphDirection(lineForOffset) == -1) {
+                    if (layout2.getParagraphDirection(lineForOffset) == -1) {
                     } else {
                     }
                     breakOffsets = 0;
-                    rtlCharAt = layout.isRtlCharAt(intValue2);
+                    rtlCharAt = layout2.isRtlCharAt(intValue);
                     if (rtlCharAt == breakOffsets) {
                     } else {
                     }
-                    i6 = 0;
-                    i3 = i5;
+                    i2 = 0;
+                    i3 = i4;
                     list2 = arrayList;
                     result$iv = (int)f;
                     if (rtlCharAt == breakOffsets) {
                     } else {
                     }
-                    i = 0;
-                    i5 = (int)f2;
+                    i6 = 0;
+                    i4 = (int)f2;
                     lineEndSpace = i7;
-                    layout = segment;
-                    arrayList = layout2;
-                    super(intValue2, intValue, Math.min(result$iv, i5), layout.getLineTop(lineEndSpace), Math.max(result$iv, i5), layout.getLineBottom(lineEndSpace));
-                    (List)arrayList2.add(layout);
+                    layout2 = segment;
+                    arrayList = layout;
+                    super(intValue, intValue2, Math.min(result$iv, i4), layout2.getLineTop(lineEndSpace), Math.max(result$iv, i4), layout2.getLineBottom(lineEndSpace));
+                    (List)arrayList2.add(layout2);
                     ArrayList list3 = list2;
                     list3.add(Unit.INSTANCE);
                     current$iv = obj;
                     i$iv++;
                     arrayList = list3;
                     breakOffsets = list;
-                    i5 = i3;
+                    i4 = i3;
                     lineEndSpace = 1;
                     rtlCharAt = 0;
                     result$iv = this;
-                    i = 1;
                     i6 = 1;
+                    i2 = 1;
                     breakOffsets = 1;
-                    if (intValue == intValue2 + 1) {
+                    if (intValue2 == intValue + 1) {
                     } else {
                     }
-                    if (layoutHelper2.isLineEndSpace(layout.getText().charAt(intValue2))) {
+                    if (layoutHelper2.isLineEndSpace(layout2.getText().charAt(intValue))) {
                     } else {
                     }
                     list = breakOffsets;
-                    i3 = i5;
+                    i3 = i4;
                     list2 = arrayList;
                 }
                 $this$fastZipWithNext$iv = breakOffsets;
-                i8 = i5;
+                i8 = i4;
                 result$iv = arrayList;
             }
         } else {
             $this$fastZipWithNext$iv = breakOffsets;
-            i8 = i5;
+            i8 = i4;
         }
         return arrayList2;
     }
@@ -199,41 +199,41 @@ public final class SegmentBreaker {
     }
 
     private final List<androidx.compose.ui.text.android.animation.Segment> breakSegmentWithLine(LayoutHelper layoutHelper, boolean dropSpaces) {
-        int i;
+        int i2;
         androidx.compose.ui.text.android.animation.Segment segment;
         int lineStart;
         int lineEnd;
-        int i2;
+        int i;
         double lineTop;
         int width;
         double lineBottom;
         ArrayList arrayList = new ArrayList();
         final Layout layout = layoutHelper.getLayout();
-        i = 0;
-        while (i < layoutHelper.getLayout().getLineCount()) {
+        i2 = 0;
+        while (i2 < layoutHelper.getLayout().getLineCount()) {
             if (dropSpaces) {
             } else {
             }
-            i2 = 0;
+            i = 0;
             if (dropSpaces) {
             } else {
             }
             width = layout.getWidth();
-            segment = new Segment(layout.getLineStart(i), layout.getLineEnd(i), i2, layout.getLineTop(i), width, layout.getLineBottom(i));
+            segment = new Segment(layout.getLineStart(i2), layout.getLineEnd(i2), i, layout.getLineTop(i2), width, layout.getLineBottom(i2));
             (List)arrayList.add(segment);
-            i++;
+            i2++;
             width = (int)f2;
-            i2 = (int)f;
+            i = (int)f;
         }
         return arrayList;
     }
 
     private final List<androidx.compose.ui.text.android.animation.Segment> breakSegmentWithParagraph(LayoutHelper layoutHelper) {
-        int i;
+        int i2;
         androidx.compose.ui.text.android.animation.Segment segment;
         int paragraphStart;
         int paragraphEnd;
-        int i2;
+        int i;
         int lineTop;
         int width;
         int lineBottom;
@@ -241,64 +241,64 @@ public final class SegmentBreaker {
         int lineForOffset;
         ArrayList arrayList = new ArrayList();
         final Layout layout = layoutHelper.getLayout();
-        i = 0;
-        while (i < layoutHelper.getParagraphCount()) {
-            paragraphStart = layoutHelper.getParagraphStart(i);
-            paragraphEnd = layoutHelper.getParagraphEnd(i);
+        i2 = 0;
+        while (i2 < layoutHelper.getParagraphCount()) {
+            paragraphStart = layoutHelper.getParagraphStart(i2);
+            paragraphEnd = layoutHelper.getParagraphEnd(i2);
             segment = new Segment(paragraphStart, paragraphEnd, 0, layout.getLineTop(LayoutCompat_androidKt.getLineForOffset(layout, paragraphStart, false)), layout.getWidth(), layout.getLineBottom(LayoutCompat_androidKt.getLineForOffset(layout, paragraphEnd, true)));
             (List)arrayList.add(segment);
-            i++;
+            i2++;
         }
         return arrayList;
     }
 
     private final List<androidx.compose.ui.text.android.animation.Segment> breakSegmentWithWord(LayoutHelper layoutHelper, boolean dropSpaces) {
         LayoutHelper lineEnd;
-        int i2;
-        int wsWidth;
-        int i12;
-        List breakOffsets;
         int i13;
+        int wsWidth2;
+        int i4;
+        List breakOffsets;
+        int i6;
         double d;
         int left;
-        int i10;
+        int i11;
         int right;
         int size;
         Object arrayList;
-        int i8;
-        int i4;
-        int i3;
+        int i2;
+        int i12;
+        int i;
         Object current$iv;
         int i$iv;
         int lastIndex;
         Object obj;
-        int intValue2;
-        androidx.compose.ui.text.android.animation.Segment lineNo;
         int intValue;
+        androidx.compose.ui.text.android.animation.Segment lineNo;
+        int intValue2;
         int i14;
-        int i5;
-        int lineTop;
-        int i11;
-        int lineBottom;
-        int i7;
         int i9;
-        int i;
-        int i6;
-        int wsWidth2;
-        List list;
+        int lineTop;
+        int i7;
+        int lineBottom;
+        int i8;
+        int i3;
+        int i5;
+        int i10;
+        int wsWidth;
         List list2;
+        List list;
         int startPos;
         lineEnd = layoutHelper;
         final Layout layout = lineEnd.getLayout();
         String str = " ";
-        i2 = (int)f;
+        i13 = (int)f;
         breakOffsets = this.breakOffsets(lineEnd, SegmentType.Word);
-        i10 = 0;
+        i11 = 0;
         if (breakOffsets.size() != 0) {
             if (breakOffsets.size() == 1) {
-                wsWidth2 = i2;
-                list2 = breakOffsets;
-                i = i10;
+                wsWidth = i13;
+                list = breakOffsets;
+                i5 = i11;
                 arrayList = CollectionsKt.emptyList();
             } else {
                 arrayList = new ArrayList();
@@ -306,83 +306,83 @@ public final class SegmentBreaker {
                 i$iv = 0;
                 while (i$iv < CollectionsKt.getLastIndex(breakOffsets)) {
                     obj = breakOffsets.get(i$iv + 1);
-                    intValue2 = (Number)obj.intValue();
-                    intValue = (Number)current$iv.intValue();
-                    i7 = 0;
-                    int lineForOffset = LayoutCompat_androidKt.getLineForOffset(layout, intValue, i3);
+                    intValue = (Number)obj.intValue();
+                    intValue2 = (Number)current$iv.intValue();
+                    i8 = 0;
+                    int lineForOffset = LayoutCompat_androidKt.getLineForOffset(layout, intValue2, i);
                     if (layout.getParagraphDirection(lineForOffset) == -1) {
                     } else {
                     }
-                    i4 = 0;
-                    boolean rtlCharAt = layout.isRtlCharAt(intValue);
-                    i6 = i2;
-                    if (rtlCharAt == i4) {
+                    i12 = 0;
+                    boolean rtlCharAt = layout.isRtlCharAt(intValue2);
+                    i10 = i13;
+                    if (rtlCharAt == i12) {
                     } else {
                     }
-                    wsWidth = 0;
-                    i12 = (int)f2;
-                    if (rtlCharAt == i4) {
+                    wsWidth2 = 0;
+                    i4 = (int)f2;
+                    if (rtlCharAt == i12) {
                     } else {
                     }
-                    i13 = 0;
+                    i6 = 0;
                     int i16 = (int)f3;
-                    left = Math.min(i12, i16);
-                    right = Math.max(i12, i16);
-                    if (dropSpaces && intValue2 != 0) {
+                    left = Math.min(i4, i16);
+                    right = Math.max(i4, i16);
+                    if (dropSpaces && intValue != 0) {
                     } else {
                     }
-                    startPos = i12;
-                    i5 = left;
-                    i11 = right;
+                    startPos = i4;
+                    i9 = left;
+                    i7 = right;
                     lineNo = segment;
                     int i15 = i20;
-                    super(intValue, intValue2, i5, layout.getLineTop(lineForOffset), i11, layout.getLineBottom(lineForOffset));
+                    super(intValue2, intValue, i9, layout.getLineTop(lineForOffset), i7, layout.getLineBottom(lineForOffset));
                     (List)arrayList.add(lineNo);
                     current$iv = obj;
                     i$iv++;
                     d = this;
                     lineEnd = layoutHelper;
-                    i10 = i9;
-                    i2 = i6;
-                    breakOffsets = list;
-                    i8 = 1;
-                    i3 = 0;
-                    if (intValue2 != 0) {
+                    i11 = i3;
+                    i13 = i10;
+                    breakOffsets = list2;
+                    i2 = 1;
+                    i = 0;
+                    if (intValue != 0) {
                     } else {
                     }
-                    startPos = i12;
-                    if (layout.getText().charAt(intValue2 + -1) == 32 && layout.getLineEnd(lineForOffset) != intValue2) {
+                    startPos = i4;
+                    if (layout.getText().charAt(intValue + -1) == 32 && layout.getLineEnd(lineForOffset) != intValue) {
                     } else {
                     }
-                    if (layout.getLineEnd(lineForOffset) != intValue2) {
+                    if (layout.getLineEnd(lineForOffset) != intValue) {
                     } else {
                     }
                     if (rtlCharAt) {
                     } else {
                     }
-                    i5 = left;
-                    i11 = right;
-                    i5 = left;
-                    i11 = right;
-                    i13 = 1;
-                    wsWidth = 1;
-                    i4 = 1;
+                    i9 = left;
+                    i7 = right;
+                    i9 = left;
+                    i7 = right;
+                    i6 = 1;
+                    wsWidth2 = 1;
+                    i12 = 1;
                 }
-                wsWidth2 = i2;
-                list2 = breakOffsets;
-                i = i10;
+                wsWidth = i13;
+                list = breakOffsets;
+                i5 = i11;
             }
         } else {
-            wsWidth2 = i2;
-            list2 = breakOffsets;
-            i = i10;
+            wsWidth = i13;
+            list = breakOffsets;
+            i5 = i11;
         }
         return arrayList;
     }
 
     private final List<Integer> breakWithBreakIterator(java.lang.CharSequence text, BreakIterator breaker) {
-        CharSequenceCharacterIterator valueOf;
-        Integer valueOf2;
+        CharSequenceCharacterIterator valueOf2;
+        Integer valueOf;
         int i2 = 0;
         CharSequenceCharacterIterator charSequenceCharacterIterator = new CharSequenceCharacterIterator(text, i2, text.length());
         Integer[] arr = new Integer[1];
@@ -397,38 +397,38 @@ public final class SegmentBreaker {
 
     public final List<Integer> breakOffsets(LayoutHelper layoutHelper, androidx.compose.ui.text.android.animation.SegmentType segmentType) {
         List breakWithBreakIterator;
-        int i;
-        int valueOf2;
-        Integer i2;
+        int i2;
+        int valueOf;
+        Integer i;
         int paragraphCount;
-        Integer valueOf;
+        Integer valueOf2;
         final Layout layout2 = layoutHelper.getLayout();
         final java.lang.CharSequence text = layout2.getText();
-        i = 1;
-        valueOf2 = 0;
-        i2 = Integer.valueOf(valueOf2);
+        i2 = 1;
+        valueOf = 0;
+        i = Integer.valueOf(valueOf);
         switch (i3) {
             case 1:
                 Integer[] arr = new Integer[2];
-                arr[valueOf2] = i2;
-                arr[i] = Integer.valueOf(text.length());
+                arr[valueOf] = i;
+                arr[i2] = Integer.valueOf(text.length());
                 breakWithBreakIterator = CollectionsKt.listOf(arr);
                 break;
             case 2:
-                Integer[] arr2 = new Integer[i];
-                arr2[valueOf2] = i2;
-                valueOf2 = 0;
-                i2 = 0;
-                CollectionsKt.mutableListOf(arr2).add(Integer.valueOf(layoutHelper.getParagraphEnd(i2)));
-                i2++;
+                Integer[] arr2 = new Integer[i2];
+                arr2[valueOf] = i;
+                valueOf = 0;
+                i = 0;
+                CollectionsKt.mutableListOf(arr2).add(Integer.valueOf(layoutHelper.getParagraphEnd(i)));
+                i++;
                 break;
             case 3:
-                Integer[] arr3 = new Integer[i];
-                arr3[valueOf2] = i2;
-                valueOf2 = 0;
-                i2 = 0;
-                CollectionsKt.mutableListOf(arr3).add(Integer.valueOf(layout2.getLineEnd(i2)));
-                i2++;
+                Integer[] arr3 = new Integer[i2];
+                arr3[valueOf] = i;
+                valueOf = 0;
+                i = 0;
+                CollectionsKt.mutableListOf(arr3).add(Integer.valueOf(layout2.getLineEnd(i)));
+                i++;
                 break;
             case 4:
                 breakWithBreakIterator = breakInWords(layoutHelper);

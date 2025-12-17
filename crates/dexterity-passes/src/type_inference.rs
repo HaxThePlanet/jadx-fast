@@ -33,6 +33,7 @@
 
 use std::collections::HashMap;
 use rustc_hash::FxHashMap;
+use tracing::error;
 
 use dexterity_ir::instructions::{
     ArrayElemType, BinaryOp, CastType, CompareOp, IfCondition, InsnArg, InsnType, LiteralArg,
@@ -334,6 +335,11 @@ impl TypeInference {
     fn fresh_var(&mut self) -> TypeVar {
         const VARS_PROCESS_LIMIT: u32 = 5000;
         if self.next_var >= VARS_PROCESS_LIMIT {
+            error!(
+                vars_count = self.next_var,
+                limit = VARS_PROCESS_LIMIT,
+                "LIMIT_EXCEEDED: Type inference variables limit reached"
+            );
             // Panic to abort inference for this method (caught by catch_unwind in main)
             panic!("SKIP: Type inference variables limit reached ({})", VARS_PROCESS_LIMIT);
         }

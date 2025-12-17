@@ -29,41 +29,41 @@ public final class ScopeMap<Key, Scope>  {
 
     public final void add(Key key, Scope scope) {
         int str;
-        int values;
-        Object[] values2;
-        int i2;
+        int values2;
+        Object[] values;
         int i;
+        int i2;
         MutableScatterSet mutableScatterSet;
         final MutableScatterMap map = this.map;
         final int i3 = 0;
         final int insertIndex = map.findInsertIndex(key);
         str = 1;
-        values2 = 0;
-        i2 = insertIndex < 0 ? str : values2;
+        values = 0;
+        i = insertIndex < 0 ? str : values;
         final int i4 = 0;
-        i = i2 != 0 ? i4 : values3[insertIndex];
+        i2 = i != 0 ? i4 : values3[insertIndex];
         final int i5 = 0;
-        if (i == 0) {
+        if (i2 == 0) {
             mutableScatterSet = scope;
         } else {
-            if (i instanceof MutableScatterSet != null) {
-                Intrinsics.checkNotNull(i, "null cannot be cast to non-null type androidx.collection.MutableScatterSet<Scope of androidx.compose.runtime.collection.ScopeMap.add$lambda$0>");
-                (MutableScatterSet)i.add(scope);
-                mutableScatterSet = i;
+            if (i2 instanceof MutableScatterSet != null) {
+                Intrinsics.checkNotNull(i2, "null cannot be cast to non-null type androidx.collection.MutableScatterSet<Scope of androidx.compose.runtime.collection.ScopeMap.add$lambda$0>");
+                (MutableScatterSet)i2.add(scope);
+                mutableScatterSet = i2;
             } else {
-                if (i != scope) {
-                    mutableScatterSet = new MutableScatterSet(values2, str, i4);
-                    Intrinsics.checkNotNull(i, "null cannot be cast to non-null type Scope of androidx.compose.runtime.collection.ScopeMap.add$lambda$0");
-                    mutableScatterSet.add(i);
+                if (i2 != scope) {
+                    mutableScatterSet = new MutableScatterSet(values, str, i4);
+                    Intrinsics.checkNotNull(i2, "null cannot be cast to non-null type Scope of androidx.compose.runtime.collection.ScopeMap.add$lambda$0");
+                    mutableScatterSet.add(i2);
                     mutableScatterSet.add(scope);
                 } else {
                 }
             }
         }
-        if (i2 != 0) {
-            values = ~insertIndex;
-            map.keys[values] = key;
-            map.values[values] = mutableScatterSet;
+        if (i != 0) {
+            values2 = ~insertIndex;
+            map.keys[values2] = key;
+            map.values[values2] = mutableScatterSet;
         } else {
             map.values[insertIndex] = mutableScatterSet;
         }
@@ -71,24 +71,24 @@ public final class ScopeMap<Key, Scope>  {
 
     public final boolean anyScopeOf(Key key, Function1<? super Scope, Boolean> block) {
         Object $this$maskEmptyOrDeleted$iv$iv$iv$iv;
-        int i;
+        int i5;
         boolean j$iv$iv$iv;
         int $i$f$isFull;
         Object[] elements;
         Object obj;
-        int i2;
-        long[] metadata;
         int i4;
+        long[] metadata;
+        int i;
         int i$iv$iv$iv;
         long slot$iv$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv$iv2;
-        int i3;
+        int i7;
         int cmp;
-        int i5;
+        int i6;
         Object this_$iv$iv;
         long l;
-        int i6;
-        int i7;
+        int i3;
+        int i2;
         boolean booleanValue;
         final Object obj2 = block;
         final int i8 = 0;
@@ -96,27 +96,27 @@ public final class ScopeMap<Key, Scope>  {
         Object obj4 = this.getMap().get(key);
         if (obj4 != null) {
             if (obj4 instanceof MutableScatterSet != null) {
-                i = obj4;
-                i2 = 0;
+                i5 = obj4;
+                i4 = 0;
                 metadata = obj.metadata;
                 length += -2;
-                if (0 <= i4) {
+                if (0 <= i) {
                 } else {
-                    this_$iv$iv = i;
-                    i3 = $i$f$isFull;
-                    i5 = 0;
+                    this_$iv$iv = i5;
+                    i7 = $i$f$isFull;
+                    i6 = 0;
                 }
             } else {
+                i6 = 0;
                 i5 = 0;
-                i = 0;
                 if ((Boolean)obj2.invoke(obj4).booleanValue()) {
                     return 1;
                 }
             }
         } else {
-            i5 = 0;
+            i6 = 0;
         }
-        return i5;
+        return i6;
     }
 
     public final Map<Key, Set<Scope>> asMap() {
@@ -128,15 +128,15 @@ public final class ScopeMap<Key, Scope>  {
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i6;
-        int i3;
+        int i5;
+        int i2;
         HashMap result;
         long l;
-        int i;
-        int i2;
+        int i3;
+        int i6;
         MutableScatterMap this_$iv2;
         int i4;
-        int i5;
+        int i;
         Object[] objArr;
         hashMap = new HashMap();
         this_$iv = obj.map;
@@ -147,7 +147,7 @@ public final class ScopeMap<Key, Scope>  {
         } else {
             result = hashMap;
             this_$iv2 = this_$iv;
-            i5 = $i$f$forEach;
+            i = $i$f$forEach;
             objArr = set;
         }
         return (Map)result;
@@ -163,35 +163,35 @@ public final class ScopeMap<Key, Scope>  {
 
     public final void forEachScopeOf(Key key, Function1<? super Scope, Unit> block) {
         Object cmp;
-        int i7;
         int i5;
+        int i4;
         Object[] elements;
         Object obj;
-        int i6;
+        int i8;
         long[] metadata;
         int i;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
+        int i7;
         int i2;
-        int i8;
         Object this_$iv;
         long l;
-        int i4;
+        int i6;
         int i3;
         final Object obj2 = block;
         final int i9 = 0;
         Object obj3 = getMap().get(key);
         if (obj3 != null) {
             if (obj3 instanceof MutableScatterSet != null) {
-                i7 = obj3;
-                i5 = 0;
-                i6 = 0;
+                i5 = obj3;
+                i4 = 0;
+                i8 = 0;
                 metadata = obj.metadata;
                 length += -2;
                 if (0 <= i) {
                 } else {
-                    this_$iv = i7;
+                    this_$iv = i5;
                 }
             } else {
                 obj2.invoke(obj3);
@@ -239,14 +239,14 @@ public final class ScopeMap<Key, Scope>  {
         int i$iv$iv;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i5;
+        int i3;
         int j$iv$iv;
         int value$iv$iv$iv;
         int i2;
         long l;
-        int i;
+        int i5;
         int empty;
-        int i3;
+        int i;
         int i4;
         final Object obj2 = scope;
         final MutableScatterMap map = obj.map;
@@ -261,44 +261,44 @@ public final class ScopeMap<Key, Scope>  {
 
     public final void removeScopeIf(Function1<? super Scope, Boolean> predicate) {
         int index$iv;
-        boolean booleanValue2;
-        int i4;
+        boolean booleanValue;
+        int i14;
         MutableScatterMap m$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv2;
         int j$iv$iv3;
-        int booleanValue;
+        int booleanValue2;
         int i$iv$iv;
         long value$iv$iv$iv2;
         int i;
-        int $this$maskEmptyOrDeleted$iv$iv$iv3;
-        int i9;
-        int j$iv$iv;
-        int i10;
-        int i14;
-        int i3;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int i13;
+        int j$iv$iv2;
+        int i12;
+        int i8;
+        int i15;
         long l;
         int value$iv$iv$iv;
-        int i8;
-        int i11;
+        int i4;
         int i7;
-        int cmp;
-        int i12;
-        int i15;
-        int i2;
-        int this_$iv;
         int i5;
+        int cmp;
+        int i9;
+        int i3;
+        int i10;
+        int this_$iv;
+        int i6;
         int $i$f$removeScopeIf;
         Object[] objArr;
-        int i13;
+        int i11;
         MutableScatterMap map;
         Object obj;
         long[] lArr;
         long slot$iv$iv;
-        long $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i6;
+        long $this$maskEmptyOrDeleted$iv$iv$iv3;
+        int i2;
         int $i$f$forEachIndexed;
         long[] lArr2;
-        int j$iv$iv2;
+        int j$iv$iv;
         final Object obj2 = predicate;
         final MutableScatterMap map2 = getMap();
         m$iv$iv = map2;
@@ -307,7 +307,7 @@ public final class ScopeMap<Key, Scope>  {
         if (0 <= i19) {
         } else {
             $i$f$removeScopeIf = index$iv;
-            this_$iv = i4;
+            this_$iv = i14;
             map = m$iv$iv;
             $i$f$forEachIndexed = $this$maskEmptyOrDeleted$iv$iv$iv2;
             lArr2 = j$iv$iv3;

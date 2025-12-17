@@ -197,23 +197,23 @@ final class EnterExitTransitionElement extends ModifierNodeElement<androidx.comp
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
         int i2;
-        int i;
-        Transition.DeferredAnimation slideAnimation;
         int i3;
-        i3 = 0;
+        Transition.DeferredAnimation slideAnimation;
+        int i;
+        i = 0;
         if (this.sizeAnimation == null) {
-            i2 = i3;
+            i2 = i;
         } else {
             i2 = this.sizeAnimation.hashCode();
         }
         if (this.offsetAnimation == null) {
-            i = i3;
+            i3 = i;
         } else {
-            i = this.offsetAnimation.hashCode();
+            i3 = this.offsetAnimation.hashCode();
         }
         if (this.slideAnimation == null) {
         } else {
-            i3 = this.slideAnimation.hashCode();
+            i = this.slideAnimation.hashCode();
         }
         return i17 += i22;
     }

@@ -180,15 +180,15 @@ public class ShortcutInfoCompat {
         }
 
         public androidx.core.content.pm.ShortcutInfoCompat.Builder addCapabilityBinding(String capability, String parameter, List<String> list3) {
-            Object mCapabilityBindingParams2;
             Object mCapabilityBindingParams;
+            Object mCapabilityBindingParams2;
             boolean empty;
             HashMap hashMap;
             addCapabilityBinding(capability);
             if (!list3.isEmpty() && this.mCapabilityBindingParams == null) {
                 if (this.mCapabilityBindingParams == null) {
-                    mCapabilityBindingParams2 = new HashMap();
-                    this.mCapabilityBindingParams = mCapabilityBindingParams2;
+                    mCapabilityBindingParams = new HashMap();
+                    this.mCapabilityBindingParams = mCapabilityBindingParams;
                 }
                 if (this.mCapabilityBindingParams.get(capability) == null) {
                     hashMap = new HashMap();
@@ -204,12 +204,12 @@ public class ShortcutInfoCompat {
             Object mLocusId;
             boolean mIsConversation;
             Object mCategories;
-            Set mCapabilityBindings2;
-            Object mExtras3;
-            Object mCapabilityBindingParams;
+            Set mCapabilityBindings;
             Object mExtras;
+            Object mCapabilityBindingParams;
+            Object mExtras2;
             Object mSliceUri;
-            LocusIdCompat mCapabilityBindings;
+            LocusIdCompat mCapabilityBindings2;
             String mId;
             Set keySet;
             Iterator iterator;
@@ -217,7 +217,7 @@ public class ShortcutInfoCompat {
             boolean next;
             Object[] array;
             Object obj;
-            PersistableBundle mExtras2;
+            PersistableBundle mExtras3;
             String string;
             Object[] strArr;
             if (TextUtils.isEmpty(mInfo.mLabel)) {
@@ -228,28 +228,28 @@ public class ShortcutInfoCompat {
                     } else {
                         if (this.mIsConversation && mInfo4.mLocusId == null) {
                             if (mInfo4.mLocusId == null) {
-                                mCapabilityBindings = new LocusIdCompat(mInfo11.mId);
-                                mLocusId.mLocusId = mCapabilityBindings;
+                                mCapabilityBindings2 = new LocusIdCompat(mInfo11.mId);
+                                mLocusId.mLocusId = mCapabilityBindings2;
                             }
                             mIsConversation.mIsLongLived = true;
                         }
                         if (this.mCapabilityBindings != null && mInfo5.mCategories == null) {
                             if (mInfo5.mCategories == null) {
-                                mCapabilityBindings = new HashSet();
-                                mCategories.mCategories = mCapabilityBindings;
+                                mCapabilityBindings2 = new HashSet();
+                                mCategories.mCategories = mCapabilityBindings2;
                             }
                             mInfo6.mCategories.addAll(this.mCapabilityBindings);
                         }
                         if (this.mCapabilityBindingParams != null && mInfo7.mExtras == null) {
                             if (mInfo7.mExtras == null) {
-                                mCapabilityBindings = new PersistableBundle();
-                                mExtras3.mExtras = mCapabilityBindings;
+                                mCapabilityBindings2 = new PersistableBundle();
+                                mExtras.mExtras = mCapabilityBindings2;
                             }
                             mCapabilityBindingParams = this.mCapabilityBindingParams.keySet().iterator();
-                            for (String mCapabilityBindings : mCapabilityBindingParams) {
-                                mId = this.mCapabilityBindingParams.get(mCapabilityBindings);
+                            for (String mCapabilityBindings2 : mCapabilityBindingParams) {
+                                mId = this.mCapabilityBindingParams.get(mCapabilityBindings2);
                                 i = 0;
-                                mInfo12.mExtras.putStringArray(mCapabilityBindings, (String[])(Map)mId.keySet().toArray(new String[i]));
+                                mInfo12.mExtras.putStringArray(mCapabilityBindings2, (String[])(Map)mId.keySet().toArray(new String[i]));
                                 iterator = mId.keySet().iterator();
                                 while (iterator.hasNext()) {
                                     array = iterator.next();
@@ -259,7 +259,7 @@ public class ShortcutInfoCompat {
                                     } else {
                                     }
                                     strArr = (List)obj.toArray(new String[i]);
-                                    mInfo13.mExtras.putStringArray(stringBuilder.append(mCapabilityBindings).append("/").append(array).toString(), strArr);
+                                    mInfo13.mExtras.putStringArray(stringBuilder.append(mCapabilityBindings2).append("/").append(array).toString(), strArr);
                                 }
                                 array = iterator.next();
                                 obj = mId.get((String)array);
@@ -268,13 +268,13 @@ public class ShortcutInfoCompat {
                                 } else {
                                 }
                                 strArr = (List)obj.toArray(new String[i]);
-                                mInfo13.mExtras.putStringArray(stringBuilder.append(mCapabilityBindings).append("/").append(array).toString(), strArr);
+                                mInfo13.mExtras.putStringArray(stringBuilder.append(mCapabilityBindings2).append("/").append(array).toString(), strArr);
                             }
                         }
                         if (this.mSliceUri != null && mInfo8.mExtras == null) {
                             if (mInfo8.mExtras == null) {
-                                mCapabilityBindings = new PersistableBundle();
-                                mExtras.mExtras = mCapabilityBindings;
+                                mCapabilityBindings2 = new PersistableBundle();
+                                mExtras2.mExtras = mCapabilityBindings2;
                             }
                             mInfo9.mExtras.putString("extraSliceUri", UriCompat.toSafeString(this.mSliceUri));
                         }
@@ -402,8 +402,8 @@ public class ShortcutInfoCompat {
 
     private PersistableBundle buildLegacyExtrasBundle() {
         PersistableBundle persistableBundle2;
-        Person[] i;
-        Object i2;
+        Person[] i2;
+        Object i;
         int length;
         int mExtras;
         String string;
@@ -415,11 +415,11 @@ public class ShortcutInfoCompat {
         if (this.mPersons != null && mPersons.length > 0) {
             if (mPersons.length > 0) {
                 this.mExtras.putInt("extraPersonCount", mPersons2.length);
-                i = 0;
-                while (i < mPersons3.length) {
+                i2 = 0;
+                while (i2 < mPersons3.length) {
                     StringBuilder stringBuilder = new StringBuilder();
-                    this.mExtras.putPersistableBundle(stringBuilder.append("extraPerson_").append(i + 1).toString(), this.mPersons[i].toPersistableBundle());
-                    i++;
+                    this.mExtras.putPersistableBundle(stringBuilder.append("extraPerson_").append(i2 + 1).toString(), this.mPersons[i2].toPersistableBundle());
+                    i2++;
                 }
             }
         }

@@ -75,9 +75,9 @@ public final class ContentInViewNode extends Modifier.Node implements BringIntoV
         public String toString() {
             String name;
             String it;
-            String str2;
-            StringBuilder append;
             String str;
+            StringBuilder append;
+            String str2;
             kotlin.coroutines.CoroutineContext.Element context2 = this.continuation.getContext().get((CoroutineContext.Key)CoroutineName.Key);
             if ((CoroutineName)context2 != null) {
                 name = (CoroutineName)context2.getName();
@@ -88,7 +88,7 @@ public final class ContentInViewNode extends Modifier.Node implements BringIntoV
             it = Integer.toString(hashCode(), CharsKt.checkRadix(16));
             Intrinsics.checkNotNullExpressionValue(it, "toString(this, checkRadix(radix))");
             if (name != null) {
-                str2 = 0;
+                str = 0;
                 StringBuilder stringBuilder2 = new StringBuilder();
                 if (stringBuilder2.append('[').append(name).append("](").toString() == null) {
                     it = "(";
@@ -242,14 +242,14 @@ public final class ContentInViewNode extends Modifier.Node implements BringIntoV
 
     private final Rect findBringIntoViewRequest() {
         int i2;
-        Object obj2;
+        Object obj;
         androidx.compose.foundation.gestures.BringIntoViewRequestPriorityQueue bringIntoViewRequests;
         int i$iv$iv;
         Object[] content;
-        Object obj;
-        int i3;
-        Object invoke;
+        Object obj2;
         int i;
+        Object invoke;
+        int i3;
         long size-NH-jbRc;
         androidx.compose.foundation.gestures.BringIntoViewRequestPriorityQueue this_$iv;
         int rectangleToMakeVisible;
@@ -262,22 +262,22 @@ public final class ContentInViewNode extends Modifier.Node implements BringIntoV
         final int size = mutableVector.getSize();
         if (size > 0) {
             i$iv$iv = size + -1;
-            i3 = 0;
-            invoke = (ContentInViewNode.Request)mutableVector.getContent()[i$iv$iv].getCurrentBounds().invoke();
             i = 0;
+            invoke = (ContentInViewNode.Request)mutableVector.getContent()[i$iv$iv].getCurrentBounds().invoke();
+            i3 = 0;
             while ((Rect)invoke != null) {
                 rectangleToMakeVisible = i2;
                 this_$iv = bringIntoViewRequests;
                 i2 = invoke;
                 bringIntoViewRequests = this_$iv;
-                i3 = 0;
-                invoke = (ContentInViewNode.Request)content[i$iv$iv].getCurrentBounds().invoke();
                 i = 0;
+                invoke = (ContentInViewNode.Request)content[i$iv$iv].getCurrentBounds().invoke();
+                i3 = 0;
                 rectangleToMakeVisible = i2;
                 this_$iv = bringIntoViewRequests;
             }
-            obj2 = rectangleToMakeVisible == 0 ? invoke : rectangleToMakeVisible;
-            return obj2;
+            obj = rectangleToMakeVisible == 0 ? invoke : rectangleToMakeVisible;
+            return obj;
         }
         this_$iv = bringIntoViewRequests;
         return i2;
@@ -334,8 +334,8 @@ public final class ContentInViewNode extends Modifier.Node implements BringIntoV
             BuildersKt.launch$default(getCoroutineScope(), 0, CoroutineStart.UNDISPATCHED, (Function2)anon, 1, 0);
         }
         int animationState = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("launchAnimation called when previous animation was running".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckContentInViewNode$launchAnimation$1 = new IllegalStateException("launchAnimation called when previous animation was running".toString());
+        throw $i$a$CheckContentInViewNode$launchAnimation$1;
     }
 
     private final long relocationOffset-BMxPBkI(Rect childBounds, long containerSize) {
@@ -372,19 +372,19 @@ public final class ContentInViewNode extends Modifier.Node implements BringIntoV
         androidx.compose.foundation.gestures.ContentInViewNode view;
         Object maxVisible-O0kMr_c$default;
         int i2;
-        int i3;
-        int i;
         int i4;
+        int i;
+        int i3;
         boolean enqueue;
         maxVisible-O0kMr_c$default = invoke;
         int i5 = 1;
-        i4 = 0;
+        i3 = 0;
         if (maxVisible-O0kMr_c$default != null && !ContentInViewNode.isMaxVisible-O0kMr_c$default(this, (Rect)maxVisible-O0kMr_c$default, 0, obj4, 1)) {
             if (!ContentInViewNode.isMaxVisible-O0kMr_c$default(this, maxVisible-O0kMr_c$default, 0, obj4, 1)) {
-                i4 = i5;
+                i3 = i5;
             }
         }
-        if (i4 == 0) {
+        if (i3 == 0) {
             return Unit.INSTANCE;
         }
         int i6 = 0;
@@ -415,8 +415,8 @@ public final class ContentInViewNode extends Modifier.Node implements BringIntoV
             return computeDestination-O0kMr_c(localRect, this.viewportSize);
         }
         int i = 0;
-        IllegalStateException illegalStateException = new IllegalStateException("Expected BringIntoViewRequester to not be used before parents are placed.".toString());
-        throw illegalStateException;
+        IllegalStateException $i$a$CheckContentInViewNode$calculateRectForParent$1 = new IllegalStateException("Expected BringIntoViewRequester to not be used before parents are placed.".toString());
+        throw $i$a$CheckContentInViewNode$calculateRectForParent$1;
     }
 
     @Override // androidx.compose.ui.Modifier$Node

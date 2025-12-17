@@ -145,10 +145,10 @@ public final class LocationCompat {
         }
 
         static void removeSpeedAccuracy(Location location) {
-            float provider;
-            float verticalAccuracy;
+            float provider2;
             float verticalAccuracy2;
-            String provider2;
+            float verticalAccuracy;
+            String provider;
             final Object obj = location;
             if (!obj.hasSpeedAccuracy()) {
             }
@@ -175,18 +175,18 @@ public final class LocationCompat {
                 obj.setAccuracy(obj.getAccuracy());
             }
             if (obj.hasVerticalAccuracy()) {
-                provider2 = provider3;
+                provider = provider3;
                 obj.setVerticalAccuracyMeters(f);
             } else {
-                provider2 = provider3;
-                provider = f;
+                provider = provider3;
+                provider2 = f;
             }
             if (obj.hasBearingAccuracy()) {
-                verticalAccuracy2 = provider;
+                verticalAccuracy = provider2;
                 obj.setBearingAccuracyDegrees(f2);
             } else {
-                verticalAccuracy2 = provider;
-                verticalAccuracy = f2;
+                verticalAccuracy = provider2;
+                verticalAccuracy2 = f2;
             }
             if (extras != null) {
                 obj.setExtras(extras);
@@ -195,8 +195,8 @@ public final class LocationCompat {
 
         static void removeVerticalAccuracy(Location location) {
             float provider;
-            float speedAccuracy2;
             float speedAccuracy;
+            float speedAccuracy2;
             String provider2;
             final Object obj = location;
             if (!obj.hasVerticalAccuracy()) {
@@ -231,11 +231,11 @@ public final class LocationCompat {
                 provider = f;
             }
             if (obj.hasBearingAccuracy()) {
-                speedAccuracy = provider;
+                speedAccuracy2 = provider;
                 obj.setBearingAccuracyDegrees(f2);
             } else {
-                speedAccuracy = provider;
-                speedAccuracy2 = f2;
+                speedAccuracy2 = provider;
+                speedAccuracy = f2;
             }
             if (extras != null) {
                 obj.setExtras(extras);

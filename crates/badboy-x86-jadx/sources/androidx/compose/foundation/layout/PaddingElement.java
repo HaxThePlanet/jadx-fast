@@ -23,8 +23,8 @@ final class PaddingElement extends ModifierNodeElement<androidx.compose.foundati
     private PaddingElement(float start, float top, float end, float bottom, boolean rtlAware, Function1<? super InspectorInfo, Unit> inspectorInfo) {
         int i;
         int cmp;
-        int unspecified-D9Ej5fM2;
-        float unspecified-D9Ej5fM;
+        int unspecified-D9Ej5fM;
+        float unspecified-D9Ej5fM2;
         super();
         this.start = start;
         this.top = top;
@@ -32,14 +32,14 @@ final class PaddingElement extends ModifierNodeElement<androidx.compose.foundati
         this.bottom = bottom;
         this.rtlAware = rtlAware;
         this.inspectorInfo = inspectorInfo;
-        unspecified-D9Ej5fM2 = 0;
-        if (Float.compare(start2, unspecified-D9Ej5fM2) < 0) {
+        unspecified-D9Ej5fM = 0;
+        if (Float.compare(start2, unspecified-D9Ej5fM) < 0) {
             if (Dp.equals-impl0(this.start, Dp.Companion.getUnspecified-D9Ej5fM())) {
-                if (Float.compare(top2, unspecified-D9Ej5fM2) < 0) {
+                if (Float.compare(top2, unspecified-D9Ej5fM) < 0) {
                     if (Dp.equals-impl0(this.top, Dp.Companion.getUnspecified-D9Ej5fM())) {
-                        if (Float.compare(end2, unspecified-D9Ej5fM2) < 0) {
+                        if (Float.compare(end2, unspecified-D9Ej5fM) < 0) {
                             if (Dp.equals-impl0(this.end, Dp.Companion.getUnspecified-D9Ej5fM())) {
-                                if (Float.compare(bottom2, unspecified-D9Ej5fM2) < 0) {
+                                if (Float.compare(bottom2, unspecified-D9Ej5fM) < 0) {
                                     if (Dp.equals-impl0(this.bottom, Dp.Companion.getUnspecified-D9Ej5fM())) {
                                         i = 1;
                                     } else {
@@ -63,16 +63,16 @@ final class PaddingElement extends ModifierNodeElement<androidx.compose.foundati
         } else {
         }
         int i2 = 0;
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Padding must be non-negative".toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequirePaddingElement$1 = new IllegalArgumentException("Padding must be non-negative".toString());
+        throw $i$a$RequirePaddingElement$1;
     }
 
     public PaddingElement(float f, float f2, float f3, float f4, boolean z5, Function1 function16, int i7, DefaultConstructorMarker defaultConstructorMarker8) {
         int i;
         float f6;
+        float f5;
         float f7;
         float f8;
-        float f5;
         float obj9;
         float obj10;
         float obj11;
@@ -85,23 +85,23 @@ final class PaddingElement extends ModifierNodeElement<androidx.compose.foundati
         }
         if (i7 & 2 != 0) {
             obj10 = 0;
-            f7 = obj10;
+            f5 = obj10;
         } else {
-            f7 = f2;
+            f5 = f2;
         }
         if (i7 & 4 != 0) {
             obj10 = 0;
-            f8 = obj11;
+            f7 = obj11;
         } else {
-            f8 = f3;
+            f7 = f3;
         }
         if (i7 & 8 != 0) {
             obj10 = 0;
-            f5 = obj12;
+            f8 = obj12;
         } else {
-            f5 = f4;
+            f8 = f4;
         }
-        super(f6, f7, f8, f5, z5, function16, 0);
+        super(f6, f5, f7, f8, z5, function16, 0);
     }
 
     public PaddingElement(float f, float f2, float f3, float f4, boolean z5, Function1 function16, DefaultConstructorMarker defaultConstructorMarker7) {
@@ -121,24 +121,24 @@ final class PaddingElement extends ModifierNodeElement<androidx.compose.foundati
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public boolean equals(Object other) {
-        int i;
         int i2;
+        int i;
         boolean rtlAware2;
         float rtlAware;
         if (other instanceof PaddingElement) {
-            i = other;
+            i2 = other;
         } else {
-            i = 0;
+            i2 = 0;
         }
-        if (i == 0) {
+        if (i2 == 0) {
             return 0;
         }
-        if (Dp.equals-impl0(this.start, i.start) && Dp.equals-impl0(this.top, i.top) && Dp.equals-impl0(this.end, i.end) && Dp.equals-impl0(this.bottom, i.bottom) && this.rtlAware == i.rtlAware) {
-            if (Dp.equals-impl0(this.top, i.top)) {
-                if (Dp.equals-impl0(this.end, i.end)) {
-                    if (Dp.equals-impl0(this.bottom, i.bottom)) {
-                        if (this.rtlAware == i.rtlAware) {
-                            i2 = 1;
+        if (Dp.equals-impl0(this.start, i2.start) && Dp.equals-impl0(this.top, i2.top) && Dp.equals-impl0(this.end, i2.end) && Dp.equals-impl0(this.bottom, i2.bottom) && this.rtlAware == i2.rtlAware) {
+            if (Dp.equals-impl0(this.top, i2.top)) {
+                if (Dp.equals-impl0(this.end, i2.end)) {
+                    if (Dp.equals-impl0(this.bottom, i2.bottom)) {
+                        if (this.rtlAware == i2.rtlAware) {
+                            i = 1;
                         } else {
                         }
                     } else {
@@ -149,7 +149,7 @@ final class PaddingElement extends ModifierNodeElement<androidx.compose.foundati
             }
         } else {
         }
-        return i2;
+        return i;
     }
 
     @Override // androidx.compose.ui.node.ModifierNodeElement

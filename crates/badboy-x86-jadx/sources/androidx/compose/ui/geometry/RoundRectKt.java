@@ -98,30 +98,30 @@ public final class RoundRectKt {
 
     public static final boolean isEllipse(androidx.compose.ui.geometry.RoundRect $this$isEllipse) {
         int cmp;
-        int i;
-        float y-impl;
         int i2;
+        float y-impl;
+        int i;
         long l;
-        i = 1;
+        i2 = 1;
         final int i3 = 0;
-        cmp = Float.compare(x-impl, x-impl5) == 0 ? i : i3;
+        cmp = Float.compare(x-impl, x-impl5) == 0 ? i2 : i3;
         if (cmp != 0) {
-            cmp = Float.compare(y-impl2, y-impl) == 0 ? i : i3;
+            cmp = Float.compare(y-impl2, y-impl) == 0 ? i2 : i3;
             if (cmp != 0) {
-                cmp = Float.compare(x-impl2, y-impl) == 0 ? i : i3;
+                cmp = Float.compare(x-impl2, y-impl) == 0 ? i2 : i3;
                 if (cmp != 0) {
-                    cmp = Float.compare(y-impl3, y-impl) == 0 ? i : i3;
+                    cmp = Float.compare(y-impl3, y-impl) == 0 ? i2 : i3;
                     if (cmp != 0) {
-                        cmp = Float.compare(x-impl3, y-impl) == 0 ? i : i3;
+                        cmp = Float.compare(x-impl3, y-impl) == 0 ? i2 : i3;
                         if (cmp != 0) {
-                            cmp = Float.compare(y-impl4, y-impl) == 0 ? i : i3;
+                            cmp = Float.compare(y-impl4, y-impl) == 0 ? i2 : i3;
                             l = 4611686018427387904L;
-                            if (cmp != 0 && Double.compare(y-impl, i2) <= 0 && Double.compare(y-impl, i2) <= 0) {
+                            if (cmp != 0 && Double.compare(y-impl, i) <= 0 && Double.compare(y-impl, i) <= 0) {
                                 l = 4611686018427387904L;
-                                if (Double.compare(y-impl, i2) <= 0) {
-                                    if (Double.compare(y-impl, i2) <= 0) {
+                                if (Double.compare(y-impl, i) <= 0) {
+                                    if (Double.compare(y-impl, i) <= 0) {
                                     } else {
-                                        i = i3;
+                                        i2 = i3;
                                     }
                                 } else {
                                 }
@@ -137,7 +137,7 @@ public final class RoundRectKt {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     public static final boolean isEmpty(androidx.compose.ui.geometry.RoundRect $this$isEmpty) {
@@ -156,41 +156,41 @@ public final class RoundRectKt {
     }
 
     public static final boolean isFinite(androidx.compose.ui.geometry.RoundRect $this$isFinite) {
-        float naN3;
-        int i2;
-        float naN2;
-        float naN4;
         float naN;
-        boolean infinite;
         int i;
-        naN3 = $this$isFinite.getLeft();
-        i = 1;
+        float naN4;
+        float naN3;
+        float naN2;
+        boolean infinite;
+        int i2;
+        naN = $this$isFinite.getLeft();
+        i2 = 1;
         final int i3 = 0;
-        if (!Float.isInfinite(naN3) && !Float.isNaN(naN3)) {
-            i2 = !Float.isNaN(naN3) ? i : i3;
+        if (!Float.isInfinite(naN) && !Float.isNaN(naN)) {
+            i = !Float.isNaN(naN) ? i2 : i3;
         } else {
         }
-        if (i2 != 0) {
-            naN = $this$isFinite.getTop();
-            if (!Float.isInfinite(naN) && !Float.isNaN(naN)) {
-                i2 = !Float.isNaN(naN) ? i : i3;
+        if (i != 0) {
+            naN2 = $this$isFinite.getTop();
+            if (!Float.isInfinite(naN2) && !Float.isNaN(naN2)) {
+                i = !Float.isNaN(naN2) ? i2 : i3;
             } else {
             }
-            if (i2 != 0) {
-                naN4 = $this$isFinite.getRight();
-                if (!Float.isInfinite(naN4) && !Float.isNaN(naN4)) {
-                    i2 = !Float.isNaN(naN4) ? i : i3;
+            if (i != 0) {
+                naN3 = $this$isFinite.getRight();
+                if (!Float.isInfinite(naN3) && !Float.isNaN(naN3)) {
+                    i = !Float.isNaN(naN3) ? i2 : i3;
                 } else {
                 }
-                if (i2 != 0) {
-                    naN2 = $this$isFinite.getBottom();
-                    if (!Float.isInfinite(naN2) && !Float.isNaN(naN2)) {
-                        i2 = !Float.isNaN(naN2) ? i : i3;
+                if (i != 0) {
+                    naN4 = $this$isFinite.getBottom();
+                    if (!Float.isInfinite(naN4) && !Float.isNaN(naN4)) {
+                        i = !Float.isNaN(naN4) ? i2 : i3;
                     } else {
                     }
-                    if (i2 != 0) {
+                    if (i != 0) {
                     } else {
-                        i = i3;
+                        i2 = i3;
                     }
                 } else {
                 }
@@ -198,7 +198,7 @@ public final class RoundRectKt {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     public static final boolean isRect(androidx.compose.ui.geometry.RoundRect $this$isRect) {
@@ -244,27 +244,27 @@ public final class RoundRectKt {
     }
 
     public static final boolean isSimple(androidx.compose.ui.geometry.RoundRect $this$isSimple) {
-        int i2;
         int i;
+        int i2;
         float x-impl;
-        i = 1;
+        i2 = 1;
         final int i3 = 0;
-        i2 = Float.compare(x-impl2, y-impl) == 0 ? i : i3;
-        if (i2 != 0) {
-            i2 = Float.compare(x-impl3, x-impl) == 0 ? i : i3;
-            if (i2 != 0) {
-                i2 = Float.compare(x-impl4, x-impl) == 0 ? i : i3;
-                if (i2 != 0) {
-                    i2 = Float.compare(x-impl5, x-impl) == 0 ? i : i3;
-                    if (i2 != 0) {
-                        i2 = Float.compare(x-impl6, x-impl) == 0 ? i : i3;
-                        if (i2 != 0) {
-                            i2 = Float.compare(x-impl7, x-impl) == 0 ? i : i3;
-                            if (i2 != 0) {
-                                i2 = Float.compare(x-impl8, x-impl) == 0 ? i : i3;
-                                if (i2 != 0) {
+        i = Float.compare(x-impl2, y-impl) == 0 ? i2 : i3;
+        if (i != 0) {
+            i = Float.compare(x-impl3, x-impl) == 0 ? i2 : i3;
+            if (i != 0) {
+                i = Float.compare(x-impl4, x-impl) == 0 ? i2 : i3;
+                if (i != 0) {
+                    i = Float.compare(x-impl5, x-impl) == 0 ? i2 : i3;
+                    if (i != 0) {
+                        i = Float.compare(x-impl6, x-impl) == 0 ? i2 : i3;
+                        if (i != 0) {
+                            i = Float.compare(x-impl7, x-impl) == 0 ? i2 : i3;
+                            if (i != 0) {
+                                i = Float.compare(x-impl8, x-impl) == 0 ? i2 : i3;
+                                if (i != 0) {
                                 } else {
-                                    i = i3;
+                                    i2 = i3;
                                 }
                             } else {
                             }
@@ -278,7 +278,7 @@ public final class RoundRectKt {
             }
         } else {
         }
-        return i;
+        return i2;
     }
 
     public static final androidx.compose.ui.geometry.RoundRect lerp(androidx.compose.ui.geometry.RoundRect start, androidx.compose.ui.geometry.RoundRect stop, float fraction) {

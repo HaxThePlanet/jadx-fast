@@ -53,28 +53,28 @@ public final class SealedClassSerializer<T>  extends AbstractPolymorphicSerializ
     }
 
     public SealedClassSerializer(String serialName, KClass<T> baseClass, KClass<? extends T>[] subclasses, kotlinx.serialization.KSerializer<? extends T>[] subclassSerializers) {
-        Object obj3;
+        Object obj;
         Iterator sourceIterator;
         Object next;
         boolean it$iv$iv;
-        Object keyOf;
-        Object obj;
+        Object $i$a$AssociateByToMapsKt__MapsKt$mapValuesTo$1$iv$iv;
+        Object obj3;
         Object value;
         Object obj2;
         int i;
         final Object obj4 = this;
-        obj3 = serialName;
+        obj = serialName;
         Object obj6 = baseClass;
         Object obj7 = subclasses;
         final Object obj8 = subclassSerializers;
-        Intrinsics.checkNotNullParameter(obj3, "serialName");
+        Intrinsics.checkNotNullParameter(obj, "serialName");
         Intrinsics.checkNotNullParameter(obj6, "baseClass");
         Intrinsics.checkNotNullParameter(obj7, "subclasses");
         Intrinsics.checkNotNullParameter(obj8, "subclassSerializers");
         super();
         obj4.baseClass = obj6;
         obj4._annotations = CollectionsKt.emptyList();
-        SealedClassSerializer$$ExternalSyntheticLambda0 externalSyntheticLambda0 = new SealedClassSerializer$$ExternalSyntheticLambda0(obj3, obj4);
+        SealedClassSerializer$$ExternalSyntheticLambda0 externalSyntheticLambda0 = new SealedClassSerializer$$ExternalSyntheticLambda0(obj, obj4);
         obj4.descriptor$delegate = LazyKt.lazy(LazyThreadSafetyMode.PUBLICATION, externalSyntheticLambda0);
         if (obj7.length != obj8.length) {
         } else {
@@ -88,16 +88,16 @@ public final class SealedClassSerializer<T>  extends AbstractPolymorphicSerializ
             sourceIterator = cls.sourceIterator();
             while (sourceIterator.hasNext()) {
                 next = sourceIterator.next();
-                keyOf = cls.keyOf(next);
-                obj = (Map)linkedHashMap2.get(keyOf);
-                if (obj == null) {
+                $i$a$AssociateByToMapsKt__MapsKt$mapValuesTo$1$iv$iv = cls.keyOf(next);
+                obj3 = (Map)linkedHashMap2.get($i$a$AssociateByToMapsKt__MapsKt$mapValuesTo$1$iv$iv);
+                if (obj3 == null) {
                 }
                 value = next;
-                obj2 = obj;
+                obj2 = obj3;
                 i = 0;
-                linkedHashMap2.put(keyOf, (Map.Entry)value);
-                obj3 = serialName;
-                linkedHashMap2.containsKey(keyOf);
+                linkedHashMap2.put($i$a$AssociateByToMapsKt__MapsKt$mapValuesTo$1$iv$iv, (Map.Entry)value);
+                obj = serialName;
+                linkedHashMap2.containsKey($i$a$AssociateByToMapsKt__MapsKt$mapValuesTo$1$iv$iv);
             }
             int i2 = 0;
             LinkedHashMap linkedHashMap = new LinkedHashMap(MapsKt.mapCapacity(linkedHashMap2.size()));
@@ -106,7 +106,7 @@ public final class SealedClassSerializer<T>  extends AbstractPolymorphicSerializ
             Iterator iterator = (Iterable)linkedHashMap2.entrySet().iterator();
             for (Object sourceIterator : iterator) {
                 int i9 = 0;
-                obj = 0;
+                obj3 = 0;
                 (Map)linkedHashMap.put((Map.Entry)sourceIterator.getKey(), (KSerializer)(Map.Entry)(Map.Entry)sourceIterator.getValue().getValue());
             }
             obj4.serialName2Serializer = linkedHashMap;
@@ -146,20 +146,20 @@ public final class SealedClassSerializer<T>  extends AbstractPolymorphicSerializ
 
     private static final Unit descriptor_delegate$lambda$3$lambda$2$lambda$1(kotlinx.serialization.SealedClassSerializer this$0, ClassSerialDescriptorBuilder $this$buildSerialDescriptor) {
         Object next;
-        int i2;
-        Object value;
-        Object obj2;
-        Object obj;
-        SerialDescriptor descriptor;
-        int i4;
-        int i5;
         int i;
+        Object value;
+        Object obj;
+        Object obj2;
+        SerialDescriptor descriptor;
+        int i2;
         int i3;
+        int i5;
+        int i4;
         Intrinsics.checkNotNullParameter($this$buildSerialDescriptor, "$this$buildSerialDescriptor");
         final int i6 = 0;
         Iterator iterator = this$0.serialName2Serializer.entrySet().iterator();
         for (Map.Entry next : iterator) {
-            i2 = 0;
+            i = 0;
             ClassSerialDescriptorBuilder.element$default($this$buildSerialDescriptor, (String)next.getKey(), (KSerializer)next.getValue().getDescriptor(), 0, false, 12, 0);
         }
         Object $this$buildSerialDescriptor2 = $this$buildSerialDescriptor;

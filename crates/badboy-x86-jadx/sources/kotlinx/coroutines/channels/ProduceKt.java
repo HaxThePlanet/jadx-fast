@@ -21,34 +21,34 @@ import kotlinx.coroutines.Job;
 @Metadata(d1 = "\u0000b\n\u0000\n\u0002\u0010\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0008\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0010\u0003\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\u0018\u0002\n\u0002\u0008\u0002\n\u0002\u0018\u0002\n\u0002\u0008\u0003\u001a)\u0010\u0000\u001a\u00020\u0001*\u0006\u0012\u0002\u0008\u00030\u00022\u000e\u0008\u0002\u0010\u0003\u001a\u0008\u0012\u0004\u0012\u00020\u00010\u0004H\u0086@ø\u0001\u0000¢\u0006\u0002\u0010\u0005\u001a\u009e\u0001\u0010\u0006\u001a\u0008\u0012\u0004\u0012\u0002H\u00080\u0007\"\u0004\u0008\u0000\u0010\u0008*\u00020\t2\u0008\u0008\u0002\u0010\n\u001a\u00020\u000b2\u0008\u0008\u0002\u0010\u000c\u001a\u00020\r2\u0008\u0008\u0002\u0010\u000e\u001a\u00020\u000f2-\u0008\u0002\u0010\u0010\u001a'\u0012\u0015\u0012\u0013\u0018\u00010\u0012¢\u0006\u000c\u0008\u0013\u0012\u0008\u0008\u0014\u0012\u0004\u0008\u0008(\u0015\u0012\u0004\u0012\u00020\u0001\u0018\u00010\u0011j\u0004\u0018\u0001`\u00162/\u0008\u0001\u0010\u0003\u001a)\u0008\u0001\u0012\n\u0012\u0008\u0012\u0004\u0012\u0002H\u00080\u0002\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\u00010\u0018\u0012\u0006\u0012\u0004\u0018\u00010\u00190\u0017¢\u0006\u0002\u0008\u001aH\u0007ø\u0001\u0000¢\u0006\u0002\u0010\u001b\u001a¨\u0001\u0010\u0006\u001a\u0008\u0012\u0004\u0012\u0002H\u00080\u0007\"\u0004\u0008\u0000\u0010\u0008*\u00020\t2\u0008\u0008\u0002\u0010\n\u001a\u00020\u000b2\u0008\u0008\u0002\u0010\u000c\u001a\u00020\r2\u0008\u0008\u0002\u0010\u001c\u001a\u00020\u001d2\u0008\u0008\u0002\u0010\u000e\u001a\u00020\u000f2-\u0008\u0002\u0010\u0010\u001a'\u0012\u0015\u0012\u0013\u0018\u00010\u0012¢\u0006\u000c\u0008\u0013\u0012\u0008\u0008\u0014\u0012\u0004\u0008\u0008(\u0015\u0012\u0004\u0012\u00020\u0001\u0018\u00010\u0011j\u0004\u0018\u0001`\u00162/\u0008\u0001\u0010\u0003\u001a)\u0008\u0001\u0012\n\u0012\u0008\u0012\u0004\u0012\u0002H\u00080\u0002\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\u00010\u0018\u0012\u0006\u0012\u0004\u0018\u00010\u00190\u0017¢\u0006\u0002\u0008\u001aH\u0000ø\u0001\u0000¢\u0006\u0002\u0010\u001e\u001ae\u0010\u0006\u001a\u0008\u0012\u0004\u0012\u0002H\u00080\u0007\"\u0004\u0008\u0000\u0010\u0008*\u00020\t2\u0008\u0008\u0002\u0010\n\u001a\u00020\u000b2\u0008\u0008\u0002\u0010\u000c\u001a\u00020\r2/\u0008\u0001\u0010\u0003\u001a)\u0008\u0001\u0012\n\u0012\u0008\u0012\u0004\u0012\u0002H\u00080\u0002\u0012\n\u0012\u0008\u0012\u0004\u0012\u00020\u00010\u0018\u0012\u0006\u0012\u0004\u0018\u00010\u00190\u0017¢\u0006\u0002\u0008\u001aH\u0007ø\u0001\u0000¢\u0006\u0002\u0010\u001f\u0082\u0002\u0004\n\u0002\u0008\u0019¨\u0006 ", d2 = {"awaitClose", "", "Lkotlinx/coroutines/channels/ProducerScope;", "block", "Lkotlin/Function0;", "(Lkotlinx/coroutines/channels/ProducerScope;Lkotlin/jvm/functions/Function0;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "produce", "Lkotlinx/coroutines/channels/ReceiveChannel;", "E", "Lkotlinx/coroutines/CoroutineScope;", "context", "Lkotlin/coroutines/CoroutineContext;", "capacity", "", "start", "Lkotlinx/coroutines/CoroutineStart;", "onCompletion", "Lkotlin/Function1;", "", "Lkotlin/ParameterName;", "name", "cause", "Lkotlinx/coroutines/CompletionHandler;", "Lkotlin/Function2;", "Lkotlin/coroutines/Continuation;", "", "Lkotlin/ExtensionFunctionType;", "(Lkotlinx/coroutines/CoroutineScope;Lkotlin/coroutines/CoroutineContext;ILkotlinx/coroutines/CoroutineStart;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/channels/ReceiveChannel;", "onBufferOverflow", "Lkotlinx/coroutines/channels/BufferOverflow;", "(Lkotlinx/coroutines/CoroutineScope;Lkotlin/coroutines/CoroutineContext;ILkotlinx/coroutines/channels/BufferOverflow;Lkotlinx/coroutines/CoroutineStart;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/channels/ReceiveChannel;", "(Lkotlinx/coroutines/CoroutineScope;Lkotlin/coroutines/CoroutineContext;ILkotlin/jvm/functions/Function2;)Lkotlinx/coroutines/channels/ReceiveChannel;", "kotlinx-coroutines-core"}, k = 2, mv = {1, 8, 0}, xi = 48)
 public final class ProduceKt {
     public static final Object awaitClose(kotlinx.coroutines.channels.ProducerScope<?> producerScope, Function0<Unit> function02, Continuation<? super Unit> continuation3) {
-        boolean anon3;
-        int i;
+        boolean anon;
+        int i2;
         Object cOROUTINE_SUSPENDED2;
-        int i5;
+        int i;
         int label;
         int i3;
         Object cOROUTINE_SUSPENDED;
-        kotlinx.coroutines.channels.ProduceKt.awaitClose.1 anon;
+        kotlinx.coroutines.channels.ProduceKt.awaitClose.1 anon2;
         int i4;
         CancellableContinuationImpl cancellableContinuationImpl;
-        int i2;
-        kotlinx.coroutines.channels.ProduceKt.awaitClose.4.1 anon2;
+        int i5;
+        kotlinx.coroutines.channels.ProduceKt.awaitClose.4.1 anon3;
         int obj9;
         Object obj10;
         Object obj11;
-        anon3 = continuation3;
-        i5 = Integer.MIN_VALUE;
-        if (continuation3 instanceof ProduceKt.awaitClose.1 && label2 &= i5 != 0) {
-            anon3 = continuation3;
-            i5 = Integer.MIN_VALUE;
-            if (label2 &= i5 != 0) {
-                anon3.label = obj11 -= i5;
+        anon = continuation3;
+        i = Integer.MIN_VALUE;
+        if (continuation3 instanceof ProduceKt.awaitClose.1 && label2 &= i != 0) {
+            anon = continuation3;
+            i = Integer.MIN_VALUE;
+            if (label2 &= i != 0) {
+                anon.label = obj11 -= i;
             } else {
-                anon3 = new ProduceKt.awaitClose.1(continuation3);
+                anon = new ProduceKt.awaitClose.1(continuation3);
             }
         } else {
         }
-        obj11 = anon3.result;
+        obj11 = anon.result;
         cOROUTINE_SUSPENDED2 = IntrinsicsKt.getCOROUTINE_SUSPENDED();
         switch (label) {
             case 0:
@@ -56,17 +56,17 @@ public final class ProduceKt {
                 int i6 = 1;
                 i3 = i6;
                 i3 = 0;
-                anon3.L$0 = producerScope;
-                anon3.L$1 = function02;
-                anon3.label = i6;
+                anon.L$0 = producerScope;
+                anon.L$1 = function02;
+                anon.label = i6;
                 i4 = 0;
-                cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon3), i6);
+                cancellableContinuationImpl = new CancellableContinuationImpl(IntrinsicsKt.intercepted((Continuation)anon), i6);
                 cancellableContinuationImpl.initCancellability();
-                i2 = 0;
-                anon2 = new ProduceKt.awaitClose.4.1((CancellableContinuation)cancellableContinuationImpl);
-                producerScope.invokeOnClose((Function1)anon2);
+                i5 = 0;
+                anon3 = new ProduceKt.awaitClose.4.1((CancellableContinuation)cancellableContinuationImpl);
+                producerScope.invokeOnClose((Function1)anon3);
                 obj9 = cancellableContinuationImpl.getResult();
-                DebugProbesKt.probeCoroutineSuspended((Continuation)anon3);
+                DebugProbesKt.probeCoroutineSuspended((Continuation)anon);
                 return cOROUTINE_SUSPENDED2;
                 obj9 = label;
                 obj9 = 0;
@@ -74,8 +74,8 @@ public final class ProduceKt {
                 throw obj9;
             case 1:
                 obj9 = 0;
-                obj10 = anon3.L$1;
-                cOROUTINE_SUSPENDED2 = anon3.L$0;
+                obj10 = anon.L$1;
+                cOROUTINE_SUSPENDED2 = anon.L$0;
                 ResultKt.throwOnFailure(obj11);
                 break;
             default:

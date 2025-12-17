@@ -79,104 +79,104 @@ public final class SpringEstimationKt {
     }
 
     private static final double estimateCriticallyDamped(androidx.compose.animation.core.ComplexDouble firstRoot, double p0, double v0, double delta) {
-        int i7;
-        int i5;
+        int i4;
+        int i9;
         double real;
-        double d4;
-        int xInflection2;
+        double d3;
+        int xInflection;
         double tCurr;
+        int cmp2;
         int cmp;
-        int cmp3;
-        int i8;
-        boolean infinite2;
-        int infinite;
-        int i3;
+        int i2;
+        boolean infinite;
+        int infinite2;
+        int i7;
         boolean naN;
         int iterations;
         double t;
-        int i4;
-        double d3;
-        int xInflection;
-        int i9;
-        long tDelta;
-        int cmp2;
-        double d2;
+        int i8;
         double d;
-        int i;
-        int i6;
+        int xInflection2;
+        int i3;
+        long tDelta;
+        int cmp3;
+        double d4;
+        double d2;
         int i10;
-        int i2;
-        i7 = obj41;
+        int i;
+        int i5;
+        int i6;
+        i4 = obj41;
         real = firstRoot.getReal();
-        cmp = p0;
+        cmp2 = p0;
         int i23 = delta - i22;
         d10 /= real;
         int i26 = 0;
-        double d12 = Math.log(Math.abs(i7 / i23));
+        double d12 = Math.log(Math.abs(i4 / i23));
         t = d12;
-        i4 = 0;
-        d3 = real;
-        while (i4 < 6) {
-            t = d12 - d8;
-            i4++;
-            real = d3;
-            d3 = real;
-        }
-        t /= d3;
-        int i14 = i25;
         i8 = 0;
+        d = real;
+        while (i8 < 6) {
+            t = d12 - d8;
+            i8++;
+            real = d;
+            d = real;
+        }
+        t /= d;
+        int i14 = i25;
+        i2 = 0;
         if (!Double.isInfinite(i14) && !Double.isNaN(i14)) {
-            infinite = !Double.isNaN(i14) ? 1 : i3;
+            infinite2 = !Double.isNaN(i14) ? 1 : i7;
         } else {
         }
-        if (infinite == 0) {
-            d4 = i32;
+        if (infinite2 == 0) {
+            d3 = i32;
         } else {
             int i15 = i32;
-            i8 = 0;
+            i2 = 0;
             if (!Double.isInfinite(i15) && !Double.isNaN(i15)) {
                 if (!Double.isNaN(i15)) {
-                    i3 = 1;
+                    i7 = 1;
                 }
             }
-            if (i3 == 0) {
-                d4 = i25;
+            if (i7 == 0) {
+                d3 = i25;
             } else {
-                d4 = Math.max(i25, obj9);
+                d3 = Math.max(i25, obj9);
             }
         }
         i29 /= i33;
-        double d15 = d4;
+        double d15 = d3;
         int tCurr2 = i35 + i38;
         if (!Double.isNaN(i30)) {
             int i36 = 0;
             if (Double.compare(i30, i36) <= 0) {
-                xInflection = tCurr2;
-                i9 = cmp;
-                xInflection2 = -i7;
+                xInflection2 = tCurr2;
+                i3 = cmp2;
+                xInflection = -i4;
                 tCurr = d15;
             } else {
                 if (Double.compare(i30, i36) > 0) {
-                    if (Double.compare(c1, i7) < 0) {
-                        if (Double.compare(i23, i36) < 0 && Double.compare(i9, i36) > 0) {
-                            tCurr = Double.compare(i9, i36) > 0 ? 0 : d15;
+                    if (Double.compare(c1, i4) < 0) {
+                        if (Double.compare(i23, i36) < 0 && Double.compare(i3, i36) > 0) {
+                            tCurr = Double.compare(i3, i36) > 0 ? 0 : d15;
                         } else {
                         }
-                        xInflection = tCurr2;
-                        xInflection2 = -i7;
+                        xInflection2 = tCurr2;
+                        xInflection = -i4;
                     } else {
-                        xInflection = tCurr2;
+                        xInflection2 = tCurr2;
                         tCurr = i19;
-                        xInflection2 = i7;
+                        xInflection = i4;
                     }
                 } else {
-                    xInflection = tCurr2;
-                    i9 = cmp;
+                    xInflection2 = tCurr2;
+                    i3 = cmp2;
                 }
             }
         } else {
-            xInflection = tCurr2;
-            i9 = cmp;
+            xInflection2 = tCurr2;
+            i3 = cmp2;
         }
         tDelta = 9218868437227405311L;
         iterations = 0;
@@ -184,59 +184,59 @@ public final class SpringEstimationKt {
             if (iterations < 100) {
             }
             iterations++;
-            i4 = 0;
-            d = tCurr;
+            i8 = 0;
+            d2 = tCurr;
             int i40 = 0;
-            i = 0;
-            int i16 = d3 * d;
-            tDelta = Math.abs(d2 - tCurr);
-            i7 = obj41;
-            xInflection2 = i2;
+            i10 = 0;
+            int i16 = d * d2;
+            tDelta = Math.abs(d4 - tCurr);
+            i4 = obj41;
+            xInflection = i6;
         }
-        int signedDelta = xInflection2;
+        int signedDelta = xInflection;
         return tCurr;
     }
 
     private static final long estimateDurationInternal(androidx.compose.animation.core.ComplexDouble firstRoot, androidx.compose.animation.core.ComplexDouble secondRoot, double dampingRatio, double initialVelocity, double initialPosition, double delta) {
-        int i3;
+        int i;
         double estimateCriticallyDamped;
         int cmp;
         Object obj;
-        int i2;
-        double d4;
-        int i;
-        int i4;
-        double d2;
+        int i3;
         double d;
+        int i4;
+        int i2;
+        double d2;
         double d3;
+        double d4;
         final int i5 = initialPosition;
         int i6 = 0;
-        i = 0;
-        cmp = Double.compare(obj18, i6) == 0 ? i2 : i;
+        i4 = 0;
+        cmp = Double.compare(obj18, i6) == 0 ? i3 : i4;
         if (cmp != 0) {
             if (Double.compare(i5, i6) == 0) {
             } else {
-                i2 = i;
+                i3 = i4;
             }
-            if (i2 != 0) {
+            if (i3 != 0) {
                 return 0;
             }
         }
-        i3 = Double.compare(obj18, i6) < 0 ? -i5 : i5;
-        i4 = i3;
-        d4 = Math.abs(obj18);
+        i = Double.compare(obj18, i6) < 0 ? -i5 : i5;
+        i2 = i;
+        d = Math.abs(obj18);
         long l = 4607182418800017408L;
         if (Double.compare(dampingRatio, l) > 0) {
-            d2 = i4;
-            i = d4;
-            estimateCriticallyDamped = SpringEstimationKt.estimateOverDamped(firstRoot, secondRoot, i, i4, d2);
-            d4 = i;
-            i4 = d2;
+            d2 = i2;
+            i4 = d;
+            estimateCriticallyDamped = SpringEstimationKt.estimateOverDamped(firstRoot, secondRoot, i4, i2, d2);
+            d = i4;
+            i2 = d2;
         } else {
             if (Double.compare(dampingRatio, l) < 0) {
-                estimateCriticallyDamped = SpringEstimationKt.estimateUnderDamped(firstRoot, d4, i, i4);
+                estimateCriticallyDamped = SpringEstimationKt.estimateUnderDamped(firstRoot, d, i4, i2);
             } else {
-                estimateCriticallyDamped = SpringEstimationKt.estimateCriticallyDamped(firstRoot, d4, i, i4);
+                estimateCriticallyDamped = SpringEstimationKt.estimateCriticallyDamped(firstRoot, d, i4, i2);
             }
         }
         return (long)i7;
@@ -244,26 +244,26 @@ public final class SpringEstimationKt {
 
     private static final double estimateOverDamped(androidx.compose.animation.core.ComplexDouble firstRoot, androidx.compose.animation.core.ComplexDouble secondRoot, double p0, double v0, double delta) {
         int iterations;
-        int i4;
-        int cmp;
-        int c1;
-        double d2;
-        int t1;
-        int cmp3;
-        int cmp2;
-        int i7;
-        double tCurr;
-        boolean infinite2;
-        int infinite;
-        int i;
-        int c12;
-        int i6;
-        long tDelta;
         int i8;
+        int cmp3;
+        int c12;
         double d3;
-        int i2;
-        int i9;
+        int t1;
+        int cmp;
+        int cmp2;
+        int i6;
+        double tCurr;
+        boolean infinite;
+        int infinite2;
+        int i7;
+        int c1;
         int i3;
+        long tDelta;
+        int i;
+        double d2;
+        int i2;
+        int i4;
+        int i9;
         int i5;
         double d;
         int i10 = obj41;
@@ -271,47 +271,47 @@ public final class SpringEstimationKt {
         final double real2 = secondRoot.getReal();
         final int i24 = i12 / i15;
         int i13 = p0 - i24;
-        cmp3 = d6 / real;
+        cmp = d6 / real;
         final int i30 = d8 / real2;
-        int i18 = cmp3;
-        i7 = 0;
+        int i18 = cmp;
+        i6 = 0;
         final int i32 = 1;
         if (!Double.isInfinite(i18) && !Double.isNaN(i18)) {
-            infinite = !Double.isNaN(i18) ? i32 : i;
+            infinite2 = !Double.isNaN(i18) ? i32 : i7;
         } else {
         }
-        if (infinite == 0) {
-            d2 = i30;
+        if (infinite2 == 0) {
+            d3 = i30;
         } else {
             int i19 = i30;
-            i7 = 0;
+            i6 = 0;
             if (!Double.isInfinite(i19) && !Double.isNaN(i19)) {
                 if (!Double.isNaN(i19)) {
-                    i = i32;
+                    i7 = i32;
                 }
             }
-            if (i == 0) {
-                d2 = cmp3;
+            if (i7 == 0) {
+                d3 = cmp;
             } else {
-                d2 = Math.max(cmp3, obj13);
+                d3 = Math.max(cmp, obj13);
             }
         }
-        tCurr = d2;
+        tCurr = d3;
         int i31 = i13;
         int i23 = d4 / i22;
         if (!Double.isNaN(i23)) {
-            i6 = 0;
-            if (Double.compare(i23, i6) <= 0) {
-                c1 = i31;
-                c12 = cmp3;
+            i3 = 0;
+            if (Double.compare(i23, i3) <= 0) {
+                c12 = i31;
+                c1 = cmp;
                 t1 = -i10;
             } else {
-                if (Double.compare(i23, i6) > 0) {
-                    c1 = i31;
-                    c12 = cmp3;
+                if (Double.compare(i23, i3) > 0) {
+                    c12 = i31;
+                    c1 = cmp;
                     if (Double.compare(i29, i10) < 0) {
-                        if (Double.compare(i24, i6) > 0 && Double.compare(c1, i6) < 0) {
-                            if (Double.compare(c1, i6) < 0) {
+                        if (Double.compare(i24, i3) > 0 && Double.compare(c12, i3) < 0) {
+                            if (Double.compare(c12, i3) < 0) {
                                 tCurr = cmp2;
                             }
                         }
@@ -321,28 +321,28 @@ public final class SpringEstimationKt {
                         t1 = i10;
                     }
                 } else {
-                    c1 = i31;
-                    c12 = cmp3;
+                    c12 = i31;
+                    c1 = cmp;
                 }
             }
         } else {
-            c1 = i31;
-            c12 = cmp3;
+            c12 = i31;
+            c1 = cmp;
         }
         if (Double.compare(d10, l) < 0) {
             return tCurr;
         }
         tDelta = 9218868437227405311L;
-        iterations = i8;
+        iterations = i;
         while (Double.compare(tDelta, l2) > 0) {
             if (iterations < 100) {
             }
             iterations++;
-            i4 = 0;
+            i8 = 0;
             double d12 = tCurr;
             int i43 = 0;
             i2 = 0;
-            tDelta = Math.abs(i8 - tCurr);
+            tDelta = Math.abs(i - tCurr);
         }
         return tCurr;
     }

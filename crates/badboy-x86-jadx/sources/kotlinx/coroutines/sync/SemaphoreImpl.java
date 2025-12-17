@@ -150,15 +150,15 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
         Object segmentInternal;
         Segment segment-impl;
         Object obj;
-        long l2;
-        int i5;
-        int i4;
-        int i6;
-        int i2;
-        int i;
-        int i3;
-        Object curTail;
         long l;
+        int i4;
+        int i5;
+        int i;
+        int i6;
+        int i3;
+        int i2;
+        Object curTail;
+        long l2;
         final Object obj4 = this;
         final Object obj5 = waiter;
         obj2 = SemaphoreImpl.tail$FU.get(obj4);
@@ -167,24 +167,24 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
         segmentInternal = ConcurrentLinkedListKt.findSegmentInternal((Segment)obj2, andIncrement / l4, obj8);
         while (!SegmentOrClosed.isClosed-impl(segmentInternal)) {
             segment-impl = SegmentOrClosed.getSegment-impl(segmentInternal);
-            i5 = 0;
             i4 = 0;
+            i5 = 0;
             obj = obj8;
-            i6 = 0;
-            i = 1;
+            i = 0;
+            i3 = 1;
             curTail = obj2;
-            l = andIncrement;
-            while (Long.compare(l2, curTail2) >= 0) {
+            l2 = andIncrement;
+            while (Long.compare(l, curTail2) >= 0) {
                 if (segment-impl.decPointers$kotlinx_coroutines_core()) {
                 }
-                i5 = i3;
+                i4 = i2;
                 obj2 = curTail;
-                andIncrement = l;
+                andIncrement = l2;
                 obj = obj8;
-                i6 = 0;
-                i = 1;
+                i = 0;
+                i3 = 1;
                 curTail = obj2;
-                l = andIncrement;
+                l2 = andIncrement;
                 segment-impl.remove();
             }
             if (!segment-impl.tryIncPointers$kotlinx_coroutines_core()) {
@@ -195,30 +195,30 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
             }
             if (segment-impl.decPointers$kotlinx_coroutines_core()) {
             }
-            i5 = i3;
+            i4 = i2;
             obj2 = curTail;
-            andIncrement = l;
+            andIncrement = l2;
             segment-impl.remove();
             if (obj.decPointers$kotlinx_coroutines_core()) {
             }
-            obj2 = i;
+            obj2 = i3;
             obj2 = curTail;
-            andIncrement = l;
+            andIncrement = l2;
             segmentInternal = ConcurrentLinkedListKt.findSegmentInternal((Segment)obj2, i12, obj8);
             obj.remove();
-            obj2 = i2;
-            obj2 = i;
+            obj2 = i6;
+            obj2 = i3;
         }
         curTail = obj2;
-        l = andIncrement;
-        i2 = 0;
-        i = 1;
+        l2 = andIncrement;
+        i6 = 0;
+        i3 = 1;
         Segment segment-impl2 = SegmentOrClosed.getSegment-impl(segmentInternal);
         int i9 = (int)i8;
         int i13 = 0;
         if (ChannelSegment$$ExternalSyntheticBackportWithForwarding0.m((SemaphoreSegment)segment-impl2.getAcquirers(), i9, 0, obj5)) {
             obj5.invokeOnCancellation((Segment)segment-impl2, i9);
-            return i;
+            return i3;
         }
         acquirers = 0;
         if (ChannelSegment$$ExternalSyntheticBackportWithForwarding0.m(segment-impl2.getAcquirers(), i9, SemaphoreKt.access$getPERMIT$p(), SemaphoreKt.access$getTAKEN$p())) {
@@ -226,7 +226,7 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
                 Intrinsics.checkNotNull(obj5, "null cannot be cast to non-null type kotlinx.coroutines.CancellableContinuation<kotlin.Unit>");
                 Object obj6 = obj5;
                 (CancellableContinuation)obj5.resume(Unit.INSTANCE, obj4.onCancellationRelease);
-                return i;
+                return i3;
             } else {
                 if (obj5 instanceof SelectInstance == null) {
                 } else {
@@ -240,14 +240,14 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
         if (DebugKt.getASSERTIONS_ENABLED()) {
             aSSERTIONS_ENABLED = 0;
             int i14 = 0;
-            l2 = segment-impl2.getAcquirers().get(i9) == SemaphoreKt.access$getBROKEN$p() ? i : i2;
-            if (l2 == 0) {
+            l = segment-impl2.getAcquirers().get(i9) == SemaphoreKt.access$getBROKEN$p() ? i3 : i6;
+            if (l == 0) {
             } else {
             }
             AssertionError assertionError = new AssertionError();
             throw assertionError;
         }
-        return i2;
+        return i6;
     }
 
     private final void coerceAvailablePermitsAtMaximum() {
@@ -302,21 +302,21 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
     private final boolean tryResumeNextFromQueue() {
         Object obj;
         long andIncrement;
-        int i2;
+        int i;
         Object segmentInternal;
-        AtomicReferenceArray acquirers;
+        AtomicReferenceArray acquirers2;
         Segment this_$iv;
-        long l;
-        int i6;
+        long l2;
+        int i4;
         kotlinx.coroutines.internal.Symbol symbol;
-        int acquirers2;
+        int acquirers;
         int i5;
         Object obj2;
+        int i2;
         int i3;
-        int i;
-        int i4;
+        int i6;
         Object curHead;
-        long l2;
+        long l;
         final Object obj3 = this;
         obj = SemaphoreImpl.head$FU.get(obj3);
         int i11 = andIncrement / l5;
@@ -325,23 +325,23 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
         segmentInternal = ConcurrentLinkedListKt.findSegmentInternal((Segment)obj, i11, obj5);
         while (!SegmentOrClosed.isClosed-impl(segmentInternal)) {
             this_$iv = SegmentOrClosed.getSegment-impl(segmentInternal);
-            acquirers2 = 0;
+            acquirers = 0;
             i5 = 0;
             obj2 = head$FU2.get(obj3);
-            i3 = 0;
-            i4 = 1;
+            i2 = 0;
+            i6 = 1;
             curHead = obj;
-            l2 = andIncrement;
-            while (Long.compare(l, curHead2) >= 0) {
+            l = andIncrement;
+            while (Long.compare(l2, curHead2) >= 0) {
                 if (this_$iv.decPointers$kotlinx_coroutines_core()) {
                 }
                 obj = curHead;
-                andIncrement = l2;
+                andIncrement = l;
                 obj2 = head$FU2.get(obj3);
-                i3 = 0;
-                i4 = 1;
+                i2 = 0;
+                i6 = 1;
                 curHead = obj;
-                l2 = andIncrement;
+                l = andIncrement;
                 this_$iv.remove();
             }
             if (!this_$iv.tryIncPointers$kotlinx_coroutines_core()) {
@@ -353,43 +353,43 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
             if (this_$iv.decPointers$kotlinx_coroutines_core()) {
             }
             obj = curHead;
-            andIncrement = l2;
+            andIncrement = l;
             this_$iv.remove();
             if (obj2.decPointers$kotlinx_coroutines_core()) {
             }
-            obj = i4;
+            obj = i6;
             obj = curHead;
-            andIncrement = l2;
+            andIncrement = l;
             segmentInternal = ConcurrentLinkedListKt.findSegmentInternal((Segment)obj, i11, obj5);
             obj2.remove();
-            obj = i;
-            obj = i4;
+            obj = i3;
+            obj = i6;
         }
         curHead = obj;
-        l2 = andIncrement;
-        i = 0;
-        i4 = 1;
+        l = andIncrement;
+        i3 = 0;
+        i6 = 1;
         Segment segment-impl = SegmentOrClosed.getSegment-impl(segmentInternal);
         (SemaphoreSegment)segment-impl.cleanPrev();
         if (Long.compare(l3, i11) > 0) {
-            return i;
+            return i3;
         }
         int i9 = (int)i8;
-        i2 = 0;
+        i = 0;
         Object value$iv = segment-impl.getAcquirers().getAndSet(i9, SemaphoreKt.access$getPERMIT$p());
         if (value$iv == null) {
-            i6 = i;
-            while (i6 < SemaphoreKt.access$getMAX_SPIN_CYCLES$p()) {
-                i2 = i6;
-                acquirers = null;
+            i4 = i3;
+            while (i4 < SemaphoreKt.access$getMAX_SPIN_CYCLES$p()) {
+                i = i4;
+                acquirers2 = null;
                 int i15 = 0;
-                i6++;
+                i4++;
             }
             int i14 = 0;
             return expected$iv ^= 1;
         }
         if (value$iv == SemaphoreKt.access$getCANCELLED$p()) {
-            return i;
+            return i3;
         }
         return obj3.tryResumeAcquire(value$iv);
     }
@@ -456,13 +456,13 @@ public class SemaphoreImpl implements kotlinx.coroutines.sync.Semaphore {
 
     @Override // kotlinx.coroutines.sync.Semaphore
     public boolean tryAcquire() {
-        int i;
-        boolean compareAndSet;
         int i2;
-        i = SemaphoreImpl._availablePermits$FU.get(this);
-        while (i > this.permits) {
+        boolean compareAndSet;
+        int i;
+        i2 = SemaphoreImpl._availablePermits$FU.get(this);
+        while (i2 > this.permits) {
             coerceAvailablePermitsAtMaximum();
-            i = SemaphoreImpl._availablePermits$FU.get(this);
+            i2 = SemaphoreImpl._availablePermits$FU.get(this);
         }
         return 0;
     }

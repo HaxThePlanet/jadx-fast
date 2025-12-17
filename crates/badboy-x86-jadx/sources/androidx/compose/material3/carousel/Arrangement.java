@@ -32,21 +32,21 @@ public final class Arrangement {
 
         private final androidx.compose.material3.carousel.Arrangement fit(int priority, float availableSpace, float itemSpacing, int smallCount, float smallSize, float minSmallSize, float maxSmallSize, int mediumCount, float mediumSize, int largeCount, float largeSize) {
             float arrangedSmallSize;
-            int i3;
             int i;
+            int i4;
             int cmp;
             float f;
             int arrangedMediumSize;
             float distribute;
-            int i4;
             int i2;
+            int i3;
             float arrangedLargeSize;
             int i12 = smallCount;
             int i17 = mediumCount;
             int i19 = largeCount;
-            i = availableSpace - i7;
+            i4 = availableSpace - i7;
             arrangedSmallSize = RangesKt.coerceIn(smallSize, minSmallSize, maxSmallSize);
-            final int i29 = i - i28;
+            final int i29 = i4 - i28;
             final int i30 = 0;
             if (i12 > 0 && Float.compare(i29, i30) > 0) {
                 if (Float.compare(i29, i30) > 0) {
@@ -61,16 +61,16 @@ public final class Arrangement {
             } else {
             }
             f = i12 > 0 ? arrangedSmallSize : i30;
-            arrangedLargeSize = this.calculateLargeSize(i, i12, f, i17, i19);
-            final int i31 = i;
+            arrangedLargeSize = this.calculateLargeSize(i4, i12, f, i17, i19);
+            final int i31 = i4;
             float f4 = f;
-            arrangedSmallSize2 /= i3;
+            arrangedSmallSize2 /= i;
             if (i17 > 0) {
-                i3 = Float.compare(arrangedLargeSize, largeSize) == 0 ? 1 : 0;
-                if (i3 == 0) {
+                i = Float.compare(arrangedLargeSize, largeSize) == 0 ? 1 : 0;
+                if (i == 0) {
                     i8 *= f3;
-                    float f10 = Math.min(Math.abs(i3), i11 *= f8);
-                    if (Float.compare(i3, i30) > 0) {
+                    float f10 = Math.min(Math.abs(i), i11 *= f8);
+                    if (Float.compare(i, i30) > 0) {
                         arrangedMediumSize -= i23;
                         distribute = arrangedLargeSize;
                     } else {
@@ -87,134 +87,134 @@ public final class Arrangement {
         }
 
         public final androidx.compose.material3.carousel.Arrangement findLowestCostArrangement(float availableSpace, float itemSpacing, float targetSmallSize, float minSmallSize, float maxSmallSize, int[] smallCounts, float targetMediumSize, int[] mediumCounts, float targetLargeSize, int[] largeCounts) {
-            int[] lowestCostArrangement2;
-            int lowestCostArrangement;
-            int i6;
-            int priority;
-            int i;
-            int cmp;
-            int length2;
-            float f4;
-            int i9;
-            int length;
-            int i11;
-            float f;
+            int[] lowestCostArrangement;
+            int lowestCostArrangement2;
             int i2;
-            float f2;
-            int i3;
-            float f3;
-            int i7;
-            int i4;
+            int priority;
             int i10;
-            int i5;
+            int cmp;
+            int length;
+            float f4;
+            int i;
+            int length2;
+            int i7;
+            float f;
+            int i4;
+            float f2;
             int i8;
+            float f3;
+            int i5;
+            int i11;
+            int i6;
+            int i3;
+            int i9;
             androidx.compose.material3.carousel.Arrangement arrangement;
-            lowestCostArrangement2 = smallCounts;
+            lowestCostArrangement = smallCounts;
             final int[] iArr = mediumCounts;
             final int[] iArr2 = largeCounts;
-            i6 = 0;
+            i2 = 0;
             priority = 1;
             final int i15 = 0;
-            i = i15;
-            while (i < iArr2.length) {
-                length2 = iArr.length;
-                i9 = i15;
-                while (i9 < length2) {
-                    length = lowestCostArrangement2.length;
-                    i11 = i15;
-                    while (i11 < length) {
+            i10 = i15;
+            while (i10 < iArr2.length) {
+                length = iArr.length;
+                i = i15;
+                while (i < length) {
+                    length2 = lowestCostArrangement.length;
+                    i7 = i15;
+                    while (i7 < length2) {
                         f3 = targetLargeSize;
-                        lowestCostArrangement = i6;
+                        lowestCostArrangement2 = i2;
                         androidx.compose.material3.carousel.Arrangement arrangement2 = arrangement;
-                        lowestCostArrangement = arrangement2;
+                        lowestCostArrangement2 = arrangement2;
                         if (Float.compare(f6, f4) == 0) {
                         } else {
                         }
                         cmp = i15;
                         priority++;
-                        i11 = i8 + 1;
-                        i6 = lowestCostArrangement;
-                        i = i7;
-                        length2 = i4;
-                        i9 = i10;
-                        length = i5;
-                        lowestCostArrangement2 = smallCounts;
+                        i7 = i9 + 1;
+                        i2 = lowestCostArrangement2;
+                        i10 = i5;
+                        length = i11;
+                        i = i6;
+                        length2 = i3;
+                        lowestCostArrangement = smallCounts;
                         cmp = 1;
                     }
                     f3 = targetLargeSize;
-                    int i12 = i6;
-                    i7 = i;
-                    i4 = length2;
-                    i9 = i10 + 1;
-                    lowestCostArrangement2 = smallCounts;
+                    int i12 = i2;
+                    i5 = i10;
+                    i11 = length;
+                    i = i6 + 1;
+                    lowestCostArrangement = smallCounts;
                     f3 = targetLargeSize;
-                    lowestCostArrangement = i6;
+                    lowestCostArrangement2 = i2;
                     arrangement2 = arrangement;
-                    lowestCostArrangement = arrangement2;
+                    lowestCostArrangement2 = arrangement2;
                     if (Float.compare(f6, f4) == 0) {
                     } else {
                     }
                     cmp = i15;
                     priority++;
-                    i11 = i8 + 1;
-                    i6 = lowestCostArrangement;
-                    i = i7;
-                    length2 = i4;
-                    i9 = i10;
-                    length = i5;
-                    lowestCostArrangement2 = smallCounts;
+                    i7 = i9 + 1;
+                    i2 = lowestCostArrangement2;
+                    i10 = i5;
+                    length = i11;
+                    i = i6;
+                    length2 = i3;
+                    lowestCostArrangement = smallCounts;
                     cmp = 1;
                 }
                 f3 = targetLargeSize;
-                i = i7 + 1;
-                lowestCostArrangement2 = smallCounts;
-                length = lowestCostArrangement2.length;
-                i11 = i15;
-                while (i11 < length) {
+                i10 = i5 + 1;
+                lowestCostArrangement = smallCounts;
+                length2 = lowestCostArrangement.length;
+                i7 = i15;
+                while (i7 < length2) {
                     f3 = targetLargeSize;
-                    lowestCostArrangement = i6;
+                    lowestCostArrangement2 = i2;
                     arrangement2 = arrangement;
-                    lowestCostArrangement = arrangement2;
+                    lowestCostArrangement2 = arrangement2;
                     if (Float.compare(f6, f4) == 0) {
                     } else {
                     }
                     cmp = i15;
                     priority++;
-                    i11 = i8 + 1;
-                    i6 = lowestCostArrangement;
-                    i = i7;
-                    length2 = i4;
-                    i9 = i10;
-                    length = i5;
-                    lowestCostArrangement2 = smallCounts;
+                    i7 = i9 + 1;
+                    i2 = lowestCostArrangement2;
+                    i10 = i5;
+                    length = i11;
+                    i = i6;
+                    length2 = i3;
+                    lowestCostArrangement = smallCounts;
                     cmp = 1;
                 }
                 f3 = targetLargeSize;
-                i12 = i6;
-                i7 = i;
-                i4 = length2;
-                i9 = i10 + 1;
-                lowestCostArrangement2 = smallCounts;
+                i12 = i2;
+                i5 = i10;
+                i11 = length;
+                i = i6 + 1;
+                lowestCostArrangement = smallCounts;
                 f3 = targetLargeSize;
-                lowestCostArrangement = i6;
+                lowestCostArrangement2 = i2;
                 arrangement2 = arrangement;
-                lowestCostArrangement = arrangement2;
+                lowestCostArrangement2 = arrangement2;
                 if (Float.compare(f6, f4) == 0) {
                 } else {
                 }
                 cmp = i15;
                 priority++;
-                i11 = i8 + 1;
-                i6 = lowestCostArrangement;
-                i = i7;
-                length2 = i4;
-                i9 = i10;
-                length = i5;
-                lowestCostArrangement2 = smallCounts;
+                i7 = i9 + 1;
+                i2 = lowestCostArrangement2;
+                i10 = i5;
+                length = i11;
+                i = i6;
+                length2 = i3;
+                lowestCostArrangement = smallCounts;
                 cmp = 1;
             }
             float f9 = targetLargeSize;
-            return i6;
+            return i2;
         }
     }
     static {

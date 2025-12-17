@@ -48,15 +48,15 @@ final class ColorSpaceVerificationHelper {
         String name;
         float[] primaries$ui_graphics_release;
         float[] xyz$ui_graphics_release;
-        ColorSpace.Rgb.TransferParameters transferParameters;
+        ColorSpace.Rgb.TransferParameters transferParameters2;
         double externalSyntheticLambda1;
         double minValue;
-        double d4;
-        double transferParameters2;
-        double d2;
         double d;
+        double transferParameters;
         double d3;
         double d5;
+        double d4;
+        double d2;
         double gamma;
         androidx.compose.ui.graphics.ColorSpaceVerificationHelper$$ExternalSyntheticLambda0 externalSyntheticLambda0;
         final Object obj = $this$androidColorSpace;
@@ -112,13 +112,13 @@ final class ColorSpaceVerificationHelper {
                                                                             xyz$ui_graphics_release = (Rgb)obj.getWhitePoint().toXyz$ui_graphics_release();
                                                                             TransferParameters transferParameters3 = (Rgb)obj.getTransferParameters();
                                                                             if (transferParameters3 != null) {
-                                                                                transferParameters = new ColorSpace.Rgb.TransferParameters(transferParameters3.getA(), obj8, transferParameters3.getB(), obj10, transferParameters3.getC(), obj12, transferParameters3.getD(), obj14, transferParameters3.getE(), obj16, transferParameters3.getF(), obj18, transferParameters3.getGamma(), obj20);
+                                                                                transferParameters2 = new ColorSpace.Rgb.TransferParameters(transferParameters3.getA(), obj8, transferParameters3.getB(), obj10, transferParameters3.getC(), obj12, transferParameters3.getD(), obj14, transferParameters3.getE(), obj16, transferParameters3.getF(), obj18, transferParameters3.getGamma(), obj20);
                                                                             } else {
-                                                                                transferParameters = 0;
+                                                                                transferParameters2 = 0;
                                                                             }
-                                                                            transferParameters2 = transferParameters;
-                                                                            if (transferParameters2 != null) {
-                                                                                rgb = new ColorSpace.Rgb(obj.getName(), (Rgb)obj.getPrimaries$ui_graphics_release(), xyz$ui_graphics_release, transferParameters2);
+                                                                            transferParameters = transferParameters2;
+                                                                            if (transferParameters != null) {
+                                                                                rgb = new ColorSpace.Rgb(obj.getName(), (Rgb)obj.getPrimaries$ui_graphics_release(), xyz$ui_graphics_release, transferParameters);
                                                                             } else {
                                                                                 ColorSpaceVerificationHelper$$ExternalSyntheticLambda0 externalSyntheticLambda02 = new ColorSpaceVerificationHelper$$ExternalSyntheticLambda0((Rgb)obj.getOetf());
                                                                                 externalSyntheticLambda1 = new ColorSpaceVerificationHelper$$ExternalSyntheticLambda1((Rgb)obj.getEotf());
@@ -160,17 +160,17 @@ final class ColorSpaceVerificationHelper {
     public static final ColorSpace composeColorSpace(ColorSpace $this$composeColorSpace) {
         Object transferParameters3;
         ColorSpace linearExtendedSrgb;
-        WhitePoint whitePoint2;
+        WhitePoint whitePoint;
         int ordinal;
-        float f;
         float f2;
-        int i;
-        double i2;
-        float whitePoint3;
+        float f;
+        int i2;
+        double i;
+        float whitePoint2;
         Rgb srgb;
         int name;
         float[] primaries;
-        WhitePoint whitePoint;
+        WhitePoint whitePoint3;
         TransferParameters transferParameters;
         float[] transform;
         double externalSyntheticLambda2;
@@ -178,11 +178,11 @@ final class ColorSpaceVerificationHelper {
         double minValue;
         double maxValue;
         TransferParameters transferParameters2;
+        double d;
         double d2;
-        double d4;
         double d5;
         double d3;
-        double d;
+        double d4;
         final Object obj = $this$composeColorSpace;
         int id = obj.getId();
         if (id == ColorSpace.Named.SRGB.ordinal()) {
@@ -236,11 +236,11 @@ final class ColorSpaceVerificationHelper {
                                                                         if (obj instanceof ColorSpace.Rgb) {
                                                                             transferParameters3 = (ColorSpace.Rgb)obj.getTransferParameters();
                                                                             int i4 = 1;
-                                                                            i2 = 0;
+                                                                            i = 0;
                                                                             if (whitePoint4.length == 3) {
-                                                                                whitePoint2 = new WhitePoint((ColorSpace.Rgb)obj.getWhitePoint()[i2], (ColorSpace.Rgb)obj.getWhitePoint()[i4], (ColorSpace.Rgb)obj.getWhitePoint()[2]);
+                                                                                whitePoint = new WhitePoint((ColorSpace.Rgb)obj.getWhitePoint()[i], (ColorSpace.Rgb)obj.getWhitePoint()[i4], (ColorSpace.Rgb)obj.getWhitePoint()[2]);
                                                                             } else {
-                                                                                whitePoint2 = new WhitePoint((ColorSpace.Rgb)obj.getWhitePoint()[i2], (ColorSpace.Rgb)obj.getWhitePoint()[i4]);
+                                                                                whitePoint = new WhitePoint((ColorSpace.Rgb)obj.getWhitePoint()[i], (ColorSpace.Rgb)obj.getWhitePoint()[i4]);
                                                                             }
                                                                             if (transferParameters3 != null) {
                                                                                 transferParameters = new TransferParameters(transferParameters3.g, obj12, transferParameters3.a, obj14, transferParameters3.b, obj16, transferParameters3.c, obj18, transferParameters3.d, obj20, transferParameters3.e, obj22, transferParameters3.f, obj24);
@@ -250,8 +250,8 @@ final class ColorSpaceVerificationHelper {
                                                                             }
                                                                             externalSyntheticLambda2 = new ColorSpaceVerificationHelper$$ExternalSyntheticLambda2(obj);
                                                                             externalSyntheticLambda3 = new ColorSpaceVerificationHelper$$ExternalSyntheticLambda3(obj);
-                                                                            i = 0;
-                                                                            srgb = new Rgb((ColorSpace.Rgb)obj.getName(), (ColorSpace.Rgb)obj.getPrimaries(), whitePoint2, (ColorSpace.Rgb)obj.getTransform(), externalSyntheticLambda2, externalSyntheticLambda3, obj.getMinValue(i), obj.getMaxValue(i), transferParameters2, (ColorSpace.Rgb)obj.getId());
+                                                                            i2 = 0;
+                                                                            srgb = new Rgb((ColorSpace.Rgb)obj.getName(), (ColorSpace.Rgb)obj.getPrimaries(), whitePoint, (ColorSpace.Rgb)obj.getTransform(), externalSyntheticLambda2, externalSyntheticLambda3, obj.getMinValue(i2), obj.getMaxValue(i2), transferParameters2, (ColorSpace.Rgb)obj.getId());
                                                                         } else {
                                                                             srgb = ColorSpaces.INSTANCE.getSrgb();
                                                                         }

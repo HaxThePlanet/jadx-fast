@@ -10,6 +10,42 @@ use byteorder::{LittleEndian, ReadBytesExt};
 
 use crate::constants::*;
 use crate::android_res_map::{ANDROID_ATTR_MAP, ANDROID_RES_MAP};
+
+/// Convert attribute type flags to format string
+fn get_attr_type_string(type_flags: u32) -> Option<String> {
+    let mut parts = Vec::new();
+
+    if (type_flags & ATTR_TYPE_REFERENCE) != 0 {
+        parts.push("reference");
+    }
+    if (type_flags & ATTR_TYPE_STRING) != 0 {
+        parts.push("string");
+    }
+    if (type_flags & ATTR_TYPE_INTEGER) != 0 {
+        parts.push("integer");
+    }
+    if (type_flags & ATTR_TYPE_BOOLEAN) != 0 {
+        parts.push("boolean");
+    }
+    if (type_flags & ATTR_TYPE_COLOR) != 0 {
+        parts.push("color");
+    }
+    if (type_flags & ATTR_TYPE_FLOAT) != 0 {
+        parts.push("float");
+    }
+    if (type_flags & ATTR_TYPE_DIMENSION) != 0 {
+        parts.push("dimension");
+    }
+    if (type_flags & ATTR_TYPE_FRACTION) != 0 {
+        parts.push("fraction");
+    }
+
+    if parts.is_empty() {
+        None
+    } else {
+        Some(parts.join("|"))
+    }
+}
 use crate::error::{ResourceError, Result};
 use crate::string_pool::StringPool;
 
@@ -957,21 +993,28 @@ impl ArscParser {
         xml
     }
 
-    /// Generate drawables.xml content (for drawable references)
+    /// Generate drawables.xml content (for drawable references and colors) - default config
     pub fn generate_drawables_xml(&mut self) -> String {
+        self.generate_drawables_xml_for_config("default")
+    }
+
+    /// Generate drawables.xml content for a specific config
+    pub fn generate_drawables_xml_for_config(&mut self, config: &str) -> String {
         let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
 
-        // Collect drawable entries that are references (default config only)
+        // Collect drawable entries that are references or colors for the specified config
+        // JADX includes both reference types and color types in drawables.xml
+        // File references (res/...) are skipped as they are stored as actual files
         let drawable_entries: Vec<_> = self
             .entries
             .iter()
             .filter(|e| {
                 e.type_name == "drawable"
-                    && e.config == "default"
-                    && e.value
-                        .as_ref()
-                        .map(|v| v.data_type == TYPE_REFERENCE)
-                        .unwrap_or(false)
+                    && e.config == config
+                    && e.value.as_ref().map(|v| {
+                        // Only include colors, not file references
+                        Self::is_color_type(v.data_type)
+                    }).unwrap_or(false)
             })
             .cloned()
             .collect();
@@ -979,8 +1022,9 @@ impl ArscParser {
         for entry in drawable_entries {
             if let Some(ref value) = entry.value {
                 if let Some(decoded) = self.decode_value(value) {
+                    // Color values use <drawable> tag
                     xml.push_str(&format!(
-                        "    <item type=\"drawable\" name=\"{}\">{}</item>\n",
+                        "    <drawable name=\"{}\">{}</drawable>\n",
                         entry.key_name, decoded
                     ));
                 }
@@ -1236,15 +1280,20 @@ impl ArscParser {
         xml
     }
 
-    /// Generate integers.xml content
+    /// Generate integers.xml content (default config)
     pub fn generate_integers_xml(&mut self) -> String {
+        self.generate_integers_xml_for_config("default")
+    }
+
+    /// Generate integers.xml content for a specific config
+    pub fn generate_integers_xml_for_config(&mut self, config: &str) -> String {
         let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
 
-        // Collect integer entries (default config only)
+        // Collect integer entries for the specified config
         let int_entries: Vec<_> = self
             .entries
             .iter()
-            .filter(|e| e.type_name == "integer" && e.config == "default")
+            .filter(|e| e.type_name == "integer" && e.config == config)
             .cloned()
             .collect();
 
@@ -1288,12 +1337,92 @@ impl ArscParser {
         xml
     }
 
+    /// Generate attrs.xml content
+    pub fn generate_attrs_xml(&mut self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        // Collect attr entries (default config only, with bag_items)
+        let attr_entries: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "attr" && e.config == "default" && e.bag_items.is_some())
+            .cloned()
+            .collect();
+
+        for entry in attr_entries {
+            if let Some(ref items) = entry.bag_items {
+                if items.is_empty() {
+                    continue;
+                }
+
+                // First item contains the format type
+                let first_item = &items[0];
+                let format_type = first_item.value.data;
+
+                // Determine item tag based on format type
+                let item_tag = if (format_type & ATTR_TYPE_ENUM) != 0 {
+                    "enum"
+                } else if (format_type & ATTR_TYPE_FLAGS) != 0 {
+                    "flag"
+                } else {
+                    "item"
+                };
+
+                // Get format string
+                let format_str = get_attr_type_string(format_type);
+
+                xml.push_str("    <attr name=\"");
+                xml.push_str(&escape_xml_text(&entry.key_name));
+                xml.push('"');
+
+                if let Some(fmt) = format_str {
+                    xml.push_str(" format=\"");
+                    xml.push_str(&fmt);
+                    xml.push('"');
+                }
+
+                // Check if there are enum/flag values (items after the first)
+                let has_values = items.len() > 1 &&
+                    (item_tag == "enum" || item_tag == "flag");
+
+                if has_values {
+                    xml.push_str(">\n");
+                    // Skip first item (format type) and iterate over enum/flag values
+                    for item in items.iter().skip(1) {
+                        // Skip special entries like ATTR_MIN, ATTR_MAX
+                        if item.name == ATTR_MIN || item.name == ATTR_MAX || item.name == ATTR_L10N {
+                            continue;
+                        }
+
+                        // Get the enum/flag name from the resource ID
+                        let name = self.get_attr_name(item.name);
+                        // Display value as signed i32 (matches JADX behavior)
+                        // e.g., 0xFFFFFFFF should display as -1, not 4294967295
+                        let value = item.value.data as i32;
+
+                        xml.push_str(&format!(
+                            "        <{} name=\"{}\" value=\"{}\" />\n",
+                            item_tag, escape_xml_text(&name), value
+                        ));
+                    }
+                    xml.push_str("    </attr>\n");
+                } else {
+                    // Self-closing tag for attrs without enum/flag values
+                    xml.push_str(">\n    </attr>\n");
+                }
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
     /// Generate all values XML files as a map of filename -> content
     pub fn generate_values_xml(&mut self) -> HashMap<String, String> {
         let mut files = HashMap::new();
 
         // Collect all unique configs for string resources
-        let mut string_configs: std::collections::HashSet<String> = self
+        let string_configs: std::collections::HashSet<String> = self
             .entries
             .iter()
             .filter(|e| e.type_name == "string")
@@ -1319,9 +1448,32 @@ impl ArscParser {
             files.insert("colors.xml".to_string(), colors_xml);
         }
 
-        // Generate drawables.xml (even if empty, for consistency with JADX)
-        let drawables_xml = self.generate_drawables_xml();
-        files.insert("drawables.xml".to_string(), drawables_xml);
+        // Generate drawables.xml for all drawable configs (handles values-hdpi/, etc.)
+        // JADX generates drawables.xml for density configs even if empty
+        let drawable_configs: std::collections::HashSet<String> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "drawable")
+            .map(|e| e.config.clone())
+            .collect();
+
+        for config in drawable_configs {
+            let drawables_xml = self.generate_drawables_xml_for_config(&config);
+            let filename = if config == "default" {
+                "drawables.xml".to_string()
+            } else {
+                format!("values-{}/drawables.xml", config)
+            };
+            // Always insert for default, but only insert non-default if not empty
+            // (JADX creates empty files for density configs)
+            files.insert(filename, drawables_xml);
+        }
+
+        // Ensure default drawables.xml exists even if no default drawable entries
+        if !files.contains_key("drawables.xml") {
+            files.insert("drawables.xml".to_string(),
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n</resources>\n".to_string());
+        }
 
         // Generate styles.xml
         let styles_xml = self.generate_styles_xml();
@@ -1347,16 +1499,36 @@ impl ArscParser {
             files.insert("dimens.xml".to_string(), dimens_xml);
         }
 
-        // Generate integers.xml
-        let integers_xml = self.generate_integers_xml();
-        if integers_xml.contains("<integer") {
-            files.insert("integers.xml".to_string(), integers_xml);
+        // Generate integers.xml for all configs (handles values-v30/, etc.)
+        let integer_configs: std::collections::HashSet<String> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "integer")
+            .map(|e| e.config.clone())
+            .collect();
+
+        for config in integer_configs {
+            let integers_xml = self.generate_integers_xml_for_config(&config);
+            if integers_xml.contains("<integer") {
+                let filename = if config == "default" {
+                    "integers.xml".to_string()
+                } else {
+                    format!("values-{}/integers.xml", config)
+                };
+                files.insert(filename, integers_xml);
+            }
         }
 
         // Generate bools.xml
         let bools_xml = self.generate_bools_xml();
         if bools_xml.contains("<bool") {
             files.insert("bools.xml".to_string(), bools_xml);
+        }
+
+        // Generate attrs.xml
+        let attrs_xml = self.generate_attrs_xml();
+        if attrs_xml.contains("<attr") {
+            files.insert("attrs.xml".to_string(), attrs_xml);
         }
 
         // Generate public.xml

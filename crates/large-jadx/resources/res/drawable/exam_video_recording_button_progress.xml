@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:useLevel="true"
+    android:innerRadius="@dimen/exam_video_recording_button_ring_inner_radius"
+    android:thickness="@dimen/exam_video_recording_button_ring_thickness">
+    <solid android:color="@color/secondary"/>
+    <size
+        android:height="@dimen/exam_video_recording_button_size"
+        android:width="@dimen/exam_video_recording_button_size"/>
+</shape>

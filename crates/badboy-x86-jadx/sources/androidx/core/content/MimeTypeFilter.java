@@ -69,8 +69,8 @@ public final class MimeTypeFilter {
     }
 
     private static boolean mimeTypeAgainstFilter(String[] mimeTypeParts, String[] filterParts) {
-        boolean equals2;
         boolean equals;
+        boolean equals2;
         boolean empty;
         Object str;
         boolean empty2;

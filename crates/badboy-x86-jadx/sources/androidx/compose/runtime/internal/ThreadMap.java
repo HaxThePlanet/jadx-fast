@@ -24,29 +24,29 @@ public final class ThreadMap {
     private final int find(long key) {
         int high;
         int low;
-        int i;
         int i3;
-        int cmp3;
+        int i;
+        int cmp;
         long l;
         int i2;
-        int cmp;
         int cmp2;
+        int cmp3;
         switch (high) {
             case -1:
                 return -1;
             case 0:
                 int i6 = 0;
-                i = i6;
-                i = -2;
-                return i;
+                i3 = i6;
+                i3 = -2;
+                return i3;
             default:
                 low = 0;
                 i5 >>>= 1;
                 i2 = l - key;
-                cmp = 0;
-                low = i3 + 1;
-                high = i3 + -1;
-                return i3;
+                cmp2 = 0;
+                low = i + 1;
+                high = i + -1;
+                return i;
                 return -mid;
         }
     }
@@ -62,8 +62,8 @@ public final class ThreadMap {
         int count$iv;
         int dest;
         int source;
-        int i2;
         int i3;
+        int i2;
         Object obj;
         int cmp;
         int i;
@@ -72,40 +72,40 @@ public final class ThreadMap {
         int i4 = 0;
         count$iv = 0;
         source = 0;
-        i2 = source;
-        i3 = 1;
-        while (i2 < values.length) {
+        i3 = source;
+        i2 = 1;
+        while (i3 < values.length) {
             i = 0;
-            if (values[i2] != null) {
+            if (values[i3] != null) {
             } else {
             }
-            i3 = source;
-            if (i3 != 0) {
+            i2 = source;
+            if (i2 != 0) {
             }
-            i2++;
-            i3 = 1;
+            i3++;
+            i2 = 1;
             count$iv++;
         }
-        count$iv += i3;
+        count$iv += i2;
         long[] lArr = new long[count$iv2];
         Object[] arr = new Object[count$iv2];
-        if (count$iv2 > i3) {
+        if (count$iv2 > i2) {
             dest = 0;
             source = 0;
             while (dest < count$iv2) {
                 if (source < size) {
                     break;
                 }
-                i2 = this.keys[source];
+                i3 = this.keys[source];
                 obj = this.values[source];
-                if (Long.compare(i2, key) > 0) {
+                if (Long.compare(i3, key) > 0) {
                     break;
                 } else {
                 }
                 if (obj != null) {
                 }
                 source++;
-                lArr[dest] = i2;
+                lArr[dest] = i3;
                 arr[dest] = obj;
                 dest++;
             }

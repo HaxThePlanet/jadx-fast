@@ -29,9 +29,9 @@ public abstract class PathIteratorImpl {
 
         public static final int[] $EnumSwitchMapping$0;
         static {
-            int ordinal;
             int ordinal2;
             int ordinal3;
+            int ordinal;
             int ordinal5;
             int ordinal4;
             int[] iArr = new int[values.length];
@@ -69,56 +69,56 @@ public abstract class PathIteratorImpl {
 
     private final PointF[] floatsToPoints(float[] pointsData, androidx.graphics.path.PathSegment.Type type) {
         PointF[] $i$f$emptyArray;
-        int pointF2;
-        int i;
-        PointF pointF3;
-        int i5;
         int pointF;
-        PointF pointF4;
-        int i3;
         int i2;
+        PointF pointF4;
         int i4;
+        int pointF2;
+        PointF pointF3;
+        int i3;
+        int i;
+        int i5;
         int i8 = 5;
-        i = 4;
-        pointF3 = 3;
-        i5 = 2;
-        pointF = 1;
-        pointF4 = 0;
+        i2 = 4;
+        pointF4 = 3;
+        i4 = 2;
+        pointF2 = 1;
+        pointF3 = 0;
         switch (i6) {
             case 1:
-                pointF2 = new PointF(pointsData[pointF4], pointsData[pointF]);
-                new PointF[pointF][pointF4] = pointF2;
+                pointF = new PointF(pointsData[pointF3], pointsData[pointF2]);
+                new PointF[pointF2][pointF3] = pointF;
                 break;
             case 2:
-                $i$f$emptyArray = new PointF[i5];
-                PointF pointF5 = new PointF(pointsData[pointF4], pointsData[pointF]);
-                $i$f$emptyArray[pointF4] = pointF5;
-                pointF2 = new PointF(pointsData[i5], pointsData[pointF3]);
-                $i$f$emptyArray[pointF] = pointF2;
+                $i$f$emptyArray = new PointF[i4];
+                PointF pointF5 = new PointF(pointsData[pointF3], pointsData[pointF2]);
+                $i$f$emptyArray[pointF3] = pointF5;
+                pointF = new PointF(pointsData[i4], pointsData[pointF4]);
+                $i$f$emptyArray[pointF2] = pointF;
                 break;
             case 3:
-                $i$f$emptyArray = new PointF[pointF3];
-                PointF pointF6 = new PointF(pointsData[pointF4], pointsData[pointF]);
-                $i$f$emptyArray[pointF4] = pointF6;
-                pointF4 = new PointF(pointsData[i5], pointsData[pointF3]);
-                $i$f$emptyArray[pointF] = pointF4;
-                pointF3 = new PointF(pointsData[i], pointsData[i8]);
-                $i$f$emptyArray[i5] = pointF3;
+                $i$f$emptyArray = new PointF[pointF4];
+                PointF pointF6 = new PointF(pointsData[pointF3], pointsData[pointF2]);
+                $i$f$emptyArray[pointF3] = pointF6;
+                pointF3 = new PointF(pointsData[i4], pointsData[pointF4]);
+                $i$f$emptyArray[pointF2] = pointF3;
+                pointF4 = new PointF(pointsData[i2], pointsData[i8]);
+                $i$f$emptyArray[i4] = pointF4;
                 break;
             case 4:
-                $i$f$emptyArray = new PointF[i];
-                PointF pointF7 = new PointF(pointsData[pointF4], pointsData[pointF]);
-                $i$f$emptyArray[pointF4] = pointF7;
-                pointF4 = new PointF(pointsData[i5], pointsData[pointF3]);
-                $i$f$emptyArray[pointF] = pointF4;
-                pointF = new PointF(pointsData[i], pointsData[i8]);
-                $i$f$emptyArray[i5] = pointF;
-                pointF2 = new PointF(pointsData[6], pointsData[7]);
-                $i$f$emptyArray[pointF3] = pointF2;
+                $i$f$emptyArray = new PointF[i2];
+                PointF pointF7 = new PointF(pointsData[pointF3], pointsData[pointF2]);
+                $i$f$emptyArray[pointF3] = pointF7;
+                pointF3 = new PointF(pointsData[i4], pointsData[pointF4]);
+                $i$f$emptyArray[pointF2] = pointF3;
+                pointF2 = new PointF(pointsData[i2], pointsData[i8]);
+                $i$f$emptyArray[i4] = pointF2;
+                pointF = new PointF(pointsData[6], pointsData[7]);
+                $i$f$emptyArray[pointF4] = pointF;
                 break;
             default:
                 int i7 = 0;
-                $i$f$emptyArray = pointF2;
+                $i$f$emptyArray = pointF;
         }
         return $i$f$emptyArray;
     }

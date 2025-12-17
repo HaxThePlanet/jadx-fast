@@ -45,18 +45,18 @@ public final class Ripple_androidKt {
     public static final DelegatableNode createPlatformRippleNode-TDGSqEk(InteractionSource interactionSource, boolean bounded, float radius, ColorProducer color, Function0<androidx.compose.material.ripple.RippleAlpha> rippleAlpha) {
         androidx.compose.material.ripple.RippleNode commonRippleNode;
         InteractionSource interactionSource3;
-        boolean z2;
+        boolean z;
         float f;
         ColorProducer colorProducer;
         Function0 function0;
-        int i;
+        int i2;
         androidx.compose.material.ripple.AndroidRippleNode androidRippleNode;
         InteractionSource interactionSource2;
-        boolean z;
+        boolean z2;
         float f2;
         ColorProducer colorProducer2;
         Function0 function02;
-        int i2;
+        int i;
         if (Ripple_androidKt.IsRunningInPreview != null) {
             commonRippleNode = new CommonRippleNode(interactionSource, bounded, radius, color, rippleAlpha, 0);
         } else {

@@ -29,11 +29,11 @@ public final class PainterResources_androidKt {
 
     private static final ImageVector loadVectorResource(Resources.Theme theme, Resources res, int id, int changingConfigurations, Composer $composer, int $changed) {
         boolean traceInProgress;
-        String str2;
+        String str;
         androidx.compose.ui.res.ImageVectorCache.ImageVectorEntry imageVectorEntry;
         Object consume;
         String equal;
-        String str;
+        String str2;
         int i = 21855625;
         ComposerKt.sourceInformationMarkerStart($composer, i, "C(loadVectorResource)P(3,2,1)92@3720L7:PainterResources.android.kt#ccshc7");
         if (ComposerKt.isTraceInProgress()) {
@@ -62,25 +62,25 @@ public final class PainterResources_androidKt {
     }
 
     public static final Painter painterResource(int id, Composer $composer, int $changed) {
-        int i;
+        int i6;
         Painter imageVector;
         boolean traceInProgress;
         String str;
-        int i3;
+        int i;
         int changingConfigurations;
         int endsWith$default;
         int consume;
-        int i6;
+        int i4;
         int rememberedValue;
-        int i2;
+        int i8;
         boolean changed;
         int empty;
-        Object imageBitmapResource;
+        Object $i$a$CachePainterResources_androidKt$painterResource$imageBitmap$1;
         BitmapPainter bitmapPainter;
         Object obj;
-        int i8;
-        int i4;
         int i7;
+        int i2;
+        int i3;
         int i5;
         final int i15 = id;
         final Composer composer = $composer;
@@ -109,13 +109,13 @@ public final class PainterResources_androidKt {
         ComposerKt.sourceInformationMarkerEnd(composer);
         android.util.TypedValue resolveResourcePath = (ResourceIdCache)composer.consume((CompositionLocal)AndroidCompositionLocals_androidKt.getLocalResourceIdCache()).resolveResourcePath(resources, i15);
         final java.lang.CharSequence string = resolveResourcePath.string;
-        i = 1;
+        i6 = 1;
         rememberedValue = 0;
-        if (string != null && StringsKt.endsWith$default(string, (CharSequence)".xml", rememberedValue, 2, 0) == i) {
-            i3 = StringsKt.endsWith$default(string, (CharSequence)".xml", rememberedValue, 2, 0) == i ? i : rememberedValue;
+        if (string != null && StringsKt.endsWith$default(string, (CharSequence)".xml", rememberedValue, 2, 0) == i6) {
+            i = StringsKt.endsWith$default(string, (CharSequence)".xml", rememberedValue, 2, 0) == i6 ? i6 : rememberedValue;
         } else {
         }
-        if (i3 != 0) {
+        if (i != 0) {
             composer.startReplaceGroup(-803040357);
             ComposerKt.sourceInformation(composer, "69@2937L72,70@3018L34");
             imageVector = VectorPainterKt.rememberVectorPainter(PainterResources_androidKt.loadVectorResource(consume2.getTheme(), resources, i15, resolveResourcePath.changingConfigurations, composer, i20 &= 896), composer, rememberedValue);
@@ -129,27 +129,27 @@ public final class PainterResources_androidKt {
                 if (!composer.changed(i15)) {
                     if (i22 & 6 == empty) {
                     } else {
-                        i = rememberedValue;
+                        i6 = rememberedValue;
                     }
                 } else {
                 }
             } else {
             }
             changingConfigurations = $composer;
-            i6 = 0;
+            i4 = 0;
             rememberedValue = changingConfigurations.rememberedValue();
-            i2 = 0;
+            i8 = 0;
             if (i11 |= changed2 == 0) {
                 if (rememberedValue == Composer.Companion.getEmpty()) {
                     int i25 = 0;
                     changingConfigurations.updateRememberedValue(PainterResources_androidKt.loadImageBitmapResource(string, resources, i15));
                 } else {
-                    imageBitmapResource = rememberedValue;
+                    $i$a$CachePainterResources_androidKt$painterResource$imageBitmap$1 = rememberedValue;
                 }
             } else {
             }
             ComposerKt.sourceInformationMarkerEnd(composer);
-            bitmapPainter = new BitmapPainter((ImageBitmap)imageBitmapResource, 0, obj17, 0, obj19, 6, 0);
+            bitmapPainter = new BitmapPainter((ImageBitmap)$i$a$CachePainterResources_androidKt$painterResource$imageBitmap$1, 0, obj17, 0, obj19, 6, 0);
             composer.endReplaceGroup();
             imageVector = bitmapPainter;
         }

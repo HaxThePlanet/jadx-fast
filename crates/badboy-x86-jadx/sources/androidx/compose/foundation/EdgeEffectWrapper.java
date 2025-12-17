@@ -166,14 +166,14 @@ final class EdgeEffectWrapper {
     }
 
     public final EdgeEffect getOrCreateTopEffect() {
-        EdgeEffect edgeEffect;
         EdgeEffect edgeEffect2;
+        EdgeEffect edgeEffect;
         int i;
         if (this.topEffect == null) {
             i = 0;
             this.topEffect = createEdgeEffect();
         }
-        return edgeEffect;
+        return edgeEffect2;
     }
 
     public final EdgeEffect getOrCreateTopEffectNegation() {

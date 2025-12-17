@@ -51,36 +51,36 @@ public final class AppBarKt {
     }
 
     private static final void AppBar-HkEspTQ(long backgroundColor, long contentColor, float elevation, PaddingValues contentPadding, Shape shape, WindowInsets windowInsets, Modifier modifier, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        int i2;
-        int $dirty2;
-        Composer traceInProgress;
+        int i10;
         int $dirty3;
+        Composer traceInProgress;
+        int $dirty;
         boolean companion;
         boolean traceInProgress2;
         long l;
         int str;
-        int i9;
+        int i;
+        int i2;
+        int i5;
+        float f;
         int i13;
-        int i8;
-        float f2;
-        int i4;
         int i7;
         Object obj;
+        int i4;
         int i14;
-        int i3;
-        Object obj3;
-        long l2;
         Object obj2;
-        int $dirty;
+        long l2;
+        Object obj3;
+        int $dirty2;
         Object modifier2;
-        int i;
         int i6;
-        int i10;
-        float f;
+        int i8;
+        int i12;
+        float f2;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i12;
-        int i5;
+        int i9;
+        int i3;
         int obj35;
         final Object obj5 = windowInsets;
         final Object obj6 = content;
@@ -89,337 +89,337 @@ public final class AppBarKt {
         final int i39 = obj37;
         traceInProgress = i11.startRestartGroup(-712505634);
         ComposerKt.sourceInformation(traceInProgress, "C(AppBar)P(0:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.unit.Dp,3,6,7,5)726@31738L492,720@31571L659:AppBar.kt#jmzs0o");
-        $dirty3 = obj36;
+        $dirty = obj36;
         if (i39 & 1 != 0) {
-            $dirty3 |= 6;
+            $dirty |= 6;
             l = backgroundColor;
         } else {
             if (i38 & 6 == 0) {
-                i13 = traceInProgress.changed(backgroundColor) ? 4 : 2;
-                $dirty3 |= i13;
+                i2 = traceInProgress.changed(backgroundColor) ? 4 : 2;
+                $dirty |= i2;
             } else {
                 l = backgroundColor;
             }
         }
         if (i39 & 2 != 0) {
-            $dirty3 |= 48;
+            $dirty |= 48;
             l2 = elevation;
         } else {
             if (i38 & 48 == 0) {
-                i8 = traceInProgress.changed(elevation) ? 32 : 16;
-                $dirty3 |= i8;
+                i5 = traceInProgress.changed(elevation) ? 32 : 16;
+                $dirty |= i5;
             } else {
                 l2 = elevation;
             }
         }
         if (i39 & 4 != 0) {
-            $dirty3 |= 384;
-            f2 = shape;
+            $dirty |= 384;
+            f = shape;
         } else {
             if (i38 & 384 == 0) {
-                i4 = traceInProgress.changed(shape) ? 256 : 128;
-                $dirty3 |= i4;
+                i13 = traceInProgress.changed(shape) ? 256 : 128;
+                $dirty |= i13;
             } else {
-                f2 = shape;
+                f = shape;
             }
         }
         if (i39 & 8 != 0) {
-            $dirty3 |= 3072;
+            $dirty |= 3072;
         } else {
             if (i38 & 3072 == 0) {
                 i7 = traceInProgress.changed(obj5) ? 2048 : 1024;
-                $dirty3 |= i7;
+                $dirty |= i7;
             }
         }
         if (i39 & 16 != 0) {
-            $dirty3 |= 24576;
+            $dirty |= 24576;
             obj = modifier;
         } else {
             if (i38 & 24576 == 0) {
-                i14 = traceInProgress.changed(modifier) ? 16384 : 8192;
-                $dirty3 |= i14;
+                i4 = traceInProgress.changed(modifier) ? 16384 : 8192;
+                $dirty |= i4;
             } else {
                 obj = modifier;
             }
         }
         int i40 = 196608;
         if (i39 & 32 != 0) {
-            $dirty3 |= i40;
+            $dirty |= i40;
         } else {
             if (i38 & i40 == 0) {
-                i3 = traceInProgress.changed(obj6) ? 131072 : 65536;
-                $dirty3 |= i3;
+                i14 = traceInProgress.changed(obj6) ? 131072 : 65536;
+                $dirty |= i14;
             }
         }
         int i36 = i39 & 64;
         int i41 = 1572864;
         if (i36 != 0) {
-            $dirty3 |= i41;
+            $dirty |= i41;
             obj35 = i41;
             modifier2 = $composer;
         } else {
             if (i38 & i41 == 0) {
                 obj35 = i41;
-                i = traceInProgress.changed($composer) ? 1048576 : 524288;
-                $dirty3 |= i;
+                i6 = traceInProgress.changed($composer) ? 1048576 : 524288;
+                $dirty |= i6;
             } else {
                 obj35 = i41;
                 modifier2 = $composer;
             }
         }
-        i6 = 12582912;
+        i8 = 12582912;
         if (i39 & 128 != 0) {
-            $dirty3 |= i6;
+            $dirty |= i8;
         } else {
-            if (i38 & i6 == 0) {
-                i2 = traceInProgress.changedInstance(obj7) ? 8388608 : 4194304;
-                $dirty3 |= i2;
+            if (i38 & i8 == 0) {
+                i10 = traceInProgress.changedInstance(obj7) ? 8388608 : 4194304;
+                $dirty |= i10;
             }
         }
-        $dirty2 = $dirty3;
-        if ($dirty4 &= $dirty2 == 4793490) {
+        $dirty3 = $dirty;
+        if ($dirty4 &= $dirty3 == 4793490) {
             if (!traceInProgress.getSkipping()) {
                 if (i36 != 0) {
                     modifier2 = companion;
                 }
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(-712505634, $dirty2, -1, "androidx.compose.material.AppBar (AppBar.kt:719)");
+                    ComposerKt.traceEventStart(-712505634, $dirty3, -1, "androidx.compose.material.AppBar (AppBar.kt:719)");
                 }
                 AppBarKt.AppBar.1 anon = new AppBarKt.AppBar.1(obj6, obj5, obj7);
                 l2 = modifier2;
-                SurfaceKt.Surface-F-jzlyU(l2, obj, backgroundColor, i, l2, obj18, 0, f2, (Function2)ComposableLambdaKt.rememberComposableLambda(213273114, true, anon, traceInProgress, 54), traceInProgress);
+                SurfaceKt.Surface-F-jzlyU(l2, obj, backgroundColor, i6, l2, obj18, 0, f, (Function2)ComposableLambdaKt.rememberComposableLambda(213273114, true, anon, traceInProgress, 54), traceInProgress);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj3 = l2;
+                obj2 = l2;
             } else {
                 traceInProgress.skipToGroupEnd();
                 composer = traceInProgress;
-                obj3 = modifier2;
+                obj2 = modifier2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            companion = $dirty2;
-            $dirty = companion;
-            $dirty2 = new AppBarKt.AppBar.2(backgroundColor, companion, elevation, i9, shape, obj5, modifier, obj6, obj3, obj7, i38, i39);
-            endRestartGroup.updateScope((Function2)$dirty2);
+            companion = $dirty3;
+            $dirty2 = companion;
+            $dirty3 = new AppBarKt.AppBar.2(backgroundColor, companion, elevation, i, shape, obj5, modifier, obj6, obj2, obj7, i38, i39);
+            endRestartGroup.updateScope((Function2)$dirty3);
         } else {
-            $dirty = $dirty2;
+            $dirty2 = $dirty3;
         }
     }
 
     public static final void BottomAppBar-DanWW-k(WindowInsets windowInsets, Modifier modifier, long backgroundColor, long contentColor, Shape cutoutShape, float elevation, PaddingValues contentPadding, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i11) {
-        Object obj5;
         Object obj4;
+        Object obj5;
         int skipping;
         int defaultsInvalid;
         int colors;
         int bottomAppBarElevation-D9Ej5fM;
         boolean traceInProgress2;
-        int $dirty;
-        Object $dirty2;
-        Object obj;
-        int backgroundColor2;
-        long backgroundColor4;
+        int $dirty2;
+        Object $dirty;
+        Object obj3;
+        int backgroundColor3;
+        long backgroundColor2;
         long l3;
-        int i14;
+        int i12;
         boolean traceInProgress;
-        int i10;
-        Shape bottomAppBarCutoutShape2;
         int i9;
+        Shape bottomAppBarCutoutShape;
+        int i3;
         Object str;
         int docked;
         long l;
         int i13;
         long contentColor2;
         Object consume;
-        Object obj6;
-        int changed2;
+        Object obj;
+        int changed;
         long l2;
         float f;
         PaddingValues paddingValues;
-        int changed;
-        int i6;
-        Object obj2;
+        int changed2;
+        int i14;
+        Object obj6;
         long cutoutShape2;
-        int backgroundColor3;
+        int backgroundColor4;
         int i7;
         float elevation2;
-        int i;
-        int i5;
         int i8;
-        int i2;
-        Object i12;
-        Shape bottomAppBarCutoutShape;
-        Modifier modifier2;
-        Object obj3;
-        Composer composer2;
-        Composer composer;
-        int i3;
         int i4;
+        int i5;
+        int i10;
+        Object i6;
+        Shape bottomAppBarCutoutShape2;
+        Modifier modifier2;
+        Object obj2;
+        Composer composer;
+        Composer composer2;
+        int i2;
+        int i;
         final int i51 = obj37;
         final int i52 = obj38;
         traceInProgress2 = i11.startRestartGroup(382658343);
         ComposerKt.sourceInformation(traceInProgress2, "C(BottomAppBar)P(7,6,0:c#ui.graphics.Color,2:c#ui.graphics.Color,4,5:c#ui.unit.Dp,3)335@15300L6,336@15349L32,342@15630L7,348@15820L174:AppBar.kt#jmzs0o");
-        $dirty = obj37;
+        $dirty2 = obj37;
         if (i52 & 1 != 0) {
-            $dirty |= 6;
-            obj = windowInsets;
+            $dirty2 |= 6;
+            obj3 = windowInsets;
         } else {
             if (i51 & 6 == 0) {
-                i14 = traceInProgress2.changed(windowInsets) ? 4 : 2;
-                $dirty |= i14;
+                i12 = traceInProgress2.changed(windowInsets) ? 4 : 2;
+                $dirty2 |= i12;
             } else {
-                obj = windowInsets;
+                obj3 = windowInsets;
             }
         }
-        i9 = i52 & 2;
-        if (i9 != 0) {
-            $dirty |= 48;
+        i3 = i52 & 2;
+        if (i3 != 0) {
+            $dirty2 |= 48;
             str = modifier;
         } else {
             if (i51 & 48 == 0) {
                 i13 = traceInProgress2.changed(modifier) ? 32 : 16;
-                $dirty |= i13;
+                $dirty2 |= i13;
             } else {
                 str = modifier;
             }
         }
         if (i51 & 384 == 0) {
             if (i52 & 4 == 0) {
-                changed2 = traceInProgress2.changed(backgroundColor) ? 256 : 128;
+                changed = traceInProgress2.changed(backgroundColor) ? 256 : 128;
             } else {
                 contentColor2 = backgroundColor;
             }
-            $dirty |= changed2;
+            $dirty2 |= changed;
         } else {
             contentColor2 = backgroundColor;
         }
         if (i51 & 3072 == 0) {
             if (i52 & 8 == 0) {
-                changed = traceInProgress2.changed(cutoutShape) ? 2048 : 1024;
+                changed2 = traceInProgress2.changed(cutoutShape) ? 2048 : 1024;
             } else {
                 l2 = cutoutShape;
             }
-            $dirty |= changed;
+            $dirty2 |= changed2;
         } else {
             l2 = cutoutShape;
         }
-        i6 = i52 & 16;
-        if (i6 != 0) {
-            $dirty |= 24576;
-            obj2 = contentPadding;
+        i14 = i52 & 16;
+        if (i14 != 0) {
+            $dirty2 |= 24576;
+            obj6 = contentPadding;
         } else {
             if (i51 & 24576 == 0) {
                 i7 = traceInProgress2.changed(contentPadding) ? 16384 : 8192;
-                $dirty |= i7;
+                $dirty2 |= i7;
             } else {
-                obj2 = contentPadding;
+                obj6 = contentPadding;
             }
         }
         int i54 = i52 & 32;
         int i55 = 196608;
         if (i54 != 0) {
-            $dirty |= i55;
+            $dirty2 |= i55;
             elevation2 = content;
         } else {
             if (i55 &= i51 == 0) {
-                i = traceInProgress2.changed(content) ? 131072 : 65536;
-                $dirty |= i;
+                i8 = traceInProgress2.changed(content) ? 131072 : 65536;
+                $dirty2 |= i8;
             } else {
                 elevation2 = content;
             }
         }
         int i57 = i52 & 64;
-        i5 = 1572864;
+        i4 = 1572864;
         if (i57 != 0) {
-            $dirty |= i5;
-            obj5 = $composer;
+            $dirty2 |= i4;
+            obj4 = $composer;
         } else {
-            if (i51 & i5 == 0) {
-                i8 = traceInProgress2.changed($composer) ? 1048576 : 524288;
-                $dirty |= i8;
+            if (i51 & i4 == 0) {
+                i5 = traceInProgress2.changed($composer) ? 1048576 : 524288;
+                $dirty2 |= i5;
             } else {
-                obj5 = $composer;
+                obj4 = $composer;
             }
         }
-        i2 = 12582912;
+        i10 = 12582912;
         if (i52 & 128 != 0) {
-            $dirty |= i2;
-            obj4 = $changed;
+            $dirty2 |= i10;
+            obj5 = $changed;
         } else {
-            if (i51 & i2 == 0) {
-                i2 = traceInProgress2.changedInstance($changed) ? 8388608 : 4194304;
-                $dirty |= i2;
+            if (i51 & i10 == 0) {
+                i10 = traceInProgress2.changedInstance($changed) ? 8388608 : 4194304;
+                $dirty2 |= i10;
             } else {
-                obj4 = $changed;
+                obj5 = $changed;
             }
         }
-        if ($dirty & i12 == 4793490) {
+        if ($dirty2 & i6 == 4793490) {
             if (!traceInProgress2.getSkipping()) {
                 traceInProgress2.startDefaults();
                 if (i51 & 1 != 0) {
                     if (traceInProgress2.getDefaultsInvalid()) {
-                        if (i9 != 0) {
+                        if (i3 != 0) {
                             str = defaultsInvalid;
                         }
                         if (i52 & 4 != 0) {
-                            backgroundColor4 = ColorsKt.getPrimarySurface(MaterialTheme.INSTANCE.getColors(traceInProgress2, 6));
-                            $dirty &= -897;
+                            backgroundColor2 = ColorsKt.getPrimarySurface(MaterialTheme.INSTANCE.getColors(traceInProgress2, 6));
+                            $dirty2 &= -897;
                         } else {
-                            backgroundColor4 = contentColor2;
+                            backgroundColor2 = contentColor2;
                         }
                         if (i52 & 8 != 0) {
-                            contentColor2 = ColorsKt.contentColorFor-ek8zF_U(backgroundColor4, i9, traceInProgress2);
-                            $dirty &= -7169;
+                            contentColor2 = ColorsKt.contentColorFor-ek8zF_U(backgroundColor2, i3, traceInProgress2);
+                            $dirty2 &= -7169;
                         } else {
                             contentColor2 = l2;
                         }
-                        if (i6 != 0) {
-                            obj2 = bottomAppBarElevation-D9Ej5fM;
+                        if (i14 != 0) {
+                            obj6 = bottomAppBarElevation-D9Ej5fM;
                         }
                         if (i54 != 0) {
                             elevation2 = bottomAppBarElevation-D9Ej5fM;
                         }
                         if (i57 != 0) {
-                            i12 = contentPadding2;
-                            obj3 = str;
-                            skipping = obj2;
-                            i5 = elevation2;
-                            cutoutShape2 = backgroundColor4;
+                            i6 = contentPadding2;
+                            obj2 = str;
+                            skipping = obj6;
+                            i4 = elevation2;
+                            cutoutShape2 = backgroundColor2;
                             elevation2 = contentColor2;
-                            backgroundColor2 = 382658343;
+                            backgroundColor3 = 382658343;
                         } else {
-                            i12 = $composer;
-                            obj3 = str;
-                            skipping = obj2;
-                            i5 = elevation2;
-                            cutoutShape2 = backgroundColor4;
+                            i6 = $composer;
+                            obj2 = str;
+                            skipping = obj6;
+                            i4 = elevation2;
+                            cutoutShape2 = backgroundColor2;
                             elevation2 = contentColor2;
-                            backgroundColor2 = 382658343;
+                            backgroundColor3 = 382658343;
                         }
                     } else {
                         traceInProgress2.skipToGroupEnd();
                         if (i52 & 4 != 0) {
-                            $dirty &= -897;
+                            $dirty2 &= -897;
                         }
                         if (i52 & 8 != 0) {
-                            i12 = $composer;
-                            $dirty = i20;
-                            obj3 = str;
-                            skipping = obj2;
-                            i5 = elevation2;
-                            backgroundColor2 = 382658343;
+                            i6 = $composer;
+                            $dirty2 = i20;
+                            obj2 = str;
+                            skipping = obj6;
+                            i4 = elevation2;
+                            backgroundColor3 = 382658343;
                             cutoutShape2 = contentColor2;
                             elevation2 = l2;
                         } else {
-                            i12 = $composer;
-                            obj3 = str;
-                            skipping = obj2;
-                            i5 = elevation2;
-                            backgroundColor2 = 382658343;
+                            i6 = $composer;
+                            obj2 = str;
+                            skipping = obj6;
+                            i4 = elevation2;
+                            backgroundColor3 = 382658343;
                             cutoutShape2 = contentColor2;
                             elevation2 = l2;
                         }
@@ -428,57 +428,57 @@ public final class AppBarKt {
                 }
                 traceInProgress2.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(backgroundColor2, $dirty, -1, "androidx.compose.material.BottomAppBar (AppBar.kt:341)");
+                    ComposerKt.traceEventStart(backgroundColor3, $dirty2, -1, "androidx.compose.material.BottomAppBar (AppBar.kt:341)");
                 }
-                i10 = 6;
+                i9 = 6;
                 docked = 0;
                 ComposerKt.sourceInformationMarkerStart(traceInProgress2, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(traceInProgress2);
                 Object this_$iv = consume;
                 if (skipping != null) {
-                    i10 = 0;
+                    i9 = 0;
                     consume = 1;
                     if (this_$iv != null && (FabPlacement)this_$iv.isDocked() == consume) {
                         consume = 1;
                         if (this_$iv.isDocked() == consume) {
-                            i10 = consume;
+                            i9 = consume;
                         }
                     }
-                    if (i10 != 0) {
-                        bottomAppBarCutoutShape2 = new BottomAppBarCutoutShape(skipping, this_$iv);
-                        bottomAppBarCutoutShape = bottomAppBarCutoutShape2;
+                    if (i9 != 0) {
+                        bottomAppBarCutoutShape = new BottomAppBarCutoutShape(skipping, this_$iv);
+                        bottomAppBarCutoutShape2 = bottomAppBarCutoutShape;
                     } else {
-                        bottomAppBarCutoutShape = bottomAppBarCutoutShape2;
+                        bottomAppBarCutoutShape2 = bottomAppBarCutoutShape;
                     }
                 } else {
                 }
-                AppBarKt.AppBar-HkEspTQ(cutoutShape2, i54, elevation2, i57, i5, i12, bottomAppBarCutoutShape, windowInsets, obj3, $changed, traceInProgress2);
+                AppBarKt.AppBar-HkEspTQ(cutoutShape2, i54, elevation2, i57, i4, i6, bottomAppBarCutoutShape2, windowInsets, obj2, $changed, traceInProgress2);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj6 = skipping;
+                obj = skipping;
                 l3 = cutoutShape2;
                 l = elevation2;
-                f = i5;
-                paddingValues = i12;
-                backgroundColor3 = $dirty;
-                $dirty2 = obj3;
+                f = i4;
+                paddingValues = i6;
+                backgroundColor4 = $dirty2;
+                $dirty = obj2;
             } else {
                 traceInProgress2.skipToGroupEnd();
-                composer = traceInProgress2;
+                composer2 = traceInProgress2;
                 l3 = contentColor2;
-                obj6 = obj2;
-                backgroundColor3 = $dirty;
-                $dirty2 = str;
+                obj = obj6;
+                backgroundColor4 = $dirty2;
+                $dirty = str;
                 l = l2;
                 f = elevation2;
                 paddingValues = $composer;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
         if (endRestartGroup != null) {
-            skipping = new AppBarKt.BottomAppBar.1(windowInsets, $dirty2, l3, i9, l, contentColor2, obj6, f, paddingValues, $changed, i51, i52);
+            skipping = new AppBarKt.BottomAppBar.1(windowInsets, $dirty, l3, i3, l, contentColor2, obj, f, paddingValues, $changed, i51, i52);
             endRestartGroup.updateScope((Function2)skipping);
         }
     }
@@ -487,46 +487,46 @@ public final class AppBarKt {
         Object obj5;
         int skipping;
         int defaultsInvalid;
-        int i12;
+        int i4;
         int bottomAppBarElevation-D9Ej5fM;
         Object $composer2;
         int $dirty2;
-        int $dirty;
-        long $dirty3;
+        int $dirty3;
+        long $dirty;
         int i8;
         Object this_$iv;
-        Object obj;
+        Object obj3;
         boolean traceInProgress;
-        int i5;
+        int i7;
         Shape bottomAppBarCutoutShape;
         long l;
-        int i4;
+        int i9;
         long str;
         int docked;
         Object consume;
         Object obj4;
-        int changed;
+        int changed2;
         long contentColorFor-ek8zF_U;
         float f;
         Object paddingValues;
-        int changed2;
-        int i14;
+        int changed;
+        int i13;
         Object cutoutShape2;
-        int i3;
+        int i14;
         float elevation2;
-        int i;
-        Object obj2;
-        int i7;
+        int i12;
+        Object obj;
         int i6;
-        int i11;
+        int i3;
+        int i;
         Shape bottomAppBarCutoutShape2;
         int i2;
         WindowInsets zeroInsets;
-        Object obj3;
+        Object obj2;
         Composer composer2;
         Composer composer;
-        int i13;
-        int i9;
+        int i11;
+        int i5;
         int obj33;
         final int i45 = obj34;
         Composer restartGroup = i10.startRestartGroup(-1651948973);
@@ -535,43 +535,43 @@ public final class AppBarKt {
         this_$iv = obj35 & 1;
         if (this_$iv != 0) {
             $dirty2 |= 6;
-            obj = modifier;
+            obj3 = modifier;
         } else {
             if (i45 & 6 == 0) {
-                i4 = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty2 |= i4;
+                i9 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i9;
             } else {
-                obj = modifier;
+                obj3 = modifier;
             }
         }
         if (i45 & 48 == 0) {
             if (obj35 & 2 == 0) {
-                changed = restartGroup.changed(backgroundColor) ? 32 : 16;
+                changed2 = restartGroup.changed(backgroundColor) ? 32 : 16;
             } else {
                 str = backgroundColor;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed2;
         } else {
             str = backgroundColor;
         }
         if (i45 & 384 == 0) {
             if (obj35 & 4 == 0) {
-                changed2 = restartGroup.changed(cutoutShape) ? 256 : 128;
+                changed = restartGroup.changed(cutoutShape) ? 256 : 128;
             } else {
                 contentColorFor-ek8zF_U = cutoutShape;
             }
-            $dirty2 |= changed2;
+            $dirty2 |= changed;
         } else {
             contentColorFor-ek8zF_U = cutoutShape;
         }
-        i14 = obj35 & 8;
-        if (i14 != 0) {
+        i13 = obj35 & 8;
+        if (i13 != 0) {
             $dirty2 |= 3072;
             cutoutShape2 = contentPadding;
         } else {
             if (i45 & 3072 == 0) {
-                i3 = restartGroup.changed(contentPadding) ? 2048 : 1024;
-                $dirty2 |= i3;
+                i14 = restartGroup.changed(contentPadding) ? 2048 : 1024;
+                $dirty2 |= i14;
             } else {
                 cutoutShape2 = contentPadding;
             }
@@ -582,8 +582,8 @@ public final class AppBarKt {
             elevation2 = content;
         } else {
             if (i45 & 24576 == 0) {
-                i = restartGroup.changed(content) ? 16384 : 8192;
-                $dirty2 |= i;
+                i12 = restartGroup.changed(content) ? 16384 : 8192;
+                $dirty2 |= i12;
             } else {
                 elevation2 = content;
             }
@@ -593,25 +593,25 @@ public final class AppBarKt {
         if (i49 != 0) {
             $dirty2 |= i50;
             obj33 = i50;
-            obj2 = $composer;
+            obj = $composer;
         } else {
             if (i45 & i50 == 0) {
                 obj33 = i50;
-                i7 = restartGroup.changed($composer) ? 131072 : 65536;
-                $dirty2 |= i7;
+                i6 = restartGroup.changed($composer) ? 131072 : 65536;
+                $dirty2 |= i6;
             } else {
                 obj33 = i50;
-                obj2 = $composer;
+                obj = $composer;
             }
         }
-        i11 = 1572864;
+        i = 1572864;
         if (obj35 & 64 != 0) {
-            $dirty2 |= i11;
+            $dirty2 |= i;
             obj5 = $changed;
         } else {
-            if (i45 & i11 == 0) {
-                i11 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
-                $dirty2 |= i11;
+            if (i45 & i == 0) {
+                i = restartGroup.changedInstance($changed) ? 1048576 : 524288;
+                $dirty2 |= i;
             } else {
                 obj5 = $changed;
             }
@@ -623,60 +623,60 @@ public final class AppBarKt {
                 if (i45 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
                         if (this_$iv != 0) {
-                            obj = defaultsInvalid;
+                            obj3 = defaultsInvalid;
                         }
                         if (obj35 & 2 != 0) {
                             str = primarySurface;
-                            $dirty = i12;
+                            $dirty3 = i4;
                         } else {
-                            $dirty = i2;
+                            $dirty3 = i2;
                         }
                         if (obj35 & 4 != 0) {
                             contentColorFor-ek8zF_U = ColorsKt.contentColorFor-ek8zF_U(str, obj6, restartGroup);
-                            $dirty &= -897;
+                            $dirty3 &= -897;
                         }
-                        if (i14 != 0) {
+                        if (i13 != 0) {
                             cutoutShape2 = bottomAppBarElevation-D9Ej5fM;
                         }
                         if (i47 != 0) {
                             elevation2 = bottomAppBarElevation-D9Ej5fM;
                         }
                         if (i49 != 0) {
-                            i6 = contentPadding2;
-                            obj3 = obj;
+                            i3 = contentPadding2;
+                            obj2 = obj3;
                             skipping = cutoutShape2;
-                            obj2 = elevation2;
+                            obj = elevation2;
                             i8 = -1651948973;
                             cutoutShape2 = str;
                             elevation2 = contentColorFor-ek8zF_U;
                         } else {
-                            obj3 = obj;
+                            obj2 = obj3;
                             skipping = cutoutShape2;
-                            i6 = obj2;
+                            i3 = obj;
                             i8 = -1651948973;
                             cutoutShape2 = str;
-                            obj2 = elevation2;
+                            obj = elevation2;
                             elevation2 = contentColorFor-ek8zF_U;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        $dirty = obj35 & 2 != 0 ? i2 & -113 : i2;
+                        $dirty3 = obj35 & 2 != 0 ? i2 & -113 : i2;
                         if (obj35 & 4 != 0) {
-                            $dirty = i19;
-                            obj3 = obj;
+                            $dirty3 = i19;
+                            obj2 = obj3;
                             skipping = cutoutShape2;
-                            i6 = obj2;
+                            i3 = obj;
                             i8 = -1651948973;
                             cutoutShape2 = str;
-                            obj2 = elevation2;
+                            obj = elevation2;
                             elevation2 = contentColorFor-ek8zF_U;
                         } else {
-                            obj3 = obj;
+                            obj2 = obj3;
                             skipping = cutoutShape2;
-                            i6 = obj2;
+                            i3 = obj;
                             i8 = -1651948973;
                             cutoutShape2 = str;
-                            obj2 = elevation2;
+                            obj = elevation2;
                             elevation2 = contentColorFor-ek8zF_U;
                         }
                     }
@@ -684,23 +684,23 @@ public final class AppBarKt {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(i8, $dirty, -1, "androidx.compose.material.BottomAppBar (AppBar.kt:409)");
+                    ComposerKt.traceEventStart(i8, $dirty3, -1, "androidx.compose.material.BottomAppBar (AppBar.kt:409)");
                 }
-                i5 = 6;
+                i7 = 6;
                 docked = 0;
                 ComposerKt.sourceInformationMarkerStart(restartGroup, 2023513938, "CC:CompositionLocal.kt#9igjgp");
                 ComposerKt.sourceInformationMarkerEnd(restartGroup);
                 this_$iv = consume;
                 if (skipping != null) {
-                    i5 = 0;
+                    i7 = 0;
                     consume = 1;
                     if (this_$iv != null && (FabPlacement)this_$iv.isDocked() == consume) {
                         consume = 1;
                         if (this_$iv.isDocked() == consume) {
-                            i5 = consume;
+                            i7 = consume;
                         }
                     }
-                    if (i5 != 0) {
+                    if (i7 != 0) {
                         bottomAppBarCutoutShape = new BottomAppBarCutoutShape(skipping, this_$iv);
                         bottomAppBarCutoutShape2 = bottomAppBarCutoutShape;
                     } else {
@@ -708,146 +708,146 @@ public final class AppBarKt {
                     }
                 } else {
                 }
-                AppBarKt.AppBar-HkEspTQ(cutoutShape2, i47, elevation2, i49, obj2, i6, bottomAppBarCutoutShape2, AppBarKt.ZeroInsets, obj3, $changed, restartGroup);
+                AppBarKt.AppBar-HkEspTQ(cutoutShape2, i47, elevation2, i49, obj, i3, bottomAppBarCutoutShape2, AppBarKt.ZeroInsets, obj2, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
                 obj4 = skipping;
-                i2 = $dirty;
-                $dirty3 = cutoutShape2;
+                i2 = $dirty3;
+                $dirty = cutoutShape2;
                 l = elevation2;
-                f = obj2;
-                paddingValues = i6;
-                $composer2 = obj3;
+                f = obj;
+                paddingValues = i3;
+                $composer2 = obj2;
             } else {
                 restartGroup.skipToGroupEnd();
                 composer = restartGroup;
-                $composer2 = obj;
-                $dirty3 = str;
+                $composer2 = obj3;
+                $dirty = str;
                 l = contentColorFor-ek8zF_U;
                 obj4 = cutoutShape2;
                 f = elevation2;
-                paddingValues = obj2;
+                paddingValues = obj;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            skipping = new AppBarKt.BottomAppBar.2($composer2, $dirty3, this_$iv, l, str, obj4, f, paddingValues, $changed, i45, obj35);
+            skipping = new AppBarKt.BottomAppBar.2($composer2, $dirty, this_$iv, l, str, obj4, f, paddingValues, $changed, i45, obj35);
             endRestartGroup.updateScope((Function2)skipping);
         }
     }
 
     public static final void TopAppBar-HsRjFd4(Modifier modifier, long backgroundColor, long contentColor, float elevation, PaddingValues contentPadding, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i9) {
-        int traceInProgress2;
+        int traceInProgress;
         int defaultsInvalid;
         Object modifier2;
-        boolean traceInProgress;
+        boolean traceInProgress2;
         Object $composer2;
-        int $dirty;
-        long $dirty2;
+        int $dirty2;
+        long $dirty;
         int primarySurface;
         int backgroundColor2;
-        Object obj;
-        long l3;
-        int i;
-        long l;
-        float f;
-        int changed2;
-        long l2;
-        Object obj4;
-        int i8;
-        int changed;
-        long i10;
-        float f2;
-        int i5;
-        int i2;
-        long i7;
-        Object obj5;
-        int i11;
         Object obj3;
-        int i6;
-        Object i4;
+        long l;
+        int i11;
+        long l2;
+        float f2;
+        int changed;
+        long l3;
+        Object obj;
+        int i5;
+        int changed2;
+        long i7;
+        float f;
+        int i4;
+        int i10;
+        long i;
+        Object obj2;
+        int i8;
+        Object obj5;
+        int i2;
+        Object i3;
         Shape rectangleShape;
         WindowInsets zeroInsets;
-        Object obj2;
+        Object obj4;
         Composer composer2;
         Composer composer;
+        int i6;
         int i12;
-        int i3;
         final int i41 = obj32;
         Composer restartGroup = i9.startRestartGroup(1897058582);
         ComposerKt.sourceInformation(restartGroup, "C(TopAppBar)P(5,0:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.unit.Dp,3)269@12098L6,270@12147L32,275@12356L202:AppBar.kt#jmzs0o");
-        $dirty = obj32;
+        $dirty2 = obj32;
         backgroundColor2 = obj33 & 1;
         if (backgroundColor2 != 0) {
-            $dirty |= 6;
-            obj = modifier;
+            $dirty2 |= 6;
+            obj3 = modifier;
         } else {
             if (i41 & 6 == 0) {
-                i = restartGroup.changed(modifier) ? 4 : 2;
-                $dirty |= i;
+                i11 = restartGroup.changed(modifier) ? 4 : 2;
+                $dirty2 |= i11;
             } else {
-                obj = modifier;
+                obj3 = modifier;
             }
         }
         if (i41 & 48 == 0) {
             if (obj33 & 2 == 0) {
-                changed2 = restartGroup.changed(backgroundColor) ? 32 : 16;
+                changed = restartGroup.changed(backgroundColor) ? 32 : 16;
             } else {
-                l = backgroundColor;
+                l2 = backgroundColor;
             }
-            $dirty |= changed2;
+            $dirty2 |= changed;
         } else {
-            l = backgroundColor;
+            l2 = backgroundColor;
         }
         if (i41 & 384 == 0) {
             if (obj33 & 4 == 0) {
-                changed = restartGroup.changed(elevation) ? 256 : 128;
+                changed2 = restartGroup.changed(elevation) ? 256 : 128;
             } else {
-                l2 = elevation;
+                l3 = elevation;
             }
-            $dirty |= changed;
+            $dirty2 |= changed2;
         } else {
-            l2 = elevation;
+            l3 = elevation;
         }
-        i10 = obj33 & 8;
-        if (i10 != 0) {
-            $dirty |= 3072;
-            f2 = content;
+        i7 = obj33 & 8;
+        if (i7 != 0) {
+            $dirty2 |= 3072;
+            f = content;
         } else {
             if (i41 & 3072 == 0) {
-                i2 = restartGroup.changed(content) ? 2048 : 1024;
-                $dirty |= i2;
+                i10 = restartGroup.changed(content) ? 2048 : 1024;
+                $dirty2 |= i10;
             } else {
-                f2 = content;
+                f = content;
             }
         }
-        i7 = obj33 & 16;
-        if (i7 != 0) {
-            $dirty |= 24576;
-            obj5 = $composer;
+        i = obj33 & 16;
+        if (i != 0) {
+            $dirty2 |= 24576;
+            obj2 = $composer;
         } else {
             if (i41 & 24576 == 0) {
-                i11 = restartGroup.changed($composer) ? 16384 : 8192;
-                $dirty |= i11;
+                i8 = restartGroup.changed($composer) ? 16384 : 8192;
+                $dirty2 |= i8;
             } else {
-                obj5 = $composer;
+                obj2 = $composer;
             }
         }
-        i6 = 196608;
+        i2 = 196608;
         if (obj33 & 32 != 0) {
-            $dirty |= i6;
-            obj3 = $changed;
+            $dirty2 |= i2;
+            obj5 = $changed;
         } else {
-            if (i41 & i6 == 0) {
-                i6 = restartGroup.changedInstance($changed) ? 131072 : 65536;
-                $dirty |= i6;
+            if (i41 & i2 == 0) {
+                i2 = restartGroup.changedInstance($changed) ? 131072 : 65536;
+                $dirty2 |= i2;
             } else {
-                obj3 = $changed;
+                obj5 = $changed;
             }
         }
-        if (i46 &= $dirty == 74898) {
+        if (i46 &= $dirty2 == 74898) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i41 & 1 != 0) {
@@ -855,134 +855,134 @@ public final class AppBarKt {
                         if (backgroundColor2 != 0) {
                             modifier2 = Modifier.Companion;
                         } else {
-                            modifier2 = obj;
+                            modifier2 = obj3;
                         }
                         if (obj33 & 2 != 0) {
-                            $dirty &= -113;
-                            l = primarySurface;
+                            $dirty2 &= -113;
+                            l2 = primarySurface;
                         }
                         if (obj33 & 4 != 0) {
-                            $dirty &= -897;
-                            l2 = backgroundColor2;
-                        }
-                        if (i10 != 0) {
-                            f2 = backgroundColor2;
+                            $dirty2 &= -897;
+                            l3 = backgroundColor2;
                         }
                         if (i7 != 0) {
-                            obj2 = modifier2;
-                            i4 = backgroundColor2;
+                            f = backgroundColor2;
+                        }
+                        if (i != 0) {
+                            obj4 = modifier2;
+                            i3 = backgroundColor2;
+                            i = l3;
+                            obj5 = f;
                             i7 = l2;
-                            obj3 = f2;
-                            i10 = l;
                         } else {
-                            obj2 = modifier2;
-                            obj3 = f2;
-                            i4 = obj5;
-                            i10 = l;
+                            obj4 = modifier2;
+                            obj5 = f;
+                            i3 = obj2;
                             i7 = l2;
+                            i = l3;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
                         if (obj33 & 2 != 0) {
-                            $dirty &= -113;
+                            $dirty2 &= -113;
                         }
                         if (obj33 & 4 != 0) {
-                            $dirty = modifier2;
-                            obj2 = obj;
-                            obj3 = f2;
-                            i4 = obj5;
-                            i10 = l;
+                            $dirty2 = modifier2;
+                            obj4 = obj3;
+                            obj5 = f;
+                            i3 = obj2;
                             i7 = l2;
+                            i = l3;
                         } else {
-                            obj2 = obj;
-                            obj3 = f2;
-                            i4 = obj5;
-                            i10 = l;
+                            obj4 = obj3;
+                            obj5 = f;
+                            i3 = obj2;
                             i7 = l2;
+                            i = l3;
                         }
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart(1897058582, $dirty, -1, "androidx.compose.material.TopAppBar (AppBar.kt:274)");
+                    ComposerKt.traceEventStart(1897058582, $dirty2, -1, "androidx.compose.material.TopAppBar (AppBar.kt:274)");
                 }
-                AppBarKt.AppBar-HkEspTQ(i10, f2, i7, obj5, obj3, i4, RectangleShapeKt.getRectangleShape(), AppBarKt.ZeroInsets, obj2, $changed, restartGroup);
+                AppBarKt.AppBar-HkEspTQ(i7, f, i, obj2, obj5, i3, RectangleShapeKt.getRectangleShape(), AppBarKt.ZeroInsets, obj4, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i5 = $dirty;
-                $dirty2 = l4;
-                l3 = i7;
-                f = obj3;
-                obj4 = i4;
-                $composer2 = obj2;
+                i4 = $dirty2;
+                $dirty = l4;
+                l = i;
+                f2 = obj5;
+                obj = i3;
+                $composer2 = obj4;
             } else {
                 restartGroup.skipToGroupEnd();
-                i5 = $dirty;
-                $dirty2 = l;
-                f = f3;
+                i4 = $dirty2;
+                $dirty = l2;
+                f2 = f3;
                 composer = restartGroup;
-                $composer2 = obj;
-                l3 = l2;
-                obj4 = obj5;
+                $composer2 = obj3;
+                l = l3;
+                obj = obj2;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new AppBarKt.TopAppBar.5($composer2, $dirty2, backgroundColor2, l3, l, f, obj4, $changed, i41, obj33);
-            endRestartGroup.updateScope((Function2)traceInProgress2);
+            traceInProgress = new AppBarKt.TopAppBar.5($composer2, $dirty, backgroundColor2, l, l2, f2, obj, $changed, i41, obj33);
+            endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void TopAppBar-Rx1qByU(Function2<? super Composer, ? super Integer, Unit> title, WindowInsets windowInsets, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> navigationIcon, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> actions, long backgroundColor, long contentColor, float elevation, Composer $composer, int $changed, int i11) {
-        long l;
-        float f;
+        long l2;
+        float f2;
         boolean traceInProgress;
         int lambda-1$material_release;
         int colors;
         int topAppBarElevation-D9Ej5fM;
         boolean traceInProgress2;
-        int obj8;
+        int obj9;
         Function2 function2;
         int str;
         Object restartGroup;
         int $dirty2;
         Object $dirty;
-        int i8;
-        Object obj9;
-        Object obj5;
-        int i3;
-        Object obj;
-        int i4;
-        Object obj3;
-        long l2;
         int i2;
-        int i7;
-        Object obj2;
-        long navigationIcon2;
-        int i9;
+        Object obj;
+        Object obj5;
+        int i10;
+        Object obj8;
+        int i8;
+        Object obj6;
+        long l;
+        int i5;
+        int i4;
         Object obj4;
+        long navigationIcon2;
+        int i6;
+        Object obj7;
         float actions2;
-        int i;
+        int i3;
         long primarySurface;
         int backgroundColor2;
-        int changed2;
-        int i10;
-        long i5;
         int changed;
+        int i7;
+        long i12;
+        int changed2;
         int contentColor2;
-        float f2;
+        float f;
         PaddingValues contentPadding;
         Shape rectangleShape;
-        Object obj7;
-        Object obj6;
+        Object obj3;
+        Object obj2;
         androidx.compose.runtime.internal.ComposableLambda composableLambda;
         Composer composer;
-        int i12;
-        int i6;
-        obj8 = title;
+        int i;
+        int i9;
+        obj9 = title;
         final int i43 = obj37;
         final int i44 = obj38;
         restartGroup = i11.startRestartGroup(-763778507);
@@ -992,88 +992,88 @@ public final class AppBarKt {
             $dirty2 |= 6;
         } else {
             if (i43 & 6 == 0) {
-                i8 = restartGroup.changedInstance(obj8) ? 4 : 2;
-                $dirty2 |= i8;
+                i2 = restartGroup.changedInstance(obj9) ? 4 : 2;
+                $dirty2 |= i2;
             }
         }
         if (i44 & 2 != 0) {
             $dirty2 |= 48;
-            obj9 = windowInsets;
+            obj = windowInsets;
         } else {
             if (i43 & 48 == 0) {
-                i3 = restartGroup.changed(windowInsets) ? 32 : 16;
-                $dirty2 |= i3;
+                i10 = restartGroup.changed(windowInsets) ? 32 : 16;
+                $dirty2 |= i10;
             } else {
-                obj9 = windowInsets;
+                obj = windowInsets;
             }
         }
-        i4 = i44 & 4;
-        if (i4 != 0) {
+        i8 = i44 & 4;
+        if (i8 != 0) {
             $dirty2 |= 384;
-            obj3 = modifier;
+            obj6 = modifier;
         } else {
             if (i43 & 384 == 0) {
-                i2 = restartGroup.changed(modifier) ? 256 : 128;
-                $dirty2 |= i2;
+                i5 = restartGroup.changed(modifier) ? 256 : 128;
+                $dirty2 |= i5;
             } else {
-                obj3 = modifier;
+                obj6 = modifier;
             }
         }
-        i7 = i44 & 8;
-        if (i7 != 0) {
+        i4 = i44 & 8;
+        if (i4 != 0) {
             $dirty2 |= 3072;
-            obj2 = navigationIcon;
+            obj4 = navigationIcon;
         } else {
             if (i43 & 3072 == 0) {
-                i9 = restartGroup.changedInstance(navigationIcon) ? 2048 : 1024;
-                $dirty2 |= i9;
+                i6 = restartGroup.changedInstance(navigationIcon) ? 2048 : 1024;
+                $dirty2 |= i6;
             } else {
-                obj2 = navigationIcon;
+                obj4 = navigationIcon;
             }
         }
         int i41 = i44 & 16;
         if (i41 != 0) {
             $dirty2 |= 24576;
-            obj4 = actions;
+            obj7 = actions;
         } else {
             if (i43 & 24576 == 0) {
-                i = restartGroup.changedInstance(actions) ? 16384 : 8192;
-                $dirty2 |= i;
+                i3 = restartGroup.changedInstance(actions) ? 16384 : 8192;
+                $dirty2 |= i3;
             } else {
-                obj4 = actions;
+                obj7 = actions;
             }
         }
         if (i45 &= i43 == 0) {
             if (i44 & 32 == 0) {
-                changed2 = restartGroup.changed(backgroundColor) ? 131072 : 65536;
+                changed = restartGroup.changed(backgroundColor) ? 131072 : 65536;
             } else {
                 primarySurface = backgroundColor;
             }
-            $dirty2 |= changed2;
+            $dirty2 |= changed;
         } else {
             primarySurface = backgroundColor;
         }
         if (i48 &= i43 == 0) {
             if (i44 & 64 == 0) {
-                changed = restartGroup.changed(elevation) ? 1048576 : 524288;
+                changed2 = restartGroup.changed(elevation) ? 1048576 : 524288;
             } else {
-                l = elevation;
+                l2 = elevation;
             }
-            $dirty2 |= changed;
+            $dirty2 |= changed2;
         } else {
-            l = elevation;
+            l2 = elevation;
         }
-        i5 = i44 & 128;
+        i12 = i44 & 128;
         contentColor2 = 12582912;
-        if (i5 != 0) {
+        if (i12 != 0) {
             $dirty2 |= contentColor2;
-            f = $changed;
+            f2 = $changed;
         } else {
             if (i43 & contentColor2 == 0) {
-                obj8 = restartGroup.changed($changed) ? 8388608 : 4194304;
-                $dirty2 |= obj8;
+                obj9 = restartGroup.changed($changed) ? 8388608 : 4194304;
+                $dirty2 |= obj9;
             } else {
-                f = $changed;
+                f2 = $changed;
             }
         }
         if (i22 &= $dirty2 == 4793490) {
@@ -1083,14 +1083,14 @@ public final class AppBarKt {
                 contentColor2 = -458753;
                 if (i43 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i4 != 0) {
-                            obj3 = lambda-1$material_release;
+                        if (i8 != 0) {
+                            obj6 = lambda-1$material_release;
                         }
-                        if (i7 != 0) {
-                            obj2 = lambda-1$material_release;
+                        if (i4 != 0) {
+                            obj4 = lambda-1$material_release;
                         }
                         if (i41 != 0) {
-                            obj4 = lambda-1$material_release;
+                            obj7 = lambda-1$material_release;
                         }
                         if (i44 & 32 != 0) {
                             primarySurface = ColorsKt.getPrimarySurface(MaterialTheme.INSTANCE.getColors(restartGroup, 6));
@@ -1102,14 +1102,14 @@ public final class AppBarKt {
                         } else {
                             contentColor2 = elevation;
                         }
-                        if (i5 != 0) {
-                            obj6 = obj3;
-                            i5 = contentColor2;
-                            f2 = topAppBarElevation-D9Ej5fM;
+                        if (i12 != 0) {
+                            obj2 = obj6;
+                            i12 = contentColor2;
+                            f = topAppBarElevation-D9Ej5fM;
                         } else {
-                            obj6 = obj3;
-                            i5 = contentColor2;
-                            f2 = $changed;
+                            obj2 = obj6;
+                            i12 = contentColor2;
+                            f = $changed;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1117,14 +1117,14 @@ public final class AppBarKt {
                             $dirty2 &= contentColor2;
                         }
                         if (i44 & 64 != 0) {
-                            i5 = elevation;
-                            f2 = $changed;
+                            i12 = elevation;
+                            f = $changed;
                             $dirty2 = topAppBarElevation-D9Ej5fM;
-                            obj6 = obj3;
+                            obj2 = obj6;
                         } else {
-                            i5 = elevation;
-                            f2 = $changed;
-                            obj6 = obj3;
+                            i12 = elevation;
+                            f = $changed;
+                            obj2 = obj6;
                         }
                     }
                 } else {
@@ -1133,27 +1133,27 @@ public final class AppBarKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(-763778507, $dirty2, -1, "androidx.compose.material.TopAppBar (AppBar.kt:93)");
                 }
-                AppBarKt.TopAppBar.1 anon = new AppBarKt.TopAppBar.1(obj2, title, obj4);
-                AppBarKt.AppBar-HkEspTQ(primarySurface, obj14, i5, contentColor2, f2, AppBarDefaults.INSTANCE.getContentPadding(), RectangleShapeKt.getRectangleShape(), obj9, obj6, (Function3)ComposableLambdaKt.rememberComposableLambda(1849684359, true, anon, restartGroup, 54), restartGroup);
+                AppBarKt.TopAppBar.1 anon = new AppBarKt.TopAppBar.1(obj4, title, obj7);
+                AppBarKt.AppBar-HkEspTQ(primarySurface, obj14, i12, contentColor2, f, AppBarDefaults.INSTANCE.getContentPadding(), RectangleShapeKt.getRectangleShape(), obj, obj2, (Function3)ComposableLambdaKt.rememberComposableLambda(1849684359, true, anon, restartGroup, 54), restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                obj5 = obj2;
-                obj = obj4;
-                l2 = primarySurface;
-                navigationIcon2 = i5;
-                actions2 = f2;
+                obj5 = obj4;
+                obj8 = obj7;
+                l = primarySurface;
+                navigationIcon2 = i12;
+                actions2 = f;
                 backgroundColor2 = $dirty2;
-                $dirty = obj6;
+                $dirty = obj2;
             } else {
                 restartGroup.skipToGroupEnd();
                 backgroundColor2 = $dirty2;
-                $dirty = obj3;
-                l2 = l3;
+                $dirty = obj6;
+                l = l3;
                 function2 = title;
                 composer = restartGroup;
-                obj5 = obj2;
-                obj = obj4;
+                obj5 = obj4;
+                obj8 = obj7;
                 navigationIcon2 = elevation;
                 actions2 = $changed;
             }
@@ -1161,52 +1161,52 @@ public final class AppBarKt {
         }
         final ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new AppBarKt.TopAppBar.2(function2, windowInsets, $dirty, obj5, obj, l2, i7, navigationIcon2, i41, actions2, i43, i44);
+            traceInProgress = new AppBarKt.TopAppBar.2(function2, windowInsets, $dirty, obj5, obj8, l, i4, navigationIcon2, i41, actions2, i43, i44);
             endRestartGroup.updateScope((Function2)traceInProgress);
         }
     }
 
     public static final void TopAppBar-afqeVBk(WindowInsets windowInsets, Modifier modifier, long backgroundColor, long contentColor, float elevation, PaddingValues contentPadding, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> content, Composer $composer, int $changed, int i10) {
-        int traceInProgress;
+        int traceInProgress2;
         int defaultsInvalid;
         int colors;
         int topAppBarElevation-D9Ej5fM;
-        boolean traceInProgress2;
+        boolean traceInProgress;
         Object restartGroup;
         int $dirty2;
         Object $dirty;
         Object obj3;
         int contentColorFor-ek8zF_U;
-        long l3;
-        int i14;
-        int i5;
-        Object obj2;
         long l2;
-        int i2;
+        int i7;
+        int i11;
+        Object obj4;
+        long l3;
+        int i13;
         long l;
-        float f2;
+        float f;
         int changed;
         long l4;
-        Object obj;
-        int i12;
-        int changed2;
-        long i7;
-        float f;
-        int i;
-        int i9;
-        long i8;
         Object obj6;
-        int i13;
-        Object obj4;
-        int i3;
-        Object i11;
-        Shape rectangleShape;
-        Modifier modifier2;
-        Object obj5;
-        Composer composer;
-        Composer composer2;
+        int i5;
+        int changed2;
+        long i3;
+        float f2;
         int i6;
         int i4;
+        long i2;
+        Object obj;
+        int i14;
+        Object obj5;
+        int i12;
+        Object i;
+        Shape rectangleShape;
+        Modifier modifier2;
+        Object obj2;
+        Composer composer2;
+        Composer composer;
+        int i8;
+        int i9;
         final int i48 = obj34;
         restartGroup = i10.startRestartGroup(883764366);
         ComposerKt.sourceInformation(restartGroup, "C(TopAppBar)P(6,5,0:c#ui.graphics.Color,2:c#ui.graphics.Color,4:c#ui.unit.Dp,3)222@9964L6,223@10013L32,228@10222L204:AppBar.kt#jmzs0o");
@@ -1216,22 +1216,22 @@ public final class AppBarKt {
             obj3 = windowInsets;
         } else {
             if (i48 & 6 == 0) {
-                i14 = restartGroup.changed(windowInsets) ? 4 : 2;
-                $dirty2 |= i14;
+                i7 = restartGroup.changed(windowInsets) ? 4 : 2;
+                $dirty2 |= i7;
             } else {
                 obj3 = windowInsets;
             }
         }
-        i5 = obj35 & 2;
-        if (i5 != 0) {
+        i11 = obj35 & 2;
+        if (i11 != 0) {
             $dirty2 |= 48;
-            obj2 = modifier;
+            obj4 = modifier;
         } else {
             if (i48 & 48 == 0) {
-                i2 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty2 |= i2;
+                i13 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty2 |= i13;
             } else {
-                obj2 = modifier;
+                obj4 = modifier;
             }
         }
         if (i48 & 384 == 0) {
@@ -1254,50 +1254,50 @@ public final class AppBarKt {
         } else {
             l4 = elevation;
         }
-        i7 = obj35 & 16;
-        if (i7 != 0) {
+        i3 = obj35 & 16;
+        if (i3 != 0) {
             $dirty2 |= 24576;
-            f = content;
+            f2 = content;
         } else {
             if (i48 & 24576 == 0) {
-                i9 = restartGroup.changed(content) ? 16384 : 8192;
-                $dirty2 |= i9;
+                i4 = restartGroup.changed(content) ? 16384 : 8192;
+                $dirty2 |= i4;
             } else {
-                f = content;
+                f2 = content;
             }
         }
-        i8 = obj35 & 32;
+        i2 = obj35 & 32;
         int i50 = 196608;
-        if (i8 != 0) {
+        if (i2 != 0) {
             $dirty2 |= i50;
-            obj6 = $composer;
+            obj = $composer;
         } else {
             if (i50 &= i48 == 0) {
-                i13 = restartGroup.changed($composer) ? 131072 : 65536;
-                $dirty2 |= i13;
+                i14 = restartGroup.changed($composer) ? 131072 : 65536;
+                $dirty2 |= i14;
             } else {
-                obj6 = $composer;
+                obj = $composer;
             }
         }
-        i3 = 1572864;
+        i12 = 1572864;
         if (obj35 & 64 != 0) {
-            $dirty2 |= i3;
-            obj4 = $changed;
+            $dirty2 |= i12;
+            obj5 = $changed;
         } else {
-            if (i48 & i3 == 0) {
-                i3 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
-                $dirty2 |= i3;
+            if (i48 & i12 == 0) {
+                i12 = restartGroup.changedInstance($changed) ? 1048576 : 524288;
+                $dirty2 |= i12;
             } else {
-                obj4 = $changed;
+                obj5 = $changed;
             }
         }
-        if ($dirty2 & i11 == 599186) {
+        if ($dirty2 & i == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 if (i48 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i5 != 0) {
-                            obj2 = defaultsInvalid;
+                        if (i11 != 0) {
+                            obj4 = defaultsInvalid;
                         }
                         if (obj35 & 4 != 0) {
                             $dirty2 &= -897;
@@ -1307,21 +1307,21 @@ public final class AppBarKt {
                             $dirty2 &= -7169;
                             l4 = contentColorFor-ek8zF_U;
                         }
-                        if (i7 != 0) {
-                            f = topAppBarElevation-D9Ej5fM;
+                        if (i3 != 0) {
+                            f2 = topAppBarElevation-D9Ej5fM;
                         }
-                        if (i8 != 0) {
-                            i11 = topAppBarElevation-D9Ej5fM;
-                            obj5 = obj2;
-                            i8 = l4;
-                            obj4 = f;
-                            i7 = l;
+                        if (i2 != 0) {
+                            i = topAppBarElevation-D9Ej5fM;
+                            obj2 = obj4;
+                            i2 = l4;
+                            obj5 = f2;
+                            i3 = l;
                         } else {
-                            obj5 = obj2;
-                            obj4 = f;
-                            i11 = obj6;
-                            i7 = l;
-                            i8 = l4;
+                            obj2 = obj4;
+                            obj5 = f2;
+                            i = obj;
+                            i3 = l;
+                            i2 = l4;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
@@ -1330,17 +1330,17 @@ public final class AppBarKt {
                         }
                         if (obj35 & 8 != 0) {
                             $dirty2 = topAppBarElevation-D9Ej5fM;
-                            obj5 = obj2;
-                            obj4 = f;
-                            i11 = obj6;
-                            i7 = l;
-                            i8 = l4;
+                            obj2 = obj4;
+                            obj5 = f2;
+                            i = obj;
+                            i3 = l;
+                            i2 = l4;
                         } else {
-                            obj5 = obj2;
-                            obj4 = f;
-                            i11 = obj6;
-                            i7 = l;
-                            i8 = l4;
+                            obj2 = obj4;
+                            obj5 = f2;
+                            i = obj;
+                            i3 = l;
+                            i2 = l4;
                         }
                     }
                 } else {
@@ -1349,78 +1349,78 @@ public final class AppBarKt {
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventStart(883764366, $dirty2, -1, "androidx.compose.material.TopAppBar (AppBar.kt:227)");
                 }
-                AppBarKt.AppBar-HkEspTQ(i7, f, i8, obj6, obj4, i11, RectangleShapeKt.getRectangleShape(), windowInsets, obj5, $changed, restartGroup);
+                AppBarKt.AppBar-HkEspTQ(i3, f2, i2, obj, obj5, i, RectangleShapeKt.getRectangleShape(), windowInsets, obj2, $changed, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                l3 = i7;
-                l2 = i8;
-                f2 = obj4;
-                obj = i11;
-                i = $dirty2;
-                $dirty = obj5;
+                l2 = i3;
+                l3 = i2;
+                f = obj5;
+                obj6 = i;
+                i6 = $dirty2;
+                $dirty = obj2;
             } else {
                 restartGroup.skipToGroupEnd();
-                composer2 = restartGroup;
-                l3 = l;
-                f2 = f;
-                i = $dirty2;
-                $dirty = obj2;
-                l2 = l4;
-                obj = obj6;
+                composer = restartGroup;
+                l2 = l;
+                f = f2;
+                i6 = $dirty2;
+                $dirty = obj4;
+                l3 = l4;
+                obj6 = obj;
             }
         } else {
         }
-        ScopeUpdateScope endRestartGroup = composer2.endRestartGroup();
+        ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress = new AppBarKt.TopAppBar.4(windowInsets, $dirty, l3, i5, l2, l, f2, obj, $changed, i48, obj35);
-            endRestartGroup.updateScope((Function2)traceInProgress);
+            traceInProgress2 = new AppBarKt.TopAppBar.4(windowInsets, $dirty, l2, i11, l3, l, f, obj6, $changed, i48, obj35);
+            endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
 
     public static final void TopAppBar-xWeB9-s(Function2<? super Composer, ? super Integer, Unit> title, Modifier modifier, Function2<? super Composer, ? super Integer, Unit> navigationIcon, Function3<? super RowScope, ? super Composer, ? super Integer, Unit> actions, long backgroundColor, long contentColor, float elevation, Composer $composer, int $changed, int i10) {
-        float f;
+        float f2;
         boolean traceInProgress2;
         int lambda-2$material_release;
-        int $dirty2;
-        int $dirty4;
         int $dirty5;
+        int $dirty4;
+        int $dirty2;
         Object restartGroup;
         int $dirty3;
         Object $dirty;
-        int i2;
-        int i;
-        Object obj5;
-        int i15;
-        int i9;
+        int i8;
+        int i3;
+        Object obj7;
+        int i13;
+        int i16;
         boolean traceInProgress;
         Object str;
-        Object obj3;
-        int i3;
-        long l2;
-        Object obj7;
-        int i7;
+        Object obj6;
+        int i5;
         long l3;
         Object obj4;
-        int i16;
-        int i13;
-        int i8;
+        int i7;
+        long l2;
+        Object obj;
+        int i14;
+        int i2;
+        int i12;
         float f3;
         int changed2;
         int changed;
-        Object obj;
+        Object obj5;
         long primarySurface;
-        int i12;
-        Object obj6;
-        long contentColor2;
-        Object obj2;
         int i4;
-        int i14;
+        Object obj2;
+        long contentColor2;
+        Object obj3;
+        int i;
         int i11;
+        int i15;
         long l;
-        float f2;
+        float f;
         Composer composer;
-        int i5;
+        int i9;
         int i6;
         final int i52 = obj34;
         restartGroup = i10.startRestartGroup(-2087748139);
@@ -1428,23 +1428,23 @@ public final class AppBarKt {
         $dirty3 = obj34;
         if (obj35 & 1 != 0) {
             $dirty3 |= 6;
-            obj = title;
+            obj5 = title;
         } else {
             if (i52 & 6 == 0) {
-                i = restartGroup.changedInstance(title) ? 4 : 2;
-                $dirty3 |= i;
+                i3 = restartGroup.changedInstance(title) ? 4 : 2;
+                $dirty3 |= i3;
             } else {
-                obj = title;
+                obj5 = title;
             }
         }
-        i15 = obj35 & 2;
-        if (i15 != 0) {
+        i13 = obj35 & 2;
+        if (i13 != 0) {
             $dirty3 |= 48;
             str = modifier;
         } else {
             if (i52 & 48 == 0) {
-                i3 = restartGroup.changed(modifier) ? 32 : 16;
-                $dirty3 |= i3;
+                i5 = restartGroup.changed(modifier) ? 32 : 16;
+                $dirty3 |= i5;
             } else {
                 str = modifier;
             }
@@ -1452,154 +1452,154 @@ public final class AppBarKt {
         int i46 = obj35 & 4;
         if (i46 != 0) {
             $dirty3 |= 384;
-            obj7 = navigationIcon;
+            obj4 = navigationIcon;
         } else {
             if (i52 & 384 == 0) {
                 i7 = restartGroup.changedInstance(navigationIcon) ? 256 : 128;
                 $dirty3 |= i7;
             } else {
-                obj7 = navigationIcon;
+                obj4 = navigationIcon;
             }
         }
         int i48 = obj35 & 8;
         if (i48 != 0) {
             $dirty3 |= 3072;
-            obj4 = actions;
+            obj = actions;
         } else {
             if (i52 & 3072 == 0) {
-                i16 = restartGroup.changedInstance(actions) ? 2048 : 1024;
-                $dirty3 |= i16;
+                i14 = restartGroup.changedInstance(actions) ? 2048 : 1024;
+                $dirty3 |= i14;
             } else {
-                obj4 = actions;
+                obj = actions;
             }
         }
         if (i52 & 24576 == 0) {
             if (obj35 & 16 == 0) {
-                i13 = restartGroup.changed(backgroundColor) ? 16384 : 8192;
+                i2 = restartGroup.changed(backgroundColor) ? 16384 : 8192;
             } else {
                 primarySurface = backgroundColor;
             }
-            $dirty3 |= i13;
+            $dirty3 |= i2;
         } else {
             primarySurface = backgroundColor;
         }
         if (i50 &= i52 == 0) {
             if (obj35 & 32 == 0) {
-                i8 = restartGroup.changed(elevation) ? 131072 : 65536;
+                i12 = restartGroup.changed(elevation) ? 131072 : 65536;
             } else {
                 contentColor2 = elevation;
             }
-            $dirty3 |= i8;
+            $dirty3 |= i12;
         } else {
             contentColor2 = elevation;
         }
         int i51 = obj35 & 64;
-        i4 = 1572864;
+        i = 1572864;
         if (i51 != 0) {
-            $dirty3 |= i4;
-            f = $changed;
+            $dirty3 |= i;
+            f2 = $changed;
         } else {
-            if (i52 & i4 == 0) {
-                i14 = restartGroup.changed($changed) ? 1048576 : 524288;
-                $dirty3 |= i14;
+            if (i52 & i == 0) {
+                i11 = restartGroup.changed($changed) ? 1048576 : 524288;
+                $dirty3 |= i11;
             } else {
-                f = $changed;
+                f2 = $changed;
             }
         }
         final int obj33 = $dirty3;
-        if ($dirty3 & i11 == 599186) {
+        if ($dirty3 & i15 == 599186) {
             if (!restartGroup.getSkipping()) {
                 restartGroup.startDefaults();
                 int i27 = -458753;
-                i11 = -57345;
+                i15 = -57345;
                 if (i52 & 1 != 0) {
                     if (restartGroup.getDefaultsInvalid()) {
-                        if (i15 != 0) {
+                        if (i13 != 0) {
                             str = lambda-2$material_release;
                         }
                         if (i46 != 0) {
-                            obj7 = lambda-2$material_release;
+                            obj4 = lambda-2$material_release;
                         }
                         if (i48 != 0) {
-                            obj4 = lambda-2$material_release;
+                            obj = lambda-2$material_release;
                         }
                         if (obj35 & 16 != 0) {
                             primarySurface = ColorsKt.getPrimarySurface(MaterialTheme.INSTANCE.getColors(restartGroup, 6));
-                            $dirty2 = obj33 & i11;
+                            $dirty5 = obj33 & i15;
                         } else {
-                            $dirty2 = obj33;
+                            $dirty5 = obj33;
                         }
                         if (obj35 & 32 != 0) {
                             contentColor2 = ColorsKt.contentColorFor-ek8zF_U(primarySurface, obj13, restartGroup);
-                            $dirty2 &= i27;
+                            $dirty5 &= i27;
                         }
                         if (i51 != 0) {
-                            f2 = topAppBarElevation-D9Ej5fM;
-                            i4 = primarySurface;
+                            f = topAppBarElevation-D9Ej5fM;
+                            i = primarySurface;
                             l = contentColor2;
-                            i2 = $dirty2;
-                            obj6 = str;
-                            contentColor2 = obj7;
-                            obj2 = obj4;
-                            $dirty5 = -2087748139;
+                            i8 = $dirty5;
+                            obj2 = str;
+                            contentColor2 = obj4;
+                            obj3 = obj;
+                            $dirty2 = -2087748139;
                         } else {
-                            f2 = $changed;
-                            i2 = $dirty2;
-                            i4 = primarySurface;
+                            f = $changed;
+                            i8 = $dirty5;
+                            i = primarySurface;
                             l = contentColor2;
-                            $dirty5 = -2087748139;
-                            obj6 = str;
-                            contentColor2 = obj7;
-                            obj2 = obj4;
+                            $dirty2 = -2087748139;
+                            obj2 = str;
+                            contentColor2 = obj4;
+                            obj3 = obj;
                         }
                     } else {
                         restartGroup.skipToGroupEnd();
-                        $dirty4 = obj35 & 16 != 0 ? obj33 & i11 : obj33;
+                        $dirty4 = obj35 & 16 != 0 ? obj33 & i15 : obj33;
                         if (obj35 & 32 != 0) {
                             $dirty4 &= i27;
                         }
-                        f2 = $changed;
-                        i2 = $dirty4;
-                        i4 = primarySurface;
+                        f = $changed;
+                        i8 = $dirty4;
+                        i = primarySurface;
                         l = contentColor2;
-                        $dirty5 = -2087748139;
-                        obj6 = str;
-                        contentColor2 = obj7;
-                        obj2 = obj4;
+                        $dirty2 = -2087748139;
+                        obj2 = str;
+                        contentColor2 = obj4;
+                        obj3 = obj;
                     }
                 } else {
                 }
                 restartGroup.endDefaults();
                 if (ComposerKt.isTraceInProgress()) {
-                    ComposerKt.traceEventStart($dirty5, i2, -1, "androidx.compose.material.TopAppBar (AppBar.kt:175)");
+                    ComposerKt.traceEventStart($dirty2, i8, -1, "androidx.compose.material.TopAppBar (AppBar.kt:175)");
                 }
-                AppBarKt.TopAppBar-Rx1qByU(obj, AppBarKt.ZeroInsets, obj6, contentColor2, obj2, i4, i11, l, obj19, f2, restartGroup);
+                AppBarKt.TopAppBar-Rx1qByU(obj5, AppBarKt.ZeroInsets, obj2, contentColor2, obj3, i, i15, l, obj19, f, restartGroup);
                 if (ComposerKt.isTraceInProgress()) {
                     ComposerKt.traceEventEnd();
                 }
-                i12 = i2;
-                $dirty = obj6;
-                obj5 = contentColor2;
-                obj3 = obj2;
-                l2 = i4;
-                l3 = l;
-                f3 = f2;
+                i4 = i8;
+                $dirty = obj2;
+                obj7 = contentColor2;
+                obj6 = obj3;
+                l3 = i;
+                l2 = l;
+                f3 = f;
             } else {
                 restartGroup.skipToGroupEnd();
                 f3 = $changed;
                 composer = restartGroup;
                 $dirty = str;
-                obj5 = obj7;
-                obj3 = obj4;
-                l2 = primarySurface;
-                l3 = contentColor2;
-                i12 = obj33;
+                obj7 = obj4;
+                obj6 = obj;
+                l3 = primarySurface;
+                l2 = contentColor2;
+                i4 = obj33;
             }
         } else {
         }
         ScopeUpdateScope endRestartGroup = composer.endRestartGroup();
         if (endRestartGroup != null) {
-            traceInProgress2 = new AppBarKt.TopAppBar.3(title, $dirty, obj5, obj3, l2, obj7, l3, obj4, f3, i52, obj35);
+            traceInProgress2 = new AppBarKt.TopAppBar.3(title, $dirty, obj7, obj6, l3, obj4, l2, obj, f3, i52, obj35);
             endRestartGroup.updateScope((Function2)traceInProgress2);
         }
     }
@@ -1642,9 +1642,9 @@ public final class AppBarKt {
 
     public static final Pair<Float, Float> calculateRoundedEdgeIntercept(float controlPointX, float verticalOffset, float radius) {
         Pair pair;
-        Float valueOf2;
         Float valueOf3;
         Float valueOf;
+        Float valueOf2;
         float f;
         final int i = controlPointX;
         final int i2 = verticalOffset;
@@ -1672,22 +1672,22 @@ public final class AppBarKt {
         float f5 = (float)sqrt4;
         if (Float.compare(i2, i27) > 0) {
             if (Float.compare(f4, f5) > 0) {
-                valueOf3 = Float.valueOf(i18);
-                valueOf = Float.valueOf(f4);
+                valueOf = Float.valueOf(i18);
+                valueOf2 = Float.valueOf(f4);
             } else {
-                valueOf3 = Float.valueOf(i20);
-                valueOf = Float.valueOf(f5);
+                valueOf = Float.valueOf(i20);
+                valueOf2 = Float.valueOf(f5);
             }
-            pair = TuplesKt.to(valueOf3, valueOf);
+            pair = TuplesKt.to(valueOf, valueOf2);
         } else {
             if (Float.compare(f4, f5) < 0) {
-                valueOf2 = Float.valueOf(i18);
-                valueOf = Float.valueOf(f4);
+                valueOf3 = Float.valueOf(i18);
+                valueOf2 = Float.valueOf(f4);
             } else {
-                valueOf2 = Float.valueOf(i20);
-                valueOf = Float.valueOf(f5);
+                valueOf3 = Float.valueOf(i20);
+                valueOf2 = Float.valueOf(f5);
             }
-            pair = TuplesKt.to(valueOf2, valueOf);
+            pair = TuplesKt.to(valueOf3, valueOf2);
         }
         float floatValue2 = (Number)pair.component1().floatValue();
         float floatValue = (Number)pair.component2().floatValue();

@@ -36,36 +36,36 @@ public final class ChipDefaults {
     }
 
     public final androidx.compose.material.ChipColors chipColors-5tl4gsc(long backgroundColor, long contentColor, long leadingIconContentColor, long disabledBackgroundColor, long disabledContentColor, long disabledLeadingIconContentColor, Composer $composer, int $changed, int i9) {
-        androidx.compose.material.Colors colors2;
+        androidx.compose.material.Colors colors;
         androidx.compose.material.Colors colors3;
-        int colors;
-        int i15;
+        int colors2;
+        int i;
         int copy-wmQWz5c$default2;
         boolean traceInProgress;
         int str;
         long copy-wmQWz5c$default;
-        int i2;
-        long l7;
-        long surface-0d7_KjU;
-        long l;
         int i14;
-        int i12;
-        long l6;
-        int i6;
-        int i3;
-        long l3;
-        int i7;
-        int i;
         long l5;
-        int i8;
+        long surface-0d7_KjU;
+        long l4;
+        int i10;
+        int i7;
+        long l6;
+        int i11;
         int i13;
         long l2;
-        int i10;
+        int i15;
+        int i2;
+        long l3;
         int i4;
-        long l4;
-        int i11;
         int i5;
+        long l;
+        int i6;
+        int i3;
+        long l7;
         int i16;
+        int i8;
+        int i12;
         long obj22;
         int obj24;
         int obj25;
@@ -79,9 +79,9 @@ public final class ChipDefaults {
         str = 6;
         if (obj36 & 1 != 0) {
             int i25 = 0;
-            l = copy-wmQWz5c$default;
+            l4 = copy-wmQWz5c$default;
         } else {
-            l = backgroundColor;
+            l4 = backgroundColor;
         }
         if (obj36 & 2 != 0) {
             l6 = copy-wmQWz5c$default;
@@ -89,31 +89,31 @@ public final class ChipDefaults {
             l6 = leadingIconContentColor;
         }
         if (obj36 & 4 != 0) {
-            l3 = copy-wmQWz5c$default;
-        } else {
-            l3 = disabledContentColor;
-        }
-        if (obj36 & 8 != 0) {
-            l5 = copy-wmQWz5c$default;
-        } else {
-            l5 = $composer;
-        }
-        if (obj36 & 16 != 0) {
             l2 = copy-wmQWz5c$default;
         } else {
-            l2 = i9;
+            l2 = disabledContentColor;
+        }
+        if (obj36 & 8 != 0) {
+            l3 = copy-wmQWz5c$default;
+        } else {
+            l3 = $composer;
+        }
+        if (obj36 & 16 != 0) {
+            l = copy-wmQWz5c$default;
+        } else {
+            l = i9;
         }
         if (obj36 & 32 != 0) {
-            l4 = copy-wmQWz5c$default2;
+            l7 = copy-wmQWz5c$default2;
         } else {
-            l4 = obj32;
+            l7 = obj32;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i17, obj35, -1, "androidx.compose.material.ChipDefaults.chipColors (Chip.kt:405)");
         } else {
-            i2 = obj35;
+            i14 = obj35;
         }
-        DefaultChipColors defaultChipColors = new DefaultChipColors(l, i14, l6, i6, l3, i7, l5, i8, l2, i10, l4, i11, 0);
+        DefaultChipColors defaultChipColors = new DefaultChipColors(l4, i10, l6, i11, l2, i15, l3, i4, l, i6, l7, i16, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -122,45 +122,45 @@ public final class ChipDefaults {
     }
 
     public final androidx.compose.material.SelectableChipColors filterChipColors-J08w3-E(long backgroundColor, long contentColor, long leadingIconColor, long disabledBackgroundColor, long disabledContentColor, long disabledLeadingIconColor, long selectedBackgroundColor, long selectedContentColor, long selectedLeadingIconColor, Composer $composer, int $changed, int i12) {
-        int i9;
-        int traceInProgress;
-        int colors;
-        int colors2;
-        int colors3;
-        int i22;
-        int i13;
-        int i21;
-        int compositeOver--OWjLjI;
-        int i19;
-        long compositeOver--OWjLjI2;
-        long l5;
-        long surface-0d7_KjU;
-        long l3;
-        int i2;
-        int i18;
-        long l6;
         int i8;
-        int i5;
-        long l2;
-        int i10;
-        int i;
-        long l9;
-        int i16;
-        int i3;
-        long l8;
-        int i11;
-        int i14;
-        long l4;
-        int i23;
-        int i20;
-        long l7;
-        int i6;
-        int i7;
-        long l;
-        int i17;
+        int traceInProgress;
+        int colors3;
+        int colors2;
+        int colors;
         int i4;
-        long l10;
+        int i7;
+        int i5;
+        int compositeOver--OWjLjI2;
+        int i19;
+        long compositeOver--OWjLjI;
+        long l2;
+        long surface-0d7_KjU;
+        long l5;
+        int i17;
+        int i14;
+        long l9;
+        int i18;
+        int i20;
+        long l6;
+        int i10;
+        int i23;
+        long l4;
+        int i21;
+        int i16;
+        long l3;
+        int i;
+        int i11;
+        long l7;
+        int i9;
+        int i22;
+        long l8;
+        int i2;
         int i15;
+        long l;
+        int i13;
+        int i3;
+        long l10;
+        int i6;
         long obj28;
         int obj30;
         int obj31;
@@ -175,47 +175,47 @@ public final class ChipDefaults {
         int i27 = 6;
         if (i24 & 1 != 0) {
             int i34 = 0;
-            l3 = compositeOver--OWjLjI2;
+            l5 = compositeOver--OWjLjI;
         } else {
-            l3 = backgroundColor;
+            l5 = backgroundColor;
         }
         if (i24 & 2 != 0) {
-            l6 = compositeOver--OWjLjI2;
+            l9 = compositeOver--OWjLjI;
         } else {
-            l6 = leadingIconColor;
+            l9 = leadingIconColor;
         }
         if (i24 & 4 != 0) {
-            l2 = compositeOver--OWjLjI2;
+            l6 = compositeOver--OWjLjI;
         } else {
-            l2 = disabledContentColor;
+            l6 = disabledContentColor;
         }
         if (i24 & 8 != 0) {
-            l9 = compositeOver--OWjLjI2;
+            l4 = compositeOver--OWjLjI;
         } else {
-            l9 = selectedBackgroundColor;
+            l4 = selectedBackgroundColor;
         }
         if (i24 & 16 != 0) {
-            l8 = compositeOver--OWjLjI2;
+            l3 = compositeOver--OWjLjI;
         } else {
-            l8 = selectedLeadingIconColor;
+            l3 = selectedLeadingIconColor;
         }
         if (i24 & 32 != 0) {
-            l4 = compositeOver--OWjLjI2;
+            l7 = compositeOver--OWjLjI;
         } else {
-            l4 = $changed;
+            l7 = $changed;
         }
         if (i24 & 64 != 0) {
-            l7 = compositeOver--OWjLjI2;
+            l8 = compositeOver--OWjLjI;
         } else {
-            l7 = obj40;
+            l8 = obj40;
         }
         if (i24 & 128 != 0) {
-            l = compositeOver--OWjLjI2;
+            l = compositeOver--OWjLjI;
         } else {
             l = obj42;
         }
         if (i24 &= 256 != 0) {
-            l10 = compositeOver--OWjLjI;
+            l10 = compositeOver--OWjLjI2;
         } else {
             l10 = obj44;
         }
@@ -224,7 +224,7 @@ public final class ChipDefaults {
         } else {
             i19 = obj47;
         }
-        DefaultSelectableChipColors defaultSelectableChipColors = new DefaultSelectableChipColors(l3, i2, l6, i8, l2, i10, l9, i16, l8, i11, l4, i23, l7, i6, l, i17, l10, i15, 0);
+        DefaultSelectableChipColors defaultSelectableChipColors = new DefaultSelectableChipColors(l5, i17, l9, i18, l6, i10, l4, i21, l3, i, l7, i9, l8, i2, l, i13, l10, i6, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }
@@ -267,29 +267,29 @@ public final class ChipDefaults {
     public final androidx.compose.material.ChipColors outlinedChipColors-5tl4gsc(long backgroundColor, long contentColor, long leadingIconContentColor, long disabledBackgroundColor, long disabledContentColor, long disabledLeadingIconContentColor, Composer $composer, int $changed, int i9) {
         androidx.compose.material.Colors colors;
         androidx.compose.material.Colors colors2;
-        int i14;
+        int i8;
         int copy-wmQWz5c$default2;
         boolean traceInProgress;
         int str;
         long backgroundColor2;
         long copy-wmQWz5c$default;
         long leadingIconContentColor2;
-        int i12;
-        long disabledBackgroundColor2;
-        int i3;
-        int i8;
-        long disabledContentColor2;
-        int i4;
-        int i2;
-        long l;
-        int i6;
-        long l2;
-        int i7;
         int i11;
-        int i5;
-        int i;
+        long disabledBackgroundColor2;
         int i13;
         int i10;
+        long disabledContentColor2;
+        int i6;
+        int i12;
+        long l2;
+        int i14;
+        long l;
+        int i2;
+        int i;
+        int i5;
+        int i7;
+        int i3;
+        int i4;
         long obj24;
         int obj26;
         int obj27;
@@ -308,25 +308,25 @@ public final class ChipDefaults {
             backgroundColor2 = backgroundColor;
         }
         if (obj38 & 2 != 0) {
-            l2 = copy-wmQWz5c$default;
+            l = copy-wmQWz5c$default;
         } else {
-            l2 = leadingIconContentColor;
+            l = leadingIconContentColor;
         }
         if (obj38 & 4 != 0) {
-            leadingIconContentColor2 = Color.copy-wmQWz5c$default(l2, obj16, 1057635697, 0, 0, 0, 14);
+            leadingIconContentColor2 = Color.copy-wmQWz5c$default(l, obj16, 1057635697, 0, 0, 0, 14);
         } else {
             leadingIconContentColor2 = disabledContentColor;
         }
         disabledBackgroundColor2 = obj38 & 8 != 0 ? backgroundColor2 : $composer;
         if (obj38 & 16 != 0) {
-            disabledContentColor2 = Color.copy-wmQWz5c$default(l2, contentColor, disabled2 *= i37, 0, 0, 0, 14);
+            disabledContentColor2 = Color.copy-wmQWz5c$default(l, contentColor, disabled2 *= i37, 0, 0, 0, 14);
         } else {
             disabledContentColor2 = i9;
         }
         if (obj38 & 32 != 0) {
-            l = copy-wmQWz5c$default2;
+            l2 = copy-wmQWz5c$default2;
         } else {
-            l = obj34;
+            l2 = obj34;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i16, i15, -1, "androidx.compose.material.ChipDefaults.outlinedChipColors (Chip.kt:437)");
@@ -335,43 +335,43 @@ public final class ChipDefaults {
             ComposerKt.traceEventEnd();
         }
         ComposerKt.sourceInformationMarkerEnd(obj36);
-        return this.chipColors-5tl4gsc(backgroundColor2, str, l2, obj5, leadingIconContentColor2, obj7, disabledBackgroundColor2, i3, disabledContentColor2);
+        return this.chipColors-5tl4gsc(backgroundColor2, str, l, obj5, leadingIconContentColor2, obj7, disabledBackgroundColor2, i13, disabledContentColor2);
     }
 
     public final androidx.compose.material.SelectableChipColors outlinedFilterChipColors-J08w3-E(long backgroundColor, long contentColor, long leadingIconColor, long disabledBackgroundColor, long disabledContentColor, long disabledLeadingIconColor, long selectedBackgroundColor, long selectedContentColor, long selectedLeadingIconColor, Composer $composer, int $changed, int i12) {
-        int i5;
+        int i2;
         int traceInProgress;
         int colors2;
         int colors;
-        int i19;
-        int i20;
-        int i18;
-        int compositeOver--OWjLjI2;
-        int i13;
-        long compositeOver--OWjLjI;
-        int i6;
-        int i14;
-        long l3;
-        long l4;
-        int i7;
-        long l2;
-        int i11;
-        int i;
-        long l9;
-        int i15;
-        int i16;
-        long l6;
-        int i8;
-        long l5;
-        int i10;
-        long l8;
         int i9;
-        int i4;
-        long l7;
         int i3;
-        int i2;
-        long l;
+        int i6;
+        int compositeOver--OWjLjI2;
+        int i8;
+        long compositeOver--OWjLjI;
+        int i10;
+        int i7;
+        long l6;
+        long l8;
+        int i19;
+        long l2;
         int i17;
+        int i14;
+        long l;
+        int i15;
+        int i18;
+        long l7;
+        int i16;
+        long l3;
+        int i4;
+        long l9;
+        int i11;
+        int i20;
+        long l5;
+        int i;
+        int i5;
+        long l4;
+        int i13;
         long obj28;
         int obj30;
         int obj31;
@@ -385,52 +385,52 @@ public final class ChipDefaults {
         ComposerKt.sourceInformationMarkerStart(composer, i22, "C(outlinedFilterChipColors)P(0:c#ui.graphics.Color,1:c#ui.graphics.Color,5:c#ui.graphics.Color,2:c#ui.graphics.Color,3:c#ui.graphics.Color,4:c#ui.graphics.Color,6:c#ui.graphics.Color,7:c#ui.graphics.Color,8:c#ui.graphics.Color)513@23764L6,514@23824L6,518@24084L8,521@24219L8,523@24315L6,526@24475L6,529@24636L6:Chip.kt#jmzs0o");
         int i25 = 6;
         if (i21 & 1 != 0) {
-            l3 = compositeOver--OWjLjI;
+            l6 = compositeOver--OWjLjI;
         } else {
-            l3 = backgroundColor;
+            l6 = backgroundColor;
         }
         if (i21 & 2 != 0) {
-            l4 = compositeOver--OWjLjI;
+            l8 = compositeOver--OWjLjI;
         } else {
-            l4 = leadingIconColor;
+            l8 = leadingIconColor;
         }
         if (i21 & 4 != 0) {
             l2 = compositeOver--OWjLjI;
         } else {
             l2 = disabledContentColor;
         }
-        l9 = i21 & 8 != 0 ? compositeOver--OWjLjI : selectedBackgroundColor;
+        l = i21 & 8 != 0 ? compositeOver--OWjLjI : selectedBackgroundColor;
         if (i21 & 16 != 0) {
-            l6 = compositeOver--OWjLjI;
-        } else {
-            l6 = selectedLeadingIconColor;
-        }
-        if (i21 & 32 != 0) {
-            l5 = compositeOver--OWjLjI;
-        } else {
-            l5 = $changed;
-        }
-        if (i21 & 64 != 0) {
-            l8 = compositeOver--OWjLjI;
-        } else {
-            l8 = obj40;
-        }
-        if (i21 & 128 != 0) {
             l7 = compositeOver--OWjLjI;
         } else {
-            l7 = obj42;
+            l7 = selectedLeadingIconColor;
+        }
+        if (i21 & 32 != 0) {
+            l3 = compositeOver--OWjLjI;
+        } else {
+            l3 = $changed;
+        }
+        if (i21 & 64 != 0) {
+            l9 = compositeOver--OWjLjI;
+        } else {
+            l9 = obj40;
+        }
+        if (i21 & 128 != 0) {
+            l5 = compositeOver--OWjLjI;
+        } else {
+            l5 = obj42;
         }
         if (i21 &= 256 != 0) {
-            l = compositeOver--OWjLjI2;
+            l4 = compositeOver--OWjLjI2;
         } else {
-            l = obj44;
+            l4 = obj44;
         }
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventStart(i22, obj47, -1, "androidx.compose.material.ChipDefaults.outlinedFilterChipColors (Chip.kt:532)");
         } else {
-            i13 = obj47;
+            i8 = obj47;
         }
-        DefaultSelectableChipColors defaultSelectableChipColors = new DefaultSelectableChipColors(l3, obj9, l4, obj11, l2, i11, l9, i15, l6, i8, l5, i10, l8, i9, l7, i3, l, i17, 0);
+        DefaultSelectableChipColors defaultSelectableChipColors = new DefaultSelectableChipColors(l6, obj9, l8, obj11, l2, i17, l, i15, l7, i16, l3, i4, l9, i11, l5, i, l4, i13, 0);
         if (ComposerKt.isTraceInProgress()) {
             ComposerKt.traceEventEnd();
         }

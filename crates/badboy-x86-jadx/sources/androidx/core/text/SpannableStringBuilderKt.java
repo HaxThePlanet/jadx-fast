@@ -63,16 +63,16 @@ public final class SpannableStringBuilderKt {
     }
 
     public static final SpannableStringBuilder inSpans(SpannableStringBuilder $this$inSpans, Object[] spans, Function1<? super SpannableStringBuilder, Unit> builderAction) {
-        int i;
+        int i2;
         Object obj;
         int length;
-        int i2;
+        int i;
         final int i3 = 0;
         builderAction.invoke($this$inSpans);
-        i = 0;
-        while (i < spans.length) {
-            $this$inSpans.setSpan(spans[i], $this$inSpans.length(), $this$inSpans.length(), 17);
-            i++;
+        i2 = 0;
+        while (i2 < spans.length) {
+            $this$inSpans.setSpan(spans[i2], $this$inSpans.length(), $this$inSpans.length(), 17);
+            i2++;
         }
         return $this$inSpans;
     }

@@ -16,13 +16,12 @@ public final class PathSegment {
     public static enum Type {
 
         Move,
-        Move,
-        Move,
-        Move,
-        Move,
-        Move,
-        Move,
-        Move;
+        Line,
+        Quadratic,
+        Conic,
+        Cubic,
+        Close,
+        Done;
         private static final androidx.compose.ui.graphics.PathSegment.Type[] $values() {
             return /* result */;
         }

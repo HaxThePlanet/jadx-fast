@@ -212,20 +212,20 @@ public abstract class ScatterMap<K, V>  {
     }
 
     public final boolean all(Function2<? super K, ? super V, Boolean> predicate) {
-        int $i$f$all;
+        int $i$f$all2;
         int i$iv$iv;
         int cmp;
         int i6;
         int j$iv$iv;
         long value$iv$iv$iv;
         int i2;
-        int i3;
+        int i;
         int i7;
         long slot$iv$iv;
         int i4;
+        int i3;
+        int $i$f$all;
         int i5;
-        int $i$f$all2;
-        int i;
         boolean booleanValue;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
@@ -236,7 +236,7 @@ public abstract class ScatterMap<K, V>  {
         length += -2;
         if (0 <= i10) {
         } else {
-            $i$f$all2 = $i$f$all;
+            $i$f$all = $i$f$all2;
             i7 = 1;
         }
         return i7;
@@ -249,20 +249,20 @@ public abstract class ScatterMap<K, V>  {
     }
 
     public final boolean any(Function2<? super K, ? super V, Boolean> predicate) {
-        int $i$f$any2;
+        int $i$f$any;
         int i$iv$iv;
         int cmp;
         int i2;
         int j$iv$iv;
         long value$iv$iv$iv;
-        int i7;
+        int i;
         int i6;
         int i5;
         long slot$iv$iv;
-        int i;
-        int i3;
-        int $i$f$any;
+        int i7;
         int i4;
+        int $i$f$any2;
+        int i3;
         boolean booleanValue;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
@@ -273,31 +273,31 @@ public abstract class ScatterMap<K, V>  {
         length += -2;
         if (0 <= i10) {
         } else {
-            $i$f$any = $i$f$any2;
+            $i$f$any2 = $i$f$any;
             i5 = 0;
         }
         return i5;
     }
 
     public final String asDebugString$collection() {
-        int i2;
+        int i3;
         int i4;
-        int i5;
-        String str2;
+        int i2;
+        String str;
         int data$iv;
         int length;
         int i;
-        String str;
-        int i3;
+        String str2;
+        int i5;
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder sb = stringBuilder;
         final int i6 = 0;
         sb.append('{');
         sb.append("metadata=[");
-        i2 = 0;
-        str2 = ", ";
-        while (i2 < getCapacity()) {
-            data$iv = i12 & i3;
+        i3 = 0;
+        str = ", ";
+        while (i3 < getCapacity()) {
+            data$iv = i12 & i5;
             if (Long.compare(data$iv, i13) == 0) {
             } else {
             }
@@ -305,27 +305,27 @@ public abstract class ScatterMap<K, V>  {
             } else {
             }
             sb.append(data$iv);
-            sb.append(str2);
-            i2++;
-            str2 = ", ";
+            sb.append(str);
+            i3++;
+            str = ", ";
             sb.append("Deleted");
             sb.append("Empty");
         }
         String i8 = "], ";
         sb.append(i8);
         sb.append("keys=[");
-        i5 = 0;
-        while (i5 < keys.length) {
-            sb.append(this.keys[i5]);
-            sb.append(str2);
-            i5++;
+        i2 = 0;
+        while (i2 < keys.length) {
+            sb.append(this.keys[i2]);
+            sb.append(str);
+            i2++;
         }
         sb.append(i8);
         sb.append("values=[");
         i4 = 0;
         while (i4 < values.length) {
             sb.append(this.values[i4]);
-            sb.append(str2);
+            sb.append(str);
             i4++;
         }
         sb.append("]");
@@ -341,131 +341,40 @@ public abstract class ScatterMap<K, V>  {
     }
 
     public final boolean contains(K key) {
-        int m$iv;
-        int m$iv2;
-        int $i$f$hash;
-        int i9;
-        int i6;
-        int i;
-        int $i$f$h2;
-        int $i$f$h1;
-        int probeIndex$iv;
-        int i4;
-        int i12;
-        int $this$hasNext$iv$iv;
-        int $this$next$iv$iv;
-        int i7;
-        int i8;
-        int i11;
-        int i13;
-        long l;
-        int i3;
-        int i10;
-        int i5;
-        int i14;
-        int i2;
-        int numberOfTrailingZeros;
-        final Object obj = key;
-        final Object obj2 = this;
-        m$iv = 0;
-        int i16 = 0;
-        if (obj != null) {
-            i = obj.hashCode();
-        } else {
-            i = 0;
-        }
-        i *= i22;
-        $i$f$hash = i20 ^ i23;
-        int i21 = 0;
-        $i$f$h2 = $i$f$hash & 127;
-        int _capacity = obj2._capacity;
-        int i24 = 0;
-        $i$f$h12 &= _capacity;
-        probeIndex$iv = 0;
-        while (/* condition */) {
-            int i30 = 0;
-            int i35 = 0;
-            i2 = 1;
-            while (Long.compare(i25, i35) != 0) {
-                $this$hasNext$iv$iv = i2;
-                i7 = 0;
-                i14 = 0;
-                int i28 = m$iv2;
-                i13 = 0;
-                m$iv2 = $this$next$iv$iv;
-                i30 = 0;
-                i35 = 0;
-                i2 = 1;
-                $this$hasNext$iv$iv = 0;
-            }
-            $this$hasNext$iv$iv = 0;
-            int i27 = i9;
-            i7 = 0;
-            if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
-                break;
-            } else {
-            }
-            $i$f$h1 = i4 & _capacity;
-            $i$f$h2 = i8;
-            m$iv = i10;
-            $i$f$hash = i5;
-            long[] metadata = obj2.metadata;
-            $this$next$iv$iv = 0;
-            int i29 = $i$f$h1 >> 3;
-            i31 <<= 3;
-            i19 |= i33;
-            i7 = 0;
-            i8 = i42;
-            long l6 = 72340172838076673L;
-            i34 ^= i12;
-            l = -9187201950435737472L;
-            i15 &= l;
-            i7 = 0;
-            i14 = 0;
-            i28 = m$iv2;
-            i13 = 0;
-            m$iv2 = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i2;
-        }
-        i6 = i12 >= 0 ? i2 : 0;
-        return i6;
-    }
-
-    public final boolean containsKey(K key) {
         int m$iv2;
         int m$iv;
         int $i$f$hash;
+        int i2;
+        int i;
         int i12;
-        int i13;
-        int i4;
         int $i$f$h2;
         int $i$f$h1;
         int probeIndex$iv;
-        int i7;
-        int i8;
+        int i11;
+        int i6;
         int $this$hasNext$iv$iv;
         int $this$next$iv$iv;
+        int i8;
+        int i4;
+        int i7;
+        int i5;
+        long l;
+        int i3;
+        int i13;
         int i9;
-        int i6;
         int i10;
         int i14;
-        long l;
-        int i;
-        int i2;
-        int i3;
-        int i11;
-        int i5;
         int numberOfTrailingZeros;
         final Object obj = key;
         final Object obj2 = this;
         m$iv2 = 0;
         int i16 = 0;
         if (obj != null) {
-            i4 = obj.hashCode();
+            i12 = obj.hashCode();
         } else {
-            i4 = 0;
+            i12 = 0;
         }
-        i4 *= i22;
+        i12 *= i22;
         $i$f$hash = i20 ^ i23;
         int i21 = 0;
         $i$f$h2 = $i$f$hash & 127;
@@ -476,50 +385,141 @@ public abstract class ScatterMap<K, V>  {
         while (/* condition */) {
             int i30 = 0;
             int i35 = 0;
-            i5 = 1;
+            i14 = 1;
             while (Long.compare(i25, i35) != 0) {
-                $this$hasNext$iv$iv = i5;
-                i9 = 0;
-                i11 = 0;
+                $this$hasNext$iv$iv = i14;
+                i8 = 0;
+                i10 = 0;
                 int i28 = m$iv;
-                i14 = 0;
+                i5 = 0;
                 m$iv = $this$next$iv$iv;
                 i30 = 0;
                 i35 = 0;
-                i5 = 1;
+                i14 = 1;
                 $this$hasNext$iv$iv = 0;
             }
             $this$hasNext$iv$iv = 0;
-            int i27 = i12;
-            i9 = 0;
+            int i27 = i2;
+            i8 = 0;
             if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
                 break;
             } else {
             }
-            $i$f$h1 = i7 & _capacity;
-            $i$f$h2 = i6;
-            m$iv2 = i2;
-            $i$f$hash = i3;
+            $i$f$h1 = i11 & _capacity;
+            $i$f$h2 = i4;
+            m$iv2 = i13;
+            $i$f$hash = i9;
             long[] metadata = obj2.metadata;
             $this$next$iv$iv = 0;
             int i29 = $i$f$h1 >> 3;
             i31 <<= 3;
             i19 |= i33;
-            i9 = 0;
-            i6 = i42;
+            i8 = 0;
+            i4 = i42;
             long l6 = 72340172838076673L;
-            i34 ^= i8;
+            i34 ^= i6;
             l = -9187201950435737472L;
             i15 &= l;
-            i9 = 0;
-            i11 = 0;
+            i8 = 0;
+            i10 = 0;
             i28 = m$iv;
-            i14 = 0;
+            i5 = 0;
             m$iv = $this$next$iv$iv;
-            $this$hasNext$iv$iv = i5;
+            $this$hasNext$iv$iv = i14;
         }
-        i13 = i8 >= 0 ? i5 : 0;
-        return i13;
+        i = i6 >= 0 ? i14 : 0;
+        return i;
+    }
+
+    public final boolean containsKey(K key) {
+        int m$iv;
+        int m$iv2;
+        int $i$f$hash;
+        int i10;
+        int i7;
+        int i12;
+        int $i$f$h2;
+        int $i$f$h1;
+        int probeIndex$iv;
+        int i9;
+        int i13;
+        int $this$hasNext$iv$iv;
+        int $this$next$iv$iv;
+        int i3;
+        int i8;
+        int i14;
+        int i6;
+        long l;
+        int i2;
+        int i;
+        int i5;
+        int i4;
+        int i11;
+        int numberOfTrailingZeros;
+        final Object obj = key;
+        final Object obj2 = this;
+        m$iv = 0;
+        int i16 = 0;
+        if (obj != null) {
+            i12 = obj.hashCode();
+        } else {
+            i12 = 0;
+        }
+        i12 *= i22;
+        $i$f$hash = i20 ^ i23;
+        int i21 = 0;
+        $i$f$h2 = $i$f$hash & 127;
+        int _capacity = obj2._capacity;
+        int i24 = 0;
+        $i$f$h12 &= _capacity;
+        probeIndex$iv = 0;
+        while (/* condition */) {
+            int i30 = 0;
+            int i35 = 0;
+            i11 = 1;
+            while (Long.compare(i25, i35) != 0) {
+                $this$hasNext$iv$iv = i11;
+                i3 = 0;
+                i4 = 0;
+                int i28 = m$iv2;
+                i6 = 0;
+                m$iv2 = $this$next$iv$iv;
+                i30 = 0;
+                i35 = 0;
+                i11 = 1;
+                $this$hasNext$iv$iv = 0;
+            }
+            $this$hasNext$iv$iv = 0;
+            int i27 = i10;
+            i3 = 0;
+            if (Long.compare($this$maskEmpty$iv$iv, numberOfTrailingZeros) != 0) {
+                break;
+            } else {
+            }
+            $i$f$h1 = i9 & _capacity;
+            $i$f$h2 = i8;
+            m$iv = i;
+            $i$f$hash = i5;
+            long[] metadata = obj2.metadata;
+            $this$next$iv$iv = 0;
+            int i29 = $i$f$h1 >> 3;
+            i31 <<= 3;
+            i19 |= i33;
+            i3 = 0;
+            i8 = i42;
+            long l6 = 72340172838076673L;
+            i34 ^= i13;
+            l = -9187201950435737472L;
+            i15 &= l;
+            i3 = 0;
+            i4 = 0;
+            i28 = m$iv2;
+            i6 = 0;
+            m$iv2 = $this$next$iv$iv;
+            $this$hasNext$iv$iv = i11;
+        }
+        i7 = i13 >= 0 ? i11 : 0;
+        return i7;
     }
 
     public final boolean containsValue(V value) {
@@ -527,17 +527,17 @@ public abstract class ScatterMap<K, V>  {
         int i7;
         long slot$iv$iv;
         int $this$maskEmptyOrDeleted$iv$iv$iv;
-        Object obj;
-        int i4;
         Object obj2;
+        int i4;
+        Object obj;
         int j$iv$iv;
         int value$iv$iv$iv;
-        int i5;
+        int i2;
         long l;
         int i3;
-        int i6;
-        int i2;
         int i;
+        int i6;
+        int i5;
         boolean equal;
         final Object obj3 = this;
         final int i8 = 0;
@@ -546,7 +546,7 @@ public abstract class ScatterMap<K, V>  {
         length += -2;
         if (0 <= i10) {
         } else {
-            obj = value;
+            obj2 = value;
             i3 = 0;
         }
         return i3;
@@ -558,23 +558,23 @@ public abstract class ScatterMap<K, V>  {
 
     public final int count(Function2<? super K, ? super V, Boolean> predicate) {
         int cmp;
-        int i2;
+        int i4;
         Object this_$iv2;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
-        int i;
-        int i4;
+        int i3;
+        int i2;
         int $i$f$count;
         int count;
         long l;
         int key;
-        int i3;
+        int i;
         boolean booleanValue;
         Object this_$iv;
         final Object obj = predicate;
         Intrinsics.checkNotNullParameter(obj, "predicate");
-        i2 = 0;
+        i4 = 0;
         this_$iv2 = this;
         final int i11 = 0;
         final int i12 = 0;
@@ -584,33 +584,33 @@ public abstract class ScatterMap<K, V>  {
         } else {
             $i$f$count = cmp;
             this_$iv = this_$iv2;
-            count = i2;
+            count = i4;
         }
         return count;
     }
 
     public boolean equals(Object other) {
         int obj2;
-        int $this$maskEmptyOrDeleted$iv$iv$iv2;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
         int obj3;
         int equal;
         Object $i$f$isFull;
         int i$iv$iv;
         long slot$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int $this$maskEmptyOrDeleted$iv$iv$iv2;
         Object obj;
         int cmp;
-        int i2;
-        long l;
-        int i;
         int i3;
+        long l;
         int i4;
+        int i;
+        int i2;
         Object key;
         obj2 = other;
-        $this$maskEmptyOrDeleted$iv$iv$iv2 = 1;
+        $this$maskEmptyOrDeleted$iv$iv$iv = 1;
         obj3 = this;
         if (obj2 == obj3) {
-            return $this$maskEmptyOrDeleted$iv$iv$iv2;
+            return $this$maskEmptyOrDeleted$iv$iv$iv;
         }
         equal = 0;
         if (obj2 instanceof ScatterMap == null) {
@@ -627,47 +627,47 @@ public abstract class ScatterMap<K, V>  {
         length += -2;
         if (0 <= i14) {
         } else {
-            i2 = $this$maskEmptyOrDeleted$iv$iv$iv2;
+            i3 = $this$maskEmptyOrDeleted$iv$iv$iv;
             obj = $i$f$isFull;
         }
-        return i2;
+        return i3;
     }
 
     public final int findKeyIndex$collection(K key) {
-        int m2;
         int m;
+        int m2;
         int $i$f$hash;
-        int i10;
-        int i11;
+        int i;
+        int i13;
         int $i$f$h2;
         int $i$f$h1;
         int probeIndex;
-        int i5;
-        int i4;
+        int i2;
+        int i14;
         int $this$next$iv;
-        int i8;
         int i7;
-        int i13;
+        int i6;
+        int i8;
         int i3;
         int i9;
         long l;
-        int i6;
         int i15;
-        int i12;
-        int i;
-        int i2;
+        int i4;
+        int i10;
+        int i11;
+        int i5;
         int numberOfTrailingZeros;
-        int i14;
+        int i12;
         final Object obj = this;
         final Object obj2 = key;
-        m2 = 0;
+        m = 0;
         int i17 = 0;
         if (obj2 != null) {
-            i11 = obj2.hashCode();
+            i13 = obj2.hashCode();
         } else {
-            i11 = 0;
+            i13 = 0;
         }
-        i11 *= i23;
+        i13 *= i23;
         $i$f$hash = i21 ^ i24;
         int i22 = 0;
         $i$f$h2 = $i$f$hash & 127;
@@ -679,44 +679,44 @@ public abstract class ScatterMap<K, V>  {
             int i31 = 0;
             int i36 = 0;
             while (Long.compare(i26, i36) != 0) {
-                i2 = 1;
-                i7 = 0;
+                i5 = 1;
+                i6 = 0;
                 int i46 = 0;
-                i4 = i38 & _capacity;
-                int i29 = m;
+                i14 = i38 & _capacity;
+                int i29 = m2;
                 i9 = 0;
-                m = $this$next$iv;
+                m2 = $this$next$iv;
                 i31 = 0;
                 i36 = 0;
-                i2 = 0;
+                i5 = 0;
             }
-            i2 = 0;
-            int i28 = i10;
-            i8 = 0;
-            $i$f$h1 = i5 & _capacity;
-            $i$f$h2 = i13;
-            m2 = i15;
-            $i$f$hash = i12;
+            i5 = 0;
+            int i28 = i;
+            i7 = 0;
+            $i$f$h1 = i2 & _capacity;
+            $i$f$h2 = i8;
+            m = i4;
+            $i$f$hash = i10;
             long[] metadata = obj.metadata;
             $this$next$iv = 0;
             int i30 = $i$f$h1 >> 3;
             i32 <<= 3;
             i20 |= i34;
-            i7 = 0;
-            i13 = i44;
+            i6 = 0;
+            i8 = i44;
             long l6 = 72340172838076673L;
-            i35 ^= i4;
+            i35 ^= i14;
             l = -9187201950435737472L;
             i16 &= l;
-            i7 = 0;
+            i6 = 0;
             i46 = 0;
-            i4 = i38 & _capacity;
-            i29 = m;
+            i14 = i38 & _capacity;
+            i29 = m2;
             i9 = 0;
-            m = $this$next$iv;
-            i2 = 1;
+            m2 = $this$next$iv;
+            i5 = 1;
         }
-        return i4;
+        return i14;
     }
 
     public final void forEach(Function2<? super K, ? super V, Unit> block) {
@@ -727,11 +727,11 @@ public abstract class ScatterMap<K, V>  {
         long slot$iv;
         long j$iv;
         int i4;
-        int i2;
+        int i;
         int $i$f$forEach;
         Object[] objArr;
         long l;
-        int i;
+        int i2;
         int i3;
         obj = this;
         final Object obj2 = block;
@@ -747,15 +747,15 @@ public abstract class ScatterMap<K, V>  {
     }
 
     public final void forEachIndexed(Function1<? super Integer, Unit> block) {
-        int i4;
+        int i3;
         long slot;
         int $this$maskEmptyOrDeleted$iv;
-        int i;
-        int j;
         int i2;
+        int j;
+        int i;
         Integer valueOf;
         long l;
-        int i3;
+        int i4;
         Intrinsics.checkNotNullParameter(block, "block");
         int i5 = 0;
         final long[] metadata = this.metadata;
@@ -770,10 +770,10 @@ public abstract class ScatterMap<K, V>  {
         int $this$maskEmptyOrDeleted$iv$iv;
         int i2;
         int j$iv;
-        int i;
-        int i5;
-        long l;
         int i3;
+        int i;
+        long l;
+        int i5;
         int i4;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
@@ -792,11 +792,11 @@ public abstract class ScatterMap<K, V>  {
         int $this$maskEmptyOrDeleted$iv$iv;
         int i2;
         int j$iv;
+        int i4;
+        int i5;
+        long l;
         int i;
         int i3;
-        long l;
-        int i5;
-        int i4;
         final Object obj = block;
         Intrinsics.checkNotNullParameter(obj, "block");
         int i6 = 0;
@@ -813,38 +813,38 @@ public abstract class ScatterMap<K, V>  {
         int m$iv;
         int m$iv2;
         int $i$f$hash;
-        int i7;
-        int i8;
+        int i2;
+        int i11;
         int $i$f$h2;
         int $i$f$h1;
         int probeIndex$iv;
-        int i2;
-        int i6;
+        int i14;
+        int i4;
         Object obj3;
         int $this$next$iv$iv;
         Object obj;
-        int i9;
-        int i10;
-        int i14;
-        int i11;
-        long l;
-        int i3;
-        int i;
-        int i4;
+        int i6;
         int i5;
+        int i;
+        int i10;
+        long l;
+        int i9;
+        int i3;
+        int i7;
         int i12;
-        int numberOfTrailingZeros;
         int i13;
+        int numberOfTrailingZeros;
+        int i8;
         final Object obj4 = key;
         Object obj5 = this;
         m$iv = 0;
         int i16 = 0;
         if (obj4 != null) {
-            i8 = obj4.hashCode();
+            i11 = obj4.hashCode();
         } else {
-            i8 = 0;
+            i11 = 0;
         }
-        i8 *= i22;
+        i11 *= i22;
         $i$f$hash = i20 ^ i23;
         int i21 = 0;
         $i$f$h2 = $i$f$hash & 127;
@@ -856,48 +856,48 @@ public abstract class ScatterMap<K, V>  {
             int i30 = 0;
             int i35 = 0;
             while (Long.compare(i25, i35) != 0) {
-                i12 = 1;
-                i9 = 0;
-                i5 = 0;
+                i13 = 1;
+                i6 = 0;
+                i12 = 0;
                 int i28 = m$iv2;
-                i11 = 0;
+                i10 = 0;
                 m$iv2 = $this$next$iv$iv;
                 i30 = 0;
                 i35 = 0;
-                i12 = 0;
+                i13 = 0;
             }
-            i12 = 0;
-            int i27 = i7;
-            i9 = 0;
-            if (Long.compare($this$maskEmpty$iv$iv, i5) != 0) {
+            i13 = 0;
+            int i27 = i2;
+            i6 = 0;
+            if (Long.compare($this$maskEmpty$iv$iv, i12) != 0) {
                 break;
             } else {
             }
             obj3 = this;
-            $i$f$h1 = i2 & _capacity;
-            $i$f$h2 = i10;
-            m$iv = i;
-            $i$f$hash = i4;
+            $i$f$h1 = i14 & _capacity;
+            $i$f$h2 = i5;
+            m$iv = i3;
+            $i$f$hash = i7;
             long[] metadata = obj5.metadata;
             $this$next$iv$iv = 0;
             int i29 = $i$f$h1 >> 3;
             i31 <<= 3;
             i19 |= i33;
-            i9 = 0;
-            i10 = i42;
+            i6 = 0;
+            i5 = i42;
             long l6 = 72340172838076673L;
-            i34 ^= i6;
+            i34 ^= i4;
             l = -9187201950435737472L;
             i15 &= l;
-            i9 = 0;
-            i5 = 0;
+            i6 = 0;
+            i12 = 0;
             i28 = m$iv2;
-            i11 = 0;
+            i10 = 0;
             m$iv2 = $this$next$iv$iv;
-            i12 = 1;
+            i13 = 1;
         }
-        if (i6 >= 0) {
-            obj2 = obj.values[i6];
+        if (i4 >= 0) {
+            obj2 = obj.values[i4];
         } else {
             obj = this;
             obj2 = 0;
@@ -910,40 +910,40 @@ public abstract class ScatterMap<K, V>  {
     }
 
     public final V getOrDefault(K key, V defaultValue) {
-        int m$iv;
         int m$iv2;
+        int m$iv;
         int $i$f$hash;
-        int i10;
-        int i4;
+        int i8;
+        int i9;
         int $i$f$h2;
         int $i$f$h1;
         int probeIndex$iv;
         int i13;
-        int i2;
+        int i;
         Object obj;
         int $this$next$iv$iv;
-        int i14;
-        int i7;
-        int i11;
-        int i;
-        long l;
-        int i9;
-        int i6;
         int i12;
+        int i4;
+        int i14;
         int i3;
+        long l;
+        int i11;
+        int i6;
         int i5;
+        int i10;
+        int i7;
         int numberOfTrailingZeros;
-        int i8;
+        int i2;
         final Object obj2 = key;
         Object obj3 = this;
-        m$iv = 0;
+        m$iv2 = 0;
         int i16 = 0;
         if (obj2 != null) {
-            i4 = obj2.hashCode();
+            i9 = obj2.hashCode();
         } else {
-            i4 = 0;
+            i9 = 0;
         }
-        i4 *= i22;
+        i9 *= i22;
         $i$f$hash = i20 ^ i23;
         int i21 = 0;
         $i$f$h2 = $i$f$hash & 127;
@@ -955,48 +955,48 @@ public abstract class ScatterMap<K, V>  {
             int i30 = 0;
             int i35 = 0;
             while (Long.compare(i25, i35) != 0) {
-                i5 = 1;
-                i14 = 0;
+                i7 = 1;
+                i12 = 0;
+                i10 = 0;
+                int i28 = m$iv;
                 i3 = 0;
-                int i28 = m$iv2;
-                i = 0;
-                m$iv2 = $this$next$iv$iv;
+                m$iv = $this$next$iv$iv;
                 i30 = 0;
                 i35 = 0;
-                i5 = 0;
+                i7 = 0;
             }
-            i5 = 0;
-            int i27 = i10;
-            i14 = 0;
-            if (Long.compare($this$maskEmpty$iv$iv, i3) != 0) {
+            i7 = 0;
+            int i27 = i8;
+            i12 = 0;
+            if (Long.compare($this$maskEmpty$iv$iv, i10) != 0) {
                 break;
             } else {
             }
             obj = this;
             $i$f$h1 = i13 & _capacity;
-            $i$f$h2 = i7;
-            m$iv = i6;
-            $i$f$hash = i12;
+            $i$f$h2 = i4;
+            m$iv2 = i6;
+            $i$f$hash = i5;
             long[] metadata = obj3.metadata;
             $this$next$iv$iv = 0;
             int i29 = $i$f$h1 >> 3;
             i31 <<= 3;
             i19 |= i33;
-            i14 = 0;
-            i7 = i42;
+            i12 = 0;
+            i4 = i42;
             long l6 = 72340172838076673L;
-            i34 ^= i2;
+            i34 ^= i;
             l = -9187201950435737472L;
             i15 &= l;
-            i14 = 0;
+            i12 = 0;
+            i10 = 0;
+            i28 = m$iv;
             i3 = 0;
-            i28 = m$iv2;
-            i = 0;
-            m$iv2 = $this$next$iv$iv;
-            i5 = 1;
+            m$iv = $this$next$iv$iv;
+            i7 = 1;
         }
-        if (i2 >= 0) {
-            return obj5.values[i2];
+        if (i >= 0) {
+            return obj5.values[i];
         }
         Object obj6 = this;
         return defaultValue;
@@ -1018,29 +1018,29 @@ public abstract class ScatterMap<K, V>  {
 
     public int hashCode() {
         int bitCount$iv$iv;
-        int obj2;
+        int obj;
         int i$iv$iv;
         long slot$iv$iv;
         int j$iv$iv;
+        int i6;
         int i3;
-        int i;
         Object this_$iv;
         int hash;
         long l;
-        int i5;
+        int i;
         int i4;
-        Object obj;
+        Object obj2;
+        int i5;
         int i2;
-        int i6;
         bitCount$iv$iv = 0;
-        obj2 = this;
+        obj = this;
         final int i13 = 0;
         final int i14 = 0;
         final long[] metadata = obj3.metadata;
         length += -2;
         if (0 <= i15) {
         } else {
-            this_$iv = obj2;
+            this_$iv = obj;
             hash = bitCount$iv$iv;
         }
         return hash;
@@ -1098,23 +1098,23 @@ public abstract class ScatterMap<K, V>  {
     public final String joinToString(java.lang.CharSequence separator, java.lang.CharSequence prefix, java.lang.CharSequence postfix, int limit, java.lang.CharSequence truncated, Function2<? super K, ? super V, ? extends java.lang.CharSequence> transform) {
         int invoke;
         int i$iv$iv;
-        int $this$maskEmptyOrDeleted$iv$iv$iv2;
-        int i8;
+        int $this$maskEmptyOrDeleted$iv$iv$iv;
+        int i3;
         int index;
         int j$iv$iv;
         int k$iv;
         Object[] keys;
         long slot$iv$iv;
-        Object $this$maskEmptyOrDeleted$iv$iv$iv;
-        int i3;
-        int i5;
-        int i;
-        int i7;
-        long l;
-        int i9;
-        int i4;
+        Object $this$maskEmptyOrDeleted$iv$iv$iv2;
         int i2;
+        int i4;
+        int $i$a$BuildStringScatterMap$joinToString$1;
+        int i8;
+        long l;
+        int i7;
+        int i5;
         int i6;
+        int i;
         Object[] k$iv2;
         Object obj = prefix;
         final Object obj2 = postfix;
@@ -1127,19 +1127,19 @@ public abstract class ScatterMap<K, V>  {
         StringBuilder stringBuilder = new StringBuilder();
         final StringBuilder sb = stringBuilder;
         sb.append(obj);
-        i8 = 0;
+        i3 = 0;
         index = this;
-        final int i16 = 0;
+        final int i15 = 0;
         final long[] metadata = obj5.metadata;
         length += -2;
-        if (0 <= i10) {
+        if (0 <= i9) {
         } else {
-            i = $this$maskEmptyOrDeleted$iv$iv$iv2;
-            $this$maskEmptyOrDeleted$iv$iv$iv = index;
-            i3 = j$iv$iv;
+            $i$a$BuildStringScatterMap$joinToString$1 = $this$maskEmptyOrDeleted$iv$iv$iv;
+            $this$maskEmptyOrDeleted$iv$iv$iv2 = index;
+            i2 = j$iv$iv;
             k$iv2 = keys;
             k$iv = limit;
-            index = i8;
+            index = i3;
             sb.append(obj2);
         }
         String string = stringBuilder.toString();
@@ -1156,23 +1156,23 @@ public abstract class ScatterMap<K, V>  {
     public String toString() {
         int i2;
         int bitCount$iv$iv;
-        Object obj4;
+        Object obj;
         Object key;
         Object obj3;
         int value;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
-        int i;
-        int i5;
-        Object this_$iv;
-        int i6;
-        long l;
-        int i7;
         int i4;
-        int $i$f$forEach;
+        int i7;
+        Object this_$iv;
+        int i;
+        long l;
+        int i5;
         int i3;
-        Object obj;
+        int $i$f$forEach;
+        int i6;
+        Object obj4;
         Object obj2;
         if (this.isEmpty()) {
             return "{}";
@@ -1180,15 +1180,15 @@ public abstract class ScatterMap<K, V>  {
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder append2 = stringBuilder.append('{');
         bitCount$iv$iv = 0;
-        obj4 = this;
+        obj = this;
         final int i18 = 0;
         final long[] metadata = obj5.metadata;
         length += -2;
         if (0 <= i19) {
         } else {
-            this_$iv = obj4;
+            this_$iv = obj;
             $i$f$forEach = value;
-            i6 = bitCount$iv$iv;
+            i = bitCount$iv$iv;
         }
         String string = append2.append('}').toString();
         Intrinsics.checkNotNullExpressionValue(string, "s.append('}').toString()");

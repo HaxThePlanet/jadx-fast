@@ -283,15 +283,15 @@ public final class TickerChannelsKt {
             CoroutineContext context3 = obj17;
             int i10 = 0;
             StringBuilder stringBuilder2 = new StringBuilder();
-            IllegalArgumentException illegalArgumentException2 = new IllegalArgumentException(stringBuilder2.append("Expected non-negative initial delay, but has ").append(context).append(str).toString().toString());
-            throw illegalArgumentException2;
+            IllegalArgumentException $i$a$RequireTickerChannelsKt$ticker$2 = new IllegalArgumentException(stringBuilder2.append("Expected non-negative initial delay, but has ").append(context).append(str).toString().toString());
+            throw $i$a$RequireTickerChannelsKt$ticker$2;
         }
         int i4 = context;
         CoroutineContext context2 = obj17;
         int i9 = 0;
         StringBuilder stringBuilder = new StringBuilder();
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException(stringBuilder.append("Expected non-negative delay, but has ").append(delayMillis).append(str).toString().toString());
-        throw illegalArgumentException;
+        IllegalArgumentException $i$a$RequireTickerChannelsKt$ticker$1 = new IllegalArgumentException(stringBuilder.append("Expected non-negative delay, but has ").append(delayMillis).append(str).toString().toString());
+        throw $i$a$RequireTickerChannelsKt$ticker$1;
     }
 
     public static kotlinx.coroutines.channels.ReceiveChannel ticker$default(long l, long l2, CoroutineContext coroutineContext3, kotlinx.coroutines.channels.TickerMode tickerMode4, int i5, Object object6) {

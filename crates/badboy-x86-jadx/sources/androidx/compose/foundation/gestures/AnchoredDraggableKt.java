@@ -76,40 +76,40 @@ public final class AnchoredDraggableKt {
     }
 
     public static Modifier anchoredDraggable$default(Modifier modifier, androidx.compose.foundation.gestures.AnchoredDraggableState anchoredDraggableState2, androidx.compose.foundation.gestures.Orientation orientation3, boolean z4, MutableInteractionSource mutableInteractionSource5, OverscrollEffect overscrollEffect6, boolean z7, int i8, Object object9) {
+        int i2;
         int i;
         int i3;
-        int i2;
         boolean z;
         int obj10;
         boolean obj13;
-        i = i8 & 4 != 0 ? obj10 : z4;
+        i2 = i8 & 4 != 0 ? obj10 : z4;
         int obj15 = 0;
-        i3 = i8 & 8 != 0 ? obj15 : mutableInteractionSource5;
-        i2 = i8 & 16 != 0 ? obj15 : overscrollEffect6;
+        i = i8 & 8 != 0 ? obj15 : mutableInteractionSource5;
+        i3 = i8 & 16 != 0 ? obj15 : overscrollEffect6;
         if (i8 & 32 != 0) {
             z = obj13;
         } else {
             z = z7;
         }
-        return AnchoredDraggableKt.anchoredDraggable(modifier, anchoredDraggableState2, orientation3, i, i3, i2, z);
+        return AnchoredDraggableKt.anchoredDraggable(modifier, anchoredDraggableState2, orientation3, i2, i, i3, z);
     }
 
     public static Modifier anchoredDraggable$default(Modifier modifier, androidx.compose.foundation.gestures.AnchoredDraggableState anchoredDraggableState2, boolean z3, androidx.compose.foundation.gestures.Orientation orientation4, boolean z5, MutableInteractionSource mutableInteractionSource6, OverscrollEffect overscrollEffect7, boolean z8, int i9, Object object10) {
-        int i;
-        int i2;
         int i3;
+        int i2;
+        int i;
         boolean z;
         int obj12;
-        i = i9 & 8 != 0 ? obj12 : z5;
+        i3 = i9 & 8 != 0 ? obj12 : z5;
         int i5 = 0;
         i2 = i9 & 16 != 0 ? i5 : mutableInteractionSource6;
-        i3 = i9 & 32 != 0 ? i5 : overscrollEffect7;
+        i = i9 & 32 != 0 ? i5 : overscrollEffect7;
         if (i9 & 64 != 0) {
             z = obj12;
         } else {
             z = z8;
         }
-        return AnchoredDraggableKt.anchoredDraggable(modifier, anchoredDraggableState2, z3, orientation4, i, i2, i3, z);
+        return AnchoredDraggableKt.anchoredDraggable(modifier, anchoredDraggableState2, z3, orientation4, i3, i2, i, z);
     }
 
     private static final <T> Object animateTo(androidx.compose.foundation.gestures.AnchoredDraggableState<T> $this$animateTo, float velocity, androidx.compose.foundation.gestures.AnchoredDragScope anchoredDragScope, androidx.compose.foundation.gestures.DraggableAnchors<T> anchors, T latestTarget, Continuation<? super Unit> $completion) {
@@ -160,24 +160,24 @@ public final class AnchoredDraggableKt {
 
     public static final <T> Object animateToWithDecay(androidx.compose.foundation.gestures.AnchoredDraggableState<T> anchoredDraggableState, T t2, float f3, Continuation<? super Float> continuation4) {
         boolean anon;
-        int i;
-        androidx.compose.foundation.gestures.AnchoredDraggableState label;
         int i3;
-        int i4;
-        androidx.compose.foundation.gestures.AnchoredDraggableKt.animateToWithDecay.2 anon2;
+        androidx.compose.foundation.gestures.AnchoredDraggableState label;
         int i5;
+        int i;
+        androidx.compose.foundation.gestures.AnchoredDraggableKt.animateToWithDecay.2 anon2;
+        int i4;
         int i2;
         float obj8;
         Object obj9;
         Object obj10;
         Object obj11;
         anon = continuation4;
-        i3 = Integer.MIN_VALUE;
-        if (continuation4 instanceof AnchoredDraggableKt.animateToWithDecay.1 && label2 &= i3 != 0) {
+        i5 = Integer.MIN_VALUE;
+        if (continuation4 instanceof AnchoredDraggableKt.animateToWithDecay.1 && label2 &= i5 != 0) {
             anon = continuation4;
-            i3 = Integer.MIN_VALUE;
-            if (label2 &= i3 != 0) {
-                anon.label = obj11 -= i3;
+            i5 = Integer.MIN_VALUE;
+            if (label2 &= i5 != 0) {
+                anon.label = obj11 -= i5;
             } else {
                 anon = new AnchoredDraggableKt.animateToWithDecay.1(continuation4);
             }
@@ -193,8 +193,8 @@ public final class AnchoredDraggableKt {
                 obj8 = f3;
                 obj9 = new Ref.FloatRef();
                 obj9.element = obj8;
-                i4 = 0;
-                obj10 = new AnchoredDraggableKt.animateToWithDecay.2(label, obj8, obj9, i4);
+                i = 0;
+                obj10 = new AnchoredDraggableKt.animateToWithDecay.2(label, obj8, obj9, i);
                 anon3.L$0 = obj9;
                 anon3.F$0 = obj8;
                 anon3.label = 1;
@@ -239,18 +239,18 @@ public final class AnchoredDraggableKt {
 
     private static final <K> float maxValueOrNaN(ObjectFloatMap<K> $this$maxValueOrNaN) {
         int maxValue;
-        int cmp2;
+        int cmp;
         Object obj;
         int i$iv$iv;
         long slot$iv$iv;
         long j$iv$iv;
-        int i2;
         int i;
+        int i2;
         Object this_$iv;
         long l;
-        int i4;
         int i3;
-        int cmp;
+        int i4;
+        int cmp2;
         if ($this$maxValueOrNaN.getSize() == 1) {
             return 2143289344;
         }
@@ -276,11 +276,11 @@ public final class AnchoredDraggableKt {
         long slot$iv$iv;
         long j$iv$iv;
         int i3;
-        int i4;
+        int i;
         Object this_$iv;
         long l;
-        int i;
         int i2;
+        int i4;
         int cmp;
         if ($this$minValueOrNaN.getSize() == 1) {
             return 2143289344;

@@ -96,19 +96,19 @@ public final class LazyLayoutAnimateItemElement extends ModifierNodeElement<andr
 
     @Override // androidx.compose.ui.node.ModifierNodeElement
     public int hashCode() {
-        int i;
-        int i2;
         int i3;
+        int i2;
+        int i;
         i2 = 0;
         if (this.fadeInSpec == null) {
-            i = i2;
-        } else {
-            i = this.fadeInSpec.hashCode();
-        }
-        if (this.placementSpec == null) {
             i3 = i2;
         } else {
-            i3 = this.placementSpec.hashCode();
+            i3 = this.fadeInSpec.hashCode();
+        }
+        if (this.placementSpec == null) {
+            i = i2;
+        } else {
+            i = this.placementSpec.hashCode();
         }
         if (this.fadeOutSpec == null) {
         } else {
